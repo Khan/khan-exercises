@@ -1,0 +1,15 @@
+html, body { font-family: Helvetica, Arial; }
+#vars, #problems, #hints, #next, #congrats, #oops { display: none; }
+p.question { font-weight: bold; }
+var { font-style: normal; }
+.hint_blue { color: blue; }
+.hint_orange { color: orange; }
+#congrats { color: green; }
+#oops { color: red; }
+#workarea { margin-left: 10px; }
+#hintsarea { margin-left: 30px; }
+#sidebar { float: right; }
+h1, form, #help { border: 1px solid #AAA; background: #F0F0F0; padding: 10px; margin: 10px; }
+form, #help { width: 250px; }
+h3 { color: #666; margin: 0; font-weight: normal; }
+code { font-family: Helvetica, Arial; }
