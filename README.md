@@ -42,7 +42,7 @@ Exercises are designed to contained within a single HTML file. The basic layout 
 			<div class="problem">
 				<div class="problem"><!-- An overview of the problem. --></div>
 				<p class="question"><!-- The question to ask the student. --></p>
-				<p class="solution"><!-- The correct answer expect of the student. --></p>
+				<p class="solution"><!-- The correct answer expected of the student. --></p>
 			</div>
 		</div>
 	
