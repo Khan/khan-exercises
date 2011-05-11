@@ -31,8 +31,6 @@ Exercises are designed to contained within a single HTML file. The basic layout 
 	<html>
 	<head>
 		<title>Name of Your Exercise</title>
-		<link rel="stylesheet" href="../khan-exercise.css"/>
-		<script src="http://code.jquery.com/jquery.js"></script>
 		<script src="../khan-exercise.js"></script>
 	</head>
 	<body>
