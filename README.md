@@ -131,7 +131,7 @@ The basic structure of a problem looks something like this:
 	<div class="problem">
 		<div class="problem"><!-- An overview of the problem. --></div>
 		<p class="question"><!-- The question to ask the student. --></p>
-		<p class="solution"><!-- The correct answer expect of the student. --></p>
+		<p class="solution"><!-- The correct answer expected of the student. --></p>
 	</div>
 
 The exact elements that you use aren't important (they could be divs or paragraphs or something else entirely). In the case of the above markup the problem is defined by a div with a class of "problem" (the class name is the important part). You could populate the problem div with a number of paragraphs, or an image, or some other markup.
