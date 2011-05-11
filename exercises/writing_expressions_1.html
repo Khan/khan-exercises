@@ -2,15 +2,16 @@
 <html>
 <head>
 	<title>Writing Expressions 1</title>
-	<!-- Original by Marcia Lee. -->
-	<link rel="stylesheet" href="khan-exercise.css"/>
-	<script src="http://code.jquery.com/jquery.js"></script>
-	<script src="khan-exercise.js"></script>
+	<script src="../khan-exercise.js"></script>
 </head>
 <body>
 	<div id="vars">
 		<var id="A">(random() > 0.5 ? -1 : 1) * (rand(9) + 1)</var>
 		<var id="B">(random() > 0.5 ? -1 : 1) * (rand(9) + 1)</var>
+		<var id="AP">A > 0 ? "+" : ""</var>
+		<var id="AN">A > 0 ? "" : "+"</var>
+		<var id="BP">B > 0 ? "+" : ""</var>
+		<var id="BN">B > 0 ? "" : "+"</var>
 	</div>
 	
 	<div id="problems">
@@ -19,12 +20,12 @@
 				<p>Select the expression that matches the following phrase:</p>
 			</div>
 			<p class="question">The sum of <var>B</var> and the product of <var>A</var> and x.</p>
-			<p class="solution"><code><var>A</var>x + <var>B</var></code></p>
+			<p class="solution"><code><var>A</var>x <var>BP + B</var></code></p>
 			<ul class="choices" data-show="5" data-none="true">
-				<li><code><var>-1 * A</var>x + <var>B</var></code></li>
-				<li><code><var>A</var>x + <var>-1 * B</var></code></li>
-				<li><code><var>B</var>x + <var>A</var></code></li>
-				<li><code><var>-1 * B</var>x + <var>-1 * A</var></code></li>
+				<li><code><var>-1 * A</var>x <var>BP + B</var></code></li>
+				<li><code><var>A</var>x <var>BN + (-1 * B)</var></code></li>
+				<li><code><var>B</var>x <var>AP + A</var></code></li>
+				<li><code><var>-1 * B</var>x <var>AN + (-1 * A)</var></code></li>
 			</ul>
 			<div class="hint">
 				<p class="hint1">What is <span class="hint_orange">the product of <var>A</var> and x</span>?</p>

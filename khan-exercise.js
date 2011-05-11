@@ -1,63 +1,138 @@
-jQuery(function() {
-	// Inject the site markup, if it doesn't exist
-	injectSite();
+// Add in the site stylesheet
+var link = document.createElement("link");
+link.rel = "stylesheet";
+link.href = "../khan-exercise.css";
+document.documentElement.appendChild( link );
+
+// Load in jQuery if it doesn't exist yet
+if ( typeof jQuery === "undefined" ) {
+	var script = document.createElement("script");
+	script.src = "http://code.jquery.com/jquery.js";
+	script.onload = jQueryLoaded;
+	document.documentElement.appendChild( script );
+}
+
+// Load in the MathJax library if it doesn't exist
+if ( typeof MathJax === "undefined" ) {
+	var script = document.createElement("script");
+	script.src = "http://cdn.mathjax.org/mathjax/latest/MathJax.js";
 	
-	// Generate the initial problem
-	makeProblem();
+	// There is no god.
+	// I will personally gut punch whoever thought this was a good API design
+	script.text = 'MathJax.Hub.Config({\
+		messageStyle: "none",\
+		skipStartupTypeset: true,\
+		jax: ["input/TeX","output/HTML-CSS"],\
+		extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
+		TeX: {\
+			extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
+		}\
+	});';
 	
-	// Watch for a solution submission
-	jQuery("form").submit(function() {
-		// Get the solution to the problem
-		var solution = jQuery("#workarea").children().data("solution"),
-		
-			// We get the answer differently if it's a text input or a radio
-			answer = jQuery("#solution").is("div") ?
-				jQuery("#solution input:checked").val() :
-				jQuery("#solution").val();
-		
-		// Verify the solution
-		if ( answer === solution ) {
-			// Show a congratulations message
-			jQuery("#congrats").show().delay( 1000 ).fadeOut( 2000 );
-			
-			// Toggle the navigation buttons
-			jQuery("#check").hide();
-			jQuery("#next").show();
-		
-		// Otherwise show an error message
-		} else {
-			jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
-		}
-		
-		return false;
-	});
+	script.onload = function() {
+		// We don't want to use inline script elements, we want to use code blocks
+		MathJax.Hub.elementScripts = function( elem ) {
+			console.log( "process", elem, elem.innerHTML );
+			return elem.nodeName.toLowerCase() === "code" ?
+				[ elem ] :
+				elem.getElementsByTagName( "code" );
+		};
+	};
 	
-	// Watch for when the next button is clicked
-	jQuery("#next").click(function() {
-		// Erase the old value
-		jQuery("#solution").val( "" );
-		
-		// Toggle the navigation buttons
-		jQuery("#check").show();
-		jQuery("#next").hide();
-		
-		// Wipe out any previous problem
-		jQuery("#workarea, #hintsarea").empty();
-		
-		// Generate a new problem
+	document.documentElement.appendChild( script );
+}
+
+function jQueryLoaded() {
+	jQuery(function() {
+		// Load MathJax library
+		jQuery.getScript( "" );
+	
+		// Inject the site markup, if it doesn't exist
+		injectSite();
+	
+		// Generate the initial problem
 		makeProblem();
+	
+		// Watch for a solution submission
+		jQuery("form").submit(function() {
+			// Get the solution to the problem
+			var solution = jQuery("#workarea").children().data("solution"),
 		
-		return false;
+				// We get the answer differently if it's a text input or a radio
+				answer = jQuery("#solution").is("div") ?
+					jQuery("#solution input:checked").val() :
+					jQuery("#solution").val();
+		
+			// Verify the solution
+			if ( answer === solution ) {
+				// Show a congratulations message
+				jQuery("#congrats").show().delay( 1000 ).fadeOut( 2000 );
+			
+				// Toggle the navigation buttons
+				jQuery("#check").hide();
+				jQuery("#next").show();
+		
+			// Otherwise show an error message
+			} else {
+				jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
+			}
+		
+			return false;
+		});
+	
+		// Watch for when the next button is clicked
+		jQuery("#next").click(function() {
+			// Erase the old value
+			jQuery("#solution").val( "" );
+		
+			// Toggle the navigation buttons
+			jQuery("#check").show();
+			jQuery("#next").hide();
+		
+			// Wipe out any previous problem
+			jQuery("#workarea, #hintsarea").empty();
+		
+			// Generate a new problem
+			makeProblem();
+		
+			return false;
+		});
+	
+		// Watch for when the "Get a Hint" button is clicked
+		jQuery("#gethint").click(function() {
+			// Show the first not shown hint
+			jQuery("#shown-hints > *:hidden:first").show();
+		});
+	
+		// TODO: Loop through the <code> examples and convert them to nice math
 	});
 	
-	// Watch for when the "Get a Hint" button is clicked
-	jQuery("#gethint").click(function() {
-		// Show the first not shown hint
-		jQuery("#shown-hints > *:hidden:first").show();
-	});
+	// Pick a random element from a set of elements
+	jQuery.fn.getRandom = function() {
+		return this.eq( Math.floor( this.length * Math.random() ) );
+	};
 	
-	// TODO: Loop through the <code> examples and convert them to nice math
-});
+	jQuery.fn.math = function() {
+		return this.find("code").each(function() {
+			if ( this.className ) {
+				jQuery( this ).wrap( "<span class='" + this.className + "'></span>" );
+			}
+			
+			// Trick MathJax into thinking that we're dealing with a script block
+			this.type = "math/tex";
+				
+			// Make sure that the old value isn't being displayed anymore
+			this.style.display = "none";
+			
+			console.log( this, this.type );
+				
+			// Stick the processing request onto the queue
+			MathJax.Hub.Queue([ "Typeset", MathJax.Hub, this ]);
+		}).end();
+	};
+	
+	initVARS();
+}
 
 function makeProblem() {			
 	// Load all the variables from the page
@@ -85,8 +160,13 @@ function makeProblem() {
 	// Replace all the variables with their values
 	problem.find("var").replaceVAR();
 	
+	// Run the math formulas through MathJax
+	problem.math();
+	
 	// Store the solution to the problem
-	problem.data( "solution", problem.find(".solution").remove().text() );
+	var solution = problem.find(".solution").remove();
+	
+	problem.data( "solution", solution.text() );
 	
 	var choices = problem.find(".choices").remove();
 	
@@ -105,7 +185,7 @@ function makeProblem() {
 			
 			// The right answer is injected most of the time
 			if ( Math.random() > 1 / num ) {
-				radios.push( problem.data("solution") );
+				radios.push( solution.html() );
 			
 			// But sometimes "None of the above." is the right answer
 			} else {
@@ -119,12 +199,20 @@ function makeProblem() {
 			radios.splice( Math.floor( radios.length * Math.random() ), 0, item );
 		}
 		
-		jQuery("#solution").replaceWith( "<div id='solution'>" +
+		jQuery( "<div id='solution'>" +
 			jQuery.map( radios, function( value ) {
-				value = value && value.nodeType ? jQuery(value).text() : value;
-				return "<input type='radio' name='solution' value='" + value + "'/> " + value + "<br/>";
+				// TODO: This is gnarly and should be refactored
+				var inValue = value && value.nodeType ? jQuery(value).text() : value,
+					htmlValue = value && value.nodeType ? jQuery(value).html() : value;
+				return "<label><input type='radio' name='solution' value='" + inValue + "'/> <span>" + htmlValue + "</span></label><br/>";
 			}).join("") +
-		"</div>" );
+		"</div>" )
+		
+			// Run the math formulas through MathJax
+			.math()
+			
+			// Replace the existing solution
+			.replaceAll( "#solution" );
 	}
 	
 	// Add the problem into the page
@@ -143,6 +231,9 @@ function makeProblem() {
 		// Be sure to replace the vars with the correct values
 		.find("var").replaceVAR().end()
 		
+		// Run the math formulas through MathJax
+		.math()
+		
 		// Hide all the hints
 		.children().hide().end()
 		
@@ -153,12 +244,7 @@ function makeProblem() {
 		.appendTo("#hintsarea");
 }
 
-// Pick a random element from a set of elements
-jQuery.fn.getRandom = function() {
-	return this.eq( Math.floor( this.length * Math.random() ) );
-};
-
-(function() {
+function initVARS() {
 	var VARS = {};
 	
 	// Load the value associated with the variable
@@ -169,7 +255,9 @@ jQuery.fn.getRandom = function() {
 	};
 	
 	jQuery.fn.replaceVAR = function() {
-		return this.text( getVAR );
+		return this.replaceWith(function( i, text ) {
+			return document.createTextNode( getVAR( i, text ) );
+		});
 	};
 
 	function getVAR( elem, text ) {
@@ -206,7 +294,7 @@ jQuery.fn.getRandom = function() {
 			return Math.round( num * Math.random() );
 		}
 	};
-})();
+}
 
 function injectSite() {
 	jQuery("body").prepend(
