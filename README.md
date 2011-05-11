@@ -56,7 +56,7 @@ You can copy this markup into an HTML file and start building an exercise right 
 
 ### Variables
 
-Most mathematical problems that you generate will have some bit of random-ness to them (in order to make for an interesting, not-identical, problem). You can generate these values up-front so that they you can re-use them again in your problems.
+Most mathematical problems that you generate will have some bit of random-ness to them (in order to make for an interesting, not-identical, problem). You can generate these values up-front so that you can re-use them again in your problems.
 
 To start you'll want to populate some variables inside the `<div id="vars">...</div>`. Variables are typically defined by using a `<var></var>` element. You'll want to specify an ID for the var as that'll be the name that you'll refer to in the future.
 
