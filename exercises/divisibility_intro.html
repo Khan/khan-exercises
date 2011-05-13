@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Divisibility 0.5</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        // This belongs in another file, exactly where TBD.
+        var allprimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
+        
+        function getPrimeFactorization( number ) {
+            if ( $.inArray(number, allprimes) != -1) {
+                return [number];                
+            }
+            
+            var maxf = Math.sqrt( number );
+            for (var f = 2; f <= maxf; f++) {
+                if ( number % f == 0 ) {
+                    return $.merge(getPrimeFactorization( f ), getPrimeFactorization( number / f ));
+                }
+            }
+        }
+        
+        function getFactors( number ) {
+            var factors = [];
+            var maxf = Math.sqrt( number );
+            for (var f = 2; f <= maxf; f++) {
+                if (! ( number % f ) ) {
+                    factors.push( f );
+                    factors.push( number / f );
+                }
+            }
+            return factors.sort();
+        }
+        
+        function roundToPosition(num, pos){
+            var factor = Math.pow(10, -1 * pos).toFixed(5);
+            return Math.round((num * factor).toFixed(5)) / factor;
+        }
+        
+        var number = Math.floor(Math.random() * 100); // TODO: probably don't want prime #'s
+        var factorization = getPrimeFactorization( number );
+        var num_factors = 2; // TODO: what is some reasonable # of factors for the answer?
+        var answer = 1;
+        for (var i = 0; i < num_factors; i++) {
+            var index = Math.floor( factorization.length * Math.random() );
+            answer *= factorization[index];
+            factorization = $.merge( factorization.slice(0, index), factorization.slice(index + 1) );
+        }
+        
+        var rounded = roundToPosition(answer, 1);
+        var low = (answer > rounded) ? rounded : rounded - 10;
+        var high = low + 10;
+        
+    </script>
+    
+    <div id="vars">
+        <var id="NUMBER">number</var>
+        <var id="LOW">low</var>
+        <var id="HIGH">high</var>
+        <var id="ANSWER">answer</var>
+    </div>
+
+    <div id="problems">
+        <div class="problem" id="original">
+            <div class="question">What is a number between <var>LOW</var> and <var>HIGH</var> that divides into <var>NUMBER</var>?</div>
+			<p class="solution"><var>ANSWER</var></p>
+        </div>
+    </div>
+</body>
+</html>
+
+
