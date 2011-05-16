@@ -4,54 +4,27 @@ link.rel = "stylesheet";
 link.href = "../khan-exercise.css";
 document.documentElement.appendChild( link );
 
-// Load in jQuery if it doesn't exist yet
-if ( typeof jQuery === "undefined" ) {
-	var script = document.createElement("script");
-	script.src = "http://code.jquery.com/jquery.js";
-	script.onload = jQueryLoaded;
-	document.documentElement.appendChild( script );
-}
-
-// Load in the MathJax library if it doesn't exist
-if ( typeof MathJax === "undefined" ) {
-	var script = document.createElement("script");
-	script.src = "http://cdn.mathjax.org/mathjax/latest/MathJax.js";
-	
-	// There is no god.
-	// I will personally gut punch whoever thought this was a good API design
-	script.text = 'MathJax.Hub.Config({\
-		messageStyle: "none",\
-		skipStartupTypeset: true,\
-		jax: ["input/TeX","output/HTML-CSS"],\
-		extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
-		TeX: {\
-			extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
-		}\
-	});';
-	
-	script.onload = function() {
-		// We don't want to use inline script elements, we want to use code blocks
-		MathJax.Hub.elementScripts = function( elem ) {
-			console.log( "process", elem, elem.innerHTML );
-			return elem.nodeName.toLowerCase() === "code" ?
-				[ elem ] :
-				elem.getElementsByTagName( "code" );
-		};
+loadScripts( [
+	"http://code.jquery.com/jquery.js",
+	"http://cdn.mathjax.org/mathjax/latest/MathJax.js"
+], function() {
+	// We don't want to use inline script elements, we want to use code blocks
+	MathJax.Hub.elementScripts = function( elem ) {
+		return elem.nodeName.toLowerCase() === "code" ?
+			[ elem ] :
+			elem.getElementsByTagName( "code" );
 	};
 	
-	document.documentElement.appendChild( script );
-}
-
-function jQueryLoaded() {
 	jQuery(function() {
-		// Load MathJax library
-		jQuery.getScript( "" );
-	
 		// Inject the site markup, if it doesn't exist
 		injectSite();
-	
-		// Generate the initial problem
-		makeProblem();
+		
+		// Load in utility module dependencies
+		loadScripts( $.map( ($("html").data("require") || "").split(" "), function( name ) {
+			return "../utils/" + name + ".js";
+		
+		// Generate the initial problem when dependencies are done being loaded
+		}), makeProblem );
 	
 		// Watch for a solution submission
 		jQuery("form").submit(function() {
@@ -123,8 +96,6 @@ function jQueryLoaded() {
 				
 			// Make sure that the old value isn't being displayed anymore
 			this.style.display = "none";
-			
-			console.log( this, this.type );
 				
 			// Stick the processing request onto the queue
 			MathJax.Hub.Queue([ "Typeset", MathJax.Hub, this ]);
@@ -132,7 +103,7 @@ function jQueryLoaded() {
 	};
 	
 	initVARS();
-}
+});
 
 function makeProblem() {			
 	// Load all the variables from the page
@@ -271,7 +242,7 @@ function initVARS() {
 			
 			try {
 				// Use the methods provided by the library
-				with ( Util ) {
+				with ( KhanUtil ) {
 					// And the methods from JavaScript's builtin Math methods
 					with ( Math ) {
 						// Use all the computed variables
@@ -287,13 +258,6 @@ function initVARS() {
 			}
 		}
 	}
-
-	var Util = {
-		// A simple random number picker
-		rand: function( num ) {
-			return Math.round( num * Math.random() );
-		}
-	};
 }
 
 function injectSite() {
@@ -317,3 +281,40 @@ function injectSite() {
 		'<div id="hintsarea"></div>'
 	);
 }
+
+function loadScripts( urls, callback ) {
+	var loaded = 0;
+
+	for ( var i = 0; i < urls.length; i++ ) (function( url ) {
+		var script = document.createElement("script");
+		script.src = url;
+		script.onload = function() {
+			if ( callback && urls.length === ++loaded ) {
+				callback();
+			}
+		};
+	
+		// There is no god.
+		// I will personally gut punch whoever thought this was a good API design
+		if ( /mathjax/i.test( url ) ) {
+			script.text = 'MathJax.Hub.Config({\
+				messageStyle: "none",\
+				skipStartupTypeset: true,\
+				jax: ["input/TeX","output/HTML-CSS"],\
+				extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
+				TeX: {\
+					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
+				}\
+			});';
+		}
+	
+		document.documentElement.appendChild( script );
+	})( urls[i] );
+	
+	if ( urls.length === 0 && callback ) {
+		callback();
+	}
+}
+
+// Populate this with modules
+var KhanUtil = {};
