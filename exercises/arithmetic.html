@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html data-require="math">
 <head>
-    <title>Simple arithmetic</title>
+    <title>Simple Arithmetic</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
-    <!-- How about maintaining position of substituted elements? -->
     <div id="vars">
         <var id="A">rand(10)</var>
         <var id="B">rand(10)</var>
@@ -13,14 +12,12 @@
 
     <div id="problems">
         <div class="problem" id="original">
-            <span class="t1"><var>A</var></span>
-            <span class="operator">+</span>
-            <span class="t2"><var>B</var> = ?</span>
+            <p class="question"><var>A</var> + <var>B</var> = ?</p>
             <div class="solution"><var>A + B</var></div>
         </div>
         
         <div class="problem" data-type="original">
-            <span class="operator">-</span>
+            <p class="question"><var>A</var> - <var>B</var> = ?</p>
             <div class="solution"><var>A - B</var></div>
         </div>
     </div>
