@@ -5,11 +5,7 @@ $.extend(KhanUtil, {
 	},
 	
     getGCD: function( a, b ) {
-        if ( !a ) {
-            return b;
-        }
-        
-        var mod = 0;
+        var mod;
         while ( b ) {
             mod = a % b;
             a = b;
