@@ -5,8 +5,9 @@ link.href = "../khan-exercise.css";
 document.documentElement.appendChild( link );
 
 loadScripts( [
-	"http://code.jquery.com/jquery.js",
-	"http://cdn.mathjax.org/mathjax/latest/MathJax.js"
+	"https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js",
+	"http://cdn.mathjax.org/mathjax/latest/MathJax.js",
+	"http://ajax.cdnjs.com/ajax/libs/raphael/1.5.2/raphael-min.js"
 ], function() {
 	// We don't want to use inline script elements, we want to use code blocks
 	MathJax.Hub.elementScripts = function( elem ) {
@@ -20,7 +21,7 @@ loadScripts( [
 		injectSite();
 		
 		// Load in utility module dependencies
-		loadScripts( $.map( ($("html").data("require") || "").split(" "), function( name ) {
+		loadScripts( jQuery.map( (jQuery("html").data("require") || "").split(" "), function( name ) {
 			return "../utils/" + name + ".js";
 		
 		// Generate the initial problem when dependencies are done being loaded
