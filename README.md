@@ -28,7 +28,7 @@ Exercises are specified entirely using HTML and are contained within a simple HT
 Exercises are designed to contained within a single HTML file. The basic layout for a single, simple, exercise can be found below.
 
 	<!DOCTYPE html>
-	<html>
+	<html data-require="math">
 	<head>
 		<title>Name of Your Exercise</title>
 		<script src="../khan-exercise.js"></script>
