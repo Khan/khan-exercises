@@ -29,15 +29,21 @@ loadScripts( [
 		// Watch for a solution submission
 		jQuery("form").submit(function() {
 			// Get the solution to the problem
-			var solution = jQuery("#workarea").children().data("solution"),
+			var solution = jQuery("#workarea").children().data("solution");
+			var isCorrect;
 		
 				// We get the answer differently if it's a text input or a radio
-				answer = jQuery("#solution").is("div") ?
-					jQuery("#solution input:checked").val() :
-					jQuery("#solution").val();
+				if (jQuery("#solution").is("div")) {
+					// radio
+					isCorrect = jQuery("#solution input:checked").data("is-correct");
+				} else {
+					// text input
+					answer = jQuery("#solution").val();
+					isCorrect = ( answer === solution );
+				}
 		
 			// Verify the solution
-			if ( answer === solution ) {
+			if ( isCorrect ) {
 				// Show a congratulations message
 				jQuery("#congrats").show().delay( 1000 ).fadeOut( 2000 );
 			
@@ -152,15 +158,15 @@ function makeProblem() {
 		// Figure out the solution to display
 		// If "none" is a possibility, make it a correct answer sometimes
 		if ( choices.data("none") ) {
-			radios.push( "None of the above." );
+			radios.push( "None of these." );
 			
 			// The right answer is injected most of the time
 			if ( Math.random() > 1 / num ) {
 				radios.push( solution.html() );
 			
-			// But sometimes "None of the above." is the right answer
+			// But sometimes "None of these." is the right answer
 			} else {
-				problem.data( "solution", "None of the above." );
+				problem.data( "solution", "None of these." );
 			}
 		}
 		
@@ -172,10 +178,17 @@ function makeProblem() {
 		
 		jQuery( "<div id='solution'>" +
 			jQuery.map( radios, function( value ) {
-				// TODO: This is gnarly and should be refactored
+				// TODO: This is very gnarly and should be refactored
 				var inValue = value && value.nodeType ? jQuery(value).text() : value,
 					htmlValue = value && value.nodeType ? jQuery(value).html() : value;
-				return "<label><input type='radio' name='solution' value='" + inValue + "'/> <span>" + htmlValue + "</span></label><br/>";
+
+				var isCorrect;
+				if (jQuery(value).text() === problem.data("solution") || value === problem.data("solution")) {
+					isCorrect = "data-is-correct = '1'";
+				} else {
+					isCorrect = "";
+				}
+				return "<label><input type='radio' name='solution' " + isCorrect + " value='" + inValue + "'/> <span>" + htmlValue + "</span></label><br/>";
 			}).join("") +
 		"</div>" )
 		
