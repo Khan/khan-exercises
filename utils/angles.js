@@ -1,5 +1,5 @@
-$.extend(KhanUtil, {
-	commonAngles: [{deg: 30, rad: "\\frac{\\pi}{6}"},
+$.extend( KhanUtil, {
+	commonAngles: [ {deg: 30, rad: "\\frac{\\pi}{6}"},
 	               {deg: 45, rad: "\\frac{\\pi}{4}"},
 	               {deg: 60, rad: "\\frac{\\pi}{3}"},
 	               {deg: 90, rad: "\\frac{\\pi}{2}"},
@@ -14,11 +14,10 @@ $.extend(KhanUtil, {
 	               {deg: 300, rad: "\\frac{5\\pi}{3}"},
 	               {deg: 315, rad: "\\frac{7\\pi}{4}"},
 	               {deg: 330, rad: "\\frac{11\\pi}{6}"},
-	               {deg: 360, rad: "2\\pi"}
-	              ],
+	               {deg: 360, rad: "2\\pi"} ],
 
     // Convert a degree value to a radian value
-	toRadians: function(degrees) {
+	toRadians: function( degrees ) {
 		return degrees * Math.PI / 180;
 	}
 });

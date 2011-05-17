@@ -6,39 +6,39 @@
 </head>
 <body>
 	<script type="text/javascript">
-		function WrongCommonAngle(angleIdx, i) {
+		function WrongCommonAngle( angleIdx, i ) {
 			// i is a value from 1 to 3
-			return KhanUtil.commonAngles[(angleIdx + (4 * i)) % KhanUtil.commonAngles.length];
+			return KhanUtil.commonAngles[ (angleIdx + (4 * i)) % KhanUtil.commonAngles.length ];
 		}
 
-		function WrongDegrees(degrees) {
+		function WrongDegrees( degrees ) {
 			var offset;
 			var wrong;
 
 			do {
-				offset = KhanUtil.randRange(10, 35);
+				offset = KhanUtil.randRange( 10, 35 );
 				if (KhanUtil.rand(1)) {
 					offset *= -1;
 				}
 			
 				wrong = degrees + offset;
-			} while (!(wrong >= 0 && wrong <= 360));
+			} while ( !(wrong >= 0 && wrong <= 360) );
 
 			return wrong;
 		}
 
-		function WrongRadians(radians) {
+		function WrongRadians( radians ) {
 			var offset;
 			var wrong;
 
 			do {
-				offset = KhanUtil.randRange(10, 35) / 100;
+				offset = KhanUtil.randRange( 10, 35 ) / 100;
 				if (KhanUtil.rand(1)) {
 					offset *= -1;
 				}
 
-				wrong = KhanUtil.roundTo(2, radians + offset);
-			} while (!(wrong >= 0 && wrong <= 2 * Math.PI));
+				wrong = KhanUtil.roundTo( 2, radians + offset );
+			} while ( !(wrong >= 0 && wrong <= 2 * Math.PI) );
 
 			return wrong;
 		}
@@ -47,15 +47,13 @@
 	<div id="vars">
 		<!-- Numerical degree and radian values -->
 		<var id="NUM_DEGREES">rand(360)</var>
-		<var id="NUM_RADIANS">roundTo(2, toRadians(NUM_DEGREES))</var>
+		<var id="NUM_RADIANS">roundTo( 2, toRadians(NUM_DEGREES) )</var>
 
 		<!-- Common degree and radian values -->
 		<!-- (index rather than member-based selection is for wrong answer generation) -->
-		<var id="COMMON_INDEX">rand(commonAngles.length - 1)</var>
+		<var id="COMMON_INDEX">rand( commonAngles.length - 1 )</var>
 		<var id="COMMON_DEGREES">commonAngles[COMMON_INDEX].deg</var>
 		<var id="COMMON_RADIANS">commonAngles[COMMON_INDEX].rad</var>
-
-
 	</div>
 	
 	<div id="problems">
@@ -69,9 +67,9 @@
 			</div>
 
 			<ul class="choices" data-show="4" data-none="true">
-				<li><code><var>WrongCommonAngle(COMMON_INDEX, 1).rad</var></code></li>
-				<li><code><var>WrongCommonAngle(COMMON_INDEX, 2).rad</var></code></li>
-				<li><code><var>WrongCommonAngle(COMMON_INDEX, 3).rad</var></code></li>
+				<li><code><var>WrongCommonAngle( COMMON_INDEX, 1 ).rad</var></code></li>
+				<li><code><var>WrongCommonAngle( COMMON_INDEX, 2 ).rad</var></code></li>
+				<li><code><var>WrongCommonAngle( COMMON_INDEX, 3 ).rad</var></code></li>
 			</ul>
 		</div>
 		<div class="problem" data-type="degrees-to-radians">
@@ -84,9 +82,9 @@
 			</div>
 
 			<ul class="choices" data-show="4" data-none="true">
-				<li><var>WrongRadians(NUM_RADIANS)</var></li>
-				<li><var>WrongRadians(NUM_RADIANS)</var></li>
-				<li><var>WrongRadians(NUM_RADIANS)</var></li>
+				<li><var>WrongRadians( NUM_RADIANS )</var></li>
+				<li><var>WrongRadians( NUM_RADIANS )</var></li>
+				<li><var>WrongRadians( NUM_RADIANS )</var></li>
 			</ul>
 		</div>
 
@@ -100,9 +98,9 @@
 			</div>
 
 			<ul class="choices" data-show="4" data-none="true">
-				<li><var>WrongCommonAngle(COMMON_INDEX, 1).deg</var>&deg;</li>
-				<li><var>WrongCommonAngle(COMMON_INDEX, 2).deg</var>&deg;</li>
-				<li><var>WrongCommonAngle(COMMON_INDEX, 3).deg</var>&deg;</li>
+				<li><var>WrongCommonAngle( COMMON_INDEX, 1 ).deg</var>&deg;</li>
+				<li><var>WrongCommonAngle( COMMON_INDEX, 2 ).deg</var>&deg;</li>
+				<li><var>WrongCommonAngle( COMMON_INDEX, 3 ).deg</var>&deg;</li>
 			</ul>
 		</div>
 		<div class="problem" data-type="radians-to-degrees">
@@ -115,9 +113,9 @@
 			</div>
 
 			<ul class="choices" data-show="4" data-none="true">
-				<li><var>WrongDegrees(NUM_DEGREES)</var>&deg;</li>
-				<li><var>WrongDegrees(NUM_DEGREES)</var>&deg;</li>
-				<li><var>WrongDegrees(NUM_DEGREES)</var>&deg;</li>
+				<li><var>WrongDegrees( NUM_DEGREES )</var>&deg;</li>
+				<li><var>WrongDegrees( NUM_DEGREES )</var>&deg;</li>
+				<li><var>WrongDegrees( NUM_DEGREES )</var>&deg;</li>
 			</ul>
 		</div>
 	</div>
