@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <title>Prime Numbers</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div id="vars">
+        <var id="PRIME">getPrime()</var>
+        <var id="PRIME_FACTORS">getFactors( PRIME ).join( ", " )</var>
+        
+        <!-- TODO: Pass in function that generates wrong answers, 
+                and keep calling until have enough unique answers -->
+        <var id="WRONG_1">getOddComposite()</var>
+        <var id="WRONG_1_FACTORS">getFactors( WRONG_1 ).join( ", " )</var>
+        
+        <var id="WRONG_2">getOddComposite()</var>
+        <var id="WRONG_2_FACTORS">getFactors( WRONG_2 ).join( ", " )</var>
+        
+        <var id="WRONG_3">getOddComposite()</var>
+        <var id="WRONG_3_FACTORS">getFactors( WRONG_3 ).join( ", " )</var>
+        
+        <var id="WRONG_4">getEvenComposite()</var>
+        <var id="WRONG_4_FACTORS">getFactors( WRONG_4 ).join( ", " )</var>
+        
+    </div>
+
+    <div id="problems">
+        <div class="problem">
+            <p class="question">Which of these numbers is prime?</p>
+            <p class="solution"><var>PRIME</var></p>
+            <!-- TODO: no data-none doesn't seem to work -->
+            <ul class="choices" data-show="5" data-none="true">
+                <li><var>WRONG_1</var></li>
+                <li><var>WRONG_2</var></li>
+                <li><var>WRONG_3</var></li>
+                <li><var>WRONG_4</var></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="hints">
+        <p>A prime number has exactly two factors: 1 and itself.</p>
+        <p>The factors of <var>WRONG_1</var> are <var>WRONG_1_FACTORS</var>.</p>
+        <p>The factors of <var>WRONG_2</var> are <var>WRONG_2_FACTORS</var>.</p>        
+        <p>The factors of <var>WRONG_3</var> are <var>WRONG_3_FACTORS</var>.</p>
+        <p>The factors of <var>WRONG_4</var> are <var>WRONG_4_FACTORS</var>.</p>
+        <p>The factors of <var>PRIME</var> are <var>PRIME_FACTORS</var>.</p>
+        <p>Thus, <var>PRIME</var> is a prime number.</p>
+
+    </div>
+</body>
+</html>
