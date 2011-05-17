@@ -7,11 +7,10 @@
 <body>
 	<div id="vars">
 	    <!-- TODO: Need checks for uniqueness, or perhaps okay with having A = B -->
-	    <!-- TODO: Avoid 0 -->
 	    
-        <var id="A_START">rand(10)</var>
-        <var id="B_START">rand(10)</var>
-        <var id="FACTOR">rand(5)</var>
+        <var id="A_START">randRange( 1, 10 )</var>
+        <var id="B_START">randRange( 1, 10 )</var>
+        <var id="FACTOR">randRange( 1, 5 )</var>
         
         <var id="A">A_START * FACTOR</var>
         <var id="B">B_START * FACTOR</var>
