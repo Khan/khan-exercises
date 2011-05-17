@@ -102,6 +102,9 @@ loadScripts( [
 				
 			// Make sure that the old value isn't being displayed anymore
 			this.style.display = "none";
+			
+			// Clean up any strange mathematical expressions
+			this.innerHTML = KhanUtil.cleanMath( this.innerHTML );
 				
 			// Stick the processing request onto the queue
 			MathJax.Hub.Queue([ "Typeset", MathJax.Hub, this ]);
@@ -330,4 +333,13 @@ function loadScripts( urls, callback ) {
 }
 
 // Populate this with modules
-var KhanUtil = {};
+var KhanUtil = {
+	cleanMath: function( expr ) {
+		return typeof expr === "string" ?
+			expr
+				.replace(/\+ -/g, "- ")
+				.replace(/- -/g, "+ ")
+				.replace(/\^1/g, "") :
+			expr;
+	}
+};
