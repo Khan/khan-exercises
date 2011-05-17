@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <title>Least Common Multiple</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div id="vars">
+        <var id="C">randRange( 2, 6 )</var>
+        <var id="A">randRange( 1, 10 ) * C</var>
+        <var id="B">randRange( 1, 10 ) * C</var>
+        <var id="BIGGER">Math.max( A, B )</var>
+        <var id="SMALLER">Math.min( A, B )</var>
+        <var id="PRODUCT">A * B</var>
+        <var id="GCD">getGCD( A, B )</var>
+        <var id="LCM">PRODUCT / GCD</var>
+        <var id="MULTIPLES">getMultiples( A, LCM ).join( ", " )</var>
+    </div>
+
+    <div id="problems">
+        <div class="problem">
+            <div class="question">
+                <p>What is the least common multiple of <var>A</var> and <var>B</var>?</p>
+                <p>Another way to say this is:</p>
+                <p>LCM(<var>A</var>, <var>B</var>) = ?</p>
+            </div>
+            <p class="solution"><var>LCM</var></p>
+        </div>
+    </div>
+
+    <div id="hints">
+        <p>The least common multiple is the smallest number that is a multiple of <var>A</var> and <var>B</var>.</p>
+        <p>We know that <var>A</var> x <var>B</var> (or <var>PRODUCT</var>) is a common multiple, 
+            but is it the least common multiple?</p>
+        <p>Write out the multiples of <var>BIGGER</var> until we find a number divisible by <var>SMALLER</var>.</p>
+        <p><var>MULTIPLES</var></p>
+        <p>So, <var>LCM</var> is the least common multiple of <var>A</var> and <var>B</var>.</p>
+        <p><var>PRODUCT</var> divided by <var>GCD</var> is <var>LCM</var>. Do you think that it is a coincidence
+            that <var>GCD</var> is the greatest common divisor of <var>A</var> and <var>B</var>?</p>
+        
+    </div>
+</body>
+</html>

@@ -15,6 +15,10 @@ $.extend(KhanUtil, {
         return a;
     },
     
+    getLCM: function( a, b ) {
+      return ( a * b ) / this.getGCD( a, b );
+    },
+    
     getPrime: function() {
         var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43];
         primes = primes.concat([47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]);
@@ -61,6 +65,15 @@ $.extend(KhanUtil, {
             return a - b;
         });
     },
+    
+    getMultiples: function( number, upperLimit ) {
+        var multiples = [];
+        for ( var i = 1; i * number <= upperLimit; i++ ) {
+            multiples.push( i * number );
+        }
+        return multiples;
+    },
+
 
 	// Get a random integer between min and max, inclusive
 	randRange: function( min, max ) {
