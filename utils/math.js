@@ -18,5 +18,17 @@ $.extend(KhanUtil, {
 	roundTo: function( precision, num ) {
 		var factor = Math.pow( 10, -1 * precision ).toFixed(5);
 		return Math.round( ( num * factor ).toFixed(5) ) / factor;
+	},
+	
+	// From limits_1
+	nonZeroRandomInt: function( min, max ) {
+		var result;
+		while ( (result = this.randRange( min, max )) === 0 ) {}
+		return result;
+	},
+	
+	// From limits_1
+	truncate_to_max: function( num, digits ) {
+		return parseFloat( num.toFixed( digits ) );
 	}
 });
