@@ -18,25 +18,16 @@
 		<var id="limtoa">curFunc(a)</var>
 		<var id="l_limtoa">limtoa</var>
 		<var id="r_limtoa">limtoa</var>
-		<var id="blah">(function(){
-			RaphaelWrapper.init(400, 400);
-			RaphaelWrapper.drawPlane( -10, 10, -10, 10 )
-			
-			present.fontsize = "15";
-			present.fontfamily = "sans-serif";
-			present.fontstyle = "bold";
-
-			present.stroke = "blue";
-			
-			present.plot('(' + quadratic + line + ')/' + line);
-			present.ASdot([a, limtoa], 4, "black", "white");
-		})()</var>
 	</div>
 
 	<div id="problems">
 		<div id="original" class="problem">
 			<div class="problem">
-				
+				<div class="graph" style="width: 400px; height: 400px; font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;">
+					drawPlane();
+					plot('(' + quadratic + line + ')/' + line);
+					ASdot([a, limtoa], 4, "black", "white");
+				</div>
 			</div>
 			<p class="question"><code>\lim_{x\to<var>a</var>} \dfrac{<var>quadratic</var><var>line</var>}{<var>line</var>} = ?</code></p>
 			<p class="solution"><code><var>limtoa</var></code></p>

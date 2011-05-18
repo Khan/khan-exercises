@@ -1,3 +1,5 @@
+var VARS = {};
+
 // Add in the site stylesheet
 var link = document.createElement("link");
 link.rel = "stylesheet";
@@ -92,6 +94,41 @@ loadScripts( [
 		return this.eq( Math.floor( this.length * Math.random() ) );
 	};
 	
+	jQuery.fn.graph = function() {
+		return this.find(".graph").each(function() {			
+			// Grab code for later execution
+			var code = jQuery(this).text();
+
+			// Remove any of the code that's in there
+			jQuery(this).empty();
+			
+			// Initialize the graph
+			KhanUtil.initGraph( this, jQuery(this).width(), jQuery(this).height() );
+			
+			// Draw a plane, if it was asked for
+			// TODO: Make this generic and support different styles of graphs
+			if ( jQuery(this).data("graph-type") === "plane" ) {
+				KhanUtil.drawPlane();
+			}
+			
+			// Pre-populate all style information from the style attribute
+			jQuery.each( jQuery(this).attr("style").split(/\s*;\s*/), function( i, prop ) {
+				// Properties are formatted using the typical CSS convention
+				var parts = prop.split(/:\s*/),
+					name = parts[0].replace(/-/g, ""),
+					value = parts[1];
+				
+				// Only set the property if it already exists
+				if ( typeof present[ name ] === "string" ) {
+					present[ name ] = value;
+				}
+			});
+
+			// Execute the graph-specific code
+			getVAR( false, code );
+		}).end();
+	};
+	
 	jQuery.fn.math = function() {
 		return this.find("code").each(function() {
 			if ( this.className ) {
@@ -112,7 +149,55 @@ loadScripts( [
 		}).end();
 	};
 	
-	initVARS();
+	// Load the value associated with the variable
+	jQuery.fn.loadVAR = function() {
+		return this.each(function() {
+			var value = getVAR( this );
+
+			if ( this.id ) {
+				VARS[ this.id ] = value;
+			}
+		});
+	};
+
+	jQuery.fn.replaceVAR = function() {
+		return this.replaceWith(function( i, text ) {
+			return document.createTextNode( getVAR( i, text ) );
+		});
+	};
+	
+	function getVAR( elem, text ) {
+		// If it's a list, grab a random one out of it
+		if ( elem.nodeName && elem.nodeName.toLowerCase() === "ul" ) {
+			return jQuery( elem ).children().getRandom().text();
+
+		// Otherwise we need to compute the value
+		} else {
+			var text = jQuery.trim(elem.nodeName ? jQuery(elem).text() : text);
+			
+			// See if we're dealing with a multiline block of code
+			if ( (/;/.test( text ) || /\n/.test( text )) && !/function/.test( text ) ) {
+				text = "(function(){\n" + text + "\n})()";
+			}
+
+			try {
+				// Use the methods provided by the library
+				with ( KhanUtil ) {
+					// And the methods from JavaScript's builtin Math methods
+					with ( Math ) {
+						// Use all the computed variables
+						with ( VARS ) {
+							return eval( "(" + text  + ")" );
+						}
+					}
+				}
+			} catch( e ) {
+				if ( typeof console !== "undefined" ) {
+					console.error( text, e );
+				}
+			}
+		}
+	}
 });
 
 function makeProblem() {			
@@ -143,6 +228,9 @@ function makeProblem() {
 	
 	// Run the math formulas through MathJax
 	problem.math();
+	
+	// Run the graphs through Raphael
+	problem.graph();
 	
 	// Store the solution to the problem
 	var solution = problem.find(".solution").remove();
@@ -199,6 +287,9 @@ function makeProblem() {
 			// Run the math formulas through MathJax
 			.math()
 			
+			// Run the graphs through Raphael
+			.graph()
+			
 			// Replace the existing solution
 			.replaceAll( "#solution" );
 	}
@@ -222,6 +313,9 @@ function makeProblem() {
 		// Run the math formulas through MathJax
 		.math()
 		
+		// Run the graphs through Raphael
+		.graph()
+		
 		// Hide all the hints
 		.children().hide().end()
 		
@@ -230,51 +324,6 @@ function makeProblem() {
 		
 		// Add it in to the page
 		.appendTo("#hintsarea");
-}
-
-function initVARS() {
-	var VARS = {};
-	
-	// Load the value associated with the variable
-	jQuery.fn.loadVAR = function() {
-		return this.each(function() {
-			VARS[ this.id ] = getVAR( this );
-		});
-	};
-	
-	jQuery.fn.replaceVAR = function() {
-		return this.replaceWith(function( i, text ) {
-			return document.createTextNode( getVAR( i, text ) );
-		});
-	};
-
-	function getVAR( elem, text ) {
-		// If it's a list, grab a random one out of it
-		if ( elem.nodeName && elem.nodeName.toLowerCase() === "ul" ) {
-			return jQuery( elem ).children().getRandom().text();
-	
-		// Otherwise we need to compute the value
-		} else {
-			var text = (elem.nodeName ? jQuery(elem).text() : text);
-			
-			try {
-				// Use the methods provided by the library
-				with ( KhanUtil ) {
-					// And the methods from JavaScript's builtin Math methods
-					with ( Math ) {
-						// Use all the computed variables
-						with ( VARS ) {
-							return eval( "(" + text  + ")" );
-						}
-					}
-				}
-			} catch( e ) {
-				if ( typeof console !== "undefined" ) {
-					console.error( text, e );
-				}
-			}
-		}
-	}
 }
 
 function injectSite() {

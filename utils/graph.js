@@ -128,13 +128,6 @@ function setText(st,id) {
 
 function setBorder(x) { border = x }
 
-function initPaper(pr,wd,hi) {
-    // Pass in a Raphael canvas and we'll use it to draw on
-    paper = pr;
-    width = wd;
-    height = hi;
-}
-
 function initPicture(x_min,x_max,y_min,y_max) {
     if (!initialized) {
         strokewidth = "1"; // pixel
@@ -768,63 +761,33 @@ var pointRegister = [];
 var initialObjectsToDraw  = [];
 
 $.extend(KhanUtil, {
-	RaphaelWrapper: {
-		init: function( width, height ) {
-			var paper = Raphael(document.getElementById("raphael_container"), width, height);
-			initPaper(paper, width, height);
-			return paper;
-		},
-
-		drawPlane: function(min_x, max_x, min_y, max_y) {
-			present.initPicture(min_x, max_x, min_y, max_y);
-			present.fontstyle = "normal";
-			present.fontsize = "10";
-			present.stroke = "#DDDDDD";
-			present.strokewidth = "2";
-
-			for ( var i = min_x; i <= max_x; i++ ) {
-				if ( i !== 0 ) {
-					present.line([i, min_y], [i,max_y]);
-					present.line([min_x,i], [max_x,i]);
-					present.text([i, .1], i, below);
-					present.text([0, i], i, right);
-				}
-			}
-			
-			present.axes();
-		}
+	initGraph: function( elem ) {
+		present.width = jQuery(elem).width();
+		present.height = jQuery(elem).height();
+		present.paper = Raphael( elem, width, height );
 	},
 	
-	initPlane: function() {
-	    this.RaphaelWrapper.drawPlane( -10, 10, -10, 10 );
-	},
-	
-	initGraph: function() {
-		var xMax = .25, yMax = .25, xMin = 0, yMin = 0;
-
-		for ( var k = 0; k < pointRegister.length; k++ ) {
-			var curPoint = pointRegister[k];
-			xMax = Math.max(xMax, curPoint.x);
-			yMax = Math.max(yMax, curPoint.y);
-			xMin = Math.min(xMin, curPoint.x);
-			yMin = Math.min(yMin, curPoint.y);
+	drawPlane: function( min_x, max_x, min_y, max_y ) {
+		if ( arguments.length === 0 ) {
+			min_x = min_y = -10;
+			max_x = max_y = 10;
 		}
-
-		var yCenter = (yMax+yMin)/2, xCenter = (xMax+xMin)/2;
-
-		if ( (xMax-xMin) > (yMax-yMin) ) {
-			var margin = .25*(xMax-xMin);
-			present.initPicture(xMin-margin, xMax+margin, yCenter-margin-(xMax-xMin)/2, yCenter+margin+(xMax-xMin)/2);
-			
-		} else {
-			var margin = .25*(yMax-yMin);
-			present.initPicture(xCenter-margin-(yMax-yMin)/2, xCenter+margin+(yMax-yMin)/2, yMin-margin, yMax+margin);
-		}
-
-		present.strokewidth = "2";
 		
-		for ( var k = 0; k < initialObjectsToDraw.length; k++ ) {
-			initialObjectsToDraw[k].draw();
+		present.initPicture( min_x, max_x, min_y, max_y );
+		present.fontstyle = "normal";
+		present.fontsize = "10";
+		present.stroke = "#DDDDDD";
+		present.strokewidth = "2";
+
+		for ( var i = min_x; i <= max_x; i++ ) {
+			if ( i !== 0 ) {
+				present.line([i, min_y], [i,max_y]);
+				present.line([min_x,i], [max_x,i]);
+				present.text([i, .1], i, below);
+				present.text([0, i], i, right);
+			}
 		}
+		
+		present.axes();
 	}
 });

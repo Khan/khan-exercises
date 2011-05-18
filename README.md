@@ -54,6 +54,12 @@ Exercises are designed to contained within a single HTML file. The basic layout 
 
 You can copy this markup into an HTML file and start building an exercise right away.
 
+### Modules
+
+Depending upon the type of exercise that you're writing you'll likely need to load one or more utility modules in order to render the exercise correctly. This can be done by specifying a `data-require="..."` attribute on the HTML element of the page.
+
+There are an ever-increasing number of modules (you can find them in the `utils/` directory) but the ones that you'll most-likely need are: `math` (for math-related formulas and utility methods) and `graph` (for rendering graphs and charts).
+
 ### Variables
 
 Most mathematical problems that you generate will have some bit of random-ness to them (in order to make for an interesting, not-identical, problem). You can generate these values up-front so that you can re-use them again in your problems.
@@ -209,6 +215,36 @@ For example in the following markup we create two types of problems. One is the 
 Note how the second problem doesn't provide a problem definition. This problem definition is inherited directly from the original problem. Any markup provided by a subsequent problem will override the original. For example providing a "question" in a follow-up problem will override the "question" coming from the original.
 
 Using this technique you can easily generate many different styles of problems with only minimal amounts of typing.
+
+#### Graphs
+
+WARNING: This API is very much in flux and is still being defined, use with caution.
+
+It's possible to include graphs in your problems, hints, and solution/answers. A basic graph is defined with a class of "graph" and a width and height specified as CSS in a style attribute, like so:
+
+	<div class="graph" style="width: 200px; height: 200px;">
+		<!-- Graph-related commands here. -->
+	</div>
+
+You can then use graph-related commands to do rendering. At the moment the exact API for rendering is very much in flux. We're currently using a variation of the ASCIIsvg API but are looking to switch to something better.
+
+For a current list of commands see the following:  
+http://www1.chapman.edu/~jipsen/svg/asciisvgcommands.html
+
+If you wish to set the styling for how drawing should look you can currently do this in the style attribute on the graph element, for example:
+
+	<div class="graph" style="width: 400px; height: 400px; font-size: 15px;
+		font-family: sans-serif; font-style: bold; stroke: blue;">
+	</div>
+
+An example full graph definition is as follows:
+
+	<div class="graph" style="width: 400px; height: 400px; font-size: 15px;
+			font-family: sans-serif; font-style: bold; stroke: blue;">
+		drawPlane();
+		plot('(' + quadratic + line + ')/' + line);
+		ASdot([a, limtoa], 4, "black", "white");
+	</div>
 
 ### Hints
 
