@@ -1,4 +1,14 @@
-$.extend(KhanUtil, {
+jQuery.extend(KhanUtil, {
+	// Simplify formulas before display
+	cleanMath: function( expr ) {
+		return typeof expr === "string" ?
+			expr
+				.replace(/\+ -/g, "- ")
+				.replace(/- -/g, "+ ")
+				.replace(/\^1/g, "") :
+			expr;
+	},
+	
 	// A simple random number picker
 	rand: function( num ) {
 		return Math.round( num * Math.random() );
@@ -18,11 +28,12 @@ $.extend(KhanUtil, {
     getLCM: function( a, b ) {
       return ( a * b ) / this.getGCD( a, b );
     },
+
+	primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
+		47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97],
     
     getPrime: function() {
-        var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43];
-        primes = primes.concat([47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]);
-        return primes[ this.rand( primes.length ) ];
+        return this.primes[ this.rand( this.primes.length ) ];
     },
     
     getOddComposite: function() {
@@ -40,14 +51,14 @@ $.extend(KhanUtil, {
     },
     
     getPrimeFactorization: function( number ) {
-        if ( $.inArray(number, allprimes) != -1) {
+        if ( jQuery.inArray(number, this.primes) !== -1 ) {
             return [number];                
         }
 
         var maxf = Math.sqrt( number );
         for (var f = 2; f <= maxf; f++) {
             if ( number % f == 0 ) {
-                return $.merge(getPrimeFactorization( f ), getPrimeFactorization( number / f ));
+                return jQuery.merge(this.getPrimeFactorization( f ), this.getPrimeFactorization( number / f ));
             }
         }
     },
@@ -102,4 +113,124 @@ $.extend(KhanUtil, {
 	truncate_to_max: function( num, digits ) {
 		return parseFloat( num.toFixed( digits ) );
 	}
+});
+
+var VARS = {};
+
+// Load the value associated with the variable
+jQuery.fn.extend({
+	math: function() {
+		return this
+			// Replace all the variables with the computed value
+			.find("var").replaceVAR().end()
+			
+			// Render 
+			.find("code").each(function() {
+				if ( this.className ) {
+					jQuery( this ).wrap( "<span class='" + this.className + "'></span>" );
+				}
+
+				// Trick MathJax into thinking that we're dealing with a script block
+				this.type = "math/tex";
+
+				// Make sure that the old value isn't being displayed anymore
+				this.style.display = "none";
+
+				// Clean up any strange mathematical expressions
+				this.innerHTML = KhanUtil.cleanMath( this.innerHTML );
+
+				// Stick the processing request onto the queue
+				MathJax.Hub.Queue([ "Typeset", MathJax.Hub, this ]);
+			}).end();
+	},
+	
+	// Load all the variables from the exercise
+	mathLoad: function() {
+		// Go through the specified variables
+		this.find(".vars").first().children().each(function() {
+			// And load in their values
+			var value = jQuery.getVAR( this );
+
+			if ( this.id ) {
+				VARS[ this.id ] = value;
+			}
+		});
+		
+		return this;
+	},
+
+	// Replace an inline variable with its computed value
+	replaceVAR: function() {
+		return this.replaceWith(function( i, text ) {
+			return document.createTextNode( jQuery.getVAR( text ) );
+		});
+	}
+});
+
+jQuery.extend({
+	getVAR: function( elem ) {
+		// If it's a list, grab a random one out of it
+		if ( elem.nodeName && elem.nodeName.toLowerCase() === "ul" ) {
+			return jQuery( elem ).children().getRandom().text();
+
+		// Otherwise we need to compute the value
+		} else {
+			var text = jQuery.trim(elem.nodeName ? jQuery(elem).text() : elem);
+			
+			// Make sure any HTML formatting is stripped
+			text = text.replace(/&gt;/g, ">").replace(/&lt;/g, "<");
+		
+			// See if we're dealing with a multiline block of code
+			if ( (/;/.test( text ) || /\n/.test( text )) && !/function/.test( text ) ) {
+				text = "(function(){\n" + text + "\n})()";
+			}
+
+			try {
+				// Use the methods provided by the library
+				with ( KhanUtil ) {
+					// And the methods from JavaScript's builtin Math methods
+					with ( Math ) {
+						// Use all the computed variables
+						with ( VARS ) {
+							return eval( "(" + text  + ")" );
+						}
+					}
+				}
+			} catch( e ) {
+				if ( typeof console !== "undefined" ) {
+					console.error( text, e );
+				}
+			}
+		}
+	}
+});
+
+// Load MathJax
+scriptWait(function( scriptLoaded ) {
+	var script = document.createElement("script");
+	script.src = "http://cdn.mathjax.org/mathjax/latest/MathJax.js";
+	script.onload = function() {
+		// We don't want to use inline script elements, we want to use code blocks
+		MathJax.Hub.elementScripts = function( elem ) {
+			return elem.nodeName.toLowerCase() === "code" ?
+				[ elem ] :
+				elem.getElementsByTagName( "code" );
+		};
+	
+		scriptLoaded();
+	};
+
+	// There is no god.
+	// I will personally gut punch whoever thought this was a good API design
+	script.text = 'MathJax.Hub.Config({\
+		messageStyle: "none",\
+		skipStartupTypeset: true,\
+		jax: ["input/TeX","output/HTML-CSS"],\
+		extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
+		TeX: {\
+			extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
+		}\
+	});';
+
+	document.documentElement.appendChild( script );
 });

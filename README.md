@@ -34,20 +34,22 @@ Exercises are designed to contained within a single HTML file. The basic layout 
 		<script src="../khan-exercise.js"></script>
 	</head>
 	<body>
-		<div id="vars">
-			<!-- Your variables in here... -->
-		</div>
-	
-		<div id="problems">
-			<div class="problem">
-				<div class="problem"><!-- An overview of the problem. --></div>
-				<p class="question"><!-- The question to ask the student. --></p>
-				<p class="solution"><!-- The correct answer expected of the student. --></p>
+		<div class="exercise">
+			<div class="vars">
+				<!-- Your variables in here... -->
 			</div>
-		</div>
 	
-		<div id="hints">
-			<!-- Any hints to show to the student. -->
+			<div class="problems">
+				<div>
+					<p class="problem"><!-- An overview of the problem. --></p>
+					<p class="question"><!-- The question to ask the student. --></p>
+					<p class="solution"><!-- The correct answer expected of the student. --></p>
+				</div>
+			</div>
+	
+			<div class="hints">
+				<!-- Any hints to show to the student. -->
+			</div>
 		</div>
 	</body>
 	</html>
@@ -64,7 +66,7 @@ There are an ever-increasing number of modules (you can find them in the `utils/
 
 Most mathematical problems that you generate will have some bit of random-ness to them (in order to make for an interesting, not-identical, problem). You can generate these values up-front so that you can re-use them again in your problems.
 
-To start you'll want to populate some variables inside the `<div id="vars">...</div>`. Variables are typically defined by using a `<var></var>` element. You'll want to specify an ID for the var as that'll be the name that you'll refer to in the future.
+To start you'll want to populate some variables inside the `<div class="vars">...</div>`. Variables are typically defined by using a `<var></var>` element. You'll want to specify an ID for the var as that'll be the name that you'll refer to in the future.
 
 For example to make a variable named `SPEED1` that is a number from 11 to 20 you would do:
 
@@ -130,11 +132,11 @@ You can feel free to put formulas in your problems, questions, hints, solution, 
 
 ### Problems
 
-Problems are a collection of a problem overview, a question, and a solution. All problems are contained within an element with an ID of "problems".
+Problems are a collection of a problem overview, a question, and a solution. All problems are contained within an element with a class of "problems".
 
 The basic structure of a problem looks something like this:
 
-	<div class="problem">
+	<div>
 		<div class="problem"><!-- An overview of the problem. --></div>
 		<p class="question"><!-- The question to ask the student. --></p>
 		<p class="solution"><!-- The correct answer expected of the student. --></p>
@@ -198,7 +200,7 @@ Thankfully you won't have to re-write the entire problem from scratch, you'll on
 
 For example in the following markup we create two types of problems. One is the base, core, problem (with the ID of "original") and the other is the problem that inherits from the original.
 
-	<div id="original" class="problem">
+	<div id="original">
 		<div class="problem">
 			<p>Alice traveled by <var>VEHICLE1</var> at an average speed of <var>SPEED1</var> miles per hour.</p>
 			<p>Then, she traveled by <var>VEHICLE2</var> at an average speed of <var>SPEED2</var> miles per hour.</p>
@@ -207,7 +209,7 @@ For example in the following markup we create two types of problems. One is the 
 		<p class="question">How many miles did Alice travel by <var>VEHICLE1</var>? (Round to the nearest mile.)</p>
 		<p class="solution"><var>round(DIST1)</var></p>
 	</div>
-	<div class="problem" data-type="original">
+	<div data-type="original">
 		<p class="question">How many miles did Alice travel by <var>VEHICLE2</var>? (Round to the nearest mile.)</p>
 		<p class="solution"><var>round(DIST2)</var></p>
 	</div>
@@ -250,9 +252,9 @@ An example full graph definition is as follows:
 
 A common need of students that are still learning is to have frequent hints that can help to direct them towards a solution. How the hints affect the overall flow of the education should be left up to the framework (for example, in Khan Academy, retrieving a hint will reset your "streak", forcing you to re-do problems that you've done before).
 
-Hints are contained within a `<div id="hints"> ... </div>` block. The markup that you use inside the block is completely at your discretion.
+Hints are contained within a `<div class="hints"> ... </div>` block. The markup that you use inside the block is completely at your discretion.
 
-	<div id="hints">
+	<div class="hints">
 		<p>Remember that <code>d = r * t</code>, or written another way, <code>t = d / r</code></p>
 		<div>
 			<p><code>d_<var>V1</var> =</code> distance that Alice traveled by <var>VEHICLE1</var></p>
@@ -271,7 +273,7 @@ If you wish to provide hints that are specific to the problem that the user is w
 
 For example, in this particular exercise there is a hint block that contains two placeholders: "hint1" and "hint2". These placeholders to not contain any hints and will be populated later by specific problems.
 
-	<div id="hints">
+	<div class="hints">
 		<p>Let's break this problem into smaller and easier pieces.</p>
 		<p class="hint1"></p>
 		<p><code><var>A</var> * x = </code><code class="hint_orange"><var>A</var>x</code></p>
@@ -284,10 +286,10 @@ Inside a problem the author may write something like the following:
 
 	<div class="problem">
 		...
-		<div class="hint">
+		<div class="hints">
 			<p class="hint1">What is <span class="hint_orange">the product of <var>A</var> and x</span>?</p>
 			<p class="hint2">What is <span class="hint_blue">the sum of <var>B</var></span> and <code class="hint_orange"><var>A</var>x</code>?</p>
 		</div>
 	</div>
 
-The framework will take the above markup contained within the `<div class="hint"> ... </div>`, go through each of the child elements (in this case, the paragraphs), and replace the associated paragraphs in the main "hints" block (thus "hint1" will replace "hint1", "hint2" will replace "hint2" and so on). What class names you wish to use can be completely at your discretion.
+The framework will take the above markup contained within the `<div class="hints"> ... </div>`, go through each of the child elements (in this case, the paragraphs), and replace the associated paragraphs in the main "hints" block (thus "hint1" will replace "hint1", "hint2" will replace "hint2" and so on). What class names you wish to use can be completely at your discretion.

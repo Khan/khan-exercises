@@ -1,41 +1,39 @@
 <!DOCTYPE html>
 <html data-require="math">
 <head>
-    <title>Divisibility 0.5</title>
-    <script src="../khan-exercise.js"></script>
+	<title>Divisibility 0.5</title>
+	<script src="../khan-exercise.js"></script>
 </head>
 <body>
-    <script type="text/javascript">
-        // TODO: Banish this!
-        var number = Math.floor(Math.random() * 100); // TODO: probably don't want prime #'s
-        var factorization = getPrimeFactorization( number );
-        var num_factors = 2; // TODO: what is some reasonable # of factors for the answer?
-        var answer = 1;
-        for (var i = 0; i < num_factors; i++) {
-            var index = Math.floor( factorization.length * Math.random() );
-            answer *= factorization[index];
-            factorization = $.merge( factorization.slice(0, index), factorization.slice(index + 1) );
-        }
-        
-        var rounded = roundToPosition(answer, 1);
-        var low = (answer > rounded) ? rounded : rounded - 10;
-        var high = low + 10;
-        
-    </script>
-    
-    <div id="vars">
-        <var id="NUMBER">number</var>
-        <var id="LOW">low</var>
-        <var id="HIGH">high</var>
-        <var id="ANSWER">answer</var>
-    </div>
+	<div class="exercise">
+		<div class="vars">
+			<var id="NUMBER">rand( 100 )</var>
+			<var id="ANSWER">
+				// TODO: what is some reasonable # of factors for the answer?
+				var factorization = getPrimeFactorization( NUMBER ),
+					num_factors = 2,
+					answer = 1;
+					
+				for (var i = 0; i &lt; num_factors && i &lt; factorization.length; i++) {
+					var index = floor( random() * factorization.length );
+					answer *= factorization[index];
+					factorization = jQuery.merge( factorization.slice(0, index), factorization.slice(index + 1) );
+				}
+	
+				return answer;
+			</var>
+			<var id="ROUNDED">roundTo(1, ANSWER)</var>
+			<var id="LOW">ANSWER > ROUNDED ? ROUNDED : ROUNDED - 10</var>
+			<var id="HIGH">LOW + 10</var>
+		</div>
 
-    <div id="problems">
-        <div class="problem" id="original">
-            <div class="question">What is a number between <var>LOW</var> and <var>HIGH</var> that divides into <var>NUMBER</var>?</div>
-			<p class="solution"><var>ANSWER</var></p>
-        </div>
-    </div>
+		<div class="problems">
+			<div>
+				<div class="question">What is a number between <var>LOW</var> and <var>HIGH</var> that divides into <var>NUMBER</var>?</div>
+							<p class="solution"><var>ANSWER</var></p>
+			</div>
+		</div>
+		</div>
 </body>
 </html>
 

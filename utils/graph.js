@@ -760,7 +760,7 @@ var present = window;
 var pointRegister = [];
 var initialObjectsToDraw  = [];
 
-$.extend(KhanUtil, {
+jQuery.extend(KhanUtil, {
 	initGraph: function( elem ) {
 		present.width = jQuery(elem).width();
 		present.height = jQuery(elem).height();
@@ -790,4 +790,48 @@ $.extend(KhanUtil, {
 		
 		present.axes();
 	}
+});
+
+jQuery.fn.graph = function() {
+	return this.find(".graph").each(function() {			
+		// Grab code for later execution
+		var code = jQuery(this).text();
+
+		// Remove any of the code that's in there
+		jQuery(this).empty();
+		
+		// Initialize the graph
+		KhanUtil.initGraph( this, jQuery(this).width(), jQuery(this).height() );
+		
+		// Draw a plane, if it was asked for
+		// TODO: Make this generic and support different styles of graphs
+		if ( jQuery(this).data("graph-type") === "plane" ) {
+			KhanUtil.drawPlane();
+		}
+		
+		// Pre-populate all style information from the style attribute
+		jQuery.each( jQuery(this).attr("style").split(/\s*;\s*/), function( i, prop ) {
+			// Properties are formatted using the typical CSS convention
+			var parts = prop.split(/:\s*/),
+				name = parts[0].replace(/-/g, ""),
+				value = parts[1];
+			
+			// Only set the property if it already exists
+			if ( typeof present[ name ] !== "number" ) {
+				present[ name ] = value;
+			}
+		});
+
+		// Execute the graph-specific code
+		// Depends upon the math module
+		jQuery.getVAR( code );
+	}).end();
+};
+
+// Load Raphael
+scriptWait(function( scriptLoaded ) {
+	var script = document.createElement("script");
+	script.src = "http://ajax.cdnjs.com/ajax/libs/raphael/1.5.2/raphael-min.js";
+	script.onload = scriptLoaded;
+	document.documentElement.appendChild( script );
 });

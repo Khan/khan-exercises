@@ -1,92 +1,86 @@
-var VARS = {};
-
 // Add in the site stylesheet
 var link = document.createElement("link");
 link.rel = "stylesheet";
 link.href = "../khan-exercise.css";
 document.documentElement.appendChild( link );
 
-loadScripts( [
-	"https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js",
-	"http://cdn.mathjax.org/mathjax/latest/MathJax.js",
-	"http://ajax.cdnjs.com/ajax/libs/raphael/1.5.2/raphael-min.js"
-], function() {
-	// We don't want to use inline script elements, we want to use code blocks
-	MathJax.Hub.elementScripts = function( elem ) {
-		return elem.nodeName.toLowerCase() === "code" ?
-			[ elem ] :
-			elem.getElementsByTagName( "code" );
-	};
+// The list of loaded modules
+var modules = (document.documentElement.getAttribute("data-require") || "").split(" ");
+
+// Populate this with modules
+var KhanUtil = {};
+
+loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" ], function() {
+	// Load module dependencies
+	loadScripts( jQuery.map( modules, function( name ) {
+		return "../utils/" + name + ".js";
+	}), function() {
 	
-	jQuery(function() {
-		// Inject the site markup, if it doesn't exist
-		injectSite();
+		jQuery(function() {
+			// Inject the site markup, if it doesn't exist
+			injectSite();
 		
-		// Load in utility module dependencies
-		loadScripts( jQuery.map( (jQuery("html").data("require") || "").split(" "), function( name ) {
-			return "../utils/" + name + ".js";
-		
-		// Generate the initial problem when dependencies are done being loaded
-		}), makeProblem );
+			// Generate the initial problem when dependencies are done being loaded
+			makeProblem();
 	
-		// Watch for a solution submission
-		jQuery("form").submit(function() {
-			// Get the solution to the problem
-			var solution = jQuery("#workarea").children().data("solution");
-			var isCorrect;
+			// Watch for a solution submission
+			jQuery("form").submit(function() {
+				// Get the solution to the problem
+				var solution = jQuery("#workarea").children().data("solution");
+				var isCorrect;
 		
 				// We get the answer differently if it's a text input or a radio
-				if (jQuery("#solution").is("div")) {
+				if ( jQuery("#solution").is("div") ) {
 					// radio
 					isCorrect = jQuery("#solution input:checked").data("is-correct");
+			
 				} else {
 					// text input
 					answer = jQuery("#solution").val();
 					isCorrect = ( answer === solution );
 				}
 		
-			// Verify the solution
-			if ( isCorrect ) {
-				// Show a congratulations message
-				jQuery("#congrats").show().delay( 1000 ).fadeOut( 2000 );
+				// Verify the solution
+				if ( isCorrect ) {
+					// Show a congratulations message
+					jQuery("#congrats").show().delay( 1000 ).fadeOut( 2000 );
 			
+					// Toggle the navigation buttons
+					jQuery("#check").hide();
+					jQuery("#next").show();
+		
+				// Otherwise show an error message
+				} else {
+					jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
+				}
+		
+				return false;
+			});
+	
+			// Watch for when the next button is clicked
+			jQuery("#next").click(function() {
+				// Erase the old value
+				jQuery("#solution").val( "" );
+		
 				// Toggle the navigation buttons
-				jQuery("#check").hide();
-				jQuery("#next").show();
+				jQuery("#check").show();
+				jQuery("#next").hide();
 		
-			// Otherwise show an error message
-			} else {
-				jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
-			}
+				// Wipe out any previous problem
+				jQuery("#workarea, #hintsarea").empty();
 		
-			return false;
-		});
+				// Generate a new problem
+				makeProblem();
+		
+				return false;
+			});
 	
-		// Watch for when the next button is clicked
-		jQuery("#next").click(function() {
-			// Erase the old value
-			jQuery("#solution").val( "" );
-		
-			// Toggle the navigation buttons
-			jQuery("#check").show();
-			jQuery("#next").hide();
-		
-			// Wipe out any previous problem
-			jQuery("#workarea, #hintsarea").empty();
-		
-			// Generate a new problem
-			makeProblem();
-		
-			return false;
+			// Watch for when the "Get a Hint" button is clicked
+			jQuery("#gethint").click(function() {
+				// Show the first not shown hint
+				jQuery("#shown-hints > *:hidden:first").show();
+			});
 		});
-	
-		// Watch for when the "Get a Hint" button is clicked
-		jQuery("#gethint").click(function() {
-			// Show the first not shown hint
-			jQuery("#shown-hints > *:hidden:first").show();
-		});
-	
-		// TODO: Loop through the <code> examples and convert them to nice math
 	});
 	
 	// Pick a random element from a set of elements
@@ -94,236 +88,136 @@ loadScripts( [
 		return this.eq( Math.floor( this.length * Math.random() ) );
 	};
 	
-	jQuery.fn.graph = function() {
-		return this.find(".graph").each(function() {			
-			// Grab code for later execution
-			var code = jQuery(this).text();
-
-			// Remove any of the code that's in there
-			jQuery(this).empty();
+	// Run the methods provided by a module against some elements
+	jQuery.fn.runModules = function( type ) {
+		type = type || "";
+		
+		return this.each(function( i, elem ) {
+			elem = jQuery( elem );
 			
-			// Initialize the graph
-			KhanUtil.initGraph( this, jQuery(this).width(), jQuery(this).height() );
-			
-			// Draw a plane, if it was asked for
-			// TODO: Make this generic and support different styles of graphs
-			if ( jQuery(this).data("graph-type") === "plane" ) {
-				KhanUtil.drawPlane();
-			}
-			
-			// Pre-populate all style information from the style attribute
-			jQuery.each( jQuery(this).attr("style").split(/\s*;\s*/), function( i, prop ) {
-				// Properties are formatted using the typical CSS convention
-				var parts = prop.split(/:\s*/),
-					name = parts[0].replace(/-/g, ""),
-					value = parts[1];
-				
-				// Only set the property if it already exists
-				if ( typeof present[ name ] === "string" ) {
-					present[ name ] = value;
+			// Run the main method of any modules
+			jQuery.each( modules, function( i, name ) {
+				if ( jQuery.fn[ name + type ] ) {
+					elem[ name + type ]();
 				}
 			});
-
-			// Execute the graph-specific code
-			getVAR( false, code );
-		}).end();
-	};
-	
-	jQuery.fn.math = function() {
-		return this.find("code").each(function() {
-			if ( this.className ) {
-				jQuery( this ).wrap( "<span class='" + this.className + "'></span>" );
-			}
-			
-			// Trick MathJax into thinking that we're dealing with a script block
-			this.type = "math/tex";
-				
-			// Make sure that the old value isn't being displayed anymore
-			this.style.display = "none";
-			
-			// Clean up any strange mathematical expressions
-			this.innerHTML = KhanUtil.cleanMath( this.innerHTML );
-				
-			// Stick the processing request onto the queue
-			MathJax.Hub.Queue([ "Typeset", MathJax.Hub, this ]);
-		}).end();
-	};
-	
-	// Load the value associated with the variable
-	jQuery.fn.loadVAR = function() {
-		return this.each(function() {
-			var value = getVAR( this );
-
-			if ( this.id ) {
-				VARS[ this.id ] = value;
-			}
 		});
 	};
-
-	jQuery.fn.replaceVAR = function() {
-		return this.replaceWith(function( i, text ) {
-			return document.createTextNode( getVAR( i, text ) );
-		});
-	};
-	
-	function getVAR( elem, text ) {
-		// If it's a list, grab a random one out of it
-		if ( elem.nodeName && elem.nodeName.toLowerCase() === "ul" ) {
-			return jQuery( elem ).children().getRandom().text();
-
-		// Otherwise we need to compute the value
-		} else {
-			var text = jQuery.trim(elem.nodeName ? jQuery(elem).text() : text);
-			
-			// See if we're dealing with a multiline block of code
-			if ( (/;/.test( text ) || /\n/.test( text )) && !/function/.test( text ) ) {
-				text = "(function(){\n" + text + "\n})()";
-			}
-
-			try {
-				// Use the methods provided by the library
-				with ( KhanUtil ) {
-					// And the methods from JavaScript's builtin Math methods
-					with ( Math ) {
-						// Use all the computed variables
-						with ( VARS ) {
-							return eval( "(" + text  + ")" );
-						}
-					}
-				}
-			} catch( e ) {
-				if ( typeof console !== "undefined" ) {
-					console.error( text, e );
-				}
-			}
-		}
-	}
 });
 
-function makeProblem() {			
-	// Load all the variables from the page
-	jQuery("#vars").children().loadVAR();
-	
-	// Get the problem we'll be using
-	var problem = jQuery("#problems").children().getRandom().clone();
-	
-	// See if there's an original problem that we're inheriting from
-	if ( problem.data("type") ) {
-		// Clone it for manipulation
-		var original = jQuery("#" + problem.data("type")).clone();
+function makeProblem() {
+	jQuery(".exercise").each(function() {
+		var exercise = jQuery(this);
 		
-		// Go through the components of the sub-problem
-		problem.children().each(function() {
-			// Remove those parts from the original
-			original.children( "." + this.className ).remove();
-			// And add our new ones in, instead
-			original.append( problem );
-		});
+		// Run the "Load" method of any modules
+		exercise.runModules( "Load" );
+	
+		// Get the problem we'll be using
+		var problem = exercise.find(".problems").children().getRandom().clone();
+	
+		// See if there's an original problem that we're inheriting from
+		if ( problem.data("type") ) {
+			// Clone it for manipulation
+			var original = jQuery("#" + problem.data("type")).clone();
 		
-		problem = original;
-	}
-	
-	// Replace all the variables with their values
-	problem.find("var").replaceVAR();
-	
-	// Run the math formulas through MathJax
-	problem.math();
-	
-	// Run the graphs through Raphael
-	problem.graph();
-	
-	// Store the solution to the problem
-	var solution = problem.find(".solution").remove();
-	
-	problem.data( "solution", solution.text() );
-	
-	var choices = problem.find(".choices").remove();
-	
-	if ( choices.length ) {
-		var radios = [],
-			// Figure out how many choices to show
-			num = parseFloat( choices.data("show") );
+			// Go through the components of the sub-problem
+			problem.children().each(function() {
+				// Remove those parts from the original
+				original.children( "." + this.className ).remove();
+				// And add our new ones in, instead
+				original.append( problem );
+			});
 		
-		// Go through the possible wrong answers
-		var possible = choices.children().get();
-		
-		// Figure out the solution to display
-		// If "none" is a possibility, make it a correct answer sometimes
-		if ( choices.data("none") ) {
-			radios.push( "None of these." );
-			
-			// The right answer is injected most of the time
-			if ( Math.random() > 1 / num ) {
-				radios.push( solution.html() );
-			
-			// But sometimes "None of these." is the right answer
-			} else {
-				problem.data( "solution", "None of these." );
-			}
+			problem = original;
 		}
 		
-		// And add them in in a random order
-		while ( radios.length < num ) {
-			var item = possible.splice( Math.floor( possible.length * Math.random() ), 1 )[0];
-			radios.splice( Math.floor( radios.length * Math.random() ), 0, item );
-		}
+		// Run the main method of any modules
+		problem.runModules();
+	
+		// Store the solution to the problem
+		var solution = problem.find(".solution").remove();
+	
+		problem.data( "solution", solution.text() );
+	
+		var choices = problem.find(".choices").remove();
+	
+		if ( choices.length ) {
+			var radios = [],
+				// Figure out how many choices to show
+				num = parseFloat( choices.data("show") );
 		
-		jQuery( "<div id='solution'>" +
-			jQuery.map( radios, function( value ) {
-				// TODO: This is very gnarly and should be refactored
-				var inValue = value && value.nodeType ? jQuery(value).text() : value,
-					htmlValue = value && value.nodeType ? jQuery(value).html() : value;
-
-				var isCorrect;
-				if (jQuery(value).text() === problem.data("solution") || value === problem.data("solution")) {
-					isCorrect = "data-is-correct = '1'";
+			// Go through the possible wrong answers
+			var possible = choices.children().get();
+		
+			// Figure out the solution to display
+			// If "none" is a possibility, make it a correct answer sometimes
+			if ( choices.data("none") ) {
+				radios.push( "None of these." );
+			
+				// The right answer is injected most of the time
+				if ( Math.random() > 1 / num ) {
+					radios.push( solution.html() );
+			
+				// But sometimes "None of these." is the right answer
 				} else {
-					isCorrect = "";
+					problem.data( "solution", "None of these." );
 				}
-				return "<label><input type='radio' name='solution' " + isCorrect + " value='" + inValue + "'/> <span>" + htmlValue + "</span></label><br/>";
-			}).join("") +
-		"</div>" )
+			}
 		
-			// Run the math formulas through MathJax
-			.math()
+			// And add them in in a random order
+			while ( radios.length < num ) {
+				var item = possible.splice( Math.floor( possible.length * Math.random() ), 1 )[0];
+				radios.splice( Math.floor( radios.length * Math.random() ), 0, item );
+			}
+		
+			jQuery( "<div id='solution'>" +
+				jQuery.map( radios, function( value ) {
+					// TODO: This is very gnarly and should be refactored
+					var inValue = value && value.nodeType ? jQuery(value).text() : value,
+						htmlValue = value && value.nodeType ? jQuery(value).html() : value;
+
+					var isCorrect;
+					if (jQuery(value).text() === problem.data("solution") || value === problem.data("solution")) {
+						isCorrect = "data-is-correct = '1'";
+					} else {
+						isCorrect = "";
+					}
+					return "<label><input type='radio' name='solution' " + isCorrect + " value='" + inValue + "'/> <span>" + htmlValue + "</span></label><br/>";
+				}).join("") +
+			"</div>" )
 			
-			// Run the graphs through Raphael
-			.graph()
+				// Run the main method of any modules
+				.runModules()
 			
-			// Replace the existing solution
-			.replaceAll( "#solution" );
-	}
+				// Replace the existing solution
+				.replaceAll( "#solution" );
+		}
 	
-	// Add the problem into the page
-	jQuery("#workarea").append( problem );
+		// Add the problem into the page
+		jQuery("#workarea").append( problem );
 	
-	// Clone the hints and add them into their area
-	var hints = jQuery("#hints").clone();
+		// Clone the hints and add them into their area
+		var hints = exercise.children(".hints").clone();
 	
-	// Extract any problem-specific hints
-	problem.find(".hint").remove().children().each(function() {
-		// Replace the hint placeholders
-		hints.find("." + this.className).replaceWith( this );
+		// Extract any problem-specific hints
+		problem.find(".hints").remove().children().each(function() {
+			// Replace the hint placeholders
+			hints.find("." + this.className).replaceWith( this );
+		});
+	
+		hints
+			// Run the main method of any modules
+			.runModules()
+		
+			// Hide all the hints
+			.children().hide().end()
+		
+			// And give it a new ID
+			.attr("id", "shown-hints")
+		
+			// Add it in to the page
+			.appendTo("#hintsarea");
 	});
-	
-	hints
-		// Be sure to replace the vars with the correct values
-		.find("var").replaceVAR().end()
-		
-		// Run the math formulas through MathJax
-		.math()
-		
-		// Run the graphs through Raphael
-		.graph()
-		
-		// Hide all the hints
-		.children().hide().end()
-		
-		// And give it a new ID
-		.attr("id", "shown-hints")
-		
-		// Add it in to the page
-		.appendTo("#hintsarea");
 }
 
 function injectSite() {
@@ -349,47 +243,31 @@ function injectSite() {
 }
 
 function loadScripts( urls, callback ) {
-	var loaded = 0;
+	var loaded = 0,
+		loading = urls.length;
+	
+	// Ehhh... not a huge fan of this
+	this.scriptWait = function( callback ) {
+		loading++;
+		callback( runCallback );
+	};
 
-	for ( var i = 0; i < urls.length; i++ ) (function( url ) {
+	for ( var i = 0; i < loading; i++ ) (function( url ) {
 		var script = document.createElement("script");
 		script.src = url;
-		script.onload = function() {
-			if ( callback && urls.length === ++loaded ) {
-				callback();
-			}
-		};
-	
-		// There is no god.
-		// I will personally gut punch whoever thought this was a good API design
-		if ( /mathjax/i.test( url ) ) {
-			script.text = 'MathJax.Hub.Config({\
-				messageStyle: "none",\
-				skipStartupTypeset: true,\
-				jax: ["input/TeX","output/HTML-CSS"],\
-				extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
-				TeX: {\
-					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
-				}\
-			});';
-		}
-	
+		script.onload = runCallback;
 		document.documentElement.appendChild( script );
 	})( urls[i] );
+
+	runCallback( true );
 	
-	if ( urls.length === 0 && callback ) {
-		callback();
+	function runCallback( check ) {
+		if ( check !== true ) {
+			loaded++;
+		}
+		
+		if ( callback && loading === loaded ) {
+			callback();
+		}
 	}
 }
-
-// Populate this with modules
-var KhanUtil = {
-	cleanMath: function( expr ) {
-		return typeof expr === "string" ?
-			expr
-				.replace(/\+ -/g, "- ")
-				.replace(/- -/g, "+ ")
-				.replace(/\^1/g, "") :
-			expr;
-	}
-};
