@@ -239,11 +239,12 @@ If you wish to set the styling for how drawing should look you can currently do 
 		font-family: sans-serif; font-style: bold; stroke: blue;">
 	</div>
 
+Additionally there are built-in styles of graphs. At the moment the only built-in style is "plane" (which gives you a -10 - 10 x/y coordinate grid). This can be set using the `data-graph-type` attribute.
+
 An example full graph definition is as follows:
 
 	<div class="graph" style="width: 400px; height: 400px; font-size: 15px;
-			font-family: sans-serif; font-style: bold; stroke: blue;">
-		drawPlane();
+			font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
 		plot('(' + quadratic + line + ')/' + line);
 		ASdot([a, limtoa], 4, "black", "white");
 	</div>
