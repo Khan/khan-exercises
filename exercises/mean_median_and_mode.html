@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html data-require="math stat">
+<head>
+	<title>Mean, Median, and Mode</title>
+	<script src="../khan-exercise.js"></script>
+
+	<style type="text/css">
+		.number-list {
+			text-align: center
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<script type="text/javascript">
+		function GenerateIntegers() {
+			var len, integers;
+			do {
+				// generate random list of numbers
+				len = KhanUtil.randRange( 5, 10 );
+
+				integers = [];
+
+				for (var i = 0; i < len; i++) {
+					integers[i] = KhanUtil.randRange( 1, 10 );
+				}
+			} while ( !KhanUtil.mode(integers) );
+			
+			return integers;
+		}
+	
+		function DisplayMedian( sortedInts ) {
+			var si = sortedInts.slice(0),
+			center = Math.floor( si.length / 2 ),
+			
+			prepend = "\\boldsymbol{",
+			append = "}";
+
+			if ( si.length % 2 == 0 ) {
+				si[center] = prepend + si[center] + append;
+				si[center - 1] = prepend + si[center - 1] + append;
+			} else {
+				si[center] = prepend + si[center] + append;
+			}
+			
+			return KhanUtil.display(si);
+		}
+
+		// This is a really nasty hack
+		// If you just return the hint text and stick in a VAR, then display that, then
+		// nothing gets rendered..
+		function PreMedianHint( integers ) {
+			if ( integers.length % 2 === 0 ) { // if we don't have a clear middle number
+				$("#pre-median-hint").html("Since we have <code>2</code> middle numbers, " +
+					"the median is the mean of <strong>those</strong> two numbers!");
+			} else {
+				$("#pre-median-hint").html("The median is the 'middle' number:");
+			}
+		}
+
+		function PostMedianHint( sortedInts ) {
+			if ( sortedInts.length % 2 === 0 ) {
+				$("#post-median-hint").html("The median is <code>\\frac{"+sortedInts[ sortedInts.length / 2 - 1 ]+" + "+
+										   sortedInts[ sortedInts.length / 2 ]+"}{2}</code>.");
+			} else {
+				$("#post-median-hint").html("");
+			}
+		}
+		</script>
+		
+		<div class="vars">
+			<var id="INTEGERS">GenerateIntegers()</var>
+			<var id="INTEGERS_COUNT">INTEGERS.length</var>
+			<var id="INTEGER_LIST">display(INTEGERS)</var>
+			
+			<var id="SORTED_INTS">sortValues(INTEGERS)</var>
+			<var id="SORTED_LIST">display(SORTED_INTS)</var>
+			<var id="MEDIAN_LIST">DisplayMedian(SORTED_INTS)</var>
+
+			<var id="MEAN">mean(INTEGERS)</var>
+			<var id="MEDIAN">median(INTEGERS)</var>
+			<var id="MODE">mode(INTEGERS)</var>
+
+			<var id="PRE_MEDIAN_HINT">PreMedianHint(INTEGERS)</var>
+			<var id="POST_MEDIAN_HINT">PostMedianHint(SORTED_INTS)</var>
+		</div>
+		
+		<div class="problems">
+			<div id="mean">
+				<div class="question">
+					<p>Calculate the arithmetic mean of the following numbers:</p>
+					<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
+					<p>(Round to the nearest tenth.)</p>
+				</div>
+				
+				<p class="solution"><var>MEAN</var></p>
+				
+				<div class="hints">
+					<p class="hint-explanation">To find the mean, add the numbers and divide by the number of numbers.</p>
+					<div class="hint-process">
+						<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
+						<p>There are <code><var>INTEGERS_COUNT</var></code> numbers.</p>
+					</div>
+					<p class="hint-result">The mean is <code>\frac{<var>sum(INTEGERS)</var>}{<var>INTEGERS_COUNT</var>}</code>,
+						or <code><var>MEAN</var></code>.</p>
+				</div>
+			</div>
+
+			<div id="median">
+				<div class="question">
+					<p>Calculate the median of the following numbers:</p>
+					<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
+					<p>(Round to the nearest tenth.)</p>
+				</div>
+				
+				<p class="solution"><var>MEDIAN</var></p>
+				
+				<div class="hints">
+					<div class="hint-explanation">
+						<p>First, order the numbers, giving:</p>
+						<div class="number-list"><code><var>SORTED_LIST</var></code></div>
+					</div>
+					<div class="hint-process">
+						<p id="pre-median-hint"></p>
+						<div class="number-list"><code><var>MEDIAN_LIST</var></code></div>
+						<p id="post-median-hint"></p>
+					</div>
+					<p class="hint-result">So the median is <code><var>MEDIAN</var></code>.</p>
+				</div>
+			</div>
+
+			<div id="mode">
+				<div class="question">
+					<p>Calculate the mode of the following numbers:</p>
+					<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
+					<!-- Tricksy, you never have to round the mode, but we say this :-P -->
+					<p>(Round to the nearest tenth.)</p>
+				</div>
+				
+				<div class="hints">
+					<p class="hint-explanation">The mode is the most frequent number.</p>
+					<p class="hint-result">There are more <code><var>MODE</var></code>s than any other number, so <code><var>MODE</var></code> is the mode.</p>
+				</div>
+				
+				<p class="solution"><var>MODE</var></p>
+			</div>
+		</div>
+		
+		<div class="hints">
+			<p class="hint-explanation"></p>
+			<p class="hint-process"></p>
+			<p class="hint-result"></p>
+		</div>
+	</div>
+</body>
+</html>
