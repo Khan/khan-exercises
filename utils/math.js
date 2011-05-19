@@ -14,8 +14,31 @@ jQuery.extend(KhanUtil, {
 		return Math.round( num * Math.random() );
 	},
 	
+	fraction: function( n, d ) {
+		if ( d === 0 ) {
+			return "\\text{undefined}";
+		}
+		
+		if ( n === 0 ) {
+			return "0";
+		}
+		
+		var sign = n / d < 0 ? "-" : "";
+		n = Math.abs(n);
+		d = Math.abs(d);
+		
+		var gcd = this.getGCD(n, d);
+		n = n / gcd;
+		d = d / gcd;
+		
+		return d > 1 ?
+				sign + "\\frac{" + n + "}{" + d + "}" :
+				sign + n;
+	},
+	
     getGCD: function( a, b ) {
         var mod;
+
         while ( b ) {
             mod = a % b;
             a = b;

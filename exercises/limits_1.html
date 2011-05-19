@@ -7,13 +7,13 @@
 <body>
 	<div class="exercise">
 		<div class="problems">
-			<div id="original">
+			<div>
 				<div class="vars">
 					<var id="q_lcoef">nonZeroRandomInt(-3, 3)</var>
 					<var id="edge">floor(sqrt(abs(10 / q_lcoef)))</var>
 					<var id="l_cons">nonZeroRandomInt(-1 * edge, edge)</var>
 					<var id="quadratic">q_lcoef + 'x^2'</var>
-					<var id="line">cleanMath('(x + ' + l_cons + ')')</var>
+					<var id="LINE">cleanMath('(x + ' + l_cons + ')')</var>
 					<var id="curFunc">function(x) {
 						return truncate_to_max(q_lcoef * Math.pow(x, 2), 4);
 					}</var>
@@ -23,9 +23,9 @@
 					<var id="r_limtoa">limtoa</var>
 				</div>
 				
-				<p><code>\lim_{x\to<var>a</var>} \dfrac{<var>quadratic</var><var>line</var>}{<var>line</var>} = ?</code></p>
+				<p><code>\lim_{x\to<var>a</var>} \dfrac{<var>quadratic</var><var>LINE</var>}{<var>LINE</var>} \quad\quad = ?</code></p>
 				<div class="graph" style="width: 400px; height: 400px; font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
-					plot('(' + quadratic + line + ')/' + line);
+					plot('(' + quadratic + LINE + ')/' + LINE);
 					ASdot([a, limtoa], 4, "black", "white");
 				</div>
 				<p class="solution"><code><var>limtoa</var></code></p>
@@ -39,9 +39,150 @@
 					<li>Does not exist.</li>
 				</ul>
 			</div>
+			<div>
+				<div class="vars">
+					<var id="abs_coef">nonZeroRandomInt(-5, 5)</var>
+					<var id="abs_cons">nonZeroRandomInt(-7, 7)</var>
+					<var id="curFunc">function(x) {
+						return x + abs_cons > 0 ?
+							abs_coef :
+							abs_coef * -1;
+					}</var>
+					<var id="a">abs_cons * -1</var>
+					<var id="limtoa">curFunc(a)</var>
+					<var id="l_limtoa">abs_coef * -1</var>
+					<var id="r_limtoa">abs_coef</var>
+				</div>
+				
+				<p><code>\lim_{x\to<var>a</var>} \dfrac{<var>abs_coef</var>|x + <var>abs_cons</var>|}{x + <var>abs_cons</var>} \quad\quad = ?</code></p>
+				<div class="graph" style="width: 400px; height: 400px; font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
+					line([-11, abs_coef * -1], [-1 * abs_cons, abs_coef * -1]);
+					line([-1 * abs_cons, abs_coef], [11, abs_coef]);
+
+					ASdot([-1 * abs_cons, -1 * abs_coef], 4, "black", "white");
+					ASdot([-1 * abs_cons, abs_coef], 4, "black", "white");
+				</div>
+				<p class="solution">Does not exist.</p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li><code>0</code></li>
+					<li><code><var>a</var></code></li>
+					<li><code><var>abs_cons</var></code></li>
+					<li><code><var>abs_coef</var></code></li>
+					<li><code><var>abs_coef * -1</var></code></li>
+					<li><code><var>abs_coef * abs_coef</var></code></li>
+					<li><code><var>abs_coef * abs_coef * -1</var></code></li>
+					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
+					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
+				</ul>
+				<div class="hints">
+					<p class="final">The limit as we approach from the left doesn't match the limit as we approach from the right, so <code>\lim_{x\to<var>a</var>}</code> doesn't exist.</p>
+				</div>
+			</div>
+			<div>
+				<div class="vars">
+					<var id="l_coef">nonZeroRandomInt(-3, 3)</var>
+					<var id="l_cons">nonZeroRandomInt(-4, 4)</var>
+					<var id="d_cons">nonZeroRandomInt(-7, 7)</var>
+					<var id="d_line">cleanMath(l_coef + 'x + ' + l_cons)</var>
+					<var id="curFunc">function(x) {
+						return l_coef * x + l_cons;
+					}</var>
+					<var id="a0">ceil((-10 - l_cons)/l_coef)</var>
+					<var id="a1">floor((10 - l_cons)/l_coef)</var>
+					<var id="a">l_coef > 0 ? nonZeroRandomInt(a0, a1) : nonZeroRandomInt(a1, a0)</var>
+					<var id="limtoa">curFunc(a)</var>
+					<var id="l_limtoa">limtoa</var>
+					<var id="r_limtoa">limtoa</var>
+				</div>
+				
+				<p><code>\begin{align*}
+					\lim_{x\to<var>a</var>} f(x) & \\
+					\text{where} \quad f(x) & = \left \{ 
+					\begin{array}{1 1}
+						<var>d_line</var> &\quad \text{if} \quad x \neq <var>a</var>\\
+						<var>d_cons</var> &\quad \text{if} \quad x = <var>a</var>\\
+					\end{array} \right.
+					\end{align*}</code></p>
+				<div class="graph" style="width: 400px; height: 400px; font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
+					plot(d_line);
+					ASdot([a, limtoa], 4, "black", "white");
+					ASdot([a, d_cons], 4, "blue", "blue");
+				</div>
+				<p class="solution"><code><var>limtoa</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li><code>0</code></li>
+					<li><code><var>a</var></code></li>
+					<li><code><var>d_cons</var></code></li>
+					<li><code><var>l_coef</var></code></li>
+					<li><code><var>fraction(l_cons * -1, l_coef)</var></code></li>
+					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
+					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
+					<li>Does not exist.</li>
+				</ul>
+			</div>
+			<div>
+				<div class="vars">
+					<var id="q_coef">nonZeroRandomInt(-3, 3)</var>
+					<var id="q_cons">nonZeroRandomInt(-3, 3)</var>
+					<var id="edge">floor(sqrt(abs((10 - q_cons) / q_lcoef)))</var>
+					<var id="a">nonZeroRandomInt(-1 * edge, edge)</var>
+					<var id="curFunc">function(x) {
+						return q_lcoef * Math.pow(x, 2) + q_cons;
+					}</var>
+					<var id="limtoa">curFunc(a)</var>
+					<var id="l_limtoa">limtoa</var>
+					<var id="r_limtoa">limtoa</var>
+				</div>
+
+				<p><code>\lim_{x\to<var>a</var>} <var>q_lcoef</var>x^2 + <var>q_cons</var> \quad\quad = ?</code></p>
+				<div class="graph" style="width: 400px; height: 400px; font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
+					plot(q_lcoef + 'x^2 + ' + q_cons);
+				</div>
+				<p class="solution"><code><var>limtoa</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li><code>0</code></li>
+					<li><code><var>curFunc(0)</var></code></li>
+					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
+					<li><code><var>q_cons</var></code></li>
+					<li><code><var>q_cons * -1</var></code></li>
+					<li>Does not exist.</li>
+				</ul>
+			</div>
 		</div>
 		
-		<div class="hints"></div>
+		<div class="hints">
+			<div>
+				<p>What happens as we approach <code>x = <var>a</var></code> from the left?</p>
+				<div class="graph update" style="stroke: orange; marker: arrow;">
+					line([a > 0 ? 0 : a + a, 0], [a, 0]);
+				</div>
+			</div>
+			<div>
+				<table class="limit">
+					<tr><th><code>x</code></th><th><var>a - 0.1</var></th><th><var>a - 0.01</var></th><th><var>a - 0.001</var></th></tr>
+					<tr><th><code>f(x)</code></th><td><var>curFunc(a - 0.1).toFixed(4)</var></td><td><var>curFunc(a - 0.01).toFixed(4)</var></td><td><var>curFunc(a - 0.001).toFixed(4)</var></td></tr>
+				</table>
+				It looks like <code>f(x)</code> is approaching <var>l_limtoa</var> from the left.
+				<div class="graph update" style="stroke: purple;">
+					line([a, 0], [a, l_limtoa]);
+				</div>
+			</div>
+			<div>
+				<p>When we approach <code>x = <var>a</var></code> from the right, we get:</p>
+				<table class="limit">
+					<tr><th><code>x</code></th><th><var>a + 0.1</var></th><th><var>a + 0.01</var></th><th><var>a + 0.001</var></th></tr>
+					<tr><th><code>f(x)</code></th><td><var>curFunc(a + 0.1).toFixed(4)</var></td><td><var>curFunc(a + 0.01).toFixed(4)</var></td><td><var>curFunc(a + 0.001).toFixed(4)</var></td></tr>
+				</table>
+				It looks like <code>f(x)</code> is approaching <var>r_limtoa</var> from the right.
+				<div class="graph update" style="stroke: green; marker: arrow;">
+					line([a < 0 ? 0 : a + a, 0], [a, 0]);
+				</div>
+				<div class="graph update" style="stroke: purple;">
+					line([a, 0], [a, r_limtoa]);
+				</div>
+			</div>
+			<p class="final">So <code>\lim_{x\to<var>a</var>} = <var>limtoa</var></code></p>
+		</div>
 	</div>
 </body>
 </html>

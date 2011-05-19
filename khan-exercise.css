@@ -13,3 +13,8 @@ h1, form, #help { border: 1px solid #AAA; background: #F0F0F0; padding: 10px; ma
 form, #help { width: 250px; }
 h3 { color: #666; margin: 0; font-weight: normal; }
 code { font-family: Helvetica, Arial; }
+table { margin: 5px; }
+th { font-weight: bold; text-align: center; }
+td { border: 1px solid #AAA; }
+th, td { padding: 5px; }
+th:first-child { text-align: right; }
