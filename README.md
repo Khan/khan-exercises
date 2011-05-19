@@ -294,3 +294,11 @@ Inside a problem the author may write something like the following:
 	</div>
 
 The framework will take the above markup contained within the `<div class="hints"> ... </div>`, go through each of the child elements (in this case, the paragraphs), and replace the associated paragraphs in the main "hints" block (thus "hint1" will replace "hint1", "hint2" will replace "hint2" and so on). What class names you wish to use can be completely at your discretion.
+
+## Testing Exercises
+
+At the moment the testing facilities for exercises is rather limited - but rapidly improving. They're mostly in place so that you can reproduce specific styles of problems or even specific problems themselves.
+
+Right now you can do some configuration via the query string. Properties that can be configured include:
+
+* `?problem=2` only display problems of the 3rd type, defined within an exercise. You can change the number to correspond to the specific type of problem that you wish to view. Useful for when you're adding new problem types and you wish to test them explicitly.

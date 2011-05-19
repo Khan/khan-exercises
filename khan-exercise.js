@@ -10,6 +10,9 @@ var modules = (document.documentElement.getAttribute("data-require") || "").spli
 // Populate this with modules
 var KhanUtil = {};
 
+// Load query string params
+var query = queryString();
+
 loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" ], function() {
 	// Load module dependencies
 	loadScripts( jQuery.map( modules, function( name ) {
@@ -113,7 +116,24 @@ function makeProblem() {
 		exercise.runModules( "Load" );
 	
 		// Get the problem we'll be using
-		var problem = exercise.find(".problems").children().getRandom().clone();
+		var problems = exercise.find(".problems").children(),
+			problem;
+		
+		// Check to see if we want to test a specific problem
+		if ( query.problem ) {
+			problem = /^\d+$/.test( query.problem ) ?
+				// Access a problem by number
+				problems.eq( parseFloat( query.problem ) ) :
+				
+				// Or by its ID
+				problems.filter( "#" + query.problem );
+		
+		} else {
+			problem = problems.getRandom();
+		}
+		
+		// Work with a clone to avoid modifying the original
+		problem = problem.clone();
 	
 		// See if there's an original problem that we're inheriting from
 		if ( problem.data("type") ) {
@@ -270,4 +290,21 @@ function loadScripts( urls, callback ) {
 			callback();
 		}
 	}
+}
+
+// Original from:
+// http://stackoverflow.com/questions/901115/get-querystring-values-in-javascript/2880929#2880929
+function queryString() {
+	var urlParams = {},
+		e,
+        a = /\+/g,  // Regex for replacing addition symbol with a space
+        r = /([^&=]+)=?([^&]*)/g,
+        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+        q = window.location.search.substring(1);
+
+    while ( (e = r.exec(q)) ) {
+       urlParams[d(e[1])] = d(e[2]);
+	}
+		
+	return urlParams;
 }
