@@ -121,6 +121,12 @@ var VARS = {};
 jQuery.fn.extend({
 	math: function() {
 		return this
+			// Load in any problem-specific variables
+			.mathLoad()
+			
+			// Remove the var block so that it isn't displayed
+			.find(".vars").first().remove().end().end()
+			
 			// Replace all the variables with the computed value
 			.find("var").replaceVAR().end()
 			
