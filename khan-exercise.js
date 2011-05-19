@@ -81,7 +81,12 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			// Watch for when the "Get a Hint" button is clicked
 			jQuery("#gethint").click(function() {
 				// Show the first not shown hint
-				jQuery("#shown-hints > *:hidden:first").show();
+				jQuery("#shown-hints > *:hidden:first")
+					// Run the main method of any modules
+					.runModules()
+					
+					// Reveal the hint
+					.show();
 			});
 		});
 	});
@@ -225,10 +230,7 @@ function makeProblem() {
 			hints.find("." + this.className).replaceWith( this );
 		});
 	
-		hints
-			// Run the main method of any modules
-			.runModules()
-		
+		hints		
 			// Hide all the hints
 			.children().hide().end()
 		

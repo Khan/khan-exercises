@@ -801,7 +801,9 @@ jQuery.fn.graph = function() {
 		jQuery(this).empty();
 		
 		// Initialize the graph
-		KhanUtil.initGraph( this, jQuery(this).width(), jQuery(this).height() );
+		if ( !jQuery(this).hasClass("update") ) {
+			KhanUtil.initGraph( this, jQuery(this).width(), jQuery(this).height() );
+		}
 		
 		// Draw a plane, if it was asked for
 		// TODO: Make this generic and support different styles of graphs
