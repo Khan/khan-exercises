@@ -2,7 +2,7 @@ jQuery.extend(KhanUtil, {
 	// Simplify formulas before display
 	cleanMath: function( expr ) {
 		return typeof expr === "string" ?
-			expr
+			jQuery.cleanHTML( expr )
 				.replace(/\+ -/g, "- ")
 				.replace(/- -/g, "+ ")
 				.replace(/\^1/g, "") :
@@ -155,10 +155,18 @@ jQuery.fn.extend({
 		// Go through the specified variables
 		this.find(".vars").first().children().each(function() {
 			// And load in their values
-			var value = jQuery.getVAR( this );
+			var value = jQuery.getVAR( this ),
+				name = this.id;
 
-			if ( this.id ) {
-				VARS[ this.id ] = value;
+			if ( name ) {
+				// Show an error if a variable definition is overriding a built-in method
+				if ( KhanUtil[ name ] || typeof present[ name ] === "function" ) {
+					if ( typeof console !== "undefined" ) {
+						console.error( "Defining variable '" + name + "' overwrites utility property of same name." );
+					}
+				}
+				
+				VARS[ name ] = value;
 			}
 		});
 		
@@ -181,10 +189,10 @@ jQuery.extend({
 
 		// Otherwise we need to compute the value
 		} else {
-			var text = jQuery.trim(elem.nodeName ? jQuery(elem).text() : elem);
+			var text = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
 			
 			// Make sure any HTML formatting is stripped
-			text = text.replace(/&gt;/g, ">").replace(/&lt;/g, "<");
+			text = jQuery.cleanHTML( text );
 		
 			// See if we're dealing with a multiline block of code
 			if ( (/;/.test( text ) || /\n/.test( text )) && !/function/.test( text ) ) {
@@ -208,6 +216,11 @@ jQuery.extend({
 				}
 			}
 		}
+	},
+	
+	// Make sure any HTML formatting is stripped
+	cleanHTML: function( text ) {
+		return text.replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&");
 	}
 });
 
@@ -222,7 +235,12 @@ scriptWait(function( scriptLoaded ) {
 				[ elem ] :
 				elem.getElementsByTagName( "code" );
 		};
-	
+		
+		// Data is read in here:
+		// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704
+		// We can force it to convert HTML entities properly by saying we're Konqueror
+		MathJax.Hub.Browser.isKonqueror = true;
+		
 		scriptLoaded();
 	};
 
