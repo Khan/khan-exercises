@@ -778,6 +778,7 @@ jQuery.extend(KhanUtil, {
 		present.fontsize = "10";
 		present.stroke = "#DDDDDD";
 		present.strokewidth = "2";
+		present.marker = "none";
 
 		for ( var i = min_x; i <= max_x; i++ ) {
 			if ( i !== 0 ) {
