@@ -121,7 +121,7 @@ jQuery.extend(KhanUtil, {
 
 	// Round a number to a certain number of decimal places
 	roundTo: function( precision, num ) {
-		var factor = Math.pow( 10, -1 * precision ).toFixed(5);
+		var factor = Math.pow( 10, precision ).toFixed(5);
 		return Math.round( ( num * factor ).toFixed(5) ) / factor;
 	},
 	
@@ -183,7 +183,7 @@ jQuery.fn.extend({
 
 			if ( name ) {
 				// Show an error if a variable definition is overriding a built-in method
-				if ( KhanUtil[ name ] || typeof present[ name ] === "function" ) {
+				if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
 					if ( typeof console !== "undefined" ) {
 						console.error( "Defining variable '" + name + "' overwrites utility property of same name." );
 					}
