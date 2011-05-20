@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <title>Percentage Word Problems 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+
+    <div class="vars">
+        <var id="A_SIMPLE">1 + rand(149)</var>
+        <var id="B_SIMPLE">2 + rand(98)</var>
+        <var id="BANK_MORE">1 + rand(99)</var>
+        <var id="BANK_FEWER">BANK_MORE + 5 + rand(2*BANK_MORE + 5)</var>
+        <var id="YEAR_PERCENT_MORE">10 + rand(140)</var>
+        <var id="YEAR_TODAY">50 + rand(949)</var>
+    </div>
+
+    <div class="problems">
+        <div id = "original">
+            <div class="problem"> </div>
+            <p class="question">
+                What is <var>A_SIMPLE</var>% of <var>B_SIMPLE</var>? (round to nearest whole number)
+            </p>
+            <p class="solution"><var>round((A_SIMPLE*B_SIMPLE)/100)</var></p>
+            <div class="hints"> 
+                <div class="hint-equation"><code><var>A_SIMPLE/100</var> * <var>B_SIMPLE</var> \approx <var>round((A_SIMPLE*B_SIMPLE)/100)</var> </code></div>
+            </div>
+        </div>
+        <div data-type="original">
+             <p class="question">
+                <var>B_SIMPLE</var> is <var>A_SIMPLE</var>% of what number (round to the hundredths place)?
+            </p>
+            <p class="solution"><var>round((B_SIMPLE* 100/A_SIMPLE * 100)/100)</var></p>
+            <div class="hints"> 
+            <div class="hint-equation">
+                <p class="hint1">Let <code>x</code> be the number that <var>B_SIMPLE</var> is <var>A_SIMPLE</var>% of.</p>
+                <p class="hint2"><code><var>A_SIMPLE/100</var> * x = <var>B_SIMPLE</var></code></p>
+                <p class="hint3"><code>x=<var>B_SIMPLE</var>/<var>A_SIMPLE/100</var></code></p>
+                <p class="hint4"><code>x \approx<var>round((B_SIMPLE* 100/A_SIMPLE * 100))/100</var></code></p>
+                </div>
+            </div>
+        </div>
+         <div data-type="original">
+             <p class="question">
+                Jerry has <var>BANK_MORE</var> dollars in the bank today. Yesterday, he had <var>BANK_FEWER</var> dollars in the bank.  By what percentage did Jerry's bank account increase over the past day? (enter your answer as a percentage rounded to the hundredths place. For example, if your answer is 95.678%, enter 95.68 for your answer) </p>
+            <p class="solution"><var>round(((BANK_FEWER - BANK_MORE)*10000/BANK_MORE))/100</var></p>
+        </div>
+        <div data-type="original">
+             <p class="question">
+                Jerry has <var>BANK_FEWER</var> dollars in the bank today. Yesterday, he had <var>BANK_MORE</var> dollars in the bank.  By what percentage did Jerry's bank account decrease over the past day? (enter your answer as a percentage rounded to the hundredths place. For example, if your answer is 95.678%, enter 95.68 for your answer) 
+            </p>
+      <p class="solution"><var>round(((BANK_FEWER - BANK_MORE)*10000/BANK_FEWER))/100</var></p>
+        </div>
+        <!-- NOTE: problem types 5-7 not yet implemented. hints not fully implemented -->
+    </div>
+
+    <div class="hints">
+        <div class="hint-equation"></div>
+    </div>
+
+
+    </div>
+</body>
+</html>
