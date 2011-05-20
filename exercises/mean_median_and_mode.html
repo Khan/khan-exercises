@@ -45,27 +45,6 @@
 			
 			return KhanUtil.display(si);
 		}
-
-		// This is a really nasty hack
-		// If you just return the hint text and stick in a VAR, then display that, then
-		// nothing gets rendered..
-		function PreMedianHint( integers ) {
-			if ( integers.length % 2 === 0 ) { // if we don't have a clear middle number
-				$("#pre-median-hint").html("Since we have <code>2</code> middle numbers, " +
-					"the median is the mean of <strong>those</strong> two numbers!");
-			} else {
-				$("#pre-median-hint").html("The median is the 'middle' number:");
-			}
-		}
-
-		function PostMedianHint( sortedInts ) {
-			if ( sortedInts.length % 2 === 0 ) {
-				$("#post-median-hint").html("The median is <code>\\frac{"+sortedInts[ sortedInts.length / 2 - 1 ]+" + "+
-										   sortedInts[ sortedInts.length / 2 ]+"}{2}</code>.");
-			} else {
-				$("#post-median-hint").html("");
-			}
-		}
 		</script>
 		
 		<div class="vars">
@@ -80,9 +59,6 @@
 			<var id="MEAN">mean(INTEGERS)</var>
 			<var id="MEDIAN">median(INTEGERS)</var>
 			<var id="MODE">mode(INTEGERS)</var>
-
-			<var id="PRE_MEDIAN_HINT">PreMedianHint(INTEGERS)</var>
-			<var id="POST_MEDIAN_HINT">PostMedianHint(SORTED_INTS)</var>
 		</div>
 		
 		<div class="problems">
@@ -121,9 +97,10 @@
 						<div class="number-list"><code><var>SORTED_LIST</var></code></div>
 					</div>
 					<div class="hint-process">
-						<p id="pre-median-hint"></p>
+						<p data-if="INTEGERS.length % 2 === 0">Since we have <code>2</code> middle numbers, the median is the mean of <strong>those</strong> two numbers!</p>
+						<p data-else>The median is the 'middle' number:</p>
 						<div class="number-list"><code><var>MEDIAN_LIST</var></code></div>
-						<p id="post-median-hint"></p>
+						<p data-if="SORTED_INTS.length % 2 === 0">The median is <code>\frac{<var>SORTED_INTS[ SORTED_INTS.length / 2 - 1 ]</var> + <var>SORTED_INTS[ SORTED_INTS.length / 2 ]</var>}{2}</code>.</p>
 					</div>
 					<p class="hint-result">So the median is <code><var>MEDIAN</var></code>.</p>
 				</div>
