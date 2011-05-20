@@ -11,7 +11,7 @@ jQuery.extend(KhanUtil, {
 	
 	// A simple random number picker
 	rand: function( num ) {
-		return Math.round( num * Math.random() );
+		return Math.round( num * KhanUtil.random() );
 	},
 	
 	fraction: function( n, d ) {
@@ -111,7 +111,7 @@ jQuery.extend(KhanUtil, {
 
 	// Get a random integer between min and max, inclusive
 	randRange: function( min, max ) {
-		return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+		return Math.floor( KhanUtil.random() * ( max - min + 1 ) ) + min;
 	},
 	
 	// Returns a random member of the given array
