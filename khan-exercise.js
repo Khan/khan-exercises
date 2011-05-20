@@ -13,13 +13,17 @@ var KhanUtil = {};
 // Load query string params
 var query = queryString();
 
-loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" ], function() {
+loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js",
+			   "../utils/mersenne-twister.js" ], function() {
 	// Load module dependencies
 	loadScripts( jQuery.map( modules, function( name ) {
 		return "../utils/" + name + ".js";
 	}), function() {
 	
 		jQuery(function() {
+			// Initialize the random number generator
+			initRandom();
+			
 			// Inject the site markup, if it doesn't exist
 			injectSite();
 		
@@ -93,7 +97,7 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 	
 	// Pick a random element from a set of elements
 	jQuery.fn.getRandom = function() {
-		return this.eq( Math.floor( this.length * Math.random() ) );
+		return this.eq( Math.floor( this.length * KhanUtil.random() ) );
 	};
 	
 	// Run the methods provided by a module against some elements
@@ -112,6 +116,17 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 		});
 	};
 });
+
+function initRandom() {
+	var m = new MersenneTwister( query.problemNumber ?
+								 parseFloat(query.problemNumber) :
+								 undefined );
+	jQuery.extend(KhanUtil, {
+		random: function() {
+			return m.random();
+		}
+	});
+}
 
 function makeProblem() {
 	jQuery(".exercise").each(function() {
@@ -180,7 +195,7 @@ function makeProblem() {
 				radios.push( "None of these." );
 			
 				// The right answer is injected most of the time
-				if ( Math.random() > 1 / num ) {
+				if ( KhanUtil.random() > 1 / num ) {
 					radios.push( solution.html() );
 			
 				// But sometimes "None of these." is the right answer
@@ -191,8 +206,8 @@ function makeProblem() {
 		
 			// And add them in in a random order
 			while ( radios.length < num ) {
-				var item = possible.splice( Math.floor( possible.length * Math.random() ), 1 )[0];
-				radios.splice( Math.floor( radios.length * Math.random() ), 0, item );
+				var item = possible.splice( Math.floor( possible.length * KhanUtil.random() ), 1 )[0];
+				radios.splice( Math.floor( radios.length * KhanUtil.random() ), 0, item );
 			}
 		
 			jQuery( "<div id='solution'>" +
