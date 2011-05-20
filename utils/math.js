@@ -11,7 +11,7 @@ jQuery.extend(KhanUtil, {
 	
 	// A simple random number picker
 	rand: function( num ) {
-		return Math.round( num * Math.random() );
+		return Math.round( num * KhanUtil.random() );
 	},
 	
 	fraction: function( n, d ) {
@@ -111,7 +111,7 @@ jQuery.extend(KhanUtil, {
 
 	// Get a random integer between min and max, inclusive
 	randRange: function( min, max ) {
-		return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+		return Math.floor( KhanUtil.random() * ( max - min + 1 ) ) + min;
 	},
 	
 	// Returns a random member of the given array
@@ -143,9 +143,29 @@ var VARS = {};
 // Load the value associated with the variable
 jQuery.fn.extend({
 	math: function() {
+		var lastCond;
+		
 		return this			
 			// Remove the var block so that it isn't displayed
 			.find(".vars").remove().end()
+			
+			// Implement basic templating
+			.find("[data-if],[data-else]").each(function() {
+				cond = jQuery(this).data("if");
+				
+				if ( cond != null ) {
+					cond = jQuery.getVAR( cond );
+					
+					if ( !cond ) {
+						jQuery(this).remove();
+					}
+					
+					lastCond = cond;
+					
+				} else if ( lastCond ) {
+					jQuery( this ).remove();
+				}
+			}).end()
 			
 			// Replace all the variables with the computed value
 			.find("var").replaceVAR().end()

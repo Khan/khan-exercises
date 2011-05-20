@@ -1,4 +1,4 @@
-$.extend(KhanUtil, {
+jQuery.extend(KhanUtil, {
 	sum: function( values ) {
 		var sum = 0;
 	
