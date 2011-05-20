@@ -90,7 +90,7 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 	
 	// Pick a random element from a set of elements
 	jQuery.fn.getRandom = function() {
-		return this.eq( Math.floor( this.length * KhanUtil.random() ) );
+		return this.eq( Math.floor( this.length * Math.random() ) );
 	};
 	
 	// Run the methods provided by a module against some elements
@@ -168,7 +168,7 @@ function makeProblem() {
 		}
 		
 		// Store the solution to the problem
-		var solution = problem.find(".solution").remove(),
+		var solution = problem.find(".solution"),
 	  
 	  // Get the multiple choice problems
 	  choices = problem.find(".choices").remove();
@@ -190,7 +190,7 @@ function makeProblem() {
 			// If "none" is a possibility, make it a correct answer sometimes
 			if ( num && choices.data("none") ) {
 				// The right answer is injected most of the time
-				radios[ KhanUtil.random() > 1 / num ? 1 : 0 ] = jQuery("<li>None of these.</li>")[0];
+				radios[ Math.random() > 1 / num ? 1 : 0 ] = jQuery("<li>None of these.</li>")[0];
 				
 				// Remember the solution
 				solution = radios[0];
@@ -199,8 +199,8 @@ function makeProblem() {
 			// And add them in in a random order
 			// If no max number is specified, add all the options
 			while ( possible.length && (!num || radios.length < num) ) {
-				var item = possible.splice( Math.floor( possible.length * KhanUtil.random() ), 1 )[0];
-				radios.splice( Math.round( radios.length * KhanUtil.random() ), 0, item );
+				var item = possible.splice( Math.floor( possible.length * Math.random() ), 1 )[0];
+				radios.splice( Math.round( radios.length * Math.random() ), 0, item );
 			}
 			
 			var ul = jQuery("#solution")
@@ -211,6 +211,7 @@ function makeProblem() {
 			jQuery( radios ).each(function() {
 				jQuery( this ).contents()
 					.wrapAll("<li><label><span class='value'></span></label></li>" )
+				// TODO: Perhaps make this a bit harder to find to curb cheating?
 					.parent().before( "<input type='radio' name='solution' value='" + (this === solution ? 1 : 0) + "'/>" )
 					.parent().parent()
 					.appendTo("#solution");
@@ -239,14 +240,18 @@ function makeProblem() {
 				// TODO: Make sure this doesn't recurse too many times
 				return makeProblem();
 			}
-			
-			// Otherwise we're dealing with a text input
-		} else {
-			jQuery("#solution").data( "solution", solution.text() );
 		}
 		
 		// Run the main method of any modules
 		problem.runModules();
+		
+		// Otherwise we're dealing with a text input
+		if ( !choices.length ) {
+			jQuery("#solution").data( "solution", solution.text() );
+		}
+		
+		// Remove solution from display
+		solution.remove();
 		
 		// Add the problem into the page
 		jQuery("#workarea").append( problem );
