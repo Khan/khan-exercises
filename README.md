@@ -249,6 +249,15 @@ An example full graph definition is as follows:
 		ASdot([a, limtoa], 4, "black", "white");
 	</div>
 
+#### Templating
+
+The exercise framework also includes some basic templating support as well. At the moment it only supports conditionals (if/else). You can use them like so:
+
+	<p data-if="NUM === 2">The number is 2!</p>
+	<p data-else>The number is not 2!</p>
+
+Inside the `data-if` attribute value you specify the condition that you wish to meet for the associated element to display. The `data-else` attribute does the opposite of the last `data-if` condition.
+
 ### Hints
 
 A common need of students that are still learning is to have frequent hints that can help to direct them towards a solution. How the hints affect the overall flow of the education should be left up to the framework (for example, in Khan Academy, retrieving a hint will reset your "streak", forcing you to re-do problems that you've done before).

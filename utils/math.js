@@ -143,9 +143,29 @@ var VARS = {};
 // Load the value associated with the variable
 jQuery.fn.extend({
 	math: function() {
+		var lastCond;
+		
 		return this			
 			// Remove the var block so that it isn't displayed
 			.find(".vars").remove().end()
+			
+			// Implement basic templating
+			.find("[data-if],[data-else]").each(function() {
+				cond = jQuery(this).data("if");
+				
+				if ( cond != null ) {
+					cond = jQuery.getVAR( cond );
+					
+					if ( !cond ) {
+						jQuery(this).remove();
+					}
+					
+					lastCond = cond;
+					
+				} else if ( lastCond ) {
+					jQuery( this ).remove();
+				}
+			}).end()
 			
 			// Replace all the variables with the computed value
 			.find("var").replaceVAR().end()
