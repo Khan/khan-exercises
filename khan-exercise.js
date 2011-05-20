@@ -29,19 +29,12 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			// Watch for a solution submission
 			jQuery("form").submit(function() {
 				// Get the solution to the problem
-				var solution = jQuery("#workarea").children().data("solution");
-				var isCorrect;
-		
-				// We get the answer differently if it's a text input or a radio
-				if ( jQuery("#solution").is("div") ) {
-					// radio
-					isCorrect = jQuery("#solution input:checked").data("is-correct");
-			
-				} else {
-					// text input
-					answer = jQuery("#solution").val();
-					isCorrect = ( answer === solution );
-				}
+				var solution = jQuery("#solution"),
+				
+					// Figure out if the response was correct
+					isCorrect = solution.is("ul") ?
+						solution.find("input:checked").val() === "1" :
+						solution.val() === solution.data("solution");
 		
 				// Verify the solution
 				if ( isCorrect ) {
@@ -139,6 +132,9 @@ function makeProblem() {
 		
 		// Work with a clone to avoid modifying the original
 		problem = problem.clone();
+		
+		// Run the "Load" method of any modules
+		problem.runModules( "Load" );
 	
 		// See if there's an original problem that we're inheriting from
 		if ( problem.data("type") ) {
@@ -156,67 +152,86 @@ function makeProblem() {
 			problem = original;
 		}
 		
-		// Run the main method of any modules
-		problem.runModules();
-	
 		// Store the solution to the problem
-		var solution = problem.find(".solution").remove();
+		var solution = problem.find(".solution").remove(),
 	
-		problem.data( "solution", solution.text() );
-	
-		var choices = problem.find(".choices").remove();
+			// Get the multiple choice problems
+			choices = problem.find(".choices").remove();
 	
 		if ( choices.length ) {
-			var radios = [],
+			var radios = [ solution[0] ],
+			
+				// Avoid duplicate responses
+				dupes = {},
+				dupe = false,
+			
 				// Figure out how many choices to show
-				num = parseFloat( choices.data("show") );
+				num = parseFloat( choices.data("show") ),
 		
-			// Go through the possible wrong answers
-			var possible = choices.children().get();
+				// Go through the possible wrong answers
+				possible = choices.children().get();
 		
 			// Figure out the solution to display
 			// If "none" is a possibility, make it a correct answer sometimes
-			if ( choices.data("none") ) {
-				radios.push( "None of these." );
-			
+			if ( num && choices.data("none") ) {
 				// The right answer is injected most of the time
-				if ( Math.random() > 1 / num ) {
-					radios.push( solution.html() );
-			
-				// But sometimes "None of these." is the right answer
-				} else {
-					problem.data( "solution", "None of these." );
-				}
+				radios[ Math.random() > 1 / num ? 1 : 0 ] = jQuery("<li>None of these.</li>")[0];
+				
+				// Remember the solution
+				solution = radios[0];
 			}
 		
 			// And add them in in a random order
-			while ( radios.length < num ) {
+			// If no max number is specified, add all the options
+			while ( possible.length && (!num || radios.length < num) ) {
 				var item = possible.splice( Math.floor( possible.length * Math.random() ), 1 )[0];
-				radios.splice( Math.floor( radios.length * Math.random() ), 0, item );
+				radios.splice( Math.round( radios.length * Math.random() ), 0, item );
 			}
-		
-			jQuery( "<div id='solution'>" +
-				jQuery.map( radios, function( value ) {
-					// TODO: This is very gnarly and should be refactored
-					var inValue = value && value.nodeType ? jQuery(value).text() : value,
-						htmlValue = value && value.nodeType ? jQuery(value).html() : value;
-
-					var isCorrect;
-					if (jQuery(value).text() === problem.data("solution") || value === problem.data("solution")) {
-						isCorrect = "data-is-correct = '1'";
-					} else {
-						isCorrect = "";
-					}
-					return "<label><input type='radio' name='solution' " + isCorrect + " value='" + inValue + "'/> <span>" + htmlValue + "</span></label><br/>";
-				}).join("") +
-			"</div>" )
 			
+			var ul = jQuery("#solution")
+				// Clear out the existing solutions
+				.replaceWith("<ul id='solution'></ul>");
+			
+			// Insert all the radio buttons
+			jQuery( radios ).each(function() {
+				jQuery( this ).contents()
+					.wrapAll("<li><label><span class='value'></span></label></li>" )
+					.parent().before( "<input type='radio' name='solution' value='" + (this === solution ? 1 : 0) + "'/>" )
+					.parent().parent()
+					.appendTo("#solution");
+			});
+			
+			jQuery("#solution")
 				// Run the main method of any modules
 				.runModules()
+				
+				// Grab all the possible choices
+				.find("label > span").each(function() {
+					var value = jQuery(this).text();
+					
+					// Is a duplicate value found?
+					if ( dupes[ value ] ) {
+						dupe = true;
+					}
+					
+					// Remember the value for later
+					dupes[ value ] = true;
+				});
 			
-				// Replace the existing solution
-				.replaceAll( "#solution" );
+			// Duplicate found
+			if ( dupe ) {
+				// Generate a different problem
+				// TODO: Make sure this doesn't recurse too many times
+				return makeProblem();
+			}
+			
+		// Otherwise we're dealing with a text input
+		} else {
+			jQuery("#solution").data( "solution", solution.text() );
 		}
+		
+		// Run the main method of any modules
+		problem.runModules();
 	
 		// Add the problem into the page
 		jQuery("#workarea").append( problem );
@@ -248,7 +263,7 @@ function injectSite() {
 		'<div id="sidebar">' +
 			'<form action="">' +
 				'<h3>Answer</h3>' +
-				'<br/><input type="text" id="solution"/>' +
+				'<input type="text" id="solution"/>' +
 				'<input type="submit" id="check" value="Check Answer"/>' +
 				'<br/><input type="button" id="next" value="Next Problem"/>' +
 				'<p id="congrats">Congratulations! That answer is correct.</p>' +

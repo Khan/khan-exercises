@@ -143,12 +143,9 @@ var VARS = {};
 // Load the value associated with the variable
 jQuery.fn.extend({
 	math: function() {
-		return this
-			// Load in any problem-specific variables
-			.mathLoad()
-			
+		return this			
 			// Remove the var block so that it isn't displayed
-			.find(".vars").first().remove().end().end()
+			.find(".vars").remove().end()
 			
 			// Replace all the variables with the computed value
 			.find("var").replaceVAR().end()
@@ -175,8 +172,20 @@ jQuery.fn.extend({
 	
 	// Load all the variables from the exercise
 	mathLoad: function() {
+		var vars;
+		
+		// If we're in an exercise then we only want the main var block
+		if ( this.is(".exercise") ) {
+			vars = this.children(".vars");
+			VARS = {};
+		
+		// Otherwise we're in a problem
+		} else {
+			vars = this.find(".vars");
+		}
+		
 		// Go through the specified variables
-		this.find(".vars").first().children().each(function() {
+		vars.children().each(function() {
 			// And load in their values
 			var value = jQuery.getVAR( this ),
 				name = this.id;
