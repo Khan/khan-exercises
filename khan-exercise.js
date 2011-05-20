@@ -130,7 +130,7 @@ function makeProblem() {
 		
 		// Get the problem we'll be using
 		var problems = exercise.find(".problems").children(),
-	  problem;
+	  		problem;
 		
 		// Check to see if we want to test a specific problem
 		if ( query.problem ) {
@@ -170,21 +170,21 @@ function makeProblem() {
 		// Store the solution to the problem
 		var solution = problem.find(".solution"),
 	  
-	  // Get the multiple choice problems
-	  choices = problem.find(".choices").remove();
+		// Get the multiple choice problems
+		choices = problem.find(".choices").remove();
 		
 		if ( choices.length ) {
 			var radios = [ solution[0] ],
 	   
-	   // Avoid duplicate responses
-	   dupes = {},
-	   dupe = false,
-	   
-	   // Figure out how many choices to show
-	   num = parseFloat( choices.data("show") ),
-	   
-	   // Go through the possible wrong answers
-	   possible = choices.children().get();
+				// Avoid duplicate responses
+				dupes = {},
+				dupe = false,
+
+				// Figure out how many choices to show
+				num = parseFloat( choices.data("show") ),
+
+				// Go through the possible wrong answers
+				possible = choices.children().get();
 			
 			// Figure out the solution to display
 			// If "none" is a possibility, make it a correct answer sometimes
@@ -218,10 +218,10 @@ function makeProblem() {
 			});
 			
 			jQuery("#solution")
-			// Run the main method of any modules
+				// Run the main method of any modules
 				.runModules()
 			
-			// Grab all the possible choices
+				// Grab all the possible choices
 				.find("label > span").each(function() {
 					var value = jQuery(this).text();
 					
@@ -334,12 +334,12 @@ function loadScripts( urls, callback ) {
 function queryString() {
 	var urlParams = {},
 	 e,
-     a = /\+/g,  // Regex for replacing addition symbol with a space
-     r = /([^&=]+)=?([^&]*)/g,
-     d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-     q = window.location.search.substring(1);
+	 a = /\+/g,  // Regex for replacing addition symbol with a space
+	 r = /([^&=]+)=?([^&]*)/g,
+	 d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+	 q = window.location.search.substring(1);
 
-    while ( (e = r.exec(q)) ) {
+	while ( (e = r.exec(q)) ) {
 		urlParams[d(e[1])] = d(e[2]);
 	}
 	
