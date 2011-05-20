@@ -153,7 +153,7 @@ function makeProblem() {
 		}
 		
 		// Store the solution to the problem
-		var solution = problem.find(".solution").remove(),
+		var solution = problem.find(".solution"),
 	
 			// Get the multiple choice problems
 			choices = problem.find(".choices").remove();
@@ -196,6 +196,7 @@ function makeProblem() {
 			jQuery( radios ).each(function() {
 				jQuery( this ).contents()
 					.wrapAll("<li><label><span class='value'></span></label></li>" )
+					// TODO: Perhaps make this a bit harder to find to curb cheating?
 					.parent().before( "<input type='radio' name='solution' value='" + (this === solution ? 1 : 0) + "'/>" )
 					.parent().parent()
 					.appendTo("#solution");
@@ -224,14 +225,18 @@ function makeProblem() {
 				// TODO: Make sure this doesn't recurse too many times
 				return makeProblem();
 			}
-			
-		// Otherwise we're dealing with a text input
-		} else {
-			jQuery("#solution").data( "solution", solution.text() );
 		}
 		
 		// Run the main method of any modules
 		problem.runModules();
+		
+		// Otherwise we're dealing with a text input
+		if ( !choices.length ) {
+			jQuery("#solution").data( "solution", solution.text() );
+		}
+		
+		// Remove solution from display
+		solution.remove();
 	
 		// Add the problem into the page
 		jQuery("#workarea").append( problem );
