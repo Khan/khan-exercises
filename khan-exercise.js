@@ -90,7 +90,7 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 	
 	// Pick a random element from a set of elements
 	jQuery.fn.getRandom = function() {
-		return this.eq( Math.floor( this.length * Math.random() ) );
+		return this.eq( Math.floor( this.length * KhanUtil.random() ) );
 	};
 	
 	// Run the methods provided by a module against some elements
@@ -190,7 +190,7 @@ function makeProblem() {
 			// If "none" is a possibility, make it a correct answer sometimes
 			if ( num && choices.data("none") ) {
 				// The right answer is injected most of the time
-				radios[ Math.random() > 1 / num ? 1 : 0 ] = jQuery("<li>None of these.</li>")[0];
+				radios[ KhanUtil.random() > 1 / num ? 1 : 0 ] = jQuery("<li>None of these.</li>")[0];
 				
 				// Remember the solution
 				solution = radios[0];
@@ -199,8 +199,8 @@ function makeProblem() {
 			// And add them in in a random order
 			// If no max number is specified, add all the options
 			while ( possible.length && (!num || radios.length < num) ) {
-				var item = possible.splice( Math.floor( possible.length * Math.random() ), 1 )[0];
-				radios.splice( Math.round( radios.length * Math.random() ), 0, item );
+				var item = possible.splice( Math.floor( possible.length * KhanUtil.random() ), 1 )[0];
+				radios.splice( Math.round( radios.length * KhanUtil.random() ), 0, item );
 			}
 			
 			var ul = jQuery("#solution")
