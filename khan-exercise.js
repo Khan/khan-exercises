@@ -170,11 +170,11 @@ function makeProblem() {
 		// Store the solution to the problem
 		var solution = problem.find(".solution"),
 	  
-		// Get the multiple choice problems
-		choices = problem.find(".choices").remove();
+			// Get the multiple choice problems
+			choices = problem.find(".choices").remove();
 		
 		if ( choices.length ) {
-			var radios = [ solution[0] ],
+			var radios = [ solution.remove()[0] ],
 	   
 				// Avoid duplicate responses
 				dupes = {},
@@ -204,14 +204,14 @@ function makeProblem() {
 			}
 			
 			var ul = jQuery("#solution")
-			// Clear out the existing solutions
-		   .replaceWith("<ul id='solution'></ul>");
+				// Clear out the existing solutions
+		   		.replaceWith("<ul id='solution'></ul>");
 			
 			// Insert all the radio buttons
 			jQuery( radios ).each(function() {
 				jQuery( this ).contents()
 					.wrapAll("<li><label><span class='value'></span></label></li>" )
-				// TODO: Perhaps make this a bit harder to find to curb cheating?
+					// TODO: Perhaps make this a bit harder to find to curb cheating?
 					.parent().before( "<input type='radio' name='solution' value='" + (this === solution ? 1 : 0) + "'/>" )
 					.parent().parent()
 					.appendTo("#solution");
@@ -248,10 +248,10 @@ function makeProblem() {
 		// Otherwise we're dealing with a text input
 		if ( !choices.length ) {
 			jQuery("#solution").data( "solution", solution.text() );
+			
+			// Remove solution from display
+			solution.remove();
 		}
-		
-		// Remove solution from display
-		solution.remove();
 		
 		// Add the problem into the page
 		jQuery("#workarea").append( problem );
