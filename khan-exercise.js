@@ -35,10 +35,10 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 				// Get the solution to the problem
 				var solution = jQuery("#solution"),
 		
-		// Figure out if the response was correct
-		isCorrect = solution.is("ul") ?
-			solution.find("input:checked").val() === "1" :
-			solution.val() === solution.data("solution");
+				// Figure out if the response was correct
+				isCorrect = solution.is("ul") ?
+					solution.find("input:checked").val() === "1" :
+					solution.val() === solution.data("solution");
 				
 				// Verify the solution
 				if ( isCorrect ) {
@@ -79,10 +79,10 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			jQuery("#gethint").click(function() {
 				// Show the first not shown hint
 				jQuery("#shown-hints > *:hidden:first")
-				// Run the main method of any modules
+					// Run the main method of any modules
 					.runModules()
 				
-				// Reveal the hint
+					// Reveal the hint
 					.show();
 			});
 		});
