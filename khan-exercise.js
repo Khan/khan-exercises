@@ -76,21 +76,35 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			});
 			
 			// Watch for when the "Get a Hint" button is clicked
-			jQuery("#gethint").click(function() {
+			jQuery("#gethint").click( showHint );
+			
+			function showHint() {
 				// Show the first not shown hint
-				jQuery("#shown-hints > *:hidden:first")
+				var hint = jQuery("#shown-hints > *:hidden:first")
 					// Run the main method of any modules
-					.runModules()
+					.runModules();
 				
-					// Reveal the hint
-					.show();
-			});
+				// If the element is no longer in the page, then we don't want
+				// to show it, we should get the next one
+				if ( !hint.is(":attached") && hint.length ) {
+					showHint();
+				
+				// Reveal the hint
+				} else {
+					hint.show();
+				}
+			}
 		});
 	});
 	
 	// Pick a random element from a set of elements
 	jQuery.fn.getRandom = function() {
 		return this.eq( Math.floor( this.length * KhanUtil.random() ) );
+	};
+	
+	// See if an element is detached
+	jQuery.expr[":"].attached = function( elem ) {
+		return jQuery.contains( elem.ownerDocument.documentElement, elem );
 	};
 	
 	// Run the methods provided by a module against some elements
