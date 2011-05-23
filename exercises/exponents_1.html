@@ -15,7 +15,7 @@
                     return BASE;
                 }
             })()</var>
-            <var id="EXP">0</var>
+            <var id="EXP">randRange( 0, log( 300 ) / log( abs( BASE )))</var>
             <var id="SOLUTION">round( pow ( BASE, EXP ) )</var>
             <var id="HINT">(function() {
                 var result = BASE_STRING;
@@ -35,7 +35,7 @@
 
         <div class="hints">
             <div data-if="EXP === 0">Anything to the 0th power equals 1.</div>
-            <div data-if="EXP !== 0">hi</div>
+            <div data-if="EXP !== 0"><code>= <var>HINT</var></code></div>
         
             <div><code>= <var>SOLUTION</var></code></div>
         </div>
