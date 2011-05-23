@@ -266,13 +266,13 @@ function makeProblem() {
 		});
 		
 		hints		
-		// Hide all the hints
+			// Hide all the hints
 			.children().hide().end()
 		
-		// And give it a new ID
+			// And give it a new ID
 			.attr("id", "shown-hints")
 		
-		// Add it in to the page
+			// Add it in to the page
 			.appendTo("#hintsarea");
 	});
 }
@@ -280,22 +280,22 @@ function makeProblem() {
 function injectSite() {
 	jQuery("body").prepend(
 		'<h1>' + document.title + '</h1>' +
-			'<div id="sidebar">' +
+		'<div id="sidebar">' +
 			'<form action="">' +
-			'<h3>Answer</h3>' +
-			'<input type="text" id="solution"/>' +
-			'<input type="submit" id="check" value="Check Answer"/>' +
-			'<br/><input type="button" id="next" value="Next Problem"/>' +
-			'<p id="congrats">Congratulations! That answer is correct.</p>' +
-			'<p id="oops">Oops! That answer is not correct, please try again.</p>' +
+				'<h3>Answer</h3>' +
+				'<input type="text" id="solution"/>' +
+				'<input type="submit" id="check" value="Check Answer"/>' +
+				'<br/><input type="button" id="next" value="Next Problem"/>' +
+				'<p id="congrats">Congratulations! That answer is correct.</p>' +
+				'<p id="oops">Oops! That answer is not correct, please try again.</p>' +
 			'</form>' +
 			'<div id="help">' +
-			'<h3>Need Help?</h3>' +
-			'<br/><input type="button" id="gethint" value="Get a Hint"/>' +
+				'<h3>Need Help?</h3>' +
+				'<br/><input type="button" id="gethint" value="Get a Hint"/>' +
 			'</div>' +
-			'</div>' +
-			'<div id="workarea"></div>' +
-			'<div id="hintsarea"></div>'
+		'</div>' +
+		'<div id="workarea"></div>' +
+		'<div id="hintsarea"></div>'
 	);
 }
 
