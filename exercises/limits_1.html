@@ -9,9 +9,9 @@
 		<div class="problems">
 			<div>
 				<div class="vars">
-					<var id="q_lcoef">nonZeroRandomInt(-3, 3)</var>
+					<var id="q_lcoef">randRangeNonZero(-3, 3)</var>
 					<var id="edge">floor(sqrt(abs(10 / q_lcoef)))</var>
-					<var id="l_cons">nonZeroRandomInt(-1 * edge, edge)</var>
+					<var id="l_cons">randRangeNonZero(-1 * edge, edge)</var>
 					<var id="quadratic">q_lcoef + 'x^2'</var>
 					<var id="LINE">cleanMath('(x + ' + l_cons + ')')</var>
 					<var id="curFunc">function(x) {
@@ -31,8 +31,8 @@
 				<p class="solution"><code><var>limtoa</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
 					<li><code>0</code></li>
-					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
-					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
+					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
+					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
 					<li><code><var>q_lcoef</var></code></li>
 					<li><code><var>l_cons</var></code></li>
 					<li><code><var>curFunc(0)</var></code></li>
@@ -41,8 +41,8 @@
 			</div>
 			<div>
 				<div class="vars">
-					<var id="abs_coef">nonZeroRandomInt(-5, 5)</var>
-					<var id="abs_cons">nonZeroRandomInt(-7, 7)</var>
+					<var id="abs_coef">randRangeNonZero(-5, 5)</var>
+					<var id="abs_cons">randRangeNonZero(-7, 7)</var>
 					<var id="curFunc">function(x) {
 						return x + abs_cons > 0 ?
 							abs_coef :
@@ -71,8 +71,8 @@
 					<li><code><var>abs_coef * -1</var></code></li>
 					<li><code><var>abs_coef * abs_coef</var></code></li>
 					<li><code><var>abs_coef * abs_coef * -1</var></code></li>
-					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
-					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
+					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
+					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
 				</ul>
 				<div class="hints">
 					<p class="final">The limit as we approach from the left doesn't match the limit as we approach from the right, so <code>\lim_{x\to<var>a</var>}</code> doesn't exist.</p>
@@ -80,16 +80,16 @@
 			</div>
 			<div>
 				<div class="vars">
-					<var id="l_coef">nonZeroRandomInt(-3, 3)</var>
-					<var id="l_cons">nonZeroRandomInt(-4, 4)</var>
-					<var id="d_cons">nonZeroRandomInt(-7, 7)</var>
+					<var id="l_coef">randRangeNonZero(-3, 3)</var>
+					<var id="l_cons">randRangeNonZero(-4, 4)</var>
+					<var id="d_cons">randRangeNonZero(-7, 7)</var>
 					<var id="d_line">cleanMath(l_coef + 'x + ' + l_cons)</var>
 					<var id="curFunc">function(x) {
 						return l_coef * x + l_cons;
 					}</var>
 					<var id="a0">ceil((-10 - l_cons)/l_coef)</var>
 					<var id="a1">floor((10 - l_cons)/l_coef)</var>
-					<var id="a">l_coef > 0 ? nonZeroRandomInt(a0, a1) : nonZeroRandomInt(a1, a0)</var>
+					<var id="a">l_coef > 0 ? randRangeNonZero(a0, a1) : randRangeNonZero(a1, a0)</var>
 					<var id="limtoa">curFunc(a)</var>
 					<var id="l_limtoa">limtoa</var>
 					<var id="r_limtoa">limtoa</var>
@@ -115,17 +115,17 @@
 					<li><code><var>d_cons</var></code></li>
 					<li><code><var>l_coef</var></code></li>
 					<li><code><var>fraction(l_cons * -1, l_coef)</var></code></li>
-					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
-					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
+					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
+					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
 					<li>Does not exist.</li>
 				</ul>
 			</div>
 			<div>
 				<div class="vars">
-					<var id="q_lcoef">nonZeroRandomInt(-3, 3)</var>
-					<var id="q_cons">nonZeroRandomInt(-3, 3)</var>
+					<var id="q_lcoef">randRangeNonZero(-3, 3)</var>
+					<var id="q_cons">randRangeNonZero(-3, 3)</var>
 					<var id="edge">floor(sqrt(abs((10 - q_cons) / q_lcoef)))</var>
-					<var id="a">nonZeroRandomInt(-1 * edge, edge)</var>
+					<var id="a">randRangeNonZero(-1 * edge, edge)</var>
 					<var id="curFunc">function(x) {
 						return q_lcoef * Math.pow(x, 2) + q_cons;
 					}</var>
@@ -142,7 +142,7 @@
 				<ul class="choices" data-show="5" data-none="true">
 					<li><code>0</code></li>
 					<li><code><var>curFunc(0)</var></code></li>
-					<li><code><var>nonZeroRandomInt(-3, 3)</var></code></li>
+					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
 					<li><code><var>q_cons</var></code></li>
 					<li><code><var>q_cons * -1</var></code></li>
 					<li>Does not exist.</li>

@@ -126,7 +126,7 @@ jQuery.extend(KhanUtil, {
 	},
 	
 	// From limits_1
-	nonZeroRandomInt: function( min, max ) {
+	randRangeNonZero: function( min, max ) {
 		var result;
 		while ( (result = this.randRange( min, max )) === 0 ) {}
 		return result;
@@ -143,28 +143,38 @@ var VARS = {};
 // Load the value associated with the variable
 jQuery.fn.extend({
 	math: function() {
-		var lastCond;
+		var lastCond,
+			tmplExpr = "[data-if],[data-else]";
+		
+		function tmplFilter() {
+			cond = jQuery(this).data("if");
+			
+			if ( cond != null ) {
+				lastCond = cond = jQuery.getVAR( cond );
+				
+				if ( !cond ) {
+					jQuery(this).remove();
+					return false;
+				}
+				
+			} else if ( lastCond && jQuery(this).data("else") != null ) {
+				jQuery( this ).remove();
+				return false;
+			}
+			
+			return true;
+		}
 		
 		return this			
 			// Remove the var block so that it isn't displayed
 			.find(".vars").remove().end()
-			
+						
 			// Implement basic templating
-			.find("[data-if],[data-else]").each(function() {
-				cond = jQuery(this).data("if");
-				
-				if ( cond != null ) {
-					cond = jQuery.getVAR( cond );
-					
-					if ( !cond ) {
-						jQuery(this).remove();
-					}
-					
-					lastCond = cond;
-					
-				} else if ( lastCond ) {
-					jQuery( this ).remove();
-				}
+			.filter( tmplFilter )
+			
+			// Work against the elements inside
+			.find( tmplExpr ).each(function() {
+				tmplFilter.call( this );
 			}).end()
 			
 			// Replace all the variables with the computed value
