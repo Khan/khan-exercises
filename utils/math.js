@@ -126,7 +126,7 @@ jQuery.extend(KhanUtil, {
 	},
 	
 	// From limits_1
-	nonZeroRandomInt: function( min, max ) {
+	randRangeNonZero: function( min, max ) {
 		var result;
 		while ( (result = this.randRange( min, max )) === 0 ) {}
 		return result;
