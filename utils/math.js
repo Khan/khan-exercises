@@ -247,7 +247,12 @@ jQuery.extend({
 	getVAR: function( elem ) {
 		// If it's a list, grab a random one out of it
 		if ( elem.nodeName && elem.nodeName.toLowerCase() === "ul" ) {
-			return jQuery( elem ).children().getRandom().text();
+			return jQuery( elem ).children().getRandom()
+			
+				// Replace all the variables with the computed value
+				.find("var").replaceVAR().end()
+				
+				.text();
 
 		// Otherwise we need to compute the value
 		} else {
