@@ -126,16 +126,17 @@ function initRandom() {
 		// - plural(NUMBER, singular, plural): return singular if NUMBER is 1,
 		//   otherwise return plural
 		plural: function(value, arg1, arg2) {
-			var valIs1 = (value === 1);
+			var useSingular = (value === 1);
+
 			if ( arg1 === undefined ) {
-				return valIs1 ? "" : "s";
+				return useSingular ? "" : "s";
 			}
 
 			if ( arg2 === undefined ) {
-				return valIs1 ? "" : arg1;
+				return useSingular ? "" : arg1;
 			}
 
-			return valIs1 ? arg1 : arg2;
+			return useSingular ? arg1 : arg2;
 		}
 	});
 }
