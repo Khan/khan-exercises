@@ -117,6 +117,25 @@ function initRandom() {
 	jQuery.extend(KhanUtil, {
 		random: function() {
 			return m.random();
+		},
+
+		// pluralization helper.  There are three signatures
+		// - plural(NUMBER): return "s" if NUMBER is not 1
+		// - plural(NUMBER, plural_suffix): return plural_suffix if NUMBER is
+		//   not 1
+		// - plural(NUMBER, singular, plural): return singular if NUMBER is 1,
+		//   otherwise return plural
+		plural: function(value, arg1, arg2) {
+			var valIs1 = (value === 1);
+			if ( arg1 === undefined ) {
+				return valIs1 ? "" : "s";
+			}
+
+			if ( arg2 === undefined ) {
+				return valIs1 ? "" : arg1;
+			}
+
+			return valIs1 ? arg1 : arg2;
 		}
 	});
 }
