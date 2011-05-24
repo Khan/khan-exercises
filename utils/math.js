@@ -261,7 +261,7 @@ jQuery.extend({
 				return false;
 			}
 			
-		} else if ( lastCond && jQuery(this).data("else") != null ) {
+		} else if ( typeof lastCond !== "undefined" && jQuery(this).data("else") != null ) {
 			jQuery( this ).remove();
 			return false;
 		}
