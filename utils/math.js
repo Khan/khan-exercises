@@ -268,6 +268,10 @@ jQuery.extend({
 	tmplExpr: "[data-if],[data-else]",
 	
 	tmplFilter: function() {
+		if ( !jQuery( this ).is( jQuery.tmplExpr ) ) {
+			return true;
+		}
+
 		cond = jQuery(this).data("if");
 		
 		if ( cond != null ) {
@@ -278,7 +282,7 @@ jQuery.extend({
 				return false;
 			}
 			
-		} else if ( typeof lastCond !== "undefined" && jQuery(this).data("else") != null ) {
+		} else if ( lastCond && jQuery(this).data("else") != null ) {
 			jQuery( this ).remove();
 			return false;
 		}
