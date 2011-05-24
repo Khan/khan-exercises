@@ -43,7 +43,7 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 				// Verify the solution
 				if ( isCorrect ) {
 					// Show a congratulations message
-					jQuery("#congrats").show().delay( 1000 ).fadeOut( 2000 );
+					jQuery("#congrats").show();
 					
 					// Toggle the navigation buttons
 					jQuery("#check").hide();
@@ -59,8 +59,9 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			
 			// Watch for when the next button is clicked
 			jQuery("#next").click(function() {
-				// Erase the old value
+				// Erase the old value and hide congrats message
 				jQuery("#solution").val( "" );
+				jQuery("#congrats").hide();
 				
 				// Toggle the navigation buttons
 				jQuery("#check").show();
@@ -360,13 +361,13 @@ function injectSite() {
 				'<h3>Answer</h3>' +
 				'<input type="text" id="solution"/>' +
 				'<input type="submit" id="check" value="Check Answer"/>' +
-				'<br/><input type="button" id="next" value="Next Problem"/>' +
 				'<p id="congrats">Congratulations! That answer is correct.</p>' +
 				'<p id="oops">Oops! That answer is not correct, please try again.</p>' +
+				'<input type="button" id="next" value="Next Problem"/>' +
 			'</form>' +
 			'<div id="help">' +
 				'<h3>Need Help?</h3>' +
-				'<br/><input type="button" id="gethint" value="Get a Hint"/>' +
+				'<input type="button" id="gethint" value="Get a Hint"/>' +
 			'</div>' +
 		'</div>' +
 		'<div id="workarea"></div>' +
