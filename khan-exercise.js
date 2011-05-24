@@ -156,9 +156,6 @@ function makeProblem() {
 		// Work with a clone to avoid modifying the original
 		problem = problem.clone();
 		
-		// Run the "Load" method of any modules
-		problem.runModules( "Load" );
-		
 		// See if there's an original problem that we're inheriting from
 		if ( problem.data("type") ) {
 			// Clone it for manipulation
@@ -174,6 +171,9 @@ function makeProblem() {
 			
 			problem = original;
 		}
+
+		// Run the "Load" method of any modules
+		problem.runModules( "Load" );
 		
 		// Store the solution to the problem
 		var solution = problem.find(".solution"),
