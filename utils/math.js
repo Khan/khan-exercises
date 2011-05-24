@@ -58,6 +58,10 @@ jQuery.extend(KhanUtil, {
 		return cString + rString;
 	},
 
+	squareRootCanSimplify: function(n) {
+		return KhanUtil.formattedSquareRootOf(n) != ("\\sqrt{" + n + "}");
+	},
+
 	/* Returns an array of the digits of a nonnegative integer in reverse
 	 * order: digits(376) = [6, 7, 3] */
 	digits: function(n) {
