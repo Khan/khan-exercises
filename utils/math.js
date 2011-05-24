@@ -35,7 +35,29 @@ jQuery.extend(KhanUtil, {
 				sign + "\\frac{" + n + "}{" + d + "}" :
 				sign + n;
 	},
-	
+
+	/* formattedSquareRootOf(24) gives 2\sqrt{6} */
+	formattedSquareRootOf: function(n) {
+		if(n == 1) {
+			/* so as to not return "" later */
+			return "1";
+		}
+
+		var coefficient = 1;
+		var radical = n;
+
+		for(var i = 2; i * i <= n; i++) {
+			while(radical % (i * i) == 0) {
+				radical /= i * i;
+				coefficient *= i;
+			}
+		}
+
+		var cString = coefficient == 1 ? "" : coefficient.toString();
+		var rString = radical == 1 ? "" : "\\sqrt{" + radical + "}";
+		return cString + rString;
+	},
+
     getGCD: function( a, b ) {
         var mod;
 
