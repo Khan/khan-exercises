@@ -47,10 +47,11 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 					
 					// Toggle the navigation buttons
 					jQuery("#check").hide();
-					jQuery("#next").show();
+					jQuery("#next").show().focus();
 					
 					// Otherwise show an error message
 				} else {
+					jQuery("#solution").select();
 					jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
 				}
 				
@@ -329,6 +330,9 @@ function makeProblem() {
 		// Add the problem into the page
 		jQuery("#workarea").append( problem );
 		
+		// Focus the solution textbox
+		jQuery("#solution:not(:focus)").focus();
+
 		// Clone the hints and add them into their area
 		var hints = exercise.children(".hints").clone();
 		
