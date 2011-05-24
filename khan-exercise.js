@@ -96,6 +96,27 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 		return this.eq( Math.floor( this.length * KhanUtil.random() ) );
 	};
 	
+	// Pick a random element from a set of elements, using weights stored in
+	// [data-weight], assuming 1 otherwise
+	jQuery.fn.getRandomWeighted = function() {
+		var totalWeight = 0;
+		var weights = jQuery.map( this, function( elem, i ) {
+			var weight = jQuery(elem).data("weight");
+			weight = weight ? weight : 1;
+			totalWeight += weight;
+			return weight;
+		});
+		var index = Math.floor( totalWeight * KhanUtil.random() );
+
+		for(var i = 0; i < this.length; i++) {
+			if(index < weights[i]) {
+				return this.eq( i );
+			} else {
+				index -= weights[i];
+			}
+		}
+	};
+
 	// See if an element is detached
 	jQuery.expr[":"].attached = function( elem ) {
 		return jQuery.contains( elem.ownerDocument.documentElement, elem );
@@ -193,7 +214,7 @@ function makeProblem() {
 			problems.filter( "#" + query.problem );
 			
 		} else {
-			problem = problems.getRandom();
+			problem = problems.getRandomWeighted();
 		}
 		
 		// Work with a clone to avoid modifying the original
