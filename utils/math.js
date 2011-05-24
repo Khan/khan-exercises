@@ -58,6 +58,23 @@ jQuery.extend(KhanUtil, {
 		return cString + rString;
 	},
 
+	/* Returns an array of the digits of a nonnegative integer in reverse
+	 * order: digits(376) = [6, 7, 3] */
+	digits: function(n) {
+		if(n == 0) {
+			return [0];
+		}
+
+		var list = [];
+
+		while(n > 0) {
+			list.push(n % 10);
+			n = Math.floor(n / 10);
+		}
+
+		return list;
+	},
+
     getGCD: function( a, b ) {
         var mod;
 
