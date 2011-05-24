@@ -119,8 +119,8 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 });
 
 function initRandom() {
-	var m = new MersenneTwister( query.problemNumber ?
-								 parseFloat(query.problemNumber) :
+	var m = new MersenneTwister( query.seed ?
+								 parseFloat(query.seed) :
 								 undefined );
 	jQuery.extend(KhanUtil, {
 		random: function() {
