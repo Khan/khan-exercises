@@ -121,23 +121,46 @@ function initRandom() {
 
 		// pluralization helper.  There are three signatures
 		// - plural(NUMBER): return "s" if NUMBER is not 1
-		// - plural(NUMBER, plural_suffix): return plural_suffix if NUMBER is
-		//   not 1
-		// - plural(NUMBER, singular, plural): return singular if NUMBER is 1,
-		//   otherwise return plural
-		plural: function(value, arg1, arg2) {
-			var useSingular = (value === 1);
+		// - plural(NUMBER, singular): 
+		//		- if necessary, magically pluralize <singular>
+		//		- return "NUMBER word"
+		// - plural(NUMBER, singular, plural): 
+		//		- return "NUMBER word"
+		plural: (function() {
+			var pluralizeWord = function(word) {
+				// determine if our word is all caps.  If so, we'll need to
+				// re-capitalize at the end
+				var isUpperCase = (word.toUpperCase() == word);
 
-			if ( arg1 === undefined ) {
-				return useSingular ? "" : "s";
-			}
+				if ( /[^aeiou]y/i.test( word ) ) {
+					word = word.replace(/y$/i, "ies");
+				} else if ( /[sxz]/i.test( word ) || /[bcfhjlmnqsvwxyz]h/.test( word ) ) {
+					word += "es";
+				} else {
+					word += "s";
+				}
 
-			if ( arg2 === undefined ) {
-				return useSingular ? "" : arg1;
-			}
+				if ( isUpperCase ) {
+					word = word.toUpperCase();
+				}
+				return word;
+			};
 
-			return useSingular ? arg1 : arg2;
-		}
+			return function(value, arg1, arg2) {
+				var usePlural = (value !== 1);
+
+				// if no extra args, just add "s" (if plural)
+				if ( arguments.length === 1 ) {
+					return usePlural ? "s" : "";
+				}
+
+				if ( usePlural ) {
+					arg1 = arg2 || pluralizeWord(arg1);
+				}
+
+				return value + " " + arg1;
+			};
+		})()
 	});
 }
 
