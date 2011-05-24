@@ -265,8 +265,8 @@ jQuery.fn.extend({
 		return this.replaceWith(function( i, text ) {
 			var replaced = jQuery.getVAR( text );
 
-			if( typeof replaced === "string" || typeof replaced === "number" ) {
-				replaced = document.createTextNode( replaced );
+			if( typeof replaced !== "null" && typeof replaced !== "undefined" ) {
+				replaced = replaced.toString();
 			}
 
 			return replaced;
@@ -313,7 +313,7 @@ jQuery.extend({
 				// Replace all the variables with the computed value
 				.find("var").replaceVAR().end()
 
-				.contents();
+				.html();
 
 		// Otherwise we need to compute the value
 		} else {
