@@ -199,10 +199,10 @@ function makeProblem() {
 			if ( num && choices.data("none") ) {
 				// The right answer is injected most of the time
 				radios[ KhanUtil.random() > 1 / num ? 1 : 0 ] = jQuery("<li>None of these.</li>")[0];
-				
-				// Remember the solution
-				solution = radios[0];
 			}
+
+			// Remember the solution
+			solution = radios[0];
 			
 			// And add them in in a random order
 			// If no max number is specified, add all the options
