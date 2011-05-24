@@ -125,7 +125,50 @@ function initRandom() {
 	jQuery.extend(KhanUtil, {
 		random: function() {
 			return m.random();
-		}
+		},
+
+		// pluralization helper.  There are three signatures
+		// - plural(NUMBER): return "s" if NUMBER is not 1
+		// - plural(NUMBER, singular): 
+		//		- if necessary, magically pluralize <singular>
+		//		- return "NUMBER word"
+		// - plural(NUMBER, singular, plural): 
+		//		- return "NUMBER word"
+		plural: (function() {
+			var pluralizeWord = function(word) {
+				// determine if our word is all caps.  If so, we'll need to
+				// re-capitalize at the end
+				var isUpperCase = (word.toUpperCase() == word);
+
+				if ( /[^aeiou]y/i.test( word ) ) {
+					word = word.replace(/y$/i, "ies");
+				} else if ( /[sxz]/i.test( word ) || /[bcfhjlmnqsvwxyz]h/.test( word ) ) {
+					word += "es";
+				} else {
+					word += "s";
+				}
+
+				if ( isUpperCase ) {
+					word = word.toUpperCase();
+				}
+				return word;
+			};
+
+			return function(value, arg1, arg2) {
+				var usePlural = (value !== 1);
+
+				// if no extra args, just add "s" (if plural)
+				if ( arguments.length === 1 ) {
+					return usePlural ? "s" : "";
+				}
+
+				if ( usePlural ) {
+					arg1 = arg2 || pluralizeWord(arg1);
+				}
+
+				return value + " " + arg1;
+			};
+		})()
 	});
 }
 
