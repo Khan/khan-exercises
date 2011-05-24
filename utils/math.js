@@ -264,11 +264,12 @@ jQuery.fn.extend({
 	replaceVAR: function() {
 		return this.replaceWith(function( i, text ) {
 			var replaced = jQuery.getVAR( text );
-			if ( replaced !== undefined && replaced !== null ) {
-				return document.createTextNode( replaced );
-			} else {
-				return null;
+
+			if( typeof replaced === "string" || typeof replaced === "number" ) {
+				replaced = document.createTextNode( replaced );
 			}
+
+			return replaced;
 		});
 	}
 });
@@ -311,8 +312,8 @@ jQuery.extend({
 			
 				// Replace all the variables with the computed value
 				.find("var").replaceVAR().end()
-				
-				.text();
+
+				.contents();
 
 		// Otherwise we need to compute the value
 		} else {
