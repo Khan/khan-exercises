@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <title>Exponents 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="BASE">randRangeNonZero( -10, 10 )</var>
+            <var id="BASE_STRING">(function() {
+                if ( BASE < 0 ) {
+                    return "(" + BASE + ")";
+                } else {
+                    return BASE;
+                }
+            })()</var>
+            <var id="EXP">randRange( 0, log( 300 ) / log( abs( BASE )))</var>
+            <var id="SOLUTION">round( pow ( BASE, EXP ) )</var>
+            <var id="HINT">(function() {
+                var result = BASE_STRING;
+                for ( var i = 1; i < EXP; i++ ) {
+                    result += " \\cdot " + BASE_STRING;
+                }
+                return result;
+            })()</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <p class="question"><code><var>BASE_STRING</var>^{<var>EXP</var>}</code></p>
+                <p class="solution"><var>SOLUTION</var></p>
+            </div>
+        </div>
+
+        <div class="hints">
+            <div data-if="EXP === 0">Anything to the 0th power equals 1.</div>
+            <div data-else><code>= <var>HINT</var></code></div>
+        
+            <div><code>= <var>SOLUTION</var></code></div>
+        </div>
+    </div>
+</body>
+</html>
