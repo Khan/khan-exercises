@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html data-require="math graph">
+<head>
+	<title>Pythagorean Theorem 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="AC">randRange(3, 8)</var>
+		<var id="BC">randRange(3, 8)</var>
+		<var id="AB2">AC * AC + BC * BC</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>
+					In the right triangle shown, <code>AC = <var>AC</var></code> and
+					<code>BC = <var>BC</var></code>. What is <code>AB</code>?
+				</p>
+				<div class="graph" style="width: 280px; height: 280px; stroke: black; stroke-width: 2px;">
+					var AB = Math.sqrt(AB2);
+					var scale = 10 / AB;
+					var ACscaled = AC * scale;
+					var BCscaled = BC * scale;
+
+					initPicture(-2, 12, -3, 11);
+					path([[0, 10 - ACscaled], [0, 10], [BCscaled, 10 - ACscaled], [0, 10 - ACscaled]]);
+
+					text([-0.5, 10.5], "A");
+					text([-0.5, 9.5 - ACscaled], "C");
+					text([0.5 + BCscaled, 9.5 - ACscaled], "B");
+
+					text([-0.5, 10 - 0.5 * ACscaled], AC);
+					text([BCscaled / 2, 9.5 - ACscaled], BC);
+					text([0.5 + BCscaled / 2, 10.5 - 0.5 * ACscaled], "?");
+				</div>
+			</div>
+			<div class="solution"><code><var>formattedSquareRootOf(AB2)</var></code></div>
+			<ul class="choices" data-show="5">
+				<li><code><var>formattedSquareRootOf(AC + BC)</var></code></li>
+				<li><code><var>formattedSquareRootOf(AB2 - 10)</var></code></li>
+				<li><code><var>formattedSquareRootOf(AB2 - 5)</var></code></li>
+				<li><code><var>formattedSquareRootOf(AB2 + 6)</var></code></li>
+				<li><code><var>formattedSquareRootOf(floor(AB2 * 1.7))</var></code></li>
+				<li><code><var>formattedSquareRootOf(floor(AB2 / 1.7))</var></code></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
