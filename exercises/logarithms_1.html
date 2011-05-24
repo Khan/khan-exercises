@@ -10,7 +10,7 @@
 		 * log_base (number) = answer.
 		 */
 
-		/* We want to restrict the number to less than LARGEST_NUMBER. */
+		/* We want to restrict the number in the logarithm to less than LARGEST_NUMBER. */
 		function get_number( base ) {
 			var number;
 			do {
@@ -18,8 +18,6 @@
 				answer = KhanUtil.randRange ( 2, 5 );
 				number = Math.pow( base, answer );
 			} while ( number > LARGEST_NUMBER );
-
-			console.log("get_num returned " +  number);
 			return number;
 		}
 	</script>
@@ -41,6 +39,8 @@
                     <li><var>2</var></li>
                     <li><var>3</var></li>
                     <li><var>4</var></li>
+                    <li><var>5</var></li>
+                    <li><var>6</var></li>
 				</ul>
 			</div>
 		</div>
