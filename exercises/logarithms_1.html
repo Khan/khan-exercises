@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Logarithms 1</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+		var LARGEST_NUMBER = 1000;
+		var answer;
+		/* The structure of the log problem is:
+		 * log_base (number) = answer.
+		 */
+
+		/* We want to restrict the number to less than LARGEST_NUMBER. */
+		function get_number( base ) {
+			var number;
+			do {
+				/* TODO: Adjusts global variable - bad? */
+				answer = KhanUtil.randRange ( 2, 5 );
+				number = Math.pow( base, answer );
+			} while ( number > LARGEST_NUMBER );
+
+			console.log("get_num returned " +  number);
+			return number;
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="base">KhanUtil.randRange( 2, 16 )</var>
+			<var id="number">get_number(base)</var>
+			<var id="answer">answer</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question"><code>log_{<var>base</var>}<var>number</var> = </code></p>
+				<p class="solution"><var>answer</var></p>
+				<ul class="choices" data-show="5">
+                    <li><var>1</var></li>
+                    <li><var>2</var></li>
+                    <li><var>3</var></li>
+                    <li><var>4</var></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>This is a sample logarithm hint.</p>
+		</div>
+	</div>
+</body>
+</html>
