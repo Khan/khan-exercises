@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Subtraction 3</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+        function asArray(n){
+            var list = [];            
+            for(var i = 0;i <n.toString().length; i++){
+                list.push(Math.floor(n/Math.pow(10,i))%10);
+            }
+            return list;
+        }
+    </script>
+</head>
+<body>
+	<div class="exercise">
+    	<div class="vars">
+    		<var id="A">randRange(100,999)</var>
+    		<var id="B">randRange(10,99)</var>
+    		<var id="A_Array">asArray(A)</var>
+    		<var id="B_Array">asArray(B)</var>
+    	</div>
+    
+    	<div class="problems">
+    		<div>
+    			<p class="question"><var>A</var> - <var>B</var> = ?</p>
+    			<div class="solution"><var>A - B</var></div>
+    		</div>
+    	</div>
+    	<div class="hints">
+            <p>First we need to make sure that all the digits in the top number are greater than or equal to the digit below it.</p>
+            <!-- first digit -->
+            <p data-if="A_Array[0]<B_Array[0]"> <var>A_Array[0]</var> is less then <var> B_Array[0]</var>, so we´ll have to borrow.</p>
+            <p data-if="A_Array[0]<B_Array[0]"> <var>A_Array[1]</var> - 1 = <var>A_Array[1]=A_Array[1]-1</var>, <var>A_Array[0]</var>+10=<var>A_Array[0]=A_Array[0]+10</var></p>
+            <!-- second digit -->
+            <p data-if="A_Array[1]<B_Array[1]"> <var>A_Array[1]</var> is less then <var> B_Array[1]</var>, so we´ll have to borrow.</p>
+            <p data-if="A_Array[1]<B_Array[1]"> <var>A_Array[2]</var> - 1 = <var>A_Array[2]=A_Array[2]-1</var>, <var>A_Array[1]</var>+10=<var>A_Array[1]=A_Array[1]+10</var></p>
+            <p>All the top digits are greater than or equal to all the bottom digits, so we can start subtracting.</p>
+            <p><var>A_Array[0]</var>-<var>B_Array[0]</var>=<var>A_Array[0]-B_Array[0]</var></p>
+            <p><var>A_Array[1]</var>-<var>B_Array[1]</var>=<var>A_Array[1]-B_Array[1]</var></p>
+            <p>Bring down the <var>A_Array[2]</var> to get <var>A_Array[2]</var></p>
+            <p>Result=<var>A-B</var> </p>
+        </div>
+	</div>
+</body>
+</html>
+

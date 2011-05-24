@@ -3,28 +3,12 @@
 <head>
 	<title>Subtraction 1</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		/* Returns n random ints from low to high, inclusive, in increasing
-		 * order */
-		function increasing_rands_in_range(n, low, high) {
-			var list = []
-
-			for(var i = 0; i < n; i++) {
-				list.push(KhanUtil.randRange(low, high));
-			}
-
-			/* sort (see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/sort#Description) */
-			list = list.sort(function(a ,b) { return a - b; });
-			return list;
-		}
-	</script>
 </head>
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="AB">increasing_rands_in_range(2, 1, 9)</var>
-		<var id="A">AB[1]</var> <!-- the larger -->
-		<var id="B">AB[0]</var> <!-- the smaller -->
+		<var id="A">rand(10)</var>
+		<var id="B">randRange(1,A)</var>
 	</div>
 
 	<div class="problems">

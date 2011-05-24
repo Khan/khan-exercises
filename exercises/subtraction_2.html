@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Subtraction 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+    	<div class="vars">
+    		<var id="A">randRange(10,99)</var>
+    		<var id="B">randRange(1,9)</var>
+    		<var id="A_1">A%10</var>
+    		<var id="A_2">(A-(A%10))/10</var>
+    		<var id="After_Borrow1">(B > A_1 ? A_1+10 : A_1)</var>
+    		<var id="After_Borrow2">(B > A_1 ? A_2-1 : A_2)</var>
+    	</div>
+    
+    	<div class="problems">
+    		<div>
+    			<p class="question"><var>A</var> - <var>B</var> = ?</p>
+    			<div class="solution"><var>A - B</var></div>
+    		</div>
+    	</div>
+    	<div class="hints">
+            <p>First we need to make sure that all the digits in the top number are greater than or equal to the digit below it.</p>
+            <p data-if="A_1<B">
+                <span data-if="A_1<B"> <var>A_1</var> is less then <var> B</var>, so we´ll have to borrow.</span>
+            </p>
+            <p>
+                <span data-if="A_1<B"> <var>A_2</var> - 1 = <var>After_Borrow2</var>, <var>A_1</var>+10=<var>After_Borrow1</var>
+            </p>
+            <p>All the top digits are greater than or equal to all the bottom digits, so we can start subtracting.</p>
+            <p><var>After_Borrow1</var>-<var>B</var>=<var>After_Borrow1-B</var></p>
+            <p>Bring down the <var>After_Borrow2</var> to get <var>(After_Borrow2*10)+After_Borrow1-B</var></p>
+        </div>
+	</div>
+</body>
+</html>
