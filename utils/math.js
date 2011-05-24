@@ -317,7 +317,7 @@ jQuery.extend({
 			code = jQuery.cleanHTML( code );
 		
 			// See if we're dealing with a multiline block of code
-			if ( (/;/.test( code ) || !/\bfunction\b/.test( code ) ) {
+			if ( /;/.test( code ) && !/\bfunction\b/.test( code ) ) {
 				code = "(function(){\n" + code + "\n})()";
 			}
 
