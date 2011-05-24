@@ -38,7 +38,7 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 				// Figure out if the response was correct
 				isCorrect = solution.is("ul") ?
 					solution.find("input:checked").val() === "1" :
-					solution.val() === solution.data("solution");
+					jQuery.trim(solution.val()) === solution.data("solution");
 				
 				// Verify the solution
 				if ( isCorrect ) {
@@ -320,7 +320,7 @@ function makeProblem() {
 		
 		// Otherwise we're dealing with a text input
 		if ( !choices.length ) {
-			jQuery("#solution").data( "solution", solution.text() );
+			jQuery("#solution").data( "solution", jQuery.trim(solution.text()) );
 			
 			// Remove solution from display
 			solution.remove();
