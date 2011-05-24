@@ -104,7 +104,7 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 		var totalWeight = 0;
 		var weights = jQuery.map( this, function( elem, i ) {
 			var weight = jQuery(elem).data("weight");
-			weight = weight ? weight : 1;
+			weight = weight !== undefined ? weight : 1;
 			totalWeight += weight;
 			return weight;
 		});
