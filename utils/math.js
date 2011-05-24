@@ -263,7 +263,12 @@ jQuery.fn.extend({
 	// Replace an inline variable with its computed value
 	replaceVAR: function() {
 		return this.replaceWith(function( i, text ) {
-			return document.createTextNode( jQuery.getVAR( text ) );
+			var replaced = jQuery.getVAR( text );
+			if ( replaced !== undefined && replaced !== null ) {
+				return document.createTextNode( replaced );
+			} else {
+				return null;
+			}
 		});
 	}
 });
