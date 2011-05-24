@@ -35,7 +35,29 @@ jQuery.extend(KhanUtil, {
 				sign + "\\frac{" + n + "}{" + d + "}" :
 				sign + n;
 	},
-	
+
+	/* formattedSquareRootOf(24) gives 2\sqrt{6} */
+	formattedSquareRootOf: function(n) {
+		if(n == 1) {
+			/* so as to not return "" later */
+			return "1";
+		}
+
+		var coefficient = 1;
+		var radical = n;
+
+		for(var i = 2; i * i <= n; i++) {
+			while(radical % (i * i) == 0) {
+				radical /= i * i;
+				coefficient *= i;
+			}
+		}
+
+		var cString = coefficient == 1 ? "" : coefficient.toString();
+		var rString = radical == 1 ? "" : "\\sqrt{" + radical + "}";
+		return cString + rString;
+	},
+
     getGCD: function( a, b ) {
         var mod;
 
@@ -126,7 +148,7 @@ jQuery.extend(KhanUtil, {
 	},
 	
 	// From limits_1
-	nonZeroRandomInt: function( min, max ) {
+	randRangeNonZero: function( min, max ) {
 		var result;
 		while ( (result = this.randRange( min, max )) === 0 ) {}
 		return result;
@@ -149,22 +171,9 @@ jQuery.fn.extend({
 			// Remove the var block so that it isn't displayed
 			.find(".vars").remove().end()
 			
-			// Implement basic templating
-			.find("[data-if],[data-else]").each(function() {
-				cond = jQuery(this).data("if");
-				
-				if ( cond != null ) {
-					cond = jQuery.getVAR( cond );
-					
-					if ( !cond ) {
-						jQuery(this).remove();
-					}
-					
-					lastCond = cond;
-					
-				} else if ( lastCond ) {
-					jQuery( this ).remove();
-				}
+			// Work against the elements inside
+			.find( jQuery.tmplExpr ).each(function() {
+				jQuery.tmplFilter.call( this );
 			}).end()
 			
 			// Replace all the variables with the computed value
@@ -194,8 +203,13 @@ jQuery.fn.extend({
 	mathLoad: function() {
 		var vars;
 		
+		// If we're operating on a hints block
+		if ( this.is(".hints") ) {
+			this.children().filter( jQuery.tmplFilter );
+			return;
+		
 		// If we're in an exercise then we only want the main var block
-		if ( this.is(".exercise") ) {
+		} else if ( this.is(".exercise") ) {
 			vars = this.children(".vars");
 			VARS = {};
 		
@@ -234,21 +248,52 @@ jQuery.fn.extend({
 });
 
 jQuery.extend({
+	tmplExpr: "[data-if],[data-else]",
+	
+	tmplFilter: function() {
+		cond = jQuery(this).data("if");
+		
+		if ( cond != null ) {
+			lastCond = cond = jQuery.getVAR( cond );
+			
+			if ( !cond ) {
+				jQuery(this).remove();
+				return false;
+			}
+			
+		} else if ( lastCond && jQuery(this).data("else") != null ) {
+			jQuery( this ).remove();
+			return false;
+		}
+		
+		// Remove the templating so that it isn't run again later
+		jQuery(this)
+			.removeAttr("data-if")
+			.removeAttr("data-else");
+		
+		return true;
+	},
+	
 	getVAR: function( elem ) {
 		// If it's a list, grab a random one out of it
 		if ( elem.nodeName && elem.nodeName.toLowerCase() === "ul" ) {
-			return jQuery( elem ).children().getRandom().text();
+			return jQuery( elem ).children().getRandom()
+			
+				// Replace all the variables with the computed value
+				.find("var").replaceVAR().end()
+				
+				.text();
 
 		// Otherwise we need to compute the value
 		} else {
-			var text = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
+			var code = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
 			
 			// Make sure any HTML formatting is stripped
-			text = jQuery.cleanHTML( text );
+			code = jQuery.cleanHTML( code );
 		
 			// See if we're dealing with a multiline block of code
-			if ( (/;/.test( text ) || /\n/.test( text )) && !/function/.test( text ) ) {
-				text = "(function(){\n" + text + "\n})()";
+			if ( (/;/.test( code ) || /\n/.test( code )) && !/function/.test( code ) ) {
+				code = "(function(){\n" + code + "\n})()";
 			}
 
 			try {
@@ -258,13 +303,13 @@ jQuery.extend({
 					with ( Math ) {
 						// Use all the computed variables
 						with ( VARS ) {
-							return eval( "(" + text  + ")" );
+							return eval( "(" + code  + ")" );
 						}
 					}
 				}
 			} catch( e ) {
 				if ( typeof console !== "undefined" ) {
-					console.error( text, e );
+					console.error( code, e );
 				}
 			}
 		}
