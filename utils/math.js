@@ -264,14 +264,14 @@ jQuery.extend({
 
 		// Otherwise we need to compute the value
 		} else {
-			var text = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
+			var code = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
 			
 			// Make sure any HTML formatting is stripped
-			text = jQuery.cleanHTML( text );
+			code = jQuery.cleanHTML( code );
 		
 			// See if we're dealing with a multiline block of code
-			if ( (/;/.test( text ) || /\n/.test( text )) && !/function/.test( text ) ) {
-				text = "(function(){\n" + text + "\n})()";
+			if ( (/;/.test( code ) || /\n/.test( code )) && !/function/.test( code ) ) {
+				code = "(function(){\n" + code + "\n})()";
 			}
 
 			try {
@@ -281,13 +281,13 @@ jQuery.extend({
 					with ( Math ) {
 						// Use all the computed variables
 						with ( VARS ) {
-							return eval( "(" + text  + ")" );
+							return eval( "(" + code  + ")" );
 						}
 					}
 				}
 			} catch( e ) {
 				if ( typeof console !== "undefined" ) {
-					console.error( text, e );
+					console.error( code, e );
 				}
 			}
 		}
