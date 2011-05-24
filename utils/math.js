@@ -143,38 +143,15 @@ var VARS = {};
 // Load the value associated with the variable
 jQuery.fn.extend({
 	math: function() {
-		var lastCond,
-			tmplExpr = "[data-if],[data-else]";
-		
-		function tmplFilter() {
-			cond = jQuery(this).data("if");
-			
-			if ( cond != null ) {
-				lastCond = cond = jQuery.getVAR( cond );
-				
-				if ( !cond ) {
-					jQuery(this).remove();
-					return false;
-				}
-				
-			} else if ( lastCond && jQuery(this).data("else") != null ) {
-				jQuery( this ).remove();
-				return false;
-			}
-			
-			return true;
-		}
+		var lastCond;
 		
 		return this			
 			// Remove the var block so that it isn't displayed
 			.find(".vars").remove().end()
-						
-			// Implement basic templating
-			.filter( tmplFilter )
 			
 			// Work against the elements inside
-			.find( tmplExpr ).each(function() {
-				tmplFilter.call( this );
+			.find( jQuery.tmplExpr ).each(function() {
+				jQuery.tmplFilter.call( this );
 			}).end()
 			
 			// Replace all the variables with the computed value
@@ -204,8 +181,13 @@ jQuery.fn.extend({
 	mathLoad: function() {
 		var vars;
 		
+		// If we're operating on a hints block
+		if ( this.is(".hints") ) {
+			this.children().filter( jQuery.tmplFilter );
+			return;
+		
 		// If we're in an exercise then we only want the main var block
-		if ( this.is(".exercise") ) {
+		} else if ( this.is(".exercise") ) {
 			vars = this.children(".vars");
 			VARS = {};
 		
@@ -244,6 +226,32 @@ jQuery.fn.extend({
 });
 
 jQuery.extend({
+	tmplExpr: "[data-if],[data-else]",
+	
+	tmplFilter: function() {
+		cond = jQuery(this).data("if");
+		
+		if ( cond != null ) {
+			lastCond = cond = jQuery.getVAR( cond );
+			
+			if ( !cond ) {
+				jQuery(this).remove();
+				return false;
+			}
+			
+		} else if ( lastCond && jQuery(this).data("else") != null ) {
+			jQuery( this ).remove();
+			return false;
+		}
+		
+		// Remove the templating so that it isn't run again later
+		jQuery(this)
+			.removeAttr("data-if")
+			.removeAttr("data-else");
+		
+		return true;
+	},
+	
 	getVAR: function( elem ) {
 		// If it's a list, grab a random one out of it
 		if ( elem.nodeName && elem.nodeName.toLowerCase() === "ul" ) {

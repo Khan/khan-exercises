@@ -81,18 +81,12 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			function showHint() {
 				// Show the first not shown hint
 				var hint = jQuery("#shown-hints > *:hidden:first")
+				
 					// Run the main method of any modules
-					.runModules();
+					.runModules()
 				
-				// If the element is no longer in the page, then we don't want
-				// to show it, we should get the next one
-				if ( !hint.is(":attached") && hint.length ) {
-					showHint();
-				
-				// Reveal the hint
-				} else {
-					hint.show();
-				}
+					// Reveal the hint
+					.show();
 			}
 		});
 	});
@@ -279,12 +273,15 @@ function makeProblem() {
 			hints.find("." + this.className).replaceWith( this );
 		});
 		
-		hints		
+		hints
 			// Hide all the hints
 			.children().hide().end()
 		
 			// And give it a new ID
 			.attr("id", "shown-hints")
+			
+			// Run the "Load" method of any modules
+			.runModules( "Load" )
 		
 			// Add it in to the page
 			.appendTo("#hintsarea");
