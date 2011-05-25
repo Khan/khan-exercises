@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Division 1.5</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+        function createEasyDividend(n,size){
+            var result = 0;
+            var maxDividend = Math.floor(9/n);
+            for(i=0;i<size;i++){
+                var digit= 0;
+                if(i==size-1){digit=n*KhanUtil.randRange(1,maxDividend)}
+                else{digit=n*KhanUtil.randRange(0,maxDividend)}
+                result += digit *Math.pow(10,i);
+            }
+            return result;
+        }
+    </script>
+</head>
+<body>
+	<div class="exercise">
+    	<div class="vars">
+    		<var id="DIVISOR">randRange(2,9)</var>
+    		<var id="DIVIDEND">createEasyDividend(DIVISOR,3)</var>
+    	</div>
+
+    	<div class="problems">
+    		<div>
+    			<p class="question"><var>DIVIDEND</var> / <var>DIVISOR</var> = ?</p>
+    			<div class="solution"><var>DIVIDEND / DIVISOR</var></div>
+    		</div>
+    	</div>
+    	<div class="hints">
+        </div>
+	</div>
+</body>
+</html>

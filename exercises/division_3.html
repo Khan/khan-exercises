@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Division 3</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+        function createLongDivisionTable(n,div){
+            var temp = KhanUtil.digits(n);
+            var divisions= [];
+            var subtrahends = [];
+            var minuends = [];
+            for(i=temp.length-1;i>=0;i--){
+                var curDividend = 0;
+                for(y=i;y<temp.length;y++){
+                    curDividend+=temp[y]*Math.pow(10,y-i);
+                }
+                if(curDividend>=div || divisions.length > 0){
+                    var division=Math.floor(curDividend/div);
+                    divisions.push(division);
+                    var subtrahend = division*div;
+                    subtrahends.push(subtrahend);
+                    temp= KhanUtil.digits(parseInt(temp.reverse().join(""))-subtrahend*Math.pow(10,i));
+                    minuends.push(curDividend);
+                }                
+            }
+            return {divisions:divisions, subtrahends:subtrahends, minuends:minuends};
+        }
+    </script>
+
+</head>
+<body>
+	<div class="exercise">
+    	<div class="vars">
+    		<var id="DIVISOR">randRange(2,9)</var>
+    		<var id="WITH_REMAINDER">random()>0.25? 0 : 1</var>
+    		<var id="DIVIDEND">DIVISOR*randRange(101,999) + WITH_REMAINDER*randRange(1,DIVISOR)</var>    		
+    		<var id="TABLE">createLongDivisionTable(DIVIDEND,DIVISOR)</var>
+    		<var id="DIVISION">0</var>
+    		<var id="MINUEND">0</var>
+    	</div>
+
+    	<div class="problems">
+    	    <div id="original" >
+    	        <div class="problem">
+                    <var>DIVIDEND</var> / <var>DIVISOR</var> = ? 
+                </div>      
+                <p class="question">What is the quotient?</p>
+    			<div class="solution"><var>DIVIDEND / DIVISOR</var></div>     
+            </div>
+            <div data-type="original">              
+    		  <div>
+                <p class="question">What is the remainder?</p>
+    			<div class="solution"><var>DIVIDEND / DIVISOR</var></div>  
+    	   	   </div>
+    		</div>
+    	</div>
+    	<div class="hints">
+    	   <p data-if="!WITH_REMAINDER">the *quotient* is the answere</p>
+    	   <p data-if="WITH_REMAINDER">the *remainder* is the answere</p><var>TABLE.minuends[0]-TABLE.divisions[0]*DIVISOR</var>
+    	   <p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+    	   <p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+    	   <p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+    	   <p>Bring down the next number</p>
+    	   <p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+    	   <p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+    	   <p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+    	   <p>Bring down the next number</p>
+           <p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+    	   <p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+    	   <p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+    	   <p data-if="!WITH_REMAINDER">The quotient is <var>floor(DIVIDEND/DIVISOR)</var></p>
+    	   <p data-if="!WITH_REMAINDER">The quotient is <var>floor(DIVIDEND/DIVISOR)</var></p>
+        </div>
+	</div>
+</body>
+</html>
