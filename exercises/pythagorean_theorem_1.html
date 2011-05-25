@@ -3,40 +3,47 @@
 <head>
 	<title>Pythagorean Theorem 1</title>
 	<script src="../khan-exercise.js"></script>
+	<script>
+		function drawRightTriangle(width, height, A, B, C, a, b, c) {
+			var scale = 10 / Math.sqrt(width * width + height * height);
+			width *= scale;
+			height *= scale;
+
+			initPicture(-2, 12, -3, 11);
+			path([[0, 10 - height], [0, 10], [width, 10 - height], [0, 10 - height]]);
+
+			text([-0.5, 10.5], A);
+			text([-0.5, 9.5 - height], C);
+			text([0.5 + width, 9.5 - height], B);
+
+			text([-0.5, 10 - 0.5 * height], b);
+			text([width / 2, 9.5 - height], a);
+			text([0.5 + width / 2, 10.5 - 0.5 * height], c);
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="AC">randRange(3, 8)</var>
-		<var id="BC">randRange(3, 8)</var>
-		<var id="AB2">AC * AC + BC * BC</var>
 	</div>
 
 	<div class="problems">
-		<div>
+		<div id="find-hypotenuse">
+			<div class="vars">
+				<var id="AC">randRange(3, 8)</var>
+				<var id="BC">randRange(3, 8)</var>
+				<var id="AB2">AC * AC + BC * BC</var>
+			</div>
+
 			<div class="question">
-				<p>
-					In the right triangle shown, <code>AC = <var>AC</var></code> and
-					<code>BC = <var>BC</var></code>. What is <code>AB</code>?
-				</p>
+				<p>In the right triangle shown, <code>AC = <var>AC</var></code> and
+				<code>BC = <var>BC</var></code>. What is <code>AB</code>?</p>
+
 				<div class="graph" style="width: 280px; height: 280px; stroke: black; stroke-width: 2px;">
-					var AB = Math.sqrt(AB2);
-					var scale = 10 / AB;
-					var ACscaled = AC * scale;
-					var BCscaled = BC * scale;
-
-					initPicture(-2, 12, -3, 11);
-					path([[0, 10 - ACscaled], [0, 10], [BCscaled, 10 - ACscaled], [0, 10 - ACscaled]]);
-
-					text([-0.5, 10.5], "A");
-					text([-0.5, 9.5 - ACscaled], "C");
-					text([0.5 + BCscaled, 9.5 - ACscaled], "B");
-
-					text([-0.5, 10 - 0.5 * ACscaled], AC);
-					text([BCscaled / 2, 9.5 - ACscaled], BC);
-					text([0.5 + BCscaled / 2, 10.5 - 0.5 * ACscaled], "?");
+					drawRightTriangle(BC, AC, "A", "B", "C", BC, AC, "?");
 				</div>
 			</div>
+
 			<div class="solution"><code><var>formattedSquareRootOf(AB2)</var></code></div>
 			<ul class="choices" data-show="5">
 				<li><code><var>formattedSquareRootOf(AC + BC)</var></code></li>
@@ -44,16 +51,70 @@
 				<li><code><var>formattedSquareRootOf(AB2 - 5)</var></code></li>
 				<li><code><var>formattedSquareRootOf(AB2 + 6)</var></code></li>
 				<li><code><var>formattedSquareRootOf(floor(AB2 * 1.7))</var></code></li>
-				<li><code><var>formattedSquareRootOf(floor(AB2 / 1.7))</var></code></li>
+				<li><code><var>formattedSquareRootOf(floor(AB2 / 1.5))</var></code></li>
 			</ul>
+
+			<div class="hints">
+				<p class="vardef">We want to find <code>c</code>; let <code>a = <var>BC</var></code> and <code>b = <var>AC</var></code>.</p>
+				<p class="solsq">So <code>c^2 = <var>BC</var>^2 + <var>AC</var>^2 = <var>AB2</var></code>.</p>
+				<p class="sol">Then, <code>c = \sqrt{<var>AB2</var>}</code>.</p>
+				<p class="solsim" data-if="squareRootCanSimplify(AB2)">Simplifying the radical gives <code>c = <var>formattedSquareRootOf(AB2)</var>.</code></p>
+			</div>
+		</div>
+
+		<div id="find-a-leg">
+			<div class="vars">
+				<var id="AC">randRange(3, 5)</var>
+				<var id="AB">randRange(6, 10)</var>
+				<var id="BC2">AB * AB - AC * AC</var>
+
+				<var id="legs">shuffle([["a", "?", "BC", sqrt(BC2)], ["b", AC, "AC", AC]])</var>
+
+				<var id="a">legs[0][0]</var>
+				<var id="alabel">legs[0][1]</var>
+				<var id="aside">legs[0][2]</var>
+				<var id="alen">legs[0][3]</var>
+
+				<var id="b">legs[1][0]</var>
+				<var id="blabel">legs[1][1]</var>
+				<var id="bside">legs[1][2]</var>
+				<var id="blen">legs[1][3]</var>
+			</div>
+
+			<div class="question">
+				<p>In the right triangle shown, <code><var>bside</var> = <var>AC</var></code> and
+				<code><var>aside</var> = <var>AB</var></code>. What is <code>BC</code>?</p>
+
+				<div class="graph" style="width: 280px; height: 280px; stroke: black; stroke-width: 2px;">
+					drawRightTriangle(alen, blen, "A", "B", "C", alabel, blabel, AB);
+				</div>
+			</div>
+
+			<div class="solution"><code><var>formattedSquareRootOf(BC2)</var></code></div>
+			<ul class="choices" data-show="5">
+				<li><code><var>formattedSquareRootOf(AB - AC)</var></code></li>
+				<li><code><var>formattedSquareRootOf(BC2 - 10)</var></code></li>
+				<li><code><var>formattedSquareRootOf(BC2 - 5)</var></code></li>
+				<li><code><var>formattedSquareRootOf(BC2 + 6)</var></code></li>
+				<li><code><var>formattedSquareRootOf(floor(BC2 * 1.7))</var></code></li>
+				<li><code><var>formattedSquareRootOf(floor(BC2 / 1.5))</var></code></li>
+			</ul>
+
+			<div class="hints">
+				<p class="vardef">We want to find <code><var>a</var></code>; let <code><var>b</var> = <var>AC</var></code> and <code>c = <var>AB</var></code>.</p>
+				<p class="solsq">So <code><var>a</var>^2 = c^2 - <var>b</var>^2 = <var>AB</var>^2 - <var>AC</var>^2 = <var>BC2</var></code>.</p>
+				<p class="sol">Then, <code><var>a</var> = \sqrt{<var>BC2</var>}</code>.</p>
+				<p class="solsim" data-if="squareRootCanSimplify(BC2)">Simplifying the radical gives <code><var>a</var> = <var>formattedSquareRootOf(BC2)</var>.</code></p>
+			</div>
 		</div>
 	</div>
+
 	<div class="hints">
 		<p>We know <code>a^2 + b^2 = c^2</code>.</p>
-		<p>In this case, <code>a = <var>BC</var></code> and <code>b = <var>AC</var></code>.</p>
-		<p>So <code>c^2 = <var>BC</var>^2 + <var>AC</var>^2 = <var>AB2</var></code>.</p>
-		<p>Then, <code>c = \sqrt{<var>AB2</var>}</code>.</p>
-		<p data-if="squareRootCanSimplify(AB2)">Simplifying the radical, that's <code>c = <var>formattedSquareRootOf(AB2)</var>.</code></p>
+		<p class="vardef"></p>
+		<p class="solsq"></p>
+		<p class="sol"></p>
+		<p class="solsim"></p>
 	</div>
 	</div>
 </body>
