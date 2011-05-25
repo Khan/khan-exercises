@@ -47,6 +47,10 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
+	negParens: function( n ) {
+		return n < 0 ? "(" + n + ")" : n;
+	},
+
 	/* formattedSquareRootOf(24) gives 2\sqrt{6} */
 	formattedSquareRootOf: function(n) {
 		if(n == 1) {
