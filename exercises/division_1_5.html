@@ -15,6 +15,27 @@
 			}
 			return result;
 		}
+		function createLongDivisionTable(n,div){
+			var temp = KhanUtil.digits(n);
+			var divisions= [];
+			var subtrahends = [];
+			var minuends = [];
+			for(i=temp.length-1;i>=0;i--){
+				var curDividend = 0;
+				for(y=i;y<temp.length;y++){
+					curDividend+=temp[y]*Math.pow(10,y-i);
+				}
+				if(curDividend>=div || divisions.length > 0){
+					var division=Math.floor(curDividend/div);
+					divisions.push(division);
+					var subtrahend = division*div;
+					subtrahends.push(subtrahend);
+					temp= KhanUtil.digits(parseInt(temp.reverse().join(""))-subtrahend*Math.pow(10,i));
+					minuends.push(curDividend);
+				}
+			}
+			return {divisions:divisions, subtrahends:subtrahends, minuends:minuends};
+		}
 	</script>
 </head>
 <body>
@@ -22,6 +43,9 @@
 		<div class="vars">
 			<var id="DIVISOR">randRange(2,9)</var>
 			<var id="DIVIDEND">createEasyDividend(DIVISOR,3)</var>
+			<var id="TABLE">createLongDivisionTable(DIVIDEND,DIVISOR)</var>
+			<var id="DIVISION">0</var>
+			<var id="MINUEND">0</var>
 		</div>
 
 		<div class="problems">
@@ -31,6 +55,18 @@
 			</div>
 		</div>
 		<div class="hints">
+			<p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+			<p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+			<p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+			<p>Bring down the next number</p>
+			<p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+			<p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+			<p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+			<p>Bring down the next number</p>
+			<p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+			<p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+			<p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+			<p>The quotient is <var>DIVIDEND/DIVISOR</var></p>
 		</div>
 	</div>
 </body>
