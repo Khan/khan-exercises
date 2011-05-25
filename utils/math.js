@@ -385,7 +385,7 @@ scriptWait(function( scriptLoaded ) {
 		"HTML-CSS": {\
 			scale: 88\
 		}\
-	});';
+	});MathJax.Hub.Startup.onload();';
 
 	document.documentElement.appendChild( script );
 });
