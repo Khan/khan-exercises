@@ -150,6 +150,20 @@ function initRandom() {
 			return m.random();
 		},
 
+		/* Shuffle an array using a Fischer-Yates shuffle. */
+		shuffle: function shuffle(array) {
+			array = array.slice(0);
+
+			for(var top = array.length; top > 0; top--) {
+				var newEnd = Math.floor(KhanUtil.random() * top);
+				var tmp = array[newEnd];
+				array[newEnd] = array[top - 1];
+				array[top - 1] = tmp;
+			}
+
+			return array;
+		},
+
 		// pluralization helper.  There are three signatures
 		// - plural(NUMBER): return "s" if NUMBER is not 1
 		// - plural(NUMBER, singular): 
