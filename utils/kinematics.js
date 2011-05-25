@@ -20,7 +20,7 @@ jQuery.extend(KhanUtil, {
 	
 	randomFreefallMotion: function() {
 		var accel = -9.8;
-		var v_init = (KhanUtil.rand(1) ? 0 : KhanUtil.randRange(-100, 300)/10);
+		var v_init = (KhanUtil.rand(2) ? 0 : KhanUtil.randRange(-100, 300)/10);
 		var time = KhanUtil.randRange(0, 200)/10;
 		var disp = v_init*time + (1/2)*accel*time*time;
 		var v_final = v_init + accel * time;

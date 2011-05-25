@@ -126,7 +126,7 @@ jQuery.extend(KhanUtil, {
 			["a", "a'"],
 			["a", "\\frac{da}{d"+variable+"}"]
 		];
-		var n_idx = KhanUtil.rand( notations.length-1 );
+		var n_idx = KhanUtil.rand( notations.length );
 		return {
 			f: notations[n_idx][0],
 			ddxF: notations[n_idx][1]

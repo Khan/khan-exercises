@@ -10,8 +10,9 @@ jQuery.extend(KhanUtil, {
 	},
 	
 	// A simple random number picker
+	// Returns a random int in [0, num)
 	rand: function( num ) {
-		return Math.round( num * KhanUtil.random() );
+		return Math.floor( num * KhanUtil.random() );
 	},
 	
 	fraction: function( n, d ) {
@@ -169,7 +170,7 @@ jQuery.extend(KhanUtil, {
 	
 	// Returns a random member of the given array
 	randFromArray: function( arr ) {
-		return arr[ this.rand( arr.length - 1 ) ];
+		return arr[ this.rand( arr.length ) ];
 	},
 
 	// Round a number to a certain number of decimal places

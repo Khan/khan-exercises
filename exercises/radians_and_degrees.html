@@ -17,7 +17,7 @@
 
 			do {
 				offset = KhanUtil.randRange( 10, 35 );
-				if (KhanUtil.rand(1)) {
+				if (KhanUtil.rand(2)) {
 					offset *= -1;
 				}
 			
@@ -33,7 +33,7 @@
 
 			do {
 				offset = KhanUtil.randRange( 10, 35 ) / 100;
-				if (KhanUtil.rand(1)) {
+				if (KhanUtil.rand(2)) {
 					offset *= -1;
 				}
 
@@ -52,7 +52,7 @@
 
 			<!-- Common degree and radian values -->
 			<!-- (index rather than member-based selection is for wrong answer generation) -->
-			<var id="COMMON_INDEX">rand( commonAngles.length - 1 )</var>
+			<var id="COMMON_INDEX">rand( commonAngles.length )</var>
 			<var id="COMMON_DEGREES">commonAngles[COMMON_INDEX].deg</var>
 			<var id="COMMON_RADIANS">commonAngles[COMMON_INDEX].rad</var>
 		</div>
