@@ -108,7 +108,7 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			totalWeight += weight;
 			return weight;
 		});
-		var index = Math.floor( totalWeight * KhanUtil.random() );
+		var index = totalWeight * KhanUtil.random();
 
 		for(var i = 0; i < this.length; i++) {
 			if(index < weights[i]) {
