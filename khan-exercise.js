@@ -66,7 +66,7 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 				
 				// Toggle the navigation buttons
 				jQuery("#check").show();
-				jQuery("#next").hide();
+				jQuery("#next").blur().hide();
 				
 				// Wipe out any previous problem
 				jQuery("#workarea, #hintsarea").empty();
