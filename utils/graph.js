@@ -807,7 +807,7 @@ jQuery.fn.graph = function() {
 		}
 		
 		// Pre-populate all style information from the style attribute
-		jQuery.each( jQuery(this).data("style").split(/\s*;\s*/), function( i, prop ) {
+		jQuery.each( (jQuery(this).data("style") || "").split(/\s*;\s*/), function( i, prop ) {
 			// Properties are formatted using the typical CSS convention
 			var parts = prop.split(/:\s*/),
 				name = parts[0].replace(/-/g, ""),
