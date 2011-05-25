@@ -36,6 +36,16 @@ jQuery.extend(KhanUtil, {
 				sign + n;
 	},
 
+	fractionSimplification: function(n, d) {
+		var result = "\\frac{" + n + "}{" + (d < 0 ? "(" + d + ")" : d) + "}";
+
+		if ( this.getGCD( n, d ) > 1 ) {
+			result += " = " + this.fraction( n, d );
+		}
+
+		return result;
+	},
+
 	/* formattedSquareRootOf(24) gives 2\sqrt{6} */
 	formattedSquareRootOf: function(n) {
 		if(n == 1) {
