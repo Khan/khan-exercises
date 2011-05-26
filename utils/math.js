@@ -272,7 +272,7 @@ jQuery.fn.extend({
 					VARS[ name ] = value;
 				}
 			// Keep evaluating this variable while the condition in data-prevent is true
-			} while ( jQuery(this).data("prevent") && jQuery.getVAR( jQuery(this).data("prevent") ) );
+			} while ( jQuery(this).data("ensure") && !jQuery.getVAR( jQuery(this).data("ensure") ) );
 		});
 		
 		return this;
