@@ -6,6 +6,24 @@
 // Note that initials (-Var) are guaranteed to be unique in each category,
 // but not across them.
 
+jQuery.extend( KhanUtil, {
+	toSentence: function( array, conjunction ) {
+		if ( conjunction == null ) {
+			conjunction = "and";
+		}
+
+		if ( array.length == 0 ) {
+			return "";
+		} else if ( array.length == 1 ) {
+			return array[0];
+		} else if ( array.length == 2 ) {
+			return array[0] + " " + conjunction + " " + array[1];
+		} else {
+			return array.slice(0, -1).join(", ") + ", " + conjunction + " " + array[ array.length - 1 ];
+		}
+	}
+});
+
 jQuery.fn[ "word-problemsLoad" ] = function() {
 	if(!this.is(".exercise")) {
 		return;

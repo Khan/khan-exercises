@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math probability mathformat">
+<html data-require="math mathformat probability word-problems">
 <head>
 	<title>Probability 1</title>
 	<script src="../khan-exercise.js"></script>
@@ -105,9 +105,9 @@
 			</ul>
 
 			<div class="hints">
-				<p class="hint1">When rolling a die, there are <code>6</code> possibilities: 1, 2, 3, 4, 5, 6.</p>
+				<p class="hint1">When rolling a die, there are <code>6</code> possibilities: 1, 2, 3, 4, 5, and 6.</p>
 				<p class="hint2" data-if="RESULT_COUNT == 1">In this case, only <code>1</code> result is favorable: the number <var>RESULT_POSSIBLE[0]</var>.</p>
-				<p class="hint2" data-else>In this case, <code><var>RESULT_COUNT</var></code> results are favorable: <var>RESULT_POSSIBLE.join(", ")</var>.</p>
+				<p class="hint2" data-else>In this case, <code><var>RESULT_COUNT</var></code> results are favorable: <var>toSentence(RESULT_POSSIBLE)</var>.</p>
 				<p class="hint3">The probability is <code>\displaystyle <var>fractionSimplification(RESULT_COUNT, 6)</var></code>.</p>
 			</div>
 		</div>
@@ -188,8 +188,8 @@
 
 			<div class="hints">
 				<p class="hint1">There are <code><var>(new Array(REPS)).join("2 \\cdot ")</var>2 = 2^{<var>REPS</var>} = <var>TWO_TO_REPS</var></code> possibilities for the sequence of flips.</p>
-				<p class="hint2">The possibilities are: <var>ALL_SEQS.join(", ")</var>.</p>
-				<p class="hint3">There <var>WANTED_COUNT == 1 ? "is only" : "are"</var> <var>plural(WANTED_COUNT, "favorable outcome")</var>: <var>WANTED_LIST.join(", ")</var>.</p>
+				<p class="hint2">The possibilities are <var>toSentence(ALL_SEQS)</var>.</p>
+				<p class="hint3">There <var>WANTED_COUNT == 1 ? "is only" : "are"</var> <var>plural(WANTED_COUNT, "favorable outcome")</var>: <var>toSentence(WANTED_LIST)</var>.</p>
 				<p class="hint4">The probability is <code>\displaystyle <var>fractionSimplification(WANTED_COUNT, TWO_TO_REPS)</var></code>.</p>
 			</div>
 		</div>
@@ -238,8 +238,8 @@
 			</ul>
 
 			<div class="hints">
-				<p class="hint1">There are <var>POSSIBLE.length</var> possibilities for the chosen number.<br>The possibilities are: <var>POSSIBLE.join(", ")</var>.</p>
-				<p class="hint2">There <var>WANTED_COUNT == 1 ? "is only" : "are"</var> <var>plural(WANTED_COUNT, "favorable outcome")</var>: <var>WANTED_LIST.join(", ")</var>.</p>
+				<p class="hint1">There are <var>POSSIBLE.length</var> possibilities for the chosen number.<br>The possibilities are <var>toSentence(POSSIBLE)</var>.</p>
+				<p class="hint2">There <var>WANTED_COUNT == 1 ? "is only" : "are"</var> <var>plural(WANTED_COUNT, "favorable outcome")</var>: <var>toSentence(WANTED_LIST)</var>.</p>
 				<p class="hint3">The probability is <code>\displaystyle <var>fractionSimplification(WANTED_COUNT, POSSIBLE.length)</var></code>.</p>
 			</div>
 		</div>
