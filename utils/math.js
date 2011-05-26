@@ -254,8 +254,9 @@ jQuery.fn.extend({
 			vars = this.find(".vars");
 		}
 
-		var ensureFailed = false;
+		var ensureFailed;
 		do {
+			ensureFailed = false;
 			// Go through the specified variables
 			vars.children().each(function() {
 				// And load in their values
