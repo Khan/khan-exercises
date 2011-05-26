@@ -54,12 +54,20 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return people[i - 1][1] == "m" ? "he" : "she";
 		},
 
+		He: function( i ) {
+			return people[i - 1][1] == "m" ? "He" : "She";
+		},
+
 		him: function( i ) {
 			return people[i - 1][1] == "m" ? "him" : "her";
 		},
 
 		his: function( i ) {
 			return people[i - 1][1] == "m" ? "his" : "her";
+		},
+
+		His: function( i ) {
+			return people[i - 1][1] == "m" ? "His" : "Her";
 		},
 
 		vehicle: function( i ) {
