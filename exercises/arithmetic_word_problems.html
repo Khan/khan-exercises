@@ -38,10 +38,8 @@
     <div class="problems">
       <div id="type-1">
 	<p class="question">
-	  <var>person(1)</var> is putting <var>itemPlural(1)</var> into 
-          <var>groupPlural(1)</var>. 
-          If <var>he(1)</var> puts
-	  <var>plural( ITEMS_PER_GROUP, item(1), itemPlural(1) )</var> 
+	  <var>person(1)</var> is putting <var>itemPlural(1)</var> into <var>groupPlural(1)</var>. 
+          If <var>he(1)</var> puts <var>plural( ITEMS_PER_GROUP, item(1), itemPlural(1) )</var> 
           in each <var>group(1)</var> <var>he(1)</var> will <var>groupVerb(1)</var>
 	  <var>plural( GROUPS, group(1), groupPlural(1) )</var> and have
 	  <var>plural( ITEMS_LEFT, item(1), itemPlural(1) )</var> left over. 
@@ -78,25 +76,25 @@
 
       <div id="type-2">
 	<p class="question">
-	  <var>person(1)</var> bought <var>plural(ITEM_1_COUNT, storeItem(1, 1), storeItemPlural(1, 1))</var>,
+	  <var>person(1)</var> bought <var>plural( ITEM_1_COUNT, storeItem(1, 1), storeItemPlural(1, 1) )</var>,
 	  all costing the same amount, from the <var>store(1)</var> store. <var>He(1)</var> also bought a
-	  <var>storeItem(1, 2)</var> for <var>plural(ITEM_2_COST, "dollar")</var>. <var>He(1)</var> spent a total of
-	  <var>plural(TOTAL_SPENT, "dollar")</var>. How much did each <var>storeItem(1, 1)</var> cost?
+	  <var>storeItem(1, 2)</var> for <var>plural( ITEM_2_COST, "dollar" )</var>. <var>He(1)</var> spent a total of
+	  <var>plural( TOTAL_SPENT, "dollar" )</var>. How much did each <var>storeItem(1, 1)</var> cost?
 	</p>
 
 	<p class="solution"><var>ITEM_1_COST</var></p>
 
 	<div class="hints">
 	  <p class="hint1">
-	    Of the <var>plural(TOTAL_SPENT, "dollar")</var>, <var>he(1)</var> spent
-	    <var>plural(ITEM_2_COST, "dollar")</var> on a <var>storeItem(1, 2)</var>, so <var>he(1)</var> must have spent
+	    Of the <var>plural( TOTAL_SPENT, "dollar" )</var>, <var>he(1)</var> spent
+	    <var>plural( ITEM_2_COST, "dollar" )</var> on a <var>storeItem(1, 2)</var>, so <var>he(1)</var> must have spent
 	    a total of <code><var>TOTAL_SPENT</var> - <var>ITEM_2_COST</var> = <var>TOTAL_SPENT_ON_1</var></code> 
 	    dollars on <var>storeItemPlural(1, 1)</var>.
 	  </p>
 
 	  <p class="hint2">
-	    <var>He(1)</var> spent <var>plural(TOTAL_SPENT_ON_1, "dollar")</var> on
-	    <var>plural(ITEM_1_COUNT, storeItem(1, 1), storeItemPlural(1, 1))</var>,
+	    <var>He(1)</var> spent <var>plural( TOTAL_SPENT_ON_1, "dollar" )</var> on
+	    <var>plural( ITEM_1_COUNT, storeItem(1, 1), storeItemPlural(1, 1) )</var>,
 	    so he must have spent
 	    <code><var>TOTAL_SPENT_ON_1</var> \div <var>ITEM_1_COUNT</var> = <var>ITEM_1_COST</var></code>
 	    dollars on each <var>storeItem(1, 1)</var>.
