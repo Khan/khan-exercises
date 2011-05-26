@@ -59,6 +59,21 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"train"
 	]);
 
+	var courses = KhanUtil.shuffle([
+		"algebra",
+		"chemistry",
+		"geometry",
+		"history",
+		"physics",
+		"Spanish"
+	]);
+
+	var exams = KhanUtil.shuffle([
+		"exam",
+		"test",
+		"quiz"
+	]);
+
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -94,6 +109,18 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		vehicleVar: function( i ) {
 			return vehicles[i - 1].charAt(0);
+		},
+
+		course: function( i ) {
+			return courses[i - 1];
+		},
+
+		courseVar: function( i ) {
+			return courses[i - 1].charAt(0).toLowerCase();
+		},
+
+		exam: function( i ) {
+			return exams[i - 1];
 		}
 	});
 };

@@ -125,8 +125,15 @@ jQuery.extend(KhanUtil, {
 
 
 	// Get a random integer between min and max, inclusive
-	randRange: function( min, max ) {
-		return Math.floor( KhanUtil.random() * ( max - min + 1 ) ) + min;
+	// If a count is passed, it gives an array of random numbers in the range
+	randRange: function( min, max, count ) {
+		if ( count == null ) {
+			return Math.floor( KhanUtil.random() * ( max - min + 1 ) ) + min;
+		} else {
+			return jQuery.map(new Array(count), function() {
+				return KhanUtil.randRange( min, max );
+			});
+		}
 	},
 	
 	// Returns a random member of the given array
