@@ -26,7 +26,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		["Nadia", "f"],
 		["Omar", "m"],
 		["Stephanie", "f"],
-		["Taylor", "f"],
+		["Tiffany", "f"],
 		["Umaima", "f"],
 		["Vanessa", "f"],
 		["William", "m"]
