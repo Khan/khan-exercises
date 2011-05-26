@@ -10,13 +10,7 @@
 			<var id="A">randRange(1, 10)</var>
 			<var id="B">randRange(1, 10)</var>
 
-			<var id="C">
-				var c;
-				do {
-					c = randRange(1, 10);
-				} while ( (B - c) === 0 );
-				return c;
-			</var>
+			<var data-prevent="B - C !== 0" id="C">randRange(1, 10)</var>
 
 			<var id="D">randRange(1, 10)</var>
 			<var id="E">randRange(1, 10)</var>

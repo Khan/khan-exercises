@@ -256,20 +256,23 @@ jQuery.fn.extend({
 		
 		// Go through the specified variables
 		vars.children().each(function() {
-			// And load in their values
-			var value = jQuery.getVAR( this ),
-				name = this.id;
+			do {
+				// And load in their values
+				var value = jQuery.getVAR( this ),
+				    name = this.id;
 
-			if ( name ) {
-				// Show an error if a variable definition is overriding a built-in method
-				if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
-					if ( typeof console !== "undefined" ) {
-						console.error( "Defining variable '" + name + "' overwrites utility property of same name." );
+				if ( name ) {
+					// Show an error if a variable definition is overriding a built-in method
+					if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
+						if ( typeof console !== "undefined" ) {
+							console.error( "Defining variable '" + name + "' overwrites utility property of same name." );
+						}
 					}
-				}
 				
-				VARS[ name ] = value;
-			}
+					VARS[ name ] = value;
+				}
+			// Keep evaluating this variable while the condition in data-prevent is true
+			} while ( jQuery(this).data("prevent") && jQuery.getVAR( jQuery(this).data("prevent") ) );
 		});
 		
 		return this;
