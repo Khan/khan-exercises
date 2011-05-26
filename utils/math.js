@@ -273,7 +273,8 @@ jQuery.fn.extend({
 					VARS[ name ] = value;
 				}
 
-				ensureFailed = jQuery(this).data("ensure") && !jQuery.getVAR( jQuery(this).data("ensure") );
+				ensureFailed = ensureFailed ||
+					( (jQuery(this).data("ensure") && !jQuery.getVAR( jQuery(this).data("ensure") ) ) );
 			});
 		} while (ensureFailed);
 	
