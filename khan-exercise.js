@@ -194,18 +194,22 @@ function initRandom() {
 			};
 
 			return function(value, arg1, arg2) {
-				var usePlural = (value !== 1);
+				if ( typeof value === "number" ) {
+					var usePlural = (value !== 1);
 
-				// if no extra args, just add "s" (if plural)
-				if ( arguments.length === 1 ) {
-					return usePlural ? "s" : "";
+					// if no extra args, just add "s" (if plural)
+					if ( arguments.length === 1 ) {
+						return usePlural ? "s" : "";
+					}
+
+					if ( usePlural ) {
+						arg1 = arg2 || pluralizeWord(arg1);
+					}
+
+					return value + " " + arg1;
+				} else if ( typeof value === "string" ) {
+					return pluralizeWord(value);
 				}
-
-				if ( usePlural ) {
-					arg1 = arg2 || pluralizeWord(arg1);
-				}
-
-				return value + " " + arg1;
 			};
 		})()
 	});
