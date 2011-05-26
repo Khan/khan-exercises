@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+  <title>Arithmetic word problems</title>
+  <script src="../khan-exercise.js"></script>
+</head>
+<body>
+  <div class="exercise">
+    <div class="vars">
+      <var id="ITEMS_PER_GROUP">randRange( 3, 12 )</var>
+      <var id="ITEMS_LEFT">randRange( 1, ITEMS_PER_GROUP - 1 )</var>
+      <var data-prevent="getFactors( ITEMS_PER_GROUP * GROUPS + ITEMS_LEFT ).length < 3" 
+	   id="GROUPS">randRange( 2, 12 )</var>
+      <var id="ITEMS_IN_GROUPS">GROUPS * ITEMS_PER_GROUP</var>
+      <var id="TOTAL_ITEMS">ITEMS_IN_GROUPS + ITEMS_LEFT</var>
+      
+      <var id="NEW_ITEMS_PER_GROUP">getRandomFactor( TOTAL_ITEMS )</var>
+      <var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS_PER_GROUP</var>
+      
+    </div>
+
+    <div class="problems">
+      <div>
+	<p class="question">
+	  <var>person(1)</var> is putting <var>itemPlural(1)</var> into 
+          <var>groupPlural(1)</var>. 
+          If <var>he(1)</var> puts
+	  <var>plural( ITEMS_PER_GROUP, item(1), itemPlural(1) )</var> 
+          in each <var>group(1)</var> <var>he(1)</var> will <var>groupVerb(1)</var>
+	  <var>plural( GROUPS, group(1), groupPlural(1) )</var> and have
+	  <var>plural( ITEMS_LEFT, item(1), itemPlural(1) )</var> left over. 
+          If <var>he(1)</var> instead puts
+	  <var>NEW_ITEMS_PER_GROUP</var> <var>itemPlural(1)</var> in each
+	  <var>group(1)</var>, how many <var>groupPlural(1)</var> of
+	  <var>itemPlural(1)</var> can <var>he(1)</var> <var>groupVerb(1)</var>?
+	</p>
+	<p class="solution"><var>NEW_GROUPS</var></p>
+      </div>
+    </div>
+
+    <div class="hints">
+      <p>
+	<var>plural( GROUPS, group(1), groupPlural(1) )</var> of 
+	<var>plural( ITEMS_PER_GROUP, item(1), itemPlural(1) )</var> each results in
+	<code><var>GROUPS</var> \times <var>ITEMS_PER_GROUP</var> = <var>ITEMS_IN_GROUPS</var></code>
+	<var>itemPlural(1)</var>.
+      </p>
+
+      <p>
+	<var>plural( ITEMS_IN_GROUPS, item(1), itemPlural(1) )</var> plus 
+	<var>ITEMS_LEFT</var> left over equals 
+	<var>TOTAL_ITEMS</var> total <var>itemPlural(1)</var>.
+      </p>
+
+      <p>
+	<var>plural( TOTAL_ITEMS, item(1), itemPlural(1) )</var> 
+	divided into groups of <var>NEW_ITEMS_PER_GROUP</var> is
+	<code><var>TOTAL_ITEMS</var> \div <var>NEW_ITEMS_PER_GROUP</var> = <var>NEW_GROUPS</var></code>
+	<var>groupPlural(1)</var>.
+      
+    </div>
+  </div>
+</body>
+</html>

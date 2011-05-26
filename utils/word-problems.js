@@ -92,6 +92,14 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"\\triangleright"
 	]);
 
+	var collections = KhanUtil.shuffle([
+		["chair", "chairs", "row", "rows", "make"],
+		["party favor", "party favors", "bag", "bags", "fill"],
+		["jelly bean", "jelly beans", "pile", "piles", "make"],
+		["book", "books", "shelf", "shelves", "fill"],
+		["can of food", "cans of food", "box", "boxes", "fill"]
+	]);
+
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -143,6 +151,26 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		binop: function( i ) {
 			return binops[i - 1];
+		},
+
+		item: function( i ) {
+			return collections[i - 1][0];
+		},
+
+		itemPlural: function( i ) {
+			return collections[i - 1][1];
+		},
+
+		group: function( i ) {
+	    		return collections[i - 1][2];
+		},
+
+		groupPlural: function( i ) {
+			return collections[1 - 1][3];
+		},
+
+		groupVerb: function( i ) {
+			return collections[i - 1][4];
 		}
 	});
 };
