@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Subtracting Decimals</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+		function createLongSubtractionTable( a, b ) {
+			var table = a.slice();
+			var borrow = new Array( a.length );
+			initArray( borrow, 0);
+			for( i = 0; i < a.length; i++){
+				if(a[i] < b[i] || a[i] < 0){
+					table[i+1] -= 1;
+					table[i] +=10;
+					borrow[i+1] = 1;
+				}
+			}
+			var result = 0;
+			for(i = 0; i < a.length; i++){
+				if(b[i]){
+					result += (a[i] - b[i]) * Math.pow(10,i);
+				}
+				else{
+					result += a[i] * Math.pow(10,i);
+				}
+			}
+			return { borrow: borrow, result: result};
+		}
+		function initArray( arr, val){
+			for(i = 0; i < arr.length; i++){
+				arr[i] = val;
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="DECIMAL_A">randRange( 1, 3 )</var>
+			<var id="A">randRange( 1001, 9999 ) / pow( 10, DECIMAL_A)</var>
+			<var id="DECIMAL_B">randRange(2,4)</var>
+			<var data-ensure="A > B" id="B">randRange( 101, 999 ) / pow( 10, DECIMAL_B)</var>
+			<var id="A_ARRAY">digits( round( A * pow( 10, DECIMAL_B)))</var>
+			<var id="B_ARRAY">digits( round( B * pow( 10, DECIMAL_B)))</var>
+			<var id="TABLE">createLongSubtractionTable( A_ARRAY, B_ARRAY)</var>
+			<var id="RESULT">TABLE.result / pow( 10, DECIMAL_B )</var>
+			<var id="BORROW">TABLE.borrow</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question"><var>A</var> - <var>B</var> = ?</p>
+				<div class="solution"><var>A - B</var></div>
+			</div>
+		</div>
+		<div class="hints">
+			<p>First we need to line up the decimal points.</p>
+			<p>Now we need to make sure that all the digits in the top number are greater than or equal to the digit below it.</p>
+			
+			<!-- first digit -->
+			<p data-if="BORROW[1] > 0"> For the first digit, <var>A_ARRAY[0]</var> is less then <var> B_ARRAY[0]</var>, so we'll have to borrow.</p>
+			<p data-if="BORROW[1] > 0"> <var>A_ARRAY[1]</var> - 1 = <var>A_ARRAY[1]-1</var>, <var>A_ARRAY[0]</var> + 10 = <var>A_ARRAY[0]+10</var></p>
+			<!-- second digit -->
+			<p data-if="BORROW[2] > 0"> For the second digit, <var>A_ARRAY[1]-BORROW[1]</var> is less then <var> B_ARRAY[1]</var>, so we'll have to borrow.</p>
+			<p data-if="BORROW[2] > 0"> <var>A_ARRAY[2]</var> - 1 = <var>A_ARRAY[2]-1</var>, <var>A_ARRAY[1]-BORROW[1]</var> + 10 = <var>A_ARRAY[1]-BORROW[1]+10</var></p>
+			<!-- third digit -->
+			<p data-if="BORROW[3] > 0"> For the third digit, <var>A_ARRAY[2]-BORROW[2]</var> is less then <var> B_ARRAY[2]</var>, so we'll have to borrow.</p>
+			<p data-if="BORROW[3] > 0"> <var>A_ARRAY[3]</var> - 1 = <var>A_ARRAY[3]-1</var>, <var>A_ARRAY[2]-BORROW[2]</var> + 10 = <var>A_ARRAY[2]-BORROW[2]+10</var></p>
+			<!-- fourth digit -->
+			<p data-if="BORROW[4] > 0"> For the fourth digit, <var>A_ARRAY[3]-BORROW[3]</var> is less then <var> B_ARRAY[3]</var>, so we'll have to borrow.</p>
+			<p data-if="BORROW[4] > 0"> <var>A_ARRAY[4]</var> - 1 = <var>A_ARRAY[4]-1</var>, <var>A_ARRAY[3]-BORROW[3]</var> + 10 = <var>A_ARRAY[3]-BORROW[3]+10</var></p>
+			<!-- fifth digit -->
+			<p data-if="BORROW[5] > 0"> For the fifth digit, <var>A_ARRAY[4]-BORROW[3]</var> is less then <var> B_ARRAY[4]</var>, so we'll have to borrow.</p>
+			<p data-if="BORROW[5] > 0"> <var>A_ARRAY[5]</var> - 1 = <var>A_ARRAY[5]-1</var>, <var>A_ARRAY[4]-BORROW[4]</var> + 10 = <var>A_ARRAY[4]-BORROW[4]+10</var></p>
+			<!-- sixth digit -->
+			<p data-if="BORROW[6] > 0"> For the sixth digit, <var>A_ARRAY[5]-BORROW[5]</var> is less then <var> B_ARRAY[5]</var>, so we'll have to borrow.</p>
+			<p data-if="BORROW[6] > 0"> <var>A_ARRAY[6]</var> - 1 = <var>A_ARRAY[6]-1</var>, <var>A_ARRAY[5]-BORROW[5]</var> + 10 = <var>A_ARRAY[5]-BORROW[5]+10</var></p>
+			
+			<p>All the top digits are greater than or equal to all the bottom digits, so we can start subtracting.</p>
+			<p>First digit: <var>A_ARRAY[0] + ( 10 * BORROW[1] )</var> - <var>B_ARRAY[0]</var> = <var>A_ARRAY[0] + ( 10 * BORROW[1] ) - B_ARRAY[0]</var></p>
+			<p>Second digit: <var>A_ARRAY[1] - BORROW[1] + ( 10 * BORROW[2] )</var> - <var>B_ARRAY[1]</var> = <var>A_ARRAY[1] - BORROW[1] + ( 10 * BORROW[2] ) - B_ARRAY[1]</var></p>
+			<p data-if="B_ARRAY[2]">Third digit: <var>A_ARRAY[2] - BORROW[2] + ( 10 * BORROW[3] )</var> - <var>B_ARRAY[2]</var> = <var>A_ARRAY[2] - BORROW[2] + ( 10 * BORROW[3] ) - B_ARRAY[2]</var></p>
+			<p data-if="B_ARRAY[3]">Fourth digit: <var>A_ARRAY[3] - BORROW[3] + ( 10 * BORROW[4] )</var> - <var>B_ARRAY[3]</var> = <var>A_ARRAY[3] - BORROW[3] + ( 10 * BORROW[4] )  - B_ARRAY[3]</var></p>
+			<p data-if="B_ARRAY[4]">Fifth digit: <var>A_ARRAY[4] - BORROW[4] + ( 10 * BORROW[5] )</var> - <var>B_ARRAY[4]</var> = <var>A_ARRAY[4] - BORROW[4] + ( 10 * BORROW[5] ) - B_ARRAY[4]</var></p>
+			<p data-if="B_ARRAY[5]">Sixth digit: <var>A_ARRAY[5] - BORROW[5] + ( 10 * BORROW[6] )</var> - <var>B_ARRAY[5]</var> = <var>A_ARRAY[5] - BORROW[5] + ( 10 * BORROW[6] ) - B_ARRAY[5]</var></p>
+			<p data-if="B_ARRAY[6]">Seventh digit: <var>A_ARRAY[6] - BORROW[6]</var> - <var>B_ARRAY[6]</var> = <var>A_ARRAY[6] - BORROW[6] - B_ARRAY[6]</var></p>
+			<p>Now bring down all the other digits.</p>
+			<p>Answer: <var>RESULT</var></p>
+		</div>
+	</div>
+</body>
+</html>
+
