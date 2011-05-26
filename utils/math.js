@@ -54,6 +54,25 @@ jQuery.extend(KhanUtil, {
     getPrime: function() {
         return this.primes[ this.rand( this.primes.length ) ];
     },
+
+	isPrime: function(n) {
+		if (n <= 1) {
+			return false;
+		} else if (n < 101) {
+			return !!jQuery.grep(KhanUtil.primes, function(p, i) {
+				return Math.abs(p - n) <= 0.5;
+			}).length;
+		} else {
+			/* maybe do something faster, like Miller-Rabin */
+			for(var i = 2; i * i <= n; i++) {
+				if ( n % i <= 0.5 ) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+	},
     
     getOddComposite: function() {
         var oddComposites = [9, 15, 21, 25, 27, 33, 35, 39, 45, 49, 51, 55];

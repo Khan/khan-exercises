@@ -189,11 +189,60 @@
 			<div class="hints">
 				<p class="hint1">There are <code><var>(new Array(REPS)).join("2 \\cdot ")</var>2 = 2^{<var>REPS</var>} = <var>TWO_TO_REPS</var></code> possibilities for the sequence of flips.</p>
 				<p class="hint2">The possibilities are: <var>ALL_SEQS.join(", ")</var>.</p>
-				<p class="hint3">There <var>WANTED_COUNT == 1 ? "is" : "are"</var> <var>plural(WANTED_COUNT, "favorable outcome")</var>: <var>WANTED_LIST.join(", ")</var>.</p>
+				<p class="hint3">There <var>WANTED_COUNT == 1 ? "is only" : "are"</var> <var>plural(WANTED_COUNT, "favorable outcome")</var>: <var>WANTED_LIST.join(", ")</var>.</p>
 				<p class="hint4">The probability is <code>\displaystyle <var>fractionSimplification(WANTED_COUNT, TWO_TO_REPS)</var></code>.</p>
 			</div>
 		</div>
 
+		<div>
+			<div class="vars">
+				<var id="ENDS">randFromArray([ [1, 10], [11, 20], [21, 30], [31, 40], [41, 50], [51, 60], [61, 70], [71, 80], [81, 90], [91, 100] ])</var>
+				<var id="LOW">ENDS[0]</var>
+				<var id="HIGH">ENDS[1]</var>
+				<var id="POSSIBLE">(function() {
+					var list = [];
+					for (var i = LOW; i <= HIGH; i++) {
+						list.push(i);
+					}
+					return list;
+				})()</var>
+
+				<var id="COND">randFromArray([
+					["prime", KhanUtil.isPrime],
+					["divisible by both 2 and 3", function(n) { return n % 6 <= 0.5; }],
+					["divisible by either 3 or 5", function(n) { return n % 3 <= 0.5 || n % 5 <= 0.5; }],
+					["divisible by either 4 or 7", function(n) { return n % 4 <= 0.5 || n % 7 <= 0.5; }]
+				])</var>
+
+				<var id="WANTED_LIST">jQuery.grep(POSSIBLE, COND[1])</var>
+				<var id="WANTED_COUNT">WANTED_LIST.length</var>
+				<var id="WRONGS">(function() {
+					var wr = [1, 2, 3, 4, 5, 6];
+					return KhanUtil.shuffle(jQuery.grep(wr, function( el, i ) {
+						return el != WANTED_COUNT;
+					}));
+				})()</var>
+			</div>
+
+			<div class="question">
+				<p>A a positive integer is picked randomly from <var>LOW</var> to <var>HIGH</var>, inclusive.</p>
+				<p>What is the probability that it is <strong><var>COND[0]</var></strong>?</p>
+			</div>
+
+			<div class="solution"><code>\displaystyle <var>fraction(WANTED_COUNT, POSSIBLE.length)</var></code></div>
+			<ul class="choices" data-show="5">
+				<li><code>\displaystyle <var>fraction(WRONGS[0], POSSIBLE.length)</var></code></li>
+				<li><code>\displaystyle <var>fraction(WRONGS[1], POSSIBLE.length)</var></code></li>
+				<li><code>\displaystyle <var>fraction(WRONGS[2], POSSIBLE.length)</var></code></li>
+				<li><code>\displaystyle <var>fraction(WRONGS[3], POSSIBLE.length)</var></code></li>
+			</ul>
+
+			<div class="hints">
+				<p class="hint1">There are <var>POSSIBLE.length</var> possibilities for the chosen number.<br>The possibilities are: <var>POSSIBLE.join(", ")</var>.</p>
+				<p class="hint2">There <var>WANTED_COUNT == 1 ? "is only" : "are"</var> <var>plural(WANTED_COUNT, "favorable outcome")</var>: <var>WANTED_LIST.join(", ")</var>.</p>
+				<p class="hint3">The probability is <code>\displaystyle <var>fractionSimplification(WANTED_COUNT, POSSIBLE.length)</var></code>.</p>
+			</div>
+		</div>
 	</div>
 
 	<div class="hints">
