@@ -9,7 +9,7 @@
     <div class="vars">
       <var id="ITEMS_PER_GROUP">randRange( 3, 12 )</var>
       <var id="ITEMS_LEFT">randRange( 1, ITEMS_PER_GROUP - 1 )</var>
-      <var data-prevent="getFactors( ITEMS_PER_GROUP * GROUPS + ITEMS_LEFT ).length < 3" 
+      <var data-ensure="getFactors( ITEMS_PER_GROUP * GROUPS + ITEMS_LEFT ).length > 2" 
 	   id="GROUPS">randRange( 2, 12 )</var>
       <var id="ITEMS_IN_GROUPS">GROUPS * ITEMS_PER_GROUP</var>
       <var id="TOTAL_ITEMS">ITEMS_IN_GROUPS + ITEMS_LEFT</var>
