@@ -253,10 +253,11 @@ jQuery.fn.extend({
 		} else {
 			vars = this.find(".vars");
 		}
-		
-		// Go through the specified variables
-		vars.children().each(function() {
-			do {
+
+		var ensureFailed = false;
+		do {
+			// Go through the specified variables
+			vars.children().each(function() {
 				// And load in their values
 				var value = jQuery.getVAR( this ),
 				    name = this.id;
@@ -271,10 +272,11 @@ jQuery.fn.extend({
 				
 					VARS[ name ] = value;
 				}
-			// Keep evaluating this variable while the condition in data-prevent is true
-			} while ( jQuery(this).data("ensure") && !jQuery.getVAR( jQuery(this).data("ensure") ) );
-		});
-		
+
+				ensureFailed = jQuery(this).data("ensure") && !jQuery.getVAR( jQuery(this).data("ensure") );
+			});
+		} while (ensureFailed);
+	
 		return this;
 	},
 
