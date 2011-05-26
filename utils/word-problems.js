@@ -100,6 +100,51 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		["can of food", "cans of food", "box", "boxes", "fill"]
 	]);
 
+	var stores = KhanUtil.shuffle([
+		{
+			name: "office supply",
+			items: KhanUtil.shuffle([
+				["pen", "pens"],
+				["pencil", "pencils"],
+				["notebook", "notebooks"]
+			])
+		},
+		{
+			name: "hardware",
+			items: KhanUtil.shuffle([
+				["hammer", "hammers"],
+				["nail", "nails"],
+				["saw", "saws"]
+			])
+		},
+		{
+			name: "grocery",
+			items: KhanUtil.shuffle([
+				["banana", "bananas"],
+				["loaf of bread", "loaves of bread"],
+				["gallon of milk", "gallons of milk"],
+				["potato", "potatoes"]
+			])
+		},
+		{
+			name: "gift",
+			items: KhanUtil.shuffle([
+				["toy", "toys"],
+				["game", "games"],
+				["souvenir", "souvenirs"]
+			])
+		},
+		{
+			name: "toy",
+			items: KhanUtil.shuffle([
+				["stuffed animal", "stuffed animals"],
+				["video game", "video games"],
+				["race car", "race cars"],
+				["doll", "dolls"]
+			])
+		}
+	]);
+
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -119,6 +164,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		him: function( i ) {
 			return people[i - 1][1] == "m" ? "him" : "her";
+		},
+
+		Him: function( i ) {
+			return people[i - 1][1] == "m" ? "Him" : "Her";
 		},
 
 		his: function( i ) {
@@ -171,6 +220,18 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		groupVerb: function( i ) {
 			return collections[i - 1][4];
+		},
+
+		store: function( i ) {
+			return stores[i].name;
+		},
+
+		storeItem: function( i, j ) {
+			return stores[i].items[j][0];
+		},
+
+		storeItemPlural: function( i, j ) {
+			return stores[i].items[j][1];
 		}
 	});
 };
