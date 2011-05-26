@@ -181,6 +181,8 @@ function initRandom() {
 					word = word.replace(/y$/i, "ies");
 				} else if ( /[sxz]/i.test( word ) || /[bcfhjlmnqsvwxyz]h/.test( word ) ) {
 					word += "es";
+				} else if ( word == "quiz" ) {
+					word += "zes";
 				} else {
 					word += "s";
 				}
