@@ -279,7 +279,7 @@ jQuery.extend({
 			var nextCond = jQuery(this).nextAll( jQuery.tmplExpr ).eq(0);
 
 			if ( nextCond.data("else") != null ) {
-				nextCond.data("else-hide", cond);
+				nextCond.data("else-hide", cond || jQuery(this).data("else-hide"));
 			}
 		}
 
