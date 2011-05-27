@@ -46,6 +46,8 @@ jQuery.extend(KhanUtil, {
 			return false;
 
 			case "^":
+			return KhanUtil.exprType(expr[1]) != "number";
+
 			case "number":
 			return true;
 
