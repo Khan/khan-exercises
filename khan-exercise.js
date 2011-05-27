@@ -151,7 +151,7 @@ function initRandom() {
 		},
 
 		/* Shuffle an array using a Fischer-Yates shuffle. */
-		shuffle: function shuffle(array) {
+		shuffle: function(array) {
 			array = array.slice(0);
 
 			for(var top = array.length; top > 0; top--) {
