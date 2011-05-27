@@ -147,5 +147,66 @@ jQuery.extend(KhanUtil, {
 	Cardinal: function( n ) {
 		var card = KhanUtil.cardinal( n );
 		return card.charAt(0).toUpperCase() + card.slice(1);
+	},
+	
+	// Depends on math.js for perfectSquareFactor
+	// Returns a string with the expression for the formatted roots of the quadratic
+	// with coefficients a, b, c
+	// i.e. "x = \pm 3", "
+	quadraticRoots: function( a, b, c ) {
+		var underRadical = KhanUtil.perfectSquareFactor( b*b - 4*a*c );
+		var rootString = "x =";
+
+		var i = "";
+
+		if (underRadical[0]<0) {
+			i += "i";
+		}
+		
+		if ((b*b-4*a*c)==0) {
+			// 0 under the radical
+			rootString += KhanUtil.fraction(-1*b, 2*a);
+		}
+
+		else if (underRadical.length==1) {
+			// The number under the radical cannot be simplified
+			rootString += "\\frac{" + (-1*b) + " \\pm sqrt(" + Math.abs(underRadical[0]) + ")" + i + "} {" + (2*a) + ")";
+		}
+
+		else if (Math.abs(underRadical[0])==1) {
+			// The absolute value of the number under the radical is a perfect square
+			if ( underRadical[0] < 0 ) {
+				// the number is negative
+				rootString += "\\frac{" + (-1*b) + " \\pm " + ( Math.sqrt(Math.abs(underRadical[1])) ) +"i} {"+(2*a)+ "}";
+			}
+			
+			else {
+				rootString += KhanUtil.fraction(-1*b+Math.sqrt(underRadical[1]), 2*a)+","+ KhanUtil.fraction(-1*b-Math.sqrt(underRadical[1]), 2*a);
+			}
+		}
+
+
+		else //under the radical can be partially simplified
+		{
+			var divisor= KhanUtil.getGCD(
+				Math.abs(b),
+				KhanUtil.getGCD( Math.abs(2*a), Math.sqrt( Math.abs(underRadical[1]) ) )
+			);
+			var firstTerm; //only can be used in the cases when the radical is simplified
+			var lastTerm;
+			
+			if (divisor==Math.abs(2*a))
+			{
+				firstTerm=-1*b/(2*a);
+				lastTerm="";
+			}
+			else
+			{
+				firstTerm="("+(-1*b/divisor);
+				lastTerm=")/("+(2*a/divisor)+")";
+			}
+			rootString += firstTerm+ " \\pm " + ( Math.sqrt(underRadical[1])/divisor ) + "\\sqrt{" + Math.abs(underRadical[0]) +"}" + i + lastTerm;
+		}
+		return rootString;
 	}
 });
