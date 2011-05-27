@@ -74,6 +74,24 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"quiz"
 	]);
 
+	var binops = KhanUtil.shuffle([
+		"\\barwedge",
+		"\\veebar",
+		"\\odot",
+		"\\oplus",
+		"\\otimes",
+		"\\oslash",
+		"\\circledcirc",
+		"\\boxdot",
+		"\\bigtriangleup",
+		"\\bigtriangledown",
+		"\\dagger",
+		"\\diamond",
+		"\\star",
+		"\\triangleleft",
+		"\\triangleright"
+	]);
+
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -121,6 +139,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		exam: function( i ) {
 			return exams[i - 1];
+		},
+
+		binop: function( i ) {
+			return binops[i - 1];
 		}
 	});
 };

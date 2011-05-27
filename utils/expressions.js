@@ -47,7 +47,7 @@ jQuery.extend(KhanUtil, {
 			return false;
 
 			case "^":
-			return KhanUtil.exprType(expr[1]) != "number";
+			return !(KhanUtil.exprType(expr[1]) === "number" && expr[1] > 0);
 
 			case "number":
 			return true;
@@ -135,6 +135,20 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"*": function() {
+			var rest = Array.prototype.slice.call(arguments, 1);
+			rest.unshift("*");
+
+			if ( arguments[0] === 1 ) {
+				return KhanUtil.expr(rest);
+			} else if ( arguments[0] === -1 ) {
+				var form = KhanUtil.expr(rest);
+				if( KhanUtil.exprIsNegated(rest) ) {
+					return "-(" + form + ")";
+				} else {
+					return "-" + form;
+				}
+			}
+
 			if ( arguments.length > 1 ) {
 				var parenthesizeRest = KhanUtil.exprType(arguments[0]) === "number"
 					&& KhanUtil.exprType(arguments[1]) === "number";
@@ -144,8 +158,6 @@ jQuery.extend(KhanUtil, {
 						case "number":
 						if ( i > 0 ) {
 							parenthesize = true;
-						} else if ( factor == 1 || factor == -1 ) {
-							return factor == 1 ? "" : "-";
 						}
 						break;
 
@@ -165,6 +177,8 @@ jQuery.extend(KhanUtil, {
 				});
 
 				return factors.join("");
+			} else {
+				return arguments[0];
 			}
 		},
 
