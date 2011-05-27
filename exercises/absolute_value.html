@@ -9,7 +9,7 @@
 	<div class="vars">
 		<var id="INT">rand(5) > 0 ? randRange(1, 24) : 0</var>
 		<var id="FRAC">rand(3) > 0 ? "." + randRange(1, 9) : ""</var>
-		<var id="SIGN">randFromArray(["", "-"])</var>
+		<var id="SIGN" data-ensure="SIGN == &quot;&quot; || INT != 0 || FRAC != 0">randFromArray(["", "-"])</var>
 	</div>
 
 	<div class="problems">
