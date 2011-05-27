@@ -74,18 +74,44 @@ jQuery.extend(KhanUtil, {
 		}
 	},
     
-    getOddComposite: function() {
+    getOddComposite: function( min, max ) {
+        if ( min === undefined ) {
+            min = 0;
+        }
+        
+        if ( max === undefined ) {
+            max = 100;
+        }
+        
         var oddComposites = [9, 15, 21, 25, 27, 33, 35, 39, 45, 49, 51, 55];
         oddComposites = oddComposites.concat([57, 63, 65, 69, 75, 77, 81, 85, 87, 91, 93, 95, 99]);
-        return oddComposites[ this.rand( oddComposites.length ) ];
+
+        var result = -1;
+        while ( result < min || result > max ) {
+            result = oddComposites[ this.rand( oddComposites.length ) ];
+        }
+        return result;
     },
     
-    getEvenComposite: function() {
+    getEvenComposite: function( min, max ) {
+        if ( min === undefined ) {
+            min = 0;
+        }
+        
+        if ( max === undefined ) {
+            max = 100;
+        }
+
         var evenComposites = [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26];
         evenComposites = evenComposites.concat([28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48]);
         evenComposites = evenComposites.concat([50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72]);
         evenComposites = evenComposites.concat([74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98]);
-        return evenComposites[ this.rand( evenComposites.length ) ];
+        
+        var result = -1;
+        while ( result < min || result > max ) {
+            result = evenComposites[ this.rand( evenComposites.length ) ];
+        }
+        return result;
     },
     
     getPrimeFactorization: function( number ) {
