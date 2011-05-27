@@ -8,7 +8,7 @@
 			var table = a.slice();
 			var borrow = new Array( a.length );
 			initArray( borrow, 0);
-			for( i = 0; i < a.length; i++){
+			for( var i = 0; i < a.length; i++){
 				if(a[i] < b[i] || a[i] < 0){
 					table[i+1] -= 1;
 					table[i] +=10;
@@ -16,7 +16,7 @@
 				}
 			}
 			var result = 0;
-			for(i = 0; i < a.length; i++){
+			for( var i = 0; i < a.length; i++){
 				if(b[i]){
 					result += (a[i] - b[i]) * Math.pow(10,i);
 				}
@@ -27,7 +27,7 @@
 			return { borrow: borrow, result: result};
 		}
 		function initArray( arr, val){
-			for(i = 0; i < arr.length; i++){
+			for( var i = 0; i < arr.length; i++){
 				arr[i] = val;
 			}
 		}
