@@ -268,23 +268,29 @@ jQuery.extend({
 			return true;
 		}
 
-		var cond = jQuery(this).data("if");
+		var condStr = jQuery(this).data("if");
+		var cond = true;
 		
-		if ( cond != null ) {
-			cond = jQuery.getVAR( cond );
+		if ( condStr != null ) {
+			cond = cond && jQuery.getVAR( condStr );
 			
-			if ( !cond ) {
-				jQuery(this).remove();
-				return false;
-			}
-			
-			var nextCond = jQuery(this).nextAll( jQuery.tmplExpr ).eq(0);
+			/* Work around a strange inconsistency in jQuery/Sizzle
+			 * https://github.com/jquery/sizzle/issues/64 */
+			var nextCond = jQuery(this).nextAll(function() {
+				return jQuery(this).is(jQuery.tmplExpr);
+			}).eq(0);
 
 			if ( nextCond.data("else") != null ) {
 				nextCond.data("else-hide", cond);
 			}
-		} else if ( jQuery(this).data("else") != null && jQuery(this).data("else-hide") ) {
-			jQuery( this ).remove();
+		}
+
+		if ( jQuery(this).data("else") != null ) {
+			cond = cond && !jQuery(this).data("else-hide");
+		}
+
+		if ( !cond ) {
+			jQuery(this).remove();
 			return false;
 		}
 		
