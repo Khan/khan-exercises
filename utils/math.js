@@ -268,17 +268,22 @@ jQuery.extend({
 			return true;
 		}
 
-		cond = jQuery(this).data("if");
+		var cond = jQuery(this).data("if");
 		
 		if ( cond != null ) {
-			lastCond = cond = jQuery.getVAR( cond );
+			cond = jQuery.getVAR( cond );
 			
 			if ( !cond ) {
 				jQuery(this).remove();
 				return false;
 			}
 			
-		} else if ( lastCond && jQuery(this).data("else") != null ) {
+			var nextCond = jQuery(this).nextAll( jQuery.tmplExpr ).eq(0);
+
+			if ( nextCond.data("else") != null ) {
+				nextCond.data("else-hide", cond);
+			}
+		} else if ( jQuery(this).data("else") != null && jQuery(this).data("else-hide") ) {
 			jQuery( this ).remove();
 			return false;
 		}
