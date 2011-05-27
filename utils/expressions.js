@@ -173,7 +173,7 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"frac": function( num, den ) {
-			return "\\frac{" + num + "}{" + den + "}";
+			return "\\frac{" + KhanUtil.expr( num ) + "}{" + KhanUtil.expr( den ) + "}";
 		},
 
 		"^": function( base, pow ) {
@@ -203,7 +203,7 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"sqrt": function( arg ) {
-			return "\\sqrt{" + arg + "}";
+			return "\\sqrt{" + KhanUtil.expr( arg ) + "}";
 		},
 
 		"+-": function( arg ) {
