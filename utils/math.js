@@ -219,6 +219,7 @@ jQuery.fn.extend({
 		}
 
 		var ensureFailed;
+		var globalEnsure = vars.data("ensure");
 		do {
 			ensureFailed = false;
 			// Go through the specified variables
@@ -241,6 +242,10 @@ jQuery.fn.extend({
 				ensureFailed = ensureFailed ||
 					( (jQuery(this).data("ensure") && !jQuery.getVAR( jQuery(this).data("ensure") ) ) );
 			});
+
+			// check the global ensure
+			ensureFailed = ensureFailed ||
+				(globalEnsure && !jQuery.getVAR( globalEnsure ));
 		} while (ensureFailed);
 	
 		return this;
