@@ -42,11 +42,7 @@ jQuery.extend(KhanUtil, {
 		};
 
 		this.evalOf = function( val ) {
-			var result = 0;
-			for ( var i = this.minDegree; i <= this.maxDegree; i++ ) {
-				result += coefs[i] * Math.pow( val, i );
-			}
-			return result;
+			return KhanUtil.expr( this.expr( val ), true );
 		};
 
 		return this;
