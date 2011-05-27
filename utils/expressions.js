@@ -44,6 +44,7 @@ jQuery.extend(KhanUtil, {
 			case "-":
 			case "*":
 			case "/":
+			case "frac":
 			return false;
 
 			case "^":
@@ -173,6 +174,10 @@ jQuery.extend(KhanUtil, {
 			return num + "/" + den;
 		},
 
+		"frac": function( num, den ) {
+			return "\\frac{" + num + "}{" + den + "}";
+		},
+
 		"^": function( base, pow ) {
 			var parenthesizeBase;
 			switch ( KhanUtil.exprType(base) ) {
@@ -197,6 +202,14 @@ jQuery.extend(KhanUtil, {
 			}
 
 			return base + "^{" + pow + "}";
+		},
+
+		"sqrt": function( arg ) {
+			return "\\sqrt{" + arg + "}";
+		},
+
+		"+-": function( arg ) {
+			return ["*", "\\pm", arg];
 		}
 	}
 });
