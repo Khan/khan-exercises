@@ -361,11 +361,17 @@ function makeProblem() {
 		// Clone the hints and add them into their area
 		var hints = exercise.children(".hints").clone();
 		
-		// Extract any problem-specific hints
-		problem.find(".hints").remove().children().each(function() {
-			// Replace the hint placeholders
-			hints.find("." + this.className).replaceWith( this );
-		});
+		// Extract any problem-specific hints.  If there are no global hints,
+		// use the problem-specific ones in their entirety.
+		if ( hints.length ) {
+			problem.find(".hints").remove().children().each(function() {
+				// Replace the hint placeholders
+				hints.find("." + this.className).replaceWith( this );
+			});
+		} else {
+			hints = problem.find(".hints").appendTo(exercise);
+		}
+			
 		
 		hints
 			// Hide all the hints
