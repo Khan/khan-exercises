@@ -24,7 +24,7 @@ jQuery.extend(KhanUtil, {
 	fractionSimplification: function(n, d) {
 		var result = "\\frac{" + n + "}{" + (d < 0 ? "(" + d + ")" : d) + "}";
 
-		if ( this.getGCD( n, d ) > 1 ) {
+		if ( this.getGCD( n, d ) > 1 || d == 1 ) {
 			result += " = " + this.fraction( n, d );
 		}
 
