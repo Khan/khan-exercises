@@ -275,7 +275,7 @@ jQuery.extend({
 			cond = cond && jQuery.getVAR( condStr );
 			
 			/* Work around a strange inconsistency in jQuery/Sizzle
-			 * https://github.com/jquery/sizzle/issues/64 */
+			 * http://bugs.jquery.com/ticket/5637 */
 			var nextCond = jQuery(this).nextAll(function() {
 				return jQuery(this).is(jQuery.tmplExpr);
 			}).eq(0);
