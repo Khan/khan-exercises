@@ -36,6 +36,7 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
+	/* Mostly, do we need parentheses to add a coefficient? */
 	exprIsShort: function( expr ) {
 		switch( KhanUtil.exprType(expr) ) {
 			case "+":
@@ -63,8 +64,10 @@ jQuery.extend(KhanUtil, {
 				var parenthesize;
 				switch ( KhanUtil.exprType(term) ) {
 					case "+":
-					case "-":
 					parenthesize = true;
+
+					case "-":
+					parenthesize = (term.length > 2);
 					break;
 
 					default:
