@@ -261,7 +261,7 @@ jQuery.fn.extend({
 });
 
 jQuery.extend({
-	tmplExpr: "[data-if],[data-else]",
+	tmplExpr: "[data-if],[data-else=]",
 	
 	tmplFilter: function() {
 		if ( !jQuery( this ).is( jQuery.tmplExpr ) ) {
@@ -274,11 +274,9 @@ jQuery.extend({
 		if ( condStr != null ) {
 			cond = cond && jQuery.getVAR( condStr );
 			
-			/* Work around a strange inconsistency in jQuery/Sizzle
+			/* Work around a strange bug in jQuery/Sizzle
 			 * http://bugs.jquery.com/ticket/5637 */
-			var nextCond = jQuery(this).nextAll(function() {
-				return jQuery(this).is(jQuery.tmplExpr);
-			}).eq(0);
+			var nextCond = jQuery(this).nextAll( jQuery.tmplExpr ).eq(0);
 
 			if ( nextCond.data("else") != null ) {
 				nextCond.data("else-hide", cond);
