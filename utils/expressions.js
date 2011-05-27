@@ -1,14 +1,12 @@
 jQuery.extend(KhanUtil, {
-	expr: function( expr ) {
+	expr: function( expr, compute ) {
 		if ( typeof expr == "object" ) {
 			var op = expr[0], args = expr.slice(1);
 
-			var table = KhanUtil.formatOperators;
+			var table = compute ? KhanUtil.computeOperators : KhanUtil.formatOperators;
 			return table[op].apply( this, args );
-		} else if ( expr == null ) {
-			return "";
 		} else {
-			return expr.toString();
+			return compute ? expr : expr.toString();
 		}
 	},
 
@@ -211,5 +209,62 @@ jQuery.extend(KhanUtil, {
 		"+-": function( arg ) {
 			return ["*", "\\pm", arg];
 		}
+	},
+
+	computeOperators: {
+		"+": function() {
+			var sum = 0;
+
+			jQuery.each(arguments, function( i, term ) {
+				sum += KhanUtil.expr( term, true );
+			});
+
+			return sum;
+		},
+
+		"-": function() {
+			var sum = 0;
+
+			jQuery.each(arguments, function( i, term ) {
+				sum += ( i == 0 ? 1 : -1 ) * KhanUtil.expr( term, true );
+			});
+
+			return sum;
+		},
+
+		"*": function() {
+			var prod = 1;
+
+			jQuery.each(arguments, function( i, term ) {
+				prod *= KhanUtil.expr( term, true );
+			});
+
+			return prod;
+		},
+
+		"/": function() {
+			var prod = 1;
+
+			jQuery.each(arguments, function( i, term ) {
+				var e = KhanUtil.expr( term, true );
+				prod *= ( i == 0 ? e : 1 / e );
+			});
+
+			return prod;
+		},
+
+		"^": function( base, pow ) {
+			return Math.pow( KhanUtil.expr( base, true ), KhanUtil.expr( pow, true));
+		},
+
+		"sqrt": function( arg ) {
+			return Math.sqrt( KhanUtil.expr( arg, true ));
+		},
+
+		"+-": function() {
+			return Number.NaN;
+		}
 	}
 });
+
+KhanUtil.computeOperators["frac"] = KhanUtil.computeOperators["/"];
