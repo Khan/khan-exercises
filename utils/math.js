@@ -268,23 +268,25 @@ jQuery.extend({
 			return true;
 		}
 
-		var cond = jQuery(this).data("if");
+		var condStr = jQuery(this).data("if");
+		var cond = true;
 		
-		if ( cond != null ) {
-			cond = jQuery.getVAR( cond );
-			
-			if ( !cond ) {
-				jQuery(this).remove();
-				return false;
-			}
+		if ( condStr != null ) {
+			cond = cond && jQuery.getVAR( condStr );
 			
 			var nextCond = jQuery(this).nextAll( jQuery.tmplExpr ).eq(0);
 
 			if ( nextCond.data("else") != null ) {
 				nextCond.data("else-hide", cond);
 			}
-		} else if ( jQuery(this).data("else") != null && jQuery(this).data("else-hide") ) {
-			jQuery( this ).remove();
+		}
+
+		if ( jQuery(this).data("else") != null ) {
+			cond = cond && !jQuery(this).data("else-hide");
+		}
+
+		if ( !cond ) {
+			jQuery(this).remove();
 			return false;
 		}
 		
