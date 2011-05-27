@@ -274,7 +274,11 @@ jQuery.extend({
 		if ( condStr != null ) {
 			cond = cond && jQuery.getVAR( condStr );
 			
-			var nextCond = jQuery(this).nextAll( jQuery.tmplExpr ).eq(0);
+			/* Work around a strange inconsistency in jQuery/Sizzle
+			 * https://github.com/jquery/sizzle/issues/64 */
+			var nextCond = jQuery(this).nextAll(function() {
+				return jQuery(this).is(jQuery.tmplExpr);
+			}).eq(0);
 
 			if ( nextCond.data("else") != null ) {
 				nextCond.data("else-hide", cond);
