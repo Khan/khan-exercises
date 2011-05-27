@@ -95,34 +95,38 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"-": function() {
-			var terms = jQuery.map(arguments, function( term, i ) {
-				var negate = KhanUtil.exprIsNegated( term );
-				var parenthesize;
-				switch ( KhanUtil.exprType(term) ) {
-					case "+":
-					case "-":
-					parenthesize = true;
-					break;
+			if ( arguments.length == 1 ) {
+				return KhanUtil.expr( ["*", -1, arguments[0]] );
+			} else {
+				var terms = jQuery.map(arguments, function( term, i ) {
+					var negate = KhanUtil.exprIsNegated( term );
+					var parenthesize;
+					switch ( KhanUtil.exprType(term) ) {
+						case "+":
+						case "-":
+						parenthesize = true;
+						break;
 
-					default:
-					// case "*":
-					// case "/":
-					// case "^":
-					parenthesize = false;
-				}
+						default:
+						// case "*":
+						// case "/":
+						// case "^":
+						parenthesize = false;
+					}
 
-				term = KhanUtil.expr( term );
+					term = KhanUtil.expr( term );
 
-				if ( ( negate && i > 0 ) || parenthesize ) {
-					term = "(" + term + ")";
-				}
+					if ( ( negate && i > 0 ) || parenthesize ) {
+						term = "(" + term + ")";
+					}
 
-				return term;
-			});
+					return term;
+				});
 
-			joined = terms.join(" - ");
+				joined = terms.join(" - ");
 
-			return joined;
+				return joined;
+			}
 		},
 
 		"*": function() {
@@ -223,13 +227,17 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"-": function() {
-			var sum = 0;
+			if ( arguments.length == 1 ) {
+				return -KhanUtil.expr( arguments[0], true );
+			} else {
+				var sum = 0;
 
-			jQuery.each(arguments, function( i, term ) {
-				sum += ( i == 0 ? 1 : -1 ) * KhanUtil.expr( term, true );
-			});
+				jQuery.each(arguments, function( i, term ) {
+					sum += ( i == 0 ? 1 : -1 ) * KhanUtil.expr( term, true );
+				});
 
-			return sum;
+				return sum;
+			}
 		},
 
 		"*": function() {
