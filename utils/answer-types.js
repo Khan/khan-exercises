@@ -60,7 +60,9 @@ jQuery.extend( KhanUtil.answerTypes, {
 					} else {
 						/* Floating-point compare */
 						var epsilon = Math.pow( 2, -52 );
-						return Math.abs( num/denom - correct ) / Math.abs( correct ) < epsilon;
+						var q = num/denom;
+						return q === correct || Math.abs( q - correct ) < epsilon ||
+							Math.abs( q - correct ) / Math.abs( correct ) < epsilon;
 					}
 				}
 			}

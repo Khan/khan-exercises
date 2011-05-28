@@ -35,6 +35,9 @@ jQuery.extend(KhanUtil, {
     getGCD: function( a, b ) {
         var mod;
 
+        a = Math.abs( a );
+        b = Math.abs( a );
+
         while ( b ) {
             mod = a % b;
             a = b;
