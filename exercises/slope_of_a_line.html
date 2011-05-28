@@ -11,7 +11,7 @@
 		<var id="Y1">randRange(-9, 9)</var>
 
 		<var id="X2">randRange(-9, 9)</var>
-		<var id="Y2" data-ensure="(Y1 - Y2) % (X1 - X2) === 0 && Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2">randRange(-9, 9)</var>
+		<var id="Y2" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2">randRange(-9, 9)</var>
 
 		<var id="M">(Y1 - Y2) / (X1 - X2)</var>
 	</div>
@@ -28,7 +28,7 @@
 				</div>
 			</div>
 
-			<div class="solution"><var>(Y1 - Y2) / (X1 - X2)</var></div>
+			<div class="solution" data-type="rational"><var>(Y1 - Y2) / (X1 - X2)</var></div>
 		</div>
 	</div>
 
