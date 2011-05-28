@@ -36,7 +36,7 @@ jQuery.extend(KhanUtil, {
         var mod;
 
         a = Math.abs( a );
-        b = Math.abs( a );
+        b = Math.abs( b );
 
         while ( b ) {
             mod = a % b;
