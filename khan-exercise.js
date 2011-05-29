@@ -264,6 +264,11 @@ function makeProblem() {
 			problem = original;
 		}
 
+		// Problem inherit exercise defined vars
+		if ( ! problem.find( '.vars' ).prepend( exercise.children(".vars").children().clone() ).length ) {
+			problem.prepend(exercise.children(".vars").clone());	
+		}
+
 		// Run the "Load" method of any modules
 		problem.runModules( "Load" );
 		

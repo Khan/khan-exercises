@@ -195,8 +195,13 @@ var VARS = {};
 jQuery.fn.extend({
 	math: function() {
 		var lastCond;
-		
-		return this			
+
+		return this
+			// Apply templates
+			.find( jQuery.spliceApplyExpr ).each(function () {
+				jQuery.spliceApply.call( this );
+			}).end()
+
 			// Remove the var block so that it isn't displayed
 			.find(".vars").remove().end()
 			
@@ -204,7 +209,7 @@ jQuery.fn.extend({
 			.find( jQuery.tmplExpr ).each(function() {
 				jQuery.tmplFilter.call( this );
 			}).end()
-			
+
 			// Replace all the variables with the computed value
 			.find("var").replaceVAR().end()
 			
@@ -239,11 +244,15 @@ jQuery.fn.extend({
 		
 		// If we're in an exercise then we only want the main var block
 		} else if ( this.is(".exercise") ) {
-			vars = this.children(".vars");
 			VARS = {};
-		
+			return;
 		// Otherwise we're in a problem
 		} else {
+			var context = this;
+			
+			this.find( jQuery.spliceReplaceExpr ).each(function () {
+				jQuery.spliceReplace.call( this, context );
+			}).end();
 			vars = this.find(".vars");
 		}
 
@@ -328,7 +337,51 @@ jQuery.extend({
 		
 		return true;
 	},
-	
+
+
+	spliceApplyExpr: "[data-apply]",
+
+	spliceApply: function ( target ) {
+		if ( target == null ) {
+			if ( !jQuery(this).is( jQuery.spliceApplyExpr ) ) {
+				return true;
+			}
+
+			target = jQuery( '#' + jQuery(this).data( "apply" ) );
+		}
+		
+		var newContent = target.clone();
+		if ( !newContent.find('.content').replaceWith( jQuery(this).contents() ).length ) {
+			newContent.append( jQuery(this).contents() );
+		}
+
+		jQuery(this).replaceWith( newContent.contents() );
+		
+		return true;
+	},
+
+	spliceReplaceExpr: "[data-replace]",
+
+	spliceReplace: function ( context, target ) {
+		if ( target == null ) {
+			if ( !jQuery(this).is( jQuery.spliceReplaceExpr ) ) {
+				return true;
+			}
+
+			target = context.find( '#' + jQuery(this).data( "replace" ) );
+		}
+
+		if ( typeof( target.attr( "id" ) ) === "string" ) {
+			jQuery( this ).attr( "id", target.attr( "id" ) );
+		}
+
+		jQuery( this ).removeAttr( "data-replace" );
+
+		target.replaceWith( this );
+
+		return true;
+	},
+
 	getVAR: function( elem ) {
 		// If it's a list, grab a random one out of it
 		if ( elem.nodeName && elem.nodeName.toLowerCase() === "ul" ) {
