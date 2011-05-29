@@ -166,10 +166,6 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return people[i - 1][1] == "m" ? "him" : "her";
 		},
 
-		Him: function( i ) {
-			return people[i - 1][1] == "m" ? "Him" : "Her";
-		},
-
 		his: function( i ) {
 			return people[i - 1][1] == "m" ? "his" : "her";
 		},
