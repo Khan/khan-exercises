@@ -252,7 +252,7 @@ function makeProblem() {
 				// Remove those parts from the original
 				original.children( "." + this.className ).remove();
 				// And add our new ones in, instead
-				original.append( problem );
+				original.append( problem.children() );
 			});
 			
 			problem = original;
