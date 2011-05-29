@@ -37,9 +37,9 @@ jQuery.extend(KhanUtil, {
 
 	/* formattedSquareRootOf(24) gives 2\sqrt{6} */
 	formattedSquareRootOf: function(n) {
-		if(n == 1) {
-			/* so as to not return "" later */
-			return "1";
+		if( n === 1  || n === 0 ) {
+			/* so as to not return "" or "\\sqrt{0}" later */
+			return n.toString();
 		}
 
 		var coefficient = 1;
