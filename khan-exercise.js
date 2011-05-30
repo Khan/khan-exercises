@@ -251,9 +251,10 @@ function makeProblem() {
 			problem.children().each(function() {
 				// Remove those parts from the original
 				original.children( "." + this.className ).remove();
-				// And add our new ones in, instead
-				original.append( problem.children() );
 			});
+
+			// And add our new ones in, instead
+			original.append( problem.children() );
 			
 			problem = original;
 		}
