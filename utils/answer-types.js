@@ -85,8 +85,7 @@ jQuery.extend( KhanUtil.answerTypes, {
 			numChoices -= 1;
 		}
 
-		var shuffled = Array.prototype.slice.call( choices.children() );
-		shuffled = KhanUtil.shuffle( choices.children() );
+		var shuffled = KhanUtil.shuffle( choices.children().get() );
 
 		// add the correct answer
 		if( !noneIsCorrect ) {
