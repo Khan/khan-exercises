@@ -9,14 +9,12 @@
 		<div class="problems">
 			<div>
 
-				<div class="vars">
+				<div class="vars" data-ensure="!isPrime( TOTAL_ITEMS )">
 					<var id="ITEMS_PER_GROUP">randRange( 3, 12 )</var>
 					<var id="ITEMS_LEFT">randRange( 1, ITEMS_PER_GROUP - 1 )</var>
-					<var data-ensure="getFactors( ITEMS_PER_GROUP * GROUPS + ITEMS_LEFT ).length > 2" 
-							 id="GROUPS">randRange( 2, 12 )</var>
+					<var id="GROUPS">randRange( 2, 12 )</var>
 					<var id="ITEMS_IN_GROUPS">GROUPS * ITEMS_PER_GROUP</var>
 					<var id="TOTAL_ITEMS">ITEMS_IN_GROUPS + ITEMS_LEFT</var>
-					
 					<var id="NEW_ITEMS_PER_GROUP">getNontrivialFactor( TOTAL_ITEMS )</var>
 					<var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS_PER_GROUP</var>
 				</div>
@@ -103,13 +101,11 @@
 
 			<div>
 
-				<div class="vars">
-					<var data-ensure="getFactors( TOTAL_ITEMS ).length > 4"
-							 id="TOTAL_ITEMS">randRange( 10, 99 )</var>
+				<div class="vars" data-ensure="!isPrime( TOTAL_ITEMS ) && NEW_ITEMS !== ITEMS">
+					<var id="TOTAL_ITEMS">randRange( 10, 99 )</var>
 					<var id="ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
 					<var id="GROUPS">TOTAL_ITEMS / ITEMS</var>
-					<var data-ensure="NEW_ITEMS !== ITEMS"
-							 id="NEW_ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
+					<var id="NEW_ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
 					<var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS</var>
 				</div>
 
