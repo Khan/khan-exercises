@@ -67,6 +67,36 @@ jQuery.extend( KhanUtil.answerTypes, {
 		return KhanUtil.answerTypes.text( solutionarea, solution, verifier );
 	},
 
+	multiple: function( solutionarea, solution ) {
+		solutionarea = jQuery( solutionarea );
+		solutionarea.append( jQuery( solution ).contents() );
+
+		// Iterate in reverse so the *first* input is focused
+		jQuery( solutionarea.find( ".sol" ).get().reverse() ).each(function() {
+			var type = jQuery( this ).data( "type" );
+			type = type != null ? type : "text";
+
+			var sol = jQuery( this ).clone();
+			var solarea = jQuery( this ).empty();
+
+			var validator = KhanUtil.answerTypes[type]( solarea, sol );
+			jQuery( this ).data( "validator", validator );
+		});
+
+		return function() {
+			var valid = true;
+
+			solutionarea.find( ".sol" ).each(function() {
+				var validator = jQuery( this ).data( "validator", validator );
+				if ( validator != null ) {
+					valid = valid && validator();
+				}
+			});
+
+			return valid;
+		};
+	},
+
 	radio: function( solutionarea, solution ) {
 		var list = jQuery("<ul></ul>");
 		jQuery( solutionarea ).append(list);
