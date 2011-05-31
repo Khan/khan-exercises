@@ -93,55 +93,33 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var collections = KhanUtil.shuffle([
-		["chair", "chairs", "row", "rows", "make"],
-		["party favor", "party favors", "bag", "bags", "fill"],
-		["jelly bean", "jelly beans", "pile", "piles", "make"],
-		["book", "books", "shelf", "shelves", "fill"],
-		["can of food", "cans of food", "box", "boxes", "fill"]
+		["chair", "row", "make"],
+		["party favor", "bag", "fill"],
+		["jelly bean", "pile", "make"],
+		["book", "shelf", "fill"],
+		["can of food", "box", "fill"]
 	]);
 
 	var stores = KhanUtil.shuffle([
 		{
 			name: "office supply",
-			items: KhanUtil.shuffle([
-				["pen", "pens"],
-				["pencil", "pencils"],
-				["notebook", "notebooks"]
-			])
+			items: KhanUtil.shuffle( ["pen", "pencil", "notebook"] )
 		},
 		{
 			name: "hardware",
-			items: KhanUtil.shuffle([
-				["hammer", "hammers"],
-				["nail", "nails"],
-				["saw", "saws"]
-			])
+			items: KhanUtil.shuffle( ["hammer", "nail", "saw"] )
 		},
 		{
 			name: "grocery",
-			items: KhanUtil.shuffle([
-				["banana", "bananas"],
-				["loaf of bread", "loaves of bread"],
-				["gallon of milk", "gallons of milk"],
-				["potato", "potatoes"]
-			])
+			items: KhanUtil.shuffle( ["banana", "loaf of bread", "gallon of milk", "potato"] )
 		},
 		{
 			name: "gift",
-			items: KhanUtil.shuffle([
-				["toy", "toys"],
-				["game", "games"],
-				["souvenir", "souvenirs"]
-			])
+			items: KhanUtil.shuffle( ["toy", "game", "souvenir"] )
 		},
 		{
 			name: "toy",
-			items: KhanUtil.shuffle([
-				["stuffed animal", "stuffed animals"],
-				["video game", "video games"],
-				["race car", "race cars"],
-				["doll", "dolls"]
-			])
+			items: KhanUtil.shuffle( ["stuffed animal", "video game", "race car", "doll"] )
 		}
 	]);
 
@@ -202,20 +180,12 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return collections[i - 1][0];
 		},
 
-		itemPlural: function( i ) {
-			return collections[i - 1][1];
-		},
-
 		group: function( i ) {
-	    		return collections[i - 1][2];
-		},
-
-		groupPlural: function( i ) {
-			return collections[1 - 1][3];
+	    		return collections[i - 1][1];
 		},
 
 		groupVerb: function( i ) {
-			return collections[i - 1][4];
+			return collections[i - 1][2];
 		},
 
 		store: function( i ) {
@@ -223,11 +193,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		},
 
 		storeItem: function( i, j ) {
-			return stores[i].items[j][0];
-		},
-
-		storeItemPlural: function( i, j ) {
-			return stores[i].items[j][1];
+			return stores[i].items[j];
 		}
 	});
 };
