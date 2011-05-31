@@ -1,41 +1,9 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math math-table">
 <head>
 	<title>Multiplication 2</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		function createLongMultiplicationTable( a, b ) {
-			var carry = new Array(a.length);
-			var digits = [];
-			initArray( carry, 0);
-			for( var i = 0; i < a.length; i++ ){
-				var multi = paddedDigits( a[i] * b[0], 2 );
-				var digitResult = paddedDigits( multi[0] + carry[i], 2 );
-				digitResult[1] += multi[1];
-				carry[i+1] = digitResult[1];
-				digits[i] = digitResult[0];
-				if( digitResult[1] !== 0 ){
-					digits[i+1] = digitResult[1];
-				}
-			}
-			return { carry: carry, digits: digits };
-		}
-		function paddedDigits( n, length ){
-			var result = KhanUtil.digits(n);
-			if( result.length >= length ){
-				return result;
-			}
-			for( var i = result.length ; i < length; i++ ){
-				result[i] = 0;
-			}
-			return result;
-		}
-		function initArray( arr, val){
-			for( var i = 0; i < arr.length; i++){
-				arr[i] = val;
-			}
-		}
-	</script>
+
 </head>
 <body>
 	<div class="exercise">

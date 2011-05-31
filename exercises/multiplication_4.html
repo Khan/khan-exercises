@@ -1,78 +1,15 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math math-table">
 <head>
 	<title>Multiplication 4</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		// takes a as an array of digits and b as a number
-		// returns an array of carry operations at each position and
-		// the result in array form
-		function createLongMultiplicationTable( a, b ) {
-			var carry = new Array(a.length);
-			var digits = [];
-			initArray( carry, 0);
-			for( var i = 0; i < a.length; i++ ){
-				var multi = paddedDigits( a[i] * b, 2 );
-				var digitResult = paddedDigits( multi[0] + carry[i], 2 );
-				digitResult[1] += multi[1];
-				carry[i+1] = digitResult[1];
-				digits[i] = digitResult[0];
-				if( digitResult[1] !== 0 ){
-					digits[i+1] = digitResult[1];
-				}
-			}
-			return { carry: carry, digits: digits };
-		}
-		// takes a and b as addends in array form
-		// returns the carrys at each position
-		function createLongAdditionTable( a, b ){
-			var length = Math.max( a.length, b.length );
-			var paddedA = padd( a, length);
-			var paddedB = padd( b, length);
-			var carry = new Array( length + 1);
-			var result = new Array( length + 1);
-			initArray( carry, 0 );
-			initArray( result, 0 );
-			for( var i = 0; i < length; i++){
-				var tempResult = KhanUtil.digits(paddedA[i] + paddedB[i] + carry[i]);
-				if( tempResult[1] ){
-					carry[i+1] = tempResult[1];
-				}
-				result[i] = tempResult[0];
-			}
-			return carry;
-		}
-		// returns the an array version of n, that has array.length>=length and is padded with 0´s
-		function paddedDigits( n, length ){
-			var result = KhanUtil.digits(n);
-			return padd( result, length );
-		}
-		// returns a padded version of arr, that has arr.length>=length and is padded with 0´s
-		function padd( arr, length){
-			var result = arr.slice();
-			if( result.length >= length ){
-				return result;
-			}
-			for( var i = result.length ; i < length; i++ ){
-				result[i] = 0;
-			}
-			return result;
-		}
-		// completly fills the arr array with the val value
-		function initArray( arr, val){
-			for( var i = 0; i < arr.length; i++){
-				arr[i] = val;
-			}
-		}
-	</script>
+
 </head>
 <body>
 	<div class="exercise">
 		<div class="vars">
 			<var id="A">randRange(101,999)</var>
 			<var id="B">randRange(11,99)</var>
-<!-- 			<var id="A">217</var>
-			<var id="B">48</var> -->
 			<var id="A_ARRAY">digits(A)</var>
 			<var id="B_ARRAY">digits(B)</var>
 			<var id="TABLE">createLongMultiplicationTable( A_ARRAY, B_ARRAY[0])</var>

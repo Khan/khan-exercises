@@ -1,84 +1,14 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math math-table">
 <head>
 	<title>Multiplying decimals</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		// takes a as an array of digits and b as a number
-		// returns an array of carry operations at each position and
-		// the result in array form
-		function createLongMultiplicationTable( a, b ) {
-			var carry = new Array(a.length);
-			var digits = [];
-			initArray( carry, 0);
-			for( var i = 0; i < a.length; i++ ){
-				var multi = paddedDigits( a[i] * b, 2 );
-				var digitResult = paddedDigits( multi[0] + carry[i], 2 );
-				digitResult[1] += multi[1];
-				carry[i+1] = digitResult[1];
-				digits[i] = digitResult[0];
-				if( digitResult[1] !== 0 ){
-					digits[i+1] = digitResult[1];
-				}
-			}
-			return { carry: carry, digits: digits };
-		}
-		// takes a and b as addends in array form
-		// returns the carrys at each position
-		function createLongAdditionTable( a, b, c ){
-			var length = Math.max( a.length, b.length, c.length );
-			var paddedA = padd( a, length);
-			var paddedB = padd( b, length);
-			var paddedC = padd( c, length);
-			var carry = new Array( length + 1);
-			var result = new Array( length + 1);
-			initArray( carry, 0 );
-			initArray( result, 0 );
-			for( var i = 0; i < length; i++){
-				var tempResult = KhanUtil.digits(paddedA[i] + paddedB[i] + paddedC[i] + carry[i]);
-				if( tempResult[1] ){
-					carry[i+1] = tempResult[1];
-				}
-				result[i] = tempResult[0];
-			}
-			return carry;
-		}
-		// returns the an array version of n, that has array.length>=length and is padded with 0´s
-		function paddedDigits( n, length ){
-			var result = KhanUtil.digits(n);
-			return padd( result, length );
-		}
-		// returns a padded version of arr, that has arr.length>=length and is padded with 0´s
-		function padd( arr, length){
-			var result = arr.slice();
-			if( result.length >= length ){
-				return result;
-			}
-			for( var i = result.length ; i < length; i++ ){
-				result[i] = 0;
-			}
-			return result;
-		}
-		// completly fills the arr array with the val value
-		function initArray( arr, val){
-			for( var i = 0; i < arr.length; i++){
-				arr[i] = val;
-			}
-		}
-		function intWithoutZero( length ){
-			var result = 0;
-			for( var i = 0; i < length; i++ ){
-				result += KhanUtil.randRange( 1, 9 ) * Math.pow( 10, i );
-			}
-			return result;
-		}
-	</script>
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars">
+		<div class="vars" data-ensure="A_SHIFT + B_SHIFT > 0" >
 			<var id="A_SHIFT">rand(3)</var>
-			<var data-ensure="A_SHIFT + B_SHIFT > 0" id="B_SHIFT">rand(3)</var>
+			<var id="B_SHIFT">rand(3)</var>
 			<var id="MAX_SHIFT">max( A_SHIFT, B_SHIFT)</var>
 			<var id="A">intWithoutZero(3) / pow( 10, A_SHIFT)</var>
 			<var id="B">intWithoutZero(3) / pow( 10, B_SHIFT)</var>

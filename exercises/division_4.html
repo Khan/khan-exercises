@@ -1,32 +1,8 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math math-table">
 <head>
 	<title>Division 4</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		function createLongDivisionTable(n,div){
-			var temp = KhanUtil.digits(n);
-			var divisions= [];
-			var subtrahends = [];
-			var minuends = [];
-			for( var i=temp.length-1;i>=0;i--){
-				var curDividend = 0;
-				for( var y=i;y<temp.length;y++){
-					curDividend+=temp[y]*Math.pow(10,y-i);
-				}
-				if(curDividend>=div || divisions.length > 0){
-					var division=Math.floor(curDividend/div);
-					divisions.push(division);
-					var subtrahend = division*div;
-					subtrahends.push(subtrahend);
-					temp= KhanUtil.digits(parseInt(temp.reverse().join(""))-subtrahend*Math.pow(10,i));
-					minuends.push(curDividend);
-				}				
-			}
-			return {divisions:divisions, subtrahends:subtrahends, minuends:minuends};
-		}
-	</script>
-
 </head>
 <body>
 	<div class="exercise">

@@ -1,46 +1,9 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math math-table">
 <head>
 	<title>Adding Decimals</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		// takes a and b as addends in array form
-		// returns the carrys at each position
-		function createLongAdditionTable( a, b ){
-			var length = Math.max( a.length, b.length );
-			var paddedA = padd( a, length);
-			var paddedB = padd( b, length);
-			var carry = new Array( length + 1);
-			var result = new Array( length + 1);
-			initArray( carry, 0 );
-			initArray( result, 0 );
-			for( var i = 0; i < length; i++){
-				var tempResult = KhanUtil.digits(paddedA[i] + paddedB[i] + carry[i]);
-				if( tempResult[1] ){
-					carry[i+1] = tempResult[1];
-				}
-				result[i] = tempResult[0];
-			}
-			return carry;
-		}
-		// returns a padded version of arr, that has arr.length>=length and is padded with 0´s
-		function padd( arr, length){
-			var result = arr.slice();
-			if( result.length >= length ){
-				return result;
-			}
-			for( var i = result.length ; i < length; i++ ){
-				result[i] = 0;
-			}
-			return result;
-		}
-		// completly fills the arr array with the val value
-		function initArray( arr, val){
-			for( var i = 0; i < arr.length; i++){
-				arr[i] = val;
-			}
-		}
-	</script>
+
 </head>
 <body>
 	<div class="exercise">
@@ -53,6 +16,7 @@
 			<var id="A_ARRAY">digits( round( A * pow( 10, MAX_SHIFT )))</var>
 			<var id="B_ARRAY">digits( round( B * pow( 10, MAX_SHIFT )))</var>
 			<var id="ADDITION_TABLE">createLongAdditionTable( A_ARRAY, B_ARRAY)</var>
+			<var id="RESULT">(round( A * pow( 10, MAX_SHIFT ))) + (round( B * pow( 10, MAX_SHIFT ))) / pow( 10, MAX_SHIFT)
 		</div>
 
 		<div class="problems">
