@@ -6,45 +6,68 @@
 </head>
 <body>
     <div class="exercise">
-        <p class="summary">This exercise covers exponential arithmetic with integer bases and positive integer exponents</p>
-      
-        <div class="vars">
-            <var id="BASE">randRange( -10, 10 )</var>
-            <var id="BASE_STRING">(function() {
-                if ( BASE < 0 ) {
-                    return "(" + BASE + ")";
-                } else {
-                    return BASE;
-                }
-            })()</var>
-            <var id="EXP">randRange( 0, log( 300 ) / log( abs( BASE )))</var>
-            <var id="SOLUTION">round( pow ( BASE, EXP ) )</var>
-            <var id="HINT">(function() {
-                var result = BASE_STRING;
-                for ( var i = 1; i < EXP; i++ ) {
-                    result += " \\cdot " + BASE_STRING;
-                }
-                return result;
-            })()</var>
-        </div>
+        <p class="summary">This exercise covers exponential arithmetic with integer bases and positive integer exponents. Handles three specific cases: exponents of 0 (in which case the base is nonzero and in the range -1000 to 1000), bases of 0 or 1 (in which case the exponent is in the range 1-1000), and bases between -10 and 10 that are not 0 or 1 (in which case the exponent is any positive integer such that the result is smaller than 300).</p>
 
         <div class="problems">
-            <div>
-                <p class="question"><code><var>BASE_STRING</var>^{<var>EXP</var>}</code></p>
-                <p class="solution"><var>SOLUTION</var></p>
+            <div id="zero-exp">
+                <div class="vars">
+                    <!-- this currently will not test 0^0, which might be a good thing; need to see where Sal actually mentions that -->
+                    <var id="BASE">randRange( -1000, 1000 )</var>
+                    <var id="BASE_STRING">BASE < 0 ? "("+BASE+")" : BASE</var>
+                </div>
+
+                <p class="question"><code><var>BASE_STRING</var>^{0}</code></p>
+                <p class="solution">1</p>
             </div>
-        </div>
+            <div id="easy-base">
+            </div>
+            <div id="hard-base">
+            </div>
 
-        <div class="hints">
-            <!-- this is rather inelegant, better templating system will help -->
-            <div data-if="EXP === 0">Anything to the 0th power equals...?</div>
-            <div data-if="EXP === 0">Anything to the 0th power equals 1.</div>
-            <div data-if="EXP !== 0 && BASE === 0">0 to any nonzero power equals...?</div>
-            <div data-if="EXP !== 0 && BASE === 0">0 to any nonzero power equals 0.</div>
-            <div data-if="EXP !== 0"><code>= <var>HINT</var></code></div>
+<!--             <var id="BASE">randRange( -10, 10 )</var> -->
+<!--             <var id="BASE_STRING">(function() { -->
+<!--                 /* wrap in parentheses if the base is negative. */ -->
+<!--                 if ( BASE < 0 ) { -->
+<!--                     return "(" + BASE + ")"; -->
+<!--                 } else { -->
+<!--                     return BASE; -->
+<!--                 } -->
+<!--             })()</var> -->
+<!--             <var id="EXP">randRange( 0, function() { -->
+<!--                 /* make an extreme value for the exponent if the base is easy (0 or 1). */ -->
+<!--                 if (abs(BASE) > 0) { -->
+<!--                     return log( 300 ) / log( abs( BASE )); -->
+<!--                 } else { -->
+<!--                     return 1000; -->
+<!--                 } -->
+<!--             }())</var> -->
+<!--             <var id="SOLUTION">round( pow ( BASE, EXP ) )</var> -->
+<!--             <var id="HINT">(function() { -->
+<!--                 var result = BASE_STRING; -->
+<!--                 for ( var i = 1; i < EXP; i++ ) { -->
+<!--                     result += " \\cdot " + BASE_STRING; -->
+<!--                 } -->
+<!--                 return result; -->
+<!--             })()</var> -->
+<!--         </div> -->
 
-            <div><code>= <var>SOLUTION</var></code></div>
-        </div>
-    </div>
-</body>
-</html>
+<!--         <div class="problems"> -->
+<!--             <div> -->
+<!--                 <p class="question"><code><var>BASE_STRING</var>^{<var>EXP</var>}</code></p> -->
+<!--                 <p class="solution"><var>SOLUTION</var></p> -->
+<!--             </div> -->
+<!--         </div> -->
+
+<!--         <div class="hints"> -->
+<!--             <\!-- this is rather inelegant, better templating system will help -\-> -->
+<!--             <div data-if="EXP === 0">Anything to the 0th power equals...?</div> -->
+<!--             <div data-if="EXP === 0">Anything to the 0th power equals 1.</div> -->
+<!--             <div data-if="EXP !== 0 && BASE === 0">0 to any nonzero power equals...?</div> -->
+<!--             <div data-if="EXP !== 0 && BASE === 0">0 to any nonzero power equals 0.</div> -->
+<!--             <div data-if="EXP !== 0"><code>= <var>HINT</var></code></div> -->
+
+<!--             <div><code>= <var>SOLUTION</var></code></div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!-- </body> -->
+<!-- </html> -->
