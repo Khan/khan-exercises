@@ -36,7 +36,7 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			// Watch for a solution submission
 			jQuery("form").submit(function() {
 				// Figure out if the response was correct
-				if ( KhanUtil.answerTypes[answerType].validate() ) {
+				if ( validator() ) {
 					// Show a congratulations message
 					jQuery("#oops").hide();
 					jQuery("#congrats").show();
@@ -273,6 +273,7 @@ function makeProblem() {
 
 		var solutionarea = jQuery("#solution").empty();
 
+		var answerType;
 		if ( solution.data("type") ) {
 			answerType = solution.data("type");
 		} else if ( choices.length ) {
@@ -281,7 +282,8 @@ function makeProblem() {
 			answerType = "text";
 		}
 		
-		if(!KhanUtil.answerTypes[answerType].init(solutionarea[0], solution[0])) {
+		validator = KhanUtil.answerTypes[answerType](solutionarea[0], solution[0]);
+		if(!validator) {
 			/* Making the problem failed, let's try again */
 			makeProblem();
 			return;
