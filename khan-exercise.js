@@ -35,11 +35,8 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			
 			// Watch for a solution submission
 			jQuery("form").submit(function() {
-				// Get the solution to the problem
-				var solution = jQuery("#solution");
-		
 				// Figure out if the response was correct
-				if ( KhanUtil.answerTypes[answerType].validate() ) {
+				if ( validator() ) {
 					// Show a congratulations message
 					jQuery("#oops").hide();
 					jQuery("#congrats").show();
@@ -50,7 +47,6 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 					
 					// Otherwise show an error message
 				} else {
-					jQuery("#solution").select();
 					jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
 				}
 				
@@ -60,7 +56,6 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			// Watch for when the next button is clicked
 			jQuery("#next").click(function() {
 				// Erase the old value and hide congrats message
-				jQuery("#solution").val( "" );
 				jQuery("#congrats").hide();
 				
 				// Toggle the navigation buttons
@@ -184,9 +179,9 @@ function initRandom() {
 				if ( one_off ) {
 					word = one_off;
 				}
-				else if ( /[^aeiou]y/i.test( word ) ) {
+				else if ( /[^aeiou]y$/i.test( word ) ) {
 					word = word.replace(/y$/i, "ies");
-				} else if ( /[sxz]$/i.test( word ) || /[bcfhjlmnqsvwxyz]h/.test( word ) ) {
+				} else if ( /[sxz]$/i.test( word ) || /[bcfhjlmnqsvwxyz]h$/.test( word ) ) {
 					word += "es";
 				} else {
 					word += "s";
@@ -278,6 +273,7 @@ function makeProblem() {
 
 		var solutionarea = jQuery("#solution").empty();
 
+		var answerType;
 		if ( solution.data("type") ) {
 			answerType = solution.data("type");
 		} else if ( choices.length ) {
@@ -286,7 +282,8 @@ function makeProblem() {
 			answerType = "text";
 		}
 		
-		if(!KhanUtil.answerTypes[answerType].init(solutionarea[0], solution[0])) {
+		validator = KhanUtil.answerTypes[answerType](solutionarea[0], solution[0]);
+		if(!validator) {
 			/* Making the problem failed, let's try again */
 			makeProblem();
 			return;
@@ -299,9 +296,6 @@ function makeProblem() {
 		// Add the problem into the page
 		jQuery("#workarea").append( problem );
 		
-		// Focus the solution textbox
-		jQuery("#solution:not(:focus)").focus();
-
 		// Clone the hints and add them into their area
 		var hints = exercise.children(".hints").clone();
 		var problemHints = problem.find(".hints");
