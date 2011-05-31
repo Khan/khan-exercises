@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html data-require="math graph mathformat">
+<head>
+	<title>Distance Formula</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		.point1 {
+			color: #0969A2;
+		}
+
+		.point2 {
+			color: #A62ADD;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="X1">randRange( -9, 7 )</var>
+			<var id="X2">randRange( -9, 7 )</var>
+			<var id="Y1">randRange( -9, 8 )</var>
+			<var id="Y2">randRange( -9, 8 )</var>
+			<var id="X_DIST">abs( X2 - X1 )</var>
+			<var id="Y_DIST">abs( Y2 - Y1 )</var>
+			<var id="ANSWER">formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) )</var>
+			<var id="DRAW_DOTS">function() {
+					var point1 = "#0969A2";
+					ASdot([ X1, Y1 ], 3, point1, point1 );
+
+					var point2 = "#A62ADD";
+					ASdot( [ X2, Y2 ], 3, point2, point2 );
+				}</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question">Find the distance between the points <span class="point1">(<var>X1</var>, <var>Y1</var>)</span> and <span class="point2">(<var>X2</var>, <var>Y2</var>)</span>.</p>
+				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-weight: bold" data-graph-type="plane">
+					fontfill = "#0969A2";
+					text([ X1, Y1 ], "(" + X1 + ", " + Y1 + ")", "aboveright" );
+
+					fontfill = "#A62ADD";
+					var textPos = ( Y1 === Y2 ) ? "belowright" : "aboveright";
+					text([ X2, Y2 ], "(" + X2 + ", " + Y2 + ")", textPos);
+
+					DRAW_DOTS();
+				</div>
+				<p class="solution"><code><var>ANSWER</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<!-- TODO: Clean up after template loops are implemented -->
+					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
+					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
+					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
+					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
+					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
+					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
+					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="hints">
+			<div>
+				<p>
+				<span style="color: #679B00">Change in <code>x</code>:</span>
+				<span data-if="X2 - X1 > 0">
+						<span class="point2"><var>X2</var></span> - <span class="point1"><var>X1</var></span>
+					</span>
+					<span data-else>
+						<span class="point1"><var>X1</var></span> - <span class="point2"><var>X2</var></span>
+					</span>
+					= <span style="color: #679B00"><var>X_DIST</var></span>
+				</p>
+
+				<div class="graph update" data-style="stroke: #679B00; font-fill: #679B00">
+					line( [ X1, Y1 ], [ X2, Y1 ] );
+					text( [ ( X1 + X2 ) / 2, Y1 ], X_DIST, "above" );
+
+					DRAW_DOTS();
+				</div>
+			</div>
+
+			<div>
+				<p>
+				<span style="color: #A66000">Change in <code>y</code>:</span>
+					<span data-if="Y2 - Y1 > 0">
+						<span class="point2"><var>Y2</var></span> - <span class="point1"><var>Y1</var></span>
+					</span>
+					<span data-else>
+						<span class="point1"><var>Y1</var></span> - <span class="point2"><var>Y2</var></span>
+					</span>
+					= <span style="color: #A66000"><var>Y_DIST</var></span>
+				</p>
+
+				<div class="graph update" data-style="stroke: #A66000; font-fill: #A66000">
+					line( [ X2, Y1 ], [ X2, Y2 ] );
+					text( [ X2, ( Y1 + Y2 ) / 2 ], Y_DIST, "left" );
+
+					DRAW_DOTS();
+				</div>
+			</div>
+
+			<div>
+				<p>The distance is the <span style="color: #FF4900">length of the hypotenuse</span> of this right triangle.</p>
+
+				<div class="graph update" data-style="stroke: #FF4900">
+					line( [ X1, Y1 ], [ X2, Y2 ] );
+
+					DRAW_DOTS();
+				</div>
+			</div>
+
+			<div>
+				<p>By the Pythagorean Theorem, <span style="color: #FF4900">that length</span> is equal to:</p>
+				<p><code>\sqrt{<var>X_DIST</var>^2 + <var>Y_DIST</var>^2} = </code></p>
+				<p><code>\sqrt{<var>Math.pow( X_DIST, 2 ) + pow( Y_DIST, 2 )</var>} = </code></p>
+				<p style="color: #FF4900"><code><var>ANSWER</var></code>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
+
+
