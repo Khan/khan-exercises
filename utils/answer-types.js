@@ -2,7 +2,7 @@ KhanUtil.answerTypes || (KhanUtil.answerTypes = {});
 
 jQuery.extend( KhanUtil.answerTypes, {
 	text: function( solutionarea, solution, verifier ) {
-		var input = $('<input type="text">');
+		var input = jQuery('<input type="text">');
 		jQuery( solutionarea ).append( input );
 		input.focus();
 
@@ -68,7 +68,7 @@ jQuery.extend( KhanUtil.answerTypes, {
 	},
 
 	radio: function( solutionarea, solution ) {
-		var list = $("<ul></ul>");
+		var list = jQuery("<ul></ul>");
 		jQuery( solutionarea ).append(list);
 
 		var choices = jQuery( solution ).siblings( ".choices" );
@@ -90,7 +90,7 @@ jQuery.extend( KhanUtil.answerTypes, {
 
 		// add the correct answer
 		if( !noneIsCorrect ) {
-			$( solution ).data( "correct", true );
+			jQuery( solution ).data( "correct", true );
 			// splice(0, 0) should be the same as unshift()
 			shuffled.splice( 0, 0, solution );
 		}
@@ -115,7 +115,7 @@ jQuery.extend( KhanUtil.answerTypes, {
 		shownChoices = KhanUtil.shuffle(shownChoices);
 
 		if( showNone ) {
-			var none = $( "<span>None of the above.</span>" );
+			var none = jQuery( "<span>None of the above.</span>" );
 
 			if( noneIsCorrect ) {
 				none.data( "correct", true );
