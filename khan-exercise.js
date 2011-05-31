@@ -282,7 +282,7 @@ function makeProblem() {
 			answerType = "text";
 		}
 		
-		validator = KhanUtil.answerTypes[answerType](solutionarea[0], solution[0]);
+		validator = KhanUtil.answerTypes[answerType]( solutionarea, solution );
 		if(!validator) {
 			/* Making the problem failed, let's try again */
 			makeProblem();

@@ -51,7 +51,7 @@ jQuery.extend( KhanUtil.answerTypes, {
 				var num = parseFloat( match[1] );
 				var denom = match[2] ? parseFloat( match[2] ) : 1;
 
-				gcd = KhanUtil.getGCD( num, denom );
+				var gcd = KhanUtil.getGCD( num, denom );
 				guess = num / denom;
 
 				if ( options.simplify !== "optional" && gcd > 1 ) {
@@ -133,6 +133,6 @@ jQuery.extend( KhanUtil.answerTypes, {
 
 		return function() {
 			return list.find("input:checked").val() === "1";
-		}
+		};
 	}
 } );
