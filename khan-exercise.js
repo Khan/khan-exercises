@@ -35,9 +35,6 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			
 			// Watch for a solution submission
 			jQuery("form").submit(function() {
-				// Get the solution to the problem
-				var solution = jQuery("#solution");
-		
 				// Figure out if the response was correct
 				if ( KhanUtil.answerTypes[answerType].validate() ) {
 					// Show a congratulations message
@@ -50,7 +47,6 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 					
 					// Otherwise show an error message
 				} else {
-					jQuery("#solution").select();
 					jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
 				}
 				
@@ -60,7 +56,6 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			// Watch for when the next button is clicked
 			jQuery("#next").click(function() {
 				// Erase the old value and hide congrats message
-				jQuery("#solution").val( "" );
 				jQuery("#congrats").hide();
 				
 				// Toggle the navigation buttons
@@ -299,9 +294,6 @@ function makeProblem() {
 		// Add the problem into the page
 		jQuery("#workarea").append( problem );
 		
-		// Focus the solution textbox
-		jQuery("#solution:not(:focus)").focus();
-
 		// Clone the hints and add them into their area
 		var hints = exercise.children(".hints").clone();
 		var problemHints = problem.find(".hints");
