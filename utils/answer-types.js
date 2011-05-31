@@ -1,7 +1,6 @@
 KhanUtil.answerTypes || (KhanUtil.answerTypes = {});
 
 jQuery.extend( KhanUtil.answerTypes, {
-	// TODO check numerical equality
 	text: (function() {
 		var input;
 		var correct;
@@ -19,6 +18,28 @@ jQuery.extend( KhanUtil.answerTypes, {
 
 			validate: function() {
 				return jQuery.trim( input.val() ) === correct;
+			}
+		};
+	})(),
+
+	decimal: (function() {
+		var input;
+		var correct;
+
+		return {
+			init: function(solutionarea, solution) {
+				input = $('<input type="text">');
+				jQuery( solutionarea ).append( input );
+				input.focus();
+
+				correct = parseFloat( jQuery( solution ).text() );
+
+				return true;
+			},
+
+			validate: function() {
+				var eps = Math.pow( 2, -23 );
+				return Math.abs( parseFloat( input.val() ) - correct ) < eps;
 			}
 		};
 	})(),
