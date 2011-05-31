@@ -186,7 +186,7 @@ function initRandom() {
 				}
 				else if ( /[^aeiou]y$/i.test( word ) ) {
 					word = word.replace(/y$/i, "ies");
-				} else if ( /[sxz]$/i.test( word ) || /[bcfhjlmnqsvwxyz]h/.test( word ) ) {
+				} else if ( /[sxz]$/i.test( word ) || /[bcfhjlmnqsvwxyz]h$/.test( word ) ) {
 					word += "es";
 				} else {
 					word += "s";
