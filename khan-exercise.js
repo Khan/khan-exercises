@@ -172,15 +172,20 @@ function initRandom() {
 		// - plural(NUMBER, singular, plural): 
 		//		- return "NUMBER word"
 		plural: (function() {
+			var one_offs = {
+				'quiz': 'quizzes'
+			};
 			var pluralizeWord = function(word) {
 				// determine if our word is all caps.  If so, we'll need to
 				// re-capitalize at the end
 				var isUpperCase = (word.toUpperCase() == word);
+				var one_off = one_offs[word.toLowerCase()];
 
-				if ( /[^aeiou]y/i.test( word ) ) {
+				if ( one_off ) {
+					word = one_off;
+				}
+				else if ( /[^aeiou]y/i.test( word ) ) {
 					word = word.replace(/y$/i, "ies");
-				} else if ( word == "quiz" ) {
-					word += "zes";
 				} else if ( /[sxz]$/i.test( word ) || /[bcfhjlmnqsvwxyz]h/.test( word ) ) {
 					word += "es";
 				} else {
