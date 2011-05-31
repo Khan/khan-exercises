@@ -290,6 +290,8 @@ jQuery.fn.extend({
 });
 
 jQuery.extend({
+	// Work around a strange bug in jQuery/Sizzle
+	// http://bugs.jquery.com/ticket/5637
 	tmplExpr: "[data-if],[data-else=]",
 	
 	tmplFilter: function() {
@@ -303,8 +305,6 @@ jQuery.extend({
 		if ( condStr != null ) {
 			cond = cond && jQuery.getVAR( condStr );
 			
-			/* Work around a strange bug in jQuery/Sizzle
-			 * http://bugs.jquery.com/ticket/5637 */
 			var nextCond = jQuery(this).nextAll( jQuery.tmplExpr ).eq(0);
 
 			if ( nextCond.data("else") != null ) {
