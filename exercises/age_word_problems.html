@@ -120,9 +120,9 @@
 		</div>
 
 		<div id="solve-older-3">
-			<div class="vars">
+			<div class="vars" data-ensure="C - A !== A">
 				<var id="A">randRange(2, 5)</var>
-				<var id="C" data-ensure="C - A !== A">randRange(A + 2, 9)</var>
+				<var id="C">randRange(A + 2, 9)</var>
 				<var id="B">randRange(2, 10) * (C - A)</var>
 			</div>
 
@@ -171,10 +171,10 @@
 			</div>
 		</div>
 
-		<div id="solve-single-4" data-weight="2">
+		<div id="solve-single-4" data-ensure="B <= 60" data-weight="2">
 			<div class="vars">
 				<var id="A">randRange(3, 20)</var>
-				<var id="B" data-ensure="B <= 60">randRange(7, 24) * (A - 1)</var>
+				<var id="B">randRange(7, 24) * (A - 1)</var>
 			</div>
 
 			<div class="question">
@@ -199,11 +199,11 @@
 			</div>
 		</div>
 
-		<div id="solve-single-5" data-weight="2">
+		<div id="solve-single-5" data-weight="2" data-ensure="A <= 80 && B >= 2">
 			<div class="vars">
 				<var id="C">randRange(3, 5)</var>
-				<var id="B" data-ensure="B > 1.5">randRange(1, 10) * (C - 1)</var>
-				<var id="A" data-ensure="A <= 80">randRange(C * B + 1, 15) * (C - 1)</var>
+				<var id="B">randRange(1, 10) * (C - 1)</var>
+				<var id="A">randRange(C * B + 1, 15) * (C - 1)</var>
 			</div>
 
 			<div class="question">

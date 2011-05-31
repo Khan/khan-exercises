@@ -6,12 +6,12 @@
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars">
+	<div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2">
 		<var id="X1">randRange(-9, 9)</var>
 		<var id="Y1">randRange(-9, 9)</var>
 
 		<var id="X2">randRange(-9, 9)</var>
-		<var id="Y2" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2">randRange(-9, 9)</var>
+		<var id="Y2">randRange(-9, 9)</var>
 
 		<var id="M">(Y1 - Y2) / (X1 - X2)</var>
 	</div>
