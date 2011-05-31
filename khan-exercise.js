@@ -178,11 +178,7 @@ function initRandom() {
 				'shelf': 'shelves',
 				'loaf of bread': 'loaves of bread',
 				'gallon of milk': 'gallons of milk',
-				'potato': 'potatoes',
-				'party favor': 'party favors',
-				'jelly bean': 'jelly beans',
-				'video game': 'video games',
-				'race car': 'race cars'
+				'potato': 'potatoes'
 			};
 			var pluralizeWord = function(word) {
 				// determine if our word is all caps.  If so, we'll need to
