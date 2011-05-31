@@ -6,37 +6,21 @@
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars">
-			<!-- vars for type 1 -->
-			<var id="ITEMS_PER_GROUP">randRange( 3, 12 )</var>
-			<var id="ITEMS_LEFT">randRange( 1, ITEMS_PER_GROUP - 1 )</var>
-			<var data-ensure="getFactors( ITEMS_PER_GROUP * GROUPS + ITEMS_LEFT ).length > 2" 
-					 id="GROUPS">randRange( 2, 12 )</var>
-			<var id="ITEMS_IN_GROUPS">GROUPS * ITEMS_PER_GROUP</var>
-			<var id="TOTAL_ITEMS">ITEMS_IN_GROUPS + ITEMS_LEFT</var>
-			
-			<var id="NEW_ITEMS_PER_GROUP">getNontrivialFactor( TOTAL_ITEMS )</var>
-			<var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS_PER_GROUP</var>
-			
-			<!-- vars for type 2 -->
-			<var id="ITEM_1_COUNT">randRange( 4, 12 )</var>
-			<var id="ITEM_1_COST">randRange( 4, 12 )</var>
-			<var id="ITEM_2_COST">randRange( 4, 12 )</var>
-			<var id="TOTAL_SPENT_ON_1">ITEM_1_COUNT * ITEM_1_COST</var>
-			<var id="TOTAL_SPENT">TOTAL_SPENT_ON_1 + ITEM_2_COST</var>
-
-			<!-- vars for type 3 -->
-			<var data-ensure="getFactors( TOTAL_ITEMS_3 ).length > 4"
-			     id="TOTAL_ITEMS_3">randRange( 10, 99 )</var>
-			<var id="ITEMS_3">getNontrivialFactor( TOTAL_ITEMS_3 )</var>
-			<var id="GROUPS_3">TOTAL_ITEMS_3 / ITEMS_3</var>
-			<var data-ensure="NEW_ITEMS_3 !== ITEMS_3"
-			     id="NEW_ITEMS_3">getNontrivialFactor( TOTAL_ITEMS_3 )</var>
-			<var id="NEW_GROUPS_3">TOTAL_ITEMS_3 / NEW_ITEMS_3</var>
-		</div>
-
 		<div class="problems">
 			<div id="type-1">
+
+				<div class="vars">
+					<var id="ITEMS_PER_GROUP">randRange( 3, 12 )</var>
+					<var id="ITEMS_LEFT">randRange( 1, ITEMS_PER_GROUP - 1 )</var>
+					<var data-ensure="getFactors( ITEMS_PER_GROUP * GROUPS + ITEMS_LEFT ).length > 2" 
+							 id="GROUPS">randRange( 2, 12 )</var>
+					<var id="ITEMS_IN_GROUPS">GROUPS * ITEMS_PER_GROUP</var>
+					<var id="TOTAL_ITEMS">ITEMS_IN_GROUPS + ITEMS_LEFT</var>
+					
+					<var id="NEW_ITEMS_PER_GROUP">getNontrivialFactor( TOTAL_ITEMS )</var>
+					<var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS_PER_GROUP</var>
+				</div>
+
 				<div class="question">
 					<var>person(1)</var> is putting <var>itemPlural(1)</var> into <var>groupPlural(1)</var>. 
 					
@@ -77,6 +61,15 @@
 			</div>
 
 			<div id="type-2">
+				
+				<div class="vars">
+					<var id="ITEM_1_COUNT">randRange( 4, 12 )</var>
+					<var id="ITEM_1_COST">randRange( 4, 12 )</var>
+					<var id="ITEM_2_COST">randRange( 4, 12 )</var>
+					<var id="TOTAL_SPENT_ON_1">ITEM_1_COUNT * ITEM_1_COST</var>
+					<var id="TOTAL_SPENT">TOTAL_SPENT_ON_1 + ITEM_2_COST</var>
+				</div>
+
 				<div class="question">
 					<var>person(1)</var> bought <var>plural( ITEM_1_COUNT, storeItem(1, 1), storeItemPlural(1, 1) )</var>,
 					all costing the same amount, from the <var>store(1)</var> store. 
@@ -109,27 +102,38 @@
 			</div>
 
 			<div id="type-3">
+
+				<div class="vars">
+					<var data-ensure="getFactors( TOTAL_ITEMS ).length > 4"
+							 id="TOTAL_ITEMS">randRange( 10, 99 )</var>
+					<var id="ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
+					<var id="GROUPS">TOTAL_ITEMS / ITEMS</var>
+					<var data-ensure="NEW_ITEMS !== ITEMS"
+							 id="NEW_ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
+					<var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS</var>
+				</div>
+
 				<div class="question">
-					When <var>person(1)</var> places <var>plural( ITEMS_3, item(1), itemPlural(1) )</var> in each
-					<var>group(1)</var> <var>he(1)</var> ends up with <var>plural( GROUPS_3, group(1), groupPlural(1) )</var>.
+					When <var>person(1)</var> places <var>plural( ITEMS, item(1), itemPlural(1) )</var> in each
+					<var>group(1)</var> <var>he(1)</var> ends up with <var>plural( GROUPS, group(1), groupPlural(1) )</var>.
 					
-					If <var>he(1)</var> wants <var>plural( NEW_GROUPS_3, group(1), groupPlural(1) )</var>, 
+					If <var>he(1)</var> wants <var>plural( NEW_GROUPS, group(1), groupPlural(1) )</var>, 
 					how many <var>itemPlural(1)</var> should <var>he(1)</var> put in each <var>group(1)</var>?
 				</div>
 
-				<p class="solution"><var>NEW_ITEMS_3</var></p>
+				<p class="solution"><var>NEW_ITEMS</var></p>
 
 				<div class="hints">
 					<p class="hint1">
-						<var>plural( ITEMS_3, item(1), itemPlural(1) )</var> <code>\times</code>
-						<var>plural( GROUPS_3, group(1), groupPlural(1) )</var> <code>=</code>
-						<var>plural( TOTAL_ITEMS_3, item(1), itemPlural(1) )</var>.
+						<var>plural( ITEMS, item(1), itemPlural(1) )</var> <code>\times</code>
+						<var>plural( GROUPS, group(1), groupPlural(1) )</var> <code>=</code>
+						<var>plural( TOTAL_ITEMS, item(1), itemPlural(1) )</var>.
 					</p>
 
 					<p class="hint2">
-						If we divide the <var>plural( TOTAL_ITEMS_3, item(1), itemPlural(1) )</var> into
-						<var>plural( NEW_GROUPS_3, group(1), groupPlural(1) )</var>, then we get
-						<code><var>TOTAL_ITEMS_3</var> \div <var>NEW_GROUPS_3</var> = <var>NEW_ITEMS_3</var></code>
+						If we divide the <var>plural( TOTAL_ITEMS, item(1), itemPlural(1) )</var> into
+						<var>plural( NEW_GROUPS, group(1), groupPlural(1) )</var>, then we get
+						<code><var>TOTAL_ITEMS</var> \div <var>NEW_GROUPS</var> = <var>NEW_ITEMS</var></code>
 						<var>itemPlural(1)</var> per <var>group(1)</var>.
 					</p>
 				</div>
