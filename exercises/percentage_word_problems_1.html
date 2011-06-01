@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+    <title>Percentage Word Problems 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="simple-percentages">
+            <div class="vars">
+                <var id="A_SIMPLE">KhanUtil.randRange( 1, 150 )</var>
+                <var id="B_SIMPLE">KhanUtil.randRange( 2, 100 )</var>
+            </div>
+            <p class="question">
+                What is <var>A_SIMPLE</var>% of <var>B_SIMPLE</var>? (Round to nearest whole number)
+            </p>
+            <p class="solution" data-type="decimal"><var>round((A_SIMPLE * B_SIMPLE) / 100)</var></p>
+            <div class="hints"> 
+                <p>
+                <code><var>A_SIMPLE / 100</var> * <var>B_SIMPLE</var> \approx <var>round((A_SIMPLE * B_SIMPLE) / 100)</var> </code>
+                </p>
+            </div>
+        </div>
+        <div id="backward-percentages" data-type="simple-percentages">
+             <p class="question">
+                <var>B_SIMPLE</var> is <var>A_SIMPLE</var>% of what number? (Round to the hundredths place)
+            </p>
+            <p class="solution" data-type="decimal"><var>round(((B_SIMPLE * 100) / A_SIMPLE) * 100) / 100</var></p>
+            <div class="hints"> 
+                <p>Let <code>x</code> be the number that <var>B_SIMPLE</var> is <var>A_SIMPLE</var>% of.</p>
+                <p><code><var>A_SIMPLE / 100</var> * x = <var>B_SIMPLE</var></code></p>
+                <p><code>x=<var>B_SIMPLE</var>/<var>A_SIMPLE / 100</var></code></p>
+                <p><code>x \approx<var>round((B_SIMPLE * 100/A_SIMPLE * 100))/100</var></code></p>
+            </div>
+        </div>
+        <div id="bank-percentages">
+            <div class="vars">
+                <var id="BANK_FEWER">KhanUtil.randRange( 2, 100 )</var>
+                <var id="BANK_MORE">BANK_FEWER + KhanUtil.randRange(5, 2 * BANK_FEWER + 10 )</var>
+            </div>
+             <p class="question">
+                <var>person(1)</var> has <var>BANK_MORE</var> dollars in the bank today. Yesterday, <var>he(1)</var> had <var>BANK_FEWER</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account increase over the past day? (Enter your answer as a percentage rounded to the hundredths place. For example, if your answer is 95.678%, enter 95.68 for your answer) </p>
+            <p class="solution" data-type="decimal"><var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_FEWER) / 100</var></p>
+            <div class="hints">
+                <p>The bank account grew by <code><var>BANK_MORE</var> - <var>BANK_FEWER</var> = <var>BANK_MORE - BANK_FEWER</var></code> dollars </p>
+                <p> <code>\frac{<var>BANK_MORE - BANK_FEWER</var>}{<var>BANK_FEWER</var>} \approx <var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_FEWER) / 100</var>\%</code></p>
+            </div>
+        </div>
+        <div id="bank-percentages-loss" data-type="bank-percentages">
+             <p class="question">
+               <var>person(1)</var> has <var>BANK_FEWER</var> dollars in the bank today. Yesterday, <var>he(1)</var> had <var>BANK_MORE</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account decrease over the past day? (Enter your answer as a percentage rounded to the hundredths place. For example, if your answer is 95.678%, enter 95.68 for your answer.)
+            </p>
+            <p class="solution" data-type="decimal"><var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_MORE) / 100</var></p>
+            <div class="hints">
+                <p>The bank account decreased by <code><var>BANK_MORE</var> - <var>BANK_FEWER</var> = <var>BANK_MORE - BANK_FEWER</var></code> dollars </p>
+                <p> <code>\frac{<var>BANK_MORE - BANK_FEWER</var>}{<var>BANK_MORE</var>} \approx <var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_MORE) / 100</var>\%</code></p>
+            </div>
+        </div>
+        <div id="yearly-percentages">
+            <div class="vars">
+                <var id="YEAR_PERCENT_MORE">KhanUtil.randRange( 10, 150 )</var>
+                <var id="YEAR_THIS">KhanUtil.randRange( 50, 999 )</var>
+                <var id="YEAR_LAST">round(YEAR_THIS * 10000 / (100 + YEAR_PERCENT_MORE)) / 100</var>
+            </div>
+            <p class="question">
+                <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than <var>he(1)</var> did this time last year. If <var>person(1)</var> has <var>YEAR_THIS</var> dollars today, how many dollars did she have this time last year? (round to the nearest cent [hundredth of a dollar])</p>
+            <p class="solution" data-type="decimal"><var>YEAR_LAST</var></p>
+            <div class="hints">
+                  <p>Let <code>x</code> be the amount of money that she had last year.</p>
+                <p><code>x + <var>YEAR_PERCENT_MORE / 100</var>x = <var>YEAR_THIS</var></code></p>
+                <p><code><var>(100 + YEAR_PERCENT_MORE) / 100</var>x = <var>YEAR_THIS</var></code></p>
+                <p><code>x = \frac{<var>YEAR_THIS</var>}{<var>(100 + YEAR_PERCENT_MORE) / 100</var>}</code></p>
+                <p><code>x \approx <var>YEAR_LAST</var></code></p>
+            </div>
+        </div>
+        <div id="yearly-percentages-2" data-type="yearly-percentages">
+            <p class="question">
+                <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than <var>he(1)</var> did this time last year. If <var>person(1)</var> has <var>YEAR_THIS</var> dollars today, how many dollars did she make over this past year? (round to the nearest cent [hundredth of a dollar])</p>
+            <p class="solution" data-type="decimal"><var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></p>
+            <div class="hints">
+                <p>Let <code>x</code> be the amount of money that she had last year.</p>
+                <p><code>x + <var>YEAR_PERCENT_MORE / 100</var>x = <var>YEAR_THIS</var></code></p>
+                <p><code><var>(100 + YEAR_PERCENT_MORE) / 100</var>x = <var>YEAR_THIS</var></code></p>
+                <p><code>x = \frac{<var>YEAR_THIS</var>}{<var>(100 + YEAR_PERCENT_MORE) / 100</var>}</code></p>
+                <p><code>x \approx <var>YEAR_LAST</var></code></p>
+                <p>So, she had <var>YEAR_LAST</var> dollars last year. However, we need to know how much she has made <b>over the past year!</b></p>
+                <p>If she had <var>YEAR_LAST</var> dollars last year and now has <var>YEAR_THIS</var> dollars this year, then she has made <code><var>YEAR_THIS</var>-<var>YEAR_LAST</var> \approx <var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></code> dollars over the course of the year.</p>
+                <p>So, the answer is <var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var> dollars.</p>
+            </div>
+        </div>
+        <!--TODO: replace get_random_person_name() with function that works -->
+        <div class="store-percentages">
+            <div class="vars">
+                <var id="PERCENT_OFF">KhanUtil.randRange( 10, 25 )</var>
+                <var id="DOLLARS">KhanUtil.randRange( 5, 100 )</var>
+                <var id="HIGHEST_PRICE">round(DOLLARS * 100 * 100 / (100 - PERCENT_OFF)) / 100 </var>
+            </div>
+            <div class="problem">
+                <p class="question"> <var>person(1)</var> has <var>DOLLARS</var> dollars to spend at a store. The store currently has a sale where the sale price is <var>PERCENT_OFF</var>% off the marked price. What is the highest marked price that <var>person(1)</var> can afford?</p>
+                <p class="solution"><var>HIGHEST_PRICE</var></p>
+            </div>
+            <div class="hints">
+                <p>Let <code>x</code> be the highest marked price that <var>person(1)</var></code> can afford.</p>
+                <p><code>x-<var>(PERCENT_OFF/100)</var>x = </code> sale price</p>
+                <p><code><var>((100-PERCENT_OFF)/100)</var>x = </code> sale price</p>
+                <p><code><var>((100-PERCENT_OFF/100)</var>x = <var>DOLLARS</var></code></p>
+                <p><code>x = <var>HIGHEST_PRICE</var></code> dollars</p>
+            </div>   
+        </div>
+    </div>
+    </div>
+</body>
+</html>
