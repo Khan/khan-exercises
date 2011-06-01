@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Adding and subtracting negative numbers</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="A">(random() > 0.5? -1:1) * randRange(1,9)</var>
+			<var id="B">(random() > 0.5? -1:1) * randRange(1,9)</var>
+		</div>
+
+		<div class="problems">
+			<div id="original">
+				<p class="question"><var>A</var> + <var>B</var></p> 
+				<div class="solution"><var>A+B</var></div>
+				<div class="hints">
+					<p data-if="B < 0 ">+(<var>B</var>) = -<var>B*-1</var></p>
+					<p><var>A</var> + <var>B</var> = <var>A+B</var></p>
+				</div>
+			</div>
+			<div>
+				<p class="question"><var>A</var> - <var>B</var></p> 
+				<div class="solution"><var>A-B</var></div>
+				<div class="hints">
+					<p data-if="B < 0 ">-(<var>B</var>) = +<var>B*-1</var></p>
+					<p><var>A</var> - <var>B</var> = <var>A-B</var></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

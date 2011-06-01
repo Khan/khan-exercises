@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html data-require="math math-table">
+<head>
+	<title>Multiplication 3</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="A">randRange(101,999)</var>
+			<var id="B">randRange(2,9)</var>
+			<var id="A_ARRAY">digits(A)</var>
+			<var id="B_ARRAY">digits(B)</var>
+			<var id="TABLE">createLongMultiplicationTable( A_ARRAY, B_ARRAY)</var>
+			<var id="DIGITS">TABLE.digits</var>
+			<var id="CARRY">TABLE.carry</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question"><var>A</var> * <var>B</var> = ?</p>
+				<div class="solution"><var>A*B</var></div>
+			</div>
+		</div>
+		<div class="hints">
+		<p><var>A_ARRAY[0]</var> * <var>B_ARRAY[0]</var> = <var>A_ARRAY[0]*B_ARRAY[0]</var></p>
+		<p data-if="CARRY[1]">carry = <var>CARRY[1]</var></p>
+		<p>Write <var>DIGITS[0]</var> as the digit</p>
+		<p data-if="CARRY[1]"><var>A_ARRAY[1]</var> * <var>B_ARRAY[0]</var> + <var>CARRY[1]</var> = <var>A_ARRAY[1] * B_ARRAY[0] + CARRY[1]</var></p>
+		<p data-else><var>A_ARRAY[1]</var> * <var>B_ARRAY[0]</var> = <var>A_ARRAY[1] * B_ARRAY[0]</var></p>
+		<p data-if="CARRY[2]">carry = <var>CARRY[2]</var></p>
+		<p>Write <var>DIGITS[1]</var> as the digit</p>
+		<p data-if="CARRY[2]"><var>A_ARRAY[2]</var> * <var>B_ARRAY[0]</var> + <var>CARRY[2]</var> = <var>A_ARRAY[2] * B_ARRAY[0] + CARRY[2]</var></p>
+		<p data-else><var>A_ARRAY[2]</var> * <var>B_ARRAY[0]</var> = <var>A_ARRAY[2] * B_ARRAY[0]</var></p>
+		<p>Write <var>DIGITS[3]</var><var>DIGITS[2]</var> as the digit</p>
+		<p>Result is <var>DIGITS[3]</var><var>DIGITS[2]</var><var>DIGITS[1]</var><var>DIGITS[0]</var></p>
+		</div>
+	</div>
+</body>
+</html>
