@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Multiplication 1.5</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+		function createEasyMultiplier( n, length ){
+			var maxDigit;
+			var result = 0;
+			if( n === 2 ){
+				maxDigit = 4;
+			}
+			else{
+				maxDigit = Math.floor( 10 / n );
+			}
+			for( var i = 0; i < length; i++ ){
+				result += Math.pow( 10, i ) * KhanUtil.randRange( 1, maxDigit );
+			}
+			return result;
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="NUM_DIGITS">randRange(2,3)</var>
+			<var id="B">randRange(2,4)</var>
+			<var id="A">createEasyMultiplier( B, NUM_DIGITS )</var>
+			<var id="A_ARRAY">digits(A)</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question"><var>A</var> * <var>B</var> = ?</p>
+				<div class="solution"><var>A*B</var></div>
+			</div>
+		</div>
+		<div class="hints">
+		<p><var>A_ARRAY[0]</var> * <var>B</var> = <var>A_ARRAY[0]*B</var></p>
+		<p>Write <var>A_ARRAY[0]*B</var> as the digit</p>
+		<p data-else><var>A_ARRAY[1]</var> * <var>B</var> = <var>A_ARRAY[1] * B</var></p>
+		<p data-if="NUM_DIGITS === 3">Write <var>A_ARRAY[2] * B</var><var>A_ARRAY[1] * B</var> as the digit</p>
+		<p data-if="NUM_DIGITS === 3">Result is <var>A_ARRAY[2] * B</var><var>A_ARRAY[1] * B</var><var>A_ARRAY[0] * B</var></p>
+		<p data-if="NUM_DIGITS === 2">Write <var>A_ARRAY[1] * B</var> as the digit</p>
+		<p data-if="NUM_DIGITS === 2">Result is <var>A_ARRAY[1] * B</var><var>A_ARRAY[0] * B</var></p>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html data-require="math math-table">
+<head>
+	<title>Addition 4</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="A">randRange(1001,9999)</var>
+			<var id="B">randRange(1001,9999)</var>
+			<var id="A_ARRAY">digits(A)</var>
+			<var id="B_ARRAY">digits(B)</var>
+			<var id="ADDITION_TABLE">createLongAdditionTable( A_ARRAY, B_ARRAY)</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question"><var>A</var> + <var>B</var> = ?</p>
+				<div class="solution"><var>A+B</var></div>
+			</div>
+		</div>
+		<div class="hints">
+		<p><var>A_ARRAY[0]</var> + <var>B_ARRAY[0]</var> = <var>A_ARRAY[0] + B_ARRAY[0]</var></p>
+		<p data-if="ADDITION_TABLE[1]">carry <var>ADDITION_TABLE[1]</var></p>
+		<!-- second addition -->
+		<p data-if="ADDITION_TABLE[1]"><var>A_ARRAY[1]</var> + <var>B_ARRAY[1]</var> + <var>ADDITION_TABLE[1]</var> = <var>A_ARRAY[1] + B_ARRAY[1] + ADDITION_TABLE[1]</var></p>
+		<p data-else><var>A_ARRAY[1]</var> + <var>B_ARRAY[1]</var> = <var>A_ARRAY[1] + B_ARRAY[1]</var></p>
+		<p data-if="ADDITION_TABLE[2]">carry <var>ADDITION_TABLE[2]</var></p>
+		<!-- third addition -->
+		<p data-if="ADDITION_TABLE[2]"><var>A_ARRAY[2]</var> + <var>B_ARRAY[2]</var> + <var>ADDITION_TABLE[2]</var> = <var>A_ARRAY[2] + B_ARRAY[2] + ADDITION_TABLE[2]</var></p>
+		<p data-else><var>A_ARRAY[2]</var> + <var>B_ARRAY[2]</var> = <var>A_ARRAY[2] + B_ARRAY[2]</var></p>
+		<p data-if="ADDITION_TABLE[3]">carry <var>ADDITION_TABLE[3]</var></p>
+		<!-- fourth addition -->
+		<p data-if="ADDITION_TABLE[3]"><var>A_ARRAY[3]</var> + <var>B_ARRAY[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>A_ARRAY[3] + B_ARRAY[3] + ADDITION_TABLE[3]</var></p>
+		<p data-else><var>A_ARRAY[3]</var> + <var>B_ARRAY[3]</var> = <var>A_ARRAY[3] + B_ARRAY[3]</var></p>
+		<p>The final result is <var>A+B</var></p>
+		</div>
+	</div>
+</body>
+</html>
