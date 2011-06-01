@@ -72,12 +72,12 @@
 				<p class="solution"><var>MEAN</var></p>
 				
 				<div class="hints">
-					<p class="hint-explanation">To find the mean, add the numbers and divide by the number of numbers.</p>
-					<div class="hint-process">
+					<p>To find the mean, add the numbers and divide by the number of numbers.</p>
+					<div>
 						<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
 						<p>There are <code><var>INTEGERS_COUNT</var></code> numbers.</p>
 					</div>
-					<p class="hint-result">The mean is <code>\frac{<var>sum(INTEGERS)</var>}{<var>INTEGERS_COUNT</var>}</code>,
+					<p>The mean is <code>\frac{<var>sum(INTEGERS)</var>}{<var>INTEGERS_COUNT</var>}</code>,
 						or <code><var>MEAN</var></code>.</p>
 				</div>
 			</div>
@@ -92,17 +92,17 @@
 				<p class="solution"><var>MEDIAN</var></p>
 				
 				<div class="hints">
-					<div class="hint-explanation">
+					<div>
 						<p>First, order the numbers, giving:</p>
 						<div class="number-list"><code><var>SORTED_LIST</var></code></div>
 					</div>
-					<div class="hint-process">
+					<div>
 						<p data-if="INTEGERS.length % 2 === 0">Since we have <code>2</code> middle numbers, the median is the mean of <strong>those</strong> two numbers!</p>
 						<p data-else>The median is the 'middle' number:</p>
 						<div class="number-list"><code><var>MEDIAN_LIST</var></code></div>
 						<p data-if="SORTED_INTS.length % 2 === 0">The median is <code>\frac{<var>SORTED_INTS[ SORTED_INTS.length / 2 - 1 ]</var> + <var>SORTED_INTS[ SORTED_INTS.length / 2 ]</var>}{2}</code>.</p>
 					</div>
-					<p class="hint-result">So the median is <code><var>MEDIAN</var></code>.</p>
+					<p>So the median is <code><var>MEDIAN</var></code>.</p>
 				</div>
 			</div>
 
@@ -115,18 +115,12 @@
 				</div>
 				
 				<div class="hints">
-					<p class="hint-explanation">The mode is the most frequent number.</p>
-					<p class="hint-result">There are more <code><var>MODE</var></code>s than any other number, so <code><var>MODE</var></code> is the mode.</p>
+					<p>The mode is the most frequent number.</p>
+					<p>There are more <code><var>MODE</var></code>s than any other number, so <code><var>MODE</var></code> is the mode.</p>
 				</div>
 				
 				<p class="solution"><var>MODE</var></p>
 			</div>
-		</div>
-		
-		<div class="hints">
-			<p class="hint-explanation"></p>
-			<p class="hint-process"></p>
-			<p class="hint-result"></p>
 		</div>
 	</div>
 </body>

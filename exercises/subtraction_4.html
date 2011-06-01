@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Subtraction 4</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+    	<div class="vars">
+    		<var id="A">randRange(10000,99999)</var>
+    		<var id="B">randRange(100,999)</var>
+    		<var id="A_Array">digits(A)</var>
+    		<var id="B_Array">digits(B)</var>
+    	</div>
+
+    	<div class="problems">
+    		<div>
+    			<p class="question"><var>A</var> - <var>B</var> = ?</p>
+    			<div class="solution"><var>A - B</var></div>
+    		</div>
+    	</div>
+    	<div class="hints">
+            <p>First we need to make sure that all the digits in the top number are greater than or equal to the digit below it.</p>
+            <!-- first digit -->
+            <p data-if="A_Array[0]<B_Array[0]"> For the units digit, <var>A_Array[0]</var> is less then <var> B_Array[0]</var>, so we'll have to borrow.</p>
+            <p data-if="A_Array[0]<B_Array[0]"> <var>A_Array[1]</var> - 1 = <var>A_Array[1]=A_Array[1]-1</var>, <var>A_Array[0]</var> + 10 = <var>A_Array[0]=A_Array[0]+10</var></p>
+            <!-- second digit -->
+            <p data-if="A_Array[1]<B_Array[1]"> For the tens digit, <var>A_Array[1]</var> is less then <var> B_Array[1]</var>, so we'll have to borrow.</p>
+            <p data-if="A_Array[1]<B_Array[1]"> <var>A_Array[2]</var> - 1 = <var>A_Array[2]=A_Array[2]-1</var>, <var>A_Array[1]</var> + 10 = <var>A_Array[1]=A_Array[1]+10</var></p>
+            <!-- second digit -->
+            <p data-if="A_Array[2]<B_Array[2]"> For the hundreds digit, <var>A_Array[2]</var> is less then <var> B_Array[2]</var>, so we'll have to borrow.</p>
+            <p data-if="A_Array[2]<B_Array[2]"> <var>A_Array[3]</var> - 1 = <var>A_Array[3]=A_Array[3]-1</var>, <var>A_Array[2]</var> + 10 = <var>A_Array[2]=A_Array[2]+10</var></p>
+            <p>All the top digits are greater than or equal to all the bottom digits, so we can start subtracting.</p>
+            <p>Units digit: <var>A_Array[0]</var> - <var>B_Array[0]</var> = <var>A_Array[0]-B_Array[0]</var></p>
+            <p>Tens digit: <var>A_Array[1]</var> - <var>B_Array[1]</var> = <var>A_Array[1]-B_Array[1]</var></p>
+            <p>Hundreds digit: <var>A_Array[2]</var> - <var>B_Array[2]</var> = <var>A_Array[2]-B_Array[2]</var></p>
+            <p>Thousands digit: Bring down the <var>A_Array[3]</var> to get <var>A_Array[3]</var>.</p>
+            <p>Ten thousands digit: Bring down the <var>A_Array[4]</var> to get <var>A_Array[4]</var>.</p>
+            <p>Answer: <var>A-B</var></p>
+        </div>
+	</div>
+</body>
+</html>
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math word-problems">
 <head>
 	<title>Prime Numbers</title>
 	<script src="../khan-exercise.js"></script>
@@ -8,19 +8,19 @@
 	<div class="exercise">
 		<div class="vars">
 			<var id="PRIME">getPrime()</var>
-			<var id="PRIME_FACTORS">getFactors( PRIME ).join( ", " )</var>
+			<var id="PRIME_FACTORS">toSentence( getFactors( PRIME ) )</var>
 		
 			<var id="WRONG_1">getOddComposite()</var>
-			<var id="WRONG_1_FACTORS">getFactors( WRONG_1 ).join( ", " )</var>
+			<var id="WRONG_1_FACTORS">toSentence( getFactors( WRONG_1 ) )</var>
 		
 			<var id="WRONG_2">getOddComposite()</var>
-			<var id="WRONG_2_FACTORS">getFactors( WRONG_2 ).join( ", " )</var>
+			<var id="WRONG_2_FACTORS">toSentence( getFactors( WRONG_2 ) )</var>
 		
 			<var id="WRONG_3">getOddComposite()</var>
-			<var id="WRONG_3_FACTORS">getFactors( WRONG_3 ).join( ", " )</var>
+			<var id="WRONG_3_FACTORS">toSentence( getFactors( WRONG_3 ) )</var>
 		
 			<var id="WRONG_4">getEvenComposite()</var>
-			<var id="WRONG_4_FACTORS">getFactors( WRONG_4 ).join( ", " )</var>
+			<var id="WRONG_4_FACTORS">toSentence( getFactors( WRONG_4 ) )</var>
 		</div>
 
 		<div class="problems">

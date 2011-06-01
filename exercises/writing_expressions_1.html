@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math expressions">
 <head>
 	<title>Writing Expressions 1</title>
 	<script src="../khan-exercise.js"></script>
@@ -16,38 +16,38 @@
 				<div class="problem">
 					<p>Select the expression that matches the following phrase:</p>
 				</div>
-				<p class="question">The sum of <var>B</var> and the product of <var>A</var> and x.</p>
-				<p class="solution"><code><var>A</var>x + <var>B</var></code></p>
+				<p class="question">The sum of <code><var>B</var></code> and the product of <code><var>A</var></code> and <code>x</code>.</p>
+				<p class="solution"><code><var>expr(["+", ["*", A, "x"], B])</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
-					<li><code><var>-1 * A</var>x + <var>B</var></code></li>
-					<li><code><var>A</var>x + <var>-1 * B</var></code></li>
-					<li><code><var>B</var>x + <var>A</var></code></li>
-					<li><code><var>-1 * B</var>x + <var>-1 * A</var></code></li>
+					<li><code><var>expr(["+", ["*", -A, "x"], B])</var></code></li>
+					<li><code><var>expr(["+", ["*", A, "x"], -B])</var></code></li>
+					<li><code><var>expr(["+", ["*", B, "x"], A])</var></code></li>
+					<li><code><var>expr(["+", ["*", -B, "x"], -A])</var></code></li>
 				</ul>
 				<div class="hints">
-					<p class="hint1">What is <span class="hint_orange">the product of <var>A</var> and x</span>?</p>
-					<p class="hint2">What is <span class="hint_blue">the sum of <var>B</var></span> and <code class="hint_orange"><var>A</var>x</code>?</p>
+					<p class="hint1">What is <span class="hint_orange">the product of <code><var>A</var></code> and <code>x</code></span>?</p>
+					<p class="hint2">What is <span class="hint_blue">the sum of <code><var>B</var></code></span> and <code class="hint_orange"><var>expr(["*", A, "x"])</var></code>?</p>
 				</div>
 			</div>
 			<div data-type="original">
-				<p class="question">Take the quantity <var>A</var> times x, and then add <var>B</var>.</p>
+				<p class="question">Take the quantity <code><var>A</var></code> times <code>x</code>, and then add <code><var>B</var></code>.</p>
 				<div class="hints">
-					<p class="hint1">What is <span class="hint_orange">the quantity of <var>A</var> times x</span>?</p>
-					<p class="hint2">What <span class="hint_blue">does adding <var>B</var></span> do?</p>
+					<p class="hint1">What is <span class="hint_orange">the quantity of <code><var>A</var></code> times <code>x</code></span>?</p>
+					<p class="hint2">What <span class="hint_blue">does adding <code><var>B</var></code></span> do?</p>
 				</div>
 			</div>
 			<div data-type="original">
-				<p class="question"><var>B</var> plus the product of <var>A</var> and x.</p>
+				<p class="question"><code><var>B</var></code> plus the product of <code><var>A</var></code> and <code>x</code>.</p>
 				<div class="hints">
-					<p class="hint1">What is <span class="hint_orange">the product of <var>A</var> and x</span>?</p>
-					<p class="hint2">What is <span class="hint_blue"><var>B</var> plus</span> <code class="hint_orange"><var>A</var>x</code>?</p>
+					<p class="hint1">What is <span class="hint_orange">the product of <code><var>A</var></code> and <code>x</code></span>?</p>
+					<p class="hint2">What is <span class="hint_blue"><code><var>B</var></code> plus</span> <code class="hint_orange"><var>expr(["*", A, "x"])</var></code>?</p>
 				</div>
 			</div>
 			<div data-type="original">
-				<p class="question">The sum of <var>B</var> and the quantity <var>A</var> times x.</p>
+				<p class="question">The sum of <code><var>B</var></code> and the quantity <code><var>A</var></code> times <code>x</code>.</p>
 				<div class="hints">
-					<p class="hint1">What is <span class="hint_orange">the quantity <var>A</var> times x</span>?</p>
-					<p class="hint2">What is <span class="hint_blue">the sum of <var>B</var></span> and <code class="hint_orange"><var>A</var>x</code>?</p>
+					<p class="hint1">What is <span class="hint_orange">the quantity <code><var>A</var></code> times <code>x</code></span>?</p>
+					<p class="hint2">What is <span class="hint_blue">the sum of <code><var>B</var></code></span> and <code class="hint_orange"><var>expr(["*", A, "x"])</var></code>?</p>
 				</div>
 			</div>
 		</div>
@@ -55,10 +55,10 @@
 		<div class="hints">
 			<p>Let's break this problem into smaller and easier pieces.</p>
 			<p class="hint1"></p>
-			<p><code><var>A</var> * x = </code><code class="hint_orange"><var>A</var>x</code></p>
+			<p><code><var>A</var> \times x = \color{orange}{<var>expr(["*", A, "x"])</var>}</code></p>
 			<p class="hint2"></p>
-			<p><code class="hint_orange"><var>A</var>x</code> <code class="hint_blue">+ <var>B</var></code></p>
-			<p>So, the original phrase can be written as <code><var>A</var>x + <var>B</var></code></p>
+			<p><code class="hint_orange"><var>A</var>x</code><code class="hint_blue">{} + <var>B</var></code></p>
+			<p>So, the original phrase can be written as <code><var>expr(["+", ["*", A, "x"], B])</var></code></p>
 		</div>
 	</div>
 </body>

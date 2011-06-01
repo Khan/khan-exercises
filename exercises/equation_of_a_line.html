@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html data-require="math mathformat graph">
+<head>
+	<title>Equation of a Line</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2 && -9 < B && B < 9">
+		<var id="X1">randRange(-9, 9)</var>
+		<var id="Y1">randRange(-9, 9)</var>
+
+		<var id="X2">randRange(-9, 9)</var>
+		<var id="Y2">randRange(-9, 9)</var>
+
+		<var id="M">(Y1 - Y2) / (X1 - X2)</var>
+		<var id="B">Y1 - M * X1</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>The equation of the line through the points <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code> is written in the form <code>y = mx + b</code>.</p>
+
+				<p>What are the values of the slope <code>m</code> and the <code>y</code>-intercept <code>b</code>?</p>
+
+				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
+					line([X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M]);
+					ASdot([X1, Y1], 4, "black", "yellow");
+					ASdot([X2, Y2], 4, "black", "yellow");
+				</div>
+			</div>
+
+			<div class="solution" data-type="multiple">
+				<p><code>m</code> = <span class="sol" data-type="rational"><var>M</var></span></p>
+				<p><code>b</code> = <span class="sol" data-type="rational"><var>B</var></span></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<p>The equation for the slope is <code>m = \dfrac{y_2 - y_1}{x_2 - x_1}</code>.</p>
+		<p>Substituting in, we get <code>m = \displaystyle \frac{<var>Y2</var> - <var>negParens(Y1)</var>}{<var>X2</var> - <var>negParens(X1)</var>} = <var>fractionSimplification( Y2 - Y1, X2 - X1 )</var></code>.</p>
+		<p>Writing the equation of the line, we have <code>y = <var>fraction( Y2 - Y1, X2 - X1 )</var> x + b</code>.</p>
+		<p>Substitute in <code>y = <var>Y1</var></code> and <code>x = <var>X1</var></code>, the coordinates of the first point: <code><var>Y1</var> = (<var>fraction( Y2 - Y1, X2 - X1 )</var>)(<var>X1</var>) + b</code>.</p>
+		<p><code>b = <var>Y1</var> - <var>fraction( X1 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fraction( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code>.</p>
+		<p>The equation of the line is <code>y = <var>fraction( Y2 - Y1, X2 - X1 )</var> x + <var>fraction( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
+	</div>
+	</div>
+</body>
+</html>

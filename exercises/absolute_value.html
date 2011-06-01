@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Absolute Value</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars" data-ensure="SIGN == &quot;&quot; || INT != 0 || FRAC != 0">
+		<var id="INT">rand(5) > 0 ? randRange(1, 24) : 0</var>
+		<var id="FRAC">rand(3) > 0 ? "." + randRange(1, 9) : ""</var>
+		<var id="SIGN">randFromArray(["", "-"])</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>What is <code>\lvert <var>SIGN + INT + FRAC</var> \rvert</code>?</p>
+			</div>
+			<div class="solution" data-type="decimal"><var>INT + FRAC</var></div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<p data-if="SIGN == &quot;&quot;">The number <code><var>INT + FRAC</var></code> is already positive, so it is its own absolute value.</p>
+		<p data-else>The number <code>-<var>INT + FRAC</var></code> is negative, so its absolute value is positive: <code><var>INT + FRAC</var></code>.</p>
+	</div>
+	</div>
+</body>
+</html>

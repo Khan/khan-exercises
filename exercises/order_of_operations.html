@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Order of Operations</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="B - C !== 0">
+			<var id="A">randRange(1, 10)</var>
+			<var id="B">randRange(1, 10)</var>
+
+			<var id="C">randRange(1, 10)</var>
+
+			<var id="D">randRange(1, 10)</var>
+			<var id="E">randRange(1, 10)</var>
+		</div>
+
+		<div class="problems">
+			<div id="order-of-operations">
+				<p class="question">Simplify the following expression. (Round your answer to the nearest hundredth.)</p>
+				<p class="problem"><code>
+						<var>A</var> + (<var>B</var> \times <var>C</var>)
+				</code></p>
+
+				<p class="solution">
+					<var>A+B*C</var>
+				</p>
+				
+				<div class="hints">
+					<p><code>
+							<var>A</var> + (<var>B*C</var>)
+					</code></p>
+					<p><code>
+							<var>A</var> + <var>B*C</var>
+					</code></p>
+					<p><code>
+							<var>A+B*C</var>
+					</code></p>
+				</div>
+			</div>
+			<div data-type="order-of-operations">
+				<p class="problem"><code>
+						<var>A</var> + <var>B</var> \times <var>C</var>
+				</code></p>
+
+				<p class="solution">
+					<var>A+B*C</var>
+				</p>
+				
+				<div class="hints">
+					<p><code>
+							<var>A</var> + <var>B*C</var>
+					</code></p>
+					<p><code>
+							<var>A+B*C</var>
+					</code></p>
+				</div>
+			</div>
+			<div data-type="order-of-operations">
+				<p class="problem"><code>
+						<var>A</var> \times (<var>B</var> + <var>C</var>)
+				</code></p>
+
+				<p class="solution">
+					<var>A*(B+C)</var>
+				</p>
+				
+				<div class="hints">
+					<p><code>
+							<var>A</var> \times (<var>B+C</var>)
+					</code></p>
+					<p><code>
+							<var>A</var> \times <var>B+C</var>
+					</code></p>
+					<p><code>
+							<var>A*(B+C)</var>
+					</code></p>
+				</div>
+			</div>
+			<div data-type="order-of-operations">
+				<p class="problem"><code>
+						<var>A</var> + (\frac{<var>B*C</var>}{<var>C</var>})
+				</code></p>
+
+				<p class="solution">
+					<var>A+B</var>
+				</p>
+
+				<div class="hints">
+					<p><code>
+							<var>A</var> + (<var>B</var>)
+					</code></p>
+					<p><code>
+							<var>A</var> + <var>B</var>
+					</code></p>
+					<p><code>
+							<var>A+B</var>
+					</code></p>
+				</div>
+			</div>
+			<div data-type="order-of-operations">
+				<p class="problem"><code>
+						<var>A</var> + \frac{<var>B*C</var>}{<var>C</var>}
+				</code></p>
+
+				<p class="solution">
+					<var>A+B</var>
+				</p>
+
+				<div class="hints">
+					<p><code>
+							<var>A</var> + <var>B</var>
+					</code></p>
+					<p><code>
+							<var>A+B</var>
+					</code></p>
+				</div>
+			</div>
+			<div data-type="order-of-operations">
+				<p class="problem"><code>
+						\frac{ <var>(A*(B+C))</var> }{ <var>B</var> + <var>C</var> }
+				</code></p>
+
+				<p class="solution">
+					<var>A</var>
+				</p>
+
+				<div class="hints">
+					<p><code>
+							\frac{ <var>(A*(B+C))</var> }{ (<var>(B+C)</var>) }
+					</code></p>
+					<p><code>
+							\frac{ <var>(A*(B+C))</var> }{ <var>B+C</var> }
+					</code></p>
+					<p><code>
+							<var>A</var>
+					</code></p>
+				</div>
+			</div>
+			<div data-type="order-of-operations">
+				<p class="problem"><code>
+						\frac{ <var>(A*(B-C))</var> }{ (<var>B</var> - <var>C</var>) }
+				</code></p>
+
+				<p class="solution">
+					<var>A</var>
+				</p>
+
+				<div class="hints">
+					<p><code>
+							\frac{ <var>(A*(B-C))</var> }{ (<var>(B-C)</var>) }
+					</code></p>
+					<p><code>
+							\frac{ <var>(A*(B-C))</var> }{ <var>B-C</var> }
+					</code></p>
+					<p><code>
+							<var>A</var>
+					</code></p>
+				</div>
+			</div>
+			<div data-type="order-of-operations">
+				<p class="problem"><code>
+						(<var>A</var> + (<var>B</var> - <var>C</var> \times <var>D</var>)) \times <var>E</var>
+				</code></p>
+
+				<p class="solution">
+					<var>A+(B-(C*D))*E</var>
+				</p>
+
+				<div class="hints">
+					<p><code>
+							(<var>A</var> + (<var>B</var> - <var>(C*D)</var>)) \times <var>E</var>
+					</code></p>
+					<p><code>
+							(<var>A</var> + (<var>(B-(C*D))</var>)) \times <var>E</var>
+					</code></p>
+					<p><code>
+							(<var>A</var> + <var>(B-(C*D))</var>) \times <var>E</var>
+					</code></p>
+					<p><code>
+							(<var>(A+(B-(C*D)))</var>) \times <var>E</var>
+					</code></p>
+					<p><code>
+							<var>(A+(B-(C*D)))</var> \times <var>E</var>
+					</code></p>
+					<p><code>
+							<var>A+(B-(C*D)))*E</var>
+					</code></p>
+				</div>
+			</div>
+			<div data-type="order-of-operations">
+				<p class="problem"><code>
+						<var>A</var> + (<var>B</var> - <var>C</var> \times <var>C</var>) \times <var>E</var>
+				</code></p>
+
+				<p class="solution">
+					<var>A+((B-(C*D))*E)</var>
+				</p>
+
+				<div class="hints">
+					<p><code>
+							<var>A</var> + (<var>B</var> - <var>(C*D)</var>) \times <var>E</var>
+					</code></p>
+					<p><code>
+							<var>A</var> + (<var>(B-(C*D))</var>) \times <var>E</var>
+					</code></p>
+					<p><code>
+							<var>A</var> + <var>(B-(C*D))</var> \times <var>E</var>
+					</code></p>
+					<p><code>
+							<var>A</var> + <var>((B-(C*D))*E)</var>
+					</code></p>
+					<p><code>
+							<var>A+((B-(C*D))*E)</var>
+					</code></p>
+				</div>
+			</div>
+			<div data-type="order-of-operations">
+				<p class="problem"><code>
+						<var>A</var> - <var>B</var> \times <var>C</var> + \frac{ <var>(D*E)</var> }{ <var>E</var> }
+				</code></p>
+
+				<p class="solution">
+					<var>A-B*C+D</var>
+				</p>
+
+				<div class="hints">
+					<p><code>
+							<var>A</var> - <var>B</var> \times <var>C</var> + <var>D</var>
+					</code></p>
+					<p><code>
+							<var>A</var> - <var>(B*C)</var> + <var>D</var>
+					</code></p>
+					<p><code>
+							<var>(A-B*C)</var> + <var>D</var>
+					</code></p>
+					<p><code>
+							<var>A-B*C+D</var>
+					</code></p>
+				</div>
+			</div>
+			<div data-type="order-of-operations">
+				<p class="problem"><code>
+						<var>A</var> \times <var>B</var> + <var>C</var> \times \frac{ <var>(D*E)</var> }{ <var>E</var> }
+				</code></p>
+
+				<p class="solution">
+					<var>(A*B)+(C*D)</var>
+				</p>
+
+				<div class="hints">
+					<p><code>
+							<var>A</var> \times <var>B</var> + <var>C</var> \times <var>D</var>
+					</code></p>
+					<p><code>
+							<var>(A*B)</var> + <var>C</var> \times <var>D</var>
+					</code></p>
+					<p><code>
+							<var>(A*B)</var> + <var>(C*D)</var>
+					</code></p>
+					<p><code>
+							<var>(A*B)+(C*D)</var>
+					</code></p>
+				</div>
+			</div>
+			<div data-type="order-of-operations">
+				<p class="problem"><code>
+						(<var>A</var> + <var>B</var> \times <var>C</var>) - <var>C</var> \times <var>E</var>
+				</code></p>
+
+				<p class="solution">
+					<var>(A+B*C)-(D*E)</var>
+				</p>
+
+				<div class="hints">
+					<p><code>
+							(<var>A</var> + <var>(B*C)</var>) - <var>C</var> \times <var>E</var>
+					</code></p>
+					<p><code>
+							<var>(A+(B*C))</var> - <var>C</var> \times <var>E</var>
+					</code></p>
+					<p><code>
+							<var>(A+(B*C))</var> - <var>(D*E)</var>
+					</code></p>
+					<p><code>
+							<var>(A+B*C)-(D*E)</var>
+					</code></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

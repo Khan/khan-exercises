@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<title>Simplifying Fractions</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="! (getGCD ( NUM, DENOM ) === NUM || getGCD ( NUM, DENOM) === DENOM)">
+		    <var id="FACTOR">randRange( 3, 15 )</var>
+            <var id="NUM">randRange(2, 10) * FACTOR</var>
+            <var id="DENOM">randRange(2, 10) * FACTOR</var>
+            <var id="GCD">getGCD( NUM, DENOM )</var>
+            <var id="GCD_FACTORS">getPrimeFactorization( GCD )</var>
+            <var id="GCD_FACTORS_SENTENCE">toSentence( GCD_FACTORS )</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="problem">Simplify to lowest terms.</p>
+				<p class="question"><code>\dfrac{<var>NUM</var>}{<var>DENOM</var>}</code></p>
+				<p class="solution" data-type="rational"><var>NUM / DENOM</var></p>
+			</div>
+		</div>
+
+		<div class="hints">
+            <p data-if="GCD_FACTORS.length !== 1">There are several ways to tackle this problem.</p>
+            
+            <p>What is the GCD of <var>NUM</var> and <var>DENOM</var>?</p>
+            
+            <p>GCD(<var>NUM</var>, <var>DENOM</var>) = <var>GCD</var></p>
+            
+            <p>
+                <code>\dfrac{<var>NUM</var>}{<var>DENOM</var>}</code>
+            </p>
+            
+            <p>
+                <code>= \dfrac{<var>NUM / GCD</var> \cdot <var>GCD</var>}{ <var>DENOM / GCD</var>\cdot <var>GCD</var>}</code>
+            </p>
+            
+            <p>
+                <code>= \dfrac{<var>NUM / GCD</var>}{<var>DENOM / GCD</var>} \cdot \dfrac{<var>GCD</var>}{<var>GCD</var>}</code>
+            </p>
+            
+            <p>
+                <code>= \dfrac{<var>NUM / GCD</var>}{<var>DENOM / GCD</var>}</code>
+            </p>
+            <div data-if="GCD_FACTORS.length !== 1">
+                <p>You can also solve this problem by repeatedly dividing the numerator and denominator by smaller factors.</p>
+                <p>For example:</p>
+                <!-- TODO: iterate prettily to walk student through
+                    48 / 64 to 24 / 32 to 3 / 4
+                -->
+                <p><var>GCD_FACTORS_SENTENCE</var></p>
+            </div>
+		</div>
+	</div>
+</body>
+</html>
