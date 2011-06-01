@@ -92,6 +92,37 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"\\triangleright"
 	]);
 
+	var collections = KhanUtil.shuffle([
+		["chair", "row", "make"],
+		["party favor", "bag", "fill"],
+		["jelly bean", "pile", "make"],
+		["book", "shelf", "fill"],
+		["can of food", "box", "fill"]
+	]);
+
+	var stores = KhanUtil.shuffle([
+		{
+			name: "office supply",
+			items: KhanUtil.shuffle( ["pen", "pencil", "notebook"] )
+		},
+		{
+			name: "hardware",
+			items: KhanUtil.shuffle( ["hammer", "nail", "saw"] )
+		},
+		{
+			name: "grocery",
+			items: KhanUtil.shuffle( ["banana", "loaf of bread", "gallon of milk", "potato"] )
+		},
+		{
+			name: "gift",
+			items: KhanUtil.shuffle( ["toy", "game", "souvenir"] )
+		},
+		{
+			name: "toy",
+			items: KhanUtil.shuffle( ["stuffed animal", "video game", "race car", "doll"] )
+		}
+	]);
+
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -143,6 +174,26 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		binop: function( i ) {
 			return binops[i - 1];
+		},
+
+		item: function( i ) {
+			return collections[i - 1][0];
+		},
+
+		group: function( i ) {
+	    		return collections[i - 1][1];
+		},
+
+		groupVerb: function( i ) {
+			return collections[i - 1][2];
+		},
+
+		store: function( i ) {
+			return stores[i].name;
+		},
+
+		storeItem: function( i, j ) {
+			return stores[i].items[j];
 		}
 	});
 };
