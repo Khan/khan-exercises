@@ -104,24 +104,28 @@ jQuery.extend(KhanUtil, {
 			return str;
 		};
 
-		var words = [];
-		var scale = 0;
-		while ( n > 0 ) {
-			var end = n % 1000;
+        if ( n < 0 ) return "negative " + cardinal( -n );
+        else if ( n == 0 ) return "zero";
+        else {
+		    var words = [];
+		    var scale = 0;
+		    while ( n > 0 ) {
+			    var end = n % 1000;
 
-			if ( end > 0 ) {
-				if ( scale > 0 ) {
-					words.unshift( cardinalScales[ scale ] );
-				}
+			    if ( end > 0 ) {
+				    if ( scale > 0 ) {
+					    words.unshift( cardinalScales[ scale ] );
+				    }
 
-				words.unshift( smallNumberWords( end ) );
-			}
+				    words.unshift( smallNumberWords( end ) );
+			    }
 
-			n = Math.floor( n / 1000 );
-			scale += 1;
-		}
+			    n = Math.floor( n / 1000 );
+			    scale += 1;
+		    }
 
-		return words.join( " " );
+		    return words.join( " " );
+        }
 	},
 
 	Cardinal: function( n ) {
