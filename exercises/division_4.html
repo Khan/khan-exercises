@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html data-require="math math-table">
+<head>
+	<title>Division 4</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="DIVISOR">randRange(11,99)</var>
+			<var id="DIVIDEND">DIVISOR*randRange(101,999)</var>
+			<var id="TABLE">createLongDivisionTable(DIVIDEND,DIVISOR)</var>
+			<var id="DIVISION">0</var>
+			<var id="MINUEND">0</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question"><var>DIVIDEND</var> / <var>DIVISOR</var> = ?</p>
+				<div class="solution"><var>DIVIDEND / DIVISOR</var></div>
+			</div>
+		</div>
+		<div class="hints">
+			<p>the *quotient* is the answere</p>
+			<p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+			<p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+			<p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+			<p>Bring down the next number</p>
+			<p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+			<p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+			<p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+			<p>Bring down the next number</p>
+			<p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+			<p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+			<p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+			<p>The quotient is <var>DIVIDEND/DIVISOR</var></p>
+		</div>
+	</div>
+</body>
+</html>

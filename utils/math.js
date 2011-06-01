@@ -151,6 +151,12 @@ jQuery.extend(KhanUtil, {
             return a - b;
         });
     },
+
+	// Get a random factor of a composite number which is not 1 or that number
+	getNontrivialFactor: function( number ) {
+		var factors = this.getFactors( number );
+		return factors[ this.randRange( 1, factors.length - 2 ) ];
+	},
     
     getMultiples: function( number, upperLimit ) {
         var multiples = [];
@@ -198,6 +204,21 @@ jQuery.extend(KhanUtil, {
             result = this.randRange( min, max);
         return result;
     },
+	
+	/* Shuffle an array using a Fischer-Yates shuffle. */
+	shuffle: function( array ) {
+		array = array.slice(0);
+
+		for ( var top = array.length; top > 0; top-- ) {
+			var newEnd = Math.floor(KhanUtil.random() * top),
+				tmp = array[newEnd];
+			
+			array[newEnd] = array[top - 1];
+			array[top - 1] = tmp;
+		}
+
+		return array;
+	},
 	
 	// From limits_1
 	truncate_to_max: function( num, digits ) {
@@ -253,11 +274,11 @@ jQuery.fn.extend({
 			this.children().filter( jQuery.tmplFilter );
 			return;
 		
-		// If we're in an exercise then we only want the main var block
+		// If we're in an exercise, then reset VARS
 		} else if ( this.is(".exercise") ) {
-			vars = this.children(".vars");
 			VARS = {};
-		
+			return;
+
 		// Otherwise we're in a problem
 		} else {
 			vars = this.find(".vars");
@@ -274,9 +295,7 @@ jQuery.fn.extend({
 				if ( name ) {
 					// Show an error if a variable definition is overriding a built-in method
 					if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
-						if ( typeof console !== "undefined" ) {
-							console.error( "Defining variable '" + name + "' overwrites utility property of same name." );
-						}
+						Khan.error( "Defining variable '" + name + "' overwrites utility property of same name." );
 					}
 				
 					VARS[ name ] = value;
@@ -306,6 +325,8 @@ jQuery.fn.extend({
 });
 
 jQuery.extend({
+	// Work around a strange bug in jQuery/Sizzle
+	// http://bugs.jquery.com/ticket/5637
 	tmplExpr: "[data-if],[data-else=]",
 	
 	tmplFilter: function() {
@@ -319,8 +340,6 @@ jQuery.extend({
 		if ( condStr != null ) {
 			cond = cond && jQuery.getVAR( condStr );
 			
-			/* Work around a strange bug in jQuery/Sizzle
-			 * http://bugs.jquery.com/ticket/5637 */
 			var nextCond = jQuery(this).nextAll( jQuery.tmplExpr ).eq(0);
 
 			if ( nextCond.data("else") != null ) {
@@ -344,7 +363,7 @@ jQuery.extend({
 		
 		return true;
 	},
-	
+
 	getVAR: function( elem ) {
 		// If it's a list, grab a random one out of it
 		if ( elem.nodeName && elem.nodeName.toLowerCase() === "ul" ) {
@@ -379,9 +398,7 @@ jQuery.extend({
 					}
 				}
 			} catch( e ) {
-				if ( typeof console !== "undefined" ) {
-					console.error( code, e );
-				}
+				Khan.error( code, e );
 			}
 		}
 	},
@@ -393,7 +410,7 @@ jQuery.extend({
 });
 
 // Load MathJax
-scriptWait(function( scriptLoaded ) {
+Khan.scriptWait(function( scriptLoaded ) {
 	var script = document.createElement("script");
 	script.src = "http://cdn.mathjax.org/mathjax/latest/MathJax.js";
 	script.onload = function() {

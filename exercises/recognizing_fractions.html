@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Recognizing Fractions</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="NUMERATOR < DENOMINATOR">
+            <var id="NUMERATOR">randRange( 1, 11 )</var>
+            <var id="DENOMINATOR">randRange( 2, 12 )</var>
+		</div>
+
+		<div class="problems">
+			<div id="original">
+				<p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+				<p class="problem">What is the fraction's numerator?</p>
+				<p class="solution"><var>NUMERATOR</var></p>
+				<div class="hints">
+				    <p class="answer_hint">Thus, the numerator is <var>NUMERATOR</var>.</p>
+			    </div>
+			</div>
+			<div data-type="original">
+			    <p class="problem">What is the fraction's denominator?</p>
+			    <p class="solution"><var>DENOMINATOR</var></p>
+			    <div class="hints">
+				    <p class="answer_hint">Thus, the denominator is <var>DENOMINATOR</var>.</p>
+			    </div>
+		    </div>
+		</div>
+
+		<div class="hints">
+		    <p>Fractions help represent parts of a whole.</p>
+		    <!-- TODO: Drawing a pie would be great. -->
+		    <p>You can think of this fraction as representing <var>NUMERATOR</var> out of <var>DENOMINATOR</var> slices of pie. In other words, the pie has been cut into <var>DENOMINATOR</var> slices, and we are only considering <var>NUMERATOR</var> of those slices.</p>
+            <p>The numerator is the number of slices we care about, and it is written above the fraction line. The denominator is the total number of slices, and it is written below the line.</p>
+            <p class="answer_hint"></p>
+
+		</div>
+	</div>
+</body>
+</html>

@@ -21,7 +21,67 @@ jQuery.extend( KhanUtil, {
 		} else {
 			return array.slice(0, -1).join(", ") + ", " + conjunction + " " + array[ array.length - 1 ];
 		}
-	}
+	},
+	
+	// pluralization helper.  There are three signatures
+	// - plural(NUMBER): return "s" if NUMBER is not 1
+	// - plural(NUMBER, singular): 
+	//		- if necessary, magically pluralize <singular>
+	//		- return "NUMBER word"
+	// - plural(NUMBER, singular, plural): 
+	//		- return "NUMBER word"
+	plural: (function() {
+		var one_offs = {
+			'quiz': 'quizzes',
+			'can of food': 'cans of food',
+			'shelf': 'shelves',
+			'loaf of bread': 'loaves of bread',
+			'gallon of milk': 'gallons of milk',
+			'potato': 'potatoes'
+		};
+		
+		var pluralizeWord = function(word) {
+			// determine if our word is all caps.  If so, we'll need to
+			// re-capitalize at the end
+			var isUpperCase = (word.toUpperCase() == word);
+			var one_off = one_offs[word.toLowerCase()];
+
+			if ( one_off ) {
+				word = one_off;
+			}
+			else if ( /[^aeiou]y$/i.test( word ) ) {
+				word = word.replace(/y$/i, "ies");
+			} else if ( /[sxz]$/i.test( word ) || /[bcfhjlmnqsvwxyz]h$/.test( word ) ) {
+				word += "es";
+			} else {
+				word += "s";
+			}
+
+			if ( isUpperCase ) {
+				word = word.toUpperCase();
+			}
+			return word;
+		};
+
+		return function(value, arg1, arg2) {
+			if ( typeof value === "number" ) {
+				var usePlural = (value !== 1);
+
+				// if no extra args, just add "s" (if plural)
+				if ( arguments.length === 1 ) {
+					return usePlural ? "s" : "";
+				}
+
+				if ( usePlural ) {
+					arg1 = arg2 || pluralizeWord(arg1);
+				}
+
+				return value + " " + arg1;
+			} else if ( typeof value === "string" ) {
+				return pluralizeWord(value);
+			}
+		};
+	})()
 });
 
 jQuery.fn[ "word-problemsLoad" ] = function() {
@@ -92,6 +152,37 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"\\triangleright"
 	]);
 
+	var collections = KhanUtil.shuffle([
+		["chair", "row", "make"],
+		["party favor", "bag", "fill"],
+		["jelly bean", "pile", "make"],
+		["book", "shelf", "fill"],
+		["can of food", "box", "fill"]
+	]);
+
+	var stores = KhanUtil.shuffle([
+		{
+			name: "office supply",
+			items: KhanUtil.shuffle( ["pen", "pencil", "notebook"] )
+		},
+		{
+			name: "hardware",
+			items: KhanUtil.shuffle( ["hammer", "nail", "saw"] )
+		},
+		{
+			name: "grocery",
+			items: KhanUtil.shuffle( ["banana", "loaf of bread", "gallon of milk", "potato"] )
+		},
+		{
+			name: "gift",
+			items: KhanUtil.shuffle( ["toy", "game", "souvenir"] )
+		},
+		{
+			name: "toy",
+			items: KhanUtil.shuffle( ["stuffed animal", "video game", "race car", "doll"] )
+		}
+	]);
+
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -143,6 +234,26 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		binop: function( i ) {
 			return binops[i - 1];
+		},
+
+		item: function( i ) {
+			return collections[i - 1][0];
+		},
+
+		group: function( i ) {
+	    		return collections[i - 1][1];
+		},
+
+		groupVerb: function( i ) {
+			return collections[i - 1][2];
+		},
+
+		store: function( i ) {
+			return stores[i].name;
+		},
+
+		storeItem: function( i, j ) {
+			return stores[i].items[j];
 		}
 	});
 };

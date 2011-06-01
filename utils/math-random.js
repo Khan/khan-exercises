@@ -65,10 +65,9 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
-var MersenneTwister = function(seed) {
-  if (seed == undefined) {
-    seed = new Date().getTime();
-  } 
+function MersenneTwister( seed ) {
+  seed = Khan.seed = seed || parseFloat( Khan.query.seed ) || new Date().getTime();
+
   /* Period parameters */  
   this.N = 624;
   this.M = 397;
@@ -80,7 +79,7 @@ var MersenneTwister = function(seed) {
   this.mti=this.N+1; /* mti==N+1 means mt[N] is not initialized */
 
   this.init_genrand(seed);
-}  
+}
  
 /* initializes mt[N] with a seed */
 MersenneTwister.prototype.init_genrand = function(s) {
@@ -96,7 +95,7 @@ MersenneTwister.prototype.init_genrand = function(s) {
       this.mt[this.mti] >>>= 0;
       /* for >32 bit machines */
   }
-}
+};
  
 /* initialize by an array with array-length */
 /* init_key is the array for initializing keys */
@@ -126,7 +125,7 @@ MersenneTwister.prototype.init_by_array = function(init_key, key_length) {
   }
 
   this.mt[0] = 0x80000000; /* MSB is 1; assuring non-zero initial array */ 
-}
+};
  
 /* generates a random number on [0,0xffffffff]-interval */
 MersenneTwister.prototype.genrand_int32 = function() {
@@ -163,35 +162,44 @@ MersenneTwister.prototype.genrand_int32 = function() {
   y ^= (y >>> 18);
 
   return y >>> 0;
-}
+};
  
 /* generates a random number on [0,0x7fffffff]-interval */
 MersenneTwister.prototype.genrand_int31 = function() {
   return (this.genrand_int32()>>>1);
-}
+};
  
 /* generates a random number on [0,1]-real-interval */
 MersenneTwister.prototype.genrand_real1 = function() {
   return this.genrand_int32()*(1.0/4294967295.0); 
   /* divided by 2^32-1 */ 
-}
+};
 
 /* generates a random number on [0,1)-real-interval */
 MersenneTwister.prototype.random = function() {
   return this.genrand_int32()*(1.0/4294967296.0); 
   /* divided by 2^32 */
-}
+};
  
 /* generates a random number on (0,1)-real-interval */
 MersenneTwister.prototype.genrand_real3 = function() {
   return (this.genrand_int32() + 0.5)*(1.0/4294967296.0); 
   /* divided by 2^32 */
-}
+};
  
 /* generates a random number on [0,1) with 53-bit resolution*/
 MersenneTwister.prototype.genrand_res53 = function() { 
   var a=this.genrand_int32()>>>5, b=this.genrand_int32()>>>6; 
   return(a*67108864.0+b)*(1.0/9007199254740992.0); 
-} 
+};
 
 /* These real versions are due to Isaku Wada, 2002/01/09 added */
+
+// Populate the random number generation code in KhanUtil
+(function() {
+	var m = new MersenneTwister();
+
+	KhanUtil.random = function() {
+		return m.random();
+	};
+})();

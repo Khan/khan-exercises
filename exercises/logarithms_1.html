@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Logarithms 1</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+		var LARGEST_NUMBER = 1000;
+		var answer;
+		/* The structure of the log problem is:
+		 * log_base (number) = answer.
+		 */
+
+		/* We want to restrict the number in the logarithm to less than LARGEST_NUMBER. */
+		function get_number( base ) {
+			var number;
+			do {
+        /* Note: This will tend to use smaller powers. */
+				answer = KhanUtil.randRange ( 2, 5 );
+				number = Math.pow( base, answer );
+			} while ( number > LARGEST_NUMBER );
+			return number;
+		}
+
+    /* This is used for hints. Given the number you're taking a logarithim of, and
+     * a base, breaks the number into base x base x base...  x base.
+     * Returns a string. */
+    function get_power_string(number, base) {
+      var result = base;
+      for (var i=base; i<number; i*=base){
+        result += "\\times" + base;
+      }
+      return result;
+    }
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="base">KhanUtil.randRange( 2, 16 )</var>
+			<var id="number">get_number(base)</var>
+			<var id="answer">answer</var>
+      <var id="power_string">get_power_string(number, base)</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question"><code>log_{<var>base</var>}<var>number</var> = </code></p>
+				<p class="solution"><var>answer</var></p>
+				<ul class="choices" data-show="5">
+                    <li><var>1</var></li>
+                    <li><var>2</var></li>
+                    <li><var>3</var></li>
+                    <li><var>4</var></li>
+                    <li><var>5</var></li>
+                    <li><var>6</var></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="hints">
+      <p>If <code>b^e=x</code> ,then <code>log_{b}x=e</code></p>
+      <p>First, try to write <code><var>number</var></code>, the number we are taking the logarithm of, as a power of <code><var>base</var></code>, the base of the logarithm.</p>
+      <p><code><var>number</var></code> can be expressed as <code><var>power_string</var></code></p>
+      <p><var>number</var> can be expressed as <code><var>base</var>^<var>answer</var></code>.</p>
+      <p><code><var>base</var>^<var>answer</var>=<var>number</var></code> so <code>log_{<var>base</var>}<var>number</var>=<var>answer</var></p>
+		</div>
+	</div>
+</body>
+</html>

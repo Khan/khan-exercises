@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <title>Multiplication 1</title>
+    <script src="../khan-exercise.js"></script>
+<style>
+    .mult_bullet {
+        font-size: 7em;
+        color: blue;
+    }
+</style>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="A">rand( 12 )</var>
+        <var id="B">rand( 12 )</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <p class="question"><code><var>A</var> \times <var>B</var> = ?</code></p>
+            <div class="solution"><var>A * B</var></div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <!-- TODO use (currently nonexistent) loop template to create square of dots -->
+        <div class="mult_bullet">&bull; &bull; &bull;</div>
+        <div>There are <var>A</var> rows and <var>B</var> columns.</div>
+        <div>In total, there are <var>A * B</var> circles.</div>
+    </div>
+
+    </div>
+</body>
+</html>

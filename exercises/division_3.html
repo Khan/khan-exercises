@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html data-require="math math-table">
+<head>
+	<title>Division 3</title>
+	<script src="../khan-exercise.js"></script>
+
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="DIVISOR">randRange(2,9)</var>
+			<var id="DIVISION">0</var>
+			<var id="MINUEND">0</var>
+		</div>
+
+		<div class="problems">
+			<div data-weight="3" id="original">
+			<div class="vars">
+				<var id="REMAINDER">0</var>
+				<var id="DIVIDEND">DIVISOR*randRange(101,999)</var>
+				<var id="TABLE">createLongDivisionTable(DIVIDEND,DIVISOR)</var>
+			</div> 
+				<div class="problem">
+					<var>DIVIDEND</var> / <var>DIVISOR</var> = ?
+				</div>
+				<p class="question">What is the quotient?</p> 
+				<div class="solution"><var>DIVIDEND / DIVISOR</var></div>
+			</div>
+			<div data-type="original">
+			<div class="vars">
+				<var id="REMAINDER">randRange(1,DIVISOR-1)</var>
+				<var id="DIVIDEND">DIVISOR*randRange(101,999)+REMAINDER</var>
+				<var id="TABLE">createLongDivisionTable(DIVIDEND,DIVISOR)</var>
+			</div> 
+				<p class="question">What is the remainder?</p>
+				<div class="solution"><var>REMAINDER</var></div>
+			</div>
+		</div>
+		<div class="hints">
+			<p data-if="!REMAINDER">the *quotient* is the answere</p>
+			<p data-if="REMAINDER">the *remainder* is the answere</p>
+			<p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+			<p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+			<p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+			<p>Bring down the next number</p>
+			<p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+			<p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+			<p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+			<p>Bring down the next number</p>
+			<p><var>DIVISOR</var> goes into <var>MINUEND=TABLE.minuends.shift()</var> <var>DIVISION=TABLE.divisions.shift()</var> times</p>
+			<p><var>DIVISOR</var> * <var>DIVISION</var> = <var>DIVISOR*DIVISION</var></p>
+			<p><var>MINUEND</var> - <var>DIVISOR*DIVISION</var> = <var>MINUEND-DIVISOR*DIVISION</var></p>
+			<p data-if="!REMAINDER">The quotient is <var>DIVIDEND/DIVISOR</var></p>
+			<p data-if="REMAINDER">The remainder is <var>MINUEND-DIVISOR*DIVISION</var></p>
+		</div>
+	</div>
+</body>
+</html>

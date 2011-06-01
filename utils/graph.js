@@ -832,7 +832,7 @@ jQuery.fn.graph = function() {
 };
 
 // Load Raphael
-scriptWait(function( scriptLoaded ) {
+Khan.scriptWait(function( scriptLoaded ) {
 	var script = document.createElement("script");
 	script.src = "http://ajax.cdnjs.com/ajax/libs/raphael/1.5.2/raphael-min.js";
 	script.onload = scriptLoaded;
