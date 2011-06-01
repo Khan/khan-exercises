@@ -66,7 +66,7 @@ var sec = function(x) { return 1/Math.cos(x) };
 var csc = function(x) { return 1/Math.sin(x) };
 var cot = function(x) { return 1/Math.tan(x) };
 var xmin, xmax, ymin, ymax, xscl, yscl, 
-xgrid, ygrid, xtick, ytick, initialized;
+xgrid, ygrid, xtick, ytick;
 
 var picture, svgpicture, doc, width, height, a, b, c, d, i, n, p, t, x, y;
 var paper;
@@ -129,54 +129,52 @@ function setText(st,id) {
 function setBorder(x) { border = x }
 
 function initPicture(x_min,x_max,y_min,y_max) {
-    if (!initialized) {
-        strokewidth = "1"; // pixel
-        strokedasharray = null;
-        stroke = "black"; // default line color
-        fill = "none";    // default fill color
-        fontstyle = "italic"; // default shape for text labels
-        fontfamily = "times"; // default font
-        fontsize = "16";      // default size
-        fontweight = "normal";
-        fontstroke = "none";  // default font outline color
-        fontfill = "none";    // default font color
-        marker = "none";
-        initialized = true;
-        if (x_min!=null) xmin = x_min;
-        if (x_max!=null) xmax = x_max;
-        if (y_min!=null) ymin = y_min;
-        if (y_max!=null) ymax = y_max;
-        if (xmin==null) xmin = -5;
-        if (xmax==null) xmax = 5;
-        if (typeof xmin != "number" || typeof xmax != "number" || xmin >= xmax) 
-            alert("Picture requires at least two numbers: xmin < xmax");
-        else if (y_max != null && (typeof y_min != "number" || 
-                                   typeof y_max != "number" || y_min >= y_max))
-            alert("initPicture(xmin,xmax,ymin,ymax) requires numbers ymin < ymax");
-        else {
-            xunitlength = (width-2*border)/(xmax-xmin);
-            yunitlength = xunitlength;
-            //alert(xmin+" "+xmax+" "+ymin+" "+ymax)
-            if (ymin==null) {
-                origin = [-xmin*xunitlength+border,height/2];
-                ymin = -(height-2*border)/(2*yunitlength);
-                ymax = -ymin;
-            } else {
-                if (ymax!=null) yunitlength = (height-2*border)/(ymax-ymin);
-                else ymax = (height-2*border)/yunitlength + ymin;
-                origin = [-xmin*xunitlength+border,-ymin*yunitlength+border];
-            }
-            var node = paper.rect(0, 0, width, height);
-            
-            node.attr({
-                "stroke": "white",
-                "stroke-width": 0,
-                "fill": "white"
-            });
+    strokewidth = "1"; // pixel
+    strokedasharray = null;
+    stroke = "black"; // default line color
+    fill = "none";    // default fill color
+    fontstyle = "italic"; // default shape for text labels
+    fontfamily = "times"; // default font
+    fontsize = "16";      // default size
+    fontweight = "normal";
+    fontstroke = "none";  // default font outline color
+    fontfill = "none";    // default font color
+    marker = "none";
 
-            border = defaultborder;
-            return node;
+    if (x_min!=null) xmin = x_min;
+    if (x_max!=null) xmax = x_max;
+    if (y_min!=null) ymin = y_min;
+    if (y_max!=null) ymax = y_max;
+    if (xmin==null) xmin = -5;
+    if (xmax==null) xmax = 5;
+    if (typeof xmin != "number" || typeof xmax != "number" || xmin >= xmax) 
+        alert("Picture requires at least two numbers: xmin < xmax");
+    else if (y_max != null && (typeof y_min != "number" || 
+                               typeof y_max != "number" || y_min >= y_max))
+        alert("initPicture(xmin,xmax,ymin,ymax) requires numbers ymin < ymax");
+    else {
+        xunitlength = (width-2*border)/(xmax-xmin);
+        yunitlength = xunitlength;
+        //alert(xmin+" "+xmax+" "+ymin+" "+ymax)
+        if (ymin==null) {
+            origin = [-xmin*xunitlength+border,height/2];
+            ymin = -(height-2*border)/(2*yunitlength);
+            ymax = -ymin;
+        } else {
+            if (ymax!=null) yunitlength = (height-2*border)/(ymax-ymin);
+            else ymax = (height-2*border)/yunitlength + ymin;
+            origin = [-xmin*xunitlength+border,-ymin*yunitlength+border];
         }
+        var node = paper.rect(0, 0, width, height);
+        
+        node.attr({
+            "stroke": "white",
+            "stroke-width": 0,
+            "fill": "white"
+        });
+
+        border = defaultborder;
+        return node;
     }
 }
 
@@ -501,14 +499,10 @@ function grid(dx,dy) { // for backward compatibility
     axes(dx,dy,null,dx,dy)
 }
 
-function noaxes() {
-    if (!initialized) initPicture();
-}
-
 function axes(dx,dy,labels,gdx,gdy) {
     //xscl=x is equivalent to xtick=x; xgrid=x; labels=true;
     var x, y, ldx, ldy, lx, ly, lxp, lyp, pnode, st;
-    if (!initialized) initPicture();
+
     if (typeof dx=="string") { labels = dx; dx = null; }
     if (typeof dy=="string") { gdx = dy; dy = null; }
     if (xscl!=null) {dx = xscl; gdx = xscl; labels = dx}
@@ -813,15 +807,21 @@ jQuery.fn.graph = function() {
 		}
 		
 		// Pre-populate all style information from the style attribute
-		jQuery.each( jQuery(this).attr("style").split(/\s*;\s*/), function( i, prop ) {
+		jQuery.each( (jQuery(this).data("style") || "").split(/\s*;\s*/), function( i, prop ) {
 			// Properties are formatted using the typical CSS convention
 			var parts = prop.split(/:\s*/),
 				name = parts[0].replace(/-/g, ""),
 				value = parts[1];
-			
+
 			// Only set the property if it already exists
 			if ( typeof present[ name ] !== "number" ) {
 				present[ name ] = value;
+			} else if ( name === "fontsize" ) {
+				// Special-case code for fontsize -- we have to strip the px from the css value
+				// since some graphing functions do math on the fontsize string (WTF?)
+
+				// Also fontsize's typeof *is* number when we check it ^^, but becomes a string later
+				present["fontsize"] = value.replace(/px/, "");
 			}
 		});
 

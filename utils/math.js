@@ -10,56 +10,33 @@ jQuery.extend(KhanUtil, {
 	},
 	
 	// A simple random number picker
+	// Returns a random int in [0, num)
 	rand: function( num ) {
-		return Math.round( num * KhanUtil.random() );
-	},
-	
-	fraction: function( n, d ) {
-		if ( d === 0 ) {
-			return "\\text{undefined}";
-		}
-		
-		if ( n === 0 ) {
-			return "0";
-		}
-		
-		var sign = n / d < 0 ? "-" : "";
-		n = Math.abs(n);
-		d = Math.abs(d);
-		
-		var gcd = this.getGCD(n, d);
-		n = n / gcd;
-		d = d / gcd;
-		
-		return d > 1 ?
-				sign + "\\frac{" + n + "}{" + d + "}" :
-				sign + n;
+		return Math.floor( num * KhanUtil.random() );
 	},
 
-	/* formattedSquareRootOf(24) gives 2\sqrt{6} */
-	formattedSquareRootOf: function(n) {
-		if(n == 1) {
-			/* so as to not return "" later */
-			return "1";
+	/* Returns an array of the digits of a nonnegative integer in reverse
+	 * order: digits(376) = [6, 7, 3] */
+	digits: function(n) {
+		if(n == 0) {
+			return [0];
 		}
 
-		var coefficient = 1;
-		var radical = n;
+		var list = [];
 
-		for(var i = 2; i * i <= n; i++) {
-			while(radical % (i * i) == 0) {
-				radical /= i * i;
-				coefficient *= i;
-			}
+		while(n > 0) {
+			list.push(n % 10);
+			n = Math.floor(n / 10);
 		}
 
-		var cString = coefficient == 1 ? "" : coefficient.toString();
-		var rString = radical == 1 ? "" : "\\sqrt{" + radical + "}";
-		return cString + rString;
+		return list;
 	},
 
     getGCD: function( a, b ) {
         var mod;
+
+        a = Math.abs( a );
+        b = Math.abs( b );
 
         while ( b ) {
             mod = a % b;
@@ -80,19 +57,64 @@ jQuery.extend(KhanUtil, {
     getPrime: function() {
         return this.primes[ this.rand( this.primes.length ) ];
     },
+
+	isPrime: function(n) {
+		if (n <= 1) {
+			return false;
+		} else if (n < 101) {
+			return !!jQuery.grep(KhanUtil.primes, function(p, i) {
+				return Math.abs(p - n) <= 0.5;
+			}).length;
+		} else {
+			/* maybe do something faster, like Miller-Rabin */
+			for(var i = 2; i * i <= n; i++) {
+				if ( n % i <= 0.5 ) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+	},
     
-    getOddComposite: function() {
+    getOddComposite: function( min, max ) {
+        if ( min === undefined ) {
+            min = 0;
+        }
+        
+        if ( max === undefined ) {
+            max = 100;
+        }
+        
         var oddComposites = [9, 15, 21, 25, 27, 33, 35, 39, 45, 49, 51, 55];
         oddComposites = oddComposites.concat([57, 63, 65, 69, 75, 77, 81, 85, 87, 91, 93, 95, 99]);
-        return oddComposites[ this.rand( oddComposites.length ) ];
+
+        var result = -1;
+        while ( result < min || result > max ) {
+            result = oddComposites[ this.rand( oddComposites.length ) ];
+        }
+        return result;
     },
     
-    getEvenComposite: function() {
+    getEvenComposite: function( min, max ) {
+        if ( min === undefined ) {
+            min = 0;
+        }
+        
+        if ( max === undefined ) {
+            max = 100;
+        }
+
         var evenComposites = [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26];
         evenComposites = evenComposites.concat([28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48]);
         evenComposites = evenComposites.concat([50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72]);
         evenComposites = evenComposites.concat([74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98]);
-        return evenComposites[ this.rand( evenComposites.length ) ];
+        
+        var result = -1;
+        while ( result < min || result > max ) {
+            result = evenComposites[ this.rand( evenComposites.length ) ];
+        }
+        return result;
     },
     
     getPrimeFactorization: function( number ) {
@@ -132,13 +154,20 @@ jQuery.extend(KhanUtil, {
 
 
 	// Get a random integer between min and max, inclusive
-	randRange: function( min, max ) {
-		return Math.floor( KhanUtil.random() * ( max - min + 1 ) ) + min;
+	// If a count is passed, it gives an array of random numbers in the range
+	randRange: function( min, max, count ) {
+		if ( count == null ) {
+			return Math.floor( KhanUtil.random() * ( max - min + 1 ) ) + min;
+		} else {
+			return jQuery.map(new Array(count), function() {
+				return KhanUtil.randRange( min, max );
+			});
+		}
 	},
 	
 	// Returns a random member of the given array
 	randFromArray: function( arr ) {
-		return arr[ this.rand( arr.length - 1 ) ];
+		return arr[ this.rand( arr.length ) ];
 	},
 
 	// Round a number to a certain number of decimal places
@@ -217,52 +246,78 @@ jQuery.fn.extend({
 		} else {
 			vars = this.find(".vars");
 		}
-		
-		// Go through the specified variables
-		vars.children().each(function() {
-			// And load in their values
-			var value = jQuery.getVAR( this ),
-				name = this.id;
 
-			if ( name ) {
-				// Show an error if a variable definition is overriding a built-in method
-				if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
-					if ( typeof console !== "undefined" ) {
-						console.error( "Defining variable '" + name + "' overwrites utility property of same name." );
+		var ensureFailed;
+		do {
+			// Go through the specified variables
+			vars.children().each(function() {
+				// And load in their values
+				var value = jQuery.getVAR( this ),
+				    name = this.id;
+
+				if ( name ) {
+					// Show an error if a variable definition is overriding a built-in method
+					if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
+						if ( typeof console !== "undefined" ) {
+							console.error( "Defining variable '" + name + "' overwrites utility property of same name." );
+						}
 					}
-				}
 				
-				VARS[ name ] = value;
-			}
-		});
-		
+					VARS[ name ] = value;
+				}
+			});
+
+			// check the ensure
+			var ensure = vars.data("ensure");
+			ensureFailed = ensure && !jQuery.getVAR( ensure );
+		} while (ensureFailed);
+	
 		return this;
 	},
 
 	// Replace an inline variable with its computed value
 	replaceVAR: function() {
 		return this.replaceWith(function( i, text ) {
-			return document.createTextNode( jQuery.getVAR( text ) );
+			var replaced = jQuery.getVAR( text );
+
+			if( typeof replaced !== "null" && typeof replaced !== "undefined" ) {
+				replaced = replaced.toString();
+			}
+
+			return replaced;
 		});
 	}
 });
 
 jQuery.extend({
-	tmplExpr: "[data-if],[data-else]",
+	// Work around a strange bug in jQuery/Sizzle
+	// http://bugs.jquery.com/ticket/5637
+	tmplExpr: "[data-if],[data-else=]",
 	
 	tmplFilter: function() {
-		cond = jQuery(this).data("if");
+		if ( !jQuery( this ).is( jQuery.tmplExpr ) ) {
+			return true;
+		}
+
+		var condStr = jQuery(this).data("if");
+		var cond = true;
 		
-		if ( cond != null ) {
-			lastCond = cond = jQuery.getVAR( cond );
+		if ( condStr != null ) {
+			cond = cond && jQuery.getVAR( condStr );
 			
-			if ( !cond ) {
-				jQuery(this).remove();
-				return false;
+			var nextCond = jQuery(this).nextAll( jQuery.tmplExpr ).eq(0);
+
+			if ( nextCond.data("else") != null ) {
+				nextCond.data("else-hide", cond || jQuery(this).data("else-hide"));
 			}
-			
-		} else if ( typeof lastCond !== "undefined" && jQuery(this).data("else") != null ) {
-			jQuery( this ).remove();
+		}
+
+		if ( jQuery(this).data("else") != null ) {
+			cond = cond && !jQuery(this).data("else-hide");
+		}
+
+		if ( !cond ) {
+			jQuery(this).remove();
 			return false;
 		}
 		
@@ -281,8 +336,8 @@ jQuery.extend({
 			
 				// Replace all the variables with the computed value
 				.find("var").replaceVAR().end()
-				
-				.text();
+
+				.html();
 
 		// Otherwise we need to compute the value
 		} else {
@@ -292,7 +347,7 @@ jQuery.extend({
 			code = jQuery.cleanHTML( code );
 		
 			// See if we're dealing with a multiline block of code
-			if ( (/;/.test( code ) || /\n/.test( code )) && !/function/.test( code ) ) {
+			if ( /;/.test( code ) && !/\bfunction\b/.test( code ) ) {
 				code = "(function(){\n" + code + "\n})()";
 			}
 
@@ -350,8 +405,11 @@ scriptWait(function( scriptLoaded ) {
 		extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
 		TeX: {\
 			extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
+		},\
+		"HTML-CSS": {\
+			scale: 88\
 		}\
-	});';
+	});MathJax.Hub.Startup.onload();';
 
 	document.documentElement.appendChild( script );
 });

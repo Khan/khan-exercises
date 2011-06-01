@@ -6,8 +6,10 @@
 </head>
 <body>
     <div class="exercise">
+        <p class="summary">This exercise covers exponential arithmetic with integer bases and positive integer exponents</p>
+      
         <div class="vars">
-            <var id="BASE">randRangeNonZero( -10, 10 )</var>
+            <var id="BASE">randRange( -10, 10 )</var>
             <var id="BASE_STRING">(function() {
                 if ( BASE < 0 ) {
                     return "(" + BASE + ")";
@@ -34,9 +36,13 @@
         </div>
 
         <div class="hints">
+            <!-- this is rather inelegant, better templating system will help -->
+            <div data-if="EXP === 0">Anything to the 0th power equals...?</div>
             <div data-if="EXP === 0">Anything to the 0th power equals 1.</div>
-            <div data-else><code>= <var>HINT</var></code></div>
-        
+            <div data-if="EXP !== 0 && BASE === 0">0 to any nonzero power equals...?</div>
+            <div data-if="EXP !== 0 && BASE === 0">0 to any nonzero power equals 0.</div>
+            <div data-if="EXP !== 0"><code>= <var>HINT</var></code></div>
+
             <div><code>= <var>SOLUTION</var></code></div>
         </div>
     </div>

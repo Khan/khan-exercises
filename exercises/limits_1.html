@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graph">
+<html data-require="math graph mathformat">
 <head>
 	<title>Limits 1</title>
 	<script src="../khan-exercise.js"></script>
@@ -24,7 +24,7 @@
 				</div>
 				
 				<p><code>\lim_{x\to<var>a</var>} \dfrac{<var>quadratic</var><var>LINE</var>}{<var>LINE</var>} \quad\quad = ?</code></p>
-				<div class="graph" style="width: 400px; height: 400px; font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
+				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
 					plot('(' + quadratic + LINE + ')/' + LINE);
 					ASdot([a, limtoa], 4, "black", "white");
 				</div>
@@ -55,7 +55,7 @@
 				</div>
 				
 				<p><code>\lim_{x\to<var>a</var>} \dfrac{<var>abs_coef</var>|x + <var>abs_cons</var>|}{x + <var>abs_cons</var>} \quad\quad = ?</code></p>
-				<div class="graph" style="width: 400px; height: 400px; font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
+				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
 					line([-11, abs_coef * -1], [-1 * abs_cons, abs_coef * -1]);
 					line([-1 * abs_cons, abs_coef], [11, abs_coef]);
 
@@ -103,7 +103,7 @@
 						<var>d_cons</var> &\quad \text{if} \quad x = <var>a</var>\\
 					\end{array} \right.
 					\end{align*}</code></p>
-				<div class="graph" style="width: 400px; height: 400px; font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
+				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
 					plot(d_line);
 					ASdot([a, limtoa], 4, "black", "white");
 					ASdot([a, d_cons], 4, "blue", "blue");
@@ -135,7 +135,7 @@
 				</div>
 
 				<p><code>\lim_{x\to<var>a</var>} <var>q_lcoef</var>x^2 + <var>q_cons</var> \quad\quad = ?</code></p>
-				<div class="graph" style="width: 400px; height: 400px; font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
+				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
 					plot(q_lcoef + 'x^2 + ' + q_cons);
 				</div>
 				<p class="solution"><code><var>limtoa</var></code></p>
@@ -153,7 +153,7 @@
 		<div class="hints">
 			<div>
 				<p>What happens as we approach <code>x = <var>a</var></code> from the left?</p>
-				<div class="graph update" style="stroke: orange; marker: arrow;">
+				<div class="graph update" data-style="stroke: orange; marker: arrow;">
 					line([a > 0 ? 0 : a + a, 0], [a, 0]);
 				</div>
 			</div>
@@ -163,7 +163,7 @@
 					<tr><th><code>f(x)</code></th><td><var>curFunc(a - 0.1).toFixed(4)</var></td><td><var>curFunc(a - 0.01).toFixed(4)</var></td><td><var>curFunc(a - 0.001).toFixed(4)</var></td></tr>
 				</table>
 				It looks like <code>f(x)</code> is approaching <var>l_limtoa</var> from the left.
-				<div class="graph update" style="stroke: purple;">
+				<div class="graph update" data-style="stroke: purple;">
 					line([a, 0], [a, l_limtoa]);
 				</div>
 			</div>
@@ -174,10 +174,10 @@
 					<tr><th><code>f(x)</code></th><td><var>curFunc(a + 0.1).toFixed(4)</var></td><td><var>curFunc(a + 0.01).toFixed(4)</var></td><td><var>curFunc(a + 0.001).toFixed(4)</var></td></tr>
 				</table>
 				It looks like <code>f(x)</code> is approaching <var>r_limtoa</var> from the right.
-				<div class="graph update" style="stroke: green; marker: arrow;">
+				<div class="graph update" data-style="stroke: green; marker: arrow;">
 					line([a < 0 ? 0 : a + a, 0], [a, 0]);
 				</div>
-				<div class="graph update" style="stroke: purple;">
+				<div class="graph update" data-style="stroke: purple;">
 					line([a, 0], [a, r_limtoa]);
 				</div>
 			</div>

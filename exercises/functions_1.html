@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html data-require="math graph">
+<head>
+	<title>Functions 1</title>
+	<script src="../khan-exercise.js"></script>
+
+	<style>
+		.function-name {
+			color: orange;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="FUNCTION_PATH">
+				var functionPath = new Array();
+
+				functionPath.push([ -11, randRange( -5, 5 ) ]);
+				for( var i = -10; i < 11; i++ ) {
+					if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] < 8 ) {
+						functionPath.push([i, functionPath[i+10][1]+1]);
+
+					} else if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] > -8 ) {
+						functionPath.push([i, functionPath[i+10][1]-1]);
+
+					} else if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] < 7 ) {
+						functionPath.push([i, functionPath[i+10][1]+2]);
+
+					} else if ( abs( randRangeNonZero( -10, 10 ) < 3 ) && functionPath[i+10][1] > -7 ) {
+						functionPath.push([i, functionPath[i+10][1]-2]);
+
+					} else {
+						functionPath.push([i, functionPath[i+10][1]]);
+					}
+				}
+				return functionPath;
+			</var>
+			
+			<var id="CORRECT_X">randRange(-9, 9)</var>
+			<var id="CORRECT_Y">FUNCTION_PATH[CORRECT_X + 11][1]</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question" style="font-size: 32px;">
+					Solve for <code class="function-name">f(<var>CORRECT_X</var>)</code>.
+				</p>
+
+				<div class="graph" style="width: 500px; height: 500px;" data-style="font-size: 20px; font-style: italic; stroke: orange; font-fill: orange;" data-graph-type="plane">
+					text( FUNCTION_PATH[ FUNCTION_PATH.length-2 ], "f(x)", "above" );
+					path( FUNCTION_PATH );
+				</div>
+
+				<p class="solution"><var>CORRECT_Y</var></p>
+			</div>
+		</div>
+
+		<div class="hints">
+			<div>
+				<div class="graph update" data-style="stroke: #9999FF; font-fill: #9999FF; marker: dot; stroke-dash-array: 5,5;">
+					line( [CORRECT_X, 0], FUNCTION_PATH[CORRECT_X+11] );
+					text( [CORRECT_X, CORRECT_Y/2], 'x='+CORRECT_X, right );
+				</div>
+			</div>
+
+			<div>
+				<div class="graph update" data-style="stroke: #9999FF; font-fill: #9999FF; stroke-dash-array: 5,5;">
+					line( [0, CORRECT_Y], FUNCTION_PATH[CORRECT_X+11] );
+					text( [CORRECT_X/2, CORRECT_Y], 'f('+CORRECT_X+')='+CORRECT_Y, above );
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
