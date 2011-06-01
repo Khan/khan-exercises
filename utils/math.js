@@ -76,6 +76,14 @@ jQuery.extend(KhanUtil, {
 			return true;
 		}
 	},
+
+    isOdd: function(n) {
+        return n % 2 == 1;
+    },
+
+    isEven: function(n) {
+        return n % 2 == 0;
+    },
     
     getOddComposite: function( min, max ) {
         if ( min === undefined ) {
@@ -182,6 +190,14 @@ jQuery.extend(KhanUtil, {
 		while ( (result = this.randRange( min, max )) === 0 ) {}
 		return result;
 	},
+
+    // From exponents_1
+    randRangeNonZeroNonUnity: function( min, max ) {
+        var result;
+        while (result === undefined || result === 0 || result === -1 || result === 1)
+            result = this.randRange( min, max);
+        return result;
+    },
 	
 	// From limits_1
 	truncate_to_max: function( num, digits ) {
