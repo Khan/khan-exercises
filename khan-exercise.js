@@ -168,7 +168,12 @@ function initRandom() {
 		//		- return "NUMBER word"
 		plural: (function() {
 			var one_offs = {
-				'quiz': 'quizzes'
+				'quiz': 'quizzes',
+				'can of food': 'cans of food',
+				'shelf': 'shelves',
+				'loaf of bread': 'loaves of bread',
+				'gallon of milk': 'gallons of milk',
+				'potato': 'potatoes'
 			};
 			var pluralizeWord = function(word) {
 				// determine if our word is all caps.  If so, we'll need to

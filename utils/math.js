@@ -143,6 +143,12 @@ jQuery.extend(KhanUtil, {
             return a - b;
         });
     },
+
+	// Get a random factor of a composite number which is not 1 or that number
+	getNontrivialFactor: function( number ) {
+		var factors = this.getFactors( number );
+		return factors[ this.randRange( 1, factors.length - 2 ) ];
+	},
     
     getMultiples: function( number, upperLimit ) {
         var multiples = [];
