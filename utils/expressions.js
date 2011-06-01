@@ -178,7 +178,7 @@ jQuery.extend(KhanUtil, {
 
 				return factors.join("");
 			} else {
-				return arguments[0];
+				return KhanUtil.expr(arguments[0]);
 			}
 		},
 
@@ -230,7 +230,20 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"+-": function( arg ) {
-			return ["*", "\\pm", arg];
+			var terms = jQuery.map(arguments, function( term, i ) {
+				term = KhanUtil.expr(term);
+
+				term = "\\pm " + term;
+				return term;
+			});
+
+			joined = terms.join("");
+
+			if(joined.substring(0, 4) === "\\pm ") {
+				return joined.slice(4);
+			} else {
+				return joined;
+			}
 		}
 	},
 
