@@ -35,11 +35,11 @@ jQuery.extend(KhanUtil, {
 		return n < 0 ? "(" + n + ")" : n;
 	},
 
-	/* formattedSquareRootOf(24) gives 2\sqrt{6} */
-	formattedSquareRootOf: function(n) {
-		if( n === 1  || n === 0 ) {
-			/* so as to not return "" or "\\sqrt{0}" later */
-			return n.toString();
+	splitRadical: function( n ) {
+		console.log(n)
+		console.log(typeof n)
+		if ( n === 0 ) {
+			return [ 0, 1 ];
 		}
 
 		var coefficient = 1;
@@ -52,9 +52,21 @@ jQuery.extend(KhanUtil, {
 			}
 		}
 
-		var cString = coefficient == 1 ? "" : coefficient.toString();
-		var rString = radical == 1 ? "" : "\\sqrt{" + radical + "}";
-		return cString + rString;
+		return [coefficient, radical];
+	},
+
+	/* formattedSquareRootOf(24) gives 2\sqrt{6} */
+	formattedSquareRootOf: function( n ) {
+		if( n === 1  || n === 0 ) {
+			/* so as to not return "" or "\\sqrt{0}" later */
+			return n.toString();
+		} else {
+			var split = KhanUtil.splitRadical( n );
+			var coefficient = split[0] == 1 ? "" : split[0].toString();
+			var radical = split[1] == 1 ? "" : "\\sqrt{" + split[1] + "}";
+
+			return cString + rString;
+		}
 	},
 
 	squareRootCanSimplify: function(n) {

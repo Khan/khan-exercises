@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html data-require="math mathformat">
+<head>
+	<title>Simplifying Radicals</title>
+	<script src="../khan-exercise.js"></script>
+	<style type="text/css">
+		input[type=text] {
+			width: 80px;
+		}
+
+		.radical {
+			font-size: 125%;
+			padding-left: 6px;
+		}
+
+		.radical span {
+			font-size: 80%;
+			border-top: 2px solid #000;
+			padding: 4px 1px 0 3px;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="already-simplified">
+			<div class="vars">
+				<var id="NUM">randFromArray([30, 42, 66, 70, 105, 110, 154, 165, 210])</var>
+				<var id="SPLIT">splitRadical(NUM)</var>
+				<var id="COEFFICIENT">SPLIT[0] === 1 ? "" : SPLIT[0]</var>
+				<var id="RADICAL">SPLIT[1] === 1 ? "" : SPLIT[1]</var>
+			</div>
+
+			<div class="question">
+				<p>Simplify <code>\sqrt{<var>NUM</var>}</code>.</p>
+				<p>(Type in only one of text boxes if your answer has only one part.)</p>
+			</div>
+
+			<div class="solution" data-type="multiple">
+				<p><span class="sol"><var>COEFFICIENT</var></span><span class="radical">&radic;<span class="sol"><var>RADICAL</var></span></span></p>
+			</div>
+
+			<div class="hints">
+				<p>The number <code><var>NUM</var></code> has no perfect-square factors, so <code>\sqrt{<var>NUM</var>}</code> is already the simplest form.</p>
+			</div>
+		</div>
+
+		<div id="perfect-squares">
+			<div class="vars">
+				<var id="NUM">randFromArray([9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225])</var>
+				<var id="SPLIT">splitRadical(NUM)</var>
+				<var id="COEFFICIENT">SPLIT[0] === 1 ? "" : SPLIT[0]</var>
+				<var id="RADICAL">SPLIT[1] === 1 ? "" : SPLIT[1]</var>
+			</div>
+
+			<div class="question">
+				<p>Simplify <code>\sqrt{<var>NUM</var>}</code>.</p>
+				<p>(Type in only one of text boxes if your answer has only one part.)</p>
+			</div>
+
+			<div class="solution" data-type="multiple">
+				<p><span class="sol"><var>COEFFICIENT</var></span><span class="radical">&radic;<span class="sol"><var>RADICAL</var></span></span></p>
+			</div>
+
+			<div class="hints">
+				<p>The number <code><var>NUM</var></code> is a perfect square, so <code>\sqrt{<var>NUM</var>} = <var>COEFFICIENT</var></code>.</p>
+			</div>
+		</div>
+
+		<div id="not-yet-simple" data-weight="6">
+			<div class="vars">
+				<var id="NUM">randFromArray([8, 12, 18, 20, 24, 27, 28, 32, 40, 44, 45, 48, 50, 54, 56, 60, 63, 72, 75, 80, 88, 90, 98, 99, 120, 125, 128, 140, 150, 160, 175, 180, 200, 216])</var>
+				<var id="SPLIT">splitRadical(NUM)</var>
+				<var id="COEFFICIENT">SPLIT[0] === 1 ? "" : SPLIT[0]</var>
+				<var id="RADICAL">SPLIT[1] === 1 ? "" : SPLIT[1]</var>
+			</div>
+
+			<div class="question">
+				<p>Simplify <code>\sqrt{<var>NUM</var>}</code>.</p>
+				<p>(Type in only one of text boxes if your answer has only one part.)</p>
+			</div>
+
+			<div class="solution" data-type="multiple">
+				<p><span class="sol"><var>COEFFICIENT</var></span><span class="radical">&radic;<span class="sol"><var>RADICAL</var></span></span></p>
+			</div>
+
+			<div class="hints">
+				<p>The largest perfect square that divides <code><var>NUM</var></code> is <code><var>COEFFICIENT * COEFFICIENT</var></code>.</p>
+				<p>Factoring it out, we have <code><var>NUM</var> = <var>COEFFICIENT</var>^2 \cdot <var>RADICAL</var></code>.</p>
+				<p>Thus, <code>\sqrt{<var>NUM</var>} = <var>COEFFICIENT</var>\sqrt{<var>RADICAL</var>}</code>.</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
