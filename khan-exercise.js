@@ -172,10 +172,15 @@ var Khan = {
 				}
 			}
 
+			// Generate a type of problem
+			// (this includes possibly generating the multiple choice problems,
+			//  if this fails then we will need to try generating another one.)
 			Khan.validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
-			if( !Khan.validator ) {
-				return Khan.error( "Error generating answer validator for problem." );
+			// A working solution was not generated
+			if ( !Khan.validator ) {
+				// Making the problem failed, let's try again
+				return makeProblem();
 			}
 
 			// Remove the solution and choices elements from the display
