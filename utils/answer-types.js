@@ -1,6 +1,6 @@
-KhanUtil.answerTypes || (KhanUtil.answerTypes = {});
+Khan.answerTypes = Khan.answerTypes || {};
 
-jQuery.extend( KhanUtil.answerTypes, {
+jQuery.extend( Khan.answerTypes, {
 	text: function( solutionarea, solution, verifier ) {
 		var input = jQuery('<input type="text">');
 		jQuery( solutionarea ).append( input );
@@ -28,7 +28,7 @@ jQuery.extend( KhanUtil.answerTypes, {
 			return Math.abs( correct - guess ) < Math.pow( 2, -23 );
 		};
 
-		return KhanUtil.answerTypes.text( solutionarea, solution, verifier );
+		return Khan.answerTypes.text( solutionarea, solution, verifier );
 	},
 
 	rational: function( solutionarea, solution ) {
@@ -39,7 +39,7 @@ jQuery.extend( KhanUtil.answerTypes, {
 		var verifier = function( correct, guess ) {
 			var ratExp = /^(-?[0-9]+)(?:\/([0-9]))?$/;
 
-			if( correct.match( "/" ) ) {
+			if ( correct.match( "/" ) ) {
 				correct = jQuery.getVAR( correct );
 			} else {
 				correct = parseFloat( correct );
@@ -47,7 +47,7 @@ jQuery.extend( KhanUtil.answerTypes, {
 
 			var match = guess.match(ratExp);
 
-			if( match ) {
+			if ( match ) {
 				var num = parseFloat( match[1] );
 				var denom = match[2] ? parseFloat( match[2] ) : 1;
 
@@ -64,7 +64,7 @@ jQuery.extend( KhanUtil.answerTypes, {
 			}
 		};
 
-		return KhanUtil.answerTypes.text( solutionarea, solution, verifier );
+		return Khan.answerTypes.text( solutionarea, solution, verifier );
 	},
 
 	multiple: function( solutionarea, solution ) {
@@ -79,7 +79,7 @@ jQuery.extend( KhanUtil.answerTypes, {
 			var sol = jQuery( this ).clone();
 			var solarea = jQuery( this ).empty();
 
-			var validator = KhanUtil.answerTypes[type]( solarea, sol );
+			var validator = Khan.answerTypes[type]( solarea, sol );
 			jQuery( this ).data( "validator", validator );
 		});
 

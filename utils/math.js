@@ -189,6 +189,21 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 	
+	/* Shuffle an array using a Fischer-Yates shuffle. */
+	shuffle: function( array ) {
+		array = array.slice(0);
+
+		for ( var top = array.length; top > 0; top-- ) {
+			var newEnd = Math.floor(KhanUtil.random() * top),
+				tmp = array[newEnd];
+			
+			array[newEnd] = array[top - 1];
+			array[top - 1] = tmp;
+		}
+
+		return array;
+	},
+	
 	// From limits_1
 	truncate_to_max: function( num, digits ) {
 		return parseFloat( num.toFixed( digits ) );
@@ -264,9 +279,7 @@ jQuery.fn.extend({
 				if ( name ) {
 					// Show an error if a variable definition is overriding a built-in method
 					if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
-						if ( typeof console !== "undefined" ) {
-							console.error( "Defining variable '" + name + "' overwrites utility property of same name." );
-						}
+						Khan.error( "Defining variable '" + name + "' overwrites utility property of same name." );
 					}
 				
 					VARS[ name ] = value;
@@ -369,9 +382,7 @@ jQuery.extend({
 					}
 				}
 			} catch( e ) {
-				if ( typeof console !== "undefined" ) {
-					console.error( code, e );
-				}
+				Khan.error( code, e );
 			}
 		}
 	},
@@ -383,7 +394,7 @@ jQuery.extend({
 });
 
 // Load MathJax
-scriptWait(function( scriptLoaded ) {
+Khan.scriptWait(function( scriptLoaded ) {
 	var script = document.createElement("script");
 	script.src = "http://cdn.mathjax.org/mathjax/latest/MathJax.js";
 	script.onload = function() {
