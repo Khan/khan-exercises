@@ -6,68 +6,76 @@
 </head>
 <body>
     <div class="exercise">
-        <p class="summary">This exercise covers exponential arithmetic with integer bases and positive integer exponents. Handles three specific cases: exponents of 0 (in which case the base is nonzero and in the range -1000 to 1000), bases of 0 or 1 (in which case the exponent is in the range 1-1000), and bases between -10 and 10 that are not 0 or 1 (in which case the exponent is any positive integer such that the result is smaller than 300).</p>
+        <p class="summary">This exercise covers exponential arithmetic with, in general, integer bases raised to nonnegative integer exponents. Handles three specific cases: integers raised to positive integers; nonzero integers raised to 0; and -1, 0, and 1 raised to arbitrarily large positive integers.</p>
 
         <div class="problems">
+            <!-- Nonzero and nonunity integers raised to positive integers. Bases are chosen from [-10,10] excluding -1, 0, and 1; exponents are chosen such that the result is smaller than 300. -->
+            <div id="original">
+                <div class="vars">
+                    <var id="BASE">randRangeNonZeroNonUnity( -10, 10 )</var>
+                    <var id="BASE_STRING">BASE < 0 ? "(" + BASE + ")" : BASE</var>
+                    <var id="EXP">randRange( 1, log( 300 ) / log( abs( BASE ) ) )</var>
+                    <var id="SOLUTION">round( pow( BASE, EXP ) )</var>
+                    <var id="HINT">function() {
+                        var result = BASE_STRING;
+                        for ( var i = 1; i < EXP; i++ ) {
+                            result += " \\cdot" + BASE_STRING;
+                        }
+                        return result;
+                    }()</var>
+                </div>
+
+                <p class="question"><code><var>BASE_STRING</var>^{<var>EXP</var>}</code></p>
+                <p class="solution" data-type="decimal"><var>SOLUTION</var></p>
+
+                <div class="hints">
+                    <!-- FIXME: once we have templating loops, will need to implement a dynamic number of hints, with collapsing multiplication, like: 2x2x2x2 then 4x2x2 then 8x2 then 16 -->
+                    <div><code>= <var>HINT</var></code></div>
+                    <div><code>= <var>SOLUTION</var></code></div>
+                </div>
+            </div>
+
+            <!-- Nonzero integers raised to 0. Base is chosen from [-500,500] 3/4 of the time and from [-10,10] 1/4 of the time; this helps avoid gaming the problem. -->
             <div id="zero-exp">
                 <div class="vars">
-                    <!-- this currently will not test 0^0, which might be a good thing; need to see where Sal actually mentions that -->
-                    <var id="BASE">randRange( -1000, 1000 )</var>
-                    <var id="BASE_STRING">BASE < 0 ? "("+BASE+")" : BASE</var>
+                    <var id="BASE_BOUND">random() < 0.5 ? 500 : 10</var>
+                    <var id="BASE">randRangeNonZero( -BASE_BOUND, BASE_BOUND )</var>
+                    <var id="BASE_STRING">BASE < 0 ? "(" + BASE + ")" : BASE</var>
                 </div>
 
                 <p class="question"><code><var>BASE_STRING</var>^{0}</code></p>
-                <p class="solution">1</p>
+                <p class="solution" data-type="decimal">1</p>
+
+                <div class="hints">
+                  <div>Anything to the 0th power equals...?</div>
+                  <div>Anything to the 0th power equals 1.</div>
+                </div>
             </div>
+
+            <!-- -1, 0, and 1 raised to arbitrarily large positive integers. Exponents are chosen from [1,1000] 3/4 of the time and from [1,10] 1/4 of the time; this helps avoid gaming the problem. -->
             <div id="easy-base">
+                <div class="vars">
+                    <!-- -1 is the most interesting case, so we choose -1 half the time, 0 a quarter of the time, and 1 a quarter of the time. -->
+                    <var id="BASE">random() < 0.5 ? -1 : (random() < 0.5 ? 0 : 1)</var>
+                    <var id="BASE_STRING">BASE === -1 ? "(-1)" : BASE</var>
+                    <var id="EXP">randRange( 1, random() < 0.75 ? 1000 : 10 )</var>
+                    <var id="SOLUTION">round( pow( BASE, EXP ) )</p>
+                </div>
+
+                <p class="question"><code><var>BASE_STRING</var>^{<var>EXP</var>}</code></p>
+                <p class="solution" data-type="decimal"><var>SOLUTION</var></p>
+
+                <div class="hints">
+                    <!-- FIXME: this can be more elegant once there is better templating -->
+                    <div data-if="BASE === 0">Zero to any nonzero power equals...?</div>
+                    <div data-if="BASE === 0">Zero to any nonzero power equals 0.</div>
+                    <div data-if="BASE === 1">One to any power equals...?</div>
+                    <div data-if="BASE === 1">One to any power equals 1.</div>
+                    <div data-if="BASE === -1">Negative one to any <var>isEven( EXP ) ? "even" : "odd"</var> power equals...?</div>
+                    <div data-if="BASE === -1">Negative one to any <var>isEven( EXP ) ? "even" : "odd"</var> power equals <var>isEven( EXP ) ? 1 : -1</var>.</div>
+                </div>
             </div>
-            <div id="hard-base">
-            </div>
-
-<!--             <var id="BASE">randRange( -10, 10 )</var> -->
-<!--             <var id="BASE_STRING">(function() { -->
-<!--                 /* wrap in parentheses if the base is negative. */ -->
-<!--                 if ( BASE < 0 ) { -->
-<!--                     return "(" + BASE + ")"; -->
-<!--                 } else { -->
-<!--                     return BASE; -->
-<!--                 } -->
-<!--             })()</var> -->
-<!--             <var id="EXP">randRange( 0, function() { -->
-<!--                 /* make an extreme value for the exponent if the base is easy (0 or 1). */ -->
-<!--                 if (abs(BASE) > 0) { -->
-<!--                     return log( 300 ) / log( abs( BASE )); -->
-<!--                 } else { -->
-<!--                     return 1000; -->
-<!--                 } -->
-<!--             }())</var> -->
-<!--             <var id="SOLUTION">round( pow ( BASE, EXP ) )</var> -->
-<!--             <var id="HINT">(function() { -->
-<!--                 var result = BASE_STRING; -->
-<!--                 for ( var i = 1; i < EXP; i++ ) { -->
-<!--                     result += " \\cdot " + BASE_STRING; -->
-<!--                 } -->
-<!--                 return result; -->
-<!--             })()</var> -->
-<!--         </div> -->
-
-<!--         <div class="problems"> -->
-<!--             <div> -->
-<!--                 <p class="question"><code><var>BASE_STRING</var>^{<var>EXP</var>}</code></p> -->
-<!--                 <p class="solution"><var>SOLUTION</var></p> -->
-<!--             </div> -->
-<!--         </div> -->
-
-<!--         <div class="hints"> -->
-<!--             <\!-- this is rather inelegant, better templating system will help -\-> -->
-<!--             <div data-if="EXP === 0">Anything to the 0th power equals...?</div> -->
-<!--             <div data-if="EXP === 0">Anything to the 0th power equals 1.</div> -->
-<!--             <div data-if="EXP !== 0 && BASE === 0">0 to any nonzero power equals...?</div> -->
-<!--             <div data-if="EXP !== 0 && BASE === 0">0 to any nonzero power equals 0.</div> -->
-<!--             <div data-if="EXP !== 0"><code>= <var>HINT</var></code></div> -->
-
-<!--             <div><code>= <var>SOLUTION</var></code></div> -->
-<!--         </div> -->
-<!--     </div> -->
-<!-- </body> -->
-<!-- </html> -->
+        </div>
+    </div>
+</body>
+</html>
