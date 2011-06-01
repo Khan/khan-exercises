@@ -17,7 +17,7 @@ loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 			   "../utils/mersenne-twister.js" ], function() {
 	// Load module dependencies
 	var scripts = modules.slice(0);
-	scripts.unshift("answer-types");
+	scripts.unshift("answer-types", "template-inheritance");
 
 	loadScripts( jQuery.map( scripts, function( name ) {
 		return "../utils/" + name + ".js";
@@ -241,23 +241,28 @@ function makeProblem() {
 		
 		// Work with a clone to avoid modifying the original
 		problem = problem.clone();
-		
-		// See if there's an original problem that we're inheriting from
-		if ( problem.data("type") ) {
-			// Clone it for manipulation
-			var original = jQuery("#" + problem.data("type")).clone();
-			
-			// Go through the components of the sub-problem
-			problem.children().each(function() {
-				// Remove those parts from the original
-				original.children( "." + this.className ).remove();
-			});
 
-			// And add our new ones in, instead
-			original.append( problem.children() );
-			
-			problem = original;
+		// If there's an original problem, add inherited elements
+		var parentType = problem.data( "type" );
+		while ( parentType ) {
+			var original = jQuery("#" + parentType).clone();
+			problem.prepend( original.children() );
+			parentType = original.data( "type" );
 		}
+
+		// Add any global exercise defined elements
+		problem.prepend( exercise.children( ':not(.problems)' ).clone() );
+
+		// Apply templating
+		problem
+			.find( ".vars, .hints" ).tmplApply( { defaultApply: "appendContents" } ).end()
+			.find( ".vars [id]" ).tmplApply( { attribute: "id" } ).end()
+			.children( "[class]" ).tmplApply().end()
+			.children().each(function () {
+				// Apply while adding problem.children() to include
+				// template definitions within problem scope
+				jQuery( this ).find( "[class]" ).add( problem.children() ).tmplApply();
+			});
 
 		// Run the "Load" method of any modules
 		problem.runModules( "Load" );
@@ -292,29 +297,12 @@ function makeProblem() {
 		/* Remove the solution and choices elements from the display */
 		solution.remove();
 		choices.remove();
-		
+
 		// Add the problem into the page
 		jQuery("#workarea").append( problem );
-		
-		// Clone the hints and add them into their area
-		var hints = exercise.children(".hints").clone();
-		var problemHints = problem.find(".hints");
- 
-		if ( !hints.length || hints.is(":empty") ) {
-			
-			// there is no global hints section (or it's empty).  Just grab
-			// the problem-specific hints section in its entirety
-			hints = problemHints;
-		} else {
-			
-			// Extract any problem-specific hints
-			problem.find(".hints").remove().children().each(function() {
-				// Replace the hint placeholders
-				hints.find("." + this.className).replaceWith( this );
-			});
-		}
-		
-		hints
+
+		// Add the hints into the page
+		problem.find(".hints")
 			// Hide all the hints
 			.children().hide().end()
 		

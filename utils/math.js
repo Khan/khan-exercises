@@ -237,11 +237,11 @@ jQuery.fn.extend({
 			this.children().filter( jQuery.tmplFilter );
 			return;
 		
-		// If we're in an exercise then we only want the main var block
+		// If we're in an exercise, then reset VARS
 		} else if ( this.is(".exercise") ) {
-			vars = this.children(".vars");
 			VARS = {};
-		
+			return;
+
 		// Otherwise we're in a problem
 		} else {
 			vars = this.find(".vars");
@@ -328,7 +328,7 @@ jQuery.extend({
 		
 		return true;
 	},
-	
+
 	getVAR: function( elem ) {
 		// If it's a list, grab a random one out of it
 		if ( elem.nodeName && elem.nodeName.toLowerCase() === "ul" ) {
