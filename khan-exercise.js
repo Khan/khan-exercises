@@ -120,19 +120,19 @@ var Khan = {
 			// Apply templating
 			var children = problem
 				// vars and hints blocks append their contents to the parent
-				.find( ".vars, .hints" ).tmplApply( { defaultApply: "appendContents" } ).end()
+				.find( ".vars, .hints" ).tmplApply( { attribute: "class", defaultApply: "appendContents" } ).end()
 
 				// Individual variables override other variables with the name name
-				.find( ".vars [id]" ).tmplApply( { attribute: "id" } ).end()
+				.find( ".vars [id]" ).tmplApply().end()
 
 				// We also look at the main blocks within the problem itself to override
-				.children( "[class]" ).tmplApply();
+				.children( "[class]" ).tmplApply( { attribute: "class" } );
 
 			// Finally we do any inheritance to the individual child blocks (such as problem, question, etc.)
 			children.each(function () {
 				// Apply while adding problem.children() to include
 				// template definitions within problem scope
-				jQuery( this ).find( "[class]" ).add( children ).tmplApply();
+				jQuery( this ).find( "[id]" ).add( children ).tmplApply();
 			});
 
 			// Run the "Load" method of any modules
