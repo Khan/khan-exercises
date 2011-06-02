@@ -12,8 +12,8 @@
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars">
-			<var id="NUMBER_SEED" data-ensure="NUMBER_SEED % 10 !== 0">randRange(100, 9999)</var>
+		<div class="vars" data-ensure="NUMBER_SEED % 10 !== 0">
+			<var id="NUMBER_SEED">randRange(100, 9999)</var>
 			<var id="NUMBER_SEED_LENGTH">NUMBER_SEED.toString().length</var>
 
 			<var id="ZEROES">rand(2) === 0 ? randRange(4, 8) : randRange( -1 * NUMBER_SEED_LENGTH - 4, -1 * NUMBER_SEED_LENGTH )</var>
