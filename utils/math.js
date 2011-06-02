@@ -8,7 +8,7 @@ jQuery.extend(KhanUtil, {
 				.replace(/\^1/g, "") :
 			expr;
 	},
-	
+
 	// A simple random number picker
 	// Returns a random int in [0, num)
 	rand: function( num ) {
@@ -46,14 +46,14 @@ jQuery.extend(KhanUtil, {
 
         return a;
     },
-    
+
     getLCM: function( a, b ) {
       return ( a * b ) / this.getGCD( a, b );
     },
 
 	primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97],
-    
+
     getPrime: function() {
         return this.primes[ this.rand( this.primes.length ) ];
     },
@@ -84,16 +84,16 @@ jQuery.extend(KhanUtil, {
     isEven: function(n) {
         return n % 2 == 0;
     },
-    
+
     getOddComposite: function( min, max ) {
         if ( min === undefined ) {
             min = 0;
         }
-        
+
         if ( max === undefined ) {
             max = 100;
         }
-        
+
         var oddComposites = [9, 15, 21, 25, 27, 33, 35, 39, 45, 49, 51, 55];
         oddComposites = oddComposites.concat([57, 63, 65, 69, 75, 77, 81, 85, 87, 91, 93, 95, 99]);
 
@@ -103,12 +103,12 @@ jQuery.extend(KhanUtil, {
         }
         return result;
     },
-    
+
     getEvenComposite: function( min, max ) {
         if ( min === undefined ) {
             min = 0;
         }
-        
+
         if ( max === undefined ) {
             max = 100;
         }
@@ -117,17 +117,17 @@ jQuery.extend(KhanUtil, {
         evenComposites = evenComposites.concat([28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48]);
         evenComposites = evenComposites.concat([50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72]);
         evenComposites = evenComposites.concat([74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98]);
-        
+
         var result = -1;
         while ( result < min || result > max ) {
             result = evenComposites[ this.rand( evenComposites.length ) ];
         }
         return result;
     },
-    
+
     getPrimeFactorization: function( number ) {
         if ( jQuery.inArray(number, this.primes) !== -1 ) {
-            return [number];                
+            return [number];
         }
 
         var maxf = Math.sqrt( number );
@@ -157,7 +157,7 @@ jQuery.extend(KhanUtil, {
 		var factors = this.getFactors( number );
 		return factors[ this.randRange( 1, factors.length - 2 ) ];
 	},
-    
+
     getMultiples: function( number, upperLimit ) {
         var multiples = [];
         for ( var i = 1; i * number <= upperLimit; i++ ) {
@@ -199,7 +199,7 @@ jQuery.extend(KhanUtil, {
 	randRangeNonZero: function( min, max ) {
         return this.randRangeExclude( min, max, [0] );
 	},
-    
+
 	// Returns a random member of the given array
 	randFromArray: function( arr ) {
 		return arr[ this.rand( arr.length ) ];
@@ -210,7 +210,7 @@ jQuery.extend(KhanUtil, {
 		var factor = Math.pow( 10, precision ).toFixed(5);
 		return Math.round( ( num * factor ).toFixed(5) ) / factor;
 	},
-	
+
 	/* Shuffle an array using a Fischer-Yates shuffle. */
 	shuffle: function( array ) {
 		array = array.slice(0);
@@ -218,14 +218,14 @@ jQuery.extend(KhanUtil, {
 		for ( var top = array.length; top > 0; top-- ) {
 			var newEnd = Math.floor(KhanUtil.random() * top),
 				tmp = array[newEnd];
-			
+
 			array[newEnd] = array[top - 1];
 			array[top - 1] = tmp;
 		}
 
 		return array;
 	},
-	
+
 	// From limits_1
 	truncate_to_max: function( num, digits ) {
 		return parseFloat( num.toFixed( digits ) );
@@ -238,20 +238,20 @@ var VARS = {};
 jQuery.fn.extend({
 	math: function() {
 		var lastCond;
-		
-		return this			
+
+		return this
 			// Remove the var block so that it isn't displayed
 			.find(".vars").remove().end()
-			
+
 			// Work against the elements inside
 			.find( jQuery.tmplExpr ).each(function() {
 				jQuery.tmplFilter.call( this );
 			}).end()
-			
+
 			// Replace all the variables with the computed value
 			.find("var").replaceVAR().end()
-			
-			// Render 
+
+			// Render
 			.find("code").each(function() {
 				if ( this.className ) {
 					jQuery( this ).wrap( "<span class='" + this.className + "'></span>" );
@@ -270,16 +270,16 @@ jQuery.fn.extend({
 				MathJax.Hub.Queue([ "Typeset", MathJax.Hub, this ]);
 			}).end();
 	},
-	
+
 	// Load all the variables from the exercise
 	mathLoad: function() {
 		var vars;
-		
+
 		// If we're operating on a hints block
 		if ( this.is(".hints") ) {
 			this.children().filter( jQuery.tmplFilter );
 			return;
-		
+
 		// If we're in an exercise, then reset VARS
 		} else if ( this.is(".exercise") ) {
 			VARS = {};
@@ -303,7 +303,7 @@ jQuery.fn.extend({
 					if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
 						Khan.error( "Defining variable '" + name + "' overwrites utility property of same name." );
 					}
-				
+
 					VARS[ name ] = value;
 				}
 			});
@@ -312,7 +312,7 @@ jQuery.fn.extend({
 			var ensure = vars.data("ensure");
 			ensureFailed = ensure && !jQuery.getVAR( ensure );
 		} while (ensureFailed);
-	
+
 		return this;
 	},
 
@@ -334,7 +334,7 @@ jQuery.extend({
 	// Work around a strange bug in jQuery/Sizzle
 	// http://bugs.jquery.com/ticket/5637
 	tmplExpr: "[data-if],[data-else=]",
-	
+
 	tmplFilter: function() {
 		if ( !jQuery( this ).is( jQuery.tmplExpr ) ) {
 			return true;
@@ -342,10 +342,10 @@ jQuery.extend({
 
 		var condStr = jQuery(this).data("if");
 		var cond = true;
-		
+
 		if ( condStr != null ) {
 			cond = cond && jQuery.getVAR( condStr );
-			
+
 			var nextCond = jQuery(this).nextAll( jQuery.tmplExpr ).eq(0);
 
 			if ( nextCond.data("else") != null ) {
@@ -361,12 +361,12 @@ jQuery.extend({
 			jQuery(this).remove();
 			return false;
 		}
-		
+
 		// Remove the templating so that it isn't run again later
 		jQuery(this)
 			.removeAttr("data-if")
 			.removeAttr("data-else");
-		
+
 		return true;
 	},
 
@@ -374,7 +374,7 @@ jQuery.extend({
 		// If it's a list, grab a random one out of it
 		if ( elem.nodeName && elem.nodeName.toLowerCase() === "ul" ) {
 			return jQuery( elem ).children().getRandom()
-			
+
 				// Replace all the variables with the computed value
 				.find("var").replaceVAR().end()
 
@@ -383,10 +383,10 @@ jQuery.extend({
 		// Otherwise we need to compute the value
 		} else {
 			var code = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
-			
+
 			// Make sure any HTML formatting is stripped
 			code = jQuery.cleanHTML( code );
-		
+
 			// See if we're dealing with a multiline block of code
 			if ( /;/.test( code ) && !/\bfunction\b/.test( code ) ) {
 				code = "(function(){\n" + code + "\n})()";
@@ -408,7 +408,7 @@ jQuery.extend({
 			}
 		}
 	},
-	
+
 	// Make sure any HTML formatting is stripped
 	cleanHTML: function( text ) {
 		return text.replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&");
@@ -426,12 +426,12 @@ Khan.scriptWait(function( scriptLoaded ) {
 				[ elem ] :
 				elem.getElementsByTagName( "code" );
 		};
-		
+
 		// Data is read in here:
 		// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704
 		// We can force it to convert HTML entities properly by saying we're Konqueror
 		MathJax.Hub.Browser.isKonqueror = true;
-		
+
 		scriptLoaded();
 	};
 

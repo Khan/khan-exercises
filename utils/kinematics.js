@@ -17,7 +17,7 @@ jQuery.extend(KhanUtil, {
 		} while (omitted === unknown);
 		return [omitted, unknown];
 	},
-	
+
 	randomFreefallMotion: function() {
 		var accel = -9.8;
 		var v_init = (KhanUtil.rand(2) ? 0 : KhanUtil.randRange(-100, 300)/10);
@@ -26,14 +26,14 @@ jQuery.extend(KhanUtil, {
 		var v_final = v_init + accel * time;
 
 		var unknowns = KhanUtil.rollUnknowns();
-		
+
 		return {
 			d: disp,
-			v_i: v_init, 
+			v_i: v_init,
 			v_f: v_final,
 			a: accel,
 			t: time,
-			
+
 			omitted: unknowns[0],
 			unknown: unknowns[1]
 		};
@@ -50,10 +50,10 @@ jQuery.extend(KhanUtil, {
 			unknowns = KhanUtil.rollUnknowns();
 		} while ( ( unknowns[0] === "d" && unknowns[1] === "t" ) ||
 				( unknowns[0] === "t" && unknowns[1] === "d" ) );
-		
+
 		return {
 			d: disp,
-			v_i: veloc, 
+			v_i: veloc,
 			v_f: veloc,
 			a: accel,
 			t: time,
@@ -73,10 +73,10 @@ jQuery.extend(KhanUtil, {
 		var v_final = v_init + accel * time;
 
 		var unknowns = KhanUtil.rollUnknowns();
-		
+
 		return {
 			d: disp,
-			v_i: v_init, 
+			v_i: v_init,
 			v_f: v_final,
 			a: accel,
 			t: time,

@@ -3,19 +3,19 @@ jQuery.extend(KhanUtil, {
 		if ( d === 0 ) {
 			return "\\text{undefined}";
 		}
-		
+
 		if ( n === 0 ) {
 			return "0";
 		}
-		
+
 		var sign = n / d < 0 ? "-" : "";
 		n = Math.abs(n);
 		d = Math.abs(d);
-		
+
 		var gcd = this.getGCD(n, d);
 		n = n / gcd;
 		d = d / gcd;
-		
+
 		return d > 1 ?
 			sign + "\\frac{" + n + "}{" + d + "}" :
 			sign + n;

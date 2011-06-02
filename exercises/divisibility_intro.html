@@ -17,7 +17,7 @@
 				var factorization = getPrimeFactorization( NUMBER ),
 					num_factors = round( factorization.length / 2 ),
 					answer = 1;
-					
+
 				for (var i = 0; i &lt; num_factors && factorization.length; i++) {
 					var index = floor( random() * factorization.length );
 					answer *= factorization[index];
@@ -38,7 +38,7 @@
 				<p class="solution"><var>ANSWER</var></p>
 			</div>
 		</div>
-		
+
 		<div class="hints">
             <p>In other words, we are looking for a number between <var>LOW</var> and <var>HIGH</var> such that <var>NUMBER</var> is divisible by it.</p>
             <div>

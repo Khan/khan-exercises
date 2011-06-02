@@ -62,7 +62,7 @@ function createLongDivisionTable(n,div){
 			subtrahends.push(subtrahend);
 			temp= KhanUtil.digits(parseInt(temp.reverse().join(""))-subtrahend*Math.pow(10,i));
 			minuends.push(curDividend);
-		}				
+		}
 	}
 	return {divisions:divisions, subtrahends:subtrahends, minuends:minuends};
 }

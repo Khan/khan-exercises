@@ -20,7 +20,7 @@
 				if (KhanUtil.rand(2)) {
 					offset *= -1;
 				}
-			
+
 				wrong = degrees + offset;
 			} while ( !(wrong >= 0 && wrong <= 360) );
 
@@ -43,7 +43,7 @@
 			return wrong;
 		}
 	</script>
-	
+
 	<div class="exercise">
 		<div class="vars">
 			<!-- Numerical degree and radian values -->
@@ -56,7 +56,7 @@
 			<var id="COMMON_DEGREES">commonAngles[COMMON_INDEX].deg</var>
 			<var id="COMMON_RADIANS">commonAngles[COMMON_INDEX].rad</var>
 		</div>
-	
+
 		<div class="problems">
 			<div id="degrees-to-radians">
 				<p class="question">Convert the angle <var>COMMON_DEGREES</var>&deg; into radians.</p>
@@ -73,7 +73,7 @@
 					<li><code><var>WrongCommonAngle( COMMON_INDEX, 3 ).rad</var></code></li>
 				</ul>
 			</div>
-			
+
 			<div data-type="degrees-to-radians">
 				<p class="question">Convert the angle <var>NUM_DEGREES</var>&deg; into radians. (Round to the nearest hundredth of a radian.)</p>
 				<p class="solution"><var>NUM_RADIANS</var></p>
@@ -105,7 +105,7 @@
 					<li><var>WrongCommonAngle( COMMON_INDEX, 3 ).deg</var>&deg;</li>
 				</ul>
 			</div>
-			
+
 			<div data-type="radians-to-degrees">
 				<p class="question">Convert the angle <var>NUM_RADIANS</var> radians into degrees. (Round to the nearest degree.)</p>
 				<p class="solution"><var>round(NUM_DEGREES)</var>&deg;</p>

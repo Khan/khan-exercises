@@ -26,7 +26,7 @@
 				for( var i = -10; i < 11; i++ ) {
 					if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] < 8 ) {
 						functionPath.push([ i, functionPath[i+10][1]+1 ]);
-		
+
 					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] > -8 ) {
 						functionPath.push([ i, functionPath[i+10][1]-1 ]);
 
@@ -53,13 +53,13 @@
 				for( var i = -10; i < 11; i++ ) {
 					if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && gPath[i+10][1] < 8 ) {
 						gPath.push([i, gPath[i+10][1]+1]);
-		
-					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && gPath[i+10][1] > -8 ) { 
+
+					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && gPath[i+10][1] > -8 ) {
 						gPath.push([i, gPath[i+10][1]-1]);
-		
+
 					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && gPath[i+10][1] < 7 ) {
 						gPath.push([i, gPath[i+10][1]+2]);
-		
+
 					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && gPath[i+10][1] > -7 ) {
 						gPath.push([i, gPath[i+10][1]-2]);
 
@@ -72,7 +72,7 @@
 
 			<var id="F_COEF">randRangeNonZero(-10, 10)</var>
 			<var id="G_COEF">randRangeNonZero(-10, 10)</var>
-			
+
 			<var id="CORRECT_X">randRange(-9, 9)</var>
 			<var id="CORRECT_Y">FUNCTION_PATH[CORRECT_X + 11][1]</var>
 
@@ -98,7 +98,7 @@
 					text( G_PATH[ G_PATH.length - 2 ], "g(x)", "above" );
 					path( G_PATH )
 				</div>
-				
+
 				<p class="solution"><var>F_COEF * CORRECT_Y + G_COEF * CORRECT_GY</var></p>
 			</div>
 		</div>
@@ -108,7 +108,7 @@
 				<div class="graph update" data-style="font-size: 25; stroke: orange; stroke-dash-array: 5,5; font-fill: orange;">
 					line( [ CORRECT_X, 0 ], FUNCTION_PATH[ CORRECT_X+11 ] );
 				</div>
-				
+
 				<div class="graph update" data-style="marker: dot; marker-fill: orange;">
 					line( [ 0, CORRECT_Y ], FUNCTION_PATH[ CORRECT_X+11 ] );
 					text( [-10, 9], "f("+CORRECT_X+")="+CORRECT_Y, right );

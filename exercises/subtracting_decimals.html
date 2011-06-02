@@ -27,7 +27,7 @@
 		<div class="hints">
 			<p>First we need to line up the decimal points.</p>
 			<p>Now we need to make sure that all the digits in the top number are greater than or equal to the digit below it.</p>
-			
+
 			<!-- first digit -->
 			<p data-if="BORROW[1] > 0"> For the first digit, <var>A_ARRAY[0]</var> is less then <var> B_ARRAY[0]</var>, so we'll have to borrow.</p>
 			<p data-if="BORROW[1] > 0"> <var>A_ARRAY[1]</var> - 1 = <var>A_ARRAY[1]-1</var>, <var>A_ARRAY[0]</var> + 10 = <var>A_ARRAY[0]+10</var></p>
@@ -46,7 +46,7 @@
 			<!-- sixth digit -->
 			<p data-if="BORROW[6] > 0"> For the sixth digit, <var>A_ARRAY[5]-BORROW[5]</var> is less then <var> B_ARRAY[5]</var>, so we'll have to borrow.</p>
 			<p data-if="BORROW[6] > 0"> <var>A_ARRAY[6]</var> - 1 = <var>A_ARRAY[6]-1</var>, <var>A_ARRAY[5]-BORROW[5]</var> + 10 = <var>A_ARRAY[5]-BORROW[5]+10</var></p>
-			
+
 			<p>All the top digits are greater than or equal to all the bottom digits, so we can start subtracting.</p>
 			<p>First digit: <var>A_ARRAY[0] + ( 10 * BORROW[1] )</var> - <var>B_ARRAY[0]</var> = <var>A_ARRAY[0] + ( 10 * BORROW[1] ) - B_ARRAY[0]</var></p>
 			<p>Second digit: <var>A_ARRAY[1] - BORROW[1] + ( 10 * BORROW[2] )</var> - <var>B_ARRAY[1]</var> = <var>A_ARRAY[1] - BORROW[1] + ( 10 * BORROW[2] ) - B_ARRAY[1]</var></p>

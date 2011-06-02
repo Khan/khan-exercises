@@ -10,13 +10,13 @@
 var Khan = {
 	// The list of loaded modules
 	modules: (document.documentElement.getAttribute("data-require") || "").split(" "),
-	
+
 	// The base modules needed to make a problem
 	baseModules: [ "answer-types", "template-inheritance", "math-random" ],
-	
+
 	// Populate this with modules
 	Util: {},
-	
+
 	// Load in a collection of scripts, execute callback upon completion
 	loadScripts: function( urls, callback ) {
 		var loaded = 0,
@@ -65,14 +65,14 @@ var Khan = {
 
 		return urlParams;
 	},
-	
+
 	// Display error messages
 	error: function( msg ) {
 		if ( typeof console !== "undefined" ) {
 			console.error( msg );
 		}
 	},
-	
+
 	makeProblem: function() {
 		jQuery(".exercise").each(function() {
 			var exercise = jQuery(this);
@@ -289,32 +289,32 @@ var KhanUtil = Khan.Util;
 
 // Load in jQuery
 Khan.loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" ], function() {
-				
+
 	// Load module dependencies
 	Khan.loadScripts( jQuery.map( Khan.baseModules.concat( Khan.modules ), function( name ) {
 		return "../utils/" + name + ".js";
 	}), function() {
-		
-		jQuery(function() {			
+
+		jQuery(function() {
 			// Inject the site markup, if it doesn't exist
 			Khan.injectSite();
-			
+
 			// Generate the initial problem when dependencies are done being loaded
 			Khan.makeProblem();
 		});
 	});
-	
+
 	jQuery.fn.extend({
 		// Pick a random element from a set of elements
 		getRandom: function() {
 			return this.eq( Math.floor( this.length * KhanUtil.random() ) );
 		},
-	
+
 		// Pick a random element from a set of elements, using weights stored in
 		// [data-weight], assuming 1 otherwise
 		getRandomWeighted: function() {
 			var totalWeight = 0,
-		
+
 				// Collect and compute the weights for the problems
 				// Also generate the total weight
 				weights = jQuery.map( this, function( elem, i ) {
@@ -323,22 +323,22 @@ Khan.loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.m
 					totalWeight += weight;
 					return weight;
 				}),
-			
+
 				// Figure out which item we're going to pick
 				index = totalWeight * KhanUtil.random();
 
 			for ( var i = 0; i < this.length; i++ ) {
 				if ( index < weights[i] ) {
 					return this.eq( i );
-			
+
 				} else {
 					index -= weights[i];
 				}
 			}
-		
+
 			return this.eq( this.length - 1 );
 		},
-		
+
 		// Run the methods provided by a module against some elements
 		runModules: function( type ) {
 			type = type || "";

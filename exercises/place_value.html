@@ -5,23 +5,23 @@
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
-    <!-- Note that this exercise does not map to a live exercise. 
+    <!-- Note that this exercise does not map to a live exercise.
         (Was suggested recently by one of our teachers.)
     -->
 	<div class="exercise">
 		<div class="vars">
             <var id="DIGITS">KhanUtil.shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]).slice( 0, 4 )</var>
-            
+
             <var id="THOUSANDS">DIGITS[0]</var>
             <var id="HUNDREDS">DIGITS[1]</var>
             <var id="TENS">DIGITS[2]</var>
             <var id="ONES">DIGITS[3]</var>
-            
+
             <var id="NUM">1000 * THOUSANDS + 100 * HUNDREDS + 10 * TENS + ONES</var>
-            
+
             <var id="PLACES">["thousands", "hundreds", "tens", "ones"]</var>
             <var id="QUESTION_TYPE">randRange( 0, 3 )</var>
-            
+
             <var id="QUESTION_PLACE">DIGITS[QUESTION_TYPE]</var>
             <var id="SOLUTION">PLACES.splice( QUESTION_TYPE, 1 )</var>
             <var id="WRONG_1">PLACES[0]</var>
@@ -44,7 +44,7 @@
 		<div class="hints">
             <div>
                 <p><var>NUM</var> can be represented as follows.</p>
-                <p><code>= (<var>THOUSANDS</var> \cdot 1000) 
+                <p><code>= (<var>THOUSANDS</var> \cdot 1000)
                     + (<var>HUNDREDS</var> \cdot 100)
                     + (<var>TENS</var> \cdot 10)
                     + (<var>ONES</var> \cdot 1) </code></p>
@@ -53,7 +53,7 @@
                 + <var>plural(HUNDREDS, "hundred")</var>
                 + <var>plural(TENS, "ten")</var>
                 + <var>plural(ONES, "one")</var></p>
-                
+
             <p class="final_hint">Thus, <var>QUESTION_PLACE</var> is in the <var>SOLUTION</var> place.</p>
 		</div>
 	</div>

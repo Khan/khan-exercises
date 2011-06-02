@@ -20,13 +20,13 @@
 				</div>
 
 				<div class="question">
-					<var>person(1)</var> is putting <var>plural( item(1) )</var> into <var>plural( group(1) )</var>. 
-					
-					If <var>he(1)</var> puts <var>plural( ITEMS_PER_GROUP, item(1) )</var> 
+					<var>person(1)</var> is putting <var>plural( item(1) )</var> into <var>plural( group(1) )</var>.
+
+					If <var>he(1)</var> puts <var>plural( ITEMS_PER_GROUP, item(1) )</var>
 					in each <var>group(1)</var> <var>he(1)</var> will <var>groupVerb(1)</var>
 					<var>plural( GROUPS, group(1) )</var> and have
 					<var>plural( ITEMS_LEFT, item(1) )</var> left over.
-					
+
 					If <var>he(1)</var> instead puts
 					<var>plural( NEW_ITEMS_PER_GROUP, item(1) )</var> in each
 					<var>group(1)</var>, how many <var>plural( group(1) )</var> of
@@ -37,20 +37,20 @@
 
 				<div class="hints">
 					<p>
-						<var>plural( GROUPS, group(1) )</var> of 
+						<var>plural( GROUPS, group(1) )</var> of
 						<var>plural( ITEMS_PER_GROUP, item(1) )</var> each results in
 						<code><var>GROUPS</var> \times <var>ITEMS_PER_GROUP</var> = <var>ITEMS_IN_GROUPS</var></code>
 						<var>plural( item )</var>.
 					</p>
-					
+
 					<p>
-						<var>plural( ITEMS_IN_GROUPS, item(1) )</var> plus 
-						<var>ITEMS_LEFT</var> left over equals 
+						<var>plural( ITEMS_IN_GROUPS, item(1) )</var> plus
+						<var>ITEMS_LEFT</var> left over equals
 						<var>TOTAL_ITEMS</var> total <var>plural( item(1) )</var>.
 					</p>
-					
+
 					<p>
-						<var>plural( TOTAL_ITEMS, item(1) )</var> 
+						<var>plural( TOTAL_ITEMS, item(1) )</var>
 						divided into groups of <var>NEW_ITEMS_PER_GROUP</var> is
 						<code><var>TOTAL_ITEMS</var> \div <var>NEW_ITEMS_PER_GROUP</var> = <var>NEW_GROUPS</var></code>
 						<var>plural( group(1) )</var>.
@@ -59,7 +59,7 @@
 			</div>
 
 			<div>
-				
+
 				<div class="vars">
 					<var id="ITEM_1_COUNT">randRange( 4, 12 )</var>
 					<var id="ITEM_1_COST">randRange( 4, 12 )</var>
@@ -70,7 +70,7 @@
 
 				<div class="question">
 					<var>person(1)</var> bought <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>,
-					all costing the same amount, from the <var>store(1)</var> store. 
+					all costing the same amount, from the <var>store(1)</var> store.
 
 					<var>He(1)</var> also bought a <var>storeItem(1, 2)</var> for <var>plural( ITEM_2_COST, "dollar" )</var>.
 
@@ -85,7 +85,7 @@
 					<p>
 						Of the <var>plural( TOTAL_SPENT, "dollar" )</var>, <var>he(1)</var> spent
 						<var>plural( ITEM_2_COST, "dollar" )</var> on a <var>storeItem(1, 2)</var>, so <var>he(1)</var> must have spent
-						a total of <code><var>TOTAL_SPENT</var> - <var>ITEM_2_COST</var> = <var>TOTAL_SPENT_ON_1</var></code> 
+						a total of <code><var>TOTAL_SPENT</var> - <var>ITEM_2_COST</var> = <var>TOTAL_SPENT_ON_1</var></code>
 						dollars on <var>plural( storeItem(1, 1) )</var>.
 					</p>
 
@@ -112,8 +112,8 @@
 				<div class="question">
 					When <var>person(1)</var> places <var>plural( ITEMS, item(1) )</var> in each
 					<var>group(1)</var> <var>he(1)</var> ends up with <var>plural( GROUPS, group(1) )</var>.
-					
-					If <var>he(1)</var> wants <var>plural( NEW_GROUPS, group(1) )</var>, 
+
+					If <var>he(1)</var> wants <var>plural( NEW_GROUPS, group(1) )</var>,
 					how many <var>plural( item(1) )</var> should <var>he(1)</var> put in each <var>group(1)</var>?
 				</div>
 

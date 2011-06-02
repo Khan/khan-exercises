@@ -26,10 +26,10 @@
    the Free Software Foundation; either version 2 of the License, or (at
    your option) any later version.
 
-   This program is distributed in the hope that it will be useful, 
+   This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License (at http://www.gnu.org/copyleft/gpl.html) 
+   General Public License (at http://www.gnu.org/copyleft/gpl.html)
    for more details.*/
 
 var xunitlength = 20;  // pixels
@@ -65,7 +65,7 @@ var arcsin = Math.asin, arccos = Math.acos, arctan = Math.atan;
 var sec = function(x) { return 1/Math.cos(x) };
 var csc = function(x) { return 1/Math.sin(x) };
 var cot = function(x) { return 1/Math.tan(x) };
-var xmin, xmax, ymin, ymax, xscl, yscl, 
+var xmin, xmax, ymin, ymax, xscl, yscl,
 xgrid, ygrid, xtick, ytick;
 
 var picture, svgpicture, doc, width, height, a, b, c, d, i, n, p, t, x, y;
@@ -75,7 +75,7 @@ var arccsc = function(x) { return arcsin(1/x) };
 var arccot = function(x) { return arctan(1/x) };
 var sinh = function(x) { return (Math.exp(x)-Math.exp(-x))/2 };
 var cosh = function(x) { return (Math.exp(x)+Math.exp(-x))/2 };
-var tanh = 
+var tanh =
     function(x) { return (Math.exp(x)-Math.exp(-x))/(Math.exp(x)+Math.exp(-x)) };
 var sech = function(x) { return 1/cosh(x) };
 var csch = function(x) { return 1/sinh(x) };
@@ -119,7 +119,7 @@ function ran(a,b,n) {
 
 function less(x,y) { return x < y }  // used for scripts in XML files
 // since IE does not handle CDATA well
-function setText(st,id) { 
+function setText(st,id) {
     var node = document.getElementById(id);
     if (node!=null)
         if (node.childNodes.length!=0) node.childNodes[0].nodeValue = st;
@@ -147,9 +147,9 @@ function initPicture(x_min,x_max,y_min,y_max) {
     if (y_max!=null) ymax = y_max;
     if (xmin==null) xmin = -5;
     if (xmax==null) xmax = 5;
-    if (typeof xmin != "number" || typeof xmax != "number" || xmin >= xmax) 
+    if (typeof xmin != "number" || typeof xmax != "number" || xmin >= xmax)
         alert("Picture requires at least two numbers: xmin < xmax");
-    else if (y_max != null && (typeof y_min != "number" || 
+    else if (y_max != null && (typeof y_min != "number" ||
                                typeof y_max != "number" || y_min >= y_max))
         alert("initPicture(xmin,xmax,ymin,ymax) requires numbers ymin < ymax");
     else {
@@ -166,7 +166,7 @@ function initPicture(x_min,x_max,y_min,y_max) {
             origin = [-xmin*xunitlength+border,-ymin*yunitlength+border];
         }
         var node = paper.rect(0, 0, width, height);
-        
+
         node.attr({
             "stroke": "white",
             "stroke-width": 0,
@@ -249,7 +249,7 @@ function path(plist,id,c) {
     }
     node.attr("path", st);
     node.attr("stroke-width", strokewidth);
-    if (strokedasharray!=null) 
+    if (strokedasharray!=null)
         node.attr("stroke-dasharray", strokedasharray);
     node.attr("stroke", stroke);
     node.attr("fill", fill);
@@ -278,11 +278,11 @@ function circle(center,radius,id) { // coordinates in units
     node.attr("fill", fill);
 }
 
-function loop(p,d,id) { 
+function loop(p,d,id) {
     // d is a direction vector e.g. [1,0] means loop starts in that direction
     if (d==null) d=[1,0];
     path([p,[p[0]+d[0],p[1]+d[1]],[p[0]-d[1],p[1]+d[0]],p],id,"C");
-    if (marker=="arrow" || marker=="arrowdot") 
+    if (marker=="arrow" || marker=="arrowdot")
         arrowhead([p[0]+Math.cos(1.4)*d[0]-Math.sin(1.4)*d[1],
                    p[1]+Math.sin(1.4)*d[0]+Math.cos(1.4)*d[1]],p);
 }
@@ -464,7 +464,7 @@ function dot(center, typ, label, pos, id) {
         node.attr("stroke", stroke);
         node.attr("fill", (typ=="open"?"white":stroke));
     }
-    if (label!=null) 
+    if (label!=null)
         text(center,label,(pos==null?"below":pos),(id==null?id:id+"label"))
 }
 
@@ -628,7 +628,7 @@ function mathjs(st) {
             j--;
             while (j>=0 && (ch=st.charAt(j))>="a" && ch<="z" || ch>="A" && ch<="Z")
                 j--;
-        } else { 
+        } else {
             return "Error: incorrect syntax in "+st+" at position "+j;
         }
         //find right argument
@@ -655,7 +655,7 @@ function mathjs(st) {
             k++;
             while (k<st.length && (ch=st.charAt(k))>="a" && ch<="z" ||
                    ch>="A" && ch<="Z") k++;
-        } else { 
+        } else {
             return "Error: incorrect syntax in "+st+" at position "+k;
         }
         st = st.slice(0,j+1)+"pow("+st.slice(j+1,i)+","+st.slice(i+1,k)+")"+
@@ -688,7 +688,7 @@ function mathjs(st) {
             j--;
             while (j>=0 && (ch=st.charAt(j))>="a" && ch<="z" || ch>="A" && ch<="Z")
                 j--;
-        } else { 
+        } else {
             return "Error: incorrect syntax in "+st+" at position "+j;
         }
         st = st.slice(0,j+1)+"factorial("+st.slice(j+1,i)+")"+st.slice(i+1);
@@ -706,7 +706,7 @@ function plot(fun,x_min,x_max,points,id) {
     var pth = [];
     var f = function(x) { return x }, g = fun;
     var name = null;
-    if (typeof fun=="string") 
+    if (typeof fun=="string")
         eval("g = function(x){ with(Math) return "+mathjs(fun)+" }");
     else if (typeof fun=="object") {
         eval("f = function(t){ with(Math) return "+mathjs(fun[0])+" }");
@@ -730,7 +730,7 @@ function plot(fun,x_min,x_max,points,id) {
 
 function slopefield(fun,dx,dy) {
     var g = fun;
-    if (typeof fun=="string") 
+    if (typeof fun=="string")
         eval("g = function(x,y){ with(Math) return "+mathjs(fun)+" }");
     var gxy,x,y,u,v,dz;
     if (dx==null) dx=1;
@@ -760,13 +760,13 @@ jQuery.extend(KhanUtil, {
 		present.height = jQuery(elem).height();
 		present.paper = Raphael( elem, width, height );
 	},
-	
+
 	drawPlane: function( min_x, max_x, min_y, max_y ) {
 		if ( arguments.length === 0 ) {
 			min_x = min_y = -10;
 			max_x = max_y = 10;
 		}
-		
+
 		present.initPicture( min_x, max_x, min_y, max_y );
 		present.fontstyle = "normal";
 		present.fontsize = "10";
@@ -782,30 +782,30 @@ jQuery.extend(KhanUtil, {
 				present.text([0, i], i, right);
 			}
 		}
-		
+
 		present.axes();
 	}
 });
 
 jQuery.fn.graph = function() {
-	return this.find(".graph").each(function() {			
+	return this.find(".graph").each(function() {
 		// Grab code for later execution
 		var code = jQuery(this).text();
 
 		// Remove any of the code that's in there
 		jQuery(this).empty();
-		
+
 		// Initialize the graph
 		if ( !jQuery(this).hasClass("update") ) {
 			KhanUtil.initGraph( this, jQuery(this).width(), jQuery(this).height() );
 		}
-		
+
 		// Draw a plane, if it was asked for
 		// TODO: Make this generic and support different styles of graphs
 		if ( jQuery(this).data("graph-type") === "plane" ) {
 			KhanUtil.drawPlane();
 		}
-		
+
 		// Pre-populate all style information from the style attribute
 		jQuery.each( (jQuery(this).data("style") || "").split(/\s*;\s*/), function( i, prop ) {
 			// Properties are formatted using the typical CSS convention

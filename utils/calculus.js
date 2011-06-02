@@ -45,29 +45,29 @@ jQuery.extend(KhanUtil, {
 
 	ddxPolynomial: function( poly ) {
 		var ddxCoefs = [];
-		
+
 		for (var i = poly.maxDegree; i >= poly.minDegree; i--) {
 			ddxCoefs[i - 1] = i * poly.coefs[i];
 		}
-		
+
 		return new KhanUtil.Polynomial(poly.minDegree - 1, poly.maxDegree - 1, ddxCoefs, poly.variable);
 	},
 
 	// doesn't decrement exponents
 	ddxPolynomialWrong1: function( poly ) {
 		var ddxCoefs = [];
-		
+
 		for (var i = poly.maxDegree; i >= poly.minDegree; i--) {
 			ddxCoefs[i] = i * poly.coefs[i];
 		}
-		
+
 		return new KhanUtil.Polynomial( poly.minDegree, poly.maxDegree, ddxCoefs, poly.variable );
 	},
 
 	// increments negative exponents
 	ddxPolynomialWrong2: function( poly ) {
 		var ddxCoefs = [];
-		
+
 		for (var i = poly.maxDegree; i >= poly.minDegree; i--) {
 			if (i < 0) {
 				ddxCoefs[i + 1] = i * poly.coefs[i];
@@ -75,40 +75,40 @@ jQuery.extend(KhanUtil, {
 				ddxCoefs[i - 1] = i * poly.coefs[i];
 			}
 		}
-		
+
 		return new KhanUtil.Polynomial( poly.minDegree, poly.maxDegree, ddxCoefs, poly.variable );
 	},
 
 	// reversed signs on all terms
 	ddxPolynomialWrong3: function( poly ) {
 		var ddxCoefs = [];
-		
+
 		for (var i = poly.maxDegree; i >= poly.minDegree; i--) {
 			ddxCoefs[i - 1] = -1 * i * poly.coefs[i];
 		}
-		
+
 		return new KhanUtil.Polynomial( poly.minDegree - 1, poly.maxDegree - 1, ddxCoefs, poly.variable );
 	},
 
 	// doesn't multiply coefficients
 	ddxPolynomialWrong4: function( poly ) {
 		var ddxCoefs = [];
-		
+
 		for (var i = poly.maxDegree; i >= poly.minDegree; i--) {
 			ddxCoefs[i - 1] = poly.coefs[i];
 		}
-		
+
 		return new KhanUtil.Polynomial( poly.minDegree - 1, poly.maxDegree - 1, ddxCoefs, poly.variable );
 	},
 
 	// original with flipped signs
 	ddxPolynomialWrong5: function( poly ) {
 		var ddxCoefs = [];
-		
+
 		for (var i = poly.maxDegree; i >= poly.minDegree; i--) {
 			ddxCoefs[i] = poly.coefs[i] * -1;
 		}
-		
+
 		return new KhanUtil.Polynomial( poly.minDegree, poly.maxDegree, ddxCoefs, poly.variable );
 	},
 
@@ -116,7 +116,7 @@ jQuery.extend(KhanUtil, {
 		if (!variable) {
 			variable = "x";
 		}
-		
+
 		var notations = [
 			["y", "\\frac{dy}{d"+variable+"}"],
 			["f("+variable+")", "f'("+variable+")"],
@@ -139,9 +139,9 @@ jQuery.extend(KhanUtil, {
 			var maxDegree = KhanUtil.randRange(2, 4);
 			var minDegree = KhanUtil.randRange(-2, 2);
 			var coefs = KhanUtil.randCoefs(minDegree, maxDegree);
-			
+
 			var f = new KhanUtil.Polynomial(minDegree, maxDegree, coefs, variable);
-			
+
 			return { f: f.text(),
 					 ddxF: KhanUtil.ddxPolynomial(f).text(),
 					 wrongs: [
@@ -157,14 +157,14 @@ jQuery.extend(KhanUtil, {
 			// random trig func
 			var idx = KhanUtil.rand(2); // 0 - 2 in trig funcs
 			var wrongs = [];
-			
+
 			wrongs[0] = "\\sin{" + variable + "}";
 			wrongs[1] = "\\csc{" + variable + "}";
 			wrongs[2] = "\\sec{" + variable + "}";
 			wrongs[3] = "\\tan{" + variable + "}";
 			wrongs[4] = "-\\sec{" + variable + "}";
 			wrongs[5] = "-\\cos{" + variable + "}";
-			
+
 			return { f: KhanUtil.trigFuncs[idx] + "{" + variable + "}",
 					 ddxF: KhanUtil.ddxTrigFuncs[ KhanUtil.trigFuncs[idx] ] + "{" + variable + "}",
 					 wrongs: wrongs };
@@ -175,12 +175,12 @@ jQuery.extend(KhanUtil, {
 			// kept KhanUtil around mainly for easy wrong answer generation
 			var maxDegree = KhanUtil.randRange(2, 6);
 			var minDegree = maxDegree;
-			
+
 			var coefs = [];
 			coefs[maxDegree] = 1;
 
 			var f = new KhanUtil.Polynomial(minDegree, maxDegree, coefs, variable);
-			
+
 			return { f: f.text(),
 					 ddxF: KhanUtil.ddxPolynomial(f).text(),
 					 wrongs: [
@@ -195,7 +195,7 @@ jQuery.extend(KhanUtil, {
 		function( variable ) {
 			// ln x and e^x, combined in one because these should not be too likely
 			var wrongs = [];
-										   
+
 			if (KhanUtil.rand(1)) {
 				wrongs[0] = "\\frac{1}{\\ln "+variable+"}";
 				wrongs[1] = "e^" + variable;
@@ -203,7 +203,7 @@ jQuery.extend(KhanUtil, {
 				wrongs[3] = "\\ln "+variable+"";
 				wrongs[4] = "\\frac{1}{"+variable+"^2}";
 				wrongs[5] = variable;
-				
+
 				return { f: "\\ln " + variable,
 						 ddxF: "\\frac{1}{" + variable + "}",
 						 wrongs: wrongs };
@@ -214,7 +214,7 @@ jQuery.extend(KhanUtil, {
 				wrongs[3] = "e^{"+variable+"-1}";
 				wrongs[4] = "(e-"+variable+")^{"+variable+"}";
 				wrongs[5] = "\\frac{e}{" + variable + "}";
-				
+
 				return { f: "e^"+ variable,
 						 ddxF: "e^"+ variable,
 						 wrongs: wrongs };

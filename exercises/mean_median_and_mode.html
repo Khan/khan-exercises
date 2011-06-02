@@ -25,14 +25,14 @@
 					integers[i] = KhanUtil.randRange( 1, 10 );
 				}
 			} while ( !KhanUtil.mode(integers) );
-			
+
 			return integers;
 		}
-	
+
 		function DisplayMedian( sortedInts ) {
 			var si = sortedInts.slice(0),
 			center = Math.floor( si.length / 2 ),
-			
+
 			prepend = "\\boldsymbol{",
 			append = "}";
 
@@ -42,16 +42,16 @@
 			} else {
 				si[center] = prepend + si[center] + append;
 			}
-			
+
 			return KhanUtil.display(si);
 		}
 		</script>
-		
+
 		<div class="vars">
 			<var id="INTEGERS">GenerateIntegers()</var>
 			<var id="INTEGERS_COUNT">INTEGERS.length</var>
 			<var id="INTEGER_LIST">display(INTEGERS)</var>
-			
+
 			<var id="SORTED_INTS">sortValues(INTEGERS)</var>
 			<var id="SORTED_LIST">display(SORTED_INTS)</var>
 			<var id="MEDIAN_LIST">DisplayMedian(SORTED_INTS)</var>
@@ -60,7 +60,7 @@
 			<var id="MEDIAN">median(INTEGERS)</var>
 			<var id="MODE">mode(INTEGERS)</var>
 		</div>
-		
+
 		<div class="problems">
 			<div id="mean">
 				<div class="question">
@@ -68,9 +68,9 @@
 					<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
 					<p>(Round to the nearest tenth.)</p>
 				</div>
-				
+
 				<p class="solution"><var>MEAN</var></p>
-				
+
 				<div class="hints">
 					<p>To find the mean, add the numbers and divide by the number of numbers.</p>
 					<div>
@@ -88,9 +88,9 @@
 					<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
 					<p>(Round to the nearest tenth.)</p>
 				</div>
-				
+
 				<p class="solution"><var>MEDIAN</var></p>
-				
+
 				<div class="hints">
 					<div>
 						<p>First, order the numbers, giving:</p>
@@ -113,12 +113,12 @@
 					<!-- Tricksy, you never have to round the mode, but we say this :-P -->
 					<p>(Round to the nearest tenth.)</p>
 				</div>
-				
+
 				<div class="hints">
 					<p>The mode is the most frequent number.</p>
 					<p>There are more <code><var>MODE</var></code>s than any other number, so <code><var>MODE</var></code> is the mode.</p>
 				</div>
-				
+
 				<p class="solution"><var>MODE</var></p>
 			</div>
 		</div>
