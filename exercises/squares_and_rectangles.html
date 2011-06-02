@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Squares and Rectangles</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="square-s-to-K">
+			<div class="vars">
+				<var id="S">randRange(1, 8)</var>
+			</div>
+
+			<div class="question">
+				<p>Suppose the side length of a square is <code><var>S</var></code>. What is its area?</p>
+			</div>
+
+			<div class="solution"><var>S * S</var></div>
+
+			<div class="hints">
+				<p>The area of a square is <code>K = s \cdot s = s^2</code>.</p>
+				<p>Substituting in <code>s = <var>S</var></code> gives <code>K = <var>S</var>^2 = <var>S * S</var></code>.</p>
+			</div>
+		</div>
+
+		<div id="square-s-to-P">
+			<div class="vars">
+				<var id="S">randRange(1, 8)</var>
+			</div>
+
+			<div class="question">
+				<p>Suppose the side length of a square is <code><var>S</var></code>. What is its perimeter?</p>
+			</div>
+
+			<div class="solution"><var>4 * S</var></div>
+
+			<div class="hints">
+				<p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>.</p>
+				<p>Substituting in <code>s = <var>S</var></code> gives <code>P = 4\cdot<var>S</var> = <var>4 * S</var></code>.</p>
+			</div>
+		</div>
+
+		<div id="square-K-to-s">
+			<div class="vars">
+				<var id="S">randRange(1, 8)</var>
+			</div>
+
+			<div class="question">
+				<p>Suppose the area of a square is <code><var>S * S</var></code>. What is its side length?</p>
+			</div>
+
+			<div class="solution"><var>S</var></div>
+
+			<div class="hints">
+				<p>The area of a square is <code>K = s \cdot s = s^2</code>, so <code>s = \sqrt{K}</code>.</p>
+				<p>Substituting in <code>K = <var>S * S</var></code> gives <code>s = \sqrt{<var>S * S</var>} = <var>S</var></code>.</p>
+			</div>
+		</div>
+
+		<div id="square-K-to-P">
+			<div class="vars">
+				<var id="S">randRange(1, 8)</var>
+			</div>
+
+			<div class="question">
+				<p>Suppose the area of a square is <code><var>S * S</var></code>. What is its perimeter?</p>
+			</div>
+
+			<div class="solution"><var>4 * S</var></div>
+
+			<div class="hints">
+				<p>The area of a square is <code>K = s \cdot s = s^2</code>, so <code>s = \sqrt{K}</code>.</p>
+				<p>Substituting in <code>K = <var>S * S</var></code> gives <code>s = \sqrt{<var>S * S</var>} = <var>S</var></code>.</p>
+				<p>Now find the perimeter using <code>P = s + s + s + s = 4s</code>.</p>
+				<p>Substituting in <code>s = <var>S</var></code> gives <code>P = 4\cdot<var>S</var> = <var>4 * S</var></code>.</p>
+			</div>
+		</div>
+
+		<div id="square-P-to-s">
+			<div class="vars">
+				<var id="S">randRange(1, 8)</var>
+			</div>
+
+			<div class="question">
+				<p>Suppose the perimeter of a square is <code><var>4 * S</var></code>. What is its side length?</p>
+			</div>
+
+			<div class="solution"><var>S</var></div>
+
+			<div class="hints">
+				<p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>, so <code>s = P/4</code>.</p>
+				<p>Substituting in <code>P = <var>4 * S</var></code> gives <code>s = <var>4 * S</var>/4 = <var>S</var></code>.</p>
+			</div>
+		</div>
+
+		<div id="square-P-to-K">
+			<div class="vars">
+				<var id="S">randRange(1, 8)</var>
+			</div>
+
+			<div class="question">
+				<p>Suppose the perimeter of a square is <code><var>4 * S</var></code>. What is its area?</p>
+			</div>
+
+			<div class="solution"><var>S * S</var></div>
+
+			<div class="hints">
+				<p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>, so <code>s = P/4</code>.</p>
+				<p>Substituting in <code>P = <var>4 * S</var></code> gives <code>s = <var>4 * S</var>/4 = <var>S</var></code>.</p>
+				<p>Now find the area using <code>K = s \cdot s = s^2</code>.</p>
+				<p>Substituting in <code>s = <var>S</var></code> gives <code>K = <var>S</var>^2 = <var>S * S</var></code>.</p>
+			</div>
+		</div>
+
+		<div id="rectangle-lw-to-K" data-weight="3">
+			<div class="vars" data-ensure="L !== W">
+				<var id="L">randRange(1, 8)</var>
+				<var id="W">randRange(1, 8)</var>
+			</div>
+
+			<div class="question">
+				<p>Suppose a rectangle has length <code><var>L</var></code> and width <code><var>W</var></code>. What is its area?</p>
+			</div>
+
+			<div class="solution"><var>L * W</var></div>
+
+			<div class="hints">
+				<p>The area of a rectangle is <code>K = lw</code>.</p>
+				<p>Substituting in <code>l = <var>L</var></code> and <code>w = <var>W</var></code> gives <code>K = <var>L</var> \cdot <var>W</var> = <var>L * W</var></code>.</p>
+			</div>
+		</div>
+
+		<div id="rectangle-lw-to-P" data-weight="3">
+			<div class="vars" data-ensure="L !== W">
+				<var id="L">randRange(1, 8)</var>
+				<var id="W">randRange(1, 8)</var>
+			</div>
+
+			<div class="question">
+				<p>Suppose a rectangle has length <code><var>L</var></code> and width <code><var>W</var></code>. What is its perimeter?</p>
+			</div>
+
+			<div class="solution"><var>2 * L + 2 * W</var></div>
+
+			<div class="hints">
+				<p>The area of a rectangle is <code>P = l + w + l + w = 2(l + w)</code>.</p>
+				<p>Substituting in <code>l = <var>L</var></code> and <code>w = <var>W</var></code> gives <code>P = 2 (<var>L</var> + <var>W</var>) = <var>2 * L + 2 * W</var></code>.</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
