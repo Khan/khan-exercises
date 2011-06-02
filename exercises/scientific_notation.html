@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html data-require="math mathformat">
+<head>
+	<title>Scientific Notation</title>
+	<script src="../khan-exercise.js"></script>
+
+	<style>
+		.exponent input {
+			width: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="NUMBER_SEED" data-ensure="NUMBER_SEED % 10 !== 0">randRange(100, 9999)</var>
+			<var id="NUMBER_SEED_LENGTH">NUMBER_SEED.toString().length</var>
+
+			<var id="ZEROES">rand(2) === 0 ? randRange(4, 8) : randRange( -1 * NUMBER_SEED_LENGTH - 4, -1 * NUMBER_SEED_LENGTH )</var>
+			<var id="E">ZEROES + ( NUMBER_SEED_LENGTH - 1 )</var>
+
+			<var id="BASE">NUMBER_SEED / pow( 10, E - ZEROES )</var>
+
+			<var id="LEADING">truncate( BASE )</var>
+			<var id="TRAIL">( BASE + "" ).substring( 1 )</var>
+
+			<var id="DECIMAL">
+				ZEROES > 0 ?
+					NUMBER_SEED * pow( 10, ZEROES ) :
+					( NUMBER_SEED * pow( 10, ZEROES ) ).toFixed( -1 * ZEROES )
+			</var>
+			<var id="PRETTY_DECIMAL">ZEROES > 0 ? commafy( DECIMAL ) : DECIMAL</var>
+			<var id="SCIENTIFIC">BASE + " \\times 10^{" + E + "}"</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question">
+					<code>
+						\newcommand{\exponentColor}[1]{\color{purple}{#1}}
+						\newcommand{\leadingColor}[1]{\color{green}{#1}}
+					</code>
+					Express this number in scientific notation.
+				</p>
+				<p class="problem"><code><var>PRETTY_DECIMAL</var></code></p>
+
+				<div class="solution" data-type="multiple">
+					<span class="sol base" data-type="decimal"><var>BASE</var></span>
+					<code> \times 10</code>
+					<sup><span class="sol exponent" data-type="decimal" style="width: 20px;"><var>E</var></span></sup>
+				</div>
+
+				<ul class="choices">
+					<li><var>BASE</var> \times 10^{<var>E+1</var>}</li>
+					<li><var>BASE</var> \times 10^{<var>E+2</var>}</li>
+					<li><var>BASE</var> \times 10^{<var>E-1</var>}</li>
+					<li><var>BASE</var> \times 10^{<var>E-2</var>}</li>
+					<li><var>BASE</var> \times 10^{<var>E-1</var>}</li>
+				</ul>
+
+				<div class="hints">
+					<div class="digits">
+						<p data-if="E > 0">There are <code>\exponentColor{<var>E</var>}</code> digits to the right of the leading <code>\leadingColor{<var>LEADING</var>}</code> (and to the left of the decimal).</p>
+						<div data-else>
+							<p>Count the zeroes to the right of the decimal point before the leading <code>\leadingColor{<var>LEADING</var>}</code>: there are <code><var>(E + 1) * -1</var></code> zeroes.</p>
+							<p>If you count the leading digit <code>\leadingColor{<var>LEADING</var>}</code> plus those zeroes, there are <code>\exponentColor{<var>E * -1</var>}</code> digits to the <span style="color: purple;">right</span> of the decimal point.</p>
+						</div>
+					</div>
+					
+					<p class="answer">So: <code><var>PRETTY_DECIMAL</var> = \leadingColor{<var>LEADING</var>}<var>TRAIL</var> \times 10^{\exponentColor{<var>E</var>}}</code></p>
+				</div>
+			</div>
+
+			<div>
+				<div class="vars">
+					<var id="TEN_POWER">commafy( pow( 10, E ) )</var>
+				</div>
+				
+				<p class="question"><code><var>SCIENTIFIC</var> = {?}</code></p>
+
+				<p class="solution" data-type="decimal"><var>DECIMAL</var></p>
+
+				<div class="hints">
+					<p class="digits"><code><var>SCIENTIFIC</var> = <var>BASE</var> \times <var>TEN_POWER</var></code></p>
+					<p class="answer"><code><var>BASE</var> \times <var>TEN_POWER</var> = <var>PRETTY_DECIMAL</var></code></p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="hints">
+			<p class="digits"></p>
+			<p class="answer"></p>
+		</div>
+	</div>
+</body>
+</html>

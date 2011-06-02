@@ -255,7 +255,11 @@ jQuery.extend(KhanUtil, {
 	// From limits_1
 	truncate_to_max: function( num, digits ) {
 		return parseFloat( num.toFixed( digits ) );
-	}
+	},
+
+	truncate: function( num ) {
+		return Math.round( num - 0.5 );
+    }
 });
 
 var VARS = {};
