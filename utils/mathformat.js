@@ -17,11 +17,35 @@ jQuery.extend(KhanUtil, {
 		d = d / gcd;
 
 		return d > 1 ?
-			sign + "\\frac{" + n + "}{" + d + "}" :
+			sign + "\\dfrac{" + n + "}{" + d + "}" :
 			sign + n;
 	},
 
-	fractionSimplification: function(n, d) {
+	/* Wrap a fraction in parentheses if it's actually displayed as a fraction or
+	if it's negative. */
+	fractionParens: function( n, d ) {
+		var neg = n / d < 0;
+		var frac = d !== 0 && d !== 1;
+		var nonzero = n !== 0;
+
+		if (nonzero && (frac || neg))
+			return "\\left(" + this.fraction( n, d ) + "\\right)";
+		else
+			return this.fraction( n, d );
+	},
+
+	/* expandExp for rational bases. */
+	expandFracExp: function( base_num, base_denom, exp ) {
+		var base_str = exp >= 0 ? 
+			this.fractionParens( base_num, base_denom ) :
+			this.fractionParens( base_denom, base_num );
+
+		var str = base_str;
+		for ( var i = 1; i < Math.abs( exp ); i++ ) str += " \\cdot" + base_str;
+		return str;
+	},
+
+	fractionSimplification: function( n, d ) {
 		var result = "\\frac{" + n + "}{" + (d < 0 ? "(" + d + ")" : d) + "}";
 
 		if ( this.getGCD( n, d ) > 1 || d == 1 ) {
@@ -31,8 +55,17 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
+	/* Wrap a number in parentheses if it's negative. */
 	negParens: function( n ) {
 		return n < 0 ? "(" + n + ")" : n;
+	},
+
+	/* Expand something like (-2)^4 into (-2)*(-2)*(-2)*(-2) */
+	expandExp: function( base, exp ) {
+		var base_str = this.negParens( base );
+		var str = base_str;
+		for ( var i = 1; i < exp; i++ )	str += " \\cdot" + base_str;
+		return str;
 	},
 
 	splitRadical: function( n ) {

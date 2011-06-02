@@ -14,22 +14,16 @@
 			<div id="original" data-weight="3">
 				<div class="vars">
 					<var id="BASE">randRangeExclude( -10, 10, [0, 1, -1] )</var>
-					<var id="BASE_STRING">BASE < 0 ? "(" + BASE + ")" : BASE</var>
+					<var id="BASE_STR">negParens( BASE )</var>
 					<!-- an array of reasonable exponents for specific bases; the ith element is the highest exponent which is reasonable to raise i to. note that this is somewhat arbitrary. -->
 					<var id="REASONABLE_EXPS">[ undefined, undefined, 5, 4, 4, 4, 3, 3, 3, 3, 10 ]</var>
 					<!-- we limit the occurrences of 1 as an exponent because it is to easy, but we want it to appear at least a little. -->
 					<var id="EXP">randRangeWeighted( 1, REASONABLE_EXPS[abs( BASE )], 1, .1	 )</var>
 					<var id="SOLUTION">round( pow( BASE, EXP ) )</var>
-					<var id="HINT">function() {
-						var result = BASE_STRING;
-						for ( var i = 1; i < EXP; i++ ) {
-							result += " \\cdot" + BASE_STRING;
-						}
-						return result;
-					}()</var>
+					<var id="HINT">expandExponentiation( BASE, EXP )</var>
 				</div>
 
-				<p class="question"><code><var>BASE_STRING</var>^{<var>EXP</var>}</code></p>
+				<p class="question"><code><var>BASE_STR</var>^{<var>EXP</var>}</code></p>
 				<p class="solution" data-type="decimal"><var>SOLUTION</var></p>
 
 				<div class="hints">
@@ -43,10 +37,10 @@
 			<div id="zero-exp">
 				<div class="vars">
 					<var id="BASE">randRangeNonZero( -500, 500 )</var>
-					<var id="BASE_STRING">BASE < 0 ? "(" + BASE + ")" : BASE</var>
+					<var id="BASE_STR">negParens( BASE )</var>
 				</div>
 
-				<p class="question"><code><var>BASE_STRING</var>^{0}</code></p>
+				<p class="question"><code><var>BASE_STR</var>^{0}</code></p>
 				<p class="solution" data-type="decimal">1</p>
 
 				<div class="hints">
@@ -60,7 +54,7 @@
 				<div class="vars">
 					<!-- -1 is the most interesting case, so we choose -1 half the time, 0 a quarter of the time, and 1 a quarter of the time. -->
 					<var id="BASE">random() < 0.5 ? -1 : (random() < 0.5 ? 0 : 1)</var>
-					<var id="BASE_STRING">BASE === -1 ? "(-1)" : BASE</var>
+					<var id="BASE_STR">negParens( BASE )</var>
 					<var id="EXP">randRange( 1, 1000 )</var>
 					<var id="SOLUTION">round( pow( BASE, EXP ) )</var>
 					<var id="POWER_HINT">function() {
@@ -70,7 +64,7 @@
 					}()</var>
 				</div>
 
-				<p class="question"><code><var>BASE_STRING</var>^{<var>EXP</var>}</code></p>
+				<p class="question"><code><var>BASE_STR</var>^{<var>EXP</var>}</code></p>
 				<p class="solution" data-type="decimal"><var>SOLUTION</var></p>
 
 				<div class="hints">
