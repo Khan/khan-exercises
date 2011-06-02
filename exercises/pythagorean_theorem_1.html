@@ -30,27 +30,25 @@
 				<var id="AC">randRange(3, 8)</var>
 				<var id="BC">randRange(3, 8)</var>
 				<var id="AB2">AC * AC + BC * BC</var>
+				<var id="SOLUTION">splitRadical( AB2 )</var>
+				<var id="SOLUTION_COEFFICIENT">SOLUTION[0] === 1 ? "" : SOLUTION[0]</var>
+				<var id="SOLUTION_RADICAL">SOLUTION[1] == 1 ? "" : SOLUTION[1]</var>
 			</div>
 
 			<div class="question">
 				<p>In the right triangle shown, <code>AC = <var>AC</var></code> and
 				<code>BC = <var>BC</var></code>. What is <code>AB</code>?</p>
+				<p>(Type in only one of text boxes if your answer has only one part.)</p>
 
 				<div class="graph" style="width: 280px; height: 280px;" data-style="stroke: black; stroke-width: 2px;">
 					drawRightTriangle(BC, AC, "A", "B", "C", BC, AC, "?");
 				</div>
 			</div>
 
-			<div class="solution"><code><var>formattedSquareRootOf(AB2)</var></code></div>
-			<ul class="choices" data-show="5">
-				<li><code><var>formattedSquareRootOf(AC + BC)</var></code></li>
-				<li><code><var>formattedSquareRootOf(AB2 - 10)</var></code></li>
-				<li><code><var>formattedSquareRootOf(AB2 - 5)</var></code></li>
-				<li><code><var>formattedSquareRootOf(AB2 + 6)</var></code></li>
-				<li><code><var>formattedSquareRootOf(floor(AB2 * 1.7))</var></code></li>
-				<li><code><var>formattedSquareRootOf(floor(AB2 / 1.5))</var></code></li>
-			</ul>
-
+			<div class="solution" data-type="multiple">
+				<p><span class="sol"><var>SOLUTION_COEFFICIENT</var></span><span class="radical">&radic;<span class="sol"><var>SOLUTION_RADICAL</var></span></span></p>
+			</div>
+			
 			<div class="hints" data-apply="appendContents">
 				<p>We want to find <code>c</code>; let <code>a = <var>BC</var></code> and <code>b = <var>AC</var></code>.</p>
 				<p>So <code>c^2 = <var>BC</var>^2 + <var>AC</var>^2 = <var>AB2</var></code>.</p>
@@ -64,6 +62,10 @@
 				<var id="AC">randRange(3, 5)</var>
 				<var id="AB">randRange(6, 10)</var>
 				<var id="BC2">AB * AB - AC * AC</var>
+				
+				<var id="SOLUTION">splitRadical( BC2 )</var>
+				<var id="SOLUTION_COEFFICIENT">SOLUTION[0] === 1 ? "" : SOLUTION[0]</var>
+				<var id="SOLUTION_RADICAL">SOLUTION[1] == 1 ? "" : SOLUTION[1]</var>
 
 				<var id="legs">shuffle([["a", "?", "BC", sqrt(BC2)], ["b", AC, "AC", AC]])</var>
 
@@ -81,21 +83,16 @@
 			<div class="question">
 				<p>In the right triangle shown, <code><var>bside</var> = <var>AC</var></code> and
 				<code>AB = <var>AB</var></code>. What is <code><var>aside</var></code>?</p>
+				<p>(Type in only one of text boxes if your answer has only one part.)</p>
 
 				<div class="graph" style="width: 280px; height: 280px;" data-style="stroke: black; stroke-width: 2px;">
 					drawRightTriangle(alen, blen, "A", "B", "C", alabel, blabel, AB);
 				</div>
 			</div>
 
-			<div class="solution"><code><var>formattedSquareRootOf(BC2)</var></code></div>
-			<ul class="choices" data-show="5">
-				<li><code><var>formattedSquareRootOf(AB - AC)</var></code></li>
-				<li><code><var>formattedSquareRootOf(BC2 - 10)</var></code></li>
-				<li><code><var>formattedSquareRootOf(BC2 - 5)</var></code></li>
-				<li><code><var>formattedSquareRootOf(BC2 + 6)</var></code></li>
-				<li><code><var>formattedSquareRootOf(floor(BC2 * 1.7))</var></code></li>
-				<li><code><var>formattedSquareRootOf(floor(BC2 / 1.5))</var></code></li>
-			</ul>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol"><var>SOLUTION_COEFFICIENT</var></span><span class="radical">&radic;<span class="sol"><var>SOLUTION_RADICAL</var></span></span></p>
+			</div>
 
 			<div class="hints" data-apply="appendContents">
 				<p>We want to find <code><var>a</var></code>; let <code><var>b</var> = <var>AC</var></code> and <code>c = <var>AB</var></code>.</p>
