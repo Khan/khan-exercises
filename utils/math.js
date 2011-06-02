@@ -294,7 +294,7 @@ jQuery.fn.extend({
 				this.style.display = "none";
 
 				// Clean up any strange mathematical expressions
-				this.innerHTML = KhanUtil.cleanMath( this.innerHTML );
+				jQuery( this ).text( KhanUtil.cleanMath( jQuery( this ).text() ) );
 
 				// Stick the processing request onto the queue
 				MathJax.Hub.Queue([ "Typeset", MathJax.Hub, this ]);
