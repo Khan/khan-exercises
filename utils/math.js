@@ -171,7 +171,7 @@ jQuery.extend(KhanUtil, {
 	// If a count is passed, it gives an array of random numbers in the range
 	randRange: function( min, max, count ) {
 		if ( count == null ) {
-			return Math.floor( KhanUtil.random() * ( max - min + 1 ) ) + min;
+			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
 		} else {
 			return jQuery.map(new Array(count), function() {
 				return KhanUtil.randRange( min, max );
@@ -182,7 +182,7 @@ jQuery.extend(KhanUtil, {
     // Get a random integer between min and max with a perc chance of hitting
     // target (which is assumed to be in the range, but it doesn't have to be).
     randRangeWeighted: function( min, max, target, perc ) {
-        if ( Math.random() < perc ) return target;
+        if ( KhanUtil.random() < perc ) return target;
         else return this.randRangeExclude( min, max, [target] );
     },
 
