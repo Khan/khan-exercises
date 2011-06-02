@@ -33,18 +33,23 @@ jQuery.extend(KhanUtil, {
 	},
 
 	getGCD: function( a, b ) {
-		var mod;
+		if ( arguments.length > 2 ) {
+			var rest = [].slice.call( arguments, 1 );
+			return KhanUtil.getGCD( a, KhanUtil.getGCD.apply( KhanUtil, rest ) );
+		} else {
+			var mod;
 
-		a = Math.abs( a );
-		b = Math.abs( b );
+			a = Math.abs( a );
+			b = Math.abs( b );
 
-		while ( b ) {
-			mod = a % b;
-			a = b;
-			b = mod;
+			while ( b ) {
+				mod = a % b;
+				a = b;
+				b = mod;
+			}
+
+			return a;
 		}
-
-		return a;
 	},
 
 	getLCM: function( a, b ) {
@@ -157,7 +162,7 @@ jQuery.extend(KhanUtil, {
 		var factors = this.getFactors( number );
 		return factors[ this.randRange( 1, factors.length - 2 ) ];
 	},
-
+    
 	getMultiples: function( number, upperLimit ) {
 		var multiples = [];
 		for ( var i = 1; i * number <= upperLimit; i++ ) {
@@ -263,7 +268,7 @@ jQuery.fn.extend({
 				this.style.display = "none";
 
 				// Clean up any strange mathematical expressions
-				this.innerHTML = KhanUtil.cleanMath( this.innerHTML );
+				jQuery( this ).text( KhanUtil.cleanMath( jQuery( this ).text() ) );
 
 				// Stick the processing request onto the queue
 				MathJax.Hub.Queue([ "Typeset", MathJax.Hub, this ]);

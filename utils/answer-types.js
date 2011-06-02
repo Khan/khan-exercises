@@ -30,10 +30,40 @@ jQuery.extend( Khan.answerTypes, {
 	},
 
 	decimal: function( solutionarea, solution ) {
+		var options = jQuery.extend({
+			maxError: Math.pow( 2, -23 )
+		}, jQuery( solution ).data());
+
 		var verifier = function( correct, guess ) {
 			correct = parseFloat( correct );
-			guess = parseFloat( guess );
-			return Math.abs( correct - guess ) < Math.pow( 2, -23 );
+			guess = jQuery.trim( guess );
+
+			var checkDecimalPoint = function( g ) {
+				// Make sure we have only a decimal, no funny exponent stuff
+				var parts, integ, fract;
+				parts = g.split( "." );
+				integ = parts[0];
+				fract = parts[1] != null ? parts[1] : "";
+
+				if ( g.match( /\d/ )
+						&& integ.match( /^([\+-])?((\d{1,3}([ ,]\d{3})*)|(\d*))$/ )
+						&& fract.match( /^(((\d{3} )*\d{1,3})|(\d*))$/ ) ) {
+					g = g.replace( /[, ]/g, "" );
+					g = parseFloat( g );
+					return Math.abs( correct - g ) < parseFloat( options.maxError );
+				} else {
+					return false;
+				}
+			};
+
+			var checkDecimalComma = function( g ) {
+				// Swap . and , and try again
+				return checkDecimalPoint( g.replace( /([\.,])/g, function( str, c ) {
+					return ( c === "." ? "," : "." );
+				}));
+			};
+
+			return checkDecimalPoint( guess ) || checkDecimalComma( guess );
 		};
 
 		return Khan.answerTypes.text( solutionarea, solution, verifier );
@@ -45,7 +75,7 @@ jQuery.extend( Khan.answerTypes, {
 		}, jQuery( solution ).data());
 
 		var verifier = function( correct, guess ) {
-			var ratExp = /^(-?[0-9]+)(?:\/([0-9]))?$/;
+			var ratExp = /^(-?[0-9]+)(?:\/([0-9]+))?$/;
 
 			if ( correct.match( "/" ) ) {
 				correct = jQuery.getVAR( correct );
@@ -171,6 +201,31 @@ jQuery.extend( Khan.answerTypes, {
 
 		return function() {
 			return list.find("input:checked").val() === "1";
+		};
+	},
+
+	list: function( solutionarea, solution ) {
+		var input = jQuery("<select>");
+		jQuery( solutionarea ).append( input );
+		input.focus();
+
+		var choices = jQuery.getVAR( jQuery( solution ).data("choices") );
+
+		jQuery.each( choices, function(index, value) {
+			input.append('<option value="' + value + '">' +
+							 value + '</option>');
+		});
+		
+		var correct = jQuery( solution ).text();
+
+		var verifier = function( correct, guess ) {
+			correct = jQuery.trim( correct );
+			guess = jQuery.trim( guess );
+			return correct === guess;
+		};
+
+		return function() {
+			return verifier( correct, input.val() );
 		};
 	}
 } );

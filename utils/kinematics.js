@@ -2,12 +2,20 @@ jQuery.extend(KhanUtil, {
 	PRECISION: 2,
 	VARIABLES: ["d", "v_i", "v_f", "a", "t"],
 	UNITS: {
+		"d": "m",
+		"v_i": "m/s",
+		"v_f": "m/s",
+		"a": "m/s^2",
+		"t": "s"
+	},
+	PRETTY_UNITS: {
 		"d": "\\text{m}",
 		"v_i": "\\frac{\\text{m}}{\\text{s}}",
 		"v_f": "\\frac{\\text{m}}{\\text{s}}",
 		"a": "\\frac{\\text{m}}{\\text{s}^2}",
 		"t": "\\text{s}"
 	},
+	
 
 	rollUnknowns: function() {
 		var omitted, unknown;
@@ -89,6 +97,6 @@ jQuery.extend(KhanUtil, {
 	// Returns a string containing the value and the associated unit
 	// for the value (determined by the variable, e.g. "d" or "t")
 	u: function( motion, variable ) {
-		return KhanUtil.roundTo(KhanUtil.PRECISION, motion[variable]) + "\\ " + KhanUtil.UNITS[variable];
+		return KhanUtil.roundTo(KhanUtil.PRECISION, motion[variable]) + "\\ " + KhanUtil.PRETTY_UNITS[variable];
 	}
 });
