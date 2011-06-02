@@ -69,6 +69,23 @@
 
 			<var id="M">SLOPE_NUMERATOR / SLOPE_DENOMINATOR</var>
 			<var id="B">Y1 - (X1 * M)</var>
+
+			<var id="WRONGS">
+				var wrongs = [];
+				for (var i=0; i < 7; i++) {
+					var bNum = Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR;
+					var bDen = SLOPE_DENOMINATOR;
+					var badBNum = randRangeNonZero(-10, 10);
+					var badBDen = randRangeNonZero(-10, 10);
+				
+					while (bNum*badBDen==bDen*badBNum || badBDen==0) {
+						badBDen = randRangeNonZero(-10, 10);
+					}
+	
+					wrongs.push("b = " + fraction(badBNum, badBDen));
+				}
+				return wrongs;
+			</var>
 		</div>
 
 		<div class="problems">
@@ -79,7 +96,18 @@
 				</div>
 				<p class="question">What is <code>b</code> (or the y-intercept)?</p>
 				
-				<p class="solution">b = <var>fraction(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR)</var></p>
+				<p class="solution"><code>b = <var>fraction(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR)</var></code></p>
+
+				<ul class="choices" data-none="true" data-show="5">
+					<!-- I would like to use loop template to replace here and above -->
+					<li><code><var>WRONGS[0]</var></code></li>
+					<li><code><var>WRONGS[1]</var></code></li>
+					<li><code><var>WRONGS[2]</var></code></li>
+					<li><code><var>WRONGS[3]</var></code></li>
+					<li><code><var>WRONGS[4]</var></code></li>
+					<li><code><var>WRONGS[5]</var></code></li>
+					<li><code><var>WRONGS[6]</var></code></li>
+				</ul>
 			</div>
 		</div>
 
