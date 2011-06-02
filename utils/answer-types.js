@@ -30,10 +30,14 @@ jQuery.extend( Khan.answerTypes, {
 	},
 
 	decimal: function( solutionarea, solution ) {
+		var options = jQuery.extend({
+			maxError: Math.pow( 2, -23 )
+		}, jQuery( solution ).data());
+
 		var verifier = function( correct, guess ) {
 			correct = parseFloat( correct );
 			guess = parseFloat( guess );
-			return Math.abs( correct - guess ) < Math.pow( 2, -23 );
+			return Math.abs( correct - guess ) < parseFloat( options.maxError );
 		};
 
 		return Khan.answerTypes.text( solutionarea, solution, verifier );
@@ -171,6 +175,31 @@ jQuery.extend( Khan.answerTypes, {
 
 		return function() {
 			return list.find("input:checked").val() === "1";
+		};
+	},
+
+	list: function( solutionarea, solution ) {
+		var input = jQuery("<select>");
+		jQuery( solutionarea ).append( input );
+		input.focus();
+
+		var choices = jQuery.getVAR( jQuery( solution ).data("choices") );
+
+		jQuery.each( choices, function(index, value) {
+			input.append('<option value="' + value + '">' +
+							 value + '</option>');
+		});
+		
+		var correct = jQuery( solution ).text();
+
+		var verifier = function( correct, guess ) {
+			correct = jQuery.trim( correct );
+			guess = jQuery.trim( guess );
+			return correct === guess;
+		};
+
+		return function() {
+			return verifier( correct, input.val() );
 		};
 	}
 } );
