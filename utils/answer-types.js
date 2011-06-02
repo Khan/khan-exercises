@@ -75,7 +75,7 @@ jQuery.extend( Khan.answerTypes, {
 		}, jQuery( solution ).data());
 
 		var verifier = function( correct, guess ) {
-			var ratExp = /^(-?[0-9]+)(?:\/([0-9]))?$/;
+			var ratExp = /^(-?[0-9]+)(?:\/([0-9]+))?$/;
 
 			if ( correct.match( "/" ) ) {
 				correct = jQuery.getVAR( correct );
