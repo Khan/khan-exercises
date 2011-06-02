@@ -52,7 +52,7 @@
 	<div class="exercise">
 		<div class="vars" data-ensure="X2 !== X1 && Y2 !== Y1 && X_MAX >= 0 && X_MIN <= 0 && Y_MAX >= 0 && Y_MIN <= 0">
 			<var id="X1">randRangeNonZero(-10, 10)</var>
-			<var id="X2">0</var>
+			<var id="X2">randRangeNonZero(-10, 10)</var>
 			<var id="Y1">randRangeNonZero(-10, 10)</var>
 			<var id="Y2">randRangeNonZero(-10, 10)</var>
 
@@ -69,23 +69,6 @@
 
 			<var id="M">SLOPE_NUMERATOR / SLOPE_DENOMINATOR</var>
 			<var id="B">Y1 - (X1 * M)</var>
-
-			<var id="WRONGS">
-				var wrongs = [];
-				for (var i=0; i < 7; i++) {
-					var bNum = Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR;
-					var bDen = SLOPE_DENOMINATOR;
-					var badBNum = randRangeNonZero(-10, 10);
-					var badBDen = randRangeNonZero(-10, 10);
-				
-					while (bNum*badBDen==bDen*badBNum || badBDen==0) {
-						badBDen = randRangeNonZero(-10, 10);
-					}
-	
-					wrongs.push("b = " + fraction(badBNum, badBDen));
-				}
-				return wrongs;
-			</var>
 		</div>
 
 		<div class="problems">
@@ -94,20 +77,9 @@
 					<p>The equation of a line that passes through the point <code>(<var>X1</var>, <var>Y1</var>)</code> is:</p>
 					<p><code>y = <var>fraction( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + b</code></p>
 				</div>
-				<p class="question">What is <code>b</code> (or the y-intercept)?</p>
+				<p class="question">What is the <code>y</code>-intercept <code>b</code>?</p>
 				
-				<p class="solution"><code>b = <var>fraction(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR)</var></code></p>
-
-				<ul class="choices" data-none="true" data-show="5">
-					<!-- I would like to use loop template to replace here and above -->
-					<li><code><var>WRONGS[0]</var></code></li>
-					<li><code><var>WRONGS[1]</var></code></li>
-					<li><code><var>WRONGS[2]</var></code></li>
-					<li><code><var>WRONGS[3]</var></code></li>
-					<li><code><var>WRONGS[4]</var></code></li>
-					<li><code><var>WRONGS[5]</var></code></li>
-					<li><code><var>WRONGS[6]</var></code></li>
-				</ul>
+				<p class="solution" data-type="rational"><var>(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR) / SLOPE_DENOMINATOR</var></p>
 			</div>
 		</div>
 
