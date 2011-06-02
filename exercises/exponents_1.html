@@ -17,7 +17,7 @@
                     <var id="BASE_STRING">BASE < 0 ? "(" + BASE + ")" : BASE</var>
                     <!-- an array of reasonable exponents for specific bases; the ith element is the highest exponent which is reasonable to raise i to. note that this is somewhat arbitrary. -->
                     <var id="REASONABLE_EXPS">[ undefined, undefined, 5, 4, 4, 4, 3, 3, 3, 3, 10 ]</var>
-                    <!-- we limit the occurrences of 1 as an exponent because it is to easy, but we want it to appear at least a little. -->
+                    <!-- we limit the occurrences of 1 as an exponent because it is too easy, but we want it to appear at least a little. -->
                     <var id="EXP">randRangeWeighted( 1, REASONABLE_EXPS[abs( BASE )], 1, .1  )</var>
                     <var id="SOLUTION">round( pow( BASE, EXP ) )</var>
                     <var id="HINT">function() {
