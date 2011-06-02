@@ -32,31 +32,31 @@ jQuery.extend(KhanUtil, {
 		return list;
 	},
 
-    getGCD: function( a, b ) {
-        var mod;
+	getGCD: function( a, b ) {
+		var mod;
 
-        a = Math.abs( a );
-        b = Math.abs( b );
+		a = Math.abs( a );
+		b = Math.abs( b );
 
-        while ( b ) {
-            mod = a % b;
-            a = b;
-            b = mod;
-        }
+		while ( b ) {
+			mod = a % b;
+			a = b;
+			b = mod;
+		}
 
-        return a;
-    },
+		return a;
+	},
 
-    getLCM: function( a, b ) {
-      return ( a * b ) / this.getGCD( a, b );
-    },
+	getLCM: function( a, b ) {
+	  return ( a * b ) / this.getGCD( a, b );
+	},
 
 	primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97],
 
-    getPrime: function() {
-        return this.primes[ this.rand( this.primes.length ) ];
-    },
+	getPrime: function() {
+		return this.primes[ this.rand( this.primes.length ) ];
+	},
 
 	isPrime: function(n) {
 		if (n <= 1) {
@@ -77,80 +77,80 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
-    isOdd: function(n) {
-        return n % 2 == 1;
-    },
+	isOdd: function(n) {
+		return n % 2 == 1;
+	},
 
-    isEven: function(n) {
-        return n % 2 == 0;
-    },
+	isEven: function(n) {
+		return n % 2 == 0;
+	},
 
-    getOddComposite: function( min, max ) {
-        if ( min === undefined ) {
-            min = 0;
-        }
+	getOddComposite: function( min, max ) {
+		if ( min === undefined ) {
+			min = 0;
+		}
 
-        if ( max === undefined ) {
-            max = 100;
-        }
+		if ( max === undefined ) {
+			max = 100;
+		}
 
-        var oddComposites = [9, 15, 21, 25, 27, 33, 35, 39, 45, 49, 51, 55];
-        oddComposites = oddComposites.concat([57, 63, 65, 69, 75, 77, 81, 85, 87, 91, 93, 95, 99]);
+		var oddComposites = [9, 15, 21, 25, 27, 33, 35, 39, 45, 49, 51, 55];
+		oddComposites = oddComposites.concat([57, 63, 65, 69, 75, 77, 81, 85, 87, 91, 93, 95, 99]);
 
-        var result = -1;
-        while ( result < min || result > max ) {
-            result = oddComposites[ this.rand( oddComposites.length ) ];
-        }
-        return result;
-    },
+		var result = -1;
+		while ( result < min || result > max ) {
+			result = oddComposites[ this.rand( oddComposites.length ) ];
+		}
+		return result;
+	},
 
-    getEvenComposite: function( min, max ) {
-        if ( min === undefined ) {
-            min = 0;
-        }
+	getEvenComposite: function( min, max ) {
+		if ( min === undefined ) {
+			min = 0;
+		}
 
-        if ( max === undefined ) {
-            max = 100;
-        }
+		if ( max === undefined ) {
+			max = 100;
+		}
 
-        var evenComposites = [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26];
-        evenComposites = evenComposites.concat([28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48]);
-        evenComposites = evenComposites.concat([50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72]);
-        evenComposites = evenComposites.concat([74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98]);
+		var evenComposites = [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26];
+		evenComposites = evenComposites.concat([28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48]);
+		evenComposites = evenComposites.concat([50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72]);
+		evenComposites = evenComposites.concat([74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98]);
 
-        var result = -1;
-        while ( result < min || result > max ) {
-            result = evenComposites[ this.rand( evenComposites.length ) ];
-        }
-        return result;
-    },
+		var result = -1;
+		while ( result < min || result > max ) {
+			result = evenComposites[ this.rand( evenComposites.length ) ];
+		}
+		return result;
+	},
 
-    getPrimeFactorization: function( number ) {
-        if ( jQuery.inArray(number, this.primes) !== -1 ) {
-            return [number];
-        }
+	getPrimeFactorization: function( number ) {
+		if ( jQuery.inArray(number, this.primes) !== -1 ) {
+			return [number];
+		}
 
-        var maxf = Math.sqrt( number );
-        for (var f = 2; f <= maxf; f++) {
-            if ( number % f == 0 ) {
-                return jQuery.merge(this.getPrimeFactorization( f ), this.getPrimeFactorization( number / f ));
-            }
-        }
-    },
+		var maxf = Math.sqrt( number );
+		for (var f = 2; f <= maxf; f++) {
+			if ( number % f == 0 ) {
+				return jQuery.merge(this.getPrimeFactorization( f ), this.getPrimeFactorization( number / f ));
+			}
+		}
+	},
 
-    getFactors: function( number ) {
-        var factors = [];
-        var maxf = Math.sqrt( number );
-        for (var f = 1; f <= maxf; f++) {
-            if (! ( number % f ) ) {
-                factors.push( f );
-                factors.push( number / f );
-            }
-        }
-        return factors.sort( function( a, b ) {
-            return a - b;
-        });
-    },
+	getFactors: function( number ) {
+		var factors = [];
+		var maxf = Math.sqrt( number );
+		for (var f = 1; f <= maxf; f++) {
+			if (! ( number % f ) ) {
+				factors.push( f );
+				factors.push( number / f );
+			}
+		}
+		return factors.sort( function( a, b ) {
+			return a - b;
+		});
+	},
 
 	// Get a random factor of a composite number which is not 1 or that number
 	getNontrivialFactor: function( number ) {
@@ -158,14 +158,13 @@ jQuery.extend(KhanUtil, {
 		return factors[ this.randRange( 1, factors.length - 2 ) ];
 	},
 
-    getMultiples: function( number, upperLimit ) {
-        var multiples = [];
-        for ( var i = 1; i * number <= upperLimit; i++ ) {
-            multiples.push( i * number );
-        }
-        return multiples;
-    },
-
+	getMultiples: function( number, upperLimit ) {
+		var multiples = [];
+		for ( var i = 1; i * number <= upperLimit; i++ ) {
+			multiples.push( i * number );
+		}
+		return multiples;
+	},
 
 	// Get a random integer between min and max, inclusive
 	// If a count is passed, it gives an array of random numbers in the range
@@ -179,25 +178,25 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
-    // Get a random integer between min and max with a perc chance of hitting
-    // target (which is assumed to be in the range, but it doesn't have to be).
-    randRangeWeighted: function( min, max, target, perc ) {
-        if ( KhanUtil.random() < perc ) return target;
-        else return this.randRangeExclude( min, max, [target] );
-    },
+	// Get a random integer between min and max with a perc chance of hitting
+	// target (which is assumed to be in the range, but it doesn't have to be).
+	randRangeWeighted: function( min, max, target, perc ) {
+		if ( KhanUtil.random() < perc ) return target;
+		else return this.randRangeExclude( min, max, [target] );
+	},
 
-    // Get a random integer between min and max that is never any of the values
-    // in the excludes array.
-    randRangeExclude: function( min, max, excludes ) {
-        var result;
-        while ( result === undefined || excludes.indexOf(result) !== -1 )
-            result = this.randRange( min, max );
-        return result;
-    },
+	// Get a random integer between min and max that is never any of the values
+	// in the excludes array.
+	randRangeExclude: function( min, max, excludes ) {
+		var result;
+		while ( result === undefined || excludes.indexOf(result) !== -1 )
+			result = this.randRange( min, max );
+		return result;
+	},
 
 	// From limits_1
 	randRangeNonZero: function( min, max ) {
-        return this.randRangeExclude( min, max, [0] );
+		return this.randRangeExclude( min, max, [0] );
 	},
 
 	// Returns a random member of the given array
@@ -296,7 +295,7 @@ jQuery.fn.extend({
 			vars.children().each(function() {
 				// And load in their values
 				var value = jQuery.getVAR( this ),
-				    name = this.id;
+					name = this.id;
 
 				if ( name ) {
 					// Show an error if a variable definition is overriding a built-in method
@@ -399,7 +398,7 @@ jQuery.extend({
 					with ( Math ) {
 						// Use all the computed variables
 						with ( VARS ) {
-							return eval( "(" + code  + ")" );
+							return eval( "(" + code	 + ")" );
 						}
 					}
 				}

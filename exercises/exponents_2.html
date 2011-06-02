@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html data-require="math">
 <head>
-    <title>Exponents 2</title>
-    <script src="../khan-exercise.js"></script>
+	<title>Exponents 2</title>
+	<script src="../khan-exercise.js"></script>
 </head>
 <body>
-    <div class="exercise">
-        <p class="summary">This exercise covers exponential arithmetic with rational bases and integer (primarily negative) exponents.</p>
+	<div class="exercise">
+		<p class="summary">This exercise covers exponential arithmetic with rational bases and integer (primarily negative) exponents.</p>
 
-        <div class="problems">
-            <div>
-                <div class="vars" data-ensure="BASE_NUM !== BASE_DENOM">
-                    <var id="BASE_NUM">randRange( 1, 10 )</var>
-                    <!-- we want 25% of the exercises to have integer bases. -->
-                    <var id="BASE_DENOM">randRangeWeighted( 1, 10, 1, .25 )</var>
-                    <!-- we want 50% of the exercises to have negative bases. -->
-                    <var id="BASE_NEG">random() < 0.5</var>
-                    <!-- an array of reasonable exponents for specific bases; the ith element is the highest exponent which is reasonable to raise i to. note that this is somewhat arbitrary. -->
-                    <var id="REASONABLE_EXPS">[ undefined, 1000, 5, 4, 4, 4, 3, 3, 3, 3, 10 ]</var>
-                    <!-- we want only 10% of the exercises to have 1 as an exponent. -->
-                    <var id="EXP">randRangeWeighted( 1, min( REASONABLE_EXPS[BASE_NUM], REASONABLE_EXPS[BASE_DENOM] ), 1, .1)</var>
-                    <!-- we want 75% of the exercises to have negative exponents. -->
-                    <var id="EXP_NEG">random() < 0.75</var>
-                    <var id="BASE_STRING">function() {
-                        var result = BASE_NUM;
-                        if ( BASE_DENOM !== 1 )
-                            result = "\\frac{BASE_NUM}{BASE_DENOM}";
-                        if ( BASE_NEG )
-                            result = "\\left(-" + result + "\\right)";
-                        return result;
-                    }()</var>
-                    <var id="HINT">function() {
-                        /* FIXME: implement! */
-                    }()</var>
-                    <var id="SOLUTION">round( pow( BASE_NUM / BASE_DENOM, EXP ) )</var>
-                </div>
+		<div class="problems">
+			<div>
+				<div class="vars" data-ensure="BASE_NUM !== BASE_DENOM">
+					<var id="BASE_NUM">randRange( 1, 10 )</var>
+					<!-- we want 25% of the exercises to have integer bases. -->
+					<var id="BASE_DENOM">randRangeWeighted( 1, 10, 1, .25 )</var>
+					<!-- we want 50% of the exercises to have negative bases. -->
+					<var id="BASE_NEG">random() < 0.5</var>
+					<!-- an array of reasonable exponents for specific bases; the ith element is the highest exponent which is reasonable to raise i to. note that this is somewhat arbitrary. -->
+					<var id="REASONABLE_EXPS">[ undefined, 1000, 5, 4, 4, 4, 3, 3, 3, 3, 10 ]</var>
+					<!-- we want only 10% of the exercises to have 1 as an exponent. -->
+					<var id="EXP">randRangeWeighted( 1, min( REASONABLE_EXPS[BASE_NUM], REASONABLE_EXPS[BASE_DENOM] ), 1, .1)</var>
+					<!-- we want 75% of the exercises to have negative exponents. -->
+					<var id="EXP_NEG">random() < 0.75</var>
+					<var id="BASE_STRING">function() {
+						var result = BASE_NUM;
+						if ( BASE_DENOM !== 1 )
+							result = "\\frac{BASE_NUM}{BASE_DENOM}";
+						if ( BASE_NEG )
+							result = "\\left(-" + result + "\\right)";
+						return result;
+					}()</var>
+					<var id="HINT">function() {
+						/* FIXME: implement! */
+					}()</var>
+					<var id="SOLUTION">round( pow( BASE_NUM / BASE_DENOM, EXP ) )</var>
+				</div>
 
-                <p class="question"><code><var>BASE_STRING</var>^{<var>(EXP_NEG ? "-" : "")+EXP</var>}</code></p>
-                <p class="solution" data-type="rational"><var>SOLUTION</var></p>
+				<p class="question"><code><var>BASE_STRING</var>^{<var>(EXP_NEG ? "-" : "")+EXP</var>}</code></p>
+				<p class="solution" data-type="rational"><var>SOLUTION</var></p>
 
-                <div class="hints">
-                    <!-- FIXME: IMPLEMENT! -->
-                </div>
-            </div>
-        </div>
-    </div>
+				<div class="hints">
+					<!-- FIXME: IMPLEMENT! -->
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

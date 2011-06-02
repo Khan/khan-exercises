@@ -20,7 +20,7 @@ var Khan = {
 	// Load in a collection of scripts, execute callback upon completion
 	loadScripts: function( urls, callback ) {
 		var loaded = 0,
-		 loading = urls.length;
+			loading = urls.length;
 
 		// Ehhh... not a huge fan of this
 		this.scriptWait = function( callback ) {
@@ -82,7 +82,7 @@ var Khan = {
 
 			// Get the problem we'll be using
 			var problems = exercise.find(".problems").children(),
-		  		problem;
+				problem;
 
 			// Check to see if we want to test a specific problem
 			if ( Khan.query.problem ) {

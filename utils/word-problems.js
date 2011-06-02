@@ -273,7 +273,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		},
 
 		group: function( i ) {
-	    		return collections[i - 1][1];
+				return collections[i - 1][1];
 		},
 
 		groupVerb: function( i ) {

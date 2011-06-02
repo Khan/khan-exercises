@@ -13,7 +13,7 @@ jQuery.extend(KhanUtil, {
 		// ensure that the function isn"t just 0 as well
 		var f;
 		do {
-    		f = KhanUtil.randFromArray(KhanUtil.funcGens)( variable );
+			f = KhanUtil.randFromArray(KhanUtil.funcGens)( variable );
 		} while (f.fofx === "0");
 		return f;
 	},
@@ -142,15 +142,17 @@ jQuery.extend(KhanUtil, {
 
 			var f = new KhanUtil.Polynomial(minDegree, maxDegree, coefs, variable);
 
-			return { f: f.text(),
-					 ddxF: KhanUtil.ddxPolynomial(f).text(),
-					 wrongs: [
-						 KhanUtil.ddxPolynomialWrong1(f).text(),
-						 KhanUtil.ddxPolynomialWrong2(f).text(),
-						 KhanUtil.ddxPolynomialWrong3(f).text(),
-						 KhanUtil.ddxPolynomialWrong4(f).text(),
-						 KhanUtil.ddxPolynomialWrong5(f).text()
-					 ] };
+			return {
+				f: f.text(),
+				ddxF: KhanUtil.ddxPolynomial(f).text(),
+				wrongs: [
+					KhanUtil.ddxPolynomialWrong1(f).text(),
+					KhanUtil.ddxPolynomialWrong2(f).text(),
+					KhanUtil.ddxPolynomialWrong3(f).text(),
+					KhanUtil.ddxPolynomialWrong4(f).text(),
+					KhanUtil.ddxPolynomialWrong5(f).text()
+				]
+			};
 		},
 
 		function( variable ) {
@@ -165,9 +167,11 @@ jQuery.extend(KhanUtil, {
 			wrongs[4] = "-\\sec{" + variable + "}";
 			wrongs[5] = "-\\cos{" + variable + "}";
 
-			return { f: KhanUtil.trigFuncs[idx] + "{" + variable + "}",
-					 ddxF: KhanUtil.ddxTrigFuncs[ KhanUtil.trigFuncs[idx] ] + "{" + variable + "}",
-					 wrongs: wrongs };
+			return {
+				f: KhanUtil.trigFuncs[idx] + "{" + variable + "}",
+				ddxF: KhanUtil.ddxTrigFuncs[ KhanUtil.trigFuncs[idx] ] + "{" + variable + "}",
+				wrongs: wrongs
+			};
 		},
 
 		function( variable ) {
@@ -181,15 +185,17 @@ jQuery.extend(KhanUtil, {
 
 			var f = new KhanUtil.Polynomial(minDegree, maxDegree, coefs, variable);
 
-			return { f: f.text(),
-					 ddxF: KhanUtil.ddxPolynomial(f).text(),
-					 wrongs: [
-						 KhanUtil.ddxPolynomialWrong1(f).text(),
-						 KhanUtil.ddxPolynomialWrong2(f).text(),
-						 KhanUtil.ddxPolynomialWrong3(f).text(),
-						 KhanUtil.ddxPolynomialWrong4(f).text(),
-						 KhanUtil.ddxPolynomialWrong5(f).text()
-					 ] };
+			return {
+				f: f.text(),
+				ddxF: KhanUtil.ddxPolynomial(f).text(),
+				wrongs: [
+					KhanUtil.ddxPolynomialWrong1(f).text(),
+					KhanUtil.ddxPolynomialWrong2(f).text(),
+					KhanUtil.ddxPolynomialWrong3(f).text(),
+					KhanUtil.ddxPolynomialWrong4(f).text(),
+					KhanUtil.ddxPolynomialWrong5(f).text()
+				]
+			};
 		},
 
 		function( variable ) {
@@ -204,9 +210,11 @@ jQuery.extend(KhanUtil, {
 				wrongs[4] = "\\frac{1}{"+variable+"^2}";
 				wrongs[5] = variable;
 
-				return { f: "\\ln " + variable,
-						 ddxF: "\\frac{1}{" + variable + "}",
-						 wrongs: wrongs };
+				return {
+					f: "\\ln " + variable,
+					ddxF: "\\frac{1}{" + variable + "}",
+					wrongs: wrongs
+				};
 			} else {
 				wrongs[0] = variable + "e^{"+variable+"-1}";
 				wrongs[1] = "\\frac{1}{"+ variable+"}";
@@ -215,9 +223,11 @@ jQuery.extend(KhanUtil, {
 				wrongs[4] = "(e-"+variable+")^{"+variable+"}";
 				wrongs[5] = "\\frac{e}{" + variable + "}";
 
-				return { f: "e^"+ variable,
-						 ddxF: "e^"+ variable,
-						 wrongs: wrongs };
+				return {
+					f: "e^" + variable,
+					ddxF: "e^" + variable,
+					wrongs: wrongs
+				};
 			}
 		} ]
 });
