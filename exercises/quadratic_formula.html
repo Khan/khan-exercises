@@ -14,8 +14,8 @@
 			<var id="F">new Polynomial( 0, 2, [C, B, A], "x" )</var>
 			<var id="F_TEXT">F.text()</var>
 
-			<var id="DISC_FACTOR">perfectSquareFactor(B*B - 4*A*C)</var>
-			<var id="DIVISOR">getGCD(B, getGCD(Math.abs(2*A), Math.sqrt(Math.abs(DISC_FACTOR[1]))) )</var>
+			<var id="DISC_FACTOR">splitRadical(B*B - 4*A*C)</var>
+			<var id="DIVISOR">getGCD( B, 2 * A, Math.sqrt( DISC_FACTOR[0] ) )</var>
 
 			<var id="WRONGS">
 				var wrongs = [];
@@ -24,8 +24,8 @@
 					var bad_b = randRangeNonZero(-10, 10);
 					var bad_c = randRangeNonZero(-10, 10);
 
-					var good_gcd = getGCD( abs(A), getGCD(abs(B), abs(C)) );
-					var bad_gcd = getGCD( abs(bad_a), getGCD(abs(bad_b), abs(bad_c)) );
+					var good_gcd = getGCD( A, B, C );
+					var bad_gcd = getGCD( bad_a, bad_b, bad_c );
 
 					while ((	(A*bad_gcd)==(bad_a*good_gcd) &&
 								(B*bad_gcd)==(bad_b*good_gcd) &&
@@ -37,8 +37,8 @@
 						bad_b = randRangeNonZero(-10, 10);
 						bad_c = randRangeNonZero(-10, 10);
 
-						good_gcd = getGCD(A, getGCD(B, C));
-						bad_gcd = getGCD(bad_a, getGCD(bad_b, bad_c));
+						good_gcd = getGCD( A, B, C );
+						bad_gcd = getGCD( bad_a, bad_b, bad_c );
 					}
 					wrongs.push(quadraticRoots(bad_a, bad_b, bad_c));
 				}
@@ -48,7 +48,7 @@
 
 		<div class="problems">
 			<div>
-				<p class="problem"><code>f(x) = <var>F_TEXT</var></code></p>
+				<p class="problem">Let <code>f(x) = <var>F_TEXT</var></code>.</p>
 				<p class="question">Where does this function intersect the x-axis (i.e. what are the roots or zeroes of <code>f(x)</code>)?</p>
 				<p class="solution"><code><var>quadraticRoots(A, B, C)</var></code></p>
 
@@ -88,33 +88,33 @@
 			</div>
 
 			<div>		
-				<div data-if="DISC_FACTOR.length > 1 && abs(DISC_FACTOR[0]) != 1">
+				<div data-if="DISC_FACTOR[0] > 1 && abs(DISC_FACTOR[1]) != 1">
 					<!-- The number under the radical can be factored as a perfect square and a number (other than 1) times a perfect square -->
-					<p><code>x = <var>expr(["frac", ["+-", -1 * B, ["sqrt", ["*", DISC_FACTOR[0], DISC_FACTOR[1] ] ]],
+					<p><code>x = <var>expr(["frac", ["+-", -1 * B, ["sqrt", ["*", DISC_FACTOR[1], DISC_FACTOR[0] ] ]],
 													2 * A])</var></code></p>
 
-					<p><code>x = <var>expr(["frac", ["+-", -1 * B, ["*", sqrt(DISC_FACTOR[1]), ["sqrt", DISC_FACTOR[0]] ]],
+					<p><code>x = <var>expr(["frac", ["+-", -1 * B, ["*", sqrt(DISC_FACTOR[0]), ["sqrt", DISC_FACTOR[1]] ]],
 													2 * A])</var></code></p>
 
 					<div data-if="DIVISOR > 1">
 						<p data-if="DIVISOR !== abs(2*A)"><code>
-								x = <var>expr(["frac", ["+-", -1 * B / DIVISOR, ["*", sqrt(DISC_FACTOR[1]) / DIVISOR,
-														["sqrt", DISC_FACTOR[0]] ]],
+								x = <var>expr(["frac", ["+-", -1 * B / DIVISOR, ["*", sqrt(DISC_FACTOR[0]) / DIVISOR,
+														["sqrt", DISC_FACTOR[1]] ]],
 														2 * A / DIVISOR])</var>
 						</code></p>
 						<p data-else><code>
-								x = <var>expr(["+-", -1 * B / (2 * A), ["*", sqrt(DISC_FACTOR[1]) / DIVISOR,
-														["sqrt", DISC_FACTOR[0]] ]])</var>
+								x = <var>expr(["+-", -1 * B / (2 * A), ["*", sqrt(DISC_FACTOR[0]) / DIVISOR,
+														["sqrt", DISC_FACTOR[1]] ]])</var>
 						</code></p>
 					</div>
 				</div>
-				<div data-else data-if="DISC_FACTOR.length > 1">
-					<!-- the number under the radical is a perfect square, we can assume that factor[0]==1 based on the previous condition -->
-					<p><code>x = <var>expr(["frac", ["+-", -1 * B, sqrt(DISC_FACTOR[1])],
+				<div data-else data-if="DISC_FACTOR[0] > 1">
+					<!-- the number under the radical is a perfect square, we can assume that factor[1]==1 based on the previous condition -->
+					<p><code>x = <var>expr(["frac", ["+-", -1 * B, sqrt(DISC_FACTOR[0])],
 													2 * A])</var></code></p>
 
-					<p><code>x = <var>expr(["frac", -1 * B + sqrt(DISC_FACTOR[1]), 2 * A])</var>,
-									<var>expr(["frac", -1 * B - sqrt(DISC_FACTOR[1]), 2 * A])</var></code></p>
+					<p><code>x = <var>expr(["frac", -1 * B + sqrt(DISC_FACTOR[0]), 2 * A])</var>,
+									<var>expr(["frac", -1 * B - sqrt(DISC_FACTOR[0]), 2 * A])</var></code></p>
 				</div>
 				<div data-else data-if="(B*B - 4*A*C) === 0">
 					<p><code>x = <var>expr(["frac", -1 * B, 2 * A])</var></code></p>

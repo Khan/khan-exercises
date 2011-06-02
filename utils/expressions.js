@@ -50,6 +50,7 @@ jQuery.extend(KhanUtil, {
 			return !(KhanUtil.exprType(expr[1]) === "number" && expr[1] > 0);
 
 			case "number":
+			case "sqrt":
 			return true;
 
 			default:

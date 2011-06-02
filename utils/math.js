@@ -33,18 +33,23 @@ jQuery.extend(KhanUtil, {
 	},
 
 	getGCD: function( a, b ) {
-		var mod;
+		if ( arguments.length > 2 ) {
+			var rest = [].slice.call( arguments, 1 );
+			return KhanUtil.getGCD( a, KhanUtil.getGCD.apply( KhanUtil, rest ) );
+		} else {
+			var mod;
 
-		a = Math.abs( a );
-		b = Math.abs( b );
+			a = Math.abs( a );
+			b = Math.abs( b );
 
-		while ( b ) {
-			mod = a % b;
-			a = b;
-			b = mod;
+			while ( b ) {
+				mod = a % b;
+				a = b;
+				b = mod;
+			}
+
+			return a;
 		}
-
-		return a;
 	},
 
 	getLCM: function( a, b ) {
@@ -157,34 +162,7 @@ jQuery.extend(KhanUtil, {
 		var factors = this.getFactors( number );
 		return factors[ this.randRange( 1, factors.length - 2 ) ];
 	},
-	
-	// Returns [factor, perfect square factor] for numbers up to 625
-	// which are the product of a perfect square and some other number
-	perfectSquareFactor: function(n) { //only factors numbers up to 625
-		var squareFactor=1;
-
-		for ( var i = 1; ( i < 25 && i < Math.abs(n) ); i++ ) {
-			if ( ( Math.abs(n) % (i * i) ) === 0 ) {
-				squareFactor = i*i;
-			}
-		}
-
-		if (Math.abs(squareFactor)==1) {
-			//the number is not factorable as the product of a perfect square and another number
-			return [n];
-		} else {
-			return [ n/squareFactor, squareFactor ];
-		}
-	},
     
-    getMultiples: function( number, upperLimit ) {
-        var multiples = [];
-        for ( var i = 1; i * number <= upperLimit; i++ ) {
-            multiples.push( i * number );
-        }
-        return multiples;
-    },
-
 	getMultiples: function( number, upperLimit ) {
 		var multiples = [];
 		for ( var i = 1; i * number <= upperLimit; i++ ) {
@@ -255,11 +233,7 @@ jQuery.extend(KhanUtil, {
 	// From limits_1
 	truncate_to_max: function( num, digits ) {
 		return parseFloat( num.toFixed( digits ) );
-	},
-
-	truncate: function( num ) {
-		return Math.round( num - 0.5 );
-    }
+	}
 });
 
 var VARS = {};

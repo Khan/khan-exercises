@@ -35,6 +35,7 @@ jQuery.extend(KhanUtil, {
 		return n < 0 ? "(" + n + ")" : n;
 	},
 
+	// splitRadical( 24 ) gives [ 2, 6 ] to mean 2 sqrt(6)
 	splitRadical: function( n ) {
 		if ( n === 0 ) {
 			return [ 0, 1 ];
@@ -44,7 +45,7 @@ jQuery.extend(KhanUtil, {
 		var radical = n;
 
 		for(var i = 2; i * i <= n; i++) {
-			while(radical % (i * i) == 0) {
+			while(radical % (i * i) === 0) {
 				radical /= i * i;
 				coefficient *= i;
 			}
@@ -53,7 +54,7 @@ jQuery.extend(KhanUtil, {
 		return [coefficient, radical];
 	},
 
-	/* formattedSquareRootOf(24) gives 2\sqrt{6} */
+	// formattedSquareRootOf(24) gives 2\sqrt{6}
 	formattedSquareRootOf: function( n ) {
 		if( n === 1	 || n === 0 ) {
 			/* so as to not return "" or "\\sqrt{0}" later */
@@ -149,48 +150,37 @@ jQuery.extend(KhanUtil, {
 		return card.charAt(0).toUpperCase() + card.slice(1);
 	},
 	
-	// Depends on math.js for perfectSquareFactor, expressions.js for expression formatting
+	// Depends on expressions.js for expression formatting
 	// Returns a string with the expression for the formatted roots of the quadratic
 	// with coefficients a, b, c
 	// i.e. "x = \pm 3", "
 	quadraticRoots: function( a, b, c ) {
-		var underRadical = KhanUtil.perfectSquareFactor( b*b - 4*a*c );
+		var underRadical = KhanUtil.splitRadical( b * b - 4 * a * c );
 		var rootString = "x =";
 		
-		if ( (b*b-4*a*c) === 0 ) {
+		if ( (b * b - 4 * a * c) === 0 ) {
 			// 0 under the radical
-			rootString += KhanUtil.fraction(-1*b, 2*a);
-		}
-
-		else if ( underRadical.length === 1 ) {
+			rootString += KhanUtil.fraction(-b, 2*a);
+		} else if ( underRadical[0] === 1 ) {
 			// The number under the radical cannot be simplified
-			rootString += KhanUtil.expr(["frac",
-										 ["+-", -1 * b, ["sqrt", Math.abs(underRadical[0])]],
-										 2 * a]);
-		}
-
-		else if ( Math.abs(underRadical[0]) === 1 ) {
+			rootString += KhanUtil.expr(["frac", ["+-", -b, ["sqrt", underRadical[1]]],
+			                                     2 * a]);
+		} else if ( underRadical[1] === 1 ) {
 			// The absolute value of the number under the radical is a perfect square
 
-			// rootString += expr(["frac", -1 * b + sqrt(underRadical[1]), 2 * a]) + "," +
-				// expr(["frac", -1 * b - sqrt(underRadical[1]), 2 * a]);
-
-			rootString += KhanUtil.fraction(-1*b+Math.sqrt(underRadical[1]), 2*a)+","+ KhanUtil.fraction(-1*b-Math.sqrt(underRadical[1]), 2*a);
-		}
-
-		else { // under the radical can be partially simplified
-			var divisor = KhanUtil.getGCD(
-				Math.abs(b),
-				KhanUtil.getGCD( Math.abs(2*a), Math.sqrt( Math.abs(underRadical[1]) ) )
-			);
+			rootString += KhanUtil.fraction(-b + underRadical[0], 2*a) + "," 
+				+ KhanUtil.fraction(-b - underRadical[0], 2*a);
+		} else {
+			// under the radical can be partially simplified
+			var divisor = KhanUtil.getGCD( b, 2 * a, underRadical[0] );
 			
 			if ( divisor === Math.abs(2*a) ) {
-				rootString += KhanUtil.expr(["+-", -1 * b / (2 * a), ["*", Math.sqrt(underRadical[1]) / divisor,
-															 ["sqrt", underRadical[0]] ]]);
+				rootString += KhanUtil.expr(["+-", -b / (2 * a), ["*", underRadical[0] / divisor,
+															 ["sqrt", underRadical[1]] ]]);
 			} else {
-				rootString += KhanUtil.expr(["frac", ["+-", -1 * b / divisor, ["*", Math.sqrt(underRadical[1]) / divisor,
-																			 ["sqrt", underRadical[0]] ]],
-									2 * a / divisor]);
+				rootString += KhanUtil.expr(["frac", ["+-", -b / divisor, ["*", underRadical[0] / divisor,
+				                                                                    ["sqrt", underRadical[1]] ]],
+				                                     2 * a / divisor]);
 			}
 		}
 		return rootString;
