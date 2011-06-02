@@ -136,7 +136,7 @@ var Khan = {
 			});
 
 			// Remove and store hints to delay running modules on it
-			var hints = problem.children( ".hints" ).remove();
+			Khan.hints = problem.children( ".hints" ).remove();
 
 			// Run the "Load" method of any modules
 			problem.runModules( "Load" );
@@ -193,19 +193,19 @@ var Khan = {
 			// Add the problem into the page
 			jQuery("#workarea").append( problem );
 
-			// Add the hints into the page
-			hints
-				// Hide all the hints
-				.children().hide().end()
-
-				// And give it a new ID
-				.attr("id", "shown-hints")
+			// Save the hints for later
+			Khan.hints = Khan.hints
 
 				// Run the "Load" method of any modules
 				.runModules( "Load" )
 
-				// Add it in to the page
-				.appendTo("#hintsarea");
+				// Save as a normal JS array
+				.children().get();
+
+			if ( Khan.hints.length === 0 ) {
+				// Disable the get hint button
+				jQuery("#gethint").attr( "disabled", true );
+			}
 		});
 	},
 
@@ -261,6 +261,7 @@ var Khan = {
 
 			// Wipe out any previous problem
 			jQuery("#workarea, #hintsarea").empty();
+			jQuery("#gethint").attr( "disabled", false );
 
 			// Generate a new problem
 			Khan.makeProblem();
@@ -269,18 +270,23 @@ var Khan = {
 		});
 
 		// Watch for when the "Get a Hint" button is clicked
-		jQuery("#gethint").click( showHint );
+		jQuery("#gethint").click(function() {
+			// Get the first hint left in the array
+			var hint = Khan.hints.shift();
 
-		function showHint() {
-			// Show the first not shown hint
-			var hint = jQuery("#shown-hints > *:hidden:first")
-
-				// Run the main method of any modules
-				.runModules()
-
+			if ( hint ) {
 				// Reveal the hint
-				.show();
-		}
+				jQuery( hint ).appendTo("#hintsarea")
+
+					// Run the main method of any modules
+					.runModules();
+
+				if ( Khan.hints.length === 0 ) {
+					// Disable the get hint button
+					jQuery( this ).attr( "disabled", true );
+				}
+			}
+		});
 	}
 };
 
