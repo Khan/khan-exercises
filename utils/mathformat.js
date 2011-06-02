@@ -63,7 +63,7 @@ jQuery.extend(KhanUtil, {
 			var coefficient = split[0] == 1 ? "" : split[0].toString();
 			var radical = split[1] == 1 ? "" : "\\sqrt{" + split[1] + "}";
 
-			return cString + rString;
+			return coefficient + radical;
 		}
 	},
 
