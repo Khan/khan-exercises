@@ -9,8 +9,8 @@
 	<div class="problems">
 		<div id="simple-percentages">
 			<div class="vars">
-				<var id="A_SIMPLE">KhanUtil.randRange( 1, 150 )</var>
-				<var id="B_SIMPLE">KhanUtil.randRange( 2, 100 )</var>
+				<var id="A_SIMPLE">randRange( 1, 150 )</var>
+				<var id="B_SIMPLE">randRange( 2, 100 )</var>
 			</div>
 			<p class="question">
 				What is <var>A_SIMPLE</var>% of <var>B_SIMPLE</var>? (Round to nearest whole number)
@@ -36,8 +36,8 @@
 		</div>
 		<div id="bank-percentages">
 			<div class="vars">
-				<var id="BANK_FEWER">KhanUtil.randRange( 2, 100 )</var>
-				<var id="BANK_MORE">BANK_FEWER + KhanUtil.randRange(5, 2 * BANK_FEWER + 10 )</var>
+				<var id="BANK_FEWER">randRange( 2, 100 )</var>
+				<var id="BANK_MORE">BANK_FEWER + randRange(5, 2 * BANK_FEWER + 10 )</var>
 			</div>
 			<p class="question">
 				<var>person(1)</var> has <var>BANK_MORE</var> dollars in the bank today. Yesterday, <var>he(1)</var> had <var>BANK_FEWER</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account increase over the past day? (Enter your answer as a percentage rounded to the hundredths place. For example, if your answer is 95.678%, enter 95.68 for your answer) </p>
@@ -59,8 +59,8 @@
 		</div>
 		<div id="yearly-percentages">
 			<div class="vars">
-				<var id="YEAR_PERCENT_MORE">KhanUtil.randRange( 10, 150 )</var>
-				<var id="YEAR_THIS">KhanUtil.randRange( 50, 999 )</var>
+				<var id="YEAR_PERCENT_MORE">randRange( 10, 150 )</var>
+				<var id="YEAR_THIS">randRange( 50, 999 )</var>
 				<var id="YEAR_LAST">round(YEAR_THIS * 10000 / (100 + YEAR_PERCENT_MORE)) / 100</var>
 			</div>
 			<p class="question">
@@ -92,8 +92,8 @@
 		<!--TODO: replace get_random_person_name() with function that works -->
 		<div class="store-percentages">
 			<div class="vars">
-				<var id="PERCENT_OFF">KhanUtil.randRange( 10, 25 )</var>
-				<var id="DOLLARS">KhanUtil.randRange( 5, 100 )</var>
+				<var id="PERCENT_OFF">randRange( 10, 25 )</var>
+				<var id="DOLLARS">randRange( 5, 100 )</var>
 				<var id="HIGHEST_PRICE">round(DOLLARS * 100 * 100 / (100 - PERCENT_OFF)) / 100 </var>
 			</div>
 			<div class="problem">
