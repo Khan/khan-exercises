@@ -36,8 +36,34 @@ jQuery.extend( Khan.answerTypes, {
 
 		var verifier = function( correct, guess ) {
 			correct = parseFloat( correct );
-			guess = parseFloat( guess );
-			return Math.abs( correct - guess ) < parseFloat( options.maxError );
+			guess = jQuery.trim( guess );
+
+			var checkDecimalPoint = function( g ) {
+				// Make sure we have only a decimal, no funny exponent stuff
+				var parts, integ, fract;
+				parts = g.split( "." );
+				integ = parts[0];
+				fract = parts[1] != null ? parts[1] : "";
+
+				if ( g.match( /\d/ )
+						&& integ.match( /^(\+-)?((\d{1,3}([ ,]\d{3})*)|(\d*))$/ )
+						&& fract.match( /^(((\d{3} )*\d{1,3})|(\d*))$/ ) ) {
+					g = g.replace( /[, ]/g, "" );
+					g = parseFloat( g );
+					return Math.abs( correct - g ) < parseFloat( options.maxError );
+				} else {
+					return false;
+				}
+			};
+
+			var checkDecimalComma = function( g ) {
+				// Swap . and , and try again
+				return checkDecimalPoint( g.replace( /([\.,])/g, function( str, c ) {
+					return ( c === "." ? "," : "." );
+				}));
+			};
+
+			return checkDecimalPoint( guess ) || checkDecimalComma( guess );
 		};
 
 		return Khan.answerTypes.text( solutionarea, solution, verifier );
