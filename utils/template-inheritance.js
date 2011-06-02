@@ -2,9 +2,9 @@ jQuery.fn.extend({
 	tmplApply: function( options ) {
 		options = options || {};
 		
-		// Get the attribute which we'll be checking
-		// defaults to "class", "id" is also sometimes used
-		var attribute = options.attribute || "class",
+		// Get the attribute which we'll be checking, defaults to "id"
+		// but "class" is sometimes used
+		var attribute = options.attribute || "id",
 		
 			// Figure out the way in which the application will occur
 			defaultApply = options.defaultApply || "replace",
