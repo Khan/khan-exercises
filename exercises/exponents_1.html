@@ -8,13 +8,17 @@
     <div class="exercise">
         <p class="summary">This exercise covers exponential arithmetic with, in general, integer bases raised to nonnegative integer exponents. Handles three specific cases: integers raised to positive integers (this is the most common case); nonzero integers raised to 0; and -1, 0, and 1 raised to arbitrarily large positive integers.</p>
 
+        <!-- FIXME: this entire structure could be easily integrated into one problem more elegantly if the REASONABLE_EXPS array is expanded and if there is better templating support to allow for more elegant hints. without better templating support, it seems to be most elegant to just use separate problems. -->
         <div class="problems">
             <!-- Nonzero and nonunity integers raised to positive integers. Bases are chosen from [-10,10] excluding -1, 0, and 1; exponents are chosen such that the exponent is smaller than 4 result is smaller than 300. -->
             <div id="original" data-weight="3">
                 <div class="vars">
                     <var id="BASE">randRangeExclude( -10, 10, [0, 1, -1] )</var>
                     <var id="BASE_STRING">BASE < 0 ? "(" + BASE + ")" : BASE</var>
-                    <var id="EXP">randRangeWeighted( 1, max(3, round(log(300)/log(abs(BASE)))), 1, .1 )</var>
+                    <!-- an array of reasonable exponents for specific bases; the ith element is the highest exponent which is reasonable to raise i to. note that this is somewhat arbitrary. -->
+                    <var id="REASONABLE_EXPS">[ undefined, undefined, 5, 4, 4, 4, 3, 3, 3, 3, 10 ]</var>
+                    <!-- we limit the occurrences of 1 as an exponent because it is to easy, but we want it to appear at least a little. -->
+                    <var id="EXP">randRangeWeighted( 1, REASONABLE_EXPS[abs( BASE )], 1, .1  )</var>
                     <var id="SOLUTION">round( pow( BASE, EXP ) )</var>
                     <var id="HINT">function() {
                         var result = BASE_STRING;
