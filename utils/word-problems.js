@@ -33,27 +33,52 @@ jQuery.extend( KhanUtil, {
 	plural: (function() {
 		var one_offs = {
 			'quiz': 'quizzes',
-			'can of food': 'cans of food',
 			'shelf': 'shelves',
-			'loaf of bread': 'loaves of bread',
-			'gallon of milk': 'gallons of milk',
+			'loaf': 'loaves',
 			'potato': 'potatoes'
 		};
 		
 		var pluralizeWord = function(word) {
+
+			// noone really needs extra spaces at the edges, do they?
+			word = jQuery.trim( word );
+
 			// determine if our word is all caps.  If so, we'll need to
 			// re-capitalize at the end
 			var isUpperCase = (word.toUpperCase() == word);
 			var one_off = one_offs[word.toLowerCase()];
+			var words = word.split(/\s+/);
 
+			// first handle simple one-offs
 			if ( one_off ) {
 				word = one_off;
 			}
+
+			// for 3-word phrases where the middle word is 'in' or 'of',
+			// pluralize the first word
+			else if ( words.length == 3 && /\b(in|of)\b/i.test(words[1]) ) {
+				words[0] = KhanUtil.plural( words[0] );
+				return words.join(" ");
+			}
+
+			// if two words, pluralize the second word
+			else if ( words.length == 2 ) {
+				words[1] = KhanUtil.plural( words[1] );
+				return words.join(" ");
+			}
+
+			// "-y" => "-ies"
 			else if ( /[^aeiou]y$/i.test( word ) ) {
 				word = word.replace(/y$/i, "ies");
-			} else if ( /[sxz]$/i.test( word ) || /[bcfhjlmnqsvwxyz]h$/.test( word ) ) {
+			}
+
+			// add "es"; things like "fish" => "fishes"
+			else if ( /[sxz]$/i.test( word ) || /[bcfhjlmnqsvwxyz]h$/.test( word ) ) {
 				word += "es";
-			} else {
+			} 
+			
+			// all the rest, just add "s"
+			else {
 				word += "s";
 			}
 
