@@ -46,7 +46,7 @@ jQuery.extend( Khan.answerTypes, {
 				fract = parts[1] != null ? parts[1] : "";
 
 				if ( g.match( /\d/ )
-						&& integ.match( /^(\+-)?((\d{1,3}([ ,]\d{3})*)|(\d*))$/ )
+						&& integ.match( /^([\+-])?((\d{1,3}([ ,]\d{3})*)|(\d*))$/ )
 						&& fract.match( /^(((\d{3} )*\d{1,3})|(\d*))$/ ) ) {
 					g = g.replace( /[, ]/g, "" );
 					g = parseFloat( g );
