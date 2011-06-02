@@ -21,6 +21,14 @@ jQuery.extend( Khan.answerTypes, {
 		};
 	},
 
+	regex: function( solutionarea, solution ) {
+		var verifier = function( correct, guess ) {
+			return jQuery.trim( guess ).match( correct );
+		};
+
+		return Khan.answerTypes.text( solutionarea, solution, verifier );
+	},
+
 	decimal: function( solutionarea, solution ) {
 		var verifier = function( correct, guess ) {
 			correct = parseFloat( correct );
