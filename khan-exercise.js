@@ -135,6 +135,9 @@ var Khan = {
 				jQuery( this ).find( "[id]" ).add( children ).tmplApply();
 			});
 
+			// Remove and store hints to delay running modules on it
+			var hints = problem.children( ".hints" ).remove();
+
 			// Run the "Load" method of any modules
 			problem.runModules( "Load" );
 
@@ -191,7 +194,7 @@ var Khan = {
 			jQuery("#workarea").append( problem );
 
 			// Add the hints into the page
-			problem.find(".hints")
+			hints
 				// Hide all the hints
 				.children().hide().end()
 
