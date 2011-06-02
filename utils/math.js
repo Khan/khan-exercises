@@ -178,7 +178,28 @@ jQuery.extend(KhanUtil, {
 			});
 		}
 	},
-	
+
+    // Get a random integer between min and max with a perc chance of hitting
+    // target (which is assumed to be in the range, but it doesn't have to be).
+    randRangeWeighted: function( min, max, target, perc ) {
+        if ( Math.random() < perc ) return target;
+        else return this.randRangeExclude( min, max, [target] );
+    },
+
+    // Get a random integer between min and max that is never any of the values
+    // in the excludes array.
+    randRangeExclude: function( min, max, excludes ) {
+        var result;
+        while ( result === undefined || excludes.indexOf(result) !== -1 )
+            result = this.randRange( min, max );
+        return result;
+    },
+
+	// From limits_1
+	randRangeNonZero: function( min, max ) {
+        return this.randRangeExclude( min, max, [0] );
+	},
+    
 	// Returns a random member of the given array
 	randFromArray: function( arr ) {
 		return arr[ this.rand( arr.length ) ];
@@ -189,21 +210,6 @@ jQuery.extend(KhanUtil, {
 		var factor = Math.pow( 10, precision ).toFixed(5);
 		return Math.round( ( num * factor ).toFixed(5) ) / factor;
 	},
-	
-	// From limits_1
-	randRangeNonZero: function( min, max ) {
-		var result;
-		while ( (result = this.randRange( min, max )) === 0 ) {}
-		return result;
-	},
-
-    // From exponents_1
-    randRangeNonZeroNonUnity: function( min, max ) {
-        var result;
-        while (result === undefined || result === 0 || result === -1 || result === 1)
-            result = this.randRange( min, max);
-        return result;
-    },
 	
 	/* Shuffle an array using a Fischer-Yates shuffle. */
 	shuffle: function( array ) {

@@ -104,9 +104,14 @@ jQuery.extend(KhanUtil, {
 			return str;
 		};
 
-        if ( n < 0 ) return "negative " + cardinal( -n );
-        else if ( n == 0 ) return "zero";
+        if ( n == 0 ) return "zero";
         else {
+            var neg = false;
+            if ( n < 0 ) {
+                neg = true;
+                n = Math.abs( n );
+            }
+
 		    var words = [];
 		    var scale = 0;
 		    while ( n > 0 ) {
@@ -124,7 +129,8 @@ jQuery.extend(KhanUtil, {
 			    scale += 1;
 		    }
 
-		    return words.join( " " );
+            if ( neg ) words.unshift( "negative" );
+  		    return words.join( " " );
         }
 	},
 

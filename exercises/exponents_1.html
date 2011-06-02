@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math mathformat">
 <head>
     <title>Exponents 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <p class="summary">This exercise covers exponential arithmetic with, in general, integer bases raised to nonnegative integer exponents. Handles three specific cases: integers raised to positive integers; nonzero integers raised to 0; and -1, 0, and 1 raised to arbitrarily large positive integers.</p>
+        <p class="summary">This exercise covers exponential arithmetic with, in general, integer bases raised to nonnegative integer exponents. Handles three specific cases: integers raised to positive integers (this is the most common case); nonzero integers raised to 0; and -1, 0, and 1 raised to arbitrarily large positive integers.</p>
 
         <div class="problems">
-            <!-- Nonzero and nonunity integers raised to positive integers. Bases are chosen from [-10,10] excluding -1, 0, and 1; exponents are chosen such that the result is smaller than 300. -->
-            <div id="original">
+            <!-- Nonzero and nonunity integers raised to positive integers. Bases are chosen from [-10,10] excluding -1, 0, and 1; exponents are chosen such that the exponent is smaller than 4 result is smaller than 300. -->
+            <div id="original" data-weight="3">
                 <div class="vars">
-                    <var id="BASE">randRangeNonZeroNonUnity( -10, 10 )</var>
+                    <var id="BASE">randRangeExclude( -10, 10, [0, 1, -1] )</var>
                     <var id="BASE_STRING">BASE < 0 ? "(" + BASE + ")" : BASE</var>
-                    <var id="EXP">randRange( 1, log( 300 ) / log( abs( BASE ) ) )</var>
+                    <var id="EXP">randRangeWeighted( 1, max(3, round(log(300)/log(abs(BASE)))), 1, .1 )</var>
                     <var id="SOLUTION">round( pow( BASE, EXP ) )</var>
                     <var id="HINT">function() {
                         var result = BASE_STRING;
@@ -35,11 +35,10 @@
                 </div>
             </div>
 
-            <!-- Nonzero integers raised to 0. Base is chosen from [-500,500] 3/4 of the time and from [-10,10] 1/4 of the time; this helps avoid gaming the problem. -->
+            <!-- Nonzero integers raised to 0. Base is chosen from [-500,500]. -->
             <div id="zero-exp">
                 <div class="vars">
-                    <var id="BASE_BOUND">random() < 0.5 ? 500 : 10</var>
-                    <var id="BASE">randRangeNonZero( -BASE_BOUND, BASE_BOUND )</var>
+                    <var id="BASE">randRangeNonZero( -500, 500 )</var>
                     <var id="BASE_STRING">BASE < 0 ? "(" + BASE + ")" : BASE</var>
                 </div>
 
@@ -52,27 +51,27 @@
                 </div>
             </div>
 
-            <!-- -1, 0, and 1 raised to arbitrarily large positive integers. Exponents are chosen from [1,1000] 3/4 of the time and from [1,10] 1/4 of the time; this helps avoid gaming the problem. -->
+            <!-- -1, 0, and 1 raised to arbitrarily large positive integers. Exponents are chosen from [1,1000]. -->
             <div id="easy-base">
                 <div class="vars">
                     <!-- -1 is the most interesting case, so we choose -1 half the time, 0 a quarter of the time, and 1 a quarter of the time. -->
                     <var id="BASE">random() < 0.5 ? -1 : (random() < 0.5 ? 0 : 1)</var>
                     <var id="BASE_STRING">BASE === -1 ? "(-1)" : BASE</var>
-                    <var id="EXP">randRange( 1, random() < 0.75 ? 1000 : 10 )</var>
-                    <var id="SOLUTION">round( pow( BASE, EXP ) )</p>
+                    <var id="EXP">randRange( 1, 1000 )</var>
+                    <var id="SOLUTION">round( pow( BASE, EXP ) )</var>
+                    <var id="POWER_HINT">function() {
+                        if (BASE === 0) return "nonzero";
+                        else if (BASE === 1) return "";
+                        else return isEven( EXP ) ? "even" : "odd";
+                    }()</var>
                 </div>
 
                 <p class="question"><code><var>BASE_STRING</var>^{<var>EXP</var>}</code></p>
                 <p class="solution" data-type="decimal"><var>SOLUTION</var></p>
 
                 <div class="hints">
-                    <!-- FIXME: this can be more elegant once there is better templating -->
-                    <div data-if="BASE === 0">Zero to any nonzero power equals...?</div>
-                    <div data-if="BASE === 0">Zero to any nonzero power equals 0.</div>
-                    <div data-if="BASE === 1">One to any power equals...?</div>
-                    <div data-if="BASE === 1">One to any power equals 1.</div>
-                    <div data-if="BASE === -1">Negative one to any <var>isEven( EXP ) ? "even" : "odd"</var> power equals...?</div>
-                    <div data-if="BASE === -1">Negative one to any <var>isEven( EXP ) ? "even" : "odd"</var> power equals <var>isEven( EXP ) ? 1 : -1</var>.</div>
+                    <div><var>Cardinal(BASE)</var> to any <var>POWER_HINT</var> power equals...?</div>
+                    <div><var>Cardinal(BASE)</var> to any <var>POWER_HINT</var> power equals <var>SOLUTION</var>.</div>
                 </div>
             </div>
         </div>
