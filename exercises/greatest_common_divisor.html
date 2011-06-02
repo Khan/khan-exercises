@@ -6,8 +6,7 @@
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars">
-			<!-- TODO: Need checks for uniqueness, or perhaps okay with having A = B -->
+		<div class="vars" data-ensure="A_START !== B_START">
 			<var id="A_START">randRange( 1, 10 )</var>
 			<var id="B_START">randRange( 1, 10 )</var>
 			<var id="FACTOR">randRange( 1, 5 )</var>
