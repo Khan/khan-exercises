@@ -120,7 +120,7 @@ var Khan = {
 			// Apply templating
 			var children = problem
 				// vars and hints blocks append their contents to the parent
-				.find( ".vars" ).tmplApply( { attribute: "class", defaultApply: "appendContents" } ).end()
+				.find( ".vars" ).tmplApply( { attribute: "class", defaultApply: "appendVars" } ).end()
 
 				// Individual variables override other variables with the name name
 				.find( ".vars [id]" ).tmplApply().end()

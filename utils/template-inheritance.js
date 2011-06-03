@@ -103,6 +103,16 @@ jQuery.extend({
 		afterContents: function( elem ) {
 			jQuery( this ).after( jQuery( elem ).contents() );
 			jQuery( elem ).remove();
+		},
+
+		// Like appendContents but also merges the data-ensures
+		appendVars: function( elem ) {
+			jQuery.tmplApplyMethods.appendContents.call( this, elem );
+
+			var parentEnsure = jQuery( this ).data("ensure") || "1";
+			var childEnsure = jQuery( elem ).data("ensure") || "1";
+			jQuery( this ).data("ensure",
+				"(" + parentEnsure + ") && (" + childEnsure + ")");
 		}
 	}
 });
