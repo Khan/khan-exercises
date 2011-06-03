@@ -31,6 +31,43 @@ jQuery.extend(KhanUtil, {
 
 		return list;
 	},
+	
+	// Similar to above digits, but in original order (not reversed)
+	integerToDigits: function( number ) {
+		if ( n === 0 ) {
+			return [0];
+		}
+		
+		var digits = [];
+		while ( number > 0 ) {
+			digits.unshift( number % 10 );
+			number = Math.floor( number / 10 );
+		}
+		return digits;
+	},
+	
+	digitsToInteger: function( digits ) {
+		var place = Math.floor( Math.pow( 10, digits.length - 1 ) );
+		var number = 0;
+		
+		jQuery.each( digits, function(index, digit) {
+			number += digit * place;
+			place /= 10;
+		});
+		
+		return number;
+	},
+	
+	placesLeftOfDecimal: ["one", "ten", "hundred", "thousand"],
+	placesRightOfDecimal: ["unused", "tenth", "hundredth", "thousandth"],
+	
+	powerToPlace: function( power ) {
+		if ( power < 0 ) {
+			return this.placesRightOfDecimal[ -1 * power ];
+		} else {
+			return this.placesLeftOfDecimal[ power ];
+		}
+	},
 
 	getGCD: function( a, b ) {
 		if ( arguments.length > 2 ) {
@@ -156,7 +193,7 @@ jQuery.extend(KhanUtil, {
 			return a - b;
 		});
 	},
-
+	
 	// Get a random factor of a composite number which is not 1 or that number
 	getNontrivialFactor: function( number ) {
 		var factors = this.getFactors( number );
@@ -170,7 +207,7 @@ jQuery.extend(KhanUtil, {
 		}
 		return multiples;
 	},
-
+	
 	// Get a random integer between min and max, inclusive
 	// If a count is passed, it gives an array of random numbers in the range
 	randRange: function( min, max, count ) {
