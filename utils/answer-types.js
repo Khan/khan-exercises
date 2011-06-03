@@ -139,34 +139,48 @@ jQuery.extend( Khan.answerTypes, {
 		var list = jQuery("<ul></ul>");
 		jQuery( solutionarea ).append(list);
 
+		// Get all of the wrong choices
 		var choices = jQuery( solution ).siblings( ".choices" );
-		var wrongCount;
 
+		// Set number of choices equal to all wrong plus one correct
 		var numChoices = choices.children().length + 1;
+		// Or set number as specified
 		if ( choices.data("show") ) {
 			numChoices = parseFloat( choices.data("show") );
 		}
 
+		// Optionally include none of the above as a choice
 		var showNone = choices.data("none");
 		if ( showNone ) {
 			var noneIsCorrect = KhanUtil.rand(numChoices) === 0;
 			numChoices -= 1;
 		}
-
-		var shuffled = KhanUtil.shuffle( choices.children().get() );
-
-		// add the correct answer
-		if( !noneIsCorrect ) {
-			jQuery( solution ).data( "correct", true );
-			// splice(0, 0) should be the same as unshift()
-			shuffled.splice( 0, 0, solution );
+		
+		// If a category exercise, the correct answer is already included in .choices
+		// and choices are always presented in the same order
+		var isCategory = choices.data("category");
+		var possibleChoices = choices.children().get();
+		if ( isCategory ) {
+			numChoices -= 1;
+		} else {
+			possibleChoices = KhanUtil.shuffle( possibleChoices );
 		}
 
+		// Add the correct answer
+		if( !noneIsCorrect && !isCategory) {
+			jQuery( solution ).data( "correct", true );
+			possibleChoices.splice( 0, 0, solution );
+		}
+		
 		var dupes = {};
 		var shownChoices = [];
-		for ( var i = 0; i < shuffled.length && shownChoices.length < numChoices; i++ ) {
-			var choice = jQuery( shuffled[i] );
+		for ( var i = 0; i < possibleChoices.length && shownChoices.length < numChoices; i++ ) {
+			var choice = jQuery( possibleChoices[i] );
 			choice.runModules();
+			
+			if ( isCategory && solution.text() === choice.text() ) {
+				choice.data( "correct", true );
+			}
 
 			if ( !dupes[ choice.text() ] ) {
 				dupes[ choice.text() ] = true;
@@ -179,7 +193,9 @@ jQuery.extend( Khan.answerTypes, {
 			return false;
 		}
 
-		shownChoices = KhanUtil.shuffle(shownChoices);
+		if ( !isCategory ) {
+			shownChoices = KhanUtil.shuffle( shownChoices );
+		}
 
 		if( showNone ) {
 			var none = jQuery( "<span>None of the above.</span>" );
