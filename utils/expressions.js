@@ -58,6 +58,12 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
+	exprParenthesize: function( expr ) {
+		return KhanUtil.exprIsShort(expr) ?
+			KhanUtil.expr(expr) :
+			"(" + KhanUtil.expr(expr) + ")";
+	},
+
 	formatOperators: {
 		"+": function() {
 			var terms = jQuery.map(arguments, function( term, i ) {
@@ -223,11 +229,41 @@ jQuery.extend(KhanUtil, {
 				base = "(" + base + ")";
 			}
 
+			pow = KhanUtil.expr( pow );
+
 			return base + "^{" + pow + "}";
 		},
 
 		"sqrt": function( arg ) {
-			return "\\sqrt{" + KhanUtil.expr( arg ) + "}";
+			return "\\sqrt{" + KhanUtil.exprParenthesize( arg ) + "}";
+		},
+
+		"sin": function( arg ) {
+			return "\\sin{" + KhanUtil.exprParenthesize( arg ) + "}";
+		},
+
+		"cos": function( arg ) {
+			return "\\cos{" + KhanUtil.exprParenthesize( arg ) + "}";
+		},
+
+		"tan": function( arg ) {
+			return "\\tan{" + KhanUtil.exprParenthesize( arg ) + "}";
+		},
+
+		"sec": function( arg ) {
+			return "\\sec{" + KhanUtil.exprParenthesize( arg ) + "}";
+		},
+
+		"csc": function( arg ) {
+			return "\\sec{" + KhanUtil.exprParenthesize( arg ) + "}";
+		},
+
+		"cot": function( arg ) {
+			return "\\sec{" + KhanUtil.exprParenthesize( arg ) + "}";
+		},
+
+		"ln": function( arg ) {
+			return "\\ln{" + KhanUtil.exprParenthesize( arg ) + "}";
 		},
 
 		"+-": function( arg ) {

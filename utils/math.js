@@ -97,7 +97,7 @@ jQuery.extend(KhanUtil, {
 		47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97],
 
 	getPrime: function() {
-		return this.primes[ this.rand( this.primes.length ) ];
+		return this.primes[ KhanUtil.rand( this.primes.length ) ];
 	},
 
 	isPrime: function(n) {
@@ -141,7 +141,7 @@ jQuery.extend(KhanUtil, {
 
 		var result = -1;
 		while ( result < min || result > max ) {
-			result = oddComposites[ this.rand( oddComposites.length ) ];
+			result = oddComposites[ KhanUtil.rand( oddComposites.length ) ];
 		}
 		return result;
 	},
@@ -162,7 +162,7 @@ jQuery.extend(KhanUtil, {
 
 		var result = -1;
 		while ( result < min || result > max ) {
-			result = evenComposites[ this.rand( evenComposites.length ) ];
+			result = evenComposites[ KhanUtil.rand( evenComposites.length ) ];
 		}
 		return result;
 	},
@@ -197,7 +197,7 @@ jQuery.extend(KhanUtil, {
 	// Get a random factor of a composite number which is not 1 or that number
 	getNontrivialFactor: function( number ) {
 		var factors = this.getFactors( number );
-		return factors[ this.randRange( 1, factors.length - 2 ) ];
+		return factors[ KhanUtil.randRange( 1, factors.length - 2 ) ];
 	},
     
 	getMultiples: function( number, upperLimit ) {
@@ -224,7 +224,7 @@ jQuery.extend(KhanUtil, {
 	// target (which is assumed to be in the range, but it doesn't have to be).
 	randRangeWeighted: function( min, max, target, perc ) {
 		if ( KhanUtil.random() < perc ) return target;
-		else return this.randRangeExclude( min, max, [target] );
+		else return KhanUtil.randRangeExclude( min, max, [target] );
 	},
 
 	// Get a random integer between min and max that is never any of the values
@@ -232,18 +232,18 @@ jQuery.extend(KhanUtil, {
 	randRangeExclude: function( min, max, excludes ) {
 		var result;
 		while ( result === undefined || excludes.indexOf(result) !== -1 )
-			result = this.randRange( min, max );
+			result = KhanUtil.randRange( min, max );
 		return result;
 	},
 
 	// From limits_1
 	randRangeNonZero: function( min, max ) {
-		return this.randRangeExclude( min, max, [0] );
+		return KhanUtil.randRangeExclude( min, max, [0] );
 	},
 
 	// Returns a random member of the given array
 	randFromArray: function( arr ) {
-		return arr[ this.rand( arr.length ) ];
+		return arr[ KhanUtil.rand( arr.length ) ];
 	},
 
 	// Round a number to a certain number of decimal places
