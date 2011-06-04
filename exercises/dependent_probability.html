@@ -74,11 +74,9 @@
 			<var id="CHANCE_UNFAIR_PICKED">NUM_UNFAIR_COINS / NUM_COINS</var>
 			<var id="CHANCE_FAIR_PICKED">1 - CHANCE_UNFAIR_PICKED</var>
 
-			<var id="ANSWER">round(10000 * (CHANCE_UNFAIR_PICKED * pow((PERCENT_CHANCE_UNFAIR_HEADS / 100), NUM_FLIPS) +
-			CHANCE_FAIR_PICKED * pow(.5,NUM_FLIPS))) / 100</var>
+ 			<var id="ANSWER">round(10000 * (CHANCE_UNFAIR_PICKED * pow((PERCENT_CHANCE_UNFAIR_HEADS / 100), NUM_FLIPS) +
+				CHANCE_FAIR_PICKED * pow(.5,NUM_FLIPS))) / 100</var>
 
-			<!-- Wrong answer limit -->
-			<var id="MAX_ANSWER_SEED">pow(max(50,PERCENT_CHANCE_UNFAIR_HEADS) / 100, NUM_FLIPS) * 10000+ 1</var>
 		</div>
 
 		<div class="problems">
@@ -88,15 +86,8 @@
 		   flipped (the rest are fair coins). You randomly choose one coin from the bag and flip it
 		   <code><var>NUM_FLIPS</var></code> times.</p>
 				<p class="question">What is the percent probability of getting <code><var>NUM_FLIPS</var></code> heads?</p>
-				<p class="solution"><code><var>ANSWER</var>\%</code></p>
-
-				<ul class="choices" data-show="5" data-none="true">
-					<li><code><var>rand(MAX_ANSWER_SEED) / 100</var>\%</code></li>
-					<li><code><var>rand(MAX_ANSWER_SEED) / 100</var>\%</code></li>
-					<li><code><var>rand(MAX_ANSWER_SEED) / 100</var>\%</code></li>
-					<li><code><var>rand(MAX_ANSWER_SEED) / 100</var>\%</code></li>
-					<li><code><var>rand(MAX_ANSWER_SEED) / 100</var>\%</code></li>
-				</ul>
+				<p>Write your answer as a percent, such as <code>12.34\%</code></p>
+				<p class="solution" data-type="percent"><var>ANSWER</var></p>
 			</div>
 		</div>
 
