@@ -74,6 +74,9 @@ var Khan = {
 	},
 
 	makeProblem: function() {
+		// Save the seed for later so we can show it when asked
+		Khan.problemSeed = Khan.randomSeed;
+
 		jQuery(".exercise").each(function() {
 			var exercise = jQuery(this);
 
@@ -98,6 +101,9 @@ var Khan = {
 			} else {
 				problem = problems.getRandomWeighted();
 			}
+
+			// Save the problem's index in the problems array
+			var problemType = problem.attr( "id" ) || problems.index( problem );
 
 			// Work with a clone to avoid modifying the original
 			problem = problem.clone();
@@ -206,6 +212,45 @@ var Khan = {
 				// Disable the get hint button
 				jQuery("#gethint").attr( "disabled", true );
 			}
+
+			// Show the debug info
+			if ( Khan.query.debug != null ) {
+				var debugWrap = jQuery( "#debug" ).empty();
+				var debugURL = window.location.origin + window.location.pathname
+					+ "?debug";
+
+				jQuery( "<h3>Debug Info</h3>" ).appendTo( debugWrap );
+
+				var links = jQuery( "<p></p>" ).appendTo( debugWrap );
+				jQuery( "<a>Problem permalink</a>" )
+					.attr( "href", debugURL + "&seed=" + Khan.problemSeed )
+					.appendTo( links );
+
+				links.append("<br>");
+				links.append("Problem type: ");
+
+				jQuery( "<a></a>" )
+					.text( problemType )
+					.attr( "href", debugURL + "&problem=" + problemType )
+					.appendTo( links );
+
+				var varInfo = [];
+				jQuery.each( VARS, function( name, value ) {
+					var str;
+
+					// JSON is prettier (when it works)
+					try {
+						str = JSON.stringify( value );
+					} catch ( e ) {
+						str = value.toString();
+					}
+
+					varInfo.push( "<b>" + name + "</b>: <var>" + str + "</var>" );
+				} );
+
+				jQuery( "<p></p>" ).html( varInfo.join("<br>") )
+					.appendTo( debugWrap );
+			}
 		});
 	},
 
@@ -287,6 +332,11 @@ var Khan = {
 				}
 			}
 		});
+
+		// Prepare for the debug info if requested
+		if( Khan.query.debug != null ) {
+			jQuery( '<div id="debug"></div>' ).appendTo( "#sidebar" );
+		}
 	}
 };
 
