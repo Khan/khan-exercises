@@ -12,7 +12,7 @@ jQuery.fn.extend({
 			// Store for elements to be used later
 			parent = {};
 
-		jQuery( this ).each(function() {
+		return this.each(function() {
 			var $this = jQuery( this ),
 				name = $this.attr( attribute );
 
@@ -34,8 +34,6 @@ jQuery.fn.extend({
 				}
 			}
 		});
-
-		return this;
 	}
 });
 
