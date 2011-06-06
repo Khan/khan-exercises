@@ -216,7 +216,7 @@ var Khan = {
 			// Show the debug info
 			if ( Khan.query.debug != null ) {
 				var debugWrap = jQuery( "#debug" ).empty();
-				var debugURL = window.location.origin + window.location.pathname
+				var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname
 					+ "?debug";
 
 				jQuery( "<h3>Debug Info</h3>" ).appendTo( debugWrap );
