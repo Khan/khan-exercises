@@ -15,7 +15,8 @@ jQuery.extend(KhanUtil, {
 		return Math.floor( num * KhanUtil.random() );
 	},
 
-	/* Returns an array of the digits of a nonnegative integer in reverse
+	/* Returns an array of the digits of a nonnegative intege 
+in reverse
 	 * order: digits(376) = [6, 7, 3] */
 	digits: function(n) {
 		if(n == 0) {
@@ -119,12 +120,83 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
-	isOdd: function(n) {
-		return n % 2 == 1;
+	isOdd: function( n ) {
+		return n % 2 === 1;
 	},
 
-	isEven: function(n) {
-		return n % 2 == 0;
+	isEven: function( n ) {
+		return n % 2 === 0;
+	},
+
+	/* Given a base, returns the highest positive integer it is reasonable to
+	 * raise that base to. */
+	maxReasonableExp: function( n ) {
+		// The values are shown in comments to show that they're reasonable.
+		return {
+			0: 1000,
+			1: 1000,
+			2: 8,    // 2*2*2*2*2*2*2*2 = 256
+			3: 5,    // 3*3*3*3*3 = 243
+			4: 4,    // 4*4*4*4 = 256
+			5: 4,    // 5*5*5*5 = 625
+			6: 3,    // 6*6*6 = 216
+			7: 3,    // 7*7*7 = 343
+			8: 3,    // 8*8*8 = 512
+			9: 3,    // 9*9*9 = 729
+			10: 10,  // 10^10 = 100000000000
+		}[ Math.abs( n ) ];
+	},
+	
+	/* Finds a root and two bases that can be taken to that root. This is used in
+	 * exponents 3, where we need an exponent denominator such that both the base
+	 * numerator and base denominator work well. */
+	randRootBases: function() {
+
+		// we want to choose a random rootable base then find the root associated
+  	// to that base and then find another base which can be taken to that
+  	// root. we could just choose a root, then take two bases, but we want the
+  	// roots to be weighted by the number of bases that can be taken to the root.
+
+		var bases_by_root = {
+			//   1   2   3    4    5   6   7   8   9   10
+			2: [ 1,  4,  9,  16,  25, 36, 49, 64, 81, 100 ],
+			3: [ 1,  8, 27,  64, 125 ],
+			4: [ 1, 16, 81, 256 ]
+		};
+
+		// these are all the bases that can be rooted.
+		var bases = bases_by_root[ 2 ]
+			.concat( bases_by_root[ 3 ] )
+			.concat( bases_by_root[ 4 ] );
+
+		var roots_by_base = {};
+		for ( var i = 0; i < bases.length; i++ ) {
+			var base = bases[ i ];
+			for ( var j = 2; j <= 4; j++ ) {
+				if ( bases_by_root[ j ].indexOf( base ) !== -1 ) {
+					if ( roots_by_base[ base ] === undefined ) {
+						roots_by_base[ base ] = [ j ];
+					} else if ( roots_by_base[ base ].indexOf( j ) === -1 ) {
+						roots_by_base[ base ].push( j );
+					}
+				}
+			}
+		}
+
+		var base_1 = this.randFromArray( bases );
+		var root = this.randFromArray( roots_by_base[ base_1 ] );
+
+		// keep choosing the second base until it's unique from the first.
+		var base_2;
+		while ( base_2 === undefined || base_1 === base_2 ) {
+			base_2 = this.randFromArray( bases_by_root[ root ] );
+		}
+
+		return {
+			base_1: base_1,
+			base_2: base_2,
+			root: root
+		};
 	},
 
 	getOddComposite: function( min, max ) {

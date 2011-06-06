@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html data-require="math mathformat">
+<head>
+	<title>Exponents 4</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<p class="summary">This exercise covers exponential arithmemtic with (mainly negative, when possible) rational bases and (mainly nonunit numerator) rational exponents. This exercise covers the last chunk of material from the Level 3 Exponents video.</p>
+
+		<div class="problems">
+			<div>
+				<div class="vars" data-ensure="abs( EXP_NUM ) !== abs( EXP_DENOM )">
+					<var id="ROOT_BASES_OBJ">randRootBases()</var>
+
+					<!-- the base will be negative 75% of the time that it's possible. -->
+					<var id="BASE_NUM">ROOT_BASES_OBJ.base_1 * ( ( isOdd( EXP_DENOM ) && random() < 0.75 ) ? -1 : 1 )</var>
+					<var id="BASE_DENOM">ROOT_BASES_OBJ.base_2</var>
+					<var id="BASE_STR">fraction( BASE_NUM, BASE_DENOM )</var>
+					<var id="BASE_STR_PARENS">fractionParens( BASE_NUM, BASE_DENOM )</var>
+					<var id="BASE_STR_FLIPPED">fraction( BASE_DENOM, BASE_NUM )</var>
+					<var id="BASE_STR_FLIPPED_PARENS">fractionParens( BASE_DENOM, BASE_NUM )</var>
+
+					<!-- the exponent will be negative 75% of the time. -->
+					<var id="EXP_DENOM_TEMP">( random() < 0.75 ? -1 : 1 ) * ROOT_BASES_OBJ.root</var>
+					<var id="MAX_EXP_NUM">min( maxReasonableExp( ROOT_NUM ), maxReasonableExp( ROOT_DENOM ) )</var>
+					<!-- the exponent numerator will only be 1 10% of the time. -->
+					<var id="EXP_NUM_TEMP">randRangeWeighted(1, MAX_EXP_NUM, 1, .1)</var>
+					<var id="GCD">getGCD( EXP_NUM_TEMP, abs( EXP_DENOM_TEMP ) )</var>
+					<var id="EXP_NUM">round( EXP_NUM / GCD )</var>
+					<var id="EXP_DENOM">round( EXP_DENOM / GCD )</var>
+																					 
+					<var id="ROOT_NUM">round( pow( EXP_DENOM > 0 ? BASE_NUM : BASE_DENOM, 1 / EXP_DENOM ) )</var>
+					<var id="ROOT_DENOM">round( pow( EXP_DENOM > 0 ? BASE_DENOM : BASE_NUM, 1 / EXP_DENOM ) )</var>
+					<var id="ROOT_STR">fraction( ROOT_NUM, ROOT_DENOM )</var>
+					<var id="ROOT_STR_PARENS">fractionParens( ROOT_NUM, ROOT_DENOM )</var>
+					<var id="ROOT_STR_FLIPPED">fraction( ROOT_DENOM, ROOT_NUM )</var>
+					<var id="ROOT_STR_FLIPPED_PARENS">fraction( abs( ROOT_DENOM ), ROOT_NUM )</var>
+					
+					<var id="EXP_STR">fraction( EXP_NUM, EXP_DENOM, "small" )</var>
+					<var id="EXP_STR_ABS">fraction( EXP_NUM, abs( EXP_DENOM ), "small" )</var>
+					<var id="EXP_STR_DENOM">fraction( 1, EXP_DENOM, "small" )</var>
+					<var id="EXP_STR_ABS_DENOM">fraction( 1, abs( EXP_DENOM ), "small" )</var>
+
+					<var id="SOL_NUM">round( pow( EXP_DENOM > 0 ? BASE_NUM : BASE_DENOM, EXP_NUM / EXP_DENOM ) )</var>
+					<var id="SOL_DENOM">round( pow( EXP_DENOM > 0 ? BASE_DENOM : BASE_NUM, EXP_NUM / EXP_DENOM ) )</var>
+					<var id="SOL_STR">fraction( SOL_NUM, SOL_DENOM )</var>
+					<var id="SOL_STR_PARENS">fractionParens( SOL_NUM, SOL_DENOM )</var>
+					<var id="SOL_STR_FLIPPED">fraction( SOL_DENOM, SOL_NUM )</var>
+					<var id="SOL_STR_FLIPPED_PARENS">fractionParens( SOL_DENOM, SOL_NUM )</var>
+				</div>
+
+				<p class="question"><code><var>BASE_STR_PARENS</var>^{<var>EXP_STR</var>}</code></p>
+				<p class="solution" data-type="rational"><var>round( pow( BASE_NUM / BASE_DENOM, EXP_NUM / EXP_DENOM ) )</var></p>
+
+				<div class="hints">
+					<!-- FIXME: this depends on if-temlpating rendering the hints in the correct order, which it doesn't do ATM. -->
+					<div data-if="EXP_DENOM > 0">
+						<!-- for (4/9)^(3/2), show "=((4/9)^(1/2))^3", then "?^2 = 4/9?", then "(2/3)^2 = 4/9", then "so (4/9)^(3/2) = (2/3)^3", then "= 8/27" -->
+						<div><code>= \left(<var>BASE_STR_PARENS</var>^{\frac{1}{<var>EXP_DENOM</var>}}\right)^{<var>EXP_NUM</var>}</code></div>
+						<div><code>\Big(?\Big)^{<var>abs( EXP_DENOM )</var>}=<var>BASE_STR</var></code></div>
+						<div><code><var>ROOT_STR_PARENS</var>^{<var>EXP_DENOM</var>}=<var>BASE_STR</var></code>, so <code><var>BASE_STR_PARENS</var>^{\frac{1}{<var>EXP_DENOM</var>}}=<var>ROOT_STR_PARENS</var></code></div>
+						<div>so <code><var>BASE_STR_PARENS</var>^{<var>EXP_STR</var>}=<var>ROOT_STR</var>^{<var>EXP_NUM</var>}</code></div>
+						<div><code>= <var>SOL_STR</var></code></div>
+					</div>
+					<div data-else>
+						<!-- for (-4/9)^(-3/2), show "=(-9/4)^(3/2)", then "=((-9/4)^(1/2))^3", then ?^2 = -9/4?", then "(-3/2)^2 = -9/4", then "so (-4/9)^(-3/2) = (-3/2)^3", then "= -27/8" -->
+					</div>
+				</div>
+					
+					
+					
+
+
+					
+					
+					

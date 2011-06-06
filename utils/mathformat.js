@@ -1,5 +1,7 @@
 jQuery.extend(KhanUtil, {
-	fraction: function( n, d ) {
+	/* Format the latex of the fraction n/d. Use dfrac if dfrac is specified as
+	 * true. */
+	fraction: function( n, d, small ) {
 		if ( d === 0 ) {
 			return "\\text{undefined}";
 		}
@@ -17,21 +19,34 @@ jQuery.extend(KhanUtil, {
 		d = d / gcd;
 
 		return d > 1 ?
-			sign + "\\dfrac{" + n + "}{" + d + "}" :
+			sign + ( small ? "\\frac{" : "\\dfrac{" ) + n + "}{" + d + "}" :
 			sign + n;
 	},
 
+	/* Returns whether the fraction n/d reduces. */
+	reduces: function( n, d ) {
+		// if the GCD is greater than 1, then there is a factor in common and the 
+		// fraction reduces. 
+		return this.getGCD( n, d ) > 1;
+	},
+
 	/* Wrap a fraction in parentheses if it's actually displayed as a fraction or
-	if it's negative. */
-	fractionParens: function( n, d ) {
+	if it's negative. Use dfrac in latex for the fraction if dfrac is specified as true. */
+	fractionParens: function( n, d, small ) {
+		// Need to reduce the fraction
+		var gcd = this.getGCD(n, d);
+		n = n / gcd;
+		d = d / gcd;
+
 		var neg = n / d < 0;
 		var frac = d !== 0 && d !== 1;
 		var nonzero = n !== 0;
 
-		if (nonzero && (frac || neg))
-			return "\\left(" + this.fraction( n, d ) + "\\right)";
-		else
-			return this.fraction( n, d );
+		if (nonzero && (frac || neg)) {
+			return "\\left(" + this.fraction( n, d, small ) + "\\right)";
+		} else {
+			return this.fraction( n, d, small );
+		}
 	},
 
 	/* expandExp for rational bases. */
@@ -41,7 +56,9 @@ jQuery.extend(KhanUtil, {
 			this.fractionParens( base_denom, base_num );
 
 		var str = base_str;
-		for ( var i = 1; i < Math.abs( exp ); i++ ) str += " \\cdot" + base_str;
+		for ( var i = 1; i < Math.abs( exp ); i++ ) {
+			str += " \\cdot" + base_str;
+		}
 		return str;
 	},
 
