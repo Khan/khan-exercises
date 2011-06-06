@@ -43,7 +43,7 @@ jQuery.extend(KhanUtil, {
 
 	ddxPolynomial: function( poly ) {
 		var ddxCoefs = [];
-		
+
 		for (var i = poly.maxDegree; i >= poly.minDegree; i--) {
 			ddxCoefs[i - 1] = i * poly.coefs[i];
 		}
@@ -131,36 +131,35 @@ jQuery.extend(KhanUtil, {
 		};
 	},
 
+    PowerRule: function(minDegree, maxDegree, coefs, variable, funcNotation ){
+			// power rule, polynomials
+			var minDegree = (typeof minDegree == "number") ? minDegree : KhanUtil.randRange(-2, 2);
+			var maxDegree = (typeof maxDegree == "number") ? maxDegree : KhanUtil.randRange(2, 4);
+			var coefs = (typeof coefs == "object") ? coefs : KhanUtil.randCoefs(minDegree, maxDegree);
+			var poly = new KhanUtil.Polynomial(minDegree, maxDegree, coefs, variable);
+
+			this.fText = poly.text();
+			this.ddxFText = KhanUtil.ddxPolynomial(poly).text();
+
+			this.wrongsText = [
+				KhanUtil.ddxPolynomialWrong1(poly).text(),
+				KhanUtil.ddxPolynomialWrong2(poly).text(),
+				KhanUtil.ddxPolynomialWrong3(poly).text(),
+				KhanUtil.ddxPolynomialWrong4(poly).text(),
+				KhanUtil.ddxPolynomialWrong5(poly).text()
+			];
+
+            this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.funcNotation(variable);
+			return this;
+    },
+
 	CalcFunctions: [
 		function( variable ) {
 			// power rule, polynomials
-			var maxDegree = KhanUtil.randRange(2, 4);
 			var minDegree = KhanUtil.randRange(-2, 2);
-			var coefs = KhanUtil.randCoefs(minDegree, maxDegree);
-			
-			var poly = new KhanUtil.Polynomial(minDegree, maxDegree, coefs, variable);
-			
-			this.f = poly.expr();
-			this.ddxF = KhanUtil.ddxPolynomial(poly).expr();
-
-			this.fText = KhanUtil.expr( this.f );
-			this.ddxFText = KhanUtil.expr( this.ddxF );
-
-			this.wrongs = [
-				KhanUtil.ddxPolynomialWrong1(poly).expr(),
-				KhanUtil.ddxPolynomialWrong2(poly).expr(),
-				KhanUtil.ddxPolynomialWrong3(poly).expr(),
-				KhanUtil.ddxPolynomialWrong4(poly).expr(),
-				KhanUtil.ddxPolynomialWrong5(poly).expr()
-			];
-
-			this.wrongsText = jQuery.map(this.wrongs, function( value, index ) {
-				return KhanUtil.expr( value );
-			});
-
-			return this;
+			var maxDegree = KhanUtil.randRange(2, 4);
+            return KhanUtil.PowerRule(minDegree, maxDegree, KhanUtil.randCoefs(minDegree, maxDegree), variable);
 		},
-
 		function( variable ) {
 			// random trig func
 			var idx = KhanUtil.rand(3); // 0 - 2 in trig funcs

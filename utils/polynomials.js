@@ -2,7 +2,7 @@ jQuery.extend(KhanUtil, {
 	Polynomial: function( minDegree, maxDegree, coefs, variable, name ) {
 		var term = function( coef, vari, degree ) {
 			// sort of a weird error behavior
-			if ( !coef ) {
+			if (typeof coef == "undefined") {
 				coef = 1;
 			} else if ( coef == 0 ) {
 				return null;
@@ -24,7 +24,7 @@ jQuery.extend(KhanUtil, {
 		} else {
 			this.coefs = coefs;
 		}
-		this.variable = variable;
+		this.variable = (typeof variable !== "undefined") ? variable : "x";
 
 		if ( name ) {
 			this.name = name;
