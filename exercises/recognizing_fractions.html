@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math graph">
 <head>
 	<title>Recognizing Fractions</title>
 	<script src="../khan-exercise.js"></script>
@@ -31,8 +31,28 @@
 
 		<div class="hints">
 			<p>Fractions help represent parts of a whole.</p>
-			<!-- TODO: Drawing a pie would be great. -->
 			<p>You can think of this fraction as representing <var>NUMERATOR</var> out of <var>DENOMINATOR</var> slices of pie. In other words, the pie has been cut into <var>DENOMINATOR</var> slices, and we are only considering <var>NUMERATOR</var> of those slices.</p>
+			<div class="graph" style="width: 140px; height: 140px;" data-style="stroke: black; stroke-width: 2px;">
+				var angle, pts;
+
+				initPicture(-3.5, 3.5, -3.5, 3.5);
+
+				circle([0, 0], 3);
+
+				// Shade in n/d of the circle
+				fill = "#ffb4b0";
+				pts = [[0, 0]];
+				for ( var a = 0; a &lt; NUMERATOR / DENOMINATOR * (2 * PI); a += 0.01 ) {
+					pts.push([3 * sin(a), 3 * cos(a)]);
+				}
+				path(pts);
+
+				// Draw spokes
+				for ( var i = 0; i &lt; DENOMINATOR; i++ ) {
+					angle = i / DENOMINATOR * (2 * PI);
+					path([[0, 0], [3 * sin(angle), 3 * cos(angle)]]);
+				}
+			</div>
 			<p>The numerator is the number of slices we care about, and it is written above the fraction line. The denominator is the total number of slices, and it is written below the line.</p>
 			<p id="answer_hint"></p>
 		</div>

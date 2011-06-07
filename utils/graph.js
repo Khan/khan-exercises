@@ -788,7 +788,7 @@ jQuery.extend(KhanUtil, {
 });
 
 jQuery.fn.graph = function() {
-	return this.find(".graph").each(function() {
+	return this.find(".graph").add(this.filter(".graph")).each(function() {
 		// Grab code for later execution
 		var code = jQuery(this).text();
 
