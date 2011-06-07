@@ -217,6 +217,7 @@ jQuery.extend(KhanUtil, {
 				case "-":
 				case "*":
 				case "/":
+				case "^":
 				parenthesizeBase = true;
 				break;
 
