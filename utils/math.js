@@ -203,47 +203,49 @@ in reverse
 	pickRatBaseRatExp: function( base_neg_prob, exp_neg_prob, 
 			exp_num_unit_prob ) {
 		var root_bases_obj = this.randRootBases();
-		var results = {};
 
-		var base_sign = this.random() < base_neg_prob ? -1 : 1;
-		var base_n = root_bases_obj.base_1 * base_sign;
-		results.base_n = base_n;
+		var exp_neg = this.random() < exp_neg_prob;
+		var exp_d = root_bases_obj.root;
+
+		var base_neg = this.isOdd( exp_d ) && ( this.random() < base_neg_prob );
+		var base_n = root_bases_obj.base_1;
 		var base_d = root_bases_obj.base_2;
-		results.base_d = base_d;
 
-		var exp_sign = this.random() < exp_neg_prob ? -1 : 1;
-		var exp_d = root_bases_obj.root * exp_sign;
-		var root_n, root_d;
-		if ( base_n > 0 ) {
-			root_n = Math.round( Math.pow( exp_d > 0 ? base_n : base_d,
-				1 / Math.abs( exp_d ) ) );
-			root_d = Math.round( Math.pow( exp_d > 0 ? base_d : base_n,
-				1 / Math.abs( exp_d ) ) );
-		} else {
-			root_n = Math.round( - Math.pow( exp_d > 0 ? abs( base_n ) : base_d,
-				1 / Math.abs( exp_d ) ) );
-			root_d = Math.round( - Math.pow( exp_d > 0 ? base_d : abs( base_n ), 1 /
-				Math.abs( exp_d ) ) );
-		}
+		var root_n = Math.round( Math.pow( exp_neg ? base_d : base_n, 1 / exp_d ) );
+		var root_d = Math.round( Math.pow( exp_neg ? base_n : base_d, 1 / exp_d ) );
+
 		var max_exp = Math.min( this.maxReasonableExp( root_n ),
 			this.maxReasonableExp( root_d ) );
-		var exp_n = this.randRangeWeighted( 1, max_exp, 1, .1 );
+
+		var exp_n;
+		while ( exp_n === undefined || exp_n % exp_d === 0 ) {
+			exp_n = this.randRange(2, max_exp);
+		}
+
+		// we need to check and update the root if the exponent reduces, since we'll
+		// be displaying just the reduced exponent.
 		var gcd = this.getGCD( exp_n, exp_d );
-		
-		results.exp_n = exp_n / gcd;
-		results.exp_d = exp_d / gcd;
+		exp_n = exp_n / gcd;
+		exp_d = exp_d / gcd;
+		root_n = Math.round( Math.pow( exp_neg ? base_d : base_n, 1 / exp_d ) );
+		root_d = Math.round( Math.pow( exp_neg ? base_n : base_d, 1 / exp_d ) );
+		// the base will only be negative when the root would also be negative.
+		var root_neg = base_neg;
 
-		results.root_n = Math.round( Math.pow( exp_d > 0 ? base_n : base_d,
-			1 / Math.abs( results.exp_d ) ) );
-		results.root_d = Math.round( Math.pow( exp_d > 0 ? base_d : base_n,
-			1 / Math.abs( results.exp_d ) ) );
+		var sol_neg = base_neg && this.isOdd( exp_n );
+		var sol_n = Math.round( Math.pow( root_n, exp_n ) );
+		var sol_d = Math.round( Math.pow( root_d, exp_n ) );
 
-		results.sol_n = Math.round( Math.pow( exp_d > 0 ? base_n : base_d,
-			results.exp_n / results.exp_d ) );
-		results.sol_d = Math.round( Math.pow( exp_d > 0 ? base_d : base_n,
-			results.exp_n / results.exp_d ) );
-
-		return results;
+		return {
+			base_n: base_n * (base_neg ? -1 : 1),
+			base_d: base_d,
+			exp_n: exp_n * (exp_neg ? -1 : 1),
+			exp_d: exp_d,
+			root_n: root_n * (root_neg ? -1 : 1),
+			root_d: root_d,
+			sol_n: sol_n * (sol_neg ? -1 : 1),
+			sol_d: sol_d
+		};
 	},
 
 	getOddComposite: function( min, max ) {

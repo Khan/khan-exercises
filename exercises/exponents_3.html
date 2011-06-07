@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html data-require="math mathformat">
+<head>
+	<title>Exponents 3</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<p class="summary">This exercise covers exponential arithmetic with positive rational bases and rational exponents with unit numerator. This exercise covers the first chunk of material from the Level 3 Exponents video.</p>
+
+		<div class="problems">
+			<div>
+				<div class="vars" data-ensure="abs( EXP_DENOM ) !== 1">
+					<var id="ROOT_BASES_OBJ">randRootBases()</var>
+					
+					
+					<!-- the exponent will be negative 75% of the time. -->
+					<var id="EXP_DENOM">( random() < 0.75 ? -1 : 1 ) * ROOT_BASES_OBJ.root</var>
+					<var id="EXP_STR">fraction( 1, EXP_DENOM, "small" )</var>
+					<var id="EXP_STR_ABS">fraction( 1, abs( EXP_DENOM ), "small" )</var>
+					
+ 					<var id="BASE_NUM">ROOT_BASES_OBJ.base_1</var>
+					<var id="BASE_DENOM">ROOT_BASES_OBJ.base_2</var>
+					<var id="BASE_STR">fraction( BASE_NUM, BASE_DENOM )</var>
+					<var id="BASE_STR_PARENS">fractionParens( BASE_NUM, BASE_DENOM )</var>
+					<var id="BASE_STR_FLIPPED">fraction( BASE_DENOM, BASE_NUM )</var>
+					<var id="BASE_STR_FLIPPED_PARENS">fractionParens( BASE_DENOM, BASE_NUM )</var>
+
+					<var id="SOL_NUM">round( pow( EXP_DENOM > 0 ? BASE_NUM : BASE_DENOM, 1 / EXP_DENOM ) )</var>
+					<var id="SOL_DENOM">round( pow( EXP_DENOM > 0 ? BASE_DENOM : BASE_NUM, 1 / EXP_DENOM ) )</var>
+					<var id="SOL_STR">fraction( SOL_NUM, SOL_DENOM )</var>
+					<var id="SOL_STR_PARENS">fractionParens( SOL_NUM, SOL_DENOM )</var>
+					<var id="SOL_STR_FLIPPED">fraction( SOL_DENOM, SOL_NUM )</var>
+					<var id="SOL_STR_FLIPPED_PARENS">fractionParens( SOL_DENOM, SOL_NUM )</var>
+				</div>
+
+				<p class="question"><code><var>BASE_STR_PARENS</var>^{<var>EXP_STR</var>}</code></p>
+				<p class="solution" data-type="rational"><var>round( pow( BASE_NUM / BASE_DENOM, 1 / EXP_DENOM ) )</var></p>
+
+				<div class="hints">
+					<!-- FIXME: this depends on if-templating rendering the hints in the correct order, which it doesn't do ATM. -->
+					<div data-if="EXP_DENOM > 0">
+						<div><code>\Big(?\Big)^{<var>EXP_DENOM</var>}=<var>BASE_STR</var></code></div>
+						<div><code><var>SOL_STR_PARENS</var>^{<var>EXP_DENOM</var>}=<var>BASE_STR</var></code></div>
+						<div>so <code><var>BASE_STR_PARENS</var>^{<var>EXP_STR</var>}=<var>SOL_STR</var></code></div>
+					</div>
+					<div data-else>
+						<div><code>= <var>BASE_STR_FLIPPED_PARENS</var>^{<var>EXP_STR_ABS</var>}</code></div>
+						<div><code>\Big(?\Big)^{<var>abs( EXP_DENOM )</var>}=<var>BASE_STR_FLIPPED</var></code></div>
+						<div><code><var>SOL_STR_FLIPPED_PARENS</var>^{<var>abs( EXP_DENOM )</var>}=<var>BASE_STR_FLIPPED</var></code></div>
+						<div>so <code><var>BASE_STR_FLIPPED_PARENS</var>^{<var>EXP_STR_ABS</var>}=<var>SOL_STR</var></code></div>
+						<div>so <code><var>BASE_STR_PARENS</var>^{<var>EXP_STR</var>}=<var>SOL_STR</var></code></div>
+					</div>
+					<!-- for 4^(-1/2), show "=(1/4)^(1/2)", then "?^2 = 1/4?", then "(1/2)^2 = 1/4", then "so (1/4)^(1/2) = 1/2" -->
+					<!-- for 4^(1/2), show "?^2 = 4?", then "2^2 = 4", then "so 4^(1/2) = 2" -->
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
