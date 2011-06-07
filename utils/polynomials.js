@@ -2,7 +2,7 @@ jQuery.extend(KhanUtil, {
 	Polynomial: function( minDegree, maxDegree, coefs, variable, name ) {
 		var term = function( coef, vari, degree ) {
 			// sort of a weird error behavior
-			if ( !coef ) {
+			if ( typeof coef === "undefined" ) {
 				coef = 1;
 			} else if ( coef == 0 ) {
 				return null;
@@ -33,7 +33,7 @@ jQuery.extend(KhanUtil, {
 		}
 
 		this.expr = function( vari ) {
-			if ( !vari ) {
+			if ( typeof vari === "undefined" ) {
 				vari = this.variable;
 			}
 			
@@ -64,50 +64,79 @@ jQuery.extend(KhanUtil, {
 			return KhanUtil.expr( this.expr( val ), true );
 		};
 
-		this.hint = function() {
-			
+		this.hint = function( val ) {
+			var hint = "<p><code>" + this.name+"("+val+") = " + this.hintEvalOf( val ) + "</code></p>";
+			hint += "<p><code>" + this.name+"("+val+") = " +  + this.evalOf( val ) + "</code></p>";
+
+			return hint;
 		};
 		
 		return this;
 	},
 
 	CompositePolynomial: function( minDegree, maxDegree, coefs, variable, name,
-								   composed ) {
+								   composed, composedCoef ) {
 		var base = new KhanUtil.Polynomial( minDegree, maxDegree, coefs, variable, name );
 
 		jQuery.extend(this, base);
-		var composedFunc = composed.name + "(" + base.variable + ")";
 
-		this.expr = function( vari ) {
-			var expr = base.expr( vari );
+		if ( !composedCoef ) {
+			composedCoef = KhanUtil.randRangeNonZero( -5, 5 );
+		}
+		var composedFunc = composed.name+"("+this.variable+")";
 
-			expr.push( composedFunc );
+		var tackOn = function( expr, tack ) {
+			expr = jQuery.merge( [], expr );
+
+			if ( expr[0] === "+" ) {
+				expr.push( tack );
+			} else {
+				expr = [ "+", expr, tack ];
+			}
 
 			return expr;
+		}
+		
+		this.expr = function( vari ) {
+			return tackOn( base.expr( vari ), ["*", composedCoef, composedFunc] );
 		};
 
 		this.text = function() {
-			return base.text() + " + " + composedFunc;
+			return KhanUtil.expr( this.expr( this.variable ) ); 
 		};
 
 		this.toString = this.text;
 
-		this.hintEvalOf = function( val ) {
-			return base.hintEvalOf(val) + " + " + composed.name + "(" + val + ")";
+		this.hintEvalOf = function( val, evalInner ) {
+			if ( evalInner ) {
+				return KhanUtil.expr( tackOn( base.expr( val ), ["*", composedCoef, composed.evalOf( val )] ) );
+			} else {
+				return KhanUtil.expr( tackOn( base.expr( val ), ["*", composedCoef, composed.name+"("+val+")"] ) );
+			}
 		};
 
 		this.evalOf = function( val ) {
-			return base.evalOf( val ) + composed.evalOf( val );
+			return base.evalOf( val ) + composedCoef * composed.evalOf( val );
 		};
 
 		this.hint = function( val ) {
-			var hint = "<p>First, let's solve for the value of the inner function, <code>"
-					   + composedFunc+"</code>. Then we'll know what to plug into the outer function.</p>";
-			hint += base.hint( val );
+			var hint = "<p><code>" + this.name+"("+val+") = " + this.hintEvalOf(val) + "</code></p>";
 
-			hint += "<p>Now we know that <code>"+composedFunc+" = "+composed.evalOf( val )+"."
-				+ "Let's solve for <code>"+base.name+"("+base.variable+")</code>, which is <code>"
-				+ base.name+"("+val+")</code>.";
+			var composedFuncWithVal = composed.name+"("+val+")";
+			
+			hint += "<p>To solve for the value of <code>" + this.name + "</code>,"
+				+ "we need to solve for the value of <code>"
+				+ composedFuncWithVal + "</code>.</p>";
+
+			hint += composed.hint( val );
+
+			hint += "<p>Okay, so <code>" + composedFuncWithVal+" = " + composed.evalOf(val) + "</code>.</p>";
+
+			hint += "<p>That means <code>" + this.name+"("+val+") = " + this.hintEvalOf(val, true) + "</code></p>";
+
+			hint += "<p><code>" + this.name+"("+val+") = " + this.evalOf( val ) + "</code></p>";
+
+			return hint;
 		};
 
 		return this;
