@@ -199,6 +199,53 @@ in reverse
 		};
 	},
 
+	/* For Exponents 4. */
+	pickRatBaseRatExp: function( base_neg_prob, exp_neg_prob, 
+			exp_num_unit_prob ) {
+		var root_bases_obj = this.randRootBases();
+		var results = {};
+
+		var base_sign = this.random() < base_neg_prob ? -1 : 1;
+		var base_n = root_bases_obj.base_1 * base_sign;
+		results.base_n = base_n;
+		var base_d = root_bases_obj.base_2;
+		results.base_d = base_d;
+
+		var exp_sign = this.random() < exp_neg_prob ? -1 : 1;
+		var exp_d = root_bases_obj.root * exp_sign;
+		var root_n, root_d;
+		if ( base_n > 0 ) {
+			root_n = Math.round( Math.pow( exp_d > 0 ? base_n : base_d,
+				1 / Math.abs( exp_d ) ) );
+			root_d = Math.round( Math.pow( exp_d > 0 ? base_d : base_n,
+				1 / Math.abs( exp_d ) ) );
+		} else {
+			root_n = Math.round( - Math.pow( exp_d > 0 ? abs( base_n ) : base_d,
+				1 / Math.abs( exp_d ) ) );
+			root_d = Math.round( - Math.pow( exp_d > 0 ? base_d : abs( base_n ), 1 /
+				Math.abs( exp_d ) ) );
+		}
+		var max_exp = Math.min( this.maxReasonableExp( root_n ),
+			this.maxReasonableExp( root_d ) );
+		var exp_n = this.randRangeWeighted( 1, max_exp, 1, .1 );
+		var gcd = this.getGCD( exp_n, exp_d );
+		
+		results.exp_n = exp_n / gcd;
+		results.exp_d = exp_d / gcd;
+
+		results.root_n = Math.round( Math.pow( exp_d > 0 ? base_n : base_d,
+			1 / Math.abs( results.exp_d ) ) );
+		results.root_d = Math.round( Math.pow( exp_d > 0 ? base_d : base_n,
+			1 / Math.abs( results.exp_d ) ) );
+
+		results.sol_n = Math.round( Math.pow( exp_d > 0 ? base_n : base_d,
+			results.exp_n / results.exp_d ) );
+		results.sol_d = Math.round( Math.pow( exp_d > 0 ? base_d : base_n,
+			results.exp_n / results.exp_d ) );
+
+		return results;
+	},
+
 	getOddComposite: function( min, max ) {
 		if ( min === undefined ) {
 			min = 0;
