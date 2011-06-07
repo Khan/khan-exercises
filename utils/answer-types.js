@@ -218,6 +218,11 @@ jQuery.extend( Khan.answerTypes, {
 
 			if( noneIsCorrect ) {
 				none.data( "correct", true );
+				list.data( "real-answer", 
+						jQuery( solution ).runModules()
+							.contents()
+							.wrapAll( '<span class="value""></span>' )
+							.parent() );
 			}
 
 			shownChoices.push( none );
@@ -232,7 +237,15 @@ jQuery.extend( Khan.answerTypes, {
 		});
 
 		return function() {
-			return list.find("input:checked").val() === "1";
+			var choice = list.find("input:checked");
+			if ( noneIsCorrect ) {
+				choice.next()
+					.fadeOut( "fast", function() {
+						jQuery( this ).replaceWith( list.data( "real-answer" ) )
+							.fadeIn( "fast" );
+					})
+			}
+			return choice.val() === "1";
 		};
 	},
 
