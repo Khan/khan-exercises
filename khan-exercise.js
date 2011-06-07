@@ -3,7 +3,7 @@
 	var link = document.createElement("link");
 	link.rel = "stylesheet";
 	link.href = "../khan-exercise.css";
-	document.documentElement.appendChild( link );
+	document.getElementsByTagName('head')[0].appendChild(link);
 })();
 
 // The main Khan Module
@@ -22,17 +22,41 @@ var Khan = {
 		var loaded = 0,
 			loading = urls.length;
 
+		callback || ( callback = function() { } );
+
 		// Ehhh... not a huge fan of this
 		this.scriptWait = function( callback ) {
 			loading++;
 			callback( runCallback );
 		};
 
-		for ( var i = 0; i < loading; i++ ) (function( url ) {
+		for ( var i = 0; i < loading; i++ ) (function( obj ) {
 			var script = document.createElement("script");
-			script.src = url;
-			script.onload = runCallback;
-			document.documentElement.appendChild( script );
+
+			if ( typeof obj === "string" ) {
+				obj = { src: obj };
+			}
+
+			var key, val;
+			for ( key in obj ) {
+				if ( Object.prototype.hasOwnProperty.call( obj, key ) ) {
+					val = obj[key];
+					script[key] = val;
+				}
+			}
+
+			// For IE, onreadystatechange is null instead of undefined
+			if( script.attachEvent && !navigator.userAgent.match(/opera/i) ) {
+				script.attachEvent("onreadystatechange", function() {
+					if ( script.readyState === "loaded" || script.readyState === "complete" ) {
+						runCallback();
+					}
+				});
+			} else {
+				script.addEventListener("load", runCallback, false);
+			}
+
+			document.getElementsByTagName('head')[0].appendChild(script);
 		})( urls[i] );
 
 		runCallback( true );
@@ -261,14 +285,14 @@ var Khan = {
 				'<form action="">' +
 					'<h3>Answer</h3>' +
 					'<div id="solution"></div>' +
-					'<input type="submit" id="check" value="Check Answer"/>' +
+					'<span><input type="submit" id="check" value="Check Answer"></span>' +
 					'<p id="congrats">Congratulations! That answer is correct.</p>' +
 					'<p id="oops">Oops! That answer is not correct, please try again.</p>' +
-					'<input type="button" id="next" value="Next Problem"/>' +
+					'<span><input type="button" id="next" value="Next Problem"></span>' +
 				'</form>' +
 				'<div id="help">' +
 					'<h3>Need Help?</h3>' +
-					'<input type="button" id="gethint" value="Get a Hint"/>' +
+					'<span><input type="button" id="gethint" value="Get a Hint"></span>' +
 				'</div>' +
 			'</div>' +
 			'<div id="workarea"></div>' +
