@@ -387,7 +387,7 @@ jQuery.extend({
 		if ( condStr != null ) {
 			cond = cond && jQuery.getVAR( condStr );
 
-			var nextCond = jQuery(this).nextAll( jQuery.tmplExpr ).eq(0);
+			var nextCond = jQuery(this).next( jQuery.tmplExpr );
 
 			if ( nextCond.data("else") != null ) {
 				nextCond.data("else-hide", cond || jQuery(this).data("else-hide"));
@@ -434,10 +434,10 @@ jQuery.extend({
 			}
 
 			try {
-				// Use the methods provided by the library
-				with ( KhanUtil ) {
-					// And the methods from JavaScript's builtin Math methods
-					with ( Math ) {
+				// Use the methods from JavaScript's builtin Math methods
+				with ( Math ) {
+					// And the methods provided by the library
+					with ( KhanUtil ) {
 						// Use all the computed variables
 						with ( VARS ) {
 							return eval( "(" + code	 + ")" );

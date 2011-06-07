@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html data-require="math graph">
+<head>
+	<title>Angle Types</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="acute">
+			<div class="vars">
+				<var id="ANGLE_ONE">randRange(0, 359)</var>
+				<var id="DIFF">randRange(10, 80)</var>
+				<var id="ANGLE_TWO">ANGLE_ONE + DIFF</var>
+			</div>
+
+			<div class="question">
+				<p>Is the shown angle acute, right, or obtuse?</p>
+
+				<div class="graph" style="width: 240px; height: 240px;" data-style="stroke: black; stroke-width: 2px;">
+
+					var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
+					var ANGLE_TWO_R = ANGLE_TWO * PI / 180;
+
+					initPicture(-6, 6, -6, 6);
+					path([ [0, 0], [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )] ]);
+					path([ [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
+
+				</div>
+			</div>
+
+			<div class="solution">Acute</div>
+			<ul class="choices" data-category="true">
+				<li>Acute</li>
+				<li>Right</li>
+				<li>Obtuse</li>
+			</ul>
+
+			<div class="hints">
+				<p>The shown angle measures less than <code>90^\circ</code>.</p>
+				<p>Therefore, it is an acute angle.
+			</div>
+		</div>
+
+		<div id="right">
+			<div class="vars">
+				<var id="ANGLE_ONE">randRange(0, 359)</var>
+				<var id="DIFF">90</var>
+				<var id="ANGLE_TWO">ANGLE_ONE + DIFF</var>
+			</div>
+
+			<div class="question">
+				<p>Is the shown angle acute, right, or obtuse?</p>
+
+				<div class="graph" style="width: 240px; height: 240px;" data-style="stroke: black; stroke-width: 2px;">
+
+					var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
+					var ANGLE_TWO_R = ANGLE_TWO * PI / 180;
+
+					initPicture(-6, 6, -6, 6);
+					path([ [0, 0], [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )] ]);
+					path([ [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
+
+				</div>
+			</div>
+
+			<div class="solution">Right</div>
+			<ul class="choices" data-category="true">
+				<li>Acute</li>
+				<li>Right</li>
+				<li>Obtuse</li>
+			</ul>
+
+			<div class="hints">
+				<p>The shown angle measures <code>90^\circ</code>.</p>
+				<p>Therefore, it is a right angle.
+			</div>
+		</div>
+
+		<div id="obtuse">
+			<div class="vars">
+				<var id="ANGLE_ONE">randRange(0, 359)</var>
+				<var id="DIFF">randRange(100, 170)</var>
+				<var id="ANGLE_TWO">ANGLE_ONE + DIFF</var>
+			</div>
+
+			<div class="question">
+				<p>Is the shown angle acute, right, or obtuse?</p>
+
+				<div class="graph" style="width: 240px; height: 240px;" data-style="stroke: black; stroke-width: 2px;">
+
+					var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
+					var ANGLE_TWO_R = ANGLE_TWO * PI / 180;
+
+					initPicture(-6, 6, -6, 6);
+					path([ [0, 0], [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )] ]);
+					path([ [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
+
+				</div>
+			</div>
+
+			<div class="solution">Obtuse</div>
+			<ul class="choices" data-category="true">
+				<li>Acute</li>
+				<li>Right</li>
+				<li>Obtuse</li>
+			</ul>
+
+			<div class="hints">
+				<p>The shown angle measures more than <code>90^\circ</code>.</p>
+				<p>Therefore, it is an obtuse angle.
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

@@ -149,6 +149,8 @@ jQuery.extend(KhanUtil, {
 				KhanUtil.ddxPolynomialWrong5(poly).text()
 			];
 
+            this.hints = ["one", "two"];
+
             this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.funcNotation(variable);
 			return this;
     },

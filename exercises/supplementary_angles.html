@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graph mathformat">
 <head>
-	<title>Complementary Angles</title>
+	<title>Supplementary Angles</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -18,7 +18,7 @@
 				<var id="A">LABELS[1]</var>
 				<var id="B">LABELS[2]</var>
 				<var id="C">LABELS[3]</var>
-				<var id="ANGLE">randRange(1, 89)</var>
+				<var id="ANGLE">randRange(1, 179)</var>
 
 				<var id="ANGLE_BOT">"\\angle " + A + O + B</var>
 				<var id="ANGLE_TOP">"\\angle " + B + O + C</var>
@@ -29,35 +29,35 @@
 			</div>
 
 			<div class="question">
-				<p>If <code>\angle <var>A + O + C</var></code> is a right angle and <code>m <var>ANGLE_ONE</var> = <var>ANGLE</var>^\circ</code>, what is <code>m <var>ANGLE_TWO</var></code>, in degrees?</p>
+				<p>If <code>\angle <var>A + O + C</var> = 180^\circ</code> and <code>m <var>ANGLE_ONE</var> = <var>ANGLE</var>^\circ</code>, what is <code>m <var>ANGLE_TWO</var></code>, in degrees?</p>
 
-				<div class="graph" style="width: 140px; height: 140px;" data-style="stroke: black; stroke-width: 2px;">
-					var DISP_ANGLE = Math.min( Math.max( 10, ANGLE ), 80 );
+				<div class="graph" style="width: 240px; height: 140px;" data-style="stroke: black; stroke-width: 2px;">
+					var DISP_ANGLE = Math.min( Math.max( 10, ANGLE ), 170 );
 
 					if ( PAIR[0] !== ANGLE_BOT ) {
-						DISP_ANGLE = 90 - DISP_ANGLE;
+						DISP_ANGLE = 180 - DISP_ANGLE;
 					}
 
 					DISP_ANGLE *= PI / 180;
 
-					initPicture(-1, 6, -1, 6);
-					path([ [0, 0], [0, 5] ]);
+					initPicture(-6, 6, -1, 6);
+					path([ [0, 0], [-5, 0] ]);
 					path([ [0, 0], [5, 0] ]);
 					path([ [0, 0], [5 * cos( DISP_ANGLE ), 5 * sin( DISP_ANGLE )] ]);
 
-					text([-0.5, -0.5], O);
+					text([0, -0.5], O);
 					text([5.5, 0], A);
-					text([0, 5.5], C);
+					text([-5.5, 0], C);
 					text([5.5 * cos( DISP_ANGLE ), 5.5 * sin( DISP_ANGLE )], B);
 				</div>
 			</div>
 
-			<div class="solution"><var>90 - ANGLE</var></div>
+			<div class="solution"><var>180 - ANGLE</var></div>
 
 			<div class="hints">
-				<p>From the diagram, we see that <code><var>ANGLE_BOT</var></code> and <code><var>ANGLE_TOP</var></code> are complementary angles.</p>
-				<p>Therefore, <code>m <var>ANGLE_BOT</var> + m <var>ANGLE_TOP</var> = 90^\circ</code>.</p>
-				<p>Thus, <code>m <var>ANGLE_TWO</var> = 90^\circ - m <var>ANGLE_ONE</var> = 90^\circ - <var>ANGLE</var>^\circ = <var>90 - ANGLE</var>^\circ</code>.</p>
+				<p>From the diagram, we see that <code><var>ANGLE_BOT</var></code> and <code><var>ANGLE_TOP</var></code> are supplementary angles.</p>
+				<p>Therefore, <code>m <var>ANGLE_BOT</var> + m <var>ANGLE_TOP</var> = 180^\circ</code>.</p>
+				<p>Thus, <code>m <var>ANGLE_TWO</var> = 180^\circ - m <var>ANGLE_ONE</var> = 180^\circ - <var>ANGLE</var>^\circ = <var>180 - ANGLE</var>^\circ</code>.</p>
 			</div>
 		</div>
 	</div>
