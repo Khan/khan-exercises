@@ -66,7 +66,11 @@ jQuery.extend(KhanUtil, {
 
 	formatOperators: {
 		"+": function() {
-			var terms = jQuery.map(arguments, function( term, i ) {
+			var terms = jQuery.grep(arguments, function( term, i ) {
+				return term != null;
+			});
+
+			terms = jQuery.map(terms, function( term, i ) {
 				var negate = KhanUtil.exprIsNegated( term );
 				var parenthesize;
 				switch ( KhanUtil.exprType(term) ) {
