@@ -218,7 +218,11 @@ jQuery.extend( Khan.answerTypes, {
 
 			if( noneIsCorrect ) {
 				none.data( "correct", true );
-				list.data("real-answer", jQuery( solution ).runModules().contents().wrapAll('<span class="value""></span>').parent());
+				list.data( "real-answer", 
+						jQuery( solution ).runModules()
+							.contents()
+							.wrapAll( '<span class="value""></span>' )
+							.parent() );
 			}
 
 			shownChoices.push( none );
@@ -235,11 +239,11 @@ jQuery.extend( Khan.answerTypes, {
 		return function() {
 			var choice = list.find("input:checked");
 			if ( noneIsCorrect ) {
-				var label = choice.next();
-				label.fadeOut("fast", function() {
-					label.replaceWith(list.data("real-answer"));
-					label.fadeIn("fast");
-				})
+				choice.next()
+					.fadeOut( "fast", function() {
+						jQuery( this ).replaceWith( list.data( "real-answer" ) )
+							.fadeIn( "fast" );
+					})
 			}
 			return choice.val() === "1";
 		};
