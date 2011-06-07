@@ -555,10 +555,10 @@ jQuery.extend({
 			}
 
 			try {
-				// Use the methods provided by the library
-				with ( KhanUtil ) {
-					// And the methods from JavaScript's builtin Math methods
-					with ( Math ) {
+				// Use the methods from JavaScript's builtin Math methods
+				with ( Math ) {
+					// And the methods provided by the library
+					with ( KhanUtil ) {
 						// Use all the computed variables
 						with ( VARS ) {
 							return eval( "(" + code	 + ")" );
@@ -579,9 +579,25 @@ jQuery.extend({
 
 // Load MathJax
 Khan.scriptWait(function( scriptLoaded ) {
-	var script = document.createElement("script");
-	script.src = "http://cdn.mathjax.org/mathjax/latest/MathJax.js";
-	script.onload = function() {
+	// There is no god.
+	// I (John) will personally gut punch whoever thought this was a good API design
+	var options = {
+		src: "http://cdn.mathjax.org/mathjax/latest/MathJax.js",
+		text: 'MathJax.Hub.Config({\
+			messageStyle: "none",\
+			skipStartupTypeset: true,\
+			jax: ["input/TeX","output/HTML-CSS"],\
+			extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
+			TeX: {\
+				extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
+			},\
+			"HTML-CSS": {\
+				scale: 88\
+			}\
+		});MathJax.Hub.Startup.onload();'
+	};
+
+	Khan.loadScripts([ options ], function() {
 		// We don't want to use inline script elements, we want to use code blocks
 		MathJax.Hub.elementScripts = function( elem ) {
 			return elem.nodeName.toLowerCase() === "code" ?
@@ -595,22 +611,5 @@ Khan.scriptWait(function( scriptLoaded ) {
 		MathJax.Hub.Browser.isKonqueror = true;
 
 		scriptLoaded();
-	};
-
-	// There is no god.
-	// I will personally gut punch whoever thought this was a good API design
-	script.text = 'MathJax.Hub.Config({\
-		messageStyle: "none",\
-		skipStartupTypeset: true,\
-		jax: ["input/TeX","output/HTML-CSS"],\
-		extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
-		TeX: {\
-			extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
-		},\
-		"HTML-CSS": {\
-			scale: 88\
-		}\
-	});MathJax.Hub.Startup.onload();';
-
-	document.documentElement.appendChild( script );
+	});
 });

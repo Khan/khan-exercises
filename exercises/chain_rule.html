@@ -10,7 +10,7 @@
 			<var id="INNER">generateFunction("x")</var>
 			<var id="OUTER">new CalcFunctions[randRange(1, CalcFunctions.length - 1)](INNER.f)</var>
 
-			<var id="DERIVATIVE">KhanUtil.expr(["*", OUTER.ddxF, INNER.ddxF])</var>
+			<var id="DERIVATIVE">expr(["*", OUTER.ddxF, INNER.ddxF])</var>
 			<var id="NOTATION">funcNotation("x")</var>
 		</div>
 
@@ -23,25 +23,25 @@
 
 				<ul class="choices" data-none="true" data-show="5">
 					<li><code><var>
-						KhanUtil.expr(["*", randFromArray(OUTER.wrongs), randFromArray(INNER.wrongs)])
+						expr(["*", randFromArray(OUTER.wrongs), randFromArray(INNER.wrongs)])
 					</var></code></li>
 					<li><code><var>
-						KhanUtil.expr(["*", randFromArray(OUTER.wrongs), randFromArray(INNER.wrongs)])
+						expr(["*", randFromArray(OUTER.wrongs), randFromArray(INNER.wrongs)])
 					</var></code></li>
 					<li><code><var>
-						KhanUtil.expr(["+", randFromArray(OUTER.wrongs), randFromArray(INNER.wrongs)])
+						expr(["+", randFromArray(OUTER.wrongs), randFromArray(INNER.wrongs)])
 					</var></code></li>
 					<li><code><var>
-						KhanUtil.expr(["+", randFromArray(OUTER.wrongs), randFromArray(INNER.wrongs)])
+						expr(["+", randFromArray(OUTER.wrongs), randFromArray(INNER.wrongs)])
 					</var></code></li>
 					<li><code><var>
-						KhanUtil.expr(OUTER.ddxF)
+						expr(OUTER.ddxF)
 					</var></code></li>
 					<li><code><var>
-						KhanUtil.expr(randFromArray(OUTER.wrongs))
+						expr(randFromArray(OUTER.wrongs))
 					</var></code></li>
 					<li><code><var>
-						KhanUtil.expr(randFromArray(OUTER.wrongs))
+						expr(randFromArray(OUTER.wrongs))
 					</var></code></li>
 				</ul>
 			</div>
