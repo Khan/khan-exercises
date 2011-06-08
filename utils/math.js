@@ -146,11 +146,10 @@ in reverse
 			10: 10,  // 10^10 = 100000000000
 		}[ Math.abs( n ) ];
 	},
-	
-	/* Finds a root and two bases that can be taken to that root. This is used in
-	 * exponents 3, where we need an exponent denominator such that both the base
-	 * numerator and base denominator work well. */
-	randRootBases: function() {
+
+	/* For Exponents 3, find a rational base and root such that both the numerator
+	 * and denominator of the base can be taken to that root. */
+	pickRatBaseRoot: function( exp_neg_prob ) {
 
 		// we want to choose a random rootable base then find the root associated
   	// to that base and then find another base which can be taken to that
@@ -183,33 +182,45 @@ in reverse
 			}
 		}
 
-		var base_1 = this.randFromArray( bases );
-		var root = this.randFromArray( roots_by_base[ base_1 ] );
+		var base_n = this.randFromArray( bases );
+
+		var exp_d;
+		while ( exp_d === undefined || exp_d === 1) {
+			exp_d = this.randFromArray( roots_by_base[ base_n ] );
+		}
+		var exp_neg = Math.random() < exp_neg_prob;
 
 		// keep choosing the second base until it's unique from the first.
-		var base_2;
-		while ( base_2 === undefined || base_1 === base_2 ) {
-			base_2 = this.randFromArray( bases_by_root[ root ] );
+		var base_d;
+		while ( base_d === undefined || base_d === base_n ) {
+			base_d = this.randFromArray( bases_by_root[ exp_d ] );
 		}
 
+		var sol_n = Math.round( Math.pow( exp_neg ? base_d : base_n, 1 / exp_d ) );
+		var sol_d = Math.round( Math.pow( exp_neg ? base_n : base_d, 1 / exp_d ) );
+
 		return {
-			base_1: base_1,
-			base_2: base_2,
-			root: root
+			base_n: base_n,
+			base_d: base_d,
+			exp_d: exp_d * (exp_neg ? -1 : 1),
+			sol_n: sol_n,
+			sol_d: sol_d
 		};
 	},
 
-	/* For Exponents 4. */
+	/* For Exponents 4, pick a rational base and a rational exponent such that the
+	 * base is easy to take the root corresponding to the exponent's denominator
+	 * and such that it is then reasonable to raise to the exponent's numerator. */
 	pickRatBaseRatExp: function( base_neg_prob, exp_neg_prob, 
 			exp_num_unit_prob ) {
-		var root_bases_obj = this.randRootBases();
+		var root_bases = this.pickRatBaseRoot( exp_neg_prob );
 
-		var exp_neg = this.random() < exp_neg_prob;
-		var exp_d = root_bases_obj.root;
+		var exp_neg = root_bases.exp_d < 0;
+		var exp_d = Math.abs( root_bases.exp_d );
 
 		var base_neg = this.isOdd( exp_d ) && ( this.random() < base_neg_prob );
-		var base_n = root_bases_obj.base_1;
-		var base_d = root_bases_obj.base_2;
+		var base_n = root_bases.base_n;
+		var base_d = root_bases.base_d;
 
 		var root_n = Math.round( Math.pow( exp_neg ? base_d : base_n, 1 / exp_d ) );
 		var root_d = Math.round( Math.pow( exp_neg ? base_n : base_d, 1 / exp_d ) );
