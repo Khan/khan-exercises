@@ -191,7 +191,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		["book", "shelf", "fill"],
 		["can of food", "box", "fill"]
 	]);
-
+	
 	var stores = KhanUtil.shuffle([
 		{
 			name: "office supply",
@@ -215,6 +215,14 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		}
 	]);
 
+	var pizzas = KhanUtil.shuffle([
+		"pizza",
+		"pie",
+		"cake",
+		"orange",
+		"lemon"
+	]);
+	
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -286,6 +294,11 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		storeItem: function( i, j ) {
 			return stores[i].items[j];
+		},
+		
+		pizza: function( i ) {
+			return pizzas[i];
 		}
+		
 	});
 };
