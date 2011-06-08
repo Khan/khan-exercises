@@ -189,6 +189,34 @@ in reverse
 		};
 	},
 
+	/* For Exponents 2, find a rational base and an integer exponent such that the
+	 * calculation is reasonable. */
+	pickRatBaseIntExp: function( base_neg_prob, exp_neg_prob, base_rat_prob ) {
+		var base_neg = Math.random() < base_neg_prob;
+		var base_n = this.randRange( 1, 10 );
+		var base_d;
+		while ( base_d === undefined || base_n === base_d ) {
+			base_d = this.randRangeWeighted( 1, 10, 1, 1 - base_rat_prob );
+		}
+
+		var exp_neg = Math.random() < exp_neg_prob;
+		var max_exp = Math.min( this.maxReasonableExp( base_n ),
+			this.maxReasonableExp( base_d ) );
+		var min_exp = exp_neg ? 1 : 2;
+		var exp = this.randRange( min_exp, max_exp );
+
+		var sol_n = Math.round( Math.pow( exp_neg ? base_d : base_n, exp ) );
+		var sol_d = Math.round( Math.pow( exp_neg ? base_n : base_d, exp ) );
+
+		return {
+			base_n: base_n,
+			base_d: base_d,
+			exp: exp * ( exp_neg ? -1 : 1 ),
+			sol_n: sol_n,
+			sol_d: sol_d
+		};
+	},
+
 	/* For Exponents 3, find a rational base and root such that both the numerator
 	 * and denominator of the base can be taken to that root. */
 	pickRatBaseRoot: function( exp_neg_prob ) {
@@ -244,7 +272,7 @@ in reverse
 		return {
 			base_n: base_n,
 			base_d: base_d,
-			exp_d: exp_d * (exp_neg ? -1 : 1),
+			exp_d: exp_d * ( exp_neg ? -1 : 1 ),
 			sol_n: sol_n,
 			sol_d: sol_d
 		};
