@@ -138,18 +138,27 @@ jQuery.extend(KhanUtil, {
 			var coefs = (typeof coefs == "object") ? coefs : KhanUtil.randCoefs(minDegree, maxDegree);
 			var poly = new KhanUtil.Polynomial(minDegree, maxDegree, coefs, variable);
 
-			this.fText = poly.text();
-			this.ddxFText = KhanUtil.ddxPolynomial(poly).text();
+            this.f = poly;
 
-			this.wrongsText = [
-				KhanUtil.ddxPolynomialWrong1(poly).text(),
-				KhanUtil.ddxPolynomialWrong2(poly).text(),
-				KhanUtil.ddxPolynomialWrong3(poly).text(),
-				KhanUtil.ddxPolynomialWrong4(poly).text(),
-				KhanUtil.ddxPolynomialWrong5(poly).text()
+            this.fText = poly.text();
+
+            this.ddxF = KhanUtil.ddxPolynomial(poly);
+
+            this.ddxFText = this.ddxF.text();
+
+            this.hints = "<p>one</p><p>two</p>";
+
+        	this.wrongs = [
+				KhanUtil.ddxPolynomialWrong1(poly),
+				KhanUtil.ddxPolynomialWrong2(poly),
+				KhanUtil.ddxPolynomialWrong3(poly),
+				KhanUtil.ddxPolynomialWrong4(poly),
+				KhanUtil.ddxPolynomialWrong5(poly)
 			];
 
-            this.hints = ["one", "two"];
+            this.wrongsText = jQuery.map(this.wrongs, function( value, index ) {
+				return value.text();
+			});
 
             this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.funcNotation(variable);
 			return this;
