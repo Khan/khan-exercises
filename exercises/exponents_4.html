@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html data-require="math mathformat">
+<head>
+	<title>Exponents 4</title>
+	<script src="../khan-exercise.js"></script>
+	<!-- Note: This exercise does not correspond to anytihng that is currently live. Instead, it covers material that Sal talks about in his Exponents 3 video, which is currently not tested. -->
+</head>
+<body>
+	<div class="exercise">
+		<p class="summary">This exercise covers exponential arithmemtic with (mainly negative, when possible) rational bases and (mainly nonunit numerator) rational exponents. This exercise covers the last chunk of material from the Level 3 Exponents video.</p>
+
+		<div class="problems">
+			<div>
+				<div class="vars" data-ensure="abs( EXP_N ) !== abs( EXP_D )">
+					<var id="VALS">pickRatBaseRatExp( .75, .75, .1 )</var>
+
+					<!-- base -->
+					<var id="BASE_N">VALS.base_n</var>I think a decent numbre of 
+					<var id="BASE_D">VALS.base_d</var>
+
+					<!-- exponent. we treat the sign of the exponent differently than all the other compenents because the first hint will always be to flip the base for a negative exponent, so exponents will rarely be displayed with the negative sign. -->
+					<var id="EXP_N">abs( VALS.exp_n )</var>
+					<var id="EXP_D">VALS.exp_d</var>
+					<var id="EXP_NEG">VALS.exp_n < 0</var>
+
+					<!-- base, flipped if exponent is negative -->
+					<var id="BASE_F_N">EXP_NEG ? BASE_D : BASE_N</var>
+					<var id="BASE_F_D">EXP_NEG ? BASE_N : BASE_D</var>
+
+					<!-- base taken to (1/exp_d), also flips if exponent is negative -->
+					<var id="ROOT_N">VALS.root_n</var>
+					<var id="ROOT_D">VALS.root_d</var>
+
+					<!-- solution, base taken to exponent -->
+					<var id="SOL_N">VALS.sol_n</var>
+					<var id="SOL_D">VALS.sol_d</var>
+
+					<!-- defraction, not reduced/small/parensed. -->
+					<var id="FRAC">function( n, d ) {	return fraction( n, d, true, false, false, false ); }</var>
+					<!-- defraction and small, not reduced/parensed. -->
+					<var id="FRACS">function( n, d ) { return fraction( n, d, true, false, true, false );	}</var>
+					<!-- defractioned and parensed, not reduced/small. -->
+					<var id="FRACP">function( n, d ) { return fraction( n, d, true, false, false, true );	}</var>
+				</div>
+
+				<p class="question"><code><var>FRACP( BASE_N, BASE_D )</var>^{<var>FRACS( ( EXP_NEG ? -1 : 1 ) * EXP_N, EXP_D )</var>}</code></p>
+				<p class="solution" data-type="rational"><var>SOL_N / SOL_D</var></p>
+
+				<div class="hints">
+					<!-- Extra first step, for a question like (4/9)^(-3/2), display "=(9/4)^(3/2)" -->
+					<div data-if="EXP_NEG"><code>= <var>FRACP( BASE_F_N, BASE_F_D )</var>^{<var>FRACS( EXP_N, EXP_D )</var>}</code></div>
+
+					<!-- For a question like (4/9)^(3/2)... -->
+
+					<!-- "=((4/9)^(1/2))^3" -->
+					<div data-if="EXP_N > 1"><code>= \left(<var>FRACP( BASE_F_N, BASE_F_D )</var>^{<var>FRACS( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>}</code></div>
+						
+					<!-- "To simplify (4/9)^(1/2), figure out whta goes in the blank: ?^2 = 4/9" -->
+					<div>To simplify <code><var>FRACP( BASE_F_N, BASE_F_D )</var>^{<var>FRACS( 1, EXP_D )</var>}</code>, figure out what goes in the blank:<br /> <code>\Big(?\Big)^{<var>abs( EXP_D )</var>}=<var>FRAC( BASE_F_N, BASE_F_D )</var></code></div>
+						
+					<!-- "(2/3)^2 = 4/9, so (4/9)^(1/2)" -->
+					<div><code><var>FRACP( ROOT_N, ROOT_D )</var>^{<var>EXP_D</var>}=<var>FRAC( BASE_F_N, BASE_F_D )</var>\mbox{,}\quad\mbox{so}\quad<var>FRACP( BASE_F_N, BASE_F_D )</var>^{<var>FRACS( 1, EXP_D )</var>}=<var>FRAC( ROOT_N, ROOT_D )</var></code></div>
+						
+					<!-- "So (4/9)^(3/2)=((4/9)^(1/2))^3=(2/3)^3" -->
+					<div data-if="EXP_N > 1">So <code><var>FRACP( BASE_F_N, BASE_F_D )</var>^{<var>FRACS( EXP_N, EXP_D )</var>}=\left(<var>FRACP( BASE_F_N, BASE_F_D )</var>^{<var>FRACS( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>}=<var>FRACP( ROOT_N, ROOT_D )</var>^{<var>EXP_N</var>}</code></div>
+
+					<div data-if="EXP_N > 1 && reduces( ROOT_N, ROOT_D )"><code>= <var>fraction( ROOT_N, ROOT_D, true, true, false, true )</var>^{<var>EXP_N</var>}</code></div>
+						
+					<!-- "=(2/3)(2/3)(2/3)" -->
+					<div data-if="EXP_N > 1"><code>= <var>expandFracExp( ROOT_N, ROOT_D, EXP_N )</var></code></div>
+						
+					<!-- FIXME: once there is better loop-templating, put dynamic folding hints. -->
+					<!-- "= 8/27" -->
+					<div data-if="EXP_N > 1"><code>= <var>FRAC( SOL_N, SOL_D )</var></code></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+					
+					
+					
+
+
+					
+					
+					

@@ -22,7 +22,7 @@
 			<var id="Y2">randRange( -9, 8 )</var>
 			<var id="X_DIST">abs( X2 - X1 )</var>
 			<var id="Y_DIST">abs( Y2 - Y1 )</var>
-			<var id="ANSWER">formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) )</var>
+			<var id="HYP2">X_DIST * X_DIST + Y_DIST * Y_DIST</var>
 			<var id="DRAW_DOTS">function() {
 					var point1 = "#0969A2";
 					ASdot([ X1, Y1 ], 3, point1, point1 );
@@ -30,6 +30,10 @@
 					var point2 = "#A62ADD";
 					ASdot( [ X2, Y2 ], 3, point2, point2 );
 				}</var>
+
+			<var id="SOLUTION">splitRadical( X_DIST * X_DIST + Y_DIST * Y_DIST )</var>
+			<var id="SOLUTION_COEFFICIENT">SOLUTION[0] === 1 ? "" : SOLUTION[0]</var>
+			<var id="SOLUTION_RADICAL">SOLUTION[1] == 1 ? "" : SOLUTION[1]</var>
 		</div>
 
 		<div class="problems">
@@ -45,17 +49,10 @@
 
 					DRAW_DOTS();
 				</div>
-				<p class="solution"><code><var>ANSWER</var></code></p>
-				<ul class="choices" data-show="5" data-none="true">
-					<!-- TODO: Clean up after template loops are implemented -->
-					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
-					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
-					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
-					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
-					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
-					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
-					<li><code><var>formattedSquareRootOf( pow( X_DIST, 2 ) + pow( Y_DIST, 2 ) + randRange( -10, 10 ) )</var></code></li>
-				</ul>
+
+				<div class="solution" data-type="multiple">
+					<p><span class="sol"><var>SOLUTION_COEFFICIENT</var></span><span class="radical">&radic;<span class="sol"><var>SOLUTION_RADICAL</var></span></span></p>
+				</div>
 			</div>
 		</div>
 
@@ -112,9 +109,9 @@
 
 			<div>
 				<p>By the Pythagorean Theorem, <span style="color: #FF4900">that length</span> is equal to:</p>
-				<p><code>\sqrt{<var>X_DIST</var>^2 + <var>Y_DIST</var>^2} = </code></p>
-				<p><code>\sqrt{<var>Math.pow( X_DIST, 2 ) + pow( Y_DIST, 2 )</var>} = </code></p>
-				<p style="color: #FF4900"><code><var>ANSWER</var></code>
+				<p><code>\sqrt{<var>X_DIST</var>^2 + <var>Y_DIST</var>^2}</code></p>
+				<p><code>{}= \sqrt{<var>Math.pow( X_DIST, 2 ) + pow( Y_DIST, 2 )</var>}</code></p>
+				<p data-if="squareRootCanSimplify(HYP2)" style="color: #FF4900"><code>{}= <var>formattedSquareRootOf(HYP2)</var></code>
 			</div>
 
 		</div>

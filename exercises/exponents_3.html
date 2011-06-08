@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html data-require="math mathformat">
+<head>
+	<title>Exponents 3</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<p class="summary">This exercise covers exponential arithmetic with positive rational bases and rational exponents with unit numerator. This exercise covers the first chunk of material from the Level 3 Exponents video.</p>
+
+		<div class="problems">
+			<div>
+				<div class="vars">
+					<var id="VALS">pickRatBaseRoot( .75 )</var>
+
+					<var id="BASE_N">VALS.base_n</var>
+					<var id="BASE_D">VALS.base_d</var>
+
+					<var id="EXP_D">abs( VALS.exp_d )</var>
+					<var id="EXP_NEG">VALS.exp_d < 0</var>
+
+					<!-- base, flipped if the exponent is negative. -->
+					<var id="BASE_F_N">EXP_NEG ? BASE_D : BASE_N</var>
+					<var id="BASE_F_D">EXP_NEG ? BASE_N : BASE_D</var>
+
+					<var id="SOL_N">VALS.sol_n</var>
+					<var id="SOL_D">VALS.sol_d</var>
+
+					<!-- defraction, not reduced/small/parensed. -->
+					<var id="FRAC">function( n, d ) { return fraction( n, d, true, false, false, false ); }</var>
+					<!-- defraction and small, not reduced/parensed. -->
+					<var id="FRACS">function( n, d ) { return fraction( n, d, true, false, true, false ); }</var>
+					<!-- defractioned and parensed, not reduced/small. -->
+					<var id="FRACP">function( n, d ) { return fraction( n, d, true, false, false, true ); }</var>
+				</div>
+
+				<p class="question"><code><var>FRACP( BASE_N, BASE_D )</var>^{<var>FRACS( EXP_NEG ? -1 : 1, EXP_D )</var>}</code></p>
+				<p class="solution" data-type="rational"><var>SOL_N / SOL_D</var></p>
+
+				<div class="hints">
+					<!-- Extra first step, for a question like (4/9)^(-1/2), display "=(9/4)^(1/2)" -->
+					<div data-if="EXP_NEG"><code>= <var>FRACP( BASE_F_N, BASE_F_D )</var>^{<var>FRACS( 1, EXP_D )</var>}</code></div>
+
+					<!-- For a question like (4/9)^(1/2)... -->
+
+					<!-- "Figure out what goes in the blank: ?^2=4/9" -->
+					<div>Figure out what goes in the blank:<br /><code>\Big(?\Big)^{<var>EXP_D</var>}=<var>FRAC( BASE_F_N, BASE_F_D )</var></code></div>
+
+					<!-- "(2/3)^2=4/9, so... -->
+					<div><code><var>FRACP( SOL_N, SOL_D )</var>^{<var>EXP_D</var>}=<var>FRAC( BASE_F_N, BASE_F_D )</var>\mbox{,}\quad</code>so...</div>
+
+					<!-- (4/9)^(1/2)=2/3 -->
+					<div data-if="EXP_NEG"><code><var>FRACP( BASE_N, BASE_D )</var>^{<var>FRACS( EXP_NEG ? -1 : 1, EXP_D )</var>}=<var>FRACP( BASE_F_N, BASE_F_D )</var>^{<var>FRACS( 1, EXP_D )</var>}=<var>FRAC( SOL_N, SOL_D )</var></code></div>
+					<div data-else><code><var>FRACP( BASE_F_N, BASE_F_D )</var>^{<var>FRACS( 1, EXP_D )</var>}=<var>FRAC( SOL_N, SOL_D )</var></code></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+					
+					
+
+<!-- 					<var id="ROOT_BASES_OBJ">randRootBases()</var> -->
+					
+					
+<!-- 					<\!-- the exponent will be negative 75% of the time. -\-> -->
+<!-- 					<var id="EXP_DENOM">( random() < 0.75 ? -1 : 1 ) * ROOT_BASES_OBJ.root</var> -->
+<!-- 					<var id="EXP_STR">fraction( 1, EXP_DENOM, "small" )</var> -->
+<!-- 					<var id="EXP_STR_ABS">fraction( 1, abs( EXP_DENOM ), "small" )</var> -->
+					
+<!--  					<var id="BASE_NUM">ROOT_BASES_OBJ.base_1</var> -->
+<!-- 					<var id="BASE_DENOM">ROOT_BASES_OBJ.base_2</var> -->
+<!-- 					<var id="BASE_STR">fraction( BASE_NUM, BASE_DENOM )</var> -->
+<!-- 					<var id="BASE_STR_PARENS">fractionParens( BASE_NUM, BASE_DENOM )</var> -->
+<!-- 					<var id="BASE_STR_FLIPPED">fraction( BASE_DENOM, BASE_NUM )</var> -->
+<!-- 					<var id="BASE_STR_FLIPPED_PARENS">fractionParens( BASE_DENOM, BASE_NUM )</var> -->
+
+<!-- 					<var id="SOL_NUM">round( pow( EXP_DENOM > 0 ? BASE_NUM : BASE_DENOM, 1 / EXP_DENOM ) )</var> -->
+<!-- 					<var id="SOL_DENOM">round( pow( EXP_DENOM > 0 ? BASE_DENOM : BASE_NUM, 1 / EXP_DENOM ) )</var> -->
+<!-- 					<var id="SOL_STR">fraction( SOL_NUM, SOL_DENOM )</var> -->
+<!-- 					<var id="SOL_STR_PARENS">fractionParens( SOL_NUM, SOL_DENOM )</var> -->
+<!-- 					<var id="SOL_STR_FLIPPED">fraction( SOL_DENOM, SOL_NUM )</var> -->
+<!-- 					<var id="SOL_STR_FLIPPED_PARENS">fractionParens( SOL_DENOM, SOL_NUM )</var> -->

@@ -6,7 +6,7 @@
 </head>
 <body>
 	<div class="exercise">
-		<p class="summary">This exercise covers exponential arithmetic with rational bases and integer (primarily negative) exponents.</p>
+		<p class="summary">This exercise covers exponential arithmetic with rational bases and integer (primarily negative) exponents. This exercise covers all the material presented in the Level 2 Exponents video.</p>
 
 		<div class="problems">
 			<div>
@@ -14,12 +14,12 @@
 					<var id="BASE_NUM">randRangeNonZero( -10, 10 )</var>
 					<!-- we want 25% of the exercises to have integer bases. -->
 					<var id="BASE_DENOM">randRangeWeighted( 1, 10, 1, .25 )</var>
-					<!-- an array of reasonable exponents for specific bases; the ith element is the highest exponent which is reasonable to raise i to. note that this is somewhat arbitrary. -->
-					<var id="REASONABLE_EXPS">[ undefined, 1000, 5, 4, 4, 4, 3, 3, 3, 3, 10 ]</var>
+					<var id="MAX_EXP">min( maxReasonableExp( BASE_NUM ), maxReasonableExp( BASE_DENOM ) )</var>
 					<!-- we want only 10% of the exercises to have 1 as an exponent, and 75% of the exercises to have a negative exponent. -->
-					<var id="EXP">randRangeWeighted( 1, min( REASONABLE_EXPS[abs( BASE_NUM )], REASONABLE_EXPS[BASE_DENOM] ), 1, .1) * (random() < 0.75 ? -1 : 1)</var>
+					<var id="EXP">randRangeWeighted( 1, MAX_EXP, 1, .1) * (random() < 0.75 ? -1 : 1)</var>
 					<var id="BASE_STR">fractionParens( BASE_NUM, BASE_DENOM )</var>
-					<var id="HINT">expandFracExp( BASE_NUM, BASE_DENOM, EXP )</var>
+					<var id="FLIPPED_BASE">fractionParens( BASE_DENOM, BASE_NUM )</var>
+					<var id="HINT_2">expandFracExp( BASE_NUM, BASE_DENOM, EXP )</var>
 					<var id="SOLUTION_NUM">EXP > 0 ? pow( BASE_NUM, EXP ) : pow( BASE_DENOM, -EXP)</var>
 					<var id="SOLUTION_DENOM">EXP > 0 ? pow( BASE_DENOM, EXP) : pow( BASE_NUM, -EXP)</var>
 					<var id="SOLUTION_STR">fraction( SOLUTION_NUM, SOLUTION_DENOM )</var>
@@ -30,9 +30,9 @@
 				<p class="solution" data-type="rational"><var>SOLUTION</var></p>
 
 				<div class="hints">
-					<div><code>= <var>HINT</var></code></div>
+					<div data-if="EXP < 0"><code>= <var>FLIPPED_BASE</var>^{<var>abs( EXP )</var>}</code></div>
+					<div><code>= <var>expandFracExp( BASE_NUM, BASE_DENOM, EXP )</var></code></div>
 					<div><code>= <var>SOLUTION_STR</var></code></div>
-					<div><code>= <var>SOLUTION</var></code></div>
 				</div>
 			</div>
 		</div>

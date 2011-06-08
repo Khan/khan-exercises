@@ -788,7 +788,7 @@ jQuery.extend(KhanUtil, {
 });
 
 jQuery.fn.graph = function() {
-	return this.find(".graph").each(function() {
+	return this.find(".graph").add(this.filter(".graph")).each(function() {
 		// Grab code for later execution
 		var code = jQuery(this).text();
 
@@ -831,10 +831,7 @@ jQuery.fn.graph = function() {
 	}).end();
 };
 
-// Load Raphael
-Khan.scriptWait(function( scriptLoaded ) {
-	var script = document.createElement("script");
-	script.src = "http://ajax.cdnjs.com/ajax/libs/raphael/1.5.2/raphael-min.js";
-	script.onload = scriptLoaded;
-	document.documentElement.appendChild( script );
-});
+// Load Raphael locally because IE8 has a problem with the 1.5.2 minified
+// released version
+// http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
+Khan.loadScripts(["../utils/raphael.js"]);

@@ -1,47 +1,72 @@
 jQuery.extend(KhanUtil, {
-	fraction: function( n, d ) {
-		if ( d === 0 ) {
-			return "\\text{undefined}";
+	/* Format the latex of the fraction `n`/`d`.  
+	 * - Will use latex's `dfrac` unless `small` is specified as truthy. 
+	 * - Will wrap the fraction in parentheses if necessary (ie, unless the 
+	 * fraction reduces to a positive integer) if `parens` is specified as 
+	 * truthy.
+	 * - Will reduce the fraction `n`/`d` if `reduce` is specified as truthy.
+	 * - Will defraction (spit out 0 if `n` is 0, spit out `n` if `d` is 1, or
+	 * spit out `undefined` if `d` is 0) if `defraction` is specified as 
+	 * truthy. */
+	fraction: function( n, d, defraction, reduce, small, parens ) {
+		var frac = function( n, d ) {
+			return ( small ? "\\frac" : "\\dfrac" ) + "{" + n + "}{" + d + "}";
+		};
+
+		var neg = n * d < 0;
+		var sign = neg ? "-" : "";
+		n = Math.abs( n );
+		d = Math.abs( d );
+
+		if ( reduce ) {
+			var gcd = this.getGCD( n, d );
+			n = n / gcd;
+			d = d / gcd;
 		}
 
-		if ( n === 0 ) {
-			return "0";
+		defraction = defraction && ( n === 0 || d === 0 || d === 1 );
+		parens = parens && ( !defraction || neg );
+		var begin = parens ? "\\left(" : "";
+		var end = parens ? "\\right)" : "";
+
+		var main;
+		if ( defraction ) {
+			if ( n === 0 ) {
+				main = "0";
+			} else if ( d === 0 ) {
+				main = "\\text{undefined}";
+			} else if ( d === 1 ) {
+				main = sign + n;
+			}
+		} else {
+			main = sign + frac( n, d );
 		}
 
-		var sign = n / d < 0 ? "-" : "";
-		n = Math.abs(n);
-		d = Math.abs(d);
-
-		var gcd = this.getGCD(n, d);
-		n = n / gcd;
-		d = d / gcd;
-
-		return d > 1 ?
-			sign + "\\dfrac{" + n + "}{" + d + "}" :
-			sign + n;
+		return begin + main + end;
 	},
 
-	/* Wrap a fraction in parentheses if it's actually displayed as a fraction or
-	if it's negative. */
-	fractionParens: function( n, d ) {
-		var neg = n / d < 0;
-		var frac = d !== 0 && d !== 1;
-		var nonzero = n !== 0;
-
-		if (nonzero && (frac || neg))
-			return "\\left(" + this.fraction( n, d ) + "\\right)";
-		else
-			return this.fraction( n, d );
+	/* Returns whether the fraction n/d reduces. */
+	reduces: function( n, d ) {
+		// if the GCD is greater than 1, then there is a factor in common and the 
+		// fraction reduces. 
+		return this.getGCD( n, d ) > 1;
 	},
 
 	/* expandExp for rational bases. */
 	expandFracExp: function( base_num, base_denom, exp ) {
-		var base_str = exp >= 0 ? 
-			this.fractionParens( base_num, base_denom ) :
-			this.fractionParens( base_denom, base_num );
+		if ( exp === 0 ) {
+			return "";
+		}
+
+		// the fraction has defraction, reducing, and parensing, and is not small
+		var base_str = exp > 0 ? 
+			this.fraction( base_num, base_denom, true, true, false, true ) :
+			this.fraction( base_denom, base_num, true, true, false, true );
 
 		var str = base_str;
-		for ( var i = 1; i < Math.abs( exp ); i++ ) str += " \\cdot" + base_str;
+		for ( var i = 1; i < Math.abs( exp ); i++ ) {
+			str += " \\cdot" + base_str;
+		}
 		return str;
 	},
 
