@@ -147,6 +147,48 @@ in reverse
 		}[ Math.abs( n ) ];
 	},
 
+	/* For Exponents 1, find an integer base and an positive integer exponent such
+	 * that the calculation is reasonable. With a probability of `exp_zero_prob`,
+	 * will choose an arbitrarily large/small base and an exponent of 0, and with
+	 * a probability of `exp_unit_prob`, will do likewise with an exponent of
+	 * 1. Otherwise, will choose a base in [-10,10] with `base_negunit_prob`,
+	 * `base_unit_prob`, and `base_zero_prob` probabilities for choosing those
+	 * exceptional base values (more specifically, they are the probabilities
+	 * conditional on the exponent not being 0 or 1), and then will choose an
+	 * exponent such that the calculation is reasonable. */
+	pickIntBasePosExp: function( exp_zero_prob, exp_unit_prob, 
+			base_negunit_prob, base_unit_prob, base_zero_prob ) {
+		var base, exp;
+		
+		var r = this.random();
+		if ( r < exp_zero_prob + exp_unit_prob ) {
+			base = this.randRangeNonZero( -500, 500 );
+			if ( r < exp_zero_prob) {
+				exp = 0;
+			} else {
+				exp = 1;
+			}
+		} else {
+			r = this.random();
+			if ( r < base_negunit_prob ) {
+				base = -1;
+			} else if ( r < base_negunit_prob + base_unit_prob ) {
+				base = 1;
+			} else if ( r < base_negunit_prob + base_unit_prob + base_zero_prob ) {
+				base = 0;
+			} else {
+				base = this.randRangeExclude( -10, 10, [ 0, 1, -1 ] );
+			}
+
+			exp = this.randRange( 2, this.maxReasonableExp( base ) );
+		}
+
+		return {
+			base: base,
+			exp: exp
+		};
+	},
+
 	/* For Exponents 3, find a rational base and root such that both the numerator
 	 * and denominator of the base can be taken to that root. */
 	pickRatBaseRoot: function( exp_neg_prob ) {
