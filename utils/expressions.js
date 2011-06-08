@@ -18,6 +18,7 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
+	// Do I start with a minus sign?
 	exprIsNegated: function( expr ) {
 		switch( KhanUtil.exprType(expr) ) {
 			case "+":
@@ -36,7 +37,7 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
-	/* Mostly, do we need parentheses to add a coefficient? */
+	// Mostly, is it okay to add a coefficient to me without adding parens?
 	exprIsShort: function( expr ) {
 		switch( KhanUtil.exprType(expr) ) {
 			case "+":
@@ -71,7 +72,6 @@ jQuery.extend(KhanUtil, {
 			});
 
 			terms = jQuery.map(terms, function( term, i ) {
-				var negate = KhanUtil.exprIsNegated( term );
 				var parenthesize;
 				switch ( KhanUtil.exprType(term) ) {
 					case "+":
@@ -94,7 +94,7 @@ jQuery.extend(KhanUtil, {
 					term = "(" + term + ")";
 				}
 
-				if ( !negate || parenthesize ) {
+				if ( term.charAt(0) !== "-" || parenthesize ) {
 					term = "+" + term;
 				}
 
@@ -271,20 +271,13 @@ jQuery.extend(KhanUtil, {
 			return "\\ln{" + KhanUtil.exprParenthesize( arg ) + "}";
 		},
 
-		"+-": function( arg ) {
-			var terms = jQuery.map(arguments, function( term, i ) {
-				term = KhanUtil.expr(term);
-
-				term = "\\pm " + term;
-				return term;
-			});
-
-			joined = terms.join("");
-
-			if(joined.substring(0, 4) === "\\pm ") {
-				return joined.slice(4);
+		"+-": function() {
+			if ( arguments.length === 1 ) {
+				return "\\pm " + KhanUtil.exprParenthesize(arguments[0]);
 			} else {
-				return joined;
+				return jQuery.map(arguments, function( term, i ) {
+					return KhanUtil.expr(term);
+				}).join(" \\pm ");
 			}
 		}
 	},
