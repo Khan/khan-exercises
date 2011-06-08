@@ -190,7 +190,8 @@ var Khan = {
 			// Make sure that the answer type exists
 			if ( answerType ) {
 				if ( Khan.answerTypes && !Khan.answerTypes[ answerType ] ) {
-					return Khan.error( "Unknown answer type specified: " + answerType );
+					Khan.error( "Unknown answer type specified: " + answerType );
+					return;
 				}
 			}
 
@@ -213,7 +214,8 @@ var Khan = {
 			// A working solution was not generated
 			if ( !Khan.validator ) {
 				// Making the problem failed, let's try again
-				return makeProblem();
+				makeProblem();
+				return;
 			}
 
 			// Remove the solution and choices elements from the display
