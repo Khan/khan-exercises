@@ -17,6 +17,12 @@ var Khan = {
 	// Populate this with modules
 	Util: {},
 
+	// How many problems are we doing? (For the fair shuffle bag.)
+	problemCount: 10,
+
+	// Where we are in the shuffled list of problem types
+	problemBagIndex: 0,
+
 	// Load in a collection of scripts, execute callback upon completion
 	loadScripts: function( urls, callback ) {
 		var loaded = 0,
@@ -97,6 +103,46 @@ var Khan = {
 		}
 	},
 
+	// Create a set of n problems fairly from the weights - not random; it
+	// ensures that the proportions come out as fairly as possible with ints
+	// (still usually a little bit random).
+	// There has got to be a better way to do this.
+	makeProblemBag: function( problems, n ) {
+		var bag = [], totalWeight = 0;
+
+		// Collect the weights for the problems and find the total weight
+		var weights = jQuery.map( problems, function( elem ) {
+			var weight = jQuery( elem ).data( "weight" );
+			weight = weight !== undefined ? weight : 1;
+
+			totalWeight += weight;
+			return weight;
+		});
+
+		while( n ) {
+			bag.push( (function() {
+				// Figure out which item we're going to pick
+				var index = totalWeight * KhanUtil.random();
+
+				for ( var i = 0; i < problems.length; i++ ) {
+					if ( index < weights[i] || i === problems.length - 1 ) {
+						var w = Math.min( weights[i], totalWeight / ( n-- ) );
+						weights[i] -= w;
+						totalWeight -= w;
+						return problems.eq( i );
+					} else {
+						index -= weights[i];
+					}
+				}
+
+				// This will never happen
+				return Khan.error("makeProblemBag got confused w/ index " + index);
+			})() );
+		}
+
+		return bag;
+	},
+
 	makeProblem: function() {
 		// Save the seed for later so we can show it when asked
 		Khan.problemSeed = Khan.randomSeed;
@@ -117,13 +163,15 @@ var Khan = {
 					// Access a problem by number
 					problems.eq( parseFloat( Khan.query.problem ) ) :
 
-				// Or by its ID
-				problems.filter( "#" + Khan.query.problem );
+					// Or by its ID
+					problems.filter( "#" + Khan.query.problem );
 
-			// Otherwise we grab a problem at random
-			// (grouped by any sort of weights that exist)
+			// Otherwise we grab a problem at random from the bag of problems
+			// we made earlier to ensure that every problem gets shown the
+			// appropriate number of times
 			} else {
-				problem = problems.getRandomWeighted();
+				problem = Khan.problemBag[ Khan.problemBagIndex++ ];
+				Khan.problemBagIndex = Khan.problemBagIndex % Khan.problemCount;
 			}
 
 			// Save the problem's index in the problems array
@@ -190,7 +238,8 @@ var Khan = {
 			// Make sure that the answer type exists
 			if ( answerType ) {
 				if ( Khan.answerTypes && !Khan.answerTypes[ answerType ] ) {
-					return Khan.error( "Unknown answer type specified: " + answerType );
+					Khan.error( "Unknown answer type specified: " + answerType );
+					return;
 				}
 			}
 
@@ -213,7 +262,8 @@ var Khan = {
 			// A working solution was not generated
 			if ( !Khan.validator ) {
 				// Making the problem failed, let's try again
-				return makeProblem();
+				makeProblem();
+				return;
 			}
 
 			// Remove the solution and choices elements from the display
@@ -382,6 +432,9 @@ Khan.loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.m
 			// Inject the site markup, if it doesn't exist
 			Khan.injectSite();
 
+			// Prepare the "random" problems
+			Khan.problemBag = Khan.makeProblemBag( jQuery( ".exercise .problems" ).children(), Khan.problemCount );
+
 			// Generate the initial problem when dependencies are done being loaded
 			Khan.makeProblem();
 		});
@@ -391,35 +444,6 @@ Khan.loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.m
 		// Pick a random element from a set of elements
 		getRandom: function() {
 			return this.eq( Math.floor( this.length * KhanUtil.random() ) );
-		},
-
-		// Pick a random element from a set of elements, using weights stored in
-		// [data-weight], assuming 1 otherwise
-		getRandomWeighted: function() {
-			var totalWeight = 0,
-
-				// Collect and compute the weights for the problems
-				// Also generate the total weight
-				weights = jQuery.map( this, function( elem, i ) {
-					var weight = jQuery(elem).data("weight");
-					weight = weight !== undefined ? weight : 1;
-					totalWeight += weight;
-					return weight;
-				}),
-
-				// Figure out which item we're going to pick
-				index = totalWeight * KhanUtil.random();
-
-			for ( var i = 0; i < this.length; i++ ) {
-				if ( index < weights[i] ) {
-					return this.eq( i );
-
-				} else {
-					index -= weights[i];
-				}
-			}
-
-			return this.eq( this.length - 1 );
 		},
 
 		// Run the methods provided by a module against some elements

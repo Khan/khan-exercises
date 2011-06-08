@@ -67,12 +67,6 @@
 				<var id="RESULT_DESC">RESULT[0]</var>
 				<var id="RESULT_POSSIBLE">RESULT[1]</var>
 				<var id="RESULT_COUNT">RESULT_POSSIBLE.length</var>
-
-				<var id="WRONGS">(function() {
-					return jQuery.grep([1, 2, 3, 4, 5], function( el, i ) {
-						return el != RESULT_COUNT;
-					});
-				})()</var>
 			</div>
 
 			<div class="question">
@@ -143,12 +137,6 @@
 				})()</var>
 				<var id="WANTED_COUNT">choose(REPS, PROB[2])</var>
 				<var id="TWO_TO_REPS">pow(2, REPS)</var>
-				<var id="WRONGS">(function() {
-					var wr = (REPS == 3 ? [1, 2, 3, 4, 5, 6, 7] : [1, 4, 5, 6, 8, 10, 11, 12, 15]);
-					return KhanUtil.shuffle(jQuery.grep(wr, function( el, i ) {
-						return el != WANTED_COUNT;
-					}));
-				})()</var>
 			</div>
 
 			<div class="question">
@@ -188,12 +176,6 @@
 
 				<var id="WANTED_LIST">jQuery.grep(POSSIBLE, COND[1])</var>
 				<var id="WANTED_COUNT">WANTED_LIST.length</var>
-				<var id="WRONGS">(function() {
-					var wr = [1, 2, 3, 4, 5, 6];
-					return KhanUtil.shuffle(jQuery.grep(wr, function( el, i ) {
-						return el != WANTED_COUNT;
-					}));
-				})()</var>
 			</div>
 
 			<div class="question">
