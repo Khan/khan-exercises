@@ -139,26 +139,23 @@ jQuery.extend(KhanUtil, {
 			var coefs = (typeof coefs == "object") ? coefs : KhanUtil.randCoefs(minDegree, maxDegree);
 			var poly = new KhanUtil.Polynomial(minDegree, maxDegree, coefs, variable);
 
-			this.f = poly;
-
-			this.fText = poly.text();
-
-			this.ddxF = KhanUtil.ddxPolynomial(poly);
-
-			this.ddxFText = this.ddxF.text();
+			this.f = poly.expr();
+			this.ddxF = KhanUtil.ddxPolynomial(poly).expr();
+			this.fText = KhanUtil.expr( this.f );
+			this.ddxFText = KhanUtil.expr( this.ddxF );
 
 			this.hints = "<p>one</p><p>two</p>";
 
 			this.wrongs = [
-				KhanUtil.ddxPolynomialWrong1(poly),
-				KhanUtil.ddxPolynomialWrong2(poly),
-				KhanUtil.ddxPolynomialWrong3(poly),
-				KhanUtil.ddxPolynomialWrong4(poly),
-				KhanUtil.ddxPolynomialWrong5(poly)
+				KhanUtil.ddxPolynomialWrong1(poly).expr(),
+				KhanUtil.ddxPolynomialWrong2(poly).expr(),
+				KhanUtil.ddxPolynomialWrong3(poly).expr(),
+				KhanUtil.ddxPolynomialWrong4(poly).expr(),
+				KhanUtil.ddxPolynomialWrong5(poly).expr()
 			];
 
-            this.wrongsText = jQuery.map(this.wrongs, function( value, index ) {
-				return value.text();
+			this.wrongsText = jQuery.map(this.wrongs, function( value, index ) {
+				return KhanUtil.expr( value );
 			});
 
             this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.funcNotation(variable);
