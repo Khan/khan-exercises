@@ -1,4 +1,9 @@
 jQuery.extend(KhanUtil, {
+	/* Wraps a number in paretheses if it's negative. */
+	negParens: function( n ) {
+		return n < 0 ? "(" + n + ")" : n;
+	},
+
 	/* Format the latex of the fraction `n`/`d`.  
 	 * - Will use latex's `dfrac` unless `small` is specified as truthy. 
 	 * - Will wrap the fraction in parentheses if necessary (ie, unless the 
