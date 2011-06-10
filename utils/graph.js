@@ -291,6 +291,57 @@ function arc(start,end,radius,id) { // coordinates in units
     return arc_elliptical(start, end, radius, radius, id);
 }
 
+var NumberLine = {
+	padding: 20,
+	tickHeight: 15,
+	getX: function( number ) {
+		return NumberLine.padding + (( number - NumberLine.startNumber ) / NumberLine.endNumber - NumberLine.startNumber ) * NumberLine.width;
+	}
+};
+
+function numberLine( startNumber, endNumber, increment ) {
+	NumberLine.startNumber = startNumber;
+	NumberLine.endNumber = endNumber;
+	NumberLine.increment = increment;
+	
+	NumberLine.y = present.height / 2;
+	NumberLine.width = present.width - ( 2 * NumberLine.padding );
+
+	// Draw horizontal line
+	var startX = NumberLine.padding;
+	var endX = present.width - NumberLine.padding;
+    present.paper.path( "M" + startX + " " + NumberLine.y + " L" + endX + " " + NumberLine.y );
+
+    // Draw vertical tick marks
+    var distanceBetweenTicks = NumberLine.width /  ( ( endNumber - startNumber ) / increment );
+
+	var number, tickX;
+    for ( number = startNumber, tickX = NumberLine.padding; number <= endNumber; number += increment, tickX += distanceBetweenTicks ) {
+        present.paper.path( "M" + tickX + " " + ( NumberLine.y - NumberLine.tickHeight / 2 ) + " L" + tickX + " " + ( NumberLine.y + NumberLine.tickHeight / 2 ) );
+        present.paper.text( tickX, NumberLine.y + 2 * NumberLine.tickHeight, number ).attr({"font-size": 15});
+    }
+}
+
+function pointOnNumberLine( number ) {
+	// TODO: let these colors change, but all points are cornflower blue for now
+	present.paper.circle(NumberLine.getX( number ), NumberLine.y, 5).attr({"fill": "#6495ED", "stroke": "#6495ED"});
+}
+
+// http://taitems.tumblr.com/post/549973287/drawing-arrows-in-raphaeljs
+function arrowOnNumberLine( startNumber, endNumber ) {
+	var size = 10;
+	var startX = NumberLine.getX( startNumber );
+	var endX = NumberLine.getX( endNumber );
+	
+	var angle = Math.atan( startX - endX, 0 ) * 180 / Math.PI;
+	present.paper.path( "M" + startX + " " + NumberLine.y + " L " + endX + " " + NumberLine.y).attr({"fill": "#FFA500", "stroke": "#FFA500", "stroke-width": 3});
+	present.paper.path( "M" + endX + " " + NumberLine.y + " L " + (endX - size) + " " + (NumberLine.y - size / 2) 
+						+ " L " + (endX - size) + " " + (NumberLine.y + size / 2) 
+						+ " L " + endX + " " + NumberLine.y )
+				.attr({"fill": "#FFA500", "stroke": "#FFA500"})
+				.rotate( 90 + angle, endX, NumberLine.y );
+}
+
 function ellipse(center,rx,ry,id) { // coordinates in units
     var node;
     if (id!=null) node = svgNodes[id];
@@ -751,8 +802,6 @@ function slopefield(fun,dx,dy) {
 
 // :'(
 var present = window;
-var pointRegister = [];
-var initialObjectsToDraw  = [];
 
 jQuery.extend(KhanUtil, {
 	initGraph: function( elem ) {

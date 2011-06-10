@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math graph">
 <head>
 	<title>Subtraction 1</title>
 	<script src="../khan-exercise.js"></script>
@@ -15,6 +15,17 @@
 		<div>
 			<p class="question"><var>A</var> - <var>B</var> = ?</p>
 			<div class="solution"><var>A - B</var></div>
+
+			<div class="hints">
+				<div class="graph" style="width: 700px; height: 300px;">
+					numberLine(0, 10, 1);
+					pointOnNumberLine( A );
+				</div>
+				<div class="graph update">
+					pointOnNumberLine( A - B );
+					arrowOnNumberLine( A, A - B );
+				</div>
+			</div>
 		</div>
 	</div>
 	</div>
