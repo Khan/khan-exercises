@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graph">
+<html data-require="math word-problems graph">
 <head>
 	<title>Subtraction 1</title>
 	<script src="../khan-exercise.js"></script>
@@ -7,8 +7,8 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="A">randRange(1, 10)</var>
-		<var id="B">randRange(1,A)</var>
+		<var id="A">randRange( 1, 10 )</var>
+		<var id="B">randRange( 1, A )</var>
 	</div>
 
 	<div class="problems">
@@ -17,13 +17,19 @@
 			<div class="solution"><var>A - B</var></div>
 
 			<div class="hints">
-				<div class="graph" style="width: 700px; height: 300px;">
-					numberLine(0, 10, 1);
-					pointOnNumberLine( A );
+				<div>
+					<p>Draw <var>A</var> on the number line.</p>
+					<div class="graph" style="width: 700px; height: 100px;">
+						numberLine( 0, 10, 1 );
+						pointOnNumberLine( A );
+					</div>
 				</div>
-				<div class="graph update">
-					pointOnNumberLine( A - B );
-					arrowOnNumberLine( A, A - B );
+				<div>
+					<p>Move <var>B</var> over to the left.</p>
+					<div class="graph update">
+						pointOnNumberLine( A - B );
+						arrowOnNumberLine( A, A - B );
+					</div>
 				</div>
 			</div>
 		</div>
