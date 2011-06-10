@@ -158,12 +158,12 @@ jQuery.extend(KhanUtil, {
 				return KhanUtil.expr( value );
 			});
 
-            this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.funcNotation(variable);
+			this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.funcNotation(variable);
 			return this;
-        }else{
-            return new KhanUtil.PowerRule();
-        }
-    },
+		}else{
+			return new KhanUtil.PowerRule();
+		}
+	},
 
 	CalcFunctions: [
 		function( variable ) {
