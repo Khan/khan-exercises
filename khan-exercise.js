@@ -8,11 +8,86 @@
 
 // The main Khan Module
 var Khan = {
-	// The list of loaded modules
-	modules: (document.documentElement.getAttribute("data-require") || "").split(" "),
+	modules: {},
 
-	// The base modules needed to make a problem
-	baseModules: [ "answer-types", "template-inheritance", "math-random" ],
+	moduleDependencies: {
+		// Yuck! There is no god. John will personally gut punch whoever
+		// thought this was a good API design.
+		"math": [ {
+			src: "http://cdn.mathjax.org/mathjax/latest/MathJax.js",
+			text: 'MathJax.Hub.Config({\
+				messageStyle: "none",\
+				skipStartupTypeset: true,\
+				jax: ["input/TeX","output/HTML-CSS"],\
+				extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
+				TeX: {\
+					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
+				},\
+				"HTML-CSS": { scale: 88 }\
+			});\
+			\
+			// We don\'t want to use inline script elements, we want to use code blocks\n\
+			MathJax.Hub.elementScripts = function( elem ) {\
+				return elem.nodeName.toLowerCase() === "code" ?\
+					[ elem ] :\
+					elem.getElementsByTagName( "code" );\
+			};\
+			\
+			// Data is read in here:\n\
+			// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704\n\
+			// We can force it to convert HTML entities properly by saying we\'re Konqueror\n\
+			MathJax.Hub.Browser.isKonqueror = true;\
+			\
+			MathJax.Hub.Startup.onload();'
+		} ],
+
+		// Locally because IE8 has a problem with the 1.5.2 minified raphael release
+		// http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
+		"graph": [ "raphael" ],
+
+		// The normal module dependencies.
+		"calculus": [ "math", "expressions", "polynomials" ],
+		"exponents": [ "math" ],
+		"kinematics": [ "math" ],
+		"math-table": [ "math" ],
+		"mathformat": [ "math", "expressions" ],
+		"polynomials": [ "math", "expressions" ],
+		"stat": [ "math" ],
+		"word-problems": [ "math" ]
+	},
+
+	require: function( mods ) {
+		if ( mods == null ) {
+			return;
+		} else if ( typeof mods === "string" ) {
+			mods = mods.split( " " );
+		} else if ( !jQuery.isArray( mods ) ) {
+			mods = [ mods ];
+		}
+
+		jQuery.each(mods, function( i, mod ) {
+			var src, deps;
+
+			if ( typeof mod === "string" ) {
+				src = "../utils/" + mod + ".js";
+				deps = Khan.moduleDependencies[ mod ];
+				mod = {
+					src: src,
+					name: mod
+				};
+			} else {
+				src = mod.src;
+				deps = mod.dependencies;
+				delete mod.dependencies;
+			}
+
+			if( !Khan.modules[ src ] ) {
+				Khan.modules[ src ] = mod;
+				Khan.require( deps );
+			}
+
+		});
+	},
 
 	// Populate this with modules
 	Util: {},
@@ -26,43 +101,38 @@ var Khan = {
 	// Load in a collection of scripts, execute callback upon completion
 	loadScripts: function( urls, callback ) {
 		var loaded = 0,
-			loading = urls.length;
+			loading = urls.length,
+			head = document.getElementsByTagName('head')[0];
 
 		callback || ( callback = function() { } );
 
-		// Ehhh... not a huge fan of this
-		this.scriptWait = function( callback ) {
-			loading++;
-			callback( runCallback );
-		};
-
-		for ( var i = 0; i < loading; i++ ) (function( obj ) {
+		for ( var i = 0; i < loading; i++ ) (function( mod ) {
+			// Adapted from jQuery getScript (ajax/script.js)
 			var script = document.createElement("script");
+			script.async = "async";
 
-			if ( typeof obj === "string" ) {
-				obj = { src: obj };
+			for ( var prop in mod ) {
+				script[ prop ] = mod[ prop ];
 			}
 
-			var key, val;
-			for ( key in obj ) {
-				if ( Object.prototype.hasOwnProperty.call( obj, key ) ) {
-					val = obj[key];
-					script[key] = val;
-				}
-			}
+			script.onload = script.onreadystatechange = function() {
+				if ( !script.readyState || ( /loaded|complete/ ).test( script.readyState ) ) {
+					// Handle memory leak in IE
+					script.onload = script.onreadystatechange = null;
 
-			// For IE, onreadystatechange is null instead of undefined
-			if( script.attachEvent && !navigator.userAgent.match(/opera/i) ) {
-				script.attachEvent("onreadystatechange", function() {
-					if ( script.readyState === "loaded" || script.readyState === "complete" ) {
-						runCallback();
+					// Remove the script
+					if ( script.parentNode ) {
+						script.parentNode.removeChild( script );
 					}
-				});
-			} else {
-				script.addEventListener("load", runCallback, false);
-			}
 
-			document.getElementsByTagName('head')[0].appendChild(script);
+					// Dereference the script
+					script = undefined;
+
+					runCallback();
+				}
+			};
+
+			head.appendChild(script);
 		})( urls[i] );
 
 		runCallback( true );
@@ -103,6 +173,26 @@ var Khan = {
 		}
 	},
 
+	// Add up how much total weight is in each exercise so we can adjust for
+	// it later
+	weighExercises: function( problems ) {
+		if ( jQuery( ".exercise" ).length > 1 ) {
+			jQuery.map( problems, function( elem ) {
+				elem = jQuery( elem );
+
+				var exercise = elem.parents( ".exercise" ).eq( 0 );
+
+				var exerciseTotal = exercise.data( "weight-sum" );
+				exerciseTotal = exerciseTotal !== undefined ? exerciseTotal : 0;
+
+				var weight = elem.data( "weight" );
+				weight = weight !== undefined ? weight : 1;
+
+				exercise.data( "weight-sum", exerciseTotal + weight );
+			});
+		}
+	},
+
 	// Create a set of n problems fairly from the weights - not random; it
 	// ensures that the proportions come out as fairly as possible with ints
 	// (still usually a little bit random).
@@ -111,9 +201,25 @@ var Khan = {
 		var bag = [], totalWeight = 0;
 
 		// Collect the weights for the problems and find the total weight
-		var weights = jQuery.map( problems, function( elem ) {
-			var weight = jQuery( elem ).data( "weight" );
+		var weights = jQuery.map( problems, function( elem, i ) {
+			elem = jQuery( elem );
+
+			var exercise = elem.parents( ".exercise" ).eq( 0 );
+			var exerciseWeight = exercise.data( "weight" );
+			exerciseWeight = exerciseWeight !== undefined ? exerciseWeight : 1;
+			var exerciseTotal = exercise.data( "weight-sum" );
+
+			var weight = elem.data( "weight" );
 			weight = weight !== undefined ? weight : 1;
+
+			if ( exerciseTotal !== undefined ) {
+				weight = weight * exerciseWeight / exerciseTotal;
+				elem.data( "weight", weight );
+			}
+
+			// Also write down the index/id for each problem so we can do
+			// links to problems (?problem=17)
+			elem.data( "id", elem.attr( "id" ) || "" + i );
 
 			totalWeight += weight;
 			return weight;
@@ -147,167 +253,177 @@ var Khan = {
 		// Save the seed for later so we can show it when asked
 		Khan.problemSeed = Khan.randomSeed;
 
-		jQuery(".exercise").each(function() {
-			var exercise = jQuery(this);
+		var problem, problemID;
 
-			// Run the "Load" method of any modules
-			exercise.runModules( "Load" );
+		// Check to see if we want to test a specific problem
+		if ( Khan.query.problem ) {
+			var problems = jQuery( ".exercise .problems" ).children();
 
-			// Get the problem we'll be using
-			var problems = exercise.find(".problems").children(),
-				problem;
+			problemID = Khan.query.problem;
+			problem = /^\d+$/.test( problemID ) ?
+				// Access a problem by number
+				problems.eq( parseFloat( problemID ) ) :
 
-			// Check to see if we want to test a specific problem
-			if ( Khan.query.problem ) {
-				problem = /^\d+$/.test( Khan.query.problem ) ?
-					// Access a problem by number
-					problems.eq( parseFloat( Khan.query.problem ) ) :
+				// Or by its ID
+				problems.filter( "#" + problemID );
 
-					// Or by its ID
-					problems.filter( "#" + Khan.query.problem );
+		// Otherwise we grab a problem at random from the bag of problems
+		// we made earlier to ensure that every problem gets shown the
+		// appropriate number of times
+		} else {
+			problem = Khan.problemBag[ Khan.problemBagIndex ];
+			problemID = problem.data( "id" );
 
-			// Otherwise we grab a problem at random from the bag of problems
-			// we made earlier to ensure that every problem gets shown the
-			// appropriate number of times
-			} else {
-				problem = Khan.problemBag[ Khan.problemBagIndex++ ];
-				Khan.problemBagIndex = Khan.problemBagIndex % Khan.problemCount;
-			}
+			Khan.problemBagIndex = ( Khan.problemBagIndex + 1 ) % Khan.problemCount;
+		}
 
-			// Save the problem's index in the problems array
-			var problemType = problem.attr( "id" ) || problems.index( problem );
+		// Find which exercise this problem is from
+		var exercise = problem.parents( ".exercise" ).eq( 0 );
 
-			// Work with a clone to avoid modifying the original
-			problem = problem.clone();
+		// Work with a clone to avoid modifying the original
+		problem = problem.clone();
 
-			// If there's an original problem, add inherited elements
-			var parentType = problem.data( "type" );
+		// If there's an original problem, add inherited elements
+		var parentType = problem.data( "type" );
 
-			while ( parentType ) {
-				// Copy over the parent element to the child
-				var original = jQuery("#" + parentType).clone();
-				problem.prepend( original.children() );
+		while ( parentType ) {
+			// Copy over the parent element to the child
+			var original = jQuery("#" + parentType).clone();
+			problem.prepend( original.children() );
 
-				// Keep copying over the parent elements (allowing for deep inheritance)
-				parentType = original.data( "type" );
-			}
+			// Keep copying over the parent elements (allowing for deep inheritance)
+			parentType = original.data( "type" );
+		}
 
-			// Add any global exercise defined elements
-			problem.prepend( exercise.children( ':not(.problems)' ).clone() );
+		// Add any global exercise defined elements
+		problem.prepend( exercise.children( ':not(.problems)' ).clone() );
 
-			// Apply templating
-			var children = problem
-				// vars and hints blocks append their contents to the parent
-				.find( ".vars" ).tmplApply( { attribute: "class", defaultApply: "appendVars" } ).end()
+		// Apply templating
+		var children = problem
+			// vars and hints blocks append their contents to the parent
+			.find( ".vars" ).tmplApply( { attribute: "class", defaultApply: "appendVars" } ).end()
 
-				// Individual variables override other variables with the name name
-				.find( ".vars [id]" ).tmplApply().end()
+			// Individual variables override other variables with the name name
+			.find( ".vars [id]" ).tmplApply().end()
 
-				// We also look at the main blocks within the problem itself to override
-				.children( "[class]" ).tmplApply( { attribute: "class" } );
+			// We also look at the main blocks within the problem itself to override
+			.children( "[class]" ).tmplApply( { attribute: "class" } );
 
-			// Finally we do any inheritance to the individual child blocks (such as problem, question, etc.)
-			children.each(function () {
-				// Apply while adding problem.children() to include
-				// template definitions within problem scope
-				jQuery( this ).find( "[id]" ).add( children ).tmplApply();
-			});
+		// Finally we do any inheritance to the individual child blocks (such as problem, question, etc.)
+		children.each(function () {
+			// Apply while adding problem.children() to include
+			// template definitions within problem scope
+			jQuery( this ).find( "[id]" ).add( children ).tmplApply();
+		});
 
-			// Remove and store hints to delay running modules on it
-			Khan.hints = problem.children( ".hints" ).remove();
+		// Remove and store hints to delay running modules on it
+		Khan.hints = problem.children( ".hints" ).remove();
 
-			// Run the "Load" method of any modules
-			problem.runModules( "Load" );
+		// Run the "Load" method of any modules
+		exercise.runModules( "Load" );
+		problem.runModules( "Load" );
 
-			// Run the main method of any modules
-			problem.runModules();
+		// Run the main method of any modules
+		problem.runModules();
 
-			// Store the solution to the problem
-			var solution = problem.find(".solution"),
+		// Store the solution to the problem
+		var solution = problem.find(".solution"),
 
-				// Get the multiple choice problems
-				choices = problem.find(".choices"),
+			// Get the multiple choice problems
+			choices = problem.find(".choices"),
 
-				// Get the area into which solutions will be inserted,
-				// Removing any previous answer
-				solutionarea = jQuery("#solution").empty(),
+			// Get the area into which solutions will be inserted,
+			// Removing any previous answer
+			solutionarea = jQuery("#solution").empty(),
 
-				// See if we're looking for a specific style of answer
-				answerType = solution.data("type");
+			// See if we're looking for a specific style of answer
+			answerType = solution.data("type");
 
-			// Make sure that the answer type exists
-			if ( answerType ) {
-				if ( Khan.answerTypes && !Khan.answerTypes[ answerType ] ) {
-					Khan.error( "Unknown answer type specified: " + answerType );
-					return;
-				}
-			}
-
-			if ( !answerType ) {
-				// If a multiple choice block exists
-				if ( choices.length ) {
-					answerType = "radio";
-
-				// Otherwise we assume a basic text input
-				} else {
-					answerType = "text";
-				}
-			}
-
-			// Generate a type of problem
-			// (this includes possibly generating the multiple choice problems,
-			//  if this fails then we will need to try generating another one.)
-			Khan.validator = Khan.answerTypes[answerType]( solutionarea, solution );
-
-			// A working solution was not generated
-			if ( !Khan.validator ) {
-				// Making the problem failed, let's try again
-				makeProblem();
+		// Make sure that the answer type exists
+		if ( answerType ) {
+			if ( Khan.answerTypes && !Khan.answerTypes[ answerType ] ) {
+				Khan.error( "Unknown answer type specified: " + answerType );
 				return;
 			}
+		}
 
-			// Remove the solution and choices elements from the display
-			solution.remove();
-			choices.remove();
+		if ( !answerType ) {
+			// If a multiple choice block exists
+			if ( choices.length ) {
+				answerType = "radio";
 
-			// Add the problem into the page
-			jQuery("#workarea").append( problem );
-
-			// Save the hints for later
-			Khan.hints = Khan.hints
-
-				// Run the "Load" method of any modules
-				.runModules( "Load" )
-
-				// Save as a normal JS array
-				.children().get();
-
-			if ( Khan.hints.length === 0 ) {
-				// Disable the get hint button
-				jQuery("#gethint").attr( "disabled", true );
+			// Otherwise we assume a basic text input
+			} else {
+				answerType = "text";
 			}
+		}
 
-			// Show the debug info
-			if ( Khan.query.debug != null ) {
-				var debugWrap = jQuery( "#debug" ).empty();
-				var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname
-					+ "?debug&problem=" + problemType;
+		// Generate a type of problem
+		// (this includes possibly generating the multiple choice problems,
+		//  if this fails then we will need to try generating another one.)
+		Khan.validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
-				jQuery( "<h3>Debug Info</h3>" ).appendTo( debugWrap );
+		// A working solution was not generated
+		if ( !Khan.validator ) {
+			// Making the problem failed, let's try again
+			Khan.makeProblem();
+			return;
+		}
 
-				var links = jQuery( "<p></p>" ).appendTo( debugWrap );
-				jQuery( "<a>Problem permalink</a>" )
-					.attr( "href", debugURL + "&seed=" + Khan.problemSeed )
-					.appendTo( links );
+		// Remove the solution and choices elements from the display
+		solution.remove();
+		choices.remove();
 
-				links.append("<br>");
-				links.append("Problem type: ");
+		// Add the problem into the page
+		jQuery( "#workarea" ).append( problem );
+
+		// Save the hints for later
+		Khan.hints = Khan.hints
+
+			// Run the "Load" method of any modules
+			.runModules( "Load" )
+
+			// Save as a normal JS array so we can use shift() on it later
+			.children().get();
+
+		if ( Khan.hints.length === 0 ) {
+			// Disable the get hint button
+			jQuery("#gethint").attr( "disabled", true );
+		}
+
+		// Show the debug info
+		if ( Khan.query.debug != null ) {
+			var debugWrap = jQuery( "#debug" ).empty();
+			var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname
+				+ "?debug&problem=" + problemID;
+
+			jQuery( "<h3>Debug Info</h3>" ).appendTo( debugWrap );
+
+			var src = exercise.data("src");
+			if ( src != null ) {
+				var srcInfo = jQuery( "<p></p>" ).appendTo( debugWrap );
+				srcInfo.append( "From " );
 
 				jQuery( "<a></a>" )
-					.text( problemType )
-					.attr( "href", debugURL )
-					.appendTo( links );
+					.text( src )
+					.attr( "href", src + "?debug" )
+					.appendTo( srcInfo );
+			}
 
+			var links = jQuery( "<p></p>" ).appendTo( debugWrap );
+			jQuery( "<a>Problem permalink</a>" )
+				.attr( "href", debugURL + "&seed=" + Khan.problemSeed )
+				.appendTo( links );
+
+			links.append("<br>");
+			links.append("Problem type: ");
+
+			jQuery( "<a></a>" )
+				.text( problemID )
+				.attr( "href", debugURL )
+				.appendTo( links );
+
+			if ( typeof VARS !== "undefined" ) {
 				var varInfo = [];
 				jQuery.each( VARS, function( name, value ) {
 					var str;
@@ -325,7 +441,7 @@ var Khan = {
 				jQuery( "<p></p>" ).html( varInfo.join("<br>") )
 					.appendTo( debugWrap );
 			}
-		});
+		}
 	},
 
 	injectSite: function() {
@@ -421,26 +537,97 @@ Khan.query = Khan.queryString();
 var KhanUtil = Khan.Util;
 
 // Load in jQuery
-Khan.loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" ], function() {
+Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" } ], function() {
 
-	// Load module dependencies
-	Khan.loadScripts( jQuery.map( Khan.baseModules.concat( Khan.modules ), function( name ) {
-		return "../utils/" + name + ".js";
-	}), function() {
+	// Base modules required for every problem
+	Khan.require( [ "answer-types", "template-inheritance", "math-random" ] );
 
-		jQuery(function() {
-			// Inject the site markup, if it doesn't exist
-			Khan.injectSite();
+	Khan.require( document.documentElement.getAttribute("data-require") );
 
-			// Prepare the "random" problems
-			if( !Khan.query.problem ) {
-				Khan.problemBag = Khan.makeProblemBag( jQuery( ".exercise .problems" ).children(), Khan.problemCount );
+	var remoteCount = 0;
+
+	function loadExercise() {
+		var self = jQuery( this );
+		var src = self.data( "src" );
+		var weight = self.data( "weight" );
+		var dummy = jQuery( "<div></div>" );
+
+		remoteCount++;
+		dummy.load( src + " .exercise", function( data, status, xhr ) {
+			var match, newContents;
+
+			if ( !( /success|notmodified/ ).test( status ) ) {
+				// Maybe loading from a file:// URL?
+				return Khan.error( "Error loading exercise from file " + src + ": " + xhr.status + " " + xhr.statusText );
 			}
 
-			// Generate the initial problem when dependencies are done being loaded
-			Khan.makeProblem();
+			newContents = dummy.contents();
+			self.replaceWith( newContents );
+
+			// Maybe the exercise we just loaded loads some others
+			newContents.find( ".exercise[data-src]" ).each( loadExercise );
+
+			// Save the filename and weights
+			newContents.filter( ".exercise" ).data( "src", src );
+			newContents.filter( ".exercise" ).data( "weight", weight );
+
+			// Extract data-require
+			var requires = data.match( /<html(?:[^>]+)data-require=(['"])((?:(?!\1).)*)\1/ );
+			if ( requires != null ) {
+				requires = requires[ 2 ];
+			}
+
+			Khan.require( requires );
+
+			// Extract title
+			var rtitle = /<title>([^<]*(?:(?!<\/title>)<[^<]*)*)<\/title>/gi;
+			while ( ( match = rtitle.exec( data ) ) != null ) {
+				newContents.filter( ".exercise" ).data( "title", match[1] );
+			}
+
+			// Extract scripts with no src
+			var rscript = /<(?:)script\b[^s>]*(?:(?!src=)s[^s>])*>([^<]*(?:(?!<\/script>)<[^<]*)*)<\/script>/gi;
+			while ( ( match = rscript.exec( data ) ) != null ) {
+				jQuery.globalEval( match[1] );
+			}
+
+			remoteCount--;
+			if( remoteCount === 0 ) {
+				loadModules();
+			}
 		});
-	});
+	};
+
+	var remoteExercises = jQuery( ".exercise[data-src]" );
+	if ( remoteExercises.length ) {
+		remoteExercises.each( loadExercise );
+	} else {
+		loadModules();
+	}
+
+	function loadModules() {
+		// Load module dependencies
+		Khan.loadScripts( jQuery.map( Khan.modules, function( mod, name ) {
+			return mod;
+		}), function() {
+
+			jQuery(function() {
+				// Inject the site markup, if it doesn't exist
+				Khan.injectSite();
+
+				// Prepare the "random" problems
+				if( !Khan.query.problem ) {
+					var problems = jQuery( ".exercise .problems" ).children();
+
+					Khan.weighExercises( problems );
+					Khan.problemBag = Khan.makeProblemBag( problems, Khan.problemCount );
+				}
+
+				// Generate the initial problem when dependencies are done being loaded
+				Khan.makeProblem();
+			});
+		});
+	}
 
 	jQuery.fn.extend({
 		// Pick a random element from a set of elements
@@ -456,7 +643,8 @@ Khan.loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.m
 				elem = jQuery( elem );
 
 				// Run the main method of any modules
-				jQuery.each( Khan.modules, function( i, name ) {
+				jQuery.each( Khan.modules, function( src, mod ) {
+					var name = mod.name;
 					if ( jQuery.fn[ name + type ] ) {
 						elem[ name + type ]();
 					}

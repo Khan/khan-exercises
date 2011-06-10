@@ -946,8 +946,3 @@ jQuery.fn.graph = function() {
 		jQuery.getVAR( code );
 	}).end();
 };
-
-// Load Raphael locally because IE8 has a problem with the 1.5.2 minified
-// released version
-// http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
-Khan.loadScripts(["../utils/raphael.js"]);
