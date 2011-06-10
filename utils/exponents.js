@@ -1,5 +1,32 @@
 jQuery.extend( KhanUtil, {
 
+	/* Expand something like (-2)^4 into (-2)*(-2)*(-2)*(-2) */
+	expandExponent: function( base, exp ) {
+		var base_str = base < 0 ? "(" + base + ")" : base;
+		var str = base_str;
+		for ( var i = 1; i < exp; i++ )	str += " \\cdot" + base_str;
+		return str;
+	},
+
+	/* expandExp for rational bases, taking into account negative
+	 * exponents. Assumes abs(exp)>=1. */
+	expandFractionExponent: function( base_num, base_denom, exp ) {
+		if ( Math.abs( exp ) < 1 ) {
+			return "";
+		}
+
+		// the fraction has defraction, reducing, and parensing, and is not small
+		var base_str = exp > 0 ? 
+			KhanUtil.fraction( base_num, base_denom, true, true, false, true ) :
+			KhanUtil.fraction( base_denom, base_num, true, true, false, true );
+
+		var str = base_str;
+		for ( var i = 1; i < Math.abs( exp ); i++ ) {
+			str += " \\cdot" + base_str;
+		}
+		return str;
+	},
+
 	/* Given a base, returns the highest positive integer it is reasonable to
 	 * raise that base to. */
 	maxReasonableExp: function( n ) {
@@ -15,50 +42,8 @@ jQuery.extend( KhanUtil, {
 			7: 3,    // 7*7*7 = 343
 			8: 3,    // 8*8*8 = 512
 			9: 3,    // 9*9*9 = 729
-			10: 10,  // 10^10 = 100000000000
+			10: 10  // 10^10 = 100000000000
 		}[ Math.abs( n ) ];
-	},
-
-	/* For Exponents 1, find an integer base and an positive integer exponent such
-	 * that the calculation is reasonable. With a probability of `exp_zero_prob`,
-	 * will choose an arbitrarily large/small base and an exponent of 0, and with
-	 * a probability of `exp_unit_prob`, will do likewise with an exponent of
-	 * 1. Otherwise, will choose a base in [-10,10] with `base_negunit_prob`,
-	 * `base_unit_prob`, and `base_zero_prob` probabilities for choosing those
-	 * exceptional base values (more specifically, they are the probabilities
-	 * conditional on the exponent not being 0 or 1), and then will choose an
-	 * exponent such that the calculation is reasonable. */
-	pickIntBasePosExp: function( exp_zero_prob, exp_unit_prob, 
-			base_negunit_prob, base_unit_prob, base_zero_prob ) {
-		var base, exp;
-		
-		var r = KhanUtil.random();
-		if ( r < exp_zero_prob + exp_unit_prob ) {
-			base = KhanUtil.randRangeNonZero( -500, 500 );
-			if ( r < exp_zero_prob) {
-				exp = 0;
-			} else {
-				exp = 1;
-			}
-		} else {
-			r = KhanUtil.random();
-			if ( r < base_negunit_prob ) {
-				base = -1;
-			} else if ( r < base_negunit_prob + base_unit_prob ) {
-				base = 1;
-			} else if ( r < base_negunit_prob + base_unit_prob + base_zero_prob ) {
-				base = 0;
-			} else {
-				base = KhanUtil.randRangeExclude( -10, 10, [ 0, 1, -1 ] );
-			}
-
-			exp = KhanUtil.randRange( 2, KhanUtil.maxReasonableExp( base ) );
-		}
-
-		return {
-			base: base,
-			exp: exp
-		};
 	},
 
 	/* For Exponents 2, find a rational base and an integer exponent such that the

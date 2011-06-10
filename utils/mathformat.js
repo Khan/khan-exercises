@@ -85,33 +85,6 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
-	/* Expand something like (-2)^4 into (-2)*(-2)*(-2)*(-2) */
-	expandExp: function( base, exp ) {
-		var base_str = base < 0 ? "(" + base + ")" : base;
-		var str = base_str;
-		for ( var i = 1; i < exp; i++ )	str += " \\cdot" + base_str;
-		return str;
-	},
-
-	/* expandExp for rational bases, taking into account negative
-	 * exponents. Assumes abs(exp)>=1. */
-	expandFracExp: function( base_num, base_denom, exp ) {
-		if ( Math.abs( exp ) < 1 ) {
-			return "";
-		}
-
-		// the fraction has defraction, reducing, and parensing, and is not small
-		var base_str = exp > 0 ? 
-			KhanUtil.fraction( base_num, base_denom, true, true, false, true ) :
-			KhanUtil.fraction( base_denom, base_num, true, true, false, true );
-
-		var str = base_str;
-		for ( var i = 1; i < Math.abs( exp ); i++ ) {
-			str += " \\cdot" + base_str;
-		}
-		return str;
-	},
-
 	// splitRadical( 24 ) gives [ 2, 6 ] to mean 2 sqrt(6)
 	splitRadical: function( n ) {
 		if ( n === 0 ) {
