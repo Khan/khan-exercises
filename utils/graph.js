@@ -322,24 +322,26 @@ function numberLine( startNumber, endNumber, increment ) {
     }
 }
 
+// Returns Raphael object, so you can call .attr() again to change color, etc
 function pointOnNumberLine( number ) {
-	// TODO: let these colors change, but all points are cornflower blue for now
-	present.paper.circle(NumberLine.getX( number ), NumberLine.y, 5).attr({"fill": "#6495ED", "stroke": "#6495ED"});
+	return present.paper.circle(NumberLine.getX( number ), NumberLine.y, 5).attr({"fill": "#6495ED", "stroke": "#6495ED"});
 }
 
-// http://taitems.tumblr.com/post/549973287/drawing-arrows-in-raphaeljs
+// Returns arrow's line and triangle Raphael objects
 function arrowOnNumberLine( startNumber, endNumber ) {
+	// http://taitems.tumblr.com/post/549973287/drawing-arrows-in-raphaeljs
 	var size = 10;
 	var startX = NumberLine.getX( startNumber );
 	var endX = NumberLine.getX( endNumber );
 	
 	var angle = Math.atan( startX - endX, 0 ) * 180 / Math.PI;
-	present.paper.path( "M" + startX + " " + NumberLine.y + " L " + endX + " " + NumberLine.y).attr({"fill": "#FFA500", "stroke": "#FFA500", "stroke-width": 3});
-	present.paper.path( "M" + endX + " " + NumberLine.y + " L " + (endX - size) + " " + (NumberLine.y - size / 2) 
+	var line = present.paper.path( "M" + startX + " " + NumberLine.y + " L " + endX + " " + NumberLine.y).attr({"fill": "#FFA500", "stroke": "#FFA500", "stroke-width": 3});
+	var triangle = present.paper.path( "M" + endX + " " + NumberLine.y + " L " + (endX - size) + " " + (NumberLine.y - size / 2) 
 						+ " L " + (endX - size) + " " + (NumberLine.y + size / 2) 
 						+ " L " + endX + " " + NumberLine.y )
 				.attr({"fill": "#FFA500", "stroke": "#FFA500"})
 				.rotate( 90 + angle, endX, NumberLine.y );
+	return {"line": line, "triangle": triangle};
 }
 
 function ellipse(center,rx,ry,id) { // coordinates in units
