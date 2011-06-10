@@ -139,17 +139,17 @@ jQuery.extend(KhanUtil, {
 			var coefs = (typeof coefs == "object") ? coefs : KhanUtil.randCoefs(minDegree, maxDegree);
 			var poly = new KhanUtil.Polynomial(minDegree, maxDegree, coefs, variable);
 
-            this.f = poly;
+			this.f = poly;
 
-            this.fText = poly.text();
+			this.fText = poly.text();
 
-            this.ddxF = KhanUtil.ddxPolynomial(poly);
+			this.ddxF = KhanUtil.ddxPolynomial(poly);
 
-            this.ddxFText = this.ddxF.text();
+			this.ddxFText = this.ddxF.text();
 
-            this.hints = "<p>one</p><p>two</p>";
+			this.hints = "<p>one</p><p>two</p>";
 
-        	this.wrongs = [
+			this.wrongs = [
 				KhanUtil.ddxPolynomialWrong1(poly),
 				KhanUtil.ddxPolynomialWrong2(poly),
 				KhanUtil.ddxPolynomialWrong3(poly),
@@ -173,7 +173,7 @@ jQuery.extend(KhanUtil, {
 			// power rule, polynomials
 			var minDegree = KhanUtil.randRange(-2, 2);
 			var maxDegree = KhanUtil.randRange(2, 4);
-            return KhanUtil.PowerRule(minDegree, maxDegree, KhanUtil.randCoefs(minDegree, maxDegree), variable);
+			return KhanUtil.PowerRule(minDegree, maxDegree, KhanUtil.randCoefs(minDegree, maxDegree), variable);
 		},
 		function( variable ) {
 			// random trig func
