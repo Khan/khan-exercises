@@ -3,6 +3,40 @@
 <head>
 	<title>Exponents 2</title>
 	<script src="../khan-exercise.js"></script>
+
+	<script type="text/javascript">
+		/* Find a rational base and an integer exponent such that the calculation is
+		 * reasonable. */
+		function pickRationalBaseIntegerExponent() {
+			var base_neg_prob = .5;
+			var exp_neg_prob = .75;
+			var base_rat_prob = .75;
+		
+			var base_neg = Math.random() < base_neg_prob;
+			var base_n = KhanUtil.randRange( 1, 10 );
+			var base_d;
+			while ( base_d === undefined || base_n === base_d ) {
+				base_d = KhanUtil.randRangeWeighted( 1, 10, 1, 1 - base_rat_prob );
+			}
+
+			var exp_neg = Math.random() < exp_neg_prob;
+			var max_exp = Math.min( KhanUtil.maxReasonableExp( base_n ),
+				KhanUtil.maxReasonableExp( base_d ) );
+			var min_exp = exp_neg ? 1 : 2;
+			var exp = KhanUtil.randRange( min_exp, max_exp );
+
+			var sol_n = Math.round( Math.pow( exp_neg ? base_d : base_n, exp ) );
+			var sol_d = Math.round( Math.pow( exp_neg ? base_n : base_d, exp ) );
+
+			return {
+				base_n: base_n,
+				base_d: base_d,
+				exp: exp * ( exp_neg ? -1 : 1 ),
+				sol_n: sol_n,
+				sol_d: sol_d
+			};
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
@@ -11,7 +45,7 @@
 		<div class="problems">
 			<div>
 				<div class="vars">
-					<var id="VALS">pickRatBaseIntExp( .5, .75, .75 )</var>
+					<var id="VALS">pickRationalBaseIntegerExponent()</var>
 
 					<var id="BASE_N">VALS.base_n</var>
 					<var id="BASE_D">VALS.base_d</var>
@@ -25,20 +59,15 @@
 
 					<var id="SOL_N">VALS.sol_n</var>
 					<var id="SOL_D">VALS.sol_d</var>
-
-					<!-- defraction, not reduced/small/parensed. -->
-					<var id="FRAC">function( n, d ) { return fraction( n, d, true, false, false, false ); }</var>
-					<!-- defractioned and parensed, not reduced/small. -->
-					<var id="FRACP">function( n, d ) { return fraction( n, d, true, false, false, true ); }</var>
 				</div>
 
-				<p class="question"><code><var>FRACP( BASE_N, BASE_D )</var>^{<var>EXP_SIGN+EXP</var>}</code></p>
+				<p class="question"><code><var>fracParens( BASE_N, BASE_D )</var>^{<var>EXP_SIGN+EXP</var>}</code></p>
 				<p class="solution" data-type="rational"><var>SOL_N / SOL_D</var></p>
 
 				<div class="hints">
-					<div data-if="EXP_NEG"><code>= <var>FRACP( BASEF_N, BASEF_D )</var>^{<var>EXP</var>}</code></div>
-					<div><code>= <var>expandFractionExponent( BASEF_N, BASEF_D, EXP )</var></code></div>
-					<div><code>= <var>FRAC( SOL_N, SOL_D )</var></code></div>
+					<div data-if="EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>EXP</var>}</code></div>
+					<div data-if="abs( EXP ) > 1"><code>= <var>expandFractionExponent( BASEF_N, BASEF_D, EXP )</var></code></div>
+					<div><code>= <var>frac( SOL_N, SOL_D )</var></code></div>
 				</div>
 			</div>
 		</div>
