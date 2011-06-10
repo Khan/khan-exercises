@@ -132,6 +132,7 @@ jQuery.extend(KhanUtil, {
 	},
 
     PowerRule: function(minDegree, maxDegree, coefs, variable, funcNotation ){
+        if ( this instanceof KhanUtil.PowerRule ) { //avoid mistakenly calling without a new
 			// power rule, polynomials
 			var minDegree = (typeof minDegree == "number") ? minDegree : KhanUtil.randRange(-2, 2);
 			var maxDegree = (typeof maxDegree == "number") ? maxDegree : KhanUtil.randRange(2, 4);
@@ -162,6 +163,9 @@ jQuery.extend(KhanUtil, {
 
             this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.funcNotation(variable);
 			return this;
+        }else{
+            return new KhanUtil.PowerRule();
+        }
     },
 
 	CalcFunctions: [
