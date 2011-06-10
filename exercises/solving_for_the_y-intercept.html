@@ -75,7 +75,7 @@
 			<div>
 				<div class="problem">
 					<p>The equation of a line that passes through the point <code>(<var>X1</var>, <var>Y1</var>)</code> is:</p>
-					<p><code>y = <var>fraction( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + b</code></p>
+					<p><code>y = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + b</code></p>
 				</div>
 				<p class="question">What is the <code>y</code>-intercept <code>b</code>?</p>
 				
@@ -86,10 +86,10 @@
 		<div class="hints">
 			<div>
 				<p>Substituting <code>(<var>X1</var>, <var>Y1</var>)</code> into the equation gives:</p>
-				<p><code><var>Y1</var> = <var>fraction( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> \cdot <var>X1</var> + b</code></p>
-				<p><code><var>Y1</var> = <var>fraction( X1*SLOPE_NUMERATOR , SLOPE_DENOMINATOR )</var> + b</code></p>
-				<p><code>b = <var>fraction( Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var></code></p>
-				<p><code>y = <var>fraction( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + <var>fraction(Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR,SLOPE_DENOMINATOR)</var></code></p>
+				<p><code><var>Y1</var> = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> \cdot <var>X1</var> + b</code></p>
+				<p><code><var>Y1</var> = <var>fractionReduce( X1*SLOPE_NUMERATOR , SLOPE_DENOMINATOR )</var> + b</code></p>
+				<p><code>b = <var>fractionReduce( Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var></code></p>
+				<p><code>y = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + <var>fractionReduce(Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR,SLOPE_DENOMINATOR)</var></code></p>
 
 				<div class="graph" style="width: 300px; height: 300px;" data-style="stroke: red; marker: none; font-size: 16;">
 					initPicture( X_MIN, X_MAX, Y_MIN, Y_MAX );

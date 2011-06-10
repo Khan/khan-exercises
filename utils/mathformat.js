@@ -50,6 +50,24 @@ jQuery.extend(KhanUtil, {
 		return begin + main + end;
 	},
 
+	/* Calls fraction with the reduce flag enabled. Additional parameters
+	 * correspond to the remaining fraction flags. */
+	fractionReduce: function( n, d, defraction, small, parens ) {
+		return KhanUtil.fraction( n, d, defraction, true, small, parens );
+	},
+
+	/* Calls fraction with the small flag enabled. Additional parameters
+	 * correspond to the remaining fraction flags. */
+	fractionSmall: function( n, d, defraction, reduce, parens ) {
+		return KhanUtil.fraction( n, d, defraction, reduce, true, parens );
+	},
+
+	/* Calls fraction with the reduce and small flags enabled. Additional
+	 * parameters correspond to the remaining fraction flags. */
+	fractionSmallReduce: function( n, d, defraction, parens ) {
+		return KhanUtil.fraction( n, d, defraction, true, true, parens );
+	},
+
 	/* Returns whether the fraction n/d reduces. */
 	reduces: function( n, d ) {
 		// if the GCD is greater than 1, then there is a factor in common and the 
