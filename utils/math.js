@@ -64,9 +64,9 @@ in reverse
 	
 	powerToPlace: function( power ) {
 		if ( power < 0 ) {
-			return this.placesRightOfDecimal[ -1 * power ];
+			return KhanUtil.placesRightOfDecimal[ -1 * power ];
 		} else {
-			return this.placesLeftOfDecimal[ power ];
+			return KhanUtil.placesLeftOfDecimal[ power ];
 		}
 	},
 
@@ -91,14 +91,14 @@ in reverse
 	},
 
 	getLCM: function( a, b ) {
-	  return ( a * b ) / this.getGCD( a, b );
+	  return ( a * b ) / KhanUtil.getGCD( a, b );
 	},
 
 	primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97],
 
 	getPrime: function() {
-		return this.primes[ KhanUtil.rand( this.primes.length ) ];
+		return KhanUtil.primes[ KhanUtil.rand( KhanUtil.primes.length ) ];
 	},
 
 	isPrime: function(n) {
@@ -170,14 +170,14 @@ in reverse
 	},
 
 	getPrimeFactorization: function( number ) {
-		if ( jQuery.inArray(number, this.primes) !== -1 ) {
+		if ( jQuery.inArray(number, KhanUtil.primes) !== -1 ) {
 			return [number];
 		}
 
 		var maxf = Math.sqrt( number );
 		for (var f = 2; f <= maxf; f++) {
 			if ( number % f == 0 ) {
-				return jQuery.merge(this.getPrimeFactorization( f ), this.getPrimeFactorization( number / f ));
+				return jQuery.merge(KhanUtil.getPrimeFactorization( f ), KhanUtil.getPrimeFactorization( number / f ));
 			}
 		}
 	},
@@ -198,7 +198,7 @@ in reverse
 	
 	// Get a random factor of a composite number which is not 1 or that number
 	getNontrivialFactor: function( number ) {
-		var factors = this.getFactors( number );
+		var factors = KhanUtil.getFactors( number );
 		return factors[ KhanUtil.randRange( 1, factors.length - 2 ) ];
 	},
     

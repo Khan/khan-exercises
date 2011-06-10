@@ -19,7 +19,7 @@ jQuery.extend(KhanUtil, {
 		d = Math.abs( d );
 
 		if ( reduce ) {
-			var gcd = this.getGCD( n, d );
+			var gcd = KhanUtil.getGCD( n, d );
 			n = n / gcd;
 			d = d / gcd;
 		}
@@ -49,14 +49,14 @@ jQuery.extend(KhanUtil, {
 	reduces: function( n, d ) {
 		// if the GCD is greater than 1, then there is a factor in common and the 
 		// fraction reduces. 
-		return this.getGCD( n, d ) > 1;
+		return KhanUtil.getGCD( n, d ) > 1;
 	},
 
 	fractionSimplification: function( n, d ) {
 		var result = "\\frac{" + n + "}{" + (d < 0 ? "(" + d + ")" : d) + "}";
 
-		if ( this.getGCD( n, d ) > 1 || d == 1 ) {
-			result += " = " + this.fraction( n, d );
+		if ( KhanUtil.getGCD( n, d ) > 1 || d == 1 ) {
+			result += " = " + KhanUtil.fraction( n, d );
 		}
 
 		return result;
@@ -79,8 +79,8 @@ jQuery.extend(KhanUtil, {
 
 		// the fraction has defraction, reducing, and parensing, and is not small
 		var base_str = exp > 0 ? 
-			this.fraction( base_num, base_denom, true, true, false, true ) :
-			this.fraction( base_denom, base_num, true, true, false, true );
+			KhanUtil.fraction( base_num, base_denom, true, true, false, true ) :
+			KhanUtil.fraction( base_denom, base_num, true, true, false, true );
 
 		var str = base_str;
 		for ( var i = 1; i < Math.abs( exp ); i++ ) {

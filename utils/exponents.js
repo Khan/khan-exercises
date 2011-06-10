@@ -32,16 +32,16 @@ jQuery.extend( KhanUtil, {
 			base_negunit_prob, base_unit_prob, base_zero_prob ) {
 		var base, exp;
 		
-		var r = this.random();
+		var r = KhanUtil.random();
 		if ( r < exp_zero_prob + exp_unit_prob ) {
-			base = this.randRangeNonZero( -500, 500 );
+			base = KhanUtil.randRangeNonZero( -500, 500 );
 			if ( r < exp_zero_prob) {
 				exp = 0;
 			} else {
 				exp = 1;
 			}
 		} else {
-			r = this.random();
+			r = KhanUtil.random();
 			if ( r < base_negunit_prob ) {
 				base = -1;
 			} else if ( r < base_negunit_prob + base_unit_prob ) {
@@ -49,10 +49,10 @@ jQuery.extend( KhanUtil, {
 			} else if ( r < base_negunit_prob + base_unit_prob + base_zero_prob ) {
 				base = 0;
 			} else {
-				base = this.randRangeExclude( -10, 10, [ 0, 1, -1 ] );
+				base = KhanUtil.randRangeExclude( -10, 10, [ 0, 1, -1 ] );
 			}
 
-			exp = this.randRange( 2, this.maxReasonableExp( base ) );
+			exp = KhanUtil.randRange( 2, KhanUtil.maxReasonableExp( base ) );
 		}
 
 		return {
@@ -65,17 +65,17 @@ jQuery.extend( KhanUtil, {
 	 * calculation is reasonable. */
 	pickRatBaseIntExp: function( base_neg_prob, exp_neg_prob, base_rat_prob ) {
 		var base_neg = Math.random() < base_neg_prob;
-		var base_n = this.randRange( 1, 10 );
+		var base_n = KhanUtil.randRange( 1, 10 );
 		var base_d;
 		while ( base_d === undefined || base_n === base_d ) {
-			base_d = this.randRangeWeighted( 1, 10, 1, 1 - base_rat_prob );
+			base_d = KhanUtil.randRangeWeighted( 1, 10, 1, 1 - base_rat_prob );
 		}
 
 		var exp_neg = Math.random() < exp_neg_prob;
-		var max_exp = Math.min( this.maxReasonableExp( base_n ),
-			this.maxReasonableExp( base_d ) );
+		var max_exp = Math.min( KhanUtil.maxReasonableExp( base_n ),
+			KhanUtil.maxReasonableExp( base_d ) );
 		var min_exp = exp_neg ? 1 : 2;
-		var exp = this.randRange( min_exp, max_exp );
+		var exp = KhanUtil.randRange( min_exp, max_exp );
 
 		var sol_n = Math.round( Math.pow( exp_neg ? base_d : base_n, exp ) );
 		var sol_d = Math.round( Math.pow( exp_neg ? base_n : base_d, exp ) );
@@ -124,18 +124,18 @@ jQuery.extend( KhanUtil, {
 			}
 		}
 
-		var base_n = this.randFromArray( bases );
+		var base_n = KhanUtil.randFromArray( bases );
 
 		var exp_d;
 		while ( exp_d === undefined || exp_d === 1) {
-			exp_d = this.randFromArray( roots_by_base[ base_n ] );
+			exp_d = KhanUtil.randFromArray( roots_by_base[ base_n ] );
 		}
 		var exp_neg = Math.random() < exp_neg_prob;
 
 		// keep choosing the second base until it's unique from the first.
 		var base_d;
 		while ( base_d === undefined || base_d === base_n ) {
-			base_d = this.randFromArray( bases_by_root[ exp_d ] );
+			base_d = KhanUtil.randFromArray( bases_by_root[ exp_d ] );
 		}
 
 		var sol_n = Math.round( Math.pow( exp_neg ? base_d : base_n, 1 / exp_d ) );
@@ -155,29 +155,29 @@ jQuery.extend( KhanUtil, {
 	 * and such that it is then reasonable to raise to the exponent's numerator. */
 	pickRatBaseRatExp: function( base_neg_prob, exp_neg_prob, 
 			exp_num_unit_prob ) {
-		var root_bases = this.pickRatBaseRoot( exp_neg_prob );
+		var root_bases = KhanUtil.pickRatBaseRoot( exp_neg_prob );
 
 		var exp_neg = root_bases.exp_d < 0;
 		var exp_d = Math.abs( root_bases.exp_d );
 
-		var base_neg = this.isOdd( exp_d ) && ( this.random() < base_neg_prob );
+		var base_neg = KhanUtil.isOdd( exp_d ) && ( KhanUtil.random() < base_neg_prob );
 		var base_n = root_bases.base_n;
 		var base_d = root_bases.base_d;
 
 		var root_n = Math.round( Math.pow( exp_neg ? base_d : base_n, 1 / exp_d ) );
 		var root_d = Math.round( Math.pow( exp_neg ? base_n : base_d, 1 / exp_d ) );
 
-		var max_exp = Math.min( this.maxReasonableExp( root_n ),
-			this.maxReasonableExp( root_d ) );
+		var max_exp = Math.min( KhanUtil.maxReasonableExp( root_n ),
+			KhanUtil.maxReasonableExp( root_d ) );
 
 		var exp_n;
 		while ( exp_n === undefined || exp_n % exp_d === 0 ) {
-			exp_n = this.randRange(2, max_exp);
+			exp_n = KhanUtil.randRange(2, max_exp);
 		}
 
 		// we need to check and update the root if the exponent reduces, since we'll
 		// be displaying just the reduced exponent.
-		var gcd = this.getGCD( exp_n, exp_d );
+		var gcd = KhanUtil.getGCD( exp_n, exp_d );
 		exp_n = exp_n / gcd;
 		exp_d = exp_d / gcd;
 		root_n = Math.round( Math.pow( exp_neg ? base_d : base_n, 1 / exp_d ) );
@@ -185,7 +185,7 @@ jQuery.extend( KhanUtil, {
 		// the base will only be negative when the root would also be negative.
 		var root_neg = base_neg;
 
-		var sol_neg = base_neg && this.isOdd( exp_n );
+		var sol_neg = base_neg && KhanUtil.isOdd( exp_n );
 		var sol_n = Math.round( Math.pow( root_n, exp_n ) );
 		var sol_d = Math.round( Math.pow( root_d, exp_n ) );
 
