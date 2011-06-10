@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math mathformat">
+<html data-require="math mathformat exponents">
 <head>
 	<title>Exponents 1</title>
 	<script src="../khan-exercise.js"></script>
@@ -8,66 +8,38 @@
 	<div class="exercise">
 		<p class="summary">This exercise covers exponential arithmetic with, in general, integer bases raised to nonnegative integer exponents. Handles three specific cases: integers raised to positive integers (this is the most common case); nonzero integers raised to 0; and -1, 0, and 1 raised to arbitrarily large positive integers. This exercise covers all the material presented in the Level 1 Exponents video.</p>
 
-		<!-- FIXME: this entire structure could be easily integrated into one problem more elegantly if the REASONABLE_EXPS array is expanded and if there is better templating support to allow for more elegant hints. without better templating support, it seems to be most elegant to just use separate problems. -->
 		<div class="problems">
-			<!-- Nonzero and nonunity integers raised to positive integers. Bases are chosen from [-10,10] excluding -1, 0, and 1; exponents are chosen such that the exponent is smaller than 4 result is smaller than 300. -->
-			<div id="original" data-weight="3">
+			<div>
 				<div class="vars">
-					<var id="BASE">randRangeExclude( -10, 10, [0, 1, -1] )</var>
-					<var id="BASE_STR">negParens( BASE )</var>
-					<!-- we limit the occurrences of 1 as an exponent because it is to easy, but we want it to appear at least a little. -->
-					<var id="EXP">randRangeWeighted( 1, maxReasonableExp( BASE ), 1, .1	 )</var>
-					<var id="SOLUTION">round( pow( BASE, EXP ) )</var>
-					<var id="HINT">expandExponentiation( BASE, EXP )</var>
+					<var id="VALS">pickIntBasePosExp( .2, .1, .2, .05, .05 )</var>
+
+					<var id="BASE">VALS.base</var>
+					<var id="EXP">VALS.exp</var>
+
+					<var id="PARENS">function( n ) { return n < 0 ? "(" + n + ")" : n; }</var>
+
+					<var id="NEG_ONE_HINT">BASE > 0 ? "" : ( isEven( EXP ) ? "even" : "odd" )</var>
 				</div>
 
-				<p class="question"><code><var>BASE_STR</var>^{<var>EXP</var>}</code></p>
-				<p class="solution" data-type="decimal"><var>SOLUTION</var></p>
+				<p class="question"><code><var>PARENS( BASE )</var>^{<var>EXP</var>}</code></p>
+				<p class="solution" data-type="decimal"><var>round( pow( BASE, EXP ) )</var>
 
 				<div class="hints">
-					<!-- FIXME: once we have templating loops, will need to implement a dynamic number of hints, with collapsing multiplication, like: 2x2x2x2 then 4x2x2 then 8x2 then 16 -->
-					<div><code>= <var>HINT</var></code></div>
-					<div><code>= <var>SOLUTION</var></code></div>
-				</div>
-			</div>
-
-			<!-- Nonzero integers raised to 0. Base is chosen from [-500,500]. -->
-			<div id="zero-exp">
-				<div class="vars">
-					<var id="BASE">randRangeNonZero( -500, 500 )</var>
-					<var id="BASE_STR">negParens( BASE )</var>
-				</div>
-
-				<p class="question"><code><var>BASE_STR</var>^{0}</code></p>
-				<p class="solution" data-type="decimal">1</p>
-
-				<div class="hints">
-					<div>Anything to the 0th power equals...?</div>
-					<div>Anything to the 0th power equals 1.</div>
-				</div>
-			</div>
-
-			<!-- -1, 0, and 1 raised to arbitrarily large positive integers. Exponents are chosen from [1,1000]. -->
-			<div id="easy-base">
-				<div class="vars">
-					<!-- -1 is the most interesting case, so we choose -1 half the time, 0 a quarter of the time, and 1 a quarter of the time. -->
-					<var id="BASE">random() < 0.5 ? -1 : (random() < 0.5 ? 0 : 1)</var>
-					<var id="BASE_STR">negParens( BASE )</var>
-					<var id="EXP">randRange( 1, maxReasonableExp( BASE )</var>
-					<var id="SOLUTION">round( pow( BASE, EXP ) )</var>
-					<var id="POWER_HINT">function() {
-						if (BASE === 0) return "nonzero";
-						else if (BASE === 1) return "";
-						else return isEven( EXP ) ? "even" : "odd";
-					}()</var>
-				</div>
-
-				<p class="question"><code><var>BASE_STR</var>^{<var>EXP</var>}</code></p>
-				<p class="solution" data-type="decimal"><var>SOLUTION</var></p>
-
-				<div class="hints">
-					<div><var>Cardinal(BASE)</var> to any <var>POWER_HINT</var> power equals...?</div>
-					<div><var>Cardinal(BASE)</var> to any <var>POWER_HINT</var> power equals <var>SOLUTION</var>.</div>
+					<!-- FIXME: once we have templating loops, will need to implement a dynamic number of hints, with collapsing multiplication, like: 2x2x2 then 4x2 then 8 -->
+					<!-- FIXME: could also integrate hint replacement here. -->
+					<div data-if="EXP === 0">
+						<div>Anything to the 0th power equals... ?</div>
+						<div>Anything to the 0th power equals 1</div>
+					</div><div data-else data-if="EXP === 1">
+						<div>Anything to the 1st power equals... ?</div>
+						<div><code>x^1=x</code>, no matter what <code>x</code> is.</div>
+					</div><div data-else data-if="BASE === 0 || BASE === 1 || BASE === -1">
+						<div><var>Cardinal(BASE)</var> to any <var>NEG_ONE_HINT</var> power equals... ?</div>
+						<div><var>Cardinal(BASE)</var> to any <var>NEG_ONE_HINT</var> power equals <var>round( pow( BASE, EXP ) )</var></div>
+					</div><div data-else>
+						<div><code>= <var>expandExp( BASE, EXP )</var></code></div>
+						<div><code>= <var>round( pow( BASE, EXP ) )</var></code></div>
+					</div>
 				</div>
 			</div>
 		</div>

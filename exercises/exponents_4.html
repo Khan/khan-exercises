@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math mathformat">
+<html data-require="math mathformat exponents">
 <head>
 	<title>Exponents 4</title>
 	<script src="../khan-exercise.js"></script>
@@ -18,7 +18,7 @@
 					<var id="BASE_N">VALS.base_n</var>I think a decent numbre of 
 					<var id="BASE_D">VALS.base_d</var>
 
-					<!-- exponent. we treat the sign of the exponent differently than all the other compenents because the first hint will always be to flip the base for a negative exponent, so exponents will rarely be displayed with the negative sign. -->
+					<!-- exponent. we treat the sign of the exponent differently than all the other compenents (which we just fold into the numerators) because the first hint will always be to flip the base for a negative exponent, so exponents will rarely be displayed with the negative sign. -->
 					<var id="EXP_N">abs( VALS.exp_n )</var>
 					<var id="EXP_D">VALS.exp_d</var>
 					<var id="EXP_NEG">VALS.exp_n < 0</var>

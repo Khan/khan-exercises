@@ -291,7 +291,7 @@ var Khan = {
 			if ( Khan.query.debug != null ) {
 				var debugWrap = jQuery( "#debug" ).empty();
 				var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname
-					+ "?debug";
+					+ "?debug&problem=" + problemType;
 
 				jQuery( "<h3>Debug Info</h3>" ).appendTo( debugWrap );
 
@@ -305,7 +305,7 @@ var Khan = {
 
 				jQuery( "<a></a>" )
 					.text( problemType )
-					.attr( "href", debugURL + "&problem=" + problemType )
+					.attr( "href", debugURL )
 					.appendTo( links );
 
 				var varInfo = [];
@@ -433,7 +433,9 @@ Khan.loadScripts( [ "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.m
 			Khan.injectSite();
 
 			// Prepare the "random" problems
-			Khan.problemBag = Khan.makeProblemBag( jQuery( ".exercise .problems" ).children(), Khan.problemCount );
+			if( !Khan.query.problem ) {
+				Khan.problemBag = Khan.makeProblemBag( jQuery( ".exercise .problems" ).children(), Khan.problemCount );
+			}
 
 			// Generate the initial problem when dependencies are done being loaded
 			Khan.makeProblem();

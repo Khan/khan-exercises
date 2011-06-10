@@ -52,9 +52,28 @@ jQuery.extend(KhanUtil, {
 		return this.getGCD( n, d ) > 1;
 	},
 
-	/* expandExp for rational bases. */
+	fractionSimplification: function( n, d ) {
+		var result = "\\frac{" + n + "}{" + (d < 0 ? "(" + d + ")" : d) + "}";
+
+		if ( this.getGCD( n, d ) > 1 || d == 1 ) {
+			result += " = " + this.fraction( n, d );
+		}
+
+		return result;
+	},
+
+	/* Expand something like (-2)^4 into (-2)*(-2)*(-2)*(-2) */
+	expandExp: function( base, exp ) {
+		var base_str = base < 0 ? "(" + base + ")" : base;
+		var str = base_str;
+		for ( var i = 1; i < exp; i++ )	str += " \\cdot" + base_str;
+		return str;
+	},
+
+	/* expandExp for rational bases, taking into account negative
+	 * exponents. Assumes abs(exp)>=1. */
 	expandFracExp: function( base_num, base_denom, exp ) {
-		if ( exp === 0 ) {
+		if ( Math.abs( exp ) < 1 ) {
 			return "";
 		}
 
@@ -67,29 +86,6 @@ jQuery.extend(KhanUtil, {
 		for ( var i = 1; i < Math.abs( exp ); i++ ) {
 			str += " \\cdot" + base_str;
 		}
-		return str;
-	},
-
-	fractionSimplification: function( n, d ) {
-		var result = "\\frac{" + n + "}{" + (d < 0 ? "(" + d + ")" : d) + "}";
-
-		if ( this.getGCD( n, d ) > 1 || d == 1 ) {
-			result += " = " + this.fraction( n, d );
-		}
-
-		return result;
-	},
-
-	/* Wrap a number in parentheses if it's negative. */
-	negParens: function( n ) {
-		return n < 0 ? "(" + n + ")" : n;
-	},
-
-	/* Expand something like (-2)^4 into (-2)*(-2)*(-2)*(-2) */
-	expandExp: function( base, exp ) {
-		var base_str = this.negParens( base );
-		var str = base_str;
-		for ( var i = 1; i < exp; i++ )	str += " \\cdot" + base_str;
 		return str;
 	},
 

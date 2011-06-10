@@ -250,7 +250,7 @@ jQuery.extend( Khan.answerTypes, {
 	},
 
 	list: function( solutionarea, solution ) {
-		var input = jQuery("<select>");
+		var input = jQuery("<select></select>");
 		jQuery( solutionarea ).append( input );
 		input.focus();
 

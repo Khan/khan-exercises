@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math mathformat">
+<html data-require="math mathformat exponents">
 <head>
 	<title>Exponents 2</title>
 	<script src="../khan-exercise.js"></script>
@@ -10,29 +10,35 @@
 
 		<div class="problems">
 			<div>
-				<div class="vars" data-ensure="abs( BASE_NUM ) !== abs( BASE_DENOM )">
-					<var id="BASE_NUM">randRangeNonZero( -10, 10 )</var>
-					<!-- we want 25% of the exercises to have integer bases. -->
-					<var id="BASE_DENOM">randRangeWeighted( 1, 10, 1, .25 )</var>
-					<var id="MAX_EXP">min( maxReasonableExp( BASE_NUM ), maxReasonableExp( BASE_DENOM ) )</var>
-					<!-- we want only 10% of the exercises to have 1 as an exponent, and 75% of the exercises to have a negative exponent. -->
-					<var id="EXP">randRangeWeighted( 1, MAX_EXP, 1, .1) * (random() < 0.75 ? -1 : 1)</var>
-					<var id="BASE_STR">fractionParens( BASE_NUM, BASE_DENOM )</var>
-					<var id="FLIPPED_BASE">fractionParens( BASE_DENOM, BASE_NUM )</var>
-					<var id="HINT_2">expandFracExp( BASE_NUM, BASE_DENOM, EXP )</var>
-					<var id="SOLUTION_NUM">EXP > 0 ? pow( BASE_NUM, EXP ) : pow( BASE_DENOM, -EXP)</var>
-					<var id="SOLUTION_DENOM">EXP > 0 ? pow( BASE_DENOM, EXP) : pow( BASE_NUM, -EXP)</var>
-					<var id="SOLUTION_STR">fraction( SOLUTION_NUM, SOLUTION_DENOM )</var>
-					<var id="SOLUTION">SOLUTION_NUM / SOLUTION_DENOM</var>
+				<div class="vars">
+					<var id="VALS">pickRatBaseIntExp( .5, .75, .75 )</var>
+
+					<var id="BASE_N">VALS.base_n</var>
+					<var id="BASE_D">VALS.base_d</var>
+
+					<var id="EXP_NEG">VALS.exp < 0</var>
+					<var id="EXP_SIGN">EXP_NEG ? "-" : ""</var>
+					<var id="EXP">abs( VALS.exp )</var>
+
+					<var id="BASEF_N">EXP_NEG ? BASE_D : BASE_N</var>
+					<var id="BASEF_D">EXP_NEG ? BASE_N : BASE_D</var>
+
+					<var id="SOL_N">VALS.sol_n</var>
+					<var id="SOL_D">VALS.sol_d</var>
+
+					<!-- defraction, not reduced/small/parensed. -->
+					<var id="FRAC">function( n, d ) { return fraction( n, d, true, false, false, false ); }</var>
+					<!-- defractioned and parensed, not reduced/small. -->
+					<var id="FRACP">function( n, d ) { return fraction( n, d, true, false, false, true ); }</var>
 				</div>
 
-				<p class="question"><code><var>BASE_STR</var>^{<var>EXP</var>}</code></p>
-				<p class="solution" data-type="rational"><var>SOLUTION</var></p>
+				<p class="question"><code><var>FRACP( BASE_N, BASE_D )</var>^{<var>EXP_SIGN+EXP</var>}</code></p>
+				<p class="solution" data-type="rational"><var>SOL_N / SOL_D</var></p>
 
 				<div class="hints">
-					<div data-if="EXP < 0"><code>= <var>FLIPPED_BASE</var>^{<var>abs( EXP )</var>}</code></div>
-					<div><code>= <var>expandFracExp( BASE_NUM, BASE_DENOM, EXP )</var></code></div>
-					<div><code>= <var>SOLUTION_STR</var></code></div>
+					<div data-if="EXP_NEG"><code>= <var>FRACP( BASEF_N, BASEF_D )</var>^{<var>EXP</var>}</code></div>
+					<div><code>= <var>expandFracExp( BASEF_N, BASEF_D, EXP )</var></code></div>
+					<div><code>= <var>FRAC( SOL_N, SOL_D )</var></code></div>
 				</div>
 			</div>
 		</div>
