@@ -25,6 +25,8 @@
 					<var id="BASEF_N">EXP_NEG ? BASE_D : BASE_N</var>
 					<var id="BASEF_D">EXP_NEG ? BASE_N : BASE_D</var>
 
+					<!-- the base will only be negative when the root would also be negative. -->
+					<var id="ROOT_NEG">BASE_NEG</var>
 					<var id="ROOT_N_ORIG">round( pow( EXP_NEG ? BASE_D : BASE_N, 1 / EXP_D_ORIG ) )</var>
 					<var id="ROOT_D_ORIG">round( pow( EXP_NEG ? BASE_N : BASE_D, 1 / EXP_D_ORIG ) )</var>
 
@@ -43,8 +45,6 @@
 					<var id="EXP_D">EXP_D_ORIG / GCD</var>
 					<var id="ROOT_N">round( pow( EXP_NEG ? BASE_D : BASE_N, 1 / EXP_D ) )</var>
 					<var id="ROOT_D">round( pow( EXP_NEG ? BASE_N : BASE_D, 1 / EXP_D ) )</var>
-					<!-- the base will only be negative when the root would also be negative. -->
-					<var id="ROOT_NEG">BASE_NEG</var>
 
 					<var id="SOL_NEG">ROOT_NEG && isOdd( EXP_N )</var>
 					<var id="SOL_N">round( pow( ROOT_N, EXP_N ) )</var>
@@ -64,10 +64,12 @@
 					<div data-if="EXP_N > 1"><code>= \left(<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>}</code></div>
 						
 					<!-- "To simplify (4/9)^(1/2), figure out whta goes in the blank: ?^2 = 4/9" -->
-					<div>To simplify <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code>, figure out what goes in the blank:<br /> <code>\Big(?\Big)^{<var>abs( EXP_D )</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></div>
+					<div>To simplify <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code>, figure out what goes in the blank:<br /> <code>\left(<span class="expand">?</span>\right)^{<var>abs( EXP_D )</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></div>
+
+					<span id="expand" data-apply="hint-replace">\color{blue}{<var>frac( ROOT_N, ROOT_D )</var>}</span>
 						
 					<!-- "(2/3)^2 = 4/9, so (4/9)^(1/2)" -->
-					<div><code><var>fracParens( ROOT_N, ROOT_D )</var>^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var>\mbox{,}\quad\mbox{so}\quad<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>frac( ROOT_N, ROOT_D )</var></code></div>
+					<div>so <code>\quad<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>frac( ROOT_N, ROOT_D )</var></code></div>
 						
 					<!-- "So (4/9)^(3/2)=((4/9)^(1/2))^3=(2/3)^3" -->
 					<div data-if="EXP_N > 1">So <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( EXP_N, EXP_D )</var>}=\left(<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>}=<var>fracParens( ROOT_N, ROOT_D )</var>^{<var>EXP_N</var>}</code></div>
