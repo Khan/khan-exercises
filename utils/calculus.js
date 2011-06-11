@@ -110,24 +110,22 @@ jQuery.extend(KhanUtil, {
 		return new KhanUtil.Polynomial( poly.minDegree, poly.maxDegree, ddxCoefs, poly.variable );
 	},
 
-	funcNotation: function( variable ) {
-		if (!variable) {
-			variable = "x";
-		}
-		
+	funcNotation: function( variable, index ) {
+		variable = (typeof variable !== "undefined") ? variable : "x";
 		var notations = [
-			["y", "\\frac{dy}{d"+variable+"}"],
-			["f("+variable+")", "f'("+variable+")"],
-			["g("+variable+")", "g'("+variable+")"],
-			["y", "y'"],
-			["f("+variable+")", "\\frac{d}{d"+variable+"} f("+variable+")"],
-			["a", "a'"],
-			["a", "\\frac{da}{d"+variable+"}"]
+			["y", "\\frac{dy}{d"+variable+"}","y=A"+variable+"^{n} \\implies \\frac{dy}{d"+variable+"}=n.A"+variable+"^{n-1}"],
+			["f("+variable+")", "f'("+variable+")","f'(A"+variable+"^{n})=n.A"+variable+"^{n-1}"],
+			["g("+variable+")", "g'("+variable+")","g'(A"+variable+"^{n})=n.A"+variable+"^{n-1}"],
+			["y", "y'","y=A"+variable+"^{n} \\implies y'=n.A"+variable+"^{n-1}"],
+			["f("+variable+")", "\\frac{d}{d"+variable+"}f("+variable+")","f("+variable+")=A"+variable+"^{n} \\implies \\frac{d}{d"+variable+"}f("+variable+")=n.A"+variable+"^{n-1}"],
+			["a", "a'","a=A"+variable+"^{n} \\implies a'=n.A"+variable+"^{n-1}"],
+			["a", "\\frac{da}{d"+variable+"}","a=A"+variable+"^{n} \\implies \\frac{da}{d"+variable+"}=n.A"+variable+"^{n-1}"]
 		];
-		var n_idx = KhanUtil.rand( notations.length );
+		var n_idx = (typeof index == "number" && index >= 0 && index < notations.length) ? index : KhanUtil.rand( notations.length );
 		return {
 			f: notations[n_idx][0],
-			ddxF: notations[n_idx][1]
+			ddxF: notations[n_idx][1],
+			diffHint: notations[n_idx][2]
 		};
 	},
 

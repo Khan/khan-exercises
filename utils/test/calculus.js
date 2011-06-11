@@ -28,5 +28,21 @@ test("#PowerRule - helper object for polynomial differentiation", function(){
 	for (wrongText in powerRule.wrongsText){
 		notEqual(wrongText,powerRule.ddxFText,"none of the wrong answers should match the right one");
 	}
-ok(KhanUtil.PowerRule() instanceof KhanUtil.PowerRule, "check that 'new' operator is optional");
+	ok(KhanUtil.PowerRule() instanceof KhanUtil.PowerRule, "check that 'new' operator is optional");
+
+});
+
+test("#funcNotation - helper for randomly choosing a notation for the function", function(){
+	ok(KhanUtil.funcNotation().f, "generates a notation for the function");
+	ok(KhanUtil.funcNotation().ddxF, "generates a notation for the function derivative");
+	equals(KhanUtil.funcNotation("x",1).f, "f(x)","index works and variable is substituted");
+	equals(KhanUtil.funcNotation("x",1).ddxF,"f'(x)","index works and variable is substituted");
+	ok(KhanUtil.funcNotation("x",1000).f,"randomly choose a notation if out of range");
+	equals(KhanUtil.funcNotation("x",0).diffHint,"y=Ax^{n} \\implies \\frac{dy}{dx}=n.Ax^{n-1}", "check diffHint");
+	equals(KhanUtil.funcNotation("b",1).diffHint,"f'(Ab^{n})=n.Ab^{n-1}","check diffHint");
+	equals(KhanUtil.funcNotation("x",2).diffHint,"g'(Ax^{n})=n.Ax^{n-1}","check diffHint");
+	equals(KhanUtil.funcNotation("b",3).diffHint,"y=Ab^{n} \\implies y'=n.Ab^{n-1}","check diffHint");
+	equals(KhanUtil.funcNotation("x",4).diffHint,"f(x)=Ax^{n} \\implies \\frac{d}{dx}f(x)=n.Ax^{n-1}","check diffHint");
+	equals(KhanUtil.funcNotation("b",5).diffHint,"a=Ab^{n} \\implies a'=n.Ab^{n-1}","check diffHint");
+	equals(KhanUtil.funcNotation("x",6).diffHint,"a=Ax^{n} \\implies \\frac{da}{dx}=n.Ax^{n-1}","check diffHint");
 });
