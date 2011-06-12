@@ -31,7 +31,7 @@
 		<p><code>\displaystyle {} = <var>NEG1S</var> \frac{<var>A</var>}{<var>B</var>} \times <var>NEG2S</var> \frac{<var>D</var>}{<var>C</var>}</code></p>
 		<p><code>\displaystyle {} = \frac{<var>NEG1 * A</var> \times <var>NEG2 * D</var>}{<var>B</var> \times <var>C</var>}</code></p>
 		<p><code>\displaystyle {} = \frac{<var>NEG1 * A * NEG2 * D</var>}{<var>B * C</var>}</code></p>
-		<p data-if="getGCD(NEG1 * A * NEG2 * D, B * C) !== 1 || NEG1 * NEG2 === -1"><code>\displaystyle {} = <var>fraction(NEG1 * A * NEG2 * D, B * C)</var></code></p>
+		<p data-if="getGCD(NEG1 * A * NEG2 * D, B * C) !== 1 || NEG1 * NEG2 === -1"><code>\displaystyle {} = <var>fractionReduce(NEG1 * A * NEG2 * D, B * C)</var></code></p>
 	</div>
 	</div>
 </body>

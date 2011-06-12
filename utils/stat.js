@@ -16,12 +16,12 @@ jQuery.extend(KhanUtil, {
 	},
 
 	mean: function( values ) {
-		return KhanUtil.roundTo( 1, this.sum( values ) / values.length );
+		return KhanUtil.roundTo( 1, KhanUtil.sum( values ) / values.length );
 	},
 
 	median: function( values ) {
 		var sortedInts, median;
-		sortedInts = this.sortValues(values);
+		sortedInts = KhanUtil.sortValues(values);
 
 		if ( values.length % 2 == 0 ) {
 			median = KhanUtil.roundTo( 1,
