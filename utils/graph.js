@@ -289,7 +289,7 @@ var NumberLine = {
 	padding: 20,
 	tickHeight: 15,
 	getX: function( number ) {
-		return NumberLine.padding + (( number - NumberLine.startNumber ) / NumberLine.endNumber - NumberLine.startNumber ) * NumberLine.width;
+		return NumberLine.padding + ( number - NumberLine.startNumber ) / ( NumberLine.endNumber - NumberLine.startNumber ) * NumberLine.width;
 	}
 };
 
