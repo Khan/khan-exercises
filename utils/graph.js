@@ -344,6 +344,46 @@ function arrowOnNumberLine( startNumber, endNumber ) {
 	return {"line": line, "triangle": triangle};
 }
 
+// Inspired from http://raphaeljs.com/pie.html
+// For a pie with six slices,
+// 1 colored red, 2 #ee33ee and 3 purple, and with a radius of 30px
+// ==> piechart( [1, 2, 3], ["red", "#ee33ee", "purple"], 30)
+//
+function piechart( division, colors, r ) {
+	var cx = present.width / 2;
+	var cy = present.height / 2;
+	var chart = present.paper.set();
+	
+	var totalSectors = 0;	
+	jQuery.each( division, function( index, number ) {
+		totalSectors += number;
+	});
+
+	var currAngle = 0;
+	var measure = 360 / totalSectors;
+	
+	function sector( number, params ) {
+		var set = present.paper.set();
+		for (var i = 0; i < number; i++) {
+			var rad = Math.PI / 180;
+		    var x1 = cx + r * Math.cos(-currAngle * rad),
+		        x2 = cx + r * Math.cos(-(currAngle + measure) * rad),
+		        y1 = cy + r * Math.sin(-currAngle * rad),
+		        y2 = cy + r * Math.sin(-(currAngle + measure) * rad);
+		    set.push (present.paper.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, 0, 0, x2, y2, "z"])
+								.attr(params) );
+			currAngle += measure;
+		}
+		return set;
+	}
+	
+	jQuery.each( division, function( index, number ) {
+		chart.push( sector( number, {"fill": colors[index], "stroke": "#fff", "stroke-width":2}) );
+	}); 
+
+	return chart;
+}
+
 function ellipse(center,rx,ry,id) { // coordinates in units
     var node;
     if (id!=null) node = svgNodes[id];
