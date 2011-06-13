@@ -378,9 +378,40 @@ function piechart( division, colors, r ) {
 	}
 	
 	jQuery.each( division, function( index, number ) {
-		chart.push( sector( number, {"fill": colors[index], "stroke": "#fff", "stroke-width":2}) );
+		chart.push( sector( number, {"fill": colors[index], "stroke": "#fff", "stroke-width": 2}) );
 	}); 
 
+	return chart;
+}
+
+// Like piechart above, but a rectangle.
+function rectchart( division, colors ) {
+	var padding = 10;
+	var x = padding;
+	var y = padding;
+	var chart = present.paper.set();
+	
+	var totalSegments = 0;	
+	jQuery.each( division, function( index, number ) {
+		totalSegments += number;
+	});
+
+	var totalWidth = present.width - 2 * padding;
+	var segmentWidth = totalWidth / totalSegments;
+	var segmentHeight = present.height - 2 * padding;
+	
+	function segment( number, params ) {
+		var set = present.paper.set();
+		for (var i = 0; i < number; i++) {
+			set.push( present.paper.rect( x, y, segmentWidth, segmentHeight ).attr(params) );
+			x += segmentWidth;
+		}
+	}
+
+	jQuery.each( division, function( index, number ) {
+		chart.push( segment( number, {"fill": colors[index], "stroke": "#fff", "stroke-width": 2}))
+	});
+	
 	return chart;
 }
 
