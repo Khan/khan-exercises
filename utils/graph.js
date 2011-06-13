@@ -101,12 +101,6 @@ function factorial(x,n) {
     return (x<0?NaN:(x==0?1:x));
 }
 
-function C(x,k) {
-    var res=1;
-    for (var i=0; i<k; i++) res*=(x-i)/(k-i);
-    return res;
-}
-
 function chop(x,n) {
     if (n==null) n=0;
     return Math.floor(x*Math.pow(10,n))/Math.pow(10,n);
