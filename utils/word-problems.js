@@ -218,9 +218,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	var pizzas = KhanUtil.shuffle([
 		"pizza",
 		"pie",
-		"cake",
-		"orange",
-		"lemon"
+		"cake"
 	]);
 	
 	jQuery.extend( KhanUtil, {
