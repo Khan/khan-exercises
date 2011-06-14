@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math stat">
+<html data-require="math stat graph">
 <head>
 	<title>Mean, Median, and Mode</title>
 	<script src="../khan-exercise.js"></script>
@@ -64,7 +64,7 @@
 		<div class="problems">
 			<div id="mean">
 				<div class="question">
-					<p>Calculate the arithmetic mean of the following numbers:</p>
+					<p>What is the arithmetic mean of the following numbers?</p>
 					<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
 					<p>(Round to the nearest tenth.)</p>
 				</div>
@@ -84,7 +84,7 @@
 
 			<div id="median">
 				<div class="question">
-					<p>Calculate the median of the following numbers:</p>
+					<p>What is the median of the following numbers?</p>
 					<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
 					<p>(Round to the nearest tenth.)</p>
 				</div>
@@ -102,16 +102,25 @@
 						<div class="number-list"><code><var>MEDIAN_LIST</var></code></div>
 						<p data-if="SORTED_INTS.length % 2 === 0">The median is <code>\frac{<var>SORTED_INTS[ SORTED_INTS.length / 2 - 1 ]</var> + <var>SORTED_INTS[ SORTED_INTS.length / 2 ]</var>}{2}</code>.</p>
 					</div>
-					<p>So the median is <code><var>MEDIAN</var></code>.</p>
+					<div>
+						<p>So the median is <code><var>MEDIAN</var></code>.</p>
+						<p>Another way to approach this problem is to draw the numbers on a number line. If a number appears multiple times, count its corresponding dot multiple times as well.</p>
+						<div class="graph" style="width: 500px; height: 100px;">
+							(function() {
+								numberLine( 0, 10, 1 );
+								$.each(INTEGERS, function( index, number ) { 
+									pointOnNumberLine( number )
+								});								
+							})()
+						</div>
+					</div>
 				</div>
 			</div>
 
 			<div id="mode">
 				<div class="question">
-					<p>Calculate the mode of the following numbers:</p>
+					<p>What is the mode of the following numbers?</p>
 					<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
-					<!-- Tricksy, you never have to round the mode, but we say this :-P -->
-					<p>(Round to the nearest tenth.)</p>
 				</div>
 
 				<div class="hints">

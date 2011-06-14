@@ -290,7 +290,8 @@ var NumberLine = {
 	tickHeight: 15,
 	getX: function( number ) {
 		return NumberLine.padding + ( number - NumberLine.startNumber ) / ( NumberLine.endNumber - NumberLine.startNumber ) * NumberLine.width;
-	}
+	},
+	points: {}
 };
 
 function numberLine( startNumber, endNumber, increment ) {
@@ -318,7 +319,18 @@ function numberLine( startNumber, endNumber, increment ) {
 
 // Returns Raphael object, so you can call .attr() again to change color, etc
 function pointOnNumberLine( number ) {
-	return present.paper.circle(NumberLine.getX( number ), NumberLine.y, 5).attr({"fill": "#6495ED", "stroke": "#6495ED"});
+	var x = NumberLine.getX( number );
+	
+	if ( !NumberLine.points[number] ) {
+		NumberLine.points[number] = {"count": 0, "label": present.paper.text( x, NumberLine.y - NumberLine.tickHeight, "" )};
+	}
+
+	NumberLine.points[number].count++;
+	
+	if ( NumberLine.points[number].count > 1 ) {
+		NumberLine.points[number].label.attr({text: NumberLine.points[number].count});
+	}
+	return present.paper.circle( x, NumberLine.y, 5 ).attr({"fill": "#6495ED", "stroke": "#6495ED"});
 }
 
 // Returns arrow's line and triangle Raphael objects
