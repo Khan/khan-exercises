@@ -128,7 +128,6 @@ in reverse
 		return n % 2 === 0;
 	},
 
-
 	getOddComposite: function( min, max ) {
 		if ( min === undefined ) {
 			min = 0;
@@ -191,9 +190,7 @@ in reverse
 				factors.push( number / f );
 			}
 		}
-		return factors.sort( function( a, b ) {
-			return a - b;
-		});
+		return KhanUtil.sortNumbers( factors );
 	},
 	
 	// Get a random factor of a composite number which is not 1 or that number
@@ -267,6 +264,12 @@ in reverse
 		}
 
 		return array;
+	},
+	
+	sortNumbers: function( array ) {
+		return array.slice( 0 ).sort( function( a, b ) {
+			return a - b;
+		});
 	},
 
 	// From limits_1

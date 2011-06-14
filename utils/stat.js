@@ -8,20 +8,13 @@ jQuery.extend(KhanUtil, {
 		return sum;
 	},
 
-	sortValues: function( values ) {
-		var sortedInts = values.slice(0);
-		sortedInts.sort( function(a, b) { return a - b } );
-
-		return sortedInts;
-	},
-
 	mean: function( values ) {
 		return KhanUtil.roundTo( 1, KhanUtil.sum( values ) / values.length );
 	},
 
 	median: function( values ) {
 		var sortedInts, median;
-		sortedInts = KhanUtil.sortValues(values);
+		sortedInts = KhanUtil.sortNumbers( values );
 
 		if ( values.length % 2 == 0 ) {
 			median = KhanUtil.roundTo( 1,

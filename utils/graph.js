@@ -451,9 +451,7 @@ function histogram( numbers ) {
     var distanceBetweenTicks = ( present.width - 2 * padding ) /  ( keys.length - 1 );
 	var distanceBetweenDots = ( present.height - 4 * padding ) / max;
 
-	keys.sort( function( a, b ) {
-		return a - b;
-	});
+	keys = KhanUtil.sortNumbers( keys );
 	
 	jQuery.each( keys, function( index, key ) {
 		set.push( present.paper.path( "M" + x + " " + ( y - tickHeight / 2 ) + " L" + x + " " + ( y + tickHeight / 2 ) ) );
