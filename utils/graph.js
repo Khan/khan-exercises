@@ -421,6 +421,45 @@ function rectchart( division, colors ) {
 	return chart;
 }
 
+function histogram( numbers ) {
+	var h = {};
+	var max = 0;
+	var uniques = 0;
+	jQuery.each( numbers, function( index, number ) {
+		if ( !h[number] ) {
+			h[number] = 0;
+			uniques++;
+		}
+		
+		h[number]++;
+		
+		if ( h[number] > max ) {
+			max = h[number];
+		}
+	});
+
+	var padding = 20;	
+	var x = padding;
+	var y = present.paper.height - 2 * padding;
+	
+	// Draw horizontal line
+    present.paper.path( "M" + x + " " + y + " L" + ( present.paper.width - padding ) + " " + y );
+
+    // Draw vertical tick marks and frequency dots
+	var tickHeight = 15;
+    var distanceBetweenTicks = ( present.width - 2 * padding ) /  ( uniques - 1 );
+	var distanceBetweenDots = ( present.height - 4 * padding ) / max;
+
+	jQuery.each( h, function( number, frequency ) {
+		present.paper.path( "M" + x + " " + ( y - tickHeight / 2 ) + " L" + x + " " + ( y + tickHeight / 2 ) );
+		present.paper.text( x, y + 2 * tickHeight, number ).attr({"font-size": 15});
+		for ( var i = 0; i < frequency; i++ ) {
+			present.paper.circle( x, y - (i + 1) * distanceBetweenDots, 5 ).attr({"fill": "#6495ED", "stroke": "#6495ED"});
+		}
+		x += distanceBetweenTicks;
+	});
+}
+
 function ellipse(center,rx,ry,id) { // coordinates in units
     var node;
     if (id!=null) node = svgNodes[id];
