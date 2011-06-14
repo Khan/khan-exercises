@@ -59,15 +59,5 @@ jQuery.extend(KhanUtil, {
 		}
 
 		return mode;
-	},
-
-	// concatenate array into a printable string
-	display: function( values ) {
-		var text = "";
-		$.each(values, function( index, value ) {
-			text += ", ";
-			text += value;
-		});
-		return text.slice(2);
 	}
 });
