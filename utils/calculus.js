@@ -110,22 +110,42 @@ jQuery.extend(KhanUtil, {
 		return new KhanUtil.Polynomial( poly.minDegree, poly.maxDegree, ddxCoefs, poly.variable );
 	},
 
+	ddxTerm: function ( expr ) {
+		//takes an expression that is part of a polynomial (assumes ["*",
+		
+	},
+
 	funcNotation: function( variable, index ) {
 		variable = (typeof variable !== "undefined") ? variable : "x";
 		var notations = [
-			["y", "\\frac{dy}{d"+variable+"}","y=A"+variable+"^{n} \\implies \\frac{dy}{d"+variable+"}=n.A"+variable+"^{n-1}"],
-			["f("+variable+")", "f'("+variable+")","f'(A"+variable+"^{n})=n.A"+variable+"^{n-1}"],
-			["g("+variable+")", "g'("+variable+")","g'(A"+variable+"^{n})=n.A"+variable+"^{n-1}"],
-			["y", "y'","y=A"+variable+"^{n} \\implies y'=n.A"+variable+"^{n-1}"],
-			["f("+variable+")", "\\frac{d}{d"+variable+"}f("+variable+")","f("+variable+")=A"+variable+"^{n} \\implies \\frac{d}{d"+variable+"}f("+variable+")=n.A"+variable+"^{n-1}"],
-			["a", "a'","a=A"+variable+"^{n} \\implies a'=n.A"+variable+"^{n-1}"],
-			["a", "\\frac{da}{d"+variable+"}","a=A"+variable+"^{n} \\implies \\frac{da}{d"+variable+"}=n.A"+variable+"^{n-1}"]
+			["y", "\\frac{dy}{d"+variable+"}", function ( term ) {
+				return "y=" + term + " \\implies \\frac{dy}{d"+variable+"}";
+			}],
+			["f("+variable+")", "f'("+variable+")", function ( term ) {
+				return "f'(" + term + ")";
+			}],
+			["g("+variable+")", "g'("+variable+")", function ( term ) {
+				return "g'(" + term + ")";
+			}],
+			["y", "y'", function ( term ) {
+				return "y=" + term + " \\implies y'";
+			}],
+			["f("+variable+")", "\\frac{d}{d"+variable+"}f("+variable+")", function ( term ) {
+				return "f("+variable+")=" + term + " \\implies \\frac{d}{d"+variable+"}f("+variable+")";
+			}],
+			["a", "a'", function ( term ) {
+				return "a=" + term + " \\implies a'";
+			}],
+			["a", "\\frac{da}{d"+variable+"}", function ( term ) {
+				return "a=" + term + " \\implies \\frac{da}{d"+variable+"}";
+			}]
 		];
 		var n_idx = (typeof index == "number" && index >= 0 && index < notations.length) ? index : KhanUtil.rand( notations.length );
 		return {
 			f: notations[n_idx][0],
 			ddxF: notations[n_idx][1],
-			diffHint: notations[n_idx][2]
+			diffHint: notations[n_idx][2]( "A" + variable + "^{n}" ) + "=n.A"+variable+"^{n-1}", //this is the overall hint in the notation of the problem
+			diffHintFunction: notations[ n_idx ][ 2 ] //this is the hint function used by each hint.  It renders the hint per term in the appropriate format
 		};
 	},
 
@@ -141,8 +161,20 @@ jQuery.extend(KhanUtil, {
 			this.ddxF = KhanUtil.ddxPolynomial(poly).expr();
 			this.fText = KhanUtil.expr( this.f );
 			this.ddxFText = KhanUtil.expr( this.ddxF );
+			this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.funcNotation(variable);
 
-			this.hints = "<p>one</p><p>two</p>";
+	        this.hints = [];
+
+	        for ( var i = 0; i < poly.getNumberOfTerms(); i = i + 1){
+		        var term = poly.getCoefAndDegreeForTerm( i );
+		        var ddxCoef = term.degree * term.coef;
+		        var ddxDegree = ( term.degree != 0 ) ? term.degree -1 : 0;
+		        var ddxCoefText = ( ddxCoef == 1 ) ? "" : ddxCoef + "";
+		        var ddxText = ( ddxDegree == 0 ) ? ddxCoef : ddxCoefText + poly.variable + ( (ddxDegree == 1) ? "" : "^{" + ddxDegree + "}" );
+
+		        this.hints [ i ] =  this.notation.diffHintFunction( KhanUtil.expr( this.f[ i+1 ] ) ) //shift right to avoid the "+"
+					+ " = " + term.degree + "." + term.coef + poly.variable + "^{" + term.degree + "-1} = " + ddxText;
+	        }
 
 			this.wrongs = [
 				KhanUtil.ddxPolynomialWrong1(poly).expr(),
@@ -156,7 +188,6 @@ jQuery.extend(KhanUtil, {
 				return KhanUtil.expr( value );
 			});
 
-			this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.funcNotation(variable);
 			return this;
 		}else{
 			return new KhanUtil.PowerRule();

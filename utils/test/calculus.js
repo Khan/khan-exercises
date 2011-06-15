@@ -25,11 +25,24 @@ test("#PowerRule - helper object for polynomial differentiation", function(){
 	equals(powerRule.fText,"5x^{5}+4x^{4}+3x^{3}+2x^{2}","check it correctly converts polynomial to LaTeX");
 	equals(powerRule.ddxFText,"25x^{4}+16x^{3}+9x^{2}+4x", "check it correctly converts the differential of the polynomial to LaTeX" );
 
-	for (wrongText in powerRule.wrongsText){
-		notEqual(wrongText,powerRule.ddxFText,"none of the wrong answers should match the right one");
+	for (var index in powerRule.wrongsText){
+		notEqual(powerRule.wrongsText[index],powerRule.ddxFText,"none of the wrong answers should match the right one");
 	}
 	ok(KhanUtil.PowerRule() instanceof KhanUtil.PowerRule, "check that 'new' operator is optional");
 
+});
+
+test ( "Hints for PowerRule", function(){
+	var powerRule = new KhanUtil.PowerRule ( -1, 2, neg_coefs, "x", KhanUtil.funcNotation ( "x", 1 ) ); //-2x^{2}+6x+4-x^{-1}
+	equals ( powerRule.hints.length, 4 );
+	equals ( powerRule.hints[0], "f'(-2x^{2}) = 2.-2x^{2-1} = -4x" );
+	equals ( powerRule.hints[1], "f'(6x) = 1.6x^{1-1} = 6" );
+	equals ( powerRule.hints[2], "f'(4) = 0.4x^{0-1} = 0" );
+	equals ( powerRule.hints[3], "f'(-x^{-1}) = -1.-1x^{-1-1} = x^{-2}");
+
+	powerRule = new KhanUtil.PowerRule ( -1, 2, neg_coefs, "x", KhanUtil.funcNotation ( "x", 4 ) ); //-2x^{2}+6x+4-x^{-1}
+	equals ( powerRule.hints.length, 4 );
+	equals ( powerRule.hints[0], "f(x)=-2x^{2} \\implies \\frac{d}{dx}f(x) = 2.-2x^{2-1} = -4x" );
 });
 
 test("#funcNotation - helper for randomly choosing a notation for the function", function(){
