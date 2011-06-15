@@ -298,13 +298,15 @@ jQuery.fn.extend({
 
 		return this.each(function() {
 			var $this = jQuery( this ),
-				name = $this.attr( attribute );
+				name = $this.attr( attribute ),
+				hint = $this.data( "apply" ) && !$this.data( "apply" ).indexOf( "hint" );
 
 			// Only operate on the element if it has the attribute that we're using
 			if ( name ) {
 				// The inheritance only works if we've seen an element already
-				// that matches the particular name
-				if ( name in parent ) {
+				// that matches the particular name and we're not looking at hint 
+				// templating
+				if ( name in parent && !hint ) {
 					// Get the method through which we'll be doing the application
 					// You can specify an application style directly on the sub-element
 					jQuery.tmplApplyMethods[ $this.data( "apply" ) || defaultApply ]

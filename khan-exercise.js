@@ -327,21 +327,15 @@ var Khan = {
 		children.each(function () {
 			// Apply while adding problem.children() to include
 			// template definitions within problem scope
-			jQuery( this ).find( "[id]" ).add( children )
-				// Also, ignore any hint replacement elements
-				.not( function() { return jQuery( this ).data( "apply" ) === "hint-replace"; } )
-				.tmplApply();
+			jQuery( this ).find( "[id]" ).add( children ).tmplApply();
 		});
 
 		// Remove and store hints to delay running modules on it
 		Khan.hints = problem.children( ".hints" ).remove();
 
 		// Hide the raw hints
-		jQuery( "#hintsbag" ).hide();
+		jQuery( "#rawhintsarea" ).hide();
 			
-		// Store the index of the currently displayed hint so we can easily label them
-		Khan.hintIdx = -1;
-
 		// Run the main method of any modules
 		problem.runModules();
 
@@ -396,10 +390,16 @@ var Khan = {
 		// Add the problem into the page
 		jQuery( "#workarea" ).append( problem );
 
-		// Save the hints for later
+		// Save the raw hints so they can be modified later
+		Khan.rawHints = Khan.hints.clone()
+			
+			// Save as a normal JS array so we can use shift() on it later
+			.children().get();
+
+		// Save the rendered hints so we can display them later
 		Khan.hints = Khan.hints
 
-			// Run the "Load" method of any modules
+			// Run the "Load" method of any modules. This will render the hints
 			.runModules( "Load" )
 
 			// Save as a normal JS array so we can use shift() on it later
@@ -486,7 +486,7 @@ var Khan = {
 			'</div>' +
 			'<div id="workarea"></div>' +
 			'<div id="hintsarea"></div>' + 
-			'<div id="hintsbag"></div>'
+			'<div id="rawhintsarea"></div>'
 		);
 
 		// Watch for a solution submission
@@ -530,63 +530,41 @@ var Khan = {
 
 		// Watch for when the "Get a Hint" button is clicked
 		jQuery("#gethint").click(function() {
-			// Get the first hint left in the array
-			var hint = Khan.hints.shift(),
-				$hint = jQuery( hint );
 
-			Khan.hintIdx += 1;
+			// Get the first hint and render left in the parallel arrays
+			var hint = Khan.rawHints.shift(),
+				render = Khan.hints.shift(),
+				$hint = jQuery( hint ),
+				$render = jQuery( render );
 
 			if ( hint ) {
 
-				// If the hint is a replacement, then find all the currently-displayed
-				// hints that contain an element that need to be replaced, re-render
-				// them, and replace them. Otherwise, append the hint to the displayed 
-				// hints.
-				if ( $hint.data( "apply" ) === "hint-replace" ) {
+				// If the hint has hint templating, then turn that hint templating into
+				// normal inheritance templating, apply templating, and then re-render all
+				// the hints.
+				if ( $hint.data( "apply" ) && !$hint.data( "apply" ).indexOf( "hint" ) ) {
+					
+					// Revert the hint templating into normal inheritance
+					$hint.data( "apply", $hint.data( "apply" ).split(/-/)[1] );
 
-					var id = $hint.attr( "id" );
+					// Apply templating, now that the hint template has been converted
+					jQuery( "#rawhintsarea" ).append( $hint );
+					jQuery( "#rawhintsarea" ).find( "[id]" ).tmplApply();
 
-					// Look in the bag of raw hints to find the elements to replace
-					var toReplace = jQuery( "#hintsbag" )
-						.find( "." + id );
+						// Re-render all the hints
+						jQuery( "#rawhintsarea" ).clone().runModules( "Load" ).runModules()
 
-					// Get all the hint containers that need to be modified
-					var rawHintsToModify = toReplace.parents( ".hint" );
-
-					// Replace all the elements that match
-					$hint.replaceAll( toReplace )
-						// Then remove the templating and turn the id into a class (since
-						// there might now be duplicates)
-						.removeAttr( "data-apply" ).removeAttr( "id" ).addClass( id );
-
-					// For each updated hint, replace the old render with the new render
-					rawHintsToModify.each(function() {
-						var $that = jQuery( this );
-
-						// Find the corresponding published hints
-						var hintToModify = jQuery( "#hintsarea" ).children().filter( function() { 
-							var $this = jQuery( this );
-							return $this.data( "hint-idx" ) === $that.data("hint-idx" ); 
-						} );
-
-						hintToModify.replaceWith( jQuery( this ).runModules() );
-					});
+						// Replace the previously rendered hints
+						.replaceAll( "#hintsarea" ).show().attr( "id", "hintsarea" );
 
 				} else {
+					
+					// Inject the raw into the hidden raw area
+					$hint.appendTo( "#rawhintsarea" );
 
-					// Mark the hint container and label it with a specific index so it
-					// can be referred to later in case part of it is replaced
-					$hint.addClass( "hint" ).data( "hint-idx", Khan.hintIdx );
+					// Reveal the rendered hint
+					$render.appendTo( "#hintsarea" );
 
-					// Store a copy of the hint that will remain unformatted so we can
-					// manipulate it later if we need to replace the hint
-					$hint.clone().data( "hint-idx", Khan.hintIdx ).appendTo( "#hintsbag" );
-
-					// Reveal the hint
-					$hint.appendTo( "#hintsarea" )
-						
-						// Run the main method of any modules
-						.runModules();
 				}
 
 				if ( Khan.hints.length === 0 ) {
@@ -609,7 +587,7 @@ var Khan = {
 					}
 				} else {
 					button.val( "Show next 10 problems" );
-					jQuery( "#workarea, #hintsarea, #hintsbag" ).empty();
+					jQuery( "#workarea, #hintsarea, #rawhintsarea" ).empty();
 					Khan.makeProblem();
 				}
 			
@@ -760,3 +738,20 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 		return jQuery.contains( elem.ownerDocument.documentElement, elem );
 	};
 });
+
+// http://burtleburtle.net/bob/hash/integer.html
+// This is also used as a PRNG in the V8 benchmark suite
+
+Khan.randomSeed = parseFloat( Khan.query.seed ) || ( new Date().getTime() & 0xffffffff );
+
+KhanUtil.random = function() {
+	// Robert Jenkins' 32 bit integer hash function.
+	var seed = Khan.randomSeed;
+	seed = ( ( seed + 0x7ed55d16 ) + ( seed << 12 ) ) & 0xffffffff;
+	seed = ( ( seed ^ 0xc761c23c ) ^ ( seed >>> 19 ) ) & 0xffffffff;
+	seed = ( ( seed + 0x165667b1 ) + ( seed << 5 ) ) & 0xffffffff;
+	seed = ( ( seed + 0xd3a2646c ) ^ ( seed << 9 ) ) & 0xffffffff;
+	seed = ( ( seed + 0xfd7046c5 ) + ( seed << 3 ) ) & 0xffffffff;
+	seed = ( ( seed ^ 0xb55a4f09 ) ^ ( seed >>> 16 ) ) & 0xffffffff;
+	return ( Khan.randomSeed = ( seed & 0xfffffff ) ) / 0x10000000;
+};

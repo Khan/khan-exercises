@@ -64,11 +64,12 @@
 					<div data-if="EXP_N > 1"><code>= \left(<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>}</code></div>
 						
 					<!-- "To simplify (4/9)^(1/2), figure out whta goes in the blank: ?^2 = 4/9" -->
-					<div>To simplify <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code>, figure out what goes in the blank:<br /> <code>\left(<span class="expand">?</span>\right)^{<var>abs( EXP_D )</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></div>
+					<div>To simplify <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code>, figure out what goes in the blank:<br /> <code>\left(<span id="expand">?</span>\right)^{<var>abs( EXP_D )</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></div>
 
+					<!-- Replace the ? with 2/3 -->
 					<span id="expand" data-apply="hint-replace">\color{blue}{<var>frac( ROOT_N, ROOT_D )</var>}</span>
 						
-					<!-- "(2/3)^2 = 4/9, so (4/9)^(1/2)" -->
+					<!-- "So (4/9)^(1/2)." -->
 					<div>so <code>\quad<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>frac( ROOT_N, ROOT_D )</var></code></div>
 						
 					<!-- "So (4/9)^(3/2)=((4/9)^(1/2))^3=(2/3)^3" -->
