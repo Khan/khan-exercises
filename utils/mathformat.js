@@ -62,12 +62,6 @@ jQuery.extend(KhanUtil, {
 		return KhanUtil.fraction( n, d, defraction, reduce, true, parens );
 	},
 
-	/* Calls fractionReduce with the small flag enabled. Additional parameter
-	 * corresponds to the remaining fraction flag. */
-	fractionSmallReduce: function( n, d, parens ) {
-		return KhanUtil.fraction( n, d, defraction, reduce, true, parens );
-	},
-
 	/* Returns whether the fraction n/d reduces. */
 	reduces: function( n, d ) {
 		// if the GCD is greater than 1, then there is a factor in common and the 
