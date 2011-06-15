@@ -110,11 +110,6 @@ jQuery.extend(KhanUtil, {
 		return new KhanUtil.Polynomial( poly.minDegree, poly.maxDegree, ddxCoefs, poly.variable );
 	},
 
-	ddxTerm: function ( expr ) {
-		//takes an expression that is part of a polynomial (assumes ["*",
-		
-	},
-
 	funcNotation: function( variable, index ) {
 		variable = (typeof variable !== "undefined") ? variable : "x";
 		var notations = [
