@@ -47,7 +47,7 @@ var Khan = {
 
 		// The normal module dependencies.
 		"calculus": [ "math", "expressions", "polynomials" ],
-		"exponents": [ "math" ],
+		"exponents": [ "math", "mathformat" ],
 		"kinematics": [ "math" ],
 		"math-table": [ "math" ],
 		"mathformat": [ "math", "expressions" ],
