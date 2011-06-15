@@ -24,7 +24,7 @@ jQuery.extend(KhanUtil, {
 		} else {
 			this.coefs = coefs;
 		}
-		this.variable = variable;
+		this.variable = (typeof variable !== "undefined") ? variable : "x";
 
 		if ( name ) {
 			this.name = name;
