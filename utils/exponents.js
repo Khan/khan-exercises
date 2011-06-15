@@ -1,6 +1,6 @@
 jQuery.extend( KhanUtil, {
 
-	/* fraction mathformat function called with defraction enabled, which is always
+	/* fraction math-format function called with defraction enabled, which is always
 	 * what is used in the exponent exercises. */
 
 	frac: function( n, d ) {
