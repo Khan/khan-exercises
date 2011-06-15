@@ -83,6 +83,8 @@ test("If Statement", 2, function() {
 	
 	equals( div.length, 1, "Make sure that all the specified elements were removed." );
 	equals( div[0].className, "A", "See that the expression was evaluated correctly." );
+	
+	// TODO: test data-if on var
 });
 
 test("If/Else Statement", 4, function() {
@@ -134,4 +136,69 @@ test("Ensure", function() {
 	
 	equals( tmpl.VARS.C, 5, "See that the C was incremented." );
 	equals( tmpl.VARS.D, 4, "See that the D was at the right value." );
+});
+
+test("Looping", 21, function() {
+	jQuery("#qunit-fixture").append(
+		"<var id='items'>['a','b','c']</var>" +
+		"<var id='obj'>{a:0,b:1,c:2}</var>" +
+		"<ul class='a'><li data-each='items'></li></ul>" +
+		"<ul class='b'><li data-each='items as value'><var>value</var></li></ul>" +
+		"<var id='key'>1</var><var id='value'>2</var>" +
+		"<ul class='c'><li data-each='items as key, value'><var>key</var>: <var>value</var></li></ul>" +
+		"<var id='tmpKey'>key</var><var id='tmpVal'>value</var>" +
+		"<var id='items2'>[]</var><var data-each='items as key, value'>items2.push( key );</var>" +
+		"<div class='d' data-if='false' data-each='doesntexist'></div>" +
+		"<ul class='e'><li data-each='obj as key, value'><var>key</var>: <var>value</var></li></ul>"
+	);
+	
+	jQuery("#qunit-fixture").tmpl();
+	
+	equals( tmpl.VARS.items.length, 3, "Make sure that the array exists." );
+	
+	// test data-each="items"
+	var li = jQuery("#qunit-fixture ul.a li");
+	
+	equals( li.length, 3, "See that the list items were generated." );
+	
+	// test data-each="items as value"
+	li = jQuery("#qunit-fixture ul.b li");
+	
+	equals( li.length, 3, "See that the list items were generated." );
+	
+	equals( li[0].innerHTML, "a", "Verify the contents of the list item." );
+	equals( li[1].innerHTML, "b", "Verify the contents of the list item." );
+	equals( li[2].innerHTML, "c", "Verify the contents of the list item." );
+	
+	// test data-each="items as key, value"
+	li = jQuery("#qunit-fixture ul.c li");
+	
+	equals( li.length, 3, "See that the list items were generated." );
+	
+	equals( li[0].innerHTML, "0: a", "Verify the contents of the list item." );
+	equals( li[1].innerHTML, "1: b", "Verify the contents of the list item." );
+	equals( li[2].innerHTML, "2: c", "Verify the contents of the list item." );
+	
+	// make sure that variables don't bleed out
+	equals( tmpl.VARS.tmpVal, 2, "Make sure that the value is reset." );
+	equals( tmpl.VARS.tmpKey, 1, "Make sure that the key is reset." );
+	
+	// test data-each on var
+	equals( tmpl.VARS.items2.length, 3, "Make sure that the cloned array exists." );
+	
+	equals( tmpl.VARS.items2[0], 0, "Make sure that the cloned array has the right contents." );
+	equals( tmpl.VARS.items2[1], 1, "Make sure that the cloned array has the right contents." );
+	equals( tmpl.VARS.items2[2], 2, "Make sure that the cloned array has the right contents." );
+	
+	// test data-if and data-each
+	equals( jQuery("#qunit-fixture div.d").length, 0, "Make sure the non-looped div doesn't exist." );
+	
+	// test data-each="items as key, value" on an object
+	li = jQuery("#qunit-fixture ul.e li");
+	
+	equals( li.length, 3, "See that the list items were generated." );
+	
+	equals( li[0].innerHTML, "a: 0", "Verify the contents of the object property." );
+	equals( li[1].innerHTML, "b: 1", "Verify the contents of the object property." );
+	equals( li[2].innerHTML, "c: 2", "Verify the contents of the object property." );
 });

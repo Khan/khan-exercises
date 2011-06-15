@@ -34,6 +34,24 @@ var tmpl = {
 			if ( jQuery( elem ).data( "lastCond" ) ) {
 				return null;
 			}
+		},
+		
+		"data-each": function( elem, value ) {
+			var match;
+			
+			jQuery( elem ).removeAttr( "data-each" );
+			
+			if ( (match = /^(.*?)(?: as (?:(\w+), )?(\w+))?$/.exec( value )) ) {
+				return {
+					items: tmpl.getVAR( match[1] ),
+					
+					value: match[3],
+					pos: match[2],
+					
+					oldValue: tmpl.VARS[ match[3] ],
+					oldPos: tmpl.VARS[ match[2] ]
+				};
+			}
 		}
 	},
 	
@@ -136,8 +154,6 @@ var tmpl = {
 	}
 };
 
-var num = 0;
-
 jQuery.fn.tmpl = function() {
 	for ( var i = 0, l = this.length; i < l; i++ ) {
 		traverse( this[i] );
@@ -166,6 +182,40 @@ jQuery.fn.tmpl = function() {
 			}
 
 			elem = ret;
+		
+		} else if ( ret.items ) {
+			var origParent = elem.parentNode,
+				origNext = elem.nextSibling;
+			
+			jQuery.each( ret.items, function( pos, value ) {
+				if ( ret.value ) {
+					tmpl.VARS[ ret.value ] = value;
+				}
+				
+				if ( ret.pos ) {
+					tmpl.VARS[ ret.pos ] = pos;
+				}
+				
+				var clone = jQuery( elem ).detach().clone( true )[0];
+				
+				if ( origNext ) {
+					origParent.insertBefore( clone, origNext );
+				} else {
+					origParent.appendChild( clone );
+				}
+				
+				traverse( clone );
+			});
+			
+			if ( ret.value ) {
+				tmpl.VARS[ ret.value ] = ret.oldValue;
+			}
+			
+			if ( ret.pos ) {
+				tmpl.VARS[ ret.pos ] = ret.oldPos;
+			}
+			
+			return;
 		}
 
 		// loop through children if not null
@@ -180,6 +230,8 @@ jQuery.fn.tmpl = function() {
 				return traverse( elem );
 			}
 		}
+		
+		return elem;
 	}
 
 	function process( elem, post ) {
@@ -192,14 +244,14 @@ jQuery.fn.tmpl = function() {
 			if ( value !== undefined ) {
 				ret = tmpl.attr[ attr ]( elem, value );
 
-				if ( ret === null || ret === false ) {
-					return ret;
-
-				} else if ( typeof ret === "function" ) {
+				if ( typeof ret === "function" ) {
 					post.push( ret );
 
 				} else if ( ret && ret.nodeType ) {
 					newElem = ret;
+					
+				} else if ( ret !== undefined ) {
+					return ret;
 				}
 			}
 		}
