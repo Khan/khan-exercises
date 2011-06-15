@@ -1,8 +1,16 @@
 var expr = KhanUtil.expr;
 
 test( "Expression formatter", function() {
+	equals( expr([ '-', 1]), "-1", "-1");
 	equals( expr([ "+", 1, 2 ]), "1+2", "1 + 2" );
 	equals( expr([ "+", "elephant", "potato" ]), "elephant+potato", "random strings" );
+
+	equals( expr([ "-", 1, 2 ]), "1-2", "1 - 2" );
+	equals( expr([ "-", 1, 2, 3, -4 ]), "1-2-3-(-4)", "1-2-3-(-4)" );
+	equals( expr([ '-', 1]), "-1", "-1" );
+	equals( expr([ '-', -1]), "-(-1)", "-(-1)" );
+	equals( expr([ '-', 2]), "-2", "-2" );
+	equals( expr([ '-', -2]), "-(-2)", "-(-2)" );
 
 	equals( expr([ "*", "x", "y" ]), "xy", "x * y" );
 	equals( expr([ "*", 2, 4 ]), "(2)(4)", "2 * 4" );
@@ -19,7 +27,7 @@ test( "Expression formatter", function() {
 	equals( expr([ "sin", ["+", "x", "y"] ]), "\\sin{(x+y)}", "sin(x + y)" );
 
 	equals( expr([ "*", 2, ["sqrt", 5] ]), "2\\sqrt{5}", "2 sqrt(5)" );
-	equals( expr([ "*", ["+", "w", "x"], "y" ]), "(w+x)(y)", "(w + x) * y");
+	equals( expr([ "*", ["+", "w", "x"], "y" ]), "(w+x)(y)", "(w + x) * y" );
 
 	equals( expr([ "+-", "x" ]), "\\pm x", "+- x" );
 	equals( expr([ "+-", "x", "y" ]), "x \\pm y", "x +- y" );
@@ -27,6 +35,12 @@ test( "Expression formatter", function() {
 
 	equals( expr([ "+", ["*", 2, ["^", 3, 2]], ["*", -3, 3], 4 ]), "2(3^{2})+(-3)(3)+4", "issue 90" );
 	equals( expr([ "+", ["*", 2, ["^", 3, "x"]], ["*", -3, "x"], 4 ]), "2(3^{x})-3x+4", "issue 90" );
+
+	equals( expr([ '-', ['+', 1, 2]]), "-(1+2)", "-1*(1+2)" );
+	equals( expr([ '-', ['+', 1, -2]]), "-(1-2)", "-1*(1-2)" );
+	equals( expr([ '*', 3, ['+', 1, -2], 4]), "3(1-2)(4)", "3 * (1-2) * 4" );
+	equals( expr([ '*', 3, ['-', 1, -2], 4]), "3(1-(-2))(4)", "3 * (1-(-2)) * 4" );
+	equals( expr([ '+', 1, ['-', ['*', 2, 3, 4]], 5, 6]), "1-(2)(3)(4)+5+6", "1-(2)(3)(4)+5+6" );
 });
 
 test( "Expression evaluator", function() {
