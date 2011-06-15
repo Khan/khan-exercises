@@ -999,6 +999,6 @@ jQuery.fn.graph = function() {
 
 		// Execute the graph-specific code
 		// Depends upon the math module
-		jQuery.getVAR( code );
+		jQuery.tmpl.getVAR( code );
 	}).end();
 };

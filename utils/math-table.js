@@ -26,13 +26,13 @@ jQuery.extend(KhanUtil, {
 			c = [];
 		}
 		var length = Math.max( a.length, b.length, c.length );
-		var paddedA = padd( a, length);
-		var paddedB = padd( b, length);
-		var paddedC = padd( c, length);
+		var paddedA = KhanUtil.padd( a, length);
+		var paddedB = KhanUtil.padd( b, length);
+		var paddedC = KhanUtil.padd( c, length);
 		var carry = new Array( length + 1);
 		var result = new Array( length + 1);
-		initArray( carry, 0 );
-		initArray( result, 0 );
+		KhanUtil.initArray( carry, 0 );
+		KhanUtil.initArray( result, 0 );
 		for( var i = 0; i < length; i++){
 			var tempResult = KhanUtil.digits(paddedA[i] + paddedB[i] + paddedC[i] + carry[i]);
 			if( tempResult[1] ){

@@ -21,33 +21,33 @@
 
 		<div class="problems">
 			<div>
-				<p class="question"><var>A</var> + <var>B</var> = ?</p>
+				<p class="question"><code><var>A</var> + <var>B</var> = ?</code></p>
 				<div class="solution"><var>A+B</var></div>
 			</div>
 		</div>
 		<div class="hints">
 			<p>First we need to line up the decimal points.</p>
-			<p><var>A_ARRAY[0]</var> + <var>B_ARRAY[0]</var> = <var>A_ARRAY[0] + B_ARRAY[0]</var></p>
-			<p data-if="ADDITION_TABLE[1]">carry <var>ADDITION_TABLE[1]</var></p>
+			<p><code><var>A_ARRAY[0]</var> + <var>B_ARRAY[0]</var> = <var>A_ARRAY[0] + B_ARRAY[0]</var></code></p>
+			<p data-if="ADDITION_TABLE[1]">carry <code><var>ADDITION_TABLE[1]</var></code></p>
 			<!-- second addition -->
-			<p data-if="ADDITION_TABLE[1]"><var>A_ARRAY[1]</var> + <var>B_ARRAY[1]</var> + <var>ADDITION_TABLE[1]</var> = <var>A_ARRAY[1] + B_ARRAY[1] + ADDITION_TABLE[1]</var></p>
-			<p data-else><var>A_ARRAY[1]</var> + <var>B_ARRAY[1]</var> = <var>A_ARRAY[1] + B_ARRAY[1]</var></p>
-			<p data-if="ADDITION_TABLE[2]">carry <var>ADDITION_TABLE[2]</var></p>
+			<p data-if="ADDITION_TABLE[1]"><code><var>A_ARRAY[1]</var> + <var>B_ARRAY[1]</var> + <var>ADDITION_TABLE[1]</var> = <var>A_ARRAY[1] + B_ARRAY[1] + ADDITION_TABLE[1]</var></code></p>
+			<p data-else><code><var>A_ARRAY[1]</var> + <var>B_ARRAY[1]</var> = <var>A_ARRAY[1] + B_ARRAY[1]</var></code></p>
+			<p data-if="ADDITION_TABLE[2]">carry <code><var>ADDITION_TABLE[2]</var></code></p>
 			<!-- third addition -->
-			<p data-if="ADDITION_TABLE[2]"><var>A_ARRAY[2]</var> + <var>B_ARRAY[2]</var> + <var>ADDITION_TABLE[2]</var> = <var>A_ARRAY[2] + B_ARRAY[2] + ADDITION_TABLE[2]</var></p>
-			<p data-else><var>A_ARRAY[2]</var> + <var>B_ARRAY[2]</var> = <var>A_ARRAY[2] + B_ARRAY[2]</var></p>
-			<p data-if="ADDITION_TABLE[3] && ( A_ARRAY[3] || B_ARRAY[3] )">carry <var>ADDITION_TABLE[3]</var></p>
+			<p data-if="ADDITION_TABLE[2]"><code><var>A_ARRAY[2]</var> + <var>B_ARRAY[2]</var> + <var>ADDITION_TABLE[2]</var> = <var>A_ARRAY[2] + B_ARRAY[2] + ADDITION_TABLE[2]</var></code></p>
+			<p data-else><code><var>A_ARRAY[2]</var> + <var>B_ARRAY[2]</var> = <var>A_ARRAY[2] + B_ARRAY[2]</var></code></p>
+			<p data-if="ADDITION_TABLE[3] && ( A_ARRAY[3] || B_ARRAY[3] )">carry <code><var>ADDITION_TABLE[3]</var></code></p>
 			<!-- fourth addition -->
-			<p data-if="ADDITION_TABLE[3] && A_ARRAY[3] && B_ARRAY[3]"><var>A_ARRAY[3]</var> + <var>B_ARRAY[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>A_ARRAY[3] + B_ARRAY[3] + ADDITION_TABLE[3]</var></p>
-			<p data-if="!ADDITION_TABLE[3] && A_ARRAY[3] && B_ARRAY[3]"><var>A_ARRAY[3]</var> + <var>B_ARRAY[3]</var> = <var>A_ARRAY[3] + B_ARRAY[3]</var></p>
-			<p data-if="ADDITION_TABLE[3] && A_ARRAY[3] && !B_ARRAY[3]"><var>A_ARRAY[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>A_ARRAY[3] + ADDITION_TABLE[3]</var></p>
-			<p data-if="ADDITION_TABLE[3] && !A_ARRAY[3] && B_ARRAY[3]"><var>B_ARRAY[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>B_ARRAY[3] + ADDITION_TABLE[3]</var></p>
-			<p data-if="ADDITION_TABLE[4] && ( A_ARRAY[4] || B_ARRAY[4] )">carry <var>ADDITION_TABLE[4]</var></p>
+			<p data-if="ADDITION_TABLE[3] && A_ARRAY[3] && B_ARRAY[3]"><code><var>A_ARRAY[3]</var> + <var>B_ARRAY[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>A_ARRAY[3] + B_ARRAY[3] + ADDITION_TABLE[3]</var></code></p>
+			<p data-if="!ADDITION_TABLE[3] && A_ARRAY[3] && B_ARRAY[3]"><code><var>A_ARRAY[3]</var> + <var>B_ARRAY[3]</var> = <var>A_ARRAY[3] + B_ARRAY[3]</var></code></p>
+			<p data-if="ADDITION_TABLE[3] && A_ARRAY[3] && !B_ARRAY[3]"><code><var>A_ARRAY[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>A_ARRAY[3] + ADDITION_TABLE[3]</var></code></p>
+			<p data-if="ADDITION_TABLE[3] && !A_ARRAY[3] && B_ARRAY[3]"><code><var>B_ARRAY[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>B_ARRAY[3] + ADDITION_TABLE[3]</var></code></p>
+			<p data-if="ADDITION_TABLE[4] && ( A_ARRAY[4] || B_ARRAY[4] )">carry <code><var>ADDITION_TABLE[4]</var></code></p>
 			<!-- fourth addition -->
-			<p data-if="ADDITION_TABLE[3] && A_ARRAY[4] && B_ARRAY[4]"><var>A_ARRAY[4]</var> + <var>B_ARRAY[4]</var> + <var>ADDITION_TABLE[4]</var> = <var>A_ARRAY[4] + B_ARRAY[4] + ADDITION_TABLE[4]</var></p>
-			<p data-if="!ADDITION_TABLE[3] && A_ARRAY[4] && B_ARRAY[4]"><var>A_ARRAY[4]</var> + <var>B_ARRAY[4]</var> = <var>A_ARRAY[4] + B_ARRAY[4]</var></p>
+			<p data-if="ADDITION_TABLE[3] && A_ARRAY[4] && B_ARRAY[4]"><code><var>A_ARRAY[4]</var> + <var>B_ARRAY[4]</var> + <var>ADDITION_TABLE[4]</var> = <var>A_ARRAY[4] + B_ARRAY[4] + ADDITION_TABLE[4]</var></code></p>
+			<p data-if="!ADDITION_TABLE[3] && A_ARRAY[4] && B_ARRAY[4]"><code><var>A_ARRAY[4]</var> + <var>B_ARRAY[4]</var> = <var>A_ARRAY[4] + B_ARRAY[4]</var></code></p>
 			<p>Pull down the rest</p>
-			<p>The final result is <var>A+B</var></p>
+			<p>The final result is <code><var>A+B</var></code></p>
 		</div>
 	</div>
 </body>

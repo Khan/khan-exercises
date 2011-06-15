@@ -17,15 +17,15 @@ test("Var Loading", 7, function() {
 	
 	jQuery("#qunit-fixture").tmpl();
 	
-	equals( tmpl.VARS.B, 2, "Make sure that normal var loading works." );
-	equals( tmpl.VARS.A, 3, "Make sure that var overwriting works." );
+	equals( jQuery.tmpl.VARS.B, 2, "Make sure that normal var loading works." );
+	equals( jQuery.tmpl.VARS.A, 3, "Make sure that var overwriting works." );
 	
-	equals( tmpl.VARS.C, true, "Make sure that booleans are evaluated." );
-	equals( tmpl.VARS.D, "test", "Make sure that strings are evaluated." );
-	equals( tmpl.VARS.E, 1, "Make sure that expressions are evaluated." );
+	equals( jQuery.tmpl.VARS.C, true, "Make sure that booleans are evaluated." );
+	equals( jQuery.tmpl.VARS.D, "test", "Make sure that strings are evaluated." );
+	equals( jQuery.tmpl.VARS.E, 1, "Make sure that expressions are evaluated." );
 	
-	equals( typeof tmpl.VARS.F, "function", "Make sure that functions are evaluated." );
-	equals( tmpl.VARS.G, true, "Make sure that functions are evaluated." );
+	equals( typeof jQuery.tmpl.VARS.F, "function", "Make sure that functions are evaluated." );
+	equals( jQuery.tmpl.VARS.G, true, "Make sure that functions are evaluated." );
 });
 
 test("Var Replacement", 6, function() {
@@ -86,7 +86,7 @@ test("If Statement", 3, function() {
 	equals( div[0].className, "A", "See that the expression was evaluated correctly." );
 	
 	// test data-if on var
-	equals( tmpl.VARS.TEST, 1, "Make sure that data-if stops var declaration." );
+	equals( jQuery.tmpl.VARS.TEST, 1, "Make sure that data-if stops var declaration." );
 });
 
 test("If/Else Statement", 4, function() {
@@ -133,11 +133,11 @@ test("Ensure", function() {
 	
 	jQuery("#qunit-fixture").tmpl();
 	
-	equals( tmpl.VARS.A, 5, "See that the A was incremented." );
-	equals( tmpl.VARS.B, 4, "See that the B was at the right value." );
+	equals( jQuery.tmpl.VARS.A, 5, "See that the A was incremented." );
+	equals( jQuery.tmpl.VARS.B, 4, "See that the B was at the right value." );
 	
-	equals( tmpl.VARS.C, 5, "See that the C was incremented." );
-	equals( tmpl.VARS.D, 4, "See that the D was at the right value." );
+	equals( jQuery.tmpl.VARS.C, 5, "See that the C was incremented." );
+	equals( jQuery.tmpl.VARS.D, 4, "See that the D was at the right value." );
 });
 
 test("Looping", 21, function() {
@@ -156,7 +156,7 @@ test("Looping", 21, function() {
 	
 	jQuery("#qunit-fixture").tmpl();
 	
-	equals( tmpl.VARS.items.length, 3, "Make sure that the array exists." );
+	equals( jQuery.tmpl.VARS.items.length, 3, "Make sure that the array exists." );
 	
 	// test data-each="items"
 	var li = jQuery("#qunit-fixture ul.a li");
@@ -182,15 +182,15 @@ test("Looping", 21, function() {
 	equals( li[2].innerHTML, "2: c", "Verify the contents of the list item." );
 	
 	// make sure that variables don't bleed out
-	equals( tmpl.VARS.tmpVal, 2, "Make sure that the value is reset." );
-	equals( tmpl.VARS.tmpKey, 1, "Make sure that the key is reset." );
+	equals( jQuery.tmpl.VARS.tmpVal, 2, "Make sure that the value is reset." );
+	equals( jQuery.tmpl.VARS.tmpKey, 1, "Make sure that the key is reset." );
 	
 	// test data-each on var
-	equals( tmpl.VARS.items2.length, 3, "Make sure that the cloned array exists." );
+	equals( jQuery.tmpl.VARS.items2.length, 3, "Make sure that the cloned array exists." );
 	
-	equals( tmpl.VARS.items2[0], 0, "Make sure that the cloned array has the right contents." );
-	equals( tmpl.VARS.items2[1], 1, "Make sure that the cloned array has the right contents." );
-	equals( tmpl.VARS.items2[2], 2, "Make sure that the cloned array has the right contents." );
+	equals( jQuery.tmpl.VARS.items2[0], 0, "Make sure that the cloned array has the right contents." );
+	equals( jQuery.tmpl.VARS.items2[1], 1, "Make sure that the cloned array has the right contents." );
+	equals( jQuery.tmpl.VARS.items2[2], 2, "Make sure that the cloned array has the right contents." );
 	
 	// test data-if and data-each
 	equals( jQuery("#qunit-fixture div.d").length, 0, "Make sure the non-looped div doesn't exist." );
@@ -203,4 +203,17 @@ test("Looping", 21, function() {
 	equals( li[0].innerHTML, "a: 0", "Verify the contents of the object property." );
 	equals( li[1].innerHTML, "b: 1", "Verify the contents of the object property." );
 	equals( li[2].innerHTML, "c: 2", "Verify the contents of the object property." );
+});
+
+test( "Inheritance", function() {
+	QUnit.config.fixture =
+		"<div id='test-base-1' class='tmpl'><p id='base-p-1'>Test 1</p><p id='base-p-2'>Test 2</p></div>" +
+		"<div id='test-child-1' class='tmpl'><p id='child-p-1'>Test 1</p><p id='child-p-2'>Test 2</p></div>";
+	
+	QUnit.reset();
+
+	// Test appendContents
+	jQuery("#qunit-fixture *").tmplApply({ attribute: "class", defaultApply: "appendContents" });
+
+	equals( jQuery("#test-base-1").children("p").length, 4, "Verify that child nodes were appended." );
 });

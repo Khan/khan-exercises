@@ -42,10 +42,6 @@
 
 			return p;
 		}
-
-		function drawLine( x ) {
-			return VARS.M * x + VARS.B;
-		}
 	</script>
 </head>
 <body>
@@ -100,7 +96,9 @@
 					marker = "none";
 					fontsize = "16";
 					
-					plot("drawLine(x)");
+					plot(function( x ) {
+						return M * x + B;
+					});
 				</div>
 
 				<div class="graph update" data-style="stroke: none; marker: dot;">

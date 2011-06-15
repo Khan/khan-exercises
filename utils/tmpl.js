@@ -1,15 +1,15 @@
-var tmpl = {
+jQuery.tmpl = {
 	VARS: {},
 	
 	attr: {
 		"data-ensure": function( elem, ensure ) {
 			return function( elem ) {
-				return !!(ensure && tmpl.getVAR( ensure ));
+				return !!(ensure && jQuery.tmpl.getVAR( ensure ));
 			};
 		},
 		
 		"data-if": function( elem, value ) {
-			value = value && tmpl.getVAR( value );
+			value = value && jQuery.tmpl.getVAR( value );
 			
 			jQuery( elem ).next().data( "lastCond", value );
 			
@@ -21,7 +21,7 @@ var tmpl = {
 		"data-else-if": function( elem, value ) {
 			var lastCond = jQuery( elem ).data( "lastCond" );
 			
-			value = !lastCond && value && tmpl.getVAR( value );
+			value = !lastCond && value && jQuery.tmpl.getVAR( value );
 			
 			jQuery( elem ).next().data( "lastCond", lastCond || value );
 			
@@ -43,13 +43,13 @@ var tmpl = {
 			
 			if ( (match = /^(.*?)(?: as (?:(\w+), )?(\w+))?$/.exec( value )) ) {
 				return {
-					items: tmpl.getVAR( match[1] ),
+					items: jQuery.tmpl.getVAR( match[1] ),
 					
 					value: match[3],
 					pos: match[2],
 					
-					oldValue: tmpl.VARS[ match[3] ],
-					oldPos: tmpl.VARS[ match[2] ]
+					oldValue: jQuery.tmpl.VARS[ match[3] ],
+					oldPos: jQuery.tmpl.VARS[ match[2] ]
 				};
 			}
 		}
@@ -59,13 +59,13 @@ var tmpl = {
 		"var": function( elem, value ) {
 			if ( !value && elem.getElementsByTagName("*").length > 0 ) {
 				return function( elem ) {
-					return tmpl.elem["var"]( elem, elem.innerHTML );
+					return jQuery.tmpl.elem["var"]( elem, elem.innerHTML );
 				};
 			}
 			
 			var name = elem.id;
 			
-			value = value || tmpl.getVAR( elem );
+			value = value || jQuery.tmpl.getVAR( elem );
 
 			// If a name was specified then we're going to load the value
 			if ( name ) {
@@ -74,7 +74,7 @@ var tmpl = {
 					Khan.error( "Defining variable '" + name + "' overwrites utility property of same name." );
 				}
 
-				tmpl.VARS[ name ] = value;
+				jQuery.tmpl.VARS[ name ] = value;
 		
 			// No value was specified so we replace it with a text node of the value
 			} else {
@@ -124,20 +124,20 @@ var tmpl = {
 		var code = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
 
 		// Make sure any HTML formatting is stripped
-		code = tmpl.cleanHTML( code );
+		code = jQuery.tmpl.cleanHTML( code );
 
 		// See if we're dealing with a multiline block of code
-		if ( /;/.test( code ) && !/\bfunction\b/.test( code ) ) {
+		if ( /;/.test( code ) ) {
 			code = "(function(){\n" + code + "\n})()";
 		}
 
 		try {
-			// Use the methods from JavaScript's builtin Math methods
+			// Use the methods from JavaScript's built-in Math methods
 			with ( Math ) {
 				// And the methods provided by the library
 				with ( KhanUtil ) {
 					// Use all the computed variables
-					with ( tmpl.VARS ) {
+					with ( jQuery.tmpl.VARS ) {
 						return eval( "(" + code	 + ")" );
 					}
 				}
@@ -153,6 +153,10 @@ var tmpl = {
 		return text.replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&");
 	}
 };
+
+if ( typeof KhanUtil !== "undefined" ) {
+	KhanUtil.tmpl = jQuery.tmpl;
+}
 
 jQuery.fn.tmpl = function() {
 	for ( var i = 0, l = this.length; i < l; i++ ) {
@@ -189,11 +193,11 @@ jQuery.fn.tmpl = function() {
 			
 			jQuery.each( ret.items, function( pos, value ) {
 				if ( ret.value ) {
-					tmpl.VARS[ ret.value ] = value;
+					jQuery.tmpl.VARS[ ret.value ] = value;
 				}
 				
 				if ( ret.pos ) {
-					tmpl.VARS[ ret.pos ] = pos;
+					jQuery.tmpl.VARS[ ret.pos ] = pos;
 				}
 				
 				var clone = jQuery( elem ).detach().clone( true )[0];
@@ -208,11 +212,11 @@ jQuery.fn.tmpl = function() {
 			});
 			
 			if ( ret.value ) {
-				tmpl.VARS[ ret.value ] = ret.oldValue;
+				jQuery.tmpl.VARS[ ret.value ] = ret.oldValue;
 			}
 			
 			if ( ret.pos ) {
-				tmpl.VARS[ ret.pos ] = ret.oldPos;
+				jQuery.tmpl.VARS[ ret.pos ] = ret.oldPos;
 			}
 			
 			return;
@@ -238,11 +242,11 @@ jQuery.fn.tmpl = function() {
 		var ret, newElem, 
 			$elem = jQuery( elem );
 
-		for ( var attr in tmpl.attr ) {
+		for ( var attr in jQuery.tmpl.attr ) {
 			var value = $elem.attr( attr );
 
 			if ( value !== undefined ) {
-				ret = tmpl.attr[ attr ]( elem, value );
+				ret = jQuery.tmpl.attr[ attr ]( elem, value );
 
 				if ( typeof ret === "function" ) {
 					post.push( ret );
@@ -260,9 +264,9 @@ jQuery.fn.tmpl = function() {
 			elem = newElem;
 		}
 
-		for ( var type in tmpl.type ) {
+		for ( var type in jQuery.tmpl.type ) {
 			if ( elem.nodeName.toLowerCase() === type ) {
-				ret = tmpl.type[ type ]( elem );
+				ret = jQuery.tmpl.type[ type ]( elem );
 
 				if ( typeof ret === "function" ) {
 					post.push( ret );
@@ -275,3 +279,122 @@ jQuery.fn.tmpl = function() {
 		return ret === undefined ? elem : ret;
 	}
 };
+
+jQuery.fn.tmplLoad = jQuery.fn.tmpl;
+
+jQuery.fn.extend({
+	tmplApply: function( options ) {
+		options = options || {};
+		
+		// Get the attribute which we'll be checking, defaults to "id"
+		// but "class" is sometimes used
+		var attribute = options.attribute || "id",
+		
+			// Figure out the way in which the application will occur
+			defaultApply = options.defaultApply || "replace",
+
+			// Store for elements to be used later
+			parent = {};
+
+		return this.each(function() {
+			var $this = jQuery( this ),
+				name = $this.attr( attribute );
+
+			// Only operate on the element if it has the attribute that we're using
+			if ( name ) {
+				// The inheritance only works if we've seen an element already
+				// that matches the particular name
+				if ( name in parent ) {
+					// Get the method through which we'll be doing the application
+					// You can specify an application style directly on the sub-element
+					jQuery.tmplApplyMethods[ $this.data( "apply" ) || defaultApply ]
+
+						// Call it with the context of the parent and the sub-element itself
+						.call( parent[ name ], this );
+
+				// Store the parent element for later use
+				} else {
+					parent[ name ] = this;
+				}
+			}
+		});
+	}
+});
+
+jQuery.extend({
+	// These methods should be called with context being the parent
+	// and first argument being the child.
+	tmplApplyMethods: {
+		// Removes both the parent and the child
+		remove: function( elem ) {
+			jQuery( this ).remove();
+			jQuery( elem ).remove();
+		},
+
+		// Replaces the parent with the child
+		replace: function( elem ) {
+			jQuery( this ).replaceWith( elem );
+		},
+
+		// Replaces the parent with the child's content. Useful when
+		// needed to replace an element without introducing additional
+		// wrappers.
+		splice: function( elem ) {
+			jQuery( this ).replaceWith( jQuery( elem ).contents() );
+		},
+
+		// Appends the child element to the parent element
+		append: function( elem ) {
+			jQuery( this ).append( elem );
+		},
+
+		// Appends the child element's contents to the parent element.
+		appendContents: function( elem ) {
+			jQuery( this ).append( jQuery( elem ).contents() );
+			jQuery( elem ).remove();
+		},
+
+		// Prepends the child element to the parent.
+		prepend: function( elem ) {
+			jQuery( this ).prepend( elem );
+		},
+
+		// Prepends the child element's contents to the parent element.
+		prependContents: function( elem ) {
+			jQuery( this ).prepend( jQuery( elem ).contents() );
+			jQuery( elem ).remove();
+		},
+
+		// Insert child before the parent.
+		before: function( elem ) {
+			jQuery( this ).before( elem );
+		},
+
+		// Insert child's contents before the parent.
+		beforeContents: function( elem ) {
+			jQuery( this ).before( jQuery( elem ).contents() );
+			jQuery( elem ).remove();
+		},
+
+		// Insert child after the parent.
+		after: function( elem ) {
+			jQuery( this ).after( elem );
+		},
+
+		// Insert child's contents after the parent.
+		afterContents: function( elem ) {
+			jQuery( this ).after( jQuery( elem ).contents() );
+			jQuery( elem ).remove();
+		},
+
+		// Like appendContents but also merges the data-ensures
+		appendVars: function( elem ) {
+			jQuery.tmplApplyMethods.appendContents.call( this, elem );
+
+			var parentEnsure = jQuery( this ).data("ensure") || "1";
+			var childEnsure = jQuery( elem ).data("ensure") || "1";
+			jQuery( this ).data("ensure",
+				"(" + parentEnsure + ") && (" + childEnsure + ")");
+		}
+	}
+});

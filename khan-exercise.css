@@ -1,5 +1,5 @@
 html, body { font-family: Helvetica, Arial; }
-.exercise, #next, #congrats, #oops { display: none; }
+.exercise, .vars, #next, #congrats, #oops { display: none; }
 p.question { font-weight: bold; }
 var { font-style: normal; }
 .hint_blue { color: blue; }

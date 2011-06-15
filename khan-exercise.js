@@ -167,9 +167,9 @@ var Khan = {
 	},
 
 	// Display error messages
-	error: function( msg ) {
+	error: function( msg, msg2 ) {
 		if ( typeof console !== "undefined" ) {
-			console.error( msg );
+			console.error( msg, msg2 );
 		}
 	},
 
@@ -328,10 +328,6 @@ var Khan = {
 		// Store the index of the currently displayed hint so we can easily label them
 		Khan.hintIdx = -1;
 
-		// Run the "Load" method of any modules
-		exercise.runModules( "Load" );
-		problem.runModules( "Load" );
-
 		// Run the main method of any modules
 		problem.runModules();
 
@@ -410,16 +406,16 @@ var Khan = {
 
 			var src = exercise.data("src");
 			if ( src != null ) {
-				var srcInfo = jQuery( "<p></p>" ).appendTo( debugWrap );
+				var srcInfo = jQuery( "<p>" ).appendTo( debugWrap );
 				srcInfo.append( "From " );
 
-				jQuery( "<a></a>" )
+				jQuery( "<a>" )
 					.text( src )
 					.attr( "href", src + "?debug" )
 					.appendTo( srcInfo );
 			}
 
-			var links = jQuery( "<p></p>" ).appendTo( debugWrap );
+			var links = jQuery( "<p>" ).appendTo( debugWrap );
 			jQuery( "<a>Problem permalink</a>" )
 				.attr( "href", debugURL + "&seed=" + Khan.problemSeed )
 				.appendTo( links );
@@ -427,14 +423,15 @@ var Khan = {
 			links.append("<br>");
 			links.append("Problem type: ");
 
-			jQuery( "<a></a>" )
+			jQuery( "<a>" )
 				.text( problemID )
 				.attr( "href", debugURL )
 				.appendTo( links );
 
-			if ( typeof VARS !== "undefined" ) {
+			if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
 				var varInfo = [];
-				jQuery.each( VARS, function( name, value ) {
+				
+				jQuery.each( jQuery.tmpl.VARS, function( name, value ) {
 					var str;
 
 					// JSON is prettier (when it works)
@@ -445,9 +442,9 @@ var Khan = {
 					}
 
 					varInfo.push( "<b>" + name + "</b>: <var>" + str + "</var>" );
-				} );
+				});
 
-				jQuery( "<p></p>" ).html( varInfo.join("<br>") )
+				jQuery( "<p>" ).html( varInfo.join("<br>") )
 					.appendTo( debugWrap );
 			}
 		}
@@ -583,7 +580,7 @@ var Khan = {
 		});
 
 		// Prepare for the debug info if requested
-		if( Khan.query.debug != null ) {
+		if ( Khan.query.debug != null ) {
 			jQuery( '<div id="debug"></div>' ).appendTo( "#sidebar" );
 		}
 	}
@@ -599,7 +596,7 @@ var KhanUtil = Khan.Util;
 Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" } ], function() {
 
 	// Base modules required for every problem
-	Khan.require( [ "answer-types", "template-inheritance", "math-random" ] );
+	Khan.require( [ "answer-types", "tmpl" ] );
 
 	Khan.require( document.documentElement.getAttribute("data-require") );
 
@@ -609,7 +606,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 		var self = jQuery( this );
 		var src = self.data( "src" );
 		var weight = self.data( "weight" );
-		var dummy = jQuery( "<div></div>" );
+		var dummy = jQuery( "<div>" );
 
 		remoteCount++;
 		dummy.load( src + " .exercise", function( data, status, xhr ) {
@@ -632,6 +629,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 
 			// Extract data-require
 			var requires = data.match( /<html(?:[^>]+)data-require=(['"])((?:(?!\1).)*)\1/ );
+			
 			if ( requires != null ) {
 				requires = requires[ 2 ];
 			}
@@ -651,15 +649,17 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 			}
 
 			remoteCount--;
-			if( remoteCount === 0 ) {
+			if ( remoteCount === 0 ) {
 				loadModules();
 			}
 		});
 	};
 
 	var remoteExercises = jQuery( ".exercise[data-src]" );
+	
 	if ( remoteExercises.length ) {
 		remoteExercises.each( loadExercise );
+		
 	} else {
 		loadModules();
 	}
@@ -675,7 +675,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 				Khan.injectSite();
 
 				// Prepare the "random" problems
-				if( !Khan.query.problem ) {
+				if ( !Khan.query.problem ) {
 					var problems = jQuery( ".exercise .problems" ).children();
 
 					Khan.weighExercises( problems );
@@ -717,3 +717,20 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 		return jQuery.contains( elem.ownerDocument.documentElement, elem );
 	};
 });
+
+// http://burtleburtle.net/bob/hash/integer.html
+// This is also used as a PRNG in the V8 benchmark suite
+
+Khan.randomSeed = parseFloat( Khan.query.seed ) || ( new Date().getTime() & 0xffffffff );
+
+KhanUtil.random = function() {
+	// Robert Jenkins' 32 bit integer hash function.
+	var seed = Khan.randomSeed;
+	seed = ( ( seed + 0x7ed55d16 ) + ( seed << 12 ) ) & 0xffffffff;
+	seed = ( ( seed ^ 0xc761c23c ) ^ ( seed >>> 19 ) ) & 0xffffffff;
+	seed = ( ( seed + 0x165667b1 ) + ( seed << 5 ) ) & 0xffffffff;
+	seed = ( ( seed + 0xd3a2646c ) ^ ( seed << 9 ) ) & 0xffffffff;
+	seed = ( ( seed + 0xfd7046c5 ) + ( seed << 3 ) ) & 0xffffffff;
+	seed = ( ( seed ^ 0xb55a4f09 ) ^ ( seed >>> 16 ) ) & 0xffffffff;
+	return ( Khan.randomSeed = ( seed & 0xfffffff ) ) / 0x10000000;
+};
