@@ -72,11 +72,12 @@ test("Code Replacement", 10, function() {
 	equals( code[3].firstChild.type, "math/tex", "Make sure that it was turned into a MathJax element." );
 });
 
-test("If Statement", 2, function() {
+test("If Statement", 3, function() {
 	initVars();
 
 	jQuery("#qunit-fixture").append(
-		"<div data-if='A > 2' class='A'></div><div data-if='A < 2' class='B'></div>"
+		"<div data-if='A > 2' class='A'></div><div data-if='A < 2' class='B'></div>" +
+		"<var id='TEST'>1</var><var id='TEST' data-if='false'>2</var>"
 	);
 	
 	var div = jQuery("#qunit-fixture").tmpl().children( "div" );
@@ -84,7 +85,8 @@ test("If Statement", 2, function() {
 	equals( div.length, 1, "Make sure that all the specified elements were removed." );
 	equals( div[0].className, "A", "See that the expression was evaluated correctly." );
 	
-	// TODO: test data-if on var
+	// test data-if on var
+	equals( tmpl.VARS.TEST, 1, "Make sure that data-if stops var declaration." );
 });
 
 test("If/Else Statement", 4, function() {
