@@ -21,17 +21,20 @@ jQuery.extend(KhanUtil, {
 	// Do I start with a minus sign?
 	exprIsNegated: function( expr ) {
 		switch( KhanUtil.exprType(expr) ) {
-			case "+":
-			case "*":
 			case "/":
 			return KhanUtil.exprIsNegated(expr[1]);
 
+			case "+":
 			case "-":
 			return true;
 
 			case "number":
 			return expr < 0;
 
+			case "string":
+			return KhanUtil.stripColorMarkup(expr).charAt(0) == '-'
+
+			case "*":
 			default:
 			return false;
 		}
@@ -94,7 +97,7 @@ jQuery.extend(KhanUtil, {
 					term = "(" + term + ")";
 				}
 
-				if ( term.charAt(0) !== "-" || parenthesize ) {
+				if ( KhanUtil.stripColorMarkup(term).charAt(0) !== "-" || parenthesize ) {
 					term = "+" + term;
 				}
 
@@ -103,7 +106,7 @@ jQuery.extend(KhanUtil, {
 
 			var joined = terms.join("");
 
-			if(joined.charAt(0) === "+") {
+			if(KhanUtil.stripColorMarkup(joined).charAt(0) === "+") {
 				return joined.slice(1);
 			} else {
 				return joined;
@@ -139,7 +142,7 @@ jQuery.extend(KhanUtil, {
 					return term;
 				});
 
-				var joined = terms.join(" - ");
+				var joined = terms.join("-");
 
 				return joined;
 			}
@@ -149,11 +152,13 @@ jQuery.extend(KhanUtil, {
 			var rest = Array.prototype.slice.call(arguments, 1);
 			rest.unshift("*");
 
-			if ( arguments[0] === 1 ) {
+			//if we're multiplying by 1, ignore it, unless we 
+			//are at the basecase ['*',1] when we should return 1.
+			if ( arguments[0] === 1 && rest.length > 1 ) {
 				return KhanUtil.expr(rest);
-			} else if ( arguments[0] === -1 ) {
+			} else if ( arguments[0] === -1 && rest.length > 1 ) {
 				var form = KhanUtil.expr(rest);
-				if( KhanUtil.exprIsNegated(rest) ) {
+				if( KhanUtil.exprIsNegated(rest[1]) ) {
 					return "-(" + form + ")";
 				} else {
 					return "-" + form;
@@ -339,6 +344,16 @@ jQuery.extend(KhanUtil, {
 		"+-": function() {
 			return Number.NaN;
 		}
+	},
+
+	// returns the contents of expr removing any \color{...}{ } tags
+	stripColorMarkup : function (expr) {
+		var stripped = expr.toString().replace(/\\color{\w+?}{(.*)}/g, "$1");
+		//if we didn't find any color tags, no sense forcing our type to be a string
+		if (expr == stripped) {
+			return expr;
+		}
+		return stripped
 	}
 });
 
