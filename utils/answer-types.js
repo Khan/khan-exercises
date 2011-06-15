@@ -120,6 +120,14 @@ jQuery.extend( Khan.answerTypes, {
 
 		return Khan.answerTypes.text( solutionarea, solution, verifier );
 	},
+	
+	radical: function( solutionarea, solution ) {
+		solution.find("span:first").addClass("sol").end()
+			.find("span:last").addClass("sol").wrap("<span class=\"radical\"/>").end()
+			.find(".radical").prepend("&radic;");
+
+		return Khan.answerTypes.multiple( solutionarea, solution );
+	},
 
 	multiple: function( solutionarea, solution ) {
 		solutionarea = jQuery( solutionarea );
