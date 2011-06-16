@@ -88,8 +88,6 @@ var Khan = {
 
 		});
 	},
-	
-	randomSeed: parseFloat( Khan.query.seed ) || ( new Date().getTime() & 0xffffffff ),
 
 	// Populate this with modules
 	Util: {
@@ -604,6 +602,9 @@ var Khan = {
 
 // Load query string params
 Khan.query = Khan.queryString();
+
+// Seed the random number generator
+Khan.randomSeed = parseFloat( Khan.query.seed ) || ( new Date().getTime() & 0xffffffff );
 
 // Make this publicly accessible
 var KhanUtil = Khan.Util;
