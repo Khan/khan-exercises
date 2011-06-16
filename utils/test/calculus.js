@@ -1,3 +1,7 @@
+module("calculus");
+
+(function(){
+
 var coefs = [];
 coefs[2] = 2;
 coefs[3] = 3;
@@ -10,12 +14,12 @@ neg_coefs[0] = 4;
 neg_coefs[1] = 6;
 neg_coefs[2] =-2;
 
-test("#ddxPolynomial - Differentiate Polynomials", function() {
+test("ddxPolynomial - Differentiate Polynomials", function() {
 	equals((KhanUtil.ddxPolynomial(new KhanUtil.Polynomial(2, 5, coefs, "x", null))).toString(), "25x^{4}+16x^{3}+9x^{2}+4x", "differentiate 5x^{5}+4x^{4}+3x^{3}+2x^{2}" );
 	equals((KhanUtil.ddxPolynomial(new KhanUtil.Polynomial(-1, 2, neg_coefs, "x", null))).toString(), "-4x+6+x^{-2}", "differentiate -2x^{2}+6x+4-x^{-1}" );
 });
 
-test("#PowerRule - helper object for polynomial differentiation", function(){
+test("PowerRule - helper object for polynomial differentiation", function(){
 
 	var powerRule = new KhanUtil.PowerRule();
 	ok(powerRule.fText, "null constructor produces a displayable function");
@@ -45,7 +49,7 @@ test ( "Hints for PowerRule", function(){
 	equals ( powerRule.hints[0], "f(x)=-2x^{2} \\implies \\frac{d}{dx}f(x) = 2.-2x^{2-1} = -4x" );
 });
 
-test("#funcNotation - helper for randomly choosing a notation for the function", function(){
+test("funcNotation - helper for randomly choosing a notation for the function", function(){
 	ok(KhanUtil.funcNotation().f, "generates a notation for the function");
 	ok(KhanUtil.funcNotation().ddxF, "generates a notation for the function derivative");
 	equals(KhanUtil.funcNotation("x",1).f, "f(x)","index works and variable is substituted");
@@ -59,3 +63,5 @@ test("#funcNotation - helper for randomly choosing a notation for the function",
 	equals(KhanUtil.funcNotation("b",5).diffHint,"a=Ab^{n} \\implies a'=n.Ab^{n-1}","check diffHint");
 	equals(KhanUtil.funcNotation("x",6).diffHint,"a=Ax^{n} \\implies \\frac{da}{dx}=n.Ax^{n-1}","check diffHint");
 });
+
+})();

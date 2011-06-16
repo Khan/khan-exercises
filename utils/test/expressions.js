@@ -1,3 +1,7 @@
+module("expressions");
+
+(function(){
+
 var expr = KhanUtil.expr;
 
 test( "Expression formatter", function() {
@@ -41,3 +45,5 @@ test( "Expression evaluator", function() {
 	equals( expr([ "sqrt", 65536 ], true ), 256, "sqrt 65536" );
 	equals( expr([ "+", ["*", 2, 4], 6 ], true ), 14, "2 * 4 + 6" );
 });
+
+})();
