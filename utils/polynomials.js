@@ -3,7 +3,7 @@ jQuery.extend(KhanUtil, {
 		var term = function( coef, vari, degree ) {
 			// sort of a weird error behavior
 			if ( typeof coef === "undefined" ) {
-				coef = 1;
+				return null;
 			} else if ( coef == 0 ) {
 				return null;
 			}
@@ -15,6 +15,25 @@ jQuery.extend(KhanUtil, {
 			} else {
 				return ["*", coef, ["^", vari, degree]];
 			}
+		};
+
+		//inverse of term.  Given an expression it returns the coef and degree. calculus needs this for hints
+		var extractFromExpr = function ( expr ){
+			var coef,degree;
+			if ( typeof expr === "number" ){
+				coef = expr;
+				degree = 0;
+			} else if (jQuery.isArray( expr ) && !jQuery.isArray( expr[2] )){
+				coef = expr[1];
+				degree = 1;
+			} else if (jQuery.isArray( expr ) && jQuery.isArray( expr[2] )){
+				coef = expr[1];
+				degree = expr[2][2];
+			}
+			return {
+				coef: coef,
+				degree: degree
+			};
 		};
 
 		this.minDegree = minDegree;
@@ -48,6 +67,18 @@ jQuery.extend(KhanUtil, {
 			}
 
 			return expr;
+		};
+
+		this.getNumberOfTerms = function() {
+			return this.expr().length - 1 ; // -1 as the first term in the expression for a polynomial is always a "+"
+		};
+
+		this.getCoefAndDegreeForTerm = function( termIndex ) { //returns the coef and degree for a particular term
+			var numberOfTerms = this.getNumberOfTerms();
+			if ( typeof termIndex === "number" && termIndex >= 0 && termIndex <= numberOfTerms ) {
+				return extractFromExpr( this.expr()[ termIndex + 1 ] ); //upshift by one due to "+" sign at the front of the expression
+			}
+
 		};
 
 		this.text = function() {

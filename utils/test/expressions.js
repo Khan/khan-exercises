@@ -27,6 +27,8 @@ test( "Expression formatter", function() {
 
 	equals( expr([ "+", ["*", 2, ["^", 3, 2]], ["*", -3, 3], 4 ]), "2(3^{2})+(-3)(3)+4", "issue 90" );
 	equals( expr([ "+", ["*", 2, ["^", 3, "x"]], ["*", -3, "x"], 4 ]), "2(3^{x})-3x+4", "issue 90" );
+
+	equals( expr([ "*", -2, ["^", "x", 2]]), "-2x^{2}", "polynomial term" );
 });
 
 test( "Expression evaluator", function() {
