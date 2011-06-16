@@ -12,6 +12,10 @@ jQuery.extend(KhanUtil, {
 
 	exprType: function( expr ) {
 		if ( typeof expr === "object" ) {
+			//color wrappers should be completely ignored by everythign but formatOperators
+			if ( expr[0] === "color" ) {
+				return KhanUtil.exprType( expr[2] );
+			}
 			return expr[0];
 		} else {
 			return typeof(expr);
@@ -32,7 +36,7 @@ jQuery.extend(KhanUtil, {
 			return expr < 0;
 
 			case "string":
-			return KhanUtil.stripColorMarkup(expr).charAt(0) == '-'
+			return expr.charAt(0) == '-'
 
 			case "*":
 			default:
@@ -43,6 +47,9 @@ jQuery.extend(KhanUtil, {
 	// Mostly, is it okay to add a coefficient to me without adding parens?
 	exprIsShort: function( expr ) {
 		switch( KhanUtil.exprType(expr) ) {
+			case "color":
+			return KhanUtil.exprIsShort(expr[2]);
+
 			case "+":
 			case "-":
 			case "*":
@@ -69,6 +76,11 @@ jQuery.extend(KhanUtil, {
 	},
 
 	formatOperators: {
+		"color": function( color, arg ) {
+			// we expect arguments to look like ['blue', [...]], for example.
+			return "\\color{" + color + "}{" + KhanUtil.expr( arg ) + "}";
+		},
+
 		"+": function() {
 			var terms = jQuery.grep(arguments, function( term, i ) {
 				return term != null;
@@ -97,7 +109,7 @@ jQuery.extend(KhanUtil, {
 					term = "(" + term + ")";
 				}
 
-				if ( KhanUtil.stripColorMarkup(term).charAt(0) !== "-" || parenthesize ) {
+				if ( term.charAt(0) !== "-" || parenthesize ) {
 					term = "+" + term;
 				}
 
@@ -106,7 +118,7 @@ jQuery.extend(KhanUtil, {
 
 			joined = terms.join("");
 
-			if(KhanUtil.stripColorMarkup(joined).charAt(0) === "+") {
+			if(joined.charAt(0) === "+") {
 				return joined.slice(1);
 			} else {
 				return joined;
@@ -288,6 +300,10 @@ jQuery.extend(KhanUtil, {
 	},
 
 	computeOperators: {
+		"color": function( color, arg ) {
+			return KhanUtil.expr( arg, true );
+		},
+
 		"+": function() {
 			var sum = 0;
 
@@ -346,14 +362,26 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
-	// returns the contents of expr removing any \color{...}{ } tags
-	stripColorMarkup : function (expr) {
-		var stripped = expr.toString().replace(/\\color{\w+?}{(.*)}/g, "$1");
-		//if we didn't find any color tags, no sense forcing our type to be a string
-		if (expr == stripped) {
+	// returns the contents of expr removing any ['color', ...] tags
+	exprStripColor : function (expr) {
+		//jQuery.map does nasty things to arrays
+		var map = function( f, list ){
+			var ret = [];
+			for (var i = 0; i < list.length; i++) {
+				ret.push(f(list[i]));
+			}
+			return ret;
+		}
+		
+		if ( typeof expr !== "object" ) {
 			return expr;
 		}
-		return stripped
+
+		if ( expr[0] === "color" ) {
+			return KhanUtil.exprStripColor( expr[2] );
+		}
+
+		return map( KhanUtil.exprStripColor, expr )
 	}
 });
 
