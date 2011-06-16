@@ -480,6 +480,9 @@ var Khan = {
 					'<h3>Need Help?</h3>' +
 					'<span><input type="button" id="gethint" value="Get a Hint"></span>' +
 				'</div>' +
+				'<div id="extras">' +
+					'<input type="button" id="show-toggle" value="Show next 10 problems">' +
+				'</div>' +
 			'</div>' +
 			'<div id="workarea"></div>' +
 			'<div id="hintsarea"></div>' + 
@@ -592,7 +595,30 @@ var Khan = {
 				}
 			}
 		});
+		
+		jQuery( "#show-toggle" ).data( "more", true )
+			.click(function() {
+				var button = jQuery( this ),
+					showMore = button.data( "more" );
+				
+				if( showMore ) {
+					button.val( "Try current problem" );
+					for ( var i = 0; i < 10; i++ ) {
+						jQuery( "#workarea" ).append( jQuery( "<hr/>" ) );
+						Khan.makeProblem();
+					}
+				} else {
+					button.val( "Show next 10 problems" );
+					jQuery( "#workarea, #hintsarea, #hintsbag" ).empty();
+					Khan.makeProblem();
+				}
+			
+				jQuery( "#sidebar form input" ).attr( "disabled", showMore );
+				jQuery( "#sidebar #help input" ).attr( "disabled", showMore );
 
+				button.data( "more", !showMore );
+			});
+		
 		// Prepare for the debug info if requested
 		if ( Khan.query.debug != null ) {
 			jQuery( '<div id="debug"></div>' ).appendTo( "#sidebar" );
