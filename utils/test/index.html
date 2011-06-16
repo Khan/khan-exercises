@@ -5,7 +5,17 @@
 	<title>Utility Test Suite</title>
 	<!-- Include dependencies -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-	<script> var Khan = {query: {},scriptWait: function(){}}; var KhanUtil = Khan.Util = {};</script>
+	<script>
+		var Khan = {
+			query: {},
+			scriptWait: function(){}
+		};
+		var KhanUtil = Khan.Util = {
+			random: function() {
+				return Math.random();
+			}
+		};
+	</script>
 
 	<!-- Include QUnit -->
 	<link rel="stylesheet" href="qunit/qunit/qunit.css" type="text/css" media="screen">
