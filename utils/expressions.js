@@ -101,7 +101,7 @@ jQuery.extend(KhanUtil, {
 				return term;
 			});
 
-			joined = terms.join("");
+			var joined = terms.join("");
 
 			if(joined.charAt(0) === "+") {
 				return joined.slice(1);
@@ -139,7 +139,7 @@ jQuery.extend(KhanUtil, {
 					return term;
 				});
 
-				joined = terms.join(" - ");
+				var joined = terms.join(" - ");
 
 				return joined;
 			}
