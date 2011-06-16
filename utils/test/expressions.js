@@ -3,6 +3,7 @@ module("expressions");
 (function(){
 
 var expr = KhanUtil.expr;
+var exprStripColor = KhanUtil.exprStripColor;
 
 test( "Expression formatter", function() {
 	equals( expr([ '-', 1]), "-1", "-1");
@@ -46,6 +47,10 @@ test( "Expression formatter", function() {
 	equals( expr([ '*', 3, ['+', 1, -2], 4]), "3(1-2)(4)", "3 * (1-2) * 4" );
 	equals( expr([ '*', 3, ['-', 1, -2], 4]), "3(1-(-2))(4)", "3 * (1-(-2)) * 4" );
 	equals( expr([ '+', 1, ['-', ['*', 2, 3, 4]], 5, 6]), "1-(2)(3)(4)+5+6", "1-(2)(3)(4)+5+6" );
+
+	//test colors
+	equals( expr([ '*', 4, ['+', 2, ['color', 'blue', 2]]]), "4(2+\\color{blue}{2})", "4(2+\\color{blue}{2})" );
+	equals( expr([ '*', 4, ['color', 'blue', 2]]), "(4)(\\color{blue}{2})", "(4)(\\color{blue}{2})" );
 });
 
 test( "Expression evaluator", function() {
@@ -57,6 +62,14 @@ test( "Expression evaluator", function() {
 	equals( expr([ "frac", 2, 4 ], true ), 0.5, "2 `frac` 4" );
 	equals( expr([ "sqrt", 65536 ], true ), 256, "sqrt 65536" );
 	equals( expr([ "+", ["*", 2, 4], 6 ], true ), 14, "2 * 4 + 6" );
+	
+	//test colors
+	equals( expr([ '*', 4, ['+', 2, ['color', 'blue', 2]]], true), 16, "4*(2+\\color{blue}{2})" );
+	equals( expr([ '*', 4, ['color', 'blue', 2]], true), 8, "(4)(\\color{blue}{2})" );
+});
+
+test( "Expression utilities", function() {
+	equals( expr(exprStripColor([ '*', 4, ['+', 2, ['color', 'blue', 2]]])), "4(2+2)", "4*(2+2)" );
 });
 
 })();
