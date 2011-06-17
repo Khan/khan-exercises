@@ -23,7 +23,7 @@ var Khan = {
 				TeX: {\
 					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
 				},\
-				"HTML-CSS": { scale: 88 }\
+				"HTML-CSS": { scale: 93 }\
 			});\
 			\
 			// We don\'t want to use inline script elements, we want to use code blocks\n\

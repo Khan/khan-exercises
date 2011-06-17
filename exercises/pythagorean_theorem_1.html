@@ -1,29 +1,36 @@
 <!DOCTYPE html>
-<html data-require="math graph math-format">
+<html data-require="math graphie math-format">
 <head>
 	<title>Pythagorean Theorem 1</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
-		function drawRightTriangle(width, height, A, B, C, a, b, c) {
-			var scale = 10 / Math.sqrt(width * width + height * height);
+		function betterTriangle(width, height, A, B, C, a, b, c) {
+			var scale = 5 / Math.sqrt(width * width + height * height);
 			width *= scale;
 			height *= scale;
 
-			initPicture(-2, 12, -3, 11);
-			path([[0, 10 - height], [0, 10], [width, 10 - height], [0, 10 - height]]);
+			with ( KhanUtil.currentGraph ) {
+				// Leave some space for the labels
+				init({ range: [[-1, width + 1], [-1, height + 1]] });
 
-			text([-0.5, 10.5], A);
-			text([-0.5, 9.5 - height], C);
-			text([0.5 + width, 9.5 - height], B);
+				path([ [0, 0], [width, 0], [0, height], true ]);
 
-			text([-0.5, 10 - 0.5 * height], b);
-			text([width / 2, 9.5 - height], a);
-			text([0.5 + width / 2, 10.5 - 0.5 * height], c);
+				label( [0, height], A, "above left" );
+				label( [0, 0], C, "below left" );
+				label( [width, 0], B, "below right" );
+
+				label( [0, height/2], b, "left" );
+				label( [width/2, 0], a, "below" );
+				label( [width/2, height/2], c, "above right", {
+					labelDistance: 3
+				} );
+			}
 		}
 	</script>
 </head>
 <body>
 	<div class="exercise">
+	<!-- // <var>alert(2)</var> -->
 	<div class="problems">
 		<div id="find-hypotenuse">
 			<div class="vars">
@@ -40,8 +47,8 @@
 				<code>BC = <var>BC</var></code>. What is <code>AB</code>?</p>
 				<p>(Type in only one of text boxes if your answer has only one part.)</p>
 
-				<div class="graph" style="width: 280px; height: 280px;" data-style="stroke: black; stroke-width: 2px;">
-					drawRightTriangle(BC, AC, "A", "B", "C", BC, AC, "?");
+				<div class="graphie">
+					betterTriangle( BC, AC, "A", "B", "C", BC, AC, "?" );
 				</div>
 			</div>
 
@@ -85,8 +92,8 @@
 				<code>AB = <var>AB</var></code>. What is <code><var>aside</var></code>?</p>
 				<p>(Type in only one of text boxes if your answer has only one part.)</p>
 
-				<div class="graph" style="width: 280px; height: 280px;" data-style="stroke: black; stroke-width: 2px;">
-					drawRightTriangle(alen, blen, "A", "B", "C", alabel, blabel, AB);
+				<div class="graphie">
+					betterTriangle( alen, blen, "A", "B", "C", alabel, blabel, AB );
 				</div>
 			</div>
 

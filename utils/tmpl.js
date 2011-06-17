@@ -119,7 +119,7 @@ jQuery.tmpl = {
 		}
 	},
 	
-	getVAR: function( elem ) {
+	getVAR: function( elem, ctx ) {
 		// We need to compute the value
 		var code = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
 
@@ -131,14 +131,22 @@ jQuery.tmpl = {
 			code = "(function(){\n" + code + "\n})()";
 		}
 
+		// If no extra context was passed, use an empty object
+		if ( ctx == null ) {
+			ctx = {};
+		}
+
 		try {
 			// Use the methods from JavaScript's built-in Math methods
 			with ( Math ) {
 				// And the methods provided by the library
 				with ( KhanUtil ) {
-					// Use all the computed variables
-					with ( jQuery.tmpl.VARS ) {
-						return eval( "(" + code	 + ")" );
+					// And the passed-in context
+					with ( ctx ) {
+						// And all the computed variables
+						with ( jQuery.tmpl.VARS ) {
+							return eval( "(" + code	 + ")" );
+						}
 					}
 				}
 			}
