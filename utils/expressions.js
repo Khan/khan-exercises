@@ -12,7 +12,7 @@ jQuery.extend(KhanUtil, {
 
 	exprType: function( expr ) {
 		if ( typeof expr === "object" ) {
-			//color wrappers should be completely ignored by everythign but formatOperators
+			// Color wrappers should be completely ignored by everything but formatOperators
 			if ( expr[0] === "color" ) {
 				return KhanUtil.exprType( expr[2] );
 			}
@@ -39,7 +39,7 @@ jQuery.extend(KhanUtil, {
 			return expr < 0;
 
 			case "string":
-			return expr.charAt(0) == '-'
+			return expr.charAt(0) == "-";
 
 			case "*":
 			default:
@@ -80,7 +80,7 @@ jQuery.extend(KhanUtil, {
 
 	formatOperators: {
 		"color": function( color, arg ) {
-			// we expect arguments to look like ['blue', [...]], for example.
+			// Arguments should look like [ "blue", [ ... ] ]
 			return "\\color{" + color + "}{" + KhanUtil.expr( arg ) + "}";
 		},
 
@@ -167,8 +167,7 @@ jQuery.extend(KhanUtil, {
 			var rest = Array.prototype.slice.call(arguments, 1);
 			rest.unshift("*");
 
-			//if we're multiplying by 1, ignore it, unless we 
-			//are at the basecase ['*',1] when we should return 1.
+			// If we're multiplying by 1, ignore it, unless we have [ "*", 1 ] and should return 1
 			if ( arguments[0] === 1 && rest.length > 1 ) {
 				return KhanUtil.expr(rest);
 			} else if ( arguments[0] === -1 && rest.length > 1 ) {
