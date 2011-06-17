@@ -553,11 +553,10 @@ var Khan = {
 					$hint.data( "apply", $hint.data( "apply" ).split(/-/)[1] );
 
 					// Apply templating, now that the hint template has been converted
-					jQuery( "#rawhintsarea" ).append( $hint );
-					jQuery( "#rawhintsarea" ).find( "[id]" ).tmplApply();
+					jQuery( "#rawhintsarea" ).append( $hint ).find( "[id]" ).tmplApply();
 
 						// Re-render all the hints
-						jQuery( "#rawhintsarea" ).clone().runModules( "Load" ).runModules()
+						jQuery( "#rawhintsarea" ).clone().runModules( "Load" )
 
 						// Replace the previously rendered hints
 						.replaceAll( "#hintsarea" ).show().attr( "id", "hintsarea" );
@@ -568,7 +567,7 @@ var Khan = {
 					$hint.appendTo( "#rawhintsarea" );
 
 					// Reveal the rendered hint
-					$render.appendTo( "#hintsarea" );
+					$render.runModules().appendTo( "#hintsarea" );
 
 				}
 
