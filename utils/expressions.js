@@ -25,6 +25,9 @@ jQuery.extend(KhanUtil, {
 	// Do I start with a minus sign?
 	exprIsNegated: function( expr ) {
 		switch( KhanUtil.exprType(expr) ) {
+			case "color":
+			return KhanUtil.exprIsNegated(expr[2]);
+
 			case "/":
 			return KhanUtil.exprIsNegated(expr[1]);
 
@@ -362,26 +365,18 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
-	// returns the contents of expr removing any ['color', ...] tags
-	exprStripColor : function (expr) {
-		//jQuery.map does nasty things to arrays
-		var map = function( f, list ){
-			var ret = [];
-			for (var i = 0; i < list.length; i++) {
-				ret.push(f(list[i]));
-			}
-			return ret;
-		}
-		
+	// Remove [ "color", ...] tags from an expression
+	exprStripColor: function( expr ) {
 		if ( typeof expr !== "object" ) {
 			return expr;
-		}
-
-		if ( expr[0] === "color" ) {
+		} else if ( expr[0] === "color" ) {
 			return KhanUtil.exprStripColor( expr[2] );
+		} else {
+			return jQuery.map(expr, function( el, i ) {
+				// Wrap in an array because jQuery.map flattens the result by one level
+				return [ (i === 0) ? el : KhanUtil.exprStripColor( el ) ];
+			});
 		}
-
-		return map( KhanUtil.exprStripColor, expr )
 	}
 });
 

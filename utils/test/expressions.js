@@ -69,7 +69,8 @@ test( "Expression evaluator", function() {
 });
 
 test( "Expression utilities", function() {
-	equals( expr(exprStripColor([ '*', 4, ['+', 2, ['color', 'blue', 2]]])), "4(2+2)", "4*(2+2)" );
+	equals( expr(exprStripColor([ "color", "green", 17 ])), "17", "color outside" );
+	equals( expr(exprStripColor([ "*", 4, ["+", 2, ["color", "blue", 2] ] ])), "4(2+2)", "color inside" );
 });
 
 })();
