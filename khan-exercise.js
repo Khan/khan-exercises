@@ -39,11 +39,10 @@ var Khan = {
 			MathJax.Hub.Browser.isKonqueror = true;\
 			\
 			MathJax.Hub.Startup.onload();'
-		} ],
+		}, "raphael" ],
 
 		// Locally because IE8 has a problem with the 1.5.2 minified raphael release
 		// http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
-		"graph": [ "raphael" ],
 
 		// The normal module dependencies.
 		"calculus": [ "math", "expressions", "polynomials" ],
