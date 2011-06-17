@@ -481,10 +481,13 @@ var Khan = {
 					'<span><input type="button" id="gethint" value="Get a Hint"></span>' +
 				'</div>' +
 				'<div id="extras">' +
-					'<input type="button" id="show-toggle" value="Show next 10 problems">' +
+					'<input type="button" id="show-more" value="Show next 10 problems">' +
+					'<input type="button" id="show-scratchpad" value="Show scratchpad">' +
 				'</div>' +
 			'</div>' +
-			'<div id="workarea"></div>' +
+			'<div id="workarea">' +
+				'<div id="scratchpad"></div>' +
+			'</div>' +
 			'<div id="hintsarea"></div>' + 
 			'<div id="rawhintsarea"></div>'
 		);
@@ -521,6 +524,9 @@ var Khan = {
 			// Wipe out any previous problem
 			jQuery("#workarea, #hintsarea, #hintsbag").empty();
 			jQuery("#gethint").attr( "disabled", false );
+			if ( Khan.scratchpad ) {
+				Khan.scratchpad.clear();
+			}
 
 			// Generate a new problem
 			Khan.makeProblem();
@@ -574,12 +580,12 @@ var Khan = {
 			}
 		});
 		
-		jQuery( "#show-toggle" ).data( "more", true )
-			.click(function() {
+		jQuery( "#show-more" ).data( "show", true )
+			.click( function() {
 				var button = jQuery( this ),
-					showMore = button.data( "more" );
+					show = button.data( "show" );
 				
-				if( showMore ) {
+				if( show ) {
 					button.val( "Try current problem" );
 					for ( var i = 0; i < 10; i++ ) {
 						jQuery( "#workarea" ).append( jQuery( "<hr/>" ) );
@@ -591,10 +597,35 @@ var Khan = {
 					Khan.makeProblem();
 				}
 			
-				jQuery( "#sidebar form input" ).attr( "disabled", showMore );
-				jQuery( "#sidebar #help input" ).attr( "disabled", showMore );
+				jQuery( "#sidebar form input" ).attr( "disabled", show );
+				jQuery( "#sidebar #help input" ).attr( "disabled", show );
 
-				button.data( "more", !showMore );
+				button.data( "show", !show );
+			});
+		
+		jQuery( "#show-scratchpad" ).data( "show", true )
+			.click( function() {
+				var button = jQuery( this ),
+					show = button.data( "show" );
+				if ( show ) {
+					if ( !Khan.scratchpad ) {
+						Khan.loadScripts( [ {src: "../utils/scratchpad.js"} ], function() {
+							Khan.scratchpad = new Scratchpad();
+							Khan.scratchpad.offsetLeft = jQuery( "#scratchpad" ).offset().left;
+							Khan.scratchpad.offsetTop = jQuery( "#scratchpad" ).offset().top;
+							jQuery( "#scratchpad" ).show();
+							button.val( "Hide scratchpad" );
+						} );
+					} else {
+						jQuery( "#scratchpad" ).show();
+						button.val( "Hide scratchpad" );
+					}
+				} else {
+					jQuery( "#scratchpad" ).hide();
+					button.val( "Show scratchpad" );
+				}
+				
+				button.data( "show", !show );
 			});
 		
 		// Prepare for the debug info if requested
