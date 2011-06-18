@@ -376,6 +376,46 @@ jQuery.extend(KhanUtil, {
 				return [ (i === 0) ? el : KhanUtil.exprStripColor( el ) ];
 			});
 		}
+	},
+
+	// simplify an expression by collapsing all the associative
+	// operations.  e.g. ["+", ["+", 1, 2], 3] -> ["+", 1, 2, 3]
+	exprSimplifyAssociative : function (expr) {
+		if ( typeof expr !== "object" ){
+			return expr;
+		}
+
+		var simplified = jQuery.map( expr.slice(1), function(x){
+			//encapsulate in a list so jQuery.map unpacks it correctly
+			return [KhanUtil.exprSimplifyAssociative(x)];
+		});
+		
+		var flattenOneLevel = function (e) {
+			switch( expr[0] ){
+				case "+":
+				if ( e[0] === "+" ) {
+					return e.slice(1);
+				}
+				break;
+
+				case "*":
+				if ( e[0] === "*" ) {
+					return e.slice(1);
+				}
+				break;
+			}
+			//make sure that we encapsulate e in an array so jQuery's map 
+			//does't accidently unpacks e itself.
+			return [e];
+		}
+		
+		//here we actually want the jQuery behavior of
+		//having any lists that flattenOneLevel returns merged into
+		//the result
+		var ret = jQuery.map( simplified, flattenOneLevel );
+		ret.unshift( expr[0] );
+
+		return ret;
 	}
 });
 
