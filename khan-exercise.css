@@ -4,6 +4,9 @@ p.question { font-weight: bold; }
 var { font-style: normal; }
 .hint_blue { color: blue; }
 .hint_orange { color: orange; }
+.hint_red { color: red; }
+.hint_green { color: green; }
+.hint_gray { color: gray; }
 #congrats { color: green; }
 #oops { color: red; }
 #workarea { margin-left: 10px; }

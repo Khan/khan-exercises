@@ -392,6 +392,10 @@ var Khan = {
 		// Save the raw hints so they can be modified later
 		Khan.rawHints = Khan.hints.clone()
 
+			// FIXME: Should apply templating here without rendering MathJax, but
+			// that's currently not possible. 
+			.tmplLoad()
+
 			// Save as a normal JS array so we can use shift() on it later
 			.children().get();
 
@@ -553,10 +557,10 @@ var Khan = {
 					$hint.data( "apply", $hint.data( "apply" ).split(/-/)[1] );
 
 					// Apply templating, now that the hint template has been converted
-					jQuery( "#rawhintsarea" ).append( $hint ).find( "[id]" ).tmplApply();
+					jQuery( "#rawhintsarea" ).append( $hint ).find( "[id]" ).tmplApply().end()
 
 						// Re-render all the hints
-						jQuery( "#rawhintsarea" ).clone().runModules( "Load" )
+						.clone().runModules( "Load" ).runModules()
 
 						// Replace the previously rendered hints
 						.replaceAll( "#hintsarea" ).show().attr( "id", "hintsarea" );
@@ -572,6 +576,7 @@ var Khan = {
 				}
 
 				if ( Khan.hints.length === 0 ) {
+
 					// Disable the get hint button
 					jQuery( this ).attr( "disabled", true );
 				}
