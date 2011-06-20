@@ -1,5 +1,6 @@
 jQuery.extend( KhanUtil, {
 	commonAngles: [
+		{deg: 15, rad: "\\frac{\\pi}{12}"},
 		{deg: 30, rad: "\\frac{\\pi}{6}"},
 		{deg: 45, rad: "\\frac{\\pi}{4}"},
 		{deg: 60, rad: "\\frac{\\pi}{3}"},
