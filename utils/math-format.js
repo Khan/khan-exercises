@@ -86,8 +86,8 @@ jQuery.extend(KhanUtil, {
 	//returns an integer or a ['/', numerator, denominator] suitable 
 	//for use with expressions.js
 	decimalToFraction : function (dec, max_denominator) {
-		//if we have an integer, return it
-		if ( dec % 1 === 0 ) {
+		//if we have an integer or Infinity or NaN, return it
+		if ( dec % 1 === 0 || isNaN(dec % 1) ) {
 			return dec;
 		}
 		// 0.5 is a special case since it is the very first fraction in our list,
@@ -98,9 +98,14 @@ jQuery.extend(KhanUtil, {
 			max_denominator = 1000;
 		}
 
+		//if our decimal is smaller than 1/max_denominator, then chop off
+		//the decimal
+		if ( Math.abs(dec) % 1 <= 1/max_denominator ) {
+			return Math.round(dec);
+		}
 
 
-		//the idea of the alogrithm is to find a list of successively 
+		//the idea of the algorithm is to find a list of successively 
 		//better and better approximations.  If we notice a sudden relative jump
 		//in how good an approximation is, that means we probably stumbled upon
 		//the correct one.
@@ -115,6 +120,9 @@ jQuery.extend(KhanUtil, {
 		//get a list of successively better approximations to dec
 		var fracs = [];
 		var curr_error = dec;
+		//TODO super inefficient to run through all denominators, but cycles are cheap.
+		//Could change to run through the Farey fractions so we would only check things
+		//in lowest terms.
 		for ( var denominator = 1; denominator < max_denominator; denominator++ ) {
 			var numerator = Math.round(dec*denominator);
 			var new_error = Math.abs(dec - numerator/denominator);
