@@ -79,6 +79,72 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
+	//guess at what fraction the decimal dec came from.
+	//for example .6667 -> 2/3.  Default requires at least 3
+	//decimal places.  So, .66 -> 33/50.  This can be changed
+	//by setting max_denominator.
+	//returns an integer or a ['/', numerator, denominator] suitable 
+	//for use with expressions.js
+	decimalToFraction : function (dec, max_denominator) {
+		//if we have an integer, return it
+		if ( dec % 1 === 0 ) {
+			return dec;
+		}
+		// 0.5 is a special case since it is the very first fraction in our list,
+		// we should return it immediately, otherwise our derivative method might not catch it.
+		if ( dec == 1/2 ) { return ['/', 1, 2]; }
+
+		if ( typeof max_denominator === "undefined" ) {
+			max_denominator = 1000;
+		}
+
+
+
+		//the idea of the alogrithm is to find a list of successively 
+		//better and better approximations.  If we notice a sudden relative jump
+		//in how good an approximation is, that means we probably stumbled upon
+		//the correct one.
+		
+		//we only deal in positive numbers, so keep track of the sign
+		var sign = 1;
+		if ( dec < 0 ) {
+			sign = -1;
+			dec = -1*dec;
+		}
+
+		//get a list of successively better approximations to dec
+		var fracs = [];
+		var curr_error = dec;
+		for ( var denominator = 1; denominator < max_denominator; denominator++ ) {
+			var numerator = Math.round(dec*denominator);
+			var new_error = Math.abs(dec - numerator/denominator);
+			//only add new fractions in lowest terms to our list
+			if ( !KhanUtil.reduces(numerator, denominator) && new_error < curr_error ) {
+				fracs.push([new_error, numerator, denominator]); 
+				curr_error = new_error;
+			}
+		}
+		
+		//calculate the derivative of the sequence
+		var deriv = [];
+		for ( var i = 1; i < fracs.length; i++ ) {
+			deriv.push(fracs[i-1][0]-fracs[i][0]);
+		}
+		deriv.push(fracs[fracs.length-1][0]);
+
+		//calculate the relative change in the derivative
+		var rel_change = [];
+		for ( var i = 1; i < deriv.length; i++ ) {
+			rel_change.push( [deriv[i] !== 0 ? deriv[i-1]/deriv[i] : Infinity,
+					  fracs[i].slice(1)]);
+		}
+
+		//return the result where the relative change was maximal
+		rel_change.sort(function(a,b){ return a[0]-b[0]; });
+		rel_change.reverse();
+		return ['/', sign*rel_change[0][1][0], rel_change[0][1][1]]
+	},
+
 	// splitRadical( 24 ) gives [ 2, 6 ] to mean 2 sqrt(6)
 	splitRadical: function( n ) {
 		if ( n === 0 ) {
