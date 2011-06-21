@@ -280,5 +280,15 @@ jQuery.extend( Khan.answerTypes, {
 		return function() {
 			return verifier( correct, input.val() );
 		};
+	},
+	
+	primeFactorization: function( solutionarea, solution ) {
+		var verifier = function( correct, guess ) {
+			guess = guess.split(" ").join("").toLowerCase();
+		    guess = KhanUtil.sortNumbers( guess.split( "x" ) ).join( "x" );
+			console.log( guess );
+			return guess === correct;
+		}
+		return Khan.answerTypes.text( solutionarea, solution, verifier );
 	}
 } );

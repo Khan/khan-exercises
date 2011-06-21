@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+    <head>
+        <title>Prime Factorization</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+				<var id="NUMBER">randRange( 10, 100 )</var>
+				<var id="FACTORIZATION">getPrimeFactorization( NUMBER )</var>
+            </div>
+
+            <div class="problems">
+                <div>
+                    <p class="question">What is the prime factorization of <code><var>NUMBER</var></code>?</p>
+					<p>Type each prime factor separated by an x, like this: 2 x 3.</p>
+					
+					<div class="graphie">
+						init({
+							range: [[-1, 10], [0, 11]],
+							scale: [30, 30]
+						});
+
+						var factors = FACTORIZATION.slice( 0 );
+						var curr = NUMBER;
+						var cx = 1;
+						var y = 10;
+
+						label( [cx + 1, y], curr );
+
+						while( !isPrime( curr ) ) {
+							path( [ [cx + 1, y - 0.5], [cx, y - 1.5] ] );
+							path( [ [cx + 1, y - 0.5], [cx + 2, y - 1.5] ] );
+							y -= 2;
+							cx += 1;
+
+							var factor = factors.shift();
+							curr = curr / factor;
+
+							label( [cx - 1, y], factor );
+							circle( [cx - 1, y], 0.5);
+							label( [cx + 1, y], curr );
+						}
+						circle( [cx + 1, y], 0.5);
+					</div>
+					
+                    <p class="solution" data-type="primeFactorization"><var>FACTORIZATION.join("x")</var></p>
+                </div>
+            </div>
+
+            <div class="hints">
+
+            </div>
+        </div>
+    </body>
+</html>
