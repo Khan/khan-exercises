@@ -167,16 +167,25 @@ var createGraph = function( el ) {
 				padding: ( pad != null ? pad : 7 ) + "px"
 			}).appendTo( el );
 
-			// Add to the MathJax queue
 			if ( typeof MathJax !== "undefined") {
+				// Add to the MathJax queue
 				jQuery.tmpl.type.code()( code[0] );
+
+				// Run after MathJax typesetting
 				MathJax.Hub.Queue(function() {
-					var size = [ span.outerWidth(), span.outerHeight() ];
-					var multipliers = directions[ direction || "center" ];
-					span.css({
-						marginLeft: Math.round( size[0] * multipliers[0] ),
-						marginTop: Math.round( size[1] * multipliers[1] )
-					});
+					// Avoid an icky flash
+					span.hide();
+
+					// Wait for the browser to render it
+					setTimeout(function() {
+						span.show();
+						var size = [ span.outerWidth(), span.outerHeight() ];
+						var multipliers = directions[ direction || "center" ];
+						span.css({
+							marginLeft: Math.round( size[0] * multipliers[0] ),
+							marginTop: Math.round( size[1] * multipliers[1] )
+						});
+					}, 1);
 				});
 			}
 		},
