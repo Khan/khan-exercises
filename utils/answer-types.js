@@ -94,7 +94,7 @@ jQuery.extend( Khan.answerTypes, {
 			var ratExp = /^(-?[0-9]+)(?:\/([0-9]+))?$/;
 
 			if ( correct.match( "/" ) ) {
-				correct = jQuery.getVAR( correct );
+				correct = jQuery.tmpl.getVAR( correct );
 			} else {
 				correct = parseFloat( correct );
 			}
@@ -262,7 +262,7 @@ jQuery.extend( Khan.answerTypes, {
 		jQuery( solutionarea ).append( input );
 		input.focus();
 
-		var choices = jQuery.getVAR( jQuery( solution ).data("choices") );
+		var choices = jQuery.tmpl.getVAR( jQuery( solution ).data("choices") );
 
 		jQuery.each( choices, function(index, value) {
 			input.append('<option value="' + value + '">'
