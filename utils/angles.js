@@ -23,7 +23,7 @@ jQuery.extend( KhanUtil, {
 	toRadians: function( degrees ) {
 		return degrees * Math.PI / 180;
 	},
-	
+
 	wrongCommonAngle: function( angleIdx, i ) {
 		// i is a value from 1 to 3
 		return KhanUtil.commonAngles[ (angleIdx + (4 * i)) % KhanUtil.commonAngles.length ];

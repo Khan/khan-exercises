@@ -31,7 +31,7 @@ jQuery.extend( KhanUtil, {
 		}
 
 		// the fraction has defraction, reducing, and parensing, and is not small
-		var base_str = exp > 0 ? 
+		var base_str = exp > 0 ?
 			KhanUtil.fraction( base_num, base_denom, true, true, false, true ) :
 			KhanUtil.fraction( base_denom, base_num, true, true, false, true );
 

@@ -298,7 +298,7 @@ function numberLine( startNumber, endNumber, increment ) {
 	NumberLine.startNumber = startNumber;
 	NumberLine.endNumber = endNumber;
 	NumberLine.increment = increment;
-	
+
 	NumberLine.y = present.height / 2;
 	NumberLine.width = present.width - ( 2 * NumberLine.padding );
 
@@ -320,13 +320,13 @@ function numberLine( startNumber, endNumber, increment ) {
 // Returns Raphael object, so you can call .attr() again to change color, etc
 function pointOnNumberLine( number ) {
 	var x = NumberLine.getX( number );
-	
+
 	if ( !NumberLine.points[number] ) {
 		NumberLine.points[number] = {"count": 0, "label": present.paper.text( x, NumberLine.y - NumberLine.tickHeight, "" )};
 	}
 
 	NumberLine.points[number].count++;
-	
+
 	if ( NumberLine.points[number].count > 1 ) {
 		NumberLine.points[number].label.attr({text: NumberLine.points[number].count});
 	}
@@ -339,11 +339,11 @@ function arrowOnNumberLine( startNumber, endNumber ) {
 	var size = 10;
 	var startX = NumberLine.getX( startNumber );
 	var endX = NumberLine.getX( endNumber );
-	
+
 	var angle = Math.atan( startX - endX, 0 ) * 180 / Math.PI;
 	var line = present.paper.path( "M" + startX + " " + NumberLine.y + " L " + endX + " " + NumberLine.y).attr({"fill": "#FFA500", "stroke": "#FFA500", "stroke-width": 3});
-	var triangle = present.paper.path( "M" + endX + " " + NumberLine.y + " L " + (endX - size) + " " + (NumberLine.y - size / 2) 
-						+ " L " + (endX - size) + " " + (NumberLine.y + size / 2) 
+	var triangle = present.paper.path( "M" + endX + " " + NumberLine.y + " L " + (endX - size) + " " + (NumberLine.y - size / 2)
+						+ " L " + (endX - size) + " " + (NumberLine.y + size / 2)
 						+ " L " + endX + " " + NumberLine.y )
 				.attr({"fill": "#FFA500", "stroke": "#FFA500"})
 				.rotate( 90 + angle, endX, NumberLine.y );
@@ -359,15 +359,15 @@ function piechart( division, colors, r ) {
 	var cx = present.width / 2;
 	var cy = present.height / 2;
 	var chart = present.paper.set();
-	
-	var totalSectors = 0;	
+
+	var totalSectors = 0;
 	jQuery.each( division, function( index, number ) {
 		totalSectors += number;
 	});
 
 	var currAngle = 0;
 	var measure = 360 / totalSectors;
-	
+
 	function sector( number, params ) {
 		var set = present.paper.set();
 		for (var i = 0; i < number; i++) {
@@ -382,10 +382,10 @@ function piechart( division, colors, r ) {
 		}
 		return set;
 	}
-	
+
 	jQuery.each( division, function( index, number ) {
 		chart.push( sector( number, {"fill": colors[index], "stroke": "#fff", "stroke-width": 2}) );
-	}); 
+	});
 
 	return chart;
 }
@@ -396,8 +396,8 @@ function rectchart( division, colors ) {
 	var x = padding;
 	var y = padding;
 	var chart = present.paper.set();
-	
-	var totalSegments = 0;	
+
+	var totalSegments = 0;
 	jQuery.each( division, function( index, number ) {
 		totalSegments += number;
 	});
@@ -405,7 +405,7 @@ function rectchart( division, colors ) {
 	var totalWidth = present.width - 2 * padding;
 	var segmentWidth = totalWidth / totalSegments;
 	var segmentHeight = present.height - 2 * padding;
-	
+
 	function segment( number, params ) {
 		var set = present.paper.set();
 		for (var i = 0; i < number; i++) {
@@ -417,7 +417,7 @@ function rectchart( division, colors ) {
 	jQuery.each( division, function( index, number ) {
 		chart.push( segment( number, {"fill": colors[index], "stroke": "#fff", "stroke-width": 2}))
 	});
-	
+
 	return chart;
 }
 
@@ -431,18 +431,18 @@ function histogram( numbers ) {
 			h[number] = 0;
 			keys.push( number );
 		}
-		
+
 		h[number]++;
-		
+
 		if ( h[number] > max ) {
 			max = h[number];
 		}
 	});
 
-	var padding = 20;	
+	var padding = 20;
 	var x = padding;
 	var y = present.paper.height - 2 * padding;
-	
+
 	// Draw horizontal line
     set.push( present.paper.path( "M" + x + " " + y + " L" + ( present.paper.width - padding ) + " " + y ) );
 
@@ -452,7 +452,7 @@ function histogram( numbers ) {
 	var distanceBetweenDots = ( present.height - 4 * padding ) / max;
 
 	keys = KhanUtil.sortNumbers( keys );
-	
+
 	jQuery.each( keys, function( index, key ) {
 		set.push( present.paper.path( "M" + x + " " + ( y - tickHeight / 2 ) + " L" + x + " " + ( y + tickHeight / 2 ) ) );
 		set.push( present.paper.text( x, y + 2 * tickHeight, key ).attr({"font-size": 15}) );
@@ -461,7 +461,7 @@ function histogram( numbers ) {
 		}
 		x += distanceBetweenTicks;
 	});
-	
+
 	return set;
 }
 

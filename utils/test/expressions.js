@@ -62,7 +62,7 @@ test( "Expression evaluator", function() {
 	equals( expr([ "frac", 2, 4 ], true ), 0.5, "2 `frac` 4" );
 	equals( expr([ "sqrt", 65536 ], true ), 256, "sqrt 65536" );
 	equals( expr([ "+", [ "*", 2, 4 ], 6 ], true ), 14, "2 * 4 + 6" );
-	
+
 	// Test colors
 	equals( expr([ "*", 4, [ "+", 2, [ "color", "blue", 2 ] ] ], true), 16, "4*(2+\\color{blue}{2})" );
 	equals( expr([ "*", 4, [ "color", "blue", 2 ] ], true), 8, "(4)(\\color{blue}{2})" );

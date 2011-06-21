@@ -133,8 +133,8 @@ function Scratchpad(){
 			if(tool == 'draw'){
 				startPen(X, Y)
 			}else if(tool == 'erase'){
-				eraser = pad.rect(X, Y, 0, 0).attr({"fill-opacity": 0.15, 
-				"stroke-opacity": 0.5, 
+				eraser = pad.rect(X, Y, 0, 0).attr({"fill-opacity": 0.15,
+				"stroke-opacity": 0.5,
 				"fill": "#ff0000", //oh noes! its red and gonna asplodes!
 				"stroke": "#ff0000"});
 				eraser.sx = X;
@@ -155,7 +155,7 @@ function Scratchpad(){
 	}
 
 	function rectsIntersect(r1, r2) {
-		return r2.x < (r1.x+r1.width) && 
+		return r2.x < (r1.x+r1.width) &&
 			(r2.x+r2.width) > r1.x &&
 			r2.y < (r1.y+r1.height) &&
 			(r2.y+r2.height) > r1.y;
@@ -180,9 +180,9 @@ function Scratchpad(){
 		}
 		return np
 	}
-	
+
 	var shapes = pad.set();
-	
+
 	function mouseup(){
 		if(path){
 			path.attr('path', smoothPath(pathstr));
@@ -203,7 +203,7 @@ function Scratchpad(){
 		}
 
 	}
-	
+
 	function mousemove(X,Y){
 			if(path && tool == 'draw'){
 				pathstr += 'L'+X+','+Y

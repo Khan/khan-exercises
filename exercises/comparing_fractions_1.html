@@ -5,7 +5,7 @@
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<!-- 
+	<!--
 		Compares fractions that have the same numerator or have the same denominator.
 		TODO: would like to draw overlapping circles or rectangle slices for hints.
 	-->
@@ -15,7 +15,7 @@
 				<div class="vars" data-ensure="DEN_1 !== DEN_2">
 					<var id="NUM_1">randRange( 1, 14 )</var>
 					<var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
-					
+
 					<var id="NUM_2">NUM_1</var>
 					<var id="DEN_2">randRange( NUM_2 + 1, 15 )</var>
 
@@ -31,7 +31,7 @@
 					<var id="LESS">DEN_1 > DEN_2 ? "less" : "more"</var>
 					<var id="BIGGER">SMALLER === "smaller" ? "bigger" : "smaller"</var>
 				</div>
-				
+
 				<div class="problem">
 					<p>Fill in the blank.</p>
 					<p>
@@ -62,12 +62,12 @@
 					<p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code></p>
 				</div>
 			</div>
-			
+
 			<div id="same-denominator">
 				<div class="vars" data-ensure="NUM_1 !== NUM_2">
 					<var id="NUM_1">randRange( 1, 14 )</var>
 					<var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
-					
+
 					<var id="DEN_2">DEN_1</var>
 					<var id="NUM_2">randRange( 1, DEN_2 - 1 )</var>
 
@@ -80,7 +80,7 @@
 					})()</var>
 					<var id="LESS">NUM_1 < NUM_2 ? "less" : "more"</var>
 				</div>
-				
+
 				<div class="problem">
 					<p>Fill in the blank.</p>
 					<p>
@@ -104,7 +104,7 @@
 							<div class="graph" style="width:200px; height: 200px; float: left;">
 								piechart( [NUM_2, DEN_2 - NUM_2], ["#ee0000", "#999"], 50 );
 							</div>
-						</div>						
+						</div>
 					</div>
 					<p><var>plural( NUM_1, "slice" )</var> is <var>LESS</var> pizza than <var>plural( NUM_2, "slice" )</var>.</p>
 					<p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code></p>

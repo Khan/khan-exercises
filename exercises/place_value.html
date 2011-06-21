@@ -14,7 +14,7 @@
 					<var id="NUMBER">digitsToInteger( DIGITS )</var>
 					<var id="POWER">randRange( 0, 3 )</var>
 					<var id="DIGIT">DIGITS[POWER]</var>
-																									
+
 					<var id="HINT_IN_NUMBERS">
 						(function() {
 							var maxPower = DIGITS.length - 1;
@@ -24,7 +24,7 @@
 							return products.join( "+" );
 						})()
 					</var>
-					
+
 					<var id="HINT_IN_WORDS">
 						(function() {
 							var maxPower = DIGITS.length - 1;
@@ -52,7 +52,7 @@
 					<li><var>WRONG_2</var></li>
 					<li><var>WRONG_3</var></li>
 				</ul>
-				
+
 				<div class="hints">
 					<div>
 						<p><var>NUMBER</var> can be represented as follows.</p>
@@ -62,7 +62,7 @@
 					<p class="final_hint">Thus, <var>DIGIT</var> is in the <var>SOLUTION</var> place.</p>
 				</div>
 			</div>
-			
+
 			<div>
 				<div class="vars" data-ensure="NUMBER > 99">
 					<var id="DIGITS">[ randRange( 0, 9 ), randRange( 0, 9 ), randRange( 0, 9 ), randRange( 0, 9 )]</var>
@@ -75,7 +75,7 @@
 								if (digit === 0 || index === DIGITS.length - 1) {
 									return null;
 								}
-								
+
 								if (index === DIGITS.length - 2) {
 									var addend = digit * 10 + DIGITS[ DIGITS.length - 1 ];
 									ADDENDS.push( addend );
@@ -85,7 +85,7 @@
 									var input = [ "*", digit, pow(10, maxPower - index) ];
 									var ex = expr( input );
 									var addend = expr( input, true );
-									
+
 									ADDENDS.push( addend );
 									return words + " is the same as " + ex + " = " + addend;
 								}
@@ -93,7 +93,7 @@
 						})()
 					</var>
 				</div>
-				
+
 				<p class="question">What is <var>cardinal( NUMBER )</var> in standard form?</p>
 				<p class="solution"><var>NUMBER</var></p>
 				<div class="hints">

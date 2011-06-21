@@ -9,15 +9,15 @@
 		<div class="vars" data-ensure="INNER.name !== OUTER.name && INNER.minDegree <= INNER.maxDegree && OUTER.minDegree <= OUTER.maxDegree">
 			<var id="FUNC_NAMES">["f", "g", "h"]</var>
 			<var id="FUNC_VARIABLES">["x", "n", "t"]</var>
-			
+
 			<var id="INNER">new Polynomial( randRange(0, 2), randRangeWeighted(1, 3, 3, 0.2), null, randFromArray(FUNC_VARIABLES), randFromArray(FUNC_NAMES) )</var>
-			
+
 			<var id="OUTER">new CompositePolynomial( randRange(0, 2), randRangeWeighted(1, 3, 3, 0.2), null, randFromArray(FUNC_VARIABLES), randFromArray(FUNC_NAMES), INNER )</var>
 		</div>
 
 		<div class="problems">
 			<div>
-				<div class="vars">				
+				<div class="vars">
 					<var id="FUNCTIONS">shuffle([INNER, OUTER])</var>
 					<var id="SOLVE_FOR">shuffle([INNER, OUTER])</var>
 
@@ -44,7 +44,7 @@
 			<div>
 				<div class="vars" data-ensure="OUTER2.name !== INNER.name && OUTER2.name !== OUTER.name && OUTER2.minDegree <= OUTER2.maxDegree">
 					<var id="OUTER2">new CompositePolynomial( randRange(0, 2), randRange(1, 3), null, randFromArray(FUNC_VARIABLES), randFromArray(FUNC_NAMES), randFromArray([INNER, OUTER]) )</var>
-					
+
 					<var id="FUNCTIONS">shuffle([INNER, OUTER, OUTER2])</var>
 
 					<var id="SOLVE_FOR">shuffle([INNER, OUTER, OUTER2])</var>
@@ -74,7 +74,7 @@
 		<div class="hints">
 			<p>First, let's solve for the value of the inner function, <code><var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)</var></code>. Then we'll know what to plug into the outer function.</p>
 			<p><var>SOLVE_FOR[1].hint(VALUE)</var></p>
-			
+
 			<p>Now we know that <code><var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)</var> = <var>INNER_VALUE</var></code>.
 
 			Let's solve for <code><var>SOLVE_FOR[0].name</var>(<var>SOLVE_FOR[1].name</var>(<var>VALUE</var>))</code>, which is <code><var>SOLVE_FOR[0].name</var>(<var>INNER_VALUE</var>)</code>.</p>

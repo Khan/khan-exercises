@@ -334,7 +334,7 @@ var Khan = {
 
 		// Hide the raw hints
 		jQuery( "#rawhintsarea" ).hide();
-			
+
 		// Run the main method of any modules
 		problem.runModules();
 
@@ -391,7 +391,7 @@ var Khan = {
 
 		// Save the raw hints so they can be modified later
 		Khan.rawHints = Khan.hints.clone()
-			
+
 			// Save as a normal JS array so we can use shift() on it later
 			.children().get();
 
@@ -443,7 +443,7 @@ var Khan = {
 
 			if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
 				var varInfo = [];
-				
+
 				jQuery.each( jQuery.tmpl.VARS, function( name, value ) {
 					var str;
 
@@ -487,7 +487,7 @@ var Khan = {
 			'<div id="workarea">' +
 				'<div id="scratchpad"></div>' +
 			'</div>' +
-			'<div id="hintsarea"></div>' + 
+			'<div id="hintsarea"></div>' +
 			'<div id="rawhintsarea"></div>'
 		);
 
@@ -548,7 +548,7 @@ var Khan = {
 				// normal inheritance templating, apply templating, and then re-render all
 				// the hints.
 				if ( $hint.data( "apply" ) && !$hint.data( "apply" ).indexOf( "hint" ) ) {
-					
+
 					// Revert the hint templating into normal inheritance
 					$hint.data( "apply", $hint.data( "apply" ).split(/-/)[1] );
 
@@ -562,7 +562,7 @@ var Khan = {
 						.replaceAll( "#hintsarea" ).show().attr( "id", "hintsarea" );
 
 				} else {
-					
+
 					// Inject the raw into the hidden raw area
 					$hint.appendTo( "#rawhintsarea" );
 
@@ -577,12 +577,12 @@ var Khan = {
 				}
 			}
 		});
-		
+
 		jQuery( "#show-more" ).data( "show", true )
 			.click( function() {
 				var button = jQuery( this ),
 					show = button.data( "show" );
-				
+
 				if( show ) {
 					button.val( "Try current problem" );
 					for ( var i = 0; i < 10; i++ ) {
@@ -594,13 +594,13 @@ var Khan = {
 					jQuery( "#workarea, #hintsarea, #rawhintsarea" ).empty();
 					Khan.makeProblem();
 				}
-			
+
 				jQuery( "#sidebar form input" ).attr( "disabled", show );
 				jQuery( "#sidebar #help input" ).attr( "disabled", show );
 
 				button.data( "show", !show );
 			});
-		
+
 		jQuery( "#show-scratchpad" ).data( "show", true )
 			.click( function() {
 				var button = jQuery( this ),
@@ -622,10 +622,10 @@ var Khan = {
 					jQuery( "#scratchpad" ).hide();
 					button.val( "Show scratchpad" );
 				}
-				
+
 				button.data( "show", !show );
 			});
-		
+
 		// Prepare for the debug info if requested
 		if ( Khan.query.debug != null ) {
 			jQuery( '<div id="debug"></div>' ).appendTo( "#sidebar" );
@@ -679,7 +679,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 
 			// Extract data-require
 			var requires = data.match( /<html(?:[^>]+)data-require=(['"])((?:(?!\1).)*)\1/ );
-			
+
 			if ( requires != null ) {
 				requires = requires[ 2 ];
 			}
@@ -706,10 +706,10 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 	};
 
 	var remoteExercises = jQuery( ".exercise[data-src]" );
-	
+
 	if ( remoteExercises.length ) {
 		remoteExercises.each( loadExercise );
-		
+
 	} else {
 		loadModules();
 	}

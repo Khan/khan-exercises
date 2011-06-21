@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html data-require="math graphie">
-    <head>
-        <title>Prime Factorization</title>
-        <script src="../khan-exercise.js"></script>
-    </head>
-    <body>
-        <div class="exercise">
-            <div class="vars">
+	<head>
+		<title>Prime Factorization</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
 				<var id="NUMBER">randRange( 10, 100 )</var>
 				<var id="FACTORIZATION">getPrimeFactorization( NUMBER )</var>
-            </div>
+			</div>
 
-            <div class="problems">
-                <div>
-                    <p class="question">What is the prime factorization of <code><var>NUMBER</var></code>?</p>
+			<div class="problems">
+				<div>
+					<p class="question">What is the prime factorization of <code><var>NUMBER</var></code>?</p>
 					<p>Type each prime factor separated by an x, like this: 2 x 3.</p>
-					
+
 					<div class="graphie">
 						init({
 							range: [[-1, 10], [0, 11]],
@@ -44,14 +44,14 @@
 						}
 						circle( [cx + 1, y], 0.5);
 					</div>
-					
-                    <p class="solution" data-type="primeFactorization"><var>FACTORIZATION.join("x")</var></p>
-                </div>
-            </div>
 
-            <div class="hints">
+					<p class="solution" data-type="primeFactorization"><var>FACTORIZATION.join("x")</var></p>
+				</div>
+			</div>
 
-            </div>
-        </div>
-    </body>
+			<div class="hints">
+
+			</div>
+		</div>
+	</body>
 </html>

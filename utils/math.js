@@ -15,8 +15,7 @@ jQuery.extend(KhanUtil, {
 		return Math.floor( num * KhanUtil.random() );
 	},
 
-	/* Returns an array of the digits of a nonnegative intege 
-in reverse
+	/* Returns an array of the digits of a nonnegative integer in reverse
 	 * order: digits(376) = [6, 7, 3] */
 	digits: function(n) {
 		if(n == 0) {
@@ -32,13 +31,13 @@ in reverse
 
 		return list;
 	},
-	
+
 	// Similar to above digits, but in original order (not reversed)
 	integerToDigits: function( number ) {
 		if ( n === 0 ) {
 			return [0];
 		}
-		
+
 		var digits = [];
 		while ( number > 0 ) {
 			digits.unshift( number % 10 );
@@ -46,22 +45,22 @@ in reverse
 		}
 		return digits;
 	},
-	
+
 	digitsToInteger: function( digits ) {
 		var place = Math.floor( Math.pow( 10, digits.length - 1 ) );
 		var number = 0;
-		
+
 		jQuery.each( digits, function(index, digit) {
 			number += digit * place;
 			place /= 10;
 		});
-		
+
 		return number;
 	},
-	
+
 	placesLeftOfDecimal: ["one", "ten", "hundred", "thousand"],
 	placesRightOfDecimal: ["unused", "tenth", "hundredth", "thousandth"],
-	
+
 	powerToPlace: function( power ) {
 		if ( power < 0 ) {
 			return KhanUtil.placesRightOfDecimal[ -1 * power ];
@@ -91,7 +90,7 @@ in reverse
 	},
 
 	getLCM: function( a, b ) {
-	  return ( a * b ) / KhanUtil.getGCD( a, b );
+		return ( a * b ) / KhanUtil.getGCD( a, b );
 	},
 
 	primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
@@ -192,13 +191,13 @@ in reverse
 		}
 		return KhanUtil.sortNumbers( factors );
 	},
-	
+
 	// Get a random factor of a composite number which is not 1 or that number
 	getNontrivialFactor: function( number ) {
 		var factors = KhanUtil.getFactors( number );
 		return factors[ KhanUtil.randRange( 1, factors.length - 2 ) ];
 	},
-    
+
 	getMultiples: function( number, upperLimit ) {
 		var multiples = [];
 		for ( var i = 1; i * number <= upperLimit; i++ ) {
@@ -206,7 +205,7 @@ in reverse
 		}
 		return multiples;
 	},
-	
+
 	// Get a random integer between min and max, inclusive
 	// If a count is passed, it gives an array of random numbers in the range
 	randRange: function( min, max, count ) {
@@ -265,7 +264,7 @@ in reverse
 
 		return array;
 	},
-	
+
 	sortNumbers: function( array ) {
 		return array.slice( 0 ).sort( function( a, b ) {
 			return a - b;

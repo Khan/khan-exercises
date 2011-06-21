@@ -17,7 +17,7 @@ jQuery.extend(KhanUtil, {
 			}
 		};
 
-		//inverse of term.  Given an expression it returns the coef and degree. calculus needs this for hints
+		//inverse of term.	Given an expression it returns the coef and degree. calculus needs this for hints
 		var extractFromExpr = function ( expr ){
 			var coef,degree;
 			if ( typeof expr === "number" ){
@@ -55,7 +55,7 @@ jQuery.extend(KhanUtil, {
 			if ( typeof vari === "undefined" ) {
 				vari = this.variable;
 			}
-			
+
 			var expr = ["+"];
 
 			for ( var i = this.maxDegree; i >= this.minDegree; i-- ) {
@@ -101,7 +101,7 @@ jQuery.extend(KhanUtil, {
 
 			return hint;
 		};
-		
+
 		return this;
 	},
 
@@ -127,13 +127,13 @@ jQuery.extend(KhanUtil, {
 
 			return expr;
 		}
-		
+
 		this.expr = function( vari ) {
 			return tackOn( base.expr( vari ), ["*", composedCoef, composedFunc] );
 		};
 
 		this.text = function() {
-			return KhanUtil.expr( this.expr( this.variable ) ); 
+			return KhanUtil.expr( this.expr( this.variable ) );
 		};
 
 		this.toString = this.text;
@@ -154,7 +154,7 @@ jQuery.extend(KhanUtil, {
 			var hint = "<p><code>" + this.name+"("+val+") = " + this.hintEvalOf(val) + "</code></p>";
 
 			var composedFuncWithVal = composed.name+"("+val+")";
-			
+
 			hint += "<p>To solve for the value of <code>" + this.name + "</code>,"
 				+ "we need to solve for the value of <code>"
 				+ composedFuncWithVal + "</code>.</p>";

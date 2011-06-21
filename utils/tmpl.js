@@ -1,60 +1,60 @@
 jQuery.tmpl = {
 	VARS: {},
-	
+
 	attr: {
 		"data-ensure": function( elem, ensure ) {
 			return function( elem ) {
 				return !!(ensure && jQuery.tmpl.getVAR( ensure ));
 			};
 		},
-		
+
 		"data-if": function( elem, value ) {
 			value = value && jQuery.tmpl.getVAR( value );
-			
+
 			jQuery( elem ).next().data( "lastCond", value );
-			
+
 			if ( !value ) {
 				return null;
 			}
 		},
-		
+
 		"data-else-if": function( elem, value ) {
 			var lastCond = jQuery( elem ).data( "lastCond" );
-			
+
 			value = !lastCond && value && jQuery.tmpl.getVAR( value );
-			
+
 			jQuery( elem ).next().data( "lastCond", lastCond || value );
-			
+
 			if ( !value ) {
 				return null;
 			}
 		},
-		
+
 		"data-else": function( elem ) {
 			if ( jQuery( elem ).data( "lastCond" ) ) {
 				return null;
 			}
 		},
-		
+
 		"data-each": function( elem, value ) {
 			var match;
-			
+
 			jQuery( elem ).removeAttr( "data-each" );
-			
+
 			if ( (match = /^(.*?)(?: as (?:(\w+), )?(\w+))?$/.exec( value )) ) {
 				return {
 					items: jQuery.tmpl.getVAR( match[1] ),
-					
+
 					value: match[3],
 					pos: match[2],
-					
+
 					oldValue: jQuery.tmpl.VARS[ match[3] ],
 					oldPos: jQuery.tmpl.VARS[ match[2] ]
 				};
 			}
 		}
 	},
-	
+
 	type: {
 		"var": function( elem, value ) {
 			if ( !value && elem.getElementsByTagName("*").length > 0 ) {
@@ -62,9 +62,9 @@ jQuery.tmpl = {
 					return jQuery.tmpl.elem["var"]( elem, elem.innerHTML );
 				};
 			}
-			
+
 			var name = elem.id;
-			
+
 			value = value || jQuery.tmpl.getVAR( elem );
 
 			// If a name was specified then we're going to load the value
@@ -75,7 +75,7 @@ jQuery.tmpl = {
 				}
 
 				jQuery.tmpl.VARS[ name ] = value;
-		
+
 			// No value was specified so we replace it with a text node of the value
 			} else {
 				return document.createTextNode( value != null ?
@@ -83,7 +83,7 @@ jQuery.tmpl = {
 					"" );
 			}
 		},
-		
+
 		ul: function( elem ) {
 			if ( elem.id ) {
 				return jQuery( "<var>" )
@@ -91,11 +91,11 @@ jQuery.tmpl = {
 					.append( jQuery( elem ).children().getRandom().contents() )[0];
 			}
 		},
-	
+
 		code: function( elem ) {
 			return function( elem ) {
 				var $elem = jQuery( elem );
-		
+
 				// Maintain the classes from the original element
 				if ( elem.className ) {
 					$elem.wrap( "<span class='" + elem.className + "'></span>" );
@@ -118,7 +118,7 @@ jQuery.tmpl = {
 			};
 		}
 	},
-	
+
 	getVAR: function( elem, ctx ) {
 		// We need to compute the value
 		var code = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
@@ -145,7 +145,7 @@ jQuery.tmpl = {
 					with ( ctx ) {
 						// And all the computed variables
 						with ( jQuery.tmpl.VARS ) {
-							return eval( "(" + code	 + ")" );
+							return eval( "(" + code + ")" );
 						}
 					}
 				}
@@ -194,39 +194,39 @@ jQuery.fn.tmpl = function() {
 			}
 
 			elem = ret;
-		
+
 		} else if ( ret.items ) {
 			var origParent = elem.parentNode,
 				origNext = elem.nextSibling;
-			
+
 			jQuery.each( ret.items, function( pos, value ) {
 				if ( ret.value ) {
 					jQuery.tmpl.VARS[ ret.value ] = value;
 				}
-				
+
 				if ( ret.pos ) {
 					jQuery.tmpl.VARS[ ret.pos ] = pos;
 				}
-				
+
 				var clone = jQuery( elem ).detach().clone( true )[0];
-				
+
 				if ( origNext ) {
 					origParent.insertBefore( clone, origNext );
 				} else {
 					origParent.appendChild( clone );
 				}
-				
+
 				traverse( clone );
 			});
-			
+
 			if ( ret.value ) {
 				jQuery.tmpl.VARS[ ret.value ] = ret.oldValue;
 			}
-			
+
 			if ( ret.pos ) {
 				jQuery.tmpl.VARS[ ret.pos ] = ret.oldPos;
 			}
-			
+
 			return;
 		}
 
@@ -242,12 +242,12 @@ jQuery.fn.tmpl = function() {
 				return traverse( elem );
 			}
 		}
-		
+
 		return elem;
 	}
 
 	function process( elem, post ) {
-		var ret, newElem, 
+		var ret, newElem,
 			$elem = jQuery( elem );
 
 		for ( var attr in jQuery.tmpl.attr ) {
@@ -261,7 +261,7 @@ jQuery.fn.tmpl = function() {
 
 				} else if ( ret && ret.nodeType ) {
 					newElem = ret;
-					
+
 				} else if ( ret !== undefined ) {
 					return ret;
 				}
@@ -293,11 +293,11 @@ jQuery.fn.tmplLoad = jQuery.fn.tmpl;
 jQuery.fn.extend({
 	tmplApply: function( options ) {
 		options = options || {};
-		
+
 		// Get the attribute which we'll be checking, defaults to "id"
 		// but "class" is sometimes used
 		var attribute = options.attribute || "id",
-		
+
 			// Figure out the way in which the application will occur
 			defaultApply = options.defaultApply || "replace",
 
@@ -312,7 +312,7 @@ jQuery.fn.extend({
 			// Only operate on the element if it has the attribute that we're using
 			if ( name ) {
 				// The inheritance only works if we've seen an element already
-				// that matches the particular name and we're not looking at hint 
+				// that matches the particular name and we're not looking at hint
 				// templating
 				if ( name in parent && !hint ) {
 					// Get the method through which we'll be doing the application

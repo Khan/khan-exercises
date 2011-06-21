@@ -64,7 +64,7 @@ jQuery.extend( KhanUtil, {
 
 				// otherwise, just pluraize the last word
 				else {
-					words[ words.length-1 ] = 
+					words[ words.length-1 ] =
 						KhanUtil.plural( words[ words.length-1 ] );
 				}
 
@@ -81,8 +81,8 @@ jQuery.extend( KhanUtil, {
 				// add "es"; things like "fish" => "fishes"
 				else if ( /[sxz]$/i.test( word ) || /[bcfhjlmnqsvwxyz]h$/.test( word ) ) {
 					word += "es";
-				} 
-				
+				}
+
 				// all the rest, just add "s"
 				else {
 					word += "s";
@@ -191,7 +191,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		["book", "shelf", "fill"],
 		["can of food", "box", "fill"]
 	]);
-	
+
 	var stores = KhanUtil.shuffle([
 		{
 			name: "office supply",
@@ -220,7 +220,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"pie",
 		"cake"
 	]);
-	
+
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -293,10 +293,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		storeItem: function( i, j ) {
 			return stores[i].items[j];
 		},
-		
+
 		pizza: function( i ) {
 			return pizzas[i];
 		}
-		
+
 	});
 };
