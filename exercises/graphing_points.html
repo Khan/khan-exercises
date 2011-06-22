@@ -10,7 +10,7 @@
 				<var id="POINTS">
 					(function() {
 						var points = [];
-						
+
 						while( points.length &lt; 5 ) {
 							var point = [ randRange( -9, 9 ), randRange( -9, 9 ) ];
 							var isUnique = true;
@@ -31,7 +31,7 @@
 
             <div class="problems">
                 <div>
-                    <p class="question">Which of these coordinates is not graphed?</p>
+                    <p class="question">Which of these coordinate pairs is not graphed?</p>
 					<div class="graphie" id="grid">
 						(function() {
 							init({
@@ -57,17 +57,17 @@
 								style({
 									stroke: "#6495ED",
 									fill: "#6495ED"
-								}, 	function() {
+								}, function() {
 										circle( point, 0.15 );
 								});
 
-							});							
+							});
 						})()
 					</div>
                     <p class="solution"><code>(<var>POINTS[0].join( ", " )</var>)</code></p>
 					<ul class="choices">
 						<li><code>(<var>POINTS[1].join( ", " )</var>)</code></li>
-						<li><code>(<var>POINTS[2].join( ", " )</var>)</code></li>						
+						<li><code>(<var>POINTS[2].join( ", " )</var>)</code></li>
 						<li><code>(<var>POINTS[3].join( ", " )</var>)</code></li>
 						<li><code>(<var>POINTS[4].join( ", " )</var>)</code></li>
 					</ul>
