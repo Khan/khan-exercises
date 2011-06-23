@@ -107,7 +107,6 @@ jQuery.tmpl = {
 				return jQuery( "<var>" )
 					.attr( "id", elem.id )
 					.append( jQuery( elem ).children().getRandom().contents() )[0];
-					console.log(x.outerHTML);return x
 			}
 		},
 
