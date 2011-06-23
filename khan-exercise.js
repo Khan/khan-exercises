@@ -41,7 +41,7 @@ var Khan = {
 			MathJax.Hub.Startup.onload();'
 		}, "raphael" ],
 
-		// Locally because IE8 has a problem with the 1.5.2 minified raphael release
+		// Load Raphael locally because IE8 has a problem with the 1.5.2 minified release
 		// http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
 
 		// The normal module dependencies.
