@@ -18,66 +18,21 @@
 					<var id="EQ1">expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var>
 					<var id="EQ2">expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var>
 				</div>
-				<div class="question">Which fills in the blank the best? The below equations represent lines which are __________.</div>
-				<p><code><var>EQ1</var></code></p>
-				<p><code><var>EQ2</var></code></p>
+				<div class="question">
+					<p>What do the following two equations represent?</p>
+					<p><code><var>EQ1</var></code></p>
+					<p><code><var>EQ2</var></code></p>
+				</div>
+
 				<div class="solution">None of the above</div>
 				<ul class="choices" data-category="true">
-					<li>Equivalent</li>
-					<li>Parallel</li>
-					<li>Perpendicular</li>
+					<li>Equivalent lines</li>
+					<li>Parallel lines</li>
+					<li>Perpendicular lines</li>
 					<li>None of the above</li>
 				</ul>
-				<div class="hints">
-					<div>
-						<div class="graphie" id="grid">
-							(function(){
-								init({
-									range: [[-10, 10], [-10, 10]],
-									scale: [20, 20]
-								});
-
-								grid( [-10, 10], [-10, 10], {
-									stroke: "#ccc"
-								});
-
-								style({
-									stroke: "#888",
-									strokeWidth: 2
-								});
-								path( [ [-10, 0], [10, 0] ] );
-								path( [ [0, -10], [0, 10] ] );
-
-								style({
-									stroke: "#6495ED"
-								})
-
-								plot( function( x ) {
-									return ( C1 / B1 ) - ( A1 / B1 ) * x;
-								}, [-10, 10]);								
-							})()
-						</div>
-						<p>Putting the first equation in <code>y = mx + b</code> form gives:</p>
-						<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var></code></p>
-						<p><code><var>expr(["*", B1, "y"]) + " = " + expr(["+", ["*", (-1 * A1), "x"], C1])</var></code></p>
-						<p><code><var>"y = " + fractionReduce( -A1, B1 ) + "x + " + fractionReduce( C1, B1 )</var></code></p>
-					</div>
-
-					<div>
-						<div class="graphie" data-update="grid">
-							(function() {
-								plot( function( x ) {
-									return ( C2 / B2 ) - ( A2 / B2 ) * x;
-								}, [-10, 10]);								
-							})()
-						</div>
-						<p>Putting the second equation in <code>y = mx + b</code> form gives:</p>
-						<p><code><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var></code></p>
-						<p><code><var>expr(["*", B2, "y"]) + " = " + expr(["+", ["*", (-1 * A2), "x"], C2])</var></code></p>
-						<p><code><var>"y = " + fractionReduce( -A2, B2 ) + "x + " + fractionReduce( C2, B2 )</var></code></p>
-					</div>
-
-					<p>The slopes are not the same, so the lines are not equivalent or parallel. The slopes are not negative inverses of each other, so the lines are not perpendicular. The correct answer is none of the above.</p>
+				<div class="hints" data-apply="appendContents">
+					<p>The slopes are not the same, so the lines are not equivalent nor parallel. The slopes are not negative inverses of each other, so the lines are not perpendicular. The correct answer is none of the above.</p>
 				</div>
 			</div>
 			
@@ -93,73 +48,27 @@
 					<var id="EQ1">expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var>
 					<var id="EQ2">expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var>
 				</div>
-				<div class="question">Which fills in the blank the best? The below equations represent lines which are __________.</div>
-				<p><code><var>EQ1</var></code></p>
-				<p><code><var>EQ2</var></code></p>
+				<div class="question">
+					<p>What do the following two equations represent?</p>
+					<p><code><var>EQ1</var></code></p>
+					<p><code><var>EQ2</var></code></p>
+				</div>
 		
-				<div class="solution">Equivalent</div>
+				<div class="solution">Equivalent lines</div>
 				<ul class="choices" data-category="true">
-					<li>Equivalent</li>
-					<li>Parallel</li>
-					<li>Perpendicular</li>
+					<li>Equivalent lines</li>
+					<li>Parallel lines</li>
+					<li>Perpendicular lines</li>
 					<li>None of the above</li>
 				</ul>
 				
-				<div class="hints">
-					<div>
-						<div class="graphie" id="grid">
-							(function(){
-								init({
-									range: [[-10, 10], [-10, 10]],
-									scale: [20, 20]
-								});
-
-								grid( [-10, 10], [-10, 10], {
-									stroke: "#ccc"
-								});
-
-								style({
-									stroke: "#888",
-									strokeWidth: 2
-								});
-								path( [ [-10, 0], [10, 0] ] );
-								path( [ [0, -10], [0, 10] ] );
-
-								style({
-									stroke: "#6495ED"
-								})
-
-								plot( function( x ) {
-									return ( C1 / B1 ) - ( A1 / B1 ) * x;
-								}, [-10, 10]);								
-							})()
-						</div>
-						<p>Putting the first equation in <code>y = mx + b</code> form gives:</p>
-						<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var></code></p>
-						<p><code><var>expr(["*", B1, "y"]) + " = " + expr(["+", ["*", (-1 * A1), "x"], C1])</var></code></p>
-						<p><code><var>"y = " + fractionReduce( -A1, B1 ) + "x + " + fractionReduce( C1, B1 )</var></code></p>
-					</div>
-
-					<div>
-						<div class="graphie" data-update="grid">
-							(function() {
-								plot( function( x ) {
-									return ( C2 / B2 ) - ( A2 / B2 ) * x;
-								}, [-10, 10]);								
-							})()
-						</div>
-						<p>Putting the second equation in <code>y = mx + b</code> form gives:</p>
-						<p><code><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var></code></p>
-						<p><code><var>expr(["*", B2, "y"]) + " = " + expr(["+", ["*", (-1 * A2), "x"], C2])</var></code></p>
-						<p><code><var>"y = " + fractionReduce( -A2, B2 ) + "x + " + fractionReduce( C2, B2 )</var></code></p>
-					</div>
-
+				<div class="hints" data-apply="appendContents">
 					<p>The above equations turn into the same equation, so they represent the same line.</p>				
 				</div>
 			</div>
 			
 			<div id="parallel">
-				<div class="vars" data-ensure="C1 !== C2">
+				<div class="vars" data-ensure="C1 * F !== C2">
 					<var id="A1">randRangeNonZero( -5, 5 )</var>
 					<var id="B1">randRangeNonZero( -5, 5 )</var>
 					<var id="C1">randRangeNonZero( -5, 5 )</var>
@@ -170,68 +79,20 @@
 					<var id="EQ1">expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var>
 					<var id="EQ2">expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var>
 				</div>
-				<div class="question">Which fills in the blank the best? The below equations represent lines which are __________.</div>
-				<p><code><var>EQ1</var></code></p>
-				<p><code><var>EQ2</var></code></p>
-
+				<div class="question">
+					<p>What do the following two equations represent?</p>
+					<p><code><var>EQ1</var></code></p>
+					<p><code><var>EQ2</var></code></p>
+				</div>
 				<div class="solution">Parallel</div>
 				<ul class="choices" data-category="true">
-					<li>Equivalent</li>
-					<li>Parallel</li>
-					<li>Perpendicular</li>
+					<li>Equivalent lines</li>
+					<li>Parallel lines</li>
+					<li>Perpendicular lines</li>
 					<li>None of the above</li>
 				</ul>
-
-				<div class="hints">
-					<div>
-						<div class="graphie" id="grid">
-							(function(){
-								init({
-									range: [[-10, 10], [-10, 10]],
-									scale: [20, 20]
-								});
-
-								grid( [-10, 10], [-10, 10], {
-									stroke: "#ccc"
-								});
-
-								style({
-									stroke: "#888",
-									strokeWidth: 2
-								});
-								path( [ [-10, 0], [10, 0] ] );
-								path( [ [0, -10], [0, 10] ] );
-
-								style({
-									stroke: "#6495ED"
-								})
-
-								plot( function( x ) {
-									return ( C1 / B1 ) - ( A1 / B1 ) * x;
-								}, [-10, 10]);								
-							})()
-						</div>
-						<p>Putting the first equation in <code>y = mx + b</code> form gives:</p>
-						<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var></code></p>
-						<p><code><var>expr(["*", B1, "y"]) + " = " + expr(["+", ["*", (-1 * A1), "x"], C1])</var></code></p>
-						<p><code><var>"y = " + fractionReduce( -A1, B1 ) + "x + " + fractionReduce( C1, B1 )</var></code></p>
-					</div>
-
-					<div>
-						<div class="graphie" data-update="grid">
-							(function() {
-								plot( function( x ) {
-									return ( C2 / B2 ) - ( A2 / B2 ) * x;
-								}, [-10, 10]);								
-							})()
-						</div>
-						<p>Putting the second equation in <code>y = mx + b</code> form gives:</p>
-						<p><code><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var></code></p>
-						<p><code><var>expr(["*", B2, "y"]) + " = " + expr(["+", ["*", (-1 * A2), "x"], C2])</var></code></p>
-						<p><code><var>"y = " + fractionReduce( -A2, B2 ) + "x + " + fractionReduce( C2, B2 )</var></code></p>
-					</div>
-
-					<p>The slopes are the same but their y-intercepts are not, so the two lines are parallel.</p>				
+				<div class="hints" data-apply="appendContents">
+					<p>The slopes are equal, so the lines are parallel.</p>
 				</div>
 			</div>
 			
@@ -240,78 +101,78 @@
 					<var id="A1">randRangeNonZero( -5, 5 )</var>
 					<var id="B1">randRangeNonZero( -5, 5 )</var>
 					<var id="C1">randRangeNonZero( -5, 5 )</var>
-					<var id="F">randRangeNonZero( -5, 5 )</var>
-					<var id="A2"> -1 * B1</var>
-					<var id="B2">A1</var>
-					<var id="C2">C1 * F</var>
+					<var id="F">randRange( 1, 5 )</var>
+					<var id="A2"> -1 * B1 * F</var>
+					<var id="B2">A1 * F</var>
+					<var id="C2">randRangeNonZero( -5, 5 )</var>
 					<var id="EQ1">expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var>
 					<var id="EQ2">expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var>
 				</div>
-				<div class="question">Which fills in the blank the best? The below equations represent lines which are __________.</div>
-				<p><code><var>EQ1</var></code></p>
-				<p><code><var>EQ2</var></code></p>
+				<div class="question">
+					<p>What do the following two equations represent?</p>
+					<p><code><var>EQ1</var></code></p>
+					<p><code><var>EQ2</var></code></p>
+				</div>
 
 				<div class="solution">Perpendicular</div>
 				<ul class="choices" data-category="true">
-					<li>Equivalent</li>
-					<li>Parallel</li>
-					<li>Perpendicular</li>
+					<li>Equivalent lines</li>
+					<li>Parallel lines</li>
+					<li>Perpendicular lines</li>
 					<li>None of the above</li>
 				</ul>
-				
-				<div class="hints">
-					<div>
-						<div class="graphie" id="grid">
-							(function(){
-								init({
-									range: [[-10, 10], [-10, 10]],
-									scale: [20, 20]
-								});
-
-								grid( [-10, 10], [-10, 10], {
-									stroke: "#ccc"
-								});
-
-								style({
-									stroke: "#888",
-									strokeWidth: 2
-								});
-								path( [ [-10, 0], [10, 0] ] );
-								path( [ [0, -10], [0, 10] ] );
-
-								style({
-									stroke: "#6495ED"
-								})
-
-								plot( function( x ) {
-									return ( C1 / B1 ) - ( A1 / B1 ) * x;
-								}, [-10, 10]);								
-							})()
-						</div>
-						<p>Putting the first equation in <code>y = mx + b</code> form gives:</p>
-						<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var></code></p>
-						<p><code><var>expr(["*", B1, "y"]) + " = " + expr(["+", ["*", (-1 * A1), "x"], C1])</var></code></p>
-						<p><code><var>"y = " + fractionReduce( -A1, B1 ) + "x + " + fractionReduce( C1, B1 )</var></code></p>
-					</div>
-
-					<div>
-						<div class="graphie" data-update="grid">
-							(function() {
-								plot( function( x ) {
-									return ( C2 / B2 ) - ( A2 / B2 ) * x;
-								}, [-10, 10]);								
-							})()
-						</div>
-						<p>Putting the second equation in <code>y = mx + b</code> form gives:</p>
-						<p><code><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var></code></p>
-						<p><code><var>expr(["*", B2, "y"]) + " = " + expr(["+", ["*", (-1 * A2), "x"], C2])</var></code></p>
-						<p><code><var>"y = " + fractionReduce( -A2, B2 ) + "x + " + fractionReduce( C2, B2 )</var></code></p>
-					</div>
-
+				<div class="hints" data-apply="appendContents">
 					<p>The slopes are negative inverses of each other, so the lines are perpendicular.</p>				
 				</div>
 			</div>
 		</div>
+		<div class="hints">
+			<div>
+				<div class="graphie" id="grid">
+					(function(){
+						init({
+							range: [[-10, 10], [-10, 10]],
+							scale: [20, 20]
+						});
+
+						grid( [-10, 10], [-10, 10], {
+							stroke: "#ccc"
+						});
+
+						style({
+							stroke: "#888",
+							strokeWidth: 2
+						});
+						path( [ [-10, 0], [10, 0] ] );
+						path( [ [0, -10], [0, 10] ] );
+
+						style({
+							stroke: "#6495ED"
+						})
+
+						plot( function( x ) {
+							return ( C1 / B1 ) - ( A1 / B1 ) * x;
+						}, [-10, 10]);								
+					})()
+				</div>
+				<p>Putting the first equation in <code>y = mx + b</code> form gives:</p>
+				<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var></code></p>
+				<p><code><var>expr(["*", B1, "y"]) + " = " + expr(["+", ["*", (-1 * A1), "x"], C1])</var></code></p>
+				<p><code><var>"y = " + fractionReduce( -A1, B1 ) + "x + " + fractionReduce( C1, B1 )</var></code></p>
+			</div>
+			<div>
+				<div class="graphie" data-update="grid">
+					(function() {
+						plot( function( x ) {
+							return ( C2 / B2 ) - ( A2 / B2 ) * x;
+						}, [-10, 10]);								
+					})()
+				</div>
+				<p>Putting the second equation in <code>y = mx + b</code> form gives:</p>
+				<p><code><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var></code></p>
+				<p><code><var>expr(["*", B2, "y"]) + " = " + expr(["+", ["*", (-1 * A2), "x"], C2])</var></code></p>
+				<p><code><var>"y = " + fractionReduce( -A2, B2 ) + "x + " + fractionReduce( C2, B2 )</var></code></p>
+			</div>
 	</div>
 </body>
 </html>
