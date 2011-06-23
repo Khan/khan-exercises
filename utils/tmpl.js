@@ -59,7 +59,7 @@ jQuery.tmpl = {
 		"var": function( elem, value ) {
 			if ( !value && elem.getElementsByTagName("*").length > 0 ) {
 				return function( elem ) {
-					return jQuery.tmpl.elem["var"]( elem, elem.innerHTML );
+					return jQuery.tmpl.type["var"]( elem, elem.innerHTML );
 				};
 			}
 
