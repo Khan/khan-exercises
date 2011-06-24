@@ -288,7 +288,8 @@ var createGraph = function( el ) {
 				result = drawingTools[ name ].apply( drawingTools, arguments );
 			}
 
-			if ( result != null ) {
+			// Bad heuristic for recognizing Raphael elements and sets
+			if ( ( result.node && result.node.raphael ) || result.type === "set" ) {
 				result.attr( currentStyle );
 			}
 
