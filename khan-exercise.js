@@ -590,9 +590,11 @@ var Khan = {
 
 				if( show ) {
 					button.val( "Try current problem" );
+					jQuery( "#workarea" ).empty();
+					jQuery( "#hintsarea" ).empty();
 					for ( var i = 0; i < 10; i++ ) {
-						jQuery( "#workarea" ).append( jQuery( "<hr/>" ) );
 						Khan.makeProblem();
+						jQuery( "#workarea" ).append( jQuery( "<hr/>" ) );
 					}
 				} else {
 					button.val( "Show next 10 problems" );
