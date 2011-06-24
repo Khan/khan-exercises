@@ -189,7 +189,7 @@ var Khan = {
 	// Add up how much total weight is in each exercise so we can adjust for
 	// it later
 	weighExercises: function( problems ) {
-		if ( jQuery( ".exercise" ).length > 1 ) {
+		if ( jQuery( "body > .exercise" ).length > 1 ) {
 			jQuery.map( problems, function( elem ) {
 				elem = jQuery( elem );
 
@@ -270,7 +270,7 @@ var Khan = {
 
 		// Check to see if we want to test a specific problem
 		if ( Khan.query.problem ) {
-			var problems = jQuery( ".exercise .problems" ).children();
+			var problems = jQuery( "body > .exercise > .problems" ).children();
 
 			problemID = Khan.query.problem;
 			problem = /^\d+$/.test( problemID ) ?
@@ -301,7 +301,7 @@ var Khan = {
 
 		while ( parentType ) {
 			// Copy over the parent element to the child
-			var original = jQuery("#" + parentType).clone();
+			var original = exercise.children( "#" + parentType ).clone();
 			problem.prepend( original.children().data( "inherited", true ) );
 
 			// Keep copying over the parent elements (allowing for deep inheritance)
@@ -336,7 +336,7 @@ var Khan = {
 		jQuery( "#rawhintsarea" ).hide();
 
 		// Run the main method of any modules
-		problem.runModules();
+		problem.runModules( problem );
 
 		// Store the solution to the problem
 		var solution = problem.find(".solution"),
@@ -403,7 +403,7 @@ var Khan = {
 		Khan.hints = Khan.hints
 
 			// Run the "Load" method of any modules. This will render the hints
-			.runModules( "Load" )
+			.runModules( problem, "Load" )
 
 			// Save as a normal JS array so we can use shift() on it later
 			.children().get();
@@ -560,7 +560,7 @@ var Khan = {
 					jQuery( "#rawhintsarea" ).append( $hint ).find( "[id]" ).tmplApply().end()
 
 						// Re-render all the hints
-						.clone().runModules( "Load" ).runModules()
+						.clone().runModules( problem, "Load" ).runModules( problem)
 
 						// Replace the previously rendered hints
 						.replaceAll( "#hintsarea" ).show().attr( "id", "hintsarea" );
@@ -571,7 +571,7 @@ var Khan = {
 					$hint.appendTo( "#rawhintsarea" );
 
 					// Reveal the rendered hint
-					$render.runModules().appendTo( "#hintsarea" );
+					$render.runModules( problem ).appendTo( "#hintsarea" );
 
 				}
 
@@ -712,7 +712,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 		});
 	};
 
-	var remoteExercises = jQuery( ".exercise[data-src]" );
+	var remoteExercises = jQuery( "body > .exercise[data-src]" );
 
 	if ( remoteExercises.length ) {
 		remoteExercises.each( loadExercise );
@@ -733,7 +733,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 
 				// Prepare the "random" problems
 				if ( !Khan.query.problem ) {
-					var problems = jQuery( ".exercise .problems" ).children();
+					var problems = jQuery( "body > .exercise > .problems" ).children();
 
 					Khan.weighExercises( problems );
 					Khan.problemBag = Khan.makeProblemBag( problems, Khan.problemCount );
@@ -752,7 +752,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 		},
 
 		// Run the methods provided by a module against some elements
-		runModules: function( type ) {
+		runModules: function( problem, type ) {
 			type = type || "";
 
 			return this.each(function( i, elem ) {
@@ -762,7 +762,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 				jQuery.each( Khan.modules, function( src, mod ) {
 					var name = mod.name;
 					if ( jQuery.fn[ name + type ] ) {
-						elem[ name + type ]();
+						elem[ name + type ]( problem );
 					}
 				});
 			});

@@ -313,7 +313,7 @@ var createGraph = function( el ) {
 	return graphie;
 };
 
-jQuery.fn.graphie = function() {
+jQuery.fn.graphie = function( problem ) {
 	return this.find(".graphie").add(this.filter(".graphie")).each(function() {
 		// Grab code for later execution
 		var code = jQuery( this ).text(), graphie;
@@ -324,7 +324,7 @@ jQuery.fn.graphie = function() {
 		// Initialize the graph
 		if ( jQuery( this ).data( "update" ) ) {
 			var id = jQuery( this ).data( "update" );
-			graphie = jQuery( "#" + id ).data( "graphie" );
+			graphie = problem.children( "#" + id ).data( "graphie" );
 		} else {
 			graphie = createGraph( this );
 			jQuery( this ).data( "graphie", graphie );
