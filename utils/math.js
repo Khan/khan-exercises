@@ -244,6 +244,18 @@ jQuery.extend(KhanUtil, {
 		return arr[ KhanUtil.rand( arr.length ) ];
 	},
 
+	// Returns a random member of the given array that is never any of the values
+	// in the excludes array.
+	randFromArrayExclude: function( arr, excludes ) {
+		var cleanArr = [];
+		for ( var i = 0; i < arr.length; i++ ) {
+			if ( excludes.indexOf( arr[i] ) === -1 ) {
+				cleanArr.push( arr[i] );
+			}
+		}
+		return KhanUtil.randFromArray( cleanArr );
+	},
+
 	// Round a number to a certain number of decimal places
 	roundTo: function( precision, num ) {
 		var factor = Math.pow( 10, precision ).toFixed(5);
