@@ -326,6 +326,6 @@ jQuery.fn.graphie = function() {
 		// Execute the graph-specific code
 		KhanUtil.currentGraph = graphie;
 		jQuery.tmpl.getVAR( code, graphie );
-		delete KhanUtil.currentGraph;
+		// delete KhanUtil.currentGraph;
 	}).end();
 };
