@@ -290,15 +290,12 @@ jQuery.fn.tmpl = function() {
 			elem = newElem;
 		}
 
-		for ( var type in jQuery.tmpl.type ) {
-			if ( elem.nodeName.toLowerCase() === type ) {
-				ret = jQuery.tmpl.type[ type ]( elem );
+		var type = elem.nodeName.toLowerCase();
+		if ( jQuery.tmpl.type[ type ] != null ) {
+			ret = jQuery.tmpl.type[ type ]( elem );
 
-				if ( typeof ret === "function" ) {
-					post.push( ret );
-				}
-
-				break;
+			if ( typeof ret === "function" ) {
+				post.push( ret );
 			}
 		}
 
