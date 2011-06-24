@@ -69,6 +69,16 @@ jQuery.tmpl = {
 
 			// If a name was specified then we're going to load the value
 			if ( name ) {
+
+				function setVAR( name, value ) {
+					// Show an error if a variable definition is overriding a built-in method
+					if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
+						Khan.error( "Defining variable '" + name + "' overwrites utility property of same name." );
+					}
+
+					jQuery.tmpl.VARS[ name ] = value;
+				}
+
 				// Destructuring an array?
 				if ( name.indexOf( "," ) !== -1 ) {
 					var parts = name.split(/\s*,\s*/);
@@ -83,15 +93,6 @@ jQuery.tmpl = {
 				// Just a normal assignment
 				} else {
 					setVAR( name, value );
-				}
-
-				function setVAR( name, value ) {
-					// Show an error if a variable definition is overriding a built-in method
-					if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
-						Khan.error( "Defining variable '" + name + "' overwrites utility property of same name." );
-					}
-
-					jQuery.tmpl.VARS[ name ] = value;
 				}
 
 			// No value was specified so we replace it with a text node of the value
