@@ -18,16 +18,16 @@
 
 				functionPath.push([ -11, randRange( -5, 5 ) ]);
 				for( var i = -10; i < 11; i++ ) {
-					if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] < 8 ) {
+					if ( abs( randRangeNonZero( -10, 10 ) < 2 ) &amp;&amp; functionPath[i+10][1] < 8 ) {
 						functionPath.push([i, functionPath[i+10][1]+1]);
 
-					} else if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] > -8 ) {
+					} else if ( abs( randRangeNonZero( -10, 10 ) < 2 ) &amp;&amp; functionPath[i+10][1] > -8 ) {
 						functionPath.push([i, functionPath[i+10][1]-1]);
 
-					} else if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] < 7 ) {
+					} else if ( abs( randRangeNonZero( -10, 10 ) < 2 ) &amp;&amp; functionPath[i+10][1] < 7 ) {
 						functionPath.push([i, functionPath[i+10][1]+2]);
 
-					} else if ( abs( randRangeNonZero( -10, 10 ) < 3 ) && functionPath[i+10][1] > -7 ) {
+					} else if ( abs( randRangeNonZero( -10, 10 ) < 3 ) &amp;&amp; functionPath[i+10][1] > -7 ) {
 						functionPath.push([i, functionPath[i+10][1]-2]);
 
 					} else {
