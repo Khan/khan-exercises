@@ -35,7 +35,7 @@ var createGraph = function( el ) {
 			if ( num === 0 ) {
 				return num;
 			} else if ( num < 0 ) {
-				return -boundNumber( num );
+				return -boundNumber( -num );
 			} else {
 				return Math.max( 1e-6, Math.min( num, 1e20 ) );
 			}
