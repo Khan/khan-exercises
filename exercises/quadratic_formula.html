@@ -27,8 +27,8 @@
 					var good_gcd = getGCD( A, B, C );
 					var bad_gcd = getGCD( bad_a, bad_b, bad_c );
 
-					while ((	(A*bad_gcd)==(bad_a*good_gcd) &amp;&amp;
-								(B*bad_gcd)==(bad_b*good_gcd) &amp;&amp;
+					while ((	(A*bad_gcd)==(bad_a*good_gcd) &&
+								(B*bad_gcd)==(bad_b*good_gcd) &&
 								(C*bad_gcd)==(bad_c*good_gcd) ) ||
 
 								(( (bad_b * bad_b) - (4 * bad_a * bad_c) ) < 0))
@@ -88,7 +88,7 @@
 			</div>
 
 			<div>
-				<div data-if="DISC_FACTOR[0] > 1 &amp;&amp; abs(DISC_FACTOR[1]) != 1">
+				<div data-if="DISC_FACTOR[0] > 1 && bs(DISC_FACTOR[1]) != 1">
 					<!-- The number under the radical can be factored as a perfect square and a number (other than 1) times a perfect square -->
 					<p><code>x = <var>expr(["frac", ["+-", -1 * B, ["sqrt", ["*", DISC_FACTOR[1], DISC_FACTOR[0] ] ]],
 													2 * A])</var></code></p>

@@ -87,24 +87,24 @@
 			<p data-if="ADDITION_TABLE[3]">carry <var>ADDITION_TABLE[3]</var></p>
 			<!-- fourth addition -->
 			<!-- there is a fourth digit in DIGITS-->
-				<p data-if="DIGITS[3] &amp;&amp; ADDITION_TABLE[3]"><var>DIGITS[3]</var> + <var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>DIGITS[3] + EX_DIGITS2[3] + EX_DIGITS3[3] + ADDITION_TABLE[3]</var></p>
-				<p data-if="DIGITS[3] &amp;&amp; !ADDITION_TABLE[3]"><var>DIGITS[3]</var> + <var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> = <var>DIGITS[3] + EX_DIGITS2[3] + EX_DIGITS3[3]</var></p>
-				<p data-if="DIGITS[3] &amp;&amp; ADDITION_TABLE[4]">carry <var>ADDITION_TABLE[4]</var></p>
+				<p data-if="DIGITS[3] && DDITION_TABLE[3]"><var>DIGITS[3]</var> + <var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>DIGITS[3] + EX_DIGITS2[3] + EX_DIGITS3[3] + ADDITION_TABLE[3]</var></p>
+				<p data-if="DIGITS[3] && !ADDITION_TABLE[3]"><var>DIGITS[3]</var> + <var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> = <var>DIGITS[3] + EX_DIGITS2[3] + EX_DIGITS3[3]</var></p>
+				<p data-if="DIGITS[3] && DDITION_TABLE[4]">carry <var>ADDITION_TABLE[4]</var></p>
 			<!-- there is no fourth digit in DIGITS-->
-				<p data-if="!DIGITS[3] &amp;&amp; ADDITION_TABLE[3]"><var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>EX_DIGITS2[3] + EX_DIGITS3[3] + ADDITION_TABLE[3]</var></p>
-				<p data-if="!DIGITS[3] &amp;&amp; !ADDITION_TABLE[3]"><var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> = <var>EX_DIGITS2[3] + EX_DIGITS3[3]</var></p>
-				<p data-if="!DIGITS[3] &amp;&amp; ADDITION_TABLE[4]">carry <var>ADDITION_TABLE[4]</var></p>
+				<p data-if="!DIGITS[3] && DDITION_TABLE[3]"><var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>EX_DIGITS2[3] + EX_DIGITS3[3] + ADDITION_TABLE[3]</var></p>
+				<p data-if="!DIGITS[3] && !ADDITION_TABLE[3]"><var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> = <var>EX_DIGITS2[3] + EX_DIGITS3[3]</var></p>
+				<p data-if="!DIGITS[3] && DDITION_TABLE[4]">carry <var>ADDITION_TABLE[4]</var></p>
 			<!-- fifth addition -->
 			<!-- there is a fifth digit in EX_DIGITS2-->
-				<p data-if="EX_DIGITS2[4] &amp;&amp; ADDITION_TABLE[4]"><var>EX_DIGITS2[4]</var> + <var>EX_DIGITS3[4]</var> + <var>ADDITION_TABLE[4]</var> = <var>EX_DIGITS2[4] + EX_DIGITS3[4] + ADDITION_TABLE[4]</var></p>
+				<p data-if="EX_DIGITS2[4] && DDITION_TABLE[4]"><var>EX_DIGITS2[4]</var> + <var>EX_DIGITS3[4]</var> + <var>ADDITION_TABLE[4]</var> = <var>EX_DIGITS2[4] + EX_DIGITS3[4] + ADDITION_TABLE[4]</var></p>
 				<p data-else data-if="EX_DIGITS2[4]"><var>EX_DIGITS2[4]</var> + <var>EX_DIGITS3[4]</var> = <var>EX_DIGITS2[4] + EX_DIGITS3[4]</var></p>
-				<p data-if="EX_DIGITS2[4] &amp;&amp; ADDITION_TABLE[5] &amp;&amp; EX_DIGITS3[5]">carry <var>ADDITION_TABLE[5]</var></p>
-				<p data-if="EX_DIGITS2[4] &amp;&amp; ADDITION_TABLE[5] &amp;&amp; EX_DIGITS3[5]"><var>ADDITION_TABLE[5]</var> + <var>EX_DIGITS3[5]</var> = <var>EX_DIGITS3[5] + ADDITION_TABLE[5]</var></p>
-				<p data-if="EX_DIGITS2[4] &amp;&amp; !ADDITION_TABLE[5] &amp;&amp; EX_DIGITS3[5]">pull down <var>EX_DIGITS3[5]</var></p>
+				<p data-if="EX_DIGITS2[4] && DDITION_TABLE[5] && X_DIGITS3[5]">carry <var>ADDITION_TABLE[5]</var></p>
+				<p data-if="EX_DIGITS2[4] && DDITION_TABLE[5] && X_DIGITS3[5]"><var>ADDITION_TABLE[5]</var> + <var>EX_DIGITS3[5]</var> = <var>EX_DIGITS3[5] + ADDITION_TABLE[5]</var></p>
+				<p data-if="EX_DIGITS2[4] && !ADDITION_TABLE[5] && X_DIGITS3[5]">pull down <var>EX_DIGITS3[5]</var></p>
 			<!-- there is no fifth digit in EX_DIGITS2-->
-				<p data-if="!EX_DIGITS2[4] &amp;&amp; ADDITION_TABLE[4]"><var>EX_DIGITS3[4]</var> + <var>ADDITION_TABLE[4]</var> = <var>EX_DIGITS3[4] + ADDITION_TABLE[4]</var></p>
-				<p data-if="!EX_DIGITS2[4] &amp;&amp; !ADDITION_TABLE[4]">pull down <var>EX_DIGITS3[5]</var><var>EX_DIGITS3[4]</var></p>
-				<p data-if="!EX_DIGITS2[4] &amp;&amp; ADDITION_TABLE[4] &amp;&amp; EX_DIGITS3[5]">pull down <var>EX_DIGITS3[5]</var></p>
+				<p data-if="!EX_DIGITS2[4] && DDITION_TABLE[4]"><var>EX_DIGITS3[4]</var> + <var>ADDITION_TABLE[4]</var> = <var>EX_DIGITS3[4] + ADDITION_TABLE[4]</var></p>
+				<p data-if="!EX_DIGITS2[4] && !ADDITION_TABLE[4]">pull down <var>EX_DIGITS3[5]</var><var>EX_DIGITS3[4]</var></p>
+				<p data-if="!EX_DIGITS2[4] && DDITION_TABLE[4] && X_DIGITS3[5]">pull down <var>EX_DIGITS3[5]</var></p>
 			<p>The sum is <var>RESULT*pow(10, A_SHIFT+B_SHIFT)</var></p>
 			<p>The first multiplicand has <var>A_SHIFT</var> digits after the decimal.</p>
 			<p>The second multiplicand has <var>B_SHIFT</var> digits after the decimal.</p>

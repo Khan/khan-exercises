@@ -67,15 +67,15 @@
 		<p data-if="ADDITION_TABLE[3]">carry <var>ADDITION_TABLE[3]</var></p>
 		<!-- fourth addition -->
 		<!-- there is a fourth digit in DIGITS-->
-		<p data-if="DIGITS[3] &amp;&amp; ADDITION_TABLE[3]"><var>DIGITS[3]</var> + <var>EX_DIGITS2[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>DIGITS[3] + EX_DIGITS2[3] + ADDITION_TABLE[3]</var></p>
+		<p data-if="DIGITS[3] && DDITION_TABLE[3]"><var>DIGITS[3]</var> + <var>EX_DIGITS2[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>DIGITS[3] + EX_DIGITS2[3] + ADDITION_TABLE[3]</var></p>
 		<p data-else data-if="DIGITS[3]"><var>DIGITS[3]</var> + <var>EX_DIGITS2[3]</var> = <var>DIGITS[3] + EX_DIGITS2[3]</var></p>
-		<p data-if="DIGITS[3] &amp;&amp; ADDITION_TABLE[4] &amp;&amp; EX_DIGITS2[4]">carry <var>ADDITION_TABLE[4]</var></p>
-		<p data-if="DIGITS[3] &amp;&amp; ADDITION_TABLE[4] &amp;&amp; EX_DIGITS2[4]"><var>ADDITION_TABLE[4]</var> + <var>EX_DIGITS2[4]</var> = <var>EX_DIGITS2[4] + ADDITION_TABLE[4]</var></p>
-		<p data-if="DIGITS[3] &amp;&amp; !ADDITION_TABLE[4] &amp;&amp; EX_DIGITS2[4]">pull down <var>EX_DIGITS2[4]</var></p>
+		<p data-if="DIGITS[3] && DDITION_TABLE[4] && X_DIGITS2[4]">carry <var>ADDITION_TABLE[4]</var></p>
+		<p data-if="DIGITS[3] && DDITION_TABLE[4] && X_DIGITS2[4]"><var>ADDITION_TABLE[4]</var> + <var>EX_DIGITS2[4]</var> = <var>EX_DIGITS2[4] + ADDITION_TABLE[4]</var></p>
+		<p data-if="DIGITS[3] && !ADDITION_TABLE[4] && X_DIGITS2[4]">pull down <var>EX_DIGITS2[4]</var></p>
 		<!-- there is no fourth digit in DIGITS-->
-		<p data-if="!DIGITS[3] &amp;&amp; ADDITION_TABLE[3]"><var>EX_DIGITS2[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>EX_DIGITS2[3] + ADDITION_TABLE[3]</var></p>
-		<p data-if="!DIGITS[3] &amp;&amp; !ADDITION_TABLE[3]">pull down <var>EX_DIGITS2[4]</var><var>EX_DIGITS2[3]</var></p>
-		<p data-if="!DIGITS[3] &amp;&amp; ADDITION_TABLE[3] &amp;&amp; EX_DIGITS2[4]">pull down <var>EX_DIGITS2[4]</var></p>
+		<p data-if="!DIGITS[3] && DDITION_TABLE[3]"><var>EX_DIGITS2[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>EX_DIGITS2[3] + ADDITION_TABLE[3]</var></p>
+		<p data-if="!DIGITS[3] && !ADDITION_TABLE[3]">pull down <var>EX_DIGITS2[4]</var><var>EX_DIGITS2[3]</var></p>
+		<p data-if="!DIGITS[3] && DDITION_TABLE[3] && X_DIGITS2[4]">pull down <var>EX_DIGITS2[4]</var></p>
 		<p>The final result is <var>A*B</var></p>
 		</div>
 	</div>

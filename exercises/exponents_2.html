@@ -67,7 +67,7 @@
 				<div class="hints">
 					<!-- FIXME: could be made nicer with ifs that unwrap -->
 
-					<p data-if="abs( EXP ) > 1 &amp;&amp; EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>EXP</var>}</code></p>
+					<p data-if="abs( EXP ) > 1 && XP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>EXP</var>}</code></p>
 					<p data-if="abs( EXP ) > 1" data-each="expandFractionExponent( BASEF_N, BASEF_D, EXP ) as v"><code>= <var>v</var></code></p>
 					<p data-else><code>= <var>frac( SOL_N, SOL_D )</var></code></p>
 				</div>

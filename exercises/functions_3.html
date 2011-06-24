@@ -6,7 +6,7 @@
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars" data-ensure="INNER.name !== OUTER.name &amp;&amp; INNER.minDegree <= INNER.maxDegree &amp;&amp; OUTER.minDegree <= OUTER.maxDegree">
+		<div class="vars" data-ensure="INNER.name !== OUTER.name && NNER.minDegree <= INNER.maxDegree && UTER.minDegree <= OUTER.maxDegree">
 			<var id="FUNC_NAMES">["f", "g", "h"]</var>
 			<var id="FUNC_VARIABLES">["x", "n", "t"]</var>
 
@@ -42,7 +42,7 @@
 			</div>
 
 			<div>
-				<div class="vars" data-ensure="OUTER2.name !== INNER.name &amp;&amp; OUTER2.name !== OUTER.name &amp;&amp; OUTER2.minDegree <= OUTER2.maxDegree">
+				<div class="vars" data-ensure="OUTER2.name !== INNER.name && UTER2.name !== OUTER.name && UTER2.minDegree <= OUTER2.maxDegree">
 					<var id="OUTER2">new CompositePolynomial( randRange(0, 2), randRange(1, 3), null, randFromArray(FUNC_VARIABLES), randFromArray(FUNC_NAMES), randFromArray([INNER, OUTER]) )</var>
 
 					<var id="FUNCTIONS">shuffle([INNER, OUTER, OUTER2])</var>

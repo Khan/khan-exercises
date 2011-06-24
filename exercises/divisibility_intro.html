@@ -18,7 +18,7 @@
 					num_factors = round( factorization.length / 2 ),
 					answer = 1;
 
-				for (var i = 0; i &lt; num_factors &amp;&amp; factorization.length; i++) {
+				for (var i = 0; i &lt; num_factors && actorization.length; i++) {
 					var index = floor( random() * factorization.length );
 					answer *= factorization[index];
 					factorization = jQuery.merge( factorization.slice(0, index), factorization.slice(index + 1) );
