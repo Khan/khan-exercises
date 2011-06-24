@@ -338,8 +338,8 @@ jQuery.fn.extend({
 						// Call it with the context of the parent and the sub-element itself
 						.call( parent[ name ], this );
 
-				// Store the parent element for later use
-				} else {
+				// Store the parent element for later use if it was inherited from somewhere else
+				} else if ( $this.data( "inherited") ) {
 					parent[ name ] = this;
 				}
 			}

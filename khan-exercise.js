@@ -302,7 +302,7 @@ var Khan = {
 		while ( parentType ) {
 			// Copy over the parent element to the child
 			var original = jQuery("#" + parentType).clone();
-			problem.prepend( original.children() );
+			problem.prepend( original.children().data( "inherited", true ) );
 
 			// Keep copying over the parent elements (allowing for deep inheritance)
 			parentType = original.data( "type" );
