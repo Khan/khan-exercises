@@ -25,6 +25,7 @@ var createGraph = function( el ) {
 			if ( point === true ) {
 				return "z";
 			} else {
+				var scaled = scalePoint( point );
 				return ( i === 0 ? "M" : "L") + boundNumber(scaled[0]) + " " + boundNumber(scaled[1]);
 			}
 		}).join("");
