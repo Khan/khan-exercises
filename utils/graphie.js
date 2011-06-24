@@ -188,6 +188,8 @@ var createGraph = function( el ) {
 					}, 1);
 				});
 			}
+
+			return span;
 		},
 
 		plotParametric: function( fn, range ) {
