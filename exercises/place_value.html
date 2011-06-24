@@ -43,7 +43,7 @@
 							});
 						})()
 					</var>
-					<var id="SOLUTION">PLACES.slice( DIGITS.length - 1 - POWER, DIGITS.length - POWER )</var>
+					<var id="SOLUTION">PLACES[ DIGITS.length - 1 - POWER ]</var>
 				</div>
 
 				<p class="question">What is the place value of <var>DIGIT</var> in <var>NUMBER</var>?</p>
@@ -64,7 +64,7 @@
 
 			<div>
 				<div class="vars" data-ensure="NUMBER > 99">
-					<var id="DIGITS">[ randRange( 0, 9 ), randRange( 0, 9 ), randRange( 0, 9 ), randRange( 0, 9 )]</var>
+					<var id="DIGITS">randRange( 0, 9, 4 )</var>
 					<var id="NUMBER">digitsToInteger( DIGITS )</var>
 					<var id="ADDENDS">[ ]</var>
 					<var id="HINT">
