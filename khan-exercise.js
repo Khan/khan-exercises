@@ -548,6 +548,8 @@ var Khan = {
 
 			if ( hint ) {
 
+				var problem = $hint.parent();
+
 				// If the hint has hint templating, then turn that hint templating into
 				// normal inheritance templating, apply templating, and then re-render all
 				// the hints.
@@ -560,7 +562,7 @@ var Khan = {
 					jQuery( "#rawhintsarea" ).append( $hint ).find( "[id]" ).tmplApply().end()
 
 						// Re-render all the hints
-						.clone().runModules( problem, "Load" ).runModules( problem)
+						.clone().runModules( problem, "Load" ).runModules( problem )
 
 						// Replace the previously rendered hints
 						.replaceAll( "#hintsarea" ).show().attr( "id", "hintsarea" );
