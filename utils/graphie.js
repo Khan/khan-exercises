@@ -301,7 +301,8 @@ var createGraph = function( el ) {
 			}
 
 			// Bad heuristic for recognizing Raphael elements and sets
-			if ( ( result.node && result.node.raphael ) || result.type === "set" ) {
+			var type = result.constructor.prototype
+			if ( type === Raphael.el || type === Raphael.st ) {
 				result.attr( currentStyle );
 			}
 
