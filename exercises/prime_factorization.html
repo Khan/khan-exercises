@@ -19,23 +19,27 @@
 					<p class="question">What is the prime factorization of <code><var>NUMBER</var></code>?</p>
 					<p>Type each prime factor separated by an x, like this: 2 x 3.</p>
 					<p class="solution"><var>NUMBER</var></p>
-					<div class="graphie" id="factor-tree">
-						init({
-							range: [[-1, 2 ], [- 1, 1]],
-							scale: [30, 30]
-						});
-
-						label( [cx + 1, y], NUMBER );
-						circle( [cx + 1, y], 0.5 );
-					</div>
 					<div class="hints">
+						<p>Let us draw a factor tree.</p>
+
+						<div class="graphie" id="factor-tree">
+							init({
+								range: [ [-1, 2], [-1, 1] ],
+								scale: [30, 30]
+							});
+
+							label( [cx, y], NUMBER );
+						</div>
+
+						<div class="graphie" data-update="factor-tree">
+							circle( [cx, y], 0.5 );
+						</div>
+
 						<p>Because <code><var>NUMBER</var></code> is prime, its prime factorization is simply <code><var>NUMBER</var></code>.</p>
-						<p> TODO: graph stuff should go here </p>
-						
 					</div>
 				</div>
-				
-				<div id="composite">
+
+				<div id="composite" data-weight="3">
 					<div class="vars">
 						<var id="NUMBER">getComposite()</var>
 						<var id="SOLUTION">getPrimeFactorization( NUMBER )</var>
@@ -46,34 +50,38 @@
 					<p class="question">What is the prime factorization of <code><var>NUMBER</var></code>?</p>
 					<p>Type each prime factor separated by an x, like this: 2 x 3.</p>
 					<p class="solution" data-type="primeFactorization"><var>SOLUTION.join("x")</var></p>
-					<div class="graphie" id="factor-tree">
-						init({
-							range: [[-1, FACTORIZATION.length + 2 ], [- 2 * FACTORIZATION.length - 1, 1]],
-							scale: [30, 30]
-						});
 
-						label( [cx + 1, y], curr );
-					</div>
-
-
-					<div class="graphie" data-update="factor-tree" data-each="FACTORIZATION as factor">
-							path( [ [cx + 1, y - 0.5], [cx, y - 1.5] ] );
-							path( [ [cx + 1, y - 0.5], [cx + 2, y - 1.5] ] );
-							y -= 2;
-							cx += 1;
-
-							curr = curr / <var>factor</var>;
-
-							label( [cx - 1, y], <var>factor</var> );
-							circle( [cx - 1, y], 0.5);
-							label( [cx + 1, y], curr );
-					</div>
-					<div class="graphie" data-update="factor-tree">
-						circle( [cx + 1, y], 0.5);
-					</div>
 					<div class="hints">
-						<p>Let us draw a factor tree.</p>
-						<p> TODO: graph stuff should go here </p>
+						<div>
+							<p>Let us draw a factor tree.</p>
+							<div class="graphie" id="factor-tree">
+								init({
+									range: [ [-1, FACTORIZATION.length + 2], [ -2 * FACTORIZATION.length - 1, 1] ],
+									scale: [30, 30]
+								});
+
+								label( [cx + 1, y], curr );
+							</div>
+						</div>
+
+						<div class="graphie" data-update="factor-tree" data-each="FACTORIZATION as factor">
+								path( [ [cx + 1, y - 0.5], [cx, y - 1.5] ] );
+								path( [ [cx + 1, y - 0.5], [cx + 2, y - 1.5] ] );
+								y -= 2;
+								cx += 1;
+
+								curr = curr / <var>factor</var>;
+
+								label( [cx - 1, y], <var>factor</var> );
+								circle( [cx - 1, y], 0.5);
+								label( [cx + 1, y], curr );
+						</div>
+
+						<div class="graphie" data-update="factor-tree">
+							circle( [cx + 1, y], 0.5);
+						</div>
+
+						<p>The prime factorization of <code><var>NUMBER</var></code> is <code><var>SOLUTION.join(" &times; ")</var></code>.</p>
 					</div>
 				</div>
 			</div>
