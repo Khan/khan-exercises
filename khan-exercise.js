@@ -488,10 +488,12 @@ var Khan = {
 					'<input type="button" id="show-scratchpad" value="Show scratchpad">' +
 				'</div>' +
 			'</div>' +
-			'<div id="workarea">' +
-				'<div id="scratchpad"></div>' +
+			'<div id="problemarea">' +
+				'<div id="workarea">' +
+					'<div id="scratchpad"></div>' +
+				'</div>' +
+				'<div id="hintsarea"></div>' +
 			'</div>' +
-			'<div id="hintsarea"></div>' +
 			'<div id="rawhintsarea"></div>'
 		);
 

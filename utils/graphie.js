@@ -325,7 +325,10 @@ jQuery.fn.graphie = function( problem ) {
 		// Initialize the graph
 		if ( jQuery( this ).data( "update" ) ) {
 			var id = jQuery( this ).data( "update" );
-			graphie = problem.children( "#" + id ).data( "graphie" );
+
+			// Graph could be in either of these
+			var area = jQuery( "#problemarea" ).add(problem);
+			graphie = area.find( "#" + id ).data( "graphie" );
 		} else {
 			graphie = createGraph( this );
 			jQuery( this ).data( "graphie", graphie );
