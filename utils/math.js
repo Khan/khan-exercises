@@ -167,6 +167,14 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
+	getComposite: function() {
+		if (KhanUtil.randRange( 0, 1 )) {
+			return KhanUtil.getEvenComposite();
+		} else {
+			return KhanUtil.getOddComposite();
+		}
+	},
+
 	getPrimeFactorization: function( number ) {
 		if ( jQuery.inArray(number, KhanUtil.primes) !== -1 ) {
 			return [number];
