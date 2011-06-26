@@ -1,49 +1,100 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require = "math">
 <head>
-	<title>Evaluating Expressions 1</title>
-	<script src="../khan-exercise.js"></script>
+<title> Significant Figures 1 </title>
+<script src = "../khan-exercise.js" ></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="X">randRange( 1, 10 )</var>
-			<var id="COEFF">
-				if ( randRange( 0, 1 ) ) {
-					return randRange( 3, 10 );
-				} else {
-					return -1 * randRange( 3, 10 );
-				}
-			</var>
-			<var id="CONSTANT">
-				if ( randRange( 0, 1 ) ) {
-					return randRange( 3, 10 );
-				} else {
-					return -1 * randRange( 3, 10 );
-				}
-			</var>
+<div class = "exercise" >
+	<div class="vars">
+		<var id = "LEADING" > 
+			return Array (randRange (0, 2)).join ('0');
+		</var > 
+		<var id = "RIGHTLEADING" > 
+			return Array (randRange (0, 2)).join ('0');
+		</var > 
+		<var id = "TRAILING" > 
+			return Array (randRange (0, 4)).join ('0');
+		</var > 
+		<var id = "IS_ZERO" > 
+			return (random () > 0.5);
+		</var > 
+		<var id = "HAS_DOT" > 
+			if (IS_ZERO){
+				return true;
+			}
+			return (random () > 0.5);
+		</var >
+		<var id = "RIGHTSIDE" > 
+			return randRange (1, 9, randRange (1, 6)).join ('');
+		</var > 
+		<var id = "LEFTSIDE" > 
+			if (IS_ZERO){
+				return '0';
+			}
+			return randRange (1, 9, randRange (1, 4)).join ('');
+		</var > 
+		<var id = "TOTAL" > 
+			if (HAS_DOT){
+				return LEADING + LEFTSIDE + '.' + RIGHTLEADING + RIGHTSIDE + TRAILING;
+			}
+			else
+			{
+				return LEADING + LEFTSIDE + TRAILING;
+			}	
+		</var > 
+		<var id = "SOLUTION" > 
+			if (IS_ZERO){
+				return RIGHTSIDE.length + RIGHTLEADING.length + TRAILING.length;
+			}
+			if (HAS_DOT){
+			return LEFTSIDE.length + RIGHTLEADING.length + RIGHTSIDE.length + TRAILING.length;
+			}
+			return LEFTSIDE.length;
+		</var >
 
-			<var id="SOLUTION">(X * COEFF) + CONSTANT</var>
-		</div>
+		<var id="PROPER_LEADING">
+			  if (IS_ZERO){
+                                return LEADING+LEFTSIDE+'.'+ RIGHTLEADING;
+                        }
+                        	return LEADING;
+                      </var>
+		<var id="INBETWEEN">
+			  if (IS_ZERO){
+                                return RIGHTSIDE;
+                        }
+                        if (HAS_DOT){
+                        return LEFTSIDE+'.'+ RIGHTLEADING + RIGHTSIDE;
+                        }
+                        return LEFTSIDE;
+		</var> 
+                       
 
-		<div class="problems">
-			<div>
-				<p class="problem">Evaluate the following expressions when <code>x = <var>X</var></code></p>
-				<p class="question"><code><var>COEFF</var>x + <var>CONSTANT</var></code></p>
-				<p class="solution"><var>SOLUTION</var></p>
-			</div>
-		</div>
 
-		<div class="hints">
-			<div>
-				<p>Plug in <code class="hint_orange"><var>X</var></code> for <code>x</code>.</p>
-				<p><code>= (<var>COEFF</var>) \cdot </code> <code class="hint_orange">(<var>X</var>)</code> <code> + <var>CONSTANT</var></code></p>
-			</div>
-
-			<p><code>= </code> <code class="hint_orange"><var>COEFF * X</var></code> <code> + <var>CONSTANT</var></code></p>
-
-			<p><code>= <var>SOLUTION</var></code></p>
-		</div>
-	</div>
-</body>
-</html>
+	</div >
+	<div class = "problems" >
+		<div >
+			<p class = "question" > How many significant figures does <code><var>TOTAL</var></code>have?</p> 
+			<p class ="solution"><var>SOLUTION</var></p> 
+		</div > 
+	</div > 
+	<div class ="hints" > 
+		<p><code id="leading"><var>PROPER_LEADING</var></code><code id="inbetween"><var>INBETWEEN</var></code><code id="trailing"><var>TRAILING</var></code></p>
+		
+		<code id="inbetween" data-apply="hint-replace">\color{blue}{<var>INBETWEEN</var>}</code>
+		<p>Identify the non-zero digits and any zeros between them. These are all significant.</p>
+		
+		<code data-if="PROPER_LEADING.length>0" id="leading" data-apply="hint-replace">\color{orange}{<var>PROPER_LEADING</var>}</code>
+		<p data-if="PROPER_LEADING.length>0" >Leading zeros are not significant.</p>
+         	
+		<code data-if="(TRAILING.length>0)&&HAS_DOT" id="trailing" data-apply="hint-replace">\color{blue}{<var>TRAILING</var>}</code>
+                <p data-if="TRAILING.length>0)&&HAS_DOT" >Since there is a decimal, trailing zeros are significant.</p>
+     
+	   	<code data-if="TRAILING.length>0&&(!HAS_DOT)" id="trailing" data-apply="hint-replace">\color{orange}{<var>TRAILING</var>}</code>
+                <p data-if="TRAILING.length>0&&(!HAS_DOT)">Since there is no decimal, trailing zeros are not significant.</p>
+		
+			
+	</div > 
+</div > 
+</body > 
+</html >
