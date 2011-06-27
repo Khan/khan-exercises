@@ -212,6 +212,8 @@ test( "Inheritance", function() {
 
 	QUnit.reset();
 
+	jQuery( "#test-base-1" ).data( "inherited", true );
+
 	// Test appendContents
 	jQuery("#qunit-fixture *").tmplApply({ attribute: "class", defaultApply: "appendContents" });
 
