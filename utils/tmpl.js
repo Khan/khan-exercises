@@ -86,12 +86,11 @@ jQuery.tmpl = {
 				};
 			}
 
-			var name = elem.id;
-
 			// Evaluate the contents of the <var> as a JS string
 			value = value || jQuery.tmpl.getVAR( elem );
 
 			// If an ID was specified then we're going to save the value
+			var name = elem.id;
 			if ( name ) {
 
 				// Utility function for VARS[ name ] = value, warning if the name overshadows a KhanUtil property
@@ -122,9 +121,13 @@ jQuery.tmpl = {
 
 			// No value was specified so we replace it with a text node of the value
 			} else {
-				return document.createTextNode( value != null ?
-					value + "" :
-					"" );
+				if ( value == null ) {
+					// Don't show anything
+					return null;
+				} else {
+					// Convert the value to a string and replace with that text node
+					return document.createTextNode( value + "" );
+				}
 			}
 		},
 
@@ -294,7 +297,8 @@ jQuery.fn.tmpl = function() {
 				jQuery.tmpl.VARS[ ret.pos ] = ret.oldPos;
 			}
 
-			return;
+			// Say that the element was removed so that child traversal doesn't skip anything
+			return null;
 		}
 
 		// Loop through the element's children if it was not removed
