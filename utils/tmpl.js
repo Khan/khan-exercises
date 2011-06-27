@@ -96,8 +96,7 @@ jQuery.tmpl = {
 
 				// Utility function for VARS[ name ] = value, warning if the name overshadows a KhanUtil property
 				function setVAR( name, value ) {
-					// Show an error if a variable definition is overriding a built-in method
-					if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
+					if ( KhanUtil[ name ] ) {
 						Khan.error( "Defining variable '" + name + "' overwrites utility property of same name." );
 					}
 
