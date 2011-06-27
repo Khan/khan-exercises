@@ -274,7 +274,7 @@ jQuery.fn.tmpl = function() {
 				}
 
 				// Do a deep clone (including event handlers and data) of the element
-				var clone = jQuery( elem ).detach().clone( true )[0];
+				var clone = jQuery( elem ).clone( true )[0];
 
 				// Insert in the proper place (depends on whether the loops is the last of its siblings)
 				if ( origNext ) {
@@ -296,6 +296,9 @@ jQuery.fn.tmpl = function() {
 			if ( ret.pos ) {
 				jQuery.tmpl.VARS[ ret.pos ] = ret.oldPos;
 			}
+
+			// Remove the loop element and its handlers now that we've processed it
+			jQuery( elem ).remove();
 
 			// Say that the element was removed so that child traversal doesn't skip anything
 			return null;

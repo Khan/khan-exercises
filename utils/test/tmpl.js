@@ -140,7 +140,7 @@ test("Ensure", function() {
 	equals( jQuery.tmpl.VARS.D, 4, "See that the D was at the right value." );
 });
 
-test("Looping", 21, function() {
+test("Looping", 23, function() {
 	jQuery("#qunit-fixture").append(
 		"<var id='items'>['a','b','c']</var>" +
 		"<var id='obj'>{a:0,b:1,c:2}</var>" +
@@ -151,7 +151,8 @@ test("Looping", 21, function() {
 		"<var id='tmpKey'>key</var><var id='tmpVal'>value</var>" +
 		"<var id='items2'>[]</var><var data-each='items as key, value'>items2.push( key );</var>" +
 		"<div class='d' data-if='false' data-each='doesntexist'></div>" +
-		"<ul class='e'><li data-each='obj as key, value'><var>key</var>: <var>value</var></li></ul>"
+		"<ul class='e'><li data-each='obj as key, value'><var>key</var>: <var>value</var></li></ul>" +
+		"<ul class='f'><li data-each='[]'></li></ul>"
 	);
 
 	jQuery("#qunit-fixture").tmpl();
@@ -162,6 +163,7 @@ test("Looping", 21, function() {
 	var li = jQuery("#qunit-fixture ul.a li");
 
 	equals( li.length, 3, "See that the list items were generated." );
+	equals( jQuery( li[0] ).data( "each" ), undefined, "Verify the data-each attribute was removed." );
 
 	// test data-each="items as value"
 	li = jQuery("#qunit-fixture ul.b li");
@@ -203,6 +205,11 @@ test("Looping", 21, function() {
 	equals( li[0].innerHTML, "a: 0", "Verify the contents of the object property." );
 	equals( li[1].innerHTML, "b: 1", "Verify the contents of the object property." );
 	equals( li[2].innerHTML, "c: 2", "Verify the contents of the object property." );
+
+	// test data-each="[]"
+	li = jQuery("#qunit-fixture ul.f li");
+
+	equals( li.length, 0, "See that the list item was removed." );
 });
 
 test( "Inheritance", function() {
