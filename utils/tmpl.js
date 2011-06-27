@@ -1,9 +1,13 @@
 jQuery.tmpl = {
 	VARS: {},
 
+	// Processors that act based on element attributes
 	attr: {
 		"data-ensure": function( elem, ensure ) {
+			// Returns a function in order to run after other templating and var assignment
 			return function( elem ) {
+				// Return a boolean corresponding to the ensure's value
+				// False means all templating will be run again, so new values will be chosen
 				return !!(ensure && jQuery.tmpl.getVAR( ensure ));
 			};
 		},
@@ -11,9 +15,11 @@ jQuery.tmpl = {
 		"data-if": function( elem, value ) {
 			value = value && jQuery.tmpl.getVAR( value );
 
+			// Save the result of this data-if in the next sibling for data-else-if and data-else
 			jQuery( elem ).next().data( "lastCond", value );
 
 			if ( !value ) {
+				// Delete the element if the data-if evaluated to false
 				return null;
 			}
 		},
@@ -21,17 +27,21 @@ jQuery.tmpl = {
 		"data-else-if": function( elem, value ) {
 			var lastCond = jQuery( elem ).data( "lastCond" );
 
+			// Show this element iff the preceding element was hidden AND this data-if returns truthily
 			value = !lastCond && value && jQuery.tmpl.getVAR( value );
 
+			// Succeeding elements care about the visibility of both me and my preceding siblings
 			jQuery( elem ).next().data( "lastCond", lastCond || value );
 
 			if ( !value ) {
+				// Delete the element if appropriate
 				return null;
 			}
 		},
 
 		"data-else": function( elem ) {
 			if ( jQuery( elem ).data( "lastCond" ) ) {
+				// Delete the element if the data-if of the preceding element was true
 				return null;
 			}
 		},
@@ -39,15 +49,24 @@ jQuery.tmpl = {
 		"data-each": function( elem, value ) {
 			var match;
 
+			// Remove the data-each attribute so it doesn't end up in the generated elements
 			jQuery( elem ).removeAttr( "data-each" );
 
+			// Extract the 1, 2, or 3 parts of the data-each attribute, which could be
+			//   - items
+			//   - items as value
+			//   - items as pos, value
 			if ( (match = /^(.*?)(?: as (?:(\w+), )?(\w+))?$/.exec( value )) ) {
+				// See "if ( ret.items )" in traverse() for the other half of the data-each code
 				return {
+					// The collection which we'll iterate through
 					items: jQuery.tmpl.getVAR( match[1] ),
 
+					// "value" and "pos" as strings
 					value: match[3],
 					pos: match[2],
 
+					// Save the values of the iterator variables so we don't permanently overwrite them
 					oldValue: jQuery.tmpl.VARS[ match[3] ],
 					oldPos: jQuery.tmpl.VARS[ match[2] ]
 				};
@@ -55,8 +74,12 @@ jQuery.tmpl = {
 		}
 	},
 
+	// Processors that act based on tag names
 	type: {
 		"var": function( elem, value ) {
+			// When called by process(), value is undefined
+
+			// If the <var> has any child elements, run later with the innerHTML
 			if ( !value && elem.getElementsByTagName("*").length > 0 ) {
 				return function( elem ) {
 					return jQuery.tmpl.type["var"]( elem, elem.innerHTML );
@@ -65,11 +88,13 @@ jQuery.tmpl = {
 
 			var name = elem.id;
 
+			// Evaluate the contents of the <var> as a JS string
 			value = value || jQuery.tmpl.getVAR( elem );
 
-			// If a name was specified then we're going to load the value
+			// If an ID was specified then we're going to save the value
 			if ( name ) {
 
+				// Utility function for VARS[ name ] = value, warning if the name overshadows a KhanUtil property
 				function setVAR( name, value ) {
 					// Show an error if a variable definition is overriding a built-in method
 					if ( KhanUtil[ name ] || ( typeof present !== "undefined" && ( typeof present[ name ] === "function" ) ) ) {
@@ -79,8 +104,9 @@ jQuery.tmpl = {
 					jQuery.tmpl.VARS[ name ] = value;
 				}
 
-				// Destructuring an array?
+				// Destructure the array if appropriate
 				if ( name.indexOf( "," ) !== -1 ) {
+					// Nested arrays are not supported
 					var parts = name.split(/\s*,\s*/);
 
 					jQuery.each( parts, function( i, part ) {
@@ -103,7 +129,9 @@ jQuery.tmpl = {
 			}
 		},
 
+		// For random variable selection
 		ul: function( elem ) {
+			// Replace each <ul id="..."> with <var> containing a random child
 			if ( elem.id ) {
 				return jQuery( "<var>" )
 					.attr( "id", elem.id )
@@ -112,6 +140,7 @@ jQuery.tmpl = {
 		},
 
 		code: function( elem ) {
+			// Returns a function in order to run after other templating and var assignment
 			return function( elem ) {
 				var $elem = jQuery( elem );
 
@@ -186,17 +215,25 @@ if ( typeof KhanUtil !== "undefined" ) {
 }
 
 jQuery.fn.tmpl = function() {
+	// Call traverse() for each element in the jQuery object
 	for ( var i = 0, l = this.length; i < l; i++ ) {
 		traverse( this[i] );
 	}
 
 	return this;
 
+	// Walk through the element and its descendants, process()-ing each one using the processors defined above
 	function traverse( elem ) {
+		// Array of functions to run after doing the rest of the processing
 		var post = [],
+
+			// Live NodeList of child nodes to traverse if we don't remove/replace this element
 			child = elem.childNodes,
+
+			// Result of running the attribute and tag processors on the element
 			ret = process( elem, post );
 
+		// If null, remove the element, return null to indicate that's what we did
 		if ( ret === null ) {
 			if ( elem.parentNode ) {
 				elem.parentNode.removeChild( elem );
@@ -204,9 +241,11 @@ jQuery.fn.tmpl = function() {
 
 			return ret;
 
+		// If false, rerun all templating (like data-ensure)
 		} else if ( ret === false ) {
 			return traverse( elem );
 
+		// If a node, replace this one with that one
 		} else if ( ret && ret.nodeType && ret !== elem ) {
 			if ( elem.parentNode ) {
 				elem.parentNode.replaceChild( ret, elem );
@@ -214,34 +253,44 @@ jQuery.fn.tmpl = function() {
 
 			elem = ret;
 
+		// If { items: ... }, this is a data-each loop
 		} else if ( ret.items ) {
+			// We need these references to insert the elements in the appropriate places
 			var origParent = elem.parentNode,
 				origNext = elem.nextSibling;
 
+			// Loop though the given array
 			jQuery.each( ret.items, function( pos, value ) {
+				// Set the value if appropriate
 				if ( ret.value ) {
 					jQuery.tmpl.VARS[ ret.value ] = value;
 				}
 
+				// Set the position if appropriate
 				if ( ret.pos ) {
 					jQuery.tmpl.VARS[ ret.pos ] = pos;
 				}
 
+				// Do a deep clone (including event handlers and data) of the element
 				var clone = jQuery( elem ).detach().clone( true )[0];
 
+				// Insert in the proper place (depends on whether the loops is the last of its siblings)
 				if ( origNext ) {
 					origParent.insertBefore( clone, origNext );
 				} else {
 					origParent.appendChild( clone );
 				}
 
+				// Run all templating on the new element
 				traverse( clone );
 			});
 
+			// Restore the old value of the value variable, if it had one
 			if ( ret.value ) {
 				jQuery.tmpl.VARS[ ret.value ] = ret.oldValue;
 			}
 
+			// Restore the old value of the position variable, if it had one
 			if ( ret.pos ) {
 				jQuery.tmpl.VARS[ ret.pos ] = ret.oldPos;
 			}
@@ -249,14 +298,17 @@ jQuery.fn.tmpl = function() {
 			return;
 		}
 
-		// loop through children if not null
+		// Loop through the element's children if it was not removed
 		for ( var i = 0; i < child.length; i++ ) {
+			// Traverse the child; decrement the counter if the child was removed
 			if ( child[i].nodeType === 1 && traverse( child[i] ) === null ) {
 				i--;
 			}
 		}
 
+		// Run through each post-processing function
 		for ( var i = 0, l = post.length; i < l; i++ ) {
+			// If false, rerun all templating (for data-ensure and <code> math)
 			if ( post[i]( elem ) === false ) {
 				return traverse( elem );
 			}
@@ -265,36 +317,44 @@ jQuery.fn.tmpl = function() {
 		return elem;
 	}
 
+	// Run through the attr and type processors, return as soon as one of them is decisive about a plan of action
 	function process( elem, post ) {
 		var ret, newElem,
 			$elem = jQuery( elem );
 
+		// Look through each of the attr processors, see if our element has the matching attribute
 		for ( var attr in jQuery.tmpl.attr ) {
 			var value = $elem.attr( attr );
 
 			if ( value !== undefined ) {
 				ret = jQuery.tmpl.attr[ attr ]( elem, value );
 
+				// If a function, run after all of the other templating
 				if ( typeof ret === "function" ) {
 					post.push( ret );
 
+				// If a node, prepare for a replacement
 				} else if ( ret && ret.nodeType ) {
 					newElem = ret;
 
+				// Return anything else (boolean, null, object for data-each)
 				} else if ( ret !== undefined ) {
 					return ret;
 				}
 			}
 		}
 
+		// If replacing, change the elem reference so later processing works on the new element
 		if ( newElem ) {
 			elem = newElem;
 		}
 
+		// Look up the processor based on the tag name
 		var type = elem.nodeName.toLowerCase();
 		if ( jQuery.tmpl.type[ type ] != null ) {
 			ret = jQuery.tmpl.type[ type ]( elem );
 
+			// If a function, run after all of the other templating
 			if ( typeof ret === "function" ) {
 				post.push( ret );
 			}
