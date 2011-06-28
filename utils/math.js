@@ -17,7 +17,7 @@ jQuery.extend(KhanUtil, {
 
 	/* Returns an array of the digits of a nonnegative integer in reverse
 	 * order: digits(376) = [6, 7, 3] */
-	digits: function(n) {
+	digits: function( n ) {
 		if(n == 0) {
 			return [0];
 		}
@@ -33,17 +33,8 @@ jQuery.extend(KhanUtil, {
 	},
 
 	// Similar to above digits, but in original order (not reversed)
-	integerToDigits: function( number ) {
-		if ( n === 0 ) {
-			return [0];
-		}
-
-		var digits = [];
-		while ( number > 0 ) {
-			digits.unshift( number % 10 );
-			number = Math.floor( number / 10 );
-		}
-		return digits;
+	integerToDigits: function( n ) {
+		return KhanUtil.digits( n ).reverse();
 	},
 
 	digitsToInteger: function( digits ) {
@@ -90,7 +81,7 @@ jQuery.extend(KhanUtil, {
 	},
 
 	getLCM: function( a, b ) {
-		return ( a * b ) / KhanUtil.getGCD( a, b );
+		return Math.abs( a * b ) / KhanUtil.getGCD( a, b );
 	},
 
 	primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
@@ -176,7 +167,7 @@ jQuery.extend(KhanUtil, {
 	},
 
 	getPrimeFactorization: function( number ) {
-		if ( jQuery.inArray(number, KhanUtil.primes) !== -1 ) {
+		if ( KhanUtil.isPrime( number ) ) {
 			return [number];
 		}
 
