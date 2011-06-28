@@ -404,8 +404,8 @@ var Khan = {
 		// Save the rendered hints so we can display them later
 		Khan.hints = Khan.hints
 
-			// Run the "Load" method of any modules. This will render the hints
-			.runModules( problem )
+			// Do all the templating
+			.tmpl()
 
 			// Save as a normal JS array so we can use shift() on it later
 			.children().get();
