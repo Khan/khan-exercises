@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+	<title>Graphs of Sine and Cosine</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		stuff...
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<!-- FIXME -->
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="problem"><!-- FIXME --></div>
+				<div class="question"><!-- FIXME --></div>
+				<div class="solution"><!-- FIXME --></div>
+			</div>
+		</div>
+
+		<div class="hints">
+			<!-- FIXME -->
+		</div>
+	</div>
+</body>
+</html>
+
+
+<!-- {% extends "multiple_choice_template.html" %} -->
+<!-- {% block maincode %} -->
+<!-- <div id="raphael_container"></div> -->
+
+<!-- <script language=Javascript1.2><\!-- -->
+<!-- RaphaelWrapper.init(600, 300); -->
+
+<!-- var A = nonZeroRandomInt(1,4); -->
+<!-- var B = Math.pow(2,getRandomIntRange(-1,2)); -->
+
+
+<!-- //Things break down when B is blank... need to fix this -->
+
+<!-- var functions = ['cos', 'sin']; -->
+<!-- var curFunction = functions[getRandomIntRange(0,1)]; -->
+<!-- var wrongFunction = 'sin'; -->
+<!-- var drawShift = 0; -->
+<!-- if (curFunction=='sin') -->
+<!-- { -->
+<!-- 	drawShift = Math.PI/2/B; -->
+<!-- 	wrongFunction = 'cos'; -->
+<!-- } -->
+
+<!-- var fZero = formatFraction(eval('Math.'+curFunction+'(0)')*A,2);	 -->
+<!-- var period = 2/B+' '+cpi;	 -->
+
+<!-- //alert(curFunction); -->
+
+<!-- var curExp = formatFirstCoefficient(formatFraction(A,2))+' '+curFunction+'('+formatFirstCoefficient(formatFraction(B*100,100))+'x)';               -->
+
+<!-- setCorrectAnswer(curExp); -->
+<!-- addWrongChoice(formatFirstCoefficient(formatFraction(A,2))+' '+wrongFunction+'('+formatFirstCoefficient(formatFraction(B*100,100))+'x)'); -->
+
+
+<!-- while(Exercise.getNumPossibleAnswers() < 10) -->
+<!-- { -->
+<!-- 	var randB = Math.pow(2,getRandomIntRange(-1,2)); -->
+<!-- 	if (randB!=B) -->
+<!-- 	{ -->
+<!-- 		addWrongChoice(formatFirstCoefficient(formatFraction(A,2))+' '+curFunction+'('+formatFirstCoefficient(formatFraction(randB*100,100))+'x)'); -->
+<!-- 		addWrongChoice(formatFirstCoefficient(formatFraction(A,2))+' '+wrongFunction+'('+formatFirstCoefficient(formatFraction(randB*100,100))+'x)'); -->
+<!-- 	} -->
+
+<!-- 	var randA = nonZeroRandomInt(1,4); -->
+<!-- 	if (randA!=A) -->
+<!-- 	{ -->
+<!-- 		addWrongChoice(formatFirstCoefficient(formatFraction(randA,2))+' '+curFunction+'('+formatFirstCoefficient(formatFraction(B*100,100))+'x)'); -->
+<!-- 		addWrongChoice(formatFirstCoefficient(formatFraction(randA,2))+' '+wrongFunction+'('+formatFirstCoefficient(formatFraction(B*100,100))+'x)'); -->
+<!-- 	} -->
+
+<!-- 	if (randA!=A || randB!=B) -->
+<!-- 	{ -->
+<!-- 		addWrongChoice(formatFirstCoefficient(formatFraction(randA,2))+' '+curFunction+'('+formatFirstCoefficient(formatFraction(randB*100,100))+'x)'); -->
+<!-- 		addWrongChoice(formatFirstCoefficient(formatFraction(randA,2))+' '+wrongFunction+'('+formatFirstCoefficient(formatFraction(randB*100,100))+'x)'); -->
+<!-- 	} -->
+
+<!-- } -->
+
+
+
+
+
+
+
+
+<!-- var maxX = Math.min(4*pi, 6*pi/B); -->
+<!-- var minX = Math.min(Math.PI*-2/B+drawShift-.2, -1*maxX-0.2); -->
+
+<!-- function graph_update() { -->
+
+<!-- 	present.setBorder(0); -->
+
+<!-- 	present.initPicture(minX,maxX+0.2, -2.5, 3.5); -->
+<!-- 	present.line([-5*pi,0], [5*pi, 0]); -->
+<!-- 	present.line([0,-5],[0,5]); -->
+
+<!-- 	//present.axes(); -->
+<!-- 	present.dot([pi,0],"|",cpi,above); -->
+<!-- 	present.dot([-pi,0],"|","-"+cpi,above); -->
+<!-- 	present.dot([2*pi,0],"|","2"+cpi,above); -->
+<!-- 	present.dot([-2*pi,0],"|","-2"+cpi,above); -->
+<!-- 	present.dot([pi/2,0],"|",cpi+"/2",above); -->
+<!-- 	present.dot([-pi/2,0],"|","-"+cpi+"/2",above); -->
+<!-- 	present.dot([3*pi/2,0],"|","3"+cpi+"/2",above); -->
+<!-- 	present.dot([-3*pi/2,0],"|","-3"+cpi+"/2",above); -->
+<!-- 	present.dot([5*pi/2,0],"|","5"+cpi+"/2",above); -->
+<!-- 	present.dot([-5*pi/2,0],"|","-5"+cpi+"/2",above); -->
+<!-- 	present.dot([7*pi/2,0],"|","7"+cpi+"/2",above); -->
+<!-- 	present.dot([-7*pi/2,0],"|","-7"+cpi+"/2",above); -->
+<!-- 	present.dot([3*pi,0],"|","3"+cpi,above); -->
+<!-- 	present.dot([-3*pi,0],"|","-3"+cpi,above); -->
+<!-- 	present.dot([4*pi,0],"|","4"+cpi,above); -->
+<!-- 	present.dot([-4*pi,0],"|","-4"+cpi,above); -->
+
+
+<!-- 	present.dot([0,1],"-","1",right); -->
+<!-- 	present.dot([0,-1],"-","-1",right); -->
+<!-- 	present.dot([0,2],"-","2",right); -->
+<!-- 	present.dot([0,-2],"-","-2",right); -->
+
+
+<!-- 	if (B>1) -->
+<!-- 	{ -->
+<!-- 		for(var i=-4; i<9; i++) -->
+<!-- 		{ -->
+<!-- 			present.dot([i*pi+pi/2, 0], "|"); -->
+<!-- 		} -->
+
+<!-- 	} -->
+
+
+<!-- 	present.strokewidth = 1.5; -->
+<!-- 	present.stroke = "blue"; -->
+<!-- 	//alert(curExp); -->
+<!-- 	present.plot(curExp); -->
+<!-- } -->
+
+
+<!-- function draw_next_step() -->
+<!-- { -->
+<!-- 	present.fontstyle = "normal"; -->
+<!-- 	present.fontsize = "12"; -->
+
+
+<!-- 	if (Exercise.steps_given==0) -->
+<!-- 	{ -->
+<!-- 		present.stroke= "red"; -->
+<!-- 		present.fontfill="red"; -->
+<!-- 		present.marker = "arrow"; -->
+<!-- 		present.line([0+drawShift,A/2+.1], [Math.PI*-2/B+drawShift, A/2+.1]); -->
+<!-- 		present.line([Math.PI*-2/B+drawShift, A/2+.1], [0+drawShift,A/2+.1]); -->
+<!-- 		present.text([minX, 3.3], 'Period='+period, right); -->
+<!-- 		//present.line([Math.PI*2/B+drawShift, A/2],[0+drawShift,A/2]); -->
+
+
+<!-- 	} -->
+<!-- 	else if (Exercise.steps_given==1) -->
+<!-- 	{ -->
+<!-- 		present.stroke= "green"; -->
+<!-- 		present.fontfill="green"; -->
+<!-- 		present.marker = "arrow"; -->
+<!-- 		present.line([Math.PI*-2/B+drawShift,0], [Math.PI*-2/B+drawShift,A/2]); -->
+<!-- 		present.line([Math.PI*-2/B+drawShift,A/2], [Math.PI*-2/B+drawShift,0]); -->
+<!-- 		present.text([minX, 3.0], 'Amplitude='+(A/2), right); -->
+<!-- 	} -->
+<!-- 	else if (Exercise.steps_given==2) -->
+<!-- 	{ -->
+<!-- 		present.fontfill="orange"; -->
+<!-- 		present.text([minX, 2.7], 'f(0)='+fZero+' so this must be a '+curFunction+' function', right); -->
+<!-- 		present.stroke="orange"; -->
+<!-- 		present.circle([0, eval(fZero)], .1); -->
+<!-- 	} -->
+<!-- 	else if (Exercise.steps_given==3) -->
+<!-- 	{ -->
+<!-- 		present.fontfill="purple"; -->
+<!-- 		present.text([minX, 2.4], 'f(x)=A '+curFunction+'((2'+cpi+'/P)x)', right); -->
+<!-- 	} -->
+<!-- 	Exercise.steps_given++; -->
+<!-- } -->
+
+<!-- graph_update(); -->
+<!-- //-\-> -->
+<!-- </script> -->
+<!-- {% endblock maincode %} -->
+
+<!-- {% block maincell %} -->
+
+<!-- <script language=Javascript1.2><\!-- -->
+<!-- writeText('Which of the choices is the function graphed above?'); -->
+
+<!-- //-\-> -->
+<!-- </script> -->
+<!-- <br> -->
+
+<!-- {% endblock maincell %} -->
+<!-- {% block hintfunction %}draw_next_step(){% endblock hintfunction %} -->
