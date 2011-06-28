@@ -6,7 +6,7 @@ var createGraph = function( el ) {
 
 	// Set up some reasonable defaults
 	var currentStyle = {
-		"stroke-width": "2px",
+		"stroke-width": 2,
 		"fill": "none"
 	};
 
@@ -64,11 +64,7 @@ var createGraph = function( el ) {
 			},
 
 			strokeWidth: function( val ) {
-				if ( typeof val === "number" ) {
-					return { "stroke-width": val + "px" };
-				} else {
-					return { "stroke-width": val };
-				}
+				return { "stroke-width": parseFloat(val) };
 			},
 
 			rx: function( val ) {
