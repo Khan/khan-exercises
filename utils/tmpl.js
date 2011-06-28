@@ -370,8 +370,6 @@ jQuery.fn.tmpl = function() {
 	}
 };
 
-jQuery.fn.tmplLoad = jQuery.fn.tmpl;
-
 jQuery.fn.extend({
 	tmplApply: function( options ) {
 		options = options || {};

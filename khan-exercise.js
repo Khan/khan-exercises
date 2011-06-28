@@ -336,6 +336,7 @@ var Khan = {
 		jQuery( "#rawhintsarea" ).hide();
 
 		// Run the main method of any modules
+		problem.runModules( problem, "Load" );
 		problem.runModules( problem );
 
 		// Store the solution to the problem
@@ -394,7 +395,7 @@ var Khan = {
 
 			// FIXME: Should apply templating here without rendering MathJax, but
 			// that's currently not possible. 
-			.tmplLoad()
+			.tmpl()
 
 			// Save as a normal JS array so we can use shift() on it later
 			.children().get();
@@ -403,7 +404,7 @@ var Khan = {
 		Khan.hints = Khan.hints
 
 			// Run the "Load" method of any modules. This will render the hints
-			.runModules( problem, "Load" )
+			.runModules( problem )
 
 			// Save as a normal JS array so we can use shift() on it later
 			.children().get();
@@ -564,7 +565,7 @@ var Khan = {
 					jQuery( "#rawhintsarea" ).append( $hint ).find( "[id]" ).tmplApply().end()
 
 						// Re-render all the hints
-						.clone().runModules( problem, "Load" ).runModules( problem )
+						.clone().runModules( problem )
 
 						// Replace the previously rendered hints
 						.replaceAll( "#hintsarea" ).show().attr( "id", "hintsarea" );
