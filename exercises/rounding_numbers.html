@@ -7,7 +7,7 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="RoundingType">[{pos: -2, str: "hundredth"},
+		<var id="ROUNDINGTYPE">[{pos: -2, str: "hundredth"},
                     {pos: -1, str: "tenth"},
                     {pos: 0, str: "one"},
                     {pos: 1, str: "ten"},
@@ -15,22 +15,24 @@
                     {pos: 3, str: "thousand"}
                     ]</var>
 		
-		<var id="offset">randRange(-2,3)</var>
-		<var id="type">RoundingType[offset+2]</var>
-		<var id="number">rand(100)</var>
-		<var id="decimal">rand(99)</var>
-		<var id="given">(number + decimal * 0.01)*(Math.pow(10,offset))</var>
-		<var id="string"> ""+given</var>
+		<var id="OFFSET">randRange(-2,3)</var>
+		<var id="TYPE">ROUNDINGTYPE[OFFSET+2]</var>
+		<var id="NUMBER">rand(100)</var>
+		<var id="DECIMAL">rand(99)</var>
+		<var id="GIVEN">(NUMBER + DECIMAL * 0.01)*(Math.pow(10,OFFSET))</var>
+		<var id="STRING">GIVEN.toString()</var>
+		<var id="INDE">STRING.indexOf(".")</var>
+		<var id="ROUN">STRING.charAt(INDE)</var>
 	</div>
 
 	<div class="problems">
 		<div>
-			<p class="question">Round <var>given</var> to the nearest <var>type.str</var>.</p>
-			<div class="solution" data-type="decimal"><var>(round(given / Math.pow(10,offset))*Math.pow(10,offset))</var></div>
+			<p class="question">Round <var>GIVEN</var> to the nearest <var>TYPE.str</var>.</p>
+			<div class="solution" data-type="decimal"><var>(round(GIVEN / Math.pow(10,OFFSET))*Math.pow(10,OFFSET))</var></div>
 		</div>
 	</div>
 	<div class="hints">
-		<p><var>string</var></p>
+		<p><var>ROUN</var></p>
 	</div>
 	</div>
 </body>
