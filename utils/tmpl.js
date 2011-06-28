@@ -20,7 +20,7 @@ jQuery.tmpl = {
 
 			if ( !value ) {
 				// Delete the element if the data-if evaluated to false
-				return null;
+				return [];
 			}
 		},
 
@@ -35,14 +35,14 @@ jQuery.tmpl = {
 
 			if ( !value ) {
 				// Delete the element if appropriate
-				return null;
+				return [];
 			}
 		},
 
 		"data-else": function( elem ) {
 			if ( jQuery( elem ).data( "lastCond" ) ) {
 				// Delete the element if the data-if of the preceding element was true
-				return null;
+				return [];
 			}
 		},
 
@@ -71,6 +71,10 @@ jQuery.tmpl = {
 					oldPos: jQuery.tmpl.VARS[ match[2] ]
 				};
 			}
+		},
+
+		"data-unwrap": function( elem ) {
+			return jQuery( elem ).contents();
 		}
 	},
 
@@ -123,10 +127,10 @@ jQuery.tmpl = {
 			} else {
 				if ( value == null ) {
 					// Don't show anything
-					return null;
+					return [];
 				} else {
 					// Convert the value to a string and replace with that text node
-					return document.createTextNode( value + "" );
+					return jQuery( "<div>" ).append( value + "" ).contents();
 				}
 			}
 		},
@@ -137,7 +141,7 @@ jQuery.tmpl = {
 			if ( elem.id ) {
 				return jQuery( "<var>" )
 					.attr( "id", elem.id )
-					.append( jQuery( elem ).children().getRandom().contents() )[0];
+					.append( jQuery( elem ).children().getRandom().contents() );
 			}
 		},
 
@@ -235,25 +239,30 @@ jQuery.fn.tmpl = function() {
 			// Result of running the attribute and tag processors on the element
 			ret = process( elem, post );
 
-		// If null, remove the element, return null to indicate that's what we did
-		if ( ret === null ) {
+		// If false, rerun all templating (like data-ensure)
+		if ( ret === false ) {
+			return traverse( elem );
+
+		// If undefined, do nothing
+		} else if ( ret === undefined ) {
+			;
+
+		// If a (possibly-empty) array of nodes, replace this one with those
+		// The type of ret is checked to ensure it is not a function
+		} else if ( typeof ret === "object" && typeof ret.length !== "undefined" ) {
 			if ( elem.parentNode ) {
+				jQuery.each( ret, function( i, rep ) {
+					if ( rep.nodeType ) {
+						elem.parentNode.insertBefore( rep, elem );
+					}
+
+					return traverse( rep )
+				});
+
 				elem.parentNode.removeChild( elem );
 			}
 
-			return ret;
-
-		// If false, rerun all templating (like data-ensure)
-		} else if ( ret === false ) {
-			return traverse( elem );
-
-		// If a node, replace this one with that one
-		} else if ( ret && ret.nodeType && ret !== elem ) {
-			if ( elem.parentNode ) {
-				elem.parentNode.replaceChild( ret, elem );
-			}
-
-			elem = ret;
+			return null;
 
 		// If { items: ... }, this is a data-each loop
 		} else if ( ret.items ) {
@@ -339,20 +348,11 @@ jQuery.fn.tmpl = function() {
 				if ( typeof ret === "function" ) {
 					post.push( ret );
 
-				// If a node, prepare for a replacement
-				} else if ( ret && ret.nodeType ) {
-					newElem = ret;
-
-				// Return anything else (boolean, null, object for data-each)
+				// Return anything else (boolean, array of nodes for replacement, object for data-each)
 				} else if ( ret !== undefined ) {
 					return ret;
 				}
 			}
-		}
-
-		// If replacing, change the elem reference so later processing works on the new element
-		if ( newElem ) {
-			elem = newElem;
 		}
 
 		// Look up the processor based on the tag name
@@ -366,7 +366,7 @@ jQuery.fn.tmpl = function() {
 			}
 		}
 
-		return ret === undefined ? elem : ret;
+		return ret;
 	}
 };
 

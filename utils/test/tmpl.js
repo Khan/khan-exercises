@@ -140,6 +140,20 @@ test("Ensure", function() {
 	equals( jQuery.tmpl.VARS.D, 4, "See that the D was at the right value." );
 });
 
+test("Unwrap", function() {
+	jQuery("#qunit-fixture").append(
+		"<div data-unwrap><b>bold!</b></div>" +
+		"<div data-if='1' data-unwrap><i>italic!</i></div>" +
+		"<div data-if='0' data-unwrap><u>underline!</u></div>"
+	);
+
+	jQuery("#qunit-fixture").tmpl();
+
+	equals( jQuery("#qunit-fixture > b").length, 1, "See that the div was unwrapped." );
+	equals( jQuery("#qunit-fixture > i").length, 1, "See that the div was unwrapped with a true if." );
+	equals( jQuery("#qunit-fixture > u").length, 0, "See that the div was unwrapped with a false if." );
+});
+
 test("Looping", 23, function() {
 	jQuery("#qunit-fixture").append(
 		"<var id='items'>['a','b','c']</var>" +
