@@ -1,4 +1,5 @@
-html, body { font-family: Helvetica, Arial; }
+html, body { font-family: Helvetica, Arial; margin: 0; padding: 0; }
+body { margin: 10px; }
 .exercise, .vars, #next, #congrats, #oops { display: none; }
 p.question { font-weight: bold; }
 var { font-style: normal; }
@@ -11,12 +12,12 @@ var { font-style: normal; }
 #oops { color: red; }
 #workarea { margin-left: 10px; }
 #hintsarea { margin-left: 30px; }
-#sidebar { float: right; }
+#sidebar { float: right; width: 300px; }
 #sidebar ul { list-style: none; margin: 8px; padding: 0; }
 #sidebar li { margin: 10px 0; }
 #sidebar li span.value { padding-left: 5px; }
-h1, form, #help, #debug, #extras { border: 1px solid #AAA; background: #F0F0F0; padding: 10px; margin: 10px; }
-form, #help, #debug { width: 250px; }
+#problemarea { margin-right: 310px; }
+h1, form, #help, #debug, #extras { border: 1px solid #AAA; background: #F0F0F0; padding: 10px; margin: 10px 0; }
 #debug var { font: 14px Menlo, Courier, monospace; word-wrap: break-word; }
 h3 { color: #666; margin: 0; font-weight: normal; }
 code { font-family: Helvetica, Arial; }
