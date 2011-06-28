@@ -30,4 +30,4 @@ input[type=text] { width: 80px;	}
 .radical { font-size: 125%; padding-left: 6px; }
 .radical span { font-size: 80%; border-top: 2px solid #000; padding: 4px 1px 0 3px; }
 
-#scratchpad { position: absolute; left: -10px;}
+#scratchpad { position: absolute; left: -10px; z-index: 1; }
