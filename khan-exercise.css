@@ -21,11 +21,11 @@ h1, form, #help, #debug, #extras { border: 1px solid #AAA; background: #F0F0F0; 
 #debug var { font: 14px Menlo, Courier, monospace; word-wrap: break-word; }
 h3 { color: #666; margin: 0; font-weight: normal; }
 code { font-family: Helvetica, Arial; }
-table { margin: 5px; }
-th { font-weight: bold; text-align: center; }
-td { border: 1px solid #AAA; }
-th, td { padding: 5px; }
-th:first-child { text-align: right; }
+table.limit { margin: 5px; }
+table.limit th { font-weight: bold; text-align: center; }
+table.limit td { border: 1px solid #AAA; }
+table.limit th, td { padding: 5px; }
+table.limit th:first-child { text-align: right; }
 
 input[type=text] { width: 80px;	}
 .radical { font-size: 125%; padding-left: 6px; }
