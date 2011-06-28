@@ -270,6 +270,45 @@ jQuery.extend(KhanUtil, {
 		return Math.round( ( num * factor ).toFixed(5) ) / factor;
 	},
 
+	// toFraction( 4/8 ) => [1, 2]
+	// toFraction( 0.666 ) => [333, 500]
+	// toFraction( 0.666, 0.001 ) => [2, 3]
+	//
+	// tolerance can't be bigger than 1, sorry
+	toFraction: function( decimal, tolerance ) {
+		if ( tolerance == null ) {
+			tolerance = Math.pow( 2, -46 );
+		}
+
+		if ( decimal < 0 || decimal > 1 ) {
+			var fract = decimal % 1;
+			fract += ( fract < 0 ? 1 : 0 );
+
+			var nd = KhanUtil.toFraction( fract, tolerance );
+			nd[0] += Math.round( decimal - fract ) * nd[1];
+			return nd;
+		} else if ( Math.abs( Math.round( decimal ) - decimal ) <= tolerance ) {
+			return [ Math.round( decimal ), 1 ];
+		} else {
+			var loN = 0, loD = 1, hiN = 1, hiD = 1, midN = 1, midD = 2;
+
+			while ( 1 ) {
+				if ( Math.abs( midN / midD - decimal ) <= tolerance ) {
+					return [ midN, midD ];
+				} else if ( midN / midD < decimal) {
+					loN = midN;
+					loD = midD;
+				} else {
+					hiN = midN;
+					hiD = midD;
+				}
+
+				midN = loN + hiN;
+				midD = loD + hiD;
+			}
+		}
+	},
+
 	/* Shuffle an array using a Fischer-Yates shuffle. */
 	shuffle: function( array ) {
 		array = array.slice(0);
