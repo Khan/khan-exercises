@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+	<title>Angles 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="Y">rand(20) + 90</var>
+			<var id="X">180 - Y</var>
+			
+		</div>
+
+		<div class="problems">
+			
+			<div>
+				<div class="problem">Calculate opposite adjecent angles.</div> 
+				<div class="graphie">
+					(function() {
+						init({
+							range: [[-5, 5], [0, 5]],
+							scale: [20, 20]
+						});
+	
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw a horizontal line and an angle.
+						path([ [-4, 0], [0, 0], [-2, 4], [0,0], [4,0] ]);
+					
+						// label angle X
+						arc([0, 0], 1, 120, 180, { stroke: "blue"});
+						label([-2, 0], "X", "above");
+					
+						// label angle Y
+						arc([0,0], 1.5, 0, 118.5, { stroke: "purple" });
+						label([3.5, 0], "Y:<var>Y</var>&deg;", "above");
+					})()
+				</div>
+				
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				<p class="question">If <code>\angle</code>Y = <var>Y</var>&deg;, 
+				then <code>\angle</code>X = ?</p>
+				<div class="solution"><var>X</var></div>
+			</div>
+	
+			<div>
+				<div class="problem">Calculate opposing angles.</div> 
+				<div class="graphie">
+					(function() {
+						init({
+							range: [[-5, 5], [-5, 5]],
+							scale: [20, 20]
+						});
+	
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw a horizontal line and an angle.
+						path([ [-5, 0], [5, 0] ]);
+						path([ [-5, -3], [5, 3] ]);
+						
+						
+						// label angle X
+						arc([0, 0], 1, 180, 210, { stroke: "blue"});
+						label([-2.5, 0], "X", "below");
+					
+						// label angle Y
+						arc([0,0], 1.5, 0, 30, { stroke: "purple" });
+						label([3.5, 0], "Y:<var>X</var>&deg;", "above");
+					})()
+				</div>
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				<p class="question">If <code>\angle</code>Y = <var>X</var>&deg;, 
+				then <code>\angle</code>X = ?</p>
+				<div class="solution"><var>X</var></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
