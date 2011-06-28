@@ -24,16 +24,16 @@
 				functionPath.push([-11, currentY]);
 
 				for( var i = -10; i < 11; i++ ) {
-					if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && unctionPath[i+10][1] < 8 ) {
+					if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] < 8 ) {
 						functionPath.push([ i, functionPath[i+10][1]+1 ]);
 
-					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && unctionPath[i+10][1] > -8 ) {
+					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] > -8 ) {
 						functionPath.push([ i, functionPath[i+10][1]-1 ]);
 
-					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && unctionPath[i+10][1] < 7 ) {
+					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] < 7 ) {
 						functionPath.push([ i, functionPath[i+10][1]+2 ]);
 
-					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && unctionPath[i+10][1] > -7 ) {
+					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && functionPath[i+10][1] > -7 ) {
 						functionPath.push([ i, functionPath[i+10][1]-2 ]);
 
 					} else {
@@ -51,16 +51,16 @@
 				gPath.push([-11, gY]);
 
 				for( var i = -10; i < 11; i++ ) {
-					if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && Path[i+10][1] < 8 ) {
+					if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && gPath[i+10][1] < 8 ) {
 						gPath.push([i, gPath[i+10][1]+1]);
 
-					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && Path[i+10][1] > -8 ) {
+					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && gPath[i+10][1] > -8 ) {
 						gPath.push([i, gPath[i+10][1]-1]);
 
-					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && Path[i+10][1] < 7 ) {
+					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && gPath[i+10][1] < 7 ) {
 						gPath.push([i, gPath[i+10][1]+2]);
 
-					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && Path[i+10][1] > -7 ) {
+					} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && gPath[i+10][1] > -7 ) {
 						gPath.push([i, gPath[i+10][1]-2]);
 
 					} else {
