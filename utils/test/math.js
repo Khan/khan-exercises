@@ -2,7 +2,7 @@ module("math" );
 
 (function(){
 
-test( "math miscellanea", 42, function() {
+test( "math miscellanea", 44, function() {
 	deepEqual( KhanUtil.digits(376), [ 6, 7, 3 ], "digits(376)" );
 	deepEqual( KhanUtil.integerToDigits(376), [ 3, 7, 6 ], "integerToDigits(376)" );
 
@@ -14,9 +14,11 @@ test( "math miscellanea", 42, function() {
 	equals( KhanUtil.getGCD(123, 1), 1, "gcd(123, 1)" );
 	equals( KhanUtil.getGCD(123, 1), 1, "gcd(123, 1)" );
 	equals( KhanUtil.getGCD(123, 123), 123, "gcd(123, 123)" );
+	equals( KhanUtil.getGCD(169, 26, -52), 13, "gcd(169, 26, -52)" );
 
 	equals( KhanUtil.getLCM(216, 1024), 27648, "lcm(216, 1024)" );
 	equals( KhanUtil.getLCM(216, -1024), 27648, "lcm(216, -1024)" );
+	equals( KhanUtil.getLCM(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 2520, "lcm(1..10)" );
 
 	equals( KhanUtil.isPrime(1), false, "primeq 1" );
 	equals( KhanUtil.isPrime(2), true, "primeq 2" );

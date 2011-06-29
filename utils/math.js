@@ -81,7 +81,12 @@ jQuery.extend(KhanUtil, {
 	},
 
 	getLCM: function( a, b ) {
-		return Math.abs( a * b ) / KhanUtil.getGCD( a, b );
+		if ( arguments.length > 2 ) {
+			var rest = [].slice.call( arguments, 1 );
+			return KhanUtil.getLCM( a, KhanUtil.getLCM.apply( KhanUtil, rest ) );
+		} else {
+			return Math.abs( a * b ) / KhanUtil.getGCD( a, b );
+		}
 	},
 
 	primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
