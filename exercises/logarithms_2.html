@@ -16,37 +16,35 @@
 			<div>
 				<p class="problem">Rewrite in the form log(c)</p>
 				<p class="question"><code>\log(<var>A</var>) + \log(<var>B</var>)</code></p>
-				<p class="solution" data-type="regex">^(log\(|)<var>A*B</var>(\)|)$</p>
+				<p class="solution" data-type="regex">^(log\(|)<var>C</var>(\)|)$</p>
 				<div class="hints">
-					<p class="hint_rule">Use the rule: <code>\log(a) + \log(b) = \log(a.b)</code></p>
-					<p class="hint_rule_with_values"><code>\log(<var>A</var>) + \log(<var>B</var>) = \log(<var>A</var>.<var>B</var>)</code></p>
+					<p>Use the rule: <code>\log(a) + \log(b) = \log(a \cdot b)</code></p>
+					<p><code>\log(<var>A</var>) + \log(<var>B</var>) = \log(<var>A</var> \cdot <var>B</var>)</code></p>
+					<p><code>= \log(<var>C</var>)</code></p>
 				</div>
 			</div>
 
 			<div>
 				<p class="problem">Rewrite in the form log(c)</p>
 				<p class="question"><code>\log(<var>C</var>) - \log(<var>A</var>)</code></p>
-				<p class="solution" data-type="regex">^(log\(|)<var>C/A</var>(\)|)$</p>
+				<p class="solution" data-type="regex">^(log\(|)<var>B</var>(\)|)$</p>
 				<div class="hints">
-					<p class="hint_rule">Use the rule: <code>\log(a) - \log(b) = \log(\frac{a}{b})</code></p>
-					<p class="hint_rule_with_values"><code>\log(<var>C</var>) - \log(<var>A</var>) = \log(\frac{<var>C</var>}{<var>A</var>})</code></p>
+					<p>Use the rule: <code>\log(a) - \log(b) = \log(\frac{a}{b})</code></p>
+					<p><code>\log(<var>C</var>) - \log(<var>A</var>) = \log(\frac{<var>C</var>}{<var>A</var>})</code></p>
+					<p><code>= \log( <var>B</var> )</code></p>
 				</div>
 			</div>
 
 			<div>
 				<p class="problem">Rewrite in the form log(c)</p>
 				<p class="question"><code><var>A</var>\log(<var>B</var>)</code></p>
-				<p class="solution" data-type="regex">^(log\(|)<var>Math.pow(B,A)</var>(\)|)$</p>
+				<p class="solution" data-type="regex">^(log\(|)<var>pow( B, A )</var>(\)|)$</p>
 				<div class="hints">
-					<p class="hint_rule">Use the rule: <code>n.\log(a) = \log(a^{n})</code></p>
-					<p class="hint_rule_with_values"><code><var>A</var>\log(<var>B</var>) = \log(<var>B</var>^{<var>A</var>})</code></p>
+					<p>Use the rule: <code>n \cdot \log(a) = \log(a^{n})</code></p>
+					<p><code><var>A</var>\log(<var>B</var>) = \log(<var>B</var>^{<var>A</var>})</code></p>
+					<p><code>= \log(<var>pow( B, A )</var>)</code>
 				</div>
 			</div>
-		</div>
-
-		<div class="hints">
-			<p class="hint_rule"></p>
-			<p class="hint_rule_with_values"></p>
 		</div>
 	</div>
 </body>
