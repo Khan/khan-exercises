@@ -7,20 +7,27 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
+			<!-- Used for simple opposite or opposing angle problems -->
 			<var id="Y">rand(20) + 90</var>
 			<var id="X">180 - Y</var>
 			
+			<!-- Used for Triangle problems -->
+			<var id="Tri_Y">rand(25) + 20</var>
+			<var id="Tri_Z">rand(45) + 60</var>
+			<var id="Tri_X">180 - Tri_Y - Tri_Z</var>			
 		</div>
 
 		<div class="problems">
 			
+			
+	
+			<!-- Opposite angle of alternate interior angle. -->
 			<div>
-				<div class="problem">Calculate opposite adjecent angles.</div> 
 				<div class="graphie">
 					(function() {
 						init({
-							range: [[-5, 5], [0, 5]],
-							scale: [20, 20]
+							range: [[-5, 5], [-3, 5]],
+							scale: [40, 40]
 						});
 	
 	
@@ -28,64 +35,304 @@
 						    stroke: "#888",
 						    strokeWidth: 2
 						});
-	
-						// Draw a horizontal line and an angle.
-						path([ [-4, 0], [0, 0], [-2, 4], [0,0], [4,0] ]);
-					
-						// label angle X
-						arc([0, 0], 1, 120, 180, { stroke: "blue"});
-						label([-2, 0], "X", "above");
-					
-						// label angle Y
-						arc([0,0], 1.5, 0, 118.5, { stroke: "purple" });
-						label([3.5, 0], "Y:<var>Y</var>&deg;", "above");
-					})()
-				</div>
-				
-				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
-				Angles not necessarily drawn to scale.</p>
-					
-				<p class="question">If <code>\angle</code>Y = <var>Y</var>&deg;, 
-				then <code>\angle</code>X = ?</p>
-				<div class="solution"><var>X</var></div>
-			</div>
-	
-			<div>
-				<div class="problem">Calculate opposing angles.</div> 
-				<div class="graphie">
-					(function() {
-						init({
-							range: [[-5, 5], [-5, 5]],
-							scale: [20, 20]
-						});
-	
-	
-						style({
-						    stroke: "#888",
-						    strokeWidth: 2
-						});
-	
-						// Draw a horizontal line and an angle.
+							
+						// Draw a horizontal line and a crossing line 
+						// to form 2 opposing angles.
 						path([ [-5, 0], [5, 0] ]);
-						path([ [-5, -3], [5, 3] ]);
+						path([ [-5, -3], [5, 5] ]);
+						path([ [-5, 3], [5, 3] ]);
+						path([ [-1.2, 0], [-4, 3] ]);
 						
+						// Lable a, b, c
+						label([-1.3, -0.0], "a", "above");
+						label([-4, 3], "b", "above");
+						label([2.5, 3], "c", "above");
+						label([-4, 0], "d", "above");
+						label([3, 0], "e", "above");
 						
 						// label angle X
-						arc([0, 0], 1, 180, 210, { stroke: "blue"});
-						label([-2.5, 0], "X", "below");
+						arc([-1, 0], 1, 180, 210, { stroke: "blue"});
+						label([-3.3, 0], "X?", "below");
 					
-						// label angle Y
-						arc([0,0], 1.5, 0, 30, { stroke: "purple" });
-						label([3.5, 0], "Y:<var>X</var>&deg;", "above");
+						// label angle abc
+						arc([-4,3], .75, 312, 360, { stroke: "green" });
+						label([-3.2, 3], "<var>Tri_Z</var>&deg;", "below right");					
+					
+						// label angle bac
+						arc([-1.3,0], .75, 38, 125, { stroke: "purple" });
+						label([-1.3, .5], "<var>Tri_Y</var>&deg;", "above");
+												
 					})()
 				</div>
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
 				Angles not necessarily drawn to scale.</p>
 					
-				<p class="question">If <code>\angle</code>Y = <var>X</var>&deg;, 
-				then <code>\angle</code>X = ?</p>
+				<p class="question">
+				Given the following:
+				<ul>
+					<li><code>\angle{abc} = <var>Tri_Z</var>&deg;</code></li>
+					<li><code>\angle{bac} = <var>Tri_Y</var>&deg;</code></li>
+					<li><code>\overline{de} \parallel \overline{bc}</code></li>
+				</ul>
+				What is <code>\angle{X} = ?</code></p>
+				
+				<div class="solution"><var>Tri_X</var></div>
+			</div>
+			
+			<!-- Corresponding angles. -->
+			<div>
+				<div class="graphie">
+					(function() {
+						init({
+							range: [[-6, 6], [-5, 5]],
+							scale: [20, 20]
+						});
+	
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw 2 parallel horizontal lines
+						path([ [-5, 2], [5, 2] ]);
+						label([-5, 2], "A", "below");
+						label([5, 2], "B", "below");
+						
+						path([ [-5, -2], [5, -2] ]);
+						label([-5, -2], "C", "below");
+						label([5, -2], "D", "below");
+						
+						// Draw a transversal line.
+						path([ [-5, -4], [4, 5] ]);
+												
+						// label angle X
+						arc([-2.9, -2], 1, 0, 50, { stroke: "blue"});
+						label([-2, -2], "X", "above right");						
+					
+						// label angle Y
+						arc([1.3, 2], 1.5, 0, 50, { stroke: "purple" });
+						label([3.5, 2], "Y:<var>X</var>&deg;", "above right");
+					})()
+				</div>
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				<p class="question">
+					If <code>\overline{AB} \parallel \overline{CD}</code> 
+					(line AB is parallel to line CD),<br/>
+					and <code>\angle{Y} = <var>X</var>&deg;.</code><br/>
+					What is <code>\angle{X} = ?</code>
+				</p>
 				<div class="solution"><var>X</var></div>
 			</div>
+			
+			
+			<!-- 180 in Triangles. -->
+			<div>
+				<div class="graphie">
+					(function() {
+						init({
+							range: [[-7, 6], [-3, 5]],
+							scale: [20, 20]
+						});
+	
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw TriAngle
+						path([ [-5, -2], [5, -2] ]);						
+						path([ [-5, -2], [-1, 3] ]);
+						path([ [5, -2], [-1, 3] ]);
+						
+						label([5, -2], "Y:<var>Tri_Y</var>&deg;", "below right");
+						arc([5, -2], 1.5, 140, 180, { stroke: "green" });
+						
+						label([-1, 3], "Z:<var>Tri_Z</var>&deg;", "above");
+						arc([-1, 3], 1.5, 230, 320, { stroke: "purple" });
+						
+						label([-5, -2], "X:?", "below left");
+						arc([-5, -2], 1.5, 0, 50, { stroke: "blue" });
+						
+					})()
+				</div>
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				<p class="question">
+					If <code>\angle{Z} = <var>Tri_Z</var>&deg;</code> <br/>
+					and <code>\angle{Y} = <var>Tri_Y</var>&deg;</code><br/>
+					What is <code>\angle{X}</code>
+				</p>
+				<div class="solution"><var>Tri_X</var></div>
+			</div>
+			
+			
+			<!-- Angle adjacent to a triangle with 2 known angles. -->
+			<div>
+				<div class="graphie">
+					(function() {
+						init({
+							range: [[-9, 6], [-3, 5]],
+							scale: [30, 30]
+						});
+	
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw TriAngle
+						path([ [-8, -2], [4, -2] ]);
+						path([ [-4, -2], [0, 3] ]);
+						path([ [4, -2], [0, 3] ]);
+
+						// Label the sides
+						label([-3.2, -1.5], "a");
+						label([0, 2.3], "b");
+						label([3.2, -1.5], "c");						
+						
+						label([3, -2], "<var>Tri_Y</var>&deg;", "above left");
+						arc([4, -2], 1.2, 130, 180, { stroke: "green" });
+						
+						label([0, 1.5], "<var>Tri_Z</var>&deg;", "below");
+						arc([0, 3], 1.5, 230, 310, { stroke: "purple" });
+						
+						label([-4.5, -2], "X:?", "above left");
+						arc([-4, -2], .75, 50, 180, { stroke: "blue" });
+						
+					})()
+				</div>
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				<p class="question">
+					If <code>\angle{abc} = <var>Tri_Z</var>&deg;</code> <br/>
+					and <code>\angle{acb} = <var>Tri_Y</var></code>.</br>
+					What is <code>\angle{X}</code>?
+				</p>
+				<div class="solution"><var>Tri_Y + Tri_Z</var></div>
+			</div>
+			
+			<!-- Star Problem : Adjacent Angles + 180 deg in triangle -->
+			<div>
+				<div class="graphie">
+					(function() {
+						init({
+							range: [[-10, 10], [-7, 10]],
+							scale: [20, 20]
+						});
+	
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw A Star
+						path([ [-8, 5], [8, 5], [-6, -6], [0, 9], [0, 9], [6,-6], [-8, 5] ]);
+						
+						// Label pts on the star.
+						label([-8, 5], "a", "left");
+						label([0, 9], "b", "above");
+						label([8, 5], "c", "right");
+						label([-6, -6], "d", "below");
+						label([6, -6], "e", "below");
+						label([-1.8, 5], "f", "above left");
+						label([1.8, 5], "g", "above right");
+						label([3.2, 1.3], "h", "below right");
+						label([0, -1.2], "i", "below");
+						label([-3.2, 1.3], "j", "below left");
+
+						// Label the given angles
+						label([-5.5, -5.2], "<var>Tri_Y</var>&deg;", "above right");
+						arc([-6, -6], 1.3, 40, 71, { stroke: "green" });
+						label([0, 7.5], "<var>Tri_Z</var>&deg;", "below");
+						arc([0, 9], 1.3, 245, 290, { stroke: "orange" });
+						
+						// Label X
+						label([4.8, 1.0], "X = ?", "right");
+						arc([3.2, 1.3], 1.7, 285, 35, { stroke: "blue" });
+					})()
+				</div>
+
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				<p class="question">
+					Given the following:
+					<ul>
+					<li><code>\angle{bdc}&deg; = <var>Tri_Y</var></code></li>
+					<li><code>\angle{dbe}&deg; = <var>Tri_Z</var></code></li>
+					</ul>
+					
+					What is <code>\angle{X}</code>?
+				</p>
+				<div class="solution"><var>Tri_X</var></div>
+			</div>
+			
+			<!-- Star Problem : Adjacent Angles + 180 deg in triangle + opposite angles -->
+			<div>
+				<div class="graphie">
+					(function() {
+						init({
+							range: [[-10, 10], [-7, 10]],
+							scale: [20, 20]
+						});
+	
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw A Star
+						path([ [-8, 5], [8, 5], [-6, -6], [0, 9], [0, 9], [6,-6], [-8, 5] ]);
+						
+						// Label pts on the star.
+						label([-8, 5], "a", "left");
+						label([0, 9], "b", "above");
+						label([8, 5], "c", "right");
+						label([-6, -6], "d", "below");
+						label([6, -6], "e", "below");
+						label([-1.8, 5], "f", "above left");
+						label([1.8, 5], "g", "above right");
+						label([3.2, 1.3], "h", "below right");
+						label([0, -1.2], "i", "below");
+						label([-3.2, 1.3], "j", "below left");
+
+						// Label the given angles
+						label([-5.5, -5.2], "<var>Tri_Y</var>&deg;", "above right");
+						arc([-6, -6], 1.3, 40, 71, { stroke: "green" });
+						label([0, -.5], "<var>180 - Tri_Z</var>&deg;", "above");
+						arc([0, -1], 1, 30, 150, { stroke: "orange" });
+						
+						// Label X
+						label([-3.5, 2.3], "X = ?", "above");
+						arc([-3.2, 1.3], 1, 65, 140, { stroke: "blue" });
+					})()
+				</div>
+
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				<p class="question">
+					Given the following:
+					<ul>
+					<li><code>\angle{bdc}&deg; = <var>Tri_Y</var></code></li>
+					<li><code>\angle{aic}&deg; = <var>180 - Tri_Z</var></code></li>
+					</ul>
+					
+					What is <code>\angle{X}</code>?
+				</p>
+				<div class="solution"><var>Tri_X</var></div>
+			</div>
+
+			
 		</div>
 	</div>
 </body>
