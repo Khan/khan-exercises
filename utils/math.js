@@ -17,7 +17,7 @@ jQuery.extend(KhanUtil, {
 
 	/* Returns an array of the digits of a nonnegative integer in reverse
 	 * order: digits(376) = [6, 7, 3] */
-	digits: function(n) {
+	digits: function( n ) {
 		if(n == 0) {
 			return [0];
 		}
@@ -33,17 +33,8 @@ jQuery.extend(KhanUtil, {
 	},
 
 	// Similar to above digits, but in original order (not reversed)
-	integerToDigits: function( number ) {
-		if ( n === 0 ) {
-			return [0];
-		}
-
-		var digits = [];
-		while ( number > 0 ) {
-			digits.unshift( number % 10 );
-			number = Math.floor( number / 10 );
-		}
-		return digits;
+	integerToDigits: function( n ) {
+		return KhanUtil.digits( n ).reverse();
 	},
 
 	digitsToInteger: function( digits ) {
@@ -90,7 +81,7 @@ jQuery.extend(KhanUtil, {
 	},
 
 	getLCM: function( a, b ) {
-		return ( a * b ) / KhanUtil.getGCD( a, b );
+		return Math.abs( a * b ) / KhanUtil.getGCD( a, b );
 	},
 
 	primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
@@ -167,8 +158,16 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
+	getComposite: function() {
+		if (KhanUtil.randRange( 0, 1 )) {
+			return KhanUtil.getEvenComposite();
+		} else {
+			return KhanUtil.getOddComposite();
+		}
+	},
+
 	getPrimeFactorization: function( number ) {
-		if ( jQuery.inArray(number, KhanUtil.primes) !== -1 ) {
+		if ( KhanUtil.isPrime( number ) ) {
 			return [number];
 		}
 
@@ -244,10 +243,61 @@ jQuery.extend(KhanUtil, {
 		return arr[ KhanUtil.rand( arr.length ) ];
 	},
 
+	// Returns a random member of the given array that is never any of the values
+	// in the excludes array.
+	randFromArrayExclude: function( arr, excludes ) {
+		var cleanArr = [];
+		for ( var i = 0; i < arr.length; i++ ) {
+			if ( excludes.indexOf( arr[i] ) === -1 ) {
+				cleanArr.push( arr[i] );
+			}
+		}
+		return KhanUtil.randFromArray( cleanArr );
+	},
+
 	// Round a number to a certain number of decimal places
 	roundTo: function( precision, num ) {
 		var factor = Math.pow( 10, precision ).toFixed(5);
 		return Math.round( ( num * factor ).toFixed(5) ) / factor;
+	},
+
+	// toFraction( 4/8 ) => [1, 2]
+	// toFraction( 0.666 ) => [333, 500]
+	// toFraction( 0.666, 0.001 ) => [2, 3]
+	//
+	// tolerance can't be bigger than 1, sorry
+	toFraction: function( decimal, tolerance ) {
+		if ( tolerance == null ) {
+			tolerance = Math.pow( 2, -46 );
+		}
+
+		if ( decimal < 0 || decimal > 1 ) {
+			var fract = decimal % 1;
+			fract += ( fract < 0 ? 1 : 0 );
+
+			var nd = KhanUtil.toFraction( fract, tolerance );
+			nd[0] += Math.round( decimal - fract ) * nd[1];
+			return nd;
+		} else if ( Math.abs( Math.round( decimal ) - decimal ) <= tolerance ) {
+			return [ Math.round( decimal ), 1 ];
+		} else {
+			var loN = 0, loD = 1, hiN = 1, hiD = 1, midN = 1, midD = 2;
+
+			while ( 1 ) {
+				if ( Math.abs( midN / midD - decimal ) <= tolerance ) {
+					return [ midN, midD ];
+				} else if ( midN / midD < decimal) {
+					loN = midN;
+					loD = midD;
+				} else {
+					hiN = midN;
+					hiD = midD;
+				}
+
+				midN = loN + hiN;
+				midD = loD + hiD;
+			}
+		}
 	},
 
 	/* Shuffle an array using a Fischer-Yates shuffle. */

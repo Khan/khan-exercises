@@ -65,9 +65,11 @@
 				<p class="solution" data-type="rational"><var>SOL_N / SOL_D</var></p>
 
 				<div class="hints">
-					<div data-if="EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>EXP</var>}</code></div>
-					<div data-if="abs( EXP ) > 1"><code>= <var>expandFractionExponent( BASEF_N, BASEF_D, EXP )</var></code></div>
-					<div><code>= <var>frac( SOL_N, SOL_D )</var></code></div>
+					<!-- FIXME: could be made nicer with ifs that unwrap -->
+
+					<p data-if="abs( EXP ) > 1 && EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>EXP</var>}</code></p>
+					<p data-if="abs( EXP ) > 1" data-each="expandFractionExponent( BASEF_N, BASEF_D, EXP ) as v"><code>= <var>v</var></code></p>
+					<p data-else><code>= <var>frac( SOL_N, SOL_D )</var></code></p>
 				</div>
 			</div>
 		</div>

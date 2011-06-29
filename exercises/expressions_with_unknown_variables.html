@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math">
 <head>
-	<title>Expressions with unknown variables</title>
+	<title>Expressions With Unknown Variables</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -12,7 +12,7 @@
 			<var id="NUM_AB">randRange( 2, 3 )</var>
 
 			<var id="XY">randRange( 1, 10 )</var>
-			<var id="NUM_XY">randRange( 0, 3 )</var>
+			<var id="NUM_XY">randRangeExclude( 0, 3, [1] )</var>
 			<var id="COEFF_XY">randRange( 1, 10 )</var>
 
 			<var id="SOLUTION">( COEFF_AB * AB ) + ( NUM_XY > 0 ? COEFF_XY * XY : 0 )</var>

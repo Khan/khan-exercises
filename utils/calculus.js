@@ -139,7 +139,7 @@ jQuery.extend(KhanUtil, {
 		return {
 			f: notations[n_idx][0],
 			ddxF: notations[n_idx][1],
-			diffHint: notations[n_idx][2]( "A" + variable + "^{n}" ) + "=n.A"+variable+"^{n-1}", //this is the overall hint in the notation of the problem
+			diffHint: notations[n_idx][2]( "A" + variable + "^{n}" ) + "=n \\cdot A"+variable+"^{n-1}", //this is the overall hint in the notation of the problem
 			diffHintFunction: notations[ n_idx ][ 2 ] //this is the hint function used by each hint.  It renders the hint per term in the appropriate format
 		};
 	},
@@ -168,7 +168,7 @@ jQuery.extend(KhanUtil, {
 				var ddxText = ( ddxDegree == 0 ) ? ddxCoef : ddxCoefText + poly.variable + ( (ddxDegree == 1) ? "" : "^{" + ddxDegree + "}" );
 
 				this.hints [ i ] =	this.notation.diffHintFunction( KhanUtil.expr( this.f[ i+1 ] ) ) //shift right to avoid the "+"
-					+ " = " + term.degree + "." + term.coef + poly.variable + "^{" + term.degree + "-1} = " + ddxText;
+					+ " = " + term.degree + " \\cdot " + term.coef + poly.variable + "^{" + term.degree + "-1} = " + ddxText;
 			}
 
 			this.wrongs = [

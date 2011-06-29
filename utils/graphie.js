@@ -6,7 +6,7 @@ var createGraph = function( el ) {
 
 	// Set up some reasonable defaults
 	var currentStyle = {
-		"stroke-width": "2px",
+		"stroke-width": 2,
 		"fill": "none"
 	};
 
@@ -25,9 +25,21 @@ var createGraph = function( el ) {
 			if ( point === true ) {
 				return "z";
 			} else {
-				return ( i === 0 ? "M" : "L") + scalePoint( point );
+				var scaled = scalePoint( point );
+				return ( i === 0 ? "M" : "L") + boundNumber(scaled[0]) + " " + boundNumber(scaled[1]);
 			}
 		}).join("");
+
+		// Bound a number by 1e-6 and 1e20 to avoid exponents after toString
+		function boundNumber( num ) {
+			if ( num === 0 ) {
+				return num;
+			} else if ( num < 0 ) {
+				return -boundNumber( -num );
+			} else {
+				return Math.max( 1e-6, Math.min( num, 1e20 ) );
+			}
+		}
 	};
 
 	var processAttributes = function( attrs ) {
@@ -52,11 +64,7 @@ var createGraph = function( el ) {
 			},
 
 			strokeWidth: function( val ) {
-				if ( typeof val === "number" ) {
-					return { "stroke-width": val + "px" };
-				} else {
-					return { "stroke-width": val };
-				}
+				return { "stroke-width": parseFloat(val) };
 			},
 
 			rx: function( val ) {
@@ -188,6 +196,8 @@ var createGraph = function( el ) {
 					}, 1);
 				});
 			}
+
+			return span;
 		},
 
 		plotParametric: function( fn, range ) {
@@ -286,7 +296,9 @@ var createGraph = function( el ) {
 				result = drawingTools[ name ].apply( drawingTools, arguments );
 			}
 
-			if ( result != null ) {
+			// Bad heuristic for recognizing Raphael elements and sets
+			var type = result.constructor.prototype
+			if ( type === Raphael.el || type === Raphael.st ) {
 				result.attr( currentStyle );
 			}
 
@@ -298,7 +310,7 @@ var createGraph = function( el ) {
 	return graphie;
 };
 
-jQuery.fn.graphie = function() {
+jQuery.fn.graphie = function( problem ) {
 	return this.find(".graphie").add(this.filter(".graphie")).each(function() {
 		// Grab code for later execution
 		var code = jQuery( this ).text(), graphie;
@@ -309,7 +321,10 @@ jQuery.fn.graphie = function() {
 		// Initialize the graph
 		if ( jQuery( this ).data( "update" ) ) {
 			var id = jQuery( this ).data( "update" );
-			graphie = jQuery( "#" + id ).data( "graphie" );
+
+			// Graph could be in either of these
+			var area = jQuery( "#problemarea" ).add(problem);
+			graphie = area.find( "#" + id ).data( "graphie" );
 		} else {
 			graphie = createGraph( this );
 			jQuery( this ).data( "graphie", graphie );
@@ -323,6 +338,6 @@ jQuery.fn.graphie = function() {
 		// Execute the graph-specific code
 		KhanUtil.currentGraph = graphie;
 		jQuery.tmpl.getVAR( code, graphie );
-		delete KhanUtil.currentGraph;
+		// delete KhanUtil.currentGraph;
 	}).end();
 };
