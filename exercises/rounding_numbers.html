@@ -18,14 +18,15 @@
 
 		<var id="TYPE">randFromArray(ROUNDINGTYPE)</var>
 		<var id="OFFSET">TYPE.pos</var>
-		<var id="NUMBER">rand(100)</var>
-		<var id="DECIMAL">rand(99)</var>
-		<var id="GIVEN">(NUMBER + DECIMAL * 0.01)*(Math.pow(10,OFFSET))</var>
+		<var id="NUMBER">randRange(1,100)</var>
+		<var id="DECIMAL">rand(0,99)</var>
+		<var id="FACTOR">round(Math.pow(10,OFFSET))</var>
+		<var id="GIVEN">(NUMBER + DECIMAL * 0.01)*FACTOR</var>
 		<var id="STRING">GIVEN.toString()</var>
 		<var id="ONES">GIVEN%1 !== 0 ? STRING.indexOf(".")-1 : STRING.length-1</var>
 		<var id="ROUN">STRING.charAt(ONES-OFFSET+(OFFSET < 0 ? 1 : 0))</var>
 		<var id="RIGHT">STRING.charAt(ONES-OFFSET+(OFFSET <= 0 ? 1 : 0)+1)</var>
-		<var id="ANSWER">round(GIVEN / Math.pow(10,OFFSET))*Math.pow(10,OFFSET)</var>
+		<var id="ANSWER">round(GIVEN / FACTOR)*FACTOR</var>
 	</div>
 
 	<div class="problems">
