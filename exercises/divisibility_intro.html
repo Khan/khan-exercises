@@ -14,16 +14,18 @@
 		<div class="vars">
 			<var id="NUMBER">randRange( 0, 1 ) ? getOddComposite( 50 ) : getEvenComposite( 50 )</var>
 			<var id="ANSWER">
-				var factorization = getPrimeFactorization( NUMBER ),
-					num_factors = round( factorization.length / 2 ),
-					answer = 1;
+				(function() {
+					var factorization = getPrimeFactorization( NUMBER ),
+						num_factors = round( factorization.length / 2 ),
+						answer = 1;
 
-				for (var i = 0; i &lt; num_factors && factorization.length; i++) {
-					var index = floor( random() * factorization.length );
-					answer *= factorization[index];
-					factorization = jQuery.merge( factorization.slice(0, index), factorization.slice(index + 1) );
-				}
-				return answer;
+					for (var i = 0; i &lt; num_factors && factorization.length; i++) {
+						var index = floor( random() * factorization.length );
+						answer *= factorization[index];
+						factorization = jQuery.merge( factorization.slice(0, index), factorization.slice(index + 1) );
+					}
+					return answer;
+				})()
 			</var>
 			<var id="NUMBER_FACTORS">toSentence( getPrimeFactorization ( NUMBER ) )</var>
 			<var id="ANSWER_FACTORS">toSentence( getPrimeFactorization( ANSWER ) )</var>

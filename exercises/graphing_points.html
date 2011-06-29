@@ -33,36 +33,34 @@
                 <div>
                     <p class="question">Which of these coordinate pairs is not graphed?</p>
 					<div class="graphie" id="grid">
-						(function() {
-							init({
-								range: [[-10, 10], [-10, 10]],
-								scale: [30, 30]
-							});
+						init({
+							range: [[-10, 10], [-10, 10]],
+							scale: [30, 30]
+						});
 
-							grid( [-10, 10], [-10, 10], {
-								stroke: "#ccc"
-							});
+						grid( [-10, 10], [-10, 10], {
+							stroke: "#ccc"
+						});
 
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+						path( [ [-10, 0], [10, 0] ] );
+						path( [ [0, -10], [0, 10] ] );
+
+						jQuery.each( POINTS, function( index, point ) {
+							if ( index === 0) {
+								return;
+							}
 							style({
-							    stroke: "#888",
-							    strokeWidth: 2
+								stroke: "#6495ED",
+								fill: "#6495ED"
+							}, function() {
+									circle( point, 0.15 );
 							});
-							path( [ [-10, 0], [10, 0] ] );
-							path( [ [0, -10], [0, 10] ] );
 
-							jQuery.each( POINTS, function( index, point ) {
-								if ( index === 0) {
-									return;
-								}
-								style({
-									stroke: "#6495ED",
-									fill: "#6495ED"
-								}, function() {
-										circle( point, 0.15 );
-								});
-
-							});
-						})()
+						});
 					</div>
                     <p class="solution"><code>(<var>POINTS[0].join( ", " )</var>)</code></p>
 					<ul class="choices">
