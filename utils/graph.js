@@ -372,12 +372,12 @@ function piechart( division, colors, r ) {
 		var set = present.paper.set();
 		for (var i = 0; i < number; i++) {
 			var rad = Math.PI / 180;
-		    var x1 = cx + r * Math.cos(-currAngle * rad),
-		        x2 = cx + r * Math.cos(-(currAngle + measure) * rad),
-		        y1 = cy + r * Math.sin(-currAngle * rad),
-		        y2 = cy + r * Math.sin(-(currAngle + measure) * rad);
-		    set.push (present.paper.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, 0, 0, x2, y2, "z"])
-								.attr(params) );
+			var x1 = cx + r * Math.cos(-currAngle * rad),
+				x2 = cx + r * Math.cos(-(currAngle + measure) * rad),
+				y1 = cy + r * Math.sin(-currAngle * rad),
+				y2 = cy + r * Math.sin(-(currAngle + measure) * rad);
+			set.push (present.paper.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, 0, 0, x2, y2, "z"])
+				.attr(params) );
 			currAngle += measure;
 		}
 		return set;
