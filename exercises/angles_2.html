@@ -43,18 +43,18 @@
 						path([ [-5, 3], [5, 3] ]);
 						path([ [-1.2, 0], [-4, 3] ]);
 						
-						// Lable a, b, c
-						label([-1.3, -0.0], "a", "above");
-						label([-4, 3], "b", "above");
-						label([2.5, 3], "c", "above");
-						label([-4, 0], "d", "above");
-						label([3, 0], "e", "above");
+						// Label A, B, C
+						label([-1.3, -0.0], "A", "above");
+						label([-4, 3], "B", "above");
+						label([2.5, 3], "C", "above");
+						label([-4, 0], "D", "above");
+						label([3, 0], "E", "above");
 						
 						// label angle X
 						arc([-1, 0], 1, 180, 210, { stroke: "blue"});
-						label([-3.3, 0], "X?", "below");
+						label([-3.3, 0], "X=?", "below");
 					
-						// label angle abc
+						// label angle ABC
 						arc([-4,3], .75, 312, 360, { stroke: "green" });
 						label([-3.2, 3], "<var>Tri_Z</var>&deg;", "below right");					
 					
@@ -70,13 +70,23 @@
 				<p class="question">
 				Given the following:
 				<ul>
-					<li><code>\angle{abc} = <var>Tri_Z</var>&deg;</code></li>
-					<li><code>\angle{bac} = <var>Tri_Y</var>&deg;</code></li>
-					<li><code>\overline{de} \parallel \overline{bc}</code></li>
+					<li><code>\angle{ABC} = <var>Tri_Z</var>&deg;</code></li>
+					<li><code>\angle{BAC} = <var>Tri_Y</var>&deg;</code></li>
+					<li><code>\overline{DE} \parallel \overline{BC}</code></li>
 				</ul>
 				What is <code>\angle{X} = ?</code></p>
 				
 				<div class="solution"><var>Tri_X</var></div>
+				
+				<div class="hints">
+					<p class="hint_blue">
+						Hint: You can use <code>\angle{ABC}</code> to find out 
+						<code>\angle{BAD}</code> using alternate angle theorum.
+					</p>
+					<p class="hint_green">
+						Hint: There are 180&deg; in a straight line.
+					</p>
+				</div>
 			</div>
 			
 			<!-- Corresponding angles. -->
@@ -108,11 +118,11 @@
 												
 						// label angle X
 						arc([-2.9, -2], 1, 0, 50, { stroke: "blue"});
-						label([-2, -2], "X", "above right");						
+						label([-2, -2], "X=?", "above right");						
 					
 						// label angle Y
 						arc([1.3, 2], 1.5, 0, 50, { stroke: "purple" });
-						label([3.5, 2], "Y:<var>X</var>&deg;", "above right");
+						label([3.5, 2], "Y=<var>X</var>&deg;", "above right");
 					})()
 				</div>
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
@@ -122,9 +132,18 @@
 					If <code>\overline{AB} \parallel \overline{CD}</code> 
 					(line AB is parallel to line CD),<br/>
 					and <code>\angle{Y} = <var>X</var>&deg;.</code><br/>
+					<br/>
 					What is <code>\angle{X} = ?</code>
 				</p>
 				<div class="solution"><var>X</var></div>
+				
+				<div class="hints">
+					<p class="hint_blue">
+						Hint: Corresponding angle theory says when another line 
+						bisects a set of parallel lines, they create sets of 
+						congruent angles.
+					</p>
+				</div>
 			</div>
 			
 			
@@ -148,13 +167,13 @@
 						path([ [-5, -2], [-1, 3] ]);
 						path([ [5, -2], [-1, 3] ]);
 						
-						label([5, -2], "Y:<var>Tri_Y</var>&deg;", "below right");
+						label([5, -2], "Y=<var>Tri_Y</var>&deg;", "below right");
 						arc([5, -2], 1.5, 140, 180, { stroke: "green" });
 						
-						label([-1, 3], "Z:<var>Tri_Z</var>&deg;", "above");
+						label([-1, 3], "Z=<var>Tri_Z</var>&deg;", "above");
 						arc([-1, 3], 1.5, 230, 320, { stroke: "purple" });
 						
-						label([-5, -2], "X:?", "below left");
+						label([-5, -2], "X=?", "below left");
 						arc([-5, -2], 1.5, 0, 50, { stroke: "blue" });
 						
 					})()
@@ -163,11 +182,18 @@
 				Angles not necessarily drawn to scale.</p>
 					
 				<p class="question">
-					If <code>\angle{Z} = <var>Tri_Z</var>&deg;</code> <br/>
+					Given <code>\angle{Z} = <var>Tri_Z</var>&deg;</code> <br/>
 					and <code>\angle{Y} = <var>Tri_Y</var>&deg;</code><br/>
-					What is <code>\angle{X}</code>
+					<br/>
+					What is <code>\angle{X}</code>?
 				</p>
 				<div class="solution"><var>Tri_X</var></div>
+				
+				<div class="hints">
+					<p class="hint_blue">
+						Hint: Interior angles of a triangle add up to 180&deg;.
+					</p>
+				</div>
 			</div>
 			
 			
@@ -192,9 +218,9 @@
 						path([ [4, -2], [0, 3] ]);
 
 						// Label the sides
-						label([-3.2, -1.5], "a");
-						label([0, 2.3], "b");
-						label([3.2, -1.5], "c");						
+						label([-3.2, -1.5], "A");
+						label([0, 2.3], "B");
+						label([3.2, -1.5], "C");						
 						
 						label([3, -2], "<var>Tri_Y</var>&deg;", "above left");
 						arc([4, -2], 1.2, 130, 180, { stroke: "green" });
@@ -202,7 +228,7 @@
 						label([0, 1.5], "<var>Tri_Z</var>&deg;", "below");
 						arc([0, 3], 1.5, 230, 310, { stroke: "purple" });
 						
-						label([-4.5, -2], "X:?", "above left");
+						label([-4.7, -2], "X=?", "above left");
 						arc([-4, -2], .75, 50, 180, { stroke: "blue" });
 						
 					})()
@@ -211,11 +237,20 @@
 				Angles not necessarily drawn to scale.</p>
 					
 				<p class="question">
-					If <code>\angle{abc} = <var>Tri_Z</var>&deg;</code> <br/>
-					and <code>\angle{acb} = <var>Tri_Y</var></code>.</br>
+					If <code>\angle{ABC} = <var>Tri_Z</var>&deg;</code> <br/>
+					and <code>\angle{ACB} = <var>Tri_Y</var></code>.</br>
 					What is <code>\angle{X}</code>?
 				</p>
 				<div class="solution"><var>Tri_Y + Tri_Z</var></div>
+				
+								<div class="hints">
+					<p class="hint_blue">
+						Hint: <code>\angle{X}</code> is opposite angle <code>\angle{BAC}</code>.
+					</p>
+					<p class="hint_green">
+						Hint: The interior angles of a triangle adds up to 180&deg;.
+					</p>
+				</div>
 			</div>
 			
 			<!-- Star Problem : Adjacent Angles + 180 deg in triangle -->
@@ -237,16 +272,16 @@
 						path([ [-8, 5], [8, 5], [-6, -6], [0, 9], [0, 9], [6,-6], [-8, 5] ]);
 						
 						// Label pts on the star.
-						label([-8, 5], "a", "left");
-						label([0, 9], "b", "above");
-						label([8, 5], "c", "right");
-						label([-6, -6], "d", "below");
-						label([6, -6], "e", "below");
-						label([-1.8, 5], "f", "above left");
-						label([1.8, 5], "g", "above right");
-						label([3.2, 1.3], "h", "below right");
-						label([0, -1.2], "i", "below");
-						label([-3.2, 1.3], "j", "below left");
+						label([-8, 5], "A", "left");
+						label([0, 9], "B", "above");
+						label([8, 5], "C", "right");
+						label([-6, -6], "D", "below");
+						label([6, -6], "E", "below");
+						label([-1.8, 5], "F", "above left");
+						label([1.8, 5], "G", "above right");
+						label([3.2, 1.3], "H", "below right");
+						label([0, -1.2], "I", "below");
+						label([-3.2, 1.3], "J", "below left");
 
 						// Label the given angles
 						label([-5.5, -5.2], "<var>Tri_Y</var>&deg;", "above right");
@@ -255,7 +290,7 @@
 						arc([0, 9], 1.3, 245, 290, { stroke: "orange" });
 						
 						// Label X
-						label([4.8, 1.0], "X = ?", "right");
+						label([4.8, 1.0], "X=?", "right");
 						arc([3.2, 1.3], 1.7, 285, 35, { stroke: "blue" });
 					})()
 				</div>
@@ -266,13 +301,23 @@
 				<p class="question">
 					Given the following:
 					<ul>
-					<li><code>\angle{bdc}&deg; = <var>Tri_Y</var></code></li>
-					<li><code>\angle{dbe}&deg; = <var>Tri_Z</var></code></li>
+					<li><code>\angle{BDC}&deg; = <var>Tri_Y</var></code></li>
+					<li><code>\angle{DBE}&deg; = <var>Tri_Z</var></code></li>
 					</ul>
 					
 					What is <code>\angle{X}</code>?
 				</p>
 				<div class="solution"><var>Tri_X</var></div>
+				
+						
+				<div class="hints">
+					<p class="hint_blue">
+						Hint: <code>\angle{X}</code> is opposite angle <code>\angle{BHD}</code>.
+					</p>
+					<p class="hint_green">
+						Hint: The interior angles of a triangle adds up to 180&deg;.
+					</p>
+				</div>
 			</div>
 			
 			<!-- Star Problem : Adjacent Angles + 180 deg in triangle + opposite angles -->
@@ -294,16 +339,16 @@
 						path([ [-8, 5], [8, 5], [-6, -6], [0, 9], [0, 9], [6,-6], [-8, 5] ]);
 						
 						// Label pts on the star.
-						label([-8, 5], "a", "left");
-						label([0, 9], "b", "above");
-						label([8, 5], "c", "right");
-						label([-6, -6], "d", "below");
-						label([6, -6], "e", "below");
-						label([-1.8, 5], "f", "above left");
-						label([1.8, 5], "g", "above right");
-						label([3.2, 1.3], "h", "below right");
-						label([0, -1.2], "i", "below");
-						label([-3.2, 1.3], "j", "below left");
+						label([-8, 5], "A", "left");
+						label([0, 9], "B", "above");
+						label([8, 5], "C", "right");
+						label([-6, -6], "D", "below");
+						label([6, -6], "E", "below");
+						label([-1.8, 5], "F", "above left");
+						label([1.8, 5], "G", "above right");
+						label([3.2, 1.3], "H", "below right");
+						label([0, -1.2], "I", "below");
+						label([-3.2, 1.3], "J", "below left");
 
 						// Label the given angles
 						label([-5.5, -5.2], "<var>Tri_Y</var>&deg;", "above right");
@@ -312,7 +357,7 @@
 						arc([0, -1], 1, 30, 150, { stroke: "orange" });
 						
 						// Label X
-						label([-3.5, 2.3], "X = ?", "above");
+						label([-3.5, 2.3], "X=?", "above");
 						arc([-3.2, 1.3], 1, 65, 140, { stroke: "blue" });
 					})()
 				</div>
@@ -323,13 +368,26 @@
 				<p class="question">
 					Given the following:
 					<ul>
-					<li><code>\angle{bdc}&deg; = <var>Tri_Y</var></code></li>
-					<li><code>\angle{aic}&deg; = <var>180 - Tri_Z</var></code></li>
+					<li><code>\angle{BDC}&deg; = <var>Tri_Y</var></code></li>
+					<li><code>\angle{AIC}&deg; = <var>180 - Tri_Z</var></code></li>
 					</ul>
 					
 					What is <code>\angle{X}</code>?
 				</p>
 				<div class="solution"><var>Tri_X</var></div>
+				
+				<div class="hints">
+					<p class="hint_blue">
+						Hint: <code>\angle{X}</code> is opposite angle <code>\angle{DJE}</code>.
+					</p>
+					<p class="hint_green">
+						Hint: The interior angles of a triangle adds up to 180&deg;.
+					</p>
+					<p class="hint_purple">
+						Hint: <code>\angle{DIJ}</code> and <code>\angle{AIC}</code> are opposite..
+					</p>
+					
+				</div>
 			</div>
 
 			
