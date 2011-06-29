@@ -16,14 +16,7 @@
 			<div>
 				<p class="problem">Rewrite in the form log(c)</p>
 				<p class="question"><code>\log(<var>A</var>) + \log(<var>B</var>)</code></p>
-				<p class="solution"><code>\log(<var>A*B</var>)</code></p>
-				<ul class="choices" data-show="5" data-none="true">
-					<li><code>\log(<var>A+B</var>)</code></li>
-					<li><code>\log(<var>B/A</var>)</code></li>
-					<li><code>\log(<var>B-A</var>)</code></li>
-					<li><code>\log(<var>Math.pow(B,A)</var>)</code></li>
-					<li><code>\log(<var>Math.pow(A,B)</var>)</code></li>
-				</ul>
+				<p class="solution" data-type="regex">^(log\(|)<var>A*B</var>(\)|)$</p>
 				<div class="hints">
 					<p class="hint_rule">Use the rule: <code>\log(a) + \log(b) = \log(a.b)</code></p>
 					<p class="hint_rule_with_values"><code>\log(<var>A</var>) + \log(<var>B</var>) = \log(<var>A</var>.<var>B</var>)</code></p>
@@ -33,14 +26,7 @@
 			<div>
 				<p class="problem">Rewrite in the form log(c)</p>
 				<p class="question"><code>\log(<var>C</var>) - \log(<var>A</var>)</code></p>
-				<p class="solution"><code>\log(<var>C/A</var>)</code></p>
-				<ul class="choices" data-show="5" data-none="true">
-					<li><code>\log(<var>A+C</var>)</code></li>
-					<li><code>\log(<var>A*C</var>)</code></li>
-					<li><code>\log(<var>C-A</var>)</code></li>
-					<li><code>\log(<var>Math.pow(C,A)</var>)</code></li>
-					<li><code>\log(<var>Math.pow(A,C)</var>)</code></li>
-				</ul>
+				<p class="solution" data-type="regex">^(log\(|)<var>C/A</var>(\)|)$</p>
 				<div class="hints">
 					<p class="hint_rule">Use the rule: <code>\log(a) - \log(b) = \log(\frac{a}{b})</code></p>
 					<p class="hint_rule_with_values"><code>\log(<var>C</var>) - \log(<var>A</var>) = \log(\frac{<var>C</var>}{<var>A</var>})</code></p>
@@ -50,14 +36,7 @@
 			<div>
 				<p class="problem">Rewrite in the form log(c)</p>
 				<p class="question"><code><var>A</var>\log(<var>B</var>)</code></p>
-				<p class="solution"><code>\log(<var>Math.pow(B,A)</var>)</code></p>
-				<ul class="choices" data-show="5" data-none="true">
-					<li><code>\log(<var>A+B</var>)</code></li>
-					<li><code>\log(<var>B/A</var>)</code></li>
-					<li><code>\log(<var>B-A</var>)</code></li>
-					<li><code>\log(<var>A*B</var>)</code></li>
-					<li><code>\log(<var>Math.pow(A,B)</var>)</code></li>
-				</ul>
+				<p class="solution" data-type="regex">^(log\(|)<var>Math.pow(B,A)</var>(\)|)$</p>
 				<div class="hints">
 					<p class="hint_rule">Use the rule: <code>n.\log(a) = \log(a^{n})</code></p>
 					<p class="hint_rule_with_values"><code><var>A</var>\log(<var>B</var>) = \log(<var>B</var>^{<var>A</var>})</code></p>
