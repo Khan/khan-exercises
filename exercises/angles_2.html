@@ -9,19 +9,20 @@
 		<div class="vars">
 			<!-- Used for simple opposite or opposing angle problems -->
 			<var id="Y">rand(20) + 90</var>
-			<var id="X">180 - Y</var>
+			<var id="X">180 - Y</var>						
 			
 			<!-- Used for Triangle problems -->
 			<var id="Tri_Y">rand(25) + 20</var>
 			<var id="Tri_Z">rand(45) + 60</var>
-			<var id="Tri_X">180 - Tri_Y - Tri_Z</var>			
+			<var id="Tri_X">180 - Tri_Y - Tri_Z</var>
+			
+			<!-- Used for problems that choose 1 of 3 angles out of a trangle -->
+			<var id="RAND_SWITCH">rand(2)</var>			
 		</div>
 
 		<div class="problems">
 			
-			
-	
-			<!-- Opposite angle of alternate interior angle. -->
+			<!-- Opposite angle of alternate interior angle and 180 degrees in a triangle. -->
 			<div>
 				<div class="graphie">
 					(function() {
@@ -43,48 +44,80 @@
 						path([ [-5, 3], [5, 3] ]);
 						path([ [-1.2, 0], [-4, 3] ]);
 						
+
+						
 						// Label A, B, C
-						label([-1.3, -0.0], "A", "above");
+						label([-1.3, -0.0], "A", "below");
 						label([-4, 3], "B", "above");
 						label([2.5, 3], "C", "above");
 						label([-4, 0], "D", "above");
+						circle([-4,0], 0.05);
 						label([3, 0], "E", "above");
+						circle([3,0], 0.05);
+						label([-3.75, -2], "F", "above");
+						circle([-3.75,-2], 0.05);
 						
-						// label angle X
-						arc([-1, 0], 1, 180, 210, { stroke: "blue"});
-						label([-3.3, 0], "X=?", "below");
-					
 						// label angle ABC
 						arc([-4,3], .75, 312, 360, { stroke: "green" });
-						label([-3.2, 3], "<var>Tri_Z</var>&deg;", "below right");					
-					
+						label([-3.2, 3], "<var>Tri_Y</var>&deg;", "below right");					
+				
 						// label angle bac
 						arc([-1.3,0], .75, 38, 125, { stroke: "purple" });
-						label([-1.3, .5], "<var>Tri_Y</var>&deg;", "above");
-												
+						label([-1.3, .5], "<var>Tri_Z</var>&deg;", "above");
+
+						// Label X according to problem variation													
+						if(RAND_SWITCH == 0 ) {
+							//problem variation 1
+							arc([-1, 0], 1, 180, 210, { stroke: "blue"});
+							label([-2.5, 0], "?", "below");
+						} else {
+							//problem variation 2
+							arc([-1, 0], 1, 0, 45, { stroke: "blue"});
+							label([.5, 0], "?", "above");
+						}							
 					})()
 				</div>
+				
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
 				Angles not necessarily drawn to scale.</p>
 					
-				<p class="question">
+				
 				Given the following:
 				<ul>
-					<li><code>\angle{ABC} = <var>Tri_Z</var>&deg;</code></li>
-					<li><code>\angle{BAC} = <var>Tri_Y</var>&deg;</code></li>
+					<li><code>\angle{ABC} = <var>Tri_Y</var>&deg;</code></li>
+					<li><code>\angle{BAC} = <var>Tri_Z</var>&deg;</code></li>
 					<li><code>\overline{DE} \parallel \overline{BC}</code></li>
 				</ul>
-				What is <code>\angle{X} = ?</code></p>
+					
+				
+				<!-- Select which angle to ask about depending on problem variation. -->
+				<div data-if="RAND_SWITCH === 0">										
+					<p class="question">What is <code>\angle{DAF} = ?</code></p>
+				</div>
+				<div data-else>											
+					<p class="question">What is <code>\angle{CAE} = ?</code></p>
+				</div>	
+				
+				
 				
 				<div class="solution"><var>Tri_X</var></div>
 				
 				<div class="hints">
 					<p class="hint_blue">
-						Hint: You can use <code>\angle{ABC}</code> to find out 
-						<code>\angle{BAD}</code> using alternate angle theorum.
+						<code>\angle{BCA}</code> using <code>\angle{BAC}</code> 
+						and <code>\angle{ABC}</code> add up to 180&deg;.						
 					</p>
 					<p class="hint_green">
-						Hint: There are 180&deg; in a straight line.
+						<span data-if="RAND_SWITCH === 0">
+							<span data-if="RAND_SWITCH === 0">										
+								<code>\angle{DAF}</code>  
+							</span>
+							<span data-else>											
+								<code>\angle{CAE}</code>
+							</span>
+						</span>
+						are congruent to <code>\angle{BCA}</code> because they  
+						oppose each other on a set of parallel lines.
 					</p>
 				</div>
 			</div>
@@ -146,14 +179,13 @@
 				</div>
 			</div>
 			
-			
 			<!-- 180 in Triangles. -->
 			<div>
 				<div class="graphie">
 					(function() {
 						init({
 							range: [[-7, 6], [-3, 5]],
-							scale: [20, 20]
+							scale: [40, 40]
 						});
 	
 	
@@ -167,13 +199,13 @@
 						path([ [-5, -2], [-1, 3] ]);
 						path([ [5, -2], [-1, 3] ]);
 						
-						label([5, -2], "Y=<var>Tri_Y</var>&deg;", "below right");
-						arc([5, -2], 1.5, 140, 180, { stroke: "green" });
+						label([4.2, -2], "Y=<var>Tri_Y</var>&deg;", "above left");
+						arc([5, -2], 1, 140, 180, { stroke: "green" });
 						
-						label([-1, 3], "Z=<var>Tri_Z</var>&deg;", "above");
-						arc([-1, 3], 1.5, 230, 320, { stroke: "purple" });
+						label([-1, 2], "Z=<var>Tri_Z</var>&deg;", "below");
+						arc([-1, 3], 1, 230, 320, { stroke: "purple" });
 						
-						label([-5, -2], "X=?", "below left");
+						label([-3.5, -2], "X=?", "above right");
 						arc([-5, -2], 1.5, 0, 50, { stroke: "blue" });
 						
 					})()
@@ -195,8 +227,7 @@
 					</p>
 				</div>
 			</div>
-			
-			
+						
 			<!-- Angle adjacent to a triangle with 2 known angles. -->
 			<div>
 				<div class="graphie">
