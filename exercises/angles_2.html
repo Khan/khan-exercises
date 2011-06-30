@@ -25,13 +25,11 @@
 			
 			<!-- Opposite angle of alternate interior angle and 180 degrees in a triangle. -->
 			<div>
-				<div class="graphie">
-					(function() {
+				<div class="graphie" id="opposite-angles">
 						init({
 							range: [[-5, 5], [-3, 5]],
 							scale: [40, 40]
 						});
-	
 	
 						style({
 						    stroke: "#888",
@@ -77,7 +75,6 @@
 							arc([-1, 0], 1, 0, 45, { stroke: "blue"});
 							label([1, 0], "&ang;CAE = ?", "above", { color: "blue"});
 						}							
-					})()
 				</div>
 				
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
@@ -99,25 +96,31 @@
 				<div data-else>											
 					<p class="question">What is <code>\angle{CAE} = ?</code></p>
 				</div>	
-				
-				
-				
+			
 				<div class="solution"><var>Tri_X</var></div>
 				
 				<div class="hints">
 					<p class="hint_blue">
-						<code>\angle{BCA}</code>, <code>\angle{BAC}</code> 
-						and <code>\angle{ABC}</code> add up to 180&deg;.						
+						Solve for <code>\angle{BCA}</code> by subtractint <code>\angle{BAC}</code> 
+						and <code>\angle{ABC}</code> from 180&deg;.  We find out that 	
+						<code>\angle{BCA} = <var>Tri_X</var>&deg;</code>
+						<span class="graphie" data-update="opposite-angles">
+							// label angle BAC
+							arc([2.5, 3], .75, 180, 220, { stroke: "orange" });
+							label([1.8, 3], "<var>Tri_X</var>&deg;", "below left", {color: "orange"});
+						</span>				
 					</p>
 					<p class="hint_green">	
+						Solve for 
 						<span data-if="RAND_SWITCH2 === 0">										
 							<code>\angle{DAF}</code>  
 						</span>
 						<span data-else>											
 							<code>\angle{CAE}</code>
 						</span>		
-						are congruent to <code>\angle{BCA}</code> because they  
-						oppose each other on a set of parallel lines.
+						is congruent to <code>\angle{BCA}</code> because they  
+						are both created by the same transversal line <code>\overline{FC}</code> 
+						which bisecting the 2 parallel lines.
 					</p>
 				</div>
 			</div>
