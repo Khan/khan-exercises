@@ -18,8 +18,7 @@
 			
 			<!-- Used for problems that choose variation of problems that have multiple variations -->
 			<var id="RAND_SWITCH2">rand(2)</var>
-			<var id="RAND_SWITCH3">rand(3)</var>
-			<var id="RAND_SWITCH4">rand(4)</var>			
+			<var id="RAND_SWITCH3">rand(3)</var>		
 		</div>
 
 		<div class="problems">
@@ -230,7 +229,7 @@
 					(function() {
 						init({
 							range: [[-10, 10], [-7, 10]],
-							scale: [20, 20]
+							scale: [30, 30]
 						});
 	
 	
@@ -257,12 +256,20 @@
 						// Label the given angles
 						label([-5.5, -5.2], "<var>Tri_Y</var>&deg;", "above right");
 						arc([-6, -6], 1.3, 40, 71, { stroke: "green" });
-						label([0, 7.5], "<var>Tri_Z</var>&deg;", "below");
+						label([0, 7.4], "<var>Tri_X</var>&deg;", "below");
 						arc([0, 9], 1.3, 245, 290, { stroke: "orange" });
 						
 						// Label X
-						label([4.8, 1.0], "X=?", "right");
-						arc([3.2, 1.3], 1.7, 285, 35, { stroke: "blue" });
+						if(RAND_SWITCH3 == 0) {
+							label([4.8, 1.0], "&ang;CHE=?", "right");
+							arc([3.2, 1.3], 1.7, 285, 35, { stroke: "blue" });
+						} else if (RAND_SWITCH3 == 1) {
+							label([4, 2.5], "&ang;GHC=?", "above");
+							arc([3.2, 1.3], 1, 35, 118, { stroke: "blue" });
+						} else {
+							label([2.5, -0.5], "&ang;DHE=?", "below");
+							arc([3.2, 1.3], 1.1, 219, 286, { stroke: "blue" });						
+						}
 					})()
 				</div>
 
@@ -273,31 +280,35 @@
 					Given the following:
 					<ul>
 					<li><code>\angle{BDC}&deg; = <var>Tri_Y</var></code></li>
-					<li><code>\angle{DBE}&deg; = <var>Tri_Z</var></code></li>
+					<li><code>\angle{DBE}&deg; = <var>Tri_X</var></code></li>
 					</ul>
 					
-					What is <code>\angle{X}</code>?
+					What is 
+					<span data-if="RAND_SWITCH3 === 0"><code>\angle{CHE}</code></span>
+					<span data-else-if="RAND_SWITCH3 === 1"><code>\angle{CHG}</code></span>
+					<span data-else=""><code>\angle{DHE}</code></span>
+					?
 				</p>
-				<div class="solution"><var>Tri_X</var></div>
+				<div data-if="RAND_SWITCH3 === 0" class="solution"><var>Tri_Z</var></div>
+				<div data-else class="solution"><var>180-Tri_Z</var></div>
 				
 						
 				<div class="hints">
 					<p class="hint_blue">
-						Hint: <code>\angle{X}</code> is opposite angle <code>\angle{BHD}</code>.
-					</p>
-					<p class="hint_green">
-						Hint: The interior angles of a triangle adds up to 180&deg;.
+						<!--  TODO -->
 					</p>
 				</div>
 			</div>
 			
-			<!-- Star Problem : Adjacent Angles + 180 deg in triangle + opposite angles -->
+			<!-- Star Problem : 
+				Adjacent Angles + 180 deg in triangle + opposite angles (variations 0-2) 
+				(and adjacent in variations 1,2) -->
 			<div>
 				<div class="graphie">
 					(function() {
 						init({
 							range: [[-10, 10], [-7, 10]],
-							scale: [20, 20]
+							scale: [30, 30]
 						});
 	
 	
@@ -324,11 +335,11 @@
 						// Label the given angles
 						label([-5.5, -5.2], "<var>Tri_Y</var>&deg;", "above right");
 						arc([-6, -6], 1.3, 40, 71, { stroke: "green" });
-						label([0, -.5], "<var>180 - Tri_Z</var>&deg;", "above");
-						arc([0, -1], 1, 30, 150, { stroke: "orange" });
+						label([0, -.2], "<var>180 - Tri_Z</var>&deg;", "above");
+						arc([0, -1], 1, 28, 152, { stroke: "orange" });
 						
 						// Label X
-						label([-3.5, 2.3], "X=?", "above");
+						label([-3.7, 2.5], "&ang;AJF=?", "above");
 						arc([-3.2, 1.3], 1, 65, 140, { stroke: "blue" });
 					})()
 				</div>
@@ -343,19 +354,13 @@
 					<li><code>\angle{AIC}&deg; = <var>180 - Tri_Z</var></code></li>
 					</ul>
 					
-					What is <code>\angle{X}</code>?
+					What is <code>\angle{AJF}</code>?
 				</p>
 				<div class="solution"><var>Tri_X</var></div>
 				
 				<div class="hints">
 					<p class="hint_blue">
-						Hint: <code>\angle{X}</code> is opposite angle <code>\angle{DJE}</code>.
-					</p>
-					<p class="hint_green">
-						Hint: The interior angles of a triangle adds up to 180&deg;.
-					</p>
-					<p class="hint_purple">
-						Hint: <code>\angle{DIJ}</code> and <code>\angle{AIC}</code> are opposite..
+						<!-- TODO -->
 					</p>
 					
 				</div>
