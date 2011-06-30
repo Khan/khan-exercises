@@ -126,7 +126,7 @@
 				</div>
 			</div>
 			
-			<!-- Corresponding/Opposite angles and parallel lines -->
+			<!-- Corresponding/Opposite angles of parallel lines -->
 			<div>
 				<div class="graphie" id="opposite-parallel">
 						init({
@@ -261,7 +261,7 @@
 				Adjacent Angles + 180 deg in triangle + opposite angles (variations 0-2) 
 				(and adjacent in variations 1,2) -->
 			<div>
-				<div class="graphie">
+				<div class="graphie" id="star1">
 						init({
 							range: [[-10, 10], [-7, 10]],
 							scale: [30, 30]
@@ -297,7 +297,7 @@
 						// Label X according to variation on the problem
 						if(RAND_SWITCH3 == 0) {
 							label([4.8, 1.0], "&ang;CHE=?", "right");
-							arc([3.2, 1.3], 1.7, 285, 35, { stroke: "blue" });
+							arc([3.2, 1.3], 1.7, 287, 35, { stroke: "blue" });
 						} else if (RAND_SWITCH3 == 1) {
 							label([4, 2.5], "&ang;GHC=?", "above");
 							arc([3.2, 1.3], 1, 35, 118, { stroke: "blue" });
@@ -329,14 +329,34 @@
 						
 				<div class="hints">
 					<p class="hint_blue">
-						<!--  TODO -->
+						Solve for &ang;BHD by subtracting &ang;BDC amd &ang;DBE from 180&deg; 
+						Interior angles of a triable will total 180&deg;.
+						<span class="graphie" data-update="star1">
+							// label angle BHD
+							arc([3.2, 1.3], .75, 118, 220, { stroke: "orange" });
+							label([2.6, 2], "<var>Tri_Z</var>&deg;", "below left", {color: "orange"});
+						</span>	
 					</p>
+					
+					<span data-if="RAND_SWITCH3 === 0">
+						<p class="hint_green">
+							Solve &ang;CHE using by subtracting &ang;BHD from 180&deg;.  
+							The sum of all angles on a line add up to 180&deg;.		
+						</p>
+					</span>
+					<span data-else>
+						<p class="hint_green">
+							Find the final solution by subtracting &ang;CHE from 180&deg;
+							They are adjacent angles along the line, and all angles along 
+							a straight line total to 180&deg;.
+						</p>
+					</span>
 				</div>
 			</div>
 			
 			<!-- Star Problem 2 : 180 deg in triangle + opposite angles  -->
 			<div>
-				<div class="graphie">
+				<div class="graphie" id="star2">
 						init({
 							range: [[-10, 10], [-7, 10]],
 							scale: [30, 30]
