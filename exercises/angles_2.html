@@ -63,7 +63,7 @@
 						arc([-4,3], .75, 312, 360, { stroke: "green" });
 						label([-3.2, 3], "<var>Tri_Y</var>&deg;", "below right", {color: "green"});					
 				
-						// label angle bac
+						// label angle BAC
 						arc([-1.3,0], .75, 38, 125, { stroke: "purple" });
 						label([-1.3, .5], "<var>Tri_Z</var>&deg;", "above", {color: "purple"});
 
@@ -223,10 +223,11 @@
 				</div>
 			</div>
 			
-			<!-- Star Problem : Adjacent Angles + 180 deg in triangle -->
+			<!-- Star Problem 1 : 
+				Adjacent Angles + 180 deg in triangle + opposite angles (variations 0-2) 
+				(and adjacent in variations 1,2) -->
 			<div>
 				<div class="graphie">
-					(function() {
 						init({
 							range: [[-10, 10], [-7, 10]],
 							scale: [30, 30]
@@ -259,7 +260,7 @@
 						label([0, 7.4], "<var>Tri_X</var>&deg;", "below");
 						arc([0, 9], 1.3, 245, 290, { stroke: "orange" });
 						
-						// Label X
+						// Label X according to variation on the problem
 						if(RAND_SWITCH3 == 0) {
 							label([4.8, 1.0], "&ang;CHE=?", "right");
 							arc([3.2, 1.3], 1.7, 285, 35, { stroke: "blue" });
@@ -270,7 +271,6 @@
 							label([2.5, -0.5], "&ang;DHE=?", "below");
 							arc([3.2, 1.3], 1.1, 219, 286, { stroke: "blue" });						
 						}
-					})()
 				</div>
 
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
@@ -300,12 +300,9 @@
 				</div>
 			</div>
 			
-			<!-- Star Problem : 
-				Adjacent Angles + 180 deg in triangle + opposite angles (variations 0-2) 
-				(and adjacent in variations 1,2) -->
+			<!-- Star Problem 2 : 180 deg in triangle + opposite angles  -->
 			<div>
 				<div class="graphie">
-					(function() {
 						init({
 							range: [[-10, 10], [-7, 10]],
 							scale: [30, 30]
@@ -332,16 +329,28 @@
 						label([0, -1.2], "I", "below");
 						label([-3.2, 1.3], "J", "below left");
 
-						// Label the given angles
-						label([-5.5, -5.2], "<var>Tri_Y</var>&deg;", "above right");
-						arc([-6, -6], 1.3, 40, 71, { stroke: "green" });
-						label([0, -.2], "<var>180 - Tri_Z</var>&deg;", "above");
-						arc([0, -1], 1, 28, 152, { stroke: "orange" });
-						
-						// Label X
-						label([-3.7, 2.5], "&ang;AJF=?", "above");
-						arc([-3.2, 1.3], 1, 65, 140, { stroke: "blue" });
-					})()
+						// Label Angles and X according to variation
+						if( RAND_SWITCH2 == 0) {
+							// Label the given angles
+							label([-5.5, -5.2], "<var>Tri_Y</var>&deg;", "above right");
+							arc([-6, -6], 1.3, 40, 71, { stroke: "green" });
+							label([0, -.2], "<var>180 - Tri_Z</var>&deg;", "above");
+							arc([0, -1], 1, 28, 152, { stroke: "orange" });
+							
+							// Label X
+							label([-3.7, 2.5], "&ang;AJF=?", "above");
+							arc([-3.2, 1.3], 1, 65, 140, { stroke: "blue" });
+						} else {						
+							// Label the given angles
+							label([6.5, 5], "<var>Tri_Y</var>&deg;", "below left");
+							arc([8, 5], 1.3, 180, 220, { stroke: "green" });
+							label([1.3, 4.5], "<var>180 - Tri_Z</var>&deg;", "below left");
+							arc([1.6, 5], 0.75, 180, 289, { stroke: "orange" });
+							
+							// Label X
+							label([4.0, -0.3], "&ang;IHE=?", "below left");
+							arc([3.1, 1.2], .75, 220, 290, { stroke: "blue" });
+						}
 				</div>
 
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
@@ -354,7 +363,10 @@
 					<li><code>\angle{AIC}&deg; = <var>180 - Tri_Z</var></code></li>
 					</ul>
 					
-					What is <code>\angle{AJF}</code>?
+					What is 
+					<span data-if="RAND_SWITCH2 === 0"><code>\angle{AJF}</code></span>
+					<span data-else><code>\angle{IHE}</code></span>
+					?
 				</p>
 				<div class="solution"><var>Tri_X</var></div>
 				
