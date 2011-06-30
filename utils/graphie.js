@@ -119,7 +119,7 @@ var createGraph = function( el ) {
 					// This makes a lot more sense
 
 					var head = raphael.path( "M-3 4 C-2.75 2.5 0 0.25 0.75 0C0 -0.25 -2.75 -2.5 -3 -4" );
-					var end = path.getPointAtLength( l );
+					var end = path.getPointAtLength( l - 0.4 );
 					var almostTheEnd = path.getPointAtLength( l - 0.75 * s );
 					var angle = Math.atan2( end.y - almostTheEnd.y, end.x - almostTheEnd.x ) * 180 / Math.PI;
 					var attrs = path.attr();
@@ -128,8 +128,8 @@ var createGraph = function( el ) {
 					var subpath = path.getSubpath( 0, l - 0.75 * s );
 					subpath = raphael.path( subpath ).attr( attrs );
 					subpath.arrowheadsDrawn = true;
-
 					path.remove();
+
 					head.rotate( angle, 0.75, 0 ).scale( s, s, 0.75, 0 )
 						.translate( almostTheEnd.x, almostTheEnd.y ).attr( attrs )
 						.attr({ "stroke-linejoin": "round", "stroke-linecap": "round" });
