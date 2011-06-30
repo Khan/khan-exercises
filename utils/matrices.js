@@ -1,7 +1,7 @@
 "use strict";
 
 /* some helpful functional programming tools */
-// jQuery's map function has some annoying behavior.
+// jQuery.map is actually a mapReduce.
 // i.e., if you return an array, it extends the result instead
 // of pushing the new array onto the result.  Not good when
 // you have to traverse a bunch of 2d arrays! 
@@ -17,6 +17,13 @@ var zip = function (a,b) {
 	var l = Math.min(a.length, b.length);
 	for (var i = 0; i < l; i++) {
 		ret.push([ a[i], b[i] ]);
+	}
+	return ret;
+};
+var range = function (n) {
+	var ret = []
+	for (var i = 0; i < n; i++) {
+		ret.push(i);
 	}
 	return ret;
 };
@@ -85,7 +92,7 @@ jQuery.extend(AbstractMatrx.prototype, {
 			return "["+row_texts.join(", ")+"]";
 		},
 
-		//applied to each enry when toCode/formatMatrix is called
+		//applied to each entry when toCode/formatMatrix is called
 		format_entry : function (x) {
 			return x;
 		},
@@ -96,6 +103,20 @@ jQuery.extend(AbstractMatrx.prototype, {
 		//defaults to '['.
 		toCode : function (braces) {
 			return KhanUtil.formatMatrix(this, braces);
+		},
+
+		//test whether this is element-wise equal to other
+		//other can be an array or matrix
+		equal : function (other) {
+			//jQuery.map is actually a mapReduce that merges returned arrays into the list
+			var flattened_self = jQuery.map( this.array, function(x){ return x; } );
+			if ( typeof other.array !== 'undefined' ) {
+				var flattened_other = jQuery.map( other.array, function(x){ return x; } );
+			} else {
+				var flattened_other = jQuery.map( other, function(x){ return x; } );
+			}
+
+			return prod(map(zip(flattened_self, flattened_other), function(x){ return x[0] == x[1]; })) === 1;
 		},
 
 		//sums a vector (1-d array)
@@ -139,6 +160,17 @@ jQuery.extend(AbstractMatrx.prototype, {
 				return map(x, func);
 			});
 			return new this.constructor(new_array);
+		},
+
+		//sums up all the entries in a matrix
+		sum : function () {
+			var flattened = jQuery.map( this.array, function(x){ return x; });
+			return this._sum(this, flattened);
+		},
+		
+		//returns a matrix with Math.abs applied to each element
+		abs : function () {
+			return this.map( Math.abs );
 		},
 		
 		//other can be another matrix or a number
@@ -196,13 +228,18 @@ jQuery.extend(AbstractMatrx.prototype, {
 		},
 
 		// return the diagonal entries 
-		diag : function(){
+		diag : function () {
 			var max_entry = Math.min(this.dims[0], this.dims[1]);
 			var ret = [];
 			for(var i = 0; i < max_entry; i++){
 				ret.push(this.array[i][i]);
 			}
 			return ret;
+		},
+
+		//returns the trace
+		trace : function () {
+			return this._sum(this, this.diag());
 		},
 
 		is_square : function(){
@@ -247,6 +284,9 @@ jQuery.extend(AbstractMatrx.prototype, {
 
 // set up the matrix class
 KhanUtil.Matrix = function(m){ 
+	if ( !(this instanceof KhanUtil.Matrix) ) {
+		return new KhanUtil.Matrix(m);
+	}
 	//make sure that when we are constructed, our inheritence is also carried over
 	this.constructor = KhanUtil.Matrix; 
 	//initialize
@@ -254,7 +294,7 @@ KhanUtil.Matrix = function(m){
 };
 KhanUtil.Matrix.prototype = jQuery.extend( new AbstractMatrx(), {
 	//numbers smaller than ZERO_TOLERANCE in magnitude are treated as zero
-	ZERO_TOLERANCE : 0.0000001,
+	ZERO_TOLERANCE : Math.pow(2, -16),
 
 	//math functions that are used when manipulating entries
 	//these are abstraced so SymbolicMatrix and Matrix can use the same
@@ -268,12 +308,38 @@ KhanUtil.Matrix.prototype = jQuery.extend( new AbstractMatrx(), {
 		}
 	},
 
-	asSymbolic : function(){
+	//test whether this is element-wise within ZERO_TOLERANCE of other
+	equal : function (other) {
+		var self = this;
+		//jQuery.map is actually a mapReduce that merges returned arrays into the list
+		var flattened_self = jQuery.map( this.array, function(x){ return x; } );
+		if ( typeof other.array !== 'undefined' ) {
+			var flattened_other = jQuery.map( other.array, function(x){ return x; } );
+		} else {
+			var flattened_other = jQuery.map( other, function(x){ return x; } );
+		}
+
+		return prod(map(zip(flattened_self, flattened_other), function(x){ 
+			return Math.abs(x[0]-x[1]) < self.ZERO_TOLERANCE; 
+		})) === 1;
+	},
+
+	asSymbolic : function () {
 		return new KhanUtil.SymbolicMatrix(this.array);
 	},
 
+	//rounds to ZERO_TOLERANCE or the percision
+	//specified by percision
+	roundToPercision : function (percision) {
+		if ( typeof percision === "undefined" || percision === 0 ) {
+			percision = this.ZERO_TOLERANCE;
+		}
+
+		return this.map( function(x){ return Math.round(x/percision)*percision; } );
+	},
+	
 	//return the determinant
-	det : function(){
+	det : function () {
 		if (!this.is_square()) {
 			return 0;
 		}
@@ -296,19 +362,40 @@ KhanUtil.Matrix.prototype = jQuery.extend( new AbstractMatrx(), {
 	},
 
 	//return the matrix in row-echelon form
-	ref : function(){
+	ref : function () {
 		return this._reduce_to_stage('ref')['matrix'];
 	},
 
 	//return the matrix in reduced row-echelon form
-	rref : function(){
+	rref : function () {
 		return this._reduce_to_stage('rref')['matrix'];
 	},
 
+	//invert the matrix
+	inverse : function () {
+		var aug_mat = KhanUtil.augmentMatrix( this, KhanUtil.identityMatrix( this.dims[0], this.dims[0] ) );
+		aug_mat = aug_mat.rref();
+		
+		// return the this.dims[0] x this.dims[0] submatrix on the right side
+		return KhanUtil.getSubmatrix( aug_mat, [0, this.dims[0]], [aug_mat.dims[0], aug_mat.dims[1]] );
+	},
+
 	// row-reduce a matrix to stage ref, pre-rref, or rref 
-	_reduce_to_stage : function (stage) {
+	// if track_steps is truthy, 'steps' in the return value will consist of
+	// a list of steps used during 'downward_elimination', 'upward_elimination', and 'normalization'.
+	// Possible steps are 
+	//   * 'swap': 		'row1' <-> 'row2'
+	//   * 'add_mul': 	'row1' -> 'row1' - 'coeff' * 'row2'
+	//   * 'mul': 		'row' -> 'coeff' * 'row'
+	_reduce_to_stage : function (stage, track_steps) {
 		var self = this;
-		// componant-wise subtraction of v1-m*v2 of two row vectors
+		
+		track_steps = track_steps ? true : false;
+		//keep track of all the steps at each stage for hints
+		var row_reduction_steps = {'downward_elimination':[], 'upward_elimination':[], 'normalization':[]};
+		var curr_stage = row_reduction_steps['downward_elimination'];
+
+		// component-wise subtraction of v1-m*v2 of two row vectors
 		var substractMultipleOfVecs = function (v1, v2, m) {
 			var ret = v1.slice(); 	//make a copy of v1
 			var i;
@@ -317,11 +404,11 @@ KhanUtil.Matrix.prototype = jQuery.extend( new AbstractMatrx(), {
 			}
 			return ret;
 		};
-		/* pass in a 2d array and it returns the first
-		 * non-zero entry in column col in a 
-		 * row >= min_row.  If there are none, it returns
-		 * null.
-		 */
+
+		// pass in a 2d array and it returns the first
+		// non-zero entry in column col in a 
+		// row >= min_row.  If there are none, it returns
+		// null.
 		var findNonzeroEntry = function (array, col, min_row) {
 			for (var i = min_row; i < array.length; i++) {
 				if (Math.abs(array[i][col]) > self.ZERO_TOLERANCE) {
@@ -330,17 +417,28 @@ KhanUtil.Matrix.prototype = jQuery.extend( new AbstractMatrx(), {
 			}
 			return null;
 		};
+
 		// uses the pivot in position row,col to zero all entries below 
 		var zeroBelow = function (array, row, col) {
 			for (var i = row + 1; i < array.length; i++) {
-				array[i] = substractMultipleOfVecs(array[i], array[row], array[i][col]/array[row][col]);
+				if ( array[i][col] !== 0 ) {
+					var coeff = array[i][col]/array[row][col];
+					array[i] = substractMultipleOfVecs(array[i], array[row], coeff);
+					if ( track_steps ) { curr_stage.push({'operation': 'add_mul', 'row1': row, 'row2': i, 'coeff': -coeff, 'matrix': new KhanUtil.Matrix(array)}); }
+				}
 			}
 		};
+
 		var zeroAbove = function (array, row, col) {
 			for (var i = row - 1; i >= 0; i--) {
-				array[i] = substractMultipleOfVecs(array[i], array[row], array[i][col]/array[row][col]);
+				if ( array[i][col] !== 0 ) {
+					var coeff = array[i][col]/array[row][col];
+					array[i] = substractMultipleOfVecs(array[i], array[row], coeff);
+					if ( track_steps ) { curr_stage.push({'operation': 'add_mul', 'row1': row, 'row2': i, 'coeff': -coeff, 'matrix': new KhanUtil.Matrix(array)}); }
+				}
 			}
 		};
+
 		var swapRows = function (array, row1, row2) {
 			var tmp = array[row1];
 			array[row1] = array[row2];
@@ -348,6 +446,8 @@ KhanUtil.Matrix.prototype = jQuery.extend( new AbstractMatrx(), {
 		}
 
 		// do the actual row reduction 
+		var curr_stage = row_reduction_steps['downward_elimination'];
+		
 		var new_array = deepCopyArray(this.array);
 		var pivot_row = 0, pivot_pos = [], num_row_swaps = 0;
 		for (var pivot_col = 0; pivot_col < new_array[0].length; pivot_col++) {
@@ -357,6 +457,7 @@ KhanUtil.Matrix.prototype = jQuery.extend( new AbstractMatrx(), {
 				if ( pivot_row != non_zero_row ) {
 					swapRows(new_array, pivot_row, non_zero_row);
 					num_row_swaps += 1;
+					if ( track_steps ) { curr_stage.push({'operation': 'swap', 'row1': pivot_row, 'row2': non_zero_row, 'matrix': new KhanUtil.Matrix(new_array)}); }
 				}
 				zeroBelow(new_array, pivot_row, pivot_col);
 				pivot_pos.push({'row':pivot_row, 'col':pivot_col});  //if we used this as a pivot, add it to the list
@@ -365,23 +466,30 @@ KhanUtil.Matrix.prototype = jQuery.extend( new AbstractMatrx(), {
 		}
 		//if we only want row-echelon form, we've already got it!
 		if ( stage == 'ref' ) {
-			return {'matrix': new KhanUtil.Matrix(new_array), 'row_swaps': num_row_swaps, 'pivot_col': pivot_pos};
+			return {'matrix': new KhanUtil.Matrix(new_array), 'row_swaps': num_row_swaps, 'pivot_col': pivot_pos, 'steps': row_reduction_steps};
 		}
 
 		// continue reducing until we get to pre-rref 
 		//since we already know exactly where our pivots are, this is really easy
+		
+		curr_stage = row_reduction_steps['upward_elimination'];
+		
 		map(pivot_pos, function(pos){ zeroAbove(new_array, pos['row'], pos['col']); });
 		if ( stage == 'pre-ref') {
-			return {'matrix': new KhanUtil.Matrix(new_array), 'row_swaps': num_row_swaps, 'pivot_col': pivot_pos};
+			return {'matrix': new KhanUtil.Matrix(new_array), 'row_swaps': num_row_swaps, 'pivot_col': pivot_pos, 'steps': row_reduction_steps};
 		}
 
 		// continue to full rref 
 		//once again, we know what our pivot rows are, so this is really easy
+		
+		curr_stage = row_reduction_steps['normalization'];
+		
 		map(pivot_pos, function (pos) { 
 			var pivot_val = new_array[pos['row']][pos['col']];
 			new_array[pos['row']] = map(new_array[pos['row']], function(x){ return x/pivot_val; });
+			if ( track_steps ) { curr_stage.push({'operation': 'mul', 'row': pos['row'], 'coeff': 1/pivot_val, 'matrix': new KhanUtil.Matrix(new_array)}); }
 		});
-		return {'matrix': new KhanUtil.Matrix(new_array), 'row_swaps': num_row_swaps, 'pivot_col': pivot_pos};
+		return {'matrix': new KhanUtil.Matrix(new_array), 'row_swaps': num_row_swaps, 'pivot_col': pivot_pos, 'steps': row_reduction_steps};
 	}
 });
 
@@ -390,6 +498,9 @@ KhanUtil.Matrix.prototype = jQuery.extend( new AbstractMatrx(), {
 // and applies operations symbolically.  e.g.,
 // [[1]]+[[2]] = [['1+2']] */
 KhanUtil.SymbolicMatrix = function(m){ 
+	if ( !(this instanceof KhanUtil.SymbolicMatrix) ) {
+		return new KhanUtil.SymbolicMatrix(m);
+	}
 	//make sure that when we are constructed, our inheritence is also carried over
 	this.constructor = KhanUtil.SymbolicMatrix; 
 	//initialize
@@ -454,6 +565,28 @@ jQuery.extend(KhanUtil, {
 		return new SymbolicMatrix(new_array);
 	},
 	
+	//return a matrix where row i is colored colors[i]
+	//excess any extra colors in colors is ignored.
+	colorizeMatrixRows : function (mat, colors) {
+		var ret = KhanUtil.colorizeMatrix( mat, colors[0], 0, ':' );
+		//do this in a super lazy way, by just repeatedly calling colorizeMatrix
+		for (var i = 1; i < Math.min(mat.dims[0], colors.length); i++) {
+			ret = KhanUtil.colorizeMatrix(ret, colors[i], i, ':');
+		}
+		return ret;
+	},
+	
+	//return a matrix where column i is colored colors[i]
+	//excess any extra colors in colors is ignored.
+	colorizeMatrixCols : function (mat, colors) {
+		var ret = KhanUtil.colorizeMatrix( mat, colors[0], ':', 0 );
+		//do this in a super lazy way, by just repeatedly calling colorizeMatrix
+		for (var i = 1; i < Math.min(mat.dims[1], colors.length); i++) {
+			ret = KhanUtil.colorizeMatrix(ret, colors[i], ':', i);
+		}
+		return ret;
+	},
+
 	//return a matrix where each entry in _entries_ is colored _color_
 	//entries should be a list of elements of the form [row,col]
 	colorizeMatrixEntries : function (mat, color, entries) {
@@ -536,17 +669,47 @@ jQuery.extend(KhanUtil, {
 		if (type && type.constructor) {
 			Mat = type.constructor;
 		}
-
-		//create a matrix of zeros
-		var new_array = [];
-		for(var i = 0; i < rows; i++){
-			var new_row = [];
-			for(var j = 0; j < cols; j++){
-				new_row.push(0);
-			}
-			new_array.push(new_row);
-		}
+		
+		//get a list of rows # of lists of zeros
+		var new_array = map(range(rows), function(){
+			//return a list of cols # of zeros
+			return map(range(cols), function(){ return 0; });
+		});
 		return new Mat(new_array);
+	},
+	
+	//returns a matrix with ones along the diagonal
+	//if rows==cols, then the matrix will be an identity matrix
+	//type can be Matrix or SymbolicMatrix
+	//defaults to Matrix
+	identityMatrix : function (rows, cols, type) {
+		var Mat = KhanUtil.Matrix;
+		if (type && type.constructor) {
+			Mat = type.constructor;
+		}
+		
+		//get a list of rows # of lists of zeros
+		var new_array = map(range(rows), function(i){
+			//return a list of cols # of zeros
+			return map(range(cols), function(j){ return i==j ? 1 : 0; });
+		});
+		return new Mat(new_array);
+	},
+
+	//returns a matrix whose entries are a_ij where 'a'
+	//is the letter specified by letter
+	genericMatrix : function (rows, cols, letter) {
+		if ( typeof letter === "undefined" ) {
+			letter = 'a';
+		}
+		
+		var new_array = map(range(rows), function(i){
+			//return letter_{row col}. Matrix entries are 1-indexed, so add 1 to i,j.
+			return map(range(cols), function(j){ return letter + "_{"+(i+1)+(j+1)+"}"; });
+		});
+
+		return new KhanUtil.SymbolicMatrix(new_array);
+
 	},
 	
 	/* returns a sparse matrix with num_entries number of random non-zero terms */
@@ -567,6 +730,22 @@ jQuery.extend(KhanUtil, {
 		}
 		return mat;
 
+	},
+
+	//a,b should be points [row,col]
+	//retuns the submatrix consisting of elements x
+	//where a <= x < b
+	getSubmatrix : function (mat, a, b) {
+		var new_array = [];
+		for (var i = a[0]; i < b[0]; i++) {
+			var new_row = [];
+			for (var j = a[1]; j < b[1]; j++) {
+				new_row.push(mat.array[i][j]);
+			}
+			new_array.push(new_row);
+		}
+
+		return new mat.constructor(new_array);
 	},
 
 	//returns a list of {cofactor: A, coeff: x, sign: s}
@@ -611,12 +790,33 @@ jQuery.extend(KhanUtil, {
 		};
 	},
 
+	//returns an augmented matrix [mat|aug_mat]
+	//if aug_mat is a column vector and augments
+	//vertically if aug_mat is a row vector
+	augmentMatrix : function (mat, aug_mat) {
+		var aug_array = aug_mat;
+		if (aug_mat.array) {
+			aug_array = aug_mat.array;
+		}
+
+		var new_array = deepCopyArray(mat.array);
+		//if we are a row vector, append ourselves to the bottom
+		if (aug_array.length == 1) {
+			new_array.push(deepCopyArray(aug_array[0]));
+		} else {
+			if (new_array.length !== aug_array.length) { throw "Cannot augment matrix of size " + new_array.length + "x" + new_array[0].length + " with a matrix of size " + aug_array.length + "x" + aug_array[0].length + "."; }
+			new_array = map(zip(new_array, aug_array), function(x){ return x[0].concat(deepCopyArray(x[1])); });
+		}
+
+		return new mat.constructor(new_array);
+	},
+
 	// shouldn't be here, but atm, doesn't seem to exist anywhere else 
 
 	// if you pass in a negative number, it will be returned with parentheses 
 	// needed because expressions doesn't recognize matrices, so it might put a \cdot when trying to multiply
 	negParens : function (expr) {
-		var num = KhanUtil.stripColorMarkup(expr);
+		var num = KhanUtil.exprStripColor(expr);
 		if (num.toString().charAt(0) == '-') {
 			return '('+expr+')';
 		}

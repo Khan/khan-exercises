@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format matrices expressions">
 <head>
 	<title>Determinants 1 (2 &times; 2 Matrices)</title>
 	<script src="../khan-exercise.js"></script>
@@ -7,45 +7,39 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="A">randRange(-8, 8)</var>
-		<var id="B">randRange(-8, 8)</var>
-		<var id="C">randRange(-8, 8)</var>
-		<var id="D">randRange(-8, 8)</var>
+		<var id="A">randRangeMatrix(2,2,-8,8)</var>
+		<var id="A_COLORED">colorizeMatrixAs(A, ['red', 'purple', 'blue', 'green'])</var>
 	</div>
 
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>If <code>A = \begin{bmatrix}
-					<var>A</var> & <var>B</var> \\
-					<var>C</var> & <var>D</var>
-				\end{bmatrix}</code>, find <code>\det(A)</code>.</p>
+				<p>If <code>A = <var>formatMatrix(A, '[')</var></code>, find
+				<code>\det(A)</code>.</p>
 			</div>
-			<div class="solution"><var>A * D - B * C</var></div>
+			<div class="solution"><var>A.det()</var></div>
 		</div>
 		<div>
 			<div class="question">
-				<p>Find <code>\begin{vmatrix}
-					<var>A</var> & <var>B</var> \\
-					<var>C</var> & <var>D</var>
-				\end{vmatrix}</code>.</p>
+				<p>Find <code><var>formatMatrix(A, '|')</var></code>.</p>
 			</div>
-			<div class="solution"><var>A * D - B * C</var></div>
+			<div class="solution"><var>A.det()</var></div>
 		</div>
 	</div>
 	<div class="hints">
-		<p><code>\begin{vmatrix}
-			\color{red}{<var>A</var>} & \color{purple}{<var>B</var>} \\
-			\color{blue}{<var>C</var>} & \color{green}{<var>D</var>}
-		\end{vmatrix} = \color{red}{<var>negParens(A)</var>} \cdot \color{green}{<var>negParens(D)</var>} - \color{blue}{<var>negParens(C)</var>} \cdot \color{purple}{<var>negParens(B)</var>}</code></p>
-		<p><code>\hphantom{\begin{vmatrix}
-			<var>A</var> & <var>B</var> \\
-			<var>C</var> & <var>D</var>
-		\end{vmatrix}} = <var>A * D</var> - <var>negParens(B * C)</var></code></p>
-		<p><code>\hphantom{\begin{vmatrix}
-			<var>A</var> & <var>B</var> \\
-			<var>C</var> & <var>D</var>
-		\end{vmatrix}} = <var>A * D - B * C</var></code></p>
+		<p><code><var>formatMatrix(A_COLORED, '|')</var> = 
+			<var>expr(['-',
+					['*', A_COLORED.get(0,0), A_COLORED.get(1,1)],
+					['*', A_COLORED.get(0,1), A_COLORED.get(1,0)]
+				])
+			</var>		
+		</code></p>
+		<p><code>\hphantom{<var>formatMatrix(A_COLORED, '|')</var>}
+		= <var>expr(['-', A.get(0,0)*A.get(1,1), A.get(0,1)*A.get(1,0)])</var>
+		</code></p>
+		<p><code>\hphantom{<var>formatMatrix(A_COLORED, '|')</var>}
+		= <var>A.det()</var>
+		</code></p>
 	</div>
 	</div>
 </body>

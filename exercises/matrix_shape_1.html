@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html data-require="math math-format matrices expressions">
+<head>
+	<title>Matrix Shape 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id='ROWS'>randRange(1,5)</var>
+		<var id='COLS'>randRange(1,5)</var>
+		<var id="A">randRangeMatrix(ROWS,COLS,-8,8)</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<!-- <div class="vars">
+				<ul id="STATEMENT">
+				<li>
+					<p>If <code>A = <var>A.toCode('[')</var></code>, then
+					<code>A</code> is a  _ <code>\times</code> _ matrix.
+					</p>
+				</li>
+				<li>
+					<p>If <code>A = <var>A.toCode('[')</var></code>, then
+					what are the dimensions of <code>A</code>
+					</p>
+				</li>
+				<li>
+					<p>What are the dimensions of <code><var>A.toCode('[')</var></code>?
+					</p>
+				</li>
+				</ul>
+			</div> -->
+			<div class="question">
+				<!-- <var>STATEMENT</var> -->
+					<p>If <code>A = <var>A.toCode('[')</var></code>, then
+					<code>A</code> is a  _ <code>\times</code> _ matrix.
+					</p>
+			</div>
+			<div class="solution" data-type="multiple">
+				<span class="sol" data-type="rational"><var>ROWS</var></span>
+				<code>\times</code>
+				<span class="sol" data-type="rational"><var>COLS</var></span>
+			</div>
+		</div>
+	</div>
+	<div class="hints">
+		<p>The dimensions of a matrix are given as rows <code>\times</code> columns.</p>
+		<p><code><var>formatMatrix(A, '[')</var></code> has <var>ROWS</var> rows and
+		<var>COLS</var> columns.</p>
+		<p>Therefore, it is a <code><var>ROWS</var>\times<var>COLS</var></code> matrix.
+		</p>
+	</div>
+	</div>
+</body>
+</html>

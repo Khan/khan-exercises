@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html data-require="math math-format matrices expressions">
+<head>
+	<title>Matrix Shape 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id='M'>randRange(1,5)</var>
+		<var id='N'>randRange(1,5)</var>
+		<var id='J'>randRange(1,5)</var>
+		<var id="A">randRangeMatrix(M,N,-8,8)</var>
+		<var id="B">randRangeMatrix(N,J,-8,8)</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<!-- <div class="vars">
+				<ul id="STATEMENT">
+				<li>
+					<p>The result of the product <code><var>A.toCode('[')</var><var>B.toCode('[')</var></code>
+					is a _ <code>\times</code> _ matrix.
+					</p>
+				</li>
+				<li>
+					<p><code><var>A.toCode('[')</var><var>B.toCode('[')</var></code>
+					is a _ <code>\times</code> _ matrix.
+					</p>
+				</li>
+				<li>
+					<p>If <code>A=<var>A.toCode('[')</var></code> and <code>B=<var>B.toCode('[')</var></code>,
+					the product <code>AB</code>
+					is a _ <code>\times</code> _ matrix.
+					</p>
+				</li>
+				<li>
+					<p>If <code>A=<var>A.toCode('[')</var></code> and <code>B=<var>B.toCode('[')</var></code>,
+					what are the dimensions of
+					<code>AB</code>?
+					</p>
+				</li>
+				</ul>
+			</div> -->
+			<div class="question">
+				<!-- <var>STATEMENT</var> -->
+					<p>If <code>A=<var>A.toCode('[')</var></code> and <code>B=<var>B.toCode('[')</var></code>,
+					what are the dimensions of the product
+					<code>AB</code>?
+					</p>
+			</div>
+			<div class="solution" data-type="multiple">
+				<span class="sol" data-type="rational"><var>M</var></span>
+				<code>\times</code>
+				<span class="sol" data-type="rational"><var>J</var></span>
+			</div>
+		</div>
+	</div>
+	<div class="hints">
+		<p>First, identify the dimensions of each matrix.</p>
+		<p><code>A=<var>A.toCode('[')</var></code>  is a <code><var>M</var>\times<var>N</var></code>
+		matrix, and 
+		<code>B=<var>B.toCode('[')</var></code>  is a <code><var>N</var>\times<var>J</var></code>
+		matrix.
+		</p>
+		<p>
+			<code>AB</code> exists if, when you write the dimensions side-by-side, 
+			<code><var>M</var>\times\color{green}{<var>N</var>}</code>
+			<code>\color{green}{<var>N</var>}\times<var>J</var></code>, the middle
+			terms match.
+		</p>
+		<p>
+			If <code>AB</code> exists, the dimensions of <code>AB</code>
+			are given by the outside terms, 
+			<code>\color{red}{<var>M</var>}\times<var>N</var></code>
+			<code><var>N</var>\times\color{red}{<var>J</var>}</code>.
+		</p>
+		<p>
+			So, <code>AB</code> is a <code><var>M</var>\times<var>J</var></code>
+			matrix.
+		</p>
+	</div>
+	</div>
+</body>
+</html>

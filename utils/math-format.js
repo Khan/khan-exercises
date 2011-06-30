@@ -80,7 +80,7 @@ jQuery.extend(KhanUtil, {
 	},
 
 	//guess at what fraction the decimal dec came from.
-	//for example .6667 -> 2/3.  Default requires at least 3
+	//for example .6667 -> 2/3.  Default requires at least 4
 	//decimal places.  So, .66 -> 33/50.  This can be changed
 	//by setting max_denominator.
 	//returns an integer or a ['/', numerator, denominator] suitable 

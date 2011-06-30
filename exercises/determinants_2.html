@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html data-require="math math-format matrices expressions">
+<head>
+	<title>Determinants 2 (3 &times; 3 Matrices)</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="A">randRangeMatrix(3,3,-8,8)</var>
+		<var id="A_SUB">getSubmatrix(A, [0,0],[3,2])</var>
+		<var id="A_SARRUS_COLORED">colorizeMatrixEntries(
+		colorizeMatrixEntries(
+			colorizeMatrixEntries(A, 'purple', [[0,0],[1,1],[2,2]]), 
+			'red', [[0,1],[1,2]]),
+		'green', [[0,2]])</var>
+		<var id="A_SUB_SARRUS_COLORED">
+		colorizeMatrixEntries(
+			colorizeMatrixEntries(A_SUB, 'red', [[2,0]]), 
+			'green', [[1,0],[2,1]])</var>
+		<var id="A_SARRUS2_COLORED">colorizeMatrixEntries(
+		colorizeMatrixEntries(
+			colorizeMatrixEntries(A, 'blue', [[0,2],[1,1],[2,0]]), 
+			'orange', [[1,2],[2,1]]),
+		'teal', [[2,2]])</var>
+		<var id="A_SUB_SARRUS2_COLORED">
+		colorizeMatrixEntries(
+			colorizeMatrixEntries(A_SUB, 'orange', [[0,0]]), 
+			'teal', [[0,1],[1,0]])</var>
+		<var id="A_COFAC1_COLORED">colorizeCofactor(A, [0,0], 'purple')</var>
+		<var id="A_COFAC2_COLORED">colorizeCofactor(A, [0,1], 'red')</var>
+		<var id="A_COFAC3_COLORED">colorizeCofactor(A, [0,2], 'green')</var>
+		<var id="COFAC1_COLORED">getCofactor(A_COFAC1_COLORED, [0,0])</var>
+		<var id="COFAC2_COLORED">getCofactor(A_COFAC2_COLORED, [0,1])</var>
+		<var id="COFAC3_COLORED">getCofactor(A_COFAC3_COLORED, [0,2])</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>If <code>A = <var>formatMatrix(A, '[')</var></code>, find
+				<code>\det(A)</code>.</p>
+			</div>
+			<div class="solution"><var>A.det()</var></div>
+		</div>
+		<div>
+			<div class="question">
+				<p>Find <code><var>formatMatrix(A, '|')</var></code>.</p>
+			</div>
+			<div class="solution"><var>A.det()</var></div>
+		</div>
+	</div>
+	<div class="hints">
+		<p>
+		There are two ways to compute the determinant of a <code>3\times 3</code> matrix.  
+		The first is with cofactors.
+		<!--	Use cofactors to compute the determinant of a <code>3\times 3</code> matrix. -->
+		</p>
+
+		<p> Identify the sub-matrices corresponding to each cofactor: <br />
+		<code><var>A_COFAC1_COLORED.toCode()</var></code>, <code><var>A_COFAC2_COLORED.toCode()</var></code>, 
+		<code><var>A_COFAC3_COLORED.toCode()</var></code>
+		correspond to the cofactors
+		<code>(<var>expr(COFAC1_COLORED['coeff'])</var>)<var>COFAC1_COLORED['cofactor'].toCode('|')</var></code>, 
+		<code>(<var>expr(COFAC2_COLORED['coeff'])</var>)<var>COFAC2_COLORED['cofactor'].toCode('|')</var></code>, 
+		<code>(<var>expr(COFAC3_COLORED['coeff'])</var>)<var>COFAC3_COLORED['cofactor'].toCode('|')</var></code>. 
+		</p>
+		<p>Add the cofactors together with alternating signs: <br />
+		<code>
+		<var>A.toCode('|')</var>=
+		 (<var>expr(COFAC1_COLORED['coeff'])</var>)<var>COFAC1_COLORED['cofactor'].toCode('|')</var> 
+		-(<var>expr(COFAC2_COLORED['coeff'])</var>)<var>COFAC2_COLORED['cofactor'].toCode('|')</var> 
+		+(<var>expr(COFAC3_COLORED['coeff'])</var>)<var>COFAC3_COLORED['cofactor'].toCode('|')</var>
+		</code>
+		</p>
+		<p><code>\hphantom{<var>A.toCode('|')</var>}
+		= <var>expr(['+', 
+				['*', 
+					A.get(0,0), 
+					getCofactor(A, [0,0])['cofactor'].det()
+				],
+				['-', 
+					['*', 
+						A.get(0,1), 
+						getCofactor(A, [0,1])['cofactor'].det()
+					]
+				],
+				['*', 
+					A.get(0,2), 
+					getCofactor(A, [0,2])['cofactor'].det()
+				]
+			])</var>
+		</code></p>
+		<p><code>\hphantom{<var>A.toCode('|')</var>}
+		= <var>A.det()</var>
+		</code></p>
+
+
+		<p> The second way of computing a <code>3\times 3</code> determinant is with the 
+		Rule of Sarrus.</p>
+		<p>
+			Write the matrix and write the first two columns of the matrix
+			to the right of the matrix: <br />
+			<code><var>A.toCode('[')</var><var>A_SUB.toCode('')</var></code>
+		</p>
+		<p>
+			Add together the product of the diagonals
+			<code><var>A_SARRUS_COLORED.toCode('[')</var><var>A_SUB_SARRUS_COLORED.toCode('')</var></code>
+			<br />
+			<code><var>expr(['+', 
+				['*', A_SARRUS_COLORED.get(0,0),  A_SARRUS_COLORED.get(1,1),  A_SARRUS_COLORED.get(2,2)],
+				['*', A_SARRUS_COLORED.get(0,1),  A_SARRUS_COLORED.get(1,2),  A_SUB_SARRUS_COLORED.get(1,0)],
+				['*', A_SARRUS_COLORED.get(0,2),  A_SUB_SARRUS_COLORED.get(1,0),  A_SUB_SARRUS_COLORED.get(2,1)]
+			])</var></code>
+
+		</p>
+		<p>
+			Subtract the sum of the products of the off diagonals
+			<code><var>A_SARRUS2_COLORED.toCode('[')</var><var>A_SUB_SARRUS2_COLORED.toCode('')</var></code>
+			<br />
+			<code><var>expr(['-',['+', 
+				['*', A_SARRUS2_COLORED.get(0,2),  A_SARRUS2_COLORED.get(1,1),  A_SARRUS2_COLORED.get(2,0)],
+				['*', A_SUB_SARRUS2_COLORED.get(0,0),  A_SARRUS2_COLORED.get(1,2),  A_SARRUS2_COLORED.get(2,1)],
+				['*', A_SUB_SARRUS2_COLORED.get(0,1),  A_SUB_SARRUS2_COLORED.get(1,0),  A_SARRUS2_COLORED.get(2,2)]
+			]])</var></code>
+		</p>
+		<p>Combining these we get <br />
+		<code><var>A.toCode('|')</var> =
+		<var>expr(['-', ['+', 
+				['*', A_SARRUS_COLORED.get(0,0),  A_SARRUS_COLORED.get(1,1),  A_SARRUS_COLORED.get(2,2)],
+				['*', A_SARRUS_COLORED.get(0,1),  A_SARRUS_COLORED.get(1,2),  A_SUB_SARRUS_COLORED.get(1,0)],
+				['*', A_SARRUS_COLORED.get(0,2),  A_SUB_SARRUS_COLORED.get(1,0),  A_SUB_SARRUS_COLORED.get(2,1)]
+			],['+', 
+				['*', A_SARRUS2_COLORED.get(0,2),  A_SARRUS2_COLORED.get(1,1),  A_SARRUS2_COLORED.get(2,0)],
+				['*', A_SUB_SARRUS2_COLORED.get(0,0),  A_SARRUS2_COLORED.get(1,2),  A_SARRUS2_COLORED.get(2,1)],
+				['*', A_SUB_SARRUS2_COLORED.get(0,1),  A_SUB_SARRUS2_COLORED.get(1,0),  A_SARRUS2_COLORED.get(2,2)]
+			]])
+		</var></code>
+		</p>
+		<p>
+		<code>\hphantom{<var>A.toCode('|')</var>} =
+		<var>A.det()</var></code>
+		</p>
+	</div>
+	</div>
+</body>
+</html>
