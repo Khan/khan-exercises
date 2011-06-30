@@ -18,14 +18,15 @@
 			
 			<!-- Used for problems that choose variation of problems that have multiple variations -->
 			<var id="RAND_SWITCH2">rand(2)</var>
-			<var id="RAND_SWITCH3">rand(3)</var>		
+			<var id="RAND_SWITCH3">rand(3)</var>	
+			<var id="RAND_COMBO">RAND_SWITCH2 + 10*RAND_SWITCH3</var>	
 		</div>
 
 		<div class="problems">
 			
 			<!-- Opposite angle of alternate interior angle and 180 degrees in a triangle. -->
 			<div>
-				<div class="graphie" id="opposite-angles">
+				<div class="graphie" id="tri-and-parallel">
 						init({
 							range: [[-5, 5], [-3, 5]],
 							scale: [40, 40]
@@ -104,7 +105,7 @@
 						Solve for <code>\angle{BCA}</code> by subtractint <code>\angle{BAC}</code> 
 						and <code>\angle{ABC}</code> from 180&deg;.  We find out that 	
 						<code>\angle{BCA} = <var>Tri_X</var>&deg;</code>
-						<span class="graphie" data-update="opposite-angles">
+						<span class="graphie" data-update="tri-and-parallel">
 							// label angle BAC
 							arc([2.5, 3], .75, 180, 220, { stroke: "orange" });
 							label([1.8, 3], "<var>Tri_X</var>&deg;", "below left", {color: "orange"});
@@ -127,8 +128,7 @@
 			
 			<!-- Corresponding/Opposite angles and parallel lines -->
 			<div>
-				<div class="graphie">
-					(function() {
+				<div class="graphie" id="opposite-parallel">
 						init({
 							range: [[-7, 6], [-5, 5.2]],
 							scale: [40, 40]
@@ -184,8 +184,6 @@
 							arc([1.2, 2], 1, 220, 0, { stroke: "purple" });
 							label([1.5, 1.2], "&ang;BGH=<var>180 - X</var>&deg;", "below right");
 						}
-					
-					})()
 				</div>
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
 				Angles not necessarily drawn to scale.</p>
@@ -218,12 +216,45 @@
 					
 				</p>
 				<div class="solution"><var>X</var></div>
-				
+
 				<div class="hints">
-					<p class="hint_blue">
-						<!-- TODO -->
-					</p>
+					<div data-if="RAND_COMBO == 0">
+						&ang;EGB is equal to &GHD because they are corresponding angles of a 
+						parallel line that's bisected by a transversal.
+					</div>
+					<div data-if="RAND_COMBO == 1">
+						&ang;EGB is equal to &GHD because they are opposite angles of a 
+						parallel line that's bisected by a transversal.
+					</div>
+					<div data-else-if="RAND_COMBO == 10">
+						Solve &ang;GHD by using alternate interior angles.  &ang;GHD and &ang;AGH 
+						are congruent because they are on opposite interior angles of a line 
+						bisecting a parallel line.
+					</div>
+					<div data-if="RAND_COMBO == 11">
+						&ang;ACH is equal to &CHF because they are corresponding angles of a 
+						parallel line that's bisected by a transversal.
+					</div>
+					<div data-else-if="RAND_COMBO == 20">
+						<p class="hint_blue">
+							First solve for &ang;AGH by subtracting &ang;BGH from 180&deg; 
+						</p>
+						<p class="hint_green">
+							Using corrosponding angles, we know &ang;GHD is congruent to 
+							&ang;AGH.
+						</p>
+					</div>
+					<div data-else-if="RAND_COMBO == 21">
+						<p class="hint_blue">
+							First solve for &ang;AGH by subtracting &ang;BGH from 180&deg; 
+						</p>
+						<p class="hint_green">
+							Using opposite angles, we know &ang;GHD is congruent to 
+							&ang;CHF because they are opposite each other of 2 bisecting lines.
+						</p>
+					</div>
 				</div>
+				
 			</div>
 			
 			<!-- Star Problem 1 : 
