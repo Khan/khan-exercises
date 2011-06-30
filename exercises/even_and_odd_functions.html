@@ -108,34 +108,32 @@
 				<div class="problem">
 					<p><code>f(x)</code> is graphed below.</p>
 					<div id="graph" class="graphie">
-						(function() {
-							init({
-								range: [ [-10, 10], [-10, 10] ],
-								scale: [20, 20]
-							});
+						init({
+							range: [ [-10, 10], [-10, 10] ],
+							scale: [20, 20]
+						});
 
-							grid( [-10, 10], [-10, 10], {
-								stroke: "#e5e5e5"
-							});
+						grid( [-10, 10], [-10, 10], {
+							stroke: "#e5e5e5"
+						});
 
-							style({
-								stroke: "#888",
-								strokeWidth: 2
-							});
+						style({
+							stroke: "#888",
+							strokeWidth: 2
+						});
 
-							path( [ [-10, 0], [10, 0] ] );
-							path( [ [0, -10], [0, 10] ] );
+						path( [ [-10, 0], [10, 0] ] );
+						path( [ [0, -10], [0, 10] ] );
 
-							style({
-								stroke: "#6495ED"
-							});
+						style({
+							stroke: "#6495ED"
+						});
 
-							plot( function( x ) {
-								return eval( WIDES );
-							}, [-10, 10]);
+						plot( function( x ) {
+							return eval( WIDES );
+						}, [-10, 10]);
 
-							style({ strokeWidth: 1 });
-						})()
+						style({ strokeWidth: 1 });
 					</div>
 				</div>
 
@@ -152,30 +150,26 @@
 		<div class="hints">
 			<!-- FIXME can organize things in better order with data-if unwrapping -->
 			<div data-if="SOL === 'Neither'" class="graphie" data-update="graph">
-				(function() {
-					style({ strokeWidth: 2 });
-					style({ stroke: "#7edb00" }, function() {
-						path([ [<var>PT</var>, 0], [ <var>PT</var>, <var>valAt( WIDES, PT )</var> ] ]);
-						path([ [<var>-PT</var>, 0], [ <var>-PT</var>, <var>valAt( WIDES, -PT )</var> ] ]);
-					});
-					label( [<var>PT</var>, 0], "a", "below left");
-					label( [<var>-PT</var>, 0], "-a", "below right");
-				})()
+				style({ strokeWidth: 2 });
+				style({ stroke: "#7edb00" }, function() {
+					path([ [<var>PT</var>, 0], [ <var>PT</var>, <var>valAt( WIDES, PT )</var> ] ]);
+					path([ [<var>-PT</var>, 0], [ <var>-PT</var>, <var>valAt( WIDES, -PT )</var> ] ]);
+				});
+				label( [<var>PT</var>, 0], "a", "below left");
+				label( [<var>-PT</var>, 0], "-a", "below right");
 			</div>
 
 			<div data-if="SOL === 'Neither'" class="graphie" data-update="graph">
-				(function() {
-					style({
-						stroke: "#abde66",
-						strokeDashArray: ".",
-						strokeWidth: 1
-					}, function() {
-						path([ [0, <var>valAt( WIDES, PT )</var>], [ <var>PT</var>, <var>valAt( WIDES, PT )</var> ] ]);
-						path([ [0, <var>valAt( WIDES, -PT )</var>], [ <var>-PT</var>, <var>valAt( WIDES, -PT )</var> ] ]);
-					});
-					label( [0, <var>valAt( WIDES, PT )</var>], "f(a)", "left");
-					label( [0, <var>valAt( WIDES, -PT )</var>], "f(-a)", "right");
-				})()
+				style({
+					stroke: "#abde66",
+					strokeDashArray: ".",
+					strokeWidth: 1
+				}, function() {
+					path([ [0, <var>valAt( WIDES, PT )</var>], [ <var>PT</var>, <var>valAt( WIDES, PT )</var> ] ]);
+					path([ [0, <var>valAt( WIDES, -PT )</var>], [ <var>-PT</var>, <var>valAt( WIDES, -PT )</var> ] ]);
+				});
+				label( [0, <var>valAt( WIDES, PT )</var>], "f(a)", "left");
+				label( [0, <var>valAt( WIDES, -PT )</var>], "f(-a)", "right");
 			</div>
 
 			<p data-if="SOL === 'Neither'">
@@ -188,20 +182,18 @@
 
 			<!-- FIXME can handle the ordering better when there is unwrapping (ie, display the vertical bars, then the horizontal ones -->
 			<div data-if="SOL !== 'Neither'" data-each="PTS as x" class="graphie" data-update="graph">
-				(function() {
-					style({ stroke: "#7edb00" }, function() {
-						path([ [<var>x</var>, 0], [ <var>x</var>, <var>valAt( WIDES, x )</var> ] ]);
-						path([ [<var>-x</var>, 0], [ <var>-x</var>, <var>valAt( WIDES, -x )</var> ] ]);
-					});
+				style({ stroke: "#7edb00" }, function() {
+					path([ [<var>x</var>, 0], [ <var>x</var>, <var>valAt( WIDES, x )</var> ] ]);
+					path([ [<var>-x</var>, 0], [ <var>-x</var>, <var>valAt( WIDES, -x )</var> ] ]);
+				});
 
-					style({
-						stroke: "#abde66",
-						strokeDashArray: ".",
-					}, function() {
-						path([ [0, <var>valAt( WIDES, x )</var>], [ <var>x</var>, <var>valAt( WIDES, x )</var> ] ]);
-						path([ [0, <var>valAt( WIDES, -x )</var>], [ <var>-x</var>, <var>valAt( WIDES, -x )</var> ] ]);
-					});
-				})()
+				style({
+					stroke: "#abde66",
+					strokeDashArray: ".",
+				}, function() {
+					path([ [0, <var>valAt( WIDES, x )</var>], [ <var>x</var>, <var>valAt( WIDES, x )</var> ] ]);
+					path([ [0, <var>valAt( WIDES, -x )</var>], [ <var>-x</var>, <var>valAt( WIDES, -x )</var> ] ]);
+				});
 			</div>
 
 			<p data-if="SOL === 'Odd'">

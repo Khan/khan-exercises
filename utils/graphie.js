@@ -335,6 +335,8 @@ jQuery.fn.graphie = function( problem ) {
 			graphie.graph = {};
 		}
 
+		code = "(function() {" + code + "})()";
+
 		// Execute the graph-specific code
 		KhanUtil.currentGraph = graphie;
 		jQuery.tmpl.getVAR( code, graphie );

@@ -163,7 +163,7 @@ test("Looping", 23, function() {
 		"<var id='key'>1</var><var id='value'>2</var>" +
 		"<ul class='c'><li data-each='items as key, value'><var>key</var>: <var>value</var></li></ul>" +
 		"<var id='tmpKey'>key</var><var id='tmpVal'>value</var>" +
-		"<var id='items2'>[]</var><var data-each='items as key, value'>items2.push( key );</var>" +
+		"<var id='items2'>[]</var><var data-each='items as key, value'>items2.push( key )</var>" +
 		"<div class='d' data-if='false' data-each='doesntexist'></div>" +
 		"<ul class='e'><li data-each='obj as key, value'><var>key</var>: <var>value</var></li></ul>" +
 		"<ul class='f'><li data-each='[]'></li></ul>"
