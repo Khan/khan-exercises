@@ -90,9 +90,6 @@ jQuery.extend(KhanUtil, {
 		if ( dec % 1 === 0 || isNaN(dec % 1) ) {
 			return dec;
 		}
-		// 0.5 is a special case since it is the very first fraction in our list,
-		// we should return it immediately, otherwise our derivative method might not catch it.
-		if ( dec == 1/2 ) { return ['/', 1, 2]; }
 
 		if ( typeof max_denominator === "undefined" ) {
 			max_denominator = 1000;
@@ -119,15 +116,15 @@ jQuery.extend(KhanUtil, {
 
 		//get a list of successively better approximations to dec
 		var fracs = [];
-		var curr_error = dec;
-		//TODO super inefficient to run through all denominators, but cycles are cheap.
+		var curr_error = Infinity;
+		//super inefficient to run through all denominators, but cycles are cheap.
 		//Could change to run through the Farey fractions so we would only check things
 		//in lowest terms.
 		for ( var denominator = 1; denominator < max_denominator; denominator++ ) {
 			var numerator = Math.round(dec*denominator);
 			var new_error = Math.abs(dec - numerator/denominator);
-			//only add new fractions in lowest terms to our list
-			if ( !KhanUtil.reduces(numerator, denominator) && new_error < curr_error ) {
+			//only add new fractions in lowest terms which better approximate our decimal 
+			if ( new_error < curr_error && !KhanUtil.reduces(numerator, denominator) ) {
 				fracs.push([new_error, numerator, denominator]); 
 				curr_error = new_error;
 			}
