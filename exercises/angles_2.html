@@ -412,10 +412,19 @@
 					
 				<p class="question">
 					Given the following:
-					<ul>
-					<li><code>\angle{BDC}&deg; = <var>Tri_Y</var></code></li>
-					<li><code>\angle{AIC}&deg; = <var>180 - Tri_Z</var></code></li>
-					</ul>
+					<div data-if="RAND_SWITCH2 === 0">
+						<ul>
+							<li><code>\angle{BDC}&deg; = <var>Tri_Y</var></code></li>
+							<li><code>\angle{AIC}&deg; = <var>180 - Tri_Z</var></code></li>
+						</ul>
+					</div>
+					<div data-else>
+						<ul>
+							<li><code>\angle{GCH}&deg; = <var>Tri_Y</var></code></li>
+							<li><code>\angle{FGH}&deg; = <var>180 - Tri_Z</var></code></li>
+						</ul>
+					</div>
+					
 					
 					What is 
 					<span data-if="RAND_SWITCH2 === 0"><code>\angle{AJF}</code></span>
@@ -425,15 +434,61 @@
 				<div class="solution"><var>Tri_X</var></div>
 				
 				<div class="hints">
-					<p class="hint_blue">
-						<!-- TODO -->
-					</p>
+					<span data-if="RAND_SWITCH2==0">
+						<p class="hint_blue">
+							Solve for &ang;DIJ by subtracting &ang;AIC from 180&deg;. 
+							Angles along a side of a line will total 180&deg;.
+							<span class="graphie" data-update="star2">
+								// label angle JID
+								arc([0, -1.2], .75, 143, 220, { stroke: "purple" });
+								label([-.75, -1.2], "<var>Tri_Z</var>&deg;", "left", {color: "purple"});
+							</span>	
+						</p>
+					</span>
+					<span data-else>
+						<p class="hint_blue">
+							Solve for &ang;HGC by subtracting &ang;ACD from 180&deg;. 
+							Angles along a side of a line will total 180&deg;.
+							<span class="graphie" data-update="star2">
+								// label angle HGC
+								arc([1.8, 5], 1, 280, 0, { stroke: "purple" });
+								label([2.5, 4.3], "<var>Tri_Z</var>&deg;", "bottom right", {color: "purple"});
+							</span>	
+						</p>
+					</span>
 					
+					<span data-if="RAND_SWITCH2==0">
+						<p class="hint_green">
+							Solve for &ang;DJI by subtracting &ang;BDC and &ang;DIJ from 180&deg;.
+							The sum of angles inside a triangle total 180&deg;.
+							<span class="graphie" data-update="star2">
+								// label angle JID
+								arc([-3.2, 1.3], .75, 260, 320, { stroke: "teal" });
+								label([-3.2, 0.50], "<var>Tri_X</var>&deg;", "bottom right", {color: "teal"});
+							</span>	
+						</p>
+					</span>
+					<span data-else>
+						<p class="hint_green">
+							Solve for &ang;CHG by subtracting &ang;ACD and &ang;HGC from 180&deg;.
+							The sum of angles inside a triangle total 180&deg;.
+							<span class="graphie" data-update="star2">
+								// label angle CHG
+								arc([3.2, 1.3], .75, 38, 120, { stroke: "teal" });
+								label([3.4, 1.78], "<var>Tri_X</var>&deg;", "above", {color: "teal"});
+							</span>	
+						</p>
+					</span>
+					
+					<p class="hint_orange">
+						Final solution is equal to the angle we found above.  This is because 
+						opposite angles of 2 bisecting lines are equal.
+					</p>
 				</div>
 			</div>
-
-			
+							
 		</div>
+		<!-- End of Problems -->
 	</div>
 </body>
 </html>
