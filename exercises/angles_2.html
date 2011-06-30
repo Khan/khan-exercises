@@ -224,64 +224,6 @@
 				</div>
 			</div>
 			
-			
-						
-			<!-- Angle adjacent to a triangle with 2 known angles. -->
-			<div>
-				<div class="graphie">
-					(function() {
-						init({
-							range: [[-9, 6], [-3, 5]],
-							scale: [30, 30]
-						});
-	
-	
-						style({
-						    stroke: "#888",
-						    strokeWidth: 2
-						});
-	
-						// Draw TriAngle
-						path([ [-8, -2], [4, -2] ]);
-						path([ [-4, -2], [0, 3] ]);
-						path([ [4, -2], [0, 3] ]);
-
-						// Label the sides
-						label([-3.2, -1.5], "A");
-						label([0, 2.3], "B");
-						label([3.2, -1.5], "C");						
-						
-						label([3, -2], "<var>Tri_Y</var>&deg;", "above left");
-						arc([4, -2], 1.2, 130, 180, { stroke: "green" });
-						
-						label([0, 1.5], "<var>Tri_Z</var>&deg;", "below");
-						arc([0, 3], 1.5, 230, 310, { stroke: "purple" });
-						
-						label([-4.7, -2], "X=?", "above left");
-						arc([-4, -2], .75, 50, 180, { stroke: "blue" });
-						
-					})()
-				</div>
-				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
-				Angles not necessarily drawn to scale.</p>
-					
-				<p class="question">
-					If <code>\angle{ABC} = <var>Tri_Z</var>&deg;</code> <br/>
-					and <code>\angle{ACB} = <var>Tri_Y</var></code>.</br>
-					What is <code>\angle{X}</code>?
-				</p>
-				<div class="solution"><var>Tri_Y + Tri_Z</var></div>
-				
-								<div class="hints">
-					<p class="hint_blue">
-						Hint: <code>\angle{X}</code> is opposite angle <code>\angle{BAC}</code>.
-					</p>
-					<p class="hint_green">
-						Hint: The interior angles of a triangle adds up to 180&deg;.
-					</p>
-				</div>
-			</div>
-			
 			<!-- Star Problem : Adjacent Angles + 180 deg in triangle -->
 			<div>
 				<div class="graphie">
