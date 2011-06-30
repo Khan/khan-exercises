@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math graphie">
 <head>
 	<title>Rounding Numbers</title>
 	<script src="../khan-exercise.js"></script>
@@ -14,19 +14,26 @@
                     {pos: 2, str: "hundred"},
                     {pos: 3, str: "thousand"}
                     ]</var>
-		
-
+	
 		<var id="TYPE">randFromArray(ROUNDINGTYPE)</var>
 		<var id="OFFSET">TYPE.pos</var>
-		<var id="NUMBER">randRange(1,100)</var>
-		<var id="DECIMAL">rand(0,99)</var>
-		<var id="FACTOR">round(Math.pow(10,OFFSET))</var>
-		<var id="GIVEN">(NUMBER + DECIMAL * 0.01)*FACTOR</var>
-		<var id="STRING">GIVEN.toString()</var>
-		<var id="ONES">GIVEN%1 !== 0 ? STRING.indexOf(".")-1 : STRING.length-1</var>
-		<var id="ROUN">STRING.charAt(ONES-OFFSET+(OFFSET < 0 ? 1 : 0))</var>
-		<var id="RIGHT">STRING.charAt(ONES-OFFSET+(OFFSET <= 0 ? 1 : 0)+1)</var>
+		<div data-if="OFFSET <= 0">
+			<var id="NUMBER">randRange(10,99)</var>
+			<var id="DECIMAL">randRange(100,999)</var>
+			<var id="GIVEN">NUMBER+DECIMAL/1000</var>
+			<var id="STRING">NUMBER+"."+DECIMAL</var>
+			<var id="ONES">STRING.indexOf(".")</var>
+		</div>
+		<div data-else>
+			<var id="NUMBER">randRange(1000,9000)</var>
+			<var id="GIVEN">NUMBER</var>
+			<var id="STRING">""+NUMBER</var>
+			<var id="ONES">STRING.length-1</var>
+		</div>
+		<var id="FACTOR">Math.pow(10,OFFSET)</var>
 		<var id="ANSWER">round(GIVEN / FACTOR)*FACTOR</var>
+		<var id="ROUN">STRING[ONES-OFFSET-(OFFSET == 0 ? 1 : 0)]</var>
+		<var id="RIGHT">STRING[ONES-OFFSET+1]</var>
 	</div>
 
 	<div class="problems">
@@ -36,10 +43,68 @@
 		</div>
 	</div>
 	<div class="hints">
+		<p>DEBUG: STRING=<var>STRING</var>, OFFSET=<var>OFFSET</var>,  RIGHT=<var>STRING[ONES-OFFSET+1]</var></p>
+
 		<p>The digit in the <var>TYPE.str</var>s place is <var>ROUN</var>, and the digit to the right is <var>RIGHT</var></p>
-		<p data-if="RIGHT>=5">Since the digit to the right, (the <var>RIGHT</var>)is greater than 5, we should round up to <var>ANSWER</var></p>
+		<p data-if="RIGHT>5">Since the digit to the right, (the <var>RIGHT</var>) is greater than or equal to 5, we should round up to <var>ANSWER</var></p>
+		<p data-else-if="RIGHT=5">As a rule 5 always rounds up.<br /> 0,1,2,3, and 4 round down, and 5,6,7,8, and 9 round up. So the answer is <var>ANSWER</var>
+</p>
 		<p data-else>Since the digit to the right, (the <var>RIGHT</var>)is less than 5, we should round down to <var>ANSWER</var></p>
+		<div class="graphie">
+
+
+			init({
+
+			range: [[0, 10], [-10, 10]],
+
+			scale: [30, 20]
+
+			});
+
+
+
+			style({
+
+			stroke: "#888",
+
+			strokeWidth: 2
+
+			});
+
+
+
+			path( [ [-10, 0], [10, 0] ] );
+
+			path( [ [0, -1], [0, 1] ] );
+
+			path( [ [1, -1], [1, 1] ] );
+
+			path( [ [2, -1], [2, 1] ] );
+
+			path( [ [3, -1], [3, 1] ] );
+
+			path( [ [4, -1], [4, 1] ] );
+
+			path( [ [5, -1], [5, 1] ] );
+
+			path( [ [6, -1], [6, 1] ] );
+
+			path( [ [7, -1], [7, 1] ] );
+
+			path( [ [8, -1], [8, 1] ] );
+
+			path( [ [9, -1], [9, 1] ] );
+
+			path( [ [10, -1], [10, 1] ] );
+
+						
+
+		</div>
+
 	</div>
+
 	</div>
+
 </body>
+
 </html>
