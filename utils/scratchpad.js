@@ -7,7 +7,8 @@ function Scratchpad(){
 
 	var mobilesafari = /AppleWebKit.*Mobile/.test(navigator.userAgent);
 	var container = jQuery( "#scratchpad" );
-	var pad = Raphael("scratchpad", 0, 0, container.width(), container.height());
+	var height = Math.max( 500, container.height() );
+	var pad = Raphael("scratchpad", container.width(), height);
 	// This canvas doesn't do anything, but it needs to be there for IE7 to catch mouse events..
 	var canvas = pad.rect(40, 0, container.width() - 40, container.height()).attr({stroke: "", fill: "#ffffff", opacity: "0"});
 
