@@ -491,8 +491,8 @@ var Khan = {
 				'</div>' +
 			'</div>' +
 			'<div id="problemarea">' +
+				'<div id="scratchpad"></div>' +
 				'<div id="workarea">' +
-					'<div id="scratchpad"></div>' +
 				'</div>' +
 				'<div id="hintsarea"></div>' +
 			'</div>' +
