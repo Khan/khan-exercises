@@ -128,7 +128,7 @@
 				<div class="graphie">
 					(function() {
 						init({
-							range: [[-6, 6], [-5, 5.2]],
+							range: [[-7, 6], [-5, 5.2]],
 							scale: [40, 40]
 						});
 	
@@ -163,31 +163,63 @@
 						
 												
 						// label angle X
-						arc([-2.9, -2], 1, 0, 50, { stroke: "blue"});
-						label([-2, -2], "&ang;{GHD}=?", "above right");						
+						if(RAND_SWITCH2 == 0) {
+							arc([-2.9, -2], 1, 0, 50, { stroke: "blue"});
+							label([-2, -2], "&ang;{GHD}=?", "above right");
+						} else {
+							arc([-2.9, -2], 1, 180, 220, { stroke: "blue"});
+							label([-4, -2.5], "&ang;{CHF}=?", "below left");
+						}						
 					
 						// label angle Y
-						arc([1.3, 2], 1.5, 0, 50, { stroke: "purple" });
-						label([3.5, 2], "Y=<var>X</var>&deg;", "above right");
+						if(RAND_SWITCH3 == 0) {
+							arc([1.2, 2], 1.5, 0, 50, { stroke: "purple" });
+							label([3.5, 2], "&ang;EGB=<var>X</var>&deg;", "above right");
+						} else if (RAND_SWITCH3 == 1) {
+							arc([1.2, 2], 1.5, 180, 220, { stroke: "purple" });
+							label([-1, 2], "&ang;AGH=<var>X</var>&deg;", "below left");
+						} else {
+							arc([1.2, 2], 1, 220, 0, { stroke: "purple" });
+							label([1.5, 1.2], "&ang;BGH=<var>180 - X</var>&deg;", "below right");
+						}
+					
 					})()
 				</div>
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
 				Angles not necessarily drawn to scale.</p>
 					
 				<p class="question">
-					If <code>\overline{AB} \parallel \overline{CD}</code> 
-					(line AB is parallel to line CD),<br/>
-					and <code>\angle{Y} = <var>X</var>&deg;.</code><br/>
+					Given
+					<ul>
+						<li>
+							<code>\overline{AB} \parallel \overline{CD}</code> 
+							(line AB is parallel to line CD)
+						</li>
+						<li>
+							<span data-if="RAND_SWITCH3 === 0">
+								<code>\angle{EGB} = <var>X</var>&deg;.</code><br/>
+							</span>
+							<span data-else-if="RAND_SWITCH3 === 1">
+								<code>\angle{AGH} = <var>X</var>&deg;.</code><br/>
+							</span>
+							<span data-else>
+								<code>\angle{BGH} = <var>180 - X</var>&deg;</code><br/>
+							</span>
+						</li>
+					 
+					</ul> 
+					
 					<br/>
-					What is <code>\angle{X} = ?</code>
+					What is 
+					<span data-if="RAND_SWITCH2 == 0"><code>\angle{GHD} = ?</code></span>
+					<span data-else="RAND_SWITCH2 == 0"><code>\angle{CHF} = ?</code></span>
+					
 				</p>
 				<div class="solution"><var>X</var></div>
 				
 				<div class="hints">
 					<p class="hint_blue">
-						Hint: Corresponding angle theory says when another line 
-						bisects a set of parallel lines, they create sets of 
-						congruent angles.
+						<!-- TODO -->
 					</p>
 				</div>
 			</div>
