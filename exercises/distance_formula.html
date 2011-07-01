@@ -23,13 +23,6 @@
 			<var id="X_DIST">abs( X2 - X1 )</var>
 			<var id="Y_DIST">abs( Y2 - Y1 )</var>
 			<var id="HYP2">X_DIST * X_DIST + Y_DIST * Y_DIST</var>
-			<var id="DRAW_DOTS">function() {
-					var point1 = "#0969A2";
-					ASdot([ X1, Y1 ], 3, point1, point1 );
-
-					var point2 = "#A62ADD";
-					ASdot( [ X2, Y2 ], 3, point2, point2 );
-				}</var>
 
 			<var id="SOLUTION">splitRadical( X_DIST * X_DIST + Y_DIST * Y_DIST )</var>
 			<var id="SOLUTION_COEFFICIENT">SOLUTION[0] === 1 ? "" : SOLUTION[0]</var>
@@ -46,8 +39,11 @@
 					fontfill = "#A62ADD";
 					var textPos = ( Y1 === Y2 ) ? "belowright" : "aboveright";
 					text([ X2, Y2 ], "(" + X2 + ", " + Y2 + ")", textPos);
+					var point1 = "#0969A2";
+					ASdot([ X1, Y1 ], 3, point1, point1 );
 
-					DRAW_DOTS();
+					var point2 = "#A62ADD";
+					ASdot( [ X2, Y2 ], 3, point2, point2 );
 				</div>
 
 				<div class="solution" data-type="radical">
@@ -72,8 +68,6 @@
 				<div class="graph update" data-style="stroke: #679B00; font-fill: #679B00">
 					line( [ X1, Y1 ], [ X2, Y1 ] );
 					text( [ ( X1 + X2 ) / 2, Y1 ], X_DIST, "above" );
-
-					DRAW_DOTS();
 				</div>
 			</div>
 
@@ -92,8 +86,6 @@
 				<div class="graph update" data-style="stroke: #A66000; font-fill: #A66000">
 					line( [ X2, Y1 ], [ X2, Y2 ] );
 					text( [ X2, ( Y1 + Y2 ) / 2 ], Y_DIST, "left" );
-
-					DRAW_DOTS();
 				</div>
 			</div>
 
@@ -102,8 +94,6 @@
 
 				<div class="graph update" data-style="stroke: #FF4900">
 					line( [ X1, Y1 ], [ X2, Y2 ] );
-
-					DRAW_DOTS();
 				</div>
 			</div>
 

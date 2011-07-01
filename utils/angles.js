@@ -1,5 +1,6 @@
 jQuery.extend( KhanUtil, {
 	commonAngles: [
+		{deg: 15, rad: "\\frac{\\pi}{12}"},
 		{deg: 30, rad: "\\frac{\\pi}{6}"},
 		{deg: 45, rad: "\\frac{\\pi}{4}"},
 		{deg: 60, rad: "\\frac{\\pi}{3}"},
@@ -21,5 +22,42 @@ jQuery.extend( KhanUtil, {
 	// Convert a degree value to a radian value
 	toRadians: function( degrees ) {
 		return degrees * Math.PI / 180;
+	},
+
+	wrongCommonAngle: function( angleIdx, i ) {
+		// i is a value from 1 to 3
+		return KhanUtil.commonAngles[ (angleIdx + (4 * i)) % KhanUtil.commonAngles.length ];
+	},
+
+	wrongDegrees: function( degrees ) {
+		var offset;
+		var wrong;
+
+		do {
+			offset = KhanUtil.randRange( 10, 35 );
+			if (KhanUtil.rand(2)) {
+				offset *= -1;
+			}
+
+			wrong = degrees + offset;
+		} while ( !(wrong >= 0 && wrong <= 360) );
+
+		return wrong;
+	},
+
+	wrongRadians: function( radians ) {
+		var offset;
+		var wrong;
+
+		do {
+			offset = KhanUtil.randRange( 10, 35 ) / 100;
+			if (KhanUtil.rand(2)) {
+				offset *= -1;
+			}
+
+			wrong = KhanUtil.roundTo( 2, radians + offset );
+		} while ( !(wrong >= 0 && wrong <= 2 * Math.PI) );
+
+		return wrong;
 	}
 });

@@ -25,7 +25,7 @@
 			<!-- increment of selected random value (i.e. 20, 25, 30, 35... are possible values for incr of 5 -->
 			<var id="PERCENT_UNFAIR_HEADS_INCR">5</var>
 
-			
+
 			<!-- PROBLEM-SPECIFIC VALUES -->
 			<!-- random range for total coins in bag -->
 			<var id="NUM_COINS">randRange(5, 15)</var>
@@ -48,43 +48,46 @@
 			<var id="FAIR_COIN_FRACTION_STRING">"\\frac{" + (NUM_COINS-NUM_UNFAIR_COINS) + "}{" + NUM_COINS + "}"</var>
 			<var id="DECIMAL_CHANCE_UNFAIR_HEADS">PERCENT_CHANCE_UNFAIR_HEADS / 100</var>
 			<var id="UNFAIR_HEADS_DECIMAL_FORMULA">
-				var uhdf = DECIMAL_CHANCE_UNFAIR_HEADS.toString()
-				for (var i = 0; i < NUM_FLIPS - 1; i++) {
-					uhdf += " \\times " + DECIMAL_CHANCE_UNFAIR_HEADS;
-				}
-				return uhdf;
+				(function() {
+					var uhdf = DECIMAL_CHANCE_UNFAIR_HEADS.toString()
+					for (var i = 0; i < NUM_FLIPS - 1; i++) {
+						uhdf += " \\times " + DECIMAL_CHANCE_UNFAIR_HEADS;
+					}
+					return uhdf;
+				})()
 			</var>
 			<var id="UNFAIR_HEADS_PERCENT_FORMULA">
-				var uhpf = PERCENT_CHANCE_UNFAIR_HEADS + "%";
-				for (var i = 0; i < NUM_FLIPS - 1; i++) {
-					uhpf += " \\times " + PERCENT_CHANCE_UNFAIR_HEADS + "%";
-				}
-				return uhpf;
+				(function() {
+					var uhpf = PERCENT_CHANCE_UNFAIR_HEADS + "%";
+					for (var i = 0; i < NUM_FLIPS - 1; i++) {
+						uhpf += " \\times " + PERCENT_CHANCE_UNFAIR_HEADS + "%";
+					}
+					return uhpf;
+				})()
 			</var>
 			<var id="DECIMAL_CHANCE_FAIR_HEADS">0.5</var>
 			<var id="FAIR_HEADS_DECIMAL_FORMULA">
-				var fhdf = DECIMAL_CHANCE_FAIR_HEADS.toString();
-				for (var i = 0; i < NUM_FLIPS - 1; i++) {
-					fhdf += " \\times " + DECIMAL_CHANCE_FAIR_HEADS;
-				}
-				return fhdf;
+				(function() {
+					var fhdf = DECIMAL_CHANCE_FAIR_HEADS.toString();
+					for (var i = 0; i < NUM_FLIPS - 1; i++) {
+						fhdf += " \\times " + DECIMAL_CHANCE_FAIR_HEADS;
+					}
+					return fhdf;
+				})()
 			</var>
 
 			<!-- For answer computing -->
 			<var id="CHANCE_UNFAIR_PICKED">NUM_UNFAIR_COINS / NUM_COINS</var>
 			<var id="CHANCE_FAIR_PICKED">1 - CHANCE_UNFAIR_PICKED</var>
 
- 			<var id="ANSWER">round(10000 * (CHANCE_UNFAIR_PICKED * pow((PERCENT_CHANCE_UNFAIR_HEADS / 100), NUM_FLIPS) +
+			<var id="ANSWER">round(10000 * (CHANCE_UNFAIR_PICKED * pow((PERCENT_CHANCE_UNFAIR_HEADS / 100), NUM_FLIPS) +
 				CHANCE_FAIR_PICKED * pow(.5,NUM_FLIPS))) / 100</var>
 
 		</div>
 
 		<div class="problems">
 			<div>
-				<p class="problem">You have <code><var>NUM_COINS</var></code> coins in a bag. <code><var>NUM_UNFAIR_COINS</var></code> of them are 
-		   unfair in that they have a <code><var>PERCENT_CHANCE_UNFAIR_HEADS</var>\%</code> chance of coming up heads when
-		   flipped (the rest are fair coins). You randomly choose one coin from the bag and flip it
-		   <code><var>NUM_FLIPS</var></code> times.</p>
+				<p class="problem">You have <code><var>NUM_COINS</var></code> coins in a bag. <code><var>NUM_UNFAIR_COINS</var></code> of them are unfair in that they have a <code><var>PERCENT_CHANCE_UNFAIR_HEADS</var>\%</code> chance of coming up heads when flipped (the rest are fair coins). You randomly choose one coin from the bag and flip it <code><var>NUM_FLIPS</var></code> times.</p>
 				<p class="question">What is the percent probability of getting <code><var>NUM_FLIPS</var></code> heads?</p>
 				<p>Write your answer as a percent, such as <code>12.34\%</code></p>
 				<p class="solution" data-type="percent"><var>ANSWER</var></p>
@@ -115,11 +118,11 @@
 			<!-- hint suggesting combining unfair coin selection with all-heads-flip event -->
 			<p>Now, then, your chance of both picking the unfair coin and also flipping
 			<code class="unfair"><var>NUM_FLIPS</var></code> heads--the chance that both these events occur--is what?</p>
-			
+
 			<!-- hint revealing computed chance with unfair coin -->
 			<p>It is <code class="unfair"><var>UNFAIR_COIN_FRACTION_STRING</var> \times <var>UNFAIR_HEADS_DECIMAL_FORMULA</var></code></p>
-			
-			<!-- hint questioning the fair coin computation	 -->
+
+			<!-- hint questioning the fair coin computation -->
 			<p>Now, the other possibility, picking the fair coin and flipping <code class="fair"><var>NUM_FLIPS</var></code> heads is what?</p>
 
 			<!-- hint showing the fair coin computation -->
@@ -130,12 +133,9 @@
 
 			<!-- hint revealing the answer -->
 			<p>Add them! So your answer is
-		   <code class="unfair"><var>UNFAIR_COIN_FRACTION_STRING</var> \times <var>UNFAIR_HEADS_DECIMAL_FORMULA</var></code>
-		    + 
-		   <code class="fair"><var>FAIR_COIN_FRACTION_STRING</var> \times <var>FAIR_HEADS_DECIMAL_FORMULA</var></code>
-		   , or
-		   <code><var>ANSWER</var>
-		   \%</code>.</p>
+				<code class="unfair"><var>UNFAIR_COIN_FRACTION_STRING</var> \times <var>UNFAIR_HEADS_DECIMAL_FORMULA</var></code>+
+				<code class="fair"><var>FAIR_COIN_FRACTION_STRING</var> \times <var>FAIR_HEADS_DECIMAL_FORMULA</var></code>, or
+				<code><var>ANSWER</var>\%</code>.</p>
 		</div>
 	</div>
 </body>

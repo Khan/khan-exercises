@@ -1,10 +1,9 @@
 jQuery.extend(KhanUtil, {
 	Polynomial: function( minDegree, maxDegree, coefs, variable, name ) {
 		var term = function( coef, vari, degree ) {
+
 			// sort of a weird error behavior
-			if ( typeof coef === "undefined" ) {
-				return null;
-			} else if ( coef == 0 ) {
+			if ( typeof coef === "undefined" || coef === 0 ) {
 				return null;
 			}
 
@@ -15,9 +14,11 @@ jQuery.extend(KhanUtil, {
 			} else {
 				return ["*", coef, ["^", vari, degree]];
 			}
+
 		};
 
-		//inverse of term.  Given an expression it returns the coef and degree. calculus needs this for hints
+		//inverse of term.	Given an expression it returns the coef and degree. 
+		// calculus needs this for hints
 		var extractFromExpr = function ( expr ){
 			var coef,degree;
 			if ( typeof expr === "number" ){
@@ -38,24 +39,18 @@ jQuery.extend(KhanUtil, {
 
 		this.minDegree = minDegree;
 		this.maxDegree = maxDegree;
-		if (!coefs) {
-			this.coefs = KhanUtil.randCoefs( minDegree, maxDegree );
-		} else {
-			this.coefs = coefs;
-		}
+
+		this.coefs = coefs || KhanUtil.randCoefs( minDegree, maxDegree );
+
 		this.variable = (typeof variable !== "undefined") ? variable : "x";
 
-		if ( name ) {
-			this.name = name;
-		} else {
-			this.name = "f";
-		}
+		this.name = name || "f";
 
 		this.expr = function( vari ) {
 			if ( typeof vari === "undefined" ) {
 				vari = this.variable;
 			}
-			
+
 			var expr = ["+"];
 
 			for ( var i = this.maxDegree; i >= this.minDegree; i-- ) {
@@ -70,13 +65,23 @@ jQuery.extend(KhanUtil, {
 		};
 
 		this.getNumberOfTerms = function() {
-			return this.expr().length - 1 ; // -1 as the first term in the expression for a polynomial is always a "+"
+
+			// -1 as the first term in the expression for a polynomial is always a "+"
+			return this.expr().length - 1 ; 
+
 		};
 
-		this.getCoefAndDegreeForTerm = function( termIndex ) { //returns the coef and degree for a particular term
+		this.getCoefAndDegreeForTerm = function( termIndex ) { 
+			
+			//returns the coef and degree for a particular term
 			var numberOfTerms = this.getNumberOfTerms();
-			if ( typeof termIndex === "number" && termIndex >= 0 && termIndex <= numberOfTerms ) {
-				return extractFromExpr( this.expr()[ termIndex + 1 ] ); //upshift by one due to "+" sign at the front of the expression
+
+			if ( typeof termIndex === "number" && termIndex >= 0 
+					&& termIndex <= numberOfTerms ) {
+
+				//upshift by one due to "+" sign at the front of the expression
+				return extractFromExpr( this.expr()[ termIndex + 1 ] );
+
 			}
 
 		};
@@ -96,18 +101,21 @@ jQuery.extend(KhanUtil, {
 		};
 
 		this.hint = function( val ) {
-			var hint = "<p><code>" + this.name+"("+val+") = " + this.hintEvalOf( val ) + "</code></p>";
-			hint += "<p><code>" + this.name+"("+val+") = " +  + this.evalOf( val ) + "</code></p>";
+			var hint = "<p><code>" + this.name+"("+val+") = " + 
+				this.hintEvalOf( val ) + "</code></p>";""
+			hint += "<p><code>" + this.name+"("+val+") = " + 
+				this.evalOf( val ) + "</code></p>";
 
 			return hint;
 		};
-		
+
 		return this;
 	},
 
 	CompositePolynomial: function( minDegree, maxDegree, coefs, variable, name,
-								   composed, composedCoef ) {
-		var base = new KhanUtil.Polynomial( minDegree, maxDegree, coefs, variable, name );
+			composed, composedCoef ) {
+		var base = new KhanUtil.Polynomial( 
+			minDegree, maxDegree, coefs, variable, name );
 
 		jQuery.extend(this, base);
 
@@ -127,22 +135,28 @@ jQuery.extend(KhanUtil, {
 
 			return expr;
 		}
-		
+
 		this.expr = function( vari ) {
 			return tackOn( base.expr( vari ), ["*", composedCoef, composedFunc] );
 		};
 
 		this.text = function() {
-			return KhanUtil.expr( this.expr( this.variable ) ); 
+			return KhanUtil.expr( this.expr( this.variable ) );
 		};
 
 		this.toString = this.text;
 
 		this.hintEvalOf = function( val, evalInner ) {
 			if ( evalInner ) {
-				return KhanUtil.expr( tackOn( base.expr( val ), ["*", composedCoef, composed.evalOf( val )] ) );
+
+				return KhanUtil.expr( tackOn( base.expr( val ), 
+					["*", composedCoef, composed.evalOf( val )] ) );
+
 			} else {
-				return KhanUtil.expr( tackOn( base.expr( val ), ["*", composedCoef, composed.name+"("+val+")"] ) );
+
+				return KhanUtil.expr( tackOn( base.expr( val ), 
+					["*", composedCoef, composed.name+"("+val+")"] ) );
+
 			}
 		};
 
@@ -151,26 +165,33 @@ jQuery.extend(KhanUtil, {
 		};
 
 		this.hint = function( val ) {
-			var hint = "<p><code>" + this.name+"("+val+") = " + this.hintEvalOf(val) + "</code></p>";
+
+			var hint = "<p><code>" + this.name+"("+val+") = " + 
+				this.hintEvalOf(val) + "</code></p>";
 
 			var composedFuncWithVal = composed.name+"("+val+")";
-			
+
 			hint += "<p>To solve for the value of <code>" + this.name + "</code>,"
 				+ "we need to solve for the value of <code>"
 				+ composedFuncWithVal + "</code>.</p>";
 
 			hint += composed.hint( val );
 
-			hint += "<p>Okay, so <code>" + composedFuncWithVal+" = " + composed.evalOf(val) + "</code>.</p>";
+			hint += "<p>Okay, so <code>" + composedFuncWithVal+" = " + 
+				composed.evalOf(val) + "</code>.</p>";
 
-			hint += "<p>That means <code>" + this.name+"("+val+") = " + this.hintEvalOf(val, true) + "</code></p>";
+			hint += "<p>That means <code>" + this.name+"("+val+") = " + 
+				this.hintEvalOf(val, true) + "</code></p>";
 
-			hint += "<p><code>" + this.name+"("+val+") = " + this.evalOf( val ) + "</code></p>";
+			hint += "<p><code>" + this.name+"("+val+") = " + 
+				this.evalOf( val ) + "</code></p>";
 
 			return hint;
+
 		};
 
 		return this;
+
 	},
 
 	randCoefs: function( minDegree, maxDegree ) {

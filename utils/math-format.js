@@ -4,14 +4,21 @@ jQuery.extend(KhanUtil, {
 		return n < 0 ? "(" + n + ")" : n;
 	},
 
-	/* Format the latex of the fraction `n`/`d`.  
-	 * - Will use latex's `dfrac` unless `small` is specified as truthy. 
-	 * - Will wrap the fraction in parentheses if necessary (ie, unless the 
-	 * fraction reduces to a positive integer) if `parens` is specified as 
+	/* Wrapper for `fraction` which takes a decimal instead of a numerator and
+	 * denominator. */
+	decimalFraction: function( num, defraction, reduce, small, parens ) {
+		var f = KhanUtil.toFraction( num );
+		return KhanUtil.fraction( f[0], f[1], defraction, reduce, small, parens );
+	},
+
+	/* Format the latex of the fraction `n`/`d`.
+	 * - Will use latex's `dfrac` unless `small` is specified as truthy.
+	 * - Will wrap the fraction in parentheses if necessary (ie, unless the
+	 * fraction reduces to a positive integer) if `parens` is specified as
 	 * truthy.
 	 * - Will reduce the fraction `n`/`d` if `reduce` is specified as truthy.
 	 * - Will defraction (spit out 0 if `n` is 0, spit out `n` if `d` is 1, or
-	 * spit out `undefined` if `d` is 0) if `defraction` is specified as 
+	 * spit out `undefined` if `d` is 0) if `defraction` is specified as
 	 * truthy. */
 	fraction: function( n, d, defraction, reduce, small, parens ) {
 		var frac = function( n, d ) {
@@ -62,10 +69,22 @@ jQuery.extend(KhanUtil, {
 		return KhanUtil.fraction( n, d, defraction, reduce, true, parens );
 	},
 
+	/* Interprets a decimal as a multiple of pi and formats it as would be
+	 * expected. */
+	piFraction: function( num ) {
+		if ( num.constructor === Number ) {
+			var f = KhanUtil.toFraction( num / Math.PI, 0.001 ),
+			 n = f[0],
+			 d = f[1];
+
+			return d === 1 ? n + "\\pi" : KhanUtil.fractionSmall( n, d ) + "\\pi";
+		}
+	},
+
 	/* Returns whether the fraction n/d reduces. */
 	reduces: function( n, d ) {
-		// if the GCD is greater than 1, then there is a factor in common and the 
-		// fraction reduces. 
+		// if the GCD is greater than 1, then there is a factor in common and the
+		// fraction reduces.
 		return KhanUtil.getGCD( n, d ) > 1;
 	},
 
@@ -171,7 +190,7 @@ jQuery.extend(KhanUtil, {
 
 	// formattedSquareRootOf(24) gives 2\sqrt{6}
 	formattedSquareRootOf: function( n ) {
-		if( n === 1	 || n === 0 ) {
+		if( n === 1 || n === 0 ) {
 			/* so as to not return "" or "\\sqrt{0}" later */
 			return n.toString();
 		} else {
@@ -264,7 +283,7 @@ jQuery.extend(KhanUtil, {
 		var card = KhanUtil.cardinal( n );
 		return card.charAt(0).toUpperCase() + card.slice(1);
 	},
-	
+
 	// Depends on expressions.js for expression formatting
 	// Returns a string with the expression for the formatted roots of the quadratic
 	// with coefficients a, b, c
@@ -272,30 +291,30 @@ jQuery.extend(KhanUtil, {
 	quadraticRoots: function( a, b, c ) {
 		var underRadical = KhanUtil.splitRadical( b * b - 4 * a * c );
 		var rootString = "x =";
-		
+
 		if ( (b * b - 4 * a * c) === 0 ) {
 			// 0 under the radical
 			rootString += KhanUtil.fraction(-b, 2*a);
 		} else if ( underRadical[0] === 1 ) {
 			// The number under the radical cannot be simplified
 			rootString += KhanUtil.expr(["frac", ["+-", -b, ["sqrt", underRadical[1]]],
-			                                     2 * a]);
+												 2 * a]);
 		} else if ( underRadical[1] === 1 ) {
 			// The absolute value of the number under the radical is a perfect square
 
-			rootString += KhanUtil.fraction(-b + underRadical[0], 2*a) + "," 
+			rootString += KhanUtil.fraction(-b + underRadical[0], 2*a) + ","
 				+ KhanUtil.fraction(-b - underRadical[0], 2*a);
 		} else {
 			// under the radical can be partially simplified
 			var divisor = KhanUtil.getGCD( b, 2 * a, underRadical[0] );
-			
+
 			if ( divisor === Math.abs(2*a) ) {
 				rootString += KhanUtil.expr(["+-", -b / (2 * a), ["*", underRadical[0] / divisor,
-															 ["sqrt", underRadical[1]] ]]);
+																 ["sqrt", underRadical[1]] ]]);
 			} else {
 				rootString += KhanUtil.expr(["frac", ["+-", -b / divisor, ["*", underRadical[0] / divisor,
-				                                                                    ["sqrt", underRadical[1]] ]],
-				                                     2 * a / divisor]);
+																				["sqrt", underRadical[1]] ]],
+													 2 * a / divisor]);
 			}
 		}
 		return rootString;
@@ -303,6 +322,6 @@ jQuery.extend(KhanUtil, {
 
 	commafy: function( num ) {
 		return num.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, "{,}");
-    }
+	}
 });
 

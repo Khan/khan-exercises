@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html data-require="math graph">
+<head>
+	<title>Midpoint Formula</title>
+	<script src="../khan-exercise.js"></script>
+	<!-- TODO: Assuming that the new graph lib will help eliminate this redundancy -->
+	<style>
+		.point1 {
+			color: #0969A2;
+		}
+
+		.point2 {
+			color: #A62ADD;
+		}
+
+		.midpoint {
+			color: #6495ED;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="X1 != Y1 && X2 != Y2">
+			<var id="X1">randRange( -9, 7 )</var>
+			<var id="X2">randRange( -9, 7 )</var>
+			<var id="Y1">randRange( -9, 8 )</var>
+			<var id="Y2">randRange( -9, 8 )</var>
+			<var id="XM">( X1 + X2 ) / 2</var>
+			<var id="YM">( Y1 + Y2 ) / 2</var>
+		</div>
+
+		<div class="problems">
+			<div id="find-midpoint">
+				<p class="question">What is the midpoint of the line segment from (<var>X1</var>, <var>Y1</var>) to (<var>X2</var>, <var>Y2</var>)?</p>
+				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-weight: bold" data-graph-type="plane">
+					stroke = "#000000";
+					path([[ X1, Y1 ], [ X2, Y2 ]]);
+
+					fontfill = "#0969A2";
+					text([ X1, Y1 ], "(" + X1 + ", " + Y1 + ")", "aboveright" );
+
+					fontfill = "#A62ADD";
+					var textPos = ( Y1 === Y2 ) ? "belowright" : "aboveright";
+					text([ X2, Y2 ], "(" + X2 + ", " + Y2 + ")", textPos);
+
+					var point1 = "#0969A2";
+					ASdot([ X1, Y1 ], 3, point1, point1 );
+
+					var point2 = "#A62ADD";
+					ASdot( [ X2, Y2 ], 3, point2, point2 );
+				</div>
+
+				<div class="solution" data-type="multiple">
+					(<span class="sol" data-type="decimal"><var>XM</var></span>, <span class="sol" data-type="decimal"><var>YM</var></span>)
+				</div>
+
+				<div class="hints">
+					<p>The x coordinate of the midpoint is the average of the x coordinates <code><var>X1</var></code> and <code><var>X2</var></code>.</p>
+					<div>
+						<p><code>x = \dfrac{1}{2}(<var>X1</var> + <var>X2</var>)</code></p>
+						<p><code>x = \dfrac{1}{2}(<var>X1 + X2</var>)</code></p>
+						<p><code>x = <var>XM</var></code></p>
+						<div class="graph update" data-style="stroke: #679B00; font-fill: #679B00">
+							line( [ XM, -10 ], [ XM, 10 ] );
+						</div>
+					</div>
+					<p>The y coordinate of the midpoint is the average of the y coordinates <code><var>Y1</var></code> and <code><var>Y2</var></code>.</p>
+					<div>
+						<p><code>y = \dfrac{1}{2}(<var>Y1</var> + <var>Y2</var>)</code></p>
+						<p><code>y = \dfrac{1}{2}(<var>Y1 + Y2</var>)</code></p>
+						<p><code>y = <var>YM</var></code></p>
+						<div class="graph update" data-style="stroke: #679B00; font-fill: #679B00">
+							line( [ -10, YM ], [ 10, YM ] );
+						</div>
+					</div>
+					<div>
+						<p>The midpoint is <code>(<var>XM</var>, <var>YM</var>)</code>.</p>
+						<div class="graph update" data-style="stroke: #679B00; font-fill: #679B00">
+							ASdot( [ XM, YM ], 3, "#679B00", "#679B00");
+							text( [ XM, YM ], "(" + XM + ", " + YM + ")", "aboveright" );
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="find-point">
+				<p class="question">The point (<var>XM</var>, <var>YM</var>) is the midpoint of (<var>X1</var>, <var>Y1</var>) and what point?</p>
+				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-weight: bold" data-graph-type="plane">
+					fontfill = "#0969A2";
+					text([ X1, Y1 ], "(" + X1 + ", " + Y1 + ")", "aboveright" );
+
+					fontfill = "#A62ADD";
+					var textPos = ( Y1 === YM ) ? "belowright" : "aboveright";
+					text([ XM, YM ], "(" + XM + ", " + YM + ")", textPos);
+
+					var point1 = "#0969A2";
+					ASdot([ X1, Y1 ], 3, point1, point1 );
+
+					var point2 = "#A62ADD";
+					ASdot( [ XM, YM ], 3, point2, point2 );
+				</div>
+
+				<div class="solution" data-type="multiple">
+					(<span class="sol" data-type="decimal"><var>X2</var></span>, <span class="sol" data-type="decimal"><var>Y2</var></span>)
+				</div>
+
+				<div class="hints">
+					<p>The average of the desired x coordinate and <code><var>X1</var></code> should be <code><var>XM</var></code>.</p>
+					<div>
+						<p><code>\dfrac{1}{2}(x + <var>X1</var>) = <var>XM</var></code></p>
+						<p>Solving for x:</p>
+						<p><code>x + <var>X1</var> = <var>(2 * XM)</var></code></p>
+						<p><code>x = <var>X2</var></code></p>
+						<div class="graph update" data-style="stroke: #6495ED; font-fill: #6495ED">
+							line( [ X2, -10 ], [ X2, 10 ] );
+						</div>
+					</div>
+					<p>The average of the desired y coordinate and <code><var>Y1</var></code> should be <code><var>YM</var></code>.</p>
+					<div>
+						<p><code>\dfrac{1}{2}(y + <var>Y1</var>) = <var>YM</var></code></p>
+						<p>Solving for y:</p>
+						<p><code>y + <var>Y1</var> = <var>(2 * YM)</var></code></p>
+						<p><code>y = <var>Y2</var></code></p>
+						<div class="graph update" data-style="stroke: #6495ED; font-fill: #6495ED">
+							line( [ -10, Y2 ], [ 10, Y2 ] );
+						</div>
+					</div>
+					<div>
+						<p>The point <code>(<var>XM</var>, <var>YM</var>)</code> is the midpoint of <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code>.
+						<div class="graph update" data-style="stroke: #6495ED; font-fill: #6495ED">
+							ASdot( [ X2, Y2 ], 3, "#6495ED", "#6495ED");
+							text( [ X2, Y2 ], "(" + X2 + ", " + Y2 + ")", "aboveright" );
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

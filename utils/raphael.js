@@ -378,7 +378,7 @@
         }
         return newf;
     }
- 
+
     R.getRGB = cacher(function (colour) {
         if (!colour || !!((colour = Str(colour)).indexOf("-") + 1)) {
             return {r: -1, g: -1, b: -1, hex: "none", error: 1};
@@ -518,7 +518,7 @@
             return {x: 0, y: 0, width: 0, height: 0};
         }
         path = path2curve(path);
-        var x = 0, 
+        var x = 0,
             y = 0,
             X = [],
             Y = [],
@@ -1374,7 +1374,7 @@
                                 $(ig, {x: 0, y: 0});
                                 ig.setAttributeNS(o.paper.xlink, "href", isURL[1]);
                                 el[appendChild](ig);
- 
+
                                 var img = doc.createElement("img");
                                 img.style.cssText = "position:absolute;left:-9999em;top-9999em";
                                 img.onload = function () {
@@ -1442,7 +1442,7 @@
                     }
                 }
             }
-            
+
             tuneText(o, params);
             if (rotxy) {
                 o.rotate(rotxy.join(S));
@@ -1458,7 +1458,7 @@
             var a = el.attrs,
                 node = el.node,
                 fontSize = node.firstChild ? toInt(doc.defaultView.getComputedStyle(node.firstChild, E).getPropertyValue("font-size"), 10) : 10;
- 
+
             if (params[has]("text")) {
                 a.text = params.text;
                 while (node.firstChild) {
@@ -1863,7 +1863,7 @@
                 }
                 return res[join](S);
             };
-        
+
         R[toString] = function () {
             return  "Your browser doesn\u2019t support SVG. Falling down to VML.\nYou are running Rapha\xebl " + this.version;
         };
@@ -1967,7 +1967,7 @@
             params["font-size"] && (s.fontSize = params["font-size"]);
             params["font-weight"] && (s.fontWeight = params["font-weight"]);
             params["font-style"] && (s.fontStyle = params["font-style"]);
-            if (params.opacity != null || 
+            if (params.opacity != null ||
                 params["stroke-width"] != null ||
                 params.fill != null ||
                 params.stroke != null ||
@@ -2029,7 +2029,7 @@
                 params["stroke-width"] && (stroke.weight = width);
                 width && width < 1 && (opacity *= width) && (stroke.weight = 1);
                 stroke.opacity = opacity;
-                
+
                 params["stroke-linejoin"] && (stroke.joinstyle = params["stroke-linejoin"] || "miter");
                 stroke.miterlimit = params["stroke-miterlimit"] || 8;
                 params["stroke-linecap"] && (stroke.endcap = params["stroke-linecap"] == "butt" ? "flat" : params["stroke-linecap"] == "square" ? "square" : "round");
@@ -2062,7 +2062,7 @@
                 res.H = a.h = res.paper.span.offsetHeight;
                 res.X = a.x;
                 res.Y = a.y + round(res.H / 2);
- 
+
                 // text-anchor emulationm
                 switch (a["text-anchor"]) {
                     case "start":
@@ -2434,7 +2434,7 @@
                 delete this.attrs.blur;
             }
         };
- 
+
         theCircle = function (vml, x, y, r) {
             var g = createNode("group"),
                 o = createNode("oval"),
@@ -2623,7 +2623,7 @@
             return true;
         };
     }
- 
+
     // rest
     // WebKit rendering bug workaround method
     var version = navigator.userAgent.match(/Version\/(.*?)\s/);
@@ -2635,7 +2635,7 @@
     } else {
         paperproto.safari = function () {};
     }
- 
+
     // Events
     var preventDefault = function () {
         this.returnValue = false;
@@ -3508,7 +3508,7 @@
         return "Rapha\xebl\u2019s object";
     };
     R.ae = animationElements;
- 
+
     // Set
     var Set = function (items) {
         this.items = [];

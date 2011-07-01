@@ -23,7 +23,7 @@ var Khan = {
 				TeX: {\
 					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
 				},\
-				"HTML-CSS": { scale: 88 }\
+				"HTML-CSS": { scale: 93 }\
 			});\
 			\
 			// We don\'t want to use inline script elements, we want to use code blocks\n\
@@ -41,7 +41,7 @@ var Khan = {
 			MathJax.Hub.Startup.onload();'
 		}, "raphael" ],
 
-		// Locally because IE8 has a problem with the 1.5.2 minified raphael release
+		// Load Raphael locally because IE8 has a problem with the 1.5.2 minified release
 		// http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
 
 		// The normal module dependencies.
@@ -128,6 +128,12 @@ var Khan = {
 				script[ prop ] = mod[ prop ];
 			}
 
+			script.onerror = function() {
+				// No error in IE, but this is mostly for debugging during development so it's probably okay
+				// http://stackoverflow.com/questions/2027849/how-to-trigger-script-onerror-in-internet-explorer
+				Khan.error( "Error loading script " + script.src );
+			};
+
 			script.onload = script.onreadystatechange = function() {
 				if ( !script.readyState || ( /loaded|complete/ ).test( script.readyState ) ) {
 					// Handle memory leak in IE
@@ -180,16 +186,16 @@ var Khan = {
 	},
 
 	// Display error messages
-	error: function( msg, msg2 ) {
+	error: function( ) {
 		if ( typeof console !== "undefined" ) {
-			console.error( msg, msg2 );
+			console.error.apply( console, arguments );
 		}
 	},
 
 	// Add up how much total weight is in each exercise so we can adjust for
 	// it later
 	weighExercises: function( problems ) {
-		if ( jQuery( ".exercise" ).length > 1 ) {
+		if ( jQuery( "body > .exercise" ).length > 1 ) {
 			jQuery.map( problems, function( elem ) {
 				elem = jQuery( elem );
 
@@ -270,7 +276,7 @@ var Khan = {
 
 		// Check to see if we want to test a specific problem
 		if ( Khan.query.problem ) {
-			var problems = jQuery( ".exercise .problems" ).children();
+			var problems = jQuery( "body > .exercise > .problems" ).children();
 
 			problemID = Khan.query.problem;
 			problem = /^\d+$/.test( problemID ) ?
@@ -301,7 +307,8 @@ var Khan = {
 
 		while ( parentType ) {
 			// Copy over the parent element to the child
-			var original = jQuery("#" + parentType).clone();
+			var original = exercise.find( ".problems #" + parentType ).clone();
+			original.find( ".vars, .vars [id], > [class]").data( "inherited", true );
 			problem.prepend( original.children() );
 
 			// Keep copying over the parent elements (allowing for deep inheritance)
@@ -334,9 +341,10 @@ var Khan = {
 
 		// Hide the raw hints
 		jQuery( "#rawhintsarea" ).hide();
-			
+
 		// Run the main method of any modules
-		problem.runModules();
+		problem.runModules( problem, "Load" );
+		problem.runModules( problem );
 
 		// Store the solution to the problem
 		var solution = problem.find(".solution"),
@@ -391,15 +399,19 @@ var Khan = {
 
 		// Save the raw hints so they can be modified later
 		Khan.rawHints = Khan.hints.clone()
-			
+
+			// FIXME: Should apply templating here without rendering MathJax, but
+			// that's currently not possible. 
+			.tmpl()
+
 			// Save as a normal JS array so we can use shift() on it later
 			.children().get();
 
 		// Save the rendered hints so we can display them later
 		Khan.hints = Khan.hints
 
-			// Run the "Load" method of any modules. This will render the hints
-			.runModules( "Load" )
+			// Do all the templating
+			.tmpl()
 
 			// Save as a normal JS array so we can use shift() on it later
 			.children().get();
@@ -443,7 +455,7 @@ var Khan = {
 
 			if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
 				var varInfo = [];
-				
+
 				jQuery.each( jQuery.tmpl.VARS, function( name, value ) {
 					var str;
 
@@ -484,10 +496,12 @@ var Khan = {
 					'<input type="button" id="show-scratchpad" value="Show scratchpad">' +
 				'</div>' +
 			'</div>' +
-			'<div id="workarea">' +
+			'<div id="problemarea">' +
 				'<div id="scratchpad"></div>' +
+				'<div id="workarea">' +
+				'</div>' +
+				'<div id="hintsarea"></div>' +
 			'</div>' +
-			'<div id="hintsarea"></div>' + 
 			'<div id="rawhintsarea"></div>'
 		);
 
@@ -544,63 +558,68 @@ var Khan = {
 
 			if ( hint ) {
 
+				var problem = $hint.parent();
+
 				// If the hint has hint templating, then turn that hint templating into
 				// normal inheritance templating, apply templating, and then re-render all
 				// the hints.
 				if ( $hint.data( "apply" ) && !$hint.data( "apply" ).indexOf( "hint" ) ) {
-					
+
 					// Revert the hint templating into normal inheritance
 					$hint.data( "apply", $hint.data( "apply" ).split(/-/)[1] );
 
 					// Apply templating, now that the hint template has been converted
-					jQuery( "#rawhintsarea" ).append( $hint ).find( "[id]" ).tmplApply();
+					jQuery( "#rawhintsarea" ).append( $hint ).find( "[id]" ).tmplApply().end()
 
 						// Re-render all the hints
-						jQuery( "#rawhintsarea" ).clone().runModules( "Load" )
+						.clone().runModules( problem )
 
 						// Replace the previously rendered hints
 						.replaceAll( "#hintsarea" ).show().attr( "id", "hintsarea" );
 
 				} else {
-					
+
 					// Inject the raw into the hidden raw area
 					$hint.appendTo( "#rawhintsarea" );
 
 					// Reveal the rendered hint
-					$render.runModules().appendTo( "#hintsarea" );
+					$render.runModules( problem ).appendTo( "#hintsarea" );
 
 				}
 
 				if ( Khan.hints.length === 0 ) {
+
 					// Disable the get hint button
 					jQuery( this ).attr( "disabled", true );
 				}
 			}
 		});
-		
+
 		jQuery( "#show-more" ).data( "show", true )
 			.click( function() {
 				var button = jQuery( this ),
 					show = button.data( "show" );
-				
+
 				if( show ) {
 					button.val( "Try current problem" );
+					jQuery( "#workarea" ).empty();
+					jQuery( "#hintsarea" ).empty();
 					for ( var i = 0; i < 10; i++ ) {
-						jQuery( "#workarea" ).append( jQuery( "<hr/>" ) );
 						Khan.makeProblem();
+						jQuery( "#workarea" ).append( jQuery( "<hr/>" ) );
 					}
 				} else {
 					button.val( "Show next 10 problems" );
 					jQuery( "#workarea, #hintsarea, #rawhintsarea" ).empty();
 					Khan.makeProblem();
 				}
-			
+
 				jQuery( "#sidebar form input" ).attr( "disabled", show );
 				jQuery( "#sidebar #help input" ).attr( "disabled", show );
 
 				button.data( "show", !show );
 			});
-		
+
 		jQuery( "#show-scratchpad" ).data( "show", true )
 			.click( function() {
 				var button = jQuery( this ),
@@ -622,10 +641,10 @@ var Khan = {
 					jQuery( "#scratchpad" ).hide();
 					button.val( "Show scratchpad" );
 				}
-				
+
 				button.data( "show", !show );
 			});
-		
+
 		// Prepare for the debug info if requested
 		if ( Khan.query.debug != null ) {
 			jQuery( '<div id="debug"></div>' ).appendTo( "#sidebar" );
@@ -664,7 +683,8 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 
 			if ( !( /success|notmodified/ ).test( status ) ) {
 				// Maybe loading from a file:// URL?
-				return Khan.error( "Error loading exercise from file " + src + ": " + xhr.status + " " + xhr.statusText );
+				Khan.error( "Error loading exercise from file " + src + ": " + xhr.status + " " + xhr.statusText );
+				return;
 			}
 
 			newContents = dummy.contents();
@@ -679,7 +699,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 
 			// Extract data-require
 			var requires = data.match( /<html(?:[^>]+)data-require=(['"])((?:(?!\1).)*)\1/ );
-			
+
 			if ( requires != null ) {
 				requires = requires[ 2 ];
 			}
@@ -705,11 +725,11 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 		});
 	};
 
-	var remoteExercises = jQuery( ".exercise[data-src]" );
-	
+	var remoteExercises = jQuery( "body > .exercise[data-src]" );
+
 	if ( remoteExercises.length ) {
 		remoteExercises.each( loadExercise );
-		
+
 	} else {
 		loadModules();
 	}
@@ -726,7 +746,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 
 				// Prepare the "random" problems
 				if ( !Khan.query.problem ) {
-					var problems = jQuery( ".exercise .problems" ).children();
+					var problems = jQuery( "body > .exercise > .problems" ).children();
 
 					Khan.weighExercises( problems );
 					Khan.problemBag = Khan.makeProblemBag( problems, Khan.problemCount );
@@ -745,7 +765,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 		},
 
 		// Run the methods provided by a module against some elements
-		runModules: function( type ) {
+		runModules: function( problem, type ) {
 			type = type || "";
 
 			return this.each(function( i, elem ) {
@@ -755,7 +775,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 				jQuery.each( Khan.modules, function( src, mod ) {
 					var name = mod.name;
 					if ( jQuery.fn[ name + type ] ) {
-						elem[ name + type ]();
+						elem[ name + type ]( problem );
 					}
 				});
 			});

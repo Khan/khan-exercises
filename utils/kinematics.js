@@ -15,7 +15,7 @@ jQuery.extend(KhanUtil, {
 		"a": "\\frac{\\text{m}}{\\text{s}^2}",
 		"t": "\\text{s}"
 	},
-	
+
 
 	rollUnknowns: function() {
 		var omitted, unknown;
