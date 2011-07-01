@@ -79,7 +79,7 @@
 				</div>
 				
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
-				Angles not necessarily drawn to scale.</p>
+				Angles not drawn to scale.</p>
 					
 				
 				Given the following:
@@ -101,17 +101,19 @@
 				<div class="solution"><var>Tri_X</var></div>
 				
 				<div class="hints">
-					<p class="hint_blue">
-						Solve for <code>\angle{BCA}</code> by subtractint <code>\angle{BAC}</code> 
-						and <code>\angle{ABC}</code> from 180&deg;.  We find out that 	
-						<code>\angle{BCA} = <var>Tri_X</var>&deg;</code>
+					<p class="hint_orange">
+						Solve for <code>\angle{BCA}</code> by subtracting angles 
+                                                <code>\angle{BAC}</code> and <code>\angle{ABC}</code> 
+                                                from 180&deg;.  We find out that 
+                                                <code>\angle{BCA} = <var>Tri_X</var>&deg;</code>
 						<span class="graphie" data-update="tri-and-parallel">
 							// label angle BAC
 							arc([2.5, 3], .75, 180, 220, { stroke: "orange" });
-							label([1.8, 3], "<var>Tri_X</var>&deg;", "below left", {color: "orange"});
+							label([1.8, 3], "<var>Tri_X</var>&deg;", "below left", 
+                                                            {color: "orange"});
 						</span>				
 					</p>
-					<p class="hint_green">	
+					<p>	
 						Solve for 
 						<span data-if="RAND_SWITCH2 === 0">										
 							<code>\angle{DAF}</code>  
@@ -186,7 +188,7 @@
 						}
 				</div>
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
-				Angles not necessarily drawn to scale.</p>
+				Angles not drawn to scale.</p>
 					
 				<p class="question">
 					Given
@@ -219,11 +221,11 @@
 
 				<div class="hints">
 					<div data-if="RAND_COMBO == 0">
-						&ang;EGB is equal to &GHD because they are corresponding angles of a 
+						&ang;EGB is equal to &ang;GHD because they are corresponding angles of a 
 						parallel line that's bisected by a transversal.
 					</div>
 					<div data-if="RAND_COMBO == 1">
-						&ang;EGB is equal to &GHD because they are opposite angles of a 
+						&ang;EGB is equal to &ang;GHD because they are opposite angles of a 
 						parallel line that's bisected by a transversal.
 					</div>
 					<div data-else-if="RAND_COMBO == 10">
@@ -232,7 +234,7 @@
 						bisecting a parallel line.
 					</div>
 					<div data-if="RAND_COMBO == 11">
-						&ang;ACH is equal to &CHF because they are corresponding angles of a 
+						&ang;ACH is equal to &ang;CHF because they are corresponding angles of a 
 						parallel line that's bisected by a transversal.
 					</div>
 					<div data-else-if="RAND_COMBO == 20">
@@ -240,17 +242,18 @@
 							First solve for &ang;AGH by subtracting &ang;BGH from 180&deg; 
 						</p>
 						<p class="hint_green">
-							Using corrosponding angles, we know &ang;GHD is congruent to 
+							Using corresponding angles, we know &ang;GHD is congruent to 
 							&ang;AGH.
 						</p>
 					</div>
 					<div data-else-if="RAND_COMBO == 21">
-						<p class="hint_blue">
+						<p>
 							First solve for &ang;AGH by subtracting &ang;BGH from 180&deg; 
 						</p>
-						<p class="hint_green">
+						<p>
 							Using opposite angles, we know &ang;GHD is congruent to 
-							&ang;CHF because they are opposite each other of 2 bisecting lines.
+							&ang;CHF because they are opposite each other of 2 
+                                                        bisecting lines.
 						</p>
 					</div>
 				</div>
@@ -308,7 +311,7 @@
 				</div>
 
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
-				Angles not necessarily drawn to scale.</p>
+				Angles not drawn to scale.</p>
 					
 				<p class="question">
 					Given the following:
@@ -328,24 +331,26 @@
 				
 						
 				<div class="hints">
-					<p class="hint_blue">
-						Solve for &ang;BHD by subtracting &ang;BDC amd &ang;DBE from 180&deg; 
-						Interior angles of a triable will total 180&deg;.
+					<p>
+						Solve for &ang;BHD by subtracting &ang;BDC add &ang;DBE from 180&deg; 
+						Interior angles of a triagle will total 180&deg;.
 						<span class="graphie" data-update="star1">
 							// label angle BHD
 							arc([3.2, 1.3], .75, 118, 220, { stroke: "orange" });
-							label([2.6, 2], "<var>Tri_Z</var>&deg;", "below left", {color: "orange"});
+							label([2.6, 2], "<var>Tri_Z</var>&deg;", "below left", 
+                                                            {color: "orange"});
 						</span>	
 					</p>
 					
 					<span data-if="RAND_SWITCH3 === 0">
-						<p class="hint_green">
+						<p>
 							Solve &ang;CHE using by subtracting &ang;BHD from 180&deg;.  
-							The sum of all angles on a line add up to 180&deg;.		
+							The sum of all angles along a side of a line will add up 
+                                                        to 180&deg;.		
 						</p>
 					</span>
 					<span data-else>
-						<p class="hint_green">
+						<p>
 							Find the final solution by subtracting &ang;CHE from 180&deg;
 							They are adjacent angles along the line, and all angles along 
 							a straight line total to 180&deg;.
@@ -408,7 +413,7 @@
 				</div>
 
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
-				Angles not necessarily drawn to scale.</p>
+				Angles not drawn to scale.</p>
 					
 				<p class="question">
 					Given the following:
@@ -435,7 +440,7 @@
 				
 				<div class="hints">
 					<span data-if="RAND_SWITCH2==0">
-						<p class="hint_blue">
+						<p>
 							Solve for &ang;DIJ by subtracting &ang;AIC from 180&deg;. 
 							Angles along a side of a line will total 180&deg;.
 							<span class="graphie" data-update="star2">
@@ -446,7 +451,7 @@
 						</p>
 					</span>
 					<span data-else>
-						<p class="hint_blue">
+						<p>
 							Solve for &ang;HGC by subtracting &ang;ACD from 180&deg;. 
 							Angles along a side of a line will total 180&deg;.
 							<span class="graphie" data-update="star2">
@@ -458,7 +463,7 @@
 					</span>
 					
 					<span data-if="RAND_SWITCH2==0">
-						<p class="hint_green">
+						<p>
 							Solve for &ang;DJI by subtracting &ang;BDC and &ang;DIJ from 180&deg;.
 							The sum of angles inside a triangle total 180&deg;.
 							<span class="graphie" data-update="star2">
@@ -469,7 +474,7 @@
 						</p>
 					</span>
 					<span data-else>
-						<p class="hint_green">
+						<p>
 							Solve for &ang;CHG by subtracting &ang;ACD and &ang;HGC from 180&deg;.
 							The sum of angles inside a triangle total 180&deg;.
 							<span class="graphie" data-update="star2">
@@ -480,7 +485,7 @@
 						</p>
 					</span>
 					
-					<p class="hint_orange">
+					<p>
 						Final solution is equal to the angle we found above.  This is because 
 						opposite angles of 2 bisecting lines are equal.
 					</p>
