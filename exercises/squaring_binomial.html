@@ -7,7 +7,9 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="A">randRange(-6,6)</var>
+			<div class="vars" data-ensure="A != 0">
+                            <var id="A">randRange(-6,6)</var>
+                        </div>
 			<var id="B">randRange(2,6)</var>
 			<var id="C1">A*A</var>
 			<var id="C2">2*A*B</var>
