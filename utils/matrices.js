@@ -811,6 +811,40 @@ jQuery.extend(KhanUtil, {
 		return new mat.constructor(new_array);
 	},
 
+	formatRowOperation : function (row_op) {
+		var row1 = 'R_{' + (row_op['row1'] ? row_op['row1'] : row_op['row']) + '}';
+		var row2 = 'R_{' + row_op['row2'] + '}';
+
+		var row_op_text = row1;
+
+		switch ( row_op['operation'] ) {
+			case 'mul':
+				row_op_text += ' \\mapsto ' + 
+						KhanUtil.expr(['*', 
+								KhanUtil.decimalToFraction(row_op['coeff']),
+								row1
+							      ]);
+			break;
+
+			case 'add_mul':
+				row_op_text += ' \\mapsto ' + 
+						KhanUtil.expr(['+', 
+								row1, 
+								['*', KhanUtil.decimalToFraction(row_op['coeff']), row2]
+							      ]);
+			break;
+
+			case 'swap':
+				row_op_text += ' \\leftrightarrow ' + row2;
+			break;
+
+			default:
+			throw "Unknown row operation " + row_o['operation'] + ".";
+		}
+
+		return row_op_text;
+	},
+
 	// shouldn't be here, but atm, doesn't seem to exist anywhere else 
 
 	// if you pass in a negative number, it will be returned with parentheses 
