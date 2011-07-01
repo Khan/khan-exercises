@@ -341,7 +341,7 @@ var createGraph = function( el ) {
 			if ( type === Raphael.el || type === Raphael.st ) {
 				result.attr( currentStyle );
 
-				if ( currentStyle.arrowheads ) {
+				if ( currentStyle.arrows ) {
 					addArrowheads( result );
 				}
 			}
