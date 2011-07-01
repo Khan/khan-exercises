@@ -812,8 +812,8 @@ jQuery.extend(KhanUtil, {
 	},
 
 	formatRowOperation : function (row_op) {
-		var row1 = 'R_{' + (row_op['row1'] ? row_op['row1'] : row_op['row']) + '}';
-		var row2 = 'R_{' + row_op['row2'] + '}';
+		var row1 = 'R_{' + (typeof row_op['row1'] === 'undefined' ? row_op['row'] + 1 : row_op['row1'] + 1) + '}';
+		var row2 = 'R_{' + (row_op['row2'] + 1) + '}';
 
 		var row_op_text = row1;
 
