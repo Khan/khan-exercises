@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- Binary 1 Exercise - Eliot Van Uytfanghe -->
+<html data-require="math binary">
+    <head>
+        <title>Binary 1</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="problems">
+                <div id="binary-to-decimal">
+                    <div class="vars">
+                        <var id="A">generateBinary( 8 )</var>
+                    </div>
+                    
+                    <p class="question">Convert this <var>formatBinary( A )</var> into decimal</p>
+                    <div class="solution"><var>binaryToDecimal( A, 8 )</var></div>
+                </div>
+                
+                <div id="decimal-to-binary">
+                    <div class="vars">
+                        <var id="A">Math.round( generateDecimal(8) )</var>
+                    </div>
+                    
+                    <p class="question">Convert this <var>A</var> into binary</p>
+                    <div class="solution"><var>decimalToBinary( A, 8 )</var></div>
+                    
+                    <div class="hints">
+                        <p class="hint1">Check if 1 goes in the equation, then multiplicate your answer by 2 and repeat. Everytime it fits, input 1, and 0 when not</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
