@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<title>Money Word Problems</title>
+	<script src="../khan-exercise.js"></script>
+	
+</head>
+<body>
+	<div class="exercise">
+
+		<div class="problems">
+			<div class="coins-to-cents">
+				<div class="vars">
+					<var id="NUM_1">randRange( 2, 7 )</var>
+					<var id="NUM_2">randRange( 2, 7 )</var>
+				</div>
+				<div class="problem">
+					<p class="question">If you have <var>NUM_1</var> <var>plural(coin(1))</var> and <var>NUM_2</var> <var>plural(coin(2))</var> , how many cents do you have?
+					
+					</p>
+					<p class="solution"><var>NUM_1*coinval(1) + NUM_2*coinval(2)</var></p>
+				</div>
+				<div class="hints">
+					<p>The <var>plural(coin(1))</var> are worth <var>coinval(1)</var> cents each.</p>
+					<p>The <var>plural(coin(2))</var> are worth <var>coinval(2)</var> cents each.</p>
+					<p><var>NUM_1</var> <var>plural(coin(1))</var> are worth <var>NUM_1*coinval(1)</var> cents total.</p>
+					<p><var>NUM_2</var> <var>plural(coin(2))</var> are worth <var>NUM_2*coinval(2)</var> cents total.</p>
+					<p>Add them together to get the total of <var>NUM_1*coinval(1) + NUM_2*coinval(2)</var> cents.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="problems">
+			<div class="money-minus-X-coins">
+				<div class="vars" data-ensure="STARTING_AMT-coinval(1)* NUM_1 > 0">
+					<var id="STARTING_AMT">randRange(101,250)</var>
+					<var id="NUM_1">randRange( 2, 9 )</var>
+				</div>
+
+				<div class="problem">
+					<p class="question">If you have $<var>withpennies(STARTING_AMT / 100)</var> and you give a friend <var>NUM_1</var> <var>plural(coin(1))</var>.  How much money do you have left? 
+					
+					</p>
+					
+					<div class="solution" data-type="multiple">
+						<p>$ <span class="sol"><var>withpennies((STARTING_AMT-coinval(1)* NUM_1) / 100)</var></span></p>
+					</div>					
+				</div>
+				<div class="hints">
+					<p>"You give" and "do you have left?" indicates that this is a subtraction or a division question.</p>
+					<p>You are giving a set amount - this indicates that this is a subtraction question.</p>
+					<p>The <var>plural(coin(1))</var> are worth <var>coinval(1)</var> cents each.</p>
+					<p><var>NUM_1</var> <var>plural(coin(1))</var> are worth <var>NUM_1*coinval(1)</var> cents total.</p>
+					<p>Subtract <var>NUM_1*coinval(1)</var> cents from $<var>withpennies(STARTING_AMT / 100)</var> to get the final amount of $ <var>withpennies((STARTING_AMT-coinval(1)* NUM_1) / 100)</var>.</p>
+				</div>
+				
+			</div>
+		</div>
+				
+		<div class="problems">
+			<div class="giving-away-fractions">
+				<div class="vars">
+					<var id="STEP1_AMT">randRange(3,39)</var> <!-- This is the # of quarters or 25 cent increments -->
+					<var id="STARTING_AMT">withpennies(STEP1_AMT * 25 * numportions(1)/100)</var>
+					<var id="DIVISOR_AMT">withpennies(STEP1_AMT * 25 / 100)</var>
+					<var id="SOLUTION">withpennies(STARTING_AMT -DIVISOR_AMT)</var>
+					<!-- the number of portions is handled (numportions) via a js query, betweeen 2 and 12 != 11 -->
+				</div>
+
+				<div class="problem">
+					<p class="question">If you have $<var>STARTING_AMT</var> and you give <var>portion(1)</var> of this amount to your friend.  How much money do you have left?
+					
+					</p>
+					
+					<div class="solution" data-type="multiple">
+						<p>$ <span class="sol"><var>SOLUTION</var></span></p>
+					</div>					
+				</div>
+				<div class="hints">
+					<p>"You give" and "do you have left?" indicates that this is a subtraction or a division question.</p>
+					<p>You are giving a portion of the whole. This indicates that this is a division question.</p>
+					<p>Seeing "<var>portion(1)</var>" means that you are going to divide by <var>numportions(1)</var> to find out how much you give away.</p>
+					<p>You are giving away $<var>STARTING_AMT</var> divided by <var>numportions(1)</var> or $<var>DIVISOR_AMT</var>.</p>
+					<p>You are left with: The original minus the amount given away or: $<var>STARTING_AMT</var> - $<var>DIVISOR_AMT</var>.</p>
+					<p>You have $<var>SOLUTION</var> left (don't forget the decimals in your answer).</p>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="problems">
+			<div class="maximum-number-of-coins">
+				<div class="vars">
+					<var id="SOLUTION">randRange(2,9)</var>
+					<var id="COIN_VALUE">nickeldimeqtrval(1)*1</var>
+					<var id="MIN_VALUE">SOLUTION * nickeldimeqtrval(1)/100</var>
+					<var id="ADDED_AMT">(randRange(1,(COIN_VALUE-1)))/100</var>
+					<var id="TOTAL_AMT">withpennies(MIN_VALUE + ADDED_AMT)</var>
+				</div>
+
+				<div class="problem">
+					<p class="question">If you have $<var>TOTAL_AMT</var>, what is the maximum number of <var>plural(nickeldimeqtr(1))</var> you can possibly have?
+					</p>
+					
+					<p class="solution"><var>SOLUTION</var></span></p>
+			
+				</div>
+				<div class="hints">
+					<p>"what is the maximum number" indicates that this is a division question.</p>
+					<p>One method is to start counting up in multiples of <var>nickeldimeqtrval(1)</var>.</p>
+					<p>With this method you would start <var>nickeldimeqtrval(1)</var>, <var>2*nickeldimeqtrval(1)</var>, <var>3*nickeldimeqtrval(1)</var> ... and keep going.</p>
+					<p>If that doesn't give you the answer quickly, you can also divide until you get to the decimal place.</p>
+					<p>Because the question says "maximum number" you can stop at the decimal place and drop the remainder.</p>
+					<p>Doing it this way, <var>TOTAL_AMT*100</var> cents divided by <var>nickeldimeqtrval(1)</var> and dropping the remainder would be your answer.</p>
+					<p>The maximum number <var>plural(nickeldimeqtr(1))</var> you can possibly have is <var>SOLUTION</var>.</p>
+				</div>
+				
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

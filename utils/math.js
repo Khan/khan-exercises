@@ -9,6 +9,14 @@ jQuery.extend(KhanUtil, {
 			expr;
 	},
 
+ 	
+	
+	// gives back num to two decimals for money
+	withpennies: function( num ) {
+		return num.toFixed(2);
+	},
+
+
 	// A simple random number picker
 	// Returns a random int in [0, num)
 	rand: function( num ) {
