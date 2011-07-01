@@ -180,9 +180,9 @@ var Khan = {
 	},
 
 	// Display error messages
-	error: function( msg, msg2 ) {
+	error: function( ) {
 		if ( typeof console !== "undefined" ) {
-			console.error( msg, msg2 );
+			console.error.apply( console, arguments );
 		}
 	},
 
