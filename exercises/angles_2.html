@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+	<title>Angles 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<!-- Used for simple opposite or opposing angle problems -->
+			<var id="Y">rand(20) + 90</var>
+			<var id="X">180 - Y</var>						
+			
+			<!-- Used for Triangle problems -->
+			<var id="Tri_Y">rand(25) + 20</var>
+			<var id="Tri_Z">rand(45) + 60</var>
+			<var id="Tri_X">180 - Tri_Y - Tri_Z</var>
+			
+			<!-- Used for problems that choose variation of problems that have multiple variations -->
+			<var id="RAND_SWITCH2">rand(2)</var>
+			<var id="RAND_SWITCH3">rand(3)</var>	
+			<var id="RAND_COMBO">RAND_SWITCH2 + 10*RAND_SWITCH3</var>	
+		</div>
+
+		<div class="problems">
+			
+			<!-- Opposite angle of alternate interior angle and 180 degrees in a triangle. -->
+			<div>
+				<div class="graphie" id="tri-and-parallel">
+						init({
+							range: [[-5, 5], [-3, 5]],
+							scale: [40, 40]
+						});
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+							
+						// Draw a horizontal line and a crossing line 
+						// to form 2 opposing angles.
+						path([ [-5, 0], [5, 0] ]);
+						path([ [-5, -3], [5, 5] ]);
+						path([ [-5, 3], [5, 3] ]);
+						path([ [-1.2, 0], [-4, 3] ]);
+						
+						// Label A, B, C
+						label([-1.3, 0], "A", "below");
+						circle([-1.3, 0], 0.05);
+						label([-4, 3], "B", "above");
+						circle([-4, 3], 0.05);
+						label([2.5, 3], "C", "above");
+						circle([2.5, 3], 0.05);
+						label([-4, 0], "D", "above");
+						circle([-4,0], 0.05);
+						label([3, 0], "E", "above");
+						circle([3,0], 0.05);
+						label([-3.75, -2], "F", "above");
+						circle([-3.75,-2], 0.05);
+						
+						// label angle ABC
+						arc([-4,3], .75, 312, 360, { stroke: "green" });
+						label([-3.2, 3], "<var>Tri_Y</var>&deg;", "below right", {color: "green"});					
+				
+						// label angle BAC
+						arc([-1.3,0], .75, 38, 125, { stroke: "purple" });
+						label([-1.3, .5], "<var>Tri_Z</var>&deg;", "above", {color: "purple"});
+
+						// Label X according to problem variation													
+						if(RAND_SWITCH2 == 0 ) {
+							//problem variation 1
+							arc([-1, 0], 1, 180, 210, { stroke: "blue"});
+							label([-3, 0], "&ang;DAF = ?", "below", { color: "blue"});
+						} else {
+							//problem variation 2
+							arc([-1, 0], 1, 0, 45, { stroke: "blue"});
+							label([1, 0], "&ang;CAE = ?", "above", { color: "blue"});
+						}							
+				</div>
+				
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				
+				Given the following:
+				<ul>
+					<li><code>\angle{ABC} = <var>Tri_Y</var>&deg;</code></li>
+					<li><code>\angle{BAC} = <var>Tri_Z</var>&deg;</code></li>
+					<li><code>\overline{DE} \parallel \overline{BC}</code></li>
+				</ul>
+					
+				
+				<!-- Select which angle to ask about depending on problem variation. -->
+				<div data-if="RAND_SWITCH2 === 0">										
+					<p class="question">What is <code>\angle{DAF} = ?</code></p>
+				</div>
+				<div data-else>											
+					<p class="question">What is <code>\angle{CAE} = ?</code></p>
+				</div>	
+			
+				<div class="solution"><var>Tri_X</var></div>
+				
+				<div class="hints">
+					<p class="hint_blue">
+						Solve for <code>\angle{BCA}</code> by subtractint <code>\angle{BAC}</code> 
+						and <code>\angle{ABC}</code> from 180&deg;.  We find out that 	
+						<code>\angle{BCA} = <var>Tri_X</var>&deg;</code>
+						<span class="graphie" data-update="tri-and-parallel">
+							// label angle BAC
+							arc([2.5, 3], .75, 180, 220, { stroke: "orange" });
+							label([1.8, 3], "<var>Tri_X</var>&deg;", "below left", {color: "orange"});
+						</span>				
+					</p>
+					<p class="hint_green">	
+						Solve for 
+						<span data-if="RAND_SWITCH2 === 0">										
+							<code>\angle{DAF}</code>  
+						</span>
+						<span data-else>											
+							<code>\angle{CAE}</code>
+						</span>		
+						is congruent to <code>\angle{BCA}</code> because they  
+						are both created by the same transversal line <code>\overline{FC}</code> 
+						which bisecting the 2 parallel lines.
+					</p>
+				</div>
+			</div>
+			
+			<!-- Corresponding/Opposite angles of parallel lines -->
+			<div>
+				<div class="graphie" id="opposite-parallel">
+						init({
+							range: [[-7, 6], [-5, 5.2]],
+							scale: [40, 40]
+						});
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw 2 parallel horizontal lines
+						path([ [-5, 2], [5, 2] ]);
+						label([-5, 2], "A", "below");
+						circle([-5,2], 0.05);
+						label([5, 2], "B", "below");
+						circle([5,2], 0.05);
+						
+						path([ [-5, -2], [5, -2] ]);
+						label([-5, -2], "C", "below");
+						circle([-5,-2], 0.05);
+						label([5, -2], "D", "below");
+						circle([5, -2], 0.05);
+						
+						// Draw a transversal line.
+						path([ [-5, -4], [4, 5] ]);
+						label([4, 5], "E", "below");
+						circle([4, 5], 0.05);
+						label([-5, -4], "F", "right");
+						circle([-5, -4], 0.05);
+						label([1, 2], "G", "below right");
+						circle([1,2], 0.05);
+						label([-3, -2], "H", "below right");
+						circle([-3, -2], 0.05);
+						
+												
+						// label angle X
+						if(RAND_SWITCH2 == 0) {
+							arc([-2.9, -2], 1, 0, 50, { stroke: "blue"});
+							label([-2, -2], "&ang;{GHD}=?", "above right");
+						} else {
+							arc([-2.9, -2], 1, 180, 220, { stroke: "blue"});
+							label([-4, -2.5], "&ang;{CHF}=?", "below left");
+						}						
+					
+						// label angle Y
+						if(RAND_SWITCH3 == 0) {
+							arc([1.2, 2], 1.5, 0, 50, { stroke: "purple" });
+							label([3.5, 2], "&ang;EGB=<var>X</var>&deg;", "above right");
+						} else if (RAND_SWITCH3 == 1) {
+							arc([1.2, 2], 1.5, 180, 220, { stroke: "purple" });
+							label([-1, 2], "&ang;AGH=<var>X</var>&deg;", "below left");
+						} else {
+							arc([1.2, 2], 1, 220, 0, { stroke: "purple" });
+							label([1.5, 1.2], "&ang;BGH=<var>180 - X</var>&deg;", "below right");
+						}
+				</div>
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				<p class="question">
+					Given
+					<ul>
+						<li>
+							<code>\overline{AB} \parallel \overline{CD}</code> 
+							(line AB is parallel to line CD)
+						</li>
+						<li>
+							<span data-if="RAND_SWITCH3 === 0">
+								<code>\angle{EGB} = <var>X</var>&deg;.</code><br/>
+							</span>
+							<span data-else-if="RAND_SWITCH3 === 1">
+								<code>\angle{AGH} = <var>X</var>&deg;.</code><br/>
+							</span>
+							<span data-else>
+								<code>\angle{BGH} = <var>180 - X</var>&deg;</code><br/>
+							</span>
+						</li>
+					 
+					</ul> 
+					
+					<br/>
+					What is 
+					<span data-if="RAND_SWITCH2 == 0"><code>\angle{GHD} = ?</code></span>
+					<span data-else="RAND_SWITCH2 == 0"><code>\angle{CHF} = ?</code></span>
+					
+				</p>
+				<div class="solution"><var>X</var></div>
+
+				<div class="hints">
+					<div data-if="RAND_COMBO == 0">
+						&ang;EGB is equal to &GHD because they are corresponding angles of a 
+						parallel line that's bisected by a transversal.
+					</div>
+					<div data-if="RAND_COMBO == 1">
+						&ang;EGB is equal to &GHD because they are opposite angles of a 
+						parallel line that's bisected by a transversal.
+					</div>
+					<div data-else-if="RAND_COMBO == 10">
+						Solve &ang;GHD by using alternate interior angles.  &ang;GHD and &ang;AGH 
+						are congruent because they are on opposite interior angles of a line 
+						bisecting a parallel line.
+					</div>
+					<div data-if="RAND_COMBO == 11">
+						&ang;ACH is equal to &CHF because they are corresponding angles of a 
+						parallel line that's bisected by a transversal.
+					</div>
+					<div data-else-if="RAND_COMBO == 20">
+						<p class="hint_blue">
+							First solve for &ang;AGH by subtracting &ang;BGH from 180&deg; 
+						</p>
+						<p class="hint_green">
+							Using corrosponding angles, we know &ang;GHD is congruent to 
+							&ang;AGH.
+						</p>
+					</div>
+					<div data-else-if="RAND_COMBO == 21">
+						<p class="hint_blue">
+							First solve for &ang;AGH by subtracting &ang;BGH from 180&deg; 
+						</p>
+						<p class="hint_green">
+							Using opposite angles, we know &ang;GHD is congruent to 
+							&ang;CHF because they are opposite each other of 2 bisecting lines.
+						</p>
+					</div>
+				</div>
+				
+			</div>
+			
+			<!-- Star Problem 1 : 
+				Adjacent Angles + 180 deg in triangle + opposite angles (variations 0-2) 
+				(and adjacent in variations 1,2) -->
+			<div>
+				<div class="graphie" id="star1">
+						init({
+							range: [[-10, 10], [-7, 10]],
+							scale: [30, 30]
+						});
+	
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw A Star
+						path([ [-8, 5], [8, 5], [-6, -6], [0, 9], [0, 9], [6,-6], [-8, 5] ]);
+						
+						// Label pts on the star.
+						label([-8, 5], "A", "left");
+						label([0, 9], "B", "above");
+						label([8, 5], "C", "right");
+						label([-6, -6], "D", "below");
+						label([6, -6], "E", "below");
+						label([-1.8, 5], "F", "above left");
+						label([1.8, 5], "G", "above right");
+						label([3.2, 1.3], "H", "below right");
+						label([0, -1.2], "I", "below");
+						label([-3.2, 1.3], "J", "below left");
+
+						// Label the given angles
+						label([-5.5, -5.2], "<var>Tri_Y</var>&deg;", "above right");
+						arc([-6, -6], 1.3, 40, 71, { stroke: "green" });
+						label([0, 7.4], "<var>Tri_X</var>&deg;", "below");
+						arc([0, 9], 1.3, 245, 290, { stroke: "orange" });
+						
+						// Label X according to variation on the problem
+						if(RAND_SWITCH3 == 0) {
+							label([4.8, 1.0], "&ang;CHE=?", "right");
+							arc([3.2, 1.3], 1.7, 287, 35, { stroke: "blue" });
+						} else if (RAND_SWITCH3 == 1) {
+							label([4, 2.5], "&ang;GHC=?", "above");
+							arc([3.2, 1.3], 1, 35, 118, { stroke: "blue" });
+						} else {
+							label([2.5, -0.5], "&ang;DHE=?", "below");
+							arc([3.2, 1.3], 1.1, 219, 286, { stroke: "blue" });						
+						}
+				</div>
+
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				<p class="question">
+					Given the following:
+					<ul>
+					<li><code>\angle{BDC}&deg; = <var>Tri_Y</var></code></li>
+					<li><code>\angle{DBE}&deg; = <var>Tri_X</var></code></li>
+					</ul>
+					
+					What is 
+					<span data-if="RAND_SWITCH3 === 0"><code>\angle{CHE}</code></span>
+					<span data-else-if="RAND_SWITCH3 === 1"><code>\angle{CHG}</code></span>
+					<span data-else=""><code>\angle{DHE}</code></span>
+					?
+				</p>
+				<div data-if="RAND_SWITCH3 === 0" class="solution"><var>Tri_Z</var></div>
+				<div data-else class="solution"><var>180-Tri_Z</var></div>
+				
+						
+				<div class="hints">
+					<p class="hint_blue">
+						Solve for &ang;BHD by subtracting &ang;BDC amd &ang;DBE from 180&deg; 
+						Interior angles of a triable will total 180&deg;.
+						<span class="graphie" data-update="star1">
+							// label angle BHD
+							arc([3.2, 1.3], .75, 118, 220, { stroke: "orange" });
+							label([2.6, 2], "<var>Tri_Z</var>&deg;", "below left", {color: "orange"});
+						</span>	
+					</p>
+					
+					<span data-if="RAND_SWITCH3 === 0">
+						<p class="hint_green">
+							Solve &ang;CHE using by subtracting &ang;BHD from 180&deg;.  
+							The sum of all angles on a line add up to 180&deg;.		
+						</p>
+					</span>
+					<span data-else>
+						<p class="hint_green">
+							Find the final solution by subtracting &ang;CHE from 180&deg;
+							They are adjacent angles along the line, and all angles along 
+							a straight line total to 180&deg;.
+						</p>
+					</span>
+				</div>
+			</div>
+			
+			<!-- Star Problem 2 : 180 deg in triangle + opposite angles  -->
+			<div>
+				<div class="graphie" id="star2">
+						init({
+							range: [[-10, 10], [-7, 10]],
+							scale: [30, 30]
+						});
+	
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw A Star
+						path([ [-8, 5], [8, 5], [-6, -6], [0, 9], [0, 9], [6,-6], [-8, 5] ]);
+						
+						// Label pts on the star.
+						label([-8, 5], "A", "left");
+						label([0, 9], "B", "above");
+						label([8, 5], "C", "right");
+						label([-6, -6], "D", "below");
+						label([6, -6], "E", "below");
+						label([-1.8, 5], "F", "above left");
+						label([1.8, 5], "G", "above right");
+						label([3.2, 1.3], "H", "below right");
+						label([0, -1.2], "I", "below");
+						label([-3.2, 1.3], "J", "below left");
+
+						// Label Angles and X according to variation
+						if( RAND_SWITCH2 == 0) {
+							// Label the given angles
+							label([-5.5, -5.2], "<var>Tri_Y</var>&deg;", "above right");
+							arc([-6, -6], 1.3, 40, 71, { stroke: "green" });
+							label([0, -.2], "<var>180 - Tri_Z</var>&deg;", "above");
+							arc([0, -1], 1, 28, 152, { stroke: "orange" });
+							
+							// Label X
+							label([-3.7, 2.5], "&ang;AJF=?", "above");
+							arc([-3.2, 1.3], 1, 65, 140, { stroke: "blue" });
+						} else {						
+							// Label the given angles
+							label([6.5, 5], "<var>Tri_Y</var>&deg;", "below left");
+							arc([8, 5], 1.3, 180, 220, { stroke: "green" });
+							label([1.3, 4.5], "<var>180 - Tri_Z</var>&deg;", "below left");
+							arc([1.6, 5], 0.75, 180, 289, { stroke: "orange" });
+							
+							// Label X
+							label([4.0, -0.3], "&ang;IHE=?", "below left");
+							arc([3.1, 1.2], .75, 220, 290, { stroke: "blue" });
+						}
+				</div>
+
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				<p class="question">
+					Given the following:
+					<div data-if="RAND_SWITCH2 === 0">
+						<ul>
+							<li><code>\angle{BDC}&deg; = <var>Tri_Y</var></code></li>
+							<li><code>\angle{AIC}&deg; = <var>180 - Tri_Z</var></code></li>
+						</ul>
+					</div>
+					<div data-else>
+						<ul>
+							<li><code>\angle{GCH}&deg; = <var>Tri_Y</var></code></li>
+							<li><code>\angle{FGH}&deg; = <var>180 - Tri_Z</var></code></li>
+						</ul>
+					</div>
+					
+					
+					What is 
+					<span data-if="RAND_SWITCH2 === 0"><code>\angle{AJF}</code></span>
+					<span data-else><code>\angle{IHE}</code></span>
+					?
+				</p>
+				<div class="solution"><var>Tri_X</var></div>
+				
+				<div class="hints">
+					<span data-if="RAND_SWITCH2==0">
+						<p class="hint_blue">
+							Solve for &ang;DIJ by subtracting &ang;AIC from 180&deg;. 
+							Angles along a side of a line will total 180&deg;.
+							<span class="graphie" data-update="star2">
+								// label angle JID
+								arc([0, -1.2], .75, 143, 220, { stroke: "purple" });
+								label([-.75, -1.2], "<var>Tri_Z</var>&deg;", "left", {color: "purple"});
+							</span>	
+						</p>
+					</span>
+					<span data-else>
+						<p class="hint_blue">
+							Solve for &ang;HGC by subtracting &ang;ACD from 180&deg;. 
+							Angles along a side of a line will total 180&deg;.
+							<span class="graphie" data-update="star2">
+								// label angle HGC
+								arc([1.8, 5], 1, 280, 0, { stroke: "purple" });
+								label([2.5, 4.3], "<var>Tri_Z</var>&deg;", "bottom right", {color: "purple"});
+							</span>	
+						</p>
+					</span>
+					
+					<span data-if="RAND_SWITCH2==0">
+						<p class="hint_green">
+							Solve for &ang;DJI by subtracting &ang;BDC and &ang;DIJ from 180&deg;.
+							The sum of angles inside a triangle total 180&deg;.
+							<span class="graphie" data-update="star2">
+								// label angle JID
+								arc([-3.2, 1.3], .75, 260, 320, { stroke: "teal" });
+								label([-3.2, 0.50], "<var>Tri_X</var>&deg;", "bottom right", {color: "teal"});
+							</span>	
+						</p>
+					</span>
+					<span data-else>
+						<p class="hint_green">
+							Solve for &ang;CHG by subtracting &ang;ACD and &ang;HGC from 180&deg;.
+							The sum of angles inside a triangle total 180&deg;.
+							<span class="graphie" data-update="star2">
+								// label angle CHG
+								arc([3.2, 1.3], .75, 38, 120, { stroke: "teal" });
+								label([3.4, 1.78], "<var>Tri_X</var>&deg;", "above", {color: "teal"});
+							</span>	
+						</p>
+					</span>
+					
+					<p class="hint_orange">
+						Final solution is equal to the angle we found above.  This is because 
+						opposite angles of 2 bisecting lines are equal.
+					</p>
+				</div>
+			</div>
+							
+		</div>
+		<!-- End of Problems -->
+	</div>
+</body>
+</html>
