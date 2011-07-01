@@ -128,6 +128,12 @@ var Khan = {
 				script[ prop ] = mod[ prop ];
 			}
 
+			script.onerror = function() {
+				// No error in IE, but this is mostly for debugging during development so it's probably okay
+				// http://stackoverflow.com/questions/2027849/how-to-trigger-script-onerror-in-internet-explorer
+				Khan.error( "Error loading script " + script.src );
+			};
+
 			script.onload = script.onreadystatechange = function() {
 				if ( !script.readyState || ( /loaded|complete/ ).test( script.readyState ) ) {
 					// Handle memory leak in IE
@@ -677,7 +683,8 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 
 			if ( !( /success|notmodified/ ).test( status ) ) {
 				// Maybe loading from a file:// URL?
-				return Khan.error( "Error loading exercise from file " + src + ": " + xhr.status + " " + xhr.statusText );
+				Khan.error( "Error loading exercise from file " + src + ": " + xhr.status + " " + xhr.statusText );
+				return;
 			}
 
 			newContents = dummy.contents();
