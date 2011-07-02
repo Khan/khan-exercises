@@ -7,7 +7,9 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="A">randRangeMatrix(3,3,-8,8)</var>
+		<!-- <var id="A">randRangeMatrix(3,3,-8,8)</var> -->
+		<var id="DET">randRange(1,6)</var>
+		<var id="A">randMatrixWithDet(DET,3)</var>
 		<var id="A_INV">A.inverse()</var>
 		<var id="A_AUG">augmentMatrix(A, identityMatrix(3,3))</var>
 		<var id="RREF_STEPS">A_AUG._reduce_to_stage('rref', true)['steps']</var>

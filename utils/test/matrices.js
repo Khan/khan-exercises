@@ -64,4 +64,7 @@ test( "Matrix Utilities", function() {
 	deepEqual( KhanUtil.identityMatrix(3,3).array, [[1,0,0],[0,1,0],[0,0,1]], "3x3 identity matrix" );
 	deepEqual( KhanUtil.getSubmatrix(c, [1,1], [4,4]).array, [[1,2,3],[-5,4,0],[-17,1,2]], "Extract sub matrix" );
 	deepEqual( KhanUtil.augmentMatrix(a,a).array, [[1,2,1,2],[3,4,3,4]], "Augment matrix" );
+
+	equals( Math.abs(KhanUtil.randMatrixWithDet(4,3).det()), 4, "Random 3x3 matrix with determinant = +-4" );
+	equals( Math.abs(KhanUtil.randMatrixWithDet(12,4).det()), 12, "Random 4x4 matrix with determinant = +-12" );
 });

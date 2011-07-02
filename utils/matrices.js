@@ -252,6 +252,31 @@ jQuery.extend(AbstractMatrx.prototype, {
 		},
 
 		// elementary row operations 
+
+		//apply the row operation op.
+		//op should be an object formatted like the output of 'steps'
+		//from _reduce_to_stage.  For example, op = {operation: 'add_mul', row1: 0, row2: 1, coeff: 4}
+		apply_row_op : function ( op ) {
+			switch ( op['operation'] ) {
+				case 'add_mul':
+				return this.add_mul_of_one_row_to_another( op['coeff'], op['row1'], op['row2'] );
+				break;
+
+				case 'mul':
+				return this.multiply_row_by_const( op['row'], op['coeff'] );
+				break;
+
+				case 'swap':
+				return this.swap_two_rows( op['row1'], op['row2'] );
+				break;
+
+				default:
+				throw 'Cannot apply row operation ' + op['operation'] + '.';
+			}
+			//we shouldn't make it here unless there is an error
+			return this;
+		},
+
 		//multiplies row _row_ by _val_
 		multiply_row_by_const : function (row, val) {
 			if( row >= this.dims[0] ){ throw "Row "+row+" out of range for matrix of size "+this.dims+"."; }
@@ -665,6 +690,8 @@ jQuery.extend(KhanUtil, {
 	//type can be Matrix or SymbolicMatrix
 	//defaults to Matrix
 	zeroMatrix : function (rows, cols, type) {
+		if ( typeof cols === 'undefined' ) { cols = rows; }
+
 		var Mat = KhanUtil.Matrix;
 		if (type && type.constructor) {
 			Mat = type.constructor;
@@ -683,6 +710,8 @@ jQuery.extend(KhanUtil, {
 	//type can be Matrix or SymbolicMatrix
 	//defaults to Matrix
 	identityMatrix : function (rows, cols, type) {
+		if ( typeof cols === 'undefined' ) { cols = rows; }
+		
 		var Mat = KhanUtil.Matrix;
 		if (type && type.constructor) {
 			Mat = type.constructor;
@@ -696,7 +725,7 @@ jQuery.extend(KhanUtil, {
 		return new Mat(new_array);
 	},
 
-	//returns a matrix whose entries are a_ij where 'a'
+	//returns a matrix whose entries are a_{ij} where 'a'
 	//is the letter specified by letter
 	genericMatrix : function (rows, cols, letter) {
 		if ( typeof letter === "undefined" ) {
@@ -710,6 +739,73 @@ jQuery.extend(KhanUtil, {
 
 		return new KhanUtil.SymbolicMatrix(new_array);
 
+	},
+
+	randPermutationMatrix : function ( rows ) {
+		var mat = KhanUtil.zeroMatrix( rows, rows );
+		var row_index = range(rows);
+		var col_index = KhanUtil.randPermutation(row_index);
+		
+		map(zip(row_index, col_index), function(x){ mat.array[x[0]][x[1]] = 1; });
+		return mat;
+	},
+
+	//creates a random rows x rows matrix with determinant +-det by
+	//applying random elementary row operations to a modified identity matrix
+	//This is useful if you want a matrix with a nice inverse (e.g., if
+	//you want only integer entries in your inverse, set det=1)
+	randMatrixWithDet : function ( det, rows ) {
+		var mat = KhanUtil.identityMatrix( rows, rows );
+		//make the matrix have the proper determinant
+		mat.array[0][0] = det;
+
+		//apply a bunch of random row operations to make the matrix look random without
+		//changing its determinant. This isn't very scientific.  applying 20 operations seems to be
+		//a good balance between having the matrices filled with numbers and not having the numbers be too big.
+		for ( var i = 0; i < 20; i++ ) {
+			var row1 = KhanUtil.randRange(0, rows - 1);
+			var row2 = KhanUtil.randRangeExclude(0, rows - 1, [row1]);
+			var row_op = {'operation': 'add_mul', 'row1': row1, 'row2': row2, 'coeff': KhanUtil.randRangeExclude(-1,1, [0])};
+			mat = mat.apply_row_op(row_op);
+			
+		}
+		
+		return KhanUtil.randPermutationMatrix(rows).mul(mat);
+	},
+
+	//creates a random rows x cols matrix with _pivots_ number of pivots.
+	//random elementary row operations are then applied to scramble the matrix.
+	//This is useful if you want a matrix with an easy-to-find and non-trivial null
+	//space or if you want a nice matrix for row reduction.
+	randMatrixWithNPivots : function ( pivots, rows, cols ) {
+		var mat = KhanUtil.zeroMatrix( rows, cols );
+		
+		//make the matrix have the proper number of pivots
+		for ( var i = 0; i < pivots; i++ ) {
+			mat.array[i][i] = 1;
+		}
+
+		//fill in some random entries in the non-pivot columns
+		for ( var i = pivots; i < cols; i++ ) {
+			//get a list of entries to fill in that column.  We musn't fill any row that doesn't have a pivot
+			var fill_entries = KhanUtil.randPermutation(range(pivots)).slice(KhanUtil.randRange(0, pivots - 1));
+			map(fill_entries, function(x){
+				mat.array[x][i] = KhanUtil.randRangeExclude(-8,8,[0]);
+			});
+		}
+
+		//apply a bunch of random row operations to make the matrix look random without
+		//changing its determinant. This isn't very scientific.  applying 20 operations seems to be
+		//a good balance between having the matrices filled with numbers and not having the numbers be too big.
+		for ( var i = 0; i < 20; i++ ) {
+			var row1 = KhanUtil.randRange(0, rows - 1);
+			var row2 = KhanUtil.randRangeExclude(0, rows - 1, [row1]);
+			var row_op = {'operation': 'add_mul', 'row1': row1, 'row2': row2, 'coeff': KhanUtil.randRangeExclude(-1,1, [0])};
+			mat = mat.apply_row_op(row_op);
+			
+		}
+		
+		return KhanUtil.randPermutationMatrix(rows).mul(mat).mul(KhanUtil.randPermutationMatrix(cols));
 	},
 	
 	/* returns a sparse matrix with num_entries number of random non-zero terms */
@@ -729,7 +825,6 @@ jQuery.extend(KhanUtil, {
 			mat.array[pos[0]][pos[1]] = KhanUtil.randRange(low, high);
 		}
 		return mat;
-
 	},
 
 	//a,b should be points [row,col]

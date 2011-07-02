@@ -116,7 +116,7 @@ jQuery.extend(KhanUtil, {
 
 		//if our decimal is smaller than 1/max_denominator, then chop off
 		//the decimal
-		if ( Math.abs(dec) % 1 <= 1/max_denominator ) {
+		if ( Math.abs(dec) % 1 <= 1/max_denominator || (1 - Math.abs(dec) % 1) <= 1/max_denominator ) {
 			return Math.round(dec);
 		}
 
