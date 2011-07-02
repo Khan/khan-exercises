@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html data-require="math math-format matrices expressions">
+<head>
+	<title>Matrix Trace</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id='ROWS'>randRange(2,5)</var>
+		<var id='COLS'>ROWS</var>
+		<var id="A">randRangeMatrix(ROWS,COLS,-8,8)</var>
+		<!-- colorizeMatrixEntries ignores out of bounds entries, so just color the diagonal of the largest possible matrix -->
+		<var id="A_COLOR">colorizeMatrixEntries(A, 'green', [[0,0],[1,1],[2,2],[3,3],[4,4],[5,5]])</var>
+	</div>
+
+	<div class="problems">
+		<div id="original">
+			<div class="question">
+				<p>
+				If <code>A=<var>A.toCode('[')</var></code>, what is the trace of
+				<code>A</code>?
+				</p>
+			</div>
+			<div class="solution" data-type="multiple">
+				<span class="sol" data-type="rational"><var>A.trace()</var></span>
+			</div>
+		</div>
+		<div data-type="original">
+			<div class="question">
+				<p>
+				What is the trace of <code><var>A.toCode('[')</var></code>?
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="hints">
+		<p>The trace of a matrix is the sum of its diagonal elements.</p>
+		<p><code>A=<var>A_COLOR.toCode('[')</var></code>
+		</p>
+		<p>The trace of <code>A</code> is <code><var>expr(exprSimplifyAssociative(A_COLOR.trace()))</var></code>
+		</p>
+		<p>
+			<code>=<var>A.trace()</var></code>
+		</p>
+	</div>
+	</div>
+</body>
+</html>

@@ -353,14 +353,14 @@ KhanUtil.Matrix.prototype = jQuery.extend( new AbstractMatrx(), {
 		return new KhanUtil.SymbolicMatrix(this.array);
 	},
 
-	//rounds to ZERO_TOLERANCE or the percision
-	//specified by percision
-	roundToPercision : function (percision) {
-		if ( typeof percision === "undefined" || percision === 0 ) {
-			percision = this.ZERO_TOLERANCE;
+	//rounds to ZERO_TOLERANCE or the precision
+	//specified by precision
+	roundToPrecision : function (precision) {
+		if ( typeof precision === "undefined" || precision === 0 ) {
+			precision = this.ZERO_TOLERANCE;
 		}
 
-		return this.map( function(x){ return Math.round(x/percision)*percision; } );
+		return this.map( function(x){ return Math.round(x/precision)*precision; } );
 	},
 	
 	//return the determinant
@@ -403,6 +403,12 @@ KhanUtil.Matrix.prototype = jQuery.extend( new AbstractMatrx(), {
 		
 		// return the this.dims[0] x this.dims[0] submatrix on the right side
 		return KhanUtil.getSubmatrix( aug_mat, [0, this.dims[0]], [aug_mat.dims[0], aug_mat.dims[1]] );
+	},
+
+	//return the rank of the matrix
+	rank : function () {
+		var reduced = this._reduce_to_stage('ref');
+		return reduced['pivot_col'].length;
 	},
 
 	// row-reduce a matrix to stage ref, pre-rref, or rref 
@@ -614,11 +620,15 @@ jQuery.extend(KhanUtil, {
 
 	//return a matrix where each entry in _entries_ is colored _color_
 	//entries should be a list of elements of the form [row,col]
+	//out-of-range coordinates are ignored
 	colorizeMatrixEntries : function (mat, color, entries) {
 		var ret = mat;
 		//do this in a super lazy way, by just repeatedly calling colorizeMatrix
-		for (var i = 0; i < entries.length; i++) {
-			ret = KhanUtil.colorizeMatrix(ret, color, entries[i][0], entries[i][1]);
+		for ( var i = 0; i < entries.length; i++ ) {
+			//ignore out of bounds entries
+			if ( 0 <= entries[i][0] && entries[i][0] < ret.dims[0] && 0 <= entries[i][1] && entries[i][1] < ret.dims[1] ) {
+				ret = KhanUtil.colorizeMatrix(ret, color, entries[i][0], entries[i][1]);
+			}
 		}
 		return ret;
 	},

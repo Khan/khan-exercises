@@ -25,6 +25,7 @@ test( "Matrix Operations", function() {
 	equals( c.det(), -8134, "Negative Determinant" );
 	equals( b.det(), 0, "Zero Determinant" );
 	equals( c.trace(), 3, "Trace" );
+	equals( d.rank(), 3, "Rank" );
 	deepEqual( c.rref().array, [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]], true, "rref non-singular" );
 	//subtract d.rref() from the precomputed result and make sure that the sum-total of the error is within acceptable levels
 	equals( d.rref().add(d_rref.mul(-1)).abs().sum() < ERROR_TOLERANCE , true, "rref singular" );
