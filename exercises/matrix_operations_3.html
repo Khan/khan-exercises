@@ -71,9 +71,11 @@
 		<p>
 			Coloring the rows of <code>A</code> and the columns of <code>B</code>
 			<code><var>A_COLORED.toCode('[')</var><var>B_COLORED.toCode('[')</var></code>,
-			we see <code>c_{11}=<var>expr(AB_COLORED.get(0,0))</var></code>,
-			<code>c_{21}=<var>expr(AB_COLORED.get(1,0))</var></code>,
-			<code>c_{12}=<var>expr(AB_COLORED.get(0,1))</var></code>, etc.
+			we see <br />
+			<code>c_{11}=<var>expr(AB_COLORED.get(0,0))</var></code>,
+			<span data-if="2<=M"><br /><code>c_{21}=<var>expr(AB_COLORED.get(1,0))</var></code>,</span>
+			<span data-if="2<=J"><br /><code>c_{12}=<var>expr(AB_COLORED.get(0,1))</var></code>,</span> 
+			etc.
 		</p>
 		<p>
 			Putting it all together, <br />
