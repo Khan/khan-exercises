@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html data-require="math math-format matrices expressions">
+<head>
+	<title>Reduced Row Echelon Form 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="PIVOTS">randRange(1,3)</var>
+		<var id="ROWS">PIVOTS + randRange(0,2)</var>
+		<var id="COLS">PIVOTS + randRange(0,2)</var>
+		<var id="A">randMatrixWithNPivots(PIVOTS, ROWS, COLS)</var>
+		<var id="A_RREF">A.rref()</var>
+		<var id="RREF_STEPS">A._reduce_to_stage('rref', true)['steps']</var>
+	</div>
+
+	<div class="problems">
+		<div id="original">
+			<div class="question">
+				<p>
+				If <code>A=<var>A.toCode('[')</var></code> what is
+				rref(<code>A</code>)?
+				</p>
+			</div>
+			<div class="solution" data-type="multiple">
+				<span class="sol" data-type="rational"><var>2</var></span>
+				<code>\times</code>
+				<span class="sol" data-type="rational"><var>2</var></span>
+			</div>
+		</div>
+		<div data-type="original">
+			<div class="question">
+				<p>
+				What is the reduced row echelon form of
+				<code><var>A.toCode('[')</var></code>?
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="hints">
+		<p>First, use pivots to zero below each row until the matrix is upper triangular. If there is not
+		a pivot in the proper position, use a row swap to put it into the proper position.</p>
+		<p><code><var>A.toCode('[')</var></code></p>
+		
+		<div data-each="RREF_STEPS['downward_elimination'] as STEP">
+			<p>
+				<code>\stackrel{<var>formatRowOperation(STEP)</var>}{\longrightarrow}</code>
+				<code><var>STEP['matrix'].asSymbolic().map(decimalToFraction).toCode('[')</var></code>
+			</p>
+		</div>
+
+		<p>Next, use row operations to zero above each pivot</p>
+
+		<div data-each="RREF_STEPS['upward_elimination'] as STEP">
+			<p>
+				<code>\stackrel{<var>formatRowOperation(STEP)</var>}{\longrightarrow}</code>
+				<code><var>STEP['matrix'].asSymbolic().map(decimalToFraction).toCode('[')</var></code>
+			</p>
+		</div>
+
+		<p>Finally, use row operations to normalize each row with a pivot</p>
+
+		<div data-each="RREF_STEPS['normalization'] as STEP">
+			<p>
+				<code>\stackrel{<var>formatRowOperation(STEP)</var>}{\longrightarrow}</code>
+				<code><var>STEP['matrix'].asSymbolic().map(decimalToFraction).toCode('[')</var></code>
+			</p>
+		</div>
+		<p>Thus, the reduced row echelon form is <code><var>A_RREF.asSymbolic().map(decimalToFraction).toCode('[')</var></code>.
+		</p>
+	</div>
+	</div>
+</body>
+</html>
