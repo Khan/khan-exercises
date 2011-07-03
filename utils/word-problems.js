@@ -146,10 +146,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var parents = KhanUtil.shuffle([
-		["Mom", "f"],
-		["Dad", "m"],
-		["Aunt", "f"],
-		["Uncle", "m"]
+		["mom", "f"],
+		["dad", "m"],
+		["aunt", "f"],
+		["uncle", "m"]
 	]);
 		
 	var vehicles = KhanUtil.shuffle([
@@ -279,10 +279,6 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		parent: function( i ) {
 			return parents[i - 1][0];
-		},
-
-		parentVar: function( i ) {
-			return parents[i - 1][0].charAt(0).toLowerCase();
 		},
 
 		he: function( i ) {
