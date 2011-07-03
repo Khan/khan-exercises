@@ -754,7 +754,7 @@ jQuery.extend(KhanUtil, {
 	randPermutationMatrix : function ( rows ) {
 		var mat = KhanUtil.zeroMatrix( rows, rows );
 		var row_index = range(rows);
-		var col_index = KhanUtil.randPermutation(row_index);
+		var col_index = KhanUtil.shuffle(row_index);
 		
 		map(zip(row_index, col_index), function(x){ mat.array[x[0]][x[1]] = 1; });
 		return mat;
@@ -798,7 +798,7 @@ jQuery.extend(KhanUtil, {
 		//fill in some random entries in the non-pivot columns
 		for ( var i = pivots; i < cols; i++ ) {
 			//get a list of entries to fill in that column.  We musn't fill any row that doesn't have a pivot
-			var fill_entries = KhanUtil.randPermutation(range(pivots)).slice(KhanUtil.randRange(0, pivots - 1));
+			var fill_entries = KhanUtil.shuffle(range(pivots)).slice(KhanUtil.randRange(0, pivots - 1));
 			map(fill_entries, function(x){
 				mat.array[x][i] = KhanUtil.randRangeExclude(-8,8,[0]);
 			});

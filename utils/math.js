@@ -260,24 +260,6 @@ jQuery.extend(KhanUtil, {
 		return KhanUtil.randFromArray( cleanArr );
 	},
 
-	//returns a random permutation of an array.
-	randPermutation: function( arr ) {
-		var indices = [];
-		var perm_indices = [];
-		for ( var i = 0; i < arr.length; i++ ) {
-			indices.push(i);
-		}
-		
-		for ( var i = arr.length - 1; i >= 0; i-- ) {
-			var index = KhanUtil.randRange(0,i);
-			perm_indices = perm_indices.concat( indices.splice(index, 1) );
-		}
-		
-		return jQuery.map(perm_indices, function(x){
-			return [arr[x]];
-		});
-	},
-
 	// Round a number to a certain number of decimal places
 	roundTo: function( precision, num ) {
 		var factor = Math.pow( 10, precision ).toFixed(5);
