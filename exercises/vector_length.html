@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html data-require="math math-format matrices expressions">
+<head>
+	<title>Vector Length</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id='ROWS'>randRange(2,5)</var>
+		<var id="A">randRangeMatrix(ROWS,1,-8,8)</var>
+		<var id="NORM_SQUARED">A.transpose().mul(A).array[0][0]</var>
+		<var id="NORM_SQUARED_EXPR">['+'].concat(jQuery.map(A.transpose().array[0], function(x){ return [['^', x, 2]]; }))</var>
+		<var id="SOLUTION">splitRadical( NORM_SQUARED )</var> 
+		<var id="SOLUTION_COEFFICIENT">SOLUTION[0] === 1 ? "" : SOLUTION[0]</var> 
+		<var id="SOLUTION_RADICAL">SOLUTION[1] === 1 ? "" : SOLUTION[1]</var> 
+	</div>
+
+	<div class="problems">
+		<div id="original">
+			<div class="question">
+				<p>
+				If <code>\vec{v}=<var>A.toCode('[')</var></code>, what is <code>\|\vec{v}\|</code>?
+				</p>
+			</div>
+			<div class="solution" data-type="radical"> 
+				<span><var>SOLUTION_COEFFICIENT</var></span><span><var>SOLUTION_RADICAL</var></span> 
+			</div> 
+		</div>
+		<div data-type="original">
+			<div class="question">
+				<p>
+				What is the length of the vector <code><var>A.toCode('[')</var></code>?
+				</p>
+			</div>
+		</div>
+		<div data-type="original">
+			<div class="question">
+				<p>
+				If <code>\vec{v}=<var>A.toCode('[')</var></code>, what is the length of <code>\vec{v}</code>?
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="hints">
+		<p>The length of a vector comes from the Pythagorean theorem in <code>n</code>-dimensions.</p>
+		<p>That is, <code>\|\vec v\|=\sqrt{v_1^2+v_2^2+\cdots+v_n^2}</code>.</p>
+		<p>For <code>\vec v=<var>A.toCode('[')</var></code>, the sum of the squares of the vector components is
+		<code><var>expr(NORM_SQUARED_EXPR)</var></code></p>
+		<p>So, <code>\|\vec v\|=\sqrt{<var>expr(NORM_SQUARED_EXPR)</var>}</code></p>
+		<p><code>= \sqrt{<var>expr(NORM_SQUARED_EXPR, true)</var>}</code></p>
+		<p data-if="squareRootCanSimplify(NORM_SQUARED)">
+		<code>= <var>formattedSquareRootOf(NORM_SQUARED)</var></code>
+	</div>
+	</div>
+</body>
+</html>
