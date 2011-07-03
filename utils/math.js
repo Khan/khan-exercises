@@ -9,14 +9,6 @@ jQuery.extend(KhanUtil, {
 			expr;
 	},
 
- 	
-	
-	// gives back num to two decimals for money
-	withpennies: function( num ) {
-		return num.toFixed(2);
-	},
-
-
 	// A simple random number picker
 	// Returns a random int in [0, num)
 	rand: function( num ) {
@@ -337,5 +329,11 @@ jQuery.extend(KhanUtil, {
 	// From limits_1
 	truncate_to_max: function( num, digits ) {
 		return parseFloat( num.toFixed( digits ) );
+	},
+	
+	// gives back num to two decimals for money
+	fixeddecimals: function( num , digits) {
+		return num.toFixed(digits);
 	}
+	
 });

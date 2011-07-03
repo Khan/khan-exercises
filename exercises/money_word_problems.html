@@ -38,12 +38,12 @@
 				</div>
 
 				<div class="problem">
-					<p class="question">If you have $<var>withpennies(STARTING_AMT / 100)</var> and you give a friend <var>NUM_1</var> <var>plural(coin(1))</var>.  How much money do you have left? 
+					<p class="question">If you have $<var>fixeddecimals(STARTING_AMT / 100,2)</var> and you give a friend <var>NUM_1</var> <var>plural(coin(1))</var>.  How much money do you have left? 
 					
 					</p>
 					
 					<div class="solution" data-type="multiple">
-						<p>$ <span class="sol"><var>withpennies((STARTING_AMT-coinval(1)* NUM_1) / 100)</var></span></p>
+						<p>$ <span class="sol"><var>fixeddecimals((STARTING_AMT-coinval(1)* NUM_1) / 100,2)</var></span></p>
 					</div>					
 				</div>
 				<div class="hints">
@@ -51,7 +51,7 @@
 					<p>You are giving a set amount - this indicates that this is a subtraction question.</p>
 					<p>The <var>plural(coin(1))</var> are worth <var>coinval(1)</var> cents each.</p>
 					<p><var>NUM_1</var> <var>plural(coin(1))</var> are worth <var>NUM_1*coinval(1)</var> cents total.</p>
-					<p>Subtract <var>NUM_1*coinval(1)</var> cents from $<var>withpennies(STARTING_AMT / 100)</var> to get the final amount of $ <var>withpennies((STARTING_AMT-coinval(1)* NUM_1) / 100)</var>.</p>
+					<p>Subtract <var>NUM_1*coinval(1)</var> cents from $<var>fixeddecimals(STARTING_AMT / 100,2)</var> to get the final amount of $ <var>fixeddecimals((STARTING_AMT-coinval(1)* NUM_1) / 100,2)</var>.</p>
 				</div>
 				
 			</div>
@@ -61,9 +61,9 @@
 			<div class="giving-away-fractions">
 				<div class="vars">
 					<var id="STEP1_AMT">randRange(3,39)</var> <!-- This is the # of quarters or 25 cent increments -->
-					<var id="STARTING_AMT">withpennies(STEP1_AMT * 25 * numportions(1)/100)</var>
-					<var id="DIVISOR_AMT">withpennies(STEP1_AMT * 25 / 100)</var>
-					<var id="SOLUTION">withpennies(STARTING_AMT -DIVISOR_AMT)</var>
+					<var id="STARTING_AMT">fixeddecimals(STEP1_AMT * 25 * numportions(1)/100,2)</var>
+					<var id="DIVISOR_AMT">fixeddecimals(STEP1_AMT * 25 / 100,2)</var>
+					<var id="SOLUTION">fixeddecimals(STARTING_AMT -DIVISOR_AMT,2)</var>
 					<!-- the number of portions is handled (numportions) via a js query, betweeen 2 and 12 != 11 -->
 				</div>
 
@@ -95,7 +95,7 @@
 					<var id="COIN_VALUE">nickeldimeqtrval(1)*1</var>
 					<var id="MIN_VALUE">SOLUTION * nickeldimeqtrval(1)/100</var>
 					<var id="ADDED_AMT">(randRange(1,(COIN_VALUE-1)))/100</var>
-					<var id="TOTAL_AMT">withpennies(MIN_VALUE + ADDED_AMT)</var>
+					<var id="TOTAL_AMT">fixeddecimals(MIN_VALUE + ADDED_AMT,2)</var>
 				</div>
 
 				<div class="problem">
