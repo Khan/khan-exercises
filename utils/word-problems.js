@@ -32,6 +32,7 @@ jQuery.extend( KhanUtil, {
 	//		- return "NUMBER word"
 	plural: (function() {
 		var oneOffs = {
+			'child': 'children',
 			'quiz': 'quizzes',
 			'shelf': 'shelves',
 			'loaf': 'loaves',
@@ -138,6 +139,19 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		["William", "m"]
 	]);
 
+	var youngpeople = KhanUtil.shuffle([
+		"student",
+		"kid",
+		"child"
+	]);
+
+	var parents = KhanUtil.shuffle([
+		["Mom", "f"],
+		["Dad", "m"],
+		["Aunt", "f"],
+		["Uncle", "m"]
+	]);
+		
 	var vehicles = KhanUtil.shuffle([
 		"bike",
 		"car",
@@ -154,6 +168,15 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"history",
 		"physics",
 		"Spanish"
+	]);
+
+	var gatheringplaces = KhanUtil.shuffle([
+		"playground",
+		"classroom",
+		"park",
+		"backyard",
+		"cafeteria",
+		"gymnasium"
 	]);
 
 	var exams = KhanUtil.shuffle([
@@ -254,6 +277,14 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return people[i - 1][0].charAt(0).toLowerCase();
 		},
 
+		parent: function( i ) {
+			return parents[i - 1][0];
+		},
+
+		parentVar: function( i ) {
+			return parents[i - 1][0].charAt(0).toLowerCase();
+		},
+
 		he: function( i ) {
 			return people[i - 1][1] == "m" ? "he" : "she";
 		},
@@ -274,12 +305,40 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return people[i - 1][1] == "m" ? "His" : "Her";
 		},
 
+		parenthe: function( i ) {
+			return parents[i - 1][1] == "m" ? "he" : "she";
+		},
+
+		parentHe: function( i ) {
+			return parents[i - 1][1] == "m" ? "He" : "She";
+		},
+
+		parenthim: function( i ) {
+			return parents[i - 1][1] == "m" ? "him" : "her";
+		},
+
+		parenthis: function( i ) {
+			return parents[i - 1][1] == "m" ? "his" : "her";
+		},
+
+		parentHis: function( i ) {
+			return parents[i - 1][1] == "m" ? "His" : "Her";
+		},
+
 		vehicle: function( i ) {
 			return vehicles[i - 1];
 		},
 
 		vehicleVar: function( i ) {
 			return vehicles[i - 1].charAt(0);
+		},
+
+		youngperson: function( i ) {
+			return youngpeople[i - 1];
+		},
+
+		gatheringplace: function( i ) {
+			return gatheringplaces[i - 1];
 		},
 
 		course: function( i ) {
