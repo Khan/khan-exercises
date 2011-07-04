@@ -98,13 +98,11 @@
 			<div class="getting-ready-in-the-morning">
 				<div class="vars">
 					<div data-ensure="START_HOUR * 60 + START_MIN + (SHOWER + DRESS + BFAST) < 540">
-				
 						<var id="START_HOUR">randRange( 6, 7 )</var>
 						<var id="START_MIN">15 * randRange( 0, 3 )</var>
 						<var id="SHOWER">5 * randRange( 1, 5 )</var>
 						<var id="DRESS">5 * randRange( 1, 5 )</var>					
 						<var id="BFAST">5 * randRange( 2, 6 )</var>	
-						<var id="END_HOUR">randRange( 5, 7 )</var>
 					</div>
 
 					<var id="TOT_MINS">START_HOUR * 60 + START_MIN + (SHOWER + DRESS + BFAST)</var>
