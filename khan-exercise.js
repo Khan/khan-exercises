@@ -666,7 +666,7 @@ Khan.randomSeed = parseFloat( Khan.query.seed ) || ( new Date().getTime() & 0xff
 var KhanUtil = Khan.Util;
 
 // Load in jQuery
-Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" } ], function() {
+Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" } ], function() {
 
 	// Base modules required for every problem
 	Khan.require( [ "answer-types", "tmpl" ] );
