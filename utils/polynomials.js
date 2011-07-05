@@ -194,11 +194,15 @@ jQuery.extend(KhanUtil, {
 
 	},
 
-	randCoefs: function( minDegree, maxDegree ) {
+	randCoefs: function randCoefs( minDegree, maxDegree ) {
 		var coefs = [];
+		var allZero = true;
+
 		for ( var i = maxDegree; i >= minDegree; i-- ) {
 			coefs[i] = KhanUtil.randRange( -7, 7 );
+			allZero = allZero && coefs[i] === 0;
 		}
-		return coefs;
+
+		return allZero ? randCoefs( minDegree, maxDegree ) : coefs;
 	}
 });
