@@ -60,21 +60,25 @@
 						
 						// label angle ABC
 						arc([-4,3], .75, 312, 360, { stroke: "green" });
-						label([-3.2, 3], "<var>Tri_Y</var>&deg;", "below right", {color: "green"});					
+						label([-3.2, 3], "\\color{green}{<var>Tri_Y</var>&deg;}", 
+							"below right", {color: "green"});					
 				
 						// label angle BAC
 						arc([-1.3,0], .75, 38, 125, { stroke: "purple" });
-						label([-1.3, .5], "<var>Tri_Z</var>&deg;", "above", {color: "purple"});
+						label([-1.3, .7], "\\color{purple}{<var>Tri_Z</var>&deg;}", 
+							"above", {color: "purple"});
 
 						// Label X according to problem variation													
 						if(RAND_SWITCH2 == 0 ) {
 							//problem variation 1
 							arc([-1, 0], 1, 180, 210, { stroke: "blue"});
-							label([-3, 0], "&ang;DAF = ?", "below", { color: "blue"});
+							label([-3.3, 0], "\\color{blue}{&ang;DAF} = ?", 
+								"below", { color: "blue"});
 						} else {
 							//problem variation 2
 							arc([-1, 0], 1, 0, 45, { stroke: "blue"});
-							label([1, 0], "&ang;CAE = ?", "above", { color: "blue"});
+							label([1, 0], "\\color{blue}{&ang;CAE} = ?", 
+								"above", { color: "blue"});
 						}							
 				</div>
 				
@@ -84,46 +88,51 @@
 				
 				Given the following:
 				<ul>
-					<li><code>\angle{ABC} = <var>Tri_Y</var>&deg;</code></li>
-					<li><code>\angle{BAC} = <var>Tri_Z</var>&deg;</code></li>
+					<li><code>\color{green}{\angle{ABC}} = <var>Tri_Y</var>&deg;</code></li>
+					<li><code>\color{purple}{\angle{BAC}} = <var>Tri_Z</var>&deg;</code></li>
 					<li><code>\overline{DE} \parallel \overline{BC}</code></li>
 				</ul>
 					
 				
 				<!-- Select which angle to ask about depending on problem variation. -->
 				<div data-if="RAND_SWITCH2 === 0">										
-					<p class="question">What is <code>\angle{DAF} = ?</code></p>
+					<p class="question">What is <code>\color{blue}{\angle{DAF}} = ?</code></p>
 				</div>
 				<div data-else>											
-					<p class="question">What is <code>\angle{CAE} = ?</code></p>
+					<p class="question">What is <code>\color{blue}{\angle{CAE}} = ?</code></p>
 				</div>	
 			
 				<div class="solution"><var>Tri_X</var></div>
 				
 				<div class="hints">
-					<p class="hint_orange">
-						Solve for <code>\angle{BCA}</code> by subtracting angles 
-                                                <code>\angle{BAC}</code> and <code>\angle{ABC}</code> 
+					<p>
+						Solve for <code>\color{orange}{\angle{BCA}}</code> by subtracting angles 
+                                                <code>\color{purple}{\angle{BAC}}</code> and 
+                                                <code>\color{green}{\angle{ABC}}</code> 
                                                 from 180&deg;.  We find out that 
-                                                <code>\angle{BCA} = <var>Tri_X</var>&deg;</code>
+                                                <code>\color{orange}{\angle{BCA}} = 
+                                                <var>Tri_X</var>&deg;</code>
 						<span class="graphie" data-update="tri-and-parallel">
 							// label angle BAC
 							arc([2.5, 3], .75, 180, 220, { stroke: "orange" });
-							label([1.8, 3], "<var>Tri_X</var>&deg;", "below left", 
-                                                            {color: "orange"});
+							label([1.8, 3], "\\color{orange}{<var>Tri_X</var>&deg;}", 
+								"below left", {color: "orange"});
 						</span>				
 					</p>
 					<p>	
 						Solve for 
 						<span data-if="RAND_SWITCH2 === 0">										
-							<code>\angle{DAF}</code>  
+							<code>\color{blue}{\angle{DAF}}</code> by using the fact
+							that it a corresponding angle to   
 						</span>
 						<span data-else>											
-							<code>\angle{CAE}</code>
+							<code>\color{blue}{\angle{CAE}}</code> by using the fact
+							that it is an alternate interior angle to
 						</span>		
-						is congruent to <code>\angle{BCA}</code> because they  
-						are both created by the same transversal line <code>\overline{FC}</code> 
-						which bisecting the 2 parallel lines.
+						 <code>\angle{BCA}</code>, so their angles are equal because they  
+						are both created by a parallel lines <code>\overline{BC}</code>
+						and <code>\overline{DE}</code>, and transversal line 
+						<code>\overline{CF}</code>
 					</p>
 				</div>
 			</div>
@@ -220,12 +229,15 @@
 				<div class="solution"><var>X</var></div>
 
 				<div class="hints">
+					<!-- hint 1 -->
 					<div data-if="RAND_COMBO == 0">
-						&ang;EGB is equal to &ang;GHD because they are corresponding angles of a 
-						parallel line that's bisected by a transversal.
+						Because &ang;EGB and &ang;GHD are corresponding angles of  
+						parallel lines <code>\overline{AB}</code> and <code>\overline{CD}</code>,
+						and transversal line <code>\overline{EF}</code>.  We know 
+						<code>\angle{GHD}</code> is equal to <code>\angle{EGB}</code>.
 					</div>
 					<div data-if="RAND_COMBO == 1">
-						&ang;EGB is equal to &ang;GHD because they are opposite angles of a 
+						&ang;EGB is equal to &ang;GHD because they are corresponding angles of a 
 						parallel line that's bisected by a transversal.
 					</div>
 					<div data-else-if="RAND_COMBO == 10">
@@ -234,14 +246,14 @@
 						bisecting a parallel line.
 					</div>
 					<div data-if="RAND_COMBO == 11">
-						&ang;ACH is equal to &ang;CHF because they are corresponding angles of a 
-						parallel line that's bisected by a transversal.
+						&ang;AGH is equal to &ang;CHF because they are corresponding angles of a 
+						parallel lines that's bisected by line <code>\overline{EF}</code>.
 					</div>
 					<div data-else-if="RAND_COMBO == 20">
-						<p class="hint_blue">
+						<p>
 							First solve for &ang;AGH by subtracting &ang;BGH from 180&deg; 
 						</p>
-						<p class="hint_green">
+						<p>
 							Using corresponding angles, we know &ang;GHD is congruent to 
 							&ang;AGH.
 						</p>
@@ -256,6 +268,12 @@
                                                         bisecting lines.
 						</p>
 					</div>
+					<!-- hint #2 -->
+					<div data-if="RAND_COMBO == 1">
+						&ang;GHD is equal to &ang;CHF because they are opposite angles formed 
+						by the same pair of lines.
+					</div>
+					
 				</div>
 				
 			</div>
