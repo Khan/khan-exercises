@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html data-require="math graph">
+	<head>
+		<title>Changing Fractions to Percents</title>
+		<script src="../khan-exercise.js"></script>
+
+	</head>
+
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="DENOM">randFromArray([4, 5, 8, 10, 16, 20, 25, 40, 50, 100])</var>
+				<var id="NUMER">randRange( 1, DENOM-1 )</var>
+				<var id="SOLN">roundTo(5,NUMER / DENOM * 100)</var>
+			</div>
+
+			<div class="problems">
+				<div>
+					<p class="problem"><!-- An overview of the problem. --></p>
+					<p class="question">Express <code>\dfrac{<var>NUMER</var>}{<var>DENOM</var>}</code> as a Percent.</p>
+					<div class="solution" data-type="multiple">
+						<p><span class="sol"><var>SOLN</var></span> %</p>
+					</div>					
+				</div>
+			</div>
+
+			<div class="hints">
+				<p>First, we want to convert the fraction into a decimal, i.e by dividing <var>NUMER</var> by <var>DENOM</var>.</p>
+				<p>This gives us a decimal value of <var>roundTo(5,NUMER / DENOM)</var>.</p>
+				<p>Then, we want multiply the answer by 100 to get it in percentage form.</p>
+				<p>Therefore the answer is <var>SOLN</var>%.</p>
+			</div>
+	    </div>
+    </body>
+</html>
