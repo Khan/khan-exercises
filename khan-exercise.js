@@ -454,7 +454,7 @@ var Khan = {
 				.appendTo( links );
 
 			if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
-				var varInfo = [];
+				var varInfo = jQuery( "<p>" );
 
 				jQuery.each( jQuery.tmpl.VARS, function( name, value ) {
 					var str;
@@ -470,11 +470,13 @@ var Khan = {
 						}
 					}
 
-					varInfo.push( "<b>" + name + "</b>: <var>" + str + "</var>" );
+					varInfo.append( jQuery( "<b>" ).text( name ) );
+					varInfo.append( ": " );
+					varInfo.append( jQuery( "<var>" ).text( str ) );
+					varInfo.append( "<br>" );
 				});
 
-				jQuery( "<p>" ).html( varInfo.join("<br>") )
-					.appendTo( debugWrap );
+				varInfo.appendTo( debugWrap );
 			}
 		}
 	},
