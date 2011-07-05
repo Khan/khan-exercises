@@ -16,11 +16,13 @@
 				<!-- Am I not supposed to use this function business? -->
 			(function() {
 				if ( ( D - B ) / ( A - C) > 0 ) {
-					return "x = " 
+					return "&lt;code&gt;"
+						+ "x = "
 						+ fractionReduce( -1 * abs( D - B ), abs( A - C ) )
 						+ "\\text{ or }"
 						+ "x = "
-						+ fractionReduce( abs( D - B ), abs( A - C ) );
+						+ fractionReduce( abs( D - B ), abs( A - C ) )
+						+ "&lt;/code&gt;";
 				} else {
 					return "No solution";
 				}
@@ -43,7 +45,7 @@
 								+ "x = "
 								+ fractionReduce( abs( D - B + nOffset ), abs( A - C + dOffset ) );
 						}
-						choice += "&lt;code&gt;";
+						choice += "&lt;/code&gt;";
 						choices.unshift( choice );
 					}
 

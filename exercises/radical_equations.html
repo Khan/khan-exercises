@@ -18,7 +18,7 @@
 						return "&lt;code&gt;"
 							+ "x = "
 							+ fractionReduce( ( D - B ) * ( D - B), ( A - C ) * ( A - C) )
-							+ "&lt;code&gt;";
+							+ "&lt;/code&gt;";
 					} else {
 						return "No solution";
 					}
@@ -32,7 +32,7 @@
 						var choice = "&lt;code&gt;"
 							+ "x = " 
 							+ fractionReduce( ( D - B + nOffset ) * ( D - B + nOffset ), ( A - C + dOffset ) * ( A - C + dOffset ) )
-							+ "&lt;code&gt;";
+							+ "&lt;/code&gt;";
 						choices.unshift( choice );
 					}
 
