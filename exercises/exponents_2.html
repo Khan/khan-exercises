@@ -12,14 +12,14 @@
 			var exp_neg_prob = .75;
 			var base_rat_prob = .75;
 
-			var base_neg = Math.random() < base_neg_prob;
+			var base_neg = KhanUtil.random() < base_neg_prob;
 			var base_n = KhanUtil.randRange( 1, 10 );
 			var base_d;
 			while ( base_d === undefined || base_n === base_d ) {
 				base_d = KhanUtil.randRangeWeighted( 1, 10, 1, 1 - base_rat_prob );
 			}
 
-			var exp_neg = Math.random() < exp_neg_prob;
+			var exp_neg = KhanUtil.random() < exp_neg_prob;
 			var max_exp = Math.min( KhanUtil.maxReasonableExp( base_n ),
 				KhanUtil.maxReasonableExp( base_d ) );
 			var min_exp = exp_neg ? 1 : 2;
@@ -65,11 +65,19 @@
 				<p class="solution" data-type="rational"><var>SOL_N / SOL_D</var></p>
 
 				<div class="hints">
-					<!-- FIXME: could be made nicer with ifs that unwrap -->
 
-					<p data-if="abs( EXP ) > 1 && EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>EXP</var>}</code></p>
-					<p data-if="abs( EXP ) > 1" data-each="expandFractionExponent( BASEF_N, BASEF_D, EXP ) as v"><code>= <var>v</var></code></p>
+					<div data-unwrap data-if="abs( EXP ) > 1">
+
+						<p data-if="EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>EXP</var>}</code></p>
+
+						<div data-unwrap data-each="expandFractionExponent( BASEF_N, BASEF_D, EXP ) as v">
+							<p><code>= <var>v</var></code></p>
+						</div>
+					
+					</div>
+
 					<p data-else><code>= <var>frac( SOL_N, SOL_D )</var></code></p>
+
 				</div>
 			</div>
 		</div>
