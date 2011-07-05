@@ -316,7 +316,7 @@ var Khan = {
 		}
 
 		// Add any global exercise defined elements
-		problem.prepend( exercise.children( ':not(.problems)' ).clone() );
+		problem.prepend( exercise.children( ':not(.problems)' ).clone().data( "inherited", true ) );
 
 		// Apply templating
 		var children = problem
