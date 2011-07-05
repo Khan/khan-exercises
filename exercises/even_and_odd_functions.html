@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- TODO: reorganize hint display when data-if unwrapping is complete, can then alterante between vertical and horizontal line draws; can also just better handle conditionals with the checking for "neither" -->
+<!-- TDOO: remove <var>s in graphie data-eachs -->
 <html data-require="math expressions graphie">
 <head>
 	<title>Even and Odd Functions</title>
@@ -86,11 +86,27 @@
 			<var id="FUNCS">makeFuncString( SOL, EVENS, ODDS )</var>
 			<var id="WIDES">substitute( FUNCS, "x*" + widener( FUNCS ) )</var>
 
-			<!-- these are all the x-coordinates that we will use to show the function's value in hints. we basically filter out any points where the function is offscreen or too close to zero. -->
-			<var id="PTS">jQuery.grep( [1,2,3,4,5,6,7,8,9,10], function( i ) { return ( abs( valAt( WIDES, i ) ) > 1 && abs( valAt( WIDES, i ) ) < 10 ) && ( abs( valAt( WIDES, -i ) ) > 1 && abs( valAt( WIDES, -i ) ) < 10 ); } )</var>
+			<!-- these are all the x-coordinates that we will use to show the function's value in hints. we basically filter out any points where the function is offscreen or both the pos and neg values are too close to zero. -->
+			<var id="PTS">
+				jQuery.grep( [1,2,3,4,5,6,7,8,9,10], 
+					function( i ) { 
+						return ( abs( valAt( WIDES, i ) ) > 1 || abs( valAt( WIDES, -i ) ) > 1 )
+							&& abs( valAt( WIDES, i ) ) < 10
+							&& abs( valAt( WIDES, -i ) ) < 10;
+					} 
+				)
+			</var>
 
 			<!-- this is the one x-coordinate we will use to show that the function is neither even nor odd. we basically filter out any coordinates that would look kind of like it was even or odd and we also filter out 10 because that makes displaying things easier. -->
-			<var id="PT" data-if="SOL === 'Neither'">randFromArray( jQuery.grep( PTS, function( i ) { return abs( abs( valAt( WIDES, i ) ) - abs( valAt( WIDES, -i ) ) ) > 0.5 && abs( i ) < 10; } ) )</var>
+			<var id="PT" data-if="SOL === 'Neither'">
+				randFromArray( 
+					jQuery.grep( PTS, 
+						function( i ) { 
+							return abs( abs( valAt( WIDES, i ) ) - abs( valAt( WIDES, -i ) ) ) > 0.5 
+								&& abs( i ) < 10; 
+						} 
+					) 
+				)</var>
 
 		</div>
 
@@ -100,39 +116,36 @@
 				<div class="problem">
 					<p><code>f(x)</code> is graphed below.</p>
 					<div id="graph" class="graphie">
-						(function() {
-							init({
-								range: [ [-10, 10], [-10, 10] ],
-								scale: [20, 20]
-							});
+						init({
+							range: [ [-10, 10], [-10, 10] ],
+							scale: [20, 20]
+						});
 
-							grid( [-10, 10], [-10, 10], {
-								stroke: "#e5e5e5"
-							});
+						grid( [-10, 10], [-10, 10], {
+							stroke: "#e5e5e5"
+						});
 
-							style({
-								stroke: "#888",
-								strokeWidth: 2,
-								arrows: "->"
-							});
+						style({
+							stroke: "#888",
+							strokeWidth: 2,
+							arrows: "<->"
+						});
 
-							path( [ [-10, 0], [10, 0] ] );
-							path( [ [0, -10], [0, 10] ] );
+						path( [ [-10, 0], [10, 0] ] );
+						path( [ [0, -10], [0, 10] ] );
 
-							style({
-								stroke: "#6495ED",
-								arrows: null
-							});
+						style({
+							stroke: "#6495ED",
+							arrows: null
+						});
 
-							plot( function( x ) {
-								return eval( WIDES );
-							}, [-10, 10]);
+						plot( function( x ) {
+							return eval( WIDES );
+						}, [-10, 10]);
 
-							style({
-								stroke: "#05ca00"
-							});
-
-						})()
+						style({
+							stroke: "#05ca00"
+						});
 					</div>
 				</div>
 
@@ -147,64 +160,76 @@
 		</div>
 
 		<div class="hints">
-			<!-- FIXME can organize things in better order with data-if unwrapping -->
-			<div data-if="SOL === 'Neither'" class="graphie" data-update="graph">
-				(function() {
+
+			<div data-unwrap data-if="SOL === 'Neither'">
+
+				<div class="graphie" data-update="graph">
 					style({ strokeWidth: 2 }, function() {
-						path([ [<var>PT</var>, 0], [ <var>PT</var>, <var>valAt( WIDES, PT )</var> ] ]);
-						path([ [<var>-PT</var>, 0], [ <var>-PT</var>, <var>valAt( WIDES, -PT )</var> ] ]);
+						path([ [ PT, 0 ], [ PT, valAt( WIDES, PT ) ] ]);
+						path([ [ -PT, 0 ], [ -PT, valAt( WIDES, -PT ) ] ]);
 					});
-					label( [<var>PT</var>, 0], "a", "below right");
-					label( [<var>-PT</var>, 0], "-a", "below left");
-				})()
-			</div>
 
-			<div data-if="SOL === 'Neither'" class="graphie" data-update="graph">
-				(function() {
+					label( [ PT, 0 ], "a", "below right");
+					label( [ -PT, 0 ], "-a", "below left");
+				</div>
+
+				<div class="graphie" data-update="graph">
 					style({ strokeDasharray: "." }, function() {
-						path([ [0, <var>valAt( WIDES, PT )</var>], [ <var>PT</var>, <var>valAt( WIDES, PT )</var> ] ]);
-						path([ [0, <var>valAt( WIDES, -PT )</var>], [ <var>-PT</var>, <var>valAt( WIDES, -PT )</var> ] ]);
+						path([ [ 0, valAt( WIDES, PT ) ], [ PT, valAt( WIDES, PT ) ] ]);
+						path([ [ 0, valAt( WIDES, -PT ) ], [ -PT, valAt( WIDES, -PT ) ] ]);
 					});
-					label( [0, <var>valAt( WIDES, PT )</var>], "f(a)", "left");
-					label( [0, <var>valAt( WIDES, -PT )</var>], "f(-a)", "right");
-				})()
+
+					label( [ 0, valAt( WIDES, PT ) ], "f(a)", "left");
+					label( [ 0, valAt( WIDES, -PT ) ], "f(-a)", "right");
+				</div>
+
+				<p>
+					<code>f(-a)\neq f(a)</code>, so <code>f(x)</code> is not even.
+				</p>
+
+				<p>
+					<code>f(-a)\neq -f(a)</code>, so <code>f(x)</code> is not odd.
+				</p>
+
 			</div>
 
-			<p data-if="SOL === 'Neither'">
-				<code>f(-a)\neq f(a)</code>, so <code>f(x)</code> is not even.
-			</p>
+			<div data-unwrap data-else>
 
-			<p data-if="SOL === 'Neither'">
-				<code>f(-a)\neq -f(a)</code>, so <code>f(x)</code> is not odd.
-			</p>
+				<!-- FIXME: all the <var> tags here should be removed when the data-each graphie scoping is fixed. -->
+				<div data-unwrap data-each="PTS as x">
+					
+					<div class="graphie" data-update="graph">
+						style({ stroke: "#7edb00" }, function() {
+							path([ [ <var>x</var>, 0 ], [ <var>x</var>, valAt( WIDES, <var>x</var> ) ] ]);
+							path([ [ <var>-x</var>, 0 ], [ <var>-x</var>, valAt( WIDES, <var>-x</var> ) ] ]);
+						});
+					</div>
 
-			<!-- FIXME can handle the ordering better when there is unwrapping (ie, display the vertical bars, then the horizontal ones -->
-			<div data-if="SOL !== 'Neither'" data-each="PTS as x" class="graphie" data-update="graph">
-				(function() {
-					style({ stroke: "#7edb00" }, function() {
-						path([ [<var>x</var>, 0], [ <var>x</var>, <var>valAt( WIDES, x )</var> ] ]);
-						path([ [<var>-x</var>, 0], [ <var>-x</var>, <var>valAt( WIDES, -x )</var> ] ]);
-					});
+					<div class="graphie" data-update="graph">
+						style({ strokeDasharray: "." }, function() {
+							path([ [ 0, valAt( WIDES, <var>x</var> ) ], [ <var>x</var>, valAt( WIDES, <var>x</var> ) ] ]);
+							path([ [ 0, valAt( WIDES, <var>-x</var> ) ], [ <var>-x</var>, valAt( WIDES, <var>-x</var> ) ] ]);
+						});
+					</div>
 
-					style({ strokeDasharray: "." }, function() {
-						path([ [0, <var>valAt( WIDES, x )</var>], [ <var>x</var>, <var>valAt( WIDES, x )</var> ] ]);
-						path([ [0, <var>valAt( WIDES, -x )</var>], [ <var>-x</var>, <var>valAt( WIDES, -x )</var> ] ]);
-					});
-				})()
+				</div>
+
+				<div data-unwrap data-if="SOL === 'Odd'">
+					<p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is</span id="expand">...</span></p>
+
+					<span id="expand" data-apply="hint-replace"> odd.</span>
+				</div>
+
+				<div data-unwrap data-else>
+					<p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is<span id="expand">...</span></p>
+
+					<span id="expand" data-apply="hint-replcae"> even.</span>
+				</div>
+
 			</div>
 
-			<p data-if="SOL === 'Odd'">
-				<code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is<span id="expand">...</span>
-			</p>
-
-			<span data-if="SOL === 'Odd'" id="expand" data-apply="hint-replace"> odd.</span>
-
-			<p data-if="SOL === 'Even'">
-				<code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is<span id="expand">...</span>
-			</p>
-
-			<span data-if="SOL === 'Even'" id="expand" data-apply="hint-replace"> even.</span>
 		</div>
+
 	</div>
 </body>
 </html>
