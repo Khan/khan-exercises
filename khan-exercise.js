@@ -459,11 +459,15 @@ var Khan = {
 				jQuery.each( jQuery.tmpl.VARS, function( name, value ) {
 					var str;
 
-					// JSON is prettier (when it works)
-					try {
-						str = JSON.stringify( value );
-					} catch ( e ) {
+					if ( typeof value === "function") {
 						str = value.toString();
+					} else {
+						// JSON is prettier (when it works)
+						try {
+							str = JSON.stringify( value );
+						} catch ( e ) {
+							str = value.toString();
+						}
 					}
 
 					varInfo.push( "<b>" + name + "</b>: <var>" + str + "</var>" );
