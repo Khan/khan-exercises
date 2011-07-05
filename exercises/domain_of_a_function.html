@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<!-- TODO: exercise! -->
+<html data-require="math math-format">
+<head>
+	<title>Domain of a Function</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function filter( o, f ) {
+			n = {};
+			for ( var p in o ) {
+				if ( o.hasOwnProperty( p ) && f( p ) ) n[p] = o[p];
+			}
+			return n;
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="A">randRange( 1, 10 )</var>
+			<var id="B" data-ensure="A !== B">randRange( 1, 10 )</var>
+			<var id="C" data-ensure="A !== C && B !== C">randRange( 1, 10 )</var>
+
+			<var id="CHOICES">{
+				"two-denom-simplify": "\\{ x \\in \\RR \\mid x \\neq" + (-1*A) + ",\\ x \\neq" + B + "\\}",
+				"two-denom-cond": "\\{ x \\in \\RR \\mid x \\neq" + (-1*A) + "\\}",
+				"sqrt": "\\{ x \\in \\RR \\mid x \\geq" + A + "\\}",
+				"inverse-sqrt": "\\{ x \\in \\RR \\mid x >" + A + "\\}",
+				"inverse-sqrt-cond": "\\{ x \\in \\RR \\mid x \\neq" + A + "\\}",
+				"sqrt-frac": "\\{ x \\in \\RR \\mid" + A + "< x \\leq" + (A+B) + "\\}",
+				"two-denom-cond-weird": "\\{ x \\in \\RR \\mid x \\neq" + (-1*A) + ",\\ x \\neq" + C + "\\}",
+				"sqrt-poly-frac": "\\{ x \\in \\RR \\mid x \\geq" + C + ",\\ x \\neq" + (-1*A) + ",\\ x \\neq" + (-1*B) + "\\}",
+				"sqrt-abs": "\\{ x \\in \\RR \\mid" + (-1*A) + "\\leq x \\leq" + A + "\\}",
+				"inverse-sqrt-abs": "\\{ x \\in \\RR \\mid" + (-1*A) + "< x <" + A + "\\}"
+			}</var>
+
+		</div>
+
+		<div class="problems">
+
+			<div id="two-denom-simplify">
+				
+				<p class="question">What is the domain of <code>f(x)</code>?</p>
+
+				<p class="problem"><code>f(x) = \dfrac{ x + <var>A</var> }{ ( x + <var>A</var> )( x - <var>B</var> ) }</code></p>
+				
+				<p class="solution"><code><var>CHOICES["two-denom-simplify"]</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li data-each="filter( CHOICES, function( c ) { return c !== 'two-denom-simplify'; } ) as c"><code><var>c</var></code></li>
+				</ul>
+
+				<div class="hints">
+					<p><code>f(x)</code> is undefined when the denominator is 0.</p>
+					<p>The denominator is 0 when <code>x=<var>(-1*A)</var></code> or <code>x=<var>B</var></code>.</p>
+					<p>So the domain is all real numbers except <code><var>(-1*A)</var></code> and <code><var>B</var></code>.</p>
+					<p>Mathematically, the domain is <code><var>CHOICES["two-denom-simplify"]</var></code>.</p>
+				</div>
+
+			</div>
+
+			<div id="two-denom-cond" data-type="two-denom-simplify">
+
+				<p class="problem"><code>f(x)= \begin{cases} \dfrac{ x + <var>A</var> }{ ( x + <var>A</var> )( x - <var>B</var> ) } & \text{, if $x \neq <var>B</var>$} \\ <var>A</var> & \text{, if $x = <var>B</var>$} \end{cases}</code></p>
+
+				<p class="solution"><code><var>CHOICES["two-denom-cond"]</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li data-each="filter( CHOICES, function( c ) { return c !== 'two-denom-cond'; } ) as c"><code><var>c</var></code></li>
+				</ul>
+
+				<div class="hints">
+					<p><code>\dfrac{ x + <var>A</var> }{ ( x + <var>A</var> )( x - <var>B</var> ) }</code> is undefined when the denominator is 0.</p>
+					<p>The denominator is 0 when <code>x=<var>-1*A</var></code> or <code>x=<var>B</var></code>.</p>
+					<p>However, <code>f(<var>B</var>)</code> is defined because of the second part of the piecewise function.</p>
+					<p>So the domain is all real numbers except <code><var>(-1*A)</var></code>.</p>
+					<p>Mathematically, the domain is <code><var>CHOICES["two-denom-cond"]</var></code>.</p>
+				</div>
+			
+			</div>
+
+			<div id="sqrt" data-type="two-denom-simplify">
+
+				<p class="problem"><code>f(x) = \sqrt{ x - <var>A</var> }</code></p>
+
+				<p class="solution"><code><var>CHOICES["sqrt"]</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt'; } ) as c"><code><var>c</var></code></li>
+				</ul>
+
+				<div class="hints">
+					<p><code>f(x)</code> is undefined when the radicand (the expression under the radical) is less than zero.</p>
+					<p>The radicand is less than zero when <code>x - <var>A</var> < 0</code>.</p>
+					<p>So the domain is all real numbers except when <code>x < <var>A</var></code>.</p>
+					<p>Mathematically, the domain is <code><var>CHOICES["sqrt"]</var></code>.</p>
+				</div>
+
+			</div>
+
+			<div id="inverse-sqrt" data-type="two-denom-simplify">
+
+				<p class="problem"><code>f(x) = \dfrac{ 1 }{ \sqrt{ x - <var>A</var> } }</code></p>
+
+				<p class="solution"><code><var>CHOICES["inverse-sqrt"]</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li data-each="filter( CHOICES, function( c ) { return c !== 'inverse-sqrt'; } ) as c"><code><var>c</var></code></li>
+				</ul>
+
+				<div class="hints">
+					<p>First, we need to consider that <code>f(x)</code> is undefined when the radicand (the expression under the radical) is less than zero.</p>
+					<p><code>f(x)</code> is also undefined when the denominator is zero.</p>
+					<p>So the radicand, <code>x - <var>A</var></code>, must be greater than or equal to zero and the denominator, <code>\sqrt{ x - <var>A</var> }</code>, must be nonzero.</p>
+					<p>Based on the radicand, <code>x - <var>A</var> \geq 0</code></p>
+					<p>So <code>x \geq <var>A</var></code>.</p>
+					<p>Based on the denominator, <code>\sqrt{ x - <var>A</var> } \neq 0</code>.</p>
+					<p><code>\sqrt{ y } = 0</code> only when <code>y = 0</code>, so <code>\sqrt{ x - <var>A</var> } \neq 0</code> implies that <code>x - <var>A</var> \neq 0</code>.</p>
+					<p>So <code>x \neq <var>A</var></code>.</p>
+					<p>We know that <code>x \geq <var>A</var></code> and <code>x \neq <var>A</var></code>, so this means <code>x > <var>A</var></code>.</p>
+					<p>So the domain is all real numbers that are greater than <code><var>A</var></code>.</p>
+					<p>Mathematically, the domain is <code><var>CHOICES["inverse-sqrt"]</var></code>.</p>
+				</div>
+
+			</div>
+
+			<div id="inverse-sqrt-cond" data-type="two-denom-simplify">
+			
+				<p class="problem"><code>f(x) = \begin{cases} \dfrac{ 1 }{ \sqrt{ x - <var>A</var> } } & \text{, if $x \geq <var>A</var>$} \\ \dfrac{ 1 }{ \sqrt{ <var>A</var> - x } } & \text{, if $x < <var>A</var>$} \end{cases}</code></p>
+
+				<p class="solution"><code><var>CHOICES["inverse-sqrt-cond"]</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li data-each="filter( CHOICES, function( c ) { return c !== 'inverse-sqrt-cond'; } ) as c"><code><var>c</var></code></li>
+				</ul>
+				
+				<div class="hints">
+					<p>When <code>x \geq <var>A</var></code>, we need to consider where <code>\frac{ 1 }{ \sqrt{ x - <var>A</var> } }</code> is undefined.</p>
+					<p>When <code>x \geq <var>A</var></code>, the radicand (the expression under the radical) is never less than zero, but the denominator can still be zero if <code>x = <var>A</var></code>, so <code>f(x)</code> is undefined at <code>x = <var>A</var></code>.</p>
+					<p>When <code>x < <var>A</var></code>, we need to consider where <code>\frac{ 1 }{ \sqrt{ <var>A</var> - x } }</code> is undefined.</p>
+					<p>When <code>x < <var>A</var></code>, the radicand is never less than zero, and the denominator can never be zero, so all the values of <code>x</code> less than <code><var>A</var></code> are defined.</p>
+					<p>So the domain is all real numbers except <code><var>A</var></code>.</p>
+					<p>Mathematcially, the domain is <code><var>CHOICES["inverse-sqrt-cond"]</var></code>.</p>
+				</div>
+
+			</div>
+
+			<div id="sqrt-frac" data-type="two-denom-simplify">
+
+				<p class="problem"><code>f(x) = \dfrac{ \sqrt{ <var>A+B</var> - x } }{ \sqrt{ x - <var>A</var> } }</code></p>
+
+				<p class="solution"><code><var>CHOICES["sqrt-frac"]</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt-frac'; } ) as c"><code><var>c</var></code></li>
+				</ul>
+
+				<div class="hints">
+					<p>First, we need to consider that <code>f(x)</code> is undefined anywhere where either radical is undefined, so anywhere where either radicand (the expression under the radical symbol) is less than zero.</p>
+					<p>The top radical is undefined when <code><var>A+B</var> - x < 0</code>.</p>
+					<p>So the top radical is undefined when <code>x > <var>A+B</var></code>.</p>
+					<p>The bottom radical is undefined when <code>x - <var>A</var> < 0</code>.</p>
+					<p>So the bottom radical is undefined when <code>x < <var>A</var></code>.</p>
+					<p>Next, we need to consider that <code>f(x)</code> is undefined anywhere where the denominator is zero.</p>
+					<p><code>\sqrt{ x - <var>A</var> } = 0</code> when <code>x - <var>A</var> = 0</code>.</p>
+					<p>So <code>f(x)</code> is also undefined when <code>x = A</code>.</p>
+					<p>So the domain is all real numbers except <code>x > <var>A+B</var></code>, <code>x < <var>A</var></code>, and <code>x = <var>A</var></code>.</p>
+					<p>So the domain is all real numbers where <code><var>A</var> < x \leq <var>A+B</var></code>.</p>
+					<p>Mathematically, the domain is <code><var>CHOICES["sqrt-frac"]</var></code>.</p>
+				</div>
+
+			</div>
+
+			<div id="two-denom-cond-weird" data-type="two-denom-simplify">
+
+				<p class="problem"><code>f(x) = \begin{cases} \dfrac{ x + <var>A</var> }{ ( x + <var>A</var> )( x - <var>C</var> ) } & \text{, if $x \neq <var>-1*A</var>$ and $x \neq <var>B</var>$} \\ <var>A</var> & \text{, if $x = <var>B</var>$}</code></p>
+
+				<p class="solution"><code><var>CHOICES["two-denom-cond-weird"]</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li data-each="filter( CHOICES, function( c ) { return c !== 'two-denom-cond-weird'; } ) as c"><code><var>c</var></code></li>
+				</ul>
+
+				<div class="hints">
+					<!-- FIXME -->
+				</div>
+			
+			</div>
+
+			<div id="sqrt-poly-frac" data-type="two-denom-simplify">
+				
+				<p class="problem"><code>f(x) = \dfrac{ \sqrt{ x - <var>C</var> } }{ x^2 + <var>A+B</var> + x + <var>A*B</var> }</code></p>
+
+				<p class="solution"><code><var>CHOICES["sqrt-poly-frac"]</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt-poly-frac'; } ) as c"><code><var>c</var></code></li>
+				</ul>
+
+				<div class="hints">
+					<!-- FIXME -->
+				</div>
+
+			</div>
+
+			<div id="sqrt-abs" data-type="two-denom-simplify">
+				
+				<p class="problem"><code>f(x) = \sqrt{ <var>A</var> - \lvert x \rvert }</code></p>
+
+				<p class="solution"><code><var>CHOICES["sqrt-abs"]</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt-abs'; } ) as c"><code><var>c</var></code></li>
+				</ul>
+
+				<div class="hints">
+					<!-- FIXME -->
+				</div>
+
+			</div>
+
+			<div id="inverse-sqrt-abs" data-type="two-denom-simplify">
+				
+				<p class="problem"><code>f(x) = \frac{ B }{ \sqrt{ <var>A</var> - \lvert x \rvert } }</code></p>
+
+				<p class="solution"><code><var>CHOICES["inverse-sqrt-abs"]</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li data-each="filter( CHOICES, function( c ) { return c !== 'inverse-sqrt-abs'; } ) as c"><code><var>c</var></code></li>
+				</ul>
+
+				<div class="hints">
+					<!-- FIXME -->
+				</div>
+
+			</div>
+
+
+
+		</div>
+	</div>
+</body>
+</html>
