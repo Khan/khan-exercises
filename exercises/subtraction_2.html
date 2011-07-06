@@ -60,7 +60,7 @@
 			<var id="Y_SECOND">1</var>
 			<var id="Y_DIFF">0</var>
 			<var id="X_MAX">2</var>
-			<var id="X_SIDE">4</var>
+			<var id="X_SIDE">X_MAX + 2</var>
 			<var id="Y_SIDE">1.5</var>
 			<var id="BORROW_LEVEL">Y_CARRY</var>
 		</div>
@@ -75,7 +75,7 @@
 					drawDigits( A_DIGITS, X_MAX, Y_FIRST );
 					drawDigits( B_DIGITS, X_MAX, Y_SECOND );
 
-					path( [ [ -0.5, 0.5 ], [ 2.5, 0.5 ] ]);
+					path( [ [ -0.5, 0.5 ], [ X_MAX + 0.5, 0.5 ] ]);
 
 					label( [ 0, 1 ] ,"\\huge{ - }" );
 				</div>
@@ -120,7 +120,7 @@
 				}
 
 				var diff = A_DIGITS[ index ] - subtrahend;
-				if ( index !== A_DIGITS.length - 1 || diff !== 0 ) {
+				if ( ( ( A - B ) / pow( 10, index ) ) &gt; 1 ) {
 					label( [ X_MAX - index, Y_DIFF ],  "\\Huge{" + diff + "}" );
 				}
 
