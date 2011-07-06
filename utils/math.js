@@ -32,6 +32,14 @@ jQuery.extend(KhanUtil, {
 		return list;
 	},
 
+	padDigits: function( digits, length ) {
+		var padded = digits.slice( 0 );
+		while( padded.length < length ) {
+			padded.push( 0 );
+		}
+		return padded;
+	},
+
 	// Similar to above digits, but in original order (not reversed)
 	integerToDigits: function( n ) {
 		return KhanUtil.digits( n ).reverse();
@@ -305,11 +313,13 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
-	/* Shuffle an array using a Fischer-Yates shuffle. */
-	shuffle: function( array ) {
-		array = array.slice(0);
+	// Shuffle an array using a Fischer-Yates shuffle
+	// If count is passed, returns an random sublist of that size
+	shuffle: function( array, count ) {
+		array = [].slice.call( array, 0 );
+		var beginning = typeof count === "undefined" || count > array.length ? 0 : array.length - count;
 
-		for ( var top = array.length; top > 0; top-- ) {
+		for ( var top = array.length; top > beginning; top-- ) {
 			var newEnd = Math.floor(KhanUtil.random() * top),
 				tmp = array[newEnd];
 
@@ -317,7 +327,7 @@ jQuery.extend(KhanUtil, {
 			array[top - 1] = tmp;
 		}
 
-		return array;
+		return array.slice(beginning);
 	},
 
 	sortNumbers: function( array ) {

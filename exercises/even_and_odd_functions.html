@@ -1,58 +1,47 @@
 <!DOCTYPE html>
-<!-- TODO: reorganize hint display when data-if unwrapping is complete, can then alterante between vertical and horizontal line draws; can also just better handle conditionals with the checking for "neither" -->
-<!-- TODO: put in dashed lines once they're working in graphie -->
+<!-- TDOO: remove <var>s in graphie data-eachs -->
 <html data-require="math expressions graphie">
 <head>
 	<title>Even and Odd Functions</title>
 	<script src="../khan-exercise.js"></script>
 	<script type="text/javascript">
 		function makeFuncString( type, evens, odds ) {
-			var options, one, two, three, four, r1, r2, r3, r4;
+			var slice, r1, r2, r3, r4;
 
 			// Choose four even functions or four odd functions if we want a function
 			// that is even or odd respectively.
 			if ( type === "Even" || type === "Odd" ) {
 
-				options = type === "Even" ? evens : odds;
-
-				one = KhanUtil.randFromArray( options );
-				two = KhanUtil.randFromArrayExclude( options, [ one ] );
-				three = KhanUtil.randFromArrayExclude( options, [ one, two ] );
-				four = KhanUtil.randFromArrayExclude( options, [ one, two, three ] );
-
-				// Ensure that the coefficients on the component functions are nonzero.
-				do {
-					r1 = KhanUtil.randRange( -3, 3 );
-					r2 = KhanUtil.randRange( -3, 3 );
-					r3 = KhanUtil.randRange( -3, 3 );
-					r4 = KhanUtil.randRange( -3, 3 );
-				} while ( r1 === 0 || r2 === 0 || r3 === 0 || r4 === 0 );
+				slice = KhanUtil.shuffle( type === "Even" ? evens : odds ).slice( 0, 4 );
+				ensure = function( r1, r2, r3, r4 ) {
+					return r1 !== 0 || r2 !== 0 || r3 !== 0 || r4 !== 0;
+				};
 
 			// Choose two even and two odd functions if we want a function that
 			// is neither even nor odd.
 			} else {
 
-				one = KhanUtil.randFromArray( evens );
-				two = KhanUtil.randFromArrayExclude( evens, [ one ] );
-				three = KhanUtil.randFromArray( odds );
-				four = KhanUtil.randFromArrayExclude( odds, [ three ] );
-
-				// Ensure that the coefficients on the component functions are nonzero.
-				do {
-					r1 = KhanUtil.randRange( -3, 3 );
-					r2 = KhanUtil.randRange( -3, 3 );
-					r3 = KhanUtil.randRange( -3, 3 );
-					r4 = KhanUtil.randRange( -3, 3 );
-				} while ( r1 === 0 || r2 === 0 || r3 === 0 || r4 === 0 );
+				slice = KhanUtil.shuffle( evens ).slice( 0, 2 ).concat(
+					KhanUtil.shuffle( odds ).slice( 0, 2 ) );
+				ensure = function( r1, r2, r3, r4 ) {
+					return ( r1 !== 0 || r2 !== 0 ) && ( r3 !== 0 || r4 !== 0 );
+				};
 
 			}
 
-			one = r1 + "*" + one;
-			two = r2 + "*" + two;
-			three = r3 + "*" + three;
-			four = r4 + "*" + four;
+			do {
+				r1 = KhanUtil.randRange( -3, 3 );
+				r2 = KhanUtil.randRange( -3, 3 );
+				r3 = KhanUtil.randRange( -3, 3 );
+				r4 = KhanUtil.randRange( -3, 3 );
+			} while ( !ensure( r1, r2, r3, r4 ) );
 
-			return [ one, two, three, four ].join( "+" );
+			slice[0] += "*" + r1;
+			slice[1] += "*" + r2;
+			slice[2] += "*" + r3;
+			slice[3] += "*" + r4;
+
+			return slice.join("+");
 		}
 
 		function substitute( funcs, val ) {
@@ -78,7 +67,7 @@
 				with ( Math ) {
 					y = abs( eval( funcs ) );
 				}
-			} while ( x < 10 && y < 15 );
+			} while ( x < 10 && y < 10 );
 
 			return x / 10;
 		}
@@ -97,8 +86,27 @@
 			<var id="FUNCS">makeFuncString( SOL, EVENS, ODDS )</var>
 			<var id="WIDES">substitute( FUNCS, "x*" + widener( FUNCS ) )</var>
 
-			<var id="PTS">jQuery.grep( [1,2,3,4,5,6,7,8,9,10], function( i ) { return ( abs( valAt( WIDES, i ) ) > 1 && abs( valAt( WIDES, i ) ) < 10 ) || ( abs( valAt( WIDES, -i ) ) > 1 && abs( valAt( WIDES, -i ) ) < 10 ); } )</var>
-			<var id="PT" data-if="SOL === 'Neither'" data-ensure="abs( abs( valAt( WIDES, PT ) ) - abs( valAt( WIDES, -PT ) ) ) > 0.5">randFromArray( PTS )</var>
+			<!-- these are all the x-coordinates that we will use to show the function's value in hints. we basically filter out any points where the function is offscreen or both the pos and neg values are too close to zero. -->
+			<var id="PTS">
+				jQuery.grep( [1,2,3,4,5,6,7,8,9,10], 
+					function( i ) { 
+						return ( abs( valAt( WIDES, i ) ) > 1 || abs( valAt( WIDES, -i ) ) > 1 )
+							&& abs( valAt( WIDES, i ) ) < 10
+							&& abs( valAt( WIDES, -i ) ) < 10;
+					} 
+				)
+			</var>
+
+			<!-- this is the one x-coordinate we will use to show that the function is neither even nor odd. we basically filter out any coordinates that would look kind of like it was even or odd and we also filter out 10 because that makes displaying things easier. -->
+			<var id="PT" data-if="SOL === 'Neither'">
+				randFromArray( 
+					jQuery.grep( PTS, 
+						function( i ) { 
+							return abs( abs( valAt( WIDES, i ) ) - abs( valAt( WIDES, -i ) ) ) > 0.5 
+								&& abs( i ) < 10; 
+						} 
+					) 
+				)</var>
 
 		</div>
 
@@ -119,21 +127,25 @@
 
 						style({
 							stroke: "#888",
-							strokeWidth: 2
+							strokeWidth: 2,
+							arrows: "<->"
 						});
 
 						path( [ [-10, 0], [10, 0] ] );
 						path( [ [0, -10], [0, 10] ] );
 
 						style({
-							stroke: "#6495ED"
+							stroke: "#6495ED",
+							arrows: null
 						});
 
 						plot( function( x ) {
 							return eval( WIDES );
 						}, [-10, 10]);
 
-						style({ strokeWidth: 1 });
+						style({
+							stroke: "#05ca00"
+						});
 					</div>
 				</div>
 
@@ -148,66 +160,76 @@
 		</div>
 
 		<div class="hints">
-			<!-- FIXME can organize things in better order with data-if unwrapping -->
-			<div data-if="SOL === 'Neither'" class="graphie" data-update="graph">
-				style({ strokeWidth: 2 });
-				style({ stroke: "#7edb00" }, function() {
-					path([ [<var>PT</var>, 0], [ <var>PT</var>, <var>valAt( WIDES, PT )</var> ] ]);
-					path([ [<var>-PT</var>, 0], [ <var>-PT</var>, <var>valAt( WIDES, -PT )</var> ] ]);
-				});
-				label( [<var>PT</var>, 0], "a", "below left");
-				label( [<var>-PT</var>, 0], "-a", "below right");
+
+			<div data-unwrap data-if="SOL === 'Neither'">
+
+				<div class="graphie" data-update="graph">
+					style({ strokeWidth: 2 }, function() {
+						path([ [ PT, 0 ], [ PT, valAt( WIDES, PT ) ] ]);
+						path([ [ -PT, 0 ], [ -PT, valAt( WIDES, -PT ) ] ]);
+					});
+
+					label( [ PT, 0 ], "a", "below right");
+					label( [ -PT, 0 ], "-a", "below left");
+				</div>
+
+				<div class="graphie" data-update="graph">
+					style({ strokeDasharray: "." }, function() {
+						path([ [ 0, valAt( WIDES, PT ) ], [ PT, valAt( WIDES, PT ) ] ]);
+						path([ [ 0, valAt( WIDES, -PT ) ], [ -PT, valAt( WIDES, -PT ) ] ]);
+					});
+
+					label( [ 0, valAt( WIDES, PT ) ], "f(a)", "left");
+					label( [ 0, valAt( WIDES, -PT ) ], "f(-a)", "right");
+				</div>
+
+				<p>
+					<code>f(-a)\neq f(a)</code>, so <code>f(x)</code> is not even.
+				</p>
+
+				<p>
+					<code>f(-a)\neq -f(a)</code>, so <code>f(x)</code> is not odd.
+				</p>
+
 			</div>
 
-			<div data-if="SOL === 'Neither'" class="graphie" data-update="graph">
-				style({
-					stroke: "#abde66",
-					strokeDashArray: ".",
-					strokeWidth: 1
-				}, function() {
-					path([ [0, <var>valAt( WIDES, PT )</var>], [ <var>PT</var>, <var>valAt( WIDES, PT )</var> ] ]);
-					path([ [0, <var>valAt( WIDES, -PT )</var>], [ <var>-PT</var>, <var>valAt( WIDES, -PT )</var> ] ]);
-				});
-				label( [0, <var>valAt( WIDES, PT )</var>], "f(a)", "left");
-				label( [0, <var>valAt( WIDES, -PT )</var>], "f(-a)", "right");
+			<div data-unwrap data-else>
+
+				<!-- FIXME: all the <var> tags here should be removed when the data-each graphie scoping is fixed. -->
+				<div data-unwrap data-each="PTS as x">
+					
+					<div class="graphie" data-update="graph">
+						style({ stroke: "#7edb00" }, function() {
+							path([ [ <var>x</var>, 0 ], [ <var>x</var>, valAt( WIDES, <var>x</var> ) ] ]);
+							path([ [ <var>-x</var>, 0 ], [ <var>-x</var>, valAt( WIDES, <var>-x</var> ) ] ]);
+						});
+					</div>
+
+					<div class="graphie" data-update="graph">
+						style({ strokeDasharray: "." }, function() {
+							path([ [ 0, valAt( WIDES, <var>x</var> ) ], [ <var>x</var>, valAt( WIDES, <var>x</var> ) ] ]);
+							path([ [ 0, valAt( WIDES, <var>-x</var> ) ], [ <var>-x</var>, valAt( WIDES, <var>-x</var> ) ] ]);
+						});
+					</div>
+
+				</div>
+
+				<div data-unwrap data-if="SOL === 'Odd'">
+					<p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is</span id="expand">...</span></p>
+
+					<span id="expand" data-apply="hint-replace"> odd.</span>
+				</div>
+
+				<div data-unwrap data-else>
+					<p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is<span id="expand">...</span></p>
+
+					<span id="expand" data-apply="hint-replcae"> even.</span>
+				</div>
+
 			</div>
 
-			<p data-if="SOL === 'Neither'">
-				<code>f(-a)\neq f(a)</code>, so <code>f(x)</code> is not even.
-			</p>
-
-			<p data-if="SOL === 'Neither'">
-				<code>f(-a)\neq -f(a)</code>, so <code>f(x)</code> is not odd.
-			</p>
-
-			<!-- FIXME can handle the ordering better when there is unwrapping (ie, display the vertical bars, then the horizontal ones -->
-			<div data-if="SOL !== 'Neither'" data-each="PTS as x" class="graphie" data-update="graph">
-				style({ stroke: "#7edb00" }, function() {
-					path([ [<var>x</var>, 0], [ <var>x</var>, <var>valAt( WIDES, x )</var> ] ]);
-					path([ [<var>-x</var>, 0], [ <var>-x</var>, <var>valAt( WIDES, -x )</var> ] ]);
-				});
-
-				style({
-					stroke: "#abde66",
-					strokeDashArray: ".",
-				}, function() {
-					path([ [0, <var>valAt( WIDES, x )</var>], [ <var>x</var>, <var>valAt( WIDES, x )</var> ] ]);
-					path([ [0, <var>valAt( WIDES, -x )</var>], [ <var>-x</var>, <var>valAt( WIDES, -x )</var> ] ]);
-				});
-			</div>
-
-			<p data-if="SOL === 'Odd'">
-				<code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is<span id="expand">...</span>
-			</p>
-
-			<span data-if="SOL === 'Odd'" id="expand" data-apply="hint-replace"> odd.</span>
-
-			<p data-if="SOL === 'Even'">
-				<code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is<span id="expand">...</span>
-			</p>
-
-			<span data-if="SOL === 'Even'" id="expand" data-apply="hint-replace"> even.</span>
 		</div>
+
 	</div>
 </body>
 </html>

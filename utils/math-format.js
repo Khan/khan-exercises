@@ -4,6 +4,13 @@ jQuery.extend(KhanUtil, {
 		return n < 0 ? "(" + n + ")" : n;
 	},
 
+	/* Wrapper for `fraction` which takes a decimal instead of a numerator and
+	 * denominator. */
+	decimalFraction: function( num, defraction, reduce, small, parens ) {
+		var f = KhanUtil.toFraction( num );
+		return KhanUtil.fraction( f[0], f[1], defraction, reduce, small, parens );
+	},
+
 	/* Format the latex of the fraction `n`/`d`.
 	 * - Will use latex's `dfrac` unless `small` is specified as truthy.
 	 * - Will wrap the fraction in parentheses if necessary (ie, unless the
@@ -60,6 +67,18 @@ jQuery.extend(KhanUtil, {
 	 * correspond to the remaining fraction flags. */
 	fractionSmall: function( n, d, defraction, reduce, parens ) {
 		return KhanUtil.fraction( n, d, defraction, reduce, true, parens );
+	},
+
+	/* Interprets a decimal as a multiple of pi and formats it as would be
+	 * expected. */
+	piFraction: function( num ) {
+		if ( num.constructor === Number ) {
+			var f = KhanUtil.toFraction( num / Math.PI, 0.001 ),
+			 n = f[0],
+			 d = f[1];
+
+			return d === 1 ? n + "\\pi" : KhanUtil.fractionSmall( n, d ) + "\\pi";
+		}
 	},
 
 	/* Returns whether the fraction n/d reduces. */

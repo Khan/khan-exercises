@@ -128,6 +128,12 @@ var Khan = {
 				script[ prop ] = mod[ prop ];
 			}
 
+			script.onerror = function() {
+				// No error in IE, but this is mostly for debugging during development so it's probably okay
+				// http://stackoverflow.com/questions/2027849/how-to-trigger-script-onerror-in-internet-explorer
+				Khan.error( "Error loading script " + script.src );
+			};
+
 			script.onload = script.onreadystatechange = function() {
 				if ( !script.readyState || ( /loaded|complete/ ).test( script.readyState ) ) {
 					// Handle memory leak in IE
@@ -180,9 +186,9 @@ var Khan = {
 	},
 
 	// Display error messages
-	error: function( msg, msg2 ) {
+	error: function( ) {
 		if ( typeof console !== "undefined" ) {
-			console.error( msg, msg2 );
+			console.error.apply( console, arguments );
 		}
 	},
 
@@ -310,7 +316,7 @@ var Khan = {
 		}
 
 		// Add any global exercise defined elements
-		problem.prepend( exercise.children( ':not(.problems)' ).clone() );
+		problem.prepend( exercise.children( ':not(.problems)' ).clone().data( "inherited", true ) );
 
 		// Apply templating
 		var children = problem
@@ -448,23 +454,29 @@ var Khan = {
 				.appendTo( links );
 
 			if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
-				var varInfo = [];
+				var varInfo = jQuery( "<p>" );
 
 				jQuery.each( jQuery.tmpl.VARS, function( name, value ) {
 					var str;
 
-					// JSON is prettier (when it works)
-					try {
-						str = JSON.stringify( value );
-					} catch ( e ) {
+					if ( typeof value === "function") {
 						str = value.toString();
+					} else {
+						// JSON is prettier (when it works)
+						try {
+							str = JSON.stringify( value );
+						} catch ( e ) {
+							str = value.toString();
+						}
 					}
 
-					varInfo.push( "<b>" + name + "</b>: <var>" + str + "</var>" );
+					varInfo.append( jQuery( "<b>" ).text( name ) );
+					varInfo.append( ": " );
+					varInfo.append( jQuery( "<var>" ).text( str ) );
+					varInfo.append( "<br>" );
 				});
 
-				jQuery( "<p>" ).html( varInfo.join("<br>") )
-					.appendTo( debugWrap );
+				varInfo.appendTo( debugWrap );
 			}
 		}
 	},
@@ -656,7 +668,7 @@ Khan.randomSeed = parseFloat( Khan.query.seed ) || ( new Date().getTime() & 0xff
 var KhanUtil = Khan.Util;
 
 // Load in jQuery
-Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" } ], function() {
+Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" } ], function() {
 
 	// Base modules required for every problem
 	Khan.require( [ "answer-types", "tmpl" ] );
@@ -677,7 +689,8 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 
 			if ( !( /success|notmodified/ ).test( status ) ) {
 				// Maybe loading from a file:// URL?
-				return Khan.error( "Error loading exercise from file " + src + ": " + xhr.status + " " + xhr.statusText );
+				Khan.error( "Error loading exercise from file " + src + ": " + xhr.status + " " + xhr.statusText );
+				return;
 			}
 
 			newContents = dummy.contents();
