@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html data-require="math graph">
+<head>
+	<title>Comparing Decimals</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="A">randRange( 1, 9999 )/10000</var>
+			<var id="B" data-ensure="A !== B">randRange( 1, 9999 )/10000</var>
+			<var id="SOL">A > B ? ">" : "<"</var>
+		</div>
+
+		<div class="problems">
+			<div id="two-decimals-being-compared">
+				<p class="Problem">Below are two numbers.  What is their relationship?</p>
+				<p class="question"><var>A</var> ? <var>B</var></p>
+				<div class="solution"><var>SOL</var></div>
+				<ul class="choices" data-category="true">
+					<li></li>
+					<li><</li>
+					<li>></li>
+				</ul>
+
+				<div class="hints">
+					<div>
+						<p>Draw <var>A</var> and <var>B</var> on the number line.</p>
+						<div class="graph" style="width: 700px; height: 100px;">
+							numberLine( 0, 1, 0.1 );
+							pointOnNumberLine( A );
+							pointOnNumberLine( B );
+						</div>
+					</div>
+					<div>
+						<p>Visually, we can see that <var>A</var> <var>SOL</var> <var>B</var></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
