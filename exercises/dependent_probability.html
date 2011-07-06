@@ -48,26 +48,32 @@
 			<var id="FAIR_COIN_FRACTION_STRING">"\\frac{" + (NUM_COINS-NUM_UNFAIR_COINS) + "}{" + NUM_COINS + "}"</var>
 			<var id="DECIMAL_CHANCE_UNFAIR_HEADS">PERCENT_CHANCE_UNFAIR_HEADS / 100</var>
 			<var id="UNFAIR_HEADS_DECIMAL_FORMULA">
-				var uhdf = DECIMAL_CHANCE_UNFAIR_HEADS.toString()
-				for (var i = 0; i < NUM_FLIPS - 1; i++) {
-					uhdf += " \\times " + DECIMAL_CHANCE_UNFAIR_HEADS;
-				}
-				return uhdf;
+				(function() {
+					var uhdf = DECIMAL_CHANCE_UNFAIR_HEADS.toString()
+					for (var i = 0; i < NUM_FLIPS - 1; i++) {
+						uhdf += " \\times " + DECIMAL_CHANCE_UNFAIR_HEADS;
+					}
+					return uhdf;
+				})()
 			</var>
 			<var id="UNFAIR_HEADS_PERCENT_FORMULA">
-				var uhpf = PERCENT_CHANCE_UNFAIR_HEADS + "%";
-				for (var i = 0; i < NUM_FLIPS - 1; i++) {
-					uhpf += " \\times " + PERCENT_CHANCE_UNFAIR_HEADS + "%";
-				}
-				return uhpf;
+				(function() {
+					var uhpf = PERCENT_CHANCE_UNFAIR_HEADS + "%";
+					for (var i = 0; i < NUM_FLIPS - 1; i++) {
+						uhpf += " \\times " + PERCENT_CHANCE_UNFAIR_HEADS + "%";
+					}
+					return uhpf;
+				})()
 			</var>
 			<var id="DECIMAL_CHANCE_FAIR_HEADS">0.5</var>
 			<var id="FAIR_HEADS_DECIMAL_FORMULA">
-				var fhdf = DECIMAL_CHANCE_FAIR_HEADS.toString();
-				for (var i = 0; i < NUM_FLIPS - 1; i++) {
-					fhdf += " \\times " + DECIMAL_CHANCE_FAIR_HEADS;
-				}
-				return fhdf;
+				(function() {
+					var fhdf = DECIMAL_CHANCE_FAIR_HEADS.toString();
+					for (var i = 0; i < NUM_FLIPS - 1; i++) {
+						fhdf += " \\times " + DECIMAL_CHANCE_FAIR_HEADS;
+					}
+					return fhdf;
+				})()
 			</var>
 
 			<!-- For answer computing -->

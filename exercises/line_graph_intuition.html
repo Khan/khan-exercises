@@ -19,7 +19,7 @@
 
 					LABEL.remove();
 					LABEL = label( [1, 11], "y = " + KhanUtil.fractionReduce(MN, MD) + "x +" + KhanUtil.fractionReduce(BN, BD));
-					
+
 					jQuery( "#slope-sol input" ).val( MN + "/" + MD );
 					jQuery( "#intercept-sol input" ).val( BN + "/" + BD );
 				}
@@ -32,7 +32,7 @@
 				MD = KhanUtil.getLCM( prevDenominator, INCR );
 				MN = ( MD / prevDenominator * MN )
 						+ ( dir * MD / INCR );
-						
+
 				updateEquation();
 			}
 		}
@@ -75,42 +75,41 @@
 				</div>
 
 				<div class="graphie" id="grid">
-					(function(){
-						init({
-							range: [[-10, 10], [-10, 12]],
-							scale: [30, 30]
-						});
+					init({
+						range: [[-10, 10], [-10, 12]],
+						scale: [30, 30]
+					});
 
-						grid( [-10, 10], [-10, 10], {
-							stroke: "#ccc"
-						});
+					grid( [-10, 10], [-10, 10], {
+						stroke: "#ccc"
+					});
 
-						style({
-						    stroke: "#888",
-						    strokeWidth: 2
-						});
-						path( [ [-10, 0], [10, 0] ] );
-						path( [ [0, -10], [0, 10] ] );
+					style({
+						stroke: "#888",
+						strokeWidth: 2,
+						arrows: "->"
+					});
+					path( [ [-10, 0], [10, 0] ] );
+					path( [ [0, -10], [0, 10] ] );
 
-						style({
-							stroke: "#6495ED",
-							fill: "#6495ED"
-						});
+					style({
+						stroke: "#6495ED",
+						fill: "#6495ED",
+						arrows: null
+					});
 
-						circle( [X1, Y1], 0.15 );
-						circle( [X2, Y2], 0.15 );
-						
-						style({
-							clipRect:[ [-10, -10], [20, 20] ]
-						}, function() {
-							PLOT = plot( function( x ) {
-								return x * MN / MD + BN / BD;
-							}, [-10, 10]);
-						});
-						
-						LABEL = label( [1, 11], "y = " + KhanUtil.fractionReduce(MN, MD) + "x +" + KhanUtil.fractionReduce(BN, BD));
-					})()
+					circle( [X1, Y1], 0.15 );
+					circle( [X2, Y2], 0.15 );
 
+					style({
+						clipRect:[ [-10, -10], [20, 20] ]
+					}, function() {
+						PLOT = plot( function( x ) {
+							return x * MN / MD + BN / BD;
+						}, [-10, 10]);
+					});
+
+					LABEL = label( [1, 11], "y = " + KhanUtil.fractionReduce(MN, MD) + "x +" + KhanUtil.fractionReduce(BN, BD));
 				</div>
 				<div class="solution" data-type="multiple">
 					<div><input type="button" value="Increase slope" onclick="changeSlope(1)"></div>

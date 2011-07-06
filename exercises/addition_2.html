@@ -1,33 +1,15 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math graphie">
 <head>
 	<title>Addition 2</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
-		/* Given a size SIZE, returns a string with SIZE digits,
-		 * padding it with sufficient 0s to be of size PADDING */
-		function get_random_num( size, padding ) {
-			var result = 0;
-			/* From 100 to 999 when size = 3, for example. */
-			var start = Math.pow(10, size - 1);
-			var stop = Math.pow(10, size);
-			while ( true ) {
-				result = KhanUtil.randRange(start, stop);
-
-				/* ensure final digit is not 0 */
-				if ( result % 10 === 0 ) {
-					continue;
-				}
-
-				result = result.toString();
-				/* Pad with 0s if necessary */
-				if ( padding ) {
-					while ( result.length < padding ) {
-						result = "0" + result;
-					}
-				}
-
-				return result;
+		function drawDigits ( digits, startX, startY ) {
+			with ( KhanUtil.currentGraph ) {
+				jQuery.each( digits, function( index, digit ) {
+					var str = "\\Huge{" + digit + "}";
+					label( [ startX - index, startY ], str );
+				});
 			}
 		}
 	</script>
@@ -35,27 +17,111 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="A_STR">get_random_num( 2 )</var>
-			<var id="B_STR">get_random_num( (random() > .9 ? 2 : 1), 2 )</var>
-			<var id="A">parseInt(A_STR, 10)</var>
-			<var id="B">parseInt(B_STR, 10)</var>
+			<var id="A">randRange( 10, 99 )</var>
+			<var id="B">randRange( 1, 99 )</var>
+			<var id="A_DIGITS">digits( A )</var>
+			<var id="B_DIGITS">digits( B )</var>
+			
+			<var id="CARRY">0</var>
+			<var id="HIGHLIGHTS">[]</var>
+			<var id="Y_CARRY">3</var>
+			<var id="Y_FIRST">2</var>
+			<var id="Y_SECOND">1</var>
+			<var id="Y_SUM">0</var>
+			<var id="X_MAX">2</var>
+			<var id="X_SIDE">4</var>
+			<var id="Y_SIDE">1.5</var>
 		</div>
 
 	<div class="problems">
 		<div>
-			<p class="question"><var>A_STR</var> + <var>B_STR</var> = ?</p>
+			<div class="graphie" id="numbers">
+				init({
+					range: [ [ -1, 5 ], [ -0.5, 3 ] ],
+					scale: [30, 45]
+				});
+				drawDigits( A_DIGITS, X_MAX, Y_FIRST );
+				drawDigits( B_DIGITS, X_MAX, Y_SECOND );
+
+				path( [ [ -0.5, Y_SECOND - 0.5 ], [ X_MAX + 0.5, Y_SECOND - 0.5 ] ]);
+
+				label( [ 0, 1 ] ,"\\huge{ + }" );
+			</div>
 			<div class="solution"><var>A + B</var></div>
 		</div>
 	</div>
 	<div class="hints">
-		<p>
-			<var>A % 10</var> + <var>B % 10</var> = <var>A % 10 + B % 10</var>
-			<span data-if="A % 10 + B % 10 >= 10"> - so carry the 1.</span>
-		</p>
-		<p>
-			<span data-if="A % 10 + B % 10 >= 10">1 + </span></var><var>floor(A / 10) % 10</var> + <var>floor(B / 10) % 10</var> = <var>floor((A + B)/ 10)</var>
-		</p>
-		<p>Put them together: <var>A + B</var></p>
+		<div class="graphie" data-update="numbers" data-each="A_DIGITS as index, value">
+			while( HIGHLIGHTS.length ) {
+				HIGHLIGHTS.pop().remove();
+			}
+
+			var index = <var>index</var>;
+			var prevCarry = CARRY;
+			var prevCarryStr = "";
+			var carryStr = "";
+			var addendStr = "";
+			var sum;
+
+			if ( prevCarry !== 0 ) {
+				HIGHLIGHTS.push( label( [ X_MAX - index, Y_CARRY ], "\\color{#6495ED}{" + prevCarry + "}", "below" ) );
+				prevCarryStr =  "\\color{#6495ED}{" + prevCarry + "} + ";
+			}
+
+			sum = A_DIGITS[ index ] + CARRY;
+
+			HIGHLIGHTS.push( label( [ X_MAX - index, Y_FIRST ], 
+				"\\Huge{\\color{#6495ED}{" + A_DIGITS[ index ] + "}}" ) );
+			if ( index &lt; B_DIGITS.length ) {
+				HIGHLIGHTS.push( label( [ X_MAX - index, Y_SECOND ], 
+					"\\Huge{\\color{#6495ED}{" + B_DIGITS[ index ] + "}}" ) );
+				addendStr = " + \\color{#6495ED}{" + B_DIGITS[ index ] + "}";
+				sum += B_DIGITS[ index ];
+			}
+			label( [ X_MAX - index, 0 ], "\\Huge{" + sum % 10 + "}");
+			HIGHLIGHTS.push( label( [ X_MAX - index, Y_SUM ], 
+				"\\Huge{\\color{#28AE7B}{" + sum % 10 + "}}" ) );
+
+			CARRY = floor( sum / 10 );
+			if ( CARRY !== 0 ) {
+				HIGHLIGHTS.push( label( [ X_MAX - index - 1, Y_CARRY ], 
+					"\\color{#FFA500}{" + CARRY + "}", "below" ) );
+				carryStr = "\\color{#FFA500}{" + CARRY + "}";
+			}
+
+			HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ], "\\Large{"
+				+ prevCarryStr
+				+ "\\color{#6495ED}{" + A_DIGITS[ index ] + "}"
+				+ addendStr
+				+ " = "
+				+ carryStr
+				+ "\\color{#28AE7B}{" + sum % 10 + "}"
+			 	+ "}", "right" ) );
+		</div>
+		<div data-if="A + B &gt; 99">
+			<div class="graphie" data-update="numbers">
+				while( HIGHLIGHTS.length ) {
+					HIGHLIGHTS.pop().remove();
+				}
+				HIGHLIGHTS.push( label( [ 0, Y_CARRY ], 
+					"\\color{#6495ED}{" + CARRY + "}", "below" ) );
+				label( [ 0, Y_SUM ], "\\Huge{" + CARRY + "}" );
+				HIGHLIGHTS.push( label( [ 0, Y_SUM ], 
+					"\\Huge{\\color{#28AE7B}{" + CARRY + "}}" ) );
+				
+				HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ], 
+					"\\Large{"
+					+ "\\color{#6495ED}{" + CARRY + "}"
+					+ " = "
+					+ "\\color{#28AE7B}{" + CARRY + "}"
+				 	+ "}", "right" ) );
+			</div>
+		</div>
+		<div class="graphie" data-update="numbers">
+			while( HIGHLIGHTS.length ) {
+				HIGHLIGHTS.pop().remove();
+			}
+		</div>
 	</div>
 	</div>
 </body>

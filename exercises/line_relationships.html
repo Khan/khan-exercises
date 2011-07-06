@@ -35,7 +35,7 @@
 					<p>The slopes are not the same, so the lines are not equivalent or parallel. The slopes are not negative inverses of each other, so the lines are not perpendicular. The correct answer is none of the above.</p>
 				</div>
 			</div>
-			
+
 			<div id="same-line">
 				<div class="vars">
 					<var id="A1">randRangeNonZero( -5, 5 )</var>
@@ -53,7 +53,7 @@
 					<p><code><var>EQ1</var></code></p>
 					<p><code><var>EQ2</var></code></p>
 				</div>
-		
+
 				<div class="solution">Equivalent lines</div>
 				<ul class="choices" data-category="true">
 					<li>Equivalent lines</li>
@@ -61,12 +61,12 @@
 					<li>Perpendicular lines</li>
 					<li>None of the above</li>
 				</ul>
-				
+
 				<div class="hints" data-apply="appendContents">
-					<p>The above equations turn into the same equation, so they represent the same line.</p>				
+					<p>The above equations turn into the same equation, so they represent the same line.</p>
 				</div>
 			</div>
-			
+
 			<div id="parallel">
 				<div class="vars" data-ensure="C1 * F !== C2">
 					<var id="A1">randRangeNonZero( -5, 5 )</var>
@@ -95,7 +95,7 @@
 					<p>The slopes are equal, so the lines are parallel.</p>
 				</div>
 			</div>
-			
+
 			<div id="perpendicular">
 				<div class="vars">
 					<var id="A1">randRangeNonZero( -5, 5 )</var>
@@ -122,38 +122,38 @@
 					<li>None of the above</li>
 				</ul>
 				<div class="hints" data-apply="appendContents">
-					<p>The slopes are negative inverses of each other, so the lines are perpendicular.</p>				
+					<p>The slopes are negative inverses of each other, so the lines are perpendicular.</p>
 				</div>
 			</div>
 		</div>
 		<div class="hints">
 			<div>
 				<div class="graphie" id="grid">
-					(function(){
-						init({
-							range: [[-10, 10], [-10, 10]],
-							scale: [20, 20]
-						});
+					init({
+						range: [[-10, 10], [-10, 10]],
+						scale: [20, 20]
+					});
 
-						grid( [-10, 10], [-10, 10], {
-							stroke: "#ccc"
-						});
+					grid( [-10, 10], [-10, 10], {
+						stroke: "#ccc"
+					});
 
-						style({
-							stroke: "#888",
-							strokeWidth: 2
-						});
-						path( [ [-10, 0], [10, 0] ] );
-						path( [ [0, -10], [0, 10] ] );
+					style({
+						stroke: "#888",
+						strokeWidth: 2,
+						arrows: "->"
+					});
+					path( [ [-10, 0], [10, 0] ] );
+					path( [ [0, -10], [0, 10] ] );
 
-						style({
-							stroke: "#6495ED"
-						})
+					style({
+						stroke: "#6495ED",
+						arrows: null
+					})
 
-						plot( function( x ) {
-							return ( C1 / B1 ) - ( A1 / B1 ) * x;
-						}, [-10, 10]);								
-					})()
+					plot( function( x ) {
+						return ( C1 / B1 ) - ( A1 / B1 ) * x;
+					}, [-10, 10]);
 				</div>
 				<p>Putting the first equation in <code>y = mx + b</code> form gives:</p>
 				<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var></code></p>
@@ -162,11 +162,9 @@
 			</div>
 			<div>
 				<div class="graphie" data-update="grid">
-					(function() {
-						plot( function( x ) {
-							return ( C2 / B2 ) - ( A2 / B2 ) * x;
-						}, [-10, 10]);								
-					})()
+					plot( function( x ) {
+						return ( C2 / B2 ) - ( A2 / B2 ) * x;
+					}, [-10, 10]);
 				</div>
 				<p>Putting the second equation in <code>y = mx + b</code> form gives:</p>
 				<p><code><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var></code></p>

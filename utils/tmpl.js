@@ -173,17 +173,13 @@ jQuery.tmpl = {
 		}
 	},
 
+	// Eval a string in the context of Math, KhanUtil, VARS, and optionally another passed context
 	getVAR: function( elem, ctx ) {
 		// We need to compute the value
 		var code = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
 
 		// Make sure any HTML formatting is stripped
 		code = jQuery.tmpl.cleanHTML( code );
-
-		// See if we're dealing with a multiline block of code
-		if ( /;/.test( code ) && !/\bfunction\b/.test( code ) ) {
-			code = "(function(){\n" + code + "\n})()";
-		}
 
 		// If no extra context was passed, use an empty object
 		if ( ctx == null ) {
