@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html data-require="math graph">
+<head>
+	<title>Changing decimals to fractions 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="A">randRange( 1, 9 ) / 10</var> <!-- 0.1 and 0.9, only tenths -->
+			<var id="B">randRangeExclude(1, 99, [10,20,30,40,50,60,70,80,90]) / 100</var> <!-- 0.01 and 0.99, no tenths -->
+		</div>
+
+		<div class="problems">
+			<div id="change-decimal-to-the-hundredth" data-weight="3">
+				<p class="question">Express <var>B</var> as a fraction.</p>
+				<p class="extra-info"><i>(Extra Info: You can express this as any fraction - you don't have to "reduce to lowest terms" for the correct answer)</i></p>
+				<p class="solution" data-type="rational" data-simplify="optional"><var>B</var></p> 
+				<div class="hints">
+					<p id="first">Since there are two decimal places, we simply put the number over 100.</p>
+					<p id="second">The answer is <code>\dfrac{<var>B*100</var>}{<var>100</var>}</code></var>.</p>
+				</div>
+			</div>
+
+			<div id="change-decimal-to-the-tenth" data-type="change-decimal-to-the-hundredth">
+				<p class="question">Express <var>A</var> as a fraction.</p>
+				<p class="solution" data-type="rational" data-simplify="optional"><var>A</var></p> 
+				<div class="hints">
+					<p id="first">Since there is one decimal place, we simply put the number over 10.</p>
+					<p id="second">The answer is <code>\dfrac{<var>A*10</var>}{<var>10</var>}</code>.</var>.</p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
