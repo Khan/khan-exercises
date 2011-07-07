@@ -48,7 +48,7 @@
 				return RIGHTSIDE.length + RIGHTLEADING.length + TRAILING.length;
 			}
 			if (HAS_DOT){
-			return LEFTSIDE.length + RIGHTLEADING.length + RIGHTSIDE.length + TRAILING.length;
+				return LEFTSIDE.length + RIGHTLEADING.length + RIGHTSIDE.length + TRAILING.length;
 			}
 			return LEFTSIDE.length;
 		</var >
@@ -56,7 +56,7 @@
 		<var id="PROPER_LEADING">
 			  if (IS_ZERO){
                                 return LEADING+LEFTSIDE+'.'+ RIGHTLEADING;
-                        }
+                         }
                         	return LEADING;
                       </var>
 		<var id="INBETWEEN">
@@ -64,7 +64,7 @@
                                 return RIGHTSIDE;
                         }
                         if (HAS_DOT){
-                        return LEFTSIDE+'.'+ RIGHTLEADING + RIGHTSIDE;
+                        	return LEFTSIDE+'.'+ RIGHTLEADING + RIGHTSIDE;
                         }
                         return LEFTSIDE;
 		</var> 
@@ -79,20 +79,19 @@
 		</div > 
 	</div > 
 	<div class ="hints" > 
-		<p><code id="leading"><var>PROPER_LEADING</var></code><code id="inbetween"><var>INBETWEEN</var></code><code id="trailing"><var>TRAILING</var></code></p>
+		<p><code><var>PROPER_LEADING</var></code><code><var>INBETWEEN</var></code><code><var>TRAILING</var></code></p>
 		
-		<code id="inbetween" data-apply="hint-replace">\color{blue}{<var>INBETWEEN</var>}</code>
-		<p>Identify the non-zero digits and any zeros between them. These are all significant.</p>
+	
+		<p><code><var>PROPER_LEADING</var></code><code  class="hint_blue"><var>INBETWEEN</var></code><code><var>TRAILING</var></code> Identify the non-zero digits and any zeros between them. These are all significant.</p>
 		
-		<code data-if="PROPER_LEADING.length>0" id="leading" data-apply="hint-replace">\color{orange}{<var>PROPER_LEADING</var>}</code>
-		<p data-if="PROPER_LEADING.length>0" >Leading zeros are not significant.</p>
+		<p data-if="PROPER_LEADING.length>0" ><code  class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code><var>TRAILING</var></code>Leading zeros are not significant.</p>
          	
-		<code data-if="(TRAILING.length>0)&&HAS_DOT" id="trailing" data-apply="hint-replace">\color{blue}{<var>TRAILING</var>}</code>
-                <p data-if="TRAILING.length>0)&&HAS_DOT" >Since there is a decimal, trailing zeros are significant.</p>
+		<p data-if="(TRAILING.length>0)&&HAS_DOT"> <code  class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code class="hint_blue"><var>TRAILING</var></code>
+               		Since there is a decimal, trailing zeros are significant.</p>
      
-	   	<code data-if="TRAILING.length>0&&(!HAS_DOT)" id="trailing" data-apply="hint-replace">\color{orange}{<var>TRAILING</var>}</code>
-                <p data-if="TRAILING.length>0&&(!HAS_DOT)">Since there is no decimal, trailing zeros are not significant.</p>
-		
+	   	<p data-if="TRAILING.length>0&&(!HAS_DOT)"> <code  class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code><var class="hint_orange">TRAILING</var></code>
+               		 Since there is no decimal, trailing zeros are not significant.</p>
+		<p> Counting all the significant digits gives us <var>SOLUTION</var></p>	
 			
 	</div > 
 </div > 
