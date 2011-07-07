@@ -32,14 +32,6 @@ jQuery.extend(KhanUtil, {
 		return list;
 	},
 
-	padDigits: function( digits, length ) {
-		var padded = digits.slice( 0 );
-		while( padded.length < length ) {
-			padded.push( 0 );
-		}
-		return padded;
-	},
-
 	// Similar to above digits, but in original order (not reversed)
 	integerToDigits: function( n ) {
 		return KhanUtil.digits( n ).reverse();

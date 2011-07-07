@@ -21,7 +21,10 @@ var Khan = {
 				jax: ["input/TeX","output/HTML-CSS"],\
 				extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
 				TeX: {\
-					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
+					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],\
+					Macros: {\
+						RR: "\\mathbb{R}"\
+					}\
 				},\
 				"HTML-CSS": { scale: 93 }\
 			});\
@@ -32,7 +35,6 @@ var Khan = {
 					[ elem ] :\
 					elem.getElementsByTagName( "code" );\
 			};\
-			\
 			// Data is read in here:\n\
 			// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704\n\
 			// We can force it to convert HTML entities properly by saying we\'re Konqueror\n\
