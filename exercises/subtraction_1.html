@@ -19,7 +19,7 @@
 					stroke: color,
 					fill: color
 				});
-				
+
 				for ( var i = numRows; i > 0; i-- ) {
 					for (var j = numCols; j > 0; j-- ) {
 						circle( [ j, i ], 0.25 );
@@ -32,11 +32,12 @@
 			}
 		}
 
-		function crossOutCircles( num, color ) {
+		function crossOutCircles( numCircles, numCrossed, color ) {
 			with ( KhanUtil.currentGraph ) {
-				var numCols = Math.floor( Math.sqrt( num ));
-				var numRows = Math.floor( num / numCols );
-				var extra = num % numRows;
+				var numCols = Math.floor( Math.sqrt( numCircles ));
+				var numRows = Math.floor( numCircles / numCols );
+				var extra = numCircles % numRows;
+				var count = 0;
 
 				style({
 					stroke: color,
@@ -47,12 +48,20 @@
 					for (var j = numCols; j > 0; j-- ) {
 						path( [ [ j - 0.3, i - 0.3 ], [ j + 0.3, i + 0.3 ] ] );
 						path( [ [ j - 0.3, i + 0.3 ], [ j + 0.3, i - 0.3 ] ] );
+						count += 1;
+						if ( count === numCrossed ) {
+							return;
+						}
 					}
 				}
 
 				for ( var j = extra; j > 0; j-- ) {
 					path( [ [ j - 0.3, i - 0.3 ], [ j + 0.3, i + 0.3 ] ] );
 					path( [ [ j - 0.3, i + 0.3 ], [ j + 0.3, i - 0.3 ] ] );
+					count += 1;
+					if ( count === numCrossed ) {
+						return;
+					}
 				}
 			}
 		}
@@ -85,7 +94,7 @@
 					drawCircles( A, "#6495ED" );
 				</div>
 				<div class="graphie" data-update="circles">
-					crossOutCircles( B, "#FFA500" );
+					crossOutCircles( A, B, "#FFA500" );
 				</div>
 				<p style="clear: left;">We began with <var>plural( A, "dot" )</var> and crossed out <var>B</var> of them, so we are left with <var>plural( A - B, "dot" )</var>.</p>
 			</div>
