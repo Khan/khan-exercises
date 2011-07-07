@@ -85,16 +85,17 @@
 		<div class="hints">
 			<div class="graphie" data-update="numbers" data-each="A_DIGITS as index, value">
 				var index = <var>index</var>;
-				<!-- the reason for this convoluted bit is because i couldn't use HIGHLIGHTS[index] -->
-				for ( var i = 0; i &lt;= index; i++ ) {
-					var oldHighlights = HIGHLIGHTS.shift();
+
+				var oldHighlights = HIGHLIGHTS[ index ];
+				while( oldHighlights.length ) {
+					oldHighlights.shift().remove();
+				}
+
+				if ( index !== 0 ) {
+					oldHighlights = HIGHLIGHTS[ index - 1 ];
 					while( oldHighlights.length ) {
 						oldHighlights.shift().remove();
 					}
-				}
-
-				for ( var i = 0; i &lt;= index; i++ ) {
-					HIGHLIGHTS.unshift( [] );
 				}
 
 				var value = A_DIGITS[ index ];
