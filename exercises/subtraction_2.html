@@ -1,37 +1,147 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math graphie">
 <head>
 	<title>Subtraction 2</title>
 	<script src="../khan-exercise.js"></script>
+	<script>
+		function drawDigits( digits, startX, startY ) {
+			with ( KhanUtil.currentGraph ) {
+				jQuery.each( digits, function( index, digit ) {
+					var str = "\\Huge{" + digit + "}";
+					label( [ startX - index, startY ], str );
+				});
+			}
+		}
+
+		function borrow( idx ) {
+			with ( jQuery.tmpl.VARS ) {
+				with ( KhanUtil.currentGraph ) {
+					if ( A_DIGITS[ idx + 1 ] < 1 ) {
+						borrow( idx + 1 );
+						BORROW_LEVEL += 0.5;
+					}
+					A_DIGITS[ idx + 1 ] -= 1;
+					A_DIGITS[ idx ] += 10;
+
+					HIGHLIGHTS[ idx ].push( label( [ X_MAX - idx, BORROW_LEVEL ],
+						"\\color{#6495ED}{" + A_DIGITS[ idx ] + "}", "below" ) );
+					HIGHLIGHTS[ idx ].push( path( [ [ X_MAX - 0.3 - idx, Y_FIRST - 0.4 ], [ X_MAX + 0.3 - idx, Y_FIRST + 0.4 ] ] ) );
+
+					HIGHLIGHTS[ idx + 1 ].push( label( [ X_MAX - 1 - idx, BORROW_LEVEL ],
+						"\\color{#FFA500}{" + A_DIGITS[ idx + 1 ] + "}", "below" ) );
+					HIGHLIGHTS[ idx + 1 ].push( path( [ [ X_MAX - 1.3 - idx, Y_FIRST - 0.4 ], [ X_MAX - 0.7 - idx, Y_FIRST + 0.4 ] ] ) );
+					if ( BORROW_LEVEL !== Y_CARRY ) {
+						HIGHLIGHTS[ idx + 1 ].push( path( [ [ X_MAX - 1.3 - idx, BORROW_LEVEL - 0.5 - 0.5 ], [ X_MAX - 0.7 - idx, BORROW_LEVEL - 0.7 ] ] ) );
+					}
+				}
+			}
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="A">randRange(10,99)</var>
-			<var id="B">randRange(1,9)</var>
-			<var id="A_1">A%10</var>
-			<var id="A_2">(A-(A%10))/10</var>
-			<var id="After_Borrow1">(B > A_1 ? A_1+10 : A_1)</var>
-			<var id="After_Borrow2">(B > A_1 ? A_2-1 : A_2)</var>
+			<var id="A">randRange( 20, 99 )</var>
+			<var id="B">randRange( 1, A - 1 )</var>
+			<var id="A_ORIG">digits( A )</var>
+			<var id="A_DIGITS">digits( A )</var>
+			<var id="B_DIGITS">digits( B )</var>
+			<var id="HIGHLIGHTS">
+				(function() {
+					var h = [];
+					for ( var i = 0; i &lt; A_DIGITS.length; i++ ) {
+						h.unshift( [] );
+					}
+					return h;
+				})()
+			</var>
+			<var id="Y_CARRY">3</var>
+			<var id="Y_FIRST">2</var>
+			<var id="Y_SECOND">1</var>
+			<var id="Y_DIFF">0</var>
+			<var id="X_MAX">2</var>
+			<var id="X_SIDE">X_MAX + 2</var>
+			<var id="Y_SIDE">1.5</var>
+			<var id="BORROW_LEVEL">Y_CARRY</var>
 		</div>
 
 		<div class="problems">
 			<div>
-				<p class="question"><var>A</var> - <var>B</var> = ?</p>
+				<div class="graphie" id="numbers">
+					init({
+						range: [ [ -1, 3 ], [ -0.5, 4 ] ],
+						scale: [30, 45]
+					});
+					drawDigits( A_DIGITS, X_MAX, Y_FIRST );
+					drawDigits( B_DIGITS, X_MAX, Y_SECOND );
+
+					path( [ [ -0.5, 0.5 ], [ X_MAX + 0.5, 0.5 ] ]);
+
+					label( [ 0, 1 ] ,"\\huge{-\\vphantom{0}}" );
+				</div>
 				<div class="solution"><var>A - B</var></div>
 			</div>
 		</div>
 		<div class="hints">
-			<p>First we need to make sure that all the digits in the top number are greater than or equal to the digit below it.</p>
-			<p data-if="A_1<B">
-				<span> <var>A_1</var> is less than <var> B</var>, so we'll have to borrow.</span>
-			</p>
-			<p data-if="A_1<B">
-				<span> <var>A_2</var> - 1 = <var>After_Borrow2</var>, <var>A_1</var> + 10 = <var>After_Borrow1</var>
-			</p>
-			<p>All the top digits are greater than or equal to all the bottom digits, so we can start subtracting.</p>
-			<p>Units digit: <var>After_Borrow1</var> - <var>B</var> = <var>After_Borrow1-B</var></p>
-			<p>Bring down the <var>After_Borrow2</var> to get <var>(After_Borrow2*10)+After_Borrow1-B</var>.</p>
+			<div class="graphie" data-update="numbers" data-each="A_DIGITS as index, value">
+				var index = <var>index</var>;
+
+				var oldHighlights = HIGHLIGHTS[ index ];
+				while( oldHighlights.length ) {
+					oldHighlights.shift().remove();
+				}
+
+				if ( index !== 0 ) {
+					oldHighlights = HIGHLIGHTS[ index - 1 ];
+					while( oldHighlights.length ) {
+						oldHighlights.shift().remove();
+					}
+				}
+
+				var value = A_DIGITS[ index ];
+				var withinB = index &lt; B_DIGITS.length;
+				var subtrahend = withinB ? B_DIGITS[ index ] : 0;
+				var subStr = "";
+
+				if ( value &lt; subtrahend ) {
+					BORROW_LEVEL = Y_CARRY;
+					borrow( index );
+				} else if ( A_DIGITS[ index ] === A_ORIG[ index ] ) {
+					HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_FIRST ], 
+						"\\Huge{\\color{#6495ED}{" + A_DIGITS[ index ] +"}}" ) );
+				} else {
+					HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_CARRY ],
+						"\\color{#6495ED}{" + A_DIGITS[ index ] + "}", "below" ) );
+				}
+
+				if ( withinB ) {
+					HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_SECOND ],
+						"\\Huge{\\color{#6495ED}{" + B_DIGITS[ index ] + "}}" ) );
+					subStr = " - \\color{#6495ED}{" + subtrahend + "}";
+				}
+
+				var diff = A_DIGITS[ index ] - subtrahend;
+				if ( ( ( A - B ) / pow( 10, index ) ) &gt; 1 ) {
+					label( [ X_MAX - index, Y_DIFF ],  "\\Huge{" + diff + "}" );
+				}
+
+				HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_DIFF ],  "\\Huge{\\color{#28AE7B}{" + diff + "}}" ) );
+
+				HIGHLIGHTS[ index ].push( label( [ X_SIDE, Y_SIDE ], "\\Large{"
+					+ "\\color{#6495ED}{" + A_DIGITS[ index ] + "}"
+					+ subStr
+					+ " = "
+					+ "\\color{#28AE7B}{" + diff + "}}", "right" ) );
+
+			</div>
+			<div class="graphie" data-update="numbers">
+				while( HIGHLIGHTS.length ) {
+					var column = HIGHLIGHTS.shift();
+					while ( column.length ) {
+						column.shift().remove();
+					}
+				}
+			</div>
 		</div>
 	</div>
 </body>
