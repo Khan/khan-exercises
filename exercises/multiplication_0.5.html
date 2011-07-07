@@ -23,6 +23,7 @@
 		<div class="vars">
 			<var id="A">randRange( 1, 10 )</var>
 			<var id="B">randRange( 1, 10 )</var>
+			<var id="LABEL">{}</var>
 		</div>
 
 		<div class="problems">
@@ -33,7 +34,7 @@
 						scale: [ 50, 50 ]
 					});
 
-					label( [ 0, A ], 
+					LABEL = label( [ 0, A ], 
 						"\\Huge{\\color{ #6495ED }{ <var>A</var> } \\times \\color{ #28AE7B }{ <var>B</var> } = ?}", "right" );
 				</div>
 				<div class="solution"><var>A * B</var></div>
@@ -49,6 +50,11 @@
 						drawColumn( A, i, "#28AE7B", A * i );
 					}
 				</div>
+			</div>
+			<div class="graphie" data-update="numbers">
+				LABEL.remove();
+				label( [ 0, A ], 
+					"\\Huge{\\color{ #6495ED }{" + A + "} \\times \\color{ #28AE7B }{" + B + "} = " + ( A  * B ) + "}", "right" );
 			</div>
 		</div>
 	</div>
