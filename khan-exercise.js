@@ -23,7 +23,7 @@ var Khan = {
 				TeX: {\
 					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],\
 					Macros: {\
-						RR: "\\mathbb{R}"\
+						RR: "\\\\mathbb{R}"\
 					}\
 				},\
 				"HTML-CSS": { scale: 93 }\
