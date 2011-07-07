@@ -74,7 +74,7 @@
 	</div >
 	<div class = "problems" >
 		<div >
-			<p class = "question" > How many significant figures does <code><var>TOTAL</var></code>have?</p> 
+			<p class = "question" > How many significant figures does <code><var>TOTAL</var></code> have?</p> 
 			<p class ="solution"><var>SOLUTION</var></p> 
 		</div > 
 	</div > 
@@ -82,14 +82,14 @@
 		<p><code><var>PROPER_LEADING</var></code><code><var>INBETWEEN</var></code><code><var>TRAILING</var></code></p>
 		
 	
-		<p><code><var>PROPER_LEADING</var></code><code  class="hint_blue"><var>INBETWEEN</var></code><code><var>TRAILING</var></code> Identify the non-zero digits and any zeros between them. These are all significant.</p>
+		<p><code><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code><var>TRAILING</var></code> Identify the non-zero digits and any zeros between them. These are all significant.</p>
 		
-		<p data-if="PROPER_LEADING.length>0" ><code  class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code><var>TRAILING</var></code>Leading zeros are not significant.</p>
+		<p data-if="PROPER_LEADING.length>0" ><code class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code><var>TRAILING</var></code> Leading zeros are not significant.</p>
          	
-		<p data-if="(TRAILING.length>0)&&HAS_DOT"> <code  class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code class="hint_blue"><var>TRAILING</var></code>
+		<p data-if="(TRAILING.length>0)&&HAS_DOT"> <code class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code class="hint_blue"><var>TRAILING</var></code>
                		Since there is a decimal, trailing zeros are significant.</p>
      
-	   	<p data-if="TRAILING.length>0&&(!HAS_DOT)"> <code  class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code><var class="hint_orange">TRAILING</var></code>
+	   	<p data-if="TRAILING.length>0&&(!HAS_DOT)"> <code class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code><var class="hint_orange">TRAILING</var></code>
                		 Since there is no decimal, trailing zeros are not significant.</p>
 		<p> Counting all the significant digits gives us <var>SOLUTION</var></p>	
 			
