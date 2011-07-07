@@ -19,7 +19,7 @@
 			<div class="vars">
 				<var id="CONSTANT">SQUARE*A*B</var>
 				<var id="SIMPLECONSTANT">A*B</var>
-				<var id="LINEAR">SQUARE*(-A+-B)</var>
+				<var id="LINEAR">SQUARE*(-A-B)</var>
 				<var id="SIMPLELINEAR">-A-B</var>
 			</div>
 			<p class="problem">Determine where <code>f(x)</code> intersects the x-axis.</p>
@@ -29,6 +29,7 @@
 				<li><code>x=<var>-A</var></code>, and <code>x=<var>-B</var></code></li>
 				<li><code>x=<var>B</var></code>, and <code>x=<var>A+B</var></code></li>
 				<li><code>x=<var>B</var></code></li>
+				<li><code>x=<var>SQUARE</var></code>, and <code>x=<var>LINEAR</var></code></li>
 			</ul>
 			<div class="hints">
 				<div class="hint1"><p>This works for the numbers <var>-A</var> and <var>-B</var>:</p><p><code>(<var>-A</var>)+(<var>-B</var>)=<var>SIMPLELINEAR</var></code></p><p><code><var>-A</var>*<var>-B</var>=<var>SIMPLECONSTANT</var></code></p></div>
@@ -41,7 +42,7 @@
 			<div class="vars">
 				<var id="CONSTANT">SQUARE*A*A</var>
 				<var id="SIMPLECONSTANT">A*A</var>
-				<var id="LINEAR">SQUARE*(-A+-A)</var>
+				<var id="LINEAR">SQUARE*(-A-A)</var>
 				<var id="SIMPLELINEAR">-A-A</var>
 			</div>
 			<p class="problem">Determine where <code>f(x)</code> intersects the x-axis.</p>
@@ -66,9 +67,7 @@
 	<div><p>Dividing both sides by <var>SQUARE</var> gives:</p><p><code>x^2 + <var>SIMPLELINEAR</var>x + <var>SIMPLECONSTANT</var>=0</code></p></div>
 
 	<div>The coefficient on the <code>x</code> term is <var>SIMPLELINEAR</var> and the constant term is <var>SIMPLECONSTANT</var>, so we need to find two numbers that add up to <var>SIMPLELINEAR</var> and whose product is <var>SIMPLECONSTANT</var></div>
-
 	<div class="hint1"></div>
-
 	<div class="hint2"></div>
 	</div>
 
