@@ -11,11 +11,19 @@ var createGraph = function( el ) {
 	};
 
 	var scaleVector = function( point ) {
+		if ( typeof point === "number" ) {
+			return scaleVector([ point, point ])
+		}
+
 		var x = point[0], y = point[1];
 		return [ x * xScale, y * yScale ];
 	};
 
-	var scalePoint = function( point ) {
+	var scalePoint = function scalePoint( point ) {
+		if ( typeof point === "number" ) {
+			return scalePoint([ point, point ])
+		}
+
 		var x = point[0], y = point[1];
 		return [ ( x - xRange[0] ) * xScale, ( yRange[1] - y ) * yScale ];
 	};
@@ -99,8 +107,11 @@ var createGraph = function( el ) {
 	};
 
 	var polar = function( r, th ) {
+		if ( typeof r === "number" ) {
+			r = [ r, r ];
+		}
 		th = th * Math.PI / 180;
-		return [ r * Math.cos( th ), r * Math.sin( th ) ];
+		return [ r[0] * Math.cos( th ), r[1] * Math.sin( th ) ];
 	};
 
 	var addArrowheads = function arrows( path ) {
@@ -153,7 +164,8 @@ var createGraph = function( el ) {
 		},
 
 		arc: function( center, radius, startAngle, endAngle ) {
-			var cent = scalePoint( center ), radii = scaleVector([ radius, radius ]);
+			var cent = scalePoint( center );
+			var radii = scaleVector( radius );
 			var startVector = polar( radius, startAngle );
 			var endVector = polar( radius, endAngle );
 
