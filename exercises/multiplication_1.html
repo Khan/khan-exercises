@@ -1,36 +1,71 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math graphie word-problems">
 <head>
-	<title>Multiplication 1</title>
+	<title>Multiplication 0.5</title>
 	<script src="../khan-exercise.js"></script>
-	<style>
-		.mult_bullet {
-			font-size: 7em;
-			color: blue;
+	<script>
+		function drawRow( num, y, color, startCount ) {
+			with ( KhanUtil.currentGraph ) {
+				style({
+					stroke: color
+				});
+
+				for ( var x = 0; x < num; x++ ) {
+					label( [ x, y ], "\\small{\\color{" + color + "}{" + ( startCount + x ) + "}}" );
+					circle( [ x, y ], 0.25 );
+				}
+			}
 		}
-	</style>
+	</script>
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars">
-		<var id="A">rand( 12 )</var>
-		<var id="B">rand( 12 )</var>
-	</div>
-
-	<div class="problems">
-		<div>
-			<p class="question"><code><var>A</var> \times <var>B</var> = ?</code></p>
-			<div class="solution"><var>A * B</var></div>
+		<div class="vars">
+			<var id="A">randRange( 1, 10 )</var>
+			<var id="B">randRange( 1, 10 )</var>
+			<var id="LABEL">{}</var>
 		</div>
-	</div>
 
-	<div class="hints">
-		<!-- TODO use (currently nonexistent) loop template to create square of dots -->
-		<div class="mult_bullet">&bull; &bull; &bull;</div>
-		<div>There are <var>A</var> rows and <var>B</var> columns.</div>
-		<div>In total, there are <var>A * B</var> circles.</div>
-	</div>
+		<div class="problems">
+			<div>
+				<div class="graphie" id="numbers">
+					init({
+						range: [ [ -1, A + 1 ], [ -1, B + 1 ] ],
+						scale: [ 50, 50 ]
+					});
 
+					LABEL = label( [ 0, B ],
+						"\\Huge{\\color{ #6495ED }{ <var>A</var> } \\times \\color{ #28AE7B }{ <var>B</var> } = ?}", "right" );
+				</div>
+				<div class="solution"><var>A * B</var></div>
+			</div>
+		</div>
+		<div class="hints">
+			<div data-if="B > 0" data-unwrap>
+				<div>
+					<div class="graphie" data-update="numbers">
+						drawRow( A, B - 1, "#6495ED", 1 );
+					</div>
+					<p>Draw <var>plural( A, "circle" )</var>.</p>
+				</div>
+				<div>
+					<div class="graphie" data-update="numbers">
+						for ( var i = 1; i &lt; B; i++ ) {
+							drawRow( A, B - 1 - i, "#28AE7B", A * i + 1 );
+						}
+					</div>
+					<p>If there <var>B === 1 ? "is" : "are"</var> <var>plural( B, "row" )</var> with <var>plural( A, "circle" )</var> each, there is a total of how many circles?</p>
+				</div>
+			</div>
+			<div data-else>
+				<p>Multiplying any number by 0 equals 0.</p>
+			</div>
+			<div class="graphie" data-update="numbers">
+				LABEL.remove();
+				label( [ 0, B ], 
+					"\\Huge{\\color{ #6495ED }{" + A + "} \\times \\color{ #28AE7B }{" + B + "} = " + ( A  * B ) + "}", "right" );
+			</div>
+		</div>
 	</div>
 </body>
 </html>
