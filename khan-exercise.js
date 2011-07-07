@@ -425,6 +425,11 @@ var Khan = {
 
 		// Show the debug info
 		if ( Khan.query.debug != null ) {
+			jQuery( "body" ).keypress( function( e ) {
+				if ( e.charCode === 104 ) {
+					jQuery("#gethint").click();
+				}
+			});
 			var debugWrap = jQuery( "#debug" ).empty();
 			var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname
 				+ "?debug&problem=" + problemID;
