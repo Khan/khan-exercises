@@ -1,0 +1,21 @@
+## MAC OS
+.DS_Store
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+*#*#
+.#*
+
+## VIM
+*.swp
+tags
+
+## Rubymine
+.idea
+
+## Ruby
+.rvmrc
