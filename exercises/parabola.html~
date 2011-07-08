@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<title>
+			Exercise Template
+		</title>
+		<link rel='stylesheet' type='text/css' href='http://khanexercises.appspot.com/stylesheets/shared-package/hashed-e5b561ed7318543edd27e47c13a20648.css'/>
+	</head>
+	<body>
+		<div id="page-container">
+			<div id="page-container-inner">
+				<div id="fb-root"></div>
+				<header>
+					<div id="top-header">
+						<div id="logo">
+							<div id="logo-highlight"></div><a id="logo-image" href="http://www.khanacademy.org/" title="Khan Academy" name="logo-image"></a>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div id="search-box">
+						<form id="page_search" action="/search" name="page_search">
+							<input id="search-input" type="text" placeholder="Search for a video or playlist" name="page_search_query" value='' class="ui-corner-left placeholder"><input type="submit" value=" " id="search-submit">
+						</form>
+					</div>
+					<div id="sitewide-navigation" class="action-gradient">
+						<nav>
+							<span class="links"><a href="http://www.khanacademy.org/#browse">Watch</a> <a href="http://www.khanacademy.org/exercisedashboard" class="selected practice-link">Practice</a> <a href="http://www.khanacademy.org/class_profile">Coach</a> <a href="http://www.khanacademy.org/contribute">Contribute</a> <a href="http://www.khanacademy.org/about">About</a></span>
+						</nav>
+					</div>
+					<nav id="page_sub_nav"><b>Exercise</b></nav>
+				</header>
+				<div id="container" class="single-exercise" style="overflow: hidden">
+					<div id="back-to-dashboard" class="single-exercise">
+						<a href="http://www.khanacademy.org/exercisedashboard" id="dashboard-breadcrumb" title="Back to Dashboard" name="dashboard-breadcrumb">&laquo;Dashboard</a>
+					</div>
+					<div class="exercise-badge single-exercise" data-id="addition_1">
+						<div id="exercise-icon-container">
+							<div class="proficient-badge">
+								<img src="http://www.khanacademy.org/images/proficient-badge-not-started.png" height="80" width="76">
+							</div>
+						</div>
+						<div id="exercise-points" class="energy-points-badge">
+							225
+						</div>
+						<div class="exercise-title">
+							<a href="http://www.khanacademy.org/exercises?exid=addition_1">Addition 1</a>
+						</div>
+						<div id="streak-bar-container">
+							<div class="streak-bar" title="Current streak: 0, Longest streak: 0">
+								<div class="longest-streak">
+									<div class="current-streak">
+										<ul class="unit-rating" style="width:228px;"></ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="related-content">
+							<span class="related-content-title">Related videos:</span>
+							<ul id="related-video-list">
+								<li>
+									<a href="http://www.khanacademy.org/video?v=AuX7nPBqDts" title="Basic Addition"><span class="video-title">Basic Addition</span></a>
+								</li>
+							</ul>
+						</div>
+					</div><!-- TODO: Have this slide down when message is in here. -->
+					<div id="exercise-message-container" style="display: none;"></div>
+					<div id="extras" class="single-exercise">
+						<div id="scratch_pad_toggle" style="display: none;">
+							<a id="scratch_pad_show" href="#" style="display: none;" name="scratch_pad_show">Show scratch pad</a> <a id="scratch_pad_hide" href="#" style="display: none;" name="scratch_pad_hide">Hide scratch pad</a>
+						</div>| <a href="http://www.khanacademy.org/printexercise?exid=addition_1&amp;num_problems=10">Print next 10 problems</a>
+					</div>
+					<div>
+						<div id='question_area'>
+							<iframe id="svgedit" name="svgedit" width="99%" height="99%" allowtransparency="true" frameborder="0" scrolling="no" style="background-color: transparent; position: absolute; top: 0; left: 0; width: 99%; height: 99%; overflow: hidden; border:none;"></iframe>
+						</div>
+						<div id="answer_area">
+							<form id="answerform" action="/registeranswer" method="get" name="answerform">
+								<div class="info-box fancy-scrollbar">
+									<input type="hidden" id="exid" name="exid" value="addition_1"> <input type="hidden" id="streak" name="streak" value="0"> <input type="hidden" id="key" name="key" value="ag1raGFuZXhlcmNpc2VzckoLEghVc2VyRGF0YSIgdXNlcl9lbWFpbF9rZXlfamVyZXNpZ0BnbWFpbC5jb20MCxIMVXNlckV4ZXJjaXNlIgphZGRpdGlvbl8xDA"> <input type="hidden" id="start_time" name="start_time" value="1308185862.41"> <input type="hidden" id="correct" name="correct" value="0"> <input type="hidden" id="hint_used" name="hint_used" value="0"> <input type="hidden" id="time_warp" name="time_warp" value=""> <input type="hidden" id="problem_number" name="problem_number" value="1"> <span class="info-box-header">Answer</span><input type="text" id="answer" autocomplete="off" name="answer" onkeypress="if (event.keyCode == 13) {Exercise.logAnswer(); return false;}"> <input type="button" class="button green" id="check-answer-button" tabindex="10" value="Check Answer" onclick="Exercise.logAnswer()"> <span id="check-answer-results"><span id="next-container" class="button" style="position:relative; display: none;"><input id="next-question-button" type="button" class="button green" name="correctnextbutton" value="Correct! Next Question..." onclick="Exercise.submitForm()"> <img src="http://www.khanacademy.org/images/throbber.gif" id="throbber" style="display:none;" name="throbber"></span><br>
+									<img src="http://www.khanacademy.org/images/blank.gif" name="feedback" id="feedback" style="display: none"></span> <!-- TODO: 'One-time warning: Using a hint will erase your streak.\nAre you sure you want to continue?' -->
+								</div>
+								<div class="info-box">
+									<span class="info-box-header">Need Help?</span> <span class="info-box-subheader">Watch a video</span> <span class="info-box-sub-description">Watching videos <strong>does not</strong> reset your streak.</span>
+									<div id="related-video-list">
+										<span class="related-content-title">Related videos:</span>
+										<ul id="related-video-list">
+											<li>
+												<a href="http://www.khanacademy.org/video?v=AuX7nPBqDts" title="Basic Addition"><span class="video-title">Basic Addition</span></a>
+												<div class="video-energy-points" title="0 Energy Points earned for watching this video">
+													<span class="video-energy-points-current">0</span> of 750
+												</div>
+												<div class="clear"></div>
+											</li>
+										</ul>
+									</div><span class="info-box-subheader">Get a hint</span> <span class="info-box-sub-description">Getting a hint <strong>will</strong> reset your streak!</span> <input id="hint" type="button" class="button orange" value="I'd like a hint" name="hint" onclick="evaluate_hint();">
+								</div>
+							</form>
+						</div>
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+				<div style="padding: 10px;">
+					&nbsp;
+				</div>
+				<div id="badge-notification-container" class="badge-award-container" style="display:none;"></div>
+			</div>
+		</div>
+		<div class="push"></div>
+		<footer id="footer" class="short">
+			<div id="leaves">
+				<div id="copyright" title="Version: 8f2cb0182fb7.351161393011888242">
+					<small>&copy;2011 Khan Academy&#0153;</small> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/" id="creative-commons-link" name="creative-commons-link"></a>
+				</div><a id="report-problem" href="http://www.khanacademy.org/reportissue?type=Defect&amp;issue_labels=Component-Code%2CExercise-addition_1%2CProblem-1" name="report-problem">Report a Problem</a><a href="http://www.khanacademy.org/about/the-team">Contact Us</a> <span class="sep">|</span> <a href="http://www.khanacademy.org/about">About</a> <a href="http://www.khanacademy.org/about/faq">FAQ</a> <a href="http://www.khanacademy.org/contribute/credits">Credits</a> <span class="sep">|</span> <a href="http://www.khanacademy.org/about/tos" title="Terms of Service">ToS</a> <a href="http://www.khanacademy.org/about/privacy-policy" title="Privacy Policy">Privacy Policy</a> <span class="sep">|</span> <a href="http://www.khanacademy.org/downloads">Downloads</a> <a href="http://www.khanacademy.org/coaches">Add a Coach</a>
+			</div>
+		</footer>
+	</body>
+</html>

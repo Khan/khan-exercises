@@ -21,8 +21,7 @@ var Khan = {
 				jax: ["input/TeX","output/HTML-CSS"],\
 				extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
 				TeX: {\
-					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],\
-                                        Macros: {RR: "\\\\mathbb{R}"\}\
+					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
 				},\
 				"HTML-CSS": { scale: 93 }\
 			});\
