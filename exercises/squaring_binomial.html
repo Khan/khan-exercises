@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Squaring a Binomial</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<div class="vars" data-ensure="A != 0">
+                            <var id="A">randRange(-6,6)</var>
+                        </div>
+			<var id="B">randRange(2,6)</var>
+			<var id="C1">A*A</var>
+			<var id="C2">2*A*B</var>
+			<var id="C3">B*B</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="problem">Rewrite to the form <code>a\cdot x^2 + b\cdot x + c.</code></p>
+				<p class="question"><code>(<var>A</var>\cdot x + <var>B</var>)^2</code></p>
+				<div class="solution" data-type="multiple">
+				  <p><code>a</code> = <span class="sol" data-type="rational"><var>C1</var></span></p>
+				  <p><code>b</code> = <span class="sol" data-type="rational"><var>C2</var></span></p>
+				  <p><code>c</code> = <span class="sol" data-type="rational"><var>C3</var></span></p>				
+				</div>
+				<div class="hints">
+					<p>First use the rule: <code>(s+t)^2=s^2+2\cdot s\cdot t+t^2</code><br></br>Second use the rule <code>(a\cdot s)^2=a^2\cdot s^2</code></p>
+					<p><code>(<var>A</var>\cdot x + <var>B</var>)^2 = (<var>A</var>\cdot x)^2 + 2\cdot(<var>A</var>)\cdot <var>B</var> + <var>B</var>^2</code></p>
+					<p><code>= (<var>A</var>)^2\cdot x^2 + 2\cdot(<var>A</var>)\cdot <var>B</var> + <var>B</var>^2</code></p>
+					<p><code>=<var>C1</var>x^2 + <var>C2</var>x + <var>C3</var></code></p>
+				</div>
+			</div>
+			<div>
+				<p class="problem">Rewrite to the form <code>a\cdot x^2 + b\cdot x + c</code></p>
+				<p class="question"><code>(<var>A</var>\cdot x - <var>B</var>)^2</code></p>
+				<div class="solution" data-type="multiple">
+				  <p><code>a</code> = <span class="sol" data-type="rational"><var>C1</var></span></p>
+				  <p><code>b</code> = <span class="sol" data-type="rational"><var>-C2</var></span></p>
+				  <p><code>c</code> = <span class="sol" data-type="rational"><var>C3</var></span></p>				
+				</div>
+				<div class="hints">
+					<p>First use the rule: <code>(s-t)^2=s^2-2\cdot s\cdot t+t^2</code><br></br>Second use the rule <code>(a\cdot s)^2=a^2\cdot s^2</code></p>
+					<p><code>(<var>A</var>\cdot x - <var>B</var>)^2 = (<var>A</var>\cdot x)^2 - 2\cdot(<var>A</var>)\cdot <var>B</var> + <var>B</var>^2</code></p>
+					<p><code>= (<var>A</var>)^2\cdot x^2 - 2\cdot(<var>A</var>)\cdot <var>B</var> + <var>B</var>^2</code></p>
+					<p><code>=<var>C1</var>x^2 + <var>-C2</var>x + <var>C3</var></code></p>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+</body>
+</html>
