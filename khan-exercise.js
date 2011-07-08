@@ -23,7 +23,7 @@ var Khan = {
 				TeX: {\
 					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],\
 					Macros: {\
-						RR: "\\mathbb{R}"\
+						RR: "\\\\mathbb{R}"\
 					}\
 				},\
 				"HTML-CSS": { scale: 93 }\
@@ -425,6 +425,11 @@ var Khan = {
 
 		// Show the debug info
 		if ( Khan.query.debug != null ) {
+			jQuery( "body" ).keypress( function( e ) {
+				if ( e.charCode === 104 ) {
+					jQuery("#gethint").click();
+				}
+			});
 			var debugWrap = jQuery( "#debug" ).empty();
 			var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname
 				+ "?debug&problem=" + problemID;
@@ -480,6 +485,8 @@ var Khan = {
 
 				varInfo.appendTo( debugWrap );
 			}
+
+			jQuery( "#problemarea .graphie" ).css( "outline", "1px dashed red" );
 		}
 	},
 
