@@ -31,7 +31,7 @@
 			<var id="CHOICES">
 				(function() {
 					var choices = [];
-					
+
 					for ( var i = 0; i &lt; 4; i++ ) {
 						var choice = "&lt;code&gt;";
 						var nOffset = randRange( 1, 10 );
@@ -39,7 +39,7 @@
 						if ( D - B + nOffset === 0 ) {
 							choice += "x = 0";
 						} else {
-							choice += "x = " 
+							choice += "x = "
 								+ fractionReduce( -1 * abs( D - B + nOffset ), abs( A - C + dOffset ) )
 								+ "\\text{ or }"
 								+ "x = "

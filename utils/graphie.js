@@ -11,11 +11,19 @@ var createGraph = function( el ) {
 	};
 
 	var scaleVector = function( point ) {
+		if ( typeof point === "number" ) {
+			return scaleVector([ point, point ])
+		}
+
 		var x = point[0], y = point[1];
 		return [ x * xScale, y * yScale ];
 	};
 
-	var scalePoint = function( point ) {
+	var scalePoint = function scalePoint( point ) {
+		if ( typeof point === "number" ) {
+			return scalePoint([ point, point ])
+		}
+
 		var x = point[0], y = point[1];
 		return [ ( x - xRange[0] ) * xScale, ( yRange[1] - y ) * yScale ];
 	};
@@ -99,8 +107,11 @@ var createGraph = function( el ) {
 	};
 
 	var polar = function( r, th ) {
+		if ( typeof r === "number" ) {
+			r = [ r, r ];
+		}
 		th = th * Math.PI / 180;
-		return [ r * Math.cos( th ), r * Math.sin( th ) ];
+		return [ r[0] * Math.cos( th ), r[1] * Math.sin( th ) ];
 	};
 
 	var addArrowheads = function arrows( path ) {
@@ -117,7 +128,7 @@ var createGraph = function( el ) {
 
 				} else {
 					// This makes a lot more sense
-
+					var set = raphael.set();
 					var head = raphael.path( "M-3 4 C-2.75 2.5 0 0.25 0.75 0C0 -0.25 -2.75 -2.5 -3 -4" );
 					var end = path.getPointAtLength( l - 0.4 );
 					var almostTheEnd = path.getPointAtLength( l - 0.75 * s );
@@ -134,6 +145,9 @@ var createGraph = function( el ) {
 						.translate( almostTheEnd.x, almostTheEnd.y ).attr( attrs )
 						.attr({ "stroke-linejoin": "round", "stroke-linecap": "round" });
 					head.arrowheadsDrawn = true;
+					set.push( subpath );
+					set.push( head );
+					return set;
 				}
 			}
 		} else if ( type === Raphael.st ) {
@@ -153,7 +167,8 @@ var createGraph = function( el ) {
 		},
 
 		arc: function( center, radius, startAngle, endAngle ) {
-			var cent = scalePoint( center ), radii = scaleVector([ radius, radius ]);
+			var cent = scalePoint( center );
+			var radii = scaleVector( radius );
 			var startVector = polar( radius, startAngle );
 			var endVector = polar( radius, endAngle );
 
@@ -342,7 +357,7 @@ var createGraph = function( el ) {
 				result.attr( currentStyle );
 
 				if ( currentStyle.arrows ) {
-					addArrowheads( result );
+					result = addArrowheads( result );
 				}
 			}
 
