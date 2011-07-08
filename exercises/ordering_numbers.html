@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html data-require="math stat graph">
+<head>
+	<title>Ordering Numbers</title>
+	<script src="../khan-exercise.js"></script>
+
+	<style type="text/css">
+		.number-list {
+			text-align: center
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<script type="text/javascript">
+		function GenerateNumbers() {
+
+//numerator, denominator, decimal value of answer, temporary array, fraction/pct/decimal
+//numbers = array of the 5 numbers, strings = array of the numbers in a string form
+			var numer, denom, num, tempnum, type, numbers, strings;
+
+			tempnum = [];
+			numbers = [];
+			strings = [];
+			var j = 0;
+
+/*
+I wrote this keeping track of both the # and the .indexOf(num) in the main array
+then I finally got it to work but I couldn't get it to work without tempnum, which is an unnecessary array
+1) It does work, which is good
+2) I know this is very clunky - I'm sorry for that
+*/
+			for (var i = 0; i < 10; i++) {
+				do {
+//we keep track of the numerator and the denominator so we can create a fraction type
+					numer = KhanUtil.randRange( 1, 99 )
+					denom = KhanUtil.randRange( 1, 99 )
+					num = numer/denom
+				} while ( tempnum.indexOf(num) > 0 ); //this line should keep generating until it is unique in the array
+				tempnum[i] = tempnum.indexOf(num) //these next 3 lines should be deleted, see comment above
+				i++;
+				tempnum[i] = KhanUtil.roundTo(2,num);
+
+				type = KhanUtil.randRange( 1, 3 ) //pick a type: decimal, percent, fraction
+				switch (type) {
+					case 1: strings[j] = "" + KhanUtil.roundTo(2,numer/denom); break; // decimal
+					case 2: strings[j] = KhanUtil.roundTo(2,100*numer/denom) + "%"; break; // percent
+					case 3: //return the whole number or a fraction (reduced) or a mixed number (reduced)
+						var gcd = KhanUtil.getGCD(numer, denom);
+						numer = numer/gcd;
+						denom = denom/gcd;
+						if (denom === 1) { strings[j] = numer; break; } //return whole number, no fraction
+						if (num<1 || KhanUtil.randRange(1,2)==1) { //random # is from original code
+							strings[j] = numer + "/" + denom; break; // fraction
+						}
+						else {
+							strings[j] = Math.floor(num)+ ' ' + (numer - Math.floor(num) * denom) + "/" + denom; break; // mixed #
+						}
+				}
+				numbers[j] = KhanUtil.roundTo(4,num); //for readability when debugging
+				j++;
+			}
+//I build two arrays, one for #s, and one for strs.  Here I copy them both into number to send back to the HTML
+			for (var i = 0; i < 5; i++) {
+				numbers[i+5]=strings[i]
+			}
+			return numbers;
+		}
+
+//take the array and return an array which show the sort order
+//Example: [21, 46, 13] returns [3, 1, 2]		
+		function findOrder( array ) {
+
+			var correctOrder, tempOrder, x;
+			correctOrder = [];
+			tempOrder = KhanUtil.sortNumbers(array);
+			for (var i = 0; i < 5; i++) {
+				correctOrder[i] = array.indexOf(tempOrder[i]);
+			}
+			return correctOrder;
+		}
+
+//take the array and return an array which show the sort order
+//Example: [21, 46, 13] returns [3, 1, 2]		
+		function buildOrderedArray( array, order ) {
+
+			var correctOrder, x;
+			correctOrder = [];
+			for (var i = 0; i < 5; i++) {
+				x = order[i]
+				correctOrder[i] = array[x];
+			}
+			return correctOrder;
+		}
+
+//turns foo into [foo] and [foo] into [[foo]] etc
+		function putInArray( item ) {
+			var itemarray = [item];	return itemarray;
+		}
+
+//takes a solution array which is a set of numbers and builds incorrect answers which are sets of numbers in string form
+
+//NOTE: The same functionality as above in line 39:
+//				} while ( tempnum.indexOf(num) > 0 ); //this line should keep generating until it is unique in the array
+//      But right now line 39 doesn't work without a temporary array and I'm not sure why.
+
+		function buildAnswerArray( array ) {
+			
+			for (var i = 0; i < 4; i++) {
+				array[i+1] = KhanUtil.shuffle(array[0]).join( ", " )
+			}
+			array[0] = array[0].join( ", " ) 
+			return array;
+		}
+		</script>
+
+		<div class="vars">
+			<var id="NUMBERS">GenerateNumbers()</var>
+			<var id="NUMS">NUMBERS.slice(0, 5)</var>
+			<var id="STRINGS">NUMBERS.slice(5, 10)</var>
+			<var id="NUM_LIST">STRINGS.join( ", " )</var>
+			<var id="NUM_ORDER">findOrder(NUMS)</var>
+			<var id="SOL_ARRAY">buildOrderedArray( STRINGS,NUM_ORDER )</var>
+			<var id="SORTED_STRS">SOL_ARRAY.join( ", " )</var>
+			<var id="POSSIBLE_ANSWERS">buildAnswerArray(putInArray(SOL_ARRAY))</var>
+			
+		</div>
+
+		<div class="problems">
+
+			<div id="mode">
+				<div class="question">
+					<p>Order the following numbers from least to greatest:</p>
+					<p><center><font size="5"><var>NUM_LIST</var></font></center></p>
+				</div>
+
+				<p class="solution"><var>POSSIBLE_ANSWERS[0]</var></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li><var>POSSIBLE_ANSWERS[1]</var></li>
+					<li><var>POSSIBLE_ANSWERS[2]</var></li>
+					<li><var>POSSIBLE_ANSWERS[3]</var></li>
+					<li><var>POSSIBLE_ANSWERS[4]</var></li>
+				</ul>
+
+				<div class="hints">
+					<p><var>STRINGS[0]</var> = <var>roundTo(2,NUMS[0])</var></p>
+					<p><var>STRINGS[1]</var> = <var>roundTo(2,NUMS[1])</var></p>
+					<p><var>STRINGS[2]</var> = <var>roundTo(2,NUMS[2])</var></p>
+					<p><var>STRINGS[3]</var> = <var>roundTo(2,NUMS[3])</var></p>
+					<p><var>STRINGS[4]</var> = <var>roundTo(2,NUMS[4])</var></p>
+					<p>The answer is <var>SORTED_LIST</var></p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
