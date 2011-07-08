@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+	<title>Angles 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<!-- Used for simple opposite or opposing angle problems -->
+			<var id="Y">rand(20) + 90</var>
+			<var id="X">180 - Y</var>						
+			
+			<!-- Used for Triangle problems -->
+			<var id="Tri_Y">rand(25) + 20</var>
+			<var id="Tri_Z">rand(45) + 60</var>
+			<var id="Tri_X">180 - Tri_Y - Tri_Z</var>	
+			
+			<!-- Used for problem variations -->
+			<var id="RAND2">rand(2)</var>
+			<var id="RAND3">rand(3)</var>
+		</div>
+
+		<div class="problems">
+			
+			
+			
+			<!-- 180 in Triangles. -->
+			<div>
+				<div class="graphie">
+					(function() {
+						init({
+							range: [[-7, 6], [-3, 5]],
+							scale: [40, 40]
+						});
+	
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw TriAngle
+						path([ [-5, -2], [5, -2] ]);						
+						path([ [-5, -2], [-1, 3] ]);
+						path([ [5, -2], [-1, 3] ]);
+						
+						// Label/Draw Points
+						style({
+							fill: "grey"
+						}, function() {
+							circle([-5, -2], 0.05);
+							circle([-1 , 3], 0.05);
+							circle([5 , -2], 0.05);
+						});
+						label([-5, -2], "A", "left");
+						label([-1, 3], "B", "above");
+						label([5, -2], "C", "right");
+						
+						if(RAND3 == 0) {
+							label([3.8, -2], "\\color{blue}{\\angle{ACB}} = ?", "above left");
+							arc([5, -2], 1, 140, 180, { stroke: "blue" });
+						} else {
+							label([4.2, -2], "\\color{green}{<var>Tri_Y</var>&deg;}", "above left");
+							arc([5, -2], 1, 140, 180, { stroke: "green" });						
+						}
+						
+						if(RAND3 == 1) {
+							label([-1, 2], "\\color{blue}{\\angle{ABC}} = ?", "below");
+							arc([-1, 3], 1, 230, 320, { stroke: "blue" });
+						} else {
+							label([-1, 2], "\\color{purple}{<var>Tri_Z</var>&deg;}", "below");
+							arc([-1, 3], 1, 230, 320, { stroke: "purple" });
+						}
+						
+						if(RAND3 > 1) {
+							label([-3.5, -2], "\\color{blue}{\\angle{BAC}} = ?", "above right");
+							arc([-5, -2], 1.5, 0, 50, { stroke: "blue" });
+						} else {
+							label([-3.5, -2], "\\color{orange}{<var>Tri_X</var>&deg;}", "above right");
+							arc([-5, -2], 1.5, 0, 50, { stroke: "orange" });
+						}
+						
+					})()
+				</div>
+				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+				Angles not necessarily drawn to scale.</p>
+					
+				<p class="question">
+					Given: 
+					<ul>
+						<span data-if="RAND3 != 0"><li><code>\color{green}{\angle{ACB}} = <var>Tri_Y</var>&deg;</code></li></span>
+						<span data-if="RAND3 != 1"><li><code>\color{purple}{\angle{ABC}} = <var>Tri_Z</var>&deg;</code></li></span>
+						<span data-if="RAND3 <= 1"><li><code>\color{orange}{\angle{BAC}} = <var>Tri_X</var>&deg;</code></li></span>
+					</ul>
+					<br/>
+					What is 
+					<span data-if="RAND3==0"><code>\color{blue}{\angle{ACB}} = ?</code></span>
+					<span data-else-if="RAND3==1"><code>\color{blue}{\angle{ABC}} = ?</code></span>
+					<span data-else><code>\color{blue}{\angle{BAC}} = ?</code></span>
+				</p>
+				<div class="solution">
+					<span data-if="RAND3==0"><var>Tri_Y</var></span>
+					<span data-else-if="RAND3==1"><var>Tri_Z</var></span>
+					<span data-else><var>Tri_X</var></span>
+				</div>
+				
+				<div class="hints">
+					<p>
+					<span data-if="RAND3==0">
+						<code>\color{blue}{\angle{ACB}} = 180&deg; - \color{purple}{\angle{ABC}} - \color{orange}{\angle{BAC}}</code>
+					</span>
+					<span data-else-if="RAND3==1">
+						<code>\color{blue}{\angle{ABC}} = 180&deg; - \color{green}{\angle{ACB}} - \color{orange}{\angle{BAC}}</code>
+					</span>
+					<span data-else>
+						<code>\color{blue}{\angle{BAC}} = 180&deg; - \color{green}{\angle{ACB}} - \color{purple}{\angle{ABC}}</code>
+					</span>
+					<br/>
+					This is because angles inside a triangle adds up to 180&deg;.
+					</p>
+				</div>
+			</div>
+						
+			<!-- Angle adjacent to a triangle with 2 known angles. -->
+			<div id="angle-and-triangle1">		
+				<div class="problem">		
+					<div class="graphie" id="angle-and-triangle">
+						init({
+							range: [[-9, 6], [-3, 5]],
+							scale: [40, 40]
+						});
+	
+						style({
+						    stroke: "#888",
+						    strokeWidth: 2
+						});
+	
+						// Draw TriAngle
+						path([ [-8, -2], [4, -2], [0, 3], [-4, -2] ]);
+						
+						//draw points
+						style({
+							fill: "grey"
+						}, function() {
+							circle([-8, -2], 0.05);
+							circle([4, -2], 0.05);
+							circle([0, 3], 0.05);
+							circle([-4, -2], 0.05);
+							
+						});
+	
+						// Label the sides
+						label([-4, -2], "A", "below");
+						label([0, 3], "B", "above");
+						label([4, -2], "C", "below right");	
+						label([-8, -2], "D", "below");						
+					</div>
+					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+					Angles not necessarily drawn to scale.</p>
+				</div>
+				
+				<div class="question">
+					Given the following angles:					
+					<ul>
+						<li><code>\color{purple}{\angle{ABC}} = <var>Tri_Z</var>&deg;</code></li>
+						<li><code>\color{green}{\angle{ACB}} = <var>Tri_Y</var>&deg;</code></li>
+					</ul>
+					What is <code>\color{blue}{\angle{DAB}} = ?</code>
+					
+					<!-- label angles for this problem -->
+					<span class="graphie" data-update="angle-and-triangle">
+						label([3, -2], "\\color{green}{<var>Tri_Y</var>&deg;}", 
+							"above left");
+						arc([4, -2], 1.2, 130, 180, { stroke: "green" });
+						
+						label([0, 1.5], "\\color{purple}{<var>Tri_Z</var>&deg;}", 
+							"below");
+						arc([0, 3], 1.5, 230, 310, { stroke: "purple" });
+						
+						label([-4.7, -2], "\\color{blue}{\\angle{DAB}}=?", 
+							"above left");
+						arc([-4, -2], .75, 50, 180, { stroke: "blue" });
+					</span>
+				</div>
+
+				
+				<div class="solution"><var>Tri_Y + Tri_Z</var></div>
+				
+				<div class="hints">
+					<p>
+						<code>\angle{BAC} = 180&deg; - \color{purple}{\angle{ABC}} - \color{green}{\angle{ACB}}</code><br/>
+						This is because angles inside a triangle adds up to 180&deg;.
+						<span class="graphie" data-update="angle-and-triangle">
+							label([-3.2, -2], "\\color{orange}{<var>Tri_X</var>&deg;}", 
+								"above right");
+							arc([-4, -2], .75, 0, 50, { stroke: "orange" });
+						</span>
+					</p>
+					<p>
+						<code>\color{blue}{\angle{DAB}} = 180&deg; - \color{orange}{\angle{BAC}}</code><br/>
+						This is because supplementry angles along a straight line adds up to 180&deg;.
+					</p>
+				</div>
+			</div>
+
+			<!-- Angle adjacent to a triangle with 2 known angles. (variation 2) -->
+			<div data-type="angle-and-triangle1">				
+					
+				<div class="question">
+					Given the following angles:
+					<ul>
+						<li><code>\color{purple}{\angle{DAB}} = <var>180 - Tri_X</var>&deg;</code></li>
+						<li><code>\color{green}{\angle{ACB}} = <var>Tri_Y</var>&deg;</code></li>
+					</ul>
+					What is <code>\color{blue}{\angle{ABC}}</code>?
+
+					<!-- label angles for this problem -->					
+					<span class="graphie" data-update="angle-and-triangle">
+						label([3, -2], "\\color{green}{<var>Tri_Y</var>&deg;}", 
+							"above left");
+						arc([4, -2], 1.2, 130, 180, { stroke: "green" });
+						
+						label([0, 1.5], "\\color{blue}{\\angle{ABC}} = ?", 
+							"below");
+						arc([0, 3], 1.5, 230, 310, { stroke: "blue" });
+						
+						label([-4.3, -1.3], "\\color{purple}{<var>180 - Tri_X</var>&deg;}", 
+							"above");
+						arc([-4, -2], .75, 50, 180, { stroke: "purple" });
+					</span>	
+				</div>
+				
+				<div class="solution"><var>Tri_Y + Tri_Z</var></div>
+				
+				<div class="hints">
+					<p>
+						<code>\angle{BAC} = 180&deg; - \color{purple}{\angle{ABC}} - \color{green}{\angle{ACB}}</code><br/>
+						This is because angles inside a triangle adds up to 180&deg;.
+						<span class="graphie" data-update="angle-and-triangle">
+							label([-3.2, -2], "\\color{orange}{<var>Tri_X</var>&deg;}", 
+								"above right");
+							arc([-4, -2], .75, 0, 50, { stroke: "orange" });
+						</span>
+					</p>
+					<p>
+						<code>\color{blue}{\angle{DAB}} = 180&deg; - \color{orange}{\angle{BAC}}</code><br/>
+						This is because supplementry angles along a straight line adds up to 180&deg;.
+					</p>
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+</body>
+</html>
