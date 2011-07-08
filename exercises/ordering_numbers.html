@@ -13,54 +13,39 @@
 <body>
 	<div class="exercise">
 		<script type="text/javascript">
-		function GenerateNumbers() {
+			function GenerateNumbers() {
 
-//numerator, denominator, decimal value of answer, temporary array, fraction/pct/decimal
-//numbers = array of the 5 numbers, strings = array of the numbers in a string form
-			var numer, denom, num, tempnum, type, numbers, strings;
+			var numer, denom, num, type, numbers, strings;
 
-			tempnum = [];
 			numbers = [];
 			strings = [];
-			var j = 0;
 
-/*
-I wrote this keeping track of both the # and the .indexOf(num) in the main array
-then I finally got it to work but I couldn't get it to work without tempnum, which is an unnecessary array
-1) It does work, which is good
-2) I know this is very clunky - I'm sorry for that
-*/
-			for (var i = 0; i < 10; i++) {
-				do {
-//we keep track of the numerator and the denominator so we can create a fraction type
+			for (var i = 0; i < 6; i++) {
+				do { //this loops gets a random # that hasn't yet been picked
 					numer = KhanUtil.randRange( 1, 99 )
 					denom = KhanUtil.randRange( 1, 99 )
 					num = numer/denom
-				} while ( tempnum.indexOf(num) > 0 ); //this line should keep generating until it is unique in the array
-				tempnum[i] = tempnum.indexOf(num) //these next 3 lines should be deleted, see comment above
-				i++;
-				tempnum[i] = KhanUtil.roundTo(2,num);
+					numbers[i] = num;
+				} while (numbers.indexOf(num) != i && num < 10)
 
 				type = KhanUtil.randRange( 1, 3 ) //pick a type: decimal, percent, fraction
 				switch (type) {
-					case 1: strings[j] = "" + KhanUtil.roundTo(2,numer/denom); break; // decimal
-					case 2: strings[j] = KhanUtil.roundTo(2,100*numer/denom) + "%"; break; // percent
+					case 1: strings[i] = "" + KhanUtil.roundTo(2,numer/denom); break; // decimal
+					case 2: strings[i] = KhanUtil.roundTo(2,100*numer/denom) + "%"; break; // percent
 					case 3: //return the whole number or a fraction (reduced) or a mixed number (reduced)
 						var gcd = KhanUtil.getGCD(numer, denom);
 						numer = numer/gcd;
 						denom = denom/gcd;
-						if (denom === 1) { strings[j] = numer; break; } //return whole number, no fraction
+						if (denom === 1) { strings[i] = numer; break; } //return whole number, no fraction
 						if (num<1 || KhanUtil.randRange(1,2)==1) { //random # is from original code
-							strings[j] = numer + "/" + denom; break; // fraction
+							strings[i] = numer + "/" + denom; break; // fraction
 						}
 						else {
-							strings[j] = Math.floor(num)+ ' ' + (numer - Math.floor(num) * denom) + "/" + denom; break; // mixed #
+							strings[i] = Math.floor(num)+ ' ' + (numer - Math.floor(num) * denom) + "/" + denom; break; // mixed #
 						}
 				}
-				numbers[j] = KhanUtil.roundTo(4,num); //for readability when debugging
-				j++;
+				
 			}
-//I build two arrays, one for #s, and one for strs.  Here I copy them both into number to send back to the HTML
 			for (var i = 0; i < 5; i++) {
 				numbers[i+5]=strings[i]
 			}
@@ -98,12 +83,10 @@ then I finally got it to work but I couldn't get it to work without tempnum, whi
 			var itemarray = [item];	return itemarray;
 		}
 
-//takes a solution array which is a set of numbers and builds incorrect answers which are sets of numbers in string form
-
-//NOTE: The same functionality as above in line 39:
-//				} while ( tempnum.indexOf(num) > 0 ); //this line should keep generating until it is unique in the array
-//      But right now line 39 doesn't work without a temporary array and I'm not sure why.
-
+// takes a solution array which is a set of numbers and builds incorrect answers which are sets of numbers in string form
+// THIS DOES NOT check for uniqueness.  IT SHOULD
+// Lines 23-29 show the structure of how to do this
+// but I can't get it to work with arrays & joined strings - argh!
 		function buildAnswerArray( array ) {
 			
 			for (var i = 0; i < 4; i++) {
@@ -112,6 +95,7 @@ then I finally got it to work but I couldn't get it to work without tempnum, whi
 			array[0] = array[0].join( ", " ) 
 			return array;
 		}
+
 		</script>
 
 		<div class="vars">
@@ -128,7 +112,7 @@ then I finally got it to work but I couldn't get it to work without tempnum, whi
 
 		<div class="problems">
 
-			<div id="mode">
+			<div id="standard">
 				<div class="question">
 					<p>Order the following numbers from least to greatest:</p>
 					<p><center><font size="5"><var>NUM_LIST</var></font></center></p>
