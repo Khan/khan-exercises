@@ -54,64 +54,23 @@
 				<div class="problem">
 					<p><code>f(x)</code> is graphed below.</p>
 					<div id="graph" class="graphie">
-						init({
-							range: [ [ -HRANGE, HRANGE ], [ -VRANGE, VRANGE ] ],
-							scale: [ PIXHSCALE, PIXVSCALE ]
+						var range = [ [ -HRANGE, HRANGE ], [ -VRANGE, VRANGE ] ];
+
+						graphInit({
+							range: [ HRANGE, VRANGE ],
+							scale: [ PIXHSCALE, PIXVSCALE ],
+							gridOpacity: .35,
+							gridStep: [ HSCALE * PI / 4, .5 ],
+							tickStep: [ 2, 1 ],
+							tickLen: 5,
+							LabelStep: [ 2, 2 ],
+							xLabelFormat: piFraction
 						});
-
-						// draw grid
-						grid( [ -HRANGE, HRANGE ], [ -VRANGE, VRANGE ], {
-							stroke: "#e2e2e2",
-							step: [ HSTEP, VSTEP ]
-						});
-
-						// draw axes
-						style({
-							stroke: "#000000",
-							strokeWidth: 2
-						}, function() {
-							path( [ [ -HRANGE, 0 ], [ HRANGE, 0 ] ] );
-							path( [ [ 0, -VRANGE ], [ 0, VRANGE ] ] );
-						});
-
-						// tick marks
-						style({
-							stroke: "#000000",
-							strokeWidth: 1
-						}, function() {
-							var step = HSTEP * HTICKSTEP,
-								tickLen = 5 / PIXVSCALE;
-							for ( var x = step; x < HRANGE; x += step ) {
-								line( [ x, -tickLen ], [ x, tickLen ] );
-								line( [ -x, -tickLen ], [ -x, tickLen ] );
-							}
-
-							step = VSTEP * VTICKSTEP;
-							tickLen = 5 / PIXHSCALE;
-							for ( var y = step; y < VRANGE; y += step ) {
-								line( [ -tickLen, y ], [ tickLen, y ] );
-								line( [ -tickLen, -y ], [ tickLen, -y ] );
-							}
-						});
-
-						// axis labels
-
-						step = HSTEP * HLABELSTEP;
-						for ( var x = step; x < HRANGE; x += step ) {
-							label( [ x, 0 ], piFraction( x ), "below" );
-							label( [ -x, 0 ], piFraction( -x ), "below" );
-						}
-
-						step = VSTEP * VLABELSTEP;
-						for ( var y = step; y < VRANGE; y += step ) {
-							label( [ 0, y ], y, "left" );
-							label( [ 0, -y ], -y, "left" );
-						}
 
 						// draw sin/cos curve
 						style({
 							stroke: "#a3a3ff",
-							strokeWidth: 2
+					 		strokeWidth: 2
 						}, function() {
 							plot( function( x ) {
 								return eval( FUNCS );

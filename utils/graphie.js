@@ -330,10 +330,10 @@ var createGraph = function( el ) {
 		},
 
 		polar: polar
+
 	};
 
-	jQuery.each([ "circle", "ellipse", "arc", "path", "line", "grid",
-			"label", "plotParametric", "plotPolar", "plot" ], function( i, name ) {
+	jQuery.each( drawingTools, function( name ) {
 		graphie[ name ] = function() {
 			var last = arguments[ arguments.length - 1 ];
 			var oldStyle = currentStyle;
@@ -365,6 +365,137 @@ var createGraph = function( el ) {
 			return result;
 		};
 	});
+
+
+	// Initializes graphie settings for a graph and draws the basic graph
+	// features (axes, grid, tick marks, and axis labels)
+	// Options expected are:
+	// - range: [ [a, b], [c, d] ] or [ a, b ]
+	// - scale: [ a, b ] or number
+	// - gridOpacity: number (0 - 1)
+	// - gridStep: [ a, b ] or number (relative to units)
+	// - tickStep: [ a, b ] or number (relative to grid steps)
+	// - tickLen: [ a, b ] or number (in pixels)
+	// - labelStep: [ a, b ] or number (relative to tick steps)
+	// - yLabelFormat: fn to format label string for y-axis
+	// - xLabelFormat: fn to format label string for x-axis
+	graphie.graphInit = function( options ) {
+
+		options = options || {};
+
+		jQuery.each( options, function( prop, val ) {
+
+			// allow options to be specified by a single number for shorthand if 
+			// the horizontal and vertical components are the same
+			( typeof val === "number" ) && 
+				( prop !==  "gridOpacity" ) &&
+				( options[prop] = [ val, val ] );
+
+			// allow symmetric ranges to be specified by the absolute value
+			( val.constructor === Array ) &&
+				( typeof val[0] === "number" ) &&	
+				( typeof val[1] === "number" ) &&
+				( options[prop] = [ [ -val[0], val[0] ], [ -val[1], val[1] ] ] );
+
+		});
+
+		var range = options.range || [ [-10, 10], [-10, 10] ],
+			scale = options.scale || [ 20, 20 ],
+			gridOpacity = options.gridOpacity || .35,
+			gridStep = options.gridStep || [ 1, 1 ],
+			tickStep = options.tickStep || [ 1, 1 ],
+			tickLen = options.tickLen || [ 5, 5 ],
+			labelStep = options.labelStep || [ 1, 1 ];
+			xLabelFormat = options.xLabelFormat || function(a) { return a; };
+			yLabelFormat = options.yLabelFormat || function(a) { return a; };
+
+		graphie.init({
+			range: range,
+			scale: scale
+		});
+
+		// draw grid
+		this.grid( range[0], range[1] );
+
+		// draw axes
+		graphie.style({ 
+			stroke: "#000000",
+			strokeWidth: 2
+		}, function() {
+			this.path( [ [ range[0][0], 0 ], [ range[0][1], 0 ] ] );
+			this.path( [ [ 0, range[1][0] ], [ 0, range[1][1] ] ] );
+		});
+
+		// draw tick marks
+		graphie.style({
+			stroke: "#000000",
+			strokeWidth: 1
+		}, function() {
+
+			// horizontal axis
+			var step = gridStep[0] * tickStep[0],
+				len = tickLen[0] / scale[0],
+				start = range[0][0],
+				stop = range[0][1];
+
+			for ( var x = step; x <= stop; x += step ) {
+				this.line( [ x, -len ], [ x, len ] );
+			}
+
+			for ( var x = -step; x >= start; x -= step ) {
+				this.line( [ x, -len ], [ x, len ] );
+			}
+
+			// vertical axis
+			step = gridStep[1] * tickStep[1];
+			len = tickLen[1] / scale[1];
+			start = range[1][0];
+			stop = range[1][1];
+
+			for ( var y = step; y <= stop; y += step ) {
+				this.line( [ -len, y ], [ len, y ] );
+			}
+
+			for ( var y = -step; y >= start; y -= step ) {
+				this.line( [ -len, y ], [ len, y ] );
+			}
+
+		});
+
+		// draw axis labels
+		graphie.style({
+			stroke: "#000000"
+		}, function() {
+			
+			// horizontal axis
+			var step = gridStep[0] * tickStep[0] * labelStep[0],
+				start = range[0][0],
+				stop = range[0][1];
+
+			for ( var x = step; x <= stop; x += step ) {
+				this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+			}
+
+			for ( var x = -step; x >= start; x -= step ) {
+				this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+			}
+
+			// vertical axis
+			step = gridStep[1] * tickStep[1] * labelStep[1];
+			start = range[1][0];
+			stop = range[1][1];
+
+			for ( var y = step; y <= stop; y += step ) {
+				this.label( [ 0, y ], yLabelFormat( y ), "left" );
+			}
+
+			for ( var y = -step; y >= start; y -= step ) {
+				this.label( [ 0, y ], yLabelFormat( y ), "left" );
+			}
+
+		});
+
+	};
 
 	return graphie;
 };
