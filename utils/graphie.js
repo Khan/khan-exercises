@@ -393,6 +393,7 @@ var createGraph = function( el ) {
 
 			// allow symmetric ranges to be specified by the absolute value
 			( val.constructor === Array ) &&
+				( prop === "range" ) &&
 				( typeof val[0] === "number" ) &&	
 				( typeof val[1] === "number" ) &&
 				( options[prop] = [ [ -val[0], val[0] ], [ -val[1], val[1] ] ] );
