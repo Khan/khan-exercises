@@ -322,7 +322,7 @@ var createGraph = function( el ) {
 			if ( typeof fn === "function" ) {
 				var oldStyle = currentStyle;
 				currentStyle = jQuery.extend( {}, currentStyle, processed );
-				fn();
+				fn.call( graphie );
 				currentStyle = oldStyle;
 			} else {
 				jQuery.extend( currentStyle, processed );
