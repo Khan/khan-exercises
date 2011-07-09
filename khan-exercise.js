@@ -15,32 +15,55 @@ var Khan = {
 		// thought this was a good API design.
 		"math": [ {
 			src: "http://cdn.mathjax.org/mathjax/latest/MathJax.js",
-			text: 'MathJax.Hub.Config({\
-				messageStyle: "none",\
+			text: "MathJax.Hub.Config({\
+				messageStyle: \"none\",\
 				skipStartupTypeset: true,\
-				jax: ["input/TeX","output/HTML-CSS"],\
-				extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
+				jax: [\"input/TeX\",\"output/HTML-CSS\"],\
+				extensions: [\"tex2jax.js\",\"MathMenu.js\",\"MathZoom.js\"],\
 				TeX: {\
-					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],\
+					extensions: [\"AMSmath.js\",\"AMSsymbols.js\",\"noErrors.js\",\"noUndefined.js\"],\
 					Macros: {\
-						RR: "\\\\mathbb{R}"\
+						RR: \"\\\\mathbb{R}\"\
+					},\
+					Augment: {\
+						Definitions: {\
+							macros: {\
+								lrsplit: \"LRSplit\"\
+							}\
+						},\
+						Parse: {\
+							prototype: {\
+								LRSplit: function( name ) {\
+									var num = this.GetArgument( name ),\
+										den = this.GetArgument( name );\
+									var frac = MathJax.ElementJax.mml.mfrac( MathJax.InputJax.TeX.Parse( '\\\\strut\\\\textstyle{'+num+'\\\\qquad}', this.stack.env ).mml(),\
+									                      MathJax.InputJax.TeX.Parse( '\\\\strut\\\\textstyle{\\\\qquad '+den+'}', this.stack.env ).mml() );\
+					\
+									frac.numalign = MathJax.ElementJax.mml.ALIGN.LEFT;\
+									frac.denomalign = MathJax.ElementJax.mml.ALIGN.RIGHT;\
+									frac.linethickness = \"0em\";\
+					\
+									this.Push( frac );\
+								}\
+							}\
+						}\
 					}\
 				},\
-				"HTML-CSS": { scale: 93 }\
+				\"HTML-CSS\": { scale: 93 }\
 			});\
 			\
-			// We don\'t want to use inline script elements, we want to use code blocks\n\
+			// We don't want to use inline script elements, we want to use code blocks\n\
 			MathJax.Hub.elementScripts = function( elem ) {\
-				return elem.nodeName.toLowerCase() === "code" ?\
+				return elem.nodeName.toLowerCase() === \"code\" ?\
 					[ elem ] :\
-					elem.getElementsByTagName( "code" );\
+					elem.getElementsByTagName( \"code\" );\
 			};\
 			// Data is read in here:\n\
 			// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704\n\
-			// We can force it to convert HTML entities properly by saying we\'re Konqueror\n\
+			// We can force it to convert HTML entities properly by saying we're Konqueror\n\
 			MathJax.Hub.Browser.isKonqueror = true;\
 			\
-			MathJax.Hub.Startup.onload();'
+			MathJax.Hub.Startup.onload();"
 		}, "raphael" ],
 
 		// Load Raphael locally because IE8 has a problem with the 1.5.2 minified release
