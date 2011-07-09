@@ -14,6 +14,7 @@
                     {pos: 2, str: "hundred"},
                     {pos: 3, str: "thousand"}
                     ]</var>
+		
 
 		<var id="TYPE">randFromArray(ROUNDINGTYPE)</var>
 		<var id="OFFSET">TYPE.pos</var>
@@ -34,6 +35,7 @@
 		<var id="ANSWER">round(GIVEN / FACTOR)*FACTOR</var>
 		<var id="ROUN">STRING[ONES-OFFSET-(OFFSET == 0 ? 1 : 0)]</var>
 		<var id="RIGHT">STRING[ONES-OFFSET+1]</var>
+
 		<!--Graphing stuff-->
 		<div data-if="ANSWER<GIVEN">
 			<var id="FIRST">ANSWER</var>
@@ -56,6 +58,7 @@ FIRST+9*FACTOR/10,
 LAST]</var>
 		<var id="COLORED">(GIVEN-FIRST)/FACTOR*10</var>
 	</div>
+
 	<div class="problems">
 		<div>
 			<p class="question">Round <var>GIVEN</var> to the nearest <var>TYPE.str</var>.</p>
@@ -68,6 +71,8 @@ LAST]</var>
 		<p data-else-if="RIGHT==5">As a rule 5 always rounds up.<br /> 0,1,2,3, and 4 round down, and 5,6,7,8, and 9 round up. So the answer is <var>ANSWER</var></p>
 		<p data-else>Since the digit to the right, (the <var>RIGHT</var>) is less than 5, we should round down to <var>ANSWER</var></p>
 		<div class="graphie">
+
+
 init({
     range: [[0, 10], [-1, 1]],
     scale: [60, 60]
@@ -83,12 +88,12 @@ path( [ [-10, 0], [10, 0] ] );
 
 //vertical lines
 for (i=0;i<=11;i++){
-
 path( [ [i, -.1], [i, .1] ] );
 }
 
 <div data-each="LABELS as key, value">label([<var>key</var>,0],"<var>value</var>","below");
 </div>
+
 label([<var>COLORED</var>,0],"<var>GIVEN</var>","above",{
 color: "#0f0"
 });
@@ -97,6 +102,8 @@ circle([<var>COLORED</var>, 0], .1, {
     fill: "purple",
     opacity: 1
 });
+
+						
 		</div>
 	</div>
 	</div>
