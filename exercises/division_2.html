@@ -38,14 +38,14 @@
 			<div>
 				<div class="graphie" id="numbers">
 					init({
-						range: [ [ -2, DIVIDEND_DIGITS.length + 2 ], [ DIVIDEND_DIGITS.length * -2 - 1, 2 ] ],
+						range: [ [ -1 - DIVISOR_DIGITS.length, DIVIDEND_DIGITS.length + 2 ], [ DIVIDEND_DIGITS.length * -2 - 1, 2 ] ],
 						scale: [ 30, 45 ]
 					});
 					style({
 						strokeWidth: 1
 					});
 
-					drawDigits( DIVISOR_DIGITS, -1.5, 0, true );
+					drawDigits( DIVISOR_DIGITS, -0.5 - DIVISOR_DIGITS.length, 0, true );
 					drawDigits( DIVIDEND_DIGITS, 0, 0, true );
 					path( [ [ -0.75, -0.5 ], [ -0.75, 0.5 ], [ DIVIDEND_DIGITS.length, 0.5 ] ] );
 				</div>
@@ -101,7 +101,8 @@
 					drawDigits( product, index - product.length + 1, -2 * index - 1 );
 					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( product, index - product.length + 1, -2 * index - 1, "#FFA500" ) );
 
-					drawDigits( integerToDigits( value - DIVISOR * quotient ), index, -2 * index - 2)
+					var diffDigits = integerToDigits( diff );
+					drawDigits( diffDigits, index - diffDigits.length + 1, -2 * index - 2)
 					label( [ index - product.length, -2 * index - 1 ] ,"-\\vphantom{0}" );
 					path( [ [ index - product.length - 0.25, -2 * index - 1.5 ], [ index + 0.5, -2 * index - 1.5 ] ] );
 
