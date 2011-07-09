@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+	<title>Systems of Equations</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		
+		<div class="vars">
+			<var id="A1">randRangeNonZero(-10,10)</var>
+			<var id="A2">randRangeNonZero(-10,10)</var>
+			<var id="B1">randRangeNonZero(-10,10)</var>
+			<var id="B2"data-ensure="(B1*A2) !== (A1*B2)">randRangeNonZero(-10,10)</var>
+
+			<var id="C1">randRangeNonZero(-10,10)</var>
+			<var id="C2">randRangeNonZero(-10,10)</var>
+			
+			<var id="A_LCM">getLCM(Math.abs(A1), Math.abs(A2))</var>
+			<var id="MULT_1">A_LCM/A1</var>
+			<var id="MULT_2">-(A_LCM/A2)</var>
+
+			<var id="X_NUMER">(C1*(B1*MULT_1+B2*MULT_2)-B1*(C1*MULT_1+C2*MULT_2))/getGCD((C1*(B1*MULT_1+B2*MULT_2)-B1*(C1*MULT_1+C2*MULT_2)),(A1*(B1*MULT_1+B2*MULT_2)))</var>
+			<var id="X_DENOM">(A1*(B1*MULT_1+B2*MULT_2))/getGCD((C1*(B1*MULT_1+B2*MULT_2)-B1*(C1*MULT_1+C2*MULT_2)),(A1*(B1*MULT_1+B2*MULT_2)))</var>
+
+			<var id="Y_NUMER">(C1*MULT_1+C2*MULT_2)/getGCD(C1*MULT_1+C2*MULT_2,B1*MULT_1+B2*MULT_2)</var>
+			<var id="Y_DENOM">(B1*MULT_1+B2*MULT_2)/getGCD(C1*MULT_1+C2*MULT_2,B1*MULT_1+B2*MULT_2)</var>
+
+		</div>
+
+		<div class="problems">
+			<div id="problem-type-or-description">
+				<p class="problem">Solve for <code>x</code> and <code>y</code>, input fractions as A / B:</p>
+				<p class="question"><code><var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var></code><br>
+					                <code><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> = <var>C2</var></code></p>
+				<div class="solution" data-type="multiple">
+					<p><code>x</code> = <span class="sol" data-type="rational"><var>X_NUMER / X_DENOM</var></span></p>
+					<p><code>y</code> = <span class="sol" data-type="rational"><var>Y_NUMER / Y_DENOM</var></span></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>You want both <code>x</code> coefficients to be the least common multiple of <var>A1</var> and <var>A2</var>.So you can muliply the top equation by <var>MULT_1</var> and the bottom equation by <var>MULT_2</var> to get:<br><br>
+
+			   <code><var>expr(["+", ["*", A1*MULT_1, "x"], ["*", B1*MULT_1, "y"]])</var> = <var>C1*MULT_1</var></code><br>
+			   <code><var>expr(["+", ["*", A2*MULT_2, "x"], ["*", B2*MULT_2, "y"]])</var> = <var>C2*MULT_2</var></code></p>
+
+			<p>Adding the top and bottom equations gives you:<br><br>
+			   <code><var>expr(["*", B1*MULT_1+B2*MULT_2, "y"])</var> = <var>C1*MULT_1+C2*MULT_2</var></code></p>
+
+			<p data-if="(B1*MULT_1+B2*MULT_2)!=1">Dividing both sides by <var>B1*MULT_1+B2*MULT_2</var> and then reducing terms gives:<br><br>
+			   <code>y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
+
+			<p>Now you can substitute <code><var>fractionReduce( Y_NUMER, Y_DENOM )</var></code>  back into the top equation to get:<br><br>
+			   <code><var>expr(["+", ["*", A1, "x"], ["*", B1, fractionReduce( Y_NUMER, Y_DENOM )]])</var> = <var>C1</var></code><br><br>
+			   <code><var>expr(["+", ["*", A1, "x"], fractionReduce( B1 * Y_NUMER, Y_DENOM )])</var> = <var>C1</var></code><br><br>
+			   <code><var>expr(["*", A1, "x"])</var> = <var>fractionReduce( C1 * Y_DENOM - B1 * Y_NUMER, Y_DENOM )</var></code><br><br>
+			   <code data-if="A1!=1">x = <var>fractionReduce(X_NUMER,X_DENOM)</var></code><br><br>
+			   Therefore, the answer is: <code>x = <var>fractionReduce(X_NUMER,X_DENOM)</var>, y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code><br><br>
+			</p>
+		
+		</div>
+	</div>
+</body>
+</html>
