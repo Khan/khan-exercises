@@ -22,6 +22,7 @@ function Scratchpad(){
 				stroke = color
 				palette.animate({x: 7}, 100)
 				this.animate({x: 15}, 100)
+				penclick()
 			};
 			palette.push(pad.rect(7, 90 + i * 24, 24, 24).attr({
 				fill: color,
