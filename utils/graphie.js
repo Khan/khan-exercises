@@ -416,7 +416,9 @@ var createGraph = function( el ) {
 		});
 
 		// draw grid
-		this.grid( range[0], range[1] );
+		this.grid( range[0], range[1], {
+			strokeOpacity: gridOpacity
+		} );
 
 		// draw axes
 		graphie.style({ 
