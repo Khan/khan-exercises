@@ -128,7 +128,7 @@ var createGraph = function( el ) {
 
 				} else {
 					// This makes a lot more sense
-
+					var set = raphael.set();
 					var head = raphael.path( "M-3 4 C-2.75 2.5 0 0.25 0.75 0C0 -0.25 -2.75 -2.5 -3 -4" );
 					var end = path.getPointAtLength( l - 0.4 );
 					var almostTheEnd = path.getPointAtLength( l - 0.75 * s );
@@ -145,6 +145,9 @@ var createGraph = function( el ) {
 						.translate( almostTheEnd.x, almostTheEnd.y ).attr( attrs )
 						.attr({ "stroke-linejoin": "round", "stroke-linecap": "round" });
 					head.arrowheadsDrawn = true;
+					set.push( subpath );
+					set.push( head );
+					return set;
 				}
 			}
 		} else if ( type === Raphael.st ) {
@@ -354,7 +357,7 @@ var createGraph = function( el ) {
 				result.attr( currentStyle );
 
 				if ( currentStyle.arrows ) {
-					addArrowheads( result );
+					result = addArrowheads( result );
 				}
 			}
 

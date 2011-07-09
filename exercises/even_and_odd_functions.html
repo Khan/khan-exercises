@@ -88,24 +88,24 @@
 
 			<!-- these are all the x-coordinates that we will use to show the function's value in hints. we basically filter out any points where the function is offscreen or both the pos and neg values are too close to zero. -->
 			<var id="PTS">
-				jQuery.grep( [1,2,3,4,5,6,7,8,9,10], 
-					function( i ) { 
+				jQuery.grep( [1,2,3,4,5,6,7,8,9,10],
+					function( i ) {
 						return ( abs( valAt( WIDES, i ) ) > 1 || abs( valAt( WIDES, -i ) ) > 1 )
 							&& abs( valAt( WIDES, i ) ) < 10
 							&& abs( valAt( WIDES, -i ) ) < 10;
-					} 
+					}
 				)
 			</var>
 
 			<!-- this is the one x-coordinate we will use to show that the function is neither even nor odd. we basically filter out any coordinates that would look kind of like it was even or odd and we also filter out 10 because that makes displaying things easier. -->
 			<var id="PT" data-if="SOL === 'Neither'">
-				randFromArray( 
-					jQuery.grep( PTS, 
-						function( i ) { 
-							return abs( abs( valAt( WIDES, i ) ) - abs( valAt( WIDES, -i ) ) ) > 0.5 
-								&& abs( i ) < 10; 
-						} 
-					) 
+				randFromArray(
+					jQuery.grep( PTS,
+						function( i ) {
+							return abs( abs( valAt( WIDES, i ) ) - abs( valAt( WIDES, -i ) ) ) > 0.5
+								&& abs( i ) < 10;
+						}
+					)
 				)</var>
 
 		</div>
@@ -197,7 +197,7 @@
 
 				<!-- FIXME: all the <var> tags here should be removed when the data-each graphie scoping is fixed. -->
 				<div data-unwrap data-each="PTS as x">
-					
+
 					<div class="graphie" data-update="graph">
 						style({ stroke: "#7edb00" }, function() {
 							path([ [ <var>x</var>, 0 ], [ <var>x</var>, valAt( WIDES, <var>x</var> ) ] ]);

@@ -21,7 +21,7 @@
 			<var id="B">randRange( 1, 99 )</var>
 			<var id="A_DIGITS">digits( A )</var>
 			<var id="B_DIGITS">digits( B )</var>
-			
+
 			<var id="CARRY">0</var>
 			<var id="HIGHLIGHTS">[]</var>
 			<var id="Y_CARRY">3</var>
@@ -70,21 +70,21 @@
 
 			sum = A_DIGITS[ index ] + CARRY;
 
-			HIGHLIGHTS.push( label( [ X_MAX - index, Y_FIRST ], 
+			HIGHLIGHTS.push( label( [ X_MAX - index, Y_FIRST ],
 				"\\Huge{\\color{#6495ED}{" + A_DIGITS[ index ] + "}}" ) );
 			if ( index &lt; B_DIGITS.length ) {
-				HIGHLIGHTS.push( label( [ X_MAX - index, Y_SECOND ], 
+				HIGHLIGHTS.push( label( [ X_MAX - index, Y_SECOND ],
 					"\\Huge{\\color{#6495ED}{" + B_DIGITS[ index ] + "}}" ) );
 				addendStr = " + \\color{#6495ED}{" + B_DIGITS[ index ] + "}";
 				sum += B_DIGITS[ index ];
 			}
 			label( [ X_MAX - index, 0 ], "\\Huge{" + sum % 10 + "}");
-			HIGHLIGHTS.push( label( [ X_MAX - index, Y_SUM ], 
+			HIGHLIGHTS.push( label( [ X_MAX - index, Y_SUM ],
 				"\\Huge{\\color{#28AE7B}{" + sum % 10 + "}}" ) );
 
 			CARRY = floor( sum / 10 );
 			if ( CARRY !== 0 ) {
-				HIGHLIGHTS.push( label( [ X_MAX - index - 1, Y_CARRY ], 
+				HIGHLIGHTS.push( label( [ X_MAX - index - 1, Y_CARRY ],
 					"\\color{#FFA500}{" + CARRY + "}", "below" ) );
 				carryStr = "\\color{#FFA500}{" + CARRY + "}";
 			}
@@ -103,13 +103,13 @@
 				while( HIGHLIGHTS.length ) {
 					HIGHLIGHTS.pop().remove();
 				}
-				HIGHLIGHTS.push( label( [ 0, Y_CARRY ], 
+				HIGHLIGHTS.push( label( [ 0, Y_CARRY ],
 					"\\color{#6495ED}{" + CARRY + "}", "below" ) );
 				label( [ 0, Y_SUM ], "\\Huge{" + CARRY + "}" );
-				HIGHLIGHTS.push( label( [ 0, Y_SUM ], 
+				HIGHLIGHTS.push( label( [ 0, Y_SUM ],
 					"\\Huge{\\color{#28AE7B}{" + CARRY + "}}" ) );
-				
-				HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ], 
+
+				HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ],
 					"\\Large{"
 					+ "\\color{#6495ED}{" + CARRY + "}"
 					+ " = "
