@@ -11,8 +11,8 @@
             <var id="ACCUTEANGLE">rand(25) + 10</var>
 
             <!-- Used for Triangle problems -->
-            <var id="Tri_Y">rand(25) + 15</var>
-            <var id="Tri_Z">rand(55) + 60</var>
+            <var id="Tri_Y">70 - rand(15)</var>
+            <var id="Tri_Z">70 - rand(15)</var>
             <var id="Tri_X">180 - Tri_Y - Tri_Z</var>
 
             <!-- Used for problem variations -->
@@ -26,7 +26,7 @@
             <!-- complementry & opposite angle problem -->
             <div>        
                 <div class="problem">        
-                    <div class="graphie" id="complementry-and-opposite">
+                    <div class="graphie" id="complementary-and-opposite">
                         init({
                             range: [[-6, 6], [-6, 6]],
                             scale: [40, 40]
@@ -120,7 +120,7 @@
                     <p data-if="RAND3 === 0">
                         Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
                         <code>\color{purple}{\angle{CGB}} = 90&deg;</code>
-                        <span class="graphie" data-update="complementry-and-opposite">
+                        <span class="graphie" data-update="complementary-and-opposite">
                             label([2.2, 1.7], "\\color{purple}{90&deg}", 
                                 "above right");
                             arc([0, 0], 3, 0, 90, { stroke: "purple" });
@@ -129,7 +129,7 @@
                     <p data-else-if="RAND3 === 1">
                         <code>\color{orange}{\angle{EGB}} = \color{green}{\angle{AGF}}</code>,
                         because they are opposite angles from each other.
-                        <span class="graphie" data-update="complementry-and-opposite">
+                        <span class="graphie" data-update="complementary-and-opposite">
                             label([1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
                                 "above right");
                             arc([0, 0], 1.2, 0, 68, { stroke: "orange" });
@@ -138,7 +138,7 @@
                     <p data-else>
                         Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
                         <code>\color{purple}{\angle{AGD}} = 90&deg;</code>
-                        <span class="graphie" data-update="complementry-and-opposite">
+                        <span class="graphie" data-update="complementary-and-opposite">
                             label([-2.2, -1.7], "\\color{purple}{90&deg}", 
                                 "below left");
                             arc([0, 0], 3, 180, 270, { stroke: "purple" });
@@ -147,7 +147,7 @@
                     
                     <p data-if="RAND3===0">
                         <code>\color{orange}{\angle{EGB}} = \color{purple}{90&deg;} - \color{green}{<var>ACCUTEANGLE</var>&deg;}</code>
-                        <span class="graphie" data-update="complementry-and-opposite">
+                        <span class="graphie" data-update="complementary-and-opposite">
                             label([1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
                                 "above right");
                             arc([0, 0], 1.2, 0, 68, { stroke: "orange" });
@@ -156,7 +156,7 @@
                     <p data-else-if="RAND3===1">
                         Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
                         <code>\color{purple}{\angle{CGB}} = 90&deg;</code>
-                        <span class="graphie" data-update="complementry-and-opposite">
+                        <span class="graphie" data-update="complementary-and-opposite">
                             label([2.2, 1.7], "\\color{purple}{90&deg}", 
                                 "above right");
                             arc([0, 0], 3, 0, 90, { stroke: "purple" });
@@ -164,7 +164,7 @@
                     </p>
                     <p data-else>
                         <code>\color{orange}{\angle{EGB}} = \color{purple}{90&deg;} - \color{green}{<var>ACCUTEANGLE</var>&deg;}</code>
-                        <span class="graphie" data-update="complementry-and-opposite">
+                        <span class="graphie" data-update="complementary-and-opposite">
                             label([-1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
                                 "below left");
                             arc([0, 0], 1.2, 180, 248, { stroke: "orange" });
@@ -186,9 +186,9 @@
             </div>
 
             <!-- Supplementry angles and 180 degrees in a triangle-->
-            <div id="complementry-and-triangle">
+            <div>
                 <div class="problem">
-                    <div class="graphie" id="complementry-and-triangle">
+                    <div class="graphie" id="supplementary-and-triangle">
                         init({
                             range: [[-9, 6], [-3, 5]],
                             scale: [40, 40]
@@ -270,8 +270,51 @@
                 </div>
 
                 <div class="solution">
-                <var data-if="RAND2 == 0">Tri_Y + Tri_Z</var>
-                <var data-else>Tri_Y</var>
+                    <var data-if="RAND2 === 0">Tri_Y + Tri_Z</var>
+                    <var data-else>Tri_Y</var>
+                </div>
+                
+                <div class="hints">
+                    <p data-if="RAND2 === 0">
+                        <code>
+                            \color{orange}{\angle{BAC}} = 
+                                180&deg; - \color{purple}{\angle{ABC}} - \color{green}{\angle{ACB}}
+                        </code>,
+                            This is because angles inside a triangle adds up to 180 degrees.
+                        <span class="graphie" data-update="supplementary-and-triangle">
+                            label([-3.3, -2], "\\color{orange}{<var>Tri_X</var>&deg;}",
+                                "above right");
+                            arc([-4, -2], 0.75, 0, 49, {stroke: "orange"});
+                        </span>
+                    </p>
+                    <p data-else>
+                        <code>
+                            \color{orange}{\angle{BAC}} = 
+                                180&deg; - \color{green}{\angle{DAB}}
+                        </code>,
+                            This is because supplementary angles along a line add up to 180 degrees.
+                        <span class="graphie" data-update="supplementary-and-triangle">
+                            label([-3.3, -2], "\\color{orange}{<var>Tri_X</var>&deg;}",
+                                "above right");
+                            arc([-4, -2], 0.75, 0, 49, {stroke: "orange"});
+                        </span>
+                    </p>
+                    
+                    <p data-if="RAND2 === 0">
+                        <code>
+                            \color{blue}{\angle{DAB}} = 
+                                180&deg; - \color{orange}{\angle{BAC}}
+                        </code>,
+                        This is because angles inside a triangle adds up to 180 degrees.
+
+                    </p>
+                    <p data-else>
+                        <code>
+                            \color{blue}{\angle{ACB}} = 
+                                180&deg; - \color{orange}{\angle{BAC}} - \color{purple}{\angle{ABC}}
+                        </code>,
+                        This is because angles inside a triangle adds up to 180 degrees.
+                    </p>                    
                 </div>
             </div>
 
