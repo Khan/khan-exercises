@@ -32,19 +32,19 @@
 
 				<div class="hints">
 					<!-- Extra first step, for a question like (4/9)^(-1/2), display "=(9/4)^(1/2)" -->
-					<div data-if="EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code></div>
+					<p data-if="EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code></p>
 
 					<!-- For a question like (4/9)^(1/2)... -->
 
 					<!-- "Figure out what goes in the blank: ?^2=4/9" -->
-					<div>Figure out what goes in the blank:<br /><code>\Big(?\Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></div>
+					<p>Figure out what goes in the blank:<br /><code>\Big(<span id="expand">?</span>\Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
 
-					<!-- "(2/3)^2=4/9, so... -->
-					<div><code><var>fracParens( SOL_N, SOL_D )</var>^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var>\mbox{,}\quad</code>so...</div>
+					<!-- fill 2/3 into the ? -->
+					<span id="expand" data-apply="hint-replace">\color{blue}{<var>frac( SOL_N, SOL_D )</var>}</span>
 
 					<!-- (4/9)^(1/2)=2/3 -->
-					<div data-if="EXP_NEG"><code><var>fracParens( BASE_N, BASE_D )</var>^{<var>fracSmall( EXP_NEG ? -1 : 1, EXP_D )</var>}=<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>frac( SOL_N, SOL_D )</var></code></div>
-					<div data-else><code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>frac( SOL_N, SOL_D )</var></code></div>
+					<p data-if="EXP_NEG">So <code><var>fracParens( BASE_N, BASE_D )</var>^{<var>fracSmall( EXP_NEG ? -1 : 1, EXP_D )</var>}=<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>frac( SOL_N, SOL_D )</var></code></p>
+					<p data-else>So <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>frac( SOL_N, SOL_D )</var></code></p>
 				</div>
 			</div>
 		</div>

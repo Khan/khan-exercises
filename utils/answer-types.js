@@ -1,7 +1,7 @@
 Khan.answerTypes = Khan.answerTypes || {};
 
 jQuery.extend( Khan.answerTypes, {
-	text: function( solutionarea, solution, verifier ) {
+	text: function( solutionarea, solution, fallback, verifier ) {
 		var input = jQuery('<input type="text">');
 		jQuery( solutionarea ).append( input );
 		input.focus();
@@ -17,19 +17,28 @@ jQuery.extend( Khan.answerTypes, {
 		}
 
 		return function() {
-			return verifier( correct, input.val() );
+			// we want the normal input if it's nonempty, the fallback converted to a string if 
+			// the input is empty and a fallback exists, and the empty string if the input
+			// is empty and the fallback doesn't exist.
+			var val = input.val().length > 0 ? 
+				input.val() :
+				fallback ?
+					fallback + "" :
+					""
+
+			return verifier( correct, val );
 		};
 	},
 
-	regex: function( solutionarea, solution ) {
+	regex: function( solutionarea, solution, fallback ) {
 		var verifier = function( correct, guess ) {
 			return jQuery.trim( guess ).match( correct );
 		};
 
-		return Khan.answerTypes.text( solutionarea, solution, verifier );
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
-	percent: function ( solutionarea, solution ) {
+	percent: function ( solutionarea, solution, fallback ) {
 		Khan.answerTypes.opts = jQuery.extend({
 				maxError: Math.pow( 2, -23 )
 				}, jQuery( solution ).data());
@@ -43,7 +52,7 @@ jQuery.extend( Khan.answerTypes, {
 			return Khan.answerTypes.decimalVerifier( correct, guess );
 		}
 
-		return Khan.answerTypes.text( solutionarea, solution, verifier );
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
 	decimalVerifier: function( correct, guess ) {
@@ -77,15 +86,15 @@ jQuery.extend( Khan.answerTypes, {
 		return checkDecimalPoint( guess ) || checkDecimalComma( guess );
 	},
 
-	decimal: function( solutionarea, solution ) {
+	decimal: function( solutionarea, solution, fallback ) {
 		Khan.answerTypes.opts = jQuery.extend({
 				maxError: Math.pow( 2, -23 )
 				}, jQuery( solution ).data());
 
-		return Khan.answerTypes.text( solutionarea, solution, Khan.answerTypes.decimalVerifier );
+		return Khan.answerTypes.text( solutionarea, solution, fallback, Khan.answerTypes.decimalVerifier );
 	},
 
-	rational: function( solutionarea, solution ) {
+	rational: function( solutionarea, solution, fallback ) {
 		var options = jQuery.extend({
 			simplify: "required"
 		}, jQuery( solution ).data());
@@ -118,7 +127,7 @@ jQuery.extend( Khan.answerTypes, {
 			}
 		};
 
-		return Khan.answerTypes.text( solutionarea, solution, verifier );
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
 	radical: function( solutionarea, solution ) {
@@ -138,10 +147,12 @@ jQuery.extend( Khan.answerTypes, {
 			var type = jQuery( this ).data( "type" );
 			type = type != null ? type : "text";
 
-			var sol = jQuery( this ).clone();
-			var solarea = jQuery( this ).empty();
+			var sol = jQuery( this ).clone(),
+				solarea = jQuery( this ).empty();
 
-			var validator = Khan.answerTypes[type]( solarea, sol );
+			var fallback = sol.data( "fallback" ),
+				validator = Khan.answerTypes[type]( solarea, sol, fallback );
+
 			jQuery( this ).data( "validator", validator );
 		});
 
@@ -150,6 +161,7 @@ jQuery.extend( Khan.answerTypes, {
 
 			solutionarea.find( ".sol" ).each(function() {
 				var validator = jQuery( this ).data( "validator", validator );
+	
 				if ( validator != null ) {
 					valid = valid && validator();
 				}

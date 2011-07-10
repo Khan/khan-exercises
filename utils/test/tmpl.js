@@ -140,7 +140,21 @@ test("Ensure", function() {
 	equals( jQuery.tmpl.VARS.D, 4, "See that the D was at the right value." );
 });
 
-test("Looping", 21, function() {
+test("Unwrap", function() {
+	jQuery("#qunit-fixture").append(
+		"<div data-unwrap><b>bold!</b></div>" +
+		"<div data-if='1' data-unwrap><i>italic!</i></div>" +
+		"<div data-if='0' data-unwrap><u>underline!</u></div>"
+	);
+
+	jQuery("#qunit-fixture").tmpl();
+
+	equals( jQuery("#qunit-fixture > b").length, 1, "See that the div was unwrapped." );
+	equals( jQuery("#qunit-fixture > i").length, 1, "See that the div was unwrapped with a true if." );
+	equals( jQuery("#qunit-fixture > u").length, 0, "See that the div was unwrapped with a false if." );
+});
+
+test("Looping", 23, function() {
 	jQuery("#qunit-fixture").append(
 		"<var id='items'>['a','b','c']</var>" +
 		"<var id='obj'>{a:0,b:1,c:2}</var>" +
@@ -149,9 +163,10 @@ test("Looping", 21, function() {
 		"<var id='key'>1</var><var id='value'>2</var>" +
 		"<ul class='c'><li data-each='items as key, value'><var>key</var>: <var>value</var></li></ul>" +
 		"<var id='tmpKey'>key</var><var id='tmpVal'>value</var>" +
-		"<var id='items2'>[]</var><var data-each='items as key, value'>items2.push( key );</var>" +
+		"<var id='items2'>[]</var><var data-each='items as key, value'>items2.push( key )</var>" +
 		"<div class='d' data-if='false' data-each='doesntexist'></div>" +
-		"<ul class='e'><li data-each='obj as key, value'><var>key</var>: <var>value</var></li></ul>"
+		"<ul class='e'><li data-each='obj as key, value'><var>key</var>: <var>value</var></li></ul>" +
+		"<ul class='f'><li data-each='[]'></li></ul>"
 	);
 
 	jQuery("#qunit-fixture").tmpl();
@@ -162,6 +177,7 @@ test("Looping", 21, function() {
 	var li = jQuery("#qunit-fixture ul.a li");
 
 	equals( li.length, 3, "See that the list items were generated." );
+	equals( jQuery( li[0] ).data( "each" ), undefined, "Verify the data-each attribute was removed." );
 
 	// test data-each="items as value"
 	li = jQuery("#qunit-fixture ul.b li");
@@ -203,6 +219,11 @@ test("Looping", 21, function() {
 	equals( li[0].innerHTML, "a: 0", "Verify the contents of the object property." );
 	equals( li[1].innerHTML, "b: 1", "Verify the contents of the object property." );
 	equals( li[2].innerHTML, "c: 2", "Verify the contents of the object property." );
+
+	// test data-each="[]"
+	li = jQuery("#qunit-fixture ul.f li");
+
+	equals( li.length, 0, "See that the list item was removed." );
 });
 
 test( "Inheritance", function() {
@@ -211,6 +232,8 @@ test( "Inheritance", function() {
 		"<div id='test-child-1' class='tmpl'><p id='child-p-1'>Test 1</p><p id='child-p-2'>Test 2</p></div>";
 
 	QUnit.reset();
+
+	jQuery( "#test-base-1" ).data( "inherited", true );
 
 	// Test appendContents
 	jQuery("#qunit-fixture *").tmplApply({ attribute: "class", defaultApply: "appendContents" });
