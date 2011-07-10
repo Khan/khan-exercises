@@ -318,7 +318,161 @@
                 </div>
             </div>
 
+            <!-- Parallel Lines and Triangle 
+                (corresponding angles, 180 degrees in a triangle problem) -->
+            <div>
+                <div class="problem">
+                    <div class="graphie" id="parallel-and-triangle">
+                        init({
+                            range: [[-10, 10], [-10, 10]],
+                            scale: [30, 30]
+                        });
 
+                        style({
+                            stroke: "#888",
+                            strokeWidth: 2
+                        });
+
+                        // Draw Parallel lines
+                        path([ [-8, 8], [8, -4] ]);
+                        path([ [-8, 4], [8, -8] ]);
+
+                        //Draw 2 more lines to form a triangle
+                        path([ [-6, -4], [-4, 9] ]);
+                        path([ [-6, -4], [9, -2] ]);
+
+                        //draw points
+                        style({
+                            fill: "grey"
+                        }, function() {
+                            circle([-8, 8], 0.05);
+                            circle([8, -4], 0.05);
+                            circle([-8, 4], 0.05);
+                            circle([8, -8], 0.05);
+                            
+                            label([-6, -4], "A", "below");
+                            circle([-6, -4], 0.05);
+                            label([-4, 9], "B", "right");
+                            circle([-4, 9], 0.05);
+                            label([9, -2], "C", "above");
+                            circle([9, -2], 0.05);
+                            
+                            label([-5.07, 1.75], "H", "below left");
+                            label([-4.47, 5.25], "J", "above right");
+                            label([1.25, -3], "I", "below");
+                            label([5.7, -2.3], "K", "above");                            
+                        });
+
+                        //draw given angles
+                        if(RAND3 == 0) {
+                            label([0, -2.50], "\\color{blue}{\\angle{AIH}} = ?", "left");
+                            arc([1.25, -3], .75, 135, 190, {stroke: "blue"});
+                            
+                            label([-4.2, 4.25], "\\color{green}{<var>Tri_Z</var>&deg;}", "below");
+                            arc([-4.47, 5.25], 1, 255, 330, {stroke: "green"});
+                            
+                            label([-5.5, -3.5], "\\color{purple}{<var>Tri_X</var>&deg;}", "above right");
+                            arc([-6, -4], 1, 10, 80, {stroke: "purple"});
+                        } else if(RAND3 == 1) {
+                            label([3.5, -2.6], "\\color{blue}{\\angle{AKJ}} = ?", "above");
+                            arc([5.7, -2.3], 0.75, 139, 194, {stroke: "blue"});
+                            
+                            label([-4.4, 0.65], "\\color{green}{<var>Tri_Z</var>&deg;}", "below");
+                            arc([-5.07, 1.75], 1, 257, 326, {stroke: "green"});
+                            
+                            label([-5.5, -3.5], "\\color{purple}{<var>Tri_X</var>&deg;}", "above right");
+                            arc([-6, -4], 1, 10, 80, {stroke: "purple"});
+                        } else {
+                            label([-5.5, -3.5], "\\color{blue}{\\angle{BAC}} = ?", "above right");
+                            arc([-6, -4], 1, 10, 80, {stroke: "blue"});
+                            
+                            label([4.1, -2.6], "\\color{purple}{<var>Tri_Y</var>&deg;}", "above");
+                            arc([5.7, -2.3], 0.75, 139, 194, {stroke: "purple"});
+                            
+                            label([-4.4, 0.65], "\\color{green}{<var>Tri_Z</var>&deg;}", "below");
+                            arc([-5.07, 1.75], 1, 257, 326, {stroke: "green"});                                                                                
+                        }
+
+                    </div>
+                    <p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+                    Angles not necessarily drawn to scale.</p>
+                </div>
+
+                <div class="question">
+                    Given the following:
+                        <ul>
+                            <li><code>\overline{HI} \parallel \overline{JK}</code> -  
+                            Lines HI and JK are parallel.</li>
+                            <li data-if="RAND3 == 0 || RAND3 == 1">
+                                <code>\color{purple}{\angle{BAC}} = <var>Tri_X</var>&deg;</code>
+                            </li>
+                            <li data-else>
+                                <code>\color{purple}{\angle{AKJ}} = <var>Tri_Y</var>&deg;</code>
+                            </li>
+                            
+                            <li data-if="RAND3 == 0">
+                                <code>\color{green}{\angle{AJK}} = <var>Tri_Z</var>&deg;</code>
+                            </li>
+                            <li data-else>
+                                <code>\color{green}{\angle{AHI}} = <var>Tri_Z</var>&deg;</code>
+                            </li>
+                            
+                        </ul>
+                        
+                        What is 
+                        <code data-if="RAND3 === 0">\color{blue}{\angle{AIH}} = ?</code>
+                        <code data-else-if="RAND3 === 1">\color{blue}{\angle{AKJ}} = ?</code>
+                        <code data-else>\color{blue}{\angle{BAC}} = ?</code>
+                </div>
+
+                <div class="solution">
+                    <var data-if="RAND3 === 0 || RAND3 === 1">Tri_Y</var>
+                    <var data-else>Tri_X</var>
+                </div>
+                
+                <div class="hints">
+                    <p data-if="RAND3 === 0">
+                        <code>\color{orange}{\angle{AHI}} = \color{green}{\angle{AJK}}</code>, 
+                        because they are corresponding angles formed by 2 parallel lines and 
+                        a transversal line. 
+                        <span class="graphie" data-update="parallel-and-triangle">
+                            label([-4.60, 0.75], "\\color{orange}{<var>Tri_Z</var>&deg;}", "below");
+                            arc([-5.07, 1.75], 1, 260, 325, {stroke: "orange"});
+                        </span>
+                    </p>
+                    <p data-else>
+                        <code>\color{orange}{\angle{AJK}} = \color{green}{\angle{AHI}}</code>, 
+                        because they are corresponding angles formed by 2 parallel lines and 
+                        a transversal line. 
+                        <span class="graphie" data-update="parallel-and-triangle">
+                            label([-4.00, 4.25], "\\color{orange}{<var>Tri_Z</var>&deg;}", "below");
+                            arc([-4.47, 5.25], 1, 257, 325, {stroke: "orange"});
+                        </span>
+                    </p>
+
+                    
+                    <p data-if="RAND3 === 0">
+                        <code>
+                            \color{blue}{\angle{AIH}} = 
+                                180&deg; - \color{orange}{\angle{AHI}} - \color{purple}{\angle{BAC}} 
+                        </code>
+                        , because the 3 angles are contained in <code>\triangle{AHI}</code>, 
+                        and angles inside a triangle adds up to 180&deg;.
+                    </p>
+                    <p data-else>
+                        <code data-if="RAND3 === 1">
+                            \color{blue}{\angle{AKJ}} = 
+                                180&deg; - \color{orange}{\angle{AJK}} - \color{purple}{\angle{BAC}} 
+                        </code>
+                        <code data-else>
+                            \color{blue}{\angle{BAC}} = 
+                                180&deg; - \color{orange}{\angle{AJK}} - \color{purple}{\angle{AKJ}} 
+                        </code>
+                        , because the 3 angles are contained in <code>\triangle{AJK}</code>, 
+                        and angles inside a triangle adds up to 180&deg;.
+                    </p>                                                              
+                </div>
+            </div>
 
 
         </div><!-- End of problems -->
