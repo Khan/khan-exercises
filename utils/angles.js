@@ -18,7 +18,53 @@ jQuery.extend( KhanUtil, {
 		{deg: 330, rad: "\\frac{11\\pi}{6}"},
 		{deg: 360, rad: "2\\pi"}
 	],
+	trigFunc:{
+		tan: {name: "tan", print: function(angle){
+      						        if(angle==0){
+                                                                return 0;
+                                                        }
+                                                        else if(angle==30){
+                                                                return '1/sqrt(3)';
+                                                        }
+                                                        else if(angle==45){
+                                                                return '1';
+                                                        }
+                                                        else if(angle==60){
+                                                                return 'sqrt(3)';
+                                                        }
+                                                        else if(angle==90){
+                                                                return 'undef';
+                                                        }
+                                                        return 'undef';
+	
+						}
+		},
+		cos :{name: "cos", print: function(angle){ 
+							return KhanUtil.trigTypes.sin.print(90-angle);
+							}
+			},
+		sin: {name: "sin", print: function( angle ){ 
+							if(angle==0){
+								return 0;
+							}
+							else if(angle==30){
+								return '1/2';
+							}
+							else if(angle==45){
+								return 'sqrt(2)/2';
+							}
+							else if(angle==60){
+								return 'sqrt(3)/2';
+							}
+							else if(angle==90){
+								return '1';
+ 							}
+							return 'undef';
+							} 
+		}
+	},
 
+	trigTypes:[trigFunc.sin,trigFunc.tan, trigFunc.cos],
 	// Convert a degree value to a radian value
 	toRadians: function( degrees ) {
 		return degrees * Math.PI / 180;

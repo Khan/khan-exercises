@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html data-require="math math-format angles">
+<head>
+	<title>Trigonometry identities 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="START_TYPE">trigTypes.cos.print(30)</var>
+			<var id="D">randRange( 2, 10 )</var>
+			<var id="SOLUTION">toRadians(180)</var>
+			<var id="ONE_OVER_A">fractionReduce( 1, A )</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question">Solve for <code>x</code>:</p>
+				<div><code><var>A</var>x = <var>START_TYPE</var></code></div>
+
+				<p class="solution" data-type="rational"><var>D / A</var></p>
+			</div>
+		</div>
+
+		<div class="hints">
+			<div>
+				<p>Multiply both sides by <code><var>ONE_OVER_A</var></code>.</p>
+				<p><code>(<var>ONE_OVER_A</var>) \cdot (<var>A</var>x) = (<var>ONE_OVER_A</var>) \cdot (<var>D</var>)</code></p>
+			</div>
+			<div>
+				<p>Simplify.</p>
+				<p><code>x = <var>SOLUTION</var></code></p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
