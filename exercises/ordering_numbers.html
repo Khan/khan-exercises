@@ -25,8 +25,8 @@
 					numer = KhanUtil.randRange( 1, 99 )
 					denom = KhanUtil.randRange( 1, 99 )
 					num = numer/denom
-					numbers[i] = num;
-				} while (numbers.indexOf(num) != i && num < 10)
+				} while ( checkIfAlreadyUsed(numbers, num) || num > 10) // less than 10, requirement added to port from old framework
+				numbers[i] = num;
 
 				type = KhanUtil.randRange( 1, 3 ) //pick a type: decimal, percent, fraction
 				switch (type) {
@@ -65,8 +65,9 @@
 			return correctOrder;
 		}
 
-//take the array and return an array which show the sort order
-//Example: [21, 46, 13] returns [3, 1, 2]		
+//takes two arrays, one with answers and one with an order
+//returns an array with the answers in the correct order
+//Example: ["three", "one", "two"] & [3, 1, 2] -> ["one", "two", "three"]		
 		function buildOrderedArray( array, order ) {
 
 			var correctOrder, x;
@@ -78,24 +79,26 @@
 			return correctOrder;
 		}
 
-//turns foo into [foo] and [foo] into [[foo]] etc
-		function putInArray( item ) {
-			var itemarray = [item];	return itemarray;
-		}
-
-// takes a solution array which is a set of numbers and builds incorrect answers which are sets of numbers in string form
-// THIS DOES NOT check for uniqueness.  IT SHOULD
-// Lines 23-29 show the structure of how to do this
-// but I can't get it to work with arrays & joined strings - argh!
+//takes in an array and returns an array of strings
+//the array is the correct answer, the new array contains 1 right and 4 wrong answers
 		function buildAnswerArray( array ) {
-			
+
+			var newarray, answer;
+			newarray = []
+			newarray[0]=array.join ( ", " )
+
 			for (var i = 0; i < 4; i++) {
-				array[i+1] = KhanUtil.shuffle(array[0]).join( ", " )
+				do {
+					answer = KhanUtil.shuffle(array).join( ", " )
+				} while ( checkIfAlreadyUsed(newarray, answer) )
+				newarray[i+1] = answer
 			}
-			array[0] = array[0].join( ", " ) 
-			return array;
+			return newarray;
 		}
 
+		function checkIfAlreadyUsed(array, toBeAdded) {
+			return array.indexOf(toBeAdded) != -1;
+		}		
 		</script>
 
 		<div class="vars">
@@ -106,8 +109,8 @@
 			<var id="NUM_ORDER">findOrder(NUMS)</var>
 			<var id="SOL_ARRAY">buildOrderedArray( STRINGS,NUM_ORDER )</var>
 			<var id="SORTED_STRS">SOL_ARRAY.join( ", " )</var>
-			<var id="POSSIBLE_ANSWERS">buildAnswerArray(putInArray(SOL_ARRAY))</var>
-			
+			<var id="POSSIBLE_ANSWERS">buildAnswerArray(SOL_ARRAY)</var>
+			<var id="POSSIBLE_ANSWERS_2">buildAnswerArray(SOL_ARRAY)</var>
 		</div>
 
 		<div class="problems">
@@ -132,7 +135,7 @@
 					<p><var>STRINGS[2]</var> = <var>roundTo(2,NUMS[2])</var></p>
 					<p><var>STRINGS[3]</var> = <var>roundTo(2,NUMS[3])</var></p>
 					<p><var>STRINGS[4]</var> = <var>roundTo(2,NUMS[4])</var></p>
-					<p>The answer is <var>SORTED_LIST</var></p>
+					<p>The answer is <var>SORTED_STRS</var></p>
 				</div>
 
 			</div>
