@@ -473,6 +473,49 @@
                     </p>                                                              
                 </div>
             </div>
+            
+            <!-- Alternate exterior angles and corresponding angles -->
+            <div>
+                <div class="problem">
+                    <div class="graphie" id="alternate-exterior-and-corresponding"> 
+                        init({
+                            range: [[-6, 8], [-5, 5]],
+                            scale: [50, 50]
+                        });
+
+                        style({
+                            stroke: "#888",
+                            strokeWidth: 2
+                        });
+
+                        // Draw Parallel lines
+                        path([ [-5, 2], [7, 2] ]);
+                        path([ [-5, -2], [7, -2] ]);
+                        
+                        // Perpendicular line
+                        path([ [0, 4], [0, -4] ]);
+                        
+                        // Transversal line
+                        path([ [-2, 4], [6, -4] ]);
+                        
+                        // Label Points
+                        label([-5, 2], "D", "above left");
+                        label([7, 2], "E", "above right");
+                        label([-5, -2], "F", "above left");
+                        label([7, -2], "G", "above right");
+                        
+                        label([-2, 4], "I", "above left");
+                        label([6, -4], "J", "above right");
+                        
+                        label([0, 4], "K", "above right");
+                        label([0, -4], "L", "below right");
+                        
+                        label([0, 2], "A", "below left");
+                        label([0, -2], "B", "above left");
+                        label([4, -2], "C", "above right");
+                    </div>
+                </div>
+            </div>           
 
 
         </div><!-- End of problems -->
