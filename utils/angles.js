@@ -18,7 +18,7 @@ jQuery.extend( KhanUtil, {
 		{deg: 330, rad: "\\frac{11\\pi}{6}"},
 		{deg: 360, rad: "2\\pi"}
 	],
-	trigFunc:{
+	trigFunc: {
 		tan: {name: "tan", print: function(angle){
       						        if(angle==0){
                                                                 return 0;
@@ -38,9 +38,9 @@ jQuery.extend( KhanUtil, {
                                                         return 'undef';
 	
 						}
-		},
+			},
 		cos :{name: "cos", print: function(angle){ 
-							return KhanUtil.trigTypes.sin.print(90-angle);
+							return KhanUtil.trigFunc.sin.print(90-angle);
 							}
 			},
 		sin: {name: "sin", print: function( angle ){ 
@@ -60,14 +60,52 @@ jQuery.extend( KhanUtil, {
 								return '1';
  							}
 							return 'undef';
+							},
+					convertsTo: ["cos"],
+					convert: function( type, angle ){
+							if(type.name=="cos"){
+								sinv=this.print( angle );
+								cosv= KhanUtil.trigFunc.sin.print( angle );
+								toReturn='sin^2 x + cos^2 x = 1'+'(' + sinv + ')^2 = 1 - cos^2 x'+'(' + sinv + ')^2 - 1 = - cos^2 x'+'-(' + sinv + ')^2 + 1 = cos^2 x'+cosv + ' = cos x';	
 							} 
 		}
-	},
+	}
+})
+jQuery.extend( KhanUtil, {
 
-	trigTypes:[trigFunc.sin,trigFunc.tan, trigFunc.cos],
+
+	trigTypes: [KhanUtil.trigFunc.sin,KhanUtil.trigFunc.cos,KhanUtil.trigFunc.tan],
 	// Convert a degree value to a radian value
 	toRadians: function( degrees ) {
 		return degrees * Math.PI / 180;
+	},
+
+	findSteps: function(start,end){
+		var queue=[];
+		var next=start;
+		while(next.name!=end.name){
+			if (next.convertsTo) {
+      				$.each(next.convertsTo, function(i, str) {
+					var move=TrigFunc[str];
+					move["parent"]=next;
+					queue.push(move);
+           		 	});
+                	}
+      			 next = queue.shift();
+    		}	
+		var prev=next;
+		var steps=new Array();
+		while(prev.name!=start.name){
+			steps.unshift(prev.name);
+			prev=prev.parent;
+		}		
+		steps.unshift(prev.name);
+
+		var toReturn=new Array();
+		while(int x=0;x<steps.length-1;x++){
+			toReturn.push(trigFunc[steps[x]].convertTo(steps[x+1]));
+		}			
+		return toReturn;
 	},
 
 	wrongCommonAngle: function( angleIdx, i ) {
