@@ -366,6 +366,12 @@ jQuery.fn.tmpl = function() {
 	}
 };
 
+jQuery.extend( jQuery.expr[":"], {
+	inherited: function(el) {
+		return jQuery( el ).data( "inherited" );
+	}
+} );
+
 jQuery.fn.extend({
 	tmplApply: function( options ) {
 		options = options || {};
@@ -399,7 +405,7 @@ jQuery.fn.extend({
 						.call( parent[ name ], this );
 
 				// Store the parent element for later use if it was inherited from somewhere else
-				} else if ( $this.data( "inherited") ) {
+				} else if ( $this.closest( ":inherited" ).length > 0 ) {
 					parent[ name ] = this;
 				}
 			}

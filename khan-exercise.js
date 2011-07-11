@@ -310,8 +310,7 @@ var Khan = {
 		while ( parentType ) {
 			// Copy over the parent element to the child
 			var original = exercise.find( ".problems #" + parentType ).clone();
-			original.find( ".vars, .vars [id], > [class]").data( "inherited", true );
-			problem.prepend( original.children() );
+			problem.prepend( original.children().data( "inherited", true ) );
 
 			// Keep copying over the parent elements (allowing for deep inheritance)
 			parentType = original.data( "type" );
