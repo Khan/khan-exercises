@@ -728,7 +728,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 			}
 
 			// Extract scripts with no src
-			var rscript = /<(?:)script\b[^s>]*(?:(?!src=)s[^s>])*>([^<]*(?:(?!<\/script>)<[^<]*)*)<\/script>/gi;
+			var rscript = /<(?:)script\b(?:(?!src=).)*?>([^<]*(?:(?!<\/script>)<[^<]*)*)<\/script>/gi;
 			while ( ( match = rscript.exec( data ) ) != null ) {
 				jQuery.globalEval( match[1] );
 			}
