@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format">
+<head>
+	<title>Trigonometry 1</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+		function betterTriangle(width, height, A, B, C, a, b, c) {
+			var scale = 5 / Math.sqrt(width * width + height * height);
+			width *= scale;
+			height *= scale;
+
+			with ( KhanUtil.currentGraph ) {
+				// Leave some space for the labels
+				init({ range: [[-1.5, width + 1], [-1, height + 1]] });
+
+				path([ [0, 0], [width, 0], [0, height], true ]);
+
+				label( [0, height], A, "above left" );
+				label( [0, 0], C, "below left" );
+				label( [width, 0], B, "below right" );
+
+				label( [0, height/2], b, "left" );
+				label( [width/2, 0], a, "below" );
+				label( [width/2, height/2], c, "above right", {
+					labelDistance: 3
+				} );
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+			<div class="vars">
+				<var id="AC">randRange(3, 10)</var>
+				<var id="BC">randRange(3, 10)</var>
+				<var id="CB">BC</var>
+				<var id="AB">AC * AC + BC * BC</var>
+				<ul id="ANGLE">
+					<li>"ABC"</li>
+					<li>"ACB"</li>
+					<li>"BAC"</li>
+				</ul>
+				<var id="OPPOSITE_NAME">ANGLE.substring(0,1)+ANGLE.substring(2)</var>
+				<var id="OPPOSITE_VALUE">12</var>
+				<var id="HYPOTENUSE_NAME">"AB"</var>
+				<var id="HYPOTENUSE_VALUE">AB</var>
+				<var id="ADJACENT_NAME">ANGLE.substring(1)</var>
+				<var id="ADJACENT_VALUE">12</var>
+			</div>
+
+	<div class="problems">
+		<div id="sin">
+			<div class="vars">
+				<var id="SOLUTION_PRETTY">fraction(OPPOSITE_VALUE,HYPOTENUSE_VALUE,true,false,false,false)</var> 
+				<var id="SOLUTION">OPPOSITE_VALUE/HYPOTENUSE_VALUE</var>
+			</div>
+			<div class="problem">
+				<p>AC is <var>AC</var> units long</p> 
+				<p>BC is <var>BC</var> units long</p> 
+				<p>AB is <var>AB</var> units long</p> 
+			</div>
+			<div class="question">
+				<p>What is sin(<var>ANGLE</var>)</p>
+
+				<div class="graphie">
+					betterTriangle( BC, AC, "A", "B", "C", BC, AC, "?" );
+				</div>
+			</div>
+
+			<div class="solution" data-type="rational">
+				<var>SOLUTION</var>
+			</div>
+
+			<div class="hints" data-apply="appendContents">
+				<p>SOH CAH TOA</p>
+				<p>Sin=Opposite over Hypotenuse</p>
+				<p>opposite=<var>OPPOSITE_NAME</var>=<var>OPPOSITE_VALUE</var></p>
+				<p>hypothenuse=<var>HYPOTENUSE_NAME</var>=<var>HYPOTENUSE_VALUE</var></p>
+				<p>sin(<var>ANGLE</var>)=<var>SOLUTION_PRETTY</var></p>
+			</div>
+		</div>
+
+	</div>
+
+	</div>
+</body>
+</html>
