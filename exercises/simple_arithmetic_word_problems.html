@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<title>Simple Arithmetic Word Problems</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+
+		<div class="problems">
+			<div class="multiples-of-objects">
+				<div class="vars">
+					<var id="NUM_TIMES_MORE">randRange( 2, 12 )</var>
+					<var id="NUM_OBJECTS">randRange( 2, 12 )</var>
+				</div>
+				<div class="problem">
+					<p class="question"><var>person(1)</var> has <var>NUM_TIMES_MORE</var> times as many <var>plural(storeItem(1,1))</var> as <var>person(2)</var>.  If <var>person(1)</var> has <var>NUM_OBJECTS</var> <var>plural(storeItem(1,1))</var> , how many does <var>person(2)</var> have?
+					
+					</p>
+					<p class="solution"><var>NUM_TIMES_MORE * NUM_OBJECTS</var></p>
+				</div>
+				<div class="hints">
+					<p>"Times as many" is a clue word for multiplication.</p>
+					<p><var>NUM_TIMES_MORE</var> * <var>NUM_OBJECTS</var> is how this looks in math problem form (the "times more" number * the # of objects).</p>
+					<p>Thus, the answer is <var>NUM_TIMES_MORE * NUM_OBJECTS</var> <var>plural(storeItem(1,1))</var>.</p>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="problems">
+			<div class="multiple-of-objects">
+				<div class="vars" data-ensure="PARENT_MULTIPLE * CHILD_AGE -19 > CHILD_AGE">
+					<var id="CHILD_AGE">randRange(2, 9)</var>
+					<var id="PARENT_MULTIPLE">randRange(2, 12)</var> <!-- parent can be 108 years old max, reasonable -->
+				</div>
+				<div class="problem">
+					<p class="question">Sally is <var>CHILD_AGE</var> years old.  Her mom is <var>PARENT_MULTIPLE</var> times older.  How old is Sally's mom?
+					
+					</p>
+					<p class="solution"><var>PARENT_MULTIPLE * CHILD_AGE</var></p>
+				</div>
+				<div class="hints">
+					<p>"Times older" is a clue word for multiplication.</p>
+					<p><var>CHILD_AGE</var> * <var>PARENT_MULTIPLE</var> is how this looks in math problem form (Sally's age * the "times older" number).</p>
+					<p>Thus, the answer is <var>PARENT_MULTIPLE * CHILD_AGE</var> years old.</p>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="problems">
+			<div class="purchasing-packages">
+				<div class="vars">
+					<var id="NUM_IN_A_PACKAGE">randRange( 2, 12 )</var>
+					<var id="NUM_OBJECTS">randRange( 2, 12 )</var>
+				</div>
+				<div class="problem">
+					<p class="question"><var>person(1)</var> purchased <var>NUM_OBJECTS</var> packages of <var>plural(storeItem(1,1))</var>. Each package contained <var>NUM_IN_A_PACKAGE</var> <var>plural(storeItem(1,1))</var>.  How many <var>plural(storeItem(1,1))</var> did <var>person(1)</var> purchase?
+					</p>
+					<p class="solution"><var>NUM_IN_A_PACKAGE * NUM_OBJECTS</var></p>
+				</div>
+				<div class="hints">
+					<p>"package contained" is a clue word for multiplication.</p>
+					<p><var>NUM_OBJECTS</var> * <var>NUM_IN_A_PACKAGE</var> is how this looks in math problem form (the # of packages * the # of items in a package).</p>
+					<p>Thus, the answer is <var>NUM_IN_A_PACKAGE * NUM_OBJECTS</var> <var>plural(storeItem(1,1))</var>.</p>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="problems">
+			<div class="vacation_travels">
+				<div class="vars">
+					<var id="NUM_TRAVELLED_1">randRange( 2, 20 )</var>
+					<var id="NUM_TRAVELLED_2">randRange( 2, 20 )</var>
+					<var id="NUM_TRAVELLED_3">randRange( 2, 20 )</var>
+				</div>
+				<div class="problem">
+					<p class="question">On a vacation your family travels <var>NUM_TRAVELLED_1</var> miles on the first day, <var>NUM_TRAVELLED_2</var> miles on the second day and <var>NUM_TRAVELLED_3</var> miles on the third day.  How many total miles did they travel?
+					</p>
+					<p class="solution"><var>NUM_TRAVELLED_1 + NUM_TRAVELLED_2 + NUM_TRAVELLED_3</var></p>
+				</div>
+				<div class="hints">
+					<p>Traveling distances means this is an addition problem.</p>
+					<p><var>NUM_TRAVELLED_1</var> + <var>NUM_TRAVELLED_2</var> + <var>NUM_TRAVELLED_3</var> is how this looks in math problem form.</p>
+					<p>Thus, your family travelled <var>NUM_TRAVELLED_1 + NUM_TRAVELLED_2 + NUM_TRAVELLED_3</var> miles.</p>
+
+				</div>
+			</div>
+		</div>
+		
+		<div class="problems">
+			<div class="objects-per-person">
+				<div class="vars">
+					<var id="NUM_PER_PERSON">randRange( 2, 12 )</var>
+					<var id="NUM_PEOPLE">randRange( 2, 12 )</var>
+					<var id="NUM_OBJECTS">NUM_PER_PERSON * NUM_PEOPLE</var>
+				</div>
+				<div class="problem">
+					<p class="question">If <var>NUM_OBJECTS</var> <var>plural(storeItem(1,1))</var> are shared between <var>NUM_PEOPLE</var> people, how many <var>plural(storeItem(1,1))</var> would each person get?
+					</p>
+					<p class="solution"><var>NUM_PER_PERSON</var></p>
+				</div>
+				<div class="hints">
+					<p>"are shared between" means this is a division problem.</p>
+					<p><var>NUM_OBJECTS</var> / <var>NUM_PEOPLE</var> is how this looks in math problem form (the # of items / the # of people).</p>
+					<p>Thus, each person gets <var>NUM_PER_PERSON</var> <var>plural(storeItem(1,1))</var>.</p>
+
+				</div>
+			</div>
+		</div>
+		
+		<div class="problems">
+			<div class="students-in-a-playground">
+				<div class="vars">
+					<var id="NUM_STUDENTS">randRange( 10, 30 )</var>
+					<var id="NUM_NEW_STUDENTS">randRange( 7, 19 )</var>
+				</div>
+				<div class="problem">
+					<p class="question">There are <var>NUM_STUDENTS</var> students on the playground.  Some more students show up, and now there are <var>NUM_STUDENTS + NUM_NEW_STUDENTS</var> on the playground.  How many students came to the playground?
+					</p>
+					<p class="solution"><var>NUM_NEW_STUDENTS</var></p>
+				</div>
+				<div class="hints">
+					<p>"more students show up" means this is an addition or subtraction problem.</p>
+					<p>"How many came" means this is a subtraction problem (We have the total and the original amount, so we are looking for the difference).</p>
+					<p><var>NUM_STUDENTS + NUM_NEW_STUDENTS</var> - <var>NUM_STUDENTS</var> is how this looks in math problem form (the total # of students - the original # of students).</p>
+					<p>Thus, <var>NUM_NEW_STUDENTS</var> students came to the playground.</p>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="problems">
+			<div class="people-jumping-different-heights">
+				<div class="vars">
+					<var id="HEIGHT_1">randRange( 5, 15 )</var>
+					<var id="HEIGHT_DIFF">randRange( 3, 12 )</var>
+				</div>
+				<div class="problem">
+					<p class="question"><var>person(1)</var> jumped <var>HEIGHT_1</var> inches.  <var>person(2)</var> jumped <var>HEIGHT_1+HEIGHT_DIFF</var> inches. How much further than <var>person(1)</var> did <var>person(2)</var> jump? 
+					</p>
+					<p class="solution"><var>HEIGHT_DIFF</var></p>
+				</div>
+				<div class="hints">
+					<p>"How much further" means this is a subtraction problem (We have the two amounts, so we are looking for the difference).</p>
+					<p><var>HEIGHT_1+HEIGHT_DIFF</var> - <var>HEIGHT_1</var> is how this looks in math problem form (the longer amount minus the shorter amount).</p>
+					<p>Thus, <var>person(2)</var> jumped <var>HEIGHT_DIFF</var> inches further than <var>person(1)</var>.</p>
+
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</body>
+</html>

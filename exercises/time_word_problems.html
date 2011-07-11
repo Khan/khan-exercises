@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<title>Time Word Problems</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+
+		<div class="problems">
+			<div class="hours-at-school">
+				<div class="vars">
+					<var id="START_HOUR">randRange( 7, 8 )</var>
+					<var id="START_MIN">randRange( 0, 3 )</var>
+					<var id="END_HOUR">randRange( 2, 4 )</var>
+					<var id="END_MIN">randRange( 0, 3 )</var>					
+					<var id="SOLUTION_MINS">(END_MIN >= START_MIN ? 15*(END_MIN - START_MIN) : 15*(END_MIN - START_MIN+4))</var>
+					<var id="SOLUTION_HOURS">(END_MIN > START_MIN ? END_HOUR - START_HOUR + 12 : END_HOUR - START_HOUR + 11)</var>
+				</div>
+				<div class="problem">
+					<p class="question"><var>person(1)</var> goes to school at <var>START_HOUR</var>:<var>zeroPad(START_MIN*15,2)</var> AM.  <var>His(1)</var> <var>parent(1)</var> picks <var>him(1)</var> up at <var>END_HOUR</var>:<var>zeroPad(END_MIN*15,2)</var> PM.  How long was <var>person(1)</var> at school?
+					
+					</p>
+					<div class="solution" data-type="multiple">
+						<p><span class="sol" size="4" data-type="rational"><var>SOLUTION_HOURS</var></span> Hours, 
+						   <span class="sol" size="6" data-type="rational"><var>SOLUTION_MINS</var></span> Minutes</p>
+					</div>
+				</div>
+				<div class="hints">
+					<p>Two ways of doing this: a) counting and b) calculating.</p>
+					<p><b>Counting:</b> Let's think of this as Step 1: counting forward the hours and Step 2: Counting forward the minutes.</p>
+					<p>Step 1: Count forward the hours from <var>START_HOUR</var>:<var>zeroPad(START_MIN*15,2)</var> AM to <var>(END_MIN >= START_MIN ? END_HOUR : END_HOUR - 1)</var>:<var>zeroPad(START_MIN*15,2)</var> PM.
+					</p>
+					<p>This gives us <var>SOLUTION_HOURS</var> hours.</p>
+					<p>Step 2: Count forward the minutes from <var>(END_MIN >= START_MIN ? END_HOUR : END_HOUR - 1)</var>:<var>zeroPad(START_MIN*15,2)</var> PM to <var>END_HOUR</var>:<var>zeroPad(END_MIN*15,2)</var> PM.
+					</p>
+					<p>This gives us <var>SOLUTION_MINS</var> minutes.
+					<p><b>Calculating:</b> For the hours, you want to take the end hour, add 12, subtract the start hour, and then see if you have to "borrow" an hour like you do in subtraction.</p>
+					<p data-if="END_MIN >= START_MIN">
+						<span>The starting minutes #, :<var>zeroPad(START_MIN*15,2)</var>, is less than or equal to the ending minutes #, :<var>zeroPad(END_MIN*15,2)</var>, so we don't need to "borrow" an hour.<br><br>
+						<var>END_HOUR</var> + 12 - <var>START_HOUR</var> gives us our hours part of <var>SOLUTION_HOURS</var> hours.</span>
+					</p>
+					<p data-if="END_MIN < START_MIN">
+						<span> The starting minutes #, :<var>zeroPad(START_MIN*15,2)</var>, is more than the ending minutes #, :<var>zeroPad(END_MIN*15,2)</var>, so we'll have to "borrow" 60 minutes or 1 hour.<br><br>
+						<var>END_HOUR</var> + 12 - <var>START_HOUR</var> - 1 (the "borrowed" hour) gives us our hours part of <var>SOLUTION_HOURS</var> hours.</span>
+					</p>
+					<p>This gives us <var>SOLUTION_HOURS</var> hours.</p>
+
+					<p>For the minutes, you subtract the beginning total from the ending total and add back in the 60 minutes if you borrowed it from before.</p>
+					<p data-if="END_MIN >= START_MIN">
+						<span>:<var>zeroPad(END_MIN*15,2)</var> - :<var>zeroPad(START_MIN*15,2)</var> gives us our minutes part of <var>SOLUTION_MINS</var> minutes.</span>
+					</p>
+
+					<p data-if="END_MIN < START_MIN">
+						<span>:<var>zeroPad(END_MIN*15,2)</var> + :60 - :<var>zeroPad(START_MIN*15,2)</var> gives us our minutes part of <var>SOLUTION_MINS</var>.</span>
+					</p>
+
+					<p>This gives us the answer that <var>person(1)</var> was at school for <var>SOLUTION_HOURS</var> hours and <var>SOLUTION_MINS</var> minutes.</p>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="problems">
+			<div class="time-until-dinner-is-done">
+				<div class="vars">
+					<var id="END_HOUR">randRange( 5, 7 )</var>
+					<var id="END_MIN">randRange( 0, 11 )</var>					
+					<var id="COOK_TIME">randRange( 5, 23 )</var>					
+					(END_HOUR*60 - COOK_TIME*5 - ( END_HOUR*60 - COOK_TIME*5 )% 60 ) / 60
+					<var id="START_HOUR">(END_MIN*5 + END_HOUR*60 - COOK_TIME*5 - ( END_MIN*5 + END_HOUR*60 - COOK_TIME*5 )% 60 ) / 60</var>
+					<var id="START_MIN">(END_MIN*5 + END_HOUR*60 - COOK_TIME*5)%60</var>
+					<var id="COOK_HOURS">(COOK_TIME -(COOK_TIME%12)) / 12</var>
+					<var id="TEMP_HOUR">START_HOUR + COOK_HOURS</var>
+					<var id="TEMP_MIN">START_MIN + (COOK_TIME%12) * 5</var>
+					
+				</div>
+				<div class="problem">
+					<p class="question">It is now <var>START_HOUR</var>:<var>zeroPad(START_MIN,2)</var> PM. Dinner takes <var>COOK_TIME*5</var> minutes. What time will it be when dinner is done?
+					</p>
+					<div class="solution" data-type="multiple">
+						<p><span class="sol" size="4" data-type="rational"><var>END_HOUR</var></span> :  
+						   <span class="sol" size="6" data-type="rational"><var>END_MIN*5</var></span> PM</p>
+					</div>
+				</div>
+				<div class="hints">
+					<p data-if="COOK_HOURS == 1"><var>COOK_TIME*5</var> minutes means we are adding 1 hour and <var>(COOK_TIME%12) * 5</var> minutes to the current time.</p>
+					<p>This is the same as starting at <var>TEMP_HOUR</var>:<var>zeroPad(START_MIN,2)</var> PM and adding <var>(COOK_TIME%12) * 5</var> minutes to the current time.</p>
+					<p>Adding this <var>(COOK_TIME%12) * 5</var> minutes to the answer time of <var>TEMP_HOUR</var>:<var>zeroPad(START_MIN,2)</var> PM gives <var>TEMP_HOUR</var> PM plus <var>START_MIN + (COOK_TIME%12) * 5</var> Minutes.</p>
+					<p data-else-if="TEMP_MIN > 55">Since the minutes part is 60 or greater, we need to divide it out into 1 hour and <var>TEMP_MIN%60</var> minutes.</p>
+					<p>Adding this all together gives us the answer of <var>END_HOUR</var> : <var>zeroPad(END_MIN*5,2)</var> PM.</p>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="problems">
+			<div class="getting-ready-in-the-morning">
+				<div class="vars">
+					<div data-ensure="START_HOUR * 60 + START_MIN + (SHOWER + DRESS + BFAST) < 540">
+						<var id="START_HOUR">randRange( 6, 7 )</var>
+						<var id="START_MIN">15 * randRange( 0, 3 )</var>
+						<var id="SHOWER">5 * randRange( 1, 5 )</var>
+						<var id="DRESS">5 * randRange( 1, 5 )</var>					
+						<var id="BFAST">5 * randRange( 2, 6 )</var>	
+					</div>
+
+					<var id="TOT_MINS">START_HOUR * 60 + START_MIN + (SHOWER + DRESS + BFAST)</var>
+					<var id="END_HOUR">(TOT_MINS-(TOT_MINS)%60) / 60</var>
+					<var id="END_MIN">TOT_MINS%60</var>
+				</div>
+				<div class="problem">
+					<p class="question"><var>person(1)</var> wakes up at <var>START_HOUR</var>:<var>zeroPad(START_MIN,2)</var> AM.  It takes her <var>SHOWER</var> minutes to shower, <var>DRESS</var> minutes to get dressed, and <var>BFAST</var> minutes to eat breakfast.  What time will she be ready for school?"
+					</p>
+					<div class="solution" data-type="multiple">
+						<p><span class="sol" size="4" data-type="rational"><var>(TOT_MINS-(TOT_MINS)%60) / 60</var></span> :  
+						   <span class="sol" size="6" data-type="rational"><var>TOT_MINS%60</var></span> AM</p>
+					</div>
+				</div>
+				<div class="hints">
+					<p>This sounds like a question where you have to add everything up and count forward in time.</p>
+					<p>Showering, dressing and eating takes up <var>SHOWER</var> + <var>DRESS</var> + <var>BFAST</var> or <var>SHOWER + DRESS + BFAST</var> minutes total.</p>
+					<p>Counting forward <var>SHOWER + DRESS + BFAST</var> minutes from <var>START_HOUR</var>:<var>zeroPad(START_MIN,2)</var> AM will give us the answer.</p>
+					<p>The answer is <var>END_HOUR</var> : <var>zeroPad(END_MIN,2)</var> AM.</p>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

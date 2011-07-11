@@ -331,5 +331,22 @@ jQuery.extend(KhanUtil, {
 	// From limits_1
 	truncate_to_max: function( num, digits ) {
 		return parseFloat( num.toFixed( digits ) );
-	}
+	},
+	
+	// gives back num to digits place (e.g. digits = 2 for money)
+	fixeddecimals: function( num , digits) {
+		return num.toFixed(digits);
+	},
+	
+	zeroPad: function ( num , digits ) {
+       num = num.toString(); 
+        var pad = ''; 
+        if (digits > num.length) { 
+            for (i=0; i < (digits - num.length); i++) { 
+                pad += '0'; 
+            } 
+        } 
+        return pad + num.toString(); 
+    } 
+	
 });
