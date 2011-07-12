@@ -413,7 +413,7 @@ var createGraph = function( el ) {
 			ticks = options.ticks || true,
 			tickStep = options.tickStep || [ 2, 2 ],
 			tickLen = options.tickLen || [ 5, 5 ],
-			labels = options.labels || false,
+			labels = options.labels || options.labelStep || false,
 			labelStep = options.labelStep || [ 1, 1 ];
 			xLabelFormat = options.xLabelFormat || function(a) { return a; };
 			yLabelFormat = options.yLabelFormat || function(a) { return a; };
@@ -516,13 +516,13 @@ var createGraph = function( el ) {
 			stop = range[1][1];
 
 			for ( var y = step; y <= stop; y += step ) {
-				if ( x < stop || !axisArrows ) {
+				if ( y < stop || !axisArrows ) {
 					this.label( [ 0, y ], yLabelFormat( y ), "left" );
 				}
 			}
 
 			for ( var y = -step; y >= start; y -= step ) {
-				if ( x > start || !axisArrows ) {
+				if ( y > start || !axisArrows ) {
 					this.label( [ 0, y ], yLabelFormat( y ), "left" );
 				}
 			}
