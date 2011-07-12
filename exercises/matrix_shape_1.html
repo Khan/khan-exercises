@@ -13,30 +13,11 @@
 	</div>
 
 	<div class="problems">
-		<div>
-			<!-- <div class="vars">
-				<ul id="STATEMENT">
-				<li>
-					<p>If <code>A = <var>A.toCode('[')</var></code>, then
-					<code>A</code> is a  _ <code>\times</code> _ matrix.
-					</p>
-				</li>
-				<li>
-					<p>If <code>A = <var>A.toCode('[')</var></code>, then
-					what are the dimensions of <code>A</code>
-					</p>
-				</li>
-				<li>
-					<p>What are the dimensions of <code><var>A.toCode('[')</var></code>?
-					</p>
-				</li>
-				</ul>
-			</div> -->
+		<div id="original">
 			<div class="question">
-				<!-- <var>STATEMENT</var> -->
-					<p>If <code>A = <var>A.toCode('[')</var></code>, then
-					<code>A</code> is a  _ <code>\times</code> _ matrix.
-					</p>
+				<p>If <code>A = <var>A.toCode('[')</var></code>, then
+				<code>A</code> is a  _ <code>\times</code> _ matrix.
+				</p>
 			</div>
 			<div class="solution" data-type="multiple">
 				<span class="sol" data-type="rational"><var>ROWS</var></span>
@@ -44,11 +25,24 @@
 				<span class="sol" data-type="rational"><var>COLS</var></span>
 			</div>
 		</div>
+		<div data-type="original">
+			<div class="question">
+				<p>If <code>A = <var>A.toCode('[')</var></code>, then
+				what are the dimensions of <code>A</code>
+				</p>
+			</div>
+		</div>
+		<div data-type="original">
+			<div class="question">
+				<p>What are the dimensions of <code><var>A.toCode('[')</var></code>?
+				</p>
+			</div>
+		</div>
 	</div>
 	<div class="hints">
 		<p>The dimensions of a matrix are given as rows <code>\times</code> columns.</p>
-		<p><code><var>formatMatrix(A, '[')</var></code> has <var>ROWS</var> rows and
-		<var>COLS</var> columns.</p>
+		<p><code><var>formatMatrix(A, '[')</var></code> has <var>ROWS</var> row(s) and
+		<var>COLS</var> column(s).</p>
 		<p>Therefore, it is a <code><var>ROWS</var>\times<var>COLS</var></code> matrix.
 		</p>
 	</div>

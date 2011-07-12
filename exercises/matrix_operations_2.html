@@ -22,14 +22,7 @@
 				and <code>B = <var>formatMatrix(B, '[')</var></code>, find
 				<code>A+B</code>.</p>
 			</div>
-			<div class="solution"><code><var>A.add(B).toCode()</var></code></div>
-			<ul class="choices" data-none="true" data-show="4">
-				<li><code><var>A.add(B).transpose().toCode()</var></code></li>
-				<li><code><var>A.mul(B.transpose()).toCode()</var></code></li>
-				<li><code><var>A.add(B).add(randSparseMatrix(ROWS, COLS, 3)).toCode()</var></code></li>
-				<li><code><var>A.add(B).add(randSparseMatrix(ROWS, COLS, 3)).toCode()</var></code></li>
-				<li><code><var>A.add(B).add(randSparseMatrix(ROWS, COLS, 3)).toCode()</var></code></li>
-			</ul>
+			<div class="solution" data-type="matrix"><var>A.add(B)</var></div>
 		</div>
 		<div data-type="original">
 			<div class="question">
