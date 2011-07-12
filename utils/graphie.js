@@ -391,7 +391,7 @@ var createGraph = function( el ) {
 				( prop !==  "gridOpacity" ) &&
 				( options[prop] = [ val, val ] );
 
-			// allow symmetric ranges to be specified by the absolute value
+			// allow symmetric ranges to be specified by the absolute values
 			( val.constructor === Array ) &&
 				( prop === "range" ) &&
 				( typeof val[0] === "number" ) &&	
@@ -402,9 +402,9 @@ var createGraph = function( el ) {
 
 		var range = options.range || [ [-10, 10], [-10, 10] ],
 			scale = options.scale || [ 20, 20 ],
-			gridOpacity = options.gridOpacity || .35,
+			gridOpacity = options.gridOpacity || .1,
 			gridStep = options.gridStep || [ 1, 1 ],
-			tickStep = options.tickStep || [ 1, 1 ],
+			tickStep = options.tickStep || [ 2, 2 ],
 			tickLen = options.tickLen || [ 5, 5 ],
 			labelStep = options.labelStep || [ 1, 1 ];
 			xLabelFormat = options.xLabelFormat || function(a) { return a; };
@@ -417,7 +417,9 @@ var createGraph = function( el ) {
 
 		// draw grid
 		this.grid( range[0], range[1], {
-			strokeOpacity: gridOpacity
+			stroke: "#000000",
+			opacity: gridOpacity,
+			step: gridStep
 		} );
 
 		// draw axes
@@ -437,7 +439,7 @@ var createGraph = function( el ) {
 
 			// horizontal axis
 			var step = gridStep[0] * tickStep[0],
-				len = tickLen[0] / scale[0],
+				len = tickLen[0] / scale[1],
 				start = range[0][0],
 				stop = range[0][1];
 
@@ -451,7 +453,7 @@ var createGraph = function( el ) {
 
 			// vertical axis
 			step = gridStep[1] * tickStep[1];
-			len = tickLen[1] / scale[1];
+			len = tickLen[1] / scale[0];
 			start = range[1][0];
 			stop = range[1][1];
 
