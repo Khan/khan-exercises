@@ -423,8 +423,8 @@
                 <div class="question">
                     Given the following:
                         <ul>
-                            <li><code>\overline{HI} \parallel \overline{JK}</code>
-                             - Lines HI and JK are parallel.</li>
+                            <li><code>\overline{HI} \parallel \overline{JK}</code>,
+                             lines HI and JK are parallel.</li>
                             <li data-if="RAND3 == 0 || RAND3 == 1">
                                 <code>\color{purple}{\angle{BAC}} = <var>Tri_X</var>&deg;</code>
                             </li>
@@ -456,7 +456,7 @@
                     <p data-if="RAND3 === 0">
                         <code>\color{orange}{\angle{AHI}} = \color{green}{\angle{AJK}}</code>, 
                         because they are corresponding angles formed by 2 parallel lines and 
-                        a transversal line. 
+                        a transversal line. Corresponding angles are congruent (equal).
                         <span class="graphie" data-update="parallel-and-triangle">
                             label( [-4.60, 0.75], "\\color{orange}{<var>Tri_Z</var>&deg;}", 
                                 "below" );
@@ -466,7 +466,7 @@
                     <p data-else>
                         <code>\color{orange}{\angle{AJK}} = \color{green}{\angle{AHI}}</code>, 
                         because they are corresponding angles formed by 2 parallel lines and 
-                        a transversal line. 
+                        a transversal line. Corresponding angles are congruent (equal).
                         <span class="graphie" data-update="parallel-and-triangle">
                             label( [-4.00, 4.25], "\\color{orange}{<var>Tri_Z</var>&deg;}", 
                                 "below" );
@@ -478,22 +478,25 @@
                     <p data-if="RAND3 === 0">
                         <code>
                             \color{blue}{\angle{AIH}} = 
-                                180&deg; - \color{orange}{\angle{AHI}} - \color{purple}{\angle{BAC}} 
-                        </code>
-                        , because the 3 angles are contained in <code>\triangle{AHI}</code>. 
-                        Angles inside a triangle adds up to 180&deg;.
+                                180&deg; - \color{orange}{\angle{AHI}} - \color{purple}{\angle{BAC}} = 
+                                <var>180 - Tri_X - Tri_Z</var>&deg; 
+                        </code>,
+                        because the 3 angles are contained in <code>\triangle{AHI}</code>. 
+                        Angles inside a triangle add up to 180&deg;.
                     </p>
                     <p data-else>
                         <code data-if="RAND3 === 1">
                             \color{blue}{\angle{AKJ}} = 
-                                180&deg; - \color{orange}{\angle{AJK}} - \color{purple}{\angle{BAC}} 
+                                180&deg; - \color{orange}{\angle{AJK}} - \color{purple}{\angle{BAC}} = 
+                                <var>Tri_Y</var>&deg; 
                         </code>
                         <code data-else>
                             \color{blue}{\angle{BAC}} = 
-                                180&deg; - \color{orange}{\angle{AJK}} - \color{purple}{\angle{AKJ}} 
-                        </code>
-                        , because the 3 angles are contained in <code>\triangle{AJK}</code>. 
-                        Angles inside a triangle adds up to 180&deg;.
+                                180&deg; - \color{orange}{\angle{AJK}} - \color{purple}{\angle{AKJ}} = 
+                                <var>Tri_X</var>&deg; 
+                        </code>, 
+                        because the 3 angles are contained in <code>\triangle{AJK}</code>. 
+                        Angles inside a triangle add up to 180&deg;.
                     </p>
                 </div>
             </div>
