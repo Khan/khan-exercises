@@ -295,7 +295,8 @@
                     <p data-if="RAND2 === 0">
                         <code>
                             \color{orange}{\angle{BAC}} = 
-                                180&deg; - \color{purple}{\angle{ABC}} - \color{green}{\angle{ACB}}
+                                180&deg; - \color{purple}{\angle{ABC}} - \color{green}{\angle{ACB}} = 
+                                <var>180 - Tri_Y - Tri_Z</var>&deg;
                         </code>,
                             This is because angles inside a triangle adds up to 180 degrees.
                         <span class="graphie" data-update="supplementary-and-triangle">
@@ -307,9 +308,11 @@
                     <p data-else>
                         <code>
                             \color{orange}{\angle{BAC}} = 
-                                180&deg; - \color{green}{\angle{DAB}}
+                                180&deg; - \color{green}{\angle{DAB}} = 
+                                <var>180 - Tri_Y - Tri_X</var>&deg;
                         </code>,
-                            This is because supplementary angles along a line add up to 180 degrees.
+                            because supplementary angles along a line adds up to 
+                            180 degrees.
                         <span class="graphie" data-update="supplementary-and-triangle">
                             label( [-3.3, -2], "\\color{orange}{<var>Tri_X</var>&deg;}",
                                 "above right" );
@@ -320,17 +323,19 @@
                     <p data-if="RAND2 === 0">
                         <code>
                             \color{blue}{\angle{DAB}} = 
-                                180&deg; - \color{orange}{\angle{BAC}}
-                        </code>,
-                        This is because angles inside a triangle adds up to 180 degrees.
+                                180&deg; - \color{orange}{\angle{BAC}} = 
+                                <var>Tri_Y + Tri_Z</var>
+                        </code>, 
+                        because supplementary angles along a line adds up to 180&deg;
 
                     </p>
                     <p data-else>
                         <code>
                             \color{blue}{\angle{ACB}} = 
-                                180&deg; - \color{orange}{\angle{BAC}} - \color{purple}{\angle{ABC}}
+                                180&deg; - \color{orange}{\angle{BAC}} - \color{purple}{\angle{ABC}} = 
+                                <var>Tri_Y</var>&deg;
                         </code>,
-                        This is because angles inside a triangle adds up to 180 degrees.
+                        because angles inside a triangle add up to 180 degrees.
                     </p>
                 </div>
             </div>
