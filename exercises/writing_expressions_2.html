@@ -10,7 +10,7 @@
 	<div class="exercise">
 		<div class="vars">
 			<var id="A">randRangeNonZero(-9, 9)</var>
-			<var id="B">randRangeNonZero(-9, 9)</var>
+			<var id="B" data-ensure="abs( A ) !== abs( -B )">randRangeNonZero(-9, 9)</var>
 			<var id="C" data-ensure="abs( C ) != 1">randRangeNonZero(-9, 9)</var>
 			<var id="D">randRangeNonZero(-9, 9)</var>
 		</div> <!-- C ( Bx + A ) + D is the expression we are creating -->
