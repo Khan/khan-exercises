@@ -96,11 +96,20 @@
                 <div class="question">
                     Given the following angles:
                     <ul>
-                        <li><code>\overline{AB} \perp \overline{CD}</code></li>
                         <li>
-                            <span data-if="RAND3===0"><code>\color{green}{\angle{CGE}} = <var>ACCUTEANGLE</var>&deg;</code></span>
-                            <span data-else-if="RAND3===1"><code>\color{green}{\angle{AGF}} = <var>90 - ACCUTEANGLE</var>&deg;</code></span>
-                            <span data-else><code>\color{green}{\angle{DGF}} = <var>ACCUTEANGLE</var>&deg;</code></span>
+                            <code>\overline{AB} \perp \overline{CD}</code>,
+                            lines AB and CD are perpendicular. 
+                        </li>
+                        <li>
+                            <span data-if="RAND3===0">
+                                <code>\color{green}{\angle{CGE}} = <var>ACCUTEANGLE</var>&deg;</code>
+                            </span>
+                            <span data-else-if="RAND3===1">
+                                <code>\color{green}{\angle{AGF}} = <var>90 - ACCUTEANGLE</var>&deg;</code>
+                            </span>
+                            <span data-else>
+                                <code>\color{green}{\angle{DGF}} = <var>ACCUTEANGLE</var>&deg;</code>
+                            </span>
                         </li>
                     </ul>
                     What is 
@@ -126,7 +135,8 @@
                         </span>
                     </p>
                     <p data-else-if="RAND3 === 1">
-                        <code>\color{orange}{\angle{EGB}} = \color{green}{\angle{AGF}}</code>,
+                        <code>\color{orange}{\angle{EGB}} = \color{green}{\angle{AGF}}
+                            = <var>ACCUTEANGLE</var>&deg;</code>,
                         because they are opposite angles from each other.  Opposite angles 
                         are congruent (equal).
                         <span class="graphie" data-update="complementary-and-opposite">
@@ -146,9 +156,8 @@
                     </p>
 
                     <p data-if="RAND3===0">
-                        <code>\color{orange}{\angle{EGB}} = \color{purple}{90&deg;} - \color{green}{\angle{CGE}}</code>
-                         - This is because they are complementary angles.  Complementary angles
-                         add up to 90&deg;.
+                        <code>\color{orange}{\angle{EGB}} = \color{purple}{90&deg;} 
+                            - \color{green}{\angle{CGE}} = <var>90 - ACCUTEANGLE</var>&deg</code>
                         <span class="graphie" data-update="complementary-and-opposite">
                             label( [1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
                                 "above right" );
@@ -165,9 +174,9 @@
                         </span>
                     </p>
                     <p data-else>
-                        <code>\color{orange}{\angle{AGF}} = \color{purple}{90&deg;} - \color{green}{\angle{DGF}}</code>
-                         - This is because they are complementary angles.  Complementary angles
-                         add up to 90&deg;.                        
+                        <code>\color{orange}{\angle{AGF}} = 
+                            \color{purple}{90&deg;} - \color{green}{\angle{DGF}} = 
+                            <var>90 - ACCUTEANGLE</var>&deg;</code>
                         <span class="graphie" data-update="complementary-and-opposite">
                             label( [-1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
                                 "below left" );
@@ -176,17 +185,19 @@
                     </p>
                     
                     <p data-if="RAND3===0">
-                        <code>\color{blue}{\angle{AGF}} = \color{orange}{\angle{EGB}}</code>, 
+                        <code>\color{blue}{\angle{AGF}} = \color{orange}{\angle{EGB}} =
+                        <var>90 - ACCUTEANGLE</var>&deg;</code>, 
                         because they are opposite from each other.  Opposite angles are 
                         congruent (equal).
                     </p>
                     <p data-else-if="RAND3===1">
-                        <code>\color{blue}{\angle{CGE}} = \color{purple}{90&deg;} - \color{orange}{\angle{EGB}}</code>
-                         - This is because they are complementary angles.  Complementary angles
-                         add up to 90&deg;.                        
+                        <code>\color{blue}{\angle{CGE}} = 
+                            \color{purple}{90&deg;} - \color{orange}{\angle{EGB}} = 
+                            <var>90 - ACCUTEANGLE</var>&deg;</code>
                     </p>
                     <p data-else>
-                        <code>\color{blue}{\angle{BGE}} = \color{orange}{\angle{AGF}}</code>, 
+                        <code>\color{blue}{\angle{BGE}} = \color{orange}{\angle{AGF}} = 
+                        <var>90 - ACCUTEANGLE</var>&deg;</code>, 
                         because they are opposite from each other.  Opposite angles are 
                         congruent (equal).
                     </p>
