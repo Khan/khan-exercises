@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers">
 <head>
-	<title>Multiplication 2</title>
+	<title>Multiplication 1.5</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
 	<div class="exercise">
 		<div class="vars">
 			<var id="SMALL_FACTOR">randRange( 2, 9 )</var>
-			<var id="BIG_FACTOR">randRange( 10, 99 )</var>
+			<var id="NUM_DIGITS">randRange( 2, 3 )</var>
+			<var id="MAX_FACTOR_DIGIT">floor( 9 / SMALL_FACTOR )</var>
+			<var id="BIG_FACTOR">
+				(function() {
+					var factor = randRange( 1, MAX_FACTOR_DIGIT );
+					for ( var i = 1; i &lt; NUM_DIGITS; i++ ){
+						factor *= 10;
+						factor += randRange( 0, MAX_FACTOR_DIGIT );
+					}
+					return factor;
+				})()
+			</var>
 			<var id="CARRY">0</var>
 			<var id="PRODUCT">SMALL_FACTOR * BIG_FACTOR</var>
 			<var id="PRODUCT_DIGITS">integerToDigits( PRODUCT )</var>

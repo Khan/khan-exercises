@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie">
 <head>
-	<title>Division 3</title>
+	<title>Division 1.5</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
 		function drawDigits( digits, startX, startY, color ) {
@@ -24,21 +24,27 @@
 	<div class="exercise">
 		<div class="vars">
 			<var id="DIVISOR">randRange( 2, 9 )</var>
-			<var id="QUOTIENT">randRange( 10, 99 )</var>
-			<var id="FINAL_REMAINDER">randRange( 1, DIVISOR - 1 )</var>
-			<var id="DIVIDEND">DIVISOR * QUOTIENT + FINAL_REMAINDER</var>
+			<var id="NUM_DIGITS">randRange( 2, 3 )</var>
+			<var id="MAX_QUOTIENT_DIGIT">floor( 9 / DIVISOR )</var>
+			<var id="QUOTIENT">
+				(function() {
+					var quotient = randRange( 1, MAX_QUOTIENT_DIGIT );
+					for ( var i = 1; i &lt; NUM_DIGITS; i++ ){
+						quotient *= 10;
+						quotient += randRange( 0, MAX_QUOTIENT_DIGIT );
+					}
+					return quotient;
+				})()
+			</var>
+			<var id="REMAINDER">0</var>
+			<var id="DIVIDEND">DIVISOR * QUOTIENT</var>
 			<var id="DIVIDEND_DIGITS">integerToDigits( DIVIDEND )</var>
 			<var id="DIVISOR_DIGITS">integerToDigits( DIVISOR )</var>
 			<var id="HIGHLIGHTS">[]</var>
-			<var id="LEADING_ZEROS">[]</var>
-			<var id="ONLY_ZEROS">true</var>
-			<var id="REMAINDER">0</var>
 		</div>
 
 		<div class="problems">
 			<div>
-				<p>If the answer is a quotient of 5 and a remainder of 3, it should be typed in the form "5 R 3".</p>
-
 				<div class="graphie" id="numbers">
 					init({
 						range: [ [ -1 - DIVISOR_DIGITS.length, DIVIDEND_DIGITS.length + 2 ], [ DIVIDEND_DIGITS.length * -2 - 1, 2 ] ],
@@ -52,7 +58,7 @@
 					drawDigits( DIVIDEND_DIGITS, 0, 0, true );
 					path( [ [ -0.75, -0.5 ], [ -0.75, 0.5 ], [ DIVIDEND_DIGITS.length, 0.5 ] ] );
 				</div>
-				<div class="solution" data-type="regex">^<var>QUOTIENT</var>\s*[rR]\s*<var>FINAL_REMAINDER</var>$</div>
+				<div class="solution"><var>QUOTIENT</var></div>
 			</div>
 		</div>
 		<div class="hints">
@@ -110,24 +116,23 @@
 					path( [ [ index - product.length - 0.25, -2 * index - 1.5 ], [ index + 0.5, -2 * index - 1.5 ] ] );
 
 					label( [ DIVIDEND_DIGITS.length + 1, -2 * index - 1 ],
-						"\\color{#6495ED}{" + value + "} - ("
-						+ DIVISOR + "\\times"
-						+"\\color{#28AE7B}{" + quotient + "} ) = "
-						+ "\\color{#6495ED}{" + value + "} -"
-						+ "\\color{#FFA500}{" + ( DIVISOR * quotient ) + "}"
-						+ "= "
- 						+ diff, "right" );
+						"\\color{#6495ED}{" + value + "}"
+						+ "\\div"
+						+ DIVISOR + "="
+						+ "\\color{#28AE7B}{" + quotient + "}"
+						+ "\\text{ or }"
+						+ DIVISOR
+						+ "\\times"
+						+ "\\color{#28AE7B}{" + quotient + "}"
+						+ " = "
+						+ "\\color{#FFA500}{" + value + "}", "right" );
 				</div>
 			</div>
 
 			<div class="graphie" data-update="numbers">
-				while( HIGHLIGHTS.length ) {
-					HIGHLIGHTS.pop().remove();
-				}
-				while( LEADING_ZEROS.length ) {
-					LEADING_ZEROS.pop().remove();
-				}
-				drawDigits( [ "\\text{R}" ].concat( integerToDigits( FINAL_REMAINDER ) ), DIVIDEND_DIGITS.length, 1 );
+					while( HIGHLIGHTS.length ) {
+						HIGHLIGHTS.pop().remove();
+					}
 			</div>
 		</div>
 	</div>

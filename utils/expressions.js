@@ -69,7 +69,7 @@ jQuery.extend(KhanUtil, {
 			return false;
 
 			case "^":
-			return !(KhanUtil.exprType(expr[1]) === "number" && expr[1] > 0);
+			return KhanUtil.exprType(expr[1]) !== "number" || expr[1] < 0;
 
 			case "number":
 			case "sqrt":

@@ -22,6 +22,7 @@ function Scratchpad(){
 				stroke = color
 				palette.animate({x: 7}, 100)
 				this.animate({x: 15}, 100)
+				penclick()
 			};
 			palette.push(pad.rect(7, 90 + i * 24, 24, 24).attr({
 				fill: color,
@@ -51,7 +52,7 @@ function Scratchpad(){
 						path: shapes[i].attr('path').toString(),
 						stroke: shapes[i].attr('stroke'),
 						type: 'path'
-					})
+					});
 				}
 			}
 		}
@@ -218,7 +219,7 @@ function Scratchpad(){
 					y: y1,
 					width: x2 - x1,
 					height: y2 - y1
-				})
+				});
 			}
 	}
 
@@ -229,7 +230,7 @@ function Scratchpad(){
 	$(pad.canvas).mousemove(function(e){
 		mousemove( e.pageX - Khan.scratchpad.offsetLeft, e.pageY - Khan.scratchpad.offsetTop );
 		e.preventDefault();
-	})
+	});
 	$(pad.canvas).mousedown(function(e){
 		mousedown(e.pageX - Khan.scratchpad.offsetLeft, e.pageY - Khan.scratchpad.offsetTop, e);
 		e.preventDefault();

@@ -15,30 +15,58 @@ var Khan = {
 		// thought this was a good API design.
 		"math": [ {
 			src: "http://cdn.mathjax.org/mathjax/latest/MathJax.js",
-			text: 'MathJax.Hub.Config({\
-				messageStyle: "none",\
+			text: "MathJax.Hub.Config({\
+				messageStyle: \"none\",\
 				skipStartupTypeset: true,\
-				jax: ["input/TeX","output/HTML-CSS"],\
-				extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],\
+				jax: [\"input/TeX\",\"output/HTML-CSS\"],\
+				extensions: [\"tex2jax.js\",\"MathMenu.js\",\"MathZoom.js\"],\
 				TeX: {\
-					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]\
+					extensions: [\"AMSmath.js\",\"AMSsymbols.js\",\"noErrors.js\",\"noUndefined.js\"],\
+					Macros: {\
+						RR: \"\\\\mathbb{R}\"\
+					},\
+					Augment: {\
+						Definitions: {\
+							macros: {\
+								lrsplit: \"LRSplit\"\
+							}\
+						},\
+						Parse: {\
+							prototype: {\
+								LRSplit: function( name ) {\
+									var num = this.GetArgument( name ),\
+										den = this.GetArgument( name );\
+									var frac = MathJax.ElementJax.mml.mfrac( MathJax.InputJax.TeX.Parse( '\\\\strut\\\\textstyle{'+num+'\\\\qquad}', this.stack.env ).mml(),\
+									                      MathJax.InputJax.TeX.Parse( '\\\\strut\\\\textstyle{\\\\qquad '+den+'}', this.stack.env ).mml() );\
+					\
+									frac.numalign = MathJax.ElementJax.mml.ALIGN.LEFT;\
+									frac.denomalign = MathJax.ElementJax.mml.ALIGN.RIGHT;\
+									frac.linethickness = \"0em\";\
+					\
+									this.Push( frac );\
+								}\
+							}\
+						}\
+					}\
 				},\
-				"HTML-CSS": { scale: 93 }\
+				\"HTML-CSS\": {\
+					scale: 93,\
+					availableFonts: [\"TeX\"]\
+				}\
 			});\
 			\
-			// We don\'t want to use inline script elements, we want to use code blocks\n\
+			// We don't want to use inline script elements, we want to use code blocks\n\
 			MathJax.Hub.elementScripts = function( elem ) {\
-				return elem.nodeName.toLowerCase() === "code" ?\
+				return elem.nodeName.toLowerCase() === \"code\" ?\
 					[ elem ] :\
-					elem.getElementsByTagName( "code" );\
+					elem.getElementsByTagName( \"code\" );\
 			};\
-			\
 			// Data is read in here:\n\
 			// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704\n\
-			// We can force it to convert HTML entities properly by saying we\'re Konqueror\n\
+			// We can force it to convert HTML entities properly by saying we're Konqueror\n\
 			MathJax.Hub.Browser.isKonqueror = true;\
 			\
-			MathJax.Hub.Startup.onload();'
+			MathJax.Hub.Startup.onload();"
 		}, "raphael" ],
 
 		// Load Raphael locally because IE8 has a problem with the 1.5.2 minified release
@@ -308,15 +336,14 @@ var Khan = {
 		while ( parentType ) {
 			// Copy over the parent element to the child
 			var original = exercise.find( ".problems #" + parentType ).clone();
-			original.find( ".vars, .vars [id], > [class]").data( "inherited", true );
-			problem.prepend( original.children() );
+			problem.prepend( original.children().data( "inherited", true ) );
 
 			// Keep copying over the parent elements (allowing for deep inheritance)
 			parentType = original.data( "type" );
 		}
 
 		// Add any global exercise defined elements
-		problem.prepend( exercise.children( ':not(.problems)' ).clone() );
+		problem.prepend( exercise.children( ':not(.problems)' ).clone().data( "inherited", true ) );
 
 		// Apply templating
 		var children = problem
@@ -423,6 +450,11 @@ var Khan = {
 
 		// Show the debug info
 		if ( Khan.query.debug != null ) {
+			jQuery( "body" ).keypress( function( e ) {
+				if ( e.charCode === 104 ) {
+					jQuery("#gethint").click();
+				}
+			});
 			var debugWrap = jQuery( "#debug" ).empty();
 			var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname
 				+ "?debug&problem=" + problemID;
@@ -454,24 +486,32 @@ var Khan = {
 				.appendTo( links );
 
 			if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
-				var varInfo = [];
+				var varInfo = jQuery( "<p>" );
 
 				jQuery.each( jQuery.tmpl.VARS, function( name, value ) {
 					var str;
 
-					// JSON is prettier (when it works)
-					try {
-						str = JSON.stringify( value );
-					} catch ( e ) {
+					if ( typeof value === "function") {
 						str = value.toString();
+					} else {
+						// JSON is prettier (when it works)
+						try {
+							str = JSON.stringify( value );
+						} catch ( e ) {
+							str = value.toString();
+						}
 					}
 
-					varInfo.push( "<b>" + name + "</b>: <var>" + str + "</var>" );
+					varInfo.append( jQuery( "<b>" ).text( name ) );
+					varInfo.append( ": " );
+					varInfo.append( jQuery( "<var>" ).text( str ) );
+					varInfo.append( "<br>" );
 				});
 
-				jQuery( "<p>" ).html( varInfo.join("<br>") )
-					.appendTo( debugWrap );
+				varInfo.appendTo( debugWrap );
 			}
+
+			jQuery( "#problemarea .graphie" ).css( "outline", "1px dashed red" );
 		}
 	},
 
@@ -504,6 +544,11 @@ var Khan = {
 			'</div>' +
 			'<div id="rawhintsarea"></div>'
 		);
+
+		// Hide exercies summaries for now
+		// Will figure out something more elegant to do with them once the new
+		// framework is shipped and we can worry about rounding out the summaries
+		jQuery( ".summary" ).hide();
 
 		// Watch for a solution submission
 		jQuery("form").submit(function() {
@@ -662,7 +707,7 @@ Khan.randomSeed = parseFloat( Khan.query.seed ) || ( new Date().getTime() & 0xff
 var KhanUtil = Khan.Util;
 
 // Load in jQuery
-Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" } ], function() {
+Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" } ], function() {
 
 	// Base modules required for every problem
 	Khan.require( [ "answer-types", "tmpl" ] );
@@ -713,7 +758,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/j
 			}
 
 			// Extract scripts with no src
-			var rscript = /<(?:)script\b[^s>]*(?:(?!src=)s[^s>])*>([^<]*(?:(?!<\/script>)<[^<]*)*)<\/script>/gi;
+			var rscript = /<(?:)script\b[^s>]*(?:(?!src=)s[^s>]*)*>([^<]*(?:(?!<\/script>)<[^<]*)*)<\/script>/gi;
 			while ( ( match = rscript.exec( data ) ) != null ) {
 				jQuery.globalEval( match[1] );
 			}
