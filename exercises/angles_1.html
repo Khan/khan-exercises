@@ -11,13 +11,13 @@
             <var id="ACCUTEANGLE">rand(25) + 10</var>
 
             <!-- Used for Triangle problems -->
-            <var id="Tri_Y">70 - rand(15)</var>
-            <var id="Tri_Z">70 - rand(15)</var>
+            <var id="Tri_Y">70 - rand( 15 )</var>
+            <var id="Tri_Z">70 - rand( 15 )</var>
             <var id="Tri_X">180 - Tri_Y - Tri_Z</var>
 
             <!-- Used for problem variations -->
-            <var id="RAND2">rand(2)</var>
-            <var id="RAND3">rand(3)</var>
+            <var id="RAND2">rand( 2 )</var>
+            <var id="RAND3">rand( 3 )</var>
         </div>
 
         <div class="problems">
@@ -38,56 +38,56 @@
                         });
 
                         // Draw perpendicular lines and 3rd line.
-                        path([ [-5, 0], [5, 0] ]);
-                        path([ [0, -5], [0, 5] ]);
-                        path([ [-2, -5], [2, 5] ]);
+                        path( [ [-5, 0], [5, 0] ] );
+                        path( [ [0, -5], [0, 5] ] );
+                        path( [ [-2, -5], [2, 5] ] );
 
                         //draw points
                         style({
                             fill: "grey"
                         }, function() {
-                            circle([5, 0], 0.05);
-                            circle([-5, 0], 0.05);
-                            circle([0, 5], 0.05);
-                            circle([0, -5], 0.05);
-                            circle([2, 5], 0.05);
-                            circle([-2, -5], 0.05);
+                            circle( [5, 0], 0.05 );
+                            circle( [-5, 0], 0.05 );
+                            circle( [0, 5], 0.05 );
+                            circle( [0, -5], 0.05 );
+                            circle( [2, 5], 0.05 );
+                            circle( [-2, -5], 0.05 );
                         });
 
                         // Label the sides
-                        label([-5, 0], "A", "above");
-                        label([5, 0], "B", "above");
-                        label([0, 5], "C", "left");
-                        label([0, -5], "D", "right");
-                        label([2, 5], "E", "right");
-                        label([-2, -5], "F", "left");
-                        label([0, 0], "G", "below right");
+                        label( [-5, 0], "A", "above" );
+                        label( [5, 0], "B", "above" );
+                        label( [0, 5], "C", "left" );
+                        label( [0, -5], "D", "right" );
+                        label( [2, 5], "E", "right" );
+                        label( [-2, -5], "F", "left" );
+                        label( [0, 0], "G", "below right" );
 
                         // Label the given angles
-                        if(RAND3 == 0) {
-                            label([0.5, 1.8], "\\color{green}{<var>ACCUTEANGLE</var>&deg;}", 
-                                "above");
-                            arc([0, 0], 1.2, 70, 90, { stroke: "green" });
+                        if( RAND3 == 0 ) {
+                            label( [0.5, 1.8], "\\color{green}{<var>ACCUTEANGLE</var>&deg;}", 
+                                "above" );
+                            arc( [0, 0], 1.2, 70, 90, { stroke: "green" } );
 
-                            label([-1.2, -0.75], "\\color{blue}{\\angle{AGF}}=?", 
-                                "below left");
-                            arc([0, 0], 1.2, 180, 248, { stroke: "blue" });
-                        } else if (RAND3 == 1) {
-                            label([-1.2, -0.75], "\\color{green}{<var>90-ACCUTEANGLE</var>&deg;}", 
-                                "below left");
-                            arc([0, 0], 1.2, 180, 248, { stroke: "green" });
+                            label( [-1.2, -0.75], "\\color{blue}{\\angle{AGF}}=?", 
+                                "below left" );
+                            arc( [0, 0], 1.2, 180, 248, { stroke: "blue" } );
+                        } else if ( RAND3 == 1 ) {
+                            label( [-1.2, -0.75], "\\color{green}{<var>90-ACCUTEANGLE</var>&deg;}", 
+                                "below left" );
+                            arc( [0, 0], 1.2, 180, 248, { stroke: "green" } );
 
-                            label([0.5, 1.8], "\\color{blue}{\\angle{CGE}} = ?", 
-                                "above");
-                            arc([0, 0], 1.2, 70, 90, { stroke: "blue" });
+                            label( [0.5, 1.8], "\\color{blue}{\\angle{CGE}} = ?", 
+                                "above" );
+                            arc( [0, 0], 1.2, 70, 90, { stroke: "blue" } );
                         } else {
-                            label([0, -2], "\\color{green}{<var>ACCUTEANGLE</var>&deg;}", 
-                                "below left");
-                            arc([0, 0], 1.2, 248, 270, { stroke: "green" });
+                            label( [0, -2], "\\color{green}{<var>ACCUTEANGLE</var>&deg;}", 
+                                "below left" );
+                            arc( [0, 0], 1.2, 248, 270, { stroke: "green" } );
 
-                            label([1.5, 0], "\\color{blue}{\\angle{BGE}} = ?", 
-                                "above right");
-                            arc([0, 0], 1.2, 0, 70, { stroke: "blue" });
+                            label( [1.5, 0], "\\color{blue}{\\angle{BGE}} = ?", 
+                                "above right" );
+                            arc( [0, 0], 1.2, 0, 70, { stroke: "blue" } );
                         }
                     </div>
                     <p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
@@ -121,9 +121,9 @@
                         Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
                         <code>\color{purple}{\angle{CGB}} = 90&deg;</code>
                         <span class="graphie" data-update="complementary-and-opposite">
-                            label([2.2, 1.7], "\\color{purple}{90&deg}", 
-                                "above right");
-                            arc([0, 0], 3, 0, 90, { stroke: "purple" });
+                            label( [2.2, 1.7], "\\color{purple}{90&deg}", 
+                                "above right" );
+                            arc( [0, 0], 3, 0, 90, { stroke: "purple" } );
                         </span>
                     </p>
                     <p data-else-if="RAND3 === 1">
@@ -131,18 +131,18 @@
                         because they are opposite angles from each other.  Opposite angles 
                         are congruent (equal).
                         <span class="graphie" data-update="complementary-and-opposite">
-                            label([1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
-                                "above right");
-                            arc([0, 0], 1.2, 0, 68, { stroke: "orange" });
+                            label( [1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
+                                "above right" );
+                            arc( [0, 0], 1.2, 0, 68, { stroke: "orange" } );
                         </span>
                     </p>
                     <p data-else>
                         Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
                         <code>\color{purple}{\angle{AGD}} = 90&deg;</code>
                         <span class="graphie" data-update="complementary-and-opposite">
-                            label([-2.2, -1.7], "\\color{purple}{90&deg}", 
-                                "below left");
-                            arc([0, 0], 3, 180, 270, { stroke: "purple" });
+                            label( [-2.2, -1.7], "\\color{purple}{90&deg}", 
+                                "below left" );
+                            arc( [0, 0], 3, 180, 270, { stroke: "purple" } );
                         </span>
                     </p>
 
@@ -151,18 +151,18 @@
                          - This is because they are complementary angles.  Complementary angles
                          add up to 90&deg;.
                         <span class="graphie" data-update="complementary-and-opposite">
-                            label([1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
-                                "above right");
-                            arc([0, 0], 1.2, 0, 68, { stroke: "orange" });
+                            label( [1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
+                                "above right" );
+                            arc( [0, 0], 1.2, 0, 68, { stroke: "orange" } );
                         </span>
                     </p>
                     <p data-else-if="RAND3===1">
                         Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
                         <code>\color{purple}{\angle{CGB}} = 90&deg;</code>
                         <span class="graphie" data-update="complementary-and-opposite">
-                            label([2.2, 1.7], "\\color{purple}{90&deg}", 
-                                "above right");
-                            arc([0, 0], 3, 0, 90, { stroke: "purple" });
+                            label( [2.2, 1.7], "\\color{purple}{90&deg}", 
+                                "above right" );
+                            arc( [0, 0], 3, 0, 90, { stroke: "purple" } );
                         </span>
                     </p>
                     <p data-else>
@@ -170,9 +170,9 @@
                          - This is because they are complementary angles.  Complementary angles
                          add up to 90&deg;.                        
                         <span class="graphie" data-update="complementary-and-opposite">
-                            label([-1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
-                                "below left");
-                            arc([0, 0], 1.2, 180, 248, { stroke: "orange" });
+                            label( [-1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
+                                "below left" );
+                            arc( [0, 0], 1.2, 180, 248, { stroke: "orange" } );
                         </span>
                     </p>
                     
@@ -209,50 +209,49 @@
                         });
 
                         // Draw TriAngle
-                        path([ [-8, -2], [4, -2], [0, 3], [-4, -2] ]);
+                        path( [ [-8, -2], [4, -2], [0, 3], [-4, -2] ] );
 
                         //draw points
-                        style({
+                        style( {
                             fill: "grey"
                         }, function() {
-                            circle([-8, -2], 0.05);
-                            circle([4, -2], 0.05);
-                            circle([0, 3], 0.05);
-                            circle([-4, -2], 0.05);
-                            
+                            circle( [-8, -2], 0.05 );
+                            circle( [4, -2], 0.05 );
+                            circle( [0, 3], 0.05 );
+                            circle( [-4, -2], 0.05 );
                         });
 
                         // Label the sides
-                        label([-4, -2], "A", "below");
-                        label([0, 3], "B", "above");
-                        label([4, -2], "C", "below right");
-                        label([-8, -2], "D", "below");
+                        label( [-4, -2], "A", "below" );
+                        label( [0, 3], "B", "above" );
+                        label( [4, -2], "C", "below right" );
+                        label( [-8, -2], "D", "below" );
                         
                         // Label the angles acording to variation
                         if( RAND2 == 0 ) {
-                            label([3, -2], "\\color{green}{<var>Tri_Y</var>&deg;}", 
-                                "above left");
-                            arc([4, -2], 1.2, 130, 180, { stroke: "green" });
+                            label( [3, -2], "\\color{green}{<var>Tri_Y</var>&deg;}", 
+                                "above left" );
+                            arc( [4, -2], 1.2, 130, 180, { stroke: "green" } );
 
-                            label([0, 1.5], "\\color{purple}{<var>Tri_Z</var>&deg;}", 
-                                "below");
-                            arc([0, 3], 1.5, 230, 310, { stroke: "purple" });
+                            label( [0, 1.5], "\\color{purple}{<var>Tri_Z</var>&deg;}", 
+                                "below" );
+                            arc( [0, 3], 1.5, 230, 310, { stroke: "purple" } );
 
-                            label([-4.7, -2], "\\color{blue}{\\angle{DAB}}=?", 
-                                "above left");
-                            arc([-4, -2], .75, 50, 180, { stroke: "blue" });
+                            label( [-4.7, -2], "\\color{blue}{\\angle{DAB}}=?", 
+                                "above left" );
+                            arc( [-4, -2], .75, 50, 180, { stroke: "blue" } );
                         } else {
-                            label([-4.7, -2], "\\color{green}{<var>180 - Tri_X</var>&deg}", 
-                                "above left");
-                            arc([-4, -2], .75, 50, 180, { stroke: "green" });
+                            label( [-4.7, -2], "\\color{green}{<var>180 - Tri_X</var>&deg}", 
+                                "above left" );
+                            arc( [-4, -2], .75, 50, 180, { stroke: "green" } );
 
-                            label([0, 1.5], "\\color{purple}{<var>Tri_Z</var>&deg;}", 
-                                "below");
-                            arc([0, 3], 1.5, 230, 310, { stroke: "purple" });
+                            label( [0, 1.5], "\\color{purple}{<var>Tri_Z</var>&deg;}", 
+                                "below" );
+                            arc( [0, 3], 1.5, 230, 310, { stroke: "purple" } );
 
-                            label([2.80, -2], "\\color{blue}{\\angle{ACB}} = ?", 
-                                "above left");
-                            arc([4, -2], 1.2, 130, 180, { stroke: "blue" });
+                            label( [2.80, -2], "\\color{blue}{\\angle{ACB}} = ?", 
+                                "above left" );
+                            arc( [4, -2], 1.2, 130, 180, { stroke: "blue" } );
                         }
 
                     </div>
@@ -291,9 +290,9 @@
                         </code>,
                             This is because angles inside a triangle adds up to 180 degrees.
                         <span class="graphie" data-update="supplementary-and-triangle">
-                            label([-3.3, -2], "\\color{orange}{<var>Tri_X</var>&deg;}",
-                                "above right");
-                            arc([-4, -2], 0.75, 0, 49, {stroke: "orange"});
+                            label( [-3.3, -2], "\\color{orange}{<var>Tri_X</var>&deg;}",
+                                "above right" );
+                            arc( [-4, -2], 0.75, 0, 49, {stroke: "orange"} );
                         </span>
                     </p>
                     <p data-else>
@@ -303,9 +302,9 @@
                         </code>,
                             This is because supplementary angles along a line add up to 180 degrees.
                         <span class="graphie" data-update="supplementary-and-triangle">
-                            label([-3.3, -2], "\\color{orange}{<var>Tri_X</var>&deg;}",
-                                "above right");
-                            arc([-4, -2], 0.75, 0, 49, {stroke: "orange"});
+                            label( [-3.3, -2], "\\color{orange}{<var>Tri_X</var>&deg;}",
+                                "above right" );
+                            arc( [-4, -2], 0.75, 0, 49, {stroke: "orange"} );
                         </span>
                     </p>
                     
@@ -323,7 +322,7 @@
                                 180&deg; - \color{orange}{\angle{BAC}} - \color{purple}{\angle{ABC}}
                         </code>,
                         This is because angles inside a triangle adds up to 180 degrees.
-                    </p>                    
+                    </p>
                 </div>
             </div>
 
@@ -332,74 +331,76 @@
             <div>
                 <div class="problem">
                     <div class="graphie" id="parallel-and-triangle">
-                        init({
+                        init( {
                             range: [[-10, 10], [-10, 10]],
                             scale: [30, 30]
                         });
 
-                        style({
+                        style( {
                             stroke: "#888",
                             strokeWidth: 2
-                        });
+                        } );
 
                         // Draw Parallel lines
-                        path([ [-8, 8], [8, -4] ]);
-                        path([ [-8, 4], [8, -8] ]);
+                        path( [ [-8, 8], [8, -4] ] );
+                        path( [ [-8, 4], [8, -8] ] );
 
-                        //Draw 2 more lines to form a triangle
-                        path([ [-6, -4], [-4, 9] ]);
-                        path([ [-6, -4], [9, -2] ]);
+                        // Draw 2 more lines to form a triangle
+                        path( [ [-6, -4], [-4, 9] ] );
+                        path( [ [-6, -4], [9, -2] ] );
 
                         //draw points
-                        style({
+                        style( {
                             fill: "grey"
                         }, function() {
-                            circle([-8, 8], 0.05);
-                            circle([8, -4], 0.05);
-                            circle([-8, 4], 0.05);
-                            circle([8, -8], 0.05);
+                            circle( [-8, 8], 0.05 );
+                            circle( [8, -4], 0.05 );
+                            circle( [-8, 4], 0.05 );
+                            circle( [8, -8], 0.05 );
 
-                            label([-6, -4], "A", "below");
-                            circle([-6, -4], 0.05);
-                            label([-4, 9], "B", "right");
-                            circle([-4, 9], 0.05);
-                            label([9, -2], "C", "above");
-                            circle([9, -2], 0.05);
+                            label( [-6, -4], "A", "below" );
+                            circle( [-6, -4], 0.05 );
+                            label( [-4, 9], "B", "right" );
+                            circle( [-4, 9], 0.05 );
+                            label( [9, -2], "C", "above" );
+                            circle( [9, -2], 0.05 );
 
-                            label([-5.07, 1.75], "H", "below left");
-                            label([-4.47, 5.25], "J", "above right");
-                            label([1.25, -3], "I", "below");
-                            label([5.7, -2.3], "K", "above");
-                        });
+                            label( [-5.07, 1.75], "H", "below left" );
+                            label( [-4.47, 5.25], "J", "above right" );
+                            label( [1.25, -3], "I", "below" );
+                            label( [5.7, -2.3], "K", "above" );
+                        } );
 
                         //draw given angles
-                        if(RAND3 == 0) {
-                            label([0, -2.50], "\\color{blue}{\\angle{AIH}} = ?", "left");
-                            arc([1.25, -3], .75, 135, 190, {stroke: "blue"});
+                        if( RAND3 == 0 ) {
+                            label( [0, -2.50], "\\color{blue}{\\angle{AIH}} = ?", "left" );
+                            arc( [1.25, -3], .75, 135, 190, {stroke: "blue"} );
 
-                            label([-4.2, 4.25], "\\color{green}{<var>Tri_Z</var>&deg;}", "below");
-                            arc([-4.47, 5.25], 1, 255, 330, {stroke: "green"});
+                            label( [-4.2, 4.25], "\\color{green}{<var>Tri_Z</var>&deg;}", "below" );
+                            arc( [-4.47, 5.25], 1, 255, 330, {stroke: "green"} );
 
-                            label([-5.5, -3.5], "\\color{purple}{<var>Tri_X</var>&deg;}", "above right");
-                            arc([-6, -4], 1, 10, 80, {stroke: "purple"});
-                        } else if(RAND3 == 1) {
-                            label([3.5, -2.6], "\\color{blue}{\\angle{AKJ}} = ?", "above");
-                            arc([5.7, -2.3], 0.75, 139, 194, {stroke: "blue"});
+                            label( [-5.5, -3.5], "\\color{purple}{<var>Tri_X</var>&deg;}", 
+                                "above right" );
+                            arc( [-6, -4], 1, 10, 80, {stroke: "purple"} );
+                        } else if( RAND3 == 1 ) {
+                            label( [3.5, -2.6], "\\color{blue}{\\angle{AKJ}} = ?", "above" );
+                            arc( [5.7, -2.3], 0.75, 139, 194, {stroke: "blue"} );
 
-                            label([-4.4, 0.65], "\\color{green}{<var>Tri_Z</var>&deg;}", "below");
-                            arc([-5.07, 1.75], 1, 257, 326, {stroke: "green"});
+                            label( [-4.4, 0.65], "\\color{green}{<var>Tri_Z</var>&deg;}", "below" );
+                            arc( [-5.07, 1.75], 1, 257, 326, {stroke: "green"} );
 
-                            label([-5.5, -3.5], "\\color{purple}{<var>Tri_X</var>&deg;}", "above right");
-                            arc([-6, -4], 1, 10, 80, {stroke: "purple"});
+                            label( [-5.5, -3.5], "\\color{purple}{<var>Tri_X</var>&deg;}", 
+                                "above right" );
+                            arc( [-6, -4], 1, 10, 80, {stroke: "purple"} );
                         } else {
-                            label([-5.5, -3.5], "\\color{blue}{\\angle{BAC}} = ?", "above right");
-                            arc([-6, -4], 1, 10, 80, {stroke: "blue"});
+                            label( [-5.5, -3.5], "\\color{blue}{\\angle{BAC}} = ?", "above right" );
+                            arc( [-6, -4], 1, 10, 80, {stroke: "blue"} );
 
-                            label([4.1, -2.6], "\\color{purple}{<var>Tri_Y</var>&deg;}", "above");
-                            arc([5.7, -2.3], 0.75, 139, 194, {stroke: "purple"});
+                            label( [4.1, -2.6], "\\color{purple}{<var>Tri_Y</var>&deg;}", "above" );
+                            arc( [5.7, -2.3], 0.75, 139, 194, {stroke: "purple"} );
 
-                            label([-4.4, 0.65], "\\color{green}{<var>Tri_Z</var>&deg;}", "below");
-                            arc([-5.07, 1.75], 1, 257, 326, {stroke: "green"});
+                            label( [-4.4, 0.65], "\\color{green}{<var>Tri_Z</var>&deg;}", "below" );
+                            arc( [-5.07, 1.75], 1, 257, 326, {stroke: "green"} );
                         }
 
                     </div>
@@ -445,8 +446,9 @@
                         because they are corresponding angles formed by 2 parallel lines and 
                         a transversal line. 
                         <span class="graphie" data-update="parallel-and-triangle">
-                            label([-4.60, 0.75], "\\color{orange}{<var>Tri_Z</var>&deg;}", "below");
-                            arc([-5.07, 1.75], 1, 260, 325, {stroke: "orange"});
+                            label( [-4.60, 0.75], "\\color{orange}{<var>Tri_Z</var>&deg;}", 
+                                "below" );
+                            arc( [-5.07, 1.75], 1, 260, 325, {stroke: "orange"} );
                         </span>
                     </p>
                     <p data-else>
@@ -454,8 +456,9 @@
                         because they are corresponding angles formed by 2 parallel lines and 
                         a transversal line. 
                         <span class="graphie" data-update="parallel-and-triangle">
-                            label([-4.00, 4.25], "\\color{orange}{<var>Tri_Z</var>&deg;}", "below");
-                            arc([-4.47, 5.25], 1, 257, 325, {stroke: "orange"});
+                            label( [-4.00, 4.25], "\\color{orange}{<var>Tri_Z</var>&deg;}", 
+                                "below" );
+                            arc( [-4.47, 5.25], 1, 257, 325, {stroke: "orange"} );
                         </span>
                     </p>
 
@@ -487,55 +490,56 @@
             <div>
                 <div class="problem">
                     <div class="graphie" id="alternate-exterior-and-complementary"> 
-                        init({
+                        init( {
                             range: [[-6, 8], [-5, 5]],
                             scale: [50, 50]
-                        });
+                        } );
 
-                        style({
+                        style( {
                             stroke: "#888",
                             strokeWidth: 2
-                        });
+                        } );
 
                         // Draw Parallel lines
-                        path([ [-5, 2], [7, 2] ]);
-                        path([ [-5, -2], [7, -2] ]);
+                        path( [ [-5, 2], [7, 2] ] );
+                        path( [ [-5, -2], [7, -2] ] );
 
                         // Perpendicular line
                         path([ [0, 4], [0, -4] ]);
 
                         // Transversal line
-                        path([ [-2, 4], [6, -4] ]);
+                        path( [ [-2, 4], [6, -4] ]);
 
                         // Label Points
-                        label([-5, 2], "D", "above left");
-                        label([7, 2], "E", "above right");
-                        label([-5, -2], "F", "above left");
-                        label([7, -2], "G", "above right");
+                        label( [-5, 2], "D", "above left" );
+                        label( [7, 2], "E", "above right" );
+                        label( [-5, -2], "F", "above left" );
+                        label( [7, -2], "G", "above right" );
 
-                        label([-2, 4], "I", "above left");
-                        label([6, -4], "J", "above right");
+                        label( [-2, 4], "I", "above left" );
+                        label( [6, -4], "J", "above right" );
 
-                        label([0, 4], "K", "above right");
-                        label([0, -4], "L", "below right");
+                        label( [0, 4], "K", "above right" );
+                        label( [0, -4], "L", "below right" );
 
-                        label([0, 2], "A", "below left");
-                        label([0, -2], "B", "above left");
-                        label([4, -2], "C", "above right");
+                        label( [0, 2], "A", "below left" );
+                        label( [0, -2], "B", "above left" );
+                        label( [4, -2], "C", "above right" );
 
                         // Label given angles
-                        if(RAND2 == 0) {
-                            label([0, 3.5], "\\color{blue}{\\angle{IAK}} = ?", "above left");
-                            arc([0, 2], 1, 90, 135, {stroke:"blue"});
+                        if( RAND2 == 0 ) {
+                            label( [0, 3.5], "\\color{blue}{\\angle{IAK}} = ?", "above left" );
+                            arc( [0, 2], 1, 90, 135, {stroke:"blue"} );
 
-                            label([4.75, -2], "\\color{green}{<var>Tri_Y</var>&deg;}", "below right");
-                            arc([4, -2], .75, 315, 360, {stroke: "green"})                            
+                            label( [4.75, -2], "\\color{green}{<var>Tri_Y</var>&deg;}", 
+                                "below right" );
+                            arc( [4, -2], .75, 315, 360, {stroke: "green"} );
                         } else {
-                            label([0, 3], "\\color{green}{<var>Tri_Y</var>&deg;}", "above left");
-                            arc([0, 2], 1, 90, 135, {stroke:"green"});
+                            label( [0, 3], "\\color{green}{<var>Tri_Y</var>&deg;}", "above left" );
+                            arc( [0, 2], 1, 90, 135, {stroke:"green"} );
 
-                            label([4.75, -2], "\\color{blue}{\\angle{GCJ} = ?}", "below right");
-                            arc([4, -2], .75, 315, 360, {stroke: "blue"})
+                            label( [4.75, -2], "\\color{blue}{\\angle{GCJ} = ?}", "below right" );
+                            arc( [4, -2], .75, 315, 360, {stroke: "blue"} )
                         }
                     </div>
                     <p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
@@ -571,8 +575,9 @@
                         exterior angles formed by 2 parallel lines and a transversal line 
                         are congruent (equal).
                         <span class="graphie" data-update="alternate-exterior-and-complementary">
-                            label([-1, 2], "\\color{orange}{<var>Tri_Y</var>&deg;}", "above left");
-                            arc([0, 2], 1, 135, 180, {stroke: "orange"});
+                            label( [-1, 2], "\\color{orange}{<var>Tri_Y</var>&deg;}", 
+                                "above left" );
+                            arc( [0, 2], 1, 135, 180, {stroke: "orange"} );
                         </span>
                     </p>
 
@@ -580,8 +585,8 @@
                         <code>\color{purple}{\angle{DAK}} = 90&deg;</code> 
                          - This is because angles formed by perpendicular lines equal to 90&deg;.
                         <span class="graphie" data-update="alternate-exterior-and-complementary">
-                            label([-2, 2], "\\color{purple}{90&deg;}", "above left");
-                            arc([0, 2], 2, 90, 180, {stroke: "purple"});
+                            label( [-2, 2], "\\color{purple}{90&deg;}", "above left" );
+                            arc( [0, 2], 2, 90, 180, {stroke: "purple"} );
                         </span>
                     </p>
 
@@ -598,8 +603,9 @@
                          and <code>\color{orange}{\angle{DAI}}</code> make up angle 
                          <code>\color{purple}{\angle{DAK}}</code>, and total 90&deg;.
                          <span class="graphie" data-update="alternate-exterior-and-complementary">
-                            label([-1, 2], "\\color{orange}{<var>90-Tri_Y</var>&deg;}", "above left");
-                            arc([0, 2], 1, 135, 180, {stroke: "orange"});
+                            label( [-1, 2], "\\color{orange}{<var>90-Tri_Y</var>&deg;}", 
+                                "above left" );
+                            arc( [0, 2], 1, 135, 180, {stroke: "orange"} );
                         </span> 
                     </p>
 
