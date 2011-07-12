@@ -9,10 +9,10 @@
 <!-- Logic for Qs and hints are at the very bottom in comments-->
 	<div class="exercise">
 		<div class="vars">
-			<var id="A">(random() > 0.5 ? -1 : 1) * (rand(9) + 1)</var>
-			<var id="B">(random() > 0.5 ? -1 : 1) * (rand(9) + 1)</var>
-			<var id="C" data-ensure="C != 1">(random() > 0.5 ? -1 : 1) * (rand(9) + 1)</var>
-			<var id="D">(random() > 0.5 ? -1 : 1) * (rand(9) + 1)</var>
+			<var id="A">randRangeNonZero(-9, 9)</var>
+			<var id="B">randRangeNonZero(-9, 9)</var>
+			<var id="C" data-ensure="abs( C ) != 1">randRangeNonZero(-9, 9)</var>
+			<var id="D">randRangeNonZero(-9, 9)</var>
 		</div> <!-- C ( Bx + A ) + D is the expression we are creating -->
 
 		<div class="problems">
@@ -113,7 +113,7 @@
 			<p id="hint4"></p>
 			<p><code class="hint_orange"><var>expr(["*", C,["+",["*", B, "x"], A]])</var></code><code class="hint_blue">{} + <var>D</var></code></p>
 
-			<p>Answer: The entire expression can be written as <code><var>expr(["+",["*", C,["+",["*", B, "x"], A]], D])</var></code></p>
+			<p>The entire expression can be written as <code><var>expr(["+",["*", C,["+",["*", B, "x"], A]], D])</var></code></p>
 		</div>
 	</div>
 </body>
