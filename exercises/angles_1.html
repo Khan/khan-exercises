@@ -563,10 +563,10 @@
                 <div class="question">
                     Given the following:
                     <ul>
-                        <li><code>\overline{DE} \parallel \overline{FG}</code> 
-                         - Lines DE and FG are parallel.</li>
-                        <li><code>\overline{KL} \perp \overline{DE}</code>
-                         - Lines KL and DE are perpendicular.</li>
+                        <li><code>\overline{DE} \parallel \overline{FG}</code>, 
+                        lines DE and FG are parallel.</li>
+                        <li><code>\overline{KL} \perp \overline{DE}</code>, 
+                        Lines KL and DE are perpendicular.</li>
                         <li data-if="RAND2 === 0">
                             <code>\color{green}{\angle{GCJ}} = <var>Tri_Y</var>&deg;</code>
                         </li>
@@ -584,20 +584,31 @@
                 <div class="hints">
 
                     <p data-if="RAND2 === 0">
-                        <code>\color{orange}{\angle{DAI}} = \color{green}{\angle{GCJ}}</code> 
-                         - This is because they are alternate exterior angles.  Alternate 
-                        exterior angles formed by 2 parallel lines and a transversal line 
-                        are congruent (equal).
+                        <code>\color{orange}{\angle{DAI}} = \color{green}{\angle{GCJ}} = 
+                        <var>Tri_Y</var>&deg;</code>, 
+                        because they are alternate exterior angles, formed by 2 parallel lines 
+                        and a transversal line, they are congruent (equal).
                         <span class="graphie" data-update="alternate-exterior-and-complementary">
                             label( [-1, 2], "\\color{orange}{<var>Tri_Y</var>&deg;}", 
                                 "above left" );
                             arc( [0, 2], 1, 135, 180, {stroke: "orange"} );
                         </span>
+                        Alternatively, you can pair up using opposite angles and alternate interior
+                        angles to achieve the same result (as seen using 
+                        <code>\color{pink}{pink}</code>).
+                        <span class="graphie" data-update="alternate-exterior-and-complementary">
+                            label( [1, 2], "\\color{pink}{<var>Tri_Y</var>&deg;}", 
+                                "below right" );
+                            arc( [0, 2], 1, 315, 360, {stroke: "pink"} );
+                            label( [3, -2], "\\color{pink}{<var>Tri_Y</var>&deg;}", 
+                                "above left" );
+                            arc( [4, -2], 1, 135, 180, {stroke: "pink"} );
+                        </span>
                     </p>
 
                     <p>
-                        <code>\color{purple}{\angle{DAK}} = 90&deg;</code> 
-                         - This is because angles formed by perpendicular lines equal to 90&deg;.
+                        <code>\color{purple}{\angle{DAK}} = 90&deg;</code>,  
+                        because angles formed by perpendicular lines equal to 90&deg;.
                         <span class="graphie" data-update="alternate-exterior-and-complementary">
                             label( [-2, 2], "\\color{purple}{90&deg;}", "above left" );
                             arc( [0, 2], 2, 90, 180, {stroke: "purple"} );
@@ -605,18 +616,20 @@
                     </p>
 
                     <p data-if="RAND2 === 0">
-                        <code>\color{blue}{\angle{IAK}} = 90&deg; - \color{orange}{\angle{DAI}}</code> 
-                         - These 2 angles are complementary angles. Angles <code>\color{blue}{\angle{IAK}}</code> 
+                        <code>\color{blue}{\angle{IAK}} = 90&deg; - \color{orange}{\angle{DAI}} = 
+                        <var>90 - Tri_Y</var>&deg;</code>, 
+                         because angles <code>\color{blue}{\angle{IAK}}</code> 
                          and <code>\color{orange}{\angle{DAI}}</code> make up angle 
-                         <code>\color{purple}{\angle{DAK}}</code>, which totals 90&deg;.  
+                         <code>\color{purple}{\angle{DAK}}</code>.
                     </p>
 
                     <p data-if="RAND2 !== 0">
-                        <code>\color{orange}{\angle{IAK}} = 90&deg; - \color{green}{\angle{IAK}}</code> 
-                          - These 2 angles are complementary angles. Angles <code>\color{green}{\angle{IAK}}</code> 
-                         and <code>\color{orange}{\angle{DAI}}</code> make up angle 
-                         <code>\color{purple}{\angle{DAK}}</code>, and total 90&deg;.
-                         <span class="graphie" data-update="alternate-exterior-and-complementary">
+                        <code>\color{orange}{\angle{IAK}} = 90&deg; - \color{green}{\angle{IAK}} = 
+                        <var>90 - Tri_Y</var>&deg;</code>, 
+                        because angles <code>\color{green}{\angle{IAK}}</code> 
+                        and <code>\color{orange}{\angle{DAI}}</code>, make up angle 
+                        <code>\color{purple}{\angle{DAK}}</code>.
+                        <span class="graphie" data-update="alternate-exterior-and-complementary">
                             label( [-1, 2], "\\color{orange}{<var>90-Tri_Y</var>&deg;}", 
                                 "above left" );
                             arc( [0, 2], 1, 135, 180, {stroke: "orange"} );
@@ -624,10 +637,22 @@
                     </p>
 
                     <p data-if="RAND2 !== 0">
-                        <code>\color{blue}{\angle{GCJ}} = \color{orange}{\angle{DAI}}</code> 
-                         - This is because they are alternate exterior angles.  Alternate 
-                        expterior angles formed by 2 parallel lines and a transversal line 
-                        are congruent (equal).
+                        <code>\color{blue}{\angle{GCJ}} = \color{orange}{\angle{DAI}} = 
+                        <var>90 - Tri_Y</var>&deg;</code>,  
+                        because they are alternate exterior angles formed by 2 parallel lines 
+                        and a transversal line, they are congruent (equal).
+
+                        Alternatively, you can pair up using opposite angles and alternate interior
+                        angles to achieve the same result (as seen using 
+                        <code>\color{pink}{pink}</code>).
+                        <span class="graphie" data-update="alternate-exterior-and-complementary">
+                            label( [1, 2], "\\color{pink}{<var>Tri_Y</var>&deg;}", 
+                                "below right" );
+                            arc( [0, 2], 1, 315, 360, {stroke: "pink"} );
+                            label( [3, -2], "\\color{pink}{<var>Tri_Y</var>&deg;}", 
+                                "above left" );
+                            arc( [4, -2], 1, 135, 180, {stroke: "pink"} );
+                        </span>
                     </p>
                 </div>
             </div>
