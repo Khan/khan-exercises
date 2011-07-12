@@ -49,7 +49,10 @@ var Khan = {
 						}\
 					}\
 				},\
-				\"HTML-CSS\": { scale: 93 }\
+				\"HTML-CSS\": {\
+					scale: 93,\
+					availableFonts: [\"TeX\"]\
+				}\
 			});\
 			\
 			// We don't want to use inline script elements, we want to use code blocks\n\
