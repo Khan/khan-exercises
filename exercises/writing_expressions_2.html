@@ -6,13 +6,12 @@
 </head>
 <body>
 
-<!-- Logic for Qs and hints are at the very bottom in comments-->
 	<div class="exercise">
 		<div class="vars">
-			<var id="A">randRangeNonZero(-9, 9)</var>
-			<var id="B" data-ensure="abs( A ) !== abs( -B )">randRangeNonZero(-9, 9)</var>
-			<var id="C" data-ensure="abs( C ) != 1">randRangeNonZero(-9, 9)</var>
-			<var id="D">randRangeNonZero(-9, 9)</var>
+			<var id="A">randRangeNonZero( -9, 9 )</var>
+			<var id="B" data-ensure="abs( A ) !== abs( B )">randRangeNonZero( -9, 9 )</var>
+			<var id="C" data-ensure="abs( C ) !== 1">randRangeNonZero( -9, 9 )</var>
+			<var id="D">randRangeNonZero( -9, 9 )</var>
 		</div> <!-- C ( Bx + A ) + D is the expression we are creating -->
 
 		<div class="problems">
@@ -74,7 +73,7 @@
 					<p id="hint3">What is <span class="hint_orange">the product of <code><var>C</var></code> times that expression</span>?</p>
 					<p id="hint4">What does <span class="hint_blue">adding <code><var>D</var></code></span> to <code>\color{orange}{<var>expr(["*", C,["+",["*", B, "x"], A]])</var>}</code> do?</p>
 				</div>
-				
+
 			</div>
 			<div id="type-5" data-type="original">
 				<p class="question">Take the the product of <code><var>B</var></code> and <code>x</code> and add <code><var>A</var></code>.</p>
@@ -86,19 +85,19 @@
 					<p id="hint3">What is <span class="hint_orange">the quantity of <code><var>C</var></code> times that expression</span>?</p>
 					<p id="hint4">What is <span class="hint_blue">the sum of <code><var>D</var></code> and </span><code>\color{orange}{<var>expr(["*", C,["+",["*", B, "x"], A]])</var>}</code>?</p>
 				</div>
-				
+
 			</div>
 			<div id="type-6" data-type="original">
 				<p class="question">Take the quantity of <code><var>B</var></code> times <code>x</code> and add <code><var>A</var></code>.</p>
 				<p class="part-two"><b>the sum of <code><var>D</var></code> and the product of <code><var>C</var></code> and that expression</b>
-				
+
 				<div class="hints" data-apply="appendContents">
 					<p id="hint1">What is <span class="hint_orange">the quantity of <code><var>B</var></code> times <code>x</code></span>?</p>
 					<p id="hint2">What does <span class="hint_blue">adding <code><var>A</var></code></span> to <code class="hint_orange"><var>expr(["*", B, "x"])</var></code> do?</p>
 					<p id="hint3">What is <span class="hint_orange">the product of <code><var>C</var></code> times that expression</span>?</p>
 					<p id="hint4">What is <span class="hint_blue">the sum of <code><var>D</var></code> and </span><code>\color{orange}{<var>expr(["*", C,["+",["*", B, "x"], A]])</var>}</code>?</p>
 				</div>
-				
+
 			</div>
 		</div>
 
@@ -112,54 +111,8 @@
 			<p><code><var>C</var> \times (<var>B</var>x + <var>A</var>) = \color{orange}{<var>expr(["*", C,["+",["*", B, "x"], A]])</var>}</code></p>
 			<p id="hint4"></p>
 			<p><code class="hint_orange"><var>expr(["*", C,["+",["*", B, "x"], A]])</var></code><code class="hint_blue">{} + <var>D</var></code></p>
-
-			<p>The entire expression can be written as <code><var>expr(["+",["*", C,["+",["*", B, "x"], A]], D])</var></code></p>
+			<p>The entire expression can be written as <code><var>expr(["+",["*", C,["+",["*", B, "x"], A]], D])</var></code>.</p>
 		</div>
 	</div>
 </body>
 </html>
-
-<!--		
-Questions can be:
-
-class = "problem" is constant
-class = middle" is constant
-
-class = "question" can be:
-1 <p class="question">the sum of <code><var>A</var></code> and the product of <code><var>B</var></code> and <code>x</code></p>
-2 <p class="question">the sum of <code><var>A</var></code> and the quantity of <code><var>B</var></code> times <code>x</code></p>
-3 <p class="question"><code><var>A</var></code> plus the product of <code><var>B</var></code> and <code>x</code></p>
-4 <p class="question"><code><var>A</var></code> plus the quantity of <code><var>B</var></code> times <code>x</code></p>
-5 <p class="question">Take the the product of <code><var>B</var></code> and <code>x</code> and add <code><var>A</var></code>.</p>
-6 <p class="question">Take the quantity of <code><var>B</var></code> times <code>x</code> and add <code><var>A</var></code>.</p>
-
-class = "part-two" can be:
-
-1 <p class="part-two"><b>the sum of <code><var>D</var></code> and the product of <code><var>C</var></code> and that expression</b>
-2 <p class="part-two"><b>the sum of <code><var>D</var></code> and the quantity of <code><var>C</var></code> times that expression</b>
-3 <p class="part-two"><b><code><var>D</var></code> plus the product of <code><var>C</var></code> and that expression</b>
-4 <p class="part-two"><b><code><var>D</var></code> plus the quantity of <code><var>C</var></code> times that expression</b>
-5 <p class="part-two"><b>Take the product of <code><var>C</var></code> and that expression and then add <code><var>D</var></code>.</b>
-6 <p class="part-two"><b>Take the quantity of <code><var>C</var></code> times that expression and then add <code><var>D</var></code>.</b>
-
-six problem types are 1-4 2-3 3-6 4-5 5-2 6-1, this gives two of each type of phrase every six questions
-
-Hint1: ODD-EVEN for class = "question" (product / quantity)
-What is <span class="hint_orange">the product of <code><var>B</var></code> and <code>x</code></span>?
-What is <span class="hint_orange">the quantity of <code><var>B</var></code> times <code>x</code></span>?
-
-Hint2: 12 34 56 for class = "question"(the sum of / plus / and add)
-What is <span class="hint_blue">the sum of <code><var>A</var></code></span> and <code class="hint_orange"><var>expr(["*", B, "x"])</var></code>?
-What is <span class="hint_blue"><code><var>A</var></code> plus</span> <code class="hint_orange"><var>expr(["*", B, "x"])</var></code>?
-What does <span class="hint_blue">adding <code><var>A</var></code></span> to <code class="hint_orange"><var>expr(["*", B, "x"])</var></code> do?
-
-Hint3: ODD-EVEN for class = "part-two"(product / quantity)
-What is <span class="hint_orange">the product of <code><var>C</var></code> times that expression</span>?
-What is <span class="hint_orange">the quantity of <code><var>C</var></code> times that expression</span>?
-
-Hint 4: 12 34 56 for class = "part-two" (the sum of / plus / and add)
-What is <span class="hint_blue">the sum of <code><var>A</var></code></span> and <code>\color{orange}{<var>expr(["*", C,["+",["*", B, "x"], A]])</var>}</code>?
-What is <span class="hint_blue"><code><var>A</var></code> plus</span> <code>\color{orange}{<var>expr(["*", C,["+",["*", B, "x"], A]])</var>}</code>?
-What does <span class="hint_blue">adding <code><var>D</var></code></span> to <code>\color{orange}{<var>expr(["*", C,["+",["*", B, "x"], A]])</var>}</code> do?
-
--->
