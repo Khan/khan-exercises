@@ -387,35 +387,44 @@ var createGraph = function( el ) {
 
 			// allow options to be specified by a single number for shorthand if 
 			// the horizontal and vertical components are the same
-			( typeof val === "number" ) && 
-				( prop !==  "gridOpacity" ) &&
-				( options[prop] = [ val, val ] );
+			if ( prop !== "gridOpacity" && prop !== "range" 
+					&& typeof val === "number" ) {
+				options[ prop ] = [ val, val ];
+			}
 
-			// allow symmetric ranges to be specified by the absolute values
-			( val.constructor === Array ) &&
-				( prop === "range" ) &&
-				( typeof val[0] === "number" ) &&	
-				( typeof val[1] === "number" ) &&
-				( options[prop] = [ [ -val[0], val[0] ], [ -val[1], val[1] ] ] );
+			// allow symmetric ranges to be specified by the absolute values 
+			if ( prop === "range" ) {
+				if ( val.constructor === Array ) {
+					options[ prop ] = [ [ -val[0], val[0] ], [ -val[1], val[1] ] ];
+				} else if ( typeof val === "number" ) {
+					options[ prop ] = [ [ -val, val ], [ -val, val ] ];
+				}
+			}
 
 		});
 
 		var range = options.range || [ [-10, 10], [-10, 10] ],
 			scale = options.scale || [ 20, 20 ],
+			grid = options.grid || true,
 			gridOpacity = options.gridOpacity || .1,
 			gridStep = options.gridStep || [ 1, 1 ],
+			axes = options.axes || true,
+			axisArrows = options.axisArrows || "",
+			ticks = options.ticks || true,
 			tickStep = options.tickStep || [ 2, 2 ],
 			tickLen = options.tickLen || [ 5, 5 ],
+			labels = options.labels || false,
 			labelStep = options.labelStep || [ 1, 1 ];
 			xLabelFormat = options.xLabelFormat || function(a) { return a; };
 			yLabelFormat = options.yLabelFormat || function(a) { return a; };
 
-		graphie.init({
+		this.init({
 			range: range,
 			scale: scale
 		});
 
 		// draw grid
+		grid &&
 		this.grid( range[0], range[1], {
 			stroke: "#000000",
 			opacity: gridOpacity,
@@ -423,16 +432,19 @@ var createGraph = function( el ) {
 		} );
 
 		// draw axes
-		graphie.style({ 
+		axes &&
+		this.style({ 
 			stroke: "#000000",
-			strokeWidth: 2
+			strokeWidth: 2,
+			arrows: axisArrows
 		}, function() {
 			this.path( [ [ range[0][0], 0 ], [ range[0][1], 0 ] ] );
 			this.path( [ [ 0, range[1][0] ], [ 0, range[1][1] ] ] );
 		});
 
 		// draw tick marks
-		graphie.style({
+		ticks && 
+		this.style({
 			stroke: "#000000",
 			strokeWidth: 1
 		}, function() {
@@ -444,11 +456,15 @@ var createGraph = function( el ) {
 				stop = range[0][1];
 
 			for ( var x = step; x <= stop; x += step ) {
-				this.line( [ x, -len ], [ x, len ] );
+				if ( x < stop || !axisArrows ) {
+					this.line( [ x, -len ], [ x, len ] );
+				}
 			}
 
 			for ( var x = -step; x >= start; x -= step ) {
-				this.line( [ x, -len ], [ x, len ] );
+				if ( x > start || !axisArrows ) {
+					this.line( [ x, -len ], [ x, len ] );
+				}
 			}
 
 			// vertical axis
@@ -458,17 +474,22 @@ var createGraph = function( el ) {
 			stop = range[1][1];
 
 			for ( var y = step; y <= stop; y += step ) {
-				this.line( [ -len, y ], [ len, y ] );
+				if ( y < stop || !axisArrows ) {
+					this.line( [ -len, y ], [ len, y ] );
+				}
 			}
 
 			for ( var y = -step; y >= start; y -= step ) {
-				this.line( [ -len, y ], [ len, y ] );
+				if ( y > start || !axisArrows ) {
+					this.line( [ -len, y ], [ len, y ] );
+				}
 			}
 
 		});
 
 		// draw axis labels
-		graphie.style({
+		labels &&
+		this.style({
 			stroke: "#000000"
 		}, function() {
 			
@@ -478,11 +499,15 @@ var createGraph = function( el ) {
 				stop = range[0][1];
 
 			for ( var x = step; x <= stop; x += step ) {
-				this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+				if ( x < stop || !axisArrows ) {
+					this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+				}
 			}
 
 			for ( var x = -step; x >= start; x -= step ) {
-				this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+				if ( x > start || !axisArrows ) {
+					this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+				}
 			}
 
 			// vertical axis
@@ -491,11 +516,15 @@ var createGraph = function( el ) {
 			stop = range[1][1];
 
 			for ( var y = step; y <= stop; y += step ) {
-				this.label( [ 0, y ], yLabelFormat( y ), "left" );
+				if ( x < stop || !axisArrows ) {
+					this.label( [ 0, y ], yLabelFormat( y ), "left" );
+				}
 			}
 
 			for ( var y = -step; y >= start; y -= step ) {
-				this.label( [ 0, y ], yLabelFormat( y ), "left" );
+				if ( x > start || !axisArrows ) {
+					this.label( [ 0, y ], yLabelFormat( y ), "left" );
+				}
 			}
 
 		});

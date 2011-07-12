@@ -54,15 +54,12 @@
 				<div class="problem">
 					<p><code>f(x)</code> is graphed below.</p>
 					<div id="graph" class="graphie">
-						var range = [ [ -HRANGE, HRANGE ], [ -VRANGE, VRANGE ] ];
-
 						graphInit({
 							range: [ HRANGE, VRANGE ],
 							scale: [ PIXHSCALE, PIXVSCALE ],
-							gridOpacity: .1,
+							axisArrows: "<->",
 							gridStep: [ HSCALE * PI / 4, .5 ],
 							tickStep: [ 2, 1 ],
-							tickLen: 5,
 							labelStep: [ 2, 2 ],
 							xLabelFormat: piFraction
 						});
