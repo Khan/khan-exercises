@@ -54,6 +54,197 @@ jQuery.extend( Khan.answerTypes, {
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
+	
+	matrixEntry: function( solutionarea, solution, fallback, verifier ) {
+		//matrix computations can be prone to large rounding error
+		Khan.answerTypes.opts = jQuery.extend({
+				maxError: Math.pow( 2, -10 )
+				}, jQuery( solution ).data());			
+		var input = jQuery('<input type="text" style="width:3em;" />');
+		jQuery( solutionarea ).append( input );
+		input.focus();
+
+		var default_answer = jQuery( solution ).attr('default');
+		if ( typeof default_answer !== 'undefined' ) {
+			input.val(default_answer);
+		}
+
+		var correct = jQuery( solution ).text();
+
+		if ( verifier == null ) {
+			verifier = function( correct, guess ) {
+				correct = jQuery.trim( correct );
+				if ( guess.length !== 0 ) {
+					guess = eval( guess.replace(/sqrt/g, "Math.sqrt") );
+				}
+				return Math.abs( correct - guess ) < parseFloat( Khan.answerTypes.opts.maxError );
+			};
+		}
+
+		return function() {
+			// we want the normal input if it's nonempty, the fallback converted to a string if 
+			// the input is empty and a fallback exists, and the empty string if the input
+			// is empty and the fallback doesn't exist.
+			var val = input.val().length > 0 ? 
+				input.val() :
+				fallback ?
+					fallback + "" :
+					""
+
+			return verifier( correct, val );
+		};
+	},
+
+	matrix: function ( solutionarea, solution, array, displayDims ) {
+		var MAX_MATRIX_DIM = 10;
+		if ( array == null ) {
+			//load the solution into an array
+			try {
+				array = eval( jQuery(solution).text() );
+			} catch( ex ) {
+				throw "Error loading solution for matrix solution type: '" + jQuery(solution).text() + "' cannot be evaled";
+			}
+		}
+		//by default we display "_x_ Matrix"
+		if ( displayDims == null ) { displayDims = true; }
+
+		var display_rows = jQuery(solution).attr('rows'), display_cols = jQuery(solution).attr('cols');
+		display_rows = (typeof display_rows === 'undefined' || display_rows === 'auto') ? array.length : parseInt(display_rows, 10);
+		display_cols = (typeof display_cols === 'undefined' || display_cols === 'auto') ? array[0].length : parseInt(display_cols, 10);
+
+		var adjustable = jQuery(solution).attr('adjustable') ? true : false;
+
+		//table of inputs for the matrix
+		var table = jQuery( '<table></table>' );
+		for ( var i = 0; i < MAX_MATRIX_DIM; i++ ) {
+			var row = jQuery( '<tr row="'+i+'"></tr>' );
+			for ( var j = 0; j < MAX_MATRIX_DIM; j++ ) {
+				//grab the proper value from the array or '' if we're beyond the boundaries of the array
+				var val = (typeof array[i] !== 'undefined' && typeof array[i][j] !== 'undefined') ? array[i][j] : '';
+				var entry = jQuery('<td col="'+j+'" type="matrixEntry" class="sol">'+val+'</td>');
+				entry.data({'type': 'matrixEntry', 'fallback': '0'});
+				row.append(entry);	
+			}
+			table.append(row);
+		}
+		//displays the size of the matrix
+		var matrix_dims = jQuery("<div><span id='numrows' />&times;<span id='numcols' /> Matrix</div>");
+
+		//keeps track of the dimensions of the matrix to be varified by answerTypes.multiple solution type
+		//this is meant to be hidden
+		var matrix_dims_sol = jQuery("<div style='display: none'>" + 
+					     "<span id='numrows_sol' default='"+display_rows+"' class='sol' />" + 
+					     "<span id='numcols_sol' default='"+display_cols+"' class='sol' />" +
+					     "</div>");
+		matrix_dims_sol.find('#numrows_sol').text( array.length )
+						    .data({'type': 'matrixEntry'});
+		matrix_dims_sol.find('#numcols_sol').text( array[0].length )
+						    .data({'type': 'matrixEntry'});
+		
+		//updates the display of the matrix and matrix properties
+		var update_matrix = function(){
+			matrix_dims.find('#numrows').text( display_rows );
+			matrix_dims.find('#numcols').text( display_cols );
+			matrix_dims_sol.find('#numrows_sol input').val( display_rows );
+			matrix_dims_sol.find('#numcols_sol input').val( display_cols );
+			//hide the rows and cols we shouldn't show
+			table.find('td').each(function(){
+				var entry = jQuery(this);
+				if ( entry.attr('col') >= display_cols ){
+					entry.find('input').val('');
+					entry.hide();
+				} else {
+					entry.show();
+				}
+			});
+			table.find('tr').each(function(){
+				var entry = jQuery(this);
+				if ( entry.attr('row') >= display_rows ){
+					entry.find('input').val('');
+					entry.hide();
+				} else {
+					entry.show();
+				}
+			});
+		};
+
+		var matrix_size_adjusters = jQuery('<div><div>'+
+						   '<input type="button" id="addcol" value="Add Column" />'+
+						   '<input type="button" id="removecol" value="Remove Column" />'+
+						   '</div><div>'+
+						   '<input type="button" id="addrow" value="Add Row" />'+
+						   '<input type="button" id="removerow" value="Remove Row" />'+
+						   '</div></div>');
+		matrix_size_adjusters.find('#addcol').click(function(){ 
+			if ( display_cols < MAX_MATRIX_DIM ) {
+				display_cols++;
+			}
+			update_matrix();
+		});
+		matrix_size_adjusters.find('#removecol').click(function(){ 
+			if ( display_cols > 1 ) {
+				display_cols--;
+			}
+			update_matrix();
+		});
+		matrix_size_adjusters.find('#addrow').click(function(){ 
+			if ( display_rows < MAX_MATRIX_DIM ) {
+				display_rows++;
+			}
+			update_matrix();
+		});
+		matrix_size_adjusters.find('#removerow').click(function(){ 
+			if ( display_rows > 1 ) {
+				display_rows--;
+			}
+			update_matrix();
+		});
+		
+		solution = jQuery(solution);
+		solution.empty();
+		if ( adjustable ) {
+			solution.append( matrix_size_adjusters );
+		}
+		if ( displayDims ) {
+			solution.append( matrix_dims );
+		}
+		solution.append( matrix_dims_sol );
+		solution.append( table );
+		update_matrix();
+
+		return Khan.answerTypes.multiple( solutionarea, solution );
+	},
+
+	vector: function ( solutionarea, solution ) {
+		//load the solution into an array
+		try {
+			array = eval( jQuery(solution).text() );
+		} catch( ex ) {
+			throw "Error loading solution for matrix solution type: '" + jQuery(solution).text() + "' cannot be evaled";
+		}
+
+		var row_vector = jQuery(solution).attr('rowvector') ? true : false;
+		var col_vector = jQuery(solution).attr('colvector') ? true : false;
+		//if niether row vector nor column vector were specified, try to guess based on the input array
+		//by the end of this statement, one of row_vector or col_vector will be true
+		if ( array[0].length > 1 && col_vector === false ) {
+			row_vector = true;
+		} else if ( row_vector === false ) {
+			col_vector = true;
+		}
+		
+		//format our array to be liked an n x 1 or 1 x n matrix depending on the value of row_vector and col_vector
+		var flattened = jQuery.map(array, function(x){ return x; });
+		if ( row_vector ) {
+			array = [flattened];
+		}
+		if ( col_vector ) {
+			array = jQuery.map(flattened, function(x){ return [[x]]; });
+		}
+
+		return Khan.answerTypes.matrix( solutionarea, solution, array, false );
+
+	},
 
 	decimalVerifier: function( correct, guess ) {
 		correct = parseFloat( correct );
