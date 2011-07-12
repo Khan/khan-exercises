@@ -258,7 +258,7 @@ jQuery.extend( Khan.answerTypes, {
 
 		return function() {
 			var choice = list.find("input:checked");
-			if ( noneIsCorrect ) {
+			if ( noneIsCorrect && choice.val() === "1") {
 				choice.next()
 					.fadeOut( "fast", function() {
 						jQuery( this ).replaceWith( list.data( "real-answer" ) )
