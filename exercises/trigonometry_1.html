@@ -34,38 +34,61 @@
 				<var id="AC">randRange(3, 10)</var>
 				<var id="BC">randRange(3, 10)</var>
 				<var id="CB">BC</var>
-				<var id="AB">AC * AC + BC * BC</var>
+				<var id="AB_STRING">formattedSquareRootOf(AC * AC + BC * BC)</var>
+				<var id="AB_VALUE">sqrt(AC * AC + BC * BC)</var>
 				<ul id="ANGLE">
 					<li>"ABC"</li>
 					<li>"ACB"</li>
 					<li>"BAC"</li>
 				</ul>
-				<var id="OPPOSITE_NAME">ANGLE.substring(0,1)+ANGLE.substring(2)</var>
-				<var id="OPPOSITE_VALUE"></var>
+				<var id="OPPOSITE_NAME">(ANGLE.substring(0,1)+ANGLE.substring(2))</var>
+				<var id="OPPOSITE_VALUE">
+					(function(){
+						if( OPPOSITE_NAME == "AC" ){
+							return AC;
+						}
+						else if( OPPOSITE_NAME == "BC" ){
+							return CB;
+						}
+						return AB_STRING;
+					})()
+				</var>
 
 				<var id="HYPOTENUSE_NAME">"AB"</var>
-				<var id="HYPOTENUSE_VALUE">AB</var>
+				<var id="HYPOTENUSE_VALUE">AB_VALUE</var>
 
 				<var id="ADJACENT_NAME">ANGLE.substring(1)</var>
-				<var id="ADJACENT_VALUE"></var>
+				<var id="ADJACENT_VALUE">
+					(function(){
+						if( ADJACENT_NAME=="AC" ){
+							return AC;
+						}
+						else if( ADJACENT_NAME=="CB" ){
+							return CB;
+						}
+
+						return AB_STRING;
+					})()
+
+				</var>
 			</div>
 
 	<div class="problems">
 		<div id="sin">
 			<div class="vars">
-				<var id="SOLUTION_PRETTY">fraction(OPPOSITE_VALUE,HYPOTENUSE_VALUE,true,false,false,false)</var> 
+				<var id="SOLUTION_PRETTY">"\\frac{" + OPPOSITE_VALUE + "}{" +AB_STRING+ "}"</var> 
 				<var id="SOLUTION">OPPOSITE_VALUE/HYPOTENUSE_VALUE</var>
 			</div>
 			<div class="problem">
-				<p>AC is <var>AC</var> units long</p> 
-				<p>BC is <var>BC</var> units long</p> 
-				<p>AB is <var>AB</var> units long</p> 
+				<p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p> 
+				<p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p> 
+				<p><code>\overline{AB}</code> is <code><var>AB_STRING</var></code> units long</p> 
 			</div>
 			<div class="question">
-				<p>What is sin(<var>ANGLE</var>)</p>
+				<p>What is <code>\sin(\angle <var>ANGLE</var>)</code></p>
 
 				<div class="graphie">
-					betterTriangle( BC, AC, "A", "B", "C", BC, AC, "?" );
+					betterTriangle( BC, AC, "A", "B", "C", BC, AC, AB_STRING );
 				</div>
 			</div>
 
@@ -74,11 +97,11 @@
 			</div>
 
 			<div class="hints" data-apply="appendContents">
-				<p>SOH CAH TOA</p>
-				<p>Sin=Opposite over Hypotenuse</p>
-				<p>opposite=<var>OPPOSITE_NAME</var>=<var>OPPOSITE_VALUE</var></p>
-				<p>hypothenuse=<var>HYPOTENUSE_NAME</var>=<var>HYPOTENUSE_VALUE</var></p>
-				<p>sin(<var>ANGLE</var>)=<var>SOLUTION_PRETTY</var></p>
+				<p><b>SOH</b> CAH TOA</p>
+				<p><b>S</b>in=<b>O</b>pposite over <b>H</b>ypotenuse</p>
+				<p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
+				<p>hypothenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
+				<p><code>sin(<var>ANGLE</var>)=<var>SOLUTION_PRETTY</var></code></p>
 			</div>
 		</div>
 
