@@ -1,5 +1,7 @@
 "use strict";
 
+(function(){
+
 /* some helpful functional programming tools */
 // jQuery.map is actually a mapReduce.
 // i.e., if you return an array, it extends the result instead
@@ -560,18 +562,18 @@ KhanUtil.SymbolicMatrix.prototype = jQuery.extend( new AbstractMatrx(), {
 });
 
 jQuery.extend(KhanUtil, {
-	/* Returns a SymbolicMatrix version of mat with latex color
-	 * formatting applied.  row,col use slicing notation.
-	 * i.e., row=':' will color that entire row and col=':'
-	 * will color the entire column.  if row,col=':',':'
-	 * the whole matrix will be colored */
+	//Returns a SymbolicMatrix version of mat with latex color
+	//formatting applied.  row,col use slicing notation.
+	//i.e., row=':' will color that entire row and col=':'
+	//will color the entire column.  if row,col=':',':'
+	//the whole matrix will be colored 
 	colorizeMatrix : function(mat, color, row, col){
 		var SymbolicMatrix = KhanUtil.SymbolicMatrix;
-		/* set row, col to the defualt values if they're undefined */
-		if(typeof row === 'undefined'){ row = ':'; }
-		if(typeof col === 'undefined'){ col = ':'; }
+		// set row, col to the defualt values if they're undefined
+		if(row == null){ row = ':'; }
+		if(col == null){ col = ':'; }
 
-		/* wraps whatever value we pass in in a color tag */
+		// wraps whatever value we pass in in a color tag
 		var apply_color = function(x){
 			return ['color', color, x];
 		}
@@ -633,10 +635,9 @@ jQuery.extend(KhanUtil, {
 		return ret;
 	},
 
-	/* color a matrix's entries a specific color one by one.
-	 * i.e., mat[0][0] is colored color_list[0],
-	 * mat[0][1] is colored color_list[1], etc.
-	 */
+	// color a matrix's entries a specific color one by one.
+	// i.e., mat[0][0] is colored color_list[0],
+	// mat[0][1] is colored color_list[1], etc.
 	colorizeMatrixAs : function(mat, color_list){
 		var SymbolicMatrix = KhanUtil.SymbolicMatrix;
 
@@ -667,9 +668,8 @@ jQuery.extend(KhanUtil, {
 		return KhanUtil.colorizeMatrixEntries(mat, color, coord_array);
 	},
 
-	/* matrix to latex conversion. 
-	 * braces is in ['[', '(', '|', ''].  Defaults to '['
-	 */
+	//matrix to latex conversion. 
+	//braces is in ['[', '(', '|', ''].  Defaults to '['
 	formatMatrix : function(mat, braces){
 		var array = mat.array;
 		var latex_brace = 'bmatrix';
@@ -682,7 +682,7 @@ jQuery.extend(KhanUtil, {
 
 	},
 
-	/* returns a rows x cols matrix with random values between range_low and range_hight */
+	//returns a rows x cols matrix with random values between range_low and range_hight
 	randRangeMatrix : function (rows, cols, range_low, range_high) {
 		var new_array = [];
 		for(var i = 0; i < rows; i++){
@@ -751,6 +751,7 @@ jQuery.extend(KhanUtil, {
 
 	},
 
+	//returns a permutatioin matrix of size rows x rows
 	randPermutationMatrix : function ( rows ) {
 		var mat = KhanUtil.zeroMatrix( rows, rows );
 		var row_index = range(rows);
@@ -790,18 +791,17 @@ jQuery.extend(KhanUtil, {
 	randMatrixWithNPivots : function ( pivots, rows, cols ) {
 		var mat = KhanUtil.zeroMatrix( rows, cols );
 		
-		//make the matrix have the proper number of pivots
-		for ( var i = 0; i < pivots; i++ ) {
-			mat.array[i][i] = 1;
-		}
 
-		//fill in some random entries in the non-pivot columns
-		for ( var i = pivots; i < cols; i++ ) {
-			//get a list of entries to fill in that column.  We musn't fill any row that doesn't have a pivot
-			var fill_entries = KhanUtil.shuffle(range(pivots)).slice(KhanUtil.randRange(0, pivots - 1));
-			map(fill_entries, function(x){
-				mat.array[x][i] = KhanUtil.randRangeExclude(-8,8,[0]);
-			});
+		var pivot_cols = KhanUtil.shuffle( range(cols) ).slice(0, pivots).sort();
+		//fill in the pivot columns in a way that gives some tame fractions
+		for ( var i = 0; i < pivots; i++ ) {
+			mat.array[i][pivot_cols[i]] = KhanUtil.randRange(1,3);
+		}
+		//fill in everything to the right of a pivot with random numbers
+		for ( var i = 0; i < pivots && i < rows; i++ ) {
+			for ( var j = cols - 1; j > pivot_cols[i]; j-- ) {
+				mat.array[i][j] = KhanUtil.randRange(-5,5);
+			}
 		}
 
 		//apply a bunch of random row operations to make the matrix look random without
@@ -815,10 +815,10 @@ jQuery.extend(KhanUtil, {
 			
 		}
 		
-		return KhanUtil.randPermutationMatrix(rows).mul(mat).mul(KhanUtil.randPermutationMatrix(cols));
+		return KhanUtil.randPermutationMatrix(rows).mul(mat);
 	},
 	
-	/* returns a sparse matrix with num_entries number of random non-zero terms */
+	//returns a sparse matrix with num_entries number of random non-zero terms
 	randSparseMatrix : function (rows, cols, num_entries, range_low, range_high) {
 		var low = range_low, high = range_high;
 		if (!range_low || !range_high) {
@@ -916,6 +916,7 @@ jQuery.extend(KhanUtil, {
 		return new mat.constructor(new_array);
 	},
 
+	//gives the latex code to represent the row operation row_op
 	formatRowOperation : function (row_op) {
 		var row1 = 'R_{' + (typeof row_op['row1'] === 'undefined' ? row_op['row'] + 1 : row_op['row1'] + 1) + '}';
 		var row2 = 'R_{' + (row_op['row2'] + 1) + '}';
@@ -948,18 +949,7 @@ jQuery.extend(KhanUtil, {
 		}
 
 		return row_op_text;
-	},
-
-	// shouldn't be here, but atm, doesn't seem to exist anywhere else 
-
-	// if you pass in a negative number, it will be returned with parentheses 
-	// needed because expressions doesn't recognize matrices, so it might put a \cdot when trying to multiply
-	negParens : function (expr) {
-		var num = KhanUtil.exprStripColor(expr);
-		if (num.toString().charAt(0) == '-') {
-			return '('+expr+')';
-		}
-		return expr;
 	}
-
 });
+
+})();
