@@ -62,15 +62,17 @@ jQuery.extend( KhanUtil, {
 							return 'undef';
 							},
 					convertsTo: ["cos"],
-					convert: function( type, angle ){
+					convertTo: function( type, angle ){
 							if(type.name=="cos"){
 								sinv=this.print( angle );
 								cosv= KhanUtil.trigFunc.sin.print( angle );
 								toReturn='sin^2 x + cos^2 x = 1'+'(' + sinv + ')^2 = 1 - cos^2 x'+'(' + sinv + ')^2 - 1 = - cos^2 x'+'-(' + sinv + ')^2 + 1 = cos^2 x'+cosv + ' = cos x';	
-							} 
+						   		return toReturn;
+ 
+							}
 		}
 	}
-})
+}})
 jQuery.extend( KhanUtil, {
 
 
@@ -86,7 +88,7 @@ jQuery.extend( KhanUtil, {
 		while(next.name!=end.name){
 			if (next.convertsTo) {
       				$.each(next.convertsTo, function(i, str) {
-					var move=TrigFunc[str];
+					var move=KhanUtil.trigFunc[str];
 					move["parent"]=next;
 					queue.push(move);
            		 	});
@@ -100,10 +102,9 @@ jQuery.extend( KhanUtil, {
 			prev=prev.parent;
 		}		
 		steps.unshift(prev.name);
-
 		var toReturn=new Array();
-		while(int x=0;x<steps.length-1;x++){
-			toReturn.push(trigFunc[steps[x]].convertTo(steps[x+1]));
+		for(x=0;x<steps.length-1;x++){
+			toReturn.push(KhanUtil.trigFunc[steps[x]].convertTo(steps[x+1],10));
 		}			
 		return toReturn;
 	},
