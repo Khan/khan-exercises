@@ -32,7 +32,19 @@
 		</div>
 
 		<div class="hints">
-			<p><code><var>NOTATION.ddxF</var> = <var>FUNCN.ddxFText</var></code></p>
+			<p>We know <code>\displaystyle \frac{d}{dx\strut}\frac{f(x)}{g(x)} = \frac{f'(x)g(x) - g'(x)f(x)}{g(x){}^2}</code>.</p>
+			<div>
+				<p>In this case,</p>
+				<p><code>\qquad f(x) = <var>FUNCN.fText</var></code>,</p>
+				<p><code>\qquad g(x) = <var>FUNCD.fText</var></code>.</p>
+			</div>
+			<p>Differentiate each function:</p>
+			<p><code>\qquad f'(x) = <var>FUNCN.ddxFText</var></code>,</p>
+			<p><code>\qquad g'(x) = <var>FUNCD.ddxFText</var></code>.</p>
+			<div>
+				<p>Thus, the answer is</p>
+				<p><code>\qquad \dfrac{{(<var>FUNCN.ddxFText</var>)(<var>FUNCD.fText</var>)}{-\:(<var>FUNCD.ddxFText</var>)(<var>FUNCN.fText</var>)}}{(<var>FUNCD.fText</var>)^2}</code>.</p>
+			</div>
 		</div>
 	</div>
 </body>
