@@ -22,7 +22,7 @@
 						var dot = index == 0 ? "" : "\\cdot ";
 						factorDisplay += dot + value;
 						hint += "= \\dfrac{" + factorDisplay + "\\cdot" + NUM / factorValue + "}{" + factorDisplay + "\\cdot" + DENOM / factorValue + "}";
-					})
+					});
 					hint += "= \\dfrac{" + NUM / GCD + "}{" + DENOM / GCD + "}";
 
 					return hint;

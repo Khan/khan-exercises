@@ -116,27 +116,15 @@
 				<div class="problem">
 					<p><code>f(x)</code> is graphed below.</p>
 					<div id="graph" class="graphie">
-						init({
-							range: [ [-10, 10], [-10, 10] ],
-							scale: [20, 20]
+						graphInit({ 
+							range: 10,
+							scale: 20,
+							tickStep: 1,
+							axisArrows: "<->"
 						});
-
-						grid( [-10, 10], [-10, 10], {
-							stroke: "#e5e5e5"
-						});
-
-						style({
-							stroke: "#888",
-							strokeWidth: 2,
-							arrows: "<->"
-						});
-
-						path( [ [-10, 0], [10, 0] ] );
-						path( [ [0, -10], [0, 10] ] );
 
 						style({
 							stroke: "#6495ED",
-							arrows: null
 						});
 
 						plot( function( x ) {
@@ -215,15 +203,15 @@
 				</div>
 
 				<div data-unwrap data-if="SOL === 'Odd'">
-					<p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is</span id="expand">...</span></p>
+					<p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
 
-					<span id="expand" data-apply="hint-replace"> odd.</span>
+					<p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">odd</span>.</p>
 				</div>
 
 				<div data-unwrap data-else>
-					<p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is<span id="expand">...</span></p>
+					<p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
 
-					<span id="expand" data-apply="hint-replcae"> even.</span>
+					<p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">even</span>.</p>
 				</div>
 
 			</div>

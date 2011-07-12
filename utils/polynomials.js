@@ -37,10 +37,15 @@ jQuery.extend(KhanUtil, {
 			};
 		};
 
-		this.minDegree = minDegree;
-		this.maxDegree = maxDegree;
+		if ( maxDegree >= minDegree ) {
+			this.minDegree = minDegree;
+			this.maxDegree = maxDegree;
+		} else {
+			this.minDegree = maxDegree;
+			this.maxDegree = minDegree;
+		}
 
-		this.coefs = coefs || KhanUtil.randCoefs( minDegree, maxDegree );
+		this.coefs = coefs || KhanUtil.randCoefs( this.minDegree, this.maxDegree );
 
 		this.variable = (typeof variable !== "undefined") ? variable : "x";
 

@@ -263,7 +263,7 @@ jQuery.extend( Khan.answerTypes, {
 					.fadeOut( "fast", function() {
 						jQuery( this ).replaceWith( list.data( "real-answer" ) )
 							.fadeIn( "fast" );
-					})
+					});
 			}
 			return choice.val() === "1";
 		};

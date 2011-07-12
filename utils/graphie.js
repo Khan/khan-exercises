@@ -322,7 +322,7 @@ var createGraph = function( el ) {
 			if ( typeof fn === "function" ) {
 				var oldStyle = currentStyle;
 				currentStyle = jQuery.extend( {}, currentStyle, processed );
-				fn();
+				fn.call( graphie );
 				currentStyle = oldStyle;
 			} else {
 				jQuery.extend( currentStyle, processed );
@@ -330,10 +330,10 @@ var createGraph = function( el ) {
 		},
 
 		polar: polar
+
 	};
 
-	jQuery.each([ "circle", "ellipse", "arc", "path", "line", "grid",
-			"label", "plotParametric", "plotPolar", "plot" ], function( i, name ) {
+	jQuery.each( drawingTools, function( name ) {
 		graphie[ name ] = function() {
 			var last = arguments[ arguments.length - 1 ];
 			var oldStyle = currentStyle;
@@ -365,6 +365,171 @@ var createGraph = function( el ) {
 			return result;
 		};
 	});
+
+
+	// Initializes graphie settings for a graph and draws the basic graph
+	// features (axes, grid, tick marks, and axis labels)
+	// Options expected are:
+	// - range: [ [a, b], [c, d] ] or [ a, b ]
+	// - scale: [ a, b ] or number
+	// - gridOpacity: number (0 - 1)
+	// - gridStep: [ a, b ] or number (relative to units)
+	// - tickStep: [ a, b ] or number (relative to grid steps)
+	// - tickLen: [ a, b ] or number (in pixels)
+	// - labelStep: [ a, b ] or number (relative to tick steps)
+	// - yLabelFormat: fn to format label string for y-axis
+	// - xLabelFormat: fn to format label string for x-axis
+	graphie.graphInit = function( options ) {
+
+		options = options || {};
+
+		jQuery.each( options, function( prop, val ) {
+
+			// allow options to be specified by a single number for shorthand if 
+			// the horizontal and vertical components are the same
+			if ( prop !== "gridOpacity" && prop !== "range" 
+					&& typeof val === "number" ) {
+				options[ prop ] = [ val, val ];
+			}
+
+			// allow symmetric ranges to be specified by the absolute values 
+			if ( prop === "range" ) {
+				if ( val.constructor === Array ) {
+					options[ prop ] = [ [ -val[0], val[0] ], [ -val[1], val[1] ] ];
+				} else if ( typeof val === "number" ) {
+					options[ prop ] = [ [ -val, val ], [ -val, val ] ];
+				}
+			}
+
+		});
+
+		var range = options.range || [ [-10, 10], [-10, 10] ],
+			scale = options.scale || [ 20, 20 ],
+			grid = options.grid || true,
+			gridOpacity = options.gridOpacity || .1,
+			gridStep = options.gridStep || [ 1, 1 ],
+			axes = options.axes || true,
+			axisArrows = options.axisArrows || "",
+			ticks = options.ticks || true,
+			tickStep = options.tickStep || [ 2, 2 ],
+			tickLen = options.tickLen || [ 5, 5 ],
+			labels = options.labels || options.labelStep || false,
+			labelStep = options.labelStep || [ 1, 1 ];
+			xLabelFormat = options.xLabelFormat || function(a) { return a; };
+			yLabelFormat = options.yLabelFormat || function(a) { return a; };
+
+		this.init({
+			range: range,
+			scale: scale
+		});
+
+		// draw grid
+		grid &&
+		this.grid( range[0], range[1], {
+			stroke: "#000000",
+			opacity: gridOpacity,
+			step: gridStep
+		} );
+
+		// draw axes
+		axes &&
+		this.style({ 
+			stroke: "#000000",
+			strokeWidth: 2,
+			arrows: axisArrows
+		}, function() {
+			this.path( [ [ range[0][0], 0 ], [ range[0][1], 0 ] ] );
+			this.path( [ [ 0, range[1][0] ], [ 0, range[1][1] ] ] );
+		});
+
+		// draw tick marks
+		ticks && 
+		this.style({
+			stroke: "#000000",
+			strokeWidth: 1
+		}, function() {
+
+			// horizontal axis
+			var step = gridStep[0] * tickStep[0],
+				len = tickLen[0] / scale[1],
+				start = range[0][0],
+				stop = range[0][1];
+
+			for ( var x = step; x <= stop; x += step ) {
+				if ( x < stop || !axisArrows ) {
+					this.line( [ x, -len ], [ x, len ] );
+				}
+			}
+
+			for ( var x = -step; x >= start; x -= step ) {
+				if ( x > start || !axisArrows ) {
+					this.line( [ x, -len ], [ x, len ] );
+				}
+			}
+
+			// vertical axis
+			step = gridStep[1] * tickStep[1];
+			len = tickLen[1] / scale[0];
+			start = range[1][0];
+			stop = range[1][1];
+
+			for ( var y = step; y <= stop; y += step ) {
+				if ( y < stop || !axisArrows ) {
+					this.line( [ -len, y ], [ len, y ] );
+				}
+			}
+
+			for ( var y = -step; y >= start; y -= step ) {
+				if ( y > start || !axisArrows ) {
+					this.line( [ -len, y ], [ len, y ] );
+				}
+			}
+
+		});
+
+		// draw axis labels
+		labels &&
+		this.style({
+			stroke: "#000000"
+		}, function() {
+			
+			// horizontal axis
+			var step = gridStep[0] * tickStep[0] * labelStep[0],
+				start = range[0][0],
+				stop = range[0][1];
+
+			for ( var x = step; x <= stop; x += step ) {
+				if ( x < stop || !axisArrows ) {
+					this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+				}
+			}
+
+			for ( var x = -step; x >= start; x -= step ) {
+				if ( x > start || !axisArrows ) {
+					this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+				}
+			}
+
+			// vertical axis
+			step = gridStep[1] * tickStep[1] * labelStep[1];
+			start = range[1][0];
+			stop = range[1][1];
+
+			for ( var y = step; y <= stop; y += step ) {
+				if ( y < stop || !axisArrows ) {
+					this.label( [ 0, y ], yLabelFormat( y ), "left" );
+				}
+			}
+
+			for ( var y = -step; y >= start; y -= step ) {
+				if ( y > start || !axisArrows ) {
+					this.label( [ 0, y ], yLabelFormat( y ), "left" );
+				}
+			}
+
+		});
+
+	};
 
 	return graphie;
 };
