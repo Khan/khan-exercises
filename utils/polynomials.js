@@ -37,6 +37,7 @@ jQuery.extend(KhanUtil, {
 			};
 		};
 
+		// These seem royally useless to me
 		if ( maxDegree >= minDegree ) {
 			this.minDegree = minDegree;
 			this.maxDegree = maxDegree;
@@ -50,6 +51,22 @@ jQuery.extend(KhanUtil, {
 		this.variable = (typeof variable !== "undefined") ? variable : "x";
 
 		this.name = name || "f";
+
+		this.findMaxDegree = function() {
+			for ( var i = this.maxDegree; i >= this.minDegree; i-- ) {
+				if ( this.coefs[i] !== 0 ) {
+					return i;
+				}
+			}
+		};
+
+		this.findMinDegree = function() {
+			for ( var i = this.minDegree; i <= this.maxDegree; i++ ) {
+				if ( this.coefs[i] !== 0 ) {
+					return i;
+				}
+			}
+		};
 
 		this.expr = function( vari ) {
 			if ( typeof vari === "undefined" ) {
