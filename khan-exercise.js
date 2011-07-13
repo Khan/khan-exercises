@@ -511,7 +511,8 @@ var Khan = {
 				varInfo.appendTo( debugWrap );
 			}
 
-			jQuery( "#problemarea .graphie" ).css( "outline", "1px dashed red" );
+			// for special style rules
+			jQuery( "body" ).addClass("debug");
 		}
 	},
 
