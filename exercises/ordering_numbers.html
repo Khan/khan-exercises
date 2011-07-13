@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math stat graphie">
+<html data-require="math stat graph">
 <head>
 	<title>Ordering Numbers</title>
 	<script src="../khan-exercise.js"></script>
@@ -20,34 +20,36 @@
 			numbers = [];
 			strings = [];
 
-			for (var i = 0; i < 5; i++) {
+			for ( var i = 0; i < 5; i++ ) {
 				do { //this loops gets a random # that hasn't yet been picked
 					numer = KhanUtil.randRange( 1, 99 );
 					denom = KhanUtil.randRange( 1, 99 );
-					num = numer/denom;
-				} while ( checkIfAlreadyUsed(numbers, num) || num > 10); // less than 10, requirement added to port from old framework
+					num = numer / denom;
+				} while ( checkIfAlreadyUsed( numbers , num ) || num > 10 ); // less than 10, requirement added to port from old framework
 				numbers[i] = num;
 
 				type = KhanUtil.randRange( 1, 3 ); //pick a type: decimal, percent, fraction
 				switch (type) {
-					case 1: strings[i] = "" + KhanUtil.roundTo(2,numer/denom); break; // decimal
-					case 2: strings[i] = KhanUtil.roundTo(2,100*numer/denom) + "%"; break; // percent
+					case 1: strings[i] = "" + KhanUtil.roundTo( 2 , numer / denom ); break; // decimal
+					case 2: strings[i] = KhanUtil.roundTo( 2 , 100 * numer / denom ) + "%"; break; // percent
 					case 3: //return the whole number or a fraction (reduced) or a mixed number (reduced)
-						var gcd = KhanUtil.getGCD(numer, denom);
-						numer = numer/gcd;
-						denom = denom/gcd;
-						if (denom === 1) { strings[i] = numer; break; } //return whole number, no fraction
-						if (num<1 || KhanUtil.randRange(1,2)==1) { //random # is from original code
+						var gcd = KhanUtil.getGCD( numer , denom );
+						numer = numer / gcd;
+						denom = denom / gcd;
+						if (denom === 1) {
+							strings[i] = numer; break;
+						} //return whole number, no fraction
+						if (num < 1 || KhanUtil.randRange( 1 , 2 ) === 1) { //random # is from original code
 							strings[i] = numer + "/" + denom; break; // fraction
 						}
 						else {
-							strings[i] = Math.floor(num)+ ' ' + (numer - Math.floor(num) * denom) + "/" + denom; break; // mixed #
+							strings[i] = Math.floor( num )+ ' ' + ( numer - Math.floor( num ) * denom ) + "/" + denom; break; // mixed #
 						}
 				}
 				
 			}
-			for (var i = 0; i < 5; i++) {
-				numbers[i+5]=strings[i];
+			for ( var i = 0; i < 5; i++ ) {
+				numbers[ i + 5 ]=strings[i];
 			}
 			return numbers;
 		}
@@ -59,8 +61,8 @@
 			var correctOrder, tempOrder;
 			correctOrder = [];
 			tempOrder = KhanUtil.sortNumbers(array);
-			for (var i = 0; i < 5; i++) {
-				correctOrder[i] = array.indexOf(tempOrder[i]);
+			for ( var i = 0; i < 5; i++ ) {
+				correctOrder[i] = array.indexOf( tempOrder[i] );
 			}
 			return correctOrder;
 		}
@@ -72,7 +74,7 @@
 
 			var correctOrder, x;
 			correctOrder = [];
-			for (var i = 0; i < 5; i++) {
+			for ( var i = 0; i < 5; i++ ) {
 				x = order[i];
 				correctOrder[i] = array[x];
 			}
@@ -87,29 +89,29 @@
 			newarray = [];
 			newarray[0]=array.join ( ", " );
 
-			for (var i = 0; i < 4; i++) {
+			for ( var i = 0; i < 4; i++ ) {
 				do {
-					answer = KhanUtil.shuffle(array).join( ", " );
-				} while ( checkIfAlreadyUsed(newarray, answer) );
-				newarray[i+1] = answer;
+					answer = KhanUtil.shuffle( array ).join( ", " );
+				} while ( checkIfAlreadyUsed( newarray, answer ) );
+				newarray[ i + 1 ] = answer;
 			}
 			return newarray;
 		}
 
-		function checkIfAlreadyUsed(array, toBeAdded) {
-			return array.indexOf(toBeAdded) != -1;
+		function checkIfAlreadyUsed( array, toBeAdded ) {
+			return array.indexOf( toBeAdded ) != -1;
 		}		
 		</script>
 
 		<div class="vars">
 			<var id="NUMBERS">generateNumbers()</var>
-			<var id="NUMS">NUMBERS.slice(0, 5)</var>
-			<var id="STRINGS">NUMBERS.slice(5, 10)</var>
+			<var id="NUMS">NUMBERS.slice( 0, 5 )</var>
+			<var id="STRINGS">NUMBERS.slice( 5, 10 )</var>
 			<var id="NUM_LIST">STRINGS.join( ", " )</var>
 			<var id="NUM_ORDER">findOrder(NUMS)</var>
 			<var id="SOL_ARRAY">buildOrderedArray( STRINGS,NUM_ORDER )</var>
 			<var id="SORTED_STRS">SOL_ARRAY.join( ", " )</var>
-			<var id="POSSIBLE_ANSWERS">buildAnswerArray(SOL_ARRAY)</var>
+			<var id="POSSIBLE_ANSWERS">buildAnswerArray( SOL_ARRAY )</var>
 		</div>
 
 		<div class="problems">
@@ -129,12 +131,11 @@
 				</ul>
 
 				<div class="hints">
-					<p><code><var>STRINGS[0]</var> = <var>roundTo(2,NUMS[0])</var></code></p>
-					<p><code><var>STRINGS[1]</var> = <var>roundTo(2,NUMS[1])</var></code></p>
-					<p><code><var>STRINGS[2]</var> = <var>roundTo(2,NUMS[2])</var></code></p>
-					<p><code><var>STRINGS[3]</var> = <var>roundTo(2,NUMS[3])</var></code></p>
-					<p><code><var>STRINGS[4]</var> = <var>roundTo(2,NUMS[4])</var></code></p>
-
+					<p><var>STRINGS[0]</var> = <var>roundTo( 2 , NUMS[0])</var></p>
+					<p><var>STRINGS[1]</var> = <var>roundTo( 2 , NUMS[1])</var></p>
+					<p><var>STRINGS[2]</var> = <var>roundTo( 2 , NUMS[2])</var></p>
+					<p><var>STRINGS[3]</var> = <var>roundTo( 2 , NUMS[3])</var></p>
+					<p><var>STRINGS[4]</var> = <var>roundTo( 2 , NUMS[4])</var></p>
 					<p>The answer is <var>SORTED_STRS</var></p>
 				</div>
 
