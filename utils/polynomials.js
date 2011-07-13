@@ -98,13 +98,11 @@ jQuery.extend(KhanUtil, {
 			//returns the coef and degree for a particular term
 			var numberOfTerms = this.getNumberOfTerms();
 
-			if ( typeof termIndex === "number" && termIndex >= 0 
-					&& termIndex <= numberOfTerms ) {
+			//mod twice to always get positive
+			termIndex = ( ( termIndex % numberOfTerms ) + termIndex ) % numberOfTerms;
 
-				//upshift by one due to "+" sign at the front of the expression
-				return extractFromExpr( this.expr()[ termIndex + 1 ] );
-
-			}
+			//upshift by one due to "+" sign at the front of the expression
+			return extractFromExpr( this.expr()[ termIndex + 1 ] );
 
 		};
 
