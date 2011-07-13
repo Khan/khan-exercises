@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math stat graph">
+<html data-require="math stat graph graphie graphie-helpers">
 <head>
 	<title>Mean, Median, and Mode</title>
 	<script src="../khan-exercise.js"></script>
@@ -105,13 +105,32 @@
 					<div>
 						<p>So the median is <code><var>MEDIAN</var></code>.</p>
 						<p>Another way to find the middle number is to draw the numbers on a number line. If a number appears multiple times, count its corresponding dot multiple times.</p>
-						<div class="graph" style="width: 500px; height: 100px;">
-							(function() {
+						<div class="graphie">
+							init({
+								range: [ [-0.5, 10.5], [-1, 1] ]
+							})
+
+							style({
+								stroke: "#666"
+							}, function() {
 								numberLine( 0, 10, 1 );
-								$.each(INTEGERS, function( index, number ) {
-									pointOnNumberLine( number )
-								});
-							})()
+							});
+
+							var freq = {};
+							var labels = {};
+							jQuery.each(INTEGERS, function( index, number ) {
+								var count = freq[ number ] = (freq[ number ] || 0) + 1;
+
+								if ( labels[ number ] ) {
+									labels[ number ].remove();
+								}
+
+								if ( count >= 2 ) {
+									labels[ number ] = label( [number, 0.2], "\\scriptsize{" + count + "}", "above", { labelDistance: 0 } )
+								} else {
+									circle( [number, 0], 5/40, { stroke: "none", fill: "#6495ed" } );
+								}
+							});
 						</div>
 					</div>
 				</div>
