@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie expressions">
 <head>
-	<title>Shifting and Reflecting Functions</title>
+	<title>Shifting And Reflecting Functions</title>
 	<script src="../khan-exercise.js"></script>
 
 </head>
@@ -57,9 +57,9 @@
 				</div>
 
 				<p class="problem">
-					<font color="red"><code>f(x)</code></font> is graphed in <font color="red">red</font>.<br>
-					<font color="blue"><code>g(x)</code></font> is graphed in <font color="blue">blue</font>.<br>
-					What is <font color="blue"><code>g(x)</code></font> in terms of <font color="red"><code>f(x)</code></font>?
+					<code>\color{red}{f(x)}</code></font> is graphed in <code>\color{red}{red}</code>.<br>
+					<code>\color{blue}{g(x)}</code></font> is graphed in <code>\color{blue}{blue}</code>.<br>
+					What is <code>\color{blue}{g(x)}</code> in terms of <code>\color{red}{f(x)}</code>?
 				</p>
 				
 				<p class="solution"><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></p>
@@ -76,7 +76,7 @@
 		<div class="hints" style="position:relative; float: left">
 			<div id="hint1" data-if="FLIP === -1">
 
-				<p><font color="purple">To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> by multiplying by -1, giving <code>-f(x)</code>.</font></p>
+				<p class="hint_purple">To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> by multiplying by -1, giving <code>-f(x)</code>.</p>
 
 				<div class="graphie" data-update="G">
 					// FLIP of f(x)
@@ -94,8 +94,8 @@
 
 			<div id="hint2">
 			
-				<p><font color="green">Shift your function <code>-f(x)</code> <var>(Y_SHIFT > 0 ? "up " : "down ") + abs(Y_SHIFT)</var> units, 
-				                    giving <code><var>expr(["+",["*", FLIP,"f(x)"],Y_SHIFT])</var></code></font></p>
+				<p class="hint_green">Shift your function <code>-f(x)</code> <var>(Y_SHIFT > 0 ? "up " : "down ") + abs(Y_SHIFT)</var> units, 
+				                    giving <code><var>expr(["+",["*", FLIP,"f(x)"],Y_SHIFT])</var></code></p>
 
 				<div class="graphie" data-update="G">
 					// Add Y-SHIFT
@@ -120,8 +120,8 @@
 			</div>
 			
 			<div id="hint3">
-				<p><font color="blue">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"],Y_SHIFT])</var></code> <var>(X_SHIFT > 0 ? "left " : "right ") + abs(X_SHIFT)</var> units, 
-				    giving <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</font></p>
+				<p class="hint_blue">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"],Y_SHIFT])</var></code> <var>(X_SHIFT > 0 ? "left " : "right ") + abs(X_SHIFT)</var> units, 
+				    giving <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
 				<p>We now know that <code>g(x)</code> = <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
 
 				<div class="graphie" data-update="G">

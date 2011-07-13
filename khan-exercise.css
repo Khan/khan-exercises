@@ -8,6 +8,7 @@ var { font-style: normal; }
 .hint_red { color: red; }
 .hint_green { color: green; }
 .hint_gray { color: gray; }
+.hint_purple{ color: purple; }
 #congrats { color: green; }
 #oops { color: red; }
 #workarea { margin-left: 10px; }
