@@ -365,50 +365,6 @@ function rectchart( division, colors ) {
 	return chart;
 }
 
-function histogram( numbers ) {
-	var set = present.paper.set();
-	var h = {};
-	var keys = [];
-	var max = 0;
-	jQuery.each( numbers, function( index, number ) {
-		if ( !h[number] ) {
-			h[number] = 0;
-			keys.push( number );
-		}
-
-		h[number]++;
-
-		if ( h[number] > max ) {
-			max = h[number];
-		}
-	});
-
-	var padding = 20;
-	var x = padding;
-	var y = present.paper.height - 2 * padding;
-
-	// Draw horizontal line
-    set.push( present.paper.path( "M" + x + " " + y + " L" + ( present.paper.width - padding ) + " " + y ) );
-
-    // Draw vertical tick marks and frequency dots
-	var tickHeight = 15;
-    var distanceBetweenTicks = ( present.width - 2 * padding ) /  ( keys.length - 1 );
-	var distanceBetweenDots = ( present.height - 4 * padding ) / max;
-
-	keys = KhanUtil.sortNumbers( keys );
-
-	jQuery.each( keys, function( index, key ) {
-		set.push( present.paper.path( "M" + x + " " + ( y - tickHeight / 2 ) + " L" + x + " " + ( y + tickHeight / 2 ) ) );
-		set.push( present.paper.text( x, y + 2 * tickHeight, key ).attr({"font-size": 15}) );
-		for ( var i = 0, frequency = h[key]; i < frequency; i++ ) {
-			set.push( present.paper.circle( x, y - (i + 1) * distanceBetweenDots, 5 ).attr({"fill": "#6495ED", "stroke": "#6495ED"}) );
-		}
-		x += distanceBetweenTicks;
-	});
-
-	return set;
-}
-
 function ellipse(center,rx,ry,id) { // coordinates in units
     var node;
     if (id!=null) node = svgNodes[id];

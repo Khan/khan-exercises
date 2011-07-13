@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math stat graph graphie graphie-helpers">
+<html data-require="math stat graphie graphie-helpers">
 <head>
 	<title>Mean, Median, and Mode</title>
 	<script src="../khan-exercise.js"></script>
@@ -146,8 +146,30 @@
 					<p>The mode is the most frequent number.</p>
 					<div>
 						<p>We can draw a histogram to see how many times each number appears.</p>
-						<div class="graph" style="width:500px; height: 200px;">
-							histogram( INTEGERS );
+
+						<div class="graphie">
+							var freq = {};
+							var maxFreq = 0;
+							jQuery.each(INTEGERS, function( index, number ) {
+								var count = freq[ number ] = (freq[ number ] || 0) + 1;
+								maxFreq = count > maxFreq ? count : maxFreq;
+							});
+
+							init({
+								range: [ [-0.5, 10.5], [-1, ( maxFreq + 1.5 ) / 2] ]
+							});
+
+							style({
+								stroke: "#666"
+							}, function() {
+								numberLine( 0, 10, 1 );
+							});
+
+							for ( var num in freq ) {
+								for ( var i = 0, l = freq[ num ]; i < l; i++ ) {
+									circle( [num, ( i + 1.5 ) / 2], 5/40, { stroke: "none", fill: "#6495ed" } );
+								}
+							}
 						</div>
 					</div>
 
