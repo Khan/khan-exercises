@@ -108,7 +108,7 @@
 						<div class="graphie">
 							init({
 								range: [ [-0.5, 10.5], [-1, 1] ]
-							})
+							});
 
 							style({
 								stroke: "#666"
@@ -126,7 +126,7 @@
 								}
 
 								if ( count >= 2 ) {
-									labels[ number ] = label( [number, 0.2], "\\scriptsize{" + count + "}", "above", { labelDistance: 0 } )
+									labels[ number ] = label( [number, 0.2], "\\scriptsize{" + count + "}", "above", { labelDistance: 0 } );
 								} else {
 									circle( [number, 0], 5/40, { stroke: "none", fill: "#6495ed" } );
 								}

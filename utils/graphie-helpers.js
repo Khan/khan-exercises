@@ -25,4 +25,6 @@ function numberLine( start, end, step ) {
 		set.push( graph.line( [x, -0.2], [x, 0.2] ) );
 		graph.label( [x, -0.2], x, "below", { labelDistance: 3 } )
 	}
+
+	return set;
 }
