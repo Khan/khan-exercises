@@ -89,10 +89,10 @@ jQuery.extend(KhanUtil, {
 	},
 
 	fractionSimplification: function( n, d ) {
-		var result = "\\frac{" + n + "}{" + (d < 0 ? "(" + d + ")" : d) + "}";
+		var result = "\\frac{" + n + "}{" + d + "}";
 
-		if ( KhanUtil.getGCD( n, d ) > 1 || d == 1 ) {
-			result += " = " + KhanUtil.fraction( n, d );
+		if ( d <= 1 || KhanUtil.getGCD( n, d ) > 1 ) {
+			result += " = " + KhanUtil.fractionReduce( n, d );
 		}
 
 		return result;

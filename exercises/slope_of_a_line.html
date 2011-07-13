@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graph">
+<html data-require="math math-format graphie">
 <head>
 	<title>Slope of a Line</title>
 	<script src="../khan-exercise.js"></script>
@@ -21,10 +21,24 @@
 			<div class="question">
 				<p>What is the slope of the line through the points <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code>?</p>
 
-				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
-					line([X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M]);
-					ASdot([X1, Y1], 4, "black", "yellow");
-					ASdot([X2, Y2], 4, "black", "yellow");
+				<div class="graphie">
+					graphInit({ 
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						axisArrows: "->"
+					});
+
+					line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M], {
+						stroke: "#28ae7b"
+					} );
+
+					style({
+						fill: "#000",
+						stroke: "none"
+					});
+					circle( [X1, Y1], 3/20 );
+					circle( [X2, Y2], 3/20 );
 				</div>
 			</div>
 
