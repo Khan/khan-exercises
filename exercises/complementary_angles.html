@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graph math-format">
+<html data-require="math graphie math-format">
 <head>
 	<title>Complementary Angles</title>
 	<script src="../khan-exercise.js"></script>
@@ -25,7 +25,7 @@
 			<div class="question">
 				<p>If <code>\angle <var>A + O + C</var></code> is a right angle and <code>m <var>ANGLE_ONE</var> = <var>ANGLE</var>^\circ</code>, what is <code>m <var>ANGLE_TWO</var></code>, in degrees?</p>
 
-				<div class="graph" style="width: 140px; height: 140px;" data-style="stroke: black; stroke-width: 2px;">
+				<div class="graphie">
 					var DISP_ANGLE = Math.min( Math.max( 10, ANGLE ), 80 );
 
 					if ( ANGLE_ONE !== ANGLE_BOT ) {
@@ -34,15 +34,18 @@
 
 					DISP_ANGLE *= PI / 180;
 
-					initPicture(-1, 6, -1, 6);
-					path([ [0, 0], [0, 5] ]);
-					path([ [0, 0], [5, 0] ]);
+					init({
+						range: [ [-2, 7], [-2, 7] ],
+						scale: 20
+					});
+					path([ [0, 5], [0, 0], [5, 0] ]);
 					path([ [0, 0], [5 * cos( DISP_ANGLE ), 5 * sin( DISP_ANGLE )] ]);
 
-					text([-0.5, -0.5], O);
-					text([5.5, 0], A);
-					text([0, 5.5], C);
-					text([5.5 * cos( DISP_ANGLE ), 5.5 * sin( DISP_ANGLE )], B);
+					label( [0, 0], O, "below left" );
+					label( [5, 0], A, "right" );
+					label( [0, 5], C, "above" );
+					// somewhat ick to make it look nice
+					label( [5.8 * cos( DISP_ANGLE ), 5.8 * sin( DISP_ANGLE )], B );
 				</div>
 			</div>
 
