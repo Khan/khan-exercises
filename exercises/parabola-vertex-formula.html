@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie">
+<head>
+	<title>Parabola - Formula for the Vertex</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	    <div class="vars">
+	        <var id="RandomQuadratic">(function (){ 
+		  var a = randRangeNonZero(-5,5);
+		  var h = randRange(-5,5);
+		  var k = randRange(-5,5);	
+		  return {a: a, b:-2*a*h, c:(a*h*h+k), h: h, k: k, f:(function(x){ return a*(x-h)*(x-h)+k})};
+		  })
+		</var>
+		<var id="P">RandomQuadratic()</var>
+		<var id="D">P.b*P.b - 4 * P.a * P.c </var>
+	    </div>
+	    
+	    <div class="problems">
+	      <div>
+	          <div class="problem">
+		      <p class="question">
+			  <p>The graph of the quadratic <code><var>expr(["+", ["*", P.a,  ["^", "x", 2]], ["*", P.b, "x"], P.c])</var></code>
+                             is a parabola.</p>
+			  <p>What is the vertex <code>(h,k)</code> of the parabola?</p>
+                     <div class="solution" data-type="multiple">
+		       <p>The vertex (h,k) is:</p>
+		       <p><code>h=</code><span class="sol" data-type="rational"><var>P.h</var></span></p>
+		       <p><code>k=</code><span class="sol" data-type="rational"><var>P.k</var></span></p>
+		     </div>
+	          </div>		    
+  	          <div class="hints">
+		     <p>The parabola of the quadratic <code>a\cdot x^2 + b\cdot x + c</var></code> 
+		        has its vertex at <code>(h,k)=(\frac{-b}{2a}, \frac{-d}{4a})</code>, where <code>d=b^2-4a\cdot c</code> is the discriminant.</p>
+                     <p>For the quadratic <code><var>expr(["+", ["*", P.a,  ["^", "x", 2]], ["*", P.b, "x"], P.c])</var></code> we have:
+		        <code>a=<var>P.a</var></code>, <code>b=<var>P.b</var></code>, and, <code>c=<var>P.c</var></code>.</p>
+		     <p>The <code>x</code>-coordinate of the vertex is <code>h=\frac{-b}{2a}=<var>expr(["frac", -P.b, ["*", 2, P.a]])</var>=<var>fraction(-P.b,2*P.a,true,true)</var></code>.</p>
+		     <p>The discriminant is <code>d=b^2-4a\cdot c 
+			                           =<var> expr(["-", ["^", P.b, 2], ["*", 4, P.a, P.c]])</var>
+			                           =<var> expr(["+", P.b*P.b,  - 4 * P.a * P.c])</var>
+			                           =<var> D  </var>
+		        </code>.</p>
+		     <p>The <code>y</code>-coordinate of the vertex is <code>k=\frac{-d}{4a}=<var>expr(["frac", -D, ["*", 4, P.a]])</var>=<var>fraction(-D, 4*P.a,true,true)</var></code>.</p>
+		     <p>The vertex is at <code>(h,k)=(<var>P.h</var>,<var>P.k</var>)</code>.</p>
+		  </div>
+	  </div>
+	</div>
+</body>
+</html>
