@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math stat graph">
+<html data-require="math stat graphie">
 <head>
 	<title>Ordering Numbers</title>
 	<script src="../khan-exercise.js"></script>
@@ -13,22 +13,22 @@
 <body>
 	<div class="exercise">
 		<script type="text/javascript">
-			function GenerateNumbers() {
+			function generateNumbers() {
 
 			var numer, denom, num, type, numbers, strings;
 
 			numbers = [];
 			strings = [];
 
-			for (var i = 0; i < 6; i++) {
+			for (var i = 0; i < 5; i++) {
 				do { //this loops gets a random # that hasn't yet been picked
-					numer = KhanUtil.randRange( 1, 99 )
-					denom = KhanUtil.randRange( 1, 99 )
-					num = numer/denom
-				} while ( checkIfAlreadyUsed(numbers, num) || num > 10) // less than 10, requirement added to port from old framework
+					numer = KhanUtil.randRange( 1, 99 );
+					denom = KhanUtil.randRange( 1, 99 );
+					num = numer/denom;
+				} while ( checkIfAlreadyUsed(numbers, num) || num > 10); // less than 10, requirement added to port from old framework
 				numbers[i] = num;
 
-				type = KhanUtil.randRange( 1, 3 ) //pick a type: decimal, percent, fraction
+				type = KhanUtil.randRange( 1, 3 ); //pick a type: decimal, percent, fraction
 				switch (type) {
 					case 1: strings[i] = "" + KhanUtil.roundTo(2,numer/denom); break; // decimal
 					case 2: strings[i] = KhanUtil.roundTo(2,100*numer/denom) + "%"; break; // percent
@@ -47,7 +47,7 @@
 				
 			}
 			for (var i = 0; i < 5; i++) {
-				numbers[i+5]=strings[i]
+				numbers[i+5]=strings[i];
 			}
 			return numbers;
 		}
@@ -56,7 +56,7 @@
 //Example: [21, 46, 13] returns [3, 1, 2]		
 		function findOrder( array ) {
 
-			var correctOrder, tempOrder, x;
+			var correctOrder, tempOrder;
 			correctOrder = [];
 			tempOrder = KhanUtil.sortNumbers(array);
 			for (var i = 0; i < 5; i++) {
@@ -73,7 +73,7 @@
 			var correctOrder, x;
 			correctOrder = [];
 			for (var i = 0; i < 5; i++) {
-				x = order[i]
+				x = order[i];
 				correctOrder[i] = array[x];
 			}
 			return correctOrder;
@@ -84,14 +84,14 @@
 		function buildAnswerArray( array ) {
 
 			var newarray, answer;
-			newarray = []
-			newarray[0]=array.join ( ", " )
+			newarray = [];
+			newarray[0]=array.join ( ", " );
 
 			for (var i = 0; i < 4; i++) {
 				do {
-					answer = KhanUtil.shuffle(array).join( ", " )
-				} while ( checkIfAlreadyUsed(newarray, answer) )
-				newarray[i+1] = answer
+					answer = KhanUtil.shuffle(array).join( ", " );
+				} while ( checkIfAlreadyUsed(newarray, answer) );
+				newarray[i+1] = answer;
 			}
 			return newarray;
 		}
@@ -102,7 +102,7 @@
 		</script>
 
 		<div class="vars">
-			<var id="NUMBERS">GenerateNumbers()</var>
+			<var id="NUMBERS">generateNumbers()</var>
 			<var id="NUMS">NUMBERS.slice(0, 5)</var>
 			<var id="STRINGS">NUMBERS.slice(5, 10)</var>
 			<var id="NUM_LIST">STRINGS.join( ", " )</var>
@@ -110,7 +110,6 @@
 			<var id="SOL_ARRAY">buildOrderedArray( STRINGS,NUM_ORDER )</var>
 			<var id="SORTED_STRS">SOL_ARRAY.join( ", " )</var>
 			<var id="POSSIBLE_ANSWERS">buildAnswerArray(SOL_ARRAY)</var>
-			<var id="POSSIBLE_ANSWERS_2">buildAnswerArray(SOL_ARRAY)</var>
 		</div>
 
 		<div class="problems">
@@ -130,11 +129,12 @@
 				</ul>
 
 				<div class="hints">
-					<p><var>STRINGS[0]</var> = <var>roundTo(2,NUMS[0])</var></p>
-					<p><var>STRINGS[1]</var> = <var>roundTo(2,NUMS[1])</var></p>
-					<p><var>STRINGS[2]</var> = <var>roundTo(2,NUMS[2])</var></p>
-					<p><var>STRINGS[3]</var> = <var>roundTo(2,NUMS[3])</var></p>
-					<p><var>STRINGS[4]</var> = <var>roundTo(2,NUMS[4])</var></p>
+					<p><code><var>STRINGS[0]</var> = <var>roundTo(2,NUMS[0])</var></code></p>
+					<p><code><var>STRINGS[1]</var> = <var>roundTo(2,NUMS[1])</var></code></p>
+					<p><code><var>STRINGS[2]</var> = <var>roundTo(2,NUMS[2])</var></code></p>
+					<p><code><var>STRINGS[3]</var> = <var>roundTo(2,NUMS[3])</var></code></p>
+					<p><code><var>STRINGS[4]</var> = <var>roundTo(2,NUMS[4])</var></code></p>
+
 					<p>The answer is <var>SORTED_STRS</var></p>
 				</div>
 
