@@ -741,10 +741,11 @@ var Khan = {
 				if ( show ) {
 					if ( !Khan.scratchpad ) {
 						Khan.loadScripts( [ {src: "../utils/scratchpad.js"} ], function() {
+							jQuery( "#scratchpad" ).show();
+							
 							Khan.scratchpad = new Scratchpad();
 							Khan.scratchpad.offsetLeft = jQuery( "#scratchpad" ).offset().left;
 							Khan.scratchpad.offsetTop = jQuery( "#scratchpad" ).offset().top;
-							jQuery( "#scratchpad" ).show();
 							button.text( "Hide scratchpad" );
 						} );
 						
