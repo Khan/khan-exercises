@@ -50,7 +50,7 @@ jQuery.extend(KhanUtil, {
 	},
 
 	placesLeftOfDecimal: ["one", "ten", "hundred", "thousand"],
-	placesRightOfDecimal: ["unused", "tenth", "hundredth", "thousandth"],
+	placesRightOfDecimal: ["one", "tenth", "hundredth", "thousandth"],
 
 	powerToPlace: function( power ) {
 		if ( power < 0 ) {
