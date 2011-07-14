@@ -771,7 +771,7 @@ var Khan = {
 			jQuery( "#answer_area" ).prepend(
 				'<div id="tester-info" class="info-box">' +
 					'<span class="info-box-header">Testing Mode</span>' +
-					'<p><strong>Problem No.</strong> <span class="problem-no">hm.</span></p>' +
+					'<p><strong>Problem No.</strong> <span class="problem-no"></span></p>' +
 					'<p><strong>Answer:</strong> <span class="answer"></span></p>' +
 					'<p>' +
 						'<input type="button" class="pass button green" value="This problem was generated correctly.">' +
