@@ -1,143 +1,143 @@
 <!DOCTYPE html>
-<html data-require="math stat graph">
+<html data-require="math math-format">
 <head>
 	<title>Ordering Numbers</title>
 	<script src="../khan-exercise.js"></script>
 
 	<style type="text/css">
 		.number-list {
+			font-size: 2em;
 			text-align: center
 		}
 	</style>
 </head>
 <body>
 	<div class="exercise">
-		<script type="text/javascript">
-			function GenerateNumbers() {
-
-			var numer, denom, num, type, numbers, strings;
-
-			numbers = [];
-			strings = [];
-
-			for (var i = 0; i < 6; i++) {
-				do { //this loops gets a random # that hasn't yet been picked
-					numer = KhanUtil.randRange( 1, 99 )
-					denom = KhanUtil.randRange( 1, 99 )
-					num = numer/denom
-				} while ( checkIfAlreadyUsed(numbers, num) || num > 10) // less than 10, requirement added to port from old framework
-				numbers[i] = num;
-
-				type = KhanUtil.randRange( 1, 3 ) //pick a type: decimal, percent, fraction
-				switch (type) {
-					case 1: strings[i] = "" + KhanUtil.roundTo(2,numer/denom); break; // decimal
-					case 2: strings[i] = KhanUtil.roundTo(2,100*numer/denom) + "%"; break; // percent
-					case 3: //return the whole number or a fraction (reduced) or a mixed number (reduced)
-						var gcd = KhanUtil.getGCD(numer, denom);
-						numer = numer/gcd;
-						denom = denom/gcd;
-						if (denom === 1) { strings[i] = numer; break; } //return whole number, no fraction
-						if (num<1 || KhanUtil.randRange(1,2)==1) { //random # is from original code
-							strings[i] = numer + "/" + denom; break; // fraction
-						}
-						else {
-							strings[i] = Math.floor(num)+ ' ' + (numer - Math.floor(num) * denom) + "/" + denom; break; // mixed #
-						}
-				}
-				
-			}
-			for (var i = 0; i < 5; i++) {
-				numbers[i+5]=strings[i]
-			}
-			return numbers;
-		}
-
-//take the array and return an array which show the sort order
-//Example: [21, 46, 13] returns [3, 1, 2]		
-		function findOrder( array ) {
-
-			var correctOrder, tempOrder, x;
-			correctOrder = [];
-			tempOrder = KhanUtil.sortNumbers(array);
-			for (var i = 0; i < 5; i++) {
-				correctOrder[i] = array.indexOf(tempOrder[i]);
-			}
-			return correctOrder;
-		}
-
-//takes two arrays, one with answers and one with an order
-//returns an array with the answers in the correct order
-//Example: ["three", "one", "two"] & [3, 1, 2] -> ["one", "two", "three"]		
-		function buildOrderedArray( array, order ) {
-
-			var correctOrder, x;
-			correctOrder = [];
-			for (var i = 0; i < 5; i++) {
-				x = order[i]
-				correctOrder[i] = array[x];
-			}
-			return correctOrder;
-		}
-
-//takes in an array and returns an array of strings
-//the array is the correct answer, the new array contains 1 right and 4 wrong answers
-		function buildAnswerArray( array ) {
-
-			var newarray, answer;
-			newarray = []
-			newarray[0]=array.join ( ", " )
-
-			for (var i = 0; i < 4; i++) {
-				do {
-					answer = KhanUtil.shuffle(array).join( ", " )
-				} while ( checkIfAlreadyUsed(newarray, answer) )
-				newarray[i+1] = answer
-			}
-			return newarray;
-		}
-
-		function checkIfAlreadyUsed(array, toBeAdded) {
-			return array.indexOf(toBeAdded) != -1;
-		}		
-		</script>
-
 		<div class="vars">
-			<var id="NUMBERS">GenerateNumbers()</var>
-			<var id="NUMS">NUMBERS.slice(0, 5)</var>
-			<var id="STRINGS">NUMBERS.slice(5, 10)</var>
-			<var id="NUM_LIST">STRINGS.join( ", " )</var>
-			<var id="NUM_ORDER">findOrder(NUMS)</var>
-			<var id="SOL_ARRAY">buildOrderedArray( STRINGS,NUM_ORDER )</var>
-			<var id="SORTED_STRS">SOL_ARRAY.join( ", " )</var>
-			<var id="POSSIBLE_ANSWERS">buildAnswerArray(SOL_ARRAY)</var>
-			<var id="POSSIBLE_ANSWERS_2">buildAnswerArray(SOL_ARRAY)</var>
+			<var id="NUMS">(function() {
+				var array = [];
+				var types = shuffle( [1, 1, 1, 2, 2, 2, 3, 3, 3], 5 );
+				var used = {};
+
+				while ( array.length < 5 ) {
+					var type = types[ array.length ];
+					switch ( type ) {
+						case 1: // decimal
+							var n = randRange( 100, 999 ) / 1000;
+							var ns = n.toFixed( 3 )
+
+							if ( !used[ ns ] ) {
+								array.push([ type, n, ns, "= " + ns ]);
+								used[ ns ] = true;
+							}
+
+							break;
+
+						case 2: // percentage
+							var n = randRange( 100, 999 ) / 1000;
+							var ns = n.toFixed( 3 )
+
+							if ( !used[ ns ] ) {
+								array.push([ type, n, (100 * n).toFixed( 1 ) + "\\%", "= " + ns ]);
+								used[ ns ] = true;
+							}
+
+							break;
+
+						case 3: // fraction
+							var d = 4 * randRange( 5, 15 );
+							var n = randRange( 1, d - 1 );
+							var ns = ( n / d ).toFixed( 3 )
+
+							if ( !used[ ns ] ) {
+								var gcd = KhanUtil.getGCD( n, d );
+								array.push([ type, n/d, fractionReduce( n, d, true ), "\\approx " + ns, (n/gcd) + "/" + (d/gcd) ]);
+								used[ ns ] = true;
+							}
+
+							break;
+					}
+				}
+
+				return array;
+			})()</var>
+
+			<var id="NUMS_TEX">jQuery.map( NUMS, function( el ) {
+				return el[2];
+			} ).join( "," )</var>
+			<var id="NUMS_SORT">jQuery.extend( true, [], NUMS ).sort( function(a, b) {
+				return a[1] - b[1];
+			} )</var>
+			<var id="NUMS_SORT_DECS">jQuery.map( NUMS_SORT, function( el ) {
+				return el[3].match( / (.+)$/ )[1];
+			} ).join( "," )</var>
+			<var id="NUMS_SORT_TEXT">jQuery.map( NUMS_SORT, function( el ) {
+				return el[4] || el[2];
+			} ).join( "," )</var>
+
+			<var id="CHOICE_TEXTS">(function() {
+				var texts = [ NUMS_SORT_TEXT ];
+
+				while ( texts.length < 5 ) {
+					var pi;
+					while ( 1 ) {
+						pi = KhanUtil.shuffle( NUMS );
+						var maxd = 0, maxp = 0;
+						var fail = false;
+
+						for ( var i = 0, l = pi.length; i < l; i++ ) {
+							var type = pi[i][0];
+							if ( type === 1 ) {
+								fail = fail || pi[i][1] < maxd;
+								maxd = pi[i][1];
+							} else if ( type == 2 ) {
+								fail = fail || pi[i][1] < maxp;
+								maxp = pi[i][1];
+							}
+						}
+
+						if ( !fail ) {
+							break;
+						}
+					}
+
+					var text = jQuery.map( pi, function( el ) {
+						return el[4] || el[2];
+					} ).join( "," );
+
+					if ( jQuery.inArray( text, texts ) === -1 ) {
+						texts.push( text );
+					}
+				}
+
+				return texts;
+			})()</var>
 		</div>
 
 		<div class="problems">
 
-			<div id="standard">
+			<div>
 				<div class="question">
 					<p>Order the following numbers from least to greatest:</p>
-					<p><center><font size="5"><var>NUM_LIST</var></font></center></p>
+					<p class="number-list"><code><var>NUMS_TEX</var></code></p>
 				</div>
 
-				<p class="solution"><var>POSSIBLE_ANSWERS[0]</var></p>
+				<p class="solution"><code><var>NUMS_SORT_TEXT</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
-					<li><var>POSSIBLE_ANSWERS[1]</var></li>
-					<li><var>POSSIBLE_ANSWERS[2]</var></li>
-					<li><var>POSSIBLE_ANSWERS[3]</var></li>
-					<li><var>POSSIBLE_ANSWERS[4]</var></li>
+					<li><code><var>CHOICE_TEXTS[1]</var></code></li>
+					<li><code><var>CHOICE_TEXTS[2]</var></code></li>
+					<li><code><var>CHOICE_TEXTS[3]</var></code></li>
+					<li><code><var>CHOICE_TEXTS[4]</var></code></li>
 				</ul>
 
 				<div class="hints">
-					<p><var>STRINGS[0]</var> = <var>roundTo(2,NUMS[0])</var></p>
-					<p><var>STRINGS[1]</var> = <var>roundTo(2,NUMS[1])</var></p>
-					<p><var>STRINGS[2]</var> = <var>roundTo(2,NUMS[2])</var></p>
-					<p><var>STRINGS[3]</var> = <var>roundTo(2,NUMS[3])</var></p>
-					<p><var>STRINGS[4]</var> = <var>roundTo(2,NUMS[4])</var></p>
-					<p>The answer is <var>SORTED_STRS</var></p>
+					<p>Convert each number to a decimal.</p>
+					<p><code>\begin{align*}
+						<span data-each="NUMS as NUM"><var>NUM[4] || NUM[2]</var> & <var>NUM[3]</var> \\</span>
+					\end{align*}</code></p>
+					<p>Sort the decimals: <code><var>NUMS_SORT_DECS</var></code></p>
+					<p>Convert back: <code><var>NUMS_SORT_TEXT</var></code></p>
 				</div>
-
 			</div>
 		</div>
 	</div>
