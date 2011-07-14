@@ -20,10 +20,12 @@
 			(random () > 0.5)
 		</var > 
 		<var id = "HAS_DOT" > 
+			function(){
 			if ( IS_ZERO ){
 				return true;
 			}
 			return ( random () > 0.5 );
+			}()
 		</var >
 		<var id = "RIGHTSIDE" > 
 			randRange ( 1, 9, randRange (1, 6) ).join ('')
