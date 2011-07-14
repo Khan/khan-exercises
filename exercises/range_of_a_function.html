@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html data-require="math graphie expressions">
+<head>
+	<title>Range of a Function</title>
+	<script src="../khan-exercise.js"></script>
+
+</head>
+<body>
+	<div class="exercise">
+
+	<div class="problems">
+			<div id "ax-2-plus-b">
+				<div class="vars">
+
+					<var id="A">randRangeNonZero(-4, 4)</var>
+					<var id="B">randRangeNonZero(-4, 4)</var>
+					<var id="SOL">"Real numbers " + (A > 0 ? "greater than" : "less than") + " or equal to " + B.toString()</var>
+					<var id="W_RAND">[].concat(["greater than ", "less than ", "except "],[(A > 0 ? "less " : "greater ") + "than or equal to "])</var>
+					
+					<var id="WRONG1">"All Real numbers"</var>
+					<var id="WRONG2">"{" + abs(A).toString() + ", " + -abs(A).toString() + "}"</var>
+					<var id="WRONG3">"Real numbers " + randFromArray( W_RAND ) + B.toString()</var>
+					<var id="WRONG4">"Real numbers " + randFromArray( W_RAND ) + ( A + B ).toString()</var>
+					
+				</div>
+				<div class="graphie" id="grid" style="width: 500px; height: 500px; position:relative; float: right">
+					init({
+						range: [[-10, 10], [-10, 10]],
+						scale: [20, 20]
+					});
+
+					grid( [-10, 10], [-10, 10], {
+						stroke: "#ccc"
+					});
+
+					style({
+						stroke: "#888",
+						strokeWidth: 2,
+						arrows: "->"
+					});
+					path( [ [-10, 0], [10, 0] ] );
+					path( [ [0, -10], [0, 10] ] );
+
+					style({
+						stroke: "#6495ED",
+						arrows: null
+					})
+
+					plot( function( x ) {
+						return ( C1 / B1 ) - ( A1 / B1 ) * x;
+					}, [-10, 10]);
+				</div>
+				
+				<p class="problem">What is the range of the following function?</p>
+
+				<p class="question"><code>f(x)</code> = <code><var>expr(["+", ["*", A, ["^", "x", 2]],B])</var></code></p>
+
+				<p class="solution"><var>SOL</var></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li><var>WRONG1</var></li>
+					<li><var>WRONG2</var></li>
+					<li><var>WRONG3</var></li>
+					<li><var>WRONG4</var></li>
+				</ul>
+				
+				<div class="hints">
+					<div id="hint1">
+						<div class="graphie" data-update="grid">
+							<!-- show hint function -->
+							style({
+								stroke: "red",
+								strokeDasharray: "- ",
+								strokeWidth: 1.5,
+								arrows: null
+							});
+
+							plot( function( x ) {
+								return A / abs ( A ) * pow( x, 2 );
+							}, [-10, 10]);
+
+						</div>
+						
+						<p>Piece by piece, let's build the plot of f(x):</p>
+						<p><span class="hint_red"><code><var>expr(["*", A / abs ( A ), ["^", "x", 2]])</var></code> is always <var>(A > 0 ? "positive " : "negative ")</var></span>, so <code>f(x)</code> = <code><var>expr(["*", A, ["^", "x", 2]])</var></code> will always be <var>(A > 0 ? "greater " : "less ")</var> than or equal to 0</p>
+					</div>
+
+					<div id="hint2">
+						<div class="graphie" data-update="grid">
+							<!-- make final answer blue -->
+							style({
+								stroke: "blue",
+								strokeDasharray: "",
+								strokeWidth: 2,
+								arrows: null
+							});
+
+							plot( function( x ) {
+								return A * pow( x, 2 ) + B;
+							}, [-10, 10]);		
+						</div>
+
+						<p>Shifting from <span class="hint_red"><code>f(x)</code> = <code><var>expr(["*", A / abs ( A ), ["^", "x", 2]])</var></code></span> to <span class="hint_blue"><code>f(x)</code> = <code><var>expr(["+", ["*", A, ["^", "x", 2]],B])</var></code></span>, the new function is always</p>
+						
+						<p>. . . <var>(A > 0 ? "greater than" : "less than") + " or equal to " + B.toString()</var>.</p>
+					</div>
+					
+					<p>The range of f(x) is: <var>SOL</var>.</p>
+				</div>
+<!--
+<div id="original">
+    <div class="problem">
+        <p></p>
+    </div>
+    <p class="question">Q</p>
+    <p class="solution"><var>Answer</var></p>
+</div>
+
+<div id="type-3" data-type="original">
+    <p class="question">Q2</p>
+    <p class="solution"><var>Answer</var></p>
+</div>				
+-->
+
+<!--
+//Types of equations:
+//0 f(x) = ax^2 + b
+//1 f(x) = ax + b * (x-c)/(x-c)  (change parameters so that hole is at (c, b)
+//2 f(x) = ax^2 + b * (x-c)/(x-c) (creates a hole, but doesn't change the range)
+//3 f(x) = a if x>c, b if x<c
+-->
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
