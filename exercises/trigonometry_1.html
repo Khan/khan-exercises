@@ -105,7 +105,7 @@
 				<p><b>S</b>in=<b>O</b>pposite over <b>H</b>ypotenuse</p>
 				<p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
 				<p>hypothenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
-				<p><code>sin(<var>ANGLE</var>)=<var>SOLUTION_PRETTY</var></code></p>
+				<p><code>\sin(<var>ANGLE</var>)=<var>SOLUTION_PRETTY</var></code></p>
 			</div>
 		</div>
 
@@ -137,17 +137,17 @@
                         </ul>
 
                         <div class="hints" data-apply="appendContents">
-                                <p><b>SOH</b> CAH TOA</p>
-                                <p><b>S</b>in=<b>O</b>pposite over <b>H</b>ypotenuse</p>
-                                <p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
+                                <p>SOH <b>CAH</b> TOA</p>
+                                <p><b>C</b>os=<b>A</b>djacent over <b>H</b>ypotenuse</p>
+                                <p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
                                 <p>hypothenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
-                                <p><code>sin(<var>ANGLE</var>)=<var>SOLUTION_PRETTY</var></code></p>
+                                <p><code>\cos(<var>ANGLE</var>)=<var>SOLUTION_PRETTY</var></code></p>
                         </div>
                 </div>
 
- <div id="sin">
+		 <div id="tan">
                         <div class="vars">
-                                <var id="SOLUTION_PRETTY">"\\frac{" + OPPOSITE_VALUE + "}{" +AB_STRING+ "}"</var>
+                                <var id="SOLUTION_PRETTY">"\\frac{" + OPPOSITE_VALUE + "}{" + ADJACENT_VALUE + "}"</var>
                         </div>
                         <div class="problem">
                                 <p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
@@ -155,7 +155,7 @@
                                 <p><code>\overline{AB}</code> is <code><var>AB_STRING</var></code> units long</p>
                         </div>
                         <div class="question">
-                                <p>What is <code>\sin(\angle <var>ANGLE</var>)</code></p>
+                                <p>What is <code>\tan(\angle <var>ANGLE</var>)</code></p>
 
                                 <div class="graphie">
                                         betterTriangle( BC, AC, "A", "B", "C", BC, AC, AB_STRING );
@@ -173,11 +173,11 @@
                         </ul>
 
                         <div class="hints" data-apply="appendContents">
-                                <p><b>SOH</b> CAH TOA</p>
-                                <p><b>S</b>in=<b>O</b>pposite over <b>H</b>ypotenuse</p>
+                                <p>SOH CAH <b>TOA</b></p>
+                                <p><b>T</b>an=<b>O</b>pposite over <b>A</b>djacent</p>
                                 <p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
-                                <p>hypothenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
-                                <p><code>sin(<var>ANGLE</var>)=<var>SOLUTION_PRETTY</var></code></p>
+                                <p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
+                                <p><code>tan(<var>ANGLE</var>)=<var>SOLUTION_PRETTY</var></code></p>
                         </div>
                 </div>
 
