@@ -361,6 +361,8 @@ var createGraph = function( el ) {
 				if ( currentStyle.arrows ) {
 					result = addArrowheads( result );
 				}
+			} else if ( result instanceof jQuery ) {
+				result.css( currentStyle );
 			}
 
 			currentStyle = oldStyle;
