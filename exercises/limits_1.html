@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graph math-format">
+<html data-require="math graphie math-format">
 <head>
 	<title>Limits 1</title>
 	<script src="../khan-exercise.js"></script>
@@ -23,10 +23,24 @@
 					<var id="r_limtoa">limtoa</var>
 				</div>
 
-				<p><code>\lim_{x\to<var>a</var>} \dfrac{<var>quadratic</var><var>LINE</var>}{<var>LINE</var>} \quad\quad = ?</code></p>
-				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
-					plot('(' + quadratic + LINE + ')/' + LINE);
-					ASdot([a, limtoa], 4, "black", "white");
+				<p><code>\displaystyle\lim_{x\to<var>a</var>} \dfrac{<var>quadratic</var><var>LINE</var>}{<var>LINE</var>} = {?}</code></p>
+				<div class="graphie" id="graph">
+					graphInit({
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						axisArrows: "->"
+					});
+
+					style({
+						stroke: "#6495ed"
+					}, function() {
+						plot( function(x) {
+							return q_lcoef * x * x;
+						}, [-10, 10] );
+
+						circle( [a, limtoa], 4 / 20, { fill: "white" } )
+					});
 				</div>
 				<p class="solution"><code><var>limtoa</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
@@ -55,12 +69,23 @@
 				</div>
 
 				<p><code>\lim_{x\to<var>a</var>} \dfrac{<var>abs_coef</var>|x + <var>abs_cons</var>|}{x + <var>abs_cons</var>} \quad\quad = ?</code></p>
-				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
-					line([-11, abs_coef * -1], [-1 * abs_cons, abs_coef * -1]);
-					line([-1 * abs_cons, abs_coef], [11, abs_coef]);
+				<div class="graphie" id="graph">
+					graphInit({
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						axisArrows: "->"
+					});
 
-					ASdot([-1 * abs_cons, -1 * abs_coef], 4, "black", "white");
-					ASdot([-1 * abs_cons, abs_coef], 4, "black", "white");
+					style({
+						stroke: "#6495ed"
+					}, function() {
+						line( [-11, abs_coef * -1], [-abs_cons, abs_coef * -1] );
+						line( [-abs_cons, abs_coef], [11, abs_coef] );
+
+						circle( [-abs_cons, -abs_coef], 4 / 20, { fill: "white" } )
+						circle( [-abs_cons, abs_coef], 4 / 20, { fill: "white" } )
+					});
 				</div>
 				<p class="solution">Does not exist.</p>
 				<ul class="choices" data-show="5" data-none="true">
@@ -75,7 +100,7 @@
 					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
 				</ul>
 				<div class="hints" data-apply="appendContents">
-					<p id="final">The limit as we approach from the left doesn't match the limit as we approach from the right, so <code>\lim_{x\to<var>a</var>}</code> doesn't exist.</p>
+					<p id="final">The limit as we approach from the left doesn't match the limit as we approach from the right, so <code>f(x)</code> has no limit as <code>x \to <var>a</var></code>.</p>
 				</div>
 			</div>
 			<div>
@@ -103,10 +128,24 @@
 						<var>d_cons</var> &\quad \text{if} \quad x = <var>a</var>\\
 					\end{array} \right.
 					\end{align*}</code></p>
-				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
-					plot(d_line);
-					ASdot([a, limtoa], 4, "black", "white");
-					ASdot([a, d_cons], 4, "blue", "blue");
+				<div class="graphie" id="graph">
+					graphInit({
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						axisArrows: "->"
+					});
+
+					style({
+						stroke: "#6495ed"
+					}, function() {
+						plot( function(x) {
+							return l_coef * x + l_cons;
+						}, [-10, 10] );
+
+						circle( [a, limtoa], 4 / 20, { fill: "white" } )
+						circle( [a, d_cons], 4 / 20, { fill: "#6495ed", stroke: "none" } )
+					});
 				</div>
 				<p class="solution"><code><var>limtoa</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
@@ -135,8 +174,21 @@
 				</div>
 
 				<p><code>\lim_{x\to<var>a</var>} <var>q_lcoef</var>x^2 + <var>q_cons</var> \quad\quad = ?</code></p>
-				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-style: bold; stroke: blue;" data-graph-type="plane">
-					plot(q_lcoef + 'x^2 + ' + q_cons);
+				<div class="graphie" id="graph">
+					graphInit({
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						axisArrows: "->"
+					});
+
+					style({
+						stroke: "#6495ed"
+					}, function() {
+						plot( function(x) {
+							return q_lcoef * x * x + q_cons;
+						}, [-10, 10] );
+					});
 				</div>
 				<p class="solution"><code><var>limtoa</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
@@ -153,8 +205,11 @@
 		<div class="hints">
 			<div>
 				<p>What happens as we approach <code>x = <var>a</var></code> from the left?</p>
-				<div class="graph update" data-style="stroke: orange; marker: arrow;">
-					line([a > 0 ? 0 : a + a, 0], [a, 0]);
+				<div class="graphie" data-update="graph" data-style="stroke: orange; marker: arrow;">
+					line( [a - 2, 0], [a, 0], {
+						stroke: "#ff00af",
+						arrows: "->"
+					});
 				</div>
 			</div>
 			<div>
@@ -162,10 +217,7 @@
 					<tr><th><code>x</code></th><th><var>a - 0.1</var></th><th><var>a - 0.01</var></th><th><var>a - 0.001</var></th></tr>
 					<tr><th><code>f(x)</code></th><td><var>curFunc(a - 0.1).toFixed(4)</var></td><td><var>curFunc(a - 0.01).toFixed(4)</var></td><td><var>curFunc(a - 0.001).toFixed(4)</var></td></tr>
 				</table>
-				It looks like <code>f(x)</code> is approaching <var>l_limtoa</var> from the left.
-				<div class="graph update" data-style="stroke: purple;">
-					line([a, 0], [a, l_limtoa]);
-				</div>
+				It looks like <code>f(x)</code> is approaching <code><var>l_limtoa</var></code> from the left.
 			</div>
 			<div>
 				<p>When we approach <code>x = <var>a</var></code> from the right, we get:</p>
@@ -173,15 +225,15 @@
 					<tr><th><code>x</code></th><th><var>a + 0.1</var></th><th><var>a + 0.01</var></th><th><var>a + 0.001</var></th></tr>
 					<tr><th><code>f(x)</code></th><td><var>curFunc(a + 0.1).toFixed(4)</var></td><td><var>curFunc(a + 0.01).toFixed(4)</var></td><td><var>curFunc(a + 0.001).toFixed(4)</var></td></tr>
 				</table>
-				It looks like <code>f(x)</code> is approaching <var>r_limtoa</var> from the right.
-				<div class="graph update" data-style="stroke: green; marker: arrow;">
-					line([a < 0 ? 0 : a + a, 0], [a, 0]);
-				</div>
-				<div class="graph update" data-style="stroke: purple;">
-					line([a, 0], [a, r_limtoa]);
+				It looks like <code>f(x)</code> is approaching <code><var>r_limtoa</var></code> from the right.
+				<div class="graphie" data-update="graph" data-style="stroke: orange; marker: arrow;">
+					line( [a + 2, 0], [a, 0], {
+						stroke: "#ff00af",
+						arrows: "->"
+					});
 				</div>
 			</div>
-			<p id="final">So <code>\lim_{x\to<var>a</var>} = <var>limtoa</var></code></p>
+			<p id="final">So the limit is <code><var>limtoa</var></code>.</p>
 		</div>
 	</div>
 </body>
