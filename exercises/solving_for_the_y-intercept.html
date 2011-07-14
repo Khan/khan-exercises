@@ -7,25 +7,25 @@
     <script type="text/javascript">
         function p1Position( x1, y1, x2, y2 ) {
             if ( ( y1 > y2 ) && ( x1 > x2 ) ) {
-                return "above right";
-            } else if ( ( y1 > y2 ) && ( x1 < x2 ) ) {
-                return "above left";
-            } else if ( ( y1 < y2 ) && ( x1 < x2 ) ) {
-                return "below left";
-            } else {
                 return "below right";
+            } else if ( ( y1 > y2 ) && ( x1 < x2 ) ) {
+                return "below left";
+            } else if ( ( y1 < y2 ) && ( x1 < x2 ) ) {
+                return "above left";
+            } else {
+                return "above right";
             }
         }
 
         function p2Position( x1, y1, x2, y2 ) {
             if ( ( y1 > y2 ) && ( x1 > x2 ) ) {
-                return "below left";
-            } else if ( ( y1 > y2 ) && ( x1 < x2 ) ) {
-                return "below right";
-            } else if ( ( y1 < y2 ) && ( x1 < x2 ) ) {
-                return "above right";
-            } else {
                 return "above left";
+            } else if ( ( y1 > y2 ) && ( x1 < x2 ) ) {
+                return "above right";
+            } else if ( ( y1 < y2 ) && ( x1 < x2 ) ) {
+                return "below right";
+            } else {
+                return "below left";
             }            
         }
     </script>
@@ -73,7 +73,7 @@
                 <p><code>b = <var>fractionReduce( Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var></code></p>
                 <p><code>y = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + <var>fractionReduce(Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR,SLOPE_DENOMINATOR)</var></code></p>
 
-                <div class="graphie" id="problem1-graph">
+                <div class="graphie" id="problem1-hint-graph">
                     var xScale = 300 / ( X_MAX - X_MIN );
                     var yScale = 300 / ( Y_MAX - Y_MIN );
                     var ptSize = 4 / yScale;
