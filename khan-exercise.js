@@ -766,27 +766,27 @@ var Khan = {
 
 		// Prepare for the tester info if requested
 		if ( Khan.query.test != null ) {
-			jQuery( "#sidebar" ).prepend(
-				'<div id="tester-info">' +
-					'<h3>Testing Mode</h3>' +
+			jQuery( "#answer_area" ).prepend(
+				'<div id="tester-info" class="info-box">' +
+					'<span class="info-box-header">Testing Mode</span>' +
 					'<p><strong>Problem No.</strong> <span class="problem-no">hm.</span></p>' +
 					'<p><strong>Answer:</strong> <span class="answer"></span></p>' +
 					'<p>' +
-						'<input type="button" class="pass" value="This problem was generated correctly.">' +
-						'<input type="button" class="fail" value="There is an error in this problem.">' +
+						'<input type="button" class="pass button green" value="This problem was generated correctly.">' +
+						'<input type="button" class="fail button orange" value="There is an error in this problem.">' +
 					'</p>' +
 				'</div>'
 			);
 
 			jQuery( "#tester-info .pass" ).click( function() {
 				Khan.dataDump.problems[ Khan.dataDump.problems.length - 1 ].pass = true;
-				jQuery( "#next" ).trigger( "click" );
+				jQuery( "#next-question-button" ).trigger( "click" );
 			} );
 
 			jQuery( "#tester-info .fail" ).click( function() {
 				Khan.dataDump.problems[ Khan.dataDump.problems.length - 1 ].pass =
 					prompt( "Please write a short description of the error, then click OK." );
-				jQuery( "#next" ).trigger( "click" );
+				jQuery( "#next-question-button" ).trigger( "click" );
 			} );
 		}
 
