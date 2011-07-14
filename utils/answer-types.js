@@ -179,7 +179,8 @@ jQuery.extend( Khan.answerTypes, {
 	},
 
 	radio: function( solutionarea, solution ) {
-		var solutionText = solution.text();
+		// Without this we get numbers twice and things sometimes
+		var solutionText = jQuery( solution ).contents( ":not(.MathJax)" ).text();
 
 		var list = jQuery("<ul></ul>");
 		jQuery( solutionarea ).append(list);
