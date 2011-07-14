@@ -15,7 +15,7 @@ var { font-style: normal; }
 #sidebar ul { list-style: none; margin: 8px; padding: 0; }
 #sidebar li { margin: 10px 0; }
 #sidebar li span.value { padding-left: 5px; }
-#problemarea { margin-right: 310px; position: relative; float: left; }
+#problemarea { width: 63%; position: relative; float: left; }
 
 #tester-info { border: 1px solid #AAA; background: #F0F0F0; padding: 10px; margin: 10px 0; }
 #debug var { font: 14px Menlo, Courier, monospace; word-wrap: break-word; }
