@@ -511,7 +511,8 @@ var Khan = {
 				varInfo.appendTo( debugWrap );
 			}
 
-			jQuery( "#problemarea .graphie" ).css( "outline", "1px dashed red" );
+			// for special style rules
+			jQuery( "body" ).addClass("debug");
 		}
 	},
 
@@ -551,7 +552,9 @@ var Khan = {
 		jQuery( ".summary" ).hide();
 
 		// Watch for a solution submission
-		jQuery("form").submit(function() {
+		jQuery("form").submit(function(ev) {
+			ev.preventDefault();
+			
 			// Figure out if the response was correct
 			if ( Khan.validator() ) {
 				// Show a congratulations message
@@ -566,12 +569,12 @@ var Khan = {
 			} else {
 				jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
 			}
-
-			return false;
 		});
 
 		// Watch for when the next button is clicked
-		jQuery("#next").click(function() {
+		jQuery("#next").click(function(ev) {
+			ev.preventDefault();
+			
 			// Erase the old value and hide congrats message
 			jQuery("#congrats").hide();
 
@@ -588,8 +591,6 @@ var Khan = {
 
 			// Generate a new problem
 			Khan.makeProblem();
-
-			return false;
 		});
 
 		// Watch for when the "Get a Hint" button is clicked
