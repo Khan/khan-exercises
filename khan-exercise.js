@@ -453,6 +453,11 @@ var Khan = {
 			jQuery("#gethint").attr( "disabled", true );
 		}
 
+		// Hook out for exercise test runner
+		if ( parent !== window && typeof parent.jQuery !== "undefined" ) {
+			parent.jQuery( parent.document ).trigger( "problemLoaded" );
+		}
+
 		// Show the debug info
 		if ( Khan.query.debug != null ) {
 			jQuery( "body" ).keypress( function( e ) {
