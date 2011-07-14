@@ -343,11 +343,10 @@ var Khan = {
 		// we made earlier to ensure that every problem gets shown the
 		// appropriate number of times
 		} else {
-			problem = Khan.problemBag[ Khan.problemBagIndex % Khan.problemCount ];
+			problem = Khan.problemBag[ Khan.problemBagIndex ];
 			problemID = problem.data( "id" );
 
-			// Do the % above instead of here so that testing can count better
-			Khan.problemBagIndex = ( Khan.problemBagIndex + 1 );
+			Khan.problemBagIndex = ( Khan.problemBagIndex + 1 ) % Khan.problemCount;
 		}
 
 		// Find which exercise this problem is from
@@ -495,7 +494,7 @@ var Khan = {
 			Khan.dataDump.problems.push( lastProblem );
 
 			jQuery( testerInfo ).find( ".problem-no" )
-				.text( Khan.problemBagIndex + " of " + Khan.problemCount );
+				.text( Khan.dataDump.problems.length + " of " + Khan.problemCount );
 
 			var answer = jQuery( testerInfo ).find( ".answer" ).empty();
 
@@ -653,7 +652,7 @@ var Khan = {
 				Khan.scratchpad.clear();
 			}
 
-			if ( Khan.query.test != null && Khan.problemBagIndex >= Khan.problemCount ) {
+			if ( Khan.query.test != null && Khan.dataDump.problems.length >= Khan.problemCount ) {
 				// Show the dump data
 				jQuery( "#problemarea" ).append(
 					"<p>Thanks! You're all done testing this exercise.</p>" +
