@@ -1,4 +1,5 @@
 jQuery.extend(KhanUtil, {
+
 	expr: function( expr, compute ) {
 		if ( typeof expr == "object" ) {
 			var op = expr[0], args = expr.slice(1);
@@ -11,14 +12,21 @@ jQuery.extend(KhanUtil, {
 	},
 
 	exprType: function( expr ) {
+
 		if ( typeof expr === "object" ) {
-			// Color wrappers should be completely ignored by everything but formatOperators
+
+			// Color wrappers should be completely ignored by everything but 
+			// formatOperators
 			if ( expr[0] === "color" ) {
 				return KhanUtil.exprType( expr[2] );
 			}
+
 			return expr[0];
+
 		} else {
+
 			return typeof(expr);
+
 		}
 	},
 
@@ -61,7 +69,7 @@ jQuery.extend(KhanUtil, {
 			return false;
 
 			case "^":
-			return !(KhanUtil.exprType(expr[1]) === "number" && expr[1] > 0);
+			return KhanUtil.exprType(expr[1]) !== "number" || expr[1] < 0;
 
 			case "number":
 			case "sqrt":
@@ -80,6 +88,7 @@ jQuery.extend(KhanUtil, {
 
 	formatOperators: {
 		"color": function( color, arg ) {
+
 			// Arguments should look like [ "blue", [ ... ] ]
 			return "\\color{" + color + "}{" + KhanUtil.expr( arg ) + "}";
 		},
@@ -167,7 +176,8 @@ jQuery.extend(KhanUtil, {
 			var rest = Array.prototype.slice.call(arguments, 1);
 			rest.unshift("*");
 
-			// If we're multiplying by 1, ignore it, unless we have [ "*", 1 ] and should return 1
+			// If we're multiplying by 1, ignore it, unless we have [ "*", 1 ] and 
+			// should return 1
 			if ( arguments[0] === 1 && rest.length > 1 ) {
 				return KhanUtil.expr(rest);
 			} else if ( arguments[0] === -1 && rest.length > 1 ) {
@@ -226,7 +236,8 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"frac": function( num, den ) {
-			return "\\frac{" + KhanUtil.expr( num ) + "}{" + KhanUtil.expr( den ) + "}";
+			return "\\frac{" + KhanUtil.expr( num ) + "}{" + 
+				KhanUtil.expr( den ) + "}";
 		},
 
 		"^": function( base, pow ) {
@@ -372,6 +383,7 @@ jQuery.extend(KhanUtil, {
 			return KhanUtil.exprStripColor( expr[2] );
 		} else {
 			return jQuery.map(expr, function( el, i ) {
+
 				// Wrap in an array because jQuery.map flattens the result by one level
 				return [ (i === 0) ? el : KhanUtil.exprStripColor( el ) ];
 			});

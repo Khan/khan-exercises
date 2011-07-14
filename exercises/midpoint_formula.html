@@ -31,8 +31,11 @@
 
 		<div class="problems">
 			<div id="find-midpoint">
-				<p class="question">What is the midpoint of points (<var>X1</var>, <var>Y1</var>) and (<var>X2</var>, <var>Y2</var>)?</p>
+				<p class="question">What is the midpoint of the line segment from (<var>X1</var>, <var>Y1</var>) to (<var>X2</var>, <var>Y2</var>)?</p>
 				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-weight: bold" data-graph-type="plane">
+					stroke = "#000000";
+					path([[ X1, Y1 ], [ X2, Y2 ]]);
+
 					fontfill = "#0969A2";
 					text([ X1, Y1 ], "(" + X1 + ", " + Y1 + ")", "aboveright" );
 

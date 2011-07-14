@@ -15,31 +15,66 @@ jQuery.extend( KhanUtil, {
 		return KhanUtil.fraction( n, d, true, false, false, true );
 	},
 
-	/* Expand something like (-2)^4 into (-2)*(-2)*(-2)*(-2) */
+	/* Used to show the contracting of something like (-2)^4 into 16, by showing
+	 * (-2)^4 = (-2)(-2)(-2)(-2) = 4(-2)(-2) = -8(-2) = 16. Returns an array of
+	 * each of these steps. */
 	expandExponent: function( base, exp ) {
-		var base_str = base < 0 ? "(" + base + ")" : base;
-		var str = base_str;
-		for ( var i = 1; i < exp; i++ )	str += " \\cdot" + base_str;
-		return str;
+		var base_str = KhanUtil.negParens( base ),
+			expansion = "\\cdot" + base_str, steps = [], multiplier;
+
+		steps.unshift( Math.round( Math.pow( base, exp ) ) );
+
+		for ( var i = 1; i < exp; i++ ) {
+			multiplier = Math.round( Math.pow( base, exp - i ) );
+
+			// we wanth the first hint to say (-2)(-2)(-2)(-2), but the next one to
+			// say 4(-2)(-2), -8(-2), etc.
+			if (i === exp - 1 ) {
+				multiplier = KhanUtil.negParens( multiplier );
+			}
+			
+			steps.unshift( multiplier + expansion );
+
+			expansion += "\\cdot " + base_str;
+		}
+
+		return steps;
 	},
 
-	/* expandExp for rational bases, taking into account negative
+	/* expandExponent for rational bases, taking into account negative
 	 * exponents. Assumes abs(exp)>=1. */
-	expandFractionExponent: function( base_num, base_denom, exp ) {
+	expandFractionExponent: function( base_n, base_d, exp ) {
 		if ( Math.abs( exp ) < 1 ) {
 			return "";
 		}
 
-		// the fraction has defraction, reducing, and parensing, and is not small
-		var base_str = exp > 0 ?
-			KhanUtil.fraction( base_num, base_denom, true, true, false, true ) :
-			KhanUtil.fraction( base_denom, base_num, true, true, false, true );
+		var flip_n = exp > 0 ? base_n : base_d,
+			flip_d = exp > 0 ? base_d : base_n,
+			exp = Math.abs( exp ),
+			parens = function( n, d ) { 
+				return KhanUtil.fraction( n, d, true, true, false, true );
+			}, noParens = function( n, d ) {
+				return KhanUtil.fraction( n, d, true, true, false, false );
+			}, base_str = parens( flip_n, flip_d ), 
+			expansion = "\\cdot" + base_str, steps = [], mult_n, mult_d;
 
-		var str = base_str;
-		for ( var i = 1; i < Math.abs( exp ); i++ ) {
-			str += " \\cdot" + base_str;
+		steps.unshift( noParens(
+			Math.round( Math.pow( flip_n, exp ) ),
+			Math.round( Math.pow( flip_d, exp ) ) ) );
+
+		for ( var i = 1; i < exp; i++ ) {
+			mult_n = Math.round( Math.pow( flip_n, exp - i ) );
+			mult_d = Math.round( Math.pow( flip_d, exp - i ) );
+
+			steps.unshift( 
+				( i === exp - 1  ? parens : noParens )
+					.call(this, mult_n, mult_d ) 
+				+ expansion );
+
+			expansion += "\\cdot " + base_str;
 		}
-		return str;
+
+		return steps;
 	},
 
 	/* Given a base, returns the highest positive integer it is reasonable to

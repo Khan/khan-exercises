@@ -6,16 +6,24 @@ var createGraph = function( el ) {
 
 	// Set up some reasonable defaults
 	var currentStyle = {
-		"stroke-width": "2px",
+		"stroke-width": 2,
 		"fill": "none"
 	};
 
 	var scaleVector = function( point ) {
+		if ( typeof point === "number" ) {
+			return scaleVector([ point, point ])
+		}
+
 		var x = point[0], y = point[1];
 		return [ x * xScale, y * yScale ];
 	};
 
-	var scalePoint = function( point ) {
+	var scalePoint = function scalePoint( point ) {
+		if ( typeof point === "number" ) {
+			return scalePoint([ point, point ])
+		}
+
 		var x = point[0], y = point[1];
 		return [ ( x - xRange[0] ) * xScale, ( yRange[1] - y ) * yScale ];
 	};
@@ -25,9 +33,21 @@ var createGraph = function( el ) {
 			if ( point === true ) {
 				return "z";
 			} else {
-				return ( i === 0 ? "M" : "L") + scalePoint( point );
+				var scaled = scalePoint( point );
+				return ( i === 0 ? "M" : "L") + boundNumber(scaled[0]) + " " + boundNumber(scaled[1]);
 			}
 		}).join("");
+
+		// Bound a number by 1e-6 and 1e20 to avoid exponents after toString
+		function boundNumber( num ) {
+			if ( num === 0 ) {
+				return num;
+			} else if ( num < 0 ) {
+				return -boundNumber( -num );
+			} else {
+				return Math.max( 1e-6, Math.min( num, 1e20 ) );
+			}
+		}
 	};
 
 	var processAttributes = function( attrs ) {
@@ -52,11 +72,7 @@ var createGraph = function( el ) {
 			},
 
 			strokeWidth: function( val ) {
-				if ( typeof val === "number" ) {
-					return { "stroke-width": val + "px" };
-				} else {
-					return { "stroke-width": val };
-				}
+				return { "stroke-width": parseFloat(val) };
 			},
 
 			rx: function( val ) {
@@ -91,8 +107,54 @@ var createGraph = function( el ) {
 	};
 
 	var polar = function( r, th ) {
+		if ( typeof r === "number" ) {
+			r = [ r, r ];
+		}
 		th = th * Math.PI / 180;
-		return [ r * Math.cos( th ), r * Math.sin( th ) ];
+		return [ r[0] * Math.cos( th ), r[1] * Math.sin( th ) ];
+	};
+
+	var addArrowheads = function arrows( path ) {
+		var type = path.constructor.prototype;
+
+		if ( type === Raphael.el ) {
+			if ( path.type === "path" && typeof path.arrowheadsDrawn === "undefined" ) {
+				var w = path.attr( "stroke-width" ), s = 0.6 + 0.4 * w;
+				var l = path.getTotalLength();
+
+				if ( l < 0.75 * s ) {
+					// You're weird because that's a *really* short path
+					// Giving up now before I get more confused
+
+				} else {
+					// This makes a lot more sense
+					var set = raphael.set();
+					var head = raphael.path( "M-3 4 C-2.75 2.5 0 0.25 0.75 0C0 -0.25 -2.75 -2.5 -3 -4" );
+					var end = path.getPointAtLength( l - 0.4 );
+					var almostTheEnd = path.getPointAtLength( l - 0.75 * s );
+					var angle = Math.atan2( end.y - almostTheEnd.y, end.x - almostTheEnd.x ) * 180 / Math.PI;
+					var attrs = path.attr();
+					delete attrs.path;
+
+					var subpath = path.getSubpath( 0, l - 0.75 * s );
+					subpath = raphael.path( subpath ).attr( attrs );
+					subpath.arrowheadsDrawn = true;
+					path.remove();
+
+					head.rotate( angle, 0.75, 0 ).scale( s, s, 0.75, 0 )
+						.translate( almostTheEnd.x, almostTheEnd.y ).attr( attrs )
+						.attr({ "stroke-linejoin": "round", "stroke-linecap": "round" });
+					head.arrowheadsDrawn = true;
+					set.push( subpath );
+					set.push( head );
+					return set;
+				}
+			}
+		} else if ( type === Raphael.st ) {
+			for (var i = 0, l = path.items.length; i < l; i++) {
+				arrows( path.items[i] );
+			}
+		}
 	};
 
 	var drawingTools = {
@@ -105,7 +167,8 @@ var createGraph = function( el ) {
 		},
 
 		arc: function( center, radius, startAngle, endAngle ) {
-			var cent = scalePoint( center ), radii = scaleVector([ radius, radius ]);
+			var cent = scalePoint( center );
+			var radii = scaleVector( radius );
 			var startVector = polar( radius, startAngle );
 			var endVector = polar( radius, endAngle );
 
@@ -188,6 +251,8 @@ var createGraph = function( el ) {
 					}, 1);
 				});
 			}
+
+			return span;
 		},
 
 		plotParametric: function( fn, range ) {
@@ -286,8 +351,14 @@ var createGraph = function( el ) {
 				result = drawingTools[ name ].apply( drawingTools, arguments );
 			}
 
-			if ( result != null ) {
+			// Bad heuristic for recognizing Raphael elements and sets
+			var type = result.constructor.prototype
+			if ( type === Raphael.el || type === Raphael.st ) {
 				result.attr( currentStyle );
+
+				if ( currentStyle.arrows ) {
+					result = addArrowheads( result );
+				}
 			}
 
 			currentStyle = oldStyle;
@@ -298,7 +369,7 @@ var createGraph = function( el ) {
 	return graphie;
 };
 
-jQuery.fn.graphie = function() {
+jQuery.fn.graphie = function( problem ) {
 	return this.find(".graphie").add(this.filter(".graphie")).each(function() {
 		// Grab code for later execution
 		var code = jQuery( this ).text(), graphie;
@@ -309,7 +380,10 @@ jQuery.fn.graphie = function() {
 		// Initialize the graph
 		if ( jQuery( this ).data( "update" ) ) {
 			var id = jQuery( this ).data( "update" );
-			graphie = jQuery( "#" + id ).data( "graphie" );
+
+			// Graph could be in either of these
+			var area = jQuery( "#problemarea" ).add(problem);
+			graphie = area.find( "#" + id ).data( "graphie" );
 		} else {
 			graphie = createGraph( this );
 			jQuery( this ).data( "graphie", graphie );
@@ -320,9 +394,11 @@ jQuery.fn.graphie = function() {
 			graphie.graph = {};
 		}
 
+		code = "(function() {" + code + "})()";
+
 		// Execute the graph-specific code
 		KhanUtil.currentGraph = graphie;
 		jQuery.tmpl.getVAR( code, graphie );
-		delete KhanUtil.currentGraph;
+		// delete KhanUtil.currentGraph;
 	}).end();
 };

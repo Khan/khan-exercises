@@ -39,14 +39,14 @@ test("PowerRule - helper object for polynomial differentiation", function(){
 test ( "Hints for PowerRule", function(){
 	var powerRule = new KhanUtil.PowerRule ( -1, 2, neg_coefs, "x", KhanUtil.funcNotation ( "x", 1 ) ); //-2x^{2}+6x+4-x^{-1}
 	equals ( powerRule.hints.length, 4 );
-	equals ( powerRule.hints[0], "f'(-2x^{2}) = 2.-2x^{2-1} = -4x" );
-	equals ( powerRule.hints[1], "f'(6x) = 1.6x^{1-1} = 6" );
-	equals ( powerRule.hints[2], "f'(4) = 0.4x^{0-1} = 0" );
-	equals ( powerRule.hints[3], "f'(-x^{-1}) = -1.-1x^{-1-1} = x^{-2}");
+	equals ( powerRule.hints[0], "f'(-2x^{2}) = 2 \\cdot -2x^{2-1} = -4x" );
+	equals ( powerRule.hints[1], "f'(6x) = 1 \\cdot 6x^{1-1} = 6" );
+	equals ( powerRule.hints[2], "f'(4) = 0 \\cdot 4x^{0-1} = 0" );
+	equals ( powerRule.hints[3], "f'(-x^{-1}) = -1 \\cdot -1x^{-1-1} = x^{-2}");
 
 	powerRule = new KhanUtil.PowerRule ( -1, 2, neg_coefs, "x", KhanUtil.funcNotation ( "x", 4 ) ); //-2x^{2}+6x+4-x^{-1}
 	equals ( powerRule.hints.length, 4 );
-	equals ( powerRule.hints[0], "f(x)=-2x^{2} \\implies \\frac{d}{dx}f(x) = 2.-2x^{2-1} = -4x" );
+	equals ( powerRule.hints[0], "f(x)=-2x^{2} \\implies \\frac{d}{dx}f(x) = 2 \\cdot -2x^{2-1} = -4x" );
 });
 
 test("funcNotation - helper for randomly choosing a notation for the function", function(){
@@ -55,13 +55,13 @@ test("funcNotation - helper for randomly choosing a notation for the function", 
 	equals(KhanUtil.funcNotation("x",1).f, "f(x)","index works and variable is substituted");
 	equals(KhanUtil.funcNotation("x",1).ddxF,"f'(x)","index works and variable is substituted");
 	ok(KhanUtil.funcNotation("x",1000).f,"randomly choose a notation if out of range");
-	equals(KhanUtil.funcNotation("x",0).diffHint,"y=Ax^{n} \\implies \\frac{dy}{dx}=n.Ax^{n-1}", "check diffHint");
-	equals(KhanUtil.funcNotation("b",1).diffHint,"f'(Ab^{n})=n.Ab^{n-1}","check diffHint");
-	equals(KhanUtil.funcNotation("x",2).diffHint,"g'(Ax^{n})=n.Ax^{n-1}","check diffHint");
-	equals(KhanUtil.funcNotation("b",3).diffHint,"y=Ab^{n} \\implies y'=n.Ab^{n-1}","check diffHint");
-	equals(KhanUtil.funcNotation("x",4).diffHint,"f(x)=Ax^{n} \\implies \\frac{d}{dx}f(x)=n.Ax^{n-1}","check diffHint");
-	equals(KhanUtil.funcNotation("b",5).diffHint,"a=Ab^{n} \\implies a'=n.Ab^{n-1}","check diffHint");
-	equals(KhanUtil.funcNotation("x",6).diffHint,"a=Ax^{n} \\implies \\frac{da}{dx}=n.Ax^{n-1}","check diffHint");
+	equals(KhanUtil.funcNotation("x",0).diffHint,"y=Ax^{n} \\implies \\frac{dy}{dx}=n \\cdot Ax^{n-1}", "check diffHint");
+	equals(KhanUtil.funcNotation("b",1).diffHint,"f'(Ab^{n})=n \\cdot Ab^{n-1}","check diffHint");
+	equals(KhanUtil.funcNotation("x",2).diffHint,"g'(Ax^{n})=n \\cdot Ax^{n-1}","check diffHint");
+	equals(KhanUtil.funcNotation("b",3).diffHint,"y=Ab^{n} \\implies y'=n \\cdot Ab^{n-1}","check diffHint");
+	equals(KhanUtil.funcNotation("x",4).diffHint,"f(x)=Ax^{n} \\implies \\frac{d}{dx}f(x)=n \\cdot Ax^{n-1}","check diffHint");
+	equals(KhanUtil.funcNotation("b",5).diffHint,"a=Ab^{n} \\implies a'=n \\cdot Ab^{n-1}","check diffHint");
+	equals(KhanUtil.funcNotation("x",6).diffHint,"a=Ax^{n} \\implies \\frac{da}{dx}=n \\cdot Ax^{n-1}","check diffHint");
 });
 
 })();
