@@ -708,13 +708,15 @@ var Khan = {
 			}
 		});
 
-		jQuery( "#show-more" ).data( "show", true )
-			.click( function() {
-				var button = jQuery( this ),
-					show = button.data( "show" );
+		jQuery( "#print_ten" ).data( "show", true )
+			.click( function( e ) {
+				e.preventDefault();
+
+				var link = jQuery( this ),
+					show = link.data( "show" );
 
 				if ( show ) {
-					button.val( "Try current problem" );
+					link.text( "Try current problem" );
 					jQuery( "#workarea" ).empty();
 					jQuery( "#hintsarea" ).empty();
 					for ( var i = 0; i < 10; i++ ) {
@@ -723,14 +725,14 @@ var Khan = {
 					}
 					
 				} else {
-					button.val( "Show next 10 problems" );
+					link.text( "Show next 10 problems" );
 					jQuery( "#workarea, #hintsarea, #rawhintsarea" ).empty();
 					Khan.makeProblem();
 				}
 
 				jQuery( "#answerform input[type='button']" ).attr( "disabled", show );
 
-				button.data( "show", !show );
+				link.data( "show", !show );
 			});
 
 		jQuery( "#scratch_pad_show" ).data( "show", true )
