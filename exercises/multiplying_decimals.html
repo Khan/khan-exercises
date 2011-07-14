@@ -1,116 +1,124 @@
 <!DOCTYPE html>
-<html data-require="math math-table">
+<html data-require="math graphie graphie-helpers word-problems">
 <head>
-	<title>Multiplying decimals</title>
+	<title>Multiplying Decimals</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars" data-ensure="A_SHIFT + B_SHIFT > 0" >
-			<var id="A_SHIFT">rand(3)</var>
-			<var id="B_SHIFT">rand(3)</var>
-			<var id="MAX_SHIFT">max( A_SHIFT, B_SHIFT)</var>
-			<var id="A">intWithoutZero(3) / pow( 10, A_SHIFT)</var>
-			<var id="B">intWithoutZero(3) / pow( 10, B_SHIFT)</var>
-			<var id="A_ARRAY">digits( round( A * pow( 10, A_SHIFT )))</var>
-			<var id="B_ARRAY">digits( round( B * pow( 10, B_SHIFT )))</var>
-			<var id="TABLE">createLongMultiplicationTable( A_ARRAY, B_ARRAY[0])</var>
-			<var id="DIGITS">TABLE.digits</var>
-			<var id="CARRY">TABLE.carry</var>
-			<var id="TABLE2">createLongMultiplicationTable( A_ARRAY, B_ARRAY[1])</var>
-			<var id="DIGITS2">TABLE2.digits</var>
-			<var id="CARRY2">TABLE2.carry</var>
-			<var id="EX_DIGITS2">[0].concat(DIGITS2)</var>
-			<var id="TABLE3">createLongMultiplicationTable( A_ARRAY, B_ARRAY[2])</var>
-			<var id="DIGITS3">TABLE3.digits</var>
-			<var id="CARRY3">TABLE3.carry</var>
-			<var id="EX_DIGITS3">[0,0].concat(DIGITS3)</var>
-			<var id="ADDITION_TABLE">createLongAdditionTable( DIGITS, EX_DIGITS2, EX_DIGITS3)</var>
-			<var id="RESULT">round(A*B*pow(10, A_SHIFT+B_SHIFT)) / pow(10, A_SHIFT+B_SHIFT)</var>
+		<div class="vars">
+			<var id="SMALL_FACTOR">randRange( 100, 999 )</var>
+			<var id="BIG_FACTOR">randRange( 100, 999 )</var>
+			<var id="CARRY">0</var>
+			<var id="PRODUCT">SMALL_FACTOR * BIG_FACTOR</var>
+			<var id="PRODUCT_DIGITS">integerToDigits( PRODUCT )</var>
+			<var id="SMALL_FACTOR_DIGITS">digits( SMALL_FACTOR )</var>
+			<var id="BIG_FACTOR_DIGITS">digits( BIG_FACTOR )</var>
+			<var id="HIGHLIGHTS">[]</var>
+			<var id="BIG_FACTOR_DECIMAL">randRange( 1, 3 )</var>
+			<var id="SMALL_FACTOR_DECIMAL">randRange( 1, 3 )</var>
 		</div>
 
 		<div class="problems">
 			<div>
-				<p class="question"><var>A</var> * <var>B</var> = ?</p>
-				<div class="solution"><var>RESULT</var></div>
+				<div class="graphie" id="numbers">
+					init({
+						range: [ [ -1 - PRODUCT_DIGITS.length, 3 ], [ -1 - SMALL_FACTOR_DIGITS.length, 3 ] ],
+						scale: [ 30, 45 ]
+					});
+
+					style({
+						strokeWidth: 1
+					});
+
+					drawDigits( SMALL_FACTOR_DIGITS.slice( 0 ).reverse(), 1 - SMALL_FACTOR_DIGITS.length, 1 );
+					drawDigits( BIG_FACTOR_DIGITS.slice( 0 ).reverse(), 1 - BIG_FACTOR_DIGITS.length, 2 );
+					path( [ [ -1 - PRODUCT_DIGITS.length, 0.5 ], [ 1, 0.5 ] ] );
+					label( [ -BIG_FACTOR_DIGITS.length, 1 ] ,"\\huge{\\times\\vphantom{0}}" );
+					style({
+						fill: "black"
+					}, function() {
+						ellipse( [ -BIG_FACTOR_DECIMAL + 0.5, 1.8 ], [ 0.09, 0.06 ] );
+						ellipse( [ -SMALL_FACTOR_DECIMAL + 0.5, 0.8 ], [ 0.09, 0.06 ] );
+					});
+				</div>
+				<div class="solution" data-type="decimal"><var>PRODUCT * pow( 10, -(BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL) )</var></div>
 			</div>
 		</div>
 		<div class="hints">
-			<p><var>A_ARRAY[0]</var> * <var>B_ARRAY[0]</var> = <var>A_ARRAY[0]*B_ARRAY[0]</var></p>
-			<p data-if="CARRY[1]">carry = <var>CARRY[1]</var></p>
-			<p>Write <var>DIGITS[0]</var> as the digit</p>
-			<p data-if="CARRY[1]"><var>A_ARRAY[1]</var> * <var>B_ARRAY[0]</var> + <var>CARRY[1]</var> = <var>A_ARRAY[1] * B_ARRAY[0] + CARRY[1]</var></p>
-			<p data-else><var>A_ARRAY[1]</var> * <var>B_ARRAY[0]</var> = <var>A_ARRAY[1] * B_ARRAY[0]</var></p>
-			<p data-if="CARRY[2]">carry = <var>CARRY[2]</var></p>
-			<p>Write <var>DIGITS[1]</var> as the digit</p>
-			<p data-if="CARRY[2]"><var>A_ARRAY[2]</var> * <var>B_ARRAY[0]</var> + <var>CARRY[2]</var> = <var>A_ARRAY[2] * B_ARRAY[0] + CARRY[2]</var></p>
-			<p data-else><var>A_ARRAY[2]</var> * <var>B_ARRAY[0]</var> = <var>A_ARRAY[2] * B_ARRAY[0]</var></p>
-			<p>Write <var>DIGITS[3]</var><var>DIGITS[2]</var> as the digit</p>
-			<p>Result is <var>DIGITS[3]</var><var>DIGITS[2]</var><var>DIGITS[1]</var><var>DIGITS[0]</var></p>
-			<!-- second multiplicand -->
-			<p>Now do the same with the second digit of the multiplicand and write down 0 as the first digit</p>
-			<p><var>A_ARRAY[0]</var> * <var>B_ARRAY[1]</var> = <var>A_ARRAY[0]*B_ARRAY[1]</var></p>
-			<p data-if="CARRY2[1]">carry = <var>CARRY2[1]</var></p>
-			<p>Write <var>DIGITS2[0]</var> as the digit</p>
-			<p data-if="CARRY2[1]"><var>A_ARRAY[1]</var> * <var>B_ARRAY[1]</var> + <var>CARRY2[1]</var> = <var>A_ARRAY[1] * B_ARRAY[1] + CARRY2[1]</var></p>
-			<p data-else><var>A_ARRAY[1]</var> * <var>B_ARRAY[1]</var> = <var>A_ARRAY[1] * B_ARRAY[1]</var></p>
-			<p data-if="CARRY2[2]">carry = <var>CARRY2[2]</var></p>
-			<p>Write <var>DIGITS2[1]</var> as the digit</p>
-			<p data-if="CARRY2[2]"><var>A_ARRAY[2]</var> * <var>B_ARRAY[1]</var> + <var>CARRY2[2]</var> = <var>A_ARRAY[2] * B_ARRAY[1] + CARRY2[2]</var></p>
-			<p data-else><var>A_ARRAY[2]</var> * <var>B_ARRAY[1]</var> = <var>A_ARRAY[2] * B_ARRAY[1]</var></p>
-			<p>Write <var>DIGITS2[3]</var><var>DIGITS2[2]</var> as the digit</p>
-			<p>Result is <var>DIGITS2[3]</var><var>DIGITS2[2]</var><var>DIGITS2[1]</var><var>DIGITS2[0]</var>0</p>
-			<!-- third multiplicand -->
-			<p>Now do the same with the third digit of the multiplicand and write down two 0's</p>
-			<p><var>A_ARRAY[0]</var> * <var>B_ARRAY[2]</var> = <var>A_ARRAY[0]*B_ARRAY[2]</var></p>
-			<p data-if="CARRY3[1]">carry = <var>CARRY3[1]</var></p>
-			<p>Write <var>DIGITS3[0]</var> as the digit</p>
-			<p data-if="CARRY3[1]"><var>A_ARRAY[1]</var> * <var>B_ARRAY[2]</var> + <var>CARRY3[1]</var> = <var>A_ARRAY[1] * B_ARRAY[2] + CARRY3[1]</var></p>
-			<p data-else><var>A_ARRAY[1]</var> * <var>B_ARRAY[2]</var> = <var>A_ARRAY[1] * B_ARRAY[2]</var></p>
-			<p data-if="CARRY3[2]">carry = <var>CARRY3[2]</var></p>
-			<p>Write <var>DIGITS3[1]</var> as the digit</p>
-			<p data-if="CARRY3[2]"><var>A_ARRAY[2]</var> * <var>B_ARRAY[2]</var> + <var>CARRY3[2]</var> = <var>A_ARRAY[2] * B_ARRAY[2] + CARRY3[2]</var></p>
-			<p data-else><var>A_ARRAY[2]</var> * <var>B_ARRAY[2]</var> = <var>A_ARRAY[2] * B_ARRAY[2]</var></p>
-			<p>Write <var>DIGITS3[3]</var><var>DIGITS3[2]</var> as the digit</p>
-			<p>Result is <var>DIGITS3[3]</var><var>DIGITS3[2]</var><var>DIGITS3[1]</var><var>DIGITS3[0]</var>00</p>
-			<!-- addition -->
-			<p>Now add it all together.</p>
-			<p><var>DIGITS[0]</var> + <var>EX_DIGITS2[0]</var> + <var>EX_DIGITS3[0]</var> = <var>DIGITS[0] + EX_DIGITS2[0] + EX_DIGITS3[0]</var></p>
-			<p data-if="ADDITION_TABLE[1]">carry <var>ADDITION_TABLE[1]</var></p>
-			<!-- second addition -->
-			<p data-if="ADDITION_TABLE[1]"><var>DIGITS[1]</var> + <var>EX_DIGITS2[1]</var> + <var>EX_DIGITS3[1]</var> + <var>ADDITION_TABLE[1]</var> = <var>DIGITS[1] + EX_DIGITS2[1] + EX_DIGITS3[0]+ ADDITION_TABLE[1]</var></p>
-			<p data-else><var>DIGITS[1]</var> + <var>EX_DIGITS2[1]</var> + <var>EX_DIGITS3[1]</var> = <var>DIGITS[1] + EX_DIGITS2[1] +EX_DIGITS3[1]</var></p>
-			<p data-if="ADDITION_TABLE[2]">carry <var>ADDITION_TABLE[2]</var></p>
-			<!-- third addition -->
-			<p data-if="ADDITION_TABLE[2]"><var>DIGITS[2]</var> + <var>EX_DIGITS2[2]</var> + <var>EX_DIGITS3[2]</var> + <var>ADDITION_TABLE[2]</var> = <var>DIGITS[2] + EX_DIGITS2[2] + EX_DIGITS3[2] + ADDITION_TABLE[2]</var></p>
-			<p data-else><var>DIGITS[2]</var> + <var>EX_DIGITS2[2]</var> + <var>EX_DIGITS3[2]</var> = <var>DIGITS[2] + EX_DIGITS2[2] + EX_DIGITS3[2]</var></p>
-			<p data-if="ADDITION_TABLE[3]">carry <var>ADDITION_TABLE[3]</var></p>
-			<!-- fourth addition -->
-			<!-- there is a fourth digit in DIGITS-->
-				<p data-if="DIGITS[3] && ADDITION_TABLE[3]"><var>DIGITS[3]</var> + <var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>DIGITS[3] + EX_DIGITS2[3] + EX_DIGITS3[3] + ADDITION_TABLE[3]</var></p>
-				<p data-if="DIGITS[3] && !ADDITION_TABLE[3]"><var>DIGITS[3]</var> + <var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> = <var>DIGITS[3] + EX_DIGITS2[3] + EX_DIGITS3[3]</var></p>
-				<p data-if="DIGITS[3] && ADDITION_TABLE[4]">carry <var>ADDITION_TABLE[4]</var></p>
-			<!-- there is no fourth digit in DIGITS-->
-				<p data-if="!DIGITS[3] && ADDITION_TABLE[3]"><var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>EX_DIGITS2[3] + EX_DIGITS3[3] + ADDITION_TABLE[3]</var></p>
-				<p data-if="!DIGITS[3] && !ADDITION_TABLE[3]"><var>EX_DIGITS2[3]</var> + <var>EX_DIGITS3[3]</var> = <var>EX_DIGITS2[3] + EX_DIGITS3[3]</var></p>
-				<p data-if="!DIGITS[3] && ADDITION_TABLE[4]">carry <var>ADDITION_TABLE[4]</var></p>
-			<!-- fifth addition -->
-			<!-- there is a fifth digit in EX_DIGITS2-->
-				<p data-if="EX_DIGITS2[4] && ADDITION_TABLE[4]"><var>EX_DIGITS2[4]</var> + <var>EX_DIGITS3[4]</var> + <var>ADDITION_TABLE[4]</var> = <var>EX_DIGITS2[4] + EX_DIGITS3[4] + ADDITION_TABLE[4]</var></p>
-				<p data-else data-if="EX_DIGITS2[4]"><var>EX_DIGITS2[4]</var> + <var>EX_DIGITS3[4]</var> = <var>EX_DIGITS2[4] + EX_DIGITS3[4]</var></p>
-				<p data-if="EX_DIGITS2[4] && ADDITION_TABLE[5] && EX_DIGITS3[5]">carry <var>ADDITION_TABLE[5]</var></p>
-				<p data-if="EX_DIGITS2[4] && ADDITION_TABLE[5] && EX_DIGITS3[5]"><var>ADDITION_TABLE[5]</var> + <var>EX_DIGITS3[5]</var> = <var>EX_DIGITS3[5] + ADDITION_TABLE[5]</var></p>
-				<p data-if="EX_DIGITS2[4] && !ADDITION_TABLE[5] && EX_DIGITS3[5]">pull down <var>EX_DIGITS3[5]</var></p>
-			<!-- there is no fifth digit in EX_DIGITS2-->
-				<p data-if="!EX_DIGITS2[4] && ADDITION_TABLE[4]"><var>EX_DIGITS3[4]</var> + <var>ADDITION_TABLE[4]</var> = <var>EX_DIGITS3[4] + ADDITION_TABLE[4]</var></p>
-				<p data-if="!EX_DIGITS2[4] && !ADDITION_TABLE[4]">pull down <var>EX_DIGITS3[5]</var><var>EX_DIGITS3[4]</var></p>
-				<p data-if="!EX_DIGITS2[4] && ADDITION_TABLE[4] && EX_DIGITS3[5]">pull down <var>EX_DIGITS3[5]</var></p>
-			<p>The sum is <var>RESULT*pow(10, A_SHIFT+B_SHIFT)</var></p>
-			<p>The first multiplicand has <var>A_SHIFT</var> digits after the decimal.</p>
-			<p>The second multiplicand has <var>B_SHIFT</var> digits after the decimal.</p>
-			<p><var>A_SHIFT</var> + <var>B_SHIFT</var> = <var>A_SHIFT+B_SHIFT</var></p>
-			<p>Put the decimal point <var>A_SHIFT+B_SHIFT</var> to the left</p>
-			<p>Final result is:<var>RESULT</var> </p>
+			<div data-each="SMALL_FACTOR_DIGITS as smallIndex, smallDigit" data-unwrap>
+				<div data-each="BIG_FACTOR_DIGITS as bigIndex, bigDigit" class="graphie" data-update="numbers">
+					while( HIGHLIGHTS.length ) {
+						HIGHLIGHTS.pop().remove();
+					}
+					var bigDigit = <var>bigDigit</var>;
+					var bigIndex = <var>bigIndex</var>;
+					var smallIndex = <var>smallIndex</var>;
+					var smallDigit = <var>smallDigit</var>;
+					if ( bigIndex === 0 ) {
+						CARRY = 0;
+					}
+					var product = smallDigit * bigDigit + CARRY;
+					var ones = product % 10;
+					var currCarry = floor( product / 10 );
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ bigDigit ], -bigIndex, 2, "#6495ED" ) );
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ smallDigit ], -smallIndex, 1, "#FF00AF" ) );
+					if ( CARRY ) {
+						HIGHLIGHTS = HIGHLIGHTS.concat( label( [ -bigIndex, 3 ], "\\color{#FFA500}{" + CARRY + "}", "below" ) );
+					}
+					label( [ 2, -smallIndex * BIG_FACTOR_DIGITS.length - bigIndex + 2 ],
+						"\\color{#6495ED}{" + bigDigit + "}"
+						+ "\\times"
+						+ "\\color{#FF00AF}{" + smallDigit + "}"
+						+ ( CARRY ? "+\\color{#FFA500}{" + CARRY + "}" : "" )
+						+ "="
+						+ "\\color{#28AE7B}{" + product + "}", "right" );
+
+					drawDigits( [ ones ], -smallIndex - bigIndex, -smallIndex );
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ ones ], -smallIndex - bigIndex, -smallIndex, "#28AE7B" ) );
+
+					if ( currCarry ) {
+						HIGHLIGHTS = HIGHLIGHTS.concat( label( [ -1 - bigIndex, 3 ], "\\color{#28AE7B}{" + currCarry + "}", "below" ) );
+						if ( bigIndex === BIG_FACTOR_DIGITS.length - 1 ) {
+							drawDigits( [ currCarry ], -smallIndex - bigIndex - 1, -smallIndex );
+							HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ currCarry ], -smallIndex - bigIndex - 1, -smallIndex, "#28AE7B" ) );
+						}
+					}
+					CARRY = currCarry;
+				</div>
+			</div>
+
+			<div data-if="SMALL_FACTOR_DIGITS.length > 1" data-unwrap>
+				<div class="graphie" data-update="numbers">
+					while( HIGHLIGHTS.length ) {
+						HIGHLIGHTS.pop().remove();
+					}
+					path( [ [ -1 - PRODUCT_DIGITS.length, 0.5 - SMALL_FACTOR_DIGITS.length ], [ 1, 0.5 - SMALL_FACTOR_DIGITS.length ] ] );
+					label( [ -1 - PRODUCT_DIGITS.length, 1 - SMALL_FACTOR_DIGITS.length ] ,"\\huge{+\\vphantom{0}}" );
+				</div>
+				<div class="graphie" data-update="numbers">
+					drawDigits( PRODUCT_DIGITS, 1 - PRODUCT_DIGITS.length, -SMALL_FACTOR_DIGITS.length );
+				</div>
+				<div class="graphie" data-update="numbers">
+					label( [ -1 - PRODUCT_DIGITS.length, -SMALL_FACTOR_DIGITS.length * BIG_FACTOR_DIGITS.length + 2 ],
+						"\\text{The top number has " + plural( BIG_FACTOR_DECIMAL, "digit" ) + " to the right of the decimal.}", "right" );
+					label( [ -1 - PRODUCT_DIGITS.length, -SMALL_FACTOR_DIGITS.length * BIG_FACTOR_DIGITS.length + 1 ],
+						"\\text{The bottom number has " + plural( SMALL_FACTOR_DECIMAL, "digit" ) + " to the right of the decimal.}", "right" );
+					label( [ -1 - PRODUCT_DIGITS.length, -SMALL_FACTOR_DIGITS.length * BIG_FACTOR_DIGITS.length ],
+						"\\text{The product has " + BIG_FACTOR_DECIMAL + " + " + SMALL_FACTOR_DECIMAL + " = " + ( SMALL_FACTOR_DECIMAL + BIG_FACTOR_DECIMAL )
+						 + " digits to the right of the decimal.}", "right" );
+					style({
+						fill: "black"
+					}, function() {
+						ellipse( [ -SMALL_FACTOR_DECIMAL - BIG_FACTOR_DECIMAL + 0.5,  -0.2 - SMALL_FACTOR_DIGITS.length ], [ 0.09, 0.06 ] );
+					});
+				</div>
+			</div>
+			<div data-else class="graphie" data-update="numbers">
+				while( HIGHLIGHTS.length ) {
+					HIGHLIGHTS.pop().remove();
+				}
+			</div>
 		</div>
 	</div>
 </body>
