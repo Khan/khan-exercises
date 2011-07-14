@@ -28,7 +28,7 @@ jQuery.extend( Khan.answerTypes, {
 
 			return verifier( correct, val );
 		};
-		ret.solution = correct;
+		ret.solution = jQuery.trim( correct );
 		return ret;
 	},
 
@@ -277,7 +277,7 @@ jQuery.extend( Khan.answerTypes, {
 			}
 			return choice.val() === "1";
 		};
-		ret.solution = solutionText;
+		ret.solution = jQuery.trim( solutionText );
 		return ret;
 	},
 
@@ -304,7 +304,7 @@ jQuery.extend( Khan.answerTypes, {
 		var ret = function() {
 			return verifier( correct, input.val() );
 		};
-		ret.solution = correct;
+		ret.solution = jQuery.trim( correct );
 		return ret;
 	},
 
