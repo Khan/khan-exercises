@@ -898,13 +898,17 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 					
 					// Otherwise load it dynamically
 					} else {
-						jQuery.get( "../khan-exercise.html", function( html ) {
-							if ( window.localStorage ) {
-								// Disabled for now
-								// window.localStorage.khanTmpl = html;
-							}
+						jQuery.ajax( {
+							url: "khan-exercise.html",
+							dataType: "html",
+							success: function( html ) {
+								if ( window.localStorage ) {
+									// Disabled for now
+									// window.localStorage.khanTmpl = html;
+								}
 					
-							handleInject( html );
+								handleInject( html );
+							}
 						});
 					}
 				}
