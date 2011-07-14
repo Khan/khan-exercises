@@ -296,17 +296,22 @@ var Khan = {
 		return bag;
 	},
 
-	makeProblem: function() {
+	makeProblem: function( problemID, seed ) {
+		// Allow passing in a random seed
+		if ( typeof seed !== "undefined" ) {
+			Khan.randomSeed = seed;
+		}
+
 		// Save the seed for later so we can show it when asked
 		Khan.problemSeed = Khan.randomSeed;
 
-		var problem, problemID;
+		var problem;
 
 		// Check to see if we want to test a specific problem
-		if ( Khan.query.problem ) {
+		problemID = typeof problemID !== "undefined" ? problemID : Khan.query.problem;
+		if ( typeof problemID !== "undefined" ) {
 			var problems = jQuery( "body > .exercise > .problems" ).children();
 
-			problemID = Khan.query.problem;
 			problem = /^\d+$/.test( problemID ) ?
 				// Access a problem by number
 				problems.eq( parseFloat( problemID ) ) :
