@@ -6,6 +6,7 @@ var { font-style: normal; }
 .hint_red { color: red; }
 .hint_green { color: green; }
 .hint_gray { color: gray; }
+.hint_purple{ color: purple; }
 #congrats { color: green; }
 #oops { color: red; }
 #workarea { margin-left: 10px; }
@@ -14,8 +15,13 @@ var { font-style: normal; }
 #sidebar ul { list-style: none; margin: 8px; padding: 0; }
 #sidebar li { margin: 10px 0; }
 #sidebar li span.value { padding-left: 5px; }
+<<<<<<< HEAD:css/khan-exercise.css
 #problemarea { margin-right: 310px; position: relative; float: left; }
 
+=======
+#problemarea { margin-right: 310px; position: relative; min-height: 500px;}
+h1, form, #help, #debug, #tester-info, #extras { border: 1px solid #AAA; background: #F0F0F0; padding: 10px; margin: 10px 0; }
+>>>>>>> 30b9f5ec213a5629275fb28065a375a0013749b0:khan-exercise.css
 #debug var { font: 14px Menlo, Courier, monospace; word-wrap: break-word; }
 
 code { font-family: Helvetica, Arial; }
@@ -29,6 +35,14 @@ table.limit th:first-child { text-align: right; }
 .radical { font-size: 125%; padding-left: 6px; }
 .radical span { font-size: 80%; border-top: 2px solid #000; padding: 4px 1px 0 3px; }
 
+body.debug .graphie { outline: 1px dashed red; }
 .graphie svg { position: absolute; top: 0; left: 0; }
 
+<<<<<<< HEAD:css/khan-exercise.css
 #scratchpad { position: absolute; left: -20px; z-index: 1; width: 100%; height: 100%; overflow: hidden; display: none; }
+=======
+#tester-info { background: #fee2a1; }
+#tester-info .box { border: 1px solid black; padding: 2px 4px; margin-left: 5px; }
+
+#scratchpad { display: none; position: absolute; left: -20px; z-index: 1; width: 100%; height: 100%; overflow: hidden; }
+>>>>>>> 30b9f5ec213a5629275fb28065a375a0013749b0:khan-exercise.css

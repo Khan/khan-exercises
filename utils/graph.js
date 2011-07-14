@@ -294,62 +294,6 @@ var NumberLine = {
 	points: {}
 };
 
-function numberLine( startNumber, endNumber, increment ) {
-	NumberLine.startNumber = startNumber;
-	NumberLine.endNumber = endNumber;
-	NumberLine.increment = increment;
-
-	NumberLine.y = present.height / 2;
-	NumberLine.width = present.width - ( 2 * NumberLine.padding );
-
-	// Draw horizontal line
-	var startX = NumberLine.padding;
-	var endX = present.width - NumberLine.padding;
-    present.paper.path( "M" + startX + " " + NumberLine.y + " L" + endX + " " + NumberLine.y );
-
-    // Draw vertical tick marks
-    var distanceBetweenTicks = NumberLine.width /  ( ( endNumber - startNumber ) / increment );
-
-	var number, tickX;
-    for ( number = startNumber, tickX = NumberLine.padding; number <= endNumber; number += increment, tickX += distanceBetweenTicks ) {
-        present.paper.path( "M" + tickX + " " + ( NumberLine.y - NumberLine.tickHeight / 2 ) + " L" + tickX + " " + ( NumberLine.y + NumberLine.tickHeight / 2 ) );
-        present.paper.text( tickX, NumberLine.y + 2 * NumberLine.tickHeight, number ).attr({"font-size": 15});
-    }
-}
-
-// Returns Raphael object, so you can call .attr() again to change color, etc
-function pointOnNumberLine( number ) {
-	var x = NumberLine.getX( number );
-
-	if ( !NumberLine.points[number] ) {
-		NumberLine.points[number] = {"count": 0, "label": present.paper.text( x, NumberLine.y - NumberLine.tickHeight, "" )};
-	}
-
-	NumberLine.points[number].count++;
-
-	if ( NumberLine.points[number].count > 1 ) {
-		NumberLine.points[number].label.attr({text: NumberLine.points[number].count});
-	}
-	return present.paper.circle( x, NumberLine.y, 5 ).attr({"fill": "#6495ED", "stroke": "#6495ED"});
-}
-
-// Returns arrow's line and triangle Raphael objects
-function arrowOnNumberLine( startNumber, endNumber ) {
-	// http://taitems.tumblr.com/post/549973287/drawing-arrows-in-raphaeljs
-	var size = 10;
-	var startX = NumberLine.getX( startNumber );
-	var endX = NumberLine.getX( endNumber );
-
-	var angle = Math.atan( startX - endX, 0 ) * 180 / Math.PI;
-	var line = present.paper.path( "M" + startX + " " + NumberLine.y + " L " + endX + " " + NumberLine.y).attr({"fill": "#FFA500", "stroke": "#FFA500", "stroke-width": 3});
-	var triangle = present.paper.path( "M" + endX + " " + NumberLine.y + " L " + (endX - size) + " " + (NumberLine.y - size / 2)
-						+ " L " + (endX - size) + " " + (NumberLine.y + size / 2)
-						+ " L " + endX + " " + NumberLine.y )
-				.attr({"fill": "#FFA500", "stroke": "#FFA500"})
-				.rotate( 90 + angle, endX, NumberLine.y );
-	return {"line": line, "triangle": triangle};
-}
-
 // Inspired from http://raphaeljs.com/pie.html
 // For a pie with six slices,
 // 1 colored red, 2 #ee33ee and 3 purple, and with a radius of 30px
@@ -419,50 +363,6 @@ function rectchart( division, colors ) {
 	});
 
 	return chart;
-}
-
-function histogram( numbers ) {
-	var set = present.paper.set();
-	var h = {};
-	var keys = [];
-	var max = 0;
-	jQuery.each( numbers, function( index, number ) {
-		if ( !h[number] ) {
-			h[number] = 0;
-			keys.push( number );
-		}
-
-		h[number]++;
-
-		if ( h[number] > max ) {
-			max = h[number];
-		}
-	});
-
-	var padding = 20;
-	var x = padding;
-	var y = present.paper.height - 2 * padding;
-
-	// Draw horizontal line
-    set.push( present.paper.path( "M" + x + " " + y + " L" + ( present.paper.width - padding ) + " " + y ) );
-
-    // Draw vertical tick marks and frequency dots
-	var tickHeight = 15;
-    var distanceBetweenTicks = ( present.width - 2 * padding ) /  ( keys.length - 1 );
-	var distanceBetweenDots = ( present.height - 4 * padding ) / max;
-
-	keys = KhanUtil.sortNumbers( keys );
-
-	jQuery.each( keys, function( index, key ) {
-		set.push( present.paper.path( "M" + x + " " + ( y - tickHeight / 2 ) + " L" + x + " " + ( y + tickHeight / 2 ) ) );
-		set.push( present.paper.text( x, y + 2 * tickHeight, key ).attr({"font-size": 15}) );
-		for ( var i = 0, frequency = h[key]; i < frequency; i++ ) {
-			set.push( present.paper.circle( x, y - (i + 1) * distanceBetweenDots, 5 ).attr({"fill": "#6495ED", "stroke": "#6495ED"}) );
-		}
-		x += distanceBetweenTicks;
-	});
-
-	return set;
 }
 
 function ellipse(center,rx,ry,id) { // coordinates in units

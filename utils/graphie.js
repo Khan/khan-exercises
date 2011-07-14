@@ -292,6 +292,8 @@ var createGraph = function( el ) {
 	};
 
 	var graphie = {
+		raphael: raphael,
+
 		init: function( options ) {
 			var scale = options.scale || [ 40, 40 ];
 			scale = ( typeof scale === "number" ? [ scale, scale ] : scale );
