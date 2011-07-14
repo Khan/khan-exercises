@@ -1,14 +1,8 @@
 <!DOCTYPE html>
-<html data-require="math graph">
+<html data-require="math graphie">
 <head>
 	<title>Functions 1</title>
 	<script src="../khan-exercise.js"></script>
-
-	<style>
-		.function-name {
-			color: orange;
-		}
-	</style>
 </head>
 <body>
 	<div class="exercise">
@@ -45,13 +39,17 @@
 
 		<div class="problems">
 			<div>
-				<p class="question" style="font-size: 32px;">
-					Solve for <code class="function-name">f(<var>CORRECT_X</var>)</code>.
-				</p>
+				<p class="question">The function <code>f(x)</code> is graphed. Find <code>f(<var>CORRECT_X</var>)</code>.</p>
 
-				<div class="graph" style="width: 500px; height: 500px;" data-style="font-size: 20px; font-style: italic; stroke: orange; font-fill: orange;" data-graph-type="plane">
-					text( FUNCTION_PATH[ FUNCTION_PATH.length-2 ], "f(x)", "above" );
-					path( FUNCTION_PATH );
+				<div id="graph" class="graphie">
+					graphInit({ 
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						axisArrows: "->"
+					});
+
+					path( FUNCTION_PATH, { stroke: "#6495ed" } );
 				</div>
 
 				<p class="solution"><var>CORRECT_Y</var></p>
@@ -60,16 +58,26 @@
 
 		<div class="hints">
 			<div>
-				<div class="graph update" data-style="stroke: #9999FF; font-fill: #9999FF; marker: dot; stroke-dash-array: 5,5;">
-					line( [CORRECT_X, 0], FUNCTION_PATH[CORRECT_X+11] );
-					text( [CORRECT_X, CORRECT_Y/2], 'x='+CORRECT_X, right );
+				<p>At what point does <code>f(x)</code> intersect <code>x = <var>CORRECT_X</var></code>?</p>
+				<div class="graphie" data-update="graph">
+					graph.vert = line( [CORRECT_X, -10], [CORRECT_X, 10], {
+						stroke: "#28ae7b",
+						strokeDasharray: "- "
+					} );
+
+					circle( [CORRECT_X, CORRECT_Y], 3/20, {
+						stroke: "none",
+						fill: "black"
+					} );
 				</div>
 			</div>
 
+			<p>They intersect at <code>(<var>CORRECT_X</var>, <var>CORRECT_Y</var>)</code>.</p>
+
 			<div>
-				<div class="graph update" data-style="stroke: #9999FF; font-fill: #9999FF; stroke-dash-array: 5,5;">
-					line( [0, CORRECT_Y], FUNCTION_PATH[CORRECT_X+11] );
-					text( [CORRECT_X/2, CORRECT_Y], 'f('+CORRECT_X+')='+CORRECT_Y, above );
+				<p>Thus, <code>f(<var>CORRECT_X</var>) = <var>CORRECT_Y</var></code>.</p>
+				<div class="graphie" data-update="graph">
+					graph.vert.remove();
 				</div>
 			</div>
 		</div>
