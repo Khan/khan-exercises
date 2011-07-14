@@ -585,37 +585,6 @@ var Khan = {
 		jQuery("body").prepend( html );
 		
 		jQuery(".exercise-title").text( document.title );
-		
-		/*
-		jQuery("body").prepend(
-			'<h1>' + document.title + '</h1>' +
-			'<div id="sidebar">' +
-				'<form action="">' +
-					'<h3>Answer</h3>' +
-					'<div id="solution"></div>' +
-					'<span><input type="submit" id="check" value="Check Answer"></span>' +
-					'<p id="congrats">Congratulations! That answer is correct.</p>' +
-					'<p id="oops">Oops! That answer is not correct, please try again.</p>' +
-					'<span><input type="button" id="next" value="Next Problem"></span>' +
-				'</form>' +
-				'<div id="help">' +
-					'<h3>Need Help?</h3>' +
-					'<span><input type="button" id="gethint" value="Get a Hint"></span>' +
-				'</div>' +
-				'<div id="extras">' +
-					'<input type="button" id="show-more" value="Show next 10 problems">' +
-					'<input type="button" id="show-scratchpad" value="Show scratchpad">' +
-				'</div>' +
-			'</div>' +
-			'<div id="problemarea">' +
-				'<div id="scratchpad"></div>' +
-				'<div id="workarea">' +
-				'</div>' +
-				'<div id="hintsarea"></div>' +
-			'</div>' +
-			'<div id="rawhintsarea"></div>'
-		);
-		*/
 
 		// Hide exercies summaries for now
 		// Will figure out something more elegant to do with them once the new
@@ -764,7 +733,7 @@ var Khan = {
 				button.data( "show", !show );
 			});
 
-		jQuery( "#show-scratchpad" ).data( "show", true )
+		jQuery( "#scratch_pad_show" ).data( "show", true )
 			.click( function() {
 				var button = jQuery( this ),
 					show = button.data( "show" );
@@ -776,20 +745,22 @@ var Khan = {
 							Khan.scratchpad.offsetLeft = jQuery( "#scratchpad" ).offset().left;
 							Khan.scratchpad.offsetTop = jQuery( "#scratchpad" ).offset().top;
 							jQuery( "#scratchpad" ).show();
-							button.val( "Hide scratchpad" );
+							button.text( "Hide scratchpad" );
 						} );
 						
 					} else {
 						jQuery( "#scratchpad" ).show();
-						button.val( "Hide scratchpad" );
+						button.text( "Hide scratchpad" );
 					}
 					
 				} else {
 					jQuery( "#scratchpad" ).hide();
-					button.val( "Show scratchpad" );
+					button.text( "Show scratchpad" );
 				}
 
 				button.data( "show", !show );
+				
+				return false
 			});
 
 		// Prepare for the tester info if requested
