@@ -55,7 +55,7 @@ var Khan = {
 					}\
 				},\
 				\"HTML-CSS\": {\
-					scale: 93,\
+					scale: 100,\
 					availableFonts: [\"TeX\"]\
 				}\
 			});\
