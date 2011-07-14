@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graph graphie math-format">
+<html data-require="graphie math math-format">
 <head>
     <title>Solving for the Y-Intercept</title>
     <script src="../khan-exercise.js"></script>
@@ -26,7 +26,7 @@
                 return "below right";
             } else {
                 return "below left";
-            }            
+            }
         }
     </script>
 </head>
@@ -74,20 +74,18 @@
                 <p><code>y = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + <var>fractionReduce(Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR,SLOPE_DENOMINATOR)</var></code></p>
 
                 <div class="graphie" id="problem1-hint-graph">
+                    // calculate how much we should scale to remain in a 300x300px space.
                     var xScale = 300 / ( X_MAX - X_MIN );
                     var yScale = 300 / ( Y_MAX - Y_MIN );
+                    // scale the point size so it remains at a visible size.
                     var ptSize = 4 / yScale;
+                    
                     init({
                         range: [[X_MIN, X_MAX], [Y_MIN, Y_MAX]],
                         scale: [ xScale, yScale ]
                     });
 
-                    style({
-                        stroke: "red",
-                        strokeWidth: 1
-                    });
-
-                    style( { stroke: "grey" }, 
+                    style( { stroke: "grey", strokeWidth: 1 }, 
                         function() {
                             //draw axis
                             path([ [X_MIN, 0], [X_MAX, 0] ] );
@@ -105,7 +103,8 @@
                     plot(function( x ) {
                         return M * x + B;
                     }, [X_MIN, X_MAX], {
-                        stroke: "red"
+                        stroke: "red",
+                        strokeWidth: 1
                     });
 
                     // Draw points.  (scaled by y-axis size)
