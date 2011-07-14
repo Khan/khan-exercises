@@ -1,8 +1,13 @@
-// Add in the site stylesheet
+// Add in the site stylesheets
 (function(){
 	var link = document.createElement("link");
 	link.rel = "stylesheet";
-	link.href = "../khan-exercise.css";
+	link.href = "../css/khan-site.css";
+	document.getElementsByTagName('head')[0].appendChild(link);
+	
+	link = document.createElement("link");
+	link.rel = "stylesheet";
+	link.href = "../css/khan-exercise.css";
 	document.getElementsByTagName('head')[0].appendChild(link);
 })();
 
@@ -445,14 +450,14 @@ var Khan = {
 
 		if ( Khan.hints.length === 0 ) {
 			// Disable the get hint button
-			jQuery("#gethint").attr( "disabled", true );
+			jQuery("#hint").attr( "disabled", true );
 		}
 
 		// Show the debug info
 		if ( Khan.query.debug != null ) {
 			jQuery( "body" ).keypress( function( e ) {
 				if ( e.charCode === 104 ) {
-					jQuery("#gethint").click();
+					jQuery("#hint").click();
 				}
 			});
 			var debugWrap = jQuery( "#debug" ).empty();
@@ -515,7 +520,12 @@ var Khan = {
 		}
 	},
 
-	injectSite: function() {
+	injectSite: function( html ) {
+		jQuery("body").prepend( html );
+		
+		jQuery(".exercise-title").text( document.title );
+		
+		/*
 		jQuery("body").prepend(
 			'<h1>' + document.title + '</h1>' +
 			'<div id="sidebar">' +
@@ -544,6 +554,7 @@ var Khan = {
 			'</div>' +
 			'<div id="rawhintsarea"></div>'
 		);
+		*/
 
 		// Hide exercies summaries for now
 		// Will figure out something more elegant to do with them once the new
@@ -551,7 +562,7 @@ var Khan = {
 		jQuery( ".summary" ).hide();
 
 		// Watch for a solution submission
-		jQuery("form").submit(function() {
+		jQuery("#check-answer-button").click(function() {
 			// Figure out if the response was correct
 			if ( Khan.validator() ) {
 				// Show a congratulations message
@@ -559,29 +570,37 @@ var Khan = {
 				jQuery("#congrats").show();
 
 				// Toggle the navigation buttons
-				jQuery("#check").hide();
-				jQuery("#next").show().focus();
+				jQuery("#check-answer-button").hide();
+				jQuery("#next-container").show().find("input").focus();
+				
+				jQuery("#happy").show();
+				jQuery("#sad").hide();
 
 			// Otherwise show an error message
 			} else {
 				jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
+				
+				jQuery("#happy").hide();
+				jQuery("#sad").show();
 			}
 
 			return false;
 		});
 
 		// Watch for when the next button is clicked
-		jQuery("#next").click(function() {
+		jQuery("#next-question-button").click(function() {
 			// Erase the old value and hide congrats message
 			jQuery("#congrats").hide();
+			
+			jQuery("#happy").hide();
 
 			// Toggle the navigation buttons
-			jQuery("#check").show();
-			jQuery("#next").blur().hide();
+			jQuery("#check-answer-button").show();
+			jQuery("#next-question-button").blur().parent().hide();
 
 			// Wipe out any previous problem
 			jQuery("#workarea, #hintsarea, #hintsbag").empty();
-			jQuery("#gethint").attr( "disabled", false );
+			jQuery("#hint").attr( "disabled", false );
 			if ( Khan.scratchpad ) {
 				Khan.scratchpad.clear();
 			}
@@ -593,7 +612,7 @@ var Khan = {
 		});
 
 		// Watch for when the "Get a Hint" button is clicked
-		jQuery("#gethint").click(function() {
+		jQuery("#hint").click(function() {
 
 			// Get the first hint and render left in the parallel arrays
 			var hint = Khan.rawHints.shift(),
@@ -645,7 +664,7 @@ var Khan = {
 				var button = jQuery( this ),
 					show = button.data( "show" );
 
-				if( show ) {
+				if ( show ) {
 					button.val( "Try current problem" );
 					jQuery( "#workarea" ).empty();
 					jQuery( "#hintsarea" ).empty();
@@ -653,14 +672,14 @@ var Khan = {
 						Khan.makeProblem();
 						jQuery( "#workarea" ).append( jQuery( "<hr/>" ) );
 					}
+					
 				} else {
 					button.val( "Show next 10 problems" );
 					jQuery( "#workarea, #hintsarea, #rawhintsarea" ).empty();
 					Khan.makeProblem();
 				}
 
-				jQuery( "#sidebar form input" ).attr( "disabled", show );
-				jQuery( "#sidebar #help input" ).attr( "disabled", show );
+				jQuery( "#answerform input[type='button']" ).attr( "disabled", show );
 
 				button.data( "show", !show );
 			});
@@ -669,6 +688,7 @@ var Khan = {
 			.click( function() {
 				var button = jQuery( this ),
 					show = button.data( "show" );
+					
 				if ( show ) {
 					if ( !Khan.scratchpad ) {
 						Khan.loadScripts( [ {src: "../utils/scratchpad.js"} ], function() {
@@ -678,10 +698,12 @@ var Khan = {
 							jQuery( "#scratchpad" ).show();
 							button.val( "Hide scratchpad" );
 						} );
+						
 					} else {
 						jQuery( "#scratchpad" ).show();
 						button.val( "Hide scratchpad" );
 					}
+					
 				} else {
 					jQuery( "#scratchpad" ).hide();
 					button.val( "Show scratchpad" );
@@ -692,7 +714,7 @@ var Khan = {
 
 		// Prepare for the debug info if requested
 		if ( Khan.query.debug != null ) {
-			jQuery( '<div id="debug"></div>' ).appendTo( "#sidebar" );
+			jQuery( '<div id="debug"></div>' ).appendTo( "#answer_area" );
 		}
 	}
 };
@@ -787,20 +809,42 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 
 			jQuery(function() {
 				// Inject the site markup, if it doesn't exist
-				Khan.injectSite();
-
-				// Prepare the "random" problems
-				if ( !Khan.query.problem ) {
-					var problems = jQuery( "body > .exercise > .problems" ).children();
-
-					Khan.weighExercises( problems );
-					Khan.problemBag = Khan.makeProblemBag( problems, Khan.problemCount );
+				if ( jQuery("#answera_area").length === 0 ) {
+					// Pull from the cache if it's already there
+					var tmpl = window.localStorage && window.localStorage.khanTmpl;
+					
+					if ( tmpl ) {
+						handleInject( tmpl );
+					
+					// Otherwise load it dynamically
+					} else {
+						jQuery.get( "../khan-exercise.html", function( html ) {
+							if ( window.localStorage ) {
+								// Disabled for now
+								// window.localStorage.khanTmpl = html;
+							}
+					
+							handleInject( html );
+						});
+					}
 				}
-
-				// Generate the initial problem when dependencies are done being loaded
-				Khan.makeProblem();
 			});
 		});
+		
+		function handleInject( html ) {
+			Khan.injectSite( html );
+			
+			// Prepare the "random" problems
+			if ( !Khan.query.problem ) {
+				var problems = jQuery( "body > .exercise > .problems" ).children();
+
+				Khan.weighExercises( problems );
+				Khan.problemBag = Khan.makeProblemBag( problems, Khan.problemCount );
+			}
+
+			// Generate the initial problem when dependencies are done being loaded
+			Khan.makeProblem();
+		}
 	}
 
 	jQuery.fn.extend({
