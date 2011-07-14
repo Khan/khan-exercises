@@ -8,28 +8,21 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-<!--
--->
-			<var id="X_ORIG">randRange(-8, 8)</var>
-			<var id="Y_ORIG">randRange(-8, 8)</var>
-			<var id="UP_ORIG">abs (Y_ORIG) < 5 ? randRangeNonZero(-1, 1) : -abs (Y_ORIG)/ Y_ORIG</var>
 
-			<var id="X_SHIFT">(X_ORIG > 0 ? randRange(-6, -1) : randRange(1, 6))</var>
+			<var id="X_ORIG">randRange( -8, 8 )</var>
+			<var id="Y_ORIG">randRange( -8, 8 )</var>
+			<var id="UP_ORIG">abs ( Y_ORIG ) &lt; 5 ? randRangeNonZero( -1, 1 ) : -abs ( Y_ORIG )/ Y_ORIG</var>
+
+			<var id="X_SHIFT">( X_ORIG &gt; 0 ? randRange( -6, -1 ) : randRange( 1, 6 ))</var>
 			<var id="FLIP">randRangeNonZero(-1, 1)</var>
-			<var id="Y_SHIFT" data-ensure="abs( Y_SHIFT ) < 7">( UP_ORIG * FLIP == 1 ? randRange(-8 - Y_ORIG, 4 - Y_ORIG) : randRange(-4 - Y_ORIG, 8 - Y_ORIG))</var>
-			<var id="ORIG_FUNC2">UP_ORIG.toString() + "*(x + "+ X_ORIG.toString() + ")^2+" + Y_ORIG.toString()</var>
-
-			<var id="FLIP_FUNC">(FLIP * UP_ORIG).toString() + "*(x + "+ X_ORIG.toString() + ")^2+" + Y_ORIG.toString()</var>
-			<var id="Y_SHIFT_FUNC">(FLIP * UP_ORIG).toString() + "*(x + "+ X_ORIG.toString() + ")^2+" + (Y_ORIG + Y_SHIFT).toString()</var>
-			<var id="FIN_FUNC">(FLIP * UP_ORIG).toString() + "*(x + "+ (X_ORIG + X_SHIFT).toString() + ")^2+" + (Y_ORIG + Y_SHIFT).toString()</var>
+			<var id="Y_SHIFT" data-ensure="abs( Y_SHIFT ) < 7">( UP_ORIG * FLIP == 1 ? randRange( -8 - Y_ORIG, 4 - Y_ORIG ) : randRange( -4 - Y_ORIG, 8 - Y_ORIG ))</var>
 			
-			</div>
+		</div>
 
-<!-- NOTE: Page Formatting is not perfect -->
 		<div class="problems">
-			<div id "type-1">
+			<div id="original">
 
-				<div class="graphie" id="G" style="width: 500px; height: 500px; position:relative; float: right">
+				<div class="graphie" id="G" style="float: right">
 					graphInit({
 						range: 10,
 						scale: 20,
@@ -44,7 +37,7 @@
 					});
 
 					plot( function( x ) {
-						return <var>UP_ORIG</var> * pow(( x + <var>X_ORIG</var>), 2 ) + <var>Y_ORIG</var>;
+						return UP_ORIG * pow(( x + X_ORIG), 2 ) + Y_ORIG;
 					}, [-10, 10]);		
 
 					style({
@@ -52,7 +45,7 @@
 					});
 
 					plot( function( x ) {
-						return <var>FLIP</var> * <var>UP_ORIG</var> * pow(( x + <var>X_ORIG + X_SHIFT</var>), 2 ) + <var>Y_ORIG + Y_SHIFT</var>;
+						return FLIP * UP_ORIG * pow(( x + X_ORIG + X_SHIFT), 2 ) + Y_ORIG + Y_SHIFT;
 					}, [-10, 10]);		
 				</div>
 
@@ -73,10 +66,10 @@
 			</div>
 		</div>
 
-		<div class="hints" style="position:relative; float: left">
+		<div class="hints">
 			<div id="hint1" data-if="FLIP === -1">
 
-				<p class="hint_purple">To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> by multiplying by -1, giving <code>-f(x)</code>.</p>
+				<p class="hint_purple">To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by -1, giving <code>-f(x)</code>.</p>
 
 				<div class="graphie" data-update="G">
 					// FLIP of f(x)
@@ -85,7 +78,7 @@
 					});
 
 					plot( function( x ) {
-						return <var>FLIP</var> * <var>UP_ORIG</var> * pow(( x + <var>X_ORIG</var>), 2 ) + <var>Y_ORIG</var>;
+						return FLIP * UP_ORIG * pow(( x + X_ORIG ), 2 ) + Y_ORIG;
 					}, [-10, 10]);
 
 				</div>
@@ -94,8 +87,8 @@
 
 			<div id="hint2">
 			
-				<p class="hint_green">Shift your function <code>-f(x)</code> <var>(Y_SHIFT > 0 ? "up " : "down ") + abs(Y_SHIFT)</var> units, 
-				                    giving <code><var>expr(["+",["*", FLIP,"f(x)"],Y_SHIFT])</var></code></p>
+				<p class="hint_green">Shift your function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> units, 
+				                    giving <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code></p>
 
 				<div class="graphie" data-update="G">
 					// Add Y-SHIFT
@@ -107,7 +100,7 @@
 					});
 
 					plot( function( x ) {
-						return <var>FLIP</var> * <var>UP_ORIG</var> * pow(( x + <var>X_ORIG</var>), 2 ) + <var>Y_ORIG + Y_SHIFT</var>;
+						return FLIP * UP_ORIG * pow(( x + X_ORIG ), 2 ) + Y_ORIG + Y_SHIFT;
 					}, [-10, 10]); strokeDasharray: "- "
 
 					style({
@@ -115,13 +108,13 @@
 						strokeDasharray: ""
 					});
 
-					path([ [<var>-X_ORIG</var>, <var>Y_ORIG</var>], [<var>-X_ORIG</var>, <var>Y_ORIG + Y_SHIFT</var>] ]);
+					path([ [-X_ORIG, Y_ORIG], [-X_ORIG, Y_ORIG + Y_SHIFT] ]);
 				</div>
 			</div>
 			
 			<div id="hint3">
-				<p class="hint_blue">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"],Y_SHIFT])</var></code> <var>(X_SHIFT > 0 ? "left " : "right ") + abs(X_SHIFT)</var> units, 
-				    giving <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
+				<p class="hint_blue">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)</var> units, 
+				    giving <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</p>
 				<p>We now know that <code>g(x)</code> = <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
 
 				<div class="graphie" data-update="G">
@@ -133,7 +126,7 @@
 						strokeDasharray: ""
 					});
 
-					path([ [<var>-X_ORIG</var>, <var>Y_ORIG + Y_SHIFT</var>], [<var>-X_ORIG - X_SHIFT</var>, <var>Y_ORIG + Y_SHIFT</var>] ]);
+					path([ [ -X_ORIG, Y_ORIG + Y_SHIFT ], [ -X_ORIG - X_SHIFT , Y_ORIG + Y_SHIFT] ]);
 				</div>
 			</div>
 
