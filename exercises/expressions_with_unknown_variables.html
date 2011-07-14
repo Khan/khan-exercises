@@ -17,22 +17,24 @@
 			<var id="COEFF_XY">randRange( 1, 10 )</var>
 
 			
-			<var id="STRING_ARRAY">	var ar= new Array();
-						ar.push(' + ' +COEFF_AB+'a');
-						ar.push(' + ' + COEFF_AB+'b');
+			<var id="STRING_ARRAY">	function(){
+						var ar= new Array();
+						ar.push( ' + ' + COEFF_AB + 'a' );
+						ar.push( ' + ' + COEFF_AB + 'b' );
 						if(NUM_AB > 2){
-							ar.push(' + ' +COEFF_AB+'c');
+							ar.push( ' + ' + COEFF_AB+'c' );
 						}
 						if(NUM_XY>0){
-							ar.push(' + ' +COEFF_XY+'x');
-	                                                ar.push(' + ' +COEFF_XY+'y');
+							ar.push( ' + ' + COEFF_XY + 'x' );
+	                                                ar.push( ' + ' + COEFF_XY + 'y' );
 						}
 						if(NUM_XY>2){
-							ar.push(' + ' + COEFF_XY+'z');			
+							ar.push( ' + ' + COEFF_XY + 'z' );			
 						}
-						ar=shuffle(ar);
-						ar[0]=ar[0].substring(3)
+						ar = shuffle(ar);
+						ar[0] = ar[0].substring(3)
 						return ar;
+						}()
 			</var>
 			<var id="SOLUTION">( COEFF_AB * AB ) + ( NUM_XY > 0 ? COEFF_XY * XY : 0 )</var>
 		</div>
@@ -51,9 +53,9 @@
 				<p><code><span data-each="STRING_ARRAY as value"><var>value</var></span></code> ?</p>
 				<p><code> = <var>COEFF_AB</var>a + </code> <code> <var> COEFF_AB</var>b </code><code data-if="NUM_AB>2"> + <var> COEFF_AB</var>c </code><code data-if="NUM_XY>0"> + <var> COEFF_XY</var> x + <var>COEFF_XY</var> y </code><code data-if="NUM_XY>2"> + <var>COEFF_XY</var> z </code></p>
 			
-				<p><code> = <var>COEFF_AB</var> * ( a + b </code> <code data-if="NUM_AB>2"> + c </code><code> ) </code><code data-if="NUM_XY>0"> + <var>COEFF_XY</var> * ( x + y  <span data-if="NUM_XY>2"> + c </span> ) </code></p>
+				<p><code> = <var>COEFF_AB</var> \cdot ( a + b </code> <code data-if="NUM_AB>2"> + c </code><code> ) </code><code data-if="NUM_XY>0"> + <var>COEFF_XY</var> \cdot ( x + y  <span data-if="NUM_XY>2"> + z </span> ) </code></p>
 				
-				<p><code> = <var>COEFF_AB</var> * ( <var> AB </var> ) </code><code data-if="NUM_XY>0"> + <var>COEFF_XY</var> * ( <var> XY </var> ) </code></p>
+				<p><code> = <var>COEFF_AB</var> \cdot ( <var> AB </var> ) </code><code data-if="NUM_XY>0"> + <var>COEFF_XY</var> \cdot ( <var> XY </var> ) </code></p>
 				<p data-if="NUM_XY>0"> <code> = <var> COEFF_AB * AB </var> + <var> COEFF_XY * XY </var> </code> </p> 
 				<p><code>=  <var>SOLUTION </var> </code></p>
 
