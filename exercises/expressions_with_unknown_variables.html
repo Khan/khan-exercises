@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math">
 <head>
-	<title>Expressions with unknown variables</title>
+	<title>Expressions With Unknown Variables</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -9,13 +9,13 @@
 		<div class="vars">
 			<var id="COEFF_AB">randRange( 1, 10 )</var>
 			<var id="AB">randRange( 1, 10 )</var>
-			<var id="NUM_AB">randRange(2,3)</var>
 			
+			<var id="NUM_AB">randRange( 2, 3 )</var>
+
 			<var id="XY">randRange( 1, 10 )</var>
-			<var id="NUM_XY">randRange(0,3,1)</var>
+			<var id="NUM_XY">randRangeExclude( 0, 3, [1] )</var>
 			<var id="COEFF_XY">randRange( 1, 10 )</var>
 
-			<var id="SOLUTION">(COEFF_AB * AB)+(COEFF_XY * XY * ceil(NUM_XY/3))</var>
 			
 			<var id="STRING_ARRAY">	var ar= new Array();
 						ar.push(' + ' +COEFF_AB+'a');
@@ -34,6 +34,7 @@
 						ar[0]=ar[0].substring(3)
 						return ar;
 			</var>
+			<var id="SOLUTION">( COEFF_AB * AB ) + ( NUM_XY > 0 ? COEFF_XY * XY : 0 )</var>
 		</div>
 
 		<div class="problems">
@@ -41,6 +42,7 @@
 				<p class="problem">If <code>a + b </code><code data-if="NUM_AB>2"> + c </code><code> = <var>AB</var></code><span data-if="NUM_XY>0"> and <code> x + y </code> <code data-if="NUM_XY>2"> + z </code> = <code> <var> XY</var> </code> </span>   </p>
 				
 	<p class="question">Then, what is <code><span data-each="STRING_ARRAY as value"><var>value</var></span></code> ?</p>
+
 				<p class="solution"><var>SOLUTION</var></p>
 			</div>
 		</div>
@@ -54,6 +56,7 @@
 				<p><code> = <var>COEFF_AB</var> * ( <var> AB </var> ) </code><code data-if="NUM_XY>0"> + <var>COEFF_XY</var> * ( <var> XY </var> ) </code></p>
 				<p data-if="NUM_XY>0"> <code> = <var> COEFF_AB * AB </var> + <var> COEFF_XY * XY </var> </code> </p> 
 				<p><code>=  <var>SOLUTION </var> </code></p>
+
 
 		</div>
 	</div>

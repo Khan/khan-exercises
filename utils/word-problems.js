@@ -117,10 +117,6 @@ jQuery.extend( KhanUtil, {
 });
 
 jQuery.fn[ "word-problemsLoad" ] = function() {
-	if(!this.is(".exercise")) {
-		return;
-	}
-
 	var people = KhanUtil.shuffle([
 		["Ashley", "f"],
 		["Brandon", "m"],
