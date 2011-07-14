@@ -20,53 +20,63 @@
 			(random () > 0.5)
 		</var > 
 		<var id = "HAS_DOT" > 
-			if (IS_ZERO){
+			if ( IS_ZERO ){
 				return true;
 			}
-			return (random () > 0.5);
+			return ( random () > 0.5 );
 		</var >
 		<var id = "RIGHTSIDE" > 
-			randRange (1, 9, randRange (1, 6)).join ('')
+			randRange ( 1, 9, randRange (1, 6) ).join ('')
 		</var > 
 		<var id = "LEFTSIDE" > 
-			if (IS_ZERO){
+			function() {
+			if ( IS_ZERO ){
 				return '0';
 			}
-			return randRange (1, 9, randRange (1, 4)).join ('');
+			return randRange ( 1, 9, randRange (1, 4) ).join ('');
+			}()
 		</var > 
-		<var id = "TOTAL" > 
-			if (HAS_DOT){
+		<var id = "TOTAL" >
+			function(){
+			if ( HAS_DOT ){
 				return LEADING + LEFTSIDE + '.' + RIGHTLEADING + RIGHTSIDE + TRAILING;
 			}
 			else
 			{
 				return LEADING + LEFTSIDE + TRAILING;
 			}	
+			}()
 		</var > 
 		<var id = "SOLUTION" > 
-			if (IS_ZERO){
-				return RIGHTSIDE.length + RIGHTLEADING.length + TRAILING.length;
+			function(){
+			if ( IS_ZERO ){
+				return RIGHTSIDE.length + TRAILING.length;
 			}
-			if (HAS_DOT){
+			if ( HAS_DOT ){
 				return LEFTSIDE.length + RIGHTLEADING.length + RIGHTSIDE.length + TRAILING.length;
 			}
 			return LEFTSIDE.length;
+			}()
 		</var >
 
 		<var id="PROPER_LEADING">
-			  if (IS_ZERO){
+			function(){
+			  if ( IS_ZERO ){
                                 return LEADING+LEFTSIDE+'.'+ RIGHTLEADING;
                          }
                         	return LEADING;
+			}()
                       </var>
 		<var id="INBETWEEN">
-			  if (IS_ZERO){
+			function(){
+			  if ( IS_ZERO ){
                                 return RIGHTSIDE;
                         }
-                        if (HAS_DOT){
+                        if ( HAS_DOT ){
                         	return LEFTSIDE+'.'+ RIGHTLEADING + RIGHTSIDE;
                         }
                         return LEFTSIDE;
+			}()
 		</var> 
                        
 
@@ -89,7 +99,7 @@
 		<p data-if="(TRAILING.length>0)&&HAS_DOT"> <code class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code class="hint_blue"><var>TRAILING</var></code>
                		Since there is a decimal, trailing zeros are significant.</p>
      
-	   	<p data-if="TRAILING.length>0&&(!HAS_DOT)"> <code class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code><var class="hint_orange">TRAILING</var></code>
+	   	<p data-if="TRAILING.length>0&&(!HAS_DOT)"> <code class="hint_orange"><var>PROPER_LEADING</var></code><code class="hint_blue"><var>INBETWEEN</var></code><code class="hint_orange"><var>TRAILING</var></code>
                		 Since there is no decimal, trailing zeros are not significant.</p>
 		<p> Counting all the significant digits gives us <var>SOLUTION</var></p>	
 			
