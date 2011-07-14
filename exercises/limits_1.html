@@ -68,7 +68,7 @@
 					<var id="r_limtoa">abs_coef</var>
 				</div>
 
-				<p><code>\lim_{x\to<var>a</var>} \dfrac{<var>abs_coef</var>|x + <var>abs_cons</var>|}{x + <var>abs_cons</var>} \quad\quad = ?</code></p>
+				<p><code>\displaystyle \lim_{x\to<var>a</var>} \dfrac{<var>abs_coef</var>|x + <var>abs_cons</var>|}{x + <var>abs_cons</var>} = {?}</code></p>
 				<div class="graphie" id="graph">
 					graphInit({
 						range: 10,
@@ -120,14 +120,10 @@
 					<var id="r_limtoa">limtoa</var>
 				</div>
 
-				<p><code>\begin{align*}
-					\lim_{x\to<var>a</var>} f(x) & \\
-					\text{where} \quad f(x) & = \left \{
-					\begin{array}{1 1}
-						<var>d_line</var> &\quad \text{if} \quad x \neq <var>a</var>\\
-						<var>d_cons</var> &\quad \text{if} \quad x = <var>a</var>\\
-					\end{array} \right.
-					\end{align*}</code></p>
+				<p>If <code>f(x) = \begin{cases}
+					<var>d_cons</var> & \text{if $x = <var>a</var>$} \\
+					<var>d_line</var> & \text{otherwise}
+				\end{cases}</code>, find <code>\displaystyle \lim_{x \to <var>a</var>} f(x)</code>.</p>
 				<div class="graphie" id="graph">
 					graphInit({
 						range: 10,
@@ -173,7 +169,7 @@
 					<var id="r_limtoa">limtoa</var>
 				</div>
 
-				<p><code>\lim_{x\to<var>a</var>} <var>q_lcoef</var>x^2 + <var>q_cons</var> \quad\quad = ?</code></p>
+				<p><code>\displaystyle \lim_{x\to<var>a</var>} <var>q_lcoef</var>x^2 + <var>q_cons</var> = {?}</code></p>
 				<div class="graphie" id="graph">
 					graphInit({
 						range: 10,
