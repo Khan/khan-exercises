@@ -1,46 +1,32 @@
 <!DOCTYPE html>
-<html data-require="math graph math-format">
+<html data-require="math graph graphie math-format">
 <head>
     <title>Solving for the Y-Intercept</title>
     <script src="../khan-exercise.js"></script>
 
     <script type="text/javascript">
         function p1Position( x1, y1, x2, y2 ) {
-            var p = aboveright;
-
             if ( ( y1 > y2 ) && ( x1 > x2 ) ) {
-                p = aboveright;
-
+                return "above right";
             } else if ( ( y1 > y2 ) && ( x1 < x2 ) ) {
-                p = aboveleft;
-
+                return "above left";
             } else if ( ( y1 < y2 ) && ( x1 < x2 ) ) {
-                p = belowleft;
-
+                return "below left";
             } else {
-                p = belowright;
+                return "below right";
             }
-
-            return p;
         }
 
         function p2Position( x1, y1, x2, y2 ) {
-            var p = aboveright;
-
             if ( ( y1 > y2 ) && ( x1 > x2 ) ) {
-                p = belowleft;
-
+                return "below left";
             } else if ( ( y1 > y2 ) && ( x1 < x2 ) ) {
-                p = belowright;
-
+                return "below right";
             } else if ( ( y1 < y2 ) && ( x1 < x2 ) ) {
-                p = aboveright;
-
+                return "above right";
             } else {
-                p = aboveleft;
-            }
-
-            return p;
+                return "above left";
+            }            
         }
     </script>
 </head>
@@ -87,26 +73,50 @@
                 <p><code>b = <var>fractionReduce( Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var></code></p>
                 <p><code>y = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + <var>fractionReduce(Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR,SLOPE_DENOMINATOR)</var></code></p>
 
-                <div class="graph" style="width: 300px; height: 300px;" data-style="stroke: red; marker: none; font-size: 16;">
-                    initPicture( X_MIN, X_MAX, Y_MIN, Y_MAX );
-                    axes();
+                <div class="graphie" id="problem1-graph">
+                    var xScale = 300 / ( X_MAX - X_MIN );
+                    var yScale = 300 / ( Y_MAX - Y_MIN );
+                    var ptSize = 4 / yScale;
+                    init({
+                        range: [[X_MIN, X_MAX], [Y_MIN, Y_MAX]],
+                        scale: [ xScale, yScale ]
+                    });
 
-                    // initPicture reset the styles
-                    stroke = "red";
-                    marker = "none";
-                    fontsize = "16";
+                    style({
+                        stroke: "red",
+                        strokeWidth: 1
+                    });
+
+                    style( { stroke: "grey" }, 
+                        function() {
+                            //draw axis
+                            path([ [X_MIN, 0], [X_MAX, 0] ] );
+                            path([ [0, Y_MIN], [0,Y_MAX]]);
+                            
+                            //draw tick marks
+                            for(var i = X_MIN+1; i < X_MAX; i++) {
+                                path( [ [i, -0.15], [i, 0.15] ], {strokeWidth: 0.5});
+                            }
+                            for(var i = Y_MIN+1; i < Y_MAX; i++) {
+                                path( [ [-0.15, i], [0.15, i] ], {strokeWidth: 0.5});
+                            }
+                        });
 
                     plot(function( x ) {
                         return M * x + B;
+                    }, [X_MIN, X_MAX], {
+                        stroke: "red"
                     });
+
+                    // Draw points.  (scaled by y-axis size)
+                    ellipse( [X1, Y1], [ptSize * yScale/xScale, ptSize],
+                        {stroke: "black", fill: "yellow"});
+                    label([ X1, Y1], "(" + X1 + ", " + Y1 + ")", p1Position(X1, Y1, X2, Y2) );
+                    ellipse( [X2, Y2], [ptSize * yScale/xScale, ptSize],
+                        {stroke: "black", fill: "yellow"});
+                    label([ X2, Y2], "(" + X2 + ", " + Y2 + ")", p2Position(X1, Y1, X2, Y2) );
                 </div>
 
-                <div class="graph update" data-style="stroke: none; marker: dot;">
-                    line( [X1, Y1], [X2, Y2] );
-
-                    text( [X1, Y1], "("+X1+", "+Y1+")", p1Position(X1, Y1, X2, Y2) );
-                    text( [X2, Y2], "("+X2+", "+Y2+")", p2Position(X1, Y1, X2, Y2) );
-                </div>
             </div>
         </div>
     </div>
