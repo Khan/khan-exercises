@@ -17,7 +17,7 @@ var { font-style: normal; }
 #sidebar li { margin: 10px 0; }
 #sidebar li span.value { padding-left: 5px; }
 #problemarea { margin-right: 310px; position: relative; min-height: 500px;}
-h1, form, #help, #debug, #extras { border: 1px solid #AAA; background: #F0F0F0; padding: 10px; margin: 10px 0; }
+h1, form, #help, #debug, #tester-info, #extras { border: 1px solid #AAA; background: #F0F0F0; padding: 10px; margin: 10px 0; }
 #debug var { font: 14px Menlo, Courier, monospace; word-wrap: break-word; }
 h3 { color: #666; margin: 0; font-weight: normal; }
 code { font-family: Helvetica, Arial; }
@@ -33,5 +33,8 @@ input[type=text] { width: 80px;	}
 
 body.debug .graphie { outline: 1px dashed red; }
 .graphie svg { position: absolute; top: 0; left: 0; }
+
+#tester-info { background: #fee2a1; }
+#tester-info .box { border: 1px solid black; padding: 2px 4px; margin-left: 5px; }
 
 #scratchpad { display: none; position: absolute; left: -20px; z-index: 1; width: 100%; height: 100%; overflow: hidden; }

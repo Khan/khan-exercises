@@ -139,6 +139,11 @@ var Khan = {
 	// Where we are in the shuffled list of problem types
 	problemBagIndex: 0,
 
+	dataDump: {
+		"exercise": window.location.pathname.match(/[\/\\]([^\/\\]+)\.html/)[1],
+		"problems": []
+	},
+
 	// Load in a collection of scripts, execute callback upon completion
 	loadScripts: function( urls, callback ) {
 		var loaded = 0,
@@ -247,50 +252,65 @@ var Khan = {
 	makeProblemBag: function( problems, n ) {
 		var bag = [], totalWeight = 0;
 
-		// Collect the weights for the problems and find the total weight
-		var weights = jQuery.map( problems, function( elem, i ) {
-			elem = jQuery( elem );
+		if ( Khan.query.test != null ) {
+			// Just do each problem 10 times
+			jQuery.each( problems, function( i, elem ) {
+				elem = jQuery( elem );
+				elem.data( "id", elem.attr( "id" ) || "" + i );
 
-			var exercise = elem.parents( ".exercise" ).eq( 0 );
-			var exerciseWeight = exercise.data( "weight" );
-			exerciseWeight = exerciseWeight !== undefined ? exerciseWeight : 1;
-			var exerciseTotal = exercise.data( "weight-sum" );
+				for( var j = 0; j < Khan.problemCount; j++ ) {
+					bag.push( problems.eq( i ) );
+				}
+			} );
 
-			var weight = elem.data( "weight" );
-			weight = weight !== undefined ? weight : 1;
+			Khan.problemCount = bag.length;
 
-			if ( exerciseTotal !== undefined ) {
-				weight = weight * exerciseWeight / exerciseTotal;
-				elem.data( "weight", weight );
-			}
+		} else {
+			// Collect the weights for the problems and find the total weight
+			var weights = jQuery.map( problems, function( elem, i ) {
+				elem = jQuery( elem );
 
-			// Also write down the index/id for each problem so we can do
-			// links to problems (?problem=17)
-			elem.data( "id", elem.attr( "id" ) || "" + i );
+				var exercise = elem.parents( ".exercise" ).eq( 0 );
+				var exerciseWeight = exercise.data( "weight" );
+				exerciseWeight = exerciseWeight !== undefined ? exerciseWeight : 1;
+				var exerciseTotal = exercise.data( "weight-sum" );
 
-			totalWeight += weight;
-			return weight;
-		});
+				var weight = elem.data( "weight" );
+				weight = weight !== undefined ? weight : 1;
 
-		while( n ) {
-			bag.push( (function() {
-				// Figure out which item we're going to pick
-				var index = totalWeight * KhanUtil.random();
-
-				for ( var i = 0; i < problems.length; i++ ) {
-					if ( index < weights[i] || i === problems.length - 1 ) {
-						var w = Math.min( weights[i], totalWeight / ( n-- ) );
-						weights[i] -= w;
-						totalWeight -= w;
-						return problems.eq( i );
-					} else {
-						index -= weights[i];
-					}
+				if ( exerciseTotal !== undefined ) {
+					weight = weight * exerciseWeight / exerciseTotal;
+					elem.data( "weight", weight );
 				}
 
-				// This will never happen
-				return Khan.error("makeProblemBag got confused w/ index " + index);
-			})() );
+				// Also write down the index/id for each problem so we can do
+				// links to problems (?problem=17)
+				elem.data( "id", elem.attr( "id" ) || "" + i );
+
+				totalWeight += weight;
+				return weight;
+			});
+
+			while( n ) {
+				bag.push( (function() {
+					// Figure out which item we're going to pick
+					var index = totalWeight * KhanUtil.random();
+
+					for ( var i = 0; i < problems.length; i++ ) {
+						if ( index < weights[i] || i === problems.length - 1 ) {
+							var w = Math.min( weights[i], totalWeight / ( n-- ) );
+							weights[i] -= w;
+							totalWeight -= w;
+							return problems.eq( i );
+						} else {
+							index -= weights[i];
+						}
+					}
+
+					// This will never happen
+					return Khan.error("makeProblemBag got confused w/ index " + index);
+				})() );
+			}
 		}
 
 		return bag;
@@ -323,10 +343,11 @@ var Khan = {
 		// we made earlier to ensure that every problem gets shown the
 		// appropriate number of times
 		} else {
-			problem = Khan.problemBag[ Khan.problemBagIndex ];
+			problem = Khan.problemBag[ Khan.problemBagIndex % Khan.problemCount ];
 			problemID = problem.data( "id" );
 
-			Khan.problemBagIndex = ( Khan.problemBagIndex + 1 ) % Khan.problemCount;
+			// Do the % above instead of here so that testing can count better
+			Khan.problemBagIndex = ( Khan.problemBagIndex + 1 );
 		}
 
 		// Find which exercise this problem is from
@@ -433,7 +454,7 @@ var Khan = {
 		Khan.rawHints = Khan.hints.clone()
 
 			// FIXME: Should apply templating here without rendering MathJax, but
-			// that's currently not possible. 
+			// that's currently not possible.
 			.tmpl()
 
 			// Save as a normal JS array so we can use shift() on it later
@@ -456,6 +477,36 @@ var Khan = {
 		// Hook out for exercise test runner
 		if ( parent !== window && typeof parent.jQuery !== "undefined" ) {
 			parent.jQuery( parent.document ).trigger( "problemLoaded" );
+		}
+
+		// Save problem info in dump data for testers
+		if ( Khan.query.test != null ) {
+			var testerInfo = jQuery( "#tester-info" );
+
+			var lastProblem = {
+				seed: Khan.problemSeed,
+				type: problemID,
+				VARS: jQuery.tmpl.VARS,
+				solution: Khan.validator.solution
+			};
+
+			// Clone lastProblem to avoid some straaaange bugs
+			lastProblem = JSON.parse( JSON.stringify( lastProblem ) );
+			Khan.dataDump.problems.push( lastProblem );
+
+			jQuery( testerInfo ).find( ".problem-no" )
+				.text( Khan.problemBagIndex + " of " + Khan.problemCount );
+
+			var answer = jQuery( testerInfo ).find( ".answer" ).empty();
+
+			var displayedSolution = Khan.validator.solution;
+			if ( !jQuery.isArray( displayedSolution ) ) {
+				displayedSolution = [ displayedSolution ];
+			}
+
+			jQuery.each( displayedSolution, function( i, el ) {
+				jQuery( "<span>" ).text( el ).addClass( "box" ).appendTo( answer );
+			} );
 		}
 
 		// Show the debug info
@@ -573,7 +624,10 @@ var Khan = {
 
 				// Toggle the navigation buttons
 				jQuery("#check").hide();
-				jQuery("#next").show().focus();
+
+				if ( Khan.query.test == null ) {
+					jQuery("#next").show().focus();
+				}
 
 			// Otherwise show an error message
 			} else {
@@ -599,8 +653,28 @@ var Khan = {
 				Khan.scratchpad.clear();
 			}
 
-			// Generate a new problem
-			Khan.makeProblem();
+			if ( Khan.query.test != null && Khan.problemBagIndex >= Khan.problemCount ) {
+				// Show the dump data
+				jQuery( "#problemarea" ).append(
+					"<p>Thanks! You're all done testing this exercise.</p>" +
+					"<p>Please copy the text below and send it to us.</p>"
+				);
+
+				jQuery( "<textarea>" )
+					.val( "Khan.testExercise(" + JSON.stringify( Khan.dataDump ) + ");" )
+					.css({ width: "60%", height: "200px" })
+					.prop( "readonly", true )
+					.click( function() {
+						this.focus();
+						this.select();
+					} )
+					.appendTo( "#problemarea" );
+
+				jQuery( "#sidebar" ).hide();
+			} else {
+				// Generate a new problem
+				Khan.makeProblem();
+			}
 		});
 
 		// Watch for when the "Get a Hint" button is clicked
@@ -700,6 +774,32 @@ var Khan = {
 
 				button.data( "show", !show );
 			});
+
+		// Prepare for the tester info if requested
+		if ( Khan.query.test != null ) {
+			jQuery( "#sidebar" ).prepend(
+				'<div id="tester-info">' +
+					'<h3>Testing Mode</h3>' +
+					'<p><strong>Problem No.</strong> <span class="problem-no">hm.</span></p>' +
+					'<p><strong>Answer:</strong> <span class="answer"></span></p>' +
+					'<p>' +
+						'<input type="button" class="pass" value="This problem was generated correctly.">' +
+						'<input type="button" class="fail" value="There is an error in this problem.">' +
+					'</p>' +
+				'</div>'
+			);
+
+			jQuery( "#tester-info .pass" ).click( function() {
+				Khan.dataDump.problems[ Khan.dataDump.problems.length - 1 ].pass = true;
+				jQuery( "#next" ).trigger( "click" );
+			} );
+
+			jQuery( "#tester-info .fail" ).click( function() {
+				Khan.dataDump.problems[ Khan.dataDump.problems.length - 1 ].pass =
+					prompt( "Please write a short description of the error, then click OK." );
+				jQuery( "#next" ).trigger( "click" );
+			} );
+		}
 
 		// Prepare for the debug info if requested
 		if ( Khan.query.debug != null ) {

@@ -44,8 +44,8 @@ jQuery.extend(Khan, {
 						deepEqual( VARS[key], problem.VARS[key], "var " + key );
 					}
 
-					equal( iKhan.validator.solution, problem.solution, "solution" )
-					ok( problem.pass, "pass" )
+					deepEqual( iKhan.validator.solution, problem.solution, "solution" )
+					strictEqual( problem.pass, true, "pass" )
 
 					start();
 				} );
