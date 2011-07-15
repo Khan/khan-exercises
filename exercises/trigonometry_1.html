@@ -34,10 +34,10 @@
 				<var id="AC">randRange(3, 10)</var>
 				<var id="BC">randRange(3, 10)</var>
 				<var id="CB">BC</var>
+				<var id="AB">AC * AC + BC * BC</var>
 				<var id="AB_STRING">formattedSquareRootOf(AC * AC + BC * BC)</var>
 				<ul id="ANGLE">
 					<li>"ABC"</li>
-					<li>"ACB"</li>
 					<li>"BAC"</li>
 				</ul>
 				<var id="OPPOSITE_NAME">(ANGLE.substring(0,1)+ANGLE.substring(2))</var>
@@ -70,13 +70,37 @@
 					})()
 
 				</var>
+				<var id="TAN">
+					fractionReduce(OPPOSITE_VALUE,ADJACENT_VALUE,false,false)	
+				</var>
+				<var id="SIN">
+					function(){
+						var gd = getGCD( splitRadical(AB)[0] , OPPOSITE_VALUE );
+						if( gd != 1 ){
+							return  "\\frac{" + OPPOSITE_VALUE/gd + "}{" + splitRadical(AB)[0]/gd + "\\sqrt{" + splitRadical(AB)[1] + "}}";
+						}
+						else{
+							 return "\\frac{" + OPPOSITE_VALUE + "}{" +AB_STRING+ "}";
+						}
+					}()
+				</var>
+				<var id="COS">
+					function(){
+						var gd = getGCD( splitRadical(AB)[0] , ADJACENT_VALUE );
+						if( gd != 1 ){
+							return  "\\frac{" + ADJACENT_VALUE/gd + "}{" + splitRadical(AB)[0]/gd + "\\sqrt{" + splitRadical(AB)[1] + "}}";
+						}
+						else{
+							 return "\\frac{" + ADJACENT_VALUE + "}{" +AB_STRING+ "}";
+						}
+					}()
+				</var>
+		
+					
 			</div>
 
 	<div class="problems">
 		<div id="sin">
-			<div class="vars">
-				<var id="SOLUTION_PRETTY">"\\frac{" + OPPOSITE_VALUE + "}{" +AB_STRING+ "}"</var> 
-			</div>
 			<div class="problem">
 				<p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p> 
 				<p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p> 
@@ -91,12 +115,11 @@
 			</div>
 
 			<div class="solution">
-				<code><var>SOLUTION_PRETTY</var></code>
+				<code><var>SIN</var></code>
 			</div>
 			<ul class="choices" data-none="true">
-				    <li><code>\frac{<var>ADJACENT_VALUE</var>}{<var>OPPOSITE_VALUE</var>}</code></li>
-				    <li><code>\frac{<var>OPPOSITE_VALUE</var>}{<var>ADJACENT_VALUE</var>}</code></li>
-				    <li><code>\frac{<var>ADJACENT_VALUE</var>}{<var>AB_STRING</var>}</code></li>
+				    <li><code><var>COS</var></code></li>
+				    <li><code><var>TAN</var></code></li>
 			</ul>
 
 			<div class="hints" data-apply="appendContents">
@@ -104,14 +127,11 @@
 				<p><b>S</b>in=<b>O</b>pposite over <b>H</b>ypotenuse</p>
 				<p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
 				<p>hypothenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
-				<p><code>\sin(<var>ANGLE</var>)=<var>SOLUTION_PRETTY</var></code></p>
+				<p><code>\sin(<var>ANGLE</var>)=<var>SIN</var></code></p>
 			</div>
 		</div>
 
 		 <div id="cos">
-                        <div class="vars">
-                                <var id="SOLUTION_PRETTY">"\\frac{" + ADJACENT_VALUE + "}{" +AB_STRING+ "}"</var>
-                        </div>
                         <div class="problem">
                                 <p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
                                 <p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p>
@@ -126,26 +146,23 @@
                         </div>
 
                         <div class="solution">
-                                <code><var>SOLUTION_PRETTY</var></code>
+                                <code><var>COS</var></code>
                         </div>
-                        <ul class="choices" data-none="true">
-                                    <li><code>\frac{<var>OPPOSITE_VALUE</var>}{<var>ADJACENT_VALUE</var>}</code></li>
-				    <li><code>\frac{<var>OPPOSITE_VALUE</var>}{<var>AB_STRING</var>}</code></li>
-                        </ul>
+			<ul class="choices" data-none="true">
+				    <li><code><var>TAN</var></code></li>
+				    <li><code><var>SIN</var></code></li>
+			</ul>
 
                         <div class="hints" data-apply="appendContents">
                                 <p>SOH <b>CAH</b> TOA</p>
                                 <p><b>C</b>os=<b>A</b>djacent over <b>H</b>ypotenuse</p>
                                 <p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
                                 <p>hypotenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
-                                <p><code>\cos(\angle <var>ANGLE</var> )=<var>SOLUTION_PRETTY</var></code></p>
+                                <p><code>\cos(\angle <var>ANGLE</var> )=<var>COS</var></code></p>
                         </div>
                 </div>
 
 		 <div id="tan">	
-                        <div class="vars">
-                                <var id="SOLUTION_PRETTY">"\\frac{" + OPPOSITE_VALUE + "}{" + ADJACENT_VALUE + "}"</var>
-                        </div>
                         <div class="problem">
                                 <p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
                                 <p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p>
@@ -160,19 +177,19 @@
                         </div>
 
                         <div class="solution">
-                                <code><var>SOLUTION_PRETTY</var></code>
+                                <code><var>TAN</var></code>
                         </div>
-                        <ul class="choices" data-none="true">
-                                    <li><code>\frac{<var>ADJACENT_VALUE</var>}{<var>OPPOSITE_VALUE</var>}</code></li>
-				    <li><code>\frac{<var>OPPOSITE_VALUE</var>}{<var>AB_STRING</var>}</code></li>
-                        </ul>
+			<ul class="choices" data-none="true">
+				    <li><code><var>COS</var></code></li>
+				    <li><code><var>SIN</var></code></li>
+			</ul>
 
                         <div class="hints" data-apply="appendContents">
                                 <p>SOH CAH <b>TOA</b></p>
                                 <p><b>T</b>an=<b>O</b>pposite over <b>A</b>djacent</p>
                                 <p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
                                 <p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
-                                <p><code>tan(<var>ANGLE</var>)=<var>SOLUTION_PRETTY</var></code></p>
+                                <p><code>tan(<var>ANGLE</var>)=<var>TAN</var></code></p>
                         </div>
                 </div>
 
