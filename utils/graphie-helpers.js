@@ -28,3 +28,28 @@ function numberLine( start, end, step ) {
 
 	return set;
 }
+
+function piechart( divisions, colors, radius ) {
+	var graph = KhanUtil.currentGraph;
+	var set = graph.raphael.set();
+
+	var sum = 0;
+	jQuery.each( divisions, function( i, slice ) {
+		sum += slice;
+	} );
+
+	var partial = 0;
+	jQuery.each( divisions, function( i, slice ) {
+		set.push( graph.arc( [0, 0], radius, partial * 360 / sum, ( partial + slice ) * 360 / sum, true, {
+			stroke: "none",
+			fill: colors[i]
+		} ) );
+		partial += slice;
+	} );
+
+	for ( var i = 0; i < sum; i++ ) {
+		set.push( graph.line( [0, 0], graph.polar( radius, i * 360 / sum ), { stroke: "#fff" } ) );
+	}
+
+	return set;
+}
