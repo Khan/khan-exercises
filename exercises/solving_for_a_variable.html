@@ -1,66 +1,9 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math math-format">
 <head>
 	<title>Solving for a Variable</title>
 	<script src="../khan-exercise.js"></script>
 	<script type="text/javascript">
-		function trim( s ) {
-
-			if ( typeof s === "string" && isNaN( s ) ) {
-				
-				// extract color, so we can handle stripping the 1 out of \color{blue}{1xy}
-				if ( s.indexOf( "{" ) !== -1 ) {
-
-					// we're expecting something like "\color{blue}{-1}..."
-					var l, r;
-					l = s.indexOf( "{", s.indexOf( "{" ) + 1 ) + 1;
-					r = s.indexOf( "}", s.indexOf( "}" ) + 1 );
-
-					// if we've encountered \color{blue}{1}\color{xy} somehow
-					if ( l !== s.lastIndexOf( "{" ) && +trim( s.slice( l, r ) ) === 1 ) {
-						return s.slice( r + 1);
-					}
-
-					return s.slice( 0, l ) + trim( s.slice( l, r ) ) + s.slice( r );
-				}
-
-				if ( s.indexOf( "1" ) === 0 && isNaN( s[1] ) ) {
-					return s.slice( 1 );
-				} else if ( s.indexOf( "-1" ) === 0 && isNaN( s[2] ) ) {
-					return "-" + s.slice( 2 );
-				} else if ( s.indexOf( "0" ) === 0 || s.indexOf( "-0" ) === 0 ) {
-					return "";
-				} else {
-					return s;
-				}
-
-			} else if ( typeof s === "number" ) {
-
-				// we'll just return the number, but this will actually end up getting
-				// rid of 0's since a returned 0 will be falsey.
-				return s;
-
-				// if we're dealing with a string that looks like a number
-			} else if ( !isNaN( s ) ) {
-				
-				return +s;
-
-			}
-
-		}
-
-		function plus() {
-
-			var args = [], s;
-
-			for ( var i = 0; i < arguments.length; i++ ) {
-				s = trim( arguments[i] );
-				if ( s ) args.push( s );
-			}
-
-			return args.join( " + " );
-		}
-
 		function color( str, blue ) {
 			var pre = "";
 

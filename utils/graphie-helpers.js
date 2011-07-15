@@ -9,16 +9,18 @@ function drawDigits( digits, startX, startY, color ) {
 	return set;
 }
 
-function numberLine( start, end, step ) {
+function numberLine( start, end, step, x, y ) {
 	step = step || 1;
+	x = x || 0;
+	y = y || 0;
 
 	var graph = KhanUtil.currentGraph;
 	var set = graph.raphael.set();
 
-	set.push( graph.line( [start, 0], [end, 0] ) );
-	for( var x = start; x <= end; x += step ) {
-		set.push( graph.line( [x, -0.2], [x, 0.2] ) );
-		graph.label( [x, -0.2], x, "below", { labelDistance: 3 } )
+	set.push( graph.line( [x, y], [x + end - start, y] ) );
+	for( var i = 0; i <= end - start; i += step ) {
+		set.push( graph.line( [x + i, y - 0.2], [x + i, y + 0.2] ) );
+		graph.label( [x + i, y - 0.2], start + i, "below", { labelDistance: 3 } )
 	}
 
 	return set;
