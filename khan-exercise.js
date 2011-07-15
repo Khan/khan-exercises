@@ -81,7 +81,6 @@ var Khan = {
 		"calculus": [ "math", "expressions", "polynomials" ],
 		"exponents": [ "math", "math-format" ],
 		"kinematics": [ "math" ],
-		"math-table": [ "math" ],
 		"math-format": [ "math", "expressions" ],
 		"polynomials": [ "math", "expressions" ],
 		"stat": [ "math" ],
