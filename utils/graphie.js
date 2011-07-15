@@ -550,6 +550,7 @@ jQuery.fn.graphie = function( problem ) {
 		// Initialize the graph
 		if ( jQuery( this ).data( "update" ) ) {
 			var id = jQuery( this ).data( "update" );
+			jQuery( this ).remove();
 
 			// Graph could be in either of these
 			var area = jQuery( "#problemarea" ).add(problem);
