@@ -4,6 +4,14 @@
 	<title>Trigonometry 1</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
+		function fractionSQRoot(b, a){
+			var gd = KhanUtil.getGCD( KhanUtil.splitRadical(a)[0] , b );
+               		if(KhanUtil.splitRadical(a)[0]/gd != 1){
+				return  "\\frac{" + (b/gd) + "}{" + (KhanUtil.splitRadical(a)[0]/gd) + "\\sqrt{" + KhanUtil.splitRadical(a)[1] + "}}";
+			}
+				return  "\\frac{" + b/gd + "}{" + "\\sqrt{" + KhanUtil.splitRadical(a)[1] + "}}";
+		}
+
 		function betterTriangle(width, height, A, B, C, a, b, c) {
 			var scale = 5 / Math.sqrt(width * width + height * height);
 			width *= scale;
@@ -62,38 +70,32 @@
 						if( ADJACENT_NAME=="AC" ){
 							return AC;
 						}
-						else if( ADJACENT_NAME=="CB" ){
-							return CB;
+						else if( ADJACENT_NAME=="BC" ){
+							return BC;
 						}
 
 						return AB_STRING;
 					})()
 
 				</var>
+				<var id="SIMPLE_TAN">
+					
+					fraction( OPPOSITE_VALUE, ADJACENT_VALUE, false, false, false, false)	
+				</var>
 				<var id="TAN">
-					fractionReduce(OPPOSITE_VALUE,ADJACENT_VALUE,false,false)	
+					fractionReduce( OPPOSITE_VALUE, ADJACENT_VALUE, false, false)	
 				</var>
+				<var id="SIMPLE_SIN">
+					"\\frac{" +  OPPOSITE_VALUE + "}{" + formattedSquareRootOf(AB) + "}"
+				</var>	
 				<var id="SIN">
-					function(){
-						var gd = getGCD( splitRadical(AB)[0] , OPPOSITE_VALUE );
-						if( gd != 1 ){
-							return  "\\frac{" + OPPOSITE_VALUE/gd + "}{" + splitRadical(AB)[0]/gd + "\\sqrt{" + splitRadical(AB)[1] + "}}";
-						}
-						else{
-							 return "\\frac{" + OPPOSITE_VALUE + "}{" +AB_STRING+ "}";
-						}
-					}()
+					fractionSQRoot( OPPOSITE_VALUE , AB )
 				</var>
+				<var id="SIMPLE_COS">
+					"\\frac{" +  ADJACENT_VALUE + "}{" + formattedSquareRootOf(AB) + "}"
+				</var>	
 				<var id="COS">
-					function(){
-						var gd = getGCD( splitRadical(AB)[0] , ADJACENT_VALUE );
-						if( gd != 1 ){
-							return  "\\frac{" + ADJACENT_VALUE/gd + "}{" + splitRadical(AB)[0]/gd + "\\sqrt{" + splitRadical(AB)[1] + "}}";
-						}
-						else{
-							 return "\\frac{" + ADJACENT_VALUE + "}{" +AB_STRING+ "}";
-						}
-					}()
+					fractionSQRoot( ADJACENT_VALUE , AB )	
 				</var>
 		
 					
@@ -118,7 +120,7 @@
 				<code><var>SIN</var></code>
 			</div>
 			<ul class="choices" data-none="true">
-				    <li><code><var>COS</var></code></li>
+				    <li data-if="COS!=SIN"><code><var>COS</var></code></li>
 				    <li><code><var>TAN</var></code></li>
 			</ul>
 
@@ -127,7 +129,8 @@
 				<p><b>S</b>in=<b>O</b>pposite over <b>H</b>ypotenuse</p>
 				<p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
 				<p>hypothenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
-				<p><code>\sin(<var>ANGLE</var>)=<var>SIN</var></code></p>
+				<p><code>\sin(<var>ANGLE</var>)=<var>SIMPLE_SIN</var></code></p>
+				<p data-if="SIN!=SIMPLE_SIN"><code>=<var>SIN</var></code></p>
 			</div>
 		</div>
 
@@ -150,7 +153,7 @@
                         </div>
 			<ul class="choices" data-none="true">
 				    <li><code><var>TAN</var></code></li>
-				    <li><code><var>SIN</var></code></li>
+				    <li data-if="COS!=SIN"><code><var>SIN</var></code></li>
 			</ul>
 
                         <div class="hints" data-apply="appendContents">
@@ -158,7 +161,8 @@
                                 <p><b>C</b>os=<b>A</b>djacent over <b>H</b>ypotenuse</p>
                                 <p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
                                 <p>hypotenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
-                                <p><code>\cos(\angle <var>ANGLE</var> )=<var>COS</var></code></p>
+                                <p><code>\cos(\angle <var>ANGLE</var> )=<var>SIMPLE_COS</var></code></p>
+				<p data-if="COS!=SIMPLE_COS"><code>=<var>COS</var></code></p>
                         </div>
                 </div>
 
@@ -189,7 +193,8 @@
                                 <p><b>T</b>an=<b>O</b>pposite over <b>A</b>djacent</p>
                                 <p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
                                 <p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
-                                <p><code>tan(<var>ANGLE</var>)=<var>TAN</var></code></p>
+                                <p><code>tan(<var>ANGLE</var>)=<var>SIMPLE_TAN</var></code></p>
+				<p data-if="TAN!=SIMPLE_TAN"><code>=<var>TAN</var></code></p>
                         </div>
                 </div>
 
