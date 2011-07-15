@@ -262,7 +262,7 @@ var Khan = {
 				elem = jQuery( elem );
 				elem.data( "id", elem.attr( "id" ) || "" + i );
 
-				for( var j = 0; j < Khan.problemCount; j++ ) {
+				for ( var j = 0; j < Khan.problemCount; j++ ) {
 					bag.push( problems.eq( i ) );
 				}
 			} );
@@ -295,7 +295,7 @@ var Khan = {
 				return weight;
 			});
 
-			while( n ) {
+			while ( n ) {
 				bag.push( (function() {
 					// Figure out which item we're going to pick
 					var index = totalWeight * KhanUtil.random();
@@ -592,8 +592,10 @@ var Khan = {
 
 		// Watch for a solution submission
 		jQuery("#check-answer-button").click(function(ev) {
+			var pass = Khan.validator();
+			
 			// Figure out if the response was correct
-			if ( Khan.validator() ) {
+			if ( pass ) {
 				// Show a congratulations message
 				jQuery("#oops").hide();
 				jQuery("#congrats").show();
@@ -615,6 +617,8 @@ var Khan = {
 				jQuery("#happy").hide();
 				jQuery("#sad").show();
 			}
+			
+			$(Khan).trigger( "checkAnswer", pass );
 		});
 
 		// Watch for when the next button is clicked
@@ -705,6 +709,8 @@ var Khan = {
 					jQuery( this ).attr( "disabled", true );
 				}
 			}
+			
+			$(Khan).trigger( "showHint" );
 		});
 
 		jQuery( "#print_ten" ).data( "show", true )
@@ -814,6 +820,16 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 	Khan.require( [ "answer-types", "tmpl" ] );
 
 	Khan.require( document.documentElement.getAttribute("data-require") );
+	
+	$(Khan).bind({
+		checkAnswer: function( e, pass ) {
+			// TODO: Send back response to server
+		},
+		
+		showHint: function() {
+			// TODO: Send back response to server
+		}
+	});
 
 	var remoteCount = 0;
 
