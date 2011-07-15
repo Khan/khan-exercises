@@ -1,64 +1,179 @@
 <!DOCTYPE html>
-<html data-require="math math-table">
+<html data-require="math graphie graphie-helpers">
 <head>
 	<title>Subtracting Decimals</title>
 	<script src="../khan-exercise.js"></script>
+	<script>
+		function borrow( idx ) {
+			with ( jQuery.tmpl.VARS ) {
+				with ( KhanUtil.currentGraph ) {
+					if ( A_DIGITS[ idx + 1 ] < 1 ) {
+						borrow( idx + 1 );
+						BORROW_LEVEL += 0.5;
+					}
+					A_DIGITS[ idx + 1 ] -= 1;
+					A_DIGITS[ idx ] += 10;
+
+					HIGHLIGHTS[ idx ].push( label( [ X_MAX - idx, BORROW_LEVEL ],
+						"\\color{#6495ED}{" + A_DIGITS[ idx ] + "}", "below" ) );
+					HIGHLIGHTS[ idx ].push( path( [ [ X_MAX - 0.3 - idx, Y_FIRST - 0.4 ], [ X_MAX + 0.3 - idx, Y_FIRST + 0.4 ] ] ) );
+
+					HIGHLIGHTS[ idx + 1 ].push( label( [ X_MAX - 1 - idx, BORROW_LEVEL ],
+						"\\color{#FFA500}{" + A_DIGITS[ idx + 1 ] + "}", "below" ) );
+					HIGHLIGHTS[ idx + 1 ].push( path( [ [ X_MAX - 1.3 - idx, Y_FIRST - 0.4 ], [ X_MAX - 0.7 - idx, Y_FIRST + 0.4 ] ] ) );
+					if ( BORROW_LEVEL !== Y_CARRY ) {
+						HIGHLIGHTS[ idx + 1 ].push( path( [ [ X_MAX - 1.3 - idx, BORROW_LEVEL - 0.5 - 0.5 ], [ X_MAX - 0.7 - idx, BORROW_LEVEL - 0.7 ] ] ) );
+					}
+				}
+			}
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars" data-ensure="A > B" >
-			<var id="DECIMAL_A">randRange( 1, 3 )</var>
-			<var id="A">randRange( 1001, 9999 ) / pow( 10, DECIMAL_A)</var>
-			<var id="DECIMAL_B">randRange(2,4)</var>
-			<var id="B">randRange( 101, 999 ) / pow( 10, DECIMAL_B)</var>
-			<var id="A_ARRAY">digits( round( A * pow( 10, DECIMAL_B)))</var>
-			<var id="B_ARRAY">digits( round( B * pow( 10, DECIMAL_B)))</var>
-			<var id="TABLE">createLongSubtractionTable( A_ARRAY, B_ARRAY)</var>
-			<var id="RESULT">TABLE.result / pow( 10, DECIMAL_B )</var>
-			<var id="BORROW">TABLE.borrow</var>
+		<div class="vars" data-ensure="NEW_A > NEW_B">
+			<var id="A">randRange( 101, 999 )</var>
+			<var id="B">randRange( 101, 999 )</var>
+			<var id="A_RAW_DIGITS">integerToDigits( A )</var>
+			<var id="B_RAW_DIGITS">integerToDigits( B )</var>
+			<var id="A_DECIMAL">randRange( 1, 3 )</var>
+			<var id="B_DECIMAL">randRange( 1, 3 )</var>
+			<var id="NEW_A">A * ( B_DECIMAL &gt; A_DECIMAL ? pow( 10, B_DECIMAL - A_DECIMAL ) : 1)</var>
+			<var id="NEW_B">B * ( A_DECIMAL &gt; B_DECIMAL ? pow( 10, A_DECIMAL - B_DECIMAL ) : 1)</var>
+			<var id="A_ORIG">digits( NEW_A )</var>
+			<var id="A_DIGITS">
+				(function() {
+					console.log("trying")
+					var result = digits( NEW_A );
+					for ( var i = 0; i &lt; ( A_DECIMAL - B_DECIMAL ); i++ ) {
+						result.push( 0 );
+					}
+					return result;
+				})()</var>
+			<var id="B_DIGITS">
+				(function() {
+					var result = digits( NEW_B );
+					for ( var i = 0; i &lt; ( B_DECIMAL - A_DECIMAL ); i++ ) {
+						result.push( 0 );
+					}
+					return result;
+				})()</var>
+			<var id="HIGHLIGHTS">
+				(function() {
+					var h = [];
+					for ( var i = 0; i &lt; A_DIGITS.length; i++ ) {
+						h.unshift( [] );
+					}
+					return h;
+				})()
+			</var>
+			<var id="Y_CARRY">3</var>
+			<var id="Y_FIRST">2</var>
+			<var id="Y_SECOND">1</var>
+			<var id="Y_DIFF">0</var>
+			<var id="X_MAX">4</var>
+			<var id="X_SIDE">7</var>
+			<var id="Y_SIDE">1.5</var>
+			<var id="BORROW_LEVEL">Y_CARRY</var>
 		</div>
 
 		<div class="problems">
 			<div>
-				<p class="question"><var>A</var> - <var>B</var> = ?</p>
-				<div class="solution"><var>RESULT</var></div>
+				<div class="graphie" id="numbers">
+					init({
+						range: [ [ -1, X_MAX + 1 ], [ -0.5, 4 ] ],
+						scale: [30, 45]
+					});
+					style({
+						fill: "black"
+					});
+					var set = [];
+					set = drawDigits( A_RAW_DIGITS, X_MAX - A_RAW_DIGITS.length + 1, Y_FIRST );
+					set = set.concat( drawDigits( B_RAW_DIGITS, X_MAX - B_RAW_DIGITS.length + 1, Y_SECOND ) );
+					set.push( ellipse( [ X_MAX - A_DECIMAL + 0.5, Y_FIRST - 0.2 ], [ 0.09, 0.06 ] ) );
+					set.push( ellipse( [ X_MAX - B_DECIMAL + 0.5, Y_SECOND - 0.2 ], [ 0.09, 0.06 ] ) );
+					HIGHLIGHTS[0] = set;
+
+					path( [ [ -0.5, 0.5 ], [ X_MAX + 0.5, 0.5 ] ]);
+
+					label( [ 0, 1 ] ,"\\huge{-\\vphantom{0}}" );
+				</div>
+				<div class="solution" data-type="decimal"><var>A * pow( 10, -A_DECIMAL ) - B * pow( 10, - B_DECIMAL )</var></div>
 			</div>
 		</div>
 		<div class="hints">
-			<p>First we need to line up the decimal points.</p>
-			<p>Now we need to make sure that all the digits in the top number are greater than or equal to the digit below it.</p>
+			<div class="graphie" data-update="numbers">
+				var oldHighlights = HIGHLIGHTS[ 0 ];
+				while( oldHighlights.length ) {
+					oldHighlights.shift().remove();
+				}
+				X_MAX = X_MAX + ( B_DECIMAL - A_DECIMAL ) * (A_DECIMAL &lt; B_DECIMAL ? 1 : -1);
+				HIGHLIGHTS[0].push( label( [ X_SIDE, Y_SIDE ], "\\large{\\text{Make sure the decimals are lined up.}}", "right" ) );
+				drawDigits( A_DIGITS.slice( 0 ).reverse(), X_MAX - A_DIGITS.length + 1, Y_FIRST );
+				drawDigits( B_DIGITS.slice( 0 ).reverse(), X_MAX - B_DIGITS.length + 1, Y_SECOND );
+				for ( var i = 0; i &lt; 3; i++ ){
+					ellipse( [ X_MAX - max( A_DECIMAL, B_DECIMAL ) + 0.5, i - 0.2 ], [ 0.09, 0.06 ] );
+				}
+			</div>
+			<div class="graphie" data-update="numbers" data-each="A_DIGITS as index, value">
+				var index = <var>index</var>;
 
-			<!-- first digit -->
-			<p data-if="BORROW[1] > 0"> For the first digit, <var>A_ARRAY[0]</var> is less then <var> B_ARRAY[0]</var>, so we'll have to borrow.</p>
-			<p data-if="BORROW[1] > 0"> <var>A_ARRAY[1]</var> - 1 = <var>A_ARRAY[1]-1</var>, <var>A_ARRAY[0]</var> + 10 = <var>A_ARRAY[0]+10</var></p>
-			<!-- second digit -->
-			<p data-if="BORROW[2] > 0"> For the second digit, <var>A_ARRAY[1]-BORROW[1]</var> is less then <var> B_ARRAY[1]</var>, so we'll have to borrow.</p>
-			<p data-if="BORROW[2] > 0"> <var>A_ARRAY[2]</var> - 1 = <var>A_ARRAY[2]-1</var>, <var>A_ARRAY[1]-BORROW[1]</var> + 10 = <var>A_ARRAY[1]-BORROW[1]+10</var></p>
-			<!-- third digit -->
-			<p data-if="BORROW[3] > 0"> For the third digit, <var>A_ARRAY[2]-BORROW[2]</var> is less then <var> B_ARRAY[2]</var>, so we'll have to borrow.</p>
-			<p data-if="BORROW[3] > 0"> <var>A_ARRAY[3]</var> - 1 = <var>A_ARRAY[3]-1</var>, <var>A_ARRAY[2]-BORROW[2]</var> + 10 = <var>A_ARRAY[2]-BORROW[2]+10</var></p>
-			<!-- fourth digit -->
-			<p data-if="BORROW[4] > 0"> For the fourth digit, <var>A_ARRAY[3]-BORROW[3]</var> is less then <var> B_ARRAY[3]</var>, so we'll have to borrow.</p>
-			<p data-if="BORROW[4] > 0"> <var>A_ARRAY[4]</var> - 1 = <var>A_ARRAY[4]-1</var>, <var>A_ARRAY[3]-BORROW[3]</var> + 10 = <var>A_ARRAY[3]-BORROW[3]+10</var></p>
-			<!-- fifth digit -->
-			<p data-if="BORROW[5] > 0"> For the fifth digit, <var>A_ARRAY[4]-BORROW[3]</var> is less then <var> B_ARRAY[4]</var>, so we'll have to borrow.</p>
-			<p data-if="BORROW[5] > 0"> <var>A_ARRAY[5]</var> - 1 = <var>A_ARRAY[5]-1</var>, <var>A_ARRAY[4]-BORROW[4]</var> + 10 = <var>A_ARRAY[4]-BORROW[4]+10</var></p>
-			<!-- sixth digit -->
-			<p data-if="BORROW[6] > 0"> For the sixth digit, <var>A_ARRAY[5]-BORROW[5]</var> is less then <var> B_ARRAY[5]</var>, so we'll have to borrow.</p>
-			<p data-if="BORROW[6] > 0"> <var>A_ARRAY[6]</var> - 1 = <var>A_ARRAY[6]-1</var>, <var>A_ARRAY[5]-BORROW[5]</var> + 10 = <var>A_ARRAY[5]-BORROW[5]+10</var></p>
+				var oldHighlights = HIGHLIGHTS[ index ];
+				while( oldHighlights.length ) {
+					oldHighlights.shift().remove();
+				}
 
-			<p>All the top digits are greater than or equal to all the bottom digits, so we can start subtracting.</p>
-			<p>First digit: <var>A_ARRAY[0] + ( 10 * BORROW[1] )</var> - <var>B_ARRAY[0]</var> = <var>A_ARRAY[0] + ( 10 * BORROW[1] ) - B_ARRAY[0]</var></p>
-			<p>Second digit: <var>A_ARRAY[1] - BORROW[1] + ( 10 * BORROW[2] )</var> - <var>B_ARRAY[1]</var> = <var>A_ARRAY[1] - BORROW[1] + ( 10 * BORROW[2] ) - B_ARRAY[1]</var></p>
-			<p data-if="B_ARRAY[2]">Third digit: <var>A_ARRAY[2] - BORROW[2] + ( 10 * BORROW[3] )</var> - <var>B_ARRAY[2]</var> = <var>A_ARRAY[2] - BORROW[2] + ( 10 * BORROW[3] ) - B_ARRAY[2]</var></p>
-			<p data-if="B_ARRAY[3]">Fourth digit: <var>A_ARRAY[3] - BORROW[3] + ( 10 * BORROW[4] )</var> - <var>B_ARRAY[3]</var> = <var>A_ARRAY[3] - BORROW[3] + ( 10 * BORROW[4] )  - B_ARRAY[3]</var></p>
-			<p data-if="B_ARRAY[4]">Fifth digit: <var>A_ARRAY[4] - BORROW[4] + ( 10 * BORROW[5] )</var> - <var>B_ARRAY[4]</var> = <var>A_ARRAY[4] - BORROW[4] + ( 10 * BORROW[5] ) - B_ARRAY[4]</var></p>
-			<p data-if="B_ARRAY[5]">Sixth digit: <var>A_ARRAY[5] - BORROW[5] + ( 10 * BORROW[6] )</var> - <var>B_ARRAY[5]</var> = <var>A_ARRAY[5] - BORROW[5] + ( 10 * BORROW[6] ) - B_ARRAY[5]</var></p>
-			<p data-if="B_ARRAY[6]">Seventh digit: <var>A_ARRAY[6] - BORROW[6]</var> - <var>B_ARRAY[6]</var> = <var>A_ARRAY[6] - BORROW[6] - B_ARRAY[6]</var></p>
-			<p>Now bring down all the other digits.</p>
-			<p>Answer: <var>RESULT</var></p>
+				if ( index !== 0 ) {
+					oldHighlights = HIGHLIGHTS[ index - 1 ];
+					while( oldHighlights.length ) {
+						oldHighlights.shift().remove();
+					}
+				}
+
+				var value = A_DIGITS[ index ];
+				var withinB = index &lt; B_DIGITS.length;
+				var subtrahend = withinB ? B_DIGITS[ index ] : 0;
+				var subStr = "";
+
+				if ( value &lt; subtrahend ) {
+					BORROW_LEVEL = Y_CARRY;
+					borrow( index );
+				} else if ( A_DIGITS[ index ] === A_ORIG[ index ] ) {
+					HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_FIRST ],
+						"\\Huge{\\color{#6495ED}{" + A_DIGITS[ index ] +"}}" ) );
+				} else {
+					HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_CARRY ],
+						"\\color{#6495ED}{" + A_DIGITS[ index ] + "}", "below" ) );
+				}
+
+				if ( withinB ) {
+					HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_SECOND ],
+						"\\Huge{\\color{#6495ED}{" + B_DIGITS[ index ] + "}}" ) );
+					subStr = " - \\color{#6495ED}{" + subtrahend + "}";
+				}
+
+				var diff = A_DIGITS[ index ] - subtrahend;
+				label( [ X_MAX - index, Y_DIFF ],  "\\Huge{" + diff + "}" );
+
+
+				HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_DIFF ],  "\\Huge{\\color{#28AE7B}{" + diff + "}}" ) );
+
+				HIGHLIGHTS[ index ].push( label( [ X_SIDE, Y_SIDE ], "\\Large{"
+					+ "\\color{#6495ED}{" + A_DIGITS[ index ] + "}"
+					+ subStr
+					+ " = "
+					+ "\\color{#28AE7B}{" + diff + "}}", "right" ) );
+
+			</div>
+			<div class="graphie" data-update="numbers">
+				while( HIGHLIGHTS.length ) {
+					var column = HIGHLIGHTS.shift();
+					while ( column.length ) {
+						column.shift().remove();
+					}
+				}
+			</div>
 		</div>
 	</div>
 </body>
 </html>
-
