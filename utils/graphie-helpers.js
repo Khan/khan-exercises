@@ -53,3 +53,30 @@ function piechart( divisions, colors, radius ) {
 
 	return set;
 }
+
+function rectchart( divisions, colors, radius ) {
+	var graph = KhanUtil.currentGraph;
+	var set = graph.raphael.set();
+
+	var sum = 0;
+	jQuery.each( divisions, function( i, slice ) {
+		sum += slice;
+	} );
+
+	var partial = 0;
+	jQuery.each( divisions, function( i, slice ) {
+		var x = partial / sum, w = slice / sum;
+		set.push( graph.path([ [x, 0], [x + w, 0], [x + w, 1], [x, 1] ], {
+			stroke: "none",
+			fill: colors[i]
+		} ) );
+		partial += slice;
+	} );
+
+	for ( var i = 0; i <= sum; i++ ) {
+		var x = i / sum;
+		set.push( graph.line( [x, 0], [x, 1], { stroke: "#fff" } ) );
+	}
+
+	return set;
+}
