@@ -829,6 +829,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 	Khan.require( document.documentElement.getAttribute("data-require") );
 	
 	var server = "http://khan-masterslave.appspot.com",
+		staticServer = "http://www.khanacademy.org",
 		exerciseName = (/([^\/]+).html$/.exec( window.location ) || [])[1],
 		hintUsed,
 		problemStarted,
@@ -899,11 +900,32 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 		}
 	});
 	
+	// Load in video list from the API
+	jQuery.ajax({
+		// Do a request to the server API
+		url: staticServer + "/api/v1/exercises/" + exerciseName + "/videos",
+		type: "GET",
+		dataType: "json",
+	
+		// Display all the related videos
+		success: function( videos ) {
+			if ( videos && videos.length ) {
+				jQuery.each( videos, function( i, video ) {
+					jQuery("<li><a href='" + video.ka_url + "'><span class='video-title'>" +
+						video.title + "</span></a></li>")
+							.appendTo(".related-video-list");
+				});
+			
+				jQuery(".related-content, #related-video-content").show();
+			}
+		}
+	});
+	
 	function request( method, data, fn ) {
 		jQuery.ajax({
 			// Do a request to the server API
 			url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
-			type: "POST",
+			type: data == null ? "GET" : "POST",
 			data: data,
 			dataType: "json",
 			
@@ -913,10 +935,14 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 			// Backup the response locally, for later use
 			success: function( data ) {
 				window.localStorage[ "exercise:" + exerciseName ] = JSON.stringify( data );
+				
+				if ( jQuery.isFunction( fn ) ) {
+					fn( data );
+				}
 			},
 			
-			// Handle 
-			complete: fn
+			// Handle error edge case
+			error: fn
 		});
 	}
 	

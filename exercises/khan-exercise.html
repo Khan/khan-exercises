@@ -72,15 +72,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="related-content">
+						<div class="related-content" style="display:none;">
 							<span class="related-content-title">Related videos:</span>
-							<ul id="related-video-list">
-								<!-- TODO:
-								<li>
-									<a href="http://www.khanacademy.org/video?v=AuX7nPBqDts" title="Basic Addition"><span class="video-title">Basic Addition</span></a>
-								</li>
-								-->
-							</ul>
+							<ul class="related-video-list"></ul>
 						</div>
 					</div><!-- TODO: Have this slide down when message is in here. -->
 					<div id="exercise-message-container" style="display: none;"></div>
@@ -122,20 +116,15 @@
 									</span> <!-- TODO: 'One-time warning: Using a hint will erase your streak.\nAre you sure you want to continue?' -->
 								</div>
 								<div class="info-box">
-									<span class="info-box-header">Need Help?</span> <span class="info-box-subheader">Watch a video</span> <span class="info-box-sub-description">Watching videos <strong>does not</strong> reset your streak.</span>
-									<div id="related-video-list">
-										<span class="related-content-title">Related videos:</span>
-										<ul id="related-video-list">
-											<!-- TODO: 
-											<li>
-												<a href="http://www.khanacademy.org/video?v=AuX7nPBqDts" title="Basic Addition"><span class="video-title">Basic Addition</span></a>
-												<div class="video-energy-points" title="0 Energy Points earned for watching this video">
-													<span class="video-energy-points-current">0</span> of 750
-												</div>
-												<div class="clear"></div>
-											</li>
-											-->
-										</ul>
+									<span class="info-box-header">Need Help?</span>
+									<div id="related-video-content" style="display:none;">
+										<span class="info-box-subheader">Watch a video</span>
+										<span class="info-box-sub-description">Watching videos <strong>does not</strong> reset your streak.</span>
+										<div id="related-video-list">
+											<span class="related-content-title">Related videos:</span>
+											<ul class="related-video-list"></ul>
+										</div>
+										<div class="clear"></div>
 									</div>
 									<span class="info-box-subheader">Get a hint</span>
 									<span class="info-box-sub-description">Getting a hint <strong>will</strong> reset your streak!</span>
