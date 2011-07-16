@@ -593,7 +593,10 @@ var Khan = {
 		jQuery( ".summary" ).hide();
 
 		// Watch for a solution submission
-		jQuery("#check-answer-button").click(function(ev) {
+		jQuery("#check-answer-button").click( handleSubmit );
+		jQuery("#answerform").submit( handleSubmit );
+		
+		function handleSubmit() {
 			var pass = Khan.validator();
 			
 			// Figure out if the response was correct
@@ -621,7 +624,9 @@ var Khan = {
 			}
 			
 			jQuery(Khan).trigger( "checkAnswer", pass );
-		});
+			
+			return false;
+		}
 
 		// Watch for when the next button is clicked
 		jQuery("#next-question-button").click(function(ev) {
@@ -828,7 +833,8 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 		hintUsed,
 		problemStarted,
 		doSave,
-		doHintSave;
+		doHintSave,
+		once = true;
 	
 	jQuery(Khan).bind({
 		// The user is generating a new problem
@@ -837,6 +843,11 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 			doHintSave = true;
 			hintUsed = false;
 			problemStarted = (new Date).getTime();
+			
+			if ( once ) {
+				updateBar();
+				once = false;
+			}
 		},
 		
 		// The user checked to see if an answer was valid
@@ -845,11 +856,8 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 				return;
 			}
 			
-			// Get the backup data, cached locally
-			var last = window.localStorage[ "exercise:" + exerciseName ],
-			
-				// Assume we're starting with the first problem
-				problemNum = 1,
+			// Assume we're starting with the first problem
+			var problemNum = getData().total_done + 1,
 				
 				// Build the data to pass to the server
 				data = {
@@ -862,14 +870,11 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 					// How long it took them to complete the problem
 					time_taken: Math.round(((new Date).getTime() - problemStarted) / 1000)
 				};
-			
-			// If backup data exists, get the problem number from there
-			if ( last ) {
-				problemNum = JSON.parse( last ).total_done + 1;
-			}
 		
 			// Save the problem results to the server
 			request( "problem/" + problemNum + "/complete", data, function() {
+				updateBar();
+				
 				// TODO: Save locally if offline
 				jQuery(Khan).trigger( "answerSaved" );
 			});
@@ -887,7 +892,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 			}
 			
 			hintUsed = true;
-			request( "reset_streak" );
+			request( "reset_streak", {}, updateBar );
 			
 			// Make sure we don't reset the streak more than once
 			doHintSave = false;
@@ -913,6 +918,33 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 			// Handle 
 			complete: fn
 		});
+	}
+	
+	function updateBar() {
+		var stats = getData();
+		
+		jQuery(".current-rating").width( Math.min( Math.min( stats.streak, 10 ) * 23, 228 ) );
+		jQuery(".streak-icon").width( stats.streak ? 46 : 0 );
+		jQuery(".best-label").width( Math.min( Math.min( stats.longest_streak, 10 ) * 23, 228 ) ).html( stats.longest_streak + "&nbsp;" );
+		jQuery(".current-label").width( Math.min( Math.min( stats.streak, 10 ) * 23, 228 ) ).html( stats.streak + "&nbsp;" );
+		jQuery("#exercise-points").text( " " + stats.next_points + " " );
+	}
+	
+	function getData() {
+		var data = window.localStorage[ "exercise:" + exerciseName ];
+		
+		if ( data ) {
+			return JSON.parse( data );
+		
+		} else {
+			return {
+				total_done: 0,
+				total_correct: 0,
+				streak: 0,
+				longest_streak: 0,
+				next_points: 225
+			};
+		}
 	}
 
 	var remoteCount = 0;
