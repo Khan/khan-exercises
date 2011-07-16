@@ -578,6 +578,8 @@ var Khan = {
 			// for special style rules
 			jQuery( "body" ).addClass("debug");
 		}
+		
+		jQuery(Khan).trigger( "newProblem" );
 	},
 
 	injectSite: function( html ) {
@@ -618,7 +620,7 @@ var Khan = {
 				jQuery("#sad").show();
 			}
 			
-			$(Khan).trigger( "checkAnswer", pass );
+			jQuery(Khan).trigger( "checkAnswer", pass );
 		});
 
 		// Watch for when the next button is clicked
@@ -710,7 +712,7 @@ var Khan = {
 				}
 			}
 			
-			$(Khan).trigger( "showHint" );
+			jQuery(Khan).trigger( "showHint" );
 		});
 
 		jQuery( "#print_ten" ).data( "show", true )
@@ -821,15 +823,97 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 
 	Khan.require( document.documentElement.getAttribute("data-require") );
 	
-	$(Khan).bind({
-		checkAnswer: function( e, pass ) {
-			// TODO: Send back response to server
+	var server = "http://khan-masterslave.appspot.com",
+		exerciseName = (/([^\/]+).html$/.exec( window.location ) || [])[1],
+		hintUsed,
+		problemStarted,
+		doSave,
+		doHintSave;
+	
+	jQuery(Khan).bind({
+		// The user is generating a new problem
+		newProblem: function() {
+			doSave = true;
+			doHintSave = true;
+			hintUsed = false;
+			problemStarted = (new Date).getTime();
 		},
 		
+		// The user checked to see if an answer was valid
+		checkAnswer: function( e, pass ) {
+			if ( !doSave ) {
+				return;
+			}
+			
+			// Get the backup data, cached locally
+			var last = window.localStorage[ "exercise:" + exerciseName ],
+			
+				// Assume we're starting with the first problem
+				problemNum = 1,
+				
+				// Build the data to pass to the server
+				data = {
+					// The user answered correctly
+					correct: pass ? 1 : 0,
+			
+					// The user used a hint
+					hint_used: hintUsed ? 1 : 0,
+			
+					// How long it took them to complete the problem
+					time_taken: Math.round(((new Date).getTime() - problemStarted) / 1000)
+				};
+			
+			// If backup data exists, get the problem number from there
+			if ( last ) {
+				problemNum = JSON.parse( last ).total_done + 1;
+			}
+		
+			// Save the problem results to the server
+			request( "problem/" + problemNum + "/complete", data, function() {
+				// TODO: Save locally if offline
+				jQuery(Khan).trigger( "answerSaved" );
+			});
+			
+			// Make sure we don't save the result to the server more than once
+			doSave = false;
+		},
+		
+		// A user revealed a hint
 		showHint: function() {
-			// TODO: Send back response to server
+			// Don't reset the streak if we've already reset it or if
+			// we've already sent in an answer
+			if ( !doSave || !doHintSave ) {
+				return;
+			}
+			
+			hintUsed = true;
+			request( "reset_streak" );
+			
+			// Make sure we don't reset the streak more than once
+			doHintSave = false;
 		}
 	});
+	
+	function request( method, data, fn ) {
+		jQuery.ajax({
+			// Do a request to the server API
+			url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
+			type: "POST",
+			data: data,
+			dataType: "json",
+			
+			// Make sure cookies are passed along
+			xhrFields: { withCredentials: true },
+		
+			// Backup the response locally, for later use
+			success: function( data ) {
+				window.localStorage[ "exercise:" + exerciseName ] = JSON.stringify( data );
+			},
+			
+			// Handle 
+			complete: fn
+		});
+	}
 
 	var remoteCount = 0;
 
