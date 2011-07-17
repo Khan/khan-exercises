@@ -31,6 +31,42 @@
 				opacity:0.5;
 			}
 		</style>
+		<script>
+			function verticallyDividedBox( selector, numeratorName, denominatorName ) {
+				var numerator = jQuery.tmpl.VARS[numeratorName];
+				var denominator = jQuery.tmpl.VARS[denominatorName];
+
+				if ( $( selector ).find( "tbody" ).length < 1 ) {
+					$( selector ).append( "<tbody/>" );
+				}
+				var tbody = $( selector ).find( "tbody" ); 
+				for( i=0; i < denominator - numerator; i++ ) {
+					tbody.append( "<tr><td class=\"hint_empty_cell\"/></tr>" );
+				}
+				for(i=0; i < numerator; i++) {
+					tbody.append( "<tr><td class=\"hint_box1_cell\"/></tr>" );
+				}	
+			}
+
+			function horizontallyDividedBox( selector, numeratorName, denominatorName ) {
+				var numerator = jQuery.tmpl.VARS[numeratorName];
+				var denominator = jQuery.tmpl.VARS[denominatorName];
+
+				if ( $( selector ).find( "tbody" ).length < 1 ) {
+					$( selector ).append( "<tbody/>" );
+				}
+				
+				var rowHtml = "<tr>";
+				for( i=0; i < denominator - numerator; i++ ) {
+					rowHtml += "<td class=\"hint_empty_cell\"/>";
+				}
+				for( i=0; i < numerator; i++ ) {
+					rowHtml += "<td class=\"hint_box2_cell\"/>";
+				}
+				rowHtml += "</tr>";
+				$(selector).find( "tbody" ).append( rowHtml );				
+			}
+		</script>
 	</head>
 	<body>
 		<div class="exercise">
@@ -65,59 +101,47 @@
 					</div>
 					
 					<div class="hints">
-						<div>
+						<div id="problem1-hint1-div">
 							<table>
 								<tr>
 									<td>
-										First visualize 
-										<table id="hint_box_a" class="hint_diagram_table">											
-											<tr>
-												<tr data-if="(A_DENOMINATOR - A_NUMERATOR) > 4">
-													<td class="hint_empty_cell"></td>
-												</tr>
-												<tr data-if="(A_DENOMINATOR - A_NUMERATOR) > 3">
-													<td class="hint_empty_cell"></td>
-												</tr>
-												<tr data-if="(A_DENOMINATOR - A_NUMERATOR) > 2">
-													<td class="hint_empty_cell"></td>
-												</tr>
-												<tr data-if="(A_DENOMINATOR - A_NUMERATOR) > 1">
-													<td class="hint_empty_cell"></td>
-												</tr>
-												<tr>
-													<td class="hint_empty_cell"></td>
-												</tr>
-
-												<tr data-if="A_NUMERATOR > 4">
-													<td class="hint_box1_cell"></td>
-												</tr>
-												<tr data-if="A_NUMERATOR > 3">
-													<td class="hint_box1_cell"></td>
-												</tr>
-												<tr data-if="A_NUMERATOR > 2">
-													<td class="hint_box1_cell"></td>
-												</tr>
-												<tr data-if="A_NUMERATOR > 1">
-													<td class="hint_box1_cell"></td>
-												</tr>
-												<tr><td class="hint_box1_cell"></td></tr>
-											</tr>
+										First visualize
+										<code>
+											\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}
+										</code> 
+										would look like. 
+										<table id="problem1-hint1-box1" class="hint_diagram_table">
 										</table>
+										<script type="text/javascript">
+											$(document).ready(function(){
+												verticallyDividedBox( "#problem1-hint1-box1", 
+														"A_NUMERATOR" , "A_DENOMINATOR");	
+											});										
+										</script>											
 									</td>
 									<td>
-										Then visualize 
+										Then visualize how 
 										<code>
 											\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}
-										</code> :
-										<table id="hint_box_b" class="hint_diagram_table">
-											<tr>
-												<td class="hint_empty_cell"></td>
-												<td class="hint_box1_cell"></td>
-											</tr>
+										</code> 
+										would look like.
+										<table id="problem1-hint1-box2" class="hint_diagram_table">
 										</table>
+										<script type="text/javascript">
+											$(document).ready(function(){
+												horizontallyDividedBox( "#problem1-hint1-box2", 
+														"B_NUMERATOR", "B_DENOMINATOR");
+											});										
+										</script>										
 									</td>
 								</tr>
 							</table>
+						</div> <!-- End of hint 1 -->
+						<div id="problem1-hint2-div">
+							Now picture them together. 
+							<button id="problem1-hint2-button">Push me</button>
+							<span>
+							</span>
 						</div>					
 					</div>
 				</div>
