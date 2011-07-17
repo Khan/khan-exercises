@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems">
+	<head>
+		<title>Multiplying Fractions 1</title>
+		<script src="../khan-exercise.js"></script>
+		<style type="text/css">
+			
+			
+			.hint_diagram_table {
+				border: 0px solid black;
+				width: 200px;
+				height: 200px;
+				border-collapse: collapse;	
+			}
+			
+			.hint_empty_cell {
+				border: 2px solid black;
+				background: white;
+				opacity:0.5;
+			}
+			
+			.hint_box1_cell {
+				border: 2px solid black;
+				background: red;
+				opacity:0.5;
+			}
+			
+			.hint_box2_cell {
+				border: 2px solid black;
+				background: blue;
+				opacity:0.5;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="problems">
+
+				<div id="fraction-with-fraction">
+					<div class="vars" data-ensure="A_DENOMINATOR != B_DENOMINATOR">
+						<var id="A_NUMERATOR">rand(3) + 1</var>
+						<var id="A_DENOMINATOR">A_NUMERATOR + rand(3) + 1</var>
+						<var id="B_NUMERATOR">rand(3) + 1</var>
+						<var id="B_DENOMINATOR">B_NUMERATOR + rand(3) + 1</var>
+						<var id="DEBUG_ANSWER">
+							( A_NUMERATOR * B_NUMERATOR ).toString() + "/" + 
+							( A_DENOMINATOR * B_DENOMINATOR ).toString()
+						</var>
+					</div>
+
+					<div class="question">
+						<p class="question_text">What is 
+							<code>
+								\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>} 
+								\times
+								\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}
+								= ?
+							</code>
+						</p>
+					</div>
+					<div class="solution" data-type="rational" data-simplify="optional">
+						<var>
+							( A_NUMERATOR * B_NUMERATOR ) / ( A_DENOMINATOR * B_DENOMINATOR )
+						</var>
+					</div>
+					
+					<div class="hints">
+						<div>
+							<table>
+								<tr>
+									<td>
+										First visualize 
+										<table id="hint_box_a" class="hint_diagram_table">											
+											<tr>
+												<tr data-if="(A_DENOMINATOR - A_NUMERATOR) > 4">
+													<td class="hint_empty_cell"></td>
+												</tr>
+												<tr data-if="(A_DENOMINATOR - A_NUMERATOR) > 3">
+													<td class="hint_empty_cell"></td>
+												</tr>
+												<tr data-if="(A_DENOMINATOR - A_NUMERATOR) > 2">
+													<td class="hint_empty_cell"></td>
+												</tr>
+												<tr data-if="(A_DENOMINATOR - A_NUMERATOR) > 1">
+													<td class="hint_empty_cell"></td>
+												</tr>
+												<tr>
+													<td class="hint_empty_cell"></td>
+												</tr>
+
+												<tr data-if="A_NUMERATOR > 4">
+													<td class="hint_box1_cell"></td>
+												</tr>
+												<tr data-if="A_NUMERATOR > 3">
+													<td class="hint_box1_cell"></td>
+												</tr>
+												<tr data-if="A_NUMERATOR > 2">
+													<td class="hint_box1_cell"></td>
+												</tr>
+												<tr data-if="A_NUMERATOR > 1">
+													<td class="hint_box1_cell"></td>
+												</tr>
+												<tr><td class="hint_box1_cell"></td></tr>
+											</tr>
+										</table>
+									</td>
+									<td>
+										Then visualize 
+										<code>
+											\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}
+										</code> :
+										<table id="hint_box_b" class="hint_diagram_table">
+											<tr>
+												<td class="hint_empty_cell"></td>
+												<td class="hint_box1_cell"></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>					
+					</div>
+				</div>
+
+
+
+			</div><!-- End of Problems -->
+		</div><!-- End of Exercises -->
+	</body>
+</html>
