@@ -12,15 +12,15 @@
 			<var id="END_NAME">END_TYPE.name</var>
 			<var id="FUN_NAME">START_TYPE.name</var>
 			<var id="ANGLE">30</var>
-			<var id="FUN_VALUE">START_TYPE.print(ANGLE)</var>
+			<var id="FUN_VALUE">START_TYPE.print( ANGLE )</var>
 			<var id="D">randRange( 2, 10 )</var>
-			<var id="SOLUTION">toRadians(180)</var>
-			<var id="TEST">findSteps(START_TYPE , END_TYPE, ANGLE)[0]</var>
+			<var id="SOLUTION">END_TYPE.print( ANGLE )</var>
+			<var id="STEPS">findSteps(START_TYPE , END_TYPE, ANGLE)[0]</var>
 		</div>
 
 		<div class="problems">
 			<div>
-				<p class="question"><div data-each="TEST as value"><code><var>value</var></code></div></p>
+				<p class="question">Given that x is in first quadrant and <code> \<var>FUN_NAME</var> x </code> is <code><var>FUN_VALUE</var></code> what is <code> \<var>END_NAME</var> x</code> ?</p>
 				
 
 				<p class="solution" data-type="rational"><var>D / A</var></p>
@@ -28,14 +28,7 @@
 		</div>
 
 		<div class="hints">
-			<div>
-				<p>Multiply both sides by <code><var>ONE_OVER_A</var></code>.</p>
-				<p><code>(<var>ONE_OVER_A</var>) \cdot (<var>A</var>x) = (<var>ONE_OVER_A</var>) \cdot (<var>D</var>)</code></p>
-			</div>
-			<div>
-				<p>Simplify.</p>
-				<p><code>x = <var>SOLUTION</var></code></p>
-			</div>
+				<p data-each="STEPS as step"><div data-each="step as value"><code><var>value</var></code></div></p>
 		</div>
 	</div>
 </body>

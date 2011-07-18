@@ -19,20 +19,58 @@ jQuery.extend( KhanUtil, {
 		{deg: 360, rad: "2\\pi"}
 	],
 	trigFunc: {
-		tan: {name: "tan", print: function(angle){
-      						        if(angle==0){
+		sec: {name: "sec", print: function( angle ){
+					  		 if( angle == 0 ){
+                                                                return 1;
+                                                        }
+                                                        else if( angle == 30 ){
+                                                                return "2/\\sqrt 3";
+                                                        }
+                                                        else if( angle == 45 ){
+                                                                return '\\sqrt 2';
+                                                        }
+                                                        else if( angle == 60 ){
+                                                                return '2';
+                                                        }
+                                                        else if( angle == 90 ){
+                                                                return 'undef';
+                                                        }
+                                                        return 'undef';
+						},
+				convertsTo: ["cos","tan"],
+				convertTo: function( type, angle){
+						if( type.name ==  "cos" ){ 
+
+							cosv =  KhanUtil.trigFunc.cos.print( angle );
+							secv =  KhanUtil.trigFunc.sec.print( angle );
+							toReturn = new Array();
+							toReturn.push( "sec x = 1/(cos x)" );
+							toReturn.push( "sec x = " + secv );
+							toReturn.push( '1/(cos x) = ' + secv );
+							toReturn.push( "cos x = " + cosv);
+						}
+						else if( type.name == "tan"){
+							cosv =  KhanUtil.trigFunc.cos.print( angle );
+							secv =  KhanUtil.trigFunc.sec.print( angle );
+							toReturn = new Array();
+							return toReturn;	
+						}
+					}
+			},	
+		tan: {name: "tan", print: function( angle ){
+      						        if( angle == 0 ){
                                                                 return 0;
                                                         }
-                                                        else if(angle==30){
-                                                                return '1/sqrt(3)';
+                                                        else if( angle == 30 ){
+                                                                return "1/\\sqrt 3";
                                                         }
-                                                        else if(angle==45){
+                                                        else if( angle == 45 ){
                                                                 return '1';
                                                         }
-                                                        else if(angle==60){
-                                                                return 'sqrt(3)';
+                                                        else if( angle == 60 ){
+                                                                return '\\sqrt 3';
                                                         }
-                                                        else if(angle==90){
+                                                        else if( angle == 90 ){
                                                                 return 'undef';
                                                         }
                                                         return 'undef';
@@ -40,23 +78,38 @@ jQuery.extend( KhanUtil, {
 						}
 			},
 		cos :{name: "cos", print: function( angle ){ 
-							return KhanUtil.trigFunc.sin.print(90-angle);
-							}
+							return KhanUtil.trigFunc.sin.print( 90-angle );
+							},
+				convertsTo: ["sin"],
+				convertTo: function( type, angle){
+						if( type.name == "sin" ){
+							cosv =  KhanUtil.trigFunc.cos.print( angle );
+							sinv =  KhanUtil.trigFunc.sin.print( angle );
+							toReturn = new Array();
+							toReturn.push("sin^2 x + cos^2 x = 1");
+							toReturn.push("sin^2 x + (" + cosv + ")^2 = 1");
+							toReturn.push("(" + cosv + ")^2 = 1 - sin^2 x");
+							toReturn.push('(' + cosv + ')^2 - 1 = - sin^2 x');
+							toReturn.push('-(' + cosv + ')^2 + 1 = sin^2 x');
+							toReturn.push(sinv + ' = sin x');
+							return toReturn;
+						}
+					}
 			},
 		sin: {name: "sin", print: function( angle ){ 
-							if(angle==0){
+							if( angle == 0 ){
 								return 0;
 							}
-							else if(angle==30){
+							else if( angle ==30 ){
 								return '1/2';
 							}
-							else if(angle==45){
-								return 'sqrt(2)/2';
+							else if( angle == 45 ){
+								return '\\sqrt 2/2';
 							}
-							else if(angle==60){
-								return 'sqrt(3)/2';
+							else if( angle = 60 ){
+								return '\\sqrt 3/2';
 							}
-							else if(angle==90){
+							else if( angle == 90 ){
 								return '1';
  							}
 							return 'undef';
@@ -67,13 +120,12 @@ jQuery.extend( KhanUtil, {
 								sinv = KhanUtil.trigFunc.sin.print( angle );
 								cosv = KhanUtil.trigFunc.cos.print( angle );
 								toReturn = new Array();
-								toReturn.push("\\sin^2 x + \\cos^2 x = 1");
-								toReturn.push( "(" + sinv + ")^2 + \\cos^2 x = 1");
-								toReturn.push("(" + sinv + ")^2 = 1- \\cos^2 x ");
-								toReturn.push("(" + sinv + ")^2 - 1 = - \\cos^2 x "); 
-								toReturn.push("-(" + sinv + ")^2 + 1 = \\cos^2 x ");
-						   		toReturn.push(cosv + " =  \\cos x");
-								alert(toReturn);
+								toReturn.push( "\\sin^2 x + \\cos^2 x = 1" );
+								toReturn.push( "(" + sinv + ")^2 + \\cos^2 x = 1" );
+								toReturn.push( "(" + sinv + ")^2 = 1- \\cos^2 x " );
+								toReturn.push( "(" + sinv + ")^2 - 1 = - \\cos^2 x " ); 
+								toReturn.push( "-(" + sinv + ")^2 + 1 = \\cos^2 x " );
+						   		toReturn.push( cosv + " =  \\cos x" );
 								return toReturn;
  
 							}
@@ -92,25 +144,25 @@ jQuery.extend( KhanUtil, {
 	findSteps: function( start, end, value){
 		var queue=[];
 		var next=start;
-		while( next.name!=end.name ){
+		while( next.name != end.name ){
 			if ( next.convertsTo ) {
       				$.each( next.convertsTo, function(i, str) {
-					var move=KhanUtil.trigFunc[str];
-					move["parent"]=next;
-					queue.push(move);
+					var move = KhanUtil.trigFunc[str];
+					move["parent"] = next;
+					queue.push( move );
            		 	});
                 	}
       			 next = queue.shift();
     		}	
-		var prev=next;
-		var steps=new Array();
-		while( prev.name!=start.name ){
-			steps.unshift(prev.name);
-			prev=prev.parent;
+		var prev = next;
+		var steps = new Array();
+		while( prev.name != start.name ){
+			steps.unshift( prev.name );
+			prev = prev.parent;
 		}		
 		steps.unshift( prev.name );
-		var toReturn=new Array();
-		for( x=0;x<steps.length-1;x++ ){
+		var toReturn = new Array();
+		for( x=0; x<steps.length-1 ;x++ ){
 			toReturn.push(KhanUtil.trigFunc[steps[x]].convertTo( KhanUtil.trigFunc[steps[x+1]], value ));
 		}	
 		return toReturn;
