@@ -800,9 +800,13 @@ var Khan = {
 			} );
 
 			jQuery( "#tester-info .fail" ).click( function() {
-				Khan.dataDump.problems[ Khan.dataDump.problems.length - 1 ].pass =
-					prompt( "Please write a short description of the error, then click OK." );
-				jQuery( "#next-question-button" ).trigger( "click" );
+				var description = prompt( "Please write a short description of the error, then click OK." );
+
+				// Don't do anything on clicking Cancel
+				if ( description != null ) {
+					Khan.dataDump.problems[ Khan.dataDump.problems.length - 1 ].pass = description;
+					jQuery( "#next-question-button" ).trigger( "click" );
+				}
 			} );
 
 			jQuery( "body" ).keypress( function( e ) {
