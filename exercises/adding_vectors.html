@@ -17,14 +17,7 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>What is <code>\vec a + \vec b</code>?</p>
-
-				<p><code>\begin{align*}
-					\vec a &= <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath \\
-					\vec b &= <var>BX</var> \hat\imath + <var>BY</var> \hat\jmath
-				\end{align*}</code></p>
-
-				<div id="graph" class="graphie">
+				<div id="graph" class="graphie" style="float: right">
 					graphInit({ 
 						range: 10,
 						scale: 20,
@@ -41,6 +34,13 @@
 					var BF = 1 + 0.8 / sqrt( BX * BX + BY * BY );
 					label( [BF * BX, BF * BY], "\\vec b", { color: "#28ae7b" } );
 				</div>
+
+				<p>What is <code>\vec a + \vec b</code>?</p>
+
+				<p><code>\begin{align*}
+					\vec a &= <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath \\
+					\vec b &= <var>BX</var> \hat\imath + <var>BY</var> \hat\jmath
+				\end{align*}</code></p>
 			</div>
 
 			<div class="solution" data-type="multiple">
