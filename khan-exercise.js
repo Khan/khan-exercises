@@ -804,6 +804,18 @@ var Khan = {
 					prompt( "Please write a short description of the error, then click OK." );
 				jQuery( "#next-question-button" ).trigger( "click" );
 			} );
+
+			jQuery( "body" ).keypress( function( e ) {
+				if ( e.charCode === "h".charCodeAt( 0 ) ) {
+					jQuery( "#hint" ).click();
+				}
+				if ( e.charCode === "y".charCodeAt( 0 ) ) {
+					jQuery( "#tester-info .pass" ).click();
+				}
+				if ( e.charCode === "n".charCodeAt( 0 ) ) {
+					jQuery( "#tester-info .fail" ).click();
+				}
+			});
 		}
 
 		// Prepare for the debug info if requested
