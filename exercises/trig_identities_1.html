@@ -13,7 +13,6 @@
 			<var id="FUN_NAME">START_TYPE.name</var>
 			<var id="ANGLE">30</var>
 			<var id="FUN_VALUE">START_TYPE.print(ANGLE)</var>
-			<var id="SOLUTION_STEPS">findSteps(START_TYPE,END_TYPE)</var>
 			<var id="D">randRange( 2, 10 )</var>
 			<var id="SOLUTION">toRadians(180)</var>
 			<var id="TEST">findSteps(START_TYPE , END_TYPE, ANGLE)[0]</var>
@@ -21,7 +20,7 @@
 
 		<div class="problems">
 			<div>
-				<p class="question"><code><var>TEST</var>  Given that x is in first quadrant and <var>FUN_NAME</var><code>x</code>=<var>FUN_VALUE</var> what is <var>END_NAME</var></code></p>
+				<p class="question"><div data-each="TEST as value"><code><var>value</var></code></div></p>
 				
 
 				<p class="solution" data-type="rational"><var>D / A</var></p>

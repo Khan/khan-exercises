@@ -66,12 +66,15 @@ jQuery.extend( KhanUtil, {
 							if( type.name == "cos" ){
 								sinv = KhanUtil.trigFunc.sin.print( angle );
 								cosv = KhanUtil.trigFunc.cos.print( angle );
-								toReturn = "<code>\\sin^2 x + \\cos^2 x = 1</code>";
-								toReturn += "<code>(" + sinv + ")^2 + \\cos^2 x = 1</code>"
-								toReturn += "<code>(" + sinv + ')^2 - 1 = - cos^2 x" 
-								toReturn += "<code>
-+'-(' + sinv + ')^2 + 1 = cos^2 x'+cosv + ' = cos x';	
-						   		return toReturn;
+								toReturn = new Array();
+								toReturn.push("\\sin^2 x + \\cos^2 x = 1");
+								toReturn.push( "(" + sinv + ")^2 + \\cos^2 x = 1");
+								toReturn.push("(" + sinv + ")^2 = 1- \\cos^2 x ");
+								toReturn.push("(" + sinv + ")^2 - 1 = - \\cos^2 x "); 
+								toReturn.push("-(" + sinv + ")^2 + 1 = \\cos^2 x ");
+						   		toReturn.push(cosv + " =  \\cos x");
+								alert(toReturn);
+								return toReturn;
  
 							}
 		}
