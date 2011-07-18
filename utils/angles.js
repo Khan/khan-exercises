@@ -39,7 +39,7 @@ jQuery.extend( KhanUtil, {
 	
 						}
 			},
-		cos :{name: "cos", print: function(angle){ 
+		cos :{name: "cos", print: function( angle ){ 
 							return KhanUtil.trigFunc.sin.print(90-angle);
 							}
 			},
@@ -63,10 +63,14 @@ jQuery.extend( KhanUtil, {
 							},
 					convertsTo: ["cos"],
 					convertTo: function( type, angle ){
-							if(type.name=="cos"){
-								sinv=this.print( angle );
-								cosv= KhanUtil.trigFunc.sin.print( angle );
-								toReturn='sin^2 x + cos^2 x = 1'+'(' + sinv + ')^2 = 1 - cos^2 x'+'(' + sinv + ')^2 - 1 = - cos^2 x'+'-(' + sinv + ')^2 + 1 = cos^2 x'+cosv + ' = cos x';	
+							if( type.name == "cos" ){
+								sinv = KhanUtil.trigFunc.sin.print( angle );
+								cosv = KhanUtil.trigFunc.cos.print( angle );
+								toReturn = "<code>\\sin^2 x + \\cos^2 x = 1</code>";
+								toReturn += "<code>(" + sinv + ")^2 + \\cos^2 x = 1</code>"
+								toReturn += "<code>(" + sinv + ')^2 - 1 = - cos^2 x" 
+								toReturn += "<code>
++'-(' + sinv + ')^2 + 1 = cos^2 x'+cosv + ' = cos x';	
 						   		return toReturn;
  
 							}
@@ -82,12 +86,12 @@ jQuery.extend( KhanUtil, {
 		return degrees * Math.PI / 180;
 	},
 
-	findSteps: function(start,end){
+	findSteps: function( start, end, value){
 		var queue=[];
 		var next=start;
-		while(next.name!=end.name){
-			if (next.convertsTo) {
-      				$.each(next.convertsTo, function(i, str) {
+		while( next.name!=end.name ){
+			if ( next.convertsTo ) {
+      				$.each( next.convertsTo, function(i, str) {
 					var move=KhanUtil.trigFunc[str];
 					move["parent"]=next;
 					queue.push(move);
@@ -97,15 +101,15 @@ jQuery.extend( KhanUtil, {
     		}	
 		var prev=next;
 		var steps=new Array();
-		while(prev.name!=start.name){
+		while( prev.name!=start.name ){
 			steps.unshift(prev.name);
 			prev=prev.parent;
 		}		
-		steps.unshift(prev.name);
+		steps.unshift( prev.name );
 		var toReturn=new Array();
-		for(x=0;x<steps.length-1;x++){
-			toReturn.push(KhanUtil.trigFunc[steps[x]].convertTo(steps[x+1],10));
-		}			
+		for( x=0;x<steps.length-1;x++ ){
+			toReturn.push(KhanUtil.trigFunc[steps[x]].convertTo( KhanUtil.trigFunc[steps[x+1]], value ));
+		}	
 		return toReturn;
 	},
 
