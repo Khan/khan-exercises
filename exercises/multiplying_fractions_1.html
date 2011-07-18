@@ -4,7 +4,16 @@
 		<title>Multiplying Fractions 1</title>
 		<script src="../khan-exercise.js"></script>
 		<style type="text/css">
+			.centered_cell {
+				text-align: center;
+			}
 			
+			.hint_diagram_table_small {
+				border: 0px solid black;
+				width: 100px;
+				height: 100px;
+				border-collapse: collapse;
+			}
 			
 			.hint_diagram_table {
 				border: 0px solid black;
@@ -42,15 +51,14 @@
 		<script>
 			function verticallyDividedBox( selector, numeratorName, denominatorName ) {
 				var numerator = jQuery.tmpl.VARS[numeratorName];
-				var denominator = jQuery.tmpl.VARS[denominatorName];
-				
+				var denominator = jQuery.tmpl.VARS[denominatorName];				
 
 				if ( $( selector ).find( "tbody" ).length < 1 ) {
 					$( selector ).append( "<tbody/>" );
 				}
 				
 				var tbody = $( selector ).find( "tbody" );
-				var rowHeight = tbody.height() / denominator;
+				var rowHeight = $( selector ).height() / denominator;
 				 
 				for( i=0; i < denominator - numerator; i++ ) {
 					tbody.append( "<tr><td class=\"hint_empty_cell\"/></tr>" ).height(rowHeight);
@@ -67,7 +75,12 @@
 				if ( $( selector ).find( "tbody" ).length < 1 ) {
 					$( selector ).append( "<tbody/>" );
 				}
-				var row = $( selector ).find( "tbody" ).append("<tr></tr>");
+
+				if( $( selector ).find( "tbody" ).find("tr").length < 1 ) {
+					$( selector ).find( "tbody" ).append("<tr></tr>");
+				}
+				var row = $( selector ).find( "tbody" ).find( "tr" );
+				row.height( $( selector ).height() );
 				var colWidth = row.width() / denominator;
 				
 				for( i=0; i < denominator - numerator; i++ ) {
@@ -93,16 +106,59 @@
 							( A_NUMERATOR * B_NUMERATOR ).toString() + "/" + 
 							( A_DENOMINATOR * B_DENOMINATOR ).toString()
 						</var>
+						<var id="GCD">
+							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMERATOR ), ( A_DENOMINATOR * B_DENOMINATOR ))
+						</var>						
 					</div>
 
 					<div class="question">
 						<p class="question_text">What is 
-							<code>
-								\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>} 
-								\times
-								\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}
-								= ?
-							</code>
+							<table>
+								<tbody>
+									<tr>
+										<td class="centered_cell">
+											<code>
+												\huge{\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}}
+											</code>
+										</td>
+										<td class="centered_cell">										
+											<code>\huge{\times}</code>										
+										</td>
+										<td class="centered_cell">
+											<code>
+												\huge{\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}}
+											</code>								
+										</td>
+										<td class="centered_cell">
+											<code>\huge{ = ?}</code>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<table id="problem1-question-box1" class="hint_diagram_table_small">
+											</table>
+											<script type="text/javascript">
+												$(document).ready(function(){
+													verticallyDividedBox( "#problem1-question-box1", 
+															"A_NUMERATOR" , "A_DENOMINATOR");	
+												});										
+											</script>
+										</td>
+										<td></td>
+										<td>
+											<table id="problem1-question-box2" class="hint_diagram_table_small">
+											</table>
+											<script type="text/javascript">
+												$(document).ready(function(){
+													horizontallyDividedBox( "#problem1-question-box2", 
+															"B_NUMERATOR", "B_DENOMINATOR");
+												});										
+											</script>	
+										</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
 						</p>
 					</div>
 					<div class="solution" data-type="rational" data-simplify="optional">
@@ -113,51 +169,22 @@
 					
 					<div class="hints">
 						<div id="problem1-hint1-div">
-							<table>
-								<tr>
-									<td>
-										<p>
-											First visualize
-											<code>
-												\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}
-											</code> 
-											would look like.
-										</p> 
-										<table id="problem1-hint1-box1" class="hint_diagram_table">
-										</table>
-										<script type="text/javascript">
-											$(document).ready(function(){
-												verticallyDividedBox( "#problem1-hint1-box1", 
-														"A_NUMERATOR" , "A_DENOMINATOR");	
-											});										
-										</script>											
-									</td>
-									<td style="width: 20px;"></td>
-									<td>
-										<p>
-											Then visualize how 
-											<code>
-												\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}
-											</code> 
-											would look like.
-										</p>
-										<table id="problem1-hint1-box2" class="hint_diagram_table">
-										</table>
-										<script type="text/javascript">
-											$(document).ready(function(){
-												horizontallyDividedBox( "#problem1-hint1-box2", 
-														"B_NUMERATOR", "B_DENOMINATOR");
-											});										
-										</script>										
-									</td>
-								</tr>
-							</table>
-							<p>How would these look like if we put them together?</p>
-						</div> <!-- End of hint 1 -->
-						<div id="problem1-hint2-div">
 							<p>
-								Now picture them together. 
-							</p> 
+								Another way to word this problem is:
+							</p>
+							<p style="font-size: 20pt;">
+								What is <code>\huge{\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}}</code> 
+								of <code>\huge{\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}}</code>?
+							</p>
+						</div> <!-- End of hint 1 -->
+						
+						<div id="problem1-hint2-div">
+							Notice the number of boxes in the grid equal to 
+							<var>A_DENOMINATOR *B_DENOMINATOR</var> 
+							(<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var></code>)
+							and the number of boxes where the 2 intersect is equal to 
+							<code><var>A_NUMERATOR * B_NUMERATOR</var></code> 
+							(<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var></code>).
 							<div id="problem1-hint2-box-p" style="display: block; position: relative">
 								<table id="problem1-hint2-box1" class="hint_diagram_table_overlay">									
 								</table>
@@ -175,7 +202,13 @@
 									});										
 								</script>	
 							</div>
-						</div>	<!-- End of hint 2 div -->				
+						</div>	<!-- End of hint 2 div -->	
+						
+						<div id="problem1-hint3-div" data-if="GCD > 1">
+							This can be further simplified to:
+							<code>\huge{\frac{<var>A_NUMERATOR * B_NUMERATOR / GCD</var>}
+							{<var>A_DENOMINATOR * B_DENOMINATOR / GCD</var>}}</code>
+						</div>			
 					</div><!-- End of problem 1 -->
 				</div>
 
