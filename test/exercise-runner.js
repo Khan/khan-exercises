@@ -41,7 +41,9 @@ jQuery.extend(Khan, {
 					var VARS = iwindow.jQuery.tmpl.VARS;
 
 					for ( var key in problem.VARS ) {
-						deepEqual( VARS[key], problem.VARS[key], "var " + key );
+						// Removes unserializable properties like functions (e.g., on polynomial objects)
+						var vark = JSON.parse( JSON.stringify( VARS[key] ) );
+						deepEqual( vark, problem.VARS[key], "var " + key );
 					}
 
 					deepEqual( iKhan.validator.solution, problem.solution, "solution" );
