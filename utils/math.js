@@ -185,12 +185,16 @@ jQuery.extend(KhanUtil, {
 	},
 
 	getFactors: function( number ) {
-		var factors = [];
+		var factors = [],
+			ins = function( n ) {
+				if ( factors.indexOf( n ) === -1 ) factors.push( n );
+			};
+
 		var maxf = Math.sqrt( number );
 		for (var f = 1; f <= maxf; f++) {
-			if (! ( number % f ) ) {
-				factors.push( f );
-				factors.push( number / f );
+			if ( number % f === 0 ) {
+				ins( f );
+				ins( number / f );
 			}
 		}
 		return KhanUtil.sortNumbers( factors );
