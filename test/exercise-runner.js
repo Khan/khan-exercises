@@ -26,7 +26,7 @@ jQuery.extend(Khan, {
 		});
 
 		jQuery.each( json.problems, function( index, problem, next ) {
-			asyncTest( exerciseName + " / " + problem.type + " / " + problem.seed, function() {
+			asyncTest( problem.type + " / " + problem.seed, function() {
 				var iwindow = iframe[0].contentWindow;
 				var iKhan = iwindow.Khan;
 
@@ -44,8 +44,8 @@ jQuery.extend(Khan, {
 						deepEqual( VARS[key], problem.VARS[key], "var " + key );
 					}
 
-					deepEqual( iKhan.validator.solution, problem.solution, "solution" )
-					strictEqual( problem.pass, true, "pass" )
+					deepEqual( iKhan.validator.solution, problem.solution, "solution" );
+					strictEqual( problem.pass, true, "pass" );
 
 					start();
 				} );
