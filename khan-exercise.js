@@ -596,7 +596,7 @@ var Khan = {
 		jQuery("#check-answer-button").click( handleSubmit );
 		jQuery("#answerform").submit( handleSubmit );
 		
-		function handleSubmit() {
+		function handleSubmit( e ) {
 			var pass = Khan.validator();
 			
 			// Figure out if the response was correct
@@ -624,7 +624,9 @@ var Khan = {
 			}
 			
 			jQuery(Khan).trigger( "checkAnswer", pass );
-			
+
+			// Why is this necessary along with the return false? Not sure. Chrome needs it, at least.
+			e.preventDefault();
 			return false;
 		}
 
