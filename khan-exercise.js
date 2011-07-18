@@ -971,8 +971,6 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 	
 	// Grab the cached UserExercise data from local storage
 	function getData() {
-		console.log( "User", user );
-		
 		var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
 		
 		// Parse the JSON if it exists
