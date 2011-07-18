@@ -10,8 +10,16 @@
 				border: 0px solid black;
 				width: 200px;
 				height: 200px;
-				border-collapse: collapse;	
+				border-collapse: collapse;
 			}
+			
+			.hint_diagram_table_overlay {
+				border: 0px solid black;
+				width: 200px;
+				height: 200px;
+				border-collapse: collapse;
+				position: absolute;
+			}			
 			
 			.hint_empty_cell {
 				border: 2px solid black;
@@ -35,16 +43,20 @@
 			function verticallyDividedBox( selector, numeratorName, denominatorName ) {
 				var numerator = jQuery.tmpl.VARS[numeratorName];
 				var denominator = jQuery.tmpl.VARS[denominatorName];
+				
 
 				if ( $( selector ).find( "tbody" ).length < 1 ) {
 					$( selector ).append( "<tbody/>" );
 				}
-				var tbody = $( selector ).find( "tbody" ); 
+				
+				var tbody = $( selector ).find( "tbody" );
+				var rowHeight = tbody.height() / denominator;
+				 
 				for( i=0; i < denominator - numerator; i++ ) {
-					tbody.append( "<tr><td class=\"hint_empty_cell\"/></tr>" );
+					tbody.append( "<tr><td class=\"hint_empty_cell\"/></tr>" ).height(rowHeight);
 				}
 				for(i=0; i < numerator; i++) {
-					tbody.append( "<tr><td class=\"hint_box1_cell\"/></tr>" );
+					tbody.append( "<tr><td class=\"hint_box1_cell\"/></tr>" ).height(rowHeight);
 				}	
 			}
 
@@ -55,16 +67,15 @@
 				if ( $( selector ).find( "tbody" ).length < 1 ) {
 					$( selector ).append( "<tbody/>" );
 				}
+				var row = $( selector ).find( "tbody" ).append("<tr></tr>");
+				var colWidth = row.width() / denominator;
 				
-				var rowHtml = "<tr>";
 				for( i=0; i < denominator - numerator; i++ ) {
-					rowHtml += "<td class=\"hint_empty_cell\"/>";
+					row.append("<td class=\"hint_empty_cell\"/>").width(colWidth);
 				}
 				for( i=0; i < numerator; i++ ) {
-					rowHtml += "<td class=\"hint_box2_cell\"/>";
+					row.append("<td class=\"hint_box2_cell\"/>").width(colWidth);
 				}
-				rowHtml += "</tr>";
-				$(selector).find( "tbody" ).append( rowHtml );				
 			}
 		</script>
 	</head>
@@ -105,11 +116,13 @@
 							<table>
 								<tr>
 									<td>
-										First visualize
-										<code>
-											\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}
-										</code> 
-										would look like. 
+										<p>
+											First visualize
+											<code>
+												\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}
+											</code> 
+											would look like.
+										</p> 
 										<table id="problem1-hint1-box1" class="hint_diagram_table">
 										</table>
 										<script type="text/javascript">
@@ -119,12 +132,15 @@
 											});										
 										</script>											
 									</td>
+									<td style="width: 20px;"></td>
 									<td>
-										Then visualize how 
-										<code>
-											\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}
-										</code> 
-										would look like.
+										<p>
+											Then visualize how 
+											<code>
+												\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}
+											</code> 
+											would look like.
+										</p>
 										<table id="problem1-hint1-box2" class="hint_diagram_table">
 										</table>
 										<script type="text/javascript">
@@ -136,14 +152,31 @@
 									</td>
 								</tr>
 							</table>
+							<p>How would these look like if we put them together?</p>
 						</div> <!-- End of hint 1 -->
 						<div id="problem1-hint2-div">
-							Now picture them together. 
-							<button id="problem1-hint2-button">Push me</button>
-							<span>
-							</span>
-						</div>					
-					</div>
+							<p>
+								Now picture them together. 
+							</p> 
+							<div id="problem1-hint2-box-p" style="display: block; position: relative">
+								<table id="problem1-hint2-box1" class="hint_diagram_table_overlay">									
+								</table>
+								<table id="problem1-hint2-box2" class="hint_diagram_table_overlay">
+								</table>
+								<script type="text/javascript">
+									$(document).ready(function(){
+										verticallyDividedBox( "#problem1-hint2-box1", 
+											"A_NUMERATOR", "A_DENOMINATOR");
+										horizontallyDividedBox( "#problem1-hint2-box2", 
+											"B_NUMERATOR", "B_DENOMINATOR");
+
+										$("#problem1-hint2-box2").css("left", 300);
+										$("#problem1-hint2-box2").animate({left: "0"}, 5000);
+									});										
+								</script>	
+							</div>
+						</div>	<!-- End of hint 2 div -->				
+					</div><!-- End of problem 1 -->
 				</div>
 
 
