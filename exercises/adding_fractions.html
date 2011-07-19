@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
+<html data-require="math math-format">
 <head>
 	<title>Adding Fractions</title>
 	<script src="../khan-exercise.js"></script>
@@ -28,12 +28,12 @@
 				<p class="question"><code><var>fraction( N1, D1 )</var> + <var>fraction( N2, D2 )</var> = ?</code></p>
 
 				<div data-if="W === 0">
-					<div class="solution" "data-type="rational"><var>( N1 * D2 + N2 * D1 ) / (D1 * D2)</var></div>
+					<div class="solution" "data-type="rational"><var>( N1 * F1 + N2 * F2 ) / LCM</var></div>
 				</div>
 				<div data-else>
 					<div class="solution" data-type="multiple">
 						<p><span class="sol" data-type="text"><var>W</var></span> 
-						   <span class="sol" data-type="rational"><var>( N1 * D2 + N2 * D1 ) / (D1 * D2)</var></span></p>
+						   <span class="sol" data-type="rational"><var>( N1 * F1 + N2 * F2 - W * LCM ) / LCM</var></span></p>
 					</div>
 				</div>
 
@@ -74,7 +74,7 @@
 				<p class="question"><code><var>fraction( N1, D1 )</var> + <var>fraction( N2, D2 )</var> + <var>fraction( N3, D3 )</var>= ?</code></p>
 
 				<div data-if="W === 0">
-					<div class="solution" "data-type="rational"><var>( N1 * D2 + N2 * D1 + N2 * D1 ) / (D1 * D2)</var></div>
+					<div class="solution" "data-type="rational"><var>( N1 * F1 + N2 * F2 + N3 * F3 ) / LCM</var></div>
 				</div>
 				<div data-else>
 					<div class="solution" data-type="multiple">
