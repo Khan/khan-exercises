@@ -486,7 +486,8 @@
 							+ "/" + ( A_DENOMINATOR * B_DENOMINATOR ).toString()
 						</var>
 						<var id="GCD">
-							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMBER ), ( A_DENOMINATOR ) )
+							KhanUtil.getGCD( ( A_NUMERATOR * (B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ), 
+								( A_DENOMINATOR * B_DENOMINATOR ) )
 						</var>
 						<var id="TABLE_A">
 							createVertTable( A_NUMERATOR, A_DENOMINATOR, null, null )
@@ -636,8 +637,8 @@
 						<div id="problem2-hint3-div" data-if="GCD > 1">
 							This can be further simplified to
 							<code>
-								\frac{<var>A_NUMERATOR * B_NUMBER / GCD</var>}
-								{<var>A_DENOMINATOR / GCD</var>}
+								\frac{<var>A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR) / GCD</var>}
+								{<var>(A_DENOMINATOR * B_DENOMINATOR) / GCD</var>}
 							</code>, 
 							by dividing both top and bottom by it's common denominator 
 							<var>GCD</var>.
