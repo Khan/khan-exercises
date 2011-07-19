@@ -39,54 +39,54 @@
 		</div>
 
 		<div class="hints">
-			<div data-if="OMITTED === 'd'">
+			<div data-if="OMITTED === 'd'" data-unwrap>
 				<p><code>v_f = v_i + at</code></p>
 
-				<div data-if="UNKNOWN === 'v_f'">
+				<div data-if="UNKNOWN === 'v_f'" data-unwrap>
 					<p><code>v_f = <var>u(MOTION,"v_i")</var> + (<var>u(MOTION,"a")</var>)(<var>u(MOTION,"t")</var>)</code></p>
 					<p><code>v_f = <var>u(MOTION,"v_f")</var></code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 'v_i'">
+				<div data-if="UNKNOWN === 'v_i'" data-unwrap>
 					<p><code>v_f - at = v_i</code></p>
 					<p><code><var>u(MOTION,"v_f")</var> - (<var>u(MOTION,"a")</var>)(<var>u(MOTION,"t")</var>) = v_i</code></p>
 					<p><code><var>u(MOTION,"v_i")</var> = v_i</code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 'a'">
+				<div data-if="UNKNOWN === 'a'" data-unwrap>
 					<p><code>\frac{v_f - v_i}{t} = a</code></p>
 					<p><code>\frac{<var>u(MOTION,"v_f")</var> - <var>u(MOTION,"v_i")</var>}{<var>u(MOTION,"t")</var>} = a</code></p>
 					<p><code><var>u(MOTION,"a")</var> = a</code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 't'">
+				<div data-if="UNKNOWN === 't'" data-unwrap>
 					<p><code>\frac{v_f - v_i}{a} = t</code></p>
 					<p><code>\frac{<var>u(MOTION,"v_f")</var> - <var>u(MOTION,"v_i")</var>}{<var>u(MOTION,"a")</var>} = t</code></p>
 					<p><code><var>u(MOTION,"t")</var> = t</code></p>
 				</div>
 			</div>
 
-			<div data-if="OMITTED === 'v_i'">
+			<div data-if="OMITTED === 'v_i'" data-unwrap>
 				<p><code>d = v_f t - \frac{1}{2}at^2</code></p>
 
-				<div data-if="UNKNOWN === 'd'">
+				<div data-if="UNKNOWN === 'd'" data-unwrap>
 					<p><code>d = (<var>u(MOTION,"v_f")</var>)(<var>u(MOTION,"t")</var>) - \frac{1}{2}(<var>u(MOTION,"a")</var>)(<var>u(MOTION,"t")</var>)^2</code></p>
 					<p><code>d = <var>u(MOTION,"d")</var></code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 'v_f'">
+				<div data-if="UNKNOWN === 'v_f'" data-unwrap>
 					<p><code>\frac{d + \frac{1}{2} at^2}{t} = v_f</code></p>
 					<p><code>\frac{<var>u(MOTION,"d")</var> + \frac{1}{2}(<var>u(MOTION,"a")</var>)(<var>u(MOTION,"t")</var>)^2}{<var>u(MOTION,"t")</var>} = v_f</code></p>
 					<p><code><var>u(MOTION,"v_f")</var> = v_f</code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 'a'">
+				<div data-if="UNKNOWN === 'a'" data-unwrap>
 					<p><code>\frac{d - v_f*t}{-\frac{1}{2}t^2} = a</code></p>
 					<p><code>\frac{<var>u(MOTION,"d")</var> - (<var>u(MOTION,"v_f")</var>)(<var>u(MOTION,"t")</var>)}{-\frac{1}{2}(<var>u(MOTION,"t")</var>)^2} = a</code></p>
 					<p><code><var>u(MOTION,"a")</var> = a</code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 't'">
+				<div data-if="UNKNOWN === 't'" data-unwrap>
 					<p><code>0 = -\frac{1}{2}a*t^2 + v_f*t - d</code></p>
 					<div>
 						<p>By the quadratic formula:</p>
@@ -97,27 +97,27 @@
 				</div>
 			</div>
 
-			<div data-if="OMITTED === 'v_f'">
+			<div data-if="OMITTED === 'v_f'" data-unwrap>
 				<p><code>d = v_i t + \frac{1}{2}at^2</code></p>
 
-				<div data-if="UNKNOWN === 'd'">
+				<div data-if="UNKNOWN === 'd'" data-unwrap>
 					<p><code>d = (<var>u(MOTION,"v_i")</var>)(<var>u(MOTION,"t")</var>) + \frac{1}{2}(<var>u(MOTION,"a")</var>)(<var>u(MOTION,"t")</var>)^2</code></p>
 					<p><code>d = <var>u(MOTION,"d")</var></code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 'v_i'">
+				<div data-if="UNKNOWN === 'v_i'" data-unwrap>
 					<p><code>\frac{d - \frac{1}{2}at^2}{t} = v_i</code></p>
 					<p><code>\frac{<var>u(MOTION,"d")</var> - \frac{1}{2}(<var>u(MOTION,"a")</var>)(<var>u(MOTION,"t")</var>)^2}{<var>u(MOTION,"t")</var>} = v_i</code></p>
 					<p><code><var>u(MOTION,"v_i")</var> = v_i</code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 'a'">
+				<div data-if="UNKNOWN === 'a'" data-unwrap>
 					<p><code>\frac{d - v_i t}{\frac{1}{2} t^2} = a</code></p>
 					<p><code>\frac{<var>u(MOTION,"d")</var> - (<var>u(MOTION,"v_i")</var>)(<var>u(MOTION,"t")</var>)}{\frac{1}{2}(<var>u(MOTION,"t")</var>)^2} = a</code></p>
 					<p><code><var>u(MOTION,"a")</var> = a</code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 't'">
+				<div data-if="UNKNOWN === 't'" data-unwrap>
 					<p><code>0 = \frac{1}{2} at^2 + v_i t - d</code></p>
 					<div>
 						<p>By the quadratic formula:</p>
@@ -128,55 +128,55 @@
 				</div>
 			</div>
 
-			<div data-if="OMITTED === 'a'">
+			<div data-if="OMITTED === 'a'" data-unwrap>
 				<p><code>d = \frac{1}{2}(v_i + v_f)t</code></p>
 
-				<div data-if="UNKNOWN === 'd'">
+				<div data-if="UNKNOWN === 'd'" data-unwrap>
 					<p><code>d = \frac{1}{2}(<var>u(MOTION,"v_i")</var> + <var>u(MOTION,"v_f")</var>)(<var>u(MOTION,"t")</var>)</code></p>
 					<p><code>d = <var>u(MOTION,"d")</var></code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 'v_i'">
+				<div data-if="UNKNOWN === 'v_i'" data-unwrap>
 					<p><code>\frac{2d}{t} - v_f = v_i</code></p>
 					<p><code>\frac{2(<var>u(MOTION,"d")</var>)}{<var>u(MOTION,"t")</var>} - <var>u(MOTION,"v_f")</var> = v_i</code></p>
 					<p><code><var>u(MOTION,"v_i")</var> = v_i</code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 'v_f'">
+				<div data-if="UNKNOWN === 'v_f'" data-unwrap>
 					<p><code>\frac{2d}{t} - v_i = v_f</code></p>
 					<p><code>\frac{2(<var>u(MOTION,"d")</var>)}{<var>u(MOTION,"t")</var>} - <var>u(MOTION,"v_i")</var> = v_f</code></p>
 					<p><code><var>u(MOTION,"v_f")</var> = v_f</code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 't'">
+				<div data-if="UNKNOWN === 't'" data-unwrap>
 					<p><code>\frac{2d}{v_i + v_f} = t</code></p>
 					<p><code>\frac{2(<var>u(MOTION,"d")</var>)}{<var>u(MOTION,"v_i")</var> + <var>u(MOTION,"v_f")</var>} = t</code></p>
 					<p><code><var>u(MOTION,"t")</var> = t</code></p>
 				</div>
 			</div>
 
-			<div data-if="OMITTED === 't'">
+			<div data-if="OMITTED === 't'" data-unwrap>
 				<p><code>v_f^2 = v_i^2 + 2ad</code></p>
 
-				<div data-if="UNKNOWN === 'd'">
+				<div data-if="UNKNOWN === 'd'" data-unwrap>
 					<p><code>\frac{v_f^2 - v_i^2}{2a} = d</code></p>
 					<p><code>\frac{(<var>u(MOTION,"v_f")</var>)^2 - (<var>u(MOTION,"v_i")</var>)^2}{2(<var>u(MOTION,"a")</var>)} = d</code></p>
 					<p><code><var>u(MOTION,"d")</var> = d</code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 'v_i'">
+				<div data-if="UNKNOWN === 'v_i'" data-unwrap>
 					<p><code>\pm\sqrt{v_f^2 - 2ad} = v_i</code></p>
 					<p><code>\pm\sqrt{(<var>u(MOTION,"v_f")</var>)^2 - 2(<var>u(MOTION,"a")</var>)(<var>u(MOTION,"d")</var>)} = v_i</code></p>
 					<p><code><var>u(MOTION,"v_i")</var> = v_i</code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 'v_f'">
+				<div data-if="UNKNOWN === 'v_f'" data-unwrap>
 					<p><code>v_f = \pm\sqrt{v_i^2 + 2ad}</code></p>
 					<p><code>v_f = \pm\sqrt{(<var>u(MOTION,"v_i")</var>)^2 + 2(<var>u(MOTION,"a")</var>)(<var>u(MOTION,"d")</var>)}</code></p>
 					<p><code><var>u(MOTION,"v_f")</var> = v_f</code></p>
 				</div>
 
-				<div data-if="UNKNOWN === 'a'">
+				<div data-if="UNKNOWN === 'a'" data-unwrap>
 					<p><code>\frac{v_f^2 - v_i^2}{2d} = a</code></p>
 					<p><code>\frac{(<var>u(MOTION,"v_f")</var>)^2 - (<var>u(MOTION,"v_i")</var>)^2}{2(<var>u(MOTION,"d")</var>)} = a</code></p>
 					<p><code><var>u(MOTION,"a")</var> = a</code></p>
