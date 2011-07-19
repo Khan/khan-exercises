@@ -8,6 +8,11 @@
 	<div class="exercise">
 	<div class="problems">
 		<div id="yearly-percentages-2" data-type="yearly-percentages">
+			<div class="vars">
+				<var id="YEAR_PERCENT_MORE">randRange( 10, 150 )</var>
+				<var id="YEAR_THIS">randRange( 50, 999 )</var>
+				<var id="YEAR_LAST">round(YEAR_THIS * 10000 / (100 + YEAR_PERCENT_MORE)) / 100</var>
+			</div>
 			<p class="question">
 				<var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than <var>he(1)</var> did this time last year. If <var>person(1)</var> has <var>YEAR_THIS</var> dollars today, how many dollars did she make over this past year? (round to the nearest cent [hundredth of a dollar])</p>
 			<p class="solution" data-type="decimal"><var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></p>
@@ -36,7 +41,7 @@
 				<p>Let <code>x</code> be the highest marked price that <var>person(1)</var></code> can afford.</p>
 				<p><code>x-<var>(PERCENT_OFF/100)</var>x = </code> sale price</p>
 				<p><code><var>((100-PERCENT_OFF)/100)</var>x = </code> sale price</p>
-				<p><code><var>((100-PERCENT_OFF/100)</var>x = <var>DOLLARS</var></code></p>
+				<p><code><var>((100-PERCENT_OFF)/100)</var>x = <var>DOLLARS</var></code></p>
 				<p><code>x = <var>HIGHEST_PRICE</var></code> dollars</p>
 			</div>
 		</div>
