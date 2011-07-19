@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+	<title>Square Roots and Cube Roots</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="cx">0</var>
+			<var id="y">0</var>
+		</div>
+
+		<div class="problems">
+			<div id="square-root">
+				<div class="vars">
+					<var id="NUM">randRange(2,12)</var>
+					<var id="PF_NUM">getPrimeFactorization( NUM )</var>
+					<var id="Q_NUM">NUM * NUM</var>
+					<var id="PRIMES">getPrimeFactorization( Q_NUM )</var>
+					<var id="FACTORIZATION">PRIMES.slice( 0, PRIMES.length - 1 )</var>
+					<var id="CURR">Q_NUM</var>
+				</div>
+
+				<p class="question">What is the square root of <code><var>Q_NUM</var></code>?</p>
+				<p class="solution"><var>NUM</var></p>
+
+				<div class="hints" data-apply="appendContents">
+					<p>Rearraging, we get two sets of "<code><var>PF_NUM.join(" &times; ")</var></code>" within these factors.</p>
+					<p>By grouping the prime factors into two equal groups, we can see that the answer is <code><var>NUM</var></code>.</p>
+				</div>
+			</div>
+
+			<div id="cube-root" data-type="square-root">
+				<div class="vars">
+					<var id="Q_NUM">NUM * NUM * NUM</var>
+				</div>
+
+				<p class="question">What is the cube root of <code><var>Q_NUM</var></code>?</p>
+
+				<div class="hints" data-apply="appendContents">
+					<p>Rearraging, we get three sets of "<code><var>PF_NUM.join(" &times; ")</var></code>" within these factors.</p>
+					<p>By grouping the prime factors into three equal groups, we can see that the answer is <code><var>NUM</var></code>.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>The best thing is to do a prime factorization of this number and look for groups of numbers.</p>
+			<div>
+				<p>Let us draw a factor tree.</p>
+				<div class="graphie" id="factor-tree">
+					init({
+						range: [ [-1, FACTORIZATION.length + 2], [ -2 * FACTORIZATION.length - 1, 1] ],
+						scale: [30, 30]
+					});
+
+					label( [cx + 1, y], CURR );
+				</div>
+			</div>
+
+			<div class="graphie" data-update="factor-tree" data-each="FACTORIZATION as factor">
+					path( [ [cx + 1, y - 0.5], [cx, y - 1.5] ] );
+					path( [ [cx + 1, y - 0.5], [cx + 2, y - 1.5] ] );
+					y -= 2;
+					cx += 1;
+
+					CURR = CURR / <var>factor</var>;
+
+					label( [cx - 1, y], <var>factor</var> );
+					circle( [cx - 1, y], 0.5);
+					label( [cx + 1, y], CURR );
+			</div>
+
+			<div class="graphie" data-update="factor-tree">
+				circle( [cx + 1, y], 0.5);
+			</div>
+
+			<p>The prime factorization of <code><var>Q_NUM</var></code> is <code><var>PRIMES.join(" &times; ")</var></code>.</p>
+		</div>
+
+	</div>
+</body>
+</html>
