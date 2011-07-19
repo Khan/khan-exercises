@@ -165,7 +165,8 @@ var Khan = {
 
 	dataDump: {
 		"exercise": window.location.pathname.match(/[\/\\]([^\/\\]+)\.html/)[1],
-		"problems": []
+		"problems": [],
+		"issues": 0
 	},
 
 	// Load in a collection of scripts, execute callback upon completion
@@ -525,7 +526,7 @@ var Khan = {
 			Khan.dataDump.problems.push( lastProblem );
 
 			jQuery( testerInfo ).find( ".problem-no" )
-				.text( Khan.dataDump.problems.length + " of " + Khan.problemCount );
+				.text( Khan.dataDump.problems.length + Khan.dataDump.issues + " of " + Khan.problemCount );
 
 			var answer = jQuery( testerInfo ).find( ".answer" ).empty();
 
@@ -678,7 +679,7 @@ var Khan = {
 				Khan.scratchpad.clear();
 			}
 
-			if ( Khan.query.test != null && Khan.dataDump.problems.length >= Khan.problemCount ) {
+			if ( Khan.query.test != null && Khan.dataDump.problems.length + Khan.dataDump.issues >= Khan.problemCount ) {
 				// Show the dump data
 				jQuery( "#problemarea" ).append(
 					"<p>Thanks! You're all done testing this exercise.</p>" +
@@ -863,6 +864,8 @@ var Khan = {
 						console.log( json ); 
 						if ( json.meta.status !== 201 ) {
 							err( Khan.dataDump.problems, dump, description );
+						} else {
+							Khan.dataDump.issues += 1;
 						}
 					},
 					error: function( json ) { 
