@@ -130,7 +130,20 @@
 
 				return jQuery('<div />').append(table).html();
 			}
-			
+
+			/*
+			 * Creates N number of boxes.
+			 * @param number number of boxes as INT.
+			 */
+			function createNBoxes(number) {
+				
+				var tablesSrc = "";
+				for ( var i = 0; i < number; i++ ) {
+					tablesSrc += createHorizTable( 1, 1, null, null );
+				}
+				return tablesSrc;
+			}
+
 		</script>
 	</head>
 	<body>
@@ -146,14 +159,25 @@
 						<var id="UNSIMPLIFIED_ANSWER">
 							( A_NUMERATOR * B_NUMERATOR ).toString() + "/" + 
 							( A_DENOMINATOR * B_DENOMINATOR ).toString()
-						</var>						
-						<var id="GCD">
-							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMERATOR ), ( A_DENOMINATOR * B_DENOMINATOR ))
 						</var>
-						<var id="TABLE_A">createVertTable( A_NUMERATOR, A_DENOMINATOR, null, null )</var>
-						<var id="TABLE_B">createHorizTable( B_NUMERATOR, B_DENOMINATOR, null, null )</var>
-						<var id="TABLE_A_HINT">createVertTable( A_NUMERATOR, A_DENOMINATOR, 'box1', 'hint_diagram_table_overlay' )</var>
-						<var id="TABLE_B_HINT">createHorizTable( B_NUMERATOR, B_DENOMINATOR, 'box2', 'hint_diagram_table_overlay' )</var>						
+						<var id="GCD">
+							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMERATOR ), 
+								( A_DENOMINATOR * B_DENOMINATOR ))
+						</var>
+						<var id="TABLE_A">
+							createVertTable( A_NUMERATOR, A_DENOMINATOR, null, null )
+						</var>
+						<var id="TABLE_B">
+							createHorizTable( B_NUMERATOR, B_DENOMINATOR, null, null )
+						</var>
+						<var id="TABLE_A_HINT">
+							createVertTable( A_NUMERATOR, A_DENOMINATOR, 'box1', 
+								'hint_diagram_table_overlay' )
+						</var>
+						<var id="TABLE_B_HINT">
+							createHorizTable( B_NUMERATOR, B_DENOMINATOR, 'box2', 
+								'hint_diagram_table_overlay' )
+						</var>
 					</div>
 
 					<div class="question">
@@ -163,16 +187,18 @@
 									<tr>
 										<td class="centered_cell">
 											<code>
-												\huge{\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}}
+												\huge{\frac{<var>A_NUMERATOR</var>}
+												{<var>A_DENOMINATOR</var>}}
 											</code>
 										</td>
-										<td class="centered_cell">										
-											<code>\huge{\times}</code>										
+										<td class="centered_cell">
+											<code>\huge{\times}</code>
 										</td>
 										<td class="centered_cell">
 											<code>
-												\huge{\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}}
-											</code>								
+												\huge{\frac{<var>B_NUMERATOR</var>}
+												{<var>B_DENOMINATOR</var>}}
+											</code>
 										</td>
 										<td class="centered_cell">
 											<code>\huge{ = ?}</code>
@@ -204,37 +230,51 @@
 								Another way to word this problem is:
 							</p>
 							<p>
-								What is <code>\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}</code> 
-								of <code>\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}</code>?
+								What is 
+								<code>
+									\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}
+								</code> 
+								of 
+								<code>
+									\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}
+								</code>?
 							</p>
 						</div> <!-- End of hint 1 -->
-						
+
 						<div id="problem1-hint2-div">
 							<p>
 							Notice the number of boxes in the grid equal to 
 								<var>A_DENOMINATOR * B_DENOMINATOR</var> 
-								(<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var></code>)
+								(<code>
+									<var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
+								</code>)
 								and the number of boxes where the 2 intersect is equal to 
 								<code><var>A_NUMERATOR * B_NUMERATOR</var></code> 
-								(<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var></code>).  
+								(<code>
+									<var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var>
+								</code>).  
 								So our unsimplified answer is: 
 								<code>
 									\frac{<var>A_NUMERATOR * B_NUMERATOR</var>}
 									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
 								</code>.
 							</p>
-							<div id="problem1-hint2-box-p" style="display: block; position: relative; height:220px;">
-								<var>TABLE_A_HINT</var><var>TABLE_B_HINT</var>								
+							<div id="problem1-hint2-box-p" 
+								style="display: block; position: relative; height:220px;">
+
+								<var>TABLE_A_HINT</var>
+								<var>TABLE_B_HINT</var>
+
 								<script type="text/javascript">
 									$(document).ready(function(){
 										// animate the right box overlaying over the left one.
 										$("#box2").css("left", 300);
 										$("#box2").animate({left: "0"}, 5000);
-									});										
-								</script>	
+									});
+								</script>
 							</div>
 						</div>	<!-- End of hint 2 div -->	
-						
+
 						<div id="problem1-hint3-div" data-if="GCD > 1">
 							This can be further simplified to
 							<code>
@@ -243,10 +283,75 @@
 							</code>, 
 							by dividing both top and bottom by it's common denominator 
 							<var>GCD</var>.
-						</div>			
-					</div><!-- End of problem 1 -->
-				</div>
+						</div>
+					</div><!-- End of Hints -->
+				</div><!-- End of problem 1 -->
 
+				<div id="fraction-with-whole-number">
+					<div class="vars">
+						<var id="A_NUMERATOR">randRange(1, 4)</var>
+						<var id="A_DENOMINATOR">A_NUMERATOR + randRange(1, 4)</var>
+						<var id="B_NUMBER">randRange(1, 4)</var>
+
+						<var id="UNSIMPLIFIED_ANSWER">
+							( A_NUMERATOR * B_NUMBER ).toString() + "/" + 
+							( A_DENOMINATOR ).toString()
+						</var>
+						<var id="GCD">
+							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMBER ), ( A_DENOMINATOR ) )
+						</var>
+						<var id="TABLE_A">
+							createVertTable( A_NUMERATOR, A_DENOMINATOR, null, null )
+						</var>
+						<var id="TABLES_B">
+							createNBoxes( B_NUMBER )
+						</var>
+					</div>
+
+					<div class="question">
+						<p class="question_text">What is
+							<table>
+								<tbody>
+									<tr>
+										<td class="centered_cell">
+											<code>
+												\huge{\frac{<var>A_NUMERATOR</var>}
+												{<var>A_DENOMINATOR</var>}}
+											</code>
+										</td>
+										<td class="centered_cell">
+											<code>\huge{\times}</code>
+										</td>
+										<td class="centered_cell">
+											<code>
+												\huge{<var>B_NUMBER</var>}
+											</code>	
+										</td>
+										<td class="centered_cell">
+											<code>\huge{ = ?}</code>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<var>TABLE_A</var>
+										</td>
+										<td></td>
+										<td>
+											<var>TABLES_B</var>	
+										</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</p>
+					</div>
+
+					<div class="solution" data-type="rational" data-simplify="optional">
+						<var>
+							( A_NUMERATOR * B_NUMBER ) / ( A_DENOMINATOR )
+						</var>
+					</div>
+				</div><!-- End of problem 2 -->
 
 
 			</div><!-- End of Problems -->
