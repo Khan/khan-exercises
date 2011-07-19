@@ -283,16 +283,16 @@
 
 						<div id="problem1-hint2-div">
 							<p>
-							Notice the number of boxes in the grid equal to 
+							Notice the total number of boxes in the grid equal to 
 								<var>A_DENOMINATOR * B_DENOMINATOR</var> 
 								(<code>
 									<var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
-								</code>)
-								and the number of boxes where the 2 intersect is equal to 
+								</code>), the product of the denominators.  
+								The number of boxes where the 2 intersect is equal to 
 								<code><var>A_NUMERATOR * B_NUMERATOR</var></code> 
 								(<code>
 									<var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var>
-								</code>).  
+								</code>), the product of the 2 numerators.  
 								So our unsimplified answer is: 
 								<code>
 									\frac{<var>A_NUMERATOR * B_NUMERATOR</var>}
@@ -420,9 +420,11 @@
 								<var>A_NUMERATOR * B_NUMBER</var>
 								(<code>
 									<var>A_NUMERATOR</var> \times <var>B_NUMBER</var>
-								</code>), and that each box is divided into 
-								<var>A_DENOMINATOR</var> pieces.  This makes the unsimplified 
-								answer 
+								</code>) pieces, the product of the numerator and the whole 
+								number. Each box is divided into <var>A_DENOMINATOR</var>  
+								equal pieces of <code>\frac{1}{<var>A_DENOMINATOR</var>}</code> 
+								size.  
+								This makes the unsimplified answer 
 								<code>
 									\frac{<var>A_NUMERATOR * B_NUMBER</var>}{<var>A_DENOMINATOR</var>}
 								</code>.
