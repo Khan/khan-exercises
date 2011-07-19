@@ -4,6 +4,11 @@
 		<title>Multiplying Fractions 1</title>
 		<script src="../khan-exercise.js"></script>
 		<style type="text/css">
+			.padded_span {
+				padding-bottom: 5px;
+				padding-right: 5px;
+			}
+		
 			.centered_cell {
 				text-align: center;
 			}
@@ -12,15 +17,9 @@
 				border: 0px solid black;
 				width: 100px;
 				height: 100px;
-				border-collapse: collapse;
+				border-collapse: collapse;			
 			}
 			
-			.hint_diagram_table {
-				border: 0px solid black;
-				width: 200px;
-				height: 200px;
-				border-collapse: collapse;
-			}
 			
 			.hint_diagram_table_overlay {
 				border: 0px solid black;
@@ -56,7 +55,7 @@
 				opacity:0.5;
 			}
 		</style>
-		<script>
+		<script type="text/javascript">
 			/*
 			 * Generates HTML for a table displaying the fraction's visual representation.
 			 * @param numerator numerator as INT.
@@ -112,7 +111,6 @@
 					table.addClass( "hint_diagram_table_small" );
 				}
 				
-				table.addClass( "hint_diagram_table_small" );
 				table.append( "<tbody/>" );
 				var tbody = table.find("tbody");
 				tbody.append( "<tr/>" );
@@ -135,11 +133,53 @@
 			 * Creates N number of boxes.
 			 * @param number number of boxes as INT.
 			 */
-			function createNBoxes(number) {
-				
+			function createNBoxes(number, idPrefix, className) {				
 				var tablesSrc = "";
 				for ( var i = 0; i < number; i++ ) {
-					tablesSrc += createHorizTable( 1, 1, null, null );
+					var idToUse = null;
+					if( idPrefix != null ) {
+						idToUse = idPrefix + "-" + i;
+					}
+					
+					tablesSrc += "<span class=\"padded_span\">" 
+						+ createHorizTable( 1, 1, idToUse, className )
+						+ "</span>";
+				}
+				return tablesSrc;
+			}
+
+			/*
+			 * Creates N number of boxes in overlay style.
+			 * @param number number of boxes as INT.
+			 */
+			function createNBoxesOverlayHoriz(number, idPrefix, numerator, denominator) {				
+				var tablesSrc = "";
+				for ( var i = 0; i < number; i++ ) {
+					var idToUse = null;
+					if( idPrefix != null ) {
+						idToUse = idPrefix + "-" + i;
+					}
+					
+					tablesSrc += createHorizTable( numerator, denominator, idToUse, 
+							"hint_diagram_table_overlay_small" );
+				}
+				return tablesSrc;
+			}
+
+			/*
+			 * Creates N number of boxes in overlay style.
+			 * @param number number of boxes as INT.
+			 */
+			function createNBoxesOverlayVert(number, idPrefix, numerator, denominator) {				
+				var tablesSrc = "";
+				for ( var i = 0; i < number; i++ ) {
+					var idToUse = null;
+					if( idPrefix != null ) {
+						idToUse = idPrefix + "-" + i;
+					}
+					
+					tablesSrc += createVertTable( numerator, denominator, idToUse, 
+							"hint_diagram_table_overlay_small" );
 				}
 				return tablesSrc;
 			}
@@ -266,10 +306,10 @@
 								<var>TABLE_B_HINT</var>
 
 								<script type="text/javascript">
-									$(document).ready(function(){
+									jQuery(document).ready(function(){
 										// animate the right box overlaying over the left one.
-										$("#box2").css("left", 300);
-										$("#box2").animate({left: "0"}, 5000);
+										jQuery("#box2").css("left", 300);
+										jQuery("#box2").animate({left: "0"}, 5000);
 									});
 								</script>
 							</div>
@@ -306,6 +346,12 @@
 						<var id="TABLES_B">
 							createNBoxes( B_NUMBER )
 						</var>
+						<var id="TABLE_A_HINT">
+							createNBoxesOverlayVert( B_NUMBER, 'box1', A_NUMERATOR, A_DENOMINATOR )
+						</var>
+						<var id="TABLES_B_HINT">
+							createNBoxesOverlayHoriz( B_NUMBER, 'box2', 1, 1 )
+						</var>						
 					</div>
 
 					<div class="question">
@@ -343,6 +389,7 @@
 									</tr>
 								</tbody>
 							</table>
+							Please answer as a fraction like 4/3.
 						</p>
 					</div>
 
@@ -351,6 +398,76 @@
 							( A_NUMERATOR * B_NUMBER ) / ( A_DENOMINATOR )
 						</var>
 					</div>
+					
+					<div class="hints">
+						<div>
+							<p>
+								Another way of wording the problem is:
+							</p>
+							<p>
+								What is 
+								<code>
+									\frac{<var>A_NUMERATOR</var>}
+									{<var>A_DENOMINATOR</var>}
+								</code>
+								of <var>B_NUMBER</var> ?
+							</p>
+						</div>
+						
+						<div>
+							<p>
+								Notice that if we count overlapping boxes, we have 
+								<var>A_NUMERATOR * B_NUMBER</var>
+								(<code>
+									<var>A_NUMERATOR</var> \times <var>B_NUMBER</var>
+								</code>), and that each box is divided into 
+								<var>A_DENOMINATOR</var> pieces.  This makes the unsimplified 
+								answer 
+								<code>
+									\frac{<var>A_NUMERATOR * B_NUMBER</var>}{<var>A_DENOMINATOR</var>}
+								</code>.
+							</p>
+							<div id="problem2-hint2-box-div" 
+								style="display: block; position: relative; height:220px;">
+								<var>TABLE_A_HINT</var>
+								<var>TABLES_B_HINT</var>
+	
+								<script type="text/javascript">
+									jQuery(document).ready(function(){
+										var bNumber = jQuery.tmpl.VARS[ "B_NUMBER" ]
+										
+										// size parent div
+										jQuery( "#problem2-hint2-box-div" ).width( 400 );
+										jQuery( "#problem2-hint2-box-div" ).height( bNumber * 105 + 10 );
+										
+										// position the right boxes
+										for( var i = 0; i < bNumber; i++ ) {
+											jQuery( "#box2-" + i ).css( "left", 200 );
+											jQuery( "#box2-" + i ).css( "top", 105 * i );
+										}
+
+										// animate overlaying the left box over the right ones.
+										for( var i = 0; i < bNumber; i++ ) {
+											jQuery( "#box1-" + i ).animate({
+													left: 200,
+													top: ( i * 105 )
+												}, 5000);
+										}
+										
+									});
+								</script>
+							</div>
+						</div>
+						<div id="problem2-hint3-div" data-if="GCD > 1">
+							This can be further simplified to
+							<code>
+								\frac{<var>A_NUMERATOR * B_NUMBER / GCD</var>}
+								{<var>A_DENOMINATOR / GCD</var>}
+							</code>, 
+							by dividing both top and bottom by it's common denominator 
+							<var>GCD</var>.
+						</div>
+					</div><!-- End of hints -->
 				</div><!-- End of problem 2 -->
 
 
