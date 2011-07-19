@@ -17,6 +17,8 @@ var { font-style: normal; }
 #sidebar li span.value { padding-left: 5px; }
 #problemarea { width: 63%; position: relative; float: left; }
 
+#solution label { display: block; }
+
 #tester-info { border: 1px solid #AAA; background: #F0F0F0; padding: 10px; margin: 10px 0; }
 #debug var { font: 14px Menlo, Courier, monospace; word-wrap: break-word; }
 
