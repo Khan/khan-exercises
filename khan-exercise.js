@@ -348,7 +348,7 @@ var Khan = {
 			Khan.randomSeed = seed;
 		
 		// Otherwise set the seed from the problem number
-		} else {
+		} else if ( Khan.query.test == null ) {
 			Khan.randomSeed = problemNum;
 		}
 
