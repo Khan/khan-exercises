@@ -353,6 +353,8 @@ var Khan = {
 			Khan.problemBagIndex = ( Khan.problemBagIndex + 1 ) % Khan.problemCount;
 		}
 
+		Khan.problemID = problemID;
+
 		// Find which exercise this problem is from
 		var exercise = problem.parents( ".exercise" ).eq( 0 );
 
@@ -800,13 +802,46 @@ var Khan = {
 			} );
 
 			jQuery( "#tester-info .fail" ).click( function() {
-				var description = prompt( "Please write a short description of the error, then click OK." );
+				var description = prompt( "Please provide a short description of the error" );
 
 				// Don't do anything on clicking Cancel
-				if ( description != null ) {
-					Khan.dataDump.problems[ Khan.dataDump.problems.length - 1 ].pass = description;
-					jQuery( "#next-question-button" ).trigger( "click" );
+				if ( description == null ) return
+
+				// we discard the info recorded and record an issue on github instead
+				// of testing against the faulty problem's data dump.
+				var dump = Khan.dataDump.problems.pop(),
+					prettyDump = "```js\n" + JSON.stringify( dump ) + "\n```",
+					fileName = window.location.pathname.replace(/^.+\//, ""),
+					path = fileName + "?problem=" + Khan.problemID 
+						+ "&seed=" + Khan.problemSeed;
+
+				var title = encodeURIComponent( "Issue in " + $("title").html() ),
+					body = encodeURIComponent( [ description, path, prettyDump, navigator.userAgent ].join("\n\n") ),
+					label = encodeURIComponent( "tester bugs" );
+
+				var err = function( problems, dump, desc ) {
+					problems.push( dump );
+					problems[ problems.length - 1 ].pass = desc; 
 				}
+
+				// now we post the issue to github. if communication fails with the 
+				// Sinatra app or Github and an issue isn't created, then we 
+				// create a test that will always fail.
+				jQuery.ajax({
+					url: "http://66.220.0.98:2563/file_exercise_tester_bug?title=" + title + "&body=" + body + "&label=" + label,
+					dataType: "jsonp",
+					success: function( json ) { 
+						console.log( json ); 
+						if ( json.meta.status !== 201 ) {
+							err( Khan.dataDump.problems, dump, description );
+						}
+					},
+					error: function( json ) { 
+						err( Khan.dataDump.problems, dump, description );
+					}
+				});
+
+				jQuery( "#next-question-button" ).trigger( "click" );
 			} );
 
 			jQuery( "body" ).keyup( function( e ) {
