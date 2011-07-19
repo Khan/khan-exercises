@@ -247,13 +247,9 @@
 										</td>
 									</tr>
 									<tr>
-										<td>
-											<var>TABLE_A</var>
-										</td>
+										<td><var>TABLE_A</var></td>
 										<td></td>
-										<td>
-											<var>TABLE_B</var>	
-										</td>
+										<td><var>TABLE_B</var></td>
 										<td></td>
 									</tr>
 								</tbody>
@@ -285,16 +281,13 @@
 
 						<div id="problem1-hint2-div">
 							<p>
-							Notice the total number of boxes in the grid equal to 
-								<var>A_DENOMINATOR * B_DENOMINATOR</var> 
-								(<code>
-									<var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
-								</code>), the product of the denominators.  
+								Notice the total number of boxes in the grid equal to
+							 	<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var> 
+									= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>, 
+								the product of the denominators.  
 								The number of boxes where the 2 intersect is equal to 
-								<code><var>A_NUMERATOR * B_NUMERATOR</var></code> 
-								(<code>
-									<var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var>
-								</code>), the product of the 2 numerators.  
+								<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var>
+									= <var>A_NUMERATOR * B_NUMERATOR</var></code>, the product of the 2 numerators.  
 								So our unsimplified answer is: 
 								<code>
 									\frac{<var>A_NUMERATOR * B_NUMERATOR</var>}
@@ -415,14 +408,12 @@
 						<div>
 							<p>
 								Notice that if we count overlapping boxes, we have 
-								<var>A_NUMERATOR * B_NUMBER</var>
-								(<code>
-									<var>A_NUMERATOR</var> \times <var>B_NUMBER</var>
-								</code>) pieces, the product of the numerator and the whole 
+								<code><var>A_NUMERATOR</var> \times <var>B_NUMBER</var>
+									= <var>A_NUMERATOR * B_NUMBER</var></code>
+								pieces, the product of the numerator times the whole 
 								number. Each box is divided into <var>A_DENOMINATOR</var>  
 								equal pieces of <code>\frac{1}{<var>A_DENOMINATOR</var>}</code> 
-								size.  
-								This makes the unsimplified answer 
+								size. This makes the unsimplified answer 
 								<code>
 									\frac{<var>A_NUMERATOR * B_NUMBER</var>}{<var>A_DENOMINATOR</var>}
 								</code>.
@@ -576,14 +567,18 @@
 						<div>
 							<p>
 								Notice that if we count overlapping boxes, we have 
-								<var>A_NUMERATOR * (B_NUMBER * B_DENOMINATOR + B_NUMERATOR)</var>
-								(<code>
+								<code>
 									<var>A_NUMERATOR</var> \times 
 									<var>B_NUMBER * B_DENOMINATOR + B_NUMERATOR</var>
-								</code>) pieces, the product of the numerators of the two 
-								numbers. Each box is divided into <var>A_DENOMINATOR * B_DENOMINATOR</var> 
-								( <code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var></code>,
-								the product of the two denominators, equal pieces of 
+									= 
+									<var>A_NUMERATOR * (B_NUMBER * B_DENOMINATOR + B_NUMERATOR)</var>
+								</code> 
+								pieces, the product of the numerators of the 2 
+								numbers. By multiplying the 2 denominators, we find each box 
+								is divided into 
+								<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
+								= <var>A_DENOMINATOR * B_DENOMINATOR</var></code> 
+								equal pieces of 
 								<code>\frac{1}{<var>A_DENOMINATOR * B_DENOMINATOR</var>}</code> 
 								size.  
 								This makes the unsimplified answer 
