@@ -350,7 +350,7 @@ var Khan = {
 		
 		// Otherwise set the seed from the problem number
 		// Only do so if we're not in test mode and if we have a username
-		} else if ( Khan.query.test == null || user != null ) {
+		} else if ( Khan.query.test == null && user != null ) {
 			Khan.randomSeed = problemNum;
 		}
 
@@ -1097,7 +1097,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 		user = data.user;
 		
 		// Cache the data locally
-		if ( data ) {
+		if ( data && user != null ) {
 			window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
 		}
 		
