@@ -472,6 +472,179 @@
 					</div><!-- End of hints -->
 				</div><!-- End of problem 2 -->
 
+				<div id="fraction-with-mixed-number">
+					<div class="vars" data-ensure="A_DENOMINATOR != B_DENOMINATOR">
+						<var id="A_NUMERATOR">randRange(1, 4)</var>
+						<var id="A_DENOMINATOR">A_NUMERATOR + randRange(1, 4)</var>
+						
+						<var id="B_NUMBER">randRange(1, 4)</var>
+						<var id="B_NUMERATOR">randRange(1, 4)</var>
+						<var id="B_DENOMINATOR">B_NUMERATOR + randRange(1, 4)</var>
+
+						<var id="UNSIMPLIFIED_ANSWER">
+							( A_NUMERATOR * ( ( B_NUMBER * B_DENOMINATOR ) + B_NUMERATOR ) ).toString() 
+							+ "/" + ( A_DENOMINATOR * B_DENOMINATOR ).toString()
+						</var>
+						<var id="GCD">
+							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMBER ), ( A_DENOMINATOR ) )
+						</var>
+						<var id="TABLE_A">
+							createVertTable( A_NUMERATOR, A_DENOMINATOR, null, null )
+						</var>
+						<var id="TABLES_B">
+							createNBoxes( B_NUMBER )  
+							+ createHorizTable( B_NUMERATOR, B_DENOMINATOR, null, null )
+						</var>
+						<var id="TABLE_A_HINT">
+							createNBoxesOverlayVert( B_NUMBER + 1, 'box1', A_NUMERATOR, A_DENOMINATOR )
+						</var>
+						<var id="TABLES_B_HINT">
+							createNBoxesOverlayHoriz( B_NUMBER, 'box2', B_DENOMINATOR, B_DENOMINATOR )
+							+ createHorizTable( B_NUMERATOR, B_DENOMINATOR, 'box2frac', 
+								'hint_diagram_table_overlay_small' )
+						</var>						
+					</div>
+					
+					<div class="question">
+						<p class="question_text">What is
+							<table>
+								<tbody>
+									<tr>
+										<td class="centered_cell">
+											<code>
+												\huge{\frac{<var>A_NUMERATOR</var>}
+												{<var>A_DENOMINATOR</var>}}
+											</code>
+										</td>
+										<td class="centered_cell">
+											<code>\huge{\times}</code>
+										</td>
+										<td class="centered_cell">
+											<code>
+												\huge{<var>B_NUMBER</var> 
+												\frac{<var>B_NUMERATOR</var>}
+												{<var>B_DENOMINATOR</var>}}
+											</code>	
+										</td>
+										<td class="centered_cell">
+											<code>\huge{ = ?}</code>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<var>TABLE_A</var>
+										</td>
+										<td></td>
+										<td>
+											<var>TABLES_B</var>	
+										</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+							Please answer as a fraction like 4/3.
+						</p>
+					</div><!-- end of question -->
+					
+					<div class="solution" data-type="rational" data-simplify="optional">
+						<var>( A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR ) ) 
+						/ ( A_DENOMINATOR * B_DENOMINATOR )</var>
+					</div>
+					
+					<div class="hints">
+						<div>
+							<p>
+								Another way of wording the problem is:
+							</p>
+							<p>
+								What is 
+								<code>
+									\frac{<var>A_NUMERATOR</var>}
+									{<var>A_DENOMINATOR</var>}
+								</code>
+								of <code>\frac{<var>B_NUMBER * B_DENOMINATOR + B_NUMERATOR</var>}
+								{<var>B_DENOMINATOR</var>}</code> ?
+							</p>
+							<p>
+								We get this by muliplying the whole number with the denominator then 
+								adding the existing numerator back in: 
+								<code>
+									\frac{<var>B_NUMBER</var> \times <var>B_DENOMINATOR</var> + 
+									<var>B_NUMERATOR</var>}
+								{<var>B_DENOMINATOR</var>} 
+								= 	\frac{<var>B_NUMBER * B_DENOMINATOR + B_NUMERATOR</var>}
+									{<var>B_DENOMINATOR</var>}
+								</code>
+							</p>
+						</div>
+						
+						<div>
+							<p>
+								Notice that if we count overlapping boxes, we have 
+								<var>A_NUMERATOR * (B_NUMBER * B_DENOMINATOR + B_NUMERATOR)</var>
+								(<code>
+									<var>A_NUMERATOR</var> \times 
+									<var>B_NUMBER * B_DENOMINATOR + B_NUMERATOR</var>
+								</code>) pieces, the product of the numerators of the two 
+								numbers. Each box is divided into <var>A_DENOMINATOR * B_DENOMINATOR</var> 
+								( <code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var></code>,
+								the product of the two denominators, equal pieces of 
+								<code>\frac{1}{<var>A_DENOMINATOR * B_DENOMINATOR</var>}</code> 
+								size.  
+								This makes the unsimplified answer 
+								<code>
+									\frac{<var>A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR 
+										+ B_NUMERATOR)</var>}
+									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
+								</code>.
+							</p>
+							<div id="problem2-hint2-box-div" 
+								style="display: block; position: relative; height:220px;">
+								<var>TABLE_A_HINT</var>
+								<var>TABLES_B_HINT</var>
+	
+								<script type="text/javascript">
+									jQuery(document).ready(function(){
+										var bNumber = jQuery.tmpl.VARS[ "B_NUMBER" ]
+										
+										// size parent div
+										jQuery( "#problem2-hint2-box-div" ).width( 400 );
+										jQuery( "#problem2-hint2-box-div" )
+											.height( ( bNumber + 1 ) * 105 + 10 );
+										
+										// position the right boxes
+										var i = 0;
+										for( var i = 0; i < bNumber; i++ ) {
+											jQuery( "#box2-" + i ).css( "left", 200 );
+											jQuery( "#box2-" + i ).css( "top", 105 * i );
+										}
+										jQuery( "#box2frac" ).css( "left", 200 );
+										jQuery( "#box2frac" ).css( "top", 105 * i );
+
+										// animate overlaying the left box over the right ones.
+										for( var i = 0; i < bNumber + 1; i++ ) {
+											jQuery( "#box1-" + i ).animate({
+													left: 200,
+													top: ( i * 105 )
+												}, 5000);
+										}
+										
+									});
+								</script>
+							</div>
+						</div>
+						<div id="problem2-hint3-div" data-if="GCD > 1">
+							This can be further simplified to
+							<code>
+								\frac{<var>A_NUMERATOR * B_NUMBER / GCD</var>}
+								{<var>A_DENOMINATOR / GCD</var>}
+							</code>, 
+							by dividing both top and bottom by it's common denominator 
+							<var>GCD</var>.
+						</div>
+					</div><!-- End of hints -->
+					
+				</div><!-- End of problem 3 -->
 
 			</div><!-- End of Problems -->
 		</div><!-- End of Exercises -->
