@@ -312,12 +312,12 @@ jQuery.extend( Khan.answerTypes, {
 		return ret;
 	},
 
-	primeFactorization: function( solutionarea, solution ) {
+	primeFactorization: function( solutionarea, solution, fallback ) {
 		var verifier = function( correct, guess ) {
 			guess = guess.split(" ").join("").toLowerCase();
 			guess = KhanUtil.sortNumbers( guess.split( "x" ) ).join( "x" );
 			return guess === correct;
 		}
-		return Khan.answerTypes.text( solutionarea, solution, verifier );
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	}
 } );
