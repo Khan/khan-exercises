@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graph math-format">
+<html data-require="math graphie math-format">
 <head>
 	<title>Distance Formula</title>
 	<script src="../khan-exercise.js"></script>
@@ -32,18 +32,19 @@
 		<div class="problems">
 			<div>
 				<p class="question">Find the distance between the points <span class="point1">(<var>X1</var>, <var>Y1</var>)</span> and <span class="point2">(<var>X2</var>, <var>Y2</var>)</span>.</p>
-				<div class="graph" style="width: 400px; height: 400px;" data-style="font-size: 15px; font-family: sans-serif; font-weight: bold" data-graph-type="plane">
-					fontfill = "#0969A2";
-					text([ X1, Y1 ], "(" + X1 + ", " + Y1 + ")", "aboveright" );
+				<div class="graphie" id="graph">
+					graphInit({
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						axisArrows: "->",
+					});
 
-					fontfill = "#A62ADD";
-					var textPos = ( Y1 === Y2 ) ? "belowright" : "aboveright";
-					text([ X2, Y2 ], "(" + X2 + ", " + Y2 + ")", textPos);
-					var point1 = "#0969A2";
-					ASdot([ X1, Y1 ], 3, point1, point1 );
+					label([ X1, Y1 ], "(" + X1 + ", " + Y1 + ")", "left", { color: "#0969a2" } );
+					label([ X2, Y2 ], "(" + X2 + ", " + Y2 + ")", "right", { color: "#a62add" } );
 
-					var point2 = "#A62ADD";
-					ASdot( [ X2, Y2 ], 3, point2, point2 );
+					circle([ X1, Y1 ], 3 / 20, { stroke: "none", fill: "#0969a2" } );
+					circle([ X2, Y2 ], 3 / 20, { stroke: "none", fill: "#a62add" } );
 				</div>
 
 				<div class="solution" data-type="radical">
@@ -55,8 +56,8 @@
 		<div class="hints">
 			<div>
 				<p>
-				<span style="color: #679B00">Change in <code>x</code>:</span>
-				<span data-if="X2 - X1 > 0">
+					<span style="color: #679B00">Change in <code>x</code>:</span>
+					<span data-if="X2 - X1 > 0">
 						<span class="point2"><var>X2</var></span> - <span class="point1"><var>X1</var></span>
 					</span>
 					<span data-else>
@@ -65,9 +66,14 @@
 					= <span style="color: #679B00"><var>X_DIST</var></span>
 				</p>
 
-				<div class="graph update" data-style="stroke: #679B00; font-fill: #679B00">
-					line( [ X1, Y1 ], [ X2, Y1 ] );
-					text( [ ( X1 + X2 ) / 2, Y1 ], X_DIST, "above" );
+				<div class="graphie" data-update="graph">
+					style({
+						color: "#679b00",
+						stroke: "#679b00"
+					}, function() {
+						line( [ X1, Y1 ], [ X2, Y1 ] );
+						label( [ ( X1 + X2 ) / 2, Y1 ], X_DIST, "above" );
+					});
 				</div>
 			</div>
 
@@ -83,17 +89,26 @@
 					= <span style="color: #A66000"><var>Y_DIST</var></span>
 				</p>
 
-				<div class="graph update" data-style="stroke: #A66000; font-fill: #A66000">
-					line( [ X2, Y1 ], [ X2, Y2 ] );
-					text( [ X2, ( Y1 + Y2 ) / 2 ], Y_DIST, "left" );
+				<div class="graphie" data-update="graph">
+					style({
+						color: "#a66000",
+						stroke: "#a66000"
+					}, function() {
+						line( [ X2, Y1 ], [ X2, Y2 ] );
+						label( [ X2, ( Y1 + Y2 ) / 2 ], Y_DIST, "left" );
+					});
 				</div>
 			</div>
 
 			<div>
 				<p>The distance is the <span style="color: #FF4900">length of the hypotenuse</span> of this right triangle.</p>
 
-				<div class="graph update" data-style="stroke: #FF4900">
-					line( [ X1, Y1 ], [ X2, Y2 ] );
+				<div class="graphie" data-update="graph">
+					style({
+						stroke: "#ff4900"
+					}, function() {
+						line( [ X1, Y1 ], [ X2, Y2 ] );
+					});
 				</div>
 			</div>
 

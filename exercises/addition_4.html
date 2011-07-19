@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-table">
+<html data-require="math graphie graphie-helpers">
 <head>
 	<title>Addition 4</title>
 	<script src="../khan-exercise.js"></script>
@@ -7,35 +7,112 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="A">randRange(1001,9999)</var>
-			<var id="B">randRange(1001,9999)</var>
-			<var id="A_ARRAY">digits(A)</var>
-			<var id="B_ARRAY">digits(B)</var>
-			<var id="ADDITION_TABLE">createLongAdditionTable( A_ARRAY, B_ARRAY)</var>
+			<var id="A">randRange( 1000, 9999 )</var>
+			<var id="B">randRange( 1, 9999 )</var>
+			<var id="A_DIGITS">digits( A )</var>
+			<var id="B_DIGITS">digits( B )</var>
+
+			<var id="CARRY">0</var>
+			<var id="HIGHLIGHTS">[]</var>
+			<var id="Y_CARRY">3</var>
+			<var id="Y_FIRST">2</var>
+			<var id="Y_SECOND">1</var>
+			<var id="Y_SUM">0</var>
+			<var id="X_MAX">4</var>
+			<var id="X_SIDE">6</var>
+			<var id="Y_SIDE">1.5</var>
 		</div>
 
-		<div class="problems">
-			<div>
-				<p class="question"><var>A</var> + <var>B</var> = ?</p>
-				<div class="solution"><var>A+B</var></div>
+	<div class="problems">
+		<div>
+			<div class="graphie" id="numbers">
+				init({
+					range: [ [ -1, 5 ], [ -0.5, 3 ] ],
+					scale: [30, 45]
+				});
+				drawDigits( A_DIGITS.slice( 0 ).reverse(), X_MAX - A_DIGITS.length + 1, Y_FIRST );
+				drawDigits( B_DIGITS.slice( 0 ).reverse(), X_MAX - B_DIGITS.length + 1, Y_SECOND );
+
+				path( [ [ -0.5, Y_SECOND - 0.5 ], [ X_MAX + 0.5, Y_SECOND - 0.5 ] ]);
+
+				label( [ 0, 1 ] ,"\\huge{+\\vphantom{0}}" );
+			</div>
+			<div class="solution"><var>A + B</var></div>
+		</div>
+	</div>
+	<div class="hints">
+		<div class="graphie" data-update="numbers" data-each="A_DIGITS as index, value">
+			while( HIGHLIGHTS.length ) {
+				HIGHLIGHTS.pop().remove();
+			}
+
+			var index = <var>index</var>;
+			var prevCarry = CARRY;
+			var prevCarryStr = "";
+			var carryStr = "";
+			var addendStr = "";
+			var sum;
+
+			if ( prevCarry !== 0 ) {
+				HIGHLIGHTS.push( label( [ X_MAX - index, Y_CARRY ], "\\color{#6495ED}{" + prevCarry + "}", "below" ) );
+				prevCarryStr =  "\\color{#6495ED}{" + prevCarry + "} + ";
+			}
+
+			sum = A_DIGITS[ index ] + CARRY;
+
+			HIGHLIGHTS.push( label( [ X_MAX - index, Y_FIRST ],
+				"\\Huge{\\color{#6495ED}{" + A_DIGITS[ index ] + "}}" ) );
+			if ( index &lt; B_DIGITS.length ) {
+				HIGHLIGHTS.push( label( [ X_MAX - index, Y_SECOND ],
+					"\\Huge{\\color{#6495ED}{" + B_DIGITS[ index ] + "}}" ) );
+				addendStr = " + \\color{#6495ED}{" + B_DIGITS[ index ] + "}";
+				sum += B_DIGITS[ index ];
+			}
+			label( [ X_MAX - index, 0 ], "\\Huge{" + sum % 10 + "}");
+			HIGHLIGHTS.push( label( [ X_MAX - index, Y_SUM ],
+				"\\Huge{\\color{#28AE7B}{" + sum % 10 + "}}" ) );
+
+			CARRY = floor( sum / 10 );
+			if ( CARRY !== 0 ) {
+				HIGHLIGHTS.push( label( [ X_MAX - index - 1, Y_CARRY ],
+					"\\color{#FFA500}{" + CARRY + "}", "below" ) );
+				carryStr = "\\color{#FFA500}{" + CARRY + "}";
+			}
+
+			HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ], "\\Large{"
+				+ prevCarryStr
+				+ "\\color{#6495ED}{" + A_DIGITS[ index ] + "}"
+				+ addendStr
+				+ " = "
+				+ carryStr
+				+ "\\color{#28AE7B}{" + sum % 10 + "}"
+			 	+ "}", "right" ) );
+		</div>
+		<div data-if="A + B &gt; 9999">
+			<div class="graphie" data-update="numbers">
+				while( HIGHLIGHTS.length ) {
+					HIGHLIGHTS.pop().remove();
+				}
+				HIGHLIGHTS.push( label( [ 0, Y_CARRY ],
+					"\\color{#6495ED}{" + CARRY + "}", "below" ) );
+				label( [ 0, Y_SUM ], "\\Huge{" + CARRY + "}" );
+				HIGHLIGHTS.push( label( [ 0, Y_SUM ],
+					"\\Huge{\\color{#28AE7B}{" + CARRY + "}}" ) );
+
+				HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ],
+					"\\Large{"
+					+ "\\color{#6495ED}{" + CARRY + "}"
+					+ " = "
+					+ "\\color{#28AE7B}{" + CARRY + "}"
+				 	+ "}", "right" ) );
 			</div>
 		</div>
-		<div class="hints">
-		<p><var>A_ARRAY[0]</var> + <var>B_ARRAY[0]</var> = <var>A_ARRAY[0] + B_ARRAY[0]</var></p>
-		<p data-if="ADDITION_TABLE[1]">carry <var>ADDITION_TABLE[1]</var></p>
-		<!-- second addition -->
-		<p data-if="ADDITION_TABLE[1]"><var>A_ARRAY[1]</var> + <var>B_ARRAY[1]</var> + <var>ADDITION_TABLE[1]</var> = <var>A_ARRAY[1] + B_ARRAY[1] + ADDITION_TABLE[1]</var></p>
-		<p data-else><var>A_ARRAY[1]</var> + <var>B_ARRAY[1]</var> = <var>A_ARRAY[1] + B_ARRAY[1]</var></p>
-		<p data-if="ADDITION_TABLE[2]">carry <var>ADDITION_TABLE[2]</var></p>
-		<!-- third addition -->
-		<p data-if="ADDITION_TABLE[2]"><var>A_ARRAY[2]</var> + <var>B_ARRAY[2]</var> + <var>ADDITION_TABLE[2]</var> = <var>A_ARRAY[2] + B_ARRAY[2] + ADDITION_TABLE[2]</var></p>
-		<p data-else><var>A_ARRAY[2]</var> + <var>B_ARRAY[2]</var> = <var>A_ARRAY[2] + B_ARRAY[2]</var></p>
-		<p data-if="ADDITION_TABLE[3]">carry <var>ADDITION_TABLE[3]</var></p>
-		<!-- fourth addition -->
-		<p data-if="ADDITION_TABLE[3]"><var>A_ARRAY[3]</var> + <var>B_ARRAY[3]</var> + <var>ADDITION_TABLE[3]</var> = <var>A_ARRAY[3] + B_ARRAY[3] + ADDITION_TABLE[3]</var></p>
-		<p data-else><var>A_ARRAY[3]</var> + <var>B_ARRAY[3]</var> = <var>A_ARRAY[3] + B_ARRAY[3]</var></p>
-		<p>The final result is <var>A+B</var></p>
+		<div class="graphie" data-update="numbers">
+			while( HIGHLIGHTS.length ) {
+				HIGHLIGHTS.pop().remove();
+			}
 		</div>
+	</div>
 	</div>
 </body>
 </html>

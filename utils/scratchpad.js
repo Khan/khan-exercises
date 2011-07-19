@@ -7,7 +7,7 @@ function Scratchpad(){
 
 	var mobilesafari = /AppleWebKit.*Mobile/.test(navigator.userAgent);
 	var container = jQuery( "#scratchpad" );
-	var pad = Raphael("scratchpad", 0, 0, container.width(), container.height());
+	var pad = Raphael("scratchpad", container.width(), container.height() );
 	// This canvas doesn't do anything, but it needs to be there for IE7 to catch mouse events..
 	var canvas = pad.rect(40, 0, container.width() - 40, container.height()).attr({stroke: "", fill: "#ffffff", opacity: "0"});
 
@@ -22,6 +22,7 @@ function Scratchpad(){
 				stroke = color
 				palette.animate({x: 7}, 100)
 				this.animate({x: 15}, 100)
+				penclick()
 			};
 			palette.push(pad.rect(7, 90 + i * 24, 24, 24).attr({
 				fill: color,
@@ -51,7 +52,7 @@ function Scratchpad(){
 						path: shapes[i].attr('path').toString(),
 						stroke: shapes[i].attr('stroke'),
 						type: 'path'
-					})
+					});
 				}
 			}
 		}
@@ -218,7 +219,7 @@ function Scratchpad(){
 					y: y1,
 					width: x2 - x1,
 					height: y2 - y1
-				})
+				});
 			}
 	}
 
@@ -229,7 +230,7 @@ function Scratchpad(){
 	$(pad.canvas).mousemove(function(e){
 		mousemove( e.pageX - Khan.scratchpad.offsetLeft, e.pageY - Khan.scratchpad.offsetTop );
 		e.preventDefault();
-	})
+	});
 	$(pad.canvas).mousedown(function(e){
 		mousedown(e.pageX - Khan.scratchpad.offsetLeft, e.pageY - Khan.scratchpad.offsetTop, e);
 		e.preventDefault();

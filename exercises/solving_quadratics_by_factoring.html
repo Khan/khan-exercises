@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Solving Quadratics by Factoring</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<div data-ensure="A !== B">
+			<var id="A">randRangeNonZero( -10, 10 )</var>
+			<var id="B">randRangeNonZero( -10, 10 )</var>
+		</div>
+		<var id="SQUARE">randRange(1,6)</var>
+	</div>
+
+	<div class="problems">
+		<div id="original">
+			<div class="vars">
+				<var id="CONSTANT">SQUARE*A*B</var>
+				<var id="SIMPLECONSTANT">A*B</var>
+				<var id="LINEAR">SQUARE*(-A-B)</var>
+				<var id="SIMPLELINEAR">-A-B</var>
+			</div>
+
+			<p class="problem">Determine where <code>f(x)</code> intersects the <code>x</code>-axis.</p>
+			<p class="question"><code><var>SQUARE</var>x^2 + <var>LINEAR</var>x + <var>CONSTANT</var></code></p>
+
+			<p class="solution"><code>x=<var>A</var></code> and <code>x=<var>B</var></code></p>
+			<ul class="choices" data-none="true">
+				<li><code>x=<var>-A</var></code> and <code>x=<var>-B</var></code></li>
+				<li><code>x=<var>B</var></code> and <code>x=<var>A+B</var></code></li>
+				<li><code>x=<var>A</var></code> only</li>
+				<li><code>x=<var>B</var></code> only</li>
+				<li><code>x=<var>SQUARE</var></code> and <code>x=<var>LINEAR</var></code></li>
+			</ul>
+
+			<div class="hints" data-apply="appendContents">
+				<div id="hint1">
+					<p>The two numbers <code><var>-A</var></code> and <code><var>-B</var></code> satisfy both conditions:</p>
+					<p><code><var>-A</var> + <var>-B</var> = <var>SIMPLELINEAR</var></code></p>
+					<p><code><var>-A</var> \cdot <var>-B</var> = <var>SIMPLECONSTANT</var></code></p>
+				</div>
+				<p id="hint2">So <code>(x + <var>-A</var>)(x + <var>-B</var>) = 0</code>.</p>
+				<p id="hint3"><code>x + <var>-A</var> = 0</code> or <code>x + <var>-B</var> = 0</code></p>
+				<p id="hint4">Thus, <code>x = <var>A</var></code> and <code>x = <var>B</var></code> are the solutions.</p>
+			</div>
+		</div>
+
+
+		<div id="one-root" data-type="original">
+			<div class="vars">
+				<var id="CONSTANT">SQUARE * A * A</var>
+				<var id="SIMPLECONSTANT">A * A</var>
+				<var id="LINEAR">SQUARE * ( -2 * A )</var>
+				<var id="SIMPLELINEAR">-2 * A</var>
+			</div>
+			<p class="problem">Determine where <code>f(x)</code> intersects the x-axis.</p>
+			<p class="question"><code><var>SQUARE</var>x^2 + <var>LINEAR</var>x + <var>CONSTANT</var></code></p>
+			<p class="solution"><code>x=<var>A</var></code> only</p>
+
+			<ul class="choices" data-none="true">
+				<li><code>x=<var>-A</var></code> and <code>x=<var>A</var></code></li>
+				<li><code>x=<var>2 * A</var></code> and <code>x=<var>-A</var></code></li>
+				<li><code>x=<var>-2 * A</var></code> and <code>x=<var>A</var></code></li>
+				<li><code>x=<var>-A</var></code> only</li>
+			</ul>
+			<div class="hints" data-apply="appendContents">
+				<div id="hint1">
+					<p>The number <code><var>-A</var></code> used twice satisfies both conditions:</p>
+					<p><code><var>-A</var> + <var>-A</var> = <var>SIMPLELINEAR</var></code></p>
+					<p><code><var>-A</var> \cdot <var>-A</var> = <var>SIMPLECONSTANT</var></code></p>
+				</div>
+				<p id="hint2">So <code>(x + <var>-A</var>)^2 = 0</code>.</p>
+				<p id="hint3"><code>x + <var>-A</var> = 0</code></p>
+				<p id="hint4">Thus, <code>x = <var>A</var></code> is the solution.</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<div>
+			<p>The function intersects the <code>x</code>-axis where <code>f(x) = 0</code>, so solve the equation:</p>
+			<p><code><var>SQUARE</var>x^2 + <var>LINEAR</var>x + <var>CONSTANT</var>=0</code></p>
+		</div>
+
+		<div data-if="SQUARE > 1">
+			<p>Dividing both sides by <var>SQUARE</var> gives:</p>
+			<p><code>x^2 + <var>SIMPLELINEAR</var>x + <var>SIMPLECONSTANT</var>=0</code></p>
+		</div>
+
+		<p>The coefficient on the <code>x</code> term is <code><var>SIMPLELINEAR</var></code> and the constant term is <code><var>SIMPLECONSTANT</var></code>, so we need to find two numbers that add up to <code><var>SIMPLELINEAR</var></code> and multiply to <code><var>SIMPLECONSTANT</var></code>.</p>
+		</div>
+	</div>
+</body>
+</html>

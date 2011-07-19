@@ -18,31 +18,33 @@
 			<var id="DIVISOR">getGCD( B, 2 * A, Math.sqrt( DISC_FACTOR[0] ) )</var>
 
 			<var id="WRONGS">
-				var wrongs = [];
-				for ( var i = 0; i < 5; i++ ) {
-					var bad_a = randRangeNonZero(-10, 10);
-					var bad_b = randRangeNonZero(-10, 10);
-					var bad_c = randRangeNonZero(-10, 10);
+				(function() {
+					var wrongs = [];
+					for ( var i = 0; i < 5; i++ ) {
+						var bad_a = randRangeNonZero(-10, 10);
+						var bad_b = randRangeNonZero(-10, 10);
+						var bad_c = randRangeNonZero(-10, 10);
 
-					var good_gcd = getGCD( A, B, C );
-					var bad_gcd = getGCD( bad_a, bad_b, bad_c );
+						var good_gcd = getGCD( A, B, C );
+						var bad_gcd = getGCD( bad_a, bad_b, bad_c );
 
-					while ((	(A*bad_gcd)==(bad_a*good_gcd) &&
-								(B*bad_gcd)==(bad_b*good_gcd) &&
-								(C*bad_gcd)==(bad_c*good_gcd) ) ||
+						while ((	(A*bad_gcd)==(bad_a*good_gcd) &&
+									(B*bad_gcd)==(bad_b*good_gcd) &&
+									(C*bad_gcd)==(bad_c*good_gcd) ) ||
 
-								(( (bad_b * bad_b) - (4 * bad_a * bad_c) ) < 0))
-					{
-						bad_a = randRangeNonZero(-10, 10);
-						bad_b = randRangeNonZero(-10, 10);
-						bad_c = randRangeNonZero(-10, 10);
+									(( (bad_b * bad_b) - (4 * bad_a * bad_c) ) < 0))
+						{
+							bad_a = randRangeNonZero(-10, 10);
+							bad_b = randRangeNonZero(-10, 10);
+							bad_c = randRangeNonZero(-10, 10);
 
-						good_gcd = getGCD( A, B, C );
-						bad_gcd = getGCD( bad_a, bad_b, bad_c );
+							good_gcd = getGCD( A, B, C );
+							bad_gcd = getGCD( bad_a, bad_b, bad_c );
+						}
+						wrongs.push(quadraticRoots(bad_a, bad_b, bad_c));
 					}
-					wrongs.push(quadraticRoots(bad_a, bad_b, bad_c));
-				}
-				return wrongs;
+					return wrongs;
+				})()
 			</var>
 		</div>
 

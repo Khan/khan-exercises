@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+	<title>Division 1.5</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="DIVISOR">randRange( 2, 9 )</var>
+			<var id="NUM_DIGITS">randRange( 2, 3 )</var>
+			<var id="MAX_QUOTIENT_DIGIT">floor( 9 / DIVISOR )</var>
+			<var id="QUOTIENT">
+				(function() {
+					var quotient = randRange( 1, MAX_QUOTIENT_DIGIT );
+					for ( var i = 1; i &lt; NUM_DIGITS; i++ ){
+						quotient *= 10;
+						quotient += randRange( 0, MAX_QUOTIENT_DIGIT );
+					}
+					return quotient;
+				})()
+			</var>
+			<var id="REMAINDER">0</var>
+			<var id="DIVIDEND">DIVISOR * QUOTIENT</var>
+			<var id="DIVIDEND_DIGITS">integerToDigits( DIVIDEND )</var>
+			<var id="DIVISOR_DIGITS">integerToDigits( DIVISOR )</var>
+			<var id="HIGHLIGHTS">[]</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="graphie" id="numbers">
+					init({
+						range: [ [ -1 - DIVISOR_DIGITS.length, DIVIDEND_DIGITS.length + 2 ], [ DIVIDEND_DIGITS.length * -2 - 1, 2 ] ],
+						scale: [ 30, 45 ]
+					});
+					style({
+						strokeWidth: 1
+					});
+
+					drawDigits( DIVISOR_DIGITS, -0.5 - DIVISOR_DIGITS.length, 0, true );
+					drawDigits( DIVIDEND_DIGITS, 0, 0, true );
+					path( [ [ -0.75, -0.5 ], [ -0.75, 0.5 ], [ DIVIDEND_DIGITS.length, 0.5 ] ] );
+				</div>
+				<div class="solution"><var>QUOTIENT</var></div>
+			</div>
+		</div>
+		<div class="hints">
+			<div data-each="DIVIDEND_DIGITS as index, value" data-unwrap>
+				<div class="graphie" data-update="numbers">
+					while ( HIGHLIGHTS.length ) {
+						HIGHLIGHTS.pop().remove();
+					}
+					var index = <var>index</var>;
+					var value = <var>value</var>;
+					var quotient = value / DIVISOR;
+					var total = value + REMAINDER;
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ value ], index, 0, "#6495ED" ) );
+					if ( index !== 0 ) {
+						style({
+							arrows: "->"
+						}, function(){
+							HIGHLIGHTS.push( path( [ [ index, 0 - 0.5 ], [ index, -2 * index + 0.5 ]] ) );
+						});
+					}
+
+					drawDigits( [ value ], index, -2 * index );
+					var totalDigits = integerToDigits( total );
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( totalDigits , index - totalDigits.length + 1, -2 * index, "#6495ED" ) );
+
+					label( [ DIVIDEND_DIGITS.length + 1, -2 * index ],
+						"\\text{How many times does }"
+						+ DIVISOR
+						+ "\\text{ go into }"
+						+ "\\color{#6495ED}{" + total + "}"
+						+ "\\text{?}", "right" );
+				</div>
+				<div class="graphie" data-update="numbers">
+					var index = <var>index</var>;
+					var value = <var>value</var> + REMAINDER;
+					var quotient = floor( value / DIVISOR );
+					var diff = value - ( quotient * DIVISOR );
+					REMAINDER = diff * 10;
+
+					var quotientLabel = drawDigits( [ quotient ], index, 1 );
+					if ( quotient === 0 && ONLY_ZEROS ) {
+						LEADING_ZEROS = LEADING_ZEROS.concat( quotientLabel );
+					} else {
+						ONLY_ZEROS = false;
+					}
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ quotient ], index, 1, "#28AE7B" ) );
+
+					var product = integerToDigits( DIVISOR * quotient );
+					drawDigits( product, index - product.length + 1, -2 * index - 1 );
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( product, index - product.length + 1, -2 * index - 1, "#FFA500" ) );
+
+					var diffDigits = integerToDigits( diff );
+					drawDigits( diffDigits, index - diffDigits.length + 1, -2 * index - 2)
+					label( [ index - product.length, -2 * index - 1 ] ,"-\\vphantom{0}" );
+					path( [ [ index - product.length - 0.25, -2 * index - 1.5 ], [ index + 0.5, -2 * index - 1.5 ] ] );
+
+					label( [ DIVIDEND_DIGITS.length + 1, -2 * index - 1 ],
+						"\\color{#6495ED}{" + value + "}"
+						+ "\\div"
+						+ DIVISOR + "="
+						+ "\\color{#28AE7B}{" + quotient + "}"
+						+ "\\text{ or }"
+						+ DIVISOR
+						+ "\\times"
+						+ "\\color{#28AE7B}{" + quotient + "}"
+						+ " = "
+						+ "\\color{#FFA500}{" + value + "}", "right" );
+				</div>
+			</div>
+
+			<div class="graphie" data-update="numbers">
+					while( HIGHLIGHTS.length ) {
+						HIGHLIGHTS.pop().remove();
+					}
+			</div>
+		</div>
+	</div>
+</body>
+</html>

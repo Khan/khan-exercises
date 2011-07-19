@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graph">
+<html data-require="math graphie graphie-helpers">
 <head>
 	<title>Recognizing Fractions</title>
 	<script src="../khan-exercise.js"></script>
@@ -20,8 +20,13 @@
 					<p>Fractions help represent parts of a whole.</p>
 					<div>
 						<p>You can think of this fraction as representing <var>NUMERATOR</var> out of <var>DENOMINATOR</var> slices of pie. In other words, the pie has been cut into <var>DENOMINATOR</var> slices, and we are only considering <var>NUMERATOR</var> of those slices.</p>
-						<div class="graph" style="width: 140px; height: 140px;">
-							piechart( [NUMERATOR, DENOMINATOR - NUMERATOR], ["#ee0000", "#999"], 50 );
+						<div class="graphie">
+							init({
+								range: [ [-2, 2], [-2, 2] ],
+								scale: 25
+							});
+
+							piechart( [NUMERATOR, DENOMINATOR - NUMERATOR], ["#e00", "#999"], 2 );
 						</div>
 					</div>
 					<p>The numerator is the number of slices we care about, and it is written above the fraction line. The denominator is the total number of slices, and it is written below the line.</p>

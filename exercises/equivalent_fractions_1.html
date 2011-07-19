@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graph word-problems">
+<html data-require="math graphie graphie-helpers word-problems">
 <head>
 	<title>Equivalent Fractions 1</title>
 	<script src="../khan-exercise.js"></script>
@@ -23,20 +23,23 @@
 			<div class="hints">
 				<div>
 					<p>The fraction on the left represents <var>A</var> out of <var>B</var> slices of a rectangular <var>pizza( 1 )</var>.</p>
-					<div class="graph" style="width: 200px; height: 50px;">
-						rectchart( [A, B - A], ["#ee0000", "#999"] );
+					<div class="graphie">
+						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
+						rectchart( [A, B - A], ["#e00", "#999"] );
 					</div>
 				</div>
 				<div>
 					<p>What if we cut the <var>pizza( 1 )</var> into <var>D</var> slices instead? How many slices would result in the same amount of <var>pizza( 1 )</var>?</p>
-					<div class="graph" style="width: 200px; height: 50px;">
-						rectchart( [D], ["#999"] );
+					<div class="graphie">
+						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
+						rectchart( [0, D], ["#e00", "#999"] );
 					</div>
 				</div>
 				<div>
 					<p>We would need <var>C</var> slices.</p>
-					<div class="graph" style="width: 200px; height: 50px;">
-						rectchart( [C, D - C], ["#ee0000", "#999"] );
+					<div class="graphie">
+						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
+						rectchart( [C, D - C], ["#e00", "#999"] );
 					</div>
 				</div>
 				<p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>D</var>}</code> and so the answer is <code><var>C</var></code>.</p>
@@ -52,22 +55,25 @@
 			<div class="hints">
 				<div>
 					<p>The fraction on the left represents <var>A</var> out of <var>B</var> slices of a rectangular <var>pizza( 1 )</var>.</p>
-					<div class="graph" style="width: 200px; height: 50px;">
-						rectchart( [A, B - A], ["#ee0000", "#999"] );
+					<div class="graphie">
+						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
+						rectchart( [A, B - A], ["#e00", "#999"] );
 					</div>
 				</div>
 
 				<div>
 					<p>How many total slices would we need if want the same amount of <var>pizza( 1 )</var> in <var>C</var> slices? </p>
-					<div class="graph" style="width: 200px; height: 50px;">
-						rectchart( [C, D - C], ["#ee0000", "#fff"] );
+					<div class="graphie">
+						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
+						rectchart( [C, D - C], ["#e00", "#fff"] );
 					</div>
 				</div>
 
 				<div>
 					<p>We would need to cut the <var>pizza( 1 )</var> into <var>D</var> slices.</p>
-					<div class="graph" style="width: 200px; height: 50px;">
-						rectchart( [C, D - C], ["#ee0000", "#999"] );
+					<div class="graphie">
+						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
+						rectchart( [C, D - C], ["#e00", "#999"] );
 					</div>
 				</div>
 

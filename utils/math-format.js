@@ -4,6 +4,13 @@ jQuery.extend(KhanUtil, {
 		return n < 0 ? "(" + n + ")" : n;
 	},
 
+	/* Wrapper for `fraction` which takes a decimal instead of a numerator and
+	 * denominator. */
+	decimalFraction: function( num, defraction, reduce, small, parens ) {
+		var f = KhanUtil.toFraction( num );
+		return KhanUtil.fraction( f[0], f[1], defraction, reduce, small, parens );
+	},
+
 	/* Format the latex of the fraction `n`/`d`.
 	 * - Will use latex's `dfrac` unless `small` is specified as truthy.
 	 * - Will wrap the fraction in parentheses if necessary (ie, unless the
@@ -62,6 +69,18 @@ jQuery.extend(KhanUtil, {
 		return KhanUtil.fraction( n, d, defraction, reduce, true, parens );
 	},
 
+	/* Interprets a decimal as a multiple of pi and formats it as would be
+	 * expected. */
+	piFraction: function( num ) {
+		if ( num.constructor === Number ) {
+			var f = KhanUtil.toFraction( num / Math.PI, 0.001 ),
+			 n = f[0],
+			 d = f[1];
+
+			return d === 1 ? n + "\\pi" : KhanUtil.fractionSmall( n, d ) + "\\pi";
+		}
+	},
+
 	/* Returns whether the fraction n/d reduces. */
 	reduces: function( n, d ) {
 		// if the GCD is greater than 1, then there is a factor in common and the
@@ -70,10 +89,10 @@ jQuery.extend(KhanUtil, {
 	},
 
 	fractionSimplification: function( n, d ) {
-		var result = "\\frac{" + n + "}{" + (d < 0 ? "(" + d + ")" : d) + "}";
+		var result = "\\frac{" + n + "}{" + d + "}";
 
-		if ( KhanUtil.getGCD( n, d ) > 1 || d == 1 ) {
-			result += " = " + KhanUtil.fraction( n, d );
+		if ( d <= 1 || KhanUtil.getGCD( n, d ) > 1 ) {
+			result += " = " + KhanUtil.fractionReduce( n, d );
 		}
 
 		return result;
@@ -232,6 +251,72 @@ jQuery.extend(KhanUtil, {
 
 	commafy: function( num ) {
 		return num.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, "{,}");
-	}
+	},
+
+	// Formats strings like "Axy + By + Cz + D" where A, B, and C are variables
+	// initialized to unknown values. Formats things so that TeX takes care of
+	// negatives, and also handles cases where the strings beind added are wrapped
+	// in TeX color declarations (\color{blue}{Axy} to \color{blue}{xy} if A is 1,
+	// and won't be inserted at all if A is 0). Also <code><var>plus( A, B, C )
+	// </var></code> is cleaner than <code><var>A</var> + <var>B</var> + <var>C</var></code>.
+	// Note: this is somewhat treading on the territory of expressions.js, but has
+	// a slightly different use case.
+	plus: function() {
+
+		var args = [], s;
+
+		for ( var i = 0; i < arguments.length; i++ ) {
+			s = KhanUtil._plusTrim( arguments[i] );
+			if ( s ) args.push( s );
+		}
+
+		return args.length > 0 ? args.join( " + " ) : "0";
+	},
+
+	_plusTrim: function( s ) {
+
+		if ( typeof s === "string" && isNaN( s ) ) {
+			
+			// extract color, so we can handle stripping the 1 out of \color{blue}{1xy}
+			if ( s.indexOf( "{" ) !== -1 ) {
+
+				// we're expecting something like "\color{blue}{-1}..."
+				var l, r;
+				l = s.indexOf( "{", s.indexOf( "{" ) + 1 ) + 1;
+				r = s.indexOf( "}", s.indexOf( "}" ) + 1 );
+
+				// if we've encountered \color{blue}{1}\color{xy} somehow
+				if ( l !== s.lastIndexOf( "{" ) && +KhanUtil._plusTrim( s.slice( l, r ) ) === 1 ) {
+					return s.slice( r + 1);
+				}
+
+				return s.slice( 0, l ) + KhanUtil._plusTrim( s.slice( l, r ) ) + s.slice( r );
+			}
+
+			if ( s.indexOf( "1" ) === 0 && isNaN( s[1] ) ) {
+				return s.slice( 1 );
+			} else if ( s.indexOf( "-1" ) === 0 && isNaN( s[2] ) ) {
+				return "-" + s.slice( 2 );
+			} else if ( s.indexOf( "0" ) === 0 || s.indexOf( "-0" ) === 0 ) {
+				return "";
+			} else {
+				return s;
+			}
+
+		} else if ( typeof s === "number" ) {
+
+			// we'll just return the number, but this will actually end up getting
+			// rid of 0's since a returned 0 will be falsey.
+			return s;
+
+			// if we're dealing with a string that looks like a number
+		} else if ( !isNaN( s ) ) {
+			
+			return +s;
+
+		}
+
+	},
+
 });
 

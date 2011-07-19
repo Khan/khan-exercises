@@ -12,7 +12,22 @@
 			<var id="DENOM">randRange(2, 10) * FACTOR</var>
 			<var id="GCD">getGCD( NUM, DENOM )</var>
 			<var id="GCD_FACTORS">getPrimeFactorization( GCD )</var>
-			<var id="GCD_FACTORS_SENTENCE">toSentence( GCD_FACTORS )</var>
+			<var id="HINT">
+				(function(){
+					var factorValue = 1;
+					var factorDisplay = "";
+					var hint = "\\dfrac{" + NUM + "}{" + DENOM + "}";
+					jQuery.each( GCD_FACTORS, function( index, value) {
+						factorValue *= value;
+						var dot = index == 0 ? "" : "\\cdot ";
+						factorDisplay += dot + value;
+						hint += "= \\dfrac{" + factorDisplay + "\\cdot" + NUM / factorValue + "}{" + factorDisplay + "\\cdot" + DENOM / factorValue + "}";
+					});
+					hint += "= \\dfrac{" + NUM / GCD + "}{" + DENOM / GCD + "}";
+
+					return hint;
+				})()
+			</var>
 		</div>
 
 		<div class="problems">
@@ -45,13 +60,12 @@
 			<p>
 				<code>= \dfrac{<var>NUM / GCD</var>}{<var>DENOM / GCD</var>}</code>
 			</p>
-			<div data-if="GCD_FACTORS.length !== 1">
-				<p>You can also solve this problem by repeatedly dividing the numerator and denominator by smaller factors.</p>
-				<p>For example:</p>
-				<!-- TODO: iterate prettily to walk student through
-					48 / 64 to 24 / 32 to 3 / 4
-				-->
-				<p><var>GCD_FACTORS_SENTENCE</var></p>
+			<div data-if="GCD_FACTORS.length !== 1" data-unwrap>
+				<p>You can also solve this problem by repeatedly breaking the numerator and denominator into common factors.</p>
+				<div>
+					<p>For example:</p>
+					<p><code><var>HINT</var></code></p>
+				</div>
 			</div>
 		</div>
 	</div>

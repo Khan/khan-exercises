@@ -1,4 +1,5 @@
 jQuery.extend(KhanUtil, {
+
 	expr: function( expr, compute ) {
 		if ( typeof expr == "object" ) {
 			var op = expr[0], args = expr.slice(1);
@@ -11,14 +12,21 @@ jQuery.extend(KhanUtil, {
 	},
 
 	exprType: function( expr ) {
+
 		if ( typeof expr === "object" ) {
-			// Color wrappers should be completely ignored by everything but formatOperators
+
+			// Color wrappers should be completely ignored by everything but 
+			// formatOperators
 			if ( expr[0] === "color" ) {
 				return KhanUtil.exprType( expr[2] );
 			}
+
 			return expr[0];
+
 		} else {
+
 			return typeof(expr);
+
 		}
 	},
 
@@ -61,7 +69,7 @@ jQuery.extend(KhanUtil, {
 			return false;
 
 			case "^":
-			return !(KhanUtil.exprType(expr[1]) === "number" && expr[1] > 0);
+			return KhanUtil.exprType(expr[1]) !== "number" || expr[1] < 0;
 
 			case "number":
 			case "sqrt":
@@ -80,14 +88,16 @@ jQuery.extend(KhanUtil, {
 
 	formatOperators: {
 		"color": function( color, arg ) {
+
 			// Arguments should look like [ "blue", [ ... ] ]
 			return "\\color{" + color + "}{" + KhanUtil.expr( arg ) + "}";
 		},
 
 		"+": function() {
-			var terms = jQuery.grep(arguments, function( term, i ) {
+			var args = [].slice.call( arguments, 0 );
+			var terms = jQuery.grep( args, function( term, i ) {
 				return term != null;
-			});
+			} );
 
 			terms = jQuery.map(terms, function( term, i ) {
 				var parenthesize;
@@ -132,7 +142,8 @@ jQuery.extend(KhanUtil, {
 			if ( arguments.length == 1 ) {
 				return KhanUtil.expr( ["*", -1, arguments[0]] );
 			} else {
-				var terms = jQuery.map(arguments, function( term, i ) {
+				var args = [].slice.call( arguments, 0 );
+				var terms = jQuery.map( args, function( term, i ) {
 					var negate = KhanUtil.exprIsNegated( term );
 					var parenthesize;
 					switch ( KhanUtil.exprType(term) ) {
@@ -155,7 +166,7 @@ jQuery.extend(KhanUtil, {
 					}
 
 					return term;
-				});
+				} );
 
 				var joined = terms.join("-");
 
@@ -167,7 +178,8 @@ jQuery.extend(KhanUtil, {
 			var rest = Array.prototype.slice.call(arguments, 1);
 			rest.unshift("*");
 
-			// If we're multiplying by 1, ignore it, unless we have [ "*", 1 ] and should return 1
+			// If we're multiplying by 1, ignore it, unless we have [ "*", 1 ] and 
+			// should return 1
 			if ( arguments[0] === 1 && rest.length > 1 ) {
 				return KhanUtil.expr(rest);
 			} else if ( arguments[0] === -1 && rest.length > 1 ) {
@@ -180,9 +192,10 @@ jQuery.extend(KhanUtil, {
 			}
 
 			if ( arguments.length > 1 ) {
+				var args = [].slice.call( arguments, 0 );
 				var parenthesizeRest = KhanUtil.exprType(arguments[0]) === "number"
 					&& KhanUtil.exprType(arguments[1]) === "number";
-				var factors = jQuery.map(arguments, function( factor, i ) {
+				var factors = jQuery.map( args, function( factor, i ) {
 					var parenthesize;
 					switch ( KhanUtil.exprType( factor ) ) {
 						case "number":
@@ -204,7 +217,7 @@ jQuery.extend(KhanUtil, {
 					}
 
 					return factor;
-				});
+				} );
 
 				return factors.join("");
 			} else {
@@ -226,7 +239,8 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"frac": function( num, den ) {
-			return "\\frac{" + KhanUtil.expr( num ) + "}{" + KhanUtil.expr( den ) + "}";
+			return "\\frac{" + KhanUtil.expr( num ) + "}{" + 
+				KhanUtil.expr( den ) + "}";
 		},
 
 		"^": function( base, pow ) {
@@ -294,9 +308,10 @@ jQuery.extend(KhanUtil, {
 			if ( arguments.length === 1 ) {
 				return "\\pm " + KhanUtil.exprParenthesize(arguments[0]);
 			} else {
-				return jQuery.map(arguments, function( term, i ) {
+				var args = [].slice.call( arguments, 0 );
+				return jQuery.map( args, function( term, i ) {
 					return KhanUtil.expr(term);
-				}).join(" \\pm ");
+				} ).join(" \\pm ");
 			}
 		}
 	},
@@ -307,11 +322,12 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"+": function() {
+			var args = [].slice.call( arguments, 0 );
 			var sum = 0;
 
-			jQuery.each(arguments, function( i, term ) {
+			jQuery.each( args, function( i, term ) {
 				sum += KhanUtil.expr( term, true );
-			});
+			} );
 
 			return sum;
 		},
@@ -320,33 +336,36 @@ jQuery.extend(KhanUtil, {
 			if ( arguments.length == 1 ) {
 				return -KhanUtil.expr( arguments[0], true );
 			} else {
+				var args = [].slice.call( arguments, 0 );
 				var sum = 0;
 
-				jQuery.each(arguments, function( i, term ) {
+				jQuery.each( args, function( i, term ) {
 					sum += ( i == 0 ? 1 : -1 ) * KhanUtil.expr( term, true );
-				});
+				} );
 
 				return sum;
 			}
 		},
 
 		"*": function() {
+			var args = [].slice.call( arguments, 0 );
 			var prod = 1;
 
-			jQuery.each(arguments, function( i, term ) {
+			jQuery.each( args, function( i, term ) {
 				prod *= KhanUtil.expr( term, true );
-			});
+			} );
 
 			return prod;
 		},
 
 		"/": function() {
+			var args = [].slice.call( arguments, 0 );
 			var prod = 1;
 
-			jQuery.each(arguments, function( i, term ) {
+			jQuery.each( args, function( i, term ) {
 				var e = KhanUtil.expr( term, true );
 				prod *= ( i == 0 ? e : 1 / e );
-			});
+			} );
 
 			return prod;
 		},
@@ -372,6 +391,7 @@ jQuery.extend(KhanUtil, {
 			return KhanUtil.exprStripColor( expr[2] );
 		} else {
 			return jQuery.map(expr, function( el, i ) {
+
 				// Wrap in an array because jQuery.map flattens the result by one level
 				return [ (i === 0) ? el : KhanUtil.exprStripColor( el ) ];
 			});
