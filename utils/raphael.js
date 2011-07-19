@@ -2968,6 +2968,28 @@
     };
     var curveslengths = {},
     getPointAtSegmentLength = function (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, length) {
+        // Is this a straight line?
+        // Added for huge speed improvements
+        if ( p1x === c1x && p1y === c1y && c2x === p2x && c2y == p2y ) {
+            var dx = p2x - p1x, dy = p2y - p1y;
+            var totalLength = Math.sqrt( dx * dx + dy * dy );
+
+            if ( length == null ) {
+                return totalLength;
+            } else {
+                var fract = length / totalLength;
+                return {
+                    start: { x: p1x, y: p1y },
+                    m: { x: p1x, y: p1y },
+                    n: { x: p2x, y: p2y },
+                    end: { x: p2x, y: p2y },
+                    x: p1x + fract * dx,
+                    y: p1y + fract * dy,
+                    alpha: (90 - math.atan(dx / dy) * 180 / PI)
+                };
+            }
+        }
+
         var len = 0,
             precision = 100,
             name = [p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y].join(),
