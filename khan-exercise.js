@@ -809,14 +809,14 @@ var Khan = {
 				}
 			} );
 
-			jQuery( "body" ).keypress( function( e ) {
-				if ( e.charCode === "h".charCodeAt( 0 ) ) {
+			jQuery( "body" ).keyup( function( e ) {
+				if ( e.keyCode === "H".charCodeAt( 0 ) ) {
 					jQuery( "#hint" ).click();
 				}
-				if ( e.charCode === "y".charCodeAt( 0 ) ) {
+				if ( e.keyCode === "Y".charCodeAt( 0 ) ) {
 					jQuery( "#tester-info .pass" ).click();
 				}
-				if ( e.charCode === "n".charCodeAt( 0 ) ) {
+				if ( e.keyCode === "N".charCodeAt( 0 ) ) {
 					jQuery( "#tester-info .fail" ).click();
 				}
 			});
