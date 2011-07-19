@@ -16,7 +16,7 @@ jQuery.extend( Khan.answerTypes, {
 			};
 		}
 
-		return function() {
+		var ret = function() {
 			// we want the normal input if it's nonempty, the fallback converted to a string if 
 			// the input is empty and a fallback exists, and the empty string if the input
 			// is empty and the fallback doesn't exist.
@@ -28,6 +28,8 @@ jQuery.extend( Khan.answerTypes, {
 
 			return verifier( correct, val );
 		};
+		ret.solution = jQuery.trim( correct );
+		return ret;
 	},
 
 	regex: function( solutionarea, solution, fallback ) {
@@ -102,11 +104,7 @@ jQuery.extend( Khan.answerTypes, {
 		var verifier = function( correct, guess ) {
 			var ratExp = /^(-?[0-9]+)(?:\/([0-9]+))?$/;
 
-			if ( correct.match( "/" ) ) {
-				correct = jQuery.tmpl.getVAR( correct );
-			} else {
-				correct = parseFloat( correct );
-			}
+			correct = parseFloat( correct );
 
 			var match = guess.match(ratExp);
 
@@ -142,6 +140,8 @@ jQuery.extend( Khan.answerTypes, {
 		solutionarea = jQuery( solutionarea );
 		solutionarea.append( jQuery( solution ).contents() );
 
+		var solutionArray = [];
+
 		// Iterate in reverse so the *first* input is focused
 		jQuery( solutionarea.find( ".sol" ).get().reverse() ).each(function() {
 			var type = jQuery( this ).data( "type" );
@@ -154,9 +154,10 @@ jQuery.extend( Khan.answerTypes, {
 				validator = Khan.answerTypes[type]( solarea, sol, fallback );
 
 			jQuery( this ).data( "validator", validator );
+			solutionArray.unshift( validator.solution );
 		});
 
-		return function() {
+		var ret = function() {
 			var valid = true;
 
 			solutionarea.find( ".sol" ).each(function() {
@@ -169,9 +170,14 @@ jQuery.extend( Khan.answerTypes, {
 
 			return valid;
 		};
+		ret.solution = solutionArray;
+		return ret;
 	},
 
 	radio: function( solutionarea, solution ) {
+		// Without this we get numbers twice and things sometimes
+		var solutionText = jQuery( solution ).contents( ":not(.MathJax)" ).text();
+
 		var list = jQuery("<ul></ul>");
 		jQuery( solutionarea ).append(list);
 
@@ -205,6 +211,10 @@ jQuery.extend( Khan.answerTypes, {
 		// Add the correct answer
 		if( !noneIsCorrect && !isCategory) {
 			jQuery( solution ).data( "correct", true );
+		}
+
+		// Insert correct answer as first of possibleChoices
+		if ( !isCategory ) {
 			possibleChoices.splice( 0, 0, solution );
 		}
 
@@ -221,7 +231,10 @@ jQuery.extend( Khan.answerTypes, {
 			if ( !dupes[ choice.text() ] ) {
 				dupes[ choice.text() ] = true;
 
-				shownChoices.push( choice );
+				// i == 0 is the solution except in category mode; skip it when none is correct
+				if ( !( noneIsCorrect && i == 0 ) || isCategory ) {
+					shownChoices.push( choice );
+				}
 			}
 		}
 
@@ -238,6 +251,7 @@ jQuery.extend( Khan.answerTypes, {
 
 			if( noneIsCorrect ) {
 				none.data( "correct", true );
+				solutionText = none.text();
 				list.data( "real-answer",
 						jQuery( solution ).runModules()
 							.contents()
@@ -256,7 +270,7 @@ jQuery.extend( Khan.answerTypes, {
 				.appendTo(list);
 		});
 
-		return function() {
+		var ret = function() {
 			var choice = list.find("input:checked");
 			if ( noneIsCorrect && choice.val() === "1") {
 				choice.next()
@@ -267,6 +281,8 @@ jQuery.extend( Khan.answerTypes, {
 			}
 			return choice.val() === "1";
 		};
+		ret.solution = jQuery.trim( solutionText );
+		return ret;
 	},
 
 	list: function( solutionarea, solution ) {
@@ -289,9 +305,11 @@ jQuery.extend( Khan.answerTypes, {
 			return correct === guess;
 		};
 
-		return function() {
+		var ret = function() {
 			return verifier( correct, input.val() );
 		};
+		ret.solution = jQuery.trim( correct );
+		return ret;
 	},
 
 	primeFactorization: function( solutionarea, solution ) {

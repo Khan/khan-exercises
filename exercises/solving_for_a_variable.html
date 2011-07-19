@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<title>Solving for a Variable</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function color( str, blue ) {
+			var pre = "";
+
+			if ( typeof str === "number" && str < 0 ) {
+				pre = "-";
+				str = Math.abs( str );
+			} else if ( typeof str === "string" && str.indexOf( "-" ) === 0 ) {
+				pre = "-";
+				str = str.slice( 1 );
+			}
+
+			return pre + "\\color{" + ( blue ? "blue" : "green" ) + "}{" + str + "}";
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+
+			<var id="LETTERS">"abcdefghijklmnpqrstuvwxyz"</var>
+			<var id="LETTER">randRange( 0, LETTERS.length - 3 )</var>
+			<var id="X">LETTERS[ LETTER + 0 ]</var>
+			<var id="Y">LETTERS[ LETTER + 1 ]</var>
+			<var id="Z">LETTERS[ LETTER + 2 ]</var>
+
+		</div>
+
+		<div class="problems">
+			<!-- Gx(yz) + Ay + Bz + C = Dy + Ez + F -->
+			<!-- The (yz) means that a y or a z may both be included in that term. -->
+			<div id="GABC_DEF">
+				
+				<div class="vars">
+
+					<!-- pick random integers for coefficients, making sure that they don't cancel each other out on each side of the equation -->
+					<var id="A">randRangeNonZero( -10, 10 )</var>
+					<var id="B">randRangeNonZero( -10, 10 )</var>
+					<var id="C">randRangeNonZero( -10, 10 )</var>
+					<var id="D" data-ensure="A !== D">randRangeNonZero( -10, 10 )</var>
+					<var id="E" data-ensure="B !== E">randRangeNonZero( -10, 10 )</var>
+					<var id="F" data-ensure="C !== F">randRangeNonZero( -10, 10 )</var>		
+					<var id="G">randRangeNonZero( -10, 10 )</var>
+					
+					<var id="X_HAS_Y">random() < 0.5</var>
+					<var id="X_HAS_Z">random() < 0.5</var>
+
+					<var id="X_TERM">G + X + ( X_HAS_Y ? Y : "" ) + ( X_HAS_Z ? Z : "" )</var>
+					<var id="X_EXTRAS">( X_HAS_Y ? Y : "" ) + ( X_HAS_Z ? Z : "" )</var>
+
+					<var id="GCD">getGCD( getGCD( abs( G ), abs( D-A ) ), getGCD( abs( E-B ), abs( F-C ) ) )</var>
+					<var id="DIVISOR">( G < 0 ? -1 : 1 ) / GCD</var>
+
+					<var id="ANSWER">function( y, z, c, d ) {
+						return X + "= \\dfrac{" + plus( round( DIVISOR*y )+Y, round( DIVISOR*z )+Z, round( DIVISOR*c ) ) + "}{" + plus( round( DIVISOR*d )+X_EXTRAS ) + "}";
+					}</var>
+
+				</div>
+
+				<p class="problem"><code><var>plus( X_TERM, A+Y, B+Z, C )</var> = <var>plus( D+Y, E+Z, F )</var></code></p>
+
+				<p class="question">Solve for <code><var>X</var></code>.</p>
+
+				<p class="solution"><code><var>ANSWER( D-A, E-B, F-C, G )</var></code></p>
+				<ul class="choices" data-show="4" data-none="true">
+					<li data-if="D+A !== 0"><code><var>ANSWER( D+A, E-B, F-C, G )</var></code></li>
+					<li data-if="E+B !== 0"><code><var>ANSWER( D-A, E+B, F-C, G )</var></code></li>
+					<li data-if="F+C !== 0"><code><var>ANSWER( D-A, E-B, F+C, G )</var></code></li>
+					<li data-if="D+A !== 0 && E+B !== 0"><code><var>ANSWER( D+A, E+B, F-C, G )</var></code></li>
+					<li data-if="D+A !== 0 && F+C !== 0"><code><var>ANSWER( D+A, E-B, F+C, G )</var></code></li>
+					<li data-if="E+B !== 0 && F+C !== 0"><code><var>ANSWER( D-A, E+B, F+C, G )</var></code></li>
+					<li data-if="E+B !== 0 && E+B !== 0 && F+C !== 0"><code><var>ANSWER( D+A, E+B, F+C, G )</var></code></li>
+				</ul>
+
+				<div class="hints">
+
+					<div>
+						<p>Combine constant terms on the right.</p>
+						<p><code><var>plus( X_TERM, A+Y, B+Z, color( C, true ) )</var> = <var>plus( D+Y, E+Z, color( F, true ) )</var></code></p>
+					</div>
+					<p><code><var>plus( X_TERM, A+Y, B+Z )</var> = <var>plus( D+Y, E+Z, color( F-C, true ) )</var></code></p>
+
+					<div>
+						<p>Combine <code><var>Z</var></code> terms on the right.</p>
+						<p><code><var>plus( X_TERM, A+Y, color( B+Z, false ) )</var> = <var>plus( D+Y, color( E+Z, false ), F-C )</var></code></p>
+					</div>
+					<p><code><var>plus( X_TERM, A+Y )</var> = <var>plus( D+Y, color( (E-B)+Z, false ), F-C )</var></code></p>
+
+					<div>
+						<p>Combine <code><var>Y</var></code> terms on the right.</p>
+						<p><code><var>plus( X_TERM, color( A+Y, true ) )</var> = <var>plus( color( D+Y, true ), (E-B)+Z, F-C )</var></code></p>
+					</div>
+					<p><code><var>plus( X_TERM )</var> = <var>plus( color( (D-A)+Y, true ), (E-B)+Z, F-C )</var></code></p>
+
+					<div>
+						<p>Isolate <code><var>X</var></code>.</p>
+						<p><code><var>color( G, false ) + X + color( X_EXTRAS, false )</var> = <var>plus( (D-A)+Y, (E-B)+Z, F-C )</var></code></p>
+					</div>
+					<p><code><var>X</var> = \dfrac{ <var>plus( (D-A)+Y, (E-B)+Z, F-C )</var> }{ <var>plus( color( G, false ) + color( X_EXTRAS, false ) )</var> }</code></p>
+
+					<div data-if="GCD > 1 || G < 0" data-unwrap>
+						<p data-if="GCD > 1">All of these terms are divisible by <code><var>GCD</var></code>.</p>
+						<p data-if="GCD > 1 && G < 0">Divide by the common factor and swap signs so the denominator isn't negative.</p>
+						<p data-else-if="GCD > 1">Divide by the common factor.</p>
+						<p data-else>Swap the signs so the denominator isn't negative.</p>
+						<p><code><var>X</var> = \dfrac{ <var>plus( color( round( DIVISOR*(D-A) ), true )+Y, color( round( DIVISOR*(E-B) ), true )+Z, color( round( DIVISOR*(F-C) ), true ) )</var> }{ <var>plus( color( round( DIVISOR*G )+X_EXTRAS, true ) )</var> }</code></p>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Axy + Bxz + Cx + D = Ey + F -->
+			<div id="ABCD_EF">
+
+				<div class="vars">
+
+					<var id="A">randRangeNonZero( -10, 10 )</var>
+					<var id="B">randRangeNonZero( -10, 10 )</var>
+					<var id="C">randRangeNonZero( -10, 10 )</var>
+					<var id="D">randRangeNonZero( -10, 10 )</var>
+					<var id="E">randRangeNonZero( -10, 10 )</var>
+					<var id="F" data-ensure="D !== F">randRangeNonZero( -10, 10 )</var>
+
+					<var id="ANSWER">function( y1, c, y2, z, d, flip ) {
+						if ( typeof flip === "undefined" ? FLIP : flip ) {
+							y1 = -y1;
+							c = -c;
+							y2 = -y2;
+							z = -z;
+							d = -d;
+						}
+
+						return X + "= \\dfrac{" + plus( y1+Y, c ) + "}{" + plus( y2+Y, z+Z, d ) + "}";
+					}</var>
+
+					<var id="FLIP">(function() {
+						var n = 0,
+							ns = [ E, F-D, A, B, C ];
+
+						for( var i = 0; i < ns.length; i++ ) {
+							(ns[ i ] < 0 ) && n++;
+						}
+
+						return n >= 3;
+					})()</var>
+
+				</div>
+
+				<p class="problem"><code><var>plus( A+X+Y, B+X+Z, C+X, D )</var> = <var>plus( E+Y, F )</var></code></p>
+
+				<p class="question">Solve for <code><var>X</var></code>.</p>
+
+				<p class="solution"><code><var>ANSWER( E, F-D, A, B, C )</var></code></p>
+				<ul class="choices" data-show="4" data-none="true">
+					<li><code><var>ANSWER( E, F+D, A, B, C )</var></code></li>
+					<li><code><var>ANSWER( 0, F-D, A, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, 0, A, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, 0, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, 0, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, B, 0 )</var></code></li>
+					<li><code><var>ANSWER( E+A, F-D, A, B, C )</var></code></li>
+					<li><code><var>ANSWER( E-A, F-D, A, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A+B, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A-B, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, A+B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, A-B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, B, A+C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, B, A-C )</var></code></li>
+				</ul>
+
+
+				<div class="hints">
+
+					<div>
+						<p>Combine constant terms on the right.</p>
+						<p><code><var>plus( A+X+Y, B+X+Z, C+X, color( D, true ) )</var> = <var>plus( E+Y, color( F, true ) )</var></code></p>
+					</div>
+					<p><code><var>plus( A+X+Y, B+X+Z, C+X )</var> = <var>plus( E+Y, color( F-D, true ) )</var></code></p>
+
+					<div>
+						<p>Notice that all the terms on the left-hand side of the equation have <code><var>X</var></code> in them.</p>
+						<p><code><var>plus( A+color( X, false )+Y, B+color( X, false )+Z, C+color( X, false ) )</var> = <var>plus( E+Y, F-D )</var></code></p>
+					</div>
+
+					<p>Factor out the <code><var>X</var></code>.</p>
+					
+					<p><code><var>color( X, false )</var> \cdot \left( <var>plus( A+Y, B+Z, C )</var> \right) = <var>plus( E+Y, F-D )</var></code></p>
+					
+					<div>
+						<p>Isolate the <code><var>X</var></code>.</p>
+						<p><code><var>X</var> \cdot \left( <var>color( plus( A+Y, B+Z, C ), true )</var> \right)  = <var>plus( E+Y, F-D )</var></code></p>
+					</div>
+					<p><code><var>X</var> = \dfrac{ <var>plus( E+Y, F-D )</var> }{ <var>color( plus( A+Y, B+Z, C ), true )</var> }</code></p>
+
+					<div data-if="FLIP">
+						<p>We can simplify this by multiplying the top and bottom by <code>-1</code>.</p>
+						<p><code><var>ANSWER( E, F-D, A, B, C )</var></code></p>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- (Ax + By) / C = (Dx + Ez) / F -->
+			<div id="ABC_DEF">
+
+				<div class="vars">
+					
+					<var id="A">randRangeNonZero( -10, 10 )</var>
+					<var id="B">randRangeNonZero( -10, 10 )</var>
+					<var id="C">randRangeExclude( -10, 10, [ 0, -1, 1 ] )</var>
+					<var id="D">randRangeNonZero( -10, 10 )</var>
+					<var id="E">randRangeNonZero( -10, 10 )</var>
+					<var id="F" data-ensure="A*F !== D*C">randRangeExclude( -10, 10, [ 0, -1, 1 ] )</var>
+
+					<var id="GCD">getGCD( getGCD( abs( E*C ), abs( B*F ) ), abs( A*F - D*C ) )</var>
+					<var id="DIVISOR">( A*F-D*C < 0 ? -1 : 1 ) / GCD</var>
+
+					<var id="ANSWER">function( z, y, c ) {
+						return X + " = \\dfrac{" + plus( round( z*DIVISOR )+Z, round( y*DIVISOR )+Y ) + "}{" + round( c*DIVISOR ) + "}";
+					}</var>
+
+				</div>
+
+				<p class="problem"><code>\dfrac{ <var>plus( A+X, B+Y )</var> }{ <var>C</var> } = \dfrac{ <var>plus( D+X, E+Z )</var> }{ <var>F</var> }</code></p>
+
+				<p class="question">Solve for <code><var>X</var></code>.</p>
+
+				<p class="solution"><code><var>ANSWER( E*C, -B*F, A*F-D*C )</var></code></p>
+				<ul class="choices" data-none="true" data-show="4">
+					<li><code><var>ANSWER( E*C, B*F, A*F-D*C )</var></code></li>
+					<li><code><var>ANSWER( -E*C, -B*F, A*F-D*C )</var></code></li>
+					<li><code><var>ANSWER( -E*C, B*F, A*F-D*C )</var></code></li>
+					<li data-if="A*F+D*C !== 0" data-unwrap><ul data-unwrap>
+						<li><code><var>ANSWER( E*C, -B*F, A*F+D*C )</var></code></li>
+						<li><code><var>ANSWER( E*C, B*F, A*F+D*C )</var></code></li>
+						<li><code><var>ANSWER( -E*C, -B*F, A*F+D*C )</var></code></li>
+						<li><code><var>ANSWER( -E*C, B*F, A*F+D*C )</var></code></li>
+					</ul></li>
+					<li data-if="-A*F-D*C !== 0" data-unwrap><ul data-unwrap>
+						<li><code><var>ANSWER( E*C, -B*F, -A*F-D*C )</var></code></li>
+						<li><code><var>ANSWER( E*C, B*F, -A*F-D*C )</var></code></li>
+						<li><code><var>ANSWER( -E*C, B*F, -A*F-D*C )</var></code></li>
+						<li><code><var>ANSWER( -E*C, -B*F, -A*F-D*C )</var></code></li>
+					</ul></li>
+					<li data-if="-A*F+D*C !== 0" data-unwrap><ul data-unwrap>
+						<li><code><var>ANSWER( E*C, -B*F, -A*F+D*C )</var></code></li>
+						<li><code><var>ANSWER( -E*C, -B*F, -A*F+D*C )</var></code></li>
+						<li><code><var>ANSWER( -E*C, -B*F, -A*F+D*C )</var></code></li>
+						<li><code><var>ANSWER( -E*C, B*F, -A*F+D*C )</var></code></li>					
+					</ul></li>
+				</ul>
+
+				<div class="hints">
+
+					<div>
+						<p>Multiply both sides by the left denominator.</p>
+						<p><code>\dfrac{ <var>plus( A+X, B+Y )</var> }{ <var>color( C, true )</var> } = \dfrac{ <var>plus( D+X, E+Z )</var> }{ <var>F</var> }</code></p>
+					</div>
+					<p><code><var>color( C, true )</var> \cdot \dfrac{ <var>plus( A+X, B+Y )</var> }{ <var>color( C, true )</var> } = <var>color( C, true )</var> \cdot \dfrac{ <var>plus( D+X, E+Z )</var> }{ <var>F</var> }</code></p>
+					<p><code><var>plus( A+X, B+Y )</var> = <var>color( C, true )</var> \cdot \dfrac { <var>plus( D+X, E+Z )</var> }{ <var>F</var> }</code></p>
+
+					<div>
+						<p>Multiply both sides by the right denominator.</p>
+						<p><code><var>plus( A+X, B+Y )</var> = <var>C</var> \cdot \dfrac{ <var>plus( D+X, E+Z )</var> }{ <var>color( F, false )</var> }</code></p>
+					</div>
+					<p><code><var>color( F, false )</var> \cdot \left( <var>plus( A+X, B+Y )</var> \right) = <var>color( F, false )</var> \cdot <var>C</var> \cdot \dfrac{ <var>plus( D+X, E+Z )</var> }{ <var>color( F, false )</var> }</code></p>
+					<p><code><var>color( F, false )</var> \cdot \left( <var>plus( A+X, B+Y )</var> \right) = <var>C</var> \cdot \left( <var>plus( D+X, E+Z )</var> \right)</code></p>
+
+					<div>
+						<p>Distribute both sides.</p>
+						<p><code><var>color( F, true )</var> \cdot \left( <var>plus( A+X, B+Y )</var> \right) = <var>color( C, true )</var> \cdot \left( <var>plus( D+X, E+Z )</var> \right)</code></p>
+					</div>
+					<p><code><var>plus( color( A*F, true )+X, color( B*F, true )+Y )</var> = <var>plus( color( D*C, true )+X, color( E*C, true )+Z )</var></code></p>
+
+					<div>
+						<p>Combine <code><var>X</var></code> terms on the left.</p>
+						<p><code><var>plus( color( (A*F)+X, false ), (B*F)+Y )</var> = <var>plus( color( (D*C)+X, false ), (E*C)+Z )</var></code></p>
+					</div>
+					<p><code><var>plus( color( (A*F-D*C)+X, false ), (B*F)+Y )</var> = <var>(E*C)+Z</var></code></p>
+
+					<div>
+						<p>Move the <code><var>Y</var></code> term to the right.</p>
+						<p><code><var>plus( (A*F-D*C)+X, color( (B*F)+Y, true ) )</var> = <var>(E*C)+Z</var></code></p>
+					</div>
+					<p><code><var>(A*F-D*C)+X</var> = <var>plus( (E*C)+Z, color( (-B*F)+Y, true ) )</var></code></p>
+
+					<div>
+						<p>Isolate <code><var>X</var></code> by dividing both sides by its coefficient.</p>
+						<p><code><var>color( A*F-D*C, false )+X</var> = <var>plus( (E*C)+Z, (-B*F)+Y )</var></code></p>
+					</div>
+					<p><code><var>X</var> = \dfrac{ <var>plus( (E*C)+Z, (-B*F)+Y )</var> }{ <var>color( A*F-D*C, false )</var> }</code></p>
+
+					<div data-if="GCD > 1 || (A*F-D*C) < 0" data-unwrap>
+						<p data-if="GCD > 1">All of these terms are divisable by <code><var>GCD</var></code>.</p>
+						<p data-if="GCD > 1 && (A*F-D*C) < 0">Divide by the common factor and swap signs so the denominator isn't negative.</p>
+						<p data-else-if="GCD > 1">Divide by the common factor.</p>
+						<p data-else>Swap signs so the denominator isn't negatvie.</p>
+						<p><code><var>X</var> = \dfrac{ <var>plus( color( round( E*C*DIVISOR ), true )+Z, color( round( -B*F*DIVISOR ), true )+Y )</var> }{ <var>color( round( (A*F-D*C)*DIVISOR ), true )</var> }</code></p>
+					</div>
+						
+
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

@@ -1,18 +1,8 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-require="math graphie graphie-helpers">
 <head>
 	<title>Addition 3</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		function drawDigits ( digits, startX, startY ) {
-			with ( KhanUtil.currentGraph ) {
-				jQuery.each( digits, function( index, digit ) {
-					var str = "\\Huge{" + digit + "}";
-					label( [ startX - index, startY ], str );
-				});
-			}
-		}
-	</script>
 </head>
 <body>
 	<div class="exercise">
@@ -40,8 +30,8 @@
 					range: [ [ -1, 5 ], [ -0.5, 3 ] ],
 					scale: [30, 45]
 				});
-				drawDigits( A_DIGITS, X_MAX, Y_FIRST );
-				drawDigits( B_DIGITS, X_MAX, Y_SECOND );
+				drawDigits( A_DIGITS.slice( 0 ).reverse(), X_MAX - A_DIGITS.length + 1, Y_FIRST );
+				drawDigits( B_DIGITS.slice( 0 ).reverse(), X_MAX - B_DIGITS.length + 1, Y_SECOND );
 
 				path( [ [ -0.5, Y_SECOND - 0.5 ], [ X_MAX + 0.5, Y_SECOND - 0.5 ] ]);
 

@@ -166,7 +166,7 @@ var createGraph = function( el ) {
 			return raphael.ellipse.apply( raphael, scalePoint( center ).concat( scaleVector( radii ) ) );
 		},
 
-		arc: function( center, radius, startAngle, endAngle ) {
+		arc: function( center, radius, startAngle, endAngle, sector ) {
 			var cent = scalePoint( center );
 			var radii = scaleVector( radius );
 			var startVector = polar( radius, startAngle );
@@ -177,8 +177,9 @@ var createGraph = function( el ) {
 
 			var largeAngle = (endAngle - startAngle) % 360 > 180;
 
-			return raphael.path( "M" + startPoint.join(" ") + "A" + radii.join(" ") + " 0 "
-				+ ( largeAngle ? 1 : 0 ) + " 0 " + endPoint.join(" ") );
+			return raphael.path( "M" + startPoint.join(" ") + "A" + radii.join(" ") + " 0 " +
+				( largeAngle ? 1 : 0 ) + " 0 " + endPoint.join(" ") +
+				( sector ? "L" + cent.join(" ") + "z" : "" ) );
 		},
 
 		path: function( points ) {
@@ -292,6 +293,8 @@ var createGraph = function( el ) {
 	};
 
 	var graphie = {
+		raphael: raphael,
+
 		init: function( options ) {
 			var scale = options.scale || [ 40, 40 ];
 			scale = ( typeof scale === "number" ? [ scale, scale ] : scale );
@@ -359,6 +362,8 @@ var createGraph = function( el ) {
 				if ( currentStyle.arrows ) {
 					result = addArrowheads( result );
 				}
+			} else if ( result instanceof jQuery ) {
+				result.css( currentStyle );
 			}
 
 			currentStyle = oldStyle;
@@ -545,6 +550,7 @@ jQuery.fn.graphie = function( problem ) {
 		// Initialize the graph
 		if ( jQuery( this ).data( "update" ) ) {
 			var id = jQuery( this ).data( "update" );
+			jQuery( this ).remove();
 
 			// Graph could be in either of these
 			var area = jQuery( "#problemarea" ).add(problem);

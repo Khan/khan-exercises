@@ -69,9 +69,6 @@
 
 			<var id="F">function( x ) { return M * x + B; }</var>
 			<var id="F_INV">function( x ) { return ( x - B ) / M; }</var>
-
-			<var id="F_POS">round( atan( -1 / M ) * 180 / PI )</var>
-			<var id="F_INV_POS">round( atan( -M ) * 180 / PI )</var>
 		</div>
 
 		<div class="problems">
@@ -125,6 +122,21 @@
 			<p>So we know: <br /> <code>f^{-1}(y) = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
 			<p>Rename <code>y</code> to <code>x</code>: <br /> <code>f^{-1}(x) = <var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
 			<div class="graphie" data-update="G">
+				var pos = function( n ) {
+						if ( n >= 1 ) {
+							return "below right";
+						} else if ( n > 0 ) {
+							return "below";
+						} else if ( n > -1 ) {
+							return "above";
+						} else {
+							return "above right";
+						}
+					},
+					fPos = pos( M ),
+					fInvPos = pos( 1 / M );
+
+
 				// plot function inverse
 				style({
 					stroke: "#00d505",
@@ -140,7 +152,7 @@
 						stroke: "#a3a3ff",
 						strokeWidth: 1
 					}, function() {
-						label( labelPos( F ), "\\color{blue}{f(x)}", F_POS );
+						label( labelPos( F ), "\\color{blue}{f(x)}", fPos );
 					});
 
 					// label f_inv
@@ -148,7 +160,7 @@
 						stroke: "#00d505",
 						strokeWidth: 1
 					}, function() {
-						label( labelPos( F_INV ), "\\color{green}{f^{-1}(x)}", F_INV_POS );
+						label( labelPos( F_INV ), "\\color{green}{f^{-1}(x)}", fInvPos );
 					});
 				}
 			</div>

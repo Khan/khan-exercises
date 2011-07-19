@@ -5,7 +5,7 @@
 	<title>Even and Odd Functions</title>
 	<script src="../khan-exercise.js"></script>
 	<script type="text/javascript">
-		function makeFuncString( type, evens, odds ) {
+		function makeFunc( type, evens, odds ) {
 			var slice, r1, r2, r3, r4;
 
 			// Choose four even functions or four odd functions if we want a function
@@ -36,27 +36,22 @@
 				r4 = KhanUtil.randRange( -3, 3 );
 			} while ( !ensure( r1, r2, r3, r4 ) );
 
-			slice[0] += "*" + r1;
-			slice[1] += "*" + r2;
-			slice[2] += "*" + r3;
-			slice[3] += "*" + r4;
-
-			return slice.join("+");
-		}
-
-		function substitute( funcs, val ) {
-			return funcs.replace( /x/g, val );
-		}
-
-		function valAt( funcs, val ) {
-			var s, x = val;
-			with( Math ) {
-				s = eval( funcs );
+			return function( x ) {
+				return slice[0](x) * r1 + slice[1](x) * r2 + slice[2](x) * r3 + slice[3](x) * r4;
 			}
-			return s;
 		}
 
-		function widener( funcs ) {
+		function substitute( func, transformer ) {
+			return function( x ) {
+				return func( transformer( x ) );
+			}
+		}
+
+		function valAt( func, val ) {
+			return func( val );
+		}
+
+		function widener( func ) {
 			var x = 0, y = 0;
 
 			do {
@@ -64,9 +59,7 @@
 				// scale the function into [-10,10], but I like the way the rounding
 				// error looks more natural.
 				x++;
-				with ( Math ) {
-					y = abs( eval( funcs ) );
-				}
+				y = Math.abs( func( x ) );
 			} while ( x < 10 && y < 10 );
 
 			return x / 10;
@@ -77,14 +70,28 @@
 	<div class="exercise">
 		<div class="vars">
 
-			<var id="EVENS">[ "1", "cos(x)", "abs(x)", "pow(x, 2)", "pow(x, 4)" ]</var>
-			<var id="ODDS">[ "sin(x)", "x", "pow(x, 3)", "pow(x, 5)" ]</var>
+			<var id="EVENS">[
+				function( x ) { return 1; },
+				cos,
+				abs,
+				function( x ) { return x * x; },
+				function( x ) { return x * x * x * x; }
+			]</var>
+			<var id="ODDS">[
+				sin,
+				function( x ) { return x; },
+				function( x ) { return x * x * x; },
+				function( x ) { return x * x * x * x * x; }
+			]</var>
 
 			<!-- FIXME: replace with ul when that's fixed -->
 			<var id="SOL">randFromArray([ "Even", "Odd", "Neither" ])</var>
 
-			<var id="FUNCS">makeFuncString( SOL, EVENS, ODDS )</var>
-			<var id="WIDES">substitute( FUNCS, "x*" + widener( FUNCS ) )</var>
+			<var id="FUNC">makeFunc( SOL, EVENS, ODDS )</var>
+			<var id="WIDES">substitute( FUNC, (function() {
+				var w = widener( FUNC );
+				return function( x ) { return x * w; };
+			})() )</var>
 
 			<!-- these are all the x-coordinates that we will use to show the function's value in hints. we basically filter out any points where the function is offscreen or both the pos and neg values are too close to zero. -->
 			<var id="PTS">
@@ -128,7 +135,7 @@
 						});
 
 						plot( function( x ) {
-							return eval( WIDES );
+							return WIDES( x );
 						}, [-10, 10]);
 
 						style({

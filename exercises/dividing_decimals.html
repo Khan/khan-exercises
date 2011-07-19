@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+	<title>Dividing Decimals</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="DIVISOR">randRange( 10, 99 )</var>
+			<var id="QUOTIENT">randRange( 100, 999 )</var>
+			<var id="DIVIDEND">DIVISOR * QUOTIENT</var>
+			<var id="DIVIDEND_DIGITS">integerToDigits( DIVIDEND )</var>
+			<var id="DIVISOR_DIGITS">integerToDigits( DIVISOR )</var>
+			<var id="HIGHLIGHTS">[]</var>
+			<var id="LEADING_ZEROS">[]</var>
+			<var id="ONLY_ZEROS">true</var>
+			<var id="REMAINDER">0</var>
+			<var id="DIVISOR_DECIMAL">randRange( 1, 2 )</var>
+			<var id="MAX_DIVIDEND_DECIMAL">DIVIDEND &lt; 10000 ? 4 : 5</var>
+			<var id="DIVIDEND_DECIMAL">randRange( DIVISOR_DECIMAL, MAX_DIVIDEND_DECIMAL)</var>
+			<var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
+			<var id="DECIMALS">[]</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="graphie" id="numbers">
+					init({
+						range: [ [ -2 - DIVISOR_DIGITS.length, DIVIDEND_DIGITS.length + 2 ], [ DIVIDEND_DIGITS.length * -2 - 1, 2 ] ],
+						scale: [ 30, 45 ]
+					});
+					style({
+						strokeWidth: 1
+					});
+
+					drawDigits( DIVISOR_DIGITS, -0.5 - DIVISOR_DIGITS.length, 0, true );
+					drawDigits( DIVIDEND_DIGITS, 0, 0, true );
+					path( [ [ -0.75, -0.5 ], [ -0.75, 0.5 ], [ DIVIDEND_DIGITS.length, 0.5 ] ] );
+					style({
+						fill: "black"
+					}, function() {
+						DECIMALS = DECIMALS.concat( ellipse( [ -1 - DIVISOR_DECIMAL, -0.2 ], [ 0.09, 0.06 ] ) );
+						DECIMALS = DECIMALS.concat( ellipse( [ DIVIDEND_DIGITS.length - DIVIDEND_DECIMAL - 0.5, -0.2 ], [ 0.09, 0.06 ] ) );
+					});
+
+				</div>
+				<div class="solution" data-type="decimal"><var>QUOTIENT  / round( pow( 10, QUOTIENT_DECIMAL ) )</var></div>
+			</div>
+		</div>
+		<div class="hints">
+			<div class="graphie" data-update="numbers">
+				while( DECIMALS.length ) {
+					DECIMALS.pop().remove();
+				}
+				label( [ DIVIDEND_DIGITS.length + 1, 0 ],
+					"\\text{Shift the decimal " + DIVISOR_DECIMAL + " to the right.}", "right" );
+
+				DIVIDEND_DECIMAL -= DIVISOR_DECIMAL;
+				DIVISOR_DECIMAL = 0;
+				style({
+					fill: "black"
+				}, function() {
+					ellipse( [ -1 - DIVISOR_DECIMAL, -0.2 ], [ 0.09, 0.06 ] );
+					ellipse( [ DIVIDEND_DIGITS.length - DIVIDEND_DECIMAL - 0.5, -0.2 ], [ 0.09, 0.06 ] );
+					ellipse( [ DIVIDEND_DIGITS.length - DIVIDEND_DECIMAL - 0.5, 0.8 ], [ 0.09, 0.06 ] );
+				});
+			</div>
+			<div data-each="DIVIDEND_DIGITS as index, value" data-unwrap>
+				<div class="graphie" data-update="numbers">
+					while ( HIGHLIGHTS.length ) {
+						HIGHLIGHTS.pop().remove();
+					}
+					var index = <var>index</var>;
+					var value = <var>value</var>;
+					var quotient = value / DIVISOR;
+					var total = value + REMAINDER;
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ value ], index, 0, "#6495ED" ) );
+					if ( index !== 0 ) {
+						style({
+							arrows: "->"
+						}, function(){
+							HIGHLIGHTS.push( path( [ [ index, 0 - 0.5 ], [ index, -2 * index + 0.5 ]] ) );
+						});
+					}
+
+					drawDigits( [ value ], index, -2 * index );
+					var totalDigits = integerToDigits( total );
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( totalDigits , index - totalDigits.length + 1, -2 * index, "#6495ED" ) );
+
+					label( [ DIVIDEND_DIGITS.length + 1, -2 * index - 1],
+						"\\text{How many times does }"
+						+ DIVISOR
+						+ "\\text{ go into }"
+						+ "\\color{#6495ED}{" + total + "}"
+						+ "\\text{?}", "right" );
+				</div>
+				<div class="graphie" data-update="numbers">
+					var index = <var>index</var>;
+					var value = <var>value</var> + REMAINDER;
+					var quotient = floor( value / DIVISOR );
+					var diff = value - ( quotient * DIVISOR );
+					REMAINDER = diff * 10;
+
+					var quotientLabel = drawDigits( [ quotient ], index, 1 );
+					if ( quotient === 0 && ONLY_ZEROS && DIVIDEND_DIGITS.length - DIVIDEND_DECIMAL ) {
+						LEADING_ZEROS = LEADING_ZEROS.concat( quotientLabel );
+					} else {
+						ONLY_ZEROS = false;
+					}
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ quotient ], index, 1, "#28AE7B" ) );
+
+					var product = integerToDigits( DIVISOR * quotient );
+					drawDigits( product, index - product.length + 1, -2 * index - 1 );
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( product, index - product.length + 1, -2 * index - 1, "#FFA500" ) );
+
+					var diffDigits = integerToDigits( diff );
+					drawDigits( diffDigits, index - diffDigits.length + 1, -2 * index - 2)
+					label( [ index - product.length, -2 * index - 1 ] ,"-\\vphantom{0}" );
+					path( [ [ index - product.length - 0.25, -2 * index - 1.5 ], [ index + 0.5, -2 * index - 1.5 ] ] );
+
+					label( [ DIVIDEND_DIGITS.length + 1, -2 * index - 2 ],
+						"\\color{#6495ED}{" + value + "} - ("
+						+ DIVISOR + "\\times"
+						+"\\color{#28AE7B}{" + quotient + "} ) = "
+						+ "\\color{#6495ED}{" + value + "} -"
+						+ "\\color{#FFA500}{" + ( DIVISOR * quotient ) + "}"
+						+ "= "
+ 						+ diff, "right" );
+				</div>
+			</div>
+
+			<div class="graphie" data-update="numbers">
+				while( HIGHLIGHTS.length ) {
+					HIGHLIGHTS.pop().remove();
+				}
+				while( LEADING_ZEROS.length ) {
+					LEADING_ZEROS.pop().remove();
+				}
+			</div>
+		</div>
+	</div>
+</body>
+</html>

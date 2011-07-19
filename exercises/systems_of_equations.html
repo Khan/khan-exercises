@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+	<title>Systems of Equations</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="abs( X_DENOM ) < 13 && abs( Y_DENOM ) < 13 && abs( X_NUMER ) < 13 && abs( X_DENOM ) < 13 ">
+			<var id="A1">randRangeNonZero( -9, 9 )</var>
+			<var id="A2">randRangeNonZero( -9, 9 )</var>
+			<var id="B1">randRangeNonZero( -9, 9 )</var>
+			<var id="B2"data-ensure="( B1 * A2 ) !== ( A1 * B2 )">randRangeNonZero( -9, 9 )</var>
+
+			<var id="C1">randRangeNonZero( -9, 9 )</var>
+			<var id="C2">randRangeNonZero( -9, 9 )</var>
+
+			<var id="A_LCM">getLCM( abs( A1 ), abs( A2 ) )</var>
+			<var id="MULT_1">( A_LCM / abs( A1 ) ) * ( A1 * A2 &gt; 0 ? -1 : 1 )</var>
+			<var id="MULT_2">A_LCM / abs( A2 )</var>
+			<var id="X_MAX">max( abs( MULT_1 ), abs( MULT_2 ) )</var>
+
+			<var id="B_LCM">getLCM( abs( B1 ), abs( B2 ) )</var>
+			<var id="MULT_3">( B_LCM / abs( B1 ) ) * ( B1 * B2 &gt; 0 ? -1 : 1 )</var>
+			<var id="MULT_4">B_LCM / abs( B2 )</var>
+			<var id="Y_MAX">max( abs( MULT_3 ), abs( MULT_4 ) )</var>
+
+			<var id="XY_FLAG">X_MAX &lt; Y_MAX ? true : false</var>
+
+			<var id="X_NUMER">(C1*(B1*MULT_1+B2*MULT_2)-B1*(C1*MULT_1+C2*MULT_2))/getGCD((C1*(B1*MULT_1+B2*MULT_2)-B1*(C1*MULT_1+C2*MULT_2)),(A1*(B1*MULT_1+B2*MULT_2)))</var>
+			<var id="X_DENOM">(A1*(B1*MULT_1+B2*MULT_2))/getGCD((C1*(B1*MULT_1+B2*MULT_2)-B1*(C1*MULT_1+C2*MULT_2)),(A1*(B1*MULT_1+B2*MULT_2)))</var>
+
+			<var id="Y_NUMER">( C1 * MULT_1 + C2 * MULT_2 ) / getGCD( C1 * MULT_1 + C2 * MULT_2, B1 * MULT_1 + B2 * MULT_2 )</var>
+			<var id="Y_DENOM">( B1 * MULT_1 + B2 * MULT_2 ) / getGCD( C1 * MULT_1 + C2 * MULT_2, B1 * MULT_1 + B2 * MULT_2 )</var>
+
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="problem">Solve for <code>x</code> and <code>y</code> using elimination.</p>
+				<p class="question"><code>\begin{align*}<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> &= <var>C1</var> \\
+					                <var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> &= <var>C2</var>\end{align*}</code></p>
+				<div class="solution" data-type="multiple">
+					<p><code>x</code> = <span class="sol" data-type="rational"><var>X_NUMER / X_DENOM</var></span></p>
+					<p><code>y</code> = <span class="sol" data-type="rational"><var>Y_NUMER / Y_DENOM</var></span></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>We can eliminate <code><var>( XY_FLAG ? "x" : "y" )</var></code> when its corresponding coefficients are negative inverses.</p>
+
+			<div data-unwrap data-if="XY_FLAG"> 
+				<div data-if="MULT_1 !== 1 || MULT_2 !== 1">
+					<p>Recalling our knowledge of least common multiples, multiply the top equation by <code><var>MULT_1</var></code> and the bottom equation by <code><var>MULT_2</var></code>.</p>
+					<p><code>\begin{align*}<var>expr(["+", ["*", A1*MULT_1, "x"], ["*", B1*MULT_1, "y"]])</var> &= <var>C1*MULT_1</var>\\
+					   <var>expr(["+", ["*", A2*MULT_2, "x"], ["*", B2*MULT_2, "y"]])</var> &= <var>C2*MULT_2</var>\end{align*}</code></p>
+				</div>
+				<div>
+					<p>Add the top and bottom equations.</p>
+					<p><code><var>expr(["*", B1*MULT_1+B2*MULT_2, "y"])</var> = <var>C1*MULT_1+C2*MULT_2</var></code></p>
+				</div>
+
+				<div data-if="(B1*MULT_1+B2*MULT_2) !== 1">
+					<p>Divide both sides by <code><var>B1*MULT_1+B2*MULT_2</var></code> and reduce as necessary.</p>
+					<p><code>y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
+				</div>
+
+				<div>
+					<p>Substitute <code><var>fractionReduce( Y_NUMER, Y_DENOM )</var></code> for <code>y</code> in the top equation.</p>
+					<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, fractionReduce( Y_NUMER, Y_DENOM )]])</var> = <var>C1</var></code></p>
+					<p><code><var>expr(["+", ["*", A1, "x"], fractionReduce( B1 * Y_NUMER, Y_DENOM )])</var> = <var>C1</var></code></p>
+					<p><code><var>expr(["*", A1, "x"])</var> = <var>fractionReduce( C1 * Y_DENOM - B1 * Y_NUMER, Y_DENOM )</var></code></p>
+					<p><code data-if="A1!=1">x = <var>fractionReduce(X_NUMER,X_DENOM)</var></code></p>
+					<p><code>x = <var>fractionReduce(X_NUMER,X_DENOM)</var>, y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
+				</div>
+			</div>
+
+			<div data-unwrap data-else>
+				<div data-if="MULT_3 !== 1 || MULT_4 !== 1">
+					<p>Recalling our knowledge of least common multiples, multiply the top equation by <code><var>MULT_3</var></code> and the bottom equation by <code><var>MULT_4</var></code>.</p>
+					<p><code>\begin{align*}<var>expr(["+", ["*", A1*MULT_3, "x"], ["*", B1*MULT_3, "y"]])</var> &= <var>C1*MULT_3</var>\\
+						<var>expr(["+", ["*", A2*MULT_4, "x"], ["*", B2*MULT_4, "y"]])</var> &= <var>C2*MULT_4</var>\end{align*}</code></p>
+				</div>
+
+				<div>
+					<p>Add the top and bottom equations.</p>
+					<p><code><var>expr(["*", A1*MULT_3+A2*MULT_4, "x"])</var> = <var>C1*MULT_3+C2*MULT_4</var></code></p>
+				</div>
+
+				<div>
+					<p data-if="(A1*MULT_3+A2*MULT_4) !==1 ">Divide both sides by <code><var>A1*MULT_3+A2*MULT_4</var></code> and reduce as necessary.</p>
+					<p><code>x = <var>fractionReduce( X_NUMER, X_DENOM )</var></code></p>
+				</div>
+
+				<div>
+					<p>Substitute <code><var>fractionReduce( X_NUMER, X_DENOM )</var></code> for <code>x</code> in the top equation.</p>
+					<p><code><var>expr(["+", ["*", A1, fractionReduce( X_NUMER, X_DENOM )], ["*", B1, "y"]])</var> = <var>C1</var></code></p>
+					<p><code><var>expr(["+", fractionReduce( A1 * X_NUMER, X_DENOM ), ["*", B1, "y"]])</var> = <var>C1</var></code></p>
+					<p><code><var>expr(["*", B1, "y"])</var> = <var>fractionReduce( C1 * X_DENOM - A1 * X_NUMER, X_DENOM )</var></code></p>
+					<p><code data-if="A1!=1">y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
+					<p><code>x = <var>fractionReduce( X_NUMER, X_DENOM )</var>, y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

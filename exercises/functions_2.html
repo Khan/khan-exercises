@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html data-require="math graph">
+<html data-require="math graphie">
 <head>
 	<title>Functions 2</title>
 	<script src="../khan-exercise.js"></script>
 
 	<style>
 		.f {
-			color: orange;
+			color: #ffa500; /* orange */
 		}
 
 		.g {
-			color: #28AE7B;
+			color: #28ae7b; /* green */
 		}
 	</style>
 </head>
@@ -86,21 +86,18 @@
 
 		<div class="problems">
 			<div>
-				<p class="problem" style="font-size: 20px;">
-					<code class="f"><var>F_COEF</var> f(<var>CORRECT_X</var>)</code> +
-					<code class="g"><var>G_COEF</var> g(<var>CORRECT_GX</var>)</code>
-				<p class="question" style="font-size: 20px;">
-					Solve.
-				</p>
+				<p class="problem">Functions <code class="f">f(x)</code> and <code class="g">g(x)</code> are graphed. Find <code><var>F_COEF</var> f(<var>CORRECT_X</var>) + <var>G_COEF</var> g(<var>CORRECT_GX</var>)</code>.</p>
 
-				<div class="graph" style="width: 500px; height: 500px;" data-style="font-size: 20; font-style: italic; stroke: orange; font-fill: orange;" data-graph-type="plane">
-					text( FUNCTION_PATH[ FUNCTION_PATH.length-2 ], "f(x)", "above" );
-					path( FUNCTION_PATH );
-				</div>
+				<div id="graph" class="graphie">
+					graphInit({ 
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						axisArrows: "->"
+					});
 
-				<div class="graph update" data-style="stroke: #28AE7B; font-fill: #28AE7B;">
-					text( G_PATH[ G_PATH.length - 2 ], "g(x)", "above" );
-					path( G_PATH )
+					path( FUNCTION_PATH, { stroke: "#ffa500" } );
+					path( G_PATH, { stroke: "#28ae7b" } );
 				</div>
 
 				<p class="solution"><var>F_COEF * CORRECT_Y + G_COEF * CORRECT_GY</var></p>
@@ -108,33 +105,12 @@
 		</div>
 
 		<div class="hints">
-			<div>
-				<div class="graph update" data-style="font-size: 25; stroke: orange; stroke-dash-array: 5,5; font-fill: orange;">
-					line( [ CORRECT_X, 0 ], FUNCTION_PATH[ CORRECT_X+11 ] );
-				</div>
-
-				<div class="graph update" data-style="marker: dot; marker-fill: orange;">
-					line( [ 0, CORRECT_Y ], FUNCTION_PATH[ CORRECT_X+11 ] );
-					text( [-10, 9], "f("+CORRECT_X+")="+CORRECT_Y, right );
-				</div>
-			</div>
-
-			<div>
-				<div class="graph update" data-style="stroke: #28AE7B; font-fill: #28AE7B; marker: none;">
-					line( [CORRECT_GX, 0], G_PATH[ CORRECT_GX+11 ] );
-				</div>
-
-				<div class="graph update" data-style="marker: dot; marker-fill: #28AE7B;">
-					line([0, CORRECT_GY], G_PATH[CORRECT_GX+11]);
-					text([-10, 7.7], "g("+CORRECT_GX+")="+CORRECT_GY, right);
-				</div>
-			</div>
-
-			<div>
-				<div class="graph update" data-style="font-fill: black">
-					text([-10, 6.4], F_COEF+"("+CORRECT_Y+") + "+G_COEF+"("+CORRECT_GY+")="+
-						(F_COEF * CORRECT_Y + G_COEF * CORRECT_GY), right);
-				</div>
+			<p>Find <code>f(<var>CORRECT_X</var>)</code> and <code>g(<var>CORRECT_GX</var>)</code>.</p>
+			<p><code>\begin{align*}
+				f(<var>CORRECT_X</var>) &= <var>CORRECT_Y</var> \\
+				g(<var>CORRECT_GX</var>) &= <var>CORRECT_GY</var>
+			\end{align*}</code></p>
+			<p>Thus, <code><var>F_COEF</var> f(<var>CORRECT_X</var>) + <var>G_COEF</var> g(<var>CORRECT_GX</var>) = (<var>F_COEF</var>) (<var>CORRECT_Y</var>) + (<var>G_COEF</var>) (<var>CORRECT_Y</var>) = <var>F_COEF * CORRECT_Y + G_COEF * CORRECT_GY</var></code>.</p>
 		</div>
 	</div>
 </body>

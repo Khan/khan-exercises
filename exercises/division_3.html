@@ -1,24 +1,8 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-require="math graphie graphie-helpers">
 <head>
 	<title>Division 3</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		function drawDigits( digits, startX, startY, color ) {
-			with ( jQuery.tmpl.VARS ) {
-				with ( KhanUtil.currentGraph ) {
-					var set = [];
-					jQuery.each( digits, function( index, digit ) {
-						var colorStrPre = color ? "\\color{" + color + "}{" : "";
-						var colorStrPost = color ? "}" : "";
-						var str = "\\Huge{" + colorStrPre + digit + colorStrPost+ "}";
-						set.push( label( [ startX + index, startY ], str ) );
-					});
-					return set;
-				}
-			}
-		}
-	</script>
 </head>
 <body>
 	<div class="exercise">
