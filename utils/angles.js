@@ -21,7 +21,21 @@ jQuery.extend( KhanUtil, {
 	trigFunc: {
 		csc: {name: "csc", print: function( angle ){
 						return KhanUtil.trigFunc.sec.print( 90-angle);
-						}
+						},
+				convertsTo:["sin"],
+				convertTo: function( type, angle ){
+					if( type.name == "sin" ){
+						        cscv =  KhanUtil.trigFunc.csc.print( angle );
+                                                        sinv =  KhanUtil.trigFunc.sin.print( angle );
+                                                        toReturn = new Array();
+                                                        toReturn.push( "\\csc x = 1/(sin x)" );
+                                                        toReturn.push( "\\csc x = " + cscv );
+                                                        toReturn.push( '1/(\\sin x) = ' + cscv );
+                                                        toReturn.push( '\\sin x = ' + sinv );
+							return toReturn;
+					}
+					
+				}
 		},	
 		sec: {name: "sec", print: function( angle ){
 					  		 if( angle == 0 ){
@@ -48,22 +62,22 @@ jQuery.extend( KhanUtil, {
 							cosv =  KhanUtil.trigFunc.cos.print( angle );
 							secv =  KhanUtil.trigFunc.sec.print( angle );
 							toReturn = new Array();
-							toReturn.push( "sec x = 1/(cos x)" );
-							toReturn.push( "sec x = " + secv );
-							toReturn.push( '1/(cos x) = ' + secv );
-							toReturn.push( "cos x = " + cosv);
+							toReturn.push( "\\sec x = 1/(\\cos x)" );
+							toReturn.push( "\\sec x = " + secv );
+							toReturn.push( '1/(\\cos x) = ' + secv );
+							toReturn.push( "\\cos x = " + cosv);
 						}
 						else if( type.name == "tan"){
 							cosv =  KhanUtil.trigFunc.cos.print( angle );
 							secv =  KhanUtil.trigFunc.sec.print( angle );
 							toReturn = new Array();
-							toReturn.push( "sin^2 x + cos^2 x = 1" );
-							toReturn.push( "(sin^2 x) / (cos^2 x) + (cos^2 x) / (cos^2 x) = 1 / (cos^2 x)" );
-							toReturn.push( "tan^2 x + 1 = sec^2 x" );
-							toReturn.push( "tan^2 x + 1 = (" + secv + ")^2" );
-							toReturn.push( "tan^2 x = (' + secv + ')^2 - 1" );
-							toReturn.push( "tan x = sqrt((" + secv + ")^2 - 1 )");
-							toReturn.push( "tan x = " + tanv );
+							toReturn.push( "\\sin^2 x + \\cos^2 x = 1" );
+							toReturn.push( "(\\sin^2 x) / (\\cos^2 x) + (\\cos^2 x) / (\\cos^2 x) = 1 / (\\cos^2 x)" );
+							toReturn.push( "\\tan^2 x + 1 = \\sec^2 x" );
+							toReturn.push( "\\tan^2 x + 1 = (" + secv + ")^2" );
+							toReturn.push( "\\tan^2 x = (' + secv + ')^2 - 1" );
+							toReturn.push( "\\tan x = sqrt((" + secv + ")^2 - 1 )");
+							toReturn.push( "\\tan x = " + tanv );
 							return toReturn;	
 						}
 					}
@@ -86,23 +100,48 @@ jQuery.extend( KhanUtil, {
                                                         }
                                                         return 'undef';
 	
+						},
+					convertsTo: ["sec"],
+					convertTo: function( type, angle){
+						if( type.name ==  "tan" ){ 
+
+							tanv =  KhanUtil.trigFunc.tan.print( angle );
+							secv =  KhanUtil.trigFunc.sec.print( angle );
+							toReturn = new Array();
+							toReturn.push( "\\sin^2 x + \\cos^2 x = 1" );
+							toReturn.push( "(\\sin^2 x) / (\\cos^2 x) + (\\cos^2 x) / (\\cos^2 x) = 1 / (\\cos^2 x)" );
+							toReturn.push( "\\tan^2 x + 1 = \\sec^2 x" );
+							toReturn.push( "(" + tanv + ")^2 + 1 = \\sec^2 x" );
+							toReturn.push( "\sqrt((" + tanv + ")^2 + 1) = \\sec x" );
+							toReturn.push( secv + ' = \\sec x');
+							return toReturn;	
 						}
+					}
 			},
 		cos :{name: "cos", print: function( angle ){ 
 							return KhanUtil.trigFunc.sin.print( 90-angle );
 							},
-				convertsTo: ["sin"],
+				convertsTo: ["sin","sec"],
 				convertTo: function( type, angle){
 						if( type.name == "sin" ){
 							cosv =  KhanUtil.trigFunc.cos.print( angle );
 							sinv =  KhanUtil.trigFunc.sin.print( angle );
 							toReturn = new Array();
-							toReturn.push("sin^2 x + cos^2 x = 1");
-							toReturn.push("sin^2 x + (" + cosv + ")^2 = 1");
-							toReturn.push("(" + cosv + ")^2 = 1 - sin^2 x");
-							toReturn.push('(' + cosv + ')^2 - 1 = - sin^2 x');
-							toReturn.push('-(' + cosv + ')^2 + 1 = sin^2 x');
-							toReturn.push(sinv + ' = sin x');
+							toReturn.push("\\sin^2 x + \\cos^2 x = 1");
+							toReturn.push("\\sin^2 x + (" + cosv + ")^2 = 1");
+							toReturn.push("(" + cosv + ")^2 = 1 - \\sin^2 x");
+							toReturn.push('(' + cosv + ')^2 - 1 = - \\sin^2 x');
+							toReturn.push('-(' + cosv + ')^2 + 1 = \\sin^2 x');
+							toReturn.push(sinv + ' = \\sin x');
+							return toReturn;
+						}
+						else if( type.name == "sec" ){
+                                                        cosv =  KhanUtil.trigFunc.cos.print( angle );
+                                                        secv =  KhanUtil.trigFunc.sec.print( angle );
+							toReturn = new Array();
+							toReturn.push( cosv + " = \\cos x" );
+							toReturn.push( secv + " = 1/(\\cos x)" );
+							toReturn.push( secv + " = \\sec x" ); 
 							return toReturn;
 						}
 					}
@@ -145,9 +184,9 @@ jQuery.extend( KhanUtil, {
 								cscv = KhanUtil.trigFunc.csc.print( angle );
 	
 								toReturn = new Array();
-								toReturn.push( sinv + " = sin x" );
-								toReturn.push( cscv + " = 1/(sin x)" );
-								toReturn.push( cscv + " = csc x" );
+								toReturn.push( sinv + " = \\sin x" );
+								toReturn.push( cscv + " = 1/(\\sin x)" );
+								toReturn.push( cscv + " = \\csc x" );
 							}
 							}
 		
@@ -156,7 +195,7 @@ jQuery.extend( KhanUtil, {
 jQuery.extend( KhanUtil, {
 
 
-	trigTypes: [KhanUtil.trigFunc.sin,KhanUtil.trigFunc.cos,KhanUtil.trigFunc.tan],
+	trigTypes: [KhanUtil.trigFunc.sin,KhanUtil.trigFunc.cos,KhanUtil.trigFunc.tan,KhanUtil.trigFunc.csc,KhanUtil.trigFunc.sec],
 	// Convert a degree value to a radian value
 	toRadians: function( degrees ) {
 		return degrees * Math.PI / 180;
