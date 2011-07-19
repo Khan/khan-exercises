@@ -165,7 +165,8 @@ var Khan = {
 
 	dataDump: {
 		"exercise": window.location.pathname.match(/[\/\\]([^\/\\]+)\.html/)[1],
-		"problems": []
+		"problems": [],
+		"issues": 0
 	},
 
 	// Load in a collection of scripts, execute callback upon completion
@@ -526,7 +527,7 @@ var Khan = {
 			Khan.dataDump.problems.push( lastProblem );
 
 			jQuery( testerInfo ).find( ".problem-no" )
-				.text( Khan.dataDump.problems.length + " of " + Khan.problemCount );
+				.text( Khan.dataDump.problems.length + Khan.dataDump.issues + " of " + Khan.problemCount );
 
 			var answer = jQuery( testerInfo ).find( ".answer" ).empty();
 
@@ -679,7 +680,7 @@ var Khan = {
 				Khan.scratchpad.clear();
 			}
 
-			if ( Khan.query.test != null && Khan.dataDump.problems.length >= Khan.problemCount ) {
+			if ( Khan.query.test != null && Khan.dataDump.problems.length + Khan.dataDump.issues >= Khan.problemCount ) {
 				// Show the dump data
 				jQuery( "#problemarea" ).append(
 					"<p>Thanks! You're all done testing this exercise.</p>" +
@@ -852,24 +853,73 @@ var Khan = {
 				var err = function( problems, dump, desc ) {
 					problems.push( dump );
 					problems[ problems.length - 1 ].pass = desc; 
-				}
+				};
 
-				// now we post the issue to github. if communication fails with the 
-				// Sinatra app or Github and an issue isn't created, then we 
-				// create a test that will always fail.
-				jQuery.ajax({
-					url: "http://66.220.0.98:2563/file_exercise_tester_bug?title=" + title + "&body=" + body + "&label=" + label,
-					dataType: "jsonp",
-					success: function( json ) { 
-						console.log( json ); 
-						if ( json.meta.status !== 201 ) {
+				var comment = function( id ) {
+					// If communication fails with the Sinatra app or Github and a
+					// comment isn't created, then we create a test that will always
+					// fail.
+					jQuery.ajax({
+						url: "http://66.220.0.98:2563/file_exercise_tester_bug_comment?id=" + id + "&body=" + body,
+						dataType: "jsonp",
+						success: function( json ) {
+							if ( json.meta.status !== 201 ) {
+								err( Khan.dataDump.problems, dump, description );
+							} else {
+								Khan.dataDump.issues += 1;
+							}
+						},
+						error: function( json ) {
 							err( Khan.dataDump.problems, dump, description );
 						}
-					},
-					error: function( json ) { 
+					});	
+				};
+
+				var newIssue = function() {
+					// if communication fails with the Sinatra app or Github and an
+					// issue isn't created, then we create a test that will always 
+					// fail.
+					jQuery.ajax({
+						url: "http://66.220.0.98:2563/file_exercise_tester_bug?title=" + title + "&body=" + body + "&label=" + label,
+						dataType: "jsonp",
+						success: function( json ) { 
+							if ( json.meta.status !== 201 ) {
+								err( Khan.dataDump.problems, dump, description );
+							} else {
+								Khan.dataDump.issues += 1;
+							}
+						},
+						error: function( json ) { 
+							err( Khan.dataDump.problems, dump, description );
+						}
+					});
+				};
+
+				jQuery.ajax({
+					url: "https://api.github.com/repos/Khan/khan-exercises/issues?labels=tester%20bugs",
+					dataType: "jsonp",
+					error: function( json ) {
 						err( Khan.dataDump.problems, dump, description );
+					},
+					success: function( json ) {
+						var copy = false;
+						
+						// see if an automatically generated issue for this file
+						// already exists
+						jQuery.each( json.data, function( i, issue ) {
+							if ( encodeURIComponent( issue.title ) === title ) {
+								copy = issue.number;
+							}
+						});
+
+						if ( copy ) {
+							comment( copy );
+						} else {
+							newIssue();
+						}
 					}
-				});
+				})
+
 
 				jQuery( "#next-question-button" ).trigger( "click" );
 			} );
