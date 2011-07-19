@@ -28,7 +28,15 @@
 				height: 200px;
 				border-collapse: collapse;
 				position: absolute;
-			}			
+			}
+			
+			.hint_diagram_table_overlay_small {
+				border: 0px solid black;
+				width: 100px;
+				height: 100px;
+				border-collapse: collapse;
+				position: absolute;
+			}				
 			
 			.hint_empty_cell {
 				border: 2px solid black;
@@ -51,13 +59,24 @@
 		<script>
 			/*
 			 * Generates HTML for a table displaying the fraction's visual representation.
-			 * @param numerator numerator as INT
-			 * @param denominator as INT
+			 * @param numerator numerator as INT.
+			 * @param denominator as INT.
+			 * @param id ID to give this table. (optional)
+			 * @param className class name to give this table. (optional)
 			 */
-			function createVertTable(numerator, denominator) {
+			function createVertTable( numerator, denominator, id, className ) {
 
-				var table = jQuery( "<table/>" );
-				table.addClass( "hint_diagram_table_small" );
+				var table = jQuery( "<table/>" );				
+				if ( id != null ) {
+					table.attr( "id", id );
+				}
+
+				if( className != null ) {
+					table.addClass( className );
+				} else {
+					table.addClass( "hint_diagram_table_small" );
+				}
+				
 				table.append( "<tbody/>" );
 				var tbody = table.find("tbody");
 				
@@ -77,10 +96,22 @@
 			 * Generates HTML for a table displaying the fraction's visual representation.
 			 * @param numerator numerator as INT
 			 * @param denominator as INT
+			 * @param id ID to give this table. (optional)
+			 * @param className class name to give this table. (optional)
 			 */
-			function createHorizTable(numerator, denominator) {
+			function createHorizTable( numerator, denominator, id, className ) {
 
 				var table = jQuery( "<table/>" );
+				if ( id != null ) {
+					table.attr( "id", id );
+				}
+
+				if( className != null ) {
+					table.addClass( className );
+				} else {
+					table.addClass( "hint_diagram_table_small" );
+				}
+				
 				table.addClass( "hint_diagram_table_small" );
 				table.append( "<tbody/>" );
 				var tbody = table.find("tbody");
@@ -100,73 +131,6 @@
 				return jQuery('<div />').append(table).html();
 			}
 			
-			/*
-			 * Take a table an insert rows to represent a fraction.
-			 * @param selector jQuery selector string to select the table.
-			 * @param numeratorName name of var to use as the numerator.
-			 * @param denominatorName name of var to use as the denominator.
-			 */
-			function verticallyDividedBox( selector, numeratorName, denominatorName ) {
-				var numerator = jQuery.tmpl.VARS[numeratorName];
-				var denominator = jQuery.tmpl.VARS[denominatorName];				
-
-				if ( $( selector ).find( "tbody" ).length < 1 ) {
-					$( selector ).append( "<tbody/>" );
-				}
-
-				// Exit if rows are already added
-				// This is to prevent the first table from getting mangled during 
-				// show next 10 problems.
-				var tbody = $( selector ).find( "tbody" );
-				if( tbody.find("tr").length > 0 ) {
-					return;
-				}
-				var rowHeight = $( selector ).height() / denominator;
-				 
-				for( i=0; i < denominator - numerator; i++ ) {
-					tbody.append( "<tr><td class=\"hint_empty_cell\"/></tr>" ).height(rowHeight);
-				}
-				for(i=0; i < numerator; i++) {
-					tbody.append( "<tr><td class=\"hint_box1_cell\"/></tr>" ).height(rowHeight);
-				}	
-			}
-
-			/*
-			 * Take a table an insert columns to represent a fraction.
-			 * @param selector jQuery selector string to select the table.
-			 * @param numeratorName name of var to use as the numerator.
-			 * @param denominatorName name of var to use as the denominator.
-			 */
-			function horizontallyDividedBox( selector, numeratorName, denominatorName ) {
-				var numerator = jQuery.tmpl.VARS[numeratorName];
-				var denominator = jQuery.tmpl.VARS[denominatorName];
-
-				if ( $( selector ).find( "tbody" ).length < 1 ) {
-					$( selector ).append( "<tbody/>" );
-				}
-
-				// Exit if rows are already added
-				// This is to prevent the first table from getting mangled during 
-				// show next 10 problems. 
-				var tbody = $( selector ).find( "tbody" );
-				if( tbody.find("tr").length > 0 ) {
-					return;
-				}
-				
-				if( $( selector ).find( "tbody" ).find("tr").length < 1 ) {
-					$( selector ).find( "tbody" ).append("<tr></tr>");
-				}
-				var row = $( selector ).find( "tbody" ).find( "tr" );
-				row.height( $( selector ).height() );
-				var colWidth = row.width() / denominator;
-				
-				for( i=0; i < denominator - numerator; i++ ) {
-					row.append("<td class=\"hint_empty_cell\"/>").width(colWidth);
-				}
-				for( i=0; i < numerator; i++ ) {
-					row.append("<td class=\"hint_box2_cell\"/>").width(colWidth);
-				}
-			}
 		</script>
 	</head>
 	<body>
@@ -175,19 +139,21 @@
 
 				<div id="fraction-with-fraction">
 					<div class="vars" data-ensure="A_DENOMINATOR != B_DENOMINATOR">
-						<var id="A_NUMERATOR">rand(3) + 1</var>
-						<var id="A_DENOMINATOR">A_NUMERATOR + rand(3) + 1</var>
-						<var id="B_NUMERATOR">rand(3) + 1</var>
-						<var id="B_DENOMINATOR">B_NUMERATOR + rand(3) + 1</var>
-						<var id="DEBUG_ANSWER">
+						<var id="A_NUMERATOR">randRange(1, 4)</var>
+						<var id="A_DENOMINATOR">A_NUMERATOR + randRange(1, 4)</var>
+						<var id="B_NUMERATOR">randRange(1, 4)</var>
+						<var id="B_DENOMINATOR">B_NUMERATOR + randRange(1, 4)</var>
+						<var id="UNSIMPLIFIED_ANSWER">
 							( A_NUMERATOR * B_NUMERATOR ).toString() + "/" + 
 							( A_DENOMINATOR * B_DENOMINATOR ).toString()
 						</var>						
 						<var id="GCD">
 							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMERATOR ), ( A_DENOMINATOR * B_DENOMINATOR ))
 						</var>
-						<var id="TABLE_A">createVertTable( A_NUMERATOR, A_DENOMINATOR )</var>
-						<var id="TABLE_B">createHorizTable( B_NUMERATOR, B_DENOMINATOR)</var>						
+						<var id="TABLE_A">createVertTable( A_NUMERATOR, A_DENOMINATOR, null, null )</var>
+						<var id="TABLE_B">createHorizTable( B_NUMERATOR, B_DENOMINATOR, null, null )</var>
+						<var id="TABLE_A_HINT">createVertTable( A_NUMERATOR, A_DENOMINATOR, 'box1', 'hint_diagram_table_overlay' )</var>
+						<var id="TABLE_B_HINT">createHorizTable( B_NUMERATOR, B_DENOMINATOR, 'box2', 'hint_diagram_table_overlay' )</var>						
 					</div>
 
 					<div class="question">
@@ -237,42 +203,46 @@
 							<p>
 								Another way to word this problem is:
 							</p>
-							<p style="font-size: 20pt;">
-								What is <code>\huge{\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}}</code> 
-								of <code>\huge{\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}}</code>?
+							<p>
+								What is <code>\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}</code> 
+								of <code>\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}</code>?
 							</p>
 						</div> <!-- End of hint 1 -->
 						
 						<div id="problem1-hint2-div">
+							<p>
 							Notice the number of boxes in the grid equal to 
-							<var>A_DENOMINATOR *B_DENOMINATOR</var> 
-							(<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var></code>)
-							and the number of boxes where the 2 intersect is equal to 
-							<code><var>A_NUMERATOR * B_NUMERATOR</var></code> 
-							(<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var></code>).
+								<var>A_DENOMINATOR * B_DENOMINATOR</var> 
+								(<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var></code>)
+								and the number of boxes where the 2 intersect is equal to 
+								<code><var>A_NUMERATOR * B_NUMERATOR</var></code> 
+								(<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var></code>).  
+								So our unsimplified answer is: 
+								<code>
+									\frac{<var>A_NUMERATOR * B_NUMERATOR</var>}
+									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
+								</code>.
+							</p>
 							<div id="problem1-hint2-box-p" style="display: block; position: relative; height:220px;">
-								<table id="problem1-hint2-box1" class="hint_diagram_table_overlay">									
-								</table>
-								<table id="problem1-hint2-box2" class="hint_diagram_table_overlay">
-								</table>
+								<var>TABLE_A_HINT</var><var>TABLE_B_HINT</var>								
 								<script type="text/javascript">
 									$(document).ready(function(){
-										verticallyDividedBox( "#problem1-hint2-box1", 
-											"A_NUMERATOR", "A_DENOMINATOR");
-										horizontallyDividedBox( "#problem1-hint2-box2", 
-											"B_NUMERATOR", "B_DENOMINATOR");
-
-										$("#problem1-hint2-box2").css("left", 300);
-										$("#problem1-hint2-box2").animate({left: "0"}, 5000);
+										// animate the right box overlaying over the left one.
+										$("#box2").css("left", 300);
+										$("#box2").animate({left: "0"}, 5000);
 									});										
 								</script>	
 							</div>
 						</div>	<!-- End of hint 2 div -->	
 						
 						<div id="problem1-hint3-div" data-if="GCD > 1">
-							This can be further simplified to:
-							<code>\huge{\frac{<var>A_NUMERATOR * B_NUMERATOR / GCD</var>}
-							{<var>A_DENOMINATOR * B_DENOMINATOR / GCD</var>}}</code>
+							This can be further simplified to
+							<code>
+								\frac{<var>A_NUMERATOR * B_NUMERATOR / GCD</var>}
+								{<var>A_DENOMINATOR * B_DENOMINATOR / GCD</var>}
+							</code>, 
+							by dividing both top and bottom by it's common denominator 
+							<var>GCD</var>.
 						</div>			
 					</div><!-- End of problem 1 -->
 				</div>
