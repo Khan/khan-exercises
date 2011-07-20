@@ -515,15 +515,14 @@ var Khan = {
 		if ( Khan.query.test != null ) {
 			var testerInfo = jQuery( "#tester-info" );
 
-			var lastProblem = {
+			// Deep clone the elements to avoid some straaaange bugs
+			var lastProblem = jQuery.extend( true, {}, {
 				seed: Khan.problemSeed,
 				type: problemID,
 				VARS: jQuery.tmpl.VARS,
 				solution: Khan.validator.solution
-			};
+			} );
 
-			// Clone lastProblem to avoid some straaaange bugs
-			lastProblem = JSON.parse( JSON.stringify( lastProblem ) );
 			Khan.dataDump.problems.push( lastProblem );
 
 			jQuery( testerInfo ).find( ".problem-no" )

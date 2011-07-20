@@ -190,8 +190,8 @@ jQuery.extend(KhanUtil, {
 				if ( factors.indexOf( n ) === -1 ) factors.push( n );
 			};
 
-		var maxf = Math.sqrt( number );
-		for (var f = 1; f <= maxf; f++) {
+		var maxf2 = number;
+		for (var f = 1; f * f <= maxf2; f++) {
 			if ( number % f === 0 ) {
 				ins( f );
 				ins( number / f );
