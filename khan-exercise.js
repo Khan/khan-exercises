@@ -960,22 +960,23 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 
 	Khan.require( document.documentElement.getAttribute("data-require") );
 	
-	var server = "http://khan-masterslave.appspot.com",
-		staticServer = "http://www.khanacademy.org",
-		exerciseName = (/([^\/]+).html$/.exec( window.location ) || [])[1],
+	var server = "http://localhost:8080",
+		exerciseName = (/([^\/.]+)(?:\.html)?$/.exec( window.location ) || [])[1],
 		hintUsed,
-		problemStarted,
+		lastAction,
+		doHintSave,
 		doSave,
-		doHintSave,		
+		attempts,
 		once = true;
 	
 	jQuery(Khan).bind({
 		// The user is generating a new problem
 		newProblem: function() {
-			doSave = true;
 			doHintSave = true;
+			doSave = true;
 			hintUsed = false;
-			problemStarted = (new Date).getTime();
+			attempts = 0;
+			lastAction = (new Date).getTime();
 			
 			if ( once ) {
 				updateData();
@@ -990,25 +991,43 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 			}
 			
 			// Build the data to pass to the server
-			var data = {
-				// The user answered correctly
-				correct: pass ? 1 : 0,
+			var curTime = (new Date).getTime(),
+				data = {
+					// The user answered correctly
+					complete: pass ? 1 : 0,
 			
-				// The user used a hint
-				hint_used: hintUsed ? 1 : 0,
+					// The user used a hint
+					hint_used: hintUsed ? 1 : 0,
 			
-				// How long it took them to complete the problem
-				time_taken: Math.round(((new Date).getTime() - problemStarted) / 1000)
-			};
+					// How long it took them to complete the problem
+					time_taken: Math.round((curTime - lastAction) / 1000),
+					
+					// How many times the problem was attempted
+					attempt_number: ++attempts,
+					
+					// The answer the user gave
+					// TODO: Get the real provided answer
+					attempt_content: Khan.validator.solution,
+					
+					// A hash representing the exercise
+					// TODO: Populate this from somewhere
+					sha1: exerciseName,
+					
+					// The seed that was used for generating the problem
+					seed: Khan.problemSeed
+				};
 		
 			// Save the problem results to the server
-			request( "problem/" + problemNum + "/attempt", data, function() {
+			request( "problems/" + (getData().total_done + 1) + "/attempt", data, function() {
 				// TODO: Save locally if offline
 				jQuery(Khan).trigger( "answerSaved" );
 			});
 			
 			// Make sure we don't save the result to the server more than once
 			doSave = false;
+			
+			// Remember when the last action was
+			lastAction = curTime;
 		},
 		
 		// A user revealed a hint
@@ -1027,28 +1046,20 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 		}
 	});
 	
-	// TODO: Do this when I get the initial user/exercises response back from the server
-	
-	if ( user != null ) {
-		// How far to jump through the problems
-		jumpNum = primes[ crc32( user ) % primes.length ];
-	
-		// The starting problem of the user
-		problemNum = crc32( user ) % bins;
-	
-		// Advance to the current problem seed
-		nextProblem( getData().total_done );
-	}
-	
-	// Load in video list from the API
+	// Load in the exercise data from the server
 	jQuery.ajax({
 		// Do a request to the server API
-		url: staticServer + "/api/v1/exercises/" + exerciseName + "/videos",
+		url: server + "/api/v1/user/exercises/" + exerciseName,
 		type: "GET",
 		dataType: "json",
-	
-		// Display all the related videos
-		success: function( videos ) {
+		
+		// Make sure cookies are passed along
+		xhrFields: { withCredentials: true },
+		
+		success: function( data ) {
+			// Display all the related videos
+			var videos = data.exercise_model.related_videos;
+			
 			if ( videos && videos.length ) {
 				jQuery.each( videos, function( i, video ) {
 					jQuery("<li><a href='" + video.ka_url + "'><span class='video-title'>" +
@@ -1057,6 +1068,20 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 				});
 			
 				jQuery(".related-content, #related-video-content").show();
+			}
+			
+			// Update the local data store
+			updateData( data );
+			
+			if ( user != null ) {
+				// How far to jump through the problems
+				jumpNum = primes[ crc32( user ) % primes.length ];
+
+				// The starting problem of the user
+				problemNum = crc32( user ) % bins;
+
+				// Advance to the current problem seed
+				nextProblem( getData().total_done );
 			}
 		}
 	});
@@ -1153,7 +1178,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
             x = "0x" + table.substr( n * 9, 8 ); 
             crc = ( crc >>> 8 ) ^ x; 
         } 
-        return crc ^ (-1); 
+        return Math.abs( crc ^ (-1) ); 
     }
 
 	var remoteCount = 0;
