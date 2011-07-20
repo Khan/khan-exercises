@@ -186,6 +186,19 @@
 				return tablesSrc;
 			}
 
+			/*
+			 * Scrolls an element into view.
+			 * @param selector jQuery selector to use.
+			 */
+			function scrollIntoView( selector ) {
+				try {
+					var hintOffset = jQuery( selector ).offset().top - 20;
+					jQuery('html,body').animate({scrollTop: hintOffset}, 500);
+				} catch( e ) {
+					// Do nothing
+				}
+			}
+
 		</script>
 	</head>
 	<body>
@@ -302,6 +315,9 @@
 
 								<script type="text/javascript">
 									jQuery(document).ready(function(){
+										// Scroll the hint into view.
+										scrollIntoView( "#problem1-hint2-div");										
+										
 										// animate the right box overlaying over the left one.
 										jQuery("#box2").css("left", 300);
 										jQuery("#box2").animate({left: "0"}, 5000);
@@ -405,7 +421,7 @@
 							</p>
 						</div>
 						
-						<div>
+						<div id="problem2-hint2-div">
 							<p>
 								Notice that if we count overlapping boxes, we have 
 								<code><var>A_NUMERATOR</var> \times <var>B_NUMBER</var>
@@ -425,6 +441,10 @@
 	
 								<script type="text/javascript">
 									jQuery(document).ready(function(){
+										// Scroll the hint into view.
+										scrollIntoView("#problem2-hint2-div");
+
+										// Get the <var>B_NUMBER</var> value.
 										var bNumber = jQuery.tmpl.VARS[ "B_NUMBER" ]
 										
 										// size parent div
@@ -564,7 +584,7 @@
 							</p>
 						</div>
 						
-						<div>
+						<div id="problem3-hint2-div">
 							<p>
 								Notice that if we count overlapping boxes, we have 
 								<code>
@@ -595,6 +615,10 @@
 	
 								<script type="text/javascript">
 									jQuery(document).ready(function(){
+										// Scroll the hint into view.
+										scrollIntoView("#problem3-hint2-div");
+
+										// Get the <var> value of B_NUMBER
 										var bNumber = jQuery.tmpl.VARS[ "B_NUMBER" ]
 										
 										// size parent div
