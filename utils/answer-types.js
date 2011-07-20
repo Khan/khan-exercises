@@ -220,16 +220,18 @@ jQuery.extend( Khan.answerTypes, {
 
 		var dupes = {};
 		var shownChoices = [];
+		var solutionTextSquish = solution.text().replace(/\s+/g, "");
 		for ( var i = 0; i < possibleChoices.length && shownChoices.length < numChoices; i++ ) {
 			var choice = jQuery( possibleChoices[i] );
 			choice.runModules();
+			var choiceTextSquish = choice.text().replace(/\s+/g, "");
 
-			if ( isCategory && solution.text() === choice.text() ) {
+			if ( isCategory && solutionTextSquish === choiceTextSquish ) {
 				choice.data( "correct", true );
 			}
 
-			if ( !dupes[ choice.text() ] ) {
-				dupes[ choice.text() ] = true;
+			if ( !dupes[ choiceTextSquish ] ) {
+				dupes[ choiceTextSquish ] = true;
 
 				// i == 0 is the solution except in category mode; skip it when none is correct
 				if ( !( noneIsCorrect && i == 0 ) || isCategory ) {
