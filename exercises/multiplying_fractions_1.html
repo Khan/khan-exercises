@@ -198,6 +198,32 @@
 				}
 			}
 
+			/*
+			 * Takes a numerator and denominator, and returns a string like 
+			 * 3 4/5 in Latex.  ( 3 \frac{4}{5} ) 
+			 */
+			function simplify( numerator, denominator ) {
+				var wholeNum = Math.floor( numerator / denominator );
+				var remainder = numerator % denominator;
+				var gcd = KhanUtil.getGCD( remainder, denominator );
+				var newNum = remainder / gcd;
+				var newDenom = denominator / gcd;
+
+				if( newNum <= 0 && wholeNum <= 0 ) {
+					return "0";
+				}
+				
+				var numStr = "";
+				
+				if ( wholeNum > 0 ) {
+					numStr += wholeNum;
+				}
+				if ( newNum > 0 ) {
+					numStr += "\\frac{" + newNum + "}{" + newDenom + "}";
+				}
+				return numStr;
+			}
+
 		</script>
 	</head>
 	<body>
@@ -347,6 +373,9 @@
 							( A_NUMERATOR * B_NUMBER ).toString() + "/" + 
 							( A_DENOMINATOR ).toString()
 						</var>
+						<var id="SIMPLIFIED">
+							simplify( A_NUMERATOR * B_NUMBER, A_DENOMINATOR )
+						</var>
 						<var id="GCD">
 							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMBER ), ( A_DENOMINATOR ) )
 						</var>
@@ -395,11 +424,11 @@
 									</tr>
 								</tbody>
 							</table>
-							Please answer as a fraction like 4/3.
+							Please answer as a fraction (ex: 4/3) or a mixed number (ex: 1 2/3).
 						</p>
 					</div>
 
-					<div class="solution" data-type="rational" data-simplify="optional">
+					<div class="solution" data-type="mixedfraction" data-simplify="optional">
 						<var>
 							( A_NUMERATOR * B_NUMBER ) / ( A_DENOMINATOR )
 						</var>
@@ -475,7 +504,12 @@
 								{<var>A_DENOMINATOR / GCD</var>}
 							</code>, 
 							by dividing both top and bottom by it's common denominator 
-							<var>GCD</var>.
+							<var>GCD</var>.							
+						</div>
+						<div data-if="(A_NUMERATOR * B_NUMBER) > (A_DENOMINATOR)" >
+								We can further simplify the expression by dividing the numerator by the 
+								denominator, and taking the whole number out, while leaving the remainder 
+								as a fraction, <code><var>SIMPLIFIED</var></code>
 						</div>
 					</div><!-- End of hints -->
 				</div><!-- End of problem 2 -->
@@ -496,6 +530,10 @@
 						<var id="GCD">
 							KhanUtil.getGCD( ( A_NUMERATOR * (B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ), 
 								( A_DENOMINATOR * B_DENOMINATOR ) )
+						</var>
+						<var id="SIMPLIFIED">
+							simplify( A_NUMERATOR * ( ( B_NUMBER * B_DENOMINATOR ) + B_NUMERATOR ),
+								A_DENOMINATOR * B_DENOMINATOR )
 						</var>
 						<var id="TABLE_A">
 							createVertTable( A_NUMERATOR, A_DENOMINATOR, null, null )
@@ -547,11 +585,11 @@
 									</tr>
 								</tbody>
 							</table>
-							Please answer as a fraction like 4/3.
+							Please answer as a fraction (ex: 4/3) or a mixed number (ex: 3 4/5).
 						</p>
 					</div><!-- end of question -->
 
-					<div class="solution" data-type="rational" data-simplify="optional">
+					<div class="solution" data-type="mixedfraction" data-simplify="optional">
 						<var>( A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR ) ) 
 						/ ( A_DENOMINATOR * B_DENOMINATOR )</var>
 					</div>
@@ -655,6 +693,13 @@
 							</code>, 
 							by dividing both top and bottom by it's common denominator 
 							<var>GCD</var>.
+						</div>
+						<div data-if="(A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ) 
+							> (A_DENOMINATOR * B_DENOMINATOR)" >
+							
+							We can further simplify the expression by dividing the numerator by the 
+							denominator, and taking the whole number out, while leaving the remainder 
+							as a fraction, <code><var>SIMPLIFIED</var></code>
 						</div>
 					</div><!-- End of hints -->
 					
