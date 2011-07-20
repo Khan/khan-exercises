@@ -42,7 +42,7 @@ jQuery.extend(Khan, {
 
 					for ( var key in problem.VARS ) {
 						// Removes unserializable properties like functions (e.g., on polynomial objects)
-						var vark = JSON.parse( JSON.stringify( VARS[key] ) );
+						var vark = VARS[key] == null ? VARS[key] : JSON.parse( JSON.stringify( VARS[key] ) );
 						deepEqual( vark, problem.VARS[key], "var " + key );
 					}
 

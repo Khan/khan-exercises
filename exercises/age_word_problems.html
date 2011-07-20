@@ -98,10 +98,10 @@
 		</div>
 
 		<div id="solve-older-3">
-			<div class="vars" data-ensure="C - A !== A">
+			<div class="vars" data-ensure="C - A !== A && A * B * (C - 1) < 100 * (C - A)">
 				<var id="A">randRange(2, 5)</var>
 				<var id="C">randRange(A + 2, 9)</var>
-				<var id="B">randRange(2, 10) * (C - A)</var>
+				<var id="B">randRange(2, 7) * (C - A)</var>
 			</div>
 
 			<div class="question">
@@ -135,7 +135,7 @@
 				<p><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <code><var>A</var> <var>personVar(2)</var> - <var>B</var></code> years old and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
 				<p>At that time, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>, so we can write <code><var>A</var> <var>personVar(2)</var> - <var>B</var> = <var>C</var> (<var>personVar(2)</var> - <var>B</var>)</code>.</p>
 				<p>Expand: <code><var>A</var> <var>personVar(2)</var> - <var>B</var> = <var>C</var> <var>personVar(2)</var> - <var>B * C</var></code>.</p>
-				<p>Solve for <code><var>personVar(1)</var></code> to get <code><var>C - A</var> <var>personVar(1)</var> = <var>B * (C - 1)</var></code>; <code><var>personVar(1)</var> = <var>B * (C - 1) / (C - A)</var></code>.</p>
+				<p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - A</var> <var>personVar(2)</var> = <var>B * (C - 1)</var></code>; <code><var>personVar(2)</var> = <var>B * (C - 1) / (C - A)</var></code>.</p>
 			</div>
 		</div>
 
@@ -162,7 +162,7 @@
 		</div>
 
 		<div id="solve-single-5" data-weight="2">
-			<div class="vars" data-ensure="A <= 80 && B >= 2">
+			<div class="vars" data-ensure="A <= 80 && B >= 2 && (A - B * C) > (C - 1)">
 				<var id="C">randRange(3, 5)</var>
 				<var id="B">randRange(1, 10) * (C - 1)</var>
 				<var id="A">randRange(C * B + 1, 15) * (C - 1)</var>

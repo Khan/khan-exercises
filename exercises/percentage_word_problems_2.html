@@ -7,23 +7,23 @@
 <body>
 	<div class="exercise">
 	<div class="problems">
-		<div id="yearly-percentages-2" data-type="yearly-percentages">
+		<div id="yearly-percentages-2">
 			<div class="vars">
 				<var id="YEAR_PERCENT_MORE">randRange( 10, 150 )</var>
 				<var id="YEAR_THIS">randRange( 50, 999 )</var>
 				<var id="YEAR_LAST">round(YEAR_THIS * 10000 / (100 + YEAR_PERCENT_MORE)) / 100</var>
 			</div>
 			<p class="question">
-				<var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than <var>he(1)</var> did this time last year. If <var>person(1)</var> has <var>YEAR_THIS</var> dollars today, how many dollars did she make over this past year? (round to the nearest cent [hundredth of a dollar])</p>
+				<var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than <var>he(1)</var> did this time last year. If <var>person(1)</var> has <var>YEAR_THIS</var> dollars today, how many dollars did <var>he(1)</var> make over this past year? (round to the nearest cent [hundredth of a dollar])</p>
 			<p class="solution" data-type="decimal"><var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></p>
 			<div class="hints">
-				<p>Let <code>x</code> be the amount of money that she had last year.</p>
+				<p>Let <code>x</code> be the amount of money that <var>he(1)</var> had last year.</p>
 				<p><code>x + <var>YEAR_PERCENT_MORE / 100</var>x = <var>YEAR_THIS</var></code></p>
 				<p><code><var>(100 + YEAR_PERCENT_MORE) / 100</var>x = <var>YEAR_THIS</var></code></p>
 				<p><code>x = \frac{<var>YEAR_THIS</var>}{<var>(100 + YEAR_PERCENT_MORE) / 100</var>}</code></p>
 				<p><code>x \approx <var>YEAR_LAST</var></code></p>
-				<p>So, she had <var>YEAR_LAST</var> dollars last year. However, we need to know how much she has made <b>over the past year!</b></p>
-				<p>If she had <var>YEAR_LAST</var> dollars last year and now has <var>YEAR_THIS</var> dollars this year, then she has made <code><var>YEAR_THIS</var>-<var>YEAR_LAST</var> \approx <var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></code> dollars over the course of the year.</p>
+				<p>So, <var>he(1)</var> had <var>YEAR_LAST</var> dollars last year. However, we need to know how much <var>he(1)</var> has made <b>over the past year!</b></p>
+				<p>If <var>he(1)</var> had <var>YEAR_LAST</var> dollars last year and now has <var>YEAR_THIS</var> dollars this year, then <var>he(1)</var> has made <code><var>YEAR_THIS</var>-<var>YEAR_LAST</var> \approx <var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></code> dollars over the course of the year.</p>
 				<p>So, the answer is <var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var> dollars.</p>
 			</div>
 		</div>

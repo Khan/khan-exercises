@@ -247,13 +247,16 @@ jQuery.fn.tmpl = function() {
 		// The type of ret is checked to ensure it is not a function
 		} else if ( typeof ret === "object" && typeof ret.length !== "undefined" ) {
 			if ( elem.parentNode ) {
+				// All nodes must be inserted before any are traversed
 				jQuery.each( ret, function( i, rep ) {
 					if ( rep.nodeType ) {
 						elem.parentNode.insertBefore( rep, elem );
 					}
+				} );
 
-					return traverse( rep )
-				});
+				jQuery.each( ret, function( i, rep ) {
+					traverse( rep );
+				} );
 
 				elem.parentNode.removeChild( elem );
 			}
