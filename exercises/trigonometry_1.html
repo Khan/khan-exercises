@@ -20,14 +20,14 @@
 			}
 			else if( underRoot != 1 ){
 				if(n != 1){
-					return  "\\frac{" + n + "\\sqrt{" + underRoot +"} }{"+ d + "}";
+					return  "\\dfrac{" + n + "\\sqrt{" + underRoot +"} }{"+ d + "}";
 				}
 				else{
-					return  "\\frac{ \\sqrt{" +underRoot + "}}{" + d + "}";
+					return  "\\dfrac{ \\sqrt{" +underRoot + "}}{" + d + "}";
 				}
 			}
 			else{
-				return "\\frac{" + n + "}{" + d + "}";
+				return "\\dfrac{" + n + "}{" + d + "}";
 			}
 		}
 
@@ -138,12 +138,17 @@
 			<div class="solution">
 				<code><var>SIN</var></code>
 			</div>
-			<ul class="choices" data-none="true">
-				    <li data-if="COS!=SIN"><code><var>COS</var></code></li>
+			<ul class="choices" data-show="4" data-none="true">
+				    <li data-if="COS != SIN"><code><var>COS</var></code></li>
+				    <li><code><var>SIN</var></code></li>
 				    <li><code><var>TAN</var></code></li>
+				    <li><code>\dfrac{1}{<var>AB</var>}</code></li>
+				    <li><code>\dfrac{1}{<var>BC</var>}</code></li>
+				    <li><code>\dfrac{1}{<var>AC</var>}</code></li>
+				    <li><code>\dfrac{2 \sqrt{2}}{<var>AC</var>}</code></li>
 			</ul>
 
-			<div class="hints" data-apply="appendContents">
+			<div class="hints">
 				<p><b>SOH</b> CAH TOA</p>
 				<p><b>S</b>in=<b>O</b>pposite over <b>H</b>ypotenuse</p>
 				<p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
@@ -171,7 +176,7 @@
                                 <code><var>COS</var></code>
                         </div>
 
-                        <div class="hints" data-apply="appendContents">
+                        <div class="hints">
                                 <p>SOH <b>CAH</b> TOA</p>
                                 <p><b>C</b>os=<b>A</b>djacent over <b>H</b>ypotenuse</p>
                                 <p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
@@ -199,7 +204,7 @@
                                 <code><var>TAN</var></code>
                         </div>
 
-                        <div class="hints" data-apply="appendContents">
+                        <div class="hints">
                                 <p>SOH CAH <b>TOA</b></p>
                                 <p><b>T</b>an=<b>O</b>pposite over <b>A</b>djacent</p>
                                 <p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
