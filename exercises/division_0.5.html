@@ -24,7 +24,6 @@
 			<var id="A">randRange( 1, 10 )</var>
 			<var id="B">randFromArray( [ 1, 2, 3, 5, 10 ] )</var>
 			<var id="C">A * B</var>
-			<var id="LABEL">{}</var>
 		</div>
 
 		<div class="problems">
@@ -36,7 +35,7 @@
 						scale: [ 50, 50 ]
 					});
 
-					LABEL = label( [ 0, A ],
+					KhanUtil.currentGraph.labelHolder = label( [ 0, A ],
 						"\\Huge{\\color{ #6495ED }{ <var>C</var> } \\div \\color{ #FFA500 }{ <var>B</var> } = ?}", "right" );
 				</div>
 				<div class="solution"><var>A</var></div>
@@ -68,7 +67,7 @@
 				Dividing any number by 1 equals itself.
 			</p>
 			<div class="graphie" data-update="numbers">
-				LABEL.remove();
+				KhanUtil.currentGraph.labelHolder.remove();
 				label( [ 0, A ],
 					"\\Huge{\\color{ #6495ED }{" + C + "} \\div \\color{ #FFA500 }{" + B + "} = " + A + "}", "right" );
 			</div>

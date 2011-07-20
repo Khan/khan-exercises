@@ -216,6 +216,11 @@ if ( typeof KhanUtil !== "undefined" ) {
 	KhanUtil.tmpl = jQuery.tmpl;
 }
 
+// Reinitialize VARS for each problem
+jQuery.fn.tmplLoad = function() {
+	jQuery.tmpl.VARS = {};
+};
+
 jQuery.fn.tmpl = function() {
 	// Call traverse() for each element in the jQuery object
 	for ( var i = 0, l = this.length; i < l; i++ ) {
