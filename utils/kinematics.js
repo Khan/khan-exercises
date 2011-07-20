@@ -97,6 +97,6 @@ jQuery.extend(KhanUtil, {
 	// Returns a string containing the value and the associated unit
 	// for the value (determined by the variable, e.g. "d" or "t")
 	u: function( motion, variable ) {
-		return KhanUtil.roundTo(KhanUtil.PRECISION, motion[variable]) + "\\ " + KhanUtil.PRETTY_UNITS[variable];
+		return KhanUtil.roundTo(KhanUtil.PRECISION, motion[variable]) + "\\," + KhanUtil.PRETTY_UNITS[variable];
 	}
 });
