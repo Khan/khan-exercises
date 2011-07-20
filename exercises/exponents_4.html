@@ -64,10 +64,10 @@
 					<p data-if="EXP_N > 1"><code>= \left(<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>}</code></p>
 
 					<!-- "To simplify (4/9)^(1/2), figure out whta goes in the blank: ?^2 = 4/9" -->
-					<p>To simplify <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code>, figure out what goes in the blank:<br /> <code>\left(<span id="expand">?</span>\right)^{<var>abs( EXP_D )</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
+					<p>To simplify <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code>, figure out what goes in the blank:<br /> <code>\left(? \right)^{<var>abs( EXP_D )</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
 
 					<!-- Replace the ? with 2/3 -->
-					<span id="expand" data-apply="hint-replace">\color{blue}{<var>frac( ROOT_N, ROOT_D )</var>}</span>
+					<p>To simplify <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code>, figure out what goes in the blank:<br /> <code>\left(\color{blue}{<var>frac( ROOT_N, ROOT_D )</var>}\right)^{<var>abs( EXP_D )</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
 
 					<!-- "So (4/9)^(1/2)." -->
 					<p>so <code>\quad<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>frac( ROOT_N, ROOT_D )</var></code></p>

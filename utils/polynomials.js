@@ -37,14 +37,36 @@ jQuery.extend(KhanUtil, {
 			};
 		};
 
-		this.minDegree = minDegree;
-		this.maxDegree = maxDegree;
+		// These seem royally useless to me
+		if ( maxDegree >= minDegree ) {
+			this.minDegree = minDegree;
+			this.maxDegree = maxDegree;
+		} else {
+			this.minDegree = maxDegree;
+			this.maxDegree = minDegree;
+		}
 
-		this.coefs = coefs || KhanUtil.randCoefs( minDegree, maxDegree );
+		this.coefs = coefs || KhanUtil.randCoefs( this.minDegree, this.maxDegree );
 
 		this.variable = (typeof variable !== "undefined") ? variable : "x";
 
 		this.name = name || "f";
+
+		this.findMaxDegree = function() {
+			for ( var i = this.maxDegree; i >= this.minDegree; i-- ) {
+				if ( this.coefs[i] !== 0 ) {
+					return i;
+				}
+			}
+		};
+
+		this.findMinDegree = function() {
+			for ( var i = this.minDegree; i <= this.maxDegree; i++ ) {
+				if ( this.coefs[i] !== 0 ) {
+					return i;
+				}
+			}
+		};
 
 		this.expr = function( vari ) {
 			if ( typeof vari === "undefined" ) {
@@ -76,13 +98,11 @@ jQuery.extend(KhanUtil, {
 			//returns the coef and degree for a particular term
 			var numberOfTerms = this.getNumberOfTerms();
 
-			if ( typeof termIndex === "number" && termIndex >= 0 
-					&& termIndex <= numberOfTerms ) {
+			//mod twice to always get positive
+			termIndex = ( ( termIndex % numberOfTerms ) + termIndex ) % numberOfTerms;
 
-				//upshift by one due to "+" sign at the front of the expression
-				return extractFromExpr( this.expr()[ termIndex + 1 ] );
-
-			}
+			//upshift by one due to "+" sign at the front of the expression
+			return extractFromExpr( this.expr()[ termIndex + 1 ] );
 
 		};
 

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+	<title>Multiplication 1.5</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="SMALL_FACTOR">randRange( 2, 9 )</var>
+			<var id="NUM_DIGITS">randRange( 2, 3 )</var>
+			<var id="MAX_FACTOR_DIGIT">floor( 9 / SMALL_FACTOR )</var>
+			<var id="BIG_FACTOR">
+				(function() {
+					var factor = randRange( 1, MAX_FACTOR_DIGIT );
+					for ( var i = 1; i &lt; NUM_DIGITS; i++ ){
+						factor *= 10;
+						factor += randRange( 0, MAX_FACTOR_DIGIT );
+					}
+					return factor;
+				})()
+			</var>
+			<var id="CARRY">0</var>
+			<var id="PRODUCT">SMALL_FACTOR * BIG_FACTOR</var>
+			<var id="PRODUCT_DIGITS">integerToDigits( PRODUCT )</var>
+			<var id="SMALL_FACTOR_DIGITS">digits( SMALL_FACTOR )</var>
+			<var id="BIG_FACTOR_DIGITS">digits( BIG_FACTOR )</var>
+			<var id="HIGHLIGHTS">[]</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="graphie" id="numbers">
+					init({
+						range: [ [ -1 - PRODUCT_DIGITS.length, 3 ], [ -1 - SMALL_FACTOR_DIGITS.length, 3 ] ],
+						scale: [ 30, 45 ]
+					});
+
+					style({
+						strokeWidth: 1
+					});
+
+					drawDigits( SMALL_FACTOR_DIGITS.slice( 0 ).reverse(), 1 - SMALL_FACTOR_DIGITS.length, 1 );
+					drawDigits( BIG_FACTOR_DIGITS.slice( 0 ).reverse(), 1 - BIG_FACTOR_DIGITS.length, 2 );
+					path( [ [ -1 - PRODUCT_DIGITS.length, 0.5 ], [ 1, 0.5 ] ] );
+					label( [ -BIG_FACTOR_DIGITS.length, 1 ] ,"\\huge{\\times\\vphantom{0}}" );
+				</div>
+				<div class="solution"><var>PRODUCT</var></div>
+			</div>
+		</div>
+		<div class="hints">
+			<div data-each="SMALL_FACTOR_DIGITS as smallIndex, smallDigit" data-unwrap>
+				<div data-each="BIG_FACTOR_DIGITS as bigIndex, bigDigit" class="graphie" data-update="numbers">
+					while( HIGHLIGHTS.length ) {
+						HIGHLIGHTS.pop().remove();
+					}
+					var bigDigit = <var>bigDigit</var>;
+					var bigIndex = <var>bigIndex</var>;
+					var smallIndex = <var>smallIndex</var>;
+					var smallDigit = <var>smallDigit</var>;
+					if ( bigIndex === 0 ) {
+						CARRY = 0;
+					}
+					var product = smallDigit * bigDigit + CARRY;
+					var ones = product % 10;
+					var currCarry = floor( product / 10 );
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ bigDigit ], -bigIndex, 2, "#6495ED" ) );
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ smallDigit ], -smallIndex, 1, "#FF00AF" ) );
+					if ( CARRY ) {
+						HIGHLIGHTS = HIGHLIGHTS.concat( label( [ -bigIndex, 3 ], "\\color{#FFA500}{" + CARRY + "}", "below" ) );
+					}
+					label( [ 2, -smallIndex * BIG_FACTOR_DIGITS.length - bigIndex + 2 ],
+						"\\color{#6495ED}{" + bigDigit + "}"
+						+ "\\times"
+						+ "\\color{#FF00AF}{" + smallDigit + "}"
+						+ ( CARRY ? "+\\color{#FFA500}{" + CARRY + "}" : "" )
+						+ "="
+						+ "\\color{#28AE7B}{" + product + "}", "right" );
+
+					drawDigits( [ ones ], -smallIndex - bigIndex, -smallIndex );
+					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ ones ], -smallIndex - bigIndex, -smallIndex, "#28AE7B" ) );
+
+					if ( currCarry ) {
+						HIGHLIGHTS = HIGHLIGHTS.concat( label( [ -1 - bigIndex, 3 ], "\\color{#28AE7B}{" + currCarry + "}", "below" ) );
+						if ( bigIndex === BIG_FACTOR_DIGITS.length - 1 ) {
+							drawDigits( [ currCarry ], -smallIndex - bigIndex - 1, -smallIndex );
+							HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ currCarry ], -smallIndex - bigIndex - 1, -smallIndex, "#28AE7B" ) );
+						}
+					}
+					CARRY = currCarry;
+				</div>
+			</div>
+
+			<div data-if="SMALL_FACTOR_DIGITS.length > 1" data-unwrap>
+				<div class="graphie" data-update="numbers">
+					while( HIGHLIGHTS.length ) {
+						HIGHLIGHTS.pop().remove();
+					}
+					path( [ [ -1 - PRODUCT_DIGITS.length, 0.5 - SMALL_FACTOR_DIGITS.length ], [ 1, 0.5 - SMALL_FACTOR_DIGITS.length ] ] );
+					label( [ -1 - PRODUCT_DIGITS.length, 1 - SMALL_FACTOR_DIGITS.length ] ,"\\huge{+\\vphantom{0}}" );
+				</div>
+				<div class="graphie" data-update="numbers">
+					drawDigits( PRODUCT_DIGITS, 1 - PRODUCT_DIGITS.length, -2 );
+				</div>
+			</div>
+			<div data-else class="graphie" data-update="numbers">
+				while( HIGHLIGHTS.length ) {
+					HIGHLIGHTS.pop().remove();
+				}
+			</div>
+		</div>
+	</div>
+</body>
+</html>

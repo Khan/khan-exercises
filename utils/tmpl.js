@@ -216,6 +216,11 @@ if ( typeof KhanUtil !== "undefined" ) {
 	KhanUtil.tmpl = jQuery.tmpl;
 }
 
+// Reinitialize VARS for each problem
+jQuery.fn.tmplLoad = function() {
+	jQuery.tmpl.VARS = {};
+};
+
 jQuery.fn.tmpl = function() {
 	// Call traverse() for each element in the jQuery object
 	for ( var i = 0, l = this.length; i < l; i++ ) {
@@ -247,13 +252,16 @@ jQuery.fn.tmpl = function() {
 		// The type of ret is checked to ensure it is not a function
 		} else if ( typeof ret === "object" && typeof ret.length !== "undefined" ) {
 			if ( elem.parentNode ) {
+				// All nodes must be inserted before any are traversed
 				jQuery.each( ret, function( i, rep ) {
 					if ( rep.nodeType ) {
 						elem.parentNode.insertBefore( rep, elem );
 					}
+				} );
 
-					return traverse( rep )
-				});
+				jQuery.each( ret, function( i, rep ) {
+					traverse( rep );
+				} );
 
 				elem.parentNode.removeChild( elem );
 			}
@@ -366,6 +374,12 @@ jQuery.fn.tmpl = function() {
 	}
 };
 
+jQuery.extend( jQuery.expr[":"], {
+	inherited: function(el) {
+		return jQuery( el ).data( "inherited" );
+	}
+} );
+
 jQuery.fn.extend({
 	tmplApply: function( options ) {
 		options = options || {};
@@ -393,13 +407,17 @@ jQuery.fn.extend({
 				if ( name in parent && !hint ) {
 					// Get the method through which we'll be doing the application
 					// You can specify an application style directly on the sub-element
-					jQuery.tmplApplyMethods[ $this.data( "apply" ) || defaultApply ]
+					parent[ name ] = jQuery.tmplApplyMethods[ $this.data( "apply" ) || defaultApply ]
 
 						// Call it with the context of the parent and the sub-element itself
 						.call( parent[ name ], this );
 
+					if ( parent[ name ] == null ) {
+						delete parent[ name ];
+					}
+
 				// Store the parent element for later use if it was inherited from somewhere else
-				} else if ( $this.data( "inherited") ) {
+				} else if ( $this.closest( ":inherited" ).length > 0 ) {
 					parent[ name ] = this;
 				}
 			}
@@ -420,6 +438,7 @@ jQuery.extend({
 		// Replaces the parent with the child
 		replace: function( elem ) {
 			jQuery( this ).replaceWith( elem );
+			return elem;
 		},
 
 		// Replaces the parent with the child's content. Useful when
@@ -432,55 +451,63 @@ jQuery.extend({
 		// Appends the child element to the parent element
 		append: function( elem ) {
 			jQuery( this ).append( elem );
+			return this;
 		},
 
 		// Appends the child element's contents to the parent element.
 		appendContents: function( elem ) {
 			jQuery( this ).append( jQuery( elem ).contents() );
 			jQuery( elem ).remove();
+			return this;
 		},
 
 		// Prepends the child element to the parent.
 		prepend: function( elem ) {
 			jQuery( this ).prepend( elem );
+			return this;
 		},
 
 		// Prepends the child element's contents to the parent element.
 		prependContents: function( elem ) {
 			jQuery( this ).prepend( jQuery( elem ).contents() );
 			jQuery( elem ).remove();
+			return this;
 		},
 
 		// Insert child before the parent.
 		before: function( elem ) {
 			jQuery( this ).before( elem );
+			return this;
 		},
 
 		// Insert child's contents before the parent.
 		beforeContents: function( elem ) {
 			jQuery( this ).before( jQuery( elem ).contents() );
 			jQuery( elem ).remove();
+			return this;
 		},
 
 		// Insert child after the parent.
 		after: function( elem ) {
 			jQuery( this ).after( elem );
+			return this;
 		},
 
 		// Insert child's contents after the parent.
 		afterContents: function( elem ) {
 			jQuery( this ).after( jQuery( elem ).contents() );
 			jQuery( elem ).remove();
+			return this;
 		},
 
 		// Like appendContents but also merges the data-ensures
 		appendVars: function( elem ) {
-			jQuery.tmplApplyMethods.appendContents.call( this, elem );
-
 			var parentEnsure = jQuery( this ).data("ensure") || "1";
 			var childEnsure = jQuery( elem ).data("ensure") || "1";
 			jQuery( this ).data("ensure",
 				"(" + parentEnsure + ") && (" + childEnsure + ")");
+
+			return jQuery.tmplApplyMethods.appendContents.call( this, elem );
 		}
 	}
 });

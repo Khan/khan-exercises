@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html data-require="math graphie">
-    <head>
-        <title>Graphing Points</title>
-        <script src="../khan-exercise.js"></script>
-    </head>
-    <body>
-        <div class="exercise">
-            <div class="vars">
+	<head>
+		<title>Graphing Points</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
 				<var id="POINTS">
 					(function() {
 						var points = [];
@@ -27,77 +27,87 @@
 						return points;
 					})()
 				</var>
-            </div>
 
-            <div class="problems">
-                <div>
-                    <p class="question">Which of these coordinate pairs is not graphed?</p>
-					<div class="graphie" id="grid">
-						init({
-							range: [[-10, 10], [-10, 10]],
-							scale: [30, 30]
-						});
+				<var id="FORGOTTEN">randRange( 0, POINTS.length - 1 )</var>
 
-						grid( [-10, 10], [-10, 10], {
-							stroke: "#ccc"
-						});
+				<var id="PAIR">function( arr ) {
+					return "(" + arr.join( ", " ) + ")";
+				}</var>
+			</div>
 
-						style({
-							stroke: "#888",
-							strokeWidth: 2,
-							arrows: "->"
-						});
-						path( [ [-10, 0], [10, 0] ] );
-						path( [ [0, -10], [0, 10] ] );
-
-						jQuery.each( POINTS, function( index, point ) {
-							if ( index === 0) {
-								return;
-							}
-							style({
-								stroke: "#6495ED",
-								fill: "#6495ED"
-							}, function() {
-									circle( point, 0.15 );
-							});
-
-						});
-					</div>
-                    <p class="solution"><code>(<var>POINTS[0].join( ", " )</var>)</code></p>
-					<ul class="choices">
-						<li><code>(<var>POINTS[1].join( ", " )</var>)</code></li>
-						<li><code>(<var>POINTS[2].join( ", " )</var>)</code></li>
-						<li><code>(<var>POINTS[3].join( ", " )</var>)</code></li>
-						<li><code>(<var>POINTS[4].join( ", " )</var>)</code></li>
-					</ul>
-                </div>
-            </div>
-
-            <div class="hints">
-				<div class="graphie" data-update="grid">
-					var point = POINTS[1];
-					label( point, "(" + point[0] + ", " + point[1] + ")", "above right" );
-				</div>
-				<div class="graphie" data-update="grid">
-					var point = POINTS[2];
-					label( point, "(" + point[0] + ", " + point[1] + ")", "above right" );
-				</div>
-				<div class="graphie" data-update="grid">
-					var point = POINTS[3];
-					label( point, "(" + point[0] + ", " + point[1] + ")", "above right" );
-				</div>
-				<div class="graphie" data-update="grid">
-					var point = POINTS[4];
-					label( point, "(" + point[0] + ", " + point[1] + ")", "above right" );
-				</div>
+			<div class="problems">
 				<div>
-					<div class="graphie" data-update="grid">
-						var point = POINTS[0];
-						label( point, "(" + point[0] + ", " + point[1] + ") \\text{ was not graphed.}", "above right" );
-						circle( point, 0.15, { stroke: "red", fill: "red"} );
+					<div class="problem">
+						<p>Consider the following coordinate pairs:</p>
+						<ul>
+							<li><code><var>PAIR( POINTS[0] )</var></code></li>
+							<li><code><var>PAIR( POINTS[1] )</var></code></li>
+							<li><code><var>PAIR( POINTS[2] )</var></code></li>
+							<li><code><var>PAIR( POINTS[3] )</var></code></li>
+							<li><code><var>PAIR( POINTS[4] )</var></code></li>
+						</ul>
 					</div>
+
+					<div class="question">
+						<p>Which of those pairs is not graphed below?</p>
+						<div class="graphie" id="grid">
+							graphInit({
+								range: 10,
+								scale: 30,
+								axisArrows: "<->",
+								tickStep: 1,
+								labelStep: 1
+							})
+
+							jQuery.each( POINTS, function( index, point ) {
+								if ( index === FORGOTTEN ) {
+									return;
+								}
+								style({
+									stroke: "#6495ED",
+									fill: "#6495ED"
+								}, function() {
+										circle( point, 0.15 );
+								});
+
+							});
+						</div>
+					</div>
+
+					<p class="solution"><code>(<var>POINTS[FORGOTTEN].join( ", " )</var>)</code></p>
+					<ul class="choices" data-category="true">
+						<li><code><var>PAIR( POINTS[0] )</var></code></li>
+						<li><code><var>PAIR( POINTS[1] )</var></code></li>
+						<li><code><var>PAIR( POINTS[2] )</var></code></li>
+						<li><code><var>PAIR( POINTS[3] )</var></code></li>
+						<li><code><var>PAIR( POINTS[4] )</var></code></li>
+					</ul>
 				</div>
-            </div>
-        </div>
-    </body>
+			</div>
+
+			<div class="hints">
+				<!-- FIXME: this would be a lot cooler with hint template inheritance; can cross off pairs from the list when showing them on the grid -->
+				<div data-if="FORGOTTEN !== 0" class="graphie" data-update="grid">
+					label( POINTS[0], PAIR( POINTS[0] ), "above right" );
+				</div>
+				<div data-if="FORGOTTEN !== 1" class="graphie" data-update="grid">
+					label( POINTS[1], PAIR( POINTS[1] ), "above right" );
+				</div>
+				<div data-if="FORGOTTEN !== 2" class="graphie" data-update="grid">
+					label( POINTS[2], PAIR( POINTS[2] ), "above right" );
+				</div>
+				<div data-if="FORGOTTEN !== 3" class="graphie" data-update="grid">
+					label( POINTS[3], PAIR( POINTS[3] ), "above right" );
+				</div>
+				<div data-if="FORGOTTEN !== 4" class="graphie" data-update="grid">
+					label( POINTS[4], PAIR( POINTS[4] ), "above right" );
+				</div>
+				<div><div class="graphie" data-update="grid">
+					var point = POINTS[FORGOTTEN];
+					label( point, PAIR( point ) + "\\text{ was not graphed.}", "above right" );
+					circle( point, 0.15, { stroke: "red", fill: "red"} );
+				</div></div>
+			</div>
+		</div>
+	</body>
 </html>

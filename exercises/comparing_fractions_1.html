@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graph word-problems">
+<html data-require="math graphie graphie-helpers word-problems">
 <head>
 	<title>Comparing Fractions 1</title>
 	<script src="../khan-exercise.js"></script>
@@ -47,12 +47,14 @@
 				<div class="hints">
 					<div>
 						<p>This is like comparing two equally sized pizzas where one is cut into <var>DEN_1</var> equal slices and the other is cut into <var>DEN_2</var> equal slices.</p>
-						<div style="height: 200px;">
-							<div class="graph" style="width: 200px; height: 200px; float: left;">
-								piechart( [NUM_1, DEN_1 - NUM_1], ["#ee0000", "#999"], 50 );
+						<div style="height: 150px;">
+							<div class="graphie" style="float: left">
+								init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+								piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
 							</div>
-							<div class="graph" style="width:200px; height: 200px; float: left;">
-								piechart( [NUM_2, DEN_2 - NUM_2], ["#ee0000", "#999"], 50 );
+							<div class="graphie" style="float: left">
+								init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+								piechart( [NUM_2, DEN_2 - NUM_2], ["#e00", "#999"], 2 );
 							</div>
 						</div>
 					</div>
@@ -97,12 +99,14 @@
 					<div>
 						<p>This is like considering two equally sized pizzas that have been cut into <var>DEN_1</var> equal slices.</p>
 						<p>Since both pizzas have the same number of slices, all the slice are the same size.</p>
-						<div style="height: 200px;">
-							<div class="graph" style="width: 200px; height: 200px; float: left;">
-								piechart( [NUM_1, DEN_1 - NUM_1], ["#ee0000", "#999"], 50 );
+						<div style="height: 150px;">
+							<div class="graphie" style="float: left">
+								init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+								piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
 							</div>
-							<div class="graph" style="width:200px; height: 200px; float: left;">
-								piechart( [NUM_2, DEN_2 - NUM_2], ["#ee0000", "#999"], 50 );
+							<div class="graphie" style="float: left">
+								init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+								piechart( [NUM_2, DEN_2 - NUM_2], ["#e00", "#999"], 2 );
 							</div>
 						</div>
 					</div>

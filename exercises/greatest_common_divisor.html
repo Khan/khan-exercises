@@ -32,9 +32,16 @@
 
 		<div class="hints">
 			<p>The greatest common divisor is the largest number that is a factor (or divisor) of both <var>A</var> and <var>B</var>.</p>
-			<p>The factors (or divisors) of <var>A</var> are <var>A_FACTORS</var>.</p>
-			<p>The factors (or divisors) of <var>B</var> are <var>B_FACTORS</var>.</p>
-			<div>Thus, the greatest common divisor of <var>A</var> and <var>B</var> is <var>GCD</var>.
+			<div>
+				<p data-if="A === 1">The factors (or divisors) of 1 are just 1.</p>
+				<p data-else>The factors (or divisors) of <var>A</var> are <var>A_FACTORS</var>.</p>
+			</div>
+			<div>
+				<p data-if="B === 1">The factors (or divisors) of 1 are just 1.</p>
+				<p data-else>The factors (or divisors) of <var>B</var> are <var>B_FACTORS</var>.</p>
+			</div>
+			<div>
+				<p>Thus, the greatest common divisor of <var>A</var> and <var>B</var> is <var>GCD</var>.</p>
 				<p>GCD(<var>A</var>, <var>B</var>) = <var>GCD</var></p>
 			</div>
 		</div>
