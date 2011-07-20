@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format angles">
+<html data-require="math math-format convert-values">
 <head>
 	<title>Trigonometry identities 1</title>
 	<script src="../khan-exercise.js"></script>
@@ -7,15 +7,15 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="START_TYPE">trigTypes[0]</var>
-			<var id="END_TYPE">trigTypes[1]</var>
+			<var id="START_TYPE">trigTypes[randRange(0,trigTypes.length-1)]</var>
+
+			<var id="END_TYPE" data-ensure="START_TYPE !== END_TYPE && !((START_TYPE.name === 'sin' || START_TYPE.name === 'cos') && END_TYPE.name === 'tan' ) ">trigTypes[randRange(0,trigTypes.length-1)]</var>
 			<var id="END_NAME">END_TYPE.name</var>
 			<var id="FUN_NAME">START_TYPE.name</var>
 			<var id="ANGLE">30</var>
 			<var id="FUN_VALUE">START_TYPE.print( ANGLE )</var>
-			<var id="D">randRange( 2, 10 )</var>
 			<var id="SOLUTION">END_TYPE.print( ANGLE )</var>
-			<var id="STEPS">findSteps(START_TYPE , END_TYPE, ANGLE)[0]</var>
+			<var id="STEPS">findSteps(START_TYPE , END_TYPE, ANGLE)</var>
 		</div>
 
 		<div class="problems">
@@ -23,12 +23,12 @@
 				<p class="question">Given that x is in first quadrant and <code> \<var>FUN_NAME</var> x </code> is <code><var>FUN_VALUE</var></code> what is <code> \<var>END_NAME</var> x</code> ?</p>
 				
 
-				<p class="solution" data-type="rational"><var>D / A</var></p>
+				<p class="solution">1</p>
 			</div>
 		</div>
 
 		<div class="hints">
-				<p data-each="STEPS as step"><code data-each="step as value"><var>value</var></code></p>
+				<div data-each="STEPS as step"><p data-each="step as value"><code><var>value</var></code></p><hr></div>
 		</div>
 	</div>
 </body>
