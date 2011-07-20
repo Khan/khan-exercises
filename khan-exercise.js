@@ -1003,7 +1003,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 			};
 		
 			// Save the problem results to the server
-			request( "problem/" + problemNum + "/complete", data, function() {
+			request( "problem/" + problemNum + "/attempt", data, function() {
 				// TODO: Save locally if offline
 				jQuery(Khan).trigger( "answerSaved" );
 			});
