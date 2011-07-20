@@ -1,3 +1,5 @@
+var Khan = (function() {
+
 // Add in the site stylesheets
 (function(){
 	var link = document.createElement("link");
@@ -29,7 +31,10 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	jumpNum,
 
 	// The number of the current problem that we're on
-	problemNum;
+	problemNum,
+	
+	// Check to see if we're in test mode
+	testMode = window.location.host === "localhost" || window.location.protocol === "file:";
 
 // The main Khan Module
 var Khan = {
@@ -277,7 +282,7 @@ var Khan = {
 	makeProblemBag: function( problems, n ) {
 		var bag = [], totalWeight = 0;
 
-		if ( Khan.query.test != null ) {
+		if ( testMode && Khan.query.test != null ) {
 			// Just do each problem 10 times
 			jQuery.each( problems, function( i, elem ) {
 				elem = jQuery( elem );
@@ -350,7 +355,7 @@ var Khan = {
 		
 		// Otherwise set the seed from the problem number
 		// Only do so if we're not in test mode and if we have a username
-		} else if ( Khan.query.test == null && user != null ) {
+		} else if ( (!testMode || Khan.query.test == null) && user != null ) {
 			Khan.randomSeed = problemNum;
 		}
 
@@ -512,7 +517,7 @@ var Khan = {
 		}
 
 		// Save problem info in dump data for testers
-		if ( Khan.query.test != null ) {
+		if ( testMode && Khan.query.test != null ) {
 			var testerInfo = jQuery( "#tester-info" );
 
 			// Deep clone the elements to avoid some straaaange bugs
@@ -541,7 +546,7 @@ var Khan = {
 		}
 
 		// Show the debug info
-		if ( Khan.query.debug != null ) {
+		if ( testMode && Khan.query.debug != null ) {
 			jQuery( "body" ).keypress( function( e ) {
 				if ( e.charCode === 104 ) {
 					jQuery("#hint").click();
@@ -639,7 +644,7 @@ var Khan = {
 				// Toggle the navigation buttons
 				jQuery("#check-answer-button").hide();
 				
-				if ( Khan.query.test == null ) {
+				if ( !testMode || Khan.query.test == null ) {
 					jQuery("#next-container").show().find("input").focus();
 				}
 				
@@ -679,7 +684,7 @@ var Khan = {
 				Khan.scratchpad.clear();
 			}
 
-			if ( Khan.query.test != null && Khan.dataDump.problems.length + Khan.dataDump.issues >= Khan.problemCount ) {
+			if ( testMode && Khan.query.test != null && Khan.dataDump.problems.length + Khan.dataDump.issues >= Khan.problemCount ) {
 				// Show the dump data
 				jQuery( "#problemarea" ).append(
 					"<p>Thanks! You're all done testing this exercise.</p>" +
@@ -813,7 +818,7 @@ var Khan = {
 			});
 
 		// Prepare for the tester info if requested
-		if ( Khan.query.test != null ) {
+		if ( testMode && Khan.query.test != null ) {
 			jQuery( "#answer_area" ).prepend(
 				'<div id="tester-info" class="info-box">' +
 					'<span class="info-box-header">Testing Mode</span>' +
@@ -937,7 +942,7 @@ var Khan = {
 		}
 
 		// Prepare for the debug info if requested
-		if ( Khan.query.debug != null ) {
+		if ( testMode && Khan.query.debug != null ) {
 			jQuery( '<div id="debug"></div>' ).appendTo( "#answer_area" );
 		}
 	}
@@ -949,9 +954,6 @@ Khan.query = Khan.queryString();
 // Seed the random number generator
 Khan.randomSeed = parseFloat( Khan.query.seed ) || ( new Date().getTime() & 0xffffffff );
 
-// Make this publicly accessible
-var KhanUtil = Khan.Util;
-
 // Load in jQuery
 Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" } ], function() {
 
@@ -961,7 +963,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 	Khan.require( document.documentElement.getAttribute("data-require") );
 	
 	var server = "http://localhost:8080",
-		exerciseName = (/([^\/.]+)(?:\.html)?$/.exec( window.location ) || [])[1],
+		exerciseName = (/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1],
 		hintUsed,
 		lastAction,
 		doHintSave,
@@ -1334,3 +1336,10 @@ function nextProblem( num ) {
 		nextProblem( num - 1 );
 	}
 }
+
+return Khan;
+
+})();
+
+// Make this publicly accessible
+var KhanUtil = Khan.Util;
