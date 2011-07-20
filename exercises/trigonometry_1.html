@@ -4,12 +4,31 @@
 	<title>Trigonometry 1</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
-		function fractionSQRoot(b, a){
-			var gd = KhanUtil.getGCD( KhanUtil.splitRadical(a)[0] , b );
-               		if(KhanUtil.splitRadical(a)[0]/gd != 1){
-				return  "\\frac{" + (b/gd) + "}{" + (KhanUtil.splitRadical(a)[0]/gd) + "\\sqrt{" + KhanUtil.splitRadical(a)[1] + "}}";
+		function fractionSQRoot(b, root){
+			var natRoot = KhanUtil.splitRadical(root)[0];
+			var underRoot =  KhanUtil.splitRadical(root)[1];	
+			var d = KhanUtil.reduce(natRoot*underRoot, b)[0];
+               		var n = KhanUtil.reduce(natRoot*underRoot,b)[1];
+			if ( d == 1 ){
+				 if(n != 1){
+                                        return   n + "\\sqrt{" + underRoot +"}";
+                                }
+                                else{
+                                        return  "\\sqrt{" +underRoot + "}";
+                                }
+
 			}
-				return  "\\frac{" + b/gd + "}{" + "\\sqrt{" + KhanUtil.splitRadical(a)[1] + "}}";
+			else if( underRoot != 1 ){
+				if(n != 1){
+					return  "\\frac{" + n + "\\sqrt{" + underRoot +"} }{"+ d + "}";
+				}
+				else{
+					return  "\\frac{ \\sqrt{" +underRoot + "}}{" + d + "}";
+				}
+			}
+			else{
+				return "\\frac{" + n + "}{" + d + "}";
+			}
 		}
 
 		function betterTriangle(width, height, A, B, C, a, b, c) {
@@ -134,7 +153,7 @@
 			</div>
 		</div>
 
-		 <div id="cos">
+		 <div id="cos" data-type="sin">
                         <div class="problem">
                                 <p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
                                 <p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p>
@@ -151,10 +170,6 @@
                         <div class="solution">
                                 <code><var>COS</var></code>
                         </div>
-			<ul class="choices" data-none="true">
-				    <li><code><var>TAN</var></code></li>
-				    <li data-if="COS!=SIN"><code><var>SIN</var></code></li>
-			</ul>
 
                         <div class="hints" data-apply="appendContents">
                                 <p>SOH <b>CAH</b> TOA</p>
@@ -166,7 +181,7 @@
                         </div>
                 </div>
 
-		 <div id="tan">	
+		 <div id="tan" data-type="sin">	
                         <div class="problem">
                                 <p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
                                 <p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p>
@@ -183,18 +198,14 @@
                         <div class="solution">
                                 <code><var>TAN</var></code>
                         </div>
-			<ul class="choices" data-none="true">
-				    <li><code><var>COS</var></code></li>
-				    <li><code><var>SIN</var></code></li>
-			</ul>
 
                         <div class="hints" data-apply="appendContents">
                                 <p>SOH CAH <b>TOA</b></p>
                                 <p><b>T</b>an=<b>O</b>pposite over <b>A</b>djacent</p>
                                 <p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
                                 <p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
-                                <p><code>tan(<var>ANGLE</var>)=<var>SIMPLE_TAN</var></code></p>
-				<p data-if="TAN!=SIMPLE_TAN"><code>=<var>TAN</var></code></p>
+                                <p><code>\tan(\angle <var>ANGLE</var>)=<var>SIMPLE_TAN</var></code></p>
+				<p data-if="TAN != SIMPLE_TAN"><code>=<var>TAN</var></code></p>
                         </div>
                 </div>
 
