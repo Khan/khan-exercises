@@ -32,7 +32,7 @@ jQuery.extend( KhanUtil, {
                                                                 return '2';
                                                         }
                                                         else if( angle == 90 ){
-                                                                return 'undef';
+                                                                return 'undefined';
                                                         }
                                                         return 'undef';
 						},
@@ -78,7 +78,7 @@ jQuery.extend( KhanUtil, {
                                                                 return '\\sqrt 3';
                                                         }
                                                         else if( angle == 90 ){
-                                                                return 'undef';
+                                                                return 'undefined';
                                                         }
                                                         return 'undef';
 	
@@ -144,7 +144,7 @@ jQuery.extend( KhanUtil, {
 							else if( angle == 90 ){
 								return '1';
  							}
-							return 'undef';
+							return 'undefined';
 							},
 					convertsTo: ["cos","csc"],
 					convertTo: function( type, angle ){
