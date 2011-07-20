@@ -130,7 +130,8 @@ jQuery.extend( Khan.answerTypes, {
 	
 	mixedfraction: function( solutionarea, solution, fallback ) {
 		var options = jQuery.extend({
-			simplify: "required"
+			simplify: "required",
+			maxError: Math.pow( 2, -23 )
 		}, jQuery( solution ).data());
 
 		var verifier = function( correct, guess ) {
@@ -138,7 +139,7 @@ jQuery.extend( Khan.answerTypes, {
 			correct = parseFloat( correct );
 			
 			// scan for expressions like -5 3/4
-			var mixedFracExp =  /^(-)?(\d+ )?(\d+)(\/(\d+))?$/;
+			var mixedFracExp =  /^(-)?(\d+ +)?(\d+)(\/(\d+))?$/;
 			
 			var match = guess.match( mixedFracExp );
 			if ( match ) {
@@ -158,7 +159,7 @@ jQuery.extend( Khan.answerTypes, {
 				if ( options.simplify !== "optional" && ( gcd > 1 || num > denom ) ) {
 					return false;
 				} else {
-					return Math.abs( correct - guess ) < Math.pow( 2, -23 );
+					return Math.abs( correct - guess ) < parseFloat( options.maxError );
 				}
 			}
 			else {
