@@ -139,14 +139,14 @@ jQuery.extend( Khan.answerTypes, {
 			correct = parseFloat( correct );
 			
 			// scan for expressions like -5 3/4
-			var mixedFracExp =  /^(-)?(\d+ +)?(\d+)(\/(\d+))?$/;
+			var mixedFracExp =  /^\s*(-)?(\d+\s+)?(\d+)(\/(\d+))?\s*$/;
 			
 			var match = guess.match( mixedFracExp );
 			if ( match ) {
 				var sign = match[1] != '-' ? 1 : -1;
 				
 				//matches the whole number part if there is a whole num and a fraction
-				var wholeNum = match[2] ? parseFloat( match[2] ) : 0;			
+				var wholeNum = match[2] ? parseFloat( match[2].replace( /\s/, '' ) ) : 0;			
 				//matches the whole number if no fraction, or the numerator of a fraction
 				var num = match[3] ? parseFloat( match[3] ) : 0;
 				//matches the denominator, or uses 1 if denominator not specified.
