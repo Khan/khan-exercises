@@ -26,6 +26,8 @@ jQuery.extend( Khan.answerTypes, {
 					fallback + "" :
 					""
 
+			ret.guess = val;
+
 			return verifier( correct, val );
 		};
 		ret.solution = jQuery.trim( correct );
@@ -158,19 +160,26 @@ jQuery.extend( Khan.answerTypes, {
 		});
 
 		var ret = function() {
-			var valid = true;
+			var valid = true,
+				guess = [];
 
 			solutionarea.find( ".sol" ).each(function() {
 				var validator = jQuery( this ).data( "validator", validator );
 	
 				if ( validator != null ) {
 					valid = valid && validator();
+					
+					guess.push( validator.guess );
 				}
 			});
+			
+			ret.guess = guess;
 
 			return valid;
 		};
+		
 		ret.solution = solutionArray;
+		
 		return ret;
 	},
 
@@ -274,6 +283,7 @@ jQuery.extend( Khan.answerTypes, {
 
 		var ret = function() {
 			var choice = list.find("input:checked");
+			
 			if ( noneIsCorrect && choice.val() === "1") {
 				choice.next()
 					.fadeOut( "fast", function() {
@@ -281,6 +291,10 @@ jQuery.extend( Khan.answerTypes, {
 							.fadeIn( "fast" );
 					});
 			}
+			
+			ret.guess = jQuery.trim(
+				choice.closest("li").contents( ":not(.MathJax)" ).text() );
+			
 			return choice.val() === "1";
 		};
 		ret.solution = jQuery.trim( solutionText );
@@ -308,9 +322,13 @@ jQuery.extend( Khan.answerTypes, {
 		};
 
 		var ret = function() {
-			return verifier( correct, input.val() );
+			ret.guess = input.val();
+			
+			return verifier( correct, ret.guess );
 		};
+		
 		ret.solution = jQuery.trim( correct );
+		
 		return ret;
 	},
 

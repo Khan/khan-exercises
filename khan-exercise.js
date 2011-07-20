@@ -986,10 +986,6 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 		
 		// The user checked to see if an answer was valid
 		checkAnswer: function( e, pass ) {
-			if ( !doSave ) {
-				return;
-			}
-			
 			// Build the data to pass to the server
 			var curTime = (new Date).getTime(),
 				data = {
@@ -1007,7 +1003,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 					
 					// The answer the user gave
 					// TODO: Get the real provided answer
-					attempt_content: Khan.validator.solution,
+					attempt_content: Khan.validator.guess,
 					
 					// A hash representing the exercise
 					// TODO: Populate this from somewhere
@@ -1023,7 +1019,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 				jQuery(Khan).trigger( "answerSaved" );
 			});
 			
-			// Make sure we don't save the result to the server more than once
+			// Make sure hint streak breaking is handled correctly
 			doSave = false;
 			
 			// Remember when the last action was
