@@ -12,13 +12,27 @@
 			<var id="END_TYPE" data-ensure="START_TYPE !== END_TYPE && !((START_TYPE.name === 'sin' || START_TYPE.name === 'cos') && END_TYPE.name === 'tan' ) ">trigTypes[randRange(0,trigTypes.length-1)]</var>
 			<var id="END_NAME">END_TYPE.name</var>
 			<var id="FUN_NAME">START_TYPE.name</var>
-			<var id="ANGLE">randFromArray([0,30,45,60,90])</var>
+			<var id="ANGLE">function(){
+					if ( START_TYPE.name === "tan" ){
+						return randFromArray([0,30,45,60]);
+					}
+					else if ( START_TYPE.name === "sec" ){
+						return randFromArray([0,30,45,60]);
+					}
+					else if (START_TYPE.name === "csc" ){
+						return randFromArray([30,45,60,90]);
+					}
+					else{
+						return randFromArray([0,30,45,60,90]);
+					}}()
+
+			</var>
 			<var id="FUN_VALUE">START_TYPE.print( ANGLE )</var>
 			<var id="SOLUTION">END_TYPE.print( ANGLE )</var>
 			<var id="STEPS">findSteps(START_TYPE , END_TYPE, ANGLE)</var>
 
-			<var id="WRONG_ANGLE1" data-ensure="ANGLE !== WRONG_ANGLE1">60</var>
-			<var id="WRONG_ANGLE2" data-ensure="ANGLE !== WRONG_ANGLE2 && WRONG_ANGLE2 !== WRONG_ANGLE1">90</var>
+			<var id="WRONG_ANGLE1" data-ensure="ANGLE !== WRONG_ANGLE1"> randFromArray([0,30,45,60,90])</var>
+			<var id="WRONG_ANGLE2" data-ensure="ANGLE !== WRONG_ANGLE2 && WRONG_ANGLE2 !== WRONG_ANGLE1"> randFromArray([0,30,45,60,90])</var>
 			<var id="NUM_ANSWERS">["","","","","","","","","","","",""]</var>
 
 		</div>
