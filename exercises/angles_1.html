@@ -594,7 +594,8 @@
 
 						// Label given angles
 						if( RAND2 == 0 ) {
-							label( [0, 3.5], "\\color{blue}{\\angle{IAK}} = ?", "above left" );
+							ORIGINAL_LABEL = label( [0, 3.5], 
+								"\\color{blue}{\\angle{IAK}} = ?", "above left" );
 							arc( [0, 2], 1, 90, 135, {stroke:"blue"} );
 
 							label( [4.75, -2], "\\color{green}{<var>Tri_Y</var>&deg;}", 
@@ -604,7 +605,8 @@
 							label( [0, 3], "\\color{green}{<var>Tri_Y</var>&deg;}", "above left" );
 							arc( [0, 2], 1, 90, 135, {stroke:"green"} );
 
-							label( [4.75, -2], "\\color{blue}{\\angle{GCJ} = ?}", "below right" );
+							ORIGINAL_LABEL = label( [4.75, -2], 
+								"\\color{blue}{\\angle{GCJ} = ?}", "below right" );
 							arc( [4, -2], .75, 315, 360, {stroke: "blue"} )
 						}
 					</div>
@@ -641,7 +643,7 @@
 						because they are alternate exterior angles, formed by 2 parallel lines 
 						and a transversal line, they are congruent (equal).
 						<span class="graphie" data-update="alternate-exterior-and-complementary">
-							label( [-1, 2], "\\color{orange}{<var>Tri_Y</var>&deg;}", 
+							label( [-.80, 2], "\\color{orange}{<var>Tri_Y</var>&deg;}", 
 								"above left" );
 							arc( [0, 2], 1, 135, 180, {stroke: "orange"} );
 						</span>
@@ -662,8 +664,8 @@
 						<code>\color{purple}{\angle{DAK}} = 90&deg;</code>,  
 						because angles formed by perpendicular lines equal to 90&deg;.
 						<span class="graphie" data-update="alternate-exterior-and-complementary">
-							label( [-2, 2], "\\color{purple}{90&deg;}", "above left" );
-							arc( [0, 2], 2, 90, 180, {stroke: "purple"} );
+							label( [-1.68, 2], "\\color{purple}{90&deg;}", "above left" );
+							arc( [0, 2], 1.65, 90, 180, {stroke: "purple"} );
 						</span>
 					</p>
 
@@ -673,6 +675,12 @@
  						because angles <code>\color{blue}{\angle{IAK}}</code> 
  						and <code>\color{orange}{\angle{DAI}}</code> make up angle 
  						<code>\color{purple}{\angle{DAK}}</code>.
+ 						<span class="graphie" data-update="alternate-exterior-and-complementary">
+							ORIGINAL_LABEL.remove();
+							label( [0, 3.5], 
+								"\\color{blue}{\\angle{IAK}} = <var>90 - Tri_Y</var>&deg;", 
+								"above left" );							
+						</span>
 					</p>
 
 					<p data-if="RAND2 !== 0">
@@ -682,7 +690,7 @@
 						and <code>\color{orange}{\angle{DAI}}</code>, make up angle 
 						<code>\color{purple}{\angle{DAK}}</code>.
 						<span class="graphie" data-update="alternate-exterior-and-complementary">
-							label( [-1, 2], "\\color{orange}{<var>90-Tri_Y</var>&deg;}", 
+							label( [-.80, 2], "\\color{orange}{<var>90-Tri_Y</var>&deg;}", 
 								"above left" );
 							arc( [0, 2], 1, 135, 180, {stroke: "orange"} );
 						</span> 
@@ -704,6 +712,11 @@
 							label( [3, -2], "\\color{pink}{<var>90-Tri_Y</var>&deg;}", 
 								"above left" );
 							arc( [4, -2], 1, 135, 180, {stroke: "pink"} );
+							
+							ORIGINAL_LABEL.remove();
+							label( [4.75, -2], 
+								"\\color{blue}{\\angle{GCJ} = <var>90-Tri_Y</var>&deg;}", 
+								"below right" );
 						</span>
 					</p>
 				</div>
