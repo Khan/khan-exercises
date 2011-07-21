@@ -200,6 +200,7 @@ jQuery.extend( KhanUtil, {
 		while( prev.name != start.name ){
 			steps.unshift( prev.name );
 			prev = prev.parent;
+			
 		}		
 		steps.unshift( prev.name );
 		var toReturn = new Array();
@@ -209,6 +210,9 @@ jQuery.extend( KhanUtil, {
 			delete step.parent;
 
 			toReturn.push( step );
+		}
+		for( x=0; x<KhanUtil.trigTypes.length-1 ;x++ ){
+			delete KhanUtil.trigTypes[x].parent;
 		}
 		return toReturn;
 	}
