@@ -372,7 +372,10 @@ Khan.loadScripts( scripts, function() {
 			}
 			
 			hintUsed = true;
-			request( "reset_streak" );
+
+			if (!(typeof userExercise !== "undefined" && userExercise.read_only)) {
+				request( "reset_streak" );
+			}
 			
 			// Make sure we don't reset the streak more than once
 			doHintSave = false;
