@@ -1336,6 +1336,9 @@ function nextProblem( num ) {
 			problemNum -= 200;
 		}
 		
+		// Go to the next problem type in the problem bag
+		problemBagIndex++;
+		
 		nextProblem( num - 1 );
 	}
 }
