@@ -375,7 +375,7 @@
 				<div class="problem">
 					<div class="graphie" id="parallel-and-triangle">
 						init( {
-							range: [[-9, 9.5], [-8.5, 9.5]],
+							range: [[-9, 9.5], [-5.7, 8]],
 							scale: [30, 30]
 						});
 
@@ -385,26 +385,26 @@
 						} );
 
 						// Draw Parallel lines
-						path( [ [-8, 8], [8, -4] ] );
-						path( [ [-8, 4], [8, -8] ] );
+						path( [ [-7.32, 7.5], [8, -4] ] );
+						path( [ [-8, 4], [4.03, -5] ] );
 
 						// Draw 2 more lines to form a triangle
-						path( [ [-6, -4], [-4, 9] ] );
+						path( [ [-6, -4], [-4.24, 7.5] ] );
 						path( [ [-6, -4], [9, -2] ] );
 
 						//draw points
 						style( {
 							fill: "grey"
 						}, function() {
-							circle( [-8, 8], 0.05 );
+							circle( [-7.32, 7.5], 0.05 );
 							circle( [8, -4], 0.05 );
 							circle( [-8, 4], 0.05 );
-							circle( [8, -8], 0.05 );
+							circle( [4.03, -5], 0.05 );
 
 							label( [-6, -4], "A", "below" );
 							circle( [-6, -4], 0.05 );
-							label( [-4, 9], "B", "right" );
-							circle( [-4, 9], 0.05 );
+							label( [-4.24, 7.5], "B", "right" );
+							circle( [-4.24, 7.5], 0.05 );
 							label( [9, -2], "C", "above" );
 							circle( [9, -2], 0.05 );
 
