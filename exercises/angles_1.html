@@ -68,24 +68,24 @@
 								"above" );
 							arc( [0, 0], 1.2, 70, 90, { stroke: "green" } );
 
-							label( [-1.2, -0.75], "\\color{blue}{\\angle{AGF}}=?", 
-								"below left" );
+							ORIGINAL_LABEL = label( [-1.2, -0.75], 
+								"\\color{blue}{\\angle{AGF}}=?", "below left" );
 							arc( [0, 0], 1.2, 180, 248, { stroke: "blue" } );
 						} else if ( RAND3 == 1 ) {
 							label( [-1.2, -0.75], "\\color{green}{<var>90-ACCUTEANGLE</var>&deg;}", 
 								"below left" );
 							arc( [0, 0], 1.2, 180, 248, { stroke: "green" } );
 
-							label( [0.5, 1.8], "\\color{blue}{\\angle{CGE}} = ?", 
-								"above" );
+							ORIGINAL_LABEL = label( [0.5, 1.8], 
+								"\\color{blue}{\\angle{CGE}} = ?", "above" );
 							arc( [0, 0], 1.2, 70, 90, { stroke: "blue" } );
 						} else {
-							label( [0, -2], "\\color{green}{<var>ACCUTEANGLE</var>&deg;}", 
+							label( [0, -2],	"\\color{green}{<var>ACCUTEANGLE</var>&deg;}", 
 								"below left" );
 							arc( [0, 0], 1.2, 248, 270, { stroke: "green" } );
 
-							label( [1.5, 0], "\\color{blue}{\\angle{BGE}} = ?", 
-								"above right" );
+							ORIGINAL_LABEL = label( [1.5, 0], 
+								"\\color{blue}{\\angle{BGE}} = ?", "above right" );
 							arc( [0, 0], 1.2, 0, 70, { stroke: "blue" } );
 						}
 					</div>
@@ -189,17 +189,36 @@
 						<var>90 - ACCUTEANGLE</var>&deg;</code>, 
 						because they are opposite from each other.  Opposite angles are 
 						congruent (equal).
+						<span class="graphie" data-update="complementary-and-opposite">
+							ORIGINAL_LABEL.remove();
+							label( [-1.2, -0.75], 
+								"\\color{blue}{\\angle{AGF}}=<var>90 - ACCUTEANGLE</var>&deg;", 
+								"below left" );
+						</span>
 					</p>
 					<p data-else-if="RAND3===1">
 						<code>\color{blue}{\angle{CGE}} = 
 							\color{purple}{90&deg;} - \color{orange}{\angle{EGB}} = 
-							<var>ACCUTEANGLE</var>&deg;</code>
+							<var>ACCUTEANGLE</var>&deg;
+						</code>
+						<span class="graphie" data-update="complementary-and-opposite">
+							ORIGINAL_LABEL.remove();
+							label( [0.5, 1.8], 
+								"\\color{blue}{\\angle{CGE}} = <var>ACCUTEANGLE</var>&deg;", 
+								"above" )
+						</span>
 					</p>
 					<p data-else>
 						<code>\color{blue}{\angle{BGE}} = \color{orange}{\angle{AGF}} = 
 						<var>90 - ACCUTEANGLE</var>&deg;</code>, 
 						because they are opposite from each other.  Opposite angles are 
 						congruent (equal).
+						<span class="graphie" data-update="complementary-and-opposite">
+							ORIGINAL_LABEL.remove();
+							label( [1.5, 0], 
+								"\\color{blue}{\\angle{BGE}} = <var>90 - ACCUTEANGLE</var>&deg;", 
+								"above right" );
+						</span>
 					</p>
 				</div>
 			</div>
@@ -335,7 +354,7 @@
 								180&deg; - \color{orange}{\angle{BAC}} - \color{purple}{\angle{ABC}} = 
 								<var>Tri_Y</var>&deg;
 						</code>,
-						because angles inside a triangle add up to 180 degrees.
+						because angles inside a triangle add up to 180&deg;.
 					</p>
 				</div>
 			</div>
