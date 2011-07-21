@@ -783,8 +783,6 @@ function makeProblem( id, seed ) {
 	} else {
 		problem = problemBag[ problemBagIndex ];
 		id = problem.data( "id" );
-
-		problemBagIndex = ( problemBagIndex + 1 ) % problemCount;
 	}
 
 	problemID = id;
