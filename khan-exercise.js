@@ -51,6 +51,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	rawHints,
 	hints,
 	
+	// The exercise elements
+	exercises,
+	
 	// Where we are in the shuffled list of problem types
 	problemBag,
 	problemBagIndex = 0,
@@ -607,9 +610,11 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 		function handleInject( html ) {
 			injectSite( html );
 			
+			exercises = jQuery( "body > .exercise" ).detach();
+			
 			// Prepare the "random" problems
 			if ( !testMode || !Khan.query.problem ) {
-				var problems = jQuery( "body > .exercise > .problems" ).children();
+				var problems = exercises.children( ".problems" ).children();
 
 				weighExercises( problems );
 				problemBag = makeProblemBag( problems, problemCount );
@@ -653,7 +658,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 // Add up how much total weight is in each exercise so we can adjust for
 // it later
 function weighExercises( problems ) {
-	if ( jQuery( "body > .exercise" ).length > 1 ) {
+	if ( exercises.length > 1 ) {
 		jQuery.map( problems, function( elem ) {
 			elem = jQuery( elem );
 
@@ -737,9 +742,6 @@ function makeProblemBag( problems, n ) {
 			})() );
 		}
 	}
-	
-	// Remove all the exercises from the page (they're no longer needed)
-	jQuery(".exercise").detach();
 
 	return bag;
 }
@@ -766,7 +768,7 @@ function makeProblem( id, seed ) {
 	}
 	
 	if ( typeof id !== "undefined" ) {
-		var problems = jQuery( "body > .exercise > .problems" ).children();
+		var problems = exercises.children( ".problems" ).children();
 
 		problem = /^\d+$/.test( id ) ?
 			// Access a problem by number
