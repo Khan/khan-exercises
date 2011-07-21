@@ -516,7 +516,7 @@ jQuery.extend({
 });
 
 // Check to see if we're in test mode
-if ( window.location.host === "localhost" || window.location.protocol === "file:" ) {
+if ( window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:" ) {
 	// Expose the variables if we're in test mode
 	jQuery.tmpl.VARS = VARS;
 }

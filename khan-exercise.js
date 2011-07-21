@@ -48,7 +48,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	problemCount = 10,
 	
 	// Check to see if we're in test mode
-	testMode = window.location.host === "localhost" || window.location.protocol === "file:";
+	testMode = window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:";
 
 // The main Khan Module
 var Khan = {
