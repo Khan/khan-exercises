@@ -412,8 +412,8 @@
 						<var id="SIMP_DENOM">A_DENOMINATOR / GCD</var>
 						<var id="SIMP_TABLES">createNBoxes( SIMP_WHOLENUM, null, null, 
 							"hint_box3_cell" )  
-							+ createHorizTable( SIMP_NUMER, SIMP_DENOM, null, null, 
-								"hint_box3_cell" )
+							+ (SIMP_NUMER ? createHorizTable( SIMP_NUMER, SIMP_DENOM, null, null, 
+								"hint_box3_cell" ) : "")
 						</var>					
 					</div>
 
@@ -538,12 +538,16 @@
 								by dividing both top and bottom by it's common denominator 
 								<var>GCD</var>.							
 							</p>
-							<p data-if="(A_NUMERATOR * B_NUMBER) > A_DENOMINATOR" >
+							<p data-if="(A_NUMERATOR * B_NUMBER) >= A_DENOMINATOR" >
 									We can further simplify the expression by dividing the 
 									numerator by the denominator, and taking the part that 
 									divided evenly out of the fraction and leave the 
 									remainder as a fraction. This makes the simplified answer 
 									<code><var>SIMPLIFIED</var></code>.
+							</p>
+							<p data-if="(A_NUMERATOR * B_NUMBER) < A_DENOMINATOR && 
+								GCD <= 1" >
+								This cannot be simplified any further.
 							</p>
 							<div id="problem2-hint3-box-div"  
 								style="display: position: relative;">
@@ -588,6 +592,7 @@
 										} );
 									} else {
 										jQuery( "#problem2-hint3-box-div2" ).css( 'opacity', 1 );
+										jQuery( "#problem2-hint3-box-div2" ).css( 'display', 'block' );
 									}
 								});
 							</script>
@@ -644,8 +649,8 @@
 						<var id="SIMP_DENOM">A_DENOMINATOR * B_DENOMINATOR / GCD</var>
 						<var id="SIMP_TABLES">createNBoxes( SIMP_WHOLENUM, null, null, 
 							"hint_box3_cell" )  
-							+ createHorizTable( SIMP_NUMER, SIMP_DENOM, null, null, 
-								"hint_box3_cell" )
+							+ (SIMP_NUMER ? createHorizTable( SIMP_NUMER, SIMP_DENOM, null, null, 
+								"hint_box3_cell" ) : "")
 						</var>
 					</div>
 
@@ -800,11 +805,16 @@
 								<var>GCD</var>.
 							</p>
 							<p data-if="(A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ) 
-								> (A_DENOMINATOR * B_DENOMINATOR)">								
+								>= (A_DENOMINATOR * B_DENOMINATOR)">								
 								We can further simplify the expression by dividing the numerator 
 								by the	denominator, and taking the part that evenly divided out 
 								of the fraction, while leaving the remainder in the fraction. 
 								This makes the simplified answer <code><var>SIMPLIFIED</var></code>.								
+							</p>
+							<p data-if="(A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ) 
+								< (A_DENOMINATOR * B_DENOMINATOR)
+								 &&	GCD <= 1" >
+								This cannot be simplified any further.
 							</p>
 							<div id="problem3-hint3-box-div" 
 								style="display: block; position: relative;"/>
@@ -846,8 +856,9 @@
 											} );
 											
 										} );
-									} else {
+									} else {										
 										jQuery( "#problem3-hint3-box-div2" ).css( 'opacity', 1 );
+										jQuery( "#problem3-hint3-box-div2" ).css( 'display', 'block' );
 									}									
 								});
 							</script>														
