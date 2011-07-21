@@ -962,7 +962,7 @@ function makeProblem( id, seed ) {
 
 	// Show the debug info
 	if ( testMode && Khan.query.debug != null ) {
-		jQuery( "body" ).keypress( function( e ) {
+		jQuery( document ).keypress( function( e ) {
 			if ( e.charCode === 104 ) {
 				jQuery("#hint").click();
 			}
@@ -1366,7 +1366,7 @@ function prepareSite() {
 			jQuery( "#next-question-button" ).trigger( "click" );
 		} );
 
-		jQuery( "body" ).keyup( function( e ) {
+		jQuery( document ).keyup( function( e ) {
 			if ( e.keyCode === "H".charCodeAt( 0 ) ) {
 				jQuery( "#hint" ).click();
 			}
