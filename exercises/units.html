@@ -25,7 +25,7 @@
 				<var id="END_POWER">randRangeExclude( -3, 3, [ 0, START_POWER ] )</var>
 				<var id="END_PREFIX">PREFIXES[ END_POWER + 3 ]</var>
 				<var id="END_UNIT">END_PREFIX.str + UNIT</var>
-				<var id="SOLUTION">roundTo( 3, QUANTITY * pow( 10, START_POWER - END_POWER) )</var>
+				<var id="SOLUTION">QUANTITY * pow( 10, START_POWER - END_POWER)</var>
 			</div>
 			<div class="question">How many <var>END_UNIT</var>s are in <var>QUANTITY + " " + START_UNIT</var>s?</div>
 			<div class="solution" data-type="decimal"><var>SOLUTION</var></div>
@@ -57,9 +57,9 @@
 					{ str: "foot", plural: "feet", multiplier: 12 },
 					{ str: "inch", plural: "inches", multiplier: 1 } ]</var>
 				<var id="T_UNITS">[
-					{ str: "hour", multiplier: 3600 },
-					{ str: "minute", multiplier: 60 },
-					{ str: "second", multiplier: 1 }
+					{ str: "hour", plural: "hours", multiplier: 3600 },
+					{ str: "minute", plural: "minutes", multiplier: 60 },
+					{ str: "second", plural: "seconds", multiplier: 1 }
 				]</var>
 				<var id="D_INDICES">shuffle( [0, 1, 2] )</var>
 				<var id="START_D_INDEX">D_INDICES.shift()</var>
@@ -74,8 +74,8 @@
 						var increment = (END_D_INDEX - START_D_INDEX) > 0 ? 1 : -1;
 						for ( var i = START_D_INDEX; i != END_D_INDEX; i += increment ) {
 							var factor = fractionReduce( D_UNITS[i].multiplier, D_UNITS[i + increment].multiplier );
-							var units = "\\dfrac{" + D_UNITS[i + increment].str + "}{" + D_UNITS[i].str + "}";
-							hint += "\\cdot" + factor + units;
+							var units = "\\dfrac{" + factor + "\\,\\text{" + D_UNITS[i + increment].plural + "}}{\\text{" + D_UNITS[i].str + "}}";
+							hint += "\\cdot" + units;
 						}
 						return hint;
 					})()
@@ -87,8 +87,8 @@
 						var increment = (END_T_INDEX - START_T_INDEX) > 0 ? 1 : -1;
 						for ( var i = START_T_INDEX; i != END_T_INDEX; i += increment ) {
 							var factor = fractionReduce( T_UNITS[i + increment].multiplier, T_UNITS[i].multiplier );
-							var units = "\\dfrac{" + T_UNITS[i].str + "}{" + T_UNITS[i + increment].str + "}";
-							hint += "\\cdot" + factor + units;
+							var units = "\\dfrac{" + factor + "\\,\\text{" + T_UNITS[i].plural + "}}{\\text{" + T_UNITS[i + increment].str + "}}";
+							hint += "\\cdot" + units;
 						}
 						return hint;
 					})()
@@ -109,15 +109,15 @@
 					})()
 
 					</var>
-				<var id="SOLUTION">roundTo( 3, SCALE * START_SPEED )</var>
+				<var id="SOLUTION">( SCALE * START_SPEED ).toFixed( 3 )</var>
 
 			</div>
 			<div class="question">An alien rocketship is traveling at a speed of <code><var>commafy( START_SPEED )</var></code> <var>D_UNITS[START_D_INDEX].plural</var> per <var>T_UNITS[START_T_INDEX].str</var>. At this speed, how many <var>D_UNITS[END_D_INDEX].plural</var> will it travel in 1 <var>T_UNITS[END_T_INDEX].str</var>? Round to the nearest thousandth.</div>
 
 			<div class="solution" data-type="decimal"><var>SOLUTION</var></div>
 			<div class="hints">
-				<p><code><var>commafy( START_SPEED )</var> \dfrac{<var>D_UNITS[START_D_INDEX].str</var>}{<var>T_UNITS[START_T_INDEX].str</var>} <var>D_HINT + " " + T_HINT</var></code></p>
-				<p><code>= <var>commafy( SOLUTION )</var> \dfrac{<var>D_UNITS[END_D_INDEX].str</var>}{<var>T_UNITS[END_T_INDEX].str</var>}</code></p>
+				<p><code><var>commafy( START_SPEED )</var> \dfrac{\text{<var>D_UNITS[START_D_INDEX].plural</var>}}{\text{<var>T_UNITS[START_T_INDEX].str</var>}} <var>D_HINT + " " + T_HINT</var></code></p>
+				<p><code>= <var>commafy( SOLUTION )</var> \dfrac{\text{<var>D_UNITS[END_D_INDEX].str</var>}}{\text{<var>T_UNITS[END_T_INDEX].str</var>}}</code></p>
 			</div>
 		</div>
 	</div>
