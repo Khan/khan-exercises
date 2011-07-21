@@ -472,8 +472,16 @@
 										// Scroll the hint into view.
 										scrollIntoView("#problem2-hint2-div");
 
-										// Get the <var>B_NUMBER</var> value.
-										var bNumber = jQuery.tmpl.VARS[ "B_NUMBER" ]
+										// Get the <var> value of B_NUMBER indirectly by 
+										// querying for generated boxes.
+										var bNumber = 1;
+										while( bNumber < 10 ) {											
+											if ( jQuery( "#box2-" + bNumber ).length < 1 ) {
+												break;
+											} else {
+												bNumber++;
+											}
+										}
 
 										// size parent div
 										jQuery( "#problem2-hint2-box-div" ).width( 400 );
@@ -656,8 +664,16 @@
 										// Scroll the hint into view.
 										scrollIntoView("#problem3-hint2-div");
 
-										// Get the <var> value of B_NUMBER
-										var bNumber = jQuery.tmpl.VARS[ "B_NUMBER" ]
+										// Get the <var> value of B_NUMBER indirectly by 
+										// querying for generated boxes.
+										var bNumber = 1;
+										while( bNumber < 10 ) {											
+											if ( jQuery( "#box2-" + bNumber ).length < 1 ) {
+												break;
+											} else {
+												bNumber++;
+											}
+										}
 
 										// size parent div
 										jQuery( "#problem2-hint2-box-div" ).width( 400 );
