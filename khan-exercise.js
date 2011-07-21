@@ -36,6 +36,10 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// The current validator function
 	validator,
 	
+	// Storing hint data for later
+	rawHints,
+	hints,
+	
 	// Where we are in the shuffled list of problem types
 	problemBag,
 	problemBagIndex = 0,
@@ -808,7 +812,7 @@ function makeProblem( problemID, seed ) {
 	});
 
 	// Remove and store hints to delay running modules on it
-	Khan.hints = problem.children( ".hints" ).remove();
+	hints = problem.children( ".hints" ).remove();
 
 	// Hide the raw hints
 	jQuery( "#rawhintsarea" ).hide();
@@ -869,7 +873,7 @@ function makeProblem( problemID, seed ) {
 	jQuery( "#workarea" ).append( problem );
 
 	// Save the raw hints so they can be modified later
-	Khan.rawHints = Khan.hints.clone()
+	rawHints = hints.clone()
 
 		// FIXME: Should apply templating here without rendering MathJax, but
 		// that's currently not possible.
@@ -879,7 +883,7 @@ function makeProblem( problemID, seed ) {
 		.children().get();
 
 	// Save the rendered hints so we can display them later
-	Khan.hints = Khan.hints
+	hints = hints
 
 		// Do all the templating
 		.tmpl()
@@ -887,7 +891,7 @@ function makeProblem( problemID, seed ) {
 		// Save as a normal JS array so we can use shift() on it later
 		.children().get();
 
-	if ( Khan.hints.length === 0 ) {
+	if ( hints.length === 0 ) {
 		// Disable the get hint button
 		jQuery("#hint").attr( "disabled", true );
 	}
@@ -1095,8 +1099,8 @@ function injectSite( html ) {
 	jQuery("#hint").click(function() {
 
 		// Get the first hint and render left in the parallel arrays
-		var hint = Khan.rawHints.shift(),
-			render = Khan.hints.shift(),
+		var hint = rawHints.shift(),
+			render = hints.shift(),
 			$hint = jQuery( hint ),
 			$render = jQuery( render );
 
@@ -1131,7 +1135,7 @@ function injectSite( html ) {
 
 			}
 
-			if ( Khan.hints.length === 0 ) {
+			if ( hints.length === 0 ) {
 				// Disable the get hint button
 				jQuery( this ).attr( "disabled", true );
 			}
