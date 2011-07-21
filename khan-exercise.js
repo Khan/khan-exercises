@@ -507,20 +507,20 @@ Khan.loadScripts( scripts, function() {
 	=============================================================================== 
 	*/
 	
-    /* Number */ 
-    function crc32( /* String */ str, /* Number */ crc ) { 
-        if( crc == window.undefined ) crc = 0; 
-        var n = 0; //a number between 0 and 255 
-        var x = 0; //an hex number 
+	/* Number */ 
+	function crc32( /* String */ str, /* Number */ crc ) { 
+		if( crc == window.undefined ) crc = 0; 
+		var n = 0; //a number between 0 and 255 
+		var x = 0; //an hex number 
 
-        crc = crc ^ (-1); 
-        for( var i = 0, iTop = str.length; i < iTop; i++ ) { 
-            n = ( crc ^ str.charCodeAt( i ) ) & 0xFF; 
-            x = "0x" + table.substr( n * 9, 8 ); 
-            crc = ( crc >>> 8 ) ^ x; 
-        } 
-        return Math.abs( crc ^ (-1) ); 
-    }
+		crc = crc ^ (-1); 
+		for( var i = 0, iTop = str.length; i < iTop; i++ ) { 
+			n = ( crc ^ str.charCodeAt( i ) ) & 0xFF; 
+			x = "0x" + table.substr( n * 9, 8 ); 
+			crc = ( crc >>> 8 ) ^ x; 
+		} 
+		return Math.abs( crc ^ (-1) ); 
+	}
 
 	var remoteCount = 0;
 
