@@ -265,7 +265,7 @@
 								"below" );
 							arc( [0, 3], 1.5, 230, 310, { stroke: "purple" } );
 
-							label( [-4.7, -2], "\\color{blue}{\\angle{DAB}}=?", 
+							ORIGINAL_LABEL = label( [-4.7, -2], "\\color{blue}{\\angle{DAB}}=?", 
 								"above left" );
 							arc( [-4, -2], .75, 50, 180, { stroke: "blue" } );
 						} else {
@@ -277,7 +277,7 @@
 								"below" );
 							arc( [0, 3], 1.5, 230, 310, { stroke: "purple" } );
 
-							label( [2.80, -2], "\\color{blue}{\\angle{ACB}} = ?", 
+							ORIGINAL_LABEL = label( [2.80, -2], "\\color{blue}{\\angle{ACB}} = ?", 
 								"above left" );
 							arc( [4, -2], 1.2, 130, 180, { stroke: "blue" } );
 						}
@@ -346,6 +346,12 @@
 								<var>Tri_Y + Tri_Z</var>&deg;
 						</code>, 
 						because supplementary angles along a line add up to 180&deg;
+						<span class="graphie" data-update="supplementary-and-triangle">
+							ORIGINAL_LABEL.remove();
+							label( [-4.7, -2], 
+								"\\color{blue}{\\angle{DAB}} = <var>Tri_Y + Tri_Z</var>&deg;", 
+								"above left" );
+						</span>
 
 					</p>
 					<p data-else>
@@ -355,6 +361,12 @@
 								<var>Tri_Y</var>&deg;
 						</code>,
 						because angles inside a triangle add up to 180&deg;.
+						<span class="graphie" data-update="supplementary-and-triangle">
+							ORIGINAL_LABEL.remove();
+							label( [2.80, -2], 
+								"\\color{blue}{\\angle{ACB}} = <var>Tri_Y</var>&deg;", 
+								"above left" );
+						</span>
 					</p>
 				</div>
 			</div>
@@ -363,7 +375,7 @@
 				<div class="problem">
 					<div class="graphie" id="parallel-and-triangle">
 						init( {
-							range: [[-10, 10], [-10, 10]],
+							range: [[-9, 9.5], [-8.5, 9.5]],
 							scale: [30, 30]
 						});
 
@@ -404,7 +416,8 @@
 
 						//draw given angles
 						if( RAND3 == 0 ) {
-							label( [0, -2.50], "\\color{blue}{\\angle{AIH}} = ?", "left" );
+							ORIGINAL_LABEL = label( [0, -2.50], 
+								"\\color{blue}{\\angle{AIH}} = ?", "left" );
 							arc( [1.25, -3], .75, 135, 190, {stroke: "blue"} );
 
 							label( [-4.2, 4.25], "\\color{green}{<var>Tri_Z</var>&deg;}", "below" );
@@ -414,7 +427,8 @@
 								"above right" );
 							arc( [-6, -4], 1, 10, 80, {stroke: "purple"} );
 						} else if( RAND3 == 1 ) {
-							label( [3.5, -2.6], "\\color{blue}{\\angle{AKJ}} = ?", "above" );
+							ORIGINAL_LABEL = label( [3.5, -2.6], 
+								"\\color{blue}{\\angle{AKJ}} = ?", "above" );
 							arc( [5.7, -2.3], 0.75, 139, 194, {stroke: "blue"} );
 
 							label( [-4.4, 0.65], "\\color{green}{<var>Tri_Z</var>&deg;}", "below" );
@@ -424,7 +438,8 @@
 								"above right" );
 							arc( [-6, -4], 1, 10, 80, {stroke: "purple"} );
 						} else {
-							label( [-5.5, -3.5], "\\color{blue}{\\angle{BAC}} = ?", "above right" );
+							ORIGINAL_LABEL = label( [-5.5, -3.5], 
+								"\\color{blue}{\\angle{BAC}} = ?", "above right" );
 							arc( [-6, -4], 1, 10, 80, {stroke: "blue"} );
 
 							label( [4.1, -2.6], "\\color{purple}{<var>Tri_Y</var>&deg;}", "above" );
@@ -502,8 +517,26 @@
 						</code>,
 						because the 3 angles are contained in <code>\triangle{AHI}</code>. 
 						Angles inside a triangle add up to 180&deg;.
+						<span class="graphie" data-update="parallel-and-triangle">
+							ORIGINAL_LABEL.remove();
+							label( [0, -2.50], 
+								"\\color{blue}{\\angle{AIH}} = <var>180 - Tri_X - Tri_Z</var>&deg;", 
+								"left" ); 
+						</span>
 					</p>
 					<p data-else>
+						<span class="graphie" data-update="parallel-and-triangle">
+							ORIGINAL_LABEL.remove(); 
+							if ( RAND3 === 1 ) {
+								label( [3.5, -2.6], 
+									"\\color{blue}{\\angle{AKJ}} = <var>Tri_Y</var>&deg;", 
+									"above" );
+							} else {
+								label( [-5.5, -3.5], 
+									"\\color{blue}{\\angle{BAC}} = <var>Tri_X</var>&deg;", 
+									"above right" );
+							}
+						</span>
 						<code data-if="RAND3 === 1">
 							\color{blue}{\angle{AKJ}} = 
 								180&deg; - \color{orange}{\angle{AJK}} - \color{purple}{\angle{BAC}} = 
@@ -512,7 +545,7 @@
 						<code data-else>
 							\color{blue}{\angle{BAC}} = 
 								180&deg; - \color{orange}{\angle{AJK}} - \color{purple}{\angle{AKJ}} = 
-								<var>Tri_X</var>&deg; 
+								<var>Tri_X</var>&deg;
 						</code>, 
 						because the 3 angles are contained in <code>\triangle{AJK}</code>. 
 						Angles inside a triangle add up to 180&deg;.
