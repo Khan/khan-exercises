@@ -58,17 +58,17 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		"issues": 0
 	},
 	
-    urlBase = testMode ? "../" : "/khan-exercises/";
+	urlBase = testMode ? "../" : "/khan-exercises/";
 
 // Add in the site stylesheets
 (function(){
 
-    if (testMode) {
-    	var link = document.createElement("link");
-	    link.rel = "stylesheet";
-    	link.href = urlBase + "css/khan-site.css";
-	    document.getElementsByTagName('head')[0].appendChild(link);
-    }
+	if (testMode) {
+		var link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.href = urlBase + "css/khan-site.css";
+		document.getElementsByTagName('head')[0].appendChild(link);
+	}
 	
 	link = document.createElement("link");
 	link.rel = "stylesheet";
@@ -596,36 +596,36 @@ Khan.loadScripts( scripts, function() {
 			jQuery(function() {
 				// Inject the site markup, if it doesn't exist
 				if ( jQuery("#answer_area").length === 0 ) {
-                    jQuery.ajax( {
-                        url: urlBase + "exercises/khan-site.html",
-                        dataType: "html",
-                        success: function( html ) {
+					jQuery.ajax( {
+						url: urlBase + "exercises/khan-site.html",
+						dataType: "html",
+						success: function( html ) {
 
-                            jQuery.ajax( {
-                                url: urlBase + "exercises/khan-exercise.html",
-                                dataType: "text",
-                                success: function( htmlExercise ) {
+							jQuery.ajax( {
+								url: urlBase + "exercises/khan-exercise.html",
+								dataType: "text",
+								success: function( htmlExercise ) {
 
-                                    handleInject( html, htmlExercise );
+									handleInject( html, htmlExercise );
 
-                                }
-                            });
+								}
+							});
 
-                        }
-                    });
+						}
+					});
 				} else {
-                    postInject();
-                }
+					postInject();
+				}
 			});
 		});
 		
 		function handleInject( html, htmlExercise ) {
 			injectSite( html, htmlExercise );
-            postInject();
-        };
+			postInject();
+		};
 
-        function postInject() {
-            prepareSite();
+		function postInject() {
+			prepareSite();
 
 			// Prepare the "random" problems
 			if ( !testMode || !Khan.query.problem ) {
@@ -783,7 +783,7 @@ function makeProblem( id, seed ) {
 	}
 	
 	if ( typeof id !== "undefined" ) {
-        var problems = exercises.children( ".problems" ).children();
+		var problems = exercises.children( ".problems" ).children();
 
 		problem = /^\d+$/.test( id ) ?
 			// Access a problem by number
@@ -1035,19 +1035,19 @@ function makeProblem( id, seed ) {
 
 function injectSite( html, htmlExercise ) {
 	jQuery("body").prepend( html );
-    jQuery("#container").html( htmlExercise );
+	jQuery("#container").html( htmlExercise );
 }
 
 function prepareSite() {
 	
-    // Set exercise title
+	// Set exercise title
 	jQuery(".exercise-title").text( typeof userExercise !== "undefined" ? userExercise.exercise_model.display_name : document.title );
 
 	exercises = jQuery( ".exercise" ).detach();
 
-    // Setup appropriate img URLs
-    jQuery("#sad").attr("src", urlBase + "css/images/face-sad.gif");
-    jQuery("#happy").attr("src", urlBase + "css/images/face-smiley.gif");
+	// Setup appropriate img URLs
+	jQuery("#sad").attr("src", urlBase + "css/images/face-sad.gif");
+	jQuery("#happy").attr("src", urlBase + "css/images/face-smiley.gif");
 
 	// Hide exercies summaries for now
 	// Will figure out something more elegant to do with them once the new
