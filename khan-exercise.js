@@ -1,3 +1,5 @@
+var Khan = (function() {
+
 // Add in the site stylesheets
 (function(){
 	var link = document.createElement("link");
@@ -29,7 +31,13 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	jumpNum,
 
 	// The number of the current problem that we're on
-	problemNum;
+	problemNum,
+	
+	// The current validator function
+	validator,
+	
+	// Check to see if we're in test mode
+	testMode = window.location.host === "localhost" || window.location.protocol === "file:";
 
 // The main Khan Module
 var Khan = {
@@ -277,7 +285,7 @@ var Khan = {
 	makeProblemBag: function( problems, n ) {
 		var bag = [], totalWeight = 0;
 
-		if ( Khan.query.test != null ) {
+		if ( testMode && Khan.query.test != null ) {
 			// Just do each problem 10 times
 			jQuery.each( problems, function( i, elem ) {
 				elem = jQuery( elem );
@@ -350,7 +358,7 @@ var Khan = {
 		
 		// Otherwise set the seed from the problem number
 		// Only do so if we're not in test mode and if we have a username
-		} else if ( Khan.query.test == null && user != null ) {
+		} else if ( (!testMode || Khan.query.test == null) && user != null ) {
 			Khan.randomSeed = problemNum;
 		}
 
@@ -466,10 +474,10 @@ var Khan = {
 		// Generate a type of problem
 		// (this includes possibly generating the multiple choice problems,
 		//  if this fails then we will need to try generating another one.)
-		Khan.validator = Khan.answerTypes[answerType]( solutionarea, solution );
+		validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
 		// A working solution was not generated
-		if ( !Khan.validator ) {
+		if ( !validator ) {
 			// Making the problem failed, let's try again
 			Khan.makeProblem( problemID, seed );
 			return;
@@ -512,7 +520,7 @@ var Khan = {
 		}
 
 		// Save problem info in dump data for testers
-		if ( Khan.query.test != null ) {
+		if ( testMode && Khan.query.test != null ) {
 			var testerInfo = jQuery( "#tester-info" );
 
 			// Deep clone the elements to avoid some straaaange bugs
@@ -520,7 +528,7 @@ var Khan = {
 				seed: Khan.problemSeed,
 				type: problemID,
 				VARS: jQuery.tmpl.VARS,
-				solution: Khan.validator.solution
+				solution: validator.solution
 			} );
 
 			Khan.dataDump.problems.push( lastProblem );
@@ -530,7 +538,7 @@ var Khan = {
 
 			var answer = jQuery( testerInfo ).find( ".answer" ).empty();
 
-			var displayedSolution = Khan.validator.solution;
+			var displayedSolution = validator.solution;
 			if ( !jQuery.isArray( displayedSolution ) ) {
 				displayedSolution = [ displayedSolution ];
 			}
@@ -541,7 +549,7 @@ var Khan = {
 		}
 
 		// Show the debug info
-		if ( Khan.query.debug != null ) {
+		if ( testMode && Khan.query.debug != null ) {
 			jQuery( "body" ).keypress( function( e ) {
 				if ( e.charCode === 104 ) {
 					jQuery("#hint").click();
@@ -628,7 +636,7 @@ var Khan = {
 		jQuery("#answerform").submit( handleSubmit );
 		
 		function handleSubmit( e ) {
-			var pass = Khan.validator();
+			var pass = validator();
 			
 			// Figure out if the response was correct
 			if ( pass ) {
@@ -639,7 +647,7 @@ var Khan = {
 				// Toggle the navigation buttons
 				jQuery("#check-answer-button").hide();
 				
-				if ( Khan.query.test == null ) {
+				if ( !testMode || Khan.query.test == null ) {
 					jQuery("#next-container").show().find("input").focus();
 				}
 				
@@ -679,7 +687,7 @@ var Khan = {
 				Khan.scratchpad.clear();
 			}
 
-			if ( Khan.query.test != null && Khan.dataDump.problems.length + Khan.dataDump.issues >= Khan.problemCount ) {
+			if ( testMode && Khan.query.test != null && Khan.dataDump.problems.length + Khan.dataDump.issues >= Khan.problemCount ) {
 				// Show the dump data
 				jQuery( "#problemarea" ).append(
 					"<p>Thanks! You're all done testing this exercise.</p>" +
@@ -813,7 +821,7 @@ var Khan = {
 			});
 
 		// Prepare for the tester info if requested
-		if ( Khan.query.test != null ) {
+		if ( testMode && Khan.query.test != null ) {
 			jQuery( "#answer_area" ).prepend(
 				'<div id="tester-info" class="info-box">' +
 					'<span class="info-box-header">Testing Mode</span>' +
@@ -937,7 +945,7 @@ var Khan = {
 		}
 
 		// Prepare for the debug info if requested
-		if ( Khan.query.debug != null ) {
+		if ( testMode && Khan.query.debug != null ) {
 			jQuery( '<div id="debug"></div>' ).appendTo( "#answer_area" );
 		}
 	}
@@ -949,9 +957,6 @@ Khan.query = Khan.queryString();
 // Seed the random number generator
 Khan.randomSeed = parseFloat( Khan.query.seed ) || ( new Date().getTime() & 0xffffffff );
 
-// Make this publicly accessible
-var KhanUtil = Khan.Util;
-
 // Load in jQuery
 Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" } ], function() {
 
@@ -960,22 +965,23 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 
 	Khan.require( document.documentElement.getAttribute("data-require") );
 	
-	var server = "http://khan-masterslave.appspot.com",
-		staticServer = "http://www.khanacademy.org",
-		exerciseName = (/([^\/]+).html$/.exec( window.location ) || [])[1],
+	var server = "http://localhost:8080",
+		exerciseName = (/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1],
 		hintUsed,
-		problemStarted,
+		lastAction,
+		doHintSave,
 		doSave,
-		doHintSave,		
+		attempts,
 		once = true;
 	
 	jQuery(Khan).bind({
 		// The user is generating a new problem
 		newProblem: function() {
-			doSave = true;
 			doHintSave = true;
+			doSave = true;
 			hintUsed = false;
-			problemStarted = (new Date).getTime();
+			attempts = 0;
+			lastAction = (new Date).getTime();
 			
 			if ( once ) {
 				updateData();
@@ -985,30 +991,44 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 		
 		// The user checked to see if an answer was valid
 		checkAnswer: function( e, pass ) {
-			if ( !doSave ) {
-				return;
-			}
-			
 			// Build the data to pass to the server
-			var data = {
-				// The user answered correctly
-				correct: pass ? 1 : 0,
+			var curTime = (new Date).getTime(),
+				data = {
+					// The user answered correctly
+					complete: pass ? 1 : 0,
 			
-				// The user used a hint
-				hint_used: hintUsed ? 1 : 0,
+					// The user used a hint
+					hint_used: hintUsed ? 1 : 0,
 			
-				// How long it took them to complete the problem
-				time_taken: Math.round(((new Date).getTime() - problemStarted) / 1000)
-			};
+					// How long it took them to complete the problem
+					time_taken: Math.round((curTime - lastAction) / 1000),
+					
+					// How many times the problem was attempted
+					attempt_number: ++attempts,
+					
+					// The answer the user gave
+					// TODO: Get the real provided answer
+					attempt_content: validator.guess,
+					
+					// A hash representing the exercise
+					// TODO: Populate this from somewhere
+					sha1: exerciseName,
+					
+					// The seed that was used for generating the problem
+					seed: Khan.problemSeed
+				};
 		
 			// Save the problem results to the server
-			request( "problem/" + problemNum + "/complete", data, function() {
+			request( "problems/" + (getData().total_done + 1) + "/attempt", data, function() {
 				// TODO: Save locally if offline
 				jQuery(Khan).trigger( "answerSaved" );
 			});
 			
-			// Make sure we don't save the result to the server more than once
+			// Make sure hint streak breaking is handled correctly
 			doSave = false;
+			
+			// Remember when the last action was
+			lastAction = curTime;
 		},
 		
 		// A user revealed a hint
@@ -1027,28 +1047,20 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 		}
 	});
 	
-	// TODO: Do this when I get the initial user/exercises response back from the server
-	
-	if ( user != null ) {
-		// How far to jump through the problems
-		jumpNum = primes[ crc32( user ) % primes.length ];
-	
-		// The starting problem of the user
-		problemNum = crc32( user ) % bins;
-	
-		// Advance to the current problem seed
-		nextProblem( getData().total_done );
-	}
-	
-	// Load in video list from the API
+	// Load in the exercise data from the server
 	jQuery.ajax({
 		// Do a request to the server API
-		url: staticServer + "/api/v1/exercises/" + exerciseName + "/videos",
+		url: server + "/api/v1/user/exercises/" + exerciseName,
 		type: "GET",
 		dataType: "json",
-	
-		// Display all the related videos
-		success: function( videos ) {
+		
+		// Make sure cookies are passed along
+		xhrFields: { withCredentials: true },
+		
+		success: function( data ) {
+			// Display all the related videos
+			var videos = data.exercise_model.related_videos;
+			
 			if ( videos && videos.length ) {
 				jQuery.each( videos, function( i, video ) {
 					jQuery("<li><a href='" + video.ka_url + "'><span class='video-title'>" +
@@ -1057,6 +1069,20 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 				});
 			
 				jQuery(".related-content, #related-video-content").show();
+			}
+			
+			// Update the local data store
+			updateData( data );
+			
+			if ( user != null ) {
+				// How far to jump through the problems
+				jumpNum = primes[ crc32( user ) % primes.length ];
+
+				// The starting problem of the user
+				problemNum = crc32( user ) % bins;
+
+				// Advance to the current problem seed
+				nextProblem( getData().total_done );
 			}
 		}
 	});
@@ -1153,7 +1179,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
             x = "0x" + table.substr( n * 9, 8 ); 
             crc = ( crc >>> 8 ) ^ x; 
         } 
-        return crc ^ (-1); 
+        return Math.abs( crc ^ (-1) ); 
     }
 
 	var remoteCount = 0;
@@ -1310,6 +1336,16 @@ function nextProblem( num ) {
 			problemNum -= 200;
 		}
 		
+		// Go to the next problem type in the problem bag
+		problemBagIndex++;
+		
 		nextProblem( num - 1 );
 	}
 }
+
+return Khan;
+
+})();
+
+// Make this publicly accessible
+var KhanUtil = Khan.Util;
