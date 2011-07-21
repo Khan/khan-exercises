@@ -25,7 +25,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	randomSeed,
 
 	// Get the username of the user
-	user = typeof userExercise !== "undefined" ? userExercise.user : (window.localStorage["exercise:lastUser"] || null),
+	user = window.localStorage["exercise:lastUser"] || null,
 
 	// How far to jump through the problems
 	jumpNum,
@@ -379,45 +379,53 @@ Khan.loadScripts( scripts, function() {
 		}
 	});
 	
-	// Load in the exercise data from the server
-	jQuery.ajax({
-		// Do a request to the server API
-		url: server + "/api/v1/user/exercises/" + exerciseName,
-		type: "GET",
-		dataType: "json",
-		
-		// Make sure cookies are passed along
-		xhrFields: { withCredentials: true },
-		
-		success: function( data ) {
-			// Display all the related videos
-			var videos = data.exercise_model.related_videos;
+	if (typeof userExercise !== "undefined") {
+		prepareUserExercise(userExercise);
+	} else {
+		// Load in the exercise data from the server
+		jQuery.ajax({
+			// Do a request to the server API
+			url: server + "/api/v1/user/exercises/" + exerciseName,
+			type: "GET",
+			dataType: "json",
 			
-			if ( videos && videos.length ) {
-				jQuery.each( videos, function( i, video ) {
-					jQuery("<li><a href='" + video.ka_url + "'><span class='video-title'>" +
-						video.title + "</span></a></li>")
-							.appendTo(".related-video-list");
-				});
+			// Make sure cookies are passed along
+			xhrFields: { withCredentials: true },
 			
-				jQuery(".related-content, #related-video-content").show();
+			success: function( data ) {
+				prepareUserExercise(data);
 			}
-			
-			// Update the local data store
-			updateData( data );
-			
-			if ( user != null ) {
-				// How far to jump through the problems
-				jumpNum = primes[ crc32( user ) % primes.length ];
+		});
+	}
 
-				// The starting problem of the user
-				problemNum = crc32( user ) % bins;
-
-				// Advance to the current problem seed
-				nextProblem( getData().total_done );
-			}
+	function prepareUserExercise( data ) {
+		// Display all the related videos
+		var videos = data.exercise_model.related_videos;
+		
+		if ( videos && videos.length ) {
+			jQuery.each( videos, function( i, video ) {
+				jQuery("<li><a href='" + video.ka_url + "'><span class='video-title'>" +
+					video.title + "</span></a></li>")
+						.appendTo(".related-video-list");
+			});
+		
+			jQuery(".related-content, #related-video-content").show();
 		}
-	});
+		
+		// Update the local data store
+		updateData( data );
+		
+		if ( user != null ) {
+			// How far to jump through the problems
+			jumpNum = primes[ crc32( user ) % primes.length ];
+
+			// The starting problem of the user
+			problemNum = crc32( user ) % bins;
+
+			// Advance to the current problem seed
+			nextProblem( getData().total_done );
+		}
+	};
 	
 	function request( method, data, fn ) {
 		jQuery.ajax({
