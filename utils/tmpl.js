@@ -222,6 +222,12 @@ if ( typeof KhanUtil !== "undefined" ) {
 // Reinitialize VARS for each problem
 jQuery.fn.tmplLoad = function() {
 	VARS = {};
+	
+	// Check to see if we're in test mode
+	if ( window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:" ) {
+		// Expose the variables if we're in test mode
+		jQuery.tmpl.VARS = VARS;
+	}
 };
 
 jQuery.fn.tmpl = function() {
@@ -514,11 +520,5 @@ jQuery.extend({
 		}
 	}
 });
-
-// Check to see if we're in test mode
-if ( window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:" ) {
-	// Expose the variables if we're in test mode
-	jQuery.tmpl.VARS = VARS;
-}
 
 })();
