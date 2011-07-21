@@ -457,7 +457,7 @@ Khan.loadScripts( scripts, function() {
 	function updateData( data ) {
 		// Make sure we have current data
 		data = data || getData();
-		
+
 		// Change users, if needed
 		user = data.user;
 		
@@ -1049,6 +1049,15 @@ function prepareSite() {
 	jQuery("#sad").attr("src", urlBase + "css/images/face-sad.gif");
 	jQuery("#happy").attr("src", urlBase + "css/images/face-smiley.gif");
 
+	if (typeof userExercise !== "undefined" && userExercise.read_only) {
+		jQuery( "#answercontent" ).hide();
+
+		jQuery( "#readonly" )
+			.find( "#readonly-problem" ).text("Problem #" + (userExercise.total_done + 1)).end()
+			.find( "#readonly-start" ).attr("href", "/exercises?exid=" + userExercise.exercise).end()
+			.show();
+	}
+
 	// Hide exercies summaries for now
 	// Will figure out something more elegant to do with them once the new
 	// framework is shipped and we can worry about rounding out the summaries
@@ -1060,12 +1069,12 @@ function prepareSite() {
 	
 	function handleSubmit( e ) {
 		var pass = validator();
-		
+
 		// Stop if the user didn't enter a response
 		if ( jQuery.trim( validator.guess ) === "" ) {
 			return false;
 		}
-		
+
 		// Figure out if the response was correct
 		if ( pass ) {
 			// Show a congratulations message

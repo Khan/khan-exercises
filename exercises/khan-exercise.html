@@ -13,7 +13,7 @@
         Addition 1
     </div>
     <div id="streak-bar-container">
-        <div class="streak-bar">
+        <div class="streak-bar" title="Current streak: 0, Longest streak: 0">
             <div class="longest-streak">
                 <div class="current-streak">
                     <ul class="unit-rating" style="width:228px;">
@@ -50,7 +50,7 @@
     <div id="rawhintsarea"></div>
     <div id="answer_area">
         <form id="answerform" action="/registeranswer" method="get" name="answerform">
-            <div class="info-box fancy-scrollbar">
+            <div id="answercontent" class="info-box fancy-scrollbar">
                 <span class="info-box-header">Answer</span>
                 <div id="solution"></div>
                 <input type="button" class="button green" id="check-answer-button" tabindex="10" value="Check Answer"/>
@@ -63,6 +63,11 @@
                     <img id="sad" style="display: none;"/>
                     <img id="happy" style="display: none;"/>
                 </span> <!-- TODO: 'One-time warning: Using a hint will erase your streak.\nAre you sure you want to continue?' -->
+            </div>
+            <div id="readonly" class="info-box" style="display:block;">
+                <span id="readonly-problem" class="info-box-header"></span>
+                <span id="readonly-title" class="info-box-subheader">You are viewing a problem.</span>
+                <span class="info-box-sub-description">You will not lose your streak by using the hints. To work on problems like this, <a id="readonly-start" href="">start this exercise</a>.</span>
             </div>
             <div class="info-box">
                 <span class="info-box-header">Need Help?</span>

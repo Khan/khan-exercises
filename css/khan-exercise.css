@@ -30,6 +30,8 @@ table.limit th, td { padding: 5px; }
 table.limit th:first-child { text-align: right; }
 
 #answer_area input[type=text] { width: 80px;	}
+#readonly { display: none; }
+
 .radical { font-size: 125%; padding-left: 6px; }
 .radical span { font-size: 80%; border-top: 2px solid #000; padding: 4px 1px 0 3px; }
 
