@@ -25,7 +25,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	randomSeed,
 
 	// Get the username of the user
-	user = window.localStorage["exercise:lastUser"] || null,
+	user = typeof userExercise !== "undefined" ? userExercise.user : (window.localStorage["exercise:lastUser"] || null),
 
 	// How far to jump through the problems
 	jumpNum,
