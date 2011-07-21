@@ -242,6 +242,11 @@
 	</head>
 	<body>
 		<div class="exercise">
+			<div class="vars">
+				<!-- Detect MS Internet explorer.  So we can avoid serving CSS
+					 animations, and serve alternate text hints. -->
+				<var id="ISMSIE">(navigator.userAgent.indexOf('MSIE') !=-1)</var>
+			</div>
 			<div class="problems">
 
 				<div id="fraction-with-fraction">
@@ -332,12 +337,13 @@
 						</div> <!-- End of hint 1 -->
 
 						<div id="problem1-hint2-div">
-							<p>
-								Notice the total number of boxes in the grid equal to
+							<p data-if="ISMSIE == false">
+								If we overlay one on top of the other, notice the total number 
+								of boxes in the grid equal to
 							 	<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var> 
 									= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>, 
 								the product of the denominators.  
-								The number of boxes where the 2 intersect is equal to 
+								The number of boxes where the two intersect is equal to 
 								<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var>
 									= <var>A_NUMERATOR * B_NUMERATOR</var></code>, the product of the 2 numerators.  
 								So our unsimplified answer is: 
@@ -346,7 +352,22 @@
 									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
 								</code>.
 							</p>
-							<div id="problem1-hint2-box-p" 
+							<p data-else>
+								We can calculate the new denominator by the product of the 
+								denominators of the two numbers.
+							 	<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var> 
+									= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>.  
+								The new numerator is equal to 
+								<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var>
+									= <var>A_NUMERATOR * B_NUMERATOR</var></code>, 
+								the product of multiplying the 2 numerators.  
+								So our unsimplified answer is: 
+								<code>
+									\frac{<var>A_NUMERATOR * B_NUMERATOR</var>}
+									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
+								</code>.
+							</p>
+							<div id="problem1-hint2-box-p" data-if="ISMSIE == false"
 								style="display: block; position: relative; height:220px;">
 
 								<var>TABLE_A_HINT</var>
@@ -474,7 +495,7 @@
 						</div>
 
 						<div id="problem2-hint2-div">
-							<p>
+							<p data-if="ISMSIE == false">
 								Notice that if we count overlapping boxes, we have 
 								<code><var>A_NUMERATOR</var> \times <var>B_NUMBER</var>
 									= <var>A_NUMERATOR * B_NUMBER</var></code>
@@ -486,12 +507,25 @@
 									\frac{<var>A_NUMERATOR * B_NUMBER</var>}{<var>A_DENOMINATOR</var>}
 								</code>.
 							</p>
-							<div id="problem2-hint2-box-div" 
+							<p data-else>
+								We can calculate the new numerator by  multiplying the numerator 
+								of the first number with the 2nd number, 
+								<code><var>A_NUMERATOR</var> \times <var>B_NUMBER</var>
+									= <var>A_NUMERATOR * B_NUMBER</var></code>.
+								We can then just take the denominator of the first number,
+								<var>A_DENOMINATOR</var>}</code>, because <var>B_NUMBER</var> is 
+								equivalent to <code>\frac{<var>B_NUMBER</var>}{1}</code>.
+								This makes the unsimplified answer 
+								<code>
+									\frac{<var>A_NUMERATOR * B_NUMBER</var>}{<var>A_DENOMINATOR</var>}
+								</code>.
+							</p>
+							<div id="problem2-hint2-box-div" data-if="ISMSIE == false"
 								style="display: block; position: relative; height:220px;">
 								<var>TABLE_A_HINT</var>
 								<var>TABLES_B_HINT</var>
 
-								<script type="text/javascript">
+								<script type="text/javascript" data-if="ISMSIE == false">
 									jQuery(document).ready(function(){
 										// Scroll the hint into view.
 										scrollIntoView("#problem2-hint2-div");
@@ -549,13 +583,14 @@
 								GCD <= 1" >
 								This cannot be simplified any further.
 							</p>
-							<div id="problem2-hint3-box-div"  
+							<div id="problem2-hint3-box-div"  data-if="ISMSIE == false"
 								style="display: position: relative;">
 							</div>
-							<div id="problem2-hint3-box-div2" style="display:none">
+							<div id="problem2-hint3-box-div2" style="display:none"
+								data-if="ISMSIE == false">
 								<var>SIMP_TABLES</var>
 							</div>
-							<script type="text/javascript">
+							<script type="text/javascript" data-if="ISMSIE == false">
 								jQuery(document).ready(function(){
 									// Get the <var> value of B_NUMBER indirectly by 
 									// querying for generated boxes.
@@ -724,7 +759,7 @@
 						</div>
 
 						<div id="problem3-hint2-div">
-							<p>
+							<p data-if="ISMSIE == false">
 								Notice that if we count overlapping boxes, we have 
 								<code>
 									<var>A_NUMERATOR</var> \times 
@@ -748,12 +783,33 @@
 									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
 								</code>.
 							</p>
-							<div id="problem3-hint2-box-div" 
+							<p data-else>
+								We can calculate the new numerator by multiplying the the 
+								numerators of the two numbers together, 
+								<code>
+									<var>A_NUMERATOR</var> \times 
+									<var>B_NUMBER * B_DENOMINATOR + B_NUMERATOR</var>
+									= 
+									<var>A_NUMERATOR * 
+										(B_NUMBER * B_DENOMINATOR + B_NUMERATOR)</var>
+								</code>.
+								We can then calculate the new denominator by multiple the two 
+								denominators together,
+								<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
+								= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>.
+								This gives us the unsimplified answer of 
+								<code>
+									\frac{<var>A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR 
+										+ B_NUMERATOR)</var>}
+									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
+								</code>.
+							</p>
+							<div id="problem3-hint2-box-div"  data-if="ISMSIE == false"
 								style="display: block; position: relative; height:220px;">
 								<var>TABLE_A_HINT</var>
 								<var>TABLES_B_HINT</var>
 	
-								<script type="text/javascript">
+								<script type="text/javascript" data-if="ISMSIE == false">
 									jQuery(document).ready(function(){
 										// Scroll the hint into view.
 										scrollIntoView("#problem3-hint2-div");
@@ -816,12 +872,13 @@
 								 &&	GCD <= 1" >
 								This cannot be simplified any further.
 							</p>
-							<div id="problem3-hint3-box-div" 
+							<div id="problem3-hint3-box-div" data-if="ISMSIE == false"
 								style="display: block; position: relative;"/>
-							<div id="problem3-hint3-box-div2" style="display:none">
+							<div id="problem3-hint3-box-div2" style="display:none"
+								data-if="ISMSIE == false">
 								<var>SIMP_TABLES</var>
 							</div>							
-							<script type="text/javascript">
+							<script type="text/javascript" data-if="ISMSIE == false">
 								jQuery(document).ready(function(){
 									// Get the <var> value of B_NUMBER indirectly by 
 									// querying for generated boxes.
