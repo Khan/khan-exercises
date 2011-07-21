@@ -1,6 +1,9 @@
-jQuery.tmpl = {
-	VARS: {},
+(function() {
 
+// Keep the template variables private, to prevent external access
+var VARS = {};
+
+jQuery.tmpl = {
 	// Processors that act based on element attributes
 	attr: {
 		"data-ensure": function( elem, ensure ) {
@@ -67,8 +70,8 @@ jQuery.tmpl = {
 					pos: match[2],
 
 					// Save the values of the iterator variables so we don't permanently overwrite them
-					oldValue: jQuery.tmpl.VARS[ match[3] ],
-					oldPos: jQuery.tmpl.VARS[ match[2] ]
+					oldValue: VARS[ match[3] ],
+					oldPos: VARS[ match[2] ]
 				};
 			}
 		},
@@ -103,7 +106,7 @@ jQuery.tmpl = {
 						Khan.error( "Defining variable '" + name + "' overwrites utility property of same name." );
 					}
 
-					jQuery.tmpl.VARS[ name ] = value;
+					VARS[ name ] = value;
 				}
 
 				// Destructure the array if appropriate
@@ -194,7 +197,7 @@ jQuery.tmpl = {
 					// And the passed-in context
 					with ( ctx ) {
 						// And all the computed variables
-						with ( jQuery.tmpl.VARS ) {
+						with ( VARS ) {
 							return eval( "(" + code + ")" );
 						}
 					}
@@ -215,6 +218,17 @@ jQuery.tmpl = {
 if ( typeof KhanUtil !== "undefined" ) {
 	KhanUtil.tmpl = jQuery.tmpl;
 }
+
+// Reinitialize VARS for each problem
+jQuery.fn.tmplLoad = function() {
+	VARS = {};
+	
+	// Check to see if we're in test mode
+	if ( window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:" ) {
+		// Expose the variables if we're in test mode
+		jQuery.tmpl.VARS = VARS;
+	}
+};
 
 jQuery.fn.tmpl = function() {
 	// Call traverse() for each element in the jQuery object
@@ -247,13 +261,16 @@ jQuery.fn.tmpl = function() {
 		// The type of ret is checked to ensure it is not a function
 		} else if ( typeof ret === "object" && typeof ret.length !== "undefined" ) {
 			if ( elem.parentNode ) {
+				// All nodes must be inserted before any are traversed
 				jQuery.each( ret, function( i, rep ) {
 					if ( rep.nodeType ) {
 						elem.parentNode.insertBefore( rep, elem );
 					}
+				} );
 
-					return traverse( rep )
-				});
+				jQuery.each( ret, function( i, rep ) {
+					traverse( rep );
+				} );
 
 				elem.parentNode.removeChild( elem );
 			}
@@ -270,12 +287,12 @@ jQuery.fn.tmpl = function() {
 			jQuery.each( ret.items, function( pos, value ) {
 				// Set the value if appropriate
 				if ( ret.value ) {
-					jQuery.tmpl.VARS[ ret.value ] = value;
+					VARS[ ret.value ] = value;
 				}
 
 				// Set the position if appropriate
 				if ( ret.pos ) {
-					jQuery.tmpl.VARS[ ret.pos ] = pos;
+					VARS[ ret.pos ] = pos;
 				}
 
 				// Do a deep clone (including event handlers and data) of the element
@@ -294,12 +311,12 @@ jQuery.fn.tmpl = function() {
 
 			// Restore the old value of the value variable, if it had one
 			if ( ret.value ) {
-				jQuery.tmpl.VARS[ ret.value ] = ret.oldValue;
+				VARS[ ret.value ] = ret.oldValue;
 			}
 
 			// Restore the old value of the position variable, if it had one
 			if ( ret.pos ) {
-				jQuery.tmpl.VARS[ ret.pos ] = ret.oldPos;
+				VARS[ ret.pos ] = ret.oldPos;
 			}
 
 			// Remove the loop element and its handlers now that we've processed it
@@ -503,3 +520,5 @@ jQuery.extend({
 		}
 	}
 });
+
+})();

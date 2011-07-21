@@ -11,6 +11,13 @@ jQuery.extend(KhanUtil, {
 		return KhanUtil.fraction( f[0], f[1], defraction, reduce, small, parens );
 	},
 
+	reduce: function( n, d){
+		var gcd = KhanUtil.getGCD( n, d );
+                n = n / gcd;
+                d = d / gcd;
+		return [ n, d ];
+	},
+
 	/* Format the latex of the fraction `n`/`d`.
 	 * - Will use latex's `dfrac` unless `small` is specified as truthy.
 	 * - Will wrap the fraction in parentheses if necessary (ie, unless the

@@ -21,9 +21,7 @@
 					<var id="EXP2">randRange(10, 20) * (rand(2) ? 1 : -1)</var>
 				</div>
 
-				<p class="question"><code>
-					<var>expr(["*", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var> = {?}
-				</code></p>
+				<p class="question">What is <code><var>expr(["*", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var></code>?</p>
 				<p class="solution" data-type="multiple">
 					<code><var>BASE</var></code> <sup><span class="sol" data-type="decimal"><var>EXP1 + EXP2</var></span></sup>
 				</p>
@@ -33,33 +31,29 @@
 						<var>expr(["*", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var> = <var>expr(["^", BASE, ["+", EXP1, EXP2]])</var>
 					</code></p>
 					<p><code>
-						<var>expr(["^", BASE, ["+", EXP1, EXP2]])</var> = <var>expr(["^", BASE, EXP1 + EXP2])</var>
+						\hphantom{<var>expr(["*", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var>} = <var>expr(["^", BASE, EXP1 + EXP2])</var>
 					</code></p>
 				</div>
 			</div>
 
 			<div id="subtracting" data-type="adding">
-				<p class="question"><code>
-					<var>expr(["frac", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var> = {?}
-				</code></p>
+				<p class="question">What is <code>\displaystyle <var>expr(["frac", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var></code>?</p>
 				<p class="solution" data-type="multiple">
 					<code><var>BASE</var></code> <sup><span class="sol" data-type="decimal"><var>EXP1 - EXP2</var></span></sup>
 				</p>
 
 				<div class="hints">
-					<p><code>
+					<p><code>\displaystyle
 						<var>expr(["frac", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var> = <var>expr(["^", BASE, ["-", EXP1, EXP2]])</var>
 					</code></p>
-					<p><code>
-						<var>expr(["^", BASE, ["-", EXP1, EXP2]])</var> = <var>expr(["^", BASE, EXP1 - EXP2])</var>
+					<p><code>\displaystyle
+						\hphantom{<var>expr(["frac", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var>} = <var>expr(["^", BASE, EXP1 - EXP2])</var>
 					</code></p>
 				</div>
 			</div>
 
 			<div id="multiplying" data-type="adding">
-				<p class="question"><code>
-					<var>expr(["^", ["^", BASE, EXP1], EXP2])</var> = {?}
-				</code></p>
+				<p class="question">What is <code><var>expr(["^", ["^", BASE, EXP1], EXP2])</var></code>?</p>
 				<p class="solution" data-type="multiple">
 					<code><var>BASE</var></code> <sup><span class="sol" data-type="decimal"><var>EXP1 * EXP2</var></span></sup>
 				</p>
@@ -69,7 +63,7 @@
 						<var>expr(["^", ["^", BASE, EXP1], EXP2])</var> = <var>expr(["^", BASE, ["*", EXP1, EXP2]])</var>
 					</code></p>
 					<p><code>
-						<var>expr(["^", BASE, ["*", EXP1, EXP2]])</var> = <var>expr(["^", BASE, EXP1 * EXP2])</var>
+						\hphantom{<var>expr(["^", ["^", BASE, EXP1], EXP2])</var>} = <var>expr(["^", BASE, EXP1 * EXP2])</var>
 					</code></p>
 				</div>
 			</div>
@@ -84,9 +78,7 @@
 					<var id="EXP3">randRange(10, 20) * (rand(2) ? 1 : -1)</var>
 				</div>
 
-				<p class="question"><code>
-					<var>expr(["^", ["*", ["^", BASE1, EXP1], ["^", BASE2, EXP2]], EXP3])</var> = {?}
-				</code></p>
+				<p class="question">What is <code><var>expr(["^", ["*", ["^", BASE1, EXP1], ["^", BASE2, EXP2]], EXP3])</var></code>?</p>
 				<p class="solution" data-type="multiple">
 					<code><var>BASE1</var></code> <sup><span class="sol" data-type="decimal"><var>EXP1 * EXP3</var></span></sup> &middot; <code><var>BASE2</var></code> <sup><span class="sol" data-type="decimal"><var>EXP2 * EXP3</var></span></sup>
 				</p>
@@ -96,7 +88,7 @@
 						<var>expr(["^", ["*", ["^", BASE1, EXP1], ["^", BASE2, EXP2]], EXP3])</var> = <var>expr(["*", ["^", BASE1, ["*", EXP1, EXP3]], ["^", BASE2, ["*", EXP2, EXP3]]])</var>
 					</code></p>
 					<p><code>
-						<var>expr(["*", ["^", BASE1, ["*", EXP1, EXP3]], ["^", BASE2, ["*", EXP2, EXP3]]])</var> = <var>expr(["*", ["^", BASE1, EXP1*EXP3], ["^", BASE2, EXP2*EXP3]])</var>
+						\hphantom{<var>expr(["^", ["*", ["^", BASE1, EXP1], ["^", BASE2, EXP2]], EXP3])</var>} = <var>expr(["^", BASE1, EXP1*EXP3])</var> \cdot <var>expr(["^", BASE2, EXP2*EXP3])</var>
 					</code></p>
 				</div>
 			</div>

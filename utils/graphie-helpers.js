@@ -77,3 +77,65 @@ function rectchart( divisions, colors, radius ) {
 
 	return set;
 }
+
+function borrow( idx, A_DIGITS, BORROW_LEVEL, X_MAX, Y_FIRST, Y_CARRY, HIGHLIGHTS ) {
+	HIGHLIGHTS = HIGHLIGHTS || KhanUtil.currentGraph.highlights;
+	var graph = KhanUtil.currentGraph;
+	if ( A_DIGITS[ idx + 1 ] < 1 ) {
+		borrow( idx + 1, A_DIGITS, BORROW_LEVEL, X_MAX, Y_FIRST, Y_CARRY, HIGHLIGHTS );
+		BORROW_LEVEL += 0.5;
+	}
+	A_DIGITS[ idx + 1 ] -= 1;
+	A_DIGITS[ idx ] += 10;
+
+	HIGHLIGHTS[ idx ].push( graph.label( [ X_MAX - idx, BORROW_LEVEL ],
+		"\\color{#6495ED}{" + A_DIGITS[ idx ] + "}", "below" ) );
+	HIGHLIGHTS[ idx ].push( graph.path( [ [ X_MAX - 0.3 - idx, Y_FIRST - 0.4 ], [ X_MAX + 0.3 - idx, Y_FIRST + 0.4 ] ] ) );
+
+	HIGHLIGHTS[ idx + 1 ].push( graph.label( [ X_MAX - 1 - idx, BORROW_LEVEL ],
+		"\\color{#FFA500}{" + A_DIGITS[ idx + 1 ] + "}", "below" ) );
+	HIGHLIGHTS[ idx + 1 ].push( graph.path( [ [ X_MAX - 1.3 - idx, Y_FIRST - 0.4 ], [ X_MAX - 0.7 - idx, Y_FIRST + 0.4 ] ] ) );
+	if ( BORROW_LEVEL !== Y_CARRY ) {
+		HIGHLIGHTS[ idx + 1 ].push( graph.path( [ [ X_MAX - 1.3 - idx, BORROW_LEVEL - 0.5 - 0.5 ], [ X_MAX - 0.7 - idx, BORROW_LEVEL - 0.7 ] ] ) );
+	}
+}
+
+// for line graph intuition
+function updateEquation() {
+	var graph = KhanUtil.currentGraph;
+	graph.plot.remove();
+	graph.style({
+		clipRect:[ [-10, -10], [20, 20] ]
+	}, function() {
+		var ell = function( x ) {
+			return x * graph.MN / graph.MD + graph.BN / graph.BD;
+		};
+		graph.plot = graph.line( [ -10, ell( -10 ) ], [ 10, ell( 10 ) ] );
+	});
+
+	graph.labelHolder.remove();
+	graph.labelHolder = graph.label( [1, 11], "y = " + KhanUtil.fractionReduce( graph.MN, graph.MD )
+							+ "x +" + KhanUtil.fractionReduce( graph.BN, graph.BD ));
+
+	jQuery( "#slope-sol input" ).val( graph.MN + "/" + graph.MD );
+	jQuery( "#intercept-sol input" ).val( graph.BN + "/" + graph.BD );
+}
+
+// for line graph intuition
+function changeSlope( dir ) {
+	var graph = KhanUtil.currentGraph;
+	var prevDenominator = graph.MD;
+	graph.MD = KhanUtil.getLCM( prevDenominator, graph.INCR );
+	graph.MN = ( graph.MD / prevDenominator * graph.MN ) + ( dir * graph.MD / graph.INCR );
+	updateEquation();
+}
+
+// for line graph intuition
+function changeIntercept( dir ) {
+	var graph = KhanUtil.currentGraph;
+	var prevDenominator = graph.BD;
+	graph.BD = KhanUtil.getLCM( prevDenominator, graph.INCR );
+	graph.BN = ( graph.BD / prevDenominator * graph.BN )
+			+ ( dir * graph.BD / graph.INCR );
+	updateEquation();
+}

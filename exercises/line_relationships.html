@@ -158,7 +158,7 @@
 				<p>Putting the first equation in <code>y = mx + b</code> form gives:</p>
 				<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var></code></p>
 				<p><code><var>expr(["*", B1, "y"]) + " = " + expr(["+", ["*", (-1 * A1), "x"], C1])</var></code></p>
-				<p><code><var>"y = " + fractionReduce( -A1, B1 ) + "x + " + fractionReduce( C1, B1 )</var></code></p>
+				<p data-if="B1 !== 1"><code><var>"y = " + fractionReduce( -A1, B1 ) + "x + " + fractionReduce( C1, B1 )</var></code></p>
 			</div>
 			<div>
 				<div class="graphie" data-update="grid">
@@ -169,7 +169,7 @@
 				<p>Putting the second equation in <code>y = mx + b</code> form gives:</p>
 				<p><code><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var></code></p>
 				<p><code><var>expr(["*", B2, "y"]) + " = " + expr(["+", ["*", (-1 * A2), "x"], C2])</var></code></p>
-				<p><code><var>"y = " + fractionReduce( -A2, B2 ) + "x + " + fractionReduce( C2, B2 )</var></code></p>
+				<p data-if="B2 !== 1"><code><var>"y = " + fractionReduce( -A2, B2 ) + "x + " + fractionReduce( C2, B2 )</var></code></p>
 			</div>
 	</div>
 </body>
