@@ -3,31 +3,6 @@
 <head>
 	<title>Subtracting Decimals</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		function borrow( idx ) {
-			with ( jQuery.tmpl.VARS ) {
-				with ( KhanUtil.currentGraph ) {
-					if ( A_DIGITS[ idx + 1 ] < 1 ) {
-						borrow( idx + 1 );
-						BORROW_LEVEL += 0.5;
-					}
-					A_DIGITS[ idx + 1 ] -= 1;
-					A_DIGITS[ idx ] += 10;
-
-					KhanUtil.currentGraph.highlights[ idx ].push( label( [ X_MAX - idx, BORROW_LEVEL ],
-						"\\color{#6495ED}{" + A_DIGITS[ idx ] + "}", "below" ) );
-					KhanUtil.currentGraph.highlights[ idx ].push( path( [ [ X_MAX - 0.3 - idx, Y_FIRST - 0.4 ], [ X_MAX + 0.3 - idx, Y_FIRST + 0.4 ] ] ) );
-
-					KhanUtil.currentGraph.highlights[ idx + 1 ].push( label( [ X_MAX - 1 - idx, BORROW_LEVEL ],
-						"\\color{#FFA500}{" + A_DIGITS[ idx + 1 ] + "}", "below" ) );
-					KhanUtil.currentGraph.highlights[ idx + 1 ].push( path( [ [ X_MAX - 1.3 - idx, Y_FIRST - 0.4 ], [ X_MAX - 0.7 - idx, Y_FIRST + 0.4 ] ] ) );
-					if ( BORROW_LEVEL !== Y_CARRY ) {
-						KhanUtil.currentGraph.highlights[ idx + 1 ].push( path( [ [ X_MAX - 1.3 - idx, BORROW_LEVEL - 0.5 - 0.5 ], [ X_MAX - 0.7 - idx, BORROW_LEVEL - 0.7 ] ] ) );
-					}
-				}
-			}
-		}
-	</script>
 </head>
 <body>
 	<div class="exercise">
@@ -131,7 +106,7 @@
 
 				if ( value &lt; subtrahend ) {
 					BORROW_LEVEL = Y_CARRY;
-					borrow( index );
+					borrow( index, A_DIGITS, BORROW_LEVEL, X_MAX, Y_FIRST, Y_CARRY );
 				} else if ( A_DIGITS[ index ] === A_ORIG[ index ] ) {
 					KhanUtil.currentGraph.highlights[ index ].push( label( [ X_MAX - index, Y_FIRST ],
 						"\\Huge{\\color{#6495ED}{" + A_DIGITS[ index ] +"}}" ) );

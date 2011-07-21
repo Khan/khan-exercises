@@ -1,53 +1,8 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie">
+<html data-require="math math-format graphie graphie-helpers">
 <head>
 	<title>Line Graph Intuition</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		// Eh...
-		function updateEquation() {
-			with( jQuery.tmpl.VARS ) {
-				with( KhanUtil.currentGraph ) {
-					graph.plot.remove();
-					style({
-						clipRect:[ [-10, -10], [20, 20] ]
-					}, function() {
-						var ell = function( x ) {
-							return x * MN / MD + BN / BD;
-						};
-						graph.plot = line( [ -10, ell( -10 ) ], [ 10, ell( 10 ) ] );
-					});
-
-					graph.label.remove();
-					graph.label = label( [1, 11], "y = " + KhanUtil.fractionReduce(MN, MD) + "x +" + KhanUtil.fractionReduce(BN, BD));
-
-					jQuery( "#slope-sol input" ).val( MN + "/" + MD );
-					jQuery( "#intercept-sol input" ).val( BN + "/" + BD );
-				}
-			}
-		}
-
-		function changeSlope( dir ) {
-			with ( jQuery.tmpl.VARS ) {
-				var prevDenominator = MD;
-				MD = KhanUtil.getLCM( prevDenominator, INCR );
-				MN = ( MD / prevDenominator * MN )
-						+ ( dir * MD / INCR );
-
-				updateEquation();
-			}
-		}
-
-		function changeIntercept( dir ) {
-			with( jQuery.tmpl.VARS ) {
-				var prevDenominator = BD;
-				BD = KhanUtil.getLCM( prevDenominator, INCR );
-				BN = ( BD / prevDenominator * BN )
-						+ ( dir * BD / INCR );
-				updateEquation();
-			}
-		}
-	</script>
 </head>
 <body>
 	<div class="exercise">
@@ -60,10 +15,6 @@
 			<var id="RUN">X1 - X2</var>
 			<var id="M">RISE / RUN</var>
 			<var id="B">Y1 - X1 * M</var>
-			<var id="MN">1</var>
-			<var id="MD">1</var>
-			<var id="BN">1</var>
-			<var id="BD">1</var>
 			<var id="INCR">abs( RUN ) / getGCD( abs( RISE), abs( RUN ) )</var>
 		</div>
 
@@ -99,17 +50,22 @@
 
 					circle( [X1, Y1], 0.15 );
 					circle( [X2, Y2], 0.15 );
-
+					var graph = KhanUtil.currentGraph;
 					style({
 						clipRect:[ [-10, -10], [20, 20] ]
 					}, function() {
 						var ell = function( x ) {
-							return x * MN / MD + BN / BD;
+							return x;
 						};
 						graph.plot = line( [ -10, ell( -10 ) ], [ 10, ell( 10 ) ] );
 					});
 
-					graph.label = label( [1, 11], "y = " + KhanUtil.fractionReduce(MN, MD) + "x +" + KhanUtil.fractionReduce(BN, BD));
+					graph.labelHolder = label( [1, 11], "y = " + KhanUtil.fractionReduce( 1, 1 ) + "x +" + KhanUtil.fractionReduce( 1, 1 ));
+					graph.MN = 1;
+					graph.MD = 1;
+					graph.BN = 1;
+					graph.BD = 1;
+					graph.INCR = INCR;
 				</div>
 				<div class="solution" data-type="multiple">
 					<div><input type="button" value="Increase slope" onclick="changeSlope(1)"></div>
