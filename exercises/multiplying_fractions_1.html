@@ -577,7 +577,10 @@
 									// the simplified mixed fraction.
 									jQuery( "#problem2-hint2-box-div" ).fadeOut( 3000,
 											function() {
-										jQuery( "#problem2-hint3-box-div2" ).fadeIn( 3000 );
+										jQuery( "#problem2-hint3-box-div2" ).fadeIn( 3000, function() {
+											jQuery( "#problem2-hint3-box-div2" ).css( 'opacity', 1 );
+										} );
+										
 									} );
 								});
 							</script>
@@ -827,7 +830,10 @@
 									// the simplified mixed fraction.
 									jQuery( "#problem3-hint2-box-div" ).fadeOut( 3000,
 											function() {
-										jQuery( "#problem3-hint3-box-div2" ).fadeIn( 3000 );
+										jQuery( "#problem3-hint3-box-div2" ).fadeIn( 3000, function() {
+											jQuery( "#problem3-hint3-box-div2" ).css( 'opacity', 1 );
+										} );
+										
 									} );									
 								});
 							</script>														
