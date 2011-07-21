@@ -11,11 +11,12 @@ test( "Decimal to Fraction Conversion", function() {
 	//decimals with few digits
 	deepEqual( KhanUtil.decimalToFraction(.3), ['/', 3, 10], '.3 -> 3/10' );
 	deepEqual( KhanUtil.decimalToFraction(.33), ['/', 33, 100], '.33 -> 33/100' );
-	deepEqual( KhanUtil.decimalToFraction(.333), ['/', 1, 3], '.333 -> 1/3' );
+	deepEqual( KhanUtil.decimalToFraction(.3333), ['/', 1, 3], '.3333 -> 1/3' );
 	deepEqual( KhanUtil.decimalToFraction(.6667), ['/', 2, 3], '.6667 -> 2/3' );
 	
 	//changing maximum denominator
-	deepEqual( KhanUtil.decimalToFraction(.33, 100), ['/', 1, 3], '.33 -> 1/3 if denominator < 100' );
+	deepEqual( KhanUtil.decimalToFraction(.333, 100), ['/', 1, 3], '.333 -> 1/3 if denominator <= 100' );
+	equals( KhanUtil.decimalToFraction(10.66,1), 11, "10.66 -> 11 with max_denominator = 1" )
 
 	//integers
 	equals( KhanUtil.decimalToFraction(0), 0, "0" )

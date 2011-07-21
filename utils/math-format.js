@@ -116,7 +116,7 @@ jQuery.extend(KhanUtil, {
 		//q[0] is the denominator of our current continued fraction approximation
 		//if we happen to get a perfect approximation, q[0] becomes infinity, so 
 		//we will exit immediately.
-		while ( q[0] < max_denominator ) {
+		while ( q[0] <= max_denominator ) {
 			p.unshift( a*p[0] + p[1] );
 			q.unshift( a*q[0] + q[1] );
 			a = Math.floor( 1/rem );
