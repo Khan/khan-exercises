@@ -1061,6 +1061,11 @@ function prepareSite() {
 	function handleSubmit( e ) {
 		var pass = validator();
 		
+		// Stop if the user didn't enter a response
+		if ( jQuery.trim( validator.guess ) === "" ) {
+			return false;
+		}
+		
 		// Figure out if the response was correct
 		if ( pass ) {
 			// Show a congratulations message
@@ -1087,8 +1092,6 @@ function prepareSite() {
 		
 		jQuery(Khan).trigger( "checkAnswer", pass );
 
-		// Why is this necessary along with the return false? Not sure. Chrome needs it, at least.
-		e.preventDefault();
 		return false;
 	}
 
