@@ -912,8 +912,8 @@ function makeProblem( id, seed ) {
 	}
 
 	// Hook out for exercise test runner
-	if ( parent !== window && typeof parent.jQuery !== "undefined" ) {
-		parent.jQuery( parent.document ).trigger( "problemLoaded" );
+	if ( testMode && parent !== window && typeof parent.jQuery !== "undefined" ) {
+		parent.jQuery( parent.document ).trigger( "problemLoaded", [ makeProblem, validator.solution ] );
 	}
 
 	// Save problem info in dump data for testers

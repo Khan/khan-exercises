@@ -4,6 +4,7 @@ jQuery.extend(Khan, {
 	testExercise: function( json ) {
 		var exerciseName = json.exercise;
 		var iframe;
+		var makeProblem;
 
 		var testsRemaining = json.problems.length;
 		module( exerciseName, {
@@ -13,7 +14,10 @@ jQuery.extend(Khan, {
 
 					// Wait for the first problem to be made but throw it out
 					stop();
-					jQuery( document ).one( "problemLoaded", start );
+					jQuery( document ).one( "problemLoaded", function( e, mp ) {
+						makeProblem = mp;
+						start();
+					} );
 					iframe.attr( "src", "../exercises/" + exerciseName + ".html" );
 				}
 			},
@@ -37,7 +41,7 @@ jQuery.extend(Khan, {
 
 				expect( varCount + 2 );
 
-				jQuery( document ).one( "problemLoaded", function() {
+				jQuery( document ).one( "problemLoaded", function( e, mp, solution ) {
 					var VARS = iwindow.jQuery.tmpl.VARS;
 
 					for ( var key in problem.VARS ) {
@@ -46,13 +50,13 @@ jQuery.extend(Khan, {
 						deepEqual( vark, problem.VARS[key], "var " + key );
 					}
 
-					deepEqual( iKhan.validator.solution, problem.solution, "solution" );
+					deepEqual( solution, problem.solution, "solution" );
 					strictEqual( problem.pass, true, "pass" );
 
 					start();
 				} );
 
-				iKhan.makeProblem( problem.type, problem.seed );
+				makeProblem( problem.type, problem.seed );
 			} );
 		} );
 	}
