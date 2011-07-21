@@ -53,11 +53,11 @@ jQuery.extend( KhanUtil, {
 							var secv =  KhanUtil.trigFunc.sec.print( angle );
 							toReturn = new Array();
 							toReturn.push( "\\sin^2 x + \\cos^2 x = 1" );
-							toReturn.push( "\\frac{\\sin^2 x}{\\cos^2 x} + \\frac{(\\cos^2 x}{\\cos^2 x} = \\frac{1}{\\cos^2 x}" );
+							toReturn.push( "\\frac{\\sin^2 x}{\\cos^2 x} + \\frac{\\cos^2 x}{\\cos^2 x} = \\frac{1}{\\cos^2 x}" );
 							toReturn.push( "\\tan^2 x + 1 = \\sec^2 x" );
 							toReturn.push( "\\tan^2 x + 1 = (" + secv + ")^2" );
 							toReturn.push( "\\tan^2 x = (" + secv + ")^2 - 1" );
-							toReturn.push( "\\tan x = \\sqrt " + secv + " ^2 - 1 )");
+							toReturn.push( "\\tan x = \\sqrt { " + secv + "  ^2 - 1 }");
 							toReturn.push( "\\tan x = " + tanv );
 							return toReturn;	
 						}
@@ -179,14 +179,18 @@ jQuery.extend( KhanUtil, {
 	trigTypes: [KhanUtil.trigFunc.sin,KhanUtil.trigFunc.cos,KhanUtil.trigFunc.tan,KhanUtil.trigFunc.csc,KhanUtil.trigFunc.sec],
 
 	findSteps: function( start, end, value){
+		var visited = {};
 		var queue=[];
 		var next=start;
 		while( next.name != end.name ){
 			if ( next.convertsTo ) {
       				$.each( next.convertsTo, function(i, str) {
-					var move = KhanUtil.trigFunc[str];
-					move["parent"] = next;
-					queue.push( move );
+					if( ! (str in visited) ){
+						var move = KhanUtil.trigFunc[str];
+						move["parent"] = next;
+						queue.push( move );
+					}
+					visited[str] = true;
            		 	});
                 	}
       			 next = queue.shift();
