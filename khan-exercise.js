@@ -33,6 +33,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// The number of the current problem that we're on
 	problemNum,
 	
+	// The current validator function
+	validator,
+	
 	// Check to see if we're in test mode
 	testMode = window.location.host === "localhost" || window.location.protocol === "file:";
 
@@ -471,10 +474,10 @@ var Khan = {
 		// Generate a type of problem
 		// (this includes possibly generating the multiple choice problems,
 		//  if this fails then we will need to try generating another one.)
-		Khan.validator = Khan.answerTypes[answerType]( solutionarea, solution );
+		validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
 		// A working solution was not generated
-		if ( !Khan.validator ) {
+		if ( !validator ) {
 			// Making the problem failed, let's try again
 			Khan.makeProblem( problemID, seed );
 			return;
@@ -525,7 +528,7 @@ var Khan = {
 				seed: Khan.problemSeed,
 				type: problemID,
 				VARS: jQuery.tmpl.VARS,
-				solution: Khan.validator.solution
+				solution: validator.solution
 			} );
 
 			Khan.dataDump.problems.push( lastProblem );
@@ -535,7 +538,7 @@ var Khan = {
 
 			var answer = jQuery( testerInfo ).find( ".answer" ).empty();
 
-			var displayedSolution = Khan.validator.solution;
+			var displayedSolution = validator.solution;
 			if ( !jQuery.isArray( displayedSolution ) ) {
 				displayedSolution = [ displayedSolution ];
 			}
@@ -633,7 +636,7 @@ var Khan = {
 		jQuery("#answerform").submit( handleSubmit );
 		
 		function handleSubmit( e ) {
-			var pass = Khan.validator();
+			var pass = validator();
 			
 			// Figure out if the response was correct
 			if ( pass ) {
@@ -1005,7 +1008,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 					
 					// The answer the user gave
 					// TODO: Get the real provided answer
-					attempt_content: Khan.validator.guess,
+					attempt_content: validator.guess,
 					
 					// A hash representing the exercise
 					// TODO: Populate this from somewhere
