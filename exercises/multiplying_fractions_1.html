@@ -553,6 +553,19 @@
 							</div>
 							<script type="text/javascript">
 								jQuery(document).ready(function(){
+									// Get the <var> value of B_NUMBER indirectly by 
+									// querying for generated boxes.
+									var bNumber = 1;
+									while( bNumber < 10 ) {											
+										if ( jQuery( "#box2-" + bNumber ).length < 1 ) {
+											break;
+										} else {
+											bNumber++;
+										}
+									}
+									jQuery( "#problem3-hint2-box-div2" )
+										.height( ( bNumber + 1 ) * 105 + 10 );
+									
 									// Scroll the hint into view.
 									scrollIntoView("#problem2-hint3-div");
 
@@ -574,7 +587,7 @@
 				</div><!-- End of problem 2 -->
 
 				<div id="fraction-with-mixed-number">
-					<div class="vars" data-ensure="A_DENOMINATOR * B_DENOMINATOR < 10">				
+					<div class="vars" data-ensure="A_DENOMINATOR * B_DENOMINATOR < 9">				
 						<var id="A_NUMERATOR">randRange(1, 3)</var>
 						<var id="A_DENOMINATOR">A_NUMERATOR + randRange(1, 3)</var>
 
@@ -790,6 +803,19 @@
 							</div>							
 							<script type="text/javascript">
 								jQuery(document).ready(function(){
+									// Get the <var> value of B_NUMBER indirectly by 
+									// querying for generated boxes.
+									var bNumber = 1;
+									while( bNumber < 10 ) {											
+										if ( jQuery( "#box2-" + bNumber ).length < 1 ) {
+											break;
+										} else {
+											bNumber++;
+										}
+									}
+									jQuery( "#problem3-hint3-box-div2" )
+										.height( ( bNumber + 1 ) * 105 + 10 );
+									
 									// Scroll the hint into view.
 									scrollIntoView( "#problem3-hint3-div" );
 
