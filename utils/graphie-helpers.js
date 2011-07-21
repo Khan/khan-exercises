@@ -77,3 +77,25 @@ function rectchart( divisions, colors, radius ) {
 
 	return set;
 }
+
+function borrow( idx, A_DIGITS, BORROW_LEVEL, X_MAX, Y_FIRST, Y_CARRY, HIGHLIGHTS ) {
+	HIGHLIGHTS = HIGHLIGHTS || KhanUtil.currentGraph.highlights;
+	var graph = KhanUtil.currentGraph;
+	if ( A_DIGITS[ idx + 1 ] < 1 ) {
+		borrow( idx + 1, A_DIGITS, BORROW_LEVEL, X_MAX, Y_FIRST, Y_CARRY, HIGHLIGHTS );
+		BORROW_LEVEL += 0.5;
+	}
+	A_DIGITS[ idx + 1 ] -= 1;
+	A_DIGITS[ idx ] += 10;
+
+	HIGHLIGHTS[ idx ].push( graph.label( [ X_MAX - idx, BORROW_LEVEL ],
+		"\\color{#6495ED}{" + A_DIGITS[ idx ] + "}", "below" ) );
+	HIGHLIGHTS[ idx ].push( graph.path( [ [ X_MAX - 0.3 - idx, Y_FIRST - 0.4 ], [ X_MAX + 0.3 - idx, Y_FIRST + 0.4 ] ] ) );
+
+	HIGHLIGHTS[ idx + 1 ].push( graph.label( [ X_MAX - 1 - idx, BORROW_LEVEL ],
+		"\\color{#FFA500}{" + A_DIGITS[ idx + 1 ] + "}", "below" ) );
+	HIGHLIGHTS[ idx + 1 ].push( graph.path( [ [ X_MAX - 1.3 - idx, Y_FIRST - 0.4 ], [ X_MAX - 0.7 - idx, Y_FIRST + 0.4 ] ] ) );
+	if ( BORROW_LEVEL !== Y_CARRY ) {
+		HIGHLIGHTS[ idx + 1 ].push( graph.path( [ [ X_MAX - 1.3 - idx, BORROW_LEVEL - 0.5 - 0.5 ], [ X_MAX - 0.7 - idx, BORROW_LEVEL - 0.7 ] ] ) );
+	}
+}
