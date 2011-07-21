@@ -42,6 +42,7 @@
 				border: 2px solid black;
 				background: white;
 				opacity:0.5;
+				min-width: 0px;
 			}
 
 			.hint_box1_cell {
@@ -53,8 +54,16 @@
 			.hint_box2_cell {
 				border: 2px solid black;
 				background: blue;
-				opacity:0.5;
+				opacity:0.5
 			}
+			
+			.hint_box3_cell {
+				border: 2px solid black;
+				background: purple;
+				min-width: 0px;
+			}
+			
+			
 		</style>
 		<script type="text/javascript">
 			/*
@@ -99,17 +108,22 @@
 			 * @param id ID to give this table. (optional)
 			 * @param className class name to give this table. (optional)
 			 */
-			function createHorizTable( numerator, denominator, id, className ) {
+			function createHorizTable( numerator, denominator, id, className, boxClass ) {
 
 				var table = jQuery( "<table/>" );
 				if ( id != null ) {
 					table.attr( "id", id );
 				}
 
-				if( className != null ) {
+				if ( className != null ) {
 					table.addClass( className );
 				} else {
 					table.addClass( "hint_diagram_table_small" );
+				}
+
+				var useBoxClass = "hint_box2_cell";
+				if ( boxClass != null ) {
+					useBoxClass = boxClass;
 				}
 
 				table.append( "<tbody/>" );
@@ -124,7 +138,7 @@
 					row.append("<td class=\"hint_empty_cell\"/>").width(colWidth);
 				}
 				for( i=0; i < numerator; i++ ) {
-					row.append("<td class=\"hint_box2_cell\"/>").width(colWidth);
+					row.append("<td class=\"" + useBoxClass + "\"/>").width(colWidth);
 				}
 
 				return jQuery('<div />').append(table).html();
@@ -134,7 +148,7 @@
 			 * Creates N number of boxes.
 			 * @param number number of boxes as INT.
 			 */
-			function createNBoxes(number, idPrefix, className) {
+			function createNBoxes(number, idPrefix, className, boxClass) {
 				var tablesSrc = "";
 				for ( var i = 0; i < number; i++ ) {
 					var idToUse = null;
@@ -143,7 +157,7 @@
 					}
 					
 					tablesSrc += "<span class=\"padded_span\">" 
-						+ createHorizTable( 1, 1, idToUse, className )
+						+ createHorizTable( 1, 1, idToUse, className, boxClass )
 						+ "</span>";
 				}
 				return tablesSrc;
@@ -391,6 +405,16 @@
 						<var id="TABLES_B_HINT">
 							createNBoxesOverlayHoriz( B_NUMBER, 'box2', 1, 1 )
 						</var>
+						<var id="SIMP_WHOLENUM">
+							Math.floor( A_NUMERATOR * B_NUMBER / A_DENOMINATOR )
+						</var>
+						<var id="SIMP_NUMER">A_NUMERATOR * B_NUMBER % A_DENOMINATOR / GCD</var>
+						<var id="SIMP_DENOM">A_DENOMINATOR / GCD</var>
+						<var id="SIMP_TABLES">createNBoxes( SIMP_WHOLENUM, null, null, 
+							"hint_box3_cell" )  
+							+ createHorizTable( SIMP_NUMER, SIMP_DENOM, null, null, 
+								"hint_box3_cell" )
+						</var>					
 					</div>
 
 					<div class="question">
@@ -500,35 +524,62 @@
 													top: ( i * 105 )
 												}, 5000);
 										}
-
 									});
 								</script>
 							</div>
 						</div>
-						<div id="problem2-hint3-div" data-if="GCD > 1">
-							This can be further simplified to
-							<code>
-								\frac{<var>A_NUMERATOR * B_NUMBER / GCD</var>}
-								{<var>A_DENOMINATOR / GCD</var>}
-							</code>, 
-							by dividing both top and bottom by it's common denominator 
-							<var>GCD</var>.							
+						<div id="problem2-hint3-div">
+							<p data-if="GCD > 1">
+								This can be further simplified to
+								<code>
+									\frac{<var>A_NUMERATOR * B_NUMBER / GCD</var>}
+									{<var>A_DENOMINATOR / GCD</var>}
+								</code>, 
+								by dividing both top and bottom by it's common denominator 
+								<var>GCD</var>.							
+							</p>
+							<p data-if="(A_NUMERATOR * B_NUMBER) > A_DENOMINATOR" >
+									We can further simplify the expression by dividing the 
+									numerator by the denominator, and taking the part that 
+									divided evenly out of the fraction and leave the 
+									remainder as a fraction. This makes the simplified answer 
+									<code><var>SIMPLIFIED</var></code>.
+							</p>
+							<div id="problem2-hint3-box-div"  
+								style="display: position: relative;">
+							</div>
+							<div id="problem2-hint3-box-div2" style="display:none">
+								<var>SIMP_TABLES</var>
+							</div>
+							<script type="text/javascript">
+								jQuery(document).ready(function(){
+									// Scroll the hint into view.
+									scrollIntoView("#problem2-hint3-div");
+
+									// move the old hint box to this hint.
+									var oldHintBox = jQuery( "#problem2-hint2-box-div" );
+									jQuery( "#problem2-hint3-box-div" ).append( oldHintBox );
+
+									// fade out the original boxes while fading in 
+									// the simplified mixed fraction.
+									jQuery( "#problem2-hint2-box-div" ).fadeOut( 3000,
+											function() {
+										jQuery( "#problem2-hint3-box-div2" ).fadeIn( 3000 );
+									} );
+								});
+							</script>
 						</div>
-						<div data-if="(A_NUMERATOR * B_NUMBER) > (A_DENOMINATOR)" >
-								We can further simplify the expression by dividing the numerator by the 
-								denominator, and taking the whole number out, while leaving the remainder 
-								as a fraction, <code><var>SIMPLIFIED</var></code>
-						</div>
+						
 					</div><!-- End of hints -->
 				</div><!-- End of problem 2 -->
 
 				<div id="fraction-with-mixed-number">
-					<div class="vars" data-ensure="A_DENOMINATOR != B_DENOMINATOR">
-						<var id="A_NUMERATOR">randRange(1, 4)</var>
-						<var id="A_DENOMINATOR">A_NUMERATOR + randRange(1, 4)</var>
+					<div class="vars" data-ensure="A_DENOMINATOR * B_DENOMINATOR < 10">				
+						<var id="A_NUMERATOR">randRange(1, 3)</var>
+						<var id="A_DENOMINATOR">A_NUMERATOR + randRange(1, 3)</var>
 
-						<var id="B_NUMBER">randRange(1, 4)</var>
-						<var id="B_NUMERATOR">randRange(1, 4)</var>
+						<var id="B_NUMBER">randRange(1, 3)</var>
+						<var id="B_NUMERATOR">randRange(1, 3)</var>
 						<var id="B_DENOMINATOR">B_NUMERATOR + randRange(1, 4)</var>
 
 						<var id="UNSIMPLIFIED_ANSWER">
@@ -557,6 +608,21 @@
 							createNBoxesOverlayHoriz( B_NUMBER, 'box2', B_DENOMINATOR, B_DENOMINATOR )
 							+ createHorizTable( B_NUMERATOR, B_DENOMINATOR, 'box2frac', 
 								'hint_diagram_table_overlay_small' )
+						</var>
+						<var id="SIMP_WHOLENUM">
+							Math.floor(
+								(A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR ))
+							/ ( A_DENOMINATOR * B_DENOMINATOR ) )
+						</var>
+						<var id="SIMP_NUMER">
+							((A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR ))
+							% ( A_DENOMINATOR * B_DENOMINATOR ) ) / GCD
+						</var>
+						<var id="SIMP_DENOM">A_DENOMINATOR * B_DENOMINATOR / GCD</var>
+						<var id="SIMP_TABLES">createNBoxes( SIMP_WHOLENUM, null, null, 
+							"hint_box3_cell" )  
+							+ createHorizTable( SIMP_NUMER, SIMP_DENOM, null, null, 
+								"hint_box3_cell" )
 						</var>
 					</div>
 
@@ -654,7 +720,7 @@
 									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
 								</code>.
 							</p>
-							<div id="problem2-hint2-box-div" 
+							<div id="problem3-hint2-box-div" 
 								style="display: block; position: relative; height:220px;">
 								<var>TABLE_A_HINT</var>
 								<var>TABLES_B_HINT</var>
@@ -676,8 +742,8 @@
 										}
 
 										// size parent div
-										jQuery( "#problem2-hint2-box-div" ).width( 400 );
-										jQuery( "#problem2-hint2-box-div" )
+										jQuery( "#problem3-hint2-box-div" ).width( 400 );
+										jQuery( "#problem3-hint2-box-div" )
 											.height( ( bNumber + 1 ) * 105 + 10 );
 
 										// position the right boxes
@@ -696,26 +762,49 @@
 													top: ( i * 105 )
 												}, 5000);
 										}
-
 									});
 								</script>
 							</div>
 						</div>
-						<div id="problem2-hint3-div" data-if="GCD > 1">
-							This can be further simplified to
-							<code>
-								\frac{<var>A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR) / GCD</var>}
-								{<var>(A_DENOMINATOR * B_DENOMINATOR) / GCD</var>}
-							</code>, 
-							by dividing both top and bottom by it's common denominator 
-							<var>GCD</var>.
-						</div>
-						<div data-if="(A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ) 
-							> (A_DENOMINATOR * B_DENOMINATOR)" >
-							
-							We can further simplify the expression by dividing the numerator by the 
-							denominator, and taking the whole number out, while leaving the remainder 
-							as a fraction, <code><var>SIMPLIFIED</var></code>
+						<div id="problem3-hint3-div">
+							<p data-if="GCD > 1">
+								This can be further simplified to
+								<code>
+									\frac{<var>A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR) / GCD</var>}
+									{<var>(A_DENOMINATOR * B_DENOMINATOR) / GCD</var>}
+								</code>, 
+								by dividing both top and bottom by it's common denominator 
+								<var>GCD</var>.
+							</p>
+							<p data-if="(A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ) 
+								> (A_DENOMINATOR * B_DENOMINATOR)">								
+								We can further simplify the expression by dividing the numerator 
+								by the	denominator, and taking the part that evenly divided out 
+								of the fraction, while leaving the remainder in the fraction. 
+								This makes the simplified answer <code><var>SIMPLIFIED</var></code>.								
+							</p>
+							<div id="problem3-hint3-box-div" 
+								style="display: block; position: relative;"/>
+							<div id="problem3-hint3-box-div2" style="display:none">
+								<var>SIMP_TABLES</var>
+							</div>							
+							<script type="text/javascript">
+								jQuery(document).ready(function(){
+									// Scroll the hint into view.
+									scrollIntoView( "#problem3-hint3-div" );
+
+									// move the old hint box to this hint.
+									var oldHintBox = jQuery( "#problem3-hint2-box-div" );
+									jQuery( "#problem3-hint3-box-div" ).append( oldHintBox );
+
+									// fade out the original boxes while fading in 
+									// the simplified mixed fraction.
+									jQuery( "#problem3-hint2-box-div" ).fadeOut( 3000,
+											function() {
+										jQuery( "#problem3-hint3-box-div2" ).fadeIn( 3000 );
+									} );									
+								});
+							</script>														
 						</div>
 					</div><!-- End of hints -->
 					
