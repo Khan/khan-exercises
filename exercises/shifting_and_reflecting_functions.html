@@ -63,7 +63,7 @@
 
 		<div class="hints">
 			<div data-if="FLIP === -1">
-				<p class="hint_purple">To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by -1, giving <code>-f(x)</code>.</p>
+				<p>To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by -1, giving <code class="hint_purple">-f(x)</code>.</p>
 
 				<div class="graphie" data-update="G">
 					style({
@@ -76,7 +76,7 @@
 			</div>
 
 			<div>
-				<p class="hint_green">Shift your function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> units, giving <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code></p>
+				<p>Shift your function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> units, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code></p>
 
 				<div class="graphie" data-update="G">
 					style({
@@ -100,7 +100,7 @@
 			</div>
 
 			<div>
-				<p class="hint_blue">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)</var> units, giving <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</p>
+				<p>Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)</var> units, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</p>
 
 				<p>We now know that <code>g(x)</code> = <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
 
