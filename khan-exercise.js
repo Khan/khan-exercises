@@ -23,6 +23,10 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// Bin users into a certain number of realms so that
 	// there is some level of reproducability in their questions
 	bins = 200,
+	
+	// The seed information
+	problemSeed,
+	randomSeed,
 
 	// Get the username of the user
 	user = window.localStorage["exercise:lastUser"] || null,
@@ -32,6 +36,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 	// The number of the current problem that we're on
 	problemNum,
+	problemID,
 	
 	// The current validator function
 	validator,
@@ -165,14 +170,14 @@ var Khan = {
 		// This is also used as a PRNG in the V8 benchmark suite
 		random: function() {
 			// Robert Jenkins' 32 bit integer hash function.
-			var seed = Khan.randomSeed;
+			var seed = randomSeed;
 			seed = ( ( seed + 0x7ed55d16 ) + ( seed << 12 ) ) & 0xffffffff;
 			seed = ( ( seed ^ 0xc761c23c ) ^ ( seed >>> 19 ) ) & 0xffffffff;
 			seed = ( ( seed + 0x165667b1 ) + ( seed << 5 ) ) & 0xffffffff;
 			seed = ( ( seed + 0xd3a2646c ) ^ ( seed << 9 ) ) & 0xffffffff;
 			seed = ( ( seed + 0xfd7046c5 ) + ( seed << 3 ) ) & 0xffffffff;
 			seed = ( ( seed ^ 0xb55a4f09 ) ^ ( seed >>> 16 ) ) & 0xffffffff;
-			return ( Khan.randomSeed = ( seed & 0xfffffff ) ) / 0x10000000;
+			return ( randomSeed = ( seed & 0xfffffff ) ) / 0x10000000;
 		}
 	},
 
@@ -268,7 +273,7 @@ var Khan = {
 Khan.query = Khan.queryString();
 
 // Seed the random number generator
-Khan.randomSeed = parseFloat( Khan.query.seed ) || ( new Date().getTime() & 0xffffffff );
+randomSeed = testMode && parseFloat( Khan.query.seed ) || ( new Date().getTime() & 0xffffffff );
 
 // Load in jQuery
 Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" } ], function() {
@@ -328,7 +333,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 					sha1: exerciseName,
 					
 					// The seed that was used for generating the problem
-					seed: Khan.problemSeed
+					seed: problemSeed
 				};
 		
 			// Save the problem results to the server
@@ -598,7 +603,7 @@ Khan.loadScripts( [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/j
 			injectSite( html );
 			
 			// Prepare the "random" problems
-			if ( !Khan.query.problem ) {
+			if ( !testMode || !Khan.query.problem ) {
 				var problems = jQuery( "body > .exercise > .problems" ).children();
 
 				weighExercises( problems );
@@ -731,46 +736,48 @@ function makeProblemBag( problems, n ) {
 	return bag;
 }
 
-function makeProblem( problemID, seed ) {
+function makeProblem( id, seed ) {
 	var problem;
 	
 	// Allow passing in a random seed
 	if ( typeof seed !== "undefined" ) {
-		Khan.randomSeed = seed;
+		randomSeed = seed;
 	
 	// Otherwise set the seed from the problem number
 	// Only do so if we're not in test mode and if we have a username
 	} else if ( (!testMode || Khan.query.test == null) && user != null ) {
-		Khan.randomSeed = problemNum;
+		randomSeed = problemNum;
 	}
 
 	// Save the seed for later so we can show it when asked
-	Khan.problemSeed = Khan.randomSeed;
+	problemSeed = randomSeed;
 
 	// Check to see if we want to test a specific problem
-	problemID = typeof problemID !== "undefined" ? problemID : Khan.query.problem;
+	if ( testMode ) {
+		id = typeof id !== "undefined" ? id : Khan.query.problem;
+	}
 	
-	if ( typeof problemID !== "undefined" ) {
+	if ( typeof id !== "undefined" ) {
 		var problems = jQuery( "body > .exercise > .problems" ).children();
 
-		problem = /^\d+$/.test( problemID ) ?
+		problem = /^\d+$/.test( id ) ?
 			// Access a problem by number
-			problems.eq( parseFloat( problemID ) ) :
+			problems.eq( parseFloat( id ) ) :
 
 			// Or by its ID
-			problems.filter( "#" + problemID );
+			problems.filter( "#" + id );
 
 	// Otherwise we grab a problem at random from the bag of problems
 	// we made earlier to ensure that every problem gets shown the
 	// appropriate number of times
 	} else {
 		problem = problemBag[ problemBagIndex ];
-		problemID = problem.data( "id" );
+		id = problem.data( "id" );
 
 		problemBagIndex = ( problemBagIndex + 1 ) % problemCount;
 	}
 
-	Khan.problemID = problemID;
+	problemID = id;
 
 	// Find which exercise this problem is from
 	var exercise = problem.parents( ".exercise" ).eq( 0 );
@@ -861,7 +868,7 @@ function makeProblem( problemID, seed ) {
 	// A working solution was not generated
 	if ( !validator ) {
 		// Making the problem failed, let's try again
-		makeProblem( problemID, seed );
+		makeProblem( id, seed );
 		return;
 	}
 
@@ -907,7 +914,7 @@ function makeProblem( problemID, seed ) {
 
 		// Deep clone the elements to avoid some straaaange bugs
 		var lastProblem = jQuery.extend( true, {}, {
-			seed: Khan.problemSeed,
+			seed: problemSeed,
 			type: problemID,
 			VARS: jQuery.tmpl.VARS,
 			solution: validator.solution
@@ -956,7 +963,7 @@ function makeProblem( problemID, seed ) {
 
 		var links = jQuery( "<p>" ).appendTo( debugWrap );
 		jQuery( "<a>Problem permalink</a>" )
-			.attr( "href", debugURL + "&seed=" + Khan.problemSeed )
+			.attr( "href", debugURL + "&seed=" + problemSeed )
 			.appendTo( links );
 
 		links.append("<br>");
@@ -1233,7 +1240,7 @@ function injectSite( html ) {
 				prettyDump = "```js\n" + JSON.stringify( dump ) + "\n```",
 				fileName = window.location.pathname.replace(/^.+\//, ""),
 				path = fileName + "?problem=" + Khan.problemID 
-					+ "&seed=" + Khan.problemSeed;
+					+ "&seed=" + problemSeed;
 
 			var title = encodeURIComponent( "Issue in " + $("title").html() ),
 				body = encodeURIComponent( [ description, path, prettyDump, navigator.userAgent ].join("\n\n") ),
