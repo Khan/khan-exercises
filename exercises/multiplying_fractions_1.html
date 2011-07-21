@@ -569,19 +569,26 @@
 									// Scroll the hint into view.
 									scrollIntoView("#problem2-hint3-div");
 
-									// move the old hint box to this hint.
-									var oldHintBox = jQuery( "#problem2-hint2-box-div" );
-									jQuery( "#problem2-hint3-box-div" ).append( oldHintBox );
-
-									// fade out the original boxes while fading in 
-									// the simplified mixed fraction.
-									jQuery( "#problem2-hint2-box-div" ).fadeOut( 3000,
-											function() {
-										jQuery( "#problem2-hint3-box-div2" ).fadeIn( 3000, function() {
-											jQuery( "#problem2-hint3-box-div2" ).css( 'opacity', 1 );
+									// Skip simplifiation animation in Chrome.  A bug in Chrome
+									// breaks rearranging the DOM in this way.
+									var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+									if( !is_chrome ) {
+										// move the old hint box to this hint.
+										var oldHintBox = jQuery( "#problem2-hint2-box-div" );
+										jQuery( "#problem2-hint3-box-div" ).append( oldHintBox );
+	
+										// fade out the original boxes while fading in 
+										// the simplified mixed fraction.
+										jQuery( "#problem2-hint2-box-div" ).fadeOut( 3000,
+												function() {
+											jQuery( "#problem2-hint3-box-div2" ).fadeIn( 3000, function() {
+												jQuery( "#problem2-hint3-box-div2" ).css( 'opacity', 1 );
+											} );
+											
 										} );
-										
-									} );
+									} else {
+										jQuery( "#problem2-hint3-box-div2" ).css( 'opacity', 1 );
+									}
 								});
 							</script>
 						</div>
@@ -822,19 +829,26 @@
 									// Scroll the hint into view.
 									scrollIntoView( "#problem3-hint3-div" );
 
-									// move the old hint box to this hint.
-									var oldHintBox = jQuery( "#problem3-hint2-box-div" );
-									jQuery( "#problem3-hint3-box-div" ).append( oldHintBox );
-
-									// fade out the original boxes while fading in 
-									// the simplified mixed fraction.
-									jQuery( "#problem3-hint2-box-div" ).fadeOut( 3000,
-											function() {
-										jQuery( "#problem3-hint3-box-div2" ).fadeIn( 3000, function() {
-											jQuery( "#problem3-hint3-box-div2" ).css( 'opacity', 1 );
+									// Skip simplifiation animation in Chrome.  A bug in Chrome
+									// breaks rearranging the DOM in this way.
+									var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+										if( !is_chrome ) {
+										// move the old hint box to this hint.
+										var oldHintBox = jQuery( "#problem3-hint2-box-div" );
+										jQuery( "#problem3-hint3-box-div" ).append( oldHintBox );
+	
+										// fade out the original boxes while fading in 
+										// the simplified mixed fraction.
+										jQuery( "#problem3-hint2-box-div" ).fadeOut( 3000,
+												function() {
+											jQuery( "#problem3-hint3-box-div2" ).fadeIn( 3000, function() {
+												jQuery( "#problem3-hint3-box-div2" ).css( 'opacity', 1 );
+											} );
+											
 										} );
-										
-									} );									
+									} else {
+										jQuery( "#problem3-hint3-box-div2" ).css( 'opacity', 1 );
+									}									
 								});
 							</script>														
 						</div>
