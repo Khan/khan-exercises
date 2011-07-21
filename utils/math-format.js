@@ -104,69 +104,26 @@ jQuery.extend(KhanUtil, {
 	//by setting max_denominator.
 	//returns an integer or a ['/', numerator, denominator] suitable 
 	//for use with expressions.js
-	decimalToFraction : function (dec, max_denominator) {
-		//if we have an integer or Infinity or NaN, return it
-		if ( dec % 1 === 0 || isNaN(dec % 1) ) {
-			return dec;
+	decimalToFraction : function( dec, max_denominator ) {
+		if ( max_denominator == null ) { max_denominator = 1000; }
+
+		//initialize everything to compute successive terms of
+		//continued-fraction approximations via recurrence relation
+		var p = [1, 0], q = [0, 1];
+		var a = Math.floor( dec );
+		var rem = dec - a
+
+		//q[0] is the denominator of our current continued fraction approximation
+		//if we happen to get a perfect approximation, q[0] becomes infinity, so 
+		//we will exit immediately.
+		while ( q[0] < max_denominator ) {
+			p.unshift( a*p[0] + p[1] );
+			q.unshift( a*q[0] + q[1] );
+			a = Math.floor( 1/rem );
+			rem = 1/rem - a;
 		}
 
-		if ( typeof max_denominator === "undefined" ) {
-			max_denominator = 1000;
-		}
-
-		//if our decimal is smaller than 1/max_denominator, then chop off
-		//the decimal
-		if ( Math.abs(dec) % 1 <= 1/max_denominator || (1 - Math.abs(dec) % 1) <= 1/max_denominator ) {
-			return Math.round(dec);
-		}
-
-
-		//the idea of the algorithm is to find a list of successively 
-		//better and better approximations.  If we notice a sudden relative jump
-		//in how good an approximation is, that means we probably stumbled upon
-		//the correct one.
-		
-		//we only deal in positive numbers, so keep track of the sign
-		var sign = 1;
-		if ( dec < 0 ) {
-			sign = -1;
-			dec = -1*dec;
-		}
-
-		//get a list of successively better approximations to dec
-		var fracs = [];
-		var curr_error = Infinity;
-		//super inefficient to run through all denominators, but cycles are cheap.
-		//Could change to run through the Farey fractions so we would only check things
-		//in lowest terms.
-		for ( var denominator = 1; denominator < max_denominator; denominator++ ) {
-			var numerator = Math.round(dec*denominator);
-			var new_error = Math.abs(dec - numerator/denominator);
-			//only add new fractions in lowest terms which better approximate our decimal 
-			if ( new_error < curr_error && !KhanUtil.reduces(numerator, denominator) ) {
-				fracs.push([new_error, numerator, denominator]); 
-				curr_error = new_error;
-			}
-		}
-		
-		//calculate the derivative of the sequence
-		var deriv = [];
-		for ( var i = 1; i < fracs.length; i++ ) {
-			deriv.push(fracs[i-1][0]-fracs[i][0]);
-		}
-		deriv.push(fracs[fracs.length-1][0]);
-
-		//calculate the relative change in the derivative
-		var rel_change = [];
-		for ( var i = 1; i < deriv.length; i++ ) {
-			rel_change.push( [deriv[i] !== 0 ? deriv[i-1]/deriv[i] : Infinity,
-					  fracs[i].slice(1)]);
-		}
-
-		//return the result where the relative change was maximal
-		rel_change.sort(function(a,b){ return a[0]-b[0]; });
-		rel_change.reverse();
-		return ['/', sign*rel_change[0][1][0], rel_change[0][1][1]]
+		return q[1] === 1 ? p[1] : ['/', p[1], q[1]];
 	},
 
 	// splitRadical( 24 ) gives [ 2, 6 ] to mean 2 sqrt(6)

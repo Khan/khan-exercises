@@ -12,7 +12,7 @@ test( "Decimal to Fraction Conversion", function() {
 	deepEqual( KhanUtil.decimalToFraction(.3), ['/', 3, 10], '.3 -> 3/10' );
 	deepEqual( KhanUtil.decimalToFraction(.33), ['/', 33, 100], '.33 -> 33/100' );
 	deepEqual( KhanUtil.decimalToFraction(.333), ['/', 1, 3], '.333 -> 1/3' );
-	deepEqual( KhanUtil.decimalToFraction(.667), ['/', 2, 3], '.667 -> 2/3' );
+	deepEqual( KhanUtil.decimalToFraction(.6667), ['/', 2, 3], '.6667 -> 2/3' );
 	
 	//changing maximum denominator
 	deepEqual( KhanUtil.decimalToFraction(.33, 100), ['/', 1, 3], '.33 -> 1/3 if denominator < 100' );
