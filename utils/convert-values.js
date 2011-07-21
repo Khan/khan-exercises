@@ -204,7 +204,11 @@ jQuery.extend( KhanUtil, {
 		steps.unshift( prev.name );
 		var toReturn = new Array();
 		for( x=0; x<steps.length-1 ;x++ ){
-			toReturn.push(KhanUtil.trigFunc[steps[x]].convertTo( KhanUtil.trigFunc[steps[x+1]], value ));
+			// Vars cannot have circular references, so delete .parent before returning
+			var step = KhanUtil.trigFunc[steps[x]].convertTo( KhanUtil.trigFunc[steps[x+1]], value );
+			delete step.parent;
+
+			toReturn.push( step );
 		}
 		return toReturn;
 	}
