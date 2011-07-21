@@ -1,152 +1,85 @@
-<html>
-	<head>
-		<!-- TODO: Update with real title -->
-		<title>Exercise Template</title>
-	</head>
-	<body class="light">
-		<div id="page-container">
-			<div id="page-container-inner">
-				<div id="fb-root"></div>
-				<header>
-					<div id="top-header">
-						<div id="top-header-links">
-							<span class="page_links" id="page_auth">
-								<span class="achievement-badge-counts" style="left:-60px;"></span>
-								<a href="http://www.khanacademy.org/login">Login</a>
-								<span class="separator"></span>
-								<a href="http://www.khanacademy.org/contribute" id="donate-link">Donate</a>
-							</span>
-							<div class="clear"></div>
-              <div id="nav-and-search">
-                  <div id="sitewide-navigation">
-                      <nav>
-                          <span class="links">
-                              <a href="http://www.khanacademy.org/#browse" class="watch-link">Watch</a>
-                              <a href="http://www.khanacademy.org/exercisedashboard" class="selected practice-link">Practice</a>
-                              <a href="http://www.khanacademy.org/class_profile">Coach</a>
-                              <a href="http://www.khanacademy.org/contribute">Contribute</a>
-                              <a href="http://www.khanacademy.org/about">About</a>
-                          </span>
-                      </nav>
-                  </div>
-                  <div id="search-box">
-                      <form id="page_search" action="/search">
-                          <input id="search-input" type="text" placeholder="Search for a video or playlist" name="page_search_query" value="" class="ui-corner-all placeholder ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"/><input type="submit" value=" " id="search-submit" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"/>
-                      </form>
-                  </div>
-                  <div class="clear"></div>
-              </div>
-      			</div>
-						
-						<div id="logo">
-							<a id="logo-image" href="http://www.khanacademy.org/" title="Khan Academy" name="logo-image"></a>
-						</div>
-						<div class="clear"></div>
-					</div>
-				</header>
-				<div id="container" class="single-exercise visited-no-recolor" style="overflow: hidden">
-					<div class="exercise-badge single-exercise" data-id="addition_1">
-						<div id="exercise-icon-container">
-							<div class="proficient-badge">
-								<img src="http://www.khanacademy.org/images/node-not-started.png" height="80" width="76"/>
-							</div>
-						</div>
-						<!-- TODO: Update with real point value -->
-						<div id="exercise-points" class="energy-points-badge">
-							225
-						</div>
-						<!-- TODO: Update with real title -->
-						<div class="exercise-title">
-							Addition 1
-						</div>
-						<div id="streak-bar-container">
-							<div class="streak-bar" title="Current streak: 0, Longest streak: 0">
-								<div class="longest-streak">
-									<div class="current-streak">
-										<ul class="unit-rating" style="width:228px;">
-											<li style="width:0px;" class="current-rating"></li>
-											<li style="width:0px;" class="streak-icon"></li>
-											<li style="width:0px;" class="best-label"></li>
-											<li style="width:0px;" class="current-label"></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="related-content" style="display:none;">
-							<span class="related-content-title">Related videos:</span>
-							<ul class="related-video-list"></ul>
-						</div>
-					</div><!-- TODO: Have this slide down when message is in here. -->
-					<div id="exercise-message-container" style="display: none;">
-						<div class="exercise_message"></div>
-					</div>
-					<div id="extras" class="single-exercise">
-						<div id="back-to-dashboard-link" class="single-exercise">
-							<a href="http://www.khanacademy.org/exercisedashboard" title="Back to Dashboard">&laquo; Back to Dashboard</a>
-						</div>
-						<!-- TODO: Toggle scratch pad display -->
-							<a id="scratch_pad_show" href="">Show scratch pad</a> | <a id="print_ten" href="">Show next 10 problems</a>
-					</div>
-					<div>
-						<div id='problemarea'>
-							<div id='scratchpad'></div>
-							<div id='workarea'></div>
-							<div id='hintsarea'></div>
-						</div>
-						<div id="rawhintsarea"></div>
-						<div id="answer_area">
-							<form id="answerform" action="/registeranswer" method="get" name="answerform">
-								<div class="info-box fancy-scrollbar">
-									<span class="info-box-header">Answer</span>
-									<div id="solution"></div>
-									<input type="button" class="button green" id="check-answer-button" tabindex="10" value="Check Answer"/>
-									<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px">
-									<span id="check-answer-results">
-										<span id="next-container" class="button" style="position:relative; display: none;">
-											<input id="next-question-button" type="button" class="button green" name="correctnextbutton" value="Correct! Next Question..."/>
-											<img src="http://www.khanacademy.org/images/throbber.gif" id="throbber" style="display:none;" name="throbber"/>
-										</span><br/>
-										<img src="../css/images/face-sad.gif" id="sad" style="display: none;"/>
-										<img src="../css/images/face-smiley.gif" id="happy" style="display: none;"/>
-									</span> <!-- TODO: 'One-time warning: Using a hint will erase your streak.\nAre you sure you want to continue?' -->
-								</div>
-								<div class="info-box">
-									<span class="info-box-header">Need Help?</span>
-									<div id="related-video-content" style="display:none;">
-										<span class="info-box-subheader">Watch a video</span>
-										<span class="info-box-sub-description">Watching videos <strong>does not</strong> reset your streak.</span>
-										<div id="related-video-list">
-											<span class="related-content-title">Related videos:</span>
-											<ul class="related-video-list"></ul>
-										</div>
-										<div class="clear"></div>
-									</div>
-									<span class="info-box-subheader">Get a hint</span>
-									<span class="info-box-sub-description">Getting a hint <strong>will</strong> reset your streak!</span>
-									<input id="hint" type="button" class="button orange" value="I'd like a hint" name="hint"/>
-								</div>
-							</form>
-						</div>
-					</div>
-					<div style="clear: both;"></div>
-				</div>
-				<div style="padding: 10px;">&nbsp;</div>
-				<div id="badge-notification-container" class="badge-award-container" style="display:none;"></div>
-			</div>
-		</div>
-		<div class="push"></div>
-		<footer id="footer" class="short">
-			<div id="leaves">
-				<div class="inner">
-					<div id="copyright">
-						<small>&copy;2011 Khan Academy&#0153;</small> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/" id="creative-commons-link" name="creative-commons-link"></a>
-					</div>
-					<span class="footer-links" style="padding-top: 10px;">
-						<a href="http://www.khanacademy.org/reportissue?type=Defect&amp;issue_labels=Component-Code%2CExercise-addition_1%2CProblem-1" name="report-problem">Report a Problem</a><a href="http://www.khanacademy.org/about/the-team">Contact Us</a> <span class="sep">|</span> <a href="http://www.khanacademy.org/about">About</a> <a href="http://www.khanacademy.org/about/faq">FAQ</a> <a href="http://www.khanacademy.org/contribute/credits">Credits</a> <span class="sep">|</span> <a href="http://www.khanacademy.org/about/tos" title="Terms of Service">ToS</a> <a href="http://www.khanacademy.org/about/privacy-policy" title="Privacy Policy">Privacy Policy</a> <span class="sep">|</span> <a href="http://www.khanacademy.org/downloads">Downloads</a> <a href="http://www.khanacademy.org/coaches">Add a Coach</a>
-					</span>
-				</div>
-			</div>
-		</footer>
-	</body>
-</html>
+<div class="exercise-badge single-exercise" data-id="addition_1">
+    <div id="exercise-icon-container">
+        <div class="proficient-badge">
+            <img src="http://www.khanacademy.org/images/node-not-started.png" height="80" width="76"/>
+        </div>
+    </div>
+    <!-- TODO: Update with real point value -->
+    <div id="exercise-points" class="energy-points-badge">
+        225
+    </div>
+    <!-- TODO: Update with real title -->
+    <div class="exercise-title">
+        Addition 1
+    </div>
+    <div id="streak-bar-container">
+        <div class="streak-bar" title="Current streak: 0, Longest streak: 0">
+            <div class="longest-streak">
+                <div class="current-streak">
+                    <ul class="unit-rating" style="width:228px;">
+                        <li style="width:0px;" class="current-rating"></li>
+                        <li style="width:0px;" class="streak-icon"></li>
+                        <li style="width:0px;" class="best-label"></li>
+                        <li style="width:0px;" class="current-label"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="related-content" style="display:none;">
+        <span class="related-content-title">Related videos:</span>
+        <ul class="related-video-list"></ul>
+    </div>
+</div>
+<div id="exercise-message-container" style="display: none;">
+    <div class="exercise_message"></div>
+</div>
+<div id="extras" class="single-exercise">
+    <div id="back-to-dashboard-link" class="single-exercise">
+        <a href="http://www.khanacademy.org/exercisedashboard" title="Back to Dashboard">&laquo; Back to Dashboard</a>
+    </div>
+    <!-- TODO: Toggle scratch pad display -->
+        <a id="scratch_pad_show" href="">Show scratch pad</a> | <a id="print_ten" href="">Show next 10 problems</a>
+</div>
+<div>
+    <div id='problemarea'>
+        <div id='scratchpad'></div>
+        <div id='workarea'></div>
+        <div id='hintsarea'></div>
+    </div>
+    <div id="rawhintsarea"></div>
+    <div id="answer_area">
+        <form id="answerform" action="/registeranswer" method="get" name="answerform">
+            <div class="info-box fancy-scrollbar">
+                <span class="info-box-header">Answer</span>
+                <div id="solution"></div>
+                <input type="button" class="button green" id="check-answer-button" tabindex="10" value="Check Answer"/>
+                <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px">
+                <span id="check-answer-results">
+                    <span id="next-container" class="button" style="position:relative; display: none;">
+                        <input id="next-question-button" type="button" class="button green" name="correctnextbutton" value="Correct! Next Question..."/>
+                        <img src="http://www.khanacademy.org/images/throbber.gif" id="throbber" style="display:none;" name="throbber"/>
+                    </span><br/>
+                    <img id="sad" style="display: none;"/>
+                    <img id="happy" style="display: none;"/>
+                </span> <!-- TODO: 'One-time warning: Using a hint will erase your streak.\nAre you sure you want to continue?' -->
+            </div>
+            <div class="info-box">
+                <span class="info-box-header">Need Help?</span>
+                <div id="related-video-content" style="display:none;">
+                    <span class="info-box-subheader">Watch a video</span>
+                    <span class="info-box-sub-description">Watching videos <strong>does not</strong> reset your streak.</span>
+                    <div id="related-video-list">
+                        <span class="related-content-title">Related videos:</span>
+                        <ul class="related-video-list"></ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <span class="info-box-subheader">Get a hint</span>
+                <span class="info-box-sub-description">Getting a hint <strong>will</strong> reset your streak!</span>
+                <input id="hint" type="button" class="button orange" value="I'd like a hint" name="hint"/>
+            </div>
+        </form>
+    </div>
+</div>
+<div style="clear: both;"></div>
