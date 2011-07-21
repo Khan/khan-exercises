@@ -8,7 +8,7 @@
 			var natRoot = KhanUtil.splitRadical(root)[0];
 			var underRoot =  KhanUtil.splitRadical(root)[1];	
 			var d = KhanUtil.reduce(natRoot*underRoot, b)[0];
-               		var n = KhanUtil.reduce(natRoot*underRoot,b)[1];
+			var n = KhanUtil.reduce(natRoot*underRoot,b)[1];
 			if ( d == 1 ){
 				 if(n != 1){
                                         return   n + "\\sqrt{" + underRoot +"}";
@@ -152,7 +152,7 @@
 				<p><b>SOH</b> CAH TOA</p>
 				<p><b>S</b>in=<b>O</b>pposite over <b>H</b>ypotenuse</p>
 				<p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
-				<p>hypothenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
+				<p>hypotenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
 				<p><code>\sin(\angle <var>ANGLE</var>)=<var>SIMPLE_SIN</var></code></p>
 				<p data-if="SIN!=SIMPLE_SIN"><code>=<var>SIN</var></code></p>
 			</div>
@@ -160,7 +160,7 @@
 
 		 <div id="cos" data-type="sin">
                         <div class="problem">
-                                <p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
+                              	<p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
                                 <p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p>
                                 <p><code>\overline{AB}</code> is <code><var>AB_STRING</var></code> units long</p>
                         </div>
