@@ -737,6 +737,9 @@ function makeProblemBag( problems, n ) {
 			})() );
 		}
 	}
+	
+	// Remove all the exercises from the page (they're no longer needed)
+	jQuery(".exercise").detach();
 
 	return bag;
 }
