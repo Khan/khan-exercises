@@ -1061,11 +1061,6 @@ function prepareSite() {
 			.show();
 	}
 
-	// Hide exercies summaries for now
-	// Will figure out something more elegant to do with them once the new
-	// framework is shipped and we can worry about rounding out the summaries
-	jQuery( ".summary" ).hide();
-
 	// Watch for a solution submission
 	jQuery("#check-answer-button").click( handleSubmit );
 	jQuery("#answerform").submit( handleSubmit );
