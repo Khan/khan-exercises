@@ -101,10 +101,12 @@
 				var rowHeight = table.height() / denominator;
 
 				for( i=0; i < denominator - numerator; i++ ) {
-					tbody.append( "<tr><td class=\"hint_empty_cell\"/></tr>" ).height(rowHeight);					
+					tbody.append( "<tr><td class=\"hint_empty_cell\" style=\"min-width:0px\"/></tr>" )
+						.height(rowHeight);					
 				}
 				for( i=0; i < numerator; i++ ) {
-					tbody.append( "<tr><td class=\"hint_box1_cell\"/></tr>" ).height(rowHeight);
+					tbody.append( "<tr><td class=\"hint_box1_cell\" style=\"min-width:0px\"/></tr>" )
+						.height(rowHeight);
 				}
 
 				return jQuery('<div />').append(table).html();
@@ -410,10 +412,6 @@
 							</div>	
 							<script type="text/javascript" data-if="ISMSIE == false">
 								jQuery(document).ready(function(){
-									// Get the <var> value of B_NUMBER indirectly by 
-									// querying for generated boxes.
-									
-									
 									// Scroll the hint into view.
 									scrollIntoView( "#problem1-hint3-div" );
 
@@ -424,6 +422,8 @@
 									if( !is_chrome ) {
 										// move the old hint box to this hint.
 										var oldHintBox = jQuery( "#problem1-hint2-box-div" );
+										jQuery( "#problem1-hint3-box-div2" )
+											.height( oldHintBox.height() );
 										jQuery( "#problem1-hint3-box-div" ).append( oldHintBox );
 	
 										// fade out the original boxes while fading in 
@@ -634,22 +634,13 @@
 							</div>
 							<script type="text/javascript" data-if="ISMSIE == false">
 								jQuery(document).ready(function(){
-									// Get the <var> value of B_NUMBER indirectly by 
-									// querying for generated boxes.
-									var bNumber = 1;
-									while( bNumber < 10 ) {											
-										if ( jQuery( "#box2-" + bNumber ).length < 1 ) {
-											break;
-										} else {
-											bNumber++;
-										}
-									}
-									jQuery( "#problem3-hint2-box-div2" )
-										.height( ( bNumber + 1 ) * 105 + 10 );
+									var oldHintBox = jQuery( "#problem2-hint2-box-div" );
+									jQuery( "#problem2-hint3-box-div2" )
+										.height( oldHintBox.height() );
 									
 									// Scroll the hint into view.
-									scrollIntoView("#problem2-hint3-div");
-
+									scrollIntoView("#problem2-hint3-div");							
+									
 									// Skip simplifiation animation in Chrome.  A bug in Chrome
 									// breaks rearranging the DOM in this way.
 									var is_chrome = navigator.userAgent.toLowerCase()
@@ -657,7 +648,6 @@
 
 									if( !is_chrome ) {
 										// move the old hint box to this hint.
-										var oldHintBox = jQuery( "#problem2-hint2-box-div" );
 										jQuery( "#problem2-hint3-box-div" ).append( oldHintBox );
 	
 										// fade out the original boxes while fading in 
@@ -912,38 +902,30 @@
 							</div>							
 							<script type="text/javascript" data-if="ISMSIE == false">
 								jQuery(document).ready(function(){
-									// Get the <var> value of B_NUMBER indirectly by 
-									// querying for generated boxes.
-									var bNumber = 1;
-									while( bNumber < 10 ) {											
-										if ( jQuery( "#box2-" + bNumber ).length < 1 ) {
-											break;
-										} else {
-											bNumber++;
-										}
-									}
+									var oldHintBox = jQuery( "#problem3-hint2-box-div" );
 									jQuery( "#problem3-hint3-box-div2" )
-										.height( ( bNumber + 1 ) * 105 + 10 );
-									
+										.height( oldHintBox.height() );
+																		
 									// Scroll the hint into view.
 									scrollIntoView( "#problem3-hint3-div" );
 
 									// Skip simplifiation animation in Chrome.  A bug in Chrome
 									// breaks rearranging the DOM in this way.
-									var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-										if( !is_chrome ) {
+									var is_chrome = navigator.userAgent.toLowerCase()
+										.indexOf('chrome') > -1;
+									if( !is_chrome ) {
 										// move the old hint box to this hint.
-										var oldHintBox = jQuery( "#problem3-hint2-box-div" );
 										jQuery( "#problem3-hint3-box-div" ).append( oldHintBox );
 	
 										// fade out the original boxes while fading in 
 										// the simplified mixed fraction.
 										jQuery( "#problem3-hint2-box-div" ).fadeOut( 3000,
 												function() {
-											jQuery( "#problem3-hint3-box-div2" ).fadeIn( 3000, function() {
-												jQuery( "#problem3-hint3-box-div2" ).css( 'opacity', 1 );
+											jQuery( "#problem3-hint3-box-div2" ).fadeIn( 3000, 
+													function() {
+														jQuery( "#problem3-hint3-box-div2" )
+															.css( 'opacity', 1 );
 											} );
-											
 										} );
 									} else {										
 										jQuery( "#problem3-hint3-box-div2" ).css( 'opacity', 1 );
