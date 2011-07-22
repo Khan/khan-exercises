@@ -618,8 +618,9 @@
 									divided evenly out of the fraction and leave the 
 									remainder as a fraction. This makes the simplified answer 
 									<code><var>SIMPLIFIED.whole</var> 
+										<span data-if="SIMPLIFIED.numerator > 0">
 										\frac{<var>SIMPLIFIED.numerator</var>}
-										{<var>SIMPLIFIED.denominator</var>}
+										{<var>SIMPLIFIED.denominator</var>}</span>
 									</code>.
 							</p>
 							<p data-if="SIMPLIFIED.whole < 1 &&	GCD <= 1" >
@@ -888,8 +889,9 @@
 								of the fraction, while leaving the remainder in the fraction. 
 								This makes the simplified answer 
 								<code><var>SIMPLIFIED.whole</var> 
+								<span data-if="SIMPLIFIED.numerator > 0">
 								\frac{<var>SIMPLIFIED.numerator</var>}
-								{<var>SIMPLIFIED.denominator</var>}</code>.								
+								{<var>SIMPLIFIED.denominator</var>}</span></code>.								
 							</p>
 							<p data-if="SIMPLIFIED.whole < 1 &&	GCD <= 1">
 								This cannot be simplified any further.
