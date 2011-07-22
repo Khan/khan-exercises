@@ -546,7 +546,7 @@ Khan.loadScripts( scripts, function() {
 
 			if ( !( /success|notmodified/ ).test( status ) ) {
 				// Maybe loading from a file:// URL?
-				Khan.error( "Error loading exercise from file " + src + ".html: " + xhr.status + " " + xhr.statusText );
+				Khan.error( "Error loading exercise from file " + name + ".html: " + xhr.status + " " + xhr.statusText );
 				return;
 			}
 
