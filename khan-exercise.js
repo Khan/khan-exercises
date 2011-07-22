@@ -394,12 +394,16 @@ Khan.loadScripts( scripts, function() {
 
 				jQuery( "#throbber" ).hide();
 				jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
-				jQuery( "#answerform input" ).removeAttr("disabled");
 				if ( pass ) {
 					jQuery( "#check-answer-button" ).hide();
 					if ( !testMode || Khan.query.test == null ) {
-						jQuery( "#next-container" ).show().find( "input" ).focus();
+						jQuery( "#next-container" ).show();
+						jQuery( "#next-question-button" ).removeAttr( "disabled" )
+							.removeClass( "buttonDisabled" )
+							.focus();
 					}
+				} else {
+					jQuery( "#answerform input" ).removeAttr( "disabled" );
 				}
 			}, function() {
 				// Error during submit. Cheat, for now, and reload the page in
@@ -940,6 +944,7 @@ function makeProblem( id, seed ) {
 
 	// Add the problem into the page
 	jQuery( "#workarea" ).append( problem ).fadeIn();
+	jQuery( "#answerform input" ).removeAttr("disabled");
 
 	// Save the raw hints so they can be modified later
 	rawHints = hints.clone()
