@@ -129,6 +129,50 @@ jQuery.extend( Khan.answerTypes, {
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
+	
+	mixedfraction: function( solutionarea, solution, fallback ) {
+		var options = jQuery.extend({
+			simplify: "required",
+			maxError: Math.pow( 2, -23 )
+		}, jQuery( solution ).data());
+
+		var verifier = function( correct, guess ) {
+			
+			correct = parseFloat( correct );
+			
+			// scan for expressions like -5 3/4
+			var mixedFracExp =  /^\s*(-)?(\d+\s+)?(\d+)(\/(\d+))?\s*$/;
+			
+			var match = guess.match( mixedFracExp );
+			if ( match ) {
+				var sign = match[1] != '-' ? 1 : -1;
+				
+				//matches the whole number part if there is a whole num and a fraction
+				var wholeNum = match[2] ? parseFloat( match[2].replace( /\s/, '' ) ) : 0;			
+				//matches the whole number if no fraction, or the numerator of a fraction
+				var num = match[3] ? parseFloat( match[3] ) : 0;
+				//matches the denominator, or uses 1 if denominator not specified.
+				var denom = match[5] ? parseFloat( match[5] ) : 1;
+				//calculate gcd to check for simplification.
+				var gcd = KhanUtil.getGCD( num, denom );
+				
+				guess = sign * ( wholeNum + ( num / denom ) );
+				
+				if ( options.simplify !== "optional" && ( gcd > 1 || num > denom ) ) {
+					return false;
+				} else {
+					return Math.abs( correct - guess ) < parseFloat( options.maxError );
+				}
+			}
+			else {
+				return false;
+			}
+		};
+
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
+	},
+	
+	
 
 	radical: function( solutionarea, solution ) {
 		solution.find("span:first").addClass("sol").end()
