@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems">
+<html data-require="math graphie math-format">
 	<head>
 		<title>Multiplying Fractions 1</title>
 		<script src="../khan-exercise.js"></script>
@@ -146,10 +146,14 @@
 				var colWidth = row.width() / denominator;
 
 				for( i=0; i < denominator - numerator; i++ ) {
-					row.append("<td class=\"hint_empty_cell\"/>").width(colWidth);
+					var td = row.append("<td class=\"hint_empty_cell\"/>");
+					td.width( colWidth );
+					td.css( 'min-width', 0 );
 				}
 				for( i=0; i < numerator; i++ ) {
-					row.append("<td class=\"" + useBoxClass + "\"/>").width(colWidth);
+					var td =  row.append("<td class=\"" + useBoxClass + "\"/>");
+					td.width( colWidth );
+					td.css( 'min-width', 0 );
 				}
 
 				return jQuery('<div />').append(table).html();
@@ -293,8 +297,9 @@
 									<tr>
 										<td class="centered_cell">
 											<code>
-												\huge{\frac{<var>A_NUMERATOR</var>}
-												{<var>A_DENOMINATOR</var>}}
+												\huge{
+													<var>fraction( A_NUMERATOR, A_DENOMINATOR )</var>
+												}												
 											</code>
 										</td>
 										<td class="centered_cell">
@@ -302,12 +307,13 @@
 										</td>
 										<td class="centered_cell">
 											<code>
-												\huge{\frac{<var>B_NUMERATOR</var>}
-												{<var>B_DENOMINATOR</var>}}
+												\huge{
+													<var>fraction( B_NUMERATOR, B_DENOMINATOR )</var>
+												}
 											</code>
 										</td>
 										<td class="centered_cell">
-											<code>\huge{ = ?}</code>
+											<code>\huge{ =\space ?}</code>
 										</td>
 									</tr>
 									<tr>
@@ -334,11 +340,11 @@
 							<p>
 								What is 
 								<code>
-									\frac{<var>A_NUMERATOR</var>}{<var>A_DENOMINATOR</var>}
+									<var>fraction( A_NUMERATOR, A_DENOMINATOR )</var>
 								</code> 
 								of 
 								<code>
-									\frac{<var>B_NUMERATOR</var>}{<var>B_DENOMINATOR</var>}
+									<var>fraction( B_NUMERATOR, B_DENOMINATOR )</var>
 								</code> ?
 							</p>
 						</div> <!-- End of hint 1 -->
@@ -352,11 +358,14 @@
 								the product of the denominators.  
 								The number of boxes where the two intersect is equal to 
 								<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var>
-									= <var>A_NUMERATOR * B_NUMERATOR</var></code>, the product of the 2 numerators.  
+									= <var>A_NUMERATOR * B_NUMERATOR</var></code>, 
+								the product of the 2 numerators.  
 								So our unsimplified answer is: 
 								<code>
-									\frac{<var>A_NUMERATOR * B_NUMERATOR</var>}
-									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
+									<var>
+										fraction( A_NUMERATOR * B_NUMERATOR, 
+											A_DENOMINATOR * B_DENOMINATOR )
+									</var>
 								</code>.
 							</p>
 							<p data-else>
@@ -369,9 +378,11 @@
 									= <var>A_NUMERATOR * B_NUMERATOR</var></code>, 
 								the product of multiplying the 2 numerators.  
 								So our unsimplified answer is: 
-								<code>
-									\frac{<var>A_NUMERATOR * B_NUMERATOR</var>}
-									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
+								<code>									
+									<var>
+										fraction( A_NUMERATOR * B_NUMERATOR, 
+											A_DENOMINATOR * B_DENOMINATOR )
+									</var>
 								</code>.
 							</p>
 							<div id="problem1-hint2-box-div" data-if="ISMSIE == false"
@@ -394,8 +405,10 @@
 							<p data-if="GCD > 1">
 								This can be further simplified to
 								<code>
-									\frac{<var>A_NUMERATOR * B_NUMERATOR / GCD</var>}
-									{<var>A_DENOMINATOR * B_DENOMINATOR / GCD</var>}
+									<var>
+										fraction( A_NUMERATOR * B_NUMERATOR / GCD, 
+											A_DENOMINATOR * B_DENOMINATOR / GCD )
+									</var>
 								</code>, 
 								by dividing both top and bottom by it's common denominator 
 								<var>GCD</var>.								
@@ -439,7 +452,8 @@
 										} );
 									} else {										
 										jQuery( "#problem3-hint3-box-div2" ).css( 'opacity', 1 );
-										jQuery( "#problem3-hint3-box-div2" ).css( 'display', 'block' );
+										jQuery( "#problem3-hint3-box-div2" )
+											.css( 'display', 'block' );
 									}									
 								});
 							</script>
@@ -485,8 +499,7 @@
 									<tr>
 										<td class="centered_cell">
 											<code>
-												\huge{\frac{<var>A_NUMERATOR</var>}
-												{<var>A_DENOMINATOR</var>}}
+												<var>fraction(A_NUMERATOR, A_DENOMINATOR)</var>
 											</code>
 										</td>
 										<td class="centered_cell">
@@ -498,7 +511,7 @@
 											</code>	
 										</td>
 										<td class="centered_cell">
-											<code>\huge{ = ?}</code>
+											<code>\huge{ = \space ?}</code>
 										</td>
 									</tr>
 									<tr>
@@ -526,10 +539,7 @@
 							</p>
 							<p>
 								What is 
-								<code>
-									\frac{<var>A_NUMERATOR</var>}
-									{<var>A_DENOMINATOR</var>}
-								</code>
+								<code><var>fraction( A_NUMERATOR, A_DENOMINATOR)</var></code>
 								of <var>B_NUMBER</var> ?
 							</p>
 						</div>
@@ -541,10 +551,10 @@
 									= <var>A_NUMERATOR * B_NUMBER</var></code> 
 								pieces, the product of the numerator times the whole 
 								number. Each box is divided into <var>A_DENOMINATOR</var>  
-								equal pieces of <code>\frac{1}{<var>A_DENOMINATOR</var>}</code> 
+								equal pieces of <code><var>fraction( 1, A_DENOMINATOR )</var></code> 
 								size. This makes the unsimplified answer 
 								<code>
-									\frac{<var>A_NUMERATOR * B_NUMBER</var>}{<var>A_DENOMINATOR</var>}
+									<var>fraction( A_NUMERATOR * B_NUMBER, A_DENOMINATOR )</var>
 								</code>.
 							</p>
 							<p data-else>
@@ -554,10 +564,10 @@
 									= <var>A_NUMERATOR * B_NUMBER</var></code>.
 								We can then just take the denominator of the first number,
 								<var>A_DENOMINATOR</var>}</code>, because <var>B_NUMBER</var> is 
-								equivalent to <code>\frac{<var>B_NUMBER</var>}{1}</code>.
+								equivalent to <code><var>fraction( B_NUMBER, 1 )</var></code>.
 								This makes the unsimplified answer 
 								<code>
-									\frac{<var>A_NUMERATOR * B_NUMBER</var>}{<var>A_DENOMINATOR</var>}
+									<var>fraction( A_NUMERATOR * B_NUMBER, A_DENOMINATOR )</var>
 								</code>.
 							</p>
 							<div id="problem2-hint2-box-div" data-if="ISMSIE == false"
@@ -583,7 +593,8 @@
 
 										// size parent div
 										jQuery( "#problem2-hint2-box-div" ).width( 400 );
-										jQuery( "#problem2-hint2-box-div" ).height( bNumber * 105 + 10 );
+										jQuery( "#problem2-hint2-box-div" )
+											.height( bNumber * 105 + 10 );
 
 										// position the right boxes
 										for( var i = 0; i < bNumber; i++ ) {
@@ -605,9 +616,9 @@
 						<div id="problem2-hint3-div">
 							<p data-if="GCD > 1">
 								This can be further simplified to
-								<code>
-									\frac{<var>A_NUMERATOR * B_NUMBER / GCD</var>}
-									{<var>A_DENOMINATOR / GCD</var>}
+								<code>									
+									<var>fraction(A_NUMERATOR * B_NUMBER / GCD, 
+										A_DENOMINATOR / GCD)</var>
 								</code>, 
 								by dividing both top and bottom by it's common denominator 
 								<var>GCD</var>.							
@@ -617,10 +628,11 @@
 									numerator by the denominator, and taking the part that 
 									divided evenly out of the fraction and leave the 
 									remainder as a fraction. This makes the simplified answer 
-									<code><var>SIMPLIFIED.whole</var> 
-										<span data-if="SIMPLIFIED.numerator > 0">
-										\frac{<var>SIMPLIFIED.numerator</var>}
-										{<var>SIMPLIFIED.denominator</var>}</span>
+									<code>
+										<var>
+											mixedFraction( SIMPLIFIED.whole, SIMPLIFIED.numerator,
+												SIMPLIFIED.denominator)
+										</var>
 									</code>.
 							</p>
 							<p data-if="SIMPLIFIED.whole < 1 &&	GCD <= 1" >
@@ -663,7 +675,8 @@
 										} );
 									} else {
 										jQuery( "#problem2-hint3-box-div2" ).css( 'opacity', 1 );
-										jQuery( "#problem2-hint3-box-div2" ).css( 'display', 'block' );
+										jQuery( "#problem2-hint3-box-div2" )
+											.css( 'display', 'block' );
 									}
 								});
 							</script>
@@ -680,7 +693,8 @@
 						<var id="B_NUMERATOR">randRange(1, 3)</var>
 						<var id="B_DENOMINATOR">B_NUMERATOR + randRange(1, 4)</var>
 						<var id="GCD">
-							KhanUtil.getGCD( ( A_NUMERATOR * (B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ), 
+							KhanUtil.getGCD( 
+								( A_NUMERATOR * (B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ), 
 								( A_DENOMINATOR * B_DENOMINATOR ) )
 						</var>
 						<var id="SIMPLIFIED">
@@ -696,7 +710,8 @@
 							+ createHorizTable( B_NUMERATOR, B_DENOMINATOR, null, null )
 						</var>
 						<var id="TABLE_A_HINT">
-							createNBoxesOverlayVert( B_NUMBER + 1, 'box1', A_NUMERATOR, A_DENOMINATOR )
+							createNBoxesOverlayVert( B_NUMBER + 1, 'box1', 
+								A_NUMERATOR, A_DENOMINATOR )
 						</var>
 						<var id="TABLES_B_HINT">
 							createNBoxesOverlayHoriz( B_NUMBER, 'box2', B_DENOMINATOR, B_DENOMINATOR )
@@ -717,8 +732,7 @@
 									<tr>
 										<td class="centered_cell">
 											<code>
-												\huge{\frac{<var>A_NUMERATOR</var>}
-												{<var>A_DENOMINATOR</var>}}
+												<var>fraction( A_NUMERATOR, A_DENOMINATOR )</var>
 											</code>
 										</td>
 										<td class="centered_cell">
@@ -726,13 +740,14 @@
 										</td>
 										<td class="centered_cell">
 											<code>
-												\huge{<var>B_NUMBER</var> 
-												\frac{<var>B_NUMERATOR</var>}
-												{<var>B_DENOMINATOR</var>}}
+												<var>
+													mixedFraction( B_NUMBER, 
+														B_NUMERATOR, B_DENOMINATOR )
+												</var>
 											</code>	
 										</td>
 										<td class="centered_cell">
-											<code>\huge{ = ?}</code>
+											<code>\huge{ = \space ?}</code>
 										</td>
 									</tr>
 									<tr>
@@ -759,23 +774,23 @@
 							</p>
 							<p>
 								What is 
-								<code>
-									\frac{<var>A_NUMERATOR</var>}
-									{<var>A_DENOMINATOR</var>}
-								</code> 
-								of <code>\frac{<var>B_NUMBER * B_DENOMINATOR + B_NUMERATOR</var>}
-								{<var>B_DENOMINATOR</var>}</code> ?
+								<code><var>fraction( A_NUMERATOR, A_DENOMINATOR )</var></code> 
+								of 
+								<code><var>
+									fraction( B_NUMBER * B_DENOMINATOR + B_NUMERATOR,
+										B_DENOMINATOR)
+								</var></code> ?
 							</p>
 							<p>
 								Converted the whole number to an improper fraction by first 
 								multiplying the whole number portion with the denominator then 
 								adding the existing numerator back in: 
 								<code>
-									\frac{<var>B_NUMBER</var> \times <var>B_DENOMINATOR</var> + 
+									\dfrac{<var>B_NUMBER</var> \times <var>B_DENOMINATOR</var> + 
 									<var>B_NUMERATOR</var>}
 								{<var>B_DENOMINATOR</var>} 
-								= 	\frac{<var>B_NUMBER * B_DENOMINATOR + B_NUMERATOR</var>}
-									{<var>B_DENOMINATOR</var>}
+								= 	<var>fraction( B_NUMBER * B_DENOMINATOR + B_NUMERATOR,
+										B_DENOMINATOR)</var>
 								</code>
 							</p>
 						</div>
@@ -796,13 +811,15 @@
 								<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
 								= <var>A_DENOMINATOR * B_DENOMINATOR</var></code> 
 								equal pieces of 
-								<code>\frac{1}{<var>A_DENOMINATOR * B_DENOMINATOR</var>}</code> 
+								<code><var>fraction( 1, A_DENOMINATOR * B_DENOMINATOR )</var></code> 
 								size.  
 								This makes the unsimplified answer 
 								<code>
-									\frac{<var>A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR 
-										+ B_NUMERATOR)</var>}
-									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
+									<var>
+										fraction( 
+											A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR),
+											A_DENOMINATOR * B_DENOMINATOR )
+									</var>
 								</code>.
 							</p>
 							<p data-else>
@@ -821,9 +838,11 @@
 								= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>.
 								This gives us the unsimplified answer of 
 								<code>
-									\frac{<var>A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR 
-										+ B_NUMERATOR)</var>}
-									{<var>A_DENOMINATOR * B_DENOMINATOR</var>}
+									<var>
+										fraction( 
+											A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR),
+											A_DENOMINATOR * B_DENOMINATOR )
+									</var>
 								</code>.
 							</p>
 							<div id="problem3-hint2-box-div"  data-if="ISMSIE == false"
@@ -876,8 +895,9 @@
 							<p data-if="GCD > 1">
 								This can be further simplified to
 								<code>
-									\frac{<var>A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR) / GCD</var>}
-									{<var>(A_DENOMINATOR * B_DENOMINATOR) / GCD</var>}
+									<var>fraction( 
+										A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR)	/ GCD,
+										(A_DENOMINATOR * B_DENOMINATOR) / GCD )</var>
 								</code>, 
 								by dividing both top and bottom by it's common denominator 
 								<var>GCD</var>.
@@ -888,10 +908,8 @@
 								by the	denominator, and taking the part that evenly divided out 
 								of the fraction, while leaving the remainder in the fraction. 
 								This makes the simplified answer 
-								<code><var>SIMPLIFIED.whole</var> 
-								<span data-if="SIMPLIFIED.numerator > 0">
-								\frac{<var>SIMPLIFIED.numerator</var>}
-								{<var>SIMPLIFIED.denominator</var>}</span></code>.								
+								<code><var>mixedFraction( SIMPLIFIED.whole, SIMPLIFIED.numerator, 
+									SIMPLIFIED.denominator )</var></code>.								
 							</p>
 							<p data-if="SIMPLIFIED.whole < 1 &&	GCD <= 1">
 								This cannot be simplified any further.
