@@ -30,6 +30,10 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// How far to jump through the problems
 	jumpNum,
 
+	// The current problem and its corresponding exercise
+	problem,
+	exercise,
+
 	// The number of the current problem that we're on
 	problemNum,
 	problemID,
@@ -347,7 +351,10 @@ Khan.loadScripts( scripts, function() {
 					sha1: typeof userExercise !== "undefined" ? userExercise.exercise_model.sha1 : exerciseName,
 					
 					// The seed that was used for generating the problem
-					seed: problemSeed
+					seed: problemSeed,
+
+					// The non-summative exercise that the current problem belongs to
+					non_summative: exercise.data( "name" )
 				};
 		
 			// Save the problem results to the server
@@ -529,17 +536,17 @@ Khan.loadScripts( scripts, function() {
 
 	function loadExercise() {
 		var self = jQuery( this );
-		var src = self.data( "src" );
+		var name = self.data( "name" );
 		var weight = self.data( "weight" );
 		var dummy = jQuery( "<div>" );
 
 		remoteCount++;
-		dummy.load( src + " .exercise", function( data, status, xhr ) {
+		dummy.load( name + ".html .exercise", function( data, status, xhr ) {
 			var match, newContents;
 
 			if ( !( /success|notmodified/ ).test( status ) ) {
 				// Maybe loading from a file:// URL?
-				Khan.error( "Error loading exercise from file " + src + ": " + xhr.status + " " + xhr.statusText );
+				Khan.error( "Error loading exercise from file " + src + ".html: " + xhr.status + " " + xhr.statusText );
 				return;
 			}
 
@@ -547,10 +554,10 @@ Khan.loadScripts( scripts, function() {
 			self.replaceWith( newContents );
 
 			// Maybe the exercise we just loaded loads some others
-			newContents.find( ".exercise[data-src]" ).each( loadExercise );
+			newContents.find( ".exercise[data-name]" ).each( loadExercise );
 
 			// Save the filename and weights
-			newContents.filter( ".exercise" ).data( "src", src );
+			newContents.filter( ".exercise" ).data( "name", name );
 			newContents.filter( ".exercise" ).data( "weight", weight );
 
 			// Extract data-require
@@ -581,7 +588,7 @@ Khan.loadScripts( scripts, function() {
 		});
 	};
 
-	var remoteExercises = jQuery( ".exercise[data-src]" );
+	var remoteExercises = jQuery( ".exercise[data-name]" );
 
 	if ( remoteExercises.length ) {
 		remoteExercises.each( loadExercise );
@@ -765,8 +772,6 @@ function makeProblemBag( problems, n ) {
 }
 
 function makeProblem( id, seed ) {
-	var problem;
-	
 	// Allow passing in a random seed
 	if ( typeof seed !== "undefined" ) {
 		randomSeed = seed;
@@ -806,7 +811,7 @@ function makeProblem( id, seed ) {
 	problemID = id;
 
 	// Find which exercise this problem is from
-	var exercise = problem.parents( ".exercise" ).eq( 0 );
+	exercise = problem.parents( ".exercise" ).eq( 0 );
 
 	// Work with a clone to avoid modifying the original
 	problem = problem.clone();
