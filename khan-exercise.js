@@ -347,7 +347,7 @@ Khan.loadScripts( scripts, function() {
 			hintUsed = false;
 			attempts = 0;
 			lastAction = (new Date).getTime();
-			
+			jQuery("#hint").val("I'd like a hint");
 			if ( once ) {
 				updateData();
 				once = false;
@@ -1211,7 +1211,7 @@ function prepareSite() {
 		if ( hint ) {
 
 			var problem = $hint.parent();
-
+            jQuery("#hint").val("Next step");
 			// If the hint has hint templating, then turn that hint templating into
 			// normal inheritance templating, apply templating, and then re-render all
 			// the hints.
@@ -1228,6 +1228,8 @@ function prepareSite() {
 
 					// Replace the previously rendered hints
 					.replaceAll( "#hintsarea" ).show().attr( "id", "hintsarea" );
+                    
+				
 
 			} else {
 
