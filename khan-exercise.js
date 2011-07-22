@@ -541,7 +541,7 @@ Khan.loadScripts( scripts, function() {
 		var dummy = jQuery( "<div>" );
 
 		remoteCount++;
-		dummy.load( name + ".html .exercise", function( data, status, xhr ) {
+		dummy.load( urlBase + "exercises/" + name + ".html .exercise", function( data, status, xhr ) {
 			var match, newContents;
 
 			if ( !( /success|notmodified/ ).test( status ) ) {
@@ -588,14 +588,15 @@ Khan.loadScripts( scripts, function() {
 		});
 	};
 
-	var remoteExercises = jQuery( ".exercise[data-name]" );
+	jQuery(function() {
+		var remoteExercises = jQuery( ".exercise[data-name]" );
 
-	if ( remoteExercises.length ) {
-		remoteExercises.each( loadExercise );
-
-	} else {
-		loadModules();
-	}
+		if ( remoteExercises.length ) {
+			remoteExercises.each( loadExercise );
+		} else {
+			loadModules();
+		}
+	});
 
 	function loadModules() {
 		// Load module dependencies
