@@ -1154,6 +1154,21 @@ function prepareSite() {
 	// Watch for when the "Get a Hint" button is clicked
 	jQuery("#hint").click(function() {
 
+		if (user) {
+			var hintApproved = window.localStorage[ "hintApproved:" + user ];
+			if (!(typeof hintApproved !== "undefined" && JSON.parse(hintApproved))) {
+				if (!(typeof userExercise !== "undefined" && userExercise.read_only)) {
+					if (confirm("One-time warning: Using a hint will erase your streak.\nAre you sure you want to continue?")) {
+						// Hint consequences approved
+						window.localStorage[ "hintApproved:" + user ] = true;
+					} else {
+						// User doesn't want to lose streak.
+						return;
+					}
+				}
+			}
+		}
+
 		// Get the first hint and render left in the parallel arrays
 		var hint = rawHints.shift(),
 			render = hints.shift(),
