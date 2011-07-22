@@ -1381,6 +1381,43 @@ function prepareSite() {
 	if ( testMode && Khan.query.debug != null ) {
 		jQuery( '<div id="debug"></div>' ).appendTo( "#answer_area" );
 	}
+
+	// Register API ajax callbacks for updating UI
+	if ( typeof APIActionResults !== "undefined" ) {
+		// Update exercise message after appropriate API ajax requests
+		APIActionResults.register("exercise_message_html", 
+			function(sExerciseMessageHtml) {
+				var jel = jQuery("#exercise-message-container");
+				var jelNew = jQuery(sExerciseMessageHtml);
+				if (jelNew.children().length) {
+					jel.empty().append(jelNew.children());
+					setTimeout(function(){ jel.slideDown(); }, 50);
+				}
+				else {
+					jel.slideUp();
+				}
+			}
+		);
+
+		// Update exercise icons after appropriate API ajax requests
+		APIActionResults.register("exercise_states", 
+			function(dictExerciseStates) {
+				var sPrefix = dictExerciseStates.summative ? "node-challenge" : "node";
+				var src = "";
+
+				if (dictExerciseStates.review)
+					src = "/images/node-review.png";
+				else if (dictExerciseStates.suggested)
+					src = "/images/" + sPrefix + "-suggested.png";
+				else if (dictExerciseStates.proficient)
+					src = "/images/" + sPrefix + "-complete.png";
+				else
+					src = "/images/" + sPrefix + "-not-started.png";
+
+				jQuery("#exercise-icon-container img").attr("src", src);
+			}
+		);
+	}
 }
 
 function nextProblem( num ) {
