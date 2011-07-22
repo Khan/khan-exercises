@@ -285,7 +285,7 @@
 						</var>
 						<var id="SIMP_TABLE">
 							createHorizTable( A_NUMERATOR * B_NUMERATOR / GCD,
-								A_DENOMINATOR * B_DENOMINATOR / GCD, null, "hint_diagram_table_big", 
+								A_DENOMINATOR * B_DENOMINATOR / GCD, 'simp_frac', "hint_diagram_table_big", 
 								"hint_box3_cell" )
 						</var>	
 					</div>
@@ -438,7 +438,9 @@
 										jQuery( "#problem1-hint3-box-div2" )
 											.height( oldHintBox.height() );
 										jQuery( "#problem1-hint3-box-div" ).append( oldHintBox );
-	
+
+										jQuery( "#simp_frac td" ).css( 'padding', 0 );
+										
 										// fade out the original boxes while fading in 
 										// the simplified mixed fraction.
 										jQuery( "#problem1-hint2-box-div" ).fadeOut( 3000,
@@ -487,7 +489,7 @@
 						<var id="SIMP_TABLES">createNBoxes( SIMPLIFIED.whole, null, null, 
 							"hint_box3_cell" )  
 							+ (SIMPLIFIED.numerator > 0 ? createHorizTable( SIMPLIFIED.numerator, 
-								SIMPLIFIED.denominator, null, null, 
+								SIMPLIFIED.denominator, 'simp_frac', null, 
 								"hint_box3_cell" ) : "")
 						</var>					
 					</div>
@@ -650,6 +652,9 @@
 									var oldHintBox = jQuery( "#problem2-hint2-box-div" );
 									jQuery( "#problem2-hint3-box-div2" )
 										.height( oldHintBox.height() );
+
+									// Needed to override padding set by khan.css
+									jQuery( "#simp_frac td" ).css( 'padding', 0 );
 									
 									// Scroll the hint into view.
 									scrollIntoView("#problem2-hint3-div");							
@@ -721,7 +726,7 @@
 						<var id="SIMP_TABLES">createNBoxes( SIMPLIFIED.whole, null, null, 
 							"hint_box3_cell" )  
 							+ ( SIMPLIFIED.numerator > 0 ? createHorizTable( SIMPLIFIED.numerator, 
-								SIMPLIFIED.denominator, null, null,	"hint_box3_cell" ) : "")
+								SIMPLIFIED.denominator, 'simp_frac', null,	"hint_box3_cell" ) : "")
 						</var>
 					</div>
 
@@ -925,7 +930,10 @@
 									var oldHintBox = jQuery( "#problem3-hint2-box-div" );
 									jQuery( "#problem3-hint3-box-div2" )
 										.height( oldHintBox.height() );
-																		
+
+									// Needed to override padding set by khan.css
+									jQuery( "#simp_frac td" ).css( 'padding', 0 );
+									
 									// Scroll the hint into view.
 									scrollIntoView( "#problem3-hint3-div" );
 
