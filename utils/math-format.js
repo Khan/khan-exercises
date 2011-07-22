@@ -65,6 +65,9 @@ jQuery.extend(KhanUtil, {
 	},
 	
 	/* Format the latex of the mixed fraction 'num n/d"
+	 * - For negative numbers, if it is a mixed fraction, make sure the whole
+	 * number portion is negative.  '-5, 2/3' should be 'mixedFraction(-5,2,3)'
+	 * do not put negative for both whole number and numerator portion.
 	 * - Will use latex's `dfrac` unless `small` is specified as truthy.
 	 * - Will wrap the fraction in parentheses if necessary (ie, unless the
 	 * fraction reduces to a positive integer) if `parens` is specified as
@@ -79,7 +82,12 @@ jQuery.extend(KhanUtil, {
 		var denominator = d ? d : 1;
 		
 		if ( reduce ) {
-			wholeNum += Math.floor( numerator / denominator );
+			if( wholeNum < 0 ) {
+				wholeNum += Math.floor( numerator / denominator );
+			} else {
+				wholeNum -= Math.floor( numerator / denominator );
+			}
+			
 			numerator = numerator % denominator;
 		}
 		
