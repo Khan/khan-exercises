@@ -924,7 +924,7 @@ function makeProblem( id, seed ) {
 	choices.remove();
 
 	// Add the problem into the page
-	jQuery( "#workarea" ).append( problem );
+	jQuery( "#workarea" ).append( problem ).fadeIn();
 
 	// Save the raw hints so they can be modified later
 	rawHints = hints.clone()
@@ -1136,6 +1136,7 @@ function prepareSite() {
 		jQuery("#next-question-button").blur().parent().hide();
 
 		// Wipe out any previous problem
+		jQuery("#workarea").hide();
 		jQuery("#workarea, #hintsarea, #hintsbag").empty();
 		jQuery("#hint").attr( "disabled", false );
 		
