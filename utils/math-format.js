@@ -63,6 +63,37 @@ jQuery.extend(KhanUtil, {
 
 		return begin + main + end;
 	},
+	
+	/* Format the latex of the mixed fraction num `n`/`d`.
+	 * - Will use latex's `dfrac` unless `small` is specified as truthy.
+	 * - Will wrap the fraction in parentheses if necessary (ie, unless the
+	 * fraction reduces to a positive integer) if `parens` is specified as
+	 * truthy.
+	 * - Will reduce the fraction `n`/`d` if `reduce` is specified as truthy.
+	 * - Will defraction (spit out 0 if `n` is 0, spit out `n` if `d` is 1, or
+	 * spit out `undefined` if `d` is 0) if `defraction` is specified as
+	 * truthy. */
+	mixedFraction: function( number, n, d, defraction, reduce, small, parens ) {
+		var wholeNum = number ? number : 0;
+		var numerator = n ? n : 0;
+		var denominator = d ? d : 1;
+		
+		wholeNum += Math.floor( numerator / denominator );
+		numerator = numerator % denominator;
+		
+		if ( wholeNum != 0 && numerator != 0 ) {
+			return wholeNum + " " 
+				+ KhanUtil.fraction( n, d, defraction, reduce, small, parens );
+		} else if ( wholeNum && numerator == 0 ) {
+			return wholeNum;
+		}
+		else if ( wholeNum == 0 && numerator != 0 ) {
+			return KhanUtil.fraction( n, d, defraction, reduce, small, parens );
+		}
+		else {
+			return 0;
+		}
+	},
 
 	/* Calls fraction with the reduce and defraction flag enabled. Additional
 	 * parameters correspond to the remaining fraction flags. */
