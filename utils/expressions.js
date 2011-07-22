@@ -244,13 +244,14 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"^": function( base, pow ) {
-			var parenthesizeBase;
+			var parenthesizeBase, trigFunction;
 			switch ( KhanUtil.exprType(base) ) {
 				case "+":
 				case "-":
 				case "*":
 				case "/":
 				case "^":
+				case "ln":
 				parenthesizeBase = true;
 				break;
 
@@ -258,8 +259,19 @@ jQuery.extend(KhanUtil, {
 				parenthesizeBase = base < 0;
 				break;
 
+				case "sin":
+				case "cos":
+				case "tan":
+				case "csc":
+				case "sec":
+				case "tan":
+				parenthesizeBase = false;
+				trigFunction = true;
+				break;
+
 				default:
 				parenthesizeBase = false;
+				trigFunction = false;
 			}
 
 			base = KhanUtil.expr( base );
@@ -269,7 +281,13 @@ jQuery.extend(KhanUtil, {
 
 			pow = KhanUtil.expr( pow );
 
-			return base + "^{" + pow + "}";
+			if ( trigFunction ) {
+				return base.replace( /\\(\S+)\{/, function( match, word ) {
+					return "\\" + word + "^{" + pow + "} {"
+				} );
+			} else {
+				return base + "^{" + pow + "}";
+			}
 		},
 
 		"sqrt": function( arg ) {
