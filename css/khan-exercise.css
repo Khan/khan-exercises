@@ -46,3 +46,4 @@ body.debug .graphie { outline: 1px dashed red; }
 #problemarea { padding-bottom: 38px; }
 
 .summary { display: none; }
+#browserwarning { display: none; padding: 18px; font-size: 120%; text-align: center; }

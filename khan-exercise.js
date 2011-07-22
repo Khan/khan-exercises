@@ -1067,6 +1067,11 @@ function prepareSite() {
 			.show();
 	}
 
+	if (jQuery.browser.msie && parseInt(jQuery.browser.version) < 8) {
+		jQuery( "#answer_area, #problemarea, #extras" ).hide();
+		jQuery( "#browserwarning ").show();
+	}
+
 	// Watch for a solution submission
 	jQuery("#check-answer-button").click( handleSubmit );
 	jQuery("#answerform").submit( handleSubmit );
