@@ -323,7 +323,6 @@ jQuery.extend(KhanUtil, {
 
 		}
 
-	},
-
+	}
 });
 
