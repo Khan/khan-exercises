@@ -388,6 +388,7 @@ Khan.loadScripts( scripts, function() {
 		
 			// Save the problem results to the server
 			request( "problems/" + (getData().total_done + 1) + "/attempt", data, function() {
+
 				// TODO: Save locally if offline
 				jQuery(Khan).trigger( "answerSaved" );
 
@@ -400,7 +401,13 @@ Khan.loadScripts( scripts, function() {
 						jQuery( "#next-container" ).show().find( "input" ).focus();
 					}
 				}
-			});
+			},
+			function() {
+				// Error during submit. Cheat, for now, and reload the page in
+				// an attempt to get updated data.
+				window.location.reload();
+			}
+			);
 			
 			// Make sure hint streak breaking is handled correctly
 			doSave = false;
@@ -476,7 +483,7 @@ Khan.loadScripts( scripts, function() {
 		}
 	};
 	
-	function request( method, data, fn ) {
+	function request( method, data, fn, fnError ) {
 		jQuery.ajax({
 			// Do a request to the server API
 			url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
@@ -498,7 +505,7 @@ Khan.loadScripts( scripts, function() {
 			},
 			
 			// Handle error edge case
-			error: fn
+			error: fnError
 		});
 	}
 	
