@@ -19,7 +19,7 @@ jQuery.extend(KhanUtil, {
 		// ensure that the function isn"t just 0 as well
 		var f;
 		do {
-			f = new KhanUtil.randFromArray(KhanUtil.CalcFunctions)( variable );
+			f = new ( KhanUtil.randFromArray( KhanUtil.CalcFunctions ) )( variable );
 		} while (f.f === "0");
 		return f;
 	},
