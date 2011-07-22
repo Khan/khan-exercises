@@ -1254,6 +1254,9 @@ function prepareSite() {
 			}
 
 			button.data( "show", !show );
+			if (user) {
+				window.localStorage[ "scratchpad:" + user ] = show;
+			}
 			
 			return false
 		});
@@ -1422,6 +1425,14 @@ function prepareSite() {
 				jQuery("#exercise-icon-container img").attr("src", src);
 			}
 		);
+	}
+
+	// Make scratchpad selection persistent
+	if (user) {
+		var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
+		if (typeof lastScratchpad !== "undefined" && JSON.parse(lastScratchpad)) {
+			$("#scratch_pad_show").click();
+		}
 	}
 }
 
