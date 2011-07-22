@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format">
+<head>
+	<title>Trigonometry 2</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+		function fractionSQRoot(b, root){
+			var natRoot = KhanUtil.splitRadical(root)[0];
+			var underRoot =  KhanUtil.splitRadical(root)[1];
+			var d = KhanUtil.reduce(natRoot*underRoot, b)[0];
+			var n = KhanUtil.reduce(natRoot*underRoot,b)[1];
+			if ( d == 1 ){
+				if(n != 1){
+					return   n + "\\sqrt{" + underRoot +"}";
+				}
+				else{
+					return  "\\sqrt{" +underRoot + "}";
+				}
+
+			}
+			else if( underRoot != 1 ){
+				if(n != 1){
+					return  "\\dfrac{" + n + "\\sqrt{" + underRoot +"} }{"+ d + "}";
+				}
+				else{
+					return  "\\dfrac{ \\sqrt{" +underRoot + "}}{" + d + "}";
+				}
+			}
+			else{
+				return "\\dfrac{" + n + "}{" + d + "}";
+			}
+		}
+
+		function betterTriangle(width, height, A, B, C, a, b, c, whichAngle) {
+			var scale = 5 / Math.sqrt(width * width + height * height);
+			width *= scale;
+			height *= scale;
+
+			with ( KhanUtil.currentGraph ) {
+				// Leave some space for the labels
+				init({ range: [[-1.5, width + 1], [-1, height + 1]] });
+
+				path([ [0, 0], [width, 0], [0, height], true ]);
+				var ang=Math.round(Math.atan(height/width) *(180/Math.PI));
+				if ( whichAngle === "ACB" || whichAngle === "BCA" ){
+					arc( [0, 0], 0.5, 0, 90 );
+				}
+				else if ( whichAngle === "ABC" || whichAngle === "CBA" ){
+					arc( [width, 0], 0.5, 180 - ang, 180 );
+				}
+				else if ( whichAngle === "CAB" || whichAngle === "BAC" ){
+					arc( [0, height], 0.5, 270, -ang );
+				}
+				label( [0, height], A, "above left" );
+				label( [0, 0], C, "below left" );
+				label( [width, 0], B, "below right" );
+
+				label( [0, height/2], b, "left" );
+				label( [width/2, 0], a, "below" );
+				label( [width/2, height/2], c, "above right", {
+					labelDistance: 3
+				} );
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="AC">randRange(3, 10)</var>
+			<var id="BC">randRange(3, 10)</var>
+			<var id="CB">BC</var>
+			<var id="AB">AC * AC + BC * BC</var>
+			<var id="AB_STRING">formattedSquareRootOf(AC * AC + BC * BC)</var>
+			<ul id="ANGLE">
+				<li>"ABC"</li>
+				<li>"BAC"</li>
+			</ul>
+			<var id="WRONG_A" data-ensure="WRONG_A !== AC && WRONG_A !== BC && WRONG_A !== sqrt(AB)">randRange(1, 10)</var>
+			<var id="WRONG_B" data-ensure="WRONG_B !== AC && WRONG_B !== BC && WRONG_B !== WRONG_A && WRONG_B !== sqrt(AB)">randRange(1, 10)</var>
+
+			<var id="OPPOSITE_NAME">(ANGLE.substring(0,1)+ANGLE.substring(2))</var>
+			<var id="OPPOSITE_VALUE">
+				(function(){
+					if( OPPOSITE_NAME == "AC" ){
+						return AC;
+					}
+					else if( OPPOSITE_NAME == "BC" ){
+						return CB;
+					}
+					return AB_STRING;
+				})()
+			</var>
+
+			<var id="HYPOTENUSE_NAME">"AB"</var>
+			<var id="HYPOTENUSE_VALUE">AB_STRING</var>
+
+			<var id="ADJACENT_NAME">ANGLE.substring(1)</var>
+			<var id="ADJACENT_VALUE">
+				(function(){
+					if( ADJACENT_NAME=="AC" ){
+						return AC;
+					}
+					else if( ADJACENT_NAME=="BC" ){
+						return BC;
+					}
+
+					return AB_STRING;
+				})()
+			</var>
+			<var id="SIMPLE_TAN">
+				fraction( OPPOSITE_VALUE, ADJACENT_VALUE, false, false, false, false)
+			</var>
+			<var id="TAN">
+				fractionReduce( OPPOSITE_VALUE, ADJACENT_VALUE, false, false)
+			</var>
+			<var id="SIMPLE_SIN">
+				"\\frac{" +  OPPOSITE_VALUE + "}{" + formattedSquareRootOf(AB) + "}"
+			</var>
+			<var id="SIN">
+				fractionSQRoot( OPPOSITE_VALUE , AB )
+			</var>
+			<var id="SIMPLE_COS">
+				"\\frac{" +  ADJACENT_VALUE + "}{" + formattedSquareRootOf(AB) + "}"
+			</var>
+			<var id="COS">
+				fractionSQRoot( ADJACENT_VALUE , AB )
+			</var>
+
+			<var id="ANGLE_VALUE">
+				acos( ADJACENT_VALUE/sqrt(AB) ).toFixed(2)
+			</var>
+		</div>
+
+		<div class="problems">
+
+			<div id="sin">
+				<div class="problem">
+					<p><code>\overline{AB}</code> = <code><var>AB_STRING</var></code></p>
+					<p><code>\angle <var>ANGLE</var></code> = <code><var>ANGLE_VALUE</var></code></p>
+				</div>
+				<div class="question">
+					<p><code>\overline{<var>OPPOSITE_NAME</var>} = </code> ?</p>
+
+					<div class="graphie">
+						betterTriangle( BC, AC, "A", "B", "C", "", "", AB_STRING,ANGLE );
+					</div>
+					<p><code>\sin( <var>ANGLE_VALUE</var> ) = <var>SIN</var> , \cos( <var>ANGLE_VALUE</var> ) = <var>COS</var> ,  \tan( <var>ANGLE_VALUE</var> ) = <var>TAN</var></code></p>
+				</div>
+
+				<div class="solution">
+					<code><var>OPPOSITE_VALUE</var></code>
+				</div>
+				<ul class="choices" data-none="true">
+					<li><code><var>ADJACENT_VALUE</var></code></li>
+					<li><code><var>AB_STRING</var></code></li>
+					<li><code><var>WRONG_A</var></code></li>
+					<li><code><var>WRONG_B</var></code></li>
+				</ul>
+
+				<div class="hints" data-apply="appendContents">
+					<p><code>\overline{AB}</code> is the <b>hypotenuse</b></p>
+					<p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
+					<p>SOH CAH TOA</p>
+					<p>We know the hypotenuse and need to solve for the opposite side so we can use the sine function (SOH)</p>
+					<p><code>\sin(<var>ANGLE_VALUE</var>) = \frac{opposite}{hypotenuse} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{AB}}= \frac{\overline{<var>OPPOSITE_NAME</var>}}{<var>AB_STRING</var>} </code></p>
+					<p><code>\overline{<var>OPPOSITE_NAME</var>}=<var>AB_STRING</var> \cdot \sin(<var>ANGLE_VALUE</var>) = <var>AB_STRING</var> \cdot  <var>SIN</var> = <var>OPPOSITE_VALUE</var></code></p>
+				</div>
+			</div>
+
+			<div id="sin2">
+				<div class="problem">
+					<p><code>\overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
+					<p><code>\angle <var>ANGLE</var> = <var>ANGLE_VALUE</var></code></p>
+				</div>
+				<div class="question">
+					<p><code>\overline{AB} = </code> ?</p>
+
+					<div class="graphie">
+						betterTriangle( BC, AC, "A", "B", "C", BC, "", "",ANGLE );
+					</div>
+					<p><code>\sin( \angle <var>ANGLE_VALUE</var> ) = <var>SIN</var> , \cos( <var>ANGLE_VALUE</var> ) = <var>COS</var> ,  \tan( <var>ANGLE_VALUE</var> ) = <var>TAN</var></code></p>
+				</div>
+
+				<div class="solution">
+					<code><var>AB_STRING</var></code>
+				</div>
+				<ul class="choices" data-none="true">
+					<li><code><var>OPPOSITE_VALUE</var></code></li>
+					<li><code><var>ADJACENT_VALUE</var></code></li>
+					<li><code><var>WRONG_A</var></code></li>
+					<li><code><var>WRONG_B</var></code></li>
+				</ul>
+
+				<div class="hints" data-apply="appendContents">
+					<p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is the <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
+					<p><code>\overline{AB}</code> is the <b>hypotenuse</b> (note that it is opposite the right angle)</code></p>
+					<p>SOH CAH TOA</p>
+					<p>We know the opposite side and need to solve for the hypotenuse so we can use the sin function (SOH)</p>
+					<p><code>\sin(<var>ANGLE_VALUE</var>) = \frac{opposite}{hypotenuse} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{AB}} = \frac{<var>OPPOSITE_VALUE</var>}{\overline{AB}} </code></p>
+					<p><code>\overline{AB}=\frac{<var>OPPOSITE_VALUE</var>}{\sin(<var>ANGLE_VALUE</var>)} = \frac{<var>OPPOSITE_VALUE</var>}{<var>SIN</var>} = <var>AB_STRING</var></code></p>
+				</div>
+			</div>
+
+
+			<div id="cos">
+				<div class="problem">
+					<p><code>\overline{AB} = <var>AB_STRING</var></code></p>
+					<p><code>\angle <var>ANGLE</var> = <var>ANGLE_VALUE</var></code></p>
+				</div>
+				<div class="question">
+					<p><code>\overline{<var>ADJACENT_NAME</var>} = </code> ?</p>
+
+					<div class="graphie">
+						betterTriangle( BC, AC, "A", "B", "C", "", "", AB_STRING,ANGLE  );
+					</div>
+					<p><code>\sin( <var>ANGLE_VALUE</var> ) = <var>SIN</var> , \cos( <var>ANGLE_VALUE</var> ) = <var>COS</var> ,  \tan( <var>ANGLE_VALUE</var> ) = <var>TAN</var></code></p>
+				</div>
+
+				<div class="solution">
+					<code><var>ADJACENT_VALUE</var></code>
+				</div>
+				<ul class="choices" data-none="true">
+					<li><code><var>OPPOSITE_VALUE</var></code></li>
+					<li><code><var>AB_STRING</var></code></li>
+					<li><code><var>WRONG_A</var></code></li>
+					<li><code><var>WRONG_B</var></code></li>
+				</ul>
+
+				<div class="hints" data-apply="appendContents">
+					<p><code>\overline{AB}</code> is the <b>hypotenuse</b></p>
+					<p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
+					<p>SOH CAH TOA</p>
+					<p>We know the hypotenuse and need to solve for the adjacent side so we can use the cos function (CAH)</p>
+					<p><code>\cos(<var>ANGLE_VALUE</var>) = \frac{adjacent}{hypotenuse} = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{AB}}= \frac{\overline{<var>ADJACENT_NAME</var>}}{<var>AB_STRING</var>} </code></p>
+					<p><code>\overline{<var>ADJACENT_NAME</var>}=<var>AB_STRING</var> \cdot \cos(<var>ANGLE_VALUE</var>) = <var>AB_STRING</var> \cdot  <var>COS</var> = <var>ADJACENT_VALUE</var></code></p>
+				</div>
+			</div>
+
+			<div id="cos2">
+				<div class="problem">
+					<p><code>\overline{<var>ADJACENT_NAME</var>}=<var>ADJACENT_VALUE</var></code></p>
+					<p><code>\angle <var>ANGLE</var> = <var>ANGLE_VALUE</var></code></p>
+				</div>
+				<div class="question">
+					<p><code>\overline{AB} = </code> ?</p>
+
+					<div class="graphie">
+						betterTriangle( BC, AC, "A", "B", "C", BC, "", "",ANGLE );
+					</div>
+					<p><code>\sin( <var>ANGLE_VALUE</var> ) = <var>SIN</var> , \cos( <var>ANGLE_VALUE</var> ) = <var>COS</var> ,  \tan( <var>ANGLE_VALUE</var> ) = <var>TAN</var></code></p>
+				</div>
+
+				<div class="solution">
+					<code><var>AB_STRING</var></code>
+				</div>
+				<ul class="choices" data-none="true">
+					<li><code><var>OPPOSITE_VALUE</var></code></li>
+					<li><code><var>ADJACENT_VALUE</var></code></li>
+					<li><code><var>WRONG_A</var></code></li>
+					<li><code><var>WRONG_B</var></code></li>
+				</ul>
+
+				<div class="hints" data-apply="appendContents">
+					<p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
+					<p><code>\overline{AB}</code> is the <b>hypotenuse</b> (note that it is opposite the right angle)</code></p>
+					<p>SOH CAH TOA</p>
+					<p>We know the adjacent side and need to solve for the hypotenuse so we can use the cos function (CAH)</p>
+					<p><code>\cos(<var>ANGLE_VALUE</var>) = \frac{adjacent}{hypotenuse} = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{AB}} = \frac{<var>ADJACENT_VALUE</var>}{\overline{AB}} </code></p>
+					<p><code>\overline{AB}=\frac{<var>ADJACENT_VALUE</var>}{\sin(<var>ANGLE_VALUE</var>)} = \frac{<var>ADJACENT_VALUE</var>}{<var>COS</var>} = <var>AB_STRING</var></code></p>
+				</div>
+			</div>
+
+
+			<div id="tan">
+				<div class="problem">
+					<p><code>\overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
+					<p><code>\angle <var>ANGLE</var></code> = <code><var>ANGLE_VALUE</var></code></p>
+				</div>
+				<div class="question">
+					<p><code>\overline{<var>ADJACENT_NAME</var>} = </code> ?</p>
+
+					<div class="graphie">
+						betterTriangle( BC, AC, "A", "B", "C", "", "", "",ANGLE );
+					</div>
+					<p><code>\sin( <var>ANGLE_VALUE</var> ) = <var>SIN</var> , \cos( <var>ANGLE_VALUE</var> ) = <var>COS</var> ,  \tan( <var>ANGLE_VALUE</var> ) = <var>TAN</var></code></p>
+				</div>
+
+				<div class="solution">
+					<code><var>ADJACENT_VALUE</var></code>
+				</div>
+				<ul class="choices" data-none="true">
+					<li><code><var>AB_STRING</var></code></li>
+					<li><code><var>WRONG_A</var></code></li>
+					<li><code><var>WRONG_B</var></code></li>
+				</ul>
+
+				<div class="hints" data-apply="appendContents">
+					<p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is the <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
+					<p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
+					<p>SOH CAH TOA</p>
+					<p>We know the opposite side and need to solve for the adjacent side so we can use the tan function (TOA)</p>
+					<p><code>\tan(<var>ANGLE_VALUE</var>) = \frac{opposite}{adjacent} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{<var>ADJACENT_NAME</var>}}= \frac{<var>OPPOSITE_VALUE</var>}{\overline{<var>ADJACENT_NAME</var>}} </code></p>
+					<p><code>\overline{<var>ADJACENT_NAME</var>}=\frac{<var>OPPOSITE_VALUE</var>}{\tan(<var>ANGLE_VALUE</var>)} = \frac{<var>OPPOSITE_VALUE</var>}{<var>TAN</var>} = <var>ADJACENT_VALUE</var></code></p>
+				</div>
+			</div>
+
+
+			<div id="tan2">
+
+		</div>
+
+	</div>
+</body>
+</html>

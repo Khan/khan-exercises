@@ -13,8 +13,8 @@ jQuery.extend(KhanUtil, {
 
 	reduce: function( n, d){
 		var gcd = KhanUtil.getGCD( n, d );
-                n = n / gcd;
-                d = d / gcd;
+		n = n / gcd;
+		d = d / gcd;
 		return [ n, d ];
 	},
 
@@ -323,7 +323,6 @@ jQuery.extend(KhanUtil, {
 
 		}
 
-	},
-
+	}
 });
 

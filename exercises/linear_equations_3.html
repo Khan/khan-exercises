@@ -6,10 +6,11 @@
 </head>
 <body>
 	<div class="exercise">
+		<!-- equation is Ax + B = Cx + D -->
 		<div class="vars">
 			<var id="A">randRange( 2, 10 )</var>
 			<var id="B">randRangeNonZero( -10, 10 )</var>
-			<var id="C" data-ensure="C !== A">randRange( 2, 10 )</var>
+			<var id="C" data-ensure="C !== A && abs( A - C ) > 1">randRange( 2, 10 )</var>
 			<var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
 			<var id="SOLUTION">fractionReduce( D - B, A - C )</var>
 		</div>

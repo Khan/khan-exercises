@@ -167,6 +167,9 @@ var createGraph = function( el ) {
 		},
 
 		arc: function( center, radius, startAngle, endAngle, sector ) {
+			startAngle = ( startAngle % 360 + 360 ) % 360;
+			endAngle = ( endAngle % 360 + 360 ) % 360;
+
 			var cent = scalePoint( center );
 			var radii = scaleVector( radius );
 			var startVector = polar( radius, startAngle );
@@ -175,10 +178,15 @@ var createGraph = function( el ) {
 			var startPoint = scalePoint([ center[0] + startVector[0], center[1] + startVector[1] ]);
 			var endPoint = scalePoint([ center[0] + endVector[0], center[1] + endVector[1] ]);
 
-			var largeAngle = (endAngle - startAngle) % 360 > 180;
+			var largeAngle = ( (endAngle - startAngle) % 360 + 360) % 360 > 180;
 
-			return raphael.path( "M" + startPoint.join(" ") + "A" + radii.join(" ") + " 0 " +
-				( largeAngle ? 1 : 0 ) + " 0 " + endPoint.join(" ") +
+			return raphael.path(
+				"M" + startPoint.join(" ") +
+				"A" + radii.join(" ") +
+				" 0 " + // ellipse rotation
+				( largeAngle ? 1 : 0 ) +
+				" 0 " + // sweep flag
+				endPoint.join(" ") +
 				( sector ? "L" + cent.join(" ") + "z" : "" ) );
 		},
 

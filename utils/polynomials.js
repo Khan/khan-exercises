@@ -99,7 +99,7 @@ jQuery.extend(KhanUtil, {
 			var numberOfTerms = this.getNumberOfTerms();
 
 			//mod twice to always get positive
-			termIndex = ( ( termIndex % numberOfTerms ) + termIndex ) % numberOfTerms;
+			termIndex = ( ( termIndex % numberOfTerms ) + numberOfTerms ) % numberOfTerms;
 
 			//upshift by one due to "+" sign at the front of the expression
 			return extractFromExpr( this.expr()[ termIndex + 1 ] );
