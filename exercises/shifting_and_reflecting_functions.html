@@ -63,7 +63,7 @@
 
 		<div class="hints">
 			<div data-if="FLIP === -1">
-				<p>To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by -1, giving <code class="hint_purple">-f(x)</code>.</p>
+				<p>To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by <code>-1</code>, giving <code class="hint_purple">-f(x)</code>.</p>
 
 				<div class="graphie" data-update="G">
 					style({
@@ -76,7 +76,7 @@
 			</div>
 
 			<div>
-				<p>Shift your function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> units, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code></p>
+				<p>Shift the function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> units, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code></p>
 
 				<div class="graphie" data-update="G">
 					style({
