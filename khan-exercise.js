@@ -54,7 +54,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 	// Get the username of the user
 	user = window.localStorage["exercise:lastUser"] || null,
-	userCRC32 = user != null ? crc32( user ) : null,
+	userCRC32,
 
 	// How far to jump through the problems
 	jumpNum,
@@ -320,9 +320,6 @@ var Khan = {
 // Load query string params
 Khan.query = Khan.queryString();
 
-// Seed the random number generator
-randomSeed = testMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
-
 // Load in jQuery
 var scripts = (typeof jQuery !== "undefined") ? [] : [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" } ];
 Khan.loadScripts( scripts, function() {
@@ -508,7 +505,11 @@ Khan.loadScripts( scripts, function() {
 
 		// Change users, if needed
 		user = data.user;
+		userCRC32 = user != null ? crc32( user ) : null;
 		
+		// Seed the random number generator with the user's hash
+		randomSeed = testMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
+
 		// Cache the data locally
 		if ( data && user != null ) {
 			window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
