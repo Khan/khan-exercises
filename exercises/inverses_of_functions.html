@@ -75,27 +75,27 @@
 			<div>
 				<div class="problem">
 					<p><code>f(x) = <var>M_X</var> + <var>B</var></code> for all real numbers.</p>
-					<div class="graphie" id="G">
-						graphInit({
-							range: 10,
-							scale: 20,
-							tickStep: 1,
-							labelStep: 2,
-							axisArrows: "<->"
-						})
-
-						// draw the function
-						style({
-							stroke: "#a3a3ff",
-							strokeWidth: 2
-						}, function() {
-							plot( F, [ -10, 10 ] );
-						});
-
-					</div>
 				</div>
-					
-				<p class="question">What is the inverse of <code>f(x)</code>, <code>f^{-1}(x)</code>?</p>
+				<p class="question">What is <code>f^{-1}(x)</code>, the inverse of <code>f(x)</code>?</p>
+
+				<div class="graphie" id="G">
+					graphInit({
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						labelStep: 2,
+						axisArrows: "<->"
+					})
+
+					// draw the function
+					style({
+						stroke: "#a3a3ff",
+						strokeWidth: 2
+					}, function() {
+						plot( F, [ -10, 10 ] );
+					});
+
+				</div>
 
 				<p class="solution"><code><var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
 				<ul class="choices" data-show="4" data-none="true">
@@ -139,37 +139,36 @@
 
 				// plot function inverse
 				style({
-					stroke: "#00d505",
+					stroke: "#ffa500",
 					strokeWidth: 2
 				}, function() {
 					plot( F_INV, [ -10, 10 ] );
 				});
 
-				// FIXME: label coloring wolud be better if it matched the functions
 				if ( M !== -1 && ( M !== 1 || B !== 0 ) ) {
 					// label f
 					style({
-						stroke: "#a3a3ff",
+						color: "#a3a3ff",
 						strokeWidth: 1
 					}, function() {
-						label( labelPos( F ), "\\color{blue}{f(x)}", fPos );
+						label( labelPos( F ), "f(x)", fPos );
 					});
 
 					// label f_inv
 					style({
-						stroke: "#00d505",
+						color: "#ffa500",
 						strokeWidth: 1
 					}, function() {
-						label( labelPos( F_INV ), "\\color{green}{f^{-1}(x)}", fInvPos );
+						label( labelPos( F_INV ), "f^{-1}(x)", fInvPos );
 					});
 				}
 			</div>
 			<div>
 				<div class="graphie" data-update="G">
 					style({
-						stroke: "#52bc82",
-						strokeWidth: 1,
-						strokeDasharray: "--"
+						stroke: "#aaa",
+						strokeWidth: 2,
+						strokeDasharray: "- "
 					}, function() {
 						plot( function( x ) { return x; }, [ -10, 10 ] );
 					});
