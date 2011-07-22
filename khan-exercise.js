@@ -320,6 +320,9 @@ var Khan = {
 // Load query string params
 Khan.query = Khan.queryString();
 
+// Seed the random number generator with the user's hash
+randomSeed = testMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
+
 // Load in jQuery
 var scripts = (typeof jQuery !== "undefined") ? [] : [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" } ];
 Khan.loadScripts( scripts, function() {
@@ -505,11 +508,11 @@ Khan.loadScripts( scripts, function() {
 		data = data || getData();
 
 		// Change users, if needed
-		user = data.user;
-		userCRC32 = user != null ? crc32( user ) : null;
-		
-		// Seed the random number generator with the user's hash
-		randomSeed = testMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
+		if ( user !== data.user ) {
+			user = data.user;
+			userCRC32 = user != null ? crc32( user ) : null;
+			randomSeed = userCRC32 || randomSeed;
+		}
 
 		// Cache the data locally
 		if ( data && user != null ) {
