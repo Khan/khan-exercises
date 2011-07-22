@@ -390,6 +390,15 @@ Khan.loadScripts( scripts, function() {
 			request( "problems/" + (getData().total_done + 1) + "/attempt", data, function() {
 				// TODO: Save locally if offline
 				jQuery(Khan).trigger( "answerSaved" );
+
+				jQuery( "#throbber" ).hide();
+				jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" ).removeAttr( "disabled" );
+				if ( pass ) {
+					jQuery( "#check-answer-button" ).hide();
+					if ( !testMode || Khan.query.test == null ) {
+						jQuery( "#next-container" ).show().find( "input" ).focus();
+					}
+				}
 			});
 			
 			// Make sure hint streak breaking is handled correctly
@@ -1085,19 +1094,15 @@ function prepareSite() {
 			return false;
 		}
 
+		jQuery( "#throbber" ).show();
+		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" ).attr( "disabled", "disabled" );
+
 		// Figure out if the response was correct
 		if ( pass ) {
 			// Show a congratulations message
 			jQuery("#oops").hide();
 			jQuery("#congrats").show();
 
-			// Toggle the navigation buttons
-			jQuery("#check-answer-button").hide();
-			
-			if ( !testMode || Khan.query.test == null ) {
-				jQuery("#next-container").show().find("input").focus();
-			}
-			
 			jQuery("#happy").show();
 			jQuery("#sad").hide();
 
