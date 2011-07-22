@@ -401,8 +401,7 @@ Khan.loadScripts( scripts, function() {
 						jQuery( "#next-container" ).show().find( "input" ).focus();
 					}
 				}
-			},
-			function() {
+			}, function() {
 				// Error during submit. Cheat, for now, and reload the page in
 				// an attempt to get updated data.
 				window.location.reload();
@@ -484,6 +483,15 @@ Khan.loadScripts( scripts, function() {
 	};
 	
 	function request( method, data, fn, fnError ) {
+		if ( testMode ) {
+			// Pretend we have success
+			if ( jQuery.isFunction( fn ) ) {
+				fn();
+			}
+
+			return;
+		}
+
 		jQuery.ajax({
 			// Do a request to the server API
 			url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
