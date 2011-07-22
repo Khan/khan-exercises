@@ -78,8 +78,10 @@ jQuery.extend(KhanUtil, {
 		var numerator = n ? n : 0;
 		var denominator = d ? d : 1;
 		
-		wholeNum += Math.floor( numerator / denominator );
-		numerator = numerator % denominator;
+		if ( reduce ) {
+			wholeNum += Math.floor( numerator / denominator );
+			numerator = numerator % denominator;
+		}
 		
 		if ( wholeNum != 0 && numerator != 0 ) {
 			return wholeNum + " " 
