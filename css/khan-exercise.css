@@ -47,3 +47,5 @@ body.debug .graphie { outline: 1px dashed red; }
 
 .summary { display: none; }
 #browserwarning { display: none; padding: 18px; font-size: 120%; text-align: center; }
+
+#answer_area input.button:disabled { opacity: 0.7; cursor: default; color: #333; }

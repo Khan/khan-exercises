@@ -103,7 +103,7 @@
 					REMAINDER = diff * 10;
 
 					var quotientLabel = drawDigits( [ quotient ], index, 1 );
-					if ( quotient === 0 && ONLY_ZEROS && DIVIDEND_DIGITS.length - DIVIDEND_DECIMAL ) {
+					if ( quotient === 0 && ONLY_ZEROS && DIVIDEND_DIGITS.length - DIVIDEND_DECIMAL + DIVISOR_DECIMAL &gt; index + 1) {
 						LEADING_ZEROS = LEADING_ZEROS.concat( quotientLabel );
 					} else {
 						ONLY_ZEROS = false;
