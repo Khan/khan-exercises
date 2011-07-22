@@ -64,7 +64,7 @@ jQuery.extend(KhanUtil, {
 		return begin + main + end;
 	},
 	
-	/* Format the latex of the mixed fraction num `n`/`d`.
+	/* Format the latex of the mixed fraction 'num n/d"
 	 * - Will use latex's `dfrac` unless `small` is specified as truthy.
 	 * - Will wrap the fraction in parentheses if necessary (ie, unless the
 	 * fraction reduces to a positive integer) if `parens` is specified as
