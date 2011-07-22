@@ -71,6 +71,7 @@
 				HIGHLIGHTS.pop().remove();
 			}
 			X_MAX = X_MAX + ( B_DECIMAL - A_DECIMAL ) * (A_DECIMAL &lt; B_DECIMAL ? 1 : -1);
+			path( [ [ -0.5, Y_SECOND - 0.5 ], [ X_MAX + 0.5, Y_SECOND - 0.5 ] ]);
 			HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ], "\\large{\\text{Make sure the decimals are lined up.}}", "right" ) );
 			drawDigits( A_DIGITS.slice( 0 ).reverse(), X_MAX - A_DIGITS.length + 1, Y_FIRST );
 			drawDigits( B_DIGITS.slice( 0 ).reverse(), X_MAX - B_DIGITS.length + 1, Y_SECOND );
