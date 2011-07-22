@@ -23,21 +23,26 @@
 			</div>
 
 			<div class="question">
-				<p>If <code>\angle <var>A + O + C</var></code> is a right angle and <code>m <var>ANGLE_ONE</var> = <var>ANGLE</var>^\circ</code>, what is <code>m <var>ANGLE_TWO</var></code>, in degrees?</p>
+				<p>If <code>m \angle <var>A + O + C</var></code> is a right angle and <code>m <var>ANGLE_ONE</var> = <var>ANGLE</var>^\circ</code>, what is <code>m <var>ANGLE_TWO</var></code>, in degrees?</p>
 
 				<div class="graphie">
-					var DISP_ANGLE = Math.min( Math.max( 10, ANGLE ), 80 );
-
-					if ( ANGLE_ONE !== ANGLE_BOT ) {
-						DISP_ANGLE = 90 - DISP_ANGLE;
-					}
-
-					DISP_ANGLE *= PI / 180;
-
 					init({
 						range: [ [-2, 7], [-2, 7] ],
 						scale: 20
 					});
+					
+					var DISP_ANGLE = Math.min( Math.max( 10, ANGLE ), 80 );
+					if ( ANGLE_ONE !== ANGLE_BOT ) {
+						DISP_ANGLE = 90 - DISP_ANGLE;
+						arc( [ 0, 0 ], 1, DISP_ANGLE, 90 );
+						DISP_ANGLE *= PI / 180;
+						label( [ 2 * cos( DISP_ANGLE + ( PI / 2 - DISP_ANGLE) / 2 ), 2 * sin( DISP_ANGLE + ( PI / 2 - DISP_ANGLE) / 2  )], ANGLE + "^\\circ" );
+					} else {
+						arc( [ 0, 0 ], 1, 0, DISP_ANGLE );
+						DISP_ANGLE *= PI / 180;
+						label( [ 2 * cos( DISP_ANGLE / 2 ), 2 * sin( DISP_ANGLE / 2 )], ANGLE + "^\\circ" );
+					}
+
 					path([ [0, 5], [0, 0], [5, 0] ]);
 					path([ [0, 0], [5 * cos( DISP_ANGLE ), 5 * sin( DISP_ANGLE )] ]);
 
