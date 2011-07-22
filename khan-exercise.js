@@ -389,7 +389,8 @@ Khan.loadScripts( scripts, function() {
 				jQuery(Khan).trigger( "answerSaved" );
 
 				jQuery( "#throbber" ).hide();
-				jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" ).removeAttr( "disabled" );
+				jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
+				jQuery( "#answerform input" ).removeAttr("disabled");
 				if ( pass ) {
 					jQuery( "#check-answer-button" ).hide();
 					if ( !testMode || Khan.query.test == null ) {
@@ -1096,8 +1097,8 @@ function prepareSite() {
 		}
 
 		jQuery( "#throbber" ).show();
-		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" ).attr( "disabled", "disabled" );
-
+		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
+		jQuery( "#answerform input" ).attr( "disabled", "disabled" );
 		// Figure out if the response was correct
 		if ( pass ) {
 			// Show a congratulations message
