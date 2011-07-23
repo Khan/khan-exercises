@@ -39,13 +39,7 @@
 				<div>
 					<div class="problem">
 						<p>Consider the following coordinate pairs:</p>
-						<ul>
-							<li><code><var>PAIR( POINTS[0] )</var></code></li>
-							<li><code><var>PAIR( POINTS[1] )</var></code></li>
-							<li><code><var>PAIR( POINTS[2] )</var></code></li>
-							<li><code><var>PAIR( POINTS[3] )</var></code></li>
-							<li><code><var>PAIR( POINTS[4] )</var></code></li>
-						</ul>
+						<p><code><var>jQuery.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
 					</div>
 
 					<div class="question">
@@ -53,10 +47,10 @@
 						<div class="graphie" id="grid">
 							graphInit({
 								range: 10,
-								scale: 30,
-								axisArrows: "<->",
+								scale: 20,
+								axisArrows: "->",
 								tickStep: 1,
-								labelStep: 1
+								labelStep: 2
 							})
 
 							jQuery.each( POINTS, function( index, point ) {

@@ -57,7 +57,7 @@
 						graphInit({
 							range: [ HRANGE, VRANGE ],
 							scale: [ PIXHSCALE, PIXVSCALE ],
-							axisArrows: "<->",
+							axisArrows: "->",
 							gridStep: [ HSCALE * PI / 4, .5 ],
 							tickStep: [ 2, 1 ],
 							labelStep: [ 2, 2 ],
@@ -115,7 +115,7 @@
 						plot( function( x ) {
 							return eval( FUNCS );
 						}, [ 0, PERIOD ] );
-						line( [ 0, VSCALE ], [ PERIOD , VSCALE ], { arrows: "<->" });
+						line( [ 0, VSCALE ], [ PERIOD , VSCALE ], { arrows: "&lt;-&gt;" });
 					});
 				</div>
 				<p data-if="FN === 'cos'">The distance from peak to peak is <code><var>piFraction( PERIOD )</var></code>, so the period of <code>f(x)</code> is <code><var>piFraction( PERIOD )</var></code>.</p>
@@ -141,7 +141,7 @@
 						strokeWidth: 2
 					}, function() {
 						var x = FN === "sin" ? PERIOD / 4 : PERIOD;
-						line( [ x, 0 ], [ x, VSCALE ], { arrows: "<->" });
+						line( [ x, 0 ], [ x, VSCALE ], { arrows: "&lt;-&gt;" });
 					});
 				</div>
 				<p>The height of <code>f(x)</code> is <code><var>decFrac( VSCALE )</var></code>, so the amplitude of <code>f(x)</code> is <code><var>decFrac( VSCALE )</var></code>.</p>

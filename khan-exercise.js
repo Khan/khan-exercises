@@ -936,7 +936,7 @@ function makeProblem( id, seed ) {
 	// A working solution was not generated
 	if ( !validator ) {
 		// Making the problem failed, let's try again
-		makeProblem( id, seed );
+		makeProblem( id, randomSeed );
 		return;
 	}
 

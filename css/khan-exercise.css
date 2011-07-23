@@ -11,13 +11,13 @@ var { font-style: normal; }
 #oops { color: red; }
 #workarea { margin-left: 30px; }
 #hintsarea { margin-left: 50px; }
-#sidebar { float: right; width: 300px; }
-#sidebar ul { list-style: none; margin: 8px; padding: 0; }
-#sidebar li { margin: 10px 0; }
-#sidebar li span.value { padding-left: 5px; }
-#problemarea { width: 63%; position: relative; float: left; }
+#answer_area ul { list-style: none; margin: 8px; padding: 0; }
+#answer_area li { margin: 14px 0; }
+#answer_area li span.value { padding-left: 5px; }
+#problemarea { font-size: 14px; width: 63%; min-height: 378px; position: relative; float: left; padding-bottom: 38px; }
 
-#solution label { display: block; }
+#solution { font-size: 14px; }
+#solution label { display: block; white-space: nowrap; }
 
 #tester-info { border: 1px solid #AAA; background: #F0F0F0; padding: 10px; margin: 10px 0; }
 #debug var { font: 14px Menlo, Courier, monospace; word-wrap: break-word; }
@@ -29,7 +29,7 @@ table.limit td { border: 1px solid #AAA; }
 table.limit th, td { padding: 5px; }
 table.limit th:first-child { text-align: right; }
 
-#answer_area input[type=text] { width: 80px;	}
+#answer_area input[type=text] { width: 80px; }
 #readonly { display: none; }
 
 .radical { font-size: 125%; padding-left: 6px; }
@@ -42,8 +42,6 @@ body.debug .graphie { outline: 1px dashed red; }
 
 #tester-info.info-box { background: #f2e4bf; }
 #tester-info .box { border: 1px solid black; padding: 2px 4px; margin-left: 5px; }
-
-#problemarea { padding-bottom: 38px; }
 
 .summary { display: none; }
 #browserwarning { display: none; padding: 18px; font-size: 120%; text-align: center; }

@@ -151,7 +151,7 @@
 				<var id="LOW, HIGH">randFromArray([ [1, 10], [11, 20], [21, 30], [31, 40], [41, 50], [51, 60], [61, 70], [71, 80], [81, 90], [91, 100] ])</var>
 				<var id="POSSIBLE">(function() {
 					var list = [];
-					for (var i = LOW; i <= HIGH; i++) {
+					for (var i = LOW; i &lt;= HIGH; i++) {
 						list.push(i);
 					}
 					return list;
@@ -159,9 +159,9 @@
 
 				<var id="COND_DESC, COND_FN">randFromArray([
 					["prime", KhanUtil.isPrime],
-					["divisible by both 2 and 3", function(n) { return n % 6 <= 0.5; }],
-					["divisible by either 3 or 5", function(n) { return n % 3 <= 0.5 || n % 5 <= 0.5; }],
-					["divisible by either 4 or 7", function(n) { return n % 4 <= 0.5 || n % 7 <= 0.5; }]
+					["divisible by both 2 and 3", function(n) { return n % 6 &lt;= 0.5; }],
+					["divisible by either 3 or 5", function(n) { return n % 3 &lt;= 0.5 || n % 5 &lt;= 0.5; }],
+					["divisible by either 4 or 7", function(n) { return n % 4 &lt;= 0.5 || n % 7 &lt;= 0.5; }]
 				])</var>
 
 				<var id="WANTED_LIST">jQuery.grep(POSSIBLE, COND_FN)</var>
