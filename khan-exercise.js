@@ -347,7 +347,9 @@ Khan.loadScripts( scripts, function() {
 			hintUsed = false;
 			attempts = 0;
 			lastAction = (new Date).getTime();
-			
+
+			jQuery("#hint").val("I'd like a hint");
+
 			if ( once ) {
 				updateData();
 				once = false;
@@ -1214,6 +1216,8 @@ function prepareSite() {
 			$render = jQuery( render );
 
 		if ( hint ) {
+
+			jQuery("#hint").val("Next step");
 
 			var problem = $hint.parent();
 
