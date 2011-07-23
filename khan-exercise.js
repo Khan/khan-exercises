@@ -347,7 +347,9 @@ Khan.loadScripts( scripts, function() {
 			hintUsed = false;
 			attempts = 0;
 			lastAction = (new Date).getTime();
-			
+
+			jQuery("#hint").val("I'd like a hint");
+
 			if ( once ) {
 				updateData();
 				once = false;
@@ -394,15 +396,18 @@ Khan.loadScripts( scripts, function() {
 
 				jQuery( "#throbber" ).hide();
 				jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
-				jQuery( "#answerform input" ).removeAttr("disabled");
 				if ( pass ) {
 					jQuery( "#check-answer-button" ).hide();
 					if ( !testMode || Khan.query.test == null ) {
-						jQuery( "#next-container" ).show().find( "input" ).focus();
+						jQuery( "#next-container" ).show();
+						jQuery( "#next-question-button" ).removeAttr( "disabled" )
+							.removeClass( "buttonDisabled" )
+							.focus();
 					}
+				} else {
+					jQuery( "#answerform input" ).removeAttr( "disabled" );
 				}
-			},
-			function() {
+			}, function() {
 				// Error during submit. Cheat, for now, and reload the page in
 				// an attempt to get updated data.
 				window.location.reload();
@@ -484,6 +489,15 @@ Khan.loadScripts( scripts, function() {
 	};
 	
 	function request( method, data, fn, fnError ) {
+		if ( testMode ) {
+			// Pretend we have success
+			if ( jQuery.isFunction( fn ) ) {
+				fn();
+			}
+
+			return;
+		}
+
 		jQuery.ajax({
 			// Do a request to the server API
 			url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
@@ -932,6 +946,7 @@ function makeProblem( id, seed ) {
 
 	// Add the problem into the page
 	jQuery( "#workarea" ).append( problem ).fadeIn();
+	jQuery( "#answerform input" ).removeAttr("disabled");
 
 	// Save the raw hints so they can be modified later
 	rawHints = hints.clone()
@@ -1202,6 +1217,8 @@ function prepareSite() {
 
 		if ( hint ) {
 
+			jQuery("#hint").val("Next step");
+
 			var problem = $hint.parent();
 
 			// If the hint has hint templating, then turn that hint templating into
@@ -1239,6 +1256,45 @@ function prepareSite() {
 		
 		jQuery(Khan).trigger( "showHint" );
 	});
+
+	jQuery( "#report-beta-issue-success" ).hide();
+	jQuery( "#report-beta-issue-fail" ).hide();
+
+	// if we're on the beta server. probably shouldn't be hard-coded...
+	if ( document.URL.indexOf( "http://khan-masterslave" ) === 0 ) {
+		$( "#report-beta-issue" ).css( "display", "block" );
+	
+		jQuery( "#report-beta-issue" ).click( function() {
+
+			var title = prompt( "Issue title" );
+
+			// Don't do anything on clicking Cancel
+			if ( title == null ) return;
+
+			title = encodeURI( title );
+			var body = encodeURI( prompt( "Provide a brief description of the issue" ) );
+
+			jQuery.ajax({
+				url: "http://66.220.0.98:2563/file_exercise_tester_bug?title=" + title + "&body=" + body,
+				dataType: "jsonp",
+				success: function( json ) {
+					if ( json.meta.status === 201 ) {
+						jQuery( "#report-beta-issue-fail" ).hide();
+						jQuery( "#report-beta-issue-success" ).show();
+						jQuery( "#report-beta-issue-title" ).html( json.data.title );
+						jQuery( "#report-beta-issue-link" ).html( "<a href=" + json.data.html_url + ">here</a>" );
+					} else {
+						jQuery( "#report-beta-issue-success" ).hide();
+						jQuery( "#report-beta-issue-fail" ).show();
+					}
+				},
+				error: function( json ) {
+					jQuery( "#report-beta-issue-success" ).hide();
+					jQuery( "#report-beta-issue-fail" ).show();
+				}
+			});
+		});
+	}
 
 	jQuery( "#print_ten" ).data( "show", true )
 		.click( function( e ) {
