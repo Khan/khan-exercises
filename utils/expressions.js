@@ -282,7 +282,7 @@ jQuery.extend(KhanUtil, {
 			pow = KhanUtil.expr( pow );
 
 			if ( trigFunction ) {
-				return base.replace( /\\(\S+)\{/, function( match, word ) {
+				return base.replace( /\\(\S+?)\{/, function( match, word ) {
 					return "\\" + word + "^{" + pow + "} {"
 				} );
 			} else {
