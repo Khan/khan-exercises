@@ -129,7 +129,7 @@
 						Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
 						<code>\color{purple}{\angle{CGB}} = 90&deg;</code>
 						<span class="graphie" data-update="complementary-and-opposite">
-							label( [2.2, 1.7], "\\color{purple}{90&deg}", 
+							label( [2.2, 1.7], "\\color{purple}{90&deg;}", 
 								"above right" );
 							arc( [0, 0], 3, 0, 90, { stroke: "purple" } );
 						</span>
@@ -140,7 +140,7 @@
 						because they are opposite angles from each other.  Opposite angles 
 						are congruent (equal).
 						<span class="graphie" data-update="complementary-and-opposite">
-							label( [1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
+							label( [1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg;}", 
 								"above right" );
 							arc( [0, 0], 1.2, 0, 68, { stroke: "orange" } );
 						</span>
@@ -149,7 +149,7 @@
 						Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
 						<code>\color{purple}{\angle{AGD}} = 90&deg;</code>
 						<span class="graphie" data-update="complementary-and-opposite">
-							label( [-2.2, -1.7], "\\color{purple}{90&deg}", 
+							label( [-2.2, -1.7], "\\color{purple}{90&deg;}", 
 								"below left" );
 							arc( [0, 0], 3, 180, 270, { stroke: "purple" } );
 						</span>
@@ -157,9 +157,9 @@
 
 					<p data-if="RAND3===0">
 						<code>\color{orange}{\angle{EGB}} = \color{purple}{90&deg;} 
-							- \color{green}{\angle{CGE}} = <var>90 - ACCUTEANGLE</var>&deg</code>
+							- \color{green}{\angle{CGE}} = <var>90 - ACCUTEANGLE</var>&deg;</code>
 						<span class="graphie" data-update="complementary-and-opposite">
-							label( [1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
+							label( [1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg;}", 
 								"above right" );
 							arc( [0, 0], 1.2, 0, 68, { stroke: "orange" } );
 						</span>
@@ -168,7 +168,7 @@
 						Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
 						<code>\color{purple}{\angle{CGB}} = 90&deg;</code>
 						<span class="graphie" data-update="complementary-and-opposite">
-							label( [2.2, 1.7], "\\color{purple}{90&deg}", 
+							label( [2.2, 1.7], "\\color{purple}{90&deg;}", 
 								"above right" );
 							arc( [0, 0], 3, 0, 90, { stroke: "purple" } );
 						</span>
@@ -178,7 +178,7 @@
 							\color{purple}{90&deg;} - \color{green}{\angle{DGF}} = 
 							<var>90 - ACCUTEANGLE</var>&deg;</code>
 						<span class="graphie" data-update="complementary-and-opposite">
-							label( [-1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg}", 
+							label( [-1.2, 0], "\\color{orange}{<var>90 - ACCUTEANGLE</var>&deg;}", 
 								"below left" );
 							arc( [0, 0], 1.2, 180, 248, { stroke: "orange" } );
 						</span>
@@ -250,7 +250,7 @@
 								"above left" );
 							arc( [-4, -2], .75, 50, 180, { stroke: "blue" } );
 						} else {
-							label( [-4.7, -2], "\\color{green}{<var>180 - Tri_X</var>&deg}", 
+							label( [-4.7, -2], "\\color{green}{<var>180 - Tri_X</var>&deg;}", 
 								"above left" );
 							arc( [-4, -2], .75, 50, 180, { stroke: "green" } );
 
@@ -269,21 +269,21 @@
 				</div>
 
 				<div class="question">
-					Given the following:
-					<span data-if="RAND2===0">
+					<p>Given the following:</p>
+					<div data-if="RAND2===0">
 						<ul>
 							<li><code>\color{purple}{\angle{ABC}} = <var>Tri_Z</var>&deg;</code></li>
 							<li><code>\color{green}{\angle{ACB}} = <var>Tri_Y</var>&deg;</code></li>
 						</ul>
-						What is <code>\color{blue}{\angle{DAB}} = ?</code>
-					</span>
-					<span data-else>
+						<p>What is <code>\color{blue}{\angle{DAB}} = ?</code></p>
+					</div>
+					<div data-else>
 						<ul>
 							<li><code>\color{purple}{\angle{ABC}} = <var>Tri_Z</var>&deg;</code></li>
 							<li><code>\color{green}{\angle{DAB}} = <var>180 - Tri_X</var>&deg;</code></li>
 						</ul>
-						What is <code>\color{blue}{\angle{ACB}} = ?</code>
-					</span>
+						<p>What is <code>\color{blue}{\angle{ACB}} = ?</code></p>
+					</div>
 				</div>
 
 				<div class="solution">
