@@ -1257,12 +1257,13 @@ function prepareSite() {
 		jQuery(Khan).trigger( "showHint" );
 	});
 
-	jQuery( "#report-beta-issue-success" ).hide();
-	jQuery( "#report-beta-issue-fail" ).hide();
+	jQuery( "#beta-bugz" ).hide();
+	jQuery( "#issue-success" ).hide();
+	jQuery( "#issue-failure" ).hide();
 
 	// if we're on the beta server. probably shouldn't be hard-coded...
 	if ( document.URL.indexOf( "http://khan-masterslave" ) === 0 ) {
-		$( "#beta-bugz" ).css( "display", "block" );
+		jQuery( "#beta-bugz" ).show();
 
 		jQuery( "#beta-bugz button" ).click( function() {
 
