@@ -1530,7 +1530,7 @@ function prepareSite() {
 		);
 	}
 
-	// Make scratchpad persistent
+	// Make scratchpad persistent per-user
 	if (user) {
 		var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
 		if (typeof lastScratchpad !== "undefined" && JSON.parse(lastScratchpad)) {
