@@ -58,9 +58,9 @@
 			</var>
 			<var id="UNFAIR_HEADS_PERCENT_FORMULA">
 				(function() {
-					var uhpf = PERCENT_CHANCE_UNFAIR_HEADS + "%";
+					var uhpf = PERCENT_CHANCE_UNFAIR_HEADS + "\\%";
 					for (var i = 0; i < NUM_FLIPS - 1; i++) {
-						uhpf += " \\times " + PERCENT_CHANCE_UNFAIR_HEADS + "%";
+						uhpf += " \\times " + PERCENT_CHANCE_UNFAIR_HEADS + "\\%";
 					}
 					return uhpf;
 				})()
