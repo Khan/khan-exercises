@@ -1121,6 +1121,11 @@ function prepareSite() {
 			return false;
 		}
 
+		// Stop if the form is already disabled and we're waiting for a response.
+		if ( jQuery( "#answerform input" ).is( ":disabled" )) {
+			return false;
+		}
+
 		jQuery( "#throbber" ).show();
 		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
 		jQuery( "#answerform input" ).attr( "disabled", "disabled" );
