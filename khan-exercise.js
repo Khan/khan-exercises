@@ -408,7 +408,7 @@ Khan.loadScripts( scripts, function() {
 							.focus();
 					}
 				} else {
-					jQuery( "#answerform input" ).removeAttr( "disabled" );
+					jQuery( "#answercontent input" ).removeAttr( "disabled" );
 				}
 			}, function() {
 				// Error during submit. Cheat, for now, and reload the page in
@@ -950,7 +950,7 @@ function makeProblem( id, seed ) {
 
 	// Add the problem into the page
 	jQuery( "#workarea" ).append( problem ).fadeIn();
-	jQuery( "#answerform input" ).removeAttr("disabled");
+	jQuery( "#answercontent input" ).removeAttr("disabled");
 
 	// Save the raw hints so they can be modified later
 	rawHints = hints.clone()
@@ -1126,13 +1126,13 @@ function prepareSite() {
 		}
 
 		// Stop if the form is already disabled and we're waiting for a response.
-		if ( jQuery( "#answerform input" ).is( ":disabled" )) {
+		if ( jQuery( "#answercontent input" ).is( ":disabled" )) {
 			return false;
 		}
 
 		jQuery( "#throbber" ).show();
 		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
-		jQuery( "#answerform input" ).attr( "disabled", "disabled" );
+		jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
 		// Figure out if the response was correct
 		if ( pass ) {
 			// Show a congratulations message
