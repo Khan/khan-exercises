@@ -57,14 +57,14 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	userCRC32,
 
 	// How far to jump through the problems
-	jumpNum,
+	jumpNum = 1,
 
 	// The current problem and its corresponding exercise
 	problem,
 	exercise,
 
 	// The number of the current problem that we're on
-	problemNum,
+	problemNum = 0,
 	problemID,
 	
 	// The current validator function
@@ -440,8 +440,9 @@ Khan.loadScripts( scripts, function() {
 		}
 	});
 	
-	if (typeof userExercise !== "undefined") {
-		prepareUserExercise(userExercise);
+	if ( typeof userExercise !== "undefined" ) {
+		prepareUserExercise( userExercise );
+		
 	} else {
 		// Load in the exercise data from the server
 		jQuery.ajax({
@@ -530,7 +531,7 @@ Khan.loadScripts( scripts, function() {
 
 		// Change users, if needed
 		if ( user !== data.user ) {
-			user = data.user;
+			user = data.user || user;
 			userCRC32 = user != null ? crc32( user ) : null;
 			randomSeed = userCRC32 || randomSeed;
 		}
@@ -821,7 +822,7 @@ function makeProblem( id, seed ) {
 
 	// Save the seed for later so we can show it when asked
 	problemSeed = randomSeed;
-
+	
 	// Check to see if we want to test a specific problem
 	if ( testMode ) {
 		id = typeof id !== "undefined" ? id : Khan.query.problem;
@@ -1312,16 +1313,19 @@ function prepareSite() {
 
 			if ( show ) {
 				link.text( "Try current problem" );
-				jQuery( "#workarea" ).empty();
-				jQuery( "#hintsarea" ).empty();
-				for ( var i = 0; i < 10; i++ ) {
+				
+				for ( var i = 0; i < 9; i++ ) {
+					jQuery( "#workarea" ).append( "<hr>" );
 					makeProblem();
-					jQuery( "#workarea" ).append( jQuery( "<hr/>" ) );
 				}
 				
 			} else {
 				link.text( "Show next 10 problems" );
+				
 				jQuery( "#workarea, #hintsarea, #rawhintsarea" ).empty();
+				
+				prevProblem( 10 );
+				
 				makeProblem();
 			}
 
@@ -1552,6 +1556,26 @@ function nextProblem( num ) {
 		problemBagIndex = (problemBagIndex + 1) % problemCount;
 		
 		nextProblem( num - 1 );
+	}
+}
+
+function prevProblem( num ) {
+	if ( num > 0 ) {
+		// Increment the problem number
+		problemNum -= jumpNum;
+	
+		if ( problemNum < 0 ) {
+			problemNum += 200;
+		}
+		
+		// Go to the next problem type in the problem bag
+		problemBagIndex = (problemBagIndex - 1) % problemCount;
+		
+		if ( problemBagIndex < 0 ) {
+			problemBagIndex += problemCount;
+		}
+		
+		prevProblem( num - 1 );
 	}
 }
 
