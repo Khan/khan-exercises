@@ -24,7 +24,7 @@ jQuery.extend( Khan.answerTypes, {
 				input.val() :
 				fallback ?
 					fallback + "" :
-					""
+					"";
 
 			ret.guess = val;
 
@@ -54,7 +54,7 @@ jQuery.extend( Khan.answerTypes, {
 			}
 			guess = jQuery.trim( guess.substring( 0, guess.length - 1) );
 			return Khan.answerTypes.decimalVerifier( correct, guess );
-		}
+		};
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
@@ -335,9 +335,10 @@ jQuery.extend( Khan.answerTypes, {
 	primeFactorization: function( solutionarea, solution, fallback ) {
 		var verifier = function( correct, guess ) {
 			guess = guess.split(" ").join("").toLowerCase();
-			guess = KhanUtil.sortNumbers( guess.split( "x" ) ).join( "x" );
+			guess = KhanUtil.sortNumbers( guess.split( /x|\*/ ) ).join( "x" );
 			return guess === correct;
-		}
+		};
+
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	}
 } );
