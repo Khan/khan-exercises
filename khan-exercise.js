@@ -1262,10 +1262,10 @@ function prepareSite() {
 	jQuery( "#issue-failure" ).hide();
 
 	// if we're on the beta server. probably shouldn't be hard-coded...
-	if ( document.URL.indexOf( "http://khan-masterslave" ) === 0 ) {
+	if ( true || document.URL.indexOf( "http://khan-masterslave" ) === 0 ) {
 		jQuery( "#beta-bugz" ).show();
 
-		jQuery( "#beta-bugz button" ).click( function() {
+		jQuery( "#beta-bugz input[type=button]" ).click( function() {
 
 			var title = prompt( "Issue title" );
 
