@@ -4,15 +4,15 @@ jQuery.extend( KhanUtil, {
 	 * what is used in the exponent exercises. */
 
 	frac: function( n, d ) {
-		return KhanUtil.fraction( n, d, true, false, false, false );
+		return KhanUtil.fraction( n, d, true, true, false, false );
 	},
 
 	fracSmall: function( n, d ) {
-		return KhanUtil.fraction( n, d, true, false, true, false );
+		return KhanUtil.fraction( n, d, true, true, true, false );
 	},
 
 	fracParens: function( n, d ) {
-		return KhanUtil.fraction( n, d, true, false, false, true );
+		return KhanUtil.fraction( n, d, true, true, false, true );
 	},
 
 	/* Used to show the contracting of something like (-2)^4 into 16, by showing
