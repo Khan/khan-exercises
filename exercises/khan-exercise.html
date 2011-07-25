@@ -82,9 +82,11 @@
             </div>
         </form>
     </div>
-    <input type="button" class="button red" id="report-beta-issue" value="Report Issue" style="display:none;"/>
-		<p id="report-beta-issue-success">Thank you for your feedback! Your	issue, <span id="report-beta-issue-title"></span>, can be found <span id="report-beta-issue-link"></span>.</p>
-		<p id="report-beta-issue-fail">Communication with GitHub isn't working. Please file the issue manually at <a href="http://github.com/Khan/khan-exercises/issues/new">GitHub</a>.</p>
+		<div id="beta-bugz">
+			<input type="button" class="button red" value="Report Issue" style="display:none;" />
+			<p id="issue-success">Thank you for your feedback! Your issue, <em><span id="issue-title"></span>, can be found <a id="issue-link">here</a>.</p>
+			<p id="issue-failure">Communication with GitHub isn't working. Please file the issue manually at <a href="http://github.com/Khan/khan-exercises/issues/new">GitHub</a>.</p>
+		</div>
     <div id='browserwarning'>
         <p>
             You need to upgrade your browser to use Khan Academy's practice exercises.

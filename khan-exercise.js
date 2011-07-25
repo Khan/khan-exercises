@@ -1253,7 +1253,7 @@ function prepareSite() {
 				jQuery( this ).attr( "disabled", true );
 			}
 		}
-		
+
 		jQuery(Khan).trigger( "showHint" );
 	});
 
@@ -1262,35 +1262,41 @@ function prepareSite() {
 
 	// if we're on the beta server. probably shouldn't be hard-coded...
 	if ( document.URL.indexOf( "http://khan-masterslave" ) === 0 ) {
-		$( "#report-beta-issue" ).css( "display", "block" );
-	
-		jQuery( "#report-beta-issue" ).click( function() {
+		$( "#beta-bugz" ).css( "display", "block" );
+
+		jQuery( "#beta-bugz button" ).click( function() {
 
 			var title = prompt( "Issue title" );
 
 			// Don't do anything on clicking Cancel
 			if ( title == null ) return;
 
-			title = encodeURI( title );
-			var body = encodeURI( prompt( "Provide a brief description of the issue" ) );
+			var path = Khan.query.exid
+					+ "?seed=" + problemSeed
+					+ "&problem=" + problemID,
+				body = prompt( "Please provide a detailed description of the issue." )
+					+ "\n\n" + path;
 
 			jQuery.ajax({
-				url: "http://66.220.0.98:2563/file_exercise_tester_bug?title=" + title + "&body=" + body,
+				url: "http://66.220.0.98:2563/file_exercise_tester_bug"
+					+ "?title=" + encodeURIComponent( title )
+					+ "&body=" + encodeURIComponent( body ),
 				dataType: "jsonp",
 				success: function( json ) {
 					if ( json.meta.status === 201 ) {
-						jQuery( "#report-beta-issue-fail" ).hide();
-						jQuery( "#report-beta-issue-success" ).show();
-						jQuery( "#report-beta-issue-title" ).html( json.data.title );
-						jQuery( "#report-beta-issue-link" ).html( "<a href=" + json.data.html_url + ">here</a>" );
+						jQuery( "#issue-failure" ).hide();
+						jQuery( "#issue-title" ).html( json.data.title );
+						jQuery( "#issue-link" )
+							.attr("href", json.data.html_url );
+						jQuery( "#issue-success" ).show();
 					} else {
-						jQuery( "#report-beta-issue-success" ).hide();
-						jQuery( "#report-beta-issue-fail" ).show();
+						jQuery( "#issue-success" ).hide();
+						jQuery( "#issue-failure" ).show();
 					}
 				},
 				error: function( json ) {
-					jQuery( "#report-beta-issue-success" ).hide();
-					jQuery( "#report-beta-issue-fail" ).show();
+					jQuery( "#issue-success" ).hide();
+					jQuery( "#issue-fail" ).show();
 				}
 			});
 		});
