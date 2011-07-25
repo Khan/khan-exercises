@@ -38,6 +38,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// Check to see if we're in test mode
 	testMode = window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:",
 
+	// Check to see if we're in beta mode
+	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1 ),
+
 	// The main server we're connecting to for saving data
 	server = testMode ? "http://localhost:8080" : "",
 	
@@ -1260,9 +1263,8 @@ function prepareSite() {
 	jQuery( "#issue-success" ).hide();
 	jQuery( "#issue-failure" ).hide();
 
-	// if we're on the beta server. probably shouldn't be hard-coded...
-	if ( document.URL.indexOf( "http://khan-masterslave" ) === 0 ) {
-		jQuery( "#beta-bugz" ).css( "display", "block" );
+	if ( betaMode ) {
+		jQuery( "#beta-bugz" ).show();
 
 		jQuery( "#beta-bugz input[type=button]" ).click( function() {
 
