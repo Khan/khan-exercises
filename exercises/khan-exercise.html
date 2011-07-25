@@ -45,6 +45,13 @@
 	</div>
 	<div id="rawhintsarea"></div>
 	<div id="answer_area">
+		<div id="beta-bugz" class="info-box">
+			<span class="info-box-header">Beta Testing</span>
+			<p>Please let us know if you notice any odd or wrong behavior in any nook or cranny of the site. This includes all interactions, progress, knowledge map, badges, activity, reports, or anything else that you think is acting a little funky. Thanks for helping us out!</p>
+			<input type="button" class="button orange" value="Report Issue" />
+			<p id="issue-success">Thank you for your feedback! Your issue, <em><span id="issue-title"></span>, can be found <a id="issue-link">here</a>.</p>
+			<p id="issue-failure">Communication with GitHub isn't working. Please file the issue manually at <a href="http://github.com/Khan/khan-exercises/issues/new">GitHub</a>.</p>
+		</div>
 		<form id="answerform" action="/registeranswer" method="get" name="answerform">
 			<div id="answercontent" class="info-box fancy-scrollbar">
 				<span class="info-box-header">Answer</span>
@@ -82,11 +89,6 @@
 			</div>
 		</form>
 	</div>
-		<div id="beta-bugz">
-			<input type="button" class="button red" value="Report Issue" />
-			<p id="issue-success">Thank you for your feedback! Your issue, <em><span id="issue-title"></span>, can be found <a id="issue-link">here</a>.</p>
-			<p id="issue-failure">Communication with GitHub isn't working. Please file the issue manually at <a href="http://github.com/Khan/khan-exercises/issues/new">GitHub</a>.</p>
-		</div>
 	<div id='browserwarning'>
 		<p>
 			You need to upgrade your browser to use Khan Academy's practice exercises.
