@@ -12,12 +12,12 @@
 			var pre = "";
 
 			if ( typeof n === "number" && typeof m === "number" ) {
-				return KhanUtil.fractionReduce( n, m, true );				
+				return KhanUtil.fractionReduce( n, m, true );
 			} else if ( typeof n === "string" && typeof m === "number" ) {
 				if ( m < 0 ) pre = "-";
 				m = Math.abs( m );
 				if ( m === 1 ) return pre + n;
-			} else if ( typeof n === "number" && typeof m === "string" ) { 
+			} else if ( typeof n === "number" && typeof m === "string" ) {
 				if ( n < 0 ) pre = "-";
 				n = Math.abs( n );
 			}
@@ -84,7 +84,7 @@
 						scale: 20,
 						tickStep: 1,
 						labelStep: 2,
-						axisArrows: "->"
+						axisArrows: "<->"
 					})
 
 					// draw the function
@@ -112,7 +112,7 @@
 				</ul>
 			</div>
 		</div>
-		
+
 		<div class="hints">
 			<p><code>y = f(x)</code>, so solving for <code>x</code> in terms of <code>y</code> gives <code>x=f^{-1}(y)</code></p>
 			<p><code>f(x) = y = <var>expr([ "+", M_X, B ])</var></code></p>
