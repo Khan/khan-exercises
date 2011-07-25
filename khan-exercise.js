@@ -39,7 +39,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	testMode = window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:",
 
 	// Check to see if we're in beta mode
-	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1 ),
+	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1,
 
 	// The main server we're connecting to for saving data
 	server = testMode ? "http://localhost:8080" : "",
