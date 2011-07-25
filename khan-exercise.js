@@ -97,20 +97,19 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	urlBase = testMode ? "../" : "/khan-exercises/";
 
 // Add in the site stylesheets
-(function(){
-
-	if (testMode) {
+if (testMode) {
+    (function(){
 		var link = document.createElement("link");
 		link.rel = "stylesheet";
 		link.href = urlBase + "css/khan-site.css";
 		document.getElementsByTagName('head')[0].appendChild(link);
-	}
-	
-	link = document.createElement("link");
-	link.rel = "stylesheet";
-	link.href = urlBase + "css/khan-exercise.css";
-	document.getElementsByTagName('head')[0].appendChild(link);
-})();
+
+        link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = urlBase + "css/khan-exercise.css";
+        document.getElementsByTagName('head')[0].appendChild(link);
+    })();
+}
 
 // The main Khan Module
 var Khan = {
