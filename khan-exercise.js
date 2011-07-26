@@ -950,9 +950,9 @@ function makeProblem( id, seed ) {
 		if ( choices.length ) {
 			answerType = "radio";
 
-		// Otherwise we assume a basic text input
+		// Otherwise we assume the smart number type
 		} else {
-			answerType = "text";
+			answerType = "number";
 		}
 	}
 
