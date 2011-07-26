@@ -561,14 +561,14 @@ Khan.loadScripts( scripts, function() {
 		jQuery(".current-label").width( Math.min( Math.min( data.streak, 10 ) * 23, 228 ) ).html( data.streak + "&nbsp;" );
 		jQuery("#exercise-points").text( " " + data.next_points + " " );
 
-        // Update the exercise icon
-        var exerciseStates = data.exercise_states;
-        var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
-        var src = exerciseStates.review ? "/images/node-review.png" : 
-                    exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" : 
-                        exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" : 
-                            "/images/" + sPrefix + "-not-started.png";
-        jQuery("#exercise-icon-container img").attr("src", src);
+		// Update the exercise icon
+		var exerciseStates = data.exercise_states;
+		var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
+		var src = exerciseStates.review ? "/images/node-review.png" : 
+					exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" : 
+						exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" : 
+							"/images/" + sPrefix + "-not-started.png";
+		jQuery("#exercise-icon-container img").attr("src", src);
 	}
 	
 	// Grab the cached UserExercise data from local storage
