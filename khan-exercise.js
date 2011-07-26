@@ -1282,7 +1282,7 @@ function prepareSite() {
 		jQuery(Khan).trigger( "showHint" );
 	});
 
-	if ( true || betaMode ) {
+	if ( betaMode ) {
 		jQuery( "#issue" ).show();
 
 		jQuery( "#issue-report" ).click( function() {
@@ -1302,7 +1302,8 @@ function prepareSite() {
 					path = Khan.query.exid
 						+ "?seed=" + problemSeed
 						+ "&problem=" + problemID,
-					body = jQuery( "#issue-body" ).val() + "\n\n" + path,
+					agent = navigator.userAgent,
+					body = [ jQuery( "#issue-body" ).val(), path, agent ].join("\n\n"),
 					error = "Communication with GitHub isn't working. Please file "
 						+ "the issue manually at <a href=\""
 						+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
