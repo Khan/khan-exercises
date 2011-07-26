@@ -1159,17 +1159,9 @@ function prepareSite() {
 		jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
 		// Figure out if the response was correct
 		if ( pass ) {
-			// Show a congratulations message
-			jQuery("#oops").hide();
-			jQuery("#congrats").show();
-
 			jQuery("#happy").show();
 			jQuery("#sad").hide();
-
-		// Otherwise show an error message
 		} else {
-			jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
-			
 			jQuery("#happy").hide();
 			jQuery("#sad").show();
 		}
@@ -1181,9 +1173,6 @@ function prepareSite() {
 
 	// Watch for when the next button is clicked
 	jQuery("#next-question-button").click(function(ev) {
-		// Erase the old value and hide congrats message
-		jQuery("#congrats").hide();
-		
 		jQuery("#happy").hide();
 
 		// Toggle the navigation buttons
