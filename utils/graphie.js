@@ -247,18 +247,30 @@
 					// Run after MathJax typesetting
 					MathJax.Hub.Queue(function() {
 						// Avoid an icky flash
-						span.hide();
+						span.css( "visibility", "hidden" );
 
-						// Wait for the browser to render it
-						setTimeout(function() {
-							span.show();
-							var size = [ span.outerWidth(), span.outerHeight() ];
+						var setMargins = function( size ) {
+							span.css( "visibility", "" );
 							var multipliers = directions[ direction || "center" ];
 							span.css({
 								marginLeft: Math.round( size[0] * multipliers[0] ),
 								marginTop: Math.round( size[1] * multipliers[1] )
 							});
-						}, 1);
+						};
+
+						// Wait for the browser to render it
+						var tries = 0;
+						var inter = setInterval(function() {
+							var size = [ span.outerWidth(), span.outerHeight() ];
+							console.log(size);
+
+							// Heuristic to guess if the font has kicked in so we have box metrics
+							// (Magic number ick, but this seems to work mostly-consistently)
+							if ( size[1] > 18 || ++tries >= 10 ) {
+								setMargins( size );
+								clearInterval(inter);
+							}
+						}, 100);
 					});
 				}
 
