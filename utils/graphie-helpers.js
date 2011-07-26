@@ -134,9 +134,8 @@ function updateEquation() {
 	});
 
 	graph.labelHolder.remove();
-	graph.labelHolder = graph.label( [1, 11], "y = " + KhanUtil.fractionReduce( graph.MN, graph.MD )
-							+ "x +" + KhanUtil.fractionReduce( graph.BN, graph.BD ));
 
+	jQuery( "#equationAnswer").html( "<code>y =" + KhanUtil.fractionReduce( graph.MN, graph.MD ) + "x +" + KhanUtil.fractionReduce( graph.BN, graph.BD )+"</code>" ).tmpl();
 	jQuery( "#slope-sol input" ).val( graph.MN + "/" + graph.MD );
 	jQuery( "#intercept-sol input" ).val( graph.BN + "/" + graph.BD );
 }

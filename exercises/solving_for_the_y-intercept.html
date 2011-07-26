@@ -16,18 +16,6 @@
 				return "above right";
 			}
 		}
-
-		function p2Position( x1, y1, x2, y2 ) {
-			if ( ( y1 > y2 ) && ( x1 > x2 ) ) {
-				return "above left";
-			} else if ( ( y1 > y2 ) && ( x1 < x2 ) ) {
-				return "above right";
-			} else if ( ( y1 < y2 ) && ( x1 < x2 ) ) {
-				return "below right";
-			} else {
-				return "below left";
-			}
-		}
 	</script>
 </head>
 <body>
@@ -61,7 +49,7 @@
 				</div>
 				<p class="question">What is the value of the <code>y</code>-intercept <code>b</code>?</p>
 
-				<p class="solution" data-type="rational"><var>(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR) / SLOPE_DENOMINATOR</var></p>
+				<p class="solution"><var>(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR) / SLOPE_DENOMINATOR</var></p>
 			</div>
 		</div>
 
@@ -73,10 +61,10 @@
 			<p><code>b = <var>fractionReduce( Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var></code></p>
 
 			<div>
-				<p><code>y = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + <var>fractionReduce(Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR,SLOPE_DENOMINATOR)</var></code></p>
+				<p>Plugging in <code><var>fractionReduce( Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var></code> for <code>b</code>, we get <code>y = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + <var>fractionReduce(Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR,SLOPE_DENOMINATOR)</var></code></p>
 				<div class="graphie">
 					graphInit({
-						range: 10,
+						range: 11,
 						scale: 20,
 						tickStep: 1,
 						axisArrows: "<->"
@@ -84,7 +72,7 @@
 
 					plot(function( x ) {
 						return M * x + B;
-					}, [-10, 10], {
+					}, [-11, 11], {
 						stroke: "#28ae7b"
 					});
 
