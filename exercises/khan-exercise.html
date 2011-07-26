@@ -45,12 +45,16 @@
 	</div>
 	<div id="rawhintsarea"></div>
 	<div id="answer_area">
-		<div id="beta-bugz" class="info-box" style="display:none;">
+		<div id="issue" class="info-box" style="display:none;">
 			<span class="info-box-header">Beta Testing</span>
 			<p>Please let us know if you notice any odd or wrong behavior in any nook or cranny of the site. This includes all interactions, progress, knowledge map, badges, activity, reports, or anything else that you think is acting a little funky. Thanks for helping us out!</p>
-			<input type="button" class="button orange" value="Report Issue" />
-			<p id="issue-success">Thank you for your feedback! Your issue, <em id="issue-title"></em>, can be found <a id="issue-link">here</a>.</p>
-			<p id="issue-failure">Communication with GitHub isn't working. Please file the issue manually at <a href="http://github.com/Khan/khan-exercises/issues/new">GitHub</a>.</p>
+			<p id="issue-status" style="display:none;"></p>
+			<input type="button" id="issue-report" class="button orange" value="Report Issue" />
+			<div id="issue-form" style="display:none;">
+				<label for="issue-title">Issue Title <input type="text" name="issue-title" id="issue-title" /></label>
+				<label for-"issue-body">Description of Issue <textarea name="issue-body" id="issue-body" /></label>
+				<input type="button" id="issue-submit" class="button orange" value="Submit Issue">
+			</div>
 		</div>
 		<form id="answerform" action="/exercisedashboard" method="get" name="answerform">
 			<div id="answercontent" class="info-box fancy-scrollbar">
