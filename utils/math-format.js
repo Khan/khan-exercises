@@ -81,11 +81,21 @@ jQuery.extend(KhanUtil, {
 		var numerator = n ? n : 0;
 		var denominator = d ? d : 1;
 		
+		if ( wholeNum < 0 && numerator < 0 ) {
+			throw "NumberFormatException: Both integer portion and fraction cannot both be negative.";
+		}
+		if ( denominator < 0 ) {
+			throw "NumberFormatException: Denominator cannot be be negative.";
+		}
+		if ( denominator == 0 ) {
+			throw "NumberFormatException: Denominator cannot be be 0.";
+		}
+		
 		if ( reduce ) {
 			if( wholeNum < 0 ) {
-				wholeNum += Math.floor( numerator / denominator );
-			} else {
 				wholeNum -= Math.floor( numerator / denominator );
+			} else {
+				wholeNum += Math.floor( numerator / denominator );
 			}
 			
 			numerator = numerator % denominator;
