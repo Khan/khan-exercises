@@ -3,7 +3,7 @@ var Khan = (function() {
 // Prime numbers used for jumping through exercises
 var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	47, 53, 59, 61, 67, 71, 73, 79, 83],
-	
+
 	/*
 	===============================================================================
 	Crc32 is a JavaScript function for computing the CRC32 of a string
@@ -43,14 +43,14 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 	// The main server we're connecting to for saving data
 	server = testMode ? "http://localhost:8080" : "",
-	
+
 	// The name of the exercise
 	exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]),
 
 	// Bin users into a certain number of realms so that
 	// there is some level of reproducability in their questions
 	bins = 200,
-	
+
 	// The seed information
 	problemSeed,
 	randomSeed,
@@ -69,27 +69,27 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// The number of the current problem that we're on
 	problemNum = 0,
 	problemID,
-	
+
 	// The current validator function
 	validator,
-	
+
 	// Storing hint data for later
 	rawHints,
 	hints,
-	
+
 	// The exercise elements
 	exercises,
-	
+
 	// If we're dealing with a summative exercise
 	isSummative = false,
-	
+
 	// Where we are in the shuffled list of problem types
 	problemBag,
 	problemBagIndex = 0,
-	
+
 	// How many problems are we doing? (For the fair shuffle bag.)
 	problemCount = 10,
-	
+
 	// For saving problems to the server
 	hintUsed,
 	lastAction,
@@ -97,17 +97,17 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	doSave,
 	attempts,
 	once = true,
-	
+
 	// For loading remote exercises
 	remoteCount = 0,
-	
+
 	// Debug data dump
 	dataDump = {
 		"exercise": exerciseName,
 		"problems": [],
 		"issues": 0
 	},
-	
+
 	urlBase = testMode ? "../" : "/khan-exercises/";
 
 // Add in the site stylesheets
@@ -156,12 +156,10 @@ var Khan = {
 									var num = this.GetArgument( name ),\
 										den = this.GetArgument( name );\
 									var frac = MathJax.ElementJax.mml.mfrac( MathJax.InputJax.TeX.Parse( '\\\\strut\\\\textstyle{'+num+'\\\\qquad}', this.stack.env ).mml(),\
-									                      MathJax.InputJax.TeX.Parse( '\\\\strut\\\\textstyle{\\\\qquad '+den+'}', this.stack.env ).mml() );\
-					\
+										MathJax.InputJax.TeX.Parse( '\\\\strut\\\\textstyle{\\\\qquad '+den+'}', this.stack.env ).mml() );\
 									frac.numalign = MathJax.ElementJax.mml.ALIGN.LEFT;\
 									frac.denomalign = MathJax.ElementJax.mml.ALIGN.RIGHT;\
 									frac.linethickness = \"0em\";\
-					\
 									this.Push( frac );\
 								}\
 							}\
@@ -355,10 +353,10 @@ Khan.loadScripts( scripts, function() {
 	Khan.require( [ "answer-types", "tmpl" ] );
 
 	Khan.require( document.documentElement.getAttribute("data-require") );
-	
+
 	if ( typeof userExercise !== "undefined" ) {
 		prepareUserExercise( userExercise );
-		
+
 	} else {
 		// Load in the exercise data from the server
 		jQuery.ajax({
@@ -366,10 +364,10 @@ Khan.loadScripts( scripts, function() {
 			url: server + "/api/v1/user/exercises/" + exerciseName,
 			type: "GET",
 			dataType: "json",
-			
+
 			// Make sure cookies are passed along
 			xhrFields: { withCredentials: true },
-			
+
 			success: prepareUserExercise
 		});
 	}
@@ -379,7 +377,7 @@ Khan.loadScripts( scripts, function() {
 
 		if ( remoteExercises.length ) {
 			isSummative = true;
-			
+
 			remoteExercises.each( loadExercise );
 		} else {
 			loadModules();
@@ -503,7 +501,7 @@ function makeProblemBag( problems, n ) {
 			})() );
 		}
 	}
-	
+
 	return bag;
 }
 
@@ -511,7 +509,7 @@ function makeProblem( id, seed ) {
 	// Allow passing in a random seed
 	if ( typeof seed !== "undefined" ) {
 		randomSeed = seed;
-	
+
 	// Otherwise set the seed from the problem number
 	// Only do so if we're not in test mode and if we have a username
 	} else if ( (!testMode || Khan.query.test == null) && user != null ) {
@@ -520,12 +518,12 @@ function makeProblem( id, seed ) {
 
 	// Save the seed for later so we can show it when asked
 	problemSeed = randomSeed;
-	
+
 	// Check to see if we want to test a specific problem
 	if ( testMode ) {
 		id = typeof id !== "undefined" ? id : Khan.query.problem;
 	}
-	
+
 	if ( typeof id !== "undefined" ) {
 		var problems = exercises.children( ".problems" ).children();
 
@@ -771,10 +769,10 @@ function makeProblem( id, seed ) {
 		// for special style rules
 		jQuery( "body" ).addClass("debug");
 	}
-	
+
 	// Advance to the next problem
 	nextProblem( 1 );
-	
+
 	// The user is generating a new problem
 	doHintSave = true;
 	doSave = true;
@@ -788,7 +786,7 @@ function makeProblem( id, seed ) {
 		updateData();
 		once = false;
 	}
-	
+
 	jQuery(Khan).trigger( "newProblem" );
 }
 
@@ -825,7 +823,7 @@ function prepareSite() {
 	// Watch for a solution submission
 	jQuery("#check-answer-button").click( handleSubmit );
 	jQuery("#answerform").submit( handleSubmit );
-	
+
 	function handleSubmit( e ) {
 		var pass = validator();
 
@@ -850,39 +848,39 @@ function prepareSite() {
 			jQuery("#happy").hide();
 			jQuery("#sad").show();
 		}
-		
+
 		// The user checked to see if an answer was valid
-		
+
 		// Build the data to pass to the server
 		var curTime = (new Date).getTime(),
 			data = {
 				// The user answered correctly
 				complete: pass ? 1 : 0,
-		
+
 				// The user used a hint
 				hint_used: hintUsed ? 1 : 0,
-		
+
 				// How long it took them to complete the problem
 				time_taken: Math.round((curTime - lastAction) / 1000),
-				
+
 				// How many times the problem was attempted
 				attempt_number: ++attempts,
-				
+
 				// The answer the user gave
 				// TODO: Get the real provided answer
 				attempt_content: validator.guess,
-				
+
 				// A hash representing the exercise
 				// TODO: Populate this from somewhere
 				sha1: typeof userExercise !== "undefined" ? userExercise.exercise_model.sha1 : exerciseName,
-				
+
 				// The seed that was used for generating the problem
 				seed: problemSeed,
 
 				// The non-summative exercise that the current problem belongs to
 				non_summative: exercise.data( "name" )
 			};
-	
+
 		// Save the problem results to the server
 		request( "problems/" + (getData().total_done + 1) + "/attempt", data, function() {
 
@@ -907,13 +905,13 @@ function prepareSite() {
 			// an attempt to get updated data.
 			window.location.reload();
 		});
-		
+
 		// Make sure hint streak breaking is handled correctly
 		doSave = false;
-		
+
 		// Remember when the last action was
 		lastAction = curTime;
-		
+
 		jQuery(Khan).trigger( "checkAnswer", pass );
 
 		return false;
@@ -931,7 +929,7 @@ function prepareSite() {
 		jQuery("#workarea").hide();
 		jQuery("#workarea, #hintsarea, #hintsbag").empty();
 		jQuery("#hint").attr( "disabled", false );
-		
+
 		if ( Khan.scratchpad ) {
 			Khan.scratchpad.clear();
 		}
@@ -954,7 +952,7 @@ function prepareSite() {
 				.appendTo( "#problemarea" );
 
 			jQuery( "#sidebar" ).hide();
-		
+
 		} else {
 			// Generate a new problem
 			makeProblem();
@@ -966,13 +964,13 @@ function prepareSite() {
 
 		if ( user ) {
 			var hintApproved = window.localStorage[ "hintApproved:" + user ];
-			
+
 			if ( !(typeof hintApproved !== "undefined" && JSON.parse(hintApproved)) ) {
 				if ( !(typeof userExercise !== "undefined" && userExercise.read_only) ) {
 					if ( confirm("One-time warning: Using a hint will erase your streak.\nAre you sure you want to continue?"))  {
 						// Hint consequences approved
 						window.localStorage[ "hintApproved:" + user ] = true;
-						
+
 					} else {
 						// User doesn't want to lose streak.
 						return;
@@ -1024,24 +1022,24 @@ function prepareSite() {
 				// Disable the get hint button
 				jQuery( this ).attr( "disabled", true );
 			}
-			
+
 			// A user revealed a hint
-			
+
 			// Don't reset the streak if we've already reset it or if
 			// we've already sent in an answer
 			if ( !doSave || !doHintSave ) {
 				return;
 			}
-			
+
 			hintUsed = true;
 
 			if (!(typeof userExercise !== "undefined" && userExercise.read_only)) {
 				request( "reset_streak" );
 			}
-			
+
 			// Make sure we don't reset the streak more than once
 			doHintSave = false;
-			
+
 			jQuery(Khan).trigger( "showHint" );
 		}
 	});
@@ -1116,19 +1114,19 @@ function prepareSite() {
 
 			if ( show ) {
 				link.text( "Try current problem" );
-				
+
 				for ( var i = 0; i < 9; i++ ) {
 					jQuery( "#workarea" ).append( "<hr>" );
 					makeProblem();
 				}
-				
+
 			} else {
 				link.text( "Show next 10 problems" );
-				
+
 				jQuery( "#workarea, #hintsarea, #rawhintsarea" ).empty();
-				
+
 				prevProblem( 10 );
-				
+
 				makeProblem();
 			}
 
@@ -1141,23 +1139,23 @@ function prepareSite() {
 		.click( function() {
 			var button = jQuery( this ),
 				show = button.data( "show" );
-				
+
 			if ( show ) {
 				if ( !Khan.scratchpad ) {
 					Khan.loadScripts( [ {src: urlBase + "utils/scratchpad.js"} ], function() {
 						jQuery( "#scratchpad" ).show();
-						
+
 						Khan.scratchpad = new Scratchpad();
 						Khan.scratchpad.offsetLeft = jQuery( "#scratchpad" ).offset().left;
 						Khan.scratchpad.offsetTop = jQuery( "#scratchpad" ).offset().top;
 						button.text( "Hide scratchpad" );
 					} );
-					
+
 				} else {
 					jQuery( "#scratchpad" ).show();
 					button.text( "Hide scratchpad" );
 				}
-				
+
 			} else {
 				jQuery( "#scratchpad" ).hide();
 				button.text( "Show scratchpad" );
@@ -1167,7 +1165,7 @@ function prepareSite() {
 			if (user) {
 				window.localStorage[ "scratchpad:" + user ] = show;
 			}
-			
+
 			return false
 		});
 
@@ -1201,7 +1199,7 @@ function prepareSite() {
 			var dump = dataDump.problems.pop(),
 				prettyDump = "```js\n" + JSON.stringify( dump ) + "\n```",
 				fileName = window.location.pathname.replace(/^.+\//, ""),
-				path = fileName + "?problem=" + problemID 
+				path = fileName + "?problem=" + problemID
 					+ "&seed=" + problemSeed;
 
 			var title = encodeURIComponent( "Issue in " + $("title").html() ),
@@ -1210,7 +1208,7 @@ function prepareSite() {
 
 			var err = function( problems, dump, desc ) {
 				problems.push( dump );
-				problems[ problems.length - 1 ].pass = desc; 
+				problems[ problems.length - 1 ].pass = desc;
 			};
 
 			var comment = function( id ) {
@@ -1230,24 +1228,24 @@ function prepareSite() {
 					error: function( json ) {
 						err( dataDump.problems, dump, description );
 					}
-				});	
+				});
 			};
 
 			var newIssue = function() {
 				// if communication fails with the Sinatra app or Github and an
-				// issue isn't created, then we create a test that will always 
+				// issue isn't created, then we create a test that will always
 				// fail.
 				jQuery.ajax({
 					url: "http://66.220.0.98:2563/file_exercise_tester_bug?title=" + title + "&body=" + body + "&label=" + label,
 					dataType: "jsonp",
-					success: function( json ) { 
+					success: function( json ) {
 						if ( json.meta.status !== 201 ) {
 							err( dataDump.problems, dump, description );
 						} else {
 							dataDump.issues += 1;
 						}
 					},
-					error: function( json ) { 
+					error: function( json ) {
 						err( dataDump.problems, dump, description );
 					}
 				});
@@ -1261,7 +1259,7 @@ function prepareSite() {
 				},
 				success: function( json ) {
 					var copy = false;
-					
+
 					// see if an automatically generated issue for this file
 					// already exists
 					jQuery.each( json.data, function( i, issue ) {
@@ -1303,7 +1301,7 @@ function prepareSite() {
 	// Register API ajax callbacks for updating UI
 	if ( typeof APIActionResults !== "undefined" ) {
 		// Update exercise message after appropriate API ajax requests
-		APIActionResults.register("exercise_message_html", 
+		APIActionResults.register("exercise_message_html",
 			function(sExerciseMessageHtml) {
 				var jel = jQuery("#exercise-message-container");
 				var jelNew = jQuery(sExerciseMessageHtml);
@@ -1331,14 +1329,14 @@ function nextProblem( num ) {
 	if ( num > 0 ) {
 		// Increment the problem number
 		problemNum += jumpNum;
-	
+
 		if ( problemNum >= 200 ) {
 			problemNum -= 200;
 		}
-		
+
 		// Go to the next problem type in the problem bag
 		problemBagIndex = (problemBagIndex + 1) % problemCount;
-		
+
 		nextProblem( num - 1 );
 	}
 }
@@ -1347,18 +1345,18 @@ function prevProblem( num ) {
 	if ( num > 0 ) {
 		// Increment the problem number
 		problemNum -= jumpNum;
-	
+
 		if ( problemNum < 0 ) {
 			problemNum += 200;
 		}
-		
+
 		// Go to the next problem type in the problem bag
 		problemBagIndex = (problemBagIndex - 1) % problemCount;
-		
+
 		if ( problemBagIndex < 0 ) {
 			problemBagIndex += problemCount;
 		}
-		
+
 		prevProblem( num - 1 );
 	}
 }
@@ -1366,7 +1364,7 @@ function prevProblem( num ) {
 function prepareUserExercise( data ) {
 	// Update the local data store
 	updateData( data );
-	
+
 	if ( user != null ) {
 		// How far to jump through the problems
 		jumpNum = primes[ userCRC32 % primes.length ];
@@ -1395,20 +1393,20 @@ function request( method, data, fn, fnError ) {
 		type: "POST",
 		data: data,
 		dataType: "json",
-		
+
 		// Make sure cookies are passed along
 		xhrFields: { withCredentials: true },
-	
+
 		// Backup the response locally, for later use
 		success: function( data ) {
 			// Update the visual representation of the points/streak
 			updateData( data );
-			
+
 			if ( jQuery.isFunction( fn ) ) {
 				fn( data );
 			}
 		},
-		
+
 		// Handle error edge case
 		error: fnError
 	});
@@ -1433,7 +1431,7 @@ function updateData( data ) {
 
 	// Update the streaks/point bar
 	var streakMaxWidth = 227,
-		
+
 		// Streak and longest streak pixel widths
 		streakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.streak)),
 		longestStreakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.longest_streak)),
@@ -1446,7 +1444,7 @@ function updateData( data ) {
 
 		// Don't show accumulation stats higher than 100 to stop grinding behavior,
 		// and don't show labels if there isn't room in the bar to render them.
-		labelStreak = streakWidth < labelWidthRequired ? "" : 
+		labelStreak = streakWidth < labelWidthRequired ? "" :
 						( !data.summative && data.streak > 100 ) ? "Max" : data.streak,
 
 		labelLongestStreak = ( longestStreakWidth < labelWidthRequired || (longestStreakWidth - streakWidth) < labelWidthRequired ) ? "" :
@@ -1457,7 +1455,7 @@ function updateData( data ) {
 		jQuery( ".summative-help ")
 			.find( ".summative-required-streaks" ).text( parseInt( data.required_streak / 10 ) ).end()
 			.show();
-		
+
 		if ( jQuery( ".level-label" ).length === 0 ) {
 
 			// Split summative streak bar into levels
@@ -1470,7 +1468,7 @@ function updateData( data ) {
 
 			}
 
-			jQuery.each(levels, function( index, val ) { 
+			jQuery.each(levels, function( index, val ) {
 				jQuery( ".best-label" ).after("<li class='level-label' style='width:" + val + "px'></li>");
 			});
 
@@ -1486,29 +1484,29 @@ function updateData( data ) {
 
 	// Update the exercise icon
 	var exerciseStates = data && data.exercise_states;
-	
+
 	if ( exerciseStates ) {
 		var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
-		var src = exerciseStates.review ? "/images/node-review.png" : 
-					exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" : 
-						exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" : 
+		var src = exerciseStates.review ? "/images/node-review.png" :
+					exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" :
+						exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" :
 							"/images/" + sPrefix + "-not-started.png";
 		jQuery("#exercise-icon-container img").attr("src", src);
 	}
 
 	// Display all the related videos
 	var videos = data && data.exercise_model.related_videos;
-	
+
 	if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
 		jQuery.each( videos, function( i, video ) {
-			jQuery("<li" + (i > 2 ? " class='related-video-extended'" : "") + ">" + 
+			jQuery("<li" + (i > 2 ? " class='related-video-extended'" : "") + ">" +
 					"<a href='" + video.ka_url + "' title='" + video.title + "'><span class='video-title'>" +
-						video.title + 
-							(i < videos.length - 1 && i < 2 ? "<span class='separator'>, </span>" : "") 
+						video.title +
+							(i < videos.length - 1 && i < 2 ? "<span class='separator'>, </span>" : "")
 								+ "</span></a></li>")
 									.appendTo(".related-video-list");
 		});
-	
+
 		jQuery(".related-content, #related-video-content").show();
 	}
 }
@@ -1516,11 +1514,11 @@ function updateData( data ) {
 // Grab the cached UserExercise data from local storage
 function getData() {
 	var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
-	
+
 	// Parse the JSON if it exists
 	if ( data ) {
 		return JSON.parse( data );
-	
+
 	// Otherwise we contact the server
 	} else {
 		return {
@@ -1621,7 +1619,7 @@ function loadModules() {
 			}
 		});
 	});
-	
+
 	function handleInject( html, htmlExercise ) {
 		injectSite( html, htmlExercise );
 		postInject();
