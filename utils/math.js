@@ -172,7 +172,9 @@ jQuery.extend(KhanUtil, {
 	},
 
 	getPrimeFactorization: function( number ) {
-		if ( number === 1 || KhanUtil.isPrime( number ) ) {
+		if ( number === 1 ) {
+			return [];
+		} else if ( KhanUtil.isPrime( number ) ) {
 			return [ number ];
 		}
 
