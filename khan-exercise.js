@@ -449,7 +449,7 @@ function makeProblemBag( problems, n ) {
 			elem = jQuery( elem );
 			elem.data( "id", elem.attr( "id" ) || "" + i );
 
-			for ( var j = 0; j < problemCount; j++ ) {
+			for ( var j = 0; j < 10; j++ ) {
 				bag.push( problems.eq( i ) );
 			}
 		} );
@@ -1633,6 +1633,10 @@ function loadModules() {
 		// Prepare the "random" problems
 		if ( !testMode || !Khan.query.problem ) {
 			var problems = exercises.children( ".problems" ).children();
+
+			if ( typeof userExercise !== "undefined" ) {
+				problemCount = userExercise.required_streak;
+			}
 
 			weighExercises( problems );
 			problemBag = makeProblemBag( problems, problemCount );
