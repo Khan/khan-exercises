@@ -66,8 +66,10 @@
 					graph.BN = 1;
 					graph.BD = 1;
 					graph.INCR = INCR;
+					updateEquation();
 				</div>
 				<div class="solution" data-type="multiple">
+					<span id="equationAnswer"><code>y = x + 1</code></span>
 					<div><input type="button" value="Increase slope" onclick="changeSlope(1)"></div>
 					<div><input type="button" value="Decrease slope" onclick="changeSlope(-1)"></div>
 					<div><input type="button" value="Increase y-intercept" onclick="changeIntercept(1)"></div>
