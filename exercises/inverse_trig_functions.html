@@ -44,9 +44,6 @@
 			<!-- 90deg, 90 deg, 90 degrees, 90 DEGREES, etc. -->
 			<var id="Y_DEGREES_REGEX">( Y_DEGREES === 0 ? "^(\\s*0*\\s*)|" : "^" ) + Y_DEGREES + "\\s*[Dd][Ee][Gg]([Rr][Ee][Ee][Ss])?\\s*$"</var>
 
-			<!-- 12p, 12pi, 12PI, 12 * pi, 12 pi, etc. -->	
-			<var id="Y_RADIANS_REGEX">( Y_RADIANS[0] === 0 ? "^(\\s*0*\\s*)|" : "^" ) + Y_RADIANS[0] + ( Y_RADIANS[1] === 1 ? "" : "\\s*/\\s*" + Y_RADIANS[1] ) + "\\s*(?:\\*\\s*)?[Pp][Ii]\\s*$"</var>
-
 			<var id="PRETTY">function( n ) {
 
 				var sign = n < 0 ? "-" : "";
@@ -78,7 +75,8 @@
 					<p>Note: please answer in terms of <span data-if="DEG">degrees (ex: &quot;180 deg&quot; or &quot;180 degrees&quot;)</span><span data-else>radians (ex: &quot;3/4 pi&quot;)</span>.</p>
 				</div>
 				
-				<p class="solution" data-type="regex"><var data-if="DEG">Y_DEGREES_REGEX</var><var data-else>Y_RADIANS_REGEX</var></p>
+				<p class="solution" data-type="regex" data-if="DEG"><var>Y_DEGREES_REGEX</var></p>
+				<p class="solution" data-forms="pi" data-else><var>Y</var></p>
 			</div>
 		</div>
 		

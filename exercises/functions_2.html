@@ -89,11 +89,11 @@
 				<p class="problem">Functions <code class="f">f(x)</code> and <code class="g">g(x)</code> are graphed. Find <code><var>F_COEF</var> f(<var>CORRECT_X</var>) + <var>G_COEF</var> g(<var>CORRECT_GX</var>)</code>.</p>
 
 				<div id="graph" class="graphie">
-					graphInit({ 
+					graphInit({
 						range: 10,
 						scale: 20,
 						tickStep: 1,
-						axisArrows: "->"
+						axisArrows: "<->"
 					});
 
 					path( FUNCTION_PATH, { stroke: "#ffa500" } );
@@ -110,7 +110,12 @@
 				f(<var>CORRECT_X</var>) &= <var>CORRECT_Y</var> \\
 				g(<var>CORRECT_GX</var>) &= <var>CORRECT_GY</var>
 			\end{align*}</code></p>
-			<p>Thus, <code><var>F_COEF</var> f(<var>CORRECT_X</var>) + <var>G_COEF</var> g(<var>CORRECT_GX</var>) = (<var>F_COEF</var>) (<var>CORRECT_Y</var>) + (<var>G_COEF</var>) (<var>CORRECT_Y</var>) = <var>F_COEF * CORRECT_Y + G_COEF * CORRECT_GY</var></code>.</p>
+			<div>
+				<p><code><var>F_COEF</var> f(<var>CORRECT_X</var>) + <var>G_COEF</var> g(<var>CORRECT_GX</var>)</code></p>
+				<p><code>= (<var>F_COEF</var>) (<var>CORRECT_Y</var>) + (<var>G_COEF</var>) (<var>CORRECT_GY</var>)</code></p>
+				<p><code>= <var>F_COEF * CORRECT_Y</var> + <var>G_COEF * CORRECT_GY</var></code></p>
+				<p><code>= <var>F_COEF * CORRECT_Y + G_COEF * CORRECT_GY</var></code></p>
+			</div>
 		</div>
 	</div>
 </body>

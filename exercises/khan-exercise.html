@@ -1,101 +1,105 @@
 <div class="exercise-badge single-exercise" data-id="addition_1">
-    <div id="exercise-icon-container">
-        <div class="proficient-badge">
-            <img src="http://www.khanacademy.org/images/node-not-started.png" height="80" width="76"/>
-        </div>
-    </div>
-    <!-- TODO: Update with real point value -->
-    <div id="exercise-points" class="energy-points-badge"></div>
-    <!-- TODO: Update with real title -->
-    <div class="exercise-title"></div>
-    <div id="streak-bar-container">
-        <div class="streak-bar">
-            <div class="longest-streak">
-                <div class="current-streak">
-                    <ul class="unit-rating" style="width:228px;">
-                        <li style="width:0px;" class="current-rating"></li>
-                        <li style="width:0px;" class="streak-icon"></li>
-                        <li style="width:0px;" class="best-label"></li>
-                        <li style="width:0px;" class="current-label"></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="related-content" style="display:none;">
-        <span class="related-content-title">Related videos:</span>
-        <ul class="related-video-list"></ul>
-    </div>
+	<div id="exercise-icon-container">
+		<div class="proficient-badge">
+			<img src="http://www.khanacademy.org/images/node-not-started.png" height="80" width="76"/>
+		</div>
+	</div>
+	<!-- TODO: Update with real point value -->
+	<div id="exercise-points" class="energy-points-badge"></div>
+	<!-- TODO: Update with real title -->
+	<div class="exercise-title"></div>
+	<div id="streak-bar-container">
+		<div class="streak-bar">
+			<div class="longest-streak">
+				<div class="current-streak">
+					<ul class="unit-rating" style="width:228px;">
+						<li style="width:0px;" class="current-rating"></li>
+						<li style="width:0px;" class="streak-icon"></li>
+						<li style="width:0px;" class="best-label"></li>
+						<li style="width:0px;" class="current-label"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="related-content" style="display:none;">
+		<span class="related-content-title">Related videos:</span>
+		<ul class="related-video-list"></ul>
+	</div>
 </div>
 <div id="exercise-message-container" style="display: none;">
-    <div class="exercise_message"></div>
+	<div class="exercise_message"></div>
 </div>
 <div id="extras" class="single-exercise">
-    <div id="back-to-dashboard-link" class="single-exercise">
-        <a href="/exercisedashboard" title="Back to Dashboard">&laquo; Back to Dashboard</a>
-    </div>
-    <!-- TODO: Toggle scratch pad display -->
-        <a id="scratch_pad_show" href="">Show scratch pad</a> | <a id="print_ten" href="">Show next 10 problems</a>
+	<div id="back-to-dashboard-link" class="single-exercise">
+		<a href="/exercisedashboard" title="Back to Dashboard">&laquo; Back to Dashboard</a>
+	</div>
+	<!-- TODO: Toggle scratch pad display -->
+		<a id="scratch_pad_show" href="">Show scratch pad</a> | <a id="print_ten" href="">Show next 10 problems</a>
 </div>
 <div>
-    <div id='problemarea'>
-        <div id='scratchpad'></div>
-        <div id='workarea'></div>
-        <div id='hintsarea'></div>
-    </div>
-    <div id="rawhintsarea"></div>
-    <div id="answer_area">
-        <form id="answerform" action="/registeranswer" method="get" name="answerform">
-            <div id="answercontent" class="info-box fancy-scrollbar">
-                <span class="info-box-header">Answer</span>
-                <div id="solution"></div>
-                <input type="button" class="button green" id="check-answer-button" tabindex="10" value="Check Answer"/>
+	<div id='problemarea'>
+		<div id='scratchpad'></div>
+		<div id='workarea'></div>
+		<div id='hintsarea'></div>
+	</div>
+	<div id="rawhintsarea"></div>
+	<div id="answer_area">
+		<div id="beta-bugz" class="info-box" style="display:none;">
+			<span class="info-box-header">Beta Testing</span>
+			<p>Please let us know if you notice any odd or wrong behavior in any nook or cranny of the site. This includes all interactions, progress, knowledge map, badges, activity, reports, or anything else that you think is acting a little funky. Thanks for helping us out!</p>
+			<input type="button" class="button orange" value="Report Issue" />
+			<p id="issue-success">Thank you for your feedback! Your issue, <em id="issue-title"></em>, can be found <a id="issue-link">here</a>.</p>
+			<p id="issue-failure">Communication with GitHub isn't working. Please file the issue manually at <a href="http://github.com/Khan/khan-exercises/issues/new">GitHub</a>.</p>
+		</div>
+		<form id="answerform" action="/exercisedashboard" method="get" name="answerform">
+			<div id="answercontent" class="info-box fancy-scrollbar">
+				<span class="info-box-header">Answer</span>
+				<div id="solution"></div>
+				<input type="button" class="button green" id="check-answer-button" tabindex="10" value="Check Answer"/>
 				<img src="/images/throbber.gif" id="throbber" style="display:none;" name="throbber"/>
-                <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px">
-                <span id="check-answer-results">
-                    <span id="next-container" class="button" style="position:relative; display: none;">
-                        <input id="next-question-button" type="button" class="button green" name="correctnextbutton" value="Correct! Next Question..."/>
-                    </span><br/>
-                    <img id="sad" style="display: none;"/>
-                    <img id="happy" style="display: none;"/>
-                </span>
-            </div>
-            <div id="readonly" class="info-box">
-                <span id="readonly-problem" class="info-box-header"></span>
-                <span id="readonly-title" class="info-box-subheader">You are viewing a problem.</span>
-                <span class="info-box-sub-description">You will not lose your streak by using the hints. To work on problems like this, <a id="readonly-start" href="">start this exercise</a>.</span>
-            </div>
-            <div class="info-box">
-                <span class="info-box-header">Need Help?</span>
-                <div id="related-video-content" style="display:none;">
-                    <span class="info-box-subheader">Watch a video</span>
-                    <span class="info-box-sub-description">Watching videos <strong>does not</strong> reset your streak.</span>
-                    <div id="related-video-list">
-                        <span class="related-content-title">Related videos:</span>
-                        <ul class="related-video-list"></ul>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-                <span class="info-box-subheader">Get a hint</span>
-                <span class="info-box-sub-description">Getting a hint <strong>will</strong> reset your streak!</span>
-                <input id="hint" type="button" class="button orange" value="I'd like a hint" name="hint"/>
-            </div>
-        </form>
-    </div>
-    <input type="button" class="button red" id="report-beta-issue" value="Report Issue" style="display:none;"/>
-		<p id="report-beta-issue-success">Thank you for your feedback! Your	issue, <span id="report-beta-issue-title"></span>, can be found <span id="report-beta-issue-link"></span>.</p>
-		<p id="report-beta-issue-fail">Communication with GitHub isn't working. Please file the issue manually at <a href="http://github.com/Khan/khan-exercises/issues/new">GitHub</a>.</p>
-    <div id='browserwarning'>
-        <p>
-            You need to upgrade your browser to use Khan Academy's practice exercises.
-        </p>
-        <p>
-            We suggest using
-            <a href="http://www.google.com/chrome/">Chrome</a>,
-            <a href="http://www.mozilla.com/">Firefox</a>,
-            <a href="http://www.apple.com/safari/">Safari</a>, or
-            <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home">a recent version of Internet Explorer</a>.
-        </p>
-    </div>
+				<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px">
+				<span id="check-answer-results">
+					<span id="next-container" class="button" style="position:relative; display: none;">
+						<input id="next-question-button" type="button" class="button green" name="correctnextbutton" value="Correct! Next Question..."/>
+					</span><br/>
+					<img id="sad" style="display: none;"/>
+					<img id="happy" style="display: none;"/>
+				</span>
+			</div>
+			<div id="readonly" class="info-box">
+				<span id="readonly-problem" class="info-box-header"></span>
+				<span id="readonly-title" class="info-box-subheader">You are viewing a problem.</span>
+				<span class="info-box-sub-description">You will not lose your streak by using the hints. To work on problems like this, <a id="readonly-start" href="">start this exercise</a>.</span>
+			</div>
+			<div class="info-box">
+				<span class="info-box-header">Need Help?</span>
+				<div id="related-video-content" style="display:none;">
+					<span class="info-box-subheader">Watch a video</span>
+					<span class="info-box-sub-description">Watching videos <strong>does not</strong> reset your streak.</span>
+					<div id="related-video-list">
+						<span class="related-content-title">Related videos:</span>
+						<ul class="related-video-list"></ul>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<span class="info-box-subheader">Get a hint</span>
+				<span class="info-box-sub-description">Getting a hint <strong>will</strong> reset your streak!</span>
+				<input id="hint" type="button" class="button orange" value="I'd like a hint" name="hint"/>
+			</div>
+		</form>
+	</div>
+	<div id='browserwarning'>
+		<p>
+			You need to upgrade your browser to use Khan Academy's practice exercises.
+		</p>
+		<p>
+			We suggest using
+			<a href="http://www.google.com/chrome/">Chrome</a>,
+			<a href="http://www.mozilla.com/">Firefox</a>,
+			<a href="http://www.apple.com/safari/">Safari</a>, or
+			<a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home">a recent version of Internet Explorer</a>.
+		</p>
+	</div>
 </div>
 <div style="clear: both;"></div>

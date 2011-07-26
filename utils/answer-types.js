@@ -17,10 +17,10 @@ jQuery.extend( Khan.answerTypes, {
 		}
 
 		var ret = function() {
-			// we want the normal input if it's nonempty, the fallback converted to a string if 
+			// we want the normal input if it's nonempty, the fallback converted to a string if
 			// the input is empty and a fallback exists, and the empty string if the input
 			// is empty and the fallback doesn't exist.
-			var val = input.val().length > 0 ? 
+			var val = input.val().length > 0 ?
 				input.val() :
 				fallback ?
 					fallback + "" :
@@ -32,6 +32,174 @@ jQuery.extend( Khan.answerTypes, {
 		};
 		ret.solution = jQuery.trim( correct );
 		return ret;
+	},
+
+	number: function( solutionarea, solution, fallback, forms ) {
+		var options = jQuery.extend({
+			simplify: "required",
+			maxError: Math.pow( 2, -23 ),
+			forms: "literal, improper, mixed, decimal"
+		}, jQuery( solution ).data());
+		var acceptableForms = ( forms || options.forms ).split(/\s*,\s*/);
+
+		var transforms = {
+			improper: function( text ) {
+				var match = text
+
+					// Remove space after +, -
+					.replace( /([+-])\s+/g, "$1" )
+
+					// Extract numerator and (optional) denominator
+					.match( /^([+-]?\d+)\s*(?:\/\s*([+-]?\d+))?$/ );
+
+				if ( match ) {
+					var num = parseFloat( match[1] ),
+						denom = parseFloat( match[2] || "1" );
+					var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
+
+					if ( options.simplify === "optional" || simplified ) {
+						return [ num / denom ];
+					}
+				}
+
+				return [];
+			},
+
+			pi: function( text ) {
+				var match, imp;
+
+				// - pi
+				if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
+					return [ parseFloat( match[1] + "1" ) * Math.PI ];
+
+				// 5 / 6 pi
+				} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
+					imp = transforms.improper( match[1] );
+					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
+
+				// 5 pi / 6
+				} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
+					imp = transforms.improper( match[1] + match[2] );
+					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
+
+				// - pi / 4
+				} else if ( match = text.match( /^([+-]?)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
+					imp = transforms.improper( match[1] + "1/" + match[2] );
+					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
+
+				// 0.5 pi (fallback)
+				} else if ( match = text.match( /^(\S+)\s*\*?\s*pi?$/i ) ) {
+					imp = transforms.decimal( match[1] );
+					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
+
+				// 0
+				} else if ( text === "0") {
+					return [ 0 ];
+				}
+
+				return [];
+			},
+
+			mixed: function( text ) {
+				var match = text
+
+					// Remove space after +, -
+					.replace( /([+-])\s+/g, "$1" )
+
+					// Extract integer, numerator and denominator
+					.match( /^([+-]?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/ );
+
+				if ( match ) {
+					var sign  = parseFloat( match[1] + "1" ),
+						integ = parseFloat( match[2] ),
+						num   = parseFloat( match[3] ),
+						denom = parseFloat( match[4] );
+					var simplified = KhanUtil.getGCD( num, denom ) === 1;
+
+					if ( num < denom && options.simplify === "optional" || simplified ) {
+						return [ sign * ( integ + num / denom ) ];
+					}
+				}
+
+				return [];
+			},
+
+			decimal: function( text ) {
+				var twosAndFives = function( den ) {
+					var fact = KhanUtil.getPrimeFactorization( den );
+
+					for ( var i = 0, l = fact.length; i < l; i++ ) {
+						if ( fact[ i ] != 2 && fact[ i ] != 5 ) {
+							return false;
+						}
+					}
+
+					return true;
+				};
+
+				var normal = function( text ) {
+					var match = text
+
+						// Remove commas
+						.replace( /,\s*/g, "" )
+
+						// Extract integer, numerator and denominator
+						// This matches [+-]?\.; will f
+						.match( /^([+-]?(?:\d+\.?|\d*\.\d+))$/ );
+
+					if ( match ) {
+						var x = parseFloat( match[1] );
+						var den = KhanUtil.toFraction( x, options.maxError )[1];
+
+						if ( options.inexact !== undefined || twosAndFives( den ) ) {
+							return x;
+						}
+					}
+				};
+
+				var commas = function( text ) {
+					text = text.replace( /([\.,])/g, function( _, c ) { return ( c === "." ? "," : "." ); } );
+					return normal( text );
+				};
+
+				return [ normal( text ), commas( text ) ];
+			}
+		};
+
+		var verifier = function( correct, guess ) {
+			correct = jQuery.trim( correct );
+			guess = jQuery.trim( guess );
+
+			correctFloat = parseFloat( correct );
+			var ret = false;
+
+			jQuery.each( acceptableForms, function( i, form ) {
+				if ( form === "literal" ) {
+					// Case-insensitive literal compare
+					if ( (/[^\d\.\s]/).test( correct ) && correct.toLowerCase() === guess.toLowerCase() ) {
+						ret = true;
+						return false; // break;
+					} else {
+						return true; // continue;
+					}
+				}
+
+				var transformed = transforms[ form ]( jQuery.trim( guess ) );
+
+				for ( var i = 0, l = transformed.length; i < l; i++ ) {
+					if ( typeof transformed[ i ] === "number" &&
+						Math.abs( correctFloat - transformed[ i ] ) < options.maxError ) {
+
+						ret = true;
+						return false; // break;
+					}
+				}
+			} );
+
+			return ret;
+		};
+
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
 	regex: function( solutionarea, solution, fallback ) {
@@ -91,43 +259,19 @@ jQuery.extend( Khan.answerTypes, {
 	},
 
 	decimal: function( solutionarea, solution, fallback ) {
-		Khan.answerTypes.opts = jQuery.extend({
-				maxError: Math.pow( 2, -23 )
-				}, jQuery( solution ).data());
-
-		return Khan.answerTypes.text( solutionarea, solution, fallback, Khan.answerTypes.decimalVerifier );
+		return Khan.answerTypes.number( solutionarea, solution, fallback, "decimal" );
 	},
 
 	rational: function( solutionarea, solution, fallback ) {
-		var options = jQuery.extend({
-			simplify: "required"
-		}, jQuery( solution ).data());
+		return Khan.answerTypes.number( solutionarea, solution, fallback, "improper, mixed" );
+	},
 
-		var verifier = function( correct, guess ) {
-			var ratExp = /^(-?[0-9]+)\s*(?:\/\s*([0-9]+))?$/;
+	improper: function( solutionarea, solution, fallback ) {
+		return Khan.answerTypes.number( solutionarea, solution, fallback, "improper" );
+	},
 
-			correct = parseFloat( correct );
-
-			var match = guess.match(ratExp);
-
-			if ( match ) {
-				var num = parseFloat( match[1] );
-				var denom = match[2] ? parseFloat( match[2] ) : 1;
-
-				var gcd = KhanUtil.getGCD( num, denom );
-				guess = num / denom;
-
-				if ( options.simplify !== "optional" && gcd > 1 ) {
-					return false;
-				} else {
-					return Math.abs( correct - guess ) < Math.pow( 2, -23 );
-				}
-			} else {
-				return false;
-			}
-		};
-
-		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
+	mixed: function( solutionarea, solution, fallback ) {
+		return Khan.answerTypes.number( solutionarea, solution, fallback, "mixed" );
 	},
 	
 	mixedfraction: function( solutionarea, solution, fallback ) {
@@ -209,21 +353,21 @@ jQuery.extend( Khan.answerTypes, {
 
 			solutionarea.find( ".sol" ).each(function() {
 				var validator = jQuery( this ).data( "validator", validator );
-	
+
 				if ( validator != null ) {
 					valid = valid && validator();
-					
+
 					guess.push( validator.guess );
 				}
 			});
-			
+
 			ret.guess = guess;
 
 			return valid;
 		};
-		
+
 		ret.solution = solutionArray;
-		
+
 		return ret;
 	},
 
@@ -327,7 +471,7 @@ jQuery.extend( Khan.answerTypes, {
 
 		var ret = function() {
 			var choice = list.find("input:checked");
-			
+
 			if ( noneIsCorrect && choice.val() === "1") {
 				choice.next()
 					.fadeOut( "fast", function() {
@@ -335,10 +479,10 @@ jQuery.extend( Khan.answerTypes, {
 							.fadeIn( "fast" );
 					});
 			}
-			
+
 			ret.guess = jQuery.trim(
 				choice.closest("li").contents( ":not(.MathJax)" ).text() );
-			
+
 			return choice.val() === "1";
 		};
 		ret.solution = jQuery.trim( solutionText );
@@ -367,12 +511,12 @@ jQuery.extend( Khan.answerTypes, {
 
 		var ret = function() {
 			ret.guess = input.val();
-			
+
 			return verifier( correct, ret.guess );
 		};
-		
+
 		ret.solution = jQuery.trim( correct );
-		
+
 		return ret;
 	},
 

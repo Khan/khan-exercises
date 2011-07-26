@@ -172,8 +172,8 @@ jQuery.extend(KhanUtil, {
 	},
 
 	getPrimeFactorization: function( number ) {
-		if ( KhanUtil.isPrime( number ) ) {
-			return [number];
+		if ( number === 1 || KhanUtil.isPrime( number ) ) {
+			return [ number ];
 		}
 
 		var maxf = Math.sqrt( number );

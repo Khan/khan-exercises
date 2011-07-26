@@ -78,8 +78,7 @@
 				<span data-if="NUM_EXPRESSIONS === 2"> + (<var>FACTORS[ 1 ] </var>) \cdot (<var>ORIGINAL_EXPRESSIONS[ 1 ].join( " + " )</var>)</span></code></p>
 			<p><code>= (<var>FACTORS[ 0 ]</var>) \cdot (<var> VALUES[ 0 ]</var>)
 				<span data-if="NUM_EXPRESSIONS === 2"> + (<var>FACTORS[ 1 ]</var>) \cdot (<var> VALUES[ 1 ]</var>)</span></code></p>
-				<p><code>= <var>FACTORS[ 0 ] * VALUES[ 0 ]</var>
-					<span data-if="NUM_EXPRESSIONS === 2"> + <var>FACTORS[ 1 ] * VALUES[ 1 ]</var></span></code></p>
+			<p data-if="NUM_EXPRESSIONS === 2"><code>= <var>FACTORS[ 0 ] * VALUES[ 0 ]</var> + <var>FACTORS[ 1 ] * VALUES[ 1 ]</var></code></p>
 			<p><code>= <var>ANSWER</var></code>
 		</div>
 	</div>
