@@ -179,6 +179,15 @@ jQuery.extend(KhanUtil, {
 				KhanUtil.ddxPolynomialWrong5(poly).expr()
 			];
 
+			// Remove empty choices, if any
+			jQuery.map( this.wrongs, function( value, index ) {
+				if ( this.wrongs.length > 1 ) {
+					return [ value ];
+				} else {
+					return [];
+				}
+			} );
+
 			this.wrongsText = jQuery.map(this.wrongs, function( value, index ) {
 				return KhanUtil.expr( value );
 			});
@@ -243,6 +252,15 @@ jQuery.extend(KhanUtil, {
 				KhanUtil.ddxPolynomialWrong4(poly).expr(),
 				KhanUtil.ddxPolynomialWrong5(poly).expr()
 			];
+
+			// Remove empty choices, if any
+			jQuery.map( this.wrongs, function( value, index ) {
+				if ( this.wrongs.length > 1 ) {
+					return [ value ];
+				} else {
+					return [];
+				}
+			} );
 
 			this.fText = KhanUtil.expr( this.f );
 			this.ddxFText = KhanUtil.expr( this.ddxF );
