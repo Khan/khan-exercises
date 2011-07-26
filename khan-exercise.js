@@ -1282,46 +1282,63 @@ function prepareSite() {
 		jQuery(Khan).trigger( "showHint" );
 	});
 
-	jQuery( "#issue-success" ).hide();
-	jQuery( "#issue-failure" ).hide();
+	if ( true || betaMode ) {
+		jQuery( "#issue" ).show();
 
-	if ( betaMode ) {
-		jQuery( "#beta-bugz" ).show();
+		jQuery( "#issue-report" ).click( function() {
 
-		jQuery( "#beta-bugz input[type=button]" ).click( function() {
+			jQuery( "#issue-report" ).hide();
+			jQuery( "#issue-status" ).hide();
+			jQuery( "#issue-form" ).show( 500 );
 
-			var title = prompt( "Issue title" );
+			jQuery( "#issue-submit" ).click( function() {
 
-			// Don't do anything on clicking Cancel
-			if ( title == null ) return;
+				if ( jQuery( "#issue-submit" ).css( "display" ) === "none" ) return;
 
-			var path = Khan.query.exid
-					+ "?seed=" + problemSeed
-					+ "&problem=" + problemID,
-				body = prompt( "Please provide a detailed description of the issue." )
-					+ "\n\n" + path;
+				jQuery( "#issue-form" ).hide( 500 );
+				jQuery( "#issue-report" ).val( "Report Another Issue" ).show();
 
-			jQuery.ajax({
-				url: "http://66.220.0.98:2563/file_exercise_tester_bug"
-					+ "?title=" + encodeURIComponent( title )
-					+ "&body=" + encodeURIComponent( body ),
-				dataType: "jsonp",
-				success: function( json ) {
-					if ( json.meta.status === 201 ) {
-						jQuery( "#issue-failure" ).hide();
-						jQuery( "#issue-title" ).html( json.data.title );
-						jQuery( "#issue-link" )
-							.attr("href", json.data.html_url );
-						jQuery( "#issue-success" ).show();
-					} else {
-						jQuery( "#issue-success" ).hide();
-						jQuery( "#issue-failure" ).show();
-					}
-				},
-				error: function( json ) {
-					jQuery( "#issue-success" ).hide();
-					jQuery( "#issue-fail" ).show();
+				var title = jQuery( "#issue-title" ).val(),
+					user = jQuery( "#issue-username" ).val(),
+					path = Khan.query.exid
+						+ "?seed=" + problemSeed
+						+ "&problem=" + problemID,
+					agent = navigator.userAgent,
+					body = [ "Reporter: " + user,
+						jQuery( "#issue-body" ).val(), path, agent ].join("\n\n"),
+					error = "Communication with GitHub isn't working. Please file "
+						+ "the issue manually at <a href=\""
+						+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
+					success = function( a, b ) {
+						return "Thank you for your feedback! Your issue, <a href=\""
+							+ a + "\">" + b + "</a> has been created.";
+					};
+
+				if ( title === "" ) {
+					jQuery( "#issue-status" ).addClass( "error" )
+						.html( "Please provide a valid title for the issue." ).show();
+					return;
 				}
+
+				jQuery.ajax({
+					url: "http://66.220.0.98:2563/file_exercise_tester_bug"
+						+ "?body=" + encodeURIComponent( body )
+						+ "&title=" + encodeURIComponent( title ),
+					dataType: "jsonp",
+					success: function( json ) {
+						if ( json.meta.status === 201 ) {
+							jQuery( "#issue-status" ).removeClass( "error" )
+								.html( success( json.data.html_url, json.data.title ) ).show();
+							jQuery( "#issue-title" ).val( "" );
+							jQuery( "#issue-body" ).val( "" );
+						} else {
+							jQuery( "#issue-status" ).addClass( "error" ).html( error ).show();
+						}
+					},
+					error: function( json ) {
+						jQuery( "#issue-status" ).addClass( "error" ).html( error ).show();
+					}
+				});
 			});
 		});
 	}
