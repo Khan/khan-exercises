@@ -36,9 +36,6 @@
 				<var id="AC">randRange(3, 8)</var>
 				<var id="BC">randRange(3, 8)</var>
 				<var id="AB2">AC * AC + BC * BC</var>
-				<var id="SOLUTION">splitRadical( AB2 )</var>
-				<var id="SOLUTION_COEFFICIENT">SOLUTION[0] === 1 ? "" : SOLUTION[0]</var>
-				<var id="SOLUTION_RADICAL">SOLUTION[1] == 1 ? "" : SOLUTION[1]</var>
 			</div>
 
 			<div class="question">
@@ -51,9 +48,7 @@
 				</div>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>SOLUTION_COEFFICIENT</var></span><span><var>SOLUTION_RADICAL</var></span>
-			</div>
+			<div class="solution" data-type="radical"><var>AB2</var></div>
 
 			<div class="hints" data-apply="appendContents">
 				<p>We want to find <code>c</code>; let <code>a = <var>BC</var></code> and <code>b = <var>AC</var></code>.</p>
@@ -68,10 +63,6 @@
 				<var id="AC">randRange(3, 5)</var>
 				<var id="AB">randRange(6, 10)</var>
 				<var id="BC2">AB * AB - AC * AC</var>
-
-				<var id="SOLUTION">splitRadical( BC2 )</var>
-				<var id="SOLUTION_COEFFICIENT">SOLUTION[0] === 1 ? "" : SOLUTION[0]</var>
-				<var id="SOLUTION_RADICAL">SOLUTION[1] == 1 ? "" : SOLUTION[1]</var>
 
 				<var id="legs">shuffle([["a", "?", "BC", sqrt(BC2)], ["b", AC, "AC", AC]])</var>
 
@@ -89,9 +80,7 @@
 				</div>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>SOLUTION_COEFFICIENT</var></span><span><var>SOLUTION_RADICAL</var></span>
-			</div>
+			<div class="solution" data-type="radical"><var>BC2</var></div>
 
 			<div class="hints" data-apply="appendContents">
 				<p>We want to find <code><var>a</var></code>; let <code><var>b</var> = <var>AC</var></code> and <code>c = <var>AB</var></code>.</p>

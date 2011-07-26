@@ -23,10 +23,6 @@
 			<var id="X_DIST">abs( X2 - X1 )</var>
 			<var id="Y_DIST">abs( Y2 - Y1 )</var>
 			<var id="HYP2">X_DIST * X_DIST + Y_DIST * Y_DIST</var>
-
-			<var id="SOLUTION">splitRadical( X_DIST * X_DIST + Y_DIST * Y_DIST )</var>
-			<var id="SOLUTION_COEFFICIENT">SOLUTION[0] === 1 ? "" : SOLUTION[0]</var>
-			<var id="SOLUTION_RADICAL">SOLUTION[1] == 1 ? "" : SOLUTION[1]</var>
 		</div>
 
 		<div class="problems">
@@ -47,9 +43,7 @@
 					circle([ X2, Y2 ], 3 / 20, { stroke: "none", fill: "#a62add" } );
 				</div>
 
-				<div class="solution" data-type="radical">
-					<span><var>SOLUTION_COEFFICIENT</var></span><span><var>SOLUTION_RADICAL</var></span>
-				</div>
+				<div class="solution" data-type="radical"><var>HYP2</var></div>
 			</div>
 		</div>
 

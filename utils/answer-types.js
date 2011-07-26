@@ -6,7 +6,7 @@ jQuery.extend( Khan.answerTypes, {
 		jQuery( solutionarea ).append( input );
 		input.focus();
 
-		var correct = jQuery( solution ).text();
+		var correct = typeof solution === "object" ? jQuery( solution ).text() : solution;
 
 		if ( verifier == null ) {
 			verifier = function( correct, guess ) {
@@ -275,11 +275,40 @@ jQuery.extend( Khan.answerTypes, {
 	},
 
 	radical: function( solutionarea, solution ) {
-		solution.find("span:first").addClass("sol").end()
-			.find("span:last").addClass("sol").wrap("<span class=\"radical\"/>").end()
-			.find(".radical").prepend("&radic;");
+		var options = jQuery.extend({
+			simplify: "required"
+		}, jQuery( solution ).data());
+		var ansSquared = parseFloat( jQuery( solution ).text() );
+		var ans = KhanUtil.splitRadical( ansSquared );
 
-		return Khan.answerTypes.multiple( solutionarea, solution );
+		var inte = jQuery( "<span>" ), inteGuess, rad = jQuery( "<span>" ), radGuess;
+
+		inteValid = Khan.answerTypes.text( inte, null, "1", function( correct, guess ) { inteGuess = guess; } );
+		radValid = Khan.answerTypes.text( rad, null, "1", function( correct, guess ) { radGuess = guess; } );
+
+		solutionarea.addClass( "radical" )
+			.append( inte )
+			.append( '<span class="surd">&radic;</span>')
+			.append( rad.addClass( "overline" ) );
+		inte.find( "input" ).eq( 0 ).focus();
+
+		var ret = function() {
+			// Load entered values into inteGuess, radGuess
+			inteValid();
+			radValid();
+
+			inteGuess = parseFloat( inteGuess );
+			radGuess = parseFloat( radGuess );
+
+			ret.guess = [ inteGuess, radGuess ];
+			if ( options.simplify === "optional" ) {
+				return Math.abs( inteGuess ) * inteGuess * radGuess === ansSquared;
+			} else {
+				return inteGuess === ans[0] && radGuess == ans[1];
+			}
+		};
+		ret.solution = ans;
+		return ret;
 	},
 
 	multiple: function( solutionarea, solution ) {

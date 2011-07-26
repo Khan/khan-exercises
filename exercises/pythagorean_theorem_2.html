@@ -45,9 +45,7 @@
 				</div>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>AC</var></span><span><var>2</var></span>
-			</div>
+			<div class="solution" data-type="radical"><var>AC * AC * 2</var></div>
 
 			<div class="hints">
 				<p>This is a <code>45^\circ{-}45^\circ{-}90^\circ</code> triangle because the two legs are congruent.</p>
@@ -70,9 +68,7 @@
 				</div>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>AB / 2</var></span><span><var>2</var></span>
-			</div>
+			<div class="solution" data-type="radical"><var>AC * AC / 2</var></div>
 
 			<div class="hints">
 				<p>This is a <code>45^\circ{-}45^\circ{-}90^\circ</code> triangle because the two legs are congruent.</p>
@@ -95,9 +91,7 @@
 				</div>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>AB</var></span><span></span>
-			</div>
+			<div class="solution" data-type="radical"><var>AB * AB</var></div>
 
 			<div class="hints">
 				<p>This is a <code>45^\circ{-}45^\circ{-}90^\circ</code> triangle because the two legs are congruent.</p>
@@ -109,7 +103,7 @@
 		<div id="30-60-90-find-hypotenuse-given-short-leg">
 			<div class="vars">
 				<var id="BC">randRange( 2, 6 )</var>
-				<var id="BCr, BCrs">randFromArray([ ["", ""], ["3", "\\sqrt{3}"] ])</var>
+				<var id="BCr, BCrs">randFromArray([ [1, ""], [3, "\\sqrt{3}"] ])</var>
 
 				<var id="mAB">randFromArray([ "\\angle A = 30^\\circ", "\\angle B = 60^\\circ" ])</var>
 			</div>
@@ -123,9 +117,7 @@
 				</div>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>2 * BC</var></span><span><var>BCr</var></span>
-			</div>
+			<div class="solution" data-type="radical"><var>4 * BC * BC * BCr</var></div>
 
 			<div class="hints">
 				<p>This is a <code>30^\circ{-}60^\circ{-}90^\circ</code> triangle.</p>
@@ -138,8 +130,8 @@
 			<div class="vars">
 				<var id="AC">3 * randRange( 2, 6 )</var>
 				<var id="ACr, ACrs, ABs, AB">randFromArray([
-					["",  "",          (AC * 2 / 3) + "\\sqrt{3}", [AC * 2 / 3, "3"]],
-					["3", "\\sqrt{3}", (AC * 2),                   [AC * 2, ""]]
+					[1,  "",         (AC * 2 / 3) + "\\sqrt{3}", AC * AC * 4 / 3],
+					[3, "\\sqrt{3}", (AC * 2),                   AC * AC * 4]
 				])</var>
 
 				<var id="mAB">randFromArray([ "\\angle A = 30^\\circ", "\\angle B = 60^\\circ" ])</var>
@@ -154,9 +146,7 @@
 				</div>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>AB[0]</var></span><span><var>AB[1]</var></span>
-			</div>
+			<div class="solution" data-type="radical"><var>AB</var></div>
 
 			<div class="hints">
 				<p>This is a <code>30^\circ{-}60^\circ{-}90^\circ</code> triangle.</p>
@@ -168,7 +158,7 @@
 		<div id="30-60-90-find-short-leg-given-hypotenuse">
 			<div class="vars">
 				<var id="BC">randRange( 2, 6 )</var>
-				<var id="BCr, BCrs">randFromArray([ ["", ""], ["3", "\\sqrt{3}"] ])</var>
+				<var id="BCr, BCrs">randFromArray([ [1, ""], [3, "\\sqrt{3}"] ])</var>
 
 				<var id="mAB">randFromArray([ "\\angle A = 30^\\circ", "\\angle B = 60^\\circ" ])</var>
 			</div>
@@ -182,9 +172,7 @@
 				</div>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>BC</var></span><span><var>BCr</var></span>
-			</div>
+			<div class="solution" data-type="radical"><var>BC * BC * BCr</var></div>
 
 			<div class="hints">
 				<p>This is a <code>30^\circ{-}60^\circ{-}90^\circ</code> triangle.</p>
@@ -197,8 +185,8 @@
 			<div class="vars">
 				<var id="AC">3 * randRange( 2, 6 )</var>
 				<var id="ACr, ACrs, ABs, AB">randFromArray([
-					["",  "",          (AC * 2 / 3) + "\\sqrt{3}", [AC * 2 / 3, "3"]],
-					["3", "\\sqrt{3}", (AC * 2),                   [AC * 2, ""]]
+					[1,  "",         (AC * 2 / 3) + "\\sqrt{3}", AC * AC * 4 / 3],
+					[3, "\\sqrt{3}", (AC * 2),                   AC * AC * 4]
 				])</var>
 
 				<var id="mAB">randFromArray([ "\\angle A = 30^\\circ", "\\angle B = 60^\\circ" ])</var>
@@ -213,9 +201,7 @@
 				</div>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>AC</var></span><span><var>ACr</var></span>
-			</div>
+			<div class="solution" data-type="radical"><var>AC * AC * ACr</var></div>
 
 			<div class="hints">
 				<p>This is a <code>30^\circ{-}60^\circ{-}90^\circ</code> triangle.</p>

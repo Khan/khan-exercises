@@ -105,25 +105,6 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
-	// splitRadical( 24 ) gives [ 2, 6 ] to mean 2 sqrt(6)
-	splitRadical: function( n ) {
-		if ( n === 0 ) {
-			return [ 0, 1 ];
-		}
-
-		var coefficient = 1;
-		var radical = n;
-
-		for(var i = 2; i * i <= n; i++) {
-			while(radical % (i * i) === 0) {
-				radical /= i * i;
-				coefficient *= i;
-			}
-		}
-
-		return [coefficient, radical];
-	},
-
 	// formattedSquareRootOf(24) gives 2\sqrt{6}
 	formattedSquareRootOf: function( n ) {
 		if( n === 1 || n === 0 ) {
