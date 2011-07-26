@@ -428,9 +428,14 @@
 				tickStep = options.tickStep || [ 2, 2 ],
 				tickLen = options.tickLen || [ 5, 5 ],
 				labels = options.labels || options.labelStep || false,
-				labelStep = options.labelStep || [ 1, 1 ];
-				xLabelFormat = options.xLabelFormat || function(a) { return a; };
-				yLabelFormat = options.yLabelFormat || function(a) { return a; };
+				labelStep = options.labelStep || [ 1, 1 ],
+				unityLabels = options.unityLabels || false,
+				xLabelFormat = options.xLabelFormat
+					|| options.labelFormat
+					|| function(a) { return a; },
+				yLabelFormat = options.yLabelFormat
+					|| options.labelFormat
+					|| function(a) { return a; };
 
 			this.init({
 				range: range,
@@ -535,30 +540,33 @@
 						start = range[0][0],
 						stop = range[0][1];
 
+					// positive x-axis
 					for ( var x = step; x <= stop; x += step ) {
 						if ( x < stop || !axisArrows ) {
 							this.label( [ x, 0 ], xLabelFormat( x ), "below" );
 						}
 					}
 
-					for ( var x = -step; x >= start; x -= step ) {
+					// negative x-axis
+					for ( var x = -step - (unityLabels ? 0 : 1); x >= start; x -= step ) {
 						if ( x > start || !axisArrows ) {
 							this.label( [ x, 0 ], xLabelFormat( x ), "below" );
 						}
 					}
 
-					// vertical axis
 					step = gridStep[1] * tickStep[1] * labelStep[1];
 					start = range[1][0];
 					stop = range[1][1];
 
+					// positive y-axis
 					for ( var y = step; y <= stop; y += step ) {
 						if ( y < stop || !axisArrows ) {
 							this.label( [ 0, y ], yLabelFormat( y ), "left" );
 						}
 					}
 
-					for ( var y = -step; y >= start; y -= step ) {
+					// negative y-axis
+					for ( var y = -step - (unityLabels ? 0 : 1); y >= start; y -= step ) {
 						if ( y > start || !axisArrows ) {
 							this.label( [ 0, y ], yLabelFormat( y ), "left" );
 						}
