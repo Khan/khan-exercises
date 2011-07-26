@@ -36,7 +36,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	},
 
 	// Check to see if we're in test mode
-	testMode = window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:",
+	testMode = (window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:") && /\.html$/.test( window.location.pathname ),
 
 	// Check to see if we're in beta mode
 	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1,
@@ -261,7 +261,7 @@ var Khan = {
 
 		for ( var i = 0; i < loading; i++ ) (function( mod ) {
 
-			if (!testMode && mod.src.indexOf("/khan-exercises/") == 0) {
+			if ( !testMode && mod.src.indexOf("/khan-exercises/") === 0 ) {
 				// Don't bother loading khan-exercises content in production
 				// mode, this content is already packaged up and available.
 				loaded++;
