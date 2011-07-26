@@ -107,13 +107,33 @@ jQuery.extend( Khan.answerTypes, {
 					.replace( /([+-])\s+/g, "$1" )
 
 					// Extract integer, numerator and denominator
-					.match( /^([+-]?)(?:(\d+)\s*)?(?:(\d+)\s*\/\s*(\d+))?$/ );
+					//         (sign)  (integer)     (numerator) /   (denominator)
+					.match( /^([+-]?)(?:(\d+)\s+)?(?:(\d+)\s*(?:\/\s*(\d+))?)?$/ );
 
 				if ( match ) {
-					var sign  = parseFloat( match[1] + "1" ),
+					if ( match[2] === null && match[3] === null ) {
+						// in the event of 0 as the answer, don't allow the 
+						// user to just enter blank.
+						return false; 
+					}
+					
+					var sign  = parseFloat( match[1] + "1" );
 						integ = match[2] ? parseFloat( match[2] ) : 0,
 						num   = match[3] ? parseFloat( match[3] ) : 0,
 						denom = match[4] ? parseFloat( match[4] ) : 1;
+					
+					if (denom == 0) {
+						return false;	//avoid divide by 0
+					}
+						
+					if( !( match[4] ) && !( match[2] ) ) {
+						// We're using this round about approach because using \s*
+						// instead of \s+ can lead to say the number 16 being split 
+						// into 2 numbers, 1 int and 6 numerator.
+						integ = num;
+						num = 0;
+					}
+						
 					var simplified = KhanUtil.getGCD( num, denom ) === 1;
 
 					if ( options.simplify === "optional" || ( simplified && num < denom ) ) {
