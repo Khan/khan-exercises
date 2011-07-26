@@ -291,7 +291,7 @@ jQuery.extend( Khan.answerTypes, {
 		// Iterate in reverse so the *first* input is focused
 		jQuery( solutionarea.find( ".sol" ).get().reverse() ).each(function() {
 			var type = jQuery( this ).data( "type" );
-			type = type != null ? type : "text";
+			type = type != null ? type : "number";
 
 			var sol = jQuery( this ).clone(),
 				solarea = jQuery( this ).empty();
