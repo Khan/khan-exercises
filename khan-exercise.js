@@ -98,17 +98,17 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 // Add in the site stylesheets
 if (testMode) {
-    (function(){
+	(function(){
 		var link = document.createElement("link");
 		link.rel = "stylesheet";
 		link.href = urlBase + "css/khan-site.css";
 		document.getElementsByTagName('head')[0].appendChild(link);
 
-        link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = urlBase + "css/khan-exercise.css";
-        document.getElementsByTagName('head')[0].appendChild(link);
-    })();
+		link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.href = urlBase + "css/khan-exercise.css";
+		document.getElementsByTagName('head')[0].appendChild(link);
+	})();
 }
 
 // The main Khan Module
@@ -246,6 +246,14 @@ var Khan = {
 		callback || ( callback = function() { } );
 
 		for ( var i = 0; i < loading; i++ ) (function( mod ) {
+
+			if (!testMode && mod.src.indexOf("/khan-exercises/") == 0) {
+				// Don't bother loading khan-exercises content in production
+				// mode, this content is already packaged up and available.
+				loaded++;
+				return;
+			}
+
 			// Adapted from jQuery getScript (ajax/script.js)
 			var script = document.createElement("script");
 			script.async = "async";
