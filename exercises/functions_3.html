@@ -38,7 +38,7 @@
 				<p class="question"><code>
 					<var>SOLVE_FOR[0].name</var>(<var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)) = {?}
 				</code></p>
-				<p class="solution" data-type="decimal"><var>OUTER_VALUE</var></p>
+				<p class="solution"><var>OUTER_VALUE</var></p>
 			</div>
 
 			<div>
@@ -67,19 +67,19 @@
 				<p class="question"><code>
 					<var>SOLVE_FOR[0].name</var>(<var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)) = {?}
 				</code></p>
-				<p class="solution" data-type="decimal"><var>OUTER_VALUE</var></p>
+				<p class="solution"><var>OUTER_VALUE</var></p>
 			</div>
 		</div>
 
 		<div class="hints">
 			<p>First, let's solve for the value of the inner function, <code><var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)</code>. Then we'll know what to plug into the outer function.</p>
-			<p><var>SOLVE_FOR[1].hint(VALUE)</var></p>
+			<div data-each="SOLVE_FOR[1].hint(VALUE) as key, value"><var>value</var></div>
 
 			<p>Now we know that <code><var>SOLVE_FOR[1].name</var>(<var>VALUE</var>) = <var>INNER_VALUE</var></code>.
 
 			Let's solve for <code><var>SOLVE_FOR[0].name</var>(<var>SOLVE_FOR[1].name</var>(<var>VALUE</var>))</code>, which is <code><var>SOLVE_FOR[0].name</var>(<var>INNER_VALUE</var>)</code>.</p>
 
-			<p><var>SOLVE_FOR[0].hint(INNER_VALUE)</var></p>
+			<div data-each="SOLVE_FOR[0].hint(INNER_VALUE) as key, value"><var>value</var></div>
 		</div>
 	</div>
 </body>

@@ -111,20 +111,19 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	urlBase = testMode ? "../" : "/khan-exercises/";
 
 // Add in the site stylesheets
-(function(){
-
-	if (testMode) {
+if (testMode) {
+	(function(){
 		var link = document.createElement("link");
 		link.rel = "stylesheet";
 		link.href = urlBase + "css/khan-site.css";
 		document.getElementsByTagName('head')[0].appendChild(link);
-	}
-	
-	link = document.createElement("link");
-	link.rel = "stylesheet";
-	link.href = urlBase + "css/khan-exercise.css";
-	document.getElementsByTagName('head')[0].appendChild(link);
-})();
+
+		link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.href = urlBase + "css/khan-exercise.css";
+		document.getElementsByTagName('head')[0].appendChild(link);
+	})();
+}
 
 // The main Khan Module
 var Khan = {
@@ -261,6 +260,14 @@ var Khan = {
 		callback || ( callback = function() { } );
 
 		for ( var i = 0; i < loading; i++ ) (function( mod ) {
+
+			if (!testMode && mod.src.indexOf("/khan-exercises/") == 0) {
+				// Don't bother loading khan-exercises content in production
+				// mode, this content is already packaged up and available.
+				loaded++;
+				return;
+			}
+
 			// Adapted from jQuery getScript (ajax/script.js)
 			var script = document.createElement("script");
 			script.async = "async";
@@ -614,9 +621,9 @@ function makeProblem( id, seed ) {
 		if ( choices.length ) {
 			answerType = "radio";
 
-		// Otherwise we assume a basic text input
+		// Otherwise we assume the smart number type
 		} else {
-			answerType = "text";
+			answerType = "number";
 		}
 	}
 
@@ -791,7 +798,7 @@ function injectSite( html, htmlExercise ) {
 }
 
 function prepareSite() {
-	
+
 	// Set exercise title
 	jQuery(".exercise-title").text( typeof userExercise !== "undefined" ? userExercise.exercise_model.display_name : document.title );
 
@@ -837,17 +844,9 @@ function prepareSite() {
 		jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
 		// Figure out if the response was correct
 		if ( pass ) {
-			// Show a congratulations message
-			jQuery("#oops").hide();
-			jQuery("#congrats").show();
-
 			jQuery("#happy").show();
 			jQuery("#sad").hide();
-
-		// Otherwise show an error message
 		} else {
-			jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
-			
 			jQuery("#happy").hide();
 			jQuery("#sad").show();
 		}
@@ -922,9 +921,6 @@ function prepareSite() {
 
 	// Watch for when the next button is clicked
 	jQuery("#next-question-button").click(function(ev) {
-		// Erase the old value and hide congrats message
-		jQuery("#congrats").hide();
-		
 		jQuery("#happy").hide();
 
 		// Toggle the navigation buttons
@@ -1050,46 +1046,63 @@ function prepareSite() {
 		}
 	});
 
-	jQuery( "#issue-success" ).hide();
-	jQuery( "#issue-failure" ).hide();
+	if ( true || betaMode ) {
+		jQuery( "#issue" ).show();
 
-	if ( betaMode ) {
-		jQuery( "#beta-bugz" ).show();
+		jQuery( "#issue-report" ).click( function() {
 
-		jQuery( "#beta-bugz input[type=button]" ).click( function() {
+			jQuery( "#issue-report" ).hide();
+			jQuery( "#issue-status" ).hide();
+			jQuery( "#issue-form" ).show( 500 );
 
-			var title = prompt( "Issue title" );
+			jQuery( "#issue-submit" ).click( function() {
 
-			// Don't do anything on clicking Cancel
-			if ( title == null ) return;
+				if ( jQuery( "#issue-submit" ).css( "display" ) === "none" ) return;
 
-			var path = Khan.query.exid
-					+ "?seed=" + problemSeed
-					+ "&problem=" + problemID,
-				body = prompt( "Please provide a detailed description of the issue." )
-					+ "\n\n" + path;
+				jQuery( "#issue-form" ).hide( 500 );
+				jQuery( "#issue-report" ).val( "Report Another Issue" ).show();
 
-			jQuery.ajax({
-				url: "http://66.220.0.98:2563/file_exercise_tester_bug"
-					+ "?title=" + encodeURIComponent( title )
-					+ "&body=" + encodeURIComponent( body ),
-				dataType: "jsonp",
-				success: function( json ) {
-					if ( json.meta.status === 201 ) {
-						jQuery( "#issue-failure" ).hide();
-						jQuery( "#issue-title" ).html( json.data.title );
-						jQuery( "#issue-link" )
-							.attr("href", json.data.html_url );
-						jQuery( "#issue-success" ).show();
-					} else {
-						jQuery( "#issue-success" ).hide();
-						jQuery( "#issue-failure" ).show();
-					}
-				},
-				error: function( json ) {
-					jQuery( "#issue-success" ).hide();
-					jQuery( "#issue-fail" ).show();
+				var title = jQuery( "#issue-title" ).val(),
+					user = jQuery( "#issue-username" ).val(),
+					path = Khan.query.exid
+						+ "?seed=" + problemSeed
+						+ "&problem=" + problemID,
+					agent = navigator.userAgent,
+					body = [ "Reporter: " + user,
+						jQuery( "#issue-body" ).val(), path, agent ].join("\n\n"),
+					error = "Communication with GitHub isn't working. Please file "
+						+ "the issue manually at <a href=\""
+						+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
+					success = function( a, b ) {
+						return "Thank you for your feedback! Your issue, <a href=\""
+							+ a + "\">" + b + "</a> has been created.";
+					};
+
+				if ( title === "" ) {
+					jQuery( "#issue-status" ).addClass( "error" )
+						.html( "Please provide a valid title for the issue." ).show();
+					return;
 				}
+
+				jQuery.ajax({
+					url: "http://66.220.0.98:2563/file_exercise_tester_bug"
+						+ "?body=" + encodeURIComponent( body )
+						+ "&title=" + encodeURIComponent( title ),
+					dataType: "jsonp",
+					success: function( json ) {
+						if ( json.meta.status === 201 ) {
+							jQuery( "#issue-status" ).removeClass( "error" )
+								.html( success( json.data.html_url, json.data.title ) ).show();
+							jQuery( "#issue-title" ).val( "" );
+							jQuery( "#issue-body" ).val( "" );
+						} else {
+							jQuery( "#issue-status" ).addClass( "error" ).html( error ).show();
+						}
+					},
+					error: function( json ) {
+						jQuery( "#issue-status" ).addClass( "error" ).html( error ).show();
+					}
+				});
 			});
 		});
 	}
@@ -1303,25 +1316,6 @@ function prepareSite() {
 				}
 			}
 		);
-
-		// Update exercise icons after appropriate API ajax requests
-		APIActionResults.register("exercise_states", 
-			function(dictExerciseStates) {
-				var sPrefix = dictExerciseStates.summative ? "node-challenge" : "node";
-				var src = "";
-
-				if (dictExerciseStates.review)
-					src = "/images/node-review.png";
-				else if (dictExerciseStates.suggested)
-					src = "/images/" + sPrefix + "-suggested.png";
-				else if (dictExerciseStates.proficient)
-					src = "/images/" + sPrefix + "-complete.png";
-				else
-					src = "/images/" + sPrefix + "-not-started.png";
-
-				jQuery("#exercise-icon-container img").attr("src", src);
-			}
-		);
 	}
 
 	// Make scratchpad persistent per-user
@@ -1370,19 +1364,6 @@ function prevProblem( num ) {
 }
 
 function prepareUserExercise( data ) {
-	// Display all the related videos
-	var videos = data && data.exercise_model.related_videos;
-	
-	if ( videos && videos.length ) {
-		jQuery.each( videos, function( i, video ) {
-			jQuery("<li><a href='" + video.ka_url + "'><span class='video-title'>" +
-				video.title + "</span></a></li>")
-					.appendTo(".related-video-list");
-		});
-	
-		jQuery(".related-content, #related-video-content").show();
-	}
-	
 	// Update the local data store
 	updateData( data );
 	
@@ -1396,7 +1377,7 @@ function prepareUserExercise( data ) {
 		// Advance to the current problem seed
 		nextProblem( getData().total_done );
 	}
-};
+}
 
 function request( method, data, fn, fnError ) {
 	if ( testMode ) {
@@ -1456,6 +1437,34 @@ function updateData( data ) {
 	jQuery(".best-label").width( Math.min( Math.min( data.longest_streak, 10 ) * 23, 228 ) ).html( data.longest_streak + "&nbsp;" );
 	jQuery(".current-label").width( Math.min( Math.min( data.streak, 10 ) * 23, 228 ) ).html( data.streak + "&nbsp;" );
 	jQuery("#exercise-points").text( " " + data.next_points + " " );
+
+	// Update the exercise icon
+	var exerciseStates = data && data.exercise_states;
+	
+	if ( exerciseStates ) {
+		var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
+		var src = exerciseStates.review ? "/images/node-review.png" : 
+					exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" : 
+						exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" : 
+							"/images/" + sPrefix + "-not-started.png";
+		jQuery("#exercise-icon-container img").attr("src", src);
+	}
+
+	// Display all the related videos
+	var videos = data && data.exercise_model.related_videos;
+	
+	if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
+		jQuery.each( videos, function( i, video ) {
+			jQuery("<li" + (i > 2 ? " class='related-video-extended'" : "") + ">" + 
+					"<a href='" + video.ka_url + "' title='" + video.title + "'><span class='video-title'>" +
+						video.title + 
+							(i < videos.length - 1 && i < 2 ? "<span class='separator'>, </span>" : "") 
+								+ "</span></a></li>")
+									.appendTo(".related-video-list");
+		});
+	
+		jQuery(".related-content, #related-video-content").show();
+	}
 }
 
 // Grab the cached UserExercise data from local storage

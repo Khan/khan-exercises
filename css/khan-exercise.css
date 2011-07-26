@@ -1,4 +1,4 @@
-.exercise, .vars, #next, #congrats, #oops { display: none; }
+.exercise, .vars, #next { display: none; }
 p.question { font-weight: bold; }
 var { font-style: normal; }
 .hint_blue { color: blue; }
@@ -7,8 +7,6 @@ var { font-style: normal; }
 .hint_green { color: green; }
 .hint_gray { color: gray; }
 .hint_purple{ color: purple; }
-#congrats { color: green; }
-#oops { color: red; }
 #workarea { margin-left: 30px; }
 #hintsarea { margin-left: 50px; }
 #answer_area ul { list-style: none; margin: 8px; padding: 0; }
@@ -47,3 +45,10 @@ body.debug .graphie { outline: 1px dashed red; }
 #browserwarning { display: none; padding: 18px; font-size: 120%; text-align: center; }
 
 #answer_area input.button:disabled { opacity: 0.7; cursor: default; color: #333; }
+
+#issue .error { font-style: italic; font-weight: bold; }
+#issue a { font-style: italic; }
+
+#issue-form label { display: block; }
+#issue-form input[type=text] { display: block; width: 100%; }
+#issue-form textarea { width: 100%; height: 100px; }
