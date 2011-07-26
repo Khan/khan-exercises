@@ -68,24 +68,24 @@
 								"above" );
 							arc( [0, 0], 1.2, 70, 90, { stroke: "green" } );
 
-							label( [-1.2, -0.75], "\\color{blue}{\\angle{AGF}}=?", 
-								"below left" );
+							ORIGINAL_LABEL = label( [-1.2, -0.75], 
+								"\\color{blue}{\\angle{AGF}}=?", "below left" );
 							arc( [0, 0], 1.2, 180, 248, { stroke: "blue" } );
 						} else if ( RAND3 == 1 ) {
 							label( [-1.2, -0.75], "\\color{green}{<var>90-ACCUTEANGLE</var>&deg;}", 
 								"below left" );
 							arc( [0, 0], 1.2, 180, 248, { stroke: "green" } );
 
-							label( [0.5, 1.8], "\\color{blue}{\\angle{CGE}} = ?", 
-								"above" );
+							ORIGINAL_LABEL = label( [0.5, 1.8], 
+								"\\color{blue}{\\angle{CGE}} = ?", "above" );
 							arc( [0, 0], 1.2, 70, 90, { stroke: "blue" } );
 						} else {
-							label( [0, -2], "\\color{green}{<var>ACCUTEANGLE</var>&deg;}", 
+							label( [0, -2],	"\\color{green}{<var>ACCUTEANGLE</var>&deg;}", 
 								"below left" );
 							arc( [0, 0], 1.2, 248, 270, { stroke: "green" } );
 
-							label( [1.5, 0], "\\color{blue}{\\angle{BGE}} = ?", 
-								"above right" );
+							ORIGINAL_LABEL = label( [1.5, 0], 
+								"\\color{blue}{\\angle{BGE}} = ?", "above right" );
 							arc( [0, 0], 1.2, 0, 70, { stroke: "blue" } );
 						}
 					</div>
@@ -189,17 +189,36 @@
 						<var>90 - ACCUTEANGLE</var>&deg;</code>, 
 						because they are opposite from each other.  Opposite angles are 
 						congruent (equal).
+						<span class="graphie" data-update="complementary-and-opposite">
+							ORIGINAL_LABEL.remove();
+							label( [-1.2, -0.75], 
+								"\\color{blue}{\\angle{AGF}}=<var>90 - ACCUTEANGLE</var>&deg;", 
+								"below left" );
+						</span>
 					</p>
 					<p data-else-if="RAND3===1">
 						<code>\color{blue}{\angle{CGE}} = 
 							\color{purple}{90&deg;} - \color{orange}{\angle{EGB}} = 
-							<var>ACCUTEANGLE</var>&deg;</code>
+							<var>ACCUTEANGLE</var>&deg;
+						</code>
+						<span class="graphie" data-update="complementary-and-opposite">
+							ORIGINAL_LABEL.remove();
+							label( [0.5, 1.8], 
+								"\\color{blue}{\\angle{CGE}} = <var>ACCUTEANGLE</var>&deg;", 
+								"above" )
+						</span>
 					</p>
 					<p data-else>
 						<code>\color{blue}{\angle{BGE}} = \color{orange}{\angle{AGF}} = 
 						<var>90 - ACCUTEANGLE</var>&deg;</code>, 
 						because they are opposite from each other.  Opposite angles are 
 						congruent (equal).
+						<span class="graphie" data-update="complementary-and-opposite">
+							ORIGINAL_LABEL.remove();
+							label( [1.5, 0], 
+								"\\color{blue}{\\angle{BGE}} = <var>90 - ACCUTEANGLE</var>&deg;", 
+								"above right" );
+						</span>
 					</p>
 				</div>
 			</div>
@@ -246,7 +265,7 @@
 								"below" );
 							arc( [0, 3], 1.5, 230, 310, { stroke: "purple" } );
 
-							label( [-4.7, -2], "\\color{blue}{\\angle{DAB}}=?", 
+							ORIGINAL_LABEL = label( [-4.7, -2], "\\color{blue}{\\angle{DAB}}=?", 
 								"above left" );
 							arc( [-4, -2], .75, 50, 180, { stroke: "blue" } );
 						} else {
@@ -258,7 +277,7 @@
 								"below" );
 							arc( [0, 3], 1.5, 230, 310, { stroke: "purple" } );
 
-							label( [2.80, -2], "\\color{blue}{\\angle{ACB}} = ?", 
+							ORIGINAL_LABEL = label( [2.80, -2], "\\color{blue}{\\angle{ACB}} = ?", 
 								"above left" );
 							arc( [4, -2], 1.2, 130, 180, { stroke: "blue" } );
 						}
@@ -324,9 +343,15 @@
 						<code>
 							\color{blue}{\angle{DAB}} = 
 								180&deg; - \color{orange}{\angle{BAC}} = 
-								<var>Tri_Y + Tri_Z</var>
+								<var>Tri_Y + Tri_Z</var>&deg;
 						</code>, 
 						because supplementary angles along a line add up to 180&deg;
+						<span class="graphie" data-update="supplementary-and-triangle">
+							ORIGINAL_LABEL.remove();
+							label( [-4.7, -2], 
+								"\\color{blue}{\\angle{DAB}} = <var>Tri_Y + Tri_Z</var>&deg;", 
+								"above left" );
+						</span>
 
 					</p>
 					<p data-else>
@@ -335,7 +360,13 @@
 								180&deg; - \color{orange}{\angle{BAC}} - \color{purple}{\angle{ABC}} = 
 								<var>Tri_Y</var>&deg;
 						</code>,
-						because angles inside a triangle add up to 180 degrees.
+						because angles inside a triangle add up to 180&deg;.
+						<span class="graphie" data-update="supplementary-and-triangle">
+							ORIGINAL_LABEL.remove();
+							label( [2.80, -2], 
+								"\\color{blue}{\\angle{ACB}} = <var>Tri_Y</var>&deg;", 
+								"above left" );
+						</span>
 					</p>
 				</div>
 			</div>
@@ -344,7 +375,7 @@
 				<div class="problem">
 					<div class="graphie" id="parallel-and-triangle">
 						init( {
-							range: [[-10, 10], [-10, 10]],
+							range: [[-9, 9.5], [-5.7, 8]],
 							scale: [30, 30]
 						});
 
@@ -354,26 +385,26 @@
 						} );
 
 						// Draw Parallel lines
-						path( [ [-8, 8], [8, -4] ] );
-						path( [ [-8, 4], [8, -8] ] );
+						path( [ [-7.32, 7.5], [8, -4] ] );
+						path( [ [-8, 4], [4.03, -5] ] );
 
 						// Draw 2 more lines to form a triangle
-						path( [ [-6, -4], [-4, 9] ] );
+						path( [ [-6, -4], [-4.24, 7.5] ] );
 						path( [ [-6, -4], [9, -2] ] );
 
 						//draw points
 						style( {
 							fill: "grey"
 						}, function() {
-							circle( [-8, 8], 0.05 );
+							circle( [-7.32, 7.5], 0.05 );
 							circle( [8, -4], 0.05 );
 							circle( [-8, 4], 0.05 );
-							circle( [8, -8], 0.05 );
+							circle( [4.03, -5], 0.05 );
 
 							label( [-6, -4], "A", "below" );
 							circle( [-6, -4], 0.05 );
-							label( [-4, 9], "B", "right" );
-							circle( [-4, 9], 0.05 );
+							label( [-4.24, 7.5], "B", "right" );
+							circle( [-4.24, 7.5], 0.05 );
 							label( [9, -2], "C", "above" );
 							circle( [9, -2], 0.05 );
 
@@ -385,7 +416,8 @@
 
 						//draw given angles
 						if( RAND3 == 0 ) {
-							label( [0, -2.50], "\\color{blue}{\\angle{AIH}} = ?", "left" );
+							ORIGINAL_LABEL = label( [0, -2.50], 
+								"\\color{blue}{\\angle{AIH}} = ?", "left" );
 							arc( [1.25, -3], .75, 135, 190, {stroke: "blue"} );
 
 							label( [-4.2, 4.25], "\\color{green}{<var>Tri_Z</var>&deg;}", "below" );
@@ -395,7 +427,8 @@
 								"above right" );
 							arc( [-6, -4], 1, 10, 80, {stroke: "purple"} );
 						} else if( RAND3 == 1 ) {
-							label( [3.5, -2.6], "\\color{blue}{\\angle{AKJ}} = ?", "above" );
+							ORIGINAL_LABEL = label( [3.5, -2.6], 
+								"\\color{blue}{\\angle{AKJ}} = ?", "above" );
 							arc( [5.7, -2.3], 0.75, 139, 194, {stroke: "blue"} );
 
 							label( [-4.4, 0.65], "\\color{green}{<var>Tri_Z</var>&deg;}", "below" );
@@ -405,7 +438,8 @@
 								"above right" );
 							arc( [-6, -4], 1, 10, 80, {stroke: "purple"} );
 						} else {
-							label( [-5.5, -3.5], "\\color{blue}{\\angle{BAC}} = ?", "above right" );
+							ORIGINAL_LABEL = label( [-5.5, -3.5], 
+								"\\color{blue}{\\angle{BAC}} = ?", "above right" );
 							arc( [-6, -4], 1, 10, 80, {stroke: "blue"} );
 
 							label( [4.1, -2.6], "\\color{purple}{<var>Tri_Y</var>&deg;}", "above" );
@@ -483,8 +517,26 @@
 						</code>,
 						because the 3 angles are contained in <code>\triangle{AHI}</code>. 
 						Angles inside a triangle add up to 180&deg;.
+						<span class="graphie" data-update="parallel-and-triangle">
+							ORIGINAL_LABEL.remove();
+							label( [0, -2.50], 
+								"\\color{blue}{\\angle{AIH}} = <var>180 - Tri_X - Tri_Z</var>&deg;", 
+								"left" ); 
+						</span>
 					</p>
 					<p data-else>
+						<span class="graphie" data-update="parallel-and-triangle">
+							ORIGINAL_LABEL.remove(); 
+							if ( RAND3 === 1 ) {
+								label( [3.3, -2.6], 
+									"\\color{blue}{\\angle{AKJ}} = <var>Tri_Y</var>&deg;", 
+									"above" );
+							} else {
+								label( [-5.5, -3.5], 
+									"\\color{blue}{\\angle{BAC}} = <var>Tri_X</var>&deg;", 
+									"above right" );
+							}
+						</span>
 						<code data-if="RAND3 === 1">
 							\color{blue}{\angle{AKJ}} = 
 								180&deg; - \color{orange}{\angle{AJK}} - \color{purple}{\angle{BAC}} = 
@@ -493,7 +545,7 @@
 						<code data-else>
 							\color{blue}{\angle{BAC}} = 
 								180&deg; - \color{orange}{\angle{AJK}} - \color{purple}{\angle{AKJ}} = 
-								<var>Tri_X</var>&deg; 
+								<var>Tri_X</var>&deg;
 						</code>, 
 						because the 3 angles are contained in <code>\triangle{AJK}</code>. 
 						Angles inside a triangle add up to 180&deg;.
@@ -542,7 +594,8 @@
 
 						// Label given angles
 						if( RAND2 == 0 ) {
-							label( [0, 3.5], "\\color{blue}{\\angle{IAK}} = ?", "above left" );
+							ORIGINAL_LABEL = label( [0, 3.5], 
+								"\\color{blue}{\\angle{IAK}} = ?", "above left" );
 							arc( [0, 2], 1, 90, 135, {stroke:"blue"} );
 
 							label( [4.75, -2], "\\color{green}{<var>Tri_Y</var>&deg;}", 
@@ -552,7 +605,8 @@
 							label( [0, 3], "\\color{green}{<var>Tri_Y</var>&deg;}", "above left" );
 							arc( [0, 2], 1, 90, 135, {stroke:"green"} );
 
-							label( [4.75, -2], "\\color{blue}{\\angle{GCJ} = ?}", "below right" );
+							ORIGINAL_LABEL = label( [4.75, -2], 
+								"\\color{blue}{\\angle{GCJ} = ?}", "below right" );
 							arc( [4, -2], .75, 315, 360, {stroke: "blue"} )
 						}
 					</div>
@@ -589,7 +643,7 @@
 						because they are alternate exterior angles, formed by 2 parallel lines 
 						and a transversal line, they are congruent (equal).
 						<span class="graphie" data-update="alternate-exterior-and-complementary">
-							label( [-1, 2], "\\color{orange}{<var>Tri_Y</var>&deg;}", 
+							label( [-.80, 2], "\\color{orange}{<var>Tri_Y</var>&deg;}", 
 								"above left" );
 							arc( [0, 2], 1, 135, 180, {stroke: "orange"} );
 						</span>
@@ -610,17 +664,23 @@
 						<code>\color{purple}{\angle{DAK}} = 90&deg;</code>,  
 						because angles formed by perpendicular lines equal to 90&deg;.
 						<span class="graphie" data-update="alternate-exterior-and-complementary">
-							label( [-2, 2], "\\color{purple}{90&deg;}", "above left" );
-							arc( [0, 2], 2, 90, 180, {stroke: "purple"} );
+							label( [-1.68, 2], "\\color{purple}{90&deg;}", "above left" );
+							arc( [0, 2], 1.65, 90, 180, {stroke: "purple"} );
 						</span>
 					</p>
 
 					<p data-if="RAND2 === 0">
 						<code>\color{blue}{\angle{IAK}} = 90&deg; - \color{orange}{\angle{DAI}} = 
 						<var>90 - Tri_Y</var>&deg;</code>, 
-						because angles <code>\color{blue}{\angle{IAK}}</code> 
-						and <code>\color{orange}{\angle{DAI}}</code> make up angle 
-						<code>\color{purple}{\angle{DAK}}</code>.
+ 						because angles <code>\color{blue}{\angle{IAK}}</code> 
+ 						and <code>\color{orange}{\angle{DAI}}</code> make up angle 
+ 						<code>\color{purple}{\angle{DAK}}</code>.
+ 						<span class="graphie" data-update="alternate-exterior-and-complementary">
+							ORIGINAL_LABEL.remove();
+							label( [0, 3.5], 
+								"\\color{blue}{\\angle{IAK}} = <var>90 - Tri_Y</var>&deg;", 
+								"above left" );							
+						</span>
 					</p>
 
 					<p data-if="RAND2 !== 0">
@@ -630,7 +690,7 @@
 						and <code>\color{orange}{\angle{DAI}}</code>, make up angle 
 						<code>\color{purple}{\angle{DAK}}</code>.
 						<span class="graphie" data-update="alternate-exterior-and-complementary">
-							label( [-1, 2], "\\color{orange}{<var>90-Tri_Y</var>&deg;}", 
+							label( [-.80, 2], "\\color{orange}{<var>90-Tri_Y</var>&deg;}", 
 								"above left" );
 							arc( [0, 2], 1, 135, 180, {stroke: "orange"} );
 						</span> 
@@ -652,6 +712,11 @@
 							label( [3, -2], "\\color{pink}{<var>90-Tri_Y</var>&deg;}", 
 								"above left" );
 							arc( [4, -2], 1, 135, 180, {stroke: "pink"} );
+							
+							ORIGINAL_LABEL.remove();
+							label( [4.75, -2], 
+								"\\color{blue}{\\angle{GCJ} = <var>90-Tri_Y</var>&deg;}", 
+								"below right" );
 						</span>
 					</p>
 				</div>

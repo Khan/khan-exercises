@@ -80,6 +80,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// The exercise elements
 	exercises,
 	
+	// If we're dealing with a summative exercise
+	isSummative = false,
+	
 	// Where we are in the shuffled list of problem types
 	problemBag,
 	problemBagIndex = 0,
@@ -465,14 +468,14 @@ Khan.loadScripts( scripts, function() {
 			xhrFields: { withCredentials: true },
 			
 			success: function( data ) {
-				prepareUserExercise(data);
+				prepareUserExercise( data );
 			}
 		});
 	}
 
 	function prepareUserExercise( data ) {
 		// Display all the related videos
-		var videos = data.exercise_model.related_videos;
+		var videos = data && data.exercise_model.related_videos;
 		
 		if ( videos && videos.length ) {
 			jQuery.each( videos, function( i, video ) {
@@ -574,7 +577,10 @@ Khan.loadScripts( scripts, function() {
 				total_correct: 0,
 				streak: 0,
 				longest_streak: 0,
-				next_points: 225
+				next_points: 225,
+				exercise_model: {
+					summative: isSummative
+				}
 			};
 		}
 	}
@@ -639,6 +645,8 @@ Khan.loadScripts( scripts, function() {
 		var remoteExercises = jQuery( ".exercise[data-name]" );
 
 		if ( remoteExercises.length ) {
+			isSummative = true;
+			
 			remoteExercises.each( loadExercise );
 		} else {
 			loadModules();
