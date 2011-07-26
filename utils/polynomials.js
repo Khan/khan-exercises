@@ -121,12 +121,13 @@ jQuery.extend(KhanUtil, {
 		};
 
 		this.hint = function( val ) {
-			var hint = "<p><code>" + this.name+"("+val+") = " + 
-				this.hintEvalOf( val ) + "</code></p>";""
-			hint += "<p><code>" + this.name+"("+val+") = " + 
-				this.evalOf( val ) + "</code></p>";
+			var hints = [];
+			hints.push( "<p><code>" + this.name+"("+val+") = " +
+				this.hintEvalOf( val ) + "</code></p>" );
+			hints.push( "<p><code>" + this.name+"("+val+") = " +
+				this.evalOf( val ) + "</code></p>" );
 
-			return hint;
+			return hints;
 		};
 
 		return this;
@@ -185,28 +186,28 @@ jQuery.extend(KhanUtil, {
 		};
 
 		this.hint = function( val ) {
-
-			var hint = "<p><code>" + this.name+"("+val+") = " + 
-				this.hintEvalOf(val) + "</code></p>";
+			var hints = [];
+			hints.push( "<p><code>" + this.name + "(" + val + ") = " +
+				this.hintEvalOf(val) + "</code></p>" );
 
 			var composedFuncWithVal = composed.name+"("+val+")";
 
-			hint += "<p>To solve for the value of <code>" + this.name + "</code>,"
+			hints.push( "<p>To solve for the value of <code>" + this.name + "</code>,"
 				+ "we need to solve for the value of <code>"
-				+ composedFuncWithVal + "</code>.</p>";
+				+ composedFuncWithVal + "</code>.</p>" );
 
-			hint += composed.hint( val );
+			hints = hints.concat( composed.hint( val ) );
 
-			hint += "<p>Okay, so <code>" + composedFuncWithVal+" = " + 
-				composed.evalOf(val) + "</code>.</p>";
+			hints.push( "<p>Okay, so <code>" + composedFuncWithVal + " = " +
+				composed.evalOf(val) + "</code>.</p>" );
 
-			hint += "<p>That means <code>" + this.name+"("+val+") = " + 
-				this.hintEvalOf(val, true) + "</code></p>";
+			hints.push( "<p>That means <code>" + this.name + "(" + val + ") = " +
+				this.hintEvalOf(val, true) + "</code></p>" );
 
-			hint += "<p><code>" + this.name+"("+val+") = " + 
-				this.evalOf( val ) + "</code></p>";
+			hints.push( "<p><code>" + this.name+"("+val+") = " +
+				this.evalOf( val ) + "</code></p>" );
 
-			return hint;
+			return hints;
 
 		};
 
