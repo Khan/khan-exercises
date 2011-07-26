@@ -1430,12 +1430,50 @@ function updateData( data ) {
 	if ( data && user != null ) {
 		window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
 	}
-	
+
 	// Update the streaks/point bar
-	jQuery(".current-rating").width( Math.min( Math.min( data.streak, 10 ) * 23, 228 ) );
-	jQuery(".streak-icon").width( data.streak ? 46 : 0 );
-	jQuery(".best-label").width( Math.min( Math.min( data.longest_streak, 10 ) * 23, 228 ) ).html( data.longest_streak + "&nbsp;" );
-	jQuery(".current-label").width( Math.min( Math.min( data.streak, 10 ) * 23, 228 ) ).html( data.streak + "&nbsp;" );
+	var streakMaxWidth = 227,
+		
+		// Streak and longest streak pixel widths
+		streakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.streak)),
+		longestStreakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.longest_streak)),
+
+		// Streak icon pixel width
+		streakIconWidth = Math.min(streakMaxWidth - 2, Math.max(43, streakWidth)), // 43 is width of streak icon
+
+		// Don't show label if not enough room
+		labelWidthRequired = 20,
+
+		// Don't show accumulation stats higher than 100 to stop grinding behavior,
+		// and don't show labels if there isn't room in the bar to render them.
+		labelStreak = streakWidth < labelWidthRequired ? "" : 
+						( !data.summative && data.streak > 100 ) ? "Max" : data.streak,
+
+		labelLongestStreak = ( longestStreakWidth < labelWidthRequired || (longestStreakWidth - streakWidth) < labelWidthRequired ) ? "" :
+						( !data.summative && data.longest_streak > 100 ) ? "Max" : data.longest_streak;
+
+	if ( data.summative && jQuery(" .level-label ").length === 0 ) {
+
+		// Split summative streak bar into levels
+		var levels = [];
+		var levelCount = data.required_streak / 10;
+		for ( var i = 1; i < levelCount; i++ ) {
+
+			// Individual level pixels
+			levels[ levels.length ] = Math.ceil(i * ( streakMaxWidth / levelCount )) + 1;
+
+		}
+
+		jQuery.each(levels, function( index, val ) { 
+			jQuery( ".best-label" ).after("<li class='level-label' style='width:" + val + "px'></li>");
+		});
+	}
+
+	jQuery(".unit-rating").width( streakMaxWidth );
+	jQuery(".current-rating").width( streakWidth );
+	jQuery(".streak-icon").width( streakIconWidth );
+	jQuery(".best-label").width( longestStreakWidth ).html( labelLongestStreak + "&nbsp;" );
+	jQuery(".current-label").width( streakWidth ).html( labelStreak + "&nbsp;" );
 	jQuery("#exercise-points").text( " " + data.next_points + " " );
 
 	// Update the exercise icon
