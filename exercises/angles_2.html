@@ -538,7 +538,8 @@
 					<span data-else><code>\color{blue}{\angle{IHE}} = ?</code></span></p>
 
 				</div>
-				<div class="solution"><var>Tri_X</var></div>
+				<div data-if="RAND_SWITCH2 == 0" class="solution"><var>X</var></div>
+				<div data-else class="solution"><var>Tri_X</var></div>
 
 				<div class="hints">
 					<p data-if="RAND_SWITCH2==0">
@@ -613,9 +614,12 @@
 							</span>
 						</span>.
 					</p>
-				</div>
-			</div>
-		</div>
+				</div><!-- end problem 4 hints -->
+				
+			</div><!--  end problem 4 -->
+	
+		</div><!-- end problems -->
+	
 	</div>
 </body>
 </html>

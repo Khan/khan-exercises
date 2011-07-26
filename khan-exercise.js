@@ -38,6 +38,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// Check to see if we're in test mode
 	testMode = window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:",
 
+	// Check to see if we're in beta mode
+	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1,
+
 	// The main server we're connecting to for saving data
 	server = testMode ? "http://localhost:8080" : "",
 	
@@ -57,14 +60,14 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	userCRC32,
 
 	// How far to jump through the problems
-	jumpNum,
+	jumpNum = 1,
 
 	// The current problem and its corresponding exercise
 	problem,
 	exercise,
 
 	// The number of the current problem that we're on
-	problemNum,
+	problemNum = 0,
 	problemID,
 	
 	// The current validator function
@@ -76,6 +79,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	
 	// The exercise elements
 	exercises,
+	
+	// If we're dealing with a summative exercise
+	isSummative = false,
 	
 	// Where we are in the shuffled list of problem types
 	problemBag,
@@ -94,20 +100,19 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	urlBase = testMode ? "../" : "/khan-exercises/";
 
 // Add in the site stylesheets
-(function(){
-
-	if (testMode) {
+if (testMode) {
+	(function(){
 		var link = document.createElement("link");
 		link.rel = "stylesheet";
 		link.href = urlBase + "css/khan-site.css";
 		document.getElementsByTagName('head')[0].appendChild(link);
-	}
-	
-	link = document.createElement("link");
-	link.rel = "stylesheet";
-	link.href = urlBase + "css/khan-exercise.css";
-	document.getElementsByTagName('head')[0].appendChild(link);
-})();
+
+		link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.href = urlBase + "css/khan-exercise.css";
+		document.getElementsByTagName('head')[0].appendChild(link);
+	})();
+}
 
 // The main Khan Module
 var Khan = {
@@ -244,6 +249,14 @@ var Khan = {
 		callback || ( callback = function() { } );
 
 		for ( var i = 0; i < loading; i++ ) (function( mod ) {
+
+			if (!testMode && mod.src.indexOf("/khan-exercises/") == 0) {
+				// Don't bother loading khan-exercises content in production
+				// mode, this content is already packaged up and available.
+				loaded++;
+				return;
+			}
+
 			// Adapted from jQuery getScript (ajax/script.js)
 			var script = document.createElement("script");
 			script.async = "async";
@@ -405,7 +418,7 @@ Khan.loadScripts( scripts, function() {
 							.focus();
 					}
 				} else {
-					jQuery( "#answerform input" ).removeAttr( "disabled" );
+					jQuery( "#answercontent input" ).removeAttr( "disabled" );
 				}
 			}, function() {
 				// Error during submit. Cheat, for now, and reload the page in
@@ -440,8 +453,9 @@ Khan.loadScripts( scripts, function() {
 		}
 	});
 	
-	if (typeof userExercise !== "undefined") {
-		prepareUserExercise(userExercise);
+	if ( typeof userExercise !== "undefined" ) {
+		prepareUserExercise( userExercise );
+		
 	} else {
 		// Load in the exercise data from the server
 		jQuery.ajax({
@@ -454,25 +468,12 @@ Khan.loadScripts( scripts, function() {
 			xhrFields: { withCredentials: true },
 			
 			success: function( data ) {
-				prepareUserExercise(data);
+				prepareUserExercise( data );
 			}
 		});
 	}
 
 	function prepareUserExercise( data ) {
-		// Display all the related videos
-		var videos = data.exercise_model.related_videos;
-		
-		if ( videos && videos.length ) {
-			jQuery.each( videos, function( i, video ) {
-				jQuery("<li><a href='" + video.ka_url + "'><span class='video-title'>" +
-					video.title + "</span></a></li>")
-						.appendTo(".related-video-list");
-			});
-		
-			jQuery(".related-content, #related-video-content").show();
-		}
-		
 		// Update the local data store
 		updateData( data );
 		
@@ -530,7 +531,7 @@ Khan.loadScripts( scripts, function() {
 
 		// Change users, if needed
 		if ( user !== data.user ) {
-			user = data.user;
+			user = data.user || user;
 			userCRC32 = user != null ? crc32( user ) : null;
 			randomSeed = userCRC32 || randomSeed;
 		}
@@ -546,6 +547,31 @@ Khan.loadScripts( scripts, function() {
 		jQuery(".best-label").width( Math.min( Math.min( data.longest_streak, 10 ) * 23, 228 ) ).html( data.longest_streak + "&nbsp;" );
 		jQuery(".current-label").width( Math.min( Math.min( data.streak, 10 ) * 23, 228 ) ).html( data.streak + "&nbsp;" );
 		jQuery("#exercise-points").text( " " + data.next_points + " " );
+
+		// Update the exercise icon
+		var exerciseStates = data.exercise_states;
+		var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
+		var src = exerciseStates.review ? "/images/node-review.png" : 
+					exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" : 
+						exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" : 
+							"/images/" + sPrefix + "-not-started.png";
+		jQuery("#exercise-icon-container img").attr("src", src);
+
+		// Display all the related videos
+		var videos = data && data.exercise_model.related_videos;
+		
+		if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
+			jQuery.each( videos, function( i, video ) {
+				jQuery("<li" + (i > 2 ? " class='related-video-extended'" : "") + ">" + 
+						"<a href='" + video.ka_url + "' title='" + video.title + "'><span class='video-title'>" +
+							video.title + 
+								(i < videos.length - 1 && i < 2 ? "<span class='separator'>, </span>" : "") 
+									+ "</span></a></li>")
+										.appendTo(".related-video-list");
+			});
+		
+			jQuery(".related-content, #related-video-content").show();
+		}
 	}
 	
 	// Grab the cached UserExercise data from local storage
@@ -563,7 +589,10 @@ Khan.loadScripts( scripts, function() {
 				total_correct: 0,
 				streak: 0,
 				longest_streak: 0,
-				next_points: 225
+				next_points: 225,
+				exercise_model: {
+					summative: isSummative
+				}
 			};
 		}
 	}
@@ -628,6 +657,8 @@ Khan.loadScripts( scripts, function() {
 		var remoteExercises = jQuery( ".exercise[data-name]" );
 
 		if ( remoteExercises.length ) {
+			isSummative = true;
+			
 			remoteExercises.each( loadExercise );
 		} else {
 			loadModules();
@@ -821,7 +852,7 @@ function makeProblem( id, seed ) {
 
 	// Save the seed for later so we can show it when asked
 	problemSeed = randomSeed;
-
+	
 	// Check to see if we want to test a specific problem
 	if ( testMode ) {
 		id = typeof id !== "undefined" ? id : Khan.query.problem;
@@ -922,9 +953,9 @@ function makeProblem( id, seed ) {
 		if ( choices.length ) {
 			answerType = "radio";
 
-		// Otherwise we assume a basic text input
+		// Otherwise we assume the smart number type
 		} else {
-			answerType = "text";
+			answerType = "number";
 		}
 	}
 
@@ -946,7 +977,7 @@ function makeProblem( id, seed ) {
 
 	// Add the problem into the page
 	jQuery( "#workarea" ).append( problem ).fadeIn();
-	jQuery( "#answerform input" ).removeAttr("disabled");
+	jQuery( "#answercontent input" ).removeAttr("disabled");
 
 	// Save the raw hints so they can be modified later
 	rawHints = hints.clone()
@@ -1085,7 +1116,7 @@ function injectSite( html, htmlExercise ) {
 }
 
 function prepareSite() {
-	
+
 	// Set exercise title
 	jQuery(".exercise-title").text( typeof userExercise !== "undefined" ? userExercise.exercise_model.display_name : document.title );
 
@@ -1121,22 +1152,19 @@ function prepareSite() {
 			return false;
 		}
 
+		// Stop if the form is already disabled and we're waiting for a response.
+		if ( jQuery( "#answercontent input" ).is( ":disabled" )) {
+			return false;
+		}
+
 		jQuery( "#throbber" ).show();
 		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
-		jQuery( "#answerform input" ).attr( "disabled", "disabled" );
+		jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
 		// Figure out if the response was correct
 		if ( pass ) {
-			// Show a congratulations message
-			jQuery("#oops").hide();
-			jQuery("#congrats").show();
-
 			jQuery("#happy").show();
 			jQuery("#sad").hide();
-
-		// Otherwise show an error message
 		} else {
-			jQuery("#oops").show().delay( 1000 ).fadeOut( 2000 );
-			
 			jQuery("#happy").hide();
 			jQuery("#sad").show();
 		}
@@ -1148,9 +1176,6 @@ function prepareSite() {
 
 	// Watch for when the next button is clicked
 	jQuery("#next-question-button").click(function(ev) {
-		// Erase the old value and hide congrats message
-		jQuery("#congrats").hide();
-		
 		jQuery("#happy").hide();
 
 		// Toggle the navigation buttons
@@ -1253,45 +1278,67 @@ function prepareSite() {
 				jQuery( this ).attr( "disabled", true );
 			}
 		}
-		
+
 		jQuery(Khan).trigger( "showHint" );
 	});
 
-	jQuery( "#report-beta-issue-success" ).hide();
-	jQuery( "#report-beta-issue-fail" ).hide();
+	if ( true || betaMode ) {
+		jQuery( "#issue" ).show();
 
-	// if we're on the beta server. probably shouldn't be hard-coded...
-	if ( document.URL.indexOf( "http://khan-masterslave" ) === 0 ) {
-		$( "#report-beta-issue" ).css( "display", "block" );
-	
-		jQuery( "#report-beta-issue" ).click( function() {
+		jQuery( "#issue-report" ).click( function() {
 
-			var title = prompt( "Issue title" );
+			jQuery( "#issue-report" ).hide();
+			jQuery( "#issue-status" ).hide();
+			jQuery( "#issue-form" ).show( 500 );
 
-			// Don't do anything on clicking Cancel
-			if ( title == null ) return;
+			jQuery( "#issue-submit" ).click( function() {
 
-			title = encodeURI( title );
-			var body = encodeURI( prompt( "Provide a brief description of the issue" ) );
+				if ( jQuery( "#issue-submit" ).css( "display" ) === "none" ) return;
 
-			jQuery.ajax({
-				url: "http://66.220.0.98:2563/file_exercise_tester_bug?title=" + title + "&body=" + body,
-				dataType: "jsonp",
-				success: function( json ) {
-					if ( json.meta.status === 201 ) {
-						jQuery( "#report-beta-issue-fail" ).hide();
-						jQuery( "#report-beta-issue-success" ).show();
-						jQuery( "#report-beta-issue-title" ).html( json.data.title );
-						jQuery( "#report-beta-issue-link" ).html( "<a href=" + json.data.html_url + ">here</a>" );
-					} else {
-						jQuery( "#report-beta-issue-success" ).hide();
-						jQuery( "#report-beta-issue-fail" ).show();
-					}
-				},
-				error: function( json ) {
-					jQuery( "#report-beta-issue-success" ).hide();
-					jQuery( "#report-beta-issue-fail" ).show();
+				jQuery( "#issue-form" ).hide( 500 );
+				jQuery( "#issue-report" ).val( "Report Another Issue" ).show();
+
+				var title = jQuery( "#issue-title" ).val(),
+					user = jQuery( "#issue-username" ).val(),
+					path = Khan.query.exid
+						+ "?seed=" + problemSeed
+						+ "&problem=" + problemID,
+					agent = navigator.userAgent,
+					body = [ "Reporter: " + user,
+						jQuery( "#issue-body" ).val(), path, agent ].join("\n\n"),
+					error = "Communication with GitHub isn't working. Please file "
+						+ "the issue manually at <a href=\""
+						+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
+					success = function( a, b ) {
+						return "Thank you for your feedback! Your issue, <a href=\""
+							+ a + "\">" + b + "</a> has been created.";
+					};
+
+				if ( title === "" ) {
+					jQuery( "#issue-status" ).addClass( "error" )
+						.html( "Please provide a valid title for the issue." ).show();
+					return;
 				}
+
+				jQuery.ajax({
+					url: "http://66.220.0.98:2563/file_exercise_tester_bug"
+						+ "?body=" + encodeURIComponent( body )
+						+ "&title=" + encodeURIComponent( title ),
+					dataType: "jsonp",
+					success: function( json ) {
+						if ( json.meta.status === 201 ) {
+							jQuery( "#issue-status" ).removeClass( "error" )
+								.html( success( json.data.html_url, json.data.title ) ).show();
+							jQuery( "#issue-title" ).val( "" );
+							jQuery( "#issue-body" ).val( "" );
+						} else {
+							jQuery( "#issue-status" ).addClass( "error" ).html( error ).show();
+						}
+					},
+					error: function( json ) {
+						jQuery( "#issue-status" ).addClass( "error" ).html( error ).show();
+					}
+				});
 			});
 		});
 	}
@@ -1305,16 +1352,19 @@ function prepareSite() {
 
 			if ( show ) {
 				link.text( "Try current problem" );
-				jQuery( "#workarea" ).empty();
-				jQuery( "#hintsarea" ).empty();
-				for ( var i = 0; i < 10; i++ ) {
+				
+				for ( var i = 0; i < 9; i++ ) {
+					jQuery( "#workarea" ).append( "<hr>" );
 					makeProblem();
-					jQuery( "#workarea" ).append( jQuery( "<hr/>" ) );
 				}
 				
 			} else {
 				link.text( "Show next 10 problems" );
+				
 				jQuery( "#workarea, #hintsarea, #rawhintsarea" ).empty();
+				
+				prevProblem( 10 );
+				
 				makeProblem();
 			}
 
@@ -1502,28 +1552,9 @@ function prepareSite() {
 				}
 			}
 		);
-
-		// Update exercise icons after appropriate API ajax requests
-		APIActionResults.register("exercise_states", 
-			function(dictExerciseStates) {
-				var sPrefix = dictExerciseStates.summative ? "node-challenge" : "node";
-				var src = "";
-
-				if (dictExerciseStates.review)
-					src = "/images/node-review.png";
-				else if (dictExerciseStates.suggested)
-					src = "/images/" + sPrefix + "-suggested.png";
-				else if (dictExerciseStates.proficient)
-					src = "/images/" + sPrefix + "-complete.png";
-				else
-					src = "/images/" + sPrefix + "-not-started.png";
-
-				jQuery("#exercise-icon-container img").attr("src", src);
-			}
-		);
 	}
 
-	// Make scratchpad selection persistent
+	// Make scratchpad persistent per-user
 	if (user) {
 		var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
 		if (typeof lastScratchpad !== "undefined" && JSON.parse(lastScratchpad)) {
@@ -1545,6 +1576,26 @@ function nextProblem( num ) {
 		problemBagIndex = (problemBagIndex + 1) % problemCount;
 		
 		nextProblem( num - 1 );
+	}
+}
+
+function prevProblem( num ) {
+	if ( num > 0 ) {
+		// Increment the problem number
+		problemNum -= jumpNum;
+	
+		if ( problemNum < 0 ) {
+			problemNum += 200;
+		}
+		
+		// Go to the next problem type in the problem bag
+		problemBagIndex = (problemBagIndex - 1) % problemCount;
+		
+		if ( problemBagIndex < 0 ) {
+			problemBagIndex += problemCount;
+		}
+		
+		prevProblem( num - 1 );
 	}
 }
 

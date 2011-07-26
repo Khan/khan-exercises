@@ -428,9 +428,14 @@
 				tickStep = options.tickStep || [ 2, 2 ],
 				tickLen = options.tickLen || [ 5, 5 ],
 				labels = options.labels || options.labelStep || false,
-				labelStep = options.labelStep || [ 1, 1 ];
-				xLabelFormat = options.xLabelFormat || function(a) { return a; };
-				yLabelFormat = options.yLabelFormat || function(a) { return a; };
+				labelStep = options.labelStep || [ 1, 1 ],
+				unityLabels = options.unityLabels || false,
+				xLabelFormat = options.xLabelFormat
+					|| options.labelFormat
+					|| function(a) { return a; },
+				yLabelFormat = options.yLabelFormat
+					|| options.labelFormat
+					|| function(a) { return a; };
 
 			this.init({
 				range: range,
@@ -438,110 +443,137 @@
 			});
 
 			// draw grid
-			grid &&
-			this.grid( range[0], range[1], {
-				stroke: "#000000",
-				opacity: gridOpacity,
-				step: gridStep
-			} );
+			if ( grid ) {
+				this.grid( range[0], range[1], {
+					stroke: "#000000",
+					opacity: gridOpacity,
+					step: gridStep
+				});
+			}
 
 			// draw axes
-			axes &&
-			this.style({ 
-				stroke: "#000000",
-				strokeWidth: 2,
-				arrows: axisArrows
-			}, function() {
-				this.path( [ [ range[0][0], 0 ], [ range[0][1], 0 ] ] );
-				this.path( [ [ 0, range[1][0] ], [ 0, range[1][1] ] ] );
-			});
+			if ( axes ) {
+
+				// this is a slight hack until <-> arrowheads work
+				if ( axisArrows === "<->" || true ) {
+					this.style({
+						stroke: "#000000",
+						strokeWidth: 2,
+						arrows: "->"
+					}, function() {
+						this.path([ [ 0, 0 ], [ range[0][0], 0 ] ]);
+						this.path([ [ 0, 0 ], [ range[0][1], 0 ] ]);
+						this.path([ [ 0, 0 ], [ 0, range[1][0] ] ]);
+						this.path([ [ 0, 0 ], [ 0, range[1][1] ] ]);
+					});
+
+				// also, we don't support "<-" arrows yet, but why you
+				// would want that on your graph is beyond me.
+				} else if ( axisArrows === "->" || axisArrows === "" ) {
+					this.style({
+						stroke: "#000000",
+						strokeWidth: 2,
+						arrows: axisArrows
+					}, function() {
+						this.path([ [ range[0][0], 0 ], [ range[0][1], 0 ] ]);
+						this.path([ [ 0, range[1][0] ], [ 0, range[1][1] ] ]);
+					});
+
+				}
+
+			}
 
 			// draw tick marks
-			ticks && 
-			this.style({
-				stroke: "#000000",
-				strokeWidth: 1
-			}, function() {
+			if ( ticks ) {
+				this.style({
+					stroke: "#000000",
+					strokeWidth: 1
+				}, function() {
 
-				// horizontal axis
-				var step = gridStep[0] * tickStep[0],
-					len = tickLen[0] / scale[1],
-					start = range[0][0],
-					stop = range[0][1];
+					// horizontal axis
+					var step = gridStep[0] * tickStep[0],
+				 len = tickLen[0] / scale[1],
+				 start = range[0][0],
+				 stop = range[0][1];
 
-				for ( var x = step; x <= stop; x += step ) {
-					if ( x < stop || !axisArrows ) {
-						this.line( [ x, -len ], [ x, len ] );
+					for ( var x = step; x <= stop; x += step ) {
+						if ( x < stop || !axisArrows ) {
+							this.line( [ x, -len ], [ x, len ] );
+						}
 					}
-				}
 
-				for ( var x = -step; x >= start; x -= step ) {
-					if ( x > start || !axisArrows ) {
-						this.line( [ x, -len ], [ x, len ] );
+					for ( var x = -step; x >= start; x -= step ) {
+						if ( x > start || !axisArrows ) {
+							this.line( [ x, -len ], [ x, len ] );
+						}
 					}
-				}
 
-				// vertical axis
-				step = gridStep[1] * tickStep[1];
-				len = tickLen[1] / scale[0];
-				start = range[1][0];
-				stop = range[1][1];
+					// vertical axis
+					step = gridStep[1] * tickStep[1];
+					len = tickLen[1] / scale[0];
+					start = range[1][0];
+					stop = range[1][1];
 
-				for ( var y = step; y <= stop; y += step ) {
-					if ( y < stop || !axisArrows ) {
-						this.line( [ -len, y ], [ len, y ] );
+					for ( var y = step; y <= stop; y += step ) {
+						if ( y < stop || !axisArrows ) {
+							this.line( [ -len, y ], [ len, y ] );
+						}
 					}
-				}
 
-				for ( var y = -step; y >= start; y -= step ) {
-					if ( y > start || !axisArrows ) {
-						this.line( [ -len, y ], [ len, y ] );
+					for ( var y = -step; y >= start; y -= step ) {
+						if ( y > start || !axisArrows ) {
+							this.line( [ -len, y ], [ len, y ] );
+						}
 					}
-				}
 
-			});
+				});
+			}
 
 			// draw axis labels
-			labels &&
-			this.style({
-				stroke: "#000000"
-			}, function() {
-			
-				// horizontal axis
-				var step = gridStep[0] * tickStep[0] * labelStep[0],
-					start = range[0][0],
-					stop = range[0][1];
+			if ( labels ) {
+				this.style({
+					stroke: "#000000"
+				}, function() {
 
-				for ( var x = step; x <= stop; x += step ) {
-					if ( x < stop || !axisArrows ) {
-						this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+					// horizontal axis
+					var step = gridStep[0] * tickStep[0] * labelStep[0],
+						start = range[0][0],
+						stop = range[0][1];
+
+					// positive x-axis
+					for ( var x = step; x <= stop; x += step ) {
+						if ( x < stop || !axisArrows ) {
+							this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+						}
 					}
-				}
 
-				for ( var x = -step; x >= start; x -= step ) {
-					if ( x > start || !axisArrows ) {
-						this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+					// negative x-axis
+					for ( var x = -step - (unityLabels ? 0 : 1); x >= start; x -= step ) {
+						if ( x > start || !axisArrows ) {
+							this.label( [ x, 0 ], xLabelFormat( x ), "below" );
+						}
 					}
-				}
 
-				// vertical axis
-				step = gridStep[1] * tickStep[1] * labelStep[1];
-				start = range[1][0];
-				stop = range[1][1];
+					step = gridStep[1] * tickStep[1] * labelStep[1];
+					start = range[1][0];
+					stop = range[1][1];
 
-				for ( var y = step; y <= stop; y += step ) {
-					if ( y < stop || !axisArrows ) {
-						this.label( [ 0, y ], yLabelFormat( y ), "left" );
+					// positive y-axis
+					for ( var y = step; y <= stop; y += step ) {
+						if ( y < stop || !axisArrows ) {
+							this.label( [ 0, y ], yLabelFormat( y ), "left" );
+						}
 					}
-				}
 
-				for ( var y = -step; y >= start; y -= step ) {
-					if ( y > start || !axisArrows ) {
-						this.label( [ 0, y ], yLabelFormat( y ), "left" );
+					// negative y-axis
+					for ( var y = -step - (unityLabels ? 0 : 1); y >= start; y -= step ) {
+						if ( y > start || !axisArrows ) {
+							this.label( [ 0, y ], yLabelFormat( y ), "left" );
+						}
 					}
-				}
 
-			});
+				});
+			}
 
 		};
 

@@ -42,11 +42,14 @@
 				<p class="question">The function <code>f(x)</code> is graphed. Find <code>f(<var>CORRECT_X</var>)</code>.</p>
 
 				<div id="graph" class="graphie">
-					graphInit({ 
+					graphInit({
 						range: 10,
 						scale: 20,
+						axisArrows: "<->",
 						tickStep: 1,
-						axisArrows: "->"
+						labelStep: 1,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; }
 					});
 
 					path( FUNCTION_PATH, { stroke: "#6495ed" } );

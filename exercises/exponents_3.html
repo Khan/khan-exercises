@@ -28,7 +28,7 @@
 				</div>
 
 				<p class="question"><code><var>fracParens( BASE_N, BASE_D )</var>^{<var>fracSmall( EXP_NEG ? -1 : 1, EXP_D )</var>}</code></p>
-				<p class="solution" data-type="rational"><var>SOL_N / SOL_D</var></p>
+				<p class="solution"><var>SOL_N / SOL_D</var></p>
 
 				<div class="hints">
 					<!-- Extra first step, for a question like (4/9)^(-1/2), display "=(9/4)^(1/2)" -->
@@ -43,8 +43,8 @@
 					<p>Figure out what goes in the blank:<br /><code>\Big(\color{blue}{<var>frac( SOL_N, SOL_D )</var>}\Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
 
 					<!-- (4/9)^(1/2)=2/3 -->
-					<p data-if="EXP_NEG">So <code><var>fracParens( BASE_N, BASE_D )</var>^{<var>fracSmall( EXP_NEG ? -1 : 1, EXP_D )</var>}=<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>frac( SOL_N, SOL_D )</var></code></p>
-					<p data-else>So <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>frac( SOL_N, SOL_D )</var></code></p>
+					<p data-if="EXP_NEG">So <code><var>fracParens( BASE_N, BASE_D )</var>^{<var>fracSmall( EXP_NEG ? -1 : 1, EXP_D )</var>}=<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>fraction( SOL_N, SOL_D, true, true, false, false )</var></code></p>
+					<p data-else>So <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>fraction( SOL_N, SOL_D,true, true, false, false )</var></code></p>
 				</div>
 			</div>
 		</div>

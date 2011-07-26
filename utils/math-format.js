@@ -257,7 +257,11 @@ jQuery.extend(KhanUtil, {
 	},
 
 	commafy: function( num ) {
-		return num.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, "{,}");
+		num = num.toString();
+		if ( /\./.test( num ) ) {
+			return num;
+		}
+		return num.replace(/\B(?=(?:\d{3})+(?!\d))/g, "{,}");
 	},
 
 	// Formats strings like "Axy + By + Cz + D" where A, B, and C are variables
