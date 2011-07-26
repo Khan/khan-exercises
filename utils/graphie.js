@@ -262,7 +262,6 @@
 						var tries = 0;
 						var inter = setInterval(function() {
 							var size = [ span.outerWidth(), span.outerHeight() ];
-							console.log(size);
 
 							// Heuristic to guess if the font has kicked in so we have box metrics
 							// (Magic number ick, but this seems to work mostly-consistently)
