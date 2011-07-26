@@ -30,7 +30,7 @@
 					NUMBER_SEED * pow( 10, ZEROES ) :
 					( NUMBER_SEED * pow( 10, ZEROES ) ).toFixed( -1 * ZEROES )
 			</var>
-			<var id="PRETTY_DECIMAL">ZEROES > 0 ? commafy( DECIMAL ) : DECIMAL</var>
+			<var id="PRETTY_DECIMAL">commafy( DECIMAL )</var>
 			<var id="SCIENTIFIC">BASE + " \\times 10^{" + E + "}"</var>
 
 			<code>\newcommand{\exponentColor}[1]{\color{purple}{#1}}\newcommand{\leadingColor}[1]{\color{green}{#1}}</code>
