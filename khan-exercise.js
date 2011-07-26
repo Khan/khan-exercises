@@ -474,19 +474,6 @@ Khan.loadScripts( scripts, function() {
 	}
 
 	function prepareUserExercise( data ) {
-		// Display all the related videos
-		var videos = data && data.exercise_model.related_videos;
-		
-		if ( videos && videos.length ) {
-			jQuery.each( videos, function( i, video ) {
-				jQuery("<li><a href='" + video.ka_url + "'><span class='video-title'>" +
-					video.title + "</span></a></li>")
-						.appendTo(".related-video-list");
-			});
-		
-			jQuery(".related-content, #related-video-content").show();
-		}
-		
 		// Update the local data store
 		updateData( data );
 		
@@ -569,6 +556,22 @@ Khan.loadScripts( scripts, function() {
 						exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" : 
 							"/images/" + sPrefix + "-not-started.png";
 		jQuery("#exercise-icon-container img").attr("src", src);
+
+		// Display all the related videos
+		var videos = data && data.exercise_model.related_videos;
+		
+		if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
+			jQuery.each( videos, function( i, video ) {
+				jQuery("<li" + (i > 2 ? " class='related-video-extended'" : "") + ">" + 
+						"<a href='" + video.ka_url + "' title='" + video.title + "'><span class='video-title'>" +
+							video.title + 
+								(i < videos.length - 1 && i < 2 ? "<span class='separator'>, </span>" : "") 
+									+ "</span></a></li>")
+										.appendTo(".related-video-list");
+			});
+		
+			jQuery(".related-content, #related-video-content").show();
+		}
 	}
 	
 	// Grab the cached UserExercise data from local storage
@@ -1113,7 +1116,7 @@ function injectSite( html, htmlExercise ) {
 }
 
 function prepareSite() {
-	
+
 	// Set exercise title
 	jQuery(".exercise-title").text( typeof userExercise !== "undefined" ? userExercise.exercise_model.display_name : document.title );
 
