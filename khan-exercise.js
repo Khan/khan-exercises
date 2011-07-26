@@ -73,8 +73,6 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// The current validator function
 	validator,
 
-	// Storing hint data for later
-	rawHints,
 	hints,
 
 	// The exercise elements
@@ -586,9 +584,6 @@ function makeProblem( id, seed ) {
 	// Remove and store hints to delay running modules on it
 	hints = problem.children( ".hints" ).remove();
 
-	// Hide the raw hints
-	jQuery( "#rawhintsarea" ).hide();
-
 	// Run the main method of any modules
 	problem.runModules( problem, "Load" );
 	problem.runModules( problem );
@@ -645,28 +640,12 @@ function makeProblem( id, seed ) {
 	jQuery( "#workarea" ).append( problem ).fadeIn();
 	jQuery( "#answercontent input" ).removeAttr("disabled");
 
-	// Save the raw hints so they can be modified later
-	rawHints = hints.clone()
-
-		// FIXME: Should apply templating here without rendering MathJax, but
-		// that's currently not possible.
-		.tmpl()
-
-		// Save as a normal JS array so we can use shift() on it later
-		.children().get();
-
-	// Save the rendered hints so we can display them later
-	hints = hints
-
-		// Do all the templating
-		.tmpl()
-
-		// Save as a normal JS array so we can use shift() on it later
-		.children().get();
+	// save a normal JS array of hints so we can shift() through them later
+	hints = hints.tmpl().children().get();
 
 	if ( hints.length === 0 ) {
 		// Disable the get hint button
-		jQuery("#hint").attr( "disabled", true );
+		jQuery( "#hint" ).attr( "disabled", true );
 	}
 
 	// Hook out for exercise test runner
@@ -927,7 +906,7 @@ function prepareSite() {
 
 		// Wipe out any previous problem
 		jQuery("#workarea").hide();
-		jQuery("#workarea, #hintsarea, #hintsbag").empty();
+		jQuery("#workarea, #hintsarea").empty();
 		jQuery("#hint").attr( "disabled", false );
 
 		if ( Khan.scratchpad ) {
@@ -979,51 +958,20 @@ function prepareSite() {
 			}
 		}
 
-		// Get the first hint and render left in the parallel arrays
-		var hint = rawHints.shift(),
-			render = hints.shift(),
-			$hint = jQuery( hint ),
-			$render = jQuery( render );
+		var hint = hints.shift();
 
 		if ( hint ) {
 
-			jQuery("#hint").val("Next step");
+			jQuery( "#hint" ).val("Next step");
 
-			var problem = $hint.parent();
+			var problem = jQuery( hint ).parent();
 
-			// If the hint has hint templating, then turn that hint templating into
-			// normal inheritance templating, apply templating, and then re-render all
-			// the hints.
-			if ( $hint.data( "apply" ) && !$hint.data( "apply" ).indexOf( "hint" ) ) {
+			jQuery( hint ).runModules( problem ).appendTo( "#hintsarea" );
 
-				// Revert the hint templating into normal inheritance
-				$hint.data( "apply", $hint.data( "apply" ).split(/-/)[1] );
-
-				// Apply templating, now that the hint template has been converted
-				jQuery( "#rawhintsarea" ).append( $hint ).find( "[id]" ).tmplApply().end()
-
-					// Re-render all the hints
-					.clone().runModules( problem )
-
-					// Replace the previously rendered hints
-					.replaceAll( "#hintsarea" ).show().attr( "id", "hintsarea" );
-
-			} else {
-
-				// Inject the raw into the hidden raw area
-				$hint.appendTo( "#rawhintsarea" );
-
-				// Reveal the rendered hint
-				$render.runModules( problem ).appendTo( "#hintsarea" );
-
-			}
-
+			// Disable the get hint button
 			if ( hints.length === 0 ) {
-				// Disable the get hint button
 				jQuery( this ).attr( "disabled", true );
 			}
-
-			// A user revealed a hint
 
 			// Don't reset the streak if we've already reset it or if
 			// we've already sent in an answer
@@ -1040,11 +988,10 @@ function prepareSite() {
 			// Make sure we don't reset the streak more than once
 			doHintSave = false;
 
-			jQuery(Khan).trigger( "showHint" );
 		}
 	});
 
-	if ( true || betaMode ) {
+	if ( betaMode ) {
 		jQuery( "#issue" ).show();
 
 		jQuery( "#issue-report" ).click( function() {
@@ -1123,7 +1070,7 @@ function prepareSite() {
 			} else {
 				link.text( "Show next 10 problems" );
 
-				jQuery( "#workarea, #hintsarea, #rawhintsarea" ).empty();
+				jQuery( "#workarea, #hintsarea" ).empty();
 
 				prevProblem( 10 );
 
