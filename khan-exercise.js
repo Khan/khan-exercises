@@ -1452,21 +1452,29 @@ function updateData( data ) {
 		labelLongestStreak = ( longestStreakWidth < labelWidthRequired || (longestStreakWidth - streakWidth) < labelWidthRequired ) ? "" :
 						( !data.summative && data.longest_streak > 100 ) ? "Max" : data.longest_streak;
 
-	if ( data.summative && jQuery(" .level-label ").length === 0 ) {
+	if ( data.summative ) {
 
-		// Split summative streak bar into levels
-		var levels = [];
-		var levelCount = data.required_streak / 10;
-		for ( var i = 1; i < levelCount; i++ ) {
+		jQuery( ".summative-help ")
+			.find( ".summative-required-streaks" ).text( parseInt( data.required_streak / 10 ) ).end()
+			.show();
+		
+		if ( jQuery( ".level-label" ).length === 0 ) {
 
-			// Individual level pixels
-			levels[ levels.length ] = Math.ceil(i * ( streakMaxWidth / levelCount )) + 1;
+			// Split summative streak bar into levels
+			var levels = [];
+			var levelCount = data.required_streak / 10;
+			for ( var i = 1; i < levelCount; i++ ) {
+
+				// Individual level pixels
+				levels[ levels.length ] = Math.ceil(i * ( streakMaxWidth / levelCount )) + 1;
+
+			}
+
+			jQuery.each(levels, function( index, val ) { 
+				jQuery( ".best-label" ).after("<li class='level-label' style='width:" + val + "px'></li>");
+			});
 
 		}
-
-		jQuery.each(levels, function( index, val ) { 
-			jQuery( ".best-label" ).after("<li class='level-label' style='width:" + val + "px'></li>");
-		});
 	}
 
 	jQuery(".unit-rating").width( streakMaxWidth );
