@@ -1080,7 +1080,7 @@ function prepareSite() {
 		});
 	});
 
-	jQuery( "#print_ten" ).data( "show", true )
+	jQuery( "#print-ten" ).data( "show", true )
 		.click( function( e ) {
 			e.preventDefault();
 
