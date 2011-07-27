@@ -10,9 +10,6 @@
 		<div id="already-simplified" data-weight="2">
 			<div class="vars">
 				<var id="NUM">randFromArray([30, 42, 66, 70, 105, 110, 154, 165, 210])</var>
-				<var id="SPLIT">splitRadical(NUM)</var>
-				<var id="COEFFICIENT">SPLIT[0] === 1 ? "" : SPLIT[0]</var>
-				<var id="RADICAL">SPLIT[1] === 1 ? "" : SPLIT[1]</var>
 			</div>
 
 			<div class="question">
@@ -20,9 +17,7 @@
 				<p>(Type in only one of text boxes if your answer has only one part.)</p>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>COEFFICIENT</var></span><span><var>RADICAL</var></span>
-			</div>
+			<div class="solution" data-type="radical"><var>NUM</var></div>
 
 			<div class="hints">
 				<p>The number <code><var>NUM</var></code> has no perfect-square factors, so <code>\sqrt{<var>NUM</var>}</code> is already the simplest form.</p>
@@ -34,7 +29,6 @@
 				<var id="NUM">randFromArray([9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225])</var>
 				<var id="SPLIT">splitRadical(NUM)</var>
 				<var id="COEFFICIENT">SPLIT[0] === 1 ? "" : SPLIT[0]</var>
-				<var id="RADICAL">SPLIT[1] === 1 ? "" : SPLIT[1]</var>
 			</div>
 
 			<div class="question">
@@ -42,9 +36,7 @@
 				<p>(Type in only one of text boxes if your answer has only one part.)</p>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>COEFFICIENT</var></span><span><var>RADICAL</var></span>
-			</div>
+			<div class="solution" data-type="radical"><var>NUM</var></div>
 
 			<div class="hints">
 				<p>The number <code><var>NUM</var></code> is a perfect square, so <code>\sqrt{<var>NUM</var>} = <var>COEFFICIENT</var></code>.</p>
@@ -64,9 +56,7 @@
 				<p>(Type in only one of text boxes if your answer has only one part.)</p>
 			</div>
 
-			<div class="solution" data-type="radical">
-				<span><var>COEFFICIENT</var></span><span><var>RADICAL</var></span>
-			</div>
+			<div class="solution" data-type="radical"><var>NUM</var></div>
 
 			<div class="hints">
 				<p>The largest perfect square that divides <code><var>NUM</var></code> is <code><var>COEFFICIENT * COEFFICIENT</var></code>.</p>

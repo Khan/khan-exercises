@@ -105,25 +105,6 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
-	// splitRadical( 24 ) gives [ 2, 6 ] to mean 2 sqrt(6)
-	splitRadical: function( n ) {
-		if ( n === 0 ) {
-			return [ 0, 1 ];
-		}
-
-		var coefficient = 1;
-		var radical = n;
-
-		for(var i = 2; i * i <= n; i++) {
-			while(radical % (i * i) === 0) {
-				radical /= i * i;
-				coefficient *= i;
-			}
-		}
-
-		return [coefficient, radical];
-	},
-
 	// formattedSquareRootOf(24) gives 2\sqrt{6}
 	formattedSquareRootOf: function( n ) {
 		if( n === 1 || n === 0 ) {
@@ -256,12 +237,19 @@ jQuery.extend(KhanUtil, {
 		return rootString;
 	},
 
+	// Thanks to Ghostoy on http://stackoverflow.com/questions/6784894/commafy/6786040#6786040
 	commafy: function( num ) {
-		num = num.toString();
-		if ( /\./.test( num ) ) {
-			return num;
+		var str = num.toString().split( "." );
+
+		if ( str[0].length >= 5 ) {
+			str[0] = str[0].replace( /(\d)(?=(\d{3})+$)/g, '$1{,}' );
 		}
-		return num.replace(/\B(?=(?:\d{3})+(?!\d))/g, "{,}");
+
+		if ( str[1] && str[1].length >= 5 ) {
+			str[1] = str[1].replace( /(\d{3})(?=\d)/g, '$1\\;' );
+		}
+
+		return str.join( "." );
 	},
 
 	// Formats strings like "Axy + By + Cz + D" where A, B, and C are variables

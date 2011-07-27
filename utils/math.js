@@ -216,6 +216,25 @@ jQuery.extend(KhanUtil, {
 		return multiples;
 	},
 
+	// splitRadical( 24 ) gives [ 2, 6 ] to mean 2 sqrt(6)
+	splitRadical: function( n ) {
+		if ( n === 0 ) {
+			return [ 0, 1 ];
+		}
+
+		var coefficient = 1;
+		var radical = n;
+
+		for(var i = 2; i * i <= n; i++) {
+			while(radical % (i * i) === 0) {
+				radical /= i * i;
+				coefficient *= i;
+			}
+		}
+
+		return [coefficient, radical];
+	},
+
 	// Get a random integer between min and max, inclusive
 	// If a count is passed, it gives an array of random numbers in the range
 	randRange: function( min, max, count ) {

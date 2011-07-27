@@ -61,10 +61,10 @@
 			<p><code>b = <var>fractionReduce( Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var></code></p>
 
 			<div>
-				<p>Plugging in <code><var>fractionReduce( Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var></code> for <code>b</code>, we get <code>y = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + <var>fractionReduce(Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR,SLOPE_DENOMINATOR)</var></code></p>
+				<p>Plugging in <code><var>fractionReduce( Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var></code> for <code>b</code>, we get <code>y = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + <var>fractionReduce(Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR,SLOPE_DENOMINATOR)</var></code>.</p>
 				<div class="graphie">
 					graphInit({
-						range: 11,
+						range: max( abs(B) + 4 , 11 ),
 						scale: 20,
 						tickStep: 1,
 						axisArrows: "<->"
@@ -72,7 +72,7 @@
 
 					plot(function( x ) {
 						return M * x + B;
-					}, [-11, 11], {
+					}, [min( ( -abs(B) -5  ), -12) , max( ( abs(B)+5 ), 12 )], {
 						stroke: "#28ae7b"
 					});
 

@@ -151,26 +151,30 @@ jQuery.tmpl = {
 		code: function( elem ) {
 			// Returns a function in order to run after other templating and var assignment
 			return function( elem ) {
-				var $elem = jQuery( elem );
+				if ( typeof elem.MathJax === "undefined" ) {
+					var $elem = jQuery( elem );
 
-				// Maintain the classes from the original element
-				if ( elem.className ) {
-					$elem.wrap( "<span class='" + elem.className + "'></span>" );
-				}
+					// Maintain the classes from the original element
+					if ( elem.className ) {
+						$elem.wrap( "<span class='" + elem.className + "'></span>" );
+					}
 
-				// Trick MathJax into thinking that we're dealing with a script block
-				elem.type = "math/tex";
+					// Trick MathJax into thinking that we're dealing with a script block
+					elem.type = "math/tex";
 
-				// Make sure that the old value isn't being displayed anymore
-				elem.style.display = "none";
+					// Make sure that the old value isn't being displayed anymore
+					elem.style.display = "none";
 
-				// Clean up any strange mathematical expressions
-				var text = $elem.text();
-				$elem.text( KhanUtil.cleanMath ? KhanUtil.cleanMath( text ) : text );
+					// Clean up any strange mathematical expressions
+					var text = $elem.text();
+					$elem.text( KhanUtil.cleanMath ? KhanUtil.cleanMath( text ) : text );
 
-				// Stick the processing request onto the queue
-				if ( typeof MathJax !== "undefined") {
-					MathJax.Hub.Queue([ "Typeset", MathJax.Hub, elem ]);
+					// Stick the processing request onto the queue
+					if ( typeof MathJax !== "undefined") {
+						MathJax.Hub.Queue([ "Typeset", MathJax.Hub, elem ]);
+					}
+				} else {
+					MathJax.Hub.Reprocess( elem );
 				}
 			};
 		}
@@ -228,6 +232,12 @@ jQuery.fn.tmplLoad = function() {
 		// Expose the variables if we're in test mode
 		jQuery.tmpl.VARS = VARS;
 	}
+};
+
+jQuery.fn.tmplCleanup = function() {
+	this.find( "code" ).each( function() {
+		MathJax.Hub.getJaxFor( this ).Remove();
+	} );
 };
 
 jQuery.fn.tmpl = function() {
