@@ -116,9 +116,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 			+ a + "\">" + b + "</a>, has been created."; 
 	},
 	issueIntro = "Please let us know if you notice any odd or wrong behavior "
-		+ "in any nook or cranny of the site. This includes all interacitons, "
+		+ "in any nook or cranny of the site. This includes all interactions, "
 		+ "progress, knowledge map, badges, activities, reports, or anything "
-		+ "else that you think is acting a little funky. Thanks fro helping "
+		+ "else that you think is acting a little funky. Thanks for helping "
 		+ "us out!";
 
 // Add in the site stylesheets
