@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Counting Money</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="SOLN">( randRange( 6 , 9999 ) / 100 ).toFixed( 2 )</var>
+
+		<var id="TWENTIES">( SOLN - SOLN % 20 ) / 20</var>
+		<var id="MONEY_20">roundTo( 5 , SOLN % 20)</var>
+
+		<var id="TENS">( MONEY_20 - MONEY_20 % 10 ) / 10</var>
+		<var id="MONEY_10">roundTo( 5 , MONEY_20 % 10 )</var>
+
+		<var id="FIVES">( MONEY_10 - MONEY_10 % 5 ) / 5</var>
+		<var id="MONEY_5">roundTo( 5 , MONEY_10 % 5 )</var>
+
+		<var id="ONES">( MONEY_5 - MONEY_5 % 1 ) / 1</var>
+		<var id="MONEY_1">roundTo( 5 , MONEY_5 % 1 )</var>
+		<var id="ALLCOINS">roundTo( 5 , MONEY_1 * 100 )</var>
+
+		<var id="QUARTERS">( MONEY_1 - MONEY_1 % 0.25 ) / 0.25</var>
+		<var id="MONEY_025">roundTo( 5 , MONEY_1 % 0.25 )</var>
+
+		<var id="DIMES">( MONEY_025 - MONEY_025 % 0.10 ) / 0.10</var>
+		<var id="MONEY_010">roundTo( 5 , MONEY_025 % 0.10 )</var>
+
+		<var id="NICKELS">( MONEY_010 - MONEY_010 % 0.05 ) / 0.05</var>
+		<var id="MONEY_005">roundTo( 5 , MONEY_010 % 0.05)</var>
+
+		<var id="PENNIES">MONEY_005 * 100</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p class="question">What is the total of all the money below?</p>
+					<span data-if="TWENTIES > 0"><var>TWENTIES</var> x <img border="0" src="../images/twenty.jpg" alt="Twenties" /> </span> 
+					<span data-if="TENS > 0"><var>TENS</var> x <img border="0" src="../images/ten.jpg" alt="Tens" /> </span>
+					<span data-if="FIVES > 0"><var>FIVES</var> x <img border="0" src="../images/five.jpg" alt="Fives" /> </span>
+					<span data-if="ONES > 0"><var>ONES</var> x <img border="0" src="../images/one.jpg" alt="Ones" /></span><br><br>
+					<span data-if="QUARTERS > 0"><var>QUARTERS</var> x <img border="0" src="../images/quarter.jpg" alt="Quarters" /> </span>
+					<span data-if="DIMES > 0"><var>DIMES</var> x <img border="0" src="../images/dime.jpg" alt="Dimes" /> </span> 
+					<span data-if="NICKELS > 0"><var>NICKELS</var> x <img border="0" src="../images/nickel.jpg" alt="Nickels" /> </span>
+					<span data-if="PENNIES > 0"><var>PENNIES</var> x <img border="0" src="../images/penny.jpg" alt="Pennies" /> </span>
+				</p>
+			</div>
+			<div class="solution" data-type="multiple">
+				<p>$ <span class="sol"><var>SOLN</var></span></p>
+			</div>					
+		</div>
+	</div>
+
+	<div class="hints">
+		<p>We are going to count up all the dollars and then count up all the cents.</p>
+		<p data-if="TWENTIES > 0">The twenties are: <var>TWENTIES</var> * $20 or $<var>( TWENTIES * 20 ).toFixed( 2 )</var></p>
+		<p data-if="TENS > 0">The tens are: <var>TENS</var> * $10 or $<var>( TENS * 10 ).toFixed( 2 )</var></p>
+		<p data-if="FIVES > 0">The fives are: <var>FIVES</var> * $5 or $<var>( FIVES * 5 ).toFixed( 2 )</var></p>
+		<p data-if="ONES > 0">The ones are: <var>ONES</var> * $1 or $<var>( ONES ).toFixed( 2 )</var></p>
+		<p class="hint_blue">All of these together add up to <var>SOLN - ALLCOINS / 100</var> dollars.</p>
+		<p data-if="QUARTERS > 0">The quarters are: <var>QUARTERS</var> * 25 cents or <var>25 * QUARTERS</var> cents.</p>
+		<p data-if="DIMES > 0">The dimes are: <var>DIMES</var> * 10 cents or <var>10 * DIMES</var> cents.</p>
+		<p data-if="NICKELS > 0">The nickels are: <var>NICKELS</var> * 5 cents or <var>5 * NICKELS</var> cents.</p>
+		<p data-if="PENNIES > 0">For the pennies, each penny is worth 1 cent.</p>
+		<p class="hint_blue">All of these together add up to <var>ALLCOINS</var> cents.<p>
+		<p>Put the dollars and the cents together for an answer of <b>$ <var>SOLN</var></b>.</p>
+	</div>
+</div>
+</body>
+</html>
