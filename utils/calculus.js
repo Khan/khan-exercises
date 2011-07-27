@@ -180,8 +180,9 @@ jQuery.extend(KhanUtil, {
 			];
 
 			// Remove empty choices, if any
-			jQuery.map( this.wrongs, function( value, index ) {
-				if ( this.wrongs.length > 1 ) {
+			this.wrongs = jQuery.map( this.wrongs, function( value, index ) {
+				console.debug(value)
+				if ( value.length > 1 ) {
 					return [ value ];
 				} else {
 					return [];
@@ -254,8 +255,8 @@ jQuery.extend(KhanUtil, {
 			];
 
 			// Remove empty choices, if any
-			jQuery.map( this.wrongs, function( value, index ) {
-				if ( this.wrongs.length > 1 ) {
+			this.wrongs = jQuery.map( this.wrongs, function( value, index ) {
+				if ( value.length > 1 ) {
 					return [ value ];
 				} else {
 					return [];
