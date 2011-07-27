@@ -306,7 +306,8 @@ jQuery.fn.tmpl = function() {
 				}
 
 				// Do a deep clone (including event handlers and data) of the element
-				var clone = jQuery( elem ).clone( true )[0];
+				var clone = jQuery( elem ).clone( true )
+					.removeAttr( "data-each" ).removeData( "each" )[0];
 
 				// Insert in the proper place (depends on whether the loops is the last of its siblings)
 				if ( origNext ) {
