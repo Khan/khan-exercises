@@ -136,7 +136,7 @@ var Khan = {
 				messageStyle: \"none\",\
 				skipStartupTypeset: true,\
 				jax: [\"input/TeX\",\"output/HTML-CSS\"],\
-				extensions: [\"tex2jax.js\",\"MathMenu.js\",\"MathZoom.js\"],\
+				extensions: [\"tex2jax.js\",\"MathZoom.js\"],\
 				TeX: {\
 					extensions: [\"AMSmath.js\",\"AMSsymbols.js\",\"noErrors.js\",\"noUndefined.js\"],\
 					Macros: {\
@@ -145,7 +145,8 @@ var Khan = {
 					Augment: {\
 						Definitions: {\
 							macros: {\
-								lrsplit: \"LRSplit\"\
+								lrsplit: \"LRSplit\",\
+								lcm: [\"NamedOp\", 0],\
 							}\
 						},\
 						Parse: {\
@@ -166,6 +167,7 @@ var Khan = {
 				},\
 				\"HTML-CSS\": {\
 					scale: 100,\
+					showMathMenu: false,\
 					availableFonts: [\"TeX\"]\
 				}\
 			});\
@@ -548,6 +550,10 @@ function makeProblem( id, seed ) {
 	// Work with a clone to avoid modifying the original
 	problem = problem.clone();
 
+	// problem has to be child of visible #workarea for MathJax metrics to all work right
+	var workAreaWasVisible = jQuery( "#workarea" ).is( ":visible" );
+	jQuery( "#workarea" ).empty().append( problem ).show();
+
 	// If there's an original problem, add inherited elements
 	var parentType = problem.data( "type" );
 
@@ -637,7 +643,7 @@ function makeProblem( id, seed ) {
 	choices.remove();
 
 	// Add the problem into the page
-	jQuery( "#workarea" ).append( problem ).fadeIn();
+	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
 	jQuery( "#answercontent input" ).removeAttr("disabled");
 
 	// save a normal JS array of hints so we can shift() through them later
@@ -906,7 +912,7 @@ function prepareSite() {
 
 		// Wipe out any previous problem
 		jQuery("#workarea").hide();
-		jQuery("#workarea, #hintsarea").empty();
+		jQuery("#workarea, #hintsarea").runModules( problem, "Cleanup" ).empty();
 		jQuery("#hint").attr( "disabled", false );
 
 		if ( Khan.scratchpad ) {
@@ -966,7 +972,8 @@ function prepareSite() {
 
 			var problem = jQuery( hint ).parent();
 
-			jQuery( hint ).runModules( problem ).appendTo( "#hintsarea" );
+			// Append first so MathJax can sense the surrounding CSS context properly
+			jQuery( hint ).appendTo( "#hintsarea" ).runModules( problem );
 
 			// Disable the get hint button
 			if ( hints.length === 0 ) {
