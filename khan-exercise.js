@@ -1059,7 +1059,7 @@ function prepareSite() {
 		});
 	}
 
-	jQuery( "#print_ten" ).data( "show", true )
+	jQuery( "#print-ten" ).data( "show", true )
 		.click( function( e ) {
 			e.preventDefault();
 
@@ -1089,7 +1089,7 @@ function prepareSite() {
 			link.data( "show", !show );
 		});
 
-	jQuery( "#scratch_pad_show" ).data( "show", true )
+	jQuery( "#scratchpad-show" ).data( "show", true )
 		.click( function() {
 			var button = jQuery( this ),
 				show = button.data( "show" );
@@ -1274,7 +1274,7 @@ function prepareSite() {
 	if (user) {
 		var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
 		if (typeof lastScratchpad !== "undefined" && JSON.parse(lastScratchpad)) {
-			$("#scratch_pad_show").click();
+			$("#scratchpad-show").click();
 		}
 	}
 }
