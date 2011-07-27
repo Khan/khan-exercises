@@ -115,8 +115,8 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		+ "the issue manually at <a href=\""
 		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
 	issueSuccess = function( a, b ) {
-		return "Thank you for your feedback! Your issue, <a href=\""
-			+ a + "\">" + b + "</a>, has been created."; 
+		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
+			+ "href=\"" + a + "\">" + b + "</a>, has been created."; 
 	},
 	issueIntro = "Please let us know if you notice any odd or wrong behavior "
 		+ "in any nook or cranny of the site. This includes all interactions, "
@@ -1022,16 +1022,29 @@ function prepareSite() {
 
 		e.preventDefault();
 
-		if ( jQuery( "#issue" ).css( "display" ) === "none" ) {
+		var entire = jQuery( "#issue" ).css( "display" ) === "none",
+			form = jQuery( "#issue form" ).css( "display" ) === "none";
+
+		if ( entire || form ) {
 			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
-			jQuery( "#issue" ).show( 500 );
-		} else if ( jQuery( "#issue form" ).css( "display" ) === "none" ) { 
-			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
-			jQuery( "#issue form" ).show();
+			jQuery( "#issue-title, #issue-email, #issue-body" ).val( "" );
+			jQuery( entire ? "#issue" : "#issue form" ).show();
 		}
 
 	});
 
+	
+	// Hide issue form.
+	jQuery( "#issue-cancel" ).click( function( e ) {
+		
+		e.preventDefault();
+
+		jQuery( "#issue" ).hide( 500 );
+		jQuery( "#issue-title, #issue-email, #issue-body" ).val( "" );
+
+	});
+
+	// Submit an issue.
 	jQuery( "#issue form input[type=submit]" ).click( function( e ) {
 		
 		e.preventDefault();
@@ -1066,8 +1079,7 @@ function prepareSite() {
 				if ( json.meta.status === 201 ) {
 					jQuery( "#issue-status" ).removeClass( "error" )
 						.html( issueSuccess( json.data.html_url, json.data.title ) ).show();
-					jQuery( "#issue-title" ).val( "" );
-					jQuery( "#issue-body" ).val( "" );
+					jQuery( "#issue-title, #issue-email, #issue-body" ).val( "" );
 				} else {
 					jQuery( "#issue-status" ).addClass( "error" ).html( issueError ).show();
 					jQuery( "#issue form" ).show();
