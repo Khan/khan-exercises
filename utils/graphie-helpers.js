@@ -11,7 +11,7 @@ function numberLine( start, end, step, x, y ) {
 	set.push( graph.line( [x, y], [x + end - start, y] ) );
 	for( var i = 0; i <= end - start; i += step ) {
 		set.push( graph.line( [x + i, y - 0.2], [x + i, y + 0.2] ) );
-		graph.label( [x + i, y - 0.2], start + i, "below", { labelDistance: 3 } )
+		graph.label( [x + i, y - 0.2], start + i, "below", { labelDistance: 3 } );
 	}
 
 	return set;
@@ -157,4 +157,46 @@ function changeIntercept( dir ) {
 	graph.BN = ( graph.BD / prevDenominator * graph.BN )
 			+ ( dir * graph.BD / graph.INCR );
 	updateEquation();
+}
+
+// for circles_1
+function initCircle( R ) {
+	var graph = KhanUtil.currentGraph;
+
+	graph.init({
+		range: [ [-1.1, 1.1], [-1.1, 1.1] ],
+		scale: 100
+	});
+
+	graph.circle( [0, 0], 1 );
+}
+
+// for circles_1
+function drawRadius( R ) {
+	var graph = KhanUtil.currentGraph;
+	graph.line( [0, 0], [1, 0], { "stroke": "purple", "stroke-dasharray": "-" } );
+	graph.label( [1/2, 0], "\\rColor{r = " + R + "}", "below" );
+}
+
+// for circles_1
+function drawDiameter( R ) {
+	var graph = KhanUtil.currentGraph;
+	graph.line( [-1, 0], [1, 0], { "stroke": "green", "stroke-dasharray": "--." } );
+	graph.label( [0, 0], "\\dColor{d = " + 2 * R + "}", "above" );
+}
+
+// for circles_1
+function drawCircumference( R ) {
+	var graph = KhanUtil.currentGraph;
+
+	jQuery(graph.raphael.canvas).find("ellipse").remove();
+	graph.circle( [0, 0], 1, { "stroke": "blue", "stroke-dasharray": ". " } );
+	graph.label( [0, -1], "\\cColor{c = " + 2 * R + "\\pi}", "below" );
+}
+
+// for circles_1
+function drawArea( R ) {
+	var graph = KhanUtil.currentGraph;
+	graph.circle( [0, 0], 1, { "fill": "#7f3319" } );
+	graph.label( [0, 0.5], "\\kColor{K = " + R*R + "\\pi}", "above" );
 }
