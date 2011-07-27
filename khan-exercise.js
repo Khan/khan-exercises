@@ -568,7 +568,7 @@ function makeProblem( id, seed ) {
 
 	// problem has to be child of visible #workarea for MathJax metrics to all work right
 	var workAreaWasVisible = jQuery( "#workarea" ).is( ":visible" );
-	jQuery( "#workarea" ).empty().append( problem ).show();
+	jQuery( "#workarea" ).append( problem ).show();
 
 	// If there's an original problem, add inherited elements
 	var parentType = problem.data( "type" );
@@ -650,6 +650,7 @@ function makeProblem( id, seed ) {
 	// A working solution was not generated
 	if ( !validator ) {
 		// Making the problem failed, let's try again
+		problem.remove();
 		makeProblem( id, randomSeed );
 		return;
 	}
