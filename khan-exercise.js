@@ -36,7 +36,10 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	},
 
 	// Check to see if we're in test mode
-	testMode = (window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:") && /\.html$/.test( window.location.pathname ),
+	testMode = (window.location.host.indexOf("localhost") === 0 ||
+				window.location.host.indexOf("127.0.0.1") === 0 ||
+				window.location.protocol === "file:") &&
+				/\.html$/.test( window.location.pathname ),
 
 	// Check to see if we're in beta mode
 	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1,
