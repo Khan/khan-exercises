@@ -698,6 +698,7 @@ function makeProblem( id, seed ) {
 	// Add the problem into the page
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
 	jQuery( "#answercontent input" ).removeAttr("disabled");
+	jQuery( "#example" ).html( validator.example );
 
 	// save a normal JS array of hints so we can shift() through them later
 	hints = hints.tmpl().children().get();
@@ -1164,6 +1165,18 @@ function prepareSite() {
 			jQuery( "#answerform input[type='button']" ).attr( "disabled", show );
 
 			link.data( "show", !show );
+		});
+
+	jQuery( "#example-show" ).data( "show", true )
+		.click( function() {
+			var button = jQuery( this ),
+				show = button.data( "show" );
+			if ( show ) {
+				jQuery( "#example" ).show();
+			} else {
+				jQuery( "#example" ).hide();
+			}
+			button.data( "show", !show );
 		});
 
 	jQuery( "#scratchpad-show" ).data( "show", true )

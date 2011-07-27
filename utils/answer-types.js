@@ -31,6 +31,7 @@ jQuery.extend( Khan.answerTypes, {
 			return verifier( correct, val );
 		};
 		ret.solution = jQuery.trim( correct );
+		ret.example = verifier.example || "";
 		return ret;
 	},
 
@@ -196,6 +197,11 @@ jQuery.extend( Khan.answerTypes, {
 
 			return ret;
 		};
+
+		verifier.example = "";
+		jQuery.each( acceptableForms, function( i, form ) {
+			verifier.example += " " + form;
+		});
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
