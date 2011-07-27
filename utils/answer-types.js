@@ -37,7 +37,7 @@ jQuery.extend( Khan.answerTypes, {
 	number: function( solutionarea, solution, fallback, forms ) {
 		var options = jQuery.extend({
 			simplify: "required",
-			maxError: Math.pow( 2, -23 ),
+			maxError: Math.pow( 2, -46 ),
 			forms: "literal, improper, mixed, decimal"
 		}, jQuery( solution ).data());
 		var acceptableForms = ( forms || options.forms ).split(/\s*,\s*/);
@@ -125,18 +125,6 @@ jQuery.extend( Khan.answerTypes, {
 			},
 
 			decimal: function( text ) {
-				var twosAndFives = function( den ) {
-					var fact = KhanUtil.getPrimeFactorization( den );
-
-					for ( var i = 0, l = fact.length; i < l; i++ ) {
-						if ( fact[ i ] != 2 && fact[ i ] != 5 ) {
-							return false;
-						}
-					}
-
-					return true;
-				};
-
 				var normal = function( text ) {
 					var match = text
 
@@ -151,9 +139,12 @@ jQuery.extend( Khan.answerTypes, {
 						var x = parseFloat( match[1] );
 						var den = KhanUtil.toFraction( x, options.maxError )[1];
 
-						if ( options.inexact !== undefined || twosAndFives( den ) ) {
-							return x;
+						if ( options.inexact === undefined ) {
+							var factor = Math.pow( 10, 12 );
+							x = Math.round( x * factor ) / factor;
 						}
+
+						return x;
 					}
 				};
 
@@ -212,7 +203,7 @@ jQuery.extend( Khan.answerTypes, {
 
 	percent: function ( solutionarea, solution, fallback ) {
 		Khan.answerTypes.opts = jQuery.extend({
-				maxError: Math.pow( 2, -23 )
+				maxError: Math.pow( 2, -46 )
 				}, jQuery( solution ).data());
 
 		var verifier = function( correct, guess ) {
