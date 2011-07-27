@@ -1,19 +1,58 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
+<html data-require="math graphie">
 <head>
 	<title>Circles 1</title>
 	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		var R_COLOR = "purple";
+		var D_COLOR = "green";
+		var C_COLOR = "blue";
+		var K_COLOR = "orange";
+		
+		function initCircle( R ) {
+			var graph = KhanUtil.currentGraph;
+			
+			graph.init({
+				range: [ [-1.1, 1.1], [-1.1, 1.1] ],
+				scale: 100
+			});
+			
+			graph.circle( [0, 0], 1, { "fill": "blue", "fill-opacity": 0 } );
+		}
+
+		function drawRadius( R ) {
+			var graph = KhanUtil.currentGraph;
+			
+			graph.line( [0, 0], [1, 0], { "fill": "none", "stroke": R_COLOR } );
+			graph.label( [1/2, 0], "\\color{" + R_COLOR + "}{r = " + R + "}", "below" );
+		}
+
+		function drawDiameter( R ) {
+			var graph = KhanUtil.currentGraph;
+			
+			graph.line( [-1, 0], [1, 0], { "stroke": D_COLOR } );
+			graph.label( [0, 0], "\\color{" + D_COLOR + "}{d = " + 2 * R + "}", "above" );
+		}
+
+		function drawCircumference( R ) {
+			var graph = KhanUtil.currentGraph;
+			
+			graph.circle( [0, 0], 1, { "stroke": C_COLOR } );
+			graph.label( [0, -1], "\\color{" + C_COLOR + "}{c = " + 2 * R + "\\pi}", "below" );
+		}
+
+		function drawArea( R ) {
+			var graph = KhanUtil.currentGraph;
+			
+			var c = graph.circle( [0, 0], 1, { "fill": "#F5E6C6", "stroke-width": 0 } );
+			jQuery(c.node).insertBefore(jQuery(graph.raphael.canvas).find("ellipse")[0]);
+
+			graph.label( [0, 0.5], "\\color{" + K_COLOR + "}{K = " + R*R + "\\pi}", "above" );
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars">
-		<code>
-			\newcommand{\rColor}[1]{\color{purple}{#1}}
-			\newcommand{\dColor}[1]{\color{green}{#1}}
-			\newcommand{\cColor}[1]{\color{blue}{#1}}
-			\newcommand{\kColor}[1]{\color{orange}{#1}}
-		</code>
-	</div>
 	<div class="problems">
 		<div id="circle-r-to-d">
 			<div class="vars">
@@ -21,7 +60,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the radius of a circle is <code>\rColor{<var>R</var>}</code>. What is its diameter?</p>
+				<p>Suppose the radius of a circle is <code>\color{<var>R_COLOR</var>}{<var>R</var>}</code>. What is its diameter?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
@@ -35,7 +74,7 @@
 
 			<div class="hints">
 				<div>
-					<p>We know <code>d = 2r</code>, so <code>d = 2 \cdot \rColor{<var>R</var>} = \dColor{<var>2 * R</var>}</code>.</p>
+					<p>We know <code>d = 2r</code>, so <code>d = 2 \cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>.</p>
 
 					<div class="graphie" data-update="circle">
 						drawDiameter( R );
@@ -50,7 +89,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the diameter of a circle is <code>\dColor{<var>2 * R</var>}</code>. What is its radius?</p>
+				<p>Suppose the diameter of a circle is <code>\color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>. What is its radius?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
@@ -64,7 +103,7 @@
 
 			<div class="hints">
 				<div>
-					<p>We know <code>d = 2r</code>, so <code>r = d / 2</code> and <code>r = \dColor{<var>2 * R</var>} / 2 = \rColor{<var>R</var>}</code>.</p>
+					<p>We know <code>d = 2r</code>, so <code>r = d / 2</code> and <code>r = \color{<var>D_COLOR</var>}{<var>2 * R</var>} / 2 = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
 
 					<div class="graphie" data-update="circle">
 						drawRadius( R );
@@ -79,7 +118,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the radius of a circle is <code>\rColor{<var>R</var>}</code>. What is its circumference?</p>
+				<p>Suppose the radius of a circle is <code>\color{<var>R_COLOR</var>}{<var>R</var>}</code>. What is its circumference?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
@@ -93,7 +132,7 @@
 
 			<div class="hints">
 				<div>
-					<p>We know <code>c = 2\pi r</code>, so <code>c = 2 \pi \cdot \rColor{<var>R</var>} = \cColor{<var>2 * R</var>\pi}</code>.</p>
+					<p>We know <code>c = 2\pi r</code>, so <code>c = 2 \pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>.</p>
 
 					<div class="graphie" data-update="circle">
 						drawCircumference( R );
@@ -108,7 +147,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the circumference of a circle is <code>\cColor{<var>2 * R</var>\pi}</code>. What is its radius?</p>
+				<p>Suppose the circumference of a circle is <code>\color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>. What is its radius?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
@@ -122,7 +161,7 @@
 
 			<div class="hints">
 				<div>
-					<p>We know <code>c = 2\pi r</code>, so <code>r = c / 2\pi = \cColor{<var>2 * R</var>\pi} / 2 \pi = \rColor{<var>R</var>}</code>.</p>
+					<p>We know <code>c = 2\pi r</code>, so <code>r = c / 2\pi = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi} / 2 \pi = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
 
 					<div class="graphie" data-update="circle">
 						drawRadius( R );
@@ -137,7 +176,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the diameter of a circle is <code>\dColor{<var>2 * R</var>}</code>. What is its circumference?</p>
+				<p>Suppose the diameter of a circle is <code>\color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>. What is its circumference?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
@@ -151,7 +190,7 @@
 
 			<div class="hints">
 				<div>
-					<p>We know <code>c = \pi d</code>, so <code>c = \pi \cdot \dColor{<var>2 * R</var>} = \cColor{<var>2 * R</var>\pi}</code>.</p>
+					<p>We know <code>c = \pi d</code>, so <code>c = \pi \cdot \color{<var>D_COLOR</var>}{<var>2 * R</var>} = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>.</p>
 
 					<div class="graphie" data-update="circle">
 						drawCircumference( R );
@@ -166,7 +205,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the circumference of a circle is <code>\cColor{<var>2 * R</var>\pi}</code>. What is its diameter?</p>
+				<p>Suppose the circumference of a circle is <code>\color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>. What is its diameter?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
@@ -180,7 +219,7 @@
 
 			<div class="hints">
 				<div>
-					<p>We know <code>c = \pi d</code>, so <code>d = c / \pi = \cColor{<var>2 * R</var>\pi} / \pi = \dColor{<var>2 * R</var>}</code>.</p>
+					<p>We know <code>c = \pi d</code>, so <code>d = c / \pi = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi} / \pi = \color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>.</p>
 
 					<div class="graphie" data-update="circle">
 						drawDiameter( R );
@@ -195,7 +234,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the radius of a circle is <code>\rColor{<var>R</var>}</code>. What is its area?</p>
+				<p>Suppose the radius of a circle is <code>\color{<var>R_COLOR</var>}{<var>R</var>}</code>. What is its area?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
@@ -209,7 +248,7 @@
 
 			<div class="hints">
 				<div>
-					<p>We know <code>K = \pi r^2</code>, so <code>K = \pi \cdot \rColor{<var>R</var>}^2 = \kColor{<var>R * R</var>\pi}</code>.</p>
+					<p>We know <code>K = \pi r^2</code>, so <code>K = \pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>}^2 = \color{<var>K_COLOR</var>}{<var>R * R</var>\pi}</code>.</p>
 
 					<div class="graphie" data-update="circle">
 						drawArea( R );
@@ -238,7 +277,7 @@
 
 			<div class="hints">
 				<div>
-					<p>We know <code>K = \pi r^2</code>, so <code>r = \sqrt{K / \pi} = \sqrt{\kColor{<var>R * R</var>\pi} / \pi} = \rColor{<var>R</var>}</code>.</p>
+					<p>We know <code>K = \pi r^2</code>, so <code>r = \sqrt{K / \pi} = \sqrt{\color{<var>K_COLOR</var>}{<var>R * R</var>\pi} / \pi} = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
 
 					<div class="graphie" data-update="circle">
 						drawRadius( R );
@@ -253,7 +292,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the diameter of a circle is <code>\dColor{<var>2 * R</var>}</code>. What is its area?</p>
+				<p>Suppose the diameter of a circle is <code>\color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>. What is its area?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
@@ -266,9 +305,9 @@
 			<div class="solution" data-forms="pi"><var>Math.PI * R * R</var></div>
 
 			<div class="hints">
-				<p>First, find the radius: <code>r = d/2 = \dColor{<var>2 * R</var>}/2 = \rColor{<var>R</var>}</code>.</p>
+				<p>First, find the radius: <code>r = d/2 = \color{<var>D_COLOR</var>}{<var>2 * R</var>}/2 = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
 				<div>
-					<p>Now find the area: <code>K = \pi r^2</code>, so <code>K = \pi \cdot \rColor{<var>R</var>}^2 = \kColor{<var>R * R</var>\pi}</code>.</p>
+					<p>Now find the area: <code>K = \pi r^2</code>, so <code>K = \pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>}^2 = \color{<var>K_COLOR</var>}{<var>R * R</var>\pi}</code>.</p>
 					
 					<div class="graphie" data-update="circle">
 						drawArea( R );
@@ -296,9 +335,9 @@
 			<div class="solution"><var>2 * R</var></div>
 
 			<div class="hints">
-				<p>First, find the radius: <code>K = \pi r^2</code>, so <code>r = \sqrt{K / \pi} = \sqrt{\kColor{<var>R * R</var>\pi} / \pi} = \rColor{<var>R</var>}</code>.</p>
+				<p>First, find the radius: <code>K = \pi r^2</code>, so <code>r = \sqrt{K / \pi} = \sqrt{\color{<var>K_COLOR</var>}{<var>R * R</var>\pi} / \pi} = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
 				<div>
-					<p>Now find the diameter: <code>d = 2r = 2\cdot \rColor{<var>R</var>} = \dColor{<var>2*R</var>}</code>.</p>
+					<p>Now find the diameter: <code>d = 2r = 2\cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>D_COLOR</var>}{<var>2*R</var>}</code>.</p>
 					
 					<div class="graphie" data-update="circle">
 						drawDiameter( R );
@@ -313,7 +352,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the circumference of a circle is <code>\cColor{<var>2 * R</var>\pi}</code>. What is its area?</p>
+				<p>Suppose the circumference of a circle is <code>\color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>. What is its area?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
@@ -326,8 +365,14 @@
 			<div class="solution" data-forms="pi"><var>Math.PI * R * R</var></div>
 
 			<div class="hints">
-				<p>First, find the radius: <code>r = c/2\pi = \cColor{<var>2 * R</var>\pi}/2\pi = \rColor{<var>R</var>}</code>.</p>
-				<p>Now find the area: <code>K = \pi r^2</code>, so <code>K = \pi \cdot \rColor{<var>R</var>}^2 = \kColor{<var>R * R</var>\pi}</code>.</p>
+				<p>First, find the radius: <code>r = c/2\pi = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}/2\pi = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
+				<div>
+					<p>Now find the area: <code>K = \pi r^2</code>, so <code>K = \pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>}^2 = \color{<var>K_COLOR</var>}{<var>R * R</var>\pi}</code>.</p>
+
+					<div class="graphie" data-update="circle">
+						drawArea( R );
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -350,9 +395,9 @@
 			<div class="solution" data-forms="pi"><var>Math.PI * 2 * R</var></div>
 
 			<div class="hints">
-				<p>First, find the radius: <code>K = \pi r^2</code>, so <code>r = \sqrt{K / \pi} = \sqrt{\kColor{<var>R * R</var>\pi} / \pi} = \rColor{<var>R</var>}</code>.</p>
+				<p>First, find the radius: <code>K = \pi r^2</code>, so <code>r = \sqrt{K / \pi} = \sqrt{\color{<var>K_COLOR</var>}{<var>R * R</var>\pi} / \pi} = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
 				<div>
-					<p>Now find the circumference: <code>c = 2\pi r = 2\pi \cdot \rColor{<var>R</var>} = \cColor{<var>2*R</var>\pi}</code>.</p>
+					<p>Now find the circumference: <code>c = 2\pi r = 2\pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>C_COLOR</var>}{<var>2*R</var>\pi}</code>.</p>
 
 					<div class="graphie" data-update="circle">
 						drawCircumference( R );
