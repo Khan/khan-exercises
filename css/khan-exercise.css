@@ -49,6 +49,6 @@ body.debug .graphie { outline: 1px dashed red; }
 #issue .error { font-style: italic; font-weight: bold; }
 #issue-link { font-style: italic; }
 #issue form label { display: block; }
-#issue form input[type=text] { display: block; width: 99%; }
-#issue form textarea { display: block; width: 99%; height: 100px; }
+#issue form input[type=text] { display: block; width: 98%; }
+#issue form textarea { display: block; width: 98%; height: 100px; }
 #issue-cancel { position: relative; bottom: 1px; }
