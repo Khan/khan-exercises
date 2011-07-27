@@ -1133,7 +1133,6 @@ function prepareSite() {
 					Khan.loadScripts( [ {src: urlBase + "utils/scratchpad.js"} ], function() {
 						jQuery( "#scratchpad" ).show();
 						jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
-						console.log( "he" );
 
 						Khan.scratchpad = new Scratchpad( jQuery( "#scratchpad div" )[0] );
 						button.text( "Hide scratchpad" );

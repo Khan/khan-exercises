@@ -185,7 +185,6 @@ function Scratchpad( elem ){
 	var shapes = pad.set();
 
 	function mouseup(){
-		console.log("mouseup");
 		if(path){
 			path.attr('path', smoothPath(pathstr));
 		}
