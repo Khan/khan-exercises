@@ -1015,12 +1015,12 @@ function prepareSite() {
 				jQuery( "#issue-report" ).val( "Report Another Issue" ).show();
 
 				var title = jQuery( "#issue-title" ).val(),
-					user = jQuery( "#issue-username" ).val(),
-					path = Khan.query.exid
+					email = jQuery( "#issue-email" ).val(),
+					path = Khan.query.exid + ".html"
 						+ "?seed=" + problemSeed
 						+ "&problem=" + problemID,
 					agent = navigator.userAgent,
-					body = [ "Reporter: " + user,
+					body = [ "Reporter: " + email,
 						jQuery( "#issue-body" ).val(), path, agent ].join("\n\n"),
 					error = "Communication with GitHub isn't working. Please file "
 						+ "the issue manually at <a href=\""
