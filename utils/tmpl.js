@@ -362,7 +362,13 @@ jQuery.fn.tmpl = function() {
 
 		// Look through each of the attr processors, see if our element has the matching attribute
 		for ( var attr in jQuery.tmpl.attr ) {
-			var value = $elem.attr( attr );
+			var value;
+
+			if ( ( /^data-/ ).test( attr ) ) {
+				value = $elem.data( attr.replace( /^data-/, "" ) );
+			} else {
+				value = $elem.attr( attr );
+			}
 
 			if ( value !== undefined ) {
 				ret = jQuery.tmpl.attr[ attr ]( elem, value );

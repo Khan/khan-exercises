@@ -36,7 +36,10 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	},
 
 	// Check to see if we're in test mode
-	testMode = (window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:") && /\.html$/.test( window.location.pathname ),
+	testMode = (window.location.host.indexOf("localhost") === 0 ||
+				window.location.host.indexOf("127.0.0.1") === 0 ||
+				window.location.protocol === "file:") &&
+				/\.html$/.test( window.location.pathname ),
 
 	// Check to see if we're in beta mode
 	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1,
@@ -106,7 +109,20 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		"issues": 0
 	},
 
-	urlBase = testMode ? "../" : "/khan-exercises/";
+	urlBase = testMode ? "../" : "/khan-exercises/",
+
+	issueError = "Communication with GitHub isn't working. Please file "
+		+ "the issue manually at <a href=\""
+		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
+	issueSuccess = function( a, b ) {
+		return "Thank you for your feedback! Your issue, <a href=\""
+			+ a + "\">" + b + "</a>, has been created."; 
+	},
+	issueIntro = "Please let us know if you notice any odd or wrong behavior "
+		+ "in any nook or cranny of the site. This includes all interactions, "
+		+ "progress, knowledge map, badges, activities, reports, or anything "
+		+ "else that you think is acting a little funky. Thanks for helping "
+		+ "us out!";
 
 // Add in the site stylesheets
 if (testMode) {
@@ -997,69 +1013,75 @@ function prepareSite() {
 
 		}
 	});
+	
+	// Create form for issuing a bug on Github if the "Report a Problem" link
+	// is clicked. The reference to the link should probably be less hardcoded...
+	jQuery( ".footer-links a:first" ).click( function( e ) {
 
-	if ( betaMode ) {
-		jQuery( "#issue" ).show();
+		e.preventDefault();
 
-		jQuery( "#issue-report" ).click( function() {
+		if ( jQuery( "#issue" ).css( "display" ) === "none" ) {
+			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
+			jQuery( "#issue" ).show( 500 );
+		} else if ( jQuery( "#issue form" ).css( "display" ) === "none" ) { 
+			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
+			jQuery( "#issue form" ).show();
+		}
 
-			jQuery( "#issue-report" ).hide();
-			jQuery( "#issue-status" ).hide();
-			jQuery( "#issue-form" ).show( 500 );
+	});
 
-			jQuery( "#issue-submit" ).click( function() {
+	jQuery( "#issue form input[type=submit]" ).click( function( e ) {
+		
+		e.preventDefault();
 
-				if ( jQuery( "#issue-submit" ).css( "display" ) === "none" ) return;
+		// don't do anything if the user clicked a second time quickly
+		if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
-				jQuery( "#issue-form" ).hide( 500 );
-				jQuery( "#issue-report" ).val( "Report Another Issue" ).show();
+		var title = jQuery( "#issue-title" ).val(),
+			email = jQuery( "#issue-email" ).val(),
+			path = Khan.query.exid + ".html"
+				+ "?seed=" + problemSeed
+				+ "&problem=" + problemID,
+			agent = navigator.userAgent,
+			body = ( email ? [ "Reporter: " + email ] : [] )
+				.concat( [ jQuery( "#issue-body" ).val(), path, agent ] )
+				.join( "\n\n" );
 
-				var title = jQuery( "#issue-title" ).val(),
-					user = jQuery( "#issue-username" ).val(),
-					path = Khan.query.exid
-						+ "?seed=" + problemSeed
-						+ "&problem=" + problemID,
-					agent = navigator.userAgent,
-					body = [ "Reporter: " + user,
-						jQuery( "#issue-body" ).val(), path, agent ].join("\n\n"),
-					error = "Communication with GitHub isn't working. Please file "
-						+ "the issue manually at <a href=\""
-						+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
-					success = function( a, b ) {
-						return "Thank you for your feedback! Your issue, <a href=\""
-							+ a + "\">" + b + "</a> has been created.";
-					};
+		if ( title === "" ) {
+			jQuery( "#issue-status" ).addClass( "error" )
+				.html( "Please provide a valid title for the issue." ).show();
+			return;
+		}
 
-				if ( title === "" ) {
-					jQuery( "#issue-status" ).addClass( "error" )
-						.html( "Please provide a valid title for the issue." ).show();
-					return;
+		jQuery( "#issue form" ).hide();
+
+		jQuery.ajax({
+			url: "http://66.220.0.98:2563/file_exercise_tester_bug"
+				+ "?body=" + encodeURIComponent( body )
+				+ "&title=" + encodeURIComponent( title ),
+			dataType: "jsonp",
+			success: function( json ) {
+				console.log( json );
+				if ( json.meta.status === 201 ) {
+					jQuery( "#issue-status" ).removeClass( "error" )
+						.html( issueSuccess( json.data.html_url, json.data.title ) ).show();
+					jQuery( "#issue-title" ).val( "" );
+					jQuery( "#issue-body" ).val( "" );
+				} else {
+					jQuery( "#issue-status" ).addClass( "error" ).html( issueError ).show();
+					jQuery( "#issue form" ).show();
 				}
-
-				jQuery.ajax({
-					url: "http://66.220.0.98:2563/file_exercise_tester_bug"
-						+ "?body=" + encodeURIComponent( body )
-						+ "&title=" + encodeURIComponent( title ),
-					dataType: "jsonp",
-					success: function( json ) {
-						if ( json.meta.status === 201 ) {
-							jQuery( "#issue-status" ).removeClass( "error" )
-								.html( success( json.data.html_url, json.data.title ) ).show();
-							jQuery( "#issue-title" ).val( "" );
-							jQuery( "#issue-body" ).val( "" );
-						} else {
-							jQuery( "#issue-status" ).addClass( "error" ).html( error ).show();
-						}
-					},
-					error: function( json ) {
-						jQuery( "#issue-status" ).addClass( "error" ).html( error ).show();
-					}
-				});
-			});
+			},
+			// FIXME note that this doesn't actually work with jquery's default jsonp
+			error: function( json ) {
+				console.log( json );
+				jQuery( "#issue-status" ).addClass( "error" ).html( issueError ).show();
+				jQuery( "#issue form" ).show();
+			}
 		});
-	}
+	});
 
-	jQuery( "#print-ten" ).data( "show", true )
+	jQuery( "#print_ten" ).data( "show", true )
 		.click( function( e ) {
 			e.preventDefault();
 

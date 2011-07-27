@@ -47,18 +47,6 @@
 		<div id='hintsarea'></div>
 	</div>
 	<div id="answer_area">
-		<div id="issue" class="info-box" style="display:none;">
-			<span class="info-box-header">Beta Testing</span>
-			<p>Please let us know if you notice any odd or wrong behavior in any nook or cranny of the site. This includes all interactions, progress, knowledge map, badges, activity, reports, or anything else that you think is acting a little funky. Thanks for helping us out!</p>
-			<p id="issue-status" style="display:none;"></p>
-			<input type="button" id="issue-report" class="button orange" value="Report Issue" />
-			<div id="issue-form" style="display:none;">
-				<label for="issue-title">Issue Title <input type="text" name="issue-title" id="issue-title" /></label>
-				<label for="issue-username">Your Username (optional) <input type="text" name="issue-username" id="issue-username" /></label>
-                <label for="issue-body">Description of Issue <textarea name="issue-body" id="issue-body"></textarea></label>
-				<input type="button" id="issue-submit" class="button orange" value="Submit Issue">
-			</div>
-		</div>
 		<form id="answerform" action="/exercisedashboard" method="get" name="answerform">
 			<div id="answercontent" class="info-box fancy-scrollbar">
 				<span class="info-box-header">Answer</span>
@@ -95,6 +83,16 @@
 				<input id="hint" type="button" class="button orange" value="I'd like a hint" name="hint"/>
 			</div>
 		</form>
+		<div id="issue" class="info-box" style="display:none;">
+			<span class="info-box-header">Issue Reporting</span>
+			<p id="issue-status"></p>
+			<form>
+				<label for="issue-title">Issue Title:<input type="text" name="issue-title" id="issue-title" /></label>
+				<label for="issue-email">Your Email (optional):<input type="text" name="issue-username" id="issue-username" /></label>
+        <label for-"issue-body">Description of Issue:<textarea name="issue-body" id="issue-body"></textarea></label>
+				<input type="submit" class="button orange" value="Submit Issue">
+			</form>
+		</div>
 	</div>
 	<div id='browserwarning'>
 		<p>

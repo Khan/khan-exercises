@@ -559,7 +559,7 @@
 					}
 
 					// negative x-axis
-					for ( var x = -step - (unityLabels ? 0 : 1); x >= start; x -= step ) {
+					for ( var x = -step * (unityLabels ? 1 : 2); x >= start; x -= step ) {
 						if ( x > start || !axisArrows ) {
 							this.label( [ x, 0 ], xLabelFormat( x ), "below" );
 						}
@@ -577,7 +577,7 @@
 					}
 
 					// negative y-axis
-					for ( var y = -step - (unityLabels ? 0 : 1); y >= start; y -= step ) {
+					for ( var y = -step * (unityLabels ? 1 : 2); y >= start; y -= step ) {
 						if ( y > start || !axisArrows ) {
 							this.label( [ 0, y ], yLabelFormat( y ), "left" );
 						}

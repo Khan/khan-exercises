@@ -69,7 +69,7 @@
 							arc( [0, 0], 1.2, 70, 90, { stroke: "green" } );
 
 							ORIGINAL_LABEL = label( [-1.2, -0.75], 
-								"\\color{blue}{\\angle{AGF}}=?", "below left" );
+								"\\color{blue}{\\angle{AGF}}= {?}", "below left" );
 							arc( [0, 0], 1.2, 180, 248, { stroke: "blue" } );
 						} else if ( RAND3 == 1 ) {
 							label( [-1.2, -0.75], "\\color{green}{<var>90-ACCUTEANGLE</var>&deg;}", 
@@ -77,7 +77,7 @@
 							arc( [0, 0], 1.2, 180, 248, { stroke: "green" } );
 
 							ORIGINAL_LABEL = label( [0.5, 1.8], 
-								"\\color{blue}{\\angle{CGE}} = ?", "above" );
+								"\\color{blue}{\\angle{CGE}} = {?}", "above" );
 							arc( [0, 0], 1.2, 70, 90, { stroke: "blue" } );
 						} else {
 							label( [0, -2],	"\\color{green}{<var>ACCUTEANGLE</var>&deg;}", 
@@ -85,7 +85,7 @@
 							arc( [0, 0], 1.2, 248, 270, { stroke: "green" } );
 
 							ORIGINAL_LABEL = label( [1.5, 0], 
-								"\\color{blue}{\\angle{BGE}} = ?", "above right" );
+								"\\color{blue}{\\angle{BGE}} = {?}", "above right" );
 							arc( [0, 0], 1.2, 0, 70, { stroke: "blue" } );
 						}
 					</div>
@@ -113,9 +113,9 @@
 						</li>
 					</ul>
 					What is 
-					<span data-if="RAND3 === 0"><code>\color{blue}{\angle{AGF}} = ?</code></span>
-					<span data-else-if="RAND3 === 1"><code>\color{blue}{\angle{CGE}} = ?</code></span>
-					<span data-else><code>\color{blue}{\angle{BGE}} = ?</code></span>
+					<span data-if="RAND3 === 0"><code>\color{blue}{\angle{AGF}} = {?}</code></span>
+					<span data-else-if="RAND3 === 1"><code>\color{blue}{\angle{CGE}} = {?}</code></span>
+					<span data-else><code>\color{blue}{\angle{BGE}} = {?}</code></span>
 					
 				</div>
 
@@ -265,7 +265,7 @@
 								"below" );
 							arc( [0, 3], 1.5, 230, 310, { stroke: "purple" } );
 
-							ORIGINAL_LABEL = label( [-4.7, -2], "\\color{blue}{\\angle{DAB}}=?", 
+							ORIGINAL_LABEL = label( [-4.7, -2], "\\color{blue}{\\angle{DAB}}= {?}", 
 								"above left" );
 							arc( [-4, -2], .75, 50, 180, { stroke: "blue" } );
 						} else {
@@ -277,7 +277,7 @@
 								"below" );
 							arc( [0, 3], 1.5, 230, 310, { stroke: "purple" } );
 
-							ORIGINAL_LABEL = label( [2.80, -2], "\\color{blue}{\\angle{ACB}} = ?", 
+							ORIGINAL_LABEL = label( [2.80, -2], "\\color{blue}{\\angle{ACB}} = {?}", 
 								"above left" );
 							arc( [4, -2], 1.2, 130, 180, { stroke: "blue" } );
 						}
@@ -417,7 +417,7 @@
 						//draw given angles
 						if( RAND3 == 0 ) {
 							ORIGINAL_LABEL = label( [0, -2.50], 
-								"\\color{blue}{\\angle{AIH}} = ?", "left" );
+								"\\color{blue}{\\angle{AIH}} = {?}", "left" );
 							arc( [1.25, -3], .75, 135, 190, {stroke: "blue"} );
 
 							label( [-4.2, 4.25], "\\color{green}{<var>Tri_Z</var>&deg;}", "below" );
@@ -428,7 +428,7 @@
 							arc( [-6, -4], 1, 10, 80, {stroke: "purple"} );
 						} else if( RAND3 == 1 ) {
 							ORIGINAL_LABEL = label( [3.5, -2.6], 
-								"\\color{blue}{\\angle{AKJ}} = ?", "above" );
+								"\\color{blue}{\\angle{AKJ}} = {?}", "above" );
 							arc( [5.7, -2.3], 0.75, 139, 194, {stroke: "blue"} );
 
 							label( [-4.4, 0.65], "\\color{green}{<var>Tri_Z</var>&deg;}", "below" );
@@ -439,7 +439,7 @@
 							arc( [-6, -4], 1, 10, 80, {stroke: "purple"} );
 						} else {
 							ORIGINAL_LABEL = label( [-5.5, -3.5], 
-								"\\color{blue}{\\angle{BAC}} = ?", "above right" );
+								"\\color{blue}{\\angle{BAC}} = {?}", "above right" );
 							arc( [-6, -4], 1, 10, 80, {stroke: "blue"} );
 
 							label( [4.1, -2.6], "\\color{purple}{<var>Tri_Y</var>&deg;}", "above" );
@@ -476,9 +476,9 @@
 						</ul>
 
 						What is 
-						<code data-if="RAND3 === 0">\color{blue}{\angle{AIH}} = ?</code>
-						<code data-else-if="RAND3 === 1">\color{blue}{\angle{AKJ}} = ?</code>
-						<code data-else>\color{blue}{\angle{BAC}} = ?</code>
+						<code data-if="RAND3 === 0">\color{blue}{\angle{AIH}} = {?}</code>
+						<code data-else-if="RAND3 === 1">\color{blue}{\angle{AKJ}} = {?}</code>
+						<code data-else>\color{blue}{\angle{BAC}} = {?}</code>
 				</div>
 
 				<div class="solution">
@@ -595,7 +595,7 @@
 						// Label given angles
 						if( RAND2 == 0 ) {
 							ORIGINAL_LABEL = label( [0, 3.5], 
-								"\\color{blue}{\\angle{IAK}} = ?", "above left" );
+								"\\color{blue}{\\angle{IAK}} = {?}", "above left" );
 							arc( [0, 2], 1, 90, 135, {stroke:"blue"} );
 
 							label( [4.75, -2], "\\color{green}{<var>Tri_Y</var>&deg;}", 
@@ -606,7 +606,7 @@
 							arc( [0, 2], 1, 90, 135, {stroke:"green"} );
 
 							ORIGINAL_LABEL = label( [4.75, -2], 
-								"\\color{blue}{\\angle{GCJ} = ?}", "below right" );
+								"\\color{blue}{\\angle{GCJ} = {?}}", "below right" );
 							arc( [4, -2], .75, 315, 360, {stroke: "blue"} )
 						}
 					</div>
@@ -629,8 +629,8 @@
 						</li>
 					</ul>
 					What is 
-					<span data-if="RAND2 === 0"><code>\color{blue}{\angle{IAK}} = ?</code></span>
-					<span data-else><code>\color{blue}{\angle{GCJ}} = ?</code></span>
+					<span data-if="RAND2 === 0"><code>\color{blue}{\angle{IAK}} = {?}</code></span>
+					<span data-else><code>\color{blue}{\angle{GCJ}} = {?}</code></span>
 				</div>
 
 				<div class="solution"><var>90 - Tri_Y</var></div>
@@ -662,7 +662,7 @@
 
 					<p>
 						<code>\color{purple}{\angle{DAK}} = 90&deg;</code>,  
-						because angles formed by perpendicular lines equal to 90&deg;.
+						because angles formed by perpendicular lines are equal to 90&deg;.
 						<span class="graphie" data-update="alternate-exterior-and-complementary">
 							label( [-1.68, 2], "\\color{purple}{90&deg;}", "above left" );
 							arc( [0, 2], 1.65, 90, 180, {stroke: "purple"} );
