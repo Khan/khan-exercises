@@ -1132,10 +1132,10 @@ function prepareSite() {
 				if ( !Khan.scratchpad ) {
 					Khan.loadScripts( [ {src: urlBase + "utils/scratchpad.js"} ], function() {
 						jQuery( "#scratchpad" ).show();
+						jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
+						console.log( "he" );
 
-						Khan.scratchpad = new Scratchpad();
-						Khan.scratchpad.offsetLeft = jQuery( "#scratchpad" ).offset().left;
-						Khan.scratchpad.offsetTop = jQuery( "#scratchpad" ).offset().top;
+						Khan.scratchpad = new Scratchpad( jQuery( "#scratchpad div" )[0] );
 						button.text( "Hide scratchpad" );
 					} );
 
