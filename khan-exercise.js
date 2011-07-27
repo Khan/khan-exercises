@@ -809,6 +809,7 @@ function prepareSite() {
 
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
 		jQuery( "#answercontent" ).hide();
+		jQuery( "#extras" ).css("visibility", "hidden");
 
 		jQuery( "#readonly" )
 			.find( "#readonly-problem" ).text("Problem #" + (userExercise.total_done + 1)).end()
