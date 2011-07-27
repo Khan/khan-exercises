@@ -7,7 +7,7 @@
 		var R_COLOR = "purple";
 		var D_COLOR = "green";
 		var C_COLOR = "blue";
-		var K_COLOR = "orange";
+		var K_COLOR = "red";
 		
 		function initCircle( R ) {
 			var graph = KhanUtil.currentGraph;
@@ -17,7 +17,7 @@
 				scale: 100
 			});
 			
-			graph.circle( [0, 0], 1, { "fill": "blue", "fill-opacity": 0 } );
+			graph.circle( [0, 0], 1, { "fill-opacity": 0 } );
 		}
 
 		function drawRadius( R ) {
@@ -44,7 +44,7 @@
 		function drawArea( R ) {
 			var graph = KhanUtil.currentGraph;
 			
-			var c = graph.circle( [0, 0], 1, { "fill": "#F5E6C6", "stroke-width": 0 } );
+			var c = graph.circle( [0, 0], 1, { "fill": "#ffcccc", "stroke-width": 0 } );
 			jQuery(c.node).insertBefore(jQuery(graph.raphael.canvas).find("ellipse")[0]);
 
 			graph.label( [0, 0.5], "\\color{" + K_COLOR + "}{K = " + R*R + "\\pi}", "above" );
@@ -263,7 +263,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the area of a circle is <code><var>R === 1 ? "" : R * R</var>\pi</code>. What is its radius?</p>
+				<p>Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{<var>R === 1 ? "" : R * R</var>\pi}</code>. What is its radius?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
@@ -322,7 +322,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the area of a circle is <code><var>R === 1 ? "" : R * R</var>\pi</code>. What is its diameter?</p>
+				<p>Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{<var>R === 1 ? "" : R * R</var>\pi}</code>. What is its diameter?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
@@ -382,7 +382,7 @@
 			</div>
 
 			<div class="question">
-				<p>Suppose the area of a circle is <code><var>R === 1 ? "" : R * R</var>\pi</code>. What is its circumference?</p>
+				<p>Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{<var>R === 1 ? "" : R * R</var>\pi}</code>. What is its circumference?</p>
 				<p>(If necessary, type <code>\pi</code> as "pi". For example, <code>15\pi</code> should be entered as "15 pi".)</p>
 
 				<div class="graphie" id="circle">
