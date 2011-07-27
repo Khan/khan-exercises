@@ -1061,7 +1061,6 @@ function prepareSite() {
 				+ "&title=" + encodeURIComponent( title ),
 			dataType: "jsonp",
 			success: function( json ) {
-				console.log( json );
 				if ( json.meta.status === 201 ) {
 					jQuery( "#issue-status" ).removeClass( "error" )
 						.html( issueSuccess( json.data.html_url, json.data.title ) ).show();
@@ -1074,7 +1073,6 @@ function prepareSite() {
 			},
 			// FIXME note that this doesn't actually work with jquery's default jsonp
 			error: function( json ) {
-				console.log( json );
 				jQuery( "#issue-status" ).addClass( "error" ).html( issueError ).show();
 				jQuery( "#issue form" ).show();
 			}
