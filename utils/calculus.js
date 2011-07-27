@@ -167,8 +167,7 @@ jQuery.extend(KhanUtil, {
 				var ddxCoefText = ( ddxCoef == 1 ) ? "" : ddxCoef + "";
 				var ddxText = ( ddxDegree == 0 ) ? ddxCoef : ddxCoefText + poly.variable + ( (ddxDegree == 1) ? "" : "^{" + ddxDegree + "}" );
 
-				this.hints [ i ] =	this.notation.diffHintFunction( KhanUtil.expr( this.f[ i+1 ] ) ) //shift right to avoid the "+"
-					+ " = " + term.degree + " \\cdot " + term.coef + poly.variable + "^{" + term.degree + "-1} = " + ddxText;
+				this.hints [ i ] =	"\\dfrac{d (" + KhanUtil.expr( this.f[ i+1 ] )  + ")}{dx} \\implies " + term.degree + " \\cdot " + term.coef + poly.variable + "^{" + term.degree + "-1} = " + ddxText;
 			}
 
 			this.wrongs = [
