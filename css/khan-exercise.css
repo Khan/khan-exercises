@@ -1,10 +1,10 @@
 .exercise, .vars, #next { display: none; }
 p.question { font-weight: bold; }
 var { font-style: normal; }
-.hint_blue { color: blue; }
-.hint_orange { color: orange; }
+.hint_blue { color: #6495ED; }
+.hint_orange { color: #FFA500; }
 .hint_red { color: red; }
-.hint_green { color: green; }
+.hint_green { color: #28AE7B; }
 .hint_gray { color: gray; }
 .hint_purple{ color: purple; }
 #workarea { margin-left: 30px; }
