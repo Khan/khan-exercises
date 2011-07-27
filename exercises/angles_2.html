@@ -75,12 +75,12 @@
 					if(RAND_SWITCH2 == 0 ) {
 						//problem variation 1
 						arc([-1, 0], 1, 180, 210, { stroke: "blue"});
-						LABEL = label([-3.3, 0], "\\color{blue}{&ang;DAF} = ?",
+						LABEL = label([-3.3, 0], "\\color{blue}{&ang;DAF} = {?}",
 							"below", { color: "blue"});
 					} else {
 						//problem variation 2
 						arc([-1, 0], 1, 0, 45, { stroke: "blue"});
-						LABEL = label([1, 0], "\\color{blue}{&ang;CAE} = ?",
+						LABEL = label([1, 0], "\\color{blue}{&ang;CAE} = {?}",
 							"above", { color: "blue"});
 					}
 				</div>
@@ -95,8 +95,8 @@
 				</ul>
 
 				<!-- Select which angle to ask about depending on problem variation. -->
-				<p class="question" data-if="RAND_SWITCH2 === 0">What is <code>\color{blue}{\angle{DAF}} = ?</code></p>
-				<p class="question" data-else>What is <code>\color{blue}{\angle{CAE}} = ?</code></p>
+				<p class="question" data-if="RAND_SWITCH2 === 0">What is <code>\color{blue}{\angle{DAF}} = {?}</code></p>
+				<p class="question" data-else>What is <code>\color{blue}{\angle{CAE}} = {?}</code></p>
 
 				<div class="solution"><var>Tri_X</var></div>
 
@@ -190,10 +190,10 @@
 					// label angle X
 					if(RAND_SWITCH2 == 0) {
 						arc([-2.9, -2], 1, 0, 50, { stroke: "blue"});
-						LABEL = label([-2, -2], "\\color{blue}{\\angle{GHD}}=?", "above right");
+						LABEL = label([-2, -2], "\\color{blue}{\\angle{GHD}}= {?}", "above right");
 					} else {
 						arc([-2.9, -2], 1, 180, 220, { stroke: "blue"});
-						LABEL = label([-4, -2.5], "\\color{blue}{\\angle{CHF}}=?", "below left");
+						LABEL = label([-4, -2.5], "\\color{blue}{\\angle{CHF}}= {?}", "below left");
 					}
 
 					// label angle Y
@@ -235,8 +235,8 @@
 					</ul>
 
 					<p>What is
-					<span data-if="RAND_SWITCH2 == 0"><code>\angle{GHD} = ?</code></span>
-					<span data-else><code>\angle{CHF} = ?</code></span></p>
+					<span data-if="RAND_SWITCH2 == 0"><code>\angle{GHD} = {?}</code></span>
+					<span data-else><code>\angle{CHF} = {?}</code></span></p>
 
 				</div>
 				<div class="solution"><var>X</var></div>
@@ -352,13 +352,13 @@
 
 					// Label X according to variation on the problem
 					if(RAND_SWITCH3 == 0) {
-						LABEL = label([4.8, 1.0], "\\color{blue}{\\angle{CHE}}=?", "right");
+						LABEL = label([4.8, 1.0], "\\color{blue}{\\angle{CHE}}= {?}", "right");
 						arc([3.2, 1.3], 1.7, 287, 35, { stroke: "blue" });
 					} else if (RAND_SWITCH3 == 1) {
-						LABEL = label([4, 2.5], "\\color{blue}{\\angle{GHC}}=?", "above");
+						LABEL = label([4, 2.5], "\\color{blue}{\\angle{GHC}}= {?}", "above");
 						arc([3.2, 1.3], 1, 35, 118, { stroke: "blue" });
 					} else {
-						LABEL = label([2.5, -0.5], "\\color{blue}{\\angle{DHE}}=?", "below");
+						LABEL = label([2.5, -0.5], "\\color{blue}{\\angle{DHE}}= {?}", "below");
 						arc([3.2, 1.3], 1.1, 219, 286, { stroke: "blue" });
 					}
 				</div>
@@ -488,7 +488,7 @@
 							arc([0, -1], 1, 28, 152, { stroke: "orange" });
 
 							// Label X
-							LABEL = label([-3.7, 2.5], "\\color{blue}{\\angle{AJF}}=?", "above");
+							LABEL = label([-3.7, 2.5], "\\color{blue}{\\angle{AJF}}= {?}", "above");
 							arc([-3.2, 1.3], 1, 65, 142, { stroke: "blue" });
 						} else {
 							// Label the given angles
@@ -500,7 +500,7 @@
 							arc([1.6, 5], 0.75, 180, 289, { stroke: "orange" });
 
 							// Label X
-							LABEL = label([4.0, -0.3], "\\color{blue}{\\angle{IHE}}=?",
+							LABEL = label([4.0, -0.3], "\\color{blue}{\\angle{IHE}}= {?}",
 								"below left");
 							arc([3.1, 1.2], .75, 220, 290, { stroke: "blue" });
 						}
@@ -534,8 +534,8 @@
 
 
 					<p>What is
-					<span data-if="RAND_SWITCH2 === 0"><code>\color{blue}{\angle{AJF}} = ?</code></span>
-					<span data-else><code>\color{blue}{\angle{IHE}} = ?</code></span></p>
+					<span data-if="RAND_SWITCH2 === 0"><code>\color{blue}{\angle{AJF}} = {?}</code></span>
+					<span data-else><code>\color{blue}{\angle{IHE}} = {?}</code></span></p>
 
 				</div>
 				<div data-if="RAND_SWITCH2 == 0" class="solution"><var>X</var></div>
