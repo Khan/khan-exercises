@@ -1103,16 +1103,16 @@ function prepareSite() {
 			if ( show ) {
 				link.text( "Try current problem" );
 				jQuery( "#hintsarea" ).empty();
+				jQuery( "#answerform" ).hide();
 
 				for ( var i = 0; i < 9; i++ ) {
 					jQuery( "#workarea" ).append( "<hr>" );
 					makeProblem();
 				}
-
 			} else {
 				link.text( "Show next 10 problems" );
 				jQuery( "#workarea" ).empty();
-
+				jQuery( "#answerform" ).show();
 				prevProblem( 10 );
 
 				makeProblem();
