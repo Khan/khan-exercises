@@ -986,7 +986,7 @@ function prepareSite() {
 
 		if ( hint ) {
 
-			jQuery( "#hint" ).val("Next Step");
+			jQuery( "#hint" ).val("I'd like another hint");
 
 			var problem = jQuery( hint ).parent();
 
