@@ -66,38 +66,34 @@ jQuery.extend( Khan.answerTypes, {
 			},
 
 			pi: function( text ) {
-				var match, imp;
+				var match, imp = [];
 
 				// - pi
 				if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
-					return [ parseFloat( match[1] + "1" ) * Math.PI ];
+					imp = [ parseFloat( match[1] + "1" ) ];
 
 				// 5 / 6 pi
 				} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
 					imp = transforms.improper( match[1] );
-					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 
 				// 5 pi / 6
 				} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
 					imp = transforms.improper( match[1] + match[2] );
-					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 
 				// - pi / 4
 				} else if ( match = text.match( /^([+-]?)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
 					imp = transforms.improper( match[1] + "1/" + match[2] );
-					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 
 				// 0.5 pi (fallback)
 				} else if ( match = text.match( /^(\S+)\s*\*?\s*pi?$/i ) ) {
 					imp = transforms.decimal( match[1] );
-					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 
 				// 0
 				} else if ( text === "0") {
-					return [ 0 ];
+					imp = [ 0 ];
 				}
 
-				return [];
+				return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 			},
 
 			mixed: function( text ) {
