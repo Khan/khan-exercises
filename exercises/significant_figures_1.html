@@ -12,7 +12,7 @@
 		<var id="RIGHTLEADING"> Array( randRange( 0, 2) ).join( '0' ) </var>
 		<var id="TRAILING"> Array( randRange( 0, 4 ) ).join( '0' ) </var>
 		<var id="IS_ZERO"> random() > 0.5 </var>
-		<var id="HAS_DOT"> IS_ZERO ? true : random > 0.5 </var>
+		<var id="HAS_DOT"> IS_ZERO ? true : random() > 0.5 </var>
 		<var id="RIGHTSIDE"> randRange( 1, 9, randRange( 1, 6 ) ).join('') </var>
 		<var id="LEFTSIDE"> IS_ZERO ? '0' : randRange( 1, 9, randRange( 1, 4 ) ).join('') </var>
 		<var id="TOTAL"> HAS_DOT ?
