@@ -7,15 +7,6 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<!-- Used for simple opposite or opposing angle problems -->
-			<var id="Y">rand(20) + 90</var>
-			<var id="X">180 - Y</var>
-
-			<!-- Used for Triangle problems -->
-			<var id="Tri_Y">rand(25) + 20</var>
-			<var id="Tri_Z">rand(45) + 60</var>
-			<var id="Tri_X">180 - Tri_Y - Tri_Z</var>
-
 			<!-- Used for problems that choose variation of problems that have multiple variations -->
 			<var id="RAND_SWITCH2">rand(2)</var>
 			<var id="RAND_SWITCH3">rand(3)</var>
@@ -25,6 +16,11 @@
 		<div class="problems">
 			<!-- Opposite angle of alternate interior angle and 180 degrees in a triangle. -->
 			<div>
+				<div class="vars">
+					<var id="Tri_Y">rand(15) + 40</var>
+					<var id="Tri_Z">rand(10) + 100</var>
+					<var id="Tri_X">180 - Tri_Y - Tri_Z</var>
+				</div>
 				<div class="graphie" id="tri-and-parallel">
 					init({
 						range: [[-5, 5], [-3, 5]],
@@ -102,10 +98,10 @@
 
 				<div class="hints">
 					<p>
-						Remember that the measure of the angles in a triangle sum to 180&deg;. 
-						Solve for <code>\color{orange}{\angle{BCA}}</code> by subtracting the 
-						measures of angles <code>\color{purple}{\angle{BAC}}</code> and 
-						<code>\color{green}{\angle{ABC}}</code> from 180&deg;.  We find that 
+						Remember that the measure of the angles in a triangle sum to 180&deg;.
+						Solve for <code>\color{orange}{\angle{BCA}}</code> by subtracting the
+						measures of angles <code>\color{purple}{\angle{BAC}}</code> and
+						<code>\color{green}{\angle{ABC}}</code> from 180&deg;.  We find that
 						<code>\color{orange}{\angle{BCA}} = <var>Tri_X</var>&deg;</code>.
 						<span class="graphie" data-update="tri-and-parallel">
 							// label angle BAC
@@ -121,8 +117,8 @@
 							that it is a corresponding angle to
 							<span class="graphie" data-update="tri-and-parallel">
 								LABEL.remove();
-								LABEL = label([-3.3, 0], 
-									"\\color{blue}{\\angle{DAF}}=<var>Tri_X</var>&deg;", 
+								LABEL = label([-3.3, 0],
+									"\\color{blue}{\\angle{DAF}}=<var>Tri_X</var>&deg;",
 									"below");
 							</span>
 						</span>
@@ -131,7 +127,7 @@
 							that it is an alternate interior angle to
 							<span class="graphie" data-update="tri-and-parallel">
 								LABEL.remove();
-								LABEL = label([1, 0], 
+								LABEL = label([1, 0],
 									"\\color{blue}{&ang;CAE} = <var>Tri_X</var>&deg;",
 									"above", { color: "blue"});
 							</span>
@@ -147,6 +143,10 @@
 
 			<!-- Corresponding/Opposite angles of parallel lines -->
 			<div>
+				<div class="vars">
+					<var id="Y">rand(20) + 100</var>
+					<var id="X">180 - Y</var>
+				</div>
 				<div class="graphie" id="opposite-parallel">
 					init({
 						range: [[-7, 6], [-5, 5.2]],
@@ -270,7 +270,7 @@
 						First solve for  <code>\color{orange}{\angle{AGH}}</code>.  We know that
 						<code>
 							\color{orange}{\angle{AGH}} = 180&deg; - \color{purple}{\angle{BGH}}
-						</code>, 
+						</code>,
 						because angles along a line plane add up to 180&deg;.
 						<span class="graphie" data-update="opposite-parallel">
 							arc([1,2], .88, 180, 225, {stroke:"orange"});
@@ -304,7 +304,7 @@
 								label([-4, -2.5], "\\color{blue}{\\angle{CHF}}=<var>X</var>&deg;",
 									"below left");
 							</span>
-						</span>.						
+						</span>.
 					</p>
 				</div>
 
@@ -314,6 +314,11 @@
 				Adjacent Angles + 180 deg in triangle + opposite angles (variations 0-2)
 				(and adjacent in variations 1,2) -->
 			<div>
+				<div class="vars">
+					<var id="Tri1_Y">rand(10) + 30</var>
+					<var id="Tri1_Z">rand(10) + 100</var>
+					<var id="Tri1_X">180 - Tri1_Y - Tri1_Z</var>
+				</div>
 				<div class="graphie" id="star1">
 					init({
 						range: [[-10, 10], [-7, 10]],
@@ -343,10 +348,10 @@
 					label([-3.2, 1.3], "J", "below left");
 
 					// Label the given angles
-					label([-5.5, -5.2], "\\color{green}{<var>Tri_Y</var>&deg;}",
+					label([-5.5, -5.2], "\\color{green}{<var>Tri1_Y</var>&deg;}",
 						"above right");
 					arc([-6, -6], 1.3, 40, 71, { stroke: "green" });
-					label([0, 7.4], "\\color{orange}{<var>Tri_X</var>&deg;}",
+					label([0, 7.4], "\\color{orange}{<var>Tri1_X</var>&deg;}",
 						"below");
 					arc([0, 9], 1.3, 245, 290, { stroke: "orange" });
 
@@ -368,8 +373,8 @@
 				<div class="question">
 					<p>Given the following:</p>
 					<ul>
-					<li><code>\color{green}{\angle{BDC}&deg;} = <var>Tri_Y</var></code></li>
-					<li><code>\color{orange}{\angle{DBE}&deg;} = <var>Tri_X</var></code></li>
+					<li><code>\color{green}{\angle{BDC}&deg;} = <var>Tri1_Y</var></code></li>
+					<li><code>\color{orange}{\angle{DBE}&deg;} = <var>Tri1_X</var></code></li>
 					</ul>
 
 					What is
@@ -380,21 +385,21 @@
 				</div>
 
 				<div class="solution">
-					<div data-if="RAND_SWITCH3 === 0"><var>Tri_Z</var></div>
-					<div data-else><var>180-Tri_Z</var></div>
+					<div data-if="RAND_SWITCH3 === 0"><var>Tri1_Z</var></div>
+					<div data-else><var>180-Tri1_Z</var></div>
 				</div>
 
 				<div class="hints">
 					<p>
 						<code>
-							\color{purple}{\angle{BHD}} = 
-							180&deg; - \color{green}{\angle{BDC}} - \color{orange}{\angle{DBE}} = 
-							<var>Tri_Z</var>&deg;.
+							\color{purple}{\angle{BHD}} =
+							180&deg; - \color{green}{\angle{BDC}} - \color{orange}{\angle{DBE}} =
+							<var>Tri1_Z</var>&deg;.
 						</code> This is because the interior angles of a triangle add up to 180&deg;.
 						<span class="graphie" data-update="star1">
 							// label angle BHD
 							arc([3.2, 1.3], .75, 118, 220, { stroke: "purple" });
-							label([2.6, 2], "\\color{purple}{<var>Tri_Z</var>^\\circ}",
+							label([2.6, 2], "\\color{purple}{<var>Tri1_Z</var>^\\circ}",
 								"below left");
 						</span>
 					</p>
@@ -403,18 +408,18 @@
 						<p><code>\color{blue}{\angle{CHE}} = \color{purple}{\angle{BHD}}</code>.
 						This is because they are opposite each other, and opposite angles are
 						equal.</p>
-						<p><code>\color{blue}{\angle{CHE}} = <var>Tri_Z</var>&deg;</code></p>
+						<p><code>\color{blue}{\angle{CHE}} = <var>Tri1_Z</var>&deg;</code></p>
 						<span class="graphie" data-update="star1">
 							LABEL.remove();
-							label([4.8, 1.0], 
-								"\\color{blue}{\\angle{CHE}}=<var>Tri_Z</var>^\\circ", 
+							label([4.8, 1.0],
+								"\\color{blue}{\\angle{CHE}}=<var>Tri1_Z</var>^\\circ",
 								"right");
 						</span>
 					</div>
 					<div data-else>
 						<p>
 						<span data-if="RAND_SWITCH3 === 1">
-							<code>\color{blue}{\angle{GHC}}</code>
+							<code>\color{blue}{\angle{CHG}}</code>
 						</span>
 						<span data-else>
 							<code>\color{blue}{\angle{DHE}}</code>
@@ -428,8 +433,8 @@
 							<code>\color{blue}{\angle{GHC}}</code>
 							<span class="graphie" data-update="star1">
 								LABEL.remove();
-								label([4, 2.5], 
-									"\\color{blue}{\\angle{GHC}}=<var>180 - Tri_Z</var>^\\circ", 
+								label([4, 2.5],
+									"\\color{blue}{\\angle{GHC}}=<var>180 - Tri1_Z</var>^\\circ",
 									"above");
 							</span>
 						</span>
@@ -437,12 +442,12 @@
 							<code>\color{blue}{\angle{DHE}}</code>
 							<span class="graphie" data-update="star1">
 								LABEL.remove();
-								label([2.5, -0.5], 
-									"\\color{blue}{\\angle{DHE}}=<var>180 - Tri_Z</var>^\\circ", 
+								label([2.5, -0.5],
+									"\\color{blue}{\\angle{DHE}}=<var>180 - Tri1_Z</var>^\\circ",
 									"below");
 							</span>
 						</span>
-						<code> = <var>180 - Tri_Z</var>&deg;</code>
+						<code> = <var>180 - Tri1_Z</var>&deg;</code>
 						</p>
 					</div>
 				</div>
@@ -450,6 +455,11 @@
 
 			<!-- Star Problem 2 : 180 deg in triangle + opposite angles  -->
 			<div>
+				<div class="vars">
+					<var id="Tri2_Y">rand(10) + 30</var>
+					<var id="Tri2_Z">rand(10) + 70</var>
+					<var id="Tri2_X">180 - Tri2_Y - Tri2_Z</var>
+				</div>
 				<div class="graphie" id="star2">
 						init({
 							range: [[-10, 10], [-7, 10]],
@@ -480,10 +490,10 @@
 						// Label Angles and X according to variation
 						if( RAND_SWITCH2 == 0) {
 							// Label the given angles
-							label([-5.5, -5.2], "\\color{green}{<var>Tri_Y</var>&deg;}",
+							label([-5.5, -5.2], "\\color{green}{<var>Tri2_Y</var>&deg;}",
 								"above right");
 							arc([-6, -6], 1.3, 40, 71, { stroke: "green" });
-							label([0, -.2], "\\color{orange}{<var>180 - Tri_Z</var>&deg;}",
+							label([0, -.2], "\\color{orange}{<var>180 - Tri2_Z</var>&deg;}",
 								"above");
 							arc([0, -1], 1, 28, 152, { stroke: "orange" });
 
@@ -492,10 +502,10 @@
 							arc([-3.2, 1.3], 1, 65, 142, { stroke: "blue" });
 						} else {
 							// Label the given angles
-							label([6.5, 5], "\\color{green}{<var>Tri_Y</var>&deg;}",
+							label([6.5, 5], "\\color{green}{<var>Tri2_Y</var>&deg;}",
 								"below left");
 							arc([8, 5], 1.3, 180, 220, { stroke: "green" });
-							label([1.3, 4.5], "\\color{orange}{<var>180 - Tri_Z</var>&deg;}",
+							label([1.3, 4.5], "\\color{orange}{<var>180 - Tri2_Z</var>&deg;}",
 								"below left");
 							arc([1.6, 5], 0.75, 180, 289, { stroke: "orange" });
 
@@ -514,20 +524,20 @@
 					<div data-if="RAND_SWITCH2 === 0">
 						<ul>
 							<li>
-								<code>\color{green}{\angle{BDC}&deg;} = <var>Tri_Y</var>&deg;</code>
+								<code>\color{green}{\angle{BDC}&deg;} = <var>Tri2_Y</var>&deg;</code>
 							</li>
 							<li>
-								<code>\color{orange}{\angle{AIC}&deg;} = <var>180 - Tri_Z</var>&deg;</code>
+								<code>\color{orange}{\angle{AIC}&deg;} = <var>180 - Tri2_Z</var>&deg;</code>
 							</li>
 						</ul>
 					</div>
 					<div data-else>
 						<ul>
 							<li>
-								<code>\color{green}{\angle{GCH}&deg;} = <var>Tri_Y</var>&deg;</code>
+								<code>\color{green}{\angle{GCH}&deg;} = <var>Tri2_Y</var>&deg;</code>
 							</li>
 							<li>
-								<code>\color{orange}{\angle{FGH}&deg;} = <var>180 - Tri_Z</var>&deg;</code>
+								<code>\color{orange}{\angle{FGH}&deg;} = <var>180 - Tri2_Z</var>&deg;</code>
 							</li>
 						</ul>
 					</div>
@@ -538,8 +548,9 @@
 					<span data-else><code>\color{blue}{\angle{IHE}} = {?}</code></span></p>
 
 				</div>
-				<div data-if="RAND_SWITCH2 == 0" class="solution"><var>X</var></div>
-				<div data-else class="solution"><var>Tri_X</var></div>
+
+				<div class="solution"><var>Tri2_X</var></div>
+
 
 				<div class="hints">
 					<p data-if="RAND_SWITCH2==0">
@@ -548,7 +559,7 @@
 						<span class="graphie" data-update="star2">
 							// label angle JID
 							arc([0, -1.2], .75, 143, 220, { stroke: "purple" });
-							label([-.75, -1.2], "\\color{purple}{<var>Tri_Z</var>&deg;}",
+							label([-.75, -1.2], "\\color{purple}{<var>Tri2_Z</var>&deg;}",
 								"left");
 						</span>
 					</p>
@@ -558,30 +569,30 @@
 						<span class="graphie" data-update="star2">
 							// label angle HGC
 							arc([1.8, 5], 1, 280, 0, { stroke: "purple" });
-							label([2.5, 4.3], "\\color{purple}{<var>Tri_Z</var>&deg;}",
+							label([2.5, 4.3], "\\color{purple}{<var>Tri2_Z</var>&deg;}",
 								"below right");
 						</span>
 					</p>
 
 					<p data-if="RAND_SWITCH2==0">
-						<code>\color{teal}{\angle{DJI}} = 180&deg; - \color{green}{\angle{BDC}} - 
+						<code>\color{teal}{\angle{DJI}} = 180&deg; - \color{green}{\angle{BDC}} -
 							\color{purple}{\angle{DIJ}}</code>.
 						We know this because the sum of angles inside a triangle add up to 180&deg;.
 						<span class="graphie" data-update="star2">
 							// label angle JID
 							arc([-3.2, 1.3], .75, 260, 320, { stroke: "teal" });
-							label([-3.2, 0.50], "\\color{teal}{<var>Tri_X</var>&deg;}",
+							label([-3.2, 0.50], "\\color{teal}{<var>Tri2_X</var>&deg;}",
 								"below right");
 						</span>
 					</p>
 					<p data-else>
-						<code>\color{teal}{\angle{CHG}} = 180&deg; - \color{green}{\angle{ACD}} - 
+						<code>\color{teal}{\angle{CHG}} = 180&deg; - \color{green}{\angle{ACD}} -
 							\color{purple}{\angle{HGC}}</code>.
 						We know this, because the sum of angles inside a triangle add up to 180&deg;.
 						<span class="graphie" data-update="star2">
 							// label angle CHG
 							arc([3.2, 1.3], .75, 38, 120, { stroke: "teal" });
-							label([3.4, 1.78], "\\color{teal}{<var>Tri_X</var>&deg;}",
+							label([3.4, 1.78], "\\color{teal}{<var>Tri2_X</var>&deg;}",
 								"above");
 						</span>
 					</p>
@@ -599,19 +610,19 @@
 					<p>
 						Therefore,
 						<span data-if="RAND_SWITCH2 == 0">
-							<code>\angle{AJF} = <var>Tri_X</var>&deg;</code>
+							<code>\angle{AJF} = <var>Tri2_X</var>&deg;</code>
 							<span class="graphie" data-update="star2">
 								LABEL.remove();
-								label([-3.7, 2.5], 
-									"\\color{blue}{\\angle{AJF}}=<var>Tri_X</var>&deg;", "above");
+								label([-3.7, 2.5],
+									"\\color{blue}{\\angle{AJF}}=<var>Tri2_X</var>&deg;", "above");
 							</span>
 						</span>
 						<span data-else>
-							<code>\angle{IHE} = <var>Tri_X</var>&deg;</code>
+							<code>\angle{IHE} = <var>Tri2_X</var>&deg;</code>
 							<span class="graphie" data-update="star2">
 								LABEL.remove();
-								label([4.0, -0.3], 
-									"\\color{blue}{\\angle{IHE}}=<var>Tri_X</var>&deg;", 
+								label([4.0, -0.3],
+									"\\color{blue}{\\angle{IHE}}=<var>Tri2_X</var>&deg;",
 									"below left");
 							</span>
 						</span>.
