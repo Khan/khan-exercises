@@ -37,7 +37,7 @@ jQuery.extend( Khan.answerTypes, {
 	number: function( solutionarea, solution, fallback, forms ) {
 		var options = jQuery.extend({
 			simplify: "required",
-			maxError: Math.pow( 2, -46 ),
+			maxError: Math.pow( 2, -42 ),
 			forms: "literal, improper, mixed, decimal"
 		}, jQuery( solution ).data());
 		var acceptableForms = ( forms || options.forms ).split(/\s*,\s*/);
@@ -136,7 +136,7 @@ jQuery.extend( Khan.answerTypes, {
 						var den = KhanUtil.toFraction( x, options.maxError )[1];
 
 						if ( options.inexact === undefined ) {
-							var factor = Math.pow( 10, 12 );
+							var factor = Math.pow( 10, 10 );
 							x = Math.round( x * factor ) / factor;
 						}
 
@@ -199,7 +199,7 @@ jQuery.extend( Khan.answerTypes, {
 
 	percent: function ( solutionarea, solution, fallback ) {
 		Khan.answerTypes.opts = jQuery.extend({
-				maxError: Math.pow( 2, -46 )
+				maxError: Math.pow( 2, -42 )
 				}, jQuery( solution ).data());
 
 		var verifier = function( correct, guess ) {
