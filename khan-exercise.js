@@ -807,6 +807,7 @@ function prepareSite() {
 	// Setup appropriate img URLs
 	jQuery("#sad").attr("src", urlBase + "css/images/face-sad.gif");
 	jQuery("#happy").attr("src", urlBase + "css/images/face-smiley.gif");
+	jQuery("#throbber").attr("src", urlBase + "css/images/throbber.gif");
 
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
 		jQuery( "#answercontent" ).hide();
