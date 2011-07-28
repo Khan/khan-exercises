@@ -10,24 +10,21 @@
 		<var id="LEADING"> Array( randRange( 0, 2 ) ).join( '0' ) </var>
 		<var id="RIGHTLEADING"> Array( randRange( 0, 2) ).join( '0' ) </var>
 		<var id="TRAILING"> Array( randRange( 0, 4 ) ).join( '0' ) </var>
-		<var id="IS_ZERO"> random() &gt; 0.5 </var>
-		<var id="HAS_DOT"> IS_ZERO ? true : random &gt; 0.5 </var>
+		<var id="IS_ZERO"> random() > 0.5 </var>
+		<var id="HAS_DOT"> IS_ZERO ? true : random > 0.5 </var>
 		<var id="RIGHTSIDE"> randRange( 1, 9, randRange( 1, 6 ) ).join('') </var>
 		<var id="LEFTSIDE"> IS_ZERO ? '0' : randRange( 1, 9, randRange( 1, 4 ) ).join('') </var>
 		<var id="TOTAL"> HAS_DOT ?
 			LEADING + LEFTSIDE + '.' + RIGHTLEADING + RIGHTSIDE + TRAILING :
-			LEADING + LEFTSIDE + TRAILING
-		</var>
+			LEADING + LEFTSIDE + TRAILING </var>
 		<var id="SOLUTION"> IS_ZERO ?
 			RIGHTSIDE.length + TRAILING.length :
 			HAS_DOT ?
 				LEFTSIDE.length + RIGHTLEADING.length + RIGHTSIDE.length + TRAILING.length :
-				LEFTSIDE.length
-		</var>
+				LEFTSIDE.length </var>
 		<var id="PROPER_LEADING"> IS_ZERO ? LEADING + LEFTSIDE + '.' + RIGHTLEADING : LEADING </var>
 		<var id="INBETWEEN"> IS_ZERO ? RIGHTSIDE : HAS_DOT ?
-			LEFTSIDE + '.' + RIGHTLEADING + RIGHTSIDE : LEFTSIDE
-		</var>
+			LEFTSIDE + '.' + RIGHTLEADING + RIGHTSIDE : LEFTSIDE </var>
 	</div>
 	<div class="problems">
 		<div>
