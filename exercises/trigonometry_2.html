@@ -140,10 +140,6 @@
 			<var id="COS">
 				fractionSQRoot( ADJACENT_VALUE , AB )
 			</var>
-
-			<var id="ANGLE_VALUE">
-				acos( ADJACENT_VALUE/sqrt(AB) ).toFixed(2)
-			</var>
 		</div>
 
 		<div class="problems">
@@ -151,7 +147,6 @@
 			<div id="sin">
 				<div class="problem">
 					<p><code>\overline{AB}</code> = <code><var>AB_STRING</var></code></p>
-					<p><code>\angle <var>ANGLE</var></code> = <code><var>ANGLE_VALUE</var></code></p>
 				</div>
 				<div class="question">
 					<p><code>\overline{<var>OPPOSITE_NAME</var>} = {?}</code></p>
@@ -162,7 +157,7 @@
 						options[ "AB" ] = AB_STRING;
 						betterTriangle( BC, AC, "A", "B", "C", "", "", AB_STRING, ANGLE, options );
 					</div>
-					<p><code>\sin( <var>ANGLE_VALUE</var> ) = <var>SIN</var> , \cos( <var>ANGLE_VALUE</var> ) = <var>COS</var> ,  \tan( <var>ANGLE_VALUE</var> ) = <var>TAN</var></code></p>
+					<p><code>\sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
 
 				<div class="solution">
@@ -180,15 +175,14 @@
 					<p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
 					<p>SOH CAH TOA</p>
 					<p>We know the hypotenuse and need to solve for the opposite side so we can use the sine function (SOH)</p>
-					<p><code>\sin(<var>ANGLE_VALUE</var>) = \frac{opposite}{hypotenuse} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{AB}}= \frac{\overline{<var>OPPOSITE_NAME</var>}}{<var>AB_STRING</var>} </code></p>
-					<p><code>\overline{<var>OPPOSITE_NAME</var>}=<var>AB_STRING</var> \cdot \sin(<var>ANGLE_VALUE</var>) = <var>AB_STRING</var> \cdot  <var>SIN</var> = <var>OPPOSITE_VALUE</var></code></p>
+					<p><code>\sin( \angle <var>ANGLE</var> ) = \frac{opposite}{hypotenuse} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{AB}}= \frac{\overline{<var>OPPOSITE_NAME</var>}}{<var>AB_STRING</var>} </code></p>
+					<p><code>\overline{<var>OPPOSITE_NAME</var>}=<var>AB_STRING</var> \cdot \sin( \angle <var>ANGLE</var> ) = <var>AB_STRING</var> \cdot  <var>SIN</var> = <var>OPPOSITE_VALUE</var></code></p>
 				</div>
 			</div>
 
 			<div id="sin2">
 				<div class="problem">
 					<p><code>\overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
-					<p><code>\angle <var>ANGLE</var> = <var>ANGLE_VALUE</var></code></p>
 				</div>
 				<div class="question">
 					<p><code>\overline{AB} = {?}</code></p>
@@ -199,7 +193,7 @@
 						options[ "AB" ] = "?";
 						betterTriangle( BC, AC, "A", "B", "C", "", "", AB_STRING, ANGLE, options );
 					</div>
-					<p><code>\sin( \angle <var>ANGLE_VALUE</var> ) = <var>SIN</var> , \cos( <var>ANGLE_VALUE</var> ) = <var>COS</var> ,  \tan( <var>ANGLE_VALUE</var> ) = <var>TAN</var></code></p>
+					<p><code>\sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
 
 				<div class="solution">
@@ -217,8 +211,8 @@
 					<p><code>\overline{AB}</code> is the <b>hypotenuse</b> (note that it is opposite the right angle)</p>
 					<p>SOH CAH TOA</p>
 					<p>We know the opposite side and need to solve for the hypotenuse so we can use the sin function (SOH)</p>
-					<p><code>\sin(<var>ANGLE_VALUE</var>) = \frac{opposite}{hypotenuse} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{AB}} = \frac{<var>OPPOSITE_VALUE</var>}{\overline{AB}} </code></p>
-					<p><code>\overline{AB}=\frac{<var>OPPOSITE_VALUE</var>}{\sin(<var>ANGLE_VALUE</var>)} = \frac{<var>OPPOSITE_VALUE</var>}{<var>SIN</var>} = <var>AB_STRING</var></code></p>
+					<p><code>\sin( \angle <var>ANGLE</var> ) = \frac{opposite}{hypotenuse} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{AB}} = \frac{<var>OPPOSITE_VALUE</var>}{\overline{AB}} </code></p>
+					<p><code>\overline{AB}=\frac{<var>OPPOSITE_VALUE</var>}{\sin( \angle <var>ANGLE</var> )} = \frac{<var>OPPOSITE_VALUE</var>}{<var>SIN</var>} = <var>AB_STRING</var></code></p>
 				</div>
 			</div>
 
@@ -226,7 +220,6 @@
 			<div id="cos">
 				<div class="problem">
 					<p><code>\overline{AB} = <var>AB_STRING</var></code></p>
-					<p><code>\angle <var>ANGLE</var> = <var>ANGLE_VALUE</var></code></p>
 				</div>
 				<div class="question">
 					<p><code>\overline{<var>ADJACENT_NAME</var>} = {?}</code></p>
@@ -237,7 +230,7 @@
 						options[ "AB" ] = AB_STRING;
 						betterTriangle( BC, AC, "A", "B", "C", "", "", AB_STRING, ANGLE, options );
 					</div>
-					<p><code>\sin( <var>ANGLE_VALUE</var> ) = <var>SIN</var> , \cos( <var>ANGLE_VALUE</var> ) = <var>COS</var> ,  \tan( <var>ANGLE_VALUE</var> ) = <var>TAN</var></code></p>
+					<p><code>\sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
 
 				<div class="solution">
@@ -255,15 +248,14 @@
 					<p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
 					<p>SOH CAH TOA</p>
 					<p>We know the hypotenuse and need to solve for the adjacent side so we can use the cos function (CAH)</p>
-					<p><code>\cos(<var>ANGLE_VALUE</var>) = \frac{adjacent}{hypotenuse} = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{AB}}= \frac{\overline{<var>ADJACENT_NAME</var>}}{<var>AB_STRING</var>} </code></p>
-					<p><code>\overline{<var>ADJACENT_NAME</var>}=<var>AB_STRING</var> \cdot \cos(<var>ANGLE_VALUE</var>) = <var>AB_STRING</var> \cdot  <var>COS</var> = <var>ADJACENT_VALUE</var></code></p>
+					<p><code>\cos( \angle <var>ANGLE</var> ) = \frac{adjacent}{hypotenuse} = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{AB}}= \frac{\overline{<var>ADJACENT_NAME</var>}}{<var>AB_STRING</var>} </code></p>
+					<p><code>\overline{<var>ADJACENT_NAME</var>}=<var>AB_STRING</var> \cdot \cos( \angle <var>ANGLE</var> ) = <var>AB_STRING</var> \cdot  <var>COS</var> = <var>ADJACENT_VALUE</var></code></p>
 				</div>
 			</div>
 
 			<div id="cos2">
 				<div class="problem">
 					<p><code>\overline{<var>ADJACENT_NAME</var>}=<var>ADJACENT_VALUE</var></code></p>
-					<p><code>\angle <var>ANGLE</var> = <var>ANGLE_VALUE</var></code></p>
 				</div>
 				<div class="question">
 					<p><code>\overline{AB} = {?}</code></p>
@@ -274,7 +266,7 @@
 						options[ "AB" ] = "?";
 						betterTriangle( BC, AC, "A", "B", "C", "", "", AB_STRING, ANGLE, options );
 					</div>
-					<p><code>\sin( <var>ANGLE_VALUE</var> ) = <var>SIN</var> , \cos( <var>ANGLE_VALUE</var> ) = <var>COS</var> ,  \tan( <var>ANGLE_VALUE</var> ) = <var>TAN</var></code></p>
+					<p><code>\sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
 
 				<div class="solution">
@@ -292,8 +284,8 @@
 					<p><code>\overline{AB}</code> is the <b>hypotenuse</b> (note that it is opposite the right angle)</p>
 					<p>SOH CAH TOA</p>
 					<p>We know the adjacent side and need to solve for the hypotenuse so we can use the cos function (CAH)</p>
-					<p><code>\cos(<var>ANGLE_VALUE</var>) = \frac{adjacent}{hypotenuse} = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{AB}} = \frac{<var>ADJACENT_VALUE</var>}{\overline{AB}} </code></p>
-					<p><code>\overline{AB}=\frac{<var>ADJACENT_VALUE</var>}{\sin(<var>ANGLE_VALUE</var>)} = \frac{<var>ADJACENT_VALUE</var>}{<var>COS</var>} = <var>AB_STRING</var></code></p>
+					<p><code>\cos( \angle <var>ANGLE</var> ) = \frac{adjacent}{hypotenuse} = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{AB}} = \frac{<var>ADJACENT_VALUE</var>}{\overline{AB}} </code></p>
+					<p><code>\overline{AB}=\frac{<var>ADJACENT_VALUE</var>}{\sin( \angle <var>ANGLE</var> )} = \frac{<var>ADJACENT_VALUE</var>}{<var>COS</var>} = <var>AB_STRING</var></code></p>
 				</div>
 			</div>
 
@@ -301,7 +293,6 @@
 			<div id="tan">
 				<div class="problem">
 					<p><code>\overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
-					<p><code>\angle <var>ANGLE</var></code> = <code><var>ANGLE_VALUE</var></code></p>
 				</div>
 				<div class="question">
 					<p><code>\overline{<var>ADJACENT_NAME</var>} = {?}</code></p>
@@ -312,7 +303,7 @@
 						options[ OPPOSITE_NAME ] = OPPOSITE_VALUE;
 						betterTriangle( BC, AC, "A", "B", "C", "", "", AB_STRING, ANGLE, options );
 					</div>
-					<p><code>\sin( <var>ANGLE_VALUE</var> ) = <var>SIN</var> , \cos( <var>ANGLE_VALUE</var> ) = <var>COS</var> ,  \tan( <var>ANGLE_VALUE</var> ) = <var>TAN</var></code></p>
+					<p><code>\sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
 
 				<div class="solution">
@@ -329,8 +320,8 @@
 					<p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
 					<p>SOH CAH TOA</p>
 					<p>We know the opposite side and need to solve for the adjacent side so we can use the tan function (TOA)</p>
-					<p><code>\tan(<var>ANGLE_VALUE</var>) = \frac{opposite}{adjacent} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{<var>ADJACENT_NAME</var>}}= \frac{<var>OPPOSITE_VALUE</var>}{\overline{<var>ADJACENT_NAME</var>}} </code></p>
-					<p><code>\overline{<var>ADJACENT_NAME</var>}=\frac{<var>OPPOSITE_VALUE</var>}{\tan(<var>ANGLE_VALUE</var>)} = \frac{<var>OPPOSITE_VALUE</var>}{<var>TAN</var>} = <var>ADJACENT_VALUE</var></code></p>
+					<p><code>\tan( \angle <var>ANGLE</var> ) = \frac{opposite}{adjacent} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{<var>ADJACENT_NAME</var>}}= \frac{<var>OPPOSITE_VALUE</var>}{\overline{<var>ADJACENT_NAME</var>}} </code></p>
+					<p><code>\overline{<var>ADJACENT_NAME</var>}=\frac{<var>OPPOSITE_VALUE</var>}{\tan( \angle <var>ANGLE</var> )} = \frac{<var>OPPOSITE_VALUE</var>}{<var>TAN</var>} = <var>ADJACENT_VALUE</var></code></p>
 				</div>
 			</div>
 
@@ -338,7 +329,6 @@
 			<div id="tan2">
 				<div class="problem">
 					<p><code>\overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
-					<p><code>\angle <var>ANGLE</var></code> = <code><var>ANGLE_VALUE</var></code></p>
 				</div>
 				<div class="question">
 					<p><code>\overline{<var>OPPOSITE_NAME</var>} = </code> ?</p>
@@ -349,7 +339,7 @@
 						options[ ADJACENT_NAME ] = ADJACENT_VALUE;
 						betterTriangle( BC, AC, "A", "B", "C", "", "", AB_STRING, ANGLE, options );
 					</div>
-					<p><code>\sin( <var>ANGLE_VALUE</var> ) = <var>SIN</var> , \cos( <var>ANGLE_VALUE</var> ) = <var>COS</var> ,  \tan( <var>ANGLE_VALUE</var> ) = <var>TAN</var></code></p>
+					<p><code>\sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
 
 				<div class="solution">
@@ -366,8 +356,8 @@
 					<p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
 					<p>SOH CAH TOA</p>
 					<p>We know the adjacent side and need to solve for the opposite side so we can use the tan function (TOA)</p>
-					<p><code>\tan(<var>ANGLE_VALUE</var>) = \frac{opposite}{adjacent} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{<var>ADJACENT_NAME</var>}}= \frac{\overline{<var>OPPOSITE_NAME</var>}}{<var>ADJACENT_VALUE</var>} </code></p>
-					<p><code>\overline{<var>OPPOSITE_NAME</var>}=<var>ADJACENT_VALUE</var> \cdot \tan(<var>ANGLE_VALUE</var>) = <var>ADJACENT_VALUE</var> \cdot <var>TAN</var> = <var>OPPOSITE_VALUE</var></code></p>
+					<p><code>\tan( \angle <var>ANGLE</var> ) = \frac{opposite}{adjacent} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{<var>ADJACENT_NAME</var>}}= \frac{\overline{<var>OPPOSITE_NAME</var>}}{<var>ADJACENT_VALUE</var>} </code></p>
+					<p><code>\overline{<var>OPPOSITE_NAME</var>}=<var>ADJACENT_VALUE</var> \cdot \tan( \angle <var>ANGLE</var> ) = <var>ADJACENT_VALUE</var> \cdot <var>TAN</var> = <var>OPPOSITE_VALUE</var></code></p>
 				</div>
 			</div>
 		</div>
