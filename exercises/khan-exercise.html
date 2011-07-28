@@ -54,15 +54,17 @@
 				<input type="button" class="button green" id="check-answer-button" tabindex="10" value="Check Answer"/>
 				<img id="throbber" style="display:none;" name="throbber"/>
 				<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px">
-				<span id="check-answer-results">
-					<span id="next-container" class="button" style="position:relative; display: none;">
-						<input id="next-question-button" type="button" class="button green" name="correctnextbutton" value="Correct! Next Question..."/>
-					</span><br/>
+				<div id="next-container" class="button" style="position:relative; display: none;">
+					<input id="next-question-button" type="button" class="button green" name="correctnextbutton" value="Correct! Next Question..."/>
+				</div>
+				<div id="check-answer-results">
 					<img id="sad" style="display: none;"/>
 					<img id="happy" style="display: none;"/>
-				</span>
-				<div id="example-show" style="background: cornflowerblue;">click me</div>
-				<div id="example" style="background: orange; display: none">stuff should go here</div>
+				</div>
+				<a id="example-show" href="">Show acceptable answer formats</a>
+				<div id="example-container" style="display: none">
+					<div id="examples"></div>
+				</div>
 			</div>
 			<div id="readonly" class="info-box">
 				<span id="readonly-problem" class="info-box-header"></span>

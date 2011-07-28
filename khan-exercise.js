@@ -698,8 +698,15 @@ function makeProblem( id, seed ) {
 	// Add the problem into the page
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
 	jQuery( "#answercontent input" ).removeAttr("disabled");
-	jQuery( "#example" ).html( validator.example );
-
+	if ( validator.examples ) {
+		jQuery( "#example-show" ).show();
+		jQuery( "#examples" ).empty();
+		jQuery.each( validator.examples, function( i, example ) {
+			jQuery( "#examples" ).append( '<span class="info-box-sub-description">' + example + '</span>' );
+		});
+	} else {
+		jQuery( "#example-show" ).hide();
+	}
 	// save a normal JS array of hints so we can shift() through them later
 	hints = hints.tmpl().children().get();
 
@@ -1168,19 +1175,23 @@ function prepareSite() {
 		});
 
 	jQuery( "#example-show" ).data( "show", true )
-		.click( function() {
-			var button = jQuery( this ),
-				show = button.data( "show" );
+		.click( function( e ) {
+			e.preventDefault();
+			var link = jQuery( this ),
+				show = link.data( "show" );
 			if ( show ) {
-				jQuery( "#example" ).show();
+				link.text( "Hide acceptable answer formats" );
+				jQuery( "#example-container" ).show();
 			} else {
-				jQuery( "#example" ).hide();
+				link.text( "Show acceptable answer foramts" );
+				jQuery( "#example-container" ).hide();
 			}
-			button.data( "show", !show );
+			link.data( "show", !show );
 		});
 
 	jQuery( "#scratchpad-show" ).data( "show", true )
-		.click( function() {
+		.click( function( e ) {
+			e.preventDefault();
 			var button = jQuery( this ),
 				show = button.data( "show" );
 
@@ -1208,8 +1219,6 @@ function prepareSite() {
 			if (user) {
 				window.localStorage[ "scratchpad:" + user ] = show;
 			}
-
-			return false
 		});
 
 	// Prepare for the tester info if requested

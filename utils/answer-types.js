@@ -31,7 +31,7 @@ jQuery.extend( Khan.answerTypes, {
 			return verifier( correct, val );
 		};
 		ret.solution = jQuery.trim( correct );
-		ret.example = verifier.example || "";
+		ret.examples = verifier.examples || [];
 		return ret;
 	},
 
@@ -69,7 +69,13 @@ jQuery.extend( Khan.answerTypes, {
 
 					return [];
 				},
-				example: "13/7"
+				example: (function() {
+					if ( options.simplify === "optional" ) {
+						return "a fraction, like 1/2"
+					} else {
+						return "a simplified fraction, like 1/2 but not 2/4"
+					}
+				})()
 			},
 
 			pi: {
@@ -106,7 +112,7 @@ jQuery.extend( Khan.answerTypes, {
 
 					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 				},
-				example: "12 pi"
+				example: "a multiple or fraction of pi, like 12 pi or pi / 3"
 			},
 
 			mixed: {
@@ -134,7 +140,7 @@ jQuery.extend( Khan.answerTypes, {
 
 					return [];
 				},
-				example: "1 2/3"
+				example: "a mixed number, like 1 2/3"
 			},
 
 			decimal: {
@@ -171,7 +177,7 @@ jQuery.extend( Khan.answerTypes, {
 
 					return [ normal( text ), commas( text ) ];
 				},
-				example: "1.23"
+				example: "a decimal, like 4.56"
 			}
 		};
 
@@ -208,10 +214,10 @@ jQuery.extend( Khan.answerTypes, {
 			return ret;
 		};
 
-		verifier.example = "";
+		verifier.examples = [];
 		jQuery.each( acceptableForms, function( i, form ) {
 			if ( forms[ form ] != null ) {
-				verifier.example += forms[ form ].example;
+				verifier.examples.push( forms[ form ].example );
 			}
 		});
 
@@ -239,6 +245,7 @@ jQuery.extend( Khan.answerTypes, {
 			guess = jQuery.trim( guess.substring( 0, guess.length - 1) );
 			return Khan.answerTypes.decimalVerifier( correct, guess );
 		};
+		verifier.examples = [ "a percent, like 12.34%" ];
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
@@ -527,6 +534,7 @@ jQuery.extend( Khan.answerTypes, {
 			guess = KhanUtil.sortNumbers( guess.split( /x|\*/ ) ).join( "x" );
 			return guess === correct;
 		};
+		verifier.examples = [ "a product of prime factors, like 2 x 3" ];
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	}
