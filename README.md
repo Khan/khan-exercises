@@ -20,5 +20,5 @@ The framework exists in two components:
 The process for writing exercises is rather well documented. More information about this process can be found in the [Khan Exercises wiki](https://github.com/Khan/khan-exercises/wiki). Specifically:
 
 * [How to Get Involved](https://github.com/Khan/khan-exercises/wiki/Getting-Involved)
-* [How to Write Exercises](https://github.com/Khan/khan-exercises/wiki/Exercise-Markup)
+* [How to Write Exercises](https://github.com/Khan/khan-exercises/wiki/Writing-Exercises:-Home)
 * [How to Test Exercises](https://github.com/Khan/khan-exercises/wiki/Testing-Exercises)
