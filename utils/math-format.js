@@ -282,7 +282,6 @@ jQuery.extend(KhanUtil, {
 	},
 
 	_plusTrim: function( s ) {
-
 		if ( typeof s === "string" && isNaN( s ) ) {
 			
 			// extract color, so we can handle stripping the 1 out of \color{blue}{1xy}
