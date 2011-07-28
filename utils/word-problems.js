@@ -32,6 +32,7 @@ jQuery.extend( KhanUtil, {
 	//		- return "NUMBER word"
 	plural: (function() {
 		var oneOffs = {
+			'child': 'children',
 			'quiz': 'quizzes',
 			'shelf': 'shelves',
 			'loaf': 'loaves',
@@ -138,6 +139,19 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		["William", "m"]
 	]);
 
+	var youngpeople = KhanUtil.shuffle([
+		"student",
+		"kid",
+		"child"
+	]);
+
+	var parents = KhanUtil.shuffle([
+		["mom", "f"],
+		["dad", "m"],
+		["aunt", "f"],
+		["uncle", "m"]
+	]);
+		
 	var vehicles = KhanUtil.shuffle([
 		"bike",
 		"car",
@@ -154,6 +168,15 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"history",
 		"physics",
 		"Spanish"
+	]);
+
+	var gatheringplaces = KhanUtil.shuffle([
+		"playground",
+		"classroom",
+		"park",
+		"backyard",
+		"cafeteria",
+		"gymnasium"
 	]);
 
 	var exams = KhanUtil.shuffle([
@@ -186,6 +209,34 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		["jelly bean", "pile", "make"],
 		["book", "shelf", "fill"],
 		["can of food", "box", "fill"]
+	]);
+
+	var coinage  = KhanUtil.shuffle([
+		["quarter", "25"],
+		["dime", "10"],
+		["nickel", "5"],
+		["penny", "1"]
+	]);
+
+	//duplicate of coinage but without pennies
+	//to eliminate math questions with ones
+	var nopennies  = KhanUtil.shuffle([
+		["quarter", "25"],
+		["dime", "10"],
+		["nickel", "5"]
+	]);
+
+	var fractions  = KhanUtil.shuffle([
+		["half", "2"],
+		["a third", "3"],
+		["a quarter", "4"],
+		["a fifth", "5"],
+		["a sixth", "6"],
+		["a seventh", "7"],
+		["an eighth", "8"],
+		["a ninth", "9"],
+		["a tenth", "10"],
+		["a twelfth", "12"],
 	]);
 
 	var stores = KhanUtil.shuffle([
@@ -226,6 +277,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return people[i - 1][0].charAt(0).toLowerCase();
 		},
 
+		parent: function( i ) {
+			return parents[i - 1][0];
+		},
+
 		he: function( i ) {
 			return people[i - 1][1] == "m" ? "he" : "she";
 		},
@@ -246,12 +301,40 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return people[i - 1][1] == "m" ? "His" : "Her";
 		},
 
+		parenthe: function( i ) {
+			return parents[i - 1][1] == "m" ? "he" : "she";
+		},
+
+		parentHe: function( i ) {
+			return parents[i - 1][1] == "m" ? "He" : "She";
+		},
+
+		parenthim: function( i ) {
+			return parents[i - 1][1] == "m" ? "him" : "her";
+		},
+
+		parenthis: function( i ) {
+			return parents[i - 1][1] == "m" ? "his" : "her";
+		},
+
+		parentHis: function( i ) {
+			return parents[i - 1][1] == "m" ? "His" : "Her";
+		},
+
 		vehicle: function( i ) {
 			return vehicles[i - 1];
 		},
 
 		vehicleVar: function( i ) {
 			return vehicles[i - 1].charAt(0);
+		},
+
+		youngperson: function( i ) {
+			return youngpeople[i - 1];
+		},
+
+		gatheringplace: function( i ) {
+			return gatheringplaces[i - 1];
 		},
 
 		course: function( i ) {
@@ -280,6 +363,30 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		groupVerb: function( i ) {
 			return collections[i - 1][2];
+		},
+
+		coin: function( i ) {
+			return coinage[i - 1][0];
+		},
+
+		coinval: function( i ) {
+				return coinage[i - 1][1];
+		},
+
+		nickeldimeqtr: function( i ) {
+			return nopennies[i - 1][0];
+		},
+
+		nickeldimeqtrval: function( i ) {
+				return nopennies[i - 1][1];
+		},
+
+		portion: function( i ) {
+			return fractions[i - 1][0];
+		},
+
+		numportions: function( i ) {
+				return fractions[i - 1][1];
 		},
 
 		store: function( i ) {
