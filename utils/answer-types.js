@@ -43,125 +43,135 @@ jQuery.extend( Khan.answerTypes, {
 		}, jQuery( solution ).data());
 		var acceptableForms = ( forms || options.forms ).split(/\s*,\s*/);
 
-		var transforms = {
-			improper: function( text ) {
-				var match = text
-
-					// Replace unicode minus sign with hyphen
-					.replace( /\u2212/, "-" )
-
-					// Remove space after +, -
-					.replace( /([+-])\s+/g, "$1" )
-
-					// Extract numerator and (optional) denominator
-					.match( /^([+-]?\d+)\s*(?:\/\s*([+-]?\d+))?$/ );
-
-				if ( match ) {
-					var num = parseFloat( match[1] ),
-						denom = parseFloat( match[2] || "1" );
-					var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
-
-					if ( options.simplify === "optional" || simplified ) {
-						return [ num / denom ];
-					}
-				}
-
-				return [];
-			},
-
-			pi: function( text ) {
-				var match, imp = [];
-
-				// Replace unicode minus sign with hyphen
-				text = text.replace( /\u2212/, "-" );
-
-				// - pi
-				if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
-					imp = [ parseFloat( match[1] + "1" ) ];
-
-				// 5 / 6 pi
-				} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
-					imp = transforms.improper( match[1] );
-
-				// 5 pi / 6
-				} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
-					imp = transforms.improper( match[1] + match[2] );
-
-				// - pi / 4
-				} else if ( match = text.match( /^([+-]?)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
-					imp = transforms.improper( match[1] + "1/" + match[2] );
-
-				// 0.5 pi (fallback)
-				} else if ( match = text.match( /^(\S+)\s*\*?\s*pi?$/i ) ) {
-					imp = transforms.decimal( match[1] );
-
-				// 0
-				} else if ( text === "0") {
-					imp = [ 0 ];
-				}
-
-				return jQuery.map( imp, function( x ) { return x * Math.PI; } );
-			},
-
-			mixed: function( text ) {
-				var match = text
-
-					// Replace unicode minus sign with hyphen
-					.replace( /\u2212/, "-" )
-
-					// Remove space after +, -
-					.replace( /([+-])\s+/g, "$1" )
-
-					// Extract integer, numerator and denominator
-					.match( /^([+-]?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/ );
-
-				if ( match ) {
-					var sign  = parseFloat( match[1] + "1" ),
-						integ = parseFloat( match[2] ),
-						num   = parseFloat( match[3] ),
-						denom = parseFloat( match[4] );
-					var simplified = KhanUtil.getGCD( num, denom ) === 1;
-
-					if ( num < denom && options.simplify === "optional" || simplified ) {
-						return [ sign * ( integ + num / denom ) ];
-					}
-				}
-
-				return [];
-			},
-
-			decimal: function( text ) {
-				var normal = function( text ) {
+		var forms = {
+			improper: {
+				transformer: function( text ) {
 					var match = text
 
 						// Replace unicode minus sign with hyphen
 						.replace( /\u2212/, "-" )
 
-						// Remove commas
-						.replace( /,\s*/g, "" )
+						// Remove space after +, -
+						.replace( /([+-])\s+/g, "$1" )
 
-						// Extract integer, numerator and denominator
-						// This matches [+-]?\.; will f
-						.match( /^([+-]?(?:\d+\.?|\d*\.\d+))$/ );
+						// Extract numerator and (optional) denominator
+						.match( /^([+-]?\d+)\s*(?:\/\s*([+-]?\d+))?$/ );
 
 					if ( match ) {
-						var x = parseFloat( match[1] );
+						var num = parseFloat( match[1] ),
+							denom = parseFloat( match[2] || "1" );
+						var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
 
-						if ( options.inexact === undefined ) {
-							var factor = Math.pow( 10, 10 );
-							x = Math.round( x * factor ) / factor;
+						if ( options.simplify === "optional" || simplified ) {
+							return [ num / denom ];
 						}
-
-						return x;
 					}
-				};
 
-				var commas = function( text ) {
-					text = text.replace( /([\.,])/g, function( _, c ) { return ( c === "." ? "," : "." ); } );
-					return normal( text );
-				};
+					return [];
+				},
+				example: "13/7"
+			},
 
-				return [ normal( text ), commas( text ) ];
+			pi: {
+				transformer: function( text ) {
+					var match, imp = [];
+
+					// Replace unicode minus sign with hyphen
+					text = text.replace( /\u2212/, "-" );
+
+					// - pi
+					if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
+						imp = [ parseFloat( match[1] + "1" ) ];
+
+					// 5 / 6 pi
+					} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
+						imp = transforms.improper( match[1] );
+
+					// 5 pi / 6
+					} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
+						imp = transforms.improper( match[1] + match[2] );
+
+					// - pi / 4
+					} else if ( match = text.match( /^([+-]?)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
+						imp = transforms.improper( match[1] + "1/" + match[2] );
+
+					// 0.5 pi (fallback)
+					} else if ( match = text.match( /^(\S+)\s*\*?\s*pi?$/i ) ) {
+						imp = transforms.decimal( match[1] );
+
+					// 0
+					} else if ( text === "0") {
+						imp = [ 0 ];
+					}
+
+					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
+				},
+				example: "12 pi"
+			},
+
+			mixed: {
+				transformer: function( text ) {
+					var match = text
+						// Replace unicode minus sign with hyphen
+						.replace( /\u2212/, "-" )
+						// Remove space after +, -
+						.replace( /([+-])\s+/g, "$1" )
+
+						// Extract integer, numerator and denominator
+						.match( /^([+-]?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/ );
+
+					if ( match ) {
+						var sign  = parseFloat( match[1] + "1" ),
+							integ = parseFloat( match[2] ),
+							num   = parseFloat( match[3] ),
+							denom = parseFloat( match[4] );
+						var simplified = KhanUtil.getGCD( num, denom ) === 1;
+
+						if ( num < denom && options.simplify === "optional" || simplified ) {
+							return [ sign * ( integ + num / denom ) ];
+						}
+					}
+
+					return [];
+				},
+				example: "1 2/3"
+			},
+
+			decimal: {
+				transformer: function( text ) {
+					var normal = function( text ) {
+						var match = text
+
+							// Replace unicode minus sign with hyphen
+							.replace( /\u2212/, "-" )
+
+							// Remove commas
+							.replace( /,\s*/g, "" )
+
+							// Extract integer, numerator and denominator
+							// This matches [+-]?\.; will f
+							.match( /^([+-]?(?:\d+\.?|\d*\.\d+))$/ );
+
+						if ( match ) {
+							var x = parseFloat( match[1] );
+
+							if ( options.inexact === undefined ) {
+								var factor = Math.pow( 10, 10 );
+								x = Math.round( x * factor ) / factor;
+							}
+
+							return x;
+						}
+					};
+
+					var commas = function( text ) {
+						text = text.replace( /([\.,])/g, function( _, c ) { return ( c === "." ? "," : "." ); } );
+						return normal( text );
+					};
+
+					return [ normal( text ), commas( text ) ];
+				},
+				example: "1.23"
 			}
 		};
 
@@ -183,7 +193,7 @@ jQuery.extend( Khan.answerTypes, {
 					}
 				}
 
-				var transformed = transforms[ form ]( jQuery.trim( guess ) );
+				var transformed = forms[ form ].transformer( jQuery.trim( guess ) );
 
 				for ( var i = 0, l = transformed.length; i < l; i++ ) {
 					if ( typeof transformed[ i ] === "number" &&
@@ -200,7 +210,9 @@ jQuery.extend( Khan.answerTypes, {
 
 		verifier.example = "";
 		jQuery.each( acceptableForms, function( i, form ) {
-			verifier.example += " " + form;
+			if ( forms[ form ] != null ) {
+				verifier.example += forms[ form ].example;
+			}
 		});
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
