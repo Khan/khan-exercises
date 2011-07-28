@@ -699,13 +699,13 @@ function makeProblem( id, seed ) {
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
 	jQuery( "#answercontent input" ).removeAttr("disabled");
 	if ( validator.examples ) {
-		jQuery( "#example-show" ).show();
+		jQuery( "#examples-show" ).show();
 		jQuery( "#examples" ).empty();
 		jQuery.each( validator.examples, function( i, example ) {
 			jQuery( "#examples" ).append( '<span class="info-box-sub-description">' + example + '</span>' );
 		});
 	} else {
-		jQuery( "#example-show" ).hide();
+		jQuery( "#examples-show" ).hide();
 	}
 	// save a normal JS array of hints so we can shift() through them later
 	hints = hints.tmpl().children().get();
@@ -1174,17 +1174,17 @@ function prepareSite() {
 			link.data( "show", !show );
 		});
 
-	jQuery( "#example-show" ).data( "show", true )
+	jQuery( "#examples-show" ).data( "show", true )
 		.click( function( e ) {
 			e.preventDefault();
 			var link = jQuery( this ),
 				show = link.data( "show" );
 			if ( show ) {
 				link.text( "Hide acceptable answer formats" );
-				jQuery( "#example-container" ).show();
+				jQuery( "#examples" ).show();
 			} else {
-				link.text( "Show acceptable answer foramts" );
-				jQuery( "#example-container" ).hide();
+				link.text( "Show acceptable answer formats" );
+				jQuery( "#examples" ).hide();
 			}
 			link.data( "show", !show );
 		});
