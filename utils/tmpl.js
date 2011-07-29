@@ -87,7 +87,8 @@ jQuery.tmpl = {
 			// When called by process(), value is undefined
 
 			// If the <var> has any child elements, run later with the innerHTML
-			if ( !value && elem.getElementsByTagName("*").length > 0 ) {
+			// Use jQuery instead of getElementsByTagName to exclude comment nodes in IE
+			if ( !value && jQuery( elem ).children().length > 0 ) {
 				return function( elem ) {
 					return jQuery.tmpl.type["var"]( elem, elem.innerHTML );
 				};
