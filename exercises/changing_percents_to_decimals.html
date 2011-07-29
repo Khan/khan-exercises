@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Changing Percents to Decimals</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="PCT">randRange( 10, 1999 ) / 10</var> <!-- between 1% and 199.9% with 1 decimal place-->
+		<var id="SOLN">roundTo( 5 , PCT / 100 )</var>
+	</div>
+
+	<div class="problems">
+		<div id="original" data-weight="1">
+			<p class="question">Express <var>PCT</var>% as a Decimal.</p>
+			<div class="solution" data-type="decimal"><var>SOLN</var></div>
+
+			<div class="hints">
+				<p><var>PCT</var>% is equal to <code>\dfrac{<var>PCT</var>}{<var>100</var>}</code>.</p>
+				<p>So all you have to do is move the decimal place of <var>PCT</var> two places to the left.</p>
+				<p>Therefore the answer is <var>SOLN</var>.</p>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
