@@ -124,6 +124,39 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		+ "else that you think is acting a little funky. Thanks for helping "
 		+ "us out!";
 
+// from MDC, thx :)
+if (!Array.prototype.indexOf) {
+	Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
+		if (this === void 0 || this === null) {
+			throw new TypeError();
+		}
+		var t = Object(this);
+		var len = t.length >>> 0;
+		if (len === 0) {
+			return -1;
+		}
+		var n = 0;
+		if (arguments.length > 0) {
+			n = Number(arguments[1]);
+			if (n !== n) { // shortcut for verifying if it's NaN
+			n = 0;
+		} else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0)) {
+			n = (n > 0 || -1) * Math.floor(Math.abs(n));
+		}
+	}
+	if (n >= len) {
+		return -1;
+	}
+	var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+	for (; k < len; k++) {
+		if (k in t && t[k] === searchElement) {
+			return k;
+		}
+	}
+	return -1;
+	}
+}
+
 // Add in the site stylesheets
 if (testMode) {
 	(function(){
@@ -807,6 +840,7 @@ function prepareSite() {
 	// Setup appropriate img URLs
 	jQuery("#sad").attr("src", urlBase + "css/images/face-sad.gif");
 	jQuery("#happy").attr("src", urlBase + "css/images/face-smiley.gif");
+	jQuery("#throbber").attr("src", urlBase + "css/images/throbber.gif");
 
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
 		jQuery( "#answercontent" ).hide();
@@ -816,11 +850,6 @@ function prepareSite() {
 			.find( "#readonly-problem" ).text("Problem #" + (userExercise.total_done + 1)).end()
 			.find( "#readonly-start" ).attr("href", "/exercises?exid=" + userExercise.exercise).end()
 			.show();
-	}
-
-	if (jQuery.browser.msie && parseInt(jQuery.browser.version) < 8) {
-		jQuery( "#answer_area, #problemarea, #extras" ).hide();
-		jQuery( "#browserwarning ").show();
 	}
 
 	// Watch for a solution submission
@@ -986,7 +1015,7 @@ function prepareSite() {
 
 		if ( hint ) {
 
-			jQuery( "#hint" ).val("Next Step");
+			jQuery( "#hint" ).val("I'd like another hint");
 
 			var problem = jQuery( hint ).parent();
 
@@ -1401,19 +1430,26 @@ function request( method, data, fn, fnError ) {
 
 // Update the visual representation of the points/streak
 function updateData( data ) {
-	// Make sure we have current data
-	data = data || getData();
-
-	// Change users, if needed
-	if ( user !== data.user ) {
+	// Check if we're setting/switching usernames
+	if ( data ) {
 		user = data.user || user;
 		userCRC32 = user != null ? crc32( user ) : null;
 		randomSeed = userCRC32 || randomSeed;
 	}
 
-	// Cache the data locally
-	if ( data && user != null ) {
-		window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
+	// Make sure we have current data
+	var oldData = getData();
+
+	// Change users, if needed
+	if ( data && (data.total_done >= oldData.total_done || data.user !== oldData.user) ) {
+		// Cache the data locally
+		if ( user != null ) {
+			window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
+		}
+
+	// If no data is provided then we're just updating the UI
+	} else {
+		data = oldData;
 	}
 
 	// Update the streaks/point bar

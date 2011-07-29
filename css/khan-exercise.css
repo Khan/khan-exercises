@@ -53,3 +53,5 @@ body.debug .graphie { outline: 1px dashed red; }
 #issue form input[type=text] { display: block; width: 98%; }
 #issue form textarea { display: block; width: 98%; height: 100px; }
 #issue-cancel { position: relative; bottom: 1px; }
+
+var, div.graphie { white-space: pre; }

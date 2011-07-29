@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format polynomials expressions">
 <head>
+	<meta charset="UTF-8" />
 	<title>Limits 2</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -31,7 +32,7 @@
 				<div class="hints">
 					<p>Look at the leading terms <code><var>expr(NUM.expr()[1])</var></code> and <code><var>expr(DEN.expr()[1])</var></code>.</p>
 					<p>Because they have the same degree <code><var>DEG</var></code>, the limit is equal to the quotient of their coefficients.</p>
-					<p><code>\displaystyle\lim_{x \to \infty}\dfrac{<var>NUM.text()</var>}{<var>DEN.text()</var>} = <var>fractionSimplification( NUM.coefs[DEG], DEN.coefs[DEG] )</var></code></p>
+					<p><code>\displaystyle\lim_{x \to <var>PM</var>\infty}\dfrac{<var>NUM.text()</var>}{<var>DEN.text()</var>} = <var>fractionSimplification( NUM.coefs[DEG], DEN.coefs[DEG] )</var></code></p>
 				</div>
 			</div>
 

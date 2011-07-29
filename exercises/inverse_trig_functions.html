@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie expressions">
 <head>
+	<meta charset="UTF-8" />
 	<title>Inverse trig functions</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -75,8 +76,8 @@
 					<p>Note: please answer in terms of <span data-if="DEG">degrees (ex: &quot;180 deg&quot; or &quot;180 degrees&quot;)</span><span data-else>radians (ex: &quot;3/4 pi&quot;)</span>.</p>
 				</div>
 				
-				<p class="solution" data-type="regex" data-if="DEG"><var>Y_DEGREES_REGEX</var></p>
-				<p class="solution" data-forms="pi" data-else><var>Y</var></p>
+				<div data-if="DEG"><p class="solution" data-type="regex"><var>Y_DEGREES_REGEX</var></p></div>
+				<div data-else><p class="solution" data-forms="pi" data-else><var>Y</var></p></div>
 			</div>
 		</div>
 		

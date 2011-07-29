@@ -37,7 +37,7 @@ jQuery.extend( Khan.answerTypes, {
 	number: function( solutionarea, solution, fallback, forms ) {
 		var options = jQuery.extend({
 			simplify: "required",
-			maxError: Math.pow( 2, -46 ),
+			maxError: Math.pow( 2, -42 ),
 			forms: "literal, improper, mixed, decimal"
 		}, jQuery( solution ).data());
 		var acceptableForms = ( forms || options.forms ).split(/\s*,\s*/);
@@ -66,38 +66,34 @@ jQuery.extend( Khan.answerTypes, {
 			},
 
 			pi: function( text ) {
-				var match, imp;
+				var match, imp = [];
 
 				// - pi
 				if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
-					return [ parseFloat( match[1] + "1" ) * Math.PI ];
+					imp = [ parseFloat( match[1] + "1" ) ];
 
 				// 5 / 6 pi
 				} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
 					imp = transforms.improper( match[1] );
-					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 
 				// 5 pi / 6
 				} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
 					imp = transforms.improper( match[1] + match[2] );
-					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 
 				// - pi / 4
 				} else if ( match = text.match( /^([+-]?)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
 					imp = transforms.improper( match[1] + "1/" + match[2] );
-					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 
 				// 0.5 pi (fallback)
 				} else if ( match = text.match( /^(\S+)\s*\*?\s*pi?$/i ) ) {
 					imp = transforms.decimal( match[1] );
-					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 
 				// 0
 				} else if ( text === "0") {
-					return [ 0 ];
+					imp = [ 0 ];
 				}
 
-				return [];
+				return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 			},
 
 			mixed: function( text ) {
@@ -137,10 +133,9 @@ jQuery.extend( Khan.answerTypes, {
 
 					if ( match ) {
 						var x = parseFloat( match[1] );
-						var den = KhanUtil.toFraction( x, options.maxError )[1];
 
 						if ( options.inexact === undefined ) {
-							var factor = Math.pow( 10, 12 );
+							var factor = Math.pow( 10, 10 );
 							x = Math.round( x * factor ) / factor;
 						}
 
@@ -203,7 +198,7 @@ jQuery.extend( Khan.answerTypes, {
 
 	percent: function ( solutionarea, solution, fallback ) {
 		Khan.answerTypes.opts = jQuery.extend({
-				maxError: Math.pow( 2, -46 )
+				maxError: Math.pow( 2, -42 )
 				}, jQuery( solution ).data());
 
 		var verifier = function( correct, guess ) {
