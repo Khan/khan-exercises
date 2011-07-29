@@ -133,7 +133,6 @@ jQuery.extend( Khan.answerTypes, {
 
 					if ( match ) {
 						var x = parseFloat( match[1] );
-						var den = KhanUtil.toFraction( x, options.maxError )[1];
 
 						if ( options.inexact === undefined ) {
 							var factor = Math.pow( 10, 10 );
