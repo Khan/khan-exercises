@@ -4,14 +4,16 @@ function numberLine( start, end, step, x, y ) {
 	step = step || 1;
 	x = x || 0;
 	y = y || 0;
-
+	var decPlaces = (step + "").length - (step + "").indexOf(".")-1;
+	if(  (step + "").indexOf(".") < 0){
+		decPlaces = 0;
+	}
 	var graph = KhanUtil.currentGraph;
 	var set = graph.raphael.set();
-
 	set.push( graph.line( [x, y], [x + end - start, y] ) );
 	for( var i = 0; i <= end - start; i += step ) {
 		set.push( graph.line( [x + i, y - 0.2], [x + i, y + 0.2] ) );
-		graph.label( [x + i, y - 0.2], start + i, "below", { labelDistance: 3 } );
+		graph.label( [x + i, y - 0.2], (start + i).toFixed(decPlaces), "below", { labelDistance: 3 } );
 	}
 
 	return set;

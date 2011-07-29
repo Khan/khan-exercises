@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers word-problems">
 <head>
+	<meta charset="UTF-8" />
 	<title>Multiplication 0.5</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -19,7 +20,7 @@
 						scale: [ 50, 50 ]
 					});
 					KhanUtil.currentGraph.labelHolder = label( [ 0, B ],
-						"\\Huge{\\color{ #6495ED }{ <var>A</var> } \\times \\color{ #28AE7B }{ <var>B</var> } = {?}}", "right" );
+						"\\Huge{\\color{#6495ED}{ <var>A</var> } \\times \\color{#28AE7B}{ <var>B</var> } = {?}}", "right" );
 				</div>
 				<div class="solution"><var>A * B</var></div>
 			</div>
@@ -52,7 +53,7 @@
 			<div class="graphie" data-update="numbers">
 				KhanUtil.currentGraph.labelHolder.remove();
 				label( [ 0, B ],
-					"\\Huge{\\color{ #6495ED }{" + A + "} \\times \\color{ #28AE7B }{" + B + "} = " + ( A  * B ) + "}", "right" );
+					"\\Huge{\\color{#6495ED}{" + A + "} \\times \\color{#28AE7B}{" + B + "} = " + ( A  * B ) + "}", "right" );
 			</div>
 		</div>
 	</div>

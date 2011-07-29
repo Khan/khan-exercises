@@ -291,6 +291,16 @@ jQuery.extend(KhanUtil, {
 		return Math.round( ( num * factor ).toFixed(5) ) / factor;
 	},
 
+	floorTo: function( precision, num ) {
+		var factor = Math.pow( 10, precision ).toFixed(5);
+		return Math.floor( ( num * factor ).toFixed(5) ) / factor;
+	},
+
+	ceilTo: function( precision, num ) {
+		var factor = Math.pow( 10, precision ).toFixed(5);
+		return Math.ceil( ( num * factor ).toFixed(5) ) / factor;
+	},
+
 	// toFraction( 4/8 ) => [1, 2]
 	// toFraction( 0.666 ) => [333, 500]
 	// toFraction( 0.666, 0.001 ) => [2, 3]

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math math-format">
 <head>
+	<meta charset="UTF-8" />
 	<title>Solving quadratics by factoring</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -24,7 +25,7 @@
 			</div>
 
 			<p class="problem">Determine where <code>f(x)</code> intersects the <code>x</code>-axis.</p>
-			<p class="question"><code>f(x) = <var>SQUARE</var>x^2 + <var>LINEAR</var>x + <var>CONSTANT</var></code></p>
+			<p class="question"><code>f(x) = <var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
 
 			<p class="solution"><code>x=<var>A</var></code> and <code>x=<var>B</var></code></p>
 			<ul class="choices" data-none="true">
@@ -56,7 +57,7 @@
 				<var id="SIMPLELINEAR">-2 * A</var>
 			</div>
 			<p class="problem">Determine where <code>f(x)</code> intersects the x-axis.</p>
-			<p class="question"><code><var>SQUARE</var>x^2 + <var>LINEAR</var>x + <var>CONSTANT</var></code></p>
+			<p class="question"><code><var>plus( SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
 			<p class="solution"><code>x=<var>A</var></code> only</p>
 
 			<ul class="choices" data-none="true">
@@ -81,12 +82,12 @@
 	<div class="hints">
 		<div>
 			<p>The function intersects the <code>x</code>-axis where <code>f(x) = 0</code>, so solve the equation:</p>
-			<p><code><var>SQUARE</var>x^2 + <var>LINEAR</var>x + <var>CONSTANT</var>=0</code></p>
+			<p><code><var>plus( SQUARE + "x^2" )</var> + <var>plus( LINEAR + "x")</var> + <var>CONSTANT</var>=0</code></p>
 		</div>
 
 		<div data-if="SQUARE > 1">
 			<p>Dividing both sides by <var>SQUARE</var> gives:</p>
-			<p><code>x^2 + <var>SIMPLELINEAR</var>x + <var>SIMPLECONSTANT</var>=0</code></p>
+			<p><code>x^2 + <var> plus(SIMPLELINEAR + "x")</var> + <var>SIMPLECONSTANT</var>=0</code></p>
 		</div>
 
 		<p>The coefficient on the <code>x</code> term is <code><var>SIMPLELINEAR</var></code> and the constant term is <code><var>SIMPLECONSTANT</var></code>, so we need to find two numbers that add up to <code><var>SIMPLELINEAR</var></code> and multiply to <code><var>SIMPLECONSTANT</var></code>.</p>

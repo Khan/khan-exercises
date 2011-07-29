@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math calculus polynomials expressions">
 <head>
+	<meta charset="UTF-8" />
 	<title>Quotient rule</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -10,23 +11,44 @@
 			<var id="FUNCN">generateSpecialFunction("x")</var>
 			<var id="FUNCD">generateSpecialFunction("x")</var>
 
+			<var id="N_F">FUNCN.fText</var>
+			<var id="N_DF">FUNCN.ddxFText</var>
+			<var id="D_F">FUNCD.fText</var>
+			<var id="D_DF">FUNCD.ddxFText</var>
+
 			<var id="NOTATION">funcNotation("x")</var>
+
+			<var id="ANSWER">function( a, b, c, d, e, min ) {
+				// create fraction of the form ( (a)(b) + (c)(d) ) / e^2
+				var term1 = "(" + a + ")" + ( a === b ? "^2" : "(" + b + ")" ),
+					term2 = "(" + c + ")" + ( c === d ? "^2" : "(" + d + ")" );
+				return "\\dfrac{" + term1 + min + term2 + "}{(" + e + ")^2}";
+			}</var>
+
 		</div>
 
 		<div class="problems">
 			<div>
-				<div class="question">
-					<p>Find <code>\displaystyle \frac{d}{dx}\biggl( \frac{<var>FUNCN.fText</var>}{<var>FUNCD.fText</var>} \biggr)</code>.</p>
-				</div>
+				<p class="question">Find <code>\displaystyle \frac{d}{dx}\biggl( \frac{<var>FUNCN.fText</var>}{<var>FUNCD.fText</var>} \biggr)</code>.</p>
 
-				<p class="solution"><code>\dfrac{(<var>FUNCN.ddxFText</var>)(<var>FUNCD.fText</var>) - (<var>FUNCD.ddxFText</var>)(<var>FUNCN.fText</var>)}{(<var>FUNCD.fText</var>)^2}</code></p>
+				<!-- (n-df)(d-f) - (d-df)(n-f) / d-f -->
+				<p class="solution"><code><var>ANSWER( N_DF, D_F, D_DF, N_F, D_F, "-" )</var></code></p>
 
 				<ul class="choices" data-show="5" data-none="true">
-					<li><code>\dfrac{(<var>FUNCD.fText</var>)(<var>FUNCN.ddxFText</var>) + (<var>FUNCN.fText</var>)(<var>FUNCD.ddxFText</var>)}{(<var>FUNCD.fText</var>)^2}</code></li>
-					<li><code>\dfrac{(<var>FUNCD.fText</var>)(<var>FUNCN.ddxFText</var>) - (<var>FUNCN.fText</var>)(<var>FUNCD.ddxFText</var>)}{(<var>FUNCD.ddxFText</var>)^2}</code></li>
-					<li><code>\dfrac{(<var>FUNCN.fText</var>)(<var>FUNCN.ddxFText</var>) + (<var>FUNCD.fText</var>)(<var>FUNCD.ddxFText</var>)}{(<var>FUNCD.ddxFText</var>)^2}</code></li>
-					<li><code>\dfrac{(<var>FUNCN.fText</var>)(<var>FUNCN.ddxFText</var>) - (<var>FUNCD.fText</var>)(<var>FUNCD.ddxFText</var>)}{(<var>FUNCD.ddxFText</var>)^2}</code></li>
-					<li><code>\dfrac{(<var>FUNCN.fText</var>)(<var>FUNCD.ddxFText</var>) - (<var>FUNCD.fText</var>)(<var>FUNCN.ddxFText</var>)}{(<var>FUNCD.ddxFText</var>)^2}</code></li>
+					<!-- (n-df)(d-df) - (d-f)(n-f) / d-f -->
+					<li data-if="D_DF !== D_F"><code><var>ANSWER( N_DF, D_DF, D_F, N_F, D_F, "-" )</var></code></li>
+					<!-- (n-df)(d-f) - (d-df)(n-f) / n-f -->
+					<li data-if="N_F !== D_F"><code><var>ANSWER( N_DF, D_F, D_DF, N_F, N_F, "-" )</var></code></li>
+					<!-- (n-df)(d-df) - (d-f)(n-f) / n-f -->
+					<li data-if="N_F !== D_F && D_DF !== D_F"><code><var>ANSWER( N_DF, D_DF, D_F, N_F, N_F, "-" )</var></code></li>
+					<!-- (n-df)(d-f) + (d-df)(n-f) / d-f -->
+					<li><code><var>ANSWER( N_DF, D_F, D_DF, N_F, D_F, "+" )</var></code></p>
+					<!-- (n-df)(d-df) + (d-f)(n-f) / d-f -->
+					<li data-if="D_DF !== D_F"><code><var>ANSWER( N_DF, D_DF, D_F, N_F, D_F, "+" )</var></code></li>
+					<!-- (n-df)(d-f) + (d-df)(n-f) / n-f -->
+					<li data-if="N_F !== D_F"><code><var>ANSWER( N_DF, D_F, D_DF, N_F, N_F, "+" )</var></code></li>
+					<!-- (n-df)(d-df) + (d-f)(n-f) / n-f -->
+					<li data-if="N_F !== D_F && D_DF !== D_F"><code><var>ANSWER( N_DF, D_DF, D_F, N_F, N_F, "+" )</var></code></li>
 				</ul>
 			</div>
 		</div>

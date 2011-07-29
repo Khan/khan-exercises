@@ -183,7 +183,7 @@ jQuery.tmpl = {
 	// Eval a string in the context of Math, KhanUtil, VARS, and optionally another passed context
 	getVAR: function( elem, ctx ) {
 		// We need to compute the value
-		var code = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
+		var code = jQuery.trim( elem.nodeName ? jQuery(elem).newlinePreservingText() : elem );
 
 		// Make sure any HTML formatting is stripped
 		code = jQuery.tmpl.cleanHTML( code );
@@ -202,7 +202,7 @@ jQuery.tmpl = {
 					with ( ctx ) {
 						// And all the computed variables
 						with ( VARS ) {
-							return eval( "(" + code + ")" );
+							return eval( "(function() { return (" + code + "); })()" );
 						}
 					}
 				}
@@ -222,6 +222,10 @@ jQuery.tmpl = {
 if ( typeof KhanUtil !== "undefined" ) {
 	KhanUtil.tmpl = jQuery.tmpl;
 }
+
+jQuery.fn.newlinePreservingText = function() {
+	return jQuery( "<pre>" ).append( this.clone() ).text();
+};
 
 // Reinitialize VARS for each problem
 jQuery.fn.tmplLoad = function() {
