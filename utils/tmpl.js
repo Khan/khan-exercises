@@ -202,7 +202,7 @@ jQuery.tmpl = {
 					with ( ctx ) {
 						// And all the computed variables
 						with ( VARS ) {
-							return eval( "(" + code + ")" );
+							return eval( "(function() { return (" + code + "); })()" );
 						}
 					}
 				}
