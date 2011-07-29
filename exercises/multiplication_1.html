@@ -37,7 +37,7 @@
 					<div class="graphie" data-update="numbers">
 						label( [ 0, B - 2 ], "\\large{\\text{"
 							+ "If there" + ( B === 1 ? " is " : " are " ) + plural( B, "row" )
-							+ " with " + plural( A, "circle" ) + " each, there is a total of how many circles?"
+							+ " with " + plural( A, "circle" ) +  ( B === 1 ? " " : " each " ) + ", there is a total of how many circles?"
 							+ "}}", "right" );
 						for ( var i = 1; i &lt; B; i++ ) {
 							drawRow( A, B - 3 - i, "#28AE7B", A * i + 1 );
