@@ -93,7 +93,9 @@
 				}
 
 				HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_DIFF ],  "\\Huge{\\color{#28AE7B}{" + diff + "}}" ) );
-
+				if ( subStr == "" ){
+					subStr = "- \\color{#6495ED}{ 0 }";
+				}
 				HIGHLIGHTS[ index ].push( label( [ X_SIDE, Y_SIDE ], "\\Large{"
 					+ "\\color{#6495ED}{" + A_DIGITS[ index ] + "}"
 					+ subStr
