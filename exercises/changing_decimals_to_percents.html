@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html data-require="math">
+	<head>
+		<title>Changing Decimals to Percents</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="DECIMAL">randRange( 50, 999 ) / 1000</var> <!-- between 0.05 and .999, pcts with 1 decimal place-->
+				<var id="SOLN">DECIMAL * 100</var>
+			</div>
+
+			<div class="problems">
+				<div id="original" data-weight="1">
+					<p class="question">Express <var>DECIMAL</var> as a Percent.</p>
+					<div class="solution" data-type="multiple">
+						<p><span class="sol"><var>SOLN</var></span> %</p>
+					</div>					
+
+					<div class="hints">
+						<p><var>DECIMAL</var> is equal to <code>\dfrac{<var>DECIMAL*100</var>}{<var>100</var>}</code>.</p>
+						<p>So all you have to do is move the decimal place of <var>DECIMAL</var> two places to the right.</p>
+						<p>Therefore the answer is <var>SOLN</var>%.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
