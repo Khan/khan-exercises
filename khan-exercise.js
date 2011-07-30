@@ -1674,4 +1674,3 @@ return Khan;
 
 // Make this publicly accessible
 var KhanUtil = Khan.Util;
-foo
