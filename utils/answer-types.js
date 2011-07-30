@@ -44,6 +44,13 @@ jQuery.extend( Khan.answerTypes, {
 		var acceptableForms = ( forms || options.forms ).split(/\s*,\s*/);
 
 		var forms = {
+			literal: {
+				transformer: function( text ) {
+					// Prevent literal comparisons for decimal-looking-like strings
+					return { canonicalized: ( /[^\d\.\s]/ ).test( text ) ? text : null };
+				}
+			},
+
 			improper: {
 				transformer: function( text ) {
 					var match = text
@@ -62,9 +69,10 @@ jQuery.extend( Khan.answerTypes, {
 							denom = parseFloat( match[2] || "1" );
 						var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
 
-						if ( options.simplify === "optional" || simplified ) {
-							return [ num / denom ];
-						}
+						return [ {
+							canonicalized: num / denom,
+							simplified: simplified
+						} ];
 					}
 
 					return [];
@@ -80,37 +88,40 @@ jQuery.extend( Khan.answerTypes, {
 
 			pi: {
 				transformer: function( text ) {
-					var match, imp = [];
+					var match, possiblities = [];
 
 					// Replace unicode minus sign with hyphen
 					text = text.replace( /\u2212/, "-" );
 
 					// - pi
 					if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
-						imp = [ parseFloat( match[1] + "1" ) ];
+						possiblities = [ { canonicalized: parseFloat( match[1] + "1" ), simplified: true } ];
 
 					// 5 / 6 pi
 					} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
-						imp = transforms.improper( match[1] );
+						possiblities = transforms.improper( match[1] );
 
 					// 5 pi / 6
 					} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
-						imp = transforms.improper( match[1] + match[2] );
+						possiblities = transforms.improper( match[1] + match[2] );
 
 					// - pi / 4
 					} else if ( match = text.match( /^([+-]?)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
-						imp = transforms.improper( match[1] + "1/" + match[2] );
+						possiblities = transforms.improper( match[1] + "1/" + match[2] );
 
 					// 0.5 pi (fallback)
 					} else if ( match = text.match( /^(\S+)\s*\*?\s*pi?$/i ) ) {
-						imp = transforms.decimal( match[1] );
+						possiblities = transforms.decimal( match[1] );
 
 					// 0
 					} else if ( text === "0") {
-						imp = [ 0 ];
+						possiblities = [ { canonicalized: 0, simplified: true } ];
 					}
 
-					return jQuery.map( imp, function( x ) { return x * Math.PI; } );
+					jQuery.each( possiblities, function( possibility ) {
+						possibility.canonicalized *= Math.PI;
+					} );
+					return possiblities;
 				},
 				example: "a multiple or fraction of pi, like 12 pi or pi / 3"
 			},
@@ -131,11 +142,12 @@ jQuery.extend( Khan.answerTypes, {
 							integ = parseFloat( match[2] ),
 							num   = parseFloat( match[3] ),
 							denom = parseFloat( match[4] );
-						var simplified = KhanUtil.getGCD( num, denom ) === 1;
+						var simplified = num < denom && KhanUtil.getGCD( num, denom ) === 1;
 
-						if ( num < denom && options.simplify === "optional" || simplified ) {
-							return [ sign * ( integ + num / denom ) ];
-						}
+						return [ {
+							canonicalized: sign * ( integ + num / denom ),
+							simplified: simplified
+						} ];
 					}
 
 					return [];
@@ -175,7 +187,10 @@ jQuery.extend( Khan.answerTypes, {
 						return normal( text );
 					};
 
-					return [ normal( text ), commas( text ) ];
+					return [
+						{ canonicalized: normal( text ), simplified: true },
+						{ canonicalized: commas( text ), simplified: true }
+					];
 				},
 				example: "a decimal, like 4.56"
 			}
@@ -189,21 +204,17 @@ jQuery.extend( Khan.answerTypes, {
 			var ret = false;
 
 			jQuery.each( acceptableForms, function( i, form ) {
-				if ( form === "literal" ) {
-					// Case-insensitive literal compare
-					if ( (/[^\d\.\s]/).test( correct ) && correct.toLowerCase() === guess.toLowerCase() ) {
-						ret = true;
-						return false; // break;
-					} else {
-						return true; // continue;
-					}
-				}
-
 				var transformed = forms[ form ].transformer( jQuery.trim( guess ) );
 
 				for ( var i = 0, l = transformed.length; i < l; i++ ) {
-					if ( typeof transformed[ i ] === "number" &&
-						Math.abs( correctFloat - transformed[ i ] ) < options.maxError ) {
+					var can = transformed[ i ].canonicalized;
+					var simp = transformed[ i ].simplified;
+
+					if ( ( typeof can === "string" &&
+							correct.toLowerCase() === can.toLowerCase() ) ||
+						( typeof can === "number" &&
+							Math.abs( correctFloat - can ) < options.maxError &&
+							( simp || options.simplified === "optional" ) ) ) {
 
 						ret = true;
 						return false; // break;
