@@ -883,13 +883,20 @@ function prepareSite() {
 		jQuery( "#throbber" ).show();
 		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
 		jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
+		jQuery( "#check-answer-results p" ).hide();
+
 		// Figure out if the response was correct
-		if ( pass ) {
+		if ( pass === true ) {
 			jQuery("#happy").show();
 			jQuery("#sad").hide();
 		} else {
 			jQuery("#happy").hide();
 			jQuery("#sad").show();
+
+			// Is this a message to be shown?
+			if ( typeof pass === "string" ) {
+				jQuery( "#check-answer-results .check-answer-message" ).show().text( pass );
+			}
 		}
 
 		// The user checked to see if an answer was valid
@@ -932,7 +939,7 @@ function prepareSite() {
 
 			jQuery( "#throbber" ).hide();
 			jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
-			if ( pass ) {
+			if ( pass === true ) {
 				jQuery( "#check-answer-button" ).hide();
 				if ( !testMode || Khan.query.test == null ) {
 					jQuery( "#next-container" ).show();

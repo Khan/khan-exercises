@@ -1,3 +1,7 @@
+(function() {
+
+var unsimplifiedMessage = "Your answer is almost correct, but it needs to be simplified.";
+
 Khan.answerTypes = Khan.answerTypes || {};
 
 jQuery.extend( Khan.answerTypes, {
@@ -210,13 +214,18 @@ jQuery.extend( Khan.answerTypes, {
 					var can = transformed[ i ].canonicalized;
 					var simp = transformed[ i ].simplified;
 
-					if ( ( typeof can === "string" &&
-							correct.toLowerCase() === can.toLowerCase() ) ||
-						( typeof can === "number" &&
-							Math.abs( correctFloat - can ) < options.maxError &&
-							( simp || options.simplified === "optional" ) ) ) {
-
+					if ( typeof can === "string" &&
+							correct.toLowerCase() === can.toLowerCase() ) {
 						ret = true;
+						return false; // break;
+					} if ( typeof can === "number" &&
+							Math.abs( correctFloat - can ) < options.maxError ) {
+						if ( simp || options.simplified === "optional" ) {
+							ret = true;
+						} else {
+							ret = unsimplifiedMessage;
+						}
+
 						return false; // break;
 					}
 				}
@@ -227,7 +236,7 @@ jQuery.extend( Khan.answerTypes, {
 
 		verifier.examples = [];
 		jQuery.each( acceptableForms, function( i, form ) {
-			if ( forms[ form ] != null ) {
+			if ( forms[ form ] != null && forms[ form ].example != null ) {
 				verifier.examples.push( forms[ form ].example );
 			}
 		});
@@ -335,10 +344,18 @@ jQuery.extend( Khan.answerTypes, {
 			radGuess = parseFloat( radGuess );
 
 			ret.guess = [ inteGuess, radGuess ];
-			if ( options.simplify === "optional" ) {
-				return Math.abs( inteGuess ) * inteGuess * radGuess === ansSquared;
+
+			var simplified = inteGuess === ans[0] && radGuess == ans[1];
+			var correct = Math.abs( inteGuess ) * inteGuess * radGuess === ansSquared;
+
+			if ( correct ) {
+				if ( simplified || options.simplify === "optional" ) {
+					return true;
+				} else {
+					return unsimplifiedMessage;
+				}
 			} else {
-				return inteGuess === ans[0] && radGuess == ans[1];
+				return false;
 			}
 		};
 		ret.solution = ans;
@@ -550,3 +567,5 @@ jQuery.extend( Khan.answerTypes, {
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	}
 } );
+
+} )();
