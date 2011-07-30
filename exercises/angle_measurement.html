@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie angles">
+<head>
+	<meta charset="UTF-8" />
+	<title>Angle Measurement</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="a">
+			<div class="vars">
+				<var id="ANGLE_ONE">randFromArray([0,15,30,45,60,75,90,105,120,135,150,165,180])</var>
+				<var id="DIFF">randFromArray([15,30,45,60,75,90,105,120,135,150,165,180])</var>
+				<var id="ANGLE_TWO">(ANGLE_ONE + DIFF)</var>
+			</div>
+
+			<div class="question">
+				<p>Express the value of the indicated positive angle in degrees.  <br/>Note: angles are in 15 degree ( <code>\frac{\pi}{12}</code>radians) increments </p>
+
+				<div class="graphie">
+
+				graphInit({
+						range: 5,
+						scale: 20,
+						tickStep: 5,
+						labelStep: 10,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"},
+						axisArrows: "->",
+					});
+				
+				
+					var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
+					var ANGLE_TWO_R = ( ANGLE_ONE + DIFF ) * PI / 180;
+					
+					
+					line( [0,0],[5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )],{ "fill": "none", "stroke": "red","arrows":"->" }); 
+					line( [0,0],[5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )],{ "fill": "none", "stroke": "red","arrows":"->" }); 
+					style({
+						stroke: "grey",
+						strokeDasharray: "- ",
+					}, function() {
+					path([[0,0],[0.9659,0.2588]]);
+					path([[0,0],[0.866,0.5]]);
+					path([[0,0],[0.7071,0.7071]]);
+					path([[0,0],[0.5,0.866]]);
+					path([[0,0],[0.2588,0.9659]]);
+					path([[0,0],[0.9659,-0.2588]]);
+					path([[0,0],[0.866,-0.5]]);
+					path([[0,0],[0.7071,-0.7071]]);
+					path([[0,0],[0.5,-0.866]]);
+					path([[0,0],[0.2588,-.9659]]);
+					path([[0,0],[-0.2588,-0.9659]]);
+					path([[0,0],[-0.9659,-0.2588]]);
+					path([[0,0],[-0.866,-0.5]]);
+					path([[0,0],[-0.7071,-0.7071]]);
+					path([[0,0],[-0.5,-0.866]]);
+					path([[0,0],[-0.2588,0.9659]]);
+					path([[0,0],[-0.9659,0.2588]]);
+					path([[0,0],[-0.866,0.5]]);
+					path([[0,0],[-0.7071,0.7071]]);
+					path([[0,0],[-0.5,0.866]]);
+					path([[0,0],[-0.2588,0.9659]])});
+					
+					
+					
+					style({
+						stroke: "#ff00af",
+						color: "#ff00af"
+					}, function() {
+					arc([0,0],2.5,ANGLE_ONE,ANGLE_ONE + DIFF,{ arrows: "->" } );});
+				</div>
+			</div>
+
+			<div class="solution" data-type="decimal"><var>DIFF</var></div>
+		</div>	
+		</div>
+			<div class="hints">
+				<p>Measure ray directions from the standard position (x-axis)<br/> using your right hand with CCW positive.</p>
+				<p>The direction of the first line is <var>ANGLE_ONE</var><code>^\circ</code></p>
+				<p>The direction of the second line is <var>ANGLE_TWO</var><code>^\circ</code></p>
+				<p><var>ANGLE_TWO</var><code>^\circ</code> minus <var>ANGLE_ONE</var><code>^\circ</code> equals <var>DIFF</var><code>^\circ</code>
+		</div>
+
+		
+
+		
+	</div>
+	</div>
+</body>
+</html>
