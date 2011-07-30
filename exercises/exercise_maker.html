@@ -17,7 +17,7 @@
 			return head;
 		}
 		function generate(){
-		var html =  genHead("teshhht") + '<body>' +
+		var html =  genHead($("#title").val()) + '<body>' +
 '	<div class="exercise">' +
 '	<div class="vars">' +
 '		<var id="H">randRange(-9, 9)</var>' +
@@ -51,12 +51,12 @@
 '	</div>' +
 '</body>' +
 '</html>';
-	$("#test").remove();	
-        var $frame = $('<iframe id="test" style="width:800px; height:600px;">'); 
+	$("#frame").remove();	
+        var $frame = $('<iframe id="frame" style="width:800px; height:600px;">'); 
         $('body').append( $frame ); 
 
 		setTimeout( function() { 
-		var ifrm = document.getElementById('test');
+		var ifrm = document.getElementById('frame');
 		ifrm = (ifrm.contentWindow) ? ifrm.contentWindow : (ifrm.contentDocument.document) ? ifrm.contentDocument.document : ifrm.contentDocument;
 		ifrm.document.open();
 		ifrm.document.write(html);
