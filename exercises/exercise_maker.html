@@ -5,17 +5,19 @@
 	<title>Exercise maker</title>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
 	<script>
+		function genHead( title ){
+			var head = '' +  
+				'<!DOCTYPE html>' +
+				'<html data-require="math math-format expressions">' +
+				'<head>' +
+				'	<meta charset="UTF-8" />' +
+				'       <title>' + title + '</title>' +
+				'       <script src="../khan-exercise.js"></script\> ' +
+				'</head>' ; 
+			return head;
+		}
 		function generate(){
-			var html= ''+
-'<!DOCTYPE html>' +
-'<html data-require="math math-format expressions">' +
-'<head>' +
-'	<meta charset="UTF-8" />' +
-'▸       <title>Equation of a circle 1</title>' +
-'▸       <script src="../khan-exercise.js"></script\> ' +
-
-'</head>'  +
-'<body>' +
+		var html =  genHead("teshhht") + '<body>' +
 '	<div class="exercise">' +
 '	<div class="vars">' +
 '		<var id="H">randRange(-9, 9)</var>' +
@@ -49,14 +51,25 @@
 '	</div>' +
 '</body>' +
 '</html>';
-var s = document.getElementById('fred');
-s.contentDocument.write(html);
+	$("#test").remove();	
+        var $frame = $('<iframe id="test" style="width:800px; height:600px;">'); 
+        $('body').append( $frame ); 
 
-	}
+		setTimeout( function() { 
+		var ifrm = document.getElementById('test');
+		ifrm = (ifrm.contentWindow) ? ifrm.contentWindow : (ifrm.contentDocument.document) ? ifrm.contentDocument.document : ifrm.contentDocument;
+		ifrm.document.open();
+		ifrm.document.write(html);
+		ifrm.document.close();
+ 
+        }, 1 ); 
+}
 </script>
 <body onload='generate()'>
-<iframe id="fred" width="600" height="600"></iframe>
 
-
+	<input id="title">
+	<input type="button" value="Generate" onClick="generate();">
+	<div id="fr">
+	</div>
 </body>
 </html>
