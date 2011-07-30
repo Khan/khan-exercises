@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Arithmetic word problems 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div>
+
+				<div class="vars">
+					<var id="TOTAL">randRange( 10, 100 )</var>
+					<var id="NUM1">randRange( 1, TOTAL - 1 )</var>
+					<var id="NUM2">TOTAL - NUM1</var>
+				</div>
+
+				<div class="question">
+                    There are <var>NUM1</var> people riding on a train.
+                    At the last stop <var>NUM2</var> people got off.
+                    How many people were riding the train altogether?
+				</div>
+
+				<p class="solution"><var>TOTAL</var></p>
+
+				<div class="hints">
+					<p>
+                        <var>NUM1</var> people are riding now and <var>NUM2</var> other people were riding before the last stop,
+                        so there were <code><var>NUM1</var> + <var>NUM2</var></code> people on the train.
+					</p>
+
+					<p>
+                        <code><var>NUM1</var> + <var>NUM2</var> = <var>TOTAL</var></code>
+					</p>
+				</div>
+			</div>
+
+			<div>
+
+				<div class="vars" data-ensure="NUM1 < 60 && NUM2 < 60">
+					<var id="TOTAL">randRange( 10, 100 )</var>
+					<var id="NUM1">randRange( 1, TOTAL - 1 )</var>
+					<var id="NUM2">TOTAL - NUM1</var>
+				</div>
+
+				<div class="question">
+                    There are <var>plural(NUM1, bird(1))</var> sitting in a tree.
+                    There are <var>NUM2</var> more <var>plural(bird(1))</var> sitting on a house.
+                    How many <var>plural(bird(1))</var> are there altogether?
+				</div>
+
+				<p class="solution"><var>TOTAL</var></p>
+
+				<div class="hints">
+					<p>
+                        <code><var>NUM1</var> + <var>NUM2</var> = <var>TOTAL</var></code>
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+

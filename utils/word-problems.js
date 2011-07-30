@@ -156,6 +156,20 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"Spanish"
 	]);
 
+    var birds = KhanUtil.shuffle([
+        "cardinal",
+        "bluebird",
+        "falcon",
+        "mockingbird",
+        "partridge",
+        "parakeet",
+        "eagle",
+        "dodo bird",
+        "sparrow",
+        "robin",
+        "dove"
+    ]);
+
 	var exams = KhanUtil.shuffle([
 		"exam",
 		"test",
@@ -292,6 +306,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		pizza: function( i ) {
 			return pizzas[i];
+		},
+
+		bird: function( i ) {
+			return birds[i];
 		}
 
 	});
