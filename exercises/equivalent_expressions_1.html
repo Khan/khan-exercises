@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<meta charset="UTF-8" />
+	<title>Equivalent Expressions</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise" data-ensure="A != B != C != D">
+        <div class="vars">
+            <var id="A">randRange(1, 50)</var>
+            <var id="B">randRange(1, 50)</var>
+            <var id="C">randRange(1, 10)</var>
+            <var id="D">randRange(1, 15)</var>
+            <var id="E">randRange(1, 15)</var>
+        </div>
+
+        <div class="problems">
+
+            <div id="commutative-addition">
+                <div class="question">
+                    <p>Fill in the missing term to make the expressions equivalent.</p>
+                    <p><code><var>A</var> + <var>B</var> =
+                        <var>B</var> + \mbox{?}</code></p>
+                </div>
+                <div class="solution"><var>A</var></div>
+            </div>
+
+            <div id="commutative-multiplication">
+                <div class="question">
+                    <p>Fill in the missing term to make the expressions equivalent.</p>
+                    <p><code><var>A</var> * <var>B</var> * <var>C</var> =
+                        <var>B</var> * \mbox{?} * <var>C</var></code></p>
+                </div>
+                <div class="solution"><var>A</var></div>
+            </div>
+
+            <div id="associative-addition">
+                <div class="question">
+                    <p>Fill in the missing term to make the expressions equivalent.</p>
+                    <p><code><var>A</var> + (<var>B</var> + <var>C</var>) =
+                        <var>B</var> + (\mbox{?} + <var>C</var>)</code></p>
+                </div>
+                <div class="solution"><var>A</var></div>
+            </div>
+
+            <div id="associative-multiplication">
+                <div class="question">
+                    <p>Fill in the missing term to make the expressions equivalent.</p>
+                    <p><code><var>C</var> * (<var>D</var> * <var>E</var>) =
+                        \mbox{?} * (<var>C</var> * <var>E</var>)</code></p>
+                </div>
+                <div class="solution"><var>D</var></div>
+            </div>
+
+            <div id="distributive-add-multiply-one">
+                <div class="question">
+                    <p>Fill in the missing term to make the expressions equivalent.</p>
+                    <p><code><var>C*D</var> + <var>C*E</var> =
+                        \mbox{?} * (<var>D</var> + <var>E</var>)</code></p>
+                </div>
+                <div class="solution"><var>C</var></div>
+            </div>
+
+            <div id="distributive-add-multiply-two">
+                <div class="question">
+                    <p>Fill in the missing term to make the expressions equivalent.</p>
+                    <p><code><var>C</var> * (<var>D</var> + <var>E</var>) =
+                        <var>C*D</var> + \mbox{?}</code></p>
+                </div>
+                <div class="solution"><var>C*E</var></div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
