@@ -701,9 +701,12 @@ function makeProblem( id, seed ) {
 	if ( validator.examples ) {
 		jQuery( "#examples-show" ).show();
 		jQuery( "#examples" ).empty();
+
 		jQuery.each( validator.examples, function( i, example ) {
-			jQuery( "#examples" ).append( '<span class="info-box-sub-description">' + example + '</span>' );
+			jQuery( "#examples" ).append( '<li>' + example + '</li>' );
 		});
+
+		jQuery( "#examples" ).children().tmpl();
 	} else {
 		jQuery( "#examples-show" ).hide();
 	}

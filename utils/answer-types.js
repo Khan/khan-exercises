@@ -83,9 +83,9 @@ jQuery.extend( Khan.answerTypes, {
 				},
 				example: (function() {
 					if ( options.simplify === "optional" ) {
-						return "a fraction, like 1/2"
+						return "a fraction, like <code>1/2</code>"
 					} else {
-						return "a simplified fraction, like 1/2 but not 2/4"
+						return "a simplified fraction, like <code>1/2</code> but not <code>2/4</code>"
 					}
 				})()
 			},
@@ -156,7 +156,7 @@ jQuery.extend( Khan.answerTypes, {
 
 					return [];
 				},
-				example: "a mixed number, like 1 2/3"
+				example: "a mixed number, like <code>1\\ 2/3</code>"
 			},
 
 			decimal: {
@@ -196,7 +196,13 @@ jQuery.extend( Khan.answerTypes, {
 						{ canonicalized: commas( text ), simplified: true }
 					];
 				},
-				example: "a decimal, like 4.56"
+				example: (function() {
+					if ( options.inexact === undefined ) {
+						return "an exact decimal, like <code>0.75</code>";
+					} else {
+						return "a decimal, like <code>0.75</code>";
+					}
+				})()
 			}
 		};
 
