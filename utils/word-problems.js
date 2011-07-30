@@ -156,19 +156,19 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"Spanish"
 	]);
 
-    var birds = KhanUtil.shuffle([
-        "cardinal",
-        "bluebird",
-        "falcon",
-        "mockingbird",
-        "partridge",
-        "parakeet",
-        "eagle",
-        "dodo bird",
-        "sparrow",
-        "robin",
-        "dove"
-    ]);
+	var birds = KhanUtil.shuffle([
+		"cardinal",
+		"bluebird",
+		"falcon",
+		"mockingbird",
+		"partridge",
+		"parakeet",
+		"eagle",
+		"dodo bird",
+		"sparrow",
+		"robin",
+		"dove"
+	]);
 
 	var exams = KhanUtil.shuffle([
 		"exam",
