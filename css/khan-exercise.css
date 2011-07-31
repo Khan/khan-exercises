@@ -13,8 +13,8 @@ var { font-style: normal; }
 #answer_area li { margin: 14px 0; }
 #answer_area li span.value { padding-left: 5px; }
 
-#check-answer-results { overflow: hidden; margin: 5px 0; }
-#check-answer-results .check-answer-message { font-size: 12px; line-height: 20px; margin: 0; }
+#answer_area #check-answer-results { overflow: hidden; margin: 5px 0; }
+#answer_area #check-answer-results .check-answer-message { font-size: 12px; line-height: 20px; margin: 0; }
 #sad, #happy { float: left; margin: 0 6px 4px 0; }
 
 #answer_area #examples { color: #777; margin-left: 20px; list-style-type: disc; }
