@@ -5,6 +5,9 @@
 		jQuery( el ).css( "position", "relative" );
 		var raphael = Raphael( el );
 
+		// For a sometimes-reproducible IE8 bug; doesn't affect SVG browsers at all
+		jQuery( el ).children( "div" ).css( "position", "absolute" );
+
 		// Set up some reasonable defaults
 		var currentStyle = {
 			"stroke-width": 2,
