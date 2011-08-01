@@ -420,6 +420,11 @@ jQuery.extend( Khan.answerTypes, {
 				return false;
 			}
 		};
+		if ( options.simplify === "required" ) {
+			ret.examples = [ "a simplified radical, like <code>\\sqrt{2}</code> or <code>3\\sqrt{5}</code>" ];
+		} else {
+			ret.examples = [ "a radical, like <code>\\sqrt{8}</code> or <code>2\\sqrt{2}</code>" ];
+		}
 		ret.solution = ans;
 		return ret;
 	},
