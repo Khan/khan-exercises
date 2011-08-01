@@ -629,7 +629,7 @@ jQuery.extend( Khan.answerTypes, {
 			guess = KhanUtil.sortNumbers( guess.split( /x|\*/ ) ).join( "x" );
 			return guess === correct;
 		};
-		verifier.examples = [ "a product of prime factors, like 2 x 3" ];
+		verifier.examples = [ "a product of prime factors, like <code>2 \\times 3</code>" ];
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	}
