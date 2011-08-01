@@ -106,7 +106,7 @@ jQuery.extend( Khan.answerTypes, {
 				var match = text
 
 					// Replace unicode minus sign with hyphen
-					.replace( /\u2212/, "-" );
+					.replace( /\u2212/, "-" )
 
 					// Remove space after +, -
 					.replace( /([+-])\s+/g, "$1" )
@@ -134,7 +134,7 @@ jQuery.extend( Khan.answerTypes, {
 					var match = text
 
 						// Replace unicode minus sign with hyphen
-						.replace( /\u2212/, "-" );
+						.replace( /\u2212/, "-" )
 
 						// Remove commas
 						.replace( /,\s*/g, "" )
