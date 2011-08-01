@@ -307,7 +307,7 @@ jQuery.extend( Khan.answerTypes, {
 
 	regex: function( solutionarea, solution, fallback ) {
 		var verifier = function( correct, guess ) {
-			return jQuery.trim( guess ).match( correct );
+			return jQuery.trim( guess ).match( correct ) != null;
 		};
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
