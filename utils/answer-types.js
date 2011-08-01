@@ -46,6 +46,9 @@ jQuery.extend( Khan.answerTypes, {
 			improper: function( text ) {
 				var match = text
 
+					// Replace unicode minus sign with hyphen
+					.replace( /\u2212/, "-" )
+
 					// Remove space after +, -
 					.replace( /([+-])\s+/g, "$1" )
 
@@ -67,6 +70,9 @@ jQuery.extend( Khan.answerTypes, {
 
 			pi: function( text ) {
 				var match, imp = [];
+
+				// Replace unicode minus sign with hyphen
+				text = text.replace( /\u2212/, "-" );
 
 				// - pi
 				if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
@@ -99,6 +105,9 @@ jQuery.extend( Khan.answerTypes, {
 			mixed: function( text ) {
 				var match = text
 
+					// Replace unicode minus sign with hyphen
+					.replace( /\u2212/, "-" )
+
 					// Remove space after +, -
 					.replace( /([+-])\s+/g, "$1" )
 
@@ -123,6 +132,9 @@ jQuery.extend( Khan.answerTypes, {
 			decimal: function( text ) {
 				var normal = function( text ) {
 					var match = text
+
+						// Replace unicode minus sign with hyphen
+						.replace( /\u2212/, "-" )
 
 						// Remove commas
 						.replace( /,\s*/g, "" )

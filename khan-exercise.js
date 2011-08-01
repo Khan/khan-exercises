@@ -1022,6 +1022,11 @@ function prepareSite() {
 			// Append first so MathJax can sense the surrounding CSS context properly
 			jQuery( hint ).appendTo( "#hintsarea" ).runModules( problem );
 
+			// Grow the scratchpad to cover the new hint
+			if ( Khan.scratchpad ) {
+				Khan.scratchpad.resize();
+			}
+
 			// Disable the get hint button
 			if ( hints.length === 0 ) {
 				jQuery( this ).attr( "disabled", true );
@@ -1044,20 +1049,25 @@ function prepareSite() {
 
 		}
 	});
-	
-	// Create form for issuing a bug on Github if the "Report a Problem" link
-	// is clicked. The reference to the link should probably be less hardcoded...
-	jQuery( ".footer-links a:first" ).click( function( e ) {
+
+	// On an exercise page, replace the "Report a Problem" link with a button
+	// to be more clear that it won't replace the current page.
+	jQuery( "<a>Report a Problem</a>" )
+		.attr( "id", "report" ).addClass( "simple-button action-gradient green" )
+		.replaceAll( jQuery( ".footer-links a:first" ) );
+
+	jQuery( "#report" ).click( function( e ) {
 
 		e.preventDefault();
 
-		var entire = jQuery( "#issue" ).css( "display" ) === "none",
-			form = jQuery( "#issue form" ).css( "display" ) === "none";
+		var report = jQuery( "#issue" ).css( "display" ) !== "none",
+			form = jQuery( "#issue form" ).css( "display" ) !== "none";
 
-		if ( entire || form ) {
+		if ( report && form ) {
+			jQuery( "#issue" ).hide();
+		} else if ( !report || !form ) {
 			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
-			jQuery( "#issue-title, #issue-email, #issue-body" ).val( "" );
-			jQuery( entire ? "#issue" : "#issue form" ).show();
+			jQuery( "#issue, #issue form" ).show();
 		}
 
 	});
