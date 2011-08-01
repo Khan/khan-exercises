@@ -51,7 +51,7 @@ jQuery.extend( Khan.answerTypes, {
 			literal: {
 				transformer: function( text ) {
 					// Prevent literal comparisons for decimal-looking-like strings
-					return { canonicalized: ( /[^\d\.\s]/ ).test( text ) ? text : null };
+					return { value: ( /[^\d\.\s]/ ).test( text ) ? text : null };
 				}
 			},
 
@@ -74,7 +74,7 @@ jQuery.extend( Khan.answerTypes, {
 						var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
 
 						return [ {
-							canonicalized: num / denom,
+							value: num / denom,
 							simplified: simplified
 						} ];
 					}
@@ -99,7 +99,7 @@ jQuery.extend( Khan.answerTypes, {
 
 					// - pi
 					if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
-						possiblities = [ { canonicalized: parseFloat( match[1] + "1" ), simplified: true } ];
+						possiblities = [ { value: parseFloat( match[1] + "1" ), simplified: true } ];
 
 					// 5 / 6 pi
 					} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
@@ -119,11 +119,11 @@ jQuery.extend( Khan.answerTypes, {
 
 					// 0
 					} else if ( text === "0") {
-						possiblities = [ { canonicalized: 0, simplified: true } ];
+						possiblities = [ { value: 0, simplified: true } ];
 					}
 
 					jQuery.each( possiblities, function( possibility ) {
-						possibility.canonicalized *= Math.PI;
+						possibility.value *= Math.PI;
 					} );
 					return possiblities;
 				},
@@ -150,7 +150,7 @@ jQuery.extend( Khan.answerTypes, {
 						var simplified = num < denom && KhanUtil.getGCD( num, denom ) === 1;
 
 						return [ {
-							canonicalized: sign * ( integ + num / denom ),
+							value: sign * ( integ + num / denom ),
 							simplified: simplified
 						} ];
 					}
@@ -193,8 +193,8 @@ jQuery.extend( Khan.answerTypes, {
 					};
 
 					return [
-						{ canonicalized: normal( text ), simplified: true },
-						{ canonicalized: commas( text ), simplified: true }
+						{ value: normal( text ), simplified: true },
+						{ value: commas( text ), simplified: true }
 					];
 				},
 				example: (function() {
@@ -218,15 +218,15 @@ jQuery.extend( Khan.answerTypes, {
 				var transformed = forms[ form ].transformer( jQuery.trim( guess ) );
 
 				for ( var i = 0, l = transformed.length; i < l; i++ ) {
-					var can = transformed[ i ].canonicalized;
+					var val = transformed[ i ].value;
 					var simp = transformed[ i ].simplified;
 
-					if ( typeof can === "string" &&
-							correct.toLowerCase() === can.toLowerCase() ) {
+					if ( typeof val === "string" &&
+							correct.toLowerCase() === val.toLowerCase() ) {
 						ret = true;
 						return false; // break;
-					} if ( typeof can === "number" &&
-							Math.abs( correctFloat - can ) < options.maxError ) {
+					} if ( typeof val === "number" &&
+							Math.abs( correctFloat - val ) < options.maxError ) {
 						if ( simp || options.simplified === "optional" ) {
 							ret = true;
 						} else {
