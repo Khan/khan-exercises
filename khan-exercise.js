@@ -1527,10 +1527,10 @@ function updateData( data ) {
 
 	if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
 		jQuery.each( videos, function( i, video ) {
-			var vidProgress = jQuery( "<span class='vid-progress " + video.id + "'>");
-			var span = jQuery( '<span class="video-title">' ).text( video.title );
+			var vidProgress = jQuery( "<span class='vid-progress v" + video.id + "'>&nbsp</span>");
+			var span = jQuery( "<span class='video-title'>" ).text( video.title );
 			if ( i < videos.length - 1 && i < 2 ) {
-				span.append( '<span class="separator"></span>' );
+				span.append( "<span class='separator'></span>" );
 			}
 
 			var a = jQuery( "<a>" ).attr( {
