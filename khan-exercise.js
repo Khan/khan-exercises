@@ -1022,6 +1022,11 @@ function prepareSite() {
 			// Append first so MathJax can sense the surrounding CSS context properly
 			jQuery( hint ).appendTo( "#hintsarea" ).runModules( problem );
 
+			// Grow the scratchpad to cover the new hint
+			if ( Khan.scratchpad ) {
+				Khan.scratchpad.resize();
+			}
+
 			// Disable the get hint button
 			if ( hints.length === 0 ) {
 				jQuery( this ).attr( "disabled", true );
@@ -1430,19 +1435,26 @@ function request( method, data, fn, fnError ) {
 
 // Update the visual representation of the points/streak
 function updateData( data ) {
-	// Make sure we have current data
-	data = data || getData();
-
-	// Change users, if needed
-	if ( user !== data.user ) {
+	// Check if we're setting/switching usernames
+	if ( data ) {
 		user = data.user || user;
 		userCRC32 = user != null ? crc32( user ) : null;
 		randomSeed = userCRC32 || randomSeed;
 	}
 
-	// Cache the data locally
-	if ( data && user != null ) {
-		window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
+	// Make sure we have current data
+	var oldData = getData();
+
+	// Change users, if needed
+	if ( data && (data.total_done >= oldData.total_done || data.user !== oldData.user) ) {
+		// Cache the data locally
+		if ( user != null ) {
+			window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
+		}
+
+	// If no data is provided then we're just updating the UI
+	} else {
+		data = oldData;
 	}
 
 	// Update the streaks/point bar
