@@ -1532,8 +1532,9 @@ function updateData( data ) {
 
 	if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
 		jQuery.each( videos, function( i, video ) {
-			var vidProgress = jQuery( "<span class='vid-progress v" + video.id + "'>&nbsp</span>");
-			var span = jQuery( "<span class='video-title'>" ).text( video.title );
+			var span = jQuery( "<span>")
+				.addClass("video-title vid-progress v" + video.id)
+				.text( video.title );
 			if ( i < videos.length - 1 && i < 2 ) {
 				span.append( "<span class='separator'></span>" );
 			}
@@ -1542,7 +1543,6 @@ function updateData( data ) {
 				href: video.ka_url,
 				title: video.title
 			} )
-				.append(vidProgress)
 				.append( span );
 
 			jQuery( "<li>" )
