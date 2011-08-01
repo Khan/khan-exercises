@@ -383,7 +383,9 @@ var Khan = {
 	// Display error messages
 	error: function( ) {
 		if ( typeof console !== "undefined" ) {
-			console.error.apply( console, arguments );
+			jQuery.each( arguments, function( ix, arg ) {
+				console.error(arg);
+			});
 		}
 	}
 };
