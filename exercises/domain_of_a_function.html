@@ -6,7 +6,7 @@
 	<script src="../khan-exercise.js"></script>
 	<script type="text/javascript">
 		function filter( o, f ) {
-			n = {};
+			var n = {};
 			for ( var p in o ) {
 				if ( o.hasOwnProperty( p ) && f( p ) ) n[p] = o[p];
 			}
