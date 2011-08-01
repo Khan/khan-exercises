@@ -43,19 +43,45 @@ jQuery.extend( Khan.answerTypes, {
 		var options = jQuery.extend({
 			simplify: "required",
 			maxError: Math.pow( 2, -42 ),
-			forms: "literal, improper, mixed, decimal"
+			forms: "literal, integer, proper, improper, mixed, decimal"
 		}, jQuery( solution ).data());
 		var acceptableForms = ( forms || options.forms ).split(/\s*,\s*/);
+
+		var fractionTransformer = function( text ) {
+			var match = text
+
+				// Replace unicode minus sign with hyphen
+				.replace( /\u2212/, "-" )
+
+				// Remove space after +, -
+				.replace( /([+-])\s+/g, "$1" )
+
+				// Extract numerator and denominator
+				.match( /^([+-]?\d+)\s*\/\s*([+-]?\d+)$/ );
+
+			if ( match ) {
+				var num = parseFloat( match[1] ),
+					denom = parseFloat( match[2] );
+				var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
+
+				return [ {
+					value: num / denom,
+					simplified: simplified
+				} ];
+			}
+
+			return [];
+		};
 
 		var forms = {
 			literal: {
 				transformer: function( text ) {
 					// Prevent literal comparisons for decimal-looking-like strings
-					return { value: ( /[^\d\.\s]/ ).test( text ) ? text : null };
+					return [{ value: ( /[^+-\u2212\d\.\s]/ ).test( text ) ? text : null }];
 				}
 			},
 
-			improper: {
+			integer: {
 				transformer: function( text ) {
 					var match = text
 
@@ -65,27 +91,55 @@ jQuery.extend( Khan.answerTypes, {
 						// Remove space after +, -
 						.replace( /([+-])\s+/g, "$1" )
 
-						// Extract numerator and (optional) denominator
-						.match( /^([+-]?\d+)\s*(?:\/\s*([+-]?\d+))?$/ );
+						// Extract integer
+						.match( /^([+-]?\d+)$/ );
 
 					if ( match ) {
-						var num = parseFloat( match[1] ),
-							denom = parseFloat( match[2] || "1" );
-						var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
-
 						return [ {
-							value: num / denom,
-							simplified: simplified
+							value: parseFloat( match[1] ),
+							simplified: true
 						} ];
 					}
 
 					return [];
 				},
+				example: "an integer, like <code>6</code>"
+			},
+
+			proper: {
+				transformer: function( text ) {
+					return jQuery.map( fractionTransformer( text ), function( o ) {
+						if ( Math.abs(o.value) < 1 ) {
+							return [o];
+						} else {
+							return [];
+						}
+					} );
+				},
 				example: (function() {
 					if ( options.simplify === "optional" ) {
-						return "a fraction, like <code>1/2</code>"
+						return "a proper fraction, like <code>1/2</code> or <code>6/10</code>"
 					} else {
-						return "a simplified fraction, like <code>1/2</code> but not <code>2/4</code>"
+						return "a simplified proper fraction, like <code>3/5</code>"
+					}
+				})()
+			},
+
+			improper: {
+				transformer: function( text ) {
+					return jQuery.map( fractionTransformer( text ), function( o ) {
+						if ( Math.abs(o.value) > 1 ) {
+							return [o];
+						} else {
+							return [];
+						}
+					} );
+				},
+				example: (function() {
+					if ( options.simplify === "optional" ) {
+						return "an improper fraction, like <code>10/7</code> or <code>14/8</code>"
+					} else {
+						return "a simplified improper fraction, like <code>7/4</code>"
 					}
 				})()
 			},
@@ -127,7 +181,7 @@ jQuery.extend( Khan.answerTypes, {
 					} );
 					return possiblities;
 				},
-				example: "a multiple or fraction of pi, like 12 pi or pi / 3"
+				example: "a multiple of pi, like <code>12\\ \\text{pi}</code> or <code>2\\ \\text{pi} / 3</code>"
 			},
 
 			mixed: {
@@ -157,7 +211,7 @@ jQuery.extend( Khan.answerTypes, {
 
 					return [];
 				},
-				example: "a mixed number, like <code>1\\ 2/3</code>"
+				example: "a mixed number, like <code>1\\ 3/4</code>"
 			},
 
 			decimal: {
@@ -313,15 +367,16 @@ jQuery.extend( Khan.answerTypes, {
 	},
 
 	rational: function( solutionarea, solution, fallback ) {
-		return Khan.answerTypes.number( solutionarea, solution, fallback, "improper, mixed" );
+		return Khan.answerTypes.number( solutionarea, solution, fallback, "integer, proper, improper, mixed" );
 	},
 
+	// A little bit of a misnomer as proper fractions are also accepted
 	improper: function( solutionarea, solution, fallback ) {
-		return Khan.answerTypes.number( solutionarea, solution, fallback, "improper" );
+		return Khan.answerTypes.number( solutionarea, solution, fallback, "integer, proper, improper" );
 	},
 
 	mixed: function( solutionarea, solution, fallback ) {
-		return Khan.answerTypes.number( solutionarea, solution, fallback, "mixed" );
+		return Khan.answerTypes.number( solutionarea, solution, fallback, "integer, proper, mixed" );
 	},
 
 	radical: function( solutionarea, solution ) {
