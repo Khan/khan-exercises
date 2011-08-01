@@ -7,11 +7,15 @@ function Scratchpad( elem ){
 
 	var mobilesafari = /AppleWebKit.*Mobile/.test(navigator.userAgent);
 	var container = jQuery( elem );
+
 	var pad = Raphael( container[0], container.width(), container.height() );
 
 	this.resize = function() {
 		pad.setSize( container.width(), container.height() );
 	};
+
+	// Needed to catch events on old Safari (and IE7, though it's not supported)
+	var canvas = pad.rect(40, 0, container.width() - 40, container.height()).attr({stroke: "", fill: "#ffffff", opacity: "0"});
 
 	$('body').bind('selectstart', function(e) {
 		return false;
