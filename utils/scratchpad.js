@@ -7,7 +7,11 @@ function Scratchpad( elem ){
 
 	var mobilesafari = /AppleWebKit.*Mobile/.test(navigator.userAgent);
 	var container = jQuery( elem );
-	var pad = Raphael( container[0], "100%", "100%" );
+	var pad = Raphael( container[0], container.width(), container.height() );
+
+	this.resize = function() {
+		pad.setSize( container.width(), container.height() );
+	};
 
 	$('body').bind('selectstart', function(e) {
 		return false;

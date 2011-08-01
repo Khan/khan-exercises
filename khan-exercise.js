@@ -1022,6 +1022,11 @@ function prepareSite() {
 			// Append first so MathJax can sense the surrounding CSS context properly
 			jQuery( hint ).appendTo( "#hintsarea" ).runModules( problem );
 
+			// Grow the scratchpad to cover the new hint
+			if ( Khan.scratchpad ) {
+				Khan.scratchpad.resize();
+			}
+
 			// Disable the get hint button
 			if ( hints.length === 0 ) {
 				jQuery( this ).attr( "disabled", true );
