@@ -1515,12 +1515,23 @@ function updateData( data ) {
 
 	if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
 		jQuery.each( videos, function( i, video ) {
-			jQuery("<li" + (i > 2 ? " class='related-video-extended'" : "") + ">" +
-					"<a href='" + video.ka_url + "' title='" + video.title + "'><span class='video-title'>" +
-						video.title +
-							(i < videos.length - 1 && i < 2 ? "<span class='separator'>, </span>" : "")
-								+ "</span></a></li>")
-									.appendTo(".related-video-list");
+			var vidProgress = jQuery( "<span class='vid-progress " + video.id + "'>");
+			var span = jQuery( '<span class="video-title">' ).text( video.title );
+			if ( i < videos.length - 1 && i < 2 ) {
+				span.append( '<span class="separator"></span>' );
+			}
+
+			var a = jQuery( "<a>" ).attr( {
+				href: video.ka_url,
+				title: video.title
+			} )
+				.append(vidProgress)
+				.append( span );
+
+			jQuery( "<li>" )
+				.addClass( i > 2 ? "related-video-extended" : "" )
+				.append( a )
+				.appendTo( ".related-video-list" );
 		});
 
 		jQuery(".related-content, #related-video-content").show();
