@@ -1,10 +1,11 @@
 jQuery.extend(KhanUtil, {
 
 	expr: function( expr, compute ) {
-		if ( typeof expr == "object" ) {
-			var op = expr[0], args = expr.slice(1);
+		if ( typeof expr === "object" ) {
+			var op = expr[0],
+				args = expr.slice(1),
+				table = compute ? KhanUtil.computeOperators : KhanUtil.formatOperators;
 
-			var table = compute ? KhanUtil.computeOperators : KhanUtil.formatOperators;
 			return table[op].apply( this, args );
 		} else {
 			return compute ? expr : expr.toString();
@@ -47,7 +48,7 @@ jQuery.extend(KhanUtil, {
 			return expr < 0;
 
 			case "string":
-			return expr.charAt(0) == "-";
+			return expr.charAt(0) === "-";
 
 			case "*":
 			default:
@@ -139,7 +140,7 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"-": function() {
-			if ( arguments.length == 1 ) {
+			if ( arguments.length === 1 ) {
 				return KhanUtil.expr( ["*", -1, arguments[0]] );
 			} else {
 				var args = [].slice.call( arguments, 0 );
@@ -351,14 +352,14 @@ jQuery.extend(KhanUtil, {
 		},
 
 		"-": function() {
-			if ( arguments.length == 1 ) {
+			if ( arguments.length === 1 ) {
 				return -KhanUtil.expr( arguments[0], true );
 			} else {
 				var args = [].slice.call( arguments, 0 );
 				var sum = 0;
 
 				jQuery.each( args, function( i, term ) {
-					sum += ( i == 0 ? 1 : -1 ) * KhanUtil.expr( term, true );
+					sum += ( i === 0 ? 1 : -1 ) * KhanUtil.expr( term, true );
 				} );
 
 				return sum;
@@ -382,7 +383,7 @@ jQuery.extend(KhanUtil, {
 
 			jQuery.each( args, function( i, term ) {
 				var e = KhanUtil.expr( term, true );
-				prod *= ( i == 0 ? e : 1 / e );
+				prod *= ( i === 0 ? e : 1 / e );
 			} );
 
 			return prod;
@@ -414,6 +415,46 @@ jQuery.extend(KhanUtil, {
 				return [ (i === 0) ? el : KhanUtil.exprStripColor( el ) ];
 			});
 		}
+	},
+
+	// simplify an expression by collapsing all the associative
+	// operations.  e.g. ["+", ["+", 1, 2], 3] -> ["+", 1, 2, 3]
+	exprSimplifyAssociative : function (expr) {
+		if ( typeof expr !== "object" ){
+			return expr;
+		}
+
+		var simplified = jQuery.map( expr.slice(1), function(x){
+			//encapsulate in a list so jQuery.map unpacks it correctly
+			return [KhanUtil.exprSimplifyAssociative(x)];
+		});
+		
+		var flattenOneLevel = function (e) {
+			switch( expr[0] ){
+				case "+":
+				if ( e[0] === "+" ) {
+					return e.slice(1);
+				}
+				break;
+
+				case "*":
+				if ( e[0] === "*" ) {
+					return e.slice(1);
+				}
+				break;
+			}
+			//make sure that we encapsulate e in an array so jQuery's map 
+			//does't accidently unpacks e itself.
+			return [e];
+		}
+		
+		//here we actually want the jQuery behavior of
+		//having any lists that flattenOneLevel returns merged into
+		//the result
+		var ret = jQuery.map( simplified, flattenOneLevel );
+		ret.unshift( expr[0] );
+
+		return ret;
 	}
 });
 

@@ -5,6 +5,9 @@
 		jQuery( el ).css( "position", "relative" );
 		var raphael = Raphael( el );
 
+		// For a sometimes-reproducible IE8 bug; doesn't affect SVG browsers at all
+		jQuery( el ).children( "div" ).css( "position", "absolute" );
+
 		// Set up some reasonable defaults
 		var currentStyle = {
 			"stroke-width": 2,
@@ -594,7 +597,7 @@
 	jQuery.fn.graphie = function( problem ) {
 		return this.find(".graphie").add(this.filter(".graphie")).each(function() {
 			// Grab code for later execution
-			var code = jQuery( this ).newlinePreservingText(), graphie;
+			var code = jQuery( this ).text(), graphie;
 
 			// Remove any of the code that's in there
 			jQuery( this ).empty();

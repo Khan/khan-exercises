@@ -38,6 +38,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// Check to see if we're in test mode
 	testMode = (window.location.host.indexOf("localhost") === 0 ||
 				window.location.host.indexOf("127.0.0.1") === 0 ||
+				window.location.host.indexOf("192.168") === 0 ||
 				window.location.protocol === "file:") &&
 				/\.html$/.test( window.location.pathname ),
 
@@ -139,21 +140,21 @@ if (!Array.prototype.indexOf) {
 		if (arguments.length > 0) {
 			n = Number(arguments[1]);
 			if (n !== n) { // shortcut for verifying if it's NaN
-			n = 0;
-		} else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0)) {
-			n = (n > 0 || -1) * Math.floor(Math.abs(n));
+				n = 0;
+			} else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0)) {
+				n = (n > 0 || -1) * Math.floor(Math.abs(n));
+			}
 		}
-	}
-	if (n >= len) {
+		if (n >= len) {
+			return -1;
+		}
+		var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+		for (; k < len; k++) {
+			if (k in t && t[k] === searchElement) {
+				return k;
+			}
+		}
 		return -1;
-	}
-	var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
-	for (; k < len; k++) {
-		if (k in t && t[k] === searchElement) {
-			return k;
-		}
-	}
-	return -1;
 	}
 }
 
@@ -383,7 +384,9 @@ var Khan = {
 	// Display error messages
 	error: function( ) {
 		if ( typeof console !== "undefined" ) {
-			console.error.apply( console, arguments );
+			jQuery.each( arguments, function( ix, arg ) {
+				console.error(arg);
+			});
 		}
 	}
 };
