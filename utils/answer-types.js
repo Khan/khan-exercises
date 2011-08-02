@@ -146,40 +146,38 @@ jQuery.extend( Khan.answerTypes, {
 
 			pi: {
 				transformer: function( text ) {
-					var match, possiblities = [];
+					var match, possibilities = [];
 
 					// Replace unicode minus sign with hyphen
 					text = text.replace( /\u2212/, "-" );
 
+					// 0.5 pi (fallback)
+					if ( match = text.match( /^(\S+)\s*\*?\s*pi?$/i ) ) {
+						possibilities = forms.decimal.transformer( match[1] );
 					// - pi
-					if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
-						possiblities = [ { value: parseFloat( match[1] + "1" ), simplified: true } ];
+					} else if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
+						possibilities = [ { value: parseFloat( match[1] + "1" ), simplified: true } ];
 
 					// 5 / 6 pi
 					} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
-						possiblities = transforms.improper( match[1] );
+						possibilities = fractionTransformer( match[1] );
 
 					// 5 pi / 6
 					} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
-						possiblities = transforms.improper( match[1] + match[2] );
+						possibilities = fractionTransformer( match[1] + match[2] );
 
 					// - pi / 4
 					} else if ( match = text.match( /^([+-]?)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
-						possiblities = transforms.improper( match[1] + "1/" + match[2] );
-
-					// 0.5 pi (fallback)
-					} else if ( match = text.match( /^(\S+)\s*\*?\s*pi?$/i ) ) {
-						possiblities = transforms.decimal( match[1] );
-
+						possibilities = fractionTransformer( match[1] + "1/" + match[2] );
 					// 0
 					} else if ( text === "0") {
-						possiblities = [ { value: 0, simplified: true } ];
+						possibilities = [ { value: 0, simplified: true } ];
 					}
 
-					jQuery.each( possiblities, function( possibility ) {
+					jQuery.each( possibilities, function( ix, possibility ) {
 						possibility.value *= Math.PI;
 					} );
-					return possiblities;
+					return possibilities;
 				},
 				example: "a multiple of pi, like <code>12\\ \\text{pi}</code> or <code>2\\ \\text{pi} / 3</code>"
 			},
