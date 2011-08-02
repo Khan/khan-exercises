@@ -133,8 +133,11 @@ jQuery.tmpl = {
 					// Don't show anything
 					return [];
 				} else {
-					// Convert the value to a string and replace with that text node
-					return jQuery( "<div>" ).append( value + "" ).contents();
+					// Convert the value to a string and replace with those elements and text nodes
+					// Add a space so that it can end with a "<" in Safari
+					var div = jQuery( "<div>" );
+					var html = div.append( value + " " ).html();
+					return div.html( html.slice( 0, -1 ) ).contents();
 				}
 			}
 		},
