@@ -185,6 +185,24 @@ jQuery.extend( Khan.answerTypes, {
 				example: "a multiple of pi, like <code>12\\ \\text{pi}</code> or <code>2\\ \\text{pi} / 3</code>"
 			},
 
+			// simple log( c ) form
+			log: {
+				transformer: function( text ) {
+					var match, possibilities = [];
+
+					// Replace unicode minus sign with hyphen
+					text = text.replace( /\u2212/, "-" );
+
+ 					if ( match = text.match( /^log\(\s*(\S+)\s*\)$/i ) ) {
+						possibilities = forms.decimal.transformer( match[1] );
+					} else if ( text === "0") {
+						possibilities = [ { value: 0, exact: true } ];
+					}
+					return possibilities;
+				},
+				example: "an expression, like <code>\\log(100)</code>"
+			},
+
 			percent: {
 				transformer: function( text ) {
 					text = jQuery.trim( text );
