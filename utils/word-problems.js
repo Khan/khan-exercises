@@ -231,6 +231,18 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"cake"
 	]);
 
+	var veggies = KhanUtil.shuffle([
+		"turnip",
+		"pumpkin",
+		"squash",
+		"potato",
+		"ear of corn",
+		"pound of peas",
+		"bushel of apples",
+		"head of broccoli",
+		"tomato"
+	]);
+
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -310,6 +322,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		bird: function( i ) {
 			return birds[i];
+		},
+
+		veggie: function( i ) {
+			return veggies[i];
 		}
 
 	});

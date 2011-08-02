@@ -59,6 +59,29 @@
 				</div>
 			</div>
 
+			<div>
+
+				<div class="vars">
+					<var id="TOTAL">randRange( 10, 100 )</var>
+					<var id="NUM1">randRange( 1, TOTAL - 1 )</var>
+					<var id="NUM2">TOTAL - NUM1</var>
+				</div>
+
+				<div class="question">
+					<var>person(1)</var>'s farm grew <var>plural(NUM1, veggie(1))</var> last year.
+					<var>His(1)</var> farm grew <var>plural(NUM2, veggie(1))</var> this year.
+					How many <var>plural(veggie(1))</var> did <var>he(1)</var> grow in both years combined?
+				</div>
+
+				<p class="solution"><var>TOTAL</var></p>
+
+				<div class="hints">
+					<p>
+						<code><var>NUM1</var> + <var>NUM2</var> = <var>TOTAL</var></code>
+					</p>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </body>
