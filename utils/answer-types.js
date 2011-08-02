@@ -1,6 +1,9 @@
 (function() {
 
-var unsimplifiedMessage = "Your answer is almost correct, but it needs to be simplified.";
+var inexactMessages = {
+	unsimplified: "Your answer is almost correct, but it needs to be simplified.",
+	missingPercentSign: "Your answer is almost correct, but it is missing a <code>\\%</code> at the end."
+};
 
 Khan.answerTypes = Khan.answerTypes || {};
 
@@ -66,7 +69,7 @@ jQuery.extend( Khan.answerTypes, {
 
 				return [ {
 					value: num / denom,
-					simplified: simplified
+					exact: simplified
 				} ];
 			}
 
@@ -97,7 +100,7 @@ jQuery.extend( Khan.answerTypes, {
 					if ( match ) {
 						return [ {
 							value: parseFloat( match[1] ),
-							simplified: true
+							exact: true
 						} ];
 					}
 
@@ -156,7 +159,7 @@ jQuery.extend( Khan.answerTypes, {
 						possibilities = forms.decimal.transformer( match[1] );
 					// - pi
 					} else if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
-						possibilities = [ { value: parseFloat( match[1] + "1" ), simplified: true } ];
+						possibilities = [ { value: parseFloat( match[1] + "1" ), exact: true } ];
 
 					// 5 / 6 pi
 					} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
@@ -171,7 +174,7 @@ jQuery.extend( Khan.answerTypes, {
 						possibilities = fractionTransformer( match[1] + "1/" + match[2] );
 					// 0
 					} else if ( text === "0") {
-						possibilities = [ { value: 0, simplified: true } ];
+						possibilities = [ { value: 0, exact: true } ];
 					}
 
 					jQuery.each( possibilities, function( ix, possibility ) {
@@ -185,11 +188,18 @@ jQuery.extend( Khan.answerTypes, {
 			percent: {
 				transformer: function( text ) {
 					text = jQuery.trim( text );
-					if ( text.indexOf( "%" ) !== ( text.length - 1 ) ) {
-						return [];
+					var hasPercentSign = false;
+
+					if ( text.indexOf( "%" ) === ( text.length - 1 ) ) {
+						text = jQuery.trim( text.substring( 0, text.length - 1) );
+						hasPercentSign = true;
 					}
-					text = jQuery.trim( text.substring( 0, text.length - 1) );
-					return forms.decimal.transformer( text );
+
+					var transformed = forms.decimal.transformer( text );
+					jQuery.each( transformed, function( ix, t ) {
+						t.exact = hasPercentSign;
+					});
+					return transformed;
 				},
 				example: "a percent, like <code>12.34\\%</code>"
 			},
@@ -215,7 +225,7 @@ jQuery.extend( Khan.answerTypes, {
 
 						return [ {
 							value: sign * ( integ + num / denom ),
-							simplified: simplified
+							exact: simplified
 						} ];
 					}
 
@@ -257,8 +267,8 @@ jQuery.extend( Khan.answerTypes, {
 					};
 
 					return [
-						{ value: normal( text ), simplified: true },
-						{ value: commas( text ), simplified: true }
+						{ value: normal( text ), exact: true },
+						{ value: commas( text ), exact: true }
 					];
 				},
 				example: (function() {
@@ -283,7 +293,7 @@ jQuery.extend( Khan.answerTypes, {
 
 				for ( var i = 0, l = transformed.length; i < l; i++ ) {
 					var val = transformed[ i ].value;
-					var simp = transformed[ i ].simplified;
+					var exact = transformed[ i ].exact;
 
 					if ( typeof val === "string" &&
 							correct.toLowerCase() === val.toLowerCase() ) {
@@ -291,10 +301,12 @@ jQuery.extend( Khan.answerTypes, {
 						return false; // break;
 					} if ( typeof val === "number" &&
 							Math.abs( correctFloat - val ) < options.maxError ) {
-						if ( simp || options.simplified === "optional" ) {
+						if ( exact || options.simplify === "optional" ) {
 							ret = true;
+						} else if ( form === "percent" ){
+							ret = inexactMessages.missingPercentSign;
 						} else {
-							ret = unsimplifiedMessage;
+							ret = inexactMessages.unsimplified;
 						}
 
 						return false; // break;
@@ -375,7 +387,7 @@ jQuery.extend( Khan.answerTypes, {
 				if ( simplified || options.simplify === "optional" ) {
 					return true;
 				} else {
-					return unsimplifiedMessage;
+					return inexactMessages.unsimplified;
 				}
 			} else {
 				return false;

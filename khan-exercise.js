@@ -898,7 +898,7 @@ function prepareSite() {
 
 			// Is this a message to be shown?
 			if ( typeof pass === "string" ) {
-				jQuery( "#check-answer-results .check-answer-message" ).show().text( pass );
+				jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
 			}
 		}
 
