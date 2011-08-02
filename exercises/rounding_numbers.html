@@ -36,7 +36,7 @@
 					});
 					numberLine( floorTo( PLACE , NUM   ), ceilTo( PLACE , NUM ) +  pow(10, -(PLACE+2))  , round(pow(10, -(PLACE + 1) )) );
 					 style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
-					 ellipse( [  10 * pow(10, -(PLACE+1)) * (NUM -  floorTo( PLACE , NUM   ))/pow(10,- (PLACE) ), 0 ], [pow(10, -(PLACE+2)) , 0.3]);
+					 ellipse( [  10 * pow(10, -(PLACE+1)) * (NUM -  floorTo( PLACE , NUM   ))/pow(10,- (PLACE) ), 0 ], [pow(10, -PLACE) / 100, 0.15]);
 					label( [  10 * pow(10, -(PLACE+1)) * (NUM -  floorTo( PLACE , NUM   ))/pow(10,- (PLACE) )], NUM, "below");
 				</div>
 			</div>
@@ -45,8 +45,8 @@
 
 		<div data-weight="3">
 			<div class="vars">
-				<var id="DIGITS">shuffle( [1, 2, 3, 4, 5, 6, 7, 8, 9], 5 )</var>
-				<var id="NUM">+DIGITS.join( "" ) / 1000</var>
+				<var id="DIGITS">shuffle( [1, 2, 3, 4, 5, 6, 7, 8, 9], 6 )</var>
+				<var id="NUM">+DIGITS.join( "" ) / 10000</var>
 				<var id="PLACE">randFromArray([ 0, 1, 2 ])</var>
 				<var id="TPLACE">placesRightOfDecimal[ PLACE ]</var>
 				<var id="ROUNDED">roundTo( PLACE, NUM )</var>
@@ -70,7 +70,7 @@
 				});	
 				numberLine( floorTo( PLACE , NUM   ), ceilTo( PLACE , NUM ) +  pow(10,- (PLACE+2))  , pow(10,- (PLACE+1) ) );
 				 style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
-				 ellipse( [  10 * pow(10,- (PLACE+1)) * (NUM -  floorTo( PLACE , NUM   ))/pow(10,- (PLACE) ), 0 ], [pow(10,- (PLACE+2)) , 0.3]);
+				 ellipse( [  10 * pow(10,- (PLACE+1)) * (NUM -  floorTo( PLACE , NUM   ))/pow(10,- (PLACE) ), 0 ], [pow(10, -PLACE) / 100, 0.15]);
 					label( [  10 * pow(10, -(PLACE+1)) * (NUM -  floorTo( PLACE , NUM   ))/pow(10,- (PLACE) )], NUM, "below");
 			</div> 
 
