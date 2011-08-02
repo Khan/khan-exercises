@@ -4,6 +4,7 @@ module("expressions");
 
 var expr = KhanUtil.expr;
 var exprStripColor = KhanUtil.exprStripColor;
+var exprSimplifyAssociative = KhanUtil.exprSimplifyAssociative;
 
 test( "Expression formatter", function() {
 	equals( expr([ "-", 1 ]), "-1", "-1");
@@ -73,8 +74,14 @@ test( "Expression evaluator", function() {
 });
 
 test( "Expression utilities", function() {
+	//remove colors
 	equals( expr(exprStripColor([ "color", "green", 17 ])), "17", "color outside" );
 	equals( expr(exprStripColor([ "*", 4, [ "+", 2, [ "color", "blue", 2 ] ] ])), "4(2+2)", "color inside" );
+
+	//simplify an expression
+	equals( expr(exprSimplifyAssociative([ "+", 1, [ "+", [ "+", 2, 3 ], 4 ] ])), "1+2+3+4", "Simplify 1+((2+3)+4)" );
+	equals( expr(exprSimplifyAssociative([ "*", [ "*", [ "*", 2, 3 ], 4 ], 5 ])), "(2)(3)(4)(5)", "Simplify ((2*3)*4)*5" );
+	equals( expr(exprSimplifyAssociative([ "*", [ "*", [ "*", [ "+", 1, [ "+", [ "+", 2, 3, [ "*", [ "*", [ "*", 2, 3 ], 4 ], 5 ] ], 4 ] ], 3 ], 4 ], 5 ])), "(1+2+3+(2)(3)(4)(5)+4)(3)(4)(5)", "Simplify alternating multiplication and addition" );
 });
 
 })();
