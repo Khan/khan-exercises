@@ -908,7 +908,7 @@ function prepareSite() {
 		var curTime = (new Date).getTime(),
 			data = {
 				// The user answered correctly
-				complete: pass ? 1 : 0,
+				complete: pass === true ? 1 : 0,
 
 				// The user used a hint
 				hint_used: hintUsed ? 1 : 0,
