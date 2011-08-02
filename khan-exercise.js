@@ -1535,8 +1535,8 @@ function updateData( data ) {
 
 	if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
 		jQuery.each( videos, function( i, video ) {
-			var span = jQuery( "<span>")
-				.addClass("video-title vid-progress v" + video.id)
+			var span = jQuery( "<span>" )
+				.addClass( "video-title vid-progress v" + video.id )
 				.text( video.title );
 			if ( i < videos.length - 1 && i < 2 ) {
 				span.append( "<span class='separator'></span>" );
@@ -1552,7 +1552,7 @@ function updateData( data ) {
 				.addClass( i > 2 ? "related-video-extended" : "" )
 				.append( a )
 				.appendTo( ".related-video-list" );
-		});
+		} );
 
 		jQuery(".related-content, #related-video-content").show();
 	}
