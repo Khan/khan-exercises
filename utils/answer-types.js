@@ -182,6 +182,18 @@ jQuery.extend( Khan.answerTypes, {
 				example: "a multiple of pi, like <code>12\\ \\text{pi}</code> or <code>2\\ \\text{pi} / 3</code>"
 			},
 
+			percent: {
+				transformer: function( text ) {
+					text = jQuery.trim( text );
+					if ( text.indexOf( "%" ) !== ( text.length - 1 ) ) {
+						return [];
+					}
+					text = jQuery.trim( text.substring( 0, text.length - 1) );
+					return forms.decimal.transformer( text );
+				},
+				example: "a percent, like <code>12.34\\%</code>"
+			},
+
 			mixed: {
 				transformer: function( text ) {
 					var match = text
@@ -309,55 +321,6 @@ jQuery.extend( Khan.answerTypes, {
 		};
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
-	},
-
-	percent: function ( solutionarea, solution, fallback ) {
-		Khan.answerTypes.opts = jQuery.extend({
-				maxError: Math.pow( 2, -42 )
-				}, jQuery( solution ).data());
-
-		var verifier = function( correct, guess ) {
-			guess = jQuery.trim( guess );
-			if ( guess.indexOf( "%" ) !== ( guess.length - 1 ) ) {
-				return false;
-			}
-			guess = jQuery.trim( guess.substring( 0, guess.length - 1) );
-			return Khan.answerTypes.decimalVerifier( correct, guess );
-		};
-		verifier.examples = [ "a percent, like 12.34%" ];
-
-		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
-	},
-
-	decimalVerifier: function( correct, guess ) {
-		correct = parseFloat( correct );
-		guess = jQuery.trim( guess );
-
-		var checkDecimalPoint = function( g ) {
-			// Make sure we have only a decimal, no funny exponent stuff
-			var parts, integ, fract;
-			parts = g.split( "." );
-			integ = parts[0];
-			fract = parts[1] != null ? parts[1] : "";
-
-			if ( g.match( /\d/ )
-					&& integ.match( /^([\+-])?((\d{1,3}([ ,]\d{3})*)|(\d*))$/ )
-					&& fract.match( /^(((\d{3} )*\d{1,3})|(\d*))$/ ) ) {
-				g = g.replace( /[, ]/g, "" );
-				g = parseFloat( g );
-				return Math.abs( correct - g ) < parseFloat( Khan.answerTypes.opts.maxError );
-			} else {
-				return false;
-			}
-		};
-
-		var checkDecimalComma = function( g ) {
-			// Swap . and , and try again
-			return checkDecimalPoint( g.replace( /([\.,])/g, function( str, c ) {
-				return ( c === "." ? "," : "." );
-			}));
-		};
-		return checkDecimalPoint( guess ) || checkDecimalComma( guess );
 	},
 
 	decimal: function( solutionarea, solution, fallback ) {
