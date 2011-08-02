@@ -597,7 +597,7 @@
 	jQuery.fn.graphie = function( problem ) {
 		return this.find(".graphie").add(this.filter(".graphie")).each(function() {
 			// Grab code for later execution
-			var code = jQuery( this ).newlinePreservingText(), graphie;
+			var code = jQuery( this ).text(), graphie;
 
 			// Remove any of the code that's in there
 			jQuery( this ).empty();
