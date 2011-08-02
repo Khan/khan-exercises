@@ -1094,7 +1094,8 @@ function prepareSite() {
 		// don't do anything if the user clicked a second time quickly
 		if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
-		var title = jQuery( "#issue-title" ).val(),
+		var title = jQuery( "#exercise-title" ).html()
+				+ " - " + jQuery( "#issue-title" ).val(),
 			email = jQuery( "#issue-email" ).val(),
 			path = Khan.query.exid + ".html"
 				+ "?seed=" + problemSeed
@@ -1231,7 +1232,7 @@ function prepareSite() {
 				path = fileName + "?problem=" + problemID
 					+ "&seed=" + problemSeed;
 
-			var title = encodeURIComponent( "Issue in " + $("title").html() ),
+			var title = encodeURIComponent( "Issue Found in Testing - " + $("title").html() ),
 				body = encodeURIComponent( [ description, path, prettyDump, navigator.userAgent ].join("\n\n") ),
 				label = encodeURIComponent( "tester bugs" );
 
