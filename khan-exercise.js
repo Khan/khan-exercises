@@ -119,11 +119,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
 			+ "href=\"" + a + "\">" + b + "</a>, has been created."; 
 	},
-	issueIntro = "Please let us know if you notice any odd or wrong behavior "
-		+ "in any nook or cranny of the site. This includes all interactions, "
-		+ "progress, knowledge map, badges, activities, reports, or anything "
-		+ "else that you think is acting a little funky. Thanks for helping "
-		+ "us out!";
+	issueIntro = "So you've noticed something wrong with our site? We'd love to hear about it so we can improve the Khan Academy experience! When you report an issue here, we'll receive some info about the exercise and specific problem you're working on (as well as your current web browser and operating system), so we can try to reproduce the problem and fix it. So make sure that you're reporting the issue from a page where you see the issue. Thanks for helping to change education!"
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {
