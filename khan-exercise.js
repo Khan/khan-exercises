@@ -119,7 +119,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
 			+ "href=\"" + a + "\">" + b + "</a>, has been created."; 
 	},
-	issueIntro = "So you've noticed something wrong with our site? We'd love to hear about it so we can improve the Khan Academy experience! When you report an issue here, we'll receive some info about the exercise and specific problem you're working on (as well as your current web browser and operating system), so we can try to reproduce the problem and fix it. So make sure that you're reporting the issue from a page where you see the issue. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Thanks for helping us change education!"
+	issueIntro = "So you've noticed something wrong with our site? We'd love to hear about it so we can improve the Khan Academy experience! Please make sure you report the issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Thanks for helping us change education!"
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {
