@@ -1086,7 +1086,6 @@ function prepareSite() {
 			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
 			jQuery( "#issue, #issue form" ).show();
 		}
-
 	});
 
 	
@@ -1101,7 +1100,7 @@ function prepareSite() {
 	});
 
 	// Submit an issue.
-	jQuery( "#issue form input[type=submit]" ).click( function( e ) {
+	jQuery( "#issue form input:submit" ).click( function( e ) {
 
 		e.preventDefault();
 
@@ -1111,7 +1110,7 @@ function prepareSite() {
 		var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text(),
 			title = jQuery( "#issue-title" ).val(),
 			email = jQuery( "#issue-email" ).val(),
-			path = Khan.query.exid + ".html"
+			path = ( Khan.query.exid || exerciseName ) + ".html"
 				+ "?seed=" + problemSeed
 				+ "&problem=" + problemID,
 			agent = navigator.userAgent,
@@ -1119,33 +1118,85 @@ function prepareSite() {
 				.concat( [ jQuery( "#issue-body" ).val(), path, agent ] )
 				.join( "\n\n" );
 
+		// flagging of browsers/os for issue labels. very primitive, but
+		// hopefully sufficient.
+		var agent_contains = function( sub ) { return agent.indexOf( sub ) !== -1; },
+			flags = { 
+				ie8: agent_contains( "MSIE 8.0" ),
+				chrome: agent_contains( "Chrome/" ),
+				safari: !chrome && agent_contains( "Safari/" ),
+				firefox: agent_contains( "Firefox/" ),
+				win7: agent_contains( "Windows NT 6.1" ),
+				vista: agent_contains( "Windows NT 6.0" ),
+				xp: agent_contains( "Windows NT 5.1" ),
+				leopard: agent_contains( "Mac OS X 10_5" ),
+				snowleo: agent_contains( "Mac OS X 10_6" ),
+				lion: agent_contains( "Mac OS X 10_7" )
+			},
+			labels = "";
+		jQuery.each( flags, function( k, v ) {
+			if ( v ) {
+				labels += k + ",";
+			}
+		});
+		
 		if ( title === "" ) {
 			jQuery( "#issue-status" ).addClass( "error" )
 				.html( "Please provide a valid title for the issue." ).show();
 			return;
 		}
 
-		jQuery( "#issue form" ).hide();
+		var formElements = jQuery( "#issue input" ).add( "#issue textarea" );
 
+		// disable the form elements while waiting for a server response
+		formElements.attr( "disabled", true );
+		
 		jQuery.ajax({
 			url: "http://66.220.0.98:2563/file_exercise_tester_bug"
 				+ "?body=" + encodeURIComponent( body )
-				+ "&title=" + encodeURIComponent( [ pretitle, title ].join( " - " ) ),
+				+ "&title=" + encodeURIComponent( [ pretitle, title ].join( " - " ) )
+				+ "&label=" + encodeURIComponent( labels ),
 			dataType: "jsonp",
+			
 			success: function( json ) {
+			
 				if ( json.meta.status === 201 ) {
+
+					// hide the form
+					jQuery( "#issue form" ).hide();
+
+					// show status message
 					jQuery( "#issue-status" ).removeClass( "error" )
-						.html( issueSuccess( json.data.html_url, json.data.title ) ).show();
-					jQuery( "#issue-title, #issue-email, #issue-body" ).val( "" );
+						.html( issueSuccess( json.data.html_url, json.data.title ) )
+						.show();
+					
+					// reset the form elements
+					formElements.attr( "disabled", false )
+						.not( "input:submit" ).val( "" );
+						
 				} else {
-					jQuery( "#issue-status" ).addClass( "error" ).html( issueError ).show();
-					jQuery( "#issue form" ).show();
+
+					// show error message
+					jQuery( "#issue-status" )
+						.addClass( "error" ).html( issueError ).show();
+				
+					// enable the inputs
+					formElements.attr( "disabled", false );
+
 				}
+				
 			},
+			
 			// FIXME note that this doesn't actually work with jquery's default jsonp
 			error: function( json ) {
-				jQuery( "#issue-status" ).addClass( "error" ).html( issueError ).show();
-				jQuery( "#issue form" ).show();
+			
+				// show status message
+				jQuery( "#issue-status" ).addClass( "error" )
+					.html( issueError ).show();
+					
+				// enable the inputs
+				formElements.attr( "disabled", false );
+
 			}
 		});
 	});
