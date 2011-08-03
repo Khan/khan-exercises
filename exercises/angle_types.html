@@ -19,14 +19,17 @@
 
 				<div class="graphie">
 
+					var ANGLE_TWO = ANGLE_ONE + DIFF;
 					var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
-					var ANGLE_TWO_R = ( ANGLE_ONE + DIFF ) * PI / 180;
+					var ANGLE_TWO_R = ANGLE_TWO * PI / 180;
 
 					init({
 						range: [ [-6, 6], [-6, 6] ],
 						scale: 20
 					});
 					path([ [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )], [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
+
+					arc( [0,0], 1, ANGLE_ONE, ANGLE_TWO );
 
 				</div>
 			</div>
