@@ -1108,7 +1108,7 @@ function prepareSite() {
 		// don't do anything if the user clicked a second time quickly
 		if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
-		var pretitle = jQuery( "#exercise-title" ).html() || jQuery( "title" ).html(),
+		var pretitle = jQuery( ".exercise-title" ).html() || jQuery( "title" ).html(),
 			title = jQuery( "#issue-title" ).val(),
 			email = jQuery( "#issue-email" ).val(),
 			path = Khan.query.exid + ".html"
