@@ -142,16 +142,6 @@ jQuery.tmpl = {
 			}
 		},
 
-		// For random variable selection
-		ul: function( elem ) {
-			// Replace each <ul id="..."> with <var> containing a random child
-			if ( elem.id ) {
-				return jQuery( "<var>" )
-					.attr( "id", elem.id )
-					.append( jQuery( elem ).children().getRandom().contents() );
-			}
-		},
-
 		code: function( elem ) {
 			// Returns a function in order to run after other templating and var assignment
 			return function( elem ) {

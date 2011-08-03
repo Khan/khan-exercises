@@ -87,10 +87,10 @@
 			<var id="CB">BC</var>
 			<var id="AB">AC * AC + BC * BC</var>
 			<var id="AB_STRING">formattedSquareRootOf(AC * AC + BC * BC)</var>
-			<ul id="ANGLE">
-				<li>"ABC"</li>
-				<li>"BAC"</li>
-			</ul>
+			<var id="ANGLE">randFromArray([
+				"ABC",
+				"BAC"
+			])</var>
 			<var id="WRONG_A" data-ensure="WRONG_A !== AC && WRONG_A !== BC && WRONG_A !== sqrt(AB)">randRange(1, 10)</var>
 			<var id="WRONG_B" data-ensure="WRONG_B !== AC && WRONG_B !== BC && WRONG_B !== WRONG_A && WRONG_B !== sqrt(AB)">randRange(1, 10)</var>
 
