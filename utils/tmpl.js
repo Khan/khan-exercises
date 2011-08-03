@@ -133,19 +133,12 @@ jQuery.tmpl = {
 					// Don't show anything
 					return [];
 				} else {
-					// Convert the value to a string and replace with that text node
-					return jQuery( "<div>" ).append( value + "" ).contents();
+					// Convert the value to a string and replace with those elements and text nodes
+					// Add a space so that it can end with a "<" in Safari
+					var div = jQuery( "<div>" );
+					var html = div.append( value + " " ).html();
+					return div.html( html.slice( 0, -1 ) ).contents();
 				}
-			}
-		},
-
-		// For random variable selection
-		ul: function( elem ) {
-			// Replace each <ul id="..."> with <var> containing a random child
-			if ( elem.id ) {
-				return jQuery( "<var>" )
-					.attr( "id", elem.id )
-					.append( jQuery( elem ).children().getRandom().contents() );
 			}
 		},
 
@@ -184,7 +177,7 @@ jQuery.tmpl = {
 	// Eval a string in the context of Math, KhanUtil, VARS, and optionally another passed context
 	getVAR: function( elem, ctx ) {
 		// We need to compute the value
-		var code = jQuery.trim( elem.nodeName ? jQuery(elem).newlinePreservingText() : elem );
+		var code = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
 
 		// Make sure any HTML formatting is stripped
 		code = jQuery.tmpl.cleanHTML( code );
@@ -223,10 +216,6 @@ jQuery.tmpl = {
 if ( typeof KhanUtil !== "undefined" ) {
 	KhanUtil.tmpl = jQuery.tmpl;
 }
-
-jQuery.fn.newlinePreservingText = function() {
-	return jQuery( "<pre>" ).append( this.clone() ).text();
-};
 
 // Reinitialize VARS for each problem
 jQuery.fn.tmplLoad = function() {

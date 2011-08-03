@@ -1,3 +1,10 @@
+(function() {
+
+var inexactMessages = {
+	unsimplified: "Your answer is almost correct, but it needs to be simplified.",
+	missingPercentSign: "Your answer is almost correct, but it is missing a <code>\\%</code> at the end."
+};
+
 Khan.answerTypes = Khan.answerTypes || {};
 
 jQuery.extend( Khan.answerTypes, {
@@ -31,6 +38,7 @@ jQuery.extend( Khan.answerTypes, {
 			return verifier( correct, val );
 		};
 		ret.solution = jQuery.trim( correct );
+		ret.examples = verifier.examples || [];
 		return ret;
 	},
 
@@ -38,129 +46,263 @@ jQuery.extend( Khan.answerTypes, {
 		var options = jQuery.extend({
 			simplify: "required",
 			maxError: Math.pow( 2, -42 ),
-			forms: "literal, improper, mixed, decimal"
+			forms: "literal, integer, proper, improper, mixed, decimal"
 		}, jQuery( solution ).data());
 		var acceptableForms = ( forms || options.forms ).split(/\s*,\s*/);
 
-		var transforms = {
-			improper: function( text ) {
-				var match = text
-
-					// Replace unicode minus sign with hyphen
-					.replace( /\u2212/, "-" )
-
-					// Remove space after +, -
-					.replace( /([+-])\s+/g, "$1" )
-
-					// Extract numerator and (optional) denominator
-					.match( /^([+-]?\d+)\s*(?:\/\s*([+-]?\d+))?$/ );
-
-				if ( match ) {
-					var num = parseFloat( match[1] ),
-						denom = parseFloat( match[2] || "1" );
-					var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
-
-					if ( options.simplify === "optional" || simplified ) {
-						return [ num / denom ];
-					}
-				}
-
-				return [];
-			},
-
-			pi: function( text ) {
-				var match, imp = [];
+		var fractionTransformer = function( text ) {
+			text = text
 
 				// Replace unicode minus sign with hyphen
-				text = text.replace( /\u2212/, "-" );
+				.replace( /\u2212/, "-" )
 
-				// - pi
-				if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
-					imp = [ parseFloat( match[1] + "1" ) ];
+				// Remove space after +, -
+				.replace( /([+-])\s+/g, "$1" );
 
-				// 5 / 6 pi
-				} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
-					imp = transforms.improper( match[1] );
+				// Extract numerator and denominator
+			var match = text.match( /^([+-]?\d+)\s*\/\s*([+-]?\d+)$/ );
+			var parsedInt = parseInt( text );
 
-				// 5 pi / 6
-				} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
-					imp = transforms.improper( match[1] + match[2] );
+			if ( match ) {
+				var num = parseFloat( match[1] ),
+					denom = parseFloat( match[2] );
+				var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
+				return [ {
+					value: num / denom,
+					exact: simplified
+				} ];
+			} else if ( !isNaN( parsedInt ) ) {
+				return [ {
+					value: parsedInt,
+					exact: true
+				} ];
+			}
 
-				// - pi / 4
-				} else if ( match = text.match( /^([+-]?)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
-					imp = transforms.improper( match[1] + "1/" + match[2] );
+			return [];
+		};
 
-				// 0.5 pi (fallback)
-				} else if ( match = text.match( /^(\S+)\s*\*?\s*pi?$/i ) ) {
-					imp = transforms.decimal( match[1] );
-
-				// 0
-				} else if ( text === "0") {
-					imp = [ 0 ];
+		var forms = {
+			literal: {
+				transformer: function( text ) {
+					// Prevent literal comparisons for decimal-looking-like strings
+					return [{ value: ( /[^+-\u2212\d\.\s]/ ).test( text ) ? text : null }];
 				}
-
-				return jQuery.map( imp, function( x ) { return x * Math.PI; } );
 			},
 
-			mixed: function( text ) {
-				var match = text
-
-					// Replace unicode minus sign with hyphen
-					.replace( /\u2212/, "-" )
-
-					// Remove space after +, -
-					.replace( /([+-])\s+/g, "$1" )
-
-					// Extract integer, numerator and denominator
-					.match( /^([+-]?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/ );
-
-				if ( match ) {
-					var sign  = parseFloat( match[1] + "1" ),
-						integ = parseFloat( match[2] ),
-						num   = parseFloat( match[3] ),
-						denom = parseFloat( match[4] );
-					var simplified = KhanUtil.getGCD( num, denom ) === 1;
-
-					if ( num < denom && options.simplify === "optional" || simplified ) {
-						return [ sign * ( integ + num / denom ) ];
-					}
-				}
-
-				return [];
-			},
-
-			decimal: function( text ) {
-				var normal = function( text ) {
+			integer: {
+				transformer: function( text ) {
 					var match = text
 
 						// Replace unicode minus sign with hyphen
 						.replace( /\u2212/, "-" )
 
-						// Remove commas
-						.replace( /,\s*/g, "" )
+						// Remove space after +, -
+						.replace( /([+-])\s+/g, "$1" )
 
-						// Extract integer, numerator and denominator
-						// This matches [+-]?\.; will f
-						.match( /^([+-]?(?:\d+\.?|\d*\.\d+))$/ );
+						// Extract integer
+						.match( /^([+-]?\d+)$/ );
 
 					if ( match ) {
-						var x = parseFloat( match[1] );
-
-						if ( options.inexact === undefined ) {
-							var factor = Math.pow( 10, 10 );
-							x = Math.round( x * factor ) / factor;
-						}
-
-						return x;
+						return [ {
+							value: parseFloat( match[1] ),
+							exact: true
+						} ];
 					}
-				};
 
-				var commas = function( text ) {
-					text = text.replace( /([\.,])/g, function( _, c ) { return ( c === "." ? "," : "." ); } );
-					return normal( text );
-				};
+					return [];
+				},
+				example: "an integer, like <code>6</code>"
+			},
 
-				return [ normal( text ), commas( text ) ];
+			proper: {
+				transformer: function( text ) {
+					return jQuery.map( fractionTransformer( text ), function( o ) {
+						if ( Math.abs(o.value) < 1 ) {
+							return [o];
+						} else {
+							return [];
+						}
+					} );
+				},
+				example: (function() {
+					if ( options.simplify === "optional" ) {
+						return "a proper fraction, like <code>1/2</code> or <code>6/10</code>"
+					} else {
+						return "a simplified proper fraction, like <code>3/5</code>"
+					}
+				})()
+			},
+
+			improper: {
+				transformer: function( text ) {
+					return jQuery.map( fractionTransformer( text ), function( o ) {
+						if ( Math.abs(o.value) > 1 ) {
+							return [o];
+						} else {
+							return [];
+						}
+					} );
+				},
+				example: (function() {
+					if ( options.simplify === "optional" ) {
+						return "an improper fraction, like <code>10/7</code> or <code>14/8</code>"
+					} else {
+						return "a simplified improper fraction, like <code>7/4</code>"
+					}
+				})()
+			},
+
+			pi: {
+				transformer: function( text ) {
+					var match, possibilities = [];
+
+					// Replace unicode minus sign with hyphen
+					text = text.replace( /\u2212/, "-" );
+
+					// - pi
+					if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
+						possibilities = [ { value: parseFloat( match[1] + "1" ), exact: true } ];
+
+					// 5 / 6 pi
+					} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
+						possibilities = fractionTransformer( match[1] );
+
+					// 5 pi / 6
+					} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
+						possibilities = fractionTransformer( match[1] + match[2] );
+
+					// - pi / 4
+					} else if ( match = text.match( /^([+-]?)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
+						possibilities = fractionTransformer( match[1] + "1/" + match[2] );
+
+					// 0
+					} else if ( text === "0") {
+						possibilities = [ { value: 0, exact: true } ];
+
+					// 0.5 pi (fallback)
+					} else if ( match = text.match( /^(\S+)\s*\*?\s*pi?$/i ) ) {
+						possibilities = forms.decimal.transformer( match[1] );
+					}
+
+					jQuery.each( possibilities, function( ix, possibility ) {
+						possibility.value *= Math.PI;
+					} );
+					return possibilities;
+				},
+				example: "a multiple of pi, like <code>12\\ \\text{pi}</code> or <code>2/3\\ \\text{pi}</code>"
+			},
+
+			// simple log( c ) form
+			log: {
+				transformer: function( text ) {
+					var match, possibilities = [];
+
+					// Replace unicode minus sign with hyphen
+					text = text.replace( /\u2212/, "-" );
+
+ 					if ( match = text.match( /^log\(\s*(\S+)\s*\)$/i ) ) {
+						possibilities = forms.decimal.transformer( match[1] );
+					} else if ( text === "0") {
+						possibilities = [ { value: 0, exact: true } ];
+					}
+					return possibilities;
+				},
+				example: "an expression, like <code>\\log(100)</code>"
+			},
+
+			percent: {
+				transformer: function( text ) {
+					text = jQuery.trim( text );
+					var hasPercentSign = false;
+
+					if ( text.indexOf( "%" ) === ( text.length - 1 ) ) {
+						text = jQuery.trim( text.substring( 0, text.length - 1) );
+						hasPercentSign = true;
+					}
+
+					var transformed = forms.decimal.transformer( text );
+					jQuery.each( transformed, function( ix, t ) {
+						t.exact = hasPercentSign;
+					});
+					return transformed;
+				},
+				example: "a percent, like <code>12.34\\%</code>"
+			},
+
+			mixed: {
+				transformer: function( text ) {
+					var match = text
+						// Replace unicode minus sign with hyphen
+						.replace( /\u2212/, "-" )
+
+						// Remove space after +, -
+						.replace( /([+-])\s+/g, "$1" )
+
+						// Extract integer, numerator and denominator
+						.match( /^([+-]?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/ );
+
+					if ( match ) {
+						var sign  = parseFloat( match[1] + "1" ),
+							integ = parseFloat( match[2] ),
+							num   = parseFloat( match[3] ),
+							denom = parseFloat( match[4] );
+						var simplified = num < denom && KhanUtil.getGCD( num, denom ) === 1;
+
+						return [ {
+							value: sign * ( integ + num / denom ),
+							exact: simplified
+						} ];
+					}
+
+					return [];
+				},
+				example: "a mixed number, like <code>1\\ 3/4</code>"
+			},
+
+			decimal: {
+				transformer: function( text ) {
+					var normal = function( text ) {
+						var match = text
+
+							// Replace unicode minus sign with hyphen
+							.replace( /\u2212/, "-" )
+
+							// Remove commas
+							.replace( /,\s*/g, "" )
+
+							// Extract integer, numerator and denominator
+							// This matches [+-]?\.; will f
+							.match( /^([+-]?(?:\d+\.?|\d*\.\d+))$/ );
+
+						if ( match ) {
+							var x = parseFloat( match[1] );
+
+							if ( options.inexact === undefined ) {
+								var factor = Math.pow( 10, 10 );
+								x = Math.round( x * factor ) / factor;
+							}
+
+							return x;
+						}
+					};
+
+					var commas = function( text ) {
+						text = text.replace( /([\.,])/g, function( _, c ) { return ( c === "." ? "," : "." ); } );
+						return normal( text );
+					};
+
+					return [
+						{ value: normal( text ), exact: true },
+						{ value: commas( text ), exact: true }
+					];
+				},
+				example: (function() {
+					if ( options.inexact === undefined ) {
+						return "an exact decimal, like <code>0.75</code>";
+					} else {
+						return "a decimal, like <code>0.75</code>";
+					}
+				})()
 			}
 		};
 
@@ -172,23 +314,26 @@ jQuery.extend( Khan.answerTypes, {
 			var ret = false;
 
 			jQuery.each( acceptableForms, function( i, form ) {
-				if ( form === "literal" ) {
-					// Case-insensitive literal compare
-					if ( (/[^\d\.\s]/).test( correct ) && correct.toLowerCase() === guess.toLowerCase() ) {
-						ret = true;
-						return false; // break;
-					} else {
-						return true; // continue;
-					}
-				}
-
-				var transformed = transforms[ form ]( jQuery.trim( guess ) );
+				var transformed = forms[ form ].transformer( jQuery.trim( guess ) );
 
 				for ( var i = 0, l = transformed.length; i < l; i++ ) {
-					if ( typeof transformed[ i ] === "number" &&
-						Math.abs( correctFloat - transformed[ i ] ) < options.maxError ) {
+					var val = transformed[ i ].value;
+					var exact = transformed[ i ].exact;
 
+					if ( typeof val === "string" &&
+							correct.toLowerCase() === val.toLowerCase() ) {
 						ret = true;
+						return false; // break;
+					} if ( typeof val === "number" &&
+							Math.abs( correctFloat - val ) < options.maxError ) {
+						if ( exact || options.simplify === "optional" ) {
+							ret = true;
+						} else if ( form === "percent" ){
+							ret = inexactMessages.missingPercentSign;
+						} else {
+							ret = inexactMessages.unsimplified;
+						}
+
 						return false; // break;
 					}
 				}
@@ -197,63 +342,22 @@ jQuery.extend( Khan.answerTypes, {
 			return ret;
 		};
 
+		verifier.examples = [];
+		jQuery.each( acceptableForms, function( i, form ) {
+			if ( forms[ form ] != null && forms[ form ].example != null ) {
+				verifier.examples.push( forms[ form ].example );
+			}
+		});
+
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
 	regex: function( solutionarea, solution, fallback ) {
 		var verifier = function( correct, guess ) {
-			return jQuery.trim( guess ).match( correct );
+			return jQuery.trim( guess ).match( correct ) != null;
 		};
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
-	},
-
-	percent: function ( solutionarea, solution, fallback ) {
-		Khan.answerTypes.opts = jQuery.extend({
-				maxError: Math.pow( 2, -42 )
-				}, jQuery( solution ).data());
-
-		var verifier = function( correct, guess ) {
-			guess = jQuery.trim( guess );
-			if ( guess.indexOf( "%" ) !== ( guess.length - 1 ) ) {
-				return false;
-			}
-			guess = jQuery.trim( guess.substring( 0, guess.length - 1) );
-			return Khan.answerTypes.decimalVerifier( correct, guess );
-		};
-
-		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
-	},
-
-	decimalVerifier: function( correct, guess ) {
-		correct = parseFloat( correct );
-		guess = jQuery.trim( guess );
-
-		var checkDecimalPoint = function( g ) {
-			// Make sure we have only a decimal, no funny exponent stuff
-			var parts, integ, fract;
-			parts = g.split( "." );
-			integ = parts[0];
-			fract = parts[1] != null ? parts[1] : "";
-
-			if ( g.match( /\d/ )
-					&& integ.match( /^([\+-])?((\d{1,3}([ ,]\d{3})*)|(\d*))$/ )
-					&& fract.match( /^(((\d{3} )*\d{1,3})|(\d*))$/ ) ) {
-				g = g.replace( /[, ]/g, "" );
-				g = parseFloat( g );
-				return Math.abs( correct - g ) < parseFloat( Khan.answerTypes.opts.maxError );
-			} else {
-				return false;
-			}
-		};
-
-		var checkDecimalComma = function( g ) {
-			// Swap . and , and try again
-			return checkDecimalPoint( g.replace( /([\.,])/g, function( str, c ) {
-				return ( c === "." ? "," : "." );
-			}));
-		};
-		return checkDecimalPoint( guess ) || checkDecimalComma( guess );
 	},
 
 	decimal: function( solutionarea, solution, fallback ) {
@@ -261,15 +365,16 @@ jQuery.extend( Khan.answerTypes, {
 	},
 
 	rational: function( solutionarea, solution, fallback ) {
-		return Khan.answerTypes.number( solutionarea, solution, fallback, "improper, mixed" );
+		return Khan.answerTypes.number( solutionarea, solution, fallback, "integer, proper, improper, mixed" );
 	},
 
+	// A little bit of a misnomer as proper fractions are also accepted
 	improper: function( solutionarea, solution, fallback ) {
-		return Khan.answerTypes.number( solutionarea, solution, fallback, "improper" );
+		return Khan.answerTypes.number( solutionarea, solution, fallback, "integer, proper, improper" );
 	},
 
 	mixed: function( solutionarea, solution, fallback ) {
-		return Khan.answerTypes.number( solutionarea, solution, fallback, "mixed" );
+		return Khan.answerTypes.number( solutionarea, solution, fallback, "integer, proper, mixed" );
 	},
 
 	radical: function( solutionarea, solution ) {
@@ -299,12 +404,25 @@ jQuery.extend( Khan.answerTypes, {
 			radGuess = parseFloat( radGuess );
 
 			ret.guess = [ inteGuess, radGuess ];
-			if ( options.simplify === "optional" ) {
-				return Math.abs( inteGuess ) * inteGuess * radGuess === ansSquared;
+
+			var simplified = inteGuess === ans[0] && radGuess == ans[1];
+			var correct = Math.abs( inteGuess ) * inteGuess * radGuess === ansSquared;
+
+			if ( correct ) {
+				if ( simplified || options.simplify === "optional" ) {
+					return true;
+				} else {
+					return inexactMessages.unsimplified;
+				}
 			} else {
-				return inteGuess === ans[0] && radGuess == ans[1];
+				return false;
 			}
 		};
+		if ( options.simplify === "required" ) {
+			ret.examples = [ "a simplified radical, like <code>\\sqrt{2}</code> or <code>3\\sqrt{5}</code>" ];
+		} else {
+			ret.examples = [ "a radical, like <code>\\sqrt{8}</code> or <code>2\\sqrt{2}</code>" ];
+		}
 		ret.solution = ans;
 		return ret;
 	},
@@ -509,7 +627,10 @@ jQuery.extend( Khan.answerTypes, {
 			guess = KhanUtil.sortNumbers( guess.split( /x|\*/ ) ).join( "x" );
 			return guess === correct;
 		};
+		verifier.examples = [ "a product of prime factors, like <code>2 \\times 3</code>" ];
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	}
 } );
+
+} )();

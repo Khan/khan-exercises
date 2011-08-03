@@ -38,6 +38,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// Check to see if we're in test mode
 	testMode = (window.location.host.indexOf("localhost") === 0 ||
 				window.location.host.indexOf("127.0.0.1") === 0 ||
+				window.location.host.indexOf("192.168") === 0 ||
 				window.location.protocol === "file:") &&
 				/\.html$/.test( window.location.pathname ),
 
@@ -118,11 +119,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
 			+ "href=\"" + a + "\">" + b + "</a>, has been created."; 
 	},
-	issueIntro = "Please let us know if you notice any odd or wrong behavior "
-		+ "in any nook or cranny of the site. This includes all interactions, "
-		+ "progress, knowledge map, badges, activities, reports, or anything "
-		+ "else that you think is acting a little funky. Thanks for helping "
-		+ "us out!";
+	issueIntro = "So you've noticed something wrong with our site? We'd love to hear about it so we can improve the Khan Academy experience! Please make sure you report the issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Thanks for helping us change education!"
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {
@@ -697,7 +694,18 @@ function makeProblem( id, seed ) {
 	// Add the problem into the page
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
 	jQuery( "#answercontent input" ).removeAttr("disabled");
+	if ( validator.examples ) {
+		jQuery( "#examples-show" ).show();
+		jQuery( "#examples" ).empty();
 
+		jQuery.each( validator.examples, function( i, example ) {
+			jQuery( "#examples" ).append( '<li>' + example + '</li>' );
+		});
+
+		jQuery( "#examples" ).children().tmpl();
+	} else {
+		jQuery( "#examples-show" ).hide();
+	}
 	// save a normal JS array of hints so we can shift() through them later
 	hints = hints.tmpl().children().get();
 
@@ -874,13 +882,20 @@ function prepareSite() {
 		jQuery( "#throbber" ).show();
 		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
 		jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
+		jQuery( "#check-answer-results p" ).hide();
+
 		// Figure out if the response was correct
-		if ( pass ) {
+		if ( pass === true ) {
 			jQuery("#happy").show();
 			jQuery("#sad").hide();
 		} else {
 			jQuery("#happy").hide();
 			jQuery("#sad").show();
+
+			// Is this a message to be shown?
+			if ( typeof pass === "string" ) {
+				jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
+			}
 		}
 
 		// The user checked to see if an answer was valid
@@ -889,7 +904,7 @@ function prepareSite() {
 		var curTime = (new Date).getTime(),
 			data = {
 				// The user answered correctly
-				complete: pass ? 1 : 0,
+				complete: pass === true ? 1 : 0,
 
 				// The user used a hint
 				hint_used: hintUsed ? 1 : 0,
@@ -923,7 +938,7 @@ function prepareSite() {
 
 			jQuery( "#throbber" ).hide();
 			jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
-			if ( pass ) {
+			if ( pass === true ) {
 				jQuery( "#check-answer-button" ).hide();
 				if ( !testMode || Khan.query.test == null ) {
 					jQuery( "#next-container" ).show();
@@ -1087,13 +1102,14 @@ function prepareSite() {
 
 	// Submit an issue.
 	jQuery( "#issue form input[type=submit]" ).click( function( e ) {
-		
+
 		e.preventDefault();
 
 		// don't do anything if the user clicked a second time quickly
 		if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
-		var title = jQuery( "#issue-title" ).val(),
+		var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text(),
+			title = jQuery( "#issue-title" ).val(),
 			email = jQuery( "#issue-email" ).val(),
 			path = Khan.query.exid + ".html"
 				+ "?seed=" + problemSeed
@@ -1114,7 +1130,7 @@ function prepareSite() {
 		jQuery.ajax({
 			url: "http://66.220.0.98:2563/file_exercise_tester_bug"
 				+ "?body=" + encodeURIComponent( body )
-				+ "&title=" + encodeURIComponent( title ),
+				+ "&title=" + encodeURIComponent( [ pretitle, title ].join( " - " ) ),
 			dataType: "jsonp",
 			success: function( json ) {
 				if ( json.meta.status === 201 ) {
@@ -1164,8 +1180,24 @@ function prepareSite() {
 			link.data( "show", !show );
 		});
 
+	jQuery( "#examples-show" ).data( "show", true )
+		.click( function( e ) {
+			e.preventDefault();
+			var link = jQuery( this ),
+				show = link.data( "show" );
+			if ( show ) {
+				link.text( "Hide acceptable answer formats" );
+				jQuery( "#examples" ).show();
+			} else {
+				link.text( "Show acceptable answer formats" );
+				jQuery( "#examples" ).hide();
+			}
+			link.data( "show", !show );
+		});
+
 	jQuery( "#scratchpad-show" ).data( "show", true )
-		.click( function() {
+		.click( function( e ) {
+			e.preventDefault();
 			var button = jQuery( this ),
 				show = button.data( "show" );
 
@@ -1193,8 +1225,6 @@ function prepareSite() {
 			if (user) {
 				window.localStorage[ "scratchpad:" + user ] = show;
 			}
-
-			return false
 		});
 
 	// Prepare for the tester info if requested
@@ -1230,7 +1260,7 @@ function prepareSite() {
 				path = fileName + "?problem=" + problemID
 					+ "&seed=" + problemSeed;
 
-			var title = encodeURIComponent( "Issue in " + $("title").html() ),
+			var title = encodeURIComponent( "Issue Found in Testing - " + $("title").html() ),
 				body = encodeURIComponent( [ description, path, prettyDump, navigator.userAgent ].join("\n\n") ),
 				label = encodeURIComponent( "tester bugs" );
 
@@ -1534,13 +1564,24 @@ function updateData( data ) {
 
 	if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
 		jQuery.each( videos, function( i, video ) {
-			jQuery("<li" + (i > 2 ? " class='related-video-extended'" : "") + ">" +
-					"<a href='" + video.ka_url + "' title='" + video.title + "'><span class='video-title'>" +
-						video.title +
-							(i < videos.length - 1 && i < 2 ? "<span class='separator'>, </span>" : "")
-								+ "</span></a></li>")
-									.appendTo(".related-video-list");
-		});
+			var span = jQuery( "<span>" )
+				.addClass( "video-title vid-progress v" + video.id )
+				.text( video.title );
+			if ( i < videos.length - 1 && i < 2 ) {
+				span.append( "<span class='separator'></span>" );
+			}
+
+			var a = jQuery( "<a>" ).attr( {
+				href: video.ka_url,
+				title: video.title
+			} )
+				.append( span );
+
+			jQuery( "<li>" )
+				.addClass( i > 2 ? "related-video-extended" : "" )
+				.append( a )
+				.appendTo( ".related-video-list" );
+		} );
 
 		jQuery(".related-content, #related-video-content").show();
 	}
