@@ -698,7 +698,18 @@ function makeProblem( id, seed ) {
 	// Add the problem into the page
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
 	jQuery( "#answercontent input" ).removeAttr("disabled");
+	if ( validator.examples ) {
+		jQuery( "#examples-show" ).show();
+		jQuery( "#examples" ).empty();
 
+		jQuery.each( validator.examples, function( i, example ) {
+			jQuery( "#examples" ).append( '<li>' + example + '</li>' );
+		});
+
+		jQuery( "#examples" ).children().tmpl();
+	} else {
+		jQuery( "#examples-show" ).hide();
+	}
 	// save a normal JS array of hints so we can shift() through them later
 	hints = hints.tmpl().children().get();
 
@@ -875,13 +886,20 @@ function prepareSite() {
 		jQuery( "#throbber" ).show();
 		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
 		jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
+		jQuery( "#check-answer-results p" ).hide();
+
 		// Figure out if the response was correct
-		if ( pass ) {
+		if ( pass === true ) {
 			jQuery("#happy").show();
 			jQuery("#sad").hide();
 		} else {
 			jQuery("#happy").hide();
 			jQuery("#sad").show();
+
+			// Is this a message to be shown?
+			if ( typeof pass === "string" ) {
+				jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
+			}
 		}
 
 		// The user checked to see if an answer was valid
@@ -890,7 +908,7 @@ function prepareSite() {
 		var curTime = (new Date).getTime(),
 			data = {
 				// The user answered correctly
-				complete: pass ? 1 : 0,
+				complete: pass === true ? 1 : 0,
 
 				// The user used a hint
 				hint_used: hintUsed ? 1 : 0,
@@ -924,7 +942,7 @@ function prepareSite() {
 
 			jQuery( "#throbber" ).hide();
 			jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
-			if ( pass ) {
+			if ( pass === true ) {
 				jQuery( "#check-answer-button" ).hide();
 				if ( !testMode || Khan.query.test == null ) {
 					jQuery( "#next-container" ).show();
@@ -1088,13 +1106,14 @@ function prepareSite() {
 
 	// Submit an issue.
 	jQuery( "#issue form input[type=submit]" ).click( function( e ) {
-		
+
 		e.preventDefault();
 
 		// don't do anything if the user clicked a second time quickly
 		if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
-		var title = jQuery( "#issue-title" ).val(),
+		var pretitle = jQuery( "#exercise-title" ).html() || jQuery( "title" ).html(),
+			title = jQuery( "#issue-title" ).val(),
 			email = jQuery( "#issue-email" ).val(),
 			path = Khan.query.exid + ".html"
 				+ "?seed=" + problemSeed
@@ -1115,7 +1134,7 @@ function prepareSite() {
 		jQuery.ajax({
 			url: "http://66.220.0.98:2563/file_exercise_tester_bug"
 				+ "?body=" + encodeURIComponent( body )
-				+ "&title=" + encodeURIComponent( title ),
+				+ "&title=" + encodeURIComponent( [ pretitle, title ].join( " - " ) ),
 			dataType: "jsonp",
 			success: function( json ) {
 				if ( json.meta.status === 201 ) {
@@ -1165,8 +1184,24 @@ function prepareSite() {
 			link.data( "show", !show );
 		});
 
+	jQuery( "#examples-show" ).data( "show", true )
+		.click( function( e ) {
+			e.preventDefault();
+			var link = jQuery( this ),
+				show = link.data( "show" );
+			if ( show ) {
+				link.text( "Hide acceptable answer formats" );
+				jQuery( "#examples" ).show();
+			} else {
+				link.text( "Show acceptable answer formats" );
+				jQuery( "#examples" ).hide();
+			}
+			link.data( "show", !show );
+		});
+
 	jQuery( "#scratchpad-show" ).data( "show", true )
-		.click( function() {
+		.click( function( e ) {
+			e.preventDefault();
 			var button = jQuery( this ),
 				show = button.data( "show" );
 
@@ -1194,8 +1229,6 @@ function prepareSite() {
 			if (user) {
 				window.localStorage[ "scratchpad:" + user ] = show;
 			}
-
-			return false
 		});
 
 	// Prepare for the tester info if requested
@@ -1231,7 +1264,7 @@ function prepareSite() {
 				path = fileName + "?problem=" + problemID
 					+ "&seed=" + problemSeed;
 
-			var title = encodeURIComponent( "Issue in " + $("title").html() ),
+			var title = encodeURIComponent( "Issue Found in Testing - " + $("title").html() ),
 				body = encodeURIComponent( [ description, path, prettyDump, navigator.userAgent ].join("\n\n") ),
 				label = encodeURIComponent( "tester bugs" );
 
