@@ -554,9 +554,11 @@ function makeProblemBag( problems, n ) {
 }
 
 function makeProblem( id, seed ) {
+	if ( typeof Badges !== "undefined" ) {
+		Badges.hide();
+	}
+
 	// Allow passing in a random seed
-	if (typeof Badges != "undefined") {
-		Badges.hide();}
 	if ( typeof seed !== "undefined" ) {
 		randomSeed = seed;
 
