@@ -1629,7 +1629,7 @@ function updateData( data ) {
 				.addClass( "video-title vid-progress v" + video.id )
 				.text( video.title );
 			if ( i < videos.length - 1 && i < 2 ) {
-				span.append( "<span class='separator'></span>" );
+				span.append( "<span class='separator'>, </span>" );
 			}
 
 			var a = jQuery( "<a>" ).attr( {
