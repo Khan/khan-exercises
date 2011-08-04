@@ -220,7 +220,7 @@ jQuery.extend(KhanUtil, {
 
 		if ( (b * b - 4 * a * c) === 0 ) {
 			// 0 under the radical
-			rootString += KhanUtil.fraction(-b, 2*a);
+			rootString += KhanUtil.fraction(-b, 2*a, true, true, true);
 		} else if ( underRadical[0] === 1 ) {
 			// The number under the radical cannot be simplified
 			rootString += KhanUtil.expr(["frac", ["+-", -b, ["sqrt", underRadical[1]]],
@@ -228,8 +228,8 @@ jQuery.extend(KhanUtil, {
 		} else if ( underRadical[1] === 1 ) {
 			// The absolute value of the number under the radical is a perfect square
 
-			rootString += KhanUtil.fraction(-b + underRadical[0], 2*a) + ","
-				+ KhanUtil.fraction(-b - underRadical[0], 2*a);
+			rootString += KhanUtil.fraction(-b + underRadical[0], 2*a, true, true, true) + ","
+				+ KhanUtil.fraction(-b - underRadical[0], 2*a, true, true, true);
 		} else {
 			// under the radical can be partially simplified
 			var divisor = KhanUtil.getGCD( b, 2 * a, underRadical[0] );
