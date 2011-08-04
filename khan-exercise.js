@@ -1126,6 +1126,7 @@ function prepareSite() {
 		var agent_contains = function( sub ) { return agent.indexOf( sub ) !== -1; },
 			flags = { 
 				ie8: agent_contains( "MSIE 8.0" ),
+				ie9: agent_contains( "Trident/5.0" ),
 				chrome: agent_contains( "Chrome/" ),
 				safari: !chrome && agent_contains( "Safari/" ),
 				firefox: agent_contains( "Firefox/" ),
