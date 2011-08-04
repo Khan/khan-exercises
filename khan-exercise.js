@@ -119,7 +119,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
 			+ "href=\"" + a + "\">" + b + "</a>, has been created."; 
 	},
-	issueIntro = "So you've noticed something wrong with our site? We'd love to hear about it so we can improve the Khan Academy experience! Please make sure you report the issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Thanks for helping us change education!"
+	issueIntro = "Please make sure you report this issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Note: All information provided will become public. Thanks for helping us change education!"
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {
@@ -848,9 +848,10 @@ function prepareSite() {
 	exercises = jQuery( ".exercise" ).detach();
 
 	// Setup appropriate img URLs
-	jQuery("#sad").attr("src", urlBase + "css/images/face-sad.gif");
-	jQuery("#happy").attr("src", urlBase + "css/images/face-smiley.gif");
-	jQuery("#throbber").attr("src", urlBase + "css/images/throbber.gif");
+	jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
+	jQuery( "#happy" ).attr( "src", urlBase + "css/images/face-smiley.gif" );
+	jQuery( "#throbber, #issue-throbber" )
+		.attr( "src", urlBase + "css/images/throbber.gif" );
 
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
 		jQuery( "#answercontent" ).hide();
@@ -1151,6 +1152,9 @@ function prepareSite() {
 		// disable the form elements while waiting for a server response
 		formElements.attr( "disabled", true );
 		
+		jQuery( "#issue-cancel" ).hide();
+		jQuery( "#issue-throbber" ).show();
+
 		jQuery.ajax({
 			url: "http://66.220.0.98:2563/file_exercise_tester_bug"
 				+ "?body=" + encodeURIComponent( body )
@@ -1174,6 +1178,10 @@ function prepareSite() {
 					formElements.attr( "disabled", false )
 						.not( "input:submit" ).val( "" );
 						
+					// replace throbber with the cancel button
+					jQuery( "#issue-cancel" ).show();
+					jQuery( "#issue-throbber" ).hide();
+
 				} else {
 
 					// show error message

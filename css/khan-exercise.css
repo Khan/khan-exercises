@@ -65,3 +65,5 @@ body.debug .graphie { outline: 1px dashed red; }
 #issue-cancel { position: relative; bottom: 1px; }
 
 var, div.graphie { white-space: pre; }
+
+#issue-throbber { position: relative; top: 3px; }
