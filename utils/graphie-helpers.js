@@ -138,8 +138,8 @@ function updateEquation() {
 	graph.labelHolder.remove();
 
 	jQuery( "#equationAnswer").html( "<code>y =" + KhanUtil.fractionReduce( graph.MN, graph.MD ) + "x +" + KhanUtil.fractionReduce( graph.BN, graph.BD )+"</code>" ).tmpl();
-	jQuery( "#slope-sol input" ).val( graph.MN + "/" + graph.MD );
-	jQuery( "#intercept-sol input" ).val( graph.BN + "/" + graph.BD );
+	jQuery( "#slope-sol input" ).val( ( graph.MN / graph.MD ) + "" );
+	jQuery( "#intercept-sol input" ).val( ( graph.BN / graph.BD ) + "" );
 }
 
 // for line graph intuition
