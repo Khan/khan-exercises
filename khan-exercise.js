@@ -1130,7 +1130,7 @@ function prepareSite() {
 				ie8: agent_contains( "MSIE 8.0" ),
 				ie9: agent_contains( "Trident/5.0" ),
 				chrome: agent_contains( "Chrome/" ),
-				safari: !chrome && agent_contains( "Safari/" ),
+				safari: !agent_contains( "Chrome/" ) && agent_contains( "Safari/" ),
 				firefox: agent_contains( "Firefox/" ),
 				win7: agent_contains( "Windows NT 6.1" ),
 				vista: agent_contains( "Windows NT 6.0" ),
