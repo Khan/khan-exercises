@@ -219,7 +219,7 @@
 				return set;
 			},
 
-			label: function( point, text, direction ) {
+			label: function( point, text, direction, latex ) {
 				var directions = {
 					"center":      [ -0.5, -0.5 ],
 					"above":       [ -0.5, -1.0 ],
@@ -234,49 +234,56 @@
 
 				var scaled = scalePoint( point );
 
-				var code = jQuery( "<code>" ).text( text );
-				var pad = currentStyle["label-distance"];
-				var span = jQuery( "<span>" ).append( code ).css({
-					position: "absolute",
-					left: scaled[0],
-					top: scaled[1],
-					padding: ( pad != null ? pad : 7 ) + "px"
-				}).appendTo( el );
+				latex = (typeof latex === "undefined") || latex;
 
-				if ( typeof MathJax !== "undefined") {
-					// Add to the MathJax queue
-					jQuery.tmpl.type.code()( code[0] );
+				if (latex) {
+					var code = jQuery( "<code>" ).text( text );
+					var pad = currentStyle["label-distance"];
+					var span = jQuery( "<span>" ).append( code ).css({
+						position: "absolute",
+						left: scaled[0],
+						top: scaled[1],
+						padding: ( pad != null ? pad : 7 ) + "px"
+					}).appendTo( el );
 
-					// Run after MathJax typesetting
-					MathJax.Hub.Queue(function() {
-						// Avoid an icky flash
-						span.css( "visibility", "hidden" );
+					if ( typeof MathJax !== "undefined") {
+						// Add to the MathJax queue
+						jQuery.tmpl.type.code()( code[0] );
 
-						var setMargins = function( size ) {
-							span.css( "visibility", "" );
-							var multipliers = directions[ direction || "center" ];
-							span.css({
-								marginLeft: Math.round( size[0] * multipliers[0] ),
-								marginTop: Math.round( size[1] * multipliers[1] )
-							});
-						};
+						// Run after MathJax typesetting
+						MathJax.Hub.Queue(function() {
+							// Avoid an icky flash
+							span.css( "visibility", "hidden" );
 
-						// Wait for the browser to render it
-						var tries = 0;
-						var inter = setInterval(function() {
-							var size = [ span.outerWidth(), span.outerHeight() ];
+							var setMargins = function( size ) {
+								span.css( "visibility", "" );
+								var multipliers = directions[ direction || "center" ];
+								span.css({
+									marginLeft: Math.round( size[0] * multipliers[0] ),
+									marginTop: Math.round( size[1] * multipliers[1] )
+								});
+							};
 
-							// Heuristic to guess if the font has kicked in so we have box metrics
-							// (Magic number ick, but this seems to work mostly-consistently)
-							if ( size[1] > 18 || ++tries >= 10 ) {
-								setMargins( size );
-								clearInterval(inter);
-							}
-						}, 100);
-					});
+							// Wait for the browser to render it
+							var tries = 0;
+							var inter = setInterval(function() {
+								var size = [ span.outerWidth(), span.outerHeight() ];
+
+								// Heuristic to guess if the font has kicked in so we have box metrics
+								// (Magic number ick, but this seems to work mostly-consistently)
+								if ( size[1] > 18 || ++tries >= 10 ) {
+									setMargins( size );
+									clearInterval(inter);
+								}
+							}, 100);
+						});
+					}
+
+					return span;
+				} else {
+					var rtext = raphael.text( scaled[0], scaled[1], text );
+					return rtext;
 				}
-
-				return span;
 			},
 
 			plotParametric: function( fn, range ) {
@@ -354,6 +361,9 @@
 					jQuery.extend( currentStyle, processed );
 				}
 			},
+
+			scalePoint: scalePoint,
+			scaleVector: scaleVector,
 
 			polar: polar
 
