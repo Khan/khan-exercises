@@ -61,7 +61,7 @@ jQuery.extend( Khan.answerTypes, {
 
 				// Extract numerator and denominator
 			var match = text.match( /^([+-]?\d+)\s*\/\s*([+-]?\d+)$/ );
-			var parsedInt = parseInt( text );
+			var parsedInt = parseInt( text, 10 );
 
 			if ( match ) {
 				var num = parseFloat( match[1] ),

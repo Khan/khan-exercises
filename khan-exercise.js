@@ -119,7 +119,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
 			+ "href=\"" + a + "\">" + b + "</a>, has been created."; 
 	},
-	issueIntro = "Please make sure you report this issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Note: All information provided will become public. Thanks for helping us change education!"
+	issueIntro = "Please make sure you report this issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Note: All information provided will become public. Thanks for helping us change education!";
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {
@@ -151,7 +151,7 @@ if (!Array.prototype.indexOf) {
 			}
 		}
 		return -1;
-	}
+	};
 }
 
 // Add in the site stylesheets
@@ -1314,7 +1314,7 @@ function prepareSite() {
 			var description = prompt( "Please provide a short description of the error" );
 
 			// Don't do anything on clicking Cancel
-			if ( description == null ) return
+			if ( description == null ) return;
 
 			// we discard the info recorded and record an issue on github instead
 			// of testing against the faulty problem's data dump.
@@ -1396,8 +1396,7 @@ function prepareSite() {
 						newIssue();
 					}
 				}
-			})
-
+			});
 
 			jQuery( "#next-question-button" ).trigger( "click" );
 		} );
