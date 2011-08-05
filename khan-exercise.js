@@ -93,7 +93,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	problemCount = 10,
 
 	// For saving problems to the server
-	hintUsed,
+	hintsUsed,
 	lastAction,
 	doHintSave,
 	doSave,
@@ -825,7 +825,7 @@ function makeProblem( id, seed ) {
 	// The user is generating a new problem
 	doHintSave = true;
 	doSave = true;
-	hintUsed = false;
+	hintsUsed = 0;
 	attempts = 0;
 	lastAction = (new Date).getTime();
 
@@ -912,7 +912,7 @@ function prepareSite() {
 				complete: pass === true ? 1 : 0,
 
 				// The user used a hint
-				hint_used: hintUsed ? 1 : 0,
+				hints_used: hintsUsed,
 
 				// How long it took them to complete the problem
 				time_taken: Math.round((curTime - lastAction) / 1000),
@@ -1054,13 +1054,13 @@ function prepareSite() {
 				jQuery( this ).attr( "disabled", true );
 			}
 
+			hintsUsed += 1;
+
 			// Don't reset the streak if we've already reset it or if
 			// we've already sent in an answer
 			if ( !doSave || !doHintSave ) {
 				return;
 			}
-
-			hintUsed = true;
 
 			if (!(typeof userExercise !== "undefined" && userExercise.read_only)) {
 				request( "reset_streak" );
