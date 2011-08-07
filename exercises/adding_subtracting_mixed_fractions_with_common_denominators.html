@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<title>Adding and Subtracting Mixed Numbers with Common Denominators</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+	<div class="exercise">
+
+		<div class="problems">
+			<div>
+				<div class="vars">
+					<var id="PM">randRangeNonZero( -1, 1 )</var> <!-- ensures 50% of addition, 50% of subtraction -->
+					<var id="SIGN">( PM === 1 ? "+" : "-")</var>
+					<var id="W1">randRange( 2, 19 )</var>
+					<var id="W2">( PM === 1 ? randRange( 1, 19 ) : randRange( -W1 + 1, -1 ))</var>
+					<var id="D">randRange( 3, 20 )</var>
+
+					<div data-ensure="( PM === 1 ? ( N1 + N2 < D ) : ( N1 > N2 ))">
+						<var id="N1">randRange( 1, D - 1 )</var>
+						<var id="N2">randRange( 1, D - 2 )</var>
+					</div>
+					<var id="GCD">getGCD( (N1 + PM * N2) , D )</var>
+				</div>
+
+				<p class="problem">Write the following as a mixed number. Reduce to lowest terms.</p>
+				<p class="question"><code><var>expr(["+", W1 + fraction( N1, D ), W2 + fraction( N2, D )])</var> = {?}</code></p>
+				<div class="solution" data-type="mixed"><var>W1 + W2 + ( N1 + PM * N2 ) / D</var></div>
+
+				<div class="hints">
+					<p><code>= \color{red}{<var>W1</var>} + \color{red}{<var>fraction( N1, D )</var>} <var>SIGN</var> \color{olive}{<var>abs( W2 )</var>} <var>SIGN</var> \color{olive}{<var>fraction( N2, D )</var>}</code> (separate the terms)</p>
+					
+					<p><code>= \color{red}{<var>W1</var>} <var>SIGN</var> \color{olive}{<var>abs( W2 )</var>} + \color{red}{<var>fraction( N1, D )</var>} <var>SIGN</var> \color{olive}{<var>fraction( N2, D )</var>}</code> (put whole #s and fractions together)</p>
+
+					<p><code>= <var>expr(["+", W1 + W2, fraction( N1 + PM * N2, D )])</var></code> (calculate each part)</p>
+					
+					<p><code>= <var>W1 + W2 + fraction( N1 + PM * N2, D )</var></code> (combine)</p>
+
+					<p data-if="GCD > 1">Reducing to lowest terms: <code><var>W1 + W2</var><var>fractionReduce( ( N1 + PM * N2 ), D )</var></code></p>
+				</div>
+			</div>
+		</div>
+	</div></body>
+</html>
