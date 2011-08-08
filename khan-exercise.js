@@ -867,13 +867,24 @@ function prepareSite() {
 		jQuery( "#extras" ).css("visibility", "hidden");
 
 		var readonly = jQuery( "#readonly" );
+		readonly.append(
+			jQuery( "<span class='info-box-subheader'>Answers</span>" )
+		);
+
 		jQuery.each(userExercise.user_activity, function(index, value) {
-			readonly.append( 
+			readonly.append(
 				jQuery( "<div>" )
 					.addClass( "user-activity " + value[0] )
 					.text( value[1] )
 				)
 		});
+
+		if (userExercise.hints_used !== undefined) {
+			readonly.append(
+				jQuery( "<span class='info-box-subheader'>Hints</span>" ),
+				jQuery( "<div>" ).text( userExercise.hints_used + " hints" )
+			);
+		}
 
 		//jQuery( "#readonly" )
 		readonly
@@ -1077,6 +1088,7 @@ function prepareSite() {
 			}
 
 			hintsUsed += 1;
+      console.log(hintsUsed);
 
 			// Don't reset the streak if we've already reset it or if
 			// we've already sent in an answer
