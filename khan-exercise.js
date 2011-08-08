@@ -789,6 +789,11 @@ function makeProblem( id, seed ) {
 			.attr( "href", debugURL )
 			.appendTo( links );
 
+		if ( exercise.data( "name" ) != null ) {
+			links.append("<br>");
+			links.append("Original exercise: " + exercise.data( "name" ));
+		}
+
 		if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
 			var varInfo = jQuery( "<p>" );
 
@@ -1669,24 +1674,30 @@ function updateData( data ) {
 
 // Grab the cached UserExercise data from local storage
 function getData() {
-	var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+	// If we're viewing a problem, ignore local storage and return the userExercise blob
+	if ( typeof userExercise !== "undefined" && userExercise.read_only ) {
+		return userExercise;
 
-	// Parse the JSON if it exists
-	if ( data ) {
-		return JSON.parse( data );
-
-	// Otherwise we contact the server
 	} else {
-		return {
-			total_done: 0,
-			total_correct: 0,
-			streak: 0,
-			longest_streak: 0,
-			next_points: 225,
-			exercise_model: {
-				summative: isSummative
-			}
-		};
+		var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+
+		// Parse the JSON if it exists
+		if ( data ) {
+			return JSON.parse( data );
+
+		// Otherwise we contact the server
+		} else {
+			return {
+				total_done: 0,
+				total_correct: 0,
+				streak: 0,
+				longest_streak: 0,
+				next_points: 225,
+				exercise_model: {
+					summative: isSummative
+				}
+			};
+		}
 	}
 }
 

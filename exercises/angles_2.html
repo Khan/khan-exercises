@@ -84,16 +84,20 @@
 
 				<p style="font-size:70%; color:grey"><strong>NOTE:</strong> Angles not drawn to scale.</p>
 
-				Given the following:
-				<ul>
-					<li><code>\color{green}{\angle{ABC}} = <var>Tri_Y</var>&deg;</code></li>
-					<li><code>\color{purple}{\angle{BAC}} = <var>Tri_Z</var>&deg;</code></li>
-					<li><code>\overline{DE} \parallel \overline{BC}</code></li>
-				</ul>
+				<div class="question">
+					<p>Given the following:</p>
+					<ul>
+						<li><code>\color{green}{\angle{ABC}} = <var>Tri_Y</var>&deg;</code></li>
+						<li><code>\color{purple}{\angle{BAC}} = <var>Tri_Z</var>&deg;</code></li>
+						<li><code>\overline{DE} \parallel \overline{BC}</code></li>
+					</ul>
 
 				<!-- Select which angle to ask about depending on problem variation. -->
-				<p class="question" data-if="RAND_SWITCH2 === 0">What is <code>\color{blue}{\angle{DAF}} = {?}</code></p>
-				<p class="question" data-else>What is <code>\color{blue}{\angle{CAE}} = {?}</code></p>
+					<p>What is
+					<span data-if="RAND_SWITCH2 == 0">What is <code>\color{blue}{\angle{DAF}} = {?}</code></span>
+					<span data-else>What is <code>\color{blue}{\angle{CAE}} = {?}</code></span></p>
+				
+				</div>
 
 				<div class="solution"><var>Tri_X</var></div>
 
