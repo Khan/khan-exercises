@@ -1511,7 +1511,7 @@ function prepareUserExercise( data ) {
 		problemNum = userCRC32 % bins;
 
 		// Advance to the current problem seed
-		nextProblem( userExercise.total_done );
+		nextProblem( getData().total_done );
 	}
 }
 
