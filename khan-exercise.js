@@ -391,6 +391,9 @@ var Khan = {
 // Load query string params
 Khan.query = Khan.queryString();
 
+// Save testMode state in Khan to share with deps
+Khan.testMode = testMode;
+
 // Seed the random number generator with the user's hash
 randomSeed = testMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
 

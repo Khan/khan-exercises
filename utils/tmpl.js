@@ -222,7 +222,7 @@ jQuery.fn.tmplLoad = function() {
 	VARS = {};
 	
 	// Check to see if we're in test mode
-	if ( window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:" ) {
+	if ( Khan.testMode ) {
 		// Expose the variables if we're in test mode
 		jQuery.tmpl.VARS = VARS;
 	}
