@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+	<head>
+		<title>Recognizing rays, lines, and line segments</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="TILT">randRange(0, 359)</var>
+				<var id="LENGTH">randRange(4, 7)</var>
+
+				<var id="END1">[(LENGTH/2) * cos( TILT ), (LENGTH/2) * sin( TILT )]</var>
+				<var id="END2">[-1 * (LENGTH/2) * cos( TILT ), -1 * (LENGTH/2) * sin( TILT )]</var>
+
+				<var id="DOT_ATTRS">{ r: 0.2, fill: "blue", stroke: "none" }</var>
+			</div>
+			
+			<div class="problems">
+				<div id="line-segment">
+					<div class="problem">
+						<p>Identify this figure.</p>
+						
+						<div class="graphie" id="figure">
+							init({
+								range: [ [-6, 6], [-6, 6] ],
+								scale: 20
+							});
+						</div>
+					</div>
+					<div class="question">
+						<div class="graphie" data-update="figure">
+							line( END1, END2 );
+							circle( END1, DOT_ATTRS );
+							circle( END2, DOT_ATTRS );
+						</div>
+					</div>
+
+					<div class="solution">Line segment</div>
+					<ul class="choices" data-category="true">
+						<li>Ray</li>
+						<li>Line</li>
+						<li>Line segment</li>
+					</ul>
+
+					<div class="hints">
+						<p>This figure is part of a line, but it has two endpoints.</p>
+						<p>A figure that has two endpoints and is part of a line is a <em>line segment</em>.</p>
+					</div>
+				</div>
+
+				<div id="ray" data-type="line-segment">
+					<div class="question">
+						<div class="graphie" data-update="figure">
+							line( END1, END2, { arrows: "->" } );
+							circle( END1, DOT_ATTRS );
+						</div>
+					</div>
+
+					<div class="solution">Ray</div>
+
+					<div class="hints">
+						<p>This figure is part of a line, but it has one endpoint. It goes on forever in the other direction, though.</p>
+						<p>Therefore, this figure is a <em>ray</em>.</p>
+					</div>
+				</div>
+
+				<div id="line" data-type="line-segment">
+					<div class="question">
+						<div class="graphie" data-update="figure">
+							line( END1, END2, { arrows: "->" } );
+							line( END2, END1, { arrows: "->" } );
+						</div>
+					</div>
+
+					<div class="solution">Line</div>
+
+					<div class="hints">
+						<p>This figure is straight, and it goes on forever in both directions. It doesn't have any endpoints.</p>
+						<p>That description means this figure is a <em>line</em>.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
