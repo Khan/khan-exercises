@@ -1285,11 +1285,13 @@ function prepareSite() {
 					} );
 
 				} else {
+					jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
 					jQuery( "#scratchpad" ).show();
 					button.text( "Hide scratchpad" );
 				}
 
 			} else {
+				jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
 				jQuery( "#scratchpad" ).hide();
 				button.text( "Show scratchpad" );
 			}
