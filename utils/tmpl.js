@@ -177,10 +177,10 @@ jQuery.tmpl = {
 	// Eval a string in the context of Math, KhanUtil, VARS, and optionally another passed context
 	getVAR: function( elem, ctx ) {
 		// We need to compute the value
-		var code = jQuery.trim( elem.nodeName ? jQuery(elem).text() : elem );
+		var code = elem.nodeName ? jQuery(elem).text() : elem;
 
 		// Make sure any HTML formatting is stripped
-		code = jQuery.tmpl.cleanHTML( code );
+		code = jQuery.trim( jQuery.tmpl.cleanHTML( code ) );
 
 		// If no extra context was passed, use an empty object
 		if ( ctx == null ) {
@@ -202,8 +202,20 @@ jQuery.tmpl = {
 				}
 			}
 
-		} catch( e ) {
-			Khan.error( code, e );
+		} catch ( e ) {
+			var info;
+
+			if ( elem.nodeName ) {
+				info = elem.nodeName.toLowerCase();
+
+				if ( elem.id != null && elem.id.length > 0 ) {
+					info += "#" + elem.id;
+				}
+			} else {
+				info = JSON.stringify( code );
+			}
+
+			Khan.error( "Error while evaluating " + info, e );
 		}
 	},
 
