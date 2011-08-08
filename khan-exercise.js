@@ -789,6 +789,11 @@ function makeProblem( id, seed ) {
 			.attr( "href", debugURL )
 			.appendTo( links );
 
+		if ( exercise.data( "name" ) != null ) {
+			links.append("<br>");
+			links.append("Original exercise: " + exercise.data( "name" ));
+		}
+
 		if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
 			var varInfo = jQuery( "<p>" );
 
