@@ -16,7 +16,7 @@
 
 		var scaleVector = function( point ) {
 			if ( typeof point === "number" ) {
-				return scaleVector([ point, point ])
+				return scaleVector([ point, point ]);
 			}
 
 			var x = point[0], y = point[1];
@@ -25,7 +25,7 @@
 
 		var scalePoint = function scalePoint( point ) {
 			if ( typeof point === "number" ) {
-				return scalePoint([ point, point ])
+				return scalePoint([ point, point ]);
 			}
 
 			var x = point[0], y = point[1];
@@ -388,7 +388,7 @@
 				}
 
 				// Bad heuristic for recognizing Raphael elements and sets
-				var type = result.constructor.prototype
+				var type = result.constructor.prototype;
 				if ( type === Raphael.el || type === Raphael.st ) {
 					result.attr( currentStyle );
 
@@ -417,6 +417,7 @@
 		// - labelStep: [ a, b ] or number (relative to tick steps)
 		// - yLabelFormat: fn to format label string for y-axis
 		// - xLabelFormat: fn to format label string for x-axis
+		// - smartLabelPositioning: true or false to ignore minus sign
 		graphie.graphInit = function( options ) {
 
 			options = options || {};
@@ -444,7 +445,7 @@
 			var range = options.range || [ [-10, 10], [-10, 10] ],
 				scale = options.scale || [ 20, 20 ],
 				grid = options.grid || true,
-				gridOpacity = options.gridOpacity || .1,
+				gridOpacity = options.gridOpacity || 0.1,
 				gridStep = options.gridStep || [ 1, 1 ],
 				axes = options.axes || true,
 				axisArrows = options.axisArrows || "",
@@ -454,12 +455,20 @@
 				labels = options.labels || options.labelStep || false,
 				labelStep = options.labelStep || [ 1, 1 ],
 				unityLabels = options.unityLabels || false,
-				xLabelFormat = options.xLabelFormat
-					|| options.labelFormat
-					|| function(a) { return a; },
-				yLabelFormat = options.yLabelFormat
-					|| options.labelFormat
-					|| function(a) { return a; };
+				labelFormat = options.labelFormat || function(a) { return a; },
+				xLabelFormat = options.xLabelFormat || labelFormat,
+				yLabelFormat = options.yLabelFormat || labelFormat,
+				smartLabelPositioning = options.smartLabelPositioning != null ?
+					options.smartLabelPositioning : true;
+
+			if ( smartLabelPositioning ) {
+				var minusIgnorer = function( lf ) { return function( a ) {
+					return ( lf( a ) + "" ).replace( /-(\d)/g, "\\llap{-}$1" );
+				}; };
+
+				xLabelFormat = minusIgnorer( xLabelFormat );
+				yLabelFormat = minusIgnorer( yLabelFormat );
+			}
 
 			this.init({
 				range: range,
