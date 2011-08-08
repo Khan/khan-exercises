@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
+<html data-require="math graphie graphie-helpers-arithmetic">
 <head>
 	<meta charset="UTF-8" />
 	<title>Dividing decimals</title>
@@ -35,8 +35,9 @@
 						strokeWidth: 1
 					});
 
-					drawDigits( DIVISOR_DIGITS, -0.5 - DIVISOR_DIGITS.length, 0, true );
-					drawDigits( DIVIDEND_DIGITS, 0, 0, true );
+					var padded = ( padDigitsToNum( DIVISOR_DIGITS.reverse(), DIVISOR_DECIMAL + 1 )).reverse();
+					drawDigits( padded, -0.5 - padded.length, 0 );
+					drawDigits( DIVIDEND_DIGITS, 0, 0 );
 					path( [ [ -0.75, -0.5 ], [ -0.75, 0.5 ], [ DIVIDEND_DIGITS.length, 0.5 ] ] );
 					style({
 						fill: "black"

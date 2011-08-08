@@ -49,6 +49,14 @@ jQuery.extend(KhanUtil, {
 		return number;
 	},
 
+	padDigitsToNum: function( digits, num ) {
+		digits = digits.slice( 0 );
+		while ( digits.length < num ) {
+			digits.push( 0 );
+		}
+		return digits;
+	},
+
 	placesLeftOfDecimal: ["one", "ten", "hundred", "thousand"],
 	placesRightOfDecimal: ["one", "tenth", "hundredth", "thousandth"],
 

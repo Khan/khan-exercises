@@ -1,23 +1,9 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-require="math graphie graphie-helpers-arithmetic">
 <head>
 	<meta charset="UTF-8" />
 	<title>Division 1</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		function drawRow( num, y, color, startCount ) {
-			with ( KhanUtil.currentGraph ) {
-				style({
-					stroke: color
-				});
-
-				for ( var x = 0; x < num; x++ ) {
-					label( [ x, y ], "\\small{\\color{" + color + "}{" + ( startCount + x ) + "}}" );
-					circle( [ x, y ], 0.25 );
-				}
-			}
-		}
-	</script>
 </head>
 <body>
 	<div class="exercise">
