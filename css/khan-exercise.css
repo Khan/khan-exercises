@@ -67,3 +67,24 @@ body.debug .graphie { outline: 1px dashed red; }
 var, div.graphie { white-space: pre; }
 
 #issue-throbber { position: relative; top: 3px; }
+
+.correct-activity {
+  background-color: #b0ffad;
+}
+
+.incorrect-activity {
+  background-color: #f5a68c;
+}
+
+.hint-activity {
+  background-color: #ffffad;
+}
+
+.user-activity {
+  margin: 5px;
+  padding: 2px 5px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+}

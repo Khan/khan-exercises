@@ -861,9 +861,25 @@ function prepareSite() {
 		jQuery( "#answercontent" ).hide();
 		jQuery( "#extras" ).css("visibility", "hidden");
 
-		jQuery( "#readonly" )
-			.find( "#readonly-problem" ).text("Problem #" + (userExercise.total_done + 1)).end()
-			.find( "#readonly-start" ).attr("href", "/exercises?exid=" + userExercise.exercise).end()
+	var readonly = jQuery( "#readonly" );
+	jQuery.each(userExercise.user_activity, function(index, value) {
+		readonly.append( jQuery( "<div>" )
+			.addClass( "user-activity " + value[0] )
+			.text( value[1] )
+		)
+	});
+
+		//jQuery( "#readonly" )
+    readonly
+			.find( "#readonly-problem" )
+				.text( "Problem #" + (userExercise.total_done + 1) )
+				.end()
+			.find( "#readonly-start" )
+				.attr( "href", "/exercises?exid=" + userExercise.exercise )
+				.end()
+			.next()
+				.hide()
+				.end()
 			.show();
 	}
 
