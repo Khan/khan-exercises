@@ -861,16 +861,17 @@ function prepareSite() {
 		jQuery( "#answercontent" ).hide();
 		jQuery( "#extras" ).css("visibility", "hidden");
 
-	var readonly = jQuery( "#readonly" );
-	jQuery.each(userExercise.user_activity, function(index, value) {
-		readonly.append( jQuery( "<div>" )
-			.addClass( "user-activity " + value[0] )
-			.text( value[1] )
-		)
-	});
+		var readonly = jQuery( "#readonly" );
+		jQuery.each(userExercise.user_activity, function(index, value) {
+			readonly.append( 
+				jQuery( "<div>" )
+					.addClass( "user-activity " + value[0] )
+					.text( value[1] )
+				)
+		});
 
 		//jQuery( "#readonly" )
-    readonly
+		readonly
 			.find( "#readonly-problem" )
 				.text( "Problem #" + (userExercise.total_done + 1) )
 				.end()
