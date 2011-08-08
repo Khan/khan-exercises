@@ -975,6 +975,7 @@ function prepareSite() {
 	// Watch for when the next button is clicked
 	jQuery("#next-question-button").click(function(ev) {
 		jQuery("#happy").hide();
+		if( !jQuery( "#examples-show" ).data( "show" ) ){ jQuery( "#examples-show" ).click(); }
 
 		// Toggle the navigation buttons
 		jQuery("#check-answer-button").show();
@@ -1245,20 +1246,29 @@ function prepareSite() {
 			link.data( "show", !show );
 		});
 
-	jQuery( "#examples-show" ).data( "show", true )
-		.click( function( e ) {
-			e.preventDefault();
-			var link = jQuery( this ),
-				show = link.data( "show" );
-			if ( show ) {
-				link.text( "Hide acceptable answer formats" );
-				jQuery( "#examples" ).show();
+	(function(){
+		var example_link = jQuery( "#examples-show" )
+		var examples = jQuery( "#examples ");
+
+		var example_toggle = function( evt ){
+			var showP = example_link.data( "show" );
+
+			if ( evt ) { evt.preventDefault(); }
+
+			if ( example_link.data( "show" ) ){
+				example_link.text( "Hide acceptable answer formats" );
 			} else {
-				link.text( "Show acceptable answer formats" );
-				jQuery( "#examples" ).hide();
+				example_link.text( "Show acceptable answer formats" );
 			}
-			link.data( "show", !show );
-		});
+			examples.slideToggle( 150 );
+			example_link.data( "show", !showP );
+		};
+
+		example_link.data( "show", true ).
+			click( example_toggle );
+
+		example_toggle();
+	})();
 
 	jQuery( "#scratchpad-show" ).data( "show", true )
 		.click( function( e ) {
