@@ -342,10 +342,10 @@ function changeIntercept( dir ) {
 (function(){
 	// Colorblind-safe set of colors from colorbrewer.org
 	var qualitativeColors = KhanUtil.shuffle([
-		"#33A02C", // dark green
-		"#B2DF8A", // light green
-		"#1F78B4", // dark blue
-		"#A6CEE3"  // light blue
+		"#33a02c", // dark green
+		"#b2df8a", // light green
+		"#6495ed", // cornflower blue
+		"#a6cee3"  // light blue
 	]);
 	
 	// You can use these colors for pie charts or anything that needs to 'get darker'
