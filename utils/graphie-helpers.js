@@ -338,3 +338,29 @@ function changeIntercept( dir ) {
 		+ ( dir * graph.BD / graph.INCR );
 	updateEquation();
 }
+
+(function(){
+	// Colorblind-safe set of colors from colorbrewer.org
+	var qualitativeColors = KhanUtil.shuffle([
+		"#33A02C", // dark green
+		"#B2DF8A", // light green
+		"#1F78B4", // dark blue
+		"#A6CEE3"  // light blue
+	]);
+	
+	// You can use these colors for pie charts or anything that needs to 'get darker'
+	var sequentialColors = KhanUtil.shuffle([ 
+		[ "#fef0d9", "#fdcc8a", "#fc8d59", "#e34a33", "#b30000" ], // light yellow -> dark red
+		[ "#ffffcc", "#a1dab4", "#41b6c4", "#2c7fb8", "#253494" ], // light yellow -> dark aqua
+		[ "#feebe2", "#fbb4b9", "#f768a1", "#c51b8a", "#7a0177" ], // light pink -> dark violet
+		[ "#f1eef6", "#bdc9e1", "#74a9cf", "#2b8cbe", "#045a8d" ], // light blue -> dark blue
+		[ "#edf8fb", "#b2e2e2", "#66c2a4", "#2ca25f", "#006d2c" ]  // light blue -> dark green
+	]);
+	
+	jQuery.extend(KhanUtil,{
+		"colors" : {
+			"qualitative" : qualitativeColors,
+			"sequential" : sequentialColors[0]
+		}
+	});	
+})();
