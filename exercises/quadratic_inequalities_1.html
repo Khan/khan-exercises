@@ -18,11 +18,8 @@
 
     <div class="vars">
 
-      <!-- 1/4 of questions will be squares -->
-      <var id="LT">random() < 1.1</var>
-
       <var id="A">randRangeNonZero( -10, 10 )</var>
-      <var id="B" data-ensure="A != B">randRangeNonZero( -10, 10 )</var>
+      <var id="B" data-ensure="A !== B">randRangeNonZero( -10, 10 )</var>
       <var id="ROOTS">sortNumbers([-1*A, -1*B])</var>
       <var id="R1">ROOTS[0]</var>
       <var id="R2">ROOTS[1]</var>
@@ -30,23 +27,22 @@
       <var id="C">A * B</var>
       <var id="X">"x"</var>
       <var id="XX">"x^2"</var>
-      <var id="LEFT">"\\left(" + plus(X, A) + "\\right)"</var>
-      <var id="RIGHT">"\\left(" + plus(X, B) + "\\right)"</var>
+      <var id="LEFT">parens(plus(X, A))</var>
+      <var id="RIGHT">parens(plus(X, B))</var>
     </div>
 
     <div class="problems">
-      <div id="problem-type-or-description">
-        <p class="problem">This exercise covers simplifying expressions of the form 
-        (x + A)(x + B) < 0</p>
+      <div id="bounded-quadratic-inquality">
 
-        <p class="question"><code>
-          <var>plus(XX, (A+B)+X) </var> 
-          <var>(LT ? '<' : '>')</var>
-          <var>-C</var></code></p>
+        <div class="question">
+          <p>For what values of <code>x</code> does
+          <p style="text-align:center"><code><var>plus(XX, (A+B)+X)</var> < <var>-C</var></code></p>
+        </div>
 
         <div class="solution" data-type="multiple">
-          <p><code>x < </code> <span class="sol"><var>R2</var></span></p>
-          <p><code>x > </code> <span class="sol"><var>R1</var></span></p>
+          <p><span class="sol"><var>R1</var></span> 
+            <code> < x < </code>
+            <span class="sol"><var>R2</var></span> </p>
         </div>
 
       </div>
@@ -55,10 +51,10 @@
     <div class="hints">
       <p>First, move the term over to the other side of the inequality<br><code><var>plus(XX, (A+B)+X, C)</var> < 0</code></p>
       <p>Now, let's factor the quadratic equation<br><code><var>mult(LEFT, RIGHT)</var> < 0</code></p>
-      <p>either &emsp;<code> <var>LEFT</var> < 0</code> &emsp;&emsp;and&emsp;&emsp; <code><var>RIGHT</var> > 0</code> &emsp;&emsp;or <br>
-        <code><var>LEFT</var> > 0</code> &emsp;&emsp;and&emsp;&emsp; <code><var>RIGHT</var> < 0</code> </p>
-      <p>either &emsp;<code> <var>X</var> < <var>-A</var></code> &emsp;&emsp;and&emsp;&emsp; <code><var>X</var> > <var>-B</var></code> &emsp;&emsp;or <br>
-        <code><var>X</var> > <var>-A</var></code> &emsp;&emsp;and&emsp;&emsp; <code><var>X</var> < <var>-B</var></code> &emsp;&emsp;or </p>
+      <p>either <code> <var>LEFT</var> < 0</code> and <code><var>RIGHT</var> > 0</code> or <br>
+        <code><var>LEFT</var> > 0</code> and <code><var>RIGHT</var> < 0</code> </p>
+      <p>either <code> <var>X</var> < <var>-A</var></code> and <code><var>X</var> > <var>-B</var></code> or <br>
+        <code><var>X</var> > <var>-A</var></code> and <code><var>X</var> < <var>-B</var></code> </p>
       <div>
         <p>which we can graph, like so:</p>
         <div class="graphie">
@@ -80,7 +76,7 @@
             strokeWidth:5
           }, function() {
             line([12+R1,1], [12+R2,1]);
-            //label([12+(R1+R2)/2,.5], R1 + " < x < "+R2,  "above");
+            label([12+(R1+R2)/2,.5], R1 + " < x < "+R2,  "above");
           });
 
           style({
@@ -93,9 +89,11 @@
           });
 
 
-          </div>
+        </div>
       </div>
-        <p>
+      
+      <p>By plugging in a value for <code>x</code> we can see which of the inequalities fits
+        
     </div>
   </div>
 </body>
