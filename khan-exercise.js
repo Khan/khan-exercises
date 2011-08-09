@@ -443,6 +443,10 @@ Khan.loadScripts( scripts, function() {
 		runModules: function( problem, type ) {
 			type = type || "";
 
+			var info = {
+				testMode : testMode
+			}
+
 			return this.each(function( i, elem ) {
 				elem = jQuery( elem );
 
@@ -450,7 +454,7 @@ Khan.loadScripts( scripts, function() {
 				jQuery.each( Khan.modules, function( src, mod ) {
 					var name = mod.name;
 					if ( jQuery.fn[ name + type ] ) {
-						elem[ name + type ]( problem );
+						elem[ name + type ]( problem, info );
 					}
 				});
 			});
