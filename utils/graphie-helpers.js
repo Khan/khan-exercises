@@ -71,53 +71,6 @@ function rectchart( divisions, colors, radius ) {
 	return set;
 }
 
-//set up our object for dragging
-function dragStart() {
-	if ( !this.pro.draggable() ) return;
-	var i;
-	//store the starting point for each item in the set
-	for ( i=0; i < this.pro.set.items.length; i++ ) {
-		var obj = this.pro.set.items[i];
-		
-		obj.ox = 0;
-		obj.oy = 0;
-
-		obj.animate( { opacity: .25 }, 500, ">" );
-	}
-}
-
-//clean up after dragging
-function dragStop() {
-	if ( !this.pro.draggable() ) return;
-	var i;
-	//remove the starting point for each of the objects
-	for ( i=0; i < this.pro.set.items.length; i++ ) {
-		var obj = this.pro.set.items[i];
-		
-		delete(obj.ox);
-		delete(obj.oy);
-
-		obj.animate( { opacity: .5 }, 500, ">" );
-	}
-}
-
-//take care of moving the objects when dragging
-function dragMove( dx, dy ) {
-	if ( !this.pro.draggable() ) return;
-	var i;
-	//reposition the objects relative to their start position
-	for ( i = 0; i < this.pro.set.items.length; i++ ) {
-		var obj = this.pro.set.items[i],
-		trans_x = dx - obj.ox,
-		trans_y = dy - obj.oy;
-		
-		obj.translate( trans_x, trans_y );
-		
-		obj.ox = dx;
-		obj.oy = dy;
-	}
-}
-
 function Rotator( center, r, pro ) {
 	var graph = KhanUtil.currentGraph;
 	this.set = graph.raphael.set();
@@ -152,6 +105,13 @@ function Rotator( center, r, pro ) {
 	this.set.push( this.upArrow );
 
 	jQuery([ this.downArrow.node, this.upArrow.node ]).css( "cursor", "hand" );
+	this.set.hover(
+		function( event ) {
+			this.attr({ fill: "green" });
+		},
+		function( event ) {
+			this.attr({ fill: "#aae" });
+		});
 
 	this.rotationOn = function() {
 		jQuery(this.upArrow.node).mousedown(function() {
@@ -190,14 +150,11 @@ function Protractor( center, r ) {
 
 	this.set.push( graph.arc( [this.cx, this.cy], r, 0, 180, { fill: "#b0c4de", stroke: lineColor } ) );
 
+	this.set.push( graph.circle( [this.cx, this.cy], 0.05 ) );
+	
+	this._rotation = 0;
 	this.getRotation = function() {
-		var t = this.set[0].transformations[0];
-		if ( t ) {
-			return parseFloat( t.substring( 7,
-											t.indexOf( " " ) ) );
-		} else {
-			return 0;
-		}
+		return this._rotation;
 	};
 
 	this.drawAngle = function( angle, rOffset, stroke, labelStroke ) {
@@ -221,15 +178,67 @@ function Protractor( center, r ) {
 	for ( var angle = 0; angle <= 180; angle += 10 ) {
 		this.drawAngle( angle );
 	}
-	this.set.drag( dragMove, dragStart, dragStop );
-	jQuery( jQuery.map( this.set, function( el ) { return el.node; } ) ).css( "cursor", "move" );
+
+	var pro = this;
+	var setNodes = jQuery.map( this.set, function( el ) { return el.node; } );
+	function makeDraggable() {
+		jQuery( setNodes ).mousedown( function( event ) {
+			event.preventDefault();
+			
+			var i;
+			//store the starting point for each item in the set
+			for ( i=0; i < pro.set.items.length; i++ ) {
+				var obj = pro.set.items[i];
+				
+				obj.ox = event.pageX;
+				obj.oy = event.pageY;
+
+				obj.animate( { opacity: .25 }, 500, ">" );
+			}
+
+			jQuery(document).mousemove( function( event ) {
+				var i;
+				//reposition the objects relative to their start position
+				for ( i = 0; i < pro.set.items.length; i++ ) {
+					var obj = pro.set.items[i],
+					trans_x = event.pageX - obj.ox,
+					trans_y = event.pageY - obj.oy;
+					
+					obj.translate( trans_x, trans_y );
+					
+					obj.ox = event.pageX;
+					obj.oy = event.pageY;
+				}
+			});
+
+			jQuery(document).one( "mouseup", function( event ) {
+				var i;
+				//remove the starting point for each of the objects
+				for ( i=0; i < pro.set.items.length; i++ ) {
+					var obj = pro.set.items[i];
+					
+					delete(obj.ox);
+					delete(obj.oy);
+					
+					obj.animate( { opacity: .5 }, 500, ">" );
+					
+					jQuery(document).unbind("mousemove");
+				}
+			});
+		});
+	}
+
+	function makeUndraggable() {
+		jQuery( setNodes ).unbind();
+	}
+	
+	jQuery( setNodes ).css( "cursor", "move" );
 	
 	this.rotator = new Rotator( [this.cx, this.cy], r, this );
 	this.set.push( this.rotator.set );
 
 	this.set.attr( { opacity: .5 } );
 
-	var pro = this;
 	jQuery.each( this.set, function( index, el ) {
 		// custom attribute so we can rotate the whole set from dragging any element
 		el.pro = pro;
@@ -250,6 +259,7 @@ function Protractor( center, r ) {
 		}
 
 		this.set.rotate( rotation + offset, c[0], c[1] );
+		this._rotation = rotation + offset;
 		return this;
 	};
 
@@ -271,12 +281,16 @@ function Protractor( center, r ) {
 		return this;
 	};
 
-	// Raphael doesn't let us unbind drag events
 	this.draggable = function( dble ) {
 		if ( typeof dble === "undefined" ) {
 			return this._draggable;
 		} else {
 			this._draggable = dble;
+			if ( dble ) {
+				makeDraggable();
+			} else {
+				makeUndraggable();
+			}
 		}
 		return this;
 	};
@@ -296,6 +310,8 @@ function Protractor( center, r ) {
 		return this;
 	};
 	this.rotatable( true );
+
+	this.set.translate( 0, 0 );
 
 	return this;
 }
