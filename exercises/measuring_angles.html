@@ -9,9 +9,6 @@
 			<div class="vars">
 				<var id="ANGLE_ONE">randRange(0, 359)</var>
 				<var id="DIFF">10 * randRange(0, 18)</var>
-
-				<var id="DIFF_LOW">Math.floor(DIFF/10)*10</var>
-				<var id="DIFF_HIGH">Math.ceil(DIFF/10)*10</var>
 			</div>
 
 			<div class="problems">
@@ -35,7 +32,7 @@
 							graph.protractor = new Protractor( [22, 0], 8 );
 						</div>
 					</div>
-					<p class="solution" data-inexact data-max-error="5" data-type="rational"><var>DIFF</var></p>
+					<p class="solution" data-type="rational"><var>DIFF</var></p>
 				</div>
 			</div>
 
@@ -48,13 +45,6 @@
 						graph.protractor.rotatable( false );
 					</div>
 					<p>First, align the protractor with the angle.</p>
-				</div>
-				<div>
-					<p>According to the protractor, the angle is between <code><var>DIFF_LOW</var></code> and <code><var>DIFF_HIGH</var></code> degrees.</p>
-					<div class="graphie" data-update="angle">
-						graph.protractor.drawAngle( DIFF_LOW, 1.2, "blue", "blue" );
-						graph.protractor.drawAngle( DIFF_HIGH, 1.2, "blue", "blue" );
-					</div>
 				</div>
 				<div>
 					<div class="graphie" data-update="angle">
