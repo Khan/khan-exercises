@@ -49,7 +49,7 @@
 		<div class="hints">
 			<div class="graphie" id="numbers">
 				init({
-					range: [ [ -1, X_MAX + 4 ], [ -0.5, 4 ] ],
+					range: [ [ -2, 17 ], [ -0.5, 4 ] ],
 					scale: [30, 45]
 				});
 				style({
@@ -71,7 +71,7 @@
 				}
 				X_MAX = X_MAX + ( B_DECIMAL - A_DECIMAL ) * (A_DECIMAL &lt; B_DECIMAL ? 1 : -1);
 				path( [ [ -0.5, 0.5 ], [ X_MAX + 0.5, 0.5 ] ]);
-				graph.highlights[0].push( label( [ X_SIDE, Y_SIDE ], "\\large{\\text{Make sure the decimals are lined up.}}", "right" ) );
+				graph.highlights[0].push( label( [ X_SIDE, Y_SIDE ], "\\text{Make sure the decimals are lined up.}", "right" ) );
 				drawDigits( A_DIGITS.slice( 0 ).reverse(), X_MAX - A_DIGITS.length + 1, Y_FIRST );
 				drawDigits( B_DIGITS.slice( 0 ).reverse(), X_MAX - B_DIGITS.length + 1, Y_SECOND );
 				for ( var i = 0; i &lt; 3; i++ ){
