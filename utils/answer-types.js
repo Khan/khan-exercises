@@ -91,25 +91,7 @@ jQuery.extend( Khan.answerTypes, {
 
 			integer: {
 				transformer: function( text ) {
-					var match = text
-
-						// Replace unicode minus sign with hyphen
-						.replace( /\u2212/, "-" )
-
-						// Remove space after +, -
-						.replace( /([+-])\s+/g, "$1" )
-
-						// Extract integer
-						.match( /^([+-]?\d+)$/ );
-
-					if ( match ) {
-						return [ {
-							value: parseFloat( match[1] ),
-							exact: true
-						} ];
-					}
-
-					return [];
+					return forms.decimal.transformer( text );
 				},
 				example: "an integer, like <code>6</code>"
 			},
