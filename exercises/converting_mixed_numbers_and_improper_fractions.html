@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+	<head>
+		<title>Converting mixed numbers and improper fractions</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars" data-ensure="M_NUM &lt; M_DENOM">
+				<var id="WHOLE">randRange( 1, 10 )</var>
+				
+				<var id="M_NUM">randRange( 1, 30 )</var>
+				<var id="M_DENOM">randRange( 1, 30 )</var>
+
+				<var id="M_REDUCED_NUM">M_NUM / getGCD( M_NUM, M_DENOM )</var>
+				<var id="M_REDUCED_DENOM">M_DENOM / getGCD( M_NUM, M_DENOM )</var>
+				
+				<var id="I_NUM">WHOLE * M_REDUCED_DENOM + M_REDUCED_NUM</var>
+				<var id="I_DENOM">M_REDUCED_DENOM</var>
+			</div>
+
+			<div class="problems">
+				<div id="improper-to-mixed">
+					<p class="question">Convert <code><var>fraction( I_NUM, I_DENOM, false, true )</var></code> to a mixed number.</p>
+
+					<p class="solution" data-type="mixed"><var>I_NUM / I_DENOM</var></p>
+
+					<div class="hints">
+						<div>
+							<p><code>\dfrac{\color{green}{<var>I_NUM</var>}}{\color{purple}{<var>I_DENOM</var>}}</code></p>
+							<p>First, divide the <span class="hint_green">numerator</span> by the <span class="hint_purple">denominator</span>.</p>
+							<p><code>\color{green}{<var>I_NUM</var>} \div \color{purple}{<var>I_DENOM</var>} = <var>WHOLE</var>\ \text{R} <var>M_REDUCED_NUM</var></code></p>
+						</div>
+						<div>
+							<p>The quotient is the whole number part of the mixed number. The fractional part is the remainder over the <span class="hint_purple">original denominator</span>.</p>
+							<p><code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code></p>
+						</div>
+					</div>
+				</div>
+				
+				<div id="mixed-to-improper">
+					<p class="question">Convert <code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code> to an improper fraction.</p>
+
+					<p class="solution" data-type="improper"><var>I_NUM / I_DENOM</var></p>
+
+					<div class="hints">
+						<p><code>\color{orange}{<var>WHOLE</var>}\ \color{blue}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code></p>
+						<p>This mixed number is equivalent to <code>\color{orange}{<var>WHOLE</var>} + \color{blue}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>.</p>
+						<div>
+							<p>First, convert the <span class="hint_orange">whole part</span> of the mixed number to a fraction with the same denominator <code><var>M_REDUCED_DENOM</var></code> as the <span class="hint_blue">fractional part</span>.</p>
+							<p><code>\color{orange}{<var>WHOLE</var>} \times \dfrac{<var>M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>} = \color{orange}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}}</code></p>
+						</div>
+						<div>
+							<p>So now we have our number in the form <code>\color{orange}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}} + \color{blue}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>.</p>
+							<p>Now, just add the two fractions and simplify!</p>
+						</div>
+						<p><code>\color{orange}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}} + \color{blue}{<var>fraction( M_NUM, M_DENOM, false, true )</var>} = <var>fraction( I_NUM, I_DENOM, true, true )</var></code></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
