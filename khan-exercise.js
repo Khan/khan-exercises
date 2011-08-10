@@ -867,26 +867,24 @@ function prepareSite() {
 		jQuery( "#extras" ).css("visibility", "hidden");
 
 		var readonly = jQuery( "#readonly" );
-		readonly.append(
-			jQuery( "<span class='info-box-subheader'>Answers</span>" )
-		);
+		readonly.append( "<span class='info-box-subheader'>Answers</span>" );
 
 		jQuery.each(userExercise.user_activity, function(index, value) {
 			readonly.append(
 				jQuery( "<div>" )
 					.addClass( "user-activity " + value[0] )
-					.text( value[1] )
-				)
+					.html( value[1] )
+					.tmpl()
+				);
 		});
 
 		if (userExercise.hints_used !== undefined) {
 			readonly.append(
-				jQuery( "<span class='info-box-subheader'>Hints</span>" ),
-				jQuery( "<div>" ).text( userExercise.hints_used + " hints" )
+				"<span class='info-box-subheader'>Hints</span>" +
+					"<div>" + userExercise.hints_used + " hints used" + "</div>"
 			);
 		}
 
-		//jQuery( "#readonly" )
 		readonly
 			.find( "#readonly-problem" )
 				.text( "Problem #" + (userExercise.total_done + 1) )
@@ -895,8 +893,11 @@ function prepareSite() {
 				.attr( "href", "/exercises?exid=" + userExercise.exercise )
 				.end()
 			.next()
-				.hide()
+				.remove()
 				.end()
+			.append( "View hints (will not reset your streak):<br/> \
+					<input id='hint' type='button' class='button orange' \
+					value='I\'d like a hint' name='hint'/>" )
 			.show();
 	}
 
