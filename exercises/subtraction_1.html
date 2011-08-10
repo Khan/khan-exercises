@@ -1,72 +1,9 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems">
+<html data-require="math graphie graphie-helpers-arithmetic word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Subtraction 1</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		function drawCircles( num, color ) {
-			with ( KhanUtil.currentGraph ) {
-				var numCols = Math.floor( Math.sqrt( num ));
-				var numRows = Math.floor( num / numCols );
-				var extra = num % numRows;
-
-				init({
-					range: [ [ 0, numCols + 1 ], [ -1, numRows + 2 ] ],
-					scale: [30, 30]
-				});
-
-				style({
-					stroke: color,
-					fill: color
-				});
-
-				for ( var i = numRows; i > 0; i-- ) {
-					for (var j = numCols; j > 0; j-- ) {
-						circle( [ j, i ], 0.25 );
-					}
-				}
-
-				for ( var j = extra; j > 0; j-- ) {
-					circle( [ j, 0 ], 0.25 );
-				}
-			}
-		}
-
-		function crossOutCircles( numCircles, numCrossed, color ) {
-			with ( KhanUtil.currentGraph ) {
-				var numCols = Math.floor( Math.sqrt( numCircles ));
-				var numRows = Math.floor( numCircles / numCols );
-				var extra = numCircles % numRows;
-				var count = 0;
-
-				style({
-					stroke: color,
-					fill: color
-				});
-
-				for ( var i = numRows; i > 0; i-- ) {
-					for (var j = numCols; j > 0; j-- ) {
-						path( [ [ j - 0.3, i - 0.3 ], [ j + 0.3, i + 0.3 ] ] );
-						path( [ [ j - 0.3, i + 0.3 ], [ j + 0.3, i - 0.3 ] ] );
-						count += 1;
-						if ( count === numCrossed ) {
-							return;
-						}
-					}
-				}
-
-				for ( var j = extra; j > 0; j-- ) {
-					path( [ [ j - 0.3, i - 0.3 ], [ j + 0.3, i + 0.3 ] ] );
-					path( [ [ j - 0.3, i + 0.3 ], [ j + 0.3, i - 0.3 ] ] );
-					count += 1;
-					if ( count === numCrossed ) {
-						return;
-					}
-				}
-			}
-		}
-	</script>
 </head>
 <body>
 	<div class="exercise">

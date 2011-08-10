@@ -61,7 +61,7 @@ jQuery.extend( Khan.answerTypes, {
 
 				// Extract numerator and denominator
 			var match = text.match( /^([+-]?\d+)\s*\/\s*([+-]?\d+)$/ );
-			var parsedInt = parseInt( text );
+			var parsedInt = parseInt( text, 10 );
 
 			if ( match ) {
 				var num = parseFloat( match[1] ),
@@ -160,19 +160,19 @@ jQuery.extend( Khan.answerTypes, {
 					text = text.replace( /\u2212/, "-" );
 
 					// - pi
-					if ( match = text.match( /^([+-]?)\s*pi?$/i ) ) {
+					if ( match = text.match( /^([+-]?)\s*(?:pi?|\u03c0)$/i ) ) {
 						possibilities = [ { value: parseFloat( match[1] + "1" ), exact: true } ];
 
 					// 5 / 6 pi
-					} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*pi?$/i ) ) {
+					} else if ( match = text.match( /^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(?:pi?|\u03c0)$/i ) ) {
 						possibilities = fractionTransformer( match[1] );
 
 					// 5 pi / 6
-					} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
+					} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
 						possibilities = fractionTransformer( match[1] + match[2] );
 
 					// - pi / 4
-					} else if ( match = text.match( /^([+-]?)\s*\*?\s*pi?\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
+					} else if ( match = text.match( /^([+-]?)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
 						possibilities = fractionTransformer( match[1] + "1/" + match[2] );
 
 					// 0
@@ -180,7 +180,7 @@ jQuery.extend( Khan.answerTypes, {
 						possibilities = [ { value: 0, exact: true } ];
 
 					// 0.5 pi (fallback)
-					} else if ( match = text.match( /^(\S+)\s*\*?\s*pi?$/i ) ) {
+					} else if ( match = text.match( /^(\S+)\s*\*?\s*(?:pi?|\u03c0)$/i ) ) {
 						possibilities = forms.decimal.transformer( match[1] );
 					}
 

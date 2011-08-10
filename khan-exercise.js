@@ -36,11 +36,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	},
 
 	// Check to see if we're in test mode
-	testMode = (window.location.host.indexOf("localhost") === 0 ||
-				window.location.host.indexOf("127.0.0.1") === 0 ||
-				window.location.host.indexOf("192.168") === 0 ||
-				window.location.protocol === "file:") &&
-				/\.html$/.test( window.location.pathname ),
+	testMode = typeof userExercise === "undefined",
 
 	// Check to see if we're in beta mode
 	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1,
@@ -117,9 +113,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
 	issueSuccess = function( a, b ) {
 		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
-			+ "href=\"" + a + "\">" + b + "</a>, has been created."; 
+			+ "href=\"" + a + "\">" + b + "</a>, has been created.";
 	},
-	issueIntro = "So you've noticed something wrong with our site? We'd love to hear about it so we can improve the Khan Academy experience! Please make sure you report the issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Thanks for helping us change education!"
+	issueIntro = "Please make sure you report this issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Note: All information provided will become public. Thanks for helping us change education!";
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {
@@ -151,7 +147,7 @@ if (!Array.prototype.indexOf) {
 			}
 		}
 		return -1;
-	}
+	};
 }
 
 // Add in the site stylesheets
@@ -442,6 +438,10 @@ Khan.loadScripts( scripts, function() {
 		runModules: function( problem, type ) {
 			type = type || "";
 
+			var info = {
+				testMode : testMode
+			}
+
 			return this.each(function( i, elem ) {
 				elem = jQuery( elem );
 
@@ -449,7 +449,7 @@ Khan.loadScripts( scripts, function() {
 				jQuery.each( Khan.modules, function( src, mod ) {
 					var name = mod.name;
 					if ( jQuery.fn[ name + type ] ) {
-						elem[ name + type ]( problem );
+						elem[ name + type ]( problem, info );
 					}
 				});
 			});
@@ -554,6 +554,10 @@ function makeProblemBag( problems, n ) {
 }
 
 function makeProblem( id, seed ) {
+	if ( typeof Badges !== "undefined" ) {
+		Badges.hide();
+	}
+
 	// Allow passing in a random seed
 	if ( typeof seed !== "undefined" ) {
 		randomSeed = seed;
@@ -785,6 +789,11 @@ function makeProblem( id, seed ) {
 			.attr( "href", debugURL )
 			.appendTo( links );
 
+		if ( exercise.data( "name" ) != null ) {
+			links.append("<br>");
+			links.append("Original exercise: " + exercise.data( "name" ));
+		}
+
 		if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
 			var varInfo = jQuery( "<p>" );
 
@@ -848,9 +857,10 @@ function prepareSite() {
 	exercises = jQuery( ".exercise" ).detach();
 
 	// Setup appropriate img URLs
-	jQuery("#sad").attr("src", urlBase + "css/images/face-sad.gif");
-	jQuery("#happy").attr("src", urlBase + "css/images/face-smiley.gif");
-	jQuery("#throbber").attr("src", urlBase + "css/images/throbber.gif");
+	jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
+	jQuery( "#happy" ).attr( "src", urlBase + "css/images/face-smiley.gif" );
+	jQuery( "#throbber, #issue-throbber" )
+		.attr( "src", urlBase + "css/images/throbber.gif" );
 
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
 		jQuery( "#answercontent" ).hide();
@@ -969,6 +979,7 @@ function prepareSite() {
 	// Watch for when the next button is clicked
 	jQuery("#next-question-button").click(function(ev) {
 		jQuery("#happy").hide();
+		if( !jQuery( "#examples-show" ).data( "show" ) ){ jQuery( "#examples-show" ).click(); }
 
 		// Toggle the navigation buttons
 		jQuery("#check-answer-button").show();
@@ -1086,13 +1097,12 @@ function prepareSite() {
 			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
 			jQuery( "#issue, #issue form" ).show();
 		}
-
 	});
 
-	
+
 	// Hide issue form.
 	jQuery( "#issue-cancel" ).click( function( e ) {
-		
+
 		e.preventDefault();
 
 		jQuery( "#issue" ).hide( 500 );
@@ -1101,7 +1111,7 @@ function prepareSite() {
 	});
 
 	// Submit an issue.
-	jQuery( "#issue form input[type=submit]" ).click( function( e ) {
+	jQuery( "#issue form input:submit" ).click( function( e ) {
 
 		e.preventDefault();
 
@@ -1111,7 +1121,7 @@ function prepareSite() {
 		var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text(),
 			title = jQuery( "#issue-title" ).val(),
 			email = jQuery( "#issue-email" ).val(),
-			path = Khan.query.exid + ".html"
+			path = ( Khan.query.exid || exerciseName ) + ".html"
 				+ "?seed=" + problemSeed
 				+ "&problem=" + problemID,
 			agent = navigator.userAgent,
@@ -1119,33 +1129,91 @@ function prepareSite() {
 				.concat( [ jQuery( "#issue-body" ).val(), path, agent ] )
 				.join( "\n\n" );
 
+		// flagging of browsers/os for issue labels. very primitive, but
+		// hopefully sufficient.
+		var agent_contains = function( sub ) { return agent.indexOf( sub ) !== -1; },
+			flags = {
+				ie8: agent_contains( "MSIE 8.0" ),
+				ie9: agent_contains( "Trident/5.0" ),
+				chrome: agent_contains( "Chrome/" ),
+				safari: !agent_contains( "Chrome/" ) && agent_contains( "Safari/" ),
+				firefox: agent_contains( "Firefox/" ),
+				win7: agent_contains( "Windows NT 6.1" ),
+				vista: agent_contains( "Windows NT 6.0" ),
+				xp: agent_contains( "Windows NT 5.1" ),
+				leopard: agent_contains( "Mac OS X 10_5" ),
+				snowleo: agent_contains( "Mac OS X 10_6" ),
+				lion: agent_contains( "Mac OS X 10_7" )
+			},
+			labels = "";
+		jQuery.each( flags, function( k, v ) {
+			labels += v ? k + "," : "";
+		});
+
 		if ( title === "" ) {
 			jQuery( "#issue-status" ).addClass( "error" )
 				.html( "Please provide a valid title for the issue." ).show();
 			return;
 		}
 
-		jQuery( "#issue form" ).hide();
+		var formElements = jQuery( "#issue input" ).add( "#issue textarea" );
+
+		// disable the form elements while waiting for a server response
+		formElements.attr( "disabled", true );
+
+		jQuery( "#issue-cancel" ).hide();
+		jQuery( "#issue-throbber" ).show();
 
 		jQuery.ajax({
 			url: "http://66.220.0.98:2563/file_exercise_tester_bug"
 				+ "?body=" + encodeURIComponent( body )
-				+ "&title=" + encodeURIComponent( [ pretitle, title ].join( " - " ) ),
+				+ "&title=" + encodeURIComponent( [ pretitle, title ].join( " - " ) )
+				+ "&label=" + encodeURIComponent( labels ),
 			dataType: "jsonp",
+
 			success: function( json ) {
+
 				if ( json.meta.status === 201 ) {
+
+					// hide the form
+					jQuery( "#issue form" ).hide();
+
+					// show status message
 					jQuery( "#issue-status" ).removeClass( "error" )
-						.html( issueSuccess( json.data.html_url, json.data.title ) ).show();
-					jQuery( "#issue-title, #issue-email, #issue-body" ).val( "" );
+						.html( issueSuccess( json.data.html_url, json.data.title ) )
+						.show();
+
+					// reset the form elements
+					formElements.attr( "disabled", false )
+						.not( "input:submit" ).val( "" );
+
+					// replace throbber with the cancel button
+					jQuery( "#issue-cancel" ).show();
+					jQuery( "#issue-throbber" ).hide();
+
 				} else {
-					jQuery( "#issue-status" ).addClass( "error" ).html( issueError ).show();
-					jQuery( "#issue form" ).show();
+
+					// show error message
+					jQuery( "#issue-status" )
+						.addClass( "error" ).html( issueError ).show();
+
+					// enable the inputs
+					formElements.attr( "disabled", false );
+
 				}
+
 			},
+
 			// FIXME note that this doesn't actually work with jquery's default jsonp
 			error: function( json ) {
-				jQuery( "#issue-status" ).addClass( "error" ).html( issueError ).show();
-				jQuery( "#issue form" ).show();
+
+				// show status message
+				jQuery( "#issue-status" ).addClass( "error" )
+					.html( issueError ).show();
+
+				// enable the inputs
+				formElements.attr( "disabled", false );
+
 			}
 		});
 	});
@@ -1181,19 +1249,22 @@ function prepareSite() {
 		});
 
 	jQuery( "#examples-show" ).data( "show", true )
-		.click( function( e ) {
-			e.preventDefault();
-			var link = jQuery( this ),
-				show = link.data( "show" );
-			if ( show ) {
-				link.text( "Hide acceptable answer formats" );
-				jQuery( "#examples" ).show();
+		.click(function(evt){
+			if ( evt ) { evt.preventDefault(); }
+
+			var exampleLink = jQuery(this);
+			var examples = jQuery( "#examples" );
+			var show = exampleLink.data( "show" );
+
+			if ( exampleLink.data( "show" ) ){
+				exampleLink.text( "Hide acceptable answer formats" );
 			} else {
-				link.text( "Show acceptable answer formats" );
-				jQuery( "#examples" ).hide();
+				exampleLink.text( "Show acceptable answer formats" );
 			}
-			link.data( "show", !show );
-		});
+
+			examples.slideToggle( 190 );
+			exampleLink.data( "show", !show );
+		}).trigger( "click" );
 
 	jQuery( "#scratchpad-show" ).data( "show", true )
 		.click( function( e ) {
@@ -1212,11 +1283,13 @@ function prepareSite() {
 					} );
 
 				} else {
+					jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
 					jQuery( "#scratchpad" ).show();
 					button.text( "Hide scratchpad" );
 				}
 
 			} else {
+				jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
 				jQuery( "#scratchpad" ).hide();
 				button.text( "Show scratchpad" );
 			}
@@ -1250,7 +1323,7 @@ function prepareSite() {
 			var description = prompt( "Please provide a short description of the error" );
 
 			// Don't do anything on clicking Cancel
-			if ( description == null ) return
+			if ( description == null ) return;
 
 			// we discard the info recorded and record an issue on github instead
 			// of testing against the faulty problem's data dump.
@@ -1332,8 +1405,7 @@ function prepareSite() {
 						newIssue();
 					}
 				}
-			})
-
+			});
 
 			jQuery( "#next-question-button" ).trigger( "click" );
 		} );
@@ -1568,7 +1640,7 @@ function updateData( data ) {
 				.addClass( "video-title vid-progress v" + video.id )
 				.text( video.title );
 			if ( i < videos.length - 1 && i < 2 ) {
-				span.append( "<span class='separator'></span>" );
+				span.append( "<span class='separator'>, </span>" );
 			}
 
 			var a = jQuery( "<a>" ).attr( {
@@ -1589,24 +1661,30 @@ function updateData( data ) {
 
 // Grab the cached UserExercise data from local storage
 function getData() {
-	var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+	// If we're viewing a problem, ignore local storage and return the userExercise blob
+	if ( typeof userExercise !== "undefined" && userExercise.read_only ) {
+		return userExercise;
 
-	// Parse the JSON if it exists
-	if ( data ) {
-		return JSON.parse( data );
-
-	// Otherwise we contact the server
 	} else {
-		return {
-			total_done: 0,
-			total_correct: 0,
-			streak: 0,
-			longest_streak: 0,
-			next_points: 225,
-			exercise_model: {
-				summative: isSummative
-			}
-		};
+		var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+
+		// Parse the JSON if it exists
+		if ( data ) {
+			return JSON.parse( data );
+
+		// Otherwise we contact the server
+		} else {
+			return {
+				total_done: 0,
+				total_correct: 0,
+				streak: 0,
+				longest_streak: 0,
+				next_points: 225,
+				exercise_model: {
+					summative: isSummative
+				}
+			};
+		}
 	}
 }
 

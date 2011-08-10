@@ -9,7 +9,7 @@ jQuery.extend(KhanUtil, {
 	},
 
 	mean: function( values ) {
-		return KhanUtil.roundTo( 1, KhanUtil.sum( values ) / values.length );
+		return KhanUtil.sum( values ) / values.length;
 	},
 
 	median: function( values ) {
