@@ -105,13 +105,15 @@ function Rotator( center, r, pro ) {
 	this.set.push( this.upArrow );
 
 	jQuery([ this.downArrow.node, this.upArrow.node ]).css( "cursor", "hand" );
-	this.set.hover(
-		function( event ) {
-			this.attr({ fill: "green" });
-		},
-		function( event ) {
-			this.attr({ fill: "#aae" });
-		});
+	jQuery.each([ this.downArrow, this.upArrow ], function( i, el ) {
+		el.hover(
+			function( event ) {
+				this.attr({ fill: "green" });
+			},
+			function( event ) {
+				this.attr({ fill: "#aae" });
+			});
+	});
 
 	this.rotationOn = function() {
 		jQuery(this.upArrow.node).mousedown(function() {
@@ -134,6 +136,64 @@ function Rotator( center, r, pro ) {
 	this.rotationOff = function() {
 		jQuery(this.upArrow.node).unbind( "mousedown" ).unbind( "mouseup" );
 		jQuery(this.downArrow.node).unbind( "mousedown" ).unbind( "mouseup" );
+
+		this.set.hide();
+	};
+	return this;
+}
+
+function Translator( center, r, pro ) {
+	var graph = KhanUtil.currentGraph;
+	this.set = graph.raphael.set();
+
+	this.set.push( graph.line( [center[0]+1, center[1]-1], [center[0]+r-1, center[1]-1], { "stroke": "#aab", "stroke-width": 20 } ) );
+	
+	this.leftArrow = graph.path( [ [center[0]+1, center[1]-0.25],
+								   [center[0]+0.25, center[1]-1],
+								   [center[0]+1, center[1]-1.75]
+								 ],
+								{ "stroke-width": 0, "fill": "#aae" } );
+	this.set.push( this.leftArrow );
+
+	this.rightArrow = graph.path( [ [center[0]+r-1, center[1]-0.25],
+									[center[0]+r-1+0.75, center[1]-1],
+									[center[0]+r-1, center[1]-1.75]
+								  ],
+							  { "stroke-width": 0, "fill": "#aae" } );
+	this.set.push( this.rightArrow );
+
+	jQuery([ this.leftArrow.node, this.rightArrow.node ]).css( "cursor", "hand" );
+	jQuery.each([ this.leftArrow, this.rightArrow ], function( i, el ) {
+		el.hover(
+			function( event ) {
+				this.attr({ fill: "green" });
+			},
+			function( event ) {
+				this.attr({ fill: "#aae" });
+			});
+	});
+
+	this.translationOn = function() {
+		jQuery(this.leftArrow.node).mousedown(function() {
+			var iv = setInterval( function() { pro.rotatedTranslate( -5 ); }, 50 );
+			jQuery(document).one( "mouseup", function() {
+				clearInterval( iv );
+			});
+		});
+
+		jQuery(this.rightArrow.node).mousedown(function() {
+			var iv = setInterval( function() { pro.rotatedTranslate( 5 ); }, 50 );
+			jQuery(document).one( "mouseup", function() {
+				clearInterval( iv );
+			});
+		});
+
+		this.set.show();
+	};
+
+	this.translationOff = function() {
+		jQuery(this.leftArrow.node).unbind( "mousedown" ).unbind( "mouseup" );
+		jQuery(this.rightArrow.node).unbind( "mousedown" ).unbind( "mouseup" );
 
 		this.set.hide();
 	};
@@ -181,61 +241,72 @@ function Protractor( center, r ) {
 
 	var pro = this;
 	var setNodes = jQuery.map( this.set, function( el ) { return el.node; } );
-	function makeDraggable() {
-		jQuery( setNodes ).mousedown( function( event ) {
-			event.preventDefault();
+	function makeTranslatable() {
+		// disable drag translation on IE, too slow
+		if ( !graph.raphael.raphael.vml ) {
+			jQuery( setNodes ).css( "cursor", "move" );
 			
-			var i;
-			//store the starting point for each item in the set
-			for ( i=0; i < pro.set.items.length; i++ ) {
-				var obj = pro.set.items[i];
+			jQuery( setNodes ).mousedown( function( event ) {
+				event.preventDefault();
 				
-				obj.ox = event.pageX;
-				obj.oy = event.pageY;
-
-				obj.animate( { opacity: .25 }, 500, ">" );
-			}
-
-			jQuery(document).mousemove( function( event ) {
 				var i;
-				//reposition the objects relative to their start position
-				for ( i = 0; i < pro.set.items.length; i++ ) {
-					var obj = pro.set.items[i],
-					trans_x = event.pageX - obj.ox,
-					trans_y = event.pageY - obj.oy;
-					
-					obj.translate( trans_x, trans_y );
-					
-					obj.ox = event.pageX;
-					obj.oy = event.pageY;
-				}
-			});
-
-			jQuery(document).one( "mouseup", function( event ) {
-				var i;
-				//remove the starting point for each of the objects
+				//store the starting point for each item in the set
 				for ( i=0; i < pro.set.items.length; i++ ) {
 					var obj = pro.set.items[i];
 					
-					delete(obj.ox);
-					delete(obj.oy);
-					
-					obj.animate( { opacity: .5 }, 500, ">" );
-					
-					jQuery(document).unbind("mousemove");
+					obj.ox = event.pageX;
+					obj.oy = event.pageY;
+
+					obj.animate( { opacity: .25 }, 500, ">" );
 				}
+
+				jQuery(document).mousemove( function( event ) {
+					var i;
+					//reposition the objects relative to their start position
+					for ( i = 0; i < pro.set.items.length; i++ ) {
+						var obj = pro.set.items[i],
+						trans_x = event.pageX - obj.ox,
+						trans_y = event.pageY - obj.oy;
+						
+						obj.translate( trans_x, trans_y );
+						
+						obj.ox = event.pageX;
+						obj.oy = event.pageY;
+					}
+				});
+
+				jQuery(document).one( "mouseup", function( event ) {
+					var i;
+					//remove the starting point for each of the objects
+					for ( i=0; i < pro.set.items.length; i++ ) {
+						var obj = pro.set.items[i];
+						
+						delete(obj.ox);
+						delete(obj.oy);
+						
+						obj.animate( { opacity: .5 }, 500, ">" );
+						
+						jQuery(document).unbind("mousemove");
+					}
+				});
 			});
-		});
+		}
+
+		pro.translator.translationOn();
 	}
 
-	function makeUndraggable() {
+	function makeUntranslatable() {
 		jQuery( setNodes ).unbind();
+		jQuery( setNodes ).css( "cursor", "auto" );
+
+		pro.translator.translationOff();
 	}
-	
-	jQuery( setNodes ).css( "cursor", "move" );
 	
 	this.rotator = new Rotator( [this.cx, this.cy], r, this );
 	this.set.push( this.rotator.set );
+
+	this.translator = new Translator( [this.cx, this.cy], r, this );
+	this.set.push( this.translator.set );
 
 	this.set.attr( { opacity: .5 } );
 
@@ -270,7 +341,7 @@ function Protractor( center, r ) {
 			
 			var d = graph.scalePoint([ x, y ]),
 			c = this.getCenter();
-			
+
 			this.set.translate( d[0] - c[0], d[1] - c[1] );
 		} else {
 			this.cx += x;
@@ -281,20 +352,31 @@ function Protractor( center, r ) {
 		return this;
 	};
 
-	this.draggable = function( dble ) {
-		if ( typeof dble === "undefined" ) {
-			return this._draggable;
+	this.rotatedTranslate = function( k ) {
+		k = k || 1;
+		
+		var rot = Math.PI * this.getRotation() / 180;
+		
+		var x = k * Math.cos( rot ),
+		y = k * Math.sin( rot );
+
+		return this.translate( x, y );
+	};
+
+	this.translatable = function( tble ) {
+		if ( typeof tble === "undefined" ) {
+			return this._translatable;
 		} else {
-			this._draggable = dble;
-			if ( dble ) {
-				makeDraggable();
+			this._translatable = tble;
+			if ( tble ) {
+				makeTranslatable();
 			} else {
-				makeUndraggable();
+				makeUntranslatable();
 			}
 		}
 		return this;
 	};
-	this.draggable( true );
+	this.translatable( true );
 
 	this.rotatable = function( rble ) {
 		if ( typeof rble === "undefined" ) {
