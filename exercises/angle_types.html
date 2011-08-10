@@ -1,9 +1,19 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-require="math graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>Angle types</title>
 	<script src="../khan-exercise.js"></script>
+	<script>
+		function protractorHint( pro, rot, angle ) {
+			pro.translate( 0, 0, true );
+			pro.rotate( rot, true );
+			pro.translatable( false );
+			pro.rotatable( false );
+
+			pro.drawAngle( angle, 2, "green", "green" );
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
@@ -17,19 +27,21 @@
 			<div class="question">
 				<p>Is the shown angle acute, right, or obtuse?</p>
 
-				<div class="graphie">
+				<div class="graphie" id="angle">
 
 					var ANGLE_TWO = ANGLE_ONE + DIFF;
 					var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
 					var ANGLE_TWO_R = ANGLE_TWO * PI / 180;
 
 					init({
-						range: [ [-6, 6], [-6, 6] ],
+						range: [ [-11, 31], [-10, 10] ],
 						scale: 20
 					});
 					path([ [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )], [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
 
 					arc( [0,0], 1, ANGLE_ONE, ANGLE_TWO );
+
+					graph.protractor = new Protractor( [22, 0], 8 );
 
 				</div>
 			</div>
@@ -42,6 +54,9 @@
 			</ul>
 
 			<div class="hints">
+				<div class="graphie" data-update="angle">
+					protractorHint( graph.protractor, 360 - ANGLE_ONE, DIFF );
+				</div>
 				<p>The shown angle measures less than <code>90^\circ</code>.</p>
 				<p>Therefore, it is an acute angle.</p>
 			</div>
@@ -55,6 +70,9 @@
 			<div class="solution">Right</div>
 
 			<div class="hints">
+				<div class="graphie" data-update="angle">
+					protractorHint( graph.protractor, 360 - ANGLE_ONE, DIFF );
+				</div>
 				<p>The shown angle measures <code>90^\circ</code>.</p>
 				<p>Therefore, it is a right angle.</p>
 			</div>
@@ -68,6 +86,9 @@
 			<div class="solution">Obtuse</div>
 
 			<div class="hints">
+				<div class="graphie" data-update="angle">
+					protractorHint( graph.protractor, 360 - ANGLE_ONE, DIFF );
+				</div>
 				<p>The shown angle measures more than <code>90^\circ</code>.</p>
 				<p>Therefore, it is an obtuse angle.</p>
 			</div>

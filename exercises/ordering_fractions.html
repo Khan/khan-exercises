@@ -18,16 +18,18 @@
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars">
+		<div class="vars" data-ensure="LCD &lt; 200">
+			<var id="COLORS">KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown" ])</var>
+
 			<var id="NUMS">(function() {
 				var array = [];
 				var ds = [];
 				
 				var used = {};
 
-				var arrLength = randRange( 4, 7 );
-				while ( array.length &lt; arrLength ) {
-					var d = randRange( 1, 3 ) * randRange( 3, 9 );
+				var arrLength = randRange( 4, 6 );
+				for ( var i = 0; i &lt; arrLength; i++ ) {
+					var d = randRange( 1, 3 ) * randRange( 2, 9 );
 					
 					var n = randRange( 1, d - 1 );
 
@@ -35,53 +37,60 @@
 
 					if ( !used[ ns ] ) {
 						var gcd = getGCD( n, d );
-						array.push([ n/d,
+						array[i] = [ n/d,
 									 
 									 (n/gcd), (d/gcd),
 									 
 									 fractionReduce( n, d, true ),
-									 (n/gcd) + "/" + (d/gcd)
-								   ]);
+									 (n/gcd) + "/" + (d/gcd),
+
+									 COLORS[i]
+								   ];
 
 						ds.push( d/gcd );
 						used[ ns ] = true;
 					}
 				}
-
 				return array;
 			})()</var>
 
 			<var id="DENOMS">jQuery.map( NUMS, function( el ) {
 				return el[2];
 			})</var>
-			<var id="DENOMS_TEX">DENOMS.join( "," )</var>
+			<var id="DENOMS_TEX_COLOR">jQuery.map( NUMS, function( el ) {
+				return "\\color{" + el[5] + "}{" + el[2] + "}";
+			}).join( "," )</var>
 			
 			<var id="LCD">getLCM.apply( KhanUtil, DENOMS )</var>
-			<var id="NUMS_LCD">jQuery.map( NUMS, function( el, idx ) {
+			<var id="NUMS_LCD_COLOR">jQuery.map( NUMS, function( el, idx ) {
 				var n = el[1], d = el[2],
 					scalar = (LCD/d);
 					
-				return fractionSmall( n * scalar, LCD );
+				return "\\color{" + el[5] + "}{" + fractionSmall( n * scalar, LCD ) + "}";
 			})</var>
-			<var id="NUMS_LCD_TEX">NUMS_LCD.join( "," )</var>
+			<var id="NUMS_LCD_TEX_COLOR">NUMS_LCD_COLOR.join( "," )</var>
 		
 			<var id="NUMS_TEX">jQuery.map( NUMS, function( el ) {
 				return el[3];
 			} ).join( "," )</var>
+			<var id="NUMS_TEX_COLOR">jQuery.map( NUMS, function( el ) {
+				return "\\color{" + el[5] + "}{" + el[3] + "}";
+			} ).join( "," )</var>
+			
 			<var id="NUMS_SORT">jQuery.extend( true, [], NUMS ).sort( function(a, b) {
 				return a[0] - b[0];
 			} )</var>
-			<var id="NUMS_SORT_TEX">jQuery.map( NUMS_SORT, function( el ) {
-				return el[3];
+			<var id="NUMS_SORT_TEX_COLOR">jQuery.map( NUMS_SORT, function( el ) {
+				return "\\color{" + el[5] + "}{" + el[3] + "}";
 			} ).join( "," )</var>
 
-			<var id="NUMS_LCD_SORT">jQuery.map( NUMS_SORT, function( el, idx ) {
+			<var id="NUMS_LCD_SORT_COLOR">jQuery.map( NUMS_SORT, function( el, idx ) {
 				var n = el[1], d = el[2],
 					scalar = (LCD/d);
 					
-				return fractionSmall( n * scalar, LCD );
+				return "\\color{" + el[5] + "}{" + fractionSmall( n * scalar, LCD ) + "}";
 			})</var>
-			<var id="NUMS_LCD_SORT_TEX">NUMS_LCD_SORT.join( "," )</var>
+			<var id="NUMS_LCD_SORT_COLOR_TEX">NUMS_LCD_SORT_COLOR.join( "," )</var>
 		</div>
 
 		<div class="problems">
@@ -96,32 +105,33 @@
 				</div>
 
 				<div class="hints">
+					<p class="number-list"><code><var>NUMS_TEX_COLOR</var></code></p>
 					<p>First, let's find the least common denominator of all the fractions so that we can compare them.</p>
 					<div>
 						<p>The least common denominator is the least common multiple of all the denominators.</p>
-						<p>The least common multiple of <code><var>DENOMS_TEX</var></code> is <code><var>LCD</var></code>.</p>
+						<p>The least common multiple of <code><var>DENOMS_TEX_COLOR</var></code> is <code><var>LCD</var></code>.</p>
 					</div>
 					<div>
 						<p>Multiply all the fractions <code>\dfrac{a}{b}</code> by <code>\dfrac{\frac{<var>LCD</var>}{b}}{\frac{<var>LCD</var>}{b}}</code>. Then each fraction will have <code><var>LCD</var></code> as its denominator:</p>
 						<div>
 							<p data-each="NUMS as I, NUM"><code>
-								<var>NUM[3]</var> \times \dfrac{\frac{<var>LCD</var>}{<var>NUM[2]</var>}}{\frac{<var>LCD</var>}{<var>NUM[2]</var>}}
-								= <var>NUM[3]</var> \times \frac{<var>LCD / NUM[2]</var>}{<var>LCD / NUM[2]</var>}
-								= <var>NUMS_LCD[I]</var>
+								\color{<var>NUM[5]</var>}{<var>NUM[3]</var>} \times \dfrac{\frac{<var>LCD</var>}{<var>NUM[2]</var>}}{\frac{<var>LCD</var>}{<var>NUM[2]</var>}}
+								= \color{<var>NUM[5]</var>}{<var>NUM[3]</var>} \times \frac{<var>LCD / NUM[2]</var>}{<var>LCD / NUM[2]</var>}
+								=<var>NUMS_LCD_COLOR[I]</var>
 							</code></p>
 						</div>
 					</div>
 					<div>
 						<p>Now all the fractions are in a form where we can compare them by numerator:</p>
-						<p class="number-list"><code><var>NUMS_LCD_TEX</var></code></p>
+						<p class="number-list"><code><var>NUMS_LCD_TEX_COLOR</var></code></p>
 					</div>
 					<div>
 						<p>Sort the fractions from least to greatest by their numerators:</p>
-						<p class="number-list"><code><var>NUMS_LCD_SORT_TEX</var></code></p>
+						<p class="number-list"><code><var>NUMS_LCD_SORT_COLOR_TEX</var></code></p>
 					</div>
 					<div>
 						<p>Finally, reduce each fraction again.</p>
-						<p class="number-list"><code><var>NUMS_SORT_TEX</var></code></p>
+						<p class="number-list"><code><var>NUMS_SORT_TEX_COLOR</var></code></p>
 					</div>
 				</div>
 			</div>

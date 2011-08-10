@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
+<html data-require="math graphie graphie-helpers-arithmetic">
 <head>
 	<meta charset="UTF-8" />
 	<title>Subtraction 4</title>
@@ -13,15 +13,6 @@
 			<var id="A_ORIG">digits( A )</var>
 			<var id="A_DIGITS">digits( A )</var>
 			<var id="B_DIGITS">digits( B )</var>
-			<var id="HIGHLIGHTS">
-				(function() {
-					var h = [];
-					for ( var i = 0; i &lt; A_DIGITS.length; i++ ) {
-						h.unshift( [] );
-					}
-					return h;
-				})()
-			</var>
 			<var id="Y_CARRY">3</var>
 			<var id="Y_FIRST">2</var>
 			<var id="Y_SECOND">1</var>
@@ -29,7 +20,6 @@
 			<var id="X_MAX">4</var>
 			<var id="X_SIDE">X_MAX + 2</var>
 			<var id="Y_SIDE">1.5</var>
-			<var id="BORROW_LEVEL">Y_CARRY</var>
 		</div>
 
 		<div class="problems">
@@ -41,7 +31,11 @@
 					});
 					drawDigits( A_DIGITS.slice( 0 ).reverse(), X_MAX - A_DIGITS.length + 1, Y_FIRST );
 					drawDigits( B_DIGITS.slice( 0 ).reverse(), X_MAX - B_DIGITS.length + 1, Y_SECOND );
-
+					var h = [];
+					for ( var i = 0; i &lt; A_DIGITS.length; i++ ) {
+						h.unshift( [] );
+					}
+					graph.highlights = h;
 					path( [ [ -0.5, 0.5 ], [ X_MAX + 0.5, 0.5 ] ]);
 
 					label( [ 0, 1 ] ,"\\huge{-\\vphantom{0}}" );
@@ -52,58 +46,11 @@
 		<div class="hints">
 			<div class="graphie" data-update="numbers" data-each="A_DIGITS as index, value">
 				var index = <var>index</var>;
-
-				var oldHighlights = HIGHLIGHTS[ index ];
-				while( oldHighlights.length ) {
-					oldHighlights.shift().remove();
-				}
-
-				if ( index !== 0 ) {
-					oldHighlights = HIGHLIGHTS[ index - 1 ];
-					while( oldHighlights.length ) {
-						oldHighlights.shift().remove();
-					}
-				}
-
-				var value = A_DIGITS[ index ];
-				var withinB = index &lt; B_DIGITS.length;
-				var subtrahend = withinB ? B_DIGITS[ index ] : 0;
-				var subStr = "";
-
-				if ( value &lt; subtrahend ) {
-					BORROW_LEVEL = Y_CARRY;
-					borrow( index, A_DIGITS, BORROW_LEVEL, X_MAX, Y_FIRST, Y_CARRY, HIGHLIGHTS );
-				} else if ( A_DIGITS[ index ] === A_ORIG[ index ] ) {
-					HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_FIRST ],
-						"\\Huge{\\color{#6495ED}{" + A_DIGITS[ index ] +"}}" ) );
-				} else {
-					HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_CARRY ],
-						"\\color{#6495ED}{" + A_DIGITS[ index ] + "}", "below" ) );
-				}
-
-				if ( withinB ) {
-					HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_SECOND ],
-						"\\Huge{\\color{#6495ED}{" + B_DIGITS[ index ] + "}}" ) );
-					subStr = " - \\color{#6495ED}{" + subtrahend + "}";
-				}
-
-				var diff = A_DIGITS[ index ] - subtrahend;
-				if ( ( ( A - B ) / pow( 10, index ) ) &gt; 1 ) {
-					label( [ X_MAX - index, Y_DIFF ],  "\\Huge{" + diff + "}" );
-				}
-
-				HIGHLIGHTS[ index ].push( label( [ X_MAX - index, Y_DIFF ],  "\\Huge{\\color{#28AE7B}{" + diff + "}}" ) );
-
-				HIGHLIGHTS[ index ].push( label( [ X_SIDE, Y_SIDE ], "\\Large{"
-					+ "\\color{#6495ED}{" + A_DIGITS[ index ] + "}"
-					+ subStr
-					+ " = "
-					+ "\\color{#28AE7B}{" + diff + "}}", "right" ) );
-
+				doSubtractionStep( index, A, B, A_ORIG, A_DIGITS, B_DIGITS, X_MAX, Y_FIRST, Y_SECOND, Y_CARRY, Y_DIFF, X_SIDE, Y_SIDE );
 			</div>
 			<div class="graphie" data-update="numbers">
-				while( HIGHLIGHTS.length ) {
-					var column = HIGHLIGHTS.shift();
+				while( graph.highlights.length ) {
+					var column = graph.highlights.shift();
 					while ( column.length ) {
 						column.shift().remove();
 					}
