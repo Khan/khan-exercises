@@ -72,9 +72,13 @@
 						<p><code>= <var>fraction( N1, D1 )</var> - <var>fraction( N2, D2 )</var></code></p>
 					</div>
 
-					<div data-if="M1 === 1" data-unwrap>
+					<div data-if="M1 * M2 === 1" data-unwrap>
+					
+						<p>The denominators are the same so we have found a common denominator.</p>
+					
+					</div><div data-else-if="M1 === 1" data-unwrap>
 
-						<p>We need to find a common denominator. The first denominotar is <code><var>M2</var></code> times the second denominator, so we can multiply the second fraction by <code><var>M2</var></code>.</p>
+						<p>We need to find a common denominator. The first denominator is <code><var>M2</var></code> times the second denominator, so we can multiply the second fraction by <code><var>M2</var></code>.</p>
 
 					</div><div data-else-if="M2 === 1" data-unwrap>
 
