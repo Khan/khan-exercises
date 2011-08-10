@@ -219,6 +219,18 @@
 				return set;
 			},
 
+			regularPolygon: function( point, numSides, radius, rotation ){
+				var set = raphael.set();
+				var rotation = rotation || 0;
+				var angle = 2 * Math.PI / numSides;
+				var i = 0;
+				for( i = 0; i < numSides; i++ ){
+					set.push( this.line( [ point[0] + radius * Math.cos( rotation + i * angle ), point[1] + radius * Math.sin( rotation + i * angle)], [ point[0] + radius * Math.cos( rotation + (i + 1)  * angle ), point[1] + radius * Math.sin( rotation + (i + 1) * angle) ] ) ); 
+				}
+				return set;
+
+			},
+
 			label: function( point, text, direction, latex ) {
 				var directions = {
 					"center":      [ -0.5, -0.5 ],
