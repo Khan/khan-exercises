@@ -18,7 +18,7 @@
 				<div class="vars">
 
 					<!-- make sure we won't be dealing with huge common denominators or fractions that start off with common denominators -->
-					<div data-ensure="getLCM( D1, D2 ) <= 60">
+					<div data-ensure="getLCM( D1, D2 ) <= 60 && D1 !== D2">
 
 						<!-- temporary denominators -->
 						<var id="_D1">randRange( 3, 20 )</var>
@@ -42,7 +42,7 @@
 
 					</div>
 
-					<!-- LCM and multipliers to get fractions to common denoms -->
+					<!-- LCM and multipliers to get fractions to common denoms. D1 * M1 = D2 * M2 -->
 					<var id="LCM">getLCM( D1, D2 )</var>
 					<var id="M1">round( LCM / D1 )</var>
 					<var id="M2">round( LCM / D2 )</var>
@@ -74,7 +74,7 @@
 
 					<div data-if="M1 === 1" data-unwrap>
 
-						<p>We need to find a common denominator. The first denominotar is <code><var>M2</var></code> times the second denominator, so we can multiply the second fraction by <code><var>M2</var></code>.</p>
+						<p>We need to find a common denominator. The first denominator is <code><var>M2</var></code> times the second denominator, so we can multiply the second fraction by <code><var>M2</var></code>.</p>
 
 					</div><div data-else-if="M2 === 1" data-unwrap>
 
