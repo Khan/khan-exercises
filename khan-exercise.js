@@ -880,8 +880,8 @@ function prepareSite() {
 
 		if (userExercise.hints_used !== undefined) {
 			readonly.append(
-				"<span class='info-box-subheader'>Hints</span>" +
-					"<div>" + userExercise.hints_used + " hints used" + "</div>"
+				"<span class='info-box-subheader'>Hints</span>\
+					<div>" + userExercise.hints_used + " hints used</div>"
 			);
 		}
 
@@ -896,8 +896,8 @@ function prepareSite() {
 				.remove()
 				.end()
 			.append( "View hints (will not reset your streak):<br/> \
-					<input id='hint' type='button' class='button orange' \
-					value='I\'d like a hint' name='hint'/>" )
+				<input id='hint' type='button' class='button orange' \
+				value='I\'d like a hint' name='hint'/>" )
 			.show();
 	}
 
