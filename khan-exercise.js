@@ -1096,6 +1096,7 @@ function prepareSite() {
 		} else if ( !report || !form ) {
 			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
 			jQuery( "#issue, #issue form" ).show();
+			jQuery( window ).scrollTop( jQuery( document ).height() - jQuery( window ).height() );
 		}
 	});
 
