@@ -339,7 +339,7 @@ function changeIntercept( dir ) {
 	updateEquation();
 }
 
-(function(){
+jQuery.fn[ "graphie-helpersLoad" ] = function(){
 	// Colorblind-safe set of colors from colorbrewer.org
 	var qualitativeColors = KhanUtil.shuffle([
 		"#33a02c", // dark green
@@ -363,4 +363,4 @@ function changeIntercept( dir ) {
 			"sequential" : sequentialColors[0]
 		}
 	});	
-})();
+};
