@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+	<meta charset="UTF-8" />
+	<title>Number line</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+		function compareStringNumber( a, b){
+			return a - b;
+		}
+	</script>
+
+</head>
+<body>
+
+	<div class="exercise">
+	<div class="vars" >
+		<var id="NUMBER">randRange( -5, 5 )</var>
+		<var id="WRONGS">( function() { 
+					var arr = randRangeUnique( -5, 5, 5 );
+					if ( arr.indexOf( NUMBER ) != -1 ){
+						return arr.sort( compareStringNumber );
+					}
+					else{
+						arr.shift();
+						arr.push( NUMBER ); 
+						return arr.sort( compareStringNumber);
+					} })()</var>
+		<var id="POSS_ANSWER">[ "A", "B", "C", "D", "E"]</var>
+		<var id="ANSWER" > POSS_ANSWER[  WRONGS.indexOf( NUMBER ) ] </var>
+
+
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>Which letter marks the position of number  <code><var>NUMBER</var></code> on the number line?</p>
+			<div class="graphie">
+				init({
+					scale: [ 50, 40 ],
+					range: [ [-1, 22], [-1, 1] ]
+				});
+				var start = -5;
+				var end = 5;
+				var originX = 0;
+				var x = NUMBER;
+				numberLine( start, end );
+				style({ stroke: "#6495ED", fill: "#6495ED" });
+				style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+				var already = [];
+				
+				for( i = 0; i !=  WRONGS.length; i++ ){
+						circle( [ WRONGS[ i ] + 5, 0 ], 0.10 );
+						label( [WRONGS[ i ] + 5, 0 ], POSS_ANSWER[ i ] , "above", { labelDistance: 5 } );
+				}
+			</div>
+			<div class="solution"><var>ANSWER</var></div>
+			<ul class="choices" data-category="true">
+				<li>A</li>
+				<li>B</li>
+				<li>C</li>
+				<li>D</li>
+				<li>E</li>
+			</ul>
+		</div>
+
+	<div class="hints">
+		<p>The numbers under the line represent the positions of numbers on the number line.</p>
+		<p>It is <var>ANSWER</var> because <var>ANSWER</var> is above <var>NUMBER</var>.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+</body>
+</html>

@@ -8,13 +8,7 @@
 		<div class="exercise">
 			<div class="vars">
 				<var id="ANGLE_ONE">randRange(0, 359)</var>
-				<var id="DIFF">randRange(0, 179)</var>
-
-				<var id="DIFF_LOW">Math.floor(DIFF/10)*10</var>
-				<var id="DIFF_HIGH">Math.ceil(DIFF/10)*10</var>
-				
-				<!-- Defined in graphie -->
-				<var id="PRO">null</var>
+				<var id="DIFF">10 * randRange(0, 18)</var>
 			</div>
 
 			<div class="problems">
@@ -35,33 +29,26 @@
 							path([ [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )], [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
 							arc( [0, 0], 1, ANGLE_ONE, ANGLE_TWO );
 
-							PRO = new Protractor( [22, 0], 8 );
+							graph.protractor = new Protractor( [22, 0], 8 );
 						</div>
 					</div>
-					<p class="solution" data-inexact data-max-error="5" data-type="rational"><var>DIFF</var></p>
+					<p class="solution" data-type="rational"><var>DIFF</var></p>
 				</div>
 			</div>
 
 			<div class="hints">
 				<div>
 					<div class="graphie" data-update="angle">
-						PRO.translate( 0, 0, true );
-						PRO.rotate( 360 - ANGLE_ONE, true );
-						PRO.draggable( false );
-						PRO.rotatable( false );
+						graph.protractor.translate( 0, 0, true );
+						graph.protractor.rotate( 360 - ANGLE_ONE, true );
+						graph.protractor.rotatable( false );
+						graph.protractor.translatable( false );
 					</div>
 					<p>First, align the protractor with the angle.</p>
 				</div>
 				<div>
-					<p>According to the protractor, the angle is between <code><var>DIFF_LOW</var></code> and <code><var>DIFF_HIGH</var></code> degrees.</p>
 					<div class="graphie" data-update="angle">
-						PRO.drawAngle( DIFF_LOW, 1.2, "blue", "blue" );
-						PRO.drawAngle( DIFF_HIGH, 1.2, "blue", "blue" );
-					</div>
-				</div>
-				<div>
-					<div class="graphie" data-update="angle">
-						PRO.drawAngle( DIFF, 2, "green", "green" );
+						graph.protractor.drawAngle( DIFF, 2, "green", "green" );
 					</div>
 					<p>The angle is <code><var>DIFF</var></code> degrees.</p>
 				</div>

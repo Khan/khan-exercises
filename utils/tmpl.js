@@ -230,11 +230,11 @@ if ( typeof KhanUtil !== "undefined" ) {
 }
 
 // Reinitialize VARS for each problem
-jQuery.fn.tmplLoad = function() {
+jQuery.fn.tmplLoad = function( problem, info ) {
 	VARS = {};
 	
 	// Check to see if we're in test mode
-	if ( window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:" ) {
+	if ( info.testMode ) {
 		// Expose the variables if we're in test mode
 		jQuery.tmpl.VARS = VARS;
 	}

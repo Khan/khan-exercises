@@ -36,11 +36,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	},
 
 	// Check to see if we're in test mode
-	testMode = (window.location.host.indexOf("localhost") === 0 ||
-				window.location.host.indexOf("127.0.0.1") === 0 ||
-				window.location.host.indexOf("192.168") === 0 ||
-				window.location.protocol === "file:") &&
-				/\.html$/.test( window.location.pathname ),
+	testMode = typeof userExercise === "undefined",
 
 	// Check to see if we're in beta mode
 	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1,
@@ -117,7 +113,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
 	issueSuccess = function( a, b ) {
 		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
-			+ "href=\"" + a + "\">" + b + "</a>, has been created."; 
+			+ "href=\"" + a + "\">" + b + "</a>, has been created.";
 	},
 	issueIntro = "Please make sure you report this issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Note: All information provided will become public. Thanks for helping us change education!";
 
@@ -442,6 +438,10 @@ Khan.loadScripts( scripts, function() {
 		runModules: function( problem, type ) {
 			type = type || "";
 
+			var info = {
+				testMode : testMode
+			}
+
 			return this.each(function( i, elem ) {
 				elem = jQuery( elem );
 
@@ -449,7 +449,7 @@ Khan.loadScripts( scripts, function() {
 				jQuery.each( Khan.modules, function( src, mod ) {
 					var name = mod.name;
 					if ( jQuery.fn[ name + type ] ) {
-						elem[ name + type ]( problem );
+						elem[ name + type ]( problem, info );
 					}
 				});
 			});
@@ -956,7 +956,7 @@ function prepareSite() {
 
 				// The answer the user gave
 				// TODO: Get the real provided answer
-				attempt_content: validator.guess,
+				attempt_content: JSON.stringify(validator.guess),
 
 				// A hash representing the exercise
 				// TODO: Populate this from somewhere
@@ -1129,10 +1129,10 @@ function prepareSite() {
 		}
 	});
 
-	
+
 	// Hide issue form.
 	jQuery( "#issue-cancel" ).click( function( e ) {
-		
+
 		e.preventDefault();
 
 		jQuery( "#issue" ).hide( 500 );
@@ -1162,7 +1162,7 @@ function prepareSite() {
 		// flagging of browsers/os for issue labels. very primitive, but
 		// hopefully sufficient.
 		var agent_contains = function( sub ) { return agent.indexOf( sub ) !== -1; },
-			flags = { 
+			flags = {
 				ie8: agent_contains( "MSIE 8.0" ),
 				ie9: agent_contains( "Trident/5.0" ),
 				chrome: agent_contains( "Chrome/" ),
@@ -1177,11 +1177,9 @@ function prepareSite() {
 			},
 			labels = "";
 		jQuery.each( flags, function( k, v ) {
-			if ( v ) {
-				labels += k + ",";
-			}
+			labels += v ? k + "," : "";
 		});
-		
+
 		if ( title === "" ) {
 			jQuery( "#issue-status" ).addClass( "error" )
 				.html( "Please provide a valid title for the issue." ).show();
@@ -1192,7 +1190,7 @@ function prepareSite() {
 
 		// disable the form elements while waiting for a server response
 		formElements.attr( "disabled", true );
-		
+
 		jQuery( "#issue-cancel" ).hide();
 		jQuery( "#issue-throbber" ).show();
 
@@ -1202,9 +1200,9 @@ function prepareSite() {
 				+ "&title=" + encodeURIComponent( [ pretitle, title ].join( " - " ) )
 				+ "&label=" + encodeURIComponent( labels ),
 			dataType: "jsonp",
-			
+
 			success: function( json ) {
-			
+
 				if ( json.meta.status === 201 ) {
 
 					// hide the form
@@ -1214,11 +1212,11 @@ function prepareSite() {
 					jQuery( "#issue-status" ).removeClass( "error" )
 						.html( issueSuccess( json.data.html_url, json.data.title ) )
 						.show();
-					
+
 					// reset the form elements
 					formElements.attr( "disabled", false )
 						.not( "input:submit" ).val( "" );
-						
+
 					// replace throbber with the cancel button
 					jQuery( "#issue-cancel" ).show();
 					jQuery( "#issue-throbber" ).hide();
@@ -1228,21 +1226,21 @@ function prepareSite() {
 					// show error message
 					jQuery( "#issue-status" )
 						.addClass( "error" ).html( issueError ).show();
-				
+
 					// enable the inputs
 					formElements.attr( "disabled", false );
 
 				}
-				
+
 			},
-			
+
 			// FIXME note that this doesn't actually work with jquery's default jsonp
 			error: function( json ) {
-			
+
 				// show status message
 				jQuery( "#issue-status" ).addClass( "error" )
 					.html( issueError ).show();
-					
+
 				// enable the inputs
 				formElements.attr( "disabled", false );
 
@@ -1293,7 +1291,7 @@ function prepareSite() {
 			} else {
 				exampleLink.text( "Show acceptable answer formats" );
 			}
-			
+
 			examples.slideToggle( 190 );
 			exampleLink.data( "show", !show );
 		}).trigger( "click" );
