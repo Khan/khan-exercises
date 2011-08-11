@@ -927,7 +927,7 @@ function prepareSite() {
 
 				// The answer the user gave
 				// TODO: Get the real provided answer
-				attempt_content: validator.guess,
+				attempt_content: JSON.stringify(validator.guess),
 
 				// A hash representing the exercise
 				// TODO: Populate this from somewhere

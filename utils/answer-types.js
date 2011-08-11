@@ -33,12 +33,15 @@ jQuery.extend( Khan.answerTypes, {
 					fallback + "" :
 					"";
 
-			ret.guess = val;
+			ret.guess = input.val();
 
 			return verifier( correct, val );
 		};
 		ret.solution = jQuery.trim( correct );
 		ret.examples = verifier.examples || [];
+		ret.showGuess = function( guess ) {
+			input.val( guess );
+		};
 		return ret;
 	},
 
@@ -385,7 +388,7 @@ jQuery.extend( Khan.answerTypes, {
 			inteGuess = parseFloat( inteGuess );
 			radGuess = parseFloat( radGuess );
 
-			ret.guess = [ inteGuess, radGuess ];
+			ret.guess = [ inteValid.guess, radValid.guess ];
 
 			var simplified = inteGuess === ans[0] && radGuess == ans[1];
 			var correct = Math.abs( inteGuess ) * inteGuess * radGuess === ansSquared;
@@ -406,6 +409,10 @@ jQuery.extend( Khan.answerTypes, {
 			ret.examples = [ "a radical, like <code>\\sqrt{8}</code> or <code>2\\sqrt{2}</code>" ];
 		}
 		ret.solution = ans;
+		ret.showGuess = function( guess ) {
+			inteValid.showGuess( guess[0] );
+			radValid.showGuess( guess[1] );
+		};
 		return ret;
 	},
 
@@ -438,7 +445,8 @@ jQuery.extend( Khan.answerTypes, {
 				var validator = jQuery( this ).data( "validator", validator );
 
 				if ( validator != null ) {
-					valid = valid && validator();
+					// Don't short-circuit so we can record all guesses
+					valid = validator() && guess;
 
 					guess.push( validator.guess );
 				}
@@ -447,6 +455,23 @@ jQuery.extend( Khan.answerTypes, {
 			ret.guess = guess;
 
 			return valid;
+		};
+
+		ret.showGuess = function( guess ) {
+			guess = jQuery.extend( true, [], guess );
+
+			solutionarea.find( ".sol" ).each(function() {
+				var validator = jQuery( this ).data( "validator", validator );
+
+				if ( validator != null ) {
+					// Shift regardless of whether we can show the guess
+					var next = guess.shift();
+
+					if ( typeof validator.showGuess === "function" ) {
+						validator.showGuess( next );
+					}
+				}
+			});
 		};
 
 		ret.solution = solutionArray;
@@ -569,6 +594,12 @@ jQuery.extend( Khan.answerTypes, {
 			return choice.val() === "1";
 		};
 		ret.solution = jQuery.trim( solutionText );
+		ret.showGuess = function( guess ) {
+			var li = list.children().filter( function() {
+				return jQuery.trim( jQuery( this ).contents( ":not(.MathJax)" ).text() ) === guess;
+			} );
+			li.find( "input[name=solution]" ).prop( "checked", true );
+		};
 		return ret;
 	},
 
@@ -599,6 +630,10 @@ jQuery.extend( Khan.answerTypes, {
 		};
 
 		ret.solution = jQuery.trim( correct );
+
+		ret.showGuess = function( guess ) {
+			input.val( guess );
+		};
 
 		return ret;
 	},
