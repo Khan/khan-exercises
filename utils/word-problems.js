@@ -231,6 +231,18 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"watermelon"
 	]);
 
+	var deskItems = KhanUtil.shuffle([
+		"binder",
+		"crayon",
+		"eraser",
+		"folder",
+		"glue stick",
+		"marker",
+		"notebook",
+		"pencil",
+		"rubber stamp"
+	]);
+
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -310,6 +322,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		fruit: function( i ) {
 			return fruits[i];
+		},
+
+		deskItem: function( i ) {
+			return deskItems[i];
 		}
 
 	});
