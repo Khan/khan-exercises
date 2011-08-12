@@ -1177,39 +1177,26 @@ function prepareSite() {
 			contentType: "application/json",
 			dataType: "json",
 			success: function( json ) {
-				console.log( json );
-				if ( json.meta.status === 201 ) {
 
-					// hide the form
-					jQuery( "#issue form" ).hide();
+				// the response we get from our proxy just has github's data
+				data = JSON.parse( json )
 
-					// show status message
-					jQuery( "#issue-status" ).removeClass( "error" )
-						.html( issueSuccess( json.data.html_url, json.data.title ) )
-						.show();
+				// hide the form
+				jQuery( "#issue form" ).hide();
 
-					// reset the form elements
-					formElements.attr( "disabled", false )
-						.not( "input:submit" ).val( "" );
+				// show status message
+				jQuery( "#issue-status" ).removeClass( "error" )
+					.html( issueSuccess( data.html_url, data.title ) )
+					.show();
 
-					// replace throbber with the cancel button
-					jQuery( "#issue-cancel" ).show();
-					jQuery( "#issue-throbber" ).hide();
+				// reset the form elements
+				formElements.attr( "disabled", false )
+					.not( "input:submit" ).val( "" );
 
-				} else {
+				// replace throbber with the cancel button
+				jQuery( "#issue-cancel" ).show();
+				jQuery( "#issue-throbber" ).hide();
 
-					// show error message
-					jQuery( "#issue-status" )
-						.addClass( "error" ).html( issueError ).show();
-
-					// enable the inputs
-					formElements.attr( "disabled", false );
-
-					// replace throbber with the cancel button
-					jQuery( "#issue-cancel" ).show();
-					jQuery( "#issue-throbber" ).hide();
-
-				}
 			},
 			error: function( json ) {
 
