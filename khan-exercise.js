@@ -1144,11 +1144,12 @@ function prepareSite() {
 				xp: agent_contains( "Windows NT 5.1" ),
 				leopard: agent_contains( "Mac OS X 10_5" ),
 				snowleo: agent_contains( "Mac OS X 10_6" ),
-				lion: agent_contains( "Mac OS X 10_7" )
+				lion: agent_contains( "Mac OS X 10_7" ),
+				scrathpad: agent_contains( "scratchpad" ) || agent_contains( "Scratchpad" )
 			},
-			labels = "";
+			labels = [];
 		jQuery.each( flags, function( k, v ) {
-			labels += v ? k + "," : "";
+			if ( v ) labels.push( k )
 		});
 
 		if ( title === "" ) {
@@ -1166,14 +1167,16 @@ function prepareSite() {
 		jQuery( "#issue-throbber" ).show();
 
 		jQuery.ajax({
-			url: "http://66.220.0.98:2563/file_exercise_tester_bug"
-				+ "?body=" + encodeURIComponent( body )
-				+ "&title=" + encodeURIComponent( [ pretitle, title ].join( " - " ) )
-				+ "&label=" + encodeURIComponent( labels ),
-			dataType: "jsonp",
-
+			url: "/githubpost",
+			type: "POST",
+			data: JSON.stringify({
+				title: [ pretitle, title ].join( " - " ),
+				body: body,
+				labels: labels
+			}),
+			contentType: "application/json",
+			dataType: "json",
 			success: function( json ) {
-
 				if ( json.meta.status === 201 ) {
 
 					// hide the form
@@ -1201,11 +1204,12 @@ function prepareSite() {
 					// enable the inputs
 					formElements.attr( "disabled", false );
 
+					// replace throbber with the cancel button
+					jQuery( "#issue-cancel" ).show();
+					jQuery( "#issue-throbber" ).hide();
+
 				}
-
 			},
-
-			// FIXME note that this doesn't actually work with jquery's default jsonp
 			error: function( json ) {
 
 				// show status message
@@ -1214,6 +1218,10 @@ function prepareSite() {
 
 				// enable the inputs
 				formElements.attr( "disabled", false );
+
+				// replace throbber with the cancel button
+				jQuery( "#issue-cancel" ).show();
+				jQuery( "#issue-throbber" ).hide();
 
 			}
 		});
