@@ -1177,6 +1177,7 @@ function prepareSite() {
 			contentType: "application/json",
 			dataType: "json",
 			success: function( json ) {
+				console.log( json );
 				if ( json.meta.status === 201 ) {
 
 					// hide the form
