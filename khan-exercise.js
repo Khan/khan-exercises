@@ -1181,8 +1181,6 @@ function prepareSite() {
 			dataType: testMode ? "jsonp" : "json",
 			success: function( json ) {
 
-				console.log( json );
-
 				data = json.data || json;
 
 				// hide the form
