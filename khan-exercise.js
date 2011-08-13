@@ -1167,15 +1167,17 @@ function prepareSite() {
 		jQuery( "#issue-throbber" ).show();
 
 		jQuery.ajax({
-			url: "/githubpost",
+			url: ( testMode ? "http://localhost:8080/" : "/" ) + "githubpost",
 			type: "POST",
-			data: JSON.stringify({
-				title: [ pretitle, title ].join( " - " ),
-				body: body,
-				labels: labels
-			}),
+			data: {
+				json: JSON.stringify({
+					title: pretitle + " - " + title,
+					body: body,
+					labels: labels
+				})
+			},
 			contentType: "application/json",
-			dataType: "json",
+			dataType: testMode ? "jsonp" : "json",
 			success: function( json ) {
 
 				// the response we get from our proxy just has github's data
@@ -1198,6 +1200,7 @@ function prepareSite() {
 				jQuery( "#issue-throbber" ).hide();
 
 			},
+			// note this won't actually work in local jsonp-mode
 			error: function( json ) {
 
 				// show status message
