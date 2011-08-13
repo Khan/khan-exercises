@@ -1170,19 +1170,20 @@ function prepareSite() {
 			// FIXME: replace with ka.org
 			url: ( testMode ? "http://localhost:8080/" : "/" ) + "githubpost",
 			type: testMode ? "GET" : "POST",
-			data: JSON.stringify({
-				json: {
+			data: {
+				json: JSON.stringify({
 					title: pretitle + " - " + title,
 					body: body,
 					labels: labels
-				}
-			}),
+				})
+			},
 			contentType: "application/json",
 			dataType: testMode ? "jsonp" : "json",
 			success: function( json ) {
 
-				// the response we get from our proxy just has github's data
-				data = JSON.parse( json )
+				console.log( json );
+
+				data = json.data || json;
 
 				// hide the form
 				jQuery( "#issue form" ).hide();
