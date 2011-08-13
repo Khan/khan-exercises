@@ -1167,14 +1167,14 @@ function prepareSite() {
 		jQuery( "#issue-throbber" ).show();
 
 		jQuery.ajax({
-			url: ( testMode ? "http://localhost:8080/" : "/" ) + "githubpost",
-			type: "POST",
+			url: ( testMode ? "http://khanacademy.org/" : "/" ) + "githubpost",
+			type: testMode ? "GET" : "POST",
 			data: {
-				json: JSON.stringify({
+				json: {
 					title: pretitle + " - " + title,
 					body: body,
 					labels: labels
-				})
+				}
 			},
 			contentType: "application/json",
 			dataType: testMode ? "jsonp" : "json",
