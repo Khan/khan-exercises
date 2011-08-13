@@ -1169,13 +1169,13 @@ function prepareSite() {
 		jQuery.ajax({
 			url: ( testMode ? "http://khanacademy.org/" : "/" ) + "githubpost",
 			type: testMode ? "GET" : "POST",
-			data: {
+			data: JSON.stringify({
 				json: {
 					title: pretitle + " - " + title,
 					body: body,
 					labels: labels
 				}
-			},
+			}),
 			contentType: "application/json",
 			dataType: testMode ? "jsonp" : "json",
 			success: function( json ) {
