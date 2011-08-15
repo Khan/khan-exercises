@@ -446,7 +446,7 @@ jQuery.extend( Khan.answerTypes, {
 
 				if ( validator != null ) {
 					// Don't short-circuit so we can record all guesses
-					valid = validator() && !!guess;
+					valid = validator() && valid;
 
 					guess.push( validator.guess );
 				}
