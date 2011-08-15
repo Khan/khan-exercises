@@ -110,7 +110,8 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 	issueError = "Communication with GitHub isn't working. Please file "
 		+ "the issue manually at <a href=\""
-		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
+		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
+		+ "Please reference exercise: " + exerciseName + ".",
 	issueSuccess = function( a, b ) {
 		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
 			+ "href=\"" + a + "\">" + b + "</a>, has been created.";
@@ -1148,6 +1149,7 @@ function prepareSite() {
 		} else if ( !report || !form ) {
 			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
 			jQuery( "#issue, #issue form" ).show();
+			jQuery( window ).scrollTop( jQuery( document ).height() - jQuery( window ).height() );
 		}
 	});
 
@@ -1195,11 +1197,12 @@ function prepareSite() {
 				xp: agent_contains( "Windows NT 5.1" ),
 				leopard: agent_contains( "Mac OS X 10_5" ),
 				snowleo: agent_contains( "Mac OS X 10_6" ),
-				lion: agent_contains( "Mac OS X 10_7" )
+				lion: agent_contains( "Mac OS X 10_7" ),
+				scrathpad: agent_contains( "scratchpad" ) || agent_contains( "Scratchpad" )
 			},
-			labels = "";
+			labels = [];
 		jQuery.each( flags, function( k, v ) {
-			labels += v ? k + "," : "";
+			if ( v ) labels.push( k )
 		});
 
 		if ( title === "" ) {
@@ -1217,46 +1220,40 @@ function prepareSite() {
 		jQuery( "#issue-throbber" ).show();
 
 		jQuery.ajax({
-			url: "http://66.220.0.98:2563/file_exercise_tester_bug"
-				+ "?body=" + encodeURIComponent( body )
-				+ "&title=" + encodeURIComponent( [ pretitle, title ].join( " - " ) )
-				+ "&label=" + encodeURIComponent( labels ),
-			dataType: "jsonp",
 
+			url: ( testMode ? "http://www.khanacademy.org/" : "/" ) + "githubpost",
+			type: testMode ? "GET" : "POST",
+			data: {
+				json: JSON.stringify({
+					title: pretitle + " - " + title,
+					body: body,
+					labels: labels
+				})
+			},
+			contentType: "application/json",
+			dataType: testMode ? "jsonp" : "json",
 			success: function( json ) {
 
-				if ( json.meta.status === 201 ) {
+				data = json.data || json;
 
-					// hide the form
-					jQuery( "#issue form" ).hide();
+				// hide the form
+				jQuery( "#issue form" ).hide();
 
-					// show status message
-					jQuery( "#issue-status" ).removeClass( "error" )
-						.html( issueSuccess( json.data.html_url, json.data.title ) )
-						.show();
+				// show status message
+				jQuery( "#issue-status" ).removeClass( "error" )
+					.html( issueSuccess( data.html_url, data.title ) )
+					.show();
 
-					// reset the form elements
-					formElements.attr( "disabled", false )
-						.not( "input:submit" ).val( "" );
+				// reset the form elements
+				formElements.attr( "disabled", false )
+					.not( "input:submit" ).val( "" );
 
-					// replace throbber with the cancel button
-					jQuery( "#issue-cancel" ).show();
-					jQuery( "#issue-throbber" ).hide();
-
-				} else {
-
-					// show error message
-					jQuery( "#issue-status" )
-						.addClass( "error" ).html( issueError ).show();
-
-					// enable the inputs
-					formElements.attr( "disabled", false );
-
-				}
+				// replace throbber with the cancel button
+				jQuery( "#issue-cancel" ).show();
+				jQuery( "#issue-throbber" ).hide();
 
 			},
-
-			// FIXME note that this doesn't actually work with jquery's default jsonp
+			// note this won't actually work in local jsonp-mode
 			error: function( json ) {
 
 				// show status message
@@ -1265,6 +1262,10 @@ function prepareSite() {
 
 				// enable the inputs
 				formElements.attr( "disabled", false );
+
+				// replace throbber with the cancel button
+				jQuery( "#issue-cancel" ).show();
+				jQuery( "#issue-throbber" ).hide();
 
 			}
 		});

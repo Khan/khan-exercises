@@ -217,6 +217,32 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"cake"
 	]);
 
+	var fruits = KhanUtil.shuffle([
+		"apple",
+		"banana",
+		"coconut",
+		"eggplant",
+		"kiwi",
+		"lemon",
+		"mango",
+		"nectarine",
+		"orange",
+		"pomegranate",
+		"watermelon"
+	]);
+
+	var deskItems = KhanUtil.shuffle([
+		"binder",
+		"crayon",
+		"eraser",
+		"folder",
+		"glue stick",
+		"marker",
+		"notebook",
+		"pencil",
+		"rubber stamp"
+	]);
+
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -292,6 +318,14 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		pizza: function( i ) {
 			return pizzas[i];
+		},
+
+		fruit: function( i ) {
+			return fruits[i];
+		},
+
+		deskItem: function( i ) {
+			return deskItems[i];
 		}
 
 	});
