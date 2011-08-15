@@ -110,7 +110,8 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 	issueError = "Communication with GitHub isn't working. Please file "
 		+ "the issue manually at <a href=\""
-		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
+		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
+		+ "Please reference exercise: " + exerciseName + ".",
 	issueSuccess = function( a, b ) {
 		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
 			+ "href=\"" + a + "\">" + b + "</a>, has been created.";
