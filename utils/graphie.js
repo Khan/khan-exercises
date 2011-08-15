@@ -219,15 +219,18 @@
 				return set;
 			},
 
-			regularPolygon: function( point, numSides, radius, rotation ){
+			regularPolygon: function( point, numSides, radius, rotation, fillColor ){
 				var set = raphael.set();
 				var rotation = rotation || 0;
 				var angle = 2 * Math.PI / numSides;
 				var i = 0;
+				var arr = [];
 				for( i = 0; i < numSides; i++ ){
-					set.push( this.line( [ point[0] + radius * Math.cos( rotation + i * angle ), point[1] + radius * Math.sin( rotation + i * angle)], [ point[0] + radius * Math.cos( rotation + (i + 1)  * angle ), point[1] + radius * Math.sin( rotation + (i + 1) * angle) ] ) ); 
+					arr.push( [ point[0] + radius * Math.cos( rotation + i * angle ), point[1] + radius * Math.sin( rotation + i * angle)] );
+					arr.push( [ point[0] + radius * Math.cos( rotation + (i + 1)  * angle ), point[1] + radius * Math.sin( rotation + (i + 1) * angle) ] ); 
 				}
-				return set;
+				var p = this.path( arr );	
+				return p;
 
 			},
 
