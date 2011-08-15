@@ -752,6 +752,63 @@ function makeProblem( id, seed ) {
 		} );
 	}
 
+	if (typeof userExercise !== "undefined" && userExercise.read_only) {
+		var readonly = jQuery( "#readonly" ),
+				radio = answerType === 'radio';
+		readonly.append( "<span class='info-box-subheader'>Answers</span>" );
+
+		if (radio) {
+				jQuery("#solution input:radio").attr("disabled", true);
+				jQuery("#check-answer-button").remove();
+		} else {
+			jQuery( "#answercontent" ).hide();
+		}
+
+		jQuery.each(userExercise.user_activity, function(index, value) {
+			var guess = JSON.parse( value[1] ),
+			    solutionarea = jQuery( "<div>" )
+			      .addClass( "user-activity " + value[0] )
+			      .appendTo( readonly );
+
+			if (radio) {
+				solutionarea
+					.click(function() {
+						validator.showGuess( guess );
+					})
+					.append( "<span>Answer " + (index+1) + "</span>" );
+			} else {
+			  var thisvalidator = Khan.answerTypes[answerType]( solutionarea, solution );
+				thisvalidator.showGuess( guess );
+			}
+		});
+
+		readonly
+			.find( "#readonly-problem" )
+				.text( "Problem #" + (userExercise.total_done + 1) )
+				.end()
+			.find( "#readonly-start" )
+				.attr( "href", "/exercises?exid=" + userExercise.exercise )
+				.end()
+			.next()
+				.remove()
+				.end()
+			.append(
+			"<span>Hints</span>\
+				<span class='info-box-sub-description' style='margin-bottom:0'>" +
+				((userExercise.hints_used !== undefined)
+				 	? userExercise.hints_used
+					: "Hints data unavailable") +
+				" hints used\
+		 	 </span>"
+			)
+			.append( 
+			"<span class='info-box-sub-description'>View hints (will not reset your streak):</span> \
+				<input id='hint' type='button' class='button orange' \
+				value='I\'d like a hint' name='hint'/>"
+			)
+			.show();
+	}
+
 	// Show the debug info
 	if ( testMode && Khan.query.debug != null ) {
 		jQuery( document ).keypress( function( e ) {
@@ -863,42 +920,8 @@ function prepareSite() {
 		.attr( "src", urlBase + "css/images/throbber.gif" );
 
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
-		jQuery( "#answercontent" ).hide();
+	//	jQuery( "#answercontent" ).hide();
 		jQuery( "#extras" ).css("visibility", "hidden");
-
-		var readonly = jQuery( "#readonly" );
-		readonly.append( "<span class='info-box-subheader'>Answers</span>" );
-
-		jQuery.each(userExercise.user_activity, function(index, value) {
-			readonly.append(
-				jQuery( "<div>" )
-					.addClass( "user-activity " + value[0] )
-					.html( value[1] )
-					.tmpl()
-				);
-		});
-
-		if (userExercise.hints_used !== undefined) {
-			readonly.append(
-				"<span class='info-box-subheader'>Hints</span>\
-					<div>" + userExercise.hints_used + " hints used</div>"
-			);
-		}
-
-		readonly
-			.find( "#readonly-problem" )
-				.text( "Problem #" + (userExercise.total_done + 1) )
-				.end()
-			.find( "#readonly-start" )
-				.attr( "href", "/exercises?exid=" + userExercise.exercise )
-				.end()
-			.next()
-				.remove()
-				.end()
-			.append( "View hints (will not reset your streak):<br/> \
-				<input id='hint' type='button' class='button orange' \
-				value='I\'d like a hint' name='hint'/>" )
-			.show();
 	}
 
 	// Watch for a solution submission
@@ -1090,7 +1113,6 @@ function prepareSite() {
 			}
 
 			hintsUsed += 1;
-      console.log(hintsUsed);
 
 			// Don't reset the streak if we've already reset it or if
 			// we've already sent in an answer
