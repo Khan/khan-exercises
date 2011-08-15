@@ -133,19 +133,12 @@ jQuery.tmpl = {
 					// Don't show anything
 					return [];
 				} else {
-					// Convert the value to a string and replace with that text node
-					return jQuery( "<div>" ).append( value + "" ).contents();
+					// Convert the value to a string and replace with those elements and text nodes
+					// Add a space so that it can end with a "<" in Safari
+					var div = jQuery( "<div>" );
+					var html = div.append( value + " " ).html();
+					return div.html( html.slice( 0, -1 ) ).contents();
 				}
-			}
-		},
-
-		// For random variable selection
-		ul: function( elem ) {
-			// Replace each <ul id="..."> with <var> containing a random child
-			if ( elem.id ) {
-				return jQuery( "<var>" )
-					.attr( "id", elem.id )
-					.append( jQuery( elem ).children().getRandom().contents() );
 			}
 		},
 
@@ -184,10 +177,10 @@ jQuery.tmpl = {
 	// Eval a string in the context of Math, KhanUtil, VARS, and optionally another passed context
 	getVAR: function( elem, ctx ) {
 		// We need to compute the value
-		var code = jQuery.trim( elem.nodeName ? jQuery(elem).newlinePreservingText() : elem );
+		var code = elem.nodeName ? jQuery(elem).text() : elem;
 
 		// Make sure any HTML formatting is stripped
-		code = jQuery.tmpl.cleanHTML( code );
+		code = jQuery.trim( jQuery.tmpl.cleanHTML( code ) );
 
 		// If no extra context was passed, use an empty object
 		if ( ctx == null ) {
@@ -209,8 +202,20 @@ jQuery.tmpl = {
 				}
 			}
 
-		} catch( e ) {
-			Khan.error( code, e );
+		} catch ( e ) {
+			var info;
+
+			if ( elem.nodeName ) {
+				info = elem.nodeName.toLowerCase();
+
+				if ( elem.id != null && elem.id.length > 0 ) {
+					info += "#" + elem.id;
+				}
+			} else {
+				info = JSON.stringify( code );
+			}
+
+			Khan.error( "Error while evaluating " + info, e );
 		}
 	},
 
@@ -224,16 +229,12 @@ if ( typeof KhanUtil !== "undefined" ) {
 	KhanUtil.tmpl = jQuery.tmpl;
 }
 
-jQuery.fn.newlinePreservingText = function() {
-	return jQuery( "<pre>" ).append( this.clone() ).text();
-};
-
 // Reinitialize VARS for each problem
-jQuery.fn.tmplLoad = function() {
+jQuery.fn.tmplLoad = function( problem, info ) {
 	VARS = {};
 	
 	// Check to see if we're in test mode
-	if ( window.location.host.indexOf("localhost") === 0 || window.location.protocol === "file:" ) {
+	if ( info.testMode ) {
 		// Expose the variables if we're in test mode
 		jQuery.tmpl.VARS = VARS;
 	}

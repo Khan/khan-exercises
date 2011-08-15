@@ -87,10 +87,10 @@
 			<var id="CB">BC</var>
 			<var id="AB">AC * AC + BC * BC</var>
 			<var id="AB_STRING">formattedSquareRootOf(AC * AC + BC * BC)</var>
-			<ul id="ANGLE">
-				<li>"ABC"</li>
-				<li>"BAC"</li>
-			</ul>
+			<var id="ANGLE">randFromArray([
+				"ABC",
+				"BAC"
+			])</var>
 			<var id="WRONG_A" data-ensure="WRONG_A !== AC && WRONG_A !== BC && WRONG_A !== sqrt(AB)">randRange(1, 10)</var>
 			<var id="WRONG_B" data-ensure="WRONG_B !== AC && WRONG_B !== BC && WRONG_B !== WRONG_A && WRONG_B !== sqrt(AB)">randRange(1, 10)</var>
 
@@ -192,7 +192,7 @@
 						var options = {};
 						options[ OPPOSITE_NAME ] = OPPOSITE_VALUE;
 						options[ "AB" ] = "?";
-						betterTriangle( BC, AC, "A", "B", "C", "", "", AB_STRING, ANGLE, options );
+						betterTriangle( BC, AC, "A", "B", "C", OPPOSITE_VALUE, "", "", ANGLE, options );
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
@@ -286,7 +286,7 @@
 					<p>SOH CAH TOA</p>
 					<p>We know the adjacent side and need to solve for the hypotenuse so we can use the cos function (CAH)</p>
 					<p><code>\displaystyle \cos( \angle <var>ANGLE</var> ) = \frac{\text{adjacent}}{\text{hypotenuse}} = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{AB}} = \frac{<var>ADJACENT_VALUE</var>}{\overline{AB}} </code></p>
-					<p><code>\displaystyle \overline{AB}=\frac{<var>ADJACENT_VALUE</var>}{\sin( \angle <var>ANGLE</var> )} = \frac{<var>ADJACENT_VALUE</var>}{<var>COS</var>} = <var>AB_STRING</var></code></p>
+					<p><code>\displaystyle \overline{AB}=\frac{<var>ADJACENT_VALUE</var>}{\cos( \angle <var>ANGLE</var> )} = \frac{<var>ADJACENT_VALUE</var>}{<var>COS</var>} = <var>AB_STRING</var></code></p>
 				</div>
 			</div>
 

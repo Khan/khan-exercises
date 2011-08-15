@@ -22,3 +22,7 @@ The process for writing exercises is rather well documented. More information ab
 * [How to Get Involved](https://github.com/Khan/khan-exercises/wiki/Getting-Involved)
 * [How to Write Exercises](https://github.com/Khan/khan-exercises/wiki/Writing-Exercises:-Home)
 * [How to Test Exercises](https://github.com/Khan/khan-exercises/wiki/Testing-Exercises)
+
+## More
+
+If you're passionate about creating these exercises and want to apply to be a full-time exercise developer at the Khan Academy, [please do so](http://hire.jobvite.com/CompanyJobs/Careers.aspx?c=qd69Vfw7&page=Job%20Description&j=ohjSVfw7).
