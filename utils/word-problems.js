@@ -241,6 +241,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"bushel of apples",
 		"head of broccoli",
 		"tomato"
+		]);
 
 	var fruits = KhanUtil.shuffle([
 		"apple",
@@ -351,6 +352,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		veggie: function( i ) {
 			return veggies[i];
+		},
 
 		fruit: function( i ) {
 			return fruits[i];
