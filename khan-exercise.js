@@ -1168,8 +1168,8 @@ function prepareSite() {
 		jQuery( "#issue-throbber" ).show();
 
 		jQuery.ajax({
-			// FIXME: replace with ka.org
-			url: ( testMode ? "http://localhost:8080/" : "/" ) + "githubpost",
+
+			url: ( testMode ? "http://www.khanacademy.org/" : "/" ) + "githubpost",
 			type: testMode ? "GET" : "POST",
 			data: {
 				json: JSON.stringify({
