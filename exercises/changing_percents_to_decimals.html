@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math">
 <head>
-	<title>Changing Percents to Decimals</title>
+	<title>Changing percents to decimals</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -13,13 +13,15 @@
 
 	<div class="problems">
 		<div id="original" data-weight="1">
-			<p class="question">Express <var>PCT</var>% as a Decimal.</p>
+			<p class="question">Express <var>PCT</var>% as a decimal.</p>
 			<div class="solution" data-type="decimal"><var>SOLN</var></div>
 
 			<div class="hints">
-				<p><var>PCT</var>% is equal to <code>\dfrac{<var>PCT</var>}{<var>100</var>}</code>.</p>
-				<p>So all you have to do is move the decimal place of <var>PCT</var> two places to the left.</p>
-				<p>Therefore the answer is <var>SOLN</var>.</p>
+				<p><var>PCT</var>% literally means <var>PCT</var> per 100</p>
+				<p><var>PCT</var>% = <code>\dfrac{<var>PCT</var>}{<var>100</var>}</code></p>
+				<p>To easily divide by 100, you can just move the decimal point two places to the left.</p>
+				<p><var>PCT</var> --> <var>roundTo( 5 , PCT / 10)</var> --> <var>SOLN</var>
+				<p>So <var>PCT</var>% = <var>SOLN</var>
 			</div>
 		</div>
 	</div>
