@@ -772,7 +772,7 @@ function makeProblem( id, seed ) {
 					.appendTo( readonly );
 
 			thissolution = solution.clone();
-			thissolutionarea.append(solution);
+			//thissolutionarea.append(solution);
 
 			if (radio) {
 				thissolutionarea
@@ -798,8 +798,8 @@ function makeProblem( id, seed ) {
 			.append(
 			"<span>Hints</span>\
 				<span class='info-box-sub-description' style='margin-bottom:0'>" +
-				((userExercise.hints_used !== undefined)
-				 	? userExercise.hints_used
+				((userExercise.count_hints !== undefined)
+				 	? userExercise.count_hints
 					: "Hints data unavailable") +
 				" hints used\
 		 	 </span>"
@@ -928,40 +928,46 @@ function prepareSite() {
 	}
 
 	// Watch for a solution submission
-	jQuery("#check-answer-button").click( handleSubmit );
-	jQuery("#answerform").submit( handleSubmit );
+	jQuery("#check-answer-button").click( {type: "answer"}, handleSubmit );
+	jQuery("#answerform").submit( {type: "answer"}, handleSubmit );
 
 	function handleSubmit( e ) {
 		var pass = validator();
 
-		// Stop if the user didn't enter a response
-		if ( jQuery.trim( validator.guess ) === "" ) {
-			return false;
-		}
+    // We are submitting either an answer or a hint
+    var isAnswer = e.data.type === "answer";
 
-		// Stop if the form is already disabled and we're waiting for a response.
-		if ( jQuery( "#answercontent input" ).is( ":disabled" )) {
-			return false;
-		}
 
-		jQuery( "#throbber" ).show();
-		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
-		jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
-		jQuery( "#check-answer-results p" ).hide();
+    if (isAnswer) {
+      // Stop if the user didn't enter a response
+      if ( jQuery.trim( validator.guess ) === "" ) {
+        return false;
+      }
 
-		// Figure out if the response was correct
-		if ( pass === true ) {
-			jQuery("#happy").show();
-			jQuery("#sad").hide();
-		} else {
-			jQuery("#happy").hide();
-			jQuery("#sad").show();
+      // Stop if the form is already disabled and we're waiting for a response.
+      if ( jQuery( "#answercontent input" ).is( ":disabled" )) {
+        return false;
+      }
 
-			// Is this a message to be shown?
-			if ( typeof pass === "string" ) {
-				jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
-			}
-		}
+      jQuery( "#throbber" ).show();
+      jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
+      jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
+      jQuery( "#check-answer-results p" ).hide();
+
+      // Figure out if the response was correct
+      if ( pass === true ) {
+        jQuery("#happy").show();
+        jQuery("#sad").hide();
+      } else {
+        jQuery("#happy").hide();
+        jQuery("#sad").show();
+
+        // Is this a message to be shown?
+        if ( typeof pass === "string" ) {
+          jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
+        }
+      }
+    }
 
 		// The user checked to see if an answer was valid
 
@@ -972,17 +978,17 @@ function prepareSite() {
 				complete: pass === true ? 1 : 0,
 
 				// The user used a hint
-				hints_used: hintsUsed,
+				count_hints: hintsUsed,
 
 				// How long it took them to complete the problem
 				time_taken: Math.round((curTime - lastAction) / 1000),
 
 				// How many times the problem was attempted
-				attempt_number: ++attempts,
+				attempt_number: isAnswer ? ++attempts : attempts,
 
 				// The answer the user gave
 				// TODO: Get the real provided answer
-				attempt_content: JSON.stringify(validator.guess),
+				attempt_content: isAnswer ? JSON.stringify(validator.guess) : "hint",
 
 				// A hash representing the exercise
 				// TODO: Populate this from somewhere
@@ -995,38 +1001,43 @@ function prepareSite() {
 				non_summative: exercise.data( "name" )
 			};
 
-		// Save the problem results to the server
-		request( "problems/" + (getData().total_done + 1) + "/attempt", data, function() {
+		if (!isAnswer) {
+			// Don't do anything on success or failure, silently failing is ok here
+			request( "problems/" + (getData().total_done + 1) + "/hint", data, function() {}, function () {});
+		} else {
+			// Save the problem results to the server
+			request( "problems/" + (getData().total_done + 1) + "/attempt", data, function() {
 
-			// TODO: Save locally if offline
-			jQuery(Khan).trigger( "answerSaved" );
+				// TODO: Save locally if offline
+				jQuery(Khan).trigger( "answerSaved" );
 
-			jQuery( "#throbber" ).hide();
-			jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
-			if ( pass === true ) {
-				jQuery( "#check-answer-button" ).hide();
-				if ( !testMode || Khan.query.test == null ) {
-					jQuery( "#next-container" ).show();
-					jQuery( "#next-question-button" ).removeAttr( "disabled" )
-						.removeClass( "buttonDisabled" )
-						.focus();
+				jQuery( "#throbber" ).hide();
+				jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
+				if ( pass === true ) {
+					jQuery( "#check-answer-button" ).hide();
+					if ( !testMode || Khan.query.test == null ) {
+						jQuery( "#next-container" ).show();
+						jQuery( "#next-question-button" ).removeAttr( "disabled" )
+							.removeClass( "buttonDisabled" )
+							.focus();
+					}
+				} else {
+					jQuery( "#answercontent input" ).removeAttr( "disabled" );
 				}
-			} else {
-				jQuery( "#answercontent input" ).removeAttr( "disabled" );
-			}
-		}, function() {
-			// Error during submit. Cheat, for now, and reload the page in
-			// an attempt to get updated data.
-			window.location.reload();
-		});
+			}, function() {
+				// Error during submit. Cheat, for now, and reload the page in
+				// an attempt to get updated data.
+				window.location.reload();
+			});
 
-		// Make sure hint streak breaking is handled correctly
-		doSave = false;
+			// Remember when the last action was
+			lastAction = curTime;
 
-		// Remember when the last action was
-		lastAction = curTime;
+			// Make sure hint streak breaking is handled correctly
+			doSave = false;
 
-		jQuery(Khan).trigger( "checkAnswer", pass );
+			jQuery(Khan).trigger( "checkAnswer", pass );
+		}
 
 		return false;
 	}
@@ -1132,6 +1143,8 @@ function prepareSite() {
 
 		}
 	});
+
+	jQuery("#hint").click( {type: "hint"}, handleSubmit );
 
 	// On an exercise page, replace the "Report a Problem" link with a button
 	// to be more clear that it won't replace the current page.
