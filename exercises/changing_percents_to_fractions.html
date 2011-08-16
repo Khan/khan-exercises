@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format">
 <head>
-	<title>Changing Percents to Fractions</title>
+	<title>Changing percents to fractions</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 
@@ -19,6 +19,7 @@
 					<p><var>A</var>% literally means <var>A</var> per 100</p>
 					<p>Putting this in fraction form: <code><var>fraction( A , 100 )</var></code></p>
 					<p data-if="getGCD( A , 100 ) > 1">Reducing to lowest terms, <code><var>fractionReduce( A , 100 )</var></code>.</p>
+					<p data-if="A > 100">Optionally, the improper fraction <code><var>fractionReduce( A , 100 )</var></code> can be converted to the mixed number <code><var>( A - A % 100 ) / 100 + fractionReduce( round ( A % 100 ), 100 )</var></code>.</p>
 				</div>
 			</div>
 
@@ -31,6 +32,7 @@
 					<p>Putting this in fraction form: <code><var>fraction( A , 100 )</var></code></p>
 					<p data-if="( A * 10 ) % 10 != 0">Multiplying top and bottom by 10 to get rid of the decimal: <code><var>fraction( A * 10 , 1000 )</var></code></p>
 					<p data-if="getGCD( A * 10 , 1000 ) > 1">Reducing to lowest terms, <code><var>fractionReduce( A * 10 , 1000 )</var></code>.</p>
+					<p data-if="A > 100">Optionally, the improper fraction <code><var>fractionReduce( A * 10 , 1000 )</var></code> can be converted to the mixed number <code><var>( A * 10 - A * 10 % 1000 ) / 1000 + fractionReduce( round ( A * 10 % 1000 ), 1000 )</var></code>.</p>
 				</div>
 			</div>
 
@@ -38,3 +40,5 @@
 	</div>
 </body>
 </html>
+
+"optionally, the improper fraction 911/500 can be converted to the mixed number 1 411/500"
