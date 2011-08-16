@@ -35,7 +35,9 @@
 	
 	<div class="hints">
 		<p data-if="GCD > 1"><code><var>fraction( _N, _D )</var></code> reduces to <code><var>fraction( N, D )</var></code>.</p>
-		<p>To turn <code><var>fraction( N, D )</var></code> into a decimal, perform long division, dividing <code><var>D</var></code> into <code><var>N</var></code> (if you need help with this, try practicing some Division exercises or watching some related videos).</p>
+		<p data-if="D === 10 || D === 100">Denominators of 10 or 100 are easy cases: The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator.
+		<p data-if="D === 10 || D === 100">For this question, this means <var>D === 10 ? "1 place" : "2 places"</var>.</p>
+		<p data-else>To turn <code><var>fraction( N, D )</var></code> into a decimal, perform long division, dividing <code><var>D</var></code> into <code><var>N</var></code> (if you need help with this, try practicing some Division exercises or watching some related videos).</p>
 		<p><code><var>N</var> \div <var>D</var> = <var>DEC</var></code></p>
 	</div>
 </div>
