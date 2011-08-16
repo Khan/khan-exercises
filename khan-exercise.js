@@ -1147,9 +1147,9 @@ function prepareSite() {
 				win7: agent_contains( "Windows NT 6.1" ),
 				vista: agent_contains( "Windows NT 6.0" ),
 				xp: agent_contains( "Windows NT 5.1" ),
-				leopard: agent_contains( "Mac OS X 10_5" ),
-				snowleo: agent_contains( "Mac OS X 10_6" ),
-				lion: agent_contains( "Mac OS X 10_7" ),
+				leopard: agent_contains( "OS X 10_5" ) || agent_contains( "OS X 10.5" ),
+				snowleo: agent_contains( "OS X 10_6" ) || agent_contains( "OS X 10.6" ),
+				lion: agent_contains( "OS X 10_7" ) || agent_contains( "OS X 10.7" ),
 				scrathpad: agent_contains( "scratchpad" ) || agent_contains( "Scratchpad" )
 			},
 			labels = [];
