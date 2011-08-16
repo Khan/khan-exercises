@@ -938,6 +938,9 @@ function prepareSite() {
 				// The seed that was used for generating the problem
 				seed: problemSeed,
 
+				// The seed that was used for generating the problem
+				problem_type: problemID,
+
 				// The non-summative exercise that the current problem belongs to
 				non_summative: exercise.data( "name" )
 			};
