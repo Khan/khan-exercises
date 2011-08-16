@@ -755,31 +755,33 @@ function makeProblem( id, seed ) {
 
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
 		var readonly = jQuery( "#readonly" ),
-				radio = answerType === 'radio';
+			radio = answerType === 'radio';
 		readonly.append( "<span class='info-box-subheader'>Answers</span>" );
 
 		if (radio) {
-				jQuery("#solution input:radio").attr("disabled", true);
-				jQuery("#check-answer-button").remove();
+			jQuery("#solution input:radio").attr("disabled", true);
+			jQuery("#check-answer-button").remove();
 		} else {
 			jQuery( "#answercontent" ).hide();
 		}
 
 		jQuery.each(userExercise.user_activity, function(index, value) {
 			var guess = JSON.parse( value[1] ),
-			    solutionarea = jQuery( "<div>" )
-			      .addClass( "user-activity " + value[0] )
-			      .appendTo( readonly );
+				thissolutionarea = jQuery( "<div>" )
+					.addClass( "user-activity " + value[0] )
+					.appendTo( readonly );
+
+			thissolution = solution.clone();
+			thissolutionarea.append(solution);
 
 			if (radio) {
-				solutionarea
-					.click(function() {
+				thissolutionarea
+					.click( function() {
 						validator.showGuess( guess );
-					})
+					} )
 					.append( "<span>Answer " + (index+1) + "</span>" );
 			} else {
-			  var thisvalidator = Khan.answerTypes[answerType]( solutionarea, solution );
-				thisvalidator.showGuess( guess );
+				Khan.answerTypes[answerType]( thissolutionarea, solution ).showGuess( guess );
 			}
 		});
 

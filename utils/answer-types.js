@@ -418,7 +418,7 @@ jQuery.extend( Khan.answerTypes, {
 
 	multiple: function( solutionarea, solution ) {
 		solutionarea = jQuery( solutionarea );
-		solutionarea.append( jQuery( solution ).contents() );
+		solutionarea.append( jQuery( solution ).clone().contents() );
 
 		var solutionArray = [];
 
