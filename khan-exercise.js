@@ -113,8 +113,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
 		+ "Please reference exercise: " + exerciseName + ".",
 	issueSuccess = function( a, b ) {
-		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
-			+ "href=\"" + a + "\">" + b + "</a>, has been created.";
+		return "Thank you for your feedback! Your issue has been created and can be "
+			+ "found at the following link:</p>"
+			+ "<p><a id=\"issue-link\" href=\"" + a + "\">" + b + "</a>";
 	},
 	issueIntro = "Please make sure you report this issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Note: All information provided will become public. Thanks for helping us change education!";
 
@@ -997,6 +998,9 @@ function prepareSite() {
 				// The seed that was used for generating the problem
 				seed: problemSeed,
 
+				// The seed that was used for generating the problem
+				problem_type: problemID,
+
 				// The non-summative exercise that the current problem belongs to
 				non_summative: exercise.data( "name" )
 			};
@@ -1234,18 +1238,23 @@ function prepareSite() {
 		jQuery( "#issue-cancel" ).hide();
 		jQuery( "#issue-throbber" ).show();
 
+		var dataObj = {
+			title: pretitle + " - " + title,
+			body: body,
+			labels: labels
+		};
+
+		// we try to post ot github without a cross-domain request, but if we're
+		// just running the exercises locally, then we can't help it and need
+		// to fall back to jsonp. 
 		jQuery.ajax({
 
 			url: ( testMode ? "http://www.khanacademy.org/" : "/" ) + "githubpost",
 			type: testMode ? "GET" : "POST",
-			data: {
-				json: JSON.stringify({
-					title: pretitle + " - " + title,
-					body: body,
-					labels: labels
-				})
-			},
-			contentType: "application/json",
+			data: testMode
+				? { json: JSON.stringify( dataObj ) }
+				: JSON.stringify( dataObj ),
+			contentType: testMode ? "application/x-www-form-urlencoded" : "application/json",
 			dataType: testMode ? "jsonp" : "json",
 			success: function( json ) {
 
