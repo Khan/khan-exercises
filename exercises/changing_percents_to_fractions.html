@@ -16,7 +16,8 @@
 				<p class="question">Express <var>A</var>% as a fraction. Reduce to lowest terms.</p>
 				<p class="solution" data-type="rational"><var>A / 100</var></p> 
 				<div class="hints">
-					<p><var>A</var>% literally means <var>A</var> per 100, or in fraction form: <code><var>fraction( A , 100 )</var></code></p>
+					<p><var>A</var>% literally means <var>A</var> per 100</p>
+					<p>Putting this in fraction form: <code><var>fraction( A , 100 )</var></code></p>
 					<p data-if="getGCD( A , 100 ) > 1">Reducing to lowest terms, <code><var>fractionReduce( A , 100 )</var></code>.</p>
 				</div>
 			</div>
@@ -26,8 +27,9 @@
 					<var id="A">randRange( 101, 1999 ) / 10</var>
 				</div>
 				<div class="hints">
-					<p><var>A</var>% literally means <var>A</var> per 100, or in fraction form: <code><var>fraction( A , 100 )</var></code></p>
-					<p data-if="A * 10 % 10 != 0">Multiplying top and bottom by 10 to get rid of the decimal: <code><var>fraction( A * 10 , 1000 )</var></code></p>
+					<p><var>A</var>% literally means <var>A</var> per 100</p>
+					<p>Putting this in fraction form: <code><var>fraction( A , 100 )</var></code></p>
+					<p data-if="( A * 10 ) % 10 != 0">Multiplying top and bottom by 10 to get rid of the decimal: <code><var>fraction( A * 10 , 1000 )</var></code></p>
 					<p data-if="getGCD( A * 10 , 1000 ) > 1">Reducing to lowest terms, <code><var>fractionReduce( A * 10 , 1000 )</var></code>.</p>
 				</div>
 			</div>
