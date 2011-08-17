@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Solving for a variable 2</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function color( str, blue ) {
+			var pre = "";
+
+			if ( typeof str === "number" && str < 0 ) {
+				pre = "-";
+				str = Math.abs( str );
+			} else if ( typeof str === "string" && str.indexOf( "-" ) === 0 ) {
+				pre = "-";
+				str = str.slice( 1 );
+			}
+
+			return pre + "\\color{" + ( blue ? "blue" : "green" ) + "}{" + str + "}";
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+
+			<var id="LETTERS">"abcdefghijklmnpqrstuvwxyz"</var>
+			<var id="LETTER">randRange( 0, LETTERS.length - 3 )</var>
+			<var id="X">LETTERS[ LETTER + 0 ]</var>
+			<var id="Y">LETTERS[ LETTER + 1 ]</var>
+			<var id="Z">LETTERS[ LETTER + 2 ]</var>
+
+		</div>
+
+		<div class="problems">
+			<!-- Axy + Bxz + Cx + D = Ey + F -->
+			<div id="ABCD_EF">
+
+				<div class="vars">
+
+					<var id="A">randRangeNonZero( -10, 10 )</var>
+					<var id="B">randRangeNonZero( -10, 10 )</var>
+					<var id="C">randRangeNonZero( -10, 10 )</var>
+					<var id="D">randRangeNonZero( -10, 10 )</var>
+					<var id="E">randRangeNonZero( -10, 10 )</var>
+					<var id="F" data-ensure="D !== F">randRangeNonZero( -10, 10 )</var>
+
+					<var id="ANSWER">function( y1, c, y2, z, d, flip ) {
+						if ( typeof flip === "undefined" ? FLIP : flip ) {
+							y1 = -y1;
+							c = -c;
+							y2 = -y2;
+							z = -z;
+							d = -d;
+						}
+
+						return X + "= \\dfrac{" + plus( y1+Y, c ) + "}{" + plus( y2+Y, z+Z, d ) + "}";
+					}</var>
+
+					<var id="FLIP">(function() {
+						var n = 0,
+							ns = [ E, F-D, A, B, C ];
+
+						for( var i = 0; i < ns.length; i++ ) {
+							(ns[ i ] < 0 ) && n++;
+						}
+
+						return n >= 3;
+					})()</var>
+
+				</div>
+
+				<p class="problem"><code><var>plus( A+X+Y, B+X+Z, C+X, D )</var> = <var>plus( E+Y, F )</var></code></p>
+
+				<p class="question">Solve for <code><var>X</var></code>.</p>
+
+				<p class="solution"><code><var>ANSWER( E, F-D, A, B, C )</var></code></p>
+				<ul class="choices" data-show="4" data-none="true">
+					<li><code><var>ANSWER( E, F+D, A, B, C )</var></code></li>
+					<li><code><var>ANSWER( 0, F-D, A, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, 0, A, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, 0, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, 0, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, B, 0 )</var></code></li>
+					<li><code><var>ANSWER( E+A, F-D, A, B, C )</var></code></li>
+					<li><code><var>ANSWER( E-A, F-D, A, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A+B, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A-B, B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, A+B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, A-B, C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, B, A+C )</var></code></li>
+					<li><code><var>ANSWER( E, F-D, A, B, A-C )</var></code></li>
+				</ul>
+
+
+				<div class="hints">
+
+					<div>
+						<p>Combine constant terms on the right.</p>
+						<p><code><var>plus( A+X+Y, B+X+Z, C+X, color( D, true ) )</var> = <var>plus( E+Y, color( F, true ) )</var></code></p>
+					</div>
+					<p><code><var>plus( A+X+Y, B+X+Z, C+X )</var> = <var>plus( E+Y, color( F-D, true ) )</var></code></p>
+
+					<div>
+						<p>Notice that all the terms on the left-hand side of the equation have <code><var>X</var></code> in them.</p>
+						<p><code><var>plus( A+color( X, false )+Y, B+color( X, false )+Z, C+color( X, false ) )</var> = <var>plus( E+Y, F-D )</var></code></p>
+					</div>
+
+					<p>Factor out the <code><var>X</var></code>.</p>
+
+					<p><code><var>color( X, false )</var> \cdot \left( <var>plus( A+Y, B+Z, C )</var> \right) = <var>plus( E+Y, F-D )</var></code></p>
+
+					<div>
+						<p>Isolate the <code><var>X</var></code>.</p>
+						<p><code><var>X</var> \cdot \left( <var>color( plus( A+Y, B+Z, C ), true )</var> \right)  = <var>plus( E+Y, F-D )</var></code></p>
+					</div>
+					<p><code><var>X</var> = \dfrac{ <var>plus( E+Y, F-D )</var> }{ <var>color( plus( A+Y, B+Z, C ), true )</var> }</code></p>
+
+					<div data-if="FLIP">
+						<p>We can simplify this by multiplying the top and bottom by <code>-1</code>.</p>
+						<p><code><var>ANSWER( E, F-D, A, B, C )</var></code></p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

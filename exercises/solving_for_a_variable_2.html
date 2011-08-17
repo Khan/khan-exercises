@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Solving for a variable 1</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function color( str, blue ) {
+			var pre = "";
+
+			if ( typeof str === "number" && str < 0 ) {
+				pre = "-";
+				str = Math.abs( str );
+			} else if ( typeof str === "string" && str.indexOf( "-" ) === 0 ) {
+				pre = "-";
+				str = str.slice( 1 );
+			}
+
+			return pre + "\\color{" + ( blue ? "blue" : "green" ) + "}{" + str + "}";
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+
+			<var id="LETTERS">"abcdefghijklmnpqrstuvwxyz"</var>
+			<var id="LETTER">randRange( 0, LETTERS.length - 3 )</var>
+			<var id="X">LETTERS[ LETTER + 0 ]</var>
+			<var id="Y">LETTERS[ LETTER + 1 ]</var>
+			<var id="Z">LETTERS[ LETTER + 2 ]</var>
+
+		</div>
+
+		<div class="problems">
+			<!-- Gx(yz) + Ay + Bz + C = Dy + Ez + F -->
+			<!-- The (yz) means that a y or a z may both be included in that term. -->
+			<div id="GABC_DEF">
+
+				<div class="vars">
+
+					<!-- pick random integers for coefficients, making sure that they don't cancel each other out on each side of the equation -->
+					<var id="A">randRangeNonZero( -10, 10 )</var>
+					<var id="B">randRangeNonZero( -10, 10 )</var>
+					<var id="C">randRangeNonZero( -10, 10 )</var>
+					<var id="D" data-ensure="A !== D">randRangeNonZero( -10, 10 )</var>
+					<var id="E" data-ensure="B !== E">randRangeNonZero( -10, 10 )</var>
+					<var id="F" data-ensure="C !== F">randRangeNonZero( -10, 10 )</var>
+					<var id="G">randRangeNonZero( -10, 10 )</var>
+
+					<var id="X_HAS_Y">random() < 0.5</var>
+					<var id="X_HAS_Z">random() < 0.5</var>
+
+					<var id="X_TERM">G + X + ( X_HAS_Y ? Y : "" ) + ( X_HAS_Z ? Z : "" )</var>
+					<var id="X_EXTRAS">( X_HAS_Y ? Y : "" ) + ( X_HAS_Z ? Z : "" )</var>
+
+					<var id="GCD">getGCD( getGCD( abs( G ), abs( D-A ) ), getGCD( abs( E-B ), abs( F-C ) ) )</var>
+					<var id="DIVISOR">( G < 0 ? -1 : 1 ) / GCD</var>
+
+					<var id="ANSWER">function( y, z, c, d ) {
+						return X + "= \\dfrac{" + plus( round( DIVISOR*y )+Y, round( DIVISOR*z )+Z, round( DIVISOR*c ) ) + "}{" + plus( round( DIVISOR*d )+X_EXTRAS ) + "}";
+					}</var>
+
+				</div>
+
+				<p class="problem"><code><var>plus( X_TERM, A+Y, B+Z, C )</var> = <var>plus( D+Y, E+Z, F )</var></code></p>
+
+				<p class="question">Solve for <code><var>X</var></code>.</p>
+
+				<p class="solution"><code><var>ANSWER( D-A, E-B, F-C, G )</var></code></p>
+				<ul class="choices" data-show="4" data-none="true">
+					<li data-if="D+A !== 0"><code><var>ANSWER( D+A, E-B, F-C, G )</var></code></li>
+					<li data-if="E+B !== 0"><code><var>ANSWER( D-A, E+B, F-C, G )</var></code></li>
+					<li data-if="F+C !== 0"><code><var>ANSWER( D-A, E-B, F+C, G )</var></code></li>
+					<li data-if="D+A !== 0 && E+B !== 0"><code><var>ANSWER( D+A, E+B, F-C, G )</var></code></li>
+					<li data-if="D+A !== 0 && F+C !== 0"><code><var>ANSWER( D+A, E-B, F+C, G )</var></code></li>
+					<li data-if="E+B !== 0 && F+C !== 0"><code><var>ANSWER( D-A, E+B, F+C, G )</var></code></li>
+					<li data-if="E+B !== 0 && E+B !== 0 && F+C !== 0"><code><var>ANSWER( D+A, E+B, F+C, G )</var></code></li>
+				</ul>
+
+				<div class="hints">
+
+					<div>
+						<p>Combine constant terms on the right.</p>
+						<p><code><var>plus( X_TERM, A+Y, B+Z, color( C, true ) )</var> = <var>plus( D+Y, E+Z, color( F, true ) )</var></code></p>
+					</div>
+					<p><code><var>plus( X_TERM, A+Y, B+Z )</var> = <var>plus( D+Y, E+Z, color( F-C, true ) )</var></code></p>
+
+					<div>
+						<p>Combine <code><var>Z</var></code> terms on the right.</p>
+						<p><code><var>plus( X_TERM, A+Y, color( B+Z, false ) )</var> = <var>plus( D+Y, color( E+Z, false ), F-C )</var></code></p>
+					</div>
+					<p><code><var>plus( X_TERM, A+Y )</var> = <var>plus( D+Y, color( (E-B)+Z, false ), F-C )</var></code></p>
+
+					<div>
+						<p>Combine <code><var>Y</var></code> terms on the right.</p>
+						<p><code><var>plus( X_TERM, color( A+Y, true ) )</var> = <var>plus( color( D+Y, true ), (E-B)+Z, F-C )</var></code></p>
+					</div>
+					<p><code><var>plus( X_TERM )</var> = <var>plus( color( (D-A)+Y, true ), (E-B)+Z, F-C )</var></code></p>
+
+					<div>
+						<p>Isolate <code><var>X</var></code>.</p>
+						<p><code><var>color( G, false ) + X + color( X_EXTRAS, false )</var> = <var>plus( (D-A)+Y, (E-B)+Z, F-C )</var></code></p>
+					</div>
+					<p><code><var>X</var> = \dfrac{ <var>plus( (D-A)+Y, (E-B)+Z, F-C )</var> }{ <var>plus( color( G, false ) + color( X_EXTRAS, false ) )</var> }</code></p>
+
+					<div data-if="GCD > 1 || G < 0" data-unwrap>
+						<p data-if="GCD > 1">All of these terms are divisible by <code><var>GCD</var></code>.</p>
+						<p data-if="GCD > 1 && G < 0">Divide by the common factor and swap signs so the denominator isn't negative.</p>
+						<p data-else-if="GCD > 1">Divide by the common factor.</p>
+						<p data-else>Swap the signs so the denominator isn't negative.</p>
+						<p><code><var>X</var> = \dfrac{ <var>plus( color( round( DIVISOR*(D-A) ), true )+Y, color( round( DIVISOR*(E-B) ), true )+Z, color( round( DIVISOR*(F-C) ), true ) )</var> }{ <var>plus( color( round( DIVISOR*G )+X_EXTRAS, true ) )</var> }</code></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
