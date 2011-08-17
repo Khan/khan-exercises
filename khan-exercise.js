@@ -1089,7 +1089,7 @@ function prepareSite() {
 	});
 
 	// Watch for when the "Get a Hint" button is clicked
-	jQuery("#hint").live('click', function() {
+	jQuery( "#hint" ).live('click', function() {
 
 		if ( user ) {
 			var hintApproved = window.localStorage[ "hintApproved:" + user ];
@@ -1133,21 +1133,23 @@ function prepareSite() {
 
 			// Don't reset the streak if we've already reset it or if
 			// we've already sent in an answer
-			if ( !doSave || !doHintSave ) {
-				return;
+			if ( doSave && doHintSave ) {
+				if (!(typeof userExercise !== "undefined" && userExercise.read_only)) {
+					request( "reset_streak" );
+				}
+
+				// Make sure we don't reset the streak more than once
+				doHintSave = false;
 			}
+		}
 
-			if (!(typeof userExercise !== "undefined" && userExercise.read_only)) {
-				request( "reset_streak" );
-			}
-
-			// Make sure we don't reset the streak more than once
-			doHintSave = false;
-
+		if (!(typeof userExercise !== "undefined" && userExercise.read_only)) {
+			// Only submit data to server if we are not in readonly mode.
+			// handleSubmit is an event handler but in this case it just
+			// submits data to the server.
+			handleSubmit({data: {type: "hint"}});
 		}
 	});
-
-	jQuery("#hint").click( {type: "hint"}, handleSubmit );
 
 	// On an exercise page, replace the "Report a Problem" link with a button
 	// to be more clear that it won't replace the current page.
