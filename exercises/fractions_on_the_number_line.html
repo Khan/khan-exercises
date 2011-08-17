@@ -2,7 +2,7 @@
 <html data-require="math math-format graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
-	<title>Number line</title>
+	<title>Fractions on the number line</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
 		function compareStringNumber( a, b){
@@ -80,7 +80,7 @@
 
 	<div class="hints">
 		<p data-if="reduces( NOMINATOR, DENOMINATOR )"><code><var>NICE_NUMBER</var></code> is equal to <code><var>REDUCED_NUMBER</var></code> </p>
-		<p data-if="NUMBER !== 0"> Because it is <span data-if="NUMBER > 0">positive</span><span data-else>negative</span> we go <span data-if="NUMBER > 0">right</span><span data-else>left</span></p>
+		<p data-if="NUMBER !== 0"> Because <var>REDUCED_NUMBER</var> is <span data-if="NUMBER > 0">positive</span><span data-else>negative</span> we go <span data-if="NUMBER > 0">right</span><span data-else>left</span></p>
 		<p data-if="round( NUMBER ) !== NUMBER" ><code> <var>REDUCED_NUMBER</var></code> is between <var>floor( NUMBER )</var> and <var>ceil( NUMBER )</var></p>
 		<p data-if="round( NUMBER ) !== NUMBER" >It is closest to <var> round( NUMBER )</var>.</p>
 		 <p data-if="round( NUMBER ) !== NUMBER" ><var>REDUCED_NUMBER</var> is <var>floor( abs( NUMBER ) ) * NUMBER/abs( NUMBER )</var> and <code><var>fraction( ( NOMINATOR - DENOMINATOR * floor( abs( NUMBER) ) ) * NUMBER/abs( NUMBER ) , DENOMINATOR, true, true )</var></code></p>

@@ -255,6 +255,19 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
+	//Get an array of unique random numbers between min and max
+	randRangeUnique: function( min, max, count ) {
+		if ( count == null ) {
+			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
+		} else {
+			var toReturn = [];
+			for ( i = min; i < max; i++ ){
+				toReturn.push( i );
+			}
+			
+			return KhanUtil.shuffle( toReturn, count );
+		}
+	},
 	// Get a random integer between min and max with a perc chance of hitting
 	// target (which is assumed to be in the range, but it doesn't have to be).
 	randRangeWeighted: function( min, max, target, perc ) {
