@@ -772,9 +772,6 @@ function makeProblem( id, seed ) {
 					.addClass( "user-activity " + value[0] )
 					.appendTo( readonly );
 
-			thissolution = solution.clone();
-			//thissolutionarea.append(solution);
-
 			if (radio) {
 				thissolutionarea
 					.click( function() {
