@@ -220,7 +220,7 @@ function analogClock( hour, minute, radius, labelShown ){
 
 		this.set.push( this.graph.line( [ 0.7 * this.radius *  Math.sin( ( this.minute / 60 ) * 2 * Math.PI ), 0.7 * this.radius * Math.cos(  ( this.minute / 60 ) * 2 * Math.PI ) ], [ 0, 0  ] ) );
 		this.set.push( this.graph.circle( [ 0, 0 ], this.radius ) );
-
+		this.set.push( this.graph.circle( [ 0, 0 ], this.radius/ 40 ) );
 		if( labelShown ){
 			this.drawLabels();
 		}
