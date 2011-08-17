@@ -760,8 +760,8 @@ function makeProblem( id, seed ) {
 		readonly.append( "<span class='info-box-subheader'>Answers</span>" );
 
 		if (radio) {
-			jQuery("#solution input:radio").attr("disabled", true);
-			jQuery("#check-answer-button").remove();
+			jQuery( "#solution input:radio" ).attr("disabled", true);
+			jQuery( "#check-answer-button" ).remove();
 		} else {
 			jQuery( "#answercontent" ).hide();
 		}
@@ -1092,7 +1092,7 @@ function prepareSite() {
 	});
 
 	// Watch for when the "Get a Hint" button is clicked
-	jQuery("#hint").click(function() {
+	jQuery("#hint").live('click', function() {
 
 		if ( user ) {
 			var hintApproved = window.localStorage[ "hintApproved:" + user ];
