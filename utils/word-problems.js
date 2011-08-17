@@ -23,19 +23,25 @@ jQuery.extend( KhanUtil, {
 		}
 	},
 
-	// pluralization helper.  There are three signatures
+	// pluralization helper.  There are four signatures
 	// - plural(NUMBER): return "s" if NUMBER is not 1
 	// - plural(NUMBER, singular):
 	//		- if necessary, magically pluralize <singular>
 	//		- return "NUMBER word"
 	// - plural(NUMBER, singular, plural):
 	//		- return "NUMBER word"
+	// - plural(singular, NUMBER):
+	//		- if necessary, magically pluralize <singular>
+	//		- return "word"
 	plural: (function() {
 		var oneOffs = {
 			'quiz': 'quizzes',
 			'shelf': 'shelves',
 			'loaf': 'loaves',
-			'potato': 'potatoes'
+			'potato': 'potatoes',
+			'person': 'people',
+			'is': 'are',
+			'was': 'were'
 		};
 
 		var pluralizeWord = function(word) {
@@ -110,7 +116,8 @@ jQuery.extend( KhanUtil, {
 
 				return value + " " + arg1;
 			} else if ( typeof value === "string" ) {
-				return pluralizeWord(value);
+				var usePlural = (arguments.length < 2 || (typeof arg1 === "number" && arg1 !== 1));
+				return usePlural ? pluralizeWord(value) : value;
 			}
 		};
 	})()
@@ -269,6 +276,11 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"rubber stamp"
 	]);
 
+	var sides = KhanUtil.shuffle([
+		"left",
+		"right"
+	]);
+
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
 			return people[i - 1][0];
@@ -360,6 +372,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		deskItem: function( i ) {
 			return deskItems[i];
+		},
+
+		side: function( i ) {
+			return sides[i - 1];
 		}
 
 	});

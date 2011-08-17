@@ -7,81 +7,88 @@
 </head>
 <body>
 	<div class="exercise">
+		<div class="vars">
+			<var id="TOTAL">randRange( 10, 100 )</var>
+			<var id="NUM1">randRange( 1, TOTAL - 1 )</var>
+			<var id="NUM2">TOTAL - NUM1</var>
+			<var id="ADDITION">randRange( 0, 1 )</var>
+			<var id="SUBTRACTION">ADDITION - 1</var>
+		</div>
+
+
 		<div class="problems">
-			<div>
-
-				<div class="vars">
-					<var id="TOTAL">randRange( 10, 100 )</var>
-					<var id="NUM1">randRange( 1, TOTAL - 1 )</var>
-					<var id="NUM2">TOTAL - NUM1</var>
-				</div>
-
+			<div data-if="SUBTRACTION">
 				<div class="question">
-					There are <var>NUM1</var> people riding on a train.
-					At the last stop <var>NUM2</var> people got off.
+					<p>
+					There <var>plural('was', TOTAL)</var> <var>plural(TOTAL, 'person')</var> riding on a train.
+					At the last stop <var>plural(NUM2, 'person')</var> got off.
+					How many people are riding the train now?
+					</p>
+				</div>
+				<p class="solution">
+					<var>NUM1</var>
+				</p>
+				<div class="hints">
+					<p>
+					<var>plural(TOTAL, 'person')</var> <var>plural('was', TOTAL)</var> riding before the last stop and <var>NUM2</var> of them got off the train, so now
+						there are <var>TOTAL</var> - <var>NUM2</var> <var>plural('person')</var> on the train.
+					</p>
+				</div>
+			</div>
+
+			<div data-if="ADDITION">
+				<div class="question">
+					<p>
+					There <var>plural('is', NUM1)</var> <var>plural(NUM1, 'person')</var> riding on a train.
+					At the last stop <var>plural(NUM2, 'person')</var> got off.
 					How many people were riding the train altogether?
+					</p>
 				</div>
-
-				<p class="solution"><var>TOTAL</var></p>
-
+				<p class="solution">
+					<var>TOTAL</var>
+				</p>
 				<div class="hints">
 					<p>
-						<var>NUM1</var> people are riding now and <var>NUM2</var> other people were riding before the last stop,
-						so there were <code><var>NUM1</var> + <var>NUM2</var></code> people on the train.
-					</p>
-
-					<p>
-						<code><var>NUM1</var> + <var>NUM2</var> = <var>TOTAL</var></code>
+					<var>plural(NUM1, 'person')</var> <var>plural('is', NUM1)</var> riding now and 
+					another <var>plural(NUM2, 'person')</var> <var>plural('was', NUM2)</var> riding before the last stop,
+					so there were <var>NUM1</var> + <var>NUM2</var> <var>plural('person')</var> on the train.
 					</p>
 				</div>
 			</div>
 
-			<div>
-
-				<div class="vars" data-ensure="NUM1 < 60 && NUM2 < 60">
-					<var id="TOTAL">randRange( 10, 100 )</var>
-					<var id="NUM1">randRange( 1, TOTAL - 1 )</var>
-					<var id="NUM2">TOTAL - NUM1</var>
-				</div>
-
+			<div data-if="ADDITION">
 				<div class="question">
-					There are <var>plural(NUM1, bird(1))</var> sitting in a tree.
-					There are <var>NUM2</var> more <var>plural(bird(1))</var> sitting on a house.
-					How many <var>plural(bird(1))</var> are there altogether?
+					<p>
+					There <var>plural('is', NUM1)</var> <var>plural(NUM1, 'tree')</var> on the right bank of a river and <var>plural(NUM2, 'tree')</var> on the left bank.
+					How many trees are on the banks of the river?
+					</p>
 				</div>
-
-				<p class="solution"><var>TOTAL</var></p>
-
+				<p class="solution">
+					<var>TOTAL</var>
+				</p>
 				<div class="hints">
 					<p>
-						<code><var>NUM1</var> + <var>NUM2</var> = <var>TOTAL</var></code>
+						The total number of trees on the banks of the river is the number of trees on the left bank plus the number of trees on the right bank.
 					</p>
 				</div>
 			</div>
 
-			<div>
-
-				<div class="vars">
-					<var id="TOTAL">randRange( 10, 100 )</var>
-					<var id="NUM1">randRange( 1, TOTAL - 1 )</var>
-					<var id="NUM2">TOTAL - NUM1</var>
-				</div>
-
+			<div data-if="SUBTRACTION">
 				<div class="question">
-					<var>person(1)</var>'s farm grew <var>plural(NUM1, veggie(1))</var> last year.
-					<var>His(1)</var> farm grew <var>plural(NUM2, veggie(1))</var> this year.
-					How many <var>plural(veggie(1))</var> did <var>he(1)</var> grow in both years combined?
+					<p>
+					There <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'tree')</var> on the banks of the river. The <var>side(1)</var> bank has <var>NUM2</var> of them.
+					How many trees are on the <var>side(2)</var> bank of the river?
+					</p>
 				</div>
-
-				<p class="solution"><var>TOTAL</var></p>
-
+				<p class="solution">
+					<var>NUM1</var>
+				</p>
 				<div class="hints">
 					<p>
-						<code><var>NUM1</var> + <var>NUM2</var> = <var>TOTAL</var></code>
+					The number of trees on the <var>side(2)</var> bank of the river is the total number of trees on the banks of the river minus the number of trees on the <var>side(1)</var> bank.
 					</p>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </body>
