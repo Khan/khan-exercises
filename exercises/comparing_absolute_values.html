@@ -4,6 +4,31 @@
 	<meta charset="UTF-8" />
 	<title>Comparing absolute values</title>
 	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript"> 
+		function drawNumberLine( NUM ) {
+			var graph = KhanUtil.currentGraph;
+	
+			graph.init({
+				range: [ [-1, 11], [-1, 1] ],
+			});
+			var start = 0;
+			var end = 10;
+			var originX = 0;
+			var x = Math.abs( NUM );
+			if ( NUM < 0 ) {
+				start = -10;
+				end = 0;
+				originX = 10;
+				x = 10 - x;
+			}
+			numberLine( start, end );
+			graph.style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+			graph.path( [ [ originX, 0 ], [ x, 0 ] ] );
+			graph.circle( [ originX, 0 ], 0.10 );
+			graph.style({ stroke: "#6495ED", fill: "#6495ED" });
+			graph.pt = graph.circle( [ x, 0 ], 0.15 );
+		}
+	</script>
 </head>
 <body>
 	<!--
@@ -13,28 +38,30 @@
 		<div class="problems">
 			<div id="inequalities">
 				<div class="vars">
-					<var id="ABS_1">rand(3) > 0 ? "|" : ""</var>
-					<var id="ABS_2">ABS_1 === "" ? "|" : randFromArray([ "", "|", ])</var>
-					<div data-ensure="NUM_1_VALUE !== NUM_2_VALUE">
-						<var id="NUM_1">randRange(-10, 10)</var>
-						<var id="NUM_2">( NUM_1 < 0 ) ? randRange(0, 10) : randRange(-10, -1)</var>
-						<var id="NUM_1_VALUE">ABS_1 ? abs( NUM_1 ) : NUM_1</var>
-						<var id="NUM_2_VALUE">ABS_2 ? abs( NUM_2 ) : NUM_2</var>
-						<var id="HINT_1">(function() {
-							var hint = "";
+					<var id="ABS_1, ABS_2">randFromArray([[ "|", "|", ], [ "|", "", ], [ "", "|", ]])</var>
+					<var id="NUM_1">randRange(-10, 10)</var>
+					<var id="NUM_2">( NUM_1 < 0 ) ? randRange(0, 10) : randRange(-10, -1)</var>
+					<var id="NUM_1_VALUE">ABS_1 ? abs( NUM_1 ) : NUM_1</var>
+					<var id="NUM_2_VALUE">ABS_2 ? abs( NUM_2 ) : NUM_2</var>
+					<var id="HINT_1">(function() {
+						var hint = "";
 
-							if ( ABS_1 ) {
-								hint += "|" + NUM_1 + "| = " + NUM_1_VALUE + ( ABS_2 ? ", " : "" );
-							}
+						if ( ABS_1 ) {
+							hint += "|" + NUM_1 + "| = " + NUM_1_VALUE + ( ABS_2 ? ", " : "" );
+						}
 
-							if ( ABS_2 ) {
-								hint += "|" + NUM_2 + "| = " + NUM_2_VALUE;
-							}
+						if ( ABS_2 ) {
+							hint += "|" + NUM_2 + "| = " + NUM_2_VALUE;
+						}
 
-							return hint;
-						})()</var>
-					</div>
-					<var id="SOLUTION">NUM_1_VALUE > NUM_2_VALUE ? "&gt;" : "&lt;"</var>
+						return hint;
+					})()</var>
+					<var id="SOLUTION">(function() {
+						if ( NUM_1_VALUE === NUM_2_VALUE ) {
+							return "=";
+						}
+						return NUM_1_VALUE < NUM_2_VALUE ? "&lt;" : "&gt;";
+					})()</var>
 				</div>
 
 				<div class="problem">
@@ -47,54 +74,17 @@
 				<ul class="choices" data-category="true">
 					<li>&lt;</li>
 					<li>&gt;</li>
+					<li>=</li>
 				</ul>
 				<div class="hints">
-					<div class="graphie" data-if="ABS_1">
-						init({
-							range: [ [-1, 11], [-1, 1] ]
-						});
-						var start = 0;
-						var end = 10;
-						var originX = 0;
-						var x = abs( NUM_1 );
-						if ( NUM_1 < 0 ) {
-							start = -10;
-							end = 0;
-							originX = 10;
-							x = 10 - x;
-						}
-						numberLine( start, end );
-						style({ stroke: "#6495ED", fill: "#6495ED" });
-						graph.pt = circle( [ x, 0 ], 0.15 );
-						style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
-						path( [ [ originX, 0 ], [ x, 0 ] ] );
-						circle( [ originX, 0 ], 0.10 );
-						graph.pt.toFront();
+					<div class="graphie" data-if="ABS_1 === '|'">
+						drawNumberLine( NUM_1 );
 					</div>
-					<div class="graphie" data-if="ABS_2">
-						init({
-							range: [ [-1, 11], [-1, 1] ]
-						});
-						var start = 0;
-						var end = 10;
-						var originX = 0;
-						var x = abs( NUM_2 );
-						if ( NUM_1 < 0 ) {
-							start = -10;
-							end = 0;
-							originX = 10;
-							x = 10 - x;
-						}
-						numberLine( start, end );
-						style({ stroke: "#6495ED", fill: "#6495ED" });
-						graph.pt = circle( [ x, 0 ], 0.15 );
-						style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
-						path( [ [ originX, 0 ], [ x, 0 ] ] );
-						circle( [ originX, 0 ], 0.10 );
-						graph.pt.toFront();
+					<div class="graphie" data-if="ABS_2 === '|'">
+						drawNumberLine( NUM_2 );
 					</div>
 					<p><code><var>HINT_1</var></code></p>
-					<p>Is <var>NUM_1_VALUE</var> less than or greater than <var>NUM_2_VALUE</var>?</p>
+					<p>Is <var>NUM_1_VALUE</var> less than, greater than, or equal to <var>NUM_2_VALUE</var>?</p>
 					<p><code><var>NUM_1_VALUE</var> <var>SOLUTION</var> <var>NUM_2_VALUE</var></code></p>
 					<p><code><var>ABS_1</var><var>NUM_1</var><var>ABS_1</var> <var>SOLUTION</var> <var>ABS_2</var><var>NUM_2</var><var>ABS_2</var></code></p>
 				</div>
