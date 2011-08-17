@@ -6,18 +6,18 @@
 </head>
 <body>
 	<div class="exercise">
-	    <div class="vars" data-ensure="(A != 0) && -10<C && C<10">
+	    <div class="vars" data-ensure="( A != 0 ) && -10 < C && C < 10 ">
 	      // Pick a random top point and coeffecient A
 	      // This makes it easy to spot whether B is zero or not.
-	      <var id="A"> randRange(-5, 5) </var>
+	      <var id="A"> randRange( -5, 5 ) </var>
 	      // Top = (H,K)
-	      <var id="H"> randRange(-5, 5) </var>
-	      <var id="K"> randRange(-5, 5) </var>
+	      <var id="H"> randRange( -5, 5 )</var>
+	      <var id="K"> randRange( -5, 5 )</var>
 	      // Calculate B and C from A, H and K
 	      // y = A*(x-H)^2 + K = A(x^2-2Hx+H^2) + K = Ax^2 -2AHx + A*H^2+K
-	      <var id="B">-2*A*H</var>
-	      <var id="C">A*H*H+K </var>
-	      <var id="F">(function(x){ return B*x+C; })</var>
+	      <var id="B">-2 * A * H</var>
+	      <var id="C">A * H * H + K</var>
+	      <var id="F">( function( x ){ return B * x + C; })</var>
 	      <var id="DrawTangent">"initialized later"</var> // The body must be in the scope of "grid"
 	    </div>
 	    
@@ -33,14 +33,14 @@
 			      grid( [ -10, 10 ], [ -10, 10 ], { stroke: "#e2e2e2" });
 			      // draw axes
 			      style({ stroke: "#000000", strokeWidth: 2 });
-			      path( [ [-10,  0], [10,  0 ] ] );
-			      path( [ [0,  -10], [ 0, 10 ] ] );
+			      path( [ [ -10,  0 ], [ 10,  0 ] ] );
+			      path( [ [ 0,  -10 ], [ 0, 10 ] ] );
 			      // graph
 			      style({ stroke: "#FF0000", strokeWidth: 2});
-			      plot( function(x) { return <var>A</var>*x*x + <var>B</var>*x + <var>C</var> }, [-10,10] );
+			      plot( function(x) { return <var>A</var>*x*x + <var>B</var>*x + <var>C</var> }, [ -10,10 ] );
 			      DrawTangent = function(){
 			          style({ stroke: "#FF8800", strokeWidth: 2});
-			          line( [-10,F(-10)], [10,F(10)]);
+			          line( [ -10, F( -10 )], [ 10, F( 10 )]);
 			          return "";
 			      };
 			  </div>
@@ -56,10 +56,10 @@
   	          <div class="hints">
 		      <p>The number <code>a</code> determines how the legs are oriented. Is the parabola smiling or frowning?</p>
 		      <p>A smiling parabola means <code>a</code> is positive and a frowning parabola means <code>a</code> is negative.</p>
-		      <p>The parabola is <var>(A>0)?"smiling":"frowning"</var> thus <code>a</code> is <var>(A>0)?"posittve":"negative"</var>.</p>
+		      <p>The parabola is <var>( A > 0) ? "smiling" : "frowning"</var> thus <code>a</code> is <var>( A > 0 ) ? "posittve" : "negative"</var>.</p>
 		      <p>The number <code>c</code> determines where the parabola intersects the <code>y</code>-axis. Is the positive or negative part?</p>
-		      <p>If the parabola is intersects the positive part of the <code>y</code>-axis, then <code>c</code> is positive.</p>
-		      <p>The parabola is intersects the <code>y</code>-axis in the point <code>(0,c) = (0,<var>C</var>)</code>, thus <code>c</code> is <var>(C>0) ? 'positive' : ( (C<0) ? 'negative' : 'zero' )</var>.</p>
+		      <p>If the parabola intersects the positive part of the <code>y</code>-axis, then <code>c</code> is positive.</p>
+		      <p>The parabola intersects the <code>y</code>-axis in the point <code>(0,c) = (0,<var>C</var>)</code>, thus <code>c</code> is <var>( C > 0 ) ? 'positive' : ( (C<0) ? 'negative' : 'zero' )</var>.</p>
 		      <p>The number <code>b</code> determines how the parabola intersects the <code>y</code>-axis. Imagine the tangent at the intersection. What is the slope?</p>
 		      <div class="graphie" data-update="grid"> DrawTangent() </div>
 		      <p>The tangent where the parabola intersects the <code>y</code>-axis was drawn in orange. The number <code>b</code> is the slope.</p>
