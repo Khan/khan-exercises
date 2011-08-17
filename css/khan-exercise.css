@@ -72,7 +72,7 @@ var, div.graphie { white-space: pre; }
   background-color: #b0ffad;
 }
 
-.incorrect-activity {
+.incorrect-activity, .unavailable-activity {
   background-color: #f5a68c;
 }
 

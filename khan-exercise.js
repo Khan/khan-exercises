@@ -767,7 +767,7 @@ function makeProblem( id, seed ) {
 		}
 
 		jQuery.each(userExercise.user_activity, function(index, value) {
-			var guess = JSON.parse( value[1] ),
+			var guess = value[1] === "Activity Unavailable" ? value[1] : JSON.parse( value[1] ),
 				thissolutionarea = jQuery( "<div>" )
 					.addClass( "user-activity " + value[0] )
 					.appendTo( readonly );
@@ -782,7 +782,11 @@ function makeProblem( id, seed ) {
 					} )
 					.append( "<span>Answer " + (index+1) + "</span>" );
 			} else {
-				Khan.answerTypes[answerType]( thissolutionarea, solution ).showGuess( guess );
+				if (guess === "Activity Unavailable") {
+					thissolutionarea.text( guess );
+				} else {
+					Khan.answerTypes[answerType]( thissolutionarea, solution ).showGuess( guess );
+				}
 			}
 		});
 
@@ -797,16 +801,15 @@ function makeProblem( id, seed ) {
 				.remove()
 				.end()
 			.append(
-			"<span>Hints</span>\
+				"<span>Hints</span>\
 				<span class='info-box-sub-description' style='margin-bottom:0'>" +
-				((userExercise.count_hints !== undefined)
-				 	? userExercise.count_hints
+					((userExercise.count_hints !== undefined)
+					? userExercise.count_hints + " hints used"
 					: "Hints data unavailable") +
-				" hints used\
-		 	 </span>"
+				"</span>"
 			)
-			.append( 
-			"<span class='info-box-sub-description'>View hints (will not reset your streak):</span> \
+			.append(
+				"<span class='info-box-sub-description'>View hints (will not reset your streak):</span> \
 				<input id='hint' type='button' class='button orange' \
 				value='I\'d like a hint' name='hint'/>"
 			)
@@ -895,7 +898,7 @@ function makeProblem( id, seed ) {
 	attempts = 0;
 	lastAction = (new Date).getTime();
 
-	jQuery("#hint").val( "I'd like a hint" );
+	jQuery( "#hint" ).val( "I'd like a hint" );
 
 	if ( once ) {
 		updateData();
@@ -935,40 +938,39 @@ function prepareSite() {
 	function handleSubmit( e ) {
 		var pass = validator();
 
-    // We are submitting either an answer or a hint
-    var isAnswer = e.data.type === "answer";
+		// We are submitting either an answer or a hint
+		var isAnswer = e.data.type === "answer";
 
+		if (isAnswer) {
+			// Stop if the user didn't enter a response
+			if ( jQuery.trim( validator.guess ) === "" ) {
+				return false;
+			}
 
-    if (isAnswer) {
-      // Stop if the user didn't enter a response
-      if ( jQuery.trim( validator.guess ) === "" ) {
-        return false;
-      }
+			// Stop if the form is already disabled and we're waiting for a response.
+			if ( jQuery( "#answercontent input" ).is( ":disabled" )) {
+				return false;
+			}
 
-      // Stop if the form is already disabled and we're waiting for a response.
-      if ( jQuery( "#answercontent input" ).is( ":disabled" )) {
-        return false;
-      }
+			jQuery( "#throbber" ).show();
+			jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
+			jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
+			jQuery( "#check-answer-results p" ).hide();
 
-      jQuery( "#throbber" ).show();
-      jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
-      jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
-      jQuery( "#check-answer-results p" ).hide();
-
-      // Figure out if the response was correct
-      if ( pass === true ) {
-        jQuery("#happy").show();
-        jQuery("#sad").hide();
-      } else {
-        jQuery("#happy").hide();
-        jQuery("#sad").show();
-
-        // Is this a message to be shown?
-        if ( typeof pass === "string" ) {
-          jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
-        }
-      }
-    }
+			// Figure out if the response was correct
+			if ( pass === true ) {
+				jQuery("#happy").show();
+				jQuery("#sad").hide();
+			} else {
+				jQuery("#happy").hide();
+				jQuery("#sad").show();
+			
+				// Is this a message to be shown?
+				if ( typeof pass === "string" ) {
+					jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
+				}
+			}
+		}
 
 		// The user checked to see if an answer was valid
 
