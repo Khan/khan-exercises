@@ -65,14 +65,13 @@
 				opacity:0.5;
 				min-width: 0px;
 			}
-			
+
 			.hint_box3_cell {
 				border: 2px solid black;
 				background: purple;
 				min-width: 0px;
 			}
-			
-			
+
 		</style>
 		<script type="text/javascript">
 			/*
@@ -97,12 +96,12 @@
 
 				table.append( "<tbody/>" );
 				var tbody = table.find("tbody");
-				
+
 				var rowHeight = table.height() / denominator;
 
 				for( i=0; i < denominator - numerator; i++ ) {
 					tbody.append( "<tr><td class=\"hint_empty_cell\" style=\"min-width:0px\"/></tr>" )
-						.height(rowHeight);					
+						.height(rowHeight);
 				}
 				for( i=0; i < numerator; i++ ) {
 					tbody.append( "<tr><td class=\"hint_box1_cell\" style=\"min-width:0px\"/></tr>" )
@@ -171,8 +170,8 @@
 					if( idPrefix != null ) {
 						idToUse = idPrefix + "-" + i;
 					}
-					
-					tablesSrc += "<span class=\"padded_span\">" 
+
+					tablesSrc += "<span class=\"padded_span\">"
 						+ createHorizTable( 1, 1, idToUse, className, boxClass )
 						+ "</span>";
 				}
@@ -190,8 +189,8 @@
 					if( idPrefix != null ) {
 						idToUse = idPrefix + "-" + i;
 					}
-					
-					tablesSrc += createHorizTable( numerator, denominator, idToUse, 
+
+					tablesSrc += createHorizTable( numerator, denominator, idToUse,
 							"hint_diagram_table_overlay_small" );
 				}
 				return tablesSrc;
@@ -208,8 +207,8 @@
 					if( idPrefix != null ) {
 						idToUse = idPrefix + "-" + i;
 					}
-					
-					tablesSrc += createVertTable( numerator, denominator, idToUse, 
+
+					tablesSrc += createVertTable( numerator, denominator, idToUse,
 							"hint_diagram_table_overlay_small" );
 				}
 				return tablesSrc;
@@ -230,9 +229,9 @@
 
 
 			/*
-			 * Takes a mixed number (positive) and reduces it to a simplified 
+			 * Takes a mixed number (positive) and reduces it to a simplified
 			 * mixed number stored in an object.
-			 * @return object of form {whole:x, numerator:y, denominator:z} 
+			 * @return object of form {whole:x, numerator:y, denominator:z}
 			 */
 			function simplifyFraction( wholeNumber, numerator, denominator ) {
 				var wholeNum = Math.floor( numerator / denominator ) + wholeNumber;
@@ -240,7 +239,7 @@
 				var gcd = KhanUtil.getGCD( remainder, denominator );
 				var newNum = remainder / gcd;
 				var newDenom = denominator / gcd;
-				
+
 				return {
 						whole: wholeNum,
 						numerator: ( remainder / gcd ),
@@ -266,7 +265,7 @@
 						<var id="B_NUMERATOR">randRange(1, 4)</var>
 						<var id="B_DENOMINATOR">B_NUMERATOR + randRange(1, 4)</var>
 						<var id="GCD">
-							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMERATOR ), 
+							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMERATOR ),
 								( A_DENOMINATOR * B_DENOMINATOR ))
 						</var>
 						<var id="TABLE_A">
@@ -276,18 +275,18 @@
 							createHorizTable( B_NUMERATOR, B_DENOMINATOR, null, null )
 						</var>
 						<var id="TABLE_A_HINT">
-							createVertTable( A_NUMERATOR, A_DENOMINATOR, 'box1', 
+							createVertTable( A_NUMERATOR, A_DENOMINATOR, 'box1',
 								'hint_diagram_table_overlay' )
 						</var>
 						<var id="TABLE_B_HINT">
-							createHorizTable( B_NUMERATOR, B_DENOMINATOR, 'box2', 
+							createHorizTable( B_NUMERATOR, B_DENOMINATOR, 'box2',
 								'hint_diagram_table_overlay' )
 						</var>
 						<var id="SIMP_TABLE">
 							createHorizTable( A_NUMERATOR * B_NUMERATOR / GCD,
-								A_DENOMINATOR * B_DENOMINATOR / GCD, 'simp_frac', "hint_diagram_table_big", 
+								A_DENOMINATOR * B_DENOMINATOR / GCD, 'simp_frac', "hint_diagram_table_big",
 								"hint_box3_cell" )
-						</var>	
+						</var>
 					</div>
 
 					<div class="question">
@@ -299,7 +298,7 @@
 											<code>
 												\huge{
 													<var>fraction( A_NUMERATOR, A_DENOMINATOR )</var>
-												}												
+												}
 											</code>
 										</td>
 										<td class="centered_cell">
@@ -338,11 +337,11 @@
 								Another way to word this problem is:
 							</p>
 							<p>
-								What is 
+								What is
 								<code>
 									<var>fraction( A_NUMERATOR, A_DENOMINATOR )</var>
-								</code> 
-								of 
+								</code>
+								of
 								<code>
 									<var>fraction( B_NUMERATOR, B_DENOMINATOR )</var>
 								</code> ?
@@ -351,36 +350,36 @@
 
 						<div id="problem1-hint2-div">
 							<p data-if="ISMSIE == false">
-								If we overlay one on top of the other, notice the total number 
+								If we overlay one on top of the other, notice the total number
 								of boxes in the grid equal to
-							 	<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var> 
-									= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>, 
-								the product of the denominators.  
-								The number of boxes where the two intersect is equal to 
+							 	<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
+									= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>,
+								the product of the denominators.
+								The number of boxes where the two intersect is equal to
 								<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var>
-									= <var>A_NUMERATOR * B_NUMERATOR</var></code>, 
-								the product of the 2 numerators.  
-								So our unsimplified answer is: 
+									= <var>A_NUMERATOR * B_NUMERATOR</var></code>,
+								the product of the 2 numerators.
+								So our unsimplified answer is:
 								<code>
 									<var>
-										fraction( A_NUMERATOR * B_NUMERATOR, 
+										fraction( A_NUMERATOR * B_NUMERATOR,
 											A_DENOMINATOR * B_DENOMINATOR )
 									</var>
 								</code>.
 							</p>
 							<p data-else>
-								We can calculate the new denominator by the product of the 
+								We can calculate the new denominator by the product of the
 								denominators of the two numbers.
-							 	<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var> 
-									= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>.  
-								The new numerator is equal to 
+							 	<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
+									= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>.
+								The new numerator is equal to
 								<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var>
-									= <var>A_NUMERATOR * B_NUMERATOR</var></code>, 
-								the product of multiplying the 2 numerators.  
-								So our unsimplified answer is: 
-								<code>									
+									= <var>A_NUMERATOR * B_NUMERATOR</var></code>,
+								the product of multiplying the 2 numerators.
+								So our unsimplified answer is:
+								<code>
 									<var>
-										fraction( A_NUMERATOR * B_NUMERATOR, 
+										fraction( A_NUMERATOR * B_NUMERATOR,
 											A_DENOMINATOR * B_DENOMINATOR )
 									</var>
 								</code>.
@@ -394,24 +393,24 @@
 								jQuery(document).ready(function(){
 									// Scroll the hint into view.
 									scrollIntoView( "#problem1-hint2-div");
-									
+
 									// animate the right box overlaying over the left one.
 									jQuery("#box2").css("left", 300);
 									jQuery("#box2").animate({left: "0"}, 5000);
 								});
 							</script>
-						</div>	<!-- End of hint 2 div -->	
+						</div>	<!-- End of hint 2 div -->
 						<div id="problem1-hint3-div">
 							<p data-if="GCD > 1">
 								This can be further simplified to
 								<code>
 									<var>
-										fraction( A_NUMERATOR * B_NUMERATOR / GCD, 
+										fraction( A_NUMERATOR * B_NUMERATOR / GCD,
 											A_DENOMINATOR * B_DENOMINATOR / GCD )
 									</var>
-								</code>, 
-								by dividing both top and bottom by it's common denominator 
-								<var>GCD</var>.								
+								</code>,
+								by dividing both top and bottom by it's common denominator
+								<var>GCD</var>.
 							</p>
 							<p data-else>
 								This fraction cannot be further simplified.
@@ -422,7 +421,7 @@
 							<div id="problem1-hint3-box-div2" style="display:none"
 								data-if="ISMSIE == false">
 								<var>SIMP_TABLE</var>
-							</div>	
+							</div>
 							<script type="text/javascript" data-if="ISMSIE == false">
 								jQuery(document).ready(function(){
 									// Scroll the hint into view.
@@ -440,8 +439,8 @@
 										jQuery( "#problem1-hint3-box-div" ).append( oldHintBox );
 
 										jQuery( "#simp_frac td" ).css( 'padding', 0 );
-										
-										// fade out the original boxes while fading in 
+
+										// fade out the original boxes while fading in
 										// the simplified mixed fraction.
 										jQuery( "#problem1-hint2-box-div" ).fadeOut( 3000,
 												function() {
@@ -450,13 +449,13 @@
 												jQuery( "#problem1-hint3-box-div2" )
 												.css( 'opacity', 1 );
 											} );
-											
+
 										} );
-									} else {										
+									} else {
 										jQuery( "#problem1-hint3-box-div2" ).css( 'opacity', 1 );
 										jQuery( "#problem1-hint3-box-div2" )
 											.css( 'display', 'block' );
-									}									
+									}
 								});
 							</script>
 						</div>
@@ -485,13 +484,13 @@
 						</var>
 						<var id="TABLES_B_HINT">
 							createNBoxesOverlayHoriz( B_NUMBER, 'box2', 1, 1 )
-						</var>						
-						<var id="SIMP_TABLES">createNBoxes( SIMPLIFIED.whole, null, null, 
-							"hint_box3_cell" )  
-							+ (SIMPLIFIED.numerator > 0 ? createHorizTable( SIMPLIFIED.numerator, 
-								SIMPLIFIED.denominator, 'simp_frac', null, 
+						</var>
+						<var id="SIMP_TABLES">createNBoxes( SIMPLIFIED.whole, null, null,
+							"hint_box3_cell" )
+							+ (SIMPLIFIED.numerator > 0 ? createHorizTable( SIMPLIFIED.numerator,
+								SIMPLIFIED.denominator, 'simp_frac', null,
 								"hint_box3_cell" ) : "")
-						</var>					
+						</var>
 					</div>
 
 					<div class="question">
@@ -510,7 +509,7 @@
 										<td class="centered_cell">
 											<code>
 												\huge{<var>B_NUMBER</var>}
-											</code>	
+											</code>
 										</td>
 										<td class="centered_cell">
 											<code>\huge{ = \space ?}</code>
@@ -540,7 +539,7 @@
 								Another way of wording this problem is:
 							</p>
 							<p>
-								What is 
+								What is
 								<code><var>fraction( A_NUMERATOR, A_DENOMINATOR)</var></code>
 								of <var>B_NUMBER</var> ?
 							</p>
@@ -548,26 +547,26 @@
 
 						<div id="problem2-hint2-div">
 							<p data-if="ISMSIE == false">
-								Notice that if we count overlapping boxes, we have 
+								Notice that if we count overlapping boxes, we have
 								<code><var>A_NUMERATOR</var> \times <var>B_NUMBER</var>
-									= <var>A_NUMERATOR * B_NUMBER</var></code> 
-								pieces, the product of the numerator times the whole 
-								number. Each box is divided into <var>A_DENOMINATOR</var>  
-								equal pieces of <code><var>fraction( 1, A_DENOMINATOR )</var></code> 
-								size. This makes the unsimplified answer 
+									= <var>A_NUMERATOR * B_NUMBER</var></code>
+								pieces, the product of the numerator times the whole
+								number. Each box is divided into <var>A_DENOMINATOR</var>
+								equal pieces of <code><var>fraction( 1, A_DENOMINATOR )</var></code>
+								size. This makes the unsimplified answer
 								<code>
 									<var>fraction( A_NUMERATOR * B_NUMBER, A_DENOMINATOR )</var>
 								</code>.
 							</p>
 							<p data-else>
-								We can calculate the new numerator by  multiplying the numerator 
-								of the 1st number with the 2nd number, 
+								We can calculate the new numerator by  multiplying the numerator
+								of the 1st number with the 2nd number,
 								<code><var>A_NUMERATOR</var> \times <var>B_NUMBER</var>
 									= <var>A_NUMERATOR * B_NUMBER</var></code>.
 								We can then just take the denominator of the first number,
-								<var>A_DENOMINATOR</var>}</code>, because <var>B_NUMBER</var> is 
+								<var>A_DENOMINATOR</var>}</code>, because <var>B_NUMBER</var> is
 								equivalent to <code><var>fraction( B_NUMBER, 1 )</var></code>.
-								This makes the unsimplified answer 
+								This makes the unsimplified answer
 								<code>
 									<var>fraction( A_NUMERATOR * B_NUMBER, A_DENOMINATOR )</var>
 								</code>.
@@ -582,10 +581,10 @@
 										// Scroll the hint into view.
 										scrollIntoView("#problem2-hint2-div");
 
-										// Get the <var> value of B_NUMBER indirectly by 
+										// Get the <var> value of B_NUMBER indirectly by
 										// querying for generated boxes.
 										var bNumber = 1;
-										while( bNumber < 10 ) {											
+										while( bNumber < 10 ) {
 											if ( jQuery( "#box2-" + bNumber ).length < 1 ) {
 												break;
 											} else {
@@ -618,18 +617,18 @@
 						<div id="problem2-hint3-div">
 							<p data-if="GCD > 1">
 								This can be further simplified to
-								<code>									
-									<var>fraction(A_NUMERATOR * B_NUMBER / GCD, 
+								<code>
+									<var>fraction(A_NUMERATOR * B_NUMBER / GCD,
 										A_DENOMINATOR / GCD)</var>
-								</code>, 
-								by dividing both top and bottom by it's common denominator 
-								<var>GCD</var>.							
+								</code>,
+								by dividing both top and bottom by it's common denominator
+								<var>GCD</var>.
 							</p>
 							<p data-if="SIMPLIFIED.whole > 0" >
-									We can further simplify the expression by dividing the 
-									numerator by the denominator, and taking the part that 
-									divided evenly out of the fraction and leave the 
-									remainder as a fraction. This makes the simplified answer 
+									We can further simplify the expression by dividing the
+									numerator by the denominator, and taking the part that
+									divided evenly out of the fraction and leave the
+									remainder as a fraction. This makes the simplified answer
 									<code>
 										<var>
 											mixedFraction( SIMPLIFIED.whole, SIMPLIFIED.numerator,
@@ -655,10 +654,10 @@
 
 									// Needed to override padding set by khan.css
 									jQuery( "#simp_frac td" ).css( 'padding', 0 );
-									
+
 									// Scroll the hint into view.
-									scrollIntoView("#problem2-hint3-div");							
-									
+									scrollIntoView("#problem2-hint3-div");
+
 									// Skip simplifiation animation in Chrome.  A bug in Chrome
 									// breaks rearranging the DOM in this way.
 									var is_chrome = navigator.userAgent.toLowerCase()
@@ -667,12 +666,12 @@
 									if( !is_chrome ) {
 										// move the old hint box to this hint.
 										jQuery( "#problem2-hint3-box-div" ).append( oldHintBox );
-	
-										// fade out the original boxes while fading in 
+
+										// fade out the original boxes while fading in
 										// the simplified mixed fraction.
 										jQuery( "#problem2-hint2-box-div" ).fadeOut( 3000,
 											function() {
-												jQuery( "#problem2-hint3-box-div2" ).fadeIn( 3000, 
+												jQuery( "#problem2-hint3-box-div2" ).fadeIn( 3000,
 													function() {
 														jQuery( "#problem2-hint3-box-div2" )
 															.css( 'opacity', 1 );
@@ -686,24 +685,24 @@
 								});
 							</script>
 						</div>
-						
+
 					</div><!-- End of hints -->
 				</div><!-- End of problem 2 -->
 
 				<div id="fraction-with-mixed-number">
-					<div class="vars" data-ensure="(A_DENOMINATOR * B_DENOMINATOR) < 9">				
+					<div class="vars" data-ensure="(A_DENOMINATOR * B_DENOMINATOR) < 9">
 						<var id="A_NUMERATOR">randRange(1, 3)</var>
 						<var id="A_DENOMINATOR">A_NUMERATOR + randRange(1, 3)</var>
 						<var id="B_NUMBER">randRange(1, 3)</var>
 						<var id="B_NUMERATOR">randRange(1, 3)</var>
 						<var id="B_DENOMINATOR">B_NUMERATOR + randRange(1, 4)</var>
 						<var id="GCD">
-							KhanUtil.getGCD( 
-								( A_NUMERATOR * (B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ), 
+							KhanUtil.getGCD(
+								( A_NUMERATOR * (B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ),
 								( A_DENOMINATOR * B_DENOMINATOR ) )
 						</var>
 						<var id="SIMPLIFIED">
-							simplifyFraction(0, 
+							simplifyFraction(0,
 								A_NUMERATOR * ( ( B_NUMBER * B_DENOMINATOR ) + B_NUMERATOR ),
 								A_DENOMINATOR * B_DENOMINATOR )
 						</var>
@@ -711,21 +710,21 @@
 							createVertTable( A_NUMERATOR, A_DENOMINATOR, null, null )
 						</var>
 						<var id="TABLES_B">
-							createNBoxes( B_NUMBER ) 
+							createNBoxes( B_NUMBER )
 							+ createHorizTable( B_NUMERATOR, B_DENOMINATOR, null, null )
 						</var>
 						<var id="TABLE_A_HINT">
-							createNBoxesOverlayVert( B_NUMBER + 1, 'box1', 
+							createNBoxesOverlayVert( B_NUMBER + 1, 'box1',
 								A_NUMERATOR, A_DENOMINATOR )
 						</var>
 						<var id="TABLES_B_HINT">
 							createNBoxesOverlayHoriz( B_NUMBER, 'box2', B_DENOMINATOR, B_DENOMINATOR )
-							+ createHorizTable( B_NUMERATOR, B_DENOMINATOR, 'box2frac', 
+							+ createHorizTable( B_NUMERATOR, B_DENOMINATOR, 'box2frac',
 								'hint_diagram_table_overlay_small' )
 						</var>
-						<var id="SIMP_TABLES">createNBoxes( SIMPLIFIED.whole, null, null, 
-							"hint_box3_cell" )  
-							+ ( SIMPLIFIED.numerator > 0 ? createHorizTable( SIMPLIFIED.numerator, 
+						<var id="SIMP_TABLES">createNBoxes( SIMPLIFIED.whole, null, null,
+							"hint_box3_cell" )
+							+ ( SIMPLIFIED.numerator > 0 ? createHorizTable( SIMPLIFIED.numerator,
 								SIMPLIFIED.denominator, 'simp_frac', null,	"hint_box3_cell" ) : "")
 						</var>
 					</div>
@@ -746,10 +745,10 @@
 										<td class="centered_cell">
 											<code>
 												<var>
-													mixedFraction( B_NUMBER, 
+													mixedFraction( B_NUMBER,
 														B_NUMERATOR, B_DENOMINATOR )
 												</var>
-											</code>	
+											</code>
 										</td>
 										<td class="centered_cell">
 											<code>\huge{ = \space ?}</code>
@@ -768,7 +767,7 @@
 					</div><!-- end of question -->
 
 					<div class="solution" data-type="mixed" data-simplify="optional">
-						<var>( A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR ) ) 
+						<var>( A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR ) )
 						/ ( A_DENOMINATOR * B_DENOMINATOR )</var>
 					</div>
 
@@ -778,22 +777,22 @@
 								Another way of wording this problem is:
 							</p>
 							<p>
-								What is 
-								<code><var>fraction( A_NUMERATOR, A_DENOMINATOR )</var></code> 
-								of 
+								What is
+								<code><var>fraction( A_NUMERATOR, A_DENOMINATOR )</var></code>
+								of
 								<code><var>
 									fraction( B_NUMBER * B_DENOMINATOR + B_NUMERATOR,
 										B_DENOMINATOR)
 								</var></code> ?
 							</p>
 							<p>
-								Converted the whole number to an improper fraction by first 
-								multiplying the whole number portion with the denominator then 
-								adding the existing numerator back in: 
+								Converted the whole number to an improper fraction by first
+								multiplying the whole number portion with the denominator then
+								adding the existing numerator back in:
 								<code>
-									\dfrac{<var>B_NUMBER</var> \times <var>B_DENOMINATOR</var> + 
+									\dfrac{<var>B_NUMBER</var> \times <var>B_DENOMINATOR</var> +
 									<var>B_NUMERATOR</var>}
-								{<var>B_DENOMINATOR</var>} 
+								{<var>B_DENOMINATOR</var>}
 								= 	<var>fraction( B_NUMBER * B_DENOMINATOR + B_NUMERATOR,
 										B_DENOMINATOR)</var>
 								</code>
@@ -802,49 +801,49 @@
 
 						<div id="problem3-hint2-div">
 							<p data-if="ISMSIE == false">
-								Notice that if we count overlapping boxes, we have 
+								Notice that if we count overlapping boxes, we have
 								<code>
-									<var>A_NUMERATOR</var> \times 
+									<var>A_NUMERATOR</var> \times
 									<var>B_NUMBER * B_DENOMINATOR + B_NUMERATOR</var>
-									= 
-									<var>A_NUMERATOR * 
+									=
+									<var>A_NUMERATOR *
 										(B_NUMBER * B_DENOMINATOR + B_NUMERATOR)</var>
-								</code> 
-								pieces, the product of the numerators of the 2 
-								numbers. By multiplying the 2 denominators, we find each box 
-								is divided into 
+								</code>
+								pieces, the product of the numerators of the 2
+								numbers. By multiplying the 2 denominators, we find each box
+								is divided into
 								<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
-								= <var>A_DENOMINATOR * B_DENOMINATOR</var></code> 
-								equal pieces of 
-								<code><var>fraction( 1, A_DENOMINATOR * B_DENOMINATOR )</var></code> 
-								size.  
-								This makes the unsimplified answer 
+								= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>
+								equal pieces of
+								<code><var>fraction( 1, A_DENOMINATOR * B_DENOMINATOR )</var></code>
+								size.
+								This makes the unsimplified answer
 								<code>
 									<var>
-										fraction( 
+										fraction(
 											A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR),
 											A_DENOMINATOR * B_DENOMINATOR )
 									</var>
 								</code>.
 							</p>
 							<p data-else>
-								We can calculate the new numerator by multiplying the the 
-								numerators of the two numbers together, 
+								We can calculate the new numerator by multiplying the the
+								numerators of the two numbers together,
 								<code>
-									<var>A_NUMERATOR</var> \times 
+									<var>A_NUMERATOR</var> \times
 									<var>B_NUMBER * B_DENOMINATOR + B_NUMERATOR</var>
-									= 
-									<var>A_NUMERATOR * 
+									=
+									<var>A_NUMERATOR *
 										(B_NUMBER * B_DENOMINATOR + B_NUMERATOR)</var>
 								</code>.
-								We can then calculate the new denominator by multiple the two 
+								We can then calculate the new denominator by multiple the two
 								denominators together,
 								<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
 								= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>.
-								This gives us the unsimplified answer of 
+								This gives us the unsimplified answer of
 								<code>
 									<var>
-										fraction( 
+										fraction(
 											A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR),
 											A_DENOMINATOR * B_DENOMINATOR )
 									</var>
@@ -854,16 +853,16 @@
 								style="display: block; position: relative; height:220px;">
 								<var>TABLE_A_HINT</var>
 								<var>TABLES_B_HINT</var>
-	
+
 								<script type="text/javascript" data-if="ISMSIE == false">
 									jQuery(document).ready(function(){
 										// Scroll the hint into view.
 										scrollIntoView("#problem3-hint2-div");
 
-										// Get the <var> value of B_NUMBER indirectly by 
+										// Get the <var> value of B_NUMBER indirectly by
 										// querying for generated boxes.
 										var bNumber = 1;
-										while( bNumber < 10 ) {											
+										while( bNumber < 10 ) {
 											if ( jQuery( "#box2-" + bNumber ).length < 1 ) {
 												break;
 											} else {
@@ -900,21 +899,21 @@
 							<p data-if="GCD > 1">
 								This can be further simplified to
 								<code>
-									<var>fraction( 
+									<var>fraction(
 										A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR)	/ GCD,
 										(A_DENOMINATOR * B_DENOMINATOR) / GCD )</var>
-								</code>, 
-								by dividing both top and bottom by it's common denominator 
+								</code>,
+								by dividing both top and bottom by it's common denominator
 								<var>GCD</var>.
 							</p>
-							<p data-if="(A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR) ) 
-								>= (A_DENOMINATOR * B_DENOMINATOR)">								
-								We can further simplify the expression by dividing the numerator 
-								by the	denominator, and taking the part that evenly divided out 
-								of the fraction, while leaving the remainder in the fraction. 
-								This makes the simplified answer 
-								<code><var>mixedFraction( SIMPLIFIED.whole, SIMPLIFIED.numerator, 
-									SIMPLIFIED.denominator )</var></code>.								
+							<p data-if="(A_NUMERATOR * ( B_NUMBER * B_DENOMINATOR + B_NUMERATOR) )
+								>= (A_DENOMINATOR * B_DENOMINATOR)">
+								We can further simplify the expression by dividing the numerator
+								by the	denominator, and taking the part that evenly divided out
+								of the fraction, while leaving the remainder in the fraction.
+								This makes the simplified answer
+								<code><var>mixedFraction( SIMPLIFIED.whole, SIMPLIFIED.numerator,
+									SIMPLIFIED.denominator )</var></code>.
 							</p>
 							<p data-if="SIMPLIFIED.whole < 1 &&	GCD <= 1">
 								This cannot be simplified any further.
@@ -924,7 +923,7 @@
 							<div id="problem3-hint3-box-div2" style="display:none"
 								data-if="ISMSIE == false">
 								<var>SIMP_TABLES</var>
-							</div>							
+							</div>
 							<script type="text/javascript" data-if="ISMSIE == false">
 								jQuery(document).ready(function(){
 									var oldHintBox = jQuery( "#problem3-hint2-box-div" );
@@ -933,7 +932,7 @@
 
 									// Needed to override padding set by khan.css
 									jQuery( "#simp_frac td" ).css( 'padding', 0 );
-									
+
 									// Scroll the hint into view.
 									scrollIntoView( "#problem3-hint3-div" );
 
@@ -944,26 +943,26 @@
 									if( !is_chrome ) {
 										// move the old hint box to this hint.
 										jQuery( "#problem3-hint3-box-div" ).append( oldHintBox );
-	
-										// fade out the original boxes while fading in 
+
+										// fade out the original boxes while fading in
 										// the simplified mixed fraction.
 										jQuery( "#problem3-hint2-box-div" ).fadeOut( 3000,
 												function() {
-											jQuery( "#problem3-hint3-box-div2" ).fadeIn( 3000, 
+											jQuery( "#problem3-hint3-box-div2" ).fadeIn( 3000,
 													function() {
 														jQuery( "#problem3-hint3-box-div2" )
 															.css( 'opacity', 1 );
 											} );
 										} );
-									} else {										
+									} else {
 										jQuery( "#problem3-hint3-box-div2" ).css( 'opacity', 1 );
 										jQuery( "#problem3-hint3-box-div2" ).css( 'display', 'block' );
-									}									
+									}
 								});
-							</script>														
+							</script>
 						</div>
 					</div><!-- End of hints -->
-					
+
 				</div><!-- End of problem 3 -->
 
 			</div><!-- End of Problems -->
