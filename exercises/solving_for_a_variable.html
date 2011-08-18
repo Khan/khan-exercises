@@ -256,7 +256,7 @@
 					})()</var>
 
 					<var id="GCD">getGCD( getGCD( abs( E_TERM ), abs( B_TERM ) ), abs( A_TERM - D_TERM ) )</var>
-					<var id="DIVISOR">( A*F-D*C < 0 ? -1 : 1 ) / GCD</var>
+					<var id="DIVISOR">( A_TERM-D_TERM < 0 ? -1 : 1 ) / GCD</var>
 
 					<var id="ANSWER">function( z, y, c ) {
 						return X + " = \\dfrac{" + plus( round( z*DIVISOR )+Z, round( y*DIVISOR )+Y ) + "}{" + round( c*DIVISOR ) + "}";
