@@ -101,10 +101,35 @@ function Rotator( center, r, pro ) {
 	this.set.push( this.downArrow );
 
 	this.upArrow = graph.path( [ [center[0]+(r+0.25)*Math.cos(5 * Math.PI / 6), center[1]+(r+0.25)*Math.sin(5 * Math.PI / 6)],
-								[center[0]+(r+1)*Math.cos(29 * Math.PI / 36), center[1]+(r+1)*Math.sin(29 * Math.PI / 36)], // tip of arrow at 145 degrees
+								 [center[0]+(r+1)*Math.cos(29 * Math.PI / 36), center[1]+(r+1)*Math.sin(29 * Math.PI / 36)], // tip of arrow at 145 degrees
 								[center[0]+(r+1.75)*Math.cos(5 * Math.PI / 6), center[1]+(r+1.75)*Math.sin(5 * Math.PI / 6)] ],
 							  { "stroke-width": 0, "fill": "#aae" } );
 	this.set.push( this.upArrow );
+
+	var RotatorHelp = function( center, r ) {
+		var graph = KhanUtil.currentGraph;
+		var set = graph.raphael.set();
+
+		// down arrow
+		set.push( graph.line( [center[0]-(r+4), center[1]+2-0.3],
+							  [center[0]-(r+1)-0.6, center[1]-0.75+0.2],
+							  { "stroke-width": 2, arrows: "->" } ) );
+
+		// up arrow
+		set.push( graph.line( [center[0]-(r+4), center[1]+2+0.3],
+							  [center[0]+(r+1)*Math.cos(29 * Math.PI / 36)-0.8, center[1]+(r+1)*Math.sin(29 * Math.PI / 36)-0.2],
+							  { "stroke-width": 2, arrows: "->" } ) );
+
+		set.push( graph.label( [center[0]-(r+4), center[1]+2], "Click these to rotate!", "center", false,  { "stroke-width": 1, "font-size": 12, stroke: "black" } ) );
+
+		jQuery(document).one( "mousedown", function( event ) {
+			set.remove();
+		});
+
+		this.set = set;
+		return this;
+	}
+	this.set.push( new RotatorHelp( center, r ).set );
 
 	jQuery([ this.downArrow.node, this.upArrow.node ]).css( "cursor", "hand" );
 	jQuery.each([ this.downArrow, this.upArrow ], function( i, el ) {
@@ -164,6 +189,29 @@ function Translator( center, r, pro ) {
 							  { "stroke-width": 0, "fill": "#aae" } );
 	this.set.push( this.rightArrow );
 
+	var TranslatorHelp = function( center, r ) {
+		var graph = KhanUtil.currentGraph;
+		var set = graph.raphael.set();
+
+		set.push( graph.line( [center[0]+1, center[1]-4],
+							  [center[0]+0.25, center[1]-1.5],
+							  { "stroke-width": 2, arrows: "->" } ) );
+		set.push( graph.line( [center[0]+r-1.5, center[1]-4],
+							  [center[0]+r-1+0.5, center[1]-1.5],
+							  { "stroke-width": 2, arrows: "->" } ) );
+
+		set.push( graph.label( [center[0]+r/2-1+0.75, center[1]-4], "Click these to move!", "center", false,  { "stroke-width": 1, "font-size": 12, stroke: "black" } ) );
+
+		jQuery(document).one( "mousedown", function( event ) {
+			set.remove();
+		});
+
+		this.set = set;
+		return this;
+	}
+
+	this.set.push( new TranslatorHelp( center, r ).set );
+
 	jQuery([ this.leftArrow.node, this.rightArrow.node ]).css( "cursor", "hand" );
 	jQuery.each([ this.leftArrow, this.rightArrow ], function( i, el ) {
 		el.hover(
@@ -177,14 +225,14 @@ function Translator( center, r, pro ) {
 
 	this.translationOn = function() {
 		jQuery(this.leftArrow.node).mousedown(function() {
-			var iv = setInterval( function() { pro.rotatedTranslate( -5 ); }, 50 );
+			var iv = setInterval( function() { pro.rotatedTranslate( -10 ); }, 50 );
 			jQuery(document).one( "mouseup", function() {
 				clearInterval( iv );
 			});
 		});
 
 		jQuery(this.rightArrow.node).mousedown(function() {
-			var iv = setInterval( function() { pro.rotatedTranslate( 5 ); }, 50 );
+			var iv = setInterval( function() { pro.rotatedTranslate( 10 ); }, 50 );
 			jQuery(document).one( "mouseup", function() {
 				clearInterval( iv );
 			});
