@@ -88,3 +88,11 @@ var, div.graphie { white-space: pre; }
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
 }
+
+.user-activity p {
+  margin: 5px;
+}
+
+div.timeline-time {
+  background-color: #aaa;
+}

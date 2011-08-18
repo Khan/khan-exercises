@@ -766,13 +766,25 @@ function makeProblem( id, seed ) {
 			jQuery( "#answercontent" ).hide();
 		}
 
+		var hintNumber = 1;
+		/* value[0]: css class
+		 * value[1]: guess
+		 * value[2]: time taken since last guess
+		 */
 		jQuery.each(userExercise.user_activity, function(index, value) {
 			var guess = value[1] === "Activity Unavailable" ? value[1] : JSON.parse( value[1] ),
-				thissolutionarea = jQuery( "<div>" )
-					.addClass( "user-activity " + value[0] )
-					.appendTo( readonly );
+					thissolutionarea;
 
-			if (radio) {
+			readonly.append( "<div class='timeline-time user-activity'>" + value[2] + " seconds</div>" );
+
+			thissolutionarea = jQuery( "<div>" )
+				.addClass( "user-activity " + value[0] )
+				.appendTo( readonly );
+
+			if (value[0] === "hint-activity") {
+				thissolutionarea.text( "Hint #" + hintNumber);
+				hintNumber += 1;
+			} else if (radio) {
 				thissolutionarea
 					.click( function() {
 						validator.showGuess( guess );
@@ -797,19 +809,6 @@ function makeProblem( id, seed ) {
 			.next()
 				.remove()
 				.end()
-			.append(
-				"<span>Hints</span>\
-				<span class='info-box-sub-description' style='margin-bottom:0'>" +
-					((userExercise.count_hints !== undefined)
-					? userExercise.count_hints + " hints used"
-					: "Hints data unavailable") +
-				"</span>"
-			)
-			.append(
-				"<span class='info-box-sub-description'>View hints (will not reset your streak):</span> \
-				<input id='hint' type='button' class='button orange' \
-				value='I\'d like a hint' name='hint'/>"
-			)
 			.show();
 	}
 
