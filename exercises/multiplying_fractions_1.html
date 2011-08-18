@@ -72,6 +72,30 @@
 				min-width: 0px;
 			}
 
+			#one .hint_box1_cell {
+				background: black;
+			}
+
+			#two .hint_box1_cell {
+				background: green;
+			}
+
+			#three .hint_box1_cell {
+				background: blue;
+			}
+
+			#four .hint_box1_cell {
+				background: orange;
+			}
+
+			#five .hint_box1_cell {
+				background: purple;
+			}
+
+			#black .hint_box1_cell {
+				background: #777;
+			}
+
 		</style>
 		<script type="text/javascript">
 			/*
@@ -156,6 +180,57 @@
 				}
 
 				return jQuery('<div />').append(table).html();
+			}
+
+			/*
+			 * Generates HTML for a table displaying the fraction's visual representation.
+			 * @param n1 y-numerator
+			 * @param d1 y-denominator
+			 * @param n2 x-numerator
+			 * @param d2 y-denominator
+			 * @param id ID to give this table. (optional)
+			 * @param className class name to give this table. (optional)
+			 */
+			function createCombinedTable( n1, d1, n2, d2, id, className, boxClass ) {
+
+				var table = jQuery( "<table/>" )
+					.addClass( className || "hint_diagram_table_small" )
+					.attr( "id", id );
+
+				boxClass = boxClass || "hint_box3_cell";
+
+				var tbody = table.append( "<tbody/>" ).find( "tbody" ),
+					colWidth = table.width() / d2,
+					rowHeight = table.height() / d1,
+					row;
+
+				for ( var i = 0; i < d1 - n1; i++ ) {
+					row = jQuery( "<tr/>" ).height( rowHeight ).appendTo( tbody );
+
+					for ( var j = 0; j < d2; j++ ) {
+						jQuery( "<td/>" ).addClass( "hint_empty_cell" )
+							.width( colWidth ).css( "min_width", 0 )
+							.appendTo( row );
+					}
+				}
+
+				for ( var i = 0; i < n1; i++ ) {
+					row = jQuery( "<tr/>" ).height( rowHeight ).appendTo( tbody );
+
+					for ( var j = 0; j < d2 - n2; j++ ) {
+						jQuery( "<td/>" ).addClass( "hint_empty_cell" )
+							.width( colWidth ).css( "min_width", 0 )
+							.appendTo( row );
+					}
+
+					for ( var j = 0; j < n2; j++ ) {
+						jQuery( "<td/>" ).addClass( boxClass )
+							.width( colWidth ).css( "min_width", 0 )
+							.appendTo( row );
+					}
+				}
+
+				return jQuery( "<div/>" ).append( table ).html();
 			}
 
 
@@ -247,6 +322,37 @@
 					};
 			}
 
+			function mixedBoxes( n, d, b, col ) {
+				var boxes = Math.ceil( b * n / d ),
+					color, iBox, iBody;
+
+				var cont = jQuery( "<table/>" ),
+					contRow = jQuery( "<tbody/>" ).appendTo( cont )
+						.append( "<tr/>" ).find( "tr" ),
+					box = jQuery( "<table/>" ).addClass( "hint_diagram_table_small" ),
+					rowHeight = box.height() / d,
+					row = jQuery( "<tr/>" ).height( rowHeight ).append( "<td/>" ),
+					filled = row.clone().find( "td" ).addClass( "hint_box1_cell" ).end(),
+					empty = row.clone().find( "td" ).addClass( "hint_empty_cell" ).end();
+
+				for ( var i = 0; i < boxes; i++ ) {
+					var thisCell = jQuery( "<td/>" ).appendTo( contRow ),
+						thisBox = box.clone().appendTo( thisCell ),
+						thisBody = jQuery( "<tbody/>" ).appendTo( thisBox );
+
+					for ( var j = d - 1; j >= 0; j-- ) {
+						color = Math.floor( ( i * d + j ) / n ) + 1;
+						if ( color <= b ) {
+							filled.clone().attr( "id", col ? KhanUtil.cardinal(color) : "black" ).appendTo( thisBody );
+						} else {
+							empty.clone().appendTo( thisBody );
+						}
+					}
+				}
+
+				return jQuery( "<div/>" ).append( cont ).html();
+			}
+
 		</script>
 	</head>
 	<body>
@@ -254,440 +360,158 @@
 			<div class="vars">
 				<!-- Detect MS Internet explorer.  So we can avoid serving CSS
 					 animations, and serve alternate text hints. -->
-				<var id="ISMSIE">(navigator.userAgent.indexOf('MSIE') !=-1)</var>
+				<var id="IE">(navigator.userAgent.indexOf('MSIE') !=-1)</var>
 			</div>
 			<div class="problems">
 
 				<div id="fraction-with-fraction">
-					<div class="vars" data-ensure="A_DENOMINATOR != B_DENOMINATOR">
-						<var id="A_NUMERATOR">randRange(1, 4)</var>
-						<var id="A_DENOMINATOR">A_NUMERATOR + randRange(1, 4)</var>
-						<var id="B_NUMERATOR">randRange(1, 4)</var>
-						<var id="B_DENOMINATOR">B_NUMERATOR + randRange(1, 4)</var>
-						<var id="GCD">
-							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMERATOR ),
-								( A_DENOMINATOR * B_DENOMINATOR ))
-						</var>
-						<var id="TABLE_A">
-							createVertTable( A_NUMERATOR, A_DENOMINATOR, null, null )
-						</var>
-						<var id="TABLE_B">
-							createHorizTable( B_NUMERATOR, B_DENOMINATOR, null, null )
-						</var>
-						<var id="TABLE_A_HINT">
-							createVertTable( A_NUMERATOR, A_DENOMINATOR, 'box1',
-								'hint_diagram_table_overlay' )
-						</var>
-						<var id="TABLE_B_HINT">
-							createHorizTable( B_NUMERATOR, B_DENOMINATOR, 'box2',
-								'hint_diagram_table_overlay' )
-						</var>
-						<var id="SIMP_TABLE">
-							createHorizTable( A_NUMERATOR * B_NUMERATOR / GCD,
-								A_DENOMINATOR * B_DENOMINATOR / GCD, 'simp_frac', "hint_diagram_table_big",
-								"hint_box3_cell" )
-						</var>
+					<div class="vars" data-ensure="D1 != D2">
+						<div data-ensure="D1 !== D2">
+							<var id="N1">randRange(1, 4)</var>
+							<var id="D1">N1 + randRange(1, 4)</var>
+							<var id="N2">randRange(1, 4)</var>
+							<var id="D2">N2 + randRange(1, 4)</var>
+						</div>
+
+						<var id="GCD">KhanUtil.getGCD( N1 * N2, D1 * D2 )</var>
+						<var id="TABLE_1">createVertTable( N1, D1, null, null )</var>
+						<var id="TABLE_2">createHorizTable( N2, D2, null, null )</var>
+						<var id="TABLE_1_HINT">createVertTable( N1, D1, "box1", "hint_diagram_table_overlay" )</var>
+						<var id="TABLE_2_HINT">createHorizTable( N2, D2, "box2", "hint_diagram_table_overlay" )</var>
+						<var id="COMBINED_HINT">createCombinedTable( N1, D1, N2, D2, "box3", "hint_diagram_table_overlay" )</var>
 					</div>
 
 					<div class="question">
-						<p class="question_text">What is
-							<table>
-								<tbody>
-									<tr>
-										<td class="centered_cell">
-											<code>
-												\huge{
-													<var>fraction( A_NUMERATOR, A_DENOMINATOR )</var>
-												}
-											</code>
-										</td>
-										<td class="centered_cell">
-											<code>\huge{\times}</code>
-										</td>
-										<td class="centered_cell">
-											<code>
-												\huge{
-													<var>fraction( B_NUMERATOR, B_DENOMINATOR )</var>
-												}
-											</code>
-										</td>
-										<td class="centered_cell">
-											<code>\huge{ =\space ?}</code>
-										</td>
-									</tr>
-									<tr>
-										<td><var>TABLE_A</var></td>
-										<td></td>
-										<td><var>TABLE_B</var></td>
-										<td></td>
-									</tr>
-								</tbody>
-							</table>
-						</p>
+						<p class="question_text">What is</p>
+						<table><tbody>
+							<tr>
+								<td class="centered_cell"><code>\huge{<var>fraction( N1, D1 )</var>}</code></td>
+								<td class="centered_cell"><code>\huge{\times}</code></td>
+								<td class="centered_cell"><code>\huge{<var>fraction( N2, D2 )</var>}</code></td>
+								<td class="centered_cell"><code>\huge{ =\space ?}</code></td>
+							</tr>
+							<tr>
+								<td><var>TABLE_1</var></td>
+								<td></td>
+								<td><var>TABLE_2</var></td>
+								<td></td>
+							</tr>
+						</tbody></table>
 					</div>
-					<div class="solution" data-type="improper" data-simplify="optional">
-						<var>
-							( A_NUMERATOR * B_NUMERATOR ) / ( A_DENOMINATOR * B_DENOMINATOR )
-						</var>
-					</div>
+
+					<p class="solution" data-type="rational" data-simplify="optional">
+						<var>( N1 * N2 ) / ( D1 * D2 )</var>
+					</p>
 
 					<div class="hints">
-						<div id="problem1-hint1-div">
-							<p>
-								Another way to word this problem is:
-							</p>
-							<p>
-								What is
-								<code>
-									<var>fraction( A_NUMERATOR, A_DENOMINATOR )</var>
-								</code>
-								of
-								<code>
-									<var>fraction( B_NUMERATOR, B_DENOMINATOR )</var>
-								</code> ?
-							</p>
-						</div> <!-- End of hint 1 -->
+						<p>
+							Another way to word this problem is: <br />
+							What is <code><var>fraction( N1, D1 )</var></code> of <code><var>fraction( N2, D2 )</var></code>?
+						</p>
 
-						<div id="problem1-hint2-div">
-							<p data-if="ISMSIE == false">
-								If we overlay one on top of the other, notice the total number
-								of boxes in the grid equal to
-							 	<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
-									= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>,
-								the product of the denominators.
-								The number of boxes where the two intersect is equal to
-								<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var>
-									= <var>A_NUMERATOR * B_NUMERATOR</var></code>,
-								the product of the 2 numerators.
-								So our unsimplified answer is:
-								<code>
-									<var>
-										fraction( A_NUMERATOR * B_NUMERATOR,
-											A_DENOMINATOR * B_DENOMINATOR )
-									</var>
-								</code>.
-							</p>
-							<p data-else>
-								We can calculate the new denominator by the product of the
-								denominators of the two numbers.
-							 	<code><var>A_DENOMINATOR</var> \times <var>B_DENOMINATOR</var>
-									= <var>A_DENOMINATOR * B_DENOMINATOR</var></code>.
-								The new numerator is equal to
-								<code><var>A_NUMERATOR</var> \times <var>B_NUMERATOR</var>
-									= <var>A_NUMERATOR * B_NUMERATOR</var></code>,
-								the product of multiplying the 2 numerators.
-								So our unsimplified answer is:
-								<code>
-									<var>
-										fraction( A_NUMERATOR * B_NUMERATOR,
-											A_DENOMINATOR * B_DENOMINATOR )
-									</var>
-								</code>.
-							</p>
-							<div id="problem1-hint2-box-div" data-if="ISMSIE == false"
-								style="display: block; position: relative; height:220px;">
-								<var>TABLE_A_HINT</var>
-								<var>TABLE_B_HINT</var>
+						<div>
+							<p>Let's overlay the two boxes on top of each other.</p>
+							<div id="problem1-hint2-box-div" style="display: block; position: relative; height: 220px;">
+									<var>TABLE_1_HINT</var>
+									<var>TABLE_2_HINT</var>
 							</div>
-							<script type="text/javascript" data-if="ISMSIE == false">
-								jQuery(document).ready(function(){
-									// Scroll the hint into view.
-									scrollIntoView( "#problem1-hint2-div");
+							<!-- FIXME: animation -->
+							<!-- <script type="text/javascript" data-if="!IE"> -->
+							<!-- 	jQuery(document).ready(function(){ -->
+							<!-- 		// Scroll the hint into view. -->
+							<!-- 		scrollIntoView( "#problem1-hint2-div"); -->
 
-									// animate the right box overlaying over the left one.
-									jQuery("#box2").css("left", 300);
-									jQuery("#box2").animate({left: "0"}, 5000);
-								});
-							</script>
-						</div>	<!-- End of hint 2 div -->
-						<div id="problem1-hint3-div">
-							<p data-if="GCD > 1">
-								This can be further simplified to
-								<code>
-									<var>
-										fraction( A_NUMERATOR * B_NUMERATOR / GCD,
-											A_DENOMINATOR * B_DENOMINATOR / GCD )
-									</var>
-								</code>,
-								by dividing both top and bottom by it's common denominator
-								<var>GCD</var>.
-							</p>
-							<p data-else>
-								This fraction cannot be further simplified.
-							</p>
-							<div id="problem1-hint3-box-div"  data-if="ISMSIE == false"
-								style="display: position: relative;">
-							</div>
-							<div id="problem1-hint3-box-div2" style="display:none"
-								data-if="ISMSIE == false">
-								<var>SIMP_TABLE</var>
-							</div>
-							<script type="text/javascript" data-if="ISMSIE == false">
-								jQuery(document).ready(function(){
-									// Scroll the hint into view.
-									scrollIntoView( "#problem1-hint3-div" );
-
-									// Skip simplifiation animation in Chrome.  A bug in Chrome
-									// breaks rearranging the DOM in this way.
-									var is_chrome = navigator.userAgent.toLowerCase()
-										.indexOf('chrome') > -1;
-									if( !is_chrome ) {
-										// move the old hint box to this hint.
-										var oldHintBox = jQuery( "#problem1-hint2-box-div" );
-										jQuery( "#problem1-hint3-box-div2" )
-											.height( oldHintBox.height() );
-										jQuery( "#problem1-hint3-box-div" ).append( oldHintBox );
-
-										jQuery( "#simp_frac td" ).css( 'padding', 0 );
-
-										// fade out the original boxes while fading in
-										// the simplified mixed fraction.
-										jQuery( "#problem1-hint2-box-div" ).fadeOut( 3000,
-												function() {
-											jQuery( "#problem1-hint3-box-div2" )
-												.fadeIn( 3000, function() {
-												jQuery( "#problem1-hint3-box-div2" )
-												.css( 'opacity', 1 );
-											} );
-
-										} );
-									} else {
-										jQuery( "#problem1-hint3-box-div2" ).css( 'opacity', 1 );
-										jQuery( "#problem1-hint3-box-div2" )
-											.css( 'display', 'block' );
-									}
-								});
+							<!-- 		// animate the right box overlaying over the left one. -->
+							<!-- 		jQuery("#box2").css("left", 300); -->
+							<!-- 		jQuery("#box2").animate({left: "0"}, 50000); -->
+							<!-- 	}); -->
 							</script>
 						</div>
+
+						<div>
+							<p>Notice how there are <var>cardinal( N1 * N2 )</var> boxes in the overlap, and <var>cardinal( D1 * D2 )</var> boxes total.</p>
+							<div id="problem1-hint3-box-div" style="display: block; position: relative; height: 220px;">
+								<var>COMBINED_HINT</var>
+							</div>
+							<!-- FIXME: animation. -->
+							<!-- could fade out the blue and red regions to just leave -->
+							<!-- the purple. -->
+						</div>
+
+						<div>
+							<p>So this is equivalent to having <var>cardinal( N1 * N2 )</var> out of <var>cardinal( D1 * D2 )</var> slices of pie.</p>
+							<!-- FIXME: pie! -->
+						</div>
+
+						<p>Notice how there are <code><var>N1</var>\times<var>N2</var>=<var>N1*N2</var></code> out of <code><var>D1</var>\times<var>D2</var>=<var>D1*D2</var></code> slices of pie.</p>
+
+						<p>So the resulting fraction is <code><var>fraction( N1 * N2, D1 * D2 )</var></code>.</p>
+
+						<p data-if="getGCD( N1*N2, D1*D2 ) > 1">Optionally, this reduces to <code><var>fractionReduce( N1*N2, D1*D2 )</var></code>.</p>
+
 					</div><!-- End of Hints -->
 				</div><!-- End of problem 1 -->
 
-				<div id="fraction-with-whole-number">
+				<div id="fraction-with-whole">
 					<div class="vars">
-						<var id="A_NUMERATOR">randRange(1, 4)</var>
-						<var id="A_DENOMINATOR">A_NUMERATOR + randRange(1, 4)</var>
-						<var id="B_NUMBER">randRange(1, 4)</var>
-						<var id="SIMPLIFIED">
-							simplifyFraction(0, A_NUMERATOR * B_NUMBER, A_DENOMINATOR )
-						</var>
-						<var id="GCD">
-							KhanUtil.getGCD( ( A_NUMERATOR * B_NUMBER ), ( A_DENOMINATOR ) )
-						</var>
-						<var id="TABLE_A">
-							createVertTable( A_NUMERATOR, A_DENOMINATOR, null, null )
-						</var>
-						<var id="TABLES_B">
-							createNBoxes( B_NUMBER )
-						</var>
-						<var id="TABLE_A_HINT">
-							createNBoxesOverlayVert( B_NUMBER, 'box1', A_NUMERATOR, A_DENOMINATOR )
-						</var>
-						<var id="TABLES_B_HINT">
-							createNBoxesOverlayHoriz( B_NUMBER, 'box2', 1, 1 )
-						</var>
-						<var id="SIMP_TABLES">createNBoxes( SIMPLIFIED.whole, null, null,
-							"hint_box3_cell" )
-							+ (SIMPLIFIED.numerator > 0 ? createHorizTable( SIMPLIFIED.numerator,
-								SIMPLIFIED.denominator, 'simp_frac', null,
-								"hint_box3_cell" ) : "")
-						</var>
+						<var id="N">randRange( 1, 4 )</var>
+						<var id="D">N + randRange( 1, 4 )</var>
+						<var id="B">randRange( 2, 5 )</var>
+						<var id="BOXES">( function() {
+							var a = [];
+							for ( var i = 1; i <= B; i++ ) { a.push( i ); }
+							return a;
+						} )()</var>
 					</div>
 
 					<div class="question">
-						<p class="question_text">What is
-							<table>
-								<tbody>
-									<tr>
-										<td class="centered_cell">
-											<code>
-												<var>fraction(A_NUMERATOR, A_DENOMINATOR)</var>
-											</code>
-										</td>
-										<td class="centered_cell">
-											<code>\huge{\times}</code>
-										</td>
-										<td class="centered_cell">
-											<code>
-												\huge{<var>B_NUMBER</var>}
-											</code>
-										</td>
-										<td class="centered_cell">
-											<code>\huge{ = \space ?}</code>
-										</td>
-									</tr>
-									<tr>
-										<td><span class="padded_span"><var>TABLE_A</var></span></td>
-										<td></td>
-										<td><var>TABLES_B</var></td>
-										<td></td>
-									</tr>
-								</tbody>
-							</table>
-							Please answer as a fraction (ex: 5/3) or a mixed number (ex: 1 2/3).
-						</p>
+						<p class="question-text">What is</p>
+						<table><tbody>
+							<tr>
+								<td class="centered_cell"><code><var>fraction( N, D )</var></code></td>
+								<td class="centered-cell"><code>\huge{\times}</code></td>
+								<td class="centered-cell"><code>\huge{<var>B</var>}</code></td>
+								<td class="centered-cell"><code>\huge{ = \space ?}</code></td>
+							</tr>
+							<tr>
+								<td><span class="padded_span"><var>createVertTable( N, D )</var></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody></table>
 					</div>
 
-					<div class="solution" data-type="mixed" data-simplify="optional">
-						<var>
-							( A_NUMERATOR * B_NUMBER ) / ( A_DENOMINATOR )
-						</var>
-					</div>
+					<p class="solution" data-type="rational" data-simplify="optional"><var>B * N / D</var></p>
 
 					<div class="hints">
+
 						<div>
-							<p>
-								Another way of wording this problem is:
-							</p>
-							<p>
-								What is
-								<code><var>fraction( A_NUMERATOR, A_DENOMINATOR)</var></code>
-								of <var>B_NUMBER</var> ?
-							</p>
+							<p>Another way to word this is:</p>
+							<p>What is <code><var>fraction( N, D )</var></code> of <code><var>B</var></code>?</p>
 						</div>
 
-						<div id="problem2-hint2-div">
-							<p data-if="ISMSIE == false">
-								Notice that if we count overlapping boxes, we have
-								<code><var>A_NUMERATOR</var> \times <var>B_NUMBER</var>
-									= <var>A_NUMERATOR * B_NUMBER</var></code>
-								pieces, the product of the numerator times the whole
-								number. Each box is divided into <var>A_DENOMINATOR</var>
-								equal pieces of <code><var>fraction( 1, A_DENOMINATOR )</var></code>
-								size. This makes the unsimplified answer
-								<code>
-									<var>fraction( A_NUMERATOR * B_NUMBER, A_DENOMINATOR )</var>
-								</code>.
-							</p>
-							<p data-else>
-								We can calculate the new numerator by  multiplying the numerator
-								of the 1st number with the 2nd number,
-								<code><var>A_NUMERATOR</var> \times <var>B_NUMBER</var>
-									= <var>A_NUMERATOR * B_NUMBER</var></code>.
-								We can then just take the denominator of the first number,
-								<var>A_DENOMINATOR</var>}</code>, because <var>B_NUMBER</var> is
-								equivalent to <code><var>fraction( B_NUMBER, 1 )</var></code>.
-								This makes the unsimplified answer
-								<code>
-									<var>fraction( A_NUMERATOR * B_NUMBER, A_DENOMINATOR )</var>
-								</code>.
-							</p>
-							<div id="problem2-hint2-box-div" data-if="ISMSIE == false"
-								style="display: block; position: relative; height:220px;">
-								<var>TABLE_A_HINT</var>
-								<var>TABLES_B_HINT</var>
-
-								<script type="text/javascript" data-if="ISMSIE == false">
-									jQuery(document).ready(function(){
-										// Scroll the hint into view.
-										scrollIntoView("#problem2-hint2-div");
-
-										// Get the <var> value of B_NUMBER indirectly by
-										// querying for generated boxes.
-										var bNumber = 1;
-										while( bNumber < 10 ) {
-											if ( jQuery( "#box2-" + bNumber ).length < 1 ) {
-												break;
-											} else {
-												bNumber++;
-											}
-										}
-
-										// size parent div
-										jQuery( "#problem2-hint2-box-div" ).width( 400 );
-										jQuery( "#problem2-hint2-box-div" )
-											.height( bNumber * 105 + 10 );
-
-										// position the right boxes
-										for( var i = 0; i < bNumber; i++ ) {
-											jQuery( "#box2-" + i ).css( "left", 200 );
-											jQuery( "#box2-" + i ).css( "top", 105 * i );
-										}
-
-										// animate overlaying the left box over the right ones.
-										for( var i = 0; i < bNumber; i++ ) {
-											jQuery( "#box1-" + i ).animate({
-													left: 200,
-													top: ( i * 105 )
-												}, 5000);
-										}
-									});
-								</script>
-							</div>
+						<div>
+							<p>So we have <var>cardinal( B )</var> of these partially-filled in boxes.</p>
+							<table><tbody><tr>
+								<td data-each="BOXES as i"><var>createVertTable( N, D, cardinal( i ) )</var></td>
+							</tr></tbody></table>
 						</div>
-						<div id="problem2-hint3-div">
-							<p data-if="GCD > 1">
-								This can be further simplified to
-								<code>
-									<var>fraction(A_NUMERATOR * B_NUMBER / GCD,
-										A_DENOMINATOR / GCD)</var>
-								</code>,
-								by dividing both top and bottom by it's common denominator
-								<var>GCD</var>.
-							</p>
-							<p data-if="SIMPLIFIED.whole > 0" >
-									We can further simplify the expression by dividing the
-									numerator by the denominator, and taking the part that
-									divided evenly out of the fraction and leave the
-									remainder as a fraction. This makes the simplified answer
-									<code>
-										<var>
-											mixedFraction( SIMPLIFIED.whole, SIMPLIFIED.numerator,
-												SIMPLIFIED.denominator)
-										</var>
-									</code>.
-							</p>
-							<p data-if="SIMPLIFIED.whole < 1 &&	GCD <= 1" >
-								This cannot be simplified any further.
-							</p>
-							<div id="problem2-hint3-box-div"  data-if="ISMSIE == false"
-								style="display: position: relative;">
-							</div>
-							<div id="problem2-hint3-box-div2" style="display:none"
-								data-if="ISMSIE == false">
-								<var>SIMP_TABLES</var>
-							</div>
-							<script type="text/javascript" data-if="ISMSIE == false">
-								jQuery(document).ready(function(){
-									var oldHintBox = jQuery( "#problem2-hint2-box-div" );
-									jQuery( "#problem2-hint3-box-div2" )
-										.height( oldHintBox.height() );
 
-									// Needed to override padding set by khan.css
-									jQuery( "#simp_frac td" ).css( 'padding', 0 );
-
-									// Scroll the hint into view.
-									scrollIntoView("#problem2-hint3-div");
-
-									// Skip simplifiation animation in Chrome.  A bug in Chrome
-									// breaks rearranging the DOM in this way.
-									var is_chrome = navigator.userAgent.toLowerCase()
-										.indexOf('chrome') > -1;
-
-									if( !is_chrome ) {
-										// move the old hint box to this hint.
-										jQuery( "#problem2-hint3-box-div" ).append( oldHintBox );
-
-										// fade out the original boxes while fading in
-										// the simplified mixed fraction.
-										jQuery( "#problem2-hint2-box-div" ).fadeOut( 3000,
-											function() {
-												jQuery( "#problem2-hint3-box-div2" ).fadeIn( 3000,
-													function() {
-														jQuery( "#problem2-hint3-box-div2" )
-															.css( 'opacity', 1 );
-											} );
-										} );
-									} else {
-										jQuery( "#problem2-hint3-box-div2" ).css( 'opacity', 1 );
-										jQuery( "#problem2-hint3-box-div2" )
-											.css( 'display', 'block' );
-									}
-								});
-							</script>
+						<div>
+							<p>Let's put all these pieces together.</p>
+							<div><var>mixedBoxes( N, D, B, true )</var></div>
 						</div>
+
+						<div>
+							<p>So there are <code><var>mixedFractionFromImproper( N*B, D )</var></code> boxes filled in.</p>
+							<div><var>mixedBoxes( N, D, B, false )</var></div>
+						</div>
+
+						<p>Or, since we have <code><var>N*B</var></code> pieces and <code><var>D</var></code> pieces per box, this is the same as <code><var>fraction( N*B, D )</var></code>.</p>
 
 					</div><!-- End of hints -->
-				</div><!-- End of problem 2 -->
+				</div><!-- End of Problem 2 -->
 
 			</div><!-- End of Problems -->
 		</div><!-- End of Exercises -->

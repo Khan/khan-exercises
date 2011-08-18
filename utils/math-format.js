@@ -63,7 +63,11 @@ jQuery.extend(KhanUtil, {
 
 		return begin + main + end;
 	},
-	
+
+	mixedFractionFromImproper: function( n, d, defraction, reduce, small, parens ) {
+		return KhanUtil.mixedFraction( Math.floor( n / d ), n % d, d, defraction, reduce, small, parens );
+	},
+
 	/* Format the latex of the mixed fraction 'num n/d"
 	 * - For negative numbers, if it is a mixed fraction, make sure the whole
 	 * number portion is negative.  '-5, 2/3' should be 'mixedFraction(-5,2,3)'
@@ -80,7 +84,7 @@ jQuery.extend(KhanUtil, {
 		var wholeNum = number ? number : 0;
 		var numerator = n ? n : 0;
 		var denominator = d ? d : 1;
-		
+
 		if ( wholeNum < 0 && numerator < 0 ) {
 			throw "NumberFormatException: Both integer portion and fraction cannot both be negative.";
 		}
@@ -90,17 +94,17 @@ jQuery.extend(KhanUtil, {
 		if ( denominator == 0 ) {
 			throw "NumberFormatException: Denominator cannot be be 0.";
 		}
-		
+
 		if ( reduce ) {
 			if( wholeNum < 0 ) {
 				wholeNum -= Math.floor( numerator / denominator );
 			} else {
 				wholeNum += Math.floor( numerator / denominator );
 			}
-			
+
 			numerator = numerator % denominator;
 		}
-		
+
 		if ( wholeNum != 0 && numerator != 0 ) {
 			return wholeNum + " " 
 				+ KhanUtil.fraction( n, d, defraction, reduce, small, parens );
