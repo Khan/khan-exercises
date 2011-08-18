@@ -11,13 +11,12 @@
 			<var id="TOTAL">randRange( 10, 100 )</var>
 			<var id="NUM1">randRange( 1, TOTAL - 1 )</var>
 			<var id="NUM2">TOTAL - NUM1</var>
-			<var id="ADDITION">randRange( 0, 1 )</var>
-			<var id="SUBTRACTION">ADDITION - 1</var>
 		</div>
 
 
 		<div class="problems">
-			<div data-if="SUBTRACTION">
+			<!--
+			<div>
 				<div class="question">
 					<p>
 					There <var>plural('was', TOTAL)</var> <var>plural(TOTAL, 'person')</var> riding on a train.
@@ -36,7 +35,7 @@
 				</div>
 			</div>
 
-			<div data-if="ADDITION">
+			<div>
 				<div class="question">
 					<p>
 					There <var>plural('is', NUM1)</var> <var>plural(NUM1, 'person')</var> riding on a train.
@@ -56,7 +55,7 @@
 				</div>
 			</div>
 
-			<div data-if="ADDITION">
+			<div>
 				<div class="question">
 					<p>
 					There <var>plural('is', NUM1)</var> <var>plural(NUM1, 'tree')</var> on the right bank of a river and <var>plural(NUM2, 'tree')</var> on the left bank.
@@ -73,7 +72,7 @@
 				</div>
 			</div>
 
-			<div data-if="SUBTRACTION">
+			<div>
 				<div class="question">
 					<p>
 					There <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'tree')</var> on the banks of the river. The <var>side(1)</var> bank has <var>NUM2</var> of them.
@@ -89,6 +88,73 @@
 					</p>
 				</div>
 			</div>
+			-->
+			<div>
+				<div class="question">
+					<p>
+					Some cars are parked in the <var>store(1)</var> store parking lot.
+					<var>NUM2</var> more <var>plural('car')</var> <var>plural('parks', 'park', NUM2)</var> at the <var>store(1)</var> store,
+					and now there <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'car')</var> in the parking lot.
+					How many cars were parked at the <var>store(1)</var> store at the beginning?
+					</p>
+				</div>
+				<p class="solution">
+					<var>NUM1</var>
+				</p>
+				<div class="hints">
+					<p>
+					The number of cars parked at the store at the end (<var>TOTAL</var>) is
+					the number parked at the beginning plus the number that came and parked later (<var>NUM2</var>).
+					</p>
+					<p>
+					Therefore, the number of cars parked at the store at the beginning is
+					the number parked at the end (<var>TOTAL</var>) minus the number that came and parked later (<var>NUM2</var>).
+					</p>
+				</div>
+			</div>
+
+			<div>
+				<div class="question">
+					<p>
+					There <var>plural('is', NUM2)</var> <var>plural(NUM2, 'car')</var> parked in the <var>store(1)</var> store parking lot.
+					Some more cars park at the <var>store(1)</var> store, and now there are <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'car')</var> in the parking lot.
+					How many more cars parked at the <var>store(1)</var> store?
+					</p>
+				</div>
+				<p class="solution">
+					<var>NUM1</var>
+				</p>
+				<div class="hints">
+					<p>
+					The number of cars parked at the store at the end (<var>TOTAL</var>) is
+					the number parked at the beginning (<var>NUM2</var>) plus the number that came and parked later.
+					</p>
+					<p>
+					Therefore, the number of cars parked at the store later is
+					the number parked at the end (<var>TOTAL</var>) minus the number that were parked at the beginning (<var>NUM2</var>).
+					</p>
+				</div>
+			</div>
+
+			<div>
+				<div class="question">
+					<p>
+					<var>plural(NUM1, 'car')</var> <var>plural('is', NUM1)</var> in the <var>store(1)</var> store parking lot.
+					<var>NUM2</var> more <var>plural('car', NUM2)</var> <var>plural('parks', 'park', NUM2)</var> at the <var>store(1)</var> store.
+					How many cars are in the parking lot now?
+					</p>
+				</div>
+				<p class="solution">
+					<var>TOTAL</var>
+				</p>
+				<div class="hints">
+					<p>
+					The number of cars parked at the store at the end is
+					the number parked at the beginning (<var>NUM1</var>) plus the number that came and parked later (<var>NUM2</var>).
+					</p>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </body>

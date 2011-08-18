@@ -23,7 +23,7 @@ jQuery.extend( KhanUtil, {
 		}
 	},
 
-	// pluralization helper.  There are four signatures
+	// pluralization helper.  There are five signatures
 	// - plural(NUMBER): return "s" if NUMBER is not 1
 	// - plural(NUMBER, singular):
 	//		- if necessary, magically pluralize <singular>
@@ -32,6 +32,8 @@ jQuery.extend( KhanUtil, {
 	//		- return "NUMBER word"
 	// - plural(singular, NUMBER):
 	//		- if necessary, magically pluralize <singular>
+	//		- return "word"
+	// - plural(singular, plural, NUMBER):
 	//		- return "word"
 	plural: (function() {
 		var oneOffs = {
@@ -116,8 +118,13 @@ jQuery.extend( KhanUtil, {
 
 				return value + " " + arg1;
 			} else if ( typeof value === "string" ) {
+				var plural = pluralizeWord(value)
+				if ( typeof arg1 === "string" && arguments.length === 3 ) {
+					plural = arg1;
+					arg1 = arg2;
+				}
 				var usePlural = (arguments.length < 2 || (typeof arg1 === "number" && arg1 !== 1));
-				return usePlural ? pluralizeWord(value) : value;
+				return usePlural ? plural : value;
 			}
 		};
 	})()
