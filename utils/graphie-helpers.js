@@ -1,6 +1,6 @@
 // Temporary not really following convention file, see #160
 
-function numberLine( start, end, step, x, y ) {
+function numberLine( start, end, step, x, y, denominator ) {
 	step = step || 1;
 	x = x || 0;
 	y = y || 0;
@@ -13,7 +13,21 @@ function numberLine( start, end, step, x, y ) {
 	set.push( graph.line( [x, y], [x + end - start, y] ) );
 	for( var i = 0; i <= end - start; i += step ) {
 		set.push( graph.line( [x + i, y - 0.2], [x + i, y + 0.2] ) );
-		graph.label( [x + i, y - 0.2], (start + i).toFixed(decPlaces), "below", { labelDistance: 3 } );
+		if ( denominator ){
+			var base = Math.floor(  Math.abs( start + i ) ) * KhanUtil.restoreSign( start + i )  ;
+			var frac = start + i - base;
+			var lab = base;
+			if (! ( Math.abs ( Math.round( frac * denominator ) )  === denominator || Math.round( frac * denominator )  ===  0 ) ){
+				if ( base === 0 ){
+					base = "";
+				}
+				lab = base + " \\frac{" +  Math.round( frac * denominator ) + "}{" + denominator + "}";
+			}
+			graph.label( [x + i, y - 0.2], lab, "below", { labelDistance: 3 } );
+		}
+		else {
+			graph.label( [x + i, y - 0.2], (start + i).toFixed(decPlaces), "below", { labelDistance: 3 } );
+		}
 	}
 
 	return set;
