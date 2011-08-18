@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html data-require="math expressions graphie">
+	<head>
+		<title>Even and odd integers</title>
+		<script src="../khan-exercise.js"></script>
+
+		<script>
+			// traverses binary expression tree
+			function isExprEven( epr ) {
+				if ( epr in jQuery.tmpl.VARS.IS_EVEN ) {
+					return jQuery.tmpl.VARS.IS_EVEN[ epr ];
+
+				} else if ( epr instanceof Array ) {
+					switch ( epr[0] ) {
+					case "+":
+						return ( isExprEven( epr[1] ) === isExprEven( epr[2] ) );
+
+					case "times":
+						return ( isExprEven( epr[1] ) || isExprEven( epr[2] ) );
+					}
+
+				} else {
+					return ( epr % 2 === 0 );
+
+				}
+			}
+
+			function evenOrOdd( epr ) {
+				return ( isExprEven( epr ) ? "even" : "odd" );
+			}
+
+			function labelExpr( epr, text ) {
+				var colors = jQuery.tmpl.VARS.VAR_COLORS;
+				var b = 0.2;
+
+				var searchStr = KhanUtil.expr( jQuery.tmpl.VARS.EXPR ).replace( / \\times /g, "*" );
+				var exprStr = KhanUtil.expr( epr ).replace( / \\times /g, "*" );
+
+				var indices = [];
+				var idx = searchStr.indexOf( exprStr );
+				while ( idx !== -1 ) {
+					indices.push( idx );
+					idx = searchStr.indexOf( exprStr, idx + 1 );
+				}
+
+				var labels = jQuery.map( indices, function( idx ) {
+					var x = idx / 2.5 + 0.1,
+					y = (jQuery.tmpl.VARS.EXPR_LEVELS - 0.6) - exprStr.length / 2.5,
+					width = exprStr.length / 1.9;
+
+					return 'path([ [' + x + ', ' + ( y + b ) + '], [' + x + ', ' + y + '], ' +
+						'[' + ( x + width ) + ', ' + y + '], [' + ( x + width ) + ', ' + ( y + b ) + '] ]' +
+						( colors[ epr ] ? ', { stroke: "' + colors[ epr ] + '" }' : '' )
+						+ ' );' +
+						'label( [ ' + ( x + width / 2 ) + ', ' + ( y - 0.1 ) + ' ],' +
+						'"\\\\scriptsize{' +
+						( colors[ epr ] ? '\\\\color{' + colors[ epr ] + '}{\\\\text{' + text + '}}' :
+						  '\\\\text{' + text + '}' ) +
+						'}", "center" );';
+				} );
+
+				return labels.join("");
+			}
+
+			function getHints( epr ) {
+				var hints = "";
+				var eoro = evenOrOdd( epr );
+
+				if ( epr instanceof Array ) {
+					hints += getHints( epr[1] ) + getHints( epr[2] );
+
+					hints += '<div>' +
+						'<div class="graphie" data-update="expression">' +
+						labelExpr( epr, eoro ) +
+						'</div>';
+
+					switch ( epr[0] ) {
+					case "+":
+						hints +=
+						'<p>An ' + evenOrOdd( epr[1] ) + ' plus an ' + evenOrOdd( epr[2] ) + ' is ' + eoro + '.</p>' +
+							'</div>';
+						break;
+
+					case "-":
+						hints +=
+						'<p>An ' + evenOrOdd( epr[1] ) + ' minus an ' + evenOrOdd( epr[2] ) + ' is ' + eoro + '.</p>' +
+							'</div>';
+						break;
+
+					case "times":
+						hints +=
+						'<p>An ' + evenOrOdd( epr[1] ) + ' times an ' + evenOrOdd( epr[2] ) + ' is ' + eoro + '.</p>' +
+							'</div>';
+						break;
+
+					default:
+						hints += '</div>';
+					}	
+				} else {
+					hints += '<div>' +
+						'<div class="graphie" data-update="expression">' +
+						labelExpr( epr, eoro ) +
+						'</div>' +
+						'<p><code>' + colorText( epr ) + '</code> is ' + eoro + '.</p>' +
+						'</div>';
+				}
+				return hints;
+			}
+
+			function colorExpr( epr ) {
+				var colors = jQuery.tmpl.VARS.VAR_COLORS;
+
+				if ( epr instanceof Array ) {
+					return jQuery.map( epr, function( el ) {
+						return [ colorExpr( el ) ];
+					} );
+				} else {
+					if ( colors[ epr ] ) {
+						return ["color", colors[ epr ], epr];
+					} else {
+						return epr;
+					}
+				}
+			}
+
+			function colorText( text ) {
+				var colors = jQuery.tmpl.VARS.VAR_COLORS;
+
+				return ( colors[ text ] ? "\\color{" + colors[ text ] + "}{" + text + "}" : text );
+			}
+		</script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="problems">
+				<div id="m-plus-n">
+					<div class="vars">
+						<var id="EXPR">["+", "m", "n"]</var>
+
+						<var id="VAR_COLORS">{ "m": "blue", "n": "orange" }</var>
+
+						<var id="IS_EVEN">{ "m": rand(2) === 0, "n": rand(2) === 0 }</var>
+
+						<var id="EXPR_LEVELS">2</var>
+					</div>
+					<div class="problem">
+						<ul>
+							<li><code>m</code> is <var>evenOrOdd( "m" )</var>.</li>
+							<li><code>n</code> is <var>evenOrOdd( "n" )</var>.</li>
+						</ul>
+					</div>
+					<p class="question">Is <code><var>expr( EXPR )</var></code> even or odd?</p>
+					
+					<p class="solution"><var>( isExprEven( EXPR ) ? "Even" : "Odd" )</var></p>
+					<ul class="choices" data-category="true">
+						<li>Even</li>
+						<li>Odd</li>
+					</ul>
+
+					<div class="hints">
+						<div class="graphie" id="expression">
+							init({
+								range: [[0, 10], [-2, EXPR_LEVELS]],
+								scale: [40, 40]
+							});
+
+							label( [0, EXPR_LEVELS], "\\large{" + expr( colorExpr( EXPR ) ) + "}", "below right" );
+						</div>
+						<var>getHints( EXPR )</var>
+					</div>
+				</div>
+
+				<div id="m-times-n" data-type="m-plus-n">
+					<div class="vars">
+						<var id="EXPR">["times", "m", "n"]</var>
+					</div>
+				</div>
+
+				<div id="kn-plus-km" data-type="m-plus-n">
+					<div class="vars">
+						<var id="EXPR">["+", ["times", randRange(2, 5), "n"], ["times", randRange(2, 5), "m"]]</var>
+
+						<var id="EXPR_LEVELS">3</var>
+					</div>
+				</div>
+
+
+				<div id="m-plus-n-plus-p" data-type="m-plus-n">
+					<div class="vars">
+						<var id="EXPR">["+", "m", ["+", "n", "p"]]</var>
+
+						<var id="IS_EVEN">{ "m": rand(2) === 0, "n": rand(2) === 0, "p": rand(2) === 0 }</var>
+
+						<var id="VAR_COLORS">{ "m": "blue", "n": "orange", "p": "green" }</var>
+
+						<var id="EXPR_LEVELS">3</var>
+					</div>
+
+					<div class="problem">
+						<ul>
+							<li><code>m</code> is <var>evenOrOdd( "m" )</var>.</li>
+							<li><code>n</code> is <var>evenOrOdd( "n" )</var>.</li>
+							<li><code>p</code> is <var>evenOrOdd( "p" )</var>.</li>
+						</ul>
+					</div>
+				</div>
+
+				<div id="n-times-m-plus-p" data-type="m-plus-n-plus-p">
+					<div class="vars">
+						<var id="EXPR">["times", "n", ["+", "m", "p"]]</var>
+					</div>
+				</div>
+
+				<div id="np-minus-m-plus-p" data-type="m-plus-n-plus-p">
+					<div class="vars">
+						<var id="EXPR">["+", ["-", ["times", "n", "p"], "m"], "p"]</var>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

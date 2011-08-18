@@ -387,5 +387,14 @@ jQuery.extend(KhanUtil, {
 	// From limits_1
 	truncate_to_max: function( num, digits ) {
 		return parseFloat( num.toFixed( digits ) );
+	},
+
+	//Gives -1 or 1 so you can multiply to restore the sign of a number
+	restoreSign: function( num ){
+		num = parseFloat( num );
+		if ( num < 0 ){
+			return -1;
+		}
+		return 1;
 	}
 });

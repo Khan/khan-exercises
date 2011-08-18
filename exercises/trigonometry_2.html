@@ -32,7 +32,7 @@
 			}
 		}
 
-		function betterTriangle(width, height, A, B, C, a, b, c, whichAngle, keyValues) {
+		function bestTriangle(width, height, A, B, C, a, b, c, whichAngle, keyValues) {
 			var scale = 5 / Math.sqrt(width * width + height * height);
 			width *= scale;
 			height *= scale;
@@ -40,9 +40,8 @@
 			with ( KhanUtil.currentGraph ) {
 				// Leave some space for the labels
 				init({ range: [[-1.5, width + 1], [-1, height + 1]] });
-
-
 				path([ [0, 0], [width, 0], [0, height], true ]);
+
 				var ang=Math.round(Math.atan(height/width) *(180/Math.PI));
 				if ( whichAngle === "ACB" || whichAngle === "BCA" ){
 					arc( [0, 0], 0.5, 0, 90 );
@@ -156,7 +155,7 @@
 						var options = {};
 						options[ OPPOSITE_NAME ] = "?";
 						options[ "AB" ] = AB_STRING;
-						betterTriangle( BC, AC, "A", "B", "C", "", "", AB_STRING, ANGLE, options );
+						bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
@@ -192,7 +191,7 @@
 						var options = {};
 						options[ OPPOSITE_NAME ] = OPPOSITE_VALUE;
 						options[ "AB" ] = "?";
-						betterTriangle( BC, AC, "A", "B", "C", "", OPPOSITE_VALUE, "", ANGLE, options );
+						bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
@@ -229,7 +228,7 @@
 						var options = {};
 						options[ ADJACENT_NAME ] = "?";
 						options[ "AB" ] = AB_STRING;
-						betterTriangle( BC, AC, "A", "B", "C", "", "", AB_STRING, ANGLE, options );
+						bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
@@ -265,7 +264,7 @@
 						var options = {};
 						options[ ADJACENT_NAME ] = ADJACENT_VALUE;
 						options[ "AB" ] = "?";
-						betterTriangle( BC, AC, "A", "B", "C", ADJACENT_VALUE, "","", ANGLE, options );
+						bestTriangle( BC, AC, "A", "B", "C", "", "","", ANGLE, options );
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
@@ -302,7 +301,7 @@
 						var options = {};
 						options[ ADJACENT_NAME ] = "?";
 						options[ OPPOSITE_NAME ] = OPPOSITE_VALUE;
-						betterTriangle( BC, AC, "A", "B", "C", "", OPPOSITE_VALUE, "" , ANGLE, options );
+						bestTriangle( BC, AC, "A", "B", "C", "", "", "" , ANGLE, options );
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
@@ -338,7 +337,7 @@
 						var options = {};
 						options[ OPPOSITE_NAME ] = "?";
 						options[ ADJACENT_NAME ] = ADJACENT_VALUE;
-						betterTriangle( BC, AC, "A", "B", "C", ADJACENT_VALUE, "", "", ANGLE, options );
+						bestTriangle( BC, AC, "A", "B", "C", "", "", "", "", options );
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>

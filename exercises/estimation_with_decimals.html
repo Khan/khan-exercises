@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Estimation with decimals</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+
+	<div class="problems">
+		<div id="classroom">
+			<div class="vars">
+				<var id="VALUES">$.map( randRange( 1000, 16000, randRange( 3, 7 ) ), function( n ){ return ( n / 1000 ).toFixed( randRange( 1, 2 ) ); } )</var>
+				<var id="ANSWER">eval( $.map( VALUES , round ).join("+") )</var>
+				<var id="ACC">0</var>
+				<var id="SIZE">$.map( VALUES, function( i ){ 
+							if ( round( i ) &lt  i  ) {
+								return  "smaller than";
+							}
+							else{
+								return "bigger or equal to";
+							}
+						 }  ) </var>
+			</div>
+			<div class="problem"><var>person( 1 )</var> has been driving <var>his( 1 )</var> <var>vehicle( 1 )</var> delivering <var>pizza( 1 )</var>. Today <var>he( 1 )</var> made <var>VALUES.length</var> deliveries of following distance:  <p data-each="VALUES as i, val"><var>i+1</var>.: <var>val</var> miles </p></div>
+			<p class="question">Estimate how much <var>person( 1 )</var> traveled today.</p>
+			<p class="solution" data-forms="integer"><var>ANSWER</var></p>
+			<div class="hints">
+				<p>Round  and add up all the numbers</p>
+				<div data-each="VALUES as i, val">
+					We round <var>val</var> to <var>round( val )</var> because the tenths digit <var>val.toString().split( "." )[ 1 ].substring( 0, 1 )</var> is <var>SIZE[ i ]</var> 5.
+					 The total is now <code><var>ACC</var> +<var>round( val )</var> =  <var>ACC += round( parseFloat( VALUES[ i  ] ) )</var></code>
+				</div>
+				<p>Therefore the estimate is <var>ANSWER</var>.</p>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
