@@ -766,7 +766,12 @@ function makeProblem( id, seed ) {
 			jQuery( "#answercontent" ).hide();
 		}
 
-		var hintNumber = 1;
+		readonly.append( "<div class='user-activity correct-activity'>Started</div>" );
+
+		var hintNumber = 1,
+				answerNumber = 1,
+				totalTime = 0;
+
 		/* value[0]: css class
 		 * value[1]: guess
 		 * value[2]: time taken since last guess
@@ -775,21 +780,23 @@ function makeProblem( id, seed ) {
 			var guess = value[1] === "Activity Unavailable" ? value[1] : JSON.parse( value[1] ),
 					thissolutionarea;
 
-			readonly.append( "<div class='timeline-time user-activity'>" + value[2] + " seconds</div>" );
+			readonly.append( "<div class='timeline-time'>" + value[2] + "s<span class='timeline-curly'>{</span></div>" );
+			totalTime += value[2];
 
 			thissolutionarea = jQuery( "<div>" )
 				.addClass( "user-activity " + value[0] )
 				.appendTo( readonly );
 
 			if (value[0] === "hint-activity") {
-				thissolutionarea.text( "Hint #" + hintNumber);
+				thissolutionarea.text( "Hint #" + hintNumber );
 				hintNumber += 1;
 			} else if (radio) {
 				thissolutionarea
 					.click( function() {
 						validator.showGuess( guess );
 					} )
-					.append( "<span>Answer " + (index+1) + "</span>" );
+					.append( "<span>Answer " + answerNumber + "</span>" );
+					answerNumber += 1;
 			} else {
 				if (guess === "Activity Unavailable") {
 					thissolutionarea.text( guess );
@@ -798,6 +805,8 @@ function makeProblem( id, seed ) {
 				}
 			}
 		});
+
+		readonly.append( "<div class='timeline-total'>" + totalTime + "s total</div>" );
 
 		readonly
 			.find( "#readonly-problem" )

@@ -81,7 +81,7 @@ var, div.graphie { white-space: pre; }
 }
 
 .user-activity {
-  margin: 5px;
+  margin: 5px 5px 5px 20px;
   padding: 2px 5px;
   border: 1px solid #999;
   border-radius: 4px;
@@ -94,5 +94,19 @@ var, div.graphie { white-space: pre; }
 }
 
 div.timeline-time {
-  background-color: #aaa;
+  margin-left: 0;
+  height: 0;
+  position: relative;
+  top: -16px;
+}
+
+div.timeline-total {
+  border-top: 1px solid #999;
+}
+
+span.timeline-curly {
+  font-size: 20pt;
+  font-weight: 100;
+  position: relative;
+  top: 3px;
 }
