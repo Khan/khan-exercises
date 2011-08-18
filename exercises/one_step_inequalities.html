@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>One-step inequalities</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<!--
+		Solving one-step inequalities with positive and negative coefficients.		
+	-->
+	<div class="exercise">
+		<div class="problems">
+			<div id="one_step_inequalities">
+				<div class="vars">
+					<var id="NUM, DEN" data-ensure="NUM > 2 || NUM < -2">reduce( randRange( -20, 20 ), rand( 3 ) > 0 ? 1 : randRange( 2, 20 ) )</var>
+					<var id="COEF">fractionReduce( NUM, DEN )</var>
+					<var id="ONE_OVER_COEF">fractionReduce( DEN, NUM )</var>
+					<var id="RIGHT_INT" data-ensure="RIGHT_INT !== 0">randRange( -20, 20 )</var>
+					<var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+					<var id="COMP_SOLUTION">(function() {
+						if ( NUM > 0 ) {
+							return COMP;
+						}
+
+						switch ( COMP ) {
+							case "&lt;":
+								return "&gt;";
+							case "&gt;":
+								return "&lt;";
+							case "&le;":
+								return "&ge;";
+							case "&ge;":
+								return "&le;";
+						}
+					})()</var>
+					<var id="SOLUTION_NOT_REDUCED">fraction( RIGHT_INT * DEN, NUM )</var>
+					<var id="SOLUTION">fractionReduce( RIGHT_INT * DEN, NUM )</var>
+				</div>
+
+				<p class="question">Solve for <code>x</code>:</p>
+				<div><code><var>COEF</var>x <var>COMP</var> <var>RIGHT_INT</var></code></div>
+
+				<p class="solution" data-type="multiple">
+					<code>x</code>
+					<span class="sol" data-type="list" data-choices="[ '', '&lt;', '&gt;', '&le;', '&ge;' ]">
+						<var>COMP_SOLUTION</var>
+					</span>
+					<span class="sol"><var>RIGHT_INT * DEN / NUM</var></span>
+				</p>
+
+				<div class="hints">
+					<p data-if ="NUM < 0">When multiplying or dividing both sides of an inequality by a negative number you have to flip the inequality. Therefore <code><var>COMP</var></code> becomes <code><var>COMP_SOLUTION</var></code>.</p> 
+					<div>
+						<p>Multiply both sides by <code><var>ONE_OVER_COEF</var></code>.</p>
+						<p><code>(<var>ONE_OVER_COEF</var>) \cdot (<var>COEF</var>x) <var>COMP_SOLUTION</var> (<var>ONE_OVER_COEF</var>) \cdot (<var>RIGHT_INT</var>)</code></p>
+					</div>
+					<div>
+						<p>Simplify.</p>
+						<p><code>x <var>COMP_SOLUTION</var> <var>SOLUTION_NOT_REDUCED</var></code></p>
+					</div>
+					<div data-if="SOLUTION_NOT_REDUCED !== SOLUTION">
+						<p>Reduce.</p>
+						<p><code>x <var>COMP_SOLUTION</var> <var>SOLUTION</var></code></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
