@@ -1150,7 +1150,8 @@ function prepareSite() {
 				leopard: agent_contains( "OS X 10_5" ) || agent_contains( "OS X 10.5" ),
 				snowleo: agent_contains( "OS X 10_6" ) || agent_contains( "OS X 10.6" ),
 				lion: agent_contains( "OS X 10_7" ) || agent_contains( "OS X 10.7" ),
-				scrathpad: agent_contains( "scratchpad" ) || agent_contains( "Scratchpad" )
+				scratchpad: body.indexOf( "scratchpad" ) !== -1 || body.indexOf( "scratch pad" ) !== -1 || body.indexOf( "Scratchpad" ) !== -1,
+				ipad: agent_contains( "iPad" )
 			},
 			labels = [];
 		jQuery.each( flags, function( k, v ) {
