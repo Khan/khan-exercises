@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>One-step inequalities</title>
@@ -11,12 +11,12 @@
 	-->
 	<div class="exercise">
 		<div class="problems">
-			<div id="one_step_inequalities">
+			<div>
 				<div class="vars">
 					<var id="NUM, DEN" data-ensure="NUM > 2 || NUM < -2">reduce( randRange( -20, 20 ), rand( 3 ) > 0 ? 1 : randRange( 2, 20 ) )</var>
 					<var id="COEF">fractionReduce( NUM, DEN )</var>
 					<var id="ONE_OVER_COEF">fractionReduce( DEN, NUM )</var>
-					<var id="RIGHT_INT" data-ensure="RIGHT_INT !== 0">randRange( -20, 20 )</var>
+					<var id="RIGHT_INT">randRangeNonZero( -20, 20 )</var>
 					<var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
 					<var id="COMP_SOLUTION">(function() {
 						if ( NUM > 0 ) {
@@ -36,6 +36,7 @@
 					})()</var>
 					<var id="SOLUTION_NOT_REDUCED">fraction( RIGHT_INT * DEN, NUM )</var>
 					<var id="SOLUTION">fractionReduce( RIGHT_INT * DEN, NUM )</var>
+					<var id="SOLUTION_REAL">RIGHT_INT * DEN / NUM</var>
 				</div>
 
 				<p class="question">Solve for <code>x</code>:</p>
@@ -46,7 +47,7 @@
 					<span class="sol" data-type="list" data-choices="[ '', '&lt;', '&gt;', '&le;', '&ge;' ]">
 						<var>COMP_SOLUTION</var>
 					</span>
-					<span class="sol"><var>RIGHT_INT * DEN / NUM</var></span>
+					<span class="sol"><var>SOLUTION_REAL</var></span>
 				</p>
 
 				<div class="hints">
@@ -62,6 +63,46 @@
 					<div data-if="SOLUTION_NOT_REDUCED !== SOLUTION">
 						<p>Reduce.</p>
 						<p><code>x <var>COMP_SOLUTION</var> <var>SOLUTION</var></code></p>
+					</div>
+					<div>
+						<p>We can see that all values of <code><var>COEF</var>x <var>COMP</var> <var>RIGHT_INT</var></code> satisfy this inequality.</p>
+						<div class="graphie">
+							init({
+								range: [ [-1, 11], [-1, 1] ],
+							});
+							var start = SOLUTION_REAL - 4.5;
+							var end = SOLUTION_REAL + 4.5;
+
+							numberLine( start, end );
+						
+							var offset;
+							var fill;
+							switch ( COMP_SOLUTION ) {
+								case "&gt;":
+									fill = "#000000";
+									offset = 5;
+									break;
+								case "&ge;":
+									fill = "#6495ED";
+									offset = 5;
+									break;
+								case "&lt;":
+									fill = "#000000";
+									offset = -5;
+									break;
+								case "&le;":
+									fill = "#6495ED";
+									offset = -5;
+									break;
+							}
+
+							var x = SOLUTION_REAL - start;
+
+							style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+							path([ [ x, 0 ], [ x + offset, 0 ]]);
+							style({ stroke: "#6495ED", fill: fill });
+							circle([ x, 0 ], 0.10 );
+						</div>
 					</div>
 				</div>
 			</div>
