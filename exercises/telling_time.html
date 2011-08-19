@@ -2,7 +2,7 @@
 <html data-require="math math-format graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
-	<title>Telling times</title>
+	<title>Telling time</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -19,7 +19,7 @@
 				What time is it?
 				<div class="graphie" id="pie" >
 					init({ range: [ [-4, 4 ], [ -4, 4] ], scale: 25 });
-					PIECH = new analogClock( HOUR, MINUTE,  3, false );
+					PIECH = new analogClock( HOUR, MINUTE,  3.5, false );
 					PIECH.draw();
 				</div>
 			</div>
@@ -31,13 +31,14 @@
 				<div class="graphie">
 					PIECH.drawLabels();
 				</div>
-				<p> The smaller hand is the hour hand </p>
+				<p>The smaller hand is the hour hand.</p>
 				<p data-if="MINUTE <= 10"> It is pointing at <var>HOUR</var> so it is <var>HOUR</var> o'clock.</p>
 				<p data-else-if="MINUTE > 10  && MINUTE < 45"> It is between  <var>HOUR</var> and <var>HOUR + 1 === 13 ? 1 : HOUR + 1</var>  so it is <var>HOUR</var> o'clock.</p>
 				<p data-else > It is close to <var>HOUR + 1 === 13 ? 1 : HOUR + 1</var>  but because the minute hand has not yet entered the new hour, it is still <var>HOUR</var> o'clock.</p>
-				<p> The bigger hand is the minute hand.</p>
-				<p> The bigger hand is pointing to <var> (MINUTE / 5) === 0 ? 12: MINUTE / 5 </var>, and that is equal to <var>MINUTE</var> minutes.</p>
-				<p>Therefore it is <var>HOUR</var> : <var>NICE_MINUTE</var></p>
+				<p>The bigger hand is the minute hand.</p>
+				<p>Because the minute hand makes a complete circle in one hour(60 minutes), each number on the clock represents <code>\dfrac{ 60 }{12} = 5</code> minutes.</p>
+				<p>The bigger hand is pointing to <var> (MINUTE / 5) === 0 ? 12: MINUTE / 5 </var>, and that is equal to <var>MINUTE</var> minutes.</p>
+				<p>Therefore it is <var>HOUR</var>:<var>NICE_MINUTE</var></p>
 			</div>
 		</div>
 	</div>
