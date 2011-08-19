@@ -13,16 +13,15 @@
 			<var id="NUM2">TOTAL - NUM1</var>
 		</div>
 
-
 		<div class="problems">
-			<!--
+
 			<div>
-				<div class="question">
-					<p>
+				<div class="problem">
 					There <var>plural('was', TOTAL)</var> <var>plural(TOTAL, 'person')</var> riding on a train.
 					At the last stop <var>plural(NUM2, 'person')</var> got off.
+				</div>
+				<div class="question">
 					How many people are riding the train now?
-					</p>
 				</div>
 				<p class="solution">
 					<var>NUM1</var>
@@ -36,12 +35,12 @@
 			</div>
 
 			<div>
-				<div class="question">
-					<p>
+				<div class="problem">
 					There <var>plural('is', NUM1)</var> <var>plural(NUM1, 'person')</var> riding on a train.
 					At the last stop <var>plural(NUM2, 'person')</var> got off.
+				</div>
+				<div class="question">
 					How many people were riding the train altogether?
-					</p>
 				</div>
 				<p class="solution">
 					<var>TOTAL</var>
@@ -56,11 +55,11 @@
 			</div>
 
 			<div>
-				<div class="question">
-					<p>
+				<div class="problem">
 					There <var>plural('is', NUM1)</var> <var>plural(NUM1, 'tree')</var> on the right bank of a river and <var>plural(NUM2, 'tree')</var> on the left bank.
+				</div>
+				<div class="question">
 					How many trees are on the banks of the river?
-					</p>
 				</div>
 				<p class="solution">
 					<var>TOTAL</var>
@@ -73,11 +72,11 @@
 			</div>
 
 			<div>
-				<div class="question">
-					<p>
+				<div class="problem">
 					There <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'tree')</var> on the banks of the river. The <var>side(1)</var> bank has <var>NUM2</var> of them.
+				</div>
+				<div class="question">
 					How many trees are on the <var>side(2)</var> bank of the river?
-					</p>
 				</div>
 				<p class="solution">
 					<var>NUM1</var>
@@ -88,15 +87,15 @@
 					</p>
 				</div>
 			</div>
-			-->
+
 			<div>
-				<div class="question">
-					<p>
+				<div class="problem">
 					Some cars are parked in the <var>store(1)</var> store parking lot.
 					<var>NUM2</var> more <var>plural('car')</var> <var>plural('parks', 'park', NUM2)</var> at the <var>store(1)</var> store,
 					and now there <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'car')</var> in the parking lot.
+				</div>
+				<div class="question">
 					How many cars were parked at the <var>store(1)</var> store at the beginning?
-					</p>
 				</div>
 				<p class="solution">
 					<var>NUM1</var>
@@ -114,12 +113,12 @@
 			</div>
 
 			<div>
-				<div class="question">
-					<p>
+				<div class="problem">
 					There <var>plural('is', NUM2)</var> <var>plural(NUM2, 'car')</var> parked in the <var>store(1)</var> store parking lot.
-					Some more cars park at the <var>store(1)</var> store, and now there are <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'car')</var> in the parking lot.
+					Some more cars park at the <var>store(1)</var> store, and now there <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'car')</var> in the parking lot.
+				</div>
+				<div class="question">
 					How many more cars parked at the <var>store(1)</var> store?
-					</p>
 				</div>
 				<p class="solution">
 					<var>NUM1</var>
@@ -137,12 +136,12 @@
 			</div>
 
 			<div>
-				<div class="question">
-					<p>
+				<div class="problem">
 					<var>plural(NUM1, 'car')</var> <var>plural('is', NUM1)</var> in the <var>store(1)</var> store parking lot.
 					<var>NUM2</var> more <var>plural('car', NUM2)</var> <var>plural('parks', 'park', NUM2)</var> at the <var>store(1)</var> store.
+				</div>
+				<div class="question">
 					How many cars are in the parking lot now?
-					</p>
 				</div>
 				<p class="solution">
 					<var>TOTAL</var>
@@ -151,6 +150,69 @@
 					<p>
 					The number of cars parked at the store at the end is
 					the number parked at the beginning (<var>NUM1</var>) plus the number that came and parked later (<var>NUM2</var>).
+					</p>
+				</div>
+			</div>
+
+			<div>
+				<div class="problem">
+					<var>person(1)</var> did <var>plural(TOTAL, exercise(1))</var> <var>timeofday(1)</var>.
+					<var>person(2)</var> did <var>plural(NUM2, exercise(1))</var> <var>timeofday(2)</var>.
+				</div>
+				<div class="question">
+					How many <var>moreOrFewer()</var> <var>plural(exercise(1))</var> did <var>person(morePerson(1))</var> do than <var>person(morePerson(2))</var>?
+				</div>
+				<p class="solution">
+					<var>NUM1</var>
+				</p>
+				<div class="hints">
+					<p>
+					You need to find the difference between <var>person(1)</var>'s <var>plural(exercise(1))</var> and
+					<var>person(2)</var>'s <var>plural(exercise(1))</var>.
+					</p>
+					<p>
+					The difference between <var>person(1)</var>'s <var>plural(exercise(1))</var> and
+					<var>person(2)</var>'s <var>plural(exercise(1))</var> is <var>TOTAL</var> - <var>NUM2</var>.
+					</p>
+				</div>
+			</div>
+
+			<div>
+				<div class="problem">
+					<var>person(morePerson(1))</var> did <var>NUM1</var> <var>moreOrFewer()</var> <var>plural(exercise(1), NUM1)</var> than <var>person(morePerson(2))</var> <var>timeofday(1)</var>.
+					<var>person(2)</var> did <var>plural(NUM2, exercise(1))</var>.
+				</div>
+				<div class="question">
+					How many <var>plural(exercise(1))</var> did <var>person(1)</var> do?
+				</div>
+				<p class="solution">
+					<var>TOTAL</var>
+				</p>
+				<div class="hints">
+					<p>
+					<var>person(1)</var> did <var>NUM1</var> more than
+					<var>person(2)</var>'s <var>NUM2</var> <var>plural(exercise(1))</var>,
+					so <var>he(1)</var> did <var>NUM1</var> + <var>NUM2</var> <var>plural(exercise(1))</var>.
+					</p>
+				</div>
+			</div>
+
+			<div>
+				<div class="problem">
+					<var>person(morePerson(1))</var> did <var>NUM1</var> <var>moreOrFewer()</var> <var>plural(exercise(1), NUM1)</var> than <var>person(morePerson(2))</var> <var>timeofday(1)</var>.
+					<var>person(1)</var> did <var>plural(TOTAL, exercise(1))</var>.
+				</div>
+				<div class="question">
+					How many <var>plural(exercise(1))</var> did <var>person(2)</var> do?
+				</div>
+				<p class="solution">
+					<var>NUM2</var>
+				</p>
+				<div class="hints">
+					<p>
+					<var>person(2)</var> did <var>NUM1</var> fewer than
+					<var>person(1)</var>'s <var>plural(TOTAL, exercise(1))</var>,
+					so <var>he(2)</var> did <var>TOTAL</var> - <var>NUM1</var> <var>plural(exercise(1))</var>.
 					</p>
 				</div>
 			</div>

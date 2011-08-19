@@ -245,6 +245,25 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"cake"
 	]);
 
+	var moreorfeweroptions = KhanUtil.shuffle([
+		{ "text": "more", "people": [1, 2] },
+		{ "text": "fewer", "people": [2, 1] }
+	]);
+
+	var timesofday = KhanUtil.shuffle([
+		"in the morning",
+		"at midday",
+		"in the evening",
+		"at night"
+	]);
+
+	var exercises = KhanUtil.shuffle([
+		"pushup",
+		"situp",
+		"squat",
+		"jumping jack"
+	]);
+
 	var veggies = KhanUtil.shuffle([
 		"turnip",
 		"pumpkin",
@@ -363,6 +382,22 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		pizza: function( i ) {
 			return pizzas[i];
+		},
+
+		exercise: function( i ) {
+			return exercises[i - 1];
+		},
+
+		timeofday: function( i ) {
+			return timesofday[i - 1];
+		},
+
+		moreOrFewer: function() {
+			return moreorfeweroptions[0].text;
+		},
+
+		morePerson: function( i ) {
+			return moreorfeweroptions[0].people[i - 1];
 		},
 
 		bird: function( i ) {
