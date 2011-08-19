@@ -836,7 +836,8 @@ function makeProblem( id, seed ) {
 	attempts = 0;
 	lastAction = (new Date).getTime();
 
-	jQuery("#hint").val( "I'd like a hint" );
+	jQuery( "#hint" ).val( "I'd like a hint" );
+	jQuery( "#hint-remainder" ).text( hints.length + " remaining" );
 
 	if ( once ) {
 		updateData();
@@ -1045,6 +1046,7 @@ function prepareSite() {
 		}
 
 		var hint = hints.shift();
+		jQuery( "#hint-remainder" ).text( hints.length + " remaining" );
 
 		if ( hint ) {
 
@@ -1063,6 +1065,7 @@ function prepareSite() {
 			// Disable the get hint button
 			if ( hints.length === 0 ) {
 				jQuery( this ).attr( "disabled", true );
+				jQuery( "#hint-remainder" ).fadeOut( 500 );
 			}
 
 			// Don't reset the streak if we've already reset it or if
