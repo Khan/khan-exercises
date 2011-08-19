@@ -81,7 +81,7 @@ var, div.graphie { white-space: pre; }
 }
 
 .user-activity {
-  margin: 5px 5px 5px 20px;
+  margin: 5px 5px 5px 35px;
   padding: 2px 5px;
   border: 1px solid #999;
   border-radius: 4px;
@@ -89,15 +89,16 @@ var, div.graphie { white-space: pre; }
   -moz-border-radius: 4px;
 }
 
-.user-activity p {
-  margin: 5px;
+.user-activity.activated {
+  box-shadow: 0 0 0.5em 0.5em gray;
 }
 
 div.timeline-time {
+  float: left;
   margin-left: 0;
   height: 0;
   position: relative;
-  top: -16px;
+  top: -14px;
 }
 
 div.timeline-total {
@@ -105,8 +106,13 @@ div.timeline-total {
 }
 
 span.timeline-curly {
+  position: absolute;
+  left: 28px;
   font-size: 20pt;
   font-weight: 100;
-  position: relative;
-  top: 3px;
+  top: -1px;
+}
+
+#readonly {
+  padding: 10px 4px !important;
 }

@@ -808,6 +808,41 @@ function makeProblem( id, seed ) {
 
 		readonly.append( "<div class='timeline-total'>" + totalTime + "s total</div>" );
 
+		var states = readonly.children(".user-activity"),
+		    slideNum = 0,
+				numSlides = states.length;
+		states.first().addClass("activated");
+
+		// Allow users to use arrow keys to move up and down the timeline
+		jQuery(document).keydown(function(event) {
+			if (event.keyCode !== 38 && event.keyCode !== 40) {
+				return;
+			} 
+			
+			states.eq( slideNum ).removeClass( "activated" );
+
+			if (event.keyCode === 38) { // keyup
+				slideNum -= 1;
+			} else { // keydown
+				slideNum += 1;
+			}
+			slideNum = (slideNum + numSlides) % numSlides;
+
+			states.eq( slideNum ).addClass( "activated" );
+
+			states.eq( slideNum ).click();
+			return false;
+		});
+
+		// Allow users to click on points of the timeline
+		jQuery(states).click(function(event) {
+			var index = $(this).index("#readonly .user-activity");
+
+			states.eq( slideNum ).removeClass( "activated" );
+			slideNum = index;
+			states.eq( slideNum ).addClass( "activated" );
+		});
+
 		readonly
 			.find( "#readonly-problem" )
 				.text( "Problem #" + (userExercise.total_done + 1) )
