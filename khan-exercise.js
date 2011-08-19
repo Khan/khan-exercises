@@ -836,7 +836,8 @@ function makeProblem( id, seed ) {
 	attempts = 0;
 	lastAction = (new Date).getTime();
 
-	jQuery("#hint").val( "I'd like a hint" );
+	jQuery( "#hint" ).val( "I'd like a hint" );
+	jQuery( "#hint-remainder" ).text( hints.length + " remaining" );
 
 	if ( once ) {
 		updateData();
@@ -1045,6 +1046,7 @@ function prepareSite() {
 		}
 
 		var hint = hints.shift();
+		jQuery( "#hint-remainder" ).text( hints.length + " remaining" );
 
 		if ( hint ) {
 
@@ -1063,6 +1065,7 @@ function prepareSite() {
 			// Disable the get hint button
 			if ( hints.length === 0 ) {
 				jQuery( this ).attr( "disabled", true );
+				jQuery( "#hint-remainder" ).fadeOut( 500 );
 			}
 
 			// Don't reset the streak if we've already reset it or if
@@ -1101,7 +1104,9 @@ function prepareSite() {
 		} else if ( !report || !form ) {
 			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
 			jQuery( "#issue, #issue form" ).show();
-			jQuery( window ).scrollTop( jQuery( document ).height() - jQuery( window ).height() );
+			jQuery( "html, body" ).animate({
+				scrollTop: jQuery( "#issue" ).offset().top
+			}, 500 );
 		}
 	});
 
@@ -1150,7 +1155,8 @@ function prepareSite() {
 				leopard: agent_contains( "OS X 10_5" ) || agent_contains( "OS X 10.5" ),
 				snowleo: agent_contains( "OS X 10_6" ) || agent_contains( "OS X 10.6" ),
 				lion: agent_contains( "OS X 10_7" ) || agent_contains( "OS X 10.7" ),
-				scrathpad: agent_contains( "scratchpad" ) || agent_contains( "Scratchpad" )
+				scratchpad: body.indexOf( "scratchpad" ) !== -1 || body.indexOf( "scratch pad" ) !== -1 || body.indexOf( "Scratchpad" ) !== -1,
+				ipad: agent_contains( "iPad" )
 			},
 			labels = [];
 		jQuery.each( flags, function( k, v ) {
