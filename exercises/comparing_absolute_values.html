@@ -43,19 +43,6 @@
 					<var id="NUM_2">( NUM_1 < 0 ) ? randRange(0, 10) : randRange(-10, -1)</var>
 					<var id="NUM_1_VALUE">ABS_1 ? abs( NUM_1 ) : NUM_1</var>
 					<var id="NUM_2_VALUE">ABS_2 ? abs( NUM_2 ) : NUM_2</var>
-					<var id="HINT_1">(function() {
-						var hint = "";
-
-						if ( ABS_1 ) {
-							hint += "|" + NUM_1 + "| = " + NUM_1_VALUE + ( ABS_2 ? ", " : "" );
-						}
-
-						if ( ABS_2 ) {
-							hint += "|" + NUM_2 + "| = " + NUM_2_VALUE;
-						}
-
-						return hint;
-					})()</var>
 					<var id="SOLUTION">(function() {
 						if ( NUM_1_VALUE === NUM_2_VALUE ) {
 							return "=";
@@ -80,10 +67,15 @@
 					<div class="graphie" data-if="ABS_1 === '|'">
 						drawNumberLine( NUM_1 );
 					</div>
+					<p data-if="ABS_1 === '|'">
+						<code>|<var>NUM_1</var>| = <var>NUM_1_VALUE</var></code>
+					<p>
 					<div class="graphie" data-if="ABS_2 === '|'">
 						drawNumberLine( NUM_2 );
 					</div>
-					<p><code><var>HINT_1</var></code></p>
+					<p data-if="ABS_2 === '|'">
+						<code>|<var>NUM_2</var>| = <var>NUM_2_VALUE</var></code>
+					</p>
 					<p>Is <var>NUM_1_VALUE</var> less than, greater than, or equal to <var>NUM_2_VALUE</var>?</p>
 					<p><code><var>NUM_1_VALUE</var> <var>SOLUTION</var> <var>NUM_2_VALUE</var></code></p>
 					<p><code><var>ABS_1</var><var>NUM_1</var><var>ABS_1</var> <var>SOLUTION</var> <var>ABS_2</var><var>NUM_2</var><var>ABS_2</var></code></p>
