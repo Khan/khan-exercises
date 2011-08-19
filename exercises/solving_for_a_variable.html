@@ -100,9 +100,9 @@
 
 					<div>
 						<p>Isolate <code><var>X</var></code>.</p>
-						<p><code><var>color( G, false ) + X + color( X_EXTRAS, false )</var> = <var>plus( (D-A)+Y, (E-B)+Z, F-C )</var></code></p>
+						<p><code><var>plus( color( G, false ) + X + color( X_EXTRAS, false ) )</var> = <var>plus( (D-A)+Y, (E-B)+Z, F-C )</var></code></p>
 					</div>
-					<p><code><var>X</var> = \dfrac{ <var>plus( (D-A)+Y, (E-B)+Z, F-C )</var> }{ <var>plus( color( G, false ) + color( X_EXTRAS, false ) )</var> }</code></p>
+					<p><code><var>X</var> = \dfrac{ <var>plus( (D-A)+Y, (E-B)+Z, F-C )</var> }{ <var>plus( color( G + X_EXTRAS, false ) )</var> }</code></p>
 
 					<div data-if="GCD > 1 || G < 0" data-unwrap>
 						<p data-if="GCD > 1">All of these terms are divisible by <code><var>GCD</var></code>.</p>

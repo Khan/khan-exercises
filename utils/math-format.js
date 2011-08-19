@@ -294,7 +294,11 @@ jQuery.extend(KhanUtil, {
 
 				// if we've encountered \color{blue}{1}\color{xy} somehow
 				if ( l !== s.lastIndexOf( "{" ) + 1 && +KhanUtil._plusTrim( s.slice( l, r ) ) === 1 ) {
-					return s.slice( r + 1 );
+					if ( s.indexOf( "\\" ) !== -1 ) {
+						return s.slice( 0, s.indexOf( "\\" ) ) + s.slice( r + 1 );
+					} else {
+						return s.slice( r + 1 );
+					}
 				}
 
 				return s.slice( 0, l ) + KhanUtil._plusTrim( s.slice( l, r ) ) + s.slice( r );
