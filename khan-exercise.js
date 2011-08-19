@@ -837,7 +837,7 @@ function makeProblem( id, seed ) {
 	lastAction = (new Date).getTime();
 
 	jQuery( "#hint" ).val( "I'd like a hint" );
-	jQuery( "#hint-remainder" ).text( hints.length + " remaining" );
+	jQuery( "#hint-remainder" ).hide();
 
 	if ( once ) {
 		updateData();
@@ -1046,7 +1046,8 @@ function prepareSite() {
 		}
 
 		var hint = hints.shift();
-		jQuery( "#hint-remainder" ).text( hints.length + " remaining" );
+		jQuery( "#hint-remainder" ).text( hints.length + " remaining" )
+			.fadeIn( 500 );
 
 		if ( hint ) {
 
