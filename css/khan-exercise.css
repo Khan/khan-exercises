@@ -67,3 +67,5 @@ body.debug .graphie { outline: 1px dashed red; }
 var, div.graphie { white-space: pre; }
 
 #issue-throbber { position: relative; top: 3px; }
+
+.exp input { vertical-align: super; font-size: 9px; height: 11px; }

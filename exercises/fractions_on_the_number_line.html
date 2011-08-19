@@ -2,7 +2,7 @@
 <html data-require="math math-format graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
-	<title>Number line</title>
+	<title>Fractions on the number line</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
 		function compareStringNumber( a, b){
@@ -15,7 +15,7 @@
 
 	<div class="exercise">
 	<div class="vars" >
-		<div data-ensure="NOMINATOR/DENOMINATOR < 3">
+		<div data-ensure="NOMINATOR/DENOMINATOR < 3 && NOMINATOR/DENOMINATOR != round( NOMINATOR/DENOMINATOR )">
 			<var id="NOMINATOR"> randRange( 0 , 15 )</var>
 			<var id="DENOMINATOR"> randRange( 1 , 15 )</var>
 		</div>
@@ -64,7 +64,7 @@
 				style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
 				var already = [];
 				for( i = 0; i !=  WRONGS.length; i++ ){
-						ellipse(  [ WRONGS[ i ] + 3, 0 ], [0.03,0.18] );
+						ellipse(  [ WRONGS[ i ] + 3, 0 ], [ 0.06, 0.12 ] );
 						label( [WRONGS[ i ] + 3, 0 ], POSS_ANSWER[ i ] , "above", { labelDistance: 5 } );
 				}
 			</div>
@@ -80,10 +80,33 @@
 
 	<div class="hints">
 		<p data-if="reduces( NOMINATOR, DENOMINATOR )"><code><var>NICE_NUMBER</var></code> is equal to <code><var>REDUCED_NUMBER</var></code> </p>
-		<p data-if="NUMBER !== 0"> Because it is <span data-if="NUMBER > 0">positive</span><span data-else>negative</span> we go <span data-if="NUMBER > 0">right</span><span data-else>left</span></p>
-		<p data-if="round( NUMBER ) !== NUMBER" ><code> <var>REDUCED_NUMBER</var></code> is between <var>floor( NUMBER )</var> and <var>ceil( NUMBER )</var></p>
-		<p data-if="round( NUMBER ) !== NUMBER" >It is closest to <var> round( NUMBER )</var>.</p>
-		 <p data-if="round( NUMBER ) !== NUMBER" ><var>REDUCED_NUMBER</var> is <var>floor( abs( NUMBER ) ) * NUMBER/abs( NUMBER )</var> and <code><var>fraction( ( NOMINATOR - DENOMINATOR * floor( abs( NUMBER) ) ) * NUMBER/abs( NUMBER ) , DENOMINATOR, true, true )</var></code></p>
+		<p> Because <code><var>REDUCED_NUMBER</var></code> is <span data-if="NUMBER > 0">positive</span><span data-else>negative</span> we go <span data-if="NUMBER > 0">right</span><span data-else>left</span> from 0</p>
+		 <p><code><var>REDUCED_NUMBER</var></code> is equal to <var>floor( abs( NUMBER ) ) * NUMBER/abs( NUMBER )</var> and <code><var>fraction( parseInt( SIGN + ( NOMINATOR - ( DENOMINATOR * floor( abs( NUMBER) ) )  ) ) , DENOMINATOR, true, true )</var></code></p>
+		<p>Therefore <code><var>REDUCED_NUMBER</var></code> is between <var>floor( NUMBER )</var> and <var>ceil( NUMBER )</var></p>
+		<div>
+		If we zoom in to that portion of the number line:
+			<div class="graphie">
+				init({
+					scale: [ 640, 40 ],
+					range: [ [-0.007, 5], [-1, 1] ]
+				});
+				var start = floor( NUMBER ) - 0.001;
+				var end =  ceil( NUMBER ) + 0.001;
+				var originX = 0;
+				var x = NUMBER;
+				numberLine( start, end, 1 / reduce( NOMINATOR, DENOMINATOR)[1], 0 ,0, reduce( NOMINATOR, DENOMINATOR )[1] );
+				style({ stroke: "#6495ED", fill: "#6495ED" });
+				style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+				var already = [];
+				for( i = 0; i !=  WRONGS.length; i++ ){
+						if( WRONGS[ i ] >= start && WRONGS[ i ] <= end ){
+							ellipse(  [ WRONGS[ i ] - start, 0 ], [ 0.01, 0.12 ] );
+							label( [WRONGS[ i ] - start, 0 ], POSS_ANSWER[ i ] , "above", { labelDistance: 5 } );
+						}
+				}
+			</div>
+			<div class="solution"><var>ANSWER</var></div>
+		</div>
 		<p>It is <var>ANSWER</var>.</p>
 	</div>
 	</div>

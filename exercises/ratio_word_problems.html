@@ -71,8 +71,10 @@
 				<var id="DISTANCE_REAL">FACTOR * SCALE_REAL</var>
 			</div>
 			<p class="problem">The scale on a map is <var>SCALE_MAP</var>cm : <var>SCALE_REAL</var>km.</p>
-			<p class="question">If two cities are <var>DISTANCE_MAP</var>cm apart on the map, what is the actual distance between the two cities?</p>
-			<p class="solution" data-forms="integer"><var>DISTANCE_REAL</var></p>
+			<p class="question">If two cities are <var>DISTANCE_MAP</var>cm apart on the map, what is the actual distance in km between the two cities?</p>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-forms="integer"><var>DISTANCE_REAL</var></span> km</p>
+			</div>
 			<div class="hints">
 				<p>The scale means that every <var>SCALE_MAP</var>cm on the map corresponds to an actual distance of <var>SCALE_REAL</var>km.</p>
 				<p>A distance of <var>DISTANCE_MAP</var>cm on the map is the same as <var>FACTOR</var> <code>\cdot</code> <var>SCALE_MAP</var>cm.</p>
@@ -81,8 +83,10 @@
 		</div>
 
 		<div id="map-give-real-ask-map" data-type="map">
-			<p class="question">If the distance between two cities is <var>DISTANCE_REAL</var>km, how far apart are the two cities on the map?</p>
-			<p class="solution" data-forms="integer"><var>DISTANCE_MAP</var></p>
+			<p class="question">If the distance between two cities is <var>DISTANCE_REAL</var>km, how far apart in cm are the two cities on the map?</p>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-forms="integer"><var>DISTANCE_MAP</var></span> cm</p>
+			</div>
 			<div class="hints">
 				<p>The scale means that every <var>SCALE_MAP</var>cm on the map corresponds to an actual distance of <var>SCALE_REAL</var>km.</p>
 				<p>An actual distance of <var>DISTANCE_REAL</var>km is the same as <var>FACTOR</var> <code>\cdot</code> <var>SCALE_REAL</var>km.</p>
