@@ -108,9 +108,9 @@ jQuery.extend( Khan.answerTypes, {
 				},
 				example: (function() {
 					if ( options.simplify === "optional" ) {
-						return "a proper fraction, like <code>1/2</code> or <code>6/10</code>"
+						return "a <em>proper</em> fraction, like <code>1/2</code> or <code>6/10</code>"
 					} else {
-						return "a simplified proper fraction, like <code>3/5</code>"
+						return "a <em>simplified proper</em> fraction, like <code>3/5</code>"
 					}
 				})()
 			},
@@ -129,7 +129,7 @@ jQuery.extend( Khan.answerTypes, {
 					if ( options.simplify === "optional" ) {
 						return "an improper fraction, like <code>10/7</code> or <code>14/8</code>"
 					} else {
-						return "a simplified improper fraction, like <code>7/4</code>"
+						return "a <em>simplified</em> improper fraction, like <code>7/4</code>"
 					}
 				})()
 			},
@@ -280,7 +280,7 @@ jQuery.extend( Khan.answerTypes, {
 				},
 				example: (function() {
 					if ( options.inexact === undefined ) {
-						return "an exact decimal, like <code>0.75</code>";
+						return "an <em>exact</em> decimal, like <code>0.75</code>";
 					} else {
 						return "a decimal, like <code>0.75</code>";
 					}
