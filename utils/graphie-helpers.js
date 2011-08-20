@@ -45,14 +45,14 @@ function piechart( divisions, colors, radius ) {
 	var partial = 0;
 	jQuery.each( divisions, function( i, slice ) {
 		set.push( graph.arc( [0, 0], radius, partial * 360 / sum, ( partial + slice ) * 360 / sum, true, {
-			stroke: "none",
+			stroke: colors[2] || "none",
 			fill: colors[i]
 		} ) );
 		partial += slice;
 	} );
 
 	for ( var i = 0; i < sum; i++ ) {
-		set.push( graph.line( [0, 0], graph.polar( radius, i * 360 / sum ), { stroke: "#fff" } ) );
+		set.push( graph.line( [0, 0], graph.polar( radius, i * 360 / sum ), { stroke: colors[2] || "#fff" } ) );
 	}
 
 	return set;
