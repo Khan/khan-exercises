@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format graphie graphie-helpers">
 	<head>
 		<title>Multiplying Fractions 1</title>
 		<script src="../khan-exercise.js"></script>
@@ -425,7 +425,7 @@
 							<!-- 		jQuery("#box2").css("left", 300); -->
 							<!-- 		jQuery("#box2").animate({left: "0"}, 50000); -->
 							<!-- 	}); -->
-							</script>
+							<!-- </script> -->
 						</div>
 
 						<div>
@@ -440,12 +440,19 @@
 
 						<div>
 							<p>So this is equivalent to having <var>cardinal( N1 * N2 )</var> out of <var>cardinal( D1 * D2 )</var> slices of pie.</p>
-							<!-- FIXME: pie! -->
+							<div class="graphie">
+								init({
+									range: [ [-2, 2], [-2, 2] ],
+									scale: 50
+								});
+
+								piechart( [N1*N2, D1*D2], ["purple", "#fff", "#000"], 1.9 );
+							</div>
 						</div>
 
 						<p>Notice how there are <code><var>N1</var>\times<var>N2</var>=<var>N1*N2</var></code> out of <code><var>D1</var>\times<var>D2</var>=<var>D1*D2</var></code> slices of pie.</p>
 
-						<p>So the resulting fraction is <code><var>fraction( N1 * N2, D1 * D2 )</var></code>.</p>
+						<p>This explains why the resulting fraction is <code><var>fraction( N1 * N2, D1 * D2 )</var></code>.</p>
 
 						<p data-if="getGCD( N1*N2, D1*D2 ) > 1">Optionally, this reduces to <code><var>fractionReduce( N1*N2, D1*D2 )</var></code>.</p>
 
@@ -474,7 +481,7 @@
 								<td class="centered-cell"><code>\huge{ = \space ?}</code></td>
 							</tr>
 							<tr>
-								<td><span class="padded_span"><var>createVertTable( N, D )</var></td>
+								<td><span class="padded_span"><var>createVertTable( N, D )</var></span></td>
 								<td></td>
 								<td></td>
 								<td></td>
