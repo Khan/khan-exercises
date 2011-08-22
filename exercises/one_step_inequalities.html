@@ -77,9 +77,10 @@
 						
 							var offset;
 							var fill;
+							var startOffset = 0.12;
 							switch ( COMP_SOLUTION ) {
 								case "&gt;":
-									fill = "#000000";
+									fill = null;
 									offset = 5;
 									break;
 								case "&ge;":
@@ -87,21 +88,23 @@
 									offset = 5;
 									break;
 								case "&lt;":
-									fill = "#000000";
+									fill = null;
 									offset = -5;
+									startOffset *= -1;
 									break;
 								case "&le;":
 									fill = "#6495ED";
 									offset = -5;
+									startOffset *= -1;
 									break;
 							}
 
 							var x = SOLUTION_REAL - start;
 
 							style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
-							path([ [ x, 0 ], [ x + offset, 0 ]]);
+							path([ [ x + startOffset, 0 ], [ x + offset, 0 ]]);
 							style({ stroke: "#6495ED", fill: fill });
-							circle([ x, 0 ], 0.10 );
+							circle([ x, 0 ], 0.15 );
 						</div>
 					</div>
 				</div>
