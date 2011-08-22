@@ -53,7 +53,7 @@
 
 			if ( mistakeTypes[mistakeIndex] !== "none" ) {
 
-				$( mistakeTypes ).each(function () {
+				jQuery.each( mistakeTypes, function () {
 
 					// Make at least one of each mistake, and possibly more
 					if ( mistakeTypes[ mistakeIndex ] == this || KhanUtil.rand( 5 ) === 0 ) {
@@ -91,9 +91,13 @@
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars" data-ensure="INT != 0 || FRAC != 0">
-		<var id="INT">rand( 6 ) > 0 ? randRange( 1, 9 ) : 0</var>
-		<var id="FRAC">rand( 3 ) > 0 ? (randRange( 1, 9 ) / 10) : 0</var>
+	<div class="vars">
+
+		<div data-ensure="INT != 0 || FRAC != 0">
+			<var id="INT">rand( 6 ) > 0 ? randRange( 1, 9 ) : 0</var>
+			<var id="FRAC">rand( 3 ) > 0 ? (randRange( 1, 9 ) / 10) : 0</var>
+		</div>
+
 		<var id="SIGN">randFromArray(["", "-"])</var>
 		<var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
 		<var id="INCLUSIVE">REL == "&le;" || REL == "&ge;"</var>
