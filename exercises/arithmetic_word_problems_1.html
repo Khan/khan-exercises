@@ -54,6 +54,29 @@
 				</div>
 			</div>
 
+			<div id="take-away-change">
+				<div class="problem">
+					There <var>plural('was', TOTAL)</var> <var>plural(TOTAL, 'person')</var> riding on a train, before the last stop.
+					Now there are <var>plural(NUM2, 'person')</var> riding on the train.
+				</div>
+				<div class="question">
+					How many people got off the train at the last stop?
+				</div>
+				<p class="solution">
+					<var>TOTAL</var>
+				</p>
+				<div class="hints">
+					<p>
+					<var>plural(TOTAL, 'person')</var> <var>plural('was', TOTAL)</var> riding before the last stop and only <var>NUM2</var> 
+					of them <var>plural('was', NUM2)</var> riding after the last stop, so
+					there were <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('person')</var> that got off at the last stop.
+					</p>
+					<p>
+					<code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code> <var>plural('person', NUM1)</var> got off at the last stop.
+					</p>
+				</div>
+			</div>
+
 			<div id="put-together">
 				<div class="problem">
 					There <var>plural('is', NUM1)</var> <var>plural(NUM1, 'tree')</var> on the right bank of a river and <var>plural(NUM2, 'tree')</var> on the left bank.
