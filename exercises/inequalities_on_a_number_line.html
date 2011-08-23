@@ -8,7 +8,7 @@
 		function numberLineWithArrow( start, end, step, x, y, arrowStartX, arrowEndX, inclusive ) {
 
 			// Offset arrow appropriately in case number line's point is empty
-			var arrowOffsetX = 0.12;
+			var arrowOffsetX = 0.15;
 			if ( arrowStartX > arrowEndX ) {
 				arrowOffsetX *= -1;
 			}
@@ -18,7 +18,7 @@
 			graph = KhanUtil.currentGraph;
 			graph.style({ stroke: "#6495ED", fill: inclusive ? "#6495ED" : null });
 			graph.pt = graph.circle( [ arrowStartX, 0 ], 0.15 );
-			graph.style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+			graph.style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->" });
 			graph.arrow = graph.path( [ [ arrowStartX + arrowOffsetX, 0 ], [ arrowEndX, 0 ] ] );
 			graph.pt.toFront();
 
