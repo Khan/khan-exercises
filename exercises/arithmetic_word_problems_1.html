@@ -28,11 +28,13 @@
 				</p>
 				<div class="hints">
 					<p>
-					<var>plural(TOTAL, 'person')</var> <var>plural('was', TOTAL)</var> riding before the previous stop and <var>NUM2</var> of them got off the train, so now
-					there are <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('person')</var> on the train.
+					The number riding the train now is the difference between the number who were riding and the number who got off at the previous stop.
 					</p>
 					<p>
-					<code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code> <var>plural('person')</var> <var>plural('is', NUM1)</var>on the train.
+					The difference is <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('person')</var> on the train.
+					</p>
+					<p>
+					<code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code> <var>plural('person')</var> <var>plural('is', NUM1)</var> on the train.
 					</p>
 				</div>
 			</div>
@@ -50,9 +52,13 @@
 				</p>
 				<div class="hints">
 					<p>
-					<var>plural(NUM1, 'person')</var> <var>plural('is', NUM1)</var> riding now and 
-					another <var>plural(NUM2, 'person')</var> <var>plural('was', NUM2)</var> riding before the previous stop,
-					so there were <code><var>NUM1</var> + <var>NUM2</var></code> <var>plural('person')</var> in total on the train.
+					The number riding the train before the stop is the sum of the number who are riding now and the number who got off at the previous stop.
+					</p>
+					<p>
+					The sum is <code><var>NUM1</var> + <var>NUM2</var></code> <var>plural('person')</var> on the train.
+					</p>
+					<p>
+					<code><var>NUM1</var> + <var>NUM2</var> = <var>TOTAL</var></code> <var>plural('person')</var> <var>plural('is', NUM1)</var> on the train.
 					</p>
 				</div>
 			</div>
@@ -66,16 +72,17 @@
 					How many people got off the train at the stop?
 				</div>
 				<p class="solution">
-					<var>TOTAL</var>
+					<var>NUM1</var>
 				</p>
 				<div class="hints">
 					<p>
-					<var>plural(TOTAL, 'person')</var> <var>plural('was', TOTAL)</var> riding before the previous stop and only <var>NUM2</var>
-					of them <var>plural('was', NUM2)</var> riding after the stop, so
-					there were <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('person')</var> that got off at the stop.
+					The number of people who got off is the difference between the number who were riding before and the number who are riding now.
 					</p>
 					<p>
-					<code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code> <var>plural('person', NUM1)</var> got off at the stop.
+					The difference is <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('person')</var>.
+					</p>
+					<p>
+					<code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code> <var>plural('person')</var> <var>plural('is', NUM1)</var>.
 					</p>
 				</div>
 			</div>
@@ -92,7 +99,13 @@
 				</p>
 				<div class="hints">
 					<p>
-						The total number of trees on the two banks of the river is the number of trees on the left bank plus the number of trees on the right bank.
+					The total number of trees on the two banks of the river is the sum of the number of trees on the left bank and the number of trees on the right bank.
+					</p>
+					<p>
+					The sum is <code><var>NUM1</var> + <var>NUM2</var></code> <var>plural('tree')</var>.
+					</p>
+					<p>
+					<code><var>NUM1</var> + <var>NUM2</var> = <var>TOTAL</var></code> <var>plural('tree')</var>.
 					</p>
 				</div>
 			</div>
@@ -109,14 +122,20 @@
 				</p>
 				<div class="hints">
 					<p>
-					The number of trees on the <var>side(2)</var> bank of the river is the total number of trees on the banks of the river minus the number of trees on the <var>side(1)</var> bank.
+					The number of trees on the <var>side(2)</var> bank of the river is the difference between the number of trees on both banks of the river and the number of trees on the <var>side(1)</var> bank.
+					</p>
+					<p>
+					The difference is <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('tree')</var>.
+					</p>
+					<p>
+					<code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code> <var>plural('tree')</var>.
 					</p>
 				</div>
 			</div>
 
 			<div id="add-start">
 				<div class="problem">
-					Some cars are parked in the <var>store(1)</var> store parking lot.
+					Some cars were parked in the <var>store(1)</var> store parking lot.
 					<var>NUM2</var> more <var>plural('car')</var> <var>plural('parks', 'park', NUM2)</var> at the <var>store(1)</var> store,
 					and now there <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'car')</var> in the parking lot.
 				</div>
@@ -128,19 +147,20 @@
 				</p>
 				<div class="hints">
 					<p>
-					The number of cars parked at the store at the end (<var>TOTAL</var>) is
-					the number parked at the beginning plus the number that came and parked later (<var>NUM2</var>).
+					The number of cars parked at the store at the beginning is the difference of the number parked now and the number that came and parked earlier.
 					</p>
 					<p>
-					Therefore, the number of cars parked at the store at the beginning is
-					the number parked at the end (<var>TOTAL</var>) minus the number that came and parked later (<var>NUM2</var>).
+					The difference is <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('car')</var>.
+					</p>
+					<p>
+					<code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code> <var>plural('car')</var>.
 					</p>
 				</div>
 			</div>
 
 			<div id="add-change">
 				<div class="problem">
-					There <var>plural('is', NUM2)</var> <var>plural(NUM2, 'car')</var> parked in the <var>store(1)</var> store parking lot.
+					There <var>plural('was', NUM2)</var> <var>plural(NUM2, 'car')</var> parked in the <var>store(1)</var> store parking lot.
 					Some more cars park at the <var>store(1)</var> store, and now there <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'car')</var> in the parking lot.
 				</div>
 				<div class="question">
@@ -151,19 +171,20 @@
 				</p>
 				<div class="hints">
 					<p>
-					The number of cars parked at the store at the end (<var>TOTAL</var>) is
-					the number parked at the beginning (<var>NUM2</var>) plus the number that came and parked later.
+					The number of cars that came and parked at the store is the difference between the number that were parked earlier and the number that are parked now.
 					</p>
 					<p>
-					Therefore, the number of cars parked at the store later is
-					the number parked at the end (<var>TOTAL</var>) minus the number that were parked at the beginning (<var>NUM2</var>).
+					The difference is <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('car')</var>.
+					</p>
+					<p>
+					<code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code> <var>plural('car')</var>.
 					</p>
 				</div>
 			</div>
 
 			<div id="add-result">
 				<div class="problem">
-					<var>plural(NUM1, 'car')</var> <var>plural('is', NUM1)</var> in the <var>store(1)</var> store parking lot.
+					<var>plural(NUM1, 'car')</var> <var>plural('was', NUM1)</var> in the <var>store(1)</var> store parking lot.
 					<var>NUM2</var> more <var>plural('car', NUM2)</var> <var>plural('parks', 'park', NUM2)</var> at the <var>store(1)</var> store.
 				</div>
 				<div class="question">
@@ -174,8 +195,13 @@
 				</p>
 				<div class="hints">
 					<p>
-					The number of cars parked at the store at the end is
-					the number parked at the beginning (<var>NUM1</var>) plus the number that came and parked later (<var>NUM2</var>).
+					The number of cars that are parked now is the sum of the number that were parked earlier and the number that came to park.
+					</p>
+					<p>
+					The sum is <code><var>NUM1</var> + <var>NUM2</var></code> <var>plural('car')</var>.
+					</p>
+					<p>
+					<code><var>NUM1</var> + <var>NUM2</var> = <var>TOTAL</var></code> <var>plural('car')</var>.
 					</p>
 				</div>
 			</div>
@@ -193,12 +219,13 @@
 				</p>
 				<div class="hints">
 					<p>
-					Find the difference between <var>person(1)</var>'s <var>plural(exercise(1))</var> and
-					<var>person(2)</var>'s <var>plural(exercise(1))</var>.
+					Find the difference between <var>person(1)</var>'s <var>plural(exercise(1))</var> and <var>person(2)</var>'s <var>plural(exercise(1))</var>.
 					</p>
 					<p>
-					The difference between <var>person(1)</var>'s <var>plural(exercise(1))</var> and
-					<var>person(2)</var>'s <var>plural(exercise(1))</var> is <code><var>TOTAL</var> - <var>NUM2</var></code>.
+					The difference is <code><var>TOTAL</var> - <var>NUM2</var></code>.
+					</p>
+					<p>
+					<code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code>.
 					</p>
 				</div>
 			</div>
@@ -216,9 +243,13 @@
 				</p>
 				<div class="hints">
 					<p>
-					<var>person(1)</var> did <var>NUM1</var> more than
-					<var>person(2)</var>'s <var>NUM2</var> <var>plural(exercise(1))</var>,
-					so <var>he(1)</var> did <code><var>NUM1</var> + <var>NUM2</var></code> <var>plural(exercise(1))</var>.
+					<var>person(2)</var> did <var>plural(NUM2, exercise(1))</var>, and <var>person(1)</var> did <var>NUM1</var> more than that, so find the sum.
+					</p>
+					<p>
+					The sum is <code><var>NUM2</var> + <var>NUM1</var></code> <var>plural(exercise(1))</var>.
+					</p>
+					<p>
+					<var>He(1)</var> did <code><var>NUM2</var> + <var>NUM1</var> = <var>TOTAL</var></code> <var>plural(exercise(1))</var>.
 					</p>
 				</div>
 			</div>
@@ -236,9 +267,13 @@
 				</p>
 				<div class="hints">
 					<p>
-					<var>person(2)</var> did <var>NUM1</var> fewer than
-					<var>person(1)</var>'s <var>plural(TOTAL, exercise(1))</var>,
-					so <var>he(2)</var> did <code><var>TOTAL</var> - <var>NUM1</var></code> <var>plural(exercise(1))</var>.
+					<var>person(1)</var> did <var>plural(TOTAL, exercise(1))</var>, and <var>person(2)</var> did <var>NUM1</var> fewer than that, so find the difference.
+					</p>
+					<p>
+					The difference is <code><var>TOTAL</var> - <var>NUM1</var></code> <var>plural(exercise(1))</var>.
+					</p>
+					<p>
+					<var>He(1)</var> did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural(exercise(1))</var>.
 					</p>
 				</div>
 			</div>
