@@ -303,7 +303,7 @@ jQuery.extend(KhanUtil, {
 			// The absolute value of the number under the radical is a perfect square
 
 			rootString += KhanUtil.fraction(-b + underRadical[0], 2*a, true, true, true) + ","
-				+ KhanUtil.fraction(-b - underRadical[0], 2*a);
+				+ KhanUtil.fraction(-b - underRadical[0], 2*a, true, true, true);
 		} else {
 			// under the radical can be partially simplified
 			var divisor = KhanUtil.getGCD( b, 2 * a, underRadical[0] );
