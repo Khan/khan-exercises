@@ -231,11 +231,6 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"cake"
 	]);
 
-	var moreorfeweroptions = KhanUtil.shuffle([
-		{ "text": "more", "people": [1, 2] },
-		{ "text": "fewer", "people": [2, 1] }
-	]);
-
 	var timesofday = KhanUtil.shuffle([
 		"in the morning",
 		"around noon",
@@ -364,14 +359,6 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		timeofday: function( i ) {
 			return timesofday[i - 1];
-		},
-
-		moreOrFewer: function() {
-			return moreorfeweroptions[0].text;
-		},
-
-		morePerson: function( i ) {
-			return moreorfeweroptions[0].people[i - 1];
 		},
 
 		fruit: function( i ) {

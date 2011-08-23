@@ -206,13 +206,13 @@
 				</div>
 			</div>
 
-			<div id="compare-diff">
+			<div id="compare-diff-more">
 				<div class="problem">
 					<var>person(1)</var> did <var>plural(TOTAL, exercise(1))</var> <var>timeofday(1)</var>.
 					<var>person(2)</var> did <var>plural(NUM2, exercise(1))</var> <var>timeofday(2)</var>.
 				</div>
 				<div class="question">
-					How many <var>moreOrFewer()</var> <var>plural(exercise(1))</var> did <var>person(morePerson(1))</var> do than <var>person(morePerson(2))</var>?
+					How many more <var>plural(exercise(1))</var> did <var>person(1)</var> do than <var>person(2)</var>?
 				</div>
 				<p class="solution">
 					<var>NUM1</var>
@@ -230,9 +230,15 @@
 				</div>
 			</div>
 
-			<div id="compare-bigger">
+			<div id="compare-diff-less"  data-type="compare-diff-more">
+				<div class="question">
+					How many fewer <var>plural(exercise(1))</var> did <var>person(2)</var> do than <var>person(1)</var>?
+				</div>
+			</div>
+
+			<div id="compare-bigger-more">
 				<div class="problem">
-					<var>person(morePerson(1))</var> did <var>NUM1</var> <var>moreOrFewer()</var> <var>plural(exercise(1), NUM1)</var> than <var>person(morePerson(2))</var> <var>timeofday(1)</var>.
+					<var>person(1)</var> did <var>NUM1</var> more <var>plural(exercise(1), NUM1)</var> than <var>person(2)</var> <var>timeofday(1)</var>.
 					<var>person(2)</var> did <var>plural(NUM2, exercise(1))</var>.
 				</div>
 				<div class="question">
@@ -254,9 +260,16 @@
 				</div>
 			</div>
 
-			<div id="compare-smaller">
+			<div id="compare-bigger-less" data-type="compare-bigger-more">
 				<div class="problem">
-					<var>person(morePerson(1))</var> did <var>NUM1</var> <var>moreOrFewer()</var> <var>plural(exercise(1), NUM1)</var> than <var>person(morePerson(2))</var> <var>timeofday(1)</var>.
+					<var>person(2)</var> did <var>NUM1</var> fewer <var>plural(exercise(1), NUM1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.
+					<var>person(2)</var> did <var>plural(NUM2, exercise(1))</var>.
+				</div>
+			</div>
+
+			<div id="compare-smaller-more">
+				<div class="problem">
+					<var>person(1)</var> did <var>NUM1</var> more <var>plural(exercise(1), NUM1)</var> than <var>person(2)</var> <var>timeofday(1)</var>.
 					<var>person(1)</var> did <var>plural(TOTAL, exercise(1))</var>.
 				</div>
 				<div class="question">
@@ -275,6 +288,13 @@
 					<p>
 					<var>He(1)</var> did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural(exercise(1))</var>.
 					</p>
+				</div>
+			</div>
+
+			<div id="compare-smaller-fewer" data-type="compare-smaller-more">
+				<div class="problem">
+					<var>person(2)</var> did <var>NUM1</var> fewer <var>plural(exercise(1), NUM1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.
+					<var>person(1)</var> did <var>plural(TOTAL, exercise(1))</var>.
 				</div>
 			</div>
 
