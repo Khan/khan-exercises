@@ -227,6 +227,23 @@ var Khan = {
 			// We can force it to convert HTML entities properly by saying we're Konqueror\n\
 			MathJax.Hub.Browser.isKonqueror = true;\
 			\
+			// Trying to monkey-patch MathJax.Message.Init to not throw errors\n\
+			MathJax.Message.Init = (function( oldInit ) {\
+				return function( styles ) {\
+					if ( this.div && this.div.parentNode == null ) {\
+						var div = document.getElementById(\"MathJax_Message\");\
+						if ( div && div.firstChild == null ) {\
+							var parent = div.parentNode;\
+							if ( parent ) {\
+								parent.removeChild( div );\
+							}\
+						}\
+					}\
+					\
+					oldInit.call( this, styles );\
+				};\
+			})( MathJax.Message.Init );\
+			\
 			MathJax.Hub.Startup.onload();"
 		}, "raphael" ],
 
@@ -952,6 +969,7 @@ function makeProblem( id, seed ) {
 	lastAction = (new Date).getTime();
 
 	jQuery( "#hint" ).val( "I'd like a hint" );
+	jQuery( "#hint-remainder" ).hide();
 
 	if ( once ) {
 		updateData();
@@ -1165,6 +1183,8 @@ function prepareSite() {
 		}
 
 		var hint = hints.shift();
+		jQuery( "#hint-remainder" ).text( hints.length + " remaining" )
+			.fadeIn( 500 );
 
 		if ( hint ) {
 
@@ -1183,6 +1203,7 @@ function prepareSite() {
 			// Disable the get hint button
 			if ( hints.length === 0 ) {
 				jQuery( this ).attr( "disabled", true );
+				jQuery( "#hint-remainder" ).fadeOut( 500 );
 			}
 
 			hintsUsed += 1;
@@ -1225,7 +1246,9 @@ function prepareSite() {
 		} else if ( !report || !form ) {
 			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
 			jQuery( "#issue, #issue form" ).show();
-			jQuery( window ).scrollTop( jQuery( document ).height() - jQuery( window ).height() );
+			jQuery( "html, body" ).animate({
+				scrollTop: jQuery( "#issue" ).offset().top
+			}, 500 );
 		}
 	});
 
@@ -1271,10 +1294,11 @@ function prepareSite() {
 				win7: agent_contains( "Windows NT 6.1" ),
 				vista: agent_contains( "Windows NT 6.0" ),
 				xp: agent_contains( "Windows NT 5.1" ),
-				leopard: agent_contains( "Mac OS X 10_5" ),
-				snowleo: agent_contains( "Mac OS X 10_6" ),
-				lion: agent_contains( "Mac OS X 10_7" ),
-				scrathpad: agent_contains( "scratchpad" ) || agent_contains( "Scratchpad" )
+				leopard: agent_contains( "OS X 10_5" ) || agent_contains( "OS X 10.5" ),
+				snowleo: agent_contains( "OS X 10_6" ) || agent_contains( "OS X 10.6" ),
+				lion: agent_contains( "OS X 10_7" ) || agent_contains( "OS X 10.7" ),
+				scratchpad: body.indexOf( "scratchpad" ) !== -1 || body.indexOf( "scratch pad" ) !== -1 || body.indexOf( "Scratchpad" ) !== -1,
+				ipad: agent_contains( "iPad" )
 			},
 			labels = [];
 		jQuery.each( flags, function( k, v ) {

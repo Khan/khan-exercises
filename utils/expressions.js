@@ -16,12 +16,6 @@ jQuery.extend(KhanUtil, {
 
 		if ( typeof expr === "object" ) {
 
-			// Color wrappers should be completely ignored by everything but 
-			// formatOperators
-			if ( expr[0] === "color" ) {
-				return KhanUtil.exprType( expr[2] );
-			}
-
 			return expr[0];
 
 		} else {
@@ -224,6 +218,19 @@ jQuery.extend(KhanUtil, {
 			} else {
 				return KhanUtil.expr(arguments[0]);
 			}
+		},
+
+		"times": function( left, right ) {
+			var parenthesizeLeft = !KhanUtil.exprIsShort(left);
+			var parenthesizeRight = !KhanUtil.exprIsShort(right);
+
+			left = KhanUtil.expr( left );
+			right = KhanUtil.expr( right );
+
+			left = parenthesizeLeft ? "(" + left + ")" : left;
+			right = parenthesizeRight ? "(" + right + ")" : right;
+
+			return left + " \\times " + right;
 		},
 
 		"/": function( num, den ) {

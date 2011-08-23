@@ -28,6 +28,7 @@
 								tickStep: 1,
 								axisArrows: "<->"
 							});
+							style({ stroke: "#6495ED" });
 						</div>
 					</div>
 					<div class="question">
@@ -50,37 +51,7 @@
 					</div>
 				</div>
 
-				<div id="hyperbola" data-type="parabola">
-					<div class="vars">
-						<var id="A">randRangeNonZero( -40, 40 ) / 10</var>
-						<var id="B">randRangeNonZero( -40, 40 ) / 10</var>
-
-						<var id="PARA_FUNC">function( t ) {
-							return [ A / cos( t ), B * tan( t ) ];
-						}</var>
-					</div>
-					
-					<div class="question">
-						<div class="graphie" data-update="conic">
-							plotParametric( PARA_FUNC, [0, 2*PI] );
-						</div>
-					</div>
-
-					<div class="solution">Hyperbola</div>
-
-					<div class="hints">
-						<div>
-							<p>This graph has two asymptotes which it approaches. It's also U-shaped on each side.</p>
-							<div class="graphie" data-update="conic">
-								plot( function( x ) { return (B/A) * x; }, [-10, 10], { stroke: "gray" } );
-								plot( function( x ) { return (B/A) * -1 * x; }, [-10, 10], { stroke: "gray" } );
-							</div>
-						</div>
-						<p>This conic section is therefore a <em>hyperbola</em>.</p>
-					</div>
-				</div>
-
-				<div id="ellipse" data-type="hyperbola">
+				<div id="ellipse" data-type="parabola">
 					<div class="vars">
 						<var id="A">randRangeNonZero( -70, 70 ) / 10</var>
 						<var id="B">randRangeNonZero( -70, 70 ) / 10</var>
@@ -90,6 +61,12 @@
 						<var id="PARA_FUNC">function( t ) {
 							return [ A * cos( t ) + C, B * sin( t ) + D ];
 						}</var>
+					</div>
+
+					<div class="question">
+						<div class="graphie" data-update="conic">
+							plotParametric( PARA_FUNC, [-PI, PI] );
+						</div>
 					</div>
 
 					<div class="solution">Ellipse</div>
@@ -111,6 +88,40 @@
 					<div class="hints">
 						<p>This shape is perfectly round and symmetrical. All the points on it are equidistant from its center.</p>
 						<p>A <em>circle</em> has those properties.</p>
+					</div>
+				</div>
+
+				<div id="hyperbola" data-type="parabola">
+					<div class="vars">
+						<var id="A">randRangeNonZero( -40, 40 ) / 10</var>
+						<var id="B">randRangeNonZero( -40, 40 ) / 10</var>
+
+						<var id="PARA_FUNC">function( t ) {
+							return [ A / cos( t ), B * tan( t ) ];
+						}</var>
+					</div>
+					
+					<div class="question">
+						<div class="graphie" data-update="conic">
+							// to steer clear of discontinuities,
+							// split up the plotting and add some buffer area away from them
+							plotParametric( PARA_FUNC, [-PI, -PI/2-0.1] );
+							plotParametric( PARA_FUNC, [-PI/2+0.1, PI/2-0.1] );
+							plotParametric( PARA_FUNC, [PI/2+0.1, PI] );
+						</div>
+					</div>
+
+					<div class="solution">Hyperbola</div>
+
+					<div class="hints">
+						<div>
+							<p>This graph has two asymptotes which it approaches. It's also U-shaped on each side.</p>
+							<div class="graphie" data-update="conic">
+								plot( function( x ) { return (B/A) * x; }, [-10, 10], { stroke: "gray" } );
+								plot( function( x ) { return (B/A) * -1 * x; }, [-10, 10], { stroke: "gray" } );
+							</div>
+						</div>
+						<p>This conic section is therefore a <em>hyperbola</em>.</p>
 					</div>
 				</div>
 			</div>

@@ -8,7 +8,7 @@
 		<div class="exercise">
 			<div class="vars">
 				<var id="ANGLE_ONE">randRange(0, 359)</var>
-				<var id="DIFF">10 * randRange(0, 18)</var>
+				<var id="DIFF">10 * randRange(1, 18)</var>
 			</div>
 
 			<div class="problems">
@@ -30,9 +30,11 @@
 							arc( [0, 0], 1, ANGLE_ONE, ANGLE_TWO );
 
 							graph.protractor = new Protractor( [22, 0], 8 );
+							jQuery( "#scratchpad-show" ).replaceWith( "Scratchpad not available" ).hide();
+							jQuery( "#scratchpad" ).hide();
 						</div>
 					</div>
-					<p class="solution" data-type="rational"><var>DIFF</var></p>
+					<p class="solution" data-type="rational" data-inexact data-max-error="5"><var>DIFF</var></p>
 				</div>
 			</div>
 
