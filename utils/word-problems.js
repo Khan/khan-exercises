@@ -238,7 +238,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 	var timesofday = KhanUtil.shuffle([
 		"in the morning",
-		"at midday",
+		"around noon",
 		"in the evening",
 		"at night"
 	]);
