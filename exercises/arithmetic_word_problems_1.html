@@ -15,7 +15,7 @@
 
 		<div class="problems">
 
-			<div>
+			<div id="take-away-result">
 				<div class="problem">
 					There <var>plural('was', TOTAL)</var> <var>plural(TOTAL, 'person')</var> riding on a train.
 					At the last stop <var>plural(NUM2, 'person')</var> got off.
@@ -29,12 +29,12 @@
 				<div class="hints">
 					<p>
 					<var>plural(TOTAL, 'person')</var> <var>plural('was', TOTAL)</var> riding before the last stop and <var>NUM2</var> of them got off the train, so now
-						there are <var>TOTAL</var> - <var>NUM2</var> <var>plural('person')</var> on the train.
+					there are <var>TOTAL</var> - <var>NUM2</var> <var>plural('person')</var> on the train.
 					</p>
 				</div>
 			</div>
 
-			<div>
+			<div id="take-away-start">
 				<div class="problem">
 					There <var>plural('is', NUM1)</var> <var>plural(NUM1, 'person')</var> riding on a train.
 					At the last stop <var>plural(NUM2, 'person')</var> got off.
@@ -54,7 +54,7 @@
 				</div>
 			</div>
 
-			<div>
+			<div id="put-together">
 				<div class="problem">
 					There <var>plural('is', NUM1)</var> <var>plural(NUM1, 'tree')</var> on the right bank of a river and <var>plural(NUM2, 'tree')</var> on the left bank.
 				</div>
@@ -71,7 +71,7 @@
 				</div>
 			</div>
 
-			<div>
+			<div id="take-apart">
 				<div class="problem">
 					There <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'tree')</var> on the banks of the river. The <var>side(1)</var> bank has <var>NUM2</var> of them.
 				</div>
@@ -88,7 +88,7 @@
 				</div>
 			</div>
 
-			<div>
+			<div id="add-start">
 				<div class="problem">
 					Some cars are parked in the <var>store(1)</var> store parking lot.
 					<var>NUM2</var> more <var>plural('car')</var> <var>plural('parks', 'park', NUM2)</var> at the <var>store(1)</var> store,
@@ -112,7 +112,7 @@
 				</div>
 			</div>
 
-			<div>
+			<div id="add-change">
 				<div class="problem">
 					There <var>plural('is', NUM2)</var> <var>plural(NUM2, 'car')</var> parked in the <var>store(1)</var> store parking lot.
 					Some more cars park at the <var>store(1)</var> store, and now there <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'car')</var> in the parking lot.
@@ -135,7 +135,7 @@
 				</div>
 			</div>
 
-			<div>
+			<div id="add-result">
 				<div class="problem">
 					<var>plural(NUM1, 'car')</var> <var>plural('is', NUM1)</var> in the <var>store(1)</var> store parking lot.
 					<var>NUM2</var> more <var>plural('car', NUM2)</var> <var>plural('parks', 'park', NUM2)</var> at the <var>store(1)</var> store.
@@ -154,7 +154,7 @@
 				</div>
 			</div>
 
-			<div>
+			<div id="compare-diff">
 				<div class="problem">
 					<var>person(1)</var> did <var>plural(TOTAL, exercise(1))</var> <var>timeofday(1)</var>.
 					<var>person(2)</var> did <var>plural(NUM2, exercise(1))</var> <var>timeofday(2)</var>.
@@ -177,7 +177,7 @@
 				</div>
 			</div>
 
-			<div>
+			<div id="compare-bigger">
 				<div class="problem">
 					<var>person(morePerson(1))</var> did <var>NUM1</var> <var>moreOrFewer()</var> <var>plural(exercise(1), NUM1)</var> than <var>person(morePerson(2))</var> <var>timeofday(1)</var>.
 					<var>person(2)</var> did <var>plural(NUM2, exercise(1))</var>.
@@ -197,7 +197,7 @@
 				</div>
 			</div>
 
-			<div>
+			<div id="compare-smaller">
 				<div class="problem">
 					<var>person(morePerson(1))</var> did <var>NUM1</var> <var>moreOrFewer()</var> <var>plural(exercise(1), NUM1)</var> than <var>person(morePerson(2))</var> <var>timeofday(1)</var>.
 					<var>person(1)</var> did <var>plural(TOTAL, exercise(1))</var>.
