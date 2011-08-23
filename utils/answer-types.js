@@ -410,8 +410,8 @@ jQuery.extend( Khan.answerTypes, {
 		}
 		ret.solution = ans;
 		ret.showGuess = function( guess ) {
-			inteValid.showGuess( guess[0] );
-			radValid.showGuess( guess[1] );
+			inteValid.showGuess( guess ? guess[0] : '' );
+			radValid.showGuess( guess ? guess[1] : '' );
 		};
 		return ret;
 	},

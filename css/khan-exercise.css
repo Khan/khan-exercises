@@ -81,12 +81,14 @@ var, div.graphie { white-space: pre; }
 }
 
 .user-activity {
-  margin: 5px 5px 5px 35px;
+  margin: 5px 5px 5px 5px;
   padding: 2px 5px;
   border: 1px solid #999;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
+  float: left;
+  cursor: pointer;
 }
 
 .user-activity.activated {
@@ -105,14 +107,65 @@ div.timeline-total {
   border-top: 1px solid #999;
 }
 
-span.timeline-curly {
-  position: absolute;
-  left: 28px;
-  font-size: 20pt;
-  font-weight: 100;
-  top: -1px;
+#timelinecontainer {
+  height: 75px;
+  border: 1px solid #ccc;
+  border-top: 0px;
+  position: relative;
 }
 
-#readonly {
-  padding: 10px 4px !important;
+#timeline {
+  overflow: hidden;
+  position: absolute;
+  left: 72px;
+  right: 72px;
+  padding-top: 18px;
+}
+
+#timeline-events {
+  width: 10000px;
+}
+
+#timeline-events:first-child {
+  margin-left: 15px;
+}
+
+#timeline-events:last-child {
+  margin-right: 25px;
+}
+
+#previous-problem {
+  background: url(/images/previous-problem.png) no-repeat;
+  width: 48px;
+  height: 30px;
+  position: absolute;
+  left: 0;
+  top: 20px;
+}
+
+#previous-step {
+  background: url(/images/previous-step.png) no-repeat;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 48px;
+  top: 20px;
+}
+
+#next-step {
+  background: url(/images/next-step.png) no-repeat;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 48px;
+  top: 20px;
+}
+
+#next-problem {
+  background: url(/images/next-problem.png) no-repeat;
+  width: 48px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  top: 20px;
 }

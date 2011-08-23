@@ -755,18 +755,18 @@ function makeProblem( id, seed ) {
 	}
 
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
-		var readonly = jQuery( "#readonly" ),
-			radio = answerType === 'radio';
-		readonly.append( "<span class='info-box-subheader'>Answers</span>" );
+		var timelinecontainer = jQuery( "<div id='timelinecontainer'>" )
+			.append( "<div id='previous-problem'>" )
+			.append( "<div id='previous-step'>" )
+			.insertBefore( "#extras" ),
+		    timeline = jQuery( "<div id='timeline'>" ).appendTo( timelinecontainer ),
+		    timelineEvents = jQuery( "<div id='timeline-events'>" ).appendTo( timeline );
 
-		if (radio) {
-			jQuery( "#solution input:radio" ).attr("disabled", true);
-			jQuery( "#check-answer-button" ).remove();
-		} else {
-			jQuery( "#answercontent" ).hide();
-		}
+		timelinecontainer
+			.append( "<div id='next-problem'>" )
+			.append( "<div id='next-step'>" )
 
-		readonly.append( "<div class='user-activity correct-activity'>Started</div>" );
+		timelineEvents.append( "<div class='user-activity correct-activity'>Started</div>" );
 
 		var hintNumber = 1,
 				answerNumber = 1,
@@ -780,80 +780,93 @@ function makeProblem( id, seed ) {
 			var guess = value[1] === "Activity Unavailable" ? value[1] : JSON.parse( value[1] ),
 					thissolutionarea;
 
-			readonly.append( "<div class='timeline-time'>" + value[2] + "s<span class='timeline-curly'>{</span></div>" );
 			totalTime += value[2];
 
 			thissolutionarea = jQuery( "<div>" )
 				.addClass( "user-activity " + value[0] )
-				.appendTo( readonly );
+				.appendTo( timelineEvents );
 
 			if (value[0] === "hint-activity") {
 				thissolutionarea.text( "Hint #" + hintNumber );
 				hintNumber += 1;
-			} else if (radio) {
-				thissolutionarea
-					.click( function() {
-						validator.showGuess( guess );
-					} )
-					.append( "<span>Answer " + answerNumber + "</span>" );
-					answerNumber += 1;
 			} else {
 				if (guess === "Activity Unavailable") {
 					thissolutionarea.text( guess );
 				} else {
+					thissolutionarea.data( 'guess', guess );
 					Khan.answerTypes[answerType]( thissolutionarea, solution ).showGuess( guess );
+					thissolutionarea
+						.find( 'input' )
+						.attr( 'disabled', true )
+					.end()
+						.find( 'select' )
+						.attr( 'disabled', true );
 				}
 			}
 		});
 
-		readonly.append( "<div class='timeline-total'>" + totalTime + "s total</div>" );
+		// timeline.append( "<div class='timeline-total'>" + totalTime + "s total</div>" );
 
-		var states = readonly.children(".user-activity"),
+		var states = timelineEvents.children(".user-activity"),
 		    slideNum = 0,
-				numSlides = states.length;
+		    numSlides = states.length;
 		states.first().addClass("activated");
 
+		var activate = function(slideNum) {
+			var timelineMiddle, itemMiddle, itemOffset, offset,
+					thisSlide = states.eq( slideNum ).addClass( "activated" );
+
+			timelineMiddle = jQuery( '#timeline' ).width() / 2;
+			itemOffset = states.eq( slideNum ).position().left;
+			itemMiddle = itemOffset + states.eq( slideNum ).width() / 2;
+			offset = timelineMiddle - itemMiddle;
+			jQuery( '#timeline' ).animate({
+				scrollLeft: (offset > 0 ? '-=' : '+=') + Math.abs( offset )
+			}, 200);
+
+			validator.showGuess( states.eq( slideNum ).data( 'guess' ) );
+
+			return false;
+		}
+
 		// Allow users to use arrow keys to move up and down the timeline
-		jQuery(document).keydown(function(event) {
-			if (event.keyCode !== 38 && event.keyCode !== 40) {
+		jQuery( document ).keydown(function(event) {
+			if (event.keyCode !== 37 && event.keyCode !== 39) {
 				return;
-			} 
-			
+			}
+
 			states.eq( slideNum ).removeClass( "activated" );
 
-			if (event.keyCode === 38) { // keyup
+			if (event.keyCode === 37) { // left
 				slideNum -= 1;
-			} else { // keydown
+			} else { // right
 				slideNum += 1;
 			}
-			slideNum = (slideNum + numSlides) % numSlides;
 
-			states.eq( slideNum ).addClass( "activated" );
+			var cycle = false;
+			if (cycle) {
+				slideNum = (slideNum + numSlides) % numSlides;
+			} else {
+				slideNum = Math.min(slideNum, numSlides-1);
+				slideNum = Math.max(slideNum, 0);
+			}
 
-			states.eq( slideNum ).click();
-			return false;
+			activate(slideNum);
 		});
 
 		// Allow users to click on points of the timeline
-		jQuery(states).click(function(event) {
-			var index = $(this).index("#readonly .user-activity");
+		jQuery( states ).click(function(event) {
+			var index = $(this).index("#timeline .user-activity");
 
 			states.eq( slideNum ).removeClass( "activated" );
 			slideNum = index;
-			states.eq( slideNum ).addClass( "activated" );
+
+			activate( slideNum );
 		});
 
-		readonly
-			.find( "#readonly-problem" )
-				.text( "Problem #" + (userExercise.total_done + 1) )
-				.end()
-			.find( "#readonly-start" )
-				.attr( "href", "/exercises?exid=" + userExercise.exercise )
-				.end()
-			.next()
-				.remove()
-				.end()
-			.show();
+		jQuery( '#hint' ).attr( 'disabled', true );
+		jQuery( '#answercontent input' ).attr( 'disabled', true );
+		jQuery( '#answercontent select' ).attr( 'disabled', true );
 	}
 
 	// Show the debug info
