@@ -78,7 +78,7 @@
 
 			// Label number line choice if necessary
 			if ( label ) {
-				graph.label( [start - 0.5, 0], label + ":", "left" );
+				graph.label( [start - 0.5, 0], "\\text{" + label + ":}", "left" );
 			}
 
 			var arrowStartX = ( i + frac ) * multiplier;
@@ -112,7 +112,7 @@
 	<div class="problems">
 		<div id="line_from_equation">
 			<div class="question">
-				<p>Which arrow on the number line represents <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>?</p>
+				<p>Which graph on the number line represents <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>?</p>
 
 				<div class="graphie" data-each="LINE_LABELS as index, label">
 					var index = <var>index</var>;
@@ -124,15 +124,15 @@
 
 			</div>
 
-			<div class="solution">Line <var>LINE_SOLUTION</var></div>
+			<div class="solution">Graph <var>LINE_SOLUTION</var></div>
 
 			<ol class="choices" data-category="true">
-				<li data-each="LINE_LABELS as label">Line <var>label</var></li>
+				<li data-each="LINE_LABELS as label">Graph <var>label</var></li>
 			</ol>
 
 			<div class="hints">
 				
-				<p>First, you'll need a number line with at least a few numbers on each side of <var>SIGN + ( INT + FRAC )</var>.</p>
+				<p>First, draw a number line with at least a few numbers on each side of <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
 				<div class="graphie" id="number_line_hint">
 
 					// Draw number line only
@@ -144,25 +144,25 @@
 
 			   </div>
 
-			   <p data-if="INCLUSIVE">Since <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw a full circle at <var>SIGN + ( INT + FRAC )</var> to show that the inequality includes <var>SIGN + ( INT + FRAC )</var>.</p>
+			   <p data-if="INCLUSIVE">Since <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw a full circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality includes <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
 
-			   <p data-if="!INCLUSIVE">Since <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw an empty circle at <var>SIGN + ( INT + FRAC )</var> to show that the inequality does not include <var>SIGN + ( INT + FRAC )</var>.</p>
+			   <p data-if="!INCLUSIVE">Since <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw an empty circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality does not include <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
 
 			   <div class="graphie" data-update="number_line_hint">pt.show();</div>
 
-			   <p data-if="LESS_THAN">Now draw an arrow to the left of the circle to include all numbers less than <var>SIGN + ( INT + FRAC )</var>.</p>
+			   <p data-if="LESS_THAN">Now draw an arrow to the left of the circle to include all numbers less than <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
 
-				<p data-if="!LESS_THAN">Now draw an arrow to the right of the circle to include all numbers greater than <var>SIGN + ( INT + FRAC )</var>.</p>
+			   <p data-if="!LESS_THAN">Now draw an arrow to the right of the circle to include all numbers greater than <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
 
 			   <div class="graphie" data-update="number_line_hint">arrow.show();</div>
 
-			   <p>This looks like it matches the arrow and circle from Line <var>LINE_SOLUTION</var> above.</p>
+			   <p>This looks like it matches the arrow and circle from Graph <var>LINE_SOLUTION</var> above.</p>
 			</div>
 		</div>
 
 		<div id="equation_from_line">
 			<div class="question">
-				<p>Determine the inequality that represents this arrow on the number line:</p>
+				<p>Determine the inequality that represents this graph on the number line:</p>
 
 				<div class="graphie">
 					numberLineWithArrowAndMistakes(
@@ -182,19 +182,19 @@
 
 			<div class="hints">
 				<p data-if="LESS_THAN">
-					The arrow is pointing to the left of <var>INT</var>, so everything less than <var>INT</var> is included.
+				The arrow is pointing to the left of <code><var>INT</var></code>, so everything less than <var>INT</var> is included.
 				</p>
 
 				<p data-if="!LESS_THAN">
-					The arrow is pointing to the right of <var>INT</var>, so everything greater than <var>INT</var> is included.
+				The arrow is pointing to the right of <code><var>INT</var></code>, so everything greater than <var>INT</var> is included.
 				</p>
 
 				<p data-if="INCLUSIVE">
-					The circle is filled in, so <var>INT</var> itself is also included.
+				The circle is filled in, so <code><var>INT</var></code> itself is also included.
 				</p>
 
 				<p data-if="!INCLUSIVE">
-					The circle is not filled in, so <var>INT</var> itself is not included.
+				The circle is not filled in, so <code><var>INT</var></code> itself is not included.
 				</p>
 
 				<p>
