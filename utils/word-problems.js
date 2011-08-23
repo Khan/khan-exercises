@@ -239,8 +239,8 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var exercises = KhanUtil.shuffle([
-		"pushup",
-		"situp",
+		"push-up",
+		"sit-up",
 		"squat",
 		"jumping jack"
 	]);
