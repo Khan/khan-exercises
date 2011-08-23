@@ -170,20 +170,6 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"Spanish"
 	]);
 
-	var birds = KhanUtil.shuffle([
-		"cardinal",
-		"bluebird",
-		"falcon",
-		"mockingbird",
-		"partridge",
-		"parakeet",
-		"eagle",
-		"dodo bird",
-		"sparrow",
-		"robin",
-		"dove"
-	]);
-
 	var exams = KhanUtil.shuffle([
 		"exam",
 		"test",
@@ -263,18 +249,6 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"squat",
 		"jumping jack"
 	]);
-
-	var veggies = KhanUtil.shuffle([
-		"turnip",
-		"pumpkin",
-		"squash",
-		"potato",
-		"ear of corn",
-		"pound of peas",
-		"bushel of apples",
-		"head of broccoli",
-		"tomato"
-		]);
 
 	var fruits = KhanUtil.shuffle([
 		"apple",
@@ -398,14 +372,6 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		morePerson: function( i ) {
 			return moreorfeweroptions[0].people[i - 1];
-		},
-
-		bird: function( i ) {
-			return birds[i];
-		},
-
-		veggie: function( i ) {
-			return veggies[i];
 		},
 
 		fruit: function( i ) {
