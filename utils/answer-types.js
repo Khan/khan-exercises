@@ -371,8 +371,8 @@ jQuery.extend( Khan.answerTypes, {
 
 		var inte = jQuery( "<span>" ), inteGuess, rad = jQuery( "<span>" ), radGuess;
 
-		inteValid = Khan.answerTypes.text( inte, null, "1", function( correct, guess ) { inteGuess = guess; } );
-		radValid = Khan.answerTypes.text( rad, null, "1", function( correct, guess ) { radGuess = guess; } );
+		var inteValid = Khan.answerTypes.text( inte, null, "1", function( correct, guess ) { inteGuess = guess; } );
+		var radValid = Khan.answerTypes.text( rad, null, "1", function( correct, guess ) { radGuess = guess; } );
 
 		solutionarea.addClass( "radical" )
 			.append( inte )
@@ -385,8 +385,8 @@ jQuery.extend( Khan.answerTypes, {
 			inteValid();
 			radValid();
 
-			inteGuess = parseFloat( inteGuess );
-			radGuess = parseFloat( radGuess );
+			var inteGuess = parseFloat( inteGuess );
+			var radGuess = parseFloat( radGuess );
 
 			ret.guess = [ inteValid.guess, radValid.guess ];
 
@@ -418,6 +418,7 @@ jQuery.extend( Khan.answerTypes, {
 
 	multiple: function( solutionarea, solution ) {
 		var solutionarea = jQuery( solutionarea );
+		// here be dragons
 		solutionarea.append( jQuery( solution ).clone().contents().tmpl() );
 
 		var solutionArray = [];
