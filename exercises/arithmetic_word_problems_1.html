@@ -18,7 +18,7 @@
 			<div id="take-away-result">
 				<div class="problem">
 					There <var>plural('was', TOTAL)</var> <var>plural(TOTAL, 'person')</var> riding on a train.
-					At the last stop <var>plural(NUM2, 'person')</var> got off.
+					At the previous stop <var>plural(NUM2, 'person')</var> got off.
 				</div>
 				<div class="question">
 					How many people are riding the train now?
@@ -28,7 +28,7 @@
 				</p>
 				<div class="hints">
 					<p>
-					<var>plural(TOTAL, 'person')</var> <var>plural('was', TOTAL)</var> riding before the last stop and <var>NUM2</var> of them got off the train, so now
+					<var>plural(TOTAL, 'person')</var> <var>plural('was', TOTAL)</var> riding before the previous stop and <var>NUM2</var> of them got off the train, so now
 					there are <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('person')</var> on the train.
 					</p>
 				</div>
@@ -37,7 +37,7 @@
 			<div id="take-away-start">
 				<div class="problem">
 					There <var>plural('is', NUM1)</var> <var>plural(NUM1, 'person')</var> riding on a train.
-					At the last stop <var>plural(NUM2, 'person')</var> got off.
+					At the previous stop <var>plural(NUM2, 'person')</var> got off.
 				</div>
 				<div class="question">
 					How many people were riding the train altogether?
@@ -48,7 +48,7 @@
 				<div class="hints">
 					<p>
 					<var>plural(NUM1, 'person')</var> <var>plural('is', NUM1)</var> riding now and 
-					another <var>plural(NUM2, 'person')</var> <var>plural('was', NUM2)</var> riding before the last stop,
+					another <var>plural(NUM2, 'person')</var> <var>plural('was', NUM2)</var> riding before the previous stop,
 					so there were <code><var>NUM1</var> + <var>NUM2</var></code> <var>plural('person')</var> on the train.
 					</p>
 				</div>
@@ -56,23 +56,23 @@
 
 			<div id="take-away-change">
 				<div class="problem">
-					There <var>plural('was', TOTAL)</var> <var>plural(TOTAL, 'person')</var> riding on a train, before the last stop.
+					There <var>plural('was', TOTAL)</var> <var>plural(TOTAL, 'person')</var> riding on a train, before the previous stop.
 					Now there are <var>plural(NUM2, 'person')</var> riding on the train.
 				</div>
 				<div class="question">
-					How many people got off the train at the last stop?
+					How many people got off the train at the stop?
 				</div>
 				<p class="solution">
 					<var>TOTAL</var>
 				</p>
 				<div class="hints">
 					<p>
-					<var>plural(TOTAL, 'person')</var> <var>plural('was', TOTAL)</var> riding before the last stop and only <var>NUM2</var>
-					of them <var>plural('was', NUM2)</var> riding after the last stop, so
-					there were <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('person')</var> that got off at the last stop.
+					<var>plural(TOTAL, 'person')</var> <var>plural('was', TOTAL)</var> riding before the previous stop and only <var>NUM2</var>
+					of them <var>plural('was', NUM2)</var> riding after the stop, so
+					there were <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('person')</var> that got off at the stop.
 					</p>
 					<p>
-					<code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code> <var>plural('person', NUM1)</var> got off at the last stop.
+					<code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code> <var>plural('person', NUM1)</var> got off at the stop.
 					</p>
 				</div>
 			</div>
