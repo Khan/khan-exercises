@@ -781,11 +781,13 @@ function makeProblem( id, seed ) {
 
 		timelinecontainer
 			.append( "<div id='next-problem'>" )
-			.append( "<div id='next-step'>" )
+			.append( "<div id='next-step'>" );
 
-		timelineEvents.append( "<div class='user-activity correct-activity'>Started</div>" );
+    jQuery( "<div class='user-activity correct-activity'>Started</div>" )
+      .data( 'hint', false )
+      .appendTo( timelineEvents );
 
-		var hintNumber = 1,
+		var hintNumber = 0,
 				answerNumber = 1,
 				totalTime = 0;
 
@@ -804,9 +806,12 @@ function makeProblem( id, seed ) {
 				.appendTo( timelineEvents );
 
 			if (value[0] === "hint-activity") {
-				thissolutionarea.text( "Hint #" + hintNumber );
+				thissolutionarea
+          .data( 'hint', hintNumber )
+          .text( "Hint #" + (hintNumber+1) );
 				hintNumber += 1;
 			} else {
+        thissolutionarea.data( 'hint', false );
 				if (guess === "Activity Unavailable") {
 					thissolutionarea.text( guess );
 				} else {
@@ -826,13 +831,53 @@ function makeProblem( id, seed ) {
 
 		var states = timelineEvents.children(".user-activity"),
 		    slideNum = 0,
-		    numSlides = states.length;
+		    numSlides = states.length,
+        currentHint = 0;
 		states.first().addClass("activated");
 
+    console.log(hints);
 		var activate = function(slideNum) {
-			var timelineMiddle, itemMiddle, itemOffset, offset,
+			var timelineMiddle, itemMiddle, itemOffset, offset, hint, hintNum,
 					thisSlide = states.eq( slideNum ).addClass( "activated" );
 
+      if (thisSlide.data( 'hint' ) !== false) {
+        hintNum = thisSlide.data( 'hint' );
+        hint = hints[hintNum];
+
+        if ( hint ) {
+          // TODO correct behavior going backwards
+          jQuery( "#hint" ).val( "I'd like another hint" );
+
+          var problem = jQuery( hint ).parent();
+
+          // TODO: possibly optimize for hintNum > currentHint
+          var hintsArea = jQuery( '#hintsarea' ).empty();
+          jQuery.each( hints, function( index, hint ) {
+            if (index <= hintNum) {
+              // Append first so MathJax can sense the surrounding CSS context properly
+              jQuery( hint ).appendTo( "#hintsarea" ).runModules( problem );
+            }
+          });
+
+          jQuery( "#hint-remainder" )
+            .text( (hints.length - hintNum) + " remaining" )
+            .fadeIn( 500 );
+        }
+      } else {
+        var firstHintIndex = jQuery( '#timeline .hint-activity:first' )
+          .index( '#timeline .user-activity' );
+        var lastHintIndex = jQuery( '#timeline .hint-activity:last' )
+          .index( '#timeline .user-activity' );
+
+        if (slideNum < firstHintIndex) {
+          jQuery( "#hint-remainder" ).fadeOut( 500 );
+          jQuery( "#hint" ).val( "I'd like a hint" );
+        } else if (slideNum > lastHintIndex) {
+          jQuery( "#hint-remainder" ).fadeOut( 500 );
+        }
+      }
+
+      // Bring the currently focused panel as close to the middle as possible
 			timelineMiddle = jQuery( '#timeline' ).width() / 2;
 			itemOffset = states.eq( slideNum ).position().left;
 			itemMiddle = itemOffset + states.eq( slideNum ).width() / 2;
@@ -841,6 +886,8 @@ function makeProblem( id, seed ) {
 				scrollLeft: (offset > 0 ? '-=' : '+=') + Math.abs( offset )
 			}, 200);
 
+      // If there is a guess we show it as if it was filled in by the user
+      // If there is no guess (like for a hint) this makes the answer box empty
 			validator.showGuess( states.eq( slideNum ).data( 'guess' ) );
 
 			return false;
@@ -881,9 +928,17 @@ function makeProblem( id, seed ) {
 			activate( slideNum );
 		});
 
+    // Some exercises use custom css
+    jQuery( "#timeline input[type='text']" ).css( "width", 
+        jQuery( "#answer_area input[type='text']" ).css('width')
+    );
+
 		jQuery( '#hint' ).attr( 'disabled', true );
 		jQuery( '#answercontent input' ).attr( 'disabled', true );
 		jQuery( '#answercontent select' ).attr( 'disabled', true );
+
+    // focus on the first slide
+    activate( slideNum );
 	}
 
 	// Show the debug info
