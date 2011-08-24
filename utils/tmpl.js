@@ -41,7 +41,7 @@ jQuery.tmpl = {
 			// Check if the attribute should be deleted
 			if ( $elem.data( "toDelete" ) ) {
 				$elem.removeAttr( "data-else-if" );
-				$elem.removeData( "else-if" );
+				$elem.removeData( "elseIf" );
 			}
 
 			var lastCond = $elem.data( "lastCond" );
@@ -339,24 +339,10 @@ jQuery.fn.tmpl = function() {
 				var clone = jQuery( elem ).clone( true )
 					.removeAttr( "data-each" ).removeData( "each" )[0];
 
-
-				// We need these to know which attributes to remove from elements
-				var attrToBeDeleted = [ "data-if", "data-else-if", "data-else" ];
-
-				var cloneChild = clone.childNodes;
-
-				// Loop through the element's children
-				for ( var i = 0; i < cloneChild.length; i++ ) {
-					// Flag children with attributes that need to be deleted
-					if ( cloneChild[i].nodeType === 1 ) {
-						for ( var j = 0; j < attrToBeDeleted.length; j++ ) {
-							if ( jQuery( cloneChild[i] ).attr( attrToBeDeleted[j] ) ) {
-								jQuery( cloneChild[i] ).data( "toDelete", true );
-								break;
-							}	
-						}
-					}
-				}
+				// Flag elements with the following attributes so that the attributes can be removed after templating 
+				jQuery( clone ).find("[data-if], [data-else-if], [data-else]").each(function() {
+					jQuery( this ).data( "toDelete", true );
+				});
 
 				// Insert in the proper place (depends on whether the loops is the last of its siblings)
 				if ( origNext ) {
