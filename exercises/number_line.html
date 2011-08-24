@@ -47,13 +47,16 @@
 				var x = NUMBER;
 				numberLine( start, end );
 				style({ stroke: "#6495ED", fill: "#6495ED" });
-				style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+				style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
 				var already = [];
 				
 				for( i = 0; i !=  WRONGS.length; i++ ){
 						circle( [ WRONGS[ i ] + 5, 0 ], 0.10 );
 						label( [WRONGS[ i ] + 5, 0 ], POSS_ANSWER[ i ] , "above", { labelDistance: 5 } );
 				}
+				style({ stroke: "red" });
+				line( [ 5, -0.2], [5, 0.2]);
+				label( [ 5, -0.53 ],  "0","center", { color: "red" });
 			</div>
 			<div class="solution"><var>ANSWER</var></div>
 			<ul class="choices" data-category="true">
@@ -68,6 +71,7 @@
 	<div class="hints">
 		<p>The numbers under the line represent the positions of numbers on the number line.</p>
 		<p>It is <var>ANSWER</var> because <var>ANSWER</var> is above <var>NUMBER</var>.</p>
+		<p data-if="NUMBER !== 0">We can also find it by counting <var>abs( NUMBER )</var> tick marks to the <span data-if="NUMBER < 0 "> left </span><span data-else>right</span> of 0.</p>
 	</div>
 	</div>
 	</div>

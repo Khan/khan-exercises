@@ -14,14 +14,16 @@ function numberLine( start, end, step, x, y, denominator ) {
 	for( var i = 0; i <= end - start; i += step ) {
 		set.push( graph.line( [x + i, y - 0.2], [x + i, y + 0.2] ) );
 		if ( denominator ){
-			var base = Math.floor(  Math.abs( start + i ) ) * KhanUtil.restoreSign( start + i )  ;
+			var base = KhanUtil.roundTowardsZero( start + i );
 			var frac = start + i - base;
 			var lab = base;
 			if (! ( Math.abs ( Math.round( frac * denominator ) )  === denominator || Math.round( frac * denominator )  ===  0 ) ){
 				if ( base === 0 ){
-					base = "";
+					lab = KhanUtil.fraction( Math.round( frac * denominator ),  denominator, false, false, true);
 				}
-				lab = base + " \\frac{" +  Math.round( frac * denominator ) + "}{" + denominator + "}";
+				else{
+					lab =  base + "\\frac{" +  Math.abs( Math.round( frac * denominator )) + "}{" + denominator + "}";
+				}
 			}
 			graph.label( [x + i, y - 0.2], lab, "below", { labelDistance: 3 } );
 		}
@@ -29,7 +31,6 @@ function numberLine( start, end, step, x, y, denominator ) {
 			graph.label( [x + i, y - 0.2], (start + i).toFixed(decPlaces), "below", { labelDistance: 3 } );
 		}
 	}
-
 	return set;
 }
 
