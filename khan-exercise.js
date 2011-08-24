@@ -835,7 +835,6 @@ function makeProblem( id, seed ) {
         currentHint = 0;
 		states.first().addClass("activated");
 
-    console.log(hints);
 		var activate = function(slideNum) {
 			var timelineMiddle, itemMiddle, itemOffset, offset, hint, hintNum,
 					thisSlide = states.eq( slideNum ).addClass( "activated" );
