@@ -409,7 +409,7 @@ Khan.query = Khan.queryString();
 randomSeed = testMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
 
 // Load in jQuery
-var scripts = (typeof jQuery !== "undefined") ? [] : [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" } ];
+var scripts = (typeof jQuery !== "undefined") ? [] : [ { src: "../jquery.js" } ];
 Khan.loadScripts( scripts, function() {
 
 	// Base modules required for every problem
