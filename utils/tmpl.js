@@ -16,10 +16,18 @@ jQuery.tmpl = {
 		},
 
 		"data-if": function( elem, value ) {
+			var $elem = jQuery( elem );
+
+			// Check if the attribute should be deleted
+			if ( $elem.data( "toDelete" ) ) {
+				$elem.removeAttr( "data-if" );
+				$elem.removeData( "if" );
+			}
+
 			value = value && jQuery.tmpl.getVAR( value );
 
 			// Save the result of this data-if in the next sibling for data-else-if and data-else
-			jQuery( elem ).next().data( "lastCond", value );
+			$elem.next().data( "lastCond", value );
 
 			if ( !value ) {
 				// Delete the element if the data-if evaluated to false
@@ -28,13 +36,21 @@ jQuery.tmpl = {
 		},
 
 		"data-else-if": function( elem, value ) {
-			var lastCond = jQuery( elem ).data( "lastCond" );
+			var $elem = jQuery( elem );
+
+			// Check if the attribute should be deleted
+			if ( $elem.data( "toDelete" ) ) {
+				$elem.removeAttr( "data-else-if" );
+				$elem.removeData( "else-if" );
+			}
+
+			var lastCond = $elem.data( "lastCond" );
 
 			// Show this element iff the preceding element was hidden AND this data-if returns truthily
 			value = !lastCond && value && jQuery.tmpl.getVAR( value );
 
 			// Succeeding elements care about the visibility of both me and my preceding siblings
-			jQuery( elem ).next().data( "lastCond", lastCond || value );
+			$elem.next().data( "lastCond", lastCond || value );
 
 			if ( !value ) {
 				// Delete the element if appropriate
@@ -43,7 +59,15 @@ jQuery.tmpl = {
 		},
 
 		"data-else": function( elem ) {
-			if ( jQuery( elem ).data( "lastCond" ) ) {
+			var $elem = jQuery( elem );
+
+			// Check if the attribute should be deleted
+			if ( $elem.data( "toDelete" ) ) {
+				$elem.removeAttr( "data-else" );
+				$elem.removeData( "else" );
+			}
+
+			if ( $elem.data( "lastCond" ) ) {
 				// Delete the element if the data-if of the preceding element was true
 				return [];
 			}
@@ -314,6 +338,25 @@ jQuery.fn.tmpl = function() {
 				// Do a deep clone (including event handlers and data) of the element
 				var clone = jQuery( elem ).clone( true )
 					.removeAttr( "data-each" ).removeData( "each" )[0];
+
+
+				// We need these to know which attributes to remove from elements
+				var attrToBeDeleted = [ "data-if", "data-else-if", "data-else" ];
+
+				var cloneChild = clone.childNodes;
+
+				// Loop through the element's children
+				for ( var i = 0; i < cloneChild.length; i++ ) {
+					// Flag children with attributes that need to be deleted
+					if ( cloneChild[i].nodeType === 1 ) {
+						for ( var j = 0; j < attrToBeDeleted.length; j++ ) {
+							if ( jQuery( cloneChild[i] ).attr( attrToBeDeleted[j] ) ) {
+								jQuery( cloneChild[i] ).data( "toDelete", true );
+								break;
+							}	
+						}
+					}
+				}
 
 				// Insert in the proper place (depends on whether the loops is the last of its siblings)
 				if ( origNext ) {
