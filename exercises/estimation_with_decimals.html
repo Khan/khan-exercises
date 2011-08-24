@@ -11,8 +11,10 @@
 	<div class="problems">
 		<div id="classroom">
 			<div class="vars">
+
 				<var id="VALUES">$.map( randRange( 1000, 16000, randRange( 3, 7 ) ), function( n ){ return ( n / 1000 ).toFixed( randRange( 1, 2 ) ); } )</var>
 				<var id="ANSWER">eval( $.map( VALUES , round ).join("+") )</var>
+				<var id="TYPES">randFromArray( [ [ "jogging", "ran", "mile" ], [ "riding a bicycle ", "traveled", "mile" ], [ "collecting mushrooms", "collected", "pound" ], [ "painting a roof", "painted", "square foot" ], [ "harvesting grain", "harvested", "tonne" ] ] )</var>
 				<var id="ACC">0</var>
 				<var id="SIZE">$.map( VALUES, function( i ){ 
 							if ( round( i ) &lt  i  ) {
@@ -23,19 +25,23 @@
 							}
 						 }  ) </var>
 			</div>
-			<div class="problem"><var>person( 1 )</var> has been driving <var>his( 1 )</var> <var>vehicle( 1 )</var> delivering <var>pizza( 1 )</var>. Today <var>he( 1 )</var> made <var>VALUES.length</var> deliveries of following distance:  <p data-each="VALUES as i, val"><var>i+1</var>.: <var>val</var> miles </p></div>
-			<p class="question">Estimate how much <var>person( 1 )</var> traveled today.</p>
+			<div class="problem">
+				<var>person( 1 )</var> has been  <var>TYPES[ 0 ]</var> for the last  <var>VALUES.length</var> days. Every day <var>he( 1 )</var> <var>TYPES[ 1 ]</var> the following amount:  <p data-each="VALUES as i, val"><var>i+1</var>: <var>val</var> <var>plural( TYPES[ 2 ] )</var></p></div>
+
+			<p class="question">Estimate how much <var>person( 1 )</var> <var>TYPES[ 1 ]</var> in total.</p>
+
 			<p class="solution" data-forms="integer"><var>ANSWER</var></p>
+
 			<div class="hints">
-				<p>Round  and add up all the numbers</p>
+				<p>Round all the numbers to the nearest <var>TYPES[ 2 ]</var> and add them  up.</p>
 				<div data-each="VALUES as i, val">
-					We round <var>val</var> to <var>round( val )</var> because the tenths digit <var>val.toString().split( "." )[ 1 ].substring( 0, 1 )</var> is <var>SIZE[ i ]</var> 5.
-					 The total is now <code><var>ACC</var> +<var>round( val )</var> =  <var>ACC += round( parseFloat( VALUES[ i  ] ) )</var></code>
+					<p>We round <var>val</var> to <var>round( val )</var> because the tenths digit <var>val.toString().split( "." )[ 1 ].substring( 0, 1 )</var> is <var>SIZE[ i ]</var> 5.</p>
+					 <p>The total is now <code><var>ACC</var> +<var>round( val )</var> =  <var>ACC += round( parseFloat( VALUES[ i  ] ) )</var></code>.</p>
 				</div>
 				<p>Therefore the estimate is <var>ANSWER</var>.</p>
 			</div>
-		</div>
 
+		</div>
 	</div>
 </body>
 </html>
