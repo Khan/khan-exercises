@@ -171,6 +171,9 @@ if (testMode) {
 var Khan = {
 	modules: {},
 
+	// So modules can use file paths properly
+	urlBase: urlBase,
+
 	moduleDependencies: {
 		// Yuck! There is no god. John will personally gut punch whoever
 		// thought this was a good API design.

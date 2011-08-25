@@ -274,7 +274,7 @@ function Protractor( center, r ) {
 	var lineColor = "#789";
 
 	var imgPos = graph.scalePoint([ this.cx - r, this.cy + r ]);
-	this.set.push( graph.raphael.image( "../images/protractor.png", imgPos[0], imgPos[1], 322, 166 ) );
+	this.set.push( graph.raphael.image( Khan.urlBase + "images/protractor.png", imgPos[0], imgPos[1], 322, 166 ) );
 	
 	this._rotation = 0;
 	this.getRotation = function() {
