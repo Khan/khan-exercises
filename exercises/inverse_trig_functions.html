@@ -16,11 +16,11 @@
 
 			<!-- whether we expect the answer in terms of degrees or radians -->
 			<var id="DEG">random() < 0.5</var>
-			
+
 			<var id="FN">randFromArray([ "sin", "cos", "tan" ])</var>
 			<var id="FN_INV">"\\" + FN + "^{-1}"</var>
 			<var id="FN_ARC">"\\arc" + FN</var>
-			<var id="FN_TEX">function( x, arc ) { 
+			<var id="FN_TEX">function( x, arc ) {
 				return ( ( typeof arc === "undefined" ? ARC : arc ) ? FN_ARC : FN_INV ) + "\\left(" + x + "\\right)";
 			}</var>
 
@@ -36,7 +36,7 @@
 			<var id="Y">{
 				sin: asin,
 				cos: acos,
-				tan: atan 
+				tan: atan
 			}[ FN ]( X )</var>
 
 			<var id="Y_DEGREES">round( Y * 180 / PI )</var>
@@ -72,15 +72,15 @@
 		<div class="problems">
 			<div>
 				<div class="question">
-					<p><code><var>FN_TEX( PRETTY( X ) )</var> =\ ?</code></p>
+					<p>What is the principle value of <code><var>FN_TEX( PRETTY( X ) )</var></code>?</p>
 					<p>Note: please answer in terms of <span data-if="DEG">degrees (ex: &quot;180 deg&quot; or &quot;180 degrees&quot;)</span><span data-else>radians (ex: &quot;3/4 pi&quot;)</span>.</p>
 				</div>
-				
+
 				<div data-if="DEG"><p class="solution" data-type="regex"><var>Y_DEGREES_REGEX</var></p></div>
 				<div data-else><p class="solution" data-forms="pi"><var>Y</var></p></div>
 			</div>
 		</div>
-		
+
 		<div class="hints">
 			<p data-if="ARC"><code><var>FN_TEX( PRETTY( X ) )</var> = <var>FN_TEX( PRETTY( X ), false )</var></code></p>
 			<p>If <code><var>FN_TEX( PRETTY( X ), false )</var> = \theta</code>, then...</p>

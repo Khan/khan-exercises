@@ -55,6 +55,8 @@ body.debug .graphie { outline: 1px dashed red; }
 
 #answer_area input.button:disabled { opacity: 0.7; cursor: default; color: #333; }
 
+#hint-remainder { color: #777; }
+
 #footer .simple-button { padding: 3px 10px; top: -1px }
 
 #issue .error { font-style: italic; font-weight: bold; }
@@ -67,3 +69,5 @@ body.debug .graphie { outline: 1px dashed red; }
 var, div.graphie { white-space: pre; }
 
 #issue-throbber { position: relative; top: 3px; }
+
+.exp input { vertical-align: super; font-size: 9px; height: 11px; }

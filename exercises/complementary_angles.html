@@ -28,8 +28,8 @@
 
 				<div class="graphie">
 					init({
-						range: [ [-2, 7], [-2, 7] ],
-						scale: 20
+						range: [ [-2, 7], [-2, 6] ],
+						scale: 40
 					});
 					
 					var DISP_ANGLE = Math.min( Math.max( 10, ANGLE ), 80 );
@@ -37,11 +37,11 @@
 						DISP_ANGLE = 90 - DISP_ANGLE;
 						arc( [ 0, 0 ], 1, DISP_ANGLE, 90 );
 						DISP_ANGLE *= PI / 180;
-						label( [ 2 * cos( DISP_ANGLE + ( PI / 2 - DISP_ANGLE) / 2 ), 2 * sin( DISP_ANGLE + ( PI / 2 - DISP_ANGLE) / 2  )], ANGLE + "^\\circ" );
+						label( [ 2 * cos( DISP_ANGLE + ( PI / 2 - DISP_ANGLE) / 2 ) + 0.125, 2 * sin( DISP_ANGLE + ( PI / 2 - DISP_ANGLE) / 2  ) + 0.5 ], ANGLE + "^\\circ" );
 					} else {
 						arc( [ 0, 0 ], 1, 0, DISP_ANGLE );
 						DISP_ANGLE *= PI / 180;
-						label( [ 2 * cos( DISP_ANGLE / 2 ), 2 * sin( DISP_ANGLE / 2 )], ANGLE + "^\\circ" );
+						label( [ 2 * cos( DISP_ANGLE / 2 ) + 0.65 , 2 * sin( DISP_ANGLE / 2 )], ANGLE + "^\\circ" );
 					}
 
 					path([ [0, 5], [0, 0], [5, 0] ]);
@@ -51,7 +51,7 @@
 					label( [5, 0], A, "right" );
 					label( [0, 5], C, "above" );
 					// somewhat ick to make it look nice
-					label( [5.8 * cos( DISP_ANGLE ), 5.8 * sin( DISP_ANGLE )], B );
+					label( [5.4 * cos( DISP_ANGLE ), 5.4 * sin( DISP_ANGLE )], B );
 				</div>
 			</div>
 

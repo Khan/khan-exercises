@@ -36,11 +36,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	},
 
 	// Check to see if we're in test mode
-	testMode = (window.location.host.indexOf("localhost") === 0 ||
-				window.location.host.indexOf("127.0.0.1") === 0 ||
-				window.location.host.indexOf("192.168") === 0 ||
-				window.location.protocol === "file:") &&
-				/\.html$/.test( window.location.pathname ),
+	testMode = typeof userExercise === "undefined",
 
 	// Check to see if we're in beta mode
 	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1,
@@ -114,12 +110,14 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 	issueError = "Communication with GitHub isn't working. Please file "
 		+ "the issue manually at <a href=\""
-		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
+		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
+		+ "Please reference exercise: " + exerciseName + ".",
 	issueSuccess = function( a, b ) {
-		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
-			+ "href=\"" + a + "\">" + b + "</a>, has been created."; 
+		return "Thank you for your feedback! Your issue has been created and can be "
+			+ "found at the following link:</p>"
+			+ "<p><a id=\"issue-link\" href=\"" + a + "\">" + b + "</a>";
 	},
-	issueIntro = "Please make sure you report this issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Note: All information provided will become public. Thanks for helping us change education!"
+	issueIntro = "Please make sure you report this issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Note: All information provided will become public. Thanks for helping us change education!";
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {
@@ -151,7 +149,7 @@ if (!Array.prototype.indexOf) {
 			}
 		}
 		return -1;
-	}
+	};
 }
 
 // Add in the site stylesheets
@@ -228,6 +226,23 @@ var Khan = {
 			// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704\n\
 			// We can force it to convert HTML entities properly by saying we're Konqueror\n\
 			MathJax.Hub.Browser.isKonqueror = true;\
+			\
+			// Trying to monkey-patch MathJax.Message.Init to not throw errors\n\
+			MathJax.Message.Init = (function( oldInit ) {\
+				return function( styles ) {\
+					if ( this.div && this.div.parentNode == null ) {\
+						var div = document.getElementById(\"MathJax_Message\");\
+						if ( div && div.firstChild == null ) {\
+							var parent = div.parentNode;\
+							if ( parent ) {\
+								parent.removeChild( div );\
+							}\
+						}\
+					}\
+					\
+					oldInit.call( this, styles );\
+				};\
+			})( MathJax.Message.Init );\
 			\
 			MathJax.Hub.Startup.onload();"
 		}, "raphael" ],
@@ -394,7 +409,7 @@ Khan.query = Khan.queryString();
 randomSeed = testMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
 
 // Load in jQuery
-var scripts = (typeof jQuery !== "undefined") ? [] : [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" } ];
+var scripts = (typeof jQuery !== "undefined") ? [] : [ { src: "../jquery.js" } ];
 Khan.loadScripts( scripts, function() {
 
 	// Base modules required for every problem
@@ -442,6 +457,10 @@ Khan.loadScripts( scripts, function() {
 		runModules: function( problem, type ) {
 			type = type || "";
 
+			var info = {
+				testMode : testMode
+			}
+
 			return this.each(function( i, elem ) {
 				elem = jQuery( elem );
 
@@ -449,7 +468,7 @@ Khan.loadScripts( scripts, function() {
 				jQuery.each( Khan.modules, function( src, mod ) {
 					var name = mod.name;
 					if ( jQuery.fn[ name + type ] ) {
-						elem[ name + type ]( problem );
+						elem[ name + type ]( problem, info );
 					}
 				});
 			});
@@ -554,9 +573,11 @@ function makeProblemBag( problems, n ) {
 }
 
 function makeProblem( id, seed ) {
+	if ( typeof Badges !== "undefined" ) {
+		Badges.hide();
+	}
+
 	// Allow passing in a random seed
-	if (typeof Badges != "undefined") {
-		Badges.hide();}
 	if ( typeof seed !== "undefined" ) {
 		randomSeed = seed;
 
@@ -787,6 +808,11 @@ function makeProblem( id, seed ) {
 			.attr( "href", debugURL )
 			.appendTo( links );
 
+		if ( exercise.data( "name" ) != null ) {
+			links.append("<br>");
+			links.append("Original exercise: " + exercise.data( "name" ));
+		}
+
 		if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
 			var varInfo = jQuery( "<p>" );
 
@@ -827,7 +853,8 @@ function makeProblem( id, seed ) {
 	attempts = 0;
 	lastAction = (new Date).getTime();
 
-	jQuery("#hint").val( "I'd like a hint" );
+	jQuery( "#hint" ).val( "I'd like a hint" );
+	jQuery( "#hint-remainder" ).hide();
 
 	if ( once ) {
 		updateData();
@@ -929,6 +956,9 @@ function prepareSite() {
 				// The seed that was used for generating the problem
 				seed: problemSeed,
 
+				// The seed that was used for generating the problem
+				problem_type: problemID,
+
 				// The non-summative exercise that the current problem belongs to
 				non_summative: exercise.data( "name" )
 			};
@@ -972,6 +1002,7 @@ function prepareSite() {
 	// Watch for when the next button is clicked
 	jQuery("#next-question-button").click(function(ev) {
 		jQuery("#happy").hide();
+		if( !jQuery( "#examples-show" ).data( "show" ) ){ jQuery( "#examples-show" ).click(); }
 
 		// Toggle the navigation buttons
 		jQuery("#check-answer-button").show();
@@ -1032,6 +1063,8 @@ function prepareSite() {
 		}
 
 		var hint = hints.shift();
+		jQuery( "#hint-remainder" ).text( hints.length + " remaining" )
+			.fadeIn( 500 );
 
 		if ( hint ) {
 
@@ -1050,6 +1083,7 @@ function prepareSite() {
 			// Disable the get hint button
 			if ( hints.length === 0 ) {
 				jQuery( this ).attr( "disabled", true );
+				jQuery( "#hint-remainder" ).fadeOut( 500 );
 			}
 
 			// Don't reset the streak if we've already reset it or if
@@ -1088,13 +1122,16 @@ function prepareSite() {
 		} else if ( !report || !form ) {
 			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
 			jQuery( "#issue, #issue form" ).show();
+			jQuery( "html, body" ).animate({
+				scrollTop: jQuery( "#issue" ).offset().top
+			}, 500 );
 		}
 	});
 
-	
+
 	// Hide issue form.
 	jQuery( "#issue-cancel" ).click( function( e ) {
-		
+
 		e.preventDefault();
 
 		jQuery( "#issue" ).hide( 500 );
@@ -1124,25 +1161,26 @@ function prepareSite() {
 		// flagging of browsers/os for issue labels. very primitive, but
 		// hopefully sufficient.
 		var agent_contains = function( sub ) { return agent.indexOf( sub ) !== -1; },
-			flags = { 
+			flags = {
 				ie8: agent_contains( "MSIE 8.0" ),
+				ie9: agent_contains( "Trident/5.0" ),
 				chrome: agent_contains( "Chrome/" ),
-				safari: !chrome && agent_contains( "Safari/" ),
+				safari: !agent_contains( "Chrome/" ) && agent_contains( "Safari/" ),
 				firefox: agent_contains( "Firefox/" ),
 				win7: agent_contains( "Windows NT 6.1" ),
 				vista: agent_contains( "Windows NT 6.0" ),
 				xp: agent_contains( "Windows NT 5.1" ),
-				leopard: agent_contains( "Mac OS X 10_5" ),
-				snowleo: agent_contains( "Mac OS X 10_6" ),
-				lion: agent_contains( "Mac OS X 10_7" )
+				leopard: agent_contains( "OS X 10_5" ) || agent_contains( "OS X 10.5" ),
+				snowleo: agent_contains( "OS X 10_6" ) || agent_contains( "OS X 10.6" ),
+				lion: agent_contains( "OS X 10_7" ) || agent_contains( "OS X 10.7" ),
+				scratchpad: body.indexOf( "scratchpad" ) !== -1 || body.indexOf( "scratch pad" ) !== -1 || body.indexOf( "Scratchpad" ) !== -1,
+				ipad: agent_contains( "iPad" )
 			},
-			labels = "";
+			labels = [];
 		jQuery.each( flags, function( k, v ) {
-			if ( v ) {
-				labels += k + ",";
-			}
+			if ( v ) labels.push( k )
 		});
-		
+
 		if ( title === "" ) {
 			jQuery( "#issue-status" ).addClass( "error" )
 				.html( "Please provide a valid title for the issue." ).show();
@@ -1153,59 +1191,62 @@ function prepareSite() {
 
 		// disable the form elements while waiting for a server response
 		formElements.attr( "disabled", true );
-		
+
 		jQuery( "#issue-cancel" ).hide();
 		jQuery( "#issue-throbber" ).show();
 
+		var dataObj = {
+			title: pretitle + " - " + title,
+			body: body,
+			labels: labels
+		};
+
+		// we try to post ot github without a cross-domain request, but if we're
+		// just running the exercises locally, then we can't help it and need
+		// to fall back to jsonp. 
 		jQuery.ajax({
-			url: "http://66.220.0.98:2563/file_exercise_tester_bug"
-				+ "?body=" + encodeURIComponent( body )
-				+ "&title=" + encodeURIComponent( [ pretitle, title ].join( " - " ) )
-				+ "&label=" + encodeURIComponent( labels ),
-			dataType: "jsonp",
-			
+
+			url: ( testMode ? "http://www.khanacademy.org/" : "/" ) + "githubpost",
+			type: testMode ? "GET" : "POST",
+			data: testMode
+				? { json: JSON.stringify( dataObj ) }
+				: JSON.stringify( dataObj ),
+			contentType: testMode ? "application/x-www-form-urlencoded" : "application/json",
+			dataType: testMode ? "jsonp" : "json",
 			success: function( json ) {
-			
-				if ( json.meta.status === 201 ) {
 
-					// hide the form
-					jQuery( "#issue form" ).hide();
+				data = json.data || json;
 
-					// show status message
-					jQuery( "#issue-status" ).removeClass( "error" )
-						.html( issueSuccess( json.data.html_url, json.data.title ) )
-						.show();
-					
-					// reset the form elements
-					formElements.attr( "disabled", false )
-						.not( "input:submit" ).val( "" );
-						
-					// replace throbber with the cancel button
-					jQuery( "#issue-cancel" ).show();
-					jQuery( "#issue-throbber" ).hide();
+				// hide the form
+				jQuery( "#issue form" ).hide();
 
-				} else {
+				// show status message
+				jQuery( "#issue-status" ).removeClass( "error" )
+					.html( issueSuccess( data.html_url, data.title ) )
+					.show();
 
-					// show error message
-					jQuery( "#issue-status" )
-						.addClass( "error" ).html( issueError ).show();
-				
-					// enable the inputs
-					formElements.attr( "disabled", false );
+				// reset the form elements
+				formElements.attr( "disabled", false )
+					.not( "input:submit" ).val( "" );
 
-				}
-				
+				// replace throbber with the cancel button
+				jQuery( "#issue-cancel" ).show();
+				jQuery( "#issue-throbber" ).hide();
+
 			},
-			
-			// FIXME note that this doesn't actually work with jquery's default jsonp
+			// note this won't actually work in local jsonp-mode
 			error: function( json ) {
-			
+
 				// show status message
 				jQuery( "#issue-status" ).addClass( "error" )
 					.html( issueError ).show();
-					
+
 				// enable the inputs
 				formElements.attr( "disabled", false );
+
+				// replace throbber with the cancel button
+				jQuery( "#issue-cancel" ).show();
+				jQuery( "#issue-throbber" ).hide();
 
 			}
 		});
@@ -1242,19 +1283,22 @@ function prepareSite() {
 		});
 
 	jQuery( "#examples-show" ).data( "show", true )
-		.click( function( e ) {
-			e.preventDefault();
-			var link = jQuery( this ),
-				show = link.data( "show" );
-			if ( show ) {
-				link.text( "Hide acceptable answer formats" );
-				jQuery( "#examples" ).show();
+		.click(function(evt){
+			if ( evt ) { evt.preventDefault(); }
+
+			var exampleLink = jQuery(this);
+			var examples = jQuery( "#examples" );
+			var show = exampleLink.data( "show" );
+
+			if ( exampleLink.data( "show" ) ){
+				exampleLink.text( "Hide acceptable answer formats" );
 			} else {
-				link.text( "Show acceptable answer formats" );
-				jQuery( "#examples" ).hide();
+				exampleLink.text( "Show acceptable answer formats" );
 			}
-			link.data( "show", !show );
-		});
+
+			examples.slideToggle( 190 );
+			exampleLink.data( "show", !show );
+		}).trigger( "click" );
 
 	jQuery( "#scratchpad-show" ).data( "show", true )
 		.click( function( e ) {
@@ -1273,11 +1317,13 @@ function prepareSite() {
 					} );
 
 				} else {
+					jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
 					jQuery( "#scratchpad" ).show();
 					button.text( "Hide scratchpad" );
 				}
 
 			} else {
+				jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
 				jQuery( "#scratchpad" ).hide();
 				button.text( "Show scratchpad" );
 			}
@@ -1311,7 +1357,7 @@ function prepareSite() {
 			var description = prompt( "Please provide a short description of the error" );
 
 			// Don't do anything on clicking Cancel
-			if ( description == null ) return
+			if ( description == null ) return;
 
 			// we discard the info recorded and record an issue on github instead
 			// of testing against the faulty problem's data dump.
@@ -1393,8 +1439,7 @@ function prepareSite() {
 						newIssue();
 					}
 				}
-			})
-
+			});
 
 			jQuery( "#next-question-button" ).trigger( "click" );
 		} );
@@ -1650,24 +1695,30 @@ function updateData( data ) {
 
 // Grab the cached UserExercise data from local storage
 function getData() {
-	var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+	// If we're viewing a problem, ignore local storage and return the userExercise blob
+	if ( typeof userExercise !== "undefined" && userExercise.read_only ) {
+		return userExercise;
 
-	// Parse the JSON if it exists
-	if ( data ) {
-		return JSON.parse( data );
-
-	// Otherwise we contact the server
 	} else {
-		return {
-			total_done: 0,
-			total_correct: 0,
-			streak: 0,
-			longest_streak: 0,
-			next_points: 225,
-			exercise_model: {
-				summative: isSummative
-			}
-		};
+		var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+
+		// Parse the JSON if it exists
+		if ( data ) {
+			return JSON.parse( data );
+
+		// Otherwise we contact the server
+		} else {
+			return {
+				total_done: 0,
+				total_correct: 0,
+				streak: 0,
+				longest_streak: 0,
+				next_points: 225,
+				exercise_model: {
+					summative: isSummative
+				}
+			};
+		}
 	}
 }
 

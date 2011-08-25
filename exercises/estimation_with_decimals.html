@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Estimation with decimals</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		.fake_header span {
+			font-weight: bold;
+			display: inline-block;
+			padding-left: 10px;
+			width: 100px;
+			border-bottom: 2px solid #CCCCCC;
+		}
+
+		.fake_header span:first-child {
+			width: 50px
+		}
+
+		.fake_row span {
+			display: inline-block;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			padding-left: 10px;
+			width: 100px;
+			border-bottom: 1px solid #DDD;
+		}
+
+		.fake_row:nth-child(n) span {
+			border-bottom: none;
+		}
+
+		.fake_row:nth-child(2n+1) span {
+			background-color: #F3F3F3;
+		}
+
+		.fake_row span:first-child {
+			width: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+
+	<div class="problems">
+		<div>
+			<div class="vars">
+				<var id="VALUES">$.map( randRange( 1000, 16000, randRange( 3, 7 ) ), function( n ){ return ( n / 1000 ).toFixed( randRange( 1, 2 ) ); } )</var>
+				<var id="ANSWER">eval( $.map( VALUES , round ).join("+") )</var>
+				<var id="TYPES">randFromArray( [ [ "jogging", "ran", "mile" ], [ "riding a bicycle ", "traveled", "mile" ], [ "collecting mushrooms", "collected", "pound" ], [ "painting a roof", "painted", "square foot" ], [ "harvesting grain", "harvested", "tonne" ] ] )</var>
+				<var id="ACC">0</var>
+				<var id="SIZE">$.map( VALUES, function( i ){ 
+							if ( round( i ) &lt  i  ) {
+								return  "smaller than";
+							}
+							else{
+								return "bigger or equal to";
+							}
+						 }  ) </var>
+			</div>
+			<p><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> for the last <var>VALUES.length</var> days.</p>
+			<p class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amount (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much <var>he( 1 )</var> <var>TYPES[ 1 ]</var> in total.</p>
+			<div class="fake_header">
+				<span>Day</span>
+				<span>Amount</span>
+			</div>
+			<div class="fake_row" data-each="VALUES as i, val">
+				<span><var>i+1</var></span>
+				<span><var>val</var></span>
+			</div>
+			<p class="solution" data-type="multiple">
+				<span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>plural( TYPES[ 2 ] )</var>
+			</p>
+
+			<div class="hints">
+				<p>Round all the numbers to the nearest <var>TYPES[ 2 ]</var> and add them up.</p>
+				<div class="fake_header">
+					<span>Day</span>
+					<span>Amount</span>
+					<span>Rounded</span>
+					<span>Running total</span>
+				</div>
+				<div class="fake_row" data-each="VALUES as i, val">
+					<span><var>i+1</var></span>
+					<span><var>val</var></span>
+					<span><var>round( val )</var></span>
+					<span><var>ACC += round( val )</var></span>
+				</div>
+				<p>Therefore the estimate is <code><var>ANSWER</var></code> <var>plural( TYPES[ 2 ] )</var>.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

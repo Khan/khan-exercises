@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+	<meta charset="UTF-8" />
+	<title>Number line</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+
+	<div class="exercise">
+	<div class="vars" >
+		<var id="NUMBER">randRange( -5, 5 )</var>
+		<var id="WRONGS">( function() { 
+					var arr = randRangeUnique( -5, 5, 5 );
+					if ( arr.indexOf( NUMBER ) != -1 ){
+						return sortNumbers( arr );
+					}
+					else{
+						arr.shift();
+						arr.push( NUMBER ); 
+						return sortNumbers( arr );
+					} })()</var>
+		<var id="POSS_ANSWER">[ "A", "B", "C", "D", "E"]</var>
+		<var id="ANSWER" > POSS_ANSWER[  WRONGS.indexOf( NUMBER ) ] </var>
+	</div>
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>Which dot marks the position of <code><var>NUMBER</var></code> on the number line?</p>
+			<div class="graphie">
+				init({
+					scale: [ 50, 40 ],
+					range: [ [-1, 22], [-1, 1] ]
+				});
+				var start = -5;
+				var end = 5;
+				var originX = 0;
+				var x = NUMBER;
+				numberLine( start, end );
+				style({ stroke: "#6495ED", strokeWidth: 3.5 });
+				line( [ 5, -0.2], [5, 0.2]);
+				label( [ 5, -0.53 ],  "0","center", { color: "#6495ED" });
+				
+				style({ stroke: "#FFA500", fill: "#FFA500" });
+				var already = [];
+				
+				for( i = 0; i !=  WRONGS.length; i++ ){
+						circle( [ WRONGS[ i ] + 5, 0 ], 0.10 );
+						label( [WRONGS[ i ] + 5, 0 ], POSS_ANSWER[ i ] , "above", { labelDistance: 5 } );
+				}
+			</div>
+			<div class="solution"><var>ANSWER</var></div>
+			<ol class="choices" data-category="true">
+				<li data-each="POSS_ANSWER as i, answer"><var>answer</var></li>
+			</ol>
+		</div>
+
+	<div class="hints">
+		<p>The numbers under the line represent the positions of numbers on the number line.</p>
+		<p>Dot <var>ANSWER</var> is on top of the tick mark labeled <code><var>NUMBER</var></code>.</p>
+		<p data-if="NUMBER !== 0">We can also find <code><var>NUMBER</var></code> by starting at the tick mark for <code>0</code> and moving <code><var>abs( NUMBER )</var></code> to the <span data-if="NUMBER < 0 "> left</span><span data-else>right</span>.</p>
+	</div>
+	</div>
+	</div>
+</body>
+</html>
