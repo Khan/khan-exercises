@@ -18,6 +18,15 @@ jQuery.extend(KhanUtil, {
 		return [ n, d ];
 	},
 
+	toFractionTex: function( n, dfrac ) {
+		var f = KhanUtil.toFraction( n );
+		if ( f[1] === 1 ) {
+			return f[0];
+		} else {
+			return "\\" + ( dfrac ? "d" : "" ) + "frac{" + f[0] + "}{" + f[1] + "}";
+		}
+	},
+
 	/* Format the latex of the fraction `n`/`d`.
 	 * - Will use latex's `dfrac` unless `small` is specified as truthy.
 	 * - Will wrap the fraction in parentheses if necessary (ie, unless the
@@ -285,7 +294,7 @@ jQuery.extend(KhanUtil, {
 
 		if ( (b * b - 4 * a * c) === 0 ) {
 			// 0 under the radical
-			rootString += KhanUtil.fraction(-b, 2*a);
+			rootString += KhanUtil.fraction(-b, 2*a, true, true, true);
 		} else if ( underRadical[0] === 1 ) {
 			// The number under the radical cannot be simplified
 			rootString += KhanUtil.expr(["frac", ["+-", -b, ["sqrt", underRadical[1]]],
@@ -293,8 +302,8 @@ jQuery.extend(KhanUtil, {
 		} else if ( underRadical[1] === 1 ) {
 			// The absolute value of the number under the radical is a perfect square
 
-			rootString += KhanUtil.fraction(-b + underRadical[0], 2*a) + ","
-				+ KhanUtil.fraction(-b - underRadical[0], 2*a);
+			rootString += KhanUtil.fraction(-b + underRadical[0], 2*a, true, true, true) + ","
+				+ KhanUtil.fraction(-b - underRadical[0], 2*a, true, true, true);
 		} else {
 			// under the radical can be partially simplified
 			var divisor = KhanUtil.getGCD( b, 2 * a, underRadical[0] );
@@ -311,12 +320,19 @@ jQuery.extend(KhanUtil, {
 		return rootString;
 	},
 
+	// Thanks to Ghostoy on http://stackoverflow.com/questions/6784894/commafy/6786040#6786040
 	commafy: function( num ) {
-		num = num.toString();
-		if ( /\./.test( num ) ) {
-			return num;
+		var str = num.toString().split( "." );
+
+		if ( str[0].length >= 5 ) {
+			str[0] = str[0].replace( /(\d)(?=(\d{3})+$)/g, '$1{,}' );
 		}
-		return num.replace(/\B(?=(?:\d{3})+(?!\d))/g, "{,}");
+
+		if ( str[1] && str[1].length >= 5 ) {
+			str[1] = str[1].replace( /(\d{3})(?=\d)/g, '$1\\;' );
+		}
+
+		return str.join( "." );
 	},
 
 	// Formats strings like "Axy + By + Cz + D" where A, B, and C are variables
@@ -342,7 +358,7 @@ jQuery.extend(KhanUtil, {
 	_plusTrim: function( s ) {
 
 		if ( typeof s === "string" && isNaN( s ) ) {
-			
+
 			// extract color, so we can handle stripping the 1 out of \color{blue}{1xy}
 			if ( s.indexOf( "{" ) !== -1 ) {
 

@@ -23,19 +23,28 @@ jQuery.extend( KhanUtil, {
 		}
 	},
 
-	// pluralization helper.  There are three signatures
+	// pluralization helper.  There are five signatures
 	// - plural(NUMBER): return "s" if NUMBER is not 1
 	// - plural(NUMBER, singular):
 	//		- if necessary, magically pluralize <singular>
 	//		- return "NUMBER word"
 	// - plural(NUMBER, singular, plural):
 	//		- return "NUMBER word"
+	// - plural(singular, NUMBER):
+	//		- if necessary, magically pluralize <singular>
+	//		- return "word"
+	// - plural(singular, plural, NUMBER):
+	//		- return "word"
 	plural: (function() {
 		var oneOffs = {
 			'quiz': 'quizzes',
 			'shelf': 'shelves',
 			'loaf': 'loaves',
-			'potato': 'potatoes'
+			'potato': 'potatoes',
+			'person': 'people',
+			'is': 'are',
+			'was': 'were',
+			'square foot': 'square feet'
 		};
 
 		var pluralizeWord = function(word) {
@@ -110,7 +119,13 @@ jQuery.extend( KhanUtil, {
 
 				return value + " " + arg1;
 			} else if ( typeof value === "string" ) {
-				return pluralizeWord(value);
+				var plural = pluralizeWord(value)
+				if ( typeof arg1 === "string" && arguments.length === 3 ) {
+					plural = arg1;
+					arg1 = arg2;
+				}
+				var usePlural = (arguments.length < 2 || (typeof arg1 === "number" && arg1 !== 1));
+				return usePlural ? plural : value;
 			}
 		};
 	})()
@@ -217,6 +232,20 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"cake"
 	]);
 
+	var timesofday = KhanUtil.shuffle([
+		"in the morning",
+		"around noon",
+		"in the evening",
+		"at night"
+	]);
+
+	var exercises = KhanUtil.shuffle([
+		"push-up",
+		"sit-up",
+		"squat",
+		"jumping jack"
+	]);
+
 	var fruits = KhanUtil.shuffle([
 		"apple",
 		"banana",
@@ -241,6 +270,11 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"notebook",
 		"pencil",
 		"rubber stamp"
+	]);
+
+	var sides = KhanUtil.shuffle([
+		"left",
+		"right"
 	]);
 
 	jQuery.extend( KhanUtil, {
@@ -320,12 +354,24 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return pizzas[i];
 		},
 
+		exercise: function( i ) {
+			return exercises[i - 1];
+		},
+
+		timeofday: function( i ) {
+			return timesofday[i - 1];
+		},
+
 		fruit: function( i ) {
 			return fruits[i];
 		},
 
 		deskItem: function( i ) {
 			return deskItems[i];
+		},
+
+		side: function( i ) {
+			return sides[i - 1];
 		}
 
 	});

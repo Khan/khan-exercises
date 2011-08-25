@@ -4,11 +4,6 @@
 	<meta charset="UTF-8" />
 	<title>Fractions on the number line</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		function compareStringNumber( a, b){
-			return a - b;
-		}
-	</script>
 
 </head>
 <body>
@@ -16,8 +11,8 @@
 	<div class="exercise">
 	<div class="vars" >
 		<div data-ensure="NOMINATOR/DENOMINATOR < 3 && NOMINATOR/DENOMINATOR != round( NOMINATOR/DENOMINATOR )">
-			<var id="NOMINATOR"> randRange( 0 , 15 )</var>
-			<var id="DENOMINATOR"> randRange( 1 , 15 )</var>
+			<var id="NOMINATOR">randRange( 0 , 15 )</var>
+			<var id="DENOMINATOR">randRange( 1 , 15 )</var>
 		</div>
 		<var id="SIGN">rand( 2 ) === 1 ? "-" : ""</var>
 		<var id="NUMBER">SIGN === "-" ? NOMINATOR/DENOMINATOR * -1 : NOMINATOR/DENOMINATOR </var>
@@ -48,12 +43,12 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>Which letter marks the position of number  <code><var>NICE_NUMBER</var></code> on the number line?</p>
+				<p>Which dot marks the position of <code><var>NICE_NUMBER</var></code> on the number line?</p>
 
 			<div class="graphie">
 				init({
 					scale: [ 80, 40 ],
-					range: [ [-0.2, 22], [-1, 1] ]
+					range: [ [-0.2, 8 ], [-1, 1] ]
 				});
 				var start = -3;
 				var end = 3;
@@ -81,14 +76,14 @@
 	<div class="hints">
 		<p data-if="reduces( NOMINATOR, DENOMINATOR )"><code><var>NICE_NUMBER</var></code> is equal to <code><var>REDUCED_NUMBER</var></code> </p>
 		<p> Because <code><var>REDUCED_NUMBER</var></code> is <span data-if="NUMBER > 0">positive</span><span data-else>negative</span> we go <span data-if="NUMBER > 0">right</span><span data-else>left</span> from 0</p>
-		 <p><code><var>REDUCED_NUMBER</var></code> is equal to <var>floor( abs( NUMBER ) ) * NUMBER/abs( NUMBER )</var> and <code><var>fraction( parseInt( SIGN + ( NOMINATOR - ( DENOMINATOR * floor( abs( NUMBER) ) )  ) ) , DENOMINATOR, true, true )</var></code></p>
+		 <p><code><var>REDUCED_NUMBER</var></code> is <code><var>fraction( parseInt( SIGN + ( NOMINATOR - ( DENOMINATOR * floor( abs( NUMBER) ) )  ) ) , DENOMINATOR, true, true )</var></code> away from <var>floor( abs( NUMBER ) ) * NUMBER/abs( NUMBER )</var></p>
 		<p>Therefore <code><var>REDUCED_NUMBER</var></code> is between <var>floor( NUMBER )</var> and <var>ceil( NUMBER )</var></p>
 		<div>
 		If we zoom in to that portion of the number line:
 			<div class="graphie">
 				init({
 					scale: [ 640, 40 ],
-					range: [ [-0.007, 5], [-1, 1] ]
+					range: [ [-0.007, 1.1 ], [-1, 1] ]
 				});
 				var start = floor( NUMBER ) - 0.001;
 				var end =  ceil( NUMBER ) + 0.001;
@@ -96,7 +91,7 @@
 				var x = NUMBER;
 				numberLine( start, end, 1 / reduce( NOMINATOR, DENOMINATOR)[1], 0 ,0, reduce( NOMINATOR, DENOMINATOR )[1] );
 				style({ stroke: "#6495ED", fill: "#6495ED" });
-				style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+				style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
 				var already = [];
 				for( i = 0; i !=  WRONGS.length; i++ ){
 						if( WRONGS[ i ] >= start && WRONGS[ i ] <= end ){

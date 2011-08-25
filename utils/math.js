@@ -67,6 +67,17 @@ jQuery.extend(KhanUtil, {
 			return KhanUtil.placesLeftOfDecimal[ power ];
 		}
 	},
+	
+
+	//Adds 0.001 because of floating points uncertainty so it errs on the side of going further away from 0
+	roundTowardsZero: function( x ){
+		if ( x < 0 ){
+			return Math.ceil( x - 0.001 );
+		}
+		return Math.floor( x + 0.001 );
+		
+
+	},
 
 	getGCD: function( a, b ) {
 		if ( arguments.length > 2 ) {
