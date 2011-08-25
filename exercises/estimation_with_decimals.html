@@ -4,14 +4,42 @@
 	<meta charset="UTF-8" />
 	<title>Estimation with decimals</title>
 	<script src="../khan-exercise.js"></script>
+	<style>
+		.fake_header span {
+			font-weight: bold;
+			display: inline-block;
+			padding-left: 10px;
+			width: 50px;
+			border-bottom: 2px solid #CCCCCC;
+		}
+
+		.fake_header span:nth-child(n+2) {
+			width: 100px
+		}
+
+		.fake_row:nth-child(2n+1) span {
+			background-color: #F3F3F3;
+		}
+
+		.fake_row span {
+			display: inline-block;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			padding-left: 10px;
+			width: 50px;
+		}
+
+		.fake_row span:nth-child(n+2) {
+			width: 100px
+		}
+	</style>
 </head>
 <body>
 	<div class="exercise">
 
 	<div class="problems">
-		<div id="classroom">
+		<div>
 			<div class="vars">
-
 				<var id="VALUES">$.map( randRange( 1000, 16000, randRange( 3, 7 ) ), function( n ){ return ( n / 1000 ).toFixed( randRange( 1, 2 ) ); } )</var>
 				<var id="ANSWER">eval( $.map( VALUES , round ).join("+") )</var>
 				<var id="TYPES">randFromArray( [ [ "jogging", "ran", "mile" ], [ "riding a bicycle ", "traveled", "mile" ], [ "collecting mushrooms", "collected", "pound" ], [ "painting a roof", "painted", "square foot" ], [ "harvesting grain", "harvested", "tonne" ] ] )</var>
@@ -25,22 +53,34 @@
 							}
 						 }  ) </var>
 			</div>
-			<div class="problem">
-				<var>person( 1 )</var> has been  <var>TYPES[ 0 ]</var> for the last  <var>VALUES.length</var> days. Every day <var>he( 1 )</var> <var>TYPES[ 1 ]</var> the following amount:  <p data-each="VALUES as i, val"><var>i+1</var>: <var>val</var> <var>plural( TYPES[ 2 ] )</var></p></div>
-
-			<p class="question">Estimate how much <var>person( 1 )</var> <var>TYPES[ 1 ]</var> in total.</p>
-
+			<p><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> for the last <var>VALUES.length</var> days.</p>
+			<p class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts each day, estimate how much <var>he( 1 )</var> <var>TYPES[ 1 ]</var> in total.</p>
+			<div class="fake_header">
+				<span>Day</span>
+				<span>Amount</span>
+			</div>
+			<div class="fake_row" data-each="VALUES as i, val">
+				<span><var>i+1</var></span>
+				<span><var>val</var></span>
+			</div>
 			<p class="solution" data-forms="integer"><var>ANSWER</var></p>
 
 			<div class="hints">
-				<p>Round all the numbers to the nearest <var>TYPES[ 2 ]</var> and add them  up.</p>
-				<div data-each="VALUES as i, val">
-					<p>We round <var>val</var> to <var>round( val )</var> because the tenths digit <var>val.toString().split( "." )[ 1 ].substring( 0, 1 )</var> is <var>SIZE[ i ]</var> 5.</p>
-					 <p>The total is now <code><var>ACC</var> +<var>round( val )</var> =  <var>ACC += round( parseFloat( VALUES[ i  ] ) )</var></code>.</p>
+				<p>Round all the numbers to the nearest <var>TYPES[ 2 ]</var> and add them up.</p>
+				<div class="fake_header">
+					<span>Day</span>
+					<span>Amount</span>
+					<span>Rounded</span>
+					<span>Running total</span>
 				</div>
-				<p>Therefore the estimate is <var>ANSWER</var>.</p>
+				<div class="fake_row" data-each="VALUES as i, val">
+					<span><var>i+1</var></span>
+					<span><var>val</var></span>
+					<span><var>round( val )</var></span>
+					<span><var>ACC += round( val )</var></span>
+				</div>
+				<p>Therefore the estimate is <code><var>ANSWER</var></code>.</p>
 			</div>
-
 		</div>
 	</div>
 </body>
