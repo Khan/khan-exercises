@@ -622,14 +622,16 @@ jQuery.extend( Khan.answerTypes, {
 			}
 
 			ret.guess = jQuery.trim(
-				choice.closest("li").contents( ":not(.MathJax)" ).text() );
+				choice.closest("li").find("code:not(.MathJax)").text() );
 
 			return choice.val() === "1";
 		};
 		ret.solution = jQuery.trim( solutionText );
 		ret.showGuess = function( guess ) {
+			list.find( 'input:checked' ).prop( 'checked', false);
+
 			var li = list.children().filter( function() {
-				return jQuery.trim( jQuery( this ).contents( ":not(.MathJax)" ).text() ) === guess;
+				return jQuery.trim( jQuery( this ).find( "code:not(.MathJax)" ).text() ) === guess;
 			} );
 			li.find( "input[name=solution]" ).prop( "checked", true );
 		};

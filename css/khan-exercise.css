@@ -93,6 +93,7 @@ var, div.graphie { white-space: pre; }
   -moz-border-radius: 4px;
   float: left;
   cursor: pointer;
+  height: 25px;
 }
 
 .user-activity.activated {
@@ -104,7 +105,8 @@ div.timeline-time {
   margin-left: 0;
   height: 0;
   position: relative;
-  top: -14px;
+  top: 45px;
+  left: -10px;
 }
 
 div.timeline-total {
@@ -121,9 +123,9 @@ div.timeline-total {
 #timeline {
   overflow: hidden;
   position: absolute;
-  left: 72px;
-  right: 72px;
-  padding-top: 18px;
+  left: 200px;
+  right: 200px;
+  height: 75px;
 }
 
 #timeline-events {
@@ -138,38 +140,59 @@ div.timeline-total {
   margin-right: 25px;
 }
 
+#timeline p {
+  margin: 0;
+}
+
 #previous-problem {
-  background: url(/images/previous-problem.png) no-repeat;
-  width: 48px;
-  height: 30px;
+  margin: 5px;
+  background: url(/images/previous-problem.png) no-repeat 19px 10px;
+  width: 90px;
+  height: 65px;
   position: absolute;
   left: 0;
-  top: 20px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 #previous-step {
-  background: url(/images/previous-step.png) no-repeat;
-  width: 24px;
-  height: 24px;
+  margin: 5px;
+  background: url(/images/previous-step.png) no-repeat 30px 10px;
+  width: 90px;
+  height: 65px;
   position: absolute;
-  left: 48px;
-  top: 20px;
+  left: 100px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 #next-step {
-  background: url(/images/next-step.png) no-repeat;
-  width: 24px;
-  height: 24px;
+  margin: 5px;
+  background: url(/images/next-step.png) no-repeat 34px 10px;
+  width: 90px;
+  height: 65px;
   position: absolute;
-  right: 48px;
-  top: 20px;
+  right: 100px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 #next-problem {
-  background: url(/images/next-problem.png) no-repeat;
-  width: 48px;
-  height: 30px;
+  margin: 5px;
+  background: url(/images/next-problem.png) no-repeat 23px 10px;
+  width: 90px;
+  height: 65px;
   position: absolute;
   right: 0;
-  top: 20px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.pushdown {
+  position: absolute;
+  top: 45px;
 }
