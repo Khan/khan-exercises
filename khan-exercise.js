@@ -837,7 +837,8 @@ function makeProblem( id, seed ) {
 
 		var activate = function(slideNum) {
 			var timelineMiddle, itemMiddle, itemOffset, offset, hint, hintNum,
-					thisSlide = states.eq( slideNum ).addClass( "activated" );
+					thisSlide = states.eq( slideNum ).addClass( "activated" ),
+          hintsArea = jQuery( '#hintsarea' ).empty();
 
       var firstHintIndex = jQuery( '#timeline .hint-activity:first' )
         .index( '#timeline .user-activity' ),
@@ -852,32 +853,32 @@ function makeProblem( id, seed ) {
         }
       }
 
+      if (states.eq( previousHintIndex ).data( 'hint' ) !== false) {
+        hintNum = states.eq( previousHintIndex ).data( 'hint' );
+      } else {
+        hintNum = -1
+      }
+
       if (slideNum < firstHintIndex) {
         jQuery( "#hint-remainder" ).fadeOut( 500 );
         jQuery( "#hint" ).val( "I'd like a hint" );
       } else if (slideNum >= lastHintIndex) {
-        jQuery( "#hint-remainder" ).fadeOut( 500 );
+        if (states.eq( lastHintIndex ).data( 'hint' ) < hints.length) {
+          jQuery( "#hint-remainder" ).fadeOut( 500 );
+        }
       } else {
-          hintNum = states.eq( previousHintIndex ).data( 'hint' );
-
           jQuery( "#hint" ).val( "I'd like another hint" );
 
+          var totalHints = jQuery( '#timeline .hint-activity:last' )
+            .index( '#timeline .hint-activity' );
           jQuery( "#hint-remainder" )
-            .text( (hints.length - (hintNum+1)) + " remaining" )
+            .text(totalHints - hintNum) + " remaining" )
             .fadeIn( 500 );
-      }
-
-      var hintsArea = jQuery( '#hintsarea' ).empty(),
-          previousHintNum;
-      if (states.eq( previousHintIndex ).data( 'hint' ) !== false) {
-        previousHintNum = states.eq( previousHintIndex ).data( 'hint' );
-      } else {
-        previousHintNum = -1
       }
 
       // TODO: possibly optimize for hintNum > currentHint
       jQuery.each( hints, function( index, hint ) {
-        if (index <= previousHintNum) {
+        if (index <= hintNum) {
           // Append first so MathJax can sense the surrounding CSS context properly
           jQuery( hint ).appendTo( hintsArea ).runModules( problem );
         }
@@ -937,6 +938,22 @@ function makeProblem( id, seed ) {
 			activate( newSlide );
       currentSlide = newSlide;
 		});
+
+    jQuery( '#previous-step' ).click(function(event) {
+      if (currentSlide > 0) {
+        states.eq( currentSlide ).removeClass( "activated" );
+        activate( currentSlide - 1 );
+        currentSlide -= 1;
+      }
+    });
+
+    jQuery( '#next-step' ).click(function(event) {
+      if (currentSlide < numSlides-1) {
+        states.eq( currentSlide ).removeClass( "activated" );
+        activate( currentSlide + 1 );
+        currentSlide += 1;
+      }
+    });
 
     // Some exercises use custom css
     jQuery( "#timeline input[type='text']" ).css( "width", 
