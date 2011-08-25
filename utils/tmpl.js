@@ -20,8 +20,7 @@ jQuery.tmpl = {
 
 			// Check if the attribute should be deleted
 			if ( $elem.data( "toDelete" ) ) {
-				$elem.removeAttr( "data-if" );
-				$elem.removeData( "if" );
+				$elem.removeAttr( "data-if" ).removeData( "if" );
 			}
 
 			value = value && jQuery.tmpl.getVAR( value );
@@ -40,8 +39,7 @@ jQuery.tmpl = {
 
 			// Check if the attribute should be deleted
 			if ( $elem.data( "toDelete" ) ) {
-				$elem.removeAttr( "data-else-if" );
-				$elem.removeData( "elseIf" );
+				$elem.removeAttr( "data-else-if" ).removeData( "elseIf" );
 			}
 
 			var lastCond = $elem.data( "lastCond" );
@@ -63,8 +61,7 @@ jQuery.tmpl = {
 
 			// Check if the attribute should be deleted
 			if ( $elem.data( "toDelete" ) ) {
-				$elem.removeAttr( "data-else" );
-				$elem.removeData( "else" );
+				$elem.removeAttr( "data-else" ).removeData( "else" );
 			}
 
 			if ( $elem.data( "lastCond" ) ) {
