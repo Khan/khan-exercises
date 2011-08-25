@@ -872,7 +872,7 @@ function makeProblem( id, seed ) {
           var totalHints = jQuery( '#timeline .hint-activity:last' )
             .index( '#timeline .hint-activity' );
           jQuery( "#hint-remainder" )
-            .text(totalHints - hintNum) + " remaining" )
+            .text( (totalHints - hintNum) + " remaining" )
             .fadeIn( 500 );
       }
 
