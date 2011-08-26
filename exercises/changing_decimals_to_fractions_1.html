@@ -20,7 +20,7 @@
 				<p class="solution" data-type="rational" data-simplify="optional"><var>T</var></p> 
 				<p class="extra-info"><i>(You can express this as any fraction - you don't have to simplify your answer)</i></p>
 				<div class="hints">
-					<p>The number <var>T * 10</var> is in the the tenths place.</p>
+					<p>The number <var>T * 10</var> is in the tenths place.</p>
 					<p>Since there is one decimal place, we simply put the number over 10.</p>
 					<p>The answer is <code><var>fraction( T * 10, 10 )</var></code>.</p>
 				</div>
@@ -30,8 +30,8 @@
 				<p class="question">Express <var>H</var> as a fraction.</p>
 				<p class="solution" data-type="rational" data-simplify="optional"><var>H</var></p> 
 				<div class="hints">
-					<p>The number <var>( floor( H * 10 )).toFixed(0)</var> is in the the tenths place.</p>
-					<p>The number <var>( floor( H * 100 )).toFixed(0) - ( floor( H * 10 )).toFixed(0) * 10</var> is in the the hundredths place.</p>
+					<p>The number <var>( floor( H * 10 )).toFixed(0)</var> is in the tenths place.</p>
+					<p>The number <var>( floor( H * 100 )).toFixed(0) - ( floor( H * 10 )).toFixed(0) * 10</var> is in the hundredths place.</p>
 					<p>This then becomes <code><var>fraction(( floor( H * 10 )).toFixed(0), 10 )</var></code> + <code><var>fraction(( floor( H * 100 )).toFixed(0) - ( floor( H * 10 )).toFixed(0) * 10 , 100 )</var></code></p>
 					<p>Finding a common denominator: <code><var>fraction(( floor( H * 10 )).toFixed(0) * 10, 100 )</var></code> + <code><var>fraction(( floor( H * 100 )).toFixed(0) - ( floor( H * 10 )).toFixed(0) * 10 , 100 )</var></code></p>
 					<p>Or more simply: Since there are two decimal places, we simply put the number over 100.</p>
