@@ -484,6 +484,10 @@ jQuery.extend( Khan.answerTypes, {
 			return valid;
 		};
 
+		ret.examples = solutionarea.find( ".example" ).remove()
+			.map(function(i, el) {
+				return jQuery( el ).html();
+			});
 		ret.solution = solutionArray;
 
 		return ret;

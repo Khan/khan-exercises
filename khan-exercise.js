@@ -720,7 +720,7 @@ function makeProblem( id, seed ) {
 	// Add the problem into the page
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
 	jQuery( "#answercontent input" ).removeAttr("disabled");
-	if ( validator.examples ) {
+	if ( validator.examples && validator.examples.length > 0 ) {
 		jQuery( "#examples-show" ).show();
 		jQuery( "#examples" ).empty();
 
