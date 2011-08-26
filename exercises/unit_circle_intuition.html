@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+  <html data-require="math math-format graphie angles">
+      <head>
+          <title>Unit Circle Intuition</title>
+          <script src="../khan-exercise.js"></script>
+	  <script>
+	 
+       </script>
+	  
+	  </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+                  <var id="ANG">randFromArray([15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345,360])</VAR>
+<!--need to exclude the selected angle from the random distractors-->				 
+				  <var id="RANDHR">randRange(1,23,4)</VAR>
+				  <var id="ANGNUM">ANG/15</VAR>			  
+				  <var id="ANGTXT">commonAngles2[ANGNUM-1].rad</VAR>
+				  <var id="COSTXT">commonAngles2[ANGNUM-1].cos</VAR>
+				  <var id="SINTXT">commonAngles2[ANGNUM-1].sin</VAR>
+				  <var id="TANTXT">commonAngles2[ANGNUM-1].tan</VAR>
+				  <var id="SOLUN">commonAngles2[ANGNUM-1].cos</VAR>
+				  <var id="SOLUN2">commonAngles2[ANGNUM-1].sin</VAR>
+				  <var id="SOLUN3">commonAngles2[ANGNUM-1].tan</VAR>
+				  <var id="SOLUNB1">commonAngles2[RANDHR[0]].cos</VAR>
+				  <var id="SOLUNB2">commonAngles2[RANDHR[1]].cos</VAR>
+				  <var id="SOLUNB3">commonAngles2[RANDHR[2]].cos</VAR>
+				  <var id="SOLUNB4">commonAngles2[RANDHR[3]].cos</VAR>
+<!--NEG1 Used for labeling-->				  
+				  <var id="NEG1">-1</VAR>
+				  <var id="XCOOR">Math.cos(ANG*3.1415/180)</VAR>
+				  <var id="YCOOR">Math.sin(ANG*3.1415/180)</VAR>
+				   
+              </div>
+
+              <div class="problems">
+                  <div id="cosine">
+                      <p class="problem">Coordinates on the Unit Circle</p>
+                      <p class="question">What is the cosine of <var>ANG</var> <code>^{\circ}</code>also known as <code><var>ANGTXT</var></code> Radians?</p>
+                      <div id="graph" class="graphie" style="float: right">
+					graphInit({
+						range: [2,2],
+						scale: [100,100],
+						tickStep: 2.0,
+						labelStep: 2.0,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; },
+						axisArrows: "<->"
+					});
+					circle([0,0],1);  
+					 </div> 
+					 
+					<div class="solution">
+					<code><var>SOLUN</var></code>
+				</div>
+				<ul class="choices" data-none="true">
+					<li><code><var>SOLUNB1</var></code></li>
+					<li><code><var>SOLUNB2</var></code></li>
+					<li><code><var>SOLUNB3</var></code></li>
+					<li><code><var>SOLUNB4</var></code></li>
+				</ul>	
+
+					 
+           
+
+              <div class="hints">
+				 <div class="graphie" data-update="graph">
+				line( [0, 0], [<var>XCOOR</var>, <var>YCOOR</var>], { stroke: "red", arrows: false } );
+				circle([<var>XCOOR</var>, <var>YCOOR</var>],0.05);
+	<!--			Protractor([0,0],1);-->
+				</div>
+				 <div class="graphie" data-update="graph">
+				line( [<var>XCOOR</var>, <var>YCOOR</var>],[<var>-XCOOR</var>, <var>YCOOR</var>], { stroke: "cyan", arrows: false } );
+				line( [<var>XCOOR</var>, <var>YCOOR</var>],[<var>XCOOR</var>, <var>-YCOOR</var>], { stroke: "cyan", arrows: false } );
+				line( [<var>-XCOOR</var>, <var>YCOOR</var>],[<var>-XCOOR</var>, <var>-YCOOR</var>], { stroke: "cyan", arrows: false } );
+				line( [<var>XCOOR</var>, <var>-YCOOR</var>],[<var>-XCOOR</var>, <var>-YCOOR</var>], { stroke: "cyan", arrows: false } );
+				</div>
+				<p>Though the signs (positive or negative) will vary, the absolute value of the x values and y values (respectively) for all of the corners is the same.</p>
+				<p>Now start with the 4 logical points in a <em><b>UNIT</b></em> circle.  The <em><b>"UNIT"</b></em> refers to the radius.</p>
+				 <div class="graphie" data-update="graph">
+				label( [ 1.0, 0.0 ], "(" + "1"	+ ", " + "0" + ")","below right");
+				label( [ 0.0, 1.0], "(" + "0"	+ ", " + "1" + ")","above left");
+				label( [ -1.0, 0.0], "(" + "<var>NEG1</var>" 	+ ", " + "0" + ")","above left");
+				label( [ 0.0, <var>NEG1</var>], "(" + "0"	+ ", " + "<var>NEG1</var>" + ")","below left");
+				</div>
+				 <p>To get more points, divide the first quadrant up by halving the radii to provide guides for 30<code>^\circ</code>,45<code>^\circ</code> and 60<code>^\circ</code>.</p>
+				 <div class="graphie" data-update="graph">
+				line( [0.5, 0.0], [0.5, 1.0], { stroke: "#6495ed", arrows: false } );
+				line( [0, 0.5], [1.0, 0.5], { stroke: "#6495ed", arrows: false } );
+			
+				</div>
+				 
+		
+				 <div class="graphie" data-update="graph">
+				line( [0.0, 0.0], [0.5,0.866], { stroke: "#6495ed", arrows: false } );
+				line( [0.0, 0.0], [0.866,0.50], { stroke: "#6495ed", arrows: false } );
+				line( [0.0, 0.0], [0.7071,0.7071], { stroke: "#6495ed", arrows: false } );
+				</div>
+				 
+				 <div class="graphie" data-update="graph">
+				
+				label( [ 0.5, 0.9], "(" + <code>commonAngles2[3].cos</code>	+ ", " + <code>commonAngles2[3].sin</code> + ")","above right");
+				label( [ 0.7, 0.6], "(" + <code>commonAngles2[2].cos</code>	+ ", " + <code>commonAngles2[2].sin</code> + ")","above right");
+				label( [ 0.9, 0.3], "(" + <code>commonAngles2[1].cos</code>	+ ", " + <code>commonAngles2[1].sin</code> + ")","above right");
+				</div>
+				<p>Notice the pattern for the x values<br/>There are "twos" in the denominator<br/>and "1", "2", "3" under square roots symbols in the numerator. <code>\sqrt{1}</code> is "1".</p> 
+				<p>The y values are similar but read bottom to top</p>
+				 <div class="graphie" data-update="graph">			
+				line( [0.0, 0.0], [0.2588,0.9659], { stroke: "#6495ed", arrows: false } );
+				line( [0.0, 0.0], [0.9659,0.2588], { stroke: "#6495ed", arrows: false } );
+				label( [ 1.0, 0.0], "(" + <code>commonAngles2[0].cos</code>	+ ", " + <code>commonAngles2[0].sin</code> + ")","above right");
+				label( [ 0.0, 1.2], "(" + <code>commonAngles2[4].cos</code>	+ ", " + <code>commonAngles2[4].sin</code> + ")","above right");
+				</div>
+				<p>Notice the neat 2, 4, 6 pattern for both the cosine and sin of 15 degrees</p>
+				<p>Using these patterns together you should work to ingrain the unit circle coordinates for 0<code>^\circ</code>,15<code>^\circ</code>,30<code>^\circ</code> and 45<code>^\circ</code>completely and then master other angles by using some "reflective" intuition</p>
+				 <div id="graph2" class="graphie" style="float: right">
+					graphInit({
+						range: [2,2],
+						scale: [100,100],
+						tickStep: 2.0,
+						labelStep: 2.0,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; },
+						axisArrows: "<->"
+					});
+					circle([0,0],1);  
+					circle([<var>XCOOR</var>, <var>YCOOR</var>],0.05);
+					label( [ <var>XCOOR</var>, <var>YCOOR</var>], "(" + <code>commonAngles2[<var>ANGNUM</var>-1].cos</code>	+ ", " + <code>commonAngles2[<var>ANGNUM</var>-1].sin</code> + ")","above right");
+					</div> 
+
+					<p>The cosine of <var>ANG</var><code>^\circ</code> is equal to <code><var>COSTXT</var></code>.</p>
+				 </div>
+				</div>
+					<div id="sin">
+                      <p class="problem">Coordinates on the Unit Circle</p>
+                      <p class="question">What is the sin of <var>ANG</var> <code>^{\circ}</code>also known as <code><var>ANGTXT</var></code> Radians?</p>
+                      <div id="graph" class="graphie" style="float: right">
+						graphInit({
+						range: [2,2],
+						scale: [100,100],
+						tickStep: 2.0,
+						labelStep: 2.0,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; },
+						axisArrows: "<->"
+					});
+					circle([0,0],1);  
+					 </div> 
+					 
+					<div class="solution">
+					<code><var>SOLUN2</var></code>
+				</div>
+				<ul class="choices" data-none="true">
+					<li><code><var>SOLUNB1</var></code></li>
+					<li><code><var>SOLUNB2</var></code></li>
+					<li><code><var>SOLUNB3</var></code></li>
+					<li><code><var>SOLUNB4</var></code></li>
+				</ul>	
+					 
+              <div class="hints">
+				 <div class="graphie" data-update="graph">
+				line( [0, 0], [<var>XCOOR</var>, <var>YCOOR</var>], { stroke: "red", arrows: false } );
+				circle([<var>XCOOR</var>, <var>YCOOR</var>],0.05);
+	<!--			Protractor([0,0],1);-->
+				</div>
+				 <div class="graphie" data-update="graph">
+				line( [<var>XCOOR</var>, <var>YCOOR</var>],[<var>-XCOOR</var>, <var>YCOOR</var>], { stroke: "cyan", arrows: false } );
+				line( [<var>XCOOR</var>, <var>YCOOR</var>],[<var>XCOOR</var>, <var>-YCOOR</var>], { stroke: "cyan", arrows: false } );
+				line( [<var>-XCOOR</var>, <var>YCOOR</var>],[<var>-XCOOR</var>, <var>-YCOOR</var>], { stroke: "cyan", arrows: false } );
+				line( [<var>XCOOR</var>, <var>-YCOOR</var>],[<var>-XCOOR</var>, <var>-YCOOR</var>], { stroke: "cyan", arrows: false } );
+				</div>
+				<p>Though the signs (positive or negative) will vary, the absolute value of the x values and y values (respectively) for all of the corners is the same.</p>
+				<p>Now start with the 4 logical points in a <em><b>UNIT</b></em> circle.  The <em><b>"UNIT"</b></em> refers to the radius.</p>
+				 <div class="graphie" data-update="graph">
+				label( [ 1.0, 0.0 ], "(" + "1"	+ ", " + "0" + ")","below right");
+				label( [ 0.0, 1.0], "(" + "0"	+ ", " + "1" + ")","above left");
+				label( [ -1.0, 0.0], "(" + "<var>NEG1</var>" 	+ ", " + "0" + ")","above left");
+				label( [ 0.0, <var>NEG1</var>], "(" + "0"	+ ", " + "<var>NEG1</var>" + ")","below left");
+				</div>
+				 <p>To get more points, divide the first quadrant up by halving the radii to provide guides for 30<code>^\circ</code>,45<code>^\circ</code> and 60<code>^\circ</code>.</p>
+				 <div class="graphie" data-update="graph">
+				line( [0.5, 0.0], [0.5, 1.0], { stroke: "#6495ed", arrows: false } );
+				line( [0, 0.5], [1.0, 0.5], { stroke: "#6495ed", arrows: false } );
+			
+				</div>
+				 
+				 <div class="graphie" data-update="graph">
+				line( [0.0, 0.0], [0.5,0.866], { stroke: "#6495ed", arrows: false } );
+				line( [0.0, 0.0], [0.866,0.50], { stroke: "#6495ed", arrows: false } );
+				line( [0.0, 0.0], [0.7071,0.7071], { stroke: "#6495ed", arrows: false } );
+				</div>
+				 
+				 <div class="graphie" data-update="graph">
+				
+				label( [ 0.5, 0.9], "(" + <code>commonAngles2[3].cos</code>	+ ", " + <code>commonAngles2[3].sin</code> + ")","above right");
+				label( [ 0.7, 0.6], "(" + <code>commonAngles2[2].cos</code>	+ ", " + <code>commonAngles2[2].sin</code> + ")","above right");
+				label( [ 0.9, 0.3], "(" + <code>commonAngles2[1].cos</code>	+ ", " + <code>commonAngles2[1].sin</code> + ")","above right");
+				</div>
+				<p>Notice the pattern for the x values<br/>There are "twos" in the denominator<br/>and "1", "2", "3" under square roots symbols in the numerator. <code>\sqrt{1}</code> is "1".</p> 
+				<p>The y values are similar but read bottom to top</p>
+				 <div class="graphie" data-update="graph">			
+				line( [0.0, 0.0], [0.2588,0.9659], { stroke: "#6495ed", arrows: false } );
+				line( [0.0, 0.0], [0.9659,0.2588], { stroke: "#6495ed", arrows: false } );
+				label( [ 1.0, 0.0], "(" + <code>commonAngles2[0].cos</code>	+ ", " + <code>commonAngles2[0].sin</code> + ")","above right");
+				label( [ 0.0, 1.2], "(" + <code>commonAngles2[4].cos</code>	+ ", " + <code>commonAngles2[4].sin</code> + ")","above right");
+				</div>
+				<p>Notice the neat 2, 4, 6 pattern for both the cosine and sin of 15 degrees</p>
+				<p>Using these patterns together you should work to ingrain the unit circle coordinates for 0<code>^\circ</code>,15<code>^\circ</code>,30<code>^\circ</code> and 45<code>^\circ</code>completely and then master other angles by using some "reflective" intuition</p>
+				 <div id="graph2" class="graphie" style="float: right">
+					graphInit({
+						range: [2,2],
+						scale: [100,100],
+						tickStep: 2.0,
+						labelStep: 2.0,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; },
+						axisArrows: "<->"
+					});
+					circle([0,0],1);  
+					circle([<var>XCOOR</var>, <var>YCOOR</var>],0.05);
+					label( [ <var>XCOOR</var>, <var>YCOOR</var>], "(" + <code>commonAngles2[<var>ANGNUM</var>-1].cos</code>	+ ", " + <code>commonAngles2[<var>ANGNUM</var>-1].sin</code> + ")","above right");
+					</div> 
+				 <p>The sin of <var>ANG</var><code>^\circ</code> is equal to <code><var>SINTXT</var></code>.</p>
+				 </div>
+          </div>
+
+				<div id="tan">
+                      <p class="problem">Coordinates on the Unit Circle</p>
+                      <p class="question">What is the tan of <var>ANG</var> <code>^{\circ}</code>also known as <code><var>ANGTXT</var></code> Radians?</p>
+                      <div id="graph" class="graphie" style="float: right">
+					graphInit({
+						range: [2,2],
+						scale: [100,100],
+						tickStep: 2.0,
+						labelStep: 2.0,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; },
+						axisArrows: "<->"
+					});
+					circle([0,0],1);  
+					 </div> 
+					 
+					<div class="solution">
+					<code><var>SOLUN3</var></code>
+				</div>
+				<ul class="choices" data-none="true">
+					<li><code><var>SOLUNB1</var></code></li>
+					<li><code><var>SOLUNB2</var></code></li>
+					<li><code><var>SOLUNB3</var></code></li>
+					<li><code><var>SOLUNB4</var></code></li>
+				</ul>	
+
+					 
+           
+
+              <div class="hints">
+				 <div class="graphie" data-update="graph">
+				line( [0, 0], [<var>XCOOR</var>, <var>YCOOR</var>], { stroke: "red", arrows: false } );
+				circle([<var>XCOOR</var>, <var>YCOOR</var>],0.05);
+	<!--			Protractor([0,0],1);-->
+				</div>
+				 <p>tangent is defined as <code>\frac{sin}{cos}</code> or <code>\frac{y value}{x value}</code> for the unit circle</p>
+				 <div class="graphie" data-update="graph">
+				line( [<var>XCOOR</var>, <var>YCOOR</var>],[<var>-XCOOR</var>, <var>YCOOR</var>], { stroke: "cyan", arrows: false } );
+				line( [<var>XCOOR</var>, <var>YCOOR</var>],[<var>XCOOR</var>, <var>-YCOOR</var>], { stroke: "cyan", arrows: false } );
+				line( [<var>-XCOOR</var>, <var>YCOOR</var>],[<var>-XCOOR</var>, <var>-YCOOR</var>], { stroke: "cyan", arrows: false } );
+				line( [<var>XCOOR</var>, <var>-YCOOR</var>],[<var>-XCOOR</var>, <var>-YCOOR</var>], { stroke: "cyan", arrows: false } );
+				</div>
+				<p>Though the signs (positive or negative) will vary, the absolute value of the x values and y values respectively for all of these corners is the same</p>
+				 
+				 <p>Divide the first quadrant up by halving radii<br/>to provide guides for 30<code>^\circ</code>,45<code>^\circ</code> and 60<code>^\circ</code>.<br/>These define key coordinates on the unit circle</p>
+				 <div class="graphie" data-update="graph">
+				line( [0.5, 0.0], [0.5, 1.0], { stroke: "#6495ed", arrows: false } );
+				line( [0, 0.5], [1.0, 0.5], { stroke: "#6495ed", arrows: false } );
+			
+				</div>
+				 
+		
+				 <div class="graphie" data-update="graph">
+				line( [0.0, 0.0], [0.5,0.866], { stroke: "#6495ed", arrows: false } );
+				line( [0.0, 0.0], [0.866,0.50], { stroke: "#6495ed", arrows: false } );
+				line( [0.0, 0.0], [0.7071,0.7071], { stroke: "#6495ed", arrows: false } );
+				</div>
+				 
+				 <div class="graphie" data-update="graph">
+				
+				label( [ 0.5, 0.9], "tan = \\sqrt{3}","above right");
+				label( [ 0.7, 0.6], "tan = 1","above right");
+				label( [ 0.9, 0.3],"tan = \\frac{1}{\\sqrt{3}}" ,"above right");
+				</div>
+				
+						
+				
+				<p>Notice the pattern for the tangents<br/>The tangent of 45<code>^\circ</code> equals 1<br/>and <code>\sqrt{3}</code> is involved in both 30<code>^\circ</code> and 60<code>^\circ</code></p> 
+				<p>There is a kind of symmetry about the 45<code>^\circ</code>line</p>
+				 <div class="graphie" data-update="graph">
+				
+				
+				
+				line( [0.0, 0.0], [0.2588,0.9659], { stroke: "#6495ed", arrows: false } );
+				line( [0.0, 0.0], [0.9659,0.2588], { stroke: "#6495ed", arrows: false } );
+				label( [ 1.0, 0.0], "tan =" + <code>commonAngles2[0].tan</code>, "above right");
+				label( [ 0.0, 1.2], "tan =" + <code>commonAngles2[4].tan</code>, "above right");
+				</div>
+				<p>In the second and fourth quadrants the tangents for 15<code>^\circ</code> and 75<code>^\circ</code> appear with<code>\sqrt{3}-2</code>  which is the negative of <code>2-\sqrt{3}</code></p>
+				 <div id="graph2" class="graphie" style="float: right">
+					graphInit({
+						range: [2,2],
+						scale: [100,100],
+						tickStep: 2.0,
+						labelStep: 2.0,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; },
+						axisArrows: "<->"
+					});
+					circle([0,0],1);  
+					circle([<var>XCOOR</var>, <var>YCOOR</var>],0.05);
+					label( [ <var>XCOOR</var>, <var>YCOOR</var>], "tangent = " + <code>commonAngles2[<var>ANGNUM</var>-1].tan</code>,"above right");
+					</div> 
+				 <p>The tangent of <var>ANG</var><code>^\circ</code> is equal to <code><var>TANTXT</var></code>.</p>
+				 </div>
+          </div>
+
+		  </div>
+	  </body>
+  </html>
