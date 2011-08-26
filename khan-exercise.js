@@ -909,7 +909,9 @@ function prepareSite() {
 		var pass = validator();
 
 		// Stop if the user didn't enter a response
-		if ( jQuery.trim( validator.guess ) === "" ) {
+		// If multiple-answer, join all responses and check if that's empty
+		if ( jQuery.trim( validator.guess ) === "" ||
+			 ( validator.guess instanceof Array && jQuery.trim( validator.guess.join( "" ) ) === "" ) ) {
 			return false;
 		}
 
