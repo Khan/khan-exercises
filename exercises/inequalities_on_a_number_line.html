@@ -44,13 +44,13 @@
 						break;
 
 					case "quantity":
-                        original = i;
+						original = i;
 
-                        while (Math.abs(original) == Math.abs(i)) {
-                            // The only quantity mistake we don't allow is a perfect reflection around the origin,
-                            // b/c it may combine with a positivity mistake to create a correct answer.
-                            i += KhanUtil.randRangeNonZero( -3, 3 )
-                        }
+						while (Math.abs(original) == Math.abs(i)) {
+							// The only quantity mistake we don't allow is a perfect reflection around the origin,
+							// b/c it may combine with a positivity mistake to create a correct answer.
+							i += KhanUtil.randRangeNonZero( -3, 3 )
+						}
 
 						break;
 
