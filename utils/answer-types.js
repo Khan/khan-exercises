@@ -77,6 +77,7 @@ jQuery.extend( Khan.answerTypes, {
 	number: function( solutionarea, solution, fallback, forms ) {
 		var options = jQuery.extend({
 			simplify: "required",
+			ratio: false,
 			maxError: Math.pow( 2, -42 ),
 			forms: "literal, integer, proper, improper, mixed, decimal"
 		}, jQuery( solution ).data());
@@ -98,7 +99,9 @@ jQuery.extend( Khan.answerTypes, {
 			if ( match ) {
 				var num = parseFloat( match[1] ),
 					denom = parseFloat( match[2] );
-				var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
+				var simplified = denom > 0 &&
+					( options.ratio || match[2] !== "1" ) &&
+					KhanUtil.getGCD( num, denom ) === 1;
 				return [ {
 					value: num / denom,
 					exact: simplified
@@ -150,7 +153,7 @@ jQuery.extend( Khan.answerTypes, {
 			improper: {
 				transformer: function( text ) {
 					return jQuery.map( fractionTransformer( text ), function( o ) {
-						if ( Math.abs(o.value) > 1 ) {
+						if ( Math.abs(o.value) >= 1 ) {
 							return [o];
 						} else {
 							return [];
