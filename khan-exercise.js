@@ -867,6 +867,12 @@ function makeProblem( id, seed ) {
 function injectSite( html, htmlExercise ) {
 	jQuery("body").prepend( html );
 	jQuery("#container").html( htmlExercise );
+
+	if ( Khan.query.layout === "lite" ) {
+		// TODO: Move this into a stylesheet, toggle a class
+		jQuery("header, footer, #extras").remove();
+		jQuery("#page-container, #container, .exercise-badge").css({ "min-width": 0, "border-width": 0 });
+	}
 }
 
 function prepareSite() {
