@@ -11,7 +11,6 @@ jQuery.extend( Khan.answerTypes, {
 	text: function( solutionarea, solution, fallback, verifier ) {
 		var input = jQuery('<input type="text">');
 		jQuery( solutionarea ).append( input );
-		input.focus();
 
 		var correct = typeof solution === "object" ? jQuery( solution ).text() : solution;
 
@@ -410,7 +409,6 @@ jQuery.extend( Khan.answerTypes, {
 			.append( inte )
 			.append( '<span class="surd">&radic;</span>')
 			.append( rad.addClass( "overline" ) );
-		inte.find( "input" ).eq( 0 ).focus();
 
 		var ret = function() {
 			// Load entered values into inteGuess, radGuess
@@ -450,8 +448,7 @@ jQuery.extend( Khan.answerTypes, {
 
 		var solutionArray = [];
 
-		// Iterate in reverse so the *first* input is focused
-		jQuery( solutionarea.find( ".sol" ).get().reverse() ).each(function() {
+		solutionarea.find( ".sol" ).each(function() {
 			var type = jQuery( this ).data( "type" );
 			type = type != null ? type : "number";
 
@@ -614,7 +611,6 @@ jQuery.extend( Khan.answerTypes, {
 	list: function( solutionarea, solution ) {
 		var input = jQuery("<select></select>");
 		jQuery( solutionarea ).append( input );
-		input.focus();
 
 		var choices = jQuery.tmpl.getVAR( jQuery( solution ).data("choices") );
 

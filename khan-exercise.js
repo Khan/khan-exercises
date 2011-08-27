@@ -108,6 +108,8 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 	urlBase = testMode ? "../" : "/khan-exercises/",
 
+	lastFocusedSolutionInput = null,
+
 	issueError = "Communication with GitHub isn't working. Please file "
 		+ "the issue manually at <a href=\""
 		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
@@ -461,8 +463,8 @@ Khan.loadScripts( scripts, function() {
 			type = type || "";
 
 			var info = {
-				testMode : testMode
-			}
+				testMode: testMode
+			};
 
 			return this.each(function( i, elem ) {
 				elem = jQuery( elem );
@@ -705,8 +707,21 @@ function makeProblem( id, seed ) {
 	//  if this fails then we will need to try generating another one.)
 	validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
-	// A working solution was not generated
-	if ( !validator ) {
+	// A working solution was generated
+	if ( validator ) {
+		// Focus the first input
+		// Use .select() and on a delay to make IE happy
+		var firstInput = solutionarea.find( ":input" ).first();
+		setTimeout( function() {
+			firstInput.focus().select();
+		}, 1 );
+
+		lastFocusedSolutionInput = firstInput;
+		solutionarea.find( ":input" ).focus( function() {
+			// Save which input is focused so we can refocus it after the user hits Check Answer
+			lastFocusedSolutionInput = this;
+		} );
+	} else {
 		// Making the problem failed, let's try again
 		problem.remove();
 		makeProblem( id, randomSeed );
@@ -936,6 +951,14 @@ function prepareSite() {
 			// Is this a message to be shown?
 			if ( typeof pass === "string" ) {
 				jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
+			}
+
+			// Refocus text field so user can type a new answer
+			if ( lastFocusedSolutionInput != null ) {
+				setTimeout( function() {
+					// focus should always work; hopefully select will work for text fields
+					jQuery( lastFocusedSolutionInput ).focus().select();
+				}, 1 );
 			}
 		}
 
