@@ -645,7 +645,7 @@ jQuery.extend( Khan.answerTypes, {
 	primeFactorization: function( solutionarea, solution, fallback ) {
 		var verifier = function( correct, guess ) {
 			guess = guess.split(" ").join("").toLowerCase();
-			guess = KhanUtil.sortNumbers( guess.split( /x|\*/ ) ).join( "x" );
+			guess = KhanUtil.sortNumbers( guess.split( /x|\*|\u00d7/ ) ).join( "x" );
 			return guess === correct;
 		};
 		verifier.examples = [ "a product of prime factors, like <code>2 \\times 3</code>" ];
