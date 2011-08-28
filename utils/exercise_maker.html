@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<head>
+
+	<meta charset="UTF-8" />
+	<title>Exercise maker</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/ui-lightness/jquery-ui.css" />
+	<script src="../" type="text/javascript"></script>
+	<script>
+		var variables = [];
+		var inputArray = [];
+		var solutionArray = [];
+		var hintsArray = [];
+		function Variable( text, name ){
+			this.text = text;
+			this.name = name;
+			this.toJs = function() {
+				return this.text;
+			}	
+		}
+
+		function creatingNewVariable( span, varName  ) {
+			var askVar = "Random number <input type='radio' name='varType' value = 'ran' />From <input id='fromV' /> To <input id='toV'/> ";
+			askVar +=  "<br> Custom function <input type='radio' name='varType' value = 'cust' /><input id='function' />";
+			$newVariableDialog = $('<div></div>').html( askVar, varName ).dialog({
+						title: 'Pick a var',
+						width: 400,
+						height: 300,
+						modal: true,
+						autoOpen: true,
+						buttons: {
+							"Confirm": function() {
+								if( $('input[name=varType]:checked').val()  === 'ran' ){
+									variables.push( new Variable ( "randRange(" + $('#fromV').val() + ' , ' + $('#toV').val() + ")" , varName ));
+								}
+								else{
+									variables.push( new Variable ( $("#function").val() , varName));
+								}
+								if ( (  $(span).attr('id').substring(0,1) === 'q') ) { 
+									inputArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" + varName + "</var> " ;
+								}
+								else if (  $(span).attr('id').substring(0,1) === 's') { 
+									solutionArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" + varName + "</var> ";
+								}
+								else if (  $(span).attr('id').substring(0,1) === 'h') { 
+									hintsArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" + varName + "</var> ";
+								}
+								
+								$(this).dialog("close");
+								$(this).remove();
+							}
+						}
+			})
+		}
+		
+		function genVars( vars ){
+			toReturn = '<div class="vars">'; 
+			for( x = 0; x< vars.length; x++ ) {
+				toReturn += '<var id = "' + vars[x].name + '">' + vars[x].toJs()+ '</var>'
+			}
+			toReturn += '</div>';
+			return toReturn;
+		}
+		
+		function genQuestion( text ) {
+			
+			return '<div class="question">' + text + '</div>';
+	
+		}
+
+		function genSolution( text ) {
+			return '<div class="solution">' + text + ' </div>';
+		}
+
+
+		function genHints( text ){
+			return "" + '<div class="hints"> ' + text + ' </div>';
+
+		}
+
+		function addVariable( span ){
+			$(span).attr('id').substring(1);
+			var alreadyThere = "";
+			for ( x = 0; x < variables.length; x++ ) {
+				alreadyThere += variables[x].name + " <input type='radio' name='var' value = '" + variables[x].name + "' />"
+			}
+			alreadyThere += "NewOne <input type='radio' name='var' value = '_New' /><input type='textbox' id = 'varName' /> "
+			
+			$variableDialog = $('<div></div>').html(alreadyThere).dialog({
+						title: 'Randomize a number',
+						width: 400,
+						height: 300,
+						modal: false,
+						autoOpen: true,
+						buttons: {
+							"Confirm": function() {
+								if( $('input[name=var]:checked').val()  !== "_New" ){
+									if(  $(span).attr('id').substring(0,1) === 'q') { 
+									inputArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" +$('input[name=var]:checked').val() + "</var> ";
+									}
+									else if (  $(span).attr('id').substring(0,1) === 's') { 
+										solutionArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" +$('input[name=var]:checked').val() + "</var> ";
+									}
+									else if (  $(span).attr('id').substring(0,1) === 'h') { 
+										hintsArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" +$('input[name=var]:checked').val() + "</var> ";
+									}
+								}
+								else{
+									creatingNewVariable( span, $("#varName").val() );
+	
+								}
+								generate();
+								$(this).dialog("close");
+								$(this).remove();
+							}
+						}
+			 })
+
+			
+		}
+
+		function populateQuestion(){
+			var input = $("#question").val();
+			if ( inputArray.length < 2 ){
+				inputArray = input.split(' ');
+			}
+			var toReturn = "";
+			var openVar = false
+			for( x = 0; x< inputArray.length; x++ ) {
+				if( inputArray[x].substring(0,5) == "</var" || inputArray[x].substring( inputArray[x].length - 6) == "</var>" ){
+					openVar = false; 
+					toReturn += inputArray[x];
+				}
+				else if( openVar || inputArray[x].substring(0,5) == "<var>"){
+					openVar = true;
+					toReturn += inputArray[x];
+				}
+				else {
+					toReturn += "<span id='q" + x +  "' onClick='addVariable(this)' > " + inputArray[x] + "</span>";
+				}
+			
+			}
+			$("#questionInput").html( toReturn );
+			return; 
+		}
+
+		function populateSolution(){
+		
+			var input = $("#solution").val();
+			if ( solutionArray.length < 1 ){
+				solutionArray = input.split(" ");
+			}
+			var toReturn = "";
+			var openVar = false
+			for( x = 0; x< solutionArray.length; x++ ) {
+				if( solutionArray[x].substring(0,5) == "</var" || solutionArray[x].substring( solutionArray[x].length - 6) == "</var>" ){
+					openVar = false; 
+					toReturn += solutionArray[x];
+				}
+				else if( openVar || solutionArray[x].substring(0,5) == "<var>"){
+					openVar = true;
+					toReturn += solutionArray[x];
+				}
+				else {
+					toReturn += "<span id='s" + x +  "' onClick='addVariable(this)' > " + solutionArray[x] + "</span>";
+				}
+			
+			}
+			alert(toReturn);
+			$("#solutionInput").html( toReturn );
+		}
+		
+		function populateHints(){	
+			var input = $("#hints").val();
+			if ( hintsArray.length < 2 ){
+				hintsArray = input.split(" ");
+			}
+			var toReturn = "";
+			var openVar = false
+			for( x = 0; x< hintsArray.length; x++ ) {
+				if( hintsArray[x].substring(0,5) == "</var" || hintsArray[x].substring( hintsArray[x].length - 6) == "</var>" ){
+					openVar = false; 
+					toReturn += hintsArray[x];
+				}
+				else if( openVar || hintsArray[x].substring(0,5) == "<var>"){
+					openVar = true;
+					toReturn += hintsArray[x];
+				}
+				else {
+					toReturn += "<span id='h" + x +  "' onClick='addVariable(this)' > " + hintsArray[x] + "</span>";
+				}
+			
+			}
+			$("#hintsInput").html( toReturn );
+		}
+
+		function genHead( title ){
+			var head = '' +  
+				'<!DOCTYPE html>' +
+				'<html data-require="math math-format expressions">' +
+				'<head>' +
+				'	<meta charset="UTF-8" />' +
+				'       <title>' + title + '</title>' +
+				'       <script src="../khan-exercise.js"></script\> ' +
+				'</head>' ; 
+			return head;
+		}
+		function generate(){
+			populateQuestion();
+			populateSolution();
+			populateHints();
+		alert( genHints( $('#hintsInput' ).html() ) );
+		var html =  genHead($("#title").val()) + '<body><div class="exercise">' + genVars( variables ) + 
+'' +
+'	<div class="problems">' +
+'		<div>' + genQuestion( $("#questionInput").html()) + 
+ genSolution( $("#solutionInput").html() ) 
+ +  genHints( $( '#hintsInput' ).html() ) +
+'</div>' +
+'	</div>' +
+'</body>' +
+'</html>';
+	alert( html );
+	$("#frame").remove();	
+        var $frame = $('<iframe id="frame" style="width:1000px; height:800px;">'); 
+        $('body').append( $frame ); 
+
+		setTimeout( function() { 
+		var ifrm = document.getElementById('frame');
+		ifrm = (ifrm.contentWindow) ? ifrm.contentWindow : (ifrm.contentDocument.document) ? ifrm.contentDocument.document : ifrm.contentDocument;
+		ifrm.document.open();
+		ifrm.document.write(html);
+		ifrm.document.close();
+ 
+        }, 1 ); 
+}
+</script>
+<body>
+	Title
+	<input id="title">
+	<br>
+	Question
+	<textarea id="question" rows = "4" columns = "400"  type="text"></textarea>
+	<br>
+	Solution
+	<input id="solution">
+	<br>
+	Hints
+	<textarea id="hints" rows = "4" columns = "400"  type="text"></textarea>
+	<div id = "questionInput"></div>
+	<div id = "solutionInput"></div>
+	<div id = "hintsInput"></div>
+
+	<input type="button" value="Generate" onClick="generate();">
+	<div id="fr">
+	</div>
+	
+</body>
+</html>

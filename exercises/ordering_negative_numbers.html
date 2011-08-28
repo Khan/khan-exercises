@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
+<head>
+	<meta charset="UTF-8" />
+	<title>Ordering negative numbers</title>
+	<script src="../khan-exercise.js"></script>
+
+	<style type="text/css">
+		.number-list {
+			font-size: 1.7em;
+			text-align: center
+		}
+
+		.sol input {
+			width: 40px !important;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="COLORS">KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown", "gray", "teal", "olive" ])</var>
+
+			<var id="NUMS">(function() {
+				var array = [];
+				
+				var used = {};
+
+				var arrLength = randRange( 4, 6 );
+				for ( var i = 0; i &lt; arrLength; i++ ) {
+					var num = randRange( -100, -1 );
+
+					if ( !used[ num ] ) {
+						array[i] = [ num, COLORS[i] ];
+
+						used[ num ] = true;
+					} else {
+						i--;
+					}
+				}
+				return array;
+			})()</var>
+
+			<var id="NUMS_TEX">jQuery.map( NUMS, function( el ) {
+				return el[0];
+			} ).join( "," )</var>
+			<var id="NUMS_TEX_COLOR">jQuery.map( NUMS, function( el ) {
+				return "\\color{" + el[1] + "}{" + el[0] + "}";
+			} ).join( "," )</var>
+
+			<var id="NUMS_SORT">jQuery.extend( true, [], NUMS ).sort( function(a, b) {
+				return a[0] - b[0];
+			} )</var>
+			<var id="NUMS_SORT_TEX_COLOR">jQuery.map( NUMS_SORT, function( el ) {
+				return "\\color{" + el[1] + "}{" + el[0] + "}";
+			} ).join( "," )</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>Order the following negative numbers from least to greatest:</p>
+					<p class="number-list"><code><var>NUMS_TEX</var></code></p>
+				</div>
+
+				<div class="solution" data-type="multiple">
+					<span data-each="NUMS_SORT as NUM"><span class="sol" data-type="rational"><var>NUM[0]</var></span></span>
+				</div>
+
+				<div class="hints">
+					<p class="number-list"><code><var>NUMS_TEX_COLOR</var></code></p>
+					<p>Let's plot these numbers on a number line. Then we can see which ones are lower and which ones are higher.</p>
+					<div class="graphie" id="number-line">
+						init({
+							range: [ [-1, 101], [-1, 1] ],
+							scale: [ 7, 40 ]
+						});
+
+						style({
+							stroke: "#666"
+						}, function() {
+							graph.nl = numberLine( -100, 0, 10 );
+						});
+					</div>
+					<div class="graphie" data-update="number-line">
+						jQuery( "#number-line" ).find( ".MathJax" ).slice( 1, -1 ).remove();
+
+						var position = "above";
+						jQuery.each( NUMS_SORT, function( i, el ) {
+							ellipse(  [ 100 + el[0], 0 ], [ 0.80, 0.14 ], { "stroke-width": 0, fill: el[1] } );
+							label( [ 100 + el[0], 0 ], "\\color{" + el[1] + "}{" + el[0] + "}", position, { labelDistance: 5 } );
+							position = ( position === "above" ? "below" : "above" );
+						} );
+					</div>
+					<div>
+						<p>Now just read the numbers from left to right on the number line.</p>
+						<p>The leftmost numbers are least, and the rightmost numbers are greatest.</p>
+					</div>
+					<p class="number-list"><code><var>NUMS_SORT_TEX_COLOR</var></code></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

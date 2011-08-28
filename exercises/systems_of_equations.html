@@ -69,7 +69,7 @@
 
 				<div>
 					<p>Substitute <code><var>fractionReduce( Y_NUMER, Y_DENOM )</var></code> for <code>y</code> in the top equation.</p>
-					<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, fractionReduce( Y_NUMER, Y_DENOM )]])</var> = <var>C1</var></code></p>
+					<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, " " + fractionReduce( Y_NUMER, Y_DENOM )]])</var> = <var>C1</var></code></p>
 					<p><code><var>expr(["+", ["*", A1, "x"], fractionReduce( B1 * Y_NUMER, Y_DENOM )])</var> = <var>C1</var></code></p>
 					<p><code><var>expr(["*", A1, "x"])</var> = <var>fractionReduce( C1 * Y_DENOM - B1 * Y_NUMER, Y_DENOM )</var></code></p>
 					<p><code data-if="A1!=1">x = <var>fractionReduce(X_NUMER,X_DENOM)</var></code></p>
@@ -96,7 +96,7 @@
 
 				<div>
 					<p>Substitute <code><var>fractionReduce( X_NUMER, X_DENOM )</var></code> for <code>x</code> in the top equation.</p>
-					<p><code><var>expr(["+", ["*", A1, fractionReduce( X_NUMER, X_DENOM )], ["*", B1, "y"]])</var> = <var>C1</var></code></p>
+					<p><code><var>expr(["+", ["*", A1, " " + fractionReduce( X_NUMER, X_DENOM )], ["*", B1, "y"]])</var> = <var>C1</var></code></p>
 					<p><code><var>expr(["+", fractionReduce( A1 * X_NUMER, X_DENOM ), ["*", B1, "y"]])</var> = <var>C1</var></code></p>
 					<p><code><var>expr(["*", B1, "y"])</var> = <var>fractionReduce( C1 * X_DENOM - A1 * X_NUMER, X_DENOM )</var></code></p>
 					<p><code data-if="A1!=1">y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>

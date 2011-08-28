@@ -36,10 +36,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	},
 
 	// Check to see if we're in test mode
-	testMode = (window.location.host.indexOf("localhost") === 0 ||
-				window.location.host.indexOf("127.0.0.1") === 0 ||
-				window.location.protocol === "file:") &&
-				/\.html$/.test( window.location.pathname ),
+	testMode = typeof userExercise === "undefined",
 
 	// Check to see if we're in beta mode
 	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1,
@@ -111,18 +108,18 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 	urlBase = testMode ? "../" : "/khan-exercises/",
 
+	lastFocusedSolutionInput = null,
+
 	issueError = "Communication with GitHub isn't working. Please file "
 		+ "the issue manually at <a href=\""
-		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>.",
+		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
+		+ "Please reference exercise: " + exerciseName + ".",
 	issueSuccess = function( a, b ) {
-		return "Thank you for your feedback! Your issue, <a id=\"issue-link\" "
-			+ "href=\"" + a + "\">" + b + "</a>, has been created."; 
+		return "Thank you for your feedback! Your issue has been created and can be "
+			+ "found at the following link:</p>"
+			+ "<p><a id=\"issue-link\" href=\"" + a + "\">" + b + "</a>";
 	},
-	issueIntro = "Please let us know if you notice any odd or wrong behavior "
-		+ "in any nook or cranny of the site. This includes all interactions, "
-		+ "progress, knowledge map, badges, activities, reports, or anything "
-		+ "else that you think is acting a little funky. Thanks for helping "
-		+ "us out!";
+	issueIntro = "Please make sure you report this issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Note: All information provided will become public. Thanks for helping us change education!";
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {
@@ -139,22 +136,22 @@ if (!Array.prototype.indexOf) {
 		if (arguments.length > 0) {
 			n = Number(arguments[1]);
 			if (n !== n) { // shortcut for verifying if it's NaN
-			n = 0;
-		} else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0)) {
-			n = (n > 0 || -1) * Math.floor(Math.abs(n));
+				n = 0;
+			} else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0)) {
+				n = (n > 0 || -1) * Math.floor(Math.abs(n));
+			}
 		}
-	}
-	if (n >= len) {
+		if (n >= len) {
+			return -1;
+		}
+		var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+		for (; k < len; k++) {
+			if (k in t && t[k] === searchElement) {
+				return k;
+			}
+		}
 		return -1;
-	}
-	var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
-	for (; k < len; k++) {
-		if (k in t && t[k] === searchElement) {
-			return k;
-		}
-	}
-	return -1;
-	}
+	};
 }
 
 // Add in the site stylesheets
@@ -175,6 +172,9 @@ if (testMode) {
 // The main Khan Module
 var Khan = {
 	modules: {},
+
+	// So modules can use file paths properly
+	urlBase: urlBase,
 
 	moduleDependencies: {
 		// Yuck! There is no god. John will personally gut punch whoever
@@ -231,6 +231,23 @@ var Khan = {
 			// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704\n\
 			// We can force it to convert HTML entities properly by saying we're Konqueror\n\
 			MathJax.Hub.Browser.isKonqueror = true;\
+			\
+			// Trying to monkey-patch MathJax.Message.Init to not throw errors\n\
+			MathJax.Message.Init = (function( oldInit ) {\
+				return function( styles ) {\
+					if ( this.div && this.div.parentNode == null ) {\
+						var div = document.getElementById(\"MathJax_Message\");\
+						if ( div && div.firstChild == null ) {\
+							var parent = div.parentNode;\
+							if ( parent ) {\
+								parent.removeChild( div );\
+							}\
+						}\
+					}\
+					\
+					oldInit.call( this, styles );\
+				};\
+			})( MathJax.Message.Init );\
 			\
 			MathJax.Hub.Startup.onload();"
 		}, "raphael" ],
@@ -383,7 +400,9 @@ var Khan = {
 	// Display error messages
 	error: function( ) {
 		if ( typeof console !== "undefined" ) {
-			console.error.apply( console, arguments );
+			jQuery.each( arguments, function( ix, arg ) {
+				console.error(arg);
+			});
 		}
 	}
 };
@@ -395,7 +414,7 @@ Khan.query = Khan.queryString();
 randomSeed = testMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
 
 // Load in jQuery
-var scripts = (typeof jQuery !== "undefined") ? [] : [ { src: "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" } ];
+var scripts = (typeof jQuery !== "undefined") ? [] : [ { src: "../jquery.js" } ];
 Khan.loadScripts( scripts, function() {
 
 	// Base modules required for every problem
@@ -443,6 +462,10 @@ Khan.loadScripts( scripts, function() {
 		runModules: function( problem, type ) {
 			type = type || "";
 
+			var info = {
+				testMode: testMode
+			};
+
 			return this.each(function( i, elem ) {
 				elem = jQuery( elem );
 
@@ -450,7 +473,7 @@ Khan.loadScripts( scripts, function() {
 				jQuery.each( Khan.modules, function( src, mod ) {
 					var name = mod.name;
 					if ( jQuery.fn[ name + type ] ) {
-						elem[ name + type ]( problem );
+						elem[ name + type ]( problem, info );
 					}
 				});
 			});
@@ -555,6 +578,10 @@ function makeProblemBag( problems, n ) {
 }
 
 function makeProblem( id, seed ) {
+	if ( typeof Badges !== "undefined" ) {
+		Badges.hide();
+	}
+
 	// Allow passing in a random seed
 	if ( typeof seed !== "undefined" ) {
 		randomSeed = seed;
@@ -680,8 +707,21 @@ function makeProblem( id, seed ) {
 	//  if this fails then we will need to try generating another one.)
 	validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
-	// A working solution was not generated
-	if ( !validator ) {
+	// A working solution was generated
+	if ( validator ) {
+		// Focus the first input
+		// Use .select() and on a delay to make IE happy
+		var firstInput = solutionarea.find( ":input" ).first();
+		setTimeout( function() {
+			firstInput.focus().select();
+		}, 1 );
+
+		lastFocusedSolutionInput = firstInput;
+		solutionarea.find( ":input" ).focus( function() {
+			// Save which input is focused so we can refocus it after the user hits Check Answer
+			lastFocusedSolutionInput = this;
+		} );
+	} else {
 		// Making the problem failed, let's try again
 		problem.remove();
 		makeProblem( id, randomSeed );
@@ -695,7 +735,18 @@ function makeProblem( id, seed ) {
 	// Add the problem into the page
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
 	jQuery( "#answercontent input" ).removeAttr("disabled");
+	if ( validator.examples && validator.examples.length > 0 ) {
+		jQuery( "#examples-show" ).show();
+		jQuery( "#examples" ).empty();
 
+		jQuery.each( validator.examples, function( i, example ) {
+			jQuery( "#examples" ).append( '<li>' + example + '</li>' );
+		});
+
+		jQuery( "#examples" ).children().tmpl();
+	} else {
+		jQuery( "#examples-show" ).hide();
+	}
 	// save a normal JS array of hints so we can shift() through them later
 	hints = hints.tmpl().children().get();
 
@@ -775,6 +826,11 @@ function makeProblem( id, seed ) {
 			.attr( "href", debugURL )
 			.appendTo( links );
 
+		if ( exercise.data( "name" ) != null ) {
+			links.append("<br>");
+			links.append("Original exercise: " + exercise.data( "name" ));
+		}
+
 		if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
 			var varInfo = jQuery( "<p>" );
 
@@ -815,7 +871,8 @@ function makeProblem( id, seed ) {
 	attempts = 0;
 	lastAction = (new Date).getTime();
 
-	jQuery("#hint").val( "I'd like a hint" );
+	jQuery( "#hint" ).val( "I'd like a hint" );
+	jQuery( "#hint-remainder" ).hide();
 
 	if ( once ) {
 		updateData();
@@ -828,6 +885,12 @@ function makeProblem( id, seed ) {
 function injectSite( html, htmlExercise ) {
 	jQuery("body").prepend( html );
 	jQuery("#container").html( htmlExercise );
+
+	if ( Khan.query.layout === "lite" ) {
+		// TODO: Move this into a stylesheet, toggle a class
+		jQuery("header, footer, #extras").remove();
+		jQuery("#page-container, #container, .exercise-badge").css({ "min-width": 0, "border-width": 0 });
+	}
 }
 
 function prepareSite() {
@@ -838,9 +901,10 @@ function prepareSite() {
 	exercises = jQuery( ".exercise" ).detach();
 
 	// Setup appropriate img URLs
-	jQuery("#sad").attr("src", urlBase + "css/images/face-sad.gif");
-	jQuery("#happy").attr("src", urlBase + "css/images/face-smiley.gif");
-	jQuery("#throbber").attr("src", urlBase + "css/images/throbber.gif");
+	jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
+	jQuery( "#happy" ).attr( "src", urlBase + "css/images/face-smiley.gif" );
+	jQuery( "#throbber, #issue-throbber" )
+		.attr( "src", urlBase + "css/images/throbber.gif" );
 
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
 		jQuery( "#answercontent" ).hide();
@@ -860,7 +924,9 @@ function prepareSite() {
 		var pass = validator();
 
 		// Stop if the user didn't enter a response
-		if ( jQuery.trim( validator.guess ) === "" ) {
+		// If multiple-answer, join all responses and check if that's empty
+		if ( jQuery.trim( validator.guess ) === "" ||
+			 ( validator.guess instanceof Array && jQuery.trim( validator.guess.join( "" ) ) === "" ) ) {
 			return false;
 		}
 
@@ -872,13 +938,28 @@ function prepareSite() {
 		jQuery( "#throbber" ).show();
 		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
 		jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
+		jQuery( "#check-answer-results p" ).hide();
+
 		// Figure out if the response was correct
-		if ( pass ) {
+		if ( pass === true ) {
 			jQuery("#happy").show();
 			jQuery("#sad").hide();
 		} else {
 			jQuery("#happy").hide();
 			jQuery("#sad").show();
+
+			// Is this a message to be shown?
+			if ( typeof pass === "string" ) {
+				jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
+			}
+
+			// Refocus text field so user can type a new answer
+			if ( lastFocusedSolutionInput != null ) {
+				setTimeout( function() {
+					// focus should always work; hopefully select will work for text fields
+					jQuery( lastFocusedSolutionInput ).focus().select();
+				}, 1 );
+			}
 		}
 
 		// The user checked to see if an answer was valid
@@ -887,7 +968,7 @@ function prepareSite() {
 		var curTime = (new Date).getTime(),
 			data = {
 				// The user answered correctly
-				complete: pass ? 1 : 0,
+				complete: pass === true ? 1 : 0,
 
 				// The user used a hint
 				hint_used: hintUsed ? 1 : 0,
@@ -909,6 +990,9 @@ function prepareSite() {
 				// The seed that was used for generating the problem
 				seed: problemSeed,
 
+				// The seed that was used for generating the problem
+				problem_type: problemID,
+
 				// The non-summative exercise that the current problem belongs to
 				non_summative: exercise.data( "name" )
 			};
@@ -921,7 +1005,7 @@ function prepareSite() {
 
 			jQuery( "#throbber" ).hide();
 			jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
-			if ( pass ) {
+			if ( pass === true ) {
 				jQuery( "#check-answer-button" ).hide();
 				if ( !testMode || Khan.query.test == null ) {
 					jQuery( "#next-container" ).show();
@@ -952,6 +1036,7 @@ function prepareSite() {
 	// Watch for when the next button is clicked
 	jQuery("#next-question-button").click(function(ev) {
 		jQuery("#happy").hide();
+		if( !jQuery( "#examples-show" ).data( "show" ) ){ jQuery( "#examples-show" ).click(); }
 
 		// Toggle the navigation buttons
 		jQuery("#check-answer-button").show();
@@ -1012,6 +1097,8 @@ function prepareSite() {
 		}
 
 		var hint = hints.shift();
+		jQuery( "#hint-remainder" ).text( hints.length + " remaining" )
+			.fadeIn( 500 );
 
 		if ( hint ) {
 
@@ -1022,9 +1109,15 @@ function prepareSite() {
 			// Append first so MathJax can sense the surrounding CSS context properly
 			jQuery( hint ).appendTo( "#hintsarea" ).runModules( problem );
 
+			// Grow the scratchpad to cover the new hint
+			if ( Khan.scratchpad ) {
+				Khan.scratchpad.resize();
+			}
+
 			// Disable the get hint button
 			if ( hints.length === 0 ) {
 				jQuery( this ).attr( "disabled", true );
+				jQuery( "#hint-remainder" ).fadeOut( 500 );
 			}
 
 			// Don't reset the streak if we've already reset it or if
@@ -1044,28 +1137,35 @@ function prepareSite() {
 
 		}
 	});
-	
-	// Create form for issuing a bug on Github if the "Report a Problem" link
-	// is clicked. The reference to the link should probably be less hardcoded...
-	jQuery( ".footer-links a:first" ).click( function( e ) {
+
+	// On an exercise page, replace the "Report a Problem" link with a button
+	// to be more clear that it won't replace the current page.
+	jQuery( "<a>Report a Problem</a>" )
+		.attr( "id", "report" ).addClass( "simple-button action-gradient green" )
+		.replaceAll( jQuery( ".footer-links a:first" ) );
+
+	jQuery( "#report" ).click( function( e ) {
 
 		e.preventDefault();
 
-		var entire = jQuery( "#issue" ).css( "display" ) === "none",
-			form = jQuery( "#issue form" ).css( "display" ) === "none";
+		var report = jQuery( "#issue" ).css( "display" ) !== "none",
+			form = jQuery( "#issue form" ).css( "display" ) !== "none";
 
-		if ( entire || form ) {
+		if ( report && form ) {
+			jQuery( "#issue" ).hide();
+		} else if ( !report || !form ) {
 			jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
-			jQuery( "#issue-title, #issue-email, #issue-body" ).val( "" );
-			jQuery( entire ? "#issue" : "#issue form" ).show();
+			jQuery( "#issue, #issue form" ).show();
+			jQuery( "html, body" ).animate({
+				scrollTop: jQuery( "#issue" ).offset().top
+			}, 500 );
 		}
-
 	});
 
-	
+
 	// Hide issue form.
 	jQuery( "#issue-cancel" ).click( function( e ) {
-		
+
 		e.preventDefault();
 
 		jQuery( "#issue" ).hide( 500 );
@@ -1074,16 +1174,17 @@ function prepareSite() {
 	});
 
 	// Submit an issue.
-	jQuery( "#issue form input[type=submit]" ).click( function( e ) {
-		
+	jQuery( "#issue form input:submit" ).click( function( e ) {
+
 		e.preventDefault();
 
 		// don't do anything if the user clicked a second time quickly
 		if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
-		var title = jQuery( "#issue-title" ).val(),
+		var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text(),
+			title = jQuery( "#issue-title" ).val(),
 			email = jQuery( "#issue-email" ).val(),
-			path = Khan.query.exid + ".html"
+			path = ( Khan.query.exid || exerciseName ) + ".html"
 				+ "?seed=" + problemSeed
 				+ "&problem=" + problemID,
 			agent = navigator.userAgent,
@@ -1091,33 +1192,96 @@ function prepareSite() {
 				.concat( [ jQuery( "#issue-body" ).val(), path, agent ] )
 				.join( "\n\n" );
 
+		// flagging of browsers/os for issue labels. very primitive, but
+		// hopefully sufficient.
+		var agent_contains = function( sub ) { return agent.indexOf( sub ) !== -1; },
+			flags = {
+				ie8: agent_contains( "MSIE 8.0" ),
+				ie9: agent_contains( "Trident/5.0" ),
+				chrome: agent_contains( "Chrome/" ),
+				safari: !agent_contains( "Chrome/" ) && agent_contains( "Safari/" ),
+				firefox: agent_contains( "Firefox/" ),
+				win7: agent_contains( "Windows NT 6.1" ),
+				vista: agent_contains( "Windows NT 6.0" ),
+				xp: agent_contains( "Windows NT 5.1" ),
+				leopard: agent_contains( "OS X 10_5" ) || agent_contains( "OS X 10.5" ),
+				snowleo: agent_contains( "OS X 10_6" ) || agent_contains( "OS X 10.6" ),
+				lion: agent_contains( "OS X 10_7" ) || agent_contains( "OS X 10.7" ),
+				scratchpad: body.indexOf( "scratchpad" ) !== -1 || body.indexOf( "scratch pad" ) !== -1 || body.indexOf( "Scratchpad" ) !== -1,
+				ipad: agent_contains( "iPad" )
+			},
+			labels = [];
+		jQuery.each( flags, function( k, v ) {
+			if ( v ) labels.push( k )
+		});
+
 		if ( title === "" ) {
 			jQuery( "#issue-status" ).addClass( "error" )
 				.html( "Please provide a valid title for the issue." ).show();
 			return;
 		}
 
-		jQuery( "#issue form" ).hide();
+		var formElements = jQuery( "#issue input" ).add( "#issue textarea" );
 
+		// disable the form elements while waiting for a server response
+		formElements.attr( "disabled", true );
+
+		jQuery( "#issue-cancel" ).hide();
+		jQuery( "#issue-throbber" ).show();
+
+		var dataObj = {
+			title: pretitle + " - " + title,
+			body: body,
+			labels: labels
+		};
+
+		// we try to post ot github without a cross-domain request, but if we're
+		// just running the exercises locally, then we can't help it and need
+		// to fall back to jsonp. 
 		jQuery.ajax({
-			url: "http://66.220.0.98:2563/file_exercise_tester_bug"
-				+ "?body=" + encodeURIComponent( body )
-				+ "&title=" + encodeURIComponent( title ),
-			dataType: "jsonp",
+
+			url: ( testMode ? "http://www.khanacademy.org/" : "/" ) + "githubpost",
+			type: testMode ? "GET" : "POST",
+			data: testMode
+				? { json: JSON.stringify( dataObj ) }
+				: JSON.stringify( dataObj ),
+			contentType: testMode ? "application/x-www-form-urlencoded" : "application/json",
+			dataType: testMode ? "jsonp" : "json",
 			success: function( json ) {
-				if ( json.meta.status === 201 ) {
-					jQuery( "#issue-status" ).removeClass( "error" )
-						.html( issueSuccess( json.data.html_url, json.data.title ) ).show();
-					jQuery( "#issue-title, #issue-email, #issue-body" ).val( "" );
-				} else {
-					jQuery( "#issue-status" ).addClass( "error" ).html( issueError ).show();
-					jQuery( "#issue form" ).show();
-				}
+
+				data = json.data || json;
+
+				// hide the form
+				jQuery( "#issue form" ).hide();
+
+				// show status message
+				jQuery( "#issue-status" ).removeClass( "error" )
+					.html( issueSuccess( data.html_url, data.title ) )
+					.show();
+
+				// reset the form elements
+				formElements.attr( "disabled", false )
+					.not( "input:submit" ).val( "" );
+
+				// replace throbber with the cancel button
+				jQuery( "#issue-cancel" ).show();
+				jQuery( "#issue-throbber" ).hide();
+
 			},
-			// FIXME note that this doesn't actually work with jquery's default jsonp
+			// note this won't actually work in local jsonp-mode
 			error: function( json ) {
-				jQuery( "#issue-status" ).addClass( "error" ).html( issueError ).show();
-				jQuery( "#issue form" ).show();
+
+				// show status message
+				jQuery( "#issue-status" ).addClass( "error" )
+					.html( issueError ).show();
+
+				// enable the inputs
+				formElements.attr( "disabled", false );
+
+				// replace throbber with the cancel button
+				jQuery( "#issue-cancel" ).show();
+				jQuery( "#issue-throbber" ).hide();
+
 			}
 		});
 	});
@@ -1152,8 +1316,27 @@ function prepareSite() {
 			link.data( "show", !show );
 		});
 
+	jQuery( "#examples-show" ).data( "show", true )
+		.click(function(evt){
+			if ( evt ) { evt.preventDefault(); }
+
+			var exampleLink = jQuery(this);
+			var examples = jQuery( "#examples" );
+			var show = exampleLink.data( "show" );
+
+			if ( exampleLink.data( "show" ) ){
+				exampleLink.text( "Hide acceptable answer formats" );
+			} else {
+				exampleLink.text( "Show acceptable answer formats" );
+			}
+
+			examples.slideToggle( 190 );
+			exampleLink.data( "show", !show );
+		}).trigger( "click" );
+
 	jQuery( "#scratchpad-show" ).data( "show", true )
-		.click( function() {
+		.click( function( e ) {
+			e.preventDefault();
 			var button = jQuery( this ),
 				show = button.data( "show" );
 
@@ -1168,11 +1351,13 @@ function prepareSite() {
 					} );
 
 				} else {
+					jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
 					jQuery( "#scratchpad" ).show();
 					button.text( "Hide scratchpad" );
 				}
 
 			} else {
+				jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
 				jQuery( "#scratchpad" ).hide();
 				button.text( "Show scratchpad" );
 			}
@@ -1181,8 +1366,6 @@ function prepareSite() {
 			if (user) {
 				window.localStorage[ "scratchpad:" + user ] = show;
 			}
-
-			return false
 		});
 
 	// Prepare for the tester info if requested
@@ -1208,7 +1391,7 @@ function prepareSite() {
 			var description = prompt( "Please provide a short description of the error" );
 
 			// Don't do anything on clicking Cancel
-			if ( description == null ) return
+			if ( description == null ) return;
 
 			// we discard the info recorded and record an issue on github instead
 			// of testing against the faulty problem's data dump.
@@ -1218,7 +1401,7 @@ function prepareSite() {
 				path = fileName + "?problem=" + problemID
 					+ "&seed=" + problemSeed;
 
-			var title = encodeURIComponent( "Issue in " + $("title").html() ),
+			var title = encodeURIComponent( "Issue Found in Testing - " + $("title").html() ),
 				body = encodeURIComponent( [ description, path, prettyDump, navigator.userAgent ].join("\n\n") ),
 				label = encodeURIComponent( "tester bugs" );
 
@@ -1290,8 +1473,7 @@ function prepareSite() {
 						newIssue();
 					}
 				}
-			})
-
+			});
 
 			jQuery( "#next-question-button" ).trigger( "click" );
 		} );
@@ -1430,19 +1612,26 @@ function request( method, data, fn, fnError ) {
 
 // Update the visual representation of the points/streak
 function updateData( data ) {
-	// Make sure we have current data
-	data = data || getData();
-
-	// Change users, if needed
-	if ( user !== data.user ) {
+	// Check if we're setting/switching usernames
+	if ( data ) {
 		user = data.user || user;
 		userCRC32 = user != null ? crc32( user ) : null;
 		randomSeed = userCRC32 || randomSeed;
 	}
 
-	// Cache the data locally
-	if ( data && user != null ) {
-		window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
+	// Make sure we have current data
+	var oldData = getData();
+
+	// Change users, if needed
+	if ( data && (data.total_done >= oldData.total_done || data.user !== oldData.user) ) {
+		// Cache the data locally
+		if ( user != null ) {
+			window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
+		}
+
+	// If no data is provided then we're just updating the UI
+	} else {
+		data = oldData;
 	}
 
 	// Update the streaks/point bar
@@ -1515,13 +1704,24 @@ function updateData( data ) {
 
 	if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
 		jQuery.each( videos, function( i, video ) {
-			jQuery("<li" + (i > 2 ? " class='related-video-extended'" : "") + ">" +
-					"<a href='" + video.ka_url + "' title='" + video.title + "'><span class='video-title'>" +
-						video.title +
-							(i < videos.length - 1 && i < 2 ? "<span class='separator'>, </span>" : "")
-								+ "</span></a></li>")
-									.appendTo(".related-video-list");
-		});
+			var span = jQuery( "<span>" )
+				.addClass( "video-title vid-progress v" + video.id )
+				.text( video.title );
+			if ( i < videos.length - 1 && i < 2 ) {
+				span.append( "<span class='separator'>, </span>" );
+			}
+
+			var a = jQuery( "<a>" ).attr( {
+				href: video.ka_url,
+				title: video.title
+			} )
+				.append( span );
+
+			jQuery( "<li>" )
+				.addClass( i > 2 ? "related-video-extended" : "" )
+				.append( a )
+				.appendTo( ".related-video-list" );
+		} );
 
 		jQuery(".related-content, #related-video-content").show();
 	}
@@ -1529,24 +1729,30 @@ function updateData( data ) {
 
 // Grab the cached UserExercise data from local storage
 function getData() {
-	var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+	// If we're viewing a problem, ignore local storage and return the userExercise blob
+	if ( typeof userExercise !== "undefined" && userExercise.read_only ) {
+		return userExercise;
 
-	// Parse the JSON if it exists
-	if ( data ) {
-		return JSON.parse( data );
-
-	// Otherwise we contact the server
 	} else {
-		return {
-			total_done: 0,
-			total_correct: 0,
-			streak: 0,
-			longest_streak: 0,
-			next_points: 225,
-			exercise_model: {
-				summative: isSummative
-			}
-		};
+		var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+
+		// Parse the JSON if it exists
+		if ( data ) {
+			return JSON.parse( data );
+
+		// Otherwise we contact the server
+		} else {
+			return {
+				total_done: 0,
+				total_correct: 0,
+				streak: 0,
+				longest_streak: 0,
+				next_points: 225,
+				exercise_model: {
+					summative: isSummative
+				}
+			};
+		}
 	}
 }
 

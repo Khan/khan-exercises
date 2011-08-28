@@ -5,6 +5,9 @@
 		jQuery( el ).css( "position", "relative" );
 		var raphael = Raphael( el );
 
+		// For a sometimes-reproducible IE8 bug; doesn't affect SVG browsers at all
+		jQuery( el ).children( "div" ).css( "position", "absolute" );
+
 		// Set up some reasonable defaults
 		var currentStyle = {
 			"stroke-width": 2,
@@ -13,7 +16,7 @@
 
 		var scaleVector = function( point ) {
 			if ( typeof point === "number" ) {
-				return scaleVector([ point, point ])
+				return scaleVector([ point, point ]);
 			}
 
 			var x = point[0], y = point[1];
@@ -22,7 +25,7 @@
 
 		var scalePoint = function scalePoint( point ) {
 			if ( typeof point === "number" ) {
-				return scalePoint([ point, point ])
+				return scalePoint([ point, point ]);
 			}
 
 			var x = point[0], y = point[1];
@@ -216,7 +219,22 @@
 				return set;
 			},
 
-			label: function( point, text, direction ) {
+			regularPolygon: function( point, numSides, radius, rotation, fillColor ){
+				var set = raphael.set();
+				var rotation = rotation || 0;
+				var angle = 2 * Math.PI / numSides;
+				var i = 0;
+				var arr = [];
+				for( i = 0; i < numSides; i++ ){
+					arr.push( [ point[0] + radius * Math.cos( rotation + i * angle ), point[1] + radius * Math.sin( rotation + i * angle)] );
+					arr.push( [ point[0] + radius * Math.cos( rotation + (i + 1)  * angle ), point[1] + radius * Math.sin( rotation + (i + 1) * angle) ] ); 
+				}
+				var p = this.path( arr );	
+				return p;
+
+			},
+
+			label: function( point, text, direction, latex ) {
 				var directions = {
 					"center":      [ -0.5, -0.5 ],
 					"above":       [ -0.5, -1.0 ],
@@ -231,49 +249,56 @@
 
 				var scaled = scalePoint( point );
 
-				var code = jQuery( "<code>" ).text( text );
-				var pad = currentStyle["label-distance"];
-				var span = jQuery( "<span>" ).append( code ).css({
-					position: "absolute",
-					left: scaled[0],
-					top: scaled[1],
-					padding: ( pad != null ? pad : 7 ) + "px"
-				}).appendTo( el );
+				latex = (typeof latex === "undefined") || latex;
 
-				if ( typeof MathJax !== "undefined") {
-					// Add to the MathJax queue
-					jQuery.tmpl.type.code()( code[0] );
+				if (latex) {
+					var code = jQuery( "<code>" ).text( text );
+					var pad = currentStyle["label-distance"];
+					var span = jQuery( "<span>" ).append( code ).css({
+						position: "absolute",
+						left: scaled[0],
+						top: scaled[1],
+						padding: ( pad != null ? pad : 7 ) + "px"
+					}).appendTo( el );
 
-					// Run after MathJax typesetting
-					MathJax.Hub.Queue(function() {
-						// Avoid an icky flash
-						span.css( "visibility", "hidden" );
+					if ( typeof MathJax !== "undefined") {
+						// Add to the MathJax queue
+						jQuery.tmpl.type.code()( code[0] );
 
-						var setMargins = function( size ) {
-							span.css( "visibility", "" );
-							var multipliers = directions[ direction || "center" ];
-							span.css({
-								marginLeft: Math.round( size[0] * multipliers[0] ),
-								marginTop: Math.round( size[1] * multipliers[1] )
-							});
-						};
+						// Run after MathJax typesetting
+						MathJax.Hub.Queue(function() {
+							// Avoid an icky flash
+							span.css( "visibility", "hidden" );
 
-						// Wait for the browser to render it
-						var tries = 0;
-						var inter = setInterval(function() {
-							var size = [ span.outerWidth(), span.outerHeight() ];
+							var setMargins = function( size ) {
+								span.css( "visibility", "" );
+								var multipliers = directions[ direction || "center" ];
+								span.css({
+									marginLeft: Math.round( size[0] * multipliers[0] ),
+									marginTop: Math.round( size[1] * multipliers[1] )
+								});
+							};
 
-							// Heuristic to guess if the font has kicked in so we have box metrics
-							// (Magic number ick, but this seems to work mostly-consistently)
-							if ( size[1] > 18 || ++tries >= 10 ) {
-								setMargins( size );
-								clearInterval(inter);
-							}
-						}, 100);
-					});
+							// Wait for the browser to render it
+							var tries = 0;
+							var inter = setInterval(function() {
+								var size = [ span.outerWidth(), span.outerHeight() ];
+
+								// Heuristic to guess if the font has kicked in so we have box metrics
+								// (Magic number ick, but this seems to work mostly-consistently)
+								if ( size[1] > 18 || ++tries >= 10 ) {
+									setMargins( size );
+									clearInterval(inter);
+								}
+							}, 100);
+						});
+					}
+
+					return span;
+				} else {
+					var rtext = raphael.text( scaled[0], scaled[1], text );
+					return rtext;
 				}
-
-				return span;
 			},
 
 			plotParametric: function( fn, range ) {
@@ -352,6 +377,9 @@
 				}
 			},
 
+			scalePoint: scalePoint,
+			scaleVector: scaleVector,
+
 			polar: polar
 
 		};
@@ -375,7 +403,7 @@
 				}
 
 				// Bad heuristic for recognizing Raphael elements and sets
-				var type = result.constructor.prototype
+				var type = result.constructor.prototype;
 				if ( type === Raphael.el || type === Raphael.st ) {
 					result.attr( currentStyle );
 
@@ -404,6 +432,7 @@
 		// - labelStep: [ a, b ] or number (relative to tick steps)
 		// - yLabelFormat: fn to format label string for y-axis
 		// - xLabelFormat: fn to format label string for x-axis
+		// - smartLabelPositioning: true or false to ignore minus sign
 		graphie.graphInit = function( options ) {
 
 			options = options || {};
@@ -431,7 +460,7 @@
 			var range = options.range || [ [-10, 10], [-10, 10] ],
 				scale = options.scale || [ 20, 20 ],
 				grid = options.grid || true,
-				gridOpacity = options.gridOpacity || .1,
+				gridOpacity = options.gridOpacity || 0.1,
 				gridStep = options.gridStep || [ 1, 1 ],
 				axes = options.axes || true,
 				axisArrows = options.axisArrows || "",
@@ -441,12 +470,20 @@
 				labels = options.labels || options.labelStep || false,
 				labelStep = options.labelStep || [ 1, 1 ],
 				unityLabels = options.unityLabels || false,
-				xLabelFormat = options.xLabelFormat
-					|| options.labelFormat
-					|| function(a) { return a; },
-				yLabelFormat = options.yLabelFormat
-					|| options.labelFormat
-					|| function(a) { return a; };
+				labelFormat = options.labelFormat || function(a) { return a; },
+				xLabelFormat = options.xLabelFormat || labelFormat,
+				yLabelFormat = options.yLabelFormat || labelFormat,
+				smartLabelPositioning = options.smartLabelPositioning != null ?
+					options.smartLabelPositioning : true;
+
+			if ( smartLabelPositioning ) {
+				var minusIgnorer = function( lf ) { return function( a ) {
+					return ( lf( a ) + "" ).replace( /-(\d)/g, "\\llap{-}$1" );
+				}; };
+
+				xLabelFormat = minusIgnorer( xLabelFormat );
+				yLabelFormat = minusIgnorer( yLabelFormat );
+			}
 
 			this.init({
 				range: range,
@@ -594,7 +631,7 @@
 	jQuery.fn.graphie = function( problem ) {
 		return this.find(".graphie").add(this.filter(".graphie")).each(function() {
 			// Grab code for later execution
-			var code = jQuery( this ).newlinePreservingText(), graphie;
+			var code = jQuery( this ).text(), graphie;
 
 			// Remove any of the code that's in there
 			jQuery( this ).empty();

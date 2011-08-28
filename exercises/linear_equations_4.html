@@ -10,16 +10,17 @@
 		<div class="problems">
 			<div id="x-on-bottom">
 				<!-- A = B / (Cx + D) -->
-				<div class="vars">
+				<div class="vars" data-ensure="( C * ANSWER + D !== 0 )">
 					<var id="A">randRange( 2, 8 )</var>
 					<var id="B">randRangeNonZero( -12, 18 )</var>
 					<var id="C">randRangeNonZero( -6, 6 )</var>
 					<var id="D">randRangeNonZero( -6, 6 )</var>
+					<var id="ANSWER">( B - A * D ) / ( A * C )</var>
 				</div>
 				<p class="question">Solve for <code>x</code>:</p>
 				<div><code><var>A</var> = \dfrac{<var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>}</code></div>
 
-				<p class="solution"><var>( B - A * D ) / ( A * C )</var></p>
+				<p class="solution"><var>ANSWER</var></p>
 
 				<div class="hints">
 					<div>
@@ -40,17 +41,18 @@
 			</div>
 			<div id="x-on-top-and-bottom">
 				<!-- (Ax + B) / (Cx + D) = E -->
-				<div class="vars" data-ensure="abs(A - E * C) >= 2">
+				<div class="vars" data-ensure="abs(A - E * C) >= 2 && ( C * ANSWER + D !== 0 )">
 					<var id="A">randRangeNonZero( -12, 18 )</var>
 					<var id="B">randRangeNonZero( -12, 18 )</var>
 					<var id="C">randRangeNonZero( -6, 6 )</var>
 					<var id="D">randRangeNonZero( -6, 6 )</var>
 					<var id="E">randRange( 2, 8 )</var>
+					<var id="ANSWER">( E * D - B ) / ( A - E * C )</var>
 				</div>
 				<p class="question">Solve for <code>x</code>:</p>
 				<div><code>\dfrac{<var>expr(["*", A, "x"])</var> + <var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>} = <var>E</var></code></div>
 
-				<p class="solution"><var>( E * D - B ) / ( A - E * C )</var></p>
+				<p class="solution"><var>ANSWER</var></p>
 
 				<div class="hints">
 					<div>

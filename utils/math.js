@@ -49,6 +49,14 @@ jQuery.extend(KhanUtil, {
 		return number;
 	},
 
+	padDigitsToNum: function( digits, num ) {
+		digits = digits.slice( 0 );
+		while ( digits.length < num ) {
+			digits.push( 0 );
+		}
+		return digits;
+	},
+
 	placesLeftOfDecimal: ["one", "ten", "hundred", "thousand"],
 	placesRightOfDecimal: ["one", "tenth", "hundredth", "thousandth"],
 
@@ -58,6 +66,17 @@ jQuery.extend(KhanUtil, {
 		} else {
 			return KhanUtil.placesLeftOfDecimal[ power ];
 		}
+	},
+	
+
+	//Adds 0.001 because of floating points uncertainty so it errs on the side of going further away from 0
+	roundTowardsZero: function( x ){
+		if ( x < 0 ){
+			return Math.ceil( x - 0.001 );
+		}
+		return Math.floor( x + 0.001 );
+		
+
 	},
 
 	getGCD: function( a, b ) {
@@ -247,6 +266,19 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
+	//Get an array of unique random numbers between min and max
+	randRangeUnique: function( min, max, count ) {
+		if ( count == null ) {
+			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
+		} else {
+			var toReturn = [];
+			for ( i = min; i < max; i++ ){
+				toReturn.push( i );
+			}
+			
+			return KhanUtil.shuffle( toReturn, count );
+		}
+	},
 	// Get a random integer between min and max with a perc chance of hitting
 	// target (which is assumed to be in the range, but it doesn't have to be).
 	randRangeWeighted: function( min, max, target, perc ) {
@@ -366,5 +398,14 @@ jQuery.extend(KhanUtil, {
 	// From limits_1
 	truncate_to_max: function( num, digits ) {
 		return parseFloat( num.toFixed( digits ) );
+	},
+
+	//Gives -1 or 1 so you can multiply to restore the sign of a number
+	restoreSign: function( num ){
+		num = parseFloat( num );
+		if ( num < 0 ){
+			return -1;
+		}
+		return 1;
 	}
 });

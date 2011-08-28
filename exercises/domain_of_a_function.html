@@ -6,7 +6,7 @@
 	<script src="../khan-exercise.js"></script>
 	<script type="text/javascript">
 		function filter( o, f ) {
-			n = {};
+			var n = {};
 			for ( var p in o ) {
 				if ( o.hasOwnProperty( p ) && f( p ) ) n[p] = o[p];
 			}
@@ -146,11 +146,11 @@
 					<p><code>f(x)</code> is a piecewise function, so we need to examine where each piece is undefined.</p>
 					<p>The first piecewise definition of <code>f(x)</code>, <code>\frac{ 1 }{ \sqrt{ x - <var>A</var> } }</code>, is undefined where the denominator is zero and where the radicand (the expression under the radical) is less than zero.</p>
 					<p>The denominator, <code>\sqrt{ x - <var>A</var> }</code>, is zero when <code>x - <var>A</var> = 0</code>, so we know that <code>x \neq <var>A</var></code>.</p>
-					<p>The radicand, <code>x - <var>A</var></code>, is less than zero when <code>x < <var>A</var></code>, so we know that <code>x \geq <var>A</var></code>.
+					<p>The radicand, <code>x - <var>A</var></code>, is less than zero when <code>x < <var>A</var></code>, so we know that <code>x \geq <var>A</var></code>.</p>
 					<p>So the first piecewise definition of <code>f(x)</code> is defined when <code>x \neq <var>A</var></code> and <code>x \geq <var>A</var></code>. Combining these two restrictions, the first piecewise definition is defined when <code>x > <var>A</var></code>. The first piecewise defintion applies when <code>x \geq <var>A</var></code>, so this restriction is relevant.</p>
 					<p>The second piecewise definition of <code>f(x)</code>, <code>\frac{ 1 }{ \sqrt{ <var>A</var> - x } }</code>, applies when <code>x < <var>A</var></code> and is undefined where the denominator is zero and where the radicand is less than zero.</p>
-					<p>The denominator, <code>\sqrt{ <var>A</var> - x }</code>, is zero when <code><var>A</var> - x = 0</code>, so we know that <code>x \neq <var>A</var></code>.
-					<p>The radicand, <code><var>A</var> - x</code>, is less than zero when <code>x > <var>A</var></code>, so we know that <code>x \leq <var>A</var></code>.
+					<p>The denominator, <code>\sqrt{ <var>A</var> - x }</code>, is zero when <code><var>A</var> - x = 0</code>, so we know that <code>x \neq <var>A</var></code>.</p>
+					<p>The radicand, <code><var>A</var> - x</code>, is less than zero when <code>x > <var>A</var></code>, so we know that <code>x \leq <var>A</var></code>.</p>
 					<p>So the second piecewise definition of <code>f(x)</code> is defined when <code>x \neq <var>A</var></code> and <code>x \leq <var>A</var></code>. Combining these two restrictions, the second piecewise definition is defined when <code>x < <var>A</var></code>. However, the second piecewise definition of <code>f(x)</code> only applies when <code>x < <var>A</var></code>, so restriction isn't actually relevant to the domain of <code>f(x)</code>.</p>
 					<p>So the first piecewise definition is defined when <code>x > <var>A</var></code> and applies when <code>x \geq <var>A</var></code>; the second piecewise definition is defined when <code>x < <var>A</var></code> and applies when <code>x < <var>A</var></code>. Putting the restrictions of these two together, the only place where a definition applies and the value is undefined is at <code>x = <var>A</var></code>. So the only restriction on the domain of <code>f(x)</code> is <code>x \neq <var>A</var></code>.</p>
 					<p>Expressing this mathematically, the domain is <code><var>CHOICES["inverse-sqrt-cond"]</var></code>.</p>
