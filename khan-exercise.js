@@ -661,8 +661,6 @@ function makeProblem( id, seed ) {
 	// Remove and store hints to delay running modules on it
 	hints = problem.children( ".hints" ).remove();
   
-  console.log( hints.text() );
-
 	// Run the main method of any modules
 	problem.runModules( problem, "Load" );
 	problem.runModules( problem );
@@ -733,7 +731,6 @@ function makeProblem( id, seed ) {
 	}
 	// save a normal JS array of hints so we can shift() through them later
 	hints = hints.tmpl().children().get();
-  console.log( hints );
 
 	if ( hints.length === 0 ) {
 		// Disable the get hint button
