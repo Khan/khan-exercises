@@ -375,13 +375,16 @@ jQuery.fn.tmpl = function() {
 				dataName = attr.replace( /^data-/, "" )
 				value = $elem.data( dataName  );
 			} else {
+				dataName = undefined;
 				value = $elem.attr( attr );
 			}
 
 			if ( value !== undefined ) {
 				// Remove attributes (and data) to avoid things getting double-processed,
 				// which results in trouble with data-each loops
-				$elem.removeData( jQuery.camelCase( dataName ) );	
+				if ( dataName !== undefined ) {
+					$elem.removeData( jQuery.camelCase( dataName ) );	
+				}
 				$elem.removeAttr( attr );
 
 				ret = jQuery.tmpl.attr[ attr ]( elem, value );
