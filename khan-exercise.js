@@ -1188,8 +1188,9 @@ function prepareSite() {
 				+ "?seed=" + problemSeed
 				+ "&problem=" + problemID,
 			agent = navigator.userAgent,
+			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT " : "" ) + "loaded",
 			body = ( email ? [ "Reporter: " + email ] : [] )
-				.concat( [ jQuery( "#issue-body" ).val(), path, agent ] )
+				.concat( [ jQuery( "#issue-body" ).val(), path, agent, mathjaxInfo ] )
 				.join( "\n\n" );
 
 		// flagging of browsers/os for issue labels. very primitive, but
