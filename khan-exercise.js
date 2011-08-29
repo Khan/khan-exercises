@@ -1208,7 +1208,7 @@ function prepareSite() {
 				leopard: agent_contains( "OS X 10_5" ) || agent_contains( "OS X 10.5" ),
 				snowleo: agent_contains( "OS X 10_6" ) || agent_contains( "OS X 10.6" ),
 				lion: agent_contains( "OS X 10_7" ) || agent_contains( "OS X 10.7" ),
-				scratchpad: body.indexOf( "scratchpad" ) !== -1 || body.indexOf( "scratch pad" ) !== -1 || body.indexOf( "Scratchpad" ) !== -1,
+				scratchpad: ( /scratch\s*pad/i ).test( body ),
 				ipad: agent_contains( "iPad" )
 			},
 			labels = [];
