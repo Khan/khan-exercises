@@ -16,17 +16,10 @@ jQuery.tmpl = {
 		},
 
 		"data-if": function( elem, value ) {
-			var $elem = jQuery( elem );
-
-			// Check if the attribute should be deleted
-			if ( $elem.data( "toDelete" ) ) {
-				$elem.removeAttr( "data-if" ).removeData( "if" );
-			}
-
 			value = value && jQuery.tmpl.getVAR( value );
 
 			// Save the result of this data-if in the next sibling for data-else-if and data-else
-			$elem.next().data( "lastCond", value );
+			jQuery( elem ).next().data( "lastCond", value );
 
 			if ( !value ) {
 				// Delete the element if the data-if evaluated to false
@@ -35,20 +28,13 @@ jQuery.tmpl = {
 		},
 
 		"data-else-if": function( elem, value ) {
-			var $elem = jQuery( elem );
-
-			// Check if the attribute should be deleted
-			if ( $elem.data( "toDelete" ) ) {
-				$elem.removeAttr( "data-else-if" ).removeData( "elseIf" );
-			}
-
-			var lastCond = $elem.data( "lastCond" );
+			var lastCond = jQuery( elem ).data( "lastCond" );
 
 			// Show this element iff the preceding element was hidden AND this data-if returns truthily
 			value = !lastCond && value && jQuery.tmpl.getVAR( value );
 
 			// Succeeding elements care about the visibility of both me and my preceding siblings
-			$elem.next().data( "lastCond", lastCond || value );
+			jQuery( elem ).next().data( "lastCond", lastCond || value );
 
 			if ( !value ) {
 				// Delete the element if appropriate
@@ -57,14 +43,7 @@ jQuery.tmpl = {
 		},
 
 		"data-else": function( elem ) {
-			var $elem = jQuery( elem );
-
-			// Check if the attribute should be deleted
-			if ( $elem.data( "toDelete" ) ) {
-				$elem.removeAttr( "data-else" ).removeData( "else" );
-			}
-
-			if ( $elem.data( "lastCond" ) ) {
+			if ( jQuery( elem ).data( "lastCond" ) ) {
 				// Delete the element if the data-if of the preceding element was true
 				return [];
 			}
@@ -185,7 +164,7 @@ jQuery.tmpl = {
 					$elem.text( KhanUtil.cleanMath ? KhanUtil.cleanMath( text ) : text );
 
 					// Stick the processing request onto the queue
-					if ( typeof MathJax !== "undefined") {
+					if ( typeof MathJax !== "undefined" ) {
 						MathJax.Hub.Queue([ "Typeset", MathJax.Hub, elem ]);
 					}
 				} else {
@@ -336,11 +315,6 @@ jQuery.fn.tmpl = function() {
 				var clone = jQuery( elem ).clone( true )
 					.removeAttr( "data-each" ).removeData( "each" )[0];
 
-				// Flag elements with the following attributes so that the attributes can be removed after templating 
-				jQuery( clone ).find("[data-if], [data-else-if], [data-else]").each(function() {
-					jQuery( this ).data( "toDelete", true );
-				});
-
 				// Insert in the proper place (depends on whether the loops is the last of its siblings)
 				if ( origNext ) {
 					origParent.insertBefore( clone, origNext );
@@ -395,15 +369,21 @@ jQuery.fn.tmpl = function() {
 
 		// Look through each of the attr processors, see if our element has the matching attribute
 		for ( var attr in jQuery.tmpl.attr ) {
-			var value;
+			var value, dataName;
 
 			if ( ( /^data-/ ).test( attr ) ) {
-				value = $elem.data( attr.replace( /^data-/, "" ) );
+				dataName = attr.replace( /^data-/, "" )
+				value = $elem.data( dataName  );
 			} else {
 				value = $elem.attr( attr );
 			}
 
 			if ( value !== undefined ) {
+				// Remove attributes (and data) to avoid things getting double-processed,
+				// which results in trouble with data-each loops
+				$elem.removeData( jQuery.camelCase( dataName ) );	
+				$elem.removeAttr( attr );
+
 				ret = jQuery.tmpl.attr[ attr ]( elem, value );
 
 				// If a function, run after all of the other templating
