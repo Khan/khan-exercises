@@ -634,7 +634,7 @@
 			var code = jQuery( this ).text(), graphie;
 
 			// Ignore code that isn't really code ;)
-			if (code === "Created with Rapha\xebl") {
+			if (code.match(/Created with Rapha\xebl/)) {
 				return;
 			}
 
