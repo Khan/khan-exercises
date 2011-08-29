@@ -108,6 +108,8 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 	urlBase = testMode ? "../" : "/khan-exercises/",
 
+	lastFocusedSolutionInput = null,
+
 	issueError = "Communication with GitHub isn't working. Please file "
 		+ "the issue manually at <a href=\""
 		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
@@ -170,6 +172,9 @@ if (testMode) {
 // The main Khan Module
 var Khan = {
 	modules: {},
+
+	// So modules can use file paths properly
+	urlBase: urlBase,
 
 	moduleDependencies: {
 		// Yuck! There is no god. John will personally gut punch whoever
@@ -458,8 +463,8 @@ Khan.loadScripts( scripts, function() {
 			type = type || "";
 
 			var info = {
-				testMode : testMode
-			}
+				testMode: testMode
+			};
 
 			return this.each(function( i, elem ) {
 				elem = jQuery( elem );
@@ -702,8 +707,21 @@ function makeProblem( id, seed ) {
 	//  if this fails then we will need to try generating another one.)
 	validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
-	// A working solution was not generated
-	if ( !validator ) {
+	// A working solution was generated
+	if ( validator ) {
+		// Focus the first input
+		// Use .select() and on a delay to make IE happy
+		var firstInput = solutionarea.find( ":input" ).first();
+		setTimeout( function() {
+			firstInput.focus().select();
+		}, 1 );
+
+		lastFocusedSolutionInput = firstInput;
+		solutionarea.find( ":input" ).focus( function() {
+			// Save which input is focused so we can refocus it after the user hits Check Answer
+			lastFocusedSolutionInput = this;
+		} );
+	} else {
 		// Making the problem failed, let's try again
 		problem.remove();
 		makeProblem( id, randomSeed );
@@ -717,7 +735,7 @@ function makeProblem( id, seed ) {
 	// Add the problem into the page
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
 	jQuery( "#answercontent input" ).removeAttr("disabled");
-	if ( validator.examples ) {
+	if ( validator.examples && validator.examples.length > 0 ) {
 		jQuery( "#examples-show" ).show();
 		jQuery( "#examples" ).empty();
 
@@ -867,6 +885,12 @@ function makeProblem( id, seed ) {
 function injectSite( html, htmlExercise ) {
 	jQuery("body").prepend( html );
 	jQuery("#container").html( htmlExercise );
+
+	if ( Khan.query.layout === "lite" ) {
+		// TODO: Move this into a stylesheet, toggle a class
+		jQuery("header, footer, #extras").remove();
+		jQuery("#page-container, #container, .exercise-badge").css({ "min-width": 0, "border-width": 0 });
+	}
 }
 
 function prepareSite() {
@@ -900,7 +924,9 @@ function prepareSite() {
 		var pass = validator();
 
 		// Stop if the user didn't enter a response
-		if ( jQuery.trim( validator.guess ) === "" ) {
+		// If multiple-answer, join all responses and check if that's empty
+		if ( jQuery.trim( validator.guess ) === "" ||
+			 ( validator.guess instanceof Array && jQuery.trim( validator.guess.join( "" ) ) === "" ) ) {
 			return false;
 		}
 
@@ -925,6 +951,14 @@ function prepareSite() {
 			// Is this a message to be shown?
 			if ( typeof pass === "string" ) {
 				jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
+			}
+
+			// Refocus text field so user can type a new answer
+			if ( lastFocusedSolutionInput != null ) {
+				setTimeout( function() {
+					// focus should always work; hopefully select will work for text fields
+					jQuery( lastFocusedSolutionInput ).focus().select();
+				}, 1 );
 			}
 		}
 
@@ -1154,8 +1188,9 @@ function prepareSite() {
 				+ "?seed=" + problemSeed
 				+ "&problem=" + problemID,
 			agent = navigator.userAgent,
+			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT " : "" ) + "loaded",
 			body = ( email ? [ "Reporter: " + email ] : [] )
-				.concat( [ jQuery( "#issue-body" ).val(), path, agent ] )
+				.concat( [ jQuery( "#issue-body" ).val(), path, agent, mathjaxInfo ] )
 				.join( "\n\n" );
 
 		// flagging of browsers/os for issue labels. very primitive, but
@@ -1173,7 +1208,7 @@ function prepareSite() {
 				leopard: agent_contains( "OS X 10_5" ) || agent_contains( "OS X 10.5" ),
 				snowleo: agent_contains( "OS X 10_6" ) || agent_contains( "OS X 10.6" ),
 				lion: agent_contains( "OS X 10_7" ) || agent_contains( "OS X 10.7" ),
-				scratchpad: body.indexOf( "scratchpad" ) !== -1 || body.indexOf( "scratch pad" ) !== -1 || body.indexOf( "Scratchpad" ) !== -1,
+				scratchpad: ( /scratch\s*pad/i ).test( body ),
 				ipad: agent_contains( "iPad" )
 			},
 			labels = [];

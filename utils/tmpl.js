@@ -164,7 +164,7 @@ jQuery.tmpl = {
 					$elem.text( KhanUtil.cleanMath ? KhanUtil.cleanMath( text ) : text );
 
 					// Stick the processing request onto the queue
-					if ( typeof MathJax !== "undefined") {
+					if ( typeof MathJax !== "undefined" ) {
 						MathJax.Hub.Queue([ "Typeset", MathJax.Hub, elem ]);
 					}
 				} else {
@@ -369,15 +369,24 @@ jQuery.fn.tmpl = function() {
 
 		// Look through each of the attr processors, see if our element has the matching attribute
 		for ( var attr in jQuery.tmpl.attr ) {
-			var value;
+			var value, dataName;
 
 			if ( ( /^data-/ ).test( attr ) ) {
-				value = $elem.data( attr.replace( /^data-/, "" ) );
+				dataName = attr.replace( /^data-/, "" )
+				value = $elem.data( dataName  );
 			} else {
+				dataName = undefined;
 				value = $elem.attr( attr );
 			}
 
 			if ( value !== undefined ) {
+				// Remove attributes (and data) to avoid things getting double-processed,
+				// which results in trouble with data-each loops
+				if ( dataName !== undefined ) {
+					$elem.removeData( jQuery.camelCase( dataName ) );	
+				}
+				$elem.removeAttr( attr );
+
 				ret = jQuery.tmpl.attr[ attr ]( elem, value );
 
 				// If a function, run after all of the other templating

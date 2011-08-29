@@ -43,7 +43,8 @@ jQuery.extend( KhanUtil, {
 			'potato': 'potatoes',
 			'person': 'people',
 			'is': 'are',
-			'was': 'were'
+			'was': 'were',
+			'square foot': 'square feet'
 		};
 
 		var pluralizeWord = function(word) {
