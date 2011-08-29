@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html data-require="math graphie chemistry">
+    <head>
+        <title>Reading the Periodic Table 1</title>
+        <script src="../khan-exercise.js"></script>
+        <script>
+        </script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+              <var id="ELEMENT">randFromArray(elements)</var>
+              <var id="NAME">ELEMENT.name</var>
+              <var id="SYMBOL">ELEMENT.symbol</var>
+              <var id="SYMBOL">ELEMENT.symbol</var>
+            </div>
+
+            <div class="problems">
+                <div id="number_of_protons">
+                  <div class="question">
+                    <p>How many protons are there in an atom of <var>NAME</var> (<var>SYMBOL</var>)?</p>
+
+                    <div class="graphie">
+                      var graph = KhanUtil.currentGraph;
+
+                      graph.init({
+                        range: [[0, 50], [0, 50]]
+                      });
+
+                      var periodic = new PeriodicTable();
+                      periodic.showPeriodicTable();
+                    </div>
+                  </div>
+                  <p class="solution"><var>ELEMENT.atomic_number</var></p>
+                </div>
+            </div>
+
+            <div class="hints">
+                <!-- Any hints to show to the student. -->
+            </div>
+        </div>
+    </body>
+</html>
