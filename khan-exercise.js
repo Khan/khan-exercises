@@ -887,10 +887,7 @@ function injectSite( html, htmlExercise ) {
 	jQuery("#container").html( htmlExercise );
 
 	if ( Khan.query.layout === "lite" ) {
-		// TODO: Move this into a stylesheet, toggle a class
-		jQuery("header, footer, #extras, .exercise-badge").remove();
-		jQuery("#page-container, #container").css({ "min-width": 0, "border-width": 0 });
-		jQuery("#answer_area").css({ "margin-top": "10px" });
+		jQuery("html").addClass( "lite" );
 	}
 }
 

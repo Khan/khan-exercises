@@ -71,3 +71,45 @@ var, div.graphie { white-space: pre; }
 #issue-throbber { position: relative; top: 3px; }
 
 .exp input { vertical-align: super; font-size: 9px; height: 11px; }
+
+.lite header, .lite footer, .lite #extras, .lite .exercise-badge, .lite .hint-box {
+	display: none;
+}
+
+.lite #page-container, .lite #container {
+	min-width: 0;
+	border-width: 0;
+}
+
+.lite #answer_area {
+	margin-top: 10px;
+}
+
+.lite #answercontent {
+	position: fixed;
+	right: 0px;
+	bottom: 0px;
+	margin: 10px;
+}
+
+.lite #answercontent > * {
+	float: left;
+	margin-right: 10px;
+}
+
+.lite #answercontent .info-box-header {
+	font-size: 16px;
+	content: "Answer:";
+}
+
+.lite #answercontent input.button {
+	margin-top: 2px;
+}
+
+.lite #answercontent #examples-show, .lite #answercontent #examples {
+	display: none !important;
+}
+
+.video-below {
+	display: none;
+}
