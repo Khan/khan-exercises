@@ -1192,7 +1192,7 @@ function prepareSite() {
 				+ "&problem=" + problemID,
 			agent = navigator.userAgent,
 			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT " : "" ) + "loaded",
-			localStorageInfo = "localStorage is " + ( typeof localStorage === "undefined" || typeof localStorage.getItem !== "function" ? "NOT " : "" ) + "enabled",
+			localStorageInfo = "localStorage is " + ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "NOT " : "" ) + "enabled",
 			body = ( email ? [ "Reporter: " + email ] : [] )
 				.concat( [ jQuery( "#issue-body" ).val(), path, agent, localStorageInfo, mathjaxInfo ] )
 				.join( "\n\n" );
