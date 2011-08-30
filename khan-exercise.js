@@ -1159,7 +1159,9 @@ function prepareSite() {
 			jQuery( "#issue, #issue form" ).show();
 			jQuery( "html, body" ).animate({
 				scrollTop: jQuery( "#issue" ).offset().top
-			}, 500 );
+			}, 500, function() {
+				jQuery( "#issue-title" ).focus();
+			} );
 		}
 	});
 
@@ -1190,8 +1192,9 @@ function prepareSite() {
 				+ "&problem=" + problemID,
 			agent = navigator.userAgent,
 			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT " : "" ) + "loaded",
+			localStorageInfo = "localStorage is " + ( typeof localStorage === "undefined" || typeof localStorage.getItem !== "function" ? "NOT " : "" ) + "enabled",
 			body = ( email ? [ "Reporter: " + email ] : [] )
-				.concat( [ jQuery( "#issue-body" ).val(), path, agent, mathjaxInfo ] )
+				.concat( [ jQuery( "#issue-body" ).val(), path, agent, localStorageInfo, mathjaxInfo ] )
 				.join( "\n\n" );
 
 		// flagging of browsers/os for issue labels. very primitive, but
