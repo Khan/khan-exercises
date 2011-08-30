@@ -133,11 +133,11 @@ div.timeline-total {
 }
 
 #timeline-events:first-child {
-  margin-left: 15px;
+  margin-left: 5px;
 }
 
 #timeline-events:last-child {
-  margin-right: 25px;
+  margin-right: 5px;
 }
 
 #timeline p {

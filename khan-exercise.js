@@ -572,7 +572,7 @@ function makeProblemBag( problems, n ) {
 	return bag;
 }
 
-function makeProblem( id, seed ) {
+function makeProblem( id, seed, redraw ) {
 	if ( typeof Badges !== "undefined" ) {
 		Badges.hide();
 	}
@@ -771,13 +771,18 @@ function makeProblem( id, seed ) {
 		} );
 	}
 
-	if (typeof userExercise !== "undefined" && userExercise.read_only) {
+	// This only runs the when an exercise is loaded, not when it is redrawn
+	// while navigating the timeline
+	if (typeof userExercise !== "undefined" && userExercise.read_only && redraw !== true) {
+		var timelineEvents, timeline;
+
 		var timelinecontainer = jQuery( "<div id='timelinecontainer'>" )
 			.append( "<div id='previous-problem'><span class='pushdown'>Previous Problem</span></div>" )
 			.append( "<div id='previous-step'><span class='pushdown'>Previous Step</span></div>" )
-			.insertBefore( "#extras" ),
-		    timeline = jQuery( "<div id='timeline'>" ).appendTo( timelinecontainer ),
-		    timelineEvents = jQuery( "<div id='timeline-events'>" ).appendTo( timeline );
+			.insertBefore( "#extras" );
+
+		timeline = jQuery( "<div id='timeline'>" ).appendTo( timelinecontainer );
+		timelineEvents = jQuery( "<div id='timeline-events'>" ).appendTo( timeline );
 
 		timelinecontainer
 			.append( "<div id='next-step'><span class='pushdown'>Next Step</span></div>" )
@@ -788,16 +793,16 @@ function makeProblem( id, seed ) {
 			.appendTo( timelineEvents );
 
 		var hintNumber = 0,
-				answerNumber = 1,
-				totalTime = 0;
-
+		    answerNumber = 1,
+		    totalTime = 0;
+	
 		/* value[0]: css class
 		 * value[1]: guess
 		 * value[2]: time taken since last guess
 		 */
 		jQuery.each(userExercise.user_activity, function(index, value) {
 			var guess = value[1] === "Activity Unavailable" ? value[1] : JSON.parse( value[1] ),
-					thissolutionarea;
+			    thissolutionarea;
 
 			totalTime += value[2];
 
@@ -816,14 +821,14 @@ function makeProblem( id, seed ) {
 			} else { // This panel is a solution (or the first panel)
 				thissolutionarea.data( 'hint', false );
 				if (guess === "Activity Unavailable") {
-					thissolutionarea.text( guess );
+				  thissolutionarea.text( guess );
 				} else {
 					if (answerType === 'radio') { 
 						// radio is the only answer type that can't display its own guesses
 						thissolutionarea.append( jQuery(
-							"<p class='solution'>\
-							  <code style='display:none'>"+guess+"</code>\
-							 </p>" ).tmpl()
+						  "<p class='solution'>\
+						     <code style='display:none'>"+guess+"</code>\
+						   </p>" ).tmpl()
 						);
 					} else {
 						Khan.answerTypes[answerType]( thissolutionarea, solution )
@@ -841,8 +846,6 @@ function makeProblem( id, seed ) {
 			}
 		});
 
-		// timeline.append( "<div class='timeline-total'>" + totalTime + "s total</div>" );
-
 		var states = timelineEvents.children(".user-activity"),
 		    currentSlide = 0,
 		    numSlides = states.length,
@@ -855,30 +858,23 @@ function makeProblem( id, seed ) {
 		    totalHints = timeline.find( '.hint-activity:last' )
 		      .index( '.hint-activity' ),
 		    hintButton = jQuery( '#hint' ),
-		    hintRemainder = jQuery( '#hint-remainder' ),
-		    timelineMiddle = timeline.width() / 2,
-		    timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width();
-		states.first().addClass("activated");
+		    hintRemainder = jQuery( '#hint-remainder' );
+		    timelineMiddle = timeline.width() / 2;
 
-		timelineEvents.width(timelineMax + 20);
+		states.first().addClass("activated");
 
 		jQuery.fx.interval = 25;
 
-		var originalProblem = problem.clone( true, true ),
-        originalHints = hintsArea.clone( true, true );
-
-		var activate = function(slideNum) {
-			var itemMiddle, itemOffset, offset, hint, hintNum,
+		var activate = function( slideNum ) {
+			var hint, hintNum,
 			    thisSlide = states.eq( slideNum ).addClass( "activated" ),
 			    previousHintIndex = false;
-			
-			// jQuery("#workarea, #hintsarea").runModules( problem, "Cleanup" ).empty();
-			jQuery("#hintsarea").runModules( problem, "Cleanup" ).empty();
 
-      problem.contents( originalProblem.contents() );
-      // jQuery("#workarea").runModules( problem, "Cleanup" ).empty();
-      // problem = originalProblem.clone( true, true );
-      // jQuery( "#workarea" ).append( problem );
+			if (slideNum > 0 && slideNum < currentSlide) {
+				problem.remove();
+				jQuery( "#hintsarea" ).empty();
+				makeProblem( id, problemSeed, false );
+			}
 
 			for (var i = slideNum; i >= firstHintIndex; i--) {
 				if (states.eq( i ).data( 'hint' ) !== false) {
@@ -913,8 +909,8 @@ function makeProblem( id, seed ) {
 			jQuery.each( hints, function( index, hint ) {
 				if (index <= hintNum) {
 					// Append first so MathJax can sense the surrounding CSS context properly
-					var thisHint = jQuery( jQuery(hint).clone() ).appendTo( hintsArea ).runModules( problem );
-					
+					var thisHint = jQuery( hint ).appendTo( hintsArea ).runModules( problem );
+
 					if (index === hintNum && currentSlide < previousHintIndex) {
 						thisHint
 							.animate( { backgroundColor: "#ffffcc" }, 1 )
@@ -924,14 +920,17 @@ function makeProblem( id, seed ) {
 			});
 
 			// Bring the currently focused panel as close to the middle as possible
-			itemOffset = thisSlide.position().left;
-			itemMiddle = itemOffset + thisSlide.width() / 2;
-			offset = timelineMiddle - itemMiddle;
-			var currentScroll = timeline.scrollLeft();
+			var itemOffset = thisSlide.position().left,
+			    itemMiddle = itemOffset + thisSlide.width() / 2,
+			    offset = timelineMiddle - itemMiddle,
+			    currentScroll = timeline.scrollLeft(),
+			    timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
+			    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25 );
 
 			timeline.animate({
-				//scrollLeft: Math.min( currentScroll - offset, timelineMax - timeline.width() )
-				scrollLeft: (offset > 0 ? '-=' : '+=') + Math.abs( offset )
+				scrollLeft: scroll
+				//scrollLeft: (scroll > 0 ? '-=' : '+=') + Math.abs( scroll )
+				// scrollLeft: (offset > 0 ? '-=' : '+=') + Math.abs( offset )
 			}, 150);
 
 			// If there is a guess we show it as if it was filled in by the user
@@ -1006,13 +1005,14 @@ function makeProblem( id, seed ) {
 		jQuery( "#timeline input[type='text']" ).css( "width", 
 			jQuery( "#answer_area input[type='text']" ).css('width')
 		);
-
+	
 		jQuery( '#hint' ).attr( 'disabled', true );
 		jQuery( '#answercontent input' ).attr( 'disabled', true );
 		jQuery( '#answercontent select' ).attr( 'disabled', true );
 
 		// focus on the first slide
 		activate( currentSlide );
+		// timeline.append( "<div class='timeline-total'>" + totalTime + "s total</div>" );
 	}
 
 	// Show the debug info
@@ -1106,6 +1106,8 @@ function makeProblem( id, seed ) {
 	}
 
 	jQuery(Khan).trigger( "newProblem" );
+
+  return answerType;
 }
 
 function injectSite( html, htmlExercise ) {
@@ -2082,7 +2084,7 @@ function loadModules() {
 		}
 
 		// Generate the initial problem when dependencies are done being loaded
-		makeProblem();
+		var answerType = makeProblem();
 	}
 }
 
