@@ -369,24 +369,15 @@ jQuery.fn.tmpl = function() {
 
 		// Look through each of the attr processors, see if our element has the matching attribute
 		for ( var attr in jQuery.tmpl.attr ) {
-			var value, dataName;
+			var value;
 
 			if ( ( /^data-/ ).test( attr ) ) {
-				dataName = attr.replace( /^data-/, "" )
-				value = $elem.data( dataName  );
+				value = $elem.data( attr.replace( /^data-/, "" ) );
 			} else {
-				dataName = undefined;
 				value = $elem.attr( attr );
 			}
 
 			if ( value !== undefined ) {
-				// Remove attributes (and data) to avoid things getting double-processed,
-				// which results in trouble with data-each loops
-				if ( dataName !== undefined ) {
-					$elem.removeData( jQuery.camelCase( dataName ) );	
-				}
-				$elem.removeAttr( attr );
-
 				ret = jQuery.tmpl.attr[ attr ]( elem, value );
 
 				// If a function, run after all of the other templating
