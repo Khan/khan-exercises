@@ -9,16 +9,12 @@
 			font-weight: bold;
 			display: inline-block;
 			padding-left: 10px;
-			width: 50px;
+			width: 100px;
 			border-bottom: 2px solid #CCCCCC;
 		}
 
-		.fake_header span:nth-child(n+2) {
-			width: 100px
-		}
-
-		.fake_row:nth-child(2n+1) span {
-			background-color: #F3F3F3;
+		.fake_header span:first-child {
+			width: 50px
 		}
 
 		.fake_row span {
@@ -26,11 +22,20 @@
 			padding-top: 5px;
 			padding-bottom: 5px;
 			padding-left: 10px;
-			width: 50px;
+			width: 100px;
+			border-bottom: 1px solid #DDD;
 		}
 
-		.fake_row span:nth-child(n+2) {
-			width: 100px
+		.fake_row:nth-child(n) span {
+			border-bottom: none;
+		}
+
+		.fake_row:nth-child(2n+1) span {
+			background-color: #F3F3F3;
+		}
+
+		.fake_row span:first-child {
+			width: 50px;
 		}
 	</style>
 </head>
@@ -53,8 +58,8 @@
 							}
 						 }  ) </var>
 			</div>
-			<p><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> for the last <var>VALUES.length</var> days.</p>
-			<p class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amount (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much <var>he( 1 )</var> <var>TYPES[ 1 ]</var> in total.</p>
+			<p><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> every day for the last <var>VALUES.length</var> days.</p>
+			<p class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much <var>he( 1 )</var> <var>TYPES[ 1 ]</var> in total by rounding each amount to a whole number and summing.</p>
 			<div class="fake_header">
 				<span>Day</span>
 				<span>Amount</span>
@@ -63,7 +68,9 @@
 				<span><var>i+1</var></span>
 				<span><var>val</var></span>
 			</div>
-			<p class="solution" data-forms="integer"><var>ANSWER</var></p>
+			<p class="solution" data-type="multiple">
+				<span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>plural( TYPES[ 2 ] )</var>
+			</p>
 
 			<div class="hints">
 				<p>Round all the numbers to the nearest <var>TYPES[ 2 ]</var> and add them up.</p>
@@ -79,7 +86,7 @@
 					<span><var>round( val )</var></span>
 					<span><var>ACC += round( val )</var></span>
 				</div>
-				<p>Therefore the estimate is <code><var>ANSWER</var></code>.</p>
+				<p>Therefore the estimate is <code><var>ANSWER</var></code> <var>plural( TYPES[ 2 ] )</var>.</p>
 			</div>
 		</div>
 	</div>

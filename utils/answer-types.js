@@ -11,7 +11,6 @@ jQuery.extend( Khan.answerTypes, {
 	text: function( solutionarea, solution, fallback, verifier ) {
 		var input = jQuery('<input type="text">');
 		jQuery( solutionarea ).append( input );
-		input.focus();
 
 		var correct = typeof solution === "object" ? jQuery( solution ).text() : solution;
 
@@ -80,6 +79,7 @@ jQuery.extend( Khan.answerTypes, {
 	number: function( solutionarea, solution, fallback, forms ) {
 		var options = jQuery.extend({
 			simplify: "required",
+			ratio: false,
 			maxError: Math.pow( 2, -42 ),
 			forms: "literal, integer, proper, improper, mixed, decimal"
 		}, jQuery( solution ).data());
@@ -101,7 +101,9 @@ jQuery.extend( Khan.answerTypes, {
 			if ( match ) {
 				var num = parseFloat( match[1] ),
 					denom = parseFloat( match[2] );
-				var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
+				var simplified = denom > 0 &&
+					( options.ratio || match[2] !== "1" ) &&
+					KhanUtil.getGCD( num, denom ) === 1;
 				return [ {
 					value: num / denom,
 					exact: simplified
@@ -153,7 +155,7 @@ jQuery.extend( Khan.answerTypes, {
 			improper: {
 				transformer: function( text ) {
 					return jQuery.map( fractionTransformer( text ), function( o ) {
-						if ( Math.abs(o.value) > 1 ) {
+						if ( Math.abs(o.value) >= 1 ) {
 							return [o];
 						} else {
 							return [];
@@ -410,7 +412,6 @@ jQuery.extend( Khan.answerTypes, {
 			.append( inte )
 			.append( '<span class="surd">&radic;</span>')
 			.append( rad.addClass( "overline" ) );
-		inte.find( "input" ).eq( 0 ).focus();
 
 		var ret = function() {
 			// Load entered values into inteGuess, radGuess
@@ -455,8 +456,7 @@ jQuery.extend( Khan.answerTypes, {
 
 		var solutionArray = [];
 
-		// Iterate in reverse so the *first* input is focused
-		jQuery( solutionarea.find( ".sol" ).get().reverse() ).each(function() {
+		solutionarea.find( ".sol" ).each(function() {
 			var type = jQuery( this ).data( "type" );
 			type = type != null ? type : "number";
 
@@ -507,6 +507,10 @@ jQuery.extend( Khan.answerTypes, {
 			});
 		};
 
+		ret.examples = solutionarea.find( ".example" ).remove()
+			.map(function(i, el) {
+				return jQuery( el ).html();
+			});
 		ret.solution = solutionArray;
 
 		return ret;
@@ -641,7 +645,6 @@ jQuery.extend( Khan.answerTypes, {
 	list: function( solutionarea, solution ) {
 		var input = jQuery("<select></select>");
 		jQuery( solutionarea ).append( input );
-		input.focus();
 
 		var choices = jQuery.tmpl.getVAR( jQuery( solution ).data("choices") );
 
@@ -676,7 +679,7 @@ jQuery.extend( Khan.answerTypes, {
 	primeFactorization: function( solutionarea, solution, fallback ) {
 		var verifier = function( correct, guess ) {
 			guess = guess.split(" ").join("").toLowerCase();
-			guess = KhanUtil.sortNumbers( guess.split( /x|\*/ ) ).join( "x" );
+			guess = KhanUtil.sortNumbers( guess.split( /x|\*|\u00d7/ ) ).join( "x" );
 			return guess === correct;
 		};
 		verifier.examples = [ "a product of prime factors, like <code>2 \\times 3</code>" ];

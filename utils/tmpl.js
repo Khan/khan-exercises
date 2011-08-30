@@ -164,7 +164,7 @@ jQuery.tmpl = {
 					$elem.text( KhanUtil.cleanMath ? KhanUtil.cleanMath( text ) : text );
 
 					// Stick the processing request onto the queue
-					if ( typeof MathJax !== "undefined") {
+					if ( typeof MathJax !== "undefined" ) {
 						MathJax.Hub.Queue([ "Typeset", MathJax.Hub, elem ]);
 					}
 				} else {
