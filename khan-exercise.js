@@ -180,7 +180,7 @@ var Khan = {
 		// Yuck! There is no god. John will personally gut punch whoever
 		// thought this was a good API design.
 		"math": [ {
-			src: "http://cdn.mathjax.org/mathjax/latest/MathJax.js",
+			src: "http://cdn.mathjax.org/mathjax/1.1-latest/MathJax.js",
 			text: "MathJax.Hub.Config({\
 				messageStyle: \"none\",\
 				skipStartupTypeset: true,\
