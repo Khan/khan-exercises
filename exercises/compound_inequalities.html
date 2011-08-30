@@ -10,16 +10,12 @@
 				return comp;
 			}
 
-			switch ( comp ) {
-				case "≤":
-					return "≥";
-				case "≥":
-					return "≤";
-				case "<":
-					return ">";
-				case ">":
-					return "<";
-			}
+			return {
+				"≤": "≥",
+				"≥": "≤",
+				"<": ">",
+				">": "<"
+			}[comp];
 		}
 	</script>
 </head>
@@ -41,7 +37,7 @@
 			<var id="SOLUTION_NOT_REDUCED">[ fraction( RIGHT_INT[0] + ADD_TO_SIMPLIFY[0], COEF[0] ), fraction( RIGHT_INT[1] + ADD_TO_SIMPLIFY[1], COEF[1] ) ]</var>
 			<var id="SOLUTION">[ ( RIGHT_INT[0] + ADD_TO_SIMPLIFY[0] ) / COEF[0], ( RIGHT_INT[1] + ADD_TO_SIMPLIFY[1] ) / COEF[1] ]</var>
 			<var id="FIRST">[ "first", "second" ]</var>
-			<var id="COLOR">[ "blue", "red" ]</var>
+			<var id="COLOR">[ "#1F78B4", "#B30000" ]</var>
 			<var id="INCLUSIVE">[ COMP_SOLUTION[0] === "&le;" || COMP_SOLUTION[0] === "&ge;", COMP_SOLUTION[1] === "&le;" || COMP_SOLUTION[1] === "&ge;" ]</var>
 			<var id="LESS_THAN">[ COMP_SOLUTION[0] === "&le;" || COMP_SOLUTION[0] === "&lt;", COMP_SOLUTION[1] === "&le;" || COMP_SOLUTION[1] === "&lt;" ]</var>
 			<var id="ALL_NUMBERS">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[0] > SOLUTION[1] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[1] > SOLUTION[0] ) || ( SOLUTION[0] === SOLUTION[1] && ( INCLUSIVE[0] || INCLUSIVE[1] ) )</var>
@@ -60,7 +56,8 @@
 				</div>
 
 				<p class="solution">
-					<span data-if="( IS_OR && ALL_NUMBERS ) || ( !IS_OR && NO_SOLUTION )"><var>IS_OR ? "All numbers." : "No solution."</var></span>
+					<span data-if="IS_OR && ALL_NUMBERS">All real numbers.</span>
+					<span data-else-if="!IS_OR && NO_SOLUTION">No solution.</span>
 					<span data-else><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var></code></span>
 				</p>
 				<ul class="choices" data-show="4">
@@ -81,13 +78,12 @@
 					</div>
 					<li data-if="LEFT_INT[0] !== 0 || LEFT_INT[1] !== 0"><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + round( ( RIGHT_INT[0] - ADD_TO_SIMPLIFY[0] ) / COEF[0] )</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] +
 						round( ( RIGHT_INT[1] - ADD_TO_SIMPLIFY[1] ) / COEF[1] )</var></code></li>
-					<li data-if="IS_OR && !ALL_NUMBERS">All numbers.</li>
+					<li data-if="IS_OR && !ALL_NUMBERS">All real numbers.</li>
 					<li data-if="!IS_OR && !NO_SOLUTION">No solution.</li>
 				</ul>
 
 				<div class="hints">
 					<div data-each="[ 0, 1 ] as i" data-unwrap>
-						<!-- Does not currently work because of issue #1351 -->
 						<div data-if="LEFT_INT[i] !== 0">
 							<p>Add <code><var>ADD_TO_SIMPLIFY[i]</var></code> to both sides of the <var>FIRST[i]</var> inequality.</p>
 							<p>
@@ -130,17 +126,17 @@
 							var y_placement = [ 0.05, -0.05 ];
 							for ( var i = 0; i < 2; i++ ) {
 								style({ stroke: COLOR[i], fill: COLOR[i], strokeWidth: 3.5, arrows: "->" });
-								arrow = path( [ [ SOLUTION[i] + 0.15 * ( LESS_THAN[i] ? -1 : 1  ), y_placement[i] ], [ LESS_THAN[i] ? start : end, y_placement[i] ] ] );
+								path( [ [ SOLUTION[i] + 0.15 * ( LESS_THAN[i] ? -1 : 1  ), y_placement[i] ], [ LESS_THAN[i] ? start : end, y_placement[i] ] ] );
 								style({ stroke: COLOR[i], fill: INCLUSIVE[i] ? COLOR[i] : null });
-								pt = circle( [ SOLUTION[i], y_placement[i] ], 0.15 );
+								circle( [ SOLUTION[i], y_placement[i] ], 0.15 );
 							}
 						</div>
 						<div data-if="IS_OR">
-							<p data-if="ALL_NUMBERS">The combined graphs of the inequalities span the entire number line, therefore the solution is "All numbers."</p>
-							<p data-else>The combined graphs of the inequalities do not span the entire number line, therefore the solution is <strong>not</strong> "All numbers."</p>
+							<p data-if="ALL_NUMBERS">The combined graphs of the inequalities span the entire number line, therefore the solution is "All real numbers."</p>
+							<p data-else>The combined graphs of the inequalities do not span the entire number line, therefore the solution is <strong>not</strong> "All real numbers."</p>
 						</div>
 						<div data-else>
-							<p>The solution to an inequality with the word "and", is the intersection of the graphs of the inequalities.</p>
+							<p>The solution to an inequality with the word "and" is the intersection of the graphs of the inequalities.</p>
 							<p data-if="NO_SOLUTION">Since the graphs of the inequalities do not intersect, there is no solution.</p>
 							<p data-else>Since the graphs of the inequalities intersect, there is a solution.</p>
 						</div>
