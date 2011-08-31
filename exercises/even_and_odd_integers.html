@@ -6,17 +6,18 @@
 
 		<script>
 			// traverses binary expression tree
-			function isExprEven( epr ) {
-				if ( epr in jQuery.tmpl.VARS.IS_EVEN ) {
-					return jQuery.tmpl.VARS.IS_EVEN[ epr ];
+			function isExprEven( epr, isEvens ) {
+				if ( epr in isEvens ) {
+					return isEvens[ epr ];
 
 				} else if ( epr instanceof Array ) {
 					switch ( epr[0] ) {
 					case "+":
-						return ( isExprEven( epr[1] ) === isExprEven( epr[2] ) );
+					case "-":
+						return ( isExprEven( epr[1], isEvens ) === isExprEven( epr[2], isEvens ) );
 
 					case "times":
-						return ( isExprEven( epr[1] ) || isExprEven( epr[2] ) );
+						return ( isExprEven( epr[1], isEvens ) || isExprEven( epr[2], isEvens ) );
 					}
 
 				} else {
@@ -25,15 +26,14 @@
 				}
 			}
 
-			function evenOrOdd( epr ) {
-				return ( isExprEven( epr ) ? "even" : "odd" );
+			function evenOrOdd( epr, isEvens ) {
+				return ( isExprEven( epr, isEvens ) ? "even" : "odd" );
 			}
 
-			function labelExpr( epr, text ) {
-				var colors = jQuery.tmpl.VARS.VAR_COLORS;
+			function labelMaker( epr, evenOrOdd, colors, problemExpr, problemExprLevels ) {
 				var b = 0.2;
 
-				var searchStr = KhanUtil.expr( jQuery.tmpl.VARS.EXPR ).replace( / \\times /g, "*" );
+				var searchStr = KhanUtil.expr( problemExpr ).replace( / \\times /g, "*" );
 				var exprStr = KhanUtil.expr( epr ).replace( / \\times /g, "*" );
 
 				var indices = [];
@@ -44,89 +44,66 @@
 				}
 
 				var labels = jQuery.map( indices, function( idx ) {
-					var x = idx / 2.5 + 0.1,
-					y = (jQuery.tmpl.VARS.EXPR_LEVELS - 0.6) - exprStr.length / 2.5,
+					var x = idx / 2.5 + 0.075,
+					y = (problemExprLevels - 0.6) - exprStr.length / 2.5,
 					width = exprStr.length / 1.9;
 
-					return 'path([ [' + x + ', ' + ( y + b ) + '], [' + x + ', ' + y + '], ' +
-						'[' + ( x + width ) + ', ' + y + '], [' + ( x + width ) + ', ' + ( y + b ) + '] ]' +
-						( colors[ epr ] ? ', { stroke: "' + colors[ epr ] + '" }' : '' )
-						+ ' );' +
-						'label( [ ' + ( x + width / 2 ) + ', ' + ( y - 0.1 ) + ' ],' +
-						'"\\\\scriptsize{' +
-						( colors[ epr ] ? '\\\\color{' + colors[ epr ] + '}{\\\\text{' + text + '}}' :
-						  '\\\\text{' + text + '}' ) +
-						'}", "center" );';
+					return function( graph ) {
+						graph.path([ [ x, y + b ], [ x, y ],
+							   [ ( x + width ), y ], [ ( x + width ), ( y + b ) ] ],
+							 { stroke: colors[ evenOrOdd ] });
+						graph.label( [ ( x + width / 2 ), ( y - 0.1 ) ],
+									 "\\scriptsize{\\color{" + colors[ evenOrOdd ] + "}{\\text{" + evenOrOdd + "}}}", "center" );
+					};
 				} );
 
-				return labels.join("");
+				return function( graph ) {
+					jQuery.each( labels, function( i, el ) {
+						el( graph );
+					} );
+				};
 			}
 
-			function getHints( epr ) {
-				var hints = "";
-				var eoro = evenOrOdd( epr );
+			function getHints( epr, isEvens, colors, problemExpr, problemExprLevels ) {
+				var hints = [];
+				var eoro = evenOrOdd( epr, isEvens );
+
+				var hint = {};
+				hint.graph = labelMaker( epr, eoro, colors, problemExpr, problemExprLevels );
 
 				if ( epr instanceof Array ) {
-					hints += getHints( epr[1] ) + getHints( epr[2] );
+					// flatten child hints
+					hints.push( getHints( epr[1], isEvens, colors, problemExpr, problemExprLevels ) );
+					hints.push( getHints( epr[2], isEvens, colors, problemExpr, problemExprLevels ) );
 
-					hints += '<div>' +
-						'<div class="graphie" data-update="expression">' +
-						labelExpr( epr, eoro ) +
-						'</div>';
-
+					eoro = colorEorO( eoro, colors );
 					switch ( epr[0] ) {
 					case "+":
-						hints +=
-						'<p>An ' + evenOrOdd( epr[1] ) + ' plus an ' + evenOrOdd( epr[2] ) + ' is ' + eoro + '.</p>' +
-							'</div>';
+						hint.text = "An " + coloredEvenOrOdd( epr[1], isEvens, colors ) + " plus an " + coloredEvenOrOdd( epr[2], isEvens, colors ) + " is " + eoro + ".";
 						break;
 
 					case "-":
-						hints +=
-						'<p>An ' + evenOrOdd( epr[1] ) + ' minus an ' + evenOrOdd( epr[2] ) + ' is ' + eoro + '.</p>' +
-							'</div>';
+						hint.text = "An " + coloredEvenOrOdd( epr[1], isEvens, colors ) + " minus an " + coloredEvenOrOdd( epr[2], isEvens, colors ) + " is " + eoro + ".";
 						break;
 
 					case "times":
-						hints +=
-						'<p>An ' + evenOrOdd( epr[1] ) + ' times an ' + evenOrOdd( epr[2] ) + ' is ' + eoro + '.</p>' +
-							'</div>';
+						hint.text = "An " + coloredEvenOrOdd( epr[1], isEvens, colors ) + " times an " + coloredEvenOrOdd( epr[2], isEvens, colors ) + " is " + eoro + ".";
 						break;
-
-					default:
-						hints += '</div>';
 					}	
 				} else {
-					hints += '<div>' +
-						'<div class="graphie" data-update="expression">' +
-						labelExpr( epr, eoro ) +
-						'</div>' +
-						'<p><code>' + colorText( epr ) + '</code> is ' + eoro + '.</p>' +
-						'</div>';
+					hint.text = "<code>" + epr + "</code> is " + colorEorO( eoro, colors ) + ".";
 				}
-				return hints;
+				hints.push( hint );
+				// flatten hints array
+				return jQuery.map( hints, function( el ) { return el; } );
 			}
 
-			function colorExpr( epr ) {
-				var colors = jQuery.tmpl.VARS.VAR_COLORS;
-
-				if ( epr instanceof Array ) {
-					return jQuery.map( epr, function( el ) {
-						return [ colorExpr( el ) ];
-					} );
-				} else {
-					if ( colors[ epr ] ) {
-						return ["color", colors[ epr ], epr];
-					} else {
-						return epr;
-					}
-				}
+			function coloredEvenOrOdd( epr, isEvens, colors ) {
+				return colorEorO( evenOrOdd( epr, isEvens ), colors );
 			}
 
-			function colorText( text ) {
-				var colors = jQuery.tmpl.VARS.VAR_COLORS;
-
-				return ( colors[ text ] ? "\\color{" + colors[ text ] + "}{" + text + "}" : text );
+			function colorEorO( eoro, colors ) {
+				return '<span style="color: ' + colors[ eoro ] + '">' + eoro + '</span>';
 			}
 		</script>
 	</head>
@@ -137,21 +114,23 @@
 					<div class="vars">
 						<var id="EXPR">["+", "m", "n"]</var>
 
-						<var id="VAR_COLORS">{ "m": "blue", "n": "orange" }</var>
+						<var id="EORO_COLORS">{ "even": "blue", "odd": "orange" }</var>
 
-						<var id="IS_EVEN">{ "m": rand(2) === 0, "n": rand(2) === 0 }</var>
+						<var id="IS_EVENS">{ "m": rand(2) === 0, "n": rand(2) === 0 }</var>
 
 						<var id="EXPR_LEVELS">2</var>
+
+						<var id="HINTS">getHints( EXPR, IS_EVENS, EORO_COLORS, EXPR, EXPR_LEVELS )</var>
 					</div>
 					<div class="problem">
 						<ul>
-							<li><code>m</code> is <var>evenOrOdd( "m" )</var>.</li>
-							<li><code>n</code> is <var>evenOrOdd( "n" )</var>.</li>
+							<li><code>m</code> is <var>evenOrOdd( "m", IS_EVENS )</var>.</li>
+							<li><code>n</code> is <var>evenOrOdd( "n", IS_EVENS )</var>.</li>
 						</ul>
 					</div>
 					<p class="question">Is <code><var>expr( EXPR )</var></code> even or odd?</p>
 					
-					<p class="solution"><var>( isExprEven( EXPR ) ? "Even" : "Odd" )</var></p>
+					<p class="solution"><var>( isExprEven( EXPR, IS_EVENS ) ? "Even" : "Odd" )</var></p>
 					<ul class="choices" data-category="true">
 						<li>Even</li>
 						<li>Odd</li>
@@ -164,9 +143,16 @@
 								scale: [40, 40]
 							});
 
-							label( [0, EXPR_LEVELS], "\\large{" + expr( colorExpr( EXPR ) ) + "}", "below right" );
+							label( [0, EXPR_LEVELS], "\\large{" + expr( EXPR ) + "}", "below right" );
 						</div>
-						<var>getHints( EXPR )</var>
+						<div data-each="HINTS as I, HINT">
+							<div class="graphie" data-update="expression">
+								// hack to get around graphie script not working with data-each
+								// (graphie script executes after the data-each templating's done)
+								HINTS[<var>I</var>].graph( KhanUtil.currentGraph );
+							</div>
+							<p><var>HINT.text</var></p>
+						</div>
 					</div>
 				</div>
 
@@ -189,18 +175,16 @@
 					<div class="vars">
 						<var id="EXPR">["+", "m", ["+", "n", "p"]]</var>
 
-						<var id="IS_EVEN">{ "m": rand(2) === 0, "n": rand(2) === 0, "p": rand(2) === 0 }</var>
-
-						<var id="VAR_COLORS">{ "m": "blue", "n": "orange", "p": "green" }</var>
+						<var id="IS_EVENS">{ "m": rand(2) === 0, "n": rand(2) === 0, "p": rand(2) === 0 }</var>
 
 						<var id="EXPR_LEVELS">3</var>
 					</div>
 
 					<div class="problem">
 						<ul>
-							<li><code>m</code> is <var>evenOrOdd( "m" )</var>.</li>
-							<li><code>n</code> is <var>evenOrOdd( "n" )</var>.</li>
-							<li><code>p</code> is <var>evenOrOdd( "p" )</var>.</li>
+							<li><code>m</code> is <var>evenOrOdd( "m", IS_EVENS )</var>.</li>
+							<li><code>n</code> is <var>evenOrOdd( "n", IS_EVENS )</var>.</li>
+							<li><code>p</code> is <var>evenOrOdd( "p", IS_EVENS )</var>.</li>
 						</ul>
 					</div>
 				</div>

@@ -36,25 +36,34 @@
 		<div>
 			<div class="question">
 				<p>The equation of a hyperbola <code>H</code> is <code><var>WHICH_NEG == 1 ? expr(["-", Y2T, X2T]) : expr(["-", X2T, Y2T])</var> = 1</code>.</p>
-
 				<p>What are the asymptotes?</p>
-
 			</div>
 
 			<div class="solution" data-type="multiple">
-			<p><code>y = \pm </code> <span class="sol" data-type="line" ><var>ANSWER</var></span></p>
+				<p><code>y = \pm </code> <span class="sol" data-type="line" ><var>ANSWER</var></span></p>
 			</div>
-
 		</div>
 	</div>
 
 	<div class="hints">
-		<p>We first rewrite the equation in terms of y.</p>
-		<p><code><var> Y2T</var> = <var>Y_MINUS</var> 1 <var>X_MINUS</var> <var>X2T</var></code></p>¬
-		<p><code><var> Y</var> = { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code> </p>
-		<p><code><var> plus("y", -K) </var> = \pm \sqrt { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
-		<p> As <code> x </code> goes to infinity, the expression under the square root becomes closer and closer to <code> \sqrt { <var>\dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p> 
-		<p>Therefore the asymptotes are <code> \pm <var> ASYMPT</var></code>.</p>
+		<div>
+			<p>We first rewrite the equation in terms of y.</p>
+			<p><code><var> Y2T</var> = <var>Y_MINUS</var> 1 <var>X_MINUS</var> <var>X2T</var></code></p>
+		</div>
+		
+		<div>
+			<p>Multiply both sides of the equation by <code><var>B * B</var></code>.</p>
+			<p><code><var> Y</var> = { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code> </p>
+		</div>
+		<div>
+			<p>Take the square root.</p>
+			<p><code><var> plus("y", -K) </var> = \pm \sqrt { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
+		</div>
+		<div>
+			<p>As <code>x</code> approaches infinity, the constants matter less and less.</p>
+			<p><code>y \approx \sqrt { \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p> 
+		</div>
+		<p>Therefore, the asymptotes are <code>\pm <var>ASYMPT</var></code>.</p>
 	</div>
 	</div>
 </body>

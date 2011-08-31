@@ -265,39 +265,6 @@ function Translator( center, r, pro ) {
 	return this;
 }
 
-
-
-function analogClock( hour, minute, radius, labelShown ){
-	this.hour = hour;
-	this.minute = minute;
-	this.radius = radius;
-	this.set = KhanUtil.currentGraph.raphael.set();
-
-	this.graph = KhanUtil.currentGraph;
-	this.draw = function(){
-		for( var x = 0; x < 12; x++ ){
-			this.set.push( this.graph.line( [ this.radius *  Math.sin( 2 * Math.PI * x/12  ), this.radius * Math.cos( 2 * Math.PI * x/12 ) ], [ 0.8 * this.radius * Math.sin( 2 * Math.PI * x/12 ), 0.8 * this.radius * Math.cos( 2 * Math.PI * x/12 ) ] ) );
-		}
-
-		this.set.push( this.graph.line( [ 0.45 * this.radius *  Math.sin( 2 * Math.PI * this.hour/12 + ( this.minute / 60 ) / 12 * 2 * Math.PI ), 0.45 * this.radius * Math.cos( 2 * Math.PI * this.hour/12 + ( this.minute / 60 ) / 12  * 2 * Math.PI ) ], [ 0, 0  ] ) );
-
-		this.set.push( this.graph.line( [ 0.6 * this.radius *  Math.sin( ( this.minute / 60 ) * 2 * Math.PI ), 0.6 * this.radius * Math.cos(  ( this.minute / 60 ) * 2 * Math.PI ) ], [ 0, 0  ] ) );
-		this.set.push( this.graph.circle( [ 0, 0 ], this.radius ) );
-		this.set.push( this.graph.circle( [ 0, 0 ], this.radius/ 40 ) );
-		if( labelShown ){
-			this.drawLabels();
-		}
-		return this.set;
-	}
-
-	this.drawLabels = function(){
-		for( var x = 1; x < 13; x++ ){
-			this.set.push( this.graph.label( [ 0.7 * this.radius *  Math.sin( 2 * Math.PI * x/12  ), 0.7 * this.radius * Math.cos( 2 * Math.PI * x/12 ) ], x  ) );
-		}
-		return this.set;
-	}
-}
-
 function Protractor( center, r ) {
 	var graph = KhanUtil.currentGraph;
 	this.set = graph.raphael.set();
@@ -306,9 +273,8 @@ function Protractor( center, r ) {
 	this.cy = center[1];
 	var lineColor = "#789";
 
-	this.set.push( graph.arc( [this.cx, this.cy], r, 0, 180, { fill: "#b0c4de", stroke: lineColor } ) );
-
-	this.set.push( graph.circle( [this.cx, this.cy], 0.05 ) );
+	var imgPos = graph.scalePoint([ this.cx - r, this.cy + r ]);
+	this.set.push( graph.raphael.image( Khan.urlBase + "images/protractor.png", imgPos[0], imgPos[1], 322, 166 ) );
 	
 	this._rotation = 0;
 	this.getRotation = function() {
@@ -331,64 +297,56 @@ function Protractor( center, r ) {
 		this.set.push( graph.line( [this.cx + dx, this.cy + dy], [this.cx + ex, this.cy + ey], { stroke: stroke } ) );
 		this.set.push( graph.label( [this.cx + lx, this.cy + ly], angle, "center", false, { "stroke-width": 1, "font-size": 12, stroke: labelStroke } ) );
 	};
-	
-	this.set.push( graph.arc( [this.cx, this.cy], r - 1.1, 0, 180, { fill: "none", stroke: lineColor } ) );
-	for ( var angle = 0; angle <= 180; angle += 10 ) {
-		this.drawAngle( angle );
-	}
 
 	var pro = this;
 	var setNodes = jQuery.map( this.set, function( el ) { return el.node; } );
 	function makeTranslatable() {
-		// disable drag translation on IE, too slow
-		if ( !graph.raphael.raphael.vml ) {
-			jQuery( setNodes ).css( "cursor", "move" );
+		jQuery( setNodes ).css( "cursor", "move" );
+		
+		jQuery( setNodes ).mousedown( function( event ) {
+			event.preventDefault();
 			
-			jQuery( setNodes ).mousedown( function( event ) {
-				event.preventDefault();
+			var i;
+			//store the starting point for each item in the set
+			for ( i=0; i < pro.set.items.length; i++ ) {
+				var obj = pro.set.items[i];
 				
+				obj.ox = event.pageX;
+				obj.oy = event.pageY;
+
+				obj.animate( { opacity: .25 }, 500, ">" );
+			}
+
+			jQuery(document).mousemove( function( event ) {
 				var i;
-				//store the starting point for each item in the set
-				for ( i=0; i < pro.set.items.length; i++ ) {
-					var obj = pro.set.items[i];
+				//reposition the objects relative to their start position
+				for ( i = 0; i < pro.set.items.length; i++ ) {
+					var obj = pro.set.items[i],
+					trans_x = event.pageX - obj.ox,
+					trans_y = event.pageY - obj.oy;
+					
+					obj.translate( trans_x, trans_y );
 					
 					obj.ox = event.pageX;
 					obj.oy = event.pageY;
-
-					obj.animate( { opacity: .25 }, 500, ">" );
 				}
-
-				jQuery(document).mousemove( function( event ) {
-					var i;
-					//reposition the objects relative to their start position
-					for ( i = 0; i < pro.set.items.length; i++ ) {
-						var obj = pro.set.items[i],
-						trans_x = event.pageX - obj.ox,
-						trans_y = event.pageY - obj.oy;
-						
-						obj.translate( trans_x, trans_y );
-						
-						obj.ox = event.pageX;
-						obj.oy = event.pageY;
-					}
-				});
-
-				jQuery(document).one( "mouseup", function( event ) {
-					var i;
-					//remove the starting point for each of the objects
-					for ( i=0; i < pro.set.items.length; i++ ) {
-						var obj = pro.set.items[i];
-						
-						delete(obj.ox);
-						delete(obj.oy);
-						
-						obj.animate( { opacity: .5 }, 500, ">" );
-						
-						jQuery(document).unbind("mousemove");
-					}
-				});
 			});
-		}
+
+			jQuery(document).one( "mouseup", function( event ) {
+				var i;
+				//remove the starting point for each of the objects
+				for ( i=0; i < pro.set.items.length; i++ ) {
+					var obj = pro.set.items[i];
+					
+					delete(obj.ox);
+					delete(obj.oy);
+					
+					obj.animate( { opacity: .5 }, 500, ">" );
+					
+					jQuery(document).unbind("mousemove");
+				}
+			});
+		});
 
 		pro.translator.translationOn();
 	}
@@ -413,10 +371,10 @@ function Protractor( center, r ) {
 		el.pro = pro;
 	});
 
-	// unscaled center point for working directly with raphael
+	// scaled center point for working directly with raphael
 	this.getCenter = function() {
-		return [this.set[0].attrs.path[0][1] - this.set[0].attrs.path[1][1],
-				this.set[0].attrs.path[0][2]];
+		return [this.set[0].attrs.x + 161,
+				this.set[0].attrs.y + 161];
 	};
 
 	this.rotate = function( offset, absolute ) {
@@ -495,6 +453,38 @@ function Protractor( center, r ) {
 
 	return this;
 }
+
+function analogClock( hour, minute, radius, labelShown ){
+	this.hour = hour;
+	this.minute = minute;
+	this.radius = radius;
+	this.set = KhanUtil.currentGraph.raphael.set();
+
+	this.graph = KhanUtil.currentGraph;
+	this.draw = function(){
+		for( var x = 0; x < 12; x++ ){
+			this.set.push( this.graph.line( [ this.radius *  Math.sin( 2 * Math.PI * x/12  ), this.radius * Math.cos( 2 * Math.PI * x/12 ) ], [ 0.8 * this.radius * Math.sin( 2 * Math.PI * x/12 ), 0.8 * this.radius * Math.cos( 2 * Math.PI * x/12 ) ] ) );
+		}
+
+		this.set.push( this.graph.line( [ 0.45 * this.radius *  Math.sin( 2 * Math.PI * this.hour/12 + ( this.minute / 60 ) / 12 * 2 * Math.PI ), 0.45 * this.radius * Math.cos( 2 * Math.PI * this.hour/12 + ( this.minute / 60 ) / 12  * 2 * Math.PI ) ], [ 0, 0  ] ) );
+
+		this.set.push( this.graph.line( [ 0.6 * this.radius *  Math.sin( ( this.minute / 60 ) * 2 * Math.PI ), 0.6 * this.radius * Math.cos(  ( this.minute / 60 ) * 2 * Math.PI ) ], [ 0, 0  ] ) );
+		this.set.push( this.graph.circle( [ 0, 0 ], this.radius ) );
+		this.set.push( this.graph.circle( [ 0, 0 ], this.radius/ 40 ) );
+		if( labelShown ){
+			this.drawLabels();
+		}
+		return this.set;
+	}
+
+	this.drawLabels = function(){
+		for( var x = 1; x < 13; x++ ){
+			this.set.push( this.graph.label( [ 0.7 * this.radius *  Math.sin( 2 * Math.PI * x/12  ), 0.7 * this.radius * Math.cos( 2 * Math.PI * x/12 ) ], x  ) );
+		}
+		return this.set;
+	}
+}
+
 
 // for line graph intuition
 function updateEquation() {
