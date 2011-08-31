@@ -1,4 +1,26 @@
 var Khan = (function() {
+	// Adapted from a comment on http://mathiasbynens.be/notes/localstorage-pattern
+	var localStorageEnabled = function() {
+		var enabled, uid = +new Date;
+		try {
+			localStorage[ uid ] = uid;
+			enabled = ( localStorage[ uid ] == uid );
+			localStorage.removeItem( uid );
+			return enabled;
+		}
+		catch( e ) {
+			return false;
+		}
+	}();
+
+	if ( !localStorageEnabled ) {
+		jQuery(function() {
+			jQuery( "#warning-bar-content" ).html( "You must enable DOM storage in your browser to see an exercise." );
+			jQuery( "#warning-bar-close" ).hide();
+			jQuery( "#warning-bar" ).show();
+		});
+		return;
+	}
 
 // Prime numbers used for jumping through exercises
 var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
