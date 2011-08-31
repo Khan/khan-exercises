@@ -1410,6 +1410,13 @@ function prepareSite() {
 			}
 		});
 
+	jQuery( "#answer_area" ).delegate( "input.button, select", "keydown", function( e ) {
+		// Don't want to go back to exercise dashboard; just do nothing on backspace
+		if ( e.keyCode === 8 ) {
+			return false;
+		}
+	} );
+
 	// Prepare for the tester info if requested
 	if ( testMode && Khan.query.test != null ) {
 		jQuery( "#answer_area" ).prepend(
