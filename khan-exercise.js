@@ -231,7 +231,13 @@ var Khan = {
 			// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704\n\
 			// We can force it to convert HTML entities properly by saying we're Konqueror\n\
 			MathJax.Hub.Browser.isKonqueror = true;\
+			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - using image fonts\",function () {\
+				Khan.warnFont();\
+			});\
 			\
+			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - no valid font\",function () {\
+				Khan.warnFont();\
+			});\
 			// Trying to monkey-patch MathJax.Message.Init to not throw errors\n\
 			MathJax.Message.Init = (function( oldInit ) {\
 				return function( styles ) {\
@@ -263,6 +269,10 @@ var Khan = {
 		"polynomials": [ "math", "expressions" ],
 		"stat": [ "math" ],
 		"word-problems": [ "math" ]
+	},
+
+	warnFont: function() {
+		jQuery( "#warning-bar" ).fadeIn( "fast" );
 	},
 
 	require: function( mods ) {
@@ -1333,6 +1343,11 @@ function prepareSite() {
 			examples.slideToggle( 190 );
 			exampleLink.data( "show", !show );
 		}).trigger( "click" );
+
+	jQuery( "#warning-bar-close a").click( function( e ) {
+		e.preventDefault();
+		jQuery( "#warning-bar" ).fadeOut( "slow" );
+	});
 
 	jQuery( "#scratchpad-show" ).data( "show", true )
 		.click( function( e ) {

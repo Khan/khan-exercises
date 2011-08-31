@@ -33,6 +33,42 @@
 <div id="exercise-message-container" style="display: none;">
 	<div class="exercise_message"></div>
 </div>
+<style type="text/css">
+	#warning-bar {
+	    background: red;
+	    width: 100%;
+	    height: 35px;
+	    text-align: center;
+	    color: #eee;
+	    font-size: 15px;
+		display: none;
+	}
+
+	#warning-bar span {
+		position: relative;
+		top: 5px;
+	}
+
+	#warning-bar-close {
+		top: 5px;
+		float: right;
+		right: 20px;
+		position: relative;
+	}
+
+	#warning-bar a {
+	    color: #eee;
+	}
+	
+	#warning-bar-content a {
+		color: #eee;
+		text-decoration: underline;
+	}
+</style>
+<div id="warning-bar">
+	<span id="warning-bar-content">You should <a href="">enable web fonts</a> to improve the appearance of math expressions.</span>
+	<span id="warning-bar-close">(<a href="">close</a>)</span>
+</div>
 <div id="extras" class="single-exercise">
 	<div id="back-to-dashboard-link" class="single-exercise">
 		<a href="/exercisedashboard?k" title="Back to Dashboard">&laquo; Back to Dashboard</a>
