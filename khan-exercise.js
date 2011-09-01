@@ -294,7 +294,9 @@ var Khan = {
 	},
 
 	warnFont: function() {
-		jQuery( "#warning-bar" ).fadeIn( "fast" );
+		if ( jQuery.browser.msie ) {
+			jQuery( "#warning-bar" ).fadeIn( "fast" );
+		}
 	},
 
 	require: function( mods ) {
