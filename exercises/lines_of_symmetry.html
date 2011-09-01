@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Squares and rectangles</title>
+	<script src="../khan-exercise.js"></script>
+
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div>
+			<div class="vars">
+				<var id="SIDES">randRange(3, 8)</var>
+				<var id="LINES">[]</var>
+				<var id="POSS_ANSWER">[ "A", "B", "C", "D"]</var>
+				<var id="ANSWER">randFromArray( POSS_ANSWER )</var>
+			</div>
+
+			<div class="question">
+				<div class="graphie">
+					scale = 2.5;
+					init({
+						 range: [ [-3, 22], [-5, 1] ]
+					});
+					regularPolygon( [ 2, -2 ] , SIDES , scale );
+					var i = 0;
+					var shift = PI / 6;
+					shift = 0;
+					var xmove = 2;
+					var ymove = -2; 
+					for( j = 0; j !=  POSS_ANSWER.length; j++) {
+
+						i = randRange( 0, SIDES );
+						if( POSS_ANSWER[ j ] === ANSWER ){
+							line( [ xmove - cos( PI * i * 1/SIDES + shift) * ( scale + 5.4 ),  ymove - sin( PI * i * 1/SIDES + shift) * ( scale + 5.4 ) ],  [ ( scale + 5.5 ) * cos( PI * i * 1/SIDES +  shift ) + xmove, ( scale + 5.6 ) * sin( PI * i * 1/SIDES + shift ) + ymove ] );
+						}
+						else{
+							var fakeXmove = xmove + rand( 200 )/100 - 1;
+							var fakeYmove = ymove + rand( 200 )/100 - 1;
+							var rotate =  rand( 200 )/100 - 1;
+							i += rotate;	
+							line( [ fakeXmove - cos( PI * i * 1/SIDES + shift) * ( scale + 5.4 ),  fakeYmove - sin( PI * i * 1/SIDES + shift) * ( scale + 5.4 ) ],  [ ( scale + 5.5 ) * cos( PI * i * 1/SIDES +  shift ) + fakeXmove, ( scale + 5.6 ) * sin( PI * i * 1/SIDES + shift ) + fakeYmove ] );
+						}
+					}
+
+
+				</div>
+			</div>
+
+			<div class="solution"><var>S * S</var></div>
+
+			<div class="hints">
+			</div>
+		</div>
+
+
+	</div>
+	</div>
+</body>
+</html>

@@ -13,7 +13,7 @@
 						var points = [];
 
 						while( points.length &lt; 5 ) {
-							var point = [ randRange( -9, 9 ), randRange( -9, 9 ) ];
+							var point = [ randRange( -9, 9 ), randRangeExclude( -9, 9, [-1] ) ];
 							var isUnique = true;
 							jQuery.each( points, function( index, pt ) {
 								if ( point[0] === pt[0] && point[1] === pt[1] ) {
