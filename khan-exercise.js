@@ -1,4 +1,14 @@
 var Khan = (function() {
+	function warn( message, showClose ) {
+		jQuery( "#warning-bar-content" ).html( message );
+		if ( showClose ) {
+			jQuery( "#warning-bar-close" ).show();
+		} else {
+			jQuery( "#warning-bar-close" ).hide();
+		}
+		jQuery( "#warning-bar" ).fadeIn( "fast" );
+	}
+
 	// Adapted from a comment on http://mathiasbynens.be/notes/localstorage-pattern
 	var localStorageEnabled = function() {
 		var enabled, uid = +new Date;
@@ -14,11 +24,7 @@ var Khan = (function() {
 	}();
 
 	if ( !localStorageEnabled ) {
-		jQuery(function() {
-			jQuery( "#warning-bar-content" ).html( "You must enable DOM storage in your browser to see an exercise." );
-			jQuery( "#warning-bar-close" ).hide();
-			jQuery( "#warning-bar" ).show();
-		});
+		warn( "You must enable DOM storage in your browser to see an exercise.", false );
 		return;
 	}
 
@@ -253,11 +259,19 @@ var Khan = {
 			// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704\n\
 			// We can force it to convert HTML entities properly by saying we're Konqueror\n\
 			MathJax.Hub.Browser.isKonqueror = true;\
-			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - using image fonts\",function () {\
+			MathJax.Ajax.timeout = 60 * 1000;\
+			MathJax.Ajax.loadError = (function( oldLoadError ) {\
+				return function( file ) {\
+					Khan.warnTimeout();\
+					// Otherwise will receive unresponsive script error when finally finish loading \n\
+					MathJax.Ajax.loadComplete = function( file ) { };\
+					oldLoadError.call( this, file );\
+				};\
+			})( MathJax.Ajax.loadError );\
+			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - using image fonts\", function() {\
 				Khan.warnFont();\
 			});\
-			\
-			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - no valid font\",function () {\
+			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - no valid font\", function() {\
 				Khan.warnFont();\
 			});\
 			// Trying to monkey-patch MathJax.Message.Init to not throw errors\n\
@@ -292,10 +306,21 @@ var Khan = {
 		"stat": [ "math" ],
 		"word-problems": [ "math" ]
 	},
+	warnTimeout: function() {
+		warn( 'Your internet might be too slow to see an exercise. Refresh the page '
+			+ 'or <a href="" id="warn-report">report a problem</a>.', false );
+		jQuery( "#warn-report" ).click( function( e ) {
+			e.preventDefault();
+			jQuery( "#report" ).click();
+		});
+	},
 
 	warnFont: function() {
 		if ( jQuery.browser.msie ) {
-			jQuery( "#warning-bar" ).fadeIn( "fast" );
+			warn( 'You should '
+				+ '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/" '
+				+ 'target="_blank">enable font download</a> to improve the appearance of math expressions.',
+				true );
 		}
 	},
 
@@ -1225,10 +1250,13 @@ function prepareSite() {
 				+ "?seed=" + problemSeed
 				+ "&problem=" + problemID,
 			agent = navigator.userAgent,
-			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT " : "" ) + "loaded",
-			localStorageInfo = "localStorage is " + ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "NOT " : "" ) + "enabled",
+			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" :
+				( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),
+			localStorageInfo = "localStorage is "
+				+ ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "NOT " : "" ) + "enabled",
+			warningInfo = jQuery( "#warning-bar-content" ).text(),
 			body = ( email ? [ "Reporter: " + email ] : [] )
-				.concat( [ jQuery( "#issue-body" ).val(), path, agent, localStorageInfo, mathjaxInfo ] )
+				.concat( [ jQuery( "#issue-body" ).val(), path, agent, localStorageInfo, mathjaxInfo, warningInfo ] )
 				.join( "\n\n" );
 
 		// flagging of browsers/os for issue labels. very primitive, but
