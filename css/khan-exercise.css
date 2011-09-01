@@ -192,6 +192,7 @@ div.timeline-total {
 
 .user-activity.activated {
   border: 2px solid #888;
+}
 
 #warning-bar {
     background: red;
