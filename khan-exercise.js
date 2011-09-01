@@ -14,11 +14,13 @@ var Khan = (function() {
 	}();
 
 	if ( !localStorageEnabled ) {
-		jQuery(function() {
-			jQuery( "#warning-bar-content" ).html( "You must enable DOM storage in your browser to see an exercise." );
-			jQuery( "#warning-bar-close" ).hide();
-			jQuery( "#warning-bar" ).show();
-		});
+		if ( typeof jQuery !== "undefined" ) {
+			jQuery(function() {
+				jQuery( "#warning-bar-content" ).html( "You must enable DOM storage in your browser to see an exercise." );
+				jQuery( "#warning-bar-close" ).hide();
+				jQuery( "#warning-bar" ).show();
+			});
+		}
 		return;
 	}
 
