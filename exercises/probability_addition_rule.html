@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html data-require="math math-format probability word-problems stat">
+<head>
+	<meta charset="UTF-8" />
+	<title>Addition Rule of Probability</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function optionalNegation(input, shouldNegate) {
+			return (shouldNegate ? (!input) : input);
+		}
+		function computeSolution( colorCounts1, colorCounts2, ansObj, ansColor, isOr, isNot ) {
+			var denominator = KhanUtil.sum(colorCounts1) + KhanUtil.sum(colorCounts2); 
+			var numerator = 0;
+			if ( isOr ){
+				numerator = KhanUtil.sum(ansObj ? colorCounts1 : colorCounts2);
+				colorCounts = (!ansObj) ? colorCounts1 : colorCounts2;
+				for (i=0; i< colorCounts.length; i++) {
+			    	if ( optionalNegation(i===ansColor, isNot) )
+			    		numerator += colorCounts[i];
+			    }
+			} else {
+				colorCounts = ansObj ? colorCounts1 : colorCounts2;
+				for (i=0; i< colorCounts.length; i++) {
+			    	if ( optionalNegation(i===ansColor, isNot) )
+			    		numerator += colorCounts[i];
+			    }
+			}
+			return numerator / denominator;
+		}
+		function enFunc(innerString, usePercentages) {
+    		if (usePercentages)
+    			return "<code>P(</code>" + innerString + "<code>)</code>";
+			else 
+    			return "<code>|</code>" + innerString + "<code>|</code>";
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div>
+			<div class="vars">
+				<var id="CONTAINER">randFromArray(["bag", "jar", "box", "cup"])</var>
+				<var id="OBJECT1">randFromArray(["marble", "ball", "jelly bean"])</var>
+				<var id="OBJECT2" data-ensure="OBJECT1 !== OBJECT2">randFromArray(["marble", "ball", "jelly bean"])</var>
+				<var id="ANSOBJ">rand(2)</var>
+				<var id="COLORNAMES">["red", "blue", "yellow", "green"]</var>
+				<var id="NUMCOLORS">randRange(2, 3)</var>
+				<var id="COLORS">randRangeUnique(0,COLORNAMES.length,NUMCOLORS)</var>
+				<var id="COLORCOUNTS1">randRange(3, 11, NUMCOLORS)</var>				
+				<var id="COLORCOUNTS2">randRange(3, 11, NUMCOLORS)</var>				
+				<var id="ANSCOLOR">rand(NUMCOLORS)</var>
+				<var id="NOT">rand(2) == 0</var>
+				<var id="CONJUCTION, ISOR">randFromArray([["or", true], ["and", false]])</var>
+				<var id="ANSWER"> computeSolution(COLORCOUNTS1, COLORCOUNTS2, ANSOBJ, ANSCOLOR, ISOR, NOT) </var> 
+			</div>
+
+			<div class="question">
+				<p>A <var>CONTAINER</var> contains:
+				<div> <code><var>COLORCOUNTS1[0]</var></code> <var>COLORNAMES[COLORS[0]]</var> <var>OBJECT1</var>s, </div>
+				<div> <code><var>COLORCOUNTS1[1]</var></code> <var>COLORNAMES[COLORS[1]]</var> <var>OBJECT1</var>s, </div>
+				<div data-if="NUMCOLORS===3"> <code><var>COLORCOUNTS1[2]</var></code> <var>COLORNAMES[COLORS[2]]</var> <var>OBJECT1</var>s, </div>
+				<div> <code><var>COLORCOUNTS2[0]</var></code> <var>COLORNAMES[COLORS[0]]</var> <var>OBJECT2</var>s, </div>
+				<div> <code><var>COLORCOUNTS2[1]</var></code> <var>COLORNAMES[COLORS[1]]</var> <var>OBJECT2</var>s, </div>
+				<div data-if="NUMCOLORS===3"> <code><var>COLORCOUNTS2[2]</var></code> <var>COLORNAMES[COLORS[2]]</var> <var>OBJECT2</var>s, </div>
+				</p>
+
+				<p>If one object is randombly chosen from the <var>CONTAINER</var>, what is the probability
+				that it is a <var>ANSOBJ ? OBJECT1 : OBJECT2 </var> <var>CONJUCTION</var> it is <em data-if="NOT">not</em> <var>COLORNAMES[COLORS[ANSCOLOR]]</var>? Write your answer as a simplified fraction.
+				</p>
+			</div>
+
+			<div class="solution"><var>ANSWER</var></div>
+			<div class="hints">
+			</div>
+		</div>
+
+		<div>
+			<div class="vars">
+				<var id="VARINDX_X, VARINDX_Y, VARINDX_X_OR_Y, VARINDX_X_AND_Y">[0, 1, 2, 3]</var>
+				<var id="INTRO, VARDESC, QSTNPRETEXT, QSTNPOSTTEXT, USEPERCENTAGES">				
+					<!-- Put each question in the following structure: [INTRO, [X DESC, Y DESC, X_OR_Y DESC, X_AND_Y DESC], QSTNPRETEXT, QSTNPOSTTEXT, USEPERCENTAGES] -->
+					randFromArray([
+						["A local store ran a sale on two items, a watch and a shirt.   ", ["customers bought a watch", "customers bought a shirt", "customers bought a watch or a shirt", "customers bought a watch and a shirt"], "How many ", "?", false],
+						["A study group at a nearby high school has ", ["sophomores", "girls", "students that are a sophomore or a girl", "sophomore girls"], "How many ", " are there at the school?", false],
+						["In a sample of patients, ", ["male", "colorblind", "male or colorblind", "colorblind males"], "What percentage of the patients are ", "?", true],
+						["Of all the houses in a town, ", ["white", "air conditioned", "white or air conditioned", "white and air conditioned"], "What percentage of the houses are ", "?", true],
+					])
+				</var>
+                <!-- Randomize the order the variables (X, Y, X_OR_Y, X_AND_Y) are written in the question -->
+                <var id=ORDER>shuffle( [0,1,2,3] )</var>
+                <!-- Assign values to each variable, subject to constraints so all counts are > 1 and no counts are negative -->
+    			<var id=VARVALS>
+    				(function (usePercentages) { 
+    					var rangemin = usePercentages ? 1 : 2;
+    					var rangemax = usePercentages ? 100 : 10; 
+    					var vals = [0, 0, 0, 0]; 
+    					vals[VARINDX_X] = randRange(rangemin,rangemax); 
+    					vals[VARINDX_Y] = randRange(rangemin,rangemax);
+    					vals[VARINDX_X_AND_Y] = randRange( max(rangemin, vals[VARINDX_X]+vals[VARINDX_Y]-100), min(vals[VARINDX_X], vals[VARINDX_Y]) );
+    					vals[VARINDX_X_OR_Y] = vals[VARINDX_X] + vals[VARINDX_Y] - vals[VARINDX_X_AND_Y];
+    					return vals;
+    				} ) (USEPERCENTAGES)
+    			</var> 
+    			<var id="QUESTIONTEXT">
+    				(function () { 
+						var optionalPercentage = USEPERCENTAGES ? "% are " : " ";  
+    					var qstn = INTRO;
+  						for (var i=0; i< ORDER.length-1; i++) {
+							qstn += (i===ORDER.length-2) ? " and " : "";
+							qstn += VARVALS[ORDER[i]] + optionalPercentage + VARDESC[ORDER[i]];
+							qstn += (i< ORDER.length-2) ? ", " : ".  ";
+    					}  
+    					qstn += QSTNPRETEXT + VARDESC[ORDER[ORDER.length-1]] + QSTNPOSTTEXT;
+    					return qstn;
+    				} ) ()
+    			</var> 
+    			<!-- this just passes the call to plain JS to avoid problems with unescaped HTML in the function body, while still giving access to vars -->
+    			<var id="ENFUNC"> function (innerString) { return enFunc(innerString, USEPERCENTAGES); } </var>
+   			
+			</div>
+			<div class="question"><p><var>QUESTIONTEXT</var></p></div>
+			<div class="solution"><var>VARVALS[ORDER[ORDER.length-1]]</var></div>
+			<div class="hints">
+				<p>Remember the addition rule of probability: <code>P(A\cup B) = P(A) + P(B) - P(A\cap B)</code></p>
+				<p data-if="USEPERCENTAGES===false">Because the denominator of the fraction for each probability is the same, for convenience we can also just use cardinality (the number of items in each category) instead of probability:  <code>|A\cup B| = |A|+ |B| - |A\cap B|</code></p> 
+
+				<!-- substitute english descriptions for variables -->
+				<p>Substituting variables, <var>ENFUNC(VARDESC[2])</var> = <var>ENFUNC(VARDESC[0])</var> + <var>ENFUNC(VARDESC[1])</var> - <var>ENFUNC(VARDESC[3])</var></p>
+
+				<!-- rearrange the unknown to the left hand side IF it wasn't already -->
+				<p data-if="ORDER[ORDER.length-1]===0">Rearranging, <var>ENFUNC(VARDESC[0])</var> = <var>ENFUNC(VARDESC[3])</var> + <var>ENFUNC(VARDESC[2])</var> - <var>ENFUNC(VARDESC[1])</var></p> 
+				<p data-if="ORDER[ORDER.length-1]===1">Rearranging, <var>ENFUNC(VARDESC[1])</var> = <var>ENFUNC(VARDESC[3])</var> + <var>ENFUNC(VARDESC[2])</var> - <var>ENFUNC(VARDESC[0])</var></p>   
+				<p data-if="ORDER[ORDER.length-1]===3">Rearranging, <var>ENFUNC(VARDESC[3])</var> = <var>ENFUNC(VARDESC[0])</var> + <var>ENFUNC(VARDESC[1])</var> - <var>ENFUNC(VARDESC[2])</var></p> 
+
+				<!-- substitue vals for vars on RHS -->
+				<p data-if="ORDER[ORDER.length-1]===0"><var>ENFUNC(VARDESC[0])</var> = <code><var>VARVALS[3]</var> + <var>VARVALS[2]</var> - <var>VARVALS[1]</var></code>  
+				<p data-if="ORDER[ORDER.length-1]===1"><var>ENFUNC(VARDESC[1])</var> = <code><var>VARVALS[3]</var> + <var>VARVALS[2]</var> - <var>VARVALS[0]</var></code>  
+				<p data-if="ORDER[ORDER.length-1]===2"><var>ENFUNC(VARDESC[2])</var> = <code><var>VARVALS[0]</var> + <var>VARVALS[1]</var> - <var>VARVALS[3]</var></code>  
+				<p data-if="ORDER[ORDER.length-1]===3"><var>ENFUNC(VARDESC[3])</var> = <code><var>VARVALS[0]</var> + <var>VARVALS[1]</var> - <var>VARVALS[2]</var></code>  
+
+				<!-- give the final answer -->
+				<p data-if="ORDER[ORDER.length-1]===0"><var>ENFUNC(VARDESC[0])</var> = <code><var>VARVALS[3] + VARVALS[2] - VARVALS[1]</var></code>  
+				<p data-if="ORDER[ORDER.length-1]===1"><var>ENFUNC(VARDESC[1])</var> = <code><var>VARVALS[3] + VARVALS[2] - VARVALS[0]</var></code>  
+				<p data-if="ORDER[ORDER.length-1]===2"><var>ENFUNC(VARDESC[2])</var> = <code><var>VARVALS[0] + VARVALS[1] - VARVALS[3]</var></code>  
+				<p data-if="ORDER[ORDER.length-1]===3"><var>ENFUNC(VARDESC[3])</var> = <code><var>VARVALS[0] + VARVALS[1] - VARVALS[2]</var></code>  
+			</div>
+		</div>		
+
+	</div>
+	</div>
+</body>
+</html>
+			
+				
