@@ -1221,15 +1221,18 @@ function prepareSite() {
 		var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text(),
 			title = jQuery( "#issue-title" ).val(),
 			email = jQuery( "#issue-email" ).val(),
-			path = ( Khan.query.exid || exerciseName ) + ".html"
+			path = exerciseName + ".html"
 				+ "?seed=" + problemSeed
-				+ "&problem=" + problemID,
+				+ "&problem=" + problemID
+				+ ( exercise.data( "name" ) != null && exercise.data( "name" ) !== exerciseName ? " (" + exercise.data( "name" ) + ")" : "" ),
 			agent = navigator.userAgent,
-			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT " : "" ) + "loaded",
-			localStorageInfo = "localStorage is " + ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "NOT " : "" ) + "enabled",
-			body = ( email ? [ "Reporter: " + email ] : [] )
-				.concat( [ jQuery( "#issue-body" ).val(), path, agent, localStorageInfo, mathjaxInfo ] )
-				.join( "\n\n" );
+			mathjaxInfo = ( typeof MathJax === "undefined" ? "MathJax is NOT loaded" : null ),
+			localStorageInfo = ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "localStorage is NOT loaded" : null ),
+			parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, path, agent, localStorageInfo, mathjaxInfo ],
+			body = jQuery.grep( parts, function( e ) { return e != null; } ).join( "\n\n" );
+
+		alert( body );
+		return;
 
 		// flagging of browsers/os for issue labels. very primitive, but
 		// hopefully sufficient.
