@@ -795,24 +795,27 @@ function makeProblem( id, seed, redraw ) {
 		var timelineEvents, timeline;
 
 		var timelinecontainer = jQuery( "<div id='timelinecontainer'>" )
-			.append( "<div id='previous-problem'><span class='pushdown'>Previous Problem</span></div>" )
-			.append( "<div id='previous-step'><span class='pushdown'>Previous Step</span></div>" )
+			.append( "<div>\
+			            <div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
+			            <div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\
+			          </div>" )
 			.insertBefore( "#extras" );
 
 		timeline = jQuery( "<div id='timeline'>" ).appendTo( timelinecontainer );
 		timelineEvents = jQuery( "<div id='timeline-events'>" ).appendTo( timeline );
 
 		timelinecontainer
-			.append( "<div id='next-step'><span class='pushdown'>Next Step</span></div>" )
-			.append( "<div id='next-problem'><span class='pushdown'>Next Problem</span></div>" );
+			.append( "<div>\
+			            <div id='next-problem' class='simple-button action-gradient'>Next Problem</div>\
+			            <div id='next-step' class='simple-button action-gradient'><span>Next Step</span></div>\
+			          </div>" );
 
 		jQuery( "<div class='user-activity correct-activity'>Started</div>" )
 			.data( 'hint', false )
 			.appendTo( timelineEvents );
 
 		var hintNumber = 0,
-		    answerNumber = 1,
-		    totalTime = 0;
+		    answerNumber = 1;
 	
 		/* value[0]: css class
 		 * value[1]: guess
@@ -821,8 +824,6 @@ function makeProblem( id, seed, redraw ) {
 		jQuery.each(userExercise.user_activity, function(index, value) {
 			var guess = value[1] === "Activity Unavailable" ? value[1] : JSON.parse( value[1] ),
 			    thissolutionarea;
-
-			totalTime += value[2];
 
 			timelineEvents
 				.append( "<div class='timeline-time'>" + value[2] + "s</div>" );
@@ -849,8 +850,17 @@ function makeProblem( id, seed, redraw ) {
 						   </p>" ).tmpl()
 						);
 					} else {
-						Khan.answerTypes[answerType]( thissolutionarea, solution )
+						var thisValidator = Khan.answerTypes[answerType]( thissolutionarea, solution );
+            thisValidator
 							.showGuess( guess );
+
+            if (thisValidator()) {
+              // If the user didn't get the problem right on the first try, all
+              // answers are labelled incorrect by default
+              thissolutionarea
+                .removeClass( 'incorrect-activity' )
+                .addClass( 'correct-activity' )
+            }
 					}
 
 					thissolutionarea
@@ -864,7 +874,7 @@ function makeProblem( id, seed, redraw ) {
 			}
 		});
 
-		var states = timelineEvents.children(".user-activity"),
+		var states = timelineEvents.children( ".user-activity" ),
 		    currentSlide = 0,
 		    numSlides = states.length,
 		    currentHint = 0,
@@ -879,13 +889,50 @@ function makeProblem( id, seed, redraw ) {
 		    hintRemainder = jQuery( '#hint-remainder' );
 		    timelineMiddle = timeline.width() / 2;
 
-		states.first().addClass("activated");
-
 		jQuery.fx.interval = 25;
+
+		jQuery.fn.scrubber = function() {
+			var scrubber1 = jQuery('#scrubber1'),
+					scrubber2 = jQuery('#scrubber2');
+
+			scrubber1 = scrubber1.length ? scrubber1 : jQuery("<div id='scrubber1'>").appendTo(document.body);
+			scrubber2 = scrubber2.length ? scrubber2 : jQuery("<div id='scrubber2'>").appendTo(document.body);
+
+			var timeline = jQuery('#timeline');
+
+			// triangle top of scrubber
+			scrubber1.css( {
+				display: 'block',
+				width: '0',
+				height: '0',
+				'border-left': '6px solid transparent',
+				'border-right': '6px solid transparent',
+				'border-bottom': '6px solid #888',
+				position: 'absolute',
+				top: (timeline.offset().top + timeline.height() - 6) + 'px',
+				left: (this.offset().left + this.width()/2) + 'px',
+				bottom: '0'
+			} );
+
+			// rectangle bottom of scrubber
+			scrubber2.css( {
+				display: 'block',
+				width: '0',
+				height: '0',
+				'border-bottom': '6px solid #888',
+				'border-left': '6px solid #888',
+				'border-right': '6px solid #888',
+				position: 'absolute',
+				top: (scrubber1.offset().top + 7) + 'px',
+				left: scrubber1.offset().left + 'px',
+			} );
+
+			return this;
+		}
 
 		var activate = function( slideNum ) {
 			var hint, hintNum,
-			    thisSlide = states.eq( slideNum ).addClass( "activated" ),
+			    thisSlide = states.eq( slideNum ),
 			    previousHintIndex = false;
 
 			if (slideNum > 0 && slideNum < currentSlide) {
@@ -929,11 +976,14 @@ function makeProblem( id, seed, redraw ) {
 					// Append first so MathJax can sense the surrounding CSS context properly
 					var thisHint = jQuery( hint ).appendTo( hintsArea ).runModules( problem );
 
+					/*
+					// Disabled for now because it was causing errors
 					if (index === hintNum && currentSlide < previousHintIndex) {
 						thisHint
 							.animate( { backgroundColor: "#ffffcc" }, 1 )
 							.animate( { backgroundColor: "#ffffff" }, 150 );
 					}
+					*/
 				}
 			});
 
@@ -943,13 +993,13 @@ function makeProblem( id, seed, redraw ) {
 			    offset = timelineMiddle - itemMiddle,
 			    currentScroll = timeline.scrollLeft(),
 			    timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
-			    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25 );
+			    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 30 );
 
 			timeline.animate({
 				scrollLeft: scroll
-				//scrollLeft: (scroll > 0 ? '-=' : '+=') + Math.abs( scroll )
-				// scrollLeft: (offset > 0 ? '-=' : '+=') + Math.abs( offset )
-			}, 150);
+			}, 150, function() {
+				thisSlide.scrubber();
+			});
 
 			// If there is a guess we show it as if it was filled in by the user
 			// If there is no guess (like for a hint) this makes the answer box empty
@@ -963,8 +1013,6 @@ function makeProblem( id, seed, redraw ) {
 			}
 
 			var newSlide = currentSlide;
-
-			states.eq( currentSlide ).removeClass( "activated" );
 
 			if (event.keyCode === 37) { // left
 				newSlide -= 1;
@@ -991,8 +1039,6 @@ function makeProblem( id, seed, redraw ) {
 			var index = $(this).index("#timeline .user-activity"),
 			    newSlide = index;
 
-			states.eq( currentSlide ).removeClass( "activated" );
-
 			activate( newSlide );
 			currentSlide = newSlide;
 
@@ -1001,7 +1047,6 @@ function makeProblem( id, seed, redraw ) {
 
 		jQuery( '#previous-step' ).click(function(event) {
 			if (currentSlide > 0) {
-				states.eq( currentSlide ).removeClass( "activated" );
 				activate( currentSlide - 1 );
 				currentSlide -= 1;
 			}
@@ -1011,7 +1056,6 @@ function makeProblem( id, seed, redraw ) {
 
 		jQuery( '#next-step' ).click(function(event) {
 			if (currentSlide < numSlides-1) {
-				states.eq( currentSlide ).removeClass( "activated" );
 				activate( currentSlide + 1 );
 				currentSlide += 1;
 			}
@@ -1030,7 +1074,6 @@ function makeProblem( id, seed, redraw ) {
 
 		// focus on the first slide
 		activate( currentSlide );
-		// timeline.append( "<div class='timeline-total'>" + totalTime + "s total</div>" );
 	}
 
 	// Show the debug info
@@ -1165,19 +1208,14 @@ function prepareSite() {
 	function handleSubmit( e ) {
 		var pass = validator();
 
-		// Stop if the user didn't enter a response
-		// If multiple-answer, join all responses and check if that's empty
-		if ( jQuery.trim( validator.guess ) === "" ||
-			 ( validator.guess instanceof Array && jQuery.trim( validator.guess.join( "" ) ) === "" ) ) {
-			return false;
-		}
-
 		// We are submitting either an answer or a hint
 		var isAnswer = e.data.type === "answer";
 
 		if (isAnswer) {
 			// Stop if the user didn't enter a response
-			if ( jQuery.trim( validator.guess ) === "" ) {
+			// If multiple-answer, join all responses and check if that's empty
+			if ( jQuery.trim( validator.guess ) === "" ||
+				 ( validator.guess instanceof Array && jQuery.trim( validator.guess.join( "" ) ) === "" ) ) {
 				return false;
 			}
 

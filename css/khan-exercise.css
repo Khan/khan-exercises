@@ -73,15 +73,15 @@ var, div.graphie { white-space: pre; }
 .exp input { vertical-align: super; font-size: 9px; height: 11px; }
 
 .correct-activity {
-  background-color: #b0ffad;
+  background-color: #69bb00;
 }
 
 .incorrect-activity, .unavailable-activity {
-  background-color: #f5a68c;
+  background-color: #e12c2d;
 }
 
 .hint-activity {
-  background-color: #ffffad;
+  background-color: #f19726;
 }
 
 .user-activity {
@@ -96,17 +96,23 @@ var, div.graphie { white-space: pre; }
   height: 25px;
 }
 
-.user-activity.activated {
-  box-shadow: 0 0 0.5em 0.5em gray;
+.user-activity input {
+  cursor: pointer;
 }
 
 div.timeline-time {
   float: left;
-  margin-left: 0;
-  height: 0;
-  position: relative;
-  top: 45px;
-  left: -10px;
+  padding-top: 10px;
+}
+
+div.timeline-time:before {
+  padding: 3px;
+  content: "~";
+}
+
+div.timeline-time:after {
+  padding: 3px;
+  content: "~";
 }
 
 div.timeline-total {
@@ -114,8 +120,8 @@ div.timeline-total {
 }
 
 #timelinecontainer {
-  height: 75px;
-  border: 1px solid #ccc;
+  height: 45px;
+  border: 1px solid #c6d1ad;
   border-top: 0px;
   position: relative;
 }
@@ -123,9 +129,11 @@ div.timeline-total {
 #timeline {
   overflow: hidden;
   position: absolute;
-  left: 200px;
-  right: 200px;
-  height: 75px;
+  left: 265px;
+  right: 225px;
+  height: 45px;
+  border-left: 1px solid #c6d1ad;
+  border-right: 1px solid #c6d1ad;
 }
 
 #timeline-events {
@@ -146,53 +154,42 @@ div.timeline-total {
 
 #previous-problem {
   margin: 5px;
-  background: url(/images/previous-problem.png) no-repeat 19px 10px;
-  width: 90px;
-  height: 65px;
-  position: absolute;
-  left: 0;
   cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  float: left;
+  width: 100px;
 }
 
 #previous-step {
   margin: 5px;
-  background: url(/images/previous-step.png) no-repeat 30px 10px;
-  width: 90px;
-  height: 65px;
-  position: absolute;
-  left: 100px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
   cursor: pointer;
+  float: left;
+  width: 100px;
 }
 
 #next-step {
   margin: 5px;
-  background: url(/images/next-step.png) no-repeat 34px 10px;
-  width: 90px;
-  height: 65px;
-  position: absolute;
-  right: 100px;
   cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  float: right;
+  width: 80px;
+}
+
+#previous-step span {
+  background: url(/images/previous-step.png) no-repeat 0 50% transparent;
+  padding: 4px 0 4px 25px;
+}
+
+#next-step span {
+  background: url(/images/next-step.png) no-repeat 100% 50% transparent;
+  padding: 4px 25px 4px 0;
 }
 
 #next-problem {
   margin: 5px;
-  background: url(/images/next-problem.png) no-repeat 23px 10px;
-  width: 90px;
-  height: 65px;
-  position: absolute;
-  right: 0;
   cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  float: right;
+  width: 80px;
 }
 
-.pushdown {
-  position: absolute;
-  top: 45px;
+.user-activity.activated {
+  border: 2px solid #888;
 }
