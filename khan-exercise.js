@@ -1253,24 +1253,12 @@ function prepareSite() {
 				+ "&problem=" + problemID
 				+ ( exercise.data( "name" ) != null && exercise.data( "name" ) !== exerciseName ? " (" + exercise.data( "name" ) + ")" : "" ),
 			agent = navigator.userAgent,
-<<<<<<< HEAD
 			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" :
 				( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),
-			localStorageInfo = "localStorage is "
-				+ ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "NOT " : "" ) + "enabled",
+			localStorageInfo = ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "localStorage NOT enabled" : null ),
 			warningInfo = jQuery( "#warning-bar-content" ).text(),
-			body = ( email ? [ "Reporter: " + email ] : [] )
-				.concat( [ jQuery( "#issue-body" ).val(), path, agent, localStorageInfo, mathjaxInfo, warningInfo ] )
-				.join( "\n\n" );
-=======
-			mathjaxInfo = ( typeof MathJax === "undefined" ? "MathJax is NOT loaded" : null ),
-			localStorageInfo = ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "localStorage is NOT loaded" : null ),
 			parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, path, agent, localStorageInfo, mathjaxInfo ],
 			body = jQuery.grep( parts, function( e ) { return e != null; } ).join( "\n\n" );
-
-		alert( body );
-		return;
->>>>>>> a39cd8326a991d0384fadb9e908eac114c833608
 
 		// flagging of browsers/os for issue labels. very primitive, but
 		// hopefully sufficient.
