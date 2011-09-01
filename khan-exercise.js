@@ -1248,8 +1248,10 @@ function prepareSite() {
 				+ "?seed=" + problemSeed
 				+ "&problem=" + problemID,
 			agent = navigator.userAgent,
-			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" : ( MathJax.isReady ? "ready" : "NOT ready") ),
-			localStorageInfo = "localStorage is " + ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "NOT " : "" ) + "enabled",
+			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" :
+				( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),
+			localStorageInfo = "localStorage is "
+				+ ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "NOT " : "" ) + "enabled",
 			warningInfo = jQuery( "#warning-bar-content" ).text(),
 			body = ( email ? [ "Reporter: " + email ] : [] )
 				.concat( [ jQuery( "#issue-body" ).val(), path, agent, localStorageInfo, mathjaxInfo, warningInfo ] )
