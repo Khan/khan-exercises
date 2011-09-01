@@ -14,9 +14,6 @@ function Scratchpad( elem ){
 		pad.setSize( container.width(), container.height() );
 	};
 
-	// Needed to catch events on old Safari (and IE7, though it's not supported)
-	var canvas = pad.rect(40, 0, container.width() - 40, container.height()).attr({stroke: "", fill: "#ffffff", opacity: "0"});
-
 	$('body').bind('selectstart', function(e) {
 		return false;
 	});
@@ -212,6 +209,7 @@ function Scratchpad( elem ){
 	}
 
 	function mousemove(X,Y){
+			if(X <= 40) return;
 			if(path && tool == 'draw'){
 				pathstr += 'L'+X+','+Y
 				path.attr('path', pathstr);
@@ -229,32 +227,33 @@ function Scratchpad( elem ){
 			}
 	}
 
-	$(pad.canvas).mouseup(function(e){
-		mouseup();
-		e.preventDefault();
-	});
-	$(pad.canvas).mousemove(function(e){
+	container.mousemove(function(e){
 		var offset = jQuery( container ).offset();
 		mousemove( e.pageX - offset.left, e.pageY - offset.top );
 		e.preventDefault();
 	});
-	$(pad.canvas).mousedown(function(e){
+	container.mousedown(function(e){
 		var offset = jQuery( container ).offset();
 		mousedown(e.pageX - offset.left, e.pageY - offset.top, e);
 		e.preventDefault();
+
+		$(document).one("mouseup", function(e){
+			mouseup();
+			e.preventDefault();
+		});
 	});
 
-	$(pad.canvas).bind('touchstart', function(e){
+	container.bind('touchstart', function(e){
 		var offset = jQuery( container ).offset();
 		mousedown(e.originalEvent.touches[0].pageX - offset.left, e.originalEvent.touches[0].pageY - offset.top, e.originalEvent);
 		e.preventDefault();
 	});
-	$(pad.canvas).bind('touchmove', function(e){
+	container.bind('touchmove', function(e){
 		var offset = jQuery( container ).offset();
 		mousemove(e.originalEvent.touches[0].pageX - offset.left, e.originalEvent.touches[0].pageY - offset.top)
 		e.preventDefault();
 	});
-	$(pad.canvas).bind('touchend', function(e){
+	container.bind('touchend', function(e){
 		mouseup();
 		e.preventDefault();
 	});
