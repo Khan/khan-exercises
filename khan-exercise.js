@@ -1,4 +1,26 @@
 var Khan = (function() {
+	// Adapted from a comment on http://mathiasbynens.be/notes/localstorage-pattern
+	var localStorageEnabled = function() {
+		var enabled, uid = +new Date;
+		try {
+			localStorage[ uid ] = uid;
+			enabled = ( localStorage[ uid ] == uid );
+			localStorage.removeItem( uid );
+			return enabled;
+		}
+		catch( e ) {
+			return false;
+		}
+	}();
+
+	if ( !localStorageEnabled ) {
+		jQuery(function() {
+			jQuery( "#warning-bar-content" ).html( "You must enable DOM storage in your browser to see an exercise." );
+			jQuery( "#warning-bar-close" ).hide();
+			jQuery( "#warning-bar" ).show();
+		});
+		return;
+	}
 
 // Prime numbers used for jumping through exercises
 var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
@@ -180,7 +202,7 @@ var Khan = {
 		// Yuck! There is no god. John will personally gut punch whoever
 		// thought this was a good API design.
 		"math": [ {
-			src: "http://cdn.mathjax.org/mathjax/latest/MathJax.js",
+			src: "http://cdn.mathjax.org/mathjax/1.1-latest/MathJax.js",
 			text: "MathJax.Hub.Config({\
 				messageStyle: \"none\",\
 				skipStartupTypeset: true,\
@@ -231,7 +253,13 @@ var Khan = {
 			// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704\n\
 			// We can force it to convert HTML entities properly by saying we're Konqueror\n\
 			MathJax.Hub.Browser.isKonqueror = true;\
+			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - using image fonts\",function () {\
+				Khan.warnFont();\
+			});\
 			\
+			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - no valid font\",function () {\
+				Khan.warnFont();\
+			});\
 			// Trying to monkey-patch MathJax.Message.Init to not throw errors\n\
 			MathJax.Message.Init = (function( oldInit ) {\
 				return function( styles ) {\
@@ -263,6 +291,10 @@ var Khan = {
 		"polynomials": [ "math", "expressions" ],
 		"stat": [ "math" ],
 		"word-problems": [ "math" ]
+	},
+
+	warnFont: function() {
+		jQuery( "#warning-bar" ).fadeIn( "fast" );
 	},
 
 	require: function( mods ) {
@@ -888,8 +920,9 @@ function injectSite( html, htmlExercise ) {
 
 	if ( Khan.query.layout === "lite" ) {
 		// TODO: Move this into a stylesheet, toggle a class
-		jQuery("header, footer, #extras").remove();
-		jQuery("#page-container, #container, .exercise-badge").css({ "min-width": 0, "border-width": 0 });
+		jQuery("header, footer, #extras, .exercise-badge").remove();
+		jQuery("#page-container, #container").css({ "min-width": 0, "border-width": 0 });
+		jQuery("#answer_area").css({ "margin-top": "10px" });
 	}
 }
 
@@ -1158,7 +1191,9 @@ function prepareSite() {
 			jQuery( "#issue, #issue form" ).show();
 			jQuery( "html, body" ).animate({
 				scrollTop: jQuery( "#issue" ).offset().top
-			}, 500 );
+			}, 500, function() {
+				jQuery( "#issue-title" ).focus();
+			} );
 		}
 	});
 
@@ -1188,8 +1223,10 @@ function prepareSite() {
 				+ "?seed=" + problemSeed
 				+ "&problem=" + problemID,
 			agent = navigator.userAgent,
+			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT " : "" ) + "loaded",
+			localStorageInfo = "localStorage is " + ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "NOT " : "" ) + "enabled",
 			body = ( email ? [ "Reporter: " + email ] : [] )
-				.concat( [ jQuery( "#issue-body" ).val(), path, agent ] )
+				.concat( [ jQuery( "#issue-body" ).val(), path, agent, localStorageInfo, mathjaxInfo ] )
 				.join( "\n\n" );
 
 		// flagging of browsers/os for issue labels. very primitive, but
@@ -1207,7 +1244,7 @@ function prepareSite() {
 				leopard: agent_contains( "OS X 10_5" ) || agent_contains( "OS X 10.5" ),
 				snowleo: agent_contains( "OS X 10_6" ) || agent_contains( "OS X 10.6" ),
 				lion: agent_contains( "OS X 10_7" ) || agent_contains( "OS X 10.7" ),
-				scratchpad: body.indexOf( "scratchpad" ) !== -1 || body.indexOf( "scratch pad" ) !== -1 || body.indexOf( "Scratchpad" ) !== -1,
+				scratchpad: ( /scratch\s*pad/i ).test( body ),
 				ipad: agent_contains( "iPad" )
 			},
 			labels = [];
@@ -1334,6 +1371,11 @@ function prepareSite() {
 			exampleLink.data( "show", !show );
 		}).trigger( "click" );
 
+	jQuery( "#warning-bar-close a").click( function( e ) {
+		e.preventDefault();
+		jQuery( "#warning-bar" ).fadeOut( "slow" );
+	});
+
 	jQuery( "#scratchpad-show" ).data( "show", true )
 		.click( function( e ) {
 			e.preventDefault();
@@ -1367,6 +1409,13 @@ function prepareSite() {
 				window.localStorage[ "scratchpad:" + user ] = show;
 			}
 		});
+
+	jQuery( "#answer_area" ).delegate( "input.button, select", "keydown", function( e ) {
+		// Don't want to go back to exercise dashboard; just do nothing on backspace
+		if ( e.keyCode === 8 ) {
+			return false;
+		}
+	} );
 
 	// Prepare for the tester info if requested
 	if ( testMode && Khan.query.test != null ) {
