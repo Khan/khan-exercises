@@ -919,7 +919,7 @@ function makeProblem( id, seed, redraw ) {
 							// answers are labelled incorrect by default
 							thissolutionarea
 								.removeClass( 'incorrect-activity' )
-								.addClass( 'correct-activity' )
+								.addClass( 'correct-activity' );
 						}
 					}
 
@@ -949,7 +949,7 @@ function makeProblem( id, seed, redraw ) {
 		    totalHints = timeline.find( '.hint-activity:last' )
 		      .index( '.hint-activity' ),
 		    hintButton = jQuery( '#hint' ),
-		    hintRemainder = jQuery( '#hint-remainder' );
+		    hintRemainder = jQuery( '#hint-remainder' ),
 		    timelineMiddle = timeline.width() / 2,
 				realHintsArea = jQuery( '#hintsarea' ).detach(),
 				realWorkArea = jQuery( '#workarea' ).detach(),
@@ -990,7 +990,7 @@ function makeProblem( id, seed, redraw ) {
 				'border-right': '6px solid #888',
 				position: 'absolute',
 				top: (scrubber1.offset().top + 7) + 'px',
-				left: scrubber1.offset().left + 'px',
+				left: scrubber1.offset().left + 'px'
 			} );
 
 			return this;
@@ -1011,7 +1011,7 @@ function makeProblem( id, seed, redraw ) {
 		});
 
 		var activate = function( slideNum ) {
-			var hint, hintNum,
+			var hint, hintNum, thisState,
 			    thisSlide = states.eq( slideNum ),
 			    previousHintIndex = false,
 					workArea = jQuery( '#workarea' );
@@ -1029,7 +1029,7 @@ function makeProblem( id, seed, redraw ) {
 
 			// All content for this state has been built before
 			if (statelist[slideNum]) {
-				var thisState = statelist[slideNum];
+				thisState = statelist[slideNum];
 
 				timeline.animate({
 					scrollLeft: thisState.scroll
@@ -1065,8 +1065,9 @@ function makeProblem( id, seed, redraw ) {
 				jQuery( '#problemarea' ).append( realHintsArea ).append( realWorkArea );
 
 				for (var i = statelist.length; i <= slideNum; i++) {
+					thisSlide = states.eq( i );
+
 					var thisHintArea, thisProblem,
-					    thisSlide = states.eq( i ),
 					    hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
 					                .filter('.hint-activity').length - 1,
 					    // Bring the currently focused panel as close to the middle as possible
@@ -1087,7 +1088,7 @@ function makeProblem( id, seed, redraw ) {
 					realHintsArea = hintsArea.detach();
 					realWorkArea = jQuery( '#workarea' ).detach();
 
-					var thisState = {
+					thisState = {
 						slide: thisSlide,
 						hintNum: hintNum,
 						hintArea: thisHintArea,
