@@ -941,7 +941,6 @@ function makeProblem( id, seed, redraw ) {
 		var states = timelineEvents.children( ".user-activity" ),
 		    currentSlide = 0,
 		    numSlides = states.length,
-		    currentHint = 0,
 		    hintsArea = jQuery( '#hintsarea' ),
 		    firstHintIndex = timeline.find( '.hint-activity:first' )
 		      .index( '.user-activity' ),
@@ -951,7 +950,12 @@ function makeProblem( id, seed, redraw ) {
 		      .index( '.hint-activity' ),
 		    hintButton = jQuery( '#hint' ),
 		    hintRemainder = jQuery( '#hint-remainder' );
-		    timelineMiddle = timeline.width() / 2;
+		    timelineMiddle = timeline.width() / 2,
+				realHintsArea = jQuery( '#hintsarea' ).detach(),
+				realWorkArea = jQuery( '#workarea' ).detach(),
+		    statelist = [],
+		    waiting = false;
+
 
 		jQuery.fx.interval = 25;
 
@@ -992,92 +996,111 @@ function makeProblem( id, seed, redraw ) {
 			return this;
 		}
 
+
+		// Set the width of the timeline (starts as 10000px) after MathJax loads
+		MathJax.Hub.Queue(function() {
+			var maxHeight = 0;
+			timelineEvents.children().each( function() {
+				maxHeight = Math.max( maxHeight, jQuery( this ).height() );
+			});
+
+			if (maxHeight > timelinecontainer.height()) {
+				timelinecontainer.height( maxHeight + 16 );
+				timeline.height( maxHeight + 16 );
+			}
+		});
+
 		var activate = function( slideNum ) {
 			var hint, hintNum,
 			    thisSlide = states.eq( slideNum ),
-			    previousHintIndex = false;
-      
-      var maxHeight = 0;
-      timelineEvents.children().each( function() {
-        maxHeight = Math.max( maxHeight, jQuery( this ).height() );
-      });
+			    previousHintIndex = false,
+					workArea = jQuery( '#workarea' );
 
-      // We don't just do this at the beginning because mathjax might not have
-      // rendered yet... A callback would be better.
-      if (maxHeight > timelinecontainer.height()) {
-        timelinecontainer.height( maxHeight + 16 );
-        timeline.height( maxHeight + 16 );
-      } 
-
-			if (slideNum > 0 && slideNum < currentSlide) {
-				problem.remove();
-				jQuery( "#hintsarea" ).empty();
-				makeProblem( id, problemSeed, true );
+			// We can't continue until MathJax has rendered
+			if ( (MathJax.Hub.queue.pending || MathJax.Hub.queue.running) && !waiting && !statelist[slideNum] ) {
+				waiting = true;
+				MathJax.Hub.Queue(function() {
+					activate(slideNum);
+				});
+				return;
 			}
 
-			for (var i = slideNum; i >= firstHintIndex; i--) {
-				if (states.eq( i ).data( 'hint' ) !== false) {
-					previousHintIndex = i;
-					break;
-				}
-			}
+			waiting = false;
 
-			// TODO case previousHintIndex === -1
-			if (previousHintIndex !== false && states.eq( previousHintIndex ).data( 'hint' ) !== false) {
-				hintNum = states.eq( previousHintIndex ).data( 'hint' );
-			} else {
-				hintNum = -1
-			}
+			// All content for this state has been built before
+			if (statelist[slideNum]) {
+				var thisState = statelist[slideNum];
 
-			if (slideNum < firstHintIndex) {
-				hintRemainder.fadeOut( 15 );
-				hintButton.val( "I'd like a hint" );
-			} else if (slideNum >= lastHintIndex) {
-				if (states.eq( lastHintIndex ).data( 'hint' ) < hints.length) {
+				timeline.animate({
+					scrollLeft: thisState.scroll
+				}, 150, function() {
+					thisState.slide.scrubber();
+				});
+
+				if (slideNum < firstHintIndex) {
 					hintRemainder.fadeOut( 15 );
-				}
-			} else {
-				hintButton.val( "I'd like another hint" );
-
-				hintRemainder
-					.text( (totalHints - hintNum) + " remaining" )
-					.fadeIn( 15 );
-			}
-
-			// TODO: possibly optimize for hintNum > currentHint
-			jQuery.each( hints, function( index, hint ) {
-				if (index <= hintNum) {
-					// Append first so MathJax can sense the surrounding CSS context properly
-					var thisHint = jQuery( hint ).appendTo( hintsArea ).runModules( problem );
-
-					/*
-					// Disabled for now because it was causing errors
-					if (index === hintNum && currentSlide < previousHintIndex) {
-						thisHint
-							.animate( { backgroundColor: "#ffffcc" }, 1 )
-							.animate( { backgroundColor: "#ffffff" }, 150 );
+					hintButton.val( "I'd like a hint" );
+				} else if (slideNum >= lastHintIndex) {
+					if (states.eq( lastHintIndex ).data( 'hint' ) < hints.length) {
+						hintRemainder.fadeOut( 15 );
 					}
-					*/
+				} else {
+					hintButton.val( "I'd like another hint" );
+
+					hintRemainder
+						.text( (totalHints - thisState.hintNum) + " remaining" )
+						.fadeIn( 15 );
 				}
-			});
 
-			// Bring the currently focused panel as close to the middle as possible
-			var itemOffset = thisSlide.position().left,
-			    itemMiddle = itemOffset + thisSlide.width() / 2,
-			    offset = timelineMiddle - itemMiddle,
-			    currentScroll = timeline.scrollLeft(),
-			    timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
-			    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 30 );
+				jQuery( '#workarea' ).remove();
+				jQuery( '#hintsarea' ).remove();
+				jQuery( '#problemarea' ).append( thisState.problem ).append( thisState.hintArea );
 
-			timeline.animate({
-				scrollLeft: scroll
-			}, 150, function() {
-				thisSlide.scrubber();
-			});
+				// If there is a guess we show it as if it was filled in by the user
+				// If there is no guess (like for a hint) this makes the answer box empty
+				validator.showGuess( thisSlide.data( 'guess' ) );
+			} else { // build up content for this state
+				jQuery( '#workarea' ).remove();
+				jQuery( '#hintsarea' ).remove();
+				jQuery( '#problemarea' ).append( realHintsArea ).append( realWorkArea );
 
-			// If there is a guess we show it as if it was filled in by the user
-			// If there is no guess (like for a hint) this makes the answer box empty
-			validator.showGuess( thisSlide.data( 'guess' ) );
+				for (var i = statelist.length; i <= slideNum; i++) {
+					var thisHintArea, thisProblem,
+					    thisSlide = states.eq( i ),
+					    hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
+					                .filter('.hint-activity').length - 1,
+					    // Bring the currently focused panel as close to the middle as possible
+					    itemOffset = thisSlide.position().left,
+					    itemMiddle = itemOffset + thisSlide.width() / 2,
+					    offset = timelineMiddle - itemMiddle,
+					    currentScroll = timeline.scrollLeft(),
+					    timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
+					    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 30 );
+					
+					if (hintNum >= 0) {
+						jQuery( hints[hintNum] ).appendTo( hintsArea ).runModules( problem );
+					}
+
+					thisHintArea = hintsArea.clone();
+					thisProblem = jQuery( '#workarea' ).clone();
+
+					realHintsArea = hintsArea.detach();
+					realWorkArea = jQuery( '#workarea' ).detach();
+
+					var thisState = {
+						slide: thisSlide,
+						hintNum: hintNum,
+						hintArea: thisHintArea,
+						problem: thisProblem,
+						scroll: scroll
+					};
+
+					statelist[i] = thisState;
+				}
+
+				// now that we've built up all the state we need, activate it for real
+				activate( slideNum );
+			}
 		}
 
 		// Allow users to use arrow keys to move up and down the timeline
@@ -1086,43 +1109,34 @@ function makeProblem( id, seed, redraw ) {
 				return;
 			}
 
-			var newSlide = currentSlide;
-
 			if (event.keyCode === 37) { // left
-				newSlide -= 1;
+				currentSlide -= 1;
 			} else { // right
-				newSlide += 1;
+				currentSlide += 1;
 			}
 
-			var cycle = false;
-			if (cycle) {
-				newSlide = (newSlide + numSlides) % numSlides;
-			} else {
-				newSlide = Math.min(newSlide, numSlides-1);
-				newSlide = Math.max(newSlide, 0);
-			}
+			currentSlide = Math.min(currentSlide, numSlides-1);
+			currentSlide = Math.max(currentSlide, 0);
 
-			activate( newSlide );
-			currentSlide = newSlide;
+			activate( currentSlide );
 
 			return false;
 		});
 
 		// Allow users to click on points of the timeline
 		jQuery( states ).click(function(event) {
-			var index = $(this).index("#timeline .user-activity"),
-			    newSlide = index;
+			var index = $(this).index("#timeline .user-activity");
 
-			activate( newSlide );
-			currentSlide = newSlide;
+			currentSlide = index;
+			activate( currentSlide );
 
 			return false;
 		});
 
 		jQuery( '#previous-step' ).click(function(event) {
 			if (currentSlide > 0) {
-				activate( currentSlide - 1 );
 				currentSlide -= 1;
+				activate( currentSlide );
 			}
 
 			return false;
@@ -1130,8 +1144,8 @@ function makeProblem( id, seed, redraw ) {
 
 		jQuery( '#next-step' ).click(function(event) {
 			if (currentSlide < numSlides-1) {
-				activate( currentSlide + 1 );
 				currentSlide += 1;
+				activate( currentSlide );
 			}
 
 			return false;
