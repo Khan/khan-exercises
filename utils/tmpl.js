@@ -16,10 +16,17 @@ jQuery.tmpl = {
 		},
 
 		"data-if": function( elem, value ) {
+			var $elem = jQuery( elem );
+
+			// Check if the attribute should be deleted
+			if ( $elem.data( "toDelete" ) ) {
+				$elem.removeAttr( "data-if" ).removeData( "if" );
+			}
+
 			value = value && jQuery.tmpl.getVAR( value );
 
 			// Save the result of this data-if in the next sibling for data-else-if and data-else
-			jQuery( elem ).next().data( "lastCond", value );
+			$elem.next().data( "lastCond", value );
 
 			if ( !value ) {
 				// Delete the element if the data-if evaluated to false
@@ -28,13 +35,20 @@ jQuery.tmpl = {
 		},
 
 		"data-else-if": function( elem, value ) {
-			var lastCond = jQuery( elem ).data( "lastCond" );
+			var $elem = jQuery( elem );
+
+			// Check if the attribute should be deleted
+			if ( $elem.data( "toDelete" ) ) {
+				$elem.removeAttr( "data-else-if" ).removeData( "elseIf" );
+			}
+
+			var lastCond = $elem.data( "lastCond" );
 
 			// Show this element iff the preceding element was hidden AND this data-if returns truthily
 			value = !lastCond && value && jQuery.tmpl.getVAR( value );
 
 			// Succeeding elements care about the visibility of both me and my preceding siblings
-			jQuery( elem ).next().data( "lastCond", lastCond || value );
+			$elem.next().data( "lastCond", lastCond || value );
 
 			if ( !value ) {
 				// Delete the element if appropriate
@@ -43,7 +57,14 @@ jQuery.tmpl = {
 		},
 
 		"data-else": function( elem ) {
-			if ( jQuery( elem ).data( "lastCond" ) ) {
+			var $elem = jQuery( elem );
+
+			// Check if the attribute should be deleted
+			if ( $elem.data( "toDelete" ) ) {
+				$elem.removeAttr( "data-else" ).removeData( "else" );
+			}
+
+			if ( $elem.data( "lastCond" ) ) {
 				// Delete the element if the data-if of the preceding element was true
 				return [];
 			}
@@ -314,6 +335,11 @@ jQuery.fn.tmpl = function() {
 				// Do a deep clone (including event handlers and data) of the element
 				var clone = jQuery( elem ).clone( true )
 					.removeAttr( "data-each" ).removeData( "each" )[0];
+
+				// Flag elements with the following attributes so that the attributes can be removed after templating 
+				jQuery( clone ).find("[data-if], [data-else-if], [data-else]").each(function() {
+					jQuery( this ).data( "toDelete", true );
+				});
 
 				// Insert in the proper place (depends on whether the loops is the last of its siblings)
 				if ( origNext ) {
