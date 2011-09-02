@@ -877,7 +877,7 @@ function makeProblem( id, seed, redraw ) {
 
 		var hintNumber = 0,
 		    answerNumber = 1;
-	
+
 		/* value[0]: css class
 		 * value[1]: guess
 		 * value[2]: time taken since last guess
@@ -955,7 +955,6 @@ function makeProblem( id, seed, redraw ) {
 				realWorkArea = jQuery( '#workarea' ).detach(),
 		    statelist = [],
 		    waiting = false;
-
 
 		jQuery.fx.interval = 25;
 
