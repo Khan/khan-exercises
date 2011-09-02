@@ -9,6 +9,9 @@
 	function setParallel( p ){
 		var graph = KhanUtil.currentGraph;
 		graph.P = p;
+		if ( graph.P == 2 ){
+			setSame( "opp");
+		}	
 		updateShape();	
 	}
 
@@ -19,6 +22,7 @@
 		}
 		else if ( graph.S !== s ){
 			graph.S = "all";
+			graph.P = 2;
 		}	
 		updateShape();
 	}
@@ -49,7 +53,7 @@
 			}
 		}
 		else if ( graph.P === 1 ){
-				if ( graph.S === "adj" ){
+				if ( graph.S === "opp" ){
 					type = "isosceles trapezoid";
 				}
 				else{
@@ -105,9 +109,11 @@
 		if ( name === "isosceles trapezoid" ){
 			var angC = KhanUtil.randRange( 30, 160 );
 			var angD = 180 - angC;
-			return  new Quadrilateral( [ 0, 0 ], [ angA, angA , angB , angB ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7 ] ) , "", 3 );
+			return  new Quadrilateral( [ 0, 0 ], [ angC, angD , angD , angC ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7 ] ) , "", 3 );
 		}
 		if ( name === "quadrilateral" ){
+			var angA =  KhanUtil.randRange( 30, 160 );
+
 			angB = KhanUtil.randRange( 30, 160 );
 			if ( angA + angB < 170 ){
 				var angC = KhanUtil.randRange( 180 - angA - angB, 140 );

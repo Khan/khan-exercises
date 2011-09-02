@@ -116,19 +116,25 @@ function Quadrilateral( center, angles, sideRatio, labels, scale ){
 
     this.cosines = [  Math.cos( Math.PI * angles[ 0 ] / 180 ),  Math.cos( Math.PI * angles[ 1 ] / 180 ),  Math.cos( Math.PI * angles[ 2 ] / 180 ), Math.cos( Math.PI * angles[ 3 ] /  180 ) ];
 
-
     this.sines = [ Math.sin( Math.PI * angles[ 0 ] / 180 ),  Math.sin( Math.PI * angles[ 1 ] / 180 ),  Math.sin( Math.PI * angles[ 2 ] / 180 ),  Math.sin( Math.PI * angles[ 3 ] /  180 ) ];
 
-    var len = Math.sqrt( 2 * scale * scale * sideRatio * sideRatio  - 2 * sideRatio * scale * scale * sideRatio * this.cosines[ 3 ] );
+	while( ( ! this.points ) || this.points[ 1 ][ 0 ] > this.points[ 2 ][ 0 ] ){
+	    var len = Math.sqrt( 2 * scale * scale * sideRatio * sideRatio  - 2 * sideRatio * scale * scale * sideRatio * this.cosines[ 3 ] );
 
-    var tX = [ 0,  scale * sideRatio * this.cosines[ 0 ] , len * Math.cos( ( this.angles[ 0 ] - ( 180 - this.angles[ 3 ] )/ 2 ) * Math.PI/180 ),  scale, scale + Math.cos( ( 180 - this.angles[ 1 ] ) * Math.PI / 180 ) ];
+		var tX = [ 0,  scale * sideRatio * this.cosines[ 0 ] , len * Math.cos( ( this.angles[ 0 ] - ( 180 - this.angles[ 3 ] )/ 2 ) * Math.PI/180 ),  scale, scale + Math.cos( ( 180 - this.angles[ 1 ] ) * Math.PI / 180 ) ];
 
-    var tY = [ 0,  scale * sideRatio * this.sines[ 0 ] , len * Math.sin( ( this.angles[ 0 ] - ( 180 - this.angles[ 3 ] )/ 2 ) *  Math.PI/180 ), 0,  Math.sin( ( 180 - this.angles[ 1 ] ) * Math.PI / 180 ) ];
+		var tY = [ 0,  scale * sideRatio * this.sines[ 0 ] , len * Math.sin( ( this.angles[ 0 ] - ( 180 - this.angles[ 3 ] )/ 2 ) *  Math.PI/180 ), 0,  Math.sin( ( 180 - this.angles[ 1 ] ) * Math.PI / 180 ) ];
 
-    var denominator = ( tY[ 4 ] - tY[ 3 ] ) * ( tX[ 2 ] - tX[ 1 ] ) - (tX[ 4 ] - tX[ 3 ] ) * ( tY[ 2 ] - tY[ 1 ] );
+		var denominator = ( tY[ 4 ] - tY[ 3 ] ) * ( tX[ 2 ] - tX[ 1 ] ) - (tX[ 4 ] - tX[ 3 ] ) * ( tY[ 2 ] - tY[ 1 ] );
 
-    var ua = ( ( tX[ 4] - tX[ 3 ] ) * ( tY[ 1 ] - tY[ 3 ] ) - ( tY[ 4 ] - tY[ 3 ] ) * ( tX[ 1 ] - tX [ 3 ]) ) / denominator;
-  this.points = [ [ this.x, this.y ], [ scale * sideRatio * this.cosines[ 0 ], scale * sideRatio * this.sines[ 0 ] ], [ tX[ 1 ] + ua * ( tX[ 2 ] - tX[ 1 ] ), tY[ 1 ] + ua * ( tY[ 2 ] - tY[ 1 ] ) ], [ scale, 0 ] ];
+		var ua = ( ( tX[ 4] - tX[ 3 ] ) * ( tY[ 1 ] - tY[ 3 ] ) - ( tY[ 4 ] - tY[ 3 ] ) * ( tX[ 1 ] - tX [ 3 ]) ) / denominator;
+
+		this.points = [ [ this.x, this.y ], [ scale * sideRatio * this.cosines[ 0 ], scale * sideRatio * this.sines[ 0 ] ], [ tX[ 1 ] + ua * ( tX[ 2 ] - tX[ 1 ] ), tY[ 1 ] + ua * ( tY[ 2 ] - tY[ 1 ] ) ], [ scale, 0 ] ];
+		if( this.points[ 1 ][ 0 ] > this.points[ 2 ][ 0 ] ){
+			sideRatio -= 0.15 ;
+			scale += 0.2;
+		}
+	}
 
 
     this.draw = function(){
@@ -228,7 +234,7 @@ function Triangle( center, angles, sides, scale, labels ){
     }
 }
 function newSquare(){
-     return new Quadrilateral( [ 0, 0 ], [ 90, 90 , 90 , 90 ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
+     return new Quadrilateral( [ 0, 0 ], [ 90, 90 , 90 , 90 ],  1 , "", 3 );
 }
 
 function newRectangle(){
