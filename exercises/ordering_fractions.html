@@ -20,32 +20,27 @@
 	<div class="exercise">
 		<div class="vars" data-ensure="LCD &lt; 200">
 			<var id="COLORS">KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown" ])</var>
-
 			<var id="NUMS">(function() {
 				var array = [];
 				var ds = [];
-				
+
 				var used = {};
 
 				var arrLength = randRange( 4, 6 );
-				for ( var i = 0; i &lt; arrLength; i++ ) {
+				while ( array.length &lt; arrLength ) {
 					var d = randRange( 1, 3 ) * randRange( 2, 9 );
-					
 					var n = randRange( 1, d - 1 );
-
 					var ns = ( n / d ).toFixed( 3 );
 
 					if ( !used[ ns ] ) {
 						var gcd = getGCD( n, d );
-						array[i] = [ n/d,
-									 
-									 (n/gcd), (d/gcd),
-									 
-									 fractionReduce( n, d, true ),
-									 (n/gcd) + "/" + (d/gcd),
-
-									 COLORS[i]
-								   ];
+						array.push([ n/d,
+									(n/gcd),
+									(d/gcd),
+									fractionReduce( n, d, true ),
+									(n/gcd) + "/" + (d/gcd),
+									COLORS[array.length]
+								   ]);
 
 						ds.push( d/gcd );
 						used[ ns ] = true;
@@ -105,8 +100,11 @@
 				</div>
 
 				<div class="hints">
-					<p class="number-list"><code><var>NUMS_TEX_COLOR</var></code></p>
-					<p>First, let's find the least common denominator of all the fractions so that we can compare them.</p>
+					<div>
+						<p>Let's use different colors for each fraction.</p>
+						<p class="number-list"><code><var>NUMS_TEX_COLOR</var></code></p>
+					</div>
+					<p>Find the least common denominator of all the fractions, so that we can compare them more easily.</p>
 					<div>
 						<p>The least common denominator is the least common multiple of all the denominators.</p>
 						<p>The least common multiple of <code><var>DENOMS_TEX_COLOR</var></code> is <code><var>LCD</var></code>.</p>

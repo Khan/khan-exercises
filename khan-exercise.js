@@ -1,4 +1,44 @@
 var Khan = (function() {
+	function warn( message, showClose ) {
+		jQuery(function() {
+			jQuery( "#warning-bar-content" ).html( message );
+			if ( showClose ) {
+				jQuery( "#warning-bar-close" ).show();
+			} else {
+				jQuery( "#warning-bar-close" ).hide();
+			}
+			jQuery( "#warning-bar" ).fadeIn( "fast" );
+		});
+	}
+
+	// Adapted from a comment on http://mathiasbynens.be/notes/localstorage-pattern
+	var localStorageEnabled = function() {
+		var enabled, uid = +new Date;
+		try {
+			localStorage[ uid ] = uid;
+			enabled = ( localStorage[ uid ] == uid );
+			localStorage.removeItem( uid );
+			return enabled;
+		}
+		catch( e ) {
+			return false;
+		}
+	}();
+
+	if ( !localStorageEnabled ) {
+		if ( typeof jQuery !== "undefined" ) {
+			warn( "You must enable DOM storage in your browser to see an exercise.", false );
+		}
+		return;
+	}
+
+	// in what prod situation will jQuery not have been loaded yet?
+	if ( typeof jQuery !== "undefined" ) {
+		jQuery( "<img width=0 height=0>" ).error(function() {
+			warn( 'Ask your network administrator to unblock access to '
+				+ '<a href="http://cdn.mathjax.org/mathjax" target="_blank">http://cdn.mathjax.org</a>.', false );
+		}).attr( "src", "http://www.mathjax.org/wp-content/themes/mathjax/images/favicon.ico?" + Math.random() );
+	}
 
 // Prime numbers used for jumping through exercises
 var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
@@ -180,7 +220,7 @@ var Khan = {
 		// Yuck! There is no god. John will personally gut punch whoever
 		// thought this was a good API design.
 		"math": [ {
-			src: "http://cdn.mathjax.org/mathjax/latest/MathJax.js",
+			src: "http://cdn.mathjax.org/mathjax/1.1-latest/MathJax.js",
 			text: "MathJax.Hub.Config({\
 				messageStyle: \"none\",\
 				skipStartupTypeset: true,\
@@ -231,7 +271,21 @@ var Khan = {
 			// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704\n\
 			// We can force it to convert HTML entities properly by saying we're Konqueror\n\
 			MathJax.Hub.Browser.isKonqueror = true;\
-			\
+			MathJax.Ajax.timeout = 60 * 1000;\
+			MathJax.Ajax.loadError = (function( oldLoadError ) {\
+				return function( file ) {\
+					Khan.warnTimeout();\
+					// Otherwise will receive unresponsive script error when finally finish loading \n\
+					MathJax.Ajax.loadComplete = function( file ) { };\
+					oldLoadError.call( this, file );\
+				};\
+			})( MathJax.Ajax.loadError );\
+			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - using image fonts\", function() {\
+				Khan.warnFont();\
+			});\
+			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - no valid font\", function() {\
+				Khan.warnFont();\
+			});\
 			// Trying to monkey-patch MathJax.Message.Init to not throw errors\n\
 			MathJax.Message.Init = (function( oldInit ) {\
 				return function( styles ) {\
@@ -263,6 +317,23 @@ var Khan = {
 		"polynomials": [ "math", "expressions" ],
 		"stat": [ "math" ],
 		"word-problems": [ "math" ]
+	},
+	warnTimeout: function() {
+		warn( 'Your internet might be too slow to see an exercise. Refresh the page '
+			+ 'or <a href="" id="warn-report">report a problem</a>.', false );
+		jQuery( "#warn-report" ).click( function( e ) {
+			e.preventDefault();
+			jQuery( "#report" ).click();
+		});
+	},
+
+	warnFont: function() {
+		if ( jQuery.browser.msie ) {
+			warn( 'You should '
+				+ '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/" '
+				+ 'target="_blank">enable font download</a> to improve the appearance of math expressions.',
+				true );
+		}
 	},
 
 	require: function( mods ) {
@@ -1156,7 +1227,9 @@ function prepareSite() {
 			jQuery( "#issue, #issue form" ).show();
 			jQuery( "html, body" ).animate({
 				scrollTop: jQuery( "#issue" ).offset().top
-			}, 500 );
+			}, 500, function() {
+				jQuery( "#issue-title" ).focus();
+			} );
 		}
 	});
 
@@ -1182,14 +1255,17 @@ function prepareSite() {
 		var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text(),
 			title = jQuery( "#issue-title" ).val(),
 			email = jQuery( "#issue-email" ).val(),
-			path = ( Khan.query.exid || exerciseName ) + ".html"
+			path = exerciseName + ".html"
 				+ "?seed=" + problemSeed
-				+ "&problem=" + problemID,
+				+ "&problem=" + problemID
+				+ ( exercise.data( "name" ) != null && exercise.data( "name" ) !== exerciseName ? " (" + exercise.data( "name" ) + ")" : "" ),
 			agent = navigator.userAgent,
-			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT " : "" ) + "loaded",
-			body = ( email ? [ "Reporter: " + email ] : [] )
-				.concat( [ jQuery( "#issue-body" ).val(), path, agent, mathjaxInfo ] )
-				.join( "\n\n" );
+			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" :
+				( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),
+			localStorageInfo = ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "localStorage NOT enabled" : null ),
+			warningInfo = jQuery( "#warning-bar-content" ).text(),
+			parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, path, agent, localStorageInfo, mathjaxInfo, warningInfo ],
+			body = jQuery.grep( parts, function( e ) { return e != null; } ).join( "\n\n" );
 
 		// flagging of browsers/os for issue labels. very primitive, but
 		// hopefully sufficient.
@@ -1333,6 +1409,11 @@ function prepareSite() {
 			exampleLink.data( "show", !show );
 		}).trigger( "click" );
 
+	jQuery( "#warning-bar-close a").click( function( e ) {
+		e.preventDefault();
+		jQuery( "#warning-bar" ).fadeOut( "slow" );
+	});
+
 	jQuery( "#scratchpad-show" ).data( "show", true )
 		.click( function( e ) {
 			e.preventDefault();
@@ -1366,6 +1447,13 @@ function prepareSite() {
 				window.localStorage[ "scratchpad:" + user ] = show;
 			}
 		});
+
+	jQuery( "#answer_area" ).delegate( "input.button, select", "keydown", function( e ) {
+		// Don't want to go back to exercise dashboard; just do nothing on backspace
+		if ( e.keyCode === 8 ) {
+			return false;
+		}
+	} );
 
 	// Prepare for the tester info if requested
 	if ( testMode && Khan.query.test != null ) {

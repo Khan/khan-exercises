@@ -644,7 +644,10 @@ jQuery.extend( Khan.answerTypes, {
 			guess = KhanUtil.sortNumbers( guess.split( /x|\*|\u00d7/ ) ).join( "x" );
 			return guess === correct;
 		};
-		verifier.examples = [ "a product of prime factors, like <code>2 \\times 3</code>" ];
+		verifier.examples = [
+			"a product of prime factors, like <code>2 \\times 3</code>",
+			"a single prime number, like <code>5</code>"
+		];
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	}
