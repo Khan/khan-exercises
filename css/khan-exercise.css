@@ -74,18 +74,21 @@ var, div.graphie { white-space: pre; }
 
 .correct-activity {
   background-color: #69bb00;
+  text-shadow: 0 -1px 0 #557303;
 }
 
 .incorrect-activity, .unavailable-activity {
   background-color: #e12c2d;
+  text-shadow: 0 -1px 0 #921118;
 }
 
 .hint-activity {
   background-color: #f19726;
+  text-shadow: 0 -1px 0 #B55C00;
 }
 
 .user-activity {
-  margin: 5px 5px 5px 5px;
+  margin: 5px;
   padding: 2px 5px;
   border: 1px solid #999;
   border-radius: 4px;
@@ -93,7 +96,8 @@ var, div.graphie { white-space: pre; }
   -moz-border-radius: 4px;
   float: left;
   cursor: pointer;
-  height: 25px;
+  /*height: 25px;*/
+  color: white;
 }
 
 .user-activity input {
@@ -120,10 +124,23 @@ div.timeline-total {
 }
 
 #timelinecontainer {
-  height: 45px;
+  /*height: 45px;*/
   border: 1px solid #c6d1ad;
   border-top: 0px;
   position: relative;
+}
+
+#timelinecontainer:before, #timelinecontainer:after {
+  content: "";
+  display: table;
+}
+
+#timelinecontainer:after {
+  clear: both;
+}
+
+#timelinecontainer {
+  zoom: 1;
 }
 
 #timeline {
@@ -131,7 +148,7 @@ div.timeline-total {
   position: absolute;
   left: 265px;
   right: 225px;
-  height: 45px;
+  /*height: 45px;*/
   border-left: 1px solid #c6d1ad;
   border-right: 1px solid #c6d1ad;
 }

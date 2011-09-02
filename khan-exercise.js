@@ -912,16 +912,15 @@ function makeProblem( id, seed, redraw ) {
 						);
 					} else {
 						var thisValidator = Khan.answerTypes[answerType]( thissolutionarea, solution );
-            thisValidator
-							.showGuess( guess );
+						thisValidator.showGuess( guess );
 
-            if (thisValidator()) {
-              // If the user didn't get the problem right on the first try, all
-              // answers are labelled incorrect by default
-              thissolutionarea
-                .removeClass( 'incorrect-activity' )
-                .addClass( 'correct-activity' )
-            }
+						if (thisValidator()) {
+							// If the user didn't get the problem right on the first try, all
+							// answers are labelled incorrect by default
+							thissolutionarea
+								.removeClass( 'incorrect-activity' )
+								.addClass( 'correct-activity' )
+						}
 					}
 
 					thissolutionarea
@@ -934,6 +933,10 @@ function makeProblem( id, seed, redraw ) {
 				}
 			}
 		});
+
+		if (timelinecontainer.height() > timeline.height()) {
+			timeline.height( timelinecontainer.height() );
+		}
 
 		var states = timelineEvents.children( ".user-activity" ),
 		    currentSlide = 0,
@@ -959,8 +962,6 @@ function makeProblem( id, seed, redraw ) {
 			scrubber1 = scrubber1.length ? scrubber1 : jQuery("<div id='scrubber1'>").appendTo(document.body);
 			scrubber2 = scrubber2.length ? scrubber2 : jQuery("<div id='scrubber2'>").appendTo(document.body);
 
-			var timeline = jQuery('#timeline');
-
 			// triangle top of scrubber
 			scrubber1.css( {
 				display: 'block',
@@ -970,7 +971,7 @@ function makeProblem( id, seed, redraw ) {
 				'border-right': '6px solid transparent',
 				'border-bottom': '6px solid #888',
 				position: 'absolute',
-				top: (timeline.offset().top + timeline.height() - 6) + 'px',
+				top: (timelinecontainer.offset().top + timelinecontainer.height() - 6) + 'px',
 				left: (this.offset().left + this.width()/2) + 'px',
 				bottom: '0'
 			} );
@@ -995,6 +996,18 @@ function makeProblem( id, seed, redraw ) {
 			var hint, hintNum,
 			    thisSlide = states.eq( slideNum ),
 			    previousHintIndex = false;
+      
+      var maxHeight = 0;
+      timelineEvents.children().each( function() {
+        maxHeight = Math.max( maxHeight, jQuery( this ).height() );
+      });
+
+      // We don't just do this at the beginning because mathjax might not have
+      // rendered yet... A callback would be better.
+      if (maxHeight > timelinecontainer.height()) {
+        timelinecontainer.height( maxHeight + 16 );
+        timeline.height( maxHeight + 16 );
+      } 
 
 			if (slideNum > 0 && slideNum < currentSlide) {
 				problem.remove();
