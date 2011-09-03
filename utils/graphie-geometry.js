@@ -160,7 +160,6 @@ function Triangle( center, angles, sides, scale, labels ){
     this.center = center;
     this.x = center[ 0 ];
     this.y = center[ 1 ];
-    this.rotationCenter = [ center[ 0 ], center[ 1 ] ];
 
     this.cosines = [  Math.cos( Math.PI * angles[ 0 ] / 180 ),  Math.cos( Math.PI * angles[ 1 ] / 180 ),  Math.cos( Math.PI * angles[ 2 ] / 180 ) ];
     this.sines = [  Math.sin( Math.PI * angles[ 0 ] / 180 ),  Math.sin( Math.PI * angles[ 1 ] / 180 ),  Math.sin( Math.PI * angles[ 2 ] / 180 )  ];
@@ -227,10 +226,53 @@ function Triangle( center, angles, sides, scale, labels ){
         return this.set;
     }
 
-    this.rotate = function( amount, x, y ){
+	this.sides = [ lineLength( this.points[ 1 ], this.points[ 2 ]), lineLength( this.points[ 0 ], this.points[ 2 ]), lineLength( this.points[ 0 ], this.points[ 1 ]) ]
 
-        this.rotationCenter = [ x, y ];
-        this.set.rotate( amount, this.graph.scalePoint( [ x, y ] )[0] , this.graph.scalePoint( [ x, y ] )[1] );
+	this.findCircumCenter = function(){
+		var Ax = this.points[ 0 ][ 0 ];
+		var Ay = this.points[ 0 ][ 1 ];
+		var Bx = this.points[ 1 ][ 0 ];
+		var By = this.points[ 1 ][ 1 ];
+		var Cx = this.points[ 2 ][ 0 ];
+		var Cy = this.points[ 2 ][ 1 ];
+		var D = 2 * ( Ax * ( By - Cy ) + Bx * ( Cy - Ay ) + Cx * ( Ay - By ));
+		var x = (( Ay * Ay + Ax * Ax ) * ( By - Cy ) + ( By * By + Bx * Bx ) * ( Cy - Ay ) + ( Cy * Cy  + Cx * Cx) * ( Ay - By )) / D; 
+		var y = (( Ay * Ay + Ax * Ax ) * ( Cx - Bx ) + ( By * By + Bx * Bx ) * ( Ax- Cx ) + ( Cy * Cy + Cx * Cx ) * ( Bx - Ax ))/D;
+		return [ x, y ];  
+	}
+
+	this.findCentroid = function(){
+		var Ax = this.points[ 0 ][ 0 ];
+		var Ay = this.points[ 0 ][ 1 ];
+		var Bx = this.points[ 1 ][ 0 ];
+		var By = this.points[ 1 ][ 1 ];
+		var Cx = this.points[ 2 ][ 0 ];
+		var Cy = this.points[ 2 ][ 1 ];
+		return [ 1/3 * ( Ax + Bx + Cx ), 1/3 * ( Ay + By + Cy ) ];
+
+	}
+	this.findInCenter = function(){
+		var Ax = this.points[ 0 ][ 0 ];
+		var Ay = this.points[ 0 ][ 1 ];
+		var Bx = this.points[ 1 ][ 0 ];
+		var By = this.points[ 1 ][ 1 ];
+		var Cx = this.points[ 2 ][ 0 ];
+		var Cy = this.points[ 2 ][ 1 ];
+		var a = this.sides[ 0 ];
+		var b = this.sides[ 1 ];
+		var c = this.sides[ 2 ];
+		var P = a + b + c;
+		var x = ( a * Ax + b * Bx + c * Cx ) / P;
+		var y = ( a * Ay + b * By + c * Cy ) / P;	
+		return [ x, y ];
+
+	}
+
+    this.rotationCenter = this.findCentroid();
+	
+    this.rotate = function( amount ){
+
+        this.set.rotate( amount, this.graph.scalePoint( this.rotationCenter )[0] , this.graph.scalePoint( this.rotationCenter )[1] );
         this.rotation = amount * Math.PI / 180;
 
     }
