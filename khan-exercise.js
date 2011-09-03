@@ -1252,6 +1252,7 @@ function prepareSite() {
 
 	jQuery( "#issue-13-no" ).click( function() {
 		jQuery( "#issue-email, #issue-email-label" ).hide();
+		jQuery( "#issue-email" ).val( "" );
 	});
 
 	// Submit an issue.
@@ -1264,7 +1265,7 @@ function prepareSite() {
 
 		var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text(),
 			title = jQuery( "#issue-title" ).val(),
-			email = jQuery( "#issue-13-yes" ).attr( "checked" ) === "checked" && jQuery( "#issue-email" ).val(),
+			email = jQuery( "#issue-email" ).val(),
 			path = exerciseName + ".html"
 				+ "?seed=" + problemSeed
 				+ "&problem=" + problemID
