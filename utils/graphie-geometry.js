@@ -155,72 +155,75 @@ function Triangle( center, angles, sides, scale, labels ){
     this.labels = labels;
     this.graph = KhanUtil.currentGraph;
     this.angles = angles;
+	this.radAngles = [ angles[ 0 ] * Math.PI /180, angles[ 1 ] * Math.PI / 180, angles[ 2 ] * Math.PI / 180 ] 
     this.scale = ( scale || 3 );
     this.rotation = 0;
-    this.center = center;
     this.x = center[ 0 ];
     this.y = center[ 1 ];
 
-    this.cosines = [  Math.cos( Math.PI * angles[ 0 ] / 180 ),  Math.cos( Math.PI * angles[ 1 ] / 180 ),  Math.cos( Math.PI * angles[ 2 ] / 180 ) ];
-    this.sines = [  Math.sin( Math.PI * angles[ 0 ] / 180 ),  Math.sin( Math.PI * angles[ 1 ] / 180 ),  Math.sin( Math.PI * angles[ 2 ] / 180 )  ];
+    this.cosines = [  Math.cos( this.radAngles[ 0 ] ),  Math.cos( this.radAngles[ 1 ]  ),  Math.cos( this.radAngles[ 2 ] ) ];
+
+    this.sines = [  Math.sin( this.radAngles[ 0 ] ),  Math.sin( this.radAngles[ 1 ]  ),  Math.sin( this.radAngles[ 2 ] ) ];
 
     var a = Math.sqrt( ( 2 * this.scale * this.sines[ 1 ] ) / (this.sines[ 0 ] * this.sines[ 2 ])  ) ;
     var b = a * this.sines[ 2 ] / this.sines[ 1 ];
+
     this.points = [ [ this.x, this.y ], [  b  + this.x, this.y ], [ this.cosines[ 0 ] * a + this.x, this.sines[ 0 ] * a  + this.y  ] ];
-    if ( !sides || sides.length < 3 ){
-        this.sides = [ 1 ];
-    }
-    else {
-        this.sides = sides;
-    }
+    
     this.set = KhanUtil.currentGraph.raphael.set();
-    this.angleScale = function ( ang ){
-        if( ang > 90 ){
-            return 0.5;
-        }
-        else if ( ang > 40 ){
-            return 0.6;
-        }
-        else if ( ang < 25 ){
-            return 1.3;
-    }
-        return 1;
-    }
+    
+	this.angleScale = function ( ang ){
+		if( ang > 90 ){
+			return 0.5;
+		}
+		else if ( ang > 40 ){
+			return 0.6;
+		}
+		else if ( ang < 25 ){
+			return 1.4;
+		}
+		return 1;
+	}
 
     this.draw = function(){
         this.set.push( this.graph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
-
         return this.set;
-    }
+	}
+
+	this.createLabel = function( p, v ){
+			this.set.push( this.graph.label( this.rotatePoint( p ) , v ) );
+	}
+
     this.drawLabels = function(){
         if ( "name" in this.labels ){
-            this.set.push( this.graph.label( this.rotatePoint( [ this.points[ 0 ][ 0 ] - 0.5, this.points[ 0 ][ 1 ] ], this.rotation ), labels.name ) );
+            this.createLabel( [ this.points[ 0 ][ 0 ] - 0.5, this.points[ 0 ][ 1 ] ] , labels.name );
         }
         if ( "c" in this.labels ){
-            this.set.push( this.graph.label(  this.rotatePoint( [ ( this.points[ 0 ][ 0 ] + this.points[ 1 ][ 0 ] ) / 2,  ( this.points[ 0 ][ 1 ] + this.points[ 1 ][ 1 ] ) / 2 - 0.4 ], this.rotation ) , labels.c ) );
+            this.createLabel( [ ( this.points[ 0 ][ 0 ] + this.points[ 1 ][ 0 ] ) / 2,  ( this.points[ 0 ][ 1 ] + this.points[ 1 ][ 1 ] ) / 2 - 0.4 ]  , labels.c );
         }
         if ( "a" in this.labels ){
-            this.set.push( this.graph.label(  this.rotatePoint( [ ( this.points[ 1 ][ 0 ] + this.points[ 2 ][ 0 ] ) / 2 + 0.4, ( this.points[ 1 ][ 1 ] + this.points[ 2 ][ 1 ] ) / 2  ], this.rotation ) , labels.a ) );
+            this.createLabel( [ ( this.points[ 1 ][ 0 ] + this.points[ 2 ][ 0 ] ) / 2 + 0.4, ( this.points[ 1 ][ 1 ] + this.points[ 2 ][ 1 ] ) / 2  ] , labels.a );
         }
         if ( "b" in this.labels ){
-            this.set.push( this.graph.label(  this.rotatePoint( [ ( this.points[ 0 ][ 0 ] + this.points[ 2 ][ 0 ] ) / 2 - 0.4, ( this.points[ 0 ][ 1 ] + this.points[ 2 ][ 1 ] ) / 2 ], this.rotation ) , labels.b ) );
+            this.createLabel( [ ( this.points[ 0 ][ 0 ] + this.points[ 2 ][ 0 ] ) / 2 - 0.4, ( this.points[ 0 ][ 1 ] + this.points[ 2 ][ 1 ] ) / 2 ] , labels.b );
         }
         if ( "A" in this.labels ){
-            this.set.push( this.graph.label(  this.rotatePoint( [ this.points[ 0 ][ 0 ] - 0.3, this.points[0][1] ], this.rotation ) , labels.A ) );
+            this.createLabel( [ this.points[ 0 ][ 0 ] - 0.3, this.points[0][1] ] , labels.A );
         }
         if ( "B" in this.labels ){
-            this.set.push(  this.graph.label( this.rotatePoint( [ this.points[ 1 ][ 0 ] + 0.3 , this.points[ 1 ][ 1 ] + 0.2 ], this.rotation ) , labels.B ) );
+            this.createLabel( [ this.points[ 1 ][ 0 ] + 0.3 , this.points[ 1 ][ 1 ] + 0.2 ], labels.B );
         }
-    if ( "C" in this.labels ){
-            this.set.push(  this.graph.label( this.rotatePoint( [ this.points[ 2 ][ 0 ] + 0.2 , this.points[ 2 ][ 1 ] - 0.2 ], this.rotation ), labels.C ) );       }
+		if ( "C" in this.labels ){
+            this.createLabel( [ this.points[ 2 ][ 0 ] + 0.2 , this.points[ 2 ][ 1 ] - 0.2 ], labels.C );
+		}
         if ( "CAB" in this.labels ){
-            this.set.push(  this.graph.label( this.rotatePoint( [ this.points[ 0 ][ 0 ] +  this.angleScale( this.angles[ 0 ]  ) * Math.cos( this.angles[ 0 ] / 2 * Math.PI / 180 ), this.points[ 0 ][ 1 ] +  this.angleScale( this.angles[ 0 ]  ) * Math.sin( this.angles[ 0 ] / 2 * Math.PI / 180 ) ], this.rotation ), labels.CAB ) );
+            this.createLabel( [ this.points[ 0 ][ 0 ] +  this.angleScale( this.angles[ 0 ]  ) * Math.cos( this.angles[ 0 ] / 2 * Math.PI / 180 ), this.points[ 0 ][ 1 ] +  this.angleScale( this.angles[ 0 ]  ) * Math.sin( this.angles[ 0 ] / 2 * Math.PI / 180 ) ], labels.CAB );
         }
         if ( "ABC" in this.labels ){
-            this.set.push(  this.graph.label( this.rotatePoint( [ this.points[ 1 ][ 0 ] + this.angleScale( this.angles[ 1 ] )  * Math.cos( ( 180 - this.angles[ 1 ] / 2 ) * Math.PI / 180 ), this.points[ 1 ][ 1 ] + this.angleScale( this.angles[ 1 ]  ) * Math.sin( ( 180 - this.angles[ 1 ] / 2 ) * Math.PI / 180 ) ], this.rotation ), labels.ABC ) );
+            this.createLabel( [ this.points[ 1 ][ 0 ] + this.angleScale( this.angles[ 1 ] )  * Math.cos( ( 180 - this.angles[ 1 ] / 2 ) * Math.PI / 180 ), this.points[ 1 ][ 1 ] + this.angleScale( this.angles[ 1 ]  ) * Math.sin( ( 180 - this.angles[ 1 ] / 2 ) * Math.PI / 180 ) ] , labels.ABC );
         }
         if ( "BCA" in this.labels ){
-            this.set.push(  this.graph.label( this.rotatePoint( [ this.points[ 2 ][ 0 ] +  this.angleScale( this.angles[ 2 ] )  * Math.cos( ( 180 + this.angles[ 0 ] + this.angles[ 2 ] / 2 ) * Math.PI / 180 ), this.points[ 2 ][ 1 ] +   this.angleScale( this.angles[ 2 ] ) * Math.sin( ( 180 + this.angles[ 0 ] + this.angles[ 2 ] / 2 ) * Math.PI / 180 ) ], this.rotation ), labels.BCA ) );
+            this.createLabel( [ this.points[ 2 ][ 0 ] +  this.angleScale( this.angles[ 2 ] )  * Math.cos( ( 180 + this.angles[ 0 ] + this.angles[ 2 ] / 2 ) * Math.PI / 180 ), this.points[ 2 ][ 1 ] +   this.angleScale( this.angles[ 2 ] ) * Math.sin( ( 180 + this.angles[ 0 ] + this.angles[ 2 ] / 2 ) * Math.PI / 180 ) ], labels.BCA );
         }
 
         return this.set;
@@ -228,7 +231,7 @@ function Triangle( center, angles, sides, scale, labels ){
 
 	this.sides = [ lineLength( this.points[ 1 ], this.points[ 2 ]), lineLength( this.points[ 0 ], this.points[ 2 ]), lineLength( this.points[ 0 ], this.points[ 1 ]) ]
 
-	this.findCircumCenter = function(){
+	this.findCenterPoints = function(){
 		var Ax = this.points[ 0 ][ 0 ];
 		var Ay = this.points[ 0 ][ 1 ];
 		var Bx = this.points[ 1 ][ 0 ];
@@ -236,51 +239,38 @@ function Triangle( center, angles, sides, scale, labels ){
 		var Cx = this.points[ 2 ][ 0 ];
 		var Cy = this.points[ 2 ][ 1 ];
 		var D = 2 * ( Ax * ( By - Cy ) + Bx * ( Cy - Ay ) + Cx * ( Ay - By ));
-		var x = (( Ay * Ay + Ax * Ax ) * ( By - Cy ) + ( By * By + Bx * Bx ) * ( Cy - Ay ) + ( Cy * Cy  + Cx * Cx) * ( Ay - By )) / D; 
-		var y = (( Ay * Ay + Ax * Ax ) * ( Cx - Bx ) + ( By * By + Bx * Bx ) * ( Ax- Cx ) + ( Cy * Cy + Cx * Cx ) * ( Bx - Ax ))/D;
-		return [ x, y ];  
-	}
-
-	this.findCentroid = function(){
-		var Ax = this.points[ 0 ][ 0 ];
-		var Ay = this.points[ 0 ][ 1 ];
-		var Bx = this.points[ 1 ][ 0 ];
-		var By = this.points[ 1 ][ 1 ];
-		var Cx = this.points[ 2 ][ 0 ];
-		var Cy = this.points[ 2 ][ 1 ];
-		return [ 1/3 * ( Ax + Bx + Cx ), 1/3 * ( Ay + By + Cy ) ];
-
-	}
-	this.findInCenter = function(){
-		var Ax = this.points[ 0 ][ 0 ];
-		var Ay = this.points[ 0 ][ 1 ];
-		var Bx = this.points[ 1 ][ 0 ];
-		var By = this.points[ 1 ][ 1 ];
-		var Cx = this.points[ 2 ][ 0 ];
-		var Cy = this.points[ 2 ][ 1 ];
 		var a = this.sides[ 0 ];
 		var b = this.sides[ 1 ];
 		var c = this.sides[ 2 ];
 		var P = a + b + c;
-		var x = ( a * Ax + b * Bx + c * Cx ) / P;
-		var y = ( a * Ay + b * By + c * Cy ) / P;	
-		return [ x, y ];
-
+		var x1 = ( a * Ax + b * Bx + c * Cx ) / P;
+		var y1 = ( a * Ay + b * By + c * Cy ) / P;	
+		var x = (( Ay * Ay + Ax * Ax ) * ( By - Cy ) + ( By * By + Bx * Bx ) * ( Cy - Ay ) + ( Cy * Cy  + Cx * Cx) * ( Ay - By )) / D; 
+		var y = (( Ay * Ay + Ax * Ax ) * ( Cx - Bx ) + ( By * By + Bx * Bx ) * ( Ax- Cx ) + ( Cy * Cy + Cx * Cx ) * ( Bx - Ax ))/D;
+		this.circumCenter = [ x, y ];  
+		this.centroid =  [ 1/3 * ( Ax + Bx + Cx ), 1/3 * ( Ay + By + Cy ) ];
+		this.inCenter = [ x1, y1 ];
 	}
 
-    this.rotationCenter = this.findCentroid();
+	this.findCenterPoints();
+
+    this.rotationCenter = this.centroid;
 	
     this.rotate = function( amount ){
-
         this.set.rotate( amount, this.graph.scalePoint( this.rotationCenter )[0] , this.graph.scalePoint( this.rotationCenter )[1] );
         this.rotation = amount * Math.PI / 180;
-
     }
 
     this.rotatePoint = function ( pos, theta ){
+		var theta = theta || this.rotation; 
         return [ this.rotationCenter[ 0 ] + ( pos[ 0 ] - this.rotationCenter[ 0 ] ) * Math.cos( theta )  +  ( pos[ 1 ] -  this.rotationCenter[ 1 ] ) * Math.sin( theta ),  this.rotationCenter[ 1 ] + ( -1 ) *  ( ( pos[ 0 ] -  this.rotationCenter[ 0 ] ) * Math.sin( theta ) ) + ( ( pos[ 1 ] -  this.rotationCenter[ 1 ] ) * Math.cos( theta ) ) ];
     }
+
+
 }
+
+
+
 function newSquare(){
      return new Quadrilateral( [ 0, 0 ], [ 90, 90 , 90 , 90 ],  1 , "", 3 );
 }
