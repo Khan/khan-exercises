@@ -53,8 +53,7 @@ except:
 
 print "Joining files and copying fonts..."
 
-os.mkdir(os.path.join(mjdir, 'config'))
-kathjax_js = open(os.path.join(mjdir, 'config/KAthJax.js'), 'w')
+kathjax_js = open('KAthJax.js', 'w')
 
 config_js = open(os.path.join(origwd, os.path.dirname(__file__), "kathjax-config.js"), 'r')
 kathjax_js.write(config_js.read())
@@ -76,6 +75,11 @@ for path in pack:
 
 kathjax_js.write('MathJax.Ajax.loadComplete("[MathJax]/config/KAthJax.js");\n')
 kathjax_js.close()
+
+# Pack KAthJax.js and copy to mjdir
+os.mkdir(os.path.join(mjdir, 'config'))
+os.system('uglifyjs --overwrite --ascii KAthJax.js')
+shutil.copy('KAthJax.js', os.path.join(mjdir, 'config/KAthJax.js'))
 
 # Copy some other things
 
@@ -101,3 +105,7 @@ shutil.copy('MathJax.js', mjdir)
 print "Removing temporary directory..."
 os.chdir(origwd)
 shutil.rmtree(tempdir)
+
+print "Done. You may want to run:"
+print "    git add -A utils/MathJax"
+print "in case any files have been removed."
