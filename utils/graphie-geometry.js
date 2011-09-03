@@ -1,3 +1,9 @@
+function lineLength( a, b ){
+	return Math.sqrt( ( a[ 0 ] - b[ 0 ] ) * ( a[ 0 ] - b[ 0 ] )  + ( a[ 1 ] - b[ 1 ] ) * ( a[ 1 ] - b[ 1 ] ) );
+}
+
+
+
 function isPointOnLineSegment( l, p, precision ){
     var precision = precision || 0.1;
     if( Math.abs( l[ 1 ][ 0 ] - l[ 0 ][ 0 ] ) < precision ){
