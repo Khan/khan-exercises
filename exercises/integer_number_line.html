@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Integer Number line</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+
+	<div class="exercise">
+	<div class="vars" >
+		<var id="MIDPOINT">randRange( -15, 15 )</var>
+		<var id="DISTANCE">randRange( -2, 2 )</var>
+		<var id="NUMBER">randRangeNonZero( max(MIDPOINT-5, MIDPOINT-5-DISTANCE),min(MIDPOINT+5, MIDPOINT+5-DISTANCE) )</var>
+	</div>
+	<div class="problems">
+		<div>
+			<div class="question">
+				<span data-if="DISTANCE > 0">
+					<p>What number is <code><var>abs(DISTANCE)</var></code> position<span data-if="DISTANCE > 1">s</span> to the right of the orange dot?</p>
+				</span>
+				<span data-else-if="DISTANCE < 0">
+					<p>What number is <code><var>abs(DISTANCE)</var></code> position<span data-if="DISTANCE < -1">s</span> to the left of the orange dot?</p>
+				</span>
+				<span data-else>
+					<p>What number does the orange dot represent?</p>
+				</span>
+				<div class="graphie" id="number-line">
+					init({
+						range: [ [ MIDPOINT-6, MIDPOINT+6 ], [ -1, 1 ] ]
+					});
+
+					line( [ MIDPOINT-5, 0 ], [ MIDPOINT+5, 0 ] );
+					for ( var x = MIDPOINT-5; x &lt;= MIDPOINT+5; x++ ) {
+						line( [ x, -0.2 ], [ x, 0.2 ] );
+					}
+
+					style({ stroke: "#6495ED", strokeWidth: 3.5 });
+					line( [ MIDPOINT, -0.2], [MIDPOINT, 0.2]);
+					label( [ MIDPOINT, -0.53 ],  MIDPOINT, "center", { color: "#6495ED" });
+				
+					style({ stroke: "#FFA500", fill: "#FFA500" });
+					graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
+				</div>
+			</div>
+			<div class="solution" data-forms="integer"><var>NUMBER+DISTANCE</var></div>
+
+			<div class="hints">
+				<div><p>We know where <code><var>MIDPOINT</var></code> is on this number line because it is labeled.</p></div>
+				<div><p>Numbers to the right of <code><var>MIDPOINT</var></code> are increasing, while numbers to the left of <code><var>MIDPOINT</var></code> are decreasing.</p></div>
+				<div>
+					<p>We need to find the number represented by the blue dot
+					<span data-if="DISTANCE > 0">
+						, which is <code><var>abs(DISTANCE)</var></code> position<span data-if="DISTANCE > 1">s</span> to the right of the orange dot.
+					</span>
+					<span data-else-if="DISTANCE < 0">
+						, which is <code><var>abs(DISTANCE)</var></code> position<span data-if="DISTANCE < -1">s</span> to the left of the orange dot.
+					</span>
+					<span data-else>
+						, which in this case is in the same position as the orange dot.
+					</span>
+					</p>
+					<div class="graphie" data-update="number-line">
+						style({ stroke: "#6495ED", fill: "#6495ED" });
+						graph.blueDot = circle( [ NUMBER+DISTANCE, 0 ], 0.10 );
+					</div>
+				</div>
+				<div>
+				<p>Starting from <code><var>MIDPOINT</var></code>, we move <code><var>abs( NUMBER-MIDPOINT+DISTANCE )</var></code> to the <span data-if="NUMBER-MIDPOINT+DISTANCE < 0">left</span><span data-else>right</span> to reach the blue dot.</p>
+				<div class="graphie" data-update="number-line">
+					style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->" });
+					line( [ MIDPOINT, 0 ], [ NUMBER+DISTANCE, 0 ] );
+					graph.blueDot.toFront();
+				</div>
+				</div>
+				<div>
+					<p>Thus, the blue dot
+					<span data-if="DISTANCE > 0">
+						, which is <code><var>abs(DISTANCE)</var></code> position<span data-if="DISTANCE > 1">s</span> to the right of the orange dot,
+					</span>
+					<span data-else-if="DISTANCE < 0">
+						, which is <code><var>abs(DISTANCE)</var></code> position<span data-if="DISTANCE < -1">s</span> to the left of the orange dot,
+					</span>
+					<span data-else>
+						, which in this case is in the same position as the orange dot,
+					</span>
+				       	represents the number <code><var>NUMBER+DISTANCE</var></code>.</p>
+					<div class="graphie" data-update="number-line">
+						label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
+						label( [ NUMBER+DISTANCE, -0.53 ],  NUMBER+DISTANCE, "center", { color: "#6495ED" });
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+</body>
+</html>

@@ -9,50 +9,124 @@
 
 	<div class="exercise">
 	<div class="vars" >
-		<var id="NUMBER">randRangeNonZero( -5, 5 )</var>
+		<var id="MIDPOINT">randRange( 5, 94 )</var>
+		<var id="DISTANCE">randRange( -1, 2 )</var>
+		<var id="NUMBER">randRange( max(MIDPOINT-5, MIDPOINT-5-DISTANCE),min(MIDPOINT+5, MIDPOINT+5-DISTANCE) )</var>
+		<span data-if="DISTANCE === 2">
+			<var id="NUMBER">randRange( MIDPOINT-4, MIDPOINT+4 )</var>
+		</span>
 	</div>
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>What number does the orange dot represent?</p>
-			<div class="graphie" id="number-line">
-				init({
-					range: [ [ -6, 6 ], [ -1, 1 ] ]
-				});
+				<span data-if="DISTANCE === -1">
+					<p>What number comes just before <code><var>NUMBER+1</var></code>?</p>
+				</span>
+				<span data-else-if="DISTANCE === 1">
+					<p>What number comes just after <code><var>NUMBER-1</var></code>?</p>
+				</span>
+				<span data-else-if="DISTANCE === 2">
+					<p>What number comes between <code><var>NUMBER-1</var></code> and <code><var>NUMBER+1</var></code>?</p>
+				</span>
+				<span data-else>
+					<p>What is the missing number?</p>
+				</span>
+				<div class="graphie" id="number-line">
+					init({
+						range: [ [ MIDPOINT-6, MIDPOINT+6 ], [ -1, 1 ] ]
+					});
 
-				line( [ -5, 0 ], [ 5, 0 ] );
-				for ( var x = -5; x &lt;= 5; x++ ) {
-					line( [ x, -0.2 ], [ x, 0.2 ] );
-				}
-
-				style({ stroke: "#6495ED", strokeWidth: 3.5 });
-				line( [ 0, -0.2], [0, 0.2]);
-				label( [ 0, -0.53 ],  "0", "center", { color: "#6495ED" });
-				
-				style({ stroke: "#FFA500", fill: "#FFA500" });
-				graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
+					line( [ MIDPOINT-5, 0 ], [ MIDPOINT+5, 0 ] );
+					for ( var x = MIDPOINT-5; x &lt;= MIDPOINT+5; x++ ) {
+						style({ stroke: "#6495ED", strokeWidth: 3.5 });
+						line( [ x, -0.2 ], [ x, 0.2 ] );
+						if ((NUMBER === x) && (DISTANCE === 0)) {
+							label( [ x, -0.53 ],  "?", "center", { color: "#FFA500" });
+						}
+						else {
+							label( [ x, -0.53 ],  x, "center", { color: "#6495ED" });
+						}
+					}
+				</div>
 			</div>
 			<div class="solution" data-forms="integer"><var>NUMBER</var></div>
-		</div>
 
-	<div class="hints">
-		<p>We know where <code>0</code> is on this number line because it is labeled.</p>
-		<p>Numbers to the right of <code>0</code> are positive, while numbers to the left of <code>0</code> are negative.</p>
-		<div>
-			<p>Starting from <code>0</code>, we move <code><var>abs( NUMBER )</var></code> to the <span data-if="NUMBER < 0">left</span><span data-else>right</span> to reach the orange dot.</p>
-			<div class="graphie" data-update="number-line">
-				style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->" });
-				line( [ 0, 0 ], [ NUMBER, 0 ] );
-				graph.orangeDot.toFront();
+			<div class="hints">
+				<div>
+				<span data-if="DISTANCE === -1">
+					<p>The blue dot represents <code><var>NUMBER+1</var></code></p>
+					<div class="graphie" data-update="number-line">
+						style({ stroke: "#6495ED", fill: "#6495ED" });
+						graph.blueDot = circle( [ NUMBER+1, 0 ], 0.10 );
+					</div>
+				</span>
+				<span data-else-if="DISTANCE === 1">
+					<p>The blue dot represents <code><var>NUMBER-1</var></code></p>
+					<div class="graphie" data-update="number-line">
+						style({ stroke: "#6495ED", fill: "#6495ED" });
+						graph.blueDot = circle( [ NUMBER-1, 0 ], 0.10 );
+					</div>
+				</span>
+				<span data-else-if="DISTANCE === 2">
+					<p>The blue dots represent <code><var>NUMBER-1</var></code> and <code><var>NUMBER+1</var></code></p>
+					<div class="graphie" data-update="number-line">
+						style({ stroke: "#6495ED", fill: "#6495ED" });
+						graph.blueDot = circle( [ NUMBER-1, 0 ], 0.10 );
+						graph.blueDot2 = circle( [ NUMBER+1, 0 ], 0.10 );
+					</div>
+				</span>
+				<span data-else>
+					<p>The blue dot represents <code><var>NUMBER-1</var></code></p>
+					<div class="graphie" data-update="number-line">
+						style({ stroke: "#6495ED", fill: "#6495ED" });
+						graph.blueDot = circle( [ NUMBER-1, 0 ], 0.10 );
+					</div>
+				</span>
+				</div>
+				<div>
+				<span data-if="DISTANCE === -1">
+					<p>Starting from <code><var>NUMBER+1</var></code> and moving one to the left (which is the number before) brings us to the orange dot</p>
+					<div class="graphie" data-update="number-line">
+					style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+					line( [ NUMBER+1, 0 ], [ NUMBER, 0 ] );
+					style({ stroke: "#FFA500", fill: "#FFA500" });
+					graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
+					</div>
+				</span>
+				<span data-else-if="DISTANCE === 1">
+					<p>Starting from <code><var>NUMBER-1</var></code> and moving one to the right (which is the number after) brings us to the orange dot</p>
+					<div class="graphie" data-update="number-line">
+					style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+					line( [ NUMBER-1, 0 ], [ NUMBER, 0 ] );
+					style({ stroke: "#FFA500", fill: "#FFA500" });
+					graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
+					</div>
+				</span>
+				<span data-else-if="DISTANCE === 2">
+					<p>Starting from <code><var>NUMBER-1</var></code> and moving one to the right (which is the number between the 2 blue dots) brings us to the orange dot</p>
+					<div class="graphie" data-update="number-line">
+					style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+					line( [ NUMBER-1, 0 ], [ NUMBER, 0 ] );
+					style({ stroke: "#FFA500", fill: "#FFA500" });
+					graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
+					</div>
+				</span>
+				<span data-else>
+					<p>Starting from <code><var>NUMBER-1</var></code> and moving one to the right brings us to the orange dot</p>
+					<div class="graphie" data-update="number-line">
+					style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+					line( [ NUMBER-1, 0 ], [ NUMBER, 0 ] );
+					style({ stroke: "#FFA500", fill: "#FFA500" });
+					graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
+					label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#6495ED" });
+					</div>
+				</span>
+				</div>
+				<div>
+					<p> This gives us our answer, which is the number <code><var>NUMBER</var></code>
+				</div>
 			</div>
 		</div>
-		<div>
-			<p>Thus, the orange dot represents the number <code><var>NUMBER</var></code>.</p>
-			<div class="graphie" data-update="number-line">
-				label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
-			</div>
-	</div>
-	</div>
-	</div>
+		</div>
 </body>
 </html>
