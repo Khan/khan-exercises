@@ -220,8 +220,9 @@ var Khan = {
 		// Yuck! There is no god. John will personally gut punch whoever
 		// thought this was a good API design.
 		"math": [ {
-			src: "http://cdn.mathjax.org/mathjax/1.1-latest/MathJax.js",
+			src: urlBase + "utils/MathJax/MathJax.js",
 			text: "MathJax.Hub.Config({\
+				config: [\"KAthJax.js\"],\
 				messageStyle: \"none\",\
 				skipStartupTypeset: true,\
 				jax: [\"input/TeX\",\"output/HTML-CSS\"],\
@@ -257,7 +258,8 @@ var Khan = {
 				\"HTML-CSS\": {\
 					scale: 100,\
 					showMathMenu: false,\
-					availableFonts: [\"TeX\"]\
+					availableFonts: [\"TeX\"],\
+					imageFont: null\
 				}\
 			});\
 			\
@@ -396,9 +398,10 @@ var Khan = {
 
 		for ( var i = 0; i < loading; i++ ) (function( mod ) {
 
-			if ( !testMode && mod.src.indexOf("/khan-exercises/") === 0 ) {
+			if ( !testMode && mod.src.indexOf("/khan-exercises/") === 0 && mod.src.indexOf("/MathJax/") === -1 ) {
 				// Don't bother loading khan-exercises content in production
-				// mode, this content is already packaged up and available.
+				// mode, this content is already packaged up and available
+				// (*unless* it's MathJax, which is silly still needs to be loaded)
 				loaded++;
 				return;
 			}
