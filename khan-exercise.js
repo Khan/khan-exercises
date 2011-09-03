@@ -475,7 +475,84 @@ var Khan = {
 				console.error(arg);
 			});
 		}
-	}
+	},
+
+	scratchpad: (function() {
+		var disabled = false, visible = false, wasVisible, pad;
+
+		var actions = {
+			disable: function() {
+				wasVisible = visible;
+				actions.hide();
+
+				jQuery( "#scratchpad-show" ).hide();
+				jQuery( "#scratchpad-not-available" ).show();
+				disabled = true;
+			},
+
+			enable: function() {
+				if ( wasVisible ) {
+					actions.show();
+					wasVisible = false;
+				}
+
+				jQuery( "#scratchpad-show" ).show();
+				jQuery( "#scratchpad-not-available" ).hide();
+				disabled = false;
+			},
+
+			isVisible: function() {
+				return visible;
+			},
+
+			show: function() {
+				if ( visible ) return;
+
+				var makeVisible = function() {
+					jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
+					jQuery( "#scratchpad" ).show();
+					jQuery( "#scratchpad-show" ).text( "Hide scratchpad" );
+					visible = true;
+				};
+
+				if ( !pad ) {
+					Khan.loadScripts( [ { src: urlBase + "utils/scratchpad.js" } ], function() {
+						makeVisible();
+						pad || ( pad = new Scratchpad( jQuery( "#scratchpad div" )[0] ) );
+					} );
+				} else {
+					makeVisible();
+				}
+			},
+
+			hide: function() {
+				if ( !visible ) return;
+
+				jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
+				jQuery( "#scratchpad" ).hide();
+				jQuery( "#scratchpad-show" ).text( "Show scratchpad" );
+				visible = false;
+			},
+
+			toggle: function() {
+				visible ? actions.hide() : actions.show();
+			},
+
+			clear: function() {
+				if ( pad ) {
+					pad.clear();
+				}
+			},
+
+			resize: function() {
+				if ( pad ) {
+					pad.resize();
+				}
+			}
+		};
+
+		return actions;
+	})()
 };
 
 // Load query string params
@@ -652,6 +729,9 @@ function makeProblem( id, seed ) {
 	if ( typeof Badges !== "undefined" ) {
 		Badges.hide();
 	}
+
+	// Enable scratchpad (unless the exercise explicitly disables it later)
+	Khan.scratchpad.enable();
 
 	// Allow passing in a random seed
 	if ( typeof seed !== "undefined" ) {
@@ -1116,9 +1196,7 @@ function prepareSite() {
 		jQuery("#workarea, #hintsarea").runModules( problem, "Cleanup" ).empty();
 		jQuery("#hint").attr( "disabled", false );
 
-		if ( Khan.scratchpad ) {
-			Khan.scratchpad.clear();
-		}
+		Khan.scratchpad.clear();
 
 		if ( testMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount ) {
 			// Show the dump data
@@ -1179,9 +1257,7 @@ function prepareSite() {
 			jQuery( hint ).appendTo( "#hintsarea" ).runModules( problem );
 
 			// Grow the scratchpad to cover the new hint
-			if ( Khan.scratchpad ) {
-				Khan.scratchpad.resize();
-			}
+			Khan.scratchpad.resize();
 
 			// Disable the get hint button
 			if ( hints.length === 0 ) {
@@ -1414,37 +1490,13 @@ function prepareSite() {
 		jQuery( "#warning-bar" ).fadeOut( "slow" );
 	});
 
-	jQuery( "#scratchpad-show" ).data( "show", true )
+	jQuery( "#scratchpad-show" )
 		.click( function( e ) {
 			e.preventDefault();
-			var button = jQuery( this ),
-				show = button.data( "show" );
+			Khan.scratchpad.toggle();
 
-			if ( show ) {
-				if ( !Khan.scratchpad ) {
-					Khan.loadScripts( [ {src: urlBase + "utils/scratchpad.js"} ], function() {
-						jQuery( "#scratchpad" ).show();
-						jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
-
-						Khan.scratchpad = new Scratchpad( jQuery( "#scratchpad div" )[0] );
-						button.text( "Hide scratchpad" );
-					} );
-
-				} else {
-					jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
-					jQuery( "#scratchpad" ).show();
-					button.text( "Hide scratchpad" );
-				}
-
-			} else {
-				jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
-				jQuery( "#scratchpad" ).hide();
-				button.text( "Show scratchpad" );
-			}
-
-			button.data( "show", !show );
-			if (user) {
-				window.localStorage[ "scratchpad:" + user ] = show;
+			if ( user ) {
+				window.localStorage[ "scratchpad:" + user ] = Khan.scratchpad.isVisible();
 			}
 		});
 
@@ -1604,8 +1656,8 @@ function prepareSite() {
 	// Make scratchpad persistent per-user
 	if (user) {
 		var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
-		if (typeof lastScratchpad !== "undefined" && JSON.parse(lastScratchpad)) {
-			$("#scratchpad-show").click();
+		if ( typeof lastScratchpad !== "undefined" && JSON.parse( lastScratchpad ) ) {
+			Khan.scratchpad.show();
 		}
 	}
 }
