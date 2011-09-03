@@ -1,8 +1,9 @@
+import hashlib
 import os
+import re
 import shutil
 import sys
 import tempfile
-import re
 
 try:
     import json
@@ -25,14 +26,14 @@ pack = [
 
 origwd = os.getcwd()
 tempdir = tempfile.mkdtemp()
-mjdir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../utils/MathJax"))
+mjdir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../utils/MathJax/1.1a"))
 
 if os.path.isdir(mjdir):
-    print "Directory %s exists, exiting" % mjdir
+    print "%s exists, exiting" % mjdir
     sys.exit(1)
 else:
     print "Creating directory %s" % mjdir
-    os.mkdir(mjdir)
+    os.makedirs(mjdir)
 
 os.chdir(tempdir)
 
@@ -51,7 +52,7 @@ except:
 
 # Pack most things into KAthJax.js
 
-print "Joining files and copying fonts..."
+print "Joining JavaScript files..."
 
 kathjax_js = open('KAthJax.js', 'w')
 
@@ -73,13 +74,40 @@ for path in pack:
     kathjax_js.write(r_comment.sub('', contents.strip(), 1))
     kathjax_js.write('\n\n')
 
-kathjax_js.write('MathJax.Ajax.loadComplete("[MathJax]/config/KAthJax.js");\n')
+kathjax_js.write('(function( ajax ) {\n')
+kathjax_js.write('\tfor (var path in ajax.loading) {\n')
+kathjax_js.write('\t\tif ( ( /KAthJax-[0-9a-f]{32}.js$/ ).test( path ) ) {\n')
+kathjax_js.write('\t\t\tajax.loadComplete( path );\n')
+kathjax_js.write('\t\t}\n')
+kathjax_js.write('\t}\n')
+kathjax_js.write('})( MathJax.Ajax );\n')
 kathjax_js.close()
 
 # Pack KAthJax.js and copy to mjdir
+
 os.mkdir(os.path.join(mjdir, 'config'))
 os.system('uglifyjs --overwrite --ascii KAthJax.js')
-shutil.copy('KAthJax.js', os.path.join(mjdir, 'config/KAthJax.js'))
+
+kathjax_js = open('KAthJax.js', 'r')
+md5 = hashlib.md5(kathjax_js.read()).hexdigest()
+kathjax_js.close()
+
+kathjax_basename = "KAthJax-%s" % md5
+shutil.copy('KAthJax.js', os.path.join(mjdir, 'config/%s.js' % kathjax_basename))
+
+# Update hash in khan-exercise.js
+
+khan_exercise_path = os.path.join(origwd, os.path.dirname(__file__), "../khan-exercise.js")
+
+khan_exercise_f = open(khan_exercise_path, 'r')
+khan_exercise = khan_exercise_f.read()
+khan_exercise_f.close()
+
+khan_exercise_f = open(khan_exercise_path, 'w')
+khan_exercise_f.write(re.sub(r'KAthJax-[0-9a-f]{32}', kathjax_basename, khan_exercise))
+khan_exercise_f.close()
+
+print "Generated %s.js, copying files..." % kathjax_basename
 
 # Copy some other things
 
@@ -106,6 +134,6 @@ print "Removing temporary directory..."
 os.chdir(origwd)
 shutil.rmtree(tempdir)
 
-print "Done. You may want to run:"
-print "    git add -A utils/MathJax"
-print "in case any files have been removed."
+print "Done. You probably want to run:"
+print "  git add -A utils/MathJax"
+print "to remove deleted files from git."
