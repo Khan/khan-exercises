@@ -32,14 +32,6 @@ var Khan = (function() {
 		return;
 	}
 
-	// in what prod situation will jQuery not have been loaded yet?
-	if ( typeof jQuery !== "undefined" ) {
-		jQuery( "<img width=0 height=0>" ).error(function() {
-			warn( 'Ask your network administrator to unblock access to '
-				+ '<a href="http://cdn.mathjax.org/mathjax" target="_blank">http://cdn.mathjax.org</a>.', false );
-		}).attr( "src", "http://www.mathjax.org/wp-content/themes/mathjax/images/favicon.ico?" + Math.random() );
-	}
-
 // Prime numbers used for jumping through exercises
 var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	47, 53, 59, 61, 67, 71, 73, 79, 83],
