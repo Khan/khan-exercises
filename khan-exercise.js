@@ -1363,7 +1363,7 @@ function prepareSite() {
 			},
 			labels = [];
 		jQuery.each( flags, function( k, v ) {
-			if ( v ) labels.push( k )
+			if ( v ) labels.push( k );
 		});
 
 		if ( title === "" ) {
