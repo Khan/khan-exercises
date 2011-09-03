@@ -56,6 +56,10 @@ print "Joining files and copying fonts..."
 os.mkdir(os.path.join(mjdir, 'config'))
 kathjax_js = open(os.path.join(mjdir, 'config/KAthJax.js'), 'w')
 
+config_js = open(os.path.join(origwd, os.path.dirname(__file__), "kathjax-config.js"), 'r')
+kathjax_js.write(config_js.read())
+config_js.close()
+
 kathjax_js.write('MathJax.Ajax.Preloading(\n')
 kathjax_js.write(',\n'.join('\t%s' % json.dumps('[MathJax]/%s' % path) for path in pack))
 kathjax_js.write('\n);\n\n')
