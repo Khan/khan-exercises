@@ -77,7 +77,7 @@ var, div.graphie { white-space: pre; }
   text-shadow: 0 -1px 0 #557303;
 }
 
-.incorrect-activity, .unavailable-activity {
+.incorrect-activity {
   background-color: #e12c2d;
   text-shadow: 0 -1px 0 #921118;
 }
@@ -124,7 +124,6 @@ div.timeline-total {
 }
 
 #timelinecontainer {
-  /*height: 45px;*/
   border: 1px solid #c6d1ad;
   border-top: 0px;
   position: relative;
@@ -148,7 +147,6 @@ div.timeline-total {
   position: absolute;
   left: 265px;
   right: 225px;
-  /*height: 45px;*/
   border-left: 1px solid #c6d1ad;
   border-right: 1px solid #c6d1ad;
 }

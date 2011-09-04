@@ -638,7 +638,7 @@ function makeProblemBag( problems, n ) {
 	return bag;
 }
 
-function makeProblem( id, seed, redraw ) {
+function makeProblem( id, seed ) {
 	if ( typeof Badges !== "undefined" ) {
 		Badges.hide();
 	}
@@ -850,9 +850,7 @@ function makeProblem( id, seed, redraw ) {
 		} );
 	}
 
-	// This only runs the when an exercise is loaded, not when it is redrawn
-	// while navigating the timeline
-	if (typeof userExercise !== "undefined" && userExercise.read_only && redraw !== true) {
+	if (typeof userExercise !== "undefined" && userExercise.read_only) {
 		var timelineEvents, timeline;
 
 		var timelinecontainer = jQuery( "<div id='timelinecontainer'>" )
@@ -994,7 +992,6 @@ function makeProblem( id, seed, redraw ) {
 
 			return this;
 		}
-
 
 		// Set the width of the timeline (starts as 10000px) after MathJax loads
 		MathJax.Hub.Queue(function() {
@@ -1149,6 +1146,14 @@ function makeProblem( id, seed, redraw ) {
 			}
 
 			return false;
+		});
+
+		jQuery( '#next-problem' ).click(function(event) {
+			window.location.href = userExercise.next_problem_url;
+		});
+
+		jQuery( '#previous-problem' ).click(function(event) {
+			window.location.href = userExercise.previous_problem_url;
 		});
 
 		// Some exercises use custom css
