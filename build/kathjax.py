@@ -117,6 +117,7 @@ dirs = [
     'fonts/HTML-CSS/TeX/svg',
     'jax/output/HTML-CSS/autoload', # not sure what this is
     'jax/output/HTML-CSS/fonts/TeX', # not sure if we need this either; better safe than sorry?
+    'jax/element/mml/optable', # seems like we need this too
 ]
 
 for d in dirs:
