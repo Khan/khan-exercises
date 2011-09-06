@@ -53,7 +53,11 @@ body.debug .graphie { outline: 1px dashed red; }
 .summary { display: none; }
 #browserwarning { display: none; padding: 18px; font-size: 120%; text-align: center; }
 
-#answer_area input.button:disabled { opacity: 0.5; filter: opacity(0.5); cursor: default; }
+#answer_area input.simple-button:disabled { opacity: 0.5; filter: opacity(0.5); cursor: default; }
+#answer_area input.simple-button:disabled:hover { color: #fff !important; }
+#answer_area input.simple-button.orange:disabled:hover { border-color: #bf4f04 !important; border-bottom-color: #803503 !important; }
+#answer_area input.simple-button.green:disabled:hover { border-color: #76a005 !important; border-bottom-color: #557303 !important; }
+
 
 #hint-remainder { color: #777; }
 
