@@ -17,6 +17,7 @@ pack = [
     'extensions/TeX/noErrors.js',
     'extensions/TeX/noUndefined.js',
     'extensions/TeX/newcommand.js',
+    'extensions/TeX/boldsymbol.js',
     'extensions/tex2jax.js',
     'jax/element/mml/jax.js',
     'jax/input/TeX/config.js',

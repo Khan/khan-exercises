@@ -4,7 +4,14 @@ MathJax.Hub.Config({
 	jax: ["input/TeX","output/HTML-CSS"],
 	extensions: ["tex2jax.js","MathZoom.js"],
 	TeX: {
-		extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js","newcommand.js"],
+		extensions: [
+			"AMSmath.js",
+			"AMSsymbols.js",
+			"noErrors.js",
+			"noUndefined.js",
+			"newcommand.js",
+			"boldsymbol.js"
+		],
 		Macros: {
 			RR: "\\mathbb{R}"
 		},
