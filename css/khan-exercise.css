@@ -54,11 +54,18 @@ body.debug .graphie { outline: 1px dashed red; }
 .summary { display: none; }
 #browserwarning { display: none; padding: 18px; font-size: 120%; text-align: center; }
 
-#answer_area input.button:disabled { opacity: 0.7; cursor: default; color: #333; }
+#answer_area input.simple-button:disabled { opacity: 0.5; filter: alpha(opacity = 50); cursor: default; }
+#answer_area input.simple-button:disabled:hover { color: #fff !important; }
+#answer_area input.simple-button.orange:disabled:hover { border-color: #bf4f04 !important; border-bottom-color: #803503 !important; }
+#answer_area input.simple-button.green:disabled:hover { border-color: #76a005 !important; border-bottom-color: #557303 !important; }
+
 
 #hint-remainder { color: #777; }
 
-#footer .simple-button { padding: 3px 10px; top: -1px }
+#footer .simple-button, .info-box .simple-button { padding: 3px 10px; top: -1px }
+.info-box .simple-button { top:  3px; );
+    
+}
 
 #issue .error { font-style: italic; font-weight: bold; }
 #issue-link { font-style: italic; }
