@@ -16,6 +16,7 @@ pack = [
     'extensions/TeX/AMSsymbols.js',
     'extensions/TeX/noErrors.js',
     'extensions/TeX/noUndefined.js',
+    'extensions/TeX/newcommand.js',
     'extensions/tex2jax.js',
     'jax/element/mml/jax.js',
     'jax/input/TeX/config.js',
