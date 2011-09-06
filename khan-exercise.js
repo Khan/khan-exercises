@@ -949,12 +949,14 @@ function makeProblem( id, seed ) {
 		    hintButton = jQuery( '#hint' ),
 		    hintRemainder = jQuery( '#hint-remainder' ),
 		    timelineMiddle = timeline.width() / 2,
-				realHintsArea = jQuery( '#hintsarea' ).detach(),
-				realWorkArea = jQuery( '#workarea' ).detach(),
+		    realHintsArea = jQuery( '#hintsarea' ).detach(),
+		    realWorkArea = jQuery( '#workarea' ).detach(),
 		    statelist = [],
-		    waiting = false;
+		    waiting = false,
+		    previousHintNum = -1;
 
-		jQuery.fx.interval = 25;
+		// So highlighting doesn't fade to white
+		jQuery( '#solution' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
 
 		jQuery.fn.scrubber = function() {
 			var scrubber1 = jQuery('#scrubber1'),
@@ -1008,12 +1010,10 @@ function makeProblem( id, seed ) {
 
 		var activate = function( slideNum ) {
 			var hint, hintNum, thisState,
-			    thisSlide = states.eq( slideNum ),
-			    previousHintIndex = false,
-					workArea = jQuery( '#workarea' );
+			    thisSlide = states.eq( slideNum );
 
 			// We can't continue until MathJax has rendered
-			if ( (MathJax.Hub.queue.pending || MathJax.Hub.queue.running) && !waiting && !statelist[slideNum] ) {
+			if ((MathJax.Hub.queue.pending || MathJax.Hub.queue.running) && !waiting && !statelist[slideNum]) {
 				waiting = true;
 				MathJax.Hub.Queue(function() {
 					activate(slideNum);
@@ -1034,27 +1034,44 @@ function makeProblem( id, seed ) {
 				});
 
 				if (slideNum < firstHintIndex) {
-					hintRemainder.fadeOut( 15 );
+					hintRemainder.fadeOut( 150 );
 					hintButton.val( "I'd like a hint" );
 				} else if (slideNum >= lastHintIndex) {
 					if (states.eq( lastHintIndex ).data( 'hint' ) < hints.length) {
-						hintRemainder.fadeOut( 15 );
+						hintRemainder.fadeOut( 150 );
 					}
 				} else {
 					hintButton.val( "I'd like another hint" );
 
 					hintRemainder
 						.text( (totalHints - thisState.hintNum) + " remaining" )
-						.fadeIn( 15 );
+						.fadeIn( 150 );
 				}
 
 				jQuery( '#workarea' ).remove();
 				jQuery( '#hintsarea' ).remove();
 				jQuery( '#problemarea' ).append( thisState.problem ).append( thisState.hintArea );
 
-				// If there is a guess we show it as if it was filled in by the user
-				// If there is no guess (like for a hint) this makes the answer box empty
-				validator.showGuess( thisSlide.data( 'guess' ) );
+				if (thisSlide.data( 'guess' )) {
+					solutionarea.effect( 'highlight', {}, 200 );
+
+					// If there is a guess we show it as if it was filled in by the user
+					validator.showGuess( thisSlide.data( 'guess' ) );
+				}
+
+				if (slideNum > 0 && (statelist[slideNum].hintNum > statelist[slideNum-1].hintNum)) {
+					jQuery( '#hintsarea' ).children().each( function( index, elem ) {
+						if (index > previousHintNum) {
+							jQuery(elem).effect( 'highlight', {}, 200 );
+						}
+					} );
+
+					previousHintNum = statelist[slideNum].hintNum;
+				}
+
+				if (slideNum === 0) {
+					previousHintNum = -1;
+				}
 			} else { // build up content for this state
 				jQuery( '#workarea' ).remove();
 				jQuery( '#hintsarea' ).remove();
@@ -1290,7 +1307,6 @@ function prepareSite() {
 		.attr( "src", urlBase + "css/images/throbber.gif" );
 
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
-	//	jQuery( "#answercontent" ).hide();
 		jQuery( "#extras" ).css("visibility", "hidden");
 	}
 
