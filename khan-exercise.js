@@ -32,14 +32,6 @@ var Khan = (function() {
 		return;
 	}
 
-	// in what prod situation will jQuery not have been loaded yet?
-	if ( typeof jQuery !== "undefined" ) {
-		jQuery( "<img width=0 height=0>" ).error(function() {
-			warn( 'Ask your network administrator to unblock access to '
-				+ '<a href="http://cdn.mathjax.org/mathjax" target="_blank">http://cdn.mathjax.org</a>.', false );
-		}).attr( "src", "http://www.mathjax.org/wp-content/themes/mathjax/images/favicon.ico?" + Math.random() );
-	}
-
 // Prime numbers used for jumping through exercises
 var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	47, 53, 59, 61, 67, 71, 73, 79, 83],
@@ -217,93 +209,8 @@ var Khan = {
 	urlBase: urlBase,
 
 	moduleDependencies: {
-		// Yuck! There is no god. John will personally gut punch whoever
-		// thought this was a good API design.
 		"math": [ {
-			src: "http://cdn.mathjax.org/mathjax/1.1-latest/MathJax.js",
-			text: "MathJax.Hub.Config({\
-				messageStyle: \"none\",\
-				skipStartupTypeset: true,\
-				jax: [\"input/TeX\",\"output/HTML-CSS\"],\
-				extensions: [\"tex2jax.js\",\"MathZoom.js\"],\
-				TeX: {\
-					extensions: [\"AMSmath.js\",\"AMSsymbols.js\",\"noErrors.js\",\"noUndefined.js\"],\
-					Macros: {\
-						RR: \"\\\\mathbb{R}\"\
-					},\
-					Augment: {\
-						Definitions: {\
-							macros: {\
-								lrsplit: \"LRSplit\",\
-								lcm: [\"NamedOp\", 0],\
-							}\
-						},\
-						Parse: {\
-							prototype: {\
-								LRSplit: function( name ) {\
-									var num = this.GetArgument( name ),\
-										den = this.GetArgument( name );\
-									var frac = MathJax.ElementJax.mml.mfrac( MathJax.InputJax.TeX.Parse( '\\\\strut\\\\textstyle{'+num+'\\\\qquad}', this.stack.env ).mml(),\
-										MathJax.InputJax.TeX.Parse( '\\\\strut\\\\textstyle{\\\\qquad '+den+'}', this.stack.env ).mml() );\
-									frac.numalign = MathJax.ElementJax.mml.ALIGN.LEFT;\
-									frac.denomalign = MathJax.ElementJax.mml.ALIGN.RIGHT;\
-									frac.linethickness = \"0em\";\
-									this.Push( frac );\
-								}\
-							}\
-						}\
-					}\
-				},\
-				\"HTML-CSS\": {\
-					scale: 100,\
-					showMathMenu: false,\
-					availableFonts: [\"TeX\"]\
-				}\
-			});\
-			\
-			// We don't want to use inline script elements, we want to use code blocks\n\
-			MathJax.Hub.elementScripts = function( elem ) {\
-				return elem.nodeName.toLowerCase() === \"code\" ?\
-					[ elem ] :\
-					elem.getElementsByTagName( \"code\" );\
-			};\
-			// Data is read in here:\n\
-			// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704\n\
-			// We can force it to convert HTML entities properly by saying we're Konqueror\n\
-			MathJax.Hub.Browser.isKonqueror = true;\
-			MathJax.Ajax.timeout = 60 * 1000;\
-			MathJax.Ajax.loadError = (function( oldLoadError ) {\
-				return function( file ) {\
-					Khan.warnTimeout();\
-					// Otherwise will receive unresponsive script error when finally finish loading \n\
-					MathJax.Ajax.loadComplete = function( file ) { };\
-					oldLoadError.call( this, file );\
-				};\
-			})( MathJax.Ajax.loadError );\
-			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - using image fonts\", function() {\
-				Khan.warnFont();\
-			});\
-			MathJax.Hub.Register.StartupHook(\"HTML-CSS Jax - no valid font\", function() {\
-				Khan.warnFont();\
-			});\
-			// Trying to monkey-patch MathJax.Message.Init to not throw errors\n\
-			MathJax.Message.Init = (function( oldInit ) {\
-				return function( styles ) {\
-					if ( this.div && this.div.parentNode == null ) {\
-						var div = document.getElementById(\"MathJax_Message\");\
-						if ( div && div.firstChild == null ) {\
-							var parent = div.parentNode;\
-							if ( parent ) {\
-								parent.removeChild( div );\
-							}\
-						}\
-					}\
-					\
-					oldInit.call( this, styles );\
-				};\
-			})( MathJax.Message.Init );\
-			\
-			MathJax.Hub.Startup.onload();"
+			src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-068803fb4f52251c6b575d0d44ea057e"
 		}, "raphael" ],
 
 		// Load Raphael locally because IE8 has a problem with the 1.5.2 minified release
@@ -318,6 +225,7 @@ var Khan = {
 		"stat": [ "math" ],
 		"word-problems": [ "math" ]
 	},
+
 	warnTimeout: function() {
 		warn( 'Your internet might be too slow to see an exercise. Refresh the page '
 			+ 'or <a href="" id="warn-report">report a problem</a>.', false );
@@ -396,9 +304,10 @@ var Khan = {
 
 		for ( var i = 0; i < loading; i++ ) (function( mod ) {
 
-			if ( !testMode && mod.src.indexOf("/khan-exercises/") === 0 ) {
+			if ( !testMode && mod.src.indexOf("/khan-exercises/") === 0 && mod.src.indexOf("/MathJax/") === -1 ) {
 				// Don't bother loading khan-exercises content in production
-				// mode, this content is already packaged up and available.
+				// mode, this content is already packaged up and available
+				// (*unless* it's MathJax, which is silly still needs to be loaded)
 				loaded++;
 				return;
 			}
@@ -475,7 +384,84 @@ var Khan = {
 				console.error(arg);
 			});
 		}
-	}
+	},
+
+	scratchpad: (function() {
+		var disabled = false, visible = false, wasVisible, pad;
+
+		var actions = {
+			disable: function() {
+				wasVisible = visible;
+				actions.hide();
+
+				jQuery( "#scratchpad-show" ).hide();
+				jQuery( "#scratchpad-not-available" ).show();
+				disabled = true;
+			},
+
+			enable: function() {
+				if ( wasVisible ) {
+					actions.show();
+					wasVisible = false;
+				}
+
+				jQuery( "#scratchpad-show" ).show();
+				jQuery( "#scratchpad-not-available" ).hide();
+				disabled = false;
+			},
+
+			isVisible: function() {
+				return visible;
+			},
+
+			show: function() {
+				if ( visible ) return;
+
+				var makeVisible = function() {
+					jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
+					jQuery( "#scratchpad" ).show();
+					jQuery( "#scratchpad-show" ).text( "Hide scratchpad" );
+					visible = true;
+				};
+
+				if ( !pad ) {
+					Khan.loadScripts( [ { src: urlBase + "utils/scratchpad.js" } ], function() {
+						makeVisible();
+						pad || ( pad = new Scratchpad( jQuery( "#scratchpad div" )[0] ) );
+					} );
+				} else {
+					makeVisible();
+				}
+			},
+
+			hide: function() {
+				if ( !visible ) return;
+
+				jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
+				jQuery( "#scratchpad" ).hide();
+				jQuery( "#scratchpad-show" ).text( "Show scratchpad" );
+				visible = false;
+			},
+
+			toggle: function() {
+				visible ? actions.hide() : actions.show();
+			},
+
+			clear: function() {
+				if ( pad ) {
+					pad.clear();
+				}
+			},
+
+			resize: function() {
+				if ( pad ) {
+					pad.resize();
+				}
+			}
+		};
+
+		return actions;
+	})()
 };
 
 // Load query string params
@@ -652,6 +638,9 @@ function makeProblem( id, seed ) {
 	if ( typeof Badges !== "undefined" ) {
 		Badges.hide();
 	}
+
+	// Enable scratchpad (unless the exercise explicitly disables it later)
+	Khan.scratchpad.enable();
 
 	// Allow passing in a random seed
 	if ( typeof seed !== "undefined" ) {
@@ -1116,9 +1105,7 @@ function prepareSite() {
 		jQuery("#workarea, #hintsarea").runModules( problem, "Cleanup" ).empty();
 		jQuery("#hint").attr( "disabled", false );
 
-		if ( Khan.scratchpad ) {
-			Khan.scratchpad.clear();
-		}
+		Khan.scratchpad.clear();
 
 		if ( testMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount ) {
 			// Show the dump data
@@ -1179,9 +1166,7 @@ function prepareSite() {
 			jQuery( hint ).appendTo( "#hintsarea" ).runModules( problem );
 
 			// Grow the scratchpad to cover the new hint
-			if ( Khan.scratchpad ) {
-				Khan.scratchpad.resize();
-			}
+			Khan.scratchpad.resize();
 
 			// Disable the get hint button
 			if ( hints.length === 0 ) {
@@ -1287,7 +1272,7 @@ function prepareSite() {
 			},
 			labels = [];
 		jQuery.each( flags, function( k, v ) {
-			if ( v ) labels.push( k )
+			if ( v ) labels.push( k );
 		});
 
 		if ( title === "" ) {
@@ -1414,37 +1399,13 @@ function prepareSite() {
 		jQuery( "#warning-bar" ).fadeOut( "slow" );
 	});
 
-	jQuery( "#scratchpad-show" ).data( "show", true )
+	jQuery( "#scratchpad-show" )
 		.click( function( e ) {
 			e.preventDefault();
-			var button = jQuery( this ),
-				show = button.data( "show" );
+			Khan.scratchpad.toggle();
 
-			if ( show ) {
-				if ( !Khan.scratchpad ) {
-					Khan.loadScripts( [ {src: urlBase + "utils/scratchpad.js"} ], function() {
-						jQuery( "#scratchpad" ).show();
-						jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
-
-						Khan.scratchpad = new Scratchpad( jQuery( "#scratchpad div" )[0] );
-						button.text( "Hide scratchpad" );
-					} );
-
-				} else {
-					jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
-					jQuery( "#scratchpad" ).show();
-					button.text( "Hide scratchpad" );
-				}
-
-			} else {
-				jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
-				jQuery( "#scratchpad" ).hide();
-				button.text( "Show scratchpad" );
-			}
-
-			button.data( "show", !show );
-			if (user) {
-				window.localStorage[ "scratchpad:" + user ] = show;
+			if ( user ) {
+				window.localStorage[ "scratchpad:" + user ] = Khan.scratchpad.isVisible();
 			}
 		});
 
@@ -1604,8 +1565,8 @@ function prepareSite() {
 	// Make scratchpad persistent per-user
 	if (user) {
 		var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
-		if (typeof lastScratchpad !== "undefined" && JSON.parse(lastScratchpad)) {
-			$("#scratchpad-show").click();
+		if ( typeof lastScratchpad !== "undefined" && JSON.parse( lastScratchpad ) ) {
+			Khan.scratchpad.show();
 		}
 	}
 }
