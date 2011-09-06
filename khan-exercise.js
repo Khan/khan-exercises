@@ -1229,6 +1229,17 @@ function prepareSite() {
 
 	});
 
+	jQuery( "#issue-email, #issue-email-label" ).hide();
+
+	jQuery( "#issue-13-yes" ).click( function() {
+		jQuery( "#issue-email, #issue-email-label" ).show();
+	});
+
+	jQuery( "#issue-13-no" ).click( function() {
+		jQuery( "#issue-email, #issue-email-label" ).hide();
+		jQuery( "#issue-email" ).val( "" );
+	});
+
 	// Submit an issue.
 	jQuery( "#issue form input:submit" ).click( function( e ) {
 

@@ -96,11 +96,23 @@
 			<span class="info-box-header">Report a Problem</span>
 			<p id="issue-status"></p>
 			<form>
-				<label for="issue-title">Issue Title:<input type="text" name="issue-title" id="issue-title" /></label>
-				<label for="issue-email">Your Email (optional):<input type="text" name="issue-email" id="issue-email" /></label>
-        <label for-"issue-body">Description of Issue:<textarea name="issue-body" id="issue-body"></textarea></label>
-				<input type="submit" class="button orange" value="Submit Issue">
-				<a href="/#" id="issue-cancel">Cancel</a>
+				<label for="issue-title">Issue Title:</label>
+				<input type="text" name="issue-title" id="issue-title" />
+        <label for-"issue-body">Description of Issue:</label>
+				<textarea name="issue-body" id="issue-body"></textarea>
+				<div id="issue-13-div">
+					<span>Are you 13 or older?</span>
+					<input id="issue-13-yes" type="radio" name="issue-13" value="radiobutton" />
+					<label for="issue-13-yes">yes</label>
+					<input id="issue-13-no" type="radio" name="issue-13" value="radiobutton" />
+					<label for="issue-13-no">no</label>
+				</div>
+				<label for="issue-email" id="issue-email-label">Your Email (optional):</label>
+				<input type="text" name="issue-email" id="issue-email" />
+				<div id="issue-submit-div">
+					<input type="submit" class="button orange" value="Submit Issue">
+					<a href="/#" id="issue-cancel">Cancel</a>
+				</div>
 				<img id="issue-throbber" style="display:none;" name="issue-throbber">
 			</form>
 		</div>
