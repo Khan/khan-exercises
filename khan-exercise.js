@@ -853,6 +853,7 @@ function makeProblem( id, seed ) {
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
 		var timelineEvents, timeline;
 
+		//TODO: disable back button on problem 1
 		var timelinecontainer = jQuery( "<div id='timelinecontainer'>" )
 			.append( "<div>\
 			            <div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
@@ -892,6 +893,7 @@ function makeProblem( id, seed ) {
 				.appendTo( timelineEvents );
 
 			if (value[0] === "hint-activity") {
+				thissolutionarea.attr( 'title', 'Hint used' );
 				thissolutionarea
 					.data( 'hint', hintNumber )
 					.prepend( "Hint #" + (hintNumber+1) );
@@ -901,13 +903,16 @@ function makeProblem( id, seed ) {
 				if (guess === "Activity Unavailable") {
 				  thissolutionarea.text( guess );
 				} else {
-					if (answerType === 'radio') { 
+					if (answerType === 'radio') {
 						// radio is the only answer type that can't display its own guesses
 						thissolutionarea.append( jQuery(
 						  "<p class='solution'>\
 						     <code style='display:none'>"+guess+"</code>\
 						   </p>" ).tmpl()
 						);
+
+						// TODO: create hover text for multiple choice
+						// TODO: set the last one to correct
 					} else {
 						var thisValidator = Khan.answerTypes[answerType]( thissolutionarea, solution );
 						thisValidator.showGuess( guess );
@@ -918,6 +923,13 @@ function makeProblem( id, seed ) {
 							thissolutionarea
 								.removeClass( 'incorrect-activity' )
 								.addClass( 'correct-activity' );
+
+							thissolutionarea.attr( 'title', 'Correct Answer' );
+						} else {
+							thissolutionarea
+								.removeClass( 'correct-activity' )
+								.addClass( 'incorrect-activity' );
+							thissolutionarea.attr( 'title', 'Incorrect Answer' );
 						}
 					}
 
@@ -939,7 +951,6 @@ function makeProblem( id, seed ) {
 		var states = timelineEvents.children( ".user-activity" ),
 		    currentSlide = 0,
 		    numSlides = states.length,
-		    hintsArea = jQuery( '#hintsarea' ),
 		    firstHintIndex = timeline.find( '.hint-activity:first' )
 		      .index( '.user-activity' ),
 		    lastHintIndex  = timeline.find( '.hint-activity:last' )
@@ -952,15 +963,14 @@ function makeProblem( id, seed ) {
 		    realHintsArea = jQuery( '#hintsarea' ).detach(),
 		    realWorkArea = jQuery( '#workarea' ).detach(),
 		    statelist = [],
-		    waiting = false,
 		    previousHintNum = -1;
-
+		
 		// So highlighting doesn't fade to white
 		jQuery( '#solution' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
 
 		jQuery.fn.scrubber = function() {
-			var scrubber1 = jQuery('#scrubber1'),
-					scrubber2 = jQuery('#scrubber2');
+			var scrubber1 = jQuery( '#scrubber1' ),
+					scrubber2 = jQuery( '#scrubber2' );
 
 			scrubber1 = scrubber1.length ? scrubber1 : jQuery("<div id='scrubber1'>").appendTo(document.body);
 			scrubber2 = scrubber2.length ? scrubber2 : jQuery("<div id='scrubber2'>").appendTo(document.body);
@@ -996,7 +1006,7 @@ function makeProblem( id, seed ) {
 		}
 
 		// Set the width of the timeline (starts as 10000px) after MathJax loads
-		MathJax.Hub.Queue(function() {
+		MathJax.Hub.Queue( function() {
 			var maxHeight = 0;
 			timelineEvents.children().each( function() {
 				maxHeight = Math.max( maxHeight, jQuery( this ).height() );
@@ -1006,22 +1016,11 @@ function makeProblem( id, seed ) {
 				timelinecontainer.height( maxHeight + 16 );
 				timeline.height( maxHeight + 16 );
 			}
-		});
+		} );
 
 		var activate = function( slideNum ) {
-			var hint, hintNum, thisState,
+			var hint, thisState,
 			    thisSlide = states.eq( slideNum );
-
-			// We can't continue until MathJax has rendered
-			if ((MathJax.Hub.queue.pending || MathJax.Hub.queue.running) && !waiting && !statelist[slideNum]) {
-				waiting = true;
-				MathJax.Hub.Queue(function() {
-					activate(slideNum);
-				});
-				return;
-			}
-
-			waiting = false;
 
 			// All content for this state has been built before
 			if (statelist[slideNum]) {
@@ -1057,16 +1056,21 @@ function makeProblem( id, seed ) {
 
 					// If there is a guess we show it as if it was filled in by the user
 					validator.showGuess( thisSlide.data( 'guess' ) );
+
+					// TODO: show None of the above
+				} else {
+					validator.showGuess();
 				}
 
-				if (slideNum > 0 && (statelist[slideNum].hintNum > statelist[slideNum-1].hintNum)) {
+				// TODO: still highlight even if hint modifies problem (and highlight following hints)
+				if (slideNum > 0 && (thisState.hintNum > statelist[slideNum-1].hintNum)) {
 					jQuery( '#hintsarea' ).children().each( function( index, elem ) {
 						if (index > previousHintNum) {
-							jQuery(elem).effect( 'highlight', {}, 200 );
+							jQuery( elem ).effect( 'highlight', {}, 200 );
 						}
 					} );
 
-					previousHintNum = statelist[slideNum].hintNum;
+					previousHintNum = thisState.hintNum;
 				}
 
 				if (slideNum === 0) {
@@ -1089,17 +1093,17 @@ function makeProblem( id, seed ) {
 					    offset = timelineMiddle - itemMiddle,
 					    currentScroll = timeline.scrollLeft(),
 					    timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
-					    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 30 );
-					
+					    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25 );
+
 					if (hintNum >= 0) {
-						jQuery( hints[hintNum] ).appendTo( hintsArea ).runModules( problem );
+						jQuery( hints[hintNum] ).appendTo( realHintsArea ).runModules( problem );
 					}
 
-					thisHintArea = hintsArea.clone();
-					thisProblem = jQuery( '#workarea' ).clone();
+					thisHintArea = realHintsArea.clone();
+					thisProblem = realWorkArea.clone();
 
-					realHintsArea = hintsArea.detach();
-					realWorkArea = jQuery( '#workarea' ).detach();
+					realHintsArea.detach();
+					realWorkArea.detach();
 
 					thisState = {
 						slide: thisSlide,
@@ -1109,13 +1113,13 @@ function makeProblem( id, seed ) {
 						scroll: scroll
 					};
 
-					statelist[i] = thisState;
+						statelist[i] = thisState;
 				}
 
 				// now that we've built up all the state we need, activate it for real
 				activate( slideNum );
 			}
-		}
+		};
 
 		// Allow users to use arrow keys to move up and down the timeline
 		jQuery( document ).keydown(function(event) {
@@ -1183,8 +1187,11 @@ function makeProblem( id, seed ) {
 		jQuery( '#answercontent select' ).attr( 'disabled', true );
 
 		// focus on the first slide
-		activate( currentSlide );
+		MathJax.Hub.Queue( function() {
+			activate( currentSlide );
+		} );
 	}
+			
 
 	// Show the debug info
 	if ( testMode && Khan.query.debug != null ) {
