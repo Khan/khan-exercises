@@ -195,7 +195,9 @@
 			},
 
 			path: function( points ) {
-				return raphael.path( svgPath( points) );
+				var p = raphael.path( svgPath( points) );
+				p[ "graphiePath" ] = points;
+				return p;
 			},
 
 			line: function( start, end ) {

@@ -46,6 +46,7 @@ body.debug .graphie { outline: 1px dashed red; }
 
 #scratchpad { padding-left: 30px; overflow: hidden; display: none; }
 #scratchpad div { position: absolute; z-index: 1; min-height: 378px; width: 100%; height: 98%; outline: 1px solid #ccc; }
+#scratchpad-not-available { display: none; }
 
 #tester-info.info-box { background: #f2e4bf; }
 #tester-info .box { border: 1px solid black; padding: 2px 4px; margin-left: 5px; }
@@ -53,11 +54,18 @@ body.debug .graphie { outline: 1px dashed red; }
 .summary { display: none; }
 #browserwarning { display: none; padding: 18px; font-size: 120%; text-align: center; }
 
-#answer_area input.button:disabled { opacity: 0.7; cursor: default; color: #333; }
+#answer_area input.simple-button:disabled { opacity: 0.5; filter: alpha(opacity = 50); cursor: default; }
+#answer_area input.simple-button:disabled:hover { color: #fff !important; }
+#answer_area input.simple-button.orange:disabled:hover { border-color: #bf4f04 !important; border-bottom-color: #803503 !important; }
+#answer_area input.simple-button.green:disabled:hover { border-color: #76a005 !important; border-bottom-color: #557303 !important; }
+
 
 #hint-remainder { color: #777; }
 
-#footer .simple-button { padding: 3px 10px; top: -1px }
+#footer .simple-button, .info-box .simple-button { padding: 3px 10px; top: -1px }
+.info-box .simple-button { top:  3px; );
+    
+}
 
 #issue .error { font-style: italic; font-weight: bold; }
 #issue-link { font-style: italic; }
@@ -213,6 +221,48 @@ div.timeline-total {
 
 .user-activity.activated {
   border: 2px solid #888;
+}
+
+.lite header, .lite footer, .lite #extras, .lite .exercise-badge, .lite .hint-box {
+	display: none;
+}
+
+.lite #page-container, .lite #container {
+	min-width: 0;
+	border-width: 0;
+}
+
+.lite #answer_area {
+	margin-top: 10px;
+}
+
+.lite #answercontent {
+	position: fixed;
+	right: 0px;
+	bottom: 0px;
+	margin: 10px;
+}
+
+.lite #answercontent > * {
+	float: left;
+	margin-right: 10px;
+}
+
+.lite #answercontent .info-box-header {
+	font-size: 16px;
+	content: "Answer:";
+}
+
+.lite #answercontent input.button {
+	margin-top: 2px;
+}
+
+.lite #answercontent #examples-show, .lite #answercontent #examples {
+	display: none !important;
+}
+
+.video-below {
+	display: none;
 }
 
 #warning-bar {
