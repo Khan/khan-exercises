@@ -5,11 +5,11 @@
 		var startingBracePos = -1;
 		var nestingLevel = 0;
 
-		for (var i = 0; i < content.length; i++) {
-			if (content.charAt( i ) === "{") {
+		for ( var i = 0; i < content.length; i++ ) {
+			if ( content.charAt( i ) === "{" ) {
 
 				// We encounter our first "{"
-				if (startingBracePos === -1) {
+				if ( startingBracePos === -1 ) {
 					startingBracePos = i;		
 
 				// We are already inside a top-level block, this starts a nested block
@@ -18,10 +18,10 @@
 				}
 
 			// We encounter a "}" and have seen a "{" before
-			} else if (content.charAt(i) === "}" && startingBracePos !== -1) {
+			} else if ( content.charAt( i ) === "}" && startingBracePos !== -1 ) {
 
 				// This is the closing brace for a top-level block
-				if (nestingLevel === 0) {
+				if ( nestingLevel === 0 ) {
 					// Spin the top-level block
 					var spun = spin( content.substring(startingBracePos + 1, i) );
 					content = content.substring( 0, startingBracePos ) + spun + content.substring( i + 1 );
