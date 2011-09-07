@@ -146,7 +146,8 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		"issues": 0
 	},
 
-	urlBase = testMode ? "../" : "/khan-exercises/",
+	urlBase = typeof urlBase !== "undefined" ? urlBase :
+		testMode ? "../" : "/khan-exercises/",
 
 	lastFocusedSolutionInput = null,
 
@@ -965,7 +966,8 @@ function injectSite( html, htmlExercise ) {
 function prepareSite() {
 
 	// Set exercise title
-	jQuery(".exercise-title").text( typeof userExercise !== "undefined" ? userExercise.exercise_model.display_name : document.title );
+	jQuery(".exercise-title").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
+		userExercise.exercise_model.display_name : document.title );
 
 	exercises = jQuery( ".exercise" ).detach();
 
@@ -1952,6 +1954,10 @@ function loadModules() {
 		// Generate the initial problem when dependencies are done being loaded
 		makeProblem();
 	}
+}
+
+if ( typeof urlBase !== "undefined" ) {
+	Khan.loadExercise = loadExercise;
 }
 
 return Khan;

@@ -110,8 +110,13 @@ var, div.graphie { white-space: pre; }
 	display: none !important;
 }
 
-.video-below {
-	display: none;
+.lite .ui-icon {
+	width: 18px;
+	height: 18px;
+}
+
+.lite h1 {
+	font-family: inherit;
 }
 
 #warning-bar {
