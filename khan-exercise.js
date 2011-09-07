@@ -948,7 +948,7 @@ function makeProblem( id, seed ) {
 		}
 
 		var states = timelineEvents.children( ".user-activity" ),
-		    currentSlide = 0,
+		    currentSlide = states.length - 1,
 		    numSlides = states.length,
 		    firstHintIndex = timeline.find( '.hint-activity:first' )
 		      .index( '.user-activity' ),
@@ -959,11 +959,11 @@ function makeProblem( id, seed ) {
 		    hintButton = jQuery( '#hint' ),
 		    hintRemainder = jQuery( '#hint-remainder' ),
 		    timelineMiddle = timeline.width() / 2,
-		    realHintsArea = jQuery( '#hintsarea' ).detach(),
-		    realWorkArea = jQuery( '#workarea' ).detach(),
+		    realHintsArea = jQuery( '#hintsarea' ),
+		    realWorkArea = jQuery( '#workarea' ),
 		    statelist = [],
-		    previousHintNum = -1;
-		
+		    previousHintNum = 100000;
+
 		// So highlighting doesn't fade to white
 		jQuery( '#solution' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
 
@@ -1016,6 +1016,50 @@ function makeProblem( id, seed ) {
 				timeline.height( maxHeight + 16 );
 			}
 		} );
+
+		var create = function( i ) {
+			thisSlide = states.eq( i );
+
+			var thisHintArea, thisProblem,
+			    hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
+			                .filter('.hint-activity').length - 1,
+			    // Bring the currently focused panel as close to the middle as possible
+			    itemOffset = thisSlide.position().left,
+			    itemMiddle = itemOffset + thisSlide.width() / 2,
+			    offset = timelineMiddle - itemMiddle,
+			    currentScroll = timeline.scrollLeft(),
+			    timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
+			    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25 );
+			
+			if (hintNum >= 0) {
+			  jQuery( hints[hintNum] ).appendTo( realHintsArea ).runModules( problem );
+			}
+
+			MathJax.Hub.Queue( function() {
+				thisHintArea = realHintsArea.clone();
+				thisProblem = realWorkArea.clone();
+
+				thisState = {
+					slide: thisSlide,
+					hintNum: hintNum,
+					hintArea: thisHintArea,
+					problem: thisProblem,
+					scroll: scroll
+				};
+
+				statelist[i] = thisState;
+
+				if (i+1 < states.length) {
+					MathJax.Hub.Queue( function() {
+						create( i+1 );
+					} );
+				} else {
+					activate( i );
+				}
+			} );
+		}
+
+		MathJax.Hub.Queue( function() {create(0);} );
 
 		var activate = function( slideNum ) {
 			var hint, thisState,
@@ -1075,48 +1119,6 @@ function makeProblem( id, seed ) {
 				if (slideNum === 0) {
 					previousHintNum = -1;
 				}
-			} else { // build up content for this state
-				jQuery( '#workarea' ).remove();
-				jQuery( '#hintsarea' ).remove();
-				jQuery( '#problemarea' ).append( realHintsArea ).append( realWorkArea );
-
-				for (var i = statelist.length; i <= slideNum; i++) {
-					thisSlide = states.eq( i );
-
-					var thisHintArea, thisProblem,
-					    hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
-					                .filter('.hint-activity').length - 1,
-					    // Bring the currently focused panel as close to the middle as possible
-					    itemOffset = thisSlide.position().left,
-					    itemMiddle = itemOffset + thisSlide.width() / 2,
-					    offset = timelineMiddle - itemMiddle,
-					    currentScroll = timeline.scrollLeft(),
-					    timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
-					    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25 );
-
-					if (hintNum >= 0) {
-						jQuery( hints[hintNum] ).appendTo( realHintsArea ).runModules( problem );
-					}
-
-					thisHintArea = realHintsArea.clone();
-					thisProblem = realWorkArea.clone();
-
-					realHintsArea.detach();
-					realWorkArea.detach();
-
-					thisState = {
-						slide: thisSlide,
-						hintNum: hintNum,
-						hintArea: thisHintArea,
-						problem: thisProblem,
-						scroll: scroll
-					};
-
-						statelist[i] = thisState;
-				}
-
-				// now that we've built up all the state we need, activate it for real
-				activate( slideNum );
 			}
 		};
 
@@ -1184,12 +1186,7 @@ function makeProblem( id, seed ) {
 		jQuery( '#hint' ).attr( 'disabled', true );
 		jQuery( '#answercontent input' ).attr( 'disabled', true );
 		jQuery( '#answercontent select' ).attr( 'disabled', true );
-
-		// focus on the first slide
-		MathJax.Hub.Queue( function() {
-			activate( currentSlide );
-		} );
-	}
+  }
 			
 
 	// Show the debug info

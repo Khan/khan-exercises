@@ -281,6 +281,8 @@
 								});
 							};
 
+							var callback = MathJax.Callback( function() {} );
+
 							// Wait for the browser to render it
 							var tries = 0;
 							var inter = setInterval(function() {
@@ -291,8 +293,11 @@
 								if ( size[1] > 18 || ++tries >= 10 ) {
 									setMargins( size );
 									clearInterval(inter);
+									callback();
 								}
 							}, 100);
+
+							return callback;
 						});
 					}
 
