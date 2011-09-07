@@ -45,10 +45,6 @@
 
 		<var id="TEXT1">expr(FUN1(A, B, "x", "y"))</var>
 
-		<var id="TEXTS">shuffle([
-			"&lt;code&gt;x " + binop(1) + " y = " + TEXT1 + "&lt;/code&gt;",
-			"&lt;code&gt;x " + binop(2) + " y = " + TEXT2 + "&lt;/code&gt;"
-		]).join(" and ")</var>
 	</div>
 
 	<div class="problems">
@@ -61,7 +57,7 @@
 			</div>
 
 			<div class="question">
-				<p>If <var>TEXTS</var>, find <code><var>X</var> <var>binop(1)</var> (<var>Y</var> <var>binop(2)</var> <var>Z</var>)</code>.</p>
+			  <p>If <code>x <var>binop(1)</var> y = <var>TEXT1</var></code> and  <code>x <var>binop(2)</var> y = <var>TEXT2</var></code>, find <code><var>X</var> <var>binop(1)</var> (<var>Y</var><var>binop(2)</var> <var>Z</var>)</code>.</p> 
 			</div>
 			<div class="solution"><var>VALU1</var></div>
 
@@ -80,7 +76,7 @@
 			</div>
 
 			<div class="question">
-				<p>If <var>TEXTS</var>, find <code>(<var>Y</var> <var>binop(2)</var> <var>Z</var>) <var>binop(1)</var> <var>X</var></code>.</p>
+				<p>If <code>x <var>binop(1)</var> y = <var>TEXT2</var></code> and <code>x <var>binop(2)</var> y = <var>TEXT1</var></code>, find <code>(<var>Y</var> <var>binop(2)</var> <var>Z</var>) <var>binop(1)</var> <var>X</var></code>.</p>
 			</div>
 			<div class="solution"><var>VALU1</var></div>
 
