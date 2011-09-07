@@ -284,18 +284,25 @@
 							var callback = MathJax.Callback( function() {} );
 
 							// Wait for the browser to render it
-							var tries = 0;
-							var inter = setInterval(function() {
-								var size = [ span.outerWidth(), span.outerHeight() ];
+							var tries = 0,
+							    size = [ span.outerWidth(), span.outerHeight() ];
 
-								// Heuristic to guess if the font has kicked in so we have box metrics
-								// (Magic number ick, but this seems to work mostly-consistently)
-								if ( size[1] > 18 || ++tries >= 10 ) {
-									setMargins( size );
-									clearInterval(inter);
-									callback();
-								}
-							}, 100);
+							if ( size[1] > 18 ) {
+								setMargins( size );
+								callback();
+							} else {
+								var inter = setInterval(function() {
+									size = [ span.outerWidth(), span.outerHeight() ];
+
+									// Heuristic to guess if the font has kicked in so we have box metrics
+									// (Magic number ick, but this seems to work mostly-consistently)
+									if ( size[1] > 18 || ++tries >= 10 ) {
+										setMargins( size );
+										clearInterval(inter);
+										callback();
+									}
+								}, 100);
+							}
 
 							return callback;
 						});
