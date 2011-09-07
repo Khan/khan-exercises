@@ -30,8 +30,7 @@
 							arc( [0, 0], 1, ANGLE_ONE, ANGLE_TWO );
 
 							graph.protractor = new Protractor( [22, 0], 8 );
-							jQuery( "#scratchpad-show" ).replaceWith( "Scratchpad not available" ).hide();
-							jQuery( "#scratchpad" ).hide();
+							Khan.scratchpad.disable();
 						</div>
 					</div>
 					<p class="solution" data-type="rational" data-inexact data-max-error="5"><var>DIFF</var></p>

@@ -22,16 +22,15 @@
 		<div class="vars">
 			<var id="MAIN"> randomTriangle()</var>
 			<var id="ANSWERS">[ "B", "C", "Both", "None" ]</var>
-			<var id="ANSWER">randFromArray( ANSWERS )</var>		
+			<var id="ANSWER">randFromArray( ANSWERS )</var>
 			<var id="B"> ANSWER === "B" || ANSWER === "Both" ? shuffle( MAIN ) : randomTriangle()</var>
 			<var id="C"> ANSWER === "C" || ANSWER === "Both" ? shuffle( MAIN ): randomTriangle()</var>
-			
 		</div>
 
 		<div class="problems">
 		<div id="similar">
 			<div class="problem">
-				Which triangles are similar to triangle A?
+				Which triangles are similar to triangle <code>A</code>?
 			</div>
 			<div class="question">
 				<div class="graphie">
@@ -55,21 +54,20 @@
 				</div>
 			</div>
 			<div class="solution"><var>ANSWER</var></div>
-			<ul class="choices" data-category="true">¬
+			<ul class="choices" data-category="true">
 				<li>B</li>
 				<li>C</li>
 				<li>Both</li>
 				<li>None</li>
 			</ul>
 			<div class="hints">
-				<p>Triangles are similar if they have all the angles the same( they also look similar as their name suggests )</p>
-				<P>We see that Triangle A has angles of <var>MAIN[ 0 ]</var> and <var>MAIN[ 2 ]</var>. The third angle is therefore <code>180 - <var>MAIN[ 0 ]</var> -  <var>MAIN[ 2 ]</var> = <var>MAIN[ 1 ]</var></code></p>
-				<P>Triangle B has angles of <var>B[ 0 ]</var> and <var>B[ 1 ]</var>. The third angle is therefore <code>180 - <var>B[ 0 ]</var> -  <var>B[ 1 ]</var> = <var>B[ 2 ]</var>.</code> Therefore triangle B is <span data-if="ANSWER === 'None' || ANSWER === 'C'" >not</span>  similar to triangle A.</p>
-				<P>Triangle C has angles of <var>C[ 0 ]</var> and <var>C[ 2 ]</var>. The third angle is therefore <code>180 - <var>C[ 0 ]</var> -  <var>B[ 2 ]</var> = <var>C[ 1 ]</var></code>. Therefore triangle C is <span data-if="ANSWER === 'None' || ANSWER === 'B'" >not</span>  similar to triangle A.</p>
-				
+				<p>Two triangles are similar if their angles are congruent( equal ).</p>
+				<p>We see that Triangle <code>A</code> has angles of <code><var>MAIN[ 0 ]</var></code> and <code><var>MAIN[ 2 ]</var></code>. The third angle is therefore <code>180 - <var>MAIN[ 0 ]</var> - <var>MAIN[ 2 ]</var> = <var>MAIN[ 1 ]</var></code></p>
+				<p>Triangle <code>B</code> has angles of <code><var>B[ 0 ]</var></code> and <code><var>B[ 1 ]</var></code>. The third angle is therefore <code>180 - <var>B[ 0 ]</var> -  <var>B[ 1 ]</var> = <var>B[ 2 ]</var></code>. Therefore triangle <code></code> is <span data-if="ANSWER === 'None' || ANSWER === 'C'" >not</span> similar to triangle <code></code>.</p>
+				<p>Triangle <code>C</code> has angles of <code><var>C[ 0 ]</var></code> and <code><var>C[ 2 ]</var></code>. The third angle is therefore <code>180 - <var>C[ 0 ]</var> -  <var>B[ 2 ]</var> = <var>C[ 1 ]</var></code>. Therefore triangle <code>C</code> is <span data-if="ANSWER === 'None' || ANSWER === 'B'" >not</span>  similar to triangle <code>A</code>.</p>
 			</div>
 		</div>
 	</div>
-
+	</div>
 </body>
 </html>
