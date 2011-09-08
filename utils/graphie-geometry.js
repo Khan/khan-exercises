@@ -143,14 +143,13 @@ function angleBisect( line1, line2, scale ){
 	var l1 = [];
 	var l2 = [];
 
-//TO DO: FIX QUADRANTS
 	if( ( line1[ 1 ][ 0 ] - line1[ 0 ][ 0 ] ) > 0  ){
 		l1 = lineSegmentFromLine( intPoint, line1, scale );	
 	}
 	else{
 		l1 = lineSegmentFromLine( intPoint, line1, -scale );	
 	}
-	if( ( line2[ 1 ][ 1 ] - line2[ 0 ][ 1 ] ) < 0  ){
+	if( ( line2[ 1 ][ 0 ] - line2[ 0 ][ 0 ] ) > 0  ){
 		l2 = lineSegmentFromLine( intPoint, line2, scale );
 	}
 	else{
@@ -160,51 +159,71 @@ function angleBisect( line1, line2, scale ){
 
 }
 
-function Quadrilateral( center, angles, sideRatio, labels, scale ){
+function vectorProduct( line1, line2 ){
+	var x1 = line1[ 1 ][ 0 ] - line1[ 0 ][ 0 ];
+	var x2 = line2[ 1 ][ 0 ] - line2[ 0 ][ 0 ];
+	var y1 = line1[ 1 ][ 1 ] - line1[ 0 ][ 1 ];
+	var y2 = line2[ 1 ][ 1 ] - line2[ 0 ][ 1 ];
+	return  x1 * y2  - x2 * y1;
+}
+
+function Quadrilateral( center, angles, sideRatio, labels, size ){
 
     this.sideRatio = sideRatio;
     this.labels = labels;
     this.graph = KhanUtil.currentGraph;
     this.angles = angles;
 	this.radAngles = $.map( angles, degToRad );
-    this.scale = ( scale || 1 );
+    this.scale = 1;
     this.rotation = 0;
     this.center = center;
     this.x = center[ 0 ];
     this.y = center[ 1 ];
     this.rotationCenter = [ center[ 0 ], center[ 1 ] ];
     this.set = KhanUtil.currentGraph.raphael.set();
-
+	this.size = 10;
     this.cosines = $.map( this.radAngles, Math.cos );
     this.sines = $.map( this.radAngles, Math.sin );
 
-	while( ( ! this.points ) || this.points[ 1 ][ 0 ] > this.points[ 2 ][ 0 ] ){
+	this.generatePoints = function(){
+		var once = false;
+		while( ( ! once ) || this.isCrossed()  ){
+			var len = Math.sqrt( 2 * this.scale * this.scale * this.sideRatio * this.sideRatio  - 2 * this.sideRatio * this.scale * this.scale * this.sideRatio * this.cosines[ 3 ] );
+			once = true;
+			var tX = [ 0,  this.scale * this.sideRatio * this.cosines[ 0 ] , len * Math.cos( ( this.angles[ 0 ] - ( 180 - this.angles[ 3 ] )/ 2 ) * Math.PI/180 ),  this.scale, this.scale + Math.cos( ( 180 - this.angles[ 1 ] ) * Math.PI / 180 ) ];
 
-		var len = Math.sqrt( 2 * scale * scale * sideRatio * sideRatio  - 2 * sideRatio * scale * scale * sideRatio * this.cosines[ 3 ] );
+			var tY = [ 0,  this.scale * this.sideRatio * this.sines[ 0 ] , len * Math.sin( ( this.angles[ 0 ] - ( 180 - this.angles[ 3 ] )/ 2 ) *  Math.PI/180 ), 0,  Math.sin( ( 180 - this.angles[ 1 ] ) * Math.PI / 180 ) ];
 
-		var tX = [ 0,  scale * sideRatio * this.cosines[ 0 ] , len * Math.cos( ( this.angles[ 0 ] - ( 180 - this.angles[ 3 ] )/ 2 ) * Math.PI/180 ),  scale, scale + Math.cos( ( 180 - this.angles[ 1 ] ) * Math.PI / 180 ) ];
+			var denominator = ( tY[ 4 ] - tY[ 3 ] ) * ( tX[ 2 ] - tX[ 1 ] ) - (tX[ 4 ] - tX[ 3 ] ) * ( tY[ 2 ] - tY[ 1 ] );
 
-		var tY = [ 0,  scale * sideRatio * this.sines[ 0 ] , len * Math.sin( ( this.angles[ 0 ] - ( 180 - this.angles[ 3 ] )/ 2 ) *  Math.PI/180 ), 0,  Math.sin( ( 180 - this.angles[ 1 ] ) * Math.PI / 180 ) ];
+			var ua = ( ( tX[ 4] - tX[ 3 ] ) * ( tY[ 1 ] - tY[ 3 ] ) - ( tY[ 4 ] - tY[ 3 ] ) * ( tX[ 1 ] - tX [ 3 ]) ) / denominator;
 
-		var denominator = ( tY[ 4 ] - tY[ 3 ] ) * ( tX[ 2 ] - tX[ 1 ] ) - (tX[ 4 ] - tX[ 3 ] ) * ( tY[ 2 ] - tY[ 1 ] );
+			this.points = [ [ this.x, this.y ], [ this.x + this.scale * this.sideRatio * this.cosines[ 0 ], this.y + this.scale * this.sideRatio * this.sines[ 0 ] ], [ this.x + tX[ 1 ] + ua * ( tX[ 2 ] - tX[ 1 ] ), this.y + tY[ 1 ] + ua * ( tY[ 2 ] - tY[ 1 ] ) ], [ this.x +  this.scale, this.y ] ];
 
-		var ua = ( ( tX[ 4] - tX[ 3 ] ) * ( tY[ 1 ] - tY[ 3 ] ) - ( tY[ 4 ] - tY[ 3 ] ) * ( tX[ 1 ] - tX [ 3 ]) ) / denominator;
-
-		this.points = [ [ this.x, this.y ], [ this.x + scale * sideRatio * this.cosines[ 0 ], this.y + scale * sideRatio * this.sines[ 0 ] ], [ this.x + tX[ 1 ] + ua * ( tX[ 2 ] - tX[ 1 ] ), this.y + tY[ 1 ] + ua * ( tY[ 2 ] - tY[ 1 ] ) ], [ this.x +  scale, this.y ] ];
-
-		if( this.points[ 1 ][ 0 ] > this.points[ 2 ][ 0 ] ){
-			sideRatio -= 0.15 ;
-			scale += 0.2;
-		}
+			if(  vectorProduct( [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) > 0 ){
+				this.sideRatio -= 0.15 ;
+			}
+			if(  vectorProduct( [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) < 0 ){
+				this.sideRatio += 0.15 ;
+			}
 	}
 
+	}
+	
+	this.isCrossed = function(){
+		return ( vectorProduct( [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) > 0 ) || ( vectorProduct( [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) < 0 );
+	}
 
-
+	this.generatePoints();
+	var area = 0.5 *  vectorProduct( [ this.points[ 0 ], this.points[ 2 ] ], [ this.points[ 3 ], this.points[ 1 ] ] );
+	this.scale = this.scale *  Math.sqrt( this.size/area );
+	this.generatePoints();
+	
+	area = 0.5 *  vectorProduct( [ this.points[ 0 ], this.points[ 2 ] ], [ this.points[ 3 ], this.points[ 1 ] ] );
     this.draw = function(){
         this.set.push( this.graph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
         return this.set;
     }
-	
 	
 	this.drawLabels = function(){
 		if ( "angles" in this.labels ){	
