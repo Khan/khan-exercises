@@ -906,9 +906,7 @@ function makeProblem( id, seed ) {
 					if (answerType === 'radio') {
 						// radio is the only answer type that can't display its own guesses
 						thissolutionarea.append( jQuery(
-						  "<p class='solution'>\
-						     <code style='display:none'>"+guess+"</code>\
-						   </p>" ).tmpl()
+						  "<p class='solution'>" + guess + "</p>" ).tmpl()
 						);
 
 						// TODO: create hover text for multiple choice
