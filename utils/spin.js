@@ -1,5 +1,4 @@
-(function() {
-	var spin = function( content ) {
+(function() { var spin = function( content ) {
 
 		// First find all top-level blocks and spin them
 		var startingBracePos = -1;
@@ -35,9 +34,7 @@
 			}
 		}
 
-		var choices = content.split( "|" );
-
-		return choices[ Math.floor( Math.random() * choices.length ) ];
+		return KhanUtil.randFromArray( content.split("|") );
 	}
 
 	jQuery.fn.spin = function() {
