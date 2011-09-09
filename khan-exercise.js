@@ -853,7 +853,6 @@ function makeProblem( id, seed ) {
 	if (typeof userExercise !== "undefined" && userExercise.read_only) {
 		var timelineEvents, timeline;
 
-		//TODO: disable back button on problem 1
 		var timelinecontainer = jQuery( "<div id='timelinecontainer'>" )
 			.append( "<div>\
 			            <div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
@@ -920,8 +919,15 @@ function makeProblem( id, seed ) {
 						  "<p class='solution'>" + guess + "</p>" ).tmpl()
 						);
 
-						// TODO: create hover text for multiple choice
-						// TODO: set the last one to correct
+						if (index === userExercise.user_activity.length - 1) {
+							thissolutionarea
+								.removeClass( 'incorrect-activity' )
+								.addClass( 'correct-activity' );
+
+							thissolutionarea.attr( 'title', 'Correct Answer' );
+						} else {
+							thissolutionarea.attr( 'title', 'Incorrect Answer' );
+						}
 					} else {
 						var thisValidator = Khan.answerTypes[answerType]( thissolutionarea, solution );
 						thisValidator.showGuess( guess );
