@@ -1367,14 +1367,14 @@ function prepareSite() {
 				if ( typeof pass === "string" ) {
 					jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
 				}
-			}
 
-			// Refocus text field so user can type a new answer
-			if ( lastFocusedSolutionInput != null ) {
-				setTimeout( function() {
-					// focus should always work; hopefully select will work for text fields
-					jQuery( lastFocusedSolutionInput ).focus().select();
-				}, 1 );
+				// Refocus text field so user can type a new answer
+				if ( lastFocusedSolutionInput != null ) {
+					setTimeout( function() {
+						// focus should always work; hopefully select will work for text fields
+						jQuery( lastFocusedSolutionInput ).focus().select();
+					}, 1 );
+				}
 			}
 		}
 
