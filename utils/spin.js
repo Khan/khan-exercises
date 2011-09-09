@@ -37,7 +37,7 @@
 
 		var choices = content.split( "|" );
 
-		return KhanUtil.randFromArray( choices );
+		return choices[Math.floor(Math.random() * choices.length)];
 	}
 
 	jQuery.fn.spin = function() {
