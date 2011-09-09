@@ -37,7 +37,7 @@
 
 		var choices = content.split( "|" );
 
-		return choices[Math.floor(Math.random() * choices.length)];
+		return choices[ Math.floor( Math.random() * choices.length ) ];
 	}
 
 	jQuery.fn.spin = function() {
