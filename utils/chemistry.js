@@ -151,30 +151,48 @@ function PeriodicTable() {
     }
 
     var displayDetailed = function( element ) {
-      var box = graph.path([[0, 0], [0, 10], [18, 10], [18, 0], [0, 0]], {fill: "#fff"}),
-          name = graph.label([7, 9], element.name, "center"),
-          exit = square([17,9], 1, {fill: "#fff"}),
-          x1 = graph.path([[17,9],[18,10]]),
-          x2 = graph.path([[17,10],[18,9]]),
-          weight = graph.label([4,7], element.atomic_weight, "center");
+      var data = [
+        box = graph.path([[0, 0], [0, 10], [18, 10], [18, 0], [0, 0]], {fill: "#fff"}),
+        exit = square([17,9], 1, {fill: "#fff"}),
+        x1 = graph.path([[17,9],[18,10]]),
+        x2 = graph.path([[17,10],[18,9]]),
+
+        graph.label([7, 9], element.name + " - " + element.symbol, "right"),
+        graph.label([1,7], "Atomic Weight: " + element.atomic_weight, "right"),
+        graph.label([1,6.5], "Density: " + element.density, "right"),
+        graph.label([1,6], "Electron Configuration: " + element.electron_configuration, "right"),
+        graph.label([1,5.5], "Boiling Point: " + element.boiling_point + "K", "right"),
+        graph.label([1,5], "Melting Point: " + (element.melting_point || "unavailable") + "K", "right"),
+        graph.label([1,4.5], "Period: " + element.period, "right"),
+        graph.label([1,4], "Group: " + element.group + " - " + element.classification, "right")
+      ];
 
       jQuery( exit.node, x1.node, x2.node ).click( function () {
-        box.remove();
-        name.remove();
-        weight.remove();
-        exit.remove();
-        x1.remove();
-        x2.remove();
+        for (index in data) {
+          data[index].remove();
+        }
       } );
-      //atomic number
-      //symbol
-      //density
-      //electron configuration
-      //boiling point
-      //melting point
+    }
+
+    colors = {
+      "actinides": "#FF81D2",
+      "lanthanides": "#FFABFF",
+      "other_metals": "#D4C6D3",
+      "semi_metals": "#C2C587",
+      "noble_gases": "#B7FFFF",
+      "halogens": "#F8FF80",
+      "transition_metals": "#FEA3B7",
+      "alkali_metals": "#FD2C49",
+      "alkali_earth_metals": "#FED79F",
+      "non_metals": "#75FF8E",
+      "hydrogen": "#75FF8E"
     }
 
     this.showPeriodicTable = function() {
+      graph.style({
+        fill: "#000"
+      });
+
       jQuery.each( elements, function( i, element ) {
         var xCoord = element.group - 1,
             yCoord = 10 - element.period,
@@ -192,27 +210,7 @@ function PeriodicTable() {
           }
         }
 
-        if (element.classification === "actinides") {
-          background = "#FF81D2";
-        } else if (element.classification === "lanthanides") {
-          background = "#FFABFF";
-        } else if (element.classification === "other_metals") {
-          background = "#D4C6D3";
-        } else if (element.classification === "semi_metals") {
-          background = "#C2C587";
-        } else if (element.classification === "noble_gases") {
-          background = "#B7FFFF";
-        } else if (element.classification === "halogens") {
-          background = "#F8FF80";
-        } else if (element.classification === "transition_metals") {
-          background = "#FEA3B7";
-        } else if (element.classification === "alkali_metals") {
-          background = "#FD2C49";
-        } else if (element.classification === "alkali_earth_metals") {
-          background = "#FED79F";
-        } else if (element.classification === "non_metals" || element.classification === "hydrogen") {
-          background = "#75FF8E";
-        }
+        background = colors[element.classification];
 
         var nodes = labelledSquare( xCoord, yCoord, element.atomic_number, element.symbol, {fill: background} );
         jQuery.each( nodes, function(i, node) {

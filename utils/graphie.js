@@ -11,7 +11,7 @@
 		// Set up some reasonable defaults
 		var currentStyle = {
 			"stroke-width": 2,
-			"fill": "none"
+			"fill": "#000"
 		};
 
 		var scaleVector = function( point ) {
