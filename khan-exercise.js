@@ -138,7 +138,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		"issues": 0
 	},
 
-	urlBase = typeof urlBase !== "undefined" ? urlBase :
+	urlBase = typeof urlBaseOverride !== "undefined" ? urlBaseOverride :
 		testMode ? "../" : "/khan-exercises/",
 
 	lastFocusedSolutionInput = null,
@@ -270,7 +270,7 @@ var Khan = {
 				delete mod.dependencies;
 			}
 
-			if( !Khan.modules[ src ] ) {
+			if ( !Khan.modules[ src ] ) {
 				Khan.modules[ src ] = mod;
 				Khan.require( deps );
 			}
@@ -584,7 +584,7 @@ function makeProblemBag( problems, n ) {
 
 		problemCount = bag.length;
 
-	} else {
+	} else if ( problems.length > 0 ) {
 		// Collect the weights for the problems and find the total weight
 		var weights = jQuery.map( problems, function( elem, i ) {
 			elem = jQuery( elem );
@@ -674,9 +674,13 @@ function makeProblem( id, seed ) {
 	// Otherwise we grab a problem at random from the bag of problems
 	// we made earlier to ensure that every problem gets shown the
 	// appropriate number of times
-	} else {
+	} else if ( problemBag.length > 0 ) {
 		problem = problemBag[ problemBagIndex ];
 		id = problem.data( "id" );
+	
+	// No valid problem was found, bail out
+	} else {
+		return;
 	}
 
 	problemID = id;
@@ -1905,7 +1909,7 @@ function loadModules() {
 			var problems = exercises.children( ".problems" ).children();
 
 			if ( typeof userExercise !== "undefined" ) {
-				problemCount = userExercise.required_streak;
+				problemCount = userExercise.required_streak || 10;
 			}
 
 			weighExercises( problems );
