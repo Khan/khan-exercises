@@ -308,4 +308,5 @@ div.timeline-total {
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
+  white-space: nowrap;
 }
