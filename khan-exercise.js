@@ -1983,15 +1983,20 @@ function request( method, data, fn, fnError ) {
 		return;
 	}
 
+	var xhrFields = {};
+	if ( typeof XMLHTTPRequest !== "undefined" ) {
+		// If we have native XMLHTTPRequest support,
+		// make sure cookies are passed along.
+		xhrFields["withCredentials"] = true;
+	}
+
 	jQuery.ajax({
 		// Do a request to the server API
 		url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
 		type: "POST",
 		data: data,
 		dataType: "json",
-
-		// Make sure cookies are passed along
-		xhrFields: { withCredentials: true },
+		xhrFields: xhrFields,
 
 		// Backup the response locally, for later use
 		success: function( data ) {
