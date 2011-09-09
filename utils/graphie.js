@@ -281,18 +281,30 @@
 								});
 							};
 
-							// Wait for the browser to render it
-							var tries = 0;
-							var inter = setInterval(function() {
-								var size = [ span.outerWidth(), span.outerHeight() ];
+							var callback = MathJax.Callback( function() {} );
 
-								// Heuristic to guess if the font has kicked in so we have box metrics
-								// (Magic number ick, but this seems to work mostly-consistently)
-								if ( size[1] > 18 || ++tries >= 10 ) {
-									setMargins( size );
-									clearInterval(inter);
-								}
-							}, 100);
+							// Wait for the browser to render it
+							var tries = 0,
+							    size = [ span.outerWidth(), span.outerHeight() ];
+
+							if ( size[1] > 18 ) {
+								setMargins( size );
+								callback();
+							} else {
+								var inter = setInterval(function() {
+									size = [ span.outerWidth(), span.outerHeight() ];
+
+									// Heuristic to guess if the font has kicked in so we have box metrics
+									// (Magic number ick, but this seems to work mostly-consistently)
+									if ( size[1] > 18 || ++tries >= 10 ) {
+										setMargins( size );
+										clearInterval(inter);
+										callback();
+									}
+								}, 100);
+							}
+
+							return callback;
 						});
 					}
 
@@ -634,6 +646,11 @@
 		return this.find(".graphie").add(this.filter(".graphie")).each(function() {
 			// Grab code for later execution
 			var code = jQuery( this ).text(), graphie;
+
+			// Ignore code that isn't really code ;)
+			if (code.match(/Created with Rapha\xebl/)) {
+				return;
+			}
 
 			// Remove any of the code that's in there
 			jQuery( this ).empty();

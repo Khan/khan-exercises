@@ -194,19 +194,19 @@
 			<div class="hints">
 
 				<p data-if="LESS_THAN">
-					The arrow is pointing to the left of <code><var>INT</var></code>, so everything less than <var>INT</var> is included.
+					The arrow is pointing to the left of <code><var>SIGN + INT</var></code>, so everything less than <code><var>SIGN + INT</var></code> is included.
 				</p><p data-else>
-					The arrow is pointing to the right of <code><var>INT</var></code>, so everything greater than <var>INT</var> is included.
+					The arrow is pointing to the right of <code><var>SIGN + INT</var></code>, so everything greater than <code><var>SIGN + INT</var></code> is included.
 				</p>
 
 				<p data-if="INCLUSIVE">
-					The circle is filled in, so <code><var>INT</var></code> itself is also included.
+					The circle is filled in, so <code><var>SIGN + INT</var></code> itself is also included.
 				</p><p data-else>
-					The circle is not filled in, so <code><var>INT</var></code> itself is not included.
+					The circle is not filled in, so <code><var>SIGN + INT</var></code> itself is not included.
 				</p>
 
 				<p>
-					<code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>INT</var></code>
+					<code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var><var>SIGN + INT</var></code>
 				</p>
 			</div>
 		</div>

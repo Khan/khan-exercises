@@ -199,6 +199,7 @@ function Quadrilateral( center, angles, sideRatio, labels, scale ){
 	}
 
 
+
     this.draw = function(){
         this.set.push( this.graph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
         return this.set;
