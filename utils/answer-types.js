@@ -53,8 +53,8 @@ jQuery.extend( Khan.answerTypes, {
 				var sampleX = KhanUtil.randRange( -100, 100 );
 				if ( guess.match(/[A-W]|[a-w]|[y-z]|[Y-Z]/) !== null ){
 					return false;
-				}	
-			
+				}
+
 				var newGuess = guess
 						.replace( /\u2212/, "-" )
 						.replace( /(\d)(x)/, "$1 * $2" )
@@ -418,8 +418,8 @@ jQuery.extend( Khan.answerTypes, {
 			inteValid();
 			radValid();
 
-			var inteGuess = parseFloat( inteGuess );
-			var radGuess = parseFloat( radGuess );
+			inteGuess = parseFloat( inteGuess );
+			radGuess = parseFloat( radGuess );
 
 			ret.guess = [ inteGuess, radGuess ];
 
