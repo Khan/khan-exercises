@@ -17,13 +17,13 @@
 
 			<div id="compare-product">
 				<p class="problem">
-				<var>A( color(1) )</var> <var>clothing(1)</var> costs $<var>NUM1</var>,
-				a popular <var>color(2)</var> <var>clothing(2)</var> costs <var>NUM2</var> times as much.
+				<var>A( color(1) )</var> <var>clothing(1)</var> costs <code>$<var>NUM1</var></code>,
+				and a popular <var>color(2)</var> <var>clothing(2)</var> costs <code><var>NUM2</var></code> times as much.
 				</p>
 				<p class="question">
 				How much does the <var>color(2)</var> <var>clothing(2)</var> cost?
 				</p>
-				<p class="solution">
+				<p class="solution" data-forms="integer">
 					<var>TOTAL</var>
 				</p>
 				<div class="hints">
@@ -33,10 +33,13 @@
 					so find the product.
 					</p>
 					<p>
-					The product is <code>$<var>NUM1</var> \times <var>NUM2</var></code>.
+					The product is <code><var>NUM2</var> \times $<var>NUM1</var></code>.
 					</p>
 					<p>
-					<code>$<var>NUM1</var> \times <var>NUM2</var> = $<var>TOTAL</var></code>
+					<code><var>NUM2</var> \times $<var>NUM1</var> = $<var>TOTAL</var></code>
+					</p>
+					<p>
+					The <var>color(2)</var> <var>clothing(2)</var> costs <code>$<var>TOTAL</var></code>.
 					</p>
 				</div>
 			</div>
@@ -49,21 +52,22 @@
 				<p class="question">
 				How much does the <var>color(2)</var> <var>clothing(2)</var> cost?
 				</p>
-				<p class="solution">
+				<p class="solution" data-forms="integer">
 					<var>NUM1</var>
 				</p>
 				<div class="hints">
 					<p>
 					The cost of the <var>color(1)</var> <var>clothing(1)</var>
 					is a multiple of the cost of the <var>color(2)</var> <var>clothing(2)</var>,
-					so find the result of dividing (quotient).
+					so find the result of dividing.
 					</p>
 					<p>
-					The quotient is <code>$<var>TOTAL</var> \div <var>NUM2</var></code>.
+					This result, called the quotient, is equal to <code>$<var>TOTAL</var> \div <var>NUM2</var></code>.
 					</p>
 					<p>
 					<code>$<var>TOTAL</var> \div <var>NUM2</var> = $<var>NUM1</var></code>
 					</p>
+					<p><var>A( color( 2 ) )</var> <var>clothing( 2 )</var> costs <code>$<var>NUM1</var></code>.
 				</div>
 			</div>
 			
@@ -73,23 +77,27 @@
 				and <var>a( color(2) )</var> <var>clothing(2)</var> costs $<var>NUM2</var>.
 				</p>
 				<p class="question">
-				How many times as much does the <var>color(1)</var> <var>clothing(1)</var> cost as the
-				<var>color(2)</var> <var>clothing(2)</var>?
+				The <var>color( 1 )</var> <var>clothing( 1 )</var> costs how many times as much as
+				the <var>color( 2 )</var> <var>clothing( 2 )</var> costs?
 				</p>
-				<p class="solution">
+				<p class="solution" data-forms="integer">
 					<var>NUM1</var>
 				</p>
 				<div class="hints">
 					<p>
 					The cost of the <var>color(1)</var> <var>clothing(1)</var>
 					is a multiple of the cost of the <var>color(2)</var> <var>clothing(2)</var>,
-					so find the result of dividing (quotient).
+					so find the result of dividing.
 					</p>
 					<p>
-					The quotient is <code>$<var>TOTAL</var> \div $<var>NUM2</var></code>.
+					This result, called the quotient, is <code>$<var>TOTAL</var> \div $<var>NUM2</var></code>.
 					</p>
 					<p>
 					<code>$<var>TOTAL</var> \div $<var>NUM2</var> = <var>NUM1</var></code>
+					</p>
+					<p>
+					The <var>color( 1 )</var> <var>clothing( 1 )</var> costs <code><var>NUM1</var></code> times as much as
+					the <var>color( 2 )</var> <var>clothing( 2 )</var> costs.
 					</p>
 				</div>
 			</div>
@@ -101,7 +109,7 @@
 				<p class="question">
 				How many <var>plural( distance(1) )</var> did <var>person(1)</var> <var>ride(1)</var> <var>his(1)</var> <var>bike(1)</var> altogether?
 				</p>
-				<p class="solution">
+				<p class="solution" data-forms="integer">
 					<var>TOTAL</var>
 				</p>
 				<div class="hints">
@@ -111,10 +119,13 @@
 					and the number of days that <var>person(1)</var> went <var>biking(1)</var>.
 					</p>
 					<p>
-					The product is <code><var>NUM1</var> \times <var>NUM2</var></code>.
+					The product is <code><var>NUM1</var>\text{ <var>plural( distance( 1 ) )</var> per day} \times <var>NUM2</var>\text{ days}</code>.
 					</p>
 					<p>
-					<code><var>NUM1</var> \times <var>NUM2</var> = <var>TOTAL</var></code> <var>plural( distance(1) )</var>
+					<code><var>NUM1</var>\text{ <var>plural( distance( 1 ) )</var> per day} \times <var>NUM2</var>\text{ days}= <var>TOTAL</var>\text{ <var>plural( distance(1) )</var>}</code>
+					</p>
+					<p>
+					<var>person( 1 )</var> <var>biked( 1 )</var> a total of <var>plural( TOTAL, distance( 1 ) )</var>.
 					</p>
 				</div>
 			</div>
@@ -126,7 +137,7 @@
 				<p class="question">
 				How many <var>plural( distance(1) )</var> did <var>person(1)</var> <var>ride(1)</var> <var>his(1)</var> <var>bike(1)</var> each day?
 				</p>
-				<p class="solution">
+				<p class="solution" data-forms="integer">
 					<var>NUM1</var>
 				</p>
 				<div class="hints">
@@ -136,36 +147,37 @@
 					by the number of days that <var>person(1)</var> went <var>biking(1)</var>.
 					</p>
 					<p>
-					The quotient is <code><var>TOTAL</var> \div <var>NUM2</var></code>.
+					We are looking for the quotient, which is <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ days}</code>.
 					</p>
 					<p>
-					<code><var>TOTAL</var> \div <var>NUM2</var> = <var>NUM1</var></code> <var>plural( distance(1) )</var>
+					<code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ days} = <var>NUM1</var> \text{ <var>plural( distance(1) )</var> per day}</code>
 					</p>
+					<p><var>person( 1 )</var> <var>biked( 1 )</var> <var>NUM1</var> <var>plural( distance(1) )</var> each day.
 				</div>
 			</div>
 
 			<div id="groups-number">
 				<p class="problem">
-				<var>person(1)</var> <var>rode(1)</var> <var>his(1)</var> <var>bike(1)</var> for a total of <var>plural( TOTAL, distance(1) )</var> 
-				since <var>he(1)</var> started <var>biking(1)</var> daily. <var>He(1)</var> <var>rode(1)</var> <var>plural( NUM2, distance(1) )</var> each day.
+				<var>person(1)</var> has <var>biked(1)</var> <var>his(1)</var> <var>bike(1)</var> for a total of <var>plural( TOTAL, distance(1) )</var> 
+				since <var>he(1)</var> started <var>biking(1)</var> daily. <var>He(1)</var> has been <var>biking(1)</var> <var>plural( NUM2, distance(1) )</var> each day.
 				</p>
 				<p class="question">
 				For how many days has <var>person(1)</var> been <var>biking(1)</var>?
 				</p>
-				<p class="solution">
+				<p class="solution" data-forms="integer">
 					<var>NUM1</var>
 				</p>
 				<div class="hints">
 					<p>
-					The number of days that <var>person(1)</var> went <var>biking(1)</var>
+					The number of days that <var>person(1)</var> has been <var>biking(1)</var>
 					is the total number of <var>plural( distance(1) )</var> <var>biked(1)</var> divided
 					by the number of <var>plural( distance(1) )</var> <var>biked(1)</var> each day.
 					</p>
 					<p>
-					The quotient is <code><var>TOTAL</var> \div <var>NUM2</var></code>.
+					<code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>plural( distance( 1 ))</var> each day} = \text{number of days driving}</code>
 					</p>
 					<p>
-					<code><var>TOTAL</var> \div <var>NUM2</var> = <var>NUM1</var></code> <var>plural( 'day', NUM1 )</var>
+					<code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>plural( distance( 1 ))</var> each day} = <var>NUM1</var>\text{ days}</code>
 					</p>
 				</div>
 			</div>
@@ -173,13 +185,13 @@
 			<div id="array-product">
 				<p class="problem">
 				<var>person(1)</var> is a <var>farmer(1)</var>.
-				<var>He(1)</var> plants <var>plural( NUM1, 'row' )</var> of <var>plural( crop(1) )</var> in a <var>field(1)</var>.
-				Each row has <var>plural( NUM2, crop(1) )</var>.
+				<var>He(1)</var> plants <var>plural( NUM1, 'row' )</var> of <var>plural( crop(1) )</var> in a <var>field(1)</var>,
+				and each row has <var>plural( NUM2, crop(1) )</var>.
 				</p>
 				<p class="question">
 				How many <var>plural( crop(1) )</var> did <var>person(1)</var> plant in the <var>field(1)</var>?
 				</p>
-				<p class="solution">
+				<p class="solution" data-forms="integer">
 					<var>TOTAL</var>
 				</p>
 				<div class="hints">
@@ -189,10 +201,10 @@
 					the number of <var>plural( crop(1) )</var> planted in each row.
 					</p>
 					<p>
-					The product is <code><var>NUM1</var> \times <var>NUM2</var></code>.
+					The product is <code><var>NUM1</var>\text{ rows of <var>plural( crop( 1 ) )</var>} \times <var>NUM2</var>\text{ <var>plural( crop( 1 ) )</var> per row}</code>.
 					</p>
 					<p>
-					<code><var>NUM1</var> \times <var>NUM2</var> = <var>TOTAL</var></code> <var>plural( crop(1) )</var>
+					<code><var>NUM1</var>\text{ rows of <var>plural( crop( 1 ) )</var>} \times <var>NUM2</var>\text{ <var>plural( crop( 1 ) )</var> per row} = <var>TOTAL</var></code> <var>plural( crop(1) )</var>
 					</p>
 				</div>
 			</div>
@@ -207,7 +219,7 @@
 				<p class="question">
 				How many <var>plural( crop(1) )</var> did <var>person(1)</var> plant in each row?
 				</p>
-				<p class="solution">
+				<p class="solution" data-forms="integer">
 					<var>NUM2</var>
 				</p>
 				<div class="hints">
@@ -217,10 +229,10 @@
 					divided by the number of rows.
 					</p>
 					<p>
-					The quotient is <code><var>TOTAL</var> \div <var>NUM1</var></code>.
+					The result, called the quotient, is <code><var>TOTAL</var>\text{ <var>plural( crop( 1 ) )</var>} \div <var>NUM1</var>\text{ rows of <var>plural( crop( 1 ) )</var>}</code>.
 					</p>
 					<p>
-					<code><var>TOTAL</var> \div <var>NUM1</var> = <var>NUM2</var></code> <var>plural( crop(1) )</var>
+					<code><var>TOTAL</var>\text{ <var>plural( crop( 1 ) )</var>} \div <var>NUM1</var>\text{ rows of <var>plural( crop( 1 ) )</var>} = <var>NUM2</var>\text{ <var>plural( crop(1) )</var> per row}</code>
 					</p>
 				</div>
 			</div>
@@ -228,13 +240,13 @@
 			<div id="array-number">
 				<p class="problem">
 				<var>person(1)</var> is a <var>farmer(1)</var>.
-				<var>He(1)</var> plants <var>plural( TOTAL, crop(1) )</var> in a <var>field(1)</var>.
-				Each row has <var>plural( NUM1, crop(1) )</var>.
+				<var>He(1)</var> plants <var>plural( TOTAL, crop(1) )</var> in a <var>field(1)</var>,
+				and each row has <var>plural( NUM1, crop(1) )</var>.
 				</p>
 				<p class="question">
 				How many <var>plural( 'row' )</var> of <var>plural( crop(1) )</var> did <var>person(1)</var> plant in the <var>field(1)</var>?
 				</p>
-				<p class="solution">
+				<p class="solution" data-forms="integer">
 					<var>NUM2</var>
 				</p>
 				<div class="hints">
@@ -244,10 +256,10 @@
 					divided by the number of <var>plural( crop(1) )</var> in each row.
 					</p>
 					<p>
-					The quotient is <code><var>TOTAL</var> \div <var>NUM1</var></code>.
+					The result, called the quotient, is <code><var>TOTAL</var>\text{ <var>plural( crop( 1 ) )</var>} \div <var>NUM1</var>\text{ <var>plural( crop(1) )</var> per row}</code>.
 					</p>
 					<p>
-					<code><var>TOTAL</var> \div <var>NUM1</var> = <var>NUM2</var></code> <var>plural( 'row' )</var>
+					<code><var>TOTAL</var>\text{ <var>plural( crop( 1 ) )</var>} \div <var>NUM1</var>\text{ <var>plural( crop(1) )</var> per row} = <var>NUM2</var>\text{  <var>plural( 'row' )</var>}</code>
 					</p>
 				</div>
 			</div>
