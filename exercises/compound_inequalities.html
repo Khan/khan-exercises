@@ -1,4 +1,5 @@
-<!DOCTYPE html> <html data-require="math math-format graphie graphie-helpers">
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>Compound inequalities</title>
@@ -19,9 +20,6 @@
 	</script>
 </head>
 <body>
-	<!--
-		Solving compound inequalities.		
-	-->
 	<div class="exercise">
 		<div class="vars" data-ensure="abs( SOLUTION[0] - SOLUTION[1] ) <= 5 && FAKE_ANSWER[0] !== SOLUTION[0] && FAKE_ANSWER[1] !== SOLUTION[1]">
 			<var id="COEF">[ randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 ), randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 ) ]</var>
@@ -57,9 +55,9 @@
 					return SOLUTION[0] < SOLUTION[1] ? 1 : 2;
 				}
 
-				return 0;		
+				return 0;
 			})()</var>
-			<var id="IS_CONTAINED">CONTAINS === 1 ? 2 : 1</var>	
+			<var id="IS_CONTAINED">CONTAINS === 1 ? 2 : 1</var>
 		</div>
 
 		<div class="problems">
