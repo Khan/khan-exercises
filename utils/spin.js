@@ -1,5 +1,4 @@
-jQuery.extend( KhanUtil, {
-	spin: function( content ) {
+jQuery.extend( KhanUtil, { spin: function( content ) {
 		// First find all top-level blocks and spin them
 		var startingBracePos = -1;
 		var nestingLevel = 0;
@@ -39,11 +38,9 @@ jQuery.extend( KhanUtil, {
 });
 
 
-(function() { 
-	jQuery.fn.spin = function() {
-		this.find( "spin" ).each(function() {
-			var spun = KhanUtil.spin( jQuery( this ).text() );
-			jQuery( this ).text( spun );
-		});
-	}
-})();
+jQuery.fn.spin = function() {
+	this.find( "spin" ).each(function() {
+		var spun = KhanUtil.spin( jQuery( this ).text() );
+		jQuery( this ).text( spun );
+	});
+}
