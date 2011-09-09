@@ -62,7 +62,7 @@
 			}</var>
 
 			<var id="DOMAIN">{
-				sin: [ "0", DEG ? "180&deg;" : "\\pi" ],
+				sin: [ DEG ? "-90&deg;" : "-\\frac{\\pi}{2}", DEG ? "90&deg;" : "\\frac{\\pi}{2}" ],
 				cos: [ "0", DEG ? "180&deg;" : "\\pi" ],
 				tan: [ DEG ? "-90&deg;" : "-\\frac{\\pi}{2}", DEG ? "90&deg;" : "\\frac{\\pi}{2}" ]
 			}[ FN ]</var>
@@ -72,7 +72,7 @@
 		<div class="problems">
 			<div>
 				<div class="question">
-					<p>What is the principle value of <code><var>FN_TEX( PRETTY( X ) )</var></code>?</p>
+					<p>What is the principal value of <code><var>FN_TEX( PRETTY( X ) )</var></code>?</p>
 					<p>Note: please answer in terms of <span data-if="DEG">degrees (ex: &quot;180 deg&quot; or &quot;180 degrees&quot;)</span><span data-else>radians (ex: &quot;3/4 pi&quot;)</span>.</p>
 				</div>
 

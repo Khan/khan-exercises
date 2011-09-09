@@ -272,10 +272,68 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"rubber stamp"
 	]);
 
+	var colors = KhanUtil.shuffle([
+		"red",
+		"orange",
+		"yellow",
+		"green",
+		"blue",
+		"purple",
+		"white",
+		"black",
+		"brown",
+		"silver",
+		"gold",
+		"pink"
+	]);
+
+	var clothes = KhanUtil.shuffle([
+		"hat",
+		"pair of pants",
+		"belt",
+		"necklace",
+		"purse",
+		"pair of shoes",
+		"blouse",
+		"skirt",
+		"watch",
+		"pair of socks",
+		"sweatshirt",
+		"sweater",
+		"tie",
+		"scarf",
+		"dress"
+	]);
+
 	var sides = KhanUtil.shuffle([
 		"left",
 		"right"
 	]);
+
+	var farmers = KhanUtil.shuffle([
+		{farmer:"farmer", crops:KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk"]), field:"field"},
+		{farmer:"gardener", crops:KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily"]), field:"garden"}
+	]);
+
+	var distances = KhanUtil.shuffle([
+		"mile",
+		"kilometer"
+	]);
+
+	var distanceActivities = KhanUtil.shuffle([
+		{present:"ride", past:"rode", noun:"bike", done:"biked", continuous:"biking"},
+		{present:"row", past:"rowed", noun:"boat", done:"rowed", continuous:"rowing"},
+		{present:"drive", past:"drove", noun:"car", done:"driven", continuous:"driving"},
+		{present:"walk", past:"walked", noun:"dog", done:"walked", continuous:"walking"}
+	]);
+
+	var indefiniteArticle = function(word) {
+		var vowels = ['a', 'e', 'i', 'o', 'u'];
+		if ( vowels.indexOf( word[0].toLowerCase() ) > -1 ) {
+			return 'An ' + word;
+		}
+		return 'A ' + word;
+	};
 
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
@@ -304,6 +362,14 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		His: function( i ) {
 			return people[i - 1][1] == "m" ? "His" : "Her";
+		},
+
+		A: function(word) {
+			return indefiniteArticle(word);
+		},
+
+		a: function(word) {
+			return indefiniteArticle(word).toLowerCase();
 		},
 
 		vehicle: function( i ) {
@@ -362,12 +428,56 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return timesofday[i - 1];
 		},
 
+		clothing: function( i ) {
+			return clothes[i - 1];
+		},
+
+		color: function( i ) {
+			return colors[i - 1];
+		},
+
 		fruit: function( i ) {
 			return fruits[i];
 		},
 
 		deskItem: function( i ) {
 			return deskItems[i];
+		},
+
+		distance: function( i ) {
+			return distances[i - 1];
+		},
+
+		rode: function( i ) {
+			return distanceActivities[i - 1].past;
+		},
+
+		ride: function( i ) {
+			return distanceActivities[i - 1].present;
+		},
+
+		bike: function( i ) {
+			return distanceActivities[i - 1].noun;
+		},
+
+		biked: function( i ) {
+			return distanceActivities[i - 1].done;
+		},
+
+		biking: function( i ) {
+			return distanceActivities[i - 1].continuous;
+		},
+
+		farmer: function( i ) {
+			return farmers[i - 1].farmer;
+		},
+
+		crop: function( i ) {
+			return farmers[i - 1].crops[0];
+		},
+
+		field: function( i ) {
+			return farmers[i - 1].field;
 		},
 
 		side: function( i ) {

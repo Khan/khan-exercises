@@ -54,7 +54,7 @@
 				<div id="ellipse" data-type="parabola">
 					<div class="vars">
 						<var id="A">randRangeNonZero( -70, 70 ) / 10</var>
-						<var id="B">randRangeNonZero( -70, 70 ) / 10</var>
+						<var id="B" data-ensure="abs( abs( A ) - abs( B ) ) > 1">randRangeNonZero( -70, 70 ) / 10</var>
 						<var id="C">randRangeNonZero( -30, 30 ) / 10</var>
 						<var id="D">randRangeNonZero( -30, 30 ) / 10</var>
 						
@@ -78,9 +78,9 @@
 				</div>
 
 				<div id="circle" data-type="ellipse">
-					<div class="vars" data-ensure="A === B">
+					<div class="vars">
 						<var id="A">randRangeNonZero( -70, 70 ) / 10</var>
-						<var id="B">randRangeNonZero( -70, 70 ) / 10</var>
+						<var id="B">A</var>
 					</div>
 
 					<div class="solution">Circle</div>

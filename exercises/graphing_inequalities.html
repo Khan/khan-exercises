@@ -1,0 +1,191 @@
+<!DOCTYPE html> <html data-require="math math-format graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Graphing inequalities</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function printPoint( point ) {
+			return "(" + point.join( ", " ) + ")";
+		}
+
+		function getComp( coef, comp ) {
+			if ( coef >= 0 ) {
+				return comp;
+			}
+
+			return {
+				"≤": "≥",
+				"≥": "≤",
+				"<": ">",
+				">": "<"
+			}[comp];
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="Y_COEF">randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 )</var>
+			<var id="ONE_OVER_Y_COEF">fraction( 1, Y_COEF )</var>
+			<var id="X_COEF">randRangeExclude( -9, 9, [ -1, 0, 1 ] )</var>
+			<var id="RIGHT_INT">randRangeNonZero( -20, 20 )</var>
+			<var id="M">-X_COEF / Y_COEF</var>
+			<var id="M_FRAC">fractionReduce( -X_COEF, Y_COEF )</var>
+			<var id="B">RIGHT_INT / Y_COEF</var>
+			<var id="B_FRAC">fractionReduce( RIGHT_INT, Y_COEF )</var>
+			<var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+			<var id="COMP_SOLUTION">getComp( Y_COEF, COMP )</var>
+			<var id="LESS_THAN">COMP_SOLUTION == "&lt;" || COMP_SOLUTION == "&le;"</var>
+			<var id="INCLUSIVE">COMP_SOLUTION == "&ge;" || COMP_SOLUTION == "&le;"</var>
+			<var id="NEG_10_INTERCEPT">M * -10 + B</var>
+			<var id="POS_10_INTERCEPT">M * 10 + B</var>
+			<div data-ensure="sqrt( pow( POINT_1[0] - POINT_2[0], 2 ) + pow( POINT_1[1] - POINT_2[1], 2 ) ) > 4">
+				<var id="POINT_1">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
+				<var id="POINT_2">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
+				<var id="POINT_1_SOLUTION">POINT_1[1] > M * POINT_1[0] + B !== LESS_THAN || ( INCLUSIVE && M * POINT_1[0] + B === POINT_1[1] )</var>
+				<var id="POINT_2_SOLUTION">POINT_2[1] > M * POINT_2[0] + B !== LESS_THAN || ( INCLUSIVE && M * POINT_2[0] + B === POINT_2[1] )</var>
+			</div>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question">Which of the following ordered pairs <code><var>printPoint( POINT_1 )</var></code> and <code><var>printPoint( POINT_2 )</var></code> are solutions to the inequality <code><var>Y_COEF</var>y + <var>X_COEF</var>x <var>COMP + RIGHT_INT</var></code>?</p>
+
+				<div class="solution">
+					<div data-if="POINT_1_SOLUTION">
+						<code><var>printPoint( POINT_1 )</var></code>
+					</div>
+					<div data-if="POINT_1_SOLUTION && POINT_2_SOLUTION">
+						and
+					</div>
+					<div data-if="POINT_2_SOLUTION">
+						<code><var>printPoint( POINT_2 )</var></code>
+					</div>
+					<div data-else-if="!POINT_1_SOLUTION && !POINT_2_SOLUTION">
+						None of the above.
+					</div>
+				</div>
+				
+				<ol class="choices" data-category="true">
+					<li><code><var>printPoint( POINT_1 )</var></code></li>
+					<li><code><var>printPoint( POINT_2 )</var></code></li>
+					<li><code><var>printPoint( POINT_1 )</var></code> and <code><var>printPoint( POINT_2 )</var></code></li>
+					<li>None of the above.</li>
+				</ol>
+
+				<div class="hints">
+					<p>To graph the inequality, we need to first put it in slope-intercept form (<code>y<var>COMP</var>mx + b</code>).</p>
+					<div>
+						<p>Add <code><var>-X_COEF</var>x</code> to both sides of the inequality.</p>
+						<p>
+							<code>
+								<var>Y_COEF</var>y + <var>X_COEF</var>x +<var>-X_COEF</var>x<var>COMP + RIGHT_INT</var>y +<var>-X_COEF</var>x
+							</code>
+						</p>
+						<p>
+							<code>
+								<var>Y_COEF</var>y<var>COMP + (-X_COEF)</var>x + <var>RIGHT_INT</var>
+							</code>
+						</p>
+					</div>
+					<p data-if="Y_COEF < 0">When multiplying or dividing both sides of an inequality by a negative number you have to flip the inequality. Therefore <code><var>COMP</var></code> becomes <code><var>COMP_SOLUTION</var></code>.</p> 
+					<div>
+						<p>Multiply both sides of the inequality by <code><var>ONE_OVER_Y_COEF</var></code>.</p>
+						<p>
+							<code>
+								(<var>Y_COEF</var>y) \cdot (<var>ONE_OVER_Y_COEF</var>)<var>COMP_SOLUTION</var>(<var>-X_COEF</var>x + <var>RIGHT_INT</var>) \cdot (<var>ONE_OVER_Y_COEF</var>)
+							</code>
+						</p>
+						<p>
+							<code>
+								y <var>COMP_SOLUTION + M_FRAC</var>x + <var>B_FRAC</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Graph the line.</p>
+						<div class="graphie" id="inequality">
+							graphInit({
+								range: 10,
+								scale: 20,
+								tickStep: 1,
+								labelStep: 1,
+								labelFormat: function( s ) { return "\\small{" + s + "}"; },
+								axisArrows: "<->"
+							});
+
+
+							if ( !INCLUSIVE ) { 
+								style ({
+									"stroke-dasharray": "-"
+								});
+							}
+
+							line( [ -10, NEG_10_INTERCEPT ], [ 10, POS_10_INTERCEPT ] , {
+								stroke: "#28AE7B",
+								});
+
+						</div>
+					</div>
+					<div>
+						<p>Since our inequality has a <var>LESS_THAN ? "less-than" : "greater-than"</var><var>INCLUSIVE ? " or equal to" : ""</var> sign, that means that any point <strong><var>LESS_THAN ? "below" : "above"</var></strong> the line is a solution to the inequality.</p>
+						<p data-if="INCLUSIVE">Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> or <strong>equal to</strong>, any point on the line is also a solution.</p>
+						<p data-else>Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> (and not equal to), any point on the line is <strong>not</strong> part of the solution.</p>
+						<div class="graphie" data-update="inequality">
+							
+							// Highlight solution space
+							var x_start = -10;
+							var x_end = 10; 
+
+							if ( ( NEG_10_INTERCEPT < POS_10_INTERCEPT && !LESS_THAN ) || ( POS_10_INTERCEPT < NEG_10_INTERCEPT && LESS_THAN ) ) {
+								var temp = NEG_10_INTERCEPT;
+								NEG_10_INTERCEPT = POS_10_INTERCEPT;
+								POS_10_INTERCEPT = temp;
+
+								temp = x_start;
+								x_start = x_end;
+								x_end = temp;
+							}
+
+							style( {
+								"fill": "#FF0000",
+								"fill-opacity": 0.1,
+								"stroke": null
+							});
+
+							path([ [ x_end, POS_10_INTERCEPT ], [ x_end, NEG_10_INTERCEPT ], [ x_start, NEG_10_INTERCEPT ] ]);
+
+							var vertical_end = 10;
+							if ( NEG_10_INTERCEPT < POS_10_INTERCEPT ) {
+								vertical_end = -10;
+							}
+							path([ [ -10, NEG_10_INTERCEPT ], [ -10, vertical_end ], [ 10, vertical_end ], [ 10, NEG_10_INTERCEPT ] ]);
+						</div>
+					</div>
+					<div>
+						<p>After plotting the points, we can see that 
+							<span data-if="POINT_1_SOLUTION && !POINT_2_SOLUTION"><var>printPoint( POINT_1 )</var> is the only solution</span>
+							<span data-else-if="POINT_2_SOLUTION && !POINT_1_SOLUTION"><var>printPoint( POINT_2 )</var> is the only solution</span>
+							<span data-else-if="POINT_1_SOLUTION && POINT_2_SOLUTION"><var>printPoint( POINT_1 )</var> and<var>printPoint( POINT_2 )</var> are both solutions</span>
+							<span data-else>there are no solutions</span>
+							to the inequality.
+						</p>
+						<div class="graphie" data-update="inequality">
+							style({
+								fill: "#000",
+								"fill-opacity": 1,
+								stroke: "none"
+							});
+
+							circle( POINT_1, 3/20 );
+							circle( POINT_2, 3/20 );
+							label( POINT_1, printPoint( POINT_1 ), "above right" );
+							label( POINT_2, printPoint( POINT_2 ), "above right" );
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
