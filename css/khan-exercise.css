@@ -59,6 +59,7 @@ body.debug .graphie { outline: 1px dashed red; }
 #answer_area input.simple-button.orange[disabled=disabled]:hover { border-color: #bf4f04 !important; border-bottom-color: #803503 !important; }
 #answer_area input.simple-button.green[disabled=disabled]:hover { border-color: #76a005 !important; border-bottom-color: #557303 !important; }
 
+.simple-button.disabled { opacity: 0.5; filter: alpha(opacity = 50); cursor: default; }
 
 #hint-remainder { color: #777; }
 

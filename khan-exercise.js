@@ -861,6 +861,17 @@ function makeProblem( id, seed ) {
 			          </div>" )
 			.insertBefore( "#extras" );
 
+		if (getData().total_done === 0) {
+			$( '#previous-problem' )
+				.addClass( 'disabled' )
+				.css( {
+					cursor: 'default !important',
+					top: '0',
+					color: '#333 !important'
+				} )
+				.data( 'disabled', true );
+		}
+
 		timeline = jQuery( "<div id='timeline'>" ).appendTo( timelinecontainer );
 		timelineEvents = jQuery( "<div id='timeline-events'>" ).appendTo( timeline );
 
@@ -1098,8 +1109,6 @@ function makeProblem( id, seed ) {
 
 					// If there is a guess we show it as if it was filled in by the user
 					validator.showGuess( thisSlide.data( 'guess' ) );
-
-					// TODO: show None of the above
 				} else {
 					validator.showGuess();
 				}
@@ -1174,7 +1183,9 @@ function makeProblem( id, seed ) {
 		});
 
 		jQuery( '#previous-problem' ).click(function(event) {
-			window.location.href = userExercise.previous_problem_url;
+			if (!jQuery( this ).data( 'disabled' )) {
+				window.location.href = userExercise.previous_problem_url;
+			}
 		});
 
 		// Some exercises use custom css
