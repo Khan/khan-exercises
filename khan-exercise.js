@@ -1619,6 +1619,17 @@ function prepareSite() {
 			parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, path, agent, localStorageInfo, mathjaxInfo, warningInfo ],
 			body = jQuery.grep( parts, function( e ) { return e != null; } ).join( "\n\n" );
 
+		var mathjaxLoadFailures = jQuery.map( MathJax.Ajax.loading, function( info, script ) {
+			if ( info.status === -1 ) {
+				return [ script + ": error" ];
+			} else {
+				return [];
+			}
+		} ).join( "\n" );
+		if ( mathjaxLoadFailures.length > 0 ) {
+			body += "\n\n" + mathjaxLoadFailures;
+		}
+
 		// flagging of browsers/os for issue labels. very primitive, but
 		// hopefully sufficient.
 		var agent_contains = function( sub ) { return agent.indexOf( sub ) !== -1; },
