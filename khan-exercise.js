@@ -211,7 +211,7 @@ var Khan = {
 
 	moduleDependencies: {
 		"math": [ {
-			src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-7d639a8567d885717dcee68710bda571"
+			src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-7018d213c4354228862b1ba15a62d3d5"
 		}, "raphael" ],
 
 		// Load Raphael locally because IE8 has a problem with the 1.5.2 minified release
@@ -237,12 +237,12 @@ var Khan = {
 	},
 
 	warnFont: function() {
+		var enableFontDownload = "enable font download in your browser";
 		if ( jQuery.browser.msie ) {
-			warn( 'You should '
-				+ '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/" '
-				+ 'target="_blank">enable font download</a> to improve the appearance of math expressions.',
-				true );
+			enableFontDownload = '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/"  target="_blank">enable font download</a>';
 		}
+
+		warn( 'You should ' + enableFontDownload + ' to improve the appearance of math expressions.', true );
 	},
 
 	require: function( mods ) {
