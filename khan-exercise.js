@@ -1738,6 +1738,10 @@ function prepareSite() {
 
 			if ( show ) {
 				link.text( "Try current problem" );
+
+				// If we just did a problem, advance to the next question to prevent cheating
+				jQuery( "#next-question-button:visible" ).click();
+
 				jQuery( "#hintsarea" ).empty();
 				jQuery( "#answerform" ).hide();
 
