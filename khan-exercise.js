@@ -128,6 +128,8 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	attempts,
 	once = true,
 
+	guessLog,
+
 	// For loading remote exercises
 	remoteCount = 0,
 
@@ -766,6 +768,7 @@ function makeProblem( id, seed ) {
 	// Generate a type of problem
 	// (this includes possibly generating the multiple choice problems,
 	//  if this fails then we will need to try generating another one.)
+	guessLog = [];
 	validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
 	// A working solution was generated
@@ -1343,6 +1346,8 @@ function prepareSite() {
 			if ( jQuery.trim( validator.guess ) === "" ||
 				 ( validator.guess instanceof Array && jQuery.trim( validator.guess.join( "" ) ) === "" ) ) {
 				return false;
+			} else {
+				guessLog.push( validator.guess );
 			}
 
 			// Stop if the form is already disabled and we're waiting for a response.
@@ -1616,7 +1621,7 @@ function prepareSite() {
 				( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),
 			localStorageInfo = ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "localStorage NOT enabled" : null ),
 			warningInfo = jQuery( "#warning-bar-content" ).text(),
-			parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, path, agent, localStorageInfo, mathjaxInfo, warningInfo ],
+			parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, path, "    " + JSON.stringify( guessLog ), agent, localStorageInfo, mathjaxInfo, warningInfo ],
 			body = jQuery.grep( parts, function( e ) { return e != null; } ).join( "\n\n" );
 
 		var mathjaxLoadFailures = jQuery.map( MathJax.Ajax.loading, function( info, script ) {
