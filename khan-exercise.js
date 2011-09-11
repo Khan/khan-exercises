@@ -635,6 +635,20 @@ function makeProblemBag( problems, n ) {
 	return bag;
 }
 
+function enableCheckAnswer() {
+	jQuery( "#check-answer-button" )
+		.removeAttr( "disabled" )
+		.removeClass( "buttonDisabled" )
+		.val('Check Answer');
+}
+
+function disableCheckAnswer() {
+	jQuery( "#check-answer-button" )
+		.attr( "disabled", "disabled" )
+		.addClass( "buttonDisabled" )
+		.val('Please wait...');
+}
+
 function makeProblem( id, seed ) {
 	if ( typeof Badges !== "undefined" ) {
 		Badges.hide();
@@ -795,7 +809,17 @@ function makeProblem( id, seed ) {
 
 	// Add the problem into the page
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
-	jQuery( "#answercontent input" ).removeAttr("disabled");
+
+	// Enable the all answer input elements except the check answer button.
+	jQuery( "#answercontent input" ).not( '#check-answer-button' )
+		.removeAttr( "disabled" );
+
+	// Only enable the check answer button if we are not still waiting for
+	// server acknowledgement of the previous problem.
+	if ( !jQuery("#throbber").is(':visible') ) {
+		enableCheckAnswer();
+	}
+
 	if ( validator.examples && validator.examples.length > 0 ) {
 		jQuery( "#examples-show" ).show();
 		jQuery( "#examples" ).empty();
@@ -1381,8 +1405,9 @@ function prepareSite() {
 		}
 
 		jQuery( "#throbber" ).show();
-		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
-		jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
+		disableCheckAnswer();
+		jQuery( "#answercontent input" ).not("#check-answer-button")
+			.attr( "disabled", "disabled" );
 		jQuery( "#check-answer-results p" ).hide();
 
 		// Figure out if the response was correct
@@ -1418,23 +1443,29 @@ function prepareSite() {
 			jQuery(Khan).trigger( "answerSaved" );
 
 			jQuery( "#throbber" ).hide();
-			jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
-			if ( pass === true ) {
-				jQuery( "#check-answer-button" ).hide();
-				if ( !testMode || Khan.query.test == null ) {
-					jQuery( "#next-container" ).show();
-					jQuery( "#next-question-button" ).removeAttr( "disabled" )
-						.removeClass( "buttonDisabled" )
-						.focus();
-				}
-			} else {
-				jQuery( "#answercontent input" ).removeAttr( "disabled" );
-			}
+			enableCheckAnswer();
 		}, function() {
 			// Error during submit. Cheat, for now, and reload the page in
 			// an attempt to get updated data.
 			window.location.reload();
 		});
+
+		if ( pass === true ) {
+			// Correct answer, so show the next question button.
+			jQuery( "#check-answer-button" ).hide();
+			if ( !testMode || Khan.query.test === null ) {
+				jQuery( "#next-container" ).show();
+				jQuery( "#next-question-button" ).removeAttr( "disabled" )
+					.removeClass( "buttonDisabled" )
+					.focus();
+			}
+		} else {
+			// Wrong answer. Enable all the input elements, but wait until
+			// until server acknowledges before enabling the check answer
+			// button.
+			jQuery( "#answercontent input" ).not("#check-answer-button")
+				.removeAttr( "disabled" );
+		}
 
 		// Make sure hint streak breaking is handled correctly
 		doSave = false;
