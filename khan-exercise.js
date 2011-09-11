@@ -726,7 +726,7 @@ function makeProblem( id, seed ) {
 
 	// Remove and store hints to delay running modules on it
 	hints = problem.children( ".hints" ).remove();
-  
+
 	// Run the main method of any modules
 	problem.runModules( problem, "Load" );
 	problem.runModules( problem );
@@ -1046,7 +1046,7 @@ function makeProblem( id, seed ) {
 			    currentScroll = timeline.scrollLeft(),
 			    timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
 			    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25 );
-			
+
 			if (hintNum >= 0) {
 			  jQuery( hints[hintNum] ).appendTo( realHintsArea ).runModules( problem );
 			}
@@ -1195,15 +1195,15 @@ function makeProblem( id, seed ) {
 		});
 
 		// Some exercises use custom css
-		jQuery( "#timeline input[type='text']" ).css( "width", 
+		jQuery( "#timeline input[type='text']" ).css( "width",
 			jQuery( "#answer_area input[type='text']" ).css('width')
 		);
-	
+
 		jQuery( '#hint' ).attr( 'disabled', true );
 		jQuery( '#answercontent input' ).attr( 'disabled', true );
 		jQuery( '#answercontent select' ).attr( 'disabled', true );
   }
-			
+
 
 	// Show the debug info
 	if ( testMode && Khan.query.debug != null ) {
@@ -1362,7 +1362,7 @@ function prepareSite() {
 			} else {
 				jQuery("#happy").hide();
 				jQuery("#sad").show();
-			
+
 				// Is this a message to be shown?
 				if ( typeof pass === "string" ) {
 					jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
@@ -1664,7 +1664,7 @@ function prepareSite() {
 
 		// we try to post ot github without a cross-domain request, but if we're
 		// just running the exercises locally, then we can't help it and need
-		// to fall back to jsonp. 
+		// to fall back to jsonp.
 		jQuery.ajax({
 
 			url: ( testMode ? "http://www.khanacademy.org/" : "/" ) + "githubpost",
