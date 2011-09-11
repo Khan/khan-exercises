@@ -1328,45 +1328,74 @@ function prepareSite() {
 	}
 
 	// Watch for a solution submission
-	jQuery("#check-answer-button").click( {type: "answer"}, handleSubmit );
-	jQuery("#answerform").submit( {type: "answer"}, handleSubmit );
+	jQuery("#check-answer-button").click( handleSubmit );
+	jQuery("#answerform").submit( handleSubmit );
 
-	function handleSubmit( e ) {
+	// Build the data to pass to the server
+	function buildAttemptData(pass, attemptNum, attemptContent, curTime) {
+		return {
+			// The user answered correctly
+			complete: pass === true ? 1 : 0,
+
+			// The user used a hint
+			count_hints: hintsUsed,
+
+			// How long it took them to complete the problem
+			time_taken: Math.round((curTime - lastAction) / 1000),
+
+			// How many times the problem was attempted
+			attempt_number: attemptNum,
+
+			// The answer the user gave
+			// TODO: Get the real provided answer
+			attempt_content: attemptContent,
+
+			// A hash representing the exercise
+			// TODO: Populate this from somewhere
+			sha1: typeof userExercise !== "undefined" ? userExercise.exercise_model.sha1 : exerciseName,
+
+			// The seed that was used for generating the problem
+			seed: problemSeed,
+
+			// The seed that was used for generating the problem
+			problem_type: problemID,
+
+			// The non-summative exercise that the current problem belongs to
+			non_summative: exercise.data( "name" )
+		};
+	}
+
+	function handleSubmit() {
 		var pass = validator();
 
-		// We are submitting either an answer or a hint
-		var isAnswer = e.data.type === "answer";
+		// Stop if the user didn't enter a response
+		// If multiple-answer, join all responses and check if that's empty
+		if ( jQuery.trim( validator.guess ) === "" ||
+			 ( validator.guess instanceof Array && jQuery.trim( validator.guess.join( "" ) ) === "" ) ) {
+			return false;
+		}
 
-		if (isAnswer) {
-			// Stop if the user didn't enter a response
-			// If multiple-answer, join all responses and check if that's empty
-			if ( jQuery.trim( validator.guess ) === "" ||
-				 ( validator.guess instanceof Array && jQuery.trim( validator.guess.join( "" ) ) === "" ) ) {
-				return false;
-			}
+		// Stop if the form is already disabled and we're waiting for a response.
+		if ( jQuery( "#answercontent input" ).is( ":disabled" )) {
+			return false;
+		}
 
-			// Stop if the form is already disabled and we're waiting for a response.
-			if ( jQuery( "#answercontent input" ).is( ":disabled" )) {
-				return false;
-			}
+		jQuery( "#throbber" ).show();
+		jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
+		jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
+		jQuery( "#check-answer-results p" ).hide();
 
-			jQuery( "#throbber" ).show();
-			jQuery( "#check-answer-button" ).addClass( "buttonDisabled" );
-			jQuery( "#answercontent input" ).attr( "disabled", "disabled" );
-			jQuery( "#check-answer-results p" ).hide();
+		// Figure out if the response was correct
+		if ( pass === true ) {
+			jQuery("#happy").show();
+			jQuery("#sad").hide();
+		} else {
+			jQuery("#happy").hide();
+			jQuery("#sad").show();
 
-			// Figure out if the response was correct
-			if ( pass === true ) {
-				jQuery("#happy").show();
-				jQuery("#sad").hide();
-			} else {
-				jQuery("#happy").hide();
-				jQuery("#sad").show();
-
-				// Is this a message to be shown?
-				if ( typeof pass === "string" ) {
-					jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
-				}
+			// Is this a message to be shown?
+			if ( typeof pass === "string" ) {
+				jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
 			}
 
 			// Refocus text field so user can type a new answer
@@ -1380,76 +1409,40 @@ function prepareSite() {
 
 		// The user checked to see if an answer was valid
 
-		// Build the data to pass to the server
-		var curTime = (new Date).getTime(),
-			data = {
-				// The user answered correctly
-				complete: pass === true ? 1 : 0,
+		// Save the problem results to the server
+		var curTime = new Date().getTime();
+		var data = buildAttemptData(pass, ++attempts, JSON.stringify(validator.guess), curTime);
+		request( "problems/" + (getData().total_done + 1) + "/attempt", data, function() {
 
-				// The user used a hint
-				count_hints: hintsUsed,
+			// TODO: Save locally if offline
+			jQuery(Khan).trigger( "answerSaved" );
 
-				// How long it took them to complete the problem
-				time_taken: Math.round((curTime - lastAction) / 1000),
-
-				// How many times the problem was attempted
-				attempt_number: isAnswer ? ++attempts : attempts,
-
-				// The answer the user gave
-				// TODO: Get the real provided answer
-				attempt_content: isAnswer ? JSON.stringify(validator.guess) : "hint",
-
-				// A hash representing the exercise
-				// TODO: Populate this from somewhere
-				sha1: typeof userExercise !== "undefined" ? userExercise.exercise_model.sha1 : exerciseName,
-
-				// The seed that was used for generating the problem
-				seed: problemSeed,
-
-				// The seed that was used for generating the problem
-				problem_type: problemID,
-
-				// The non-summative exercise that the current problem belongs to
-				non_summative: exercise.data( "name" )
-			};
-
-		if (!isAnswer) {
-			// Don't do anything on success or failure, silently failing is ok here
-			request( "problems/" + (getData().total_done + 1) + "/hint", data, function() {}, function () {});
-		} else {
-			// Save the problem results to the server
-			request( "problems/" + (getData().total_done + 1) + "/attempt", data, function() {
-
-				// TODO: Save locally if offline
-				jQuery(Khan).trigger( "answerSaved" );
-
-				jQuery( "#throbber" ).hide();
-				jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
-				if ( pass === true ) {
-					jQuery( "#check-answer-button" ).hide();
-					if ( !testMode || Khan.query.test == null ) {
-						jQuery( "#next-container" ).show();
-						jQuery( "#next-question-button" ).removeAttr( "disabled" )
-							.removeClass( "buttonDisabled" )
-							.focus();
-					}
-				} else {
-					jQuery( "#answercontent input" ).removeAttr( "disabled" );
+			jQuery( "#throbber" ).hide();
+			jQuery( "#check-answer-button" ).removeClass( "buttonDisabled" );
+			if ( pass === true ) {
+				jQuery( "#check-answer-button" ).hide();
+				if ( !testMode || Khan.query.test == null ) {
+					jQuery( "#next-container" ).show();
+					jQuery( "#next-question-button" ).removeAttr( "disabled" )
+						.removeClass( "buttonDisabled" )
+						.focus();
 				}
-			}, function() {
-				// Error during submit. Cheat, for now, and reload the page in
-				// an attempt to get updated data.
-				window.location.reload();
-			});
+			} else {
+				jQuery( "#answercontent input" ).removeAttr( "disabled" );
+			}
+		}, function() {
+			// Error during submit. Cheat, for now, and reload the page in
+			// an attempt to get updated data.
+			window.location.reload();
+		});
 
-			// Remember when the last action was
-			lastAction = curTime;
+		// Make sure hint streak breaking is handled correctly
+		doSave = false;
 
-			// Make sure hint streak breaking is handled correctly
-			doSave = false;
+		// Remember when the last action was
+		lastAction = curTime;
 
-			jQuery(Khan).trigger( "checkAnswer", pass );
-		}
+		jQuery(Khan).trigger( "checkAnswer", pass );
 
 		return false;
 	}
@@ -1552,10 +1545,14 @@ function prepareSite() {
 		}
 
 		if (!(typeof userExercise !== "undefined" && userExercise.read_only)) {
-			// Only submit data to server if we are not in readonly mode.
-			// handleSubmit is an event handler but in this case it just
-			// submits data to the server.
-			handleSubmit({data: {type: "hint"}});
+			// Submit data to the server
+			request(
+				"problems/" + (getData().total_done + 1) + "/hint",
+				buildAttemptData(false, attempts, "hint", new Date().getTime()),
+				// Don't do anything on success or failure, silently failing is ok here
+				function() {},
+				function() {}
+			);
 		}
 	});
 
