@@ -21,7 +21,7 @@
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars" data-ensure="abs( SOLUTION[0] - SOLUTION[1] ) <= 5 && FAKE_ANSWER[0] !== SOLUTION[0] && FAKE_ANSWER[1] !== SOLUTION[1]">
+		<div class="vars" data-ensure="SOLUTION[0] !== SOLUTION[1] && abs( SOLUTION[0] - SOLUTION[1] ) <= 5 && FAKE_ANSWER[0] !== SOLUTION[0] && FAKE_ANSWER[1] !== SOLUTION[1]">
 			<var id="COEF">[ randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 ), randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 ) ]</var>
 			<var id="ONE_OVER_COEF">[ fraction( 1, COEF[0] ), fraction( 1, COEF[1]) ]</var>
 			<var id="SIGN">[ randFromArray([ "-", "+" ]), randFromArray([ "-", "+" ]) ]</var>
