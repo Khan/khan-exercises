@@ -189,14 +189,7 @@ jQuery.tmpl = {
 						MathJax.Hub.Queue([ "Typeset", MathJax.Hub, elem ]);
 					}
 				} else {
-
-					// If the previous node is a text node and has no className, Reprocess breaks
-					var prev = elem.previousSibling;
-					if ( prev.className == null ) {
-						jQuery( elem ).before( "<span>" );
-					}
-
-					MathJax.Hub.Reprocess( elem );
+					MathJax.Hub.Queue([ "Reprocess", MathJax.Hub, elem ]);
 				}
 			};
 		}
