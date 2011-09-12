@@ -1459,7 +1459,7 @@ function prepareSite() {
 			// Correct answer, so show the next question button.
 			jQuery( "#check-answer-button" ).hide();
 			if ( !testMode || Khan.query.test == null ) {
-				jQuery( "#next-container" ).show();
+				jQuery( "#next-question-button" ).show();
 				jQuery( "#next-question-button" ).removeAttr( "disabled" )
 					.removeClass( "buttonDisabled" )
 					.focus();
@@ -1490,7 +1490,7 @@ function prepareSite() {
 
 		// Toggle the navigation buttons
 		jQuery("#check-answer-button").show();
-		jQuery("#next-question-button").blur().parent().hide();
+		jQuery("#next-question-button").blur().hide();
 
 		// Wipe out any previous problem
 		jQuery("#workarea").hide();
