@@ -52,19 +52,20 @@ body.debug .graphie { outline: 1px dashed red; }
 #tester-info .box { border: 1px solid black; padding: 2px 4px; margin-left: 5px; }
 
 .summary { display: none; }
-#browserwarning { display: none; padding: 18px; font-size: 120%; text-align: center; }
+#browserwarning { background: white; margin: 0 1px; padding: 18px; font-size: 120%; text-align: center; }
 
 #answer_area input.simple-button[disabled=disabled] { opacity: 0.5; filter: alpha(opacity = 50); cursor: default; }
 #answer_area input.simple-button[disabled=disabled]:hover { color: #fff !important; }
 #answer_area input.simple-button.orange[disabled=disabled]:hover { border-color: #bf4f04 !important; border-bottom-color: #803503 !important; }
 #answer_area input.simple-button.green[disabled=disabled]:hover { border-color: #76a005 !important; border-bottom-color: #557303 !important; }
 
+.simple-button.disabled { opacity: 0.5; filter: alpha(opacity = 50); cursor: default; }
 
 #hint-remainder { color: #777; }
 
 #footer .simple-button, .info-box .simple-button { padding: 3px 10px; top: -1px }
 .info-box .simple-button { top:  3px; );
-    
+
 }
 
 #issue .error { font-style: italic; font-weight: bold; }
@@ -76,6 +77,7 @@ body.debug .graphie { outline: 1px dashed red; }
 
 var, div.graphie { white-space: pre; }
 
+#throbber { position: relative; top: 4px; left: 4px; }
 #issue-throbber { position: relative; top: 3px; }
 
 .exp input { vertical-align: super; font-size: 9px; height: 11px; }
@@ -299,4 +301,13 @@ div.timeline-total {
 #warning-bar-content a {
 	color: #eee;
 	text-decoration: underline;
+}
+
+#timelinecontainer .simple-button {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  white-space: nowrap;
 }

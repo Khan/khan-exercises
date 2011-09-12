@@ -1,4 +1,5 @@
-<!DOCTYPE html> <html data-require="math math-format graphie">
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
 <head>
 	<meta charset="UTF-8" />
 	<title>Graphing inequalities</title>
@@ -42,8 +43,18 @@
 			<div data-ensure="sqrt( pow( POINT_1[0] - POINT_2[0], 2 ) + pow( POINT_1[1] - POINT_2[1], 2 ) ) > 4">
 				<var id="POINT_1">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
 				<var id="POINT_2">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
-				<var id="POINT_1_SOLUTION">POINT_1[1] > M * POINT_1[0] + B !== LESS_THAN || ( INCLUSIVE && M * POINT_1[0] + B === POINT_1[1] )</var>
-				<var id="POINT_2_SOLUTION">POINT_2[1] > M * POINT_2[0] + B !== LESS_THAN || ( INCLUSIVE && M * POINT_2[0] + B === POINT_2[1] )</var>
+				<var id="POINT_1_SOLUTION">
+					  (((COMP == "&lt;") && (Y_COEF * POINT_1[1] + X_COEF * POINT_1[0] <  RIGHT_INT))
+					|| ((COMP == "&le;") && (Y_COEF * POINT_1[1] + X_COEF * POINT_1[0] <= RIGHT_INT))
+					|| ((COMP == "&gt;") && (Y_COEF * POINT_1[1] + X_COEF * POINT_1[0] >  RIGHT_INT))
+					|| ((COMP == "&ge;") && (Y_COEF * POINT_1[1] + X_COEF * POINT_1[0] >= RIGHT_INT)))
+				</var>
+				<var id="POINT_2_SOLUTION">
+					  (((COMP == "&lt;") && (Y_COEF * POINT_2[1] + X_COEF * POINT_2[0] <  RIGHT_INT))
+					|| ((COMP == "&le;") && (Y_COEF * POINT_2[1] + X_COEF * POINT_2[0] <= RIGHT_INT))
+					|| ((COMP == "&gt;") && (Y_COEF * POINT_2[1] + X_COEF * POINT_2[0] >  RIGHT_INT))
+					|| ((COMP == "&ge;") && (Y_COEF * POINT_2[1] + X_COEF * POINT_2[0] >= RIGHT_INT)))
+				</var>
 			</div>
 		</div>
 

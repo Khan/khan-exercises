@@ -189,7 +189,7 @@ jQuery.tmpl = {
 						MathJax.Hub.Queue([ "Typeset", MathJax.Hub, elem ]);
 					}
 				} else {
-					MathJax.Hub.Reprocess( elem );
+					MathJax.Hub.Queue([ "Reprocess", MathJax.Hub, elem ]);
 				}
 			};
 		}
