@@ -1,5 +1,6 @@
 jQuery.extend( KhanUtil, { 
-	spin: function( content ) { // First find all top-level blocks and spin them
+	spin: function( content ) { 
+		// First find all top-level blocks and spin them
 		var startingBracePos = -1;
 		var nestingLevel = 0;
 
