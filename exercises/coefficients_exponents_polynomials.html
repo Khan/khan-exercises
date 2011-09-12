@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<title>Coefficients, exponents, and polynomials</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="TERMS">randRange( 3, 7 )</var>
+		<var id="P_ARR">(function() {
+			var array = [];
+			var used = {};
+			while ( array.length < TERMS ) {
+				var exp = randRange( 0, 9 );
+				if ( !used[ exp ] ) {
+					if ( exp > 1 ) {
+						array.push([ randRangeNonZero( -15, 15 ) , exp , "x^{" + exp + "}" ]);
+					} else if ( exp == 1 ) {
+						array.push([ randRangeNonZero( -15, 15 ) , exp , "x" ]);
+					} else {
+						array.push([ randRangeNonZero( -15, 15 ) , exp , "" ]);
+					}
+					used[ exp ] = true;
+				}
+			}
+			while ( array.length < 7 ) {
+				array.push([ 0 , 0 ]);
+			}
+			return array;
+		})()</var>
+		<var id="T_ARR">jQuery.map( P_ARR, function( el ) {
+			return plus( el[0] + el[2] );
+		} )</var>
+
+		<var id="ORDINAL">[ "1st" , "2nd" , "3rd" , "4th" , "5th" , "6th" , "7th" ]</var>
+		<var id="TERM">randRange( 1, TERMS ) - 1</var>
+	</div>
+
+	<div class="problems">
+
+		<div id="terms">
+			<div class="vars">
+				<var id="HINT2">(function() {
+					var str = "";
+					for ( var i = 0 ; i < 7 ; i++) {
+						if ( i < TERMS - 1 ) {
+							str += T_ARR[i] + ", "
+						} else if ( i === TERMS - 1 ) {
+							str += " and " + T_ARR[i]
+						}
+					}
+					return str;
+				})()</var>
+			</div>
+			<p class="problem">How many terms are in the polynomial?</p>
+			<p class="question"><code><var>plus( T_ARR[0] , T_ARR[1] , T_ARR[2] , T_ARR[3] , T_ARR[4] , T_ARR[5] , T_ARR[6] )</var></code></p>
+			<div class="solution" data-type="text"><var>TERMS</var></div>
+
+			<div class="hints">
+				<p>Each part of a polynomial that is being added is called a term.</p>
+				<p><code><var>HINT2</var></code> are all terms.</p>
+				<p>Thus, there are <var>TERMS</var> terms in the polynomial.</p>
+			</div>
+		</div>
+		
+		<div id="exponent" data-type="terms">
+			<p class="problem">What is the exponent in the <var>ORDINAL[ TERM ]</var> term of this polynomial?</p>
+			<div class="solution" data-type="text"><var>P_ARR[ TERM ][ 1 ]</var></div>
+
+			<div class="hints">
+				<p>Each part of a polynomial that is being added is called a term.</p>
+				<p>The <var>ORDINAL[ TERM ]</var> term is <code><var>T_ARR[ TERM ]</var></code>.</p>
+				<p>Exponents show how many times a number should be multiplied by itself.</p>
+				<p data-if="P_ARR[ TERM ][ 1 ] > 1">Exponents are shown on the upper right of a base number or variable.</p>
+				<p data-if="P_ARR[ TERM ][ 1 ] === 1">When a variable does not show an exponent, it can be assumed that the exponent is 1.  This is because <code>x^{1} = x</code>.</p>
+				<div data-if="P_ARR[ TERM ][ 1 ] === 0">
+					<p>When a variable is not shown at all, it can be assumed that there is an invisible variable with an exponent of <code>0</code>.  This is because  <code>x^{0} = 1</code>.<p>
+					<p>Thus, <code><var>P_ARR[ TERM ][ 0 ]</var> = <var>P_ARR[ TERM ][ 0 ]</var></code> * <code>1 = <var>P_ARR[ TERM ][ 0 ]</var></code> * <code>x^{0}</code>.</p>
+				</div>
+				<p>Since the <var>ORDINAL[ TERM ]</var> term of this polynomial is <code><var>T_ARR[ TERM ]</var></code>, the exponent is <code><var>P_ARR[ TERM ][ 1 ]</var></code>.</p>
+			</div>
+		</div>
+
+		<div id="coeff" data-type="terms">
+			<p class="problem">What is the coefficient in the <var>ORDINAL[ TERM ]</var> term of this polynomial?</p>
+			<div class="solution" data-type="text"><var>P_ARR[ TERM ][ 0 ]</var></div>
+
+			<div class="hints">
+				<p>Each part of a polynomial that is being added is called a term.</p>
+				<p>The <var>ORDINAL[ TERM ]</var> term is <code><var>T_ARR[ TERM ]</var></code>.</p>
+				<p>In this case, a coefficient is a number in front of a variable that does not change.</p>
+				<div data-if="P_ARR[ TERM ][ 1 ] === 0">
+					<p>When there is no visible variable, it can be assumed that there is an invisible <code>x^{0}</code> because <code>x^{0} = 1</code>.</p>
+					<p>Thus, <code><var>plus( P_ARR[ TERM ][ 0 ] + "x^{0}" )</var> = <var>P_ARR[ TERM ][ 0 ]</var></code>.</p>
+				<div>
+				<p>Since the <var>ORDINAL[ TERM ]</var> term of this polynomial is <code><var>T_ARR[ TERM ]</var></code>, the coefficient is <code><var>P_ARR[ TERM ][ 0 ]</var></code>.</p>
+			</div>
+		</div>
+
+	</div>
+</div>
+</body>
+</html> 
