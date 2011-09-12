@@ -1,4 +1,5 @@
-<!DOCTYPE html> <html data-require="math math-format graphie">
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
 <head>
 	<meta charset="UTF-8" />
 	<title>Graphing inequalities</title>
@@ -42,8 +43,18 @@
 			<div data-ensure="sqrt( pow( POINT_1[0] - POINT_2[0], 2 ) + pow( POINT_1[1] - POINT_2[1], 2 ) ) > 4">
 				<var id="POINT_1">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
 				<var id="POINT_2">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
-				<var id="POINT_1_SOLUTION">POINT_1[1] > M * POINT_1[0] + B !== LESS_THAN || ( INCLUSIVE && M * POINT_1[0] + B === POINT_1[1] )</var>
-				<var id="POINT_2_SOLUTION">POINT_2[1] > M * POINT_2[0] + B !== LESS_THAN || ( INCLUSIVE && M * POINT_2[0] + B === POINT_2[1] )</var>
+				<var id="POINT_1_SOLUTION">
+					  (((COMP == "&lt;") && (Y_COEF * POINT_1[1] + X_COEF * POINT_1[0] <  RIGHT_INT))
+					|| ((COMP == "&le;") && (Y_COEF * POINT_1[1] + X_COEF * POINT_1[0] <= RIGHT_INT))
+					|| ((COMP == "&gt;") && (Y_COEF * POINT_1[1] + X_COEF * POINT_1[0] >  RIGHT_INT))
+					|| ((COMP == "&ge;") && (Y_COEF * POINT_1[1] + X_COEF * POINT_1[0] >= RIGHT_INT)))
+				</var>
+				<var id="POINT_2_SOLUTION">
+					  (((COMP == "&lt;") && (Y_COEF * POINT_2[1] + X_COEF * POINT_2[0] <  RIGHT_INT))
+					|| ((COMP == "&le;") && (Y_COEF * POINT_2[1] + X_COEF * POINT_2[0] <= RIGHT_INT))
+					|| ((COMP == "&gt;") && (Y_COEF * POINT_2[1] + X_COEF * POINT_2[0] >  RIGHT_INT))
+					|| ((COMP == "&ge;") && (Y_COEF * POINT_2[1] + X_COEF * POINT_2[0] >= RIGHT_INT)))
+				</var>
 			</div>
 		</div>
 
@@ -84,7 +95,7 @@
 						</p>
 						<p>
 							<code>
-								<var>Y_COEF</var>y<var>COMP + (-X_COEF)</var>x + <var>RIGHT_INT</var></code>.
+								<var>Y_COEF</var>y<var>COMP + (-X_COEF)</var>x + <var>RIGHT_INT</var>
 							</code>
 						</p>
 					</div>
@@ -129,7 +140,7 @@
 					</div>
 					<div>
 						<p>Since our inequality has a <var>LESS_THAN ? "less-than" : "greater-than"</var><var>INCLUSIVE ? " or equal to" : ""</var> sign, that means that any point <strong><var>LESS_THAN ? "below" : "above"</var></strong> the line is a solution to the inequality.</p>
-						<p data-if="INCLUSIVE" whoa="huh">Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> or <strong>equal to</strong>, any point on the line is also a solution.</p>
+						<p data-if="INCLUSIVE">Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> or <strong>equal to</strong>, any point on the line is also a solution.</p>
 						<p data-else>Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> (and not equal to), any point on the line is <strong>not</strong> part of the solution.</p>
 						<div class="graphie" data-update="inequality">
 							

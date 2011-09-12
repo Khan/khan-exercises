@@ -4,128 +4,111 @@
 	<meta charset="UTF-8" />
 	<title>Polygon intuition</title>
 	<script src="../khan-exercise.js"></script>
-</head>
-<script>
-	function setParallel( p ){
-		var graph = KhanUtil.currentGraph;
-		graph.P = p;
-		updateShape();	
-	}
+	<script>
+		function updateShape(){
 
-	function setSame( s ){
-		var graph = KhanUtil.currentGraph;
-		if ( graph.S === 0 ){
-			graph.S = s;
-		}
-		else if ( graph.S !== s ){
-			graph.S = "all";
-		}	
-		updateShape();
-	}
+			var graph = KhanUtil.currentGraph;
+			var type="";
+			if ( jQuery( "#par2" ).is(":checked") ){
+				jQuery( "#par1" ).attr("checked", true );
+				jQuery( "#opp" ).attr("checked", true );
+			}
+			
+			
+			var selected = jQuery( "input:checked" );
+			var par1 = jQuery( "#par1" ).is(":checked"); 
+			var par2 = jQuery( "#par2" ).is(":checked"); 
+			var adj = jQuery( "#adj" ).is(":checked"); 
+			var opp = jQuery( "#opp" ).is(":checked"); 
+			var angle = jQuery( "#angle" ).is(":checked"); 
 
-	function setRight( r ){
-		var graph = KhanUtil.currentGraph;
-		graph.R = r;
-		updateShape();
-	}
-	function clearAll( ){
-		var graph = KhanUtil.currentGraph;
-		graph.R = 0;
-		graph.S = 0;
-		graph.P = 0;
-		updateShape();
-	}	
-	
-	function updateShape(){
-		var graph = KhanUtil.currentGraph;
-		graph.SH.remove();
-		var type="";
-		if ( graph.P === 0 ){
-			if( graph.S === 'adj' ){
-				type = "kite";
-			} 
-			else{
+			if ( selected.length == 0 ){
 				type = "quadrilateral";
 			}
-		}
-		else if ( graph.P === 1 ){
-				if ( graph.S === "adj" ){
-					type = "isosceles trapezoid";
-				}
-				else{
-					type = "trapezoid";
-				}
-			}
-		else{
-			if ( graph.R === 1 ){
-				if ( graph.S === "all" ){
-					type = "square";
-				}
-				else {
-					type = "rectangle";
-				}
-			}
-			else {
-				if ( graph.S === "all" ){
-					type = "rhombus";
-				}
-				else {
-					type = "parallelogram";
-				}
-			}
-		}
-		var s = getShape( type );
-		graph.SH = s.draw();
-		graph.L.remove();
-		graph.L = graph.label( [ -1, 1 ], type );
-	}
- 
-	function getShape( name ){
-	with ( KhanUtil.currentGraph ) {
-		var ratio = KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] );
-		if ( name === "square" ){
-			return newSquare();
-		}
-		if ( name === "rectangle" ){
-			return newRectangle();
-		}
-		if ( name === "rhombus" ){
-			return  newRhombus();
+			if ( selected.length == 5 ){
+				type = "square";
+			}	
+			if ( par2 && angle && opp && !adj){
+				type = "rectangle";
+			}	
+			if ( par2 && opp && !angle && !adj ){
+				type = "parallelogram";
+			}	
+			if ( par2 && opp && !angle && adj ){
+				type = "rhombus";
+			}	
+			if ( !par1 && !opp && !angle && adj ){
+				type = "kite";
+			}	
+			if ( !par2 && par1 && !opp && !angle && !adj ){
+				type = "trapezoid";
+			}	
+			if ( !par2 && par1 && opp && !angle && !adj ){
+				type = "isosceles trapezoid";
+			}	
+			
+
+			var s = getShape( type );
+			s.draw();
+			s.drawLabels();
+			graph.L.remove();
+			graph.L = graph.label( [ -1, 1 ], type );
 		}
 
-		if ( name === "parallelogram" ){
-			return  newParallelogram();
-		}
-		if ( name === "trapezoid" ){
-			return  newTrapezoid();
-		}
-		if ( name === "kite" ){
-			return  newKite();
-		}
-		if ( name === "isosceles trapezoid" ){
-			var angC = KhanUtil.randRange( 30, 160 );
-			var angD = 180 - angC;
-			return  new Quadrilateral( [ 0, 0 ], [ angA, angA , angB , angB ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7 ] ) , "", 3 );
-		}
-		if ( name === "quadrilateral" ){
-			angB = KhanUtil.randRange( 30, 160 );
-			if ( angA + angB < 170 ){
-				var angC = KhanUtil.randRange( 180 - angA - angB, 140 );
-			}
-			else {
-				var angC = KhanUtil.randRange( 30, 330 - angA - angB ); 
-			}
-				var angD = 360 - angA - angB - angC;
-			if ( angA < ( 180- angB ) ){
-					return  new Quadrilateral( [ 0, 0 ], [ angA, angB , angC , angD ],  KhanUtil.randFromArray( [ 0.5, 0.7, 0.9 ] ) , "", 3 );
-			}
-			else{
-					return  new Quadrilateral( [ 0, 0 ], [ angA, angB , angC , angD ],  KhanUtil.randFromArray( [ 1.3, 1.5, 1.7 ] ) , "", 3 );
-			}
-		} 
+		function getShape( name ){
+			with ( KhanUtil.currentGraph ) {
+				var graph = KhanUtil.currentGraph;
+				
+				var ratio = KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] );
+				var center = [ graph.POS[ 0 ], graph.POS[ 1 ] - 4 ];
+				label( center , name );
+				graph.POS = center;
+				if ( name === "square" ){
+					return newSquare(center );
+				}
+				if ( name === "rectangle" ){
+					return newRectangle(center );
+				}
+				if ( name === "rhombus" ){
+					return  newRhombus(center );
+				}
+				if ( name === "parallelogram" ){
+					return  newParallelogram(center );
+				}
+				if ( name === "trapezoid" ){
+					return  newTrapezoid(center );
+				}
+				if ( name === "kite" ){
+					return  newKite(center );
+				}
+				if ( name === "isosceles trapezoid" ){
+					var angC = KhanUtil.randRange( 30, 160 );
+					var angD = 180 - angC;
+					return  new Quadrilateral( center, [ angC, angD , angD , angC ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7 ] ) , "", 3 );
+				}
+				if ( name === "quadrilateral" ){
 
-	}}
-</script>
+					var angA =  KhanUtil.randRange( 30, 160 );
+					angB = KhanUtil.randRange( 30, 160 );
+	
+					if ( angA + angB < 170 ){
+						var angC = KhanUtil.randRange( 180 - angA - angB, 140 );
+					}
+					else {
+						var angC = KhanUtil.randRange( 30, 330 - angA - angB ); 
+					}
+						var angD = 360 - angA - angB - angC;
+					if ( angA < ( 180- angB ) ){
+						return  new Quadrilateral( center, [ angA, angB , angC , angD ],  KhanUtil.randFromArray( [ 0.5, 0.7, 0.9 ] ) , "" , 3 );
+					}
+					else{
+						return  new Quadrilateral( center, [ angA, angB , angC , angD ],  KhanUtil.randFromArray( [ 1.3, 1.5, 1.7 ] ) , "", 3 );
+					}
+				} 
+			}
+		}
+	</script>
+</head>
 <body>
 	<div class="exercise">
 		<div class="vars">
@@ -142,11 +125,12 @@
 
 				<div class="graphie" id="grid">
 					init({
-						range: [[ -10, 10 ], [ -1, 5 ]],
+						range: [[ -10, 10 ], [ -20, 6 ]],
 						scale: [30, 30]
 					});
 						
 					var graph = KhanUtil.currentGraph;
+					graph.POS = [ -1, 5 ];
 					graph.S = 0;
 					graph.P = 0;
 					graph.R = 0;
@@ -157,15 +141,14 @@
 				<div class="solution" data-type="multiple">
 					Polygon command center
 					<div>
-						<input id="par1" type="button" value="2 sides parallel" onclick="setParallel( 1 )">
-						<input id="par2" type="button" value="4 sides parallel" onclick="setParallel( 2 )">
+						<input id="par1" type="checkbox"  onclick="updateShape()">2 sides parallel
+						<input id="par2" type="checkbox"  onclick="updateShape()">4 sides parallel
 					</div>
 					<div>
-						<input id="eq1" type="button" value="Adjacent sides equal" onclick="setSame( 'adj' )">
-						<input id="eq2" type="button" value="Opposite sides equal" onclick="setSame( 'opp' )">
+						<input id="adj" type="checkbox" onclick="updateShape()">Adjacent sides equal
+						<input id="opp" type="checkbox" onclick="updateShape()">Opposite sides equal
 					</div>
-					<div><input type="button" value="Angle equal to 90" onclick="setRight( 1 )"></div>
-					<div><input type="button" value="Clear all" onclick="clearAll()"></div>
+					<div><input id="angle" type="checkbox" onclick="updateShape()">Angle equal to 90</div>
 
 					<span class="sol" data-type="decimal" data-inexact style="display: none" id="intercept-sol"><var>B</var></span>
 				</div>
