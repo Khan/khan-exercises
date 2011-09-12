@@ -23,7 +23,7 @@ jQuery.extend( KhanUtil, {
 					// Spin the top-level block
 					var spun = KhanUtil.spin( content.substring(startingBracePos + 1, i) );
 					content = content.substring( 0, startingBracePos ) + spun + content.substring( i + 1 );
-					i -= ( i - startingBracePos ) - spun.length;
+					i -= ( i - startingBracePos ) - spun.length + 1;
 					startingBracePos = -1;
 
 				// This brace closes a nested block
