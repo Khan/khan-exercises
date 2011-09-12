@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Linear equations 0.5</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<!--
+x - 10 = 15
+20 - x = 14
+x + 10 = 15
+10 + x = 15
+
+
+-->
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="B">randRangeNonZero( -19, 19 )</var>
+			<var id="A">B > 0 ? randRange( 1 , 20 ) : randRange( abs( B ) + 1 , 20 )</var>
+			<var id="C">A + B</var>
+		</div>
+
+		<div class="problems">
+			<div id="A+x">
+				<p class="question">Solve for <code>x</code>:</p>
+				<p class="problem"><code><var>A + ( B > 0 ? "+ x" : " - x") + "=" + C</var></code></p>
+				<p class="solution"><var>abs( B )</var></p>
+
+				<div class="hints">
+					<div data-if="B > 0" data-unwrap>
+						<div>
+							<p>Subtract <code><var>A</var></code> from each side:</p>
+							<p><code><var>A</var> + x \color{blue}{- <var>A</var>} = <var>C</var> \color{blue}{- <var>A</var>}</code></p>
+						</div>
+						<div>
+							<p>Simplify:</p>
+							<p><code>x = <var>B</var></code></p>
+						</div>
+					</div>
+					<div data-else data-unwrap>
+						<div>
+							<p>Add <code>x</code> to each side:</p>
+							<p><code><var>A</var> - x \color{blue}{+ x} = <var>C</var> \color{blue}{+ x}</code></p>
+						</div>
+						
+						<div>
+							<p>Simplify:</p>
+							<p><code><var>A</var> = <var>C</var> + x</code></p>
+						</div>
+						
+						<div>
+							<p>Subtract <code><var>C</var></code> from each side:</p>
+							<p><code><var>A</var> \color{orange}{- <var>C</var>} = <var>C</var> + x \color{orange}{- <var>C</var>}</code></p>
+						</div>
+
+						<div>
+							<p>Simplify:</p>
+							<p><code><var>abs( B )</var> = x</code></p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="x+B">
+				<p class="question">Solve for <code>x</code>:</p>
+				<p class="problem"><code><var>plus( "x" , B ) + "=" + C</var></code></p>
+				<p class="solution"><var>A</var></p>
+
+				<div class="hints">
+					<div>
+						<p><var>( B > 0 ? "Subtract" : "Add" )</var> <code><var>abs( B )</var></code> <var>( B > 0 ? "from" : "to" )</var> each side:</p>
+						<p><code><var>plus( "x" , B )</var></code> <code>\color{blue}{<var>( B > 0 ? "- " : "+ " )</var><var>abs( B )</var>}= <var>C</var></code> <code>\color{blue}{<var>( B > 0 ? "- " : "+ " )</var><var>abs( B )</var>}</code></p>
+					</div>
+					<div>
+						<p>Simplify:</p>
+						<p><code>x = <var>A</var></code></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
