@@ -1458,7 +1458,7 @@ function prepareSite() {
 		if ( pass === true ) {
 			// Correct answer, so show the next question button.
 			jQuery( "#check-answer-button" ).hide();
-			if ( !testMode || Khan.query.test === null ) {
+			if ( !testMode || Khan.query.test == null ) {
 				jQuery( "#next-container" ).show();
 				jQuery( "#next-question-button" ).removeAttr( "disabled" )
 					.removeClass( "buttonDisabled" )
