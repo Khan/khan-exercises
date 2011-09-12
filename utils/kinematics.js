@@ -22,16 +22,22 @@ jQuery.extend(KhanUtil, {
 		do {
 			omitted = KhanUtil.randFromArray(KhanUtil.VARIABLES);
 			unknown = KhanUtil.randFromArray(KhanUtil.VARIABLES);
-		} while (omitted === unknown);
+		} while (omitted === unknown
+				|| (omitted === "t" && unknown ==="v_i")
+				|| (omitted === "t" && unknown ==="v_f")
+				|| (omitted === "v_i" && unknown ==="t")
+				|| (omitted === "v_f" && unknown ==="t")
+				);
 		return [omitted, unknown];
 	},
 
 	randomFreefallMotion: function() {
 		var accel = -9.8;
 		var v_init = (KhanUtil.rand(2) ? 0 : KhanUtil.randRange(-100, 300)/10);
-		var time = KhanUtil.randRange(0, 200)/10;
+		var time = KhanUtil.randRange(1, 200)/10;
 		var disp = v_init*time + (1/2)*accel*time*time;
 		var v_final = v_init + accel * time;
+		// FIXME: if v_init = 4.8 * t, there will be infinite solutions if a and t are not given
 
 		var unknowns = KhanUtil.rollUnknowns();
 
@@ -79,6 +85,7 @@ jQuery.extend(KhanUtil, {
 		var time = KhanUtil.randRange(100, 200)/10;
 		var disp = v_init * time + (1/2) * accel * time * time;
 		var v_final = v_init + accel * time;
+		// FIXME: if v_init = (accel/2)*t, there will be infinite solutions if a and t are not given
 
 		var unknowns = KhanUtil.rollUnknowns();
 
