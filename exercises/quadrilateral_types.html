@@ -4,9 +4,6 @@
 	<meta charset="UTF-8" />
 	<title>Quadrilateral Types</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-	
-	</script>
 </head>
 <body>
 	<div class="exercise">
@@ -23,9 +20,9 @@
 				<div class="question">
 					<div class="graphie">	
 						init({
-							range: [ [-1, 10 ], [ -8, -1 ] ]
+							range: [ [-2, 12 ], [ -8, -1 ] ]
 						})
-						var q = new Quadrilateral( [ 2, -7 ],  ANGLES, randRange(0, 1) + 0.5, 3 );
+						var q = new Quadrilateral( [ 2, -7 ],  ANGLES, randRange( 0, 1 ) + 0.5, 3 );
 						q.draw();
 						q.labels = { "angles" : ANGLE_LABELS, "sides" : jQuery.map( jQuery.map( q.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } ) };
 						q.drawLabels();	
@@ -81,6 +78,7 @@
 					<p>Opposite angles of this  quadrilateral are equal.</p>
 					<p>Adjacent angles are supplementary.</p>
 					<p>It has 2 pairs of parallel sides.</p>
+					<p>Parallel sides are equal.</p>
 					<p>Therefore it is a parallelogram.</p>
 				</div>
 			</div>	
@@ -90,7 +88,7 @@
 				</div>
 				<div class="solution">Rectangle</div>
 				<div class="hints">
-					<p>Ihis quadrilateral has 2 pairs of parallel sides.</p>
+					<p>This quadrilateral has 2 pairs of parallel sides.</p>
 					<p>Its angles are equal to 90.</p>
 					<p>Therefore it is a rectangle.</p>
 				</div>
@@ -112,7 +110,7 @@
 				</div>
 				<div class="solution">Square</div>
 				<div class="hints">
-					<p>Ihis quadrilateral has 2 pairs of parallel sides.</p>
+					<p>This quadrilateral has 2 pairs of parallel sides.</p>
 					<p>Its angles are equal to 90.</p>
 					<p>All sides are equal.</p>
 					<p>Therefore it is a square.</p>
@@ -124,7 +122,7 @@
 				</div>
 				<div class="solution">Rhombus</div>
 				<div class="hints">
-					<p>Ihis quadrilateral has all sides equal.</p>
+					<p>This quadrilateral has all sides equal.</p>
 					<p>Therefore it is a rhombus.</p>
 				</div>
 			</div>

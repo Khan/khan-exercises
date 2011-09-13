@@ -399,33 +399,52 @@ var randomQuadAngles = {
 		rectangle: function(){
 			return [ 90, 90, 90, 90 ];
 		},
+
 		rhombus: function(){
-			var angA =  KhanUtil.randRange( 30, 160 );
-			var angB = 180 - angA;
+			var angA, angB;
+			do{
+				angA =  KhanUtil.randRange( 30, 160 );
+				angB = 180 - angA;
+			}while( Math.abs( angA - angB ) < 5 );
 			return [ angA, angB , angA , angB ];
 		},
+
 		parallelogram: function(){
-			var angA =  KhanUtil.randRange( 30, 160 );
-			var angB = 180 - angA;
+			var angA, angB;
+			do{
+				angA =  KhanUtil.randRange( 30, 160 );
+				angB = 180 - angA;
+			} while( angA === angB );
 			return  [ angA, angB ,angA ,angB ];
 		},
+
 		trapezoid: function(){
-			var angA =  KhanUtil.randRange( 30, 160 );
-			var angB = 180 - angA;
-			var angC =  KhanUtil.randRange( 30, 160 );
-			var angD = 180 - angC;
+			var angA, angB, angC, angD;
+			do{
+				angA =  KhanUtil.randRange( 30, 160 );
+				angB = 180 - angA;
+				angC =  KhanUtil.randRange( 30, 160 );
+				angD = 180 - angC;
+			} while( angA === angC );
 			return  [ angA, angC , angD , angB ];
 		},
+
 		isoscelesTrapezoid: function(){
-			var angC =  KhanUtil.randRange( 30, 160 );
-			var angD = 180 - angC;
+			var angC, angD;
+			do{
+				angC =  KhanUtil.randRange( 30, 160 );
+				angD = 180 - angC;
+			} while( angC === angD );
 			return  [ angC, angC , angD , angD ];
 		},
 
 		kite: function(){
-			var angA = KhanUtil.randRange( 90, 140 );
-			var angB = KhanUtil.randRange( 30, ( 360 - ( 2 * angA ) ) - 30 );
-			var angC = 360 - angB - 2 * angA;
+			var angA, angB, angC
+			do{
+				angA = KhanUtil.randRange( 90, 140 );
+				angB = KhanUtil.randRange( 30, ( 360 - ( 2 * angA ) ) - 30 );
+				angC = 360 - angB - 2 * angA;
+			} while( angA === angB );
 			return [ angB, angA , angC , angA ];
 		}
 }
