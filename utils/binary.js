@@ -23,8 +23,7 @@ jQuery.extend(KhanUtil, {
     },
     
     generateDecimal: function( power ) {
-        num = Math.random() * Math.pow( 2, power );
-        return Number( num );
+        return KhanUtil.randRange( 0, Math.pow( 2, power ) );
     },
     
     binaryToDecimal: function( bits, power ) {

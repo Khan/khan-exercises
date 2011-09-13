@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- Converting decimal to binary Exercise - Eliot Van Uytfanghe -->
+<html data-require="math binary graphie">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Converting decimal to binary</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="problems">
+                <div id="decimal-to-binary">
+                    <div class="vars">
+                        <var id="A">Math.round( generateDecimal(8) )</var>
+                    </div>
+                    
+                    <div class="question">
+                        <div class="graphie" id="hint">
+                            init( {range: [[0, 12], [-1, 1]]} );
+
+                            label( [0, 0], 
+                                "\\text{Convert this decimal }" + "\\color{#6495ED}{<var>A</var>}" + "\\text{ to binary.}",
+                                "right" );
+                        </div>
+                    </div>
+                    <div class="solution" data-forms="integer"><var>decimalToBinary( A, 8 )</var></div>
+                    
+                    <div class="hints">
+                        <p>Check if 1 goes in the equation, then multiplicate your answer by 2 and repeat. Everytime it fits, input 1, or 0 when not.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
