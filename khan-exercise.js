@@ -1456,6 +1456,15 @@ function prepareSite() {
 		}, function() {
 			// Error during submit. Cheat, for now, and reload the page in
 			// an attempt to get updated data.
+
+			if ( user != null && exerciseName != null ) {
+				// Before we reload, clear out localStorage's UserExercise.
+				// If there' a discrepancy between server and localStorage such that
+				// problem numbers are out of order or anything else, we want
+				// to restart with whatever the server sends back on reload.
+				delete window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+			}
+
 			window.location.reload();
 		});
 

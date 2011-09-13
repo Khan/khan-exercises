@@ -101,7 +101,7 @@
 					var b = line( LINE_B[ 0 ], LINE_B[ 1 ], { stroke: "red" } );
 					var lb = [];
 
-					while( lb.length === 0 || lineLength( la, lb ) < 2 ){
+					while( lb.length === 0 || lineLength( [ la, lb ] ) < 2 ){
 						lb = randomPointOnLine( LINE_B[ 0 ], LINE_B[ 1 ], [ -2, 2 ], [ -5, 1 ] );
 					}
 					label( lb, "B", "below left", { color: "red" } );	

@@ -1,4 +1,6 @@
-function lineLength( a, b ){
+function lineLength( line ){
+	var a = line[ 0 ];
+	var b = line[ 1 ];
 	return Math.sqrt( ( a[ 0 ] - b[ 0 ] ) * ( a[ 0 ] - b[ 0 ] )  + ( a[ 1 ] - b[ 1 ] ) * ( a[ 1 ] - b[ 1 ] ) );
 }
 
@@ -143,13 +145,13 @@ function angleBisect( line1, line2, scale ){
 	var l1 = [];
 	var l2 = [];
 
-	if( ( line1[ 1 ][ 0 ] - line1[ 0 ][ 0 ] ) > 0  ){
+	if( ( line1[ 1 ][ 0 ] - line1[ 0 ][ 0 ] ) >= 0  ){
 		l1 = lineSegmentFromLine( intPoint, line1, scale );	
 	}
 	else{
 		l1 = lineSegmentFromLine( intPoint, line1, -scale );	
 	}
-	if( ( line2[ 1 ][ 0 ] - line2[ 0 ][ 0 ] ) > 0  ){
+	if( ( line2[ 1 ][ 0 ] - line2[ 0 ][ 0 ] ) >= 0  ){
 		l2 = lineSegmentFromLine( intPoint, line2, scale );
 	}
 	else{
@@ -157,6 +159,10 @@ function angleBisect( line1, line2, scale ){
 	}
 	return [ intPoint, parallelLine( l1, l2[ 1 ] )[ 1 ] ];
 
+}
+
+function lineMidpoint( line ){
+	return  [ ( line[ 0 ][ 0 ] + line[ 1 ][ 0 ] ) / 2, ( line[ 0 ][ 1 ] + line[ 1 ][ 1 ] ) / 2 ] 
 }
 
 function vectorProduct( line1, line2 ){
@@ -170,7 +176,7 @@ function vectorProduct( line1, line2 ){
 function Quadrilateral( center, angles, sideRatio, labels, size ){
 
     this.sideRatio = sideRatio;
-    this.labels = labels;
+
     this.graph = KhanUtil.currentGraph;
     this.angles = angles;
 	this.radAngles = $.map( angles, degToRad );
@@ -184,6 +190,8 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	this.size = 10;
     this.cosines = $.map( this.radAngles, Math.cos );
     this.sines = $.map( this.radAngles, Math.sin );
+    this.labels = labels || {};
+	this.sides = [];
 
 	this.generatePoints = function(){
 		var once = false;
@@ -200,11 +208,13 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 
 			this.points = [ [ this.x, this.y ], [ this.x + this.scale * this.sideRatio * this.cosines[ 0 ], this.y + this.scale * this.sideRatio * this.sines[ 0 ] ], [ this.x + tX[ 1 ] + ua * ( tX[ 2 ] - tX[ 1 ] ), this.y + tY[ 1 ] + ua * ( tY[ 2 ] - tY[ 1 ] ) ], [ this.x +  this.scale, this.y ] ];
 
+			this.sides = [ [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 3 ], this.points[ 2 ] ], [ this.points[ 2 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 0 ] ] ];
+
 			if(  vectorProduct( [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) > 0 ){
-				this.sideRatio -= 0.15 ;
+				this.sideRatio -= 0.3 ;
 			}
 			if(  vectorProduct( [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) < 0 ){
-				this.sideRatio += 0.15 ;
+				this.sideRatio += 0.3 ;
 			}
 	}
 
@@ -215,6 +225,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	}
 
 	this.generatePoints();
+
 	var area = 0.5 *  vectorProduct( [ this.points[ 0 ], this.points[ 2 ] ], [ this.points[ 3 ], this.points[ 1 ] ] );
 	this.scale = this.scale *  Math.sqrt( this.size/area );
 	this.generatePoints();
@@ -226,16 +237,26 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
     }
 	
 	this.drawLabels = function(){
+		var i = 0;
 		if ( "angles" in this.labels ){	
-           
-			this.createLabel( angleBisect( [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 0 ], this.points[ 1 ] ] , 1 )[ 1 ], labels.angles[ 0 ] );
-			this.createLabel( angleBisect( [ this.points[ 1 ], this.points[ 2 ] ], [ this.points[ 1 ], this.points[ 0 ] ] , 1 )[ 1 ], labels.angles[ 1 ] );
-			this.createLabel( angleBisect( [ this.points[ 2 ], this.points[ 1 ] ], [ this.points[ 2 ], this.points[ 3 ] ] , 1 )[ 1 ], labels.angles[ 2 ] );
-			this.createLabel( angleBisect( [ this.points[ 3 ], this.points[ 0 ] ], [ this.points[ 3 ], this.points[ 2 ] ] , 1 )[ 1 ], labels.angles[ 3 ] );
-
+			this.createLabel( angleBisect( [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 0 ], this.points[ 1 ] ] , 1 )[ 1 ], this.labels.angles[ 0 ] );
+			this.createLabel( angleBisect( [ this.points[ 1 ], this.points[ 2 ] ], [ this.points[ 1 ], this.points[ 0 ] ] , 1 )[ 1 ], this.labels.angles[ 3 ] );
+			this.createLabel( angleBisect( [ this.points[ 2 ], this.points[ 1 ] ], [ this.points[ 2 ], this.points[ 3 ] ] , 1 )[ 1 ], this.labels.angles[ 2 ] );
+			this.createLabel( angleBisect( [ this.points[ 3 ], this.points[ 0 ] ], [ this.points[ 3 ], this.points[ 2 ] ] , 1 )[ 1 ], this.labels.angles[ 1 ] );
 		}
-
+		if ( "sides" in this.labels ){
+			for( i = 0; i < 4; i++){
+				//http://www.mathworks.com/matlabcentral/newsreader/view_thread/142201
+				var midPoint = lineMidpoint( this.sides[ i ] );
+				var t =lineLength( [ this.sides[ i ][ 1 ],  midPoint ] );
+				var d = 0.5;
+				var x3 = midPoint[ 0 ] + ( this.sides[ i ][ 1 ][ 1 ] - midPoint[ 1 ] )/ t * d ;
+				var y3 = midPoint[ 1 ] - ( this.sides[ i ][ 1 ][ 0 ]- midPoint[ 0 ]) / t * d ;	
+				this.createLabel( [ x3, y3 ], this.labels.sides[ i ] );
+			}
+		}
 	}
+
 	this.angleScale = function ( ang ){
 		if( ang > 90 ){
 			return 0.5;
@@ -330,7 +351,7 @@ function Triangle( center, angles, sides, scale, labels ){
         return this.set;
     }
 
-	this.sides = [ lineLength( this.points[ 1 ], this.points[ 2 ]), lineLength( this.points[ 0 ], this.points[ 2 ]), lineLength( this.points[ 0 ], this.points[ 1 ]) ]
+	this.sides = [ lineLength( [ this.points[ 1 ], this.points[ 2 ] ]), lineLength( [ this.points[ 0 ], this.points[ 2 ] ] ), lineLength( [ this.points[ 0 ], this.points[ 1 ] ] ) ]
 
 	this.findCenterPoints = function(){
 		var Ax = this.points[ 0 ][ 0 ];
@@ -367,47 +388,78 @@ function Triangle( center, angles, sides, scale, labels ){
         return [ this.rotationCenter[ 0 ] + ( pos[ 0 ] - this.rotationCenter[ 0 ] ) * Math.cos( theta )  +  ( pos[ 1 ] -  this.rotationCenter[ 1 ] ) * Math.sin( theta ),  this.rotationCenter[ 1 ] + ( -1 ) *  ( ( pos[ 0 ] -  this.rotationCenter[ 0 ] ) * Math.sin( theta ) ) + ( ( pos[ 1 ] -  this.rotationCenter[ 1 ] ) * Math.cos( theta ) ) ];
     }
 
+}
 
+
+var randomQuadAngles = {
+		square: function(){
+			return [ 90, 90, 90, 90 ];
+		},
+		
+		rectangle: function(){
+			return [ 90, 90, 90, 90 ];
+		},
+		rhombus: function(){
+			var angA =  KhanUtil.randRange( 30, 160 );
+			var angB = 180 - angA;
+			return [ angA, angB , angA , angB ];
+		},
+		parallelogram: function(){
+			var angA =  KhanUtil.randRange( 30, 160 );
+			var angB = 180 - angA;
+			return  [ angA, angB ,angA ,angB ];
+		},
+		trapezoid: function(){
+			var angA =  KhanUtil.randRange( 30, 160 );
+			var angB = 180 - angA;
+			var angC =  KhanUtil.randRange( 30, 160 );
+			var angD = 180 - angC;
+			return  [ angA, angC , angD , angB ];
+		},
+		isoscelesTrapezoid: function(){
+			var angC =  KhanUtil.randRange( 30, 160 );
+			var angD = 180 - angC;
+			return  [ angC, angC , angD , angD ];
+		},
+
+		kite: function(){
+			var angA = KhanUtil.randRange( 90, 140 );
+			var angB = KhanUtil.randRange( 30, ( 360 - ( 2 * angA ) ) - 30 );
+			var angC = 360 - angB - 2 * angA;
+			return [ angB, angA , angC , angA ];
+		}
 }
 
 function newSquare( center ){
 	var center = center || [ 0, 0 ];
-	return new Quadrilateral( center, [ 90, 90 , 90 , 90 ],  1 , "", 3 );
+	return new Quadrilateral( center, randomQuadAngles.square(),  1 , "", 3 );
 }
 
-function newRectangle(center ){
+function newRectangle( center ){
 	var center = center || [ 0, 0 ];
- return  new Quadrilateral( center, [ 90, 90 , 90 , 90 ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
+	return  new Quadrilateral( center, randomQuadAngles.rectangle() ,  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
 }
 
-function newRhombus(center ){
+function newRhombus( center ){
 	var center = center || [ 0, 0 ];
-        var angA =  KhanUtil.randRange( 30, 160 );
-        var angB = 180 - angA;
-    return new Quadrilateral( center, [ angA, angB , angA , angB ],1  , "", 3 );
+	return new Quadrilateral( center, randomQuadAngles.rhombus(),1  , "", 3 );
 }
 
-function newParallelogram(center ){
+function newParallelogram( center ){
 	var center = center || [ 0, 0 ];
-        var angA =  KhanUtil.randRange( 30, 160 );
-        var angB = 180 - angA;
-        return  new Quadrilateral( center, [ angA, angB ,angA ,angB ], KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
+	return  new Quadrilateral( center, randomQuadAngles.parallelogram(), KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
 }
 
-function newTrapezoid(center ){
+function newTrapezoid( center ){
 	var center = center || [ 0, 0 ];
-        var angA =  KhanUtil.randRange( 30, 160 );
-        var angB = 180 - angA;
-        var angC =  KhanUtil.randRange( 30, 160 );
-        var angD = 180 - angC;
-        return  new Quadrilateral( center, [ angA, angC , angD , angB ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
+	return  new Quadrilateral( center, randomQuadAngles.trapezoid(),  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
 }
 
-function newKite(center ) {
+function newKite( center ) {
 	var center = center || [ 0, 0 ];
-    var angA = KhanUtil.randRange( 90, 140 );
-    var angB = KhanUtil.randRange( 30, ( 360 - ( 2 * angA ) ) - 30 );
-    var angC = 360 - angB - 2 * angA;
-    return  new Quadrilateral( center, [ angB, angA , angC , angA ], 1 , "", 2 );
+	var angA = KhanUtil.randRange( 90, 140 );
+	var angB = KhanUtil.randRange( 30, ( 360 - ( 2 * angA ) ) - 30 );
+	var angC = 360 - angB - 2 * angA;
+	return  new Quadrilateral( center, randomQuadAngles.kite(), 1 , "", 2 );
 }
 
