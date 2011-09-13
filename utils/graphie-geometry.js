@@ -239,10 +239,10 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	this.drawLabels = function(){
 		var i = 0;
 		if ( "angles" in this.labels ){	
-			this.createLabel( angleBisect( [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 0 ], this.points[ 1 ] ] , 1 )[ 1 ], this.labels.angles[ 0 ] );
-			this.createLabel( angleBisect( [ this.points[ 1 ], this.points[ 2 ] ], [ this.points[ 1 ], this.points[ 0 ] ] , 1 )[ 1 ], this.labels.angles[ 3 ] );
-			this.createLabel( angleBisect( [ this.points[ 2 ], this.points[ 1 ] ], [ this.points[ 2 ], this.points[ 3 ] ] , 1 )[ 1 ], this.labels.angles[ 2 ] );
-			this.createLabel( angleBisect( [ this.points[ 3 ], this.points[ 0 ] ], [ this.points[ 3 ], this.points[ 2 ] ] , 1 )[ 1 ], this.labels.angles[ 1 ] );
+			this.createLabel( angleBisect( [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 0 ], this.points[ 1 ] ] , this.angleScale( this.angles[ 0 ] ) )[ 1 ], this.labels.angles[ 0 ] );
+			this.createLabel( angleBisect( [ this.points[ 1 ], this.points[ 2 ] ], [ this.points[ 1 ], this.points[ 0 ] ] , this.angleScale( this.angles[ 3 ] ) )[ 1 ], this.labels.angles[ 3 ] );
+			this.createLabel( angleBisect( [ this.points[ 2 ], this.points[ 1 ] ], [ this.points[ 2 ], this.points[ 3 ] ] , this.angleScale( this.angles[ 2 ] ) )[ 1 ], this.labels.angles[ 2 ] );
+			this.createLabel( angleBisect( [ this.points[ 3 ], this.points[ 0 ] ], [ this.points[ 3 ], this.points[ 2 ] ] , this.angleScale( this.angles[ 1 ] ) )[ 1 ], this.labels.angles[ 1 ] );
 		}
 		if ( "sides" in this.labels ){
 			for( i = 0; i < 4; i++){
