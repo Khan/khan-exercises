@@ -272,6 +272,10 @@ div.timeline-total {
 	font-family: inherit;
 }
 
+.lite #check-answer-button {
+	margin-top: -7px;
+}
+
 #warning-bar {
     background: red;
     width: 100%;
