@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-helpers-arithmetic word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Decimal Word Problems 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+
+			<!-- Problem 1 -->
+			<var id="PRICE_SEED"> randRange(567,879) </var>
+			<var id="PRICE"> (PRICE_SEED % 100 == 0) ? (PRICE_SEED * (0.01)).toFixed(2) : ((PRICE_SEED+1) * 0.01).toFixed(2) </var>
+			<var id="PRICE_MAX"> 8.79 </var>
+			<var id="PRICE_DIGITS"> digits((PRICE * 100).toFixed()) </var> 
+
+			<var id="PAYMENT_SEED"> randRange(885,1167) </var>
+			<var id="PAYMENT"> (PAYMENT_SEED % 100 == 0) ? (PAYMENT_SEED * (0.01)).toFixed(2) : ((PAYMENT_SEED+1) * 0.01).toFixed(2) </var> 
+			<var id="PAYMENT_MAX"> 11.67 </var>		
+			<var id="ORIG_PAYMENT_DIGITS"> digits((PAYMENT * 100).toFixed()) </var>
+			<var id="PAYMENT_DIGITS"> digits((PAYMENT * 100).toFixed()) </var>
+	
+			<var id="X_MAX"> 3.5 </var>
+			<var id="Y_CARRY"> 3 </var>
+			<var id="Y_TOP"> 2 </var>
+			<var id="Y_BOTTOM"> 1 </var>
+	
+		</div>
+
+		<div class="problems">
+
+			<div id="problem-1">
+				
+				<p class="problem"> On a sunny morning, <var> person(1) </var> rode <var> his(1) </var> bicycle to a farm that sold flats of strawberries for $<var> PRICE </var> each.  <var> person(1) </var> had some bills and coins in <var> his(1) </var> wallet totalling $<var> PAYMENT </var>, which <var> he(1) </var> used to pay for one flat of strawberries. </p>
+				<p class="question">  How much change (in dollars) did <var> person(1) </var> receive? </p>
+				<p class="solution"> <var>PAYMENT - PRICE </var> </p>
+
+				<div class="hints">
+					<p> The change <var> person(1) </var> received is the difference between the amount <var> he(1) </var> paid and the cost of the strawberries.  Since we're finding a difference between 2 numbers, we need to subtract. </p>
+					<p> Amount <var> person(1) </var> paid - cost of strawberries = change <var> person(1) </var> received </p>
+					<p> We can replace the words in the equation we wrote with numbers: </br>   <code> $<var> PAYMENT </var> - $<var> PRICE </var> = </code> change received </p>
+
+					<div class="graphie" id="numbers">
+						init({
+							range: [ [ -2, 17 ], [ -0.5, 4 ] ],
+							scale: [30, 45]
+						});
+						style({
+							fill: "black"
+						});
+	
+						graph.highlights = [];
+						for ( var i = 0; i &lt; PAYMENT_DIGITS.length; i++ ) {
+							graph.highlights.unshift( [] );
+						}
+	
+						path( [ [ -0.5, 0.5 ], [ 4, 0.5 ] ]);
+
+						label( [ -0.25, Y_BOTTOM ] ,"\\huge{-\\vphantom{0}}" );
+
+						var oldHighlights = graph.highlights[ 0 ];
+						while( oldHighlights.length ) {
+							oldHighlights.shift().remove();
+						}
+
+						path( [ [ -0.5, 0.5 ], [ 4.5, 0.5 ] ]);
+
+						graph.highlights[0].push( label( [ 7.5, 1.5 ], "\\text{Make sure the decimals are lined up.}", "right" ) );
+					
+						var offset = PAYMENT_DIGITS.length - PRICE_DIGITS.length;
+						for ( var i = 0; i &lt; offset; i++ ){
+							PRICE_DIGITS.push(0);
+						}
+
+						drawDigits( PAYMENT_DIGITS.slice( 0 ).reverse(), X_MAX - (2 + offset), Y_TOP );
+						drawDigits( PRICE_DIGITS.slice( 0 ).reverse(), X_MAX - (2 + offset), Y_BOTTOM );
+						for ( var i = 0; i &lt; 3; i++ ){
+							ellipse( [ 1.5 + 0.5, i - 0.18 ], [ 0.09, 0.06 ] );
+						}
+					</div>
+
+					<div class="graphie" data-update="numbers" data-each="PAYMENT_DIGITS as index, value">
+						var index = <var>index</var>;
+
+						var oldHighlights = graph.highlights[ index ];
+						while( oldHighlights.length ) {
+							oldHighlights.shift().remove();
+						}
+
+						if ( index !== 0 ) {
+							oldHighlights = graph.highlights[ index - 1 ];
+							while( oldHighlights.length ) {
+								oldHighlights.shift().remove();
+							}
+						}
+
+						var value = PAYMENT_DIGITS[ index ];
+						var withinB = index &lt; PRICE_DIGITS.length;
+						var subtrahend = withinB ? PRICE_DIGITS[ index ] : 0;
+						var subStr = "";
+
+						if ( value &lt; subtrahend ) {
+							borrow( index, PAYMENT_DIGITS, X_MAX, Y_TOP, Y_CARRY, graph.highlights );
+						} else if ( PAYMENT_DIGITS[ index ] === ORIG_PAYMENT_DIGITS[ index ] ) {
+							graph.highlights[ index ].push( label( [ X_MAX- index, Y_TOP ],
+								"\\Huge{\\color{#6495ED}{" + PAYMENT_DIGITS[ index ] +"}}" ) );
+						} else {
+							graph.highlights[ index ].push( label( [ X_MAX - index, Y_CARRY ],
+								"\\color{#6495ED}{" + PAYMENT_DIGITS[ index ] + "}", "below" ) );
+						}
+
+						if ( withinB ) {
+							graph.highlights[ index ].push( label( [ X_MAX - index, 1 ],
+								"\\Huge{\\color{#6495ED}{" + PRICE_DIGITS[ index ] + "}}" ) );
+							subStr = " - \\color{#6495ED}{" + subtrahend + "}";
+						}
+
+						var diff = PAYMENT_DIGITS[ index ] - subtrahend;
+						label( [ X_MAX - index, 0 ],  "\\Huge{" + diff + "}" );
+
+
+						graph.highlights[ index ].push( label( [ X_MAX - index, 0 ],  "\\Huge{\\color{#28AE7B}{" + diff + "}}" ) );
+
+						graph.highlights[ index ].push( label( [ 7, 1.5 ], "\\Large{"
+							+ "\\color{#6495ED}{" + PAYMENT_DIGITS[ index ] + "}"
+							+ subStr
+							+ " = "
+							+ "\\color{#28AE7B}{" + diff + "}}", "right" ) );
+
+					</div>
+					<div class="graphie" data-update="numbers">
+						while( graph.highlights.length ) {
+							var column = graph.highlights.shift();
+							while ( column.length ) {
+								column.shift().remove();
+							}
+						}
+					</div>
+
+
+				</div>
+
+			</div>
+
+		<!--	
+			<div id="problem-2">
+
+				<p class="problem"> </p>
+				<p class="question"> </p>
+				<p class="solution"> </p>
+
+			</div>
+		-->
+
+		</div>
+	</div>
+</body>
+
