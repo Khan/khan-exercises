@@ -37,17 +37,17 @@
 					init({
 						range: [ [-1, 12 ], [ -10, 2.5 ] ]
 					})
-					var tr = new Triangle( [ 2, -2],  MAIN, [ 1, 1, 1], 3, {  "name" : "A", "CAB" : MAIN[ 0 ] , "BCA" : MAIN[ 2 ] } );
+					var tr = new Triangle( [ 2, -2],  MAIN, [ 1, 1, 1], 3, {  "name" : "A", "CAB" : MAIN[ 0 ] + "^{\\circ}" , "BCA" : MAIN[ 2 ] + "^{\\circ}" } );
 					tr.draw();
 					tr.rotate( randRange( 0, 50 ), 2, -1 );
 					tr.drawLabels();
 					
-					var trA = new Triangle( [ 5, -5 ],  B, [ 1, 1, 1], randRange( 300, 500 )/100, { "name" : "B",  "CAB" : B[ 0 ], "ABC" : B[ 1 ] } );
+					var trA = new Triangle( [ 5, -5 ],  B, [ 1, 1, 1], randRange( 300, 500 )/100, { "name" : "B",  "CAB" : B[ 0 ] + "^{\\circ}", "ABC" : B[ 1 ]+ "^{\\circ}" } );
 					trA.draw();
 					trA.rotate( randRange( 0, 50 ), 4, -6 );
 					trA.drawLabels();
 					
-					var trB = new Triangle( [ 1, -8 ],  C, [ 1, 1, 1], randRange( 300, 500 )/100, { "name" : "C", "CAB" : C[ 0 ], "BCA" : C[ 2 ] } );
+					var trB = new Triangle( [ 1, -8 ],  C, [ 1, 1, 1], randRange( 300, 500 )/100, { "name" : "C", "CAB" : C[ 0 ]+ "^{\\circ}", "BCA" : C[ 2 ] + "^{\\circ}" } );
 					trB.draw();
 					trB.rotate( randRange( 0, 50 ), 5, -8 );
 					trB.drawLabels();
