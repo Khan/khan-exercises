@@ -2,7 +2,7 @@
 <html data-require="math graphie graphie-helpers graphie-geometry math-format">
 <head>
 	<meta charset="UTF-8" />
-	<title>Triangle Angles</title>
+	<title>Triangle Angles 1</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
 		function scTriangle(){
@@ -54,7 +54,7 @@
 						init({
 							range: [ [-1, 10 ], [ -8, 1 ] ]
 						})
-						var tr = new Triangle( [ 3, -6 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "CAB" : TRIANGLE[ 0 ][ 0 ]  + "^{\\circ}", "ABC" : TRIANGLE[ 0 ][ 1 ] + "^{\\circ}", "BCA" : "X" } );
+						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "CAB" : TRIANGLE[ 0 ][ 0 ]  + "^{\\circ}", "ABC" : TRIANGLE[ 0 ][ 1 ] + "^{\\circ}", "BCA" : "X" } );
 						tr.draw();
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
 						tr.drawLabels();
@@ -63,7 +63,7 @@
 				<div class="solution"><var>TRIANGLE[ 0 ][ 2 ]</var></div>
 				<div class="hints">
 					<p>Angles in a triangle add up to 180 degrees.</p>
-					<p>We know two of the angles of the triangle.</p>
+					<p>We know two angles of the triangle.</p>
 					<p>The third angle is 180 minus the other two.</p>
 					<p>It is <code>180 - <var>TRIANGLE[ 0 ][ 0 ]</var> - <var>TRIANGLE[ 0 ][ 1 ]</var> = <var>TRIANGLE[ 0 ][ 2 ]</var></code></p>
 				</div>
@@ -77,7 +77,7 @@
 						init({
 							range: [ [-1, 10 ], [ -8, 1 ] ]
 						})
-						var tr = new Triangle( [ 3, -6 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "CAB" : TRIANGLE[ 0 ][ 0 ] + "^{\\circ}", "BCA" : "X" } );
+						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "CAB" : TRIANGLE[ 0 ][ 0 ] + "^{\\circ}", "BCA" : "X" } );
 						tr.draw();
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
 						tr.drawLabels();
@@ -105,7 +105,7 @@
 						init({
 							range: [ [-1, 10 ], [ -8, 1 ] ]
 						})
-						var tr = new Triangle( [ 3, -6 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "BCA" : TRIANGLE[ 0 ][ 2 ] + "^{\\circ}" , "ABC" : "X" } );
+						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "BCA" : TRIANGLE[ 0 ][ 2 ] + "^{\\circ}" , "ABC" : "X" } );
 						tr.draw();
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
 						tr.drawLabels();
@@ -134,7 +134,7 @@
 						init({
 							range: [ [-1, 10 ], [ -8, 1 ] ]
 						})
-						var tr = new Triangle( [ 3, -6 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "CAB" : TRIANGLE[ 0 ][ 0 ]+ "^{\\circ}", "ABC" : "X" } );
+						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "CAB" : TRIANGLE[ 0 ][ 0 ]+ "^{\\circ}", "ABC" : "X" } );
 						tr.draw();
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
 						tr.drawLabels();

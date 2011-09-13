@@ -5,15 +5,21 @@
 	<title>Similar Triangles 1</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
-		function randomTriangle(){
+		function randomTriangle( current ){
 			var a = KhanUtil.randRange( 25, 150 );
 			var b = KhanUtil.randRange( 25, 180 - a );
-			if ( a + b > 170 ){
+			if ( a + b > 160 ){
 				a = Math.max( 30, a - 15  );
 				b = Math.max( 30, b - 15  );
 			}
 			var c = 180 - a - b;
-				return [ a, b, c];
+			//Make sure we do not create the same triangle
+			if ( current ){
+				if ( a in current && b in current ){
+					return randomTriangle( current );
+				}
+			}
+			return [ a, b, c];
 		}
 	</script>
 </head>
@@ -23,8 +29,8 @@
 			<var id="MAIN"> randomTriangle()</var>
 			<var id="ANSWERS">[ "B", "C", "Both", "None" ]</var>
 			<var id="ANSWER">randFromArray( ANSWERS )</var>
-			<var id="B"> ANSWER === "B" || ANSWER === "Both" ? shuffle( MAIN ) : randomTriangle()</var>
-			<var id="C"> ANSWER === "C" || ANSWER === "Both" ? shuffle( MAIN ): randomTriangle()</var>
+			<var id="B"> ANSWER === "B" || ANSWER === "Both" ? shuffle( MAIN ) : randomTriangle( MAIN )</var>
+			<var id="C"> ANSWER === "C" || ANSWER === "Both" ? shuffle( MAIN ): randomTriangle( MAIN )</var>
 		</div>
 
 		<div class="problems">
@@ -35,19 +41,19 @@
 			<div class="question">
 				<div class="graphie">
 					init({
-						range: [ [-1, 12 ], [ -10, 2.5 ] ]
+						range: [ [-1, 13 ], [ -10, 2.5 ] ]
 					})
-					var tr = new Triangle( [ 2, -2],  MAIN, [ 1, 1, 1], 3, {  "name" : "A", "CAB" : MAIN[ 0 ] + "^{\\circ}" , "BCA" : MAIN[ 2 ] + "^{\\circ}" } );
+					var tr = new Triangle( [ 3, -2],  MAIN, [ 1, 1, 1], 3, {  "name" : "A", "CAB" : MAIN[ 0 ] + "^{\\circ}" , "BCA" : MAIN[ 2 ] + "^{\\circ}" } );
 					tr.draw();
 					tr.rotate( randRange( 0, 50 ), 2, -1 );
 					tr.drawLabels();
 					
-					var trA = new Triangle( [ 5, -5 ],  B, [ 1, 1, 1], randRange( 300, 500 )/100, { "name" : "B",  "CAB" : B[ 0 ] + "^{\\circ}", "ABC" : B[ 1 ]+ "^{\\circ}" } );
+					var trA = new Triangle( [ 7, -6 ],  B, [ 1, 1, 1], randRange( 300, 500 )/100, { "name" : "B",  "CAB" : B[ 0 ] + "^{\\circ}", "ABC" : B[ 1 ]+ "^{\\circ}" } );
 					trA.draw();
 					trA.rotate( randRange( 0, 50 ), 4, -6 );
 					trA.drawLabels();
 					
-					var trB = new Triangle( [ 1, -8 ],  C, [ 1, 1, 1], randRange( 300, 500 )/100, { "name" : "C", "CAB" : C[ 0 ]+ "^{\\circ}", "BCA" : C[ 2 ] + "^{\\circ}" } );
+					var trB = new Triangle( [ 2, -8 ],  C, [ 1, 1, 1], randRange( 300, 500 )/100, { "name" : "C", "CAB" : C[ 0 ]+ "^{\\circ}", "BCA" : C[ 2 ] + "^{\\circ}" } );
 					trB.draw();
 					trB.rotate( randRange( 0, 50 ), 5, -8 );
 					trB.drawLabels();
@@ -63,8 +69,8 @@
 			<div class="hints">
 				<p>Two triangles are similar if their angles are congruent( equal ).</p>
 				<p>We see that Triangle <code>A</code> has angles of <code><var>MAIN[ 0 ]</var></code> and <code><var>MAIN[ 2 ]</var></code>. The third angle is therefore <code>180 - <var>MAIN[ 0 ]</var> - <var>MAIN[ 2 ]</var> = <var>MAIN[ 1 ]</var></code></p>
-				<p>Triangle <code>B</code> has angles of <code><var>B[ 0 ]</var></code> and <code><var>B[ 1 ]</var></code>. The third angle is therefore <code>180 - <var>B[ 0 ]</var> -  <var>B[ 1 ]</var> = <var>B[ 2 ]</var></code>. Therefore triangle <code></code> is <span data-if="ANSWER === 'None' || ANSWER === 'C'" >not</span> similar to triangle <code></code>.</p>
-				<p>Triangle <code>C</code> has angles of <code><var>C[ 0 ]</var></code> and <code><var>C[ 2 ]</var></code>. The third angle is therefore <code>180 - <var>C[ 0 ]</var> -  <var>B[ 2 ]</var> = <var>C[ 1 ]</var></code>. Therefore triangle <code>C</code> is <span data-if="ANSWER === 'None' || ANSWER === 'B'" >not</span>  similar to triangle <code>A</code>.</p>
+				<p>Triangle <code>B</code> has angles of <code><var>B[ 0 ]</var></code> and <code><var>B[ 1 ]</var></code>. The third angle is <code>180 - <var>B[ 0 ]</var> -  <var>B[ 1 ]</var> = <var>B[ 2 ]</var></code>. Therefore triangle <code>B</code> is <span data-if="ANSWER === 'None' || ANSWER === 'C'" >not</span> similar to triangle <code>A</code>.</p>
+				<p>Triangle <code>C</code> has angles of <code><var>C[ 0 ]</var></code> and <code><var>C[ 2 ]</var></code>. The third angle is <code>180 - <var>C[ 0 ]</var> -  <var>B[ 2 ]</var> = <var>C[ 1 ]</var></code>. Therefore triangle <code>C</code> is <span data-if="ANSWER === 'None' || ANSWER === 'B'" >not</span>  similar to triangle <code>A</code>.</p>
 			</div>
 		</div>
 	</div>
