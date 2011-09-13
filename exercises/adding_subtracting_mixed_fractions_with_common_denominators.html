@@ -29,15 +29,30 @@
 				<div class="solution" data-type="mixed"><var>W1 + W2 + ( N1 + PM * N2 ) / D</var></div>
 
 				<div class="hints">
-					<p><code>= \color{red}{<var>W1</var>} + \color{red}{<var>fraction( N1, D )</var>} <var>SIGN</var> \color{olive}{<var>abs( W2 )</var>} <var>SIGN</var> \color{olive}{<var>fraction( N2, D )</var>}</code> (separate the terms)</p>
+					<div>
+						<p>Separate the terms:</p>
+						<p><code>= \color{red}{<var>W1</var>} + \color{red}{<var>fraction( N1, D )</var>} <var>SIGN</var> \color{blue}{<var>abs( W2 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D )</var>}</code></p>
+					</div>
 					
-					<p><code>= \color{red}{<var>W1</var>} <var>SIGN</var> \color{olive}{<var>abs( W2 )</var>} + \color{red}{<var>fraction( N1, D )</var>} <var>SIGN</var> \color{olive}{<var>fraction( N2, D )</var>}</code> (put whole #s and fractions together)</p>
-
-					<p><code>= <var>expr(["+", W1 + W2, fraction( N1 + PM * N2, D )])</var></code> (calculate each part)</p>
+					<div>
+						<p>Put whole #s and fractions together:</p>
+						<p><code>= \color{red}{<var>W1</var>} <var>SIGN</var> \color{blue}{<var>abs( W2 )</var>} + \color{red}{<var>fraction( N1, D )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D )</var>}</code></p>
+					</div>
 					
-					<p><code>= <var>W1 + W2 + fraction( N1 + PM * N2, D )</var></code> (combine)</p>
-
-					<p data-if="GCD > 1">Reducing to lowest terms: <code><var>W1 + W2</var><var>fractionReduce( ( N1 + PM * N2 ), D )</var></code></p>
+					<div>
+						<p>Calculate each part:</p>
+						<p><code>= <var>expr(["+", W1 + W2, fraction( N1 + PM * N2, D )])</var></code></p>
+					</div>
+					
+					<div>
+						<p>Combine:</p>
+						<p><code>= <var>W1 + W2 + fraction( N1 + PM * N2, D )</var></code></p>
+					</div>
+					
+					<div data-if="GCD > 1">
+						<p>Reducing to lowest terms:</p>
+						<p><code>= <var>W1 + W2</var><var>fractionReduce( ( N1 + PM * N2 ), D )</var></code></p>
+					</div>
 				</div>
 			</div>
 		</div>
