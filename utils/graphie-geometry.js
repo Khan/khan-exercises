@@ -145,13 +145,13 @@ function angleBisect( line1, line2, scale ){
 	var l1 = [];
 	var l2 = [];
 
-	if( ( line1[ 1 ][ 0 ] - line1[ 0 ][ 0 ] ) > 0  ){
+	if( ( line1[ 1 ][ 0 ] - line1[ 0 ][ 0 ] ) >= 0  ){
 		l1 = lineSegmentFromLine( intPoint, line1, scale );	
 	}
 	else{
 		l1 = lineSegmentFromLine( intPoint, line1, -scale );	
 	}
-	if( ( line2[ 1 ][ 0 ] - line2[ 0 ][ 0 ] ) > 0  ){
+	if( ( line2[ 1 ][ 0 ] - line2[ 0 ][ 0 ] ) >= 0  ){
 		l2 = lineSegmentFromLine( intPoint, line2, scale );
 	}
 	else{
@@ -397,9 +397,7 @@ var randomQuadAngles = {
 		},
 		
 		rectangle: function(){
-			var angA =  KhanUtil.randRange( 30, 160 );
-			var angB = 180 - angA;
-			return [ angA, angB , angA , angB ];
+			return [ 90, 90, 90, 90 ];
 		},
 		rhombus: function(){
 			var angA =  KhanUtil.randRange( 30, 160 );
@@ -418,6 +416,12 @@ var randomQuadAngles = {
 			var angD = 180 - angC;
 			return  [ angA, angC , angD , angB ];
 		},
+		isoscelesTrapezoid: function(){
+			var angC =  KhanUtil.randRange( 30, 160 );
+			var angD = 180 - angC;
+			return  [ angC, angC , angD , angD ];
+		},
+
 		kite: function(){
 			var angA = KhanUtil.randRange( 90, 140 );
 			var angB = KhanUtil.randRange( 30, ( 360 - ( 2 * angA ) ) - 30 );
