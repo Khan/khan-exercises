@@ -14,7 +14,12 @@
 				jQuery( "#opp" ).attr("checked", true );
 			}
 			
-			
+			//Double check if always true	
+			if ( jQuery( "#par1" ).is(":checked") &&  jQuery( "#adj" ).is(":checked") ){
+				jQuery( "#par2" ).attr("checked", true );
+				jQuery( "#opp" ).attr("checked", true );
+			}
+
 			var selected = jQuery( "input:checked" );
 			var par1 = jQuery( "#par1" ).is(":checked"); 
 			var par2 = jQuery( "#par2" ).is(":checked"); 
@@ -28,6 +33,9 @@
 			if ( selected.length == 5 ){
 				type = "square";
 			}	
+			if ( angle && !par1 && !opp && !adj ){
+				type = "quadrilateral with a right angle";
+			}
 			if ( par2 && angle && opp && !adj){
 				type = "rectangle";
 			}	
@@ -46,25 +54,25 @@
 			if ( !par2 && par1 && opp && !angle && !adj ){
 				type = "isosceles trapezoid";
 			}	
+			if ( !par2 && par1 && !opp && angle && !adj ){
+				type = "right angle trapezoid";
+			}	
 			
-
 			var s = getShape( type );
 			s.draw();
 			s.drawLabels();
-			graph.L.remove();
-			graph.L = graph.label( [ -1, 1 ], type );
 		}
 
 		function getShape( name ){
 			with ( KhanUtil.currentGraph ) {
 				var graph = KhanUtil.currentGraph;
-				
 				var ratio = KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] );
 				var center = [ graph.POS[ 0 ], graph.POS[ 1 ] - 4 ];
-				label( center , name );
+				label( [ center[ 0 ], center[ 1 ] - 1 ] , "\\text{ " + name + "}" );
+				
 				graph.POS = center;
 				if ( name === "square" ){
-					return newSquare(center );
+					return newSquare( center );
 				}
 				if ( name === "rectangle" ){
 					return newRectangle(center );
@@ -76,7 +84,14 @@
 					return  newParallelogram(center );
 				}
 				if ( name === "trapezoid" ){
-					return  newTrapezoid(center );
+					return  newTrapezoid( center );
+				}
+				if ( name === "right angle trapezoid" ){
+					var angA =  90;
+					var angB = 180 - angA;
+					var angC =  KhanUtil.randRange( 30, 160 );
+					var angD = 180 - angC;
+					return  new Quadrilateral( center, [ angA, angC , angD , angB ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
 				}
 				if ( name === "kite" ){
 					return  newKite(center );
@@ -84,13 +99,11 @@
 				if ( name === "isosceles trapezoid" ){
 					var angC = KhanUtil.randRange( 30, 160 );
 					var angD = 180 - angC;
-					return  new Quadrilateral( center, [ angC, angD , angD , angC ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7 ] ) , "", 3 );
+					return  new Quadrilateral( center, [ angC, angC , angD , angD ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7 ] ) , "", 3 );
 				}
 				if ( name === "quadrilateral" ){
-
 					var angA =  KhanUtil.randRange( 30, 160 );
-					angB = KhanUtil.randRange( 30, 160 );
-	
+					angB = KhanUtil.randRange( 30, 160 );	
 					if ( angA + angB < 170 ){
 						var angC = KhanUtil.randRange( 180 - angA - angB, 140 );
 					}
@@ -98,13 +111,20 @@
 						var angC = KhanUtil.randRange( 30, 330 - angA - angB ); 
 					}
 						var angD = 360 - angA - angB - angC;
-					if ( angA < ( 180- angB ) ){
-						return  new Quadrilateral( center, [ angA, angB , angC , angD ],  KhanUtil.randFromArray( [ 0.5, 0.7, 0.9 ] ) , "" , 3 );
-					}
-					else{
-						return  new Quadrilateral( center, [ angA, angB , angC , angD ],  KhanUtil.randFromArray( [ 1.3, 1.5, 1.7 ] ) , "", 3 );
-					}
+						return  new Quadrilateral( center, [ angA, angB, angC, angD ],  KhanUtil.randFromArray( [ 1.3, 1.5, 1.7 ] ) , "", 3 );
 				} 
+				if ( name === "quadrilateral with a right angle" ){
+					var angA = 90;
+					angB = KhanUtil.randRange( 30, 160 );	
+					if ( angA + angB < 170 ){
+						var angC = KhanUtil.randRange( 180 - angA - angB, 140 );
+					}
+					else {
+						var angC = KhanUtil.randRange( 30, 330 - angA - angB ); 
+					}
+						var angD = 360 - angA - angB - angC;
+						return  new Quadrilateral( center, [ angA, angB , angC , angD ],  KhanUtil.randFromArray( [ 1.3, 1.5, 1.7 ] ) , "", 3 );
+				}
 			}
 		}
 	</script>
@@ -125,18 +145,12 @@
 
 				<div class="graphie" id="grid">
 					init({
-						range: [[ -10, 10 ], [ -20, 6 ]],
+						range: [ [ -10, 10 ], [ -23, 6 ] ],
 						scale: [30, 30]
 					});
-						
 					var graph = KhanUtil.currentGraph;
 					graph.POS = [ -1, 5 ];
-					graph.S = 0;
-					graph.P = 0;
-					graph.R = 0;
-					graph.L = label( [ -1, 1 ] , "Start" );
-					qr = getShape( POLYGON ); 
-					graph.SH = qr.draw();
+					qr = updateShape(); 
 				</div>
 				<div class="solution" data-type="multiple">
 					Polygon command center

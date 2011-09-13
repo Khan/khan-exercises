@@ -170,7 +170,8 @@ function vectorProduct( line1, line2 ){
 function Quadrilateral( center, angles, sideRatio, labels, size ){
 
     this.sideRatio = sideRatio;
-    this.labels = labels;
+    this.labels = labels || {};
+
     this.graph = KhanUtil.currentGraph;
     this.angles = angles;
 	this.radAngles = $.map( angles, degToRad );
@@ -396,11 +397,11 @@ function newParallelogram(center ){
 
 function newTrapezoid(center ){
 	var center = center || [ 0, 0 ];
-        var angA =  KhanUtil.randRange( 30, 160 );
-        var angB = 180 - angA;
-        var angC =  KhanUtil.randRange( 30, 160 );
-        var angD = 180 - angC;
-        return  new Quadrilateral( center, [ angA, angC , angD , angB ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
+	var angA =  KhanUtil.randRange( 30, 160 );
+	var angB = 180 - angA;
+	var angC =  KhanUtil.randRange( 30, 160 );
+	var angD = 180 - angC;
+	return  new Quadrilateral( center, [ angA, angC , angD , angB ],  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
 }
 
 function newKite(center ) {
