@@ -387,7 +387,7 @@ function Triangle( center, angles, scale, labels ){
 
 	this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
 	
-	this.sideLengths = jQuery.map( jQuery.map( this.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } );
+	this.sideLengths = jQuery.map( jQuery.map( this.sides, lineLength ), function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
 
 	this.findCenterPoints = function(){
 		var Ax = this.points[ 0 ][ 0 ];
