@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Congruent Triangles 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+		</div>
+
+		<div class="problems">
+			<div id="parr">
+				<div class="vars">
+					<var id="ANGLES">randomTriangleAngles.triangle()</var>
+					<var id="RAND_ANG">randRange( 0, 2 )</var>
+					<var id="ANSWER">ANGLES[ RAND_ANG ]</var>
+				</div>
+				<div class="problem">
+					What is the value of the angle x?
+				</div>
+				<div class="question">
+					<div class="graphie">
+						init({
+							range: [ [-1, 12 ], [ -6, 2.5 ] ]
+						})
+						var trA = new Triangle( [ 3, -5 ], ANGLES ,6, {} ); 
+						trA.draw();
+						trA.labels = { "sides" : clearArray( trA.sideLengths, [ 1, 2 ] ), "angles" : clearArray( ANGLES, [ RAND_ANG ] ) }
+						trA.drawLabels();
+						var trB = new Triangle( [ trA.centroid[ 0 ],  trA.centroid[ 1  ] ], ANGLES, 6, {} );
+				
+						trB.draw();
+						trB.rotate( 180 );
+						trB.labels = { "sides" : clearArray( trB.sideLengths, [ 1,2 ] ),"angles" : clearArray( [ "x", "x", "x" ], [ RAND_ANG ] ) };
+						trB.drawLabels();
+					</div>
+				</div>
+				<div class="solution"><var>ANSWER</var></div>
+				<div class="hints">
+					<p>These two triangles have three sides equal( they share one of them ).</p>
+					<p>Therefore they are congruent.</p>
+					<p>Congruent triangles also have congruent( equal ) angles.</p>
+					<p>If we superimpose these two triangles, by rotating triangle A, we see that angle x corresponds to angle A.</p>
+					<p>Angle x is therefore equal to <var>ANSWER</var></p>
+				</div>
+			</div>
+			<div id="opposite" data-type="parr">
+				<div class="question">
+					<div class="graphie">
+						init({
+							range: [ [-1, 12 ], [ -6, 2.5 ] ]
+						})
+						var ang =  ANGLES[ 0 ] / 2;
+						var trA = new Triangle( [ 7, -3 ], ANGLES ,6, {} ); 
+						trA.draw();
+						trA.rotationCenter = trA.points[ 0 ];
+						trA.rotate( ang );
+						trA.labels = { "sides" : clearArray( trA.sideLengths, [ 0,2 ] ), "angles" : clearArray( ANGLES, [ RAND_ANG ] ) }
+						trA.drawLabels();
+						var trB = new Triangle( [ 7 -cos( ang * PI / 180 ) * trA.sideLengths[ 0 ] , -3 - sin( ang * PI / 180 ) * trA.sideLengths[ 0 ] ], [ ANGLES[ 1 ], ANGLES[ 0 ], ANGLES[ 2 ] ] , 6, {} );
+				
+						trB.rotationCenter = trB.points[ 0 ];
+						trB.draw();
+						trB.rotate( -ang );
+						var newAng = RAND_ANG;
+						if ( RAND_ANG == 0 ){
+							newAng = 1;
+						}
+						else if ( RAND_ANG == 1 ){
+							newAng = 0;
+						}
+
+						trB.labels = { "sides" : clearArray( trB.sideLengths, [ 1,0 ] ),"angles" : clearArray( [ "x", "x", "x" ], [  newAng  ] ) };
+						trB.drawLabels();
+					</div>
+				</div>
+				<div class="solution"><var>ANSWER</var></div>
+				<div class="hints">
+					<p>These two triangles have two sides and an angle equal.</p>
+					<p>Therefore they are congruent.</p>
+					<p>Congruent triangles also have congruent( equal ) angles.</p>
+					<p>If we superimpose these two triangles, by flipping triangle A, we see that angle x corresponds to angle A.</p>
+					<p>Angle x is therefore equal to <var>ANSWER</var></p>
+				</div>
+			</div>
+			<div id="sameSide" data-type="opposite">
+				<div class="question">
+					<div class="graphie">
+						init({
+							range: [ [-1, 12 ], [ -6, 2.5 ] ]
+						})
+						var ang =  90 - ANGLES[ 1 ] ;
+						var trA = new Triangle( [ 4, -3 ], ANGLES ,6, {} ); 
+						trA.draw();
+						trA.rotationCenter = trA.points[ 0 ];
+						trA.rotate( ang );
+						trA.labels = { "sides" : clearArray( trA.sideLengths, [ 0,2 ] ), "angles" : clearArray( ANGLES, [ RAND_ANG ] ) }
+						trA.drawLabels();
+						var trB = new Triangle( [ 4 + cos( ang * PI / 180 ) * trA.sideLengths[ 0 ] , -3 - sin( ang * PI / 180 ) * trA.sideLengths[ 0 ] ], [ ANGLES[ 1 ], ANGLES[ 0 ], ANGLES[ 2 ] ] , 6, {} );
+				
+						trB.rotationCenter = trB.points[ 0 ];
+						trB.draw();
+						trB.rotate( -ang );
+						var newAng = RAND_ANG;
+						if ( RAND_ANG == 0 ){
+							newAng = 1;
+						}
+						else if ( RAND_ANG == 1 ){
+							newAng = 0;
+						}
+
+						trB.labels = { "sides" : clearArray( trB.sideLengths, [ 1,0 ] ),"angles" : clearArray( [ "x", "x", "x" ], [  newAng  ] ) };
+						trB.drawLabels();
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

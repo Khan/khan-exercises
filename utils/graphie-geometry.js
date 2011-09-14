@@ -4,6 +4,19 @@ function lineLength( line ){
 	return Math.sqrt( ( a[ 0 ] - b[ 0 ] ) * ( a[ 0 ] - b[ 0 ] )  + ( a[ 1 ] - b[ 1 ] ) * ( a[ 1 ] - b[ 1 ] ) );
 }
 
+function clearArray( arr, i ){
+	return jQuery.map( arr, function( el, index ) { 
+		if( jQuery.inArray( index, i ) !== -1 ){
+			return  el;
+		}
+		else{
+			return  "";
+	   } 
+	} );
+}
+
+
+
 function isPointOnLineSegment( l, p, precision ){
 	var precision = precision || 0.1;
 	//If line is vertical
@@ -333,7 +346,7 @@ function Triangle( center, angles, scale, labels ){
 				var d = 0.5;
 				var x3 = midPoint[ 0 ] + ( this.sides[ i ][ 1 ][ 1 ] - midPoint[ 1 ] )/ t * d ;
 				var y3 = midPoint[ 1 ] - ( this.sides[ i ][ 1 ][ 0 ]- midPoint[ 0 ]) / t * d ;	
-				this.createLabel( [ x3, y3 ], this.labels.sides[ ( i + 2 ) % 3 ] );
+				this.createLabel( [ x3, y3 ], this.labels.sides[  i  ] );
 			}
 		}
 	
