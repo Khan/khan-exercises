@@ -693,7 +693,7 @@ function makeProblem( id, seed ) {
 	} else if ( problemBag.length > 0 ) {
 		problem = problemBag[ problemBagIndex ];
 		id = problem.data( "id" );
-	
+
 	// No valid problem was found, bail out
 	} else {
 		return;
@@ -1978,9 +1978,8 @@ function prepareSite() {
 		APIActionResults.register("exercise_message_html",
 			function(sExerciseMessageHtml) {
 				var jel = jQuery("#exercise-message-container");
-				var jelNew = jQuery(sExerciseMessageHtml);
-				if (jelNew.children().length) {
-					jel.empty().append(jelNew.children());
+				if (sExerciseMessageHtml !== null) {
+					jel.empty().append(sExerciseMessageHtml);
 					setTimeout(function(){ jel.slideDown(); }, 50);
 				}
 				else {
