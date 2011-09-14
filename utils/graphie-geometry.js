@@ -100,7 +100,7 @@ function linePathIntersection( l, p ){
 		var x = findIntersection( [ ps[ i ], ps[ i + 1 ] ], l );
 		if ( x[ 2 ] === true  && ! checkDuplicate( points, [ x[ 0 ], x[ 1 ] ] ) ){
 			points.push( [  x[ 0 ],  x[ 1 ] ] );
-			}
+		}
 	}
 	return points;
 }
@@ -195,7 +195,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 
 	this.generatePoints = function(){
 		var once = false;
-		while( ( ! once ) || this.isCrossed()  ){
+		while( ( ! once ) || this.isCrossed() ){
 			var len = Math.sqrt( 2 * this.scale * this.scale * this.sideRatio * this.sideRatio  - 2 * this.sideRatio * this.scale * this.scale * this.sideRatio * this.cosines[ 3 ] );
 			once = true;
 			var tX = [ 0,  this.scale * this.sideRatio * this.cosines[ 0 ] , len * Math.cos( ( this.angles[ 0 ] - ( 180 - this.angles[ 3 ] )/ 2 ) * Math.PI/180 ),  this.scale, this.scale + Math.cos( ( 180 - this.angles[ 1 ] ) * Math.PI / 180 ) ];
@@ -338,7 +338,7 @@ function Triangle( center, angles, scale, labels ){
 		}
 	
 		if ( "name" in this.labels ){
-			this.createLabel( [ this.points[ 0 ][ 0 ] - 0.5, this.points[ 0 ][ 1 ] ] , labels.name );
+			this.createLabel( [ this.points[ 0 ][ 0 ] - 0.5, this.points[ 0 ][ 1 ] ] , this.labels.name );
 		}
 //LETTER LABELS ARE DEPRECATED
 		if ( "c" in this.labels ){
@@ -374,6 +374,7 @@ function Triangle( center, angles, scale, labels ){
 
 	this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
 	
+	this.sideLengths = jQuery.map( jQuery.map( this.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } );
 
 	this.findCenterPoints = function(){
 		var Ax = this.points[ 0 ][ 0 ];
@@ -413,7 +414,47 @@ function Triangle( center, angles, scale, labels ){
 }
 
 
+var randomTriangleAngles = {
+
+		triangle: function(){
+			var a, b, c; 
+			a = KhanUtil.randRange( 35, 150 );
+			b = KhanUtil.randRange( 35, 180 - a );
+			if ( a + b > 160 ){
+				a = Math.max( 30, a - 15  );
+				b = Math.max( 30, b - 15  );
+			}
+			c = 180 - a - b;
+			return [ a, b, c ];
+		},
+
+		scalene: function(){
+			var a, b, c; 
+			do {
+				a = KhanUtil.randRange( 25, 150 );
+				b = KhanUtil.randRange( 25, 180 - a );
+				if ( a + b > 170 ){
+					a = Math.max( 30, a - 15  );
+					b = Math.max( 30, b - 15  );
+				}
+				c = 180 - a - b;
+			} while( a === b || a === c || b === c );
+			return [ a, b, c ];
+		},
+
+		isosceles: function(){
+			var a = KhanUtil.randRangeExclude( 25, 75, [ 60 ] );
+			var c = 180 - 2 * a;
+			return KhanUtil.shuffle( [ a, a, c ] );
+		},
+		equilateral: function(){
+			return [ 60, 60, 60 ];
+		}
+}
+
+
 var randomQuadAngles = {
+
 		square: function(){
 			return [ 90, 90, 90, 90 ];
 		},
