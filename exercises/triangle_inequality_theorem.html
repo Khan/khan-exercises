@@ -41,7 +41,7 @@
 						init({
 							range: [ [-1, 10 ], [ -7, 0 ] ]
 						})
-						var tr = new Triangle( [ 3, -5 ],  MAIN[ 0 ], [ 1, 1, 1], 5, { "c" : HIDDEN !== 2 ?  MAIN[ 1 ][ 2 ] : "x"  ,  "a" : HIDDEN !== 0 ?  MAIN[ 1 ][ 0 ] : "x"  , "b" : HIDDEN !== 1 ?  MAIN[ 1 ][ 1 ] : "x"  } );
+						var tr = new Triangle( [ 3, -5 ],  MAIN[ 0 ], 5, { "c" : HIDDEN !== 2 ?  MAIN[ 1 ][ 2 ] : "x"  ,  "a" : HIDDEN !== 0 ?  MAIN[ 1 ][ 0 ] : "x"  , "b" : HIDDEN !== 1 ?  MAIN[ 1 ][ 1 ] : "x"  } );
 						tr.draw();
 						tr.drawLabels();
 					</div>
@@ -75,7 +75,7 @@
 							var sideValue = parseFloat( MAIN[ 1 ][ ( side + 1 ) % 3 ] ) + parseFloat( MAIN[ 1 ][ ( side + 2 ) % 3 ] ) + randRange( 1, 3 );
 							MAIN[ 1 ][ side ] = sideValue;
 						}
-						var tr = new Triangle( [ 3, -5 ],  MAIN[ 0 ], [ 1, 1, 1], 5, { "c" : MAIN[ 1 ][ 2 ],  "a" : MAIN[ 1 ][ 0 ] , "b" : MAIN[ 1 ][ 1 ] } );
+						var tr = new Triangle( [ 3, -5 ],  MAIN[ 0 ], 5, { "c" : MAIN[ 1 ][ 2 ],  "a" : MAIN[ 1 ][ 0 ] , "b" : MAIN[ 1 ][ 1 ] } );
 						tr.draw();
 						tr.drawLabels();
 					</div>

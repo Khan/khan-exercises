@@ -54,7 +54,7 @@
 						init({
 							range: [ [-1, 10 ], [ -8, 1 ] ]
 						})
-						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "CAB" : TRIANGLE[ 0 ][ 0 ]  + "^{\\circ}", "ABC" : TRIANGLE[ 0 ][ 1 ] + "^{\\circ}", "BCA" : "X" } );
+						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "sides" : TRIANGLE[ 1 ], "CAB" : TRIANGLE[ 0 ][ 0 ]  + "^{\\circ}", "ABC" : TRIANGLE[ 0 ][ 1 ] + "^{\\circ}", "BCA" : "X" } );
 						tr.draw();
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
 						tr.drawLabels();
@@ -77,7 +77,7 @@
 						init({
 							range: [ [-1, 10 ], [ -8, 1 ] ]
 						})
-						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "CAB" : TRIANGLE[ 0 ][ 0 ] + "^{\\circ}", "BCA" : "X" } );
+						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "CAB" : TRIANGLE[ 0 ][ 0 ] + "^{\\circ}", "BCA" : "X" } );
 						tr.draw();
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
 						tr.drawLabels();
@@ -105,7 +105,7 @@
 						init({
 							range: [ [-1, 10 ], [ -8, 1 ] ]
 						})
-						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "BCA" : TRIANGLE[ 0 ][ 2 ] + "^{\\circ}" , "ABC" : "X" } );
+						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "BCA" : TRIANGLE[ 0 ][ 2 ] + "^{\\circ}" , "ABC" : "X" } );
 						tr.draw();
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
 						tr.drawLabels();
@@ -134,7 +134,7 @@
 						init({
 							range: [ [-1, 10 ], [ -8, 1 ] ]
 						})
-						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], [ 1, 1, 1], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "CAB" : TRIANGLE[ 0 ][ 0 ]+ "^{\\circ}", "ABC" : "X" } );
+						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ], "CAB" : TRIANGLE[ 0 ][ 0 ]+ "^{\\circ}", "ABC" : "X" } );
 						tr.draw();
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
 						tr.drawLabels();
