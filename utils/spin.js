@@ -40,7 +40,7 @@ jQuery.extend( KhanUtil, {
 
 
 jQuery.fn.spin = function() {
-	this.find( "spin" ).each(function() {
+	this.find( ".spin" ).each(function() {
 		var spun = KhanUtil.spin( jQuery( this ).text() );
 		jQuery( this ).text( spun );
 	});
