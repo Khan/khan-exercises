@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+	<head>
+		<title>Measuring Angles As A Fraction Of PI</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="ANGLE_ONE">randRange(0, 359)</var>
+				<var id="DIFF">15 * randRange(1, 23)</var>
+			</div>
+
+			<div class="problems">
+				<div>
+					<div class="problem">
+						Measure this angle in as a fraction of <code>\pi</code>.
+					</div>
+					<div class="question">
+						<div class="graphie" id="angle">
+							var ANGLE_TWO = ANGLE_ONE + DIFF;
+							var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
+							var ANGLE_TWO_R = ANGLE_TWO * PI / 180;
+							
+							init({
+								range: [ [-11, 31], [-10, 10] ],
+								scale: 20
+							});
+							path([ [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )], [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
+							arc( [0, 0], 1, ANGLE_ONE, ANGLE_TWO );
+
+							graph.protractor = new Protractor( [22, 0], 8 );
+							Khan.scratchpad.disable();
+						</div>
+					</div>
+					<p class="solution" data-type="rational" ><var>(DIFF/180)</var></p>
+				</div>
+			</div>
+
+			<div class="hints">
+				<div>
+					<p>Remember that 15 degrees is the same as <code>\frac{\pi}{12}</code>.  This is the angle that the earth revolves in 1 hour.</p>
+				</div>
+
+				<div>
+					<div class="graphie" data-update="angle" data-if="DIFF > 180">
+						graph.protractor.translate( 0, 0, true );
+						graph.protractor.rotate( 180 - ANGLE_ONE, true );
+						graph.protractor.rotatable( false );
+						graph.protractor.translatable( false );
+					</div>
+					<div class="graphie" data-update="angle" data-else>
+						graph.protractor.translate( 0, 0, true );
+						graph.protractor.rotate( 360 - ANGLE_ONE, true );
+						graph.protractor.rotatable( false );
+						graph.protractor.translatable( false );
+					</div>
+
+					<p>First, align the protractor with the angle.</p>
+					<p data-if="DIFF >180">If the angle is greater than 180 degrees remember it is more than <code>\pi</code>.</p>
+
+				</div>
+				<div>
+					
+					<p>The angle is <code><var>roundTo(2,(DIFF/180)*100)</var></code> percent of <code>\pi</code> or <code><var>roundTo(2,(DIFF/360)*100)</var></code> percent of 2 <code>\pi</code> .</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
