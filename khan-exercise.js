@@ -70,9 +70,6 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// Check to see if we're in test mode
 	testMode = typeof userExercise === "undefined",
 
-	// Check to see if we're in beta mode
-	betaMode = window.location.host.indexOf( "khan-masterslave" ) !== -1,
-
 	// The main server we're connecting to for saving data
 	server = testMode ? "http://localhost:8080" : "",
 
@@ -123,8 +120,6 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	// For saving problems to the server
 	hintsUsed,
 	lastAction,
-	doHintSave,
-	doSave,
 	attempts,
 	once = true,
 
@@ -1311,9 +1306,6 @@ function makeProblem( id, seed ) {
 	// Advance to the next problem
 	nextProblem( 1 );
 
-	// The user is generating a new problem
-	doHintSave = true;
-	doSave = true;
 	hintsUsed = 0;
 	attempts = 0;
 	lastAction = (new Date).getTime();
@@ -1485,9 +1477,6 @@ function prepareSite() {
 				.removeAttr( "disabled" );
 		}
 
-		// Make sure hint streak breaking is handled correctly
-		doSave = false;
-
 		// Remember when the last action was
 		lastAction = curTime;
 
@@ -1580,21 +1569,12 @@ function prepareSite() {
 			}
 
 			hintsUsed += 1;
-
-			// Don't reset the streak if we've already reset it or if
-			// we've already sent in an answer
-			if ( doSave && doHintSave ) {
-				if (!(typeof userExercise !== "undefined" && userExercise.read_only)) {
-					request( "reset_streak" );
-				}
-
-				// Make sure we don't reset the streak more than once
-				doHintSave = false;
-			}
 		}
 
-		if (!(typeof userExercise !== "undefined" && userExercise.read_only)) {
-			// Submit data to the server
+		var fProdReadOnly = !testMode && userExercise.read_only;
+		var fAnsweredCorrectly = jQuery( "#next-question-button" ).is( ":visible" );
+		if ( !fProdReadOnly && !fAnsweredCorrectly ) {
+			// Resets the streak and logs history for exercise viewer
 			request(
 				"problems/" + (getData().total_done + 1) + "/hint",
 				buildAttemptData(false, attempts, "hint", new Date().getTime()),
