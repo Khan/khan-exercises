@@ -105,7 +105,7 @@
 			<var id="FRAC">rand( 3 ) > 0 ? (randRange( 1, 9 ) / 10) : 0</var>
 		</div>
 
-		<var id="SIGN">randFromArray(["", "-"])</var>
+		<var id="SIGN">(INT === 0 ? "" : randFromArray(["", "-"]))</var>
 		<var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
 		<var id="INCLUSIVE">REL == "&le;" || REL == "&ge;"</var>
 		<var id="LESS_THAN">REL == "&lt;" || REL == "&le;"</var>
