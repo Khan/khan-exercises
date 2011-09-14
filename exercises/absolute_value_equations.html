@@ -13,55 +13,9 @@
 			<var id="C" data-ensure="C !== A">randRange( 2, 10 )</var>
 			<var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
 			<var id="SIMPLIFIED">fractionReduce( D - B, A - C )</var>
-			<var id="SOLUTION">
-				<!-- Am I not supposed to use this function business? -->
-			(function() {
-				if ( ( D - B ) / ( A - C) > 0 ) {
-					return "&lt;code&gt;"
-						+ "x = "
-						+ fractionReduce( -1 * abs( D - B ), abs( A - C ) )
-						+ "\\text{ or }"
-						+ "x = "
-						+ fractionReduce( abs( D - B ), abs( A - C ) )
-						+ "&lt;/code&gt;";
-				} else {
-					return "No solution";
-				}
-			})()
-			</var>
-			<var id="CHOICES">
-				(function() {
-					var choices = [];
-
-					for ( var i = 0; i &lt; 4; i++ ) {
-						var choice = "&lt;code&gt;";
-						var nOffset = randRange( 1, 10 );
-						var dOffset = randRangeExclude( 1, 10, [ C - A ] );
-						if ( D - B + nOffset === 0 ) {
-							choice += "x = 0";
-						} else {
-							choice += "x = "
-								+ fractionReduce( -1 * abs( D - B + nOffset ), abs( A - C + dOffset ) )
-								+ "\\text{ or }"
-								+ "x = "
-								+ fractionReduce( abs( D - B + nOffset ), abs( A - C + dOffset ) );
-						}
-						choice += "&lt;/code&gt;";
-						choices.unshift( choice );
-					}
-
-					if ( ( D - B ) / ( A - C ) > 0 ) {
-						choices.shift();
-						choices.unshift( SOLUTION );
-						choices = shuffle( choices );
-						choices.push( "No solution");
-					} else {
-						choices = shuffle( choices );
-						choices.push( SOLUTION );
-					}
-
-					return choices;
-				})()</var>
+			<var id="NO_SOLUTION">( D - B ) / ( A - C) < 0</var>
+			<var id="SOLUTION_1">-1 * abs( D - B ) / abs( A - C )</var>
+			<var id="SOLUTION_2">abs( D - B ) / abs( A - C )</var>
 		</div>
 
 		<div class="problems">
@@ -69,11 +23,16 @@
 				<p class="question">Solve for <code>x</code>:</p>
 				<div><code><var>A</var>|x| + <var>B</var> = <var>C</var>|x| + <var>D</var></code></div>
 
-				<p class="solution"><var>SOLUTION</var></p>
-
-				<ul class="choices" data-category="true">
-					<li data-each="CHOICES as choice"><var>choice</var></li>
-				</ul>
+				<div class="solution" data-type="set">
+					<div class="set-sol" data-if="!NO_SOLUTION"><var>SOLUTION_1</var></div>
+					<div class="set-sol" data-if="!NO_SOLUTION"><var>SOLUTION_2</var></div>
+					<p class="input-format">
+						<code>x=</code> <span class="entry"></span> or <code>x=</code> <span class="entry"></span>
+						<label><span class="checkbox"><var>NO_SOLUTION</var></span>No solution</label>
+					</p>
+					<p class="example">One or more integers, <em>improper</em> fractions, or <em>mixed numbers</em> in any order</p>
+					<p class="example">If there is no solution, leave both boxes blank and select "No solution"</p>
+				</div>
 			</div>
 		</div>
 
@@ -119,7 +78,8 @@
 				</div>
 			</div>
 			<p data-if="( D - B ) / ( A - C ) > 0">
-				Thus, the correct answer is <code><var>SOLUTION</var></code>.
+				Thus, the correct answer is <code>x = <var>fractionReduce( -1 * abs( D - B ), abs( A - C ) )</var></code>
+				 or <code>x = <var>fractionReduce( abs( D - B ), abs( A - C ) )</var></code>.
 			</p>
 			<p data-else>
 				The absolute value cannot be negative. Therefore, there is no solution.

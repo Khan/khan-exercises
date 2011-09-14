@@ -50,6 +50,7 @@ body.debug .graphie { outline: 1px dashed red; }
 
 #tester-info.info-box { background: #f2e4bf; }
 #tester-info .box { border: 1px solid black; padding: 2px 4px; margin-left: 5px; }
+#tester-info .group-box { border: 1px solid #aaa; padding: 6px 4px 6px 0px; margin-left: 2px; }
 
 .summary { display: none; }
 #browserwarning { background: white; margin: 0 1px; padding: 18px; font-size: 120%; text-align: center; }
