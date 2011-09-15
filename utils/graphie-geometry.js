@@ -15,8 +15,6 @@ function clearArray( arr, i ){
 	} );
 }
 
-
-
 function isPointOnLineSegment( l, p, precision ){
 	var precision = precision || 0.1;
 	//If line is vertical
@@ -64,7 +62,6 @@ function splitPath( p, points ){
 }
 
 function findIntersection( a, b ){
-
 	var tY = [ 0, a[ 0 ][ 1 ], a[ 1 ][ 1 ], b[ 0 ][ 1 ], b[ 1 ][ 1 ] ];
 	var tX = [ 0, a[ 0 ][ 0 ], a[ 1 ][ 0 ], b[ 0 ][ 0 ], b[ 1 ][ 0 ] ];
 
@@ -150,8 +147,7 @@ function parallelLine( line, point ){
 
 }
 
-function angleBisect( line1, line2, scale ){
-
+function bisectAngle( line1, line2, scale ){
 	var intPoint = findIntersection( line1, line2 );
 	var l1 = [];
 	var l2 = [];
@@ -253,7 +249,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 
 		if ( "angles" in this.labels ){	
 			for( i = this.angles.length - 1; i >= 0; i-- ){
-				this.createLabel( angleBisect( this.sides[ ( i + 1 ) % 4 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ 0 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 4 ] );
+				this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 4 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ 0 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 4 ] );
 			}
 		}
 
@@ -334,7 +330,7 @@ function Triangle( center, angles, scale, labels ){
 
 		if ( "angles" in this.labels ){	
 			for( i = this.angles.length - 1; i >= 0; i-- ){
-				this.createLabel( angleBisect( this.sides[ ( i + 1 ) % 3 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ 0 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 3 ] );
+				this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 3 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ 0 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 3 ] );
 			}
 		}
 
