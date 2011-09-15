@@ -9,64 +9,96 @@
 	<div class="exercise">
 		<div class="vars">
 			<var id="MAIN">randomTriangleAngles.triangle()</var>
-			<var id="MAIN_SIZE">2 + Math.random() * 2</var>
-			<var id="ANSWERS">[ "B", "C", "Both", "None" ]</var>
-			<var id="ANSWER">randFromArray( ANSWERS )</var>	
-			<var id ="IS_B">ANSWER === "B" || ANSWER === "Both"</var>
-			<var id ="IS_C">ANSWER === "C" || ANSWER === "Both"</var>		
+			<var id="MAIN_SIZE">5 + Math.random() * 2</var>
+			<var id ="IS_B">randRange( 0, 1 ) ? true : false</var>
 			<var id="B">IS_B ? MAIN : randomTriangleAngles.triangle()</var>
 			<var id="B_SIZE">IS_B ? MAIN_SIZE : 2 + Math.random() * 2</var>
-			<var id="C">IS_C ? MAIN : randomTriangleAngles.triangle()</var>
-			<var id="C_SIZE">IS_C ? MAIN_SIZE :  2 + Math.random() * 2</var>
+			<var id="ANSWER">IS_B ? "Yes" : "No"</var>
+			<var id="A_ANGLES">[ 0, 1, 2 ]</var>
+			<var id="B_ANGLES">A_ANGLES</var>
+			<var id="A_SIDES">[ 0, 1, 2 ]</var>
+			<var id="B_SIDES">A_SIDES</var>
+			<var id="TR_A">
+				function(){
+					var t = new Triangle( [ 3, -2 ], MAIN, MAIN_SIZE, {} );
+					t.labels =  { "name": "A", "angles" : clearArray( t.niceAngles, A_ANGLES ),  "sides" : clearArray( t.niceSideLengths, A_SIDES ) }; 
+					return t;
+				}()
+			</var>
+			<var id="TR_B">
+				function(){
+					var t = new Triangle( [ 7, -6 ], B, B_SIZE, {} );
+					t.labels =  { "name": "B", "angles" : clearArray( t.niceAngles, B_ANGLES ),  "sides" : clearArray( t.niceSideLengths, B_SIDES ) }
+					return t;
+				}()
+			</var>
 		</div>
-
+		<div class="hints">
+				<p>Triangles are congruent when all corresponding sides and interior angles are congruent. </p>
+				<p>However, we do not need to know all the values in order to determine whether two triangles are congruent. </p>
+				<p>The rules we use for determining congruency are SSS, ASA, SAS and AAS</p>	
+		</div>
+		<div class="problem">
+			Are these two triangles congruent?
+		</div>
+		<div class="question">
+			<div class="graphie">
+				init({
+					range: [ [-1, 12 ], [ -10, 2.5 ] ]
+				})
+				TR_A.draw();
+				TR_A.rotate( randRange( 0, 360 ) );
+				TR_A.drawLabels();
+			
+				TR_B.draw();
+				TR_B.rotate( randRange( 0, 360 ) );
+				TR_B.drawLabels();
+			</div>
+		</div>
+		<div class="solution"><var>ANSWER</var></div>
+		<ul class="choices" data-category="true">¬
+			<li>Yes</li>
+			<li>No</li>
+			<li>There is not enough information to say</li>
+		</ul>
 		<div class="problems">
+
 			<div id="SSS">
-				<div class="problem">
-					Which triangles are congruent to triangle A?
+				<div class="vars">
+					<var id="A_ANGLES">[]</var>
+					<var id="A_SIDES">[ 0, 1, 2 ]</var>
+				</var>
 				</div>
-				<div class="question">
-					<div class="graphie">
-						init({
-							range: [ [-1, 12 ], [ -10, 2.5 ] ]
-						})
-						var trA = new Triangle( [ 3, -2 ], MAIN, MAIN_SIZE, {} ); 
-						trA.draw();
-						trA.rotate( randRange( 0, 360 ) );
-						trA.labels = { "name": "A", "sides" : trA.niceSideLengths };
-						trA.drawLabels();
-					
-						var trB = new Triangle( [ 7, -6 ], B, B_SIZE, {} ); 
-						trB.draw();
-						trB.rotate( randRange( 0, 360 ) );
-						trB.labels = { "name": "B", "sides" : trB.niceSideLengths };
-						trB.drawLabels();
-					
-						var trC = new Triangle( [ 2, -8 ], C, C_SIZE, {} ); 
-						trC.draw();
-						trC.rotate( randRange( 0, 360 ) );
-						trC.labels = { "name": "C", "sides" : trC.niceSideLengths };
-						trC.drawLabels();
-					</div>
-				</div>
-				<div class="solution"><var>ANSWER</var></div>
-				<ul class="choices" data-category="true">¬
-					<li>B</li>
-					<li>C</li>
-					<li>Both</li>
-					<li>None</li>
-				</ul>
-				<div class="hints">
-					<p>Triangles are congruent when all corresponding sides and interior angles are congruent. </p>
-					<p>However, we do not need to know all the values in order to determine whether two triangles are congruent. </p>
-					<p>The rules we use for determining congruency are SSS, ASA, SAS and AAS</p>	
+				<div class="hints" data-apply="appendContents">
 					<p>In this problem we are given the sides of the triangles, so we can compare them easily.</p>
 					<p data-if="IS_B">Triangle B has 3 sides the same as triangle A, so they are congruent.</p>
 					<p data-else>The sides of triangle B are not the same as triangle A so they are not congruent</p>
-					<p data-if="IS_C">Triangle C has 3 sides the same as triangle A, so they are congruent.</p>
-					<p data-else>The sides of triangle C are not the same as triangle A so they are not congruent</p>
 				</div>
 			</div>
+
+			<div id="SAS">
+				<div class="vars">
+					<var id="A_ANGLES">[ 1 ]</var>
+					<var id="A_SIDES">[ 0, 1 ]</var> 
+				</div>
+				<div class="hints" data-apply="appendContents">
+					<p>In this problem we are given two sides and an angle between them, so we can use the SAS rule.</p>
+					<p data-if="IS_B">Triangle B has those two sides and the angle the same as triangle A, so they are congruent.</p>
+					<p data-else>The sides of triangle B are not the same as triangle A so they are not congruent</p>
+				</div>
+			</div>	
+
+			<div id="ASA">
+				<div class="vars">
+					<var id="A_ANGLES">[ 0, 1 ]</var>
+					<var id="A_SIDES">[ 1 ]</var> 
+				</div>
+				<div class="hints" data-apply="appendContents">
+					<p>In this problem we are given two angles and as side between them, so we can use the ASA rule.</p>
+					<p data-if="IS_B">Triangle B has those two angles and the side the same as triangle A, so they are congruent.</p>
+					<p data-else>The sides of triangle B are not the same as triangle A so they are not congruent</p>
+				</div>
+			</div>	
 		</div>
 	</div>
 </body>
