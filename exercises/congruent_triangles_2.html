@@ -10,74 +10,128 @@
 </script>
 <body>
 	<div class="exercise">
-		<div class="vars">
+		<div class="problem">
+			What is the value of the angle x?
 		</div>
+		<div class="vars">
+			<var id="RAND_ANG">randRange( 0, 2 )</var>
+			<var id="NEW_ANG"></var>
+			<var id="ANGLE_LABELS">[ "CAB", "ABC", "BCA" ]</var>
+			<var id="ANG_FIRST"></var>
+			<var id="ANG_LEFT"></var>
+			<var id="ANGLES">randomTriangleAngles.triangle()</var>
+			<var id="ANG"></var>
+			<var id="ANGLES_A">[ RAND_ANG ]</var>
+			<var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ RAND_ANG ] )</var>
+			<var id="SIDES_A">[ 0, 2 ]</var>
+			<var id="SIDES_B">[ 0, 2 ]</var>
+
+			<var id="TR_A">
+				function(){
+					var trA = new Triangle( [ 3, -5 ], ANGLES ,6, {} ); 
+					trA.labels = { "points" : [ "A", "B", "C" ], "sides" : clearArray( trA.niceSideLengths, SIDES_A ), "angles" : clearArray( trA.niceAngles, ANGLES_A ) };
+					return trA;
+				}()
+			</var>	
+			<var id="TR_B">
+				function(){
+					var trB = new Triangle( [ TR_A.centroid[ 0 ],  TR_A.centroid[ 1  ] ], ANGLES, 6, {} );
+					trB.rotate( 180 );
+					trB.labels = { "points" : [ "D", "", "" ], "sides" : clearArray( trB.niceSideLengths, SIDES_B ),"angles" : ANGLES_B };
+					return trB;
+				}()
+			</var>	
+			<var id="ANSWER">ANGLES[ RAND_ANG ]</var>
+		</div>
+		<div class="question">
+			<div class="graphie">
+				init({
+					range: [ [-1, 12 ], [ -6, 2.5 ] ]
+				})
+				TR_A.draw();
+				TR_A.drawLabels();
+				TR_B.draw();
+				TR_B.drawLabels();
+			</div>
+		</div>
+		<div class="solution"><var>ANSWER</var></div>
 
 		<div class="problems">
 			<div id="parr">
 				<div class="vars">
-					<var id="ANGLES">randomTriangleAngles.triangle()</var>
-					<var id="RAND_ANG">randRange( 0, 2 )</var>
-					<var id="ANSWER">ANGLES[ RAND_ANG ]</var>
+					<var id="ANG_FIRST">randRangeUnique( 0, 3, 2 )</var>
+					<var id="ANG_LEFT">randFromArray( ANG_FIRST )</var>
+					<var id="ANGLES_A">ANG_FIRST</var>
+					<var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ ANG_LEFT ] )</var>
+					<var id="ANSWER">TR_B.angles[ ANG_LEFT ]</code>
 				</div>
-				<div class="problem">
-					What is the value of the angle x?
-				</div>
-				<div class="question">
-					<div class="graphie">
-						init({
-							range: [ [-1, 12 ], [ -6, 2.5 ] ]
-						})
-						var trA = new Triangle( [ 3, -5 ], ANGLES ,6, {} ); 
-						trA.draw();
-						trA.labels = { "sides" : clearArray( trA.niceSideLengths, [ 0, 2 ] ), "angles" : clearArray( trA.niceAngles, [ RAND_ANG ] ) }
-						trA.drawLabels();
-						var trB = new Triangle( [ trA.centroid[ 0 ],  trA.centroid[ 1  ] ], ANGLES, 6, {} );
-				
-						trB.rotate( 180 );
-						trB.draw();
-						trB.labels = { "sides" : clearArray( trB.niceSideLengths, [ 0,2 ] ),"angles" : clearArray( [ "x", "x", "x" ], [ RAND_ANG ] ) };
-						trB.drawLabels();
-					</div>
-				</div>
-				<div class="solution"><var>ANSWER</var></div>
 				<div class="hints">
 					<p>These two triangles have three sides equal( they share one of them ).</p>
 					<p>Therefore they are congruent.</p>
 					<p>Congruent triangles also have congruent( equal ) angles.</p>
-					<p>If we superimpose these two triangles, by rotating triangle A, we see that angle x corresponds to angle A.</p>
-					<p>Angle x is therefore equal to <var>ANSWER</var></p>
+					<p>If we superimpose these two triangles, by rotating triangle A, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var></p>
+					<p>Angle x is therefore equal to <var>ANSWER</var>.</p>
 				</div>
 			</div>
-			<div id="opposite" data-type="parr">
-				<div class="question">
-					<div class="graphie">
-						init({
-							range: [ [-1, 12 ], [ -6, 2.5 ] ]
-						})
-						var ang =  ANGLES[ 0 ] / 2;
-						var trA = new Triangle( [ 7, -3 ], ANGLES ,6, {} ); 
-						trA.rotationCenter = trA.points[ 0 ];
-						trA.rotate( ang );
-						trA.draw();
-						trA.labels = { "sides" : clearArray( trA.niceSideLengths, [ 0,2 ] ), "angles" : clearArray( trA.niceAngles, [ RAND_ANG ] ) }
-						trA.drawLabels();
-						var trB = new Triangle( [ 7 -cos( ang * PI / 180 ) * trA.sideLengths[ 0 ] , -3 - sin( ang * PI / 180 ) * trA.sideLengths[ 0 ] ], [ ANGLES[ 1 ], ANGLES[ 0 ], ANGLES[ 2 ] ] , 6, {} );
-				
-						trB.rotationCenter = trB.points[ 0 ];
-						trB.rotate( -ang );
-						trB.draw();
-						var newAng = RAND_ANG;
-						if ( RAND_ANG == 0 ){
-							newAng = 1;
-						}
-						else if ( RAND_ANG == 1 ){
-							newAng = 0;
-						}
 
-						trB.labels = { "sides" : clearArray( trB.niceSideLengths, [ 1,0 ] ),"angles" : clearArray( [ "x", "x", "x" ], [  newAng  ] ) };
-						trB.drawLabels();
-					</div>
+			<div id="parr2">
+				<div class="vars">
+					<var id="ANG_FIRST">randRangeUnique( 0, 3, 2 )</var>
+					<var id="ANG_LEFT">randRangeExclude( 0, 2, ANG_FIRST )</var>
+					<var id="ANGLES_A">ANG_FIRST</var>
+					<var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ ANG_LEFT ] )</var>
+				</div>
+				<div class="solution"><var>TR_B.angles[ ANG_LEFT ]</var></div>
+				<div class="hints">
+					<p>These two triangles have three sides equal( they share one of them ).</p>
+					<p>Therefore they are congruent.</p>
+					<p>Congruent triangles also have congruent( equal ) angles.</p>
+					<p>If we superimpose these two triangles, by rotating triangle A, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var>.</p>
+					<p><code><var>ANGLE_LABELS[ ANG_LEFT ]</var> = 180 - <var>TR_A.angles[ ANG_FIRST[ 0 ] ]</var> -  <var>TR_A.angles[ ANG_FIRST[ 1 ] ]</var></code></p>
+					<p><code><var>ANGLE_LABELS[ ANG_LEFT ]</var> = x = <var>TR_B.angles[ ANG_LEFT ]</var></code></p>
+				</div>
+			</div>
+
+			<div id="opposite">
+				<div class="vars">
+					<var id="NEW_ANG">
+						function(){
+							var newAng = RAND_ANG;
+							if ( RAND_ANG == 0 ){
+								newAng = 1;
+							}
+							else if ( RAND_ANG == 1 ){
+								newAng = 0;
+							}
+							return newAng;
+						}()
+					</var>
+					<var id="SIDES_B">[ 0, 1 ]</var>
+					<var id="ANG_FIRST">randRangeUnique( 0, 3, 2 )</var>
+					<var id="ANG_LEFT">randRange( 0, 2 )</var>
+					<var id="SAME_ANGLE">( jQuery.inArray( ANG_LEFT, ANG_FIRST ) !== -1 )</var>
+					<var id="ANGLES_A">ANG_FIRST</var>
+					<var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ ANG_LEFT ] )</var>
+					<var id="ANG">ANGLES[ 0 ] / 2</var>
+					<var id="TR_A">
+						function(){
+							var trA = new Triangle( [ 7, -3 ], ANGLES ,6, {} ); 
+							trA.rotationCenter = trA.points[ 0 ];
+							trA.rotate( ANG );
+							trA.labels = { "points" : [ "", "B", "C" ], "sides" : clearArray( trA.niceSideLengths, SIDES_A ), "angles" : clearArray( trA.niceAngles, ANGLES_A ) };
+							return trA;
+						}()
+					</var>	
+					<var id="TR_B">
+						function(){
+							var trB = new Triangle( [ 7 - cos( ANG * PI / 180 ) * TR_A.sideLengths[ 0 ], -3 - sin( ANG * PI / 180 ) * TR_A.sideLengths[ 0 ] ], [ ANGLES[ 1 ], ANGLES[ 0 ], ANGLES[ 2 ] ] , 6, {} );
+							trB.rotationCenter = trB.points[ 0 ];
+							trB.rotate( -ANG );
+							trB.labels = { "points" : [ "D", "", "E" ], "sides" : clearArray( trB.niceSideLengths, SIDES_B ), "angles" : ANGLES_B };
+							return trB;
+						}()
+					</var>		
+					<var id="ANSWER">TR_B.angles[ ANG_LEFT ]</code>
 				</div>
 				<div class="solution"><var>ANSWER</var></div>
 				<div class="hints">
@@ -88,6 +142,9 @@
 					<p>Angle x is therefore equal to <var>ANSWER</var></p>
 				</div>
 			</div>
+
+
+
 			<div id="sameSide" data-type="opposite">
 				<div class="question">
 					<div class="graphie">
