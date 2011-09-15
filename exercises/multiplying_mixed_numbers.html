@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<title>Multiplying mixed numbers</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<!--
+-->
+
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="getGCD(N1, D1) === 1 && getGCD(N2, D2) === 1">
+			<var id="NEG1">randFromArray([1 , -1])</var>
+			<var id="W1">randRangeWeighted( 1, 4, 0, 0.7)</var>
+			<var id="N1">randRange( 1 , 15 )</var>
+			<var id="D1" data-ensure="N1 !== D1">randRange( 2 , 15 )</var>
+
+			<var id="NEG2">randFromArray([1 , -1])</var>
+			<var id="W2">(W1 === 0 ? randRange( 1, 4 ) : randRangeWeighted( 1, 4, 0, 0.7))</var>
+			<var id="N2">randRange( 1, 15 )</var>
+			<var id="D2" data-ensure="N2 !== D2">randRange( 2, 15 )</var>
+
+			<var id="WT">((NEG1 * NEG2 * (W1 * D1 + N1) * (W2 * D2 + N2)) - (NEG1 * NEG2 * (W1 * D1 + N1) * (W2 * D2 + N2)) % (D1 * D2) ) / (D1 * D2)</var>
+			<var id="FT">((W1 * D1 + N1) * (W2 * D2 + N2)) % (D1 * D2)</var>
+			
+			<var id="GCD1">getGCD( NEG1 * W1 * D1 + NEG1 * N1 , D2 )</var>
+			<var id="SIMP_N1">NEG1 * W1 * D1 + NEG1 * N1 / GCD1</var>
+			<var id="SIMP_D2">D2 / GCD1</var>
+
+			<var id="GCD2">getGCD( NEG2 * W2 * D2 + NEG2 * N2 , D1 )</var>
+			<var id="SIMP_N2">NEG2 * W2 * D2 + NEG2 * N2 / GCD2</var>
+			<var id="SIMP_D1">D1 / GCD2</var>
+		
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="problem">Write the following as a mixed number. Reduce to lowest terms.</p>
+				<p class="question"><code><var>(W1 != 0 ? NEG1 * W1 + fraction( N1 , D1 ) : fraction( NEG1 * N1 , D1 ))</var> \times <var>(W2 != 0 ? NEG2 * W2  + fraction( N2 , D2 ) : fraction( NEG2 * N2 , D2 ) )</var> = {?}</code></p>
+				<div class="solution" data-type="mixed"><var>WT + ( NEG1 * NEG2 * FT ) / (D1 * D2)</var></div>
+			</div>
+		</div>
+
+		<div class="hints">
+			<div>
+				<p>Convert whole numbers to fractions:</p>
+				<p><code>= (<var>plus( (W1 != 0 ? fraction( NEG1 * W1 * D1 , D1 ) : 0 ) , fraction( NEG1 * N1 , D1 ))</var>) \times (<var>plus( (W2 != 0 ? fraction( NEG2 * W2 * D2 , D2 ) : 0 ) , fraction (NEG2 * N2 , D2))</var>)</code></p>
+			</div>
+			
+			<div>
+				<p>Add within parentheses:</p>
+				<p><code>= <var>fraction( NEG1 * W1 * D1 + NEG1 * N1 , D1)</var> \times <var>fraction( NEG2 * W2 * D2 + NEG2 * N2 , D2)</var></code></p>
+			</div>
+			
+			<div data-if="GCD1 !== 1 || GCD2 !== 1">
+				<p>Reduce terms with common factors:</p>
+				<p><code>= <var>fraction( NEG1 * ( W1 * D1 + N1 ) / GCD1 , D1 / GCD2 )</var> \times <var>fraction( NEG2 * ( W2 * D2 + N2 ) / GCD2 , D2 / GCD1 )</var></code></p>
+			</div>
+		
+			<div>
+				<p>Combine into a single fraction:</p>
+				<p><code>= <var>( NEG1 * NEG2 == 1 ? "" : "-")</var>\dfrac{<var>( W1 * D1 + N1 ) / GCD1</var> \times <var>( W2 * D2 + N2 ) / GCD2</var>}{<var>D1 / GCD2</var> \times <var>D2 / GCD1</var>}</code></p>
+			</div>
+			
+			<div>
+				<p>Multiply top and bottom:</p>
+				<p><code>= <var>fraction( NEG1 * NEG2 * (W1 * D1 + N1) * (W2 * D2 + N2) / ( GCD1 * GCD2 ) , (D1 * D2) / ( GCD1 * GCD2 ))</var></code></p>
+			</div>
+			
+			<div>
+				<p>Write as a mixed number:</p>
+				<p><code>= <var>WT</var> <var>fractionReduce(FT, D1 * D2)</var></code></p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+<!--
+
+
+
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Dividing fractions</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars" data-ensure="getGCD(N1, D1) === 1 && getGCD(N2, D2) === 1">
+		<var id="NEG1">randFromArray([1, -1])</var>
+		<var id="NEG1S">NEG1 === -1 ? "-" : ""</var>
+		<var id="N1">randRange(1, 9)</var>
+		<var id="D1">randRange(2, 9)</var>
+
+		<var id="NEG2">randFromArray([1, -1])</var>
+		<var id="NEG2S">NEG2 === -1 ? "-" : ""</var>
+		<var id="N2">randRange(1, 9)</var>
+		<var id="D2">randRange(2, 9)</var>
+		
+		<var id="GCD1">getGCD( N1, N2 )</var>
+		<var id="SIMP_N1">N1 / GCD1</var>
+		<var id="SIMP_N2">N2 / GCD1</var>
+
+		<var id="GCD2">getGCD( D1, D2 )</var>
+		<var id="SIMP_D1">D1 / GCD2</var>
+		<var id="SIMP_D2">D2 / GCD2</var>
+		
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="problem">Reduce to lowest terms:</div>
+			<div class="question">
+				<p><code>\displaystyle <var>NEG1S</var> \frac{<var>N1</var>}{<var>D1</var>} \div <var>NEG2S</var> \frac{<var>N2</var>}{<var>D2</var>} = {?}</code></p>
+			</div>
+			<div class="solution" data-type="rational"><var>(NEG1 * N1 * NEG2 * D2) / (D1 * N2)</var></div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<div>
+			<p>Turn into a multiplication problem:</p>
+			<p><code>\displaystyle {} = <var>NEG1S</var> \frac{<var>N1</var>}{<var>D1</var>} \times <var>NEG2S</var> \frac{<var>D2</var>}{<var>N2</var>}</code></p>
+		</div>
+
+		<div data-if="GCD1 !== 1 || GCD2 !== 1">
+			<p>Reduce terms with common factors:</p>
+			<p><code>\displaystyle {} = <var>NEG1S</var> \frac{<var>SIMP_N1</var>}{<var>SIMP_D1</var>} \times <var>NEG2S</var> \frac{<var>SIMP_D2</var>}{<var>SIMP_N2</var>}</code></p>
+		</div>
+		
+		<div data-if="SIMP_N1 / SIMP_D1 !== 1 && SIMP_N2 / SIMP_D2 !== 1">
+			<p>Combine into one fraction:</p>
+			<p><code>\displaystyle {} = \frac{<var>NEG1 * SIMP_N1</var> \times <var>NEG2 * SIMP_D2</var>}{<var>SIMP_D1</var> \times <var>SIMP_N2</var>}</code></p>
+		</div>
+
+		<div>
+			<p>Simplify:</p>
+			<p><code>\displaystyle {} = <var>fractionReduce(NEG1 * N1 * NEG2 * D2, D1 * N2)</var></code></p>
+		</div>
+
+	</div>
+	</div>
+</body>
+</html>
+
+-->
