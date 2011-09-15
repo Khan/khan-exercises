@@ -194,7 +194,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	this.x = center[ 0 ];
 	this.y = center[ 1 ];
 	this.rotationCenter = [ center[ 0 ], center[ 1 ] ];
-	this.set = KhanUtil.currentGraph.raphael.set();
+	this.set = "";
 	this.size = 10;
 	this.cosines = $.map( this.radAngles, Math.cos );
 	this.sines = $.map( this.radAngles, Math.sin );
@@ -239,6 +239,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	
 	area = 0.5 *  vectorProduct( [ this.points[ 0 ], this.points[ 2 ] ], [ this.points[ 3 ], this.points[ 1 ] ] );
 	this.draw = function(){
+		this.set = KhanUtil.currentGraph.raphael.set();
 		this.set.push( KhanUtil.currentGraph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
 		return this.set;
 	}
@@ -334,7 +335,7 @@ function Triangle( center, angles, scale, labels, points ){
 	
 	this.niceSideLengths = jQuery.map( this.sideLengths, function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
 	
-	this.set = KhanUtil.currentGraph.raphael.set();
+	this.set = "";
 	this.niceAngles = jQuery.map( this.angles, function( x ){ return x + "^{\\circ}"; } );
 
 	
@@ -352,6 +353,7 @@ function Triangle( center, angles, scale, labels, points ){
 	}
 
 	this.draw = function(){
+		this.set = KhanUtil.currentGraph.raphael.set();
 		this.set.push( KhanUtil.currentGraph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
 		return this.set;
 	}
