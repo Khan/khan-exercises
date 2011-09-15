@@ -347,9 +347,9 @@ function Triangle( center, angles, scale, labels, points ){
 			return 0.6;
 		}
 		else if ( ang < 25 ){
-			return 1.4;
+			return 0.7;
 		}
-		return 1;
+		return 0.8;
 	}
 
 	this.draw = function(){
@@ -359,7 +359,7 @@ function Triangle( center, angles, scale, labels, points ){
 	}
 
 	this.createLabel = function( p, v ){
-			this.set.push( KhanUtil.currentGraph.label( this.rotatePoint( p ) , v ) );
+			this.set.push( KhanUtil.currentGraph.label(  p , v ) );
 	}
 
 	this.drawLabels = function(){
@@ -392,8 +392,8 @@ function Triangle( center, angles, scale, labels, points ){
 		if ( "name" in this.labels ){
 			this.createLabel( [ this.points[ 0 ][ 0 ] - 0.5, this.points[ 0 ][ 1 ] ] , this.labels.name );
 		}
-//LETTER LABELS ARE DEPRECATED
-		if ( "c" in this.labels ){
+
+			if ( "c" in this.labels ){
 			this.createLabel( [ ( this.points[ 0 ][ 0 ] + this.points[ 1 ][ 0 ] ) / 2,  ( this.points[ 0 ][ 1 ] + this.points[ 1 ][ 1 ] ) / 2 - 0.4 ]  , labels.c );
 		}
 		if ( "a" in this.labels ){
@@ -402,24 +402,7 @@ function Triangle( center, angles, scale, labels, points ){
 		if ( "b" in this.labels ){
 			this.createLabel( [ ( this.points[ 0 ][ 0 ] + this.points[ 2 ][ 0 ] ) / 2 - 0.4, ( this.points[ 0 ][ 1 ] + this.points[ 2 ][ 1 ] ) / 2 ] , labels.b );
 		}
-		if ( "A" in this.labels ){
-			this.createLabel( [ this.points[ 0 ][ 0 ] - 0.3, this.points[0][1] ] , labels.A );
-		}
-		if ( "B" in this.labels ){
-			this.createLabel( [ this.points[ 1 ][ 0 ] + 0.3 , this.points[ 1 ][ 1 ] + 0.2 ], labels.B );
-		}
-		if ( "C" in this.labels ){
-			this.createLabel( [ this.points[ 2 ][ 0 ] + 0.2 , this.points[ 2 ][ 1 ] - 0.2 ], labels.C );
-		}
-		if ( "CAB" in this.labels ){
-			this.createLabel( [ this.points[ 0 ][ 0 ] +  this.angleScale( this.angles[ 0 ]  ) * Math.cos( this.angles[ 0 ] / 2 * Math.PI / 180 ), this.points[ 0 ][ 1 ] +  this.angleScale( this.angles[ 0 ]  ) * Math.sin( this.angles[ 0 ] / 2 * Math.PI / 180 ) ], labels.CAB );
-		}
-		if ( "ABC" in this.labels ){
-			this.createLabel( [ this.points[ 1 ][ 0 ] + this.angleScale( this.angles[ 1 ] )  * Math.cos( ( 180 - this.angles[ 1 ] / 2 ) * Math.PI / 180 ), this.points[ 1 ][ 1 ] + this.angleScale( this.angles[ 1 ]  ) * Math.sin( ( 180 - this.angles[ 1 ] / 2 ) * Math.PI / 180 ) ] , labels.ABC );
-		}
-		if ( "BCA" in this.labels ){
-			this.createLabel( [ this.points[ 2 ][ 0 ] +  this.angleScale( this.angles[ 2 ] )  * Math.cos( ( 180 + this.angles[ 0 ] + this.angles[ 2 ] / 2 ) * Math.PI / 180 ), this.points[ 2 ][ 1 ] +   this.angleScale( this.angles[ 2 ] ) * Math.sin( ( 180 + this.angles[ 0 ] + this.angles[ 2 ] / 2 ) * Math.PI / 180 ) ], labels.BCA );
-		}
+	
 
 		return this.set;
 	}
@@ -451,12 +434,15 @@ function Triangle( center, angles, scale, labels, points ){
 	this.rotationCenter = this.centroid;
 	
 	this.rotate = function( amount ){
-		this.set.rotate( amount, KhanUtil.currentGraph.scalePoint( this.rotationCenter )[0] , KhanUtil.currentGraph.scalePoint( this.rotationCenter )[1] );
-		this.rotation = amount * Math.PI / 180;
+		var that = this;
+		amount = amount * Math.PI / 180;
+		this.points = [ this.rotatePoint( this.points[ 0 ], amount ), this.rotatePoint( this.points[ 1 ], amount ), this.rotatePoint( this.points[ 2 ], amount ) ] ;
+		this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
+		this.findCenterPoints();
 	}
 
 	this.rotatePoint = function ( pos, theta ){
-		var theta = theta || this.rotation; 
+		var theta = theta || this.rotation;
 		return [ this.rotationCenter[ 0 ] + ( pos[ 0 ] - this.rotationCenter[ 0 ] ) * Math.cos( theta )  +  ( pos[ 1 ] -  this.rotationCenter[ 1 ] ) * Math.sin( theta ),  this.rotationCenter[ 1 ] + ( -1 ) *  ( ( pos[ 0 ] -  this.rotationCenter[ 0 ] ) * Math.sin( theta ) ) + ( ( pos[ 1 ] -  this.rotationCenter[ 1 ] ) * Math.cos( theta ) ) ];
 	}
 

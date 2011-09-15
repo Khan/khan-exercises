@@ -34,8 +34,8 @@
 						trA.drawLabels();
 						var trB = new Triangle( [ trA.centroid[ 0 ],  trA.centroid[ 1  ] ], ANGLES, 6, {} );
 				
-						trB.draw();
 						trB.rotate( 180 );
+						trB.draw();
 						trB.labels = { "sides" : clearArray( trB.niceSideLengths, [ 0,2 ] ),"angles" : clearArray( [ "x", "x", "x" ], [ RAND_ANG ] ) };
 						trB.drawLabels();
 					</div>
@@ -57,16 +57,16 @@
 						})
 						var ang =  ANGLES[ 0 ] / 2;
 						var trA = new Triangle( [ 7, -3 ], ANGLES ,6, {} ); 
-						trA.draw();
 						trA.rotationCenter = trA.points[ 0 ];
 						trA.rotate( ang );
+						trA.draw();
 						trA.labels = { "sides" : clearArray( trA.niceSideLengths, [ 0,2 ] ), "angles" : clearArray( trA.niceAngles, [ RAND_ANG ] ) }
 						trA.drawLabels();
 						var trB = new Triangle( [ 7 -cos( ang * PI / 180 ) * trA.sideLengths[ 0 ] , -3 - sin( ang * PI / 180 ) * trA.sideLengths[ 0 ] ], [ ANGLES[ 1 ], ANGLES[ 0 ], ANGLES[ 2 ] ] , 6, {} );
 				
 						trB.rotationCenter = trB.points[ 0 ];
-						trB.draw();
 						trB.rotate( -ang );
+						trB.draw();
 						var newAng = RAND_ANG;
 						if ( RAND_ANG == 0 ){
 							newAng = 1;
@@ -96,16 +96,16 @@
 						})
 						var ang =  90 - ANGLES[ 1 ] ;
 						var trA = new Triangle( [ 4, -3 ], ANGLES ,6, {} ); 
-						trA.draw();
 						trA.rotationCenter = trA.points[ 0 ];
 						trA.rotate( ang );
+						trA.draw();
 						trA.labels = { "sides" : clearArray( trA.niceSideLengths, [ 0,2 ] ), "angles" : clearArray( ANGLES, [ RAND_ANG ] ) }
 						trA.drawLabels();
 						var trB = new Triangle( [ 4 + cos( ang * PI / 180 ) * trA.sideLengths[ 0 ] , -3 - sin( ang * PI / 180 ) * trA.sideLengths[ 0 ] ], [ ANGLES[ 1 ], ANGLES[ 0 ], ANGLES[ 2 ] ] , 6, {} );
 				
 						trB.rotationCenter = trB.points[ 0 ];
-						trB.draw();
 						trB.rotate( -ang );
+						trB.draw();
 						var newAng = RAND_ANG;
 						if ( RAND_ANG == 0 ){
 							newAng = 1;

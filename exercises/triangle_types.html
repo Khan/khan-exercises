@@ -69,9 +69,10 @@
 						init({
 							range: [ [ -1, 10 ], [ -8, 1 ] ]
 						})
-						var tr = new Triangle( [ 3, -4],  TRIANGLE[ 0 ], 5, { "CAB" : TRIANGLE[ 0 ][ 0 ] + "^{\\circ}", "ABC" : TRIANGLE[ 0 ][ 1 ] +  "^{\\circ}" } );
+						var tr = new Triangle( [ 3, -4],  TRIANGLE[ 0 ], 5, {} );
+						tr.labels = { "angles" : clearArray( tr.niceAngles, [ 0, 1 ] ) };
+						tr.rotate( randRange( 0, 90 ) );
 						tr.draw();
-						tr.rotate( randRange( 0, 90 ), 3, -3 );
 						tr.drawLabels();
 					</div>
 				</div>
@@ -92,9 +93,10 @@
 						init({
 							range: [ [ -1, 10 ], [ -8, 1 ] ]
 						})
-						var tr = new Triangle( [ 3, -4],  TRIANGLE[ 0 ], 5, { "a" : TRIANGLE[ 1 ][ 0 ], "b" : TRIANGLE[ 1 ][ 1 ], "c" : TRIANGLE[ 1 ][ 2 ] } );
+						var tr = new Triangle( [ 3, -4],  TRIANGLE[ 0 ], 5, {} );
+						tr.labels = {  "sides" : tr.niceSideLengths };
+						tr.rotate( randRange( 0, 90 ) );
 						tr.draw();
-						tr.rotate( randRange( 0, 90 ), 3, -3 );
 						tr.drawLabels();
 					</div>
 				</div>
