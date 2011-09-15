@@ -187,7 +187,6 @@ function reverseLine( line ){
 function Quadrilateral( center, angles, sideRatio, labels, size ){
 
 	this.sideRatio = sideRatio;
-	this.graph = KhanUtil.currentGraph;
 	this.angles = angles;
 	this.radAngles = $.map( angles, degToRad );
 	this.scale = 1;
@@ -240,7 +239,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	
 	area = 0.5 *  vectorProduct( [ this.points[ 0 ], this.points[ 2 ] ], [ this.points[ 3 ], this.points[ 1 ] ] );
 	this.draw = function(){
-		this.set.push( this.graph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
+		this.set.push( KhanUtil.currentGraph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
 		return this.set;
 	}
 	
@@ -280,7 +279,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	}
 
 	this.createLabel = function( p, v ){
-		this.set.push( this.graph.label( p , v ) );
+		this.set.push( KhanUtil.currentGraph.label( p , v ) );
 	}
 }
 
@@ -303,7 +302,6 @@ function Triangle( center, angles, scale, labels, points ){
 	}
 
 	this.labels = labels;
-	this.graph = KhanUtil.currentGraph;
 	if( fromPoints ){
 		this.points = points;
 		this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
@@ -354,12 +352,12 @@ function Triangle( center, angles, scale, labels, points ){
 	}
 
 	this.draw = function(){
-		this.set.push( this.graph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
+		this.set.push( KhanUtil.currentGraph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
 		return this.set;
 	}
 
 	this.createLabel = function( p, v ){
-			this.set.push( this.graph.label( this.rotatePoint( p ) , v ) );
+			this.set.push( KhanUtil.currentGraph.label( this.rotatePoint( p ) , v ) );
 	}
 
 	this.drawLabels = function(){
@@ -451,7 +449,7 @@ function Triangle( center, angles, scale, labels, points ){
 	this.rotationCenter = this.centroid;
 	
 	this.rotate = function( amount ){
-		this.set.rotate( amount, this.graph.scalePoint( this.rotationCenter )[0] , this.graph.scalePoint( this.rotationCenter )[1] );
+		this.set.rotate( amount, KhanUtil.currentGraph.scalePoint( this.rotationCenter )[0] , KhanUtil.currentGraph.scalePoint( this.rotationCenter )[1] );
 		this.rotation = amount * Math.PI / 180;
 	}
 
