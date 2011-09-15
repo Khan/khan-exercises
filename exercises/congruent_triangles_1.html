@@ -10,14 +10,16 @@
 		<div class="vars">
 			<var id="MAIN">randomTriangleAngles.triangle()</var>
 			<var id="MAIN_SIZE">5 + Math.random() * 2</var>
-			<var id ="IS_B">randRange( 0, 1 ) ? true : false</var>
+			<var id ="IS_B">randRange( 0, 1 ) === 1 ? true : false</var>
 			<var id="B">IS_B ? MAIN : randomTriangleAngles.triangle()</var>
 			<var id="B_SIZE">IS_B ? MAIN_SIZE : 2 + Math.random() * 2</var>
 			<var id="ANSWER">IS_B ? "Yes" : "No"</var>
+
 			<var id="A_ANGLES">[ 0, 1, 2 ]</var>
 			<var id="B_ANGLES">A_ANGLES</var>
 			<var id="A_SIDES">[ 0, 1, 2 ]</var>
 			<var id="B_SIDES">A_SIDES</var>
+
 			<var id="TR_A">
 				function(){
 					var t = new Triangle( [ 3, -2 ], MAIN, MAIN_SIZE, {} );
@@ -84,7 +86,7 @@
 				<div class="hints" data-apply="appendContents">
 					<p>In this problem we are given two sides and an angle between them, so we can use the SAS rule.</p>
 					<p data-if="IS_B">Triangle B has those two sides and the angle the same as triangle A, so they are congruent.</p>
-					<p data-else>The sides of triangle B are not the same as triangle A so they are not congruent</p>
+					<p data-else>Because the sides and the angle do not match, triangle A is not congruent with triangle B.</p>
 				</div>
 			</div>	
 
@@ -96,10 +98,45 @@
 				<div class="hints" data-apply="appendContents">
 					<p>In this problem we are given two angles and as side between them, so we can use the ASA rule.</p>
 					<p data-if="IS_B">Triangle B has those two angles and the side the same as triangle A, so they are congruent.</p>
-					<p data-else>The sides of triangle B are not the same as triangle A so they are not congruent</p>
+					<p data-else>Because the angles and the side do not match, triangle A is not congruent with triangle B.</p>
 				</div>
-			</div>	
-		</div>
+			</div>
+
+			<div id="AAS">
+				<div class="vars">
+					<var id="A_ANGLES">[ 0, 1 ]</var>
+					<var id="A_SIDES">randRange( 0, 1 ) === 1 ? [ 2 ] : [ 1 ]</var> 
+				</div>
+				<div class="hints" data-apply="appendContents">
+					<p>In this problem we are given two angles and another side so we can use the AAS rule.</p>
+					<p data-if="IS_B">Triangle B has those two angles and the side the same as triangle A, so they are congruent.</p>
+					<p data-else>Because the angles and the side do not match, triangle A is not congruent with triangle B.</p>
+				</div>
+			</div>
+			<div id="AAA">
+				<div class="vars">
+					<var id="A_ANGLES">[ 0, 1, 2 ]</var>
+					<var id="A_SIDES">[ ]</var> 
+					<var id="ANSWER">IS_B ? "There is not enough information to say" : "No"</var> 
+				</div>
+				<div class="hints" data-apply="appendContents">
+					<p>In this problem we know all three triangle angles.</p>
+					<p data-if="IS_B">However, having all three angles the same is not a property we can use to conclude that two triangles are congruent. We can only say that they are similar. They are not congruent because they might be different size, yet have same angles.</p>
+					<p data-else>Because the angles do not match, triangle A is not congruent with triangle B.</p>
+				</div>	
+			</div>
+			<div id="SSA">
+				<div class="vars">
+					<var id="A_ANGLES">[ 2 ]</var>
+					<var id="A_SIDES">[ 0, 1 ]</var> 
+					<var id="ANSWER">IS_B ? "There is not enough information to say" : "No"</var> 
+				</div>
+				<div class="hints" data-apply="appendContents">
+					<p>In this problem we know two sides and a non-included angle.</p>
+					<p data-if="IS_B">However, having two sides and an angle the same is not a property we can use to conclude that two triangles are congruent, as there are possibly several different triangles with matching two sides and an angle.</p>
+					<p data-else>Because the sides and the angle do not match, the triangles are not congruent.</p>
+				</div>	
+
 	</div>
 </body>
 </html>
