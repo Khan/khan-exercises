@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Angle Bisector Theorem</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+		</div>
+
+		<div class="problems">
+			<div id="simple">
+				<div class="vars">
+					<var id="ANGLES" data-ensure="ANGLES[ 0 ] % 2 == 0">randomTriangleAngles.triangle()</var>
+					<var id="AB"></var>
+					<var id="BD"</var>
+					<var id="AC"></var>
+					<var id="CD"></var>
+				</div>
+				<div class="problem">
+					What is the length of the side AC? 
+				</div>
+				<div class="question">
+					<div class="graphie">
+						init({
+							range: [ [-1, 12 ], [ -7, 2.5 ] ]
+						})
+						var trA = new Triangle( [ 3, -6 ], ANGLES , 16 , {} ); 
+						var pointD = findIntersection( bisectAngle( trA.sides[ 0 ], reverseLine( trA.sides[ 2 ] ), 1 ), trA.sides[ 1 ] );	
+
+						var trB = new Triangle( [0,0],[], 3, {}, [ trA.points[ 0 ], trA.points[ 1 ], pointD ] );
+						trB.draw();	
+						trB.labels = { "angles" : clearArray( trB.niceAngles, [ 0 ] ), "sides" : clearArray( trB.niceSideLengths, [ 0, 1 ] ),  "points": [ "A", "B", "D" ] };
+						trB.drawLabels();
+						var trC = new Triangle( [0,0],[], 3, {}, [ trA.points[ 0 ], pointD, trA.points[ 2 ] ] );
+						trC.draw();	
+						trC.labels = { "angles" : clearArray( trC.niceAngles, [ 0 ] ) , "sides" : [ "", trC.niceSideLengths[ 1 ], "?" ],  "points": [ "", "", "C" ] };
+						trC.drawLabels();
+
+						AB = trB.niceSideLengths[ 0 ];
+						BD = trB.niceSideLengths[ 1 ];
+						CD = trC.niceSideLengths[ 1 ];
+						AC = ( AB * CD / BD ).toFixed( 1 ) ;
+						jQuery( "#ans" ).html( AC ); 
+					</div>
+				</div>
+				<div class="solution"><div id="ans"></div></div>
+				<div class="hints">
+ 					<p>Angles <code>DAB</code> and <code>DAC</code> are equal.</p>
+					<p>Therefore <code>AD</code> is the bisector of <code>CAB</code></p>
+					<p>Angle Bisector theorem states that <code>\dfrac{ AB }{ BD }	= \dfrac{ AC }{ CD }</code></p>
+					<p>Angle Bisector theorem states that <code>\dfrac{ AB }{ BD }	= \dfrac{ AC }{ CD }</code></p>
+					<p><code>\dfrac{ <var>AB</var> }{ <var>BD</var> }	= \dfrac{ AC }{ <var>CD</var> }</code></p>
+					<p><code>AC = \dfrac{<var>AB</var> \cdot <var>CD</var> }{ <var>BD</var> }</code></p>  
+					<p><code>AC = <var>AC </var></code></p>  
+				</div>	
+		</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
