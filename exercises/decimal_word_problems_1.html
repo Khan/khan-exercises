@@ -18,31 +18,29 @@
 
 		<div class="problems">
 
-			<div id="problem-1">
+			<div id="subtract-two">
 			
 				<div class="vars">			
-					<var id="PRICE_SEED"> randRange(567,879) </var>
-					<var id="PRICE"> (PRICE_SEED % 100 == 0) ? (PRICE_SEED * (0.01)).toFixed(2) : ((PRICE_SEED+1) * 0.01).toFixed(2) </var>
+					<var id="PRICE_SEED"> randRange( 600,750 ) </var>
+					<var id="PRICE"> ( PRICE_SEED % 100 == 0 ) ? ( PRICE_SEED * 0.01 ).toFixed( 2 ) : ( ( PRICE_SEED + 1 ) * 0.01 ).toFixed( 2 ) </var>
 					<var id="PRICE_MAX"> 8.79 </var>
-					<var id="PRICE_DIGITS"> digits((PRICE * 100).toFixed()) </var> 
+					<var id="PRICE_DIGITS"> digits( ( PRICE * 100 ).toFixed() ) </var> 
 
-					<var id="PAYMENT_SEED"> randRange(885,1167) </var>
-					<var id="PAYMENT"> (PAYMENT_SEED % 100 == 0) ? (PAYMENT_SEED * (0.01)).toFixed(2) : ((PAYMENT_SEED+1) * 0.01).toFixed(2) </var> 
+					<var id="PAYMENT_SEED"> randRange( 800,950 ) </var>
+					<var id="PAYMENT"> ( PAYMENT_SEED % 100 == 0 ) ? ( PAYMENT_SEED * 0.01 ).toFixed( 2 ) : ( ( PAYMENT_SEED + 1 ) * 0.01).toFixed( 2 ) </var> 
 					<var id="PAYMENT_MAX"> 11.67 </var>		
-					<var id="ORIG_PAYMENT_DIGITS"> digits((PAYMENT * 100).toFixed()) </var>
-					<var id="PAYMENT_DIGITS"> digits((PAYMENT * 100).toFixed()) </var>
+					<var id="ORIG_PAYMENT_DIGITS"> digits( ( PAYMENT * 100 ).toFixed() ) </var>
+					<var id="PAYMENT_DIGITS"> digits( ( PAYMENT * 100 ).toFixed() ) </var>
 				</div>
 
 	
-				<p class="problem"> On a sunny morning, <var> person(1) </var> rode <var> his(1) </var> bicycle to a farm that sold flats of strawberries for $<var> PRICE </var> each.  <var> person(1) </var> had some bills and coins in <var> his(1) </var> wallet totalling $<var> PAYMENT </var>, which <var> he(1) </var> used to pay for one flat of strawberries. </p>
-				<p class="question">  How much change (in dollars) did <var> person(1) </var> receive? </p>
-				<p class="solution"> <var>PAYMENT - PRICE </var> </p>
+				<p class="problem">On a sunny morning, <var>person( 1 )</var> rode <var>his( 1 )</var> bicycle to a farm that sold flats of <var>fruit( 1 )</var> for $<var>PRICE</var> each.  <var>person( 1 )</var> had some bills and coins in <var>his( 1 )</var> wallet totalling $<var>PAYMENT</var>, which <var>he( 1 )</var> used to pay for one flat of <var>fruit( 1 )</var>.</p>
+				<p class="question"> How much change did <var>person( 1 )</var> receive?</p>
+				<p class="solution"><var>PAYMENT - PRICE</var></p>
 
 				<div class="hints">
-					<p> The change <var> person(1) </var> received is the difference between the amount <var> he(1) </var> paid and the cost of the strawberries.  Since we're finding a difference between 2 numbers, we need to subtract. </p>
-					<p> Amount <var> person(1) </var> paid - cost of strawberries = change <var> person(1) </var> received </p>
-					<p> We can replace the words in the equation we wrote with numbers: </br>   <code> $<var> PAYMENT </var> - $<var> PRICE </var> = </code> change received </p>
-
+					<p>The change <var>person( 1 )<var> received is the difference between the amount <var>he( 1 )</var> paid and the cost of the strawberries.  Since we're finding a difference between 2 numbers, we need to subtract.</p>
+					
 					<div class="graphie" id="numbers">
 						init({
 							range: [ [ -2, 17 ], [ -0.5, 4 ] ],
@@ -145,15 +143,32 @@
 
 			</div>
 
-		<!--	
-			<div id="problem-2">
+			
+			<div id="add-3">
 
-				<p class="problem"> </p>
-				<p class="question"> </p>
-				<p class="solution"> </p>
+				<div class="vars">
+
+					<var id="WEIGHT_1_SEED"> randRange( 350,550 ) </var>
+					<var id="PRICE"> ( PRICE_SEED % 100 == 0 ) ? ( PRICE_SEED * 0.01 ).toFixed( 2 ) : ( ( PRICE_SEED + 1 ) * 0.01 ).toFixed( 2 ) </var>
+					<var id="PRICE_MAX"> 8.79 </var>
+					<var id="PRICE_DIGITS"> digits( ( PRICE * 100 ).toFixed() ) </var> 
+
+					<var id="PAYMENT_SEED"> randRange( 800,950 ) </var>
+					<var id="PAYMENT"> ( PAYMENT_SEED % 100 == 0 ) ? ( PAYMENT_SEED * 0.01 ).toFixed( 2 ) : ( ( PAYMENT_SEED + 1 ) * 0.01).toFixed( 2 ) </var> 
+					<var id="PAYMENT_MAX"> 11.67 </var>		
+					<var id="ORIG_PAYMENT_DIGITS"> digits( ( PAYMENT * 100 ).toFixed() ) </var>
+					<var id="PAYMENT_DIGITS"> digits( ( PAYMENT * 100 ).toFixed() ) </var>
+
+				</div>
+
+
+				<p class="problem"><var>person( 1 )</var>'s parents gave birth to triplets last week and named them <var>person( 2 )</var>, <var>person( 3 )</var>, and <var>person( 4 )</var>.  When they were first born, <var>person( 2 )</var> weighed 
+
+				<p class="question">  How much change did <var>person( 1 )</var> receive? </p>
+				<p class="solution"> <var>PAYMENT - PRICE</var> </p>
 
 			</div>
-		-->
+		
 
 		</div>
 	</div>
