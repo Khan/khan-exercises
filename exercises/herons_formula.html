@@ -30,9 +30,9 @@
 						})
 						var trA = new Triangle( [ 3, -3 ], ANGLES ,AREA, {} ); 
 						trA.draw();
-						trA.labels = { "sides" : trA.sideLengths };
+						trA.labels = { "sides" : trA.niceSideLengths };
 						trA.drawLabels();
-						SIDES = trA.sideLengths;	
+						SIDES = trA.niceSideLengths;	
 						S = ( ( SIDES[ 0 ] + SIDES[ 1 ] + SIDES[ 2 ] ) / 2 ).toFixed( 2 );
 						ANS = sqrt(S *( S -SIDES[ 0 ] ) * ( S - SIDES[ 1 ] ) * ( S - SIDES[ 2 ] ) ).toFixed( 2 );
 						jQuery( "#ans" ).html( ANS ) ;	

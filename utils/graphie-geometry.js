@@ -284,24 +284,61 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	}
 }
 
-function Triangle( center, angles, scale, labels ){
+//From http://en.wikipedia.org/wiki/Law_of_cosines
+function anglesFromSides( sides ){
+		var c = sides[ 0 ];
+		var a = sides[ 1 ];
+		var b = sides[ 2 ];
+		var gamma = Math.round( Math.acos( ( a * a + b * b - c * c ) / ( 2 * a * b  ) ) * 180 / Math.PI );
+		var beta = Math.round( Math.acos( ( a * a + c * c - b * b ) / ( 2 * a * c  ) )  * 180 / Math.PI );
+		var alpha = Math.round( Math.acos( ( b * b + c * c - a * a ) / ( 2 * b * c  ) )  * 180 / Math.PI );
+		return [ alpha, beta, gamma ];
+}
+
+function Triangle( center, angles, scale, labels, points ){
+
+	var fromPoints = false
+	if ( points ){
+			fromPoints = true;
+	}
 
 	this.labels = labels;
 	this.graph = KhanUtil.currentGraph;
-	this.angles = angles;
+	if( fromPoints ){
+		this.points = points;
+		this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
+		this.sideLengths =  jQuery.map( this.sides, lineLength );
+		this.angles = anglesFromSides( this.sideLengths );
+	}
+	else{
+		this.angles = angles;
+	}
+	
 	this.radAngles = $.map( angles, degToRad );
 	this.scale = ( scale || 3 );
-	this.rotation = 0;
-	this.x = center[ 0 ];
-	this.y = center[ 1 ];
+	
 	this.cosines = $.map( this.radAngles, Math.cos );
 	this.sines = $.map( this.radAngles, Math.sin );
-	var a = Math.sqrt( ( 2 * this.scale * this.sines[ 1 ] ) / (this.sines[ 0 ] * this.sines[ 2 ])  ) ;
-	var b = a * this.sines[ 2 ] / this.sines[ 1 ];
 
-	this.points = [ [ this.x, this.y ], [  b  + this.x, this.y ], [ this.cosines[ 0 ] * a + this.x, this.sines[ 0 ] * a  + this.y  ] ];
+
+	this.x = center[ 0 ];
+	this.y = center[ 1 ];	
+	this.rotation = 0;
+
+	var a = Math.sqrt( ( 2 * this.scale * this.sines[ 1 ] ) / ( this.sines[ 0 ] * this.sines[ 2 ])  ) ;
+	var b = a * this.sines[ 2 ] / this.sines[ 1 ];
+	if( ! fromPoints ){
+		this.points = [ [ this.x, this.y ], [  b  + this.x, this.y ], [ this.cosines[ 0 ] * a + this.x, this.sines[ 0 ] * a  + this.y  ] ];
+	}
+	this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
+	
+	this.sideLengths =  jQuery.map( this.sides, lineLength );
+	
+	this.niceSideLengths = jQuery.map( this.sideLengths, function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
 	
 	this.set = KhanUtil.currentGraph.raphael.set();
+	this.niceAngles = jQuery.map( this.angles, function( x ){ return x + "^{\\circ}"; } );
+
 	
 	this.angleScale = function ( ang ){
 		if( ang > 90 ){
@@ -328,9 +365,15 @@ function Triangle( center, angles, scale, labels ){
 	this.drawLabels = function(){
 		var i = 0;
 
+		if ( "points" in this.labels ){
+			for( i = this.angles.length - 1; i >= 0; i-- ){
+				this.createLabel( bisectAngle( reverseLine( this.sides[ ( i + 1 ) % 3 ] ), this.sides[ i ], 0.3 )[ 1 ], this.labels.points[ ( i + 1 ) % 3 ] );
+			}
+		}
+
 		if ( "angles" in this.labels ){	
 			for( i = this.angles.length - 1; i >= 0; i-- ){
-				this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 3 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ 0 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 3 ] );
+				this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 3 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ ( i + 1 ) % 3 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 3 ] );
 			}
 		}
 
@@ -381,9 +424,6 @@ function Triangle( center, angles, scale, labels ){
 		return this.set;
 	}
 
-	this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
-	
-	this.sideLengths = jQuery.map( jQuery.map( this.sides, lineLength ), function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
 
 	this.findCenterPoints = function(){
 		var Ax = this.points[ 0 ][ 0 ];
