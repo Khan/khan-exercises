@@ -9,18 +9,6 @@
 	<div class="exercise">
 		<div class="vars">
 
-			<!-- Problem 1 -->
-			<var id="PRICE_SEED"> randRange(567,879) </var>
-			<var id="PRICE"> (PRICE_SEED % 100 == 0) ? (PRICE_SEED * (0.01)).toFixed(2) : ((PRICE_SEED+1) * 0.01).toFixed(2) </var>
-			<var id="PRICE_MAX"> 8.79 </var>
-			<var id="PRICE_DIGITS"> digits((PRICE * 100).toFixed()) </var> 
-
-			<var id="PAYMENT_SEED"> randRange(885,1167) </var>
-			<var id="PAYMENT"> (PAYMENT_SEED % 100 == 0) ? (PAYMENT_SEED * (0.01)).toFixed(2) : ((PAYMENT_SEED+1) * 0.01).toFixed(2) </var> 
-			<var id="PAYMENT_MAX"> 11.67 </var>		
-			<var id="ORIG_PAYMENT_DIGITS"> digits((PAYMENT * 100).toFixed()) </var>
-			<var id="PAYMENT_DIGITS"> digits((PAYMENT * 100).toFixed()) </var>
-	
 			<var id="X_MAX"> 3.5 </var>
 			<var id="Y_CARRY"> 3 </var>
 			<var id="Y_TOP"> 2 </var>
@@ -31,7 +19,21 @@
 		<div class="problems">
 
 			<div id="problem-1">
-				
+			
+				<div class="vars">			
+					<var id="PRICE_SEED"> randRange(567,879) </var>
+					<var id="PRICE"> (PRICE_SEED % 100 == 0) ? (PRICE_SEED * (0.01)).toFixed(2) : ((PRICE_SEED+1) * 0.01).toFixed(2) </var>
+					<var id="PRICE_MAX"> 8.79 </var>
+					<var id="PRICE_DIGITS"> digits((PRICE * 100).toFixed()) </var> 
+
+					<var id="PAYMENT_SEED"> randRange(885,1167) </var>
+					<var id="PAYMENT"> (PAYMENT_SEED % 100 == 0) ? (PAYMENT_SEED * (0.01)).toFixed(2) : ((PAYMENT_SEED+1) * 0.01).toFixed(2) </var> 
+					<var id="PAYMENT_MAX"> 11.67 </var>		
+					<var id="ORIG_PAYMENT_DIGITS"> digits((PAYMENT * 100).toFixed()) </var>
+					<var id="PAYMENT_DIGITS"> digits((PAYMENT * 100).toFixed()) </var>
+				</div>
+
+	
 				<p class="problem"> On a sunny morning, <var> person(1) </var> rode <var> his(1) </var> bicycle to a farm that sold flats of strawberries for $<var> PRICE </var> each.  <var> person(1) </var> had some bills and coins in <var> his(1) </var> wallet totalling $<var> PAYMENT </var>, which <var> he(1) </var> used to pay for one flat of strawberries. </p>
 				<p class="question">  How much change (in dollars) did <var> person(1) </var> receive? </p>
 				<p class="solution"> <var>PAYMENT - PRICE </var> </p>
