@@ -5,6 +5,9 @@
 	<title>Congruent Triangles 2</title>
 	<script src="../khan-exercise.js"></script>
 </head>
+
+<script>
+</script>
 <body>
 	<div class="exercise">
 		<div class="vars">
@@ -27,13 +30,13 @@
 						})
 						var trA = new Triangle( [ 3, -5 ], ANGLES ,6, {} ); 
 						trA.draw();
-						trA.labels = { "sides" : clearArray( trA.niceSideLengths, [ 1, 2 ] ), "angles" : clearArray( trA.niceAngles, [ RAND_ANG ] ) }
+						trA.labels = { "sides" : clearArray( trA.niceSideLengths, [ 0, 2 ] ), "angles" : clearArray( trA.niceAngles, [ RAND_ANG ] ) }
 						trA.drawLabels();
 						var trB = new Triangle( [ trA.centroid[ 0 ],  trA.centroid[ 1  ] ], ANGLES, 6, {} );
 				
 						trB.draw();
 						trB.rotate( 180 );
-						trB.labels = { "sides" : clearArray( trB.niceSideLengths, [ 1,2 ] ),"angles" : clearArray( [ "x", "x", "x" ], [ RAND_ANG ] ) };
+						trB.labels = { "sides" : clearArray( trB.niceSideLengths, [ 0,2 ] ),"angles" : clearArray( [ "x", "x", "x" ], [ RAND_ANG ] ) };
 						trB.drawLabels();
 					</div>
 				</div>
@@ -115,8 +118,6 @@
 						trB.drawLabels();
 					</div>
 				</div>
-
-
 			</div>
 		</div>
 	</div>
