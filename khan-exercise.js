@@ -1048,7 +1048,7 @@ function makeProblem( id, seed ) {
 			} );
 
 			return this;
-		}
+		};
 
 		// Set the width of the timeline (starts as 10000px) after MathJax loads
 		MathJax.Hub.Queue( function() {
@@ -1103,7 +1103,7 @@ function makeProblem( id, seed ) {
 					activate( i );
 				}
 			} );
-		}
+		};
 
 		MathJax.Hub.Queue( function() {create(0);} );
 
