@@ -4,6 +4,21 @@ function lineLength( line ){
 	return Math.sqrt( ( a[ 0 ] - b[ 0 ] ) * ( a[ 0 ] - b[ 0 ] )  + ( a[ 1 ] - b[ 1 ] ) * ( a[ 1 ] - b[ 1 ] ) );
 }
 
+
+function dotProduct( a, b ){
+		return a[ 0] * b[ 0 ] + a[ 1 ] * b[ 1 ];
+}
+//http://www.blackpawn.com/texts/pointinpoly/default.html
+function sameSide( p1, p2, l ){
+	var a = l[ 0 ];
+	var b = l[ 1 ];
+
+	var cp1 = vectorProduct( b - a, p1 - a )
+	var cp2 = vectorProduct( b - a, p2 - a )
+
+    return ( dotProduct( cp1, cp2 ) >= 0 );
+}
+
 function clearArray( arr, i ){
 	return jQuery.map( arr, function( el, index ) { 
 		if( jQuery.inArray( index, i ) !== -1 ){
@@ -13,6 +28,17 @@ function clearArray( arr, i ){
 			return  "";
 	   } 
 	} );
+}
+
+//need to be same length
+function mergeArray( ar1, ar2 ){
+	var i = 0;
+	for( i = 0; i < ar1.length; i ++ ){
+		if( ar1[ i ] === "" ){
+			ar1[ i ] = ar2[ i ];
+		}
+	}
+	return ar1;
 }
 
 function isPointOnLineSegment( l, p, precision ){
@@ -59,6 +85,19 @@ function splitPath( p, points ){
 	tempPath.push( p.graphiePath[ i ] )
 	paths.push( tempPath );
 	return paths;
+}
+
+
+function areIntersecting( pol1, pol2 ){
+	var i, k = 0;
+	for( i = 0; i < pol1.length; i++ ){
+		for( k = 0; k < pol2.length; k++ ){
+			if( findIntersection( pol1[ i ], pol2[ k ] )[ 2 ] ){
+				return true;
+			}	
+		}
+	}
+	return false;
 }
 
 function findIntersection( a, b ){
@@ -145,6 +184,11 @@ function parallelLine( line, point ){
 	var dif = [ point[ 0 ] - line[ 0 ][ 0 ], point[ 1 ] - line[ 0 ][ 1 ] ];
 	return [ point, [ line[ 1 ][ 0 ] + dif[ 0 ],  line[ 1 ][ 1 ] + dif[ 1 ] ] ]; 
 
+}
+
+function movePoint( p, a ){
+
+	return [ p[ 0 ] + a[ 0 ], p[ 1 ] + a[ 1 ] ];
 }
 
 function bisectAngle( line1, line2, scale ){
@@ -244,12 +288,14 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 		return this.set;
 	}
 	
+
+
 	this.drawLabels = function(){
 		var i = 0;
 
 		if ( "angles" in this.labels ){	
 			for( i = this.angles.length - 1; i >= 0; i-- ){
-				this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 4 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ 0 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 4 ] );
+				this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 4 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ 0 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 4 ], "angle" );
 			}
 		}
 
@@ -264,6 +310,8 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 				this.createLabel( [ x3, y3 ], this.labels.sides[ i ] );
 			}
 		}
+
+		this.boxOutLabels();
 	}
 
 	this.angleScale = function ( ang ){
@@ -279,9 +327,10 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 		return 1;
 	}
 
-	this.createLabel = function( p, v ){
-		this.set.push( KhanUtil.currentGraph.label( p , v ) );
+	this.createLabel = function( p, v, type ){
+		 KhanUtil.currentGraph.label( p , v );
 	}
+
 }
 
 //From http://en.wikipedia.org/wiki/Law_of_cosines
@@ -337,6 +386,7 @@ function Triangle( center, angles, scale, labels, points ){
 	
 	this.set = "";
 	this.niceAngles = jQuery.map( this.angles, function( x ){ return x + "^{\\circ}"; } );
+	this.labelObjects = { "sides": [] , "angles" : [], "points" : [], "name" : [] };
 
 	
 	this.angleScale = function ( ang ){
@@ -364,16 +414,16 @@ function Triangle( center, angles, scale, labels, points ){
 
 	this.drawLabels = function(){
 		var i = 0;
-
 		if ( "points" in this.labels ){
+			//Need to change the position of placement into label objects
 			for( i = this.angles.length - 1; i >= 0; i-- ){
-				this.createLabel( bisectAngle( reverseLine( this.sides[ ( i + 1 ) % 3 ] ), this.sides[ i ], 0.3 )[ 1 ], this.labels.points[ ( i + 1 ) % 3 ] );
+				this.labelObjects.points.push( this.createLabel( bisectAngle( reverseLine( this.sides[ ( i + 1 ) % 3 ] ), this.sides[ i ], 0.3 )[ 1 ], this.labels.points[ ( i + 1 ) % 3 ] ) );
 			}
 		}
 
 		if ( "angles" in this.labels ){	
 			for( i = this.angles.length - 1; i >= 0; i-- ){
-				this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 3 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ ( i + 1 ) % 3 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 3 ] );
+				this.labelObjects.angles.push( this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 3 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ ( i + 1 ) % 3 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 3 ] ) );
 			}
 		}
 
@@ -385,15 +435,17 @@ function Triangle( center, angles, scale, labels, points ){
 				var d = 0.5;
 				var x3 = midPoint[ 0 ] + ( this.sides[ i ][ 1 ][ 1 ] - midPoint[ 1 ] )/ t * d ;
 				var y3 = midPoint[ 1 ] - ( this.sides[ i ][ 1 ][ 0 ]- midPoint[ 0 ]) / t * d ;	
-				this.createLabel( [ x3, y3 ], this.labels.sides[  i  ] );
+				this.labelObjects.sides.push( this.createLabel( [ x3, y3 ], this.labels.sides[  i  ] ) );
 			}
 		}
 	
 		if ( "name" in this.labels ){
-			this.createLabel( [ this.points[ 0 ][ 0 ] - 0.5, this.points[ 0 ][ 1 ] ] , this.labels.name );
+				this.labelObjects[ "name" ] =  this.createLabel( bisectAngle( reverseLine( this.sides[ 2  ] ), this.sides[ 1 ], 0.3 )[ 1 ], this.labels.name );
 		}
 
-			if ( "c" in this.labels ){
+
+//DEPRECATED
+		if ( "c" in this.labels ){
 			this.createLabel( [ ( this.points[ 0 ][ 0 ] + this.points[ 1 ][ 0 ] ) / 2,  ( this.points[ 0 ][ 1 ] + this.points[ 1 ][ 1 ] ) / 2 - 0.4 ]  , labels.c );
 		}
 		if ( "a" in this.labels ){
@@ -407,6 +459,17 @@ function Triangle( center, angles, scale, labels, points ){
 		return this.set;
 	}
 
+	this.boxOut = function( pol, amount, type ){
+		var type = type || "simple";
+		var intersectWith = this.sides;
+		var shouldMove =  areIntersecting( pol, this.sides );
+		while( areIntersecting( pol, this.sides ) ){
+			this.translate( amount );
+		}
+		if( shouldMove ){
+			this.translate( amount );
+		} 
+	}
 
 	this.findCenterPoints = function(){
 		var Ax = this.points[ 0 ][ 0 ];
@@ -434,11 +497,19 @@ function Triangle( center, angles, scale, labels, points ){
 	this.rotationCenter = this.centroid;
 	
 	this.rotate = function( amount ){
-		var that = this;
 		amount = amount * Math.PI / 180;
 		this.points = [ this.rotatePoint( this.points[ 0 ], amount ), this.rotatePoint( this.points[ 1 ], amount ), this.rotatePoint( this.points[ 2 ], amount ) ] ;
 		this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
 		this.findCenterPoints();
+	}
+
+	this.translate = function( amount ){
+
+		this.points = [ movePoint( this.points[ 0 ], amount ), movePoint( this.points[ 1 ], amount ), movePoint( this.points[ 2 ], amount ) ] ;
+		this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
+		this.findCenterPoints();
+	
+
 	}
 
 	this.rotatePoint = function ( pos, theta ){

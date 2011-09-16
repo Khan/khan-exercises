@@ -81,22 +81,24 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	bins = 200,
 
 	// The seed information
-	problemSeed,
 	randomSeed,
 
 	// Get the username of the user
 	user = window.localStorage["exercise:lastUser"] || null,
 	userCRC32,
 
-	// How far to jump through the problems
-	jumpNum = 1,
-
 	// The current problem and its corresponding exercise
 	problem,
 	exercise,
 
 	// The number of the current problem that we're on
-	problemNum = 0,
+	problemNum = 1,
+
+	// Info for constructing the seed
+	seedOffset = 0,
+	jumpNum = 1,
+	problemSeed = 0,
+
 	problemID,
 
 	// The current validator function
@@ -255,7 +257,11 @@ var Khan = {
 			var src, deps;
 
 			if ( typeof mod === "string" ) {
-				src = urlBase + "utils/" + mod + ".js";
+				var cachebust = "";
+				if ( testMode && Khan.query.nocache != null ) {
+					cachebust = "?c=" + Math.random();
+				}
+				src = urlBase + "utils/" + mod + ".js" + cachebust;
 				deps = Khan.moduleDependencies[ mod ];
 				mod = {
 					src: src,
@@ -517,7 +523,9 @@ Khan.loadScripts( scripts, function() {
 			isSummative = true;
 
 			remoteExercises.each( loadExercise );
-		} else {
+		
+		// Only run loadModules if exercises are in the page
+		} else if ( jQuery( ".exercise" ).length ) {
 			loadModules();
 		}
 	});
@@ -671,16 +679,15 @@ function makeProblem( id, seed ) {
 
 	// Allow passing in a random seed
 	if ( typeof seed !== "undefined" ) {
-		randomSeed = seed;
+		problemSeed = seed;
 
-	// Otherwise set the seed from the problem number
-	// Only do so if we're not in test mode and if we have a username
-	} else if ( (!testMode || Khan.query.test == null) && user != null ) {
-		randomSeed = problemNum;
+	// In either of these testing situations,
+	} else if ( (testMode && Khan.query.test != null) || user == null ) {
+		problemSeed = randomSeed;
 	}
 
-	// Save the seed for later so we can show it when asked
-	problemSeed = randomSeed;
+	// Set randomSeed to what problemSeed is (save problemSeed for recall later)
+	randomSeed = problemSeed;
 
 	// Check to see if we want to test a specific problem
 	if ( testMode ) {
@@ -1059,7 +1066,7 @@ function makeProblem( id, seed ) {
 			} );
 
 			return this;
-		}
+		};
 
 		// Set the width of the timeline (starts as 10000px) after MathJax loads
 		MathJax.Hub.Queue( function() {
@@ -1114,7 +1121,7 @@ function makeProblem( id, seed ) {
 					activate( i );
 				}
 			} );
-		}
+		};
 
 		MathJax.Hub.Queue( function() {create(0);} );
 
@@ -1318,9 +1325,6 @@ function makeProblem( id, seed ) {
 		jQuery( "body" ).addClass("debug");
 	}
 
-	// Advance to the next problem
-	nextProblem( 1 );
-
 	hintsUsed = 0;
 	attempts = 0;
 	lastAction = (new Date).getTime();
@@ -1453,7 +1457,7 @@ function prepareSite() {
 		// Save the problem results to the server
 		var curTime = new Date().getTime();
 		var data = buildAttemptData(pass, ++attempts, JSON.stringify(validator.guess), curTime);
-		request( "problems/" + (getData().total_done + 1) + "/attempt", data, function() {
+		request( "problems/" + problemNum + "/attempt", data, function() {
 
 			// TODO: Save locally if offline
 			jQuery(Khan).trigger( "answerSaved" );
@@ -1484,6 +1488,7 @@ function prepareSite() {
 					.removeClass( "buttonDisabled" )
 					.focus();
 			}
+			nextProblem( 1 );
 		} else {
 			// Wrong answer. Enable all the input elements, but wait until
 			// until server acknowledges before enabling the check answer
@@ -1591,7 +1596,7 @@ function prepareSite() {
 		if ( !fProdReadOnly && !fAnsweredCorrectly ) {
 			// Resets the streak and logs history for exercise viewer
 			request(
-				"problems/" + (getData().total_done + 1) + "/hint",
+				"problems/" + problemNum + "/hint",
 				buildAttemptData(false, attempts, "hint", new Date().getTime()),
 				// Don't do anything on success or failure, silently failing is ok here
 				function() {},
@@ -1772,26 +1777,24 @@ function prepareSite() {
 			var link = jQuery( this ),
 				show = link.data( "show" );
 
+			// Reset answer fields, etc. and clear work and hints area
+			jQuery("#next-question-button").click();
+
 			if ( show ) {
 				link.text( "Try current problem" );
-
-				// If we just did a problem, advance to the next question to prevent cheating
-				jQuery( "#next-question-button:visible" ).click();
-
-				jQuery( "#hintsarea" ).empty();
 				jQuery( "#answerform" ).hide();
 
 				for ( var i = 0; i < 9; i++ ) {
 					jQuery( "#workarea" ).append( "<hr>" );
+					nextProblem( 1 );
 					makeProblem();
 				}
+
+				// Rewind so next time we make a problem we'll be back at the beginning
+				prevProblem( 9 );
 			} else {
 				link.text( "Show next 10 problems" );
-				jQuery( "#workarea" ).empty();
 				jQuery( "#answerform" ).show();
-				prevProblem( 10 );
-
-				makeProblem();
 			}
 
 			jQuery( "#answerform input[type='button']" ).attr( "disabled", show );
@@ -1993,40 +1996,18 @@ function prepareSite() {
 	}
 }
 
+function setProblemNum( num ) {
+	problemNum = num;
+	problemSeed = (seedOffset + jumpNum * (problemNum - 1)) % bins;
+	problemBagIndex = (problemNum + problemCount - 1) % problemCount;
+}
+
 function nextProblem( num ) {
-	if ( num > 0 ) {
-		// Increment the problem number
-		problemNum += jumpNum;
-
-		if ( problemNum >= 200 ) {
-			problemNum -= 200;
-		}
-
-		// Go to the next problem type in the problem bag
-		problemBagIndex = (problemBagIndex + 1) % problemCount;
-
-		nextProblem( num - 1 );
-	}
+	setProblemNum( problemNum + num );
 }
 
 function prevProblem( num ) {
-	if ( num > 0 ) {
-		// Increment the problem number
-		problemNum -= jumpNum;
-
-		if ( problemNum < 0 ) {
-			problemNum += 200;
-		}
-
-		// Go to the next problem type in the problem bag
-		problemBagIndex = (problemBagIndex - 1) % problemCount;
-
-		if ( problemBagIndex < 0 ) {
-			problemBagIndex += problemCount;
-		}
-
-		prevProblem( num - 1 );
-	}
+	nextProblem( -num );
 }
 
 function prepareUserExercise( data ) {
@@ -2038,10 +2019,10 @@ function prepareUserExercise( data ) {
 		jumpNum = primes[ userCRC32 % primes.length ];
 
 		// The starting problem of the user
-		problemNum = userCRC32 % bins;
+		seedOffset = userCRC32 % bins;
 
 		// Advance to the current problem seed
-		nextProblem( getData().total_done );
+		setProblemNum( getData().total_done + 1 );
 	}
 }
 
