@@ -469,18 +469,18 @@ var Khan = {
 
 	showThumbnail: function( index ) {
 		jQuery( "#related-video-list .related-video-list li" ).each(function(i, el) {
-		if (i == index) {
-			$(el)
-				.find( 'a.related-video-inline' ).hide().end()
-				.find( '.thumbnail' ).show();
-		}
-		else {
-			$(el)
-				.find( 'a.related-video-inline' ).show().end()
-				.find( '.thumbnail' ).hide();
-		}
-	});
-};
+			if (i == index) {
+				$(el)
+					.find( 'a.related-video-inline' ).hide().end()
+					.find( '.thumbnail' ).show();
+			}
+			else {
+				$(el)
+					.find( 'a.related-video-inline' ).show().end()
+					.find( '.thumbnail' ).hide();
+			}
+		});
+	}
 };
 
 // Load query string params
@@ -523,7 +523,7 @@ Khan.loadScripts( scripts, function() {
 			isSummative = true;
 
 			remoteExercises.each( loadExercise );
-		
+
 		// Only run loadModules if exercises are in the page
 		} else if ( jQuery( ".exercise" ).length ) {
 			loadModules();
