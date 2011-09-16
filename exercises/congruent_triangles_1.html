@@ -4,105 +4,139 @@
 	<meta charset="UTF-8" />
 	<title>Congruent Triangles 1</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		function randomTriangle(){
-			var a = KhanUtil.randRange( 25, 150 );
-			var b = KhanUtil.randRange( 25, 180 - a );
-			if ( a + b > 170 ){
-				a = Math.max( 30, a - 15  );
-				b = Math.max( 30, b - 15  );
-			}
-			var c = 180 - a - b;
-
-			var sa = KhanUtil.randRange( 4, 8 );
-			var sb = sa * Math.sin( b * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
-			var sc = sa * Math.sin( c * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
-			return [ [ a, b, c], [ sa.toFixed( 1 ), sb.toFixed( 1 ), sc.toFixed( 1 ) ] ];
-	}
-
-
-	function drawCongruentTriangle( tr, name, pos, size, type, seed ){
-			with( KhanUtil.currentGraph ){
-					var traA = null;
-					if ( type === "AAA" ){	
-						trA = new Triangle( pos,  tr[ 0 ], [ 1, 1, 1], size, { "name" : name,  "CAB" : tr[ 0 ][ 0 ], "ABC" : tr[ 0 ][ 1 ], "BCA" : tr[ 0 ][ 2 ]  } );
-					}
-
-					if ( type === "SSS" ){	
-						trA = new Triangle( pos,  tr[ 0 ], [ 1, 1, 1], size, { "name" : name,  "a" : tr[ 1 ][ 0 ], "b" : tr[ 1 ][ 1 ], "c" : tr[ 1 ][ 2 ]  } );
-					}
-
-					if ( type === "ASA" ){		
-						var ang1 = seed;
-						var ang2 = ( ang1 + 1 ) % 3;
-						var side = ( ang1 + 2 ) % 3;
-						 trA = new Triangle( pos,  tr[ 0 ], [ 1, 1, 1], size, { "name" : name, "a" : side == 0 ? tr[ 1 ][ 0 ] : "" , "b" : side == 1 ? tr[ 1 ][ 1 ] : "" , "c" : side == 2 ? tr[ 1 ][ 2 ] : "" , "CAB" : ( ang1  === 0 || ang2  === 0 ) ?  tr[ 0 ][ 0 ] : "", "ABC" : ( ang1 === 1 || ang2  === 1 ) ? tr[ 0 ][ 1 ] : "", "BCA" :  ( ang1 === 2 || ang2 === 2 ) ?  tr[ 0 ][ 2 ] : "" } );
-					}
-
-					if ( type === "AAS" ){		
-						var ang1 = seed;
-						var ang2 = ( ang1 + 1 ) % 3;
-						var side = ang1 ;
-						 trA = new Triangle( pos,  tr[ 0 ], [ 1, 1, 1], size, { "name" : name, "a" : side == 0 ? tr[ 1 ][ 0 ] : "" , "b" : side == 1 ? tr[ 1 ][ 1 ] : "" , "c" : side == 2 ? tr[ 1 ][ 2 ] : "" , "CAB" : ( ang1  === 0 || ang2  === 0 ) ?  tr[ 0 ][ 0 ] : "", "ABC" : ( ang1 === 1 || ang2  === 1 ) ? tr[ 0 ][ 1 ] : "", "BCA" :  ( ang1 === 2 || ang2 === 2 ) ?  tr[ 0 ][ 2 ] : "" } );
-					}
-
-					if ( type === "SAS" ){		
-						var side1 = seed;
-						var side2 = ( side1 + 1 ) % 3;
-						var ang = ( side1 + 2 ) % 3;
-						 trA = new Triangle( pos,  tr[ 0 ], [ 1, 1, 1], size, { "name" : name, "a" : ( side1 === 0 || side2 === 0 )  ? tr[ 1 ][ 0 ] : "" , "b" : ( side1 === 1 || side2 === 1 ) ? tr[ 1 ][ 1 ] : "" , "c" : ( side1 === 2 || side2 === 2 ) ? tr[ 1 ][ 2 ] : "" , "CAB" :  ang  === 0  ?  tr[ 0 ][ 0 ] : "", "ABC" :  ang  === 1  ? tr[ 0 ][ 1 ] : "", "BCA" :  ang === 2  ?  tr[ 0 ][ 2 ] : "" } );
-					}
-					
-					trA.draw();
-					trA.rotate( KhanUtil.randRange( 0, 50 ), 4, -6 );
-					trA.drawLabels();
-			}
-			return trA;
-		}
-	</script>
 </head>
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="MAIN">randomTriangle()</var>
-			<var id="ANSWERS">[ "B", "C", "Both", "None" ]</var>
-			<var id="ANSWER">randFromArray( ANSWERS )</var>		
-			<var id="B"> ANSWER === "B" || ANSWER === "Both" ? MAIN : randomTriangle()</var>
-			<var id="C"> ANSWER === "C" || ANSWER === "Both" ? MAIN : randomTriangle()</var>
-			<var id="TYPE">randFromArray( [ "SSS", "AAA","SAS", "ASA", "AAS" ] )</var>
-		</div>
+			<var id="MAIN">randomTriangleAngles.triangle()</var>
+			<var id="MAIN_SIZE">5 + Math.random() * 2</var>
+			<var id ="IS_B">randRange( 0, 1 ) === 1 ? true : false</var>
+			<var id="B">IS_B ? MAIN : randomTriangleAngles.triangle()</var>
+			<var id="B_SIZE">IS_B ? MAIN_SIZE : 2 + Math.random() * 2</var>
+			<var id="ANSWER">IS_B ? "Yes" : "No"</var>
 
-		<div class="problems">
-		<div id="similar">
-			<div class="problem">
-				Which triangles are congruent to triangle A?
-			</div>
-			<div class="question">
-				<div class="graphie">
-					init({
-						range: [ [-1, 12 ], [ -10, 2.5 ] ]
-					})
-					var start = randRange( 0, 2 );
-					drawCongruentTriangle( MAIN, "A", [ 2, -2 ], 3, TYPE, start );
-					drawCongruentTriangle( B, "B", [ 5, -5 ], 3, TYPE, start );
-					drawCongruentTriangle( C, "C", [ 1, -8 ], 3, TYPE, start );
-				</div>
-			</div>
-			<div class="solution"><var>ANSWER</var></div>
-			<ul class="choices" data-category="true">¬
-				<li>B</li>
-				<li>C</li>
-				<li>Both</li>
-				<li>None</li>
-			</ul>
-			<div class="hints">
+			<var id="A_ANGLES">[ 0, 1, 2 ]</var>
+			<var id="B_ANGLES">A_ANGLES</var>
+			<var id="A_SIDES">[ 0, 1, 2 ]</var>
+			<var id="B_SIDES">A_SIDES</var>
+
+			<var id="TR_A">
+				function(){
+					var t = new Triangle( [ 3, -2 ], MAIN, MAIN_SIZE, {} );
+					t.labels =  { "name": "A", "angles" : clearArray( t.niceAngles, A_ANGLES ),  "sides" : clearArray( t.niceSideLengths, A_SIDES ) }; 
+					return t;
+				}()
+			</var>
+			<var id="TR_B">
+				function(){
+					var t = new Triangle( [ 7, -6 ], B, B_SIZE, {} );
+					t.labels =  { "name": "B", "angles" : clearArray( t.niceAngles, B_ANGLES ),  "sides" : clearArray( t.niceSideLengths, B_SIDES ) }
+					return t;
+				}()
+			</var>
+		</div>
+		<div class="hints">
 				<p>Triangles are congruent when all corresponding sides and interior angles are congruent. </p>
 				<p>However, we do not need to know all the values in order to determine whether two triangles are congruent. </p>
-				<p>The rules we use for determining congruency are SSS, ASA, SAS and AAS</p>
-				
+				<p>The rules we use for determining congruency are SSS, ASA, SAS and AAS</p>	
+		</div>
+		<div class="problem">
+			Are these two triangles congruent?
+		</div>
+		<div class="question">
+			<div class="graphie">
+				init({
+					range: [ [-1, 12 ], [ -10, 2.5 ] ]
+				})
+				TR_A.rotate( randRange( 0, 360 ) );
+				TR_A.draw();
+				TR_A.drawLabels();
+			
+				TR_B.rotate( randRange( 0, 360 ) );
+				TR_B.draw();
+				TR_B.drawLabels();
 			</div>
 		</div>
-	</div>
+		<div class="solution"><var>ANSWER</var></div>
+		<ul class="choices" data-category="true">¬
+			<li>Yes</li>
+			<li>No</li>
+			<li>There is not enough information to say</li>
+		</ul>
+		<div class="problems">
 
+			<div id="SSS">
+				<div class="vars">
+					<var id="A_ANGLES">[]</var>
+					<var id="A_SIDES">[ 0, 1, 2 ]</var>
+				</var>
+				</div>
+				<div class="hints" data-apply="appendContents">
+					<p>In this problem we are given the sides of the triangles, so we can compare them easily.</p>
+					<p data-if="IS_B">Triangle B has 3 sides the same as triangle A, so they are congruent.</p>
+					<p data-else>The sides of triangle B are not the same as triangle A so they are not congruent</p>
+				</div>
+			</div>
+
+			<div id="SAS">
+				<div class="vars">
+					<var id="A_ANGLES">[ 1 ]</var>
+					<var id="A_SIDES">[ 0, 1 ]</var> 
+				</div>
+				<div class="hints" data-apply="appendContents">
+					<p>In this problem we are given two sides and an angle between them, so we can use the SAS rule.</p>
+					<p data-if="IS_B">Triangle B has those two sides and the angle the same as triangle A, so they are congruent.</p>
+					<p data-else>Because the sides and the angle do not match, triangle A is not congruent with triangle B.</p>
+				</div>
+			</div>	
+
+			<div id="ASA">
+				<div class="vars">
+					<var id="A_ANGLES">[ 0, 1 ]</var>
+					<var id="A_SIDES">[ 1 ]</var> 
+				</div>
+				<div class="hints" data-apply="appendContents">
+					<p>In this problem we are given two angles and as side between them, so we can use the ASA rule.</p>
+					<p data-if="IS_B">Triangle B has those two angles and the side the same as triangle A, so they are congruent.</p>
+					<p data-else>Because the angles and the side do not match, triangle A is not congruent with triangle B.</p>
+				</div>
+			</div>
+
+			<div id="AAS">
+				<div class="vars">
+					<var id="A_ANGLES">[ 0, 1 ]</var>
+					<var id="A_SIDES">randRange( 0, 1 ) === 1 ? [ 2 ] : [ 1 ]</var> 
+				</div>
+				<div class="hints" data-apply="appendContents">
+					<p>In this problem we are given two angles and another side so we can use the AAS rule.</p>
+					<p data-if="IS_B">Triangle B has those two angles and the side the same as triangle A, so they are congruent.</p>
+					<p data-else>Because the angles and the side do not match, triangle A is not congruent with triangle B.</p>
+				</div>
+			</div>
+			<div id="AAA">
+				<div class="vars">
+					<var id="A_ANGLES">[ 0, 1, 2 ]</var>
+					<var id="A_SIDES">[ ]</var> 
+					<var id="ANSWER">IS_B ? "There is not enough information to say" : "No"</var> 
+				</div>
+				<div class="hints" data-apply="appendContents">
+					<p>In this problem we know all three triangle angles.</p>
+					<p data-if="IS_B">However, having all three angles the same is not a property we can use to conclude that two triangles are congruent. We can only say that they are similar. They are not congruent because they might be different size, yet have same angles.</p>
+					<p data-else>Because the angles do not match, triangle A is not congruent with triangle B.</p>
+				</div>	
+			</div>
+			<div id="SSA">
+				<div class="vars">
+					<var id="A_ANGLES">[ 2 ]</var>
+					<var id="A_SIDES">[ 0, 1 ]</var> 
+					<var id="ANSWER">IS_B ? "There is not enough information to say" : "No"</var> 
+				</div>
+				<div class="hints" data-apply="appendContents">
+					<p>In this problem we know two sides and a non-included angle.</p>
+					<p data-if="IS_B">However, having two sides and an angle the same is not a property we can use to conclude that two triangles are congruent, as there are possibly several different triangles with matching two sides and an angle.</p>
+					<p data-else>Because the sides and the angle do not match, the triangles are not congruent.</p>
+				</div>	
+
+	</div>
 </body>
 </html>

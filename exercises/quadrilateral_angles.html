@@ -20,7 +20,7 @@
 						function(){ 
 							var a = [ "", "","" ,"" ];
 							a[ ANSWER_POS ] = "x";
-							a[ SHOWN_POS ] = ANGLES[ SHOWN_POS ];
+							a[ SHOWN_POS ] = ANGLES[ SHOWN_POS ] + "^{\\circ}";
 							return a;
 						}()
 					</var>
@@ -31,9 +31,9 @@
 				<div class="question">
 					<div class="graphie">
 						init({
-							range: [ [-1, 10 ], [ -8, -1 ] ]
+							range: [ [-1, 12 ], [ -8, -1 ] ]
 						})
-						var q = new Quadrilateral( [ 2, -7 ],  ANGLES, 1, "", 3 );
+						var q = new Quadrilateral( [ 3.5, -7 ],  ANGLES, randRange(0, 1 ) + 0.5, "", 3 );
 						q.draw();
 						q.labels = { "angles" : ANG_LABELS, "sides" : jQuery.map( jQuery.map( q.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } ) };
 						q.drawLabels();	
@@ -93,15 +93,27 @@
 				<div class="vars">	
 					<var id="ANGLES">randomQuadAngles.rhombus()</var>
 				</div>
+				<div class="question">
+					<div class="graphie">
+						init({
+							range: [ [-1, 12 ], [ -8, -1 ] ]
+						})
+						var q = new Quadrilateral( [ 3.5, -7 ],  ANGLES, 1, "", 3 );
+						q.draw();
+						q.labels = { "angles" : ANG_LABELS, "sides" : jQuery.map( jQuery.map( q.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } ) };
+						q.drawLabels();	
+					</div>
+				</div>
 				<div class="hints">
 					<p>This quadrilateral is a rhombus, because it has all sides equal.</p>
 					<p>Opposite angles of a rhombus are equal.</p>
 					<p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
 				</div>
 			</div>
-			<div id="rhombus2" data-type="parallelogram2">
+			<div id="rhombus2" data-type="rhombus1">
 				<div class="vars">	
 					<var id="ANGLES">randomQuadAngles.rhombus()</var>
+					<var id="SHOWN_POS">ANSWER_POS % 2 == 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>	
 				</div>
 				<div class="hints">
 					<p>This quadrilateral is a rhombus, because it has all sides equal.</p>
@@ -111,7 +123,7 @@
 					<p><code>x =  <var>ANGLES[ ANSWER_POS ]</var></code></p>	
 				</div>
 			</div>
-			<div id="kite" data-type="parallelogram1">
+			<div id="kite" data-type="rhombus1">
 				<div class="vars">	
 					<var id="ANGLES">randomQuadAngles.kite()</var>
 					<var id="ANSWER_POS">randFromArray( [ 1, 3 ] )</var>
