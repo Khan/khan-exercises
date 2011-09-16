@@ -19,6 +19,9 @@
 					return randomTriangle( current );
 				}
 			}
+			if ( a < 30 || b < 30 || c < 30 ){
+				return randomTriangle( current );
+			}
 			return [ a, b, c];
 		}
 	</script>
@@ -33,29 +36,34 @@
 			<var id="C"> ANSWER === "C" || ANSWER === "Both" ? shuffle( MAIN ): randomTriangle( MAIN )</var>
 			<var id="TR">
 				function(){
-					var tr = new Triangle( [ 3, -2 ],  MAIN, 3, {} );
+					var tr = new Triangle( [ 3, -2 ],  MAIN, 5, {} );
 					tr.labels = { "name" : "A", "angles" : clearArray( tr.niceAngles, [ 0, 2 ] ) };
 					tr.rotate( randRange( 0, 360 ) );
+					tr.boxOut( [ [ [ -4, 1.5  ], [ 10, 1.5 ] ] ], [ 0, -0.5 ] );
 					return tr;
 				}()
 			</var>
 			<var id="TR_A">
 				function(){
-					var trA = new Triangle( [ 7, -6 ],  B, randRange( 300, 500 )/100, { } );
+					var trA = new Triangle( [ 2, -8 ],  B, randRange( 400, 600 )/100, { } );
 					trA.labels = { "name" : "B", "angles" : clearArray( trA.niceAngles,  [  0, 1 ] ) };
 					trA.rotate( randRange( 0, 360 ) );
+					trA.boxOut( [ [ [ -1, -10  ], [ -1, 20 ] ] ], [ 0.5, 0 ] );
+					trA.boxOut( TR.sides, [ 0, -1 ] );
 					return trA;
 				}()
 			</var>
 			<var id="TR_B">
 				function(){
-					var trB = new Triangle( [ 2, -8 ],  C, randRange( 300, 500 )/100, {} );
+					var trB = new Triangle( [ 7, -6 ],  C, randRange( 400, 600 )/100, {} );
 					trB.labels = { "name" : "C", "angles" : clearArray( trB.niceAngles,  [ 0, 2 ] ) };
 					trB.rotate( randRange( 0, 360 ) );
+					trB.boxOut( [ [ [ 13, -10  ], [ 13, 20 ] ] ], [ -0.5, 0 ] );
+					trB.boxOut( TR.sides, [ 0, -1 ] );
+					trB.boxOut( TR_A.sides, [ 0, -1 ] );
 					return trB;
 				}()
 			</var>
-
 		</div>
 
 		<div class="problems">
@@ -68,6 +76,7 @@
 					init({
 						range: [ [-1, 13 ], [ -11, 2.5 ] ]
 					})
+					
 					TR.draw();
 					TR.drawLabels();
 					

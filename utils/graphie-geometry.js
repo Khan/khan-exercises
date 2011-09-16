@@ -442,7 +442,9 @@ function Triangle( center, angles, scale, labels, points ){
 		return this.set;
 	}
 
-	this.boxOut = function( pol, amount ){
+	this.boxOut = function( pol, amount, type ){
+		var type = type || "simple";
+		var intersectWith = this.sides;
 		var shouldMove =  areIntersecting( pol, this.sides );
 		while( areIntersecting( pol, this.sides ) ){
 			this.translate( amount );
