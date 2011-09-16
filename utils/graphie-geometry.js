@@ -390,7 +390,7 @@ function Triangle( center, angles, scale, labels, points ){
 		}
 	
 		if ( "name" in this.labels ){
-			this.createLabel( [ this.points[ 0 ][ 0 ] - 0.5, this.points[ 0 ][ 1 ] ] , this.labels.name );
+				this.createLabel( bisectAngle( reverseLine( this.sides[ 2  ] ), this.sides[ 1 ], 0.3 )[ 1 ], this.labels.name );
 		}
 
 			if ( "c" in this.labels ){

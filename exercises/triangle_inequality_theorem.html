@@ -41,7 +41,7 @@
 						init({
 							range: [ [-1, 10 ], [ -7, 0 ] ]
 						})
-						var tr = new Triangle( [ 3, -5 ],  MAIN[ 0 ], 5, { "c" : HIDDEN !== 2 ?  MAIN[ 1 ][ 2 ] : "x"  ,  "a" : HIDDEN !== 0 ?  MAIN[ 1 ][ 0 ] : "x"  , "b" : HIDDEN !== 1 ?  MAIN[ 1 ][ 1 ] : "x"  } );
+						var tr = new Triangle( [ 3, -6.5 ],  MAIN[ 0 ], 5, { "c" : HIDDEN !== 2 ?  MAIN[ 1 ][ 2 ] : "x"  ,  "a" : HIDDEN !== 0 ?  MAIN[ 1 ][ 0 ] : "x"  , "b" : HIDDEN !== 1 ?  MAIN[ 1 ][ 1 ] : "x"  } );
 						tr.draw();
 						tr.drawLabels();
 					</div>
@@ -57,11 +57,11 @@
 					<p>Therefore the third side cannot be smaller than <code>| <var>KNOWN[ 0 ]</var> - <var>KNOWN[ 1 ]</var> |  = <var>MIN</var></code></p>
 				</div>
 			</div>
-			<div id="range">
+			<div id="possible">
 				<div class="vars">
 					<var id="MAIN">randomTriangleWithSides()</var>
 					<var id="POSSIBLE">( randRange( 0, 1 ) === 0 )</var>
-			</div>
+				</div>
 				<div class="problem">
 					Can this triangle exist?
 				</div>
