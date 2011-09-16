@@ -255,10 +255,9 @@ var Khan = {
 			var src, deps;
 
 			if ( typeof mod === "string" ) {
-				var cachebust;
-				if ( testMode && Khan.query.nocache !== null ) {
-					cachebust = "?c=" + KhanUtil.random();
-					alert( cachebust );
+				var cachebust = "";
+				if ( testMode && Khan.query.nocache != null ) {
+					cachebust = "?c=" + Math.random();
 				}
 				src = urlBase + "utils/" + mod + ".js" + cachebust;
 				deps = Khan.moduleDependencies[ mod ];
