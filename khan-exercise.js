@@ -507,7 +507,9 @@ Khan.loadScripts( scripts, function() {
 			isSummative = true;
 
 			remoteExercises.each( loadExercise );
-		} else {
+		
+		// Only run loadModules if exercises are in the page
+		} else if ( jQuery( ".exercise" ).length ) {
 			loadModules();
 		}
 	});
