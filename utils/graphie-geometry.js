@@ -233,6 +233,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	this.sines = $.map( this.radAngles, Math.sin );
 	this.labels = labels || {};
 	this.sides = [];
+	this.labelObjects = [];
 
 	this.generatePoints = function(){
 		var once = false;
@@ -277,12 +278,14 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 		return this.set;
 	}
 	
+
+
 	this.drawLabels = function(){
 		var i = 0;
 
 		if ( "angles" in this.labels ){	
 			for( i = this.angles.length - 1; i >= 0; i-- ){
-				this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 4 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ 0 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 4 ] );
+				this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 4 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ 0 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 4 ], "angle" );
 			}
 		}
 
@@ -297,6 +300,8 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 				this.createLabel( [ x3, y3 ], this.labels.sides[ i ] );
 			}
 		}
+
+		this.boxOutLabels();
 	}
 
 	this.angleScale = function ( ang ){
@@ -312,9 +317,10 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 		return 1;
 	}
 
-	this.createLabel = function( p, v ){
-		this.set.push( KhanUtil.currentGraph.label( p , v ) );
+	this.createLabel = function( p, v, type ){
+		this.labelObjects.push( [ KhanUtil.currentGraph.label( p , v ), p, type ] );
 	}
+
 }
 
 //From http://en.wikipedia.org/wiki/Law_of_cosines
