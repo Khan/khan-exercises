@@ -6,8 +6,6 @@
 	<script src="../khan-exercise.js"></script>
 </head>
 
-<script>
-</script>
 <body>
 	<div class="exercise">
 		<div class="problem">
@@ -44,9 +42,9 @@
 			<var id="ANSWER">ANGLES[ RAND_ANG ]</var>
 		</div>
 		<div class="question">
-			<div class="graphie">
+			<div class="graphie" id="triangle">
 				init({
-					range: [ [-1, 12 ], [ -6, 2.5 ] ]
+					range: [ [-1, 15 ], [ -7, 2.5 ] ]
 				})
 				TR_A.draw();
 				TR_A.drawLabels();
@@ -66,10 +64,10 @@
 					<var id="ANSWER">TR_B.angles[ ANG_LEFT ]</code>
 				</div>
 				<div class="hints">
-					<p>These two triangles have three sides equal( they share one of them ).</p>
+					<p>These two triangles have three sides equal (they share one of them).</p>
 					<p>Therefore they are congruent.</p>
-					<p>Congruent triangles also have congruent( equal ) angles.</p>
-					<p>If we superimpose these two triangles, by rotating triangle A, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var></p>
+					<p>Congruent triangles also have congruent (equal) angles.</p>
+					<p>If we superimpose these two triangles, by rotating triangle ABC, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var></p>
 					<p>Angle x is therefore equal to <var>ANSWER</var>.</p>
 				</div>
 			</div>
@@ -83,12 +81,19 @@
 				</div>
 				<div class="solution"><var>TR_B.angles[ ANG_LEFT ]</var></div>
 				<div class="hints">
-					<p>These two triangles have three sides equal( they share one of them ).</p>
+					<p>These two triangles have three sides equal (they share one of them).</p>
 					<p>Therefore they are congruent.</p>
-					<p>Congruent triangles also have congruent( equal ) angles.</p>
-					<p>If we superimpose these two triangles, by rotating triangle A, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var>.</p>
+					<p>Congruent triangles also have congruent (equal) angles.</p>
+					<p>If we superimpose these two triangles, by rotating triangle ABC, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var>.</p>
 					<p><code><var>ANGLE_LABELS[ ANG_LEFT ]</var> = 180 - <var>TR_A.angles[ ANG_FIRST[ 0 ] ]</var> -  <var>TR_A.angles[ ANG_FIRST[ 1 ] ]</var></code></p>
-					<p><code><var>ANGLE_LABELS[ ANG_LEFT ]</var> = x = <var>TR_B.angles[ ANG_LEFT ]</var></code></p>
+					<div>
+						<p><code><var>ANGLE_LABELS[ ANG_LEFT ]</var> = x = <var>TR_B.angles[ ANG_LEFT ]</var></code></p>
+						<div class="graphie" data-update="triangle">
+							TR_A.labels.angles = TR_A.niceAngles;
+							TR_A.drawLabels();
+						</div>
+
+					</div>
 				</div>
 			</div>
 
@@ -109,7 +114,18 @@
 					<var id="SIDES_B">[ 0, 1 ]</var>
 					<var id="ANG_FIRST">randRangeUnique( 0, 3, 2 )</var>
 					<var id="ANG_LEFT">randRange( 0, 2 )</var>
-					<var id="SAME_ANGLE">( jQuery.inArray( ANG_LEFT, ANG_FIRST ) !== -1 )</var>
+					<var id="SHOW_ANGLE">
+						function(){
+							if ( ANG_LEFT == 1 ){
+								return 0;
+							}
+							if ( ANG_LEFT == 0 ){
+								return 1;
+							}
+							return 2;
+						}()
+					</var>
+					<var id="SAME_ANGLE">( jQuery.inArray( SHOW_ANGLE, ANG_FIRST ) !== -1 )</var>
 					<var id="ANGLES_A">ANG_FIRST</var>
 					<var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ ANG_LEFT ] )</var>
 					<var id="ANG">ANGLES[ 0 ] / 2</var>
@@ -130,50 +146,38 @@
 							trB.labels = { "points" : [ "D", "", "E" ], "sides" : clearArray( trB.niceSideLengths, SIDES_B ), "angles" : ANGLES_B };
 							return trB;
 						}()
-					</var>		
+					</var>
 					<var id="ANSWER">TR_B.angles[ ANG_LEFT ]</code>
+				</div>
+				<div class="question">
+					<div class="graphie" id="oppTriangle">
+					init({
+						range: [ [-1, 15 ], [ -7, 2.5 ] ]
+					})
+					TR_A.draw();
+					TR_A.drawLabels();
+					TR_B.draw();
+					TR_B.drawLabels();
+					label( TR_B.points[ 1 ], "A", "above" );
+					</div>
 				</div>
 				<div class="solution"><var>ANSWER</var></div>
 				<div class="hints">
 					<p>These two triangles have two sides and an angle equal.</p>
 					<p>Therefore they are congruent.</p>
-					<p>Congruent triangles also have congruent( equal ) angles.</p>
-					<p>If we superimpose these two triangles, by flipping triangle A, we see that angle x corresponds to angle A.</p>
-					<p>Angle x is therefore equal to <var>ANSWER</var></p>
-				</div>
-			</div>
-
-
-
-			<div id="sameSide" data-type="opposite">
-				<div class="question">
-					<div class="graphie">
-						init({
-							range: [ [-1, 12 ], [ -6, 2.5 ] ]
-						})
-						var ang =  90 - ANGLES[ 1 ] ;
-						var trA = new Triangle( [ 4, -3 ], ANGLES ,6, {} ); 
-						trA.rotationCenter = trA.points[ 0 ];
-						trA.rotate( ang );
-						trA.draw();
-						trA.labels = { "sides" : clearArray( trA.niceSideLengths, [ 0,2 ] ), "angles" : clearArray( ANGLES, [ RAND_ANG ] ) }
-						trA.drawLabels();
-						var trB = new Triangle( [ 4 + cos( ang * PI / 180 ) * trA.sideLengths[ 0 ] , -3 - sin( ang * PI / 180 ) * trA.sideLengths[ 0 ] ], [ ANGLES[ 1 ], ANGLES[ 0 ], ANGLES[ 2 ] ] , 6, {} );
-				
-						trB.rotationCenter = trB.points[ 0 ];
-						trB.rotate( -ang );
-						trB.draw();
-						var newAng = RAND_ANG;
-						if ( RAND_ANG == 0 ){
-							newAng = 1;
-						}
-						else if ( RAND_ANG == 1 ){
-							newAng = 0;
-						}
-
-						trB.labels = { "sides" : clearArray( trB.niceSideLengths, [ 1,0 ] ),"angles" : clearArray( [ "x", "x", "x" ], [  newAng  ] ) };
-						trB.drawLabels();
+					<p>Congruent triangles also have congruent (equal) angles.</p>
+					<p>If we superimpose these two triangles, by flipping triangle <code>EDA</code>, we see that angle x corresponds to angle <var>ANGLE_LABELS[ SHOW_ANGLE ]</var></p>
+					<div data-if="! SAME_ANGLE">
+						<p><code><var>ANGLE_LABELS[ SHOW_ANGLE ]</var> = 180 - <var>TR_A.angles[ ANG_FIRST[ 0 ] ]</var> -  <var>TR_A.angles[ ANG_FIRST[ 1 ] ]</var></code></p>
+						<div>
+							<p><code><var>ANGLE_LABELS[ SHOW_ANGLE ]</var> = x = <var>TR_B.angles[ ANG_LEFT ]</var></code></p>
+							<div class="graphie" data-update="oppTriangle">
+								TR_A.labels.angles = TR_A.niceAngles;
+								TR_A.drawLabels();
+							</div>
+						</div>
 					</div>
+					<p>Angle x is therefore equal to <var>ANSWER</var></p>
 				</div>
 			</div>
 		</div>

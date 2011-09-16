@@ -30,6 +30,17 @@ function clearArray( arr, i ){
 	} );
 }
 
+//need to be same length
+function mergeArray( ar1, ar2 ){
+	var i = 0;
+	for( i = 0; i < ar1.length; i ++ ){
+		if( ar1[ i ] === "" ){
+			ar1[ i ] = ar2[ i ];
+		}
+	}
+	return ar1;
+}
+
 function isPointOnLineSegment( l, p, precision ){
 	var precision = precision || 0.1;
 	//If line is vertical
@@ -233,7 +244,6 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	this.sines = $.map( this.radAngles, Math.sin );
 	this.labels = labels || {};
 	this.sides = [];
-	this.labelObjects = [];
 
 	this.generatePoints = function(){
 		var once = false;
@@ -318,7 +328,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	}
 
 	this.createLabel = function( p, v, type ){
-		this.labelObjects.push( [ KhanUtil.currentGraph.label( p , v ), p, type ] );
+		 KhanUtil.currentGraph.label( p , v );
 	}
 
 }
@@ -376,6 +386,7 @@ function Triangle( center, angles, scale, labels, points ){
 	
 	this.set = "";
 	this.niceAngles = jQuery.map( this.angles, function( x ){ return x + "^{\\circ}"; } );
+	this.labelObjects = { "sides": [] , "angles" : [], "points" : [], "name" : [] };
 
 	
 	this.angleScale = function ( ang ){
@@ -403,16 +414,16 @@ function Triangle( center, angles, scale, labels, points ){
 
 	this.drawLabels = function(){
 		var i = 0;
-
 		if ( "points" in this.labels ){
+			//Need to change the position of placement into label objects
 			for( i = this.angles.length - 1; i >= 0; i-- ){
-				this.createLabel( bisectAngle( reverseLine( this.sides[ ( i + 1 ) % 3 ] ), this.sides[ i ], 0.3 )[ 1 ], this.labels.points[ ( i + 1 ) % 3 ] );
+				this.labelObjects.points.push( this.createLabel( bisectAngle( reverseLine( this.sides[ ( i + 1 ) % 3 ] ), this.sides[ i ], 0.3 )[ 1 ], this.labels.points[ ( i + 1 ) % 3 ] ) );
 			}
 		}
 
 		if ( "angles" in this.labels ){	
 			for( i = this.angles.length - 1; i >= 0; i-- ){
-				this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 3 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ ( i + 1 ) % 3 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 3 ] );
+				this.labelObjects.angles.push( this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % 3 ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ ( i + 1 ) % 3 ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % 3 ] ) );
 			}
 		}
 
@@ -424,12 +435,12 @@ function Triangle( center, angles, scale, labels, points ){
 				var d = 0.5;
 				var x3 = midPoint[ 0 ] + ( this.sides[ i ][ 1 ][ 1 ] - midPoint[ 1 ] )/ t * d ;
 				var y3 = midPoint[ 1 ] - ( this.sides[ i ][ 1 ][ 0 ]- midPoint[ 0 ]) / t * d ;	
-				this.createLabel( [ x3, y3 ], this.labels.sides[  i  ] );
+				this.labelObjects.sides.push( this.createLabel( [ x3, y3 ], this.labels.sides[  i  ] ) );
 			}
 		}
 	
 		if ( "name" in this.labels ){
-				this.createLabel( bisectAngle( reverseLine( this.sides[ 2  ] ), this.sides[ 1 ], 0.3 )[ 1 ], this.labels.name );
+				this.labelObjects[ "name" ] =  this.createLabel( bisectAngle( reverseLine( this.sides[ 2  ] ), this.sides[ 1 ], 0.3 )[ 1 ], this.labels.name );
 		}
 
 
