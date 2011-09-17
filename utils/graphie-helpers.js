@@ -13,10 +13,12 @@ function numberLine( start, end, step, x, y, denominator ) {
 	set.push( graph.line( [x, y], [x + end - start, y] ) );
 	for( var i = 0; i <= end - start; i += step ) {
 		set.push( graph.line( [x + i, y - 0.2], [x + i, y + 0.2] ) );
+
 		if ( denominator ){
-			var base = KhanUtil.roundTowardsZero( start + i );
+			var base = KhanUtil.roundTowardsZero( start + i + 0.001 );
 			var frac = start + i - base;
 			var lab = base;
+
 			if (! ( Math.abs ( Math.round( frac * denominator ) )  === denominator || Math.round( frac * denominator )  ===  0 ) ){
 				if ( base === 0 ){
 					lab = KhanUtil.fraction( Math.round( frac * denominator ),  denominator, false, false, true);
