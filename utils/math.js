@@ -411,6 +411,6 @@ jQuery.extend(KhanUtil, {
 
 	// Checks if a number or string representation thereof is an integer
 	isInt: function( num ) {
-		return parseFloat( num ) === parseInt( num ) && !isNaN( num );
+		return parseFloat( num ) === parseInt( num, 10 ) && !isNaN( num );
 	}
 });
