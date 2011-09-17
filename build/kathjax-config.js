@@ -41,7 +41,8 @@ MathJax.Hub.Config({
 	"HTML-CSS": {
 		scale: 100,
 		showMathMenu: false,
-		availableFonts: ["TeX"]
+		availableFonts: [ "TeX" ],
+		imageFont: null
 	}
 });
 
@@ -67,11 +68,7 @@ MathJax.Ajax.loadError = (function( oldLoadError ) {
 	};
 })( MathJax.Ajax.loadError );
 
-MathJax.Hub.Register.StartupHook("HTML-CSS Jax - using image fonts", function() {
-	Khan.warnFont();
-});
-
-MathJax.Hub.Register.StartupHook("HTML-CSS Jax - no valid font", function() {
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax - disable web fonts", function() {
 	Khan.warnFont();
 });
 

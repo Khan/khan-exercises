@@ -13,10 +13,12 @@ function numberLine( start, end, step, x, y, denominator ) {
 	set.push( graph.line( [x, y], [x + end - start, y] ) );
 	for( var i = 0; i <= end - start; i += step ) {
 		set.push( graph.line( [x + i, y - 0.2], [x + i, y + 0.2] ) );
+
 		if ( denominator ){
-			var base = KhanUtil.roundTowardsZero( start + i );
+			var base = KhanUtil.roundTowardsZero( start + i + 0.001 );
 			var frac = start + i - base;
 			var lab = base;
+
 			if (! ( Math.abs ( Math.round( frac * denominator ) )  === denominator || Math.round( frac * denominator )  ===  0 ) ){
 				if ( base === 0 ){
 					lab = KhanUtil.fraction( Math.round( frac * denominator ),  denominator, false, false, true);
@@ -523,4 +525,114 @@ function changeIntercept( dir ) {
 	graph.BN = ( graph.BD / prevDenominator * graph.BN )
 		+ ( dir * graph.BD / graph.INCR );
 	updateEquation();
+}
+
+function initParabola( leadingCoefficient, x1, y1 ) {
+	var graph = KhanUtil.currentGraph;
+	var storage = graph.graph;
+	// Set up the graph
+	graph.init({
+		range: [[-10, 10], [-10, 10]],
+		scale: [30, 30]
+	});
+
+	graph.grid( [-10, 10], [-10, 10], {
+		stroke: "#ccc"
+	});
+
+	graph.style({
+		stroke: "#888",
+		strokeWidth: 2,
+		arrows: "->"
+	});
+
+	graph.path( [ [-10, 0], [10, 0] ] );
+	graph.path( [ [0, -10], [0, 10] ] );
+
+	// Plot the orange parabola
+	graph.style({
+		stroke: "#FFA500",
+		fill: "none",
+		clipRect:[ [-10, -10], [20, 20] ],
+		arrows: null
+	});
+
+	var parabola = function( x ) {
+		return ( leadingCoefficient* ( x - x1 ) * ( x - x1 ) ) + y1;
+	}
+	graph.plot( parabola, [-10, 10]);
+}
+function redrawParabola( fShowFocusDirectrix ) {
+	var graph = KhanUtil.currentGraph;
+	var storage = graph.graph;
+	storage.currParabola.remove();
+
+	var parabola = function( x ) {
+		return ( storage.A * ( x - storage.x1 ) * ( x - storage.x1 ) ) + storage.y1;
+	}
+
+	storage.currParabola = graph.plot( parabola, [ -10, 10 ] );
+
+	if ( fShowFocusDirectrix ) {
+		var focusX = storage.x1;
+		var focusY = storage.y1 + ( 1 / ( 4 * storage.A ) );
+		var directrixK = storage.y1 - ( 1 / ( 4 * storage.A ) );
+
+		storage.focus.remove();
+		storage.directrix.remove();
+
+		graph.style({
+			fill: "#6495ED"
+		}, function() {
+			storage.focus = graph.circle( [ focusX, focusY ], 0.1 );
+			storage.directrix = graph.line( [ -10, directrixK ], [ 10, directrixK ] );
+		});
+		jQuery( "#focus-x-label" ).html( "<code>" + focusX + "</code>" ).tmpl();
+		jQuery( "#focus-y-label" ).html( "<code>" + focusY.toFixed( 2 ) + "</code>" ).tmpl();
+		jQuery( "#directrix-label" ).html( "<code>" + "y = " + directrixK.toFixed( 2 ) + "</code>" ).tmpl();
+	} else {
+		var equation = "y - " + storage.y1 + "=" + storage.A + "(x - " + storage.x1 + ")^{2}";
+		equation = KhanUtil.cleanMath( equation );
+
+		jQuery( "#equation-label" ).html( "<code>" + equation + "</code>").tmpl();
+	}
+	jQuery( "#leading-coefficient input" ).val( storage.A );
+	jQuery( "#vertex-x input" ).val( storage.x1 );
+	jQuery( "#vertex-y input" ).val( storage.y1 );
+}
+
+function updateParabola( deltaA, deltaX, deltaY, fShowFocusDirectrix ) {
+	var graph = KhanUtil.currentGraph;
+	var storage = graph.graph;
+	storage.A += deltaA;
+	storage.x1 += deltaX;
+	storage.y1 += deltaY;
+	redrawParabola( fShowFocusDirectrix );
+}
+
+function updateFocusDirectrix( deltaX, deltaY, deltaK ) {
+	var graph = KhanUtil.currentGraph;
+	var storage = graph.graph;
+
+	var focusY = storage.y1 + 1 / ( 4 * storage.A );
+	focusY += deltaY;
+
+	var k = storage.y1 - ( 1 / ( 4 * storage.A ) );
+	k += deltaK;
+
+	if ( focusY === k ) {
+		focusY += deltaY;
+		k += deltaK;
+	}
+	var newVertexY = ( focusY + k ) / 2;
+	var newA = 1 / ( 2 * ( focusY - k ) );
+
+	updateParabola( newA - storage.A, deltaX, newVertexY - storage.y1, true );
+}
+
+function getFocusDirectrix( leadingCoefficient, x1, y1 ) {
+	var focusX = x1;
+	var focusY = y1 + ( 1 / ( 4 * leadingCoefficient ) );
+	var directrixK = y1 - ( 1 / ( 4 * leadingCoefficient ) );
+	return { focusX: focusX, focusY: focusY, directrixK: directrixK };
 }

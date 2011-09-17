@@ -1,4 +1,5 @@
-<!DOCTYPE html> <html data-require="math math-format graphie graphie-helpers">
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>Compound inequalities</title>
@@ -19,9 +20,6 @@
 	</script>
 </head>
 <body>
-	<!--
-		Solving compound inequalities.		
-	-->
 	<div class="exercise">
 		<div class="vars" data-ensure="abs( SOLUTION[0] - SOLUTION[1] ) <= 5 && FAKE_ANSWER[0] !== SOLUTION[0] && FAKE_ANSWER[1] !== SOLUTION[1]">
 			<var id="COEF">[ randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 ), randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 ) ]</var>
@@ -40,7 +38,7 @@
 			<var id="INCLUSIVE">[ COMP_SOLUTION[0] === "&le;" || COMP_SOLUTION[0] === "&ge;", COMP_SOLUTION[1] === "&le;" || COMP_SOLUTION[1] === "&ge;" ]</var>
 			<var id="LESS_THAN">[ COMP_SOLUTION[0] === "&le;" || COMP_SOLUTION[0] === "&lt;", COMP_SOLUTION[1] === "&le;" || COMP_SOLUTION[1] === "&lt;" ]</var>
 			<var id="ALL_NUMBERS">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[0] >= SOLUTION [1] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] <= SOLUTION [1] )</var>
-			<var id="NO_SOLUTION">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[1] > SOLUTION[0] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] > SOLUTION[1] ) || ( SOLUTION[0] === SOLUTION[1] && !INCLUSIVE[0] && !INCLUSIVE[1] )</var>
+			<var id="NO_SOLUTION">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[1] > SOLUTION[0] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] > SOLUTION[1] ) || ( SOLUTION[0] === SOLUTION[1] && ( !INCLUSIVE[0] || !INCLUSIVE[1] ) )</var>
 			<var id="OR">randFromArray( [ "or", "and" ] )</var>
 			<var id="IS_OR">OR === "or"</var>
 			<var id="FAKE_ANSWER">[ randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 ), randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 ) ]</var>
@@ -57,9 +55,9 @@
 					return SOLUTION[0] < SOLUTION[1] ? 1 : 2;
 				}
 
-				return 0;		
+				return 0;
 			})()</var>
-			<var id="IS_CONTAINED">CONTAINS === 1 ? 2 : 1</var>	
+			<var id="IS_CONTAINED">CONTAINS === 1 ? 2 : 1</var>
 		</div>
 
 		<div class="problems">
@@ -124,7 +122,7 @@
 							var y_placement = [ 0.05, -0.05 ];
 							for ( var i = 0; i < 2; i++ ) {
 								style({ stroke: COLOR[i], fill: COLOR[i], strokeWidth: 3.5, arrows: "->" });
-								path( [ [ SOLUTION[i] + 0.15 * ( LESS_THAN[i] ? -1 : 1  ), y_placement[i] ], [ LESS_THAN[i] ? start : end, y_placement[i] ] ] );
+								path([ [ SOLUTION[i] + 0.15 * ( LESS_THAN[i] ? -1 : 1  ), y_placement[i] ], [ LESS_THAN[i] ? start : end, y_placement[i] ] ]);
 								style({ stroke: COLOR[i], fill: INCLUSIVE[i] ? COLOR[i] : null });
 								circle( [ SOLUTION[i], y_placement[i] ], 0.15 );
 							}

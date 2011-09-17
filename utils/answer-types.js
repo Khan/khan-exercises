@@ -517,8 +517,14 @@ jQuery.extend( Khan.answerTypes, {
 	},
 
 	radio: function( solutionarea, solution ) {
+		var extractRawCode = function( solution ) {
+			return jQuery( solution ).find('.value').clone()
+				.find( ".MathJax" ).remove().end()
+				.find( "code" ).removeAttr( "id" ).end()
+				.html();
+		};
 		// Without this we get numbers twice and things sometimes
-		var solutionText = jQuery( solution ).clone().find( ".MathJax" ).remove().end().text();
+		var solutionText = extractRawCode( solution );
 
 		var list = jQuery("<ul></ul>");
 		jQuery( solutionarea ).append(list);
@@ -625,8 +631,7 @@ jQuery.extend( Khan.answerTypes, {
 					});
 			}
 
-			ret.guess = jQuery.trim(
-				choice.closest("li").clone().find(".MathJax").remove().end().text() );
+			ret.guess = jQuery.trim( extractRawCode(choice.closest("li")) );
 
 			return choice.val() === "1";
 		};
@@ -635,7 +640,7 @@ jQuery.extend( Khan.answerTypes, {
 			list.find( 'input:checked' ).prop( 'checked', false);
 
 			var li = list.children().filter( function() {
-				return jQuery.trim( jQuery( this ).clone().find(".MathJax").remove().end().text() ) === guess;
+				return jQuery.trim( extractRawCode(this) ) === guess;
 			} );
 			li.find( "input[name=solution]" ).prop( "checked", true );
 		};

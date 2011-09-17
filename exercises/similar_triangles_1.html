@@ -5,15 +5,24 @@
 	<title>Similar Triangles 1</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
-		function randomTriangle(){
-			var a = KhanUtil.randRange( 25, 150 );
-			var b = KhanUtil.randRange( 25, 180 - a );
-			if ( a + b > 170 ){
+		function randomTriangle( current ){
+			var a = KhanUtil.randRange( 35, 150 );
+			var b = KhanUtil.randRange( 35, 180 - a );
+			if ( a + b > 160 ){
 				a = Math.max( 30, a - 15  );
 				b = Math.max( 30, b - 15  );
 			}
 			var c = 180 - a - b;
-				return [ a, b, c];
+			//Make sure we do not create the same triangle
+			if ( current ){
+				if ( a in current && b in current ){
+					return randomTriangle( current );
+				}
+			}
+			if ( a < 30 || b < 30 || c < 30 ){
+				return randomTriangle( current );
+			}
+			return [ a, b, c];
 		}
 	</script>
 </head>
@@ -23,8 +32,38 @@
 			<var id="MAIN"> randomTriangle()</var>
 			<var id="ANSWERS">[ "B", "C", "Both", "None" ]</var>
 			<var id="ANSWER">randFromArray( ANSWERS )</var>
-			<var id="B"> ANSWER === "B" || ANSWER === "Both" ? shuffle( MAIN ) : randomTriangle()</var>
-			<var id="C"> ANSWER === "C" || ANSWER === "Both" ? shuffle( MAIN ): randomTriangle()</var>
+			<var id="B"> ANSWER === "B" || ANSWER === "Both" ? shuffle( MAIN ) : randomTriangle( MAIN )</var>
+			<var id="C"> ANSWER === "C" || ANSWER === "Both" ? shuffle( MAIN ): randomTriangle( MAIN )</var>
+			<var id="TR">
+				function(){
+					var tr = new Triangle( [ 3, -2 ],  MAIN, 5, {} );
+					tr.labels = { "name" : "A", "angles" : clearArray( tr.niceAngles, [ 0, 2 ] ) };
+					tr.rotate( randRange( 0, 360 ) );
+					tr.boxOut( [ [ [ -4, 1.5  ], [ 10, 1.5 ] ] ], [ 0, -0.5 ] );
+					return tr;
+				}()
+			</var>
+			<var id="TR_A">
+				function(){
+					var trA = new Triangle( [ 2, -8 ],  B, randRange( 400, 600 )/100, { } );
+					trA.labels = { "name" : "B", "angles" : clearArray( trA.niceAngles,  [  0, 1 ] ) };
+					trA.rotate( randRange( 0, 360 ) );
+					trA.boxOut( [ [ [ -1, -10  ], [ -1, 20 ] ] ], [ 0.5, 0 ] );
+					trA.boxOut( TR.sides, [ 0, -1 ] );
+					return trA;
+				}()
+			</var>
+			<var id="TR_B">
+				function(){
+					var trB = new Triangle( [ 7, -6 ],  C, randRange( 400, 600 )/100, {} );
+					trB.labels = { "name" : "C", "angles" : clearArray( trB.niceAngles,  [ 0, 2 ] ) };
+					trB.rotate( randRange( 0, 360 ) );
+					trB.boxOut( [ [ [ 13, -10  ], [ 13, 20 ] ] ], [ -0.5, 0 ] );
+					trB.boxOut( TR.sides, [ 0, -1 ] );
+					trB.boxOut( TR_A.sides, [ 0, -1 ] );
+					return trB;
+				}()
+			</var>
 		</div>
 
 		<div class="problems">
@@ -33,24 +72,19 @@
 				Which triangles are similar to triangle <code>A</code>?
 			</div>
 			<div class="question">
-				<div class="graphie">
+				<div class="graphie" id="triangles" >
 					init({
-						range: [ [-1, 12 ], [ -10, 2.5 ] ]
+						range: [ [-1, 13 ], [ -11, 2.5 ] ]
 					})
-					var tr = new Triangle( [ 2, -2],  MAIN, [ 1, 1, 1], 3, {  "name" : "A", "CAB" : MAIN[ 0 ] , "BCA" : MAIN[ 2 ] } );
-					tr.draw();
-					tr.rotate( randRange( 0, 50 ), 2, -1 );
-					tr.drawLabels();
 					
-					var trA = new Triangle( [ 5, -5 ],  B, [ 1, 1, 1], randRange( 300, 500 )/100, { "name" : "B",  "CAB" : B[ 0 ], "ABC" : B[ 1 ] } );
-					trA.draw();
-					trA.rotate( randRange( 0, 50 ), 4, -6 );
-					trA.drawLabels();
+					TR.draw();
+					TR.drawLabels();
 					
-					var trB = new Triangle( [ 1, -8 ],  C, [ 1, 1, 1], randRange( 300, 500 )/100, { "name" : "C", "CAB" : C[ 0 ], "BCA" : C[ 2 ] } );
-					trB.draw();
-					trB.rotate( randRange( 0, 50 ), 5, -8 );
-					trB.drawLabels();
+					TR_A.draw();
+					TR_A.drawLabels();
+					
+					TR_B.draw();
+					TR_B.drawLabels();
 				</div>
 			</div>
 			<div class="solution"><var>ANSWER</var></div>
@@ -61,10 +95,30 @@
 				<li>None</li>
 			</ul>
 			<div class="hints">
-				<p>Two triangles are similar if their angles are congruent( equal ).</p>
-				<p>We see that Triangle <code>A</code> has angles of <code><var>MAIN[ 0 ]</var></code> and <code><var>MAIN[ 2 ]</var></code>. The third angle is therefore <code>180 - <var>MAIN[ 0 ]</var> - <var>MAIN[ 2 ]</var> = <var>MAIN[ 1 ]</var></code></p>
-				<p>Triangle <code>B</code> has angles of <code><var>B[ 0 ]</var></code> and <code><var>B[ 1 ]</var></code>. The third angle is therefore <code>180 - <var>B[ 0 ]</var> -  <var>B[ 1 ]</var> = <var>B[ 2 ]</var></code>. Therefore triangle <code></code> is <span data-if="ANSWER === 'None' || ANSWER === 'C'" >not</span> similar to triangle <code></code>.</p>
-				<p>Triangle <code>C</code> has angles of <code><var>C[ 0 ]</var></code> and <code><var>C[ 2 ]</var></code>. The third angle is therefore <code>180 - <var>C[ 0 ]</var> -  <var>B[ 2 ]</var> = <var>C[ 1 ]</var></code>. Therefore triangle <code>C</code> is <span data-if="ANSWER === 'None' || ANSWER === 'B'" >not</span>  similar to triangle <code>A</code>.</p>
+				<p>Two triangles are similar if their angles are congruent (equal).</p>
+				<div>
+					<p>We see that triangle <code>A</code> has angles of <code><var>MAIN[ 0 ]</var></code> and <code><var>MAIN[ 2 ]</var></code>. The third angle is therefore <code>180 - <var>MAIN[ 0 ]</var> - <var>MAIN[ 2 ]</var> = <var>MAIN[ 1 ]</var></code></p>
+	
+					<div class="graphie" data-update="triangles">
+						TR.labels.angles = TR.niceAngles;
+						TR.drawLabels();
+					</div>
+				</div>
+
+				<div>	
+					<p>Triangle <code>B</code> has angles of <code><var>B[ 0 ]</var></code> and <code><var>B[ 1 ]</var></code>. The third angle is <code>180 - <var>B[ 0 ]</var> -  <var>B[ 1 ]</var> = <var>B[ 2 ]</var></code>. Therefore triangle <code>B</code> is <span data-if="ANSWER === 'None' || ANSWER === 'C'" >not</span> similar to triangle <code>A</code>.</p>
+					<div class="graphie" data-update="triangles">
+						TR_A.labels.angles = TR_A.niceAngles;
+						TR_A.drawLabels();
+					</div>
+				</div>
+				<div>	
+					<p>Triangle <code>C</code> has angles of <code><var>C[ 0 ]</var></code> and <code><var>C[ 2 ]</var></code>. The third angle is <code>180 - <var>C[ 0 ]</var> -  <var>B[ 2 ]</var> = <var>C[ 1 ]</var></code>. Therefore triangle <code>C</code> is <span data-if="ANSWER === 'None' || ANSWER === 'B'" >not</span>  similar to triangle <code>A</code>.</p>
+					<div class="graphie" data-update="triangles">
+						TR_B.labels.angles = TR_B.niceAngles;
+						TR_B.drawLabels();
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
