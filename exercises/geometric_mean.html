@@ -21,255 +21,238 @@
 		<div class="problems">
 
 			<div id="standard_type">
-					<div class="vars">
-							<var id="SIZE_OF_SET">randRange( 1, 4 )</var>
-							<var id="ARRAY_OF_NUMS">[]</var> <!-- # of elements will be 2-5 -->
-							<var id="NUMS_FOR_ARRAY">(function() {
-							for( i = 0; i <= SIZE_OF_SET; i++ ) {
-							ARRAY_OF_NUMS[i] = randRange( 2, 10 )
-							}
-							})()
-							</var>
-							<var id="PRODUCT">(function() {
-							var prod = 1;
+				<div class="vars">
+					<var id="SIZE_OF_SET">randRange( 1, 4 )</var>
+					<var id="ARRAY_OF_NUMS">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = randRange( 2, 10 )
+					}
+					return arr;
+					})()</var> <!-- # of elements will be 2-5 -->
+					<var id="PRODUCT">(function() {
+					var prod = 1;
 
-							jQuery.each( ARRAY_OF_NUMS, function( i, el ) {
-							prod *= el;
-								} );
+					jQuery.each( ARRAY_OF_NUMS, function( i, el ) {
+					prod *= el;
+						} );
 
-							return prod;
-							})()
-							</var>
-							<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var> 
-							<!-- Gets the GeoMean and rounds -->
-							<var id="SOLUTION">Math.round(Math.pow( PRODUCT, 1/ARRAY_LENGTH )*10 )/10</var>
-					</div>
+					return prod;
+					})()
+					</var>
+					<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var> 
+					<!-- Gets the GeoMean and rounds -->
+					<var id="SOLUTION">Math.round( Math.pow( PRODUCT, 1/ARRAY_LENGTH )*10 )/10</var>
+				</div>
 
-					<p class="problem">
-						<p>What is the geometric mean of the following numbers?</p>
-						<p id="number_set"><code><var>ARRAY_OF_NUMS</var></code></p>
-						<p id="reminder">Round to the nearest tenth.</p>
-					</p>
-					
-					<p class="solution" data-type="decimal">
-						<var>SOLUTION</var>
-					</p>
+				<p class="problem">
+					<p>What is the geometric mean of the following numbers?</p>
+					<p id="number_set"><code><var>ARRAY_OF_NUMS</var></code></p>
+					<p id="reminder">Round to the nearest tenth.</p>
+				</p>
+	
+				<p class="solution" data-type="decimal">
+					<var>SOLUTION</var>
+				</p>
 
-					<div class="hints">
-							<p>Find the product of all of the numbers listed. <code><var>PRODUCT</var></code></p>
-							<p>After counting the number of elements in the set, you'll then find there are </br>
-								<code><var>ARRAY_LENGTH</var></code> elements.</p>
-							<p>Take the appropriate root to the product, based on the number of elements.<br/>
-							<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PRODUCT</var>}</code></p>
-							<p>Once rounded, the result is <code><var>SOLUTION</var></code></p>
-					</div>
+				<div class="hints">
+					<p>Find the product of all of the numbers listed. <code><var>PRODUCT</var></code></p>
+					<p>After counting the number of elements in the set, you'll then find there are </br>
+						<code><var>ARRAY_LENGTH</var></code> elements.</p>
+					<p>Take the appropriate root to the product, based on the number of elements.<br/>
+					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PRODUCT</var>}</code></p>
+					<p>Once rounded, the result is <code><var>SOLUTION</var></code></p>
+				</div>
 			</div>
 			
 			<div id="bacteria_type">
-					<div class="vars">
-							<var id="NAME_GEN">
-							(function() {
-							var num = randRange( 0, 5 );
-							switch(num){
-							case 0: name = "Cole";
-							break;
-							case 1: name = "Barbara";
-							break;
-							case 2: name = "Elisabeth";
-							break;
-							case 3: name = "Simon";
-							break;
-							case 4: name = "Greg";
-							break;
-							case 5: name = "Gina";
-							break;
-							case 6: name = "Molly";
-							break;
-							}
-							return name;
-							})()
-							</var>
-							<var id="WATER_SOURCE_GEN">
-							(function() {
-							var num = randRange( 0, 3 );
-							switch(num){
-							case 0: name = "lake";
-							break;
-							case 1: name = "river";
-							break;
-							case 2: name = " petri dish";
-							break;
-							case 3: name = "pond";
-							break;
-							}
-							return name;
-							})()
-							</var>
-							<var id="SIZE_OF_SET">randRange( 2, 4 )</var>
-							<var id="ARRAY_OF_NUMS">[]</var> <!-- # of elements will be 3-5 -->
-							
-							<!-- Higher numbers are more improbable, to showcase the Geo-mean's ability to dilute
-							higher number's weight, when compared to the arithmetic mean -->
-							<var id="NUMS_FOR_ARRAY">(function() {
-							for( i = 0; i <= SIZE_OF_SET; i++ ) {
-							num = randRange( 0, 9 );
-							switch(num){
-							case 0: num = randRange( 200, 300 );
-							break;
-							case 1: num = randRange( 400, 420 );
-							break;
-							case 2: num = randRange( 400, 450 );
-							break;
-							case 3: num = randRange( 450, 500 );
-							break;
-							case 4: num = randRange( 500, 600 );
-							break;
-							case 5: num = randRange( 600, 650 );
-							break;
-							case 6: num = randRange( 700, 750 );
-							break;
-							case 7: num = randRange( 750, 800 );
-							break;
-							case 8: num = randRange( 1100, 1700 );
-							break;
-							case 9: num = randRange( 2800 , 4200 );
-							break;
-							}
-							ARRAY_OF_NUMS[i] = num
-							}
-							})()
-							</var>
-							<var id="PRODUCT">(function() {
-							var prod = 1;
+				<div class="vars">
+					<var id="NAME_GEN">
+					(function() {
+					var num = randRange( 0, 5 );
+					switch(num){
+					case 0: name = "Cole";
+					break;
+					case 1: name = "Barbara";
+					break;
+					case 2: name = "Elisabeth";
+					break;
+					case 3: name = "Simon";
+					break;
+					case 4: name = "Greg";
+					break;
+					case 5: name = "Gina";
+					break;
+					case 6: name = "Molly";
+					break;
+					}
+					return name;
+					})()
+					</var>
+					<var id="WATER_SOURCE_GEN">
+					(function() {
+					var num = randRange( 0, 3 );
+					switch(num){
+					case 0: name = "lake";
+					break;
+					case 1: name = "river";
+					break;
+					case 2: name = " petri dish";
+					break;
+					case 3: name = "pond";
+					break;
+					}
+					return name;
+					})()
+					</var>
+					<var id="SIZE_OF_SET">randRange( 2, 4 )</var>
+					<!-- A higher number is included in the array to showcase the Geo-mean's ability to dilute
+					higher number's weight, when compared to the arithmetic mean; # of elements will be 3-5 -->
+					<var id="ARRAY_OF_NUMS">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = randRange( 200, 1150 )
+					}
+					num = randRange(0,2)
+					arr.splice( num, 1, randRange( 2700 , 4200 ) ) // Replaces element wtih large num
 
-							jQuery.each( ARRAY_OF_NUMS, function( i, el ) {
-							prod *= el;
-								} );
+					return arr;
+					})()
+					</var>
+					<var id="PRODUCT">(function() {
+					var prod = 1;
 
-							return prod;
-							})()
-							</var>
-							<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var> 
-							<!-- Gets the GeoMean and rounds -->
-							<var id="SOLUTION">Math.round(Math.pow( PRODUCT, 1/ARRAY_LENGTH ))</var>
-					</div>
+					jQuery.each( ARRAY_OF_NUMS, function( i, el ) {
+					prod *= el;
+						} );
+
+					return prod;
+					})()
+					</var>
+					<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var> 
+					<!-- Gets the GeoMean and rounds -->
+					<var id="SOLUTION">Math.round( Math.pow( PRODUCT, 1/ARRAY_LENGTH ))</var>
+				</div>
 					
-					<p class="problem">
-						<p><var>NAME_GEN</var> measures the amount of bacteria in different parts of a 
-						<var>WATER_SOURCE_GEN</var>.</br>
-						What is the geometric mean of the bacteria amounts?</p>
-						<p id="number_set"><code><var>ARRAY_OF_NUMS</var></code></p>
-						<p id="reminder">Round to the nearest integer.</br>
-						Each number represents a different measurement of bacteria.</p>
-					</p>
+				<p class="problem">
+					<p><var>NAME_GEN</var> measures the amount of bacteria in different parts of a 
+					<var>WATER_SOURCE_GEN</var>.</br>
+					What is the geometric mean of the bacteria amounts?</p>
+					<p id="number_set"><code><var>ARRAY_OF_NUMS</var></code></p>
+					<p id="reminder">Round to the nearest integer.</br>
+					Each number represents a different measurement of bacteria.</p>
+				</p>
+
+				<p class="solution" data-type="decimal">
+					<var>SOLUTION</var>
+				</p>
 					
-					<p class="solution" data-type="decimal">
-						<var>SOLUTION</var>
-					</p>
-					
-					<div class="hints">
-							<p>Find the product of all of the bacteria listed. <code><var>PRODUCT</var></code></p>
-							<p>After counting the number of measurements in the set, you'll then find there are </br>
-							<code><var>ARRAY_LENGTH</var></code> elements.</p>
-							<p>Take the appropriate root to the product, based on the number of measurements.<br/>
-							<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PRODUCT</var>}</code></p>
-							<p>Once rounded, the result is <code><var>SOLUTION</var></code></p>
-					</div>
+				<div class="hints">
+					<p>Find the product of all of the bacteria listed. <code><var>PRODUCT</var></code></p>
+					<p>After counting the number of measurements in the set, you'll then find there are </br>
+					<code><var>ARRAY_LENGTH</var></code> elements.</p>
+					<p>Take the appropriate root to the product, based on the number of measurements.<br/>
+					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PRODUCT</var>}</code></p>
+					<p>Once rounded, the result is <code><var>SOLUTION</var></code></p>
+				</div>
 			</div>
 			
 			<div id="financial_return_type">
-					<div class="vars">
-							<var id="NAME_GEN">
-							(function() {
-							var num = randRange( 0, 5 );
-							switch(num){
-							case 0: name = "Mehran";
-							break;
-							case 1: name = "Julie";
-							break;
-							case 2: name = "Jerry";
-							break;
-							case 3: name = "Clayton";
-							break;
-							case 4: name = "Eric";
-							break;
-							case 5: name = "Grace";
-							break;
-							case 6: name = "Daphne";
-							break;
-							}
-							return name;
-							})()
-							</var>
-							<var id="SIZE_OF_SET">randRange( 1, 4 )</var>
-							<var id="ARRAY_OF_VALS">[]</var> <!-- # of elements will be 2-5 -->
-							<var id="VALS_FOR_ARRAY">(function() {
-							for( i = 0; i <= SIZE_OF_SET; i++ ) {
-							ARRAY_OF_VALS[i] = randRangeNonZero( -55, 55 )
-							}
-							})()
-							</var>
-							<var id="ARRAY_LENGTH">ARRAY_OF_VALS.length</var> 
-							<!-- ARRAY_OF_VALS with a percentage symbol slapped on -->
-							<var id="ARRAY_W_PERCENT">[]</var>
-							<var id="VALS_PLUS_PERCENT">(function() {
-							for( i = 0; i <= SIZE_OF_SET; i++ ) {
-							ARRAY_W_PERCENT[i] = ARRAY_OF_VALS[i] +"\\%"
-							}
-							})()</var>
-							<!-- Takes percentages to their decimal multiplier equivalents -->
-							<var id="ARR_W_PER_TO_NUM">[]</var>
-							<var id="PERCENT_TO_NUM">(function() {
-							for( i = 0; i <= SIZE_OF_SET; i++ ) {
-							ARR_W_PER_TO_NUM[i] = ( 100 + ARRAY_OF_VALS[i] )/100
-							}
-							})()</var>
-							<!-- Provides an array that is used in the hints -->
-							<var id="HINT_1">[]</var>
-							<var id="HINT_1_GEN">(function() {
-							for( i = 0; i <= SIZE_OF_SET; i++ ) {
-							HINT_1[i] = ARRAY_W_PERCENT[i] +"\=" +ARR_W_PER_TO_NUM[i]
-							}
-							})()
-							</var>
-							<var id="PRODUCT">(function() {
-							var prod = 1;
+				<div class="vars">
+					<!-- # of elements will be 2-5 -->
+					<var id="NAME_GEN">
+					(function() {
+					var num = randRange( 0, 5 );
+					switch(num){
+					case 0: name = "Mehran";
+					break;
+					case 1: name = "Julie";
+					break;
+					case 2: name = "Jerry";
+					break;
+					case 3: name = "Clayton";
+					break;
+					case 4: name = "Eric";
+					break;
+					case 5: name = "Grace";
+					break;
+					case 6: name = "Daphne";
+					break;
+					}
+					return name;
+					})()
+					</var>
+					<var id="SIZE_OF_SET">randRange( 1, 4 )</var>
+					<var id="ARRAY_OF_VALS">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = randRangeNonZero( -55, 55 )
+					}
+					return arr;
+					})()
+					</var>
+					<var id="ARRAY_LENGTH">ARRAY_OF_VALS.length</var> 
+					<!-- ARRAY_OF_VALS with a percentage symbol slapped on -->
+					<var id="ARRAY_W_PERCENT">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = ARRAY_OF_VALS[i] +"\\%"
+					}
+					return arr;
+					})()</var>
+					<!-- Takes percentages to their decimal multiplier equivalents -->
+					<var id="ARR_W_PER_TO_NUM">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = ( 100 + ARRAY_OF_VALS[i] )/100
+					}
+					return arr;
+					})()</var>
+					<!-- Provides an array that is used in the hints -->
+					<var id="HINT_1">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = ARRAY_W_PERCENT[i] +"\=" +ARR_W_PER_TO_NUM[i]
+					}
+					return arr;
+					})()</var>
+					<var id="PRODUCT">(function() {
+					var prod = 1;
 
-							jQuery.each( ARR_W_PER_TO_NUM, function( i, el ) {
-							prod *= el;
-								} );
+					jQuery.each( ARR_W_PER_TO_NUM, function( i, el ) {
+					prod *= el;
+							} );
+					return prod;
+					})()</var>
+					<!-- Gets the GeoMean -->
+					<var id="GEO_MEAN">Math.pow( PRODUCT , 1/ARRAY_LENGTH )</var>
+					<!-- Converts GEO_MEAN to a percentage, and rounds -->
+					<var id="SOLUTION">Math.round(( GEO_MEAN - 1 ) *100 ) +"\\%"</var>
+				</div>
 
-							return prod;
-							})()</var>
-							<!-- Gets the GeoMean -->
-							<var id="GEO_MEAN">Math.pow( PRODUCT , 1/ARRAY_LENGTH )</var>
-							<!-- Converts GEO_MEAN to a percentage, and rounds -->
-							<var id="SOLUTION">Math.round(( GEO_MEAN - 1 ) *100 ) +"\\%"</var>
-					</div>
-					
-					<p class="problem">
-						<p><var>NAME_GEN</var> invests money in a company; each year the investment return value changes.
-						</br>Find the rate of the investment returns, for the years.</p>
-						<p id="number_set"><code><var>ARRAY_W_PERCENT</var></code></p>
-						<p id="reminder">Round the percentage to the nearest integer.</br>
-						Each percentage represents the investment return value for each year.</p>
-					</p>
-					
-					<div class="solution" data-type="multiple">
-						<p><span class="sol" data-type="decimal"><var>SOLUTION</var></span><code>\%</code></p>
-					</div>
+				<p class="problem">
+					<p><var>NAME_GEN</var> invests money in a company; each year the investment return value changes.
+					</br>Find the rate of the investment returns, for the years.</p>
+					<p id="number_set"><code><var>ARRAY_W_PERCENT</var></code></p>
+					<p id="reminder">Round the percentage to the nearest integer.</br>
+					Each percentage represents the investment return value for each year.</p>
+				</p>
+	
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-type="decimal"><var>SOLUTION</var></span><code>\%</code></p>
+				</div>
 
-					<div class="hints">
-							<p>To find the geometric mean of percentages, convert the percentages to 
-							their decimal multiplier equivalents.</br><code><var>HINT_1</var></code></p>
-							<p>Find the product of the decimal multiplier equivalents. <code><var>PRODUCT</var></code></p>
-							<p>After counting the number of elements in the set, you'll then find there are </br>
-								<code><var>ARRAY_LENGTH</var></code> elements.</p>
-							<p>Take the appropriate root to the product, based on the number of elements.<br/>
-							<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PRODUCT</var>}</code></p>
-							<p>Convert the decimal result to a percent.</p>
-							<p>Once rounded, the rate of the investment returns are <code><var>SOLUTION</var></code></p>
-					</div>
+				<div class="hints">
+					<p>To find the geometric mean of percentages, convert the percentages to 
+					their decimal multiplier equivalents.</br><code><var>HINT_1</var></code></p>
+					<p>Find the product of the decimal multiplier equivalents. <code><var>PRODUCT</var></code></p>
+					<p>After counting the number of elements in the set, you'll then find there are </br>
+						<code><var>ARRAY_LENGTH</var></code> elements.</p>
+					<p>Take the appropriate root to the product, based on the number of elements.<br/>
+					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PRODUCT</var>}</code></p>
+					<p>Convert the decimal result to a percent.</p>
+					<p>Once rounded, the rate of the investment returns are <code><var>SOLUTION</var></code></p>
+				</div>
 			</div>
 		</div>
 	</div>
