@@ -469,13 +469,13 @@ var Khan = {
 
 	showThumbnail: function( index ) {
 		jQuery( "#related-video-list .related-video-list li" ).each(function(i, el) {
-			if (i == index) {
-				$(el)
+			if ( i == index ) {
+				jQuery( el )
 					.find( 'a.related-video-inline' ).hide().end()
 					.find( '.thumbnail' ).show();
 			}
 			else {
-				$(el)
+				jQuery( el )
 					.find( 'a.related-video-inline' ).show().end()
 					.find( '.thumbnail' ).hide();
 			}
@@ -909,7 +909,7 @@ function makeProblem( id, seed ) {
 			.insertBefore( "#extras" );
 
 		if (getData().total_done === 0) {
-			$( '#previous-problem' )
+			jQuery( '#previous-problem' )
 				.addClass( 'disabled' )
 				.css( {
 					cursor: 'default !important',
@@ -1206,7 +1206,7 @@ function makeProblem( id, seed ) {
 
 		// Allow users to click on points of the timeline
 		jQuery( states ).click(function(event) {
-			var index = $(this).index("#timeline .user-activity");
+			var index = jQuery( this ).index( "#timeline .user-activity" );
 
 			currentSlide = index;
 			activate( currentSlide );
@@ -1875,7 +1875,7 @@ function prepareSite() {
 				path = fileName + "?problem=" + problemID
 					+ "&seed=" + problemSeed;
 
-			var title = encodeURIComponent( "Issue Found in Testing - " + $("title").html() ),
+			var title = encodeURIComponent( "Issue Found in Testing - " + jQuery("title").html() ),
 				body = encodeURIComponent( [ description, path, prettyDump, navigator.userAgent ].join("\n\n") ),
 				label = encodeURIComponent( "tester bugs" );
 
@@ -2227,9 +2227,9 @@ function displayRelatedVideos( videos ) {
 	var defaultMarginTop = 22;
 	// queue:false to make sure these run simultaneously
 	var animationOptions = {duration: 150, queue: false};
-	$( ".thumbnail" ).hover(
+	jQuery( ".thumbnail" ).hover(
 		function() {
-			$( this )
+			jQuery( this )
 				.find( ".thumbnail_label" ).animate(
 					{ marginTop: defaultMarginTop },
 					animationOptions
@@ -2240,7 +2240,7 @@ function displayRelatedVideos( videos ) {
 				);
 		},
 		function() {
-			$(this)
+			jQuery( this )
 				.find( ".thumbnail_label" ).animate(
 					{ marginTop: defaultMarginTop + captionHeight },
 					animationOptions
