@@ -18,6 +18,9 @@
 			var sa = KhanUtil.randRange( 4, 8 );
 			var sb = sa * Math.sin( b * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
 			var sc = sa * Math.sin( c * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
+			if ( Math.abs( a - b ) < 5 || Math.abs( a - c ) < 5  || Math.abs( b - c ) < 5 ){
+				return scTriangle();
+			}
 			return [ [ a, b, c ] , [ sa.toFixed( 1 ), sb.toFixed( 1 ), sc.toFixed( 1 ) ] ];
 		}
 
@@ -104,7 +107,7 @@
 						init({
 							range: [ [ -1, 10 ], [ -8, 1 ] ]
 						})
-						var tr = new Triangle( [ 3, -4],  TRIANGLE[ 0 ], 5, {} );
+						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, {} );
 						tr.labels = {  "sides" : tr.niceSideLengths };
 						tr.rotate( randRange( 0, 90 ) );
 						tr.draw();
