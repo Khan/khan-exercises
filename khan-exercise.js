@@ -2224,7 +2224,7 @@ function displayRelatedVideos( videos ) {
 
 	// make caption slide up over the thumbnail on hover
 	var captionHeight = 45;
-	var defaultMarginTop = 22;
+	var defaultMarginTop = 23;
 	// queue:false to make sure these run simultaneously
 	var animationOptions = {duration: 150, queue: false};
 	jQuery( ".thumbnail" ).hover(
