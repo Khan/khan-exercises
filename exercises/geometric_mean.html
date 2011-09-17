@@ -18,6 +18,33 @@
 
 <body>
 	<div class="exercise">
+
+		<div class="vars">
+			<var id="NAME">(function() {
+				var num = randRange( 0, 7 );
+				switch(num){
+				case 0: name = "Barbara";
+				break;
+				case 1: name = "Elisabeth";
+				break;
+				case 2: name = "Simon";
+				break;
+				case 3: name = "Greg";
+				break;
+				case 4: name = "Gina";
+				break;
+				case 5: name = "Mehran";
+				break;
+				case 6: name = "Julie";
+				break;
+				case 7: name = "Clayton";
+				break;
+				}
+				return name;
+				})()
+			</var>
+		</div>
+
 		<div class="problems">
 
 			<div id="standard_type">
@@ -36,10 +63,8 @@
 					jQuery.each( ARRAY_OF_NUMS, function( i, el ) {
 					prod *= el;
 						} );
-
 					return prod;
-					})()
-					</var>
+					})()</var>
 					<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var> 
 					<!-- Gets the GeoMean and rounds -->
 					<var id="SOLUTION">Math.round( Math.pow( PRODUCT, 1/ARRAY_LENGTH )*10 )/10</var>
@@ -50,12 +75,18 @@
 					<p id="number_set"><code><var>ARRAY_OF_NUMS</var></code></p>
 					<p id="reminder">Round to the nearest tenth.</p>
 				</p>
-	
+
 				<p class="solution" data-type="decimal">
 					<var>SOLUTION</var>
 				</p>
 
 				<div class="hints">
+					<p>Remember that the geometric mean can be found with this formula: <code>\sqrt[n]{Product}</code></p>
+					<div>
+						<p>In the formula, <code>n</code> stands for the number of elements being multiplied.</p>
+						<p>Also in the formula, <code>Product</code> stands for the number achieved when all
+						elements are multiplied.</p>
+					</div>
 					<p>Find the product of all of the numbers listed. <code><var>PRODUCT</var></code></p>
 					<p>After counting the number of elements in the set, you'll then find there are </br>
 						<code><var>ARRAY_LENGTH</var></code> elements.</p>
@@ -64,90 +95,70 @@
 					<p>Once rounded, the result is <code><var>SOLUTION</var></code></p>
 				</div>
 			</div>
-			
+
 			<div id="bacteria_type">
 				<div class="vars">
-					<var id="NAME_GEN">
-					(function() {
-					var num = randRange( 0, 5 );
-					switch(num){
-					case 0: name = "Cole";
-					break;
-					case 1: name = "Barbara";
-					break;
-					case 2: name = "Elisabeth";
-					break;
-					case 3: name = "Simon";
-					break;
-					case 4: name = "Greg";
-					break;
-					case 5: name = "Gina";
-					break;
-					case 6: name = "Molly";
-					break;
-					}
-					return name;
-					})()
-					</var>
-					<var id="WATER_SOURCE_GEN">
+					<var id="WATER_SOURCE">
 					(function() {
 					var num = randRange( 0, 3 );
 					switch(num){
-					case 0: name = "lake";
+					case 0: type = "lake";
 					break;
-					case 1: name = "river";
+					case 1: type = "river";
 					break;
-					case 2: name = " petri dish";
+					case 2: type = " petri dish";
 					break;
-					case 3: name = "pond";
+					case 3: type = "pond";
 					break;
 					}
-					return name;
-					})()
-					</var>
+					return type;
+					})()</var>
 					<var id="SIZE_OF_SET">randRange( 2, 4 )</var>
 					<!-- A higher number is included in the array to showcase the Geo-mean's ability to dilute
 					higher number's weight, when compared to the arithmetic mean; # of elements will be 3-5 -->
 					<var id="ARRAY_OF_NUMS">(function() {
 					arr = [];
 					for( i = 0; i <= SIZE_OF_SET; i++ ) {
-					arr[i] = randRange( 200, 1150 )
+					arr[i] = randRange( 15, 600 )
 					}
 					num = randRange(0,2)
-					arr.splice( num, 1, randRange( 2700 , 4200 ) ) // Replaces element wtih large num
+					arr.splice( num, 1, randRange( 1200 , 2200 ) ) // Replaces element wtih large num
 
 					return arr;
-					})()
-					</var>
+					})()</var>
 					<var id="PRODUCT">(function() {
 					var prod = 1;
 
 					jQuery.each( ARRAY_OF_NUMS, function( i, el ) {
 					prod *= el;
 						} );
-
 					return prod;
-					})()
-					</var>
+					})()</var>
 					<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var> 
 					<!-- Gets the GeoMean and rounds -->
 					<var id="SOLUTION">Math.round( Math.pow( PRODUCT, 1/ARRAY_LENGTH ))</var>
 				</div>
-					
+
 				<p class="problem">
-					<p><var>NAME_GEN</var> measures the amount of bacteria in different parts of a 
-					<var>WATER_SOURCE_GEN</var>.</br>
+					<p><var>NAME</var> measures the amount of bacteria in different parts of a 
+					<var>WATER_SOURCE</var>.</br>
 					What is the geometric mean of the bacteria amounts?</p>
 					<p id="number_set"><code><var>ARRAY_OF_NUMS</var></code></p>
-					<p id="reminder">Round to the nearest integer.</br>
+					<p id="reminder">Round to the nearest natural number.</br>
 					Each number represents a different measurement of bacteria.</p>
 				</p>
 
 				<p class="solution" data-type="decimal">
 					<var>SOLUTION</var>
 				</p>
-					
+
 				<div class="hints">
+					<p>Remember that the geometric mean can be found with this formula: <code>\sqrt[n]{Product}</code></p>
+					<div>
+						<p>In the formula, <code>n</code> stands for the number of elements being multiplied.</p>
+						<p>Also in the formula, <code>Product</code> stands for the number achieved when all
+						elements are multiplied.</p>
+					</div>
 					<p>Find the product of all of the bacteria listed. <code><var>PRODUCT</var></code></p>
 					<p>After counting the number of measurements in the set, you'll then find there are </br>
 					<code><var>ARRAY_LENGTH</var></code> elements.</p>
@@ -156,32 +167,10 @@
 					<p>Once rounded, the result is <code><var>SOLUTION</var></code></p>
 				</div>
 			</div>
-			
+
 			<div id="financial_return_type">
 				<div class="vars">
 					<!-- # of elements will be 2-5 -->
-					<var id="NAME_GEN">
-					(function() {
-					var num = randRange( 0, 5 );
-					switch(num){
-					case 0: name = "Mehran";
-					break;
-					case 1: name = "Julie";
-					break;
-					case 2: name = "Jerry";
-					break;
-					case 3: name = "Clayton";
-					break;
-					case 4: name = "Eric";
-					break;
-					case 5: name = "Grace";
-					break;
-					case 6: name = "Daphne";
-					break;
-					}
-					return name;
-					})()
-					</var>
 					<var id="SIZE_OF_SET">randRange( 1, 4 )</var>
 					<var id="ARRAY_OF_VALS">(function() {
 					arr = [];
@@ -189,8 +178,7 @@
 					arr[i] = randRangeNonZero( -55, 55 )
 					}
 					return arr;
-					})()
-					</var>
+					})()</var>
 					<var id="ARRAY_LENGTH">ARRAY_OF_VALS.length</var> 
 					<!-- ARRAY_OF_VALS with a percentage symbol slapped on -->
 					<var id="ARRAY_W_PERCENT">(function() {
@@ -221,7 +209,7 @@
 
 					jQuery.each( ARR_W_PER_TO_NUM, function( i, el ) {
 					prod *= el;
-							} );
+						} );
 					return prod;
 					})()</var>
 					<!-- Gets the GeoMean -->
@@ -231,18 +219,24 @@
 				</div>
 
 				<p class="problem">
-					<p><var>NAME_GEN</var> invests money in a company; each year the investment return value changes.
+					<p><var>NAME</var> invests money in a company; each year the investment return value changes.
 					</br>Find the rate of the investment returns, for the years.</p>
 					<p id="number_set"><code><var>ARRAY_W_PERCENT</var></code></p>
 					<p id="reminder">Round the percentage to the nearest integer.</br>
 					Each percentage represents the investment return value for each year.</p>
 				</p>
-	
+
 				<div class="solution" data-type="multiple">
 					<p><span class="sol" data-type="decimal"><var>SOLUTION</var></span><code>\%</code></p>
 				</div>
 
 				<div class="hints">
+					<p>Remember that the geometric mean can be found with this formula: <code>\sqrt[n]{Product}</code></p>
+					<div>
+						<p>In the formula, <code>n</code> stands for the number of elements being multiplied.</p>
+						<p>Also in the formula, <code>Product</code> stands for the number achieved when all
+						elements are multiplied.</p>
+					</div>
 					<p>To find the geometric mean of percentages, convert the percentages to 
 					their decimal multiplier equivalents.</br><code><var>HINT_1</var></code></p>
 					<p>Find the product of the decimal multiplier equivalents. <code><var>PRODUCT</var></code></p>
