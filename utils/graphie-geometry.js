@@ -311,7 +311,21 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 			}
 		}
 
-		this.boxOutLabels();
+	}
+	this.boxOut = function( pol, amount, type ){
+		var type = type || "simple";
+		var intersectWith = this.sides;
+		var shouldMove =  areIntersecting( pol, this.sides );
+		while( areIntersecting( pol, this.sides ) ){
+			this.translate( amount );
+		}
+		if( shouldMove ){
+			this.translate( amount );
+		} 
+	}
+	this.translate = function( amount ){
+		this.points = [ movePoint( this.points[ 0 ], amount ), movePoint( this.points[ 1 ], amount ), movePoint( this.points[ 2 ], amount ), movePoint( this.points[ 3 ], amount ) ] ;
+		this.sides = [ [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 3 ], this.points[ 2 ] ], [ this.points[ 2 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 0 ] ] ];
 	}
 
 	this.angleScale = function ( ang ){
@@ -504,12 +518,9 @@ function Triangle( center, angles, scale, labels, points ){
 	}
 
 	this.translate = function( amount ){
-
 		this.points = [ movePoint( this.points[ 0 ], amount ), movePoint( this.points[ 1 ], amount ), movePoint( this.points[ 2 ], amount ) ] ;
 		this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
 		this.findCenterPoints();
-	
-
 	}
 
 	this.rotatePoint = function ( pos, theta ){
