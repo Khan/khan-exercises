@@ -605,7 +605,7 @@ var randomQuadAngles = {
 				angB = 180 - angA;
 				angC =  KhanUtil.randRange( 30, 160 );
 				angD = 180 - angC;
-			} while( angA === angC );
+			} while( Math.abs( angA - angC ) < 6 );
 			return  [ angA, angC , angD , angB ];
 		},
 
