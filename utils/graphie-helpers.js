@@ -76,7 +76,7 @@ function rectchart( divisions, colors, y ) {
 	jQuery.each( divisions, function( i, slice ) {
 		var x = partial / sum, w = slice / sum;
 		set.push( graph.path([ [x, y], [x + w, y], [x + w, y + 1], [x, y + 1] ], {
-			stroke: "white",
+			stroke: "#fff",
 			fill: colors[i]
 		} ) );
 		partial += slice;
