@@ -37,6 +37,7 @@ jQuery.extend( KhanUtil, {
 	//		- return "word"
 	plural: (function() {
 		var oneOffs = {
+			'child': 'children',
 			'quiz': 'quizzes',
 			'shelf': 'shelves',
 			'loaf': 'loaves',
@@ -44,7 +45,7 @@ jQuery.extend( KhanUtil, {
 			'person': 'people',
 			'is': 'are',
 			'was': 'were',
-			'square foot': 'square feet'
+			'foot': 'feet'
 		};
 
 		var pluralizeWord = function(word) {
@@ -320,6 +321,49 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"kilometer"
 	]);
 
+	var smalldistances = KhanUtil.shuffle([
+		"foot",
+		"yard",
+		"meter"
+	]);
+
+	var bugs = KhanUtil.shuffle([
+		"ant",
+		"caterpillar",
+		"beetle",
+		"worm",
+		"snail",
+		"centipede",
+		"stick bug",
+		"ladybug"
+	]);
+	
+	var activeTimes = KhanUtil.shuffle([
+		"in P.E. class",
+		"during team practice",
+		"in the morning",
+		"at lunchtime",
+		"in the afternoon"
+	]);
+
+	var metals = KhanUtil.shuffle([
+		"iron",
+		"gold",
+		"platinum",
+		"copper",
+		"silver",
+		"nickel",
+		"aluminum",
+		"zinc"
+	]);
+
+	var weights = KhanUtil.shuffle([
+		"gram",
+		"kilogram",
+		"ounce",
+		"pound"
+	]);
+	
 	var distanceActivities = KhanUtil.shuffle([
 		{present:"ride", past:"rode", noun:"bike", done:"biked", continuous:"biking"},
 		{present:"row", past:"rowed", noun:"boat", done:"rowed", continuous:"rowing"},
@@ -448,6 +492,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return distances[i - 1];
 		},
 
+		smalldistance: function( i ) {
+			return smalldistances[i - 1];
+		},
+
 		rode: function( i ) {
 			return distanceActivities[i - 1].past;
 		},
@@ -482,6 +530,22 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		side: function( i ) {
 			return sides[i - 1];
+		},
+
+		bug: function( i ) {
+			return bugs[i - 1];
+		},
+
+		activeTime: function( i ) {
+			return activeTimes[i];
+		},
+
+		metal: function( i ) {
+			return metals[i];
+		},
+
+		weight: function( i ) {
+			return weights[i];
 		}
 
 	});
