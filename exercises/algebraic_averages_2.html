@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<title>Algebraic averages 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<!--
+think about answer box - is this the best format?
+I think the question is complex enough to have the answer box provide leading hints
+other option: you have to select the expression from a drop down box 3 times
+              maybe from the 3 variables and a random 4th one
+-->
+
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="N_TERMS">randRangeNonZero( 3, 5 )</var>
+		<var id="WT">0.4</var>
+	
+		<div data-ensure="A1 + A2 + A3 !== 0 && A1 + A2 + A3 + A4 !== 0 && A1 + A2 + A3 + A4 + A5 !== 0">
+			<var id="A1">randRangeWeighted( -10, 10, 0, WT )</var>
+			<var id="A2">randRangeWeighted( -10, 10, 0, WT )</var>
+			<var id="A3">randRangeWeighted( -10, 10, 0, WT )</var>
+			<var id="A4">( N_TERMS > 3 ? randRangeWeighted( -10, 10, 0, WT ) : 0 )</var>
+			<var id="A5">( N_TERMS > 4 ? randRangeWeighted( -10, 10, 0, WT ) : 0 )</var>
+		</div>
+		<var id="A_TERMS">(A1 !== 0 ? 1 : 0) + (A2 !== 0 ? 1 : 0) + (A3 !== 0 ? 1 : 0) + (A4 !== 0 ? 1 : 0) + (A5 !== 0 ? 1 : 0)</var> 
+		<var id="GCD1">getGCD( A1 + A2 + A3 + A4 + A5 , N_TERMS )</var>
+
+		<div data-ensure="B1 + B2 + B3 !== 0 && B1 + B2 + B3 + B4 !== 0 && B1 + B2 + B3 + B4 + B5 !== 0">
+			<var id="B1">randRangeWeighted( -10, 10, 0, WT )</var>
+			<var id="B2">randRangeWeighted( -10, 10, 0, WT )</var>
+			<var id="B3">randRangeWeighted( -10, 10, 0, WT )</var>
+			<var id="B4">( N_TERMS > 3 ? randRangeWeighted( -10, 10, 0, WT ) : 0 )</var>
+			<var id="B5">( N_TERMS > 4 ? randRangeWeighted( -10, 10, 0, WT ) : 0 )</var>
+		</div>
+		<var id="B_TERMS">(B1 !== 0 ? 1 : 0) + (B2 !== 0 ? 1 : 0) + (B3 !== 0 ? 1 : 0) + (B4 !== 0 ? 1 : 0) + (B5 !== 0 ? 1 : 0)</var> 
+		<var id="GCD2">getGCD( B1 + B2 + B3 + B4 + B5 , N_TERMS )</var>
+			
+		<div data-ensure="C1 + C2 + C3 !== 0 && C1 + C2 + C3 + C4 !== 0 && C1 + C2 + C3 + C4 + C5 !== 0">
+			<var id="C1">( A1 * B1 === 0 ? randRangeNonZero ( -10 , 10) : randRangeWeighted( -10, 10, 0, WT ))</var>
+			<var id="C2">( A2 * B2 === 0 ? randRangeNonZero ( -10 , 10) : randRangeWeighted( -10, 10, 0, WT ))</var>
+			<var id="C3">( A3 * B3 === 0 ? randRangeNonZero ( -10 , 10) : randRangeWeighted( -10, 10, 0, WT ))</var>
+			<var id="C4">( N_TERMS > 3 ? ( A4 * B4 === 0 ? randRangeNonZero ( -10 , 10) : randRangeWeighted( -10, 10, 0, WT )) : 0 )</var>
+			<var id="C5">( N_TERMS > 4 ? ( A5 * B5 === 0 ? randRangeNonZero ( -10 , 10) : randRangeWeighted( -10, 10, 0, WT )) : 0 )</var>
+		</div>
+		<var id="C_TERMS">(C1 !== 0 ? 1 : 0) + (C2 !== 0 ? 1 : 0) + (C3 !== 0 ? 1 : 0) + (C4 !== 0 ? 1 : 0) + (C5 !== 0 ? 1 : 0)</var> 
+		<var id="GCD3">getGCD( C1 + C2 + C3 + C4 + C5 , N_TERMS )</var>
+		
+		<!-- set algebraic variables in the order you would normally see them -->
+		<var id="V_ARR">[ "e^{x}", " ln(x)", " sin(x)", " cos(x)", " tan(x)", "\\sqrt{x}", "\\sqrt[3]{x}", "x^{4}", "x^{3}", "x^{2}", "x", ""]</var>
+		<var id="VM">randRange( 1, 10 )</var>
+		<var id="V1">V_ARR [ randRange( 0 , VM - 1 ) ]</var>
+		<var id="V2">V_ARR [ VM ]</var>
+		<var id="V3">V_ARR [ randRange( VM + 1 , 11 ) ]</var>
+		
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="problem">
+				<p>What is the average (arithmetic mean) of the following <var>N_TERMS</var> expressions:</p>
+				<p><code><var>plus( A1 + V1 , B1 + V2 , C1 + V3 )</var></code><br>
+				   <code><var>plus( A2 + V1 , B2 + V2 , C2 + V3 )</var></code><br> 
+				   <code><var>plus( A3 + V1 , B3 + V2 , C3 + V3 )</var></code>
+				   <span data-if="N_TERMS > 3"><br><code><var>plus( A4 + V1 , B4 + V2 , C4 + V3 )</var></code></span>
+				   <span data-if="N_TERMS > 4"><br><code><var>plus( A5 + V1 , B5 + V2 , C5 + V3 )</var></code></span></p>
+			</div>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-type="improper"><var>( A1 + A2 + A3 + A4 + A5 ) / N_TERMS</var></span> <code><var>V1</var></code> +</p>
+				<p><span class="sol" data-type="improper"><var>( B1 + B2 + B3 + B4 + B5 ) / N_TERMS</var></span> <code><var>V2</var></code> +</p>
+				<p><span class="sol" data-type="improper"><var>( C1 + C2 + C3 + C4 + C5 ) / N_TERMS</var></span> <code><var>V3</var></code></p>
+				<p class="example">an integer, like <code>6</code></p>
+				<p class="example">a <em>simplified proper</em> fraction, like <code>3/5</code></p>
+				<p class="example">a <em>simplified improper</em> fraction, like <code>7/4</code></p>
+			</div>
+
+			<div class="hints">
+				<p>To find the average of a set of numbers, even if they’re algebraic expressions, simply add them up and divide by the number of terms, in this case <code><var>N_TERMS</var></code> terms:</p>
+
+				<div>
+					<p><b>Part 1:</b> Add the terms. Identify and group like terms by finding which terms have the same expression of x.:</p>
+					<p>
+						<code>(<var>plus( A1 + V1 , A2 + V1 , A3 + V1 , A4 + V1 , A5 + V1 )</var>) +</code><br>
+						<code>(<var>plus( B1 + V2 , B2 + V2 , B3 + V2 , B4 + V2 , B5 + V2 )</var>) +</code><br>
+						<code>(<var>plus( C1 + V3 , C2 + V3 , C3 + V3 , C4 + V3 , C5 + V3 )</var>)</code>
+					</p>
+				</div>
+
+				<div>
+					<p>Separate the coefficients from the expression of x:</p>
+					<p>
+						<code>= (<var>plus( A1 , A2 , A3 , A4 , A5 )</var>)<var>V1</var> +</code><br>
+						<code>(<var>plus( B1 , B2 , B3 , B4 , B5 )</var>)<var>V2</var> +</code><br>
+						<code>(<var>plus( C1 , C2 , C3 , C4 , C5 )</var>)<var>V3</var></code>
+					</p>
+				</div>
+
+				<div>
+					<p><b>Part 2:</b> Combine into one fraction, using the number of terms as the denominator:</p>
+					<p><code>\dfrac{
+						(<var>plus( A1 , A2 , A3 , A4 , A5 )</var>)<var>V1</var> +
+						(<var>plus( B1 , B2 , B3 , B4 , B5 )</var>)<var>V2</var> +
+						(<var>plus( C1 , C2 , C3 , C4 , C5 )</var>)<var>V3</var>
+					}{ <var>N_TERMS</var> }</code></p>
+				</div>
+
+				<div>
+					<p>Add the coefficients together and then separate each part<span data-if="GCD1 * GCD2 * GCD3 === 1"> for the final answer</span>:</p>
+					<p><code>= <var>plus( fraction( A1 + A2 + A3 + A4 + A5 , N_TERMS ) + V1,
+					                      fraction( B1 + B2 + B3 + B4 + B5 , N_TERMS ) + V2,
+										  fraction( C1 + C2 + C3 + C4 + C5 , N_TERMS ) + V3)
+					</var></code></p>
+				</div>
+				
+				<div data-if="GCD1 > 1">
+					<p>Reduce the first term<span data-if="GCD2 * GCD3 === 1"> for the final answer</span>:</p>
+					<p><code>= <var>plus( fractionReduce( A1 + A2 + A3 + A4 + A5 , N_TERMS ) + V1,
+					                      fraction( B1 + B2 + B3 + B4 + B5 , N_TERMS ) + V2,
+										  fraction( C1 + C2 + C3 + C4 + C5 , N_TERMS ) + V3)
+					</var></code></p>
+				</div>
+				
+				<div data-if="GCD2 > 1">
+					<p>Reduce the second term<span data-if="GCD3 === 1"> for the final answer</span>:</p>
+					<p><code>= <var>plus( fractionReduce( A1 + A2 + A3 + A4 + A5 , N_TERMS ) + V1,
+					                      fractionReduce( B1 + B2 + B3 + B4 + B5 , N_TERMS ) + V2,
+										  fraction( C1 + C2 + C3 + C4 + C5 , N_TERMS ) + V3)
+					</var></code></p>
+				</div>
+				
+				<div data-if="GCD3 > 1">
+					<p>Reduce the third term for the final answer</span>:</p>
+					<p><code>= <var>plus( fractionReduce( A1 + A2 + A3 + A4 + A5 , N_TERMS ) + V1,
+					                      fractionReduce( B1 + B2 + B3 + B4 + B5 , N_TERMS ) + V2,
+										  fractionReduce( C1 + C2 + C3 + C4 + C5 , N_TERMS ) + V3)
+					</var></code></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
