@@ -311,6 +311,11 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"right"
 	]);
 
+	var shirtStyles = KhanUtil.shuffle([
+		"long-sleeved",
+		"short-sleeved"
+	]);
+
 	var farmers = KhanUtil.shuffle([
 		{farmer:"farmer", crops:KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk"]), field:"field"},
 		{farmer:"gardener", crops:KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily"]), field:"garden"}
@@ -408,11 +413,11 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return people[i - 1][1] == "m" ? "His" : "Her";
 		},
 
-		A: function(word) {
+		An: function(word) {
 			return indefiniteArticle(word);
 		},
 
-		a: function(word) {
+		an: function(word) {
 			return indefiniteArticle(word).toLowerCase();
 		},
 
@@ -532,6 +537,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return sides[i - 1];
 		},
 
+		shirtStyle: function( i ) {
+			return shirtStyles[i - 1];
+		},
+		
 		bug: function( i ) {
 			return bugs[i - 1];
 		},
