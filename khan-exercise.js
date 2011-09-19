@@ -2158,6 +2158,13 @@ function updateData( data ) {
 	if ( videos && videos.length &&
 		jQuery(".related-video-list").is(":empty")
 	) {
+		if ( typeof data.hints_first !== "undefined" ) {
+			// we are in an ab test for video box versus hint box ordering.
+			if (data.hints_first) {
+				// swap order of hints and videos
+				jQuery(".related-video-box").remove().insertAfter(".hint-box");
+			}
+		}
 		displayRelatedVideos(videos, data.exercise_model.name);
 	}
 }
