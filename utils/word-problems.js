@@ -369,11 +369,11 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return people[i - 1][1] == "m" ? "His" : "Her";
 		},
 
-		A: function(word) {
+		An: function(word) {
 			return indefiniteArticle(word);
 		},
 
-		a: function(word) {
+		an: function(word) {
 			return indefiniteArticle(word).toLowerCase();
 		},
 
