@@ -196,8 +196,8 @@ jQuery.extend( KhanUtil, {
 					var coordY = graph.range[1][1] - mouseY / graph.scale[1];
 
 					if ( event.type === "mousemove" ) {
-						jQuery( jQuery( "div#solution :text" )[index]).val( KhanUtil.roundTo(2, coordY) );
-						jQuery( jQuery( "div#solution .answer-label" )[index]).text( KhanUtil.roundTo(2, coordY) );
+						jQuery( jQuery( "div#solutionarea :text" )[index]).val( KhanUtil.roundTo(2, coordY) );
+						jQuery( jQuery( "div#solutionarea .answer-label" )[index]).text( KhanUtil.roundTo(2, coordY) );
 						graph.tangentLines[index].rotate(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI), true);
 						graph.slopePoints[index].attr( "cy", mouseY );
 						graph.mouseTargets[index].attr( "cy", mouseY );
@@ -217,8 +217,8 @@ jQuery.extend( KhanUtil, {
 							mouseY = (graph.range[1][1] - coordY) * graph.scale[1];
 						}
 
-						jQuery( jQuery( "div#solution :text" )[index]).val( KhanUtil.roundTo(2, coordY) );
-						jQuery( jQuery( "div#solution .answer-label" )[index]).text( KhanUtil.roundTo(2, coordY) );
+						jQuery( jQuery( "div#solutionarea :text" )[index]).val( KhanUtil.roundTo(2, coordY) );
+						jQuery( jQuery( "div#solutionarea .answer-label" )[index]).text( KhanUtil.roundTo(2, coordY) );
 						graph.tangentLines[index].rotate(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI), true);
 						graph.slopePoints[index].attr( "cy", mouseY );
 						graph.mouseTargets[index].attr( "cy", mouseY );
@@ -232,7 +232,7 @@ jQuery.extend( KhanUtil, {
 						}
 
 						// If all the points are in the right place, reveal the derivative function
-						var answers = jQuery.map(jQuery( "div#solution .answer-label" ), function(x) {
+						var answers = jQuery.map(jQuery( "div#solutionarea .answer-label" ), function(x) {
 							return parseFloat(jQuery(x).text());
 						});
 						var correct = jQuery.map(KhanUtil.points, function(x) {
