@@ -2158,11 +2158,12 @@ function updateData( data ) {
 	if ( videos && videos.length &&
 		jQuery(".related-video-list").is(":empty")
 	) {
-		displayRelatedVideos(videos);
+		displayRelatedVideos(videos, data.exercise_model.name);
 	}
 }
 
-function displayRelatedVideos( videos ) {
+function displayRelatedVideos( videos, exid ) {
+	var exid_param = exid ? "?exid=" + exid : '';
 	jQuery.each( videos, function( i, video ) {
 		var span = jQuery( "<span>" )
 			.addClass( "video-title vid-progress v" + video.id )
@@ -2172,7 +2173,7 @@ function displayRelatedVideos( videos ) {
 		}
 
 		var a = jQuery( "<a>" ).attr( {
-			href: video.ka_url,
+			href: video.ka_url + exid_param,
 			title: video.title
 		} ).append( span );
 
