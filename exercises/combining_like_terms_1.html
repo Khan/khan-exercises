@@ -32,7 +32,7 @@
 		
 		<var id="EXPS">shuffle( [1, 2, 3, 4, 5, 6, 7, 8, 9], 4 ).sort().reverse()</var>
 
-		<div class="vars" data-ensure="N_EXPS[4] == 2 && !( N_EXPS[0] != 0 && TOTALS[ 0 ] == 0 || N_EXPS[1] != 0 && TOTALS[ 1 ] == 0 || N_EXPS[2] != 0 && TOTALS[ 2 ] == 0 || N_EXPS[3] != 0 && TOTALS[ 3 ] == 0 )">
+		<div class="vars" data-ensure="N_EXPS[4] > 1 && !( N_EXPS[0] != 0 && TOTALS[ 0 ] == 0 || N_EXPS[1] != 0 && TOTALS[ 1 ] == 0 || N_EXPS[2] != 0 && TOTALS[ 2 ] == 0 || N_EXPS[3] != 0 && TOTALS[ 3 ] == 0 )">
 		
 			<var id="INDS">(function() {
 				var array = [];
