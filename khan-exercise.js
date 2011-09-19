@@ -776,7 +776,7 @@ function makeProblem( id, seed ) {
 
 		// Get the area into which solutions will be inserted,
 		// Removing any previous answer
-		solutionarea = jQuery("#solution").empty(),
+		solutionarea = jQuery("#solutionarea").empty(),
 
 		// See if we're looking for a specific style of answer
 		answerType = solution.data("type");
@@ -802,7 +802,7 @@ function makeProblem( id, seed ) {
 
 	// Generate a type of problem
 	// (this includes possibly generating the multiple choice problems,
-	//  if this fails then we will need to try generating another one.)
+	// if this fails then we will need to try generating another one.)
 	guessLog = [];
 	validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
@@ -1029,7 +1029,7 @@ function makeProblem( id, seed ) {
 			previousHintNum = 100000;
 
 		// So highlighting doesn't fade to white
-		jQuery( '#solution' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
+		jQuery( '#solutionarea' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
 
 		jQuery.fn.scrubber = function() {
 			var scrubber1 = jQuery( '#scrubber1' ),
