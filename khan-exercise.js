@@ -465,7 +465,22 @@ var Khan = {
 		};
 
 		return actions;
-	})()
+	})(),
+
+	showThumbnail: function( index ) {
+		jQuery( "#related-video-list .related-video-list li" ).each(function(i, el) {
+			if ( i == index ) {
+				jQuery( el )
+					.find( 'a.related-video-inline' ).hide().end()
+					.find( '.thumbnail' ).show();
+			}
+			else {
+				jQuery( el )
+					.find( 'a.related-video-inline' ).show().end()
+					.find( '.thumbnail' ).hide();
+			}
+		});
+	}
 };
 
 // Load query string params
@@ -508,7 +523,7 @@ Khan.loadScripts( scripts, function() {
 			isSummative = true;
 
 			remoteExercises.each( loadExercise );
-		
+
 		// Only run loadModules if exercises are in the page
 		} else if ( jQuery( ".exercise" ).length ) {
 			loadModules();
@@ -888,13 +903,13 @@ function makeProblem( id, seed ) {
 
 		var timelinecontainer = jQuery( "<div id='timelinecontainer'>" )
 			.append( "<div>\
-			            <div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
-			            <div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\
-			          </div>" )
+						<div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
+						<div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\
+					  </div>" )
 			.insertBefore( "#extras" );
 
 		if (getData().total_done === 0) {
-			$( '#previous-problem' )
+			jQuery( '#previous-problem' )
 				.addClass( 'disabled' )
 				.css( {
 					cursor: 'default !important',
@@ -909,16 +924,16 @@ function makeProblem( id, seed ) {
 
 		timelinecontainer
 			.append( "<div>\
-			            <div id='next-problem' class='simple-button action-gradient'>Next Problem</div>\
-			            <div id='next-step' class='simple-button action-gradient'><span>Next Step</span></div>\
-			          </div>" );
+						<div id='next-problem' class='simple-button action-gradient'>Next Problem</div>\
+						<div id='next-step' class='simple-button action-gradient'><span>Next Step</span></div>\
+					  </div>" );
 
 		jQuery( "<div class='user-activity correct-activity'>Started</div>" )
 			.data( 'hint', false )
 			.appendTo( timelineEvents );
 
 		var hintNumber = 0,
-		    answerNumber = 1;
+			answerNumber = 1;
 
 		/* value[0]: css class
 		 * value[1]: guess
@@ -926,7 +941,7 @@ function makeProblem( id, seed ) {
 		 */
 		jQuery.each(userExercise.user_activity, function(index, value) {
 			var guess = value[1] === "Activity Unavailable" ? value[1] : JSON.parse( value[1] ),
-			    thissolutionarea;
+				thissolutionarea;
 
 			timelineEvents
 				.append( "<div class='timeline-time'>" + value[2] + "s</div>" );
@@ -997,21 +1012,21 @@ function makeProblem( id, seed ) {
 		}
 
 		var states = timelineEvents.children( ".user-activity" ),
-		    currentSlide = states.length - 1,
-		    numSlides = states.length,
-		    firstHintIndex = timeline.find( '.hint-activity:first' )
-		      .index( '.user-activity' ),
-		    lastHintIndex  = timeline.find( '.hint-activity:last' )
-		      .index( '.user-activity' ),
-		    totalHints = timeline.find( '.hint-activity:last' )
-		      .index( '.hint-activity' ),
-		    hintButton = jQuery( '#hint' ),
-		    hintRemainder = jQuery( '#hint-remainder' ),
-		    timelineMiddle = timeline.width() / 2,
-		    realHintsArea = jQuery( '#hintsarea' ),
-		    realWorkArea = jQuery( '#workarea' ),
-		    statelist = [],
-		    previousHintNum = 100000;
+			currentSlide = states.length - 1,
+			numSlides = states.length,
+			firstHintIndex = timeline.find( '.hint-activity:first' )
+			  .index( '.user-activity' ),
+			lastHintIndex  = timeline.find( '.hint-activity:last' )
+			  .index( '.user-activity' ),
+			totalHints = timeline.find( '.hint-activity:last' )
+			  .index( '.hint-activity' ),
+			hintButton = jQuery( '#hint' ),
+			hintRemainder = jQuery( '#hint-remainder' ),
+			timelineMiddle = timeline.width() / 2,
+			realHintsArea = jQuery( '#hintsarea' ),
+			realWorkArea = jQuery( '#workarea' ),
+			statelist = [],
+			previousHintNum = 100000;
 
 		// So highlighting doesn't fade to white
 		jQuery( '#solution' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
@@ -1070,15 +1085,15 @@ function makeProblem( id, seed ) {
 			thisSlide = states.eq( i );
 
 			var thisHintArea, thisProblem,
-			    hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
-			                .filter('.hint-activity').length - 1,
-			    // Bring the currently focused panel as close to the middle as possible
-			    itemOffset = thisSlide.position().left,
-			    itemMiddle = itemOffset + thisSlide.width() / 2,
-			    offset = timelineMiddle - itemMiddle,
-			    currentScroll = timeline.scrollLeft(),
-			    timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
-			    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25 );
+				hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
+							.filter('.hint-activity').length - 1,
+				// Bring the currently focused panel as close to the middle as possible
+				itemOffset = thisSlide.position().left,
+				itemMiddle = itemOffset + thisSlide.width() / 2,
+				offset = timelineMiddle - itemMiddle,
+				currentScroll = timeline.scrollLeft(),
+				timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
+				scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25 );
 
 			if (hintNum >= 0) {
 			  jQuery( hints[hintNum] ).appendTo( realHintsArea ).runModules( problem );
@@ -1112,7 +1127,7 @@ function makeProblem( id, seed ) {
 
 		var activate = function( slideNum ) {
 			var hint, thisState,
-			    thisSlide = states.eq( slideNum );
+				thisSlide = states.eq( slideNum );
 
 			// All content for this state has been built before
 			if (statelist[slideNum]) {
@@ -1191,7 +1206,7 @@ function makeProblem( id, seed ) {
 
 		// Allow users to click on points of the timeline
 		jQuery( states ).click(function(event) {
-			var index = $(this).index("#timeline .user-activity");
+			var index = jQuery( this ).index( "#timeline .user-activity" );
 
 			currentSlide = index;
 			activate( currentSlide );
@@ -1860,7 +1875,7 @@ function prepareSite() {
 				path = fileName + "?problem=" + problemID
 					+ "&seed=" + problemSeed;
 
-			var title = encodeURIComponent( "Issue Found in Testing - " + $("title").html() ),
+			var title = encodeURIComponent( "Issue Found in Testing - " + jQuery("title").html() ),
 				body = encodeURIComponent( [ description, path, prettyDump, navigator.userAgent ].join("\n\n") ),
 				label = encodeURIComponent( "tester bugs" );
 
@@ -2156,34 +2171,104 @@ function updateData( data ) {
 							"/images/" + sPrefix + "-not-started.png";
 		jQuery("#exercise-icon-container img").attr("src", src);
 	}
-
-	// Display all the related videos
-	var videos = data && data.exercise_model.related_videos;
-
-	if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
-		jQuery.each( videos, function( i, video ) {
-			var span = jQuery( "<span>" )
-				.addClass( "video-title vid-progress v" + video.id )
-				.text( video.title );
-			if ( i < videos.length - 1 && i < 2 ) {
-				span.append( "<span class='separator'>, </span>" );
-			}
-
-			var a = jQuery( "<a>" ).attr( {
-				href: video.ka_url,
-				title: video.title
-			} )
-				.append( span );
-
-			jQuery( "<li>" )
-				.addClass( i > 2 ? "related-video-extended" : "" )
-				.append( a )
-				.appendTo( ".related-video-list" );
-		} );
-
-		jQuery(".related-content, #related-video-content").show();
+	var videos = data && data.exercise_model.related_videos
+	if ( videos && videos.length &&
+		jQuery(".related-video-list").is(":empty")
+	) {
+		displayRelatedVideos(videos);
 	}
 }
+
+function displayRelatedVideos( videos ) {
+	jQuery.each( videos, function( i, video ) {
+		var span = jQuery( "<span>" )
+			.addClass( "video-title vid-progress v" + video.id )
+			.text( video.title );
+		if ( i < videos.length - 1 && i < 2 ) {
+			span.append( "<span class='separator'>, </span>" );
+		}
+
+		var a = jQuery( "<a>" ).attr( {
+			href: video.ka_url,
+			title: video.title
+		} ).append( span );
+
+		var thumbnailUrl = function( youtubeId ) {
+			return "http://img.youtube.com/vi/" + youtubeId + "/hqdefault.jpg";
+		};
+
+		var li = jQuery( "<li>" )
+			.addClass( i > 2 ? "related-video-extended" : "" )
+			.append( a.addClass('related-video-inline') )
+
+		jQuery( ".related-content > .related-video-list" ).append( li );
+
+		// I apologise for this horrible non-templated element creation
+		var thumbnailDiv = jQuery( '<div>' ).addClass( "thumbnail" )
+			.append(a.clone()
+				.removeClass( 'related-video-inline' )
+				.empty()
+				.append(
+				jQuery( "<div>" ).addClass( "thumb" )
+					.css('backgroundImage',
+						"url('" + thumbnailUrl( video.youtube_id ) + "')")
+					.append(
+						jQuery( '<div>' ).addClass( 'thumbnail_label' )
+							.append(
+								jQuery( '<div>' ).addClass( 'thumbnail_desc' )
+									.append(jQuery(span
+										.clone().removeClass('video-title')))
+							)
+							.append(
+								jQuery( '<div>' ).addClass( 'thumbnail_teaser' )
+									.text( video.description )
+							)
+					)
+			));
+
+		var sideBarLi = li.clone().append( thumbnailDiv );
+
+		if ( i > 0 ) {
+			thumbnailDiv.hide();
+		}
+		else {
+			sideBarLi.find( 'a.related-video-inline' ).hide();
+		}
+		jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
+	} );
+
+	jQuery( ".related-content, #related-video-content" ).show();
+
+	// make caption slide up over the thumbnail on hover
+	var captionHeight = 45;
+	var defaultMarginTop = 23;
+	// queue:false to make sure these run simultaneously
+	var animationOptions = {duration: 150, queue: false};
+	jQuery( ".thumbnail" ).hover(
+		function() {
+			jQuery( this )
+				.find( ".thumbnail_label" ).animate(
+					{ marginTop: defaultMarginTop },
+					animationOptions
+				).end()
+				.find( ".thumbnail_teaser" ).animate(
+					{ height: captionHeight },
+					animationOptions
+				);
+		},
+		function() {
+			jQuery( this )
+				.find( ".thumbnail_label" ).animate(
+					{ marginTop: defaultMarginTop + captionHeight },
+					animationOptions
+				).end()
+				.find( ".thumbnail_teaser" ).animate(
+					{ height: 0 },
+					animationOptions
+				);
+		}
+	);
+};
 
 // Grab the cached UserExercise data from local storage
 function getData() {

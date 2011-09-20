@@ -2,7 +2,7 @@
 <html data-require="math word-problems spin">
 <head>
 	<meta charset="UTF-8" />
-	<title>Linear equations word problems</title>
+	<title>Linear equation and inequality word problems</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -110,6 +110,102 @@
 					<p>Since <var>person( 1 )</var> is already proficient in <var>Q</var> exercises, let <var>P</var>w + <var>Q</var> = the number of exercises <var>person( 1 )</var> will have completed at the end of w weeks.</p>
 					<p><var>person( 1 )</var> works on Khan Academy for <var>X</var> weeks so we can substitute <var>X</var> for w.</p>
 					<p><var>P</var> * <var>X</var> + <var>Q</var> = <var>R</var>. <strong><var>person( 1 )</var> will have completed <var>R</var> exercises at the end of <var>X</var> weeks.</strong></p>
+				</div>
+			</div>
+
+			<div id="magazine_subscriptions">
+				<div class="vars" data-ensure="Q < R">
+					<var id="Q">randRange( 20, 40 )</var><!-- $ per weekly bonus -->
+					<var id="P">randRange( 2, 10 )</var><!-- $ per subscription -->
+					<var id="R">randRange( 30, 100 )</var><!-- Weekly salary goal -->
+					<var id="X">ceil( (R - Q) / P )</var><!-- # subscriptions needed -->
+				</div>
+
+				<p class="problem spin"><var>person( 1 )</var> sells magazine subscriptions and earns $<var>P</var> for every new subscriber <var>he( 1 )</var> signs up. <var>person( 1 )</var> also earns a $<var>Q</var> weekly bonus regardless of how many magazine subscriptions <var>he( 1 )</var> sells.</p>
+				<p class="question">If <var>person( 1 )</var> wants to earn more than $<var>R</var> this week, what is the minimum number of subscriptions <var>he( 1 )</var> needs to sell?</p>
+				<p class="extra-info">(Acceptable answers are integers only.)</p>
+
+				<div class="solution"><var>X</var></div>
+
+				<div class="hints">
+					<p>Let s = subscriptions <var>person( 1 )</var> sells in a given week. Since <var>person( 1 )</var> earns $<var>P</var> per subscription, <var>P</var>s represents the amount of money <var>person( 1 )</var> earns on subscriptions in a given week.</p>
+					<p>Since <var>person( 1 )</var> earns a weekly bonus of $<var>Q</var>, let <var>P</var>s + <var>Q</var> = the total amount of money <var>person( 1 )</var> earns in a given week.</p>
+					<p><var>person( 1 )</var> wants to earn more than $<var>R</var> this week. This can be represented as <var>P</var>s + <var>Q</var> > <var>R</var></p>
+					<p><var>P</var>s > <var>R</var> - <var>Q</var></p>
+					<p>s > (<var>R</var> - <var>Q</var>) / <var>P</var></p>
+					<p><strong><var>person( 1 )</var> must sell at least <var>X</var> subscriptions this week.</strong></p>
+				</div>
+			</div>
+
+			<div id="video_game">
+				<div class="vars" data-ensure="Q < R">
+					<var id="Q">10 * randRange( 300 / 10, 3000 / 10 )</var><!-- # of bonus points -->
+					<var id="P">10 * randRange( 500 / 10, 1500 / 10 )</var><!-- # points per level -->
+					<var id="R">10 * randRange( 2000 / 10, 10000 / 10 )</var><!-- # of goal points -->
+					<var id="X">ceil( (R - Q) / P )</var><!-- # levels needed -->
+				</div>
+
+				<p class="problem spin">For every level <var>person( 1 )</var> completes in <var>his( 1 )</var> favorite game, <var>he( 1 )</var> earns <var>P</var> points. At the end of each hour spent playing the game, <var>person( 1 )</var> earns a bonus of <var>Q</var>. Name already has <var>10 * randRange( 500 / 10, 5000 / 10 )</var> in the game and wants to earn more than <var>R</var> additional points in the next hour.</p>
+				<p class="question">What is the minimum number of levels that <var>person( 1 )</var> needs to complete in the next hour to meet <var>his( 1 )</var> goal?</p>
+				<p class="extra-info">(Acceptable answers are integers only.)</p>
+
+				<div class="solution"><var>X</var></div>
+
+				<div class="hints">
+					<p>Let l = levels <var>person( 1 )</var> completes in a given hour. Since <var>person( 1 )</var> earns <var>P</var> points per level, <var>P</var> * l represents the number of points <var>person( 1 )</var> earns in a given hour.</p>
+					<p>Since <var>person( 1 )</var> earns a bonus of <var>Q</var> per hour, let <var>P</var> * l + <var>Q</var> = the total amount of points <var>person( 1 )</var> earns in a given hour.</p>
+					<p><var>person( 1 )</var> wants to earn more than <var>R</var> additional points in the next hour. This can be represented as <var>P</var> * l + <var>Q</var> > <var>R</var></p>
+					<p><var>P</var> * l > <var>R</var> - <var>Q</var></p>
+					<p>l > (<var>R</var> - <var>Q</var>) / <var>P</var></p>
+					<p><strong><var>person( 1 )</var> needs to complete at least <var>X</var> levels in the next hour.</strong></p>
+				</div>
+			</div>
+
+			<div id="bear">
+				<div class="vars">
+					<var id="Q">randRange( 1000, 5000 )</var><!-- Current energy -->
+					<var id="R">randRange( 10000, 25000 )</var><!-- Energy level needed before winter -->
+					<var id="X">randRange( 1, 8 )</var><!-- # of months left -->
+					<var id="P">ceil( ( R - Q ) / X )</var><!-- Energy needed to be stored per month -->
+				</div>
+
+				<p class="problem spin">A bear named <var>person( 1 )</var> is preparing to hibernate for the winter. <var>he( 1 )</var> has already stored up <var>Q</var> units of energy and needs to store up at least <var>R</var> total units of energy before winter.</p>
+				<p class="question">If there are <var>X</var> left before winter, what is the minimum units of energy the bear needs to store up per month?</p>
+				<p class="extra-info">(Acceptable answers are integers only.)</p>
+
+				<div class="solution"><var>P</var></div>
+
+				<div class="hints">
+					<p>Let e = units of energy <var>person( 1 )</var> stores up per month. Since there are <var>X</var> months left before winter, <var>X</var>e = the amount of energy <var>person( 1 )</var> can store up between now and winter.</p>
+					<p>Since <var>person( 1 )</var> has already stored up <var>Q</var> units of energy, let <var>X</var>e + <var>Q</var> = the total units of energy <var>person( 1 )</var> will have stored up when winter begins.</p>
+					<p><var>person( 1 )</var> needs to store up at least <var>R</var> units of energy before winter. This can be represented as <var>X</var>e + <var>Q</var> > <var>R</var>.</p>
+					<p><var>X</var>e > <var>R</var> - <var>Q</var>.</p>
+					<p>e > (<var>R</var> - <var>Q</var>) / <var>X</var>.</p>
+					<p><strong><var>person( 1 )</var> needs to store up at least <var>P</var> units of energy before the winter.</strong></p>
+				</div>
+			</div>
+
+			<div id="piano">
+				<div class="vars" data-ensure="Q < R">
+					<var id="Q">randRange( 5, 50 )</var><!-- # current songs -->
+					<var id="R">randRange( 50, 200 )</var><!-- # of total songs -->
+					<var id="P">randRange( 1, 10 )</var><!-- # of songs per month -->
+					<var id="X">ceil( ( R - Q ) / P )</var><!-- # of months needed -->
+				</div>
+
+				<p class="problem spin">To move up to the maestro level in <var>his( 1 )</var> piano school, <var>person( 1 )</var> needs to master at least <var>R</var> songs. <var>person( 1 )</var> has already mastered <var>Q</var> songs.</p>
+				<p class="question">If <var>person( 1 )</var> can typically master <var>P</var> songs per month, what is the minimum amount of months it will take <var>him( 1 )</var> to move to the maestro level?</p>
+				<p class="extra-info">(Acceptable answers are integers only.)</p>
+
+				<div class="solution"><var>X</var></div>
+
+				<div class="hints">
+					<p>Let m = months <var>person( 1 )</var> takes to move to the maestro level. Since <var>he( 1 )</var> typically masters <var>P</var> songs per month, <var>P</var>m = the number of songs <var>person( 1 )</var> masters in a given number of months.</p>
+					<p>Since <var>person( 1 )</var> has already mastered <var>Q</var> songs, let <var>P</var>m + <var>Q</var> = total songs <var>person( 1 )</var> will have mastered after a given number of months.</p>
+					<p><var>person( 1 )</var> needs to master <var>R</var> songs to move to the maestro level. This can be represented as <var>P</var>m + <var>Q</var> > <var>R</var>.</p>
+					<p><var>P</var>m><var>R</var> - <var>Q</var>.</p>
+					<p>m > (<var>R</var> - <var>Q</var>) / <var>P</var>.</p>
+					<p><strong>It will take <var>person( 1 )</var> at least <var>X</var> months to move to the maestro level.</strong></p>
 				</div>
 			</div>
 		</div>

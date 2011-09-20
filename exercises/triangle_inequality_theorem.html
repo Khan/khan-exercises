@@ -27,7 +27,7 @@
 			<var id="HIDDEN">rand( 3 )</var>
 			<var id="ANSWER">MAIN[ 1 ][ HIDDEN ]</var>
 			<var id="KNOWN">MAIN[ 1 ].slice( 0, HIDDEN ).concat( MAIN[ 1 ].slice( HIDDEN + 1 ) )</var>
-			<var id="MAX">parseFloat( KNOWN[ 0 ]  ) + parseFloat( KNOWN[ 1 ] )</var>
+			<var id="MAX">( parseFloat( KNOWN[ 0 ]  ) + parseFloat( KNOWN[ 1 ] ) ).toFixed( 1 )</var>
 			<var id="MIN">Math.abs( KNOWN[ 0 ] - KNOWN[ 1 ] ).toFixed( 1 )</var>
 		</div>
 

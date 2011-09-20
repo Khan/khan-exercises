@@ -39,10 +39,14 @@
 						return trC;
 						}()
 				</var>
+				<var id="TEMP_BD">TR_B.niceSideLengths[ 1 ]</var>
+				<var id="TEMP_AB">TR_B.niceSideLengths[ 0 ]</var>
+				<var id="TEMP_CD">TR_C.niceSideLengths[ 1 ]</var>
+				<var id="TEMP_AC">TR_C.niceSideLengths[ 2 ]</var>
 				<var id="BD">TR_B.niceSideLengths[ 1 ]</var>
 				<var id="AB">TR_B.niceSideLengths[ 0 ]</var>
-				<var id="CD"> TR_C.niceSideLengths[ 1 ]</var>
-				<var id="AC">( AB * CD / BD ).toFixed( 1 )</var>
+				<var id="CD">TR_C.niceSideLengths[ 1 ]</var>
+				<var id="AC">TR_C.niceSideLengths[ 2 ]</var>
 		</div>
 		<div class="problem">
 			What is the length of the side AC? 
@@ -68,7 +72,10 @@
 
 		<div class="problems">
 			<div id="AC">
-				<div class="problem">
+				<div class="vars">
+					<var id="AC">( TEMP_AB * TEMP_CD / TEMP_BD ).toFixed( 1 )</var>
+				</div>	
+			<div class="problem">
 					What is the length of the side AC? (Round to 1 decimal place). 
 				</div>
 				<div class="solution"><var>AC</var></div>
@@ -80,6 +87,7 @@
 			</div>
 			<div id="AB">
 				<div class="vars">
+						<var id="AB">( TEMP_AC * TEMP_BD / TEMP_CD ).toFixed( 1 )</var>
 						<var id="SIDES_B">[ [ 1 ], [0] ]</var>
 						<var id="SIDES_C">[ [ 1,2 ], [ ]  ]</var>
 				</div>
@@ -95,6 +103,7 @@
 			</div>
 			<div id="CD">
 				<div class="vars">
+						<var id="CD">( TEMP_AC * TEMP_BD / TEMP_AB ).toFixed( 1 )</var>
 						<var id="SIDES_B">[ [ 1, 0 ], [] ]</var>
 						<var id="SIDES_C">[ [ 2 ], [1 ]  ]</var>
 				</div>
@@ -110,6 +119,7 @@
 			</div>	
 			<div id="BD">
 				<div class="vars">
+						<var id="BD">( TEMP_AB * TEMP_CD / TEMP_AC ).toFixed( 1 )</var>
 						<var id="SIDES_B">[ [  0 ],  [ 1 ] ]</var>
 						<var id="SIDES_C">[ [ 1, 2 ], [ ]  ]</var>
 				</div>

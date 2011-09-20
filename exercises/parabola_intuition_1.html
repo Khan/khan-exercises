@@ -25,7 +25,22 @@
 				<p>How do these numbers affect the shape and position of a parabola?</p>
 
 				<div class="graphie" id="grid">
-					initParabola( A, X1, Y1 );
+					graphInit({
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						axisArrows: "<->"
+					});
+
+					// Plot the orange parabola
+					style({
+						stroke: "#FFA500",
+						fill: "none",
+						clipRect:[ [-10, -10], [20, 20] ],
+						arrows: null
+					});
+
+					plot( new Parabola( A, X1, Y1 ).graphieFunction, [-10, 10]);
 
 					style({
 						stroke: "#6495ED",
@@ -35,12 +50,9 @@
 						arrows: null
 					});
 
-					graph.A = 1;
-					graph.x1 = 0;
-					graph.y1 = 0;
-					graph.currParabola = plot( function( x ) {
-						return x * x;
-					}, [ -10, 10 ] );
+					graph.currParabola = new Parabola( 1, 0, 0 );
+					graph.currParabola.plot();
+
 				</div>
 			
 				<div class="solution" data-type="multiple">

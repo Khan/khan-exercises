@@ -87,7 +87,7 @@
 				
 			</div>
 			<div class="question">
-				Which of these are lines of symmetry? 
+				Which of these lines are lines of symmetry? 
 				<div class="graphie" id="main">
 					init({
 						 range: [ [ -3, 7 ], [ -6, 2 ] ]
@@ -119,7 +119,7 @@
 				<div>Let's examine line A first.</div>
 				<div class="graphie" id="a">
 					init({
-						 range: [ [ -3, 7 ], [ -6, 2 ] ]
+						 range: [ [ -3, 9 ], [ -6, 2 ] ]
 					});
 					var p = regularPolygon( [ 2, -2 ] , SIDES , 2.5 );
 					var a = line( LINE_A[ 0 ], LINE_A[ 1 ], { stroke: "blue" } );
@@ -127,7 +127,7 @@
 					path( x[ 1 ], { stroke: "green" } );
 					graph.X = x;
 				</div>
-				<p>The green part is what we get when we split the polygon down the line of symmetry.</p>
+				<p>The green part is one of the halves that we get when we split the polygon down the line of symmetry.</p>
 				<p>We can reflect it over the line to see whether it is equal with the other half.</p> 
 				<div class="graphie" data-update="a">
 					var temp = [];
@@ -137,20 +137,20 @@
 					}
 					path( temp, { stroke: "red", "stroke-dasharray": "-" } )
 				</div>
-				<div data-if="A">Two parts match, therefore line A is a line of symmetry</div>
-				<div data-else>The two parts do not match, therefore line A is not a line of symmetry</div>
-				<div>We can examine line B in the same way.</div>
+				<div data-if="A">These two parts match, therefore line A is a line of symmetry.</div>
+				<div data-else>These two parts do not match, therefore line A is not a line of symmetry.</div>
+				<p>We can examine line B in the same way.</p>
 				<div class="graphie" id="b">
 					init({
-						 range: [ [ -3, 7 ], [ -6, 2 ] ]
+						 range: [ [ -3, 9 ], [ -6, 2 ] ]
 					});
 					var p = regularPolygon( [ 2, -2 ] , SIDES , 2.5 );
-					var a = line( LINE_B[ 0 ], LINE_B[ 1 ], { stroke: "blue" } );
+					var a = line( LINE_B[ 0 ], LINE_B[ 1 ], { stroke: "red" } );
 					var x = splitPath( p,  linePathIntersection( a, p )  );
 					path( x[ 1 ], { stroke: "green" } );
 					graph.X = x;
 				</div>
-				<p>The green part is what we get when we split the polygon down the line of symmetry.</p>
+				<p>The green part is one of the halves which we get when we split the polygon down the line of symmetry.</p>
 				<p>We can reflect it over the line to see whether it is equal with the other half.</p> 
 				<div class="graphie" data-update="b">
 					var temp = [];
@@ -160,8 +160,8 @@
 					}
 					path( temp, { stroke: "red", "stroke-dasharray": "-" } )
 				</div>
-				<div data-if="B">Two parts match, therefore line B is a line of symmetry</div>
-				<div data-else>The two parts do not match, therefore line B is not a line of symmetry</div>
+				<div data-if="B">These two parts match, therefore line B is a line of symmetry.</div>
+				<div data-else>These two parts do not match, therefore line B is not a line of symmetry.</div>
 			</div>
 		</div>
 

@@ -15,7 +15,7 @@
 			var c = 180 - a - b;
 			//Make sure we do not create the same triangle
 			if ( current ){
-				if ( a in current && b in current ){
+				if ( $.inArray( a, current ) != -1  && $.inArray( b, current ) != -1 ){
 					return randomTriangle( current );
 				}
 			}
