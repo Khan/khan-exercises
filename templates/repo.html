@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	{% for pull in pulls %}
+		{{ pull.number }}
+	{% endfor %}
+{% endblock %}
