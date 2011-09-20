@@ -492,12 +492,6 @@ jQuery.extend({
 			jQuery( elem ).remove();
 		},
 
-		// Removes only the parent
-		removeParent: function ( elem ) {
-			jQuery( this ).remove();
-			return elem;
-		},
-
 		// Replaces the parent with the child
 		replace: function( elem ) {
 			jQuery( this ).replaceWith( elem );

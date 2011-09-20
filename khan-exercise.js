@@ -749,7 +749,7 @@ function makeProblem( id, seed ) {
 		.find( ".vars" ).tmplApply( { attribute: "class", defaultApply: "appendVars" } ).end()
 
 		// Individual variables override other variables with the same name
-		.find( ".vars [id]" ).tmplApply( { defaultApply: "removeParent" } ).end()
+		.find( ".vars [id]" ).tmplApply().end()
 
 		// We also look at the main blocks within the problem itself to override
 		.children( "[class]" ).tmplApply( { attribute: "class" } );
