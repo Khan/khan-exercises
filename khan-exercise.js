@@ -259,7 +259,7 @@ var Khan = {
 			if ( typeof mod === "string" ) {
 				var cachebust = "";
 				if ( testMode && Khan.query.nocache != null ) {
-					cachebust = "?c=" + Math.random();
+					cachebust = "?" + Math.random();
 				}
 				src = urlBase + "utils/" + mod + ".js" + cachebust;
 				deps = Khan.moduleDependencies[ mod ];
@@ -748,8 +748,8 @@ function makeProblem( id, seed ) {
 		// vars and hints blocks append their contents to the parent
 		.find( ".vars" ).tmplApply( { attribute: "class", defaultApply: "appendVars" } ).end()
 
-		// Individual variables override other variables with the name name
-		.find( ".vars [id]" ).tmplApply().end()
+		// Individual variables override other variables with the same name
+		.find( ".vars [id]" ).tmplApply( { defaultApply: "removeParent" } ).end()
 
 		// We also look at the main blocks within the problem itself to override
 		.children( "[class]" ).tmplApply( { attribute: "class" } );
