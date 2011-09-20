@@ -2228,7 +2228,7 @@ function displayRelatedVideos( videos, exid ) {
 		jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
 	} );
 
-	jQuery( ".related-content, #related-video-content" ).show();
+	jQuery( ".related-content, .related-video-box" ).show();
 
 	// make caption slide up over the thumbnail on hover
 	var captionHeight = 45;
