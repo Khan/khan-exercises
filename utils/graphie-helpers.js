@@ -532,44 +532,15 @@ function Parabola( lc, x, y ) {
 	var x1 = x;
 	var y1 = y;
 	var raphaelObjects = [];
+
 	this.graphieFunction = function( x ) {
 		return ( leadingCoefficient * ( x - x1 ) * ( x - x1 ) ) + y1;
-	};
-	this.update = function( newLC, newX, newY ) {
-		leadingCoefficient = newLC;
-		x1 = newX;
-		y1 = newY;
-	};
-	this.delta = function( deltaLC, deltaX, deltaY ) {
-		this.update( leadingCoefficient + deltaLC, x1 + deltaX, y1 + deltaY );
-	}
-	this.deltaFocusDirectrix = function( deltaX, deltaY, deltaK ) {
-		var focusY = this.getFocusY() + deltaY;
-		var k = this.getDirectrixK() + deltaK;
-
-		if ( focusY === k ) {
-			focusY += deltaY;
-			k += deltaK;
-		}
-		var newVertexY = ( focusY + k ) / 2;
-		var newLeadingCoefficient = 1 / ( 2 * ( focusY - k ) );
-
-		this.update( newLeadingCoefficient, this.getVertexX() + deltaX, newVertexY );
-	}
-
-	this.redraw = function( fShowFocusDirectrix ) {
-		jQuery.each( raphaelObjects, function( i, el ) {
-			el.remove();
-		});
-		raphaelObjects = [];
-		this.plot( fShowFocusDirectrix );
 	};
 
 	this.plot = function( fShowFocusDirectrix ) {
 		var graph = KhanUtil.currentGraph;
 		raphaelObjects.push( graph.plot( this.graphieFunction, [-10, 10] ) );
 		if ( fShowFocusDirectrix ) {
-
 			var focusX = this.getFocusX();
 			var focusY = this.getFocusY();
 			var directrixK = this.getDirectrixK();
@@ -582,21 +553,59 @@ function Parabola( lc, x, y ) {
 			});
 		}
 	};
+
+	this.redraw = function( fShowFocusDirectrix ) {
+		jQuery.each( raphaelObjects, function( i, el ) {
+			el.remove();
+		});
+		raphaelObjects = [];
+		this.plot( fShowFocusDirectrix );
+	};
+
+	this.update = function( newLC, newX, newY ) {
+		leadingCoefficient = newLC;
+		x1 = newX;
+		y1 = newY;
+	};
+
+	this.delta = function( deltaLC, deltaX, deltaY ) {
+		this.update( leadingCoefficient + deltaLC, x1 + deltaX, y1 + deltaY );
+	};
+
+	this.deltaFocusDirectrix = function( deltaX, deltaY, deltaK ) {
+		var focusY = this.getFocusY() + deltaY;
+		var k = this.getDirectrixK() + deltaK;
+
+		if ( focusY === k ) {
+			focusY += deltaY;
+			k += deltaK;
+		}
+		var newVertexY = ( focusY + k ) / 2;
+		var newLeadingCoefficient = 1 / ( 2 * ( focusY - k ) );
+
+		this.update( newLeadingCoefficient, this.getVertexX() + deltaX, newVertexY );
+	};
+
 	this.getVertexX = function() {
 		return x1;
 	};
+
 	this.getVertexY = function() {
 		return y1;
 	};
+
 	this.getLeadingCoefficient = function() {
 		return leadingCoefficient;
 	};
+
 	this.getFocusX = function() {
 		return x1;
-	;}
+	};
+
 	this.getFocusY = function() {
 		return y1 + ( 1 / ( 4 * leadingCoefficient ) );
 	};
+
 	this.getDirectrixK = function() {
 		return y1 - ( 1 / ( 4 * leadingCoefficient ) );
 	};
