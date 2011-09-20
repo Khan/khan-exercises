@@ -2135,30 +2135,19 @@ function updateData( data ) {
 
 		}
 	}
+	
+	// the new streak bar behavior
 
-	if(data.hasOwnProperty("progress")){
-		// the new streak bar behavior
-
-		jQuery.extend( jQuery.easing, {
-					easeInOutCubic: function (x, t, b, c, d) {
-						if ((t/=d/2) < 1) return c/2*t*t*t + b;
-						return c/2*((t-=2)*t*t + 2) + b;
-					}
-				});
-		streakWidth = Math.floor(data.progress * streakMaxWidth);
-		
-		jQuery(".current-label").animate({"width":streakWidth}, 365, "easeInOutCubic");
-		jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );		
-	}else{
-
-		// the original streak bar behavior
-		jQuery(".unit-rating").width( streakMaxWidth );
-		jQuery(".current-rating").width( streakWidth );
-		jQuery(".streak-icon").width( streakIconWidth );
-		jQuery(".best-label").width( longestStreakWidth ).html( labelLongestStreak + "&nbsp;" );
-		jQuery(".current-label").width( streakWidth ).html( labelStreak + "&nbsp;" );
-		jQuery("#exercise-points").text( " " + data.next_points + " " );
-	}
+	jQuery.extend( jQuery.easing, {
+				easeInOutCubic: function (x, t, b, c, d) {
+					if ((t/=d/2) < 1) return c/2*t*t*t + b;
+					return c/2*((t-=2)*t*t + 2) + b;
+				}
+			});
+	streakWidth = Math.floor(data.progress * streakMaxWidth);
+	
+	jQuery(".current-label").animate({"width":streakWidth}, 365, "easeInOutCubic");
+	jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );		
 
 	// Update the exercise icon
 	var exerciseStates = data && data.exercise_states;
