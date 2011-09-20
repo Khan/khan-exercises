@@ -259,7 +259,7 @@ var Khan = {
 			if ( typeof mod === "string" ) {
 				var cachebust = "";
 				if ( testMode && Khan.query.nocache != null ) {
-					cachebust = "?c=" + Math.random();
+					cachebust = "?" + Math.random();
 				}
 				src = urlBase + "utils/" + mod + ".js" + cachebust;
 				deps = Khan.moduleDependencies[ mod ];
@@ -748,8 +748,8 @@ function makeProblem( id, seed ) {
 		// vars and hints blocks append their contents to the parent
 		.find( ".vars" ).tmplApply( { attribute: "class", defaultApply: "appendVars" } ).end()
 
-		// Individual variables override other variables with the name name
-		.find( ".vars [id]" ).tmplApply().end()
+		// Individual variables override other variables with the same name
+		.find( ".vars [id]" ).tmplApply( { defaultApply: "removeParent" } ).end()
 
 		// We also look at the main blocks within the problem itself to override
 		.children( "[class]" ).tmplApply( { attribute: "class" } );
@@ -776,7 +776,7 @@ function makeProblem( id, seed ) {
 
 		// Get the area into which solutions will be inserted,
 		// Removing any previous answer
-		solutionarea = jQuery("#solution").empty(),
+		solutionarea = jQuery("#solutionarea").empty(),
 
 		// See if we're looking for a specific style of answer
 		answerType = solution.data("type");
@@ -802,7 +802,7 @@ function makeProblem( id, seed ) {
 
 	// Generate a type of problem
 	// (this includes possibly generating the multiple choice problems,
-	//  if this fails then we will need to try generating another one.)
+	// if this fails then we will need to try generating another one.)
 	guessLog = [];
 	validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
@@ -1029,7 +1029,7 @@ function makeProblem( id, seed ) {
 			previousHintNum = 100000;
 
 		// So highlighting doesn't fade to white
-		jQuery( '#solution' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
+		jQuery( '#solutionarea' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
 
 		jQuery.fn.scrubber = function() {
 			var scrubber1 = jQuery( '#scrubber1' ),
@@ -2175,11 +2175,19 @@ function updateData( data ) {
 	if ( videos && videos.length &&
 		jQuery(".related-video-list").is(":empty")
 	) {
-		displayRelatedVideos(videos);
+		if ( typeof data.hints_first !== "undefined" ) {
+			// we are in an ab test for video box versus hint box ordering.
+			if (data.hints_first) {
+				// swap order of hints and videos
+				jQuery(".related-video-box").remove().insertAfter(".hint-box");
+			}
+		}
+		displayRelatedVideos(videos, data.exercise_model.name);
 	}
 }
 
-function displayRelatedVideos( videos ) {
+function displayRelatedVideos( videos, exid ) {
+	var exid_param = exid ? "?exid=" + exid : '';
 	jQuery.each( videos, function( i, video ) {
 		var span = jQuery( "<span>" )
 			.addClass( "video-title vid-progress v" + video.id )
@@ -2189,7 +2197,7 @@ function displayRelatedVideos( videos ) {
 		}
 
 		var a = jQuery( "<a>" ).attr( {
-			href: video.ka_url,
+			href: video.ka_url + exid_param,
 			title: video.title
 		} ).append( span );
 
@@ -2237,7 +2245,7 @@ function displayRelatedVideos( videos ) {
 		jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
 	} );
 
-	jQuery( ".related-content, #related-video-content" ).show();
+	jQuery( ".related-content, .related-video-box" ).show();
 
 	// make caption slide up over the thumbnail on hover
 	var captionHeight = 45;
