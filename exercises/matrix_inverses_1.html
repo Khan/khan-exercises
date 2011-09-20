@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html data-require="math math-format matrices expressions">
+<head>
+	<title>Matrix Inverses 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<!-- <var id="A">randRangeMatrix(3,3,-8,8)</var> -->
+		<var id="DET">randRange(1,6)</var>
+		<var id="A">randMatrixWithDet(DET,3)</var>
+		<var id="A_INV">A.inverse()</var>
+		<var id="A_AUG">augmentMatrix(A, identityMatrix(3,3))</var>
+		<var id="RREF_STEPS">A_AUG._reduce_to_stage('rref', true)['steps']</var>
+	</div>
+
+	<div class="problems">
+		<div id="original">
+			<div class="question">
+				<p>
+				If <code>A=<var>A.toCode('[')</var></code> what is
+				<code>A^{-1}</code>?
+				</p>
+			</div>
+			<div class="solution" data-type="matrix"><var>A_INV</var></div>
+		</div>
+		<div data-type="original">
+			<div class="question">
+				<p>
+				What is <code><var>A.toCode('[')</var>^{-1}</code>?
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="hints">
+		<p>First, augment the matrix <code>A=<var>A.toCode('[')</var></code> with the <code>3\times 3</code> identity matrix.</p>
+		<p><code>[A|I]=<var>A_AUG.toCode('[')</var></code></p>
+		<p>Row reduce until the left side of the augmented matrix looks like the identity matrix.</p>
+		<p>
+		<code><var>A_AUG.toCode('[')</var></code>
+		</p>
+		<div data-each="RREF_STEPS['downward_elimination'] as STEP">
+			<p>
+				<code>\stackrel{<var>formatRowOperation(STEP)</var>}{\longrightarrow}</code>
+				<code><var>STEP['matrix'].asSymbolic().map(decimalToFraction).toCode('[')</var></code>
+			</p>
+		</div>
+		<div data-each="RREF_STEPS['upward_elimination'] as STEP">
+			<p>
+				<code>\stackrel{<var>formatRowOperation(STEP)</var>}{\longrightarrow}</code>
+				<code><var>STEP['matrix'].asSymbolic().map(decimalToFraction).toCode('[')</var></code>
+			</p>
+		</div>
+		<div data-each="RREF_STEPS['normalization'] as STEP">
+			<p>
+				<code>\stackrel{<var>formatRowOperation(STEP)</var>}{\longrightarrow}</code>
+				<code><var>STEP['matrix'].asSymbolic().map(decimalToFraction).toCode('[')</var></code>
+			</p>
+		</div>
+		<p>
+		The inverse matrix is now to the right of the identity sub-matrix.
+		</p>
+		<p>
+		<code>A^{-1}=<var>A_INV.asSymbolic().map(decimalToFraction).toCode('[')</var></code>
+		</p>
+	</div>
+	</div>
+</body>
+</html>

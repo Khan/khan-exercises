@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html data-require="math math-format matrices expressions">
+<head>
+	<title>Rank 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+
+	<div class="problems">
+		<div>
+			<div class="vars">
+				<var id="RANK">randRange(0,8)</var>
+			</div>
+			
+			<div class="question">
+				<p>
+				If the image of <code>A</code> has dimension <var>RANK</var>, what is
+				rank(<code>A</code>)?
+				</p>
+			</div>
+			<div class="solution" data-type="rational"><var>RANK</var></div>
+			<div class="hints">
+				<p>The rank of a matrix is equal to the dimension of its image.
+				</p>
+				<p>Thus, the rank of <code>A</code> is <code><var>RANK</var></code>.
+				</p>
+			</div>
+		</div>
+		<div>
+			<div class="vars">
+				<var id="M">randRange(2,8)</var>
+			</div>
+			
+			<div class="question">
+				<p>
+				If <code>A</code> is <code><var>M</var>\times <var>M</var></code>
+				and <code>A</code> is invertible, what is
+				rank(<code>A</code>)?
+				</p>
+			</div>
+			<div class="solution" data-type="rational"><var>M</var></div>
+			<div class="hints">
+				<p>An invertible matrix always has full rank.
+				</p>
+				<p>Since <code>A</code> is <code><var>M</var>\times <var>M</var></code>,
+				the largest possible rank for <code>A</code> is <code><var>M</var></code>.
+				</p>
+				<p>Thus, the rank of <code>A</code> is <code><var>M</var></code>.
+				</p>
+			</div>
+		</div>
+		<div>
+			<div class="vars">
+				<var id="M">randRange(1,8)</var>
+				<var id="N">randRange(1,8)</var>
+			</div>
+			
+			<div class="question">
+				<p>
+				If <code>A</code> is <code><var>M</var>\times <var>N</var></code>,
+				what is the maximum possible rank of <code>A</code>?
+				</p>
+			</div>
+			<div class="solution" data-type="rational"><var>min(M,N)</var></div>
+			<div class="hints">
+				<p>How many pivots can a <code><var>M</var>\times <var>N</var></code> matrix have?
+				</p>
+				<p>Since each pivot takes up a row and a column, the most pivots a 
+				<code><var>M</var>\times <var>N</var></code> can have is <code>\min(<var>M</var>,<var>N</var>)</code>.
+				</p>
+				<p>Thus, the rank of <code>A</code> is <code><var>min(M,N)</var></code>.
+				</p>
+			</div>
+		</div>
+		<div>
+			<div class="vars">
+				<var id="M">randRange(1,8)</var>
+				<var id="N">randRange(1,8)</var>
+			</div>
+			
+			<div class="question">
+				<p>
+				If <code>A</code> is <code><var>M</var>\times <var>N</var></code>,
+				what is the maximum possible rank of <code>A^T</code>?
+				</p>
+			</div>
+			<div class="solution" data-type="rational"><var>min(M,N)</var></div>
+			<div class="hints">
+				<p><code>A^T</code> has size <code><var>N</var>\times <var>M</var></code>.  
+				How many pivots can a <code><var>N</var>\times <var>M</var></code> matrix have?
+				</p>
+				<p>Since each pivot takes up a row and a column, the most pivots a 
+				<code><var>N</var>\times <var>M</var></code> can have is <code>\min(<var>N</var>,<var>M</var>)</code>.
+				</p>
+				<p>Thus, the rank of <code>A^T</code> is <code><var>min(M,N)</var></code>.
+				</p>
+			</div>
+		</div>
+		<div>
+			<div class="vars">
+				<var id="M">randRange(1,8)</var>
+				<var id="N">randRange(1,8)</var>
+				<var id="NULL">randRange(0,N)</var>
+			</div>
+			
+			<div class="question">
+				<p>
+				If <code>A</code> is <code><var>M</var>\times <var>N</var></code> and
+				the null space of <code>A</code> has dimension <var>NULL</var>,
+				what is the rank of <code>A</code>?
+				</p>
+			</div>
+			<div class="solution" data-type="rational"><var>N-NULL</var></div>
+			<div class="hints">
+				<p>For an <code>m\times n</code> matrix,
+				the rank plust the dimension of the null space equals <code>n</code>.
+				</p>
+				<p> Thus, the rank plus <var>NULL</var> equals <var>N</var>.
+				</p>
+				<p>And so, the rank of <code>A</code> is <code><var>N-NULL</var></code>.
+				</p>
+			</div>
+		</div>
+		<div>
+			<div class="vars">
+				<var id="M">randRange(1,8)</var>
+				<var id="N">randRange(1,8)</var>
+				<var id="NULL">randRange(0,M)</var>
+			</div>
+			
+			<div class="question">
+				<p>
+				If <code>A</code> is <code><var>M</var>\times <var>N</var></code> and
+				the null space of <code>A^T</code> has dimension <var>NULL</var>,
+				what is the rank of <code>A</code>?
+				</p>
+			</div>
+			<div class="solution" data-type="rational"><var>M-NULL</var></div>
+			<div class="hints">
+				<p>For an <code>m\times n</code> matrix,
+				the rank plust the dimension of the left null space equals <code>m</code>.
+				</p>
+				<p> Thus, the rank plus <var>NULL</var> equals <var>M</var>.
+				</p>
+				<p>And so, the rank of <code>A</code> is <code><var>M-NULL</var></code>.
+				</p>
+			</div>
+		</div>
+		<div>
+			<div class="vars">
+				<var id="M">randRange(1,8)</var>
+			</div>
+			
+			<div class="question">
+				<p>
+				If <code>A</code> is <code><var>M</var>\times <var>M</var></code> and
+				<code>\det(A)=0</code>, what is the maximum possible value for the rank of <code>A</code>?
+				</p>
+			</div>
+			<div class="solution" data-type="rational"><var>M-1</var></div>
+			<div class="hints">
+				<p>If <code>A</code> is invertible, it has full rank.
+				</p>
+				<p>Since <code>A</code> is not invertible, the maximum possible rank
+				is one less than full rank.
+				</p>
+				<p>Thus, the maximum possible rank of <code>A</code> is <code><var>M</var>-1=<var>M-1</var></code>.
+				</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

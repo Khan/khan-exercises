@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html data-require="math math-format matrices expressions">
+<head>
+	<title>Scalar Multiplication</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id='ROWS'>randRange(2,4)</var>
+		<var id='COLS'>randRange(2,4)</var>
+		<var id="A">randRangeMatrix(ROWS,COLS,-8,8)</var>
+		<var id="ALPHA">randRange(-8,8)</var>
+		<var id="ALPHA_COLORED">'\\color{green}{'+ALPHA+'}'</var>
+	</div>
+
+	<div class="problems">
+		<div id="original">
+			<div class="question">
+				<p>If <code>A = <var>formatMatrix(A, '[')</var></code>
+				and <code>\alpha=<var>ALPHA</var></code>, compute
+				<code>\alpha A</code>. </p>
+				
+			</div>
+			<div class="solution" data-type="matrix"><var>A.mul(ALPHA)</var></div>
+		</div>
+		<div data-type="original">
+			<div class="question">
+				<p>Compute <code><var>ALPHA</var><var>formatMatrix(A, '[')</var></code>.
+			</div>
+
+		</div>
+	</div>
+	<div class="hints">
+		<p>To multiply a matrix by a scalar, you multiply each entry in the matrix
+		by the scalar.</p>
+
+		<p>
+		<code>
+		<var>ALPHA_COLORED</var><var>A.toCode('[')</var>=
+		<var>A.asSymbolic().mul(ALPHA_COLORED).toCode('[')</var>
+		</code>
+		</p>
+		
+		<p>
+		<code>\hphantom{<var>ALPHA_COLORED</var><var>A.toCode('[')</var>}
+		= <var>A.mul(ALPHA).toCode()</var>.
+		</code></p>
+	</div>
+	</div>
+</body>
+</html>

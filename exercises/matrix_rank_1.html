@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html data-require="math math-format matrices expressions">
+<head>
+	<title>Rank 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="PIVOTS">randRange(1,3)</var>
+		<var id="ROWS">PIVOTS + randRange(0,2)</var>
+		<var id="COLS">PIVOTS + randRange(0,2)</var>
+		<var id="A">randMatrixWithNPivots(PIVOTS, ROWS, COLS)</var>
+		<var id="A_RREF">A.rref()</var>
+		<var id="RREF_STEPS">A._reduce_to_stage('rref')</var>
+	</div>
+
+	<div class="problems">
+		<div id="original">
+			<div class="question">
+				<p>
+				If <code>A=<var>A.toCode('[')</var></code> what is
+				rank(<code>A</code>)?
+				</p>
+			</div>
+			<div class="solution" data-type="rational"><var>PIVOTS</var></div>
+		</div>
+		<div data-type="original">
+			<div class="question">
+				<p>
+				What is the rank of
+				<code><var>A.toCode('[')</var></code>?
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="hints">
+		<p>The rank of a matrix is the number of pivots in the reduced row echelon form.
+		</p>
+		<p>
+		<code><var>A.toCode('[')</var>\longrightarrow<var>A_RREF.asSymbolic().map(decimalToFraction).toCode('[')</var></code>
+		</p>
+		<p>The pivot columns are <var>RREF_STEPS['pivot_col'][0]['col']+1</var><span data-each="RREF_STEPS['pivot_col'].slice(1) as PIVOT_POS">, <var>PIVOT_POS['col']+1</var></span>.
+		</p>
+		<p>
+		The number of pivots is <var>PIVOTS</var>, so the rank of the matrix is <var>PIVOTS</var>.
+		</p>
+
+		
+	</div>
+	</div>
+</body>
+</html>

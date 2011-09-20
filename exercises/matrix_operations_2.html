@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html data-require="math math-format matrices expressions">
+<head>
+	<title>Matrix Addition</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id='ROWS'>randRange(1,4)</var>
+		<var id='COLS'>randRange(1,4)</var>
+		<var id="A">randRangeMatrix(ROWS,COLS,-8,8)</var>
+		<var id="B">randRangeMatrix(ROWS,COLS,-8,8)</var>
+		<var id="A_COLORED">colorizeMatrix(A, 'blue')</var>
+		<var id="B_COLORED">colorizeMatrix(B, 'green')</var>
+	</div>
+
+	<div class="problems">
+		<div id="original">
+			<div class="question">
+				<p>If <code>A = <var>formatMatrix(A, '[')</var></code>
+				and <code>B = <var>formatMatrix(B, '[')</var></code>, find
+				<code>A+B</code>.</p>
+			</div>
+			<div class="solution" data-type="matrix"><var>A.add(B)</var></div>
+		</div>
+		<div data-type="original">
+			<div class="question">
+				<p>Find <code><var>formatMatrix(A, '[')</var>
+				+<var>formatMatrix(B, '[')</var></code>.</p>
+			</div>
+		</div>
+	</div>
+	<div class="hints">
+		<p>Matrix addition is done component-wise.</p>
+		<p><code><var>formatMatrix(A_COLORED, '[')</var> + <var>formatMatrix(B_COLORED, '[')</var> = 
+			<var>formatMatrix(
+				A_COLORED.add(B_COLORED),
+				'[')</var>
+		</code></p>
+		<p><code>\hphantom{<var>formatMatrix(A_COLORED, '[')</var> + <var>formatMatrix(B_COLORED, '[')</var>} = 
+			<var>formatMatrix(A.add(B), '[')</var>
+		</code></p>
+	</div>
+	</div>
+</body>
+</html>

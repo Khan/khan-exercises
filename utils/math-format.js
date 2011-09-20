@@ -169,6 +169,34 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
+	//guess at what fraction the decimal dec came from.
+	//for example .6667 -> 2/3.  Default requires at least 4
+	//decimal places.  So, .66 -> 33/50.  This can be changed
+	//by setting max_denominator.
+	//returns an integer or a ['/', numerator, denominator] suitable 
+	//for use with expressions.js
+	decimalToFraction : function( dec, max_denominator ) {
+		if ( max_denominator == null ) { max_denominator = 1000; }
+
+		//initialize everything to compute successive terms of
+		//continued-fraction approximations via recurrence relation
+		var p = [1, 0], q = [0, 1];
+		var a = Math.floor( dec );
+		var rem = dec - a
+
+		//q[0] is the denominator of our current continued fraction approximation
+		//if we happen to get a perfect approximation, q[0] becomes infinity, so 
+		//we will exit immediately.
+		while ( q[0] <= max_denominator ) {
+			p.unshift( a*p[0] + p[1] );
+			q.unshift( a*q[0] + q[1] );
+			a = Math.floor( 1/rem );
+			rem = 1/rem - a;
+		}
+
+		return q[1] === 1 ? p[1] : ['/', p[1], q[1]];
+	},
+
 	// splitRadical( 24 ) gives [ 2, 6 ] to mean 2 sqrt(6)
 	splitRadical: function( n ) {
 		if ( n === 0 ) {
