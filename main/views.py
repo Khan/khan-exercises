@@ -13,9 +13,12 @@ from subprocess import call
 def index(request, template_name="index.html"):
 	if request.method == 'POST':
 		url = request.POST.get('url')
-		domain = "github.com/"
+		domain = "github.com"
 		i = url.find(domain)
-		user, repo = url[i + len(domain):].split("/")
+		user, repo = url[i + len(domain) + 1:].split("/")
+
+		if '.git' in repo:
+			repo = repo[:-4]
 
 		return HttpResponseRedirect(reverse('repo', kwargs={
 			'user': user,
