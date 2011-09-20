@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems spin">
+<html data-require="math math-format graphie graphie-helpers word-problems spin">
 <head>
 	<meta charset="UTF-8" />
 	<title>Negative number word problems</title>
@@ -85,146 +85,88 @@
 <body>
 	<div class="exercise">
 		<div class="problems">
-			<div id="february_afternoon">
+			<div id="february_afternoon_result">
 				<div class="vars">
 					<var id="X">randRange( -20, -1 )</var><!-- Afternoon temperature -->
 					<var id="Y">randRange( 5, 30 )</var><!-- Temperature change -->
 					<var id="Z">X - Y</var><!-- Final temperature -->
 				</div>
 
-				<p class="problem spin">{Looking outside in the afternoon, you realize the temperature is|On a cold February afternoon, the temperature outside was} <var>X</var> degrees Farenheit. {You have been noticing that the temperatures throughout the day can vary by as much as 5 to 35 degrees. |}{By the evening, the temperature had dropped|During the evening, you take a quick look at the thermometer, and see that the temperature has dropped} <var>Y</var> degrees.</p>
+				<p class="problem spin">{This afternoon, an outdoor temperature had a reading of|On a cold February afternoon, the temperature outside was} <var>abs( X )</var> degrees below zero. {By evening, the temperature had dropped by|In the evening, you take a quick look at the thermometer, and see that the temperature had dropped by} <var>Y</var> degrees.</p>
 				<p class="question">What was the temperature in the evening?</p>
 
-				<div class="solution"><var>Z</var></div>
+				<div class="solution" data-forms="integer"><var>Z</var></div>
 
 				<div class="hints">
-					<p>The afternoon temperature can be written as a negative number, <var>X</var>, since it is below zero.</p>
-					<p>We know that the temperature dropped by evening, so we’ll need to subtract the change in temperature from the afternoon temperature to find out the evening temperature.</p>
-					<p><var>X</var> - <var>Y</var> = Temperature in the evening</p>
+					<p><code><var>abs( X )</var></code> degrees below zero is the same as <code><var>X</var>^{\circ}</code>.</p>
 					<div>
-						<p>To find out the temperature in the evening, we can use a number line:</p>
-						<div class="graphie" id="chart">
-							g.startNumberLine( X, Z, "afternoon temperature", "temperature change", "evening temperature" );
-							g.drawStartCircle();
-							g.drawStartLabel();
-						</div>
+						<p>Since the temperature dropped by <code><var>Y</var>^{\circ}</code>, subtract this amount from the afternoon temperature.</p>
+						<p><code><var>X</var>^{\circ} - <var>Y</var>^{\circ} = <var>Z</var>^{\circ}</code></p>
 					</div>
-					<div class="graphie" data-update="chart">
-						g.drawLine();
-						g.drawLineLabel();
-					</div>
-					<div class="graphie" data-update="chart">
-						g.drawEndCircle();
-						g.drawEndLabel();
-					</div>
+					<p>The temperature in the evening was <code><var>Z</var>^{\circ}</code>.</p>
 				</div>
 			</div>
 
-			<div id="sledding">
+			<div id="sledding_delta">
 				<div class="vars">
 					<var id="X">randRange( -30, -15 )</var><!-- Initial temperature -->
 					<var id="Z">randRange( -10, 20 )</var><!-- Final temperature -->
 					<var id="Y">Z - X</var><!-- Temperature change -->
 				</div>
 
-				<p class="problem spin">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for <var>his( 1 )</var> daily sledding practice}, <var>he( 1 )</var> {looked at the thermometer and saw|heard on the radio} that the temperature was <var>X</var> degrees Farenheit. {After sledding for <var>plural( randRange( 1, 8 ), "hour" )</var>,|After a long day of sledding he saw that} the temperature had increased to <var>Z</var> degrees.</p>
+				<p class="problem spin">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for <var>his( 1 )</var> daily sledding practice}, <var>he( 1 )</var> {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>plural( randRange( 1, 8 ), "hour" )</var>,|After a long day of sledding he saw that} the temperature had increased to <var>Z</var> degrees.</p>
 				<p class="question">By how many degrees had the temperature increased?</p>
 
-				<div class="solution"><var>Y</var></div>
+				<div class="solution" data-forms="integer"><var>Y</var></div>
 
 				<div class="hints">
-					<p>The morning temperature can be written as a negative number, <var>X</var>, since it is below zero.</p>
-					<p>To calculate the change in temperature, we can subtract the morning temperature from the temperature when <var>person( 1 )</var> finished sledding.</p>
-					<p><var>Z</var> - <var>X</var> = increase in temperature</p>
-					<p>Subtracting a negative number is the same as addition.</p>
-					<div>
-						<p>The difference between the morning and post-sledding temperatures can be represented on a number line:</p>
-						<div class="graphie" id="chart">
-							g.startNumberLine( X, Z, "initial temperature", "temperature change", "final temperature" );
-							g.drawStartCircle();
-							g.drawStartLabel();
-							g.drawEndCircle();
-							g.drawEndLabel();
-						</div>
-					</div>
-					<div class="graphie" data-update="chart">
-						g.drawLine();
-						g.drawLineLabel();
-					</div>
-					<p><var>Z</var> - <var>X</var> = <var>Y</var> = change in temperature while <var>person( 1 )</var> was sledding</p>
+					<p><code><var>abs( X )</var></code> degrees below zero is the same as <code><var>X</var>^{\circ}</code>.</p>
+					<p>Change in temperature = final temperature - initial temperature</p>
+					<p>Change in temperature = <code><var>Z</var>^{\circ} - (<var>X</var>^{\circ}) = <var>Z</var>^{\circ} - <var>X</var>^{\circ} = <var>Y</var>^{\circ}</code></p>
+					<p>The temperature had increased by <code><var>Y</var>^{\circ}</code>.</p>
+
 				</div>
 			</div>
 
-			<div id="snorkeling">
+			<div id="snorkeling_result">
 				<div class="vars">
 					<var id="X">randRange( 25, 100 )</var><!-- Initial level -->
 					<var id="Y">randRange( 50, 400 )</var><!-- Diving distance -->
 					<var id="Z">-X - Y</var><!-- Final position -->
 				</div>
 
-				<p class="problem spin"><var>person( 1 )</var> was snorkeling <var>X</var> meters below sea level when <var>he( 1 )</var> spotted a beautiful fish below. {From a distance, the fish looked to be about <var>randRange( 25, 35 )</var> cm wide. |}{To be able to take a proper photograph|To see the fish up close}, <var>person( 1 )</var> dove <var>Y</var> meters until <var>he( 1 )</var> was staring into the fish’s eyes.</p>
-				<p class="question">Where was the fish relative to the sea?</p>
+				<p class="problem spin"><var>person( 1 )</var> was snorkeling <var>X</var> meters below sea level when <var>he( 1 )</var> spotted a beautiful fish below. {From a distance, the fish looked to be about <var>randRange( 25, 35 )</var> cm wide. |}{To take a proper photograph|To see the fish up close}, <var>person( 1 )</var> dove <var>Y</var> meters until <var>he( 1 )</var> was level with the fish, staring into its eyes.</p>
+				<p class="question">Where was the fish relative to sea level?</p>
 
-				<div class="solution"><var>Z</var></div>
+				<div class="solution" data-forms="integer"><var>Z</var></div>
 
 				<div class="hints">
-					<p>The snorkeler was initially <var>X</var> meters below sea level, which can be written as a negative number, -<var>X</var>, since it is <var>X</var> meters below zero (sea level).</p>
-					<p><var>person( 1 )</var> dove an initial <var>Y</var> meters, so we can subtract that distance from <var>person( 1 )</var>’s initial level to find out where the fish is.</p>
-					<p>-<var>X</var> - <var>Y</var> = Fish’s position relative to sea level.</p>
-					<div>
-						<p>To find out the fish’s position, we can use a number line:</p>
-						<div class="graphie" id="chart">
-							g.startNumberLine( X, Z, "initial level", "diving distance", "fish's position" );
-							g.drawStartCircle();
-							g.drawStartLabel();
-						</div>
-					</div>
-					<div class="graphie" data-update="chart">
-						g.drawLine();
-						g.drawLineLabel();
-					</div>
-					<div class="graphie" data-update="chart">
-						g.drawEndCircle();
-						g.drawEndLabel();
-					</div>
+					<p><var>person( 1 )</var> was initially <code><var>X</var></code> meters below sea level, which can be written as a negative number, <code>-<var>X</var></code> meters.</p>
+					<p><var>person( 1 )</var> dove down <code><var>Y</var></code> meters, so we can subtract that distance from <var>person( 1 )</var>’s initial level to find out where the fish is.</p>
+					<p>Fish’s position relative to sea level <code>=-<var>X</var>\text{ meters} - <var>Y</var>\text{ meters} = <var>Z</var>\text{ meters}</code></p>
 				</div>
 			</div>
 
-			<div id="dolphin">
+			<div id="dolphin_delta">
 				<div class="vars">
-					<var id="X">randRange( 50, 200 )</var><!-- Below sea level -->
-					<var id="Y">randRange( 100, 400 )</var><!-- Above sea level -->
+					<var id="X">randRange( 5, 20 )</var><!-- Below sea level -->
+					<var id="Y">randRange( 5, 10 )</var><!-- Above sea level -->
 					<var id="Z">Y - -X</var><!-- Distance travelled -->
 				</div>
 
 				<p class="problem spin">A spinner dolphin jumped from <var>X</var> meters below sea level and flipped through the air at <var>Y</var> meters above sea level. {The jump itself took about 1.<var>randRange( 1, 9 )</var> seconds.|}</p>
 				<p class="question">How many meters did the dolphin travel during the jump?</p>
 
-				<div class="solution"><var>Z</var></div>
+				<div class="solution" data-forms="integer"><var>Z</var></div>
 
 				<div class="hints">
-					<p>The dolphin was initially <var>X</var> meters below sea level, which can be written as a negative number, -<var>X</var>, since it is <var>X</var> meters below zero (sea level).</p>
-					<p>The dolphin jumped to <var>Y</var> meters. To determine the total distance the dolphin jumped, we can subtract the dolphin’s initial position from the dolphin’s final position.</p>
-					<p><var>Y</var> - -<var>X</var> = the distance the dolphin jumped</p>
-					<div>
-						<p>To find out the distance the dolphin jumped, we can use a number line:</p>
-						<div class="graphie" id="chart">
-							g.startNumberLine( -X, Z, "below sea level", null, "above sea level" );
-							g.drawStartCircle();
-							g.drawEndCircle();
-							g.drawStartLabel();
-							g.drawEndLabel();
-						</div>
-					</div>
-
-					<div class="graphie" data-update="chart">
-						g.drawLine();
-					</div>
-					<p><var>Y</var> - -<var>X</var> = <var>Z</var> = the distance the dolphin jumped</p>
+					<p>The dolphin was initially <var>X</var> meters below sea level, which can be written as a negative number, -<var>X</var> meters.</p>
+					<p>Distance the dolphin jumped = final position - initial position</p>
+					<p><code><var>Y</var>\text{ meters} - (-<var>X</var>\text{ meters}) = <var>Y</var>\text{ meters} + <var>X</var>\text{ meters} = <var>Z</var>\text{ meters}</code></p>
 				</div>
 			</div>
 
-			<div id="baseball_camp">
+			<div id="baseball_camp_result">
 				<div class="vars" data-ensure="N * COST < X">
 					<var id="X">randRange( 10000, 50000 )</var><!-- Loan amount -->
 					<var id="N">randRange( 10, 50 )</var><!-- # of campers -->
@@ -233,23 +175,16 @@
 					<var id="Z">X - Y</var><!-- Money owed -->
 				</div>
 
-				<p class="problem spin"><var>person( 1 )</var> {wanted to start a dog-walking business|had always dreamed of owning <var>his( 1 )</var> own dog-walking business}, {but unfortunately he did not have enough money to do so.|but <var>he( 1 )</var> did not have any money.}
-				{After <var>randRange( 2, 4 )</var> months of trying, |}<var>person( 1 )</var> received a loan of $<var>X</var> from the bank to start a baseball camp. <var>person( 1 )</var> used the loan to buy baseball bats, mitts, baseballs, and water bottles and to pay the coaches’ salaries. Over the course of the summer, <var>N</var> campers attended <var>person( 1 )</var>’s baseball camp, and each camper paid a fee of $<var>COST</var> to attend. <var>person( 1 )</var> used all of the money from the campers’ fees to start paying back the loan.</p>
-				<p class="question">At the end of the summer, how much money did <var>person( 1 )</var> owe the bank?</p>
+				<p class="problem spin"><var>person( 1 )</var> received a loan of $<var>commafy( X )</var> from the bank to start a baseball camp. <var>person( 1 )</var> used the loan to buy baseball bats, mitts, baseballs, and water bottles and to pay the coaches’ salaries. Over the course of the summer, <var>N</var> campers attended <var>person( 1 )</var>’s baseball camp, and each camper paid a fee of $<var>COST</var> to attend. <var>person( 1 )</var> used all of the money from the campers’ fees to start paying back the loan.</p>
+				<p class="question">At the end of the summer, what was <var>person( 1 )</var>'s account balance?</p>
 
-				<div class="solution"><var>Z</var></div>
+				<div class="solution"><var>-1 * Z</var></div>
 
 				<div class="hints">
-					<p><var>person( 1 )</var> started out the summer with $<var>X</var> of debt, which can be represented as a negative number, -<var>X</var>, since it is below zero.</p>
-					<p>We can figure out the amount of money <var>person( 1 )</var> earned from campers by multiplying the number of campers by the fee each camper paid.</p>
-					<p><var>N</var> x <var>COST</var> = amount of money <var>person( 1 )</var> earned from campers.</p>
-					<p>We can figure out how much debt <var>person( 1 )</var> is still in by adding the amount of money <var>person( 1 )</var> earned from campers to the amount of the loan <var>X</var>.</p>
-					<p>-<var>X</var> + <var>Y</var> = amount of money <var>person( 1 )</var> still owns bank</p>
-					<p>We can represent this problem on a number line:</p>
-					<div class="graphie">
-							g.startNumberLine( -X, -Z, "amount of loan", "amount earned from campers", "amount still owed to bank", true );
-					</div>
-					<p>At the end of the summer, <var>person( 1 )</var> still owes $<var>Z</var> to the bank.</p>
+					<p><var>person( 1 )</var> started out the summer with <code>$<var>commafy( X )</var></code> of debt, which can be represented as a negative number, <code>-$<var>commafy( X )</var></code>.</p>
+					<p>Amount of money <var>person( 1 )</var> earned from campers = <code><var>N</var> \times $<var>COST</var>=$<var>commafy(  Y )</var></code></p>
+					<p><var>person( 1 )</var>'s account balance = debt + earnings</p>
+					<p><code>-$<var>commafy( X )</var> + $<var>commafy( Y )</var> = -$<var>commafy( Z )</var></code></p>
 				</div>
 			</div>
 		</div>

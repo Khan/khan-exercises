@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Distributive property</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="A, B, C">randRangeUnique( 2, 10, 3 )</var>
+		<var id="RESULT">A * ( B + C )</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<p class="question">Distribute.</p>
+			<p><code><var>A</var>\times(<var>B</var> + <var>C</var>)</code></p>
+			<p class="solution" data-forms="integer"><var>RESULT</var></p>
+			<div class="hints">
+				<div>
+				<p>Each row has <code><var>B</var> + <var>C</var> = <var>B+C</var></code> rectangles, and there are <code><var>A</var></code> rows.</p>
+				<div class="graphie" id="distrib">
+					init({
+						range: [ [ 0, 1 ], [ 0, A ] ],
+						scale: [ 180, 30 ]
+					});
+					rectchart( [ B, C ], [ "#FFA500", "#6495ED" ], A - 1 );
+					for ( var i = 0; i &lt; A - 1; i++ ) {
+						rectchart( [ B, C ],  [ "#FFCF22", "#85B7FF" ], i);
+					}
+				</div>
+				</div>
+				<p style="font-weight: bold">Counting by color:</p>
+				<p>Number of orange rectangles: <code><var>A</var> \times <var>B</var> = <var>A * B</var></code></p>
+				<p>Number of blue rectangles: <code><var>A</var> \times <var>C</var> = <var>A* C</var></code></p>
+				<p>Total number of rectangles: <code><var>A * B</var> + <var>A * C</var> = <var>RESULT</var></code></p>
+				<p style="font-weight: bold">Counting by row:</p>
+				<p>Number of rows: <code><var>A</var></code></p>
+				<p>Number of rectangles in a row: <code><var>B</var> + <var>C</var> = <var>B + C</var></code></p>
+				<p>Total number of rectangles: <code><var>A</var> \times <var>B + C</var> = <var>RESULT</var></code></p>
+				<div>
+				<p>Both ways of counting result in the same number, and this is known as the distributive property.</p>
+				<p><code>(<var>A</var> \times <var>B</var>) + (<var>A</var> \times <var>C</var>) = <var>A</var>\times(<var>B</var> + <var>C</var>)</code></p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

@@ -9,9 +9,8 @@ var { font-style: normal; }
 .hint_purple{ color: purple; }
 #workarea { margin-left: 30px; }
 #hintsarea { margin-left: 50px; }
-#answer_area ul { list-style: none; margin: 8px; padding: 0; }
+#answer_area ul { list-style: none; }
 #answer_area li { margin: 14px 0; }
-#answer_area li span.value { padding-left: 5px; }
 
 #answer_area #check-answer-results { overflow: hidden; margin: 5px 0; }
 #answer_area #check-answer-results .check-answer-message { font-size: 12px; line-height: 20px; margin: 0; }
@@ -314,4 +313,59 @@ div.timeline-total {
   -o-user-select: none;
   user-select: none;
   white-space: nowrap;
+}
+
+.thumbnail a {
+  outline: none;
+  color: #fff;
+}
+
+.thumbnail a:hover {
+  text-decoration: none;
+}
+
+.thumbnail div.thumb {
+  background-size: 200px 150px;
+  background-position: no-repeat top left;
+  background-position: 0px -25px;
+  background-position-y: -80px\9;
+  background-position-x: -100px\9;
+  width: 200px;
+  height: 100px;
+  border: 1px solid #aaa;
+  -webkit-box-shadow: 0 0 3px #ccc;
+  -moz-box-shadow: 0 0 3px #ccc;
+  box-shadow: 0 0 3px #ccc;
+  margin-left: 14px; /* to line up with other titles */
+  margin-bottom: 8px;
+  margin-top: 4px;
+}
+
+.thumbnail div.thumbnail_label {
+  padding: 5px 10px;
+  max-width: 180px;
+  margin: 0;
+  text-align: left;
+  margin-top: 68px;
+  background: #333;
+  background-color: rgba(30, 30, 30, 0.9);
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.thumbnail div.thumbnail_desc {
+  width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.thumbnail div.thumbnail_teaser {
+  height: 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-decoration: none;
+  font-size: 11px;
 }

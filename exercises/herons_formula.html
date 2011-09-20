@@ -26,9 +26,12 @@
 				<div class="question">
 					<div class="graphie">
 						init({
-							range: [ [-1, 12 ], [ -6, 2.5 ] ]
+							range: [ [-1, 12 ], [ -7, 2.5 ] ]
 						})
 						var trA = new Triangle( [ 3, -3 ], ANGLES ,AREA, {} ); 
+						trA.boxOut( [ [ [ -10,  2.3 ], [ 10, 2.3 ] ] ] , [ 0, -0.7 ] );
+						trA.boxOut( [ [ [  -1,  -10 ], [ -1, 10 ] ] ] , [ 0.7, 0 ] );
+						trA.boxOut( [ [ [  11.5,  -10 ], [ 11.5, 10 ] ] ] , [ -0.7, 0 ] );
 						trA.draw();
 						trA.labels = { "sides" : trA.niceSideLengths };
 						trA.drawLabels();
