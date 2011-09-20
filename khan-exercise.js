@@ -2047,8 +2047,8 @@ function request( method, data, fn, fnError ) {
 		// make sure cookies are passed along.
 		xhrFields["withCredentials"] = true;
 	}
-
-	jQuery.ajax({
+	
+	var request = {
 		// Do a request to the server API
 		url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
 		type: "POST",
@@ -2068,7 +2068,15 @@ function request( method, data, fn, fnError ) {
 
 		// Handle error edge case
 		error: fnError
-	});
+	};
+	
+	// Do request using OAuth, if available
+	if ( typeof oauth !== "undefined" && jQuery.oauth ) {
+		jQuery.oauth( jQuery.extend( {}, oauth, request ) );
+	
+	} else {
+		jQuery.ajax( request );
+	}
 }
 
 // Update the visual representation of the points/streak
@@ -2408,6 +2416,7 @@ function loadModules() {
 
 if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
 	Khan.loadExercise = loadExercise;
+	Khan.prepareUserExercise = prepareUserExercise;
 }
 
 return Khan;
