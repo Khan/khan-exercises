@@ -2076,7 +2076,7 @@ function updateData( data ) {
 	}
 
 	// Update the streaks/point bar
-	var streakMaxWidth = 227,
+	var streakMaxWidth = jQuery(".streak-bar").width(),
 
 		// Streak and longest streak pixel widths
 		streakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.streak)),
@@ -2095,7 +2095,7 @@ function updateData( data ) {
 
 		labelLongestStreak = ( longestStreakWidth < labelWidthRequired || (longestStreakWidth - streakWidth) < labelWidthRequired ) ? "" :
 						( !data.summative && data.longest_streak > 100 ) ? "Max" : data.longest_streak;
-
+	
 	if ( data.summative ) {
 
 		jQuery( ".summative-help ")
@@ -2115,18 +2115,35 @@ function updateData( data ) {
 			}
 
 			jQuery.each(levels, function( index, val ) {
-				jQuery( ".best-label" ).after("<li class='level-label' style='width:" + val + "px'></li>");
+				jQuery( ".best-label" ).after( jQuery("<li class='level-label' ></li>").css({ "left":val }) );
 			});
 
 		}
 	}
 
-	jQuery(".unit-rating").width( streakMaxWidth );
-	jQuery(".current-rating").width( streakWidth );
-	jQuery(".streak-icon").width( streakIconWidth );
-	jQuery(".best-label").width( longestStreakWidth ).html( labelLongestStreak + "&nbsp;" );
-	jQuery(".current-label").width( streakWidth ).html( labelStreak + "&nbsp;" );
-	jQuery("#exercise-points").text( " " + data.next_points + " " );
+	if(data.hasOwnProperty("progress")){
+		// the new streak bar behavior
+
+		jQuery.extend( jQuery.easing, {
+					easeInOutCubic: function (x, t, b, c, d) {
+						if ((t/=d/2) < 1) return c/2*t*t*t + b;
+						return c/2*((t-=2)*t*t + 2) + b;
+					}
+				});
+		streakWidth = Math.floor(data.progress * streakMaxWidth);
+		
+		jQuery(".current-label").animate({"width":streakWidth}, 365, "easeInOutCubic");
+		jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );		
+	}else{
+
+		// the original streak bar behavior
+		jQuery(".unit-rating").width( streakMaxWidth );
+		jQuery(".current-rating").width( streakWidth );
+		jQuery(".streak-icon").width( streakIconWidth );
+		jQuery(".best-label").width( longestStreakWidth ).html( labelLongestStreak + "&nbsp;" );
+		jQuery(".current-label").width( streakWidth ).html( labelStreak + "&nbsp;" );
+		jQuery("#exercise-points").text( " " + data.next_points + " " );
+	}
 
 	// Update the exercise icon
 	var exerciseStates = data && data.exercise_states;
