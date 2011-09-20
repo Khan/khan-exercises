@@ -71,7 +71,8 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	testMode = typeof userExercise === "undefined",
 
 	// The main server we're connecting to for saving data
-	server = testMode ? "http://localhost:8080" : "",
+	server = typeof apiServer !== "undefined" ? apiServer :
+		testMode ? "http://localhost:8080" : "",
 
 	// The name of the exercise
 	exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]),
