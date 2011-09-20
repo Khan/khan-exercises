@@ -224,8 +224,8 @@ div.timeline-total {
   border: 2px solid #888;
 }
 
-.lite header, .lite footer, .lite #extras, .lite .exercise-badge, .lite .hint-box {
-	display: none;
+.lite header, .lite footer, .lite #extras, .lite .exercise-badge, .lite .hint-box, .lite .related-video-box {
+	display: none !important;
 }
 
 .lite #page-container, .lite #container {
