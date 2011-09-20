@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.utils import simplejson as json
+from django.conf import settings
 
 import urllib2
 from contextlib import closing
@@ -52,9 +53,13 @@ def sandcastle(request, user="", repo="", number=""):
 		pull_data = u.read()
 	
 	user, branch = json.loads(pull_data)['pull']['head']['label'].split(":")
+	name = "%s:%s" % (user, branch)
 
-	os.chdir("media/castles")
-	call(["git", "clone", "https://github.com/%s/%s.git" % (user, repo)])
-	call(["mv", repo, "%s:%s" % (user, branch)])
+	os.chdir(os.path.join(settings.PROJECT_DIR, 'media/castles'))
+	if os.path.isdir(name):
+		os.chdir(name)
+		call(["git", "pull", "origin", branch])
+	else:
+		call(["git", "clone", "git://github.com/%s/%s.git" % (user, repo), name])
 
-	return HttpResponse("hey")
+	return HttpResponseRedirect(os.path.join("/media/castles/%s" % name))
