@@ -1323,6 +1323,9 @@ function makeProblem( id, seed ) {
 		}
 
 		// for special style rules
+		// HINT TASTIC! MARCOS REMOVE THIS DO NOT LET THIS GO THROUGH EVER
+		jQuery( hints ).appendTo( "#hintsarea" ).runModules( problem );
+		
 		jQuery( "body" ).addClass("debug");
 	}
 
@@ -2159,7 +2162,9 @@ function updateData( data ) {
 			});
 	streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
 	
-	jQuery(".current-label").animate({"width":streakWidth}, 365, "easeInOutCubic");
+	// var gradientWidth = jQuery(".current-label .label").width() / 2
+	// console.log(gradientWidth)
+	jQuery(".current-label").animate({"width":(streakWidth/* + gradientWidth*/) }, 365, "easeInOutCubic");
 	jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );		
 
 	if(data.progress >= 1){
