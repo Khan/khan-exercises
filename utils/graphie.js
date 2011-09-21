@@ -463,7 +463,9 @@
 				// allow symmetric ranges to be specified by the absolute values 
 				if ( prop === "range" ) {
 					if ( val.constructor === Array ) {
-						options[ prop ] = [ [ -val[0], val[0] ], [ -val[1], val[1] ] ];
+						if ( val[0].constructor !== Array ) {  // but don't mandate symmetric ranges
+							options[ prop ] = [ [ -val[0], val[0] ], [ -val[1], val[1] ] ];
+						}
 					} else if ( typeof val === "number" ) {
 						options[ prop ] = [ [ -val, val ], [ -val, val ] ];
 					}
