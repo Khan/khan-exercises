@@ -19,8 +19,8 @@
 					<var id="DDX">function(x) { return ddxPolynomial(POLYNOMIAL).evalOf(x); }</var>
 					<var id="POINTS">[ -2, -1.5, -1, 0, 1, 1.5, 2 ]</var>
 					<var id="XRANGE">[ -2.5, 2.5 ]</var>
-					<var id="YMIN">min.apply( Math, $.map(POINTS, FNX).concat( $.map(POINTS, DDX )))</var>
-					<var id="YMAX">max.apply( Math, $.map(POINTS, FNX).concat( $.map(POINTS, DDX )))</var>
+					<var id="YMIN">min.apply( Math, jQuery.map(POINTS, FNX).concat( jQuery.map(POINTS, DDX )))</var>
+					<var id="YMAX">max.apply( Math, jQuery.map(POINTS, FNX).concat( jQuery.map(POINTS, DDX )))</var>
 					<var id="YRANGE"> [ floorTo(-1, YMIN - (YMAX-YMIN)*0.05 ), ceilTo(-1, YMAX + (YMAX-YMIN)*0.05) ] </var>
 					<var id="OPTIONS">{}</var>
 				</div>
