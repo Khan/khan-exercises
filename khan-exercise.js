@@ -2050,7 +2050,7 @@ function request( method, data, fn, fnError ) {
 		// make sure cookies are passed along.
 		xhrFields["withCredentials"] = true;
 	}
-	
+
 	var request = {
 		// Do a request to the server API
 		url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
@@ -2072,11 +2072,11 @@ function request( method, data, fn, fnError ) {
 		// Handle error edge case
 		error: fnError
 	};
-	
+
 	// Do request using OAuth, if available
 	if ( typeof oauth !== "undefined" && jQuery.oauth ) {
 		jQuery.oauth( jQuery.extend( {}, oauth, request ) );
-	
+
 	} else {
 		jQuery.ajax( request );
 	}
