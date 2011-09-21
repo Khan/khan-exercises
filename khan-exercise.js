@@ -152,7 +152,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 			+ "found at the following link:</p>"
 			+ "<p><a id=\"issue-link\" href=\"" + a + "\">" + b + "</a>";
 	},
-	issueIntro = "Please make sure you report this issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Note: All information provided will become public. Thanks for helping us change education!";
+	issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!";
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {

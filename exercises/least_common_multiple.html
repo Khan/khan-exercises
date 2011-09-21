@@ -9,8 +9,10 @@
 	<div class="exercise">
 		<div class="vars">
 			<var id="C">randRange( 2, 6 )</var>
-			<var id="A">randRange( 1, 10 ) * C</var>
-			<var id="B">randRange( 1, 10 ) * C</var>
+			<var id="START_A">randRange( 1, 10 )</var>
+			<var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
+			<var id="A">START_A * C</var>
+			<var id="B">START_B * C</var>
 			<var id="BIGGER">Math.max( A, B )</var>
 			<var id="SMALLER">Math.min( A, B )</var>
 			<var id="PRODUCT">A * B</var>

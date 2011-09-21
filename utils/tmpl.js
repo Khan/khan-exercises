@@ -18,6 +18,11 @@ jQuery.tmpl = {
 		"data-if": function( elem, value ) {
 			var $elem = jQuery( elem );
 
+			// Check if the attribute should be deleted
+			if ( $elem.data( "toDelete" ) ) {
+				$elem.removeAttr( "data-if" ).removeData( "if" );
+			}
+
 			value = value && jQuery.tmpl.getVAR( value );
 
 			// Save the result of this data-if in the next sibling for data-else-if and data-else
@@ -31,6 +36,11 @@ jQuery.tmpl = {
 
 		"data-else-if": function( elem, value ) {
 			var $elem = jQuery( elem );
+
+			// Check if the attribute should be deleted
+			if ( $elem.data( "toDelete" ) ) {
+				$elem.removeAttr( "data-else-if" ).removeData( "elseIf" );
+			}
 
 			var lastCond = $elem.data( "lastCond" );
 
@@ -48,6 +58,11 @@ jQuery.tmpl = {
 
 		"data-else": function( elem ) {
 			var $elem = jQuery( elem );
+
+			// Check if the attribute should be deleted
+			if ( $elem.data( "toDelete" ) ) {
+				$elem.removeAttr( "data-else" ).removeData( "else" );
+			}
 
 			if ( $elem.data( "lastCond" ) ) {
 				// Delete the element if the data-if of the preceding element was true
@@ -321,23 +336,9 @@ jQuery.fn.tmpl = function() {
 				var clone = jQuery( elem ).clone( true )
 					.removeAttr( "data-each" ).removeData( "each" )[0];
 
-				// Prepend all conditional statements with a declaration of ret.value
-				// and an assignment of its current value so that the conditional will
-				// still make sense even when outside of the data-each context
-				var conditionals = [ "data-if", "data-else-if", "data-else" ];
-				for ( var i = 0; i < conditionals.length; i++ ) {
-					var conditional = conditionals[i];
-					jQuery( clone ).find( "[" + conditional + "]" ).each(function() {
-						var code = jQuery( this ).attr( conditional );
-						code = "(function() { var " + ret.value + " = " + value +  "; return " + code + " })()";
-						jQuery( this ).attr( conditional, code );
-					});
-				}
-
-				// Do the same for graphie code
-				jQuery( clone ).find( ".graphie" ).each(function() {
-					var code = jQuery( this ).text();
-					jQuery( this ).text( "var " + ret.value + " = " + value + ";" + code );
+				// Flag elements with the following attributes so that the attributes can be removed after templating 
+				jQuery( clone ).find("[data-if], [data-else-if], [data-else]").each(function() {
+					jQuery( this ).data( "toDelete", true );
 				});
 
 				// Insert in the proper place (depends on whether the loops is the last of its siblings)
