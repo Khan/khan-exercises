@@ -9,15 +9,16 @@ jQuery.extend( KhanUtil, {
 	// Wrap graphInit to create a 600x600px graph properly scaled to the given range
 	initAutoscaledGraph: function( range, options ) {
 		var graph = KhanUtil.currentGraph;
+		options = jQuery.extend({
+			xpixels: 600,
+			ypixels: 600,
+			xdivisions: 20,
+			ydivisions: 20,
+			labels: true,
+			unityLabels: true,
+			range: (typeof range === "undefined" ? [ [-10, 10], [-10, 10] ] : range),
+		}, options);
 
-		options = options || {};
-		options.xpixels = options.xpixels || 600;
-		options.ypixels = options.ypixels || 600;
-		options.xdivisions = options.xdivisions || 20;
-		options.ydivisions = options.xdivisions || 20;
-		options.labels = true;
-		options.unityLabels = true,
-		options.range = options.range || (typeof range === "undefined" ? [ [-10, 10], [-10, 10] ] : range);
 		options.scale = [ options.xpixels/(options.range[0][1] - options.range[0][0]),
 		                  options.ypixels/(options.range[1][1] - options.range[1][0]) ];
 		options.gridStep = [ (options.range[0][1] - options.range[0][0])/options.xdivisions,
