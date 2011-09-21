@@ -71,7 +71,8 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	testMode = typeof userExercise === "undefined",
 
 	// The main server we're connecting to for saving data
-	server = testMode ? "http://localhost:8080" : "",
+	server = typeof apiServer !== "undefined" ? apiServer :
+		testMode ? "http://localhost:8080" : "",
 
 	// The name of the exercise
 	exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]),
@@ -749,7 +750,7 @@ function makeProblem( id, seed ) {
 		.find( ".vars" ).tmplApply( { attribute: "class", defaultApply: "appendVars" } ).end()
 
 		// Individual variables override other variables with the same name
-		.find( ".vars [id]" ).tmplApply( { defaultApply: "removeParent" } ).end()
+		.find( ".vars [id]" ).tmplApply().end()
 
 		// We also look at the main blocks within the problem itself to override
 		.children( "[class]" ).tmplApply( { attribute: "class" } );
@@ -1468,15 +1469,19 @@ function prepareSite() {
 			// Error during submit. Cheat, for now, and reload the page in
 			// an attempt to get updated data.
 
-			if ( user != null && exerciseName != null ) {
-				// Before we reload, clear out localStorage's UserExercise.
-				// If there' a discrepancy between server and localStorage such that
-				// problem numbers are out of order or anything else, we want
-				// to restart with whatever the server sends back on reload.
-				delete window.localStorage[ "exercise:" + user + ":" + exerciseName ];
-			}
+			if ( typeof userExercise === "undefined" || !userExercise.tablet ) {
+				if ( user != null && exerciseName != null ) {
+					// Before we reload, clear out localStorage's UserExercise.
+					// If there' a discrepancy between server and localStorage such that
+					// problem numbers are out of order or anything else, we want
+					// to restart with whatever the server sends back on reload.
+					delete window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+				}
 
-			window.location.reload();
+				window.location.reload();
+			} else {
+				// TODO: Implement alternative error handling
+			}
 		});
 
 		if ( pass === true ) {
@@ -2042,8 +2047,8 @@ function request( method, data, fn, fnError ) {
 		// make sure cookies are passed along.
 		xhrFields["withCredentials"] = true;
 	}
-
-	jQuery.ajax({
+	
+	var request = {
 		// Do a request to the server API
 		url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
 		type: "POST",
@@ -2063,7 +2068,15 @@ function request( method, data, fn, fnError ) {
 
 		// Handle error edge case
 		error: fnError
-	});
+	};
+	
+	// Do request using OAuth, if available
+	if ( typeof oauth !== "undefined" && jQuery.oauth ) {
+		jQuery.oauth( jQuery.extend( {}, oauth, request ) );
+	
+	} else {
+		jQuery.ajax( request );
+	}
 }
 
 // Update the visual representation of the points/streak
@@ -2407,8 +2420,9 @@ function loadModules() {
 	}
 }
 
-if ( typeof urlBase !== "undefined" ) {
+if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
 	Khan.loadExercise = loadExercise;
+	Khan.prepareUserExercise = prepareUserExercise;
 }
 
 return Khan;
