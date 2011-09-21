@@ -2241,6 +2241,17 @@ function updateData( data ) {
 			}
 		}
 		displayRelatedVideos(videos, data.exercise_model.name);
+
+		if ( typeof showModal !== "undefined" ) {
+			// add click handlers to all related video links for lightbox
+			jQuery('.thumbnail a, .related-video-inline').each(function(i, el) {
+				var jel = $(el);
+				jel.click(function(ev) {
+					ev.preventDefault();
+					showModal( jel.data('video') );
+				});
+			});
+		}
 	}
 }
 
@@ -2257,7 +2268,9 @@ function displayRelatedVideos( videos, exid ) {
 		var a = jQuery( "<a>" ).attr( {
 			href: video.ka_url + exid_param,
 			title: video.title
-		} ).append( span );
+		} )
+			.data('video', video)
+			.append( span );
 
 		var thumbnailUrl = function( youtubeId ) {
 			return "http://img.youtube.com/vi/" + youtubeId + "/hqdefault.jpg";
@@ -2271,7 +2284,7 @@ function displayRelatedVideos( videos, exid ) {
 
 		// I apologise for this horrible non-templated element creation
 		var thumbnailDiv = jQuery( '<div>' ).addClass( "thumbnail" )
-			.append(a.clone()
+			.append(a.clone(true)
 				.removeClass( 'related-video-inline' )
 				.empty()
 				.append(
@@ -2283,16 +2296,17 @@ function displayRelatedVideos( videos, exid ) {
 							.append(
 								jQuery( '<div>' ).addClass( 'thumbnail_desc' )
 									.append(jQuery(span
-										.clone().removeClass('video-title')))
+										.clone(true).removeClass('video-title')))
 							)
 							.append(
 								jQuery( '<div>' ).addClass( 'thumbnail_teaser' )
 									.text( video.description )
 							)
 					)
-			));
+				)
+			);
 
-		var sideBarLi = li.clone().append( thumbnailDiv );
+		var sideBarLi = li.clone(true).append( thumbnailDiv );
 
 		if ( i > 0 ) {
 			thumbnailDiv.hide();
