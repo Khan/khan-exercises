@@ -206,13 +206,12 @@ jQuery.extend( KhanUtil, {
 						jQuery( document ).unbind( "mousemove mouseup" );
 
 						// Snap to the right answer if we're close enough
-						// The "close enough" fudge factor is nominally 1/40th of the range (~half a grid square)
-						// Very large slopes become increasingly impossible to get right, so the fudge factor grows
-						// exponentially (at a 2% rate) to accommodate.
 						var answer = KhanUtil.ddx(KhanUtil.points[index]);
-						var fudge = ((graph.range[1][1] - graph.range[1][0]) / 40) * Math.pow(1.02, Math.abs(answer));
+						var degreesOff = Math.abs(Math.atan(answer * graph.scale[1]/graph.scale[0]) -
+								Math.atan(coordY * graph.scale[1]/graph.scale[0])) * (180/Math.PI);
 
-						if ( Math.abs(answer - coordY) < fudge ) {
+						// How far off you're allowed to be
+						if ( degreesOff < 3 ) {
 							coordY = answer;
 							mouseY = (graph.range[1][1] - coordY) * graph.scale[1];
 						}
