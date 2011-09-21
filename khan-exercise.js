@@ -2157,10 +2157,26 @@ function updateData( data ) {
 					return c/2*((t-=2)*t*t + 2) + b;
 				}
 			});
-	streakWidth = Math.floor(data.progress * streakMaxWidth);
+	streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
 	
 	jQuery(".current-label").animate({"width":streakWidth}, 365, "easeInOutCubic");
 	jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );		
+
+	if(data.progress >= 1){
+		if(!jQuery(".current-label").hasClass("proficient")){
+			// fade out the streak as it is and when done, add in the shiny 
+			// blue/yellow bg and fade it back in
+			jQuery(".current-label, .current-label .label").fadeOut(150,function(){
+				jQuery(".streak-bar").addClass("proficient");
+				jQuery(".current-label").addClass("proficient").fadeIn(200);
+			}) 			
+		}
+	}else{
+		// lost proficiency (or never had it), restore the .label
+		jQuery(".current-label, .streak-bar").removeClass("proficient"); 
+		jQuery(".current-label .label").fadeIn(0)
+	}
+	
 
 	// Update the exercise icon
 	var exerciseStates = data && data.exercise_states;
