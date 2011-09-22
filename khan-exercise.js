@@ -834,6 +834,7 @@ function makeProblem( id, seed ) {
 
 	// Add the problem into the page
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
+	Khan.scratchpad.resize();
 
 	// Enable the all answer input elements except the check answer button.
 	jQuery( "#answercontent input" ).not( '#check-answer-button' )
