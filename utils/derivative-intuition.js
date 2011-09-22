@@ -212,7 +212,7 @@ jQuery.extend( KhanUtil, {
 								Math.atan(coordY * graph.scale[1]/graph.scale[0])) * (180/Math.PI);
 
 						// How far off you're allowed to be
-						if ( degreesOff < 3 ) {
+						if ( degreesOff < 5 ) {
 							coordY = answer;
 							mouseY = (graph.range[1][1] - coordY) * graph.scale[1];
 						}

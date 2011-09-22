@@ -834,6 +834,7 @@ function makeProblem( id, seed ) {
 
 	// Add the problem into the page
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
+	Khan.scratchpad.resize();
 
 	// Enable the all answer input elements except the check answer button.
 	jQuery( "#answercontent input" ).not( '#check-answer-button' )
@@ -1864,6 +1865,7 @@ function prepareSite() {
 
 		jQuery( "#tester-info .pass" ).click( function() {
 			dataDump.problems[ dataDump.problems.length - 1 ].pass = true;
+			nextProblem( 1 );
 			jQuery( "#next-question-button" ).trigger( "click" );
 		} );
 
