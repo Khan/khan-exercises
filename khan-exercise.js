@@ -2164,20 +2164,31 @@ function updateData( data ) {
 	jQuery(".current-label").animate({"width":( streakWidth + gradientWidth ) }, 365, "easeInOutCubic");
 	jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );		
 
-	if(data.progress >= 1){
-		if(!jQuery(".current-label").hasClass("proficient")){
-			// fade out the streak as it is and when done, add in the shiny 
-			// blue/yellow bg and fade it back in
-			jQuery(".current-label, .current-label .label").fadeOut(150,function(){
-				jQuery(".streak-bar").addClass("proficient");
-				jQuery(".current-label").addClass("proficient").fadeIn(200);
-			}) 			
-		}
+	if (data.progress_bar_alternative == 'original'){
+		jQuery(".unit-rating").width( streakMaxWidth );
+		jQuery(".current-rating").width( streakWidth );
+		jQuery(".streak-icon").width( streakIconWidth );
+		jQuery(".best-label").width( longestStreakWidth ).html( labelLongestStreak + "&nbsp;" );
+		jQuery(".current-label").width( streakWidth ).html( labelStreak + "&nbsp;" );
+		jQuery("#exercise-points").text( " " + data.next_points + " " );
 	}else{
-		// lost proficiency (or never had it), restore the .label
-		jQuery(".current-label, .streak-bar").removeClass("proficient"); 
-		jQuery(".current-label .label").fadeIn(0)
+		// have a new progress bar and will populate other progress_bar_alternative cases here later
+		if(data.progress >= 1){
+			if(!jQuery(".current-label").hasClass("proficient")){
+				// fade out the streak as it is and when done, add in the shiny 
+				// blue/yellow bg and fade it back in
+				jQuery(".current-label, .current-label .label").fadeOut(150,function(){
+					jQuery(".streak-bar").addClass("proficient");
+					jQuery(".current-label").addClass("proficient").fadeIn(200);
+				}) 			
+			}
+		}else{
+			// lost proficiency (or never had it), restore the .label
+			jQuery(".current-label, .streak-bar").removeClass("proficient"); 
+			jQuery(".current-label .label").fadeIn(0)
+		}
 	}
+
 	
 
 	// Update the exercise icon
