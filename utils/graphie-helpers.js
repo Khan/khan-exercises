@@ -644,3 +644,94 @@ function updateFocusDirectrix( deltaX, deltaY, deltaK ) {
 	KhanUtil.currentGraph.graph.currParabola.deltaFocusDirectrix( deltaX, deltaY, deltaK );
 	redrawParabola( true );
 }
+
+function ParallelLines( x1, y1, x2, y2, distance ) {
+	var lowerIntersection;
+	var upperIntersection;
+	var anchorAngle;
+
+	function stretch( coordArr, dy ) {
+		return jQuery.map( coordArr, function( coord, index ){
+			if ( index == 0 ) {
+				dx = dy / Math.tan( KhanUtil.toRadians( anchorAngle ) );
+				coord += dx;
+			}
+			if ( index == 1 ) {
+				coord += dy;
+			}
+			return coord;
+		});
+	}
+
+	function labelAngle( coordArr, angles, color ) {
+		var graph = KhanUtil.currentGraph;
+		var measure = ( angles[ 1 ] - angles[ 0 ] );
+		var bisect = ( angles[ 0 ] + angles[ 1 ] ) / 2;
+		var radius = 0.8;
+		if ( measure < 90 ) {
+			radius = 0.8 / Math.sin( KhanUtil.toRadians ( measure ) );
+		}
+		var coords = jQuery.map( coordArr, function( coord, index ) {
+			if ( index == 0 ) {
+				return coord + radius * Math.cos( KhanUtil.toRadians( bisect ) );
+			} else {
+				return coord + radius * Math.sin( KhanUtil.toRadians( bisect ) );
+			}
+		});
+		graph.label( coords, measure + "^{\\circ}", "center", {color: color});
+	}
+
+	this.draw = function() {
+		var graph = KhanUtil.currentGraph;
+		graph.line( [ x1, y1 ], [ x2, y2 ] );
+		graph.line( [ x1, y1 + distance ], [ x2, y2 + distance ] );
+	}
+
+	this.drawTransverse = function( angleDeg ) {
+		anchorAngle = angleDeg;
+		var graph = KhanUtil.currentGraph;
+		var width = distance / Math.tan( KhanUtil.toRadians ( anchorAngle ) );
+		var lowerX = x1 + ( ( x2 - x1 ) - width ) / 2;
+		var upperX = lowerX + width;
+		lowerIntersection = [ lowerX, y1 ];
+		upperIntersection = [ upperX, y1 + distance ];
+		graph.line( stretch( lowerIntersection, -0.8 ), stretch( upperIntersection, 0.8 ) );
+	}
+
+	this.drawAngle = function( index, label, color ) {
+		var graph = KhanUtil.currentGraph,
+			radius = 0.5,
+			args, angles;
+
+		color || ( color = "#6495ED" );
+
+		if ( index < 4 ) {
+			args = [ lowerIntersection, radius ];
+		} else {
+			args = [ upperIntersection, radius ];
+		}
+
+		switch( index % 4 ) {
+			case 0:
+				angles = [ 0, anchorAngle ];
+				break;
+			case 1:
+				angles = [ anchorAngle, 180 ];
+				break;
+			case 2:
+				angles = [ 180, 180 + anchorAngle ];
+				break;
+			case 3:
+				angles = [ 180 + anchorAngle, 360 ];
+				break;
+		}
+		jQuery.merge( args, angles );
+
+		graph.style({ stroke: color}, function() {
+			graph.arc.apply( graph, args );
+			if ( label ) {
+				labelAngle( args[ 0 ], angles, color );
+			}
+		})
+	}
+}
