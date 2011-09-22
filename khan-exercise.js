@@ -2153,7 +2153,7 @@ function updateData( data ) {
 	}
 	
 	// this will eventually stabilize, but let's make refactoring easier, why not?
-	var streakType = data.progress_bar_alternative;
+	var streakType = data.progress_bar_alternative || "original";
 	jQuery("#streak-bar-container").addClass(streakType);
 
 	// easeInOutCubic easing from
