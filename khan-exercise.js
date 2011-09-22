@@ -2150,17 +2150,21 @@ function updateData( data ) {
 		}
 	}
 	
-	// the new streak bar behavior
+	// this will eventually stabilize, but let's make refactoring easier, why not?
+	var streakType = data.progress_bar_alternative;
+	jQuery("#streak-bar-container").addClass(streakType);
 
+	// easeInOutCubic easing from
+	// jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
+	// (c) 2008 George McGinley Smith, (c) 2001 Robert Penner - Open source under the BSD License.
 	jQuery.extend( jQuery.easing, {
-				easeInOutCubic: function (x, t, b, c, d) {
-					if ((t/=d/2) < 1) return c/2*t*t*t + b;
-					return c/2*((t-=2)*t*t + 2) + b;
-				}
-			});
-	streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
-	
-	if (data.progress_bar_alternative == 'original'){
+		easeInOutCubic: function (x, t, b, c, d) {
+			if ((t/=d/2) < 1) return c/2*t*t*t + b;
+			return c/2*((t-=2)*t*t + 2) + b;
+		}
+	});
+
+	if (streakType == 'original'){
 		jQuery(".unit-rating").width( streakMaxWidth );
 		jQuery(".current-rating").width( streakWidth );
 		jQuery(".streak-icon").width( streakIconWidth );
@@ -2170,10 +2174,15 @@ function updateData( data ) {
 	}else{
 		// have a new progress bar and will populate other progress_bar_alternative cases here later
 
-		// animate the bar
+		// the progress may exceed 100%, so cap at that
+		streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
+		// there is a cap at the end of the bar which needs to be adjusted
 		var gradientWidth = jQuery(".current-label .label").width() / 2;
+
 		jQuery(".current-label").animate({"width":( streakWidth + gradientWidth ) }, 365, "easeInOutCubic");
-		jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );		
+
+		// these are the masks and containers for the streak which need to be max width
+		jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );
 
 		if(data.progress >= 1){
 			if(!jQuery(".current-label").hasClass("proficient")){
