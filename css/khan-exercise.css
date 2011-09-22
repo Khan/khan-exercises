@@ -233,15 +233,20 @@ div.timeline-total {
 	border-width: 0;
 }
 
-.lite #answer_area {
-	margin-top: 10px;
+.lite #streak-bar-container {
+	position: absolute;
+	top: 10px;
+	left: 15px;
 }
 
 .lite #answercontent {
-	position: fixed;
-	right: 0px;
-	bottom: 0px;
-	margin: 10px;
+	position: absolute;
+	right: 5px;
+	top: 12px;
+	padding: 0px;
+	border: none;
+	-webkit-box-shadow: none;
+	overflow: visible;
 }
 
 .lite #answercontent > * {
@@ -249,9 +254,13 @@ div.timeline-total {
 	margin-right: 10px;
 }
 
+/* TODO: Find a better way to display these. */
+.lite #throbber, .lite #check-answer-results {
+	display: none !important;
+}
+
 .lite #answercontent .info-box-header {
 	font-size: 16px;
-	content: "Answer:";
 }
 
 .lite #answercontent input.button {
@@ -271,8 +280,15 @@ div.timeline-total {
 	font-family: inherit;
 }
 
-.lite #check-answer-button {
-	margin-top: -7px;
+.lite #solutionarea input {
+	font-size: 14px;
+}
+
+.lite #answercontent .simple-button {
+	margin-top: -5px;
+	color: #fff !important;
+	font-size: 14px;
+	text-shadow: none;
 }
 
 #warning-bar {
