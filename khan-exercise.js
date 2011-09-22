@@ -2184,8 +2184,7 @@ function updateData( data ) {
 		
 	}
 	if ( streakType === "capped" ){
-		// have a new progress bar and will populate other progress_bar_alternative cases here later
-		// this is crazy implementation-specific for a progress bar with a cap on it
+		// this is crazy implementation-specific for a progress bar with a cap (div with image) on it
 		
 		// the progress may exceed 100%, so cap at that
 		streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
