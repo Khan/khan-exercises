@@ -25,23 +25,6 @@
 					<var id="OPTIONS">{}</var>
 				</div>
 
-				<div class="problem">
-					<div class="graphie" id="ddxplot">
-						initAutoscaledGraph( [ XRANGE,	YRANGE ], OPTIONS );
-
-						style({
-							stroke: "#6495ED",
-							strokeWidth: 3
-						}, function() {
-								plot( function( x ) {
-									return FNX( x );
-								}, XRANGE );
-						});
-
-						initDerivativeIntuition( FNX, DDX, POINTS );
-					</div>
-				</div>
-
 				<div class="question">
 					<p>
 						<code class="hint_blue">f(x) = <var>FNXTEXT</var></code>
@@ -58,6 +41,22 @@
 					</p>
 				</div>
 
+				<div class="problem">
+					<div class="graphie" id="ddxplot">
+						initAutoscaledGraph( [ XRANGE,	YRANGE ], OPTIONS );
+
+						style({
+							stroke: "#6495ED",
+							strokeWidth: 3
+						}, function() {
+								plot( function( x ) {
+									return FNX( x );
+								}, XRANGE );
+						});
+
+						initDerivativeIntuition( FNX, DDX, POINTS );
+					</div>
+				</div>
 
 				<div class="solution" data-type="multiple">
 					<table>
