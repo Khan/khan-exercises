@@ -322,22 +322,28 @@ jQuery.fn.tmpl = function() {
 					.removeAttr( "data-each" ).removeData( "each" )[0];
 
 				// Prepend all conditional statements with a declaration of ret.value
-				// and an assignment of its current value so that the conditional will
-				// still make sense even when outside of the data-each context
+				// and ret.post and an assignment of their current values so that
+				// the conditional will still make sense even when outside of the 
+				// data-each context
 				var conditionals = [ "data-if", "data-else-if", "data-else" ];
+
+				var declarations = "";
+				declarations += ( ret.pos ) ? "var " + ret.pos + " = " + JSON.stringify( pos ) + ";" : "";
+				declarations += ( ret.value ) ? "var " + ret.value + " = " + JSON.stringify( value ) + ";" : "";
+
 				for ( var i = 0; i < conditionals.length; i++ ) {
 					var conditional = conditionals[i];
 					jQuery( clone ).find( "[" + conditional + "]" ).each(function() {
 						var code = jQuery( this ).attr( conditional );
-						code = "(function() { var " + ret.value + " = " + value +  "; return " + code + " })()";
+						code = "(function() {  " + declarations + " return " + code + " })()";
 						jQuery( this ).attr( conditional, code );
 					});
 				}
 
 				// Do the same for graphie code
-				jQuery( clone ).find( ".graphie" ).each(function() {
+				jQuery( clone ).find( ".graphie" ).andSelf().filter( ".graphie" ).each(function() {
 					var code = jQuery( this ).text();
-					jQuery( this ).text( "var " + ret.value + " = " + value + ";" + code );
+					jQuery( this ).text( declarations + code );
 				});
 
 				// Insert in the proper place (depends on whether the loops is the last of its siblings)

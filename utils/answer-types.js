@@ -31,7 +31,7 @@ jQuery.extend( Khan.answerTypes, {
 			// is empty and the fallback doesn't exist.
 			var val = input.val().length > 0 ?
 				input.val() :
-				fallback ?
+				(typeof fallback !== "undefined") ?
 					fallback + "" :
 					"";
 
