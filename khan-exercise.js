@@ -1864,6 +1864,7 @@ function prepareSite() {
 
 		jQuery( "#tester-info .pass" ).click( function() {
 			dataDump.problems[ dataDump.problems.length - 1 ].pass = true;
+			nextProblem( 1 );
 			jQuery( "#next-question-button" ).trigger( "click" );
 		} );
 
