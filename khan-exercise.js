@@ -2128,7 +2128,7 @@ function updateData( data ) {
 	if ( data.summative ) {
 
 		jQuery( ".summative-help ")
-			.find( ".summative-required-streaks" ).text( parseInt( data.required_streak / 10 ) ).end()
+			.find( ".summative-required-streaks" ).text( parseInt( (data.required_streak / 10) , 10) ).end()
 			.show();
 
 		if ( jQuery( ".level-label" ).length === 0 ) {
@@ -2164,16 +2164,29 @@ function updateData( data ) {
 		}
 	});
 
-	if (streakType == 'original'){
-		jQuery(".unit-rating").width( streakMaxWidth );
-		jQuery(".current-rating").width( streakWidth );
+	if ( streakType == "original" ){
 		jQuery(".streak-icon").width( streakIconWidth );
-		jQuery(".best-label").width( longestStreakWidth ).html( labelLongestStreak + "&nbsp;" );
-		jQuery(".current-label").width( streakWidth ).html( labelStreak + "&nbsp;" );
+		jQuery(".unit-rating").width( streakMaxWidth );
+		
+		// let's animate even the original for fun
+		jQuery(".current-rating, .current-label").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
+		jQuery(".best-label").animate({"width":( longestStreakWidth ) }, 365, "easeInOutCubic");
+		
+		jQuery(".best-label").html( labelLongestStreak + "&nbsp;" );
+		jQuery(".current-label").html( labelStreak + "&nbsp;" );
 		jQuery("#exercise-points").text( " " + data.next_points + " " );
-	}else{
-		// have a new progress bar and will populate other progress_bar_alternative cases here later
+	}
+	if ( streakType === "new_partial_reset" || streakType === "new_full_reset" ) {
+		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
 
+		jQuery("#exercise-points").hide();
+		jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
+		
+	}
+	if ( streakType === "capped" ){
+		// have a new progress bar and will populate other progress_bar_alternative cases here later
+		// this is crazy implementation-specific for a progress bar with a cap on it
+		
 		// the progress may exceed 100%, so cap at that
 		streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
 		// there is a cap at the end of the bar which needs to be adjusted
@@ -2191,16 +2204,15 @@ function updateData( data ) {
 				jQuery(".current-label, .current-label .label").fadeOut(150,function(){
 					jQuery(".streak-bar").addClass("proficient");
 					jQuery(".current-label").addClass("proficient").fadeIn(200);
-				}) 			
+				});
 			}
 		}else{
 			// lost proficiency (or never had it), restore the .label
 			jQuery(".current-label, .streak-bar").removeClass("proficient"); 
-			jQuery(".current-label .label").fadeIn(0)
+			jQuery(".current-label .label").fadeIn(0);
 		}
 	}
 
-	
 
 	// Update the exercise icon
 	var exerciseStates = data && data.exercise_states;
@@ -2213,7 +2225,7 @@ function updateData( data ) {
 							"/images/" + sPrefix + "-not-started.png";
 		jQuery("#exercise-icon-container img").attr("src", src);
 	}
-	var videos = data && data.exercise_model.related_videos
+	var videos = data && data.exercise_model.related_videos;
 	if ( videos && videos.length &&
 		jQuery(".related-video-list").is(":empty")
 	) {
@@ -2249,7 +2261,7 @@ function displayRelatedVideos( videos, exid ) {
 
 		var li = jQuery( "<li>" )
 			.addClass( i > 2 ? "related-video-extended" : "" )
-			.append( a.addClass('related-video-inline') )
+			.append( a.addClass('related-video-inline') );
 
 		jQuery( ".related-content > .related-video-list" ).append( li );
 
