@@ -2160,10 +2160,6 @@ function updateData( data ) {
 			});
 	streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
 	
-	var gradientWidth = jQuery(".current-label .label").width() / 2;
-	jQuery(".current-label").animate({"width":( streakWidth + gradientWidth ) }, 365, "easeInOutCubic");
-	jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );		
-
 	if (data.progress_bar_alternative == 'original'){
 		jQuery(".unit-rating").width( streakMaxWidth );
 		jQuery(".current-rating").width( streakWidth );
@@ -2173,6 +2169,12 @@ function updateData( data ) {
 		jQuery("#exercise-points").text( " " + data.next_points + " " );
 	}else{
 		// have a new progress bar and will populate other progress_bar_alternative cases here later
+
+		// animate the bar
+		var gradientWidth = jQuery(".current-label .label").width() / 2;
+		jQuery(".current-label").animate({"width":( streakWidth + gradientWidth ) }, 365, "easeInOutCubic");
+		jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );		
+
 		if(data.progress >= 1){
 			if(!jQuery(".current-label").hasClass("proficient")){
 				// fade out the streak as it is and when done, add in the shiny 
