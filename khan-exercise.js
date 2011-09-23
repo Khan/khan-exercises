@@ -2169,6 +2169,7 @@ function updateData( data ) {
 	if ( streakType == "original" ){
 		jQuery(".streak-icon").width( streakIconWidth );
 		jQuery(".unit-rating").width( streakMaxWidth );
+		jQuery("#exercise-points").show();
 		
 		// let's animate even the original for fun
 		jQuery(".current-rating, .current-label").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
@@ -2181,9 +2182,11 @@ function updateData( data ) {
 	if ( streakType === "new_partial_reset" || streakType === "new_full_reset" ) {
 		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
 
-		jQuery("#exercise-points").hide();
 		jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
 		
+	}
+	if( streakType === "new_partial_reset" ){
+		jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"})
 	}
 	if ( streakType === "capped" ){
 		// this is crazy implementation-specific for a progress bar with a cap (div with image) on it
