@@ -481,6 +481,16 @@ var Khan = {
 					.find( '.thumbnail' ).hide();
 			}
 		});
+	},
+
+	// make a link to a related video, appending exercise ID.
+	relatedVideoHref: function(video, data) {
+		var exid_param = '';
+		data = data || userExercise;
+		if ( data ) {
+			exid_param = "?exid=" + data.exercise_model.name;
+		}
+		return video.ka_url + exid_param;
 	}
 };
 
@@ -2240,23 +2250,13 @@ function updateData( data ) {
 				jQuery(".related-video-box").remove().insertAfter(".hint-box");
 			}
 		}
-		displayRelatedVideos(videos, data.exercise_model.name);
+		displayRelatedVideos(videos);
 
-		if ( typeof showModal !== "undefined" ) {
-			// add click handlers to all related video links for lightbox
-			jQuery('.thumbnail a, .related-video-inline').each(function(i, el) {
-				var jel = $(el);
-				jel.click(function(ev) {
-					ev.preventDefault();
-					showModal( jel.data('video') );
-				});
-			});
-		}
+		ModalVideo && ModalVideo.hookup();
 	}
 }
 
-function displayRelatedVideos( videos, exid ) {
-	var exid_param = exid ? "?exid=" + exid : '';
+function displayRelatedVideos( videos ) {
 	jQuery.each( videos, function( i, video ) {
 		var span = jQuery( "<span>" )
 			.addClass( "video-title vid-progress v" + video.id )
@@ -2266,7 +2266,7 @@ function displayRelatedVideos( videos, exid ) {
 		}
 
 		var a = jQuery( "<a>" ).attr( {
-			href: video.ka_url + exid_param,
+			href: Khan.relatedVideoHref(video),
 			title: video.title
 		} )
 			.data('video', video)
