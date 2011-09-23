@@ -251,6 +251,19 @@ jQuery.extend( Khan.answerTypes, {
 				example: "a percent, like <code>12.34\\%</code>"
 			},
 
+			dollar: {
+				transformer: function( text ) {
+					text = jQuery.trim( text );
+
+					if ( text.indexOf( "$" ) === 0 ) {
+						text = jQuery.trim( text.substring( 1 ) );
+					}
+
+					return forms.decimal.transformer( text );
+				},
+				example: "a money amount, like <code>$2.75</code>"
+			},
+
 			mixed: {
 				transformer: function( text ) {
 					var match = text
