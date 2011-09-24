@@ -70,6 +70,15 @@ jQuery.extend( KhanUtil, {
 			KhanUtil.plotSlopePoint( index );
 		});
 
+		// Once the problem loads, call setSlope() for each point to set the
+		// slopes to 0. This replicates the action of the user placing each point
+		// at zero and applies the same "close enough" test so very small slopes
+		// aren't graded wrong even if they look almost right.
+		jQuery(Khan).one( "newProblem", function() {
+			jQuery( points ).each( function ( index, xval ) {
+				KhanUtil.setSlope( index, 0 );
+			});
+		});
 	},
 
 
@@ -206,22 +215,7 @@ jQuery.extend( KhanUtil, {
 					} else if ( event.type === "mouseup" ) {
 						jQuery( document ).unbind( "mousemove mouseup" );
 
-						// Snap to the right answer if we're close enough
-						var answer = KhanUtil.ddx(KhanUtil.points[index]);
-						var degreesOff = Math.abs(Math.atan(answer * graph.scale[1]/graph.scale[0]) -
-								Math.atan(coordY * graph.scale[1]/graph.scale[0])) * (180/Math.PI);
-
-						// How far off you're allowed to be
-						if ( degreesOff < 5 ) {
-							coordY = answer;
-							mouseY = (graph.range[1][1] - coordY) * graph.scale[1];
-						}
-
-						jQuery( jQuery( "div#solutionarea :text" )[index]).val( KhanUtil.roundTo(2, coordY) );
-						jQuery( jQuery( "div#solutionarea .answer-label" )[index]).text( KhanUtil.roundTo(2, coordY) );
-						graph.tangentLines[index].rotate(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI), true);
-						graph.slopePoints[index].attr( "cy", mouseY );
-						graph.mouseTargets[index].attr( "cy", mouseY );
+						KhanUtil.setSlope( index, coordY );
 
 						KhanUtil.dragging = false;
 
@@ -246,6 +240,26 @@ jQuery.extend( KhanUtil, {
 			}
 		});
 
+	},
+
+
+	// Set the slope for one point. Snap to the right answer if we're close enough.
+	setSlope: function( index, coordY ) {
+		var graph = KhanUtil.currentGraph;
+		var answer = KhanUtil.ddx(KhanUtil.points[index]);
+		var degreesOff = Math.abs(Math.atan(answer * graph.scale[1]/graph.scale[0]) -
+				Math.atan(coordY * graph.scale[1]/graph.scale[0])) * (180/Math.PI);
+
+		// How far off you're allowed to be
+		if ( degreesOff < 7 ) {
+			coordY = answer;
+		}
+
+		jQuery( jQuery( "div#solutionarea :text" )[index]).val( KhanUtil.roundTo(2, coordY) );
+		jQuery( jQuery( "div#solutionarea .answer-label" )[index]).text( KhanUtil.roundTo(2, coordY) );
+		graph.tangentLines[index].rotate(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI), true);
+		graph.slopePoints[index].attr( "cy", (graph.range[1][1] - coordY) * graph.scale[1] );
+		graph.mouseTargets[index].attr( "cy", (graph.range[1][1] - coordY) * graph.scale[1] );
 	},
 
 
