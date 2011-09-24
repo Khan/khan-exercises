@@ -1334,7 +1334,7 @@ function makeProblem( id, seed ) {
 		}
 
 		// for special style rules
-		
+
 		jQuery( "body" ).addClass("debug");
 	}
 
@@ -2136,7 +2136,7 @@ function updateData( data ) {
 
 		labelLongestStreak = ( longestStreakWidth < labelWidthRequired || (longestStreakWidth - streakWidth) < labelWidthRequired ) ? "" :
 						( !data.summative && data.longest_streak > 100 ) ? "Max" : data.longest_streak;
-	
+
 	if ( data.summative ) {
 
 		jQuery( ".summative-help ")
@@ -2161,7 +2161,7 @@ function updateData( data ) {
 
 		}
 	}
-	
+
 	// this will eventually stabilize, but let's make refactoring easier, why not?
 	var streakType = data.progress_bar_alternative || "original";
 	jQuery("#streak-bar-container").addClass(streakType);
@@ -2180,11 +2180,11 @@ function updateData( data ) {
 		jQuery(".streak-icon").width( streakIconWidth );
 		jQuery(".unit-rating").width( streakMaxWidth );
 		jQuery("#exercise-points").show();
-		
+
 		// let's animate even the original for fun
 		jQuery(".current-rating, .current-label").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
 		jQuery(".best-label").animate({"width":( longestStreakWidth ) }, 365, "easeInOutCubic");
-		
+
 		jQuery(".best-label").html( labelLongestStreak + "&nbsp;" );
 		jQuery(".current-label").html( labelStreak + "&nbsp;" );
 		jQuery("#exercise-points").text( " " + data.next_points + " " );
@@ -2193,14 +2193,14 @@ function updateData( data ) {
 		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
 
 		jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
-		
+
 	}
 	if( streakType === "new_partial_reset" ){
 		jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"})
 	}
 	if ( streakType === "capped" ){
 		// this is crazy implementation-specific for a progress bar with a cap (div with image) on it
-		
+
 		// the progress may exceed 100%, so cap at that
 		streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
 		// there is a cap at the end of the bar which needs to be adjusted
@@ -2213,7 +2213,7 @@ function updateData( data ) {
 
 		if(data.progress >= 1){
 			if(!jQuery(".current-label").hasClass("proficient")){
-				// fade out the streak as it is and when done, add in the shiny 
+				// fade out the streak as it is and when done, add in the shiny
 				// blue/yellow bg and fade it back in
 				jQuery(".current-label, .current-label .label").fadeOut(150,function(){
 					jQuery(".streak-bar").addClass("proficient");
@@ -2222,7 +2222,7 @@ function updateData( data ) {
 			}
 		}else{
 			// lost proficiency (or never had it), restore the .label
-			jQuery(".current-label, .streak-bar").removeClass("proficient"); 
+			jQuery(".current-label, .streak-bar").removeClass("proficient");
 			jQuery(".current-label .label").fadeIn(0);
 		}
 	}
@@ -2243,15 +2243,7 @@ function updateData( data ) {
 	if ( videos && videos.length &&
 		jQuery(".related-video-list").is(":empty")
 	) {
-		if ( typeof data.hints_first !== "undefined" ) {
-			// we are in an ab test for video box versus hint box ordering.
-			if (data.hints_first) {
-				// swap order of hints and videos
-				jQuery(".related-video-box").remove().insertAfter(".hint-box");
-			}
-		}
 		displayRelatedVideos(videos);
-
 		ModalVideo && ModalVideo.hookup();
 	}
 }
