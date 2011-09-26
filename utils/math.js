@@ -301,8 +301,15 @@ jQuery.extend(KhanUtil, {
 	},
 
 	// Returns a random member of the given array
-	randFromArray: function( arr ) {
-		return arr[ KhanUtil.rand( arr.length ) ];
+	// If a count is passed, it gives an array of random members of the given array
+	randFromArray: function( arr, count ) {
+		if ( count == null ) {
+			return arr[ KhanUtil.rand( arr.length ) ];
+		} else {
+			return jQuery.map( new Array(count), function() {
+				return KhanUtil.randFromArray( arr );
+			});
+		}
 	},
 
 	// Returns a random member of the given array that is never any of the values
