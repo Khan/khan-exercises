@@ -704,7 +704,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 			args, angles;
 
 		color || ( color = "#6495ED" );
-
+		index = ( index + 8 ) % 8;
 		if ( index < 4 ) {
 			args = [ lowerIntersection, radius ];
 		} else {
@@ -733,5 +733,26 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 				labelAngle( args[ 0 ], angles, color );
 			}
 		})
+	}
+
+	this.drawVerticalAngle = function( index, label, color ) {
+		index = ( index + 8 ) % 8;
+		var vert = ( index + 2 ) % 4;
+		if ( index >=4 ) {
+			vert += 4;
+		}
+		this.drawAngle( vert, label, color );
+	}
+
+	this.drawAdjacentAngles = function( index, label, color ) {
+		index = ( index + 8 ) % 8;
+		var adj1 = ( index + 1 ) % 4;
+		var adj2 = ( index + 3 ) % 4;
+		if ( index >= 4 ) {
+			adj1 += 4;
+			adj2 += 4;
+		}
+		this.drawAngle( adj1, label, color );
+		this.drawAngle( adj2, label, color );
 	}
 }
