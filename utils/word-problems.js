@@ -174,8 +174,8 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 	var exams = KhanUtil.shuffle([
 		"exam",
-		"test",
-		"quiz"
+		"quiz",
+		"test"
 	]);
 
 	var binops = KhanUtil.shuffle([
@@ -228,23 +228,23 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var pizzas = KhanUtil.shuffle([
-		"pizza",
+		"cake",
 		"pie",
-		"cake"
+		"pizza"
 	]);
 
 	var timesofday = KhanUtil.shuffle([
-		"in the morning",
 		"around noon",
+		"at night",
 		"in the evening",
-		"at night"
+		"in the morning"
 	]);
 
 	var exercises = KhanUtil.shuffle([
+		"jumping jack",
 		"push-up",
 		"sit-up",
-		"squat",
-		"jumping jack"
+		"squat"
 	]);
 
 	var fruits = KhanUtil.shuffle([
@@ -274,36 +274,36 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var colors = KhanUtil.shuffle([
-		"red",
-		"orange",
-		"yellow",
-		"green",
-		"blue",
-		"purple",
-		"white",
 		"black",
+		"blue",
 		"brown",
-		"silver",
 		"gold",
-		"pink"
+		"green",
+		"orange",
+		"pink",
+		"purple",
+		"red",
+		"silver",
+		"yellow",
+		"white"
 	]);
 
 	var clothes = KhanUtil.shuffle([
-		"hat",
-		"pair of pants",
 		"belt",
-		"necklace",
-		"purse",
-		"pair of shoes",
 		"blouse",
-		"skirt",
-		"watch",
+		"dress",
+		"hat",
+		"necklace",
+		"pair of pants",
 		"pair of socks",
-		"sweatshirt",
-		"sweater",
-		"tie",
+		"pair of shoes",
+		"purse",
 		"scarf",
-		"dress"
+		"skirt",
+		"sweater",
+		"sweatshirt",
+		"tie",
+		"watch"
 	]);
 
 	var sides = KhanUtil.shuffle([
@@ -328,37 +328,37 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 	var smalldistances = KhanUtil.shuffle([
 		"foot",
-		"yard",
-		"meter"
+		"meter",
+		"yard"
 	]);
 
 	var bugs = KhanUtil.shuffle([
 		"ant",
-		"caterpillar",
 		"beetle",
-		"worm",
-		"snail",
+		"caterpillar",
 		"centipede",
+		"ladybug",
+		"snail",
 		"stick bug",
-		"ladybug"
+		"worm"
 	]);
 	
 	var activeTimes = KhanUtil.shuffle([
-		"in P.E. class",
-		"during team practice",
-		"in the morning",
 		"at lunchtime",
-		"in the afternoon"
+		"during team practice",
+		"in P.E. class",
+		"in the afternoon",
+		"in the morning"
 	]);
 
 	var metals = KhanUtil.shuffle([
-		"iron",
-		"gold",
-		"platinum",
-		"copper",
-		"silver",
-		"nickel",
 		"aluminum",
+		"copper",
+		"gold",
+		"iron",
+		"nickel",
+		"platinum",
+		"silver",
 		"zinc"
 	]);
 
