@@ -556,6 +556,5 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		weight: function( i ) {
 			return weights[i];
 		}
-
 	});
 };

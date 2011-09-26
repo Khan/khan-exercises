@@ -301,8 +301,15 @@ jQuery.extend(KhanUtil, {
 	},
 
 	// Returns a random member of the given array
-	randFromArray: function( arr ) {
-		return arr[ KhanUtil.rand( arr.length ) ];
+	// If a count is passed, it gives an array of random members of the given array
+	randFromArray: function( arr, count ) {
+		if ( count == null ) {
+			return arr[ KhanUtil.rand( arr.length ) ];
+		} else {
+			return jQuery.map( new Array(count), function() {
+				return KhanUtil.randFromArray( arr );
+			});
+		}
 	},
 
 	// Returns a random member of the given array that is never any of the values
@@ -401,11 +408,16 @@ jQuery.extend(KhanUtil, {
 	},
 
 	//Gives -1 or 1 so you can multiply to restore the sign of a number
-	restoreSign: function( num ){
+	restoreSign: function( num ) {
 		num = parseFloat( num );
 		if ( num < 0 ){
 			return -1;
 		}
 		return 1;
+	},
+
+	// Checks if a number or string representation thereof is an integer
+	isInt: function( num ) {
+		return parseFloat( num ) === parseInt( num, 10 ) && !isNaN( num );
 	}
 });

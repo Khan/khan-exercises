@@ -8,8 +8,11 @@ var inexactMessages = {
 Khan.answerTypes = Khan.answerTypes || {};
 
 jQuery.extend( Khan.answerTypes, {
-	text: function( solutionarea, solution, fallback, verifier ) {
-		var input = jQuery('<input type="text">');
+	text: function( solutionarea, solution, fallback, verifier, input ) {
+		if ( !input ) {
+			input = jQuery('<input type="text">');
+		}
+		
 		jQuery( solutionarea ).append( input );
 
 		var correct = typeof solution === "object" ? jQuery( solution ).text() : solution;
@@ -28,7 +31,7 @@ jQuery.extend( Khan.answerTypes, {
 			// is empty and the fallback doesn't exist.
 			var val = input.val().length > 0 ?
 				input.val() :
-				fallback ?
+				(typeof fallback !== "undefined") ?
 					fallback + "" :
 					"";
 
@@ -248,6 +251,15 @@ jQuery.extend( Khan.answerTypes, {
 				example: "a percent, like <code>12.34\\%</code>"
 			},
 
+			dollar: {
+				transformer: function( text ) {
+					text = jQuery.trim( text ).replace( '$', '' );
+
+					return forms.decimal.transformer( text );
+				},
+				example: "a money amount, like <code>$2.75</code>"
+			},
+
 			mixed: {
 				transformer: function( text ) {
 					var match = text
@@ -367,8 +379,14 @@ jQuery.extend( Khan.answerTypes, {
 				verifier.examples.push( forms[ form ].example );
 			}
 		});
+		
+		var input;
+		
+		if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
+			input = jQuery("<input type='number'/>");
+		}
 
-		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier, input );
 	},
 
 	regex: function( solutionarea, solution, fallback ) {

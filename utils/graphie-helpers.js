@@ -13,10 +13,12 @@ function numberLine( start, end, step, x, y, denominator ) {
 	set.push( graph.line( [x, y], [x + end - start, y] ) );
 	for( var i = 0; i <= end - start; i += step ) {
 		set.push( graph.line( [x + i, y - 0.2], [x + i, y + 0.2] ) );
+
 		if ( denominator ){
-			var base = KhanUtil.roundTowardsZero( start + i );
+			var base = KhanUtil.roundTowardsZero( start + i + 0.001 );
 			var frac = start + i - base;
 			var lab = base;
+
 			if (! ( Math.abs ( Math.round( frac * denominator ) )  === denominator || Math.round( frac * denominator )  ===  0 ) ){
 				if ( base === 0 ){
 					lab = KhanUtil.fraction( Math.round( frac * denominator ),  denominator, false, false, true);
@@ -74,7 +76,7 @@ function rectchart( divisions, colors, y ) {
 	jQuery.each( divisions, function( i, slice ) {
 		var x = partial / sum, w = slice / sum;
 		set.push( graph.path([ [x, y], [x + w, y], [x + w, y + 1], [x, y + 1] ], {
-			stroke: "white",
+			stroke: "#fff",
 			fill: colors[i]
 		} ) );
 		partial += slice;
@@ -525,112 +527,232 @@ function changeIntercept( dir ) {
 	updateEquation();
 }
 
-function initParabola( leadingCoefficient, x1, y1 ) {
-	var graph = KhanUtil.currentGraph;
-	var storage = graph.graph;
-	// Set up the graph
-	graph.init({
-		range: [[-10, 10], [-10, 10]],
-		scale: [30, 30]
-	});
+function Parabola( lc, x, y ) {
+	var leadingCoefficient = lc;
+	var x1 = x;
+	var y1 = y;
+	var raphaelObjects = [];
 
-	graph.grid( [-10, 10], [-10, 10], {
-		stroke: "#ccc"
-	});
+	this.graphieFunction = function( x ) {
+		return ( leadingCoefficient * ( x - x1 ) * ( x - x1 ) ) + y1;
+	};
 
-	graph.style({
-		stroke: "#888",
-		strokeWidth: 2,
-		arrows: "->"
-	});
+	this.plot = function( fShowFocusDirectrix ) {
+		var graph = KhanUtil.currentGraph;
+		raphaelObjects.push( graph.plot( this.graphieFunction, [-10, 10] ) );
+		if ( fShowFocusDirectrix ) {
+			var focusX = this.getFocusX();
+			var focusY = this.getFocusY();
+			var directrixK = this.getDirectrixK();
 
-	graph.path( [ [-10, 0], [10, 0] ] );
-	graph.path( [ [0, -10], [0, 10] ] );
+			graph.style({
+				fill: "#6495ED"
+			}, function() {
+				raphaelObjects.push( graph.circle( [ focusX, focusY ], 0.1 ) );
+				raphaelObjects.push( graph.line( [ -10, directrixK ], [ 10, directrixK ] ) );
+			});
+		}
+	};
 
-	// Plot the orange parabola
-	graph.style({
-		stroke: "#FFA500",
-		fill: "none",
-		clipRect:[ [-10, -10], [20, 20] ],
-		arrows: null
-	});
+	this.redraw = function( fShowFocusDirectrix ) {
+		jQuery.each( raphaelObjects, function( i, el ) {
+			el.remove();
+		});
+		raphaelObjects = [];
+		this.plot( fShowFocusDirectrix );
+	};
 
-	var parabola = function( x ) {
-		return ( leadingCoefficient* ( x - x1 ) * ( x - x1 ) ) + y1;
-	}
-	graph.plot( parabola, [-10, 10]);
+	this.update = function( newLC, newX, newY ) {
+		leadingCoefficient = newLC;
+		x1 = newX;
+		y1 = newY;
+	};
+
+	this.delta = function( deltaLC, deltaX, deltaY ) {
+		this.update( leadingCoefficient + deltaLC, x1 + deltaX, y1 + deltaY );
+	};
+
+	this.deltaFocusDirectrix = function( deltaX, deltaY, deltaK ) {
+		var focusY = this.getFocusY() + deltaY;
+		var k = this.getDirectrixK() + deltaK;
+
+		if ( focusY === k ) {
+			focusY += deltaY;
+			k += deltaK;
+		}
+		var newVertexY = ( focusY + k ) / 2;
+		var newLeadingCoefficient = 1 / ( 2 * ( focusY - k ) );
+
+		this.update( newLeadingCoefficient, this.getVertexX() + deltaX, newVertexY );
+	};
+
+	this.getVertexX = function() {
+		return x1;
+	};
+
+	this.getVertexY = function() {
+		return y1;
+	};
+
+	this.getLeadingCoefficient = function() {
+		return leadingCoefficient;
+	};
+
+	this.getFocusX = function() {
+		return x1;
+	};
+
+	this.getFocusY = function() {
+		return y1 + ( 1 / ( 4 * leadingCoefficient ) );
+	};
+
+	this.getDirectrixK = function() {
+		return y1 - ( 1 / ( 4 * leadingCoefficient ) );
+	};
 }
+
 function redrawParabola( fShowFocusDirectrix ) {
 	var graph = KhanUtil.currentGraph;
 	var storage = graph.graph;
-	storage.currParabola.remove();
+	var currParabola = storage.currParabola
+	currParabola.redraw( fShowFocusDirectrix );
 
-	var parabola = function( x ) {
-		return ( storage.A * ( x - storage.x1 ) * ( x - storage.x1 ) ) + storage.y1;
-	}
-
-	storage.currParabola = graph.plot( parabola, [ -10, 10 ] );
+	var leadingCoefficient = currParabola.getLeadingCoefficient();
+	var vertexX = currParabola.getVertexX();
+	var vertexY = currParabola.getVertexY();
 
 	if ( fShowFocusDirectrix ) {
-		var focusX = storage.x1;
-		var focusY = storage.y1 + ( 1 / ( 4 * storage.A ) );
-		var directrixK = storage.y1 - ( 1 / ( 4 * storage.A ) );
-
-		storage.focus.remove();
-		storage.directrix.remove();
-
-		graph.style({
-			fill: "#6495ED"
-		}, function() {
-			storage.focus = graph.circle( [ focusX, focusY ], 0.1 );
-			storage.directrix = graph.line( [ -10, directrixK ], [ 10, directrixK ] );
-		});
-		jQuery( "#focus-x-label" ).html( "<code>" + focusX + "</code>" ).tmpl();
-		jQuery( "#focus-y-label" ).html( "<code>" + focusY.toFixed( 2 ) + "</code>" ).tmpl();
-		jQuery( "#directrix-label" ).html( "<code>" + "y = " + directrixK.toFixed( 2 ) + "</code>" ).tmpl();
+		jQuery( "#focus-x-label" ).html( "<code>" + currParabola.getFocusX() + "</code>" ).tmpl();
+		jQuery( "#focus-y-label" ).html( "<code>" + currParabola.getFocusY().toFixed( 2 ) + "</code>" ).tmpl();
+		jQuery( "#directrix-label" ).html( "<code>" + "y = " + currParabola.getDirectrixK().toFixed( 2 ) + "</code>" ).tmpl();
 	} else {
-		var equation = "y - " + storage.y1 + "=" + storage.A + "(x - " + storage.x1 + ")^{2}";
+		var equation = "y - " + vertexY + "=" + leadingCoefficient + "(x - " + vertexX + ")^{2}";
 		equation = KhanUtil.cleanMath( equation );
-
 		jQuery( "#equation-label" ).html( "<code>" + equation + "</code>").tmpl();
 	}
-	jQuery( "#leading-coefficient input" ).val( storage.A );
-	jQuery( "#vertex-x input" ).val( storage.x1 );
-	jQuery( "#vertex-y input" ).val( storage.y1 );
+	jQuery( "#leading-coefficient input" ).val( leadingCoefficient );
+	jQuery( "#vertex-x input" ).val( vertexX );
+	jQuery( "#vertex-y input" ).val( vertexY );
 }
 
 function updateParabola( deltaA, deltaX, deltaY, fShowFocusDirectrix ) {
-	var graph = KhanUtil.currentGraph;
-	var storage = graph.graph;
-	storage.A += deltaA;
-	storage.x1 += deltaX;
-	storage.y1 += deltaY;
+	KhanUtil.currentGraph.graph.currParabola.delta( deltaA, deltaX, deltaY );
 	redrawParabola( fShowFocusDirectrix );
 }
 
 function updateFocusDirectrix( deltaX, deltaY, deltaK ) {
-	var graph = KhanUtil.currentGraph;
-	var storage = graph.graph;
-
-	var focusY = storage.y1 + 1 / ( 4 * storage.A );
-	focusY += deltaY;
-
-	var k = storage.y1 - ( 1 / ( 4 * storage.A ) );
-	k += deltaK;
-
-	if ( focusY === k ) {
-		focusY += deltaY;
-		k += deltaK;
-	}
-	var newVertexY = ( focusY + k ) / 2;
-	var newA = 1 / ( 2 * ( focusY - k ) );
-
-	updateParabola( newA - storage.A, deltaX, newVertexY - storage.y1, true );
+	KhanUtil.currentGraph.graph.currParabola.deltaFocusDirectrix( deltaX, deltaY, deltaK );
+	redrawParabola( true );
 }
 
-function getFocusDirectrix( leadingCoefficient, x1, y1 ) {
-	var focusX = x1;
-	var focusY = y1 + ( 1 / ( 4 * leadingCoefficient ) );
-	var directrixK = y1 - ( 1 / ( 4 * leadingCoefficient ) );
-	return { focusX: focusX, focusY: focusY, directrixK: directrixK };
+function ParallelLines( x1, y1, x2, y2, distance ) {
+	var lowerIntersection;
+	var upperIntersection;
+	var anchorAngle;
+
+	function stretch( coordArr, dy ) {
+		return jQuery.map( coordArr, function( coord, index ){
+			if ( index == 0 ) {
+				dx = dy / Math.tan( KhanUtil.toRadians( anchorAngle ) );
+				coord += dx;
+			}
+			if ( index == 1 ) {
+				coord += dy;
+			}
+			return coord;
+		});
+	}
+
+	function labelAngle( coordArr, angles, color ) {
+		var graph = KhanUtil.currentGraph;
+		var measure = ( angles[ 1 ] - angles[ 0 ] );
+		var bisect = ( angles[ 0 ] + angles[ 1 ] ) / 2;
+		var radius = 0.8;
+		if ( measure < 90 ) {
+			radius = 0.8 / Math.sin( KhanUtil.toRadians ( measure ) );
+		}
+		var coords = jQuery.map( coordArr, function( coord, index ) {
+			if ( index == 0 ) {
+				return coord + radius * Math.cos( KhanUtil.toRadians( bisect ) );
+			} else {
+				return coord + radius * Math.sin( KhanUtil.toRadians( bisect ) );
+			}
+		});
+		graph.label( coords, measure + "^{\\circ}", "center", {color: color});
+	}
+
+	this.draw = function() {
+		var graph = KhanUtil.currentGraph;
+		graph.line( [ x1, y1 ], [ x2, y2 ] );
+		graph.line( [ x1, y1 + distance ], [ x2, y2 + distance ] );
+	}
+
+	this.drawTransverse = function( angleDeg ) {
+		anchorAngle = angleDeg;
+		var graph = KhanUtil.currentGraph;
+		var width = distance / Math.tan( KhanUtil.toRadians ( anchorAngle ) );
+		var lowerX = x1 + ( ( x2 - x1 ) - width ) / 2;
+		var upperX = lowerX + width;
+		lowerIntersection = [ lowerX, y1 ];
+		upperIntersection = [ upperX, y1 + distance ];
+		graph.line( stretch( lowerIntersection, -0.8 ), stretch( upperIntersection, 0.8 ) );
+	}
+
+	this.drawAngle = function( index, label, color ) {
+		var graph = KhanUtil.currentGraph,
+			radius = 0.5,
+			args, angles;
+
+		color || ( color = "#6495ED" );
+		index = ( index + 8 ) % 8;
+		if ( index < 4 ) {
+			args = [ lowerIntersection, radius ];
+		} else {
+			args = [ upperIntersection, radius ];
+		}
+
+		switch( index % 4 ) {
+			case 0:
+				angles = [ 0, anchorAngle ];
+				break;
+			case 1:
+				angles = [ anchorAngle, 180 ];
+				break;
+			case 2:
+				angles = [ 180, 180 + anchorAngle ];
+				break;
+			case 3:
+				angles = [ 180 + anchorAngle, 360 ];
+				break;
+		}
+		jQuery.merge( args, angles );
+
+		graph.style({ stroke: color}, function() {
+			graph.arc.apply( graph, args );
+			if ( label ) {
+				labelAngle( args[ 0 ], angles, color );
+			}
+		})
+	}
+
+	this.drawVerticalAngle = function( index, label, color ) {
+		index = ( index + 8 ) % 8;
+		var vert = ( index + 2 ) % 4;
+		if ( index >=4 ) {
+			vert += 4;
+		}
+		this.drawAngle( vert, label, color );
+	}
+
+	this.drawAdjacentAngles = function( index, label, color ) {
+		index = ( index + 8 ) % 8;
+		var adj1 = ( index + 1 ) % 4;
+		var adj2 = ( index + 3 ) % 4;
+		if ( index >= 4 ) {
+			adj1 += 4;
+			adj2 += 4;
+		}
+		this.drawAngle( adj1, label, color );
+		this.drawAngle( adj2, label, color );
+	}
 }

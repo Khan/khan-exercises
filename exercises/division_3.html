@@ -46,8 +46,6 @@
 					while ( HIGHLIGHTS.length ) {
 						HIGHLIGHTS.pop().remove();
 					}
-					var index = <var>index</var>;
-					var value = <var>value</var>;
 					var quotient = value / DIVISOR;
 					var total = value + REMAINDER;
 					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ value ], index, 0, "#6495ED" ) );
@@ -71,8 +69,7 @@
 						+ "\\text{?}", "right" );
 				</div>
 				<div class="graphie" data-update="numbers">
-					var index = <var>index</var>;
-					var value = <var>value</var> + REMAINDER;
+					value += REMAINDER;
 					var quotient = floor( value / DIVISOR );
 					var diff = value - ( quotient * DIVISOR );
 					REMAINDER = diff * 10;

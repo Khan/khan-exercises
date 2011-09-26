@@ -12,11 +12,13 @@
 		<div class="streak-bar">
 			<div class="longest-streak">
 				<div class="current-streak">
-					<ul class="unit-rating" style="width:228px;">
+					<ul class="unit-rating">
 						<li style="width:0px;" class="current-rating"></li>
 						<li style="width:0px;" class="streak-icon"></li>
 						<li style="width:0px;" class="best-label"></li>
-						<li style="width:0px;" class="current-label"></li>
+						<li style="width:0px;" class="current-label">
+							<div class="label"></div>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -54,7 +56,7 @@
 		<form id="answerform" action="/exercisedashboard?k" method="get" name="answerform">
 			<div id="answercontent" class="info-box fancy-scrollbar">
 				<span class="info-box-header">Answer</span>
-				<div id="solution"></div>
+				<div id="solutionarea"></div>
 				<input type="button" class="simple-button action-gradient green" id="check-answer-button" tabindex="10" value="Check Answer"/>
 				<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px">
 				<input type="button" class="simple-button action-gradient green" id="next-question-button" style="display:none;" name="correctnextbutton" value="Correct! Next Question..."/>
@@ -74,25 +76,27 @@
 				<span class="info-box-sub-description">To work on problems like this, <a id="readonly-start" href="">start this exercise</a>.</span>
 			</div>
 			<div class="info-box hint-box">
-				<span class="info-box-header">Need Help?</span>
-				<div id="related-video-content" style="display:none;">
-					<span class="info-box-subheader">Watch a video</span>
-					<span class="info-box-sub-description">Watching videos <strong>does not</strong> reset your streak.</span>
+				<span class="info-box-header">Need help? Get a hint.</span>
+				<span class="info-box-sub-description">This <strong>will</strong> reset your streak!</span>
+				<input id="hint" type="button" class="simple-button action-gradient orange" value="I'd like a hint" name="hint"/>
+				<span id="hint-remainder"></span>
+			</div>
+			<div class="info-box related-video-box" style="display:none;">
+				<div id="related-video-content">
+					<span class="info-box-header">Stuck? Watch a video.</span>
+					<span class="info-box-sub-description">This <strong>does not</strong> reset your streak.</span>
+
 					<div id="related-video-list">
 						<span class="related-content-title">Related videos:</span>
 						<ul class="related-video-list"></ul>
 					</div>
 					<div class="clear"></div>
 				</div>
-				<span class="info-box-subheader">Get a hint</span>
-				<span class="info-box-sub-description">Getting a hint <strong>will</strong> reset your streak!</span>
-				<input id="hint" type="button" class="simple-button action-gradient orange" value="I'd like a hint" name="hint"/>
-				<span id="hint-remainder"></span>
 			</div>
 		</form>
 		<div id="issue" class="info-box" style="display:none;">
 			<span class="info-box-header">Report a Problem</span>
-			<p id="issue-status"></p>
+			<span id="issue-status" class="info-box-sub-description"></span>
 			<form>
 				<label for="issue-title">Issue Title:<input type="text" name="issue-title" id="issue-title" /></label>
 				<label for="issue-email">Your Email (optional):<input type="text" name="issue-email" id="issue-email" /></label>

@@ -71,7 +71,8 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	testMode = typeof userExercise === "undefined",
 
 	// The main server we're connecting to for saving data
-	server = testMode ? "http://localhost:8080" : "",
+	server = typeof apiServer !== "undefined" ? apiServer :
+		testMode ? "http://localhost:8080" : "",
 
 	// The name of the exercise
 	exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]),
@@ -81,22 +82,24 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	bins = 200,
 
 	// The seed information
-	problemSeed,
 	randomSeed,
 
 	// Get the username of the user
 	user = window.localStorage["exercise:lastUser"] || null,
 	userCRC32,
 
-	// How far to jump through the problems
-	jumpNum = 1,
-
 	// The current problem and its corresponding exercise
 	problem,
 	exercise,
 
 	// The number of the current problem that we're on
-	problemNum = 0,
+	problemNum = 1,
+
+	// Info for constructing the seed
+	seedOffset = 0,
+	jumpNum = 1,
+	problemSeed = 0,
+
 	problemID,
 
 	// The current validator function
@@ -149,7 +152,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 			+ "found at the following link:</p>"
 			+ "<p><a id=\"issue-link\" href=\"" + a + "\">" + b + "</a>";
 	},
-	issueIntro = "Please make sure you report this issue from an exercise page where you see the issue, so we can reproduce the issue and fix it. If you're reporting an issue about a mathematical error, please make sure that you've double-checked your math. Note: All information provided will become public. Thanks for helping us change education!";
+	issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!";
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {
@@ -255,7 +258,11 @@ var Khan = {
 			var src, deps;
 
 			if ( typeof mod === "string" ) {
-				src = urlBase + "utils/" + mod + ".js";
+				var cachebust = "";
+				if ( testMode && Khan.query.nocache != null ) {
+					cachebust = "?" + Math.random();
+				}
+				src = urlBase + "utils/" + mod + ".js" + cachebust;
 				deps = Khan.moduleDependencies[ mod ];
 				mod = {
 					src: src,
@@ -459,7 +466,32 @@ var Khan = {
 		};
 
 		return actions;
-	})()
+	})(),
+
+	showThumbnail: function( index ) {
+		jQuery( "#related-video-list .related-video-list li" ).each(function(i, el) {
+			if ( i == index ) {
+				jQuery( el )
+					.find( 'a.related-video-inline' ).hide().end()
+					.find( '.thumbnail' ).show();
+			}
+			else {
+				jQuery( el )
+					.find( 'a.related-video-inline' ).show().end()
+					.find( '.thumbnail' ).hide();
+			}
+		});
+	},
+
+	// make a link to a related video, appending exercise ID.
+	relatedVideoHref: function(video, data) {
+		var exid_param = '';
+		data = data || userExercise;
+		if ( data ) {
+			exid_param = "?exid=" + data.exercise_model.name;
+		}
+		return video.ka_url + exid_param;
+	}
 };
 
 // Load query string params
@@ -502,7 +534,9 @@ Khan.loadScripts( scripts, function() {
 			isSummative = true;
 
 			remoteExercises.each( loadExercise );
-		} else {
+
+		// Only run loadModules if exercises are in the page
+		} else if ( jQuery( ".exercise" ).length ) {
 			loadModules();
 		}
 	});
@@ -656,16 +690,15 @@ function makeProblem( id, seed ) {
 
 	// Allow passing in a random seed
 	if ( typeof seed !== "undefined" ) {
-		randomSeed = seed;
+		problemSeed = seed;
 
-	// Otherwise set the seed from the problem number
-	// Only do so if we're not in test mode and if we have a username
-	} else if ( (!testMode || Khan.query.test == null) && user != null ) {
-		randomSeed = problemNum;
+	// In either of these testing situations,
+	} else if ( (testMode && Khan.query.test != null) || user == null ) {
+		problemSeed = randomSeed;
 	}
 
-	// Save the seed for later so we can show it when asked
-	problemSeed = randomSeed;
+	// Set randomSeed to what problemSeed is (save problemSeed for recall later)
+	randomSeed = problemSeed;
 
 	// Check to see if we want to test a specific problem
 	if ( testMode ) {
@@ -726,7 +759,7 @@ function makeProblem( id, seed ) {
 		// vars and hints blocks append their contents to the parent
 		.find( ".vars" ).tmplApply( { attribute: "class", defaultApply: "appendVars" } ).end()
 
-		// Individual variables override other variables with the name name
+		// Individual variables override other variables with the same name
 		.find( ".vars [id]" ).tmplApply().end()
 
 		// We also look at the main blocks within the problem itself to override
@@ -754,7 +787,7 @@ function makeProblem( id, seed ) {
 
 		// Get the area into which solutions will be inserted,
 		// Removing any previous answer
-		solutionarea = jQuery("#solution").empty(),
+		solutionarea = jQuery("#solutionarea").empty(),
 
 		// See if we're looking for a specific style of answer
 		answerType = solution.data("type");
@@ -780,7 +813,7 @@ function makeProblem( id, seed ) {
 
 	// Generate a type of problem
 	// (this includes possibly generating the multiple choice problems,
-	//  if this fails then we will need to try generating another one.)
+	// if this fails then we will need to try generating another one.)
 	guessLog = [];
 	validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
@@ -811,6 +844,7 @@ function makeProblem( id, seed ) {
 
 	// Add the problem into the page
 	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
+	Khan.scratchpad.resize();
 
 	// Enable the all answer input elements except the check answer button.
 	jQuery( "#answercontent input" ).not( '#check-answer-button' )
@@ -881,13 +915,13 @@ function makeProblem( id, seed ) {
 
 		var timelinecontainer = jQuery( "<div id='timelinecontainer'>" )
 			.append( "<div>\
-			            <div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
-			            <div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\
-			          </div>" )
+						<div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
+						<div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\
+					  </div>" )
 			.insertBefore( "#extras" );
 
 		if (getData().total_done === 0) {
-			$( '#previous-problem' )
+			jQuery( '#previous-problem' )
 				.addClass( 'disabled' )
 				.css( {
 					cursor: 'default !important',
@@ -902,16 +936,16 @@ function makeProblem( id, seed ) {
 
 		timelinecontainer
 			.append( "<div>\
-			            <div id='next-problem' class='simple-button action-gradient'>Next Problem</div>\
-			            <div id='next-step' class='simple-button action-gradient'><span>Next Step</span></div>\
-			          </div>" );
+						<div id='next-problem' class='simple-button action-gradient'>Next Problem</div>\
+						<div id='next-step' class='simple-button action-gradient'><span>Next Step</span></div>\
+					  </div>" );
 
 		jQuery( "<div class='user-activity correct-activity'>Started</div>" )
 			.data( 'hint', false )
 			.appendTo( timelineEvents );
 
 		var hintNumber = 0,
-		    answerNumber = 1;
+			answerNumber = 1;
 
 		/* value[0]: css class
 		 * value[1]: guess
@@ -919,7 +953,7 @@ function makeProblem( id, seed ) {
 		 */
 		jQuery.each(userExercise.user_activity, function(index, value) {
 			var guess = value[1] === "Activity Unavailable" ? value[1] : JSON.parse( value[1] ),
-			    thissolutionarea;
+				thissolutionarea;
 
 			timelineEvents
 				.append( "<div class='timeline-time'>" + value[2] + "s</div>" );
@@ -990,24 +1024,24 @@ function makeProblem( id, seed ) {
 		}
 
 		var states = timelineEvents.children( ".user-activity" ),
-		    currentSlide = states.length - 1,
-		    numSlides = states.length,
-		    firstHintIndex = timeline.find( '.hint-activity:first' )
-		      .index( '.user-activity' ),
-		    lastHintIndex  = timeline.find( '.hint-activity:last' )
-		      .index( '.user-activity' ),
-		    totalHints = timeline.find( '.hint-activity:last' )
-		      .index( '.hint-activity' ),
-		    hintButton = jQuery( '#hint' ),
-		    hintRemainder = jQuery( '#hint-remainder' ),
-		    timelineMiddle = timeline.width() / 2,
-		    realHintsArea = jQuery( '#hintsarea' ),
-		    realWorkArea = jQuery( '#workarea' ),
-		    statelist = [],
-		    previousHintNum = 100000;
+			currentSlide = states.length - 1,
+			numSlides = states.length,
+			firstHintIndex = timeline.find( '.hint-activity:first' )
+			  .index( '.user-activity' ),
+			lastHintIndex  = timeline.find( '.hint-activity:last' )
+			  .index( '.user-activity' ),
+			totalHints = timeline.find( '.hint-activity:last' )
+			  .index( '.hint-activity' ),
+			hintButton = jQuery( '#hint' ),
+			hintRemainder = jQuery( '#hint-remainder' ),
+			timelineMiddle = timeline.width() / 2,
+			realHintsArea = jQuery( '#hintsarea' ),
+			realWorkArea = jQuery( '#workarea' ),
+			statelist = [],
+			previousHintNum = 100000;
 
 		// So highlighting doesn't fade to white
-		jQuery( '#solution' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
+		jQuery( '#solutionarea' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
 
 		jQuery.fn.scrubber = function() {
 			var scrubber1 = jQuery( '#scrubber1' ),
@@ -1044,7 +1078,7 @@ function makeProblem( id, seed ) {
 			} );
 
 			return this;
-		}
+		};
 
 		// Set the width of the timeline (starts as 10000px) after MathJax loads
 		MathJax.Hub.Queue( function() {
@@ -1063,15 +1097,15 @@ function makeProblem( id, seed ) {
 			thisSlide = states.eq( i );
 
 			var thisHintArea, thisProblem,
-			    hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
-			                .filter('.hint-activity').length - 1,
-			    // Bring the currently focused panel as close to the middle as possible
-			    itemOffset = thisSlide.position().left,
-			    itemMiddle = itemOffset + thisSlide.width() / 2,
-			    offset = timelineMiddle - itemMiddle,
-			    currentScroll = timeline.scrollLeft(),
-			    timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
-			    scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25 );
+				hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
+							.filter('.hint-activity').length - 1,
+				// Bring the currently focused panel as close to the middle as possible
+				itemOffset = thisSlide.position().left,
+				itemMiddle = itemOffset + thisSlide.width() / 2,
+				offset = timelineMiddle - itemMiddle,
+				currentScroll = timeline.scrollLeft(),
+				timelineMax = states.eq( -1 ).position().left + states.eq( -1 ).width(),
+				scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25 );
 
 			if (hintNum >= 0) {
 			  jQuery( hints[hintNum] ).appendTo( realHintsArea ).runModules( problem );
@@ -1099,13 +1133,13 @@ function makeProblem( id, seed ) {
 					activate( i );
 				}
 			} );
-		}
+		};
 
 		MathJax.Hub.Queue( function() {create(0);} );
 
 		var activate = function( slideNum ) {
 			var hint, thisState,
-			    thisSlide = states.eq( slideNum );
+				thisSlide = states.eq( slideNum );
 
 			// All content for this state has been built before
 			if (statelist[slideNum]) {
@@ -1184,7 +1218,7 @@ function makeProblem( id, seed ) {
 
 		// Allow users to click on points of the timeline
 		jQuery( states ).click(function(event) {
-			var index = $(this).index("#timeline .user-activity");
+			var index = jQuery( this ).index( "#timeline .user-activity" );
 
 			currentSlide = index;
 			activate( currentSlide );
@@ -1300,11 +1334,9 @@ function makeProblem( id, seed ) {
 		}
 
 		// for special style rules
+
 		jQuery( "body" ).addClass("debug");
 	}
-
-	// Advance to the next problem
-	nextProblem( 1 );
 
 	hintsUsed = 0;
 	attempts = 0;
@@ -1438,7 +1470,7 @@ function prepareSite() {
 		// Save the problem results to the server
 		var curTime = new Date().getTime();
 		var data = buildAttemptData(pass, ++attempts, JSON.stringify(validator.guess), curTime);
-		request( "problems/" + (getData().total_done + 1) + "/attempt", data, function() {
+		request( "problems/" + problemNum + "/attempt", data, function() {
 
 			// TODO: Save locally if offline
 			jQuery(Khan).trigger( "answerSaved" );
@@ -1449,15 +1481,19 @@ function prepareSite() {
 			// Error during submit. Cheat, for now, and reload the page in
 			// an attempt to get updated data.
 
-			if ( user != null && exerciseName != null ) {
-				// Before we reload, clear out localStorage's UserExercise.
-				// If there' a discrepancy between server and localStorage such that
-				// problem numbers are out of order or anything else, we want
-				// to restart with whatever the server sends back on reload.
-				delete window.localStorage[ "exercise:" + user + ":" + exerciseName ];
-			}
+			if ( typeof userExercise === "undefined" || !userExercise.tablet ) {
+				if ( user != null && exerciseName != null ) {
+					// Before we reload, clear out localStorage's UserExercise.
+					// If there' a discrepancy between server and localStorage such that
+					// problem numbers are out of order or anything else, we want
+					// to restart with whatever the server sends back on reload.
+					delete window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+				}
 
-			window.location.reload();
+				window.location.reload();
+			} else {
+				// TODO: Implement alternative error handling
+			}
 		});
 
 		if ( pass === true ) {
@@ -1469,6 +1505,7 @@ function prepareSite() {
 					.removeClass( "buttonDisabled" )
 					.focus();
 			}
+			nextProblem( 1 );
 		} else {
 			// Wrong answer. Enable all the input elements, but wait until
 			// until server acknowledges before enabling the check answer
@@ -1576,7 +1613,7 @@ function prepareSite() {
 		if ( !fProdReadOnly && !fAnsweredCorrectly ) {
 			// Resets the streak and logs history for exercise viewer
 			request(
-				"problems/" + (getData().total_done + 1) + "/hint",
+				"problems/" + problemNum + "/hint",
 				buildAttemptData(false, attempts, "hint", new Date().getTime()),
 				// Don't do anything on success or failure, silently failing is ok here
 				function() {},
@@ -1757,26 +1794,24 @@ function prepareSite() {
 			var link = jQuery( this ),
 				show = link.data( "show" );
 
+			// Reset answer fields, etc. and clear work and hints area
+			jQuery("#next-question-button").click();
+
 			if ( show ) {
 				link.text( "Try current problem" );
-
-				// If we just did a problem, advance to the next question to prevent cheating
-				jQuery( "#next-question-button:visible" ).click();
-
-				jQuery( "#hintsarea" ).empty();
 				jQuery( "#answerform" ).hide();
 
 				for ( var i = 0; i < 9; i++ ) {
 					jQuery( "#workarea" ).append( "<hr>" );
+					nextProblem( 1 );
 					makeProblem();
 				}
+
+				// Rewind so next time we make a problem we'll be back at the beginning
+				prevProblem( 9 );
 			} else {
 				link.text( "Show next 10 problems" );
-				jQuery( "#workarea" ).empty();
 				jQuery( "#answerform" ).show();
-				prevProblem( 10 );
-
-				makeProblem();
 			}
 
 			jQuery( "#answerform input[type='button']" ).attr( "disabled", show );
@@ -1840,6 +1875,7 @@ function prepareSite() {
 
 		jQuery( "#tester-info .pass" ).click( function() {
 			dataDump.problems[ dataDump.problems.length - 1 ].pass = true;
+			nextProblem( 1 );
 			jQuery( "#next-question-button" ).trigger( "click" );
 		} );
 
@@ -1857,7 +1893,7 @@ function prepareSite() {
 				path = fileName + "?problem=" + problemID
 					+ "&seed=" + problemSeed;
 
-			var title = encodeURIComponent( "Issue Found in Testing - " + $("title").html() ),
+			var title = encodeURIComponent( "Issue Found in Testing - " + jQuery("title").html() ),
 				body = encodeURIComponent( [ description, path, prettyDump, navigator.userAgent ].join("\n\n") ),
 				label = encodeURIComponent( "tester bugs" );
 
@@ -1978,40 +2014,18 @@ function prepareSite() {
 	}
 }
 
+function setProblemNum( num ) {
+	problemNum = num;
+	problemSeed = (seedOffset + jumpNum * (problemNum - 1)) % bins;
+	problemBagIndex = (problemNum + problemCount - 1) % problemCount;
+}
+
 function nextProblem( num ) {
-	if ( num > 0 ) {
-		// Increment the problem number
-		problemNum += jumpNum;
-
-		if ( problemNum >= 200 ) {
-			problemNum -= 200;
-		}
-
-		// Go to the next problem type in the problem bag
-		problemBagIndex = (problemBagIndex + 1) % problemCount;
-
-		nextProblem( num - 1 );
-	}
+	setProblemNum( problemNum + num );
 }
 
 function prevProblem( num ) {
-	if ( num > 0 ) {
-		// Increment the problem number
-		problemNum -= jumpNum;
-
-		if ( problemNum < 0 ) {
-			problemNum += 200;
-		}
-
-		// Go to the next problem type in the problem bag
-		problemBagIndex = (problemBagIndex - 1) % problemCount;
-
-		if ( problemBagIndex < 0 ) {
-			problemBagIndex += problemCount;
-		}
-
-		prevProblem( num - 1 );
-	}
+	nextProblem( -num );
 }
 
 function prepareUserExercise( data ) {
@@ -2023,10 +2037,10 @@ function prepareUserExercise( data ) {
 		jumpNum = primes[ userCRC32 % primes.length ];
 
 		// The starting problem of the user
-		problemNum = userCRC32 % bins;
+		seedOffset = userCRC32 % bins;
 
 		// Advance to the current problem seed
-		nextProblem( getData().total_done );
+		setProblemNum( getData().total_done + 1 );
 	}
 }
 
@@ -2047,7 +2061,7 @@ function request( method, data, fn, fnError ) {
 		xhrFields["withCredentials"] = true;
 	}
 
-	jQuery.ajax({
+	var request = {
 		// Do a request to the server API
 		url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
 		type: "POST",
@@ -2067,7 +2081,15 @@ function request( method, data, fn, fnError ) {
 
 		// Handle error edge case
 		error: fnError
-	});
+	};
+
+	// Do request using OAuth, if available
+	if ( typeof oauth !== "undefined" && jQuery.oauth ) {
+		jQuery.oauth( jQuery.extend( {}, oauth, request ) );
+
+	} else {
+		jQuery.ajax( request );
+	}
 }
 
 // Update the visual representation of the points/streak
@@ -2094,8 +2116,12 @@ function updateData( data ) {
 		data = oldData;
 	}
 
+	// this will eventually stabilize, but let's make refactoring easier, why not?
+	var streakType = data.progress_bar_alternative || "original";
+	jQuery("#streak-bar-container").addClass(streakType);
+
 	// Update the streaks/point bar
-	var streakMaxWidth = 227,
+	var streakMaxWidth = (streakType === "original") ? 228 : 325,
 
 		// Streak and longest streak pixel widths
 		streakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.streak)),
@@ -2116,9 +2142,8 @@ function updateData( data ) {
 						( !data.summative && data.longest_streak > 100 ) ? "Max" : data.longest_streak;
 
 	if ( data.summative ) {
-
 		jQuery( ".summative-help ")
-			.find( ".summative-required-streaks" ).text( parseInt( data.required_streak / 10 ) ).end()
+			.find( ".summative-required-streaks" ).text( parseInt( (data.required_streak / 10) , 10) ).end()
 			.show();
 
 		if ( jQuery( ".level-label" ).length === 0 ) {
@@ -2134,18 +2159,72 @@ function updateData( data ) {
 			}
 
 			jQuery.each(levels, function( index, val ) {
-				jQuery( ".best-label" ).after("<li class='level-label' style='width:" + val + "px'></li>");
+				jQuery( ".best-label" ).after( jQuery("<li class='level-label' ></li>").css({ "left":val }) );
 			});
 
 		}
 	}
 
-	jQuery(".unit-rating").width( streakMaxWidth );
-	jQuery(".current-rating").width( streakWidth );
-	jQuery(".streak-icon").width( streakIconWidth );
-	jQuery(".best-label").width( longestStreakWidth ).html( labelLongestStreak + "&nbsp;" );
-	jQuery(".current-label").width( streakWidth ).html( labelStreak + "&nbsp;" );
-	jQuery("#exercise-points").text( " " + data.next_points + " " );
+	// easeInOutCubic easing from
+	// jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
+	// (c) 2008 George McGinley Smith, (c) 2001 Robert Penner - Open source under the BSD License.
+	jQuery.extend( jQuery.easing, {
+		easeInOutCubic: function (x, t, b, c, d) {
+			if ((t/=d/2) < 1) return c/2*t*t*t + b;
+			return c/2*((t-=2)*t*t + 2) + b;
+		}
+	});
+
+	if ( streakType == "original" ){
+		jQuery(".streak-icon").width( streakIconWidth );
+		jQuery(".unit-rating").width( streakMaxWidth );
+		jQuery("#exercise-points").show();
+
+		// let's animate even the original for fun
+		jQuery(".current-rating, .current-label").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
+		jQuery(".best-label").animate({"width":( longestStreakWidth ) }, 365, "easeInOutCubic");
+
+		jQuery(".best-label").html( labelLongestStreak + "&nbsp;" );
+		jQuery(".current-label").html( labelStreak + "&nbsp;" );
+		jQuery("#exercise-points").text( " " + data.next_points + " " );
+	}
+	if ( streakType === "new_partial_reset" || streakType === "new_full_reset" ) {
+		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
+
+		jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
+	}
+	if( streakType === "new_partial_reset" ){
+		jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"})
+	}
+	if ( streakType === "capped" ){
+		// this is crazy implementation-specific for a progress bar with a cap (div with image) on it
+
+		// the progress may exceed 100%, so cap at that
+		streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
+		// there is a cap at the end of the bar which needs to be adjusted
+		var gradientWidth = jQuery(".current-label .label").width() / 2;
+
+		jQuery(".current-label").animate({"width":( streakWidth + gradientWidth ) }, 365, "easeInOutCubic");
+
+		// these are the masks and containers for the streak which need to be max width
+		jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );
+
+		if(data.progress >= 1){
+			if(!jQuery(".current-label").hasClass("proficient")){
+				// fade out the streak as it is and when done, add in the shiny
+				// blue/yellow bg and fade it back in
+				jQuery(".current-label, .current-label .label").fadeOut(150,function(){
+					jQuery(".streak-bar").addClass("proficient");
+					jQuery(".current-label").addClass("proficient").fadeIn(200);
+				});
+			}
+		}else{
+			// lost proficiency (or never had it), restore the .label
+			jQuery(".current-label, .streak-bar").removeClass("proficient");
+			jQuery(".current-label .label").fadeIn(0);
+		}
+	}
+
 
 	// Update the exercise icon
 	var exerciseStates = data && data.exercise_states;
@@ -2158,34 +2237,108 @@ function updateData( data ) {
 							"/images/" + sPrefix + "-not-started.png";
 		jQuery("#exercise-icon-container img").attr("src", src);
 	}
-
-	// Display all the related videos
 	var videos = data && data.exercise_model.related_videos;
-
-	if ( videos && videos.length && jQuery(".related-video-list").is(":empty") ) {
-		jQuery.each( videos, function( i, video ) {
-			var span = jQuery( "<span>" )
-				.addClass( "video-title vid-progress v" + video.id )
-				.text( video.title );
-			if ( i < videos.length - 1 && i < 2 ) {
-				span.append( "<span class='separator'>, </span>" );
-			}
-
-			var a = jQuery( "<a>" ).attr( {
-				href: video.ka_url,
-				title: video.title
-			} )
-				.append( span );
-
-			jQuery( "<li>" )
-				.addClass( i > 2 ? "related-video-extended" : "" )
-				.append( a )
-				.appendTo( ".related-video-list" );
-		} );
-
-		jQuery(".related-content, #related-video-content").show();
+	if ( videos && videos.length &&
+		jQuery(".related-video-list").is(":empty")
+	) {
+		displayRelatedVideos(videos);
+		ModalVideo && ModalVideo.hookup();
 	}
 }
+
+function displayRelatedVideos( videos ) {
+	jQuery.each( videos, function( i, video ) {
+		var span = jQuery( "<span>" )
+			.addClass( "video-title vid-progress v" + video.id )
+			.text( video.title );
+		if ( i < videos.length - 1 && i < 2 ) {
+			span.append( "<span class='separator'>, </span>" );
+		}
+
+		var a = jQuery( "<a>" ).attr( {
+			href: Khan.relatedVideoHref(video),
+			title: video.title
+		} )
+			.data('video', video)
+			.append( span );
+
+		var thumbnailUrl = function( youtubeId ) {
+			return "http://img.youtube.com/vi/" + youtubeId + "/hqdefault.jpg";
+		};
+
+		var li = jQuery( "<li>" )
+			.addClass( i > 2 ? "related-video-extended" : "" )
+			.append( a.addClass('related-video-inline') );
+
+		jQuery( ".related-content > .related-video-list" ).append( li );
+
+		// I apologise for this horrible non-templated element creation
+		var thumbnailDiv = jQuery( '<div>' ).addClass( "thumbnail" )
+			.append(a.clone(true)
+				.removeClass( 'related-video-inline' )
+				.empty()
+				.append(
+				jQuery( "<div>" ).addClass( "thumb" )
+					.css('backgroundImage',
+						"url('" + thumbnailUrl( video.youtube_id ) + "')")
+					.append(
+						jQuery( '<div>' ).addClass( 'thumbnail_label' )
+							.append(
+								jQuery( '<div>' ).addClass( 'thumbnail_desc' )
+									.append(jQuery(span
+										.clone(true).removeClass('video-title')))
+							)
+							.append(
+								jQuery( '<div>' ).addClass( 'thumbnail_teaser' )
+									.text( video.description )
+							)
+					)
+				)
+			);
+
+		var sideBarLi = li.clone(true).append( thumbnailDiv );
+
+		if ( i > 0 ) {
+			thumbnailDiv.hide();
+		}
+		else {
+			sideBarLi.find( 'a.related-video-inline' ).hide();
+		}
+		jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
+	} );
+
+	jQuery( ".related-content, .related-video-box" ).show();
+
+	// make caption slide up over the thumbnail on hover
+	var captionHeight = 45;
+	var defaultMarginTop = 23;
+	// queue:false to make sure these run simultaneously
+	var animationOptions = {duration: 150, queue: false};
+	jQuery( ".thumbnail" ).hover(
+		function() {
+			jQuery( this )
+				.find( ".thumbnail_label" ).animate(
+					{ marginTop: defaultMarginTop },
+					animationOptions
+				).end()
+				.find( ".thumbnail_teaser" ).animate(
+					{ height: captionHeight },
+					animationOptions
+				);
+		},
+		function() {
+			jQuery( this )
+				.find( ".thumbnail_label" ).animate(
+					{ marginTop: defaultMarginTop + captionHeight },
+					animationOptions
+				).end()
+				.find( ".thumbnail_teaser" ).animate(
+					{ height: 0 },
+					animationOptions
+				);
+		}
+	);
+};
 
 // Grab the cached UserExercise data from local storage
 function getData() {
@@ -2327,8 +2480,9 @@ function loadModules() {
 	}
 }
 
-if ( typeof urlBase !== "undefined" ) {
+if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
 	Khan.loadExercise = loadExercise;
+	Khan.prepareUserExercise = prepareUserExercise;
 }
 
 return Khan;
