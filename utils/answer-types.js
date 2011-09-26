@@ -253,11 +253,7 @@ jQuery.extend( Khan.answerTypes, {
 
 			dollar: {
 				transformer: function( text ) {
-					text = jQuery.trim( text );
-
-					if ( text.indexOf( "$" ) === 0 ) {
-						text = jQuery.trim( text.substring( 1 ) );
-					}
+					text = jQuery.trim( text ).replace( '$', '' );
 
 					return forms.decimal.transformer( text );
 				},
