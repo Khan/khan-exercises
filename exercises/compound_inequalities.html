@@ -18,6 +18,11 @@
 			}[comp];
 		}
 	</script>
+	<style type="text/css">
+		#answer_area input[type=text] {
+			width: 30px;
+		}
+	</style>
 </head>
 <body>
 	<div class="exercise">
@@ -68,37 +73,50 @@
 					<code>\color{<var>COLOR[1]</var>}{<var>COEF[1] + VARIABLE_NAME</var><var data-if="LEFT_INT[1] !== 0">SIGN[1] + LEFT_INT[1]</var><var>COMP[1] + RIGHT_INT[1]</var>}</code>
 				</div>
 
-				<p class="solution">
-					<span data-if="IS_OR && ALL_NUMBERS">All real numbers.</span>
-					<span data-else-if="IS_OR && CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[CONTAINS - 1] + SOLUTION[CONTAINS - 1]</var></code></span>
-					<span data-else-if="!IS_OR && CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[IS_CONTAINED - 1] + SOLUTION[IS_CONTAINED - 1]</var></code></span>
-					<span data-else-if="!IS_OR && NO_SOLUTION">No solution.</span>
-					<span data-else><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var></code></span>
-				</p>
+				<div class="solution" data-type="set">
+					<div data-if="!ALL_NUMBERS && IS_OR && CONTAINS">
+						<div class="set-sol" data-type="multiple">
+							<div class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;']"><var>COMP_SOLUTION[CONTAINS - 1]</var></div>
+							<div class="sol"><var>SOLUTION[CONTAINS - 1]</var></div>
+						</div>
+					</div>
+					<div data-else-if="!IS_OR && CONTAINS">
+						<div class="set-sol" data-type="multiple">
+							<div class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;']"><var>COMP_SOLUTION[IS_CONTAINED - 1]</var></div>
+							<div class="sol"><var>SOLUTION[IS_CONTAINED - 1]</var></div>
+						</div>
+					</div>
+					<div data-else-if="(IS_OR && !ALL_NUMBERS) || (!IS_OR && !NO_SOLUTION)">
+						<div class="set-sol" data-type="multiple">
+							<div class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;']"><var>COMP_SOLUTION[0]</var></div>
+							<div class="sol"><var>SOLUTION[0]</var></div>
+						</div>
+						<div class="set-sol" data-type="list" data-choices="['', 'and', 'or']"><var>OR</var></div>
+						<div class="set-sol" data-type="multiple">
+							<div class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;']"><var>COMP_SOLUTION[1]</var></div>
+							<div class="sol"><var>SOLUTION[1]</var></div>
+						</div>
+					</div>
 
-				<ul class="choices" data-show="4">
-					<li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + FAKE_ANSWER[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + FAKE_ANSWER[1]</var></code></li>
-					<li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + randRangeNonZero( -9, 9 )</var></code></li>
-					<li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + randRangeNonZero( -9, 9 )</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var></code></li>
-					<li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + FAKE_ANSWER[0]</var></code></li>
-					<li data-if="CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var></code></li>
-					<div data-if="COMP[0] !== COMP_SOLUTION[0]" data-unwrap>
-						<li><code><var>VARIABLE_NAME + COMP[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var></code></li>
-						<li><code><var>VARIABLE_NAME + COMP[0] + FAKE_ANSWER[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + FAKE_ANSWER[1]</var></code></li>
-					</div>
-					<div data-if="COMP[1] !== COMP_SOLUTION[1]" data-unwrap>
-						<li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + SOLUTION[1]</var></code></li>
-						<li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + FAKE_ANSWER[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + FAKE_ANSWER[1]</var></code></li>
-					</div>
-					<div data-if="COMP[0] !== COMP_SOLUTION[0] && COMP[1] !== COMP_SOLUTION[1]" data-unwrap>
-						<li><code><var>VARIABLE_NAME + COMP[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + SOLUTION[1]</var></code></li>
-						<li><code><var>VARIABLE_NAME + COMP[0] + FAKE_ANSWER[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + FAKE_ANSWER[1]</var></code></li>
-					</div>
-					<li data-if="LEFT_INT[0] !== 0 || LEFT_INT[1] !== 0"><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + round( ( RIGHT_INT[0] - ADD_TO_SIMPLIFY[0] ) / COEF[0] )</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] +
-						round( ( RIGHT_INT[1] - ADD_TO_SIMPLIFY[1] ) / COEF[1] )</var></code></li>
-					<li data-if="IS_OR && !ALL_NUMBERS">All real numbers.</li>
-					<li data-if="!IS_OR && !NO_SOLUTION">No solution.</li>
-				</ul>
+					<p class="input-format">
+						<code><var>VARIABLE_NAME</var></code><span class="entry" data-type="multiple">
+							<span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;']"></span>
+							<span class="sol short"></span>
+						</span>
+						<span class="entry" data-type="list" data-choices="['', 'and', 'or']"></span>
+						<code><var>VARIABLE_NAME</var></code><span class="entry" data-type="multiple">
+							<span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;']"></span>
+							<span class="sol short"></span>
+						</span>
+						<label><span class="checkbox"><var>IS_OR && ALL_NUMBERS</var></span>All real numbers</label>
+						<label><span class="checkbox"><var>!IS_OR && NO_SOLUTION</var></span>No solution</label>
+					</p>
+
+					<p class="example">a single inequality (just leave one blank)</p>
+					<p class="example">a compound inequality; be sure to select "and" or "or"</p>
+					<p class="example">if the solution for <var>VARIABLE_NAME</var> is all real numbers, leave both inequalities blank and select "All real numbers"</p>
+					<p class="example">if there is no solution for <var>VARIABLE_NAME</var>, select "No solution" and leave everything else blank</p>
+				</div>
 
 				<div class="hints">
 					<div data-each="[ 0, 1 ] as i" data-unwrap>

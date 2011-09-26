@@ -46,16 +46,15 @@
 						circle( [a, limtoa], 4 / 20, { fill: "white" } )
 					});
 				</div>
-				<p class="solution"><code><var>limtoa</var></code></p>
-				<ul class="choices" data-show="5" data-none="true">
-					<li><code>0</code></li>
-					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
-					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
-					<li><code><var>q_lcoef</var></code></li>
-					<li><code><var>l_cons</var></code></li>
-					<li><code><var>curFunc(0)</var></code></li>
-					<li>Does not exist.</li>
-				</ul>
+				<div class="solution" data-type="set">
+					<div class="set-sol"><var>limtoa</var></div>
+					<p class="input-format">
+							<span class="entry"></span>
+							<label><span class="checkbox">false</span>Does not exist</label>
+					</p>
+					<p class="example">an integer, like <code>6</code></p>
+					<p class="example">if the limit does not exist, leave the box blank and select "Does not exist"</p>
+				</div>
 			</div>
 			<div>
 				<div class="vars">
@@ -94,18 +93,14 @@
 						circle( [-abs_cons, abs_coef], 4 / 20, { fill: "white" } )
 					});
 				</div>
-				<p class="solution">Does not exist.</p>
-				<ul class="choices" data-show="5" data-none="true">
-					<li><code>0</code></li>
-					<li><code><var>a</var></code></li>
-					<li><code><var>abs_cons</var></code></li>
-					<li><code><var>abs_coef</var></code></li>
-					<li><code><var>abs_coef * -1</var></code></li>
-					<li><code><var>abs_coef * abs_coef</var></code></li>
-					<li><code><var>abs_coef * abs_coef * -1</var></code></li>
-					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
-					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
-				</ul>
+				<div class="solution" data-type="set">
+					<p class="input-format">
+						<span class="entry"></span>
+						<label><span class="checkbox">true</span>Does not exist</label>
+					</p>
+					<p class="example">an integer, like <code>6</code></p>
+					<p class="example">if the limit does not exist, leave the box blank and select "Does not exist"</p>
+				</div>
 				<div class="hints" data-apply="appendContents">
 					<p id="final">The limit as we approach from the left doesn't match the limit as we approach from the right, so <code>f(x)</code> has no limit as <code>x \to <var>a</var></code>.</p>
 				</div>
@@ -153,17 +148,15 @@
 						circle( [a, d_cons], 4 / 20, { fill: "#6495ed", stroke: "none" } )
 					});
 				</div>
-				<p class="solution"><code><var>limtoa</var></code></p>
-				<ul class="choices" data-show="5" data-none="true">
-					<li><code>0</code></li>
-					<li><code><var>a</var></code></li>
-					<li><code><var>d_cons</var></code></li>
-					<li><code><var>l_coef</var></code></li>
-					<li><code><var>fractionReduce(l_cons * -1, l_coef)</var></code></li>
-					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
-					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
-					<li>Does not exist.</li>
-				</ul>
+				<div class="solution" data-type="set">
+					<span class="set-sol"><var>limtoa</var></span>
+					<p class="input-format">
+						<span class="entry"></span>
+						<label><span class="checkbox">false</span>Does not exist</label>
+					</p>
+					<p class="example">an integer, like <code>6</code></p>
+					<p class="example">if the limit does not exist, leave the box blank and select "Does not exist"</p>
+				</div>
 			</div>
 			<div>
 				<div class="vars" data-ensure="abs( limtoa ) < 10">
@@ -199,15 +192,15 @@
 						}, [-10, 10] );
 					});
 				</div>
-				<p class="solution"><code><var>limtoa</var></code></p>
-				<ul class="choices" data-show="5" data-none="true">
-					<li><code>0</code></li>
-					<li><code><var>curFunc(0)</var></code></li>
-					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
-					<li><code><var>q_cons</var></code></li>
-					<li><code><var>q_cons * -1</var></code></li>
-					<li>Does not exist.</li>
-				</ul>
+				<div class="solution" data-type="set">
+					<span class="set-sol"><var>limtoa</var></span>
+					<p class="input-format">
+						<span class="entry"></span>
+						<label><span class="checkbox">false</span>Does not exist</label>
+					</p>
+					<p class="example">an integer, like <code>6</code></p>
+					<p class="example">if the limit does not exist, leave the box blank and select "Does not exist"</p>
+				</div>
 			</div>
 		</div>
 
