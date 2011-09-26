@@ -2116,8 +2116,12 @@ function updateData( data ) {
 		data = oldData;
 	}
 
+	// this will eventually stabilize, but let's make refactoring easier, why not?
+	var streakType = data.progress_bar_alternative || "original";
+	jQuery("#streak-bar-container").addClass(streakType);
+
 	// Update the streaks/point bar
-	var streakMaxWidth = jQuery(".streak-bar").width(),
+	var streakMaxWidth = (streakType === "original") ? 228 : 325,
 
 		// Streak and longest streak pixel widths
 		streakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.streak)),
@@ -2138,7 +2142,6 @@ function updateData( data ) {
 						( !data.summative && data.longest_streak > 100 ) ? "Max" : data.longest_streak;
 
 	if ( data.summative ) {
-
 		jQuery( ".summative-help ")
 			.find( ".summative-required-streaks" ).text( parseInt( (data.required_streak / 10) , 10) ).end()
 			.show();
@@ -2161,10 +2164,6 @@ function updateData( data ) {
 
 		}
 	}
-
-	// this will eventually stabilize, but let's make refactoring easier, why not?
-	var streakType = data.progress_bar_alternative || "original";
-	jQuery("#streak-bar-container").addClass(streakType);
 
 	// easeInOutCubic easing from
 	// jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
@@ -2193,7 +2192,6 @@ function updateData( data ) {
 		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
 
 		jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
-
 	}
 	if( streakType === "new_partial_reset" ){
 		jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"})
