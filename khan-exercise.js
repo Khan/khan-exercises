@@ -2262,39 +2262,18 @@ function displayRelatedVideos( videos ) {
 			.data('video', video)
 			.append( span );
 
-		var thumbnailUrl = function( youtubeId ) {
-			return "http://img.youtube.com/vi/" + youtubeId + "/hqdefault.jpg";
-		};
-
 		var li = jQuery( "<li>" )
 			.addClass( i > 2 ? "related-video-extended" : "" )
 			.append( a.addClass('related-video-inline') );
 
 		jQuery( ".related-content > .related-video-list" ).append( li );
 
-		// I apologise for this horrible non-templated element creation
-		var thumbnailDiv = jQuery( '<div>' ).addClass( "thumbnail" )
-			.append(a.clone(true)
-				.removeClass( 'related-video-inline' )
-				.empty()
-				.append(
-				jQuery( "<div>" ).addClass( "thumb" )
-					.css('backgroundImage',
-						"url('" + thumbnailUrl( video.youtube_id ) + "')")
-					.append(
-						jQuery( '<div>' ).addClass( 'thumbnail_label' )
-							.append(
-								jQuery( '<div>' ).addClass( 'thumbnail_desc' )
-									.append(jQuery(span
-										.clone(true).removeClass('video-title')))
-							)
-							.append(
-								jQuery( '<div>' ).addClass( 'thumbnail_teaser' )
-									.text( video.description )
-							)
-					)
-				)
-			);
+		var thumbnailDiv = jQuery("#thumbnail-tmpl").tmplPlugin({
+			video_url: Khan.relatedVideoHref(video),
+			title: video.title,
+			description: video.description,
+			youtube_id: video.youtube_id
+		}).find('a.related-video').data('video', video).end();
 
 		var sideBarLi = li.clone(true).append( thumbnailDiv );
 
