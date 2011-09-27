@@ -33,15 +33,6 @@
 		};
 
 		var svgPath = function( points ) {
-			return jQuery.map(points, function( point, i ) {
-				if ( point === true ) {
-					return "z";
-				} else {
-					var scaled = scalePoint( point );
-					return ( i === 0 ? "M" : "L") + boundNumber(scaled[0]) + " " + boundNumber(scaled[1]);
-				}
-			}).join("");
-
 			// Bound a number by 1e-6 and 1e20 to avoid exponents after toString
 			function boundNumber( num ) {
 				if ( num === 0 ) {
@@ -52,6 +43,15 @@
 					return Math.max( 1e-6, Math.min( num, 1e20 ) );
 				}
 			}
+
+			return jQuery.map(points, function( point, i ) {
+				if ( point === true ) {
+					return "z";
+				} else {
+					var scaled = scalePoint( point );
+					return ( i === 0 ? "M" : "L") + boundNumber(scaled[0]) + " " + boundNumber(scaled[1]);
+				}
+			}).join("");
 		};
 
 		var processAttributes = function( attrs ) {
@@ -196,7 +196,7 @@
 
 			path: function( points ) {
 				var p = raphael.path( svgPath( points) );
-				p[ "graphiePath" ] = points;
+				p.graphiePath = points;
 				return p;
 			},
 
@@ -223,7 +223,7 @@
 
 			regularPolygon: function( point, numSides, radius, rotation, fillColor ){
 				var set = raphael.set();
-				var rotation = rotation || 0;
+				rotation = rotation || 0;
 				var angle = 2 * Math.PI / numSides;
 				var i = 0;
 				var arr = [];

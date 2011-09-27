@@ -6,7 +6,7 @@ jQuery.extend( KhanUtil, {
 		var graph = KhanUtil.currentGraph;
 
 		// Create a properly scaled 600x600px graph
-		options = {
+		var options = {
 			xpixels: 600,
 			ypixels: 600,
 			range: [ [-1.2, 1.2], [-1.2, 1.2] ]
@@ -203,6 +203,7 @@ jQuery.extend( KhanUtil, {
 
 
 	highlightAngle: function() {
+		var graph = KhanUtil.currentGraph;
 		graph.dragPoint.animate({ scale: 2 }, 50 );
 		graph.angleLines.animate( { stroke: KhanUtil.ORANGE }, 100 );
 		graph.spiral.animate({ stroke: KhanUtil.ORANGE }, 100 );
@@ -213,6 +214,7 @@ jQuery.extend( KhanUtil, {
 
 
 	unhighlightAngle: function() {
+		var graph = KhanUtil.currentGraph;
 		graph.dragPoint.animate({ scale: 1 }, 50 );
 		graph.angleLines.animate( { stroke: KhanUtil.BLUE }, 100 );
 		graph.spiral.animate({ stroke: KhanUtil.BLUE }, 100 );
@@ -224,7 +226,7 @@ jQuery.extend( KhanUtil, {
 
 	// Redraw the angle
 	setAngle: function( angle ) {
-		graph = KhanUtil.currentGraph;
+		var graph = KhanUtil.currentGraph;
 		graph.angle = angle;
 
 		graph.quadrant = (Math.floor((angle + 10 * Math.PI) / (Math.PI / 2)) % 4) + 1;

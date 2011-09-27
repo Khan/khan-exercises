@@ -12,11 +12,11 @@ jQuery.extend( KhanUtil, {
 			conjunction = "and";
 		}
 
-		if ( array.length == 0 ) {
+		if ( array.length === 0 ) {
 			return "";
-		} else if ( array.length == 1 ) {
+		} else if ( array.length === 1 ) {
 			return array[0];
-		} else if ( array.length == 2 ) {
+		} else if ( array.length === 2 ) {
 			return array[0] + " " + conjunction + " " + array[1];
 		} else {
 			return array.slice(0, -1).join(", ") + ", " + conjunction + " " + array[ array.length - 1 ];
@@ -54,7 +54,7 @@ jQuery.extend( KhanUtil, {
 
 			// determine if our word is all caps.  If so, we'll need to
 			// re-capitalize at the end
-			var isUpperCase = (word.toUpperCase() == word);
+			var isUpperCase = (word.toUpperCase() === word);
 			var oneOff = oneOffs[word.toLowerCase()];
 			var words = word.split(/\s+/);
 
@@ -67,7 +67,7 @@ jQuery.extend( KhanUtil, {
 			else if ( words.length > 1 ) {
 				// for 3-word phrases where the middle word is 'in' or 'of',
 				// pluralize the first word
-				if ( words.length == 3 && /\b(in|of)\b/i.test(words[1]) ) {
+				if ( words.length === 3 && /\b(in|of)\b/i.test(words[1]) ) {
 					words[0] = KhanUtil.plural( words[0] );
 				}
 
@@ -119,7 +119,7 @@ jQuery.extend( KhanUtil, {
 
 				return value + " " + arg1;
 			} else if ( typeof value === "string" ) {
-				var plural = pluralizeWord(value)
+				var plural = pluralizeWord(value);
 				if ( typeof arg1 === "string" && arguments.length === 3 ) {
 					plural = arg1;
 					arg1 = arg2;
@@ -350,23 +350,23 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		},
 
 		he: function( i ) {
-			return people[i - 1][1] == "m" ? "he" : "she";
+			return people[i - 1][1] === "m" ? "he" : "she";
 		},
 
 		He: function( i ) {
-			return people[i - 1][1] == "m" ? "He" : "She";
+			return people[i - 1][1] === "m" ? "He" : "She";
 		},
 
 		him: function( i ) {
-			return people[i - 1][1] == "m" ? "him" : "her";
+			return people[i - 1][1] === "m" ? "him" : "her";
 		},
 
 		his: function( i ) {
-			return people[i - 1][1] == "m" ? "his" : "her";
+			return people[i - 1][1] === "m" ? "his" : "her";
 		},
 
 		His: function( i ) {
-			return people[i - 1][1] == "m" ? "His" : "Her";
+			return people[i - 1][1] === "m" ? "His" : "Her";
 		},
 
 		An: function(word) {
