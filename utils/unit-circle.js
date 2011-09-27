@@ -9,7 +9,7 @@ jQuery.extend( KhanUtil, {
 		options = {
 			xpixels: 600,
 			ypixels: 600,
-			range: [ [-1.2, 1.2], [-1.2, 1.2] ],
+			range: [ [-1.2, 1.2], [-1.2, 1.2] ]
 		};
 		options.scale = [ options.xpixels/(options.range[0][1] - options.range[0][0]),
 		                  options.ypixels/(options.range[1][1] - options.range[1][0]) ];
@@ -44,7 +44,7 @@ jQuery.extend( KhanUtil, {
 
 		// Tick marks at -1, 1
 		graph.style({
-			strokeWidth: 2,
+			strokeWidth: 2
 		}, function() {
 			graph.line( [ -1, -5 / graph.scale[0] ], [ -1, 5 / graph.scale[0] ] );
 			graph.line( [ 1, -5 / graph.scale[0] ], [ 1, 5 / graph.scale[0] ] );
@@ -74,7 +74,7 @@ jQuery.extend( KhanUtil, {
 	bogusShape: {
 		animate: function(){},
 		attr: function(){},
-		remove: function(){},
+		remove: function(){}
 	},
 
 
@@ -90,7 +90,7 @@ jQuery.extend( KhanUtil, {
 		// Visible orange point that gets dragged
 		graph.style({
 			stroke: KhanUtil.ORANGE,
-			fill: KhanUtil.ORANGE,
+			fill: KhanUtil.ORANGE
 		}, function() {
 			graph.dragPoint = graph.circle( [ 1, 0 ], 4 / graph.scale[0] );
 		});
@@ -259,15 +259,17 @@ jQuery.extend( KhanUtil, {
 		var sinText = KhanUtil.roundTo(3, Math.sin(angle));
 
 		// Include radicals for common 45-45-90 and 30-60-90 values
-		cosText = cosText != 0.866 ? cosText : "\\frac{\\sqrt{3}}{2}\\;(0.866)";
-		cosText = cosText != 0.707 ? cosText : "\\frac{\\sqrt{2}}{2}\\;(0.707)";
-		cosText = cosText != -0.866 ? cosText : "-\\frac{\\sqrt{3}}{2}\\;(-0.866)";
-		cosText = cosText != -0.707 ? cosText : "-\\frac{\\sqrt{2}}{2}\\;(-0.707)";
-		sinText = sinText != 0.866 ? sinText : "\\frac{\\sqrt{3}}{2}\\;(0.866)";
-		sinText = sinText != 0.707 ? sinText : "\\frac{\\sqrt{2}}{2}\\;(0.707)";
-		sinText = sinText != -0.866 ? sinText : "-\\frac{\\sqrt{3}}{2}\\;(-0.866)";
-		sinText = sinText != -0.707 ? sinText : "-\\frac{\\sqrt{2}}{2}\\;(-0.707)";
+		var prettyAngles = {
+			"0.866": "\\frac{\\sqrt{3}}{2}\\;(0.866)",
+			"-0.866": "-\\frac{\\sqrt{3}}{2}\\;(-0.866)",
+			"0.707": "\\frac{\\sqrt{2}}{2}\\;(0.707)",
+			"-0.707": "-\\frac{\\sqrt{2}}{2}\\;(-0.707)",
+			"0.5": "\\frac{1}{2}\\;(0.5)",
+			"-0.5": "-\\frac{1}{2}\\;(-0.5)"
+		};
 
+		cosText = prettyAngles[cosText] ? prettyAngles[cosText] : cosText;
+		sinText = prettyAngles[sinText] ? prettyAngles[sinText] : sinText;
 
 		// Position the distance labels and right-angle marker based on quadrant
 		if (!(angle % Math.PI)) {
@@ -337,7 +339,7 @@ jQuery.extend( KhanUtil, {
 			angleText *= (180 / Math.PI);
 			angleText = Math.round(angleText);
 			angleText += "^{\\circ}";
-		} else if (-15 < angle && angle < 15) {
+		} else if (-15 < angle && angle < 15 && angle !== 0) {
 			angleText = KhanUtil.piFraction( angle );
 		}
 
