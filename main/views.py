@@ -63,6 +63,6 @@ def sandcastle(request, user="", repo="", number=""):
 		os.chdir(name)
 		call(["git", "pull", "origin", branch])
 	else:
-		call(["git", "clone", "git://github.com/%s/%s.git" % (user, repo), name])
+		call(["git", "clone", "--branch=%s" % branch, "git://github.com/%s/%s.git" % (user, repo), name])
 
 	return HttpResponseRedirect(os.path.join("/media/castles/%s" % name))
