@@ -1633,7 +1633,7 @@ function prepareSite() {
 	// to be more clear that it won't replace the current page.
 	jQuery( "<a>Report a Problem</a>" )
 		.attr( "id", "report" ).addClass( "simple-button action-gradient green" )
-		.replaceAll( jQuery( ".footer-links a:first" ) );
+		.replaceAll( jQuery( ".footer-links #report" ) );
 
 	jQuery( "#report" ).click( function( e ) {
 
