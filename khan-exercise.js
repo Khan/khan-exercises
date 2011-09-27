@@ -2072,7 +2072,6 @@ function request( method, data, fn, fnError ) {
 		// Backup the response locally, for later use
 		success: function( data ) {
 			// Update the visual representation of the points/streak
-			updateUI( data );
 			updateData( data );
 
 			if ( jQuery.isFunction( fn ) ) {
@@ -2091,19 +2090,6 @@ function request( method, data, fn, fnError ) {
 	} else {
 		jQuery.ajax( request );
 	}
-}
-
-// noncritical ui updates that happen on successful exercise submission
-function updateUI( data ){
-
-  // var useCoin = true;
-	if(useCoin){
-		jQuery(".coin-point").remove();
-    var coin = jQuery("<div>+"+data.curr_points+"</div>").addClass("energy-points-badge");
-		jQuery(".streak-bar").append(coin);
-		jQuery(coin).fadeIn(195).delay(650).animate({top:"-30", opacity:0}, 350, "easeInOutCubic",function(){jQuery(coin).hide(0);});
-	}
-
 }
 
 // Update the visual representation of the points/streak
@@ -2208,7 +2194,7 @@ function updateData( data ) {
 		jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
 	}
 	if( streakType === "new_partial_reset" ){
-		jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"});
+		jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"})
 	}
 	if ( streakType === "capped" ){
 		// this is crazy implementation-specific for a progress bar with a cap (div with image) on it
