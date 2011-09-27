@@ -2204,55 +2204,12 @@ function updateData( data ) {
 	// or reimplement curr_points
 	updateUI = prepareUIUpdate( data );
 
-	if ( streakType == "original" ){
-		jQuery(".streak-icon").width( streakIconWidth );
-		jQuery(".unit-rating").width( streakMaxWidth );
-		jQuery("#exercise-points").show();
+	streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
 
-		// let's animate even the original for fun
-		jQuery(".current-rating, .current-label").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
-		jQuery(".best-label").animate({"width":( longestStreakWidth ) }, 365, "easeInOutCubic");
+	if(data.streak === 1){ updateUI(); }
 
-		jQuery(".best-label").html( labelLongestStreak + "&nbsp;" );
-		jQuery(".current-label").html( labelStreak + "&nbsp;" );
-		jQuery("#exercise-points").text( " " + data.next_points + " " );
-	}
-	if ( streakType === "new_partial_reset" || streakType === "new_full_reset" ) {
-		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
-		if(data.streak === 1){ updateUI(); }
-		jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
-	}
-	if( streakType === "new_partial_reset" ){
-		jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"});
-	}
-	if ( streakType === "capped" ){
-		// this is crazy implementation-specific for a progress bar with a cap (div with image) on it
-
-		// the progress may exceed 100%, so cap at that
-		streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
-		// there is a cap at the end of the bar which needs to be adjusted
-		var gradientWidth = jQuery(".current-label .label").width() / 2;
-
-		jQuery(".current-label").animate({"width":( streakWidth + gradientWidth ) }, 365, "easeInOutCubic");
-
-		// these are the masks and containers for the streak which need to be max width
-		jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );
-
-		if(data.progress >= 1){
-			if(!jQuery(".current-label").hasClass("proficient")){
-				// fade out the streak as it is and when done, add in the shiny
-				// blue/yellow bg and fade it back in
-				jQuery(".current-label, .current-label .label").fadeOut(150,function(){
-					jQuery(".streak-bar").addClass("proficient");
-					jQuery(".current-label").addClass("proficient").fadeIn(200);
-				});
-			}
-		}else{
-			// lost proficiency (or never had it), restore the .label
-			jQuery(".current-label, .streak-bar").removeClass("proficient");
-			jQuery(".current-label .label").fadeIn(0);
-		}
-	}
+	jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
+	jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"});
 
 
 	// Update the exercise icon
