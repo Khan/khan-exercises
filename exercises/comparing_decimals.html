@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+	<title>Comparing decimals</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="A">randFromArray([ randRange( 1, 99 ) / 100 , randRange( 1, 999 ) / 1000, randRange( 1, 9999 ) / 10000 ])</var>
+		<var id="B" data-ensure="A !== B">randFromArray([ randRange( 1, 99 ) / 100 , randRange( 1, 999 ) / 1000, randRange( 1, 9999 ) / 10000 ])</var>
+		<var id="A_LEN">A.toString().length - 2</var>
+		<var id="B_LEN">B.toString().length - 2</var>
+		<var id="MAX_LEN">max( A_LEN , B_LEN )</var>
+
+		<var id="A_ZEROS">(function() {
+			var a = "";
+			var i = 0;
+
+			while ( A_LEN + i < B_LEN ) {
+				i++;
+				a += "0";
+			}
+			
+			return a;
+		})()</var>
+
+		<var id="B_ZEROS">(function() {
+			var a = "";
+			var i = 0;
+
+			while ( B_LEN + i < A_LEN ) {
+				i++;
+				a += "0";
+			}
+			
+			return a;
+		})()</var>
+		
+		<var id="SOLUTION">( A > B ? "&gt;" : "&lt;" )</var>
+		<var id="SOL_STR">( A > B ? "greater" : "less" )</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="problem">
+				<p>Fill in the blank.</p>
+				<p>
+					<code><var>A</var></code>
+					____ <code><var>B</var></code>
+				</p>
+			</div>
+			<p class="solution"><code><var>SOLUTION</var></code></p>
+			<ul class="choices" data-category="true">
+				<li><code>&lt;</code></li>
+				<li><code>&gt;</code></li>
+			</ul>
+
+			<div class="hints">
+				<div>
+					<p>We need to make the two numbers have equal length to the right of the decimal place, adding in zeros if needed:</p>
+					<div class="graphie" id="compare"> 
+						init({
+							range: [ [-1, 5 ], [ -2 * 2, 1] ],
+							scale: [30, 30]
+						});
+						label( [0, 0], A + "\\color{blue}{" + A_ZEROS + "}");
+						label( [4, 0], B + "\\color{blue}{" + B_ZEROS + "}" );
+						style({
+							strokeWidth: 0.7,
+							stroke: "#FF0000"
+						});
+					</div>
+				</div>
+				
+				<div>
+					<p>We want to compare the two numbers to the right of the decimal place.</p>
+					<div class="graphie" data-update="compare">
+						ellipse( [ 0.2, 0 ], [ 0.15 * ( MAX_LEN ), 0.35] );
+						ellipse( [ 4.2, 0 ], [ 0.15 * ( MAX_LEN ), 0.35] );
+						path( [ [0, -0.5], [2, -1.5] ] );
+						path( [ [2, -1.5], [4, -0.5] ] );
+						label( [ 2, -2 ], "\\color{blue}{\\text{Compare these numbers}}", "center" );
+					</div>
+				</div>
+				
+				<p>Since <var>Number( A.toString().slice( 2 ) + A_ZEROS )</var> is <var>SOL_STR</var> than <var>Number( B.toString().slice( 2 ) + B_ZEROS )</var>, we know that <var>A</var> <var>SOLUTION</var> <var>B</var>.</p>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+
