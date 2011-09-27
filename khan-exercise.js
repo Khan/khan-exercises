@@ -1510,6 +1510,9 @@ function prepareSite() {
 					.focus();
 			}
 			nextProblem( 1 );
+			// updateUI is created as a closure from data received in updateData
+			// need some way to teel updateUI that the first streak response counts
+			updateUI();
 		} else {
 			// Wrong answer. Enable all the input elements, but wait until
 			// until server acknowledges before enabling the check answer
@@ -2076,7 +2079,6 @@ function request( method, data, fn, fnError ) {
 		// Backup the response locally, for later use
 		success: function( data ) {
 			// Update the visual representation of the points/streak
-			updateUI( data );
 			updateData( data );
 
 			if ( jQuery.isFunction( fn ) ) {
@@ -2097,20 +2099,21 @@ function request( method, data, fn, fnError ) {
 	}
 }
 
-// noncritical ui updates that happen on successful exercise submission
-function updateUI( data ){
 
-	if(data.hasOwnProperty("pointDisplay")){
-		jQuery(".coin-point").remove();
-		var coin = jQuery("<div>+"+data.curr_points+"</div>").addClass("energy-points-badge");
-		jQuery(".streak-bar").append(coin);
-		jQuery(coin).fadeIn(195).delay(650).animate({top:"-30", opacity:0}, 350, "easeInOutCubic",function(){jQuery(coin).hide(0);});
-	}
-
-}
 
 // Update the visual representation of the points/streak
 function updateData( data ) {
+
+	// easeInOutCubic easing from
+	// jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
+	// (c) 2008 George McGinley Smith, (c) 2001 Robert Penner - Open source under the BSD License.
+	jQuery.extend( jQuery.easing, {
+		easeInOutCubic: function (x, t, b, c, d) {
+			if ((t/=d/2) < 1) return c/2*t*t*t + b;
+			return c/2*((t-=2)*t*t + 2) + b;
+		}
+	});
+
 	// Check if we're setting/switching usernames
 	if ( data ) {
 		user = data.user || user;
@@ -2182,15 +2185,24 @@ function updateData( data ) {
 		}
 	}
 
-	// easeInOutCubic easing from
-	// jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
-	// (c) 2008 George McGinley Smith, (c) 2001 Robert Penner - Open source under the BSD License.
-	jQuery.extend( jQuery.easing, {
-		easeInOutCubic: function (x, t, b, c, d) {
-			if ((t/=d/2) < 1) return c/2*t*t*t + b;
-			return c/2*((t-=2)*t*t + 2) + b;
-		}
-	});
+
+	// noncritical ui updates that happen on successful exercise submission
+	var prepareUIUpdate = function ( data ){
+		return function( extras ) {
+			if(data.hasOwnProperty("point_display") && data.point_display === "on" && data.streak > 0){
+				var coin = jQuery("<div>+"+data.next_points+"</div>").addClass("energy-points-badge");
+				jQuery(".streak-bar").append(coin);
+				jQuery(coin).fadeIn(195).delay(650).animate({top:"-30", opacity:0}, 350, "easeInOutCubic",function(){jQuery(coin).hide(0).remove();});
+			}
+		};
+	};
+	
+	// updateUI is called in one of two places:
+	// - handleSubmit
+	// - right before the animation (because a streak of 1 isn't passed to the future)
+	// TODO fix this behavior! either fix next_points so it returns 0 when streak == -1 
+	// or reimplement curr_points
+	updateUI = prepareUIUpdate( data );
 
 	if ( streakType == "original" ){
 		jQuery(".streak-icon").width( streakIconWidth );
@@ -2207,7 +2219,7 @@ function updateData( data ) {
 	}
 	if ( streakType === "new_partial_reset" || streakType === "new_full_reset" ) {
 		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
-
+		if(data.streak === 1){ updateUI(); }
 		jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
 	}
 	if( streakType === "new_partial_reset" ){
