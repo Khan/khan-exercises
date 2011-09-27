@@ -230,13 +230,6 @@ jQuery.extend( KhanUtil, {
 		graph.quadrant = (Math.floor((angle + 10 * Math.PI) / (Math.PI / 2)) % 4) + 1;
 		graph.revolutions = Math.floor(angle / (2 * Math.PI));
 
-		if (graph.quadrant != (Math.floor((angle + 10 * Math.PI) / (Math.PI / 2)) % 4) + 1) {
-			console.log("quadrant", graph.quadrant, (Math.floor((angle + 10 * Math.PI) / (Math.PI / 2)) % 4) + 1, angle * (180/Math.PI));
-		}
-		if (graph.revolutions != Math.floor(angle / (2 * Math.PI))) {
-			console.log("revolutions", graph.revolutions, Math.floor(angle / (2 * Math.PI)), angle * (180/Math.PI));
-		}
-
 		// Remove everything dynamic. It should be safe to call remove()
 		// on everything since unused stuff should be instances of bogusShape
 		graph.triangle.remove();
@@ -253,6 +246,11 @@ jQuery.extend( KhanUtil, {
 		if (graph.dragging || graph.highlight) {
 			highlightColor = KhanUtil.ORANGE;
 		}
+
+		// Draw the bold angle lines
+		graph.style({ stroke: highlightColor, strokeWidth: 3 });
+		graph.angleLines = graph.path([ [ 1, 0 ], [ 0, 0 ], [ Math.cos( angle ), Math.sin( angle ) ] ]);
+
 
 		graph.style({ stroke: KhanUtil.BLUE, strokeWidth: 1 });
 		graph.triangle = graph.path( [ [ 0, 0 ], [ Math.cos( angle ), 0 ], [ Math.cos( angle ), Math.sin( angle ) ], [0, 0] ] );
@@ -359,15 +357,12 @@ jQuery.extend( KhanUtil, {
 		jQuery( graph.angleLabel ).css("color", highlightColor );
 
 
-		// Draw the bold angle lines
-		graph.style({ strokeWidth: 3 });
-		graph.angleLines = graph.path([ [ 1, 0 ], [ 0, 0 ], [ Math.cos( angle ), Math.sin( angle ) ] ]);
-
 		// Reposition the mouse target and indicator
 		graph.mouseTarget.attr("cx", (Math.cos( angle ) - graph.range[0][0]) * graph.scale[0]);
 		graph.mouseTarget.attr("cy", (graph.range[1][1] - Math.sin( angle )) * graph.scale[1]);
 		graph.dragPoint.attr("cx", (Math.cos( angle ) - graph.range[0][0]) * graph.scale[0]);
 		graph.dragPoint.attr("cy", (graph.range[1][1] - Math.sin( angle )) * graph.scale[1]);
+		graph.angleLines.toFront();
 		graph.dragPoint.toFront();
 	},
 
