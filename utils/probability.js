@@ -27,7 +27,7 @@ jQuery.extend(KhanUtil, {
 	 * sum of choose(n, i) for i in k:
 	 * choose( 4, [0, 1, 2] ) = 1 + 4 + 6 = 11 */
 	choose: function( n, k ) {
-		if ( typeof k == "number" ) {
+		if ( typeof k === "number" ) {
 			if ( k * 2 > n ) {
 				return KhanUtil.choose( n, n - k );
 			} else if ( k > 0.5 ) {

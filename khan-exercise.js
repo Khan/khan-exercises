@@ -54,7 +54,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 	/* Number */
 	crc32 = function( /* String */ str, /* Number */ crc ) {
-		if( crc == window.undefined ) crc = 0;
+		if( crc == window.undefined ) { crc = 0; }
 		var n = 0; //a number between 0 and 255
 		var x = 0; //an hex number
 
@@ -307,7 +307,7 @@ var Khan = {
 
 		callback || ( callback = function() { } );
 
-		for ( var i = 0; i < loading; i++ ) (function( mod ) {
+		for ( var i = 0; i < loading; i++ ) { (function( mod ) {
 
 			if ( !testMode && mod.src.indexOf("/khan-exercises/") === 0 && mod.src.indexOf("/MathJax/") === -1 ) {
 				// Don't bother loading khan-exercises content in production
@@ -349,7 +349,7 @@ var Khan = {
 			};
 
 			head.appendChild(script);
-		})( urls[i] );
+		})( urls[i] ); }
 
 		runCallback( true );
 
@@ -420,7 +420,9 @@ var Khan = {
 			},
 
 			show: function() {
-				if ( visible ) return;
+				if ( visible ) {
+					return;
+				}
 
 				var makeVisible = function() {
 					jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
@@ -440,7 +442,9 @@ var Khan = {
 			},
 
 			hide: function() {
-				if ( !visible ) return;
+				if ( !visible ) {
+					return;
+				}
 
 				jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
 				jQuery( "#scratchpad" ).hide();
@@ -470,7 +474,7 @@ var Khan = {
 
 	showThumbnail: function( index ) {
 		jQuery( "#related-video-list .related-video-list li" ).each(function(i, el) {
-			if ( i == index ) {
+			if ( i === index ) {
 				jQuery( el )
 					.find( 'a.related-video-inline' ).hide().end()
 					.find( '.thumbnail' ).show();
@@ -1094,7 +1098,7 @@ function makeProblem( id, seed ) {
 		} );
 
 		var create = function( i ) {
-			thisSlide = states.eq( i );
+			var thisSlide = states.eq( i );
 
 			var thisHintArea, thisProblem,
 				hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
@@ -1115,7 +1119,7 @@ function makeProblem( id, seed ) {
 				thisHintArea = realHintsArea.clone();
 				thisProblem = realWorkArea.clone();
 
-				thisState = {
+				var thisState = {
 					slide: thisSlide,
 					hintNum: hintNum,
 					hintArea: thisHintArea,

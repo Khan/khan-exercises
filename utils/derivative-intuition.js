@@ -104,7 +104,7 @@ jQuery.extend( KhanUtil, {
 		var ddx1 = KhanUtil.ddx(xval);
 		var ddx2 = (KhanUtil.ddx(xval - 0.001) - KhanUtil.ddx(xval + 0.001)) / 0.002;
 
-		if (ddx1 != 0) {
+		if (ddx1 !== 0) {
 			// We want to shift *visually* perpendicular to the tangent line,
 			// so if the graph has different x and y scales, perpslope isn't
 			// quite as simple as (-1/slope)

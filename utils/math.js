@@ -18,7 +18,7 @@ jQuery.extend(KhanUtil, {
 	/* Returns an array of the digits of a nonnegative integer in reverse
 	 * order: digits(376) = [6, 7, 3] */
 	digits: function( n ) {
-		if(n == 0) {
+		if (n === 0) {
 			return [0];
 		}
 
@@ -199,7 +199,7 @@ jQuery.extend(KhanUtil, {
 
 		var maxf = Math.sqrt( number );
 		for (var f = 2; f <= maxf; f++) {
-			if ( number % f == 0 ) {
+			if ( number % f === 0 ) {
 				return jQuery.merge(KhanUtil.getPrimeFactorization( f ), KhanUtil.getPrimeFactorization( number / f ));
 			}
 		}
@@ -208,7 +208,9 @@ jQuery.extend(KhanUtil, {
 	getFactors: function( number ) {
 		var factors = [],
 			ins = function( n ) {
-				if ( factors.indexOf( n ) === -1 ) factors.push( n );
+				if ( factors.indexOf( n ) === -1 ) {
+					factors.push( n );
+				}
 			};
 
 		var maxf2 = number;
@@ -272,7 +274,7 @@ jQuery.extend(KhanUtil, {
 			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
 		} else {
 			var toReturn = [];
-			for ( i = min; i < max; i++ ){
+			for ( var i = min; i < max; i++ ){
 				toReturn.push( i );
 			}
 			
@@ -282,16 +284,22 @@ jQuery.extend(KhanUtil, {
 	// Get a random integer between min and max with a perc chance of hitting
 	// target (which is assumed to be in the range, but it doesn't have to be).
 	randRangeWeighted: function( min, max, target, perc ) {
-		if ( KhanUtil.random() < perc ) return target;
-		else return KhanUtil.randRangeExclude( min, max, [target] );
+		if ( KhanUtil.random() < perc ) {
+			return target;
+		} else {
+			return KhanUtil.randRangeExclude( min, max, [target] );
+		}
 	},
 
 	// Get a random integer between min and max that is never any of the values
 	// in the excludes array.
 	randRangeExclude: function( min, max, excludes ) {
 		var result;
-		while ( result === undefined || excludes.indexOf(result) !== -1 )
+
+		while ( result === undefined || excludes.indexOf(result) !== -1 ) {
 			result = KhanUtil.randRange( min, max );
+		}
+
 		return result;
 	},
 

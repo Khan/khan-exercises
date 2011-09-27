@@ -94,10 +94,6 @@ function Rotator( center, r, pro ) {
 	var graph = KhanUtil.currentGraph;
 	this.set = graph.raphael.set();
 
-	var arcDragStart = function() {
-		arcDragMove.call( this, 0, 0 );
-	};
-
 	var arcDragStop = function() {
 
 	};
@@ -106,7 +102,12 @@ function Rotator( center, r, pro ) {
 		// mildly screwed up at the moment, TODO add dragging
 		// var angle = Math.atan2( dy, dx ) * 180 / Math.PI;
 		// pro.rotate( angle * -1, true );
-	};	
+	};
+
+	var arcDragStart = function() {
+		arcDragMove.call( this, 0, 0 );
+	};
+
 	this.set.push( graph.arc( center, r + 1, 150, 180, { "stroke": "#aab", "stroke-width": 20 } )
 				   .drag( arcDragMove, arcDragStart, arcDragStop ) );
 	
@@ -145,7 +146,7 @@ function Rotator( center, r, pro ) {
 
 		this.set = set;
 		return this;
-	}
+	};
 	this.set.push( new RotatorHelp( center, r ).set );
 
 	jQuery([ this.downArrow.node, this.upArrow.node ]).css( "cursor", "hand" );
@@ -225,7 +226,7 @@ function Translator( center, r, pro ) {
 
 		this.set = set;
 		return this;
-	}
+	};
 
 	this.set.push( new TranslatorHelp( center, r ).set );
 
@@ -316,7 +317,7 @@ function Protractor( center, r ) {
 				obj.ox = event.pageX;
 				obj.oy = event.pageY;
 
-				obj.animate( { opacity: .25 }, 500, ">" );
+				obj.animate( { opacity: 0.25 }, 500, ">" );
 			}
 
 			jQuery(document).mousemove( function( event ) {
@@ -343,7 +344,7 @@ function Protractor( center, r ) {
 					delete(obj.ox);
 					delete(obj.oy);
 					
-					obj.animate( { opacity: .5 }, 500, ">" );
+					obj.animate( { opacity: 0.5 }, 500, ">" );
 					
 					jQuery(document).unbind("mousemove");
 				}
@@ -366,7 +367,7 @@ function Protractor( center, r ) {
 	this.translator = new Translator( [this.cx, this.cy], r, this );
 	this.set.push( this.translator.set );
 
-	this.set.attr( { opacity: .5 } );
+	this.set.attr( { opacity: 0.5 } );
 
 	jQuery.each( this.set, function( index, el ) {
 		// custom attribute so we can rotate the whole set from dragging any element
@@ -477,14 +478,14 @@ function analogClock( hour, minute, radius, labelShown ){
 			this.drawLabels();
 		}
 		return this.set;
-	}
+	};
 
 	this.drawLabels = function(){
 		for( var x = 1; x < 13; x++ ){
 			this.set.push( this.graph.label( [ 0.7 * this.radius *  Math.sin( 2 * Math.PI * x/12  ), 0.7 * this.radius * Math.cos( 2 * Math.PI * x/12 ) ], x  ) );
 		}
 		return this.set;
-	}
+	};
 }
 
 
@@ -614,7 +615,7 @@ function Parabola( lc, x, y ) {
 function redrawParabola( fShowFocusDirectrix ) {
 	var graph = KhanUtil.currentGraph;
 	var storage = graph.graph;
-	var currParabola = storage.currParabola
+	var currParabola = storage.currParabola;
 	currParabola.redraw( fShowFocusDirectrix );
 
 	var leadingCoefficient = currParabola.getLeadingCoefficient();
@@ -652,11 +653,11 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 
 	function stretch( coordArr, dy ) {
 		return jQuery.map( coordArr, function( coord, index ){
-			if ( index == 0 ) {
-				dx = dy / Math.tan( KhanUtil.toRadians( anchorAngle ) );
+			if ( index === 0 ) {
+				var dx = dy / Math.tan( KhanUtil.toRadians( anchorAngle ) );
 				coord += dx;
 			}
-			if ( index == 1 ) {
+			if ( index === 1 ) {
 				coord += dy;
 			}
 			return coord;
@@ -672,7 +673,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 			radius = 0.8 / Math.sin( KhanUtil.toRadians ( measure ) );
 		}
 		var coords = jQuery.map( coordArr, function( coord, index ) {
-			if ( index == 0 ) {
+			if ( index === 0 ) {
 				return coord + radius * Math.cos( KhanUtil.toRadians( bisect ) );
 			} else {
 				return coord + radius * Math.sin( KhanUtil.toRadians( bisect ) );
@@ -685,7 +686,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		var graph = KhanUtil.currentGraph;
 		graph.line( [ x1, y1 ], [ x2, y2 ] );
 		graph.line( [ x1, y1 + distance ], [ x2, y2 + distance ] );
-	}
+	};
 
 	this.drawTransverse = function( angleDeg ) {
 		anchorAngle = angleDeg;
@@ -696,7 +697,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		lowerIntersection = [ lowerX, y1 ];
 		upperIntersection = [ upperX, y1 + distance ];
 		graph.line( stretch( lowerIntersection, -0.8 ), stretch( upperIntersection, 0.8 ) );
-	}
+	};
 
 	this.drawAngle = function( index, label, color ) {
 		var graph = KhanUtil.currentGraph,
@@ -732,8 +733,8 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 			if ( label ) {
 				labelAngle( args[ 0 ], angles, color );
 			}
-		})
-	}
+		});
+	};
 
 	this.drawVerticalAngle = function( index, label, color ) {
 		index = ( index + 8 ) % 8;
@@ -742,7 +743,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 			vert += 4;
 		}
 		this.drawAngle( vert, label, color );
-	}
+	};
 
 	this.drawAdjacentAngles = function( index, label, color ) {
 		index = ( index + 8 ) % 8;
@@ -754,5 +755,5 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		}
 		this.drawAngle( adj1, label, color );
 		this.drawAngle( adj2, label, color );
-	}
+	};
 }

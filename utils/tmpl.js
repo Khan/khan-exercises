@@ -108,13 +108,13 @@ jQuery.tmpl = {
 			if ( name ) {
 
 				// Utility function for VARS[ name ] = value, warning if the name overshadows a KhanUtil property
-				function setVAR( name, value ) {
+				var setVAR = function( name, value ) {
 					if ( KhanUtil[ name ] ) {
 						Khan.error( "Defining variable '" + name + "' overwrites utility property of same name." );
 					}
 
 					VARS[ name ] = value;
-				}
+				};
 
 				// Destructure the array if appropriate
 				if ( name.indexOf( "," ) !== -1 ) {

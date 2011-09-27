@@ -46,7 +46,9 @@ function Scratchpad( elem ){
 		'stroke-linecap': 'round',
 		'stroke-linejoin': 'round'};
 
+	var shapes = pad.set();
 	var history = [[]];
+
 	function saveState(){
 		for(var i = 0, state = []; i < shapes.length; i++){
 			if(!shapes[i].removed){
@@ -184,8 +186,6 @@ function Scratchpad( elem ){
 		}
 		return np
 	}
-
-	var shapes = pad.set();
 
 	function mouseup(){
 		if(path){
