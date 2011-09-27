@@ -2096,10 +2096,9 @@ function request( method, data, fn, fnError ) {
 // noncritical ui updates that happen on successful exercise submission
 function updateUI( data ){
 
-  // var useCoin = true;
-	if(useCoin){
+	if(data.hasOwnProperty("pointDisplay")){
 		jQuery(".coin-point").remove();
-    var coin = jQuery("<div>+"+data.curr_points+"</div>").addClass("energy-points-badge");
+		var coin = jQuery("<div>+"+data.curr_points+"</div>").addClass("energy-points-badge");
 		jQuery(".streak-bar").append(coin);
 		jQuery(coin).fadeIn(195).delay(650).animate({top:"-30", opacity:0}, 350, "easeInOutCubic",function(){jQuery(coin).hide(0);});
 	}
