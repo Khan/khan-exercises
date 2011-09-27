@@ -7,9 +7,9 @@ jQuery.extend(KhanUtil, {
 				return null;
 			}
 
-			if ( degree == 0 ) {
+			if ( degree === 0 ) {
 				return coef;
-			} else if ( degree == 1 ) {
+			} else if ( degree === 1 ) {
 				return ["*", coef, vari];
 			} else {
 				return ["*", coef, ["^", vari, degree]];
@@ -155,7 +155,7 @@ jQuery.extend(KhanUtil, {
 			}
 
 			return expr;
-		}
+		};
 
 		this.expr = function( vari ) {
 			return tackOn( base.expr( vari ), ["*", composedCoef, composedFunc] );

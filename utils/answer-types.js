@@ -52,7 +52,7 @@ jQuery.extend( Khan.answerTypes, {
 
 		var verifier = function( correct, guess ){
 			var result = true;
-			for ( i = 0; i < 5; i++ ){
+			for ( var i = 0; i < 5; i++ ){
 				var sampleX = KhanUtil.randRange( -100, 100 );
 				if ( guess.match(/[A-W]|[a-w]|[y-z]|[Y-Z]/) !== null ){
 					return false;
@@ -71,22 +71,21 @@ jQuery.extend( Khan.answerTypes, {
 				result = result &&  ( eval( newCorrect ) === eval( newGuess ) ) ;
 			}
 			return result;
-		}
+		};
 		verifier.examples = "An equation of a line, like 3(x+1)/2 or 2x + 1";
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 
-	}
-	,
+	},
 
 
-	number: function( solutionarea, solution, fallback, forms ) {
+	number: function( solutionarea, solution, fallback, accForms ) {
 		var options = jQuery.extend({
 			simplify: "required",
 			ratio: false,
 			maxError: Math.pow( 2, -42 ),
 			forms: "literal, integer, proper, improper, mixed, decimal"
 		}, jQuery( solution ).data());
-		var acceptableForms = ( forms || options.forms ).split(/\s*,\s*/);
+		var acceptableForms = ( accForms || options.forms ).split(/\s*,\s*/);
 
 		var fractionTransformer = function( text ) {
 			text = text
@@ -148,9 +147,9 @@ jQuery.extend( Khan.answerTypes, {
 				},
 				example: (function() {
 					if ( options.simplify === "optional" ) {
-						return "a <em>proper</em> fraction, like <code>1/2</code> or <code>6/10</code>"
+						return "a <em>proper</em> fraction, like <code>1/2</code> or <code>6/10</code>";
 					} else {
-						return "a <em>simplified proper</em> fraction, like <code>3/5</code>"
+						return "a <em>simplified proper</em> fraction, like <code>3/5</code>";
 					}
 				})()
 			},
@@ -167,9 +166,9 @@ jQuery.extend( Khan.answerTypes, {
 				},
 				example: (function() {
 					if ( options.simplify === "optional" ) {
-						return "an <em>improper</em> fraction, like <code>10/7</code> or <code>14/8</code>"
+						return "an <em>improper</em> fraction, like <code>10/7</code> or <code>14/8</code>";
 					} else {
-						return "a <em>simplified improper</em> fraction, like <code>7/4</code>"
+						return "a <em>simplified improper</em> fraction, like <code>7/4</code>";
 					}
 				})()
 			},
@@ -222,7 +221,7 @@ jQuery.extend( Khan.answerTypes, {
 					// Replace unicode minus sign with hyphen
 					text = text.replace( /\u2212/, "-" );
 
- 					if ( match = text.match( /^log\(\s*(\S+)\s*\)$/i ) ) {
+					if ( match = text.match( /^log\(\s*(\S+)\s*\)$/i ) ) {
 						possibilities = forms.decimal.transformer( match[1] );
 					} else if ( text === "0") {
 						possibilities = [ { value: 0, exact: true } ];
@@ -249,6 +248,15 @@ jQuery.extend( Khan.answerTypes, {
 					return transformed;
 				},
 				example: "a percent, like <code>12.34\\%</code>"
+			},
+
+			dollar: {
+				transformer: function( text ) {
+					text = jQuery.trim( text ).replace( '$', '' );
+
+					return forms.decimal.transformer( text );
+				},
+				example: "a money amount, like <code>$2.75</code>"
 			},
 
 			mixed: {
@@ -332,15 +340,15 @@ jQuery.extend( Khan.answerTypes, {
 			correct = jQuery.trim( correct );
 			guess = jQuery.trim( guess );
 
-			correctFloat = parseFloat( correct );
+			var correctFloat = parseFloat( correct );
 			var ret = false;
 
 			jQuery.each( acceptableForms, function( i, form ) {
 				var transformed = forms[ form ].transformer( jQuery.trim( guess ) );
 
-				for ( var i = 0, l = transformed.length; i < l; i++ ) {
-					var val = transformed[ i ].value;
-					var exact = transformed[ i ].exact;
+				for ( var j = 0, l = transformed.length; j < l; j++ ) {
+					var val = transformed[ j ].value;
+					var exact = transformed[ j ].exact;
 
 					if ( typeof val === "string" &&
 							correct.toLowerCase() === val.toLowerCase() ) {
@@ -432,7 +440,7 @@ jQuery.extend( Khan.answerTypes, {
 
 			ret.guess = [ inteGuess, radGuess ];
 
-			var simplified = inteGuess === ans[0] && radGuess == ans[1];
+			var simplified = inteGuess === ans[0] && radGuess === ans[1];
 			var correct = Math.abs( inteGuess ) * inteGuess * radGuess === ansSquared;
 
 			if ( correct ) {
@@ -459,7 +467,7 @@ jQuery.extend( Khan.answerTypes, {
 	},
 
 	multiple: function( solutionarea, solution ) {
-		var solutionarea = jQuery( solutionarea );
+		solutionarea = jQuery( solutionarea );
 		// here be dragons
 		solutionarea.append( jQuery( solution ).clone().contents().tmpl() );
 
@@ -550,8 +558,9 @@ jQuery.extend( Khan.answerTypes, {
 
 		// Optionally include none of the above as a choice
 		var showNone = choices.data("none");
+		var noneIsCorrect = false;
 		if ( showNone ) {
-			var noneIsCorrect = KhanUtil.rand(numChoices) === 0;
+			noneIsCorrect = KhanUtil.rand(numChoices) === 0;
 			numChoices -= 1;
 		}
 
@@ -591,7 +600,7 @@ jQuery.extend( Khan.answerTypes, {
 				dupes[ choiceTextSquish ] = true;
 
 				// i == 0 is the solution except in category mode; skip it when none is correct
-				if ( !( noneIsCorrect && i == 0 ) || isCategory ) {
+				if ( !( noneIsCorrect && i === 0 ) || isCategory ) {
 					shownChoices.push( choice );
 				}
 			}

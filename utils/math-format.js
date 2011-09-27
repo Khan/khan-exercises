@@ -100,7 +100,7 @@ jQuery.extend(KhanUtil, {
 		if ( denominator < 0 ) {
 			throw "NumberFormatException: Denominator cannot be be negative.";
 		}
-		if ( denominator == 0 ) {
+		if ( denominator === 0 ) {
 			throw "NumberFormatException: Denominator cannot be be 0.";
 		}
 
@@ -114,16 +114,13 @@ jQuery.extend(KhanUtil, {
 			numerator = numerator % denominator;
 		}
 
-		if ( wholeNum != 0 && numerator != 0 ) {
-			return wholeNum + " " 
-				+ KhanUtil.fraction( n, d, defraction, reduce, small, parens );
-		} else if ( wholeNum && numerator == 0 ) {
+		if ( wholeNum !== 0 && numerator !== 0 ) {
+			return wholeNum + " " + KhanUtil.fraction( n, d, defraction, reduce, small, parens );
+		} else if ( wholeNum !== 0 && numerator === 0 ) {
 			return wholeNum;
-		}
-		else if ( wholeNum == 0 && numerator != 0 ) {
+		} else if ( wholeNum === 0 && numerator !== 0 ) {
 			return KhanUtil.fraction( n, d, defraction, reduce, small, parens );
-		}
-		else {
+		} else {
 			return 0;
 		}
 	},
@@ -195,15 +192,15 @@ jQuery.extend(KhanUtil, {
 			return n.toString();
 		} else {
 			var split = KhanUtil.splitRadical( n );
-			var coefficient = split[0] == 1 ? "" : split[0].toString();
-			var radical = split[1] == 1 ? "" : "\\sqrt{" + split[1] + "}";
+			var coefficient = split[0] === 1 ? "" : split[0].toString();
+			var radical = split[1] === 1 ? "" : "\\sqrt{" + split[1] + "}";
 
 			return coefficient + radical;
 		}
 	},
 
 	squareRootCanSimplify: function(n) {
-		return KhanUtil.formattedSquareRootOf(n) != ("\\sqrt{" + n + "}");
+		return KhanUtil.formattedSquareRootOf(n) !== ("\\sqrt{" + n + "}");
 	},
 
 	// Ported from https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L285
@@ -249,8 +246,9 @@ jQuery.extend(KhanUtil, {
 			return str;
 		};
 
-		if ( n == 0 ) return "zero";
-		else {
+		if ( n === 0 ) {
+			return "zero";
+		} else {
 			var neg = false;
 			if ( n < 0 ) {
 				neg = true;
@@ -274,7 +272,10 @@ jQuery.extend(KhanUtil, {
 				scale += 1;
 			}
 
-			if ( neg ) words.unshift( "negative" );
+			if ( neg ) {
+				words.unshift( "negative" );
+			}
+
 			return words.join( " " );
 		}
 	},
@@ -349,7 +350,9 @@ jQuery.extend(KhanUtil, {
 
 		for ( var i = 0; i < arguments.length; i++ ) {
 			s = KhanUtil._plusTrim( arguments[i] );
-			if ( s ) args.push( s );
+			if ( s ) {
+				args.push( s );
+			}
 		}
 
 		return args.length > 0 ? args.join( " + " ) : "0";

@@ -54,7 +54,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
 	/* Number */
 	crc32 = function( /* String */ str, /* Number */ crc ) {
-		if( crc == window.undefined ) crc = 0;
+		if( crc == window.undefined ) { crc = 0; }
 		var n = 0; //a number between 0 and 255
 		var x = 0; //an hex number
 
@@ -307,7 +307,7 @@ var Khan = {
 
 		callback || ( callback = function() { } );
 
-		for ( var i = 0; i < loading; i++ ) (function( mod ) {
+		for ( var i = 0; i < loading; i++ ) { (function( mod ) {
 
 			if ( !testMode && mod.src.indexOf("/khan-exercises/") === 0 && mod.src.indexOf("/MathJax/") === -1 ) {
 				// Don't bother loading khan-exercises content in production
@@ -349,7 +349,7 @@ var Khan = {
 			};
 
 			head.appendChild(script);
-		})( urls[i] );
+		})( urls[i] ); }
 
 		runCallback( true );
 
@@ -420,7 +420,9 @@ var Khan = {
 			},
 
 			show: function() {
-				if ( visible ) return;
+				if ( visible ) {
+					return;
+				}
 
 				var makeVisible = function() {
 					jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
@@ -440,7 +442,9 @@ var Khan = {
 			},
 
 			hide: function() {
-				if ( !visible ) return;
+				if ( !visible ) {
+					return;
+				}
 
 				jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
 				jQuery( "#scratchpad" ).hide();
@@ -470,7 +474,7 @@ var Khan = {
 
 	showThumbnail: function( index ) {
 		jQuery( "#related-video-list .related-video-list li" ).each(function(i, el) {
-			if ( i == index ) {
+			if ( i === index ) {
 				jQuery( el )
 					.find( 'a.related-video-inline' ).hide().end()
 					.find( '.thumbnail' ).show();
@@ -481,6 +485,16 @@ var Khan = {
 					.find( '.thumbnail' ).hide();
 			}
 		});
+	},
+
+	// make a link to a related video, appending exercise ID.
+	relatedVideoHref: function(video, data) {
+		var exid_param = '';
+		data = data || userExercise;
+		if ( data ) {
+			exid_param = "?exid=" + data.exercise_model.name;
+		}
+		return video.ka_url + exid_param;
 	}
 };
 
@@ -1084,7 +1098,7 @@ function makeProblem( id, seed ) {
 		} );
 
 		var create = function( i ) {
-			thisSlide = states.eq( i );
+			var thisSlide = states.eq( i );
 
 			var thisHintArea, thisProblem,
 				hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
@@ -1105,7 +1119,7 @@ function makeProblem( id, seed ) {
 				thisHintArea = realHintsArea.clone();
 				thisProblem = realWorkArea.clone();
 
-				thisState = {
+				var thisState = {
 					slide: thisSlide,
 					hintNum: hintNum,
 					hintArea: thisHintArea,
@@ -1324,7 +1338,7 @@ function makeProblem( id, seed ) {
 		}
 
 		// for special style rules
-		
+
 		jQuery( "body" ).addClass("debug");
 	}
 
@@ -2050,7 +2064,7 @@ function request( method, data, fn, fnError ) {
 		// make sure cookies are passed along.
 		xhrFields["withCredentials"] = true;
 	}
-	
+
 	var request = {
 		// Do a request to the server API
 		url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
@@ -2062,6 +2076,7 @@ function request( method, data, fn, fnError ) {
 		// Backup the response locally, for later use
 		success: function( data ) {
 			// Update the visual representation of the points/streak
+			updateUI( data );
 			updateData( data );
 
 			if ( jQuery.isFunction( fn ) ) {
@@ -2072,14 +2087,26 @@ function request( method, data, fn, fnError ) {
 		// Handle error edge case
 		error: fnError
 	};
-	
+
 	// Do request using OAuth, if available
 	if ( typeof oauth !== "undefined" && jQuery.oauth ) {
 		jQuery.oauth( jQuery.extend( {}, oauth, request ) );
-	
+
 	} else {
 		jQuery.ajax( request );
 	}
+}
+
+// noncritical ui updates that happen on successful exercise submission
+function updateUI( data ){
+
+	if(data.hasOwnProperty("pointDisplay")){
+		jQuery(".coin-point").remove();
+		var coin = jQuery("<div>+"+data.curr_points+"</div>").addClass("energy-points-badge");
+		jQuery(".streak-bar").append(coin);
+		jQuery(coin).fadeIn(195).delay(650).animate({top:"-30", opacity:0}, 350, "easeInOutCubic",function(){jQuery(coin).hide(0);});
+	}
+
 }
 
 // Update the visual representation of the points/streak
@@ -2106,8 +2133,12 @@ function updateData( data ) {
 		data = oldData;
 	}
 
+	// this will eventually stabilize, but let's make refactoring easier, why not?
+	var streakType = data.progress_bar_alternative || "original";
+	jQuery("#streak-bar-container").addClass(streakType);
+
 	// Update the streaks/point bar
-	var streakMaxWidth = jQuery(".streak-bar").width(),
+	var streakMaxWidth = (streakType === "original") ? 228 : 325,
 
 		// Streak and longest streak pixel widths
 		streakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.streak)),
@@ -2126,9 +2157,8 @@ function updateData( data ) {
 
 		labelLongestStreak = ( longestStreakWidth < labelWidthRequired || (longestStreakWidth - streakWidth) < labelWidthRequired ) ? "" :
 						( !data.summative && data.longest_streak > 100 ) ? "Max" : data.longest_streak;
-	
-	if ( data.summative ) {
 
+	if ( data.summative ) {
 		jQuery( ".summative-help ")
 			.find( ".summative-required-streaks" ).text( parseInt( (data.required_streak / 10) , 10) ).end()
 			.show();
@@ -2151,10 +2181,6 @@ function updateData( data ) {
 
 		}
 	}
-	
-	// this will eventually stabilize, but let's make refactoring easier, why not?
-	var streakType = data.progress_bar_alternative || "original";
-	jQuery("#streak-bar-container").addClass(streakType);
 
 	// easeInOutCubic easing from
 	// jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
@@ -2170,11 +2196,11 @@ function updateData( data ) {
 		jQuery(".streak-icon").width( streakIconWidth );
 		jQuery(".unit-rating").width( streakMaxWidth );
 		jQuery("#exercise-points").show();
-		
+
 		// let's animate even the original for fun
 		jQuery(".current-rating, .current-label").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
 		jQuery(".best-label").animate({"width":( longestStreakWidth ) }, 365, "easeInOutCubic");
-		
+
 		jQuery(".best-label").html( labelLongestStreak + "&nbsp;" );
 		jQuery(".current-label").html( labelStreak + "&nbsp;" );
 		jQuery("#exercise-points").text( " " + data.next_points + " " );
@@ -2183,14 +2209,13 @@ function updateData( data ) {
 		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
 
 		jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
-		
 	}
 	if( streakType === "new_partial_reset" ){
-		jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"})
+		jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"});
 	}
 	if ( streakType === "capped" ){
 		// this is crazy implementation-specific for a progress bar with a cap (div with image) on it
-		
+
 		// the progress may exceed 100%, so cap at that
 		streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
 		// there is a cap at the end of the bar which needs to be adjusted
@@ -2203,7 +2228,7 @@ function updateData( data ) {
 
 		if(data.progress >= 1){
 			if(!jQuery(".current-label").hasClass("proficient")){
-				// fade out the streak as it is and when done, add in the shiny 
+				// fade out the streak as it is and when done, add in the shiny
 				// blue/yellow bg and fade it back in
 				jQuery(".current-label, .current-label .label").fadeOut(150,function(){
 					jQuery(".streak-bar").addClass("proficient");
@@ -2212,7 +2237,7 @@ function updateData( data ) {
 			}
 		}else{
 			// lost proficiency (or never had it), restore the .label
-			jQuery(".current-label, .streak-bar").removeClass("proficient"); 
+			jQuery(".current-label, .streak-bar").removeClass("proficient");
 			jQuery(".current-label .label").fadeIn(0);
 		}
 	}
@@ -2233,76 +2258,50 @@ function updateData( data ) {
 	if ( videos && videos.length &&
 		jQuery(".related-video-list").is(":empty")
 	) {
-		if ( typeof data.hints_first !== "undefined" ) {
-			// we are in an ab test for video box versus hint box ordering.
-			if (data.hints_first) {
-				// swap order of hints and videos
-				jQuery(".related-video-box").remove().insertAfter(".hint-box");
-			}
-		}
-		displayRelatedVideos(videos, data.exercise_model.name);
+		displayRelatedVideos(videos);
+		ModalVideo && ModalVideo.hookup();
 	}
 }
 
-function displayRelatedVideos( videos, exid ) {
-	var exid_param = exid ? "?exid=" + exid : '';
-	jQuery.each( videos, function( i, video ) {
-		var span = jQuery( "<span>" )
-			.addClass( "video-title vid-progress v" + video.id )
-			.text( video.title );
-		if ( i < videos.length - 1 && i < 2 ) {
-			span.append( "<span class='separator'>, </span>" );
-		}
+function displayRelatedVideos( videos ) {
+	var relatedVideoAnchorElement = function(video, needComma) {
+		return jQuery("#related-video-link-tmpl").tmplPlugin({
+			href: Khan.relatedVideoHref(video),
+			video: video,
+			separator: needComma
+		}).data('video', video);
+	};
 
-		var a = jQuery( "<a>" ).attr( {
-			href: video.ka_url + exid_param,
-			title: video.title
-		} ).append( span );
+	var displayRelatedVideoInHeader = function(i, video) {
+		var needComma = i < videos.length - 1;
+		var li = jQuery( "<li>" ).append( relatedVideoAnchorElement(video, needComma) );
+		jQuery( ".related-content > .related-video-list" ).append( li ).show();
+	};
 
-		var thumbnailUrl = function( youtubeId ) {
-			return "http://img.youtube.com/vi/" + youtubeId + "/hqdefault.jpg";
-		};
+	var displayRelatedVideoInSidebar = function(i, video) {
+		var thumbnailDiv = jQuery("#thumbnail-tmpl").tmplPlugin({
+			href: Khan.relatedVideoHref(video),
+			video: video
+		}).find('a.related-video').data('video', video).end();
 
-		var li = jQuery( "<li>" )
-			.addClass( i > 2 ? "related-video-extended" : "" )
-			.append( a.addClass('related-video-inline') );
+		var inlineLink = relatedVideoAnchorElement(video)
+			.addClass("related-video-inline");
 
-		jQuery( ".related-content > .related-video-list" ).append( li );
-
-		// I apologise for this horrible non-templated element creation
-		var thumbnailDiv = jQuery( '<div>' ).addClass( "thumbnail" )
-			.append(a.clone()
-				.removeClass( 'related-video-inline' )
-				.empty()
-				.append(
-				jQuery( "<div>" ).addClass( "thumb" )
-					.css('backgroundImage',
-						"url('" + thumbnailUrl( video.youtube_id ) + "')")
-					.append(
-						jQuery( '<div>' ).addClass( 'thumbnail_label' )
-							.append(
-								jQuery( '<div>' ).addClass( 'thumbnail_desc' )
-									.append(jQuery(span
-										.clone().removeClass('video-title')))
-							)
-							.append(
-								jQuery( '<div>' ).addClass( 'thumbnail_teaser' )
-									.text( video.description )
-							)
-					)
-			));
-
-		var sideBarLi = li.clone().append( thumbnailDiv );
+		var sideBarLi = jQuery( "<li>" )
+			.append( inlineLink )
+			.append( thumbnailDiv );
 
 		if ( i > 0 ) {
 			thumbnailDiv.hide();
 		}
 		else {
-			sideBarLi.find( 'a.related-video-inline' ).hide();
+			inlineLink.hide();
 		}
 		jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
-	} );
+	};
 
+	jQuery.each(videos, displayRelatedVideoInHeader);
+	jQuery.each(videos, displayRelatedVideoInSidebar);
 	jQuery( ".related-content, .related-video-box" ).show();
 
 	// make caption slide up over the thumbnail on hover
