@@ -260,15 +260,17 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 			this.points = [ [ this.x, this.y ], [ this.x + this.scale * this.sideRatio * this.cosines[ 0 ], this.y + this.scale * this.sideRatio * this.sines[ 0 ] ], [ this.x + tX[ 1 ] + ua * ( tX[ 2 ] - tX[ 1 ] ), this.y + tY[ 1 ] + ua * ( tY[ 2 ] - tY[ 1 ] ) ], [ this.x +  this.scale, this.y ] ];
 
 			this.sides = [ [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 3 ], this.points[ 2 ] ], [ this.points[ 2 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 0 ] ] ];
+			this.sideLengths =  jQuery.map( this.sides, lineLength );
+			this.niceSideLengths = jQuery.map( this.sideLengths, function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
 
-			if(  vectorProduct( [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) > 0 ){
-				this.sideRatio -= 0.3 ;
+			if( vectorProduct( [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) > 0  || this.sideLengths[ 2 ] < 0.7 ){
+				this.sideRatio -= 0.3;
 			}
-			if(  vectorProduct( [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) < 0 ){
-				this.sideRatio += 0.3 ;
-			}
-	}
 
+			if( vectorProduct( [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) < 0 ){
+				this.sideRatio += 0.3;
+			}
+		}
 	}
 	
 	this.isCrossed = function(){
