@@ -2269,10 +2269,8 @@ function displayRelatedVideos( videos ) {
 		jQuery( ".related-content > .related-video-list" ).append( li );
 
 		var thumbnailDiv = jQuery("#thumbnail-tmpl").tmplPlugin({
-			video_url: Khan.relatedVideoHref(video),
-			title: video.title,
-			description: video.description,
-			youtube_id: video.youtube_id
+			href: Khan.relatedVideoHref(video),
+			video: video
 		}).find('a.related-video').data('video', video).end();
 
 		var sideBarLi = li.clone(true).append( thumbnailDiv );
