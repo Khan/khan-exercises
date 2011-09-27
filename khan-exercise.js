@@ -2264,43 +2264,44 @@ function updateData( data ) {
 }
 
 function displayRelatedVideos( videos ) {
-	jQuery.each( videos, function( i, video ) {
-		var span = jQuery( "<span>" )
-			.addClass( "video-title vid-progress v" + video.id )
-			.text( video.title );
-		if ( i < videos.length - 1 && i < 2 ) {
-			span.append( "<span class='separator'>, </span>" );
-		}
-
-		var a = jQuery( "<a>" ).attr( {
+	var relatedVideoAnchorElement = function(video, needComma) {
+		return jQuery("#related-video-link-tmpl").tmplPlugin({
 			href: Khan.relatedVideoHref(video),
-			title: video.title
-		} )
-			.data('video', video)
-			.append( span );
+			video: video,
+			separator: needComma
+		}).data('video', video);
+	};
 
-		var li = jQuery( "<li>" )
-			.addClass( i > 2 ? "related-video-extended" : "" )
-			.append( a.addClass('related-video-inline') );
+	var displayRelatedVideoInHeader = function(i, video) {
+		var needComma = i < videos.length - 1;
+		var li = jQuery( "<li>" ).append( relatedVideoAnchorElement(video, needComma) );
+		jQuery( ".related-content > .related-video-list" ).append( li ).show();
+	};
 
-		jQuery( ".related-content > .related-video-list" ).append( li );
-
+	var displayRelatedVideoInSidebar = function(i, video) {
 		var thumbnailDiv = jQuery("#thumbnail-tmpl").tmplPlugin({
 			href: Khan.relatedVideoHref(video),
 			video: video
 		}).find('a.related-video').data('video', video).end();
 
-		var sideBarLi = li.clone(true).append( thumbnailDiv );
+		var inlineLink = relatedVideoAnchorElement(video)
+			.addClass("related-video-inline");
+
+		var sideBarLi = jQuery( "<li>" )
+			.append( inlineLink )
+			.append( thumbnailDiv );
 
 		if ( i > 0 ) {
 			thumbnailDiv.hide();
 		}
 		else {
-			sideBarLi.find( 'a.related-video-inline' ).hide();
+			inlineLink.hide();
 		}
 		jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
-	} );
+	};
 
+	jQuery.each(videos, displayRelatedVideoInHeader);
+	jQuery.each(videos, displayRelatedVideoInSidebar);
 	jQuery( ".related-content, .related-video-box" ).show();
 
 	// make caption slide up over the thumbnail on hover
