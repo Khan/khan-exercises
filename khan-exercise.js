@@ -2136,15 +2136,11 @@ function updateData( data ) {
 		data = oldData;
 	}
 
-	// this will eventually stabilize, but let's make refactoring easier, why not?
-	var streakType = data.progress_bar_alternative || "original";
-	jQuery("#streak-bar-container").addClass(streakType);
-
 	// Update the streaks/point bar
-	var streakMaxWidth = (streakType === "original") ? 228 : 325,
+	var streakMaxWidth = jQuery(".streak-bar").width(),
 
 		// Streak and longest streak pixel widths
-		streakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.streak)),
+		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth),
 		longestStreakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.longest_streak)),
 
 		// Streak icon pixel width
@@ -2203,8 +2199,6 @@ function updateData( data ) {
 	// TODO fix this behavior! either fix next_points so it returns 0 when streak == -1 
 	// or reimplement curr_points
 	updateUI = prepareUIUpdate( data );
-
-	streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
 
 	if(data.streak === 1){ updateUI(); }
 
