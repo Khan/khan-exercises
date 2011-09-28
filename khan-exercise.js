@@ -1510,9 +1510,6 @@ function prepareSite() {
 					.focus();
 			}
 			nextProblem( 1 );
-			// updateUI is created as a closure from data received in updateData
-			// need some way to teel updateUI that the first streak response counts
-			updateUI();
 		} else {
 			// Wrong answer. Enable all the input elements, but wait until
 			// until server acknowledges before enabling the check answer
@@ -2181,30 +2178,8 @@ function updateData( data ) {
 		}
 	}
 
-
-	// noncritical ui updates that happen on successful exercise submission
-	var prepareUIUpdate = function ( data ){
-		return function( extras ) {
-			if(data.hasOwnProperty("point_display") && data.point_display === "on" && data.streak > 0){
-				var coin = jQuery("<div>+"+data.next_points+"</div>").addClass("energy-points-badge");
-				jQuery(".streak-bar").append(coin);
-				jQuery(coin).fadeIn(195).delay(650).animate({top:"-30", opacity:0}, 350, "easeInOutCubic",function(){jQuery(coin).hide(0).remove();});
-			}
-		};
-	};
-	
-	// updateUI is called in one of two places:
-	// - handleSubmit
-	// - right before the animation (because a streak of 1 isn't passed to the future)
-	// TODO fix this behavior! either fix next_points so it returns 0 when streak == -1 
-	// or reimplement curr_points
-	updateUI = prepareUIUpdate( data );
-
-	if(data.streak === 1){ updateUI(); }
-
 	jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
 	jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"});
-
 
 	// Update the exercise icon
 	var exerciseStates = data && data.exercise_states;
