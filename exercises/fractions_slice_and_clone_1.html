@@ -1,91 +1,9 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers word-problems">
+<html data-require="math math-format graphie graphie-helpers word-problems slice-clone">
 <head>
 	<meta charset="UTF-8" />
 	<title>Fractions cut and copy 1</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-	var d, n_parent, n_offspring;
-	var pieces = 1;
-	var times = 1;
-
-	function initAndPassVars( d_arg, n_parent_arg, n_offspring_arg ) {
-		d = d_arg;
-		n_parent = n_parent_arg;
-		n_offspring = n_offspring_arg;
-	}
-
-
-	function changePieces( increase ) {
-		if ( pieces === 1 && !increase ) {
-			return;
-		}
-
-		pieces += ( increase ) ? 1 : -1;
-
-		jQuery( "#pieces" ).text( KhanUtil.plural(pieces, "piece") ); 
-
-		KhanUtil.currentGraph = jQuery( "#problemarea" ).find( "#parent_block" ).data( "graphie" );
-
-		rectchart( [ 1, pieces - 1 ], ["#e00", "#999" ] );
-	}
-
-	function slice() {
-		jQuery( "#slice_pieces" ).html( "<code>" + pieces + "</code>" ).tmpl();
-		jQuery( ".slice_fraction" ).each(function( i, elem) {
-			var code = jQuery( "<code>" + KhanUtil.fractionReduce(n_parent + d, d * pieces) + "</code>");
-			jQuery( elem ).html( code ).tmpl();
-		});
-		jQuery( "#slice_equation" ).show();
-
-		if ( pieces !== n_parent + d ) {
-			jQuery( "#slice_alert" ).text( "Wrong!" );
-			jQuery( "#slice_explanation" ).show();
-			return;
-		} else {
-			jQuery( "#slice_explanation" ).hide();
-		}
-
-		jQuery( "#slice_alert" ).text( "Correct!" );
-		jQuery( "#slice_controls" ).hide();
-		jQuery( "#cloning" ).show();
-	}
-
-	function changeTimes( increase ) {
-		if ( times === 1 && !increase || times === pieces && increase) {
-			return;
-		}
-
-		times += ( increase ) ? 1 : -1;
-
-		jQuery( "#times" ).text( KhanUtil.plural(times, "time") );
-
-		var graph = KhanUtil.currentGraph = jQuery( "#problemarea" ).find( "#offspring_block" ).data( "graphie" );
-
-		graph.init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600 / (d + n_parent) * times, 25 ] });
-		rectchart( [ times, 0 ], ["#e00", "#999" ] );
-	}
-
-	function clone() {
-		jQuery( "#clone_times" ).html( "<code>" + times + "</code>" ).tmpl();
-		jQuery( ".clone_fraction" ).each(function( i, elem) {
-			var code = jQuery( "<code>" + KhanUtil.fractionReduce( ( n_parent + d ) * times, d * pieces ) + "</code>");
-			jQuery( elem ).html( code ).tmpl();
-		});
-		jQuery( "#clone_equation" ).show();
-
-		if ( times !== n_offspring ) {
-			jQuery( "#clone_alert" ).text( "Wrong!" );
-			jQuery( "#clone_explanation" ).show();
-			return;
-		} else {
-			jQuery( "#clone_explanation" ).hide();
-		}
-
-		rectchart( [ 1, 0 ], [ "#e00", "#999" ] );
-		jQuery( "#clone_alert" ).text( "Correct!" );
-	}
-	</script>
 </head>
 <body>
 	<div class="exercise">
@@ -108,18 +26,12 @@
 				<p class="graphie" id="parent_block">
 					init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600, 25 ] });
 
-					initAndPassVars( D, N_PARENT, N_OFFSPRING );
+					passVars( D, N_PARENT, N_OFFSPRING );
 
 					rectchart( [ 1, 0 ], ["#e00", "#999" ] );
 				</p>
 
-				<div id="slice_controls">
-					<input type="button" value="-" class="simple-button action-gradient" id="decrease_pieces" onclick="changePieces( false )">
-					<span id="pieces">1 piece</span>
-					<input type="button" value="+" class="simple-button action-gradient" id="increase_pieces" onclick="changePieces( true )">
-					<input type="button" value="Slice" class="simple-button action-gradient green" onclick="slice()">
-				</div>
-				
+								
 				<p id="slice_alert"></p>
 
 				<p id="slice_equation" style="display: none;"><code>1<var>FRACTION_PARENT</var>÷</code> <span id="slice_pieces"></span> <code>=</code> <span class="slice_fraction"></span></p>
@@ -138,10 +50,6 @@
 
 					<p>Clone the new block to create a block that is <code><var>FRACTION_OFFSPRING</var></code> units long.</p>
 
-					<input type="button" value="-" class="simple-button action-gradient" id="decrease_clones" onclick="changeTimes( false )">
-					<span id="times">1 time</span>
-					<input type="button" value="+" class="simple-button action-gradient" id="increase_clones" onclick="changeTimes( true )">
-					<input type="button" value="Clone" class="simple-button action-gradient green" onclick="clone()"> 
 
 					<p id="clone_alert"></p>
 
@@ -151,7 +59,22 @@
 				</div>
 
 				<div class="solution" data-type="multiple">
-					<span class="sol" id="" style="display: none;"><var>N_OFFSPRING</var> / <var>D</var></span>
+					<div id="slice_controls" style="margin-bottom: 10px;">
+						<input type="button" value="-" class="simple-button action-gradient" id="decrease_pieces" onclick="KhanUtil.changePieces( false )">
+						<span id="pieces">1 piece</span>
+						<input type="button" value="+" class="simple-button action-gradient" id="increase_pieces" onclick="KhanUtil.changePieces( true )">
+						<input type="button" value="Cut" class="simple-button action-gradient green" onclick="KhanUtil.slice()">
+					</div>
+
+					<div id="clone_controls" style="display: none; margin-bottom: 10px;">
+						<input type="button" value="-" class="simple-button action-gradient" id="decrease_clones" onclick="KhanUtil.changeTimes( false )" disabled="disabled">
+						<span id="times">1 time</span>
+						<input type="button" value="+" class="simple-button action-gradient" id="increase_clones" onclick="KhanUtil.changeTimes( true )">
+						<input type="button" value="Copy" class="simple-button action-gradient green" onclick="KhanUtil.clone()"> 
+					</div>
+
+					<span class="sol" id="slice_answer" style="display: none;"><var>N_PARENT + D</var></span>
+					<span class="sol" id="clone_answer" style="display: none;"><var>N_OFFSPRING</var></span>
 				</div>
 			</div>
 		</div>
