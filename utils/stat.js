@@ -9,14 +9,14 @@ jQuery.extend(KhanUtil, {
 	},
 
 	mean: function( values ) {
-		return KhanUtil.roundTo( 1, KhanUtil.sum( values ) / values.length );
+		return KhanUtil.sum( values ) / values.length;
 	},
 
 	median: function( values ) {
 		var sortedInts, median;
 		sortedInts = KhanUtil.sortNumbers( values );
 
-		if ( values.length % 2 == 0 ) {
+		if ( values.length % 2 === 0 ) {
 			median = KhanUtil.roundTo( 1,
 				( sortedInts[(values.length / 2) - 1] + sortedInts[values.length / 2] ) / 2 );
 		} else {
@@ -45,7 +45,7 @@ jQuery.extend(KhanUtil, {
 		// iterate again to check for 'no mode'
 		for ( var i = 0; i < numInstances.length; i++ ) {
 			if ( numInstances[i] ) {
-				if ( i != mode && numInstances[i] >= modeInstances ) {
+				if ( i !== mode && numInstances[i] >= modeInstances ) {
 					return false;
 				}
 			}

@@ -73,6 +73,58 @@ jQuery.extend(KhanUtil, {
 		return begin + main + end;
 	},
 
+	mixedFractionFromImproper: function( n, d, defraction, reduce, small, parens ) {
+		return KhanUtil.mixedFraction( Math.floor( n / d ), n % d, d, defraction, reduce, small, parens );
+	},
+
+	/* Format the latex of the mixed fraction 'num n/d"
+	 * - For negative numbers, if it is a mixed fraction, make sure the whole
+	 * number portion is negative.  '-5, 2/3' should be 'mixedFraction(-5,2,3)'
+	 * do not put negative for both whole number and numerator portion.
+	 * - Will use latex's `dfrac` unless `small` is specified as truthy.
+	 * - Will wrap the fraction in parentheses if necessary (ie, unless the
+	 * fraction reduces to a positive integer) if `parens` is specified as
+	 * truthy.
+	 * - Will reduce the fraction `n`/`d` if `reduce` is specified as truthy.
+	 * - Will defraction (spit out 0 if `n` is 0, spit out `n` if `d` is 1, or
+	 * spit out `undefined` if `d` is 0) if `defraction` is specified as
+	 * truthy. */
+	mixedFraction: function( number, n, d, defraction, reduce, small, parens ) {
+		var wholeNum = number ? number : 0;
+		var numerator = n ? n : 0;
+		var denominator = d ? d : 1;
+
+		if ( wholeNum < 0 && numerator < 0 ) {
+			throw "NumberFormatException: Both integer portion and fraction cannot both be negative.";
+		}
+		if ( denominator < 0 ) {
+			throw "NumberFormatException: Denominator cannot be be negative.";
+		}
+		if ( denominator === 0 ) {
+			throw "NumberFormatException: Denominator cannot be be 0.";
+		}
+
+		if ( reduce ) {
+			if( wholeNum < 0 ) {
+				wholeNum -= Math.floor( numerator / denominator );
+			} else {
+				wholeNum += Math.floor( numerator / denominator );
+			}
+
+			numerator = numerator % denominator;
+		}
+
+		if ( wholeNum !== 0 && numerator !== 0 ) {
+			return wholeNum + " " + KhanUtil.fraction( n, d, defraction, reduce, small, parens );
+		} else if ( wholeNum !== 0 && numerator === 0 ) {
+			return wholeNum;
+		} else if ( wholeNum === 0 && numerator !== 0 ) {
+			return KhanUtil.fraction( n, d, defraction, reduce, small, parens );
+		} else {
+			return 0;
+		}
+	},
+
 	/* Calls fraction with the reduce and defraction flag enabled. Additional
 	 * parameters correspond to the remaining fraction flags. */
 	fractionReduce: function( n, d, small, parens ) {
@@ -114,6 +166,25 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
+	// splitRadical( 24 ) gives [ 2, 6 ] to mean 2 sqrt(6)
+	splitRadical: function( n ) {
+		if ( n === 0 ) {
+			return [ 0, 1 ];
+		}
+
+		var coefficient = 1;
+		var radical = n;
+
+		for(var i = 2; i * i <= n; i++) {
+			while(radical % (i * i) === 0) {
+				radical /= i * i;
+				coefficient *= i;
+			}
+		}
+
+		return [coefficient, radical];
+	},
+
 	// formattedSquareRootOf(24) gives 2\sqrt{6}
 	formattedSquareRootOf: function( n ) {
 		if( n === 1 || n === 0 ) {
@@ -121,15 +192,15 @@ jQuery.extend(KhanUtil, {
 			return n.toString();
 		} else {
 			var split = KhanUtil.splitRadical( n );
-			var coefficient = split[0] == 1 ? "" : split[0].toString();
-			var radical = split[1] == 1 ? "" : "\\sqrt{" + split[1] + "}";
+			var coefficient = split[0] === 1 ? "" : split[0].toString();
+			var radical = split[1] === 1 ? "" : "\\sqrt{" + split[1] + "}";
 
 			return coefficient + radical;
 		}
 	},
 
 	squareRootCanSimplify: function(n) {
-		return KhanUtil.formattedSquareRootOf(n) != ("\\sqrt{" + n + "}");
+		return KhanUtil.formattedSquareRootOf(n) !== ("\\sqrt{" + n + "}");
 	},
 
 	// Ported from https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L285
@@ -175,8 +246,9 @@ jQuery.extend(KhanUtil, {
 			return str;
 		};
 
-		if ( n == 0 ) return "zero";
-		else {
+		if ( n === 0 ) {
+			return "zero";
+		} else {
 			var neg = false;
 			if ( n < 0 ) {
 				neg = true;
@@ -200,7 +272,10 @@ jQuery.extend(KhanUtil, {
 				scale += 1;
 			}
 
-			if ( neg ) words.unshift( "negative" );
+			if ( neg ) {
+				words.unshift( "negative" );
+			}
+
 			return words.join( " " );
 		}
 	},
@@ -220,7 +295,7 @@ jQuery.extend(KhanUtil, {
 
 		if ( (b * b - 4 * a * c) === 0 ) {
 			// 0 under the radical
-			rootString += KhanUtil.fraction(-b, 2*a);
+			rootString += KhanUtil.fraction(-b, 2*a, true, true, true);
 		} else if ( underRadical[0] === 1 ) {
 			// The number under the radical cannot be simplified
 			rootString += KhanUtil.expr(["frac", ["+-", -b, ["sqrt", underRadical[1]]],
@@ -228,8 +303,8 @@ jQuery.extend(KhanUtil, {
 		} else if ( underRadical[1] === 1 ) {
 			// The absolute value of the number under the radical is a perfect square
 
-			rootString += KhanUtil.fraction(-b + underRadical[0], 2*a) + ","
-				+ KhanUtil.fraction(-b - underRadical[0], 2*a);
+			rootString += KhanUtil.fraction(-b + underRadical[0], 2*a, true, true, true) + ","
+				+ KhanUtil.fraction(-b - underRadical[0], 2*a, true, true, true);
 		} else {
 			// under the radical can be partially simplified
 			var divisor = KhanUtil.getGCD( b, 2 * a, underRadical[0] );
@@ -275,15 +350,18 @@ jQuery.extend(KhanUtil, {
 
 		for ( var i = 0; i < arguments.length; i++ ) {
 			s = KhanUtil._plusTrim( arguments[i] );
-			if ( s ) args.push( s );
+			if ( s ) {
+				args.push( s );
+			}
 		}
 
 		return args.length > 0 ? args.join( " + " ) : "0";
 	},
 
 	_plusTrim: function( s ) {
+
 		if ( typeof s === "string" && isNaN( s ) ) {
-			
+
 			// extract color, so we can handle stripping the 1 out of \color{blue}{1xy}
 			if ( s.indexOf( "{" ) !== -1 ) {
 
@@ -294,7 +372,11 @@ jQuery.extend(KhanUtil, {
 
 				// if we've encountered \color{blue}{1}\color{xy} somehow
 				if ( l !== s.lastIndexOf( "{" ) + 1 && +KhanUtil._plusTrim( s.slice( l, r ) ) === 1 ) {
-					return s.slice( r + 1 );
+					if ( s.indexOf( "\\" ) !== -1 ) {
+						return s.slice( 0, s.indexOf( "\\" ) ) + s.slice( r + 1 );
+					} else {
+						return s.slice( r + 1 );
+					}
 				}
 
 				return s.slice( 0, l ) + KhanUtil._plusTrim( s.slice( l, r ) ) + s.slice( r );

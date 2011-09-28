@@ -32,9 +32,9 @@
 						var good_gcd = getGCD( A, B, C );
 						var bad_gcd = getGCD( bad_a, bad_b, bad_c );
 
-						while ((	(A*bad_gcd)==(bad_a*good_gcd) &&
-									(B*bad_gcd)==(bad_b*good_gcd) &&
-									(C*bad_gcd)==(bad_c*good_gcd) ) ||
+						while ((	abs(A*bad_gcd) == abs(bad_a*good_gcd) &&
+									abs(B*bad_gcd)== abs(bad_b*good_gcd) &&
+									abs(C*bad_gcd)== abs(bad_c*good_gcd) ) ||
 
 									(( (bad_b * bad_b) - (4 * bad_a * bad_c) ) < 0))
 						{
@@ -46,7 +46,7 @@
 							bad_gcd = getGCD( bad_a, bad_b, bad_c );
 						}
 						wrongs.push(quadraticRoots(bad_a, bad_b, bad_c));
-					}
+}
 					return wrongs;
 				})()
 			</var>

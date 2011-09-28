@@ -11,6 +11,16 @@
 			<var id="INNER">generateFunction("x")</var>
 			<var id="OUTER">new CalcFunctions[randRange(1, CalcFunctions.length - 1)](INNER.f)</var>
 
+			<div data-ensure="expr(INNER_WRONG_1) !== expr(['-', INNER.ddxF]) || expr(OUTER_WRONG_1) !== expr(['-', OUTER.ddxF])">
+				<var id="INNER_WRONG_1">randFromArray( INNER.wrongs )</var>
+				<var id="OUTER_WRONG_1">randFromArray( OUTER.wrongs )</var>
+			</div>
+
+			<div data-ensure="expr(INNER_WRONG_2) !== expr(['-', INNER.ddxF]) || expr(OUTER_WRONG_2) !== expr(['-', OUTER.ddxF])">
+				<var id="INNER_WRONG_2">randFromArray( INNER.wrongs )</var>
+				<var id="OUTER_WRONG_2">randFromArray( OUTER.wrongs )</var>
+			</div>
+
 			<var id="DERIVATIVE">expr(["*", OUTER.ddxF, INNER.ddxF])</var>
 			<var id="NOTATION">funcNotation("x")</var>
 		</div>
@@ -24,10 +34,16 @@
 
 				<ul class="choices" data-none="true" data-show="5">
 					<li><code><var>
-						expr(["*", randFromArray(OUTER.wrongs), randFromArray(INNER.wrongs)])
+						expr(["*", OUTER.ddxF, randFromArray(INNER.wrongs)])
 					</var></code></li>
 					<li><code><var>
-						expr(["*", randFromArray(OUTER.wrongs), randFromArray(INNER.wrongs)])
+						expr(["*", randFromArray(OUTER.wrongs), INNER.ddxF])
+					</var></code></li>
+					<li><code><var>
+						expr(["*", OUTER_WRONG_1, INNER_WRONG_1])
+					</var></code></li>
+					<li><code><var>
+						expr(["*", OUTER_WRONG_2, INNER_WRONG_1])
 					</var></code></li>
 					<li><code><var>
 						expr(["+", randFromArray(OUTER.wrongs), randFromArray(INNER.wrongs)])

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
+<html data-require="math graphie graphie-helpers-arithmetic">
 <head>
 	<meta charset="UTF-8" />
 	<title>Division 3</title>
@@ -26,7 +26,7 @@
 
 				<div class="graphie" id="numbers">
 					init({
-						range: [ [ -1 - DIVISOR_DIGITS.length, DIVIDEND_DIGITS.length + 2 ], [ DIVIDEND_DIGITS.length * -2 - 1, 2 ] ],
+						range: [ [ -1 - DIVISOR_DIGITS.length, 17 ], [ DIVIDEND_DIGITS.length * -2 - 1, 2 ] ],
 						scale: [ 30, 45 ]
 					});
 					style({
@@ -46,8 +46,6 @@
 					while ( HIGHLIGHTS.length ) {
 						HIGHLIGHTS.pop().remove();
 					}
-					var index = <var>index</var>;
-					var value = <var>value</var>;
 					var quotient = value / DIVISOR;
 					var total = value + REMAINDER;
 					HIGHLIGHTS = HIGHLIGHTS.concat( drawDigits( [ value ], index, 0, "#6495ED" ) );
@@ -71,8 +69,7 @@
 						+ "\\text{?}", "right" );
 				</div>
 				<div class="graphie" data-update="numbers">
-					var index = <var>index</var>;
-					var value = <var>value</var> + REMAINDER;
+					value += REMAINDER;
 					var quotient = floor( value / DIVISOR );
 					var diff = value - ( quotient * DIVISOR );
 					REMAINDER = diff * 10;
