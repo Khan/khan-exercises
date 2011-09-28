@@ -42,7 +42,7 @@
 				<var id="SCHOOL_INDEX">randRange( 0, SCHOOLS.length - 1 )</var>
 				<var id="ANSWER">ENROLLMENTS[ SCHOOL_INDEX ][ COL_INDEX]</var>
 			</div>
-			<p>The table below shows the student enrollment at four different elementary schools.</p>
+			<p>The table below shows the enrollment at four different elementary schools that have 3rd through 5th grade students</p>
 			<p class="question">
 				<span data-if="COL_INDEX === COLUMNS.length - 1">How many students does <var>SCHOOLS[ SCHOOL_INDEX ]</var> Elementary School have in total?</span>
 				<span data-else>How many <var>COLUMNS[ COL_INDEX ]</var> students does <var>SCHOOLS[ SCHOOL_INDEX ]</var> Elementary School have?</span>
@@ -62,7 +62,7 @@
 				<div>
 					<p>The blue row shows the student enrollment at <var>SCHOOLS[ SCHOOL_INDEX ]</var> Elementary School.</p>
 					<div class="graphie">
-						jQuery( ".fake_row:eq(" + SCHOOL_INDEX + ") span" )
+						jQuery( ".fake_row" ).eq( SCHOOL_INDEX ).find( "span" )
 							.css( "background", KhanUtil.BLUE );
 					</div>
 				</div>
@@ -74,7 +74,7 @@
 							.css( "background", KhanUtil.ORANGE );
 						jQuery( ".fake_header span" + nth )
 							.css( "background", KhanUtil.ORANGE );
-						jQuery( ".fake_row:eq(" + SCHOOL_INDEX + ") span" + nth )
+						jQuery( ".fake_row" ).eq( SCHOOL_INDEX ).find( "span" + nth )
 							.css( "background", "#aaa" );
 					</div>
 				</div>
