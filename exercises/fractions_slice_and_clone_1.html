@@ -10,8 +10,6 @@
 	var times = 1;
 
 	function initAndPassVars( d_arg, n_parent_arg, n_offspring_arg ) {
-		jQuery( "#answer_area" ).hide();
-
 		d = d_arg;
 		n_parent = n_parent_arg;
 		n_offspring = n_offspring_arg;
@@ -124,10 +122,10 @@
 				
 				<p id="slice_alert"></p>
 
-				<p id="slice_equation" style="display: none;"><code>1 <var>FRACTION_PARENT</var> ÷ </code><span id="slice_pieces"></span> = </code><span class="slice_fraction"></span></p>
+				<p id="slice_equation" style="display: none;"><code>1<var>FRACTION_PARENT</var>÷</code> <span id="slice_pieces"></span> <code>=</code> <span class="slice_fraction"></span></p>
 
 				<div id="slice_explanation" style="display: none;">
-					<p>You cannot make a block that is <code><var>FRACTION_OFFSPRING</var></code> units long by cloning pieces that are <span class="slice_fraction"></span> units long! Try again.</p>
+					<p>You cannot make a block that is <code><var>FRACTION_OFFSPRING</var></code> units long by copying pieces that are <span class="slice_fraction"></span> units long! Try again.</p>
 				</div>
 
 				<div id="cloning" style="display: none;">
@@ -147,10 +145,14 @@
 
 					<p id="clone_alert"></p>
 
-					<p id="clone_equation"><span class="slice_fraction"></span> × <span id="clone_times"></span> = <span class="clone_fraction"></span></code></p>
+					<p id="clone_equation" style="display: none;"><span class="slice_fraction"></span> <code>×</code> <span id="clone_times"></span> <code>=</code> <span class="clone_fraction"></span></code></p>
+
 
 				</div>
 
+				<div class="solution" data-type="multiple">
+					<span class="sol" id="" style="display: none;"><var>N_OFFSPRING</var> / <var>D</var></span>
+				</div>
 			</div>
 		</div>
 	</div>
