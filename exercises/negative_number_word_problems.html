@@ -18,7 +18,9 @@
 				<p class="problem spin">{This afternoon, an outdoor temperature had a reading of|On a cold February afternoon, the temperature outside was} <var>abs( X )</var> degrees below zero. {By evening, the temperature had dropped by|In the evening, you take a quick look at the thermometer, and see that the temperature had dropped by} <var>Y</var> degrees.</p>
 				<p class="question">What was the temperature in the evening?</p>
 
-				<div class="solution" data-forms="integer"><var>Z</var></div>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-forms="integer"><var>Z</var></span> degrees</p>
+				</div>
 
 				<div class="hints">
 					<p><code><var>abs( X )</var></code> degrees below zero is the same as <code><var>X</var>^{\circ}</code>.</p>
@@ -40,7 +42,9 @@
 				<p class="problem spin">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for <var>his( 1 )</var> daily sledding practice}, <var>he( 1 )</var> {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>plural( randRange( 1, 8 ), "hour" )</var>,|After a long day of sledding he saw that} the temperature had increased to <var>Z</var> degrees.</p>
 				<p class="question">By how many degrees had the temperature increased?</p>
 
-				<div class="solution" data-forms="integer"><var>Y</var></div>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-forms="integer"><var>Y</var></span> degrees</p>
+				</div>
 
 				<div class="hints">
 					<p><code><var>abs( X )</var></code> degrees below zero is the same as <code><var>X</var>^{\circ}</code>.</p>
@@ -61,7 +65,9 @@
 				<p class="problem spin"><var>person( 1 )</var> was scuba diving <var>X</var> meters below sea level when <var>he( 1 )</var> spotted a beautiful fish below. {From a distance, the fish looked to be about <var>randRange( 25, 35 )</var> cm wide. |}{To take a proper photograph|To see the fish up close}, <var>person( 1 )</var> dove <var>Y</var> meters until <var>he( 1 )</var> was level with the fish, staring into its eyes.</p>
 				<p class="question">Where was the fish relative to sea level?</p>
 
-				<div class="solution" data-forms="integer"><var>Z</var></div>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-forms="integer"><var>Z</var></span> meters</p>
+				</div>
 
 				<div class="hints">
 					<p><var>person( 1 )</var> was initially <code><var>X</var></code> meters below sea level, which can be written as a negative number, <code>-<var>X</var></code> meters.</p>
@@ -80,7 +86,9 @@
 				<p class="problem spin">A spinner dolphin jumped from <var>X</var> meters below sea level and flipped through the air at <var>Y</var> meters above sea level. {The jump itself took about 1.<var>randRange( 1, 9 )</var> seconds.|}</p>
 				<p class="question">How many meters did the dolphin travel to reach the highest point of the jump?</p>
 
-				<div class="solution" data-forms="integer"><var>Z</var></div>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-forms="integer"><var>Z</var></span> meters</p>
+				</div>
 
 				<div class="hints">
 					<p>The dolphin was initially <var>X</var> meters below sea level, which can be written as a negative number, -<var>X</var> meters.</p>
