@@ -424,8 +424,10 @@ function Triangle( center, angles, scale, labels, points ){
 		return this.set;
 	}
 
+	this.color = "black";
 	this.createLabel = function( p, v ){
-			this.set.push( KhanUtil.currentGraph.label(  p , v ) );
+
+			this.set.push( KhanUtil.currentGraph.label( p , v, "center",{ color: this.color } ) );
 	}
 
 	this.drawLabels = function(){
