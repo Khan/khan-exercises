@@ -263,7 +263,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 			this.sideLengths =  jQuery.map( this.sides, lineLength );
 			this.niceSideLengths = jQuery.map( this.sideLengths, function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
 
-			if( vectorProduct( [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) > 0  || this.sideLengths[ 2 ] < 0.7 ){
+			if( vectorProduct( [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) > 0  || this.sideLengths[ 2 ] < 0.09 ){
 				this.sideRatio -= 0.3;
 			}
 

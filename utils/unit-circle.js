@@ -1,7 +1,4 @@
 jQuery.extend( KhanUtil, {
-	BLUE: "#6495ED",
-	ORANGE: "#FFA500",
-
 	initUnitCircle: function( degrees ) {
 		var graph = KhanUtil.currentGraph;
 

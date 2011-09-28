@@ -427,5 +427,9 @@ jQuery.extend(KhanUtil, {
 	// Checks if a number or string representation thereof is an integer
 	isInt: function( num ) {
 		return parseFloat( num ) === parseInt( num, 10 ) && !isNaN( num );
-	}
+	},
+	BLUE: "#6495ED",
+	ORANGE: "#FFA500",
+	PINK: "#FF00AF",
+	GREEN: "#28AE7B"
 });
