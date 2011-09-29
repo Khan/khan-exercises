@@ -779,6 +779,11 @@ function makeProblem( id, seed ) {
 	// Remove and store hints to delay running modules on it
 	hints = problem.children( ".hints" ).remove();
 
+	// Remove the hint box if there are no hints in the problem
+	if ( hints.length === 0 ) {
+		jQuery( ".hint-box" ).remove();
+	}
+
 	// Run the main method of any modules
 	problem.runModules( problem, "Load" );
 	problem.runModules( problem );
