@@ -757,3 +757,53 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		this.drawAngle( adj2, label, color );
 	};
 }
+
+function BarChart( data, pos ) {
+	var transformX = d3.scale.ordinal().domain( data.ordinals ).rangeBands( [ pos.lx, pos.lx + pos.width ], 0.75 );
+	var transformY = d3.scale.linear().domain( [ data.min, data.max ] ).range( [ pos.ly, pos.ly + pos.height ] );
+	var graph = KhanUtil.currentGraph;
+
+	this.drawBar = function( index, color ) {
+		color = color || KhanUtil.BLUE;
+		graph.style({ stroke: color, "stroke-width": 10 });
+		var ord = data.ordinals[ index ];
+		var x = transformX( ord );
+		var bottomCoord = [ x, transformY( data.min ) ];
+		graph.line( bottomCoord, [ x, transformY( data.values[ index ] ) ] );
+		graph.label( bottomCoord, "\\text{" + ord + "}", "below" );
+	};
+
+	this.draw = function() {
+		// Draw axes
+		graph.style({ stroke: "#ccc"});
+		graph.line( [ pos.lx, pos.ly ], [ pos.lx + pos.width, pos.ly ] );
+		graph.line( [ pos.lx, pos.ly ], [ pos.lx, pos.ly + pos.height ] );
+
+		// Draw bars
+		for ( var i = 0; i < data.ordinals.length; i++ ) {
+			this.drawBar( i, "#aaa" );
+		}
+
+		// Draw ticks
+		graph.style({ "stroke-width": 1 });
+		var ticks = transformY.ticks( data.tickCount );
+		jQuery.each( ticks, function( i, tick ) {
+			graph.line( [ pos.lx - 0.1, transformY( tick ) ], [ pos.lx + 0.1, transformY( tick ) ] );
+			graph.label( [ pos.lx, transformY( tick ) ], "\\small{" + tick + "}", "left" );
+		});
+	};
+
+	this.highlightBar = function( index, color ) {
+		this.drawBar( index, color );
+	}
+
+	this.labelBar = function( index, color ) {
+		color = color || KhanUtil.BLUE;
+		var val = data.values[ index ];
+		var x = transformX( data.ordinals[ index ] );
+		var y = transformY( val );
+		graph.label( [ x, y ], "\\text{" + val + "}", "above", { color: color } );
+		graph.style ({ "stroke-dasharray": "-", "stroke-width": 1 });
+		graph.line( [ pos.lx, y ], [ x, y ]);
+	}
+}
