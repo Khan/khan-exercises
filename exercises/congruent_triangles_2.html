@@ -13,12 +13,12 @@
 		</div>
 		<div class="vars">
 			<var id="RAND_ANG">randRange( 0, 2 )</var>
-			<var id="NEW_ANG"></var>
+			<var id="NEW_ANG">""</var>
 			<var id="ANGLE_LABELS">[ "CAB", "ABC", "BCA" ]</var>
-			<var id="ANG_FIRST"></var>
-			<var id="ANG_LEFT"></var>
+			<var id="ANG_FIRST">""</var>
+			<var id="ANG_LEFT">""</var>
 			<var id="ANGLES">randomTriangleAngles.triangle()</var>
-			<var id="ANG"></var>
+			<var id="ANG">""</var>
 			<var id="ANGLES_A">[ RAND_ANG ]</var>
 			<var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ RAND_ANG ] )</var>
 			<var id="SIDES_A">[ 0, 2 ]</var>
@@ -38,7 +38,7 @@
 					trB.labels = { "points" : [ "D", "", "" ], "sides" : clearArray( trB.niceSideLengths, SIDES_B ),"angles" : ANGLES_B };
 					return trB;
 				}()
-			</var>	
+			</var>
 			<var id="ANSWER">ANGLES[ RAND_ANG ]</var>
 		</div>
 		<div class="question">
@@ -61,7 +61,7 @@
 					<var id="ANG_LEFT">randFromArray( ANG_FIRST )</var>
 					<var id="ANGLES_A">ANG_FIRST</var>
 					<var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ ANG_LEFT ] )</var>
-					<var id="ANSWER">TR_B.angles[ ANG_LEFT ]</code>
+					<var id="ANSWER">TR_B.angles[ ANG_LEFT ]</var>
 				</div>
 				<div class="hints">
 					<p>These two triangles have three sides equal (they share one of them).</p>
@@ -147,7 +147,7 @@
 							return trB;
 						}()
 					</var>
-					<var id="ANSWER">TR_B.angles[ ANG_LEFT ]</code>
+					<var id="ANSWER">TR_B.angles[ ANG_LEFT ]</var>
 				</div>
 				<div class="question">
 					<div class="graphie" id="oppTriangle">
