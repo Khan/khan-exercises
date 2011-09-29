@@ -1183,7 +1183,6 @@ function makeProblem( id, seed ) {
 					validator.showGuess();
 				}
 
-                console.log( thisState.hintNum, statelist[slideNum-1].hintNum );
 				// TODO: still highlight even if hint modifies problem (and highlight following hints)
 				if (slideNum > 0 && (thisState.hintNum > statelist[slideNum-1].hintNum)) {
 					jQuery( '#hintsarea' ).children().each( function( index, elem ) {
