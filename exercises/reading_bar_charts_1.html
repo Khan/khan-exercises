@@ -15,7 +15,8 @@
 			(function() {
 				var ordinals = jQuery.map( HOUSES, function( house, i ) {
 					return house.charAt( 0 );
-				})
+				});
+
 				return { min: 0,
 					max: 5,
 					tickCount: 5,
@@ -49,13 +50,13 @@
 				<div>
 					<p>Find the bar for <var>HOUSES[ INDEX ]</var> by looking at the letter under each bar.</p>
 					<div class="graphie" data-update="barchart">
-						graph.barchart.highlightBar( INDEX );
+						graph.barchart.highlightDataPoint( INDEX );
 					</div>
 				</div>
 				<div>
 					<p>Compare how tall the bar is with the numbers to the left.</p>
 					<div class="graphie" data-update="barchart">
-						graph.barchart.labelBar( INDEX );
+						graph.barchart.labelDataPoint( INDEX );
 					</div>
 				</div>
 				<p><var>HOUSES[ INDEX ]</var> received <var>plural( VALUES[ INDEX ], "house point" )</var>.</p>
