@@ -2098,7 +2098,16 @@ function request( method, data, fn, fnError ) {
 
 
 
-// Update the visual representation of the points/streak
+// updateData is used to update some user interface elements as the result of 
+// a page load or after a post / problem attempt. updateData doesn't know if an
+// attempt was successful or not, it's simply reacting to the state of the data 
+// object returned by the server (or window.localStorage for phantom users)
+//
+// It gets called a few times
+// * by prepareUserExercise when it's setting up the exercise state
+// * and then by makeProblem, when a problem is being initialized
+// * when a post to the /api/v1/user/exercises/<exercisename>/attempt succeeds
+//   which just means there was no 500 error on the server
 function updateData( data ) {
 
 	// easeInOutCubic easing from
