@@ -7,14 +7,23 @@
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars" data-ensure="D1 !== D2">
+	<div class="vars" data-ensure="D1 !== D2 && SIMP_D1 !== SIMP_D2 && SIMP_D1 != 1 && SIMP_D2 != 1">
 		<var id="N1">randRangeNonZero( -9, 9 )</var>
 		<var id="N2">randRangeNonZero( -9, 9 )</var>
 		<var id="D1">randRangeExclude( 2, 9, [ N1, -N1 ] )</var>
 		<var id="D2">randRangeExclude( 2, 9, [ N2, -N2 ] )</var>
-		<var id="LCM">getLCM( D1, D2 )</var>
-		<var id="F1">LCM / D1</var>
-		<var id="F2">LCM / D2</var>
+
+		<var id="GCD1">getGCD( N1, D1 )</var>
+		<var id="SIMP_N1">N1 / GCD1</var>
+		<var id="SIMP_D1">D1 / GCD1</var>
+
+		<var id="GCD2">getGCD( N2, D2 )</var>
+		<var id="SIMP_N2">N2 / GCD2</var>
+		<var id="SIMP_D2">D2 / GCD2</var>
+
+		<var id="LCM">getLCM( SIMP_D1, SIMP_D2 )</var>
+		<var id="F1">LCM / SIMP_D1</var>
+		<var id="F2">LCM / SIMP_D2</var>
 	</div>
 
 	<div class="problems">
@@ -27,22 +36,26 @@
 	</div>
 
 	<div class="hints">
-		<p>First, we need to find a common denominator. The least common multiple of <code><var>D1</var></code> and <code><var>D2</var></code> is the smallest possible common denominator.</p>
-		<p><code>\lcm(<var>D1</var>, <var>D2</var>) = <var>LCM</var></code></p>
+		<div data-if="GCD1 !== 1 || GCD2 !== 1">
+			<p>Simplify each fraction:</p>
+			<p><code><var>fraction( SIMP_N1, SIMP_D1 )</var> + <var>fraction( SIMP_N2, SIMP_D2 )</var></code></p>
+		</div>
+		<p>We need to find a common denominator. The least common multiple of <code><var>SIMP_D1</var></code> and <code><var>SIMP_D2</var></code> is the smallest possible common denominator.</p>
+		<p><code>\lcm(<var>SIMP_D1</var>, <var>SIMP_D2</var>) = <var>LCM</var></code></p>
 		<p>Now, we need to change both fractions to have a denominator of <code><var>LCM</var></code>.</p>
-		<p><code>\begin{align*}<var>fraction( N1, D1 )</var>\cdot <var>fraction( F1, F1 )</var> &= <var>fraction( N1 * F1, LCM )</var>\\
-		<var>fraction( N2, D2 )</var>\cdot <var>fraction( F2, F2 )</var> &= <var>fraction( N2 * F2, LCM )</var>\end{align*}</code></p>
+		<p><code>\begin{align*}<var>fraction( SIMP_N1, SIMP_D1 )</var>\cdot <var>fraction( F1, F1 )</var> &= <var>fraction( SIMP_N1 * F1, LCM )</var>\\
+		<var>fraction( SIMP_N2, SIMP_D2 )</var>\cdot <var>fraction( F2, F2 )</var> &= <var>fraction( SIMP_N2 * F2, LCM )</var>\end{align*}</code></p>
 		<div>
 			<p>So, the problem becomes:</p>
-			<p><code><var>fraction( N1 * F1, LCM )</var> + <var>fraction( N2 * F2, LCM )</var> = {?}</code></p>
+			<p><code><var>fraction( SIMP_N1 * F1, LCM )</var> + <var>fraction( SIMP_N2 * F2, LCM )</var> = {?}</code></p>
 		</div>
 		<div>
-			<p><var>N2 &gt; 0 ? "Add" : "Subtract"</var> the numerators.</p>
-			<p><code><var>fraction( F1 * N1 + F2 * N2, LCM)</var></code></p>
+			<p><var>N2 &gt; 0 ? "Add" : "Subtract"</var> the numerators:</p>
+			<p><code><var>fraction( F1 * SIMP_N1 + F2 * SIMP_N2, LCM)</var></code></p>
 		</div>
-		<div data-if="getGCD( F1 * N1 + F2 * N2, LCM ) !== 1">
-			<p>Simplify.</p>
-			<p><code><var>fractionReduce( F1 * N1 + F2 * N2, LCM )</var></code></p>
+		<div data-if="getGCD( F1 * SIMP_N1 + F2 * SIMP_N2, LCM ) !== 1">
+			<p>Simplify:</p>
+			<p><code><var>fractionReduce( F1 * SIMP_N1 + F2 * SIMP_N2, LCM )</var></code></p>
 		</div>
 	</div>
 	</div>
