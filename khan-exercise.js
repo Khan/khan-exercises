@@ -2210,9 +2210,11 @@ function updateData( data ) {
 							"/images/" + sPrefix + "-not-started.png";
 		jQuery("#exercise-icon-container img").attr("src", src);
 	}
+	
 	var videos = data && data.exercise_model.related_videos;
 	if ( videos && videos.length &&
-		jQuery(".related-video-list").is(":empty")
+		jQuery(".related-video-list").is(":empty") &&
+		typeof ModalVideo !== "undefined"
 	) {
 		displayRelatedVideos(videos);
 		ModalVideo && ModalVideo.hookup();
@@ -2256,9 +2258,11 @@ function displayRelatedVideos( videos ) {
 		jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
 	};
 
-	jQuery.each(videos, displayRelatedVideoInHeader);
-	jQuery.each(videos, displayRelatedVideoInSidebar);
-	jQuery( ".related-content, .related-video-box" ).show();
+	if ( jQuery.fn.tmplPlugin ) {
+		jQuery.each(videos, displayRelatedVideoInHeader);
+		jQuery.each(videos, displayRelatedVideoInSidebar);
+		jQuery( ".related-content, .related-video-box" ).show();
+	}
 
 	// make caption slide up over the thumbnail on hover
 	var captionHeight = 45;
