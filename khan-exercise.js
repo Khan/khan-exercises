@@ -2020,6 +2020,10 @@ function prevProblem( num ) {
 function prepareUserExercise( data ) {
 	// Update the local data store
 	updateData( data );
+	
+	if ( data.exercise ) {
+		exerciseName = data.exercise;
+	}
 
 	if ( user != null ) {
 		// How far to jump through the problems
