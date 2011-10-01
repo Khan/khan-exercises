@@ -281,6 +281,7 @@ jQuery.extend(KhanUtil, {
 			return KhanUtil.shuffle( toReturn, count );
 		}
 	},
+
 	// Get a random integer between min and max with a perc chance of hitting
 	// target (which is assumed to be in the range, but it doesn't have to be).
 	randRangeWeighted: function( min, max, target, perc ) {
@@ -296,9 +297,22 @@ jQuery.extend(KhanUtil, {
 	randRangeExclude: function( min, max, excludes ) {
 		var result;
 
-		while ( result === undefined || excludes.indexOf(result) !== -1 ) {
+		do {
 			result = KhanUtil.randRange( min, max );
-		}
+		} while ( excludes.indexOf(result) !== -1 );
+
+		return result;
+	},
+
+	// Get a random integer between min and max with a perc chance of hitting
+	// target (which is assumed to be in the range, but it doesn't have to be).
+	// It never returns any of the values in the excludes array.
+	randRangeWeightedExclude: function( min, max, target, perc, excludes ) {
+		var result;
+								
+		do {
+			result = KhanUtil.randRangeWeighted( min, max, target, perc );
+		} while ( excludes.indexOf(result) !== -1 );
 
 		return result;
 	},

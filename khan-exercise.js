@@ -779,6 +779,11 @@ function makeProblem( id, seed ) {
 	// Remove and store hints to delay running modules on it
 	hints = problem.children( ".hints" ).remove();
 
+	// Remove the hint box if there are no hints in the problem
+	if ( hints.length === 0 ) {
+		jQuery( ".hint-box" ).remove();
+	}
+
 	// Run the main method of any modules
 	problem.runModules( problem, "Load" );
 	problem.runModules( problem );
@@ -2035,6 +2040,10 @@ function prevProblem( num ) {
 function prepareUserExercise( data ) {
 	// Update the local data store
 	updateData( data );
+	
+	if ( data.exercise ) {
+		exerciseName = data.exercise;
+	}
 
 	if ( user != null ) {
 		// How far to jump through the problems
@@ -2076,7 +2085,6 @@ function request( method, data, fn, fnError ) {
 		// Backup the response locally, for later use
 		success: function( data ) {
 			// Update the visual representation of the points/streak
-			updateUI( data );
 			updateData( data );
 
 			if ( jQuery.isFunction( fn ) ) {
@@ -2097,20 +2105,30 @@ function request( method, data, fn, fnError ) {
 	}
 }
 
-// noncritical ui updates that happen on successful exercise submission
-function updateUI( data ){
 
-	if(data.hasOwnProperty("pointDisplay")){
-		jQuery(".coin-point").remove();
-		var coin = jQuery("<div>+"+data.curr_points+"</div>").addClass("energy-points-badge");
-		jQuery(".streak-bar").append(coin);
-		jQuery(coin).fadeIn(195).delay(650).animate({top:"-30", opacity:0}, 350, "easeInOutCubic",function(){jQuery(coin).hide(0);});
-	}
 
-}
-
-// Update the visual representation of the points/streak
+// updateData is used to update some user interface elements as the result of 
+// a page load or after a post / problem attempt. updateData doesn't know if an
+// attempt was successful or not, it's simply reacting to the state of the data 
+// object returned by the server (or window.localStorage for phantom users)
+//
+// It gets called a few times
+// * by prepareUserExercise when it's setting up the exercise state
+// * and then by makeProblem, when a problem is being initialized
+// * when a post to the /api/v1/user/exercises/<exercisename>/attempt succeeds
+//   which just means there was no 500 error on the server
 function updateData( data ) {
+
+	// easeInOutCubic easing from
+	// jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
+	// (c) 2008 George McGinley Smith, (c) 2001 Robert Penner - Open source under the BSD License.
+	jQuery.extend( jQuery.easing, {
+		easeInOutCubic: function (x, t, b, c, d) {
+			if ((t/=d/2) < 1) return c/2*t*t*t + b;
+			return c/2*((t-=2)*t*t + 2) + b;
+		}
+	});
+
 	// Check if we're setting/switching usernames
 	if ( data ) {
 		user = data.user || user;
@@ -2133,15 +2151,11 @@ function updateData( data ) {
 		data = oldData;
 	}
 
-	// this will eventually stabilize, but let's make refactoring easier, why not?
-	var streakType = data.progress_bar_alternative || "original";
-	jQuery("#streak-bar-container").addClass(streakType);
-
 	// Update the streaks/point bar
-	var streakMaxWidth = (streakType === "original") ? 228 : 325,
+	var streakMaxWidth = jQuery(".streak-bar").width(),
 
 		// Streak and longest streak pixel widths
-		streakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.streak)),
+		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth),
 		longestStreakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.longest_streak)),
 
 		// Streak icon pixel width
@@ -2182,66 +2196,8 @@ function updateData( data ) {
 		}
 	}
 
-	// easeInOutCubic easing from
-	// jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
-	// (c) 2008 George McGinley Smith, (c) 2001 Robert Penner - Open source under the BSD License.
-	jQuery.extend( jQuery.easing, {
-		easeInOutCubic: function (x, t, b, c, d) {
-			if ((t/=d/2) < 1) return c/2*t*t*t + b;
-			return c/2*((t-=2)*t*t + 2) + b;
-		}
-	});
-
-	if ( streakType == "original" ){
-		jQuery(".streak-icon").width( streakIconWidth );
-		jQuery(".unit-rating").width( streakMaxWidth );
-		jQuery("#exercise-points").show();
-
-		// let's animate even the original for fun
-		jQuery(".current-rating, .current-label").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
-		jQuery(".best-label").animate({"width":( longestStreakWidth ) }, 365, "easeInOutCubic");
-
-		jQuery(".best-label").html( labelLongestStreak + "&nbsp;" );
-		jQuery(".current-label").html( labelStreak + "&nbsp;" );
-		jQuery("#exercise-points").text( " " + data.next_points + " " );
-	}
-	if ( streakType === "new_partial_reset" || streakType === "new_full_reset" ) {
-		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
-
-		jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
-	}
-	if( streakType === "new_partial_reset" ){
-		jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"});
-	}
-	if ( streakType === "capped" ){
-		// this is crazy implementation-specific for a progress bar with a cap (div with image) on it
-
-		// the progress may exceed 100%, so cap at that
-		streakWidth = Math.floor(Math.min(data.progress, 1) * streakMaxWidth);
-		// there is a cap at the end of the bar which needs to be adjusted
-		var gradientWidth = jQuery(".current-label .label").width() / 2;
-
-		jQuery(".current-label").animate({"width":( streakWidth + gradientWidth ) }, 365, "easeInOutCubic");
-
-		// these are the masks and containers for the streak which need to be max width
-		jQuery(".unit-rating, .streak-icon").width( streakMaxWidth );
-
-		if(data.progress >= 1){
-			if(!jQuery(".current-label").hasClass("proficient")){
-				// fade out the streak as it is and when done, add in the shiny
-				// blue/yellow bg and fade it back in
-				jQuery(".current-label, .current-label .label").fadeOut(150,function(){
-					jQuery(".streak-bar").addClass("proficient");
-					jQuery(".current-label").addClass("proficient").fadeIn(200);
-				});
-			}
-		}else{
-			// lost proficiency (or never had it), restore the .label
-			jQuery(".current-label, .streak-bar").removeClass("proficient");
-			jQuery(".current-label .label").fadeIn(0);
-		}
-	}
-
+	jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
+	jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"});
 
 	// Update the exercise icon
 	var exerciseStates = data && data.exercise_states;
@@ -2254,9 +2210,11 @@ function updateData( data ) {
 							"/images/" + sPrefix + "-not-started.png";
 		jQuery("#exercise-icon-container img").attr("src", src);
 	}
+	
 	var videos = data && data.exercise_model.related_videos;
 	if ( videos && videos.length &&
-		jQuery(".related-video-list").is(":empty")
+		jQuery(".related-video-list").is(":empty") &&
+		typeof ModalVideo !== "undefined"
 	) {
 		displayRelatedVideos(videos);
 		ModalVideo && ModalVideo.hookup();
@@ -2300,9 +2258,11 @@ function displayRelatedVideos( videos ) {
 		jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
 	};
 
-	jQuery.each(videos, displayRelatedVideoInHeader);
-	jQuery.each(videos, displayRelatedVideoInSidebar);
-	jQuery( ".related-content, .related-video-box" ).show();
+	if ( jQuery.fn.tmplPlugin ) {
+		jQuery.each(videos, displayRelatedVideoInHeader);
+		jQuery.each(videos, displayRelatedVideoInSidebar);
+		jQuery( ".related-content, .related-video-box" ).show();
+	}
 
 	// make caption slide up over the thumbnail on hover
 	var captionHeight = 45;

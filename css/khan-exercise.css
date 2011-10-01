@@ -3,6 +3,7 @@ p.question { font-weight: bold; }
 var { font-style: normal; }
 .hint_blue { color: #6495ED; }
 .hint_orange { color: #FFA500; }
+.hint_pink { color: #FF00AF; }
 .hint_red { color: red; }
 .hint_green { color: #28AE7B; }
 .hint_gray { color: gray; }

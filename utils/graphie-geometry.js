@@ -263,7 +263,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 			this.sideLengths =  jQuery.map( this.sides, lineLength );
 			this.niceSideLengths = jQuery.map( this.sideLengths, function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
 
-			if( vectorProduct( [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) > 0  || this.sideLengths[ 2 ] < 0.7 ){
+			if( vectorProduct( [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) > 0  || this.sideLengths[ 2 ] < 0.09 ){
 				this.sideRatio -= 0.3;
 			}
 
@@ -424,8 +424,10 @@ function Triangle( center, angles, scale, labels, points ){
 		return this.set;
 	}
 
+	this.color = "black";
 	this.createLabel = function( p, v ){
-			this.set.push( KhanUtil.currentGraph.label(  p , v ) );
+
+			this.set.push( KhanUtil.currentGraph.label( p , v, "center",{ color: this.color } ) );
 	}
 
 	this.drawLabels = function(){
