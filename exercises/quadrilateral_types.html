@@ -23,8 +23,8 @@
 							range: [ [-2, 12 ], [ -8, -1 ] ]
 						})
 						var q = new Quadrilateral( [ 2, -7 ],  ANGLES, randRange( 0, 1 ) + 0.5, 3 );
-						q.boxOut( [ [ -1, -10 ], [ -1, 10 ] ], [ 0.7, 0 ] );
-						q.boxOut( [ [ 11, -10 ], [ 11, 10 ] ], [ -0.7, 0 ] );
+						q.boxOut( [ [ [ -1, -10 ], [ -1, 10 ] ] ], [ 0.7, 0 ] );
+						q.boxOut( [ [ [ 11, -10 ], [ 11, 10 ] ] ], [ -0.7, 0 ] );
 						q.draw();
 						q.labels = { "angles" : ANGLE_LABELS, "sides" : jQuery.map( jQuery.map( q.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } ) };
 						q.drawLabels();	

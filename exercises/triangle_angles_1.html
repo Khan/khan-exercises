@@ -57,6 +57,7 @@
 						})
 						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "sides" : TRIANGLE[ 1 ], "angles" : [ TRIANGLE[ 0 ][ 0 ]  + "^{\\circ}", TRIANGLE[ 0 ][ 1 ] + "^{\\circ}",  "X" ] } );
 						tr.rotate( randRange( 0, 90 ) );
+						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] ) 
 						tr.draw();
 						tr.drawLabels();
 					</div>
@@ -80,6 +81,7 @@
 						})
 						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "sides" : TRIANGLE[ 1 ], "angles" : [ TRIANGLE[ 0 ][ 0 ] + "^{\\circ}", "",  "X" ] } );
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
+						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] ) 
 						tr.draw();
 						tr.drawLabels();
 					</div>
@@ -108,6 +110,7 @@
 						})
 						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "sides" : TRIANGLE[ 1 ], "angles" : [ "X", "", TRIANGLE[ 0 ][ 2 ] + "^{\\circ}" ]  } );
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
+						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] ) 
 						tr.draw();
 						tr.drawLabels();
 					</div>
@@ -138,6 +141,7 @@
 						})
 						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "sides" : TRIANGLE[ 1 ], "angles" : [ TRIANGLE[ 0 ][ 0 ]+ "^{\\circ}",  "X", "" ]  } );
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
+						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] ) 
 						tr.draw();
 						tr.drawLabels();
 					</div>

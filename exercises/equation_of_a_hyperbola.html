@@ -24,8 +24,9 @@
 		<var id="X_MINUS"> WHICH_NEG === 1 ? "+" : "+"</var>
 		<var id="Y_MINUS"> WHICH_NEG === 1 ? "" : "-"</var>
 
-		<var id="ASYMPT">"\\dfrac{" + expr( ["*", reduce( A, B )[1] , plus( "x", -H ) ] ) +  "}{" + reduce( A, B )[0] + "}" </var>
-		<var id="ANSWER">B+"*(-" + H + "+  x)/" + A</var>
+
+		<var id="ASYMPT">plus( "\\dfrac{" + expr( ["*", reduce( A, B )[1] , plus( "x", -H ) ] ) +  "}{" + reduce( A, B )[0] + "}",  K) </var>
+		<var id="ANSWER">B+"*(-" + H + "+x)/" + A + "+" +  K</var>
 		<var id="X">H === 0 ? "x^2" :  expr(["^", ["+", "x", -H], 2])</var>
 		<var id="Y">K === 0 ? "y^2" :  expr(["^", ["+", "y", -K], 2])</var>
 		<var id="X2T">H === 0 ? "\\dfrac{x^2}{" + A*A + "}" :  "\\dfrac {" +  expr(["^", ["+", "x", -H], 2]) + "}{" + A*A +"}" </var>
@@ -60,10 +61,10 @@
 			<p><code><var> plus("y", -K) </var> = \pm \sqrt { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
 		</div>
 		<div>
-			<p>As <code>x</code> approaches infinity, the constants matter less and less.</p>
-			<p><code>y \approx \sqrt { \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p> 
+			<p>As <code>x</code> approaches infinity, the constant matters less and less.</p>
+			<p><code><var> plus("y", -K) </var> \approx \sqrt { \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p> 
 		</div>
-		<p>Therefore, the asymptotes are <code>\pm <var>ASYMPT</var></code>.</p>
+		<p>Therefore, the asymptotes are <code>y \pm <var>ASYMPT</var></code></p>
 	</div>
 	</div>
 </body>
