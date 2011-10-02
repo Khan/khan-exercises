@@ -118,6 +118,130 @@ function Adder( a, b ) {
 	}
 }
 
+function Subtractor( a, b ) {
+	var graph = KhanUtil.currentGraph;
+	var digitsA = KhanUtil.digits( a );
+	var digitsB = KhanUtil.digits( b );
+	var workingDigitsA = digitsA.slice( 0 );
+	var workingDigitsB = digitsB.slice( 0 );
+	var highlights = [];
+	var carry = 0;
+	var pos = { max: 0,
+		carry: 3,
+		first: 2,
+		second: 1,
+		diff: 0,
+		sideX: Math.max( digitsA.length, digitsB.length ) + 2,
+		sideY: 1.5 };
+
+	var index = 0;
+	var numHints = 0;
+
+	this.show = function() {
+		graph.init({
+			range: [ [ -1, 11 ], [ pos.sum - 0.5, pos.carry + 0.5 ] ],
+			scale: [30, 45]
+		});
+		pos.max = KhanUtil.digits( a ).length;
+		numHints = pos.max + 1;
+		drawDigits( digitsA.slice( 0 ).reverse(), pos.max - digitsA.length + 1, pos.first );
+		drawDigits( digitsB.slice( 0 ).reverse(), pos.max - digitsB.length + 1, pos.second );
+
+		graph.path( [ [ -0.5, pos.second - 0.5 ], [ pos.max + 0.5, pos.second - 0.5 ] ]);
+		graph.label( [ 0, 1 ] ,"\\huge{-\\vphantom{0}}" );
+
+		for ( var i = 0; i < digitsA.length; i++ ) {
+			highlights.unshift( [] );
+		}
+	};
+
+	this.borrow = function( idx ) {
+		var borrowedIdx = idx + 1;
+		if ( workingDigitsA[ idx + 1 ] < 1 ) {
+			borrowedIdx = this.borrow( idx + 1 );
+		}
+		workingDigitsA[ idx + 1 ] -= 1;
+		workingDigitsA[ idx ] += 10;
+
+		var depth = borrowedIdx - idx - 1;
+
+		highlights[ idx ].push( graph.label( [ pos.max - idx, pos.carry + ( 0.5 * depth ) ],
+											 "\\color{#6495ED}{" + workingDigitsA[ idx ] + "}", "below" ) );
+		highlights[ idx ].push( graph.path( [ [ pos.max - 0.3 - idx, pos.first - 0.4 ], [ pos.max + 0.3 - idx, pos.first + 0.4 ] ] ) );
+
+		highlights[ idx + 1 ].push( graph.label( [ pos.max - 1 - idx, pos.carry + ( 0.5 * depth ) ],
+												 "\\color{#FFA500}{" + workingDigitsA[ idx + 1 ] + "}", "below" ) );
+		highlights[ idx + 1 ].push( graph.path( [ [ pos.max - 1.3 - idx, pos.first - 0.4 ], [ pos.max - 0.7 - idx, pos.first + 0.4 ] ] ) );
+		if ( depth !== 0 ) {
+			highlights[ idx + 1 ].push( graph.path( [ [ pos.max - 1.3 - idx, pos.carry - 1 + ( 0.5 * depth) ], [ pos.max - 0.7 - idx, pos.carry - 0.7 + ( 0.5 * depth) ] ] ) );
+		}
+		return borrowedIdx;
+	};
+
+	this.showHint = function() {
+		this.removeHighlights( index );
+
+		if ( index !== 0 ) {
+			this.removeHighlights( index - 1 );
+		}
+		if ( index === numHints - 1 ) {
+			return;
+		}
+
+		var value = workingDigitsA[ index ];
+		var withinB = index < workingDigitsB.length;
+		var subtrahend = withinB ? workingDigitsB[ index ] : 0;
+		var subStr = "";
+
+		if ( value < subtrahend ) {
+			this.borrow( index );
+		} else if ( workingDigitsA[ index ] === digitsA[ index ] ) {
+			highlights[ index ].push( graph.label( [ pos.max - index, pos.first ],
+				"\\Huge{\\color{#6495ED}{" + workingDigitsA[ index ] +"}}" ) );
+		} else {
+			highlights[ index ].push( graph.label( [ pos.max - index, pos.carry ],
+				"\\color{#6495ED}{" + workingDigitsA[ index ] + "}", "below" ) );
+		}
+
+		if ( withinB ) {
+			highlights[ index ].push( graph.label( [ pos.max - index, pos.second ],
+				"\\Huge{\\color{#6495ED}{" + workingDigitsB[ index ] + "}}" ) );
+			subStr = " - \\color{#6495ED}{" + subtrahend + "}";
+		}
+
+		var diff = workingDigitsA[ index ] - subtrahend;
+		if ( ( ( a - b ) / Math.pow( 10, index ) ) > 1 ) {
+			graph.label( [ pos.max - index, pos.diff ],  "\\Huge{" + diff + "}" );
+		}
+
+		highlights[ index ].push( graph.label( [ pos.max - index, pos.diff ],  "\\Huge{\\color{#28AE7B}{" + diff + "}}" ) );
+		if ( subStr == "" ){
+			subStr = "- \\color{#6495ED}{ 0 }";
+		}
+		highlights[ index ].push( graph.label( [ pos.sideX, pos.sideY ], "\\Large{"
+			+ "\\color{#6495ED}{" + workingDigitsA[ index ] + "}"
+			+ subStr
+			+ " = "
+			+ "\\color{#28AE7B}{" + diff + "}}", "right" ) );
+		index++;
+	};
+
+	this.getNumHints = function() {
+		return numHints;
+	};
+
+	this.removeHighlights = function( i ) {
+		if ( i >= highlights.length ) {
+			return;
+		}
+
+		var col = highlights[ i ];
+		while( col.length ) {
+			col.pop().remove();
+		}
+	};
+}
+
 function drawCircles( num, color ) {
 	with ( KhanUtil.currentGraph ) {
 		var numCols = Math.floor( Math.sqrt( num ));
@@ -188,83 +312,6 @@ function drawDigits( digits, startX, startY, color ) {
 		set.push( graph.label( [ startX + index, startY ], str, { color: color } ) );
 	});
 	return set;
-}
-
-// for subtraction
-function borrow( idx, A_DIGITS, X_MAX, Y_FIRST, Y_CARRY ) {
-	var graph = KhanUtil.currentGraph;
-	var HIGHLIGHTS = graph.graph.highlights;
-	var borrowedIdx = idx + 1;
-	if ( A_DIGITS[ idx + 1 ] < 1 ) {
-		borrowedIdx = borrow( idx + 1, A_DIGITS, X_MAX, Y_FIRST, Y_CARRY, HIGHLIGHTS );
-	}
-	A_DIGITS[ idx + 1 ] -= 1;
-	A_DIGITS[ idx ] += 10;
-	var depth = borrowedIdx - idx - 1;
-
-	HIGHLIGHTS[ idx ].push( graph.label( [ X_MAX - idx, Y_CARRY + ( 0.5 * depth ) ],
-										 "\\color{#6495ED}{" + A_DIGITS[ idx ] + "}", "below" ) );
-	HIGHLIGHTS[ idx ].push( graph.path( [ [ X_MAX - 0.3 - idx, Y_FIRST - 0.4 ], [ X_MAX + 0.3 - idx, Y_FIRST + 0.4 ] ] ) );
-
-	HIGHLIGHTS[ idx + 1 ].push( graph.label( [ X_MAX - 1 - idx, Y_CARRY + ( 0.5 * depth ) ],
-											 "\\color{#FFA500}{" + A_DIGITS[ idx + 1 ] + "}", "below" ) );
-	HIGHLIGHTS[ idx + 1 ].push( graph.path( [ [ X_MAX - 1.3 - idx, Y_FIRST - 0.4 ], [ X_MAX - 0.7 - idx, Y_FIRST + 0.4 ] ] ) );
-	if ( depth !== 0 ) {
-		HIGHLIGHTS[ idx + 1 ].push( graph.path( [ [ X_MAX - 1.3 - idx, Y_CARRY - 1 + ( 0.5 * depth) ], [ X_MAX - 0.7 - idx, Y_CARRY - 0.7 + ( 0.5 * depth) ] ] ) );
-	}
-	return borrowedIdx;
-}
-
-function doSubtractionStep( index, A, B, A_ORIG, A_DIGITS, B_DIGITS, X_MAX, Y_FIRST, Y_SECOND, Y_CARRY, Y_DIFF, X_SIDE, Y_SIDE ) {
-	var graph = KhanUtil.currentGraph;
-	var oldHighlights = graph.graph.highlights[ index ];
-	while( oldHighlights.length ) {
-		oldHighlights.shift().remove();
-	}
-
-	if ( index !== 0 ) {
-		oldHighlights = graph.graph.highlights[ index - 1 ];
-		while( oldHighlights.length ) {
-			oldHighlights.shift().remove();
-		}
-	}
-
-	var value = A_DIGITS[ index ];
-	var withinB = index < B_DIGITS.length;
-	var subtrahend = withinB ? B_DIGITS[ index ] : 0;
-	var subStr = "";
-
-	if ( value < subtrahend ) {
-		borrow( index, A_DIGITS, X_MAX, Y_FIRST, Y_CARRY );
-	} else if ( A_DIGITS[ index ] === A_ORIG[ index ] ) {
-		graph.graph.highlights[ index ].push( graph.label( [ X_MAX - index, Y_FIRST ],
-			"\\Huge{\\color{#6495ED}{" + A_DIGITS[ index ] +"}}" ) );
-	} else {
-		graph.graph.highlights[ index ].push( graph.label( [ X_MAX - index, Y_CARRY ],
-			"\\color{#6495ED}{" + A_DIGITS[ index ] + "}", "below" ) );
-	}
-	
-	if ( withinB ) {
-		graph.graph.highlights[ index ].push( graph.label( [ X_MAX - index, Y_SECOND ],
-			"\\Huge{\\color{#6495ED}{" + B_DIGITS[ index ] + "}}" ) );
-		subStr = " - \\color{#6495ED}{" + subtrahend + "}";
-	}
-	
-	var diff = A_DIGITS[ index ] - subtrahend;
-	if ( ( ( A - B ) / Math.pow( 10, index ) ) > 1 ) {
-		graph.label( [ X_MAX - index, Y_DIFF ],  "\\Huge{" + diff + "}" );
-	}
-	
-	graph.graph.highlights[ index ].push( graph.label( [ X_MAX - index, Y_DIFF ],  "\\Huge{\\color{#28AE7B}{" + diff + "}}" ) );
-	if ( subStr == "" ){
-		subStr = "- \\color{#6495ED}{ 0 }";
-	}
-	graph.graph.highlights[ index ].push( graph.label( [ X_SIDE, Y_SIDE ], "\\Large{"
-		+ "\\color{#6495ED}{" + A_DIGITS[ index ] + "}"
-		+ subStr
-		+ " = "
-		+ "\\color{#28AE7B}{" + diff + "}}", "right" ) );
-	
 }
 
 // for multiplication 0.5, 1

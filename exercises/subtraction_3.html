@@ -10,50 +10,22 @@
 		<div class="vars">
 			<var id="A">randRange( 20, 999 )</var>
 			<var id="B">randRange( 1, A - 1 )</var>
-			<var id="A_ORIG">digits( A )</var>
-			<var id="A_DIGITS">digits( A )</var>
-			<var id="B_DIGITS">digits( B )</var>
-			<var id="Y_CARRY">3</var>
-			<var id="Y_FIRST">2</var>
-			<var id="Y_SECOND">1</var>
-			<var id="Y_DIFF">0</var>
-			<var id="X_MAX">3</var>
-			<var id="X_SIDE">X_MAX + 2</var>
-			<var id="Y_SIDE">1.5</var>
+			<var id="DUMMY">[]</var>
 		</div>
 
 		<div class="problems">
 			<div>
 				<div class="graphie" id="numbers">
-					init({
-						range: [ [ -1, 12 ], [ -0.5, 4 ] ],
-						scale: [30, 45]
-					});
-					drawDigits( A_DIGITS.slice( 0 ).reverse(), X_MAX - A_DIGITS.length + 1, Y_FIRST );
-					drawDigits( B_DIGITS.slice( 0 ).reverse(), X_MAX - B_DIGITS.length + 1, Y_SECOND );
-					var h = [];
-					for ( var i = 0; i &lt; A_DIGITS.length; i++ ) {
-						h.unshift( [] );
-					}
-					graph.highlights = h;
-					path( [ [ -0.5, 0.5 ], [ X_MAX + 0.5, 0.5 ] ]);
-
-					label( [ 0, 1 ] ,"\\huge{-\\vphantom{0}}" );
+					graph.subtractor = new Subtractor( A, B );
+					graph.subtractor.show();
+					DUMMY = Array( graph.subtractor.getNumHints() );
 				</div>
 				<div class="solution" data-forms="integer"><var>A - B</var></div>
 			</div>
 		</div>
 		<div class="hints">
-			<div class="graphie" data-update="numbers" data-each="A_DIGITS as index, value">
-				doSubtractionStep( index, A, B, A_ORIG, A_DIGITS, B_DIGITS, X_MAX, Y_FIRST, Y_SECOND, Y_CARRY, Y_DIFF, X_SIDE, Y_SIDE );
-			</div>
-			<div class="graphie" data-update="numbers">
-				while( graph.highlights.length ) {
-					var column = graph.highlights.shift();
-					while ( column.length ) {
-						column.shift().remove();
-					}
-				}
+			<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+				graph.subtractor.showHint();
 			</div>
 		</div>
 	</div>
