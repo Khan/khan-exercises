@@ -1,3 +1,123 @@
+function Adder( a, b ) {
+	var graph = KhanUtil.currentGraph;
+	var digitsA = KhanUtil.digits( a );
+	var digitsB = KhanUtil.digits( b );
+	var highlights = [];
+	var carry = 0;
+	var pos = { max: 0,
+		carry: 3,
+		first: 2,
+		second: 1,
+		sum: 0,
+		sideX: Math.max( digitsA.length, digitsB.length ) + 2,
+		sideY: 1.5 };
+
+	var index = 0;
+	var numHints = 0;
+
+	this.show = function() {
+		graph.init({
+			range: [ [ -1, 11 ], [ pos.sum - 0.5, pos.carry + 0.5 ] ],
+			scale: [30, 45]
+		});
+		pos.max = KhanUtil.digits( a + b ).length;
+		numHints = pos.max + 1;
+		drawDigits( digitsA.slice( 0 ).reverse(), pos.max - digitsA.length + 1, pos.first );
+		drawDigits( digitsB.slice( 0 ).reverse(), pos.max - digitsB.length + 1, pos.second );
+
+		graph.path( [ [ -0.5, pos.second - 0.5 ], [ pos.max + 0.5, pos.second - 0.5 ] ]);
+		graph.label( [ 0, 1 ] ,"\\huge{+\\vphantom{0}}" );
+	};
+
+	this.showHint = function() {
+		this.removeHighlights();
+		if ( ( index === numHints - 2 ) && ( numHints - 1 > digitsA.length ) ) {
+			this.showFinalCarry();
+			index++;
+			return;
+		} else if ( index === numHints - 1 ) {
+			return;
+		}
+		var prevCarry = carry;
+		var prevCarryStr = "";
+		var carryStr = "";
+		var addendStr = "";
+		var sum;
+
+		var x = pos.max - index;
+
+		if ( prevCarry !== 0 ) {
+			highlights.push( graph.label( [ x, pos.carry ], "\\color{#6495ED}{" + prevCarry + "}", "below" ) );
+			prevCarryStr =  "\\color{#6495ED}{" + prevCarry + "} + ";
+		}
+
+		sum = digitsA[ index ] + carry;
+		highlights.push( drawDigits( [ digitsA[ index ] ], x, pos.first, KhanUtil.BLUE ) );
+
+		if ( index < digitsB.length ) {
+			highlights.push( drawDigits( [ digitsB[ index ] ], x, pos.second, KhanUtil.BLUE ) );
+			addendStr = " + \\color{#6495ED}{" + digitsB[ index ] + "}";
+			sum += digitsB[ index ];
+		}
+
+		drawDigits( [ sum % 10 ], x, pos.sum );
+		highlights.push( drawDigits( [ sum % 10 ], x, pos.sum, KhanUtil.GREEN ) );
+
+		carry = Math.floor( sum / 10 );
+		if ( carry !== 0 ) {
+			highlights.push( graph.label( [ x - 1, pos.carry ],
+				"\\color{#FFA500}{" + carry + "}", "below" ) );
+			carryStr = "\\color{#FFA500}{" + carry + "}";
+		}
+
+		this.showSideLabel( "\\Large{"
+			+ prevCarryStr
+			+ "\\color{#6495ED}{" + digitsA[ index ] + "}"
+			+ addendStr
+			+ " = "
+			+ carryStr
+			+ "\\color{#28AE7B}{" + sum % 10 + "}"
+			+ "}" );
+
+		index++;
+	};
+
+	this.showFinalCarry = function() {
+		highlights.push( graph.label( [ pos.max - index, pos.carry ],
+			"\\color{#6495ED}{" + carry + "}", "below" ) );
+		graph.label( [ pos.max - index, pos.sum ], "\\Huge{" + carry + "}" );
+		highlights.push( graph.label( [ pos.max - index, pos.sum ],
+			"\\Huge{\\color{#28AE7B}{" + carry + "}}" ) );
+
+		this.showSideLabel("\\Large{"
+			+ "\\color{#6495ED}{" + carry + "}"
+			+ " = "
+			+ "\\color{#28AE7B}{" + carry + "}"
+			+ "}" );
+	};
+
+	this.getNumHints = function() {
+		return numHints;
+	};
+
+	this.removeHighlights = function() {
+		while( highlights.length ) {
+			var h = highlights.pop();
+			if ( h.remove ) {
+				h.remove();
+			} else {
+				while( h.length ) {
+					h.pop().remove();
+				}
+			}
+		}
+	}
+
+	this.showSideLabel = function( str ) {
+		highlights.push( graph.label( [ pos.sideX, pos.sideY ], str, "right" ) );
+	}
+}
+
 function drawCircles( num, color ) {
 	with ( KhanUtil.currentGraph ) {
 		var numCols = Math.floor( Math.sqrt( num ));

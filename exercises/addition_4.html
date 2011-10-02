@@ -10,107 +10,22 @@
 		<div class="vars">
 			<var id="A">randRange( 1000, 9999 )</var>
 			<var id="B">randRange( 1000, 9999 )</var>
-			<var id="A_DIGITS">digits( A )</var>
-			<var id="B_DIGITS">digits( B )</var>
-
-			<var id="CARRY">0</var>
-			<var id="HIGHLIGHTS">[]</var>
-			<var id="Y_CARRY">3</var>
-			<var id="Y_FIRST">2</var>
-			<var id="Y_SECOND">1</var>
-			<var id="Y_SUM">0</var>
-			<var id="X_MAX">4</var>
-			<var id="X_SIDE">6</var>
-			<var id="Y_SIDE">1.5</var>
+			<var id="DUMMY">[]</var>
 		</div>
 
 	<div class="problems">
 		<div>
 			<div class="graphie" id="numbers">
-				init({
-					range: [ [ -1, 11 ], [ -0.5, 3.5 ] ],
-					scale: [30, 45]
-				});
-				drawDigits( A_DIGITS.slice( 0 ).reverse(), X_MAX - A_DIGITS.length + 1, Y_FIRST );
-				drawDigits( B_DIGITS.slice( 0 ).reverse(), X_MAX - B_DIGITS.length + 1, Y_SECOND );
-
-				path( [ [ -0.5, Y_SECOND - 0.5 ], [ X_MAX + 0.5, Y_SECOND - 0.5 ] ]);
-
-				label( [ 0, 1 ] ,"\\huge{+\\vphantom{0}}" );
+				graph.adder = new Adder( A, B );
+				graph.adder.show();
+				DUMMY = Array( graph.adder.getNumHints() );
 			</div>
 			<div class="solution" data-forms="integer"><var>A + B</var></div>
 		</div>
 	</div>
 	<div class="hints">
-		<div class="graphie" data-update="numbers" data-each="A_DIGITS as index, value">
-			while( HIGHLIGHTS.length ) {
-				HIGHLIGHTS.pop().remove();
-			}
-
-			var prevCarry = CARRY;
-			var prevCarryStr = "";
-			var carryStr = "";
-			var addendStr = "";
-			var sum;
-
-			if ( prevCarry !== 0 ) {
-				HIGHLIGHTS.push( label( [ X_MAX - index, Y_CARRY ], "\\color{#6495ED}{" + prevCarry + "}", "below" ) );
-				prevCarryStr =  "\\color{#6495ED}{" + prevCarry + "} + ";
-			}
-
-			sum = A_DIGITS[ index ] + CARRY;
-
-			HIGHLIGHTS.push( label( [ X_MAX - index, Y_FIRST ],
-				"\\Huge{\\color{#6495ED}{" + A_DIGITS[ index ] + "}}" ) );
-			if ( index &lt; B_DIGITS.length ) {
-				HIGHLIGHTS.push( label( [ X_MAX - index, Y_SECOND ],
-					"\\Huge{\\color{#6495ED}{" + B_DIGITS[ index ] + "}}" ) );
-				addendStr = " + \\color{#6495ED}{" + B_DIGITS[ index ] + "}";
-				sum += B_DIGITS[ index ];
-			}
-			label( [ X_MAX - index, 0 ], "\\Huge{" + sum % 10 + "}");
-			HIGHLIGHTS.push( label( [ X_MAX - index, Y_SUM ],
-				"\\Huge{\\color{#28AE7B}{" + sum % 10 + "}}" ) );
-
-			CARRY = floor( sum / 10 );
-			if ( CARRY !== 0 ) {
-				HIGHLIGHTS.push( label( [ X_MAX - index - 1, Y_CARRY ],
-					"\\color{#FFA500}{" + CARRY + "}", "below" ) );
-				carryStr = "\\color{#FFA500}{" + CARRY + "}";
-			}
-
-			HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ], "\\Large{"
-				+ prevCarryStr
-				+ "\\color{#6495ED}{" + A_DIGITS[ index ] + "}"
-				+ addendStr
-				+ " = "
-				+ carryStr
-				+ "\\color{#28AE7B}{" + sum % 10 + "}"
-			 	+ "}", "right" ) );
-		</div>
-		<div data-if="A + B &gt; 9999">
-			<div class="graphie" data-update="numbers">
-				while( HIGHLIGHTS.length ) {
-					HIGHLIGHTS.pop().remove();
-				}
-				HIGHLIGHTS.push( label( [ 0, Y_CARRY ],
-					"\\color{#6495ED}{" + CARRY + "}", "below" ) );
-				label( [ 0, Y_SUM ], "\\Huge{" + CARRY + "}" );
-				HIGHLIGHTS.push( label( [ 0, Y_SUM ],
-					"\\Huge{\\color{#28AE7B}{" + CARRY + "}}" ) );
-
-				HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ],
-					"\\Large{"
-					+ "\\color{#6495ED}{" + CARRY + "}"
-					+ " = "
-					+ "\\color{#28AE7B}{" + CARRY + "}"
-				 	+ "}", "right" ) );
-			</div>
-		</div>
-		<div class="graphie" data-update="numbers">
-			while( HIGHLIGHTS.length ) {
-				HIGHLIGHTS.pop().remove();
-			}
+		<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+			graph.adder.showHint();
 		</div>
 	</div>
 	</div>
