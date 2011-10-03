@@ -494,14 +494,17 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 			range: [ [ -1 - padded.length, 17], [ digitsDividend.length * -2 - 1, 2 ] ],
 			scale: [ 30, 45 ]
 		});
-		if ( deciDivisor !== 0 ) {
-			graph.style({
-				fill: "#000"
-			}, function() {
+		graph.style({
+			fill: "#000"
+		}, function() {
+			if ( deciDivisor !== 0 ) {
 				decimals = decimals.concat( graph.ellipse( [ -1 - deciDivisor, -0.2 ], [ 0.09, 0.06 ] ) );
+			}
+			if ( deciDividend !== 0 ) {
 				decimals = decimals.concat( graph.ellipse( [ digitsDividend.length - deciDividend - 0.5, -0.2 ], [ 0.09, 0.06 ] ) );
-			});
-		}
+			}
+		});
+
 		drawDigits( padded, -0.5 - padded.length, 0, true );
 		drawDigits( digitsDividend, 0, 0, true );
 		graph.path( [ [ -0.75, -0.5 ], [ -0.75, 0.5 ], [ digitsDividend.length, 0.5 ] ] );
@@ -593,17 +596,24 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 		while( decimals.length ) {
 			decimals.pop().remove();
 		}
-		graph.label( [ digitsDividend.length + 1, 1 ],
-			"\\text{Shift the decimal " + deciDivisor + " to the right.}", "right" );
+		if ( deciDivisor !== 0 ) {
+			graph.label( [ digitsDividend.length + 1, 1 ],
+				"\\text{Shift the decimal " + deciDivisor + " to the right.}", "right" );
+			graph.style({
+				fill: "#000"
+			}, function() {
+				graph.ellipse( [ -1, -0.2 ], [ 0.09, 0.06 ] );
+			})
+		} else {
+			graph.label( [ digitsDividend.length + 1, 1 ],
+				"\\text{Bring the decimal up into the answer (the quotient).}", "right" );
+		}
 
-		deciDividend -= deciDivisor;
-		deciDivisor = 0;
 		graph.style({
 			fill: "#000"
 		}, function() {
-			graph.ellipse( [ -1, -0.2 ], [ 0.09, 0.06 ] );
-			graph.ellipse( [ digitsDividend.length - deciDividend - 0.5, -0.2 ], [ 0.09, 0.06 ] );
-			graph.ellipse( [ digitsDividend.length - deciDividend - 0.5, 0.8 ], [ 0.09, 0.06 ] );
+			graph.ellipse( [ digitsDividend.length - deciDividend + deciDivisor - 0.5, -0.2 ], [ 0.09, 0.06 ] );
+			graph.ellipse( [ digitsDividend.length - deciDividend + deciDivisor - 0.5, 0.8 ], [ 0.09, 0.06 ] );
 		});
 	};
 }
