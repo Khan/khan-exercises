@@ -4,7 +4,7 @@ function Adder( a, b ) {
 	var digitsB = KhanUtil.digits( b );
 	var highlights = [];
 	var carry = 0;
-	var pos = { max: 0,
+	var pos = { max: KhanUtil.digits( a + b ).length,
 		carry: 3,
 		first: 2,
 		second: 1,
@@ -13,15 +13,14 @@ function Adder( a, b ) {
 		sideY: 1.5 };
 
 	var index = 0;
-	var numHints = 0;
+	var numHints = pos.max + 1;
 
 	this.show = function() {
 		graph.init({
 			range: [ [ -1, 11 ], [ pos.sum - 0.5, pos.carry + 0.5 ] ],
 			scale: [30, 45]
 		});
-		pos.max = KhanUtil.digits( a + b ).length;
-		numHints = pos.max + 1;
+
 		drawDigits( digitsA.slice( 0 ).reverse(), pos.max - digitsA.length + 1, pos.first );
 		drawDigits( digitsB.slice( 0 ).reverse(), pos.max - digitsB.length + 1, pos.second );
 
@@ -52,16 +51,16 @@ function Adder( a, b ) {
 		}
 
 		sum = digitsA[ index ] + carry;
-		highlights.push( drawDigits( [ digitsA[ index ] ], x, pos.first, KhanUtil.BLUE ) );
+		highlights = highlights.concat( drawDigits( [ digitsA[ index ] ], x, pos.first, KhanUtil.BLUE ) );
 
 		if ( index < digitsB.length ) {
-			highlights.push( drawDigits( [ digitsB[ index ] ], x, pos.second, KhanUtil.BLUE ) );
+			highlights = highlights.concat( drawDigits( [ digitsB[ index ] ], x, pos.second, KhanUtil.BLUE ) );
 			addendStr = " + \\color{#6495ED}{" + digitsB[ index ] + "}";
 			sum += digitsB[ index ];
 		}
 
 		drawDigits( [ sum % 10 ], x, pos.sum );
-		highlights.push( drawDigits( [ sum % 10 ], x, pos.sum, KhanUtil.GREEN ) );
+		highlights = highlights.concat( drawDigits( [ sum % 10 ], x, pos.sum, KhanUtil.GREEN ) );
 
 		carry = Math.floor( sum / 10 );
 		if ( carry !== 0 ) {
@@ -102,14 +101,7 @@ function Adder( a, b ) {
 
 	this.removeHighlights = function() {
 		while( highlights.length ) {
-			var h = highlights.pop();
-			if ( h.remove ) {
-				h.remove();
-			} else {
-				while( h.length ) {
-					h.pop().remove();
-				}
-			}
+			highlights.pop().remove();
 		}
 	}
 
@@ -126,7 +118,7 @@ function Subtractor( a, b ) {
 	var workingDigitsB = digitsB.slice( 0 );
 	var highlights = [];
 	var carry = 0;
-	var pos = { max: 0,
+	var pos = { max: digitsA.length,
 		carry: 3,
 		first: 2,
 		second: 1,
@@ -135,15 +127,13 @@ function Subtractor( a, b ) {
 		sideY: 1.5 };
 
 	var index = 0;
-	var numHints = 0;
+	var numHints = digitsA.length + 1;
 
 	this.show = function() {
 		graph.init({
 			range: [ [ -1, 11 ], [ pos.sum - 0.5, pos.carry + 0.5 ] ],
 			scale: [30, 45]
 		});
-		pos.max = KhanUtil.digits( a ).length;
-		numHints = pos.max + 1;
 		drawDigits( digitsA.slice( 0 ).reverse(), pos.max - digitsA.length + 1, pos.first );
 		drawDigits( digitsB.slice( 0 ).reverse(), pos.max - digitsB.length + 1, pos.second );
 
@@ -331,16 +321,95 @@ function drawRow( num, y, color, startCount ) {
 	return set;
 }
 
-// currentGraph is the overall graph object, within which there is another graph that can hold things
-// that is kind of confusing.
-function initMultiplication( smallDigits, bigDigits, productDigits ) {
+function Multiplier( a, b ) {
 	var graph = KhanUtil.currentGraph;
-	drawDigits( smallDigits.slice( 0 ).reverse(), 1 - smallDigits.length, 1 );
-	drawDigits( bigDigits.slice( 0 ).reverse(), 1 - bigDigits.length, 2 );
-	graph.path( [ [ -1 - productDigits.length, 0.5 ], [ 1, 0.5 ] ] );
-	graph.label( [  - ( Math.max( bigDigits.length, smallDigits.length )), 1 ] ,"\\huge{\\times\\vphantom{0}}" );
-	graph.graph.highlights = [];
-	graph.graph.carry = 0;
+	var digitsA = KhanUtil.digits( a );
+	var digitsB = KhanUtil.digits( b );
+	var digitsProduct = KhanUtil.integerToDigits( a * b );
+	var highlights = [];
+	var carry = 0;
+	var numHints = digitsA.length * digitsB.length + 1;
+	var indexA = 0;
+	var indexB = 0;
+
+	this.show = function() {
+		graph.init({
+			range: [ [ -1 - digitsProduct.length, 12 ], [ -1 - digitsB.length, 3 ] ],
+			scale: [ 30, 45 ]
+		});
+
+		drawDigits( digitsA.slice( 0 ).reverse(), 1 - digitsA.length, 2 );
+		drawDigits( digitsB.slice( 0 ).reverse(), 1 - digitsB.length, 1 );
+
+		graph.path( [ [ -1 - digitsProduct.length, 0.5 ], [ 1, 0.5 ] ] );
+		graph.label( [  - ( Math.max( digitsA.length, digitsB.length )), 1 ] ,"\\huge{\\times\\vphantom{0}}" );
+	};
+
+	this.removeHighlights = function() {
+		while( highlights.length ) {
+			highlights.pop().remove();
+		}
+	};
+
+	this.showHint = function() {
+		this.removeHighlights();
+
+		if ( indexB === digitsB.length ) {
+			this.showFinalHint();
+			return;
+		}
+
+		var bigDigit = digitsA[ indexA ];
+		var smallDigit = digitsB[ indexB ];
+
+		var product = smallDigit * bigDigit + carry;
+		var ones = product % 10;
+		var currCarry = Math.floor( product / 10 );
+
+		highlights = highlights.concat( drawDigits( [ bigDigit ], -indexA, 2, KhanUtil.BLUE ) );
+		highlights = highlights.concat( drawDigits( [ smallDigit ], -indexB, 1, KhanUtil.PINK ) );
+		if ( carry ) {
+			highlights = highlights.concat( graph.label( [ -indexA, 3 ], "\\color{#FFA500}{" + carry + "}", "below" ) );
+		}
+		graph.label( [ 2, -indexB * digitsA.length - indexA + 2 ],
+			"\\color{#6495ED}{" + bigDigit + "}"
+			+ "\\times"
+			+ "\\color{#FF00AF}{" + smallDigit + "}"
+			+ ( carry ? "+\\color{#FFA500}{" + carry + "}" : "" )
+			+ "="
+			+ "\\color{#28AE7B}{" + product + "}", "right" );
+
+		drawDigits( [ ones ], -indexB - indexA, -indexB );
+		highlights = highlights.concat( drawDigits( [ ones ], -indexB - indexA, -indexB, KhanUtil.GREEN ) );
+
+		if ( currCarry ) {
+			highlights = highlights.concat( graph.label( [ -1 - indexA, 3 ], "\\color{#28AE7B}{" + currCarry + "}", "below" ) );
+			if ( indexA === digitsA.length - 1 ) {
+				drawDigits( [ currCarry ], -indexB - indexA - 1, -indexB );
+				highlights = highlights.concat( drawDigits( [ currCarry ], -indexB - indexA - 1, -indexB, KhanUtil.GREEN ) );
+			}
+		}
+		carry = currCarry;
+
+		if ( indexA === digitsA.length - 1 ) {
+			indexB++;
+			indexA = 0;
+			carry = 0;
+		} else {
+			indexA++;
+		}
+	};
+
+	this.showFinalHint = function() {
+		if ( digitsB.length > 1 ) {
+			graph.path( [ [ -1 - digitsProduct.length, 0.5 - digitsB.length ], [ 1, 0.5 - digitsB.length ] ] );
+			graph.label( [ -1 - digitsProduct.length, 1 - digitsB.length ] ,"\\huge{+\\vphantom{0}}" );
+			drawDigits( digitsProduct, 1 - digitsProduct.length, -2 );
+		}
+	}
+	this.getNumHints = function() {
+		return numHints;
+	};
 }
 
 function squareFractions( nom, den, perLine, spacing, size ){
@@ -374,44 +443,3 @@ function squareFractions( nom, den, perLine, spacing, size ){
 	return arr;
 }
 
-
-function doMultiplicationStep( bigIndex, bigDigits, smallIndex, smallDigits ) {
-	var graph = KhanUtil.currentGraph;
-	while( graph.graph.highlights.length ) {
-		graph.graph.highlights.pop().remove();
-	}
-
-	if ( bigIndex === 0 ) {
-		graph.graph.carry = 0;
-	}
-	var bigDigit = bigDigits[ bigIndex ];
-	var smallDigit = smallDigits[ smallIndex ];
-	var product = smallDigit * bigDigit + graph.graph.carry;
-	var ones = product % 10;
-	var currCarry = Math.floor( product / 10 );
-
-	graph.graph.highlights = graph.graph.highlights.concat( drawDigits( [ bigDigit ], -bigIndex, 2, "#6495ED" ) );
-	graph.graph.highlights = graph.graph.highlights.concat( drawDigits( [ smallDigit ], -smallIndex, 1, "#FF00AF" ) );
-	if ( graph.graph.carry ) {
-		graph.graph.highlights = graph.graph.highlights.concat( graph.label( [ -bigIndex, 3 ], "\\color{#FFA500}{" + graph.graph.carry + "}", "below" ) );
-	}
-	graph.label( [ 2, -smallIndex * bigDigits.length - bigIndex + 2 ],
-		"\\color{#6495ED}{" + bigDigit + "}"
-		+ "\\times"
-		+ "\\color{#FF00AF}{" + smallDigit + "}"
-		+ ( graph.graph.carry ? "+\\color{#FFA500}{" + graph.graph.carry + "}" : "" )
-		+ "="
-		+ "\\color{#28AE7B}{" + product + "}", "right" );
-	
-	drawDigits( [ ones ], -smallIndex - bigIndex, -smallIndex );
-	graph.graph.highlights = graph.graph.highlights.concat( drawDigits( [ ones ], -smallIndex - bigIndex, -smallIndex, "#28AE7B" ) );
-	
-	if ( currCarry ) {
-		graph.graph.highlights = graph.graph.highlights.concat( graph.label( [ -1 - bigIndex, 3 ], "\\color{#28AE7B}{" + currCarry + "}", "below" ) );
-		if ( bigIndex === bigDigits.length - 1 ) {
-			drawDigits( [ currCarry ], -smallIndex - bigIndex - 1, -smallIndex );
-			graph.graph.highlights = graph.graph.highlights.concat( drawDigits( [ currCarry ], -smallIndex - bigIndex - 1, -smallIndex, "#28AE7B" ) );
-		}
-	}
-	graph.graph.carry = currCarry;
-}
