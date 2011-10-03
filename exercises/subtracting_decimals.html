@@ -14,7 +14,6 @@
 			<var id="B_DECIMAL">randRange( 1, 3 )</var>
 			<var id="NEW_A">A * ( B_DECIMAL &gt; A_DECIMAL ? pow( 10, B_DECIMAL - A_DECIMAL ) : 1)</var>
 			<var id="NEW_B">B * ( A_DECIMAL &gt; B_DECIMAL ? pow( 10, A_DECIMAL - B_DECIMAL ) : 1)</var>
-			<var id="A_ORIG">digits( NEW_A )</var>
 			<var id="A_DIGITS">
 				(function() {
 					var result = digits( NEW_A );
@@ -31,107 +30,25 @@
 					}
 					return result;
 				})()</var>
-			<var id="Y_CARRY">3</var>
-			<var id="Y_FIRST">2</var>
-			<var id="Y_SECOND">1</var>
-			<var id="Y_DIFF">0</var>
-			<var id="X_MAX">4</var>
-			<var id="X_SIDE">7</var>
-			<var id="Y_SIDE">1.5</var>
 		</div>
 
 		<div class="problems">
 			<div>
 				<p><code>\Huge{<var>roundTo( A_DECIMAL, A * pow( 10, -A_DECIMAL ) ).toFixed( A_DECIMAL )</var> - <var>roundTo( B_DECIMAL, B * pow( 10, -B_DECIMAL ) ).toFixed( B_DECIMAL )</var> = {?}}</code></p>
 				<div class="solution" data-type="decimal"><var>A * pow( 10, -A_DECIMAL ) - B * pow( 10, - B_DECIMAL )</var></div>
+				<div class="graphie" id="numbers">
+					graph.subtractor = new Subtractor( NEW_A, NEW_B, A_DIGITS, B_DIGITS );
+					DUMMY = Array( graph.subtractor.getNumHints() );
+				</div>
 			</div>
 		</div>
 		<div class="hints">
-			<div class="graphie" id="numbers">
-				init({
-					range: [ [ -2, 17 ], [ -0.5, 4 ] ],
-					scale: [30, 45]
-				});
-				style({
-					fill: "black"
-				});
-
-				graph.highlights = [];
-				for ( var i = 0; i &lt; A_DIGITS.length; i++ ) {
-					graph.highlights.unshift( [] );
-				}
-
-				path( [ [ -0.5, 0.5 ], [ X_MAX + 0.5, 0.5 ] ]);
-
-				label( [ 0, 1 ] ,"\\huge{-\\vphantom{0}}" );
-
-				var oldHighlights = graph.highlights[ 0 ];
-				while( oldHighlights.length ) {
-					oldHighlights.shift().remove();
-				}
-				X_MAX = X_MAX + ( B_DECIMAL - A_DECIMAL ) * (A_DECIMAL &lt; B_DECIMAL ? 1 : -1);
-				path( [ [ -0.5, 0.5 ], [ X_MAX + 0.5, 0.5 ] ]);
-				graph.highlights[0].push( label( [ X_SIDE, Y_SIDE ], "\\text{Make sure the decimals are lined up.}", "right" ) );
-				drawDigits( A_DIGITS.slice( 0 ).reverse(), X_MAX - A_DIGITS.length + 1, Y_FIRST );
-				drawDigits( B_DIGITS.slice( 0 ).reverse(), X_MAX - B_DIGITS.length + 1, Y_SECOND );
-				for ( var i = 0; i &lt; 3; i++ ){
-					ellipse( [ X_MAX - max( A_DECIMAL, B_DECIMAL ) + 0.5, i - 0.2 ], [ 0.09, 0.06 ] );
-				}
-			</div>
-			<div class="graphie" data-update="numbers" data-each="A_DIGITS as index, value">
-				var oldHighlights = graph.highlights[ index ];
-				while( oldHighlights.length ) {
-					oldHighlights.shift().remove();
-				}
-
-				if ( index !== 0 ) {
-					oldHighlights = graph.highlights[ index - 1 ];
-					while( oldHighlights.length ) {
-						oldHighlights.shift().remove();
-					}
-				}
-
-				var value = A_DIGITS[ index ];
-				var withinB = index &lt; B_DIGITS.length;
-				var subtrahend = withinB ? B_DIGITS[ index ] : 0;
-				var subStr = "";
-
-				if ( value &lt; subtrahend ) {
-					borrow( index, A_DIGITS, X_MAX, Y_FIRST, Y_CARRY, graph.highlights );
-				} else if ( A_DIGITS[ index ] === A_ORIG[ index ] ) {
-					graph.highlights[ index ].push( label( [ X_MAX - index, Y_FIRST ],
-						"\\Huge{\\color{#6495ED}{" + A_DIGITS[ index ] +"}}" ) );
-				} else {
-					graph.highlights[ index ].push( label( [ X_MAX - index, Y_CARRY ],
-						"\\color{#6495ED}{" + A_DIGITS[ index ] + "}", "below" ) );
-				}
-
-				if ( withinB ) {
-					graph.highlights[ index ].push( label( [ X_MAX - index, Y_SECOND ],
-						"\\Huge{\\color{#6495ED}{" + B_DIGITS[ index ] + "}}" ) );
-					subStr = " - \\color{#6495ED}{" + subtrahend + "}";
-				}
-
-				var diff = A_DIGITS[ index ] - subtrahend;
-				label( [ X_MAX - index, Y_DIFF ],  "\\Huge{" + diff + "}" );
-
-
-				graph.highlights[ index ].push( label( [ X_MAX - index, Y_DIFF ],  "\\Huge{\\color{#28AE7B}{" + diff + "}}" ) );
-
-				graph.highlights[ index ].push( label( [ X_SIDE, Y_SIDE ], "\\Large{"
-					+ "\\color{#6495ED}{" + A_DIGITS[ index ] + "}"
-					+ subStr
-					+ " = "
-					+ "\\color{#28AE7B}{" + diff + "}}", "right" ) );
-
-			</div>
 			<div class="graphie" data-update="numbers">
-				while( graph.highlights.length ) {
-					var column = graph.highlights.shift();
-					while ( column.length ) {
-						column.shift().remove();
-					}
-				}
+				graph.subtractor.show();
+				graph.subtractor.showDecimals( A_DECIMAL, B_DECIMAL );
+			</div>
+			<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+				graph.subtractor.showHint();
 			</div>
 		</div>
 	</div>

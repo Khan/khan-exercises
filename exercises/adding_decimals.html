@@ -30,113 +30,26 @@
 					}
 					return result;
 				})()</var>
-			<var id="CARRY">0</var>
-			<var id="HAS_FINAL_CARRY">floor( ( NEW_A + NEW_B )  / pow( 10, A_DIGITS.length ) ) !== 0</var>
-			<var id="HIGHLIGHTS">[]</var>
-			<var id="Y_CARRY">3</var>
-			<var id="Y_FIRST">2</var>
-			<var id="Y_SECOND">1</var>
-			<var id="Y_SUM">0</var>
-			<var id="X_MAX">3</var>
-			<var id="X_SIDE">6</var>
-			<var id="Y_SIDE">1.5</var>
+			<var id="DUMMY">[]</var>
 		</div>
 
 	<div class="problems">
 		<div>
 			<p class="question"><code>\Huge{<var>roundTo( A_DECIMAL, A * pow( 10, -A_DECIMAL ) ).toFixed( A_DECIMAL )</var> + <var>roundTo( B_DECIMAL, B * pow( 10, -B_DECIMAL ) ).toFixed( B_DECIMAL )</var> = {?}}</code></p>
 			<div class="solution" data-type="decimal"><var>A / pow( 10, A_DECIMAL ) + B / pow( 10, B_DECIMAL )</var></div>
+			<div class="graphie" id="numbers">
+				graph.adder = new Adder( NEW_A, NEW_B, A_DIGITS, B_DIGITS );
+				DUMMY = Array( graph.adder.getNumHints() );
+			</div>
 		</div>
 	</div>
 	<div class="hints">
-		<div class="graphie" id="numbers">
-			init({
-				range: [ [ -2, 17 ], [ -0.5, 3 ] ],
-				scale: [30, 45]
-			});
-			style({
-				fill: "black"
-			});
-
-			X_MAX = X_MAX + ( B_DECIMAL - A_DECIMAL ) * (A_DECIMAL &lt; B_DECIMAL ? 1 : -1);
-			path( [ [ -0.5, Y_SECOND - 0.5 ], [ X_MAX + 0.5, Y_SECOND - 0.5 ] ]);
-			HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ], "\\text{Make sure the decimals are lined up.}", "right" ) );
-			drawDigits( A_DIGITS.slice( 0 ).reverse(), X_MAX - A_DIGITS.length + 1, Y_FIRST );
-			drawDigits( B_DIGITS.slice( 0 ).reverse(), X_MAX - B_DIGITS.length + 1, Y_SECOND );
-			for ( var i = 0; i &lt; 3; i++ ){
-				ellipse( [ X_MAX - max( A_DECIMAL, B_DECIMAL ) + 0.5, i - 0.2 ], [ 0.09, 0.06 ] );
-			}
-			label( [ -1, 1 ] ,"\\huge{+\\vphantom{0}}" );
-		</div>
-		<div class="graphie" data-update="numbers" data-each="A_DIGITS as index, value">
-			while( HIGHLIGHTS.length ) {
-				HIGHLIGHTS.pop().remove();
-			}
-
-			var prevCarry = CARRY;
-			var prevCarryStr = "";
-			var carryStr = "";
-			var addendStr = "";
-			var sum;
-
-			if ( prevCarry !== 0 ) {
-				HIGHLIGHTS.push( label( [ X_MAX - index, Y_CARRY ], "\\color{#6495ED}{" + prevCarry + "}", "below" ) );
-				prevCarryStr =  "\\color{#6495ED}{" + prevCarry + "} + ";
-			}
-
-			sum = A_DIGITS[ index ] + CARRY;
-
-			HIGHLIGHTS.push( label( [ X_MAX - index, Y_FIRST ],
-				"\\Huge{\\color{#6495ED}{" + A_DIGITS[ index ] + "}}" ) );
-			if ( index &lt; B_DIGITS.length ) {
-				HIGHLIGHTS.push( label( [ X_MAX - index, Y_SECOND ],
-					"\\Huge{\\color{#6495ED}{" + B_DIGITS[ index ] + "}}" ) );
-				addendStr = " + \\color{#6495ED}{" + B_DIGITS[ index ] + "}";
-				sum += B_DIGITS[ index ];
-			}
-			label( [ X_MAX - index, 0 ], "\\Huge{" + sum % 10 + "}");
-			HIGHLIGHTS.push( label( [ X_MAX - index, Y_SUM ],
-				"\\Huge{\\color{#28AE7B}{" + sum % 10 + "}}" ) );
-
-			CARRY = floor( sum / 10 );
-			if ( CARRY !== 0 ) {
-				HIGHLIGHTS.push( label( [ X_MAX - index - 1, Y_CARRY ],
-					"\\color{#FFA500}{" + CARRY + "}", "below" ) );
-				carryStr = "\\color{#FFA500}{" + CARRY + "}";
-			}
-
-			HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ], "\\Large{"
-				+ prevCarryStr
-				+ "\\color{#6495ED}{" + A_DIGITS[ index ] + "}"
-				+ addendStr
-				+ " = "
-				+ carryStr
-				+ "\\color{#28AE7B}{" + sum % 10 + "}"
-			 	+ "}", "right" ) );
-		</div>
-		<div data-if="HAS_FINAL_CARRY">
-			<div class="graphie" data-update="numbers">
-				while( HIGHLIGHTS.length ) {
-					HIGHLIGHTS.pop().remove();
-				}
-				HIGHLIGHTS.push( label( [ 0, Y_CARRY ],
-					"\\color{#6495ED}{" + CARRY + "}", "below" ) );
-				label( [ 0, Y_SUM ], "\\Huge{" + CARRY + "}" );
-				HIGHLIGHTS.push( label( [ 0, Y_SUM ],
-					"\\Huge{\\color{#28AE7B}{" + CARRY + "}}" ) );
-
-				HIGHLIGHTS.push( label( [ X_SIDE, Y_SIDE ],
-					"\\Large{"
-					+ "\\color{#6495ED}{" + CARRY + "}"
-					+ " = "
-					+ "\\color{#28AE7B}{" + CARRY + "}"
-				 	+ "}", "right" ) );
-			</div>
-		</div>
 		<div class="graphie" data-update="numbers">
-			while( HIGHLIGHTS.length ) {
-				HIGHLIGHTS.pop().remove();
-			}
+			graph.adder.show();
+			graph.adder.showDecimals( A_DECIMAL, B_DECIMAL );
+		</div>
+		<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+			graph.adder.showHint();
 		</div>
 	</div>
 	</div>
