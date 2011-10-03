@@ -58,7 +58,8 @@ def sandcastle(request, number=None, branch=None):
 			patch = u.read()
 
 		# add links to changed files
-		patch_info, patch_diff = re.split(r'^diff ', html.escape(patch), 1, re.MULTILINE)
+		r_diff = re.compile(r'^diff ', re.MULTILINE)
+		patch_info, patch_diff = r_diff.split(html.escape(patch), 1)
 		patch_info = re.sub(r'^ (.+?)( +\|)', r' <a href="/media/castles/%s/\1">\1</a>\2' % name, patch_info, 0, re.MULTILINE)
 		patch_linked = html.mark_safe(patch_info + 'diff ' + patch_diff)
 
