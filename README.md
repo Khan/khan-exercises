@@ -16,5 +16,5 @@ as the default it would look like this:
 Used At
 -------
 
-It is currently in use at [Khan Academy](http://sandcastle.khanacademy.org) to
-test pull requests to their exercise framework.
+It is currently in use at [Khan Academy](http://www.khanacademy.org) to
+test pull requests to their exercise framework. It is hosted at [sandcastle.khanacademy.org](http://sandcastle.khanacademy.org).
