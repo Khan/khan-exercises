@@ -10,38 +10,14 @@ from contextlib import closing
 import os
 from subprocess import call
 
-def index(request, template_name="index.html"):
-	if request.method == 'POST':
-		url = request.POST.get('url')
-		domain = "github.com"
-		i = url.find(domain)
-		user, repo = url[i + len(domain) + 1:].split("/")
+def repo(request, template_name="repo.html"):
 
-		if '.git' in repo:
-			repo = repo[:-4]
-
-		return HttpResponseRedirect(reverse('repo', kwargs={
-			'user': user,
-			'repo': repo,
-		}))
-
-	context = {}
-
-	return render_to_response(
-		template_name,
-		context,
-		context_instance = RequestContext(request),
-	)
-
-def repo(request, user="", repo="", template_name="repo.html"):
-	with closing(urllib2.urlopen("http://github.com/api/v2/json/pulls/%s/%s" % (user, repo))) as u:
+	with closing(urllib2.urlopen("http://github.com/api/v2/json/pulls/%s/%s" % (settings.SANDCASTLE_USER, settings.SANDCASTLE_REPO))) as u:
 		pull_data = u.read()
 	
 	pulls = json.loads(pull_data)
 	context = {
 		'pulls': pulls['pulls'],
-		'user': user,
-		'repo': repo,
 	}
 
 	return render_to_response(
@@ -51,8 +27,8 @@ def repo(request, user="", repo="", template_name="repo.html"):
 	)
 
 
-def sandcastle(request, user="", repo="", number=""):
-	with closing(urllib2.urlopen("http://github.com/api/v2/json/pulls/%s/%s/%s" % (user, repo, number))) as u:
+def sandcastle(request, number=None):
+	with closing(urllib2.urlopen("http://github.com/api/v2/json/pulls/%s/%s/%s" % (settings.SANDCASTLE_USER, settings.SANDCASTLE_REPO, number))) as u:
 		pull_data = u.read()
 	
 	user, branch = json.loads(pull_data)['pull']['head']['label'].split(":")
@@ -63,6 +39,6 @@ def sandcastle(request, user="", repo="", number=""):
 		os.chdir(name)
 		call(["git", "pull", "origin", branch])
 	else:
-		call(["git", "clone", "--branch=%s" % branch, "git://github.com/%s/%s.git" % (user, repo), name])
+		call(["git", "clone", "--branch=%s" % branch, "git://github.com/%s/%s.git" % (user, settings.SANDCASTLE_REPO), name])
 
 	return HttpResponseRedirect(os.path.join("/media/castles/%s" % name))

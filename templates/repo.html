@@ -3,7 +3,7 @@
 {% block content %}
 <ul>
 	{% for pull in pulls %}
-	<li><a href="{% url sandcastle user=user repo=repo number=pull.number %}">{{ pull.title }}</a> - {{ pull.user.login }}</li>
+	<li><a href="{% url sandcastle number=pull.number %}">{{ pull.title }}</a> - {{ pull.user.login }}</li>
 	{% endfor %}
 </ul>
 {% endblock %}
