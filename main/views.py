@@ -3,11 +3,13 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.utils import simplejson as json
+from django.utils import html
 from django.conf import settings
 
 import urllib2
 from contextlib import closing
 import os
+import re
 from subprocess import call
 
 def repo(request, template_name="repo.html"):
@@ -39,7 +41,8 @@ def sandcastle(request, number=None, branch=None):
 	if number:
 		with closing(urllib2.urlopen("http://github.com/api/v2/json/pulls/%s/%s/%s" % (settings.SANDCASTLE_USER, settings.SANDCASTLE_REPO, number))) as u:
 			pull_data = u.read()
-		user, branch = json.loads(pull_data)['pull']['head']['label'].split(":")
+		pull_data = json.loads(pull_data)
+		user, branch = pull_data['pull']['head']['label'].split(":")
 	
 	name = "%s:%s" % (user, branch)
 
@@ -50,4 +53,25 @@ def sandcastle(request, number=None, branch=None):
 	else:
 		call(["git", "clone", "--branch=%s" % branch, "git://github.com/%s/%s.git" % (user, settings.SANDCASTLE_REPO), name])
 
-	return HttpResponseRedirect(os.path.join("/media/castles/%s" % name))
+	if number:
+		with closing(urllib2.urlopen(pull_data['pull']['patch_url'])) as u:
+			patch = u.read()
+
+		# add links to changed files
+		patch_info, patch_diff = re.split(r'^diff ', html.escape(patch), 1, re.MULTILINE)
+		patch_info = re.sub(r'^ (.+?)( +\|)', r' <a href="/media/castles/%s/\1">\1</a>\2' % name, patch_info, 0, re.MULTILINE)
+		patch_linked = html.mark_safe(patch_info + 'diff ' + patch_diff)
+
+		context = {
+			'title': pull_data['pull']['title'],
+			'body': pull_data['pull']['body'],
+			'patch': patch_linked,
+		}
+
+		return render_to_response(
+			'pull.html',
+			context,
+			context_instance = RequestContext(request),
+		)
+	else:
+		return HttpResponseRedirect(os.path.join("/media/castles/%s" % name))
