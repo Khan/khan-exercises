@@ -355,7 +355,7 @@ function Multiplier( a, b ) {
 		this.removeHighlights();
 
 		if ( indexB === digitsB.length ) {
-			this.showFinalHint();
+			this.showFinalAddition();
 			return;
 		}
 
@@ -400,18 +400,124 @@ function Multiplier( a, b ) {
 		}
 	};
 
-	this.showFinalHint = function() {
+	this.showFinalAddition = function() {
 		if ( digitsB.length > 1 ) {
 			graph.path( [ [ -1 - digitsProduct.length, 0.5 - digitsB.length ], [ 1, 0.5 - digitsB.length ] ] );
 			graph.label( [ -1 - digitsProduct.length, 1 - digitsB.length ] ,"\\huge{+\\vphantom{0}}" );
 			drawDigits( digitsProduct, 1 - digitsProduct.length, -2 );
 		}
 	}
+
 	this.getNumHints = function() {
 		return numHints;
 	};
 }
 
+function Divider( divisor, dividend ) {
+	var graph = KhanUtil.currentGraph;
+	var digitsDivisor = KhanUtil.integerToDigits( divisor );
+	var digitsDividend = KhanUtil.integerToDigits( dividend );
+	var highlights = [];
+	var index = 0;
+	var remainder = 0;
+	var fOnlyZeros = true;
+	var fShowFirstHalf = true;
+	var leadingZeros = [];
+	var value = 0;
+
+	this.show = function() {
+		graph.init({
+			range: [ [ -1 - digitsDivisor.length, 17], [ digitsDividend.length * -2 - 1, 2 ] ],
+			scale: [ 30, 45 ]
+		});
+
+		drawDigits( digitsDivisor, -0.5 - digitsDivisor.length, 0, true );
+		drawDigits( digitsDividend, 0, 0, true );
+		graph.path( [ [ -0.75, -0.5 ], [ -0.75, 0.5 ], [ digitsDividend.length, 0.5 ] ] );
+	};
+
+	this.showHint = function() {
+		this.removeHighlights();
+		if ( index === digitsDividend.length ) {
+			while( leadingZeros.length ) {
+				leadingZeros.pop().remove();
+			}
+			return;
+		}
+
+		if ( fShowFirstHalf ) {
+			value = digitsDividend[ index ];
+			var quotient = value / divisor;
+			var total = value + remainder;
+			highlights = highlights.concat( drawDigits( [ value ], index, 0, KhanUtil.BLUE ) );
+			if ( index !== 0 ) {
+				graph.style({
+					arrows: "->"
+				}, function(){
+					highlights.push( graph.path( [ [ index, 0 - 0.5 ], [ index, -2 * index + 0.5 ]] ) );
+				});
+			}
+
+			drawDigits( [ value ], index, -2 * index );
+			var totalDigits = KhanUtil.integerToDigits( total );
+			highlights = highlights.concat( drawDigits( totalDigits , index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE ) );
+
+			graph.label( [ digitsDividend.length + 1, -2 * index ],
+				"\\text{How many times does }"
+				+ divisor
+				+ "\\text{ go into }"
+				+ "\\color{#6495ED}{" + total + "}"
+				+ "\\text{?}", "right" );
+
+			fShowFirstHalf = false;
+		} else {
+			value += remainder;
+			var quotient = Math.floor( value / divisor );
+			var diff = value - ( quotient * divisor );
+			remainder = diff * 10;
+			var quotientLabel = drawDigits( [ quotient ], index, 1 );
+			if ( quotient === 0 && fOnlyZeros ) {
+				leadingZeros = leadingZeros.concat( quotientLabel );
+			} else {
+				fOnlyZeros = false;
+			}
+			highlights = highlights.concat( drawDigits( [ quotient ], index, 1, KhanUtil.GREEN ) );
+
+			var product = KhanUtil.integerToDigits( divisor * quotient );
+			drawDigits( product, index - product.length + 1, -2 * index - 1 );
+			highlights = highlights.concat( drawDigits( product, index - product.length + 1, -2 * index - 1, KhanUtil.ORANGE ) );
+
+			var diffDigits = KhanUtil.integerToDigits( diff );
+			drawDigits( diffDigits, index - diffDigits.length + 1, -2 * index - 2)
+			graph.label( [ index - product.length, -2 * index - 1 ] ,"-\\vphantom{0}" );
+			graph.path( [ [ index - product.length - 0.25, -2 * index - 1.5 ], [ index + 0.5, -2 * index - 1.5 ] ] );
+
+			graph.label( [ digitsDividend.length + 1, -2 * index - 1 ],
+				"\\color{#6495ED}{" + value + "}"
+				+ "\\div"
+				+ divisor + "="
+				+ "\\color{#28AE7B}{" + quotient + "}"
+				+ "\\text{ or }"
+				+ divisor
+				+ "\\times"
+				+ "\\color{#28AE7B}{" + quotient + "}"
+				+ " = "
+				+ "\\color{#FFA500}{" + value + "}", "right" );
+			index++;
+			fShowFirstHalf = true;
+		}
+	}
+
+	this.getNumHints = function() {
+		return 1 + digitsDividend.length * 2;
+	};
+
+	this.removeHighlights = function() {
+		while ( highlights.length ) {
+			highlights.pop().remove();
+		}
+	}
+}
 function squareFractions( nom, den, perLine, spacing, size ){
 	spacing = spacing || 2.5;
 	perLine = perLine || 10;
