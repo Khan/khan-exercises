@@ -1683,12 +1683,13 @@ function prepareSite() {
 				+ "?seed=" + problemSeed
 				+ "&problem=" + problemID
 				+ ( exercise.data( "name" ) != null && exercise.data( "name" ) !== exerciseName ? " (" + exercise.data( "name" ) + ")" : "" ),
+			pathlink = "[" + path + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + ")",
 			agent = navigator.userAgent,
 			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" :
 				( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),
 			localStorageInfo = ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "localStorage NOT enabled" : null ),
 			warningInfo = jQuery( "#warning-bar-content" ).text(),
-			parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, path, "    " + JSON.stringify( guessLog ), agent, localStorageInfo, mathjaxInfo, warningInfo ],
+			parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, pathlink, "    " + JSON.stringify( guessLog ), agent, localStorageInfo, mathjaxInfo, warningInfo ],
 			body = jQuery.grep( parts, function( e ) { return e != null; } ).join( "\n\n" );
 
 		var mathjaxLoadFailures = jQuery.map( MathJax.Ajax.loading, function( info, script ) {
