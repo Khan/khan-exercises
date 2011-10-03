@@ -10,8 +10,8 @@ Specify your repository by setting `SANDCASTLE_USER` and
 `SANDCASTLE_REPO` in `settings.py`. For example, setting up sandcastle
 for this repository would look like:
 
-	SANDCASTLE_USER = "jpulgarin"
-	SANDCASTLE_REPO = "sandcastle"
+	SANDCASTLE_USER = 'jpulgarin'
+	SANDCASTLE_REPO = 'sandcastle'
 
 Used At
 -------
