@@ -6,9 +6,9 @@ This is a Django application which allows you to test pull requests from your br
 Configuration
 -------------
 
-You can set a default repository by setting `SANDCASTLE_USER` and 
-`SANDCASTLE_REPO` in `settings.py`. For example, to set this repository
-as the default it would look like this:
+Specify your repository by setting `SANDCASTLE_USER` and 
+`SANDCASTLE_REPO` in `settings.py`. For example, setting up sandcastle
+for this repository would look like:
 
 	SANDCASTLE_USER = "jpulgarin"
 	SANDCASTLE_REPO = "sandcastle"
