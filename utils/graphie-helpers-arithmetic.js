@@ -475,6 +475,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 	var digitsDividend = KhanUtil.integerToDigits( dividend );
 	deciDivisor = deciDivisor || 0;
 	deciDividend = deciDividend || 0;
+	var deciDiff = deciDivisor - deciDividend;
 	var highlights = [];
 	var index = 0;
 	var remainder = 0;
@@ -485,13 +486,13 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 	var decimals = [];
 
 	this.show = function() {
-		var padded = digitsDivisor;
+		var paddedDivisor = digitsDivisor;
 
 		if ( deciDivisor !== 0 ) {
-			padded = ( KhanUtil.padDigitsToNum( digitsDivisor.reverse(), deciDivisor + 1 )).reverse();
+			paddedDivisor = ( KhanUtil.padDigitsToNum( digitsDivisor.reverse(), deciDivisor + 1 )).reverse();
 		}
 		graph.init({
-			range: [ [ -1 - padded.length, 17], [ digitsDividend.length * -2 - 1, 2 ] ],
+			range: [ [ -1 - paddedDivisor.length, 17], [ ( digitsDividend.length + ( deciDiff > 0 ? deciDiff : 0 ) ) * -2 - 1, 2 ] ],
 			scale: [ 30, 45 ]
 		});
 		graph.style({
@@ -505,9 +506,9 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 			}
 		});
 
-		drawDigits( padded, -0.5 - padded.length, 0, true );
-		drawDigits( digitsDividend, 0, 0, true );
-		graph.path( [ [ -0.75, -0.5 ], [ -0.75, 0.5 ], [ digitsDividend.length, 0.5 ] ] );
+		drawDigits( paddedDivisor, -0.5 - paddedDivisor.length, 0 );
+		drawDigits( digitsDividend, 0, 0 );
+		graph.path( [ [ -0.75, -0.5 ], [ -0.75, 0.5 ], [ digitsDividend.length + ( deciDiff > 0 ? deciDiff : 0 ), 0.5 ] ] );
 	};
 
 	this.showHint = function() {
@@ -583,7 +584,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 	}
 
 	this.getNumHints = function() {
-		return 1 + digitsDividend.length * 2;
+		return 1 + ( digitsDividend.length + ( deciDiff > 0 ? deciDiff : 0 ) ) * 2;
 	};
 
 	this.removeHighlights = function() {
@@ -596,14 +597,15 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 		while( decimals.length ) {
 			decimals.pop().remove();
 		}
+
 		if ( deciDivisor !== 0 ) {
-			graph.label( [ digitsDividend.length + 1, 1 ],
+			graph.label( [ digitsDividend.length + 1 + ( deciDiff > 0 ? deciDiff : 0 ), 1 ],
 				"\\text{Shift the decimal " + deciDivisor + " to the right.}", "right" );
 			graph.style({
 				fill: "#000"
 			}, function() {
 				graph.ellipse( [ -1, -0.2 ], [ 0.09, 0.06 ] );
-			})
+			});
 		} else {
 			graph.label( [ digitsDividend.length + 1, 1 ],
 				"\\text{Bring the decimal up into the answer (the quotient).}", "right" );
@@ -612,9 +614,17 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 		graph.style({
 			fill: "#000"
 		}, function() {
-			graph.ellipse( [ digitsDividend.length - deciDividend + deciDivisor - 0.5, -0.2 ], [ 0.09, 0.06 ] );
-			graph.ellipse( [ digitsDividend.length - deciDividend + deciDivisor - 0.5, 0.8 ], [ 0.09, 0.06 ] );
+			graph.ellipse( [ digitsDividend.length + deciDiff - 0.5, -0.2 ], [ 0.09, 0.06 ] );
+			graph.ellipse( [ digitsDividend.length + deciDiff - 0.5, 0.8 ], [ 0.09, 0.06 ] );
 		});
+
+		if ( deciDiff > 0 ) {
+			var orig = digitsDividend;
+			digitsDividend = KhanUtil.padDigitsToNum( digitsDividend, digitsDividend.length + deciDiff );
+			drawDigits( digitsDividend, 0, 0 );
+			highlights = highlights.concat( drawDigits( digitsDividend, 0, 0, KhanUtil.PINK ) );
+			highlights = highlights.concat( drawDigits( orig, 0, 0 ) );
+		}
 	};
 }
 function squareFractions( nom, den, perLine, spacing, size ){
