@@ -2,7 +2,7 @@
 <html data-require="math d3 graphie graphie-helpers word-problems">
 <head>
 	<meta charset="UTF-8" />
-	<title>Reading scatter plots 1</title>
+	<title>Reading line charts 1</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -38,8 +38,8 @@
 				});
 
 				var pos = { lx: 0, ly: 0, width: width, height: height};
-				graph.sp = new ScatterPlot( DATA, pos );
-				graph.sp.draw();
+				graph.lc = new LineChart( DATA, pos );
+				graph.lc.draw();
 			</div>
 
 			<div class="solution" data-type="multiple">
@@ -50,13 +50,13 @@
 				<div>
 					<p>Find the dot for <var>DAYS[ INDEX ]</var> by looking at the text at the bottom of the scatter plot.</p>
 					<div class="graphie" data-update="scatter">
-						graph.sp.highlightDataPoint( INDEX );
+						graph.lc.highlightDataPoint( INDEX );
 					</div>
 				</div>
 				<div>
 					<p>Compare how high up the dot is with the numbers to the left.</p>
 					<div class="graphie" data-update="scatter">
-						graph.sp.labelDataPoint( INDEX );
+						graph.lc.labelDataPoint( INDEX );
 					</div>
 				</div>
 				<p><var>He( 1 )</var> saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> on <var>DAYS[ INDEX ]</var>.</p>

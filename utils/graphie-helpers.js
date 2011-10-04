@@ -799,7 +799,7 @@ function Chart( data, pos ) {
 	}
 }
 
-function ScatterPlot( data, pos ) {
+function LineChart( data, pos ) {
 	var graph = KhanUtil.currentGraph;
 	this.base = Chart;
 	this.base( data, pos );
