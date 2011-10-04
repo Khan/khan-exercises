@@ -297,6 +297,9 @@ jQuery.extend( Khan.answerTypes, {
 							// Replace unicode minus sign with hyphen
 							.replace( /\u2212/, "-" )
 
+							// Remove space after +, -
+							.replace( /([+-])\s+/g, "$1" )
+
 							// Remove commas
 							.replace( /,\s*/g, "" )
 
