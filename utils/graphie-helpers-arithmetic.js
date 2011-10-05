@@ -140,7 +140,7 @@ function Subtractor( a, b, digitsA, digitsB ) {
 
 	this.show = function() {
 		graph.init({
-			range: [ [ -1, 11 ], [ pos.sum - 0.5, pos.carry + 0.5 ] ],
+			range: [ [ -1, 11 ], [ pos.diff - 0.5, pos.carry + 0.5 ] ],
 			scale: [30, 45]
 		});
 		drawDigits( digitsA.slice( 0 ).reverse(), pos.max - digitsA.length + 1, pos.first );
