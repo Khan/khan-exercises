@@ -19,7 +19,9 @@
 		<div>
 			<div class="vars">
 				<!-- Should probably go into word-problems -->
-				<var id="SCHOOLS">[ "Almond", "Covington", "Gardner Bullis", "Santa Rita" ]</var>
+				<var id="ALLSCHOOLS">["Gardner Bullis","Almond","Covington","Loyola","Santa Rita","Oak Avenue","Creek View","Mountain View","Ranch View","Jefferson","Jackson","Washington","Kennedy","Madison","Lincoln","Elenor Roosevelt"]</var>
+				<var id="NUMSCHOOLS">randRange(2,7)</var>
+				<var id="SCHOOLS">shuffle(ALLSCHOOLS,NUMSCHOOLS)</var>
 				<var id="COLUMNS">[ "3rd grade", "4th grade", "5th grade", "Total" ]</var>
 				<var id="ENROLLMENTS">
 					(function() {
@@ -42,7 +44,7 @@
 				<var id="SCHOOL_INDEX">randRange( 0, SCHOOLS.length - 1 )</var>
 				<var id="ANSWER">ENROLLMENTS[ SCHOOL_INDEX ][ COL_INDEX]</var>
 			</div>
-			<p>The table below shows the enrollment at four different elementary schools that have 3rd through 5th grade students</p>
+			<p>The table below shows the enrollment at <var>cardinal(NUMSCHOOLS)</var> different elementary schools that have 3rd through 5th grade students</p>
 			<p class="question">
 				<span data-if="COL_INDEX === COLUMNS.length - 1">How many students does <var>SCHOOLS[ SCHOOL_INDEX ]</var> Elementary School have in total?</span>
 				<span data-else>How many <var>COLUMNS[ COL_INDEX ]</var> students does <var>SCHOOLS[ SCHOOL_INDEX ]</var> Elementary School have?</span>
@@ -79,6 +81,142 @@
 					</div>
 				</div>
 				<p>There are <var>ANSWER</var> <span data-if="COL_INDEX !== COLUMNS.length - 1"><var>COLUMNS[ COL_INDEX ]</var> </span>students at <var>SCHOOLS[ SCHOOL_INDEX ]</var>.</p>
+			</div>
+		</div>
+<div id="Chicken Sales">
+			<div class="vars">
+				<!-- Should probably go into word-problems -->
+				<var id="ALLNAMES">["Kamau","Otieno","Ole Suke","Karanja","Kathy","Rahema","Sun Hui","Dick","Jane","Sally","Juan","Olga","Sunshine","Maria","Jack","Kim"]</var>
+				<var id="NUMNAMES">randRange(2,7)</var>
+				
+				<var id="NAMES">shuffle(ALLNAMES,NUMNAMES)</var>
+				<var id="MONTHS">[ "January", "February", "March", "Total" ]</var>
+				<var id="SALES">
+					(function() {
+						var salescnt = [];
+						var salesMin = 0;
+						var salesMax = 5;
+						for ( var i = 0; i &lt; NAMES.length; i++ ) {
+							var indvsales = randRange( salesMin, salesMax, MONTHS.length - 1 );
+							var total = 0;
+							jQuery.each( indvsales, function( i, e ) {
+								total += e;
+							});
+							indvsales.push( total );
+							salescnt.push( indvsales );
+						}
+						return salescnt;
+					})()
+				</var>
+				<var id="MONTH_INDEX">randRange( 0, MONTHS.length - 1 )</var>
+				<var id="NAME_INDEX">randRange( 0, NAMES.length - 1 )</var>
+				<var id="ANSWER">SALES[ NAME_INDEX ][ MONTH_INDEX]</var>
+			</div>
+			<p>The table below shows the number of chickens sold at the farmer's market by  <var>cardinal(NUMNAMES)</var> various children during the months of January, February and March.</p>
+			<p class="question">
+				<span data-if="MONTH_INDEX === MONTHS.length - 1">How many chickens did <var>NAMES[ NAME_INDEX ]</var> sell?</span>
+				<span data-else>How many chickens did <var>NAMES[ NAME_INDEX ]</var> sell during the month of <var>MONTHS[ MONTH_INDEX ]</var> ?</span>
+			</p>
+			<div class="fake_header reading">
+				<span>NAMES</span><span data-each="MONTHS as i, month"><var>month</var></span>
+			</div>
+			<div class="fake_row reading" data-each="NAMES as i, name">
+				<span><var>name</var></span><span data-each="SALES[i] as j, indvsales"><var>indvsales</var></span>
+			</div>
+
+			<div class="solution" data-type="multiple">
+				<span style="padding-right: 5px" class="sol"><var>ANSWER</var></span> chickens
+			</div>
+
+			<div class="hints">
+				<div>
+					<p>The blue row shows the number of chickens sold by <var>NAMES[ NAME_INDEX ]</var>.</p>
+					<div class="graphie">
+						jQuery( ".fake_row" ).eq( NAME_INDEX ).find( "span" )
+							.css( "background", KhanUtil.BLUE );
+					</div>
+				</div>
+				<div>
+					<p>The orange column shows <span data-if="MONTH_INDEX === MONTHS.length - 1">the total number of</span><span data-else>the number of</span> chickens sold by each child <span data-if="MONTH_INDEX === MONTHS.length - 1"> in total</span><span data-else>during <var>MONTHS[ MONTH_INDEX ]</var></span>.</p>
+					<div class="graphie">
+						var nth = ":nth-child(" + ( MONTH_INDEX + 2 ) + ")";
+						jQuery( ".fake_row span" + nth )
+							.css( "background", KhanUtil.ORANGE );
+						jQuery( ".fake_header span" + nth )
+							.css( "background", KhanUtil.ORANGE );
+						jQuery( ".fake_row" ).eq( NAME_INDEX ).find( "span" + nth )
+							.css( "background", "#aaa" );
+					</div>
+				</div>
+				<p>There were <var>ANSWER</var> chickens sold by <var>NAMES[ NAME_INDEX ]</var> <span data-if="MONTH_INDEX !== MONTHS.length - 1">in <var>MONTHS[ MONTH_INDEX ]</var> </span><span data-else>in total</span>.</p>
+			</div>
+		</div>
+		<div id="Points Scored">
+			<div class="vars">
+				<!-- Should probably go into word-problems -->
+				<var id="ALLNAMES">["LeBron","Michael","Yao","Bill","Scottie","Manute","Jerry","Diego","Nera","Lisa","Rebecca","Sheryl","Candace","Zheng","Homare","Aya"]</var>
+				<var id="NUMNAMES">randRange(5,8)</var>
+				
+				<var id="NAMES">shuffle(ALLNAMES,NUMNAMES)</var>
+				<var id="MONTHS">[ "First Quarter", "Second Quarter", "Third Quarter", "Fourth Quarter","Total" ]</var>
+				<var id="SALES">
+					(function() {
+						var salescnt = [];
+						var salesMin = 0;
+						var salesMax = 8;
+						for ( var i = 0; i &lt; NAMES.length; i++ ) {
+							var indvsales = randRange( salesMin, salesMax, MONTHS.length - 1 );
+							var total = 0;
+							jQuery.each( indvsales, function( i, e ) {
+								total += e;
+							});
+							indvsales.push( total );
+							salescnt.push( indvsales );
+						}
+						return salescnt;
+					})()
+				</var>
+				<var id="MONTH_INDEX">randRange( 0, MONTHS.length - 1 )</var>
+				<var id="NAME_INDEX">randRange( 0, NAMES.length - 1 )</var>
+				<var id="ANSWER">SALES[ NAME_INDEX ][ MONTH_INDEX]</var>
+			</div>
+			<p>The table below shows the number of points scored by  <var>cardinal(NUMNAMES)</var> players during their charity basketball game.</p>
+			<p class="question">
+				<span data-if="MONTH_INDEX === MONTHS.length - 1">How many pointss did <var>NAMES[ NAME_INDEX ]</var> score?</span>
+				<span data-else>How many points did <var>NAMES[ NAME_INDEX ]</var> score in the <var>MONTHS[ MONTH_INDEX ]</var> ?</span>
+			</p>
+			<div class="fake_header reading">
+				<span>NAMES</span><span data-each="MONTHS as i, month"><var>month</var></span>
+			</div>
+			<div class="fake_row reading" data-each="NAMES as i, name">
+				<span><var>name</var></span><span data-each="SALES[i] as j, indvsales"><var>indvsales</var></span>
+			</div>
+
+			<div class="solution" data-type="multiple">
+				<span style="padding-right: 5px" class="sol"><var>ANSWER</var></span> points
+			</div>
+
+			<div class="hints">
+				<div>
+					<p>The blue row shows the number of points scored by <var>NAMES[ NAME_INDEX ]</var>.</p>
+					<div class="graphie">
+						jQuery( ".fake_row" ).eq( NAME_INDEX ).find( "span" )
+							.css( "background", KhanUtil.BLUE );
+					</div>
+				</div>
+				<div>
+					<p>The orange column shows <span data-if="MONTH_INDEX === MONTHS.length - 1">the total number of</span><span data-else>the number of</span> points scored by each player <span data-if="MONTH_INDEX === MONTHS.length - 1"> in total</span><span data-else>during the<var>MONTHS[ MONTH_INDEX ]</var></span>.</p>
+					<div class="graphie">
+						var nth = ":nth-child(" + ( MONTH_INDEX + 2 ) + ")";
+						jQuery( ".fake_row span" + nth )
+							.css( "background", KhanUtil.ORANGE );
+						jQuery( ".fake_header span" + nth )
+							.css( "background", KhanUtil.ORANGE );
+						jQuery( ".fake_row" ).eq( NAME_INDEX ).find( "span" + nth )
+							.css( "background", "#aaa" );
+					</div>
+				</div>
+				<p>There were <var>ANSWER</var> points scored by <var>NAMES[ NAME_INDEX ]</var> <span data-if="MONTH_INDEX !== MONTHS.length - 1">in the <var>MONTHS[ MONTH_INDEX ]</var> </span><span data-else>in total</span>.</p>
 			</div>
 		</div>
 	</div>
