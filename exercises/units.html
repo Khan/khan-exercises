@@ -78,8 +78,14 @@
 							if ( !factor.match( "dfrac" ) ) {
 								factor = "\\dfrac{" + factor + "}{1}"
 							}
-							var units = factor + "\\dfrac{\\text{" + D_UNITS[i + increment].plural + "}}{\\text{" + D_UNITS[i].str + "}}";
-							hint += "\\cdot" + units;
+							if ( increment > 0 ) {
+								var units = factor + "\\dfrac{\\text{" + D_UNITS[i + increment].plural + "}}{\\text{" + D_UNITS[i].str + "}}";
+								hint += "\\cdot" + units;
+							}
+							else {
+								var units = factor + "\\dfrac{\\text{" + D_UNITS[i + increment].str + "}}{\\text{" + D_UNITS[i].plural + "}}";
+								hint += "\\cdot" + units;
+							}
 						}
 						return hint;
 					})()
@@ -94,8 +100,14 @@
 							if ( !factor.match( "dfrac" ) ) {
 								factor = "\\dfrac{" + factor + "}{1}"
 							}
-							var units = factor + "\\dfrac{\\text{" + T_UNITS[i].plural + "}}{\\text{" + T_UNITS[i + increment].str + "}}";
-							hint += "\\cdot" + units;
+							if ( increment > 0 ) {
+								var units = factor + "\\dfrac{\\text{" + T_UNITS[i].str + "}}{\\text{" + T_UNITS[i + increment].plural + "}}";
+								hint += "\\cdot" + units;
+							}
+							else {
+								var units = factor + "\\dfrac{\\text{" + T_UNITS[i].plural + "}}{\\text{" + T_UNITS[i + increment].str + "}}";
+								hint += "\\cdot" + units;
+							}
 						}
 						return hint;
 					})()
@@ -124,7 +136,7 @@
 			<div class="solution" data-type="decimal"><var>SOLUTION</var></div>
 			<div class="hints">
 				<p><code><var>commafy( START_SPEED )</var> \dfrac{\text{<var>D_UNITS[START_D_INDEX].plural</var>}}{\text{<var>T_UNITS[START_T_INDEX].str</var>}} <var>D_HINT + " " + T_HINT</var></code></p>
-				<p><code>= <var>commafy( SOLUTION )</var> \dfrac{\text{<var>D_UNITS[END_D_INDEX].str</var>}}{\text{<var>T_UNITS[END_T_INDEX].str</var>}}</code></p>
+				<p><code>= <var>commafy( SOLUTION )</var> \dfrac{\text{<var>D_UNITS[END_D_INDEX].plural</var>}}{\text{<var>T_UNITS[END_T_INDEX].str</var>}}</code></p>
 			</div>
 		</div>
 	</div>
