@@ -13,7 +13,7 @@
 						var points = [];
 
 						while( points.length &lt; 5 ) {
-							var point = [ randRange( -9, 9 ), randRange( -9, 9 ) ];
+							var point = [ randRange( -9, 9 ), randRangeExclude( -9, 9, [-1] ) ];
 							var isUnique = true;
 							jQuery.each( points, function( index, pt ) {
 								if ( point[0] === pt[0] && point[1] === pt[1] ) {
@@ -69,7 +69,7 @@
 						</div>
 					</div>
 
-					<p class="solution"><code>(<var>POINTS[FORGOTTEN].join( ", " )</var>)</code></p>
+					<p class="solution"><code><var>PAIR( POINTS[FORGOTTEN] )</var></code></p>
 					<ul class="choices" data-category="true">
 						<li><code><var>PAIR( POINTS[0] )</var></code></li>
 						<li><code><var>PAIR( POINTS[1] )</var></code></li>

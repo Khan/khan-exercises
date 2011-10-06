@@ -155,7 +155,8 @@
 				<p>To scale the function vertically, multiply the whole thing by <code><var>decFrac( VSCALE )</var></code>.</p>
 			</div>
 
-			<p>So the resulting function (after we perform all these manipulations) is <code><var>toFractionTex( VSCALE ) + "\\" + FN + "(" + toFractionTex( 1 / HSCALE ) + ")"</var></code>.</p>
+			<!-- the calls to plus here are to reduce things like 1cos(1x) into cos(x). it works, but it is not the most semantic way. could be improved. -->
+			<p>So the resulting function (after we perform all these manipulations) is <code><var>plus( toFractionTex( VSCALE ) + "\\" + FN + "(" + plus( toFractionTex( 1 / HSCALE ) + "x" ) + ")" )</var></code>.</p>
 		</div>
 	</div>
 </body>

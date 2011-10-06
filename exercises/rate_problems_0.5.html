@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Rate problems 0.5</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+	</div>
+
+	<div class="problems">
+		<div id="time">
+			<div class="vars">
+				<var id="RATE">randRange( 5, 11 ) * 10</var>
+				<var id="TIME">randRange( 30, 59 )</var>
+				<var id="AMOUNT">TIME * RATE</var>
+			</div>
+
+			<p class="question">If <var>person( 1 )</var> can type <var>RATE</var> words per minute, how many minutes will it take <var>him( 1 )</var> to type a <var>AMOUNT</var> word document?</p>
+			<div class="solution" data-forms="integer"><var>TIME</var></div>
+
+			<div class="hints">
+				<p><code>\text{amount} = \text{rate} \times \text{time}</code></p>
+				<p><code><var>AMOUNT</var>\text{ words} = <var>RATE</var>\dfrac{\text{words}}{\text{minute}} \times \text{ time in minutes}</code></p>
+				<p><code>\text{time in minutes} = \dfrac{<var>AMOUNT</var>\text{ words}}{<var>RATE</var>\dfrac{\text{words}}{\text{minute}}}</code></p>
+				<p><code>\hphantom{\text{time in minutes}} = \dfrac{<var>AMOUNT</var>}{<var>RATE</var>}\text{ minutes}</code></p>
+				<p><code>\hphantom{\text{time in minutes}} = <var>TIME</var>\text{ minutes}</code></p>
+			</div>
+		</div>
+
+		<div id="amount" data-type="time">
+			<p class="question">If <var>person( 1 )</var> can type <var>RATE</var> words per minute and it took <var>him( 1 )</var> <var>TIME</var> minutes to type <var>his( 1 )</var> latest essay, how many words does the essay have?</p>
+			<div class="solution" data-forms="integer"><var>AMOUNT</var></div>
+
+			<div class="hints">
+				<p><code>\text{amount} = \text{rate} \times \text{time}</code></p>
+				<p><code>\text{number of words} = <var>RATE</var>\dfrac{\text{words}}{\text{minute}} \times <var>TIME</var>\text{ minutes}</code></p>
+				<p><code>\hphantom{\text{number of words}} = <var>RATE</var> \times <var>TIME</var>\text{ words}</code></p>
+				<p><code>\hphantom{\text{number of words}} = <var>AMOUNT</var>\text{ words}</code></p>
+			</div>
+		</div>
+		
+		<div id="rate" data-type="time">
+			<p class="question">If <var>person( 1 )</var> can type a <var>AMOUNT</var> word document in <var>TIME</var> minutes, how many words per minute can <var>he( 1 )</var> type?</p>
+			<div class="solution" data-forms="integer"><var>RATE</var></div>
+
+			<div class="hints">
+				<p><code>\text{amount} = \text{rate} \times \text{time}</code></p>
+				<p><code><var>AMOUNT</var>\text{ words} = \text{rate in words per minute} \times <var>TIME</var>\text{ minutes}</code></p>
+				<p><code>\text{rate in words per minute} = \dfrac{<var>AMOUNT</var>\text{ words}}{<var>TIME</var>\text{ minutes}}</code></p>
+				<p><code>\hphantom{\text{rate in words per minute}} = \dfrac{<var>AMOUNT</var>}{<var>TIME</var>}\text{words per minute}</code></p>
+				<p><code>\hphantom{\text{rate in words per minute}} = <var>RATE</var>\text{ words per minute}</code></p>
+			</div>
+		</div>
+	</div>
+
+	</div>
+</body>
+</html>

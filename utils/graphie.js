@@ -33,15 +33,6 @@
 		};
 
 		var svgPath = function( points ) {
-			return jQuery.map(points, function( point, i ) {
-				if ( point === true ) {
-					return "z";
-				} else {
-					var scaled = scalePoint( point );
-					return ( i === 0 ? "M" : "L") + boundNumber(scaled[0]) + " " + boundNumber(scaled[1]);
-				}
-			}).join("");
-
 			// Bound a number by 1e-6 and 1e20 to avoid exponents after toString
 			function boundNumber( num ) {
 				if ( num === 0 ) {
@@ -52,6 +43,15 @@
 					return Math.max( 1e-6, Math.min( num, 1e20 ) );
 				}
 			}
+
+			return jQuery.map(points, function( point, i ) {
+				if ( point === true ) {
+					return "z";
+				} else {
+					var scaled = scalePoint( point );
+					return ( i === 0 ? "M" : "L") + boundNumber(scaled[0]) + " " + boundNumber(scaled[1]);
+				}
+			}).join("");
 		};
 
 		var processAttributes = function( attrs ) {
@@ -195,7 +195,9 @@
 			},
 
 			path: function( points ) {
-				return raphael.path( svgPath( points) );
+				var p = raphael.path( svgPath( points) );
+				p.graphiePath = points;
+				return p;
 			},
 
 			line: function( start, end ) {
@@ -217,6 +219,21 @@
 				}
 
 				return set;
+			},
+
+			regularPolygon: function( point, numSides, radius, rotation, fillColor ){
+				var set = raphael.set();
+				rotation = rotation || 0;
+				var angle = 2 * Math.PI / numSides;
+				var i = 0;
+				var arr = [];
+				for( i = 0; i < numSides; i++ ){
+					arr.push( [ point[0] + radius * Math.cos( rotation + i * angle ), point[1] + radius * Math.sin( rotation + i * angle)] );
+					arr.push( [ point[0] + radius * Math.cos( rotation + (i + 1)  * angle ), point[1] + radius * Math.sin( rotation + (i + 1) * angle) ] ); 
+				}
+				var p = this.path( arr );	
+				return p;
+
 			},
 
 			label: function( point, text, direction, latex ) {
@@ -264,18 +281,30 @@
 								});
 							};
 
-							// Wait for the browser to render it
-							var tries = 0;
-							var inter = setInterval(function() {
-								var size = [ span.outerWidth(), span.outerHeight() ];
+							var callback = MathJax.Callback( function() {} );
 
-								// Heuristic to guess if the font has kicked in so we have box metrics
-								// (Magic number ick, but this seems to work mostly-consistently)
-								if ( size[1] > 18 || ++tries >= 10 ) {
-									setMargins( size );
-									clearInterval(inter);
-								}
-							}, 100);
+							// Wait for the browser to render it
+							var tries = 0,
+							    size = [ span.outerWidth(), span.outerHeight() ];
+
+							if ( size[1] > 18 ) {
+								setMargins( size );
+								callback();
+							} else {
+								var inter = setInterval(function() {
+									size = [ span.outerWidth(), span.outerHeight() ];
+
+									// Heuristic to guess if the font has kicked in so we have box metrics
+									// (Magic number ick, but this seems to work mostly-consistently)
+									if ( size[1] > 18 || ++tries >= 10 ) {
+										setMargins( size );
+										clearInterval(inter);
+										callback();
+									}
+								}, 100);
+							}
+
+							return callback;
 						});
 					}
 
@@ -434,7 +463,9 @@
 				// allow symmetric ranges to be specified by the absolute values 
 				if ( prop === "range" ) {
 					if ( val.constructor === Array ) {
-						options[ prop ] = [ [ -val[0], val[0] ], [ -val[1], val[1] ] ];
+						if ( val[0].constructor !== Array ) {  // but don't mandate symmetric ranges
+							options[ prop ] = [ [ -val[0], val[0] ], [ -val[1], val[1] ] ];
+						}
 					} else if ( typeof val === "number" ) {
 						options[ prop ] = [ [ -val, val ], [ -val, val ] ];
 					}
@@ -617,6 +648,11 @@
 		return this.find(".graphie").add(this.filter(".graphie")).each(function() {
 			// Grab code for later execution
 			var code = jQuery( this ).text(), graphie;
+
+			// Ignore code that isn't really code ;)
+			if (code.match(/Created with Rapha\xebl/)) {
+				return;
+			}
 
 			// Remove any of the code that's in there
 			jQuery( this ).empty();

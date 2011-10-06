@@ -48,9 +48,9 @@ jQuery.extend( KhanUtil, {
 			return "";
 		}
 
+		exp = Math.abs( exp );
 		var flip_n = exp > 0 ? base_n : base_d,
 			flip_d = exp > 0 ? base_d : base_n,
-			exp = Math.abs( exp ),
 			parens = function( n, d ) { 
 				return KhanUtil.fraction( n, d, true, true, false, true );
 			}, noParens = function( n, d ) {

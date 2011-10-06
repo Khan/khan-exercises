@@ -16,12 +16,6 @@ jQuery.extend(KhanUtil, {
 
 		if ( typeof expr === "object" ) {
 
-			// Color wrappers should be completely ignored by everything but 
-			// formatOperators
-			if ( expr[0] === "color" ) {
-				return KhanUtil.exprType( expr[2] );
-			}
-
 			return expr[0];
 
 		} else {
@@ -50,8 +44,8 @@ jQuery.extend(KhanUtil, {
 			case "string":
 			return expr.charAt(0) === "-";
 
-			case "*":
 			default:
+			// case "*":
 			return false;
 		}
 	},
@@ -105,6 +99,7 @@ jQuery.extend(KhanUtil, {
 				switch ( KhanUtil.exprType(term) ) {
 					case "+":
 					parenthesize = true;
+					break;
 
 					case "-":
 					parenthesize = (term.length > 2);
@@ -226,6 +221,19 @@ jQuery.extend(KhanUtil, {
 			}
 		},
 
+		"times": function( left, right ) {
+			var parenthesizeLeft = !KhanUtil.exprIsShort(left);
+			var parenthesizeRight = !KhanUtil.exprIsShort(right);
+
+			left = KhanUtil.expr( left );
+			right = KhanUtil.expr( right );
+
+			left = parenthesizeLeft ? "(" + left + ")" : left;
+			right = parenthesizeRight ? "(" + right + ")" : right;
+
+			return left + " \\times " + right;
+		},
+
 		"/": function( num, den ) {
 			var parenthesizeNum = !KhanUtil.exprIsShort(num);
 			var parenthesizeDen = !KhanUtil.exprIsShort(den);
@@ -265,7 +273,7 @@ jQuery.extend(KhanUtil, {
 				case "tan":
 				case "csc":
 				case "sec":
-				case "tan":
+				case "cot":
 				parenthesizeBase = false;
 				trigFunction = true;
 				break;
@@ -284,7 +292,7 @@ jQuery.extend(KhanUtil, {
 
 			if ( trigFunction ) {
 				return base.replace( /\\(\S+?)\{/, function( match, word ) {
-					return "\\" + word + "^{" + pow + "} {"
+					return "\\" + word + "^{" + pow + "} {";
 				} );
 			} else {
 				return base + "^{" + pow + "}";
@@ -446,7 +454,7 @@ jQuery.extend(KhanUtil, {
 			//make sure that we encapsulate e in an array so jQuery's map 
 			//does't accidently unpacks e itself.
 			return [e];
-		}
+		};
 		
 		//here we actually want the jQuery behavior of
 		//having any lists that flattenOneLevel returns merged into

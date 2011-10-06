@@ -8,10 +8,12 @@ var inexactMessages = {
 Khan.answerTypes = Khan.answerTypes || {};
 
 jQuery.extend( Khan.answerTypes, {
-	text: function( solutionarea, solution, fallback, verifier ) {
-		var input = jQuery('<input type="text">');
+	text: function( solutionarea, solution, fallback, verifier, input ) {
+		if ( !input ) {
+			input = jQuery('<input type="text">');
+		}
+		
 		jQuery( solutionarea ).append( input );
-		input.focus();
 
 		var correct = typeof solution === "object" ? jQuery( solution ).text() : solution;
 
@@ -29,26 +31,61 @@ jQuery.extend( Khan.answerTypes, {
 			// is empty and the fallback doesn't exist.
 			var val = input.val().length > 0 ?
 				input.val() :
-				fallback ?
+				(typeof fallback !== "undefined") ?
 					fallback + "" :
 					"";
 
-			ret.guess = val;
+			ret.guess = input.val();
 
 			return verifier( correct, val );
 		};
 		ret.solution = jQuery.trim( correct );
 		ret.examples = verifier.examples || [];
+		ret.showGuess = function( guess ) {
+			input.val( guess );
+		};
 		return ret;
 	},
 
-	number: function( solutionarea, solution, fallback, forms ) {
+
+	line: function( solutionarea, solution, fallback ) {
+
+		var verifier = function( correct, guess ){
+			var result = true;
+			for ( var i = 0; i < 5; i++ ){
+				var sampleX = KhanUtil.randRange( -100, 100 );
+				if ( guess.match(/[A-W]|[a-w]|[y-z]|[Y-Z]/) !== null ){
+					return false;
+				}
+
+				var newGuess = guess
+						.replace( /\u2212/, "-" )
+						.replace( /(\d)(x)/, "$1 * $2" )
+						.replace( "x", sampleX )
+						.replace( /(\d)(\()/, "$1 * $2" );
+				var newCorrect = correct
+						.replace( /(\d)(x)/, "$1 * $2" )
+						.replace( "x", sampleX )
+						.replace( /(\d)(\()/, "$1 * $2" )
+						.replace( /-\s?-/, "");
+				result = result &&  ( eval( newCorrect ) === eval( newGuess ) ) ;
+			}
+			return result;
+		};
+		verifier.examples = "An equation of a line, like 3(x+1)/2 or 2x + 1";
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
+
+	},
+
+
+	number: function( solutionarea, solution, fallback, accForms ) {
 		var options = jQuery.extend({
 			simplify: "required",
+			ratio: false,
 			maxError: Math.pow( 2, -42 ),
 			forms: "literal, integer, proper, improper, mixed, decimal"
 		}, jQuery( solution ).data());
-		var acceptableForms = ( forms || options.forms ).split(/\s*,\s*/);
+		var acceptableForms = ( accForms || options.forms ).split(/\s*,\s*/);
 
 		var fractionTransformer = function( text ) {
 			text = text
@@ -66,7 +103,9 @@ jQuery.extend( Khan.answerTypes, {
 			if ( match ) {
 				var num = parseFloat( match[1] ),
 					denom = parseFloat( match[2] );
-				var simplified = denom > 0 && match[2] !== "1" && KhanUtil.getGCD( num, denom ) === 1;
+				var simplified = denom > 0 &&
+					( options.ratio || match[2] !== "1" ) &&
+					KhanUtil.getGCD( num, denom ) === 1;
 				return [ {
 					value: num / denom,
 					exact: simplified
@@ -108,9 +147,9 @@ jQuery.extend( Khan.answerTypes, {
 				},
 				example: (function() {
 					if ( options.simplify === "optional" ) {
-						return "a proper fraction, like <code>1/2</code> or <code>6/10</code>"
+						return "a <em>proper</em> fraction, like <code>1/2</code> or <code>6/10</code>";
 					} else {
-						return "a simplified proper fraction, like <code>3/5</code>"
+						return "a <em>simplified proper</em> fraction, like <code>3/5</code>";
 					}
 				})()
 			},
@@ -118,7 +157,7 @@ jQuery.extend( Khan.answerTypes, {
 			improper: {
 				transformer: function( text ) {
 					return jQuery.map( fractionTransformer( text ), function( o ) {
-						if ( Math.abs(o.value) > 1 ) {
+						if ( Math.abs(o.value) >= 1 ) {
 							return [o];
 						} else {
 							return [];
@@ -127,9 +166,9 @@ jQuery.extend( Khan.answerTypes, {
 				},
 				example: (function() {
 					if ( options.simplify === "optional" ) {
-						return "an improper fraction, like <code>10/7</code> or <code>14/8</code>"
+						return "an <em>improper</em> fraction, like <code>10/7</code> or <code>14/8</code>";
 					} else {
-						return "a simplified improper fraction, like <code>7/4</code>"
+						return "a <em>simplified improper</em> fraction, like <code>7/4</code>";
 					}
 				})()
 			},
@@ -182,7 +221,7 @@ jQuery.extend( Khan.answerTypes, {
 					// Replace unicode minus sign with hyphen
 					text = text.replace( /\u2212/, "-" );
 
- 					if ( match = text.match( /^log\(\s*(\S+)\s*\)$/i ) ) {
+					if ( match = text.match( /^log\(\s*(\S+)\s*\)$/i ) ) {
 						possibilities = forms.decimal.transformer( match[1] );
 					} else if ( text === "0") {
 						possibilities = [ { value: 0, exact: true } ];
@@ -209,6 +248,15 @@ jQuery.extend( Khan.answerTypes, {
 					return transformed;
 				},
 				example: "a percent, like <code>12.34\\%</code>"
+			},
+
+			dollar: {
+				transformer: function( text ) {
+					text = jQuery.trim( text ).replace( '$', '' );
+
+					return forms.decimal.transformer( text );
+				},
+				example: "a money amount, like <code>$2.75</code>"
 			},
 
 			mixed: {
@@ -249,6 +297,9 @@ jQuery.extend( Khan.answerTypes, {
 							// Replace unicode minus sign with hyphen
 							.replace( /\u2212/, "-" )
 
+							// Remove space after +, -
+							.replace( /([+-])\s+/g, "$1" )
+
 							// Remove commas
 							.replace( /,\s*/g, "" )
 
@@ -280,7 +331,7 @@ jQuery.extend( Khan.answerTypes, {
 				},
 				example: (function() {
 					if ( options.inexact === undefined ) {
-						return "an exact decimal, like <code>0.75</code>";
+						return "an <em>exact</em> decimal, like <code>0.75</code>";
 					} else {
 						return "a decimal, like <code>0.75</code>";
 					}
@@ -292,15 +343,15 @@ jQuery.extend( Khan.answerTypes, {
 			correct = jQuery.trim( correct );
 			guess = jQuery.trim( guess );
 
-			correctFloat = parseFloat( correct );
+			var correctFloat = parseFloat( correct );
 			var ret = false;
 
 			jQuery.each( acceptableForms, function( i, form ) {
 				var transformed = forms[ form ].transformer( jQuery.trim( guess ) );
 
-				for ( var i = 0, l = transformed.length; i < l; i++ ) {
-					var val = transformed[ i ].value;
-					var exact = transformed[ i ].exact;
+				for ( var j = 0, l = transformed.length; j < l; j++ ) {
+					var val = transformed[ j ].value;
+					var exact = transformed[ j ].exact;
 
 					if ( typeof val === "string" &&
 							correct.toLowerCase() === val.toLowerCase() ) {
@@ -330,8 +381,14 @@ jQuery.extend( Khan.answerTypes, {
 				verifier.examples.push( forms[ form ].example );
 			}
 		});
+		
+		var input;
+		
+		if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
+			input = jQuery("<input type='number'/>");
+		}
 
-		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier, input );
 	},
 
 	regex: function( solutionarea, solution, fallback ) {
@@ -368,14 +425,13 @@ jQuery.extend( Khan.answerTypes, {
 
 		var inte = jQuery( "<span>" ), inteGuess, rad = jQuery( "<span>" ), radGuess;
 
-		inteValid = Khan.answerTypes.text( inte, null, "1", function( correct, guess ) { inteGuess = guess; } );
-		radValid = Khan.answerTypes.text( rad, null, "1", function( correct, guess ) { radGuess = guess; } );
+		var inteValid = Khan.answerTypes.text( inte, null, "1", function( correct, guess ) { inteGuess = guess; } );
+		var radValid = Khan.answerTypes.text( rad, null, "1", function( correct, guess ) { radGuess = guess; } );
 
 		solutionarea.addClass( "radical" )
 			.append( inte )
 			.append( '<span class="surd">&radic;</span>')
 			.append( rad.addClass( "overline" ) );
-		inte.find( "input" ).eq( 0 ).focus();
 
 		var ret = function() {
 			// Load entered values into inteGuess, radGuess
@@ -387,7 +443,7 @@ jQuery.extend( Khan.answerTypes, {
 
 			ret.guess = [ inteGuess, radGuess ];
 
-			var simplified = inteGuess === ans[0] && radGuess == ans[1];
+			var simplified = inteGuess === ans[0] && radGuess === ans[1];
 			var correct = Math.abs( inteGuess ) * inteGuess * radGuess === ansSquared;
 
 			if ( correct ) {
@@ -406,17 +462,21 @@ jQuery.extend( Khan.answerTypes, {
 			ret.examples = [ "a radical, like <code>\\sqrt{8}</code> or <code>2\\sqrt{2}</code>" ];
 		}
 		ret.solution = ans;
+		ret.showGuess = function( guess ) {
+			inteValid.showGuess( guess ? guess[0] : '' );
+			radValid.showGuess( guess ? guess[1] : '' );
+		};
 		return ret;
 	},
 
 	multiple: function( solutionarea, solution ) {
 		solutionarea = jQuery( solutionarea );
-		solutionarea.append( jQuery( solution ).contents() );
+		// here be dragons
+		solutionarea.append( jQuery( solution ).clone().contents().tmpl() );
 
 		var solutionArray = [];
 
-		// Iterate in reverse so the *first* input is focused
-		jQuery( solutionarea.find( ".sol" ).get().reverse() ).each(function() {
+		solutionarea.find( ".sol" ).each(function() {
 			var type = jQuery( this ).data( "type" );
 			type = type != null ? type : "number";
 
@@ -438,7 +498,8 @@ jQuery.extend( Khan.answerTypes, {
 				var validator = jQuery( this ).data( "validator", validator );
 
 				if ( validator != null ) {
-					valid = valid && validator();
+					// Don't short-circuit so we can record all guesses
+					valid = validator() && valid;
 
 					guess.push( validator.guess );
 				}
@@ -449,14 +510,41 @@ jQuery.extend( Khan.answerTypes, {
 			return valid;
 		};
 
+		ret.showGuess = function( guess ) {
+			guess = jQuery.extend( true, [], guess );
+
+			solutionarea.find( ".sol" ).each(function() {
+				var validator = jQuery( this ).data( "validator", validator );
+
+				if ( validator != null ) {
+					// Shift regardless of whether we can show the guess
+					var next = guess.shift();
+
+					if ( typeof validator.showGuess === "function" ) {
+						validator.showGuess( next );
+					}
+				}
+			});
+		};
+
+		ret.examples = solutionarea.find( ".example" ).remove()
+			.map(function(i, el) {
+				return jQuery( el ).html();
+			});
 		ret.solution = solutionArray;
 
 		return ret;
 	},
 
 	radio: function( solutionarea, solution ) {
+		var extractRawCode = function( solution ) {
+			return jQuery( solution ).find('.value').clone()
+				.find( ".MathJax" ).remove().end()
+				.find( "code" ).removeAttr( "id" ).end()
+				.html();
+		};
 		// Without this we get numbers twice and things sometimes
-		var solutionText = jQuery( solution ).contents( ":not(.MathJax)" ).text();
+		var solutionText = extractRawCode( solution );
 
 		var list = jQuery("<ul></ul>");
 		jQuery( solutionarea ).append(list);
@@ -473,8 +561,9 @@ jQuery.extend( Khan.answerTypes, {
 
 		// Optionally include none of the above as a choice
 		var showNone = choices.data("none");
+		var noneIsCorrect = false;
 		if ( showNone ) {
-			var noneIsCorrect = KhanUtil.rand(numChoices) === 0;
+			noneIsCorrect = KhanUtil.rand(numChoices) === 0;
 			numChoices -= 1;
 		}
 
@@ -514,7 +603,7 @@ jQuery.extend( Khan.answerTypes, {
 				dupes[ choiceTextSquish ] = true;
 
 				// i == 0 is the solution except in category mode; skip it when none is correct
-				if ( !( noneIsCorrect && i == 0 ) || isCategory ) {
+				if ( !( noneIsCorrect && i === 0 ) || isCategory ) {
 					shownChoices.push( choice );
 				}
 			}
@@ -563,19 +652,25 @@ jQuery.extend( Khan.answerTypes, {
 					});
 			}
 
-			ret.guess = jQuery.trim(
-				choice.closest("li").contents( ":not(.MathJax)" ).text() );
+			ret.guess = jQuery.trim( extractRawCode(choice.closest("li")) );
 
 			return choice.val() === "1";
 		};
 		ret.solution = jQuery.trim( solutionText );
+		ret.showGuess = function( guess ) {
+			list.find( 'input:checked' ).prop( 'checked', false);
+
+			var li = list.children().filter( function() {
+				return jQuery.trim( extractRawCode(this) ) === guess;
+			} );
+			li.find( "input[name=solution]" ).prop( "checked", true );
+		};
 		return ret;
 	},
 
 	list: function( solutionarea, solution ) {
 		var input = jQuery("<select></select>");
 		jQuery( solutionarea ).append( input );
-		input.focus();
 
 		var choices = jQuery.tmpl.getVAR( jQuery( solution ).data("choices") );
 
@@ -600,16 +695,23 @@ jQuery.extend( Khan.answerTypes, {
 
 		ret.solution = jQuery.trim( correct );
 
+		ret.showGuess = function( guess ) {
+			input.val( guess );
+		};
+
 		return ret;
 	},
 
 	primeFactorization: function( solutionarea, solution, fallback ) {
 		var verifier = function( correct, guess ) {
 			guess = guess.split(" ").join("").toLowerCase();
-			guess = KhanUtil.sortNumbers( guess.split( /x|\*/ ) ).join( "x" );
+			guess = KhanUtil.sortNumbers( guess.split( /x|\*|\u00d7/ ) ).join( "x" );
 			return guess === correct;
 		};
-		verifier.examples = [ "a product of prime factors, like <code>2 \\times 3</code>" ];
+		verifier.examples = [
+			"a product of prime factors, like <code>2 \\times 3</code>",
+			"a single prime number, like <code>5</code>"
+		];
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	}

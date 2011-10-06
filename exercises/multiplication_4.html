@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
+<html data-require="math graphie graphie-helpers graphie-helpers-arithmetic">
 <head>
 	<meta charset="UTF-8" />
 	<title>Multiplication 4</title>
@@ -10,54 +10,22 @@
 		<div class="vars">
 			<var id="SMALL_FACTOR">randRange( 10, 99 )</var>
 			<var id="BIG_FACTOR">randRange( 100, 999 )</var>
-			<var id="PRODUCT">SMALL_FACTOR * BIG_FACTOR</var>
-			<var id="PRODUCT_DIGITS">integerToDigits( PRODUCT )</var>
-			<var id="SMALL_FACTOR_DIGITS">digits( SMALL_FACTOR )</var>
-			<var id="BIG_FACTOR_DIGITS">digits( BIG_FACTOR )</var>
+			<var id="DUMMY">[]</var>
 		</div>
 
 		<div class="problems">
 			<div>
 				<div class="graphie" id="numbers">
-					init({
-						range: [ [ -2 - PRODUCT_DIGITS.length, 12 ], [ -1 - SMALL_FACTOR_DIGITS.length * BIG_FACTOR_DIGITS.length / 2, 3 ] ],
-						scale: [ 30, 45 ]
-					});
-
-					style({
-						strokeWidth: 1
-					});
-
-					initMultiplication( SMALL_FACTOR_DIGITS, BIG_FACTOR_DIGITS, PRODUCT_DIGITS );
+					graph.multiplier = new Multiplier( BIG_FACTOR, SMALL_FACTOR );
+					graph.multiplier.show();
+					DUMMY = Array( graph.multiplier.getNumHints() );
 				</div>
-				<div class="solution" data-forms="integer"><var>PRODUCT</var></div>
+				<div class="solution"><var>SMALL_FACTOR * BIG_FACTOR</var></div>
 			</div>
 		</div>
 		<div class="hints">
-			<div data-each="SMALL_FACTOR_DIGITS as smallIndex, smallDigit" data-unwrap>
-				<div data-each="BIG_FACTOR_DIGITS as bigIndex, bigDigit" class="graphie" data-update="numbers">
-					var bigIndex = <var>bigIndex</var>;
-					var smallIndex = <var>smallIndex</var>;
-					doMultiplicationStep( bigIndex, BIG_FACTOR_DIGITS, smallIndex, SMALL_FACTOR_DIGITS );
-				</div>
-			</div>
-
-			<div data-if="SMALL_FACTOR_DIGITS.length > 1" data-unwrap>
-				<div class="graphie" data-update="numbers">
-					while( graph.highlights.length ) {
-						graph.highlights.pop().remove();
-					}
-					path( [ [ -1 - PRODUCT_DIGITS.length, 0.5 - SMALL_FACTOR_DIGITS.length ], [ 1, 0.5 - SMALL_FACTOR_DIGITS.length ] ] );
-					label( [ -1 - PRODUCT_DIGITS.length, 1 - SMALL_FACTOR_DIGITS.length ] ,"\\huge{+\\vphantom{0}}" );
-				</div>
-				<div class="graphie" data-update="numbers">
-					drawDigits( PRODUCT_DIGITS, 1 - PRODUCT_DIGITS.length, -2 );
-				</div>
-			</div>
-			<div data-else class="graphie" data-update="numbers">
-				while( graph.highlights.length ) {
-					graph.highlights.pop().remove();
-				}
+			<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+				graph.multiplier.showHint();
 			</div>
 		</div>
 	</div>

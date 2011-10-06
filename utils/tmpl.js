@@ -16,10 +16,12 @@ jQuery.tmpl = {
 		},
 
 		"data-if": function( elem, value ) {
+			var $elem = jQuery( elem );
+
 			value = value && jQuery.tmpl.getVAR( value );
 
 			// Save the result of this data-if in the next sibling for data-else-if and data-else
-			jQuery( elem ).next().data( "lastCond", value );
+			$elem.next().data( "lastCond", value );
 
 			if ( !value ) {
 				// Delete the element if the data-if evaluated to false
@@ -28,13 +30,15 @@ jQuery.tmpl = {
 		},
 
 		"data-else-if": function( elem, value ) {
-			var lastCond = jQuery( elem ).data( "lastCond" );
+			var $elem = jQuery( elem );
+
+			var lastCond = $elem.data( "lastCond" );
 
 			// Show this element iff the preceding element was hidden AND this data-if returns truthily
 			value = !lastCond && value && jQuery.tmpl.getVAR( value );
 
 			// Succeeding elements care about the visibility of both me and my preceding siblings
-			jQuery( elem ).next().data( "lastCond", lastCond || value );
+			$elem.next().data( "lastCond", lastCond || value );
 
 			if ( !value ) {
 				// Delete the element if appropriate
@@ -43,7 +47,9 @@ jQuery.tmpl = {
 		},
 
 		"data-else": function( elem ) {
-			if ( jQuery( elem ).data( "lastCond" ) ) {
+			var $elem = jQuery( elem );
+
+			if ( $elem.data( "lastCond" ) ) {
 				// Delete the element if the data-if of the preceding element was true
 				return [];
 			}
@@ -102,13 +108,13 @@ jQuery.tmpl = {
 			if ( name ) {
 
 				// Utility function for VARS[ name ] = value, warning if the name overshadows a KhanUtil property
-				function setVAR( name, value ) {
+				var setVAR = function( name, value ) {
 					if ( KhanUtil[ name ] ) {
 						Khan.error( "Defining variable '" + name + "' overwrites utility property of same name." );
 					}
 
 					VARS[ name ] = value;
-				}
+				};
 
 				// Destructure the array if appropriate
 				if ( name.indexOf( "," ) !== -1 ) {
@@ -164,11 +170,11 @@ jQuery.tmpl = {
 					$elem.text( KhanUtil.cleanMath ? KhanUtil.cleanMath( text ) : text );
 
 					// Stick the processing request onto the queue
-					if ( typeof MathJax !== "undefined") {
+					if ( typeof MathJax !== "undefined" ) {
 						MathJax.Hub.Queue([ "Typeset", MathJax.Hub, elem ]);
 					}
 				} else {
-					MathJax.Hub.Reprocess( elem );
+					MathJax.Hub.Queue([ "Reprocess", MathJax.Hub, elem ]);
 				}
 			};
 		}
@@ -314,6 +320,31 @@ jQuery.fn.tmpl = function() {
 				// Do a deep clone (including event handlers and data) of the element
 				var clone = jQuery( elem ).clone( true )
 					.removeAttr( "data-each" ).removeData( "each" )[0];
+
+				// Prepend all conditional statements with a declaration of ret.value
+				// and ret.post and an assignment of their current values so that
+				// the conditional will still make sense even when outside of the 
+				// data-each context
+				var conditionals = [ "data-if", "data-else-if", "data-else" ];
+
+				var declarations = "";
+				declarations += ( ret.pos ) ? "var " + ret.pos + " = " + JSON.stringify( pos ) + ";" : "";
+				declarations += ( ret.value ) ? "var " + ret.value + " = " + JSON.stringify( value ) + ";" : "";
+
+				for ( var i = 0; i < conditionals.length; i++ ) {
+					var conditional = conditionals[i];
+					jQuery( clone ).find( "[" + conditional + "]" ).each(function() {
+						var code = jQuery( this ).attr( conditional );
+						code = "(function() {  " + declarations + " return " + code + " })()";
+						jQuery( this ).attr( conditional, code );
+					});
+				}
+
+				// Do the same for graphie code
+				jQuery( clone ).find( ".graphie" ).andSelf().filter( ".graphie" ).each(function() {
+					var code = jQuery( this ).text();
+					jQuery( this ).text( declarations + code );
+				});
 
 				// Insert in the proper place (depends on whether the loops is the last of its siblings)
 				if ( origNext ) {

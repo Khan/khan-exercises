@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers word-problems slice-clone">
+<head>
+	<meta charset="UTF-8" />
+	<title>Fractions cut and copy 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="D">randRange( 3, 12 )</var>
+			<div data-ensure="getGCD( D + N_PARENT, N_OFFSPRING ) === 1">
+				<var id="N_PARENT" data-ensure="getGCD( N_PARENT, D ) === 1">randRange( 1, D - 1 )</var>
+				<var id="N_OFFSPRING" data-ensure="getGCD( N_OFFSPRING, D ) === 1">randRange( 2, D - 1 )</var> 
+			</div>
+			<var id="FRACTION_PARENT">fraction( N_PARENT, D )</var>
+			<var id="FRACTION_OFFSPRING">fraction( N_OFFSPRING, D )</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question">The block below is <code>1 <var>FRACTION_PARENT</var></code> units long. Use the tools to the right to create a new block that is <code><var>FRACTION_OFFSPRING</var></code> units long.</p>
+
+				<div id="slicing">
+					<p><span class="hint_blue">First</span>: Cut the block to get a smaller piece that you can later copy to create the new block.</p>
+
+
+					<p class="graphie" id="parent_block">
+						init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600, 25 ] });
+
+						passVars( D, N_PARENT, N_OFFSPRING );
+
+						rectchart( [ 1, 0 ], ["#e00", "#999" ] );
+					</p>
+									
+					<p id="slice_equation" style="display: none;"><code>1<var>FRACTION_PARENT</var>÷</code> <span id="slice_pieces"></span> <code>=</code> <span class="slice_fraction"></span></p>
+
+					<div id="slice_explanation" style="display: none;">
+						<p>You cannot make a block that is <code><var>FRACTION_OFFSPRING</var></code> units long by copying pieces that are <span class="slice_fraction"></span> units long. Try again.</p>
+					</div>
+				</div>
+
+
+				<div id="cloning" style="display: none;">
+					<p><span class="hint_blue">Second</span>: Clone the new block to create a block that is <code><var>FRACTION_OFFSPRING</var></code> units long.</p>
+
+					<div class="graphie" id="offspring_block">
+					</div>
+
+					<p id="clone_equation" style="display: none;"><span class="slice_fraction"></span> <code>×</code> <span id="clone_times"></span> <code>=</code> <span class="clone_fraction"></span></code></p>
+
+
+				</div>
+
+				<div class="solution" data-type="multiple">
+					<div id="slice_controls" style="margin-bottom: 10px;">
+						Slice into
+						<input type="button" value="-" class="simple-button action-gradient" id="decrease_pieces" onclick="KhanUtil.changePieces( false )">
+						<span id="pieces" style="display: inline-block; width: 53px; text-align: center;">1 piece</span>
+						<input type="button" value="+" class="simple-button action-gradient" id="increase_pieces" onclick="KhanUtil.changePieces( true )">
+						<input type="button" id="slice_button" value="Try It" class="simple-button action-gradient green" onclick="KhanUtil.slice()">
+					</div>
+
+					<div id="clone_controls" style="display: none; margin-bottom: 10px;">
+						Copy
+						<input type="button" value="-" class="simple-button action-gradient" id="decrease_clones" onclick="KhanUtil.changeTimes( false )" disabled="disabled">
+						<span id="times" style="display: inline-block; width: 46px; text-align: center;">1 time</span>
+						<input type="button" value="+" class="simple-button action-gradient" id="increase_clones" onclick="KhanUtil.changeTimes( true )">
+						<input type="button" id="clone_button" value="Try It" class="simple-button action-gradient green" onclick="KhanUtil.clone()"> 
+					</div>
+
+					<span class="sol" id="slice_answer" style="display: none;"><var>N_PARENT + D</var></span>
+					<span class="sol" id="clone_answer" style="display: none;"><var>N_OFFSPRING</var></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

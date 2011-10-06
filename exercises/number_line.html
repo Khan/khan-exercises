@@ -1,76 +1,60 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
+<html data-require="math graphie word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Number line</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		function compareStringNumber( a, b){
-			return a - b;
-		}
-	</script>
-
 </head>
 <body>
-
 	<div class="exercise">
-	<div class="vars" >
-		<var id="NUMBER">randRange( -5, 5 )</var>
-		<var id="WRONGS">( function() { 
-					var arr = randRangeUnique( -5, 5, 5 );
-					if ( arr.indexOf( NUMBER ) != -1 ){
-						return arr.sort( compareStringNumber );
-					}
-					else{
-						arr.shift();
-						arr.push( NUMBER ); 
-						return arr.sort( compareStringNumber);
-					} })()</var>
-		<var id="POSS_ANSWER">[ "A", "B", "C", "D", "E"]</var>
-		<var id="ANSWER" > POSS_ANSWER[  WRONGS.indexOf( NUMBER ) ] </var>
-
-
+	<div class="vars">
+		<var id="LOWER_BOUND">-5</var>
+		<var id="UPPER_BOUND">-1 * LOWER_BOUND</var>
+		<var id="NUMBER">randRangeNonZero( LOWER_BOUND, UPPER_BOUND )</var>
 	</div>
-
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>Which letter marks the position of number  <code><var>NUMBER</var></code> on the number line?</p>
-			<div class="graphie">
-				init({
-					scale: [ 50, 40 ],
-					range: [ [-1, 22], [-1, 1] ]
-				});
-				var start = -5;
-				var end = 5;
-				var originX = 0;
-				var x = NUMBER;
-				numberLine( start, end );
-				style({ stroke: "#6495ED", fill: "#6495ED" });
-				style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
-				var already = [];
-				
-				for( i = 0; i !=  WRONGS.length; i++ ){
-						circle( [ WRONGS[ i ] + 5, 0 ], 0.10 );
-						label( [WRONGS[ i ] + 5, 0 ], POSS_ANSWER[ i ] , "above", { labelDistance: 5 } );
-				}
-			</div>
-			<div class="solution"><var>ANSWER</var></div>
-			<ul class="choices" data-category="true">
-				<li>A</li>
-				<li>B</li>
-				<li>C</li>
-				<li>D</li>
-				<li>E</li>
-			</ul>
-		</div>
+				<p>What number does the orange dot represent? The distance between adjacent tick marks is 1.</p>
+				<div class="graphie" id="number-line">
+					init({
+						range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ]
+					});
 
-	<div class="hints">
-		<p>The numbers under the line represent the positions of numbers on the number line.</p>
-		<p>It is <var>ANSWER</var> because <var>ANSWER</var> is above <var>NUMBER</var>.</p>
-	</div>
-	</div>
-	</div>
+					line( [ LOWER_BOUND, 0 ], [ UPPER_BOUND, 0 ] );
+					for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++ ) {
+						line( [ x, -0.2 ], [ x, 0.2 ] );
+					}
+					style({ stroke: "#6495ED", strokeWidth: 3.5 });
+					line( [ 0, -0.2], [0, 0.2]);
+					label( [ 0, -0.53 ],  "0", "center", { color: "#6495ED" });
+					
+					style({ stroke: "#FFA500", fill: "#FFA500" });
+					graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
+				</div>
+			</div>
+			<div class="solution" data-forms="integer"><var>NUMBER</var></div>
+
+			<div class="hints">
+				<p>We know where 0 is on the number line because it is labeled.</p>
+				<p>Numbers to the left are smaller, and numbers to the right are bigger.</p>
+				<p>Numbers smaller than 0 are negative, and numbers bigger than 0 are positive.</p>
+				<div>
+					<div class="graphie" data-update="number-line">
+						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->" });
+						line( [ 0, 0 ], [ NUMBER, 0 ] );
+						graph.orangeDot.toFront();
+					</div>
+					<p>The orange dot is <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER < 0">left</span><span data-else>right</span> of 0.</p>
+				</div>
+				<div>
+					<div class="graphie" data-update="number-line">
+						label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
+					</div>
+					<p>The orange dot represents the number <var>NUMBER</var>.</p>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
