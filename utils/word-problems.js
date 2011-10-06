@@ -59,7 +59,8 @@ jQuery.extend( KhanUtil, {
 			var words = word.split(/\s+/);
 
 			// first handle simple one-offs
-			if ( oneOff ) {
+			// ({}).watch is a function in Firefox, blargh
+			if ( typeof oneOff === "string" ) {
 				return oneOff;
 			}
 
