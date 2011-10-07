@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.utils import simplejson as json
 from django.utils import html
+from django.utils import encoding
 from django.conf import settings
 
 import urllib2
@@ -55,9 +56,9 @@ def sandcastle(request, number=None, branch=None):
 
 	if number:
 		with closing(urllib2.urlopen(pull_data['pull']['patch_url'])) as u:
-			patch = u.read()
+			patch = encoding.force_unicode(u.read(), errors='ignore')
 
-		# add links to changed files
+
 		r_diff = re.compile(r'^diff ', re.MULTILINE)
 		patch_info, patch_diff = r_diff.split(html.escape(patch), 1)
 		r_filename = re.compile(r'^ (.+?)( +\|)', re.MULTILINE)
