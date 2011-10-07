@@ -645,7 +645,7 @@
 	};
 
 	jQuery.fn.graphie = function( problem ) {
-		return this.find(".graphie").add(this.filter(".graphie")).each(function() {
+		return this.find( ".graphie" ).andSelf().filter( ".graphie" ).each(function() {
 			// Grab code for later execution
 			var code = jQuery( this ).text(), graphie;
 

@@ -760,14 +760,15 @@ function makeProblem( id, seed ) {
 
 	// Apply templating
 	var children = problem
-		// vars and hints blocks append their contents to the parent
+		// var blocks append their contents to the parent
 		.find( ".vars" ).tmplApply( { attribute: "class", defaultApply: "appendVars" } ).end()
 
 		// Individual variables override other variables with the same name
 		.find( ".vars [id]" ).tmplApply().end()
 
-		// We also look at the main blocks within the problem itself to override
-		.children( "[class]" ).tmplApply( { attribute: "class" } );
+		// We also look at the main blocks within the problem itself to override,
+		// ignoring graphie and spin blocks
+		.children( "[class][class!='graphie'][class!='spin']" ).tmplApply( { attribute: "class" } );
 
 	// Finally we do any inheritance to the individual child blocks (such as problem, question, etc.)
 	children.each(function () {
