@@ -39,7 +39,7 @@
 				<var id="TIME_DOWN">60 * DISTANCE / RATE_DOWN</var>
 				<var id="RATE_AVG">60 * 2 * DISTANCE / ( TIME_UP + TIME_DOWN )</var>
 			</div>
-			<p>Starting at home, <var>person( 1 )</var> traveled uphill to the <var>store( 1 )</var> store for <var>TIME_UP</var> minutes at just <var>RATE_UP</var> mph. <var>He( 1 )</var> then traveled back home along the same path downhill at a speed of <var>K * RATE_UP</var> mph.</p>
+			<p class="problem">Starting at home, <var>person( 1 )</var> traveled uphill to the <var>store( 1 )</var> store for <var>TIME_UP</var> minutes at just <var>RATE_UP</var> mph. <var>He( 1 )</var> then traveled back home along the same path downhill at a speed of <var>K * RATE_UP</var> mph.</p>
 			<p class="question">What is <var>his( 1 )</var> average speed for the entire trip from home to the <var>store( 1 )</var> store and back?</p>
 
 			<div class="solution" data-type="multiple">
@@ -89,10 +89,9 @@
 				<var id="TIME_INIT">randRange( 20, 59 )</var>
 				<var id="PEOPLE_FINAL">randRange( PEOPLE_INIT + 3, 20 )</var>
 				<var id="WALL_FINAL">PEOPLE_FINAL</var>
-				<var id="RATE">WALL_INIT / ( TIME_INIT * PEOPLE_INIT )</var>
-				<var id="TIME_FINAL">round( WALL_FINAL / ( RATE * PEOPLE_FINAL ) )</var>
+				<var id="TIME_FINAL">round( TIME_INIT )</var>
 			</div>
-			<p>It takes <var>TIME_INIT</var> minutes for <var>PEOPLE_INIT</var> people to paint <var>WALL_INIT</var> walls.</p>
+			<p class="problem">It takes <var>TIME_INIT</var> minutes for <var>PEOPLE_INIT</var> people to paint <var>WALL_INIT</var> walls.</p>
 			<p class="question">How many minutes does it take <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls?</p>
 			
 			<div class="solution" data-type="multiple">
@@ -112,11 +111,10 @@
 				<var id="TIME_INIT">randRange( 30, 50 )</var>
 				<var id="PEOPLE_FINAL">randRange( PEOPLE_INIT + 1, 10 )</var>
 				<var id="WALL_FINAL">randRange( WALL_INIT + 1, 10 )</var>
-				<var id="RATE">WALL_INIT / ( TIME_INIT * PEOPLE_INIT )</var>
-				<var id="TIME_FINAL">round( WALL_FINAL / ( RATE * PEOPLE_FINAL ) )</var>
+				<var id="TIME_FINAL">round( WALL_FINAL * TIME_INIT * PEOPLE_INIT / ( WALL_INIT * PEOPLE_FINAL ) )</var>
 				<var id="NEED_TO_ROUND">getGCD( WALL_FINAL * TIME_INIT * PEOPLE_INIT, WALL_INIT * PEOPLE_FINAL ) !== (WALL_INIT * PEOPLE_FINAL)</var>
 			</div>
-			<p><var>PEOPLE_INIT</var> people can paint <var>WALL_INIT</var> walls in <var>TIME_INIT</var> minutes.</p>
+			<p class="problem"><var>PEOPLE_INIT</var> people can paint <var>WALL_INIT</var> walls in <var>TIME_INIT</var> minutes.</p>
 			<p class="question">How many minutes will it take for <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls? Round to the nearest minute.</p>
 			<div class="solution" data-type="multiple">
 				<span class="sol"><var>TIME_FINAL</var></span> minutes
