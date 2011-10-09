@@ -89,8 +89,7 @@
 				<var id="TIME_INIT">randRange( 20, 59 )</var>
 				<var id="PEOPLE_FINAL">randRange( PEOPLE_INIT + 3, 20 )</var>
 				<var id="WALL_FINAL">PEOPLE_FINAL</var>
-				<var id="RATE">WALL_INIT / ( TIME_INIT * PEOPLE_INIT )</var>
-				<var id="TIME_FINAL">round( WALL_FINAL / ( RATE * PEOPLE_FINAL ) )</var>
+				<var id="TIME_FINAL">round( TIME_INIT )</var>
 			</div>
 			<p>It takes <var>TIME_INIT</var> minutes for <var>PEOPLE_INIT</var> people to paint <var>WALL_INIT</var> walls.</p>
 			<p class="question">How many minutes does it take <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls?</p>
@@ -112,8 +111,7 @@
 				<var id="TIME_INIT">randRange( 30, 50 )</var>
 				<var id="PEOPLE_FINAL">randRange( PEOPLE_INIT + 1, 10 )</var>
 				<var id="WALL_FINAL">randRange( WALL_INIT + 1, 10 )</var>
-				<var id="RATE">WALL_INIT / ( TIME_INIT * PEOPLE_INIT )</var>
-				<var id="TIME_FINAL">round( WALL_FINAL / ( RATE * PEOPLE_FINAL ) )</var>
+				<var id="TIME_FINAL">round( WALL_FINAL * TIME_INIT * PEOPLE_INIT / ( WALL_INIT * PEOPLE_FINAL ) )</var>
 				<var id="NEED_TO_ROUND">getGCD( WALL_FINAL * TIME_INIT * PEOPLE_INIT, WALL_INIT * PEOPLE_FINAL ) !== (WALL_INIT * PEOPLE_FINAL)</var>
 			</div>
 			<p><var>PEOPLE_INIT</var> people can paint <var>WALL_INIT</var> walls in <var>TIME_INIT</var> minutes.</p>
