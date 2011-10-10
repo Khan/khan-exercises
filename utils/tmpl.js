@@ -157,8 +157,6 @@ jQuery.tmpl = {
 					// Maintain the classes from the original element
 					if ( elem.className ) {
 						$elem.wrap( "<span class='" + elem.className + "'></span>" );
-					} else {
-						$elem.wrap( "<span>" );
 					}
 
 					// Trick MathJax into thinking that we're dealing with a script block
@@ -176,7 +174,9 @@ jQuery.tmpl = {
 						MathJax.Hub.Queue([ "Typeset", MathJax.Hub, elem ]);
 					}
 				} else {
-					MathJax.Hub.Queue([ "Reprocess", MathJax.Hub, elem ]);
+					if (elem.MathJax.state === MathJax.ElementJax.STATE.PROCESSED) {
+						MathJax.Hub.Queue([ "Reprocess", MathJax.Hub, elem ]);
+					}
 				}
 			};
 		}
