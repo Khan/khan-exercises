@@ -49,6 +49,9 @@
 					\cdot <var>END_PREFIX.inverse</var> \dfrac{ \text{<var>END_UNIT</var>} }{ \text{ <var>UNIT</var> } }</code></p>
 				<p><code>= <var>QUANTITY</var> \cdot 10^{<var>START_POWER - END_POWER</var>} \text{ <var>END_UNIT</var>s }</code></p>
 				<p><code>= <var>commafy( SOLUTION )</var> \text{ <var>END_UNIT</var>s}</code></p>
+				<div data-if="END_UNIT == 'kiloliter'">
+					<p>(Note that 1 kiloliter is equal to 1 cubic meter... <code><var>commafy( SOLUTION )</var> \text{ <var>END_UNIT</var>s} = <var>commafy( SOLUTION )</var> \text{ cubic meters})</code></p>
+				</div>
 			</div>
 		</div>
 		<div id="english">
