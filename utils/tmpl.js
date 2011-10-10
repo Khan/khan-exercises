@@ -157,6 +157,8 @@ jQuery.tmpl = {
 					// Maintain the classes from the original element
 					if ( elem.className ) {
 						$elem.wrap( "<span class='" + elem.className + "'></span>" );
+					} else {
+						$elem.wrap( "<span>" );
 					}
 
 					// Trick MathJax into thinking that we're dealing with a script block
