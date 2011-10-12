@@ -13,7 +13,7 @@ jQuery.extend(KhanUtil, {
         }
         return newBin;
     },
-    
+
     generateBinary: function( power ) {
         bits = new Array();
         for( i = 0; i < power; ++ i ) {
@@ -21,11 +21,11 @@ jQuery.extend(KhanUtil, {
         }
         return bits;
     },
-    
+
     generateDecimal: function( power ) {
-        return KhanUtil.randRange( 0, Math.pow( 2, power ) );
+        return KhanUtil.randRange( 0, Math.pow( 2, power )-1 );
     },
-    
+
     binaryToDecimal: function( bits, power ) {
         value = 0;
         for( i = power - 1; i >= 0; -- i ) {
@@ -35,11 +35,11 @@ jQuery.extend(KhanUtil, {
         }
         return value;
     },
-    
+
     decimalToBinary: function( decimal, power ) {
         binary = '';
         c = 1;
-        
+
         do {
             binary = (((decimal & c) == c) ? '1' : '0') + binary;
             c *= 2;
