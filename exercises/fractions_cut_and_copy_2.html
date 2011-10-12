@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers word-problems slice-clone">
+<head>
+	<meta charset="UTF-8" />
+	<title>Fractions cut and copy 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<!-- An integer will be a starting or ending quantity 1/3 of the time -->
+			<var id="D_PARENT">randRangeWeighted( 3, 6, 1, 1 / 6 )</var>
+			<var id="N_PARENT">D_PARENT === 1 ? randRange( 1, 2 ) : randRange( D_PARENT + 1,  2 * D_PARENT - 1 )</var>
+			<var id="PARENT">N_PARENT / D_PARENT</var>
+			<var id="D_OFFSPRING_1">randRange( 3, 6 )</var>
+			<var id="D_OFFSPRING_2" data-ensure="D_OFFSPRING_1 !== D_OFFSPRING_2">randRange( 3, 6 )</var>
+			<var id="N_OFFSPRING_1" data-ensure="PARENT > N_OFFSPRING_1 / D_OFFSPRING_1">randRangeExclude( 2, 2 * D_OFFSPRING_1 - 1, [ D_OFFSPRING_1 ] )</var> 
+			<var id="N_OFFSPRING_2" data-ensure="PARENT > N_OFFSPRING_2 / D_OFFSPRING_2">randRangeExclude( 2, 2 * D_OFFSPRING_2 - 1, [ D_OFFSPRING_2 ] )</var> 
+			<var id="CODE_PARENT">D_PARENT === 1 ? N_PARENT : mixedOrImproper( N_PARENT, D_PARENT )</var>
+			<var id="CODE_OFFSPRING_1">mixedOrImproper( N_OFFSPRING_1, D_OFFSPRING_1 )</var>
+			<var id="CODE_OFFSPRING_2">mixedOrImproper( N_OFFSPRING_2, D_OFFSPRING_2 )</var>
+			<var id="OFFSPRING_1">N_OFFSPRING_1 / D_OFFSPRING_1</var>
+			<var id="OFFSPRING_2">N_OFFSPRING_2 / D_OFFSPRING_2</var>
+			<var id="ANSWER_1">OFFSPRING_1 / PARENT</var>
+			<var id="ANSWER_2">OFFSPRING_2 / PARENT</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question">The starting block below is <code><var>CODE_PARENT</var></code> units long. Use the tools to the right to convert the starting block into both of the goal block that are <code><var>CODE_OFFSPRING_1</var></code> units long and <code><var>CODE_OFFSPRING_2</var></code> units long. You can see your progress as the current blocks.</p>
+
+				<p>Starting Block:</p>
+
+				<div class="graphie" id="parent_block">
+					initSliceClone([ "current_block_1", "current_block_2" ]);
+					init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600, 25 ] });
+					rectchart( [ 1, 0 ], ["#e00", "#999" ] );
+				</div>
+
+				<p>Current Block 1:</p>
+
+				<div class="graphie" id="current_block_1">
+					init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600, 25 ] });
+					rectchart( [ 1, 0 ], ["#e00", "#999" ] );
+				</div>
+
+				<p>Goal Block 1:</p>
+
+				<div class="graphie" id="goal_block_2">
+					init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600 * ANSWER_1, 25 ] });
+					rectchart( [ 1, 0 ], ["#e00", "#999" ] );
+				</div>
+
+				<p>Current Block 2:</p>
+
+				<div class="graphie" id="current_block_2">
+					init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600, 25 ] });
+					rectchart( [ 1, 0 ], ["#e00", "#999" ] );
+				</div>
+
+				<p>Goal Block 2:</p>
+
+				<div class="graphie" id="goal_block_2">
+					init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600 * ANSWER_2, 25 ] });
+					rectchart( [ 1, 0 ], ["#e00", "#999" ] );
+				</div>
+
+				<div class="solution" data-type="multiple">
+					<div style="margin-bottom: 10px;">
+						Cut into
+						<input type="button" value="-" class="simple-button action-gradient" onclick="KhanUtil.changePieces( false )">
+						<span id="pieces" style="display: inline-block; width: 54px; text-align: center;">1 piece</span>
+						<input type="button" value="+" class="simple-button action-gradient" onclick="KhanUtil.changePieces( true )">
+					</div>
+
+					<div style="margin-bottom: 10px;">
+						<span style="display:inline-block; width: 42px;">Copy</span>
+						<input type="button" value="-" class="simple-button action-gradient" onclick="KhanUtil.changeTimes( false, 'current_block_1' )" disabled="disabled">
+						<span id="current_block_1_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
+						<input type="button" value="+" class="simple-button action-gradient" onclick="KhanUtil.changeTimes( true, 'current_block_1' )">
+					</div>
+
+					<div style="margin-bottom: 10px;">
+						<span style="display:inline-block; width: 42px;">Copy</span>
+						<input type="button" value="-" class="simple-button action-gradient" onclick="KhanUtil.changeTimes( false, 'current_block_2' )" disabled="disabled">
+						<span id="current_block_2_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
+						<input type="button" value="+" class="simple-button action-gradient" onclick="KhanUtil.changeTimes( true, 'current_block_2' )">
+					</div>
+
+					<span class="sol" id="current_block_1_answer" style="display: none;"><var>roundTo( 3, ANSWER_1 )</var></span>
+					<span class="sol" id="current_block_2_answer" style="display: none;"><var>roundTo( 3, ANSWER_2 )</var></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
