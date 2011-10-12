@@ -123,20 +123,19 @@ jQuery.extend(KhanUtil, {
 				return Math.abs(p - n) <= 0.5;
 			}).length;
 		} else {
-			if (n === 2) {
-				return true;
-			} if (n % 2 === 0 || n === 1) {
+			if (n <= 1 || n > 2 && n % 2 === 0) {
 				return false;
-			}
-			
-			for(var i = 3, sqrt = Math.sqrt(n); i <= sqrt; i += 2) {
-				if ( n % i === 0 ) {
-					return false;
+			} else {
+				for(var i = 3, sqrt = Math.sqrt(n); i <= sqrt; i += 2) {
+					if ( n % i === 0 ) {
+						return false;
+					}
 				}
 			}
-				
+			
 			return true;
 		}
+
 	},
 
 	isOdd: function( n ) {
