@@ -161,7 +161,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 // it significantly harder to cheat
 try {
 	delete window.userExercise;
-} catch(e) {}
+} catch(e) {
+	window.userExercise = undefined;
+}
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {
