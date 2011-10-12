@@ -18,14 +18,23 @@
 	<div class="problems">
 		<div>
 			<div class="vars">
-				<var id="INDEX">randRange( 0, 1 )</var>
-				<var id="SCHOOLS">[ [ "Almond", "Covington", "Gardner Bullis", "Santa Rita" ], [ person( 1 ), person( 2 ), person( 3 ), person( 4 ) ] ][ INDEX ]</var>
-				<var id="COLUMNS">[ [ "3rd grade", "4th grade", "5th grade", "Total" ], [ "January", "February", "March", "Total" ] ][ INDEX ]</var>
+				<var id="INDEX">randRange( 0, 3 )</var>
+				
+                              <var id="SCHOOLS">[ [ "Almond", "Covington", "Gardner Bullis", "Santa Rita" ],
+                                                  [ "Kathy", "Fred", "Hans", "Patience" ],
+                                                  [ "Hope", "Michael", "Jerry", "Maya" ],
+                                                  [ "Galway", "Mayo", "Roscommon", "Kerry" ]][ INDEX ]</var>
+
+                               <var id="COLUMNS">[ [ "2nd grade","3rd grade", "4th grade", "5th grade", "Total" ],
+                                                  [ "January", "February", "March", "April", "Total" ],
+                                                  [ " 1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter", "Final" ],
+                                                  [ "Q1", "Q2", "Q3", "Q4", "Total" ]][ INDEX ]</var>
+
 				<var id="ENROLLMENTS">
 					(function() {
 						var enrollments = [];
-						var classMin = 60;
-						var classMax = 80;
+						var classMin = [60,0,6,20][INDEX];
+						var classMax = [80,6,10,40][INDEX];
 						for ( var i = 0; i &lt; SCHOOLS.length; i++ ) {
 							var enroll = randRange( classMin, classMax, COLUMNS.length - 1 );
 							var total = 0;
@@ -40,38 +49,53 @@
 				<var id="COL_INDEX">randRange( 0, COLUMNS.length - 1 )</var>
 				<var id="SCHOOL_INDEX">randRange( 0, SCHOOLS.length - 1 )</var>
 				<var id="ANSWER">ENROLLMENTS[ SCHOOL_INDEX ][ COL_INDEX]</var>
-				<var id="PROBLEM">[ "the enrollment at four different elementary schools that have 3rd through 5th grade students", "shows the number of chickens sold by four friends from January to March" ][ INDEX ]</var>
+				<var id="PROBLEM">[ "the enrollment at four elementary schools that have 2nd through 5th grade students",
+                                                     "shows the number of chickens sold by four friends in each month from January to April",
+                                                     "indicates the points scored by four players in a charity basketball game",
+                                                     "documents the sales of tractors by county during the last fiscal year" ][ INDEX ]</var>
 				<var id="QUESTION">(function() {
 					if ( COL_INDEX === COLUMNS.length - 1 ) {
 						return [ "How many students does " + SCHOOLS[ SCHOOL_INDEX ] + " Elementary School have in total?", 
-						"How many chickens did " + SCHOOLS[ SCHOOL_INDEX ] + " sell in total?" ][ INDEX ];
+						"How many chickens did " + SCHOOLS[ SCHOOL_INDEX ] + " sell in total?",
+                                                "How many points did " + SCHOOLS[ SCHOOL_INDEX ] + " have in total?",
+                                                "How many tractors were sold in " + SCHOOLS[ SCHOOL_INDEX ] + " in total?"][ INDEX ]
 					} else {
 						return [ "How many " + COLUMNS[ COL_INDEX ] + " students does " + SCHOOLS[ SCHOOL_INDEX ] + " Elementary School have?",
-						"How many chickens did " + SCHOOLS[ SCHOOL_INDEX ] + " sell in " + COLUMNS[ COL_INDEX ] + " ?" ][ INDEX ];
+						"How many chickens did " + SCHOOLS[ SCHOOL_INDEX ] + " sell in " + COLUMNS[ COL_INDEX ] + " ?",
+                                                "How many points did " + SCHOOLS[ SCHOOL_INDEX ] + " have in the " + COLUMNS[ COL_INDEX ] + " ?",
+                                                "How many tractors were sold in " + SCHOOLS[ SCHOOL_INDEX ] + " in " + COLUMNS[ COL_INDEX ] + " ?"][ INDEX ]
 					}
 				})()</var>
-				<var id="HEADER">[ "Schools", "Farmers" ][ INDEX ]</var>
-				<var id="UNIT">[ "students", "chickens" ][ INDEX ]</var>
+				<var id="HEADER">[ "Schools", "Farmers", "Players", "Salespeople" ][ INDEX ]</var>
+				<var id="UNIT">[ "students", "chickens", "points", "tractors" ][ INDEX ]</var>
 				<var id="ROW_HINT">[ "the student enrollment at " + SCHOOLS[ SCHOOL_INDEX ] + " Elementary School", 
-					"the number of chickens sold by " + SCHOOLS[ SCHOOL_INDEX ] ][ INDEX ]</var>
+					"the number of chickens sold by " + SCHOOLS[ SCHOOL_INDEX ],
+                                        "the number of points scored by " + SCHOOLS[ SCHOOL_INDEX ],
+                                        "the number of tractors sold by " + SCHOOLS [SCHOOL_INDEX ]][ INDEX ]</var>
 				<var id="COL_HINT">
 					(function() {
 						if ( COL_INDEX === COLUMNS.length - 1 ) {
 							return [ "the total number of students at each school",
-							"the total number of chickens sold by each person" ][ INDEX ];
+							"the total number of chickens sold by each person",
+                                                        "the total number of points made by each person",
+                                                        "the total number of tractors sold by each person"][ INDEX ];
 						} else {
 							return [ "the number of " + COLUMNS[ COL_INDEX ] + " students at each school",
-							"the number of chickens sold in " + COLUMNS[ COL_INDEX] ][ INDEX ];
+							"the number of chickens sold in " + COLUMNS[ COL_INDEX],
+                                                        "the number of points scored in" + COLUMNS[ COL_INDEX],
+                                                        "the number of tractors sold in" + COLUMNS[COL_INDEX]][ INDEX ];
 						}
 					})()</var>
 				
 				<var id="FINAL_HINT">
 					[ "There are " + ANSWER + " " + COLUMNS[ COL_INDEX ].toLowerCase() + " students at " + SCHOOLS[ SCHOOL_INDEX] + ".",
-					SCHOOLS[ SCHOOL_INDEX ] + " sold " + ANSWER + " chickens in " + ( COL_INDEX === COLUMNS.length - 1 ? "total" : COLUMNS[ COL_INDEX ] )  + "." ][ INDEX ]
+					SCHOOLS[ SCHOOL_INDEX ] + " sold " + ANSWER + " chickens in " + ( COL_INDEX === COLUMNS.length - 1 ? "total" : COLUMNS[ COL_INDEX ] )  + ".",
+                                        SCHOOLS[ SCHOOL_INDEX ] + " scored " + ANSWER + "points in the " +( COL_INDEX === COLUMNS.length - 1 ? "total" : COLUMNS[ COL_INDEX ] )  + ".",
+                                        SCHOOLS[ SCHOOL_INDEX ] + " sold " + ANSWER + "tractors in the " +( COL_INDEX === COLUMNS.length - 1 ? "total" : COLUMNS[ COL_INDEX ] )  + "."                                   ][ INDEX ]
 				</var>
 			</div>
 			<p>The table below shows <var>PROBLEM</var>.</p>
-			<p class="question"><var>QUESTION</var></p>
+			<p class="Question"><var>QUESTION</var></p>
 			<div class="fake_header reading">
 				<span><var>HEADER</var></span><span data-each="COLUMNS as i, grade"><var>grade</var></span>
 			</div>
