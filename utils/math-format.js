@@ -166,6 +166,19 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
+	// Randomly return the fraction in its mixed or improper form.
+	mixedOrImproper: function( n, d ) {
+		// mixed
+		if ( n < d || KhanUtil.rand( 2 ) > 0 ) {
+			return KhanUtil.fraction( n, d );
+
+		// improper
+		} else {
+			var imp = Math.floor( n / d );		
+			return imp + KhanUtil.fraction( n - ( d * imp ), d );
+		}
+	},
+
 	// splitRadical( 24 ) gives [ 2, 6 ] to mean 2 sqrt(6)
 	splitRadical: function( n ) {
 		if ( n === 0 ) {

@@ -67,6 +67,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		return Math.abs( crc ^ (-1) );
 	},
 
+	// Get the userExercise object from the global scope
+	userExercise = window.userExercise,
+
 	// Check to see if we're in test mode
 	testMode = typeof userExercise === "undefined",
 
@@ -153,6 +156,14 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 			+ "<p><a id=\"issue-link\" href=\"" + a + "\">" + b + "</a>";
 	},
 	issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!";
+
+// Nuke the global userExercise object to make
+// it significantly harder to cheat
+try {
+	delete window.userExercise;
+} catch(e) {
+	window.userExercise = undefined;
+}
 
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {

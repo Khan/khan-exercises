@@ -41,7 +41,7 @@ jQuery.extend( KhanUtil, {
 
 jQuery.fn.spin = function() {
 	this.find( ".spin" ).each(function() {
-		var spun = KhanUtil.spin( jQuery( this ).text() );
-		jQuery( this ).text( spun );
+		var spun = KhanUtil.spin( jQuery( this ).html() );
+		jQuery( this ).html( spun );
 	});
 };
