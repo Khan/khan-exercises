@@ -37,13 +37,13 @@ jQuery.extend( KhanUtil, {
 		// Attach various metrics that are used by the interactive functions.
 		// TODO: Add appropriate helper functions in graphie and replace a lot of
 		// the cryptic references to scale, range, xpixels, ypixels, etc.
-		graph.xpixels = graph.raphael.width;
-		graph.ypixels = graph.raphael.height;
+		graph.xpixels = graph.raphael.canvas.offsetWidth;
+		graph.ypixels = graph.raphael.canvas.offsetHeight;
 		graph.scale = [ graph.scalePoint([ 1, 1 ])[0] - graph.scalePoint([ 0, 0 ])[0], graph.scalePoint([ 0, 0 ])[1] - graph.scalePoint([ 1, 1 ])[1] ];
 		xmin = 0 - (graph.scalePoint([0, 0])[0] / graph.scale[0]);
-		xmax = (graph.raphael.width / graph.scale[0]) + xmin;
+		xmax = (graph.xpixels / graph.scale[0]) + xmin;
 		ymin = 0 - (graph.scalePoint([0, 0])[1] / graph.scale[1]);
-		ymax = (graph.raphael.height / graph.scale[1]) + ymin;
+		ymax = (graph.ypixels / graph.scale[1]) + ymin;
 		graph.range = [ [ xmin, xmax ], [ ymin, ymax ] ];
 
 		graph.mouselayer = Raphael( graph.raphael.canvas.parentNode.id, graph.xpixels, graph.ypixels );
