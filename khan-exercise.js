@@ -1581,12 +1581,12 @@ function prepareSite() {
 
 			if ( !(typeof hintApproved !== "undefined" && JSON.parse(hintApproved)) ) {
 				if ( !(typeof userExercise !== "undefined" && userExercise.read_only) ) {
-					if ( confirm("One-time warning: Using a hint will erase your streak.\nAre you sure you want to continue?"))  {
+					if ( confirm("One-time warning: Using a hint will set back your progress.\nAre you sure you want to continue?"))  {
 						// Hint consequences approved
 						window.localStorage[ "hintApproved:" + user ] = true;
 
 					} else {
-						// User doesn't want to lose streak.
+						// User doesn't want to have progress set back
 						return;
 					}
 				}
