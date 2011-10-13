@@ -33,19 +33,6 @@ jQuery.extend( KhanUtil, {
 	// handlers wherever we want.
 	addMouseLayer: function() {
 		var graph = KhanUtil.currentGraph;
-
-		// Attach various metrics that are used by the interactive functions.
-		// TODO: Add appropriate helper functions in graphie and replace a lot of
-		// the cryptic references to scale, range, xpixels, ypixels, etc.
-		graph.xpixels = graph.raphael.width;
-		graph.ypixels = graph.raphael.height;
-		graph.scale = [ graph.scalePoint([ 1, 1 ])[0] - graph.scalePoint([ 0, 0 ])[0], graph.scalePoint([ 0, 0 ])[1] - graph.scalePoint([ 1, 1 ])[1] ];
-		xmin = 0 - (graph.scalePoint([0, 0])[0] / graph.scale[0]);
-		xmax = (graph.raphael.width / graph.scale[0]) + xmin;
-		ymin = 0 - (graph.scalePoint([0, 0])[1] / graph.scale[1]);
-		ymax = (graph.raphael.height / graph.scale[1]) + ymin;
-		graph.range = [ [ xmin, xmax ], [ ymin, ymax ] ];
-
 		graph.mouselayer = Raphael( graph.raphael.canvas.parentNode.id, graph.xpixels, graph.ypixels );
 		jQuery( graph.mouselayer.canvas ).css( "z-index", 1 );
 		Khan.scratchpad.disable();
@@ -152,23 +139,17 @@ jQuery.extend( KhanUtil, {
 					var coordY = graph.range[1][1] - mouseY / graph.scale[1];
 
 					if ( event.type === "mousemove" ) {
-						var doMove = true;
+						movablePoint.visibleShape.attr( "cx", mouseX );
+						movablePoint.mouseTarget.attr( "cx", mouseX );
+						movablePoint.visibleShape.attr( "cy", mouseY );
+						movablePoint.mouseTarget.attr( "cy", mouseY );
+						movablePoint.coordX = coordX;
+						movablePoint.coordY = coordY;
+
 						// The caller has the option of adding an onMove() method to the
 						// movablePoint object we return as a sort of event handler
-						// By returning false from onMove(), the move can be vetoed,
-						// providing custom constraints on where the point can be moved.
 						if (typeof movablePoint.onMove === "function") {
-							if (movablePoint.onMove( coordX, coordY ) === false) {
-								doMove = false;
-							}
-						}
-						if (doMove) {
-							movablePoint.visibleShape.attr( "cx", mouseX );
-							movablePoint.mouseTarget.attr( "cx", mouseX );
-							movablePoint.visibleShape.attr( "cy", mouseY );
-							movablePoint.mouseTarget.attr( "cy", mouseY );
-							movablePoint.coordX = coordX;
-							movablePoint.coordY = coordY;
+							movablePoint.onMove( coordX, coordY );
 						}
 
 
