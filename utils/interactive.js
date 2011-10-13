@@ -39,6 +39,10 @@ jQuery.extend( KhanUtil, {
 		// the cryptic references to scale, range, xpixels, ypixels, etc.
 		graph.xpixels = graph.raphael.canvas.offsetWidth;
 		graph.ypixels = graph.raphael.canvas.offsetHeight;
+		if (typeof graph.xpixels === "undefined") {
+			graph.xpixels = graph.raphael.width;
+			graph.ypixels = graph.raphael.height;
+		}
 		graph.scale = [ graph.scalePoint([ 1, 1 ])[0] - graph.scalePoint([ 0, 0 ])[0], graph.scalePoint([ 0, 0 ])[1] - graph.scalePoint([ 1, 1 ])[1] ];
 		xmin = 0 - (graph.scalePoint([0, 0])[0] / graph.scale[0]);
 		xmax = (graph.xpixels / graph.scale[0]) + xmin;
