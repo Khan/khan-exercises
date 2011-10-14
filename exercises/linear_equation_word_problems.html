@@ -8,7 +8,7 @@
 <body>
 	<div class="exercise">
 		<div class="problems">
-			<div id="homeruns">
+			<div id="homeruns_needed">
 				<div class="vars">
 					<var id="X">randRange( 5, 20 )</var><!-- # Initial runs -->
 					<var id="Q">randRange( 25, 50 )</var><!-- # Total runs -->
@@ -21,43 +21,47 @@
 				<div class="solution"><var>P</var></div>
 
 				<div class="hints">
-					<p>We’re trying to figure out how many home runs <var>person( 1 )</var> needs to hit in the remaining games this season to reach <var>his( 1 )</var> goal.</p>
-					<p>The number of home runs <var>person( 1 )</var> has hit so far + the number of home runs <var>person( 1 )</var> will hit in the remaining games = the total home runs <var>person( 1 )</var> will hit this season.</p>
-					<p>We can replace the words in the equation we just wrote with the numbers we have. Let’s use r to represent the remaining runs <var>person( 1 )</var> needs to hit. <var>X</var> + r = <var>Q</var></p>
-					<p>We need to isolate r to figure out its value, so let’s subtract the number of runs <var>person( 1 )</var> has already hit from both sides. <var>X</var> + r - <var>X</var> = <var>Q</var> - <var>X</var></p>
+					<p>Home runs already hit + Home runs <var>he( 1 )</var> needs to hit = Total home runs wanted</p>
 					<div>
-						<p>r = <var>Q</var> - <var>X</var>= <var>P</var>. To make sure we have the right answer, we can plug <var>P</var> into the equation we wrote above: <var>X</var> + <var>P</var> = <var>Q</var>.</p> 
-						<p><strong><var>person( 1 )</var> needs to hit <var>P</var> more home runs to reach <var>his( 1 )</var> goal this season.</strong></p>
+						<p>Home runs already hit = <code><var>X</var></code></p>
+						<p>Total home runs wanted = <code><var>Q</var></code></p>
+						<p>Home runs he needs to hit = <code>x</code></p>
 					</div>
+					<p><code><var>X</var> + x = <var>Q</var></code></p>
+					<p><code>x = <var>Q</var> - <var>X</var></code></p>
+					<p><code><var>P</var> = <var>Q</var> - <var>X</var></code></p>
+					<p><strong><var>person( 1 )</var> needs to hit <code><var>P</var></code> home runs in the remaining games.</strong></p>
 				</div>
 			</div>
 
-			<div id="babysitting">
+			<div id="babysitting_hourly_wage">
 				<div class="vars">
 					<var id="X" data-ensure="X <= 6">randRange( 2, 6 ) + ( rand(2) > 0 ? 0.5 : 0 )</var><!-- # of hours -->
 					<var id="Q">randRange( 15, 70 )</var><!-- Total earnings -->
-					<var id="P">roundTo( 3, Q / X )</var><!-- Earnings per hour -->
+					<var id="P">roundTo( 2, Q / X )</var><!-- Earnings per hour -->
 				</div>
 
 				<p class="problem spin"><var>person( 1 )</var> {earned $<var>Q</var> by babysitting his neighbors for <var>X</var> hours.|babysat <var>his( 1 )</var> neighbors for <var>X</var> hours and earned $<var>Q</var>.}</p>
 				<p class="question">What is <var>person( 1 )</var>’s hourly wage ?</p>
 				<p class="extra-info">(Extra Info: Round to the nearest hundredth of a dollar.)</p>
 				
-				<div class="solution"><var>P</var></div>
+				<div class="solution" data-forms="dollar"><var>P</var></div>
 
 				<div class="hints">
-					<p>We’re trying to find out how much money <var>person( 1 )</var> earned per hour while babysitting.</p>
-					<p>The amount of money <var>person( 1 )</var> earned per hour x the number of hours <var>person( 1 )</var> babysat = the total amount of money <var>person( 1 )</var> earned.</p>
-					<p>We can replace the words in the equation we just wrote with the numbers we have. Let’s use w to represent <var>person( 1 )</var>’s hourly wage: w x <var>X</var> = <var>Q</var></p>
-					<p>We need to isolate w to find its value, so let’s divide both sides of the equation by the number of hours <var>person( 1 )</var> babysat. (<var>X</var>w) / <var>X</var> = <var>Q</var> / <var>X</var></p>
+					<p>Number of hours <var>he( 1 )</var> babysat x Amount of money earned per hour = Total amount of money earned.</p>
 					<div>
-						<p>w = <var>Q</var> / <var>X</var> = <var>P</var>. To check our work, we can plug <var>P</var> in for w in the equation we wrote: <var>P</var> x <var>X</var> = <var>Q</var>.</p>
-						<p><strong><var>person( 1 )</var> earned $<var>P</var> per hour while babysitting.</strong></p>
+						<p>Number of hours <var>he( 1 )</var> babysat = <code><var>X</var></code></p>
+						<p>Total amount of money earned = <code><var>Q</var></code></p>
+						<p>Amount of money earned per hour = <code>y</code></p>
 					</div>
+					<p><code><var>X</var>y = <var>Q</var></code></p>
+					<p><code>y = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
+					<p><code><var>P</var> = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
+					<p><strong><var>person( 1 )</var> earned <code>$<var>P</var></code> per hour while babysitting.</strong></p>
 				</div>
 			</div>
 
-			<div id="tshirt">
+			<div id="tshirt_cost">
 				<div class="vars">
 					<var id="X">randRange( 10, 20 )</var><!-- Payment amount -->
 					<var id="Q" data-ensure="Q % 100 !== 0">randRange( 150, 499 ) / 100</var><!-- Change amount -->
@@ -67,20 +71,23 @@
 				<p class="problem spin">{<var>person( 1 )</var> paid $<var>X</var> for a t-shirt and received $<var>Q</var> in change.|When buying a t-shirt at a clothing store, <var>person( 1 )</var> gave the cashier $<var>X</var> and received $<var>Q</var> in change.}</p>
 				<p class="question">How much did the t-shirt cost?</p>
 				
-				<div class="solution"><var>P</var></div>
+				<div class="solution" data-forms="dollar"><var>P</var></div>
 
 				<div class="hints">
-					<p>Let’s have t represent the cost of the t-shirt. We know that the cost of the t-shirt + the change <var>person( 1 )</var> received = the total amount of money <var>person( 1 )</var> gave to the cashier.</p>
-					<p>We can replace the words in the equation above with numbers: t + <var>Q</var> = <var>X</var>.</p>
-					<p>We need to isolate t to find its value, so let’s subtract the amount of change <var>person( 1 )</var> received from both sides of the equation: t + <var>Q</var> - <var>Q</var> = <var>X</var> - <var>Q</var>.</p>
+					<p>Total t-shirt cost + Change received = Amount given to cashier</p>
 					<div>
-						<p>t = <var>X</var> - <var>Q</var> = <var>P</var>. To check our work, we can plug <var>P</var> in for t in the equation above: <var>P</var> + <var>Q</var> = <var>X</var>. 
-						<p><strong>The t-shirt cost $<var>P</var></strong></p>
+						<p>Change received = <code><var>Q</var></code></p>
+						<p>Amount given to cashier = <code><var>X</var></code></p>
+						<p>Total t-shirt cost = <code>x</code></p>
 					</div>
+					<p><code>x + <var>Q</var> = <var>X</var></code></p>
+					<p><code>x = <var>X</var> - <var>Q</var></code></p>
+					<p><code><var>P</var> = <var>X</var> - <var>Q</var></code></p>
+					<p><strong>The t-shirt cost $<code><var>P</var></code>.</strong></p>
 				</div>
 			</div>
 
-			<div id="grocery_store">
+			<div id="milk_gallon_cost">
 				<div class="vars">
 					<var id="X">randRange( 5, 10 )</var><!-- # of gallons -->
 					<var id="Q" data-ensure="Q % 100 !== 0">randRange( 1425, 2525 ) / 100</var><!-- Bill -->
@@ -90,20 +97,23 @@
 				<p class="problem spin"><var>person( 1 )</var> works as a cashier at the grocery store in <var>his( 1 )</var> town. {Milk is one of the fastest selling items, and right at the start of <var>his( 1 )</var> shift someone|A customer came in and} bought <var>X</var> gallons of milk for a total of $<var>Q</var>.</p>
 				<p class="question">How much did each gallon of milk cost?</p>
 				
-				<div class="solution"><var>P</var></div>
+				<div class="solution" data-forms="dollar"><var>P</var></div>
 
 				<div class="hints">
-					<p>The cost of each gallon of milk x the number of gallons of milk <var>person( 1 )</var> bought = the total amount of money <var>person( 1 )</var> spent at the grocery store.</p>
-					<p>We can replace the words in the equation we just wrote with the numbers we have. Let’s use m to represent the cost of each gallon of milk: m x <var>X</var> = <var>Q</var>.</p>
-					<p>We need to isolate m to find its value, so let’s divide both sides of the equation by the number of gallons of milk <var>person( 1 )</var> bought. (<var>X</var>m) / <var>X</var> = <var>Q</var> / <var>X</var>.</p>
+					<p>Gallons of milk bought x Cost per gallon of milk = Total cost</p>
 					<div>
-						<p>m = <var>Q</var> / <var>X</var> = <var>P</var>. To check our work, we can plug <var>P</var> in for m in the equation we wrote: <var>P</var> x <var>X</var> = <var>Q</var>.</p>
-						<p><strong>Each gallon of milk <var>person( 1 )</var> bought cost $<var>P</var>.</strong></p>
+						<p>Gallons of milk bought = <code><var>Q</var></code></p>
+						<p>Total cost = <code><var>X</var></code></p>
+						<p>Cost per gallon of milk = <code>y</code></p>
 					</div>
+					<p><code><var>Q</var>y = <var>X</var></code></p>
+					<p><code>y = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
+					<p><code><var>P</var> = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
+					<p><strong>Each gallon of milk cost <code>$<var>P</var></code>.</strong></p>
 				</div>
 			</div>
 
-			<div id="running">
+			<div id="running_distance_left">
 				<div class="vars">
 					<var id="X">0.25 * randRange( 1, 13.25 / 0.25 )</var><!-- First 3 legs -->
 					<var id="Q">randRange( 15, 20 )</var><!-- Total miles -->
@@ -116,10 +126,16 @@
 				<div class="solution"><var>P</var></div>
 
 				<div class="hints">
-					<p>Let’s have d represent the distance <var>person( 1 )</var> ran in the relay race. We know that the distance <var>person( 1 )</var>’s teammates ran + the distance <var>person( 1 )</var> ran = the total distance of the race.</p>
-					<p>We can replace the words in the equation above with numbers: <var>X</var> + d = <var>Q</var></p>
-					<p>We need to isolate d to find its value, so let’s subtract the distance <var>person( 1 )</var>’s teammates ran from both sides of the equation: d + <var>X</var> - <var>X</var> = <var>Q</var> - <var>X</var></p>
-					<p>d = <var>Q</var> - <var>X</var> = <var>P</var>. To check our work, we can plug <var>P</var> in for d in the equation above: <var>X</var> + <var>P</var> = <var>Q</var>. <var>person( 1 )</var> ran <var>P</var> miles.</p>
+					<p>Miles <var>he( 1 )</var> ran + Miles already completed = Total Miles</p>
+					<div>
+						<p>Miles already completed = <code><var>X</var></code></p>
+						<p>Total miles = <code><var>Q</var></code></p>
+						<p>Miles <var>he( 1 )</var> ran = <code>x</code></p>
+					</div>
+					<p><code>x + <var>X</var> = <var>Q</var></code></p>
+					<p><code>x = <var>Q</var> - <var>X</var></code></p>
+					<p><code><var>P</var> = <var>Q</var> - <var>X</var></code></p>
+					<p><strong><var>person( 1 )</var> ran <code><var>P</var></code> miles to finish the race.</p>
 				</div>
 			</div>
 		</div>
