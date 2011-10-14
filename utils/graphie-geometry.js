@@ -1,9 +1,91 @@
+// TODO: shove these into KhanUtil or somewhere reasonable
+
+function rotatePoint( p, deg, c ) {
+	var rad = KhanUtil.toRadians( deg ),
+		cos = Math.cos( rad ),
+		sin = Math.sin( rad ),
+		c = c || [ 0, 0 ],
+		cx = c[ 0 ],
+		cy = c[ 1 ],
+		px = p[ 0 ],
+		py = p[ 1 ],
+		x = cx + ( px - cx ) * cos - ( py - cy ) * sin,
+		y = cy + ( px - cx ) * sin + ( py - cy ) * cos;
+	return [ KhanUtil.roundTo( 9, x ), KhanUtil.roundTo( 9, y ) ];
+}
+
+function RegularPolygon( center, numSides, radius, rotation, fillColor ){
+	var graph = KhanUtil.currentGraph;
+	rotation = rotation || 0;
+	rotation = KhanUtil.toRadians( rotation );
+	var lines = [];
+
+	this.draw = function() {
+		var angle = 2 * Math.PI / numSides;
+		var arr = [];
+		for( var i = 0; i < numSides; i++ ){
+			arr.push( [ center[0] + radius * Math.cos( rotation + i * angle ), center[1] + radius * Math.sin( rotation + i * angle)] );
+			arr.push( [ center[0] + radius * Math.cos( rotation + (i + 1)  * angle ), center[1] + radius * Math.sin( rotation + (i + 1) * angle) ] );
+		}
+		return KhanUtil.currentGraph.path( arr );
+	}
+
+	function getSymmetryCoordinates( i ) {
+		var angle = rotation + Math.PI * i * 1 / numSides;
+		var extend = 2;
+		var scaleToEnd = extend + 5.4;
+		var p1 = [ center[0] - Math.cos( angle ) * scaleToEnd,  center[1] - Math.sin( angle ) *  scaleToEnd ];
+		var p2 = [  scaleToEnd * Math.cos( angle ) + center[0], scaleToEnd * Math.sin( angle ) + center[1] ];
+		return [ p1, p2 ];
+	}
+
+	this.drawLineOfSymmetry = function( i, color ) {
+		var coords = getSymmetryCoordinates( i );
+		color = color || KhanUtil.BLUE;
+		return graph.line.apply( graph, jQuery.merge( coords, [{ stroke: color }]) );
+	}
+
+	this.drawFakeLineOfSymmetry = function( i, color ) {
+		color = color || KhanUtil.BLUE;
+		var coords = getSymmetryCoordinates( i ),
+			angle = 360 / numSides / 2,
+			fudge = KhanUtil.randRange( 10, angle - 10 ) * KhanUtil.randFromArray( [ -1, 1 ] );
+		return graph.line( rotatePoint( coords[ 0 ],  fudge ), rotatePoint( coords[ 1 ], fudge ), { stroke: color } );
+	}
+
+	// Does not currently work with 2 points on one side
+	this.splitPath = function( line ) {
+		var points = linePathIntersection( line, this.path ),
+			paths = [],
+			currPath = [];
+		for ( var i = 0; i < this.path.graphiePath.length - 1; i = i + 2 ) {
+			var pt1 = this.path.graphiePath[ i ];
+			var pt2 = this.path.graphiePath[ i + 1 ];
+			var intersections = findPointsOnLine( [ pt1, pt2 ], points );
+
+			currPath.push( pt1 );
+
+			if ( intersections.length !== 0 ){
+				var point = intersections[ 0 ];
+				currPath.push( point );
+				paths.push( currPath );
+				currPath = [ point ];
+				points.splice( points.indexOf( point ), 1 );
+			}
+		}
+		currPath.push( this.path[ i ] )
+		paths.push( currPath );
+		return graph.path( paths[ 1 ], { stroke: KhanUtil.ORANGE, "stroke-width": 5 } );
+	}
+
+	this.path = this.draw();
+}
+
 function lineLength( line ){
 	var a = line[ 0 ];
 	var b = line[ 1 ];
 	return Math.sqrt( ( a[ 0 ] - b[ 0 ] ) * ( a[ 0 ] - b[ 0 ] )  + ( a[ 1 ] - b[ 1 ] ) * ( a[ 1 ] - b[ 1 ] ) );
 }
-
 
 function dotProduct( a, b ){
 		return a[ 0] * b[ 0 ] + a[ 1 ] * b[ 1 ];
@@ -68,29 +150,6 @@ function findPointsOnLine( l, ps ){
 	return points;
 }
 
-//Does not currently work with 2 points on one side
-function splitPath( p, points ){
-	var i = 0;
-	var paths = [];
-	var tempPath =  [];
-	for( i = 0; i < p.graphiePath.length - 1; i++ ){
-		if ( findPointsOnLine( [ p.graphiePath[ i ], p.graphiePath[ i + 1 ] ], points ).length == 0 ){
-			tempPath.push( p.graphiePath[ i ] ) ;
-		}
-		else{
-			var point = findPointsOnLine( [ p.graphiePath[ i ], p.graphiePath[ i + 1 ] ], points )[ 0 ];
-			tempPath.push( p.graphiePath[ i ] ) ;
-			tempPath.push( point );
-			paths.push( tempPath );
-			tempPath = [ point ];
-			points.splice( points.indexOf( point ), 1 );
-		}
-	}
-	tempPath.push( p.graphiePath[ i ] )
-	paths.push( tempPath );
-	return paths;
-}
-
 //Are two polygons intersecting
 function areIntersecting( pol1, pol2 ){
 	var i, k = 0;
@@ -153,7 +212,7 @@ function linePathIntersection( l, p ){
 	var ps = p.graphiePath;
 	var l = l.graphiePath;
 	var i = 0;
-	for( i = 0; i < ps.length-1; i++ ){
+	for( i = 0; i < ps.length-1; i = i + 2 ){
 		var x = findIntersection( [ ps[ i ], ps[ i + 1 ] ], l );
 		if ( x[ 2 ] === true  && ! checkDuplicate( points, [ x[ 0 ], x[ 1 ] ] ) ){
 			points.push( [  x[ 0 ],  x[ 1 ] ] );
