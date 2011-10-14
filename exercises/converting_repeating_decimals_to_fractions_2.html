@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars" data-ensure="( N3 % 10 ) !== floor( N3 / 10 )">
+	<div class="vars" data-ensure="( N3 % 10 ) !== floor( N3 / 10 ) && N2 !== ( N3 % 10 )">
 		<var id="N1">randRangeWeighted( 0, 3, 0, 0.5 )</var>
 		<var id="N2">randRange( 1, 8 )</var>
 		<var id="N3">randRange( 10, 99 )</var>
@@ -51,7 +51,7 @@
 		</div>
 		<div id="hardone">
 			<div class="vars">
-				<var id="N2" data-ensure="N2 !== ( N3 % 10 )">randRange( 1, 9 )</var>
+				<var id="N2">randRange( 1, 9 )</var>
 				<var id="N4">N1 + N2 / 10 + N3 / 990</var>
 				<var id="D1">1</var>
 				<var id="D2">3</var>
@@ -62,7 +62,7 @@
 		</div>
 		<div id="hardtwo">
 			<div class="vars">
-				<var id="N2" data-ensure="N2 !== ( N3 % 10 )">randRange( 1, 8 )</var>
+				<var id="N2">randRange( 1, 8 )</var>
 				<var id="N4">N1 + N3 / 100 + N2 / 900</var>
 				<var id="D1">2</var>
 				<var id="D2">3</var>
