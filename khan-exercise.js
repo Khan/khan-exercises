@@ -522,6 +522,13 @@ Khan.loadScripts( scripts, function() {
 	// Base modules required for every problem
 	Khan.require( [ "answer-types", "tmpl" ] );
 
+	if ( true || typeof userExercise !== "undefined" && userExercise.tablet ) {
+		jQuery( document ).bind( "mobileinit", function() {
+			jQuery.mobile.autoInitializePage = false;
+		} );
+		Khan.require( [ "jquery.mobile-1.0rc1", "software-keyboard" ] );
+	}
+
 	Khan.require( document.documentElement.getAttribute("data-require") );
 
 	if ( typeof userExercise !== "undefined" ) {
@@ -863,13 +870,15 @@ function makeProblem( id, seed ) {
 	solution.remove();
 	choices.remove();
 
-	// Add the problem into the page
-	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
-	Khan.scratchpad.resize();
-
 	// Enable the all answer input elements except the check answer button.
 	jQuery( "#answercontent input" ).not( '#check-answer-button' )
 		.removeAttr( "disabled" );
+
+	problem.runModules( problem, "Post" );
+
+	// Add the problem into the page
+	jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
+	Khan.scratchpad.resize();
 
 	// Only enable the check answer button if we are not still waiting for
 	// server acknowledgement of the previous problem.

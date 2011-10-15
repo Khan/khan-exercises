@@ -411,3 +411,21 @@ div.timeline-total {
   text-decoration: none;
   font-size: 11px;
 }
+
+#software-keyboard {
+  width: 318px;
+  border: 1px solid red;
+}
+
+#software-keyboard .key {
+  text-align: center;
+  width: 104px;
+  line-height: 52px;
+  display: inline-block;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  border: 1px solid red;
+}
+
+#software-keyboard .key.down {
+  background-color: gray;
+}
