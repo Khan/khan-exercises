@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Divisibility 0.5</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="DIVISORS">[ 2, 3, 5, 6, 9, 10 ]</var>
+			<var id="INDEX1">randRange( 0, 5 )</var>
+			<var id="MULT1">randRange( 5, 20 )</var>
+			<var id="B">DIVISORS[ INDEX1 ]</var>
+			<var id="A">MULT1 * B</var>
+			<var id="DIGIT1">floor( A / 100 )</var>
+			<var id="DIGIT2">floor( A / 10 ) % 10</var>
+			<var id="DIGIT3">A % 10</var>
+			<var id="SUMDIGITS">DIGIT1 + DIGIT2 + DIGIT3</var>
+			<var id="SUMDIGITS1">floor( SUMDIGITS / 10 )</var>
+			<var id="SUMDIGITS2">SUMDIGITS % 10</var>
+			<var id="FACTORIZATION">getPrimeFactorization( A )</var>
+			<var id="START_HINT">[ "its last digit must be an even number (0, 2, 4, 6, or 8).", "its digits must ultimately add up to 3, 6, or 9.", "its last digit must be either 0 or 5.", "it must be divisible by both 2 and 3.", "its digits must ultimately add up to 9.", "its last digit must be 0." ]</var>
+		</div>
+
+		<div class="problems">
+			<div id="divisible">
+				<div class="vars">
+					<var id="A">randRangeWeighted( 20, 200, ( MULT1 * B ), 0.5 )</var>
+					<var id="ANSWER">( A % B === 0 ? 'Yes' : 'No' )</var>
+				</div>
+				<p class="question">Is <var>A</var> divisible by <var>B</var>?</p>
+				<p class="solution"><var>ANSWER</var></p>
+				<ul class="choices" data-category="true">
+					<li>Yes</li>
+					<li>No</li>
+				</ul>
+				<div class="hints">
+					<p>In order for a number to be divisible by <var>B</var>, <var>START_HINT[ INDEX1 ]</var></p>
+					<div data-if="B === 2">
+						<p><var>A</var> ends in <var>DIGIT3</var>.</p>
+					</div>
+					<div data-if="B === 3">
+						<p>Adding up the digits in <var>A</var> gives us <span data-if="DIGIT1 > 0"><var>DIGIT1</var> + </span><var>DIGIT2</var> + <var>DIGIT3</var> = <var>SUMDIGITS</var>.<span data-if="SUMDIGITS > 9"> Adding the remaining digits again gives us <var>SUMDIGITS1</var> + <var>SUMDIGITS2</var> = <var>SUMDIGITS1 + SUMDIGITS2</var>.</p>
+					</div>
+					<div data-if="B === 5">
+						<p><var>A</var> ends in <var>DIGIT3</var>.</p>
+					</div>
+					<div data-if="B === 6">
+						<p><var>A</var> ends in <var>DIGIT3</var>, an <span data-if="A % 2 === 0">even </span><span data-if="A % 2 !== 0">odd </span>number, so it is <span data-if="A % 2 !== 0">not </span>divisible by 2.</p>
+						<p>Adding up the digits in <var>A</var> gives us <span data-if="DIGIT1 > 0"><var>DIGIT1</var> + </span><var>DIGIT2</var> + <var>DIGIT3</var> = <var>SUMDIGITS</var>, which is <span data-if="A % 3 !== 0">not </span>a multiple of 3, so <var>A</var> is <span data-if="A % 3 !==0">not </span> divisible by 3.</p>
+					</div>
+					<div data-if="B === 9">
+						<p>Adding up the digits in <var>A</var> gives us <span data-if="DIGIT1 > 0"><var>DIGIT1</var> + </span><var>DIGIT2</var> + <var>DIGIT3</var> = <var>SUMDIGITS</var>.<span data-if="SUMDIGITS > 9"> Adding the remaining digits again gives us <var>SUMDIGITS1</var> + <var>SUMDIGITS2</var> = <var>SUMDIGITS1 + SUMDIGITS2</var>.</p>
+					</div>
+					<div data-if="B === 10">
+						<p><var>A</var> ends in <var>DIGIT3</var>.</p>
+					</div>
+					<p>Therefore, <var>A</var> is <span data-if="A % B !== 0">not </span>divisible by <var>B</var>. <var>ANSWER</var>.</p>
+				</div>
+			</div>
+			<div id="factor">
+				<div class="vars">
+					<var id="MULT1">randRange( 5, 15 )</var>
+					<var id="B">randRange( 5, 15 )</var>
+					<var id="A">MULT1 * B</var>
+					<var id="WRONGFACTORS">
+					(function() {
+						var wrongs = [];
+						var i = randRange( 2, 5 );
+						while( wrongs.length &lt; 3 ) {
+							if ( A % i !== 0 ) {
+								wrongs.push( i );
+							}
+							i++;
+						}
+						i = randRange( 11, 15 );
+						while( wrongs.length &lt; 5 ) {
+							if ( A % i !== 0 ) {
+								wrongs.push( i );
+							}
+							i++;
+						}
+						return shuffle( wrongs, 4 );
+					})()
+					</var>
+					<var id="WRONGFACTORS_SORTED">sortNumbers( WRONGFACTORS )</var>
+				</div>
+				<p class="question">Which of the following numbers is a factor of <var>A</var>?</p>
+				<p class="solution"><code><var>B</var></code></p>
+				<ul class="choices">
+					<li data-each="WRONGFACTORS as index, wrong"><code><var>wrong</var></code></li>
+				</ul>
+				<div class="hints">
+					<p>The prime factorization of <code><var>A</var></code> is <code><var>FACTORIZATION.join( "\\times" )</var></code>.</p>
+					<p>The only answer choice that can be constructed out of these prime factors is <code><var>B</var></code><span data-if="!( isPrime( B ) )">, which is <code><var>getPrimeFactorization( B ).join( "\\times" )</var></code></span>.</p>
+					<div>
+						<p>We can check the other options and see that they don't divide into <code><var>A</var></code> evenly.</p>
+						<p data-each="WRONGFACTORS_SORTED as WRONG"><code><var>A</var> \div <var>WRONG</var> = <var>floor( A / WRONG )</var>\text{ R }<var>( A % WRONG )</var></code></p>
+					</div>
+					<p>Therefore the only factor of <code><var>A</var></code> out of our choices is <code><var>B</var></code>.</p>
+				</div>
+			</div>
+			<div id="multiple">
+				<div class="vars">
+					<var id="WRONGMULTIPLES">
+						(function() {
+							var wrongs = [];
+							while( wrongs.length &lt; 4 ) {
+								var i = randRange( round( A / 2 ), A + 50 );
+								if ( i % B !== 0 ) {
+									wrongs.push( i );
+								}
+							}
+							return wrongs;
+						})()
+					</var>
+					<var id="WRONGMULTIPLES_SORTED">sortNumbers( WRONGMULTIPLES )</var>
+				</div>
+				<p class="question">Which of the following numbers is a multiple of <var>B</var>?</p>
+				<p class="solution"><code><var>A</var></code></p>
+				<ul class="choices">
+					<li data-each="WRONGMULTIPLES as index, wrong"><code><var>wrong</var></code></li>
+				</ul>
+				<div class="hints">
+					<p>In order for a number to be a multiple of <var>B</var>, <var>START_HINT[INDEX1]</var></p>
+					<div>
+						<p>The only answer choice that meets the criteria is <var>A</var>. 
+						<span data-if="B === 3">Adding up the digits in <var>A</var> gives us <span data-if="DIGIT1 > 0"><var>DIGIT1</var> + </span><var>DIGIT2</var> + <var>DIGIT3</var> = <var>SUMDIGITS</var>.<span data-if="SUMDIGITS > 9"> Adding the remaining digits again gives us <var>SUMDIGITS1</var> + <var>SUMDIGITS2</var> = <var>SUMDIGITS1 + SUMDIGITS2</var>.</span></span>
+						<span data-if="B === 6"><var>A</var> ends in <var>A % 10</var>, an <span data-if="A % 2 === 0">even </span><span data-if="A % 2 !== 0">odd </span>number, so it is <span data-if="A % 2 !== 0">not </span>divisible by 2. Adding up the digits in <var>A</var> gives us <span data-if="DIGIT1 > 0"><var>DIGIT1</var> + </span><var>DIGIT2</var> + <var>DIGIT3</var> = <var>SUMDIGITS</var>, which is <span data-if="A % 3 !== 0">not </span>a multiple of 3, so <var>A</var> is <span data-if="A % 3 !==0">not </span> divisible by 3.</span>
+						<span data-if="B === 9">Adding up the digits in <var>A</var> gives us <span data-if="DIGIT1 > 0"><var>DIGIT1</var> + </span><var>DIGIT2</var> + <var>DIGIT3</var> = <var>SUMDIGITS</var>.<span data-if="SUMDIGITS > 9"> Adding the remaining digits again gives us <var>SUMDIGITS1</var> + <var>SUMDIGITS2</var> = <var>SUMDIGITS1 + SUMDIGITS2</var>.</span></span>
+					</div>
+					<div>
+						<p>We can check the other options and see that <var>B</var> does not divide evenly into them.</p>
+						<p data-each="WRONGMULTIPLES_SORTED as WRONG"><code><var>WRONG</var> \div <var>B</var> = <var>floor( WRONG / B)</var>\text{ R }<var>( WRONG % B )</var></code></p>
+					</div>
+					<p>Therefore the only multiple of <var>B</var> out of our choices is <var>A</var>.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
