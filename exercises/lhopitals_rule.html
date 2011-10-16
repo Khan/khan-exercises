@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html data-require="math math-format calculus polynomials expressions lhopitals-rule">
+<head>
+	<meta charset="UTF-8" />
+	<title>L'Hopital's Rule</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div id="polynomial_approaches_0" data-weight="7.5">
+				<div class="vars">
+					<var id="PROBLEM">generateLHopitalProblem()</var>
+					<var id="APPROACHES">PROBLEM.approaches</var>
+					<!-- The polynomials of the problem -->
+					<var id="NUMERATOR">PROBLEM.numerator</var>
+					<var id="DENOMINATOR">PROBLEM.denominator</var>
+					<!-- The text of the solution before evaluation -->
+					<var id="SLN_NUMERATOR_TEXT">PROBLEM.steps[PROBLEM.steps.length-1][0]</var>
+					<var id="SLN_DENOMINATOR_TEXT">PROBLEM.steps[PROBLEM.steps.length-1][1]</var>
+					<!-- The values of the actual solution -->
+					<var id="SLN_NUMERATOR">PROBLEM.solution_numerator</var>
+					<var id="SLN_DENOMINATOR">PROBLEM.solution_denominator</var>
+				</div>
+				
+				<div>
+					<!-- Pose question as limit problem. Will look something like this: lim(x->0) (x)/(3x) = ? -->
+					<p class="question"><code>\displaystyle \lim_{x\to<var>APPROACHES</var>} \frac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = {?}</code></p>
+
+					<p class="solution" data-type="rational" data-simplify="optional"><var>SLN_NUMERATOR / SLN_DENOMINATOR</var></p>
+				</div>
+				
+				<div class="hints">
+					<!-- Remind them of L'Hopital's rule -->
+					<p>L'Hopital's rule states that since evaluating <code>\displaystyle \lim_{x\to<var>APPROACHES</var>} \frac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = \frac{0}{0}</code>,<br />
+					if <code>\displaystyle \lim_{x\to<var>APPROACHES</var>} \frac{\frac{d}{dx} (<var>NUMERATOR</var>)}{\frac{d}{dx} (<var>DENOMINATOR</var>)}</code> exists, evaluating it will give us the actual limit.</p>
+
+					<!-- Show them the steps of L'Hopital's rule by deriving until the indeterminate form can be resolved -->
+					<p>Repeat this process until evaluating the limit will not result in an indeterminate form.<br />
+					<var>formatLHopitalHint(PROBLEM)</var></p>
+
+					<!-- Evaluate the limit and give the solution in both unsimplified and simplified form (if necessary) -->
+					<p>Evaluate the limit: <code>\displaystyle \lim_{x\to<var>APPROACHES</var>} \frac{<var>SLN_NUMERATOR_TEXT.text()</var>}{<var>SLN_DENOMINATOR_TEXT.text()</var>} = 
+					\frac{<var>SLN_NUMERATOR_TEXT.text().replace("x", "(0)")</var>}{<var>SLN_DENOMINATOR_TEXT.text().replace("x", "(0)")</var>} =
+					\frac{<var>SLN_NUMERATOR</var>}{<var>SLN_DENOMINATOR</var>}</code>  <span data-if="reduces(SLN_NUMERATOR, SLN_DENOMINATOR)"><code>= <var>fractionReduce(SLN_NUMERATOR, SLN_DENOMINATOR)</var></code></span></p>
+				</div> <!-- hints -->
+			</div> <!-- polynomial_approaches_0 -->
+		</div> <!-- problems -->
+	</div> <!-- exercise -->
+</body>
+</html>
