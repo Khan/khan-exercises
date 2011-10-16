@@ -2199,6 +2199,7 @@ function updateData( data ) {
 
 	jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
 	jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"});
+	jQuery(".streak-bar").toggleClass("proficient", data.progress >= 1.0);
 
 	// Update the exercise icon
 	var exerciseStates = data && data.exercise_states;
