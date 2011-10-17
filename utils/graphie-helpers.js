@@ -841,3 +841,4 @@ function BarChart( data, pos ) {
 		graph.label( bottomCoord, "\\text{" + ord + "}", "below" );
 	};
 }
+
