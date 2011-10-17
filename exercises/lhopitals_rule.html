@@ -4,47 +4,122 @@
 	<meta charset="UTF-8" />
 	<title>L'Hopital's Rule</title>
 	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function formatLHopitalHint(steps, form) {
+			var buffer = ""
+			for(var i = 0; i != steps.length-1; i++) {
+				var step = steps[i]
+				buffer += "<code>\\displaystyle \\frac{\\frac{d}{dx} ( " + step[0].text() + ")}{\\frac{d}{dx} (" + step[1].text() + ")} = "
+				buffer += "\\frac{"+steps[i+1][0].text()+"}{"+steps[i+1][1].text()+"}</code><br />"
+		
+				// If we're not at the end 
+				if(i+1 != steps.length-1) {
+					buffer += "<br />Since evaluating the limit at this point still results in <code>"+form+"</code>, we must apply L'Hopital's rule again.<br />"
+				}
+			}
+			return buffer
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
 		<div class="problems">
-			<div id="polynomial_approaches_0" data-weight="7.5">
+			<div id="polynomial">
 				<div class="vars">
-					<var id="PROBLEM">generateLHopitalProblem()</var>
-					<var id="APPROACHES">PROBLEM.approaches</var>
-					<!-- The polynomials of the problem -->
-					<var id="NUMERATOR">PROBLEM.numerator</var>
-					<var id="DENOMINATOR">PROBLEM.denominator</var>
-					<!-- The text of the solution before evaluation -->
-					<var id="SLN_NUMERATOR_TEXT">PROBLEM.steps[PROBLEM.steps.length-1][0]</var>
-					<var id="SLN_DENOMINATOR_TEXT">PROBLEM.steps[PROBLEM.steps.length-1][1]</var>
+					<var id="APPROACHES">[0, Infinity][KhanUtil.rand(2)]</var>
+					<var id="APPROACHES_TEXT">{0: "0", Infinity: "\\infty"}[APPROACHES]</var>
+					<var id="INDETERMINATE_FORM">{0: "\\frac{0}{0}", Infinity: "\\frac{\\infty}{\\infty}"}[APPROACHES]</var>
+
+					<!-- Generate polynomials suitable for an L'Hopital's rule
+							 problem (has no plain numbers, requires taking no more
+							 than 3 derivatives to solve) -->
+					<var id="DEGREE">KhanUtil.randRange(2,3)</var>
+					<var id="NUMERATOR">new KhanUtil.Polynomial(DEGREE - 1, DEGREE, KhanUtil.randCoefs(DEGREE - 1, DEGREE), "x")</var>
+
+					<!-- In order for an x->0 problem to be solvable with
+					L'Hopital's rule, the denominator's minDegree must match the
+					numerator's, but in an x->infinity problem, the maxDegree
+					must match the numerator's -->
+					<var id="DENOMINATOR" data-ensure="APPROACHES == 0 ? DENOMINATOR.findMinDegree() == NUMERATOR.findMinDegree() : DENOMINATOR.findMaxDegree() == NUMERATOR.findMaxDegree()">
+						new KhanUtil.Polynomial(DEGREE - 1, DEGREE, KhanUtil.randCoefs(DEGREE - 1, DEGREE), "x")
+					</var>
+
+					<!-- Find a list of successive derivatives of a polynomial
+						  until resolving an indeterminate form is possible. This
+						  is required for hints and to find the actual solution -->
+					<var id="STEPS">
+						(function() {
+							var steps = [[NUMERATOR, DENOMINATOR]]
+							var n = NUMERATOR, d = DENOMINATOR
+
+							// In an x approaches zero problem we only care when
+							// minDegree is 0 (i.e. there is a plain number
+							// in the denominator so we can evaluate the expression),
+							// in an approaches infinity problem we want maxDegree to be
+							// 0 as well
+
+							while(d.findMinDegree() != 0 || (APPROACHES == 0 ? false : d.findMaxDegree() != 0)) {
+								n = KhanUtil.ddxPolynomial(n)
+								d = KhanUtil.ddxPolynomial(d)
+								steps.push([n, d])
+							}
+						
+							return steps
+						})()
+					</var>
+          
+					<var id="HINTS">formatLHopitalHint(STEPS, INDETERMINATE_FORM)</var>
+
+					<var id="SLN_NUMERATOR_TEXT">STEPS[STEPS.length-1][0]</var>
+					<var id="SLN_DENOMINATOR_TEXT">STEPS[STEPS.length-1][1]</var>
 					<!-- The values of the actual solution -->
-					<var id="SLN_NUMERATOR">PROBLEM.solution_numerator</var>
-					<var id="SLN_DENOMINATOR">PROBLEM.solution_denominator</var>
+					<var id="SLN_NUMERATOR">SLN_NUMERATOR_TEXT.evalOf(0)</var>
+					<var id="SLN_DENOMINATOR">SLN_DENOMINATOR_TEXT.evalOf(0)</var>
 				</div>
 				
 				<div>
 					<!-- Pose question as limit problem. Will look something like this: lim(x->0) (x)/(3x) = ? -->
-					<p class="question"><code>\displaystyle \lim_{x\to<var>APPROACHES</var>} \frac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = {?}</code></p>
+					<p class="question">
+						<code>\displaystyle \lim_{x \to <var>APPROACHES_TEXT</var>} \frac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = {?}</code>
+					</p>
 
 					<p class="solution" data-type="rational" data-simplify="optional"><var>SLN_NUMERATOR / SLN_DENOMINATOR</var></p>
 				</div>
 				
 				<div class="hints">
 					<!-- Remind them of L'Hopital's rule -->
-					<p>L'Hopital's rule states that since evaluating <code>\displaystyle \lim_{x\to<var>APPROACHES</var>} \frac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = \frac{0}{0}</code>,<br />
-					if <code>\displaystyle \lim_{x\to<var>APPROACHES</var>} \frac{\frac{d}{dx} (<var>NUMERATOR</var>)}{\frac{d}{dx} (<var>DENOMINATOR</var>)}</code> exists, evaluating it will give us the actual limit.</p>
+					<p>L'Hopital's rule states that since evaluating
+						<!-- Original problem -->
+						<code>\displaystyle \lim_{x \to <var>APPROACHES_TEXT</var>} \frac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>INDETERMINATE_FORM</var></code>,<br />
+						<!-- Explanation of rule -->
+						if <code>\displaystyle \lim_{x \to <var>APPROACHES_TEXT</var>} \frac{\frac{d}{dx} (<var>NUMERATOR</var>)}{\frac{d}{dx} (<var>DENOMINATOR</var>)}</code> exists, evaluating it will give us the actual limit.
+					</p>
 
 					<!-- Show them the steps of L'Hopital's rule by deriving until the indeterminate form can be resolved -->
-					<p>Repeat this process until evaluating the limit will not result in an indeterminate form.<br />
-					<var>formatLHopitalHint(PROBLEM)</var></p>
+					<p>
+						Repeat this process until evaluating the limit will not result in an indeterminate form.<br />
+						<var>formatLHopitalHint(STEPS, INDETERMINATE_FORM)</var>
+					</p>
+
 
 					<!-- Evaluate the limit and give the solution in both unsimplified and simplified form (if necessary) -->
-					<p>Evaluate the limit: <code>\displaystyle \lim_{x\to<var>APPROACHES</var>} \frac{<var>SLN_NUMERATOR_TEXT.text()</var>}{<var>SLN_DENOMINATOR_TEXT.text()</var>} = 
-					\frac{<var>SLN_NUMERATOR_TEXT.text().replace("x", "(0)")</var>}{<var>SLN_DENOMINATOR_TEXT.text().replace("x", "(0)")</var>} =
-					\frac{<var>SLN_NUMERATOR</var>}{<var>SLN_DENOMINATOR</var>}</code>  <span data-if="reduces(SLN_NUMERATOR, SLN_DENOMINATOR)"><code>= <var>fractionReduce(SLN_NUMERATOR, SLN_DENOMINATOR)</var></code></span></p>
+					<p>
+						<!-- Restate the problem using the derived, but unevaluated limit-->
+						Evaluate the limit:
+						<code>
+							\displaystyle \lim_{x \to <var>APPROACHES_TEXT</var>} \frac{<var>SLN_NUMERATOR_TEXT.text()</var>}{<var>SLN_DENOMINATOR_TEXT.text()</var>}
+							<!-- Show the evaluation of the limit (only necessary for x->0, otherwise evaluation is obvious because all variables will be gone) -->
+							<span data-if="APPROACHES == 0">
+								= \frac{<var>SLN_NUMERATOR_TEXT.text().replace("x", "(0)")</var>}{<var>SLN_DENOMINATOR_TEXT.text().replace("x", "(0)")</var>} =
+								<!-- Give the unsimplified answer -->
+								\frac{<var>SLN_NUMERATOR</var>}{<var>SLN_DENOMINATOR</var>}</code>
+							</span>
+							<!-- Give the simplified answer, if necessary -->
+							<span data-if="reduces(SLN_NUMERATOR, SLN_DENOMINATOR)"><code>= <var>fractionReduce(SLN_NUMERATOR, SLN_DENOMINATOR)</var></span>
+						</code>
+					</p>
 				</div> <!-- hints -->
-			</div> <!-- polynomial_approaches_0 -->
+			</div> <!-- polynomial -->
 		</div> <!-- problems -->
 	</div> <!-- exercise -->
 </body>
