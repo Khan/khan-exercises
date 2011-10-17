@@ -128,7 +128,7 @@
 				</div>
 			</div>
 
-			<div id="birthday_party_guests">
+			<div id="birthday-party-guests">
 				<div class="vars" data-ensure="isInt( SOLUTION )">
 					<var id="INVITEES">randRange( 10, 20 )</var>
 					<var id="D">randFromArray([ 6, 8 ])</var>
@@ -157,7 +157,7 @@
 				</div>
 			</div>
 
-			<div id="bookstore_spending">
+			<div id="bookstore-spending">
 				<div class="vars">
 					<var id="AMOUNT">randRange( 20, 40 )</var>
 					<var id="D">randFromArray([ 3, 4 ])</var>
@@ -167,7 +167,7 @@
 
 				<p class="problem spin">After saving up for a while, <var>person( 1 )</var> had $<var>AMOUNT</var> in <var>his( 1 )</var> piggy bank, and <var>he( 1 )</var> spent <var>N</var>/<var>D</var> of that money on books at the bookstore.</p>
 				<p class="question">How much money did <var>person( 1 )</var> spend?</p>
-				<p class="extra-info">(round to the nearest hundredth of a dollar)</p>
+				<p class="extra-info">Round to the nearest cent, or hundredth of a dollar.</p>
 
 				<div class="solution" data-forms="dollar"><var>SOLUTION</var></div>
 
@@ -187,7 +187,7 @@
 				</div>
 			</div>
 
-			<div id="canned_food_spending">
+			<div id="canned-food-spending">
 				<div class="vars">
 					<var id="AMOUNT">randRange( 15, 40 )</var>
 					<var id="D">randFromArray([ 8, 6 ])</var>
@@ -197,9 +197,9 @@
 
 				<p class="problem spin">Every day <var>person( 1 )</var> put the extra change from <var>his( 1 )</var> pockets into a glass jar. After <var>randRange( 10, 30 )</var> weeks, <var>person( 1 )</var> had saved up $<var>AMOUNT</var>. <var>person( 1 )</var> decided to use <var>N</var>/<var>D</var> of the money from the jar to buy canned food for a homeless shelter.</p>
 				<p class="question">How much money did <var>person( 1 )</var> spend on canned food?</p>
-				<p class="extra-info">(round to the nearest hundredth of a dollar)</p>
+				<p class="extra-info">Round to the nearest cent, or hundredth of a dollar.</p>
 
-				<div class="solution"><var>SOLUTION</var></div>
+				<div class="solution" data-forms="dollar"><var>SOLUTION</var></div>
 
 				<div class="hints">
 					<p>We can multiply <code><var>AMOUNT</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find out how much money <var>person( 1 )</var> spent on canned food.</p>
@@ -217,7 +217,7 @@
 				</div>
 			</div>
 
-			<div id="road_trip_gas">
+			<div id="road-trip-gas">
 				<div class="vars" data-ensure="isInt( SOLUTION )">
 					<var id="GALLONS">randRange( 10, 20 )</var>
 					<var id="D">randFromArray([ 8, 6, 10 ])</var>
@@ -246,7 +246,7 @@
 				</div>
 			</div>
 
-			<div id="picnic_attendees">
+			<div id="picnic-attendees">
 				<div class="vars" data-ensure="isInt( SOLUTION )">
 					<var id="ATTENDEES">randRange( 15, 100 )</var>
 					<var id="D">randFromArray([ 8, 6, 10 ])</var>
