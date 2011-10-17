@@ -129,7 +129,7 @@
 			</div>
 
 			<div id="birthday-party-guests">
-				<div class="vars" data-ensure="isInt( SOLUTION )">
+				<div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
 					<var id="INVITEES">randRange( 10, 20 )</var>
 					<var id="D">randFromArray([ 6, 8 ])</var>
 					<var id="N">randRange( 1, D - 1 )</var>
@@ -143,14 +143,13 @@
 
 				<div class="hints">
 					<p>We can multiply <code>\dfrac{<var>N</var>}{<var>D</var>}</code> by <code><var>INVITEES</var></code> to find out how many people attended the party.</p>
-					<div>
-						<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>INVITEES</var></code></p>
-						<div class="graphie">
-							init({ range: [ [ 0, 1 ], [ 0, INVITEES + 1 ] ],scale: [ 250, 25 ] });
-							for ( var y = 1; y <= INVITEES; y++ ) {
-								rectchart( [ N, D - N ], ["#e00", "#999" ], y );
-							}
-						</div>
+					<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>INVITEES</var></code></p>
+					<p data-if="getGCD( D, INVITEES ) !== 1"><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>INVITEES</var></code></p>
+					<div class="graphie">
+						init({ range: [ [ 0, 1 ], [ 0, INVITEES + 1 ] ],scale: [ 250, 25 ] });
+						for ( var y = 1; y <= INVITEES; y++ ) {
+							rectchart( [ N, D - N ], ["#e00", "#999" ], y );
+						}
 					</div>
 					<p><code>\color{#e00}{\dfrac{<var>N * INVITEES</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
 					<strong><var>SOLUTION</var> people attended <var>person( 1 )</var>’s party.</strong>
@@ -158,7 +157,7 @@
 			</div>
 
 			<div id="bookstore-spending">
-				<div class="vars">
+				<div class="vars" data-ensure="getGCD( D, N ) === 1">
 					<var id="AMOUNT">randRange( 20, 40 )</var>
 					<var id="D">randFromArray([ 3, 4 ])</var>
 					<var id="N">randRange( 1, D - 1 )</var>
@@ -188,7 +187,7 @@
 			</div>
 
 			<div id="canned-food-spending">
-				<div class="vars">
+				<div class="vars" data-ensure="getGCD( D, N ) === 1">
 					<var id="AMOUNT">randRange( 15, 40 )</var>
 					<var id="D">randFromArray([ 8, 6 ])</var>
 					<var id="N">randRange( 1, D - 1 )</var>
@@ -218,7 +217,7 @@
 			</div>
 
 			<div id="road-trip-gas">
-				<div class="vars" data-ensure="isInt( SOLUTION )">
+				<div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
 					<var id="GALLONS">randRange( 10, 20 )</var>
 					<var id="D">randFromArray([ 8, 6, 10 ])</var>
 					<var id="N">randRange( 1, D - 1 )</var>
@@ -247,8 +246,8 @@
 			</div>
 
 			<div id="picnic-attendees">
-				<div class="vars" data-ensure="isInt( SOLUTION )">
-					<var id="ATTENDEES">randRange( 15, 100 )</var>
+				<div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
+					<var id="ATTENDEES">randRange( 15, 40 )</var>
 					<var id="D">randFromArray([ 8, 6, 10 ])</var>
 					<var id="N">randRange( 1, D - 1 )</var>
 					<var id="SOLUTION">N / D * ATTENDEES</var>
