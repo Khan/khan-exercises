@@ -8,14 +8,16 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<!-- An integer will be a starting or ending quantity 1/3 of the time -->
-			<var id="D_PARENT">randRangeWeighted( 3, 6, 1, 1 / 6 )</var>
-			<var id="N_PARENT">D_PARENT === 1 ? randRange( 1, 2 ) : randRange( D_PARENT + 1,  2 * D_PARENT - 1 )</var>
-			<var id="PARENT">N_PARENT / D_PARENT</var>
-			<var id="D_OFFSPRING_1">randRange( 3, 6 )</var>
-			<var id="D_OFFSPRING_2" data-ensure="D_OFFSPRING_1 !== D_OFFSPRING_2">randRange( 3, 6 )</var>
-			<var id="N_OFFSPRING_1" data-ensure="PARENT > N_OFFSPRING_1 / D_OFFSPRING_1">randRangeExclude( 2, 2 * D_OFFSPRING_1 - 1, [ D_OFFSPRING_1 ] )</var> 
-			<var id="N_OFFSPRING_2" data-ensure="PARENT > N_OFFSPRING_2 / D_OFFSPRING_2">randRangeExclude( 2, 2 * D_OFFSPRING_2 - 1, [ D_OFFSPRING_2 ] )</var> 
+			<div data-ensure="SLICES < 20 && isInt( SLICES )">
+				<var id="D_PARENT">randRangeWeighted( 3, 6, 1, 1 / 6 )</var>
+				<var id="N_PARENT" data-ensure="getGCD( D_PARENT, N_PARENT ) === 1">D_PARENT === 1 ? randRange( 1, 2 ) : randRange( D_PARENT + 1,  2 * D_PARENT - 1 )</var>
+				<var id="PARENT">N_PARENT / D_PARENT</var>
+				<var id="D_OFFSPRING_1">randRange( 3, 6 )</var>
+				<var id="D_OFFSPRING_2" data-ensure="D_OFFSPRING_1 !== D_OFFSPRING_2">randRange( 3, 6 )</var>
+				<var id="N_OFFSPRING_1" data-ensure="getGCD( D_OFFSPRING_1, N_OFFSPRING_1 ) === 1 && PARENT > N_OFFSPRING_1 / D_OFFSPRING_1">randRangeExclude( 2, 2 * D_OFFSPRING_1 - 1, [ D_OFFSPRING_1 ] )</var> 
+				<var id="N_OFFSPRING_2" data-ensure="getGCD( D_OFFSPRING_2, N_OFFSPRING_2 ) === 1 && PARENT > N_OFFSPRING_2 / D_OFFSPRING_2">randRangeExclude( 2, 2 * D_OFFSPRING_2 - 1, [ D_OFFSPRING_2 ] )</var> 
+				<var id="SLICES">N_PARENT * getLCM(D_OFFSPRING_1, D_OFFSPRING_2) / D_PARENT</var>
+			</div>
 			<var id="CODE_PARENT">D_PARENT === 1 ? N_PARENT : mixedOrImproper( N_PARENT, D_PARENT )</var>
 			<var id="CODE_OFFSPRING_1">mixedOrImproper( N_OFFSPRING_1, D_OFFSPRING_1 )</var>
 			<var id="CODE_OFFSPRING_2">mixedOrImproper( N_OFFSPRING_2, D_OFFSPRING_2 )</var>
@@ -67,21 +69,21 @@
 
 				<div class="solution" data-type="multiple">
 					<div style="margin-bottom: 10px;">
-						Cut into
+						<span>Cut Starting Block into</span>
 						<input type="button" value="-" class="simple-button action-gradient" onclick="KhanUtil.changePieces( false )">
 						<span id="pieces" style="display: inline-block; width: 54px; text-align: center;">1 piece</span>
 						<input type="button" value="+" class="simple-button action-gradient" onclick="KhanUtil.changePieces( true )">
 					</div>
 
 					<div style="margin-bottom: 10px;">
-						<span style="display:inline-block; width: 42px;">Copy</span>
+						<span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 1</span>
 						<input type="button" value="-" class="simple-button action-gradient" onclick="KhanUtil.changeTimes( false, 'current_block_1' )" disabled="disabled">
 						<span id="current_block_1_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
 						<input type="button" value="+" class="simple-button action-gradient" onclick="KhanUtil.changeTimes( true, 'current_block_1' )">
 					</div>
 
 					<div style="margin-bottom: 10px;">
-						<span style="display:inline-block; width: 42px;">Copy</span>
+						<span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 2</span>
 						<input type="button" value="-" class="simple-button action-gradient" onclick="KhanUtil.changeTimes( false, 'current_block_2' )" disabled="disabled">
 						<span id="current_block_2_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
 						<input type="button" value="+" class="simple-button action-gradient" onclick="KhanUtil.changeTimes( true, 'current_block_2' )">
