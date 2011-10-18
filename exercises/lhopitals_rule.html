@@ -14,7 +14,7 @@
 		
 				// If we're not at the end 
 				if(i+1 != steps.length-1) {
-					buffer += "<br />Since evaluating the limit at this point still results in <code>"+form+"</code>, we must apply L'Hopital's rule again.<br />"
+					buffer += "<br />Since evaluating the limit at this point still results in <code>"+form+"</code>, we must apply L'Hopital's rule again:<br />"
 				}
 			}
 			return buffer
@@ -26,9 +26,9 @@
 		<div class="problems">
 			<div id="polynomial">
 				<div class="vars">
-					<var id="APPROACHES">[0, Infinity][KhanUtil.rand(2)]</var>
+					<var id="APPROACHES">randFromArray([0, Infinity])</var>
 					<var id="APPROACHES_TEXT">{0: "0", Infinity: "\\infty"}[APPROACHES]</var>
-					<var id="INDETERMINATE_FORM">{0: "\\frac{0}{0}", Infinity: "\\frac{\\infty}{\\infty}"}[APPROACHES]</var>
+					<var id="INDETERMINATE_FORM">"\\frac" + {0: "{0}{0}", Infinity: "{\\infty}{\\infty}"}[APPROACHES]</var>
 
 					<!-- Generate polynomials suitable for an L'Hopital's rule
 							 problem (has no plain numbers, requires taking no more
@@ -96,7 +96,7 @@
 
 					<!-- Show them the steps of L'Hopital's rule by deriving until the indeterminate form can be resolved -->
 					<p>
-						Repeat this process until evaluating the limit will not result in an indeterminate form.<br />
+						Repeat this process until evaluating the limit will not result in an indeterminate form:<br />
 						<var>formatLHopitalHint(STEPS, INDETERMINATE_FORM)</var>
 					</p>
 
