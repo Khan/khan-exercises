@@ -3,9 +3,8 @@ jQuery.fn["software-keyboardPost"] = function() {
 	var solutionarea = jQuery("#solutionarea");
 
 	var inputs = solutionarea.find( ":input" );
-	inputs.prop( "readonly", true ).bind( "vclick", function() {
-		alert("hey");
-	} );
+	inputs.prop( "readonly", true )
+		.css( "-webkit-tap-highlight-color", "rgba(0, 0, 0, 0)" );
 
 	var keyPressed = function( key ) {
 		var field = solutionarea.find( ":input" ).first();
@@ -41,19 +40,24 @@ jQuery.fn["software-keyboardPost"] = function() {
 					.appendTo( rowDiv );
 				var canceled = false, downTime;
 
-				keySpan.bind( "vmousemove", function() {
-					// Prevent weirdo scrolling
-					return false;
-				} );
-				keySpan.bind( "vmousecancel", function() {
-					keySpan.removeClass( "down" );
-					canceled = true;
-				} );
-				keySpan.bind( "vmousedown", function() {
+				var evtPrefix = "";
+				if ( jQuery.mobile != null ) {
+					evtPrefix = "v";
+					keySpan.bind( "vmousecancel", function() {
+						keySpan.removeClass( "down" );
+						canceled = true;
+					} );
+					keySpan.bind( "vmousemove", function() {
+						// Prevent weirdo scrolling
+						return false;
+					} );
+				}
+
+				keySpan.bind( evtPrefix + "mousedown", function() {
 					keySpan.addClass( "down" );
 					canceled = false;
 				} );
-				keySpan.bind( "vmouseup", function() {
+				keySpan.bind( evtPrefix + "mouseup", function() {
 					keySpan.removeClass( "down" );
 
 					if ( !canceled ) {

@@ -523,10 +523,7 @@ Khan.loadScripts( scripts, function() {
 	Khan.require( [ "answer-types", "tmpl" ] );
 
 	if ( true || typeof userExercise !== "undefined" && userExercise.tablet ) {
-		jQuery( document ).bind( "mobileinit", function() {
-			jQuery.mobile.autoInitializePage = false;
-		} );
-		Khan.require( [ "jquery.mobile-1.0rc1", "software-keyboard" ] );
+		Khan.require( [ "software-keyboard" ] );
 	}
 
 	Khan.require( document.documentElement.getAttribute("data-require") );
