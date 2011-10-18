@@ -2175,14 +2175,14 @@ function updateData( data ) {
 
 	if ( data.summative ) {
 		jQuery( ".summative-help ")
-			.find( ".summative-required-streaks" ).text( parseInt( (data.required_streak / 10) , 10) ).end()
+			.find( ".summative-required-streaks" ).text( data.num_milestones ).end()
 			.show();
 
 		if ( jQuery( ".level-label" ).length === 0 ) {
 
 			// Split summative streak bar into levels
 			var levels = [];
-			var levelCount = data.required_streak / 10;
+			var levelCount = data.num_milestones;
 			for ( var i = 1; i < levelCount; i++ ) {
 
 				// Individual level pixels
