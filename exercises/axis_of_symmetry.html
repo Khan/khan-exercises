@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html data-require="math angles graphie graphie-geometry graphie-helpers">
+<head>
+	<meta charset="UTF-8" />
+	<title>Axis of symmetry</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+			<div class="vars">
+				<var id="SYM">randRange( 0, 1 )</var>
+				<var id="SIDES">randRange( 3, 8 )</var>
+				<var id="SIDE">randRange( 0, SIDES - 1 )</var>
+				<var id="ANSWER">SYM ? "Yes" : "No"</var>
+			</div>
+
+	<div class="problems">
+		<div>
+			<p class="question">Is the blue line an axis of symmetry?</p>
+			<div class="graphie" id="main">
+				init({
+					 range: [ [ -5, 5 ], [ -5, 5 ] ]
+				});
+				graph.polygon = new RegularPolygon( [ 0, 0 ] , SIDES , 3 );
+
+				if ( SYM ){
+					graph.split = graph.polygon.drawLineOfSymmetry( SIDE );
+				} else {
+					graph.split = graph.polygon.drawFakeLineOfSymmetry( SIDE );
+				}
+			</div>
+			<div class="solution"><var>ANSWER</var></div>
+			<ul class="choices" data-category="true">
+				<li>Yes</li>
+				<li>No</li>
+			</ul>
+			<div class="hints">
+				<p>Does the blue line split the shape into two parts which look like reflections of each other?</p>
+				<div>
+					<p>The orange line is one of two parts made by the blue line.</p>
+					<div class="graphie" data-update="main">
+						graph.half = graph.polygon.splitPath( graph.split ).graphiePath;
+					</div>
+				</div>
+				<p>If the blue line were a mirror, what would the orange line's reflection look like?</p>
+				<div>
+					<p>The pink line is the orange line's reflection.</p>
+					<div class="graphie" data-update="main">
+						var temp = [];
+						var i = 0;
+						for( i = 0; i != graph.half.length; i++ ){
+							temp.push( reflectPoint( graph.split.graphiePath, graph.half[ i ] ) );
+						}
+						path( temp, { "stroke-width": 5, stroke: KhanUtil.PINK } )
+					</div>
+				</div>
+				<p data-if="SYM">The blue line splits the shape into two equal halves, so it is an axis of symmetry.</p>
+				<p data-else>The blue line did not split the shape into two equal halves, so it is not an axis of symmetry.</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
