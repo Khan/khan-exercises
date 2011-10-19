@@ -37,14 +37,23 @@
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
+					<var id="C">randRangeNonZero( -1, 1 )</var>
 				</div>
+
 				
-				<p class="problem"><code><var>A</var>(<var>plus( X, B )</var>)</code></p>
+				<p class="problem"><code><var>A</var>(<var>plus( X, C+Y )</var>) + <var>B</var></code></p>
 				<p class="question">Use the distributive property to simplify the equation.</p>
-				<p class="solution"><var>plus( A+X, A+B )</var></p>
+				<p class="solution"><code><var>A</var><var>X</var> + <var>A*C</var><var>Y</var> + <var>B</var></code></p>
+				<ul class="choices" data-show="4" data-none="true">
+					<li><code><var>plus( A+X, C+Y, B )</var></code></li>
+					<li><code><var>plus( A+X, C+Y, A+B )</var></code></li>
+					<li><code><var>plus( A, X, C+Y, B )</var></code></li>
+					<li><code><var>plus( A+X, A+Y )</var> + \frac{ <var>B</var> }{ <var>A</var> }</code></li>
+					<li><code><var></var></code></li>
+				</ul>
 			</div>
 			
-			<!-- A + (x + B) + C -->
+			<!-- A + (x + B) + C  <- this is a good one; when it's - (x + B) esp is tricky -->
 			<!-- A(x + B) + C(D + x) -->
 			<!-- A(x + B) + Cx -->
 		</div>
