@@ -10,32 +10,53 @@
 	<div class="vars">
 		<var id="SIDES">randRange( 5, 8 )</var>
 		<var id="ANSWER">180 * ( SIDES - 2 )</var>
+		<var id="CLONE">{}</var>
 	</div>
 
 	<div class="problems">
 		<div id="sum">
 			<p class="question">What is the sum of this polygon's interior angles?</p>
-			<div class="graphie" id="main">
+			<div class="graphie" id="circle">
 				init({
 					 range: [ [ -5, 5 ], [ -1, 5 ] ]
 				});
 				graph.polygon = new Polygon( SIDES );
+				graph.polygon.draw();
+				CLONE = graph.polygon.clone();
 			</div>
 			<div class="solution" data-type="multiple">
 				<span class="sol"><var>ANSWER</var></span> degrees
 			</div>
 			<div class="hints">
+				<p>There are a couple ways to approach this problem.</p>
 				<p>Does it help to remember that there are 180 degrees in a triangle?</p>
 				<div>
+					<p>Since this polygon has <var>SIDES</var> sides, we can draw <var>SIDES</var> triangles that all meet in the center.</p>
+					<div class="graphie" data-update="circle">
+						graph.polygon.drawRadialDiagonals();
+					</div>
+				</div>
+				<p>We can combine all the triangles' angles, and then we must subtract 360 degrees because the circle in the middle is extra.</p>
+				<p><code>\begin{align*}&<var>SIDES</var> \times 180^{\circ} - 360^{\circ} \\
+					&= <var>SIDES * 180</var>^{\circ} - 360^{\circ} \\
+					&= <var>ANSWER</var>^{\circ}\end{align*}</code></p>
+
+				<div>
+					<p>An alternative approach is shown below.</p>
 					<p>We can use four of the <var>cardinal( SIDES )</var> sides to make 2 triangles, as shown in orange.</p>
-					<div class="graphie" data-update="main">
+					<div class="graphie" data-id="other">
+						init({
+							 range: [ [ -5, 5 ], [ -1, 5 ] ]
+						});
+						graph.polygon = CLONE;
+						graph.polygon.draw();
 						graph.polygon.drawDiagonals( randRange( 0, SIDES - 1 ) );
 					</div>
 				</div>
 				<p>There <var>plural( "is", SIDES - 4 )</var> <var>plural( SIDES - 4, "side" )</var> between the orange triangles, to make <var>SIDES - 4</var> additional <var>plural( "triangle", SIDES - 4 )</var>.</p>
-				<p>We chopped this polygon into a total of <var>SIDES - 2</var> triangles, and each triangle's angles sum to 180 degrees.</p>
+				<p>We chopped this polygon into <var>SIDES - 2</var> triangles, and each triangle's angles sum to 180 degrees.</p>
 				<p><code><var>SIDES - 2</var> \times 180^{\circ} = <var>ANSWER</var>^{\circ}</code></p>
-				<p>The sum of the polygon's interior angles is <var>ANSWER</var> degrees.</p>
+				<p>Again, we have found that the sum of the polygon's interior angles is <var>ANSWER</var> degrees.</p>
 			</div>
 		</div>
 	</div>

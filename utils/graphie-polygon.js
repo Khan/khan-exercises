@@ -1,7 +1,6 @@
 jQuery.extend( KhanUtil, {
 	Polygon: function( numSides ) {
-		var graph = KhanUtil.currentGraph,
-			angles = [],
+		var angles = [],
 			points = [];
 
 		function getMaxDiagonalLength( p1, p2, p3 ) {
@@ -21,7 +20,7 @@ jQuery.extend( KhanUtil, {
 		// and the line created by the previous two vertices.
 		// Hippopotamus.
 		(function (){
-			var origin = [ 0, 0 ],
+			var graph = KhanUtil.currentGraph,
 				curr,
 				length,
 				min = 1,
@@ -34,9 +33,9 @@ jQuery.extend( KhanUtil, {
 				angles.push( evenlyDivided * ( 1 + jitter ) );
 			}
 
-			while( points.length !== angles.length + 3 ){
+			while( points.length !== angles.length + 2 ){
 				curr = 0;
-				points = [ origin, graph.polar( KhanUtil.randRange( min, max ), curr ) ];
+				points = [ [ 0, 0 ], graph.polar( KhanUtil.randRange( min, max ), curr ) ];
 				jQuery.each( angles, function( index, angle ) {
 					curr += angle;
 					if ( index == 0 ){
@@ -51,15 +50,20 @@ jQuery.extend( KhanUtil, {
 					}
 					points.push( graph.polar( length, curr ) );
 				});
-				points.push( origin );
 			}
+		})()
+		this.draw = function () {
+			var graph = KhanUtil.currentGraph;
 			graph.style({stroke: KhanUtil.BLUE });
+			points.push( [0, 0] );
 			graph.path( points );
 			points.pop();
-		})()
+		}
 
 		function drawDiagonalTriangle( start ) {
-			var length = points.length;
+			var graph = KhanUtil.currentGraph,
+				length = points.length;
+			graph.style({stroke: KhanUtil.ORANGE, "stroke-width": 3});
 			graph.line( points[ start % length ], points[ ( start + 1 ) % length ] );
 			graph.line( points[ ( start + 1 ) % length ], points[ ( start + 2 ) % length ] );
 			graph.line( points[ ( start + 2 ) % length ], points[ start % length ] );
@@ -71,14 +75,37 @@ jQuery.extend( KhanUtil, {
 		}
 
 		this.drawDiagonals = function( start ) {
-			var p1 = points[ start % points.length ];
+			var graph = KhanUtil.currentGraph,
+				p1 = points[ start % points.length ];
 			jQuery.each( points, function( i, p2 ) {
 				if ( start !== i ) {
 					graph.line( p1, p2 );
 				}
 			});
-			graph.style({stroke: KhanUtil.ORANGE, "stroke-width": 3});
 			drawEndTriangles( start );
+		}
+
+		this.drawRadialDiagonals = function() {
+			var graph = KhanUtil.currentGraph,
+				cx = 0,
+				cy = 0;
+
+			jQuery.each( points, function( index, point ) {
+				cx += point[ 0 ];
+				cy += point[ 1 ];
+			});
+			cx /= points.length;
+			cy /= points.length;
+			graph.style({stroke: KhanUtil.ORANGE}, function() {
+				jQuery.each( points, function( index, point ) {
+					graph.line( [ cx, cy ], point );
+				});
+			});
+			graph.circle( [ cx, cy ], 0.3 );
+		}
+
+		this.clone = function() {
+			return jQuery.extend( true, {}, this );
 		}
 	}
 });
