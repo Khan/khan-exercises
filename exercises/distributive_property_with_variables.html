@@ -37,18 +37,32 @@
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
-					<var id="C">randRangeNonZero( -1, 1 )</var>
+					<var id="YSIGN">randRangeNonZero( -1, 1 )</var>
+					<!-- pretty fraction display; e.g., "+ (-1/4)" becomes "- (1/4)" -->
+					<var id="FRAC">function( a, b ) {
+						if ( a > 0 ) {
+							if ( b > 0 ) {
+								return "\\frac{" + a + "}{" + b + "}";
+							} else {
+								return "- \\frac{" + a + "}{" + (-1 * b) + "}";
+							}
+						} else if ( b > 0 ) {
+							return "- \\frac{" + (-1 * a) + "}{" + b + "}";
+						} else {
+							return "\\frac{" + (-1 * a) + "}{" + (-1 * b) + "}";
+						}
+					}</var>
 				</div>
 
 				
-				<p class="problem"><code><var>A</var>(<var>plus( X, C+Y )</var>) + <var>B</var></code></p>
+				<p class="problem"><code><var>A</var>(<var>plus( X, YSIGN+Y )</var>) + <var>B</var></code></p>
 				<p class="question">Use the distributive property to simplify the equation.</p>
-				<p class="solution"><code><var>A</var><var>X</var> + <var>A*C</var><var>Y</var> + <var>B</var></code></p>
+				<p class="solution"><code><var>A</var><var>X</var> + <var>A*YSIGN</var><var>Y</var> + <var>B</var></code></p>
 				<ul class="choices" data-show="4" data-none="true">
-					<li><code><var>plus( A+X, C+Y, B )</var></code></li>
-					<li><code><var>plus( A+X, C+Y, A+B )</var></code></li>
-					<li><code><var>plus( A, X, C+Y, B )</var></code></li>
-					<li><code><var>plus( A+X, A+Y )</var> + \frac{ <var>B</var> }{ <var>A</var> }</code></li>
+					<li><code><var>plus( A+X, YSIGN+Y, B )</var></code></li>
+					<li><code><var>plus( A+X, YSIGN+Y, A+B )</var></code></li>
+					<li><code><var>plus( A, X, YSIGN+Y, B )</var></code></li>
+					<li><code><var>plus( A+X, A+Y )</var> + <var>FRAC( B , A )</var></code></li>
 					<li><code><var></var></code></li>
 				</ul>
 			</div>
