@@ -1,13 +1,23 @@
 jQuery.extend( KhanUtil, {
 	Polygon: function( numSides ) {
+		// This should be renamed...
+		// these are the angles between diagonals
+		// to construct the polygon.
 		var angles = [],
 			points = [];
+			gExteriorAngles = [];
 
 		function getMaxDiagonalLength( p1, p2, p3 ) {
 			var intersection = findIntersection( [ p1, p2 ], [ [ 0, 0 ], p3 ] ),
 				x = intersection[ 0 ],
 				y = intersection[ 1 ];
 			return Math.sqrt( x * x + y * y );
+		}
+
+		function getDistance( p1, p2 ) {
+			var dx = p2[ 0 ] - p1[ 0 ],
+				dy = p2[ 1 ] - p1[ 1 ];
+			return Math.sqrt( dx * dx + dy * dy );
 		}
 
 		// Creates a convex n-gon by choosing n-2 angles,
@@ -52,6 +62,7 @@ jQuery.extend( KhanUtil, {
 				});
 			}
 		})()
+
 		this.draw = function () {
 			var graph = KhanUtil.currentGraph;
 			graph.style({stroke: KhanUtil.BLUE });
@@ -104,8 +115,69 @@ jQuery.extend( KhanUtil, {
 			graph.circle( [ cx, cy ], 0.3 );
 		}
 
+		this.drawExteriorAngles = function() {
+			var graph = KhanUtil.currentGraph,
+				prevTheta = 0,
+				prevPoint;
+			graph.style({ "stroke-dasharray": "-"});
+			points.push( [ 0, 0 ] );
+			jQuery.each( points, function( index, point ) {
+				if ( index != 0 ) {
+					var distance = getDistance( prevPoint, point ),
+						dx = point[ 0 ] - prevPoint[ 0 ],
+						dy = point[ 1 ] - prevPoint[ 1 ],
+						theta = Math.acos( dx / distance ) * 180 / Math.PI,
+						coord;
+					if ( dy < 0 ) {
+						theta = 360 - theta;
+					}
+					coord = graph.polar( distance + 2, theta );
+					coord[ 0 ] += prevPoint[ 0 ];
+					coord[ 1 ] += prevPoint[ 1 ];
+					graph.line( prevPoint, coord );
+					graph.style({"stroke-dasharray":""}, function() {
+						gExteriorAngles.push( graph.arc( prevPoint, 0.5, prevTheta, theta ) );
+					});
+
+					prevTheta = theta;
+				}
+				prevPoint = point;
+			});
+			graph.style({"stroke-dasharray":""}, function() {
+				gExteriorAngles.push( graph.arc( prevPoint, 0.5, prevTheta, 360 ) );
+			});
+			points.pop();
+		}
+		
+		function getColor( i ) {
+			switch( i % 4 ) {
+				case 0: return KhanUtil.BLUE;
+				case 1: return KhanUtil.ORANGE;
+				case 2: return KhanUtil.GREEN;
+				case 3: return KhanUtil.PINK;
+			}
+		}
+
+		this.animateExteriorAngles = function( start ) {
+			var graph = KhanUtil.currentGraph,
+				origin = graph.scalePoint( points[ start ] );
+			points.push( [ 0, 0 ] );
+			for ( var i = 0; i < gExteriorAngles.length; i++ ) {
+				var gAngle = gExteriorAngles[ i ],
+					point = points[ i ],
+					coord = graph.scalePoint( point ),
+					clone = gAngle.attr( "stroke", getColor( i ) ).clone();
+				clone.animate( { translation: [ origin[ 0 ] - coord[ 0 ], origin[ 1 ] - coord[ 1 ] ] }, 1000 );
+			}
+			points.pop();
+		}
+
 		this.clone = function() {
 			return jQuery.extend( true, {}, this );
+		}
+
+		this.ex = function() {
+			return gExteriorAngles;
 		}
 	}
 });
