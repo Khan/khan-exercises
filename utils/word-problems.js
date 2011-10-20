@@ -37,6 +37,7 @@ jQuery.extend( KhanUtil, {
 	//		- return "word"
 	plural: (function() {
 		var oneOffs = {
+			'child': 'children',
 			'quiz': 'quizzes',
 			'shelf': 'shelves',
 			'loaf': 'loaves',
@@ -44,7 +45,7 @@ jQuery.extend( KhanUtil, {
 			'person': 'people',
 			'is': 'are',
 			'was': 'were',
-			'square foot': 'square feet'
+			'foot': 'feet'
 		};
 
 		var pluralizeWord = function(word) {
@@ -174,8 +175,8 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 	var exams = KhanUtil.shuffle([
 		"exam",
-		"test",
-		"quiz"
+		"quiz",
+		"test"
 	]);
 
 	var binops = KhanUtil.shuffle([
@@ -228,23 +229,23 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var pizzas = KhanUtil.shuffle([
-		"pizza",
+		"cake",
 		"pie",
-		"cake"
+		"pizza"
 	]);
 
 	var timesofday = KhanUtil.shuffle([
-		"in the morning",
 		"around noon",
+		"at night",
 		"in the evening",
-		"at night"
+		"in the morning"
 	]);
 
 	var exercises = KhanUtil.shuffle([
+		"jumping jack",
 		"push-up",
 		"sit-up",
-		"squat",
-		"jumping jack"
+		"squat"
 	]);
 
 	var fruits = KhanUtil.shuffle([
@@ -274,18 +275,18 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var colors = KhanUtil.shuffle([
-		"red",
-		"orange",
-		"yellow",
-		"green",
-		"blue",
-		"purple",
-		"white",
 		"black",
+		"blue",
 		"brown",
-		"silver",
 		"gold",
-		"pink"
+		"green",
+		"orange",
+		"pink",
+		"purple",
+		"red",
+		"silver",
+		"yellow",
+		"white"
 	]);
 
 	var schools = KhanUtil.shuffle([
@@ -299,21 +300,21 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var clothes = KhanUtil.shuffle([
-		"hat",
-		"pair of pants",
 		"belt",
-		"necklace",
-		"purse",
-		"pair of shoes",
 		"blouse",
-		"skirt",
-		"watch",
+		"dress",
+		"hat",
+		"necklace",
+		"pair of pants",
 		"pair of socks",
-		"sweatshirt",
-		"sweater",
-		"tie",
+		"pair of shoes",
+		"purse",
 		"scarf",
-		"dress"
+		"skirt",
+		"sweater",
+		"sweatshirt",
+		"tie",
+		"watch"
 	]);
 
 	var sides = KhanUtil.shuffle([
@@ -336,6 +337,49 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"kilometer"
 	]);
 
+	var smalldistances = KhanUtil.shuffle([
+		"foot",
+		"meter",
+		"yard"
+	]);
+
+	var bugs = KhanUtil.shuffle([
+		"ant",
+		"beetle",
+		"caterpillar",
+		"centipede",
+		"ladybug",
+		"snail",
+		"stick bug",
+		"worm"
+	]);
+	
+	var activeTimes = KhanUtil.shuffle([
+		"at lunchtime",
+		"during team practice",
+		"in P.E. class",
+		"in the afternoon",
+		"in the morning"
+	]);
+
+	var metals = KhanUtil.shuffle([
+		"aluminum",
+		"copper",
+		"gold",
+		"iron",
+		"nickel",
+		"platinum",
+		"silver",
+		"zinc"
+	]);
+
+	var weights = KhanUtil.shuffle([
+		"gram",
+		"kilogram",
+		"ounce",
+		"pound"
+	]);
+	
 	var distanceActivities = KhanUtil.shuffle([
 		{present:"ride", past:"rode", noun:"bike", done:"biked", continuous:"biking"},
 		{present:"row", past:"rowed", noun:"boat", done:"rowed", continuous:"rowing"},
@@ -468,6 +512,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 			return distances[i - 1];
 		},
 
+		smalldistance: function( i ) {
+			return smalldistances[i - 1];
+		},
+
 		rode: function( i ) {
 			return distanceActivities[i - 1].past;
 		},
@@ -507,5 +555,21 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		shirtStyle: function( i ) {
 			return shirtStyles[i - 1];
 		},
+		
+		bug: function( i ) {
+			return bugs[i - 1];
+		},
+
+		activeTime: function( i ) {
+			return activeTimes[i];
+		},
+
+		metal: function( i ) {
+			return metals[i];
+		},
+
+		weight: function( i ) {
+			return weights[i];
+		}
 	});
 };
