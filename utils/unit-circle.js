@@ -99,23 +99,23 @@ jQuery.extend( KhanUtil, {
 		graph.mouseTarget.attr({fill: "#000", "opacity": 0.0});
 
 		jQuery( graph.mouseTarget[0] ).css( "cursor", "move" );
-		jQuery( graph.mouseTarget[0] ).bind("mousedown mouseenter mouseleave", function( event ) {
+		jQuery( graph.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
 			var graph = KhanUtil.currentGraph;
-			if ( event.type === "mouseenter" ) {
+			if ( event.type === "vmouseover" ) {
 				graph.highlight = true;
 				if ( !graph.dragging ) {
 					KhanUtil.highlightAngle();
 				}
 
-			} else if ( event.type === "mouseleave" ) {
+			} else if ( event.type === "vmouseout" ) {
 				graph.highlight = false;
 				if ( !graph.dragging ) {
 					KhanUtil.unhighlightAngle();
 				}
 
-			} else if ( event.type === "mousedown" && event.which === 1 ) {
+			} else if ( event.type === "vmousedown" && (event.which === 1 || event.which === 0) ) {
 				event.preventDefault();
-				jQuery( document ).bind("mousemove mouseup", function( event ) {
+				jQuery( document ).bind("vmousemove vmouseup", function( event ) {
 					event.preventDefault();
 					graph.dragging = true;
 
@@ -125,7 +125,7 @@ jQuery.extend( KhanUtil, {
 					var coordX = (mouseX / graph.scale[0]) + graph.range[0][0];
 					var coordY = graph.range[1][1] - mouseY / graph.scale[1];
 
-					if ( event.type === "mousemove" ) {
+					if ( event.type === "vmousemove" ) {
 						// Find the angle from the origin to the mouse pointer
 						var angle;
 						if (coordX) {
@@ -185,8 +185,8 @@ jQuery.extend( KhanUtil, {
 							KhanUtil.setAngle( angle + (graph.revolutions * 2 * Math.PI) );
 						}
 
-					} else if ( event.type === "mouseup" ) {
-						jQuery( document ).unbind( "mousemove mouseup" );
+					} else if ( event.type === "vmouseup" ) {
+						jQuery( document ).unbind( "vmousemove vmouseup" );
 						graph.dragging = false;
 						if (!graph.highlight) {
 							KhanUtil.unhighlightAngle();
