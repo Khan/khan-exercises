@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math expressions word-problems">
+<html data-require="math expressions spin word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Percentage word problems 1</title>
@@ -84,9 +84,9 @@
 				<var id="TOTAL">BILL + TIP_AMOUNT</var>
 				<var id="TOTAL_FORMAT">parseFloat( TOTAL ).toFixed( 2 )</var>
 			</div>
-			<p class="question">
-				<var>person(1)</var> eats at a restaurant and the cost of <var>his(1)</var> meal is $<var>BILL_FORMAT</var>. <var>He(1)</var> would like to leave a <var>TIP_PERCENT</var>% tip. What will <var>his(1)</var> total bill equal including tip?
-			</p>
+			<div class="question">
+				<p class="spin"><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of <var>his(1)</var> meal is $<var>BILL_FORMAT</var>. <var>He(1)</var> would like to leave a <var>TIP_PERCENT</var>% tip. What will <var>his(1)</var> total bill equal including tip?</p>
+			</div>
 			<p class="solution" data-forms="dollar"><var>TOTAL</var></p>
 			<div class="hints">
 				<p>The amount of the tip is equal to <code><var>TIP_PERCENT</var>\% \times \$<var>BILL_FORMAT</var> = \$<var>TIP_AMOUNT_FORMAT</var></code></p>
@@ -96,9 +96,9 @@
 			</div>
 		</div>
 		<div id="tip-percentages" data-type="tip">
-			<p class="question">
-				<var>person(1)</var> ate at a restaurant and the cost of <var>his(1)</var> meal was $<var>BILL_FORMAT</var>. <var>His(1)</var> total bill including tip came to $<var>TOTAL_FORMAT</var>. What percent tip did <var>he(1)</var> give on the initial bill?
-			</p>
+			<div class="question">
+				<p class="spin"><var>person(1)</var> {had {breakfast|lunch|dinner}|ate} at a {restaurant|cafe} and the cost of <var>his(1)</var> meal was $<var>BILL_FORMAT</var>. <var>His(1)</var> total bill including tip came to $<var>TOTAL_FORMAT</var>. What percent tip did <var>he(1)</var> give on the initial bill?</p>
+			</div>
 			<p class="solution" data-forms="percent"><var>TIP_PERCENT</var></p>
 			<div class="hints">
 				<p>We know that the tip amount is equal to the difference between the final bill and the initial bill. Let <code>x</code> equal the tip amount.</p>
@@ -110,12 +110,12 @@
 			</div>
 		</div>
 		<div id="tip-bill" data-type="tip">
-			<p class="question">
-				<var>person(1)</var> eats at a restaurant and leaves a <var>TIP_PERCENT</var>% tip. <var>His(1)</var> total bill including tip came to $<var>TOTAL_FORMAT</var>. What was the cost of <var>his(1)</var> meal?
-			</p>
+			<div class="question">
+				<p class="spin"><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and leaves a <var>TIP_PERCENT</var>% tip. <var>His(1)</var> total bill including tip came to $<var>TOTAL_FORMAT</var>. What was the cost of <var>his(1)</var> meal?</p>
+			</div>
 			<p class="solution" data-forms="dollar"><var>BILL</var></p>
 			<div class="hints">
-				<p>Let <code>x</code> equal the amount on the initial bill.</p>
+				<p>Let <code>x</code> equal the cost of <var>his(1)</var> meal.</p>
 				<div>
 					<p>We know that the amount on the initial bill, plus the tip, is equal to the amount on the final bill.
 					<p>In addition, we know that the tip is equal to <var>TIP_PERCENT</var>% times the amount on the initial bill, or <code><var>expr([ "*", TIP_PERCENT / 100, "x" ])</var></code>.</p>
