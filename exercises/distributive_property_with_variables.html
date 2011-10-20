@@ -58,13 +58,35 @@
 				<p class="problem"><code><var>A</var>(<var>plus( X, YSIGN+Y )</var>) + <var>B</var></code></p>
 				<p class="question">Use the distributive property to simplify the equation.</p>
 				<p class="solution"><code><var>A</var><var>X</var> + <var>A*YSIGN</var><var>Y</var> + <var>B</var></code></p>
-				<ul class="choices" data-show="4" data-none="true">
+				<ul class="choices" data-show="5" data-none="true">
 					<li><code><var>plus( A+X, YSIGN+Y, B )</var></code></li>
-					<li><code><var>plus( A+X, YSIGN+Y, A+B )</var></code></li>
+					<li><code><var>plus( A+X, YSIGN+Y, A*B )</var></code></li>
 					<li><code><var>plus( A, X, YSIGN+Y, B )</var></code></li>
 					<li><code><var>plus( A+X, A+Y )</var> + <var>FRAC( B , A )</var></code></li>
-					<li><code><var></var></code></li>
+					<li><code><var>FRAC( 1, A )</var><var>X</var> + <var>FRAC( YSIGN, A )</var><var>Y</var> + <var>B</var></code></li>
+					<li><code><var>plus( A+X, A*YSIGN+Y, A+B )</var></code></li>
+					<li><code><var>plus( X, YSIGN+Y, A+B )</var></code></li>
+					<li><code><var>plus( X, YSIGN+Y, A*B )</var></code></li>
 				</ul>
+				
+				<div class="hints">
+					<div>
+						<p>Distribute <var>A</var> across the parenthesis by multiplying each term inside by <var>A</var>.</p>
+						<p><code><var>color( A, true )</var>(<var>plus( color( X, false ), color( YSIGN+Y, false ) )</var>) + <var>B</var></code></p>
+					</div>
+					<p><code><var>color( A, true )</var>*<var>color( X, false )</var> + <var>color( A*YSIGN, true )</var>*<var>color( Y, false )</var> + <var>B</var></code></p>
+					
+					<div>
+						<p><code><var>A</var><var>X</var> + <var>A*YSIGN</var><var>Y</var> + <var>B</var></code></p>
+						<p>You're done!</p>
+					</div>
+					
+					<div>
+						<p>Remember that the <em>distributive property</em> shows that multiplying an expression involving addition (or subtraction) by <code>x</code> is the same thing as multiplying each term of the expression by <code>x</code> before performing the addition.
+						<p><code>x(y + z) = xy + xz</code></p>
+					</div>
+					
+				</div>
 			</div>
 			
 			<!-- A + (x + B) + C  <- this is a good one; when it's - (x + B) esp is tricky -->
