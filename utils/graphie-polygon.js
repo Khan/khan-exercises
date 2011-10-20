@@ -135,10 +135,11 @@ jQuery.extend( KhanUtil, {
 					coord[ 0 ] += prevPoint[ 0 ];
 					coord[ 1 ] += prevPoint[ 1 ];
 					graph.line( prevPoint, coord );
-					graph.style({"stroke-dasharray":""}, function() {
-						gExteriorAngles.push( graph.arc( prevPoint, 0.5, prevTheta, theta ) );
-					});
-
+					if ( index != 1 ) {
+						graph.style({"stroke-dasharray":""}, function() {
+							gExteriorAngles.push( graph.arc( prevPoint, 0.5, prevTheta, theta ) );
+						});
+					}
 					prevTheta = theta;
 				}
 				prevPoint = point;
@@ -162,7 +163,8 @@ jQuery.extend( KhanUtil, {
 			var graph = KhanUtil.currentGraph,
 				origin = graph.scalePoint( points[ start ] );
 			points.push( [ 0, 0 ] );
-			for ( var i = 0; i < gExteriorAngles.length; i++ ) {
+			gExteriorAngles.unshift( "dummy" );
+			for ( var i = 1; i < gExteriorAngles.length; i++ ) {
 				var gAngle = gExteriorAngles[ i ],
 					point = points[ i ],
 					coord = graph.scalePoint( point ),
@@ -170,6 +172,7 @@ jQuery.extend( KhanUtil, {
 				clone.animate( { translation: [ origin[ 0 ] - coord[ 0 ], origin[ 1 ] - coord[ 1 ] ] }, 1000 );
 			}
 			points.pop();
+			gExteriorAngles.shift();
 		}
 
 		this.clone = function() {
