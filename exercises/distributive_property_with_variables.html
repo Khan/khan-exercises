@@ -89,18 +89,25 @@
 				</div>
 			</div>
 			
-			<!-- A + (x + B) + C  <- this is a good one; when it's - (x + B) esp is tricky -->
+			<!-- A + B(x + C) + D, B is only 1 or -1 -->
 			<div id="AXBC">
 				<div class="vars">
 					<var id="A">randomRangeNonZero( -10, 10 )</var>
-					<var id="B">randomRangeNonZero( -10, 10 )</var>
-					<var id="C"></var>
+					<var id="B">randomRangeNonZero( -1, 1 )</var>
+					<var id="C">randomRangeNonZero( -10, 10 )</var>
+					<var id="D">randomRangeNonZero( -10, 10 )</var>
 				</div>
 			
-				<p class="problem"></p>
-				<p class="question"></p>
+				<p class="problem"><code><var>A</var> + <var>B</var>(<var>plus( X, C )</var>) + <var>D</var></code></p>
+				<p class="question">Using the distributive property, simplify the equation as much as possible.</p>
 				
-				<p class="solution"></p>
+				<p class="solution"><code><var>B</var><var>X</var> + <var>A+(B*C)+D</var></code></p>
+				<ui class="choices" data-show="5" data-none="true">
+					<li><code></code></li>
+				</ui>
+				
+				<div class="hints">
+				</div>
 			</div>
 			
 			<!-- A(x + B) + C(D + x) -->
