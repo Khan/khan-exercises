@@ -1366,6 +1366,8 @@ function makeProblem( id, seed ) {
 	jQuery( "#hint" ).val( "I'd like a hint" );
 	jQuery( "#hint-remainder" ).hide();
 
+	drawGraph();
+
 	if ( once ) {
 		updateData();
 		once = false;
@@ -1374,6 +1376,68 @@ function makeProblem( id, seed ) {
 	jQuery(Khan).trigger( "newProblem" );
 
   return answerType;
+}
+
+function drawGraph(exercise){
+	if (window.Raphael){
+		exercise = exercise || {};
+		var exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]);
+		
+		if (!exercise && typeof userExercise === "undefined"){
+			$.get("http://www.khanacademy.org/api/v1/exercises/"+exerciseName, function(d){drawGraph(d);});
+			return;
+		}
+
+		followups = exercise.followup_exercises || userExercise.exercise_model.followup_exercises;
+
+		if (followups) {
+			var oscillate = function(e){
+				var topbottom = Math.cos(Math.PI * (e+1));
+				var nth = Math.floor((e+2)/2);
+				return {n:nth, pos:topbottom, npos:nth*topbottom};
+			};
+
+			$.get("http://localhost:8080/api/v1/exercises/info",{ids:JSON.stringify(followups)}, function(d){
+
+				var map = Raphael("you-are-here",5000, 100);
+				
+				var routes = $.map(d,function(e, i){
+					var s = map.set(),
+						offset = oscillate(i),
+						p1 = {x:10,y:50},
+						p2 = {x:(70+80*i), y:0}, //relative
+						// p3 is the curve that runs up/down x,y are the destination b12xy are the first and second
+						// bezier control points respectively
+						p3 = {x:40,y:offset.pos*18, b1x:30, b1y:0, b2x:10, b2y:offset.pos*18 },
+						p4 = {x: 20, y:0}, //relative
+						pathstring = "M10,50 l"+p2.x+","+p2.y+
+							" c"+p3.b1x+","+p3.b1y+" "+p3.b2x+","+p3.b2y +" "+ p3.x +","+ p3.y+
+							" l"+p4.x+","+p4.y;
+					
+					var route = map.path(pathstring)
+						.attr("stroke-width",5)
+						.attr("stroke", "#ccc");
+					
+					var endpoint = route.getPointAtLength(route.getTotalLength());
+					var dot = map.ellipse(endpoint.x, endpoint.y, 5,5)
+						.attr("fill", "#ccc")
+						.attr("stroke","#fff")
+						.attr("stroke-width",2);
+					
+					var href = typeof userExercise !== "undefined" ? "/exercises?exid="+e.name : "./"+e.name+".html";
+					var label = map.text(endpoint.x+10, endpoint.y, e.display_name)
+						.attr("text-anchor","start")
+						.attr("href",href)
+						.attr("fill","#999");
+					
+					s.push(route).push(dot);
+				});
+
+			});
+			
+		}
+		
+	}
 }
 
 function injectSite( html, htmlExercise ) {

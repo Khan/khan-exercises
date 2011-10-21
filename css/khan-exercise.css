@@ -411,3 +411,9 @@ div.timeline-total {
   text-decoration: none;
   font-size: 11px;
 }
+
+#you-are-here{
+  position:absolute;
+  top:0px;
+  left:66px;
+}
