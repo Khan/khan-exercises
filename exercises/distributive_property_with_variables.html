@@ -33,12 +33,11 @@
 
 		<div class="problems">
 			<!-- A(x + y) + B -->
-			<div id="xPlusB">
+			<!-- div id="xPlusB">
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
 					<var id="YSIGN">randRangeNonZero( -1, 1 )</var>
-					<!-- pretty fraction display; e.g., "+ (-1/4)" becomes "- (1/4)" -->
 					<var id="FRAC">function( a, b ) {
 						if ( a > 0 ) {
 							if ( b > 0 ) {
@@ -87,30 +86,85 @@
 					</div>
 					
 				</div>
-			</div>
+			</div -->
 			
 			<!-- A + B(x + C) + D, B is only 1 or -1 -->
 			<div id="AXBC">
 				<div class="vars">
-					<var id="A">randomRangeNonZero( -10, 10 )</var>
-					<var id="B">randomRangeNonZero( -1, 1 )</var>
-					<var id="C">randomRangeNonZero( -10, 10 )</var>
-					<var id="D">randomRangeNonZero( -10, 10 )</var>
+					<var id="A">randRangeNonZero( -10, 10 )</var>
+					<var id="B">randRangeNonZero( -1, 1 )</var>
+					<var id="C">randRangeNonZero( -10, 10 )</var>
+					<var id="D">randRangeNonZero( -10, 10 )</var>
+					<var id="PLUSPARENS">function( a, b ) {
+						return "(" + plus( a, b ) + ")";
+					}</var>
 				</div>
 			
-				<p class="problem"><code><var>A</var> + <var>B</var>(<var>plus( X, C )</var>) + <var>D</var></code></p>
+				<p class="problem"><code><var>A</var> + <var>plus( B+PLUSPARENS( X, C ) )</var> + <var>D</var></code></p>
 				<p class="question">Using the distributive property, simplify the equation as much as possible.</p>
 				
-				<p class="solution"><code><var>B</var><var>X</var> + <var>A+(B*C)+D</var></code></p>
-				<ui class="choices" data-show="5" data-none="true">
-					<li><code></code></li>
-				</ui>
+				<p class="solution"><code><var>plus( B+X )</var> + <var>A+(B*C)+D</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li><code><var>X</var> - <var>A+(B*C)+D</var></code></li>
+					<li><code><var>plus( B+X )</var> + <var>A+C+D</var></code></li>
+					<li><code><var>X</var> + <var>A+(B*C)+D</var></code></li>
+					<li><code><var>X</var> - <var>A+C+D</var></code></li>
+					<li><code><var>X</var> + <var>A+C+D</var></code></li>
+					<li><code><var>plus( A, B+X, C+D )</var></code></li>
+					<li><code><var>plus( A, B+X, (B*C)+D )</var></code></li>
+				</ul>
 				
 				<div class="hints">
+					<div>
+						<p>The first and last numbers here can be combined to simplify the expression.</p>
+						<p><code><var>color( A, true )</var> + <var>plus( B+PLUSPARENS( X, C ) )</var> + <var>color( D, true )</var></code></p>
+					</div>
+					<p><code><var>plus( B+PLUSPARENS( X, C ) )</var> + <var>color( A+D, true )</var></code></p>
+					<div data-if="B < 0" data-unwrap>
+						<div>
+							<p>Distribute the negative sign across the expression in parenthesis.</p>
+							<p><code>\color{ blue }{ - }<var>color( PLUSPARENS( X, C ), false )</var> + <var>A+D</var></code></p>
+						</div>
+						<p><code><var>plus( B+X, B*C )</var> + <var>A+D</var></code></p>
+					</div>
+					<p data-if="B > 0"><code><var>plus( X, C, A+D )</var></code></p>
+					<div>
+						<p><code><var>plus( B+X, (B*C)+A+D )</var></code></p>
+						<p>You're done!</p>
+					</div>
+					<div>
+						<p>Remember that the <em>distributive property</em> shows that multiplying an expression involving addition (or subtraction) by <code>x</code> is the same thing as multiplying each term of the expression by <code>x</code> before performing the addition.
+						<p><code>x(y + z) = xy + xz</code></p>
+					</div>
 				</div>
+				
 			</div>
 			
 			<!-- A(x + B) + C(D + x) -->
+			<!-- div id="AXBCDY">
+				<div class="vars">
+					<var id="A">randRangeNonZero( -10, 10 )</var>
+					<var id="B">randRangeNonZero( -1, 1 )</var>
+					<var id="C">randRangeNonZero( -10, 10 )</var>
+					<var id="D">randRangeNonZero( -10, 10 )</var>
+				</div>
+			
+				<p class="problem"><code><var>A</var>(<var>plus( X, B )</var>) + <var>C</var><var>plus( D, X )</var></code></p>
+				<p class="question">Using the distributive property, simplify the equation as much as possible.</p>
+				
+				<p class="solution"><code><var>plus( (A+C)+X, (A*B)+(C*D) )</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li><code><var>plus( (A+1)+X, B+(C*D) )</var></code></li>
+					<li><code><var>plus( 2+X, A+B+C+D )</var></code></li>
+					<li><code><var></var></code></li>
+					<li><code><var></var></code></li>
+					<li><code><var></var></code></li>
+					<li><code><var></var></code></li>
+					<li><code><var></var></code></li>
+				</ul>
+				
+			</div -->
+			
 			<!-- A(x + B) + Cx -->
 		</div>
 		
