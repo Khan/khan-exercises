@@ -28,12 +28,16 @@
 			<var id="LETTER">randRange( 0, LETTERS.length - 2 )</var>
 			<var id="X">LETTERS[ LETTER + 0 ]</var>
 			<var id="Y">LETTERS[ LETTER + 1 ]</var>
+			<!-- Make it possible to use parenthetical expressions inside plus() functions -->
+			<var id="PLUSPARENS">function( a, b ) {
+				return "(" + plus( a, b ) + ")";
+			}</var>
 
 		</div>
 
 		<div class="problems">
 			<!-- A(x + y) + B -->
-			<!-- div id="xPlusB">
+			<div id="xPlusB">
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
@@ -86,7 +90,7 @@
 					</div>
 					
 				</div>
-			</div -->
+			</div>
 			
 			<!-- A + B(x + C) + D, B is only 1 or -1 -->
 			<div id="AXBC">
@@ -95,9 +99,6 @@
 					<var id="B">randRangeNonZero( -1, 1 )</var>
 					<var id="C">randRangeNonZero( -10, 10 )</var>
 					<var id="D">randRangeNonZero( -10, 10 )</var>
-					<var id="PLUSPARENS">function( a, b ) {
-						return "(" + plus( a, b ) + ")";
-					}</var>
 				</div>
 			
 				<p class="problem"><code><var>A</var> + <var>plus( B+PLUSPARENS( X, C ) )</var> + <var>D</var></code></p>
@@ -141,15 +142,15 @@
 			</div>
 			
 			<!-- A(x + B) + C(D + x) -->
-			<!-- div id="AXBCDY">
+			<div id="AXBCDX">
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
-					<var id="B">randRangeNonZero( -1, 1 )</var>
+					<var id="B">randRangeNonZero( -10, 10 )</var>
 					<var id="C">randRangeNonZero( -10, 10 )</var>
 					<var id="D">randRangeNonZero( -10, 10 )</var>
 				</div>
 			
-				<p class="problem"><code><var>A</var>(<var>plus( X, B )</var>) + <var>C</var><var>plus( D, X )</var></code></p>
+				<p class="problem"><code><var>plus( A+PLUSPARENS( X, B ), C+PLUSPARENS( D, X ) )</var></code></p>
 				<p class="question">Using the distributive property, simplify the equation as much as possible.</p>
 				
 				<p class="solution"><code><var>plus( (A+C)+X, (A*B)+(C*D) )</var></code></p>
@@ -163,9 +164,76 @@
 					<li><code><var></var></code></li>
 				</ul>
 				
-			</div -->
+				<div class="hints">
+					<div>
+						<p>Distribute across the first parenthesis.</p>
+						<p><code><var>color( A, true )</var><var>color( PLUSPARENS( X, B ), false )</var> + <var>plus( C+PLUSPARENS( D, X ) )</var></code></p>
+					</div>
+					<p><code><var>color( plus( A+X, A*B ), false )</var> + <var>plus( C+PLUSPARENS( D, X ) )</var></code></p>
+					<div>
+						<p>Distribute across the second parenthesis.</p>
+						<p><code><var>plus( A+X, A*B )</var> + <var>color( C, true )</var><var>color( PLUSPARENS( D, X ), false )</var></code></p>
+					</div>
+					<p><code><var>plus( A+X, A*B )</var> + <var>color( plus( C*D, C+X ) )</var></code></p>
+					<div>
+						<p>Combine like terms.</p>
+						<p><code><var>color( A+X, true )</var> + <var>color( A*B, false )</var> + <var>color( C*D, false )</var> + <var>color( C+X, true )</var></code></p>
+					</div>
+					<div>
+						<p><code><var>color( (A+C)+X, true )</var> + <var>color( (A*B)+(C*D), false )</var></code></p>
+						<p>You're done!</p>
+					</div>
+					<div>
+						<p>Remember that the <em>distributive property</em> shows that multiplying an expression involving addition (or subtraction) by <code>x</code> is the same thing as multiplying each term of the expression by <code>x</code> before performing the addition.
+						<p><code>x(y + z) = xy + xz</code></p>
+					</div>
+				</div>
+				
+			</div>
 			
 			<!-- A(x + B) + Cx -->
+			<div id="AXBCX">
+				<div class="vars">
+					<var id="A">randRangeNonZero( -10, 10 )</var>
+					<var id="B">randRangeNonZero( -10, 10 )</var>
+					<var id="C">randRangeNonZero( -10, 10 )</var>
+				</div>
+			
+				<p class="problem"><code><var>plus( A+PLUSPARENS( X, B ), C+X )</var></code></p>
+				<p class="question">Using the distributive property, simplify the equation as much as possible.</p>
+				
+				<p class="solution"><code><var>plus( (A+C)+X, A*B )</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li><code><var>plus( (A+1)+X, B+C )</var></code></li>
+					<li><code><var>plus( 2+X, A+B+C )</var></code></li>
+					<li><code><var></var></code></li>
+					<li><code><var></var></code></li>
+					<li><code><var></var></code></li>
+					<li><code><var></var></code></li>
+					<li><code><var></var></code></li>
+				</ul>
+				
+				<div class="hints">
+					<div>
+						<p>Distribute across the parenthesis.</p>
+						<p><code><var>color( A, true )</var>(<var>color( plus( X, B ), false )</var>) + <var>plus( C+X )</var></code></p>
+					</div>
+					<p><code><var>color( plus( A+X, A*B ), false )</var> + <var>plus( C+X )</var></code></p>
+					<div>
+						<p>Combine like terms.</p>
+						<p><code><var>color( A+X, true )</var> + <var>color( A*B, false )</var> + <var>color( C+X, true )</var></code></p>
+					</div>
+					<div>
+						<p><code><var>color( (A+C)+X, true )</var> + <var>color( A*B, false )</var></code></p>
+						<p>You're done!</p>
+					</div>
+					<div>
+						<p>Remember that the <em>distributive property</em> shows that multiplying an expression involving addition (or subtraction) by <code>x</code> is the same thing as multiplying each term of the expression by <code>x</code> before performing the addition.
+						<p><code>x(y + z) = xy + xz</code></p>
+					</div>
+				</div>
+			</div>
+				
 		</div>
 		
 	</div>
