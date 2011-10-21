@@ -155,13 +155,13 @@
 				
 				<p class="solution"><code><var>plus( (A+C)+X, (A*B)+(C*D) )</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
-					<li><code><var>plus( (A+1)+X, B+(C*D) )</var></code></li>
-					<li><code><var>plus( 2+X, A+B+C+D )</var></code></li>
-					<li><code><var></var></code></li>
-					<li><code><var></var></code></li>
-					<li><code><var></var></code></li>
-					<li><code><var></var></code></li>
-					<li><code><var></var></code></li>
+					<li><code><var>plus( (A+1)+X, B+(C*D) )</var></code></li> <!-- -->
+					<li><code><var>plus( 2+X, A+B+C+D )</var></code></li> <!-- -->
+					<li><code><var>plus( (B+D)+X, A+C )</var></code></li>
+					<li><code><var>plus( A+PLUSPARENS( X, B ), C*D, C+X )</var></code></li>
+					<li><code><var>plus( (A+C)+X, B+(C*D) )</var></code></li>
+					<li><code><var>plus( (C+1)+X, A*B+C*D )</var></code></li> <!-- -->
+					<li><code><var>plus( A+X, A*B, C+PLUSPARENS( D, X ) )</var></code></li>
 				</ul>
 				
 				<div class="hints">
@@ -181,7 +181,7 @@
 					</div>
 					<div>
 						<p><code><var>color( (A+C)+X, true )</var> + <var>color( (A*B)+(C*D), false )</var></code></p>
-						<p>You're done!</p>
+						<p>You're done! Make sure you simplify as much as possible.</p>
 					</div>
 					<div>
 						<p>Remember that the <em>distributive property</em> shows that multiplying an expression involving addition (or subtraction) by <code>x</code> is the same thing as multiplying each term of the expression by <code>x</code> before performing the addition.
@@ -206,11 +206,11 @@
 				<ul class="choices" data-show="5" data-none="true">
 					<li><code><var>plus( (A+1)+X, B+C )</var></code></li>
 					<li><code><var>plus( 2+X, A+B+C )</var></code></li>
-					<li><code><var></var></code></li>
-					<li><code><var></var></code></li>
-					<li><code><var></var></code></li>
-					<li><code><var></var></code></li>
-					<li><code><var></var></code></li>
+					<li><code><var>plus( (A+C)+X, (-1*A*B) )</var></code></li>
+					<li><code><var>plus( ((-1*A)+C)+X, A*B )</var></code></li>
+					<li><code><var>plus( ((-1*A)+C)+X, (-1*A*B) )</var></code></li>
+					<li><code><var>plus( (A+C)+X, B )</var></code></li>
+					<li><code><var>plus( (1 + C)+X, A*B )</var></code></li>
 				</ul>
 				
 				<div class="hints">
