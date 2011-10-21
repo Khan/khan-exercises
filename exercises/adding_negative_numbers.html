@@ -24,7 +24,7 @@
 				<div class="question">
 					<div class="graphie" id="numbers">
 						init({
-							range: [ [0, 13], [-3, 1] ]
+							range: [ [0, 13], [-4, 1] ]
 						});
 
 						label( [0, 0],
@@ -35,28 +35,28 @@
 				<div class="solution"><var>ANSWER</var></div>
 				<div class="hints">
 					<div class="graphie" data-update="numbers">
-						REMOVE = label( [0, -1],
+						REMOVE = label( [0, -2],
 							"\\Huge{\\color{#6495ED}{" + A + "} \\color{#28AE7B}{" + B + "} = {?}}",
 							"right" );
 					</div>
 					<div class="graphie" data-update="numbers">
-						numberLine( START, END, 1, 1, -2 );
-						circle( [ 1 + A - START, -2 ], 5/40, { stroke: "none", fill: "#6495ed" } );
+						numberLine( START, END, 1, 1, -3 );
+						circle( [ 1 + A - START, -3 ], 5/40, { stroke: "none", fill: "#6495ed" } );
 					</div>
 					<div class="graphie" data-update="numbers">
 						style({
 							stroke: "#28AE7B",
 							arrows: "->"
 						}, function(){
-							path( [ [ 1 + A - START, -2 ], [ 1 + ANSWER - START, -2] ] );
+							path( [ [ 1 + A - START, -3 ], [ 1 + ANSWER - START, -3] ] );
 						});
 					</div>
 					<div class="graphie" data-update="numbers">
-						circle( [ 1 + ANSWER - START, -2 ], 5/40, { stroke: "none", fill: "#FF00AF" } );
+						circle( [ 1 + ANSWER - START, -3 ], 5/40, { stroke: "none", fill: "#FF00AF" } );
 					</div>
 					<div class="graphie" data-update="numbers">
 						REMOVE.remove();
-						label( [0, -1],
+						label( [0, -2],
 							"\\Huge{\\color{#6495ED}{" + A + "} \\color{#28AE7B}{" + B + "} = " 
 							+ "\\color{#FF00AF}{" + ANSWER + "}}",
 							"right" );
