@@ -67,6 +67,9 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		return Math.abs( crc ^ (-1) );
 	},
 
+	// Get the userExercise object from the global scope
+	userExercise = window.userExercise,
+
 	// Check to see if we're in test mode
 	testMode = typeof userExercise === "undefined",
 
@@ -154,6 +157,14 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	},
 	issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!";
 
+// Nuke the global userExercise object to make
+// it significantly harder to cheat
+try {
+	delete window.userExercise;
+} catch(e) {
+	window.userExercise = undefined;
+}
+
 // from MDC, thx :)
 if (!Array.prototype.indexOf) {
 	Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
@@ -224,7 +235,10 @@ var Khan = {
 		"math-format": [ "math", "expressions" ],
 		"polynomials": [ "math", "expressions" ],
 		"stat": [ "math" ],
-		"word-problems": [ "math" ]
+		"word-problems": [ "math" ],
+		"derivative-intuition": [ "jquery.mobile.vmouse" ],
+		"unit-circle": [ "jquery.mobile.vmouse" ],
+		"interactive": [ "jquery.mobile.vmouse" ]
 	},
 
 	warnTimeout: function() {
@@ -1683,7 +1697,7 @@ function prepareSite() {
 			path = exerciseName + ".html"
 				+ "?seed=" + problemSeed
 				+ "&problem=" + problemID,
-			pathlink = "[" + path + ( exercise.data( "name" ) != null && exercise.data( "name" ) !== exerciseName ? " (" + exercise.data( "name" ) + ")" : "" ) + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + ")",
+			pathlink = "[" + path + ( exercise.data( "name" ) != null && exercise.data( "name" ) !== exerciseName ? " (" + exercise.data( "name" ) + ")" : "" ) + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
 			agent = navigator.userAgent,
 			mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" :
 				( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),

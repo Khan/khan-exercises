@@ -173,47 +173,48 @@ jQuery.extend( KhanUtil, {
 		graph.mouseTargets[index].attr({fill: "#000", "opacity": 0.0});
 
 		jQuery( graph.mouseTargets[index][0] ).css( "cursor", "move" );
-		jQuery( graph.mouseTargets[index][0] ).bind("mousedown mouseenter mouseleave", function( event ) {
+		jQuery( graph.mouseTargets[index][0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
+			event.preventDefault();
 			var graph = KhanUtil.currentGraph;
-			if ( event.type === "mouseenter" ) {
+			if ( event.type === "vmouseover" ) {
 				KhanUtil.highlight = true;
 				if ( !KhanUtil.dragging ) {
 					graph.slopePoints[index].animate({ scale: 2 }, 50 );
 					graph.tangentLines[index].animate({ "stroke": KhanUtil.DDX_COLOR }, 100 );
 				}
 
-			} else if ( event.type === "mouseleave" ) {
+			} else if ( event.type === "vmouseout" ) {
 				KhanUtil.highlight = false;
 				if ( !KhanUtil.dragging ) {
 					graph.slopePoints[index].animate({ scale: 1 }, 50 );
 					graph.tangentLines[index].animate({ "stroke": KhanUtil.TANGENT_COLOR }, 100 );
 				}
 
-			} else if ( event.type === "mousedown" && event.which === 1 ) {
+			} else if ( event.type === "vmousedown" && ( event.which === 1 || event.which === 0) ) {
 				event.preventDefault();
 				graph.tangentLines[index].toFront();
 				graph.tangentPoints[index].toFront();
 				graph.slopePoints[index].toFront();
 				graph.tangentLines[index].animate( { scale: KhanUtil.TANGENT_GROWTH_FACTOR }, 200 );
+				KhanUtil.dragging = true;
 
-				jQuery( document ).bind("mousemove mouseup", function( event ) {
+				jQuery( document ).bind("vmousemove vmouseup", function( event ) {
 					event.preventDefault();
-					KhanUtil.dragging = true;
 
 					// mouseY is in pixels relative to the SVG; coordY is the scaled y-coordinate value
 					var mouseY = event.pageY - jQuery( "#ddxplot" ).offset().top;
 					mouseY = Math.max(10, Math.min(graph.ypixels-10, mouseY));
 					var coordY = graph.range[1][1] - mouseY / graph.scale[1];
 
-					if ( event.type === "mousemove" ) {
+					if ( event.type === "vmousemove" ) {
 						jQuery( jQuery( "div#solutionarea :text" )[index]).val( KhanUtil.roundTo(2, coordY) );
 						jQuery( jQuery( "div#solutionarea .answer-label" )[index]).text( KhanUtil.roundTo(2, coordY) );
 						graph.tangentLines[index].rotate(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI), true);
 						graph.slopePoints[index].attr( "cy", mouseY );
 						graph.mouseTargets[index].attr( "cy", mouseY );
 
-					} else if ( event.type === "mouseup" ) {
-						jQuery( document ).unbind( "mousemove mouseup" );
+					} else if ( event.type === "vmouseup" ) {
+						jQuery( document ).unbind( "vmousemove vmouseup" );
 
 						KhanUtil.setSlope( index, coordY );
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems">
+<html data-require="math graphie word-problems interactive">
 <head>
 	<meta charset="UTF-8" />
 	<title>Number line</title>
@@ -15,7 +15,7 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>What number does the orange dot represent? The distance between adjacent tick marks is 1.</p>
+				<p>Drag the orange dot to <strong><var>NUMBER</var></strong>. The distance between adjacent tick marks is 1.</p>
 				<div class="graphie" id="number-line">
 					init({
 						range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ]
@@ -29,11 +29,20 @@
 					line( [ 0, -0.2], [0, 0.2]);
 					label( [ 0, -0.53 ],  "0", "center", { color: "#6495ED" });
 					
-					style({ stroke: "#FFA500", fill: "#FFA500" });
-					graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
+					addMouseLayer();
+					this.movablePoint = addMovablePoint({ constrainY: true, snapX: 0.25 });
+					movablePoint.onMove = function( x, y ) {
+						if (x < LOWER_BOUND || UPPER_BOUND < x) {
+							return false; // don't allow the point to move past the bounds
+						}
+						jQuery("#solutionarea input").val( x );
+					};
 				</div>
 			</div>
-			<div class="solution" data-forms="integer"><var>NUMBER</var></div>
+				<div class="solution" data-type="multiple">
+				<span>Move the orange dot to select your answer.</span>
+				<div class="sol" data-type="decimal" style="visibility:hidden"><var>NUMBER</var></div>
+			</div>
 
 			<div class="hints">
 				<p>We know where 0 is on the number line because it is labeled.</p>
@@ -43,18 +52,20 @@
 					<div class="graphie" data-update="number-line">
 						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->" });
 						line( [ 0, 0 ], [ NUMBER, 0 ] );
-						graph.orangeDot.toFront();
+						movablePoint.visibleShape.toFront();
 					</div>
-					<p>The orange dot is <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER < 0">left</span><span data-else>right</span> of 0.</p>
+					<p>The orange dot should be <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER < 0">left</span><span data-else>right</span> of 0.</p>
 				</div>
 				<div>
 					<div class="graphie" data-update="number-line">
 						label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
+						movablePoint.moveTo( NUMBER, 0 );
 					</div>
-					<p>The orange dot represents the number <var>NUMBER</var>.</p>
+					<p>The orange number shows where <var>NUMBER</var> is on the number line.</p>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 </body>
 </html>

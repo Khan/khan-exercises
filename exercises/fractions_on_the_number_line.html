@@ -5,45 +5,76 @@
 	<title>Fractions on the number line</title>
 	<script src="../khan-exercise.js"></script>
 
+	<img src="/images/circ.png" class="follow" style="position: absolute;"/>
+
+	<script>
+		var clicked = false;
+		var blocked = false;
+
+		function unBlock(){
+			blocked = false;
+		}
+
+		function realFollow(){
+				if( ! blocked ){
+					if ( ! clicked ){
+						unFollow();
+						locate();
+					}
+					else{
+						follow();
+					}
+					clicked = ! clicked;
+					blocked = true;
+					setTimeout("unBlock()",300);
+				}
+		}
+		
+		
+		function follow(){
+			$(".graphie").mousemove(function(e){
+    			  $('.follow').css('top', e.clientY).css('left', e.clientX);
+			});
+	
+			$(".graphie").click(function(e){
+				realFollow();	
+			});
+	
+			$(".follow").click(function(e){
+				realFollow();
+			});
+		}
+
+		function locate(){
+				$( "#fakePos input" ).val( ( (  $('.follow').position().left - $('.graphie').position().left)  / 80  - 3.5 ) ) 	
+		}
+
+		function unFollow(){
+			$(".graphie").unbind( "mousemove" );
+		}	
+	</script>
+
+
 </head>
 <body>
 
 	<div class="exercise">
 	<div class="vars" >
+		<var id="FOLLOW">follow()</var>
 		<div data-ensure="NOMINATOR/DENOMINATOR < 3 && NOMINATOR/DENOMINATOR != round( NOMINATOR/DENOMINATOR )">
 			<var id="NOMINATOR">randRange( 0 , 15 )</var>
 			<var id="DENOMINATOR">randRange( 1 , 15 )</var>
 		</div>
 		<var id="SIGN">rand( 2 ) === 1 ? "-" : ""</var>
 		<var id="NUMBER">SIGN === "-" ? NOMINATOR/DENOMINATOR * -1 : NOMINATOR/DENOMINATOR </var>
-		<var id="WRONGS">( function() { 
-					var pos = rand( 5 );
-					while( NUMBER - (0.47 * pos) < -3 ){
-						pos--;
-					} 
-					while( NUMBER + 0.47 * (5 - pos) > 3 ){
-						pos++;
-					}
-
-					arr = [];
-					for ( i = 0; i < pos; i++){
-						arr.push( NUMBER - ((pos - i) * 0.47))
-					}
-					arr.push( NUMBER );
-					for ( i = pos + 1; i < 5; i++ ){
-						arr.push( NUMBER + (( i - pos) * 0.47))
-					}
-					return arr;
-				 })()</var>
-		<var id="POSS_ANSWER">[ "A", "B", "C", "D", "E" ]</var>
-		<var id="ANSWER" > POSS_ANSWER[  WRONGS.indexOf( NUMBER ) ] </var>
 		<var id="NICE_NUMBER"> SIGN + " \\dfrac{" + NOMINATOR + "}{" +  DENOMINATOR + "}" </var>
 		<var id="REDUCED_NUMBER">SIGN + fraction( NOMINATOR, DENOMINATOR, true, true, false )</var>
 	</div>
+
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>Which dot marks the position of <code><var>NICE_NUMBER</var></code> on the number line?</p>
+				<p>Place the black box on the position of <code><var>NICE_NUMBER</var></code> on the number line!</p>
 
 			<div class="graphie">
 				init({
@@ -58,19 +89,11 @@
 				style({ stroke: "#6495ED", fill: "#6495ED" });
 				style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
 				var already = [];
-				for( i = 0; i !=  WRONGS.length; i++ ){
-						ellipse(  [ WRONGS[ i ] + 3, 0 ], [ 0.06, 0.12 ] );
-						label( [WRONGS[ i ] + 3, 0 ], POSS_ANSWER[ i ] , "above", { labelDistance: 5 } );
-				}
 			</div>
-			<div class="solution"><var>ANSWER</var></div>
-			<ul class="choices" data-category="true">
-				<li>A</li>
-				<li>B</li>
-				<li>C</li>
-				<li>D</li>
-				<li>E</li>
-			</ul>
+			<div class="solution" data-type="multiple">
+				 <div><input type="button" value="Clear/restart" onclick="follow()"></div>
+				  <span class="sol" data-type="graphic" style="display: none" id="fakePos" ><var>NUMBER</var></span>
+			</div>
 		</div>
 
 	<div class="hints">
@@ -100,9 +123,7 @@
 						}
 				}
 			</div>
-			<div class="solution"><var>ANSWER</var></div>
 		</div>
-		<p>It is <var>ANSWER</var>.</p>
 	</div>
 	</div>
 	</div>
