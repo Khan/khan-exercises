@@ -1400,7 +1400,7 @@ function drawGraph(exercise){
 			$.get("http://localhost:8080/api/v1/exercises/info",{ids:JSON.stringify(followups)}, function(d){
 
 				var map = Raphael("you-are-here",5000, 100);
-				
+
 				var routes = $.map(d,function(e, i){
 					var s = map.set(),
 						offset = oscillate(i),
@@ -1413,24 +1413,24 @@ function drawGraph(exercise){
 						pathstring = "M10,50 l"+p2.x+","+p2.y+
 							" c"+p3.b1x+","+p3.b1y+" "+p3.b2x+","+p3.b2y +" "+ p3.x +","+ p3.y+
 							" l"+p4.x+","+p4.y;
-					
+
 					var route = map.path(pathstring)
 						.attr("stroke-width",5)
 						.attr("stroke", "#ccc");
-					
+
 					var endpoint = route.getPointAtLength(route.getTotalLength());
 					var dot = map.ellipse(endpoint.x, endpoint.y, 5,5)
 						.attr("fill", "#ccc")
 						.attr("stroke","#fff")
 						.attr("stroke-width",2);
-					
+
 					var href = typeof userExercise !== "undefined" ? "/exercises?exid="+e.name : "./"+e.name+".html";
 					var label = map.text(endpoint.x+10, endpoint.y, e.display_name)
 						.attr("text-anchor","start")
 						.attr("href",href)
 						.attr("fill","#999");
 					
-					s.push(route).push(dot);
+					s.push(route).push(label);
 				});
 
 			});
