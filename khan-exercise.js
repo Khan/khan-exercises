@@ -235,7 +235,10 @@ var Khan = {
 		"math-format": [ "math", "expressions" ],
 		"polynomials": [ "math", "expressions" ],
 		"stat": [ "math" ],
-		"word-problems": [ "math" ]
+		"word-problems": [ "math" ],
+		"derivative-intuition": [ "jquery.mobile.vmouse" ],
+		"unit-circle": [ "jquery.mobile.vmouse" ],
+		"interactive": [ "jquery.mobile.vmouse" ]
 	},
 
 	warnTimeout: function() {

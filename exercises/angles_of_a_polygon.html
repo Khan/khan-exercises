@@ -2,23 +2,25 @@
 <html data-require="math math-format graphie graphie-geometry graphie-polygon word-problems">
 <head>
 	<meta charset="UTF-8" />
-	<title>Interior angles of a polygon</title>
+	<title>Angles of a polygon</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="SIDES">randRange( 5, 8 )</var>
-		<var id="ANSWER">180 * ( SIDES - 2 )</var>
-		<var id="CLONE">{}</var>
+		<var id="SIDES">randRange( 5, 7 )</var>
 	</div>
-
 	<div class="problems">
-		<div id="sum">
+		<div id="interior">
+			<div class="vars">
+				<var id="ANSWER">180 * ( SIDES - 2 )</var>
+				<var id="CLONE">{}</var>
+			</div>
 			<p class="question">What is the sum of this polygon's interior angles?</p>
 			<div class="graphie" id="circle">
 				init({
-					 range: [ [ -5, 5 ], [ -1, 5 ] ]
+					range: [ [ -5, 5 ], [ -1, 5 ] ],
+					scale: [ 40, 40 ]
 				});
 				graph.polygon = new Polygon( SIDES );
 				graph.polygon.draw();
@@ -57,6 +59,32 @@
 				<p>We chopped this polygon into <var>SIDES - 2</var> triangles, and each triangle's angles sum to 180 degrees.</p>
 				<p><code><var>SIDES - 2</var> \times 180^{\circ} = <var>ANSWER</var>^{\circ}</code></p>
 				<p>Again, we have found that the sum of the polygon's interior angles is <var>ANSWER</var> degrees.</p>
+			</div>
+		</div>
+		<div id="exterior">
+			<p class="question">What is the sum of this polygon's exterior angles?</p>
+			<div class="graphie" id="polygon">
+				init({
+					 range: [ [ -6, 6 ], [ -2, 7 ] ]
+				});
+				graph.polygon = new Polygon( SIDES );
+				graph.polygon.draw();
+			</div>
+			<div class="solution" data-type="multiple">
+				<span class="sol"><var>360</var></span> degrees
+			</div>
+			
+			<div class="hints">
+				<div>
+					<p>The exterior angles are shown above.</p>
+					<div class="graphie" data-update="polygon">
+						graph.polygon.drawExteriorAngles();
+					</div>
+				</div>
+				<div class="graphie" data-update="polygon">
+					graph.polygon.animateExteriorAngles( randRange( 0, SIDES - 1 ) );
+				</div>
+				<p>The exterior angles fit together to form a circle, summing to 360 degrees.</p>
 			</div>
 		</div>
 	</div>
