@@ -277,11 +277,11 @@ jQuery.extend( KhanUtil, {
 			return arc;
 		}
 
-		this.drawCentralAngle = function( start, end ) {
+		this.drawCentralAngle = function( start, end, arcRadius ) {
 			var result = { radii: [] };
 			result.radii.push( this.drawRadius( start ) );
 			result.radii.push( this.drawRadius( end ) );
-			result.arc = this.drawCentralArc( start, end );
+			result.arc = this.drawCentralArc( start, end, arcRadius );
 			return result;
 		}
 
