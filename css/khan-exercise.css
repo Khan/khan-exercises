@@ -296,6 +296,12 @@ div.timeline-total {
 	display: none;
 }
 
+.lite .single-exercise .unit-rating li.current-rating {
+	top: 2px;
+	left: 2px;
+	height: 22px;
+}
+
 #warning-bar {
     background: red;
     width: 100%;
