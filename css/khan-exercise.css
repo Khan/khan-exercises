@@ -236,18 +236,19 @@ div.timeline-total {
 
 .lite #streak-bar-container {
 	position: absolute;
-	top: 10px;
+	top: 7px;
 	left: 15px;
 }
 
 .lite #answercontent {
 	position: absolute;
 	right: 5px;
-	top: 12px;
+	top: 7px;
 	padding: 0px;
 	border: none;
 	-webkit-box-shadow: none;
 	overflow: visible;
+	text-align: right;
 }
 
 .lite #answercontent > * {
@@ -282,14 +283,17 @@ div.timeline-total {
 }
 
 .lite #solutionarea input {
-	font-size: 14px;
+	font-size: 16px;
+	text-align: right;
 }
 
 .lite #answercontent .simple-button {
-	margin-top: -5px;
 	color: #fff !important;
 	font-size: 14px;
 	text-shadow: none;
+	clear: left;
+	margin: 0 auto;
+	display: none;
 }
 
 #warning-bar {
@@ -413,19 +417,51 @@ div.timeline-total {
 }
 
 #software-keyboard {
-  width: 318px;
-  border: 1px solid red;
+  width: 186px;
+  font-size: 26px;
+  position: fixed;
+  right: 10px;
+  top: 90px;
+  border: 5px solid #000;
+  background: #000;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 1);
+}
+
+#software-keyboard .triangle {
+  position: absolute;
+  top: -22px;
+  right: 0px;
+  font-size: 0px;
+  line-height: 0%;
+  width: 0px;
+  border-top: 10px solid rgba(0,0,0,0);
+  border-left: 10px solid rgba(0,0,0,0);
+  border-right: 10px solid rgba(0,0,0,0);
+  border-bottom: 10px solid black;
 }
 
 #software-keyboard .key {
   text-align: center;
-  width: 104px;
-  line-height: 52px;
+  width: 60px;
+  line-height: 30px;
   display: inline-block;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  border: 1px solid red;
+  margin: 0;
 }
 
-#software-keyboard .key.down {
-  background-color: gray;
+#software-keyboard .key-bs {
+	height: 42px;
+}
+
+#software-keyboard .key-bs .ui-icon {
+	margin: 4px auto;
+	position: relative;
+	top: -28px;
+}
+
+#software-keyboard .simple-button {
+	font-size: 16px;
+	width: 100%;
 }

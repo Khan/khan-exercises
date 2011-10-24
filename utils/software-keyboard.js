@@ -23,9 +23,16 @@ jQuery.fn["software-keyboardPost"] = function() {
 	if ( !softwareKeyboard.length ) {
 		softwareKeyboard = jQuery( "<div>" )
 			.attr( "id", "software-keyboard" )
+			.append( "<div class='triangle'></div>" )
 			.prependTo( "#problemarea" );
 
 		var keys = [ [ "1", "2", "3" ], [ "4", "5", "6" ], [ "7", "8", "9" ], [ ".", "0", "bs" ] ];
+		var corners = {
+			"1": "ui-corner-tl",
+			"3": "ui-corner-tr",
+			".": "ui-corner-bl",
+			"bs": "ui-corner-br"
+		};
 
 		jQuery.each( keys, function( i, row ) {
 			var rowDiv = jQuery( "<div>" )
@@ -34,9 +41,11 @@ jQuery.fn["software-keyboardPost"] = function() {
 
 			jQuery.each( row, function( j, key ) {
 				var keyClass = "key key-" + ( { ".": "dot" }[ key ] || key );
-				var keySpan = jQuery( "<span>" )
-					.attr( "class", keyClass )
-					.text( key )
+				var corner = corners[ key ] || "";
+				var keySpan = jQuery( "<span class='ui-btn " + corner + " ui-btn-up-c'><span class='ui-btn-inner " + corner + "'>" +
+				 	"<span class='ui-btn-text'>" + (key === "bs" ? "&nbsp;" : key) + "</span>" +
+					(key === "bs" ? "<span class='ui-icon ui-icon-back ui-icon-shadow'></span>" : "") + "</span></span>" )
+					.addClass( keyClass )
 					.appendTo( rowDiv );
 				var canceled = false, downTime;
 
@@ -44,7 +53,7 @@ jQuery.fn["software-keyboardPost"] = function() {
 				if ( jQuery.mobile != null ) {
 					evtPrefix = "v";
 					keySpan.bind( "vmousecancel", function() {
-						keySpan.removeClass( "down" );
+						keySpan.removeClass( "ui-btn-down-c" );
 						canceled = true;
 					} );
 					keySpan.bind( "vmousemove", function() {
@@ -54,11 +63,11 @@ jQuery.fn["software-keyboardPost"] = function() {
 				}
 
 				keySpan.bind( evtPrefix + "mousedown", function() {
-					keySpan.addClass( "down" );
+					keySpan.addClass( "ui-btn-down-c" );
 					canceled = false;
 				} );
 				keySpan.bind( evtPrefix + "mouseup", function() {
-					keySpan.removeClass( "down" );
+					keySpan.removeClass( "ui-btn-down-c" );
 
 					if ( !canceled ) {
 						return keyPressed( key );
@@ -66,5 +75,7 @@ jQuery.fn["software-keyboardPost"] = function() {
 				} );
 			} );
 		} );
+		
+		jQuery( "#answercontent .simple-button" ).appendTo( softwareKeyboard );
 	}
 };
