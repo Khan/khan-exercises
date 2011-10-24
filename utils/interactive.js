@@ -161,9 +161,16 @@ jQuery.extend( KhanUtil, {
 						// movablePoint object we return as a sort of event handler
 						// By returning false from onMove(), the move can be vetoed,
 						// providing custom constraints on where the point can be moved.
+						// By returning array [x, y], the move can be overridden
 						if (typeof movablePoint.onMove === "function") {
-							if (movablePoint.onMove( coordX, coordY ) === false) {
+							var result = movablePoint.onMove( coordX, coordY );
+							if ( result === false ) {
 								doMove = false;
+							}
+							if ( typeof result === "object" ) {
+								var scaled = graph.scalePoint( result );
+								mouseX = scaled[ 0 ];
+								mouseY = scaled[ 1 ];
 							}
 						}
 						if (doMove) {
