@@ -248,7 +248,7 @@ jQuery.extend( KhanUtil, {
 				point = graph.polar( radius, theta )
 				min = min || 0,
 				max = max || 360,
-				graph.graph.inscribed = { vertex: KhanUtil.bogusShape, arc: KhanUtil.bogusShape, chords: [ KhanUtil.bogusShape, KhanUtil.bogusShape ] };
+				graph.graph.movable = { vertex: KhanUtil.bogusShape, arc: KhanUtil.bogusShape, chords: [ KhanUtil.bogusShape, KhanUtil.bogusShape ] };
 
 			graph.graph.inscribedPoint = KhanUtil.addMovablePoint( {coordX: point[ 0 ], coordY: point[ 1 ] } );
 
@@ -258,49 +258,53 @@ jQuery.extend( KhanUtil, {
 					return false;
 				}
 				graph.style({stroke: KhanUtil.ORANGE});
-				graph.graph.inscribed.arc.remove();
-				graph.graph.inscribed.chords[0].remove();
-				graph.graph.inscribed.chords[1].remove();
-				graph.graph.inscribed.vertex.remove();
-				graph.graph.inscribed = graph.graph.circle.drawInscribedAngle( theta, max, min );
+				graph.graph.movable.arc.remove();
+				graph.graph.movable.chords[0].remove();
+				graph.graph.movable.chords[1].remove();
+				graph.graph.movable.vertex.remove();
+				graph.graph.movable = graph.graph.circle.drawInscribedAngle( theta, max, min );
 				return graph.polar( radius, theta );
 			};
 		}
 
-		this.drawCentralArc = function( start, end ) {
+		this.drawCentralArc = function( start, end, arcRadius ) {
 			var graph = KhanUtil.currentGraph,
+				arcRadius = arcRadius || 0.5,
 				arc;
 			graph.style( {fill: ""}, function() {
-				arc = graph.arc( center, 0.5, start, end );
+				arc = graph.arc( center, arcRadius, start, end );
 			});
 			return arc;
 		}
 
 		this.drawCentralAngle = function( start, end ) {
-			this.drawRadius( start );
-			this.drawRadius( end );
-			this.drawCentralArc( start, end );
+			var result = { radii: [] };
+			result.radii.push( this.drawRadius( start ) );
+			result.radii.push( this.drawRadius( end ) );
+			result.arc = this.drawCentralArc( start, end );
+			return result;
 		}
 
-		this.drawInscribedArc = function( inscribed, start, end ) {
+		this.drawInscribedArc = function( inscribed, start, end, arcRadius ) {
 			var graph = KhanUtil.currentGraph,
 				vertex = graph.polar( radius, inscribed ),
 				point1 = graph.polar( radius, start ),
 				point2 = graph.polar( radius, end ),
 				theta1 = getThetaFromXY( point1[0] - vertex[0], point1[1] - vertex[1] ),
 				theta2 = getThetaFromXY( point2[0] - vertex[0], point2[1] - vertex[1] ),
+				arcRadius = arcRadius || 0.5,
 				arc;
 			graph.style( { fill: "" }, function() {
-				arc = graph.arc( vertex, 0.5, theta1, theta2 );
+				arc = graph.arc( vertex, arcRadius, theta1, theta2 );
 			})
 			return arc;
 		}
 
-		this.drawInscribedAngle = function( inscribed, start, end ) {
+		this.drawInscribedAngle = function( inscribed, start, end, arcRadius ) {
 			var graph = KhanUtil.currentGraph,
 				chords = [ this.drawChord( inscribed, start ), this.drawChord( inscribed, end) ],
 				vertex = this.drawPoint( inscribed ),
-				arc = this.drawInscribedArc( inscribed, start, end );
+				arc = this.drawInscribedArc( inscribed, start, end, arcRadius );
 			return { chords: chords, vertex: vertex, arc: arc };
 		}
 	}

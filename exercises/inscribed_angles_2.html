@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-polygon interactive">
+<head>
+	<meta charset="UTF-8" />
+	<title>Inscribed angles 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="find-inscribed-inside">
+			<div class="vars">
+				<var id="START">randRange( 0, 360 )</var>
+				<var id="MEASURE">randRange( 10, 80 ) * 2</var>
+				<var id="INSCRIBED">randRange( START + 180 + 5, START + MEASURE + 180 - 5 ) % 360</var>
+				<var id="RADIUS">4</var>
+			</div>
+			<p class="question">If the blue angle measures <var>MEASURE</var> degrees, what does the orange angle measure?</p>
+			<p>This is a special case where the center of the circle is inside the inscribed orange angle. The blue angle is called a central angle.</p>
+			<div class="graphie" id="circle">
+				init({
+					range: [ [ -RADIUS - 1, RADIUS + 1 ], [ -RADIUS - 1, RADIUS + 1 ] ]
+				});
+				addMouseLayer();
+				graph.circle = new Circle( RADIUS );
+
+				style({ stroke: BLUE, fill: BLUE });
+				graph.circle.drawCenter();
+				graph.circle.drawPoint( START );
+				graph.circle.drawPoint( START + MEASURE );
+
+				graph.central = graph.circle.drawCentralAngle( START, START + MEASURE );
+
+				style({ stroke: ORANGE, fill: ORANGE });
+				graph.inscribed = graph.circle.drawInscribedAngle( INSCRIBED, START, START + MEASURE );
+
+				graph.circle.drawMovablePoint( INSCRIBED, START + MEASURE, START );
+			</div>
+			<div class="solution" data-type="multiple">
+				<span class="sol"><var>MEASURE / 2</var></span> degrees
+			</div>
+			<div class="hints">
+				<div>
+					<p>What do we know about the sub-angles formed by the dashed diameter shown above?</p>
+					<div class="graphie" data-update="circle">
+						style({stroke: BLUE, "stroke-dasharray": "-"}, function() {
+							graph.circle.drawChord( INSCRIBED, INSCRIBED + 180 );
+						});
+					</div>
+				</div>
+				<div>
+					<p>If we only look at the sub-angles drawn now, we see that this is the special case from the previous inscribed angles exercise!</p>
+					<p>We know that the orange sub-angle is one half the measure of the blue sub-angle.</p>
+					<div class="graphie" data-update="circle">
+						graph.inscribed.arc.animate({opacity: 0.4});
+						graph.central.arc.animate({opacity: 0.4});
+						style({stroke: BLUE});
+						graph.centralSub = graph.circle.drawCentralArc( INSCRIBED + 180, START + MEASURE, 0.7 );
+						style({stroke: ORANGE});
+						graph.inscribedSub = graph.circle.drawInscribedArc( INSCRIBED, INSCRIBED + 180, START + MEASURE, 0.7 );
+					</div>
+				</div>
+				<div>
+					<p>Likewise, the other orange sub-angle is one half the measure of the other blue sub-angle, as shown.</p>
+					<div class="graphie" data-update="circle">
+						graph.centralSub.remove();
+						graph.inscribedSub.remove();
+						style({stroke: BLUE});
+						graph.centralSub = graph.circle.drawCentralArc( START, INSCRIBED + 180, 0.7 );
+						style({stroke: ORANGE});
+						graph.inscribedSub = graph.circle.drawInscribedArc( INSCRIBED, START, INSCRIBED + 180, 0.7 );
+					</div>
+				</div>
+				<div>
+					<p>If both orange sub-angles are one half both blue sub-angles, then we know that the original orange angle is one half the original blue angle.</p>
+					<div class="graphie" data-update="circle">
+						graph.centralSub.remove();
+						graph.inscribedSub.remove();
+						graph.inscribed.arc.animate({opacity: 1.0});
+						graph.central.arc.animate({opacity: 1.0});
+					</div>
+				</div>
+				<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{\text{blue angle}}</code></p>
+				<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{<var>MEASURE</var>^{\circ}}</code></p>
+				<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} =  \color{<var>BLUE</var>}{<var>MEASURE / 2</var>^{\circ}}</code></p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
