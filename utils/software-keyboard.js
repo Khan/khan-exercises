@@ -1,17 +1,16 @@
 jQuery.fn["software-keyboardPost"] = function() {
-	var softwareKeyboard = jQuery( "#software-keyboard" );
-	var solutionarea = jQuery("#solutionarea");
-
-	var inputs = solutionarea.find( ":input" );
-	inputs.prop( "readonly", true )
-		.css( "-webkit-tap-highlight-color", "rgba(0, 0, 0, 0)" );
+	var softwareKeyboard = jQuery( "#software-keyboard" ),
+		solutionarea = jQuery( "#solutionarea" ),
+		inputs = solutionarea.find( ":input" )
+			.prop( "readonly", true )
+			.css( "-webkit-tap-highlight-color", "rgba(0, 0, 0, 0)" ),
+		field = inputs.first();
 
 	var keyPressed = function( key ) {
-		var field = solutionarea.find( ":input" ).first();
-
 		// Normal key
-		if ( key.length === 1 ) {
+		if ( key !== "bs" ) {
 			field.val( field.val() + key );
+		
 		} else {
 			// Assume for now that it is backspace
 			field.val( field.val().slice( 0, -1 ) );

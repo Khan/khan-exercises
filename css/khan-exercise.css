@@ -294,7 +294,7 @@ div.timeline-total {
 	}
 }
 
-.lite #solutionarea input[type=number] {
+.lite #solutionarea input.number {
 	font-size: 16px;
 	text-align: right;
 	

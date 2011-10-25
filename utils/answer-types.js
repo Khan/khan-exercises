@@ -392,7 +392,7 @@ jQuery.extend( Khan.answerTypes, {
 		var input;
 		
 		if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
-			input = jQuery("<input type='number'/>");
+			input = jQuery("<input type='text' class='number'/>");
 		}
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier, input );
