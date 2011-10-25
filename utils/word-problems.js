@@ -44,7 +44,8 @@ jQuery.extend( KhanUtil, {
 			'person': 'people',
 			'is': 'are',
 			'was': 'were',
-			'square foot': 'square feet'
+			'square foot': 'square feet',
+			'tomato': 'tomatoes'
 		};
 
 		var pluralizeWord = function(word) {
@@ -288,6 +289,16 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"pink"
 	]);
 
+	var schools = KhanUtil.shuffle([
+		"Loyola",
+		"Gardner Bullis",
+		"Almond",
+		"Covington",
+		"Springer",
+		"Santa Rita",
+		"Oak"
+	]);
+
 	var clothes = KhanUtil.shuffle([
 		"hat",
 		"pair of pants",
@@ -432,6 +443,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		timeofday: function( i ) {
 			return timesofday[i - 1];
+		},
+
+		school: function( i ) {
+			return schools[i - 1];
 		},
 
 		clothing: function( i ) {

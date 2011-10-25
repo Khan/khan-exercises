@@ -110,23 +110,23 @@ jQuery.extend( KhanUtil, {
 		movablePoint.mouseTarget.attr({fill: "#000", "opacity": 0.0});
 
 		jQuery( movablePoint.mouseTarget[0] ).css( "cursor", "move" );
-		jQuery( movablePoint.mouseTarget[0] ).bind("mousedown mouseenter mouseleave", function( event ) {
-			if ( event.type === "mouseenter" ) {
+		jQuery( movablePoint.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
+			if ( event.type === "vmouseover" ) {
 				movablePoint.highlight = true;
 				if ( !movablePoint.dragging ) {
 					movablePoint.visibleShape.animate({ scale: 2 }, 50 );
 				}
 
-			} else if ( event.type === "mouseleave" ) {
+			} else if ( event.type === "vmouseout" ) {
 				movablePoint.highlight = false;
 				if ( !movablePoint.dragging ) {
 					movablePoint.visibleShape.animate({ scale: 1 }, 50 );
 				}
 
-			} else if ( event.type === "mousedown" && event.which === 1 ) {
+			} else if ( event.type === "vmousedown" && (event.which === 1 || event.which === 0) ) {
 				event.preventDefault();
 
-				jQuery( document ).bind("mousemove mouseup", function( event ) {
+				jQuery( document ).bind("vmousemove vmouseup", function( event ) {
 					event.preventDefault();
 					movablePoint.dragging = true;
 
@@ -155,15 +155,22 @@ jQuery.extend( KhanUtil, {
 					var coordX = mouseX / graph.scale[0] + graph.range[0][0];
 					var coordY = graph.range[1][1] - mouseY / graph.scale[1];
 
-					if ( event.type === "mousemove" ) {
+					if ( event.type === "vmousemove" ) {
 						var doMove = true;
 						// The caller has the option of adding an onMove() method to the
 						// movablePoint object we return as a sort of event handler
 						// By returning false from onMove(), the move can be vetoed,
 						// providing custom constraints on where the point can be moved.
+						// By returning array [x, y], the move can be overridden
 						if (typeof movablePoint.onMove === "function") {
-							if (movablePoint.onMove( coordX, coordY ) === false) {
+							var result = movablePoint.onMove( coordX, coordY );
+							if ( result === false ) {
 								doMove = false;
+							}
+							if ( typeof result === "object" ) {
+								var scaled = graph.scalePoint( result );
+								mouseX = scaled[ 0 ];
+								mouseY = scaled[ 1 ];
 							}
 						}
 						if (doMove) {
@@ -176,8 +183,8 @@ jQuery.extend( KhanUtil, {
 						}
 
 
-					} else if ( event.type === "mouseup" ) {
-						jQuery( document ).unbind( "mousemove mouseup" );
+					} else if ( event.type === "vmouseup" ) {
+						jQuery( document ).unbind( "vmousemove vmouseup" );
 						movablePoint.dragging = false;
 						if (!movablePoint.highlight) {
 							movablePoint.visibleShape.animate({ scale: 1 }, 50 );
@@ -268,23 +275,23 @@ jQuery.extend( KhanUtil, {
 		movableLine.mouseTarget.attr({fill: "#000", "opacity": 0.0});
 
 		jQuery( movableLine.mouseTarget[0] ).css( "cursor", "move" );
-		jQuery( movableLine.mouseTarget[0] ).bind("mousedown mouseenter mouseleave", function( event ) {
-			if ( event.type === "mouseenter" ) {
+		jQuery( movableLine.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
+			if ( event.type === "vmouseover" ) {
 				movableLine.highlight = true;
 				if ( !movableLine.dragging ) {
 					movableLine.visibleShape.animate({ "stroke-width": 5 }, 50 );
 				}
 
-			} else if ( event.type === "mouseleave" ) {
+			} else if ( event.type === "vmouseout" ) {
 				movableLine.highlight = false;
 				if ( !movableLine.dragging ) {
 					movableLine.visibleShape.animate({ "stroke-width": 2 }, 50 );
 				}
 
-			} else if ( event.type === "mousedown" && event.which === 1 ) {
+			} else if ( event.type === "vmousedown" && (event.which === 1 || event.which === 0) ) {
 				event.preventDefault();
 
-				jQuery( document ).bind("mousemove mouseup", function( event ) {
+				jQuery( document ).bind("vmousemove vmouseup", function( event ) {
 					event.preventDefault();
 					movableLine.dragging = true;
 
@@ -303,7 +310,7 @@ jQuery.extend( KhanUtil, {
 					var coordX = mouseX / graph.scale[0] + graph.range[0][0];
 					var coordY = graph.range[1][1] - mouseY / graph.scale[1];
 
-					if ( event.type === "mousemove" ) {
+					if ( event.type === "vmousemove" ) {
 						if (options.vertical) {
 							movableLine.visibleShape.translate( (coordX * graph.scale[0]) - movableLine.visibleShape.attr("translation").x, 0 );
 							movableLine.mouseTarget.attr( "x", mouseX - 10 );
@@ -326,8 +333,8 @@ jQuery.extend( KhanUtil, {
 							}
 						}
 
-					} else if ( event.type === "mouseup" ) {
-						jQuery( document ).unbind( "mousemove mouseup" );
+					} else if ( event.type === "vmouseup" ) {
+						jQuery( document ).unbind( "vmousemove vmouseup" );
 						movableLine.dragging = false;
 						if (!movableLine.highlight) {
 							movableLine.visibleShape.animate({ "stroke-width": 2 }, 50 );
@@ -395,6 +402,7 @@ jQuery.extend( KhanUtil, {
 		options = jQuery.extend({
 			graph: KhanUtil.currentGraph,
 			snap: 0,
+			range: [ KhanUtil.currentGraph.range[0][0], KhanUtil.currentGraph.range[0][1] ]
 		}, options);
 		var graph = options.graph;
 		var interactiveFn = {
@@ -405,7 +413,7 @@ jQuery.extend( KhanUtil, {
 		graph.style({
 			stroke: KhanUtil.BLUE,
 		}, function() {
-			interactiveFn.visibleShape = graph.plot( fn, [ graph.range[0][0], graph.range[0][1] ] );
+			interactiveFn.visibleShape = graph.plot( fn, options.range );
 		});
 
 		// Draw a circle that will be used to highlight the point on the function the mouse is closest to
@@ -428,9 +436,9 @@ jQuery.extend( KhanUtil, {
 		// So instead, we have to use a polygon.
 		var mouseAreaWidth = 30;
 		var points = [];
-		var step = ( graph.range[0][1] - graph.range[0][0] ) / 100;
+		var step = ( options.range[1] - options.range[0] ) / 100;
 		// Draw a curve parallel to, but (mouseAreaWidth/2 pixels) above the function
-		for ( var x = graph.range[0][0]; x <= graph.range[0][1]; x += step ) {
+		for ( var x = options.range[0]; x <= options.range[1]; x += step ) {
 			var ddx = (fn(x - 0.001) - fn(x + 0.001)) / 0.002;
 			var x1 = x;
 			var y1 = fn(x) + (mouseAreaWidth / (2 * graph.scale[1]));
@@ -448,7 +456,7 @@ jQuery.extend( KhanUtil, {
 			points.push( [(x1 - graph.range[0][0]) * graph.scale[0], (graph.range[1][1] - y1) * graph.scale[1] ] );
 		}
 		// Draw a curve parallel to, but (mouseAreaWidth/2 pixels) below the function
-		for ( var x = graph.range[0][1]; x >= graph.range[0][0]; x -= step ) {
+		for ( var x = options.range[1]; x >= options.range[0]; x -= step ) {
 			var ddx = (fn(x - 0.001) - fn(x + 0.001)) / 0.002;
 			var x1 = x;
 			var y1 = fn(x) - (mouseAreaWidth / (2 * graph.scale[1]));
@@ -470,8 +478,8 @@ jQuery.extend( KhanUtil, {
 		interactiveFn.mouseTarget.attr({ fill: "#000", "opacity": 0.0 });
 
 		// Add mouse handlers to the polygon
-		jQuery( interactiveFn.mouseTarget[0] ).bind("mouseenter mouseleave mousemove", function( event ) {
-
+		jQuery( interactiveFn.mouseTarget[0] ).bind("vmouseover vmouseout vmousemove", function( event ) {
+			event.preventDefault();
 			var mouseX = event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left;
 			var mouseY = event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top;
 			// can't go beyond 10 pixels from the edge
@@ -488,7 +496,7 @@ jQuery.extend( KhanUtil, {
 			// Find the closest point on the curve to the mouse (by brute force)
 			var closestX = 0;
 			var minDist = Math.sqrt((coordX) * (coordX) + (coordY) * (coordY));
-			for (var x = graph.range[0][0]; x < graph.range[0][1]; x += ((graph.range[0][1] - graph.range[0][0])/graph.xpixels)) {
+			for ( var x = options.range[0]; x < options.range[1]; x += (( options.range[1] - options.range[0])/graph.xpixels ) ) {
 				if (Math.sqrt((x-coordX) * (x-coordX) + (fn(x) -coordY) * (fn(x)-coordY)) < minDist) {
 					closestX = x;
 					minDist = Math.sqrt((x-coordX) * (x-coordX) + (fn(x) -coordY) * (fn(x)-coordY));
@@ -506,11 +514,11 @@ jQuery.extend( KhanUtil, {
 				interactiveFn.onMove(coordX, coordY);
 			}
 
-			if ( event.type === "mouseenter" ) {
+			if ( event.type === "vmouseover" ) {
 				interactiveFn.cursorPoint.animate({ opacity: 1.0 }, 50 );
 				interactiveFn.highlight = true;
 
-			} else if ( event.type === "mouseleave" ) {
+			} else if ( event.type === "vmouseout" ) {
 				interactiveFn.highlight = false;
 				interactiveFn.cursorPoint.animate({ opacity: 0.0 }, 50 );
 				// If the caller wants to be notified when the user stops pointing to the function

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-polygon interactive">
+<head>
+	<meta charset="UTF-8" />
+	<title>Inscribed angles 3</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="find-inscribed-outside">
+			<div class="vars">
+				<var id="START">randRange( 0, 360 )</var>
+				<var id="MEASURE">randRange( 10, 80 ) * 2</var>
+				<var id="INSCRIBED">randFromArray( [ randRange( START + MEASURE + 5, START + 180 - 5 ), randRange( START + MEASURE + 180 + 5, START + 360 - 5 ) ] ) % 360</var>
+				<var id="RADIUS">4</var>
+			</div>
+			<p class="question">If the blue angle measures <var>MEASURE</var> degrees, what does the orange angle measure?</p>
+			<p>This is a special case where the center of the circle is outside the inscribed orange angle. The blue angle is called a central angle.</p>
+			<div class="graphie" id="circle">
+				init({
+					range: [ [ -RADIUS - 1, RADIUS + 1 ], [ -RADIUS - 1, RADIUS + 1 ] ]
+				});
+				addMouseLayer();
+				graph.circle = new Circle( RADIUS );
+
+				style({ stroke: BLUE, fill: BLUE });
+				graph.circle.drawCenter();
+				graph.circle.drawPoint( START );
+				graph.circle.drawPoint( START + MEASURE );
+
+				graph.circle.drawCentralAngle( START, START + MEASURE );
+
+				style({ stroke: ORANGE, fill: ORANGE });
+				graph.circle.drawInscribedAngle( INSCRIBED, START, START + MEASURE );
+
+				graph.circle.drawMovablePoint( INSCRIBED, START + MEASURE, START );
+			</div>
+			<div class="solution" data-type="multiple">
+				<span class="sol"><var>MEASURE / 2</var></span> degrees
+			</div>
+			<div class="hints">
+				<div>
+					<p>What do we know about the angles formed by the dashed diameter shown above?</p>
+					<div class="graphie" data-update="circle">
+						style({stroke: BLUE, "stroke-dasharray": "-"}, function() {
+							graph.circle.drawChord( INSCRIBED, INSCRIBED + 180 );
+						});
+					</div>
+				</div>
+				<div>
+					<p>From the previous inscribed angles exercises, we know the following about the green and pink angles.</p>
+					<p><code>\color{<var>GREEN</var>}{\text{green angle}} = \dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{pink angle}}</code></p>
+					<div class="graphie" data-update="circle">
+						style({stroke: BLUE, fill: BLUE}, function() {
+							graph.circle.drawPoint( INSCRIBED + 180 );
+						});
+						style({stroke: PINK});
+						var start = min( ( INSCRIBED + 180 ) % 360, START ),
+							end = max( ( INSCRIBED + 180 ) % 360, START );
+
+						graph.central = graph.circle.drawCentralAngle( start, end, 0.7 );
+						style({stroke: GREEN});
+						graph.inscribed = graph.circle.drawInscribedAngle( INSCRIBED, start, end, 0.7 );
+					</div>
+				</div>
+				<div>
+					<p>We can see another pair of these special case inscribed and central angles, with the same relationship between green and pink angles.</p>
+					<div class="graphie" data-update="circle">
+						graph.central.arc.animate({opacity: 0.4});
+						graph.central.radii[0].remove();
+						graph.central.radii[1].remove();
+						graph.inscribed.arc.animate({opacity: 0.4});
+						graph.inscribed.chords[0].remove();
+						graph.inscribed.chords[1].remove();
+
+						var start = min( ( INSCRIBED + 180 ) % 360, ( START + MEASURE ) % 360 ),
+							end = max( ( INSCRIBED + 180 ) % 360, ( START + MEASURE ) % 360 );
+						style({stroke: PINK});
+						graph.central = graph.circle.drawCentralAngle( start, end, 0.9 );
+						style({stroke: GREEN});
+						graph.inscribed = graph.circle.drawInscribedAngle( INSCRIBED, start, end, 0.9 );
+					</div>
+				</div>
+				<div>
+					<p>Looking at the picture, we can see the following is true:</p>
+					<p><code>\color{<var>GREEN</var>}{\text{small green angle}} + \color{<var>ORANGE</var>}{\text{orange angle}} = \color{<var>GREEN</var>}{\text{big green angle}}</code></p>
+					<div class="graphie" data-update="circle">
+						graph.central.arc.animate({opacity: 0.4});
+						graph.central.radii[0].remove();
+						graph.central.radii[1].remove();
+						graph.inscribed.arc.animate({opacity: 0.4});
+						graph.inscribed.chords[0].remove();
+						graph.inscribed.chords[1].remove();
+					</div>
+				</div>
+				<div>
+					<p>Substituting what we know about green and pink angles, we get the following:</p>
+					<p><code>\dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{small pink angle}} + \color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{big pink angle}}</code></p>
+				</div>
+				<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2}( \color{<var>PINK</var>}{\text{big pink angle}} - \color{<var>PINK</var>}{\text{small pink angle}})</code></p>
+				<div>
+					<p>We can see from the picture that the following is also true:</p>
+					<p><code>\color{<var>PINK</var>}{\text{small pink angle}} + \color{<var>BLUE</var>}{\text{blue angle}} = \color{<var>PINK</var>}{\text{big pink angle}}</code></p>
+					<p><code>\color{<var>BLUE</var>}{\text{blue angle}} = \color{<var>PINK</var>}{\text{big pink angle}} - \color{<var>PINK</var>}{\text{small pink angle}}</code></p>
+				</div>
+				<div>
+					<p>Combining what we know about blue and orange angles:</p>
+					<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{\text{blue angle}}</code></p>
+				</div>
+				<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{<var>MEASURE</var>^{\circ}}</code></p>
+				<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \color{<var>BLUE</var>}{<var>MEASURE / 2</var>^{\circ}}</code></p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

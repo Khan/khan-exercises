@@ -8,7 +8,7 @@
 <body>
 	<div class="exercise">
 		<div class="problems">
-			<div id="skateboarding_camp">
+			<div id="skateboarding_camp_tricks">
 				<div class="vars">
 					<var id="Q">randRange( 2, 25 )</var><!-- # of skateboarding tricks -->
 					<var id="P">randRange( 3, 10 )</var><!-- # of tricks learned per week -->
@@ -22,14 +22,18 @@
 				<div class="solution"><var>R</var></div>
 
 				<div class="hints">
-					<p>Let w = weeks <var>person( 1 )</var> spends at camp. Since <var>person( 1 )</var> learns <var>P</var> tricks per week, <var>P</var>w represents the number of tricks <var>person( 1 )</var> learns over w weeks.</p>
-					<p>Since <var>person( 1 )</var> already knows <var>Q</var> tricks, let <var>P</var>w + <var>Q</var> = the number of tricks <var>person( 1 )</var> will know at the end of w weeks.</p>
-					<p><var>person( 1 )</var> spends <var>X</var> weeks at camp, so we can substitute <var>X</var> for w.</p>
-					<p><var>P</var> * <var>X</var> + <var>Q</var> = <var>R</var>. <strong><var>person( 1 )</var> will know <var>R</var> tricks at the end of camp.</strong></p>
+					<p>Skateboarding tricks <var>he( 1 )</var> learns per week x Number of weeks at the camp + Skateboarding tricks <var>he( 1 )</var> already knows = Number of tricks known at the end of camp</p>
+					<p>Skateboarding tricks <var>he( 1 )</var> learns per week = <code><var>P</var></code></p>
+					<p>Number of weeks at the camp = <code><var>X</var></code></p>
+					<p>Skateboarding tricks <var>he( 1 )</var> already knows = <code><var>Q</var></code></p>
+					<p>Number of tricks known at the end of camp = <code>r</code></p>
+					<p><code><var>P</var> \cdot <var>X</var> + <var>Q</var> = r</code></p>
+					<p><code><var>P</var> \cdot <var>X</var> + <var>Q</var> = <var>R</var></code></p>
+					<p><strong><var>person( 1 )</var> will know <var>R</var> tricks at the end of camp.</strong></p>
 				</div>
 			</div>
 
-			<div id="marathons">
+			<div id="number_of_marathons">
 				<div class="vars">
 					<var id="Q">randRange( 1, 50 )</var><!-- # of marathons -->
 					<var id="P">randRange( 2, 12 )</var><!-- # of marathons per year -->
@@ -43,14 +47,18 @@
 				<div class="solution"><var>R</var></div>
 
 				<div class="hints">
-					<p>Let y = the number of years in which <var>person( 1 )</var> runs marathons. Since <var>person( 1 )</var> plans to run <var>P</var> marathons per year, <var>P</var>y represents the number of marathons <var>person( 1 )</var> has run over y years.</p>
-					<p>Since <var>person( 1 )</var> has already run <var>plural( Q, "marathon" )</var>, let <var>P</var>y + <var>Q</var> = the number of marathons <var>person( 1 )</var> will have run at the end of y years.</p>
-					<p><var>person( 1 )</var> runs marathons for <var>X</var> years, so we can substitute <var>X</var> for y.</p>
-					<p><var>P</var> * <var>X</var> + <var>Q</var> = <var>R</var>. <strong><var>person( 1 )</var> will have run <var>R</var> marathons at the end of <var>X</var> years.</strong></p>
+					<p>Number of marathons planned per year x Number of years + Number of marathons <var>he( 1 )</var> already ran = Total number of marathons</p>
+					<p>Number of marathons planned per year = <code><var>P</var></code></p>
+					<p>Number of years = <code><var>X</var></code></p>
+					<p>Number of marathons <var>he( 1 )</var> already ran = <code><var>Q</var></code></p>
+					<p>Total number of marathons = <code>r</code></p>
+					<p><code><var>P</var> \cdot <var>X</var> + <var>Q</var> = r</code></p>
+					<p><code><var>P</var> \cdot <var>X</var> + <var>Q</var> = <var>R</var></code></p>
+					<p><strong><var>person( 1 )</var> will have run <var>R</var> marathons at the end of <var>X</var> years.</strong></p>
 				</div>
 			</div>
 
-			<div id="amazon">
+			<div id="amazon_total">
 				<div class="vars">
 					<var id="Q">randRange( 0, 15 )</var><!-- cost of shipping -->
 					<var id="P">randRange( 5, 30 )</var><!-- cost of each book -->
@@ -64,14 +72,18 @@
 				<div class="solution"><var>R</var></div>
 
 				<div class="hints">
-					<p>Let m = the price of each book. Since <var>person( 1 )</var> bought <var>X</var> books, <var>X</var>m represents represents the amount of money <var>person( 1 )</var> will spend on books.</p>
-					<p>Since <var>person( 1 )</var> has to pay $<var>Q</var> for shipping, let <var>X</var>m + <var>Q</var> = the total <var>person( 1 )</var> will spend on <var>his(1)</var> Amazon purchase.</p>
-					<p><var>person( 1 )</var> buys books for $<var>P</var> each, so we can substitute <var>P</var> for m.</p>
-					<p><var>X</var> * <var>P</var> + <var>Q</var> = <var>R</var>. <strong><var>person( 1 )</var> will spend $<var>R</var> on <var>his(1)</var> Amazon purchase.</strong></p>
+					<p>Cost of each book x Number of books bought + Cost of shipping = Bill total</p>
+					<p>Cost of each book = <code><var>P</var></code></p>
+					<p>Number of books bought = <code><var>X</var></code></p>
+					<p>Cost of shipping = <code><var>Q</var></code></p>
+					<p>Bill total = <code>r</code></p>
+					<p><code><var>P</var> \cdot <var>X</var> + <var>Q</var> = r</code></p>
+					<p><code><var>P</var> \cdot <var>X</var> + <var>Q</var> = <var>R</var></code></p>
+					<p><strong><var>person( 1 )</var> will spend $<var>R</var> on <var>his(1)</var> Amazon purchase.</strong></p>
 				</div>
 			</div>
 
-			<div id="new_york_times">
+			<div id="new_york_times_articles">
 				<div class="vars">
 					<var id="Q">randRange( 10, 100 )</var><!-- # of articles written -->
 					<var id="P">randRange( 1, 25 )</var><!-- # of articles per month -->
@@ -85,14 +97,18 @@
 				<div class="solution"><var>R</var></div>
 
 				<div class="hints">
-					<p>Let m = the number of months <var>person( 1 )</var> spends writing for <i>The New York Times</i>. Since <var>person( 1 )</var> writes <var>plural( P, "article" )</var> per month, <var>P</var>m represents the number of articles <var>person( 1 )</var> writes for <i>The New York Times</i> over m months.</p>
-					<p>Since <var>person( 1 )</var> has already written <var>Q</var> articles, let <var>P</var>m + <var>Q</var> = the number of articles <var>person( 1 )</var> will have written at the end of m months.</p>
-					<p><var>person( 1 )</var> writes for <i>The New York Times</i> for <var>X</var> months so we can substitute <var>X</var> for m.</p>
-					<p><var>P</var> * <var>X</var> + <var>Q</var> = <var>R</var>. <strong><var>person( 1 )</var> will have written <var>R</var> articles at the end of <var>X</var> months.</strong></p>
+					<p>Number of articles to be written per month x Number of months writing articles + Number of articles already written = Total number of articles</p>
+					<p>Number of articles to be written per month = <code><var>P</var></code></p>
+					<p>Number of months writing articles = <code><var>X</var></code></p>
+					<p>Number of articles already written = <code><var>Q</var></code></p>
+					<p>Total number of articles = <code>r</code></p>
+					<p><code><var>P</var> \cdot <var>X</var> + <var>Q</var> = r</code></p>
+					<p><code><var>P</var> \cdot <var>X</var> + <var>Q</var> = <var>R</var></code></p>
+					<p><strong><var>person( 1 )</var> will have written <var>R</var> articles at the end of <var>X</var> months.</strong></p>
 				</div>
 			</div>
 
-			<div id="khan_academy">
+			<div id="khan_academy_exercises">
 				<div class="vars">
 					<var id="Q">randRange( 5, 40 )</var><!-- # of exercises -->
 					<var id="P">randRange( 2, 15 )</var><!-- # of exercises per weeks -->
@@ -106,16 +122,20 @@
 				<div class="solution"><var>R</var></div>
 
 				<div class="hints">
-					<p>Let w = the number of weeks <var>person( 1 )</var> spends working on Khan Academy. Since <var>person( 1 )</var> completes <var>P</var> exercises per week, <var>P</var>w represents the number of exercises <var>person( 1 )</var> completes over w weeks.</p>
-					<p>Since <var>person( 1 )</var> is already proficient in <var>Q</var> exercises, let <var>P</var>w + <var>Q</var> = the number of exercises <var>person( 1 )</var> will have completed at the end of w weeks.</p>
-					<p><var>person( 1 )</var> works on Khan Academy for <var>X</var> weeks so we can substitute <var>X</var> for w.</p>
-					<p><var>P</var> * <var>X</var> + <var>Q</var> = <var>R</var>. <strong><var>person( 1 )</var> will have completed <var>R</var> exercises at the end of <var>X</var> weeks.</strong></p>
+					<p>Number of exercises to complete per week x Number of weeks completing exercises + Number of exercises already proficient in = Total number of exercises completed</p>
+					<p>Number of exercises to complete per week = <code><var>P</var></code></p>
+					<p>Number of weeks completing exercises = <code><var>X</var></code></p>
+					<p>Number of exercises already proficient in = <code><var>Q</var></code></p>
+					<p>Total number of exercises completed = <code>r</code></p>
+					<p><code><var>P</var> \cdot <var>X</var> + <var>Q</var> = r</code></p>
+					<p><code><var>P</var> \cdot <var>X</var> + <var>Q</var> = <var>R</var></code></p>
+					<p><strong><var>person( 1 )</var> will have completed <var>R</var> exercises at the end of <var>X</var> weeks.</strong></p>
 				</div>
 			</div>
 
-			<div id="magazine_subscriptions">
+			<div id="magazine_subscription_selling">
 				<div class="vars" data-ensure="Q < R">
-					<var id="Q">randRange( 20, 40 )</var><!-- $ per weekly bonus -->
+					<var id="Q">randRange( 20, 40 )</var><!-- $ weekly bonus -->
 					<var id="P">randRange( 2, 10 )</var><!-- $ per subscription -->
 					<var id="R">randRange( 30, 100 )</var><!-- Weekly salary goal -->
 					<var id="X">ceil( (R - Q) / P )</var><!-- # subscriptions needed -->
@@ -127,16 +147,20 @@
 				<div class="solution" data-forms="integer"><var>X</var></div>
 
 				<div class="hints">
-					<p>Let s = subscriptions <var>person( 1 )</var> sells in a given week. Since <var>person( 1 )</var> earns $<var>P</var> per subscription, <var>P</var>s represents the amount of money <var>person( 1 )</var> earns on subscriptions in a given week.</p>
-					<p>Since <var>person( 1 )</var> earns a weekly bonus of $<var>Q</var>, let <var>P</var>s + <var>Q</var> = the total amount of money <var>person( 1 )</var> earns in a given week.</p>
-					<p><var>person( 1 )</var> wants to earn more than $<var>R</var> this week. This can be represented as <var>P</var>s + <var>Q</var> > <var>R</var></p>
-					<p><var>P</var>s > <var>R</var> - <var>Q</var></p>
-					<p>s > (<var>R</var> - <var>Q</var>) / <var>P</var></p>
+					<p>Dollars per subscription x Number of subscriptions sold + Weekly bonus > Minimum dollar amount to earn this week</p>
+					<p>Dollars per subscription = <code><var>P</var></code></p>
+					<p>Weekly bonus = <code><var>Q</var></code></p>
+					<p>Minimum dollar amount to earn this week = <code><var>R</var></code></p>
+					<p>Number of subscriptions sold = <code>x</code></p>
+					<p><code><var>P</var>x + <var>Q</var> > <var>R</var></code></p>
+					<p><code><var>P</var>x > <var>R</var> - <var>Q</var></code></p>
+					<p><code>x > \dfrac{<var>R - Q</var>}{<var>P</var>}</code></p>
+					<p><code>x > <var>X</var></code></p>
 					<p><strong><var>person( 1 )</var> must sell at least <var>X</var> subscriptions this week.</strong></p>
 				</div>
 			</div>
 
-			<div id="video_game">
+			<div id="video_game_levels">
 				<div class="vars" data-ensure="Q < R">
 					<var id="Q">10 * randRange( 300 / 10, 3000 / 10 )</var><!-- # of bonus points -->
 					<var id="P">10 * randRange( 500 / 10, 1500 / 10 )</var><!-- # points per level -->
@@ -150,16 +174,20 @@
 				<div class="solution" data-forms="integer"><var>X</var></div>
 
 				<div class="hints">
-					<p>Let l = levels <var>person( 1 )</var> completes in a given hour. Since <var>person( 1 )</var> earns <var>P</var> points per level, <var>P</var> * l represents the number of points <var>person( 1 )</var> earns in a given hour.</p>
-					<p>Since <var>person( 1 )</var> earns a bonus of <var>Q</var> per hour, let <var>P</var> * l + <var>Q</var> = the total amount of points <var>person( 1 )</var> earns in a given hour.</p>
-					<p><var>person( 1 )</var> wants to earn more than <var>R</var> additional points in the next hour. This can be represented as <var>P</var> * l + <var>Q</var> > <var>R</var></p>
-					<p><var>P</var> * l > <var>R</var> - <var>Q</var></p>
-					<p>l > (<var>R</var> - <var>Q</var>) / <var>P</var></p>
+					<p>Points per level x Number of levels completed + Bonus points > Points goal</p>
+					<p>Points per level = <code><var>P</var></code></p>
+					<p>Bonus points = <code><var>X</var></code></p>
+					<p>Points goal = <code><var>R</var></code></p>
+					<p>Number of levels completed = <code>x</code></p>
+					<p><code><var>P</var>x + <var>Q</var> > <var>R</var></code></p>
+					<p><code><var>P</var>x > <var>R</var> - <var>Q</var></code></p>
+					<p><code>x > \dfrac{<var>R - Q</var>}{<var>P</var>}</code></p>
+					<p><code>x > <var>X</var></code></p>
 					<p><strong><var>person( 1 )</var> needs to complete at least <var>X</var> levels in the next hour.</strong></p>
 				</div>
 			</div>
 
-			<div id="bear">
+			<div id="bear_monthly_energy">
 				<div class="vars">
 					<var id="Q">randRange( 1000, 5000 )</var><!-- Current energy -->
 					<var id="R">randRange( 10000, 25000 )</var><!-- Energy level needed before winter -->
@@ -173,16 +201,20 @@
 				<div class="solution" data-forms="integer"><var>P</var></div>
 
 				<div class="hints">
-					<p>Let e = units of energy <var>person( 1 )</var> stores up per month. Since there are <var>X</var> months left before winter, <var>X</var>e = the amount of energy <var>person( 1 )</var> can store up between now and winter.</p>
-					<p>Since <var>person( 1 )</var> has already stored up <var>Q</var> units of energy, let <var>X</var>e + <var>Q</var> = the total units of energy <var>person( 1 )</var> will have stored up when winter begins.</p>
-					<p><var>person( 1 )</var> needs to store up at least <var>R</var> units of energy before winter. This can be represented as <var>X</var>e + <var>Q</var> > <var>R</var>.</p>
-					<p><var>X</var>e > <var>R</var> - <var>Q</var>.</p>
-					<p>e > (<var>R</var> - <var>Q</var>) / <var>X</var>.</p>
+					<p>Months left before winter x Units of energy stored per month + Units of energy already stored > Units of energy needed</p>
+					<p>Months left before winter = <code><var>X</var></code></p>
+					<p>Units of energy already stored = <code><var>Q</var></code></p>
+					<p>Units of energy needed = <code><var>R</var></code></p>
+					<p>Units of energy stored per month = <code>p</code></p>
+					<p><code><var>X</var>p + <var>Q</var> > <var>R</var></code></p>
+					<p><code><var>X</var>p > <var>R</var> - <var>Q</var></code></p>
+					<p><code>p > \dfrac{<var>R - Q</var>}{<var>X</var>}</code></p>
+					<p><code>p > <var>P</var></code></p>
 					<p><strong><var>person( 1 )</var> needs to store up at least <var>P</var> units of energy before the winter.</strong></p>
 				</div>
 			</div>
 
-			<div id="piano">
+			<div id="piano_months">
 				<div class="vars" data-ensure="Q < R">
 					<var id="Q">randRange( 5, 50 )</var><!-- # current songs -->
 					<var id="R">randRange( 50, 200 )</var><!-- # of total songs -->
@@ -196,11 +228,15 @@
 				<div class="solution" data-forms="integer"><var>X</var></div>
 
 				<div class="hints">
-					<p>Let m = months <var>person( 1 )</var> takes to move to the maestro level. Since <var>he( 1 )</var> typically masters <var>P</var> songs per month, <var>P</var>m = the number of songs <var>person( 1 )</var> masters in a given number of months.</p>
-					<p>Since <var>person( 1 )</var> has already mastered <var>Q</var> songs, let <var>P</var>m + <var>Q</var> = total songs <var>person( 1 )</var> will have mastered after a given number of months.</p>
-					<p><var>person( 1 )</var> needs to master <var>R</var> songs to move to the maestro level. This can be represented as <var>P</var>m + <var>Q</var> > <var>R</var>.</p>
-					<p><var>P</var>m><var>R</var> - <var>Q</var>.</p>
-					<p>m > (<var>R</var> - <var>Q</var>) / <var>P</var>.</p>
+					<p>Songs to master per month x Number of months practicing + Songs already mastered > Songs needed for maestro level</p>
+					<p>Songs to master per month = <code><var>P</var></code></p>
+					<p>Songs already mastered = <code><var>X</var></code></p>
+					<p>Songs needed for maestro level = <code><var>R</var></code></p>
+					<p>Number of months practicing = <code>x</code></p>
+					<p><code><var>P</var>x + <var>Q</var> > <var>R</var></code></p>
+					<p><code><var>P</var>x > <var>R</var> - <var>Q</var></code></p>
+					<p><code>x > \dfrac{<var>R - Q</var>}{<var>P</var>}</code></p>
+					<p><code>x > <var>X</var></code></p>
 					<p><strong>It will take <var>person( 1 )</var> at least <var>X</var> months to move to the maestro level.</strong></p>
 				</div>
 			</div>

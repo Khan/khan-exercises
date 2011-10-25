@@ -17,8 +17,8 @@
 
 			<div id="take-away-result">
 				<p class="problem">
-					There <var>plural('was', TOTAL)</var> <var>plural(TOTAL, 'person')</var> riding on a train.
-					At the previous stop, <var>plural(NUM2, 'person')</var> got off.
+					Before the previous stop there <var>plural('was', TOTAL)</var> <var>plural(TOTAL, 'person')</var> riding on a train.
+					<var>plural(NUM2, 'person')</var> ended up getting off at the stop.
 				</p>
 				<p class="question">
 					How many people are riding the train now?
@@ -160,19 +160,17 @@
 
 			<div id="add-change">
 				<p class="problem">
-					There <var>plural('was', NUM2)</var> <var>plural(NUM2, 'car')</var> parked in the <var>store(1)</var> store parking lot.
-					Some more cars park at the <var>store(1)</var> store, and now there <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'car')</var> in the parking lot.
+					Initially there <var>plural( 'was', NUM2 )</var> <var>plural( NUM2, 'car' )</var> parked in the <var>store(1)</var> store parking lot.
+					During the following <var>randRange( 2, 3 )</var> hours some more cars parked at the <var>store(1)</var> store, and now there <var>plural('is', TOTAL)</var> <var>plural(TOTAL, 'car')</var> in the parking lot. No cars left the parking lot during this time.
 				</p>
 				<p class="question">
-					How many more cars parked at the <var>store(1)</var> store?
+				How many cars parked in the <var>store( 1 )</var> store parking lot after the initial <var>plural( NUM2, 'car' )</var>?
 				</p>
 				<p class="solution" data-forms="integer">
 					<var>NUM1</var>
 				</p>
 				<div class="hints">
-					<p>
-					The number of cars that came and parked at the store is the difference between the number that were parked earlier and the number that are parked now.
-					</p>
+					<p>The number of cars that came and parked at the store is the difference between the number that were parked earlier and the number that are parked now.</p>
 					<p>
 					The difference is <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural('car')</var>.
 					</p>

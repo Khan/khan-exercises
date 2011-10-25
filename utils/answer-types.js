@@ -48,6 +48,13 @@ jQuery.extend( Khan.answerTypes, {
 	},
 
 
+	graphic: function( solutionarea, solution, fallback ) {
+			var verifier = function( correct, guess ){
+					return Math.abs( correct - guess ) < 0.3;
+				}
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
+	},
+
 	line: function( solutionarea, solution, fallback ) {
 
 		var verifier = function( correct, guess ){
