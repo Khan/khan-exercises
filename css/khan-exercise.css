@@ -282,9 +282,29 @@ div.timeline-total {
 	font-family: inherit;
 }
 
-.lite #solutionarea input {
+@-webkit-keyframes pulse {
+	0% {
+		-webkit-box-shadow: 0 0 12px rgba(137, 185, 8, .2);
+	}
+	50% {
+		-webkit-box-shadow: 0 0 12px rgba(137, 185, 8, 0.9);
+	}
+	100% {
+		-webkit-box-shadow: 0 0 12px rgba(137, 185, 8, .2);
+	}
+}
+
+.lite #solutionarea input[type=number] {
 	font-size: 16px;
 	text-align: right;
+	
+	-webkit-animation-name: pulse;
+	-webkit-animation-duration: 1.5s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
 }
 
 .lite #answercontent .simple-button {
@@ -470,4 +490,8 @@ div.timeline-total {
 #software-keyboard .simple-button {
 	font-size: 16px;
 	width: 100%;
+}
+
+#software-keyboard #next-question-button {
+	font-size: 14px;
 }
