@@ -10,14 +10,14 @@ jQuery.extend(KhanUtil, {
 			if ( degree === 0 ) {
 				return coef;
 			} else if ( degree === 1 ) {
-				return ["*", coef, vari];
+				return [ "*", coef, vari ];
 			} else {
-				return ["*", coef, ["^", vari, degree]];
+				return [ "*", coef, [ "^", vari, degree ] ];
 			}
 
 		};
 
-		//inverse of term.	Given an expression it returns the coef and degree. 
+		// inverse of term.	Given an expression it returns the coef and degree. 
 		// calculus needs this for hints
 		var extractFromExpr = function ( expr ){
 			var coef,degree;
@@ -129,6 +129,30 @@ jQuery.extend(KhanUtil, {
 
 			return hints;
 		};
+
+		// Adds two polynomials
+		// It assumes the second polynomial's variable is the same as the first polynomial's
+		this.add = function( polynomial ) {
+			var coefs = [];
+			var minDegree = Math.min( this.minDegree, polynomial.minDegree );
+			var maxDegree = Math.max( this.maxDegree, polynomial.maxDegree );
+
+			for ( var i = 0; i <= maxDegree - minDegree; i++ ) {
+				var sum = 0;
+
+				if ( minDegree + i >= this.minDegree && minDegree + i <= this.maxDegree ) {
+					sum += this.coefs[ i + ( this.minDegree - minDegree ) ];
+				}
+
+				if ( minDegree + i >= polynomial.minDegree && minDegree + i <= polynomial.maxDegree ) {
+					sum += polynomial.coefs[ i + ( polynomial.minDegree - minDegree ) ];
+				}
+
+				coefs[ i ] = sum;
+			}
+
+			return new KhanUtil.Polynomial( minDegree, maxDegree, coefs, this.variable );
+		}
 
 		return this;
 	},
