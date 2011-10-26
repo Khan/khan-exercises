@@ -145,6 +145,8 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		testMode ? "../" : "/khan-exercises/",
 
 	lastFocusedSolutionInput = null,
+	
+	disableOneTimeHintWarning = false,
 
 	issueError = "Communication with GitHub isn't working. Please file "
 		+ "the issue manually at <a href=\""
@@ -258,6 +260,10 @@ var Khan = {
 
 		warn( 'You should ' + enableFontDownload + ' to improve the appearance of math expressions.', true );
 	},
+
+    disableOneTimeHintWarning: function() {
+        disableOneTimeHintWarning = true;
+    },
 
 	require: function( mods ) {
 		if ( mods == null ) {
@@ -1590,7 +1596,7 @@ function prepareSite() {
 	// Watch for when the "Get a Hint" button is clicked
 	jQuery( "#hint" ).click(function() {
 
-		if ( user ) {
+		if ( user && !disableOneTimeHintWarning) {
 			var hintApproved = window.localStorage[ "hintApproved:" + user ];
 
 			if ( !(typeof hintApproved !== "undefined" && JSON.parse(hintApproved)) ) {
@@ -1643,6 +1649,8 @@ function prepareSite() {
 				function() {},
 				function() {}
 			);
+		} else {
+		    if (hintsUsed === 1) gae_bingo.bingo( "alternate_hints_free" )
 		}
 	});
 
