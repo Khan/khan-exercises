@@ -8,49 +8,6 @@
 <body>
 	<div class="exercise">
 		<div class="problems">
-			<div id="divisible">
-				<div class="vars">
-					<var id="DIVISORS">[ 2, 3, 5, 9, 10 ]</var>
-					<var id="INDEX">randRange( 0, DIVISORS.length - 1 )</var>
-					<var id="FACTOR">randRange( 5, 20 )</var>
-					<var id="B">DIVISORS[ INDEX ]</var>
-					<var id="A">randRangeWeighted( 20, 200, ( FACTOR * B ), 0.5 )</var>
-					<var id="A_DIGITS">integerToDigits( A )</var>
-					<var id="DIGIT1">floor( A / 100)</var>
-					<var id="DIGIT2">A_DIGITS[ A_DIGITS.length - 2 ]</var>
-					<var id="DIGIT3">A_DIGITS[ A_DIGITS.length - 1 ]</var>
-					<var id="SUMDIGITS">DIGIT1 + DIGIT2 + DIGIT3</var>
-					<var id="SUMDIGITS1">floor( SUMDIGITS / 10 )</var>
-					<var id="SUMDIGITS2">SUMDIGITS % 10</var>
-					<var id="START_HINT">[ "its last digit must be an even number (0, 2, 4, 6, or 8).", "its digits must ultimately add up to 3, 6, or 9.", "its last digit must be either 0 or 5.", "its digits must ultimately add up to 9.", "its last digit must be 0." ]</var>
-					<var id="ANSWER">( A % B === 0 ? 'Yes' : 'No' )</var>
-				</div>
-				<p class="question">Is <var>A</var> divisible by <var>B</var>?</p>
-				<p class="solution"><var>ANSWER</var></p>
-				<ul class="choices" data-category="true">
-					<li>Yes</li>
-					<li>No</li>
-				</ul>
-				<div class="hints">
-					<p>In order for a number to be divisible by <var>B</var>, <var>START_HINT[ INDEX ]</var></p>
-					<div data-if="B === 2">
-						<p><var>A</var> ends in <var>DIGIT3</var>.</p>
-					</div>
-					<div data-if="B === 3">
-						<p>Adding up the digits in <var>A</var> gives us <span data-if="DIGIT1 > 0"><var>DIGIT1</var> + </span><var>DIGIT2</var> + <var>DIGIT3</var> = <var>SUMDIGITS</var>.<span data-if="SUMDIGITS > 9"> Adding the remaining digits again gives us <var>SUMDIGITS1</var> + <var>SUMDIGITS2</var> = <var>SUMDIGITS1 + SUMDIGITS2</var>.</p>
-					</div>
-					<div data-if="B === 5">
-						<p><var>A</var> ends in <var>DIGIT3</var>.</p>
-					</div>
-					<div data-if="B === 9">
-						<p>Adding up the digits in <var>A</var> gives us <span data-if="DIGIT1 > 0"><var>DIGIT1</var> + </span><var>DIGIT2</var> + <var>DIGIT3</var> = <var>SUMDIGITS</var>.<span data-if="SUMDIGITS > 9"> Adding the remaining digits again gives us <var>SUMDIGITS1</var> + <var>SUMDIGITS2</var> = <var>SUMDIGITS1 + SUMDIGITS2</var>.</p>
-					</div>
-					<div data-if="B === 10">
-						<p><var>A</var> ends in <var>DIGIT3</var>.</p>
-					</div>
-					<p>Therefore, <var>A</var> is <span data-if="A % B !== 0">not </span>divisible by <var>B</var>. <var>ANSWER</var>.</p>
-				</div>
-			</div>
 			<div id="factor">
 				<div class="vars">
 					<var id="B">randRange( 2, 14 )</var>
@@ -93,7 +50,7 @@
 						<p>We can check our answer by looking at the prime factorization of both numbers. Notice that the prime factors of <code><var>B</var></code> are contained within the prime factors of <code><var>A</var></code>.</p>
 						<p><code><var>A</var> = <var>FACTORIZATION_A.join( "\\times" )</var>\qquad\qquad<var>B</var> = <var>FACTORIZATION_B.join( "\\times" )</var></code>
 					</div>
-					<p>Therefore the only factor of <code class="hint_blue"><var>A</var></code> out of our choices is <code class="hint_orange"><var>B</var></code>.</p>
+					<p>Therefore the only factor of <code class="hint_blue"><var>A</var></code> out of our choices is <code class="hint_orange"><var>B</var></code>. We can say that <code class="hint_blue"><var>A</var></code> is divisible by <code class="hint_orange"><var>B</var></code>.</p>
 				</div>
 			</div>
 			<div id="multiple">
@@ -140,7 +97,7 @@
 						<p>We can check our answer by looking at the prime factorization of both numbers. Notice that the prime factors of <code><var>B</var></code> are contained within the prime factors of <code><var>A</var></code>.</p>
 						<p><code><var>A</var> = <var>FACTORIZATION_A.join( "\\times" )</var>\qquad\qquad<var>B</var> = <var>FACTORIZATION_B.join( "\\times" )</var></code>
 					</div>
-						<p>Therefore the only multiple of <code class="hint_orange"><var>B</var></code> out of our choices is <code class="hint_blue"><var>A</var></code>.</p>					
+						<p>Therefore the only multiple of <code class="hint_orange"><var>B</var></code> out of our choices is <code class="hint_blue"><var>A</var></code>. We can say that <code class="hint_blue"><var>A</var></code> is divisible by <code class="hint_orange"><var>B</var></code>.</p>
 				</div>
 			</div>
 		</div>
