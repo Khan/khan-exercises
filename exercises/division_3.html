@@ -7,27 +7,27 @@
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars">
-			<var id="DIVISOR">randRange( 2, 9 )</var>
-			<var id="QUOTIENT">randRange( 10, 99 )</var>
-			<var id="DIVIDEND">DIVISOR * QUOTIENT</var>
-			<var id="DUMMY">[]</var>
-		</div>
-
 		<div class="problems">
 			<div id="remainder">
 				<div class="vars">
+					<var id="DIVISOR">randRange( 2, 9 )</var>
+					<var id="QUOTIENT">randRange( 10, 99 )</var>
+					<var id="DIVIDEND">DIVISOR * QUOTIENT</var>
+					<var id="DUMMY">[]</var>
 					<var id="FINAL_REMAINDER">randRange( 1, DIVISOR - 1 )</var>
 					<var id="DIVIDEND_DIGITS">integerToDigits( DIVIDEND )</var>
 				</div>
-				<p>If the answer is a quotient of 5 and a remainder of 3, it should be typed in the form "5 R 3".</p>
+				<p>Pleaes give answer in remainder form.</p>
 				<div class="graphie" id="numbers">
 					DIVIDEND += FINAL_REMAINDER;
 					graph.divider = new Divider( DIVISOR, DIVIDEND );
 					graph.divider.show();
 					DUMMY = Array( graph.divider.getNumHints() );
 				</div>
-				<div class="solution" data-type="regex">^<var>QUOTIENT</var>\s*[rR]\s*<var>FINAL_REMAINDER</var>$</div>
+				<div class="solution" data-type="multiple">
+					<span class="sol" data-type="regex">^<var>QUOTIENT</var>\s*[rR]\s*<var>FINAL_REMAINDER</var>$</span>
+					<p class="example">a quotient and remainder, like <code>5 \text{ R } 3</code></p>
+				</div>
 				<div class="hints">
 					<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
 						graph.divider.showHint();
@@ -38,15 +38,18 @@
 					</div>
 				</div>
 			</div>
-		
 			<div id="decimal">
 				<div class="vars">
 					<var id="DIVISOR_DECIMAL">0</var>
-					<var id="MAX_DIVIDEND_DECIMAL">DIVIDEND &lt; 450 ? 1 : 2</var>
-					<var id="DIVIDEND_DECIMAL">randRange( 1, MAX_DIVIDEND_DECIMAL )</var>
-					<var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
+					<var id="DIVIDEND_DECIMAL">1</var>
+					<var id="QUOTIENT_DECIMAL">1</var>
+					<div data-ensure="DIVIDEND%10 == 0">
+						<var id="DIVISOR">randRange( 2, 9 )</var>
+						<var id="QUOTIENT">randRange( 10, 999 )</var>
+						<var id="DIVIDEND">DIVISOR * QUOTIENT</var>
+					</div>
 				</div>
-				<p>Answer in decimal form.</p>
+				<p>Pleaes give answer in decimal form.</p>
 				
 				<div class="graphie" id="numbers">
 					graph.divider = new Divider( DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL );
