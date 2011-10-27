@@ -15,14 +15,14 @@
 		<var id="Y2">randRange(-9, 9)</var>
 
 		<var id="M">(Y1 - Y2) / (X1 - X2)</var>
+		<var id="GRAPH_IN_QUESTION">randRange( 0, 1 )</var>
 	</div>
 
 	<div class="problems">
 		<div>
 			<div class="question">
 				<p>What is the slope of the line through the points <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code>?</p>
-
-				<div class="graphie">
+				<div data-if="GRAPH_IN_QUESTION" class="graphie" id="slope">
 					graphInit({
 						range: 10,
 						scale: 20,
@@ -34,14 +34,11 @@
 					});
 
 					line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M], {
-						stroke: "#28ae7b"
+						stroke: "#888"
 					} );
-
-					style({
-						fill: "#000",
-						stroke: "none"
-					});
+					style({ fill: ORANGE, stroke: ORANGE });
 					circle( [X1, Y1], 3/20 );
+					style({ fill: BLUE, stroke: BLUE });
 					circle( [X2, Y2], 3/20 );
 				</div>
 			</div>
@@ -51,8 +48,38 @@
 	</div>
 
 	<div class="hints">
-		<p>The equation for the slope is <code>m = \dfrac{\color{green}{y_2} - \color{purple}{y_1}}{\color{blue}{x_2} - \color{red}{x_1}}</code> for points <code>(\color{red}{<var>X1</var>}, \color{purple}{<var>Y1</var>})</code> and <code>(\color{blue}{<var>X2</var>}, \color{green}{<var>Y2</var>})</code>.</p>
-		<p>Substituting in, we get <code>m = \displaystyle \frac{\color{green}{<var>Y2</var>} - \color{purple}{<var>negParens(Y1)</var>}}{\color{blue}{<var>X2</var>} - \color{red}{<var>negParens(X1)</var>}} = <var>fractionSimplification( Y2 - Y1, X2 - X1 )</var></code>.</p>
+		<div data-if="!GRAPH_IN_QUESTION" class="graphie" id="slope">
+			graphInit({
+				range: 10,
+				scale: 20,
+				tickStep: 1,
+				labelStep: 1,
+				unityLabels: false,
+				labelFormat: function( s ) { return "\\small{" + s + "}"; },
+				axisArrows: "<->"
+			});
+
+			line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M], {
+				stroke: "#888"
+			} );
+
+			style({ fill: ORANGE, stroke: ORANGE });
+			circle( [X1, Y1], 3/20 );
+			style({ fill: BLUE, stroke: BLUE });
+			circle( [X2, Y2], 3/20 );
+		</div>
+		<p>The equation for the slope is <code>m = \dfrac{\color{<var>BLUE</var>}{y_2} - \color{<var>ORANGE</var>}{y_1}}{\color{<var>BLUE</var>}{x_2} - \color{<var>ORANGE</var>}{x_1}}</code> for points <code>(\color{<var>ORANGE</var>}{<var>X1</var>}, \color{<var>ORANGE</var>}{<var>Y1</var>})</code> and <code>(\color{<var>BLUE</var>}{<var>X2</var>}, \color{<var>BLUE</var>}{<var>Y2</var>})</code>.</p>
+		<div>
+			<div class="graphie" data-update="slope">
+				style({ fill: "", stroke: PINK });
+				line( [ X1, Y2 ], [ X2, Y2 ] );
+				style({ stroke: GREEN });
+				line( [ X1, Y1 ], [ X1, Y2 ] );
+			</div>
+			<p>Substituting in, we get <code>m = \dfrac{\color{<var>BLUE</var>}{<var>Y2</var>} - \color{<var>ORANGE</var>}{<var>negParens(Y1)</var>}}{\color{<var>BLUE</var>}{<var>X2</var>} - \color{<var>ORANGE</var>}{<var>negParens(X1)</var>}} =
+				\dfrac{\color{<var>GREEN</var>}{<var>Y2 - Y1</var>}}{\color{<var>PINK</var>}{<var>X2 - X1</var>}}</code></p>
+		</div>
+		<p>So, the slope <code>m</code> is <code><var>fractionReduce( Y2 - Y1, X2 - X1 )</var></code>.</p>
 	</div>
 	</div>
 </body>
