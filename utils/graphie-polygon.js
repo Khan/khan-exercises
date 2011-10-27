@@ -182,5 +182,130 @@ jQuery.extend( KhanUtil, {
 		this.ex = function() {
 			return gExteriorAngles;
 		}
+	},
+
+	Circle: function( radius, center ) {
+		center = center || [ 0, 0 ];
+		var pointRadius = 0.1;
+
+		(function() {
+			var graph = KhanUtil.currentGraph;
+			graph.style({stroke: KhanUtil.BLUE});
+			graph.circle( center, radius );
+		})()
+
+		this.drawPoint = function( theta ) {
+			var graph = KhanUtil.currentGraph,
+				point = graph.polar( radius, theta );
+			return graph.circle( point, pointRadius );
+		}
+
+		this.drawCenter = function() {
+			var graph = KhanUtil.currentGraph;
+			graph.style({ fill: KhanUtil.BLUE }, function() {
+				graph.circle( center, pointRadius );
+			});
+		}
+
+		this.drawRadius = function( theta ) {
+			var graph = KhanUtil.currentGraph,
+				point = graph.polar( radius, theta );
+			return graph.line( center, point );
+		}
+
+		this.drawChord = function( theta1, theta2 ) {
+			var graph = KhanUtil.currentGraph,
+				point1 = graph.polar( radius, theta1 ),
+				point2 = graph.polar( radius, theta2 );
+			return graph.line( point1, point2 );
+		}
+
+		function isThetaWithin( theta, min, max ) {
+			min = min % 360;
+			max = max % 360;
+			if ( min > max ) {
+				return theta < max || theta > min;
+			} else {
+				return theta > min && theta < max;
+			}
+		}
+
+		function getThetaFromXY( x, y ) {
+			var angle = Math.atan( y / x );
+			if (x <= 0 && y > 0) {
+				angle += Math.PI;
+			} else if (x < 0 && y < 0) {
+				angle += Math.PI;
+			} else if (x >= 0 && y < 0) {
+				angle += 2 * Math.PI;
+			}
+			angle = angle * 180 / Math.PI;
+			return angle;
+		}
+
+		this.drawMovablePoint = function( theta, min, max  ) {
+			var graph = KhanUtil.currentGraph,
+				point = graph.polar( radius, theta )
+				min = min || 0,
+				max = max || 360,
+				graph.graph.movable = { vertex: KhanUtil.bogusShape, arc: KhanUtil.bogusShape, chords: [ KhanUtil.bogusShape, KhanUtil.bogusShape ] };
+
+			graph.graph.inscribedPoint = KhanUtil.addMovablePoint( {coordX: point[ 0 ], coordY: point[ 1 ] } );
+
+			graph.graph.inscribedPoint.onMove = function( x, y ) {
+				var theta = getThetaFromXY( x, y );
+				if ( !isThetaWithin( theta, min, max ) ) {
+					return false;
+				}
+				graph.style({stroke: KhanUtil.ORANGE});
+				graph.graph.movable.arc.remove();
+				graph.graph.movable.chords[0].remove();
+				graph.graph.movable.chords[1].remove();
+				graph.graph.movable.vertex.remove();
+				graph.graph.movable = graph.graph.circle.drawInscribedAngle( theta, max, min );
+				return graph.polar( radius, theta );
+			};
+		}
+
+		this.drawCentralArc = function( start, end, arcRadius ) {
+			var graph = KhanUtil.currentGraph,
+				arcRadius = arcRadius || 0.5,
+				arc;
+			graph.style( {fill: ""}, function() {
+				arc = graph.arc( center, arcRadius, start, end );
+			});
+			return arc;
+		}
+
+		this.drawCentralAngle = function( start, end, arcRadius ) {
+			var result = { radii: [] };
+			result.radii.push( this.drawRadius( start ) );
+			result.radii.push( this.drawRadius( end ) );
+			result.arc = this.drawCentralArc( start, end, arcRadius );
+			return result;
+		}
+
+		this.drawInscribedArc = function( inscribed, start, end, arcRadius ) {
+			var graph = KhanUtil.currentGraph,
+				vertex = graph.polar( radius, inscribed ),
+				point1 = graph.polar( radius, start ),
+				point2 = graph.polar( radius, end ),
+				theta1 = getThetaFromXY( point1[0] - vertex[0], point1[1] - vertex[1] ),
+				theta2 = getThetaFromXY( point2[0] - vertex[0], point2[1] - vertex[1] ),
+				arcRadius = arcRadius || 0.5,
+				arc;
+			graph.style( { fill: "" }, function() {
+				arc = graph.arc( vertex, arcRadius, theta1, theta2 );
+			})
+			return arc;
+		}
+
+		this.drawInscribedAngle = function( inscribed, start, end, arcRadius ) {
+			var graph = KhanUtil.currentGraph,
+				chords = [ this.drawChord( inscribed, start ), this.drawChord( inscribed, end) ],
+				vertex = this.drawPoint( inscribed ),
+				arc = this.drawInscribedArc( inscribed, start, end, arcRadius );
+			return { chords: chords, vertex: vertex, arc: arc };
+		}
 	}
 });

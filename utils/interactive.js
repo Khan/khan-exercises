@@ -161,9 +161,16 @@ jQuery.extend( KhanUtil, {
 						// movablePoint object we return as a sort of event handler
 						// By returning false from onMove(), the move can be vetoed,
 						// providing custom constraints on where the point can be moved.
+						// By returning array [x, y], the move can be overridden
 						if (typeof movablePoint.onMove === "function") {
-							if (movablePoint.onMove( coordX, coordY ) === false) {
+							var result = movablePoint.onMove( coordX, coordY );
+							if ( result === false ) {
 								doMove = false;
+							}
+							if ( typeof result === "object" ) {
+								var scaled = graph.scalePoint( result );
+								mouseX = scaled[ 0 ];
+								mouseY = scaled[ 1 ];
 							}
 						}
 						if (doMove) {
@@ -395,6 +402,7 @@ jQuery.extend( KhanUtil, {
 		options = jQuery.extend({
 			graph: KhanUtil.currentGraph,
 			snap: 0,
+			range: [ KhanUtil.currentGraph.range[0][0], KhanUtil.currentGraph.range[0][1] ]
 		}, options);
 		var graph = options.graph;
 		var interactiveFn = {
@@ -405,7 +413,7 @@ jQuery.extend( KhanUtil, {
 		graph.style({
 			stroke: KhanUtil.BLUE,
 		}, function() {
-			interactiveFn.visibleShape = graph.plot( fn, [ graph.range[0][0], graph.range[0][1] ] );
+			interactiveFn.visibleShape = graph.plot( fn, options.range );
 		});
 
 		// Draw a circle that will be used to highlight the point on the function the mouse is closest to
@@ -428,9 +436,9 @@ jQuery.extend( KhanUtil, {
 		// So instead, we have to use a polygon.
 		var mouseAreaWidth = 30;
 		var points = [];
-		var step = ( graph.range[0][1] - graph.range[0][0] ) / 100;
+		var step = ( options.range[1] - options.range[0] ) / 100;
 		// Draw a curve parallel to, but (mouseAreaWidth/2 pixels) above the function
-		for ( var x = graph.range[0][0]; x <= graph.range[0][1]; x += step ) {
+		for ( var x = options.range[0]; x <= options.range[1]; x += step ) {
 			var ddx = (fn(x - 0.001) - fn(x + 0.001)) / 0.002;
 			var x1 = x;
 			var y1 = fn(x) + (mouseAreaWidth / (2 * graph.scale[1]));
@@ -448,7 +456,7 @@ jQuery.extend( KhanUtil, {
 			points.push( [(x1 - graph.range[0][0]) * graph.scale[0], (graph.range[1][1] - y1) * graph.scale[1] ] );
 		}
 		// Draw a curve parallel to, but (mouseAreaWidth/2 pixels) below the function
-		for ( var x = graph.range[0][1]; x >= graph.range[0][0]; x -= step ) {
+		for ( var x = options.range[1]; x >= options.range[0]; x -= step ) {
 			var ddx = (fn(x - 0.001) - fn(x + 0.001)) / 0.002;
 			var x1 = x;
 			var y1 = fn(x) - (mouseAreaWidth / (2 * graph.scale[1]));
@@ -488,7 +496,7 @@ jQuery.extend( KhanUtil, {
 			// Find the closest point on the curve to the mouse (by brute force)
 			var closestX = 0;
 			var minDist = Math.sqrt((coordX) * (coordX) + (coordY) * (coordY));
-			for (var x = graph.range[0][0]; x < graph.range[0][1]; x += ((graph.range[0][1] - graph.range[0][0])/graph.xpixels)) {
+			for ( var x = options.range[0]; x < options.range[1]; x += (( options.range[1] - options.range[0])/graph.xpixels ) ) {
 				if (Math.sqrt((x-coordX) * (x-coordX) + (fn(x) -coordY) * (fn(x)-coordY)) < minDist) {
 					closestX = x;
 					minDist = Math.sqrt((x-coordX) * (x-coordX) + (fn(x) -coordY) * (fn(x)-coordY));
