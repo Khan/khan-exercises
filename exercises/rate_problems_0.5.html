@@ -9,8 +9,8 @@
 	<div class="exercise">
 	<div class="vars">
 		<var id="INDEX">randRange( 0, 3 )</var>
-		<var id="RATE">( INDEX &lt; 1 ? randRange( 5, 11 ) * 10 : randRange( 5, 25 ) )</var>
-		<var id="TIME">( INDEX &lt; 1 ? randRange( 10, 59 ) : randRange( 2, 15 ) )</var>
+		<var id="RATE">( INDEX === 0 ? randRange( 5, 11 ) * 10 : randRange( 5, 25 ) )</var>
+		<var id="TIME">( INDEX === 0 ? randRange( 10, 59 ) : randRange( 2, 15 ) )</var>
 		<var id="AMOUNT">TIME * RATE</var>
 		<var id="VERB">[ "type", "eat", "hit", "paint" ][ INDEX ]</var>
 		<var id="NOUN">[ "word", "pretzel", "golf ball", "portrait" ][ INDEX ]</var>
