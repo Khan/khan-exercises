@@ -1595,12 +1595,12 @@ function prepareSite() {
 
 			if ( !(typeof hintApproved !== "undefined" && JSON.parse(hintApproved)) ) {
 				if ( !(typeof userExercise !== "undefined" && userExercise.read_only) ) {
-					if ( confirm("One-time warning: Using a hint will erase your streak.\nAre you sure you want to continue?"))  {
+					if ( confirm("One-time warning: Using a hint will set back your progress.\nAre you sure you want to continue?"))  {
 						// Hint consequences approved
 						window.localStorage[ "hintApproved:" + user ] = true;
 
 					} else {
-						// User doesn't want to lose streak.
+						// User doesn't want to have progress set back
 						return;
 					}
 				}
@@ -2189,14 +2189,14 @@ function updateData( data ) {
 
 	if ( data.summative ) {
 		jQuery( ".summative-help ")
-			.find( ".summative-required-streaks" ).text( parseInt( (data.required_streak / 10) , 10) ).end()
+			.find( ".summative-required-streaks" ).text( data.num_milestones ).end()
 			.show();
 
 		if ( jQuery( ".level-label" ).length === 0 ) {
 
 			// Split summative streak bar into levels
 			var levels = [];
-			var levelCount = data.required_streak / 10;
+			var levelCount = data.num_milestones;
 			for ( var i = 1; i < levelCount; i++ ) {
 
 				// Individual level pixels
@@ -2213,6 +2213,7 @@ function updateData( data ) {
 
 	jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
 	jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"});
+	jQuery(".streak-bar").toggleClass("proficient", data.progress >= 1.0);
 
 	// Update the exercise icon
 	var exerciseStates = data && data.exercise_states;
