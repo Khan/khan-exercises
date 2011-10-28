@@ -2208,7 +2208,7 @@ function updateData( data ) {
 			for ( var i = 1; i < levelCount; i++ ) {
 
 				// Individual level pixels
-				levels[ levels.length ] = Math.ceil(i * ( streakMaxWidth / levelCount )) + 1;
+				levels[ levels.length ] = Math.ceil(i * ( streakMaxWidth / levelCount ));
 
 			}
 
