@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+	<head>
+	<meta charset="UTF-8" />
+	<title>Graphing points 2</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="M">randRange( -3, 3 )</var>
+			<var id="B">randRange( -2, 2)</var>
+			<var id="CORRECT">randRange( 0, 4 )</var>
+			<var id="POINTS">
+				(function() {
+					var points = [];
+
+					for ( var x = -2, i = 0; x &lt;= 2; x++, i++ ) {
+						var y = x * M + B,
+							jitter = randRangeNonZero( -2, 2 );
+
+						if ( i === CORRECT ) {
+							jitter = 0;
+						}
+
+						points.push( [ x, y + jitter ] );
+					}
+					return points;
+				})()
+			</var>
+
+			<var id="PAIR">function( arr ) {
+				return "(" + arr.join( ", " ) + ")";
+			}</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p>Which of the following ordered pairs represents a solution to the equation graphed below?</p>
+				<p><code><var>jQuery.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
+
+				<div class="graphie" id="grid">
+					graphInit({
+						range: 10,
+						scale: 20,
+						axisArrows: "<->",
+						tickStep: 1,
+						labelStep: 2
+					});
+
+					style({ stroke: BLUE, fill: BLUE });
+					
+					plot(function( x ) {
+						return x * M + B;
+					}, [ -10, 10 ]);
+				</div>
+				<p class="solution"><code><var>PAIR( POINTS[CORRECT] )</var></code></p>
+				<ul class="choices" data-category="true">
+					<li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>Let's try graphing each of the points.</p>
+			<div class="graphie" data-update="grid" data-each="POINTS as i, point">
+				circle( point, 0.15 );
+			</div>
+			<div>
+				<p>The only point that falls on the line is <code><var>PAIR( POINTS[ CORRECT ] )</var></code>.</p>
+				<div class="graphie" data-update="grid">
+					style({ stroke: ORANGE, fill: ORANGE });
+					circle( POINTS[ CORRECT ], 0.3);
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</body>
+</html>
