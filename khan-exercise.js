@@ -1650,7 +1650,7 @@ function prepareSite() {
 				function() {}
 			);
 		} else {
-		    if (hintsUsed === 1) gae_bingo.bingo( "alternate_hints_free" )
+		    if (hintsUsed === 1) gae_bingo.bingo( "alt_hints_free" )
 		}
 	});
 
