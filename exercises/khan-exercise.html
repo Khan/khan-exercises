@@ -60,6 +60,7 @@
 				<input type="button" class="simple-button action-gradient green" id="check-answer-button" tabindex="10" value="Check Answer"/>
 				<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px">
 				<input type="button" class="simple-button action-gradient green" id="next-question-button" style="display:none;" name="correctnextbutton" value="Correct! Next Question..."/>
+				<span id="show-solution-button-container"></span>
 				<img id="throbber" style="display:none;" name="throbber"/>
 				<div id="check-answer-results">
 					<img id="sad" style="display: none;"/>
@@ -78,7 +79,9 @@
 			<div class="info-box hint-box">
 				<span class="info-box-header">Need help? Get a hint.</span>
 				<span class="info-box-sub-description">This <strong>will</strong> set back your progress!</span>
-				<input id="hint" type="button" class="simple-button action-gradient orange" value="I'd like a hint" name="hint"/>
+				<div id="get-hint-button-container">
+					<input id="hint" type="button" class="simple-button action-gradient orange" value="I'd like a hint" name="hint"/>
+				</div>
 				<span id="hint-remainder"></span>
 			</div>
 			<div class="info-box related-video-box" style="display:none;">
