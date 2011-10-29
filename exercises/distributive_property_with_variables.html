@@ -37,7 +37,7 @@
 
 		<div class="problems">
 			<!-- A(x + y) + B -->
-			<div id="xPlusB">
+			<!-- div id="xPlusB">
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
@@ -58,9 +58,9 @@
 				</div>
 
 				
-				<p class="problem"><code><var>A</var>(<var>plus( X, YSIGN+Y )</var>) + <var>B</var></code></p>
+				<p class="problem"><code><var>plus( A+PLUSPARENS( X, YSIGN+Y ), B )</var></code></p>
 				<p class="question">Use the distributive property to simplify the equation.</p>
-				<p class="solution"><code><var>A</var><var>X</var> + <var>A*YSIGN</var><var>Y</var> + <var>B</var></code></p>
+				<p class="solution"><code><var>plus( A+X, A*YSIGN+Y, B )</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
 					<li><code><var>plus( A+X, YSIGN+Y, B )</var></code></li>
 					<li><code><var>plus( A+X, YSIGN+Y, A*B )</var></code></li>
@@ -75,12 +75,12 @@
 				<div class="hints">
 					<div>
 						<p>Distribute <var>A</var> across the parenthesis by multiplying each term inside by <var>A</var>.</p>
-						<p><code><var>color( A, true )</var>(<var>plus( color( X, false ), color( YSIGN+Y, false ) )</var>) + <var>B</var></code></p>
+						<p><code><var>color( A, true )</var><var>plus( PLUSPARENS( color( X, false ), color( YSIGN+Y, false ) ), B )</var></code></p>
 					</div>
 					<p><code><var>color( A, true )</var>*<var>color( X, false )</var> + <var>color( A*YSIGN, true )</var>*<var>color( Y, false )</var> + <var>B</var></code></p>
 					
 					<div>
-						<p><code><var>A</var><var>X</var> + <var>A*YSIGN</var><var>Y</var> + <var>B</var></code></p>
+						<p><code><var>plus( A+X, A*YSIGN+Y, B )</var></code></p>
 						<p>You're done!</p>
 					</div>
 					
@@ -90,10 +90,10 @@
 					</div>
 					
 				</div>
-			</div>
+			</div -->
 			
 			<!-- A + B(x + C) + D, B is only 1 or -1 -->
-			<div id="AXBC">
+			<!-- div id="AXBC">
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -1, 1 )</var>
@@ -139,10 +139,10 @@
 					</div>
 				</div>
 				
-			</div>
+			</div -->
 			
 			<!-- A(x + B) + C(D + x) -->
-			<div id="AXBCDX">
+			<!-- div id="AXBCDX">
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
@@ -155,12 +155,12 @@
 				
 				<p class="solution"><code><var>plus( (A+C)+X, (A*B)+(C*D) )</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
-					<li><code><var>plus( (A+1)+X, B+(C*D) )</var></code></li> <!-- -->
-					<li><code><var>plus( 2+X, A+B+C+D )</var></code></li> <!-- -->
+					<li><code><var>plus( (A+1)+X, B+(C*D) )</var></code></li>
+					<li><code><var>plus( 2+X, A+B+C+D )</var></code></li>
 					<li><code><var>plus( (B+D)+X, A+C )</var></code></li>
 					<li><code><var>plus( A+PLUSPARENS( X, B ), C*D, C+X )</var></code></li>
 					<li><code><var>plus( (A+C)+X, B+(C*D) )</var></code></li>
-					<li><code><var>plus( (C+1)+X, A*B+C*D )</var></code></li> <!-- -->
+					<li><code><var>plus( (C+1)+X, A*B+C*D )</var></code></li>
 					<li><code><var>plus( A+X, A*B, C+PLUSPARENS( D, X ) )</var></code></li>
 				</ul>
 				
@@ -189,10 +189,10 @@
 					</div>
 				</div>
 				
-			</div>
+			</div -->
 			
 			<!-- A(x + B) + Cx -->
-			<div id="AXBCX">
+			<!-- div id="AXBCX">
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
@@ -232,7 +232,7 @@
 						<p><code>x(y + z) = xy + xz</code></p>
 					</div>
 				</div>
-			</div>
+			</div -->
 				
 		</div>
 		
