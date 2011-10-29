@@ -1648,8 +1648,12 @@ function prepareSite() {
 				function() {},
 				function() {}
 			);
-		} else {
-		    if (hintsUsed === 1) gae_bingo.bingo( "alt_hints_free" )
+		}
+
+		// The first hint is free iff the user has already attempted the question
+		if ( hintsUsed === 1 && attempts > 0 ) {
+			gae_bingo.bingo( "hints_free_hint" );
+			gae_bingo.bingo( "hints_free_hint_binary" );
 		}
 	});
 
