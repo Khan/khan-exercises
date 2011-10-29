@@ -22,10 +22,33 @@
 		</div>
 
 		<div class="problems">
+			<div id="complementary-and-opposite-angles">
+				<div class="problem">
+					<div class="question">
+						Given the following angles:
+						<ul>
+							<li>
+								<code>\overline{AB} \perp \overline{CD}</code>,
+								lines AB and CD are perpendicular.
+							</li>
+							<li>
+								<span data-if="RAND3===0">
+									<code>\color{green}{\angle{CGE}} = <var>ACCUTEANGLE</var>&deg;</code>
+								</span>
+								<span data-else-if="RAND3===1">
+									<code>\color{green}{\angle{AGF}} = <var>90 - ACCUTEANGLE</var>&deg;</code>
+								</span>
+								<span data-else>
+									<code>\color{green}{\angle{DGF}} = <var>ACCUTEANGLE</var>&deg;</code>
+								</span>
+							</li>
+						</ul>
+						What is
+						<span data-if="RAND3 === 0"><code>\color{blue}{\angle{AGF}} = {?}</code></span>
+						<span data-else-if="RAND3 === 1"><code>\color{blue}{\angle{CGE}} = {?}</code></span>
+						<span data-else><code>\color{blue}{\angle{BGE}} = {?}</code></span>
+					</div>
 
-
-			<div id="complementry-and-opposite-angles">
-				<div class="problem">        
 					<div class="graphie" id="complementary-and-opposite">
 						init({
 							range: [[-6, 6], [-6, 6]],
@@ -93,32 +116,6 @@
 					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
 					Angles not necessarily drawn to scale.</p>
 				</div>
-				
-				<div class="question">
-					Given the following angles:
-					<ul>
-						<li>
-							<code>\overline{AB} \perp \overline{CD}</code>,
-							lines AB and CD are perpendicular. 
-						</li>
-						<li>
-							<span data-if="RAND3===0">
-								<code>\color{green}{\angle{CGE}} = <var>ACCUTEANGLE</var>&deg;</code>
-							</span>
-							<span data-else-if="RAND3===1">
-								<code>\color{green}{\angle{AGF}} = <var>90 - ACCUTEANGLE</var>&deg;</code>
-							</span>
-							<span data-else>
-								<code>\color{green}{\angle{DGF}} = <var>ACCUTEANGLE</var>&deg;</code>
-							</span>
-						</li>
-					</ul>
-					What is 
-					<span data-if="RAND3 === 0"><code>\color{blue}{\angle{AGF}} = {?}</code></span>
-					<span data-else-if="RAND3 === 1"><code>\color{blue}{\angle{CGE}} = {?}</code></span>
-					<span data-else><code>\color{blue}{\angle{BGE}} = {?}</code></span>
-					
-				</div>
 
 				<div class="solution">
 					<span data-if="RAND3 === 0 || RAND3 === 2"><var>90-ACCUTEANGLE</var></span>
@@ -184,7 +181,7 @@
 							arc( [0, 0], 1.2, 180, 248, { stroke: "orange" } );
 						</span>
 					</p>
-					
+
 					<p data-if="RAND3===0">
 						<code>\color{blue}{\angle{AGF}} = \color{orange}{\angle{EGB}} =
 						<var>90 - ACCUTEANGLE</var>&deg;</code>, 
@@ -224,8 +221,26 @@
 				</div>
 			</div>
 
-			<div id="supplementry-angles-and-180-degrees-in-triangle">
+			<div id="supplementary-angles-and-180-degrees-in-triangle">
 				<div class="problem">
+					<div class="question">
+						<p>Given the following:</p>
+						<div data-if="RAND2===0">
+							<ul>
+								<li><code>\color{purple}{\angle{ABC}} = <var>Tri_Z</var>&deg;</code></li>
+								<li><code>\color{green}{\angle{ACB}} = <var>Tri_Y</var>&deg;</code></li>
+							</ul>
+							<p>What is <code>\color{blue}{\angle{DAB}}</code>?</p>
+						</div>
+						<div data-else>
+							<ul>
+								<li><code>\color{purple}{\angle{ABC}} = <var>Tri_Z</var>&deg;</code></li>
+								<li><code>\color{green}{\angle{DAB}} = <var>180 - Tri_X</var>&deg;</code></li>
+							</ul>
+							<p>What is <code>\color{blue}{\angle{ACB}}</code>?</p>
+						</div>
+					</div>
+
 					<div class="graphie" id="supplementary-and-triangle">
 						init({
 							range: [[-9, 6], [-3, 5]],
@@ -286,24 +301,6 @@
 					</div>
 					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
 					Angles not necessarily drawn to scale.</p>
-				</div>
-
-				<div class="question">
-					<p>Given the following:</p>
-					<div data-if="RAND2===0">
-						<ul>
-							<li><code>\color{purple}{\angle{ABC}} = <var>Tri_Z</var>&deg;</code></li>
-							<li><code>\color{green}{\angle{ACB}} = <var>Tri_Y</var>&deg;</code></li>
-						</ul>
-						<p>What is <code>\color{blue}{\angle{DAB}}</code>?</p>
-					</div>
-					<div data-else>
-						<ul>
-							<li><code>\color{purple}{\angle{ABC}} = <var>Tri_Z</var>&deg;</code></li>
-							<li><code>\color{green}{\angle{DAB}} = <var>180 - Tri_X</var>&deg;</code></li>
-						</ul>
-						<p>What is <code>\color{blue}{\angle{ACB}}</code>?</p>
-					</div>
 				</div>
 
 				<div class="solution">
@@ -374,6 +371,34 @@
 
 			<div id="corresponding-and-180-in-triangle">
 				<div class="problem">
+
+					<div class="question">
+						Given the following:
+							<ul>
+								<li><code>\overline{HI} \parallel \overline{JK}</code>,
+								lines HI and JK are parallel.</li>
+								<li data-if="RAND3 == 0 || RAND3 == 1">
+									<code>\color{purple}{\angle{BAC}} = <var>Tri_X</var>&deg;</code>
+								</li>
+								<li data-else>
+									<code>\color{purple}{\angle{AKJ}} = <var>Tri_Y</var>&deg;</code>
+								</li>
+
+								<li data-if="RAND3 == 0">
+									<code>\color{green}{\angle{AJK}} = <var>Tri_Z</var>&deg;</code>
+								</li>
+								<li data-else>
+									<code>\color{green}{\angle{AHI}} = <var>Tri_Z</var>&deg;</code>
+								</li>
+
+							</ul>
+
+							What is
+							<code data-if="RAND3 === 0">\color{blue}{\angle{AIH}} = {?}</code>
+							<code data-else-if="RAND3 === 1">\color{blue}{\angle{AKJ}} = {?}</code>
+							<code data-else>\color{blue}{\angle{BAC}} = {?}</code>
+					</div>
+
 					<div class="graphie" id="parallel-and-triangle">
 						init( {
 							range: [[-9, 9.5], [-5.7, 8]],
@@ -455,33 +480,6 @@
 					Angles not necessarily drawn to scale.</p>
 				</div>
 
-				<div class="question">
-					Given the following:
-						<ul>
-							<li><code>\overline{HI} \parallel \overline{JK}</code>,
-							lines HI and JK are parallel.</li>
-							<li data-if="RAND3 == 0 || RAND3 == 1">
-								<code>\color{purple}{\angle{BAC}} = <var>Tri_X</var>&deg;</code>
-							</li>
-							<li data-else>
-								<code>\color{purple}{\angle{AKJ}} = <var>Tri_Y</var>&deg;</code>
-							</li>
-
-							<li data-if="RAND3 == 0">
-								<code>\color{green}{\angle{AJK}} = <var>Tri_Z</var>&deg;</code>
-							</li>
-							<li data-else>
-								<code>\color{green}{\angle{AHI}} = <var>Tri_Z</var>&deg;</code>
-							</li>
-
-						</ul>
-
-						What is 
-						<code data-if="RAND3 === 0">\color{blue}{\angle{AIH}} = {?}</code>
-						<code data-else-if="RAND3 === 1">\color{blue}{\angle{AKJ}} = {?}</code>
-						<code data-else>\color{blue}{\angle{BAC}} = {?}</code>
-				</div>
-
 				<div class="solution">
 					<var data-if="RAND3 === 0 || RAND3 === 1">Tri_Y</var>
 					<var data-else>Tri_X</var>
@@ -556,6 +554,26 @@
 
 			<div id="alternate-exterior-and-complementary-angles">
 				<div class="problem">
+
+					<div class="question">
+						Given the following:
+						<ul>
+							<li><code>\overline{DE} \parallel \overline{FG}</code>,
+							lines DE and FG are parallel.</li>
+							<li><code>\overline{KL} \perp \overline{DE}</code>,
+							Lines KL and DE are perpendicular.</li>
+							<li data-if="RAND2 === 0">
+								<code>\color{green}{\angle{GCJ}} = <var>Tri_Y</var>&deg;</code>
+							</li>
+							<li data-else>
+								<code>\color{green}{\angle{IAK}} = <var>Tri_Y</var>&deg;</code>
+							</li>
+						</ul>
+						What is
+						<span data-if="RAND2 === 0"><code>\color{blue}{\angle{IAK}} = {?}</code></span>
+						<span data-else><code>\color{blue}{\angle{GCJ}} = {?}</code></span>
+					</div>
+
 					<div class="graphie" id="alternate-exterior-and-complementary"> 
 						init( {
 							range: [[-6, 8], [-5, 5]],
@@ -613,25 +631,6 @@
 					</div>
 					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
 					Angles not necessarily drawn to scale.</p>
-				</div>
-
-				<div class="question">
-					Given the following:
-					<ul>
-						<li><code>\overline{DE} \parallel \overline{FG}</code>, 
-						lines DE and FG are parallel.</li>
-						<li><code>\overline{KL} \perp \overline{DE}</code>, 
-						Lines KL and DE are perpendicular.</li>
-						<li data-if="RAND2 === 0">
-							<code>\color{green}{\angle{GCJ}} = <var>Tri_Y</var>&deg;</code>
-						</li>
-						<li data-else>
-							<code>\color{green}{\angle{IAK}} = <var>Tri_Y</var>&deg;</code>
-						</li>
-					</ul>
-					What is 
-					<span data-if="RAND2 === 0"><code>\color{blue}{\angle{IAK}} = {?}</code></span>
-					<span data-else><code>\color{blue}{\angle{GCJ}} = {?}</code></span>
 				</div>
 
 				<div class="solution"><var>90 - Tri_Y</var></div>

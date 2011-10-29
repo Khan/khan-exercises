@@ -25,6 +25,16 @@
 					<var id="Tri_X">180 - Tri_Y - Tri_Z</var>
 				</div>
 
+				<div class="question">
+					<p>Given the following:</p>
+					<ul>
+						<li><code>\color{green}{\angle{ABC}} = <var>Tri_Y</var>&deg;</code></li>
+						<li><code>\color{purple}{\angle{BAC}} = <var>Tri_Z</var>&deg;</code></li>
+						<li><code>\overline{DE} \parallel \overline{BC}</code></li>
+					</ul>
+					<p>What is <code>\color{blue}{\angle{<var>RAND_SWITCH2 === 0 ? "DAF" : "CAE"</var>}} {?}</code></p>
+				</div>
+
 				<div class="problem">
 					<div class="graphie" id="tri-and-parallel">
 						init({
@@ -88,15 +98,7 @@
 
 					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> Angles not drawn to scale.</p>
 
-					<p>Given the following:</p>
-					<ul>
-						<li><code>\color{green}{\angle{ABC}} = <var>Tri_Y</var>&deg;</code></li>
-						<li><code>\color{purple}{\angle{BAC}} = <var>Tri_Z</var>&deg;</code></li>
-						<li><code>\overline{DE} \parallel \overline{BC}</code></li>
-					</ul>
 				</div> <!-- end problem block -->
-
-				<p class="question">What is <code>\color{blue}{\angle{<var>RAND_SWITCH2 === 0 ? "DAF" : "CAE"</var>}} {?}</code></p>
 
 				<div class="solution"><var>Tri_X</var></div>
 
@@ -151,6 +153,21 @@
 				<div class="vars">
 					<var id="Y">rand(20) + 100</var>
 					<var id="X">180 - Y</var>
+				</div>
+
+				<div class="question">
+					<p>Given the following:</p>
+					<ul>
+						<li><code>\overline{AB} \parallel \overline{CD}</code> (line AB is parallel to line CD)</li>
+						<li data-if="RAND_SWITCH3 === 0">
+							<code>\color{purple}{\angle{EGB}} = <var>X</var>&deg;.</code>
+						</li><li data-else-if="RAND_SWITCH3 === 1">
+							<code>\color{purple}{\angle{AGH}} = <var>X</var>&deg;.</code>
+						</li><li data-else>
+							<code>\color{purple}{\angle{BGH}} = <var>180 - X</var>&deg;</code>
+						</li>
+					</ul>
+					<p>What is <code>\color{blue}{\angle{<var>RAND_SWITCH2 === 0 ? "GHD" : "CHF"</var>}} {?}</code></p>
 				</div>
 
 				<div class="problem">
@@ -220,20 +237,8 @@
 					</div>
 					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> Angles not drawn to scale.</p>
 
-					<p>Given the following:</p>
-					<ul>
-						<li><code>\overline{AB} \parallel \overline{CD}</code> (line AB is parallel to line CD)</li>
-						<li data-if="RAND_SWITCH3 === 0">
-							<code>\color{purple}{\angle{EGB}} = <var>X</var>&deg;.</code>
-						</li><li data-else-if="RAND_SWITCH3 === 1">
-							<code>\color{purple}{\angle{AGH}} = <var>X</var>&deg;.</code>
-						</li><li data-else>
-							<code>\color{purple}{\angle{BGH}} = <var>180 - X</var>&deg;</code>
-						</li>
-					</ul>
-				</div> <!-- end problem block -->
 
-				<p class="question">What is <code>\color{blue}{\angle{<var>RAND_SWITCH2 === 0 ? "GHD" : "CHF"</var>}} {?}</code></p>
+				</div> <!-- end problem block -->
 
 				<div class="solution"><var>X</var></div>
 
@@ -317,6 +322,17 @@
 					<var id="Tri1_X">180 - Tri1_Y - Tri1_Z</var>
 				</div>
 
+				<div class="question">
+					<p>Given the following:</p>
+					<ul>
+						<li><code>\color{green}{\angle{BDC}&deg;} = <var>Tri1_Y</var></code></li>
+						<li><code>\color{orange}{\angle{DBE}&deg;} = <var>Tri1_X</var></code></li>
+					</ul>
+					<p>
+						What is <code>\color{blue}{\angle{<var>RAND_SWITCH3 === 0 ? "CHE" : ( RAND_SWITCH3 === 1 ? "GHC" : "DHE" )</var>}} {?}</code>
+					</p>
+				</div>
+
 				<div class="problem">
 					<div class="graphie" id="star1">
 						init({
@@ -369,16 +385,8 @@
 
 					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> Angles not drawn to scale.</p>
 
-					<p>Given the following:</p>
-
-					<ul>
-						<li><code>\color{green}{\angle{BDC}&deg;} = <var>Tri1_Y</var></code></li>
-						<li><code>\color{orange}{\angle{DBE}&deg;} = <var>Tri1_X</var></code></li>
-					</ul>
 
 				</div> <!-- end problem block -->
-
-				<p class="question">What is <code>\color{blue}{\angle{<var>RAND_SWITCH3 === 0 ? "CHE" : ( RAND_SWITCH3 === 1 ? "GHC" : "DHE" )</var>}} {?}</code></p>
 
 				<p class="solution">
 					<var data-if="RAND_SWITCH3 === 0">Tri1_Z</var>
@@ -458,6 +466,18 @@
 					<var id="Tri2_X">180 - Tri2_Y - Tri2_Z</var>
 				</div>
 
+				<div class="question">
+					<p>Given the following:</p>
+					<ul data-if="RAND_SWITCH2 === 0">
+						<li><code>\color{green}{\angle{BDC}&deg;} = <var>Tri2_Y</var>&deg;</code></li>
+						<li><code>\color{orange}{\angle{AIC}&deg;} = <var>180 - Tri2_Z</var>&deg;</code></li>
+					</ul><ul data-else>
+						<li><code>\color{green}{\angle{GCH}&deg;} = <var>Tri2_Y</var>&deg;</code></li>
+						<li><code>\color{orange}{\angle{FGH}&deg;} = <var>180 - Tri2_Z</var>&deg;</code></li>
+					</ul>
+					<p>What is <code>\color{blue}{\angle{<var>RAND_SWITCH2 === 0 ? "AJF" : "IHE"</var>}} {?}</code></p>
+				</div>
+
 				<div class="problem">
 					<div class="graphie" id="star2">
 							init({
@@ -517,18 +537,8 @@
 
 					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> Angles not drawn to scale.</p>
 
-					<p>Given the following:</p>
 
-					<ul data-if="RAND_SWITCH2 === 0">
-						<li><code>\color{green}{\angle{BDC}&deg;} = <var>Tri2_Y</var>&deg;</code></li>
-						<li><code>\color{orange}{\angle{AIC}&deg;} = <var>180 - Tri2_Z</var>&deg;</code></li>
-					</ul><ul data-else>
-						<li><code>\color{green}{\angle{GCH}&deg;} = <var>Tri2_Y</var>&deg;</code></li>
-						<li><code>\color{orange}{\angle{FGH}&deg;} = <var>180 - Tri2_Z</var>&deg;</code></li>
-					</ul>
 				</div> <!-- end problem block -->
-
-				<p class="question">What is <code>\color{blue}{\angle{<var>RAND_SWITCH2 === 0 ? "AJF" : "IHE"</var>}} {?}</code></p>
 
 				<div class="solution"><var>Tri2_X</var></div>
 
