@@ -37,36 +37,23 @@
 
 		<div class="problems">
 			<!-- A(x + y) + B -->
-			<!--  div id="xPlusB">
+			<div id="xPlusB">
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
 					<var id="YSIGN">randRangeNonZero( -1, 1 )</var>
-					<var id="FRAC">function( a, b ) {
-						if ( a > 0 ) {
-							if ( b > 0 ) {
-								return "\\frac{" + a + "}{" + b + "}";
-							} else {
-								return "- \\frac{" + a + "}{" + (-1 * b) + "}";
-							}
-						} else if ( b > 0 ) {
-							return "- \\frac{" + (-1 * a) + "}{" + b + "}";
-						} else {
-							return "\\frac{" + (-1 * a) + "}{" + (-1 * b) + "}";
-						}
-					}</var>
 				</div>
 
 				
 				<p class="problem"><code><var>plus( A+PLUSPARENS( X, YSIGN+Y ), B )</var></code></p>
 				<p class="question">Use the distributive property to simplify the equation.</p>
 				<p class="solution"><code><var>plus( A+X, A*YSIGN+Y, B )</var></code></p>
-				<ul class="choices" data-show="5" data-none="true">
+				<ul class="choices" data-show="4" data-none="true">
 					<li><code><var>plus( A+X, YSIGN+Y, B )</var></code></li>
 					<li><code><var>plus( A+X, YSIGN+Y, A*B )</var></code></li>
 					<li><code><var>plus( A, X, YSIGN+Y, B )</var></code></li>
-					<li><code><var>plus( A+X, A+Y )</var> + <var>FRAC( B , A )</var></code></li>
-					<li><code><var>FRAC( 1, A )</var><var>X</var> + <var>FRAC( YSIGN, A )</var><var>Y</var> + <var>B</var></code></li>
+					<li><code><var>plus( A+X, A+Y, fraction( B, A, true, true ) )</var></code></li>
+					<li><code><var>plus( fraction( 1, A, true, true )+X, fraction( YSIGN, A, true, true )+Y, B )</var></code></li>
 					<li><code><var>plus( A+X, A*YSIGN+Y, A+B )</var></code></li>
 					<li><code><var>plus( X, YSIGN+Y, A+B )</var></code></li>
 					<li><code><var>plus( X, YSIGN+Y, A*B )</var></code></li>
@@ -90,7 +77,7 @@
 					</div>
 					
 				</div>
-			</div  -->
+			</div>
 			
 			<!-- A + B(x + C) + D, B is only 1 or -1 -->
 			<div id="ABXCD">
@@ -105,7 +92,7 @@
 				<p class="question">Using the distributive property, simplify the equation as much as possible.</p>
 				
 				<p class="solution"><code><var>plus( B+X )</var> + <var>A+(B*C)+D</var></code></p>
-				<ul class="choices" data-show="5" data-none="true">
+				<ul class="choices" data-show="4" data-none="true">
 					<li><code><var>X</var> - <var>A+(B*C)+D</var></code></li>
 					<li><code><var>plus( B+X )</var> + <var>A+C+D</var></code></li>
 					<li><code><var>X</var> + <var>A+(B*C)+D</var></code></li>
@@ -142,7 +129,7 @@
 			</div>
 			
 			<!-- A(x + B) + C(D + x) -->
-			<!--  div id="AXBCDX">
+			<div id="AXBCDX">
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
@@ -180,7 +167,7 @@
 						<p><code><var>color( A+X, true )</var> + <var>color( A*B, false )</var> + <var>color( C*D, false )</var> + <var>color( C+X, true )</var></code></p>
 					</div>
 					<div>
-						<p><code><var>color( (A+C)+X, true )</var> + <var>color( (A*B)+(C*D), false )</var></code></p>
+						<p><code><var>color( plus( (A+C)+X ), true )</var> + <var>color( (A*B)+(C*D), false )</var></code></p>
 						<p>You're done! Make sure you simplify as much as possible.</p>
 					</div>
 					<div>
@@ -189,10 +176,10 @@
 					</div>
 				</div>
 				
-			</div  -->
+			</div>
 			
 			<!-- A(x + B) + Cx -->
-			<!--  div id="AXBCX">
+			<div id="AXBCX">
 				<div class="vars">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
@@ -224,7 +211,7 @@
 						<p><code><var>color( A+X, true )</var> + <var>color( A*B, false )</var> + <var>color( C+X, true )</var></code></p>
 					</div>
 					<div>
-						<p><code><var>color( (A+C)+X, true )</var> + <var>color( A*B, false )</var></code></p>
+						<p><code><var>color( plus( (A+C)+X ), true )</var> + <var>color( A*B, false )</var></code></p>
 						<p>You're done!</p>
 					</div>
 					<div>
@@ -232,7 +219,7 @@
 						<p><code>x(y + z) = xy + xz</code></p>
 					</div>
 				</div>
-			</div  -->
+			</div>
 				
 		</div>
 		
