@@ -582,6 +582,18 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 			fShowFirstHalf = true;
 		}
 	}
+	
+	this.addDecimalRemainder = function() {
+		dividend = dividend * 10;
+		digitsDividend = KhanUtil.integerToDigits( dividend );
+		deciDividend = 1;
+		deciDiff = deciDivisor - deciDividend;
+		
+		this.addDecimal();
+		this.show();
+		graph.label( [ digitsDividend.length + 1, 1 ],
+				"\\text{Write in a decimal and a zero then continue dividing as before.}", "right" );
+	};
 
 	this.getNumHints = function() {
 		return 1 + ( digitsDividend.length + ( deciDiff > 0 ? deciDiff : 0 ) ) * 2;
@@ -593,6 +605,15 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 		}
 	};
 
+	this.addDecimal = function() {
+		graph.style({
+				fill: "#000"
+			}, function() {
+				graph.ellipse( [ digitsDividend.length + deciDiff - 0.5, -0.2 ], [ 0.09, 0.06 ] );
+				graph.ellipse( [ digitsDividend.length + deciDiff - 0.5, 0.8 ], [ 0.09, 0.06 ] );
+			});
+	}
+	
 	this.shiftDecimals = function() {
 		while( decimals.length ) {
 			decimals.pop().remove();
@@ -611,12 +632,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 				"\\text{Bring the decimal up into the answer (the quotient).}", "right" );
 		}
 
-		graph.style({
-			fill: "#000"
-		}, function() {
-			graph.ellipse( [ digitsDividend.length + deciDiff - 0.5, -0.2 ], [ 0.09, 0.06 ] );
-			graph.ellipse( [ digitsDividend.length + deciDiff - 0.5, 0.8 ], [ 0.09, 0.06 ] );
-		});
+		this.addDecimal();
 
 		if ( deciDiff > 0 ) {
 			var orig = digitsDividend;
