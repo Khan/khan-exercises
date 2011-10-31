@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-require="math graphie expressions">
 	<head>
 	<meta charset="UTF-8" />
 	<title>Graphing points 2</title>
@@ -38,7 +38,7 @@
 			<div id="equation">
 				<p class="question">Which of the following ordered pairs represents a solution to the equation below?</p>
 				<p><code><var>jQuery.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
-				<p><code>y = <var>M</var>x + <var>B</var></code></p>
+				<p><code>y = <var>expr(["+", ["*", M, "x"], B])</var></code></p>
 				<p class="solution"><code><var>PAIR( POINTS[CORRECT] )</var></code></p>
 				<ul class="choices" data-category="true">
 					<li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
@@ -51,7 +51,7 @@
 							<p>Let's consider <code><var>PAIR( point )</var></code>.</p>
 							<p>If we plug in <code><var>point[ 0 ]</var></code> for <code>x</code> and evaluate, do we get <code><var>point[ 1 ]</var></code>?</p>
 						</div>
-						<p><code>y = (<var>M</var>)(<var>point[ 0 ]</var>) + <var>B</var> = <var>M * point[ 0 ]</var> + <var>B</var> = <var>M * point[ 0 ] + B</var></code></p>
+						<p><code>y = <span data-if="M !== 1">(<var>M</var>)</span>(<var>point[ 0 ]</var>) + <var>B</var> = <span data-if="M !== 1"><var>M * point[ 0 ]</var> + <var>B</var> = </span><var>M * point[ 0 ] + B</var></code></p>
 					</div>
 					<p>Thus the only ordered pair that is a solution to the equation is <code><var>PAIR( POINTS[ CORRECT ] )</var></code>.</p>
 					<div>
