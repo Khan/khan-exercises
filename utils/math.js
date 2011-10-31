@@ -385,7 +385,7 @@ jQuery.extend(KhanUtil, {
 			var loN = 0, loD = 1, hiN = 1, hiD = 1, midN = 1, midD = 2;
 
 			while ( 1 ) {
-				if ( Math.abs( midN / midD - decimal ) <= tolerance ) {
+				if ( Math.abs( Number(midN / midD) - decimal ) <= tolerance ) {
 					return [ midN, midD ];
 				} else if ( midN / midD < decimal) {
 					loN = midN;
