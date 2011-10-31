@@ -15,10 +15,10 @@ jQuery.extend( KhanUtil, {
 			directrixLine.remove();
 			lineEndcap.remove();
 			graph.style({ strokeWidth: 1.5, stroke: KhanUtil.GREEN, opacity: 0.0 });
-			var vertexDistance = Math.sqrt((coordX - vertex.coordX) * (coordX - vertex.coordX) + (coordY - vertex.coordY) * (coordY - vertex.coordY));
+			var vertexDistance = KhanUtil.distance( [ coordX, coordY ], vertex.coord );
 
 			// Draw a line from the vertex to the highlighted point on the parabola
-			vertexLine = graph.line( [coordX, coordY], [ vertex.coordX, vertex.coordY ] );
+			vertexLine = graph.line( [coordX, coordY], vertex.coord );
 			// Draw the horizontal line from the highlighted point on the parabola towards the directrix
 			if (directrix.coord < coordY) {
 				directrixLine = graph.line( [coordX, coordY], [ coordX, coordY - vertexDistance] );
@@ -50,6 +50,6 @@ jQuery.extend( KhanUtil, {
 			highlighted = false;
 		};
 
-	},
+	}
 
 });

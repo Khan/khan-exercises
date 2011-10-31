@@ -28,11 +28,11 @@
 					style({ stroke: "#6495ED", strokeWidth: 3.5 });
 					line( [ 0, -0.2], [0, 0.2]);
 					label( [ 0, -0.53 ],  "0", "center", { color: "#6495ED" });
-					
+
 					addMouseLayer();
-					this.movablePoint = addMovablePoint({ constrainY: true, snapX: 0.25 });
+					this.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
 					movablePoint.onMove = function( x, y ) {
-						if (x < LOWER_BOUND || UPPER_BOUND < x) {
+						if (x &lt; LOWER_BOUND || UPPER_BOUND &lt; x) {
 							return false; // don't allow the point to move past the bounds
 						}
 						jQuery("#solutionarea input").val( x );
@@ -50,11 +50,11 @@
 				<p>Numbers smaller than 0 are negative, and numbers bigger than 0 are positive.</p>
 				<div>
 					<div class="graphie" data-update="number-line">
-						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->" });
+						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
 						line( [ 0, 0 ], [ NUMBER, 0 ] );
 						movablePoint.visibleShape.toFront();
 					</div>
-					<p>The orange dot should be <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER < 0">left</span><span data-else>right</span> of 0.</p>
+					<p>The orange dot should be <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER &lt; 0">left</span><span data-else>right</span> of 0.</p>
 				</div>
 				<div>
 					<div class="graphie" data-update="number-line">
