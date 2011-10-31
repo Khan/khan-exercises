@@ -6,11 +6,11 @@ jQuery.extend( KhanUtil, {
 
 			// If the function accepts arguments, pass it the current index
 			if ( fn.length ) {
-				return fn( i );
+				return [ fn( i ) ];
 
 			// Otherwise call it with no arguments
 			} else {
-				return fn();
+				return [ fn() ];
 			}
 
 		});
