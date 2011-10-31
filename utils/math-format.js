@@ -420,7 +420,7 @@ jQuery.extend(KhanUtil, {
 
 	},
 
-	randomVar: function() {
+	randVar: function() {
 		return KhanUtil.randFromArray([ "x", "k", "y", "a", "n", "r", "p", "u", "v" ])
 	}
 });
