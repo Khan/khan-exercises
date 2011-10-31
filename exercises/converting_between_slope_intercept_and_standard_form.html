@@ -61,8 +61,8 @@
 			<div class="vars">
 				<var id="SLOPE">randRange( -3, 3 )</var>
 				<var id="Y_INTERCEPT">randRangeNonZero( -3, 3 )</var>
-				<var id="A">1</var>
-				<var id="B">-1 * SLOPE</var>
+				<var id="A">-1 * SLOPE</var>
+				<var id="B">1</var>
 				<var id="C">Y_INTERCEPT</var>
 			</div>
 			<p class="question">Convert the following equation from slope intercept form to standard form.</p>
@@ -76,7 +76,7 @@
 			<div class="hints">
 				<div data-if="SLOPE !== 0">
 					<p>Move the <code>x</code> term to the same side as the <code>y</code> term.</p>
-					<p><code><var>y - <var>expr([ "*", SLOPE, "x" ])</var> = <var>Y_INTERCEPT</var></code></p>
+					<p><code><var>expr([ "*", -SLOPE, "x" ])</var> + y = <var>Y_INTERCEPT</var></code></p>
 				</div>
 				<div data-else>
 					<p>Since the slope is <code>0</code> and there is no <code>x</code> term, the equation is already in slope intercept form.</p>
