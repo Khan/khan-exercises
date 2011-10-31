@@ -58,7 +58,7 @@ jQuery.extend(KhanUtil, {
 					return i;
 				}
 			}
-            return -1;
+			return -1;
 		};
 
 		this.findMinDegree = function( coefs ) {
@@ -67,7 +67,7 @@ jQuery.extend(KhanUtil, {
 					return i;
 				}
 			}
-            return -1;
+			return -1;
 		};
 
 		this.expr = function( vari ) {
@@ -134,17 +134,17 @@ jQuery.extend(KhanUtil, {
 
 		// Adds two polynomials
 		// It assumes the second polynomial's variable is the same as the first polynomial's
-        // Does not change the polynomials, returns the result
+		// Does not change the polynomials, returns the result
 		this.add = function( polynomial ) {
 			var coefs = [];
-            var minDegree = Math.min( this.minDegree, polynomial.minDegree );
-            var maxDegree = Math.max( this.maxDegree, polynomial.maxDegree );
+			var minDegree = Math.min( this.minDegree, polynomial.minDegree );
+			var maxDegree = Math.max( this.maxDegree, polynomial.maxDegree );
 
 			for ( var i = minDegree; i <= maxDegree; i++ ) {
-                var value = 0;
+				var value = 0;
 
-                value += i <= this.maxDegree ? this.coefs[ i ] : 0;
-                value += i <= polynomial.maxDegree ? polynomial.coefs[ i ] : 0;
+				value += i <= this.maxDegree ? this.coefs[ i ] : 0;
+				value += i <= polynomial.maxDegree ? polynomial.coefs[ i ] : 0;
 
 				coefs[ i ] = value;
 			}
@@ -154,53 +154,53 @@ jQuery.extend(KhanUtil, {
 
 		// Subtracts polynomial from this
 		// It assumes the second polynomial's variable is the same as the first polynomial's
-        // Does not change the polynomials, returns the result
-        this.subtract = function( polynomial ) {
-            return this.add( polynomial.multiply(-1) )
-        }
+		// Does not change the polynomials, returns the result
+		this.subtract = function( polynomial ) {
+			return this.add( polynomial.multiply(-1) )
+		}
 
-        // Multiply a polynomial by a number or other polynomial
-        this.multiply = function( value ) {
-            var coefs = [];
-            if ( typeof value === "number" ) {
+		// Multiply a polynomial by a number or other polynomial
+		this.multiply = function( value ) {
+			var coefs = [];
+			if ( typeof value === "number" ) {
 
-                for ( var i = 0; i < this.coefs.length; i++ ) {
-                    coefs[ i ] = this.coefs[ i ] * value;
-                }
+				for ( var i = 0; i < this.coefs.length; i++ ) {
+					coefs[ i ] = this.coefs[ i ] * value;
+				}
 
-                return new KhanUtil.Polynomial( this.minDegree, this.maxDegree, coefs, this.variable );
+				return new KhanUtil.Polynomial( this.minDegree, this.maxDegree, coefs, this.variable );
 
-            // Assume if it's not a number it's a polynomial
-            } else {
-                for ( var i = this.minDegree; i <= this.maxDegree; i++ ) {
-                    if ( this.coefs[ i ] === 0 ) {
-                        continue;
-                    }
-                    for ( var j = value.minDegree; j <= value.maxDegree; j++ ) {
-                        if ( value.coefs[ j ] === 0 ) {
-                            continue;
-                        }
+			// Assume if it's not a number it's a polynomial
+			} else {
+				for ( var i = this.minDegree; i <= this.maxDegree; i++ ) {
+					if ( this.coefs[ i ] === 0 ) {
+						continue;
+					}
+					for ( var j = value.minDegree; j <= value.maxDegree; j++ ) {
+						if ( value.coefs[ j ] === 0 ) {
+							continue;
+						}
 
-                        var coef = this.coefs[ i ] * value.coefs[ j ];
+						var coef = this.coefs[ i ] * value.coefs[ j ];
 
-                        if ( coefs[ i + j ] === undefined ) {
-                            coefs[ i + j ] = coef; 
-                        } else {
-                            coefs[ i + j ] += coef; 
-                        }
-                    }
-                }
+						if ( coefs[ i + j ] === undefined ) {
+							coefs[ i + j ] = coef; 
+						} else {
+							coefs[ i + j ] += coef; 
+						}
+					}
+				}
 
-                // Fill in any missing values of coefs with 0s
-                for ( var i = 0; i < coefs.length; i++ ) {
-                    if ( coefs[ i ] === undefined ) {
-                        coefs[ i ] = 0;
-                    }
-                }
+				// Fill in any missing values of coefs with 0s
+				for ( var i = 0; i < coefs.length; i++ ) {
+					if ( coefs[ i ] === undefined ) {
+						coefs[ i ] = 0;
+					}
+				}
 
-                return new KhanUtil.Polynomial( Math.min( this.minDegree, value.minDegree ), coefs.length, coefs, this.variable );
-            }
-        }
+				return new KhanUtil.Polynomial( Math.min( this.minDegree, value.minDegree ), coefs.length, coefs, this.variable );
+			}
+		}
 
 		return this;
 	},
