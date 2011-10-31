@@ -362,7 +362,7 @@ function Triangle( center, angles, scale, labels, points ){
 
 	this.draw = function(){
 		this.set = KhanUtil.currentGraph.raphael.set();
-		this.set.push( KhanUtil.currentGraph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
+		this.set.push( KhanUtil.currentGraph.path( [ lineMidpoint( this.sides[ 2 ] ), this.points[2], this.points[1], this.points[0], lineMidpoint( this.sides[ 2 ] ) ] ));
 		return this.set;
 	}
 
