@@ -10,14 +10,14 @@ jQuery.extend(KhanUtil, {
 			if ( degree === 0 ) {
 				return coef;
 			} else if ( degree === 1 ) {
-				return ["*", coef, vari];
+				return [ "*", coef, vari ];
 			} else {
-				return ["*", coef, ["^", vari, degree]];
+				return [ "*", coef, [ "^", vari, degree ] ];
 			}
 
 		};
 
-		//inverse of term.	Given an expression it returns the coef and degree. 
+		// inverse of term.	Given an expression it returns the coef and degree. 
 		// calculus needs this for hints
 		var extractFromExpr = function ( expr ){
 			var coef,degree;
@@ -52,20 +52,22 @@ jQuery.extend(KhanUtil, {
 
 		this.name = name || "f";
 
-		this.findMaxDegree = function() {
-			for ( var i = this.maxDegree; i >= this.minDegree; i-- ) {
-				if ( this.coefs[i] !== 0 ) {
+		this.findMaxDegree = function( coefs ) {
+			for ( var i = coefs.length - 1; i >= 0; i-- ) {
+				if ( coefs[i] !== 0 ) {
 					return i;
 				}
 			}
+			return -1;
 		};
 
-		this.findMinDegree = function() {
-			for ( var i = this.minDegree; i <= this.maxDegree; i++ ) {
-				if ( this.coefs[i] !== 0 ) {
+		this.findMinDegree = function( coefs ) {
+			for ( var i = 0; i < coefs.length; i++ ) {
+				if ( coefs[i] !== 0 ) {
 					return i;
 				}
 			}
+			return -1;
 		};
 
 		this.expr = function( vari ) {
@@ -129,6 +131,76 @@ jQuery.extend(KhanUtil, {
 
 			return hints;
 		};
+
+		// Adds two polynomials
+		// It assumes the second polynomial's variable is the same as the first polynomial's
+		// Does not change the polynomials, returns the result
+		this.add = function( polynomial ) {
+			var coefs = [];
+			var minDegree = Math.min( this.minDegree, polynomial.minDegree );
+			var maxDegree = Math.max( this.maxDegree, polynomial.maxDegree );
+
+			for ( var i = minDegree; i <= maxDegree; i++ ) {
+				var value = 0;
+
+				value += i <= this.maxDegree ? this.coefs[ i ] : 0;
+				value += i <= polynomial.maxDegree ? polynomial.coefs[ i ] : 0;
+
+				coefs[ i ] = value;
+			}
+
+			return new KhanUtil.Polynomial(minDegree, maxDegree, coefs, this.variable );
+		};
+
+		// Subtracts polynomial from this
+		// It assumes the second polynomial's variable is the same as the first polynomial's
+		// Does not change the polynomials, returns the result
+		this.subtract = function( polynomial ) {
+			return this.add( polynomial.multiply(-1) )
+		}
+
+		// Multiply a polynomial by a number or other polynomial
+		this.multiply = function( value ) {
+			var coefs = [];
+			if ( typeof value === "number" ) {
+
+				for ( var i = 0; i < this.coefs.length; i++ ) {
+					coefs[ i ] = this.coefs[ i ] * value;
+				}
+
+				return new KhanUtil.Polynomial( this.minDegree, this.maxDegree, coefs, this.variable );
+
+			// Assume if it's not a number it's a polynomial
+			} else {
+				for ( var i = this.minDegree; i <= this.maxDegree; i++ ) {
+					if ( this.coefs[ i ] === 0 ) {
+						continue;
+					}
+					for ( var j = value.minDegree; j <= value.maxDegree; j++ ) {
+						if ( value.coefs[ j ] === 0 ) {
+							continue;
+						}
+
+						var coef = this.coefs[ i ] * value.coefs[ j ];
+
+						if ( coefs[ i + j ] === undefined ) {
+							coefs[ i + j ] = coef; 
+						} else {
+							coefs[ i + j ] += coef; 
+						}
+					}
+				}
+
+				// Fill in any missing values of coefs with 0s
+				for ( var i = 0; i < coefs.length; i++ ) {
+					if ( coefs[ i ] === undefined ) {
+						coefs[ i ] = 0;
+					}
+				}
+
+				return new KhanUtil.Polynomial( Math.min( this.minDegree, value.minDegree ), coefs.length, coefs, this.variable );
+			}
+		}
 
 		return this;
 	},

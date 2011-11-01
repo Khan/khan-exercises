@@ -268,13 +268,31 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
-	//Get an array of unique random numbers between min and max
+	// Get an array of unique random numbers between min and max
 	randRangeUnique: function( min, max, count ) {
 		if ( count == null ) {
-			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
+			return KhanUtil.randRange( min, max );
 		} else {
 			var toReturn = [];
 			for ( var i = min; i < max; i++ ){
+				toReturn.push( i );
+			}
+			
+			return KhanUtil.shuffle( toReturn, count );
+		}
+	},
+
+	// Get an array of unique random numbers between min and max,
+	// that ensures that none of the integers in the array are 0.  
+	randRangeUniqueNonZero: function( min, max, count ) {
+		if ( count == null ) {
+			return KhanUtil.randRangeNonZero( min, max );
+		} else {
+			var toReturn = [];
+			for ( var i = min; i < max; i++ ){
+				if ( i === 0 ) {
+					continue;
+				}
 				toReturn.push( i );
 			}
 			
@@ -385,7 +403,7 @@ jQuery.extend(KhanUtil, {
 			var loN = 0, loD = 1, hiN = 1, hiD = 1, midN = 1, midD = 2;
 
 			while ( 1 ) {
-				if ( Math.abs( midN / midD - decimal ) <= tolerance ) {
+				if ( Math.abs( Number(midN / midD) - decimal ) <= tolerance ) {
 					return [ midN, midD ];
 				} else if ( midN / midD < decimal) {
 					loN = midN;

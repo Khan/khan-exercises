@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html data-require="math math-format polynomials functional">
+<head>
+	<meta charset="UTF-8" />
+	<title>Adding and subtracting polynomials</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="X">randFromArray([ "x", "k", "y", "a", "n", "r", "p", "u", "v" ])</var>
+			<var id="MAX_DEGREE">7</var>
+			<var id="NON_ZERO_INDICES">function() {
+				var numberNonZeroCoefficients = randRange( 2, 3 );
+
+				return randRangeUniqueNonZero( 0, MAX_DEGREE, numberNonZeroCoefficients );
+			}()</var>
+			<var id="POL_1, POL_2">listFn( function() {
+				var coefs = [];
+				for ( var i = 0; i <= MAX_DEGREE; i++ ) {
+					coefs[ i ] = 0;
+				}
+
+				for ( var i = 0; i < NON_ZERO_INDICES.length; i++ ) {
+					coefs[ NON_ZERO_INDICES[ i ] ] = randRangeNonZero( -7, 7 )
+				}
+
+				return new Polynomial( 0, MAX_DEGREE, coefs, X )
+			}, 2 )</var>
+			<var id="SOLUTION"></var>	
+		</div>
+
+		<div class="problems">
+			<div id="add">
+				<p class="problem">Simplify the expression:</p>
+				<div class="question">
+					<code>(<var>POL_1.text()</var>) + (<var>POL_2.text()</var>)</code>
+				</div>
+				<div><code><var>POL_1.add(POL_2).text()</var></code></div>
+				<div class="solution">5</div>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>Hey</p>
+		</div>
+	</div>
+</body>
+</html>

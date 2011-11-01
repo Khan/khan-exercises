@@ -145,7 +145,7 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 		testMode ? "../" : "/khan-exercises/",
 
 	lastFocusedSolutionInput = null,
-
+	
 	issueError = "Communication with GitHub isn't working. Please file "
 		+ "the issue manually at <a href=\""
 		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
@@ -509,6 +509,10 @@ var Khan = {
 			exid_param = "?exid=" + data.exercise_model.name;
 		}
 		return video.ka_url + exid_param;
+	},
+
+	showSolutionButtonText: function() {
+		return hintsUsed ? "Show step (" + hints.length + " left)" : "Show Solution";
 	}
 };
 
@@ -1521,13 +1525,13 @@ function prepareSite() {
 		}
 
 		// Stop if the form is already disabled and we're waiting for a response.
-		if ( jQuery( "#answercontent input" ).is( ":disabled" )) {
+		if ( jQuery( "#answercontent input" ).not( "#hint" ).is( ":disabled" )) {
 			return false;
 		}
 
 		jQuery( "#throbber" ).show();
 		disableCheckAnswer();
-		jQuery( "#answercontent input" ).not("#check-answer-button")
+		jQuery( "#answercontent input" ).not("#check-answer-button, #hint")
 			.attr( "disabled", "disabled" );
 		jQuery( "#check-answer-results p" ).hide();
 
@@ -1598,7 +1602,7 @@ function prepareSite() {
 			// Wrong answer. Enable all the input elements, but wait until
 			// until server acknowledges before enabling the check answer
 			// button.
-			jQuery( "#answercontent input" ).not("#check-answer-button")
+			jQuery( "#answercontent input" ).not( "#check-answer-button, #hint" )
 				.removeAttr( "disabled" );
 		}
 
@@ -1654,17 +1658,17 @@ function prepareSite() {
 	// Watch for when the "Get a Hint" button is clicked
 	jQuery( "#hint" ).click(function() {
 
-		if ( user ) {
+		if ( user && attempts === 0 ) {
 			var hintApproved = window.localStorage[ "hintApproved:" + user ];
 
 			if ( !(typeof hintApproved !== "undefined" && JSON.parse(hintApproved)) ) {
 				if ( !(typeof userExercise !== "undefined" && userExercise.read_only) ) {
-					if ( confirm("One-time warning: Using a hint will erase your streak.\nAre you sure you want to continue?"))  {
+					if ( confirm("One-time warning: Using a hint will set back your progress.\nAre you sure you want to continue?"))  {
 						// Hint consequences approved
 						window.localStorage[ "hintApproved:" + user ] = true;
 
 					} else {
-						// User doesn't want to lose streak.
+						// User doesn't want to have progress set back
 						return;
 					}
 				}
@@ -1677,7 +1681,10 @@ function prepareSite() {
 
 		if ( hint ) {
 
-			jQuery( "#hint" ).val("I'd like another hint");
+			hintsUsed += 1;
+
+			jQuery( this )
+				.val( jQuery( this ).data( "buttonText" ) || "I'd like another hint" );
 
 			var problem = jQuery( hint ).parent();
 
@@ -1692,8 +1699,6 @@ function prepareSite() {
 				jQuery( this ).attr( "disabled", true );
 				jQuery( "#hint-remainder" ).fadeOut( 500 );
 			}
-
-			hintsUsed += 1;
 		}
 
 		var fProdReadOnly = !testMode && userExercise.read_only;
@@ -1707,6 +1712,12 @@ function prepareSite() {
 				function() {},
 				function() {}
 			);
+		}
+
+		// The first hint is free iff the user has already attempted the question
+		if ( hintsUsed === 1 && attempts > 0 ) {
+			gae_bingo.bingo( "hints_free_hint" );
+			gae_bingo.bingo( "hints_free_hint_binary" );
 		}
 	});
 
@@ -2253,18 +2264,18 @@ function updateData( data ) {
 
 	if ( data.summative ) {
 		jQuery( ".summative-help ")
-			.find( ".summative-required-streaks" ).text( parseInt( (data.required_streak / 10) , 10) ).end()
+			.find( ".summative-required-streaks" ).text( data.num_milestones ).end()
 			.show();
 
 		if ( jQuery( ".level-label" ).length === 0 ) {
 
 			// Split summative streak bar into levels
 			var levels = [];
-			var levelCount = data.required_streak / 10;
+			var levelCount = data.num_milestones;
 			for ( var i = 1; i < levelCount; i++ ) {
 
 				// Individual level pixels
-				levels[ levels.length ] = Math.ceil(i * ( streakMaxWidth / levelCount )) + 1;
+				levels[ levels.length ] = Math.ceil(i * ( streakMaxWidth / levelCount ));
 
 			}
 
@@ -2277,6 +2288,7 @@ function updateData( data ) {
 
 	jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
 	jQuery(".streak-icon").html("fill the bar &raquo;").css({width:"100%"});
+	jQuery(".streak-bar").toggleClass("proficient", data.progress >= 1.0);
 
 	// Update the exercise icon
 	var exerciseStates = data && data.exercise_states;

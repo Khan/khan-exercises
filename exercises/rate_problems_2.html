@@ -58,8 +58,8 @@
 				<div>
 					<p><code>\color{<var>KhanUtil.BLUE</var>}{\begin{align*}\text{total distance} &= \text{distance uphill} + \text{distance downhill}\\
 						&= 2 \times \text{distance uphill}\end{align*}}</code></p>
-					<p><code>\begin{align*}\text{distance uphill} &= \text{speed uphill} \times \text{time uphill}\\
-						&= <var>RATE_UP</var>\text{ mph} \times <var>TIME_UP</var>\text{ minutes}\\
+					<p><code>\begin{align*}\text{distance uphill} &= \text{speed uphill} \times \text{time uphill} \\\
+						&= <var>RATE_UP</var>\text{ mph} \times <var>TIME_UP</var>\text{ minutes}\times\dfrac{1 \text{ hour}}{60 \text{ minutes}}\\
 						&= <var>DISTANCE</var>\text{ miles}\end{align*}</code></p>
 				</div>
 				<div>
@@ -70,14 +70,14 @@
 				<div>
 					<p><code>\color{<var>KhanUtil.ORANGE</var>}{\text{total time} = \text{time uphill} + \text{time downhill}}</code></p>
 					<p><code>\begin{align*}\text{time downhill} &= \dfrac{\text{distance downhill}}{\text{speed downhill}}\\
-						&= \dfrac{<var>DISTANCE</var>\text{ miles}}{<var>RATE_DOWN</var>\text{ mph}}\\
+						&= \dfrac{<var>DISTANCE</var>\text{ miles}}{<var>RATE_DOWN</var>\text{ mph}}\times\dfrac{60 \text{ minutes}}{1 \text{ hour}}\\
 						&= <var>TIME_DOWN</var>\text{ minutes}\end{align*}</code></p>
 				</div>
 				<p><code>\color{<var>KhanUtil.ORANGE</var>}{\begin{align*}\text{total time} &= <var>TIME_UP</var>\text{ minutes} + <var>TIME_DOWN</var>\text{ minutes}\\
 					&= <var>TIME_UP + TIME_DOWN</var>\text{ minutes}\end{align*}}</code></p>
 				<p>Now that we know both the total distance and total time, we can find the average speed.</p>
 				<p><code>\begin{align*}\text{average speed} &= \dfrac{\color{<var>KhanUtil.BLUE</var>}{\text{total distance}}}{\color{<var>KhanUtil.ORANGE</var>}{\text{total time}}}\\
-					&= \dfrac{\color{<var>KhanUtil.BLUE</var>}{<var>2 * DISTANCE</var>\text{ miles}}}{\color{<var>KhanUtil.ORANGE</var>}{<var>TIME_UP + TIME_DOWN</var>\text{ minutes}}}\\
+					&= \dfrac{\color{<var>KhanUtil.BLUE</var>}{<var>2 * DISTANCE</var>\text{ miles}}}{\color{<var>KhanUtil.ORANGE</var>}{<var>TIME_UP + TIME_DOWN</var>\text{ minutes}}}\times\dfrac{60 \text{ minutes}}{1 \text{ hour}}\\
 					&= <var>RATE_AVG</var>\text{ mph}\end{align*}</code></p>
 				<p>The average speed is <var>RATE_AVG</var> mph, and which is closer to <var>RATE_UP</var> mph than <var>RATE_DOWN</var> mph as we expected.</p>
 			</div>
