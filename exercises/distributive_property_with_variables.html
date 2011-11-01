@@ -93,13 +93,13 @@
 				
 				<p class="solution"><code><var>plus( B+X )</var> + <var>A+(B*C)+D</var></code></p>
 				<ul class="choices" data-show="4" data-none="true">
-					<li><code><var>X</var> - <var>A+(B*C)+D</var></code></li>
+					<li data-if="C != (A+D)"><code><var>X</var> - <var>A+(-1*C)+D</var></code></li>
 					<li><code><var>plus( B+X )</var> + <var>A+C+D</var></code></li>
-					<li><code><var>X</var> + <var>A+(B*C)+D</var></code></li>
+					<li data-if="C != (A+D)"><code><var>X</var> + <var>A+(-1*C)+D</var></code></li>
 					<li><code><var>X</var> - <var>A+C+D</var></code></li>
 					<li><code><var>X</var> + <var>A+C+D</var></code></li>
 					<li><code><var>plus( A, B+X, C+D )</var></code></li>
-					<li><code><var>plus( A, B+X, (B*C)+D )</var></code></li>
+					<li data-if="C != D"><code><var>plus( A, B+X, (-1*C)+D )</var></code></li>
 				</ul>
 				
 				<div class="hints">
