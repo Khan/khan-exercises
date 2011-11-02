@@ -1387,84 +1387,14 @@ function makeProblem( id, seed ) {
 
 function drawGraph(followups){
 	if (window.Raphael){
+		// prime followups as empty so that we can check properties without throwing exceptions
+		followups = followups || {};
 
 		var server = "http://localhost:8080";
 
 		var exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]);
-		
-		if (typeof followups === "undefined"){
-			$.get(server + "/api/v1/exercises/"+exerciseName+"/followup_exercises", function(d){drawGraph(d);});
-			return;
-		}
 
-		if (followups) {
-			var oscillate = function(e){
-				var topbottom = Math.cos(Math.PI * (e+1));
-				var nth = Math.floor((e+2)/2);
-				return {n:nth, pos:topbottom, npos:nth*topbottom};
-			};
-			
-			var renderFollowups = function(exercises){
-
-				var map = Raphael("you-are-here",5000, 100);
-
-				var routes = $.map( exercises, function(exercise, i){
-					var s = map.set(),
-						offset = oscillate(i),
-						p1 = {x:10,y:50},
-						p2 = {x:(70+80*i), y:0}, //relative
-						// p3 is the curve that runs up/down x,y are the destination b12xy are the first and second
-						// bezier control points respectively
-						p3 = {x:40,y:offset.pos*18, b1x:30, b1y:0, b2x:10, b2y:offset.pos*18 },
-						p4 = {x: 20, y:0}, //relative
-						pathstring = "M10,50 l"+p2.x+","+p2.y+
-							" c"+p3.b1x+","+p3.b1y+" "+p3.b2x+","+p3.b2y +" "+ p3.x +","+ p3.y+
-							" l"+p4.x+","+p4.y;
-
-					var state = exercise.exercise_states;
-					var routeColor, dotColor;
-					pathState = false;
-					$.each(state, function(i,v){ pathState = v || pathState; });
-					if(pathState){
-						if(state.suggested){
-							dotColor = "rgb(137, 185, 8)";
-							routeColor = "rgb(208, 227, 156)";
-						}
-						if(state.proficient){
-							dotColor = "rgb(0, 128, 201)";
-							routeColor = "rgb(167, 211, 236)";
-						}
-						if(state.reviewing){
-							dotColor = "rgb(227, 93, 4)";
-							routeColor = "rgb(244, 189, 154)";
-						}					
-					}
-					else{
-						dotColor = "#ccc";
-						routeColor = "#ccc";
-					}
-
-					var route = map.path(pathstring)
-						.attr("stroke-width",5)
-						.attr("stroke", routeColor);
-
-					var endpoint = route.getPointAtLength(route.getTotalLength());
-					var dot = map.ellipse(endpoint.x, endpoint.y, 5,5)
-						.attr("fill", dotColor)
-						.attr("stroke","#fff")
-						.attr("stroke-width",2);
-
-					var href = typeof userExercise !== "undefined" ? "/exercises?exid="+exercise.exercise : "./"+exercise.exercise+".html";
-					var label = map.text(endpoint.x+10, endpoint.y, exercise.exercise_model.display_name)
-						.attr("text-anchor","start")
-						.attr("href",href)
-						.attr("fill","#999");
-
-					s.push(route).push(label);
-				});
-
-			};
-
+		var getFollowups = function(){
 			$.ajax({
 			  url: server + "/api/v1/user/exercises/"+exerciseName+"/followup_exercises",
 				type: "GET",
@@ -1472,9 +1402,86 @@ function drawGraph(followups){
 				xhrFields: { withCredentials : true },
 			  success: renderFollowups
 			});
-			
+		};
+
+		var oscillate = function(e){
+			var topbottom = Math.cos(Math.PI * (e+1));
+			var nth = Math.floor((e+2)/2);
+			return {n:nth, pos:topbottom, npos:nth*topbottom};
+		};
+
+		var renderFollowups = function(exercises){
+
+			var map = Raphael("you-are-here",5000, 100);
+
+			var routes = $.map( exercises, function(exercise, i){
+				var s = map.set(),
+					offset = oscillate(i),
+					p1 = {x:10,y:50},
+					p2 = {x:(70+80*i), y:0}, //relative
+					// p3 is the curve that runs up/down x,y are the destination b12xy are the first and second
+					// bezier control points respectively
+					p3 = {x:40,y:offset.pos*18, b1x:30, b1y:0, b2x:10, b2y:offset.pos*18 },
+					p4 = {x: 20, y:0}, //relative
+					pathstring = "M10,50 l"+p2.x+","+p2.y+
+						" c"+p3.b1x+","+p3.b1y+" "+p3.b2x+","+p3.b2y +" "+ p3.x +","+ p3.y+
+						" l"+p4.x+","+p4.y;
+
+				var state = exercise.exercise_states;
+				var routeColor, dotColor;
+				pathState = false;
+				$.each(state, function(i,v){ pathState = v || pathState; });
+				if(pathState){
+					if(state.suggested){
+						dotColor = "rgb(137, 185, 8)";
+						routeColor = "rgb(208, 227, 156)";
+					}
+					if(state.proficient){
+						dotColor = "rgb(0, 128, 201)";
+						routeColor = "rgb(167, 211, 236)";
+					}
+					if(state.reviewing){
+						dotColor = "rgb(227, 93, 4)";
+						routeColor = "rgb(244, 189, 154)";
+					}					
+				}
+				else{
+					dotColor = "#ccc";
+					routeColor = "#ccc";
+				}
+
+				var route = map.path(pathstring)
+					.attr("stroke-width",5)
+					.attr("stroke", routeColor);
+
+				var endpoint = route.getPointAtLength(route.getTotalLength());
+				var dot = map.ellipse(endpoint.x, endpoint.y, 5,5)
+					.attr("fill", dotColor)
+					.attr("stroke","#fff")
+					.attr("stroke-width",2);
+
+				var href = typeof userExercise !== "undefined" ? "/exercises?exid="+exercise.exercise : "./"+exercise.exercise+".html";
+				var label = map.text(endpoint.x+10, endpoint.y, exercise.exercise_model.display_name)
+					.attr("text-anchor","start")
+					.attr("href",href)
+					.attr("fill","#999");
+
+				s.push(route).push(label);
+			});
+
+		};
+
+		if ( !followups.exercise_states ){
+
+			getFollowups();
+			return;
+
+		}else{
+
+			renderFollowups();
+
 		}
-		
+
 	}
 }
 
