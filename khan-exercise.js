@@ -1422,24 +1422,35 @@ function drawGraph(followups){
 							" l"+p4.x+","+p4.y;
 
 					var state = exercise.exercise_states;
-					var routeColor;
-					if(state.suggested){
-						routeColor = "rgb(208, 227, 156)";
-					}
-					if(state.proficient){
-						routeColor = "rgb(167, 211, 236)";
+					var routeColor, dotColor;
+					pathState = false;
+					$.each(state, function(i,v){ pathState = v || pathState; });
+					if(pathState){
+						if(state.suggested){
+							dotColor = "rgb(137, 185, 8)";
+							routeColor = "rgb(208, 227, 156)";
+						}
+						if(state.proficient){
+							dotColor = "rgb(0, 128, 201)";
+							routeColor = "rgb(167, 211, 236)";
+						}
+						if(state.reviewing){
+							dotColor = "rgb(227, 93, 4)";
+							routeColor = "rgb(244, 189, 154)";
+						}					
 					}
 					else{
+						dotColor = "#ccc";
 						routeColor = "#ccc";
 					}
-					
+
 					var route = map.path(pathstring)
 						.attr("stroke-width",5)
 						.attr("stroke", routeColor);
 
 					var endpoint = route.getPointAtLength(route.getTotalLength());
 					var dot = map.ellipse(endpoint.x, endpoint.y, 5,5)
-						.attr("fill", "#ccc")
+						.attr("fill", dotColor)
 						.attr("stroke","#fff")
 						.attr("stroke-width",2);
 
