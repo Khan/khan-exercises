@@ -1385,17 +1385,17 @@ function makeProblem( id, seed ) {
   return answerType;
 }
 
-function drawGraph(exercise){
+function drawGraph(followups){
 	if (window.Raphael){
-		exercise = exercise || {};
+
+		var server = "http://localhost:8080";
+
 		var exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]);
 		
-		if (!exercise && typeof userExercise === "undefined"){
-			$.get("http://www.khanacademy.org/api/v1/exercises/"+exerciseName, function(d){drawGraph(d);});
+		if (typeof followups === "undefined"){
+			$.get(server + "/api/v1/exercises/"+exerciseName+"/followup_exercises", function(d){drawGraph(d);});
 			return;
 		}
-
-		followups = exercise.followup_exercises || userExercise.exercise_model.followup_exercises;
 
 		if (followups) {
 			var oscillate = function(e){
@@ -1403,12 +1403,12 @@ function drawGraph(exercise){
 				var nth = Math.floor((e+2)/2);
 				return {n:nth, pos:topbottom, npos:nth*topbottom};
 			};
-
-			$.get("http://localhost:8080/api/v1/exercises/info",{ids:JSON.stringify(followups)}, function(d){
+			
+			var renderFollowups = function(exercises){
 
 				var map = Raphael("you-are-here",5000, 100);
 
-				var routes = $.map(d,function(e, i){
+				var routes = $.map( exercises, function(exercise, i){
 					var s = map.set(),
 						offset = oscillate(i),
 						p1 = {x:10,y:50},
@@ -1421,9 +1421,21 @@ function drawGraph(exercise){
 							" c"+p3.b1x+","+p3.b1y+" "+p3.b2x+","+p3.b2y +" "+ p3.x +","+ p3.y+
 							" l"+p4.x+","+p4.y;
 
+					var state = exercise.exercise_states;
+					var routeColor;
+					if(state.suggested){
+						routeColor = "rgb(208, 227, 156)";
+					}
+					if(state.proficient){
+						routeColor = "rgb(167, 211, 236)";
+					}
+					else{
+						routeColor = "#ccc";
+					}
+					
 					var route = map.path(pathstring)
 						.attr("stroke-width",5)
-						.attr("stroke", "#ccc");
+						.attr("stroke", routeColor);
 
 					var endpoint = route.getPointAtLength(route.getTotalLength());
 					var dot = map.ellipse(endpoint.x, endpoint.y, 5,5)
@@ -1431,15 +1443,23 @@ function drawGraph(exercise){
 						.attr("stroke","#fff")
 						.attr("stroke-width",2);
 
-					var href = typeof userExercise !== "undefined" ? "/exercises?exid="+e.name : "./"+e.name+".html";
-					var label = map.text(endpoint.x+10, endpoint.y, e.display_name)
+					var href = typeof userExercise !== "undefined" ? "/exercises?exid="+exercise.exercise : "./"+exercise.exercise+".html";
+					var label = map.text(endpoint.x+10, endpoint.y, exercise.exercise_model.display_name)
 						.attr("text-anchor","start")
 						.attr("href",href)
 						.attr("fill","#999");
-					
+
 					s.push(route).push(label);
 				});
 
+			};
+
+			$.ajax({
+			  url: server + "/api/v1/user/exercises/"+exerciseName+"/followup_exercises",
+				type: "GET",
+				dataType: "json",
+				xhrFields: { withCredentials : true },
+			  success: renderFollowups
 			});
 			
 		}
