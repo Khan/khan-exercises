@@ -8,8 +8,18 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="A">randRange( 20, 9999 )</var>
-			<var id="B">randRange( 1, A - 1 )</var>
+			<var id="A_1000">randRange( 0, 9 )*1000</var>
+			<var id="A_100">randRange( 1, 9 )*100</var>
+			<var id="A_10">randRangeWeighted( 0, 8, 0, .25 )*10</var>
+			<var id="A_1">randRangeWeighted( 0, 8, 0, .25 )*1</var>
+			<var id="B_1000" data-ensure="B_1000<=A_1000">randRange( 0, 9 )*1000</var>
+			<var id="B_100" data-ensure="B_100<A_100">randRange( 0, 9 )*100</var>
+			<var id="B_10" data-ensure="B_10>A_10">randRange( 0, 9 )*10</var>
+			<var id="B_1" data-ensure="B_1>A_1">randRange( 0, 9 )*1</var>
+
+
+			<var id="A">A_1000+A_100+A_10+A_1</var>
+			<var id="B">B_1000+B_100+B_10+B_1</var>
 			<var id="DUMMY">[]</var>
 		</div>
 
