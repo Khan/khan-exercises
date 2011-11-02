@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie">
+<html data-require="math graphie math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Solving for the x-intercept</title>
@@ -8,48 +8,70 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="XCOEFFICIENT">randRange(-9, 9)</var>
-		<var id="YCOEFFICIENT">randRange(-9, 9)</var>
-		<var id="XINTERCEPT">randRange(-9, 9)</var>
-
-		<var id="EQUALS">XCOEFFICIENT*XINTERCEPT</var>
-		<var id="ONE_OVER_XCOEFFICIENT">fractionReduce( 1, XCOEFFICIENT )</var>
+		<var id="X_COEFF">randRangeNonZero( -9, 9 )</var>
+		<var id="Y_COEFF">randRangeNonZero( -9, 9 )</var>
+		<var id="X_INTERCEPT">randRangeNonZero( -9, 9 )</var>
+		<var id="EQUALS">X_COEFF*X_INTERCEPT</var>
+		
+		<var id="label_position">"above"</var>
 	</div>
 
 	<div class="problems">
 		<div>
 			<div class="question">
 				<p>Given the equation:</p>
-				<code><var>XCOEFFICIENT</var>x + <var>YCOEFFICIENT</var>y = <var>EQUALS</var></code>
-				<p>What is the <code>x</code>-intercpet?</p>
+				<p><code><var>X_COEFF</var>x + <var>Y_COEFF</var>y = <var>EQUALS</var></code></p>
+				<p>What is the <code>x</code>-intercept?</p>
 			</div>
 
 			<div class="solution" data-type="multiple">
-				<span class="sol" data-type="regex">^\(\s*<var>XINTERCEPT</var>\s*,\s*0\s*\)$</span>
+				<span class="sol" data-type="regex">^\(\s*<var>X_INTERCEPT</var>\s*,\s*0\s*\)$</span>
 				<p class="example">a point, like <code>(3, 2)</code></p>
 			</div>
 		</div>
 	</div>
 
 	<div class="hints">
-		<p>The <code>x</code>-intercpet is the point where the line crosses the <code>y</code>-axis.  This happens when <code>y</code> is zero.</p>
+		<p>The <code>x</code>-intercept is the point where the line crosses the <code>y</code>-axis.  This happens when <code>y</code> is zero.</p>
 		<div>
 			<p>Set <code>y</code> to zero.  </p>
-			<p> <code> <var>XCOEFFICIENT</var>x + <var>YCOEFFICIENT</var>(0)  = <var>EQUALS</var></code></p>
+			<p> <code> <var>X_COEFF</var>x + <var>Y_COEFF</var>(0)  = <var>EQUALS</var></code></p>
 		</div>
 		<div>
 			<p> Solve for <code>x</code>.</p>
-			<p> <code> <var>XCOEFFICIENT</var>x = <var>EQUALS</var> </code></p>
+			<p> <code> <var>X_COEFF</var>x = <var>EQUALS</var> </code></p>
 		</div>
 		<div>
-			<p><code>(<var>ONE_OVER_XCOEFFICIENT</var>) \cdot (<var>XCOEFFICIENT</var>x) = (<var>ONE_OVER_XCOEFFICIENT</var>) \cdot (<var>EQUALS</var>)</code></p>
+			<p><code>(<var>fractionReduce( 1, X_COEFF )</var>) \cdot (<var>X_COEFF</var>x) = (<var>fractionReduce( 1, X_COEFF )</var>) \cdot (<var>EQUALS</var>)</code></p>
 		</div>
 		<div>
-				<p><code>x = <var>XINTERCEPT</var></code></p>
+				<p><code>x = <var>X_INTERCEPT</var></code></p>
 		</div>
 		<div>
 			<p>Write the <code>x</code>-intercept as a point.</p>
-			<code>(<var>XINTERCEPT</var>, 0)</code>
+			<code>(<var>X_INTERCEPT</var>, 0)</code>
+			<div class="graphie">
+					graphInit({
+						range: max( 11 , 11 ),
+						scale: 20,
+						tickStep: 1,
+						labelStep: 1,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; },
+						axisArrows: "<->"
+					});
+					plot(function( x ) {
+						return ( -1 * X_COEFF / Y_COEFF ) * x + EQUALS / Y_COEFF;
+					}, [min( ( -abs( EQUALS / Y_COEFF) -5  ), -12) , max( ( abs( EQUALS / Y_COEFF ) + 5 ), 12 )], {
+						stroke: "#28ae7b"
+					});
+					circle( [X_INTERCEPT, 0], 3/20, {
+						stroke: "none",
+						fill: "black"
+					} );
+					
+					label( [X_INTERCEPT, 0], "(" + X_INTERCEPT + ", 0)", label_position, { labelDistance: 5 } );
+				</div>
 		</div>
 	</div>
 </body>
