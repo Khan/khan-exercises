@@ -2127,12 +2127,12 @@ function prepareSite() {
 
 	// Register API ajax callbacks for updating UI
 	if ( typeof APIActionResults !== "undefined" ) {
-		// Update exercise message after appropriate API ajax requests
-		APIActionResults.register("exercise_message_html",
-			function(sExerciseMessageHtml) {
+		// Display Messages like "You're Proficient" or "You Seem To Be Struggling"
+		APIActionResults.register("exercise_state",
+			function(userState) {
 				var jel = jQuery("#exercise-message-container");
-				if (sExerciseMessageHtml !== null) {
-					jel.empty().append(sExerciseMessageHtml);
+				if (userState.template !== null) {
+					jel.empty().append(userState.template);
 					setTimeout(function(){ jel.slideDown(); }, 50);
 				}
 				else {
