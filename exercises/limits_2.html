@@ -11,8 +11,8 @@
 			<div id="n-eq-d" data-weight="3">
 				<div class="vars">
 					<var id="DEG">randRange( 4, 7 )</var>
-					<var id="NUM" data-ensure="NUM.findMaxDegree() === DEG">new Polynomial( randRange( 2, 4 ), DEG )</var>
-					<var id="DEN" data-ensure="DEN.findMaxDegree() === DEG">new Polynomial( randRange( 2, 4 ), DEG )</var>
+					<var id="NUM" ">new Polynomial( randRange( 2, 4 ), DEG )</var>
+					<var id="DEN" ">new Polynomial( randRange( 2, 4 ), DEG )</var>
 					<var id="PM">randFromArray([ "", "-" ])</var>
 				</div>
 
@@ -37,10 +37,11 @@
 			</div>
 
 			<div id="n-lt-d" data-weight="3">
-				<div class="vars" data-ensure="NUM.findMaxDegree() < DEN.findMaxDegree()">
-					<var id="DEG">randRange( 4, 7 )</var>
-					<var id="NUM">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
-					<var id="DEN">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
+				<div class="vars" data-ensure="DEGN < DEGD"">
+					<var id="DEGN">randRange( 4, 7 )</var>
+					<var id="DEGD">randRange( 4, 7 )</var>
+					<var id="NUM">new Polynomial( randRange( 2, 4 ), DEGN )</var>
+					<var id="DEN">new Polynomial( randRange( 2, 4 ), DEGD )</var>
 					<var id="PM">randFromArray([ "", "-" ])</var>
 				</div>
 
@@ -65,10 +66,11 @@
 			</div>
 
 			<div id="n-gt-d" data-weight="3">
-				<div class="vars" data-ensure="NUM.findMaxDegree() > DEN.findMaxDegree()">
-					<var id="DEG">randRange( 4, 7 )</var>
-					<var id="NUM">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
-					<var id="DEN">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
+				<div class="vars" data-ensure="DEGN > DEGD">
+					<var id="DEGN">randRange( 4, 7 )</var>
+					<var id="DEGD">randRange( 4, 7 )</var>
+					<var id="NUM">new Polynomial( randRange( 2, 4 ), DEGN )</var>
+					<var id="DEN">new Polynomial( randRange( 2, 4 ), DEGD )</var>
 					<var id="RIGHT_SIGN">NUM.getCoefAndDegreeForTerm(0).coef * DEN.getCoefAndDegreeForTerm(0).coef > 0 ? "+" : "-"</var>
 					<var id="WRONG_SIGN">RIGHT_SIGN === "+" ? "-" : "+"</var>
 				</div>
