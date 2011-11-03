@@ -664,7 +664,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		});
 	}
 
-	function labelAngle( coordArr, angles, color ) {
+	function labelAngle( coordArr, angles, color, label ) {
 		var graph = KhanUtil.currentGraph;
 		var measure = ( angles[ 1 ] - angles[ 0 ] );
 		var bisect = ( angles[ 0 ] + angles[ 1 ] ) / 2;
@@ -679,7 +679,15 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 				return coord + radius * Math.sin( KhanUtil.toRadians( bisect ) );
 			}
 		});
-		graph.label( coords, measure + "^{\\circ}", "center", {color: color});
+		
+		var labelPlacement = "center"
+		
+		if (typeof(label) !== 'boolean') {
+			measure = label;
+			labelPlacement = "center"
+		}
+		
+		graph.label( coords, measure + "^{\\circ}", labelPlacement, {color: color});
 	}
 
 	this.draw = function() {
@@ -700,6 +708,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 	};
 
 	this.drawAngle = function( index, label, color ) {
+
 		var graph = KhanUtil.currentGraph,
 			radius = 0.5,
 			args, angles;
@@ -731,7 +740,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		graph.style({ stroke: color}, function() {
 			graph.arc.apply( graph, args );
 			if ( label ) {
-				labelAngle( args[ 0 ], angles, color );
+				labelAngle( args[ 0 ], angles, color, label );
 			}
 		});
 	};
