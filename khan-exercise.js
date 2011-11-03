@@ -2133,6 +2133,7 @@ function prepareSite() {
 				var jel = jQuery("#exercise-message-container");
 				if (userState.template !== null) {
 					jel.empty().append(userState.template);
+					drawGraph()
 					setTimeout(function(){ jel.slideDown(); }, 50);
 				}
 				else {
