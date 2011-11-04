@@ -1373,8 +1373,6 @@ function makeProblem( id, seed ) {
 	jQuery( "#hint" ).val( "I'd like a hint" );
 	jQuery( "#hint-remainder" ).hide();
 
-	drawGraph();
-
 	if ( once ) {
 		updateData();
 		once = false;
@@ -1411,6 +1409,7 @@ function drawGraph(followups){
 		};
 
 		var renderFollowups = function(exercises){
+			$("#you-are-here").empty();
 
 			var map = Raphael("you-are-here",5000, 100);
 
@@ -2133,7 +2132,7 @@ function prepareSite() {
 				var jel = jQuery("#exercise-message-container");
 				if (userState.template !== null) {
 					jel.empty().append(userState.template);
-					drawGraph()
+					drawGraph();
 					setTimeout(function(){ jel.slideDown(); }, 50);
 				}
 				else {
