@@ -668,26 +668,27 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		var graph = KhanUtil.currentGraph;
 		var measure = ( angles[ 1 ] - angles[ 0 ] );
 		var bisect = ( angles[ 0 ] + angles[ 1 ] ) / 2;
-		var radius = 0.8;
-		if ( measure < 90 ) {
-			radius = 0.8 / Math.sin( KhanUtil.toRadians ( measure ) );
-		}
-		var coords = jQuery.map( coordArr, function( coord, index ) {
-			if ( index === 0 ) {
-				return coord + radius * Math.cos( KhanUtil.toRadians( bisect ) );
+		var radius = 0.6;
+
+		var sign = function( x ) {
+			if ( x > 0 ) {
+				return 1;
+			} else if ( x < 0 ) {
+				return -1;
 			} else {
-				return coord + radius * Math.sin( KhanUtil.toRadians( bisect ) );
+				return 0;
+			}
+		};
+
+		var coords = jQuery.map( coordArr, function( coord, index ) {
+			if ( index === 0 ) { // x-coordinate
+				return coord + radius / Math.tan( KhanUtil.toRadians( bisect ) );
+			} else { // y-coordinate
+				return coord - 0.6 * sign( bisect - 180 );
 			}
 		});
 
-		var labelPlacement = "center"
-
-		if (typeof(label) !== 'boolean') {
-			measure = label;
-			labelPlacement = "center"
-		}
-
-		graph.label( coords, measure + "^{\\circ}", labelPlacement, {color: color});
+		graph.label( coords, label.text, label.placement, { color: color } );
 	}
 
 	this.draw = function() {
@@ -721,18 +722,23 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 			args = [ upperIntersection, radius ];
 		}
 
+		var labelPlacement;
 		switch( index % 4 ) {
 			case 0:
 				angles = [ 0, anchorAngle ];
+				labelPlacement = "right";
 				break;
 			case 1:
 				angles = [ anchorAngle, 180 ];
+				labelPlacement = "left";
 				break;
 			case 2:
 				angles = [ 180, 180 + anchorAngle ];
+				labelPlacement = "left";
 				break;
 			case 3:
 				angles = [ 180 + anchorAngle, 360 ];
+				labelPlacement = "right";
 				break;
 		}
 		jQuery.merge( args, angles );
@@ -740,7 +746,13 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		graph.style({ stroke: color}, function() {
 			graph.arc.apply( graph, args );
 			if ( label ) {
-				labelAngle( args[ 0 ], angles, color, label );
+				var labelOptions = { text: label, placement: labelPlacement };
+
+				if ( typeof label === "boolean" ) {
+					labelOptions.text = (angles[1] - angles[0]) + "^\\circ";
+				}
+
+				labelAngle( args[ 0 ], angles, color, labelOptions );
 			}
 		});
 	};

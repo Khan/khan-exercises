@@ -14,7 +14,7 @@
 		<var id="D" data-ensure="D !== B && (D-B) % (A-C) === 0 && (A*D-B*C)/(A-C) > 30 && (A*D-B*C)/(A-C) < 150">randRangeNonZero( -30, 30 )*5</var>
 		<var id="ANCHOR">(A*D-B*C) / (A-C)</var>
 		<var id="SOLUTION">(D-B) / (A-C)</var>
-		<var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 2, 4 ], [ 3, 5 ] ] ) )</var>
+		<var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 2, 0 ], [ 3, 1 ] ] ) )</var>
 		<var id="MEASURE">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
 	</div>
 
@@ -23,10 +23,10 @@
 			<p class="question">Solve for <code>x</code>:</p>
 			<p class="solution" data-forms="integer"><var>SOLUTION</var></p>
 			<div class="graphie" id="lines">
-				
-				var eq1 = A + "x + " + B;
-				var eq2 = C + "x + " + D;
-				
+
+				var eq1 = A + "x + " + B + "^\\circ";
+				var eq2 = C + "x + " + D + "^\\circ";
+
 				init({
 					range: [ [ -1, 5 ], [-1, 1] ]
 				});
@@ -47,7 +47,7 @@
 			<p>Set the sides equal to one another:</p>
 			<p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
 		</div>
-		
+
 		<div data-if="A > C" data-unwrap>
 			<div>
 				<p>Subtract <code><var>C</var>x</code> from both sides:</p>
