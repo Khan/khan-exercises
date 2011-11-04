@@ -4,6 +4,34 @@
 	<meta charset="UTF-8" />
 	<title>Adding and subtracting polynomials</title>
 	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function getFakeAnswers( solution ) {
+			var answers = [];
+			for ( var i = 0; i < solution.getNumberOfTerms(); i++ ) {
+				var coefs = []; 
+
+				for ( var j = 0; j < solution.getNumberOfTerms(); j++ ) {
+					var term = solution.getCoefAndDegreeForTerm( j );
+
+					if ( i === j ) {
+						coefs[ term.degree ] = KhanUtil.randRangeNonZero( -7, 7 );
+					} else {
+						coefs[ term.degree ] = term.coef; 
+					}
+				}
+				
+				for ( var j = 0; j < coefs.length; j++ ) {
+					if ( coefs[ j ] === undefined ) {
+						coefs[ j ] = 0;
+					}
+				} 
+
+				answers.push( new KhanUtil.Polynomial(0, solution.maxDegree, coefs, solution.variable) );
+			}
+
+			return answers;
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
@@ -25,7 +53,7 @@
 					coefs[ i ] = value;
 				}
 
-				return new Polynomial( 0, MAX_DEGREE, coefs, X )
+				return new Polynomial( 0, MAX_DEGREE, coefs, X );
 			}, 2 )</var>
 		</div>
 
@@ -34,18 +62,7 @@
 				<div class="vars">
 					<var id="SIGN">"+"</var>
 					<var id="SOLUTION">POL_1.add( POL_2 )</var>	
-					<!--<var id="FAKE_ANSWER_1, FAKE_ANSWER_2">function() {
-						for ( var i = 0; i < SOLUTION.coefs.length; i++ ) {
-							for ( var i = 0; i < NON_ZERO_INDICES.length; i++ ) {
-								var coefs = [];
-
-								for ( var j = 0; j <= MAX_DEGREE; j++ ) {
-									if (  
-								}
-
-							}
-						}
-					}()</var>-->
+					<var id="FAKE_ANSWERS">getFakeAnswers( SOLUTION )</var>
 				</div>
 
 				<p class="question">Simplify the expression.</p>
@@ -53,8 +70,7 @@
 				<p class="solution"><code><var>SOLUTION</var></code></p>
 				<ul class="choices" data-none="true">
 					<li><code><var>POL_1.subtract( POL_2 )</var></code></li>
-					<li><code><var>POL_1.add( POL_2.multiply(2) )</var></code></li>
-					<li><code><var>POL_1.add( POL_2.multiply(-2) )</var></code></li>
+					<li data-each="FAKE_ANSWERS as FAKE_ANSWER"><code><var>FAKE_ANSWER</var></code></li>
 				</ul>
 			</div>
 
@@ -62,12 +78,12 @@
 				<div class="vars">
 					<var id="SIGN">"-"</var>
 					<var id="SOLUTION">POL_1.subtract( POL_2 )</var>
+					<var id="FAKE_ANSWERS">getFakeAnswers( SOLUTION )</var>
 				</div>
 
 				<ul class="choices" data-none="true">
 					<li><code><var>POL_1.add( POL_2 )</var></code></li>
-					<li><code><var>POL_1.subtract( POL_2.multiply(2) )</var></code></li>
-					<li><code><var>POL_1.subtract( POL_2.multiply(-2) )</var></code></li>
+					<li data-each="FAKE_ANSWERS as FAKE_ANSWER"><code><var>FAKE_ANSWER</var></code></li>
 				</ul>
 
 				<div class="hints" data-apply="appendContents">
