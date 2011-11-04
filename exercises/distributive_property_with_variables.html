@@ -91,14 +91,14 @@
 				<p class="problem"><code><var>A</var> + <var>plus( B+PLUSPARENS( X, C ) )</var> + <var>D</var></code></p>
 				<p class="question">Using the distributive property, simplify the expression as much as possible.</p>
 				
-				<p class="solution"><code><var>plus( B+X )</var> + <var>A+(B*C)+D</var></code></p>
+				<p class="solution"><code><var>plus( B+X, A+(B*C)+D )</var></code></p>
 				<ul class="choices" data-show="4" data-none="true">
 					<li data-if="C != (A+D)"><code><var>X</var> - <var>A+(-1*C)+D</var></code></li>
-					<li><code><var>plus( B+X )</var> + <var>A+C+D</var></code></li>
+					<li data-if="(A+C+D) != 0"><code><var>plus( B+X )</var> + <var>A+C+D</var></code></li>
 					<li data-if="C != (A+D)"><code><var>X</var> + <var>A+(-1*C)+D</var></code></li>
-					<li><code><var>X</var> - <var>A+C+D</var></code></li>
-					<li><code><var>X</var> + <var>A+C+D</var></code></li>
-					<li><code><var>plus( A, B+X, C+D )</var></code></li>
+					<li data-if="(A+C+D) != 0"><code><var>X</var> - <var>A+C+D</var></code></li>
+					<li data-if="(A+C+D) != 0"><code><var>X</var> + <var>A+C+D</var></code></li>
+					<li data-if="(C+D) != 0"><code><var>plus( A, B+X, C+D )</var></code></li>
 					<li data-if="C != D"><code><var>plus( A, B+X, (-1*C)+D )</var></code></li>
 				</ul>
 				
