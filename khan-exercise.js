@@ -934,7 +934,17 @@ function makeProblem( id, seed ) {
 		}
 
 		jQuery.each( displayedSolution, function( i, el ) {
-			jQuery( "<span>" ).text( el ).addClass( "box" ).appendTo( answer );
+			if (jQuery.isArray( el )) {
+				// group nested arrays of answers, for sets of multiples or multiples of sets.
+				// no reason answers can't be nested arbitrarily deep, but here we assume no
+				// more than one sub-level.
+				var subAnswer = jQuery( "<span>" ).addClass( "group-box" ).appendTo(answer);
+				jQuery.each( el, function( i, el ) {
+					jQuery( "<span>" ).text( el ).addClass( "box" ).appendTo(subAnswer);
+				} );
+			} else {
+				jQuery( "<span>" ).text( el ).addClass( "box" ).appendTo( answer );
+			}
 		} );
 	}
 
@@ -1453,8 +1463,9 @@ function prepareSite() {
 
 		// Stop if the user didn't enter a response
 		// If multiple-answer, join all responses and check if that's empty
+		// Remove commas left by joining nested arrays in case multiple-answer is nested
 		if ( jQuery.trim( validator.guess ) === "" ||
-			 ( validator.guess instanceof Array && jQuery.trim( validator.guess.join( "" ) ) === "" ) ) {
+			 ( validator.guess instanceof Array && jQuery.trim( validator.guess.join( "" ).replace(/,/g, '') ) === "" ) ) {
 			return false;
 		} else {
 			guessLog.push( validator.guess );
