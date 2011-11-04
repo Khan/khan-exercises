@@ -1496,7 +1496,7 @@ function injectSite( html, htmlExercise ) {
 function prepareSite() {
 
 	// Set exercise title
-	jQuery(".exercise-title").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
+	jQuery(".exercise-title h2").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
 		userExercise.exercise_model.display_name : document.title );
 
 	exercises = jQuery( ".exercise" ).detach();
@@ -1803,7 +1803,7 @@ function prepareSite() {
 		// don't do anything if the user clicked a second time quickly
 		if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
-		var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text(),
+		var pretitle = jQuery( ".exercise-title h2" ).text() || jQuery( "title" ).text(),
 			title = jQuery( "#issue-title" ).val(),
 			email = jQuery( "#issue-email" ).val(),
 			path = exerciseName + ".html"
