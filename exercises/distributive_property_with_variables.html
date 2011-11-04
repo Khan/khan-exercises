@@ -62,7 +62,7 @@
 				<div class="hints">
 					<div>
 						<p>Distribute across the parenthesis.</p>
-						<p><code><var>plus( color( A, true )+PLUSPARENS( color( X, false ), color( YSIGN+Y, false ) ), B )</var></code></p>
+						<p><code><var>plus( A+PLUSPARENS( color( X, false ), color( YSIGN+Y, false ) ), B )</var></code></p>
 					</div>
 					<div data-if="A === -1">
 						<p>A negative sign before an expression is the same as -1 times that expression.</p>
@@ -171,7 +171,7 @@
 						<p><code><var>plus( A+X, A*B )</var> + <var>plus( color( C, true )+color( PLUSPARENS( D, X ), false ) )</var></code></p>
 					</div>
 					<div data-if="C === -1">
-						<p>A negative sign before an expression is the same as -1 times that expression.</p>
+						<p data-if="A != -1">A negative sign before an expression is the same as -1 times that expression.</p>
 						<p><code><var>plus( A+X, A*B )</var> + \color{ blue }{ -1 }*<var>plus( color( PLUSPARENS( D, X ), false ) )</var></code></p>
 					</div>
 					<p><code><var>plus( A+X, A*B )</var> + <var>color( plus( C*D, C+X ) )</var></code></p>
