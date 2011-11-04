@@ -110,7 +110,7 @@ function Rotator( center, r, pro ) {
 
 	this.set.push( graph.arc( center, r + 1, 150, 180, { "stroke": "#aab", "stroke-width": 20 } )
 				   .drag( arcDragMove, arcDragStart, arcDragStop ) );
-	
+
 	this.downArrow = graph.path( [ [center[0]-(r+0.25), center[1]],
 								  [center[0]-(r+1), center[1]-0.75],
 								  [center[0]-(r+1.75), center[1]],
@@ -192,7 +192,7 @@ function Translator( center, r, pro ) {
 	this.set = graph.raphael.set();
 
 	this.set.push( graph.line( [center[0]+1, center[1]-1], [center[0]+r-1, center[1]-1], { "stroke": "#aab", "stroke-width": 20 } ) );
-	
+
 	this.leftArrow = graph.path( [ [center[0]+1, center[1]-0.25],
 								   [center[0]+0.25, center[1]-1],
 								   [center[0]+1, center[1]-1.75]
@@ -278,7 +278,7 @@ function Protractor( center, r ) {
 
 	var imgPos = graph.scalePoint([ this.cx - r, this.cy + r ]);
 	this.set.push( graph.raphael.image( Khan.urlBase + "images/protractor.png", imgPos[0], imgPos[1], 322, 166 ) );
-	
+
 	this._rotation = 0;
 	this.getRotation = function() {
 		return this._rotation;
@@ -288,7 +288,7 @@ function Protractor( center, r ) {
 		rOffset = rOffset || -1;
 		stroke = stroke || lineColor;
 		labelStroke = stroke || "#000";
-		
+
 		var an = angle - this.getRotation(),
 		dx = Math.cos( Math.PI * an / 180 ),
 		dy = Math.sin( Math.PI * an / 180 ),
@@ -305,15 +305,15 @@ function Protractor( center, r ) {
 	var setNodes = jQuery.map( this.set, function( el ) { return el.node; } );
 	function makeTranslatable() {
 		jQuery( setNodes ).css( "cursor", "move" );
-		
+
 		jQuery( setNodes ).mousedown( function( event ) {
 			event.preventDefault();
-			
+
 			var i;
 			//store the starting point for each item in the set
 			for ( i=0; i < pro.set.items.length; i++ ) {
 				var obj = pro.set.items[i];
-				
+
 				obj.ox = event.pageX;
 				obj.oy = event.pageY;
 
@@ -327,9 +327,9 @@ function Protractor( center, r ) {
 					var obj = pro.set.items[i],
 					trans_x = event.pageX - obj.ox,
 					trans_y = event.pageY - obj.oy;
-					
+
 					obj.translate( trans_x, trans_y );
-					
+
 					obj.ox = event.pageX;
 					obj.oy = event.pageY;
 				}
@@ -340,12 +340,12 @@ function Protractor( center, r ) {
 				//remove the starting point for each of the objects
 				for ( i=0; i < pro.set.items.length; i++ ) {
 					var obj = pro.set.items[i];
-					
+
 					delete(obj.ox);
 					delete(obj.oy);
-					
+
 					obj.animate( { opacity: 0.5 }, 500, ">" );
-					
+
 					jQuery(document).unbind("mousemove");
 				}
 			});
@@ -360,7 +360,7 @@ function Protractor( center, r ) {
 
 		pro.translator.translationOff();
 	}
-	
+
 	this.rotator = new Rotator( [this.cx, this.cy], r, this );
 	this.set.push( this.rotator.set );
 
@@ -397,7 +397,7 @@ function Protractor( center, r ) {
 		if ( absolute ) {
 			this.cx = x;
 			this.cy = y;
-			
+
 			var d = graph.scalePoint([ x, y ]),
 			c = this.getCenter();
 
@@ -405,7 +405,7 @@ function Protractor( center, r ) {
 		} else {
 			this.cx += x;
 			this.cy += y;
-			
+
 			this.set.translate( x, y );
 		}
 		return this;
@@ -413,9 +413,9 @@ function Protractor( center, r ) {
 
 	this.rotatedTranslate = function( k ) {
 		k = k || 1;
-		
+
 		var rot = Math.PI * this.getRotation() / 180;
-		
+
 		var x = k * Math.cos( rot ),
 		y = k * Math.sin( rot );
 
@@ -679,14 +679,14 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 				return coord + radius * Math.sin( KhanUtil.toRadians( bisect ) );
 			}
 		});
-		
+
 		var labelPlacement = "center"
-		
+
 		if (typeof(label) !== 'boolean') {
 			measure = label;
 			labelPlacement = "center"
 		}
-		
+
 		graph.label( coords, measure + "^{\\circ}", labelPlacement, {color: color});
 	}
 
