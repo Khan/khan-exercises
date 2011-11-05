@@ -40,7 +40,7 @@
 			<var id="COLORS">[ BLUE, ORANGE, GREEN ]</var>
 			<var id="MAX_DEGREE">7</var>
 			<var id="NON_ZERO_INDICES">randRangeUniqueNonZero( 0, MAX_DEGREE, randRange(2, 3) ).sort().reverse()</var>
-			<var id="POL_1, POL_2">tabulate( function() {
+			<var id="POL_1, POL_2" data-ensure="POL_1.add( POL_2 ).getNumberOfTerms() >= 1 && POL_1.subtract( POL_2 ).getNumberOfTerms() >= 1">tabulate( function() {
 				var coefs = [];
 				for ( var i = 0; i <= MAX_DEGREE; i++ ) {
 					var value = 0;
