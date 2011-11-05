@@ -18,29 +18,69 @@
 		<div>
 
 			<div class="question">
-
+            <style>
+            #sortable
+            {
+	        background-color:red;
+	        /*display: box; box-align: stretch; box-orient: vertical;*/
+            text-align:center
+            }
+             .card
+            {
+            width:45px;
+            height:70px ;
+            background-color:green;
+            margin-left:8px;
+            float:left;
+            align:center;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            }
+            
+            </style>
 				<p>How many moves does it take to sort this list?</p>
 				<div class="graphie" id="number-line">
+				    var global = {lastClicked:null};
 	                (function(){
+	                var cardClicked = function(event){
+	                if( event && event.srcElement){ //only execute if the event source
+	
+	                    if (!global.lastClicked){ //No item currently selected               
+   	                    event.srcElement.style.backgroundColor = 'red';
+	                    event.srcElement.style.marginTop = '75px'
+//	                    global.lastClicked = event.srcElement;
+	                    }
+	                    else{
+
+	                    //swap items
+	                    //incremement counter
+	                    console.log(global.lastClicked);
+	                    
+	                    
+	                    }
+	                }
+	                };
+	                cardClicked();
+
 	                var myVars = [];
 	                var graphie = document.getElementsByClassName('question')[0];
 	                sortables = document.createElement('ul');
-	                sortables.id = 'sortable'
+	                sortables.id = 'sortable';
+
 	                for(var i =0, randVar=null; i < 10; i++)
 	                {
 	                randVar = document.createElement('li');
-	                randVar.style.cssFloat = 'left'
 	                randVar.innerHTML= i;
+	                randVar.className = 'card'
+	                randVar.addEventListener('click',cardClicked,false)
 	                myVars.push(i);
 	                sortables.appendChild(randVar);
 	                console.log(i);
 	                }
 	                graphie.appendChild(sortables)
+	                
+
 	                })();
-	                
-	                
-				   $("#sortable").sortable();
-                    
 					init({
 						range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ]
 					});
