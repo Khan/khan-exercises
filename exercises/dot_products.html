@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html data-require="angles math math-format graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Dot products of vectors</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="AX">randRangeNonZero( -9, 9 )</var>
+		<var id="AY">randRangeNonZero( -9, 9 )</var>
+		<var id="AF">1 + 0.8 / sqrt( AX * AX + AY * AY )</var>
+
+		<var id="BX">randRangeNonZero( -9, 9 )</var>
+		<var id="BY">randRangeNonZero( -9, 9 )</var>
+		<var id="BF">1 + 0.8 / sqrt( BX * BX + BY * BY )</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div id="graph" class="graphie" style="float: right">
+				graphInit({
+					range: 10,
+					scale: 20,
+					tickStep: 1,
+					labelStep: 1,
+					unityLabels: false,
+					labelFormat: function( s ) { return "\\small{" + s + "}"; },
+					axisArrows: "<->"
+				});
+
+				line( [0, 0], [AX, AY], { stroke: "#6495ed", arrows: "->" } );
+				line( [0, 0], [BX, BY], { stroke: "#28ae7b", arrows: "->" } );
+
+				label( [AF * AX, AF * AY], "\\vec a", { color: "#6495ed" } );
+				label( [BF * BX, BF * BY], "\\vec b", { color: "#28ae7b" } );
+			</div>
+			<div class="question">
+				<p>What is <code>\vec a \cdot \vec b</code>?</p>
+
+				<p><code>\begin{align*}
+					\vec a &= <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath \\
+					\vec b &= <var>BX</var> \hat\imath + <var>BY</var> \hat\jmath
+				\end{align*}</code></p>
+
+				<p class="solution" data-type="decimal"><var>AX * BX + AY * BY</var></p>
+			</div>
+			<div class="hints">
+				<p>Multiply the <code>\hat\imath</code> and <code>\hat\jmath</code> components separately, then add them up.</p>
+				<p><code>\vec a \cdot \vec b = (<var>AX</var>\cdot<var>BX</var>) + (<var>AY</var>\cdot<var>BY</var>)</code></p>
+			</div>
+		</div>
+		<div>
+			<div id="graph" class="graphie" style="float: right">
+				graphInit({
+					range: 10,
+					scale: 20,
+					tickStep: 1,
+					labelStep: 2,
+					unityLabels: false,
+					labelFormat: function( s ) { return "\\small{" + s + "}"; },
+					axisArrows: "<->"
+				});
+
+				line( [0, 0], [AX, AY], { stroke: "#6495ed", arrows: "->" } );
+				line( [0, 0], [BX, BY], { stroke: "#28ae7b", arrows: "->" } );
+
+				label( [AF * AX, AF * AY], "\\vec a", { color: "#6495ed" } );
+				label( [BF * BX, BF * BY], "\\vec b", { color: "#28ae7b" } );
+
+				var AA = atan( AY / AX );
+				if ( AX < 0 ) {
+					AA = PI + AA; 
+				}
+				if ( AA < 0 ) {
+					AA = 2 * PI + AA;
+				}
+				
+				var BA = atan( BY / BX );
+				if ( BX < 0 ) {
+					BA = PI + BA;
+				}
+				if ( BA < 0 ) {
+					BA = 2 * PI + BA;
+				}
+
+				if ( (BA - AA < PI && BA - AA > 0) || (BA - AA < - PI) ) {
+					arc( [0, 0], 1, toDegrees( AA ), toDegrees( BA ), 
+						 { stroke: "#800080" });
+				} else {
+					arc( [0, 0], 1, toDegrees( BA ), toDegrees( AA ), 
+						 { stroke: "#800080" });
+				}
+			</div>
+			<div class="question">
+				<p>What is the angle <code>\theta</code> between vectors <code>\hat a</code> and <code>\hat b</code>, in degrees? Give your answer to one decimal point.</p>
+
+				<p><code>\begin{align*}
+					\vec a &= <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath \\
+					\vec b &= <var>BX</var> \hat\imath + <var>BY</var> \hat\jmath
+				\end{align*}</code></p>
+
+				<p class="solution" data-type="decimal" data-inexact data-max-error="0.1">
+					<var>
+						toDegrees( acos( ( AX * BX + AY * BY ) / 
+										 ( sqrt( AX * AX + AY * AY ) * 
+										   sqrt( BX * BX + BY * BY ) ) ) )
+					</var>
+				</p>	
+			</div>
+			<div class="hints">
+				<p>Remember the definition of dot product: <code>\large{\vec a \cdot \vec b = |\vec a||\vec b|\cos \theta}</code></p>
+				<p><code>\large{\frac{\vec a \cdot \vec b}{|\vec a||\vec b|} = \cos \theta}</code></p>
+				<p>Use the inverse cosine (or arc-cosine) to solve for <code>\theta</code>.</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
