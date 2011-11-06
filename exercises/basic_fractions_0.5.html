@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Basic Fractions 0.5</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<!--
+		Compares fractions that have the same numerator or have the same denominator.
+		TODO: would like to draw overlapping circles or rectangle slices for hints.
+	-->
+	<div class="exercise">
+		<div class="vars">
+			<var id="NUM_1">randRange( 1, 8 )</var>
+			<var id="DEN_1">randRange( NUM_1 + 1, 9 )</var>
+		</div>
+		<div class="problems">
+			<div id="pie-chart">
+				
+				
+				<div class="question">
+					    <p>What fraction of this circle is shaded red?</p>
+						<div class="graphie" id="Initial chart">
+								init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+								piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
+						</div>
+				</div>	
+				<p class="solution" data-simplify="optional"><code><var>NUM_1 / DEN_1</var></code></p>
+				<div class="hints">
+					<p>Count the red slices for the numerator.</p>
+					<p>Count the total slices (<code>\color{#e00}{\text{Red Slices}}</code> + <code>\color{#999}{\text{Gray Slices}}</code>) for the denominator.</p>
+					<p>So your answer should be <code>\color{#e00}{<var>NUM_1</var>}\text{/}\color{#666}{\text{<var>DEN_1</var>}}</code>.</p>
+				</div>
+			</div>
+
+		<div id="rectangle-area">
+			<div class="question">
+				<p>What fraction of the bar is shaded red?</p>
+				<div class="graphie" id="Initial Rectangle">
+					init({ range: [ [0, 1], [0, 1] ], scale: [250, 25] });
+					rectchart( [NUM_1, DEN_1-NUM_1], ["#e00", "#999"] );
+				</div>
+			</div>
+			<p class="solution" data-simplify="optional"><code><var>NUM_1 / DEN_1</var></code></p>
+	
+			<div class="hints">
+					<p>Count the total red blocks for the numerator.</p>
+					<p>Count the total blocks (<code>\color{#e00}{\text{Red Slices}}</code> + <code>\color{#999}{\text{Gray Slices}}</code>) for the denominator.</p>
+					<p>So your answer should be <code>\color{#e00}{<var>NUM_1</var>}\text{/}\color{#666}{\text{<var>DEN_1</var>}}</code>.</p>	
+			</div>
+		</div>
+	</div>
+</body>
+</html>
