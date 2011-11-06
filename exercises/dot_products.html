@@ -7,9 +7,9 @@
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars">
-		<var id="AX">randRangeNonZero( -9, 9 )</var>
-		<var id="AY">randRangeNonZero( -9, 9 )</var>
+	<div class="vars" data-ensure="!(AX == 0 && AY == 0) && !(BX == 0 && BY == 0)">
+		<var id="AX">randRange( -9, 9 )</var>
+		<var id="AY">randRange( -9, 9 )</var>
 		<var id="AF">1 + 0.8 / sqrt( AX * AX + AY * AY )</var>
 
 		<var id="BX">randRangeNonZero( -9, 9 )</var>
