@@ -692,7 +692,7 @@ jQuery.extend( Khan.answerTypes, {
 
                 // Extract integer, numerator and denominator
                 // This matches [+-]?\.; will f
-                .match( /^([+-]?(?:\d+\.?|\d*\.\d+))\s*(.*)$/ );
+                .match( /^([+-]?(?:\d+\.?|\d*\.\d+))\s*([^0-9.].*)$/ );
             if( match ) {
                 rtn.magnitude = parseFloat(match[1])
                 rtn.unit = parseUnit(match[2])
