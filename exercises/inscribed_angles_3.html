@@ -4,6 +4,25 @@
 	<meta charset="UTF-8" />
 	<title>Inscribed angles 3</title>
 	<script src="../khan-exercise.js"></script>
+	<script>
+		/**
+		 * Computes arc start and end angles that will guarantee an
+		 * "inner arc" so that the arc is always less than 180 degrees.
+		 */
+		function innerArc( start, end ) {
+			var delta = ( end - start + 360 ) % 360;
+			if ( delta >= 180 ) {
+				return {
+					start: end,
+					end: start
+				};
+			}
+			return {
+				start: start,
+				end: end
+			};
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
@@ -63,12 +82,11 @@
 							graph.circle.drawPoint( SUBTENDED_POINT + 180 );
 						});
 						style({stroke: PINK});
-						var start = min( ( SUBTENDED_POINT + 180 ) % 360, START ),
-							end = max( ( SUBTENDED_POINT + 180 ) % 360, START );
+						var arc = innerArc( START, ( SUBTENDED_POINT + 180 ) % 360 );
 
-						graph.central = graph.circle.drawCentralAngle( start, end, 0.7 );
+						graph.central = graph.circle.drawCentralAngle( arc.start, arc.end, 0.7 );
 						style({stroke: GREEN});
-						graph.inscribed = graph.circle.drawInscribedAngle( SUBTENDED_POINT, start, end, 0.7 );
+						graph.inscribed = graph.circle.drawInscribedAngle( SUBTENDED_POINT, arc.start, arc.end, 0.7 );
 					</div>
 				</div>
 				<div>
@@ -81,13 +99,12 @@
 						graph.inscribed.chords[0].remove();
 						graph.inscribed.chords[1].remove();
 
-						var start = min( ( SUBTENDED_POINT + 180 ) % 360, ( START + CENTRAL ) % 360 ),
-							end = max( ( SUBTENDED_POINT + 180 ) % 360, ( START + CENTRAL ) % 360 );
+						var arc = innerArc( START + CENTRAL, ( SUBTENDED_POINT + 180 ) % 360 );
 
 						style({stroke: PINK});
-						graph.central = graph.circle.drawCentralAngle( start, end, 0.9 );
+						graph.central = graph.circle.drawCentralAngle( arc.start, arc.end, 0.9 );
 						style({stroke: GREEN});
-						graph.inscribed = graph.circle.drawInscribedAngle( SUBTENDED_POINT, start, end, 0.9 );
+						graph.inscribed = graph.circle.drawInscribedAngle( SUBTENDED_POINT, arc.start, arc.end, 0.9 );
 					</div>
 				</div>
 				<div>
@@ -146,12 +163,12 @@
 							graph.circle.drawPoint( SUBTENDED_POINT + 180 );
 						});
 						style({stroke: PINK});
-						var start = min( ( SUBTENDED_POINT + 180 ) % 360, START ),
-							end = max( ( SUBTENDED_POINT + 180 ) % 360, START );
 
-						graph.central = graph.circle.drawCentralAngle( start, end, 0.7 );
+						var arc = innerArc( START, ( SUBTENDED_POINT + 180 ) % 360 );
+
+						graph.central = graph.circle.drawCentralAngle( arc.start, arc.end, 0.7 );
 						style({stroke: GREEN});
-						graph.inscribed = graph.circle.drawInscribedAngle( SUBTENDED_POINT, start, end, 0.7 );
+						graph.inscribed = graph.circle.drawInscribedAngle( SUBTENDED_POINT, arc.start, arc.end, 0.7 );
 					</div>
 				</div>
 				<div>
@@ -164,13 +181,12 @@
 						graph.inscribed.chords[0].remove();
 						graph.inscribed.chords[1].remove();
 
-						var start = min( ( SUBTENDED_POINT + 180 ) % 360, ( START + CENTRAL ) % 360 ),
-							end = max( ( SUBTENDED_POINT + 180 ) % 360, ( START + CENTRAL ) % 360 );
+						var arc = innerArc( START + CENTRAL, ( SUBTENDED_POINT + 180 ) % 360 );
 
 						style({stroke: PINK});
-						graph.central = graph.circle.drawCentralAngle( start, end, 0.9 );
+						graph.central = graph.circle.drawCentralAngle( arc.start, arc.end, 0.9 );
 						style({stroke: GREEN});
-						graph.inscribed = graph.circle.drawInscribedAngle( SUBTENDED_POINT, start, end, 0.9 );
+						graph.inscribed = graph.circle.drawInscribedAngle( SUBTENDED_POINT, arc.start, arc.end, 0.9 );
 					</div>
 				</div>
 				<div>
