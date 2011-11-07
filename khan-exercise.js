@@ -238,7 +238,14 @@ var Khan = {
 		"word-problems": [ "math" ],
 		"derivative-intuition": [ "jquery.mobile.vmouse" ],
 		"unit-circle": [ "jquery.mobile.vmouse" ],
-		"interactive": [ "jquery.mobile.vmouse" ]
+		"interactive": [ "jquery.mobile.vmouse" ],
+                "programming":[
+                    {src: urlBase+"utils/ace/ace.js"},
+                    {src: urlBase+"utils/ace/theme-vibrant_ink.js"},
+                    {src: urlBase+"utils/ace/mode-python.js"},
+                    {src: urlBase+"utils/jqconsole.js"}
+                ]
+            
 	},
 
 	warnTimeout: function() {

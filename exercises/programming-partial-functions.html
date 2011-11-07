@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html data-require="python.opt programming">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Partial functions</title>
+    <script src="../jquery.js"></script> 
+    <script src="../utils/ace/ace.js"></script> 
+    <script src="../utils/ace/theme-vibrant_ink.js"></script> 
+    <script src="../utils/ace/mode-python.js"></script> 
+    <script src="../utils/jqconsole.js"></script>
+    <script src="../khan-exercise.js"></script> 
+  </head>
+  <body>
+    <div class="exercise">
+      <div class="problems">
+	<div id="double-number">
+	  <div class="question">
+            Creating a partial function means that you take a function, like
+            "add_three_numbers(x,y,z)", and fill in one of the
+            arguments with a constant value. So making a partial
+            function out of the function from before would mean we
+            would have a function that adds two numbers to some fixed
+            constant number. 
+            Write a function called "create_partial_function" that
+            takes in a function and an argument and returns a partial
+            function. Assume that the function to be partial only
+            takes 3 arguments.
+          </div>
+	  <div class="solution" data-type="programming">
+            <ul class="programming-tests">
+              <li>example_func = lambda x,y,z: (x+y)/z</li>
+              <li data-type="test">create_partial_function(example_func,1)(2,3)==1</li>
+            </ul>
+          </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

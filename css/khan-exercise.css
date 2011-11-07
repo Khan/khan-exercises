@@ -412,3 +412,84 @@ div.timeline-total {
   text-decoration: none;
   font-size: 11px;
 }
+
+
+#programming-editor{
+        position: relative;
+        top: 5%;
+        width: 50%;
+        height: 500px;
+    }
+
+#repl{
+       position: relative;
+       float: right;
+       top:0px;
+       background-color: #0F0F0F;
+       width: 40%;
+       right: 10%;
+       height:480px;
+       padding-top:10px;
+       padding-bottom:10px;
+}
+
+.jqconsole{
+    color:white;
+    height:95%;
+    padding:15px;
+    position:relative;
+    bottom:0;
+    border-bottom-width: 10px;
+    right:0px;
+    display:block;
+    font-family:Monaco, Menlo, 'Courier New', monospace;
+    font-size:12px;
+    overflow-y:scroll;
+    white-space:-moz-pre-wrap;
+    white-space:-o-pre-wrap;
+    white-space:-pre-wrap;
+    white-space:pre-wrap;
+    word-wrap:break-word;
+}
+
+.jqconsole-prompt{
+    font-weight:bold;
+    color:#89B908;
+    position:relative;
+    left:-8px
+}
+
+.jqconsole-old-prompt{
+    font-weight:bold;
+    color:#89B908;
+    position:relative;
+    left:-8px
+}
+
+.jqconsole-header{
+    font-weight:bold;
+    color:white;
+    position:relative;
+    left:-8px
+}
+
+.jqconsole-cursor{
+    background:#666;
+    line-height:115%;
+    position:relative!important;
+    margin-right:-8px}
+
+.jqconsole-blurred .jqconsole-cursor{background:#333}
+
+.error{color:#F06;
+       display:block;
+       position:relative;
+       left:-8px}
+
+.jqconsole-blurred .error{color:white}
+
+.result{color:white;
+        display:block;
+        position:relative;
+        left:-8px}
+
