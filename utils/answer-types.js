@@ -905,7 +905,35 @@ jQuery.extend( Khan.answerTypes, {
 		];
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
-	}
+	},
+
+        programming: function (solutionarea,solution) {
+            KhanUtil.setupWorkArea();
+            var replWarning = $("<b> Make sure to test it out on the REPL first!</b>");    
+            solutionarea.append($(".programming-tests",solution));
+
+            //Not the typical verifier I guess. 
+            var verifier= function(correct,guess){
+                var content = KhanUtil.code_editor.getSession().getValue();
+                Python.eval(content);
+                var answers = $(".programming-tests",solutionarea).children();
+                var allcorrect= true;
+                answers.each(function(index,element){
+                    var testToRun = $(element).text();
+                    var result = Python.eval(testToRun);
+                    if(result == "True"){
+                        $(element).css("color","green");
+                     }
+                    if(result == "False" || result == null){
+                        $(element).css("color","red");
+                        allcorrect =false;
+                     }
+                });
+                return allcorrect;
+            };
+
+            return Khan.answerTypes.text( solutionarea, solution, null, verifier, replWarning);
+        }
 } );
 
 } )();
