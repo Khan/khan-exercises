@@ -476,6 +476,187 @@ jQuery.extend( Khan.answerTypes, {
 		return ret;
 	},
 
+    si_quantity: function( solution_area, solution ) {
+        // These tables from http://physics.nist.gov/cuu/Units
+        var prefixes = [["Y", "yotta", 1e24],
+                        ["Z", "zetta", 1e21],
+                        ["E", "exa",   1e18], 
+                        ["P", "peta",  1e15],
+                        ["T", "tera",  1e12],
+                        ["G", "giga",  1e9],
+                        ["M", "mega",  1e6],
+                        ["k", "kilo",  1e3],
+                        ["h", "hecto", 1e2],
+                        ["da", "deka", 1e1],
+                        ["d", "deci",  1e-1],
+                        ["c", "centi", 1e-2],
+                        ["m", "milli", 1e-3],
+                        ["u", "micro", 1e-6],
+                        ["n", "nano",  1e-9],
+                        ["p", "pico",  1e-12],
+                        ["f", "femto", 1e-15],
+                        ["a", "atto",  1e-18],
+                        ["z", "zepto", 1e-21],
+                        ["y", "yocto", 1e-24]]
+
+        var base_units = [["m", "meter"],
+                          ["g", "gram"],
+                          ["s", "second"],
+                          ["A", "ampere", "amp"],
+                          ["K", "kelvin"],
+                          ["mol", "mole"],
+                          ["cd", "candela"]]
+
+        var derived_units = [["rad", "radian",    [1]],
+                             ["sr",  "steradian", [1]],
+                             ["Hz",  "hertz",     [["s", -1]]],
+                             ["N",   "newton",    [1e3,
+                                                   ["m", 1],
+                                                   ["g", 1],
+                                                   ["s", -2]]],
+                             ["Pa",  "pascal",    [["N", 1], ["m", -2]]],
+                             ["J",   "joule",     [["N", 1], ["m", 1]]],
+                             ["W",   "watt",      [["J", 1], ["s", -1]]],
+                             ["C",   "coulomb",   [["s", 1], ["A", 1]]],
+                             ["V",   "volt",      [["W", 1], ["A", -1]]],
+                             ["F",   "farad",     [["C", 1], ["V", -1]]],
+                             ["ohm", "ohm",       [["V", 1], ["A", -1]]],
+                             ["S",   "siemen",    [["A", 1], ["V", -1]]],
+                             ["Wb",  "weber",     [["V", 1], ["s", 1]]],
+                             ["T",   "tesla",     [["Wb", 1], ["m", -2]]],
+                             ["H",   "henry",     [["Wb", 1], ["A", -1]]],
+                             ["lm",  "lumen",     [["cd", 1], ["sr", 1]]],
+                             ["lx",  "lux",       [["lm", 1], ["m", -2]]],
+                             ["Bq",  "becquerel", [["s", -1]]],
+                             ["Gy",  "gray",      [1e-3, ["J", 1], ["g", -1]]],
+                             ["Sv",  "sievert",   [1e-3, ["J", 1], ["g", -1]]],
+                             ["kat", "katal",     [["mol", 1], ["s", -1]]]]
+   
+        var unit_regex = ""
+        
+        jQuery.each(base_units, function( u ) {
+            jQuery.each(base_units[u], function( name ) {
+                if( unit_regex !== "" ) unit_regex += "|"
+                unit_regex += base_units[u][name]
+            })
+        })
+
+        jQuery.each(derived_units, function( u ) {
+            unit_regex += "|" + derived_units[u][0] + "|" + derived_units[u][1]
+        })
+
+        var prefix_regex = ""
+
+        jQuery.each(prefixes, function( u ) {
+            prefix_regex += "|" + prefixes[u][0] + "|" + prefixes[u][1]
+        })
+
+        unit_regex = new RegExp("^("+prefix_regex+")-?("+unit_regex+")s?$", "i");
+
+        // Extracts the prefix name
+        var extractPrefix = function( token ) {
+            var vals = unit_regex.exec(token)
+            if(vals === null) return vals
+            return vals.slice(1)
+        }
+        
+        var getScale = function( token ) {
+            var rtn = null
+            if( token === "" ) return 1
+            jQuery.each( prefixes, function( i ) {
+                if( token === prefixes[i][0]
+                || token.toLowerCase() === prefixes[i][1] ) {
+                    rtn = prefixes[i][2]
+                }
+                return !rtn
+            })
+            return rtn
+        }
+        
+        // Returns standard unit name for a base unit
+        var getBase = function( token ) {
+            var rtn = null 
+            jQuery.each( base_units, function( u ) {
+                var _token = token // abbreviation is case-sensitive
+                u = base_units[u]
+                jQuery.each( u, function( name ) {
+                    if( _token === u[name] ) rtn = u[0]
+                    _token = _token.toLowerCase()
+                    return !rtn
+                })
+                return !rtn
+            })
+            return rtn
+        }
+
+        // Returns list of factors for a derived unit
+        var getDerived = function( token ) {
+            var rtn = null
+            jQuery.each( derived_units, function( u ) {
+                u = derived_units[u]
+                if( token === u[0] || token.toLowerCase() === u[1] ) {
+                    rtn = u[2]
+                } 
+                return !rtn
+            })
+            return rtn
+        }
+
+        // Modifies aggregate to multiply another derived unit
+        var appendUnit = function( aggregate, extra ) {
+            aggregate.scale *= extra.scale;
+            jQuery.each(base_units, function( key ) {
+                key = base_units[key]
+                if(extra.hasOwnProperty(key[0])) {
+                    if( !aggregate.hasOwnProperty(key[0]) ) {
+                         aggregate[key[0]] = 0;
+                    }
+                    aggregate[key[0]] += extra[key[0]];
+                }
+            })
+            return aggregate
+        }
+
+        // Returns an object with keys for the scale and unit factors
+        var simplifyUnit = function( name, exponent ) {
+            name = extractPrefix( name )
+
+            if(!name) return { scale: 0 }
+
+            var prefix = name[0]
+            name = name[1]
+            var rtn = { scale: getScale(prefix) }
+
+            if( getBase(name) ) {
+                rtn[getBase(name)] = exponent
+                rtn.scale = Math.pow(rtn.scale, exponent)
+                return rtn;
+            }
+            var derivation = getDerived(name);
+
+            // Unknown unit; further calculations will work, but answer will
+            // be wrong
+            if(!derivation) return { scale: 0 }
+
+            if( typeof derivation[0] === "number" ) {
+                rtn.scale = derivation[0]
+                derivation = derivation.slice(1)
+            }
+
+            jQuery.each( derivation, function( u ) {
+                u = derivation[u]
+                appendUnit(rtn, simplifyUnit(u[0], u[1]))
+            })
+            
+            rtn.scale = Math.pow(rtn.scale, exponent);
+            jQuery.each(base_units, function( key ) {
+                key = base_units[key]
+                if( rtn.hasOwnProperty(key[0]) ) rtn[key[0]] *= exponent
+            })
+            return rtn
+        }
+    },
+
 	multiple: function( solutionarea, solution ) {
 		solutionarea = jQuery( solutionarea );
 		// here be dragons
