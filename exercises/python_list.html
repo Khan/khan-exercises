@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html data-require="math word-problems graphie graphie-helpers">
+<head>
+	<meta charset="UTF-8" />
+	<title>Python List Elements</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="NUMLIST">[rand(20),rand(20),rand(20),rand(20),rand(20),rand(20)]</var>
+		<var id="MIXEDLIST">[rand(2) > 0 ? rand(20) : '"' + person(rand(10) + 1 ) + '"',rand(2) > 0 ? rand(20) : '"' + person(rand(10) + 1 ) + '"',rand(2) > 0 ? rand(20) : '"' + person(rand(10) + 1) + '"',rand(2) > 0 ? rand(20) : '"' + person(rand(10) + 1 ) + '"',rand(2) > 0 ? rand(20) : '"' + person(rand(10) + 1) + '"',rand(2) > 0 ? rand(20) : '"' + person(rand(10) + 1) + '"']</var>
+		<var id="INDEX">rand(6)</var>
+		<var id="RESULTNUM">NUMLIST[INDEX]</var>
+		<var id="RESULTMIXED">MIXEDLIST[INDEX]</var>		
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>Given the list a = [<var>NUMLIST</var>], what is a[<var>INDEX</var>] ?</p>
+			</div>
+			<div class="solution"><var>RESULTNUM</var></div>
+			<div class="hints">
+				<p>Remember that the first element in the list is element 0.
+				<p>Start from the beginning of the list and count to element number <var>INDEX</var>.</p>
+				<p>Element <var>INDEX</var> of the array [<var>NUMLIST</var>] is <var>RESULTNUM</var></p>
+			</div>
+		</div>
+
+
+
+		<div>
+			<div class="question">
+				<p>Given the list a = [<var>MIXEDLIST</var>], what is a[<var>INDEX</var>] ?</p>
+			</div>
+			<div class="solution"><var>RESULTMIXED</var></div>
+			<div class="hints">
+				<p>Remember that you must include the quotes if your answer is a string.
+				<p>Remember that the first element in the list is element 0.
+				<p>Start from the beginning of the list and count to element number <var>INDEX</var>.</p>
+				<p>Element <var>INDEX</var> of the array [<var>MIXEDLIST</var>] is <var>RESULTMIXED</var></p>
+			</div>
+		</div>
+
+
+
+
+
+
+
+		
+		
+	</div>
+
+
+	</div>
+</body>
+</html>
