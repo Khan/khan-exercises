@@ -476,7 +476,7 @@ jQuery.extend( Khan.answerTypes, {
 		return ret;
 	},
 
-    si_quantity: function( solution_area, solution ) {
+    si_quantity: function( solution_area, solution, fallback ) {
         // These tables from http://physics.nist.gov/cuu/Units
         var prefixes = [["Y", "yotta", 1e24],
                         ["Z", "zetta", 1e21],
@@ -655,6 +655,87 @@ jQuery.extend( Khan.answerTypes, {
             })
             return rtn
         }
+
+        var parseUnit = function( str ) {
+            rtn = { scale: 1 }
+            re = /(|\/|per\s)\s*(|square\s|cubic\s)\s*((?!per|square|cubic)[-a-zA-Z]+)\s*(?:(?:\^|\*\*)\s*(-?\d+))?/i
+            fields = str.split(re)
+
+            // Capturing groups:
+            //   bp+1: denominator specifier ("/" or "per ")
+            //   bp+2: verbal exponent ("square " or "cubic ")
+            //   bp+3: unit name
+            //   bp+4: numerical exponent
+            for(var bp=0; bp + 4 < fields.length; bp += 5) {
+                var exponent = 1
+                if(fields[bp+1]) exponent *= -1
+                if((/^square/i).test(fields[bp+2])) exponent *= 2
+                if((/^cubic/i).test(fields[bp+2]))  exponent *= 3
+                if(fields[bp+4]) exponent *= fields[bp+4]             
+                appendUnit(rtn, simplifyUnit(fields[bp+3], exponent))
+            }
+            return rtn
+        }
+         
+        var parseQuantity = function( text ) {
+            var rtn = {}
+            var match = text
+
+                // Replace unicode minus sign with hyphen
+                .replace( /\u2212/, "-" )
+
+                // Remove space after +, -
+                .replace( /([+-])\s+/g, "$1" )
+
+                // Remove commas
+                .replace( /,\s*/g, "" )
+
+                // Extract integer, numerator and denominator
+                // This matches [+-]?\.; will f
+                .match( /^([+-]?(?:\d+\.?|\d*\.\d+))\s*(.*)$/ );
+            if( match ) {
+                rtn.magnitude = parseFloat(match[1])
+                rtn.unit = parseUnit(match[2])
+                rtn.magnitude *= rtn.unit.scale
+                return rtn
+            }
+            return null
+        }
+
+		var verifier = function( correct, guess ) {
+			correct = parseQuantity(jQuery.trim( correct ))
+			guess = parseQuantity(jQuery.trim( guess ))
+
+            // TODO: get from options
+            var tolerance = 0.05
+            
+            // unparseable
+            if(!correct || !guess) return false
+
+            // Unknown unit
+            if(correct.unit.scale == 0 || guess.unit.scale == 0) return false
+            
+            // Guess too low 
+            if(correct.magnitude * (1-tolerance) > guess.magnitude) return false
+
+            // Guess too high
+            if(correct.magnitude * (1+tolerance) < guess.magnitude) return false
+
+            // Wrong units
+            var rtn = true
+            jQuery.each( base_units, function( i ) {
+                var key = base_units[i][0]
+                if(correct.unit[key] != guess.unit[key]) rtn = false
+                return rtn
+            })
+
+            return rtn
+        }
+
+        verifier.examples = ["A decimal quantity with <em>SI units</em>, " + 
+            "like <code>27\\,\\mathrm{g/cm}^\\wedge 3</code> or <code>3.2\\;\\mbox{Newtons per square meter}</code>"]
+
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier);
     },
 
 	multiple: function( solutionarea, solution ) {
