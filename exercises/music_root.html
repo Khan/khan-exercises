@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems interactive">
+<head>
+	<meta charset="UTF-8" />
+	<title>Music Visualization of Math</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+
+function distTarPt (x,y,xt,yt) {
+         dist = Math.pow((Math.pow(x,2)+Math.pow(y,2)),0.5);
+         return dist
+         } 
+
+function ImportPictureb( name,center, r, w, h ) {
+	var graph = KhanUtil.currentGraph;
+	this.set = graph.raphael.set();
+        var dir = "images/"
+	this.cx = center[0];
+	this.cy = center[1];
+	var lineColor = "#789";
+	var imgPos = graph.scalePoint([ this.cx - r, this.cy + r ]);
+	
+	this.set.push( graph.raphael.image( Khan.urlBase + dir + name, imgPos[0], imgPos[1], w, h ) );
+	return this;
+	//this._rotation = 0;
+	//this.getRotation = function() {
+	//	return this._rotation;
+	//};
+        }
+
+//this function accepts set of 3 2 dimensional points to determine if the third point is left/right/collinear of the
+//line defined by the first two points.  This is a basic topological operation used to determine inclusion in a polygon.
+//returns positive for left, negative for right ang zero if collinear
+
+function ptSide(p0,p1,p2){
+    v0=[p1[0]-p0[0],p1[1]-p0[1]];
+    v1=[p2[0]-p1[0],p2[1]-p1[1]];
+    det = v0[0]*v1[1]-v0[1]*v1[0];
+    return det;
+    }
+
+//this function accepts a set of 2 dimensional points which make up a closed boundary ang a test point
+//and determines if the point lies within or on the boundary
+//returns positive for inside ang 0 for outside
+
+
+
+function inorout(pts,ptest){
+    var i = 1;
+    var stest = 0;
+    for (i;i<pts.length;i++) {
+    stest=ptSide(pts[i-1],pts[i],ptest);
+    //alert (stest);
+    if (stest < 0){
+    //alert ("test fails on " + i + "th line")
+    return 0;
+    };
+    };
+    stest=ptSide(pts[i-1],pts[0],ptest)    
+    if (stest < 0){
+    return 0
+    }else{
+    return 1
+    }
+    }
+
+function answertext(i){
+    var text=["false","true"];
+    return text[i];
+    }
+
+function transform (pt,rot,trans){
+    var a=[[Math.cos(rot),-Math.sin(rot),0,trans[0]],[Math.sin(rot),Math.cos(rot),0,trans[1]],[0,0,1,0],[0,0,0,1]];
+    var b=[[pt[0]],[pt[1]],[0],[1]];
+    var c=[];
+    var d=[];
+    var bdim=b.length;
+    var adim=a.length;
+    var awid=a[0].length;
+    var bwid=b[0].length;
+    var i=0;
+    var j=0;
+    for (i;i<bdim;i++) {
+        c[i]=b[0][0]*a[i][0]+b[1][0]*a[i][1]+b[2][0]*a[i][2]+b[3][0]*a[i][3]
+    };
+    d=[c[0],c[1]];
+    return d 
+    }
+
+function transformlist (pts,rot,trans){
+    ptstran = [];
+    ptslen=pts.length;
+    //alert(ptslen);
+    var m = 0;
+    var q = [];
+    for(m;m < ptslen;m++){
+    q = transform(pts[m],rot,trans);
+    ptstran.push(q)
+    }
+    return ptstran;
+    }
+
+		
+
+
+
+   </script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="SOLNKEYARRAY">[60,62,64,65,67,69,71]</var>
+		<var id="SOLKEY">randFromArray(SOLNKEYARRAY)</var>
+                <var id="WKEYTARG">[[[0,0],[0.4375,0],[0.4375,3.0],[-0.4375,3.0],[-0.4375,0]]]</var>
+		<var id="WKEY">[[[0,0],[0.4375,0],[0.4375,3.0],[0.1875,3.0],[0.1875,6.0],[0,6.0],[-0.1875,6.0],[-0.1875,3.0],[-0.4375,3.0],[-0.4375,0]]]</var>
+		<var id="WKEY2">[[[0,0],[0.4375,0],[0.4375,3.0],[0.1875,3.0],[0.1875,6.0],[0,6.0],[-0.4375,6.0],[-0.4375,0]]]</var>
+		<var id="WKEY3">[[[0,0],[0.4375,0],[0.4375,6.0],[0,6.0],[-0.1875,6.0],[-0.1875,3.0],[-0.4375,3.0],[-0.4375,0]]]</var>
+		<var id="BKEY">[[[0,0],[0.25,0],[0.25,3],[-0.25,3],[-0.25,0]]]</var>
+		<var id="TESTLIST">[[0,0],[1,0],[1,1],[0,1]]</var>
+		<var id="MKEYLIST">{60:["C",[0.5,1.5]],62:["D",[1.5,1.5]],64:["E",[2.5,1.5]],65:["F",[3.5,1.5]],67:["G",[4.5,1.5]],69:["A",[5.5,1.5]],71:["B",[6.5,1.5]],72:["C",[7.5,1.5]]}</var>
+		<var id="BLANK">transformlist(WKEYTARG[0],0,[0.5,0,0])</var>
+		<var id="KEYLIST">[1,1]</var>
+		<var id="KEYLIST2">transform (KEYLIST,0.78,[10,10,10])</var>
+                <var id="WKEY_PTS">WKEY[0].length</var>
+		<var id="WKEY2_PTS">WKEY2[0].length</var>
+		<var id="WKEY3_PTS">WKEY3[0].length</var>
+		<var id="BKEY_PTS">BKEY[0].length</var>
+		<var id="NUM_KEYS">WKEY.length</var>
+		<var id="SEC_TARGET">randRange(-10,10)</var>
+		<var id="LOWER_BOUND">-12</var>
+		<var id="UPPER_BOUND">-1 * LOWER_BOUND</var>
+		<var id="NUMBER">randRangeNonZero( LOWER_BOUND, UPPER_BOUND )/10</var>
+   	        
+			
+
+
+	</div>
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>You are a rock star who wants to play in the key of <var>MKEYLIST[SOLKEY][0]</var>.<br/>Move the dot to the root note in that key. Then click the check answer box.</p>
+
+
+
+
+					<div class="graphie" id="number-line">
+					init({
+						range: [ [LOWER_BOUND , UPPER_BOUND ], [LOWER_BOUND, UPPER_BOUND] ],
+						scale: [20,20]
+					});
+
+					//label( [-5, -5],
+					//	"\\Huge{\\color{#6495ED}{ <var>NUMBER</var> } / \\color{#28AE7B}{ <var>NUMBER</var> } = {1}}",
+					//	"right" );
+					//graph.pic1 = new ImportPictureb("desks.jpg", [-7.5, 7.5], 1, 800, 400 );
+					newshapecol=[];
+                                        for(var t=0;t &lt 13; t++){
+					ang=(PI/12)* t;
+                                        newshapepts=transformlist(BLANK,0,[1*t,0,0]);
+					newshapecol.push(newshapepts)
+                                        }
+					//alert(newshapecol.length)
+					//circle(transform([0,0],0,[2,0]),1.00);
+
+					for (var i=0;i &LT WKEY3_PTS;i++){
+						  WKEY3[0][i]=transform(WKEY3[0][i],0,[-0.5,0,0]);
+						}
+						
+						
+												
+						var j = 0;
+						for (var i=1;i &LT WKEY3_PTS;i++){
+                                                line(WKEY3[j][i-1],WKEY3[j][i]);
+						}
+                                                line(WKEY3[j][0],WKEY3[j][i-1]);
+						//b = path(WKEY3[0]);
+						//b.attr("fill","yellow");
+
+
+						for (var i=0;i &LT WKEY2_PTS;i++){
+						  WKEY2[0][i]=transform(WKEY2[0][i],0,[0.5,0,0]);
+						}
+						
+												
+						var j = 0;
+						for (var i=1;i &LT WKEY2_PTS;i++){
+                                                line(WKEY2[j][i-1],WKEY2[j][i]);
+						}
+                                                line(WKEY2[j][0],WKEY2[j][i-1]);
+						
+	
+						for (var i=0;i &LT WKEY_PTS;i++){
+						  WKEY[0][i]=transform(WKEY[0][i],0,[1.5,0,0]);
+						}
+						
+												
+						var j = 0;
+						for (var i=1;i &LT WKEY_PTS;i++){
+                                                line(WKEY[j][i-1],WKEY[j][i]);
+						}
+                                                line(WKEY[j][0],WKEY[j][i-1]);	
+						
+						
+						for (var i=0;i &LT WKEY3_PTS;i++){
+						  WKEY3[0][i]=transform(WKEY3[0][i],0,[3,0,0]);
+						}
+						
+												
+						var j = 0;
+						for (var i=1;i &LT WKEY3_PTS;i++){
+                                                line(WKEY3[j][i-1],WKEY3[j][i]);
+						}
+                                                line(WKEY3[j][0],WKEY3[j][i-1]);
+
+						for (var i=0;i &LT WKEY2_PTS;i++){
+						  WKEY2[0][i]=transform(WKEY2[0][i],0,[3.0,0,0]);
+						}
+						
+												
+						var j = 0;
+						for (var i=1;i &LT WKEY2_PTS;i++){
+                                                line(WKEY2[j][i-1],WKEY2[j][i]);
+						}
+                                                line(WKEY2[j][0],WKEY2[j][i-1]);
+
+						for (var i=0;i &LT WKEY_PTS;i++){
+						  WKEY[0][i]=transform(WKEY[0][i],0,[3.0,0,0]);
+						}
+						
+												
+						var j = 0;
+						for (var i=1;i &LT WKEY_PTS;i++){
+                                                line(WKEY[j][i-1],WKEY[j][i]);
+						}
+                                                line(WKEY[j][0],WKEY[j][i-1]);	
+
+						for (var i=0;i &LT WKEY_PTS;i++){
+						  WKEY[0][i]=transform(WKEY[0][i],0,[1.0,0,0]);
+						}
+						
+												
+						var j = 0;
+						for (var i=1;i &LT WKEY_PTS;i++){
+                                                line(WKEY[j][i-1],WKEY[j][i]);
+						}
+                                                line(WKEY[j][0],WKEY[j][i-1]);
+
+
+						for (var i=0;i &LT WKEY3_PTS;i++){
+						  WKEY3[0][i]=transform(WKEY3[0][i],0,[4.0,0,0]);
+						}
+						
+												
+						var j = 0;
+						for (var i=1;i &LT WKEY3_PTS;i++){
+                                                line(WKEY3[j][i-1],WKEY3[j][i]);
+						}
+                                                line(WKEY3[j][0],WKEY3[j][i-1]);
+
+
+						for (var i=0;i &LT BKEY_PTS;i++){
+						  BKEY[0][i]=transform(BKEY[0][i],0,[1.0,3.0,0]);
+						}
+						style({ stroke: "#6495ED", fill: "#444", strokeWidth: 1.0, arrows: null  })
+						csharp=path(BKEY[0]);
+
+
+						for (var i=0;i &LT BKEY_PTS;i++){
+						  BKEY[0][i]=transform(BKEY[0][i],0,[1.0,0.0,0]);
+						}
+						style({ stroke: "#6495ED", fill: "#444", strokeWidth: 1.0, arrows: null  })
+						dsharp=path(BKEY[0]);
+
+						for (var i=0;i &LT BKEY_PTS;i++){
+						  BKEY[0][i]=transform(BKEY[0][i],0,[2.0,0.0,0]);
+						}
+						style({ stroke: "#6495ED", fill: "#444", strokeWidth: 1.0, arrows: null  })
+						fsharp=path(BKEY[0]);
+						
+						
+						for (var i=0;i &LT BKEY_PTS;i++){
+						  BKEY[0][i]=transform(BKEY[0][i],0,[1.0,0.0,0]);
+						}
+						style({ stroke: "#6495ED", fill: "#444", strokeWidth: 1.0, arrows: null  })
+						gsharp=path(BKEY[0]);
+						
+
+						for (var i=0;i &LT BKEY_PTS;i++){
+						  BKEY[0][i]=transform(BKEY[0][i],0,[1.0,0.0,0]);
+						}
+						style({ stroke: "#6495ED", fill: "#444", strokeWidth: 1.0, arrows: null  })
+						asharp=path(BKEY[0]);
+
+					addMouseLayer();
+					this.movablePoint = addMovablePoint({ snapY: 0.05, snapX: 0.05 });
+					movablePoint.onMove = function( x, y ) {
+						if (x < LOWER_BOUND || UPPER_BOUND < x) {
+							return false; // don't allow the point to move past the bounds
+						}
+						jQuery("#solutionarea input:eq(1)").val( x );
+						jQuery("#solutionarea input:last").val( y );
+						jQuery("#solutionarea input:first").val(MKEYLIST[inorout(newshapecol[0],[x,y])*60+inorout(newshapecol[1],[x,y])*62+inorout(newshapecol[2],[x,y])*64+inorout(newshapecol[3],[x,y])*65+inorout(newshapecol[4],[x,y])*67+inorout(newshapecol[5],[x,y])*69+inorout(newshapecol[6],[x,y])*71+inorout(newshapecol[7],[x,y])*72][0]);
+
+					};
+				</div>
+			</div>
+				<div class="solution" data-type="multiple">
+				
+				<p><span class="sol" data-type="text" style="visibility:hidden"  ><var>MKEYLIST[SOLKEY][0]</var></span> <p><span class="sol" data-type="decimal" data-inexact data-max-error="100.0" style="visibility:hidden" >5</span> <span class="sol" data-type="decimal" data-inexact data-max-error="100.0" style="visibility:hidden" >5</span></p>
+			</div>
+
+			<div class="hints">
+				<p>There are 12 notes in the Chromatic Scale; on a piano you hit every key...black and white...<br/>to play the Chromatic scale.</p>
+				<p>And 7 notes in the major scale defined by base-fs-fs-hs-fs-fs-fs and a hs back to the root.</p>
+				<p>Though we traditionally think of middle C as the simplest visual starting point,<br/>frequencywise, the A note, 3 half steps lower than C, is the easiest frequency to know at 440 Hz.</p>
+				<p>Every half step above that has a frequency that is the 12th root of 2 higher in frequency.</p>
+				<p>Which means that the A in the next octave has a frequency of 880 Hz.</p>
+                 
+				
+				
+				
+				
+						
+						
+						
+				<div>
+					<div class="graphie" data-update="number-line">
+						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->"  });
+						//line( [ 0, 0 ], [SEC_TARGET,5]);
+						//dsharp.attr({fill:"red"});
+						//b.attr("fill","#FFFFCC");
+						
+					</div>
+				</div>
+
+				<div>
+					<div class="graphie" data-update="number-line">
+						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->"  });
+						dsharp.attr({fill:"#444"});
+						movablePoint.visibleShape.toFront();
+						movablePoint.moveTo( MKEYLIST[SOLKEY][1][0], MKEYLIST[SOLKEY][1][1]);
+						
+					</div>
+				</div>
+
+				
+				
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
