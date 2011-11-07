@@ -33,7 +33,7 @@
 					stroke: "#4e74ba"
 				});
 
-				for (var i = 0; i < C; i++) {
+				for ( var i = 0; i < C; i++ ) {
 					path([ [1.5 * i, 0], [1.5 * i, 1], [1.5 * i + 1, 1], [1.5 * i + 1, 0], true ]);
 				}
 			</div>
@@ -51,7 +51,7 @@
 					stroke: "#4e74ba"
 				});
 
-				for (var i = 0; i < B; i++) {
+				for ( var i = 0; i < B; i++ ) {
 					path([ [0, -1.5 * i], [10, -1.5 * i], [10, -1.5 * i - 1], [0, -1.5 * i - 1], true ]);
 					grid( [0, 10], [-1.5 * i, -1.5 * i - 1], { strokeWidth: 1 } ).translate( -0.5, 0 );
 				}
@@ -70,7 +70,7 @@
 					stroke: "#4e74ba"
 				});
 
-				for (var i = 0; i < A; i++) {
+				for ( var i = 0; i < A; i++ ) {
 					path([ [10.5 * i + 0, 0], [10.5 * i + 0, 10], [10.5 * i + 10, 10], [10.5 * i + 10, 0], true ]);
 					grid( [0, 10], [0, 10], { strokeWidth: 1 } ).translate( 28 * 10.5 * i - 0.5, 0 );
 				}
