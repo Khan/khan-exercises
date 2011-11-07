@@ -919,15 +919,17 @@ jQuery.extend( Khan.answerTypes, {
                 var answers = $(".programming-tests",solutionarea).children();
                 var allcorrect= true;
                 answers.each(function(index,element){
-                    var testToRun = $(element).text();
-                    var result = Python.eval(testToRun);
-                    if(result == "True"){
-                        $(element).css("color","green");
-                     }
-                    if(result == "False" || result == null){
-                        $(element).css("color","red");
-                        allcorrect =false;
-                     }
+                    var codeToRun = $(element).text();
+                    var result = Python.eval(codeToRun);
+                    if($(element).attr("data-type")=="test"){
+                        if(result == "True"){
+                            $(element).css("color","green");
+                        }
+                        if(result == "False" || result == null){
+                            $(element).css("color","red");
+                            allcorrect =false;
+                        }
+                    }
                 });
                 return allcorrect;
             };

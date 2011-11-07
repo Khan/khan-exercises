@@ -422,12 +422,12 @@ div.timeline-total {
     }
 
 #repl{
-       position: absolute;
+       position: relative;
+       float: right;
        top:0px;
        background-color: #0F0F0F;
-       width: 38%;
+       width: 40%;
        right: 10%;
-       top: 22px;
        height:480px;
        padding-top:10px;
        padding-bottom:10px;
@@ -435,10 +435,11 @@ div.timeline-total {
 
 .jqconsole{
     color:white;
-    height:100%;
+    height:95%;
     padding:15px;
     position:relative;
     bottom:0;
+    border-bottom-width: 10px;
     right:0px;
     display:block;
     font-family:Monaco, Menlo, 'Courier New', monospace;

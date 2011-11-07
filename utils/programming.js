@@ -33,31 +33,33 @@ jQuery.extend(KhanUtil, {
 
         console.log(results);
     },
-    welcomingMessage: "Let's do computer science! This is a REPL."
-        + " You can just put in Python code here and it works!\n"
+    welcomingMessage: "Welcome!\nThis is a REPL."
+        + " Type in some Python code in here and it should just work.\n"
         + "To the left is the editing area. That is where you can work on bigger "
-        + "projects. When you want to test the code you wrote in the editor "
+        + "snippets of code. When you want to test the code you wrote in the editor "
         + "just type 'evalCode()' into the REPL. "
         + "Then you have access to all the functions and variables you created!\n"
-        + "Your mission, should you choose to accept it, is to make all the tests on the right pass!\n"
-                      + "Have fun!",
+        + "Your mission, should you choose to accept it, is to make all the tests on the right pass!",
 
     setupWorkArea: function(){
         //Some basic elements to be transformed later
         var pre_editor = $("<div>").attr({"id":"programming-editor"});
         var pre_console = $("<div>").attr({"id":"repl"});
+        var programming_container= $("<div>").attr({"id":"programming_container"});
 
         //The editor needs room to breath!
         //Shoe horning the editor and repl into there meant making some adjustments 
         //to how everything was laid out. Probably not the best way to do it though. 
-        $("#problemarea").width("80%");
-        $("#answer_area").css({"position":"absolute","right":"0px"});
+        $("#problemarea").width("70%");
+        $("#answer_area").css({"float":"top"});
         
         //Elements need to be appended to the document before they will actually work
         //... I think.
         var problem = $("#workarea");
+        $(".question", problem).append(programming_container
+                                       .append(pre_console)
+                                       .append(pre_editor));
 
-        $(".question", problem).append(pre_console).append(pre_editor);
 
         //Setting up the editor
         var PythonMode = require("ace/mode/python").Mode;
