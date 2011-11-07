@@ -2168,19 +2168,22 @@ function prevProblem( num ) {
 function drawExerciseState( data ) {
 	// drawExerciseState changes the #exercise-icon-container's status to 
 	// reflect the current state of the 
+	var icon = jQuery("#exercise-icon-container");
 	var exerciseStates = data && data.exercise_states;
 	if ( exerciseStates ){
-		var states = [];
 		for (state in exerciseStates){
-			if(exerciseStates.hasOwnProperty(state) && exerciseStates[state]) { 
-				states.push(state); 
+			if( exerciseStates.hasOwnProperty(state) ) {
+				if( exerciseStates[state] ) {
+					icon.addClass( state );
+				}else{
+					icon.removeClass( state );
+				}
 			}
 		}
-		console.log( states.join(" "), jQuery("#exercise-icon-container") )
-		jQuery("#exercise-icon-container")
-			.addClass( states.join(" ")+ " hint" )
-			.click(function(){jQuery(this).toggleClass("hint")})
-		
+
+		icon.addClass("hint" )
+			.click(function(){jQuery(this).toggleClass("hint");});
+
 		// this will be necessary to eventually support ie8 & friends
 		// if ( window.Raphael ) {
 		// 	// set up 30x30 rapahel canvas
