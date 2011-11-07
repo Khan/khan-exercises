@@ -38,12 +38,27 @@
 			<p class="solution" data-type="si_quantity" ><var>V</var> volts</p>
 
 			<div class="hints">
-<!--
-				<p>The volume of a cube with side length <code>s</code> is <code>V = s^3</code>.</p>
-				<p><code>\qquad V = <var>s</var>^3</code></p>
-				<p><code>\qquad \hphantom{V} = <var>s</var> \cdot <var>s</var> \cdot <var>s</var></code></p>
-				<p><code>\qquad \hphantom{V} = <var>s * s * s</var></code></p>
--->
+                <p>One ohm <code>(\mathrm \Omega)</code> is one Volt per Ampere <code>\left (\frac{\mathrm V}{\mathrm A}\right )</code></p>
+                <p>The voltage <code>V</code> across a resistor with resistance
+                   <code>R</code> and current <code>I</code> is
+                   <code>V=I\times R</code>.</p>
+                <p><code>V = <var>formatQuantity(I, "A", 3)</var> \times
+                             <var>formatQuantity(R, "\\Omega", 2)</var></code>
+                   </p>
+                <p><code>\hphantom{V} = (<var>scientific(3, I)</var>)\,\mathrm{A}
+                                 \times (<var>scientific(2, R)</var>)\,\mathrm{\Omega}</code></p>
+                <p><code>\hphantom{V} = (<var>scientific(3, I)</var>)\,\mathrm{A}
+                                 \times (<var>scientific(2, R)</var>)\,\frac{\mathrm V}{\mathrm A}</code></p>
+                <p><code>\hphantom{V} =(<var>scientific_mantissa(3, I)</var>
+                                 \times <var>scientific_mantissa(2, R)</var>)
+                            \times (10^{<var>scientific_exponent(I)</var>}
+                            \times  10^{<var>scientific_exponent(R)</var>})
+                            \times \left ( \mathrm{A}
+                            \times \frac{\mathrm V}{\mathrm A} \right )</code></p>
+                <p><code>\hphantom{V} = <var>scientific(2, V)</var>
+                                 \times \mathrm V</code></p>
+                <p><code>\hphantom{V} = <var>formatQuantity(V, "V", 2)</var>
+                   </code></p>
 			</div>
 		</div>
 		<div id="I-unknown">
@@ -75,12 +90,18 @@
 			<p class="solution" data-type="si_quantity" ><var>I</var> Amperes</p>
 
 			<div class="hints">
-<!--
-				<p>The volume of a cube with side length <code>s</code> is <code>V = s^3</code>.</p>
-				<p><code>\qquad V = <var>s</var>^3</code></p>
-				<p><code>\qquad \hphantom{V} = <var>s</var> \cdot <var>s</var> \cdot <var>s</var></code></p>
-				<p><code>\qquad \hphantom{V} = <var>s * s * s</var></code></p>
--->
+                <p>One ohm <code>(\mathrm \Omega)</code> is one Volt per Ampere <code>\left (\frac{\mathrm V}{\mathrm A}\right )</code></p>
+                <p>The voltage <code>V</code> across a resistor with resistance
+                   <code>R</code> and current <code>I</code> is
+                   <code>V=I\times R</code>.</p>
+                <p><code>I = \frac{V}{R}</code></p>
+                <p><code>\hphantom{I} = \frac{<var>formatQuantity(V, "V", 2)</var>}{<var>formatQuantity(R, "\\Omega", 2)</var>}</code></p>
+                <p><code>\hphantom{I} = \frac{(<var>scientific(2, V)</var>)\,\mathrm{V}}{(<var>scientific(2,R)</var>)\,\mathrm{\Omega}}</code></p>
+                <p><code>\hphantom{I} = \left (\frac{<var>scientific_mantissa(2, V)</var>}{<var>scientific_mantissa(2, R)</var>}\right )\times\left (\frac{10^{<var>scientific_exponent(V)</var>}}{10^{<var>scientific_exponent(R)</var>}}\right )\times\left(\frac{\mathrm{V}}{\mathrm{VA}^{-1}}\right)</code></p>
+                <p><code>\hphantom{I} = <var>scientific(3, I)</var>
+                                 \times \mathrm A</code></p>
+                <p><code>\hphantom{I} = <var>formatQuantity(I, "A", 3)</var>
+                   </code></p>
 			</div>
 		</div>
 		<div id="R-unknown">
@@ -113,12 +134,18 @@
 			<p class="solution" data-type="si_quantity" ><var>R</var> ohms</p>
 
 			<div class="hints">
-<!--
-				<p>The volume of a cube with side length <code>s</code> is <code>V = s^3</code>.</p>
-				<p><code>\qquad V = <var>s</var>^3</code></p>
-				<p><code>\qquad \hphantom{V} = <var>s</var> \cdot <var>s</var> \cdot <var>s</var></code></p>
-				<p><code>\qquad \hphantom{V} = <var>s * s * s</var></code></p>
--->
+                <p>One ohm <code>(\mathrm \Omega)</code> is one Volt per Ampere <code>\left (\frac{\mathrm V}{\mathrm A}\right )</code></p>
+                <p>The voltage <code>V</code> across a resistor with resistance
+                   <code>R</code> and current <code>I</code> is
+                   <code>V=I\times R</code>.</p>
+                <p><code>R = \frac{V}{I}</code></p>
+                <p><code>\hphantom{R} = \frac{<var>formatQuantity(V, "V", 2)</var>}{<var>formatQuantity(I, "A", 3)</var>}</code></p>
+                <p><code>\hphantom{R} = \frac{(<var>scientific(2, V)</var>)\,\mathrm{V}}{(<var>scientific(3, I)</var>)\,\mathrm{A}}</code></p>
+                <p><code>\hphantom{R} = \left (\frac{<var>scientific_mantissa(2, V)</var>}{<var>scientific_mantissa(3, I)</var>}\right )\times\left (\frac{10^{<var>scientific_exponent(V)</var>}}{10^{<var>scientific_exponent(I)</var>}}\right )\times\left(\frac{\mathrm{V}}{\mathrm{A}}\right)</code></p>
+                <p><code>\hphantom{R} = <var>scientific(2, R)</var>
+                                 \times \mathrm \Omega</code></p>
+                <p><code>\hphantom{R} = <var>formatQuantity(R, "\\Omega", 2)</var>
+                   </code></p>
 			</div>
 		</div>
 	</div>

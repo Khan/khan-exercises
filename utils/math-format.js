@@ -422,6 +422,24 @@ jQuery.extend(KhanUtil, {
 
 	randVar: function() {
 		return KhanUtil.randFromArray([ "x", "k", "y", "a", "n", "r", "p", "u", "v" ])
-	}
+	},
+
+    scientific_exponent: function( num ) {
+        return Math.floor(Math.log(Math.abs(num)) / Math.log(10))
+    },
+
+    scientific_mantissa: function( precision, num ) {
+        var exponent = KhanUtil.scientific_exponent( num );
+        var factor = Math.pow(10, exponent)
+        precision -= 1 // To account for the 1s digit
+        var mantissa = KhanUtil.roundTo(precision, num / factor).toFixed(precision)
+        return mantissa
+    },
+
+    scientific: function( precision, num ) {
+        var exponent = KhanUtil.scientific_exponent( num )
+        var mantissa = KhanUtil.scientific_mantissa( precision, num )
+        return "" + mantissa + "\\times 10^{"+exponent+"}"
+    }
 });
 
