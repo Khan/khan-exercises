@@ -1383,7 +1383,7 @@ function makeProblem( id, seed ) {
   return answerType;
 }
 
-function drawGraph(followups){
+function drawGraph( followups ){
 	if (window.Raphael){
 		// prime followups as empty so that we can check properties without throwing exceptions
 		followups = followups || {};
@@ -2165,6 +2165,32 @@ function prevProblem( num ) {
 	nextProblem( -num );
 }
 
+function drawExerciseState( data ) {
+	// drawExerciseState changes the #exercise-icon-container's status to 
+	// reflect the current state of the 
+	var exerciseStates = data && data.exercise_states;
+	if ( exerciseStates ){
+		var states = [];
+		for (state in exerciseStates){
+			if(exerciseStates.hasOwnProperty(state) && exerciseStates[state]) { 
+				states.push(state); 
+			}
+		}
+		console.log( states.join(" "), jQuery("#exercise-icon-container") )
+		jQuery("#exercise-icon-container")
+			.addClass( states.join(" ")+ " hint" )
+			.click(function(){jQuery(this).toggleClass("hint")})
+		
+		// this will be necessary to eventually support ie8 & friends
+		// if ( window.Raphael ) {
+		// 	// set up 30x30 rapahel canvas
+		// 	var state = Raphael("exercise-icon-container", 30, 30);
+		// // draw the state icon here
+		// }
+	}
+};
+
+
 function prepareUserExercise( data ) {
 	// Update the local data store
 	updateData( data );
@@ -2328,18 +2354,9 @@ function updateData( data ) {
 	jQuery(".streak-icon").css({width:"100%"});
 	jQuery(".streak-bar").toggleClass("proficient", data.progress >= 1.0);
 
-	// Update the exercise icon
-	var exerciseStates = data && data.exercise_states;
+	// draw the exercise state icon
+	drawExerciseState( data );
 
-	if ( exerciseStates ) {
-		var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
-		var src = exerciseStates.review ? "/images/node-review.png" :
-					exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" :
-						exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" :
-							"/images/" + sPrefix + "-not-started.png";
-		jQuery("#exercise-icon-container img").attr("src", src);
-	}
-	
 	var videos = data && data.exercise_model.related_videos;
 	if ( videos && videos.length &&
 		jQuery(".related-video-list").is(":empty") &&
