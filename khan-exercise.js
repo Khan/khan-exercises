@@ -1410,8 +1410,15 @@ function drawGraph( followups ){
 			return {n:nth, pos:topbottom, npos:nth*topbottom};
 		};
 
+		Raphael.fn.centeredBox = function (x, y, w, h, r) {
+			return this.rect(x - (w/2), y - (h/2), w, h, r)
+		}
+
+
 		var renderFollowups = function(exercises){
 			$("#you-are-here").empty();
+
+			var balrogs = ["showmap", "default"]
 
 			exercises = exercises || [];
 
@@ -1420,9 +1427,25 @@ function drawGraph( followups ){
 			var map = Raphael("you-are-here",500, 100);
 
 			// this is a slightly taller graph
-			// var paths = ["M10,75 l75,0 l0,15", "M10,75 l150,0 l0,-15", "M10,75 l225,0"];
+			// var paths = ["M10,75 l75,0 l0,40", "M10,75 l150,0 l0,-40", "M10,75 l225,0"];
 			// this is a slightly shorter graph
-			var paths = ["M10,50 l75,0 l0,40", "M10,50 l150,0 l0,-40", "M10,50 l225,0"];
+			var paths = ["M10,50 l75,0 l0,17", "M10,50 l150,0 l0,-17", "M10,50 l225,0"];
+			var star = "l2,0 l1-2 l1,2 l2,0 l-2,1 l1,2 l-2,-1 l-2,1 l1,-2 l-2,-1"
+
+
+			// a star explaining where you are
+			map.text(5,30, "You Are Here").attr("text-anchor","start").attr("font-size",12).attr("fill","#444");
+			var currentBg = map.centeredBox(13, 51, 20,20,4)
+				.attr("fill", "rgb(0, 128, 201)")
+				.attr("stroke-width",0);
+			var currentPos = map.path("M10,50 "+ star)
+				.attr("fill","rgb(255, 255, 72)")
+				.attr("stroke","rgb(0, 128, 201)")
+				.attr("stroke-width",0)
+				.scale(3,3.5).attr("id","you-star");
+
+			
+
 
 			var routes = $.map( exercises, function(exercise, i){
 				var offset = oscillate(i),
@@ -1462,16 +1485,27 @@ function drawGraph( followups ){
 				// var route = map.path(pathstring)
 				var route = map.path(paths[i])
 					.attr("stroke-width",6)
-					.attr("stroke", "#ddd"/*routeColor*/);
-
+					.attr("stroke", routeColor );
+					
 				var endpoint = route.getPointAtLength(route.getTotalLength());
-				var dot = map.ellipse(endpoint.x, endpoint.y, 6,6)
-					.attr("fill", dotColor)
-					.attr("stroke","#fff")
-					.attr("stroke-width",2);
+				
+				var roundedrect = map.centeredBox(endpoint.x, endpoint.y, 20,20,4).attr("fill", dotColor).attr("stroke-width",0)
 
-				yoffset = (i === 0) ? 16 : -16;
-				xoffset = -3;
+				if(false){
+					// var dot = map.ellipse(endpoint.x, endpoint.y, 6,6)
+					// 	.attr("fill", dotColor)   // the state of this exercise
+					// 	.attr("stroke","#E5ECF9") // should match the background
+					// 	.attr("stroke-width",2);
+				}else{
+					starpath = "M"+(endpoint.x-3)+","+(endpoint.y-1) + star
+					var dot = map.path(starpath)
+						.attr("fill", "#fff")   // the state of this exercise
+						.attr("stroke-width",0)
+						.scale(3, 3.5);
+				}
+
+				yoffset = (i === 0) ? 20 : -20;
+				xoffset = -10;
 
 				var href = typeof userExercise !== "undefined" ? "/exercises?exid="+exercise.exercise : "./"+exercise.exercise+".html";
 				var label = map.text(endpoint.x + xoffset, endpoint.y + yoffset, exercise.exercise_model.display_name)
@@ -1482,20 +1516,27 @@ function drawGraph( followups ){
 
 				var box = map.set(),
 					labels = map.set();
-				labels.push(dot).push(label);
+				labels.push(roundedrect).push(dot).push(label);
 				box.push(route).push(labels);
 
 				var over = function(spec){
-					route.toBack();
-					box.toFront();
-					route.animate( {stroke : routeColor}, 350 , "<>");
+					box.toFront()
+					route.toFront();
+					labels.toFront();
+
+					currentBg.toFront(); // position the bg and star
+					currentPos.toFront();
+					route.animate( {stroke : dotColor}, 350 , "<>");
 				};
 				var out = function(spec){ 
-					route.animate( {stroke : "#ddd" }, 550, "<>", function(){ box.toBack(); labels.toFront(); } );
+					route.animate( {stroke : routeColor }, 550, "<>", function(){ /*box.toBack(); labels.toFront();*/ } );
 				};
 				
 				box.mouseover(over).mouseout(out);
 			});
+
+			currentBg.toFront();
+			currentPos.toFront();
 
 		};
 
