@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Average vector problems</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div>
+			<div class="vars" data-ensure="SUM % (TIME1 + TIME2) === 0">
+				<var id="TIME1">randRange(4, 6)</var>
+				<var id="SCORES">randRange(45, 68)</var>
+				<var id="SUM1"> SCORES * TIME1</var>
+				<var id="TIME2">randRange(1, 3)</var>
+				<var id="SCORES2">randRange(45, 59)</var>
+				<var id="SUM2"> SCORES2 * TIME2</var>				
+				
+				<var id="SUM"> SUM1 - SUM2</var>
+			</div>
+
+			<div class="question">
+				<p> If <var>person(1)</var> was able to travel <var>SUM1</var> km north in <var>TIME1</var> hours in his car, and then travels south for <var>TIME2</var> hours with a speed of <var>SCORES2</var> kilometers per hour. </p>
+				<p> What was <var>his(1)</var> average velocity north? </p>
+			</div>
+			<div class="solution"><var>SUM / (TIME1 + TIME2 )</var></div>
+
+			<div class="hints">
+				<p>The average velocity is the displacement vector divided by the  time.</p>
+				<p>The displacement north is a vector and is equal to the distance <var>person(1)</var> travels north minus the distance <var>he(1)</var> travels south, because the vectors are in opposite directions.</p>
+				
+				<p> The displacement south is <code><var>TIME2</var> \text{h} \times <var>SCORES2</var> \text{km/h} = <var>TIME2 * SCORES2</var> \text{km}</code>.</p>
+				<p> Therefore the total displacement north is <code><var>SUM1</var>\text{km (north)} - <var>SUM2</var>\text{km (south)} = <var>SUM</var> \text{km (north)} </code> </p>
+				<p> The total time is the sum of the times <var>he(1)</var> travels north and south and is equal to <code><var>TIME1</var> + <var>TIME2</var> = <var>TIME1 + TIME2</var></code>  </p>
+				<p> Therefore the average velocity north is equal to <code><var>SUM</var> \div <var>TIME1 + TIME2</var> = <var>SUM / (TIME1 + TIME2)</var></code> </p>
+			</div>
+		</div>
+		
+		
+		
+		
+		<div>
+			<div class="vars" data-ensure="SUM % (TIME1 + TIME2) === 0">
+				<var id="TIME1">randRange(2, 3)</var>
+				<var id="SCORES">randRange(45, 68)</var>
+				<var id="SUM1"> SCORES * TIME1</var>
+				<var id="TIME2">randRange(2, 3)</var>
+				<var id="SCORES2">randRange(25, 40)</var>
+				<var id="SUM2"> SCORES2 * TIME2</var>				
+				
+				<var id="SUM"> SUM1 + SUM2</var>
+			</div>
+
+			<div class="question">
+				<p> If <var>person(1)</var> was able to travel <var>SUM1</var> km north in <var>TIME1</var> hours in his car, and then travels north for <var>TIME2</var> hours with a speed of <var>SCORES2</var> kilometers per hour. </p>
+				<p> What was <var>his(1)</var> average velocity north? </p>
+			</div>
+			<div class="solution"><var>SUM / (TIME1 + TIME2 )</var></div>
+
+			<div class="hints">
+				<p>The average velocity is the displacement vector divided by the  time.</p>
+				
+				<p> The second displacement is <code><var>TIME2</var> \text{h} \times <var>SCORES2</var> \text{km/h} = <var>TIME2 * SCORES2</var> \text{km}</code>.</p>
+				<p> Therefore the total displacement north is <code><var>SUM1</var>\text{km (north)} + <var>SUM2</var>\text{km (north)} = <var>SUM</var> \text{km (north)} </code> </p>
+				<p> The total time is the sum of the times <var>he(1)</var> travels north and south and is equal to <code><var>TIME1</var> + <var>TIME2</var> = <var>TIME1 + TIME2</var></code>  </p>
+				<p> Therefore the average velocity north is equal to <code><var>SUM</var> \div <var>TIME1 + TIME2</var> = <var>SUM / (TIME1 + TIME2)</var></code> </p>
+			</div>
+		</div>
+
+
+
+		<div>
+			<div class="vars" data-ensure="SUM % (TIME1) === SCORES">
+				<var id="TIME1">randRange(2, 3)</var>
+				<var id="SCORES">randRange(45, 68)</var>
+				<var id="SUM1"> SCORES * TIME1</var>				
+				
+				<var id="SUM"> SUM1</var>
+			</div>
+
+			<div class="question">
+				<p> If <var>person(1)</var> was able to travel <var>SUM1</var> km north in <var>TIME1</var> hours in his car, and then travels north for <var>TIME2</var> hours with a speed of <var>SCORES2</var> kilometers per hour. </p>
+				<p> What was <var>his(1)</var> average velocity north? </p>
+			</div>
+			<div class="solution"><var>SCORES</var></div>
+
+			<div class="hints">
+				<p>The average velocity is the displacement vector divided by the time.</p>
+				<p> The total displacement north is <code><var>SUM1</var></code> and the total time is <code><var>TIME1</var> \text{hours} </code>, therefore the average velocity north is equal to <code><var>SUM</var> \div <var>TIME1</var> = <var>SUM / TIME1</var></code> </p>
+			</div>
+		</div>
+				
+		
+
+	</div>
+	</div>
+</body>
+</html>
