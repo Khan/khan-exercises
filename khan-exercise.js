@@ -1378,7 +1378,7 @@ function makeProblem( id, seed ) {
 		once = false;
 	}
 
-	drawGraph();
+	// drawGraph();
 
 	jQuery(Khan).trigger( "newProblem" );
 
