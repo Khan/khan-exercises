@@ -25,17 +25,17 @@
 					var functionPath = new Array();
 					functionPath.push([-11, currentY]);
 
-					for( var i = -10; i < 11; i++ ) {
-						if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] < 8 ) {
+					for( var i = -10; i &lt; 11; i++ ) {
+						if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; functionPath[i+10][1] &lt; 8 ) {
 							functionPath.push([ i, functionPath[i+10][1]+1 ]);
 
-						} else if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] > -8 ) {
+						} else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; functionPath[i+10][1] &gt; -8 ) {
 							functionPath.push([ i, functionPath[i+10][1]-1 ]);
 
-						} else if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] < 7 ) {
+						} else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; functionPath[i+10][1] &lt; 7 ) {
 							functionPath.push([ i, functionPath[i+10][1]+2 ]);
 
-						} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && functionPath[i+10][1] > -7 ) {
+						} else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 3 ) &amp;&amp; functionPath[i+10][1] &gt; -7 ) {
 							functionPath.push([ i, functionPath[i+10][1]-2 ]);
 
 						} else {
@@ -54,17 +54,17 @@
 					var gPath = new Array();
 					gPath.push([-11, gY]);
 
-					for( var i = -10; i < 11; i++ ) {
-						if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && gPath[i+10][1] < 8 ) {
+					for( var i = -10; i &lt; 11; i++ ) {
+						if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; gPath[i+10][1] &lt; 8 ) {
 							gPath.push([i, gPath[i+10][1]+1]);
 
-						} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && gPath[i+10][1] > -8 ) {
+						} else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 3 ) &amp;&amp; gPath[i+10][1] &gt; -8 ) {
 							gPath.push([i, gPath[i+10][1]-1]);
 
-						} else if (Math.abs( randRangeNonZero( -10, 10 ) < 2 ) && gPath[i+10][1] < 7 ) {
+						} else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; gPath[i+10][1] &lt; 7 ) {
 							gPath.push([i, gPath[i+10][1]+2]);
 
-						} else if (Math.abs( randRangeNonZero( -10, 10 ) < 3 ) && gPath[i+10][1] > -7 ) {
+						} else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 3 ) &amp;&amp; gPath[i+10][1] &gt; -7 ) {
 							gPath.push([i, gPath[i+10][1]-2]);
 
 						} else {
@@ -87,7 +87,9 @@
 
 		<div class="problems">
 			<div>
-				<p class="problem">Functions <code class="f">f(x)</code> and <code class="g">g(x)</code> are graphed. Find <code><var>F_COEF</var> f(<var>CORRECT_X</var>) + <var>G_COEF</var> g(<var>CORRECT_GX</var>)</code>.</p>
+				<p class="problem">Functions <code class="f">f(x)</code> and <code class="g">g(x)</code> are graphed.
+				Find <code><var>F_COEF</var> \cdot </code><code class="f">f(<var>CORRECT_X</var>)</code><code>\space + \space<var>G_COEF</var> \cdot </code><code class="g">g(<var>CORRECT_GX</var>)</code>.
+				</p>
 
 				<div id="graph" class="graphie">
 					graphInit({
@@ -97,7 +99,7 @@
 						labelStep: 1,
 						unityLabels: false,
 						labelFormat: function( s ) { return "\\small{" + s + "}"; },
-						axisArrows: "<->"
+						axisArrows: "&lt;-&gt;"
 					});
 
 					path( FUNCTION_PATH, { stroke: "#ffa500" } );
@@ -111,8 +113,8 @@
 		<div class="hints">
 			<p>Find <code>f(<var>CORRECT_X</var>)</code> and <code>g(<var>CORRECT_GX</var>)</code>.</p>
 			<p><code>\begin{align*}
-				f(<var>CORRECT_X</var>) &= <var>CORRECT_Y</var> \\
-				g(<var>CORRECT_GX</var>) &= <var>CORRECT_GY</var>
+				f(<var>CORRECT_X</var>) &amp;= <var>CORRECT_Y</var> \\
+				g(<var>CORRECT_GX</var>) &amp;= <var>CORRECT_GY</var>
 			\end{align*}</code></p>
 			<div>
 				<p><code><var>F_COEF</var> f(<var>CORRECT_X</var>) + <var>G_COEF</var> g(<var>CORRECT_GX</var>)</code></p>
