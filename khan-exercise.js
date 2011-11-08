@@ -1417,9 +1417,12 @@ function drawGraph( followups ){
 
 			exercises = exercises.slice(0,3);
 
-			var map = Raphael("you-are-here",500, 150);
+			var map = Raphael("you-are-here",500, 100);
 
-			var paths = ["M10,75 l75,0 l0,40", "M10,75 l150,0 l0,-40", "M10,75 l225,0"];
+			// this is a slightly taller graph
+			// var paths = ["M10,75 l75,0 l0,15", "M10,75 l150,0 l0,-15", "M10,75 l225,0"];
+			// this is a slightly shorter graph
+			var paths = ["M10,50 l75,0 l0,40", "M10,50 l150,0 l0,-40", "M10,50 l225,0"];
 
 			var routes = $.map( exercises, function(exercise, i){
 				var offset = oscillate(i),
