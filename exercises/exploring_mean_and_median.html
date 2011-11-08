@@ -54,7 +54,12 @@
 						line( [ 0, -0.2 ], [ 0, 0.2 ] );
 						label( [ 0, -0.53 ],  "0", "center", {});
 
-						style({ strokeWidth: 2, stroke: BLUE, fill: BLUE });
+						style({ strokeWidth: 2, stroke: BLUE, opacity: 0.4 });
+						line([ MEAN, 0.3 ], [ MEAN, 0.5 ]);
+						style({ strokeWidth: 2, stroke: GREEN, opacity: 0.4 });
+						line([ MEDIAN, -0.9 ], [ MEDIAN, -0.7 ]);
+
+						style({ strokeWidth: 2, stroke: BLUE, fill: BLUE, opacity: 1.0 });
 						this.meanArrow = path([
 							[ 0, 0.7 ], [ 0.05, 0.7 ], [ 0, 0.6 ], [ -0.05, 0.7 ], [ 0, 0.7 ], [ 0, 1.0 ]
 						]);
