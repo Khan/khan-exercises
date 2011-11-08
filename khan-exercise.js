@@ -1518,7 +1518,7 @@ function injectSite( html, htmlExercise ) {
 function prepareSite() {
 
 	// Set exercise title
-	jQuery(".exercise-title h2").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
+	jQuery(".exercise-title").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
 		userExercise.exercise_model.display_name : document.title );
 
 	exercises = jQuery( ".exercise" ).detach();
