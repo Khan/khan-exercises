@@ -2154,7 +2154,9 @@ function prepareSite() {
 				var jel = jQuery("#exercise-message-container");
 				if (userState.template !== null) {
 					jel.empty().append(userState.template);
-					// drawGraph();
+					if(userState.state.indexOf("proficient") !== -1){
+						drawGraph();
+					}
 					setTimeout(function(){ jel.slideDown(); }, 50);
 				}
 				else {
@@ -2380,7 +2382,18 @@ function updateData( data ) {
 	jQuery(".streak-bar").toggleClass("proficient", data.progress >= 1.0);
 
 	// draw the exercise state icon
-	drawExerciseState( data );
+	// Update the exercise icon
+	var exerciseStates = data && data.exercise_states;
+
+	if ( exerciseStates ) {
+		var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
+		var src = exerciseStates.review ? "/images/node-review.png" :
+					exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" :
+						exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" :
+							"/images/" + sPrefix + "-not-started.png";
+		jQuery("#exercise-icon-container img").attr("src", src);
+	}
+	//drawExerciseState( data );
 
 	var videos = data && data.exercise_model.related_videos;
 	if ( videos && videos.length &&
