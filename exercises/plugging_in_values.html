@@ -32,8 +32,8 @@
 			}
 			return toReturn;
 		}
-		
-		function cardinal(n) {
+
+		function toOrdinalString(n) {
 			return {
 				1: "first",
 				2: "second",
@@ -49,7 +49,7 @@
 	<div class="vars">
 		<var id="COEF">randRange( 2, 5 )</var>
 		<var id="CONST">randRange( 1, 10 )</var>
-		<var id="XVALS">randRangeUnique( 1, 9, 4 )</var>
+		<var id="XVALS">randRangeUnique( 1, 9, 4 ).sort()</var>
 		<var id="COUNTEREXAMPLES">
 			[]
 		</var>
@@ -57,17 +57,17 @@
 			takeNMatching(3, 
 			  function generateCandidates() {
 					return {
-						coef: randRange( 1, 5 ),
-						const: randRange(0, 1) > 0 ? randRange( 1, 10 ) : randRange(-1, -10)
+						coef: randRange( 2, 5 ),
+						const: randRange( 1, 10 ),
 					}
 				}, 
-				function acceptIncorrectAnswers(candidate_answer) {
+				function acceptIncorrectAnswers(candidateAnswer) {
 					for (var i = 0; i &lt; XVALS.length; i++) {
 						var correct = COEF * XVALS[i] + CONST;
-						var candidate_result = candidate_answer.coef * XVALS[i] + candidate_answer.const;
+						var candidateResult = candidateAnswer.coef * XVALS[i] + candidateAnswer.const;
 						//if this candidate disagrees with the correct answer in at least one visible place
 						//then we accept it
-						if (correct != candidate_result) {
+						if (correct != candidateResult) {
 							COUNTEREXAMPLES.push(i);
 							return true;
 						}
@@ -77,19 +77,47 @@
 				}
 			)
 		</var>
+		<var id="FLAVORS">[
+			{
+				x: "x",
+				y: "y",
+				x_header: "&lt;code class='hint_orange'>x&lt;/code>",
+				y_header: "&lt;code class='hint_blue'>y&lt;/code>",
+				intro: "Some ordered pairs for a linear function of "
+							 + "&lt;code class='hint_orange'>x&lt;/code>"
+							 + " are given in the table below.",
+				question: "Which equation was used to generate the table above?"
+			},
+			{
+				x: "p",
+				y: "c",
+				x_header: "Pound &lt;code class='hint_orange'>(p)&lt;/code>",
+				y_header: "Cost &lt;code class='hint_blue'>(c)&lt;/code>",
+				intro: "The data in the table show the cost of buying pieces of chicken per pound,"
+						 + " including the fee for the butcher to cut the chicken up.",
+				question: "What equation fits the data?"
+			},
+			{
+				x: "X",
+				y: "Y",
+				x_header: "&lt;code class='hint_orange'>X&lt;/code>",
+				y_header: "&lt;code class='hint_blue'>Y&lt;/code>",
+				question: "Which of these equations was used to solve for "
+								+	"&lt;code class='hint_blue'>Y&lt;/code>"
+								+ " in the table above?"
+			}
+		]
+		</var>
+		<var id="FLAVOR">FLAVORS[randRange(0, FLAVORS.length-1)]</var>
 	</div>
 
 	<div class="problems">
-		<div id="ordered-pairs">
-			<div class="vars">
-				<var id="X_NAME">"x"</var>
-				<var id="Y_NAME">"y"</var>
-			</div>
+		<div>
 			<div class="question">
-				<p>Some ordered pairs for a linear function of x are given in the table below.</p>
+				<p><var>FLAVOR.intro</var></p>
 				<table class="plug_in">
 					<thead>
-						<tr><th><code class="hint_orange">x</code></th><th><code class="hint_blue">y</code></th></tr>
+						<tr><th><var>FLAVOR.x_header</var></th><th><var>FLAVOR.y_header</var></th></tr>
 					</thead>
 					<tbody>
 						<tr data-each="XVALS as xval">
@@ -97,75 +125,30 @@
 						</tr>
 					</tbody>
 				</table>
-				<p>Which of the following equations was used to generate the table above?</p>
-			</div>
-		</div>
-		<div id="chicken-per-pound">
-			<div class="vars">
-				<var id="X_NAME">"p"</var>
-				<var id="Y_NAME">"c"</var>
-			</div>
-			<div class="question">
-				<p>
-					The data in the table show the cost of buying pieces of chicken per pound,
-					including the fee for the butcher to cut the chicken up.
-				</p>
-				<table class="plug_in">
-					<thead>
-						<tr><th>Pound <code class="hint_orange">(p)</code></th><th>Cost <code class="hint_blue">(c)</code></th></tr>
-					</thead>
-					<tbody>
-						<tr data-each="XVALS as xval">
-							<td><var>xval</var></td><td><var>COEF * xval + CONST</var></td>
-						</tr>
-					</tbody>
-				</table>
-				<p>What equation fits the data?</p>
-			</div>
-		</div>
-		<div id="which-equation">
-			<div class="vars">
-				<var id="X_NAME">"X"</var>
-				<var id="Y_NAME">"Y"</var>
-			</div>
-			<div class="question">
-				<p>
-					Which of the equations below was used to solve for <code>Y</code> in the following
-					table?
-				</p>
-				<table class="plug_in">
-					<thead>
-						<tr><th><code class="hint_orange">X</code></th><th><code class="hint_blue">Y</code></th></tr>
-					</thead>
-					<tbody>
-						<tr data-each="XVALS as xval">
-							<td><var>xval</var></td><td><var>COEF * xval + CONST</var></td>
-						</tr>
-					</tbody>
-				</table>
+				<p><var>FLAVOR.question</var></p>
 			</div>
 		</div>
 	</div>
 
-	<div class="solution"><code><var>Y_NAME</var> = <var>COEF</var><var>X_NAME</var> + <var>CONST</var></code></div>
+	<div class="solution"><code><var>FLAVOR.y</var> = <var>COEF</var><var>FLAVOR.x</var> + <var>CONST</var></code></div>
 	<ul class="choices">
 		<li data-each="WRONG_ANSWERS as answer">
-			<code><var>Y_NAME</var> = <var>answer.coef</var><var>X_NAME</var> + <var>answer.const</var></code>
+			<code><var>FLAVOR.y</var> = <var>answer.coef</var><var>FLAVOR.x</var> + <var>answer.const</var></code>
 		</li>
 	</ul>
 
 
 	<div class="hints">
 		<div>
-			Try one of the answers and substituting the values for <code class="hint_orange"><var>X_NAME</var></code>
-			and <code class="hint_blue"><var>Y_NAME</var></code> from the table. If the equality doesn't hold, then
+			Try one of the answers and substituting the values for <code class="hint_orange"><var>FLAVOR.x</var></code>
+			and <code class="hint_blue"><var>FLAVOR.y</var></code> from the table. If the equality doesn't hold, then
 			that equation doesn't work with this table.
 		</div>
 		<div>
 			<p>
-				For example, take <code class="hint_blue"><var>Y_NAME</var></code><code></span> = <var>WRONG_ANSWERS[0].coef</var></code><code class="hint_orange"><var>X_NAME</var></code> + <var>WRONG_ANSWERS[0].const</var></code>.
-				Substituting <code class="hint_orange"><var>X_NAME</var></code> and <code class="hint_blue"><var>Y_NAME</var></code>
-				for the values in the <var>cardinal(COUNTEREXAMPLES[0] + 2)</var> row of the table, we get the equality:
+				For example, take <code class="hint_blue"><var>FLAVOR.y</var></code><code></span> = <var>WRONG_ANSWERS[0].coef</var></code><code class="hint_orange"><var>FLAVOR.x</var></code> + <var>WRONG_ANSWERS[0].const</var></code>.
+				Substituting <code class="hint_orange"><var>FLAVOR.x</var></code> and <code class="hint_blue"><var>FLAVOR.y</var></code>
+				for the values in the <var>toOrdinalString(COUNTEREXAMPLES[0] + 2)</var> row of the table, we get the equality:
 			</p>
 			<p>
 				<code class="hint_blue"><var>COEF * XVALS[COUNTEREXAMPLES[0]] + CONST</var></code>
@@ -180,18 +163,18 @@
 			<p>
 				<code class="hint_blue"><var>COEF * XVALS[COUNTEREXAMPLES[0]] + CONST</var></code> =
 					<var>WRONG_ANSWERS[0].coef * XVALS[COUNTEREXAMPLES[0]] + WRONG_ANSWERS[0].const</var>
-				</code> <span style="color: red;">❎</span>
+				</code> <span style="color: red;">✗</span>
 			</p>
 			Which isn't true, so we can eliminate 
-			<code class="hint_blue"><var>Y_NAME</var></code><code></span> = <var>COEF</var></code><code class="hint_orange"><var>X_NAME</var></code> + <var>CONST</var></code>,
-			because it doesn't work for the <var>cardinal(COUNTEREXAMPLES[0] + 2)</var> row of the table.
+			<code class="hint_blue"><var>FLAVOR.y</var></code><code></span> = <var>COEF</var></code><code class="hint_orange"><var>FLAVOR.x</var></code> + <var>CONST</var></code>,
+			because it doesn't work for the <var>toOrdinalString(COUNTEREXAMPLES[0] + 2)</var> row of the table.
 		</div>
 		<div>
 			We can continue to try each of the equations to see if they work with the values in the table.
 		</div>
 		<div>
 			When we try
-			<code class="hint_blue"><var>Y_NAME</var></code><code></span> = <var>COEF</var></code><code class="hint_orange"><var>X_NAME</var></code> + <var>CONST</var></code> we can see that it holds for each of the rows of the table:
+			<code class="hint_blue"><var>FLAVOR.y</var></code><code></span> = <var>COEF</var></code><code class="hint_orange"><var>FLAVOR.x</var></code> + <var>CONST</var></code> we can see that it holds for each of the rows of the table:
 			<table class='plug_hint'>
 				<tr data-each="XVALS as xval">
 					<td>
