@@ -1378,6 +1378,8 @@ function makeProblem( id, seed ) {
 		once = false;
 	}
 
+	drawGraph();
+
 	jQuery(Khan).trigger( "newProblem" );
 
   return answerType;
@@ -1392,7 +1394,7 @@ function drawGraph( followups ){
 
 		var exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]);
 
-		var getFollowups = function(){
+		var getUserFollowups = function(){
 			$.ajax({
 			  url: server + "/api/v1/user/exercises/"+exerciseName+"/followup_exercises",
 				type: "GET",
@@ -1411,11 +1413,16 @@ function drawGraph( followups ){
 		var renderFollowups = function(exercises){
 			$("#you-are-here").empty();
 
-			var map = Raphael("you-are-here",5000, 100);
+			exercises = exercises || [];
+
+			exercises = exercises.slice(0,3);
+
+			var map = Raphael("you-are-here",500, 150);
+
+			var paths = ["M10,75 l75,0 l0,40", "M10,75 l150,0 l0,-40", "M10,75 l225,0"];
 
 			var routes = $.map( exercises, function(exercise, i){
-				var s = map.set(),
-					offset = oscillate(i),
+				var offset = oscillate(i),
 					p1 = {x:10,y:50},
 					p2 = {x:(70+80*i), y:0}, //relative
 					// p3 is the curve that runs up/down x,y are the destination b12xy are the first and second
@@ -1449,23 +1456,42 @@ function drawGraph( followups ){
 					routeColor = "#ccc";
 				}
 
-				var route = map.path(pathstring)
-					.attr("stroke-width",5)
-					.attr("stroke", routeColor);
+				// var route = map.path(pathstring)
+				var route = map.path(paths[i])
+					.attr("stroke-width",6)
+					.attr("stroke", "#ddd"/*routeColor*/);
 
 				var endpoint = route.getPointAtLength(route.getTotalLength());
-				var dot = map.ellipse(endpoint.x, endpoint.y, 5,5)
+				var dot = map.ellipse(endpoint.x, endpoint.y, 6,6)
 					.attr("fill", dotColor)
 					.attr("stroke","#fff")
 					.attr("stroke-width",2);
 
+				yoffset = (i === 0) ? 16 : -16;
+				xoffset = -3;
+
 				var href = typeof userExercise !== "undefined" ? "/exercises?exid="+exercise.exercise : "./"+exercise.exercise+".html";
-				var label = map.text(endpoint.x+10, endpoint.y, exercise.exercise_model.display_name)
+				var label = map.text(endpoint.x + xoffset, endpoint.y + yoffset, exercise.exercise_model.display_name)
 					.attr("text-anchor","start")
+					.attr("font-size", 14)
 					.attr("href",href)
 					.attr("fill","#999");
 
-				s.push(route).push(label);
+				var box = map.set(),
+					labels = map.set();
+				labels.push(dot).push(label);
+				box.push(route).push(labels);
+
+				var over = function(spec){
+					route.toBack();
+					box.toFront();
+					route.animate( {stroke : routeColor}, 350 , "<>");
+				};
+				var out = function(spec){ 
+					route.animate( {stroke : "#ddd" }, 550, "<>", function(){ box.toBack(); labels.toFront(); } );
+				};
+				
+				box.mouseover(over).mouseout(out);
 			});
 
 		};
@@ -1474,11 +1500,7 @@ function drawGraph( followups ){
 
 			getFollowups();
 			return;
-
-		}else{
-
-			renderFollowups();
-
+		
 		}
 
 	}
@@ -2132,7 +2154,7 @@ function prepareSite() {
 				var jel = jQuery("#exercise-message-container");
 				if (userState.template !== null) {
 					jel.empty().append(userState.template);
-					drawGraph();
+					// drawGraph();
 					setTimeout(function(){ jel.slideDown(); }, 50);
 				}
 				else {
