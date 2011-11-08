@@ -1390,7 +1390,7 @@ function drawGraph( followups ){
 		// prime followups as empty so that we can check properties without throwing exceptions
 		followups = followups || {};
 
-		var server = "http://localhost:8080";
+		var server = "";
 
 		var exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]);
 
@@ -1498,7 +1498,7 @@ function drawGraph( followups ){
 
 		if ( !followups.exercise_states ){
 
-			getFollowups();
+			getUserFollowups();
 			return;
 		
 		}
