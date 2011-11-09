@@ -8,9 +8,9 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-            <var id="DENOMINATOR">randRange(1, 99) * Math.pow( 10, randRange( -7, 1 ) )</var>
-            <var id="QUOTIENT">randRange(1, 99) * Math.pow( 10, randRange( -1, 1 ) )</var>
-            <var id="NUMERATOR">DENOMINATOR * QUOTIENT</var>
+			<var id="DENOMINATOR">randRange(1, 99) * Math.pow( 10, randRange( -7, 1 ) )</var>
+			<var id="QUOTIENT">randRange(1, 99) * Math.pow( 10, randRange( -1, 1 ) )</var>
+			<var id="NUMERATOR">DENOMINATOR * QUOTIENT</var>
 
 
 			<code>\newcommand{\exponentColor}[1]{\color{purple}{#1}}\newcommand{\leadingColor}[1]{\color{green}{#1}}</code>
@@ -30,13 +30,13 @@
 				</div>
 
 				<div class="hints">
-                    <p>Start by collecting like terms together.</p>
-                    <p><code>\frac{<var>scientific_mantissa(4,NUMERATOR)</var>}{<var>scientific_mantissa(2,DENOMINATOR)</var>}\times\frac{10^{<var>scientific_exponent(NUMERATOR)</var>}}{10^{<var>scientific_exponent(DENOMINATOR)</var>}}</code></p>
-                    <p>When dividing exponents with the same base, subtract their powers.</p>
-                    <p><code><var>(scientific_mantissa(4,NUMERATOR) / scientific_mantissa(2,DENOMINATOR)).toFixed(2)</var>\times 10^{<var>scientific_exponent(NUMERATOR)</var>\,-\,<var>scientific_exponent(DENOMINATOR)</var>}</code></p>
-                    <p><code><var>(scientific_mantissa(4,NUMERATOR) / scientific_mantissa(2,DENOMINATOR)).toFixed(2)</var>\times 10^{<var>scientific_exponent(NUMERATOR)-scientific_exponent(DENOMINATOR)</var>}</code></p>
-                    <p data-if="scientific_exponent(QUOTIENT) != scientific_exponent(NUMERATOR) - scientific_exponent(DENOMINATOR)">Adjust the number to have a single digit to the left of the decimal point.</p>
-                    <p data-if="scientific_exponent(QUOTIENT) != scientific_exponent(NUMERATOR) - scientific_exponent(DENOMINATOR)"><code><var>scientific(2,QUOTIENT)</var></code></p>
+					<p>Start by collecting like terms together.</p>
+					<p><code>\frac{<var>scientific_mantissa(4,NUMERATOR)</var>}{<var>scientific_mantissa(2,DENOMINATOR)</var>}\times\frac{10^{<var>scientific_exponent(NUMERATOR)</var>}}{10^{<var>scientific_exponent(DENOMINATOR)</var>}}</code></p>
+					<p>When dividing exponents with the same base, subtract their powers.</p>
+					<p><code><var>(scientific_mantissa(4,NUMERATOR) / scientific_mantissa(2,DENOMINATOR)).toFixed(2)</var>\times 10^{<var>scientific_exponent(NUMERATOR)</var>\,-\,<var>scientific_exponent(DENOMINATOR)</var>}</code></p>
+					<p><code><var>(scientific_mantissa(4,NUMERATOR) / scientific_mantissa(2,DENOMINATOR)).toFixed(2)</var>\times 10^{<var>scientific_exponent(NUMERATOR)-scientific_exponent(DENOMINATOR)</var>}</code></p>
+					<p data-if="scientific_exponent(QUOTIENT) != scientific_exponent(NUMERATOR) - scientific_exponent(DENOMINATOR)">Adjust the number to have a single digit to the left of the decimal point.</p>
+					<p data-if="scientific_exponent(QUOTIENT) != scientific_exponent(NUMERATOR) - scientific_exponent(DENOMINATOR)"><code><var>scientific(2,QUOTIENT)</var></code></p>
 				</div>
 			</div>
 			<div id="multiply">
@@ -52,13 +52,13 @@
 				</div>
 
 				<div class="hints">
-                    <p>Start by collecting like terms together.</p>
-                    <p><code>(<var>scientific_mantissa(2,QUOTIENT)</var>\times <var>scientific_mantissa(2,DENOMINATOR)</var>)\times (10^{<var>scientific_exponent(QUOTIENT)</var>}\times 10^{<var>scientific_exponent(DENOMINATOR)</var>})</code></p>
-                    <p>When multiplying exponents with the same base, add the powers together.</p>
-                    <p><code><var>(scientific_mantissa(2,QUOTIENT) * scientific_mantissa(2,DENOMINATOR)).toFixed(2)</var>\times 10^{<var>scientific_exponent(QUOTIENT)</var>\,+\,<var>scientific_exponent(DENOMINATOR)</var>}</code></p>
-                    <p><code><var>(scientific_mantissa(2,QUOTIENT) * scientific_mantissa(2,DENOMINATOR)).toFixed(2)</var>\times 10^{<var>scientific_exponent(QUOTIENT)+scientific_exponent(DENOMINATOR)</var>}</code></p>
-                    <p data-if="scientific_mantissa(2,NUMERATOR) != scientific_mantissa(2,QUOTIENT) * scientific_mantissa(2,DENOMINATOR)">Adjust the number to have a single digit to the left of the decimal point.</p>
-                    <p data-if="scientific_mantissa(2,NUMERATOR) != scientific_mantissa(2,QUOTIENT) * scientific_mantissa(2,DENOMINATOR)"><code><var>scientific(4,NUMERATOR)</var></code></p>
+					<p>Start by collecting like terms together.</p>
+					<p><code>(<var>scientific_mantissa(2,QUOTIENT)</var>\times <var>scientific_mantissa(2,DENOMINATOR)</var>)\times (10^{<var>scientific_exponent(QUOTIENT)</var>}\times 10^{<var>scientific_exponent(DENOMINATOR)</var>})</code></p>
+					<p>When multiplying exponents with the same base, add the powers together.</p>
+					<p><code><var>(scientific_mantissa(2,QUOTIENT) * scientific_mantissa(2,DENOMINATOR)).toFixed(2)</var>\times 10^{<var>scientific_exponent(QUOTIENT)</var>\,+\,<var>scientific_exponent(DENOMINATOR)</var>}</code></p>
+					<p><code><var>(scientific_mantissa(2,QUOTIENT) * scientific_mantissa(2,DENOMINATOR)).toFixed(2)</var>\times 10^{<var>scientific_exponent(QUOTIENT)+scientific_exponent(DENOMINATOR)</var>}</code></p>
+					<p data-if="scientific_mantissa(2,NUMERATOR) != scientific_mantissa(2,QUOTIENT) * scientific_mantissa(2,DENOMINATOR)">Adjust the number to have a single digit to the left of the decimal point.</p>
+					<p data-if="scientific_mantissa(2,NUMERATOR) != scientific_mantissa(2,QUOTIENT) * scientific_mantissa(2,DENOMINATOR)"><code><var>scientific(4,NUMERATOR)</var></code></p>
 				</div>
 			</div>
 		</div>
