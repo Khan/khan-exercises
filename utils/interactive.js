@@ -381,16 +381,14 @@ jQuery.extend( KhanUtil, {
 		// as part of a hint to show the user the correct place to put the point.
 		movablePoint.moveTo = function( coordX, coordY ) {
 			// find distance in pixels to move
-			var distance = Math.sqrt((this.coordX - coordX) * graph.scale[0] * (this.coordX - coordX) * graph.scale[0]
-			+ (this.coordY - coordY) * graph.scale[1] * (this.coordY - coordY) * graph.scale[1]);
+			var distance = KhanUtil.distance( this.graph.scalePoint([ coordX, coordY ]), this.graph.scalePoint( this.coord ) );
 
 			// 5ms per pixel seems good
 			var time = distance * 5;
 
-			this.visibleShape.animate({ cx: (coordX - graph.range[0][0]) * graph.scale[0] }, time );
-			this.mouseTarget.animate({ cx: (coordX - graph.range[0][0]) * graph.scale[0] }, time );
-			this.visibleShape.animate({ cy: (graph.range[1][1] - coordY) * graph.scale[1] }, time );
-			this.mouseTarget.animate({ cy: (graph.range[1][1] - coordY) * graph.scale[1] }, time );
+			var scaled = graph.scalePoint([ coordX, coordY ]);
+			this.visibleShape.animate({ cx: scaled[0], cy: scaled[1] }, time );
+			this.mouseTarget.animate({ cx: scaled[0], cy: scaled[1] }, time );
 			this.coord = [ coordX, coordY ];
 			if ( jQuery.isFunction( this.onMove ) ) {
 				this.onMove( coordX, coordY );
