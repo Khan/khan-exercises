@@ -1518,7 +1518,7 @@ function drawGraph( followups ){
 				box.push(route).push(labels);
 
 				// when you mouseover, fade in the route and make sure the current star isn't covered
-				var over = function(spec){
+				var over = function(){
 					box.toFront();
 					route.toFront();
 					labels.toFront();
@@ -1528,11 +1528,18 @@ function drawGraph( followups ){
 					route.animate( {stroke : dotColor}, 350 , "<>");
 				};
 				// mouseout, fade out the path to its original color
-				var out = function(spec){ 
+				var out = function(){ 
 					route.animate( {stroke : routeColor }, 550, "<>" );
 				};
 				
-				box.mouseover(over).mouseout(out);
+				var gotoExercise = function(){ console.log("back!"); window.location = href; };
+				var click = function(evt){
+					eve.stop()
+					console.log("holla!")
+					gae_bingo.bingo("clicked_followup" /*, gotoExercise, gotoExercise*/);
+					return false;
+				}
+				box.mouseover(over).mouseout(out).click();
 			});
 
 			// promote the current star
@@ -2208,7 +2215,19 @@ function prepareSite() {
 				var jel = jQuery("#exercise-message-container");
 				if (userState.template !== null) {
 					jel.empty().append(userState.template);
-					if(userState.state.indexOf("proficient") !== -1){
+
+					jQuery("#exercise-message-container a").click(function(evt){
+						var href = jQuery(this).attr("href");
+						var gotoDashboard = function(){ window.location = href; console.log("holla!"); };
+
+						evt.preventDefault();
+
+						if(href.indexOf("dashboard") > -1){
+							gae_bingo.bingo("clicked_dashboard", gotoDashboard, gotoDashboard);
+						}
+					});
+
+					if(userState.state.indexOf("proficient") !== -1 && userState.sees_graph){
 						drawGraph(userState.followups);
 					}
 					setTimeout(function(){ jel.slideDown(); }, 50);
