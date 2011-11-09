@@ -22,7 +22,7 @@
 	<script type="text/javascript">
 		// Returns an array of length count of elements produced by
 		// the generate function, all of whom match the given predicate
-		function takeNMatching(count, generator, predicate) {
+		function takeNMatching( count, generator, predicate ) {
 			var toReturn = [];
 			while (toReturn.length < count) {
 				var val = generator();
@@ -33,7 +33,7 @@
 			return toReturn;
 		}
 
-		function toOrdinalString(n) {
+		function toOrdinalString( n ) {
 			return {
 				1: "first",
 				2: "second",
@@ -61,7 +61,7 @@
 						const: randRange( 1, 10 ),
 					}
 				},
-				function acceptIncorrectAnswers(candidateAnswer) {
+				function acceptIncorrectAnswers( candidateAnswer ) {
 					for (var i = 0; i &lt; XVALS.length; i++) {
 						var correct = COEF * XVALS[i] + CONST;
 						var candidateResult = candidateAnswer.coef * XVALS[i] + candidateAnswer.const;
@@ -108,7 +108,7 @@
 			}
 		]
 		</var>
-		<var id="FLAVOR">FLAVORS[randRange(0, FLAVORS.length-1)]</var>
+		<var id="FLAVOR">FLAVORS[randRange( 0, FLAVORS.length-1 )]</var>
 	</div>
 
 	<div class="problems">
@@ -148,7 +148,7 @@
 			<p>
 				For example, take <code class="hint_blue"><var>FLAVOR.y</var></code><code></span> = <var>WRONG_ANSWERS[0].coef</var></code><code class="hint_orange"><var>FLAVOR.x</var></code> + <var>WRONG_ANSWERS[0].const</var></code>.
 				Substituting <code class="hint_orange"><var>FLAVOR.x</var></code> and <code class="hint_blue"><var>FLAVOR.y</var></code>
-				for the values in the <var>toOrdinalString(COUNTEREXAMPLES[0] + 2)</var> row of the table, we get the equality:
+				for the values in the <var>toOrdinalString( COUNTEREXAMPLES[0] + 2 )</var> row of the table, we get the equality:
 			</p>
 			<p>
 				<code class="hint_blue"><var>COEF * XVALS[COUNTEREXAMPLES[0]] + CONST</var></code>
@@ -167,7 +167,7 @@
 			</p>
 			Which isn't true, so we can eliminate
 			<code class="hint_blue"><var>FLAVOR.y</var></code><code></span> = <var>COEF</var></code><code class="hint_orange"><var>FLAVOR.x</var></code> + <var>CONST</var></code>,
-			because it doesn't work for the <var>toOrdinalString(COUNTEREXAMPLES[0] + 2)</var> row of the table.
+			because it doesn't work for the <var>toOrdinalString( COUNTEREXAMPLES[0] + 2 )</var> row of the table.
 		</div>
 		<div>
 			We can continue to try each of the equations to see if they work with the values in the table.
