@@ -382,9 +382,9 @@ jQuery.extend(KhanUtil, {
 
 	// Round a number to a certain number of significant digits
 	roundToSignificant: function( precision, num ) {
-		var maxPlace = Math.floor(Math.log(num) / Math.log(10))
-		var decimals = precision - maxPlace - 1
-		return this.roundTo(decimals, num).toFixed(decimals < 0 ? 0 : decimals)
+		var maxPlace = Math.floor( Math.log( num ) / Math.log( 10 ) );
+		var decimals = precision - maxPlace - 1;
+		return this.roundTo( decimals, num ).toFixed( decimals < 0 ? 0 : decimals );
 	},
 
 	// toFraction( 4/8 ) => [1, 2]

@@ -497,188 +497,199 @@ jQuery.extend( Khan.answerTypes, {
 						["f", "femto", 1e-15],
 						["a", "atto",  1e-18],
 						["z", "zepto", 1e-21],
-						["y", "yocto", 1e-24]]
+						["y", "yocto", 1e-24]];
 
-		var base_units = [["m", "meter"],
-						  ["g", "gram"],
-						  ["s", "second"],
-						  ["A", "ampere", "amp"],
-						  ["K", "kelvin"],
-						  ["mol", "mole"],
-						  ["cd", "candela"]]
+		var baseUnits = [["m", "meter"],
+						 ["g", "gram"],
+						 ["s", "second"],
+						 ["A", "ampere", "amp"],
+						 ["K", "kelvin"],
+						 ["mol", "mole"],
+						 ["cd", "candela"]];
 
-		var derived_units = [["rad", "radian",	[1]],
-							 ["sr",  "steradian", [1]],
-							 ["Hz",  "hertz",	 [["s", -1]]],
-							 ["N",   "newton",	[1e3,
-												   ["m", 1],
-												   ["g", 1],
-												   ["s", -2]]],
-							 ["Pa",  "pascal",	[["N", 1], ["m", -2]]],
-							 ["J",   "joule",	 [["N", 1], ["m", 1]]],
-							 ["W",   "watt",	  [["J", 1], ["s", -1]]],
-							 ["C",   "coulomb",   [["s", 1], ["A", 1]]],
-							 ["V",   "volt",	  [["W", 1], ["A", -1]]],
-							 ["F",   "farad",	 [["C", 1], ["V", -1]]],
-							 ["ohm", "ohm",	   [["V", 1], ["A", -1]]],
-							 ["S",   "siemen",	[["A", 1], ["V", -1]]],
-							 ["Wb",  "weber",	 [["V", 1], ["s", 1]]],
-							 ["T",   "tesla",	 [["Wb", 1], ["m", -2]]],
-							 ["H",   "henry",	 [["Wb", 1], ["A", -1]]],
-							 ["lm",  "lumen",	 [["cd", 1], ["sr", 1]]],
-							 ["lx",  "lux",	   [["lm", 1], ["m", -2]]],
-							 ["Bq",  "becquerel", [["s", -1]]],
-							 ["Gy",  "gray",	  [1e-3, ["J", 1], ["g", -1]]],
-							 ["Sv",  "sievert",   [1e-3, ["J", 1], ["g", -1]]],
-							 ["kat", "katal",	 [["mol", 1], ["s", -1]]]]
+		var derivedUnits = [["rad", "radian",	[1]],
+							["sr",  "steradian", [1]],
+							["Hz",  "hertz",	 [["s", -1]]],
+							["N",   "newton",	[1e3,
+							   				     ["m", 1],
+							   				     ["g", 1],
+							   				     ["s", -2]]],
+							["Pa",  "pascal",	[["N", 1], ["m", -2]]],
+							["J",   "joule",	 [["N", 1], ["m", 1]]],
+							["W",   "watt",	  [["J", 1], ["s", -1]]],
+							["C",   "coulomb",   [["s", 1], ["A", 1]]],
+							["V",   "volt",	  [["W", 1], ["A", -1]]],
+							["F",   "farad",	 [["C", 1], ["V", -1]]],
+							["ohm", "ohm",	   [["V", 1], ["A", -1]]],
+							["S",   "siemen",	[["A", 1], ["V", -1]]],
+							["Wb",  "weber",	 [["V", 1], ["s", 1]]],
+							["T",   "tesla",	 [["Wb", 1], ["m", -2]]],
+							["H",   "henry",	 [["Wb", 1], ["A", -1]]],
+							["lm",  "lumen",	 [["cd", 1], ["sr", 1]]],
+							["lx",  "lux",	   [["lm", 1], ["m", -2]]],
+							["Bq",  "becquerel", [["s", -1]]],
+							["Gy",  "gray",	  [1e-3, ["J", 1], ["g", -1]]],
+							["Sv",  "sievert",   [1e-3, ["J", 1], ["g", -1]]],
+							["kat", "katal",	 [["mol", 1], ["s", -1]]]];
    
-		var unit_regex = ""
+		var unitRegex = "";
 		
-		jQuery.each(base_units, function( u ) {
-			jQuery.each(base_units[u], function( name ) {
-				if( unit_regex !== "" ) unit_regex += "|"
-				unit_regex += base_units[u][name]
-			})
-		})
+		jQuery.each( baseUnits, function( u ) {
+			jQuery.each(baseUnits[u], function( name ) {
+				if( unitRegex !== "" ) unitRegex += "|";
+				unitRegex += baseUnits[u][name];
+			});
+		});
 
-		jQuery.each(derived_units, function( u ) {
-			unit_regex += "|" + derived_units[u][0] + "|" + derived_units[u][1]
-		})
+		jQuery.each( derivedUnits, function( u ) {
+			unitRegex += "|" + derivedUnits[u][0] + "|" + derivedUnits[u][1];
+		});
 
-		var prefix_regex = ""
+		var prefixRegex = "";
 
-		jQuery.each(prefixes, function( u ) {
-			prefix_regex += "|" + prefixes[u][0] + "|" + prefixes[u][1]
-		})
+		jQuery.each( prefixes, function( u ) {
+			prefixRegex += "|" + prefixes[u][0] + "|" + prefixes[u][1];
+		});
 
-		unit_regex = new RegExp("^("+prefix_regex+")-?("+unit_regex+")s?$", "i");
+		unitRegex = new RegExp( "^("+prefixRegex+")-?("+unitRegex+")s?$", "i" );
 
 		// Extracts the prefix name
 		var extractPrefix = function( token ) {
-			var vals = unit_regex.exec(token)
-			if(vals === null) return vals
-			return vals.slice(1)
-		}
+			var vals = unitRegex.exec( token );
+			if(vals === null) {
+                return vals;
+            }
+			return vals.slice( 1 );
+		};
 		
 		var getScale = function( token ) {
-			var rtn = null
-			if( token === "" ) return 1
+			var rtn = null;
+			if( token === "" ) {
+                return 1;
+            }
 			jQuery.each( prefixes, function( i ) {
 				if( token === prefixes[i][0]
-				|| token.toLowerCase() === prefixes[i][1] ) {
-					rtn = prefixes[i][2]
+				 || token.toLowerCase() === prefixes[i][1] ) {
+					rtn = prefixes[i][2];
 				}
-				return !rtn
-			})
-			return rtn
-		}
+				return !rtn;
+			});
+			return rtn;
+		};
 		
 		// Returns standard unit name for a base unit
 		var getBase = function( token ) {
-			var rtn = null 
-			jQuery.each( base_units, function( u ) {
-				var _token = token // abbreviation is case-sensitive
-				u = base_units[u]
+			var rtn = null;
+			jQuery.each( baseUnits, function( u ) {
+				var _token = token; // abbreviation is case-sensitive
+				u = baseUnits[u];
 				jQuery.each( u, function( name ) {
-					if( _token === u[name] ) rtn = u[0]
-					_token = _token.toLowerCase()
-					return !rtn
-				})
-				return !rtn
-			})
-			return rtn
-		}
+					if( _token === u[name] ) {
+                        rtn = u[0];
+                    }
+					_token = _token.toLowerCase();
+					return !rtn;
+				});
+				return !rtn;
+			});
+			return rtn;
+		};
 
 		// Returns list of factors for a derived unit
 		var getDerived = function( token ) {
-			var rtn = null
-			jQuery.each( derived_units, function( u ) {
-				u = derived_units[u]
+			var rtn = null;
+			jQuery.each( derivedUnits, function( u ) {
+				u = derivedUnits[u];
 				if( token === u[0] || token.toLowerCase() === u[1] ) {
-					rtn = u[2]
-				} 
-				return !rtn
-			})
-			return rtn
-		}
+					rtn = u[2];
+				}
+				return !rtn;
+			});
+			return rtn;
+		};
 
 		// Modifies aggregate to multiply another derived unit
 		var appendUnit = function( aggregate, extra ) {
 			aggregate.scale *= extra.scale;
-			jQuery.each(base_units, function( key ) {
-				key = base_units[key]
-				if(extra.hasOwnProperty(key[0])) {
-					if( !aggregate.hasOwnProperty(key[0]) ) {
+			jQuery.each( baseUnits, function( key ) {
+				key = baseUnits[key];
+				if( extra.hasOwnProperty( key[0] ) ) {
+					if( !aggregate.hasOwnProperty( key[0] ) ) {
 						 aggregate[key[0]] = 0;
 					}
 					aggregate[key[0]] += extra[key[0]];
 				}
-			})
-			return aggregate
-		}
+			});
+			return aggregate;
+		};
 
 		// Returns an object with keys for the scale and unit factors
 		var simplifyUnit = function( name, exponent ) {
-			name = extractPrefix( name )
+			name = extractPrefix( name );
 
-			if(!name) return { scale: 0 }
+			if( !name ) {
+                return { scale: 0 };
+            }
 
-			var prefix = name[0]
-			name = name[1]
-			var rtn = { scale: getScale(prefix) }
+			var prefix = name[0];
+			name = name[1];
+			var rtn = { scale: getScale( prefix ) };
 
-			if( getBase(name) ) {
-				rtn[getBase(name)] = exponent
-				rtn.scale = Math.pow(rtn.scale, exponent)
+			if( getBase( name ) ) {
+				rtn[getBase( name )] = exponent;
+				rtn.scale = Math.pow( rtn.scale, exponent );
 				return rtn;
 			}
-			var derivation = getDerived(name);
+			var derivation = getDerived( name );
 
 			// Unknown unit; further calculations will work, but answer will
 			// be wrong
-			if(!derivation) return { scale: 0 }
+			if( !derivation ) {
+                return { scale: 0 } ;
+            }
 
 			if( typeof derivation[0] === "number" ) {
-				rtn.scale = derivation[0]
-				derivation = derivation.slice(1)
+				rtn.scale = derivation[0];
+				derivation = derivation.slice( 1 );
 			}
 
 			jQuery.each( derivation, function( u ) {
 				u = derivation[u]
-				appendUnit(rtn, simplifyUnit(u[0], u[1]))
-			})
+				appendUnit( rtn, simplifyUnit( u[0], u[1] ) )
+			});
 			
-			rtn.scale = Math.pow(rtn.scale, exponent);
-			jQuery.each(base_units, function( key ) {
-				key = base_units[key]
-				if( rtn.hasOwnProperty(key[0]) ) rtn[key[0]] *= exponent
-			})
-			return rtn
+			rtn.scale = Math.pow( rtn.scale, exponent );
+			jQuery.each( baseUnits, function( key ) {
+				key = baseUnits[key];
+				if( rtn.hasOwnProperty( key[0] ) ) rtn[key[0]] *= exponent;
+			});
+			return rtn;
 		}
 
 		var parseUnit = function( str ) {
-			rtn = { scale: 1 }
-			re = /(|\/|per\s)\s*(|square\s|cubic\s)\s*((?!per|square|cubic)[-a-zA-Z]+)\s*(?:(?:\^|\*\*)\s*(-?\d+))?/i
-			fields = str.split(re)
+			rtn = { scale: 1 };
+			re = /(|\/|per\s)\s*(|square\s|cubic\s)\s*((?!per|square|cubic)[-a-zA-Z]+)\s*(?:(?:\^|\*\*)\s*(-?\d+))?/i ;
+			fields = str.split( re );
 
 			// Capturing groups:
 			//   bp+1: denominator specifier ("/" or "per ")
 			//   bp+2: verbal exponent ("square " or "cubic ")
 			//   bp+3: unit name
 			//   bp+4: numerical exponent
-			for(var bp=0; bp + 4 < fields.length; bp += 5) {
-				var exponent = 1
-				if(fields[bp+1]) exponent *= -1
-				if((/^square/i).test(fields[bp+2])) exponent *= 2
-				if((/^cubic/i).test(fields[bp+2]))  exponent *= 3
-				if(fields[bp+4]) exponent *= fields[bp+4]			 
-				appendUnit(rtn, simplifyUnit(fields[bp+3], exponent))
+			for( var bp = 0; bp + 4 < fields.length; bp += 5 ) {
+				var exponent = 1;
+				if( fields[bp+1]                       ) exponent *= -1;
+				if( ( /^square/i ).test( fields[bp+2]) ) exponent *=  2;
+				if( ( /^cubic/i  ).test( fields[bp+2]) ) exponent *=  3;
+				if( fields[bp+4]                       ) exponent *= fields[bp+4];
+
+				appendUnit( rtn, simplifyUnit( fields[bp+3], exponent ) );
 			}
-			return rtn
-		}
+			return rtn;
+		};
 		 
 		var parseQuantity = function( text ) {
-			var rtn = {}
+			var rtn = {};
 			var match = text
 
 				// Replace unicode minus sign with hyphen
@@ -693,49 +704,51 @@ jQuery.extend( Khan.answerTypes, {
 				// Extract integer, numerator and denominator
 				// This matches [+-]?\.; will f
 				.match( /^([+-]?(?:\d+\.?|\d*\.\d+))\s*([^0-9.].*)$/ );
+
 			if( match ) {
-				rtn.magnitude = parseFloat(match[1])
-				rtn.unit = parseUnit(match[2])
-				rtn.magnitude *= rtn.unit.scale
-				return rtn
+				rtn.magnitude = parseFloat( match[1] );
+				rtn.unit = parseUnit( match[2] );
+				rtn.magnitude *= rtn.unit.scale;
+				return rtn;
 			}
-			return null
-		}
+
+			return null;
+		};
 
 		var verifier = function( correct, guess ) {
-			correct = parseQuantity(jQuery.trim( correct ))
-			guess = parseQuantity(jQuery.trim( guess ))
+			correct = parseQuantity( jQuery.trim( correct ) );
+			guess = parseQuantity( jQuery.trim( guess ) );
 
 			// TODO: get from options
-			var tolerance = 0.05
+			var tolerance = 0.05;
 			
 			// unparseable
-			if(!correct || !guess) return false
+			if( !correct || !guess ) return false;
 
 			// Unknown unit
-			if(correct.unit.scale == 0 || guess.unit.scale == 0) return false
+			if( correct.unit.scale == 0 || guess.unit.scale == 0 ) return false;
 			
 			// Guess too low 
-			if(correct.magnitude * (1-tolerance) > guess.magnitude) return false
+			if( correct.magnitude * ( 1-tolerance ) > guess.magnitude ) return false;
 
 			// Guess too high
-			if(correct.magnitude * (1+tolerance) < guess.magnitude) return false
+			if( correct.magnitude * ( 1+tolerance ) < guess.magnitude ) return false;
 
 			// Wrong units
-			var rtn = true
-			jQuery.each( base_units, function( i ) {
-				var key = base_units[i][0]
-				if(correct.unit[key] != guess.unit[key]) rtn = false
-				return rtn
-			})
+			var rtn = true;
+			jQuery.each( baseUnits, function( i ) {
+				var key = baseUnits[i][0];
+				if( correct.unit[key] != guess.unit[key] ) rtn = false;
+				return rtn;
+			});
 
-			return rtn
+			return rtn;
 		}
 
 		verifier.examples = ["A decimal quantity with <em>SI units</em>, " + 
-			"like <code>27\\,\\mathrm{g/cm}^\\wedge 3</code> or <code>3.2\\;\\mbox{Newtons per square meter}</code>"]
+			"like <code>27\\,\\mathrm{g/cm}^\\wedge 3</code> or <code>3.2\\;\\mbox{Newtons per square meter}</code>"];
 
-		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier);
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
 	multiple: function( solutionarea, solution ) {
