@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Graphing systems of equations</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars" data-ensure="A1 / B1 !== A2 / B2">
+		<var id="X">randRange( -9, 9 )</var>
+		<var id="Y">randRange( -9, 9 )</var>
+		<var id="A1">randRangeNonZero( -5, 5 )</var>
+		<var id="B1">randRangeNonZero( -5, 5 )</var>
+		<var id="C1">A1 * X + B1 * Y</var>
+
+		<var id="A2">randRangeNonZero( -5, 5 )</var>
+		<var id="B2">randRangeNonZero( -5, 5 )</var>
+		<var id="C2">A2 * X + B2 * Y</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<p>Graph this system of equations and solve.</p>
+			<p><code><var>expr([ "+", [ "*", A1, "x" ], [ "*", B1, "y" ] ])</var> = <var>C1</var></code></p>
+			<p><code><var>expr([ "+", [ "*", A2, "x" ], [ "*", B2, "y" ] ])</var> = <var>C2</var></code></p>
+			<p class="question"></p>
+			<div class="graphie" id="grid">
+				graphInit({
+					range: 11,
+					scale: 20,
+					axisArrows: "<->",
+					tickStep: 1,
+					labelStep: 1
+				});
+			</div>
+			<div class="solution" data-type="multiple">
+				<p><code>x</code> = <span class="sol"><var>X</var></span></p>
+				<p><code>y</code> = <span class="sol"><var>Y</var></span></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<div>
+			<p>All the points on the blue line satisfy the first equation.</p>
+			<div class="graphie" data-update="grid">
+				style({ stroke: BLUE });
+				plot(function( x ) {
+					return ( C1 - A1 * x ) / B1;
+				}, [ -11, 11 ]);
+			</div>
+		</div>
+		<div>
+			<p>Similarly, all points on the orange line satisfy the second equation.</p>
+			<div class="graphie" data-update="grid">
+				style({ stroke: ORANGE });
+				plot(function( x ) {
+					return ( C2 - A2 * x ) / B2;
+				}, [ -11, 11 ]);
+			</div>
+		</div>
+		<div>
+			<p>The intersection of the two lines thus satisfies both equations.</p>
+			<p><code>x = <var>X</var></code></p>
+			<p><code>y = <var>Y</var></code></p>
+		</div>
+	</div>
+</div>
+</body>
+</html>

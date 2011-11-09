@@ -543,6 +543,190 @@ jQuery.extend( Khan.answerTypes, {
 		return ret;
 	},
 
+	set: function( solutionarea, solution ) {
+		var solutionarea = jQuery( solutionarea ),
+			showUnused = (jQuery( solution ).data( "showUnused" ) === true);
+		solutionarea.append(jQuery(solution).find(".input-format").clone().contents().tmpl());
+
+		var validatorArray = [],
+			solutionArray = [],
+			inputArray = [];
+			checkboxArray = [];
+
+		// Fill validatorArray[] with validators for each acceptable answer
+		jQuery(solution).find(".set-sol").clone().each(function() {
+			var type = jQuery( this ).data( "type" );
+			type = type != null ? type : "number";
+			// We don't want the validators to build the solutionarea. The point
+			// here is to decouple the UI from the validator. Passing null
+			// generally works.
+			var solarea = null;
+			if (type == "multiple") {
+				// Multiple is special. It has dragons that don't like null. This distracts them.
+				solarea = jQuery( this ).clone().empty();
+			}
+			var sol = jQuery( this ).clone(),
+				fallback = sol.data( "fallback" ),
+				validator = Khan.answerTypes[type]( solarea, sol, fallback );
+
+			validatorArray.push(validator);
+			solutionArray.push(validator.solution);
+		});
+
+
+		// Create throwaway validators for each "entry" on the answer form
+		// and store the resulting UI fragments in inputArray[]
+		solutionarea.find( ".entry" ).each(function() {
+			var input = jQuery( this ),
+				type = jQuery( this ).data( "type" );
+			type = type != null ? type : "number";
+
+			// We're just using this validator to paint the UI, so we pass it a bogus solution.
+			Khan.answerTypes[type]( input, jQuery(this).clone().empty(), null );
+			inputArray.push(jQuery(input).find(":input"));
+		});
+
+		// Also keep track of any checkboxes
+		solutionarea.find( ".checkbox" ).each(function() {
+			var sol = jQuery( this ).clone();
+			var solarea = jQuery( this ).empty(),
+				input = jQuery( '<input type="checkbox"/>' );
+			solarea.append( input );
+			var solution = ( jQuery.trim( sol.text() ) === "true" );
+			jQuery( input ).data( "solution", solution );
+			checkboxArray.push( input );
+			solutionArray.push( solution );
+		});
+
+		var ret = function() {
+			var valid = true,
+				// Make a copy of the validators, so we can delete each as it's used
+				unusedValidators = validatorArray.slice(0),
+				allguesses = [];
+
+			// iterate over each input area
+			jQuery( inputArray ).each( function() {
+				var guess = [],
+					correct = false,
+					validatorIdx = 0;
+
+				// Scrape the raw inputs out of the UI elements
+				jQuery( this ).each( function() {
+					guess.push( jQuery( this ).val() );
+				});
+
+				if (guess.length == 1) {
+					allguesses.push( guess[0] );
+				} else {
+					allguesses.push( guess );
+				}
+
+				// Iterate over each validator
+				while (validatorIdx < unusedValidators.length && !correct) {
+					// Push the actual guess into the validator's hidden input
+					unusedValidators[validatorIdx].showGuess( guess );
+					// And validate it
+					correct = unusedValidators[validatorIdx]();
+					++validatorIdx;
+				}
+
+				if (correct) {
+					// remove the matching validator from the list so duplicate inputs don't match
+					unusedValidators.splice(validatorIdx-1, 1);
+				} else if (jQuery.trim( guess.join( "" ) ) !== "") {
+					// Not correct and not empty; the entire answer is wrong :(
+					valid = false;
+				}
+
+			});
+
+			if ((validatorArray.length > inputArray.length)) {
+				// if there are more valid answers than inputs, make sure that as many answers as possible were entered
+				if (unusedValidators.length > validatorArray.length - inputArray.length) {
+					valid = false;
+				}
+			// otherwise, make sure every possible answer was entered
+			} else if (unusedValidators.length > 0) {
+				valid = false;
+			}
+
+			// now check that all the checkboxes are selected appropriately
+			jQuery( checkboxArray ).each( function() {
+				var guess = jQuery( this ).is( ":checked" ),
+					answer = jQuery( this ).data( "solution" ),
+					label_text = jQuery( this ).closest( "label" ).text();
+
+				if (label_text == "") {
+					label_text = "checked";
+				}
+				// un-checked boxes are recorded as "" to prevent the question from
+				// being graded if submit is clicked before anything is entered
+				allguesses.push( guess ? label_text : "" );
+				if ( guess != answer ) {
+					valid = false;
+				}
+			});
+
+			ret.guess = allguesses;
+
+			// If data-show-unused="true" is set and the question was answered correctly,
+			// show the list of additional answers (if any) that would also have been accepted.
+			//
+			// TODO: Ideally this should be shown below the green button so the button doesn't jump around.
+			//       perhaps reuse the check-answer-message area
+			if (showUnused && valid && unusedValidators.length) {
+				var otherSolutions = jQuery( "<p>" ).appendTo(solutionarea);
+				jQuery( unusedValidators ).each( function( i, el ) {
+					other_solution = el.solution;
+					if (i > 0) {
+						jQuery( "<span>" ).text(" and ").appendTo( otherSolutions );
+					}
+					jQuery.each( other_solution, function( i, el ) {
+						if (jQuery.isArray( el )) {
+							var subAnswer = jQuery( "<span>" ).appendTo( otherSolutions );
+							jQuery.each( el, function( i, el ) {
+								jQuery( "<span>" ).text( el + " " ).appendTo( subAnswer );
+							} );
+						} else {
+							jQuery( "<span> " ).text( el + " " ).appendTo( otherSolutions );
+						}
+					} );
+				});
+				if (unusedValidators.length == 1) {
+					jQuery( "<span>" ).text(" is also correct").appendTo( otherSolutions );
+				} else {
+					jQuery( "<span>" ).text(" are also correct").appendTo( otherSolutions );
+				}
+			}
+
+			return valid;
+		};
+
+		ret.showGuess = function( guess ) {
+			jQuery( inputArray ).each(function() {
+				var item = guess.shift();
+				if ( item instanceof Array ) {
+					jQuery( this ).each( function() {
+						jQuery(this).val( item.shift() );
+					});
+				} else {
+					this.val( item );
+				}
+			});
+			jQuery( checkboxArray ).each(function() {
+				this.attr('checked', guess.shift() != "");
+			});
+		};
+
+		ret.examples = solution.find( ".example" ).remove()
+			.map(function(i, el) {
+				return jQuery( el ).html();
+			});
+		ret.solution = solutionArray;
+
+		return ret;
+	},
+
 	radio: function( solutionarea, solution ) {
 		var extractRawCode = function( solution ) {
 			return jQuery( solution ).find('.value').clone()

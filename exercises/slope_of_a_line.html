@@ -48,7 +48,34 @@
 	</div>
 
 	<div class="hints">
-		<p>Picture an airplane moving from left to right.  If the the airplane is taking off <code>\color{<var>BLUE</var>}{/}</code> the slope is positive.  If it's landing <code>\color{<var>GREEN</var>}{\backslash}</code> the slope is negative.  When the plane has reached cruising altitude  <code>\color{<var>ORANGE</var>}{-}</code> the slope is 0.</code></p>
+	  <div>
+		<p>Picture an airplane moving from left to right.  If the the airplane is taking off <code>\color{<var>BLUE</var>}{/}</code>, the slope is positive.  If it's landing <code>\color{<var>GREEN</var>}{\backslash}</code>, the slope is negative.  When the plane has reached cruising altitude  <code>\color{<var>ORANGE</var>}{-}</code>, the slope is 0.</p>
+		<div style="height: 200px;">
+			<div class="graphie" style="float: left; margin: 8px;">
+					graphInit({
+					range: 4,
+					scale: 20,
+					tickStep: 1,
+					labelStep: 4
+					});
+					style({ fill: BLUE, stroke: BLUE });
+					line( [ -1,-1 ], [ 1,4 ] );
+					label([0,-4], "\\color{<var>BLUE</var>}{\\text{Airplane Taking  Off}}", "below");
+			</div>
+			<div class="graphie" style="float: left; margin: 8px;">
+					graphInit({
+					range: 4,
+					scale: 20,
+					tickStep: 1,
+					labelStep: 4
+					});
+					style({ fill: GREEN, stroke: GREEN });
+					line( [ 0, 2 ], [ 2, -1 ] );
+					label([0,-4], "\\color{<var>GREEN</var>}{\\text{Airplane Landing}}", "below");
+			</div>
+		</div>
+	  </div>
+		<p>The quicker the airplane takes off, the steeper the positive slope, which means the answer will be a higher number than when the airplane takes off slowly. The quicker the airplane lands, the steeper the negative slope, which means the answer will be much more negative than when it lands slowly.</p>
 		<div data-if="!GRAPH_IN_QUESTION" class="graphie" id="slope">
 			graphInit({
 				range: 10,

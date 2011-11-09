@@ -22,46 +22,46 @@
 <body>
 	<div class="exercise">
 		<div class="vars" data-ensure="abs( SOLUTION[0] - SOLUTION[1] ) <= 5 && FAKE_ANSWER[0] !== SOLUTION[0] && FAKE_ANSWER[1] !== SOLUTION[1]">
-			<var id="COEF">listFn( function() { 
+			<var id="COEF">tabulate( function() { 
 				return randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 );
 			} , 2 )</var>
-			<var id="ONE_OVER_COEF">listFn( function(i) { 
+			<var id="ONE_OVER_COEF">tabulate( function(i) { 
 				return fraction( 1, COEF[i] ); 
 			}, 2 )</var>
 			<var id="SIGN">randFromArray( [ "-", "+" ], 2)</var>
-			<var id="LEFT_INT">listFn( function() { 
+			<var id="LEFT_INT">tabulate( function() { 
 				return rand( 3 ) > 0 ? randRange( 2, 9 ) : 0;
 			}, 2 )</var>
-			<var id="ADD_TO_SIMPLIFY">listFn( function(i) { 
+			<var id="ADD_TO_SIMPLIFY">tabulate( function(i) { 
 				return LEFT_INT[i] * ( SIGN[i] === "+" ? -1 : 1 );
 			}, 2 )</var>
 			<var id="COMP">randFromArray( [ "&lt;", "&gt;", "&le;", "&ge;" ], 2 )</var>
-			<var id="RIGHT_INT">listFn( function(i) { 
+			<var id="RIGHT_INT">tabulate( function(i) { 
 				return randRange( 1, 6 ) * abs( COEF[i] ) + ( SIGN[i] === "+" ? 1 : -1 ) * LEFT_INT[i];
 			}, 2 )</var>
 			<var id="VARIABLE_NAME">randFromArray([ "a", "b", "c", "x", "y", "z" ])</var>
-			<var id="COMP_SOLUTION">listFn( function(i) { 
+			<var id="COMP_SOLUTION">tabulate( function(i) { 
 				return getComp( COEF[i], COMP[i] );
 			}, 2 )</var>
-			<var id="SOLUTION_NOT_REDUCED">listFn( function(i) {
+			<var id="SOLUTION_NOT_REDUCED">tabulate( function(i) {
 				return fraction( RIGHT_INT[i] + ADD_TO_SIMPLIFY[i], COEF[i] );
 			}, 2 )</var>
-			<var id="SOLUTION">listFn( function(i) {
+			<var id="SOLUTION">tabulate( function(i) {
 				return ( RIGHT_INT[i] + ADD_TO_SIMPLIFY[i] ) / COEF[i];
 			}, 2 )</var>
 			<var id="FIRST">[ "first", "second" ]</var>
 			<var id="COLOR">[ "#1F78B4", "#B30000" ]</var>
-			<var id="INCLUSIVE">listFn( function(i) {
+			<var id="INCLUSIVE">tabulate( function(i) {
 				return COMP_SOLUTION[i] === "&le;" || COMP_SOLUTION[i] === "&ge;";
 			}, 2 )</var>
-			<var id="LESS_THAN">listFn( function(i) {
+			<var id="LESS_THAN">tabulate( function(i) {
 				return COMP_SOLUTION[i] === "&le;" || COMP_SOLUTION[i] === "&lt;";
 			}, 2 )</var>
 			<var id="ALL_NUMBERS">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[0] >= SOLUTION [1] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] <= SOLUTION [1] )</var>
 			<var id="NO_SOLUTION">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[1] > SOLUTION[0] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] > SOLUTION[1] ) || ( LESS_THAN[0] !== LESS_THAN[1] && SOLUTION[0] === SOLUTION[1] && ( !INCLUSIVE[0] || !INCLUSIVE[1] ) )</var>
 			<var id="OR">randFromArray([ "or", "and" ])</var>
 			<var id="IS_OR">OR === "or"</var>
-			<var id="FAKE_ANSWER">listFn( function() {
+			<var id="FAKE_ANSWER">tabulate( function() {
 				return randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 )
 			}, 2 )</var>
 			<var id="CONTAINS">(function() {
