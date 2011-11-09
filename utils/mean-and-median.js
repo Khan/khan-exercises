@@ -3,18 +3,18 @@ jQuery.extend( KhanUtil, {
 	updateMean: function( mean ) {
 		var graph = KhanUtil.currentGraph;
 
-		jQuery( meanValueLabel ).html( mean ).tmpl();
+		jQuery( graph.graph.meanValueLabel ).html( mean ).tmpl();
 
-		meanArrow.translate( (mean * graph.scale[0]) - meanArrow.attr("translation").x, 0 );
-		meanValueLabel.remove();
-		meanValueLabel = graph.label( [ mean, 0.8 ],
+		graph.graph.meanArrow.translate( (mean * graph.scale[0]) - graph.graph.meanArrow.attr("translation").x, 0 );
+		graph.graph.meanValueLabel.remove();
+		graph.graph.meanValueLabel = graph.label( [ mean, 0.8 ],
 			( mean + "" ).replace( /-(\d)/g, "\\llap{-}$1" ),
 			"above",
 			{ color: KhanUtil.BLUE }
 		);
 
-		meanLabel.remove();
-		meanLabel = graph.label( [ mean, 1.3 ],	"\\text{mean}", "above", { color: KhanUtil.BLUE });
+		graph.graph.meanLabel.remove();
+		graph.graph.meanLabel = graph.label( [ mean, 1.3 ],	"\\text{mean}", "above", { color: KhanUtil.BLUE });
 
 		graph.graph.mean = mean;
 	},
@@ -23,22 +23,23 @@ jQuery.extend( KhanUtil, {
 	updateMedian: function( median ) {
 		var graph = KhanUtil.currentGraph;
 
-		medianArrow.translate( (median * graph.scale[0]) - medianArrow.attr("translation").x, 0 );
-		medianValueLabel.remove();
-		medianValueLabel = graph.label( [ median, -1.2 ],
+		graph.graph.medianArrow.translate( (median * graph.scale[0]) - graph.graph.medianArrow.attr("translation").x, 0 );
+		graph.graph.medianValueLabel.remove();
+		graph.graph.medianValueLabel = graph.label( [ median, -1.2 ],
 			( median + "" ).replace( /-(\d)/g, "\\llap{-}$1" ),
 			"below",
 			{ color: KhanUtil.GREEN }
 		);
 
-		medianLabel.remove();
-		medianLabel = graph.label( [ median, -1.7 ],	"\\text{median}", "below", { color: KhanUtil.GREEN });
+		graph.graph.medianLabel.remove();
+		graph.graph.medianLabel = graph.label( [ median, -1.7 ],	"\\text{median}", "below", { color: KhanUtil.GREEN });
 
 		graph.graph.median = median;
 	},
 
 
 	calculateAverages: function() {
+		var points = KhanUtil.currentGraph.graph.points;
 		var mean = 0;
 		var median = 0;
 		var values = [];
@@ -49,7 +50,7 @@ jQuery.extend( KhanUtil, {
 
 		mean /= points.length;
 
-		values = values.sort (function( a, b ) { return a - b; });
+		values = KhanUtil.sortNumbers( values );
 		if ( values.length % 2 !== 0 ) {
 			median = values[ Math.round( values.length / 2 ) - 1 ];
 		} else {
@@ -63,12 +64,13 @@ jQuery.extend( KhanUtil, {
 
 
 	onMovePoint: function( point, x, y, animate ) {
+		var points = KhanUtil.currentGraph.graph.points;
 
 		// Don't do anything unless the point actually moved
 		if ( point.coord[0] !== x ) {
 
 			// don't allow the point to move past the bounds
-			if ( x < -7 || x > 7) {
+			if ( x < -7 || x > 7 ) {
 				return false;
 			}
 
@@ -112,6 +114,7 @@ jQuery.extend( KhanUtil, {
 
 	arrangePointsAroundMedian: function() {
 		var graph = KhanUtil.currentGraph;
+		var points = graph.graph.points;
 		var targetMedian = graph.graph.targetMedian;
 		var numPoints = graph.graph.numPoints;
 		var maxWidth = Math.min( Math.abs( -7 - targetMedian ), Math.abs( 7 - targetMedian ) );
@@ -135,12 +138,13 @@ jQuery.extend( KhanUtil, {
 				distance += 0.5;
 			}
 		}
-		return newValues.sort (function(a, b){ return a - b; });
+		return KhanUtil.sortNumbers( newValues );
 	},
 
 
 	animatePoints: function( oldValues, newValues, newMedian, newMean ) {
 		var graph = KhanUtil.currentGraph;
+		var points = graph.graph.points;
 		var sortedPoints = points.sort (function(a, b){ return a.coord[0]-b.coord[0]; });
 
 		jQuery.each( oldValues, function( i, oldValue ) {
@@ -168,9 +172,10 @@ jQuery.extend( KhanUtil, {
 
 
 	showMedianExample: function( onComplete ) {
+		var points = KhanUtil.currentGraph.graph.points;
 		var targetMedian = KhanUtil.currentGraph.graph.targetMedian;
 		var maxWidth = Math.min( Math.abs( -7 - targetMedian ), Math.abs( 7 - targetMedian ) );
-		var sortedPoints = points.sort (function(a, b){ return a.coord[0]-b.coord[0]; });
+		var sortedPoints = points.sort( function( a, b ) { return a.coord[0]-b.coord[0]; });
 		var oldValues = [];
 		jQuery.each( sortedPoints, function( i, point ) {
 			oldValues.push( point.coord[0] );
@@ -183,6 +188,7 @@ jQuery.extend( KhanUtil, {
 
 	showMeanExample: function() {
 		var graph = KhanUtil.currentGraph;
+		var points = graph.graph.points;
 
 		var calculateMean = function( values ) {
 			var mean = 0;
@@ -234,7 +240,7 @@ jQuery.extend( KhanUtil, {
 				newValues[pointToMove] -= 0.5;
 			}
 			mean = calculateMean( newValues );
-			newValues = newValues.sort (function(a, b){ return a - b; });
+			newValues = KhanUtil.sortNumbers( newValues );
 		}
 
 		KhanUtil.animatePoints( oldValues, newValues, graph.graph.targetMedian, graph.graph.targetMean );
@@ -249,6 +255,7 @@ jQuery.extend( Khan.answerTypes, {
 
 		ret = function() {
 			var graph = KhanUtil.currentGraph;
+			var points = graph.graph.points;
 
 			ret.guess = [];
 			jQuery.each( points, function( i, point ) {

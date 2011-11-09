@@ -54,29 +54,24 @@
 						line( [ 0, -0.2 ], [ 0, 0.2 ] );
 						label( [ 0, -0.53 ],  "0", "center", {});
 
-						style({ strokeWidth: 2, stroke: BLUE, opacity: 0.4 });
-						line([ MEAN, 0.3 ], [ MEAN, 0.5 ]);
-						style({ strokeWidth: 2, stroke: GREEN, opacity: 0.4 });
-						line([ MEDIAN, -0.9 ], [ MEDIAN, -0.7 ]);
-
 						style({ strokeWidth: 2, stroke: BLUE, fill: BLUE, opacity: 1.0 });
-						this.meanArrow = path([
+						graph.meanArrow = path([
 							[ 0, 0.7 ], [ 0.05, 0.7 ], [ 0, 0.6 ], [ -0.05, 0.7 ], [ 0, 0.7 ], [ 0, 1.0 ]
 						]);
-						this.meanLabel = label( [ 0, 1.3 ], "\\text{mean}", "above", { color: BLUE });
-						this.meanValueLabel = label( [ 0, 0.8 ], "0", "above", { color: BLUE });
+						graph.meanLabel = label( [ 0, 1.3 ], "\\text{mean}", "above", { color: BLUE });
+						graph.meanValueLabel = label( [ 0, 0.8 ], "0", "above", { color: BLUE });
 
 						style({ strokeWidth: 2, stroke: GREEN, fill: GREEN });
-						this.medianArrow = path([
+						graph.medianArrow = path([
 							[ 0, -1.1 ], [ 0.05, -1.1 ], [ 0, -1 ], [ -0.05, -1.1 ], [ 0, -1.1 ], [ 0, -1.4 ]
 						]);
-						this.medianLabel = label( [ 0, -1.7 ],  "\\text{median}", "below", { color: GREEN });
-						this.medianValueLabel = label( [0, -1.2 ], "0", "below", { color: GREEN });
+						graph.medianLabel = label( [ 0, -1.7 ],  "\\text{median}", "below", { color: GREEN });
+						graph.medianValueLabel = label( [0, -1.2 ], "0", "below", { color: GREEN });
 
 						addMouseLayer();
-						this.points = [];
+						graph.points = [];
 						for ( var x = 0; x &lt; POINTS; x++ ) {
-							points[x] = addMovablePoint({
+							graph.points[x] = addMovablePoint({
 								coord: [ x - POINTS / 2 + 0.5, 0 ],
 								constraints: { constrainY: true },
 								snapX: 0.5
@@ -85,7 +80,7 @@
 
 						graph.median = 0;
 						graph.mean = 0;
-						jQuery.each(points, function( idx, point ) {
+						jQuery.each( graph.points, function( idx, point ) {
 							this.onMove = function( x, y ) {
 								return onMovePoint( point, x, y );
 							};
