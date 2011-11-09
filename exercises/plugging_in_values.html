@@ -5,15 +5,9 @@
 	<title>Plugging in X and Y Values</title>
 	<script src="../khan-exercise.js"></script>
 	<style type="text/css">
-		table.plug_in {
-			border: 3px solid black;
-		}
-		table.plug_in td, table.plug_in th {
-			border: 2px solid black;
-			padding-top: 5px;
-			padding-bottom: 5px;
-			padding-left: 20px;
-			padding-right: 20px;
+		.plug_in span {
+			width: 80px;
+			margin-left: -10px;
 		}
 		table.plug_hint td {
 			padding-left: 40px;
@@ -41,14 +35,22 @@
 				4: "fourth"
 			}[n]
 		}
+
+		function generatePlugCoefficient( ) {
+			return KhanUtil.randRange( 2, 5);
+		}
+
+		function generatePlugConstant( ) {
+			return KhanUtil.randRange( 1, 10 );
+		}
 	</script>
 </head>
 <body>
 <div class="exercise">
 
 	<div class="vars">
-		<var id="COEF">randRange( 2, 5 )</var>
-		<var id="CONST">randRange( 1, 10 )</var>
+		<var id="COEF">generatePlugCoefficient()</var>
+		<var id="CONST">generatePlugConstant()</var>
 		<var id="XVALS">randRangeUnique( 1, 9, 4 ).sort()</var>
 		<var id="COUNTEREXAMPLES">
 			[]
@@ -57,8 +59,8 @@
 			takeNMatching(3,
 			  function generateCandidates() {
 					return {
-						coef: randRange( 2, 5 ),
-						const: randRange( 1, 10 ),
+						coef: generatePlugCoefficient(),
+						const: generatePlugConstant(),
 					}
 				},
 				function acceptIncorrectAnswers( candidateAnswer ) {
@@ -81,18 +83,18 @@
 			{
 				x: "x",
 				y: "y",
-				x_header: "&lt;code class='hint_orange'>x&lt;/code>",
-				y_header: "&lt;code class='hint_blue'>y&lt;/code>",
+				x_header: "x",
+				y_header: "y",
 				intro: "Some ordered pairs for a linear function of "
-							 + "&lt;code class='hint_orange'>x&lt;/code>"
+							 + "&lt;span class='hint_orange'>x&lt;/span>"
 							 + " are given in the table below.",
 				question: "Which equation was used to generate the table above?"
 			},
 			{
 				x: "p",
 				y: "c",
-				x_header: "Pound &lt;code class='hint_orange'>(p)&lt;/code>",
-				y_header: "Cost &lt;code class='hint_blue'>(c)&lt;/code>",
+				x_header: "Pound (p)",
+				y_header: "Cost (c)",
 				intro: "The data in the table show the cost of buying pieces of chicken per pound,"
 						 + " including the fee for the butcher to cut the chicken up.",
 				question: "What equation fits the data?"
@@ -100,10 +102,10 @@
 			{
 				x: "X",
 				y: "Y",
-				x_header: "&lt;code class='hint_orange'>X&lt;/code>",
-				y_header: "&lt;code class='hint_blue'>Y&lt;/code>",
+				x_header: "X",
+				y_header: "Y",
 				question: "Which of these equations was used to solve for "
-								+	"&lt;code class='hint_blue'>Y&lt;/code>"
+								+	"&lt;span class='hint_blue'>Y&lt;/span>"
 								+ " in the table above?"
 			}
 		]
@@ -115,16 +117,13 @@
 		<div>
 			<div class="question">
 				<p><var>FLAVOR.intro</var></p>
-				<table class="plug_in">
-					<thead>
-						<tr><th><var>FLAVOR.x_header</var></th><th><var>FLAVOR.y_header</var></th></tr>
-					</thead>
-					<tbody>
-						<tr data-each="XVALS as xval">
-							<td><var>xval</var></td><td><var>COEF * xval + CONST</var></td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="fake_header plug_in">
+					<span class='hint_orange'><var>FLAVOR.x_header</var></span>
+					<span class='hint_blue'><var>FLAVOR.y_header</var></span>
+				</div>
+				<div class='fake_row plug_in' data-each="XVALS as xval">
+					<span><var>xval</var></span><span><var>COEF * xval + CONST</var></span>
+				</div>
 				<p><var>FLAVOR.question</var></p>
 			</div>
 		</div>
@@ -178,12 +177,12 @@
 			<table class='plug_hint'>
 				<tr data-each="XVALS as xval">
 					<td>
-						<code class="hint_blue"><var>COEF * xval + CONST</var></code><code> = <var>COEF</var> \cdot
+						<code class="hint_blue"><var>COEF * xval + CONST</var></code> <code> = <var>COEF</var> \cdot
 						</code> <code class="hint_orange"><var>xval</var></code><code> + <var>CONST</var></code>
 					</td>
 					<td>&rarr;</td>
 					<td>
-						<code class="hint_blue"><var>COEF * xval + CONST</var></code><code> =
+						<code class="hint_blue"><var>COEF * xval + CONST</var></code> <code> =
 						<var>COEF * xval + CONST</var></code> <span style="color: green;">✓</span>
 					</td>
 				</tr>
