@@ -11,7 +11,7 @@
 			<var id="NUM">randFromArray([2, 3, 5, 6, 7, 10, 11, 13])</var>
 	</div>
 	<div class="problems">
-		<div id="add" data-weight="5">
+		<div id="add">
 			<div class="vars">
 				<var id="A_COEFF, B_COEFF">randRangeUnique( 1, 5, 2 )</var>
 				<var id="A">pow( A_COEFF, 2 ) * NUM</var>
@@ -35,7 +35,7 @@
 				<p><code>= ( <var>A_COEFF</var> + <var>B_COEFF</var> )\sqrt{<var>NUM</var>} = <var>A_COEFF + B_COEFF</var>\sqrt{<var>NUM</var>}</code></p>
 			</div>
 		</div>
-		<div id="subtract" data-weight="5">
+		<div id="subtract">
 			<div class="vars">
 				<var id="A_COEFF">randRange( 2, 5 )</var>
 				<var id="B_COEFF">randRange( 1, A_COEFF - 1 )</var>
@@ -60,7 +60,7 @@
 				<p><code>= ( <var>A_COEFF</var> - <var>B_COEFF</var> )\sqrt{<var>NUM</var>} = <span data-if="A_COEFF - B_COEFF !== 1"><var>A_COEFF - B_COEFF</var></span>\sqrt{<var>NUM</var>}</code></p>
 			</div>
 		</div>
-		<div id="three-radicals" data-weight="5">
+		<div id="three-radicals">
 			<div class="vars">
 				<var id="COEFFS">
 				(function() {
@@ -104,32 +104,6 @@
 				<p>Finally, simplify by combining the terms.</p>	
 				<p><code>= ( <var>A_COEFF</var> + <var>B_COEFF</var> + <var>C_COEFF</var> )\sqrt{<var>NUM</var>} = <span data-if="A_COEFF + B_COEFF + C_COEFF !== 1"><var>A_COEFF + B_COEFF + C_COEFF</var></span>\sqrt{<var>NUM</var>}<span data-if="A_COEFF + B_COEFF + C_COEFF === 0"> = 0</span></code></p>
 			</div>
-		</div>
-		<div id="zero" data-type="three-radicals" data-weight="1">
-			<div class="vars">
-				<var id="COEFFS">
-				(function() {
-					var coeffs = [1, 2, 3, 4, 5];
-					var shuffled = shuffle( coeffs, 2 );			
-					if ( shuffled[1] === shuffled[0] / 2 ) {
-						shuffled = shuffle( coeffs, 2 );
-					}
-					
-					if ( shuffled[0] + shuffled[1] &gt; 5 ) {
-						shuffled[1] *= -1;
-					}
-					else {
-						shuffled[1] *= randRangeNonZero( -1, 1 );
-					}
-
-					shuffled[2] = ( shuffled[0] + shuffled[1] ) * -1;
-
-					return shuffled;
-					
-				})()
-				</var>
-			</div>
-			<div class="solution" data-type="rational">0</var></div>
 		</div>
 	</div>
 	</div>
