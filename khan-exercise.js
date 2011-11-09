@@ -1385,12 +1385,6 @@ function makeProblem( id, seed ) {
 
 function drawGraph( followups ){
 
-	var balrogs = ["showmap", "default"];
-
-	if (balrogs[0] !== "showmap"){ return; }
-	// function inTest ( cond ) { if (cond === "graph") { renderFollowups( followups ) } else { return; } };
-	// gae_bingo.ab_test( "sometest", null, null, inTest )
-
 	if (window.Raphael){
 		// prime followups as empty so that we can check properties without throwing exceptions
 		followups = followups || {};
@@ -1431,6 +1425,12 @@ function drawGraph( followups ){
 			var paths = ["M10,50 l75,0 l0,17", "M10,50 l150,0 l0,-17", "M10,50 l225,0"];
 			var star = "l2,0 l1-2 l1,2 l2,0 l-2,1 l1,2 l-2,-1 l-2,1 l1,-2 l-2,-1";
 
+			if(exercises.length === 2){
+				paths = paths.slice(1,3);
+			}
+			if(exercises.length === 1){
+				paths = paths.slice(2,3);
+			}
 
 			// a star explaining where you are
 			map.text(5,30, "You Are Here").attr("text-anchor","start").attr("font-size",12).attr("fill","#444");
@@ -2217,7 +2217,7 @@ function prepareSite() {
 
 					jQuery("#exercise-message-container a").click(function(evt){
 						var href = jQuery(this).attr("href");
-						var gotoDashboard = function(){ window.location = href; console.log("holla!"); };
+						var gotoDashboard = function(){ window.location = href; };
 
 						evt.preventDefault();
 
@@ -2236,6 +2236,11 @@ function prepareSite() {
 				}
 			}
 		);
+	}
+
+	// record a bingo if came here from knowledge map after clicking on green button or dashboard link
+	if(document.referrer.indexOf("move_on") > 0){
+		gae_bingo.bingo("clicked_followup")
 	}
 
 	// Make scratchpad persistent per-user
