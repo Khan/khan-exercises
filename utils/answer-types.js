@@ -511,9 +511,9 @@ jQuery.extend( Khan.answerTypes, {
 							["sr",  "steradian", [1]],
 							["Hz",  "hertz",	 [["s", -1]]],
 							["N",   "newton",	[1e3,
-							   				     ["m", 1],
-							   				     ["g", 1],
-							   				     ["s", -2]]],
+							   					 ["m", 1],
+							   					 ["g", 1],
+							   					 ["s", -2]]],
 							["Pa",  "pascal",	[["N", 1], ["m", -2]]],
 							["J",   "joule",	 [["N", 1], ["m", 1]]],
 							["W",   "watt",	  [["J", 1], ["s", -1]]],
@@ -557,16 +557,16 @@ jQuery.extend( Khan.answerTypes, {
 		var extractPrefix = function( token ) {
 			var vals = unitRegex.exec( token );
 			if(vals === null) {
-                return vals;
-            }
+				return vals;
+			}
 			return vals.slice( 1 );
 		};
 		
 		var getScale = function( token ) {
 			var rtn = null;
 			if( token === "" ) {
-                return 1;
-            }
+				return 1;
+			}
 			jQuery.each( prefixes, function( i ) {
 				if( token === prefixes[i][0]
 				 || token.toLowerCase() === prefixes[i][1] ) {
@@ -585,8 +585,8 @@ jQuery.extend( Khan.answerTypes, {
 				u = baseUnits[u];
 				jQuery.each( u, function( name ) {
 					if( _token === u[name] ) {
-                        rtn = u[0];
-                    }
+						rtn = u[0];
+					}
 					_token = _token.toLowerCase();
 					return !rtn;
 				});
@@ -628,8 +628,8 @@ jQuery.extend( Khan.answerTypes, {
 			name = extractPrefix( name );
 
 			if( !name ) {
-                return { scale: 0 };
-            }
+				return { scale: 0 };
+			}
 
 			var prefix = name[0];
 			name = name[1];
@@ -645,8 +645,8 @@ jQuery.extend( Khan.answerTypes, {
 			// Unknown unit; further calculations will work, but answer will
 			// be wrong
 			if( !derivation ) {
-                return { scale: 0 } ;
-            }
+				return { scale: 0 } ;
+			}
 
 			if( typeof derivation[0] === "number" ) {
 				rtn.scale = derivation[0];
@@ -678,10 +678,10 @@ jQuery.extend( Khan.answerTypes, {
 			//   bp+4: numerical exponent
 			for( var bp = 0; bp + 4 < fields.length; bp += 5 ) {
 				var exponent = 1;
-				if( fields[bp+1]                       ) exponent *= -1;
+				if( fields[bp+1]					   ) exponent *= -1;
 				if( ( /^square/i ).test( fields[bp+2]) ) exponent *=  2;
 				if( ( /^cubic/i  ).test( fields[bp+2]) ) exponent *=  3;
-				if( fields[bp+4]                       ) exponent *= fields[bp+4];
+				if( fields[bp+4]					   ) exponent *= fields[bp+4];
 
 				appendUnit( rtn, simplifyUnit( fields[bp+3], exponent ) );
 			}
