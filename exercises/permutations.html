@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<meta charset="UTF-8" />
+	<title>Permutations</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="PERMUTATIONS &lt 300">
+			<!-- CONSTANTS -->
+			<!-- max and min values for number of items -->
+			<var id="MAX_NUMBER_OF_ITEMS">8</var>
+			<var id="MIN_NUMBER_OF_ITEMS">3</var>
+			<var id="MIN_NUMBER_OF_SPACES">5</var>
+
+			<!-- PROBLEM-SPECIFIC VALUES -->
+			<!-- random range for number of items -->
+			<var id="NUM_ITEMS">randRange(MIN_NUMBER_OF_ITEMS, MAX_NUMBER_OF_ITEMS)</var>
+
+			<!-- random range for number of spaces -->
+			<var id="NUM_SPACES">randRange(2,min(MIN_NUMBER_OF_SPACES,NUM_ITEMS))</var>
+			
+			<!-- randomly select a set of names for the items and spaces -->
+			<var id="RAND_NAME_INDEX">randRange(0,4)</var>
+			<var id="ITEM_NAME_SET">["balls","people","cars","hamsters","cats"]</var>
+			<var id="ITEM_NAME_SINGULAR_SET">["ball","person","car","hamster","cat"]</var>
+			<var id="SPACE_NAME_SET">["cups","seats","parking spots","hamster wheels","hats"]</var>
+			<var id="SPACE_NAME_SINGULAR_SET">["cup","seat","parking spot","hamster wheel","hat"]</var>
+			<var id="ITEM_NAME">ITEM_NAME_SET[RAND_NAME_INDEX]</var>
+			<var id="ITEM_NAME_SINGULAR">ITEM_NAME_SINGULAR_SET[RAND_NAME_INDEX]</var>
+			<var id="SPACE_NAME">SPACE_NAME_SET[RAND_NAME_INDEX]</var>
+			<var id="SPACE_NAME_SINGULAR">SPACE_NAME_SINGULAR_SET[RAND_NAME_INDEX]</var>
+			
+			<!-- calculate the number of permutations (the solution) -->
+			<var id="PERMUTATIONS">
+				(function() {
+					var perms = 1
+					for (var i = NUM_ITEMS; i > (NUM_ITEMS - NUM_SPACES); i--) {
+						perms=perms*i;
+					}
+					return perms;
+				})()
+			</var>
+			
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="problem">You have <code><var>NUM_ITEMS</var></code> <var>ITEM_NAME</var> and <code><var>NUM_SPACES</var></code> <var>SPACE_NAME</var>.</p>
+				<p class="question">How many different ways can you arrange these <var>ITEM_NAME</var> in the <var>SPACE_NAME</var>?</p><p>Stated differently,</p><p><code>P(<var>NUM_ITEMS</var>, <var>NUM_SPACES</var>) = _<var>NUM_ITEMS</var>P_<var>NUM_SPACES</var> = P^<var>NUM_ITEMS</var>_<var>NUM_SPACES</var> = {?}</code></p>
+				<p class="solution" data-forms="integer"><var>PERMUTATIONS</var></p>
+			</div>
+		</div>
+
+		<div class="hints">
+			<!-- hint suggesting looking at assigning items to spaces one by one -->
+			<p>How many different <var>ITEM_NAME</var> can we place in the first <var>SPACE_NAME_SINGULAR</var>?  Once we've placed a <var>ITEM_NAME_SINGULAR</var> in the first <var>SPACE_NAME_SINGULAR</var>, how many different <var>ITEM_NAME</var> can we put in the second <var>SPACE_NAME_SINGULAR</var>?</p>
+			
+			<!-- hint explaining how many ways an item can be assigned to the first space -->
+			<p>There are <code><var>NUM_ITEMS</var></code> <var>ITEM_NAME</var> we could place in the first <var>SPACE_NAME_SINGULAR</var>.</p>
+
+			<!-- hint explaining how many ways an item can be assigned to the second space (there are always at least 2 spaces) -->
+			<p>Once we've assigned one of the <code><var>NUM_ITEMS</var></code> <var>ITEM_NAME</var> to the first <var>SPACE_NAME_SINGULAR</var>, there are <code><var>NUM_ITEMS-1</var></code> <var>ITEM_NAME</var> we can assign to the second <var>SPACE_NAME_SINGULAR</var>.  If we continue to use this logic until we're out of <var>SPACE_NAME</var> to put <var>ITEM_NAME</var> in, we'll have found all the ways to arrange the <var>ITEM_NAME</var>.</p>
+
+			<!-- hint giving the formula -->
+			<p>The number of ways N items can be placed in K spaces is <code>P(N, K) = _NP_K = P^N_K = \dfrac{N!}{(N-K)!}</code></p>
+
+			<!-- hint giving the answer -->
+			<p><code>P(<var>NUM_ITEMS</var>, <var>NUM_SPACES</var>) = _<var>NUM_ITEMS</var>P_<var>NUM_SPACES</var> = P^<var>NUM_ITEMS</var>_<var>NUM_SPACES</var> = <var>PERMUTATIONS</var></code></p>
+
+		</div>
+	</div>
+</body>
+</html>
