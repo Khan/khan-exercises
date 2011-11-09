@@ -1446,10 +1446,10 @@ function drawGraph( followups ){
 			// walk all the exercises and draw a route for each
 			var routes = $.map( exercises, function(exercise, i){
 
-				var state = exercise.exercise_states;
+				var state = exercise.exercise_states || { suggested:true } ;
 				var routeColor, dotColor;
 				pathState = false;
-				$.each(state, function(i,v){ pathState = v || pathState; });
+				$.each(state, function(i,v){ pathState = (v || pathState); });
 
 				if(pathState){
 
@@ -1503,8 +1503,10 @@ function drawGraph( followups ){
 				xoffset = -10;
 
 				// the href for the next exercise
-				var href = typeof userExercise !== "undefined" ? "/exercises?exid="+exercise.exercise : "./"+exercise.exercise+".html";
-				var label = map.text(endpoint.x + xoffset, endpoint.y + yoffset, exercise.exercise_model.display_name)
+				var exercise_display = (exercise.hasOwnProperty("exercise_model")) ? exercise.exercise_model.display_name : exercise.display_name;
+				var exercise_name = (exercise.hasOwnProperty("exercise_model")) ? exercise.exercise : exercise.name;
+				var href = typeof userExercise !== "undefined" ? "/exercises?exid="+exercise_name : "./"+exercise_name+".html";
+				var label = map.text(endpoint.x + xoffset, endpoint.y + yoffset, exercise_display)
 					.attr("text-anchor","start")
 					.attr("font-size", 14)
 					.attr("href",href)
@@ -2240,7 +2242,7 @@ function prepareSite() {
 
 	// record a bingo if came here from knowledge map after clicking on green button or dashboard link
 	if(document.referrer.indexOf("move_on") > 0){
-		gae_bingo.bingo("clicked_followup")
+		gae_bingo.bingo("clicked_followup");
 	}
 
 	// Make scratchpad persistent per-user
