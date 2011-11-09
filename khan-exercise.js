@@ -1527,19 +1527,18 @@ function drawGraph( followups ){
 					currentPos.toFront();
 					route.animate( {stroke : dotColor}, 350 , "<>");
 				};
+
 				// mouseout, fade out the path to its original color
 				var out = function(){ 
 					route.animate( {stroke : routeColor }, 550, "<>" );
 				};
-				
-				var gotoExercise = function(){ console.log("back!"); window.location = href; };
+
+				var gotoExercise = function(){ window.location = href; };
 				var click = function(evt){
-					eve.stop()
-					console.log("holla!")
-					gae_bingo.bingo("clicked_followup" /*, gotoExercise, gotoExercise*/);
+					gae_bingo.bingo( "clicked_followup", gotoExercise, gotoExercise );
 					return false;
-				}
-				box.mouseover(over).mouseout(out).click();
+				};
+				box.mouseover(over).mouseout(out).click(click);
 			});
 
 			// promote the current star
