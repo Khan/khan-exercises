@@ -250,7 +250,7 @@ jQuery.extend( KhanUtil, {
 
 
 jQuery.extend( Khan.answerTypes, {
-	custom: function( solutionarea, solution, fallback, verifier, input ) {
+	exploringMeanMedian: function( solutionarea, solution, fallback, verifier, input ) {
 		jQuery( solutionarea ).append( jQuery( solution ).clone().contents().tmpl() );
 
 		ret = function() {
