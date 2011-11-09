@@ -7,32 +7,31 @@
 </head>
 <body>
 	<div class="exercise">
+	<div class="vars" data-ensure="I * V < 0.25">
+		<var id="R">randResistor()</var>
+		<var id="V">1.5 * randRange( 1, 8 )</var>
+		<var id="I">V / R</var>
+	</div>
 	<div class="problems">
 		<div id="V-unknown">
-			<div class="vars" data-ensure="I * V < 0.25">
-				<var id="R">randResistor()</var>
-				<var id="V">1.5 * randRange( 1, 8 )</var>
-				<var id="I">V / R</var>
-			</div>
-
 			<div class="question">
-				<p>A <code><var>formatQuantity(R, "\\Omega", 2)</var></code>
+				<p>A <code><var>formatQuantity( R, "\\Omega", 2 )</var></code>
 				   resistor is connected across a battery, which causes
-				   <code><var>formatQuantity(I, "A", 3)</var></code> of current
-				   to flow through it.  How much voltage is the battery
-				   providing?</p>
+				   <code><var>formatQuantity( I, "A", 3 )</var></code> of current
+				   to flow through it.</p>
+				<p class="question">How much voltage is the battery providing?</p>
 
-			<!-- TODO: Include circuit diagram
-				<div class="graphie">
-					init({
-						range: [ [-1, 4], [-0.6, 3.1] ]
-					});
-					path([ [0, 0], [0, 2], [2, 2], [2, 0], true ]);
-					path([ [2, 0], [3, 1], [3, 3], [1, 3], [0, 2] ]);
-					path([ [2, 2], [3, 3] ]);
-					label( [1, 0], s, "below" );
-				</div>
-			-->
+				<!-- TODO: Include circuit diagram
+					<div class="graphie">
+						init({
+							range: [ [-1, 4], [-0.6, 3.1] ]
+						});
+						path([ [0, 0], [0, 2], [2, 2], [2, 0], true ]);
+						path([ [2, 0], [3, 1], [3, 3], [1, 3], [0, 2] ]);
+						path([ [2, 2], [3, 3] ]);
+						label( [1, 0], s, "below" );
+					</div>
+				-->
 			</div>
 
 			<p class="solution" data-type="si_quantity" ><var>V</var> volts</p>
@@ -42,49 +41,44 @@
 				<p>The voltage <code>V</code> across a resistor with resistance
 				   <code>R</code> and current <code>I</code> is
 				   <code>V=I\times R</code>.</p>
-				<p><code>V = <var>formatQuantity(I, "A", 3)</var> \times
-							 <var>formatQuantity(R, "\\Omega", 2)</var></code>
+				<p><code>V = <var>formatQuantity( I, "A", 3 )</var> \times
+							 <var>formatQuantity( R, "\\Omega", 2 )</var></code>
 				   </p>
-				<p><code>\hphantom{V} = (<var>scientific(3, I)</var>)\,\mathrm{A}
-								 \times (<var>scientific(2, R)</var>)\,\mathrm{\Omega}</code></p>
-				<p><code>\hphantom{V} = (<var>scientific(3, I)</var>)\,\mathrm{A}
-								 \times (<var>scientific(2, R)</var>)\,\frac{\mathrm V}{\mathrm A}</code></p>
-				<p><code>\hphantom{V} =(<var>scientific_mantissa(3, I)</var>
-								 \times <var>scientific_mantissa(2, R)</var>)
-							\times (10^{<var>scientific_exponent(I)</var>}
-							\times  10^{<var>scientific_exponent(R)</var>})
+				<p><code>\hphantom{V} = (<var>scientific( 3, I )</var>)\,\mathrm{A}
+								 \times (<var>scientific( 2, R )</var>)\,\mathrm{\Omega}</code></p>
+				<p><code>\hphantom{V} = (<var>scientific( 3, I )</var>)\,\mathrm{A}
+								 \times (<var>scientific( 2, R )</var>)\,\frac{\mathrm V}{\mathrm A}</code></p>
+				<p><code>\hphantom{V} =(<var>scientificMantissa( 3, I )</var>
+								 \times <var>scientificMantissa( 2, R )</var>)
+							\times (10^{<var>scientificExponent( I )</var>}
+							\times  10^{<var>scientificExponent( R )</var>})
 							\times \left ( \mathrm{A}
 							\times \frac{\mathrm V}{\mathrm A} \right )</code></p>
-				<p><code>\hphantom{V} = <var>scientific(2, V)</var>
+				<p><code>\hphantom{V} = <var>scientific( 2, V )</var>
 								 \times \mathrm V</code></p>
-				<p><code>\hphantom{V} = <var>formatQuantity(V, "V", 2)</var>
+				<p><code>\hphantom{V} = <var>formatQuantity( V, "V", 2 )</var>
 				   </code></p>
 			</div>
 		</div>
 		<div id="I-unknown">
-			<div class="vars" data-ensure="I * V < 0.25">
-				<var id="R">randResistor()</var>
-				<var id="V">1.5 * randRange( 1, 8 )</var>
-				<var id="I">V / R</var>
-			</div>
-
 			<div class="question">
-				<p>A <code><var>formatQuantity(R, "\\Omega", 2)</var></code>
+				<p>A <code><var>formatQuantity( R, "\\Omega", 2 )</var></code>
 				   resistor is connected across a
-				   <code><var>formatQuantity(V, "V", 2)</var></code> battery.
-				   How much current is flowing through the resistor?</p>
+				   <code><var>formatQuantity( V, "V", 2 )</var></code> battery.</p>
 
-			<!-- TODO: Include circuit diagram
-				<div class="graphie">
-					init({
-						range: [ [-1, 4], [-0.6, 3.1] ]
-					});
-					path([ [0, 0], [0, 2], [2, 2], [2, 0], true ]);
-					path([ [2, 0], [3, 1], [3, 3], [1, 3], [0, 2] ]);
-					path([ [2, 2], [3, 3] ]);
-					label( [1, 0], s, "below" );
-				</div>
-			-->
+				<p class="question">How much current is flowing through the resistor?</p>
+
+				<!-- TODO: Include circuit diagram
+					<div class="graphie">
+						init({
+							range: [ [-1, 4], [-0.6, 3.1] ]
+						});
+						path([ [0, 0], [0, 2], [2, 2], [2, 0], true ]);
+						path([ [2, 0], [3, 1], [3, 3], [1, 3], [0, 2] ]);
+						path([ [2, 2], [3, 3] ]);
+						label( [1, 0], s, "below" );
+					</div>
+				-->
 			</div>
 
 			<p class="solution" data-type="si_quantity" ><var>I</var> Amperes</p>
@@ -95,28 +89,25 @@
 				   <code>R</code> and current <code>I</code> is
 				   <code>V=I\times R</code>.</p>
 				<p><code>I = \frac{V}{R}</code></p>
-				<p><code>\hphantom{I} = \frac{<var>formatQuantity(V, "V", 2)</var>}{<var>formatQuantity(R, "\\Omega", 2)</var>}</code></p>
-				<p><code>\hphantom{I} = \frac{(<var>scientific(2, V)</var>)\,\mathrm{V}}{(<var>scientific(2,R)</var>)\,\mathrm{\Omega}}</code></p>
-				<p><code>\hphantom{I} = \left (\frac{<var>scientific_mantissa(2, V)</var>}{<var>scientific_mantissa(2, R)</var>}\right )\times\left (\frac{10^{<var>scientific_exponent(V)</var>}}{10^{<var>scientific_exponent(R)</var>}}\right )\times\left(\frac{\mathrm{V}}{\mathrm{VA}^{-1}}\right)</code></p>
-				<p><code>\hphantom{I} = <var>scientific(3, I)</var>
+				<p><code>\hphantom{I} = \frac{<var>formatQuantity( V, "V", 2 )</var>}{<var>formatQuantity( R, "\\Omega", 2 )</var>}</code></p>
+				<p><code>\hphantom{I} = \frac{(<var>scientific( 2, V )</var>)\,\mathrm{V}}{(<var>scientific( 2, R )</var>)\,\mathrm{\Omega}}</code></p>
+				<p><code>\hphantom{I} = \left (\frac{<var>scientificMantissa( 2, V )</var>}{<var>scientificMantissa( 2, R )</var>}\right )\times
+										\left (\frac{10^{<var>scientificExponent( V )</var>}}{10^{<var>scientificExponent( R )</var>}}\right )\times
+										\left (\frac{\mathrm{V}}{\mathrm{VA}^{-1}}\right)</code></p>
+				<p><code>\hphantom{I} = <var>scientific( 3, I )</var>
 								 \times \mathrm A</code></p>
-				<p><code>\hphantom{I} = <var>formatQuantity(I, "A", 3)</var>
+				<p><code>\hphantom{I} = <var>formatQuantity( I, "A", 3 )</var>
 				   </code></p>
 			</div>
 		</div>
 		<div id="R-unknown">
-			<div class="vars" data-ensure="I * V < 0.25">
-				<var id="R">randResistor()</var>
-				<var id="V">1.5 * randRange( 1, 8 )</var>
-				<var id="I">V / R</var>
-			</div>
-
 			<div class="question">
 				<p>A resistor is connected across a
-				   <code><var>formatQuantity(V, "V", 2)</var></code> battery,
+				   <code><var>formatQuantity( V, "V", 2 )</var></code> battery,
 				   which causes
-				   <code><var>formatQuantity(I, "A", 3)</var></code> of current
-				   to flow through it.  What is the resistor's resistance?</p>
+				   <code><var>formatQuantity( I, "A", 3 )</var></code> of current
+				   to flow through it.</p>
+				<p class="question">What is the resistor's resistance?</p>
 
 			<!-- TODO: add circuit diagram
 				<div class="graphie">
@@ -139,12 +130,14 @@
 				   <code>R</code> and current <code>I</code> is
 				   <code>V=I\times R</code>.</p>
 				<p><code>R = \frac{V}{I}</code></p>
-				<p><code>\hphantom{R} = \frac{<var>formatQuantity(V, "V", 2)</var>}{<var>formatQuantity(I, "A", 3)</var>}</code></p>
-				<p><code>\hphantom{R} = \frac{(<var>scientific(2, V)</var>)\,\mathrm{V}}{(<var>scientific(3, I)</var>)\,\mathrm{A}}</code></p>
-				<p><code>\hphantom{R} = \left (\frac{<var>scientific_mantissa(2, V)</var>}{<var>scientific_mantissa(3, I)</var>}\right )\times\left (\frac{10^{<var>scientific_exponent(V)</var>}}{10^{<var>scientific_exponent(I)</var>}}\right )\times\left(\frac{\mathrm{V}}{\mathrm{A}}\right)</code></p>
-				<p><code>\hphantom{R} = <var>scientific(2, R)</var>
+				<p><code>\hphantom{R} = \frac{<var>formatQuantity( V, "V", 2 )</var>}{<var>formatQuantity( I, "A", 3 )</var>}</code></p>
+				<p><code>\hphantom{R} = \frac{(<var>scientific( 2, V )</var>)\,\mathrm{V}}{(<var>scientific( 3, I )</var>)\,\mathrm{A}}</code></p>
+				<p><code>\hphantom{R} = \left (\frac{<var>scientificMantissa( 2, V )</var>}{<var>scientificMantissa( 3, I )</var>}\right )\times
+										\left (\frac{10^{<var>scientificExponent( V )</var>}}{10^{<var>scientificExponent( I )</var>}}\right )\times
+										\left(\frac{\mathrm{V}}{\mathrm{A}}\right)</code></p>
+				<p><code>\hphantom{R} = <var>scientific( 2, R )</var>
 								 \times \mathrm \Omega</code></p>
-				<p><code>\hphantom{R} = <var>formatQuantity(R, "\\Omega", 2)</var>
+				<p><code>\hphantom{R} = <var>formatQuantity( R, "\\Omega", 2 )</var>
 				   </code></p>
 			</div>
 		</div>
