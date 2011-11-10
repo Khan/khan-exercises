@@ -4,6 +4,11 @@
 	<meta charset="UTF-8" />
 	<title>Solving quadratics by factoring</title>
 	<script src="../khan-exercise.js"></script>
+	<style type="text/css">
+		#answer_area input[type=text] {
+			width: 50px;
+		}
+	</style>
 </head>
 <body>
 	<div class="exercise">
@@ -27,14 +32,13 @@
 			<p class="problem">Determine where <code>f(x)</code> intersects the <code>x</code>-axis.</p>
 			<p class="question"><code>f(x) = <var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
 
-			<p class="solution"><code>x=<var>A</var></code> and <code>x=<var>B</var></code></p>
-			<ul class="choices" data-none="true" data-show="5">
-				<li data-if="A + B !== 0"><code>x=<var>-A</var></code> and <code>x=<var>-B</var></code></li>
-				<li><code>x=<var>B</var></code> and <code>x=<var>A+B</var></code></li>
-				<li><code>x=<var>A</var></code> only</li>
-				<li><code>x=<var>B</var></code> only</li>
-				<li><code>x=<var>SQUARE</var></code> and <code>x=<var>LINEAR</var></code></li>
-			</ul>
+			<div class="solution" data-type="set">
+				<div class="set-sol"><var>A</var></div>
+				<div class="set-sol"><var>B</var></div>
+				<div class="input-format">
+					<p><code>x = \quad</code><span class="entry"></span><code>\quad \text{and} \quad x = \quad</code><span class="entry"></span></p>
+				</div>
+			</div>
 
 			<div class="hints" data-apply="appendContents">
 				<div id="hint1">
@@ -58,14 +62,9 @@
 			</div>
 			<p class="problem">Determine where <code>f(x)</code> intersects the x-axis.</p>
 			<p class="question"><code>f(x) = <var>plus( SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
-			<p class="solution"><code>x=<var>A</var></code> only</p>
-
-			<ul class="choices" data-none="true">
-				<li><code>x=<var>-A</var></code> and <code>x=<var>A</var></code></li>
-				<li><code>x=<var>2 * A</var></code> and <code>x=<var>-A</var></code></li>
-				<li><code>x=<var>-2 * A</var></code> and <code>x=<var>A</var></code></li>
-				<li><code>x=<var>-A</var></code> only</li>
-			</ul>
+			<div class="solution" data-type="multiple">
+				<p><code>x = \quad</code><span class="sol"><var>A</var></span></p>
+			</div>
 			<div class="hints" data-apply="appendContents">
 				<div id="hint1">
 					<p>The number <code><var>-A</var></code> used twice satisfies both conditions:</p>
@@ -91,7 +90,7 @@
 		</div>
 
 		<p>The coefficient on the <code>x</code> term is <code><var>SIMPLELINEAR</var></code> and the constant term is <code><var>SIMPLECONSTANT</var></code>, so we need to find two numbers that add up to <code><var>SIMPLELINEAR</var></code> and multiply to <code><var>SIMPLECONSTANT</var></code>.</p>
-		</div>
+	</div>
 	</div>
 </body>
 </html>
