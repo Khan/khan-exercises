@@ -4,22 +4,47 @@
 	<meta charset="UTF-8" />
 	<title>Slope of a line</title>
 	<script src="../khan-exercise.js"></script>
+	<style type="text/css">
+		.quarter-graph {
+			float: left;
+			padding-bottom: 20px;
+			padding-right: 20px;
+		}
+	</style>
+	<script>
+		function getColor( i ) {
+			switch( i % 4 ) {
+				case 0: return { name: "Blue", hex: KhanUtil.BLUE };
+				case 1: return { name: "Orange", hex: KhanUtil.ORANGE };
+				case 2: return { name: "Green", hex: KhanUtil.GREEN };
+				case 3: return { name: "Pink", hex: KhanUtil.PINK };
+			}
+		}
+
+		function getSlope( i, m ) {
+			switch( i ) {
+				case 0: return { value: m, display: m };
+				case 1: return { value: -1 * m, display: "-" + m };
+				case 2: return { value: 1 / m, display: "\\dfrac{1}{" + m + "}" };
+				case 3: return { value: -1 / m, display: "-\\dfrac{1}{" + m + "}" };
+			}
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2">
-		<var id="X1">randRange(-9, 9)</var>
-		<var id="Y1">randRange(-9, 9)</var>
-
-		<var id="X2">randRange(-9, 9)</var>
-		<var id="Y2">randRange(-9, 9)</var>
-
-		<var id="M">(Y1 - Y2) / (X1 - X2)</var>
-		<var id="GRAPH_IN_QUESTION">randRange( 0, 1 )</var>
-	</div>
-
 	<div class="problems">
-		<div>
+		<div id="give-two-points">
+			<div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2">
+				<var id="X1">randRange(-9, 9)</var>
+				<var id="Y1">randRange(-9, 9)</var>
+
+				<var id="X2">randRange(-9, 9)</var>
+				<var id="Y2">randRange(-9, 9)</var>
+
+				<var id="M">(Y1 - Y2) / (X1 - X2)</var>
+				<var id="GRAPH_IN_QUESTION">randRange( 0, 1 )</var>
+			</div>
 			<div class="question">
 				<p>What is the slope of the line through the points <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code>?</p>
 				<div data-if="GRAPH_IN_QUESTION" class="graphie" id="slope">
@@ -44,70 +69,113 @@
 			</div>
 
 			<div class="solution"><var>(Y1 - Y2) / (X1 - X2)</var></div>
-		</div>
-	</div>
-
-	<div class="hints">
-	  <div>
-		<p>Picture an airplane moving from left to right.  If the the airplane is taking off <code>\color{<var>BLUE</var>}{/}</code>, the slope is positive.  If it's landing <code>\color{<var>GREEN</var>}{\backslash}</code>, the slope is negative.  When the plane has reached cruising altitude  <code>\color{<var>ORANGE</var>}{-}</code>, the slope is 0.</p>
-		<div style="height: 200px;">
-			<div class="graphie" style="float: left; margin: 8px;">
+			<div class="hints">
+			  <div>
+				<p>Picture an airplane moving from left to right.  If the the airplane is taking off <code>\color{<var>BLUE</var>}{/}</code>, the slope is positive.  If it's landing <code>\color{<var>GREEN</var>}{\backslash}</code>, the slope is negative.  When the plane has reached cruising altitude  <code>\color{<var>ORANGE</var>}{-}</code>, the slope is 0.</p>
+				<div style="height: 200px;">
+					<div class="graphie" style="float: left; margin: 8px;">
+							graphInit({
+							range: 4,
+							scale: 20,
+							tickStep: 1,
+							labelStep: 4
+							});
+							style({ fill: BLUE, stroke: BLUE });
+							line( [ -1,-1 ], [ 1,4 ] );
+							label([0,-4], "\\color{<var>BLUE</var>}{\\text{Airplane Taking  Off}}", "below");
+					</div>
+					<div class="graphie" style="float: left; margin: 8px;">
+							graphInit({
+							range: 4,
+							scale: 20,
+							tickStep: 1,
+							labelStep: 4
+							});
+							style({ fill: GREEN, stroke: GREEN });
+							line( [ 0, 2 ], [ 2, -1 ] );
+							label([0,-4], "\\color{<var>GREEN</var>}{\\text{Airplane Landing}}", "below");
+					</div>
+				</div>
+			  </div>
+				<p>The quicker the airplane takes off, the steeper the positive slope, which means the answer will be a higher number than when the airplane takes off slowly. The quicker the airplane lands, the steeper the negative slope, which means the answer will be much more negative than when it lands slowly.</p>
+				<div data-if="!GRAPH_IN_QUESTION" class="graphie" id="slope">
 					graphInit({
-					range: 4,
-					scale: 20,
-					tickStep: 1,
-					labelStep: 4
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						labelStep: 1,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; },
+						axisArrows: "<->"
 					});
+
+					line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M], {
+						stroke: "#888"
+					} );
+
+					style({ fill: ORANGE, stroke: ORANGE });
+					circle( [X1, Y1], 3/20 );
 					style({ fill: BLUE, stroke: BLUE });
-					line( [ -1,-1 ], [ 1,4 ] );
-					label([0,-4], "\\color{<var>BLUE</var>}{\\text{Airplane Taking  Off}}", "below");
+					circle( [X2, Y2], 3/20 );
+				</div>
+				<p>The equation for the slope is <code>m = \dfrac{\color{<var>BLUE</var>}{y_2} - \color{<var>ORANGE</var>}{y_1}}{\color{<var>BLUE</var>}{x_2} - \color{<var>ORANGE</var>}{x_1}}</code> for points <code>(\color{<var>ORANGE</var>}{<var>X1</var>}, \color{<var>ORANGE</var>}{<var>Y1</var>})</code> and <code>(\color{<var>BLUE</var>}{<var>X2</var>}, \color{<var>BLUE</var>}{<var>Y2</var>})</code>.</p>
+				<div>
+					<div class="graphie" data-update="slope">
+						style({ fill: "", stroke: PINK });
+						line( [ X1, Y2 ], [ X2, Y2 ] );
+						style({ stroke: GREEN });
+						line( [ X1, Y1 ], [ X1, Y2 ] );
+					</div>
+					<p>Substituting in, we get <code>m = \dfrac{\color{<var>BLUE</var>}{<var>Y2</var>} - \color{<var>ORANGE</var>}{<var>negParens(Y1)</var>}}{\color{<var>BLUE</var>}{<var>X2</var>} - \color{<var>ORANGE</var>}{<var>negParens(X1)</var>}} =
+						\dfrac{\color{<var>GREEN</var>}{<var>Y2 - Y1</var>}}{\color{<var>PINK</var>}{<var>X2 - X1</var>}}</code></p>
+				</div>
+				<p>So, the slope <code>m</code> is <code><var>fractionReduce( Y2 - Y1, X2 - X1 )</var></code>.</p>
 			</div>
-			<div class="graphie" style="float: left; margin: 8px;">
+		</div>
+		<div id="show-four-graphs">
+			<div class="vars">
+				<var id="M_INIT">randRange( 2, 5 )</var>
+				<var id="B">randRange( -3, 3 )</var>
+				<var id="WHICH">randRange( 0, 3 )</var>
+				<var id="DUMMY">[ 0, 1, 2, 3 ]</var>
+				<var id="M">getSlope( WHICH, M_INIT )</var>
+			</div>
+			<p class="question">Which graph best depicts a slope of <code><var>M.display</var></code>?</p>
+			<div data-each="DUMMY as index">
+				<div class="graphie quarter-graph">
 					graphInit({
-					range: 4,
-					scale: 20,
-					tickStep: 1,
-					labelStep: 4
+						range: 6,
+						scale: 20,
+						tickStep: 1,
+						labelStep: 1,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; },
+						axisArrows: "&lt;-&gt;"
 					});
-					style({ fill: GREEN, stroke: GREEN });
-					line( [ 0, 2 ], [ 2, -1 ] );
-					label([0,-4], "\\color{<var>GREEN</var>}{\\text{Airplane Landing}}", "below");
+
+					style({ stroke: getColor( index ).hex });
+					plot(function( x ) {
+						return x * getSlope( index, M_INIT ).value + B;
+					}, [ -11, 11 ]);
+				</div>
+			</div>
+			<div class="solution"><code>\quad \color{<var>getColor( WHICH ).hex</var>}{\text{<var>getColor( WHICH ).name</var>}}</code></div>
+			<ol class="choices" data-category="true">
+				<li data-each="DUMMY as index"><code>\quad \color{<var>getColor( index ).hex</var>}{\text{<var>getColor( index ).name</var>}}</code></li>
+			</ol>
+			<div class="hints">
+				<p style="clear: both">Remember that the slope corresponds to which direction the line slants, and how much it slants.</p>
+				<div data-if="M.value < 0">
+					<p>Because <code><var>M.display</var></code> is negative, the line should slant downwards as we follow it to the right.</p>
+					<p>The answer is either the <code class="hint_orange">\text{orange}</code> or <code class="hint_pink">\text{pink}</code> graph.</p>
+				</div>
+				<div data-else>
+					<p>Because <code><var>M.display</var></code> is positive, the line should slant upwards as we follow it to the right.</p>
+					<p>The answer is either the <code class="hint_blue">\text{blue}</code> or <code class="hint_green">\text{green}</code> graph.</p>
+				</div>
+				<p>In which graph does the y value change by <code><var>M.display</var></code> if the x value changes by <code>1</code>?</p>
+				<p>The <code>\color{<var>getColor( WHICH ).hex</var>}{\text{<var>getColor( WHICH ).name.toLowerCase()</var>}}</code> graph best depicts a slope of <code><var>M.display</var></code>.</p>
 			</div>
 		</div>
-	  </div>
-		<p>The quicker the airplane takes off, the steeper the positive slope, which means the answer will be a higher number than when the airplane takes off slowly. The quicker the airplane lands, the steeper the negative slope, which means the answer will be much more negative than when it lands slowly.</p>
-		<div data-if="!GRAPH_IN_QUESTION" class="graphie" id="slope">
-			graphInit({
-				range: 10,
-				scale: 20,
-				tickStep: 1,
-				labelStep: 1,
-				unityLabels: false,
-				labelFormat: function( s ) { return "\\small{" + s + "}"; },
-				axisArrows: "<->"
-			});
-
-			line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M], {
-				stroke: "#888"
-			} );
-
-			style({ fill: ORANGE, stroke: ORANGE });
-			circle( [X1, Y1], 3/20 );
-			style({ fill: BLUE, stroke: BLUE });
-			circle( [X2, Y2], 3/20 );
-		</div>
-		<p>The equation for the slope is <code>m = \dfrac{\color{<var>BLUE</var>}{y_2} - \color{<var>ORANGE</var>}{y_1}}{\color{<var>BLUE</var>}{x_2} - \color{<var>ORANGE</var>}{x_1}}</code> for points <code>(\color{<var>ORANGE</var>}{<var>X1</var>}, \color{<var>ORANGE</var>}{<var>Y1</var>})</code> and <code>(\color{<var>BLUE</var>}{<var>X2</var>}, \color{<var>BLUE</var>}{<var>Y2</var>})</code>.</p>
-		<div>
-			<div class="graphie" data-update="slope">
-				style({ fill: "", stroke: PINK });
-				line( [ X1, Y2 ], [ X2, Y2 ] );
-				style({ stroke: GREEN });
-				line( [ X1, Y1 ], [ X1, Y2 ] );
-			</div>
-			<p>Substituting in, we get <code>m = \dfrac{\color{<var>BLUE</var>}{<var>Y2</var>} - \color{<var>ORANGE</var>}{<var>negParens(Y1)</var>}}{\color{<var>BLUE</var>}{<var>X2</var>} - \color{<var>ORANGE</var>}{<var>negParens(X1)</var>}} =
-				\dfrac{\color{<var>GREEN</var>}{<var>Y2 - Y1</var>}}{\color{<var>PINK</var>}{<var>X2 - X1</var>}}</code></p>
-		</div>
-		<p>So, the slope <code>m</code> is <code><var>fractionReduce( Y2 - Y1, X2 - X1 )</var></code>.</p>
 	</div>
 	</div>
 </body>
