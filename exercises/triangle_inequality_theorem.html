@@ -27,8 +27,8 @@
 			<var id="HIDDEN">rand( 3 )</var>
 			<var id="ANSWER">MAIN[ 1 ][ HIDDEN ]</var>
 			<var id="KNOWN">MAIN[ 1 ].slice( 0, HIDDEN ).concat( MAIN[ 1 ].slice( HIDDEN + 1 ) )</var>
-			<var id="MAX">( parseFloat( KNOWN[ 0 ]  ) + parseFloat( KNOWN[ 1 ] ) ).toFixed( 1 )</var>
-			<var id="MIN">Math.abs( KNOWN[ 0 ] - KNOWN[ 1 ] ).toFixed( 1 )</var>
+			<var id="MAX">roundTo( 1, parseFloat( KNOWN[ 0 ]  ) + parseFloat( KNOWN[ 1 ] ) )</var>
+			<var id="MIN">roundTo( 1, abs( KNOWN[ 0 ] - KNOWN[ 1 ] ) )</var>
 		</div>
 
 		<div class="problems">
@@ -53,10 +53,11 @@
 					<span class="example">two <em>exact</em> decimals, like <code>0.75</code></span>
 				</div>
 				<div class="hints">
-					<p>Triangle inequality theorem states that a side cannot be larger than the sum of the other two sides.</p>
-					<p>Therefore the the third side cannot be larger than <code><var>KNOWN[ 0 ]</var> + <var>KNOWN[ 1 ]</var> = <var>MAX</var></code></p>
-					<p>By the same theorem, the side can also not be smaller than the difference between the two sides.<p>
-					<p>Therefore the third side cannot be smaller than <code>| <var>KNOWN[ 0 ]</var> - <var>KNOWN[ 1 ]</var> |  = <var>MIN</var></code></p>
+					<p>The triangle inequality theorem states that any side of a triangle is always shorter than the sum of the other two sides.</p>
+					<p>Therefore the the third side must be less than <code><var>KNOWN[ 0 ]</var> + <var>KNOWN[ 1 ]</var> = <var>MAX</var></code></p>
+					<p>By the same theorem, the third side must be also larger than the difference between the other two sides.</p>
+					<p>Therefore the third side must be larger than <code><var>KNOWN[0] &lt; KNOWN[1] ? KNOWN[1] : KNOWN[0]</var> - <var>KNOWN[0] &lt; KNOWN[1] ? KNOWN[0] : KNOWN[1]</var> = <var>MIN</var></code></p>
+					<p>So <code><var>MIN</var> &lt; x &lt; <var>MAX</var></code></p>
 				</div>
 			</div>
 			<div id="possible">
