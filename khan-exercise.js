@@ -1486,9 +1486,16 @@ function prepareSite() {
 		if ( pass === true ) {
 			jQuery("#happy").show();
 			jQuery("#sad").hide();
+			jQuery("#hint-reminder").hide();
 		} else {
 			jQuery("#happy").hide();
 			jQuery("#sad").show();
+
+			//at this point attempts hasn't been incremented, so this
+			//can be read as attempts >= 2
+			if (attempts >= 1 && hints.length > 0) {
+			    jQuery("#hint-reminder").show();
+			}
 
 			// Is this a message to be shown?
 			if ( typeof pass === "string" ) {
@@ -1604,6 +1611,7 @@ function prepareSite() {
 
 	// Watch for when the "Get a Hint" button is clicked
 	jQuery( "#hint" ).click(function() {
+	jQuery("#hint-reminder").hide();
 
 		if ( user && attempts === 0 ) {
 			var hintApproved = window.localStorage[ "hintApproved:" + user ];
