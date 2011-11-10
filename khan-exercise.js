@@ -1,3 +1,39 @@
+/* khan-exercise.js
+
+	The main entry point here is actually the loadScripts method which is defined
+	as Khan.loadScripts and then evaluated around line 500.
+
+	When this loadScripts is called, it loads in many of the pre-reqs and then
+	calls, one way or another, prepareUserExercise concurrently with loadModules.
+
+	prepareUserExercise calls updateData and advances the problem counter 
+	via setProblemNum. updateData refreshes the page ui based on this current
+	problem (among other things). setProblemNum updates some instance vars
+	that get looked at by other functions.
+
+	loadModules takes care of loading an individual exercise's prereqs (i.e. 
+	word problems, etc). It _also_ loads in the khan academy site skin and
+	exercise template via injectSite which runs prepareSite first then 
+	makeProblemBag and makeProblem when it finishes loading dependencies.
+
+	pepareSite and makeProblem are both fairly heavyweight functions.
+
+	If you are trying to register some behavior when the page loads, you
+	probably want it to go in prepareSite. (which also registers server-initiated
+	behavior via api.js) as well. By the time prepareSite is called, jquery and
+	any core plugins are already available.
+
+	If you are trying to do something each time a problem loads, you probably
+	want to look at makeProblem.
+
+	For obvious reasons window.userExercise is removed but it remains available
+	to you from within the Khan object
+
+	At the end of evaluation, the inner Khan object is returned/exposed as well
+	as the inner Util object.
+
+*/
+
 var Khan = (function() {
 	function warn( message, showClose ) {
 		jQuery(function() {
@@ -145,7 +181,7 @@ var Khan = (function() {
 		testMode ? "../" : "/khan-exercises/",
 
 	lastFocusedSolutionInput = null,
-	
+
 	issueError = "Communication with GitHub isn't working. Please file "
 		+ "the issue manually at <a href=\""
 		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
@@ -494,6 +530,7 @@ var Khan = (function() {
 	// Load in jQuery
 	var scripts = (typeof jQuery !== "undefined") ? [] : [ { src: "../jquery.js" } ];
 
+	// Actually load the scripts. This is getting evaluated when the file is loaded.
 	Khan.loadScripts( scripts, function() {
 
 		// Base modules required for every problem
