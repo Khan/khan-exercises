@@ -92,8 +92,10 @@
 				<p><code>b</code> = <span class="sol"><var>Y - M * X </var></span></p>
 			</div>
 			<div class="hints">
-				<p>Parallel lines have the same slope. 
-				<p>The slope of the blue line is <code>\color{blue}{<var>M_FRAC</var>}</code>, so the equation of our parallel line will be of the form <code>\enspace \color{green}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else><var>M_SIGN</var></span>x + b}\enspace</code>.</p>
+				<div>	
+					<p>Parallel lines have the same slope.</p>
+					<p>The slope of the blue line is <code>\color{blue}{<var>M_FRAC</var>}</code>, so the equation of our parallel line will be of the form <code>\enspace \color{green}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else><var>M_SIGN</var></span>x + b}\enspace</code>.</p>
+				</div>
 				<div>
 					<p>We can plug our point, <code>(<var>X</var>, <var>Y</var>)</code>, into this equation to solve for <code>\color{green}{b}</code>, the y-intercept.</p>
 					<p data-if="M !== 1"><code><var>Y</var> \color{green}{= <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else><var>M_SIGN</var></span>}(<var>X</var>) + \color{green}{b}</code></p>
