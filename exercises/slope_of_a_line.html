@@ -15,7 +15,7 @@
 <body>
 	<div class="exercise">
 	<div class="problems">
-		<div id="give-two-points" data-weight="2">
+		<div id="give-two-points" data-weight="3">
 			<div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2">
 				<var id="X1">randRange(-9, 9)</var>
 				<var id="Y1">randRange(-9, 9)</var>
@@ -157,10 +157,6 @@
 			</ol>
 			<div class="hints">
 				<p style="clear: both">Remember that the slope corresponds to which direction the line slants, and how much it slants.</p>
-				<div data-if="M.value === 0">
-					<p>Because the slope is <code><var>M.display</var></code>, the line should not slant at all.</p>
-					<p>The answer is either the <code class="hint_orange">\text{orange}</code> or <code class="hint_pink">\text{pink}</code> graph.</p>
-				</div>
 				<div data-if="M.value < 0">
 					<p>Because <code><var>M.display</var></code> is negative, the line should slant downwards as we follow it to the right.</p>
 					<p>The answer is either the <code class="hint_orange">\text{orange}</code> or <code class="hint_pink">\text{pink}</code> graph.</p>
@@ -178,24 +174,19 @@
 				<var id="SLOPES">[
 					{ value: M_INIT, display: M_INIT },
 					{ value: 0, display: 0 },
-					{ value: Number.POSITIVE_INFINITY, display: "\\infty" },
+					{ value: Number.POSITIVE_INFINITY, display: "undefined" },
 					{ value: 1 / M_INIT, display: "\\dfrac{1}{" + M_INIT + "}" }
 					]</var>
 				<var id="WHICH">randRange( 1, 2 )</var>
 				<var id="M">SLOPES[WHICH]</var>
 			</div>
+			<p class="question"><span data-if="WHICH ===1">Which graph best depicts a slope of <code><var>M.display</var></code>?</span><span data-else>Which graph best depicts an undefined slope?</span></p>
 			<div class="hints">
-				<p style="clear: both">Remember that the slope corresponds to how steep the line is.
+				<p style="clear: both">Remember that the slope corresponds to how steep the line is.</p>
 				<p>Imagine walking up a hill represented by a line. A larger slope means a steeper hill.</p>
-				<div data-if="M.value === 0">
-					<p>Because the slope is <code><var>M.display</var></code>, the hill should not be steep.</p>
-					<p>The answer is either the <code class="hint_orange">\text{orange}</code> or <code class="hint_pink">\text{pink}</code> graph.</p>
-				</div>
-				<div data-if="M.value === Number.POSITIVE_INFINITY">
-					<p>Because the slope is <code><var>M.display</var></code>, the hill should be extremely steep.</p>
-					<p>The answer is either the <code class="hint_blue">\text{blue}</code> or <code class="hint_green">\text{green}</code> graph.</p>
-				</div>
-				<p>The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code> graph best depicts a slope of <code><var>M.display</var></code>.</p>
+				<p data-if="M.value === 0">A slope of <code><var>M.display</var></code> means there is no hill at all, and the graph should be flat.</p>
+				<p data-if="M.value === Number.POSITIVE_INFINITY">An <var>M.display</var> slope corresponds to a vertical line, which is like an impossibly steep hill.</p>
+				<p>The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code> graph best depicts a<span data-if="WHICH === 2">n undefined</span> slope<span data-if="WHICH === 1"> of <code><var>M.display</var></code></span>.</p>
 			</div>
 		</div>
 	</div>
