@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Greatest common divisor using the Euclidean algorithm</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="A_START !== B_START">
+			<var id="A_START">randRange( 50, 100 )</var>
+			<var id="B_START">randRange( 50, 100 )</var>
+			<var id="FACTOR">randRange( 1, 5 )</var>
+
+			<var id="A">A_START * FACTOR</var>
+			<var id="B">B_START * FACTOR</var>
+			<var id="GCD">getGCD( A, B )</var>
+			<var id="SMALLER">Math.min( A, B )</var>
+			<var id="GREATER">Math.max( A, B )</var>
+			<var id="REMAINDER">GREATER % SMALLER</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>When you are finding the greatest common divisor of <var>A</var> and <var>B</var> using the Euclidean algorithm, which one of the choices is a sub-problem you would end up solving as you go through the Euclidean algorithm?</p>
+					<p>Another way to express the problem of finding the greatest common divisor of <var>A</var> and <var>B</var> is:</p>
+					<p><code>\gcd(<var>A</var>, <var>B</var>) = {?}</code></p>
+				</div>
+
+				<p class="solution"><code>\gcd(<var>SMALLER</var>, <var>REMAINDER</var>)</code></p>
+				<ul class="choices">
+				    <li><code>\gcd(<var>A</var>, <var>B * 2</var>)</code></li>
+				    <li><code>\gcd(<var>B</var>, <var>REMAINDER</var>)</code></li>
+				    <li><code>\gcd(<var>A * 2</var>, <var>B</var>)</code></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>The greatest common divisor is the largest number that is a factor (or divisor) of both <var>A</var> and <var>B</var>. Euclid's algorithm finds the greatest common divisor by following these steps:
+				<br />
+				<br />1) Find the remainder that you get after you divide the bigger number by the smaller one.
+			    <br />2) Repeat the previous step with the remainder and the smaller number until the remainder is zero.
+				<br />3) When the remainder is zero, the smaller number is the greatest common divisor.
+			</p>
+			<div>
+				<p data-if="REMAINDER === 0">The remainder of <code><var>GREATER</var> / <var>SMALLER</var></code> is 0, so the algorithm terminates and the smaller number <var>SMALLER</var> is the greatest common divisor.</p>
+				<p data-else>The remainder of <code><var>GREATER</var> / <var>SMALLER</var></code> is <var>REMAINDER</var>. So the next sub-problem the algorithm has to solve is <code>\gcd(<var>SMALLER</var>, <var>REMAINDER</var>)</code>.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
