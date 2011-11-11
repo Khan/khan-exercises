@@ -15,7 +15,7 @@
 <body>
 	<div class="exercise">
 	<div class="problems">
-	  <div id="give-two-points" data-weight="2">
+		<div id="give-two-points" data-weight="2">
 			<div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2">
 				<var id="X1">randRange(-9, 9)</var>
 				<var id="Y1">randRange(-9, 9)</var>
@@ -59,7 +59,7 @@
 							range: 4,
 							scale: 20,
 							tickStep: 1,
-							labelStep: 4
+							labelStep: false
 							});
 							style({ fill: BLUE, stroke: BLUE });
 							line( [ -1,-1 ], [ 1,4 ] );
@@ -70,7 +70,7 @@
 							range: 4,
 							scale: 20,
 							tickStep: 1,
-							labelStep: 4
+							labelStep: false
 							});
 							style({ fill: GREEN, stroke: GREEN });
 							line( [ 0, 2 ], [ 2, -1 ] );
@@ -116,20 +116,20 @@
 		<div id="show-four-graphs" data-weight="2">
 			<div class="vars">
 			  <var id="COLORS">[
-			     { name: "Blue", hex: KhanUtil.BLUE },
-			     { name: "Orange", hex: KhanUtil.ORANGE },
-				   { name: "Green", hex: KhanUtil.GREEN },
-				   { name: "Pink", hex: KhanUtil.PINK }
+				{ name: "Blue", hex: KhanUtil.BLUE },
+				{ name: "Orange", hex: KhanUtil.ORANGE },
+				{ name: "Green", hex: KhanUtil.GREEN },
+				{ name: "Pink", hex: KhanUtil.PINK }
 				]</var>
 				<var id="M_INIT">randRange( 2, 5 )</var>
 				<var id="SLOPES">[
-				  { value: M_INIT, display: M_INIT },
-          { value: -1 * M_INIT, display: "-" + M_INIT },
-          { value: 1 / M_INIT, display: "\\dfrac{1}{" + M_INIT + "}" },
-          { value: -1 / M_INIT, display: "-\\dfrac{1}{" + M_INIT + "}" }
-        ]</var>
-        <var id="B">randRange( -3, 3 )</var>
-        <var id="WHICH">randRange( 0, 3 )</var>
+					{ value: M_INIT, display: M_INIT },
+					{ value: -1 * M_INIT, display: "-" + M_INIT },
+					{ value: 1 / M_INIT, display: "\\dfrac{1}{" + M_INIT + "}" },
+					{ value: -1 / M_INIT, display: "-\\dfrac{1}{" + M_INIT + "}" }
+				]</var>
+				<var id="B">randRange( -3, 3 )</var>
+				<var id="WHICH">randRange( 0, 3 )</var>
 				<var id="DUMMY">[ 0, 1, 2, 3 ]</var>
 				<var id="M">SLOPES[WHICH]</var>
 			</div>
@@ -175,13 +175,13 @@
 		</div>
 		<div id="slopes-zero-infinity" data-type="show-four-graphs" data-weight="1">
 			<div class="vars">
-			  <var id="SLOPES">[
-          { value: M_INIT, display: M_INIT },
-          { value: 0, display: 0 },
-          { value: Number.POSITIVE_INFINITY, display: "\\infty" },
-          { value: 1 / M_INIT, display: "\\dfrac{1}{" + M_INIT + "}" }
-        ]</var>
-        <var id="WHICH">randRange( 1, 2 )</var>
+				<var id="SLOPES">[
+					{ value: M_INIT, display: M_INIT },
+					{ value: 0, display: 0 },
+					{ value: Number.POSITIVE_INFINITY, display: "\\infty" },
+					{ value: 1 / M_INIT, display: "\\dfrac{1}{" + M_INIT + "}" }
+					]</var>
+				<var id="WHICH">randRange( 1, 2 )</var>
 				<var id="M">SLOPES[WHICH]</var>
 			</div>
 			<div class="hints">
