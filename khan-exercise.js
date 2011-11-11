@@ -2182,21 +2182,6 @@ function updateData( data ) {
 
 		// Streak and longest streak pixel widths
 		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth),
-		longestStreakWidth = Math.min(streakMaxWidth, Math.ceil((streakMaxWidth / data.required_streak) * data.longest_streak)),
-
-		// Streak icon pixel width
-		streakIconWidth = Math.min(streakMaxWidth - 2, Math.max(43, streakWidth)), // 43 is width of streak icon
-
-		// Don't show label if not enough room
-		labelWidthRequired = 20,
-
-		// Don't show accumulation stats higher than 100 to stop grinding behavior,
-		// and don't show labels if there isn't room in the bar to render them.
-		labelStreak = streakWidth < labelWidthRequired ? "" :
-						( !data.summative && data.streak > 100 ) ? "Max" : data.streak,
-
-		labelLongestStreak = ( longestStreakWidth < labelWidthRequired || (longestStreakWidth - streakWidth) < labelWidthRequired ) ? "" :
-						( !data.summative && data.longest_streak > 100 ) ? "Max" : data.longest_streak;
 
 	if ( data.summative ) {
 		jQuery( ".summative-help ")
@@ -2450,7 +2435,7 @@ function loadModules() {
 			var problems = exercises.children( ".problems" ).children();
 
 			if ( typeof userExercise !== "undefined" ) {
-				problemCount = userExercise.required_streak || 10;
+				problemCount = 10;
 			}
 
 			weighExercises( problems );
