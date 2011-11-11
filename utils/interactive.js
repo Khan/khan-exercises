@@ -379,7 +379,7 @@ jQuery.extend( KhanUtil, {
 
 		// Method to let the caller animate the point to a new position. Useful
 		// as part of a hint to show the user the correct place to put the point.
-		movablePoint.moveTo = function( coordX, coordY ) {
+		movablePoint.moveTo = function( coordX, coordY, updateLines ) {
 			// find distance in pixels to move
 			var distance = KhanUtil.distance( this.graph.scalePoint([ coordX, coordY ]), this.graph.scalePoint( this.coord ) );
 
@@ -387,13 +387,37 @@ jQuery.extend( KhanUtil, {
 			var time = distance * 5;
 
 			var scaled = graph.scalePoint([ coordX, coordY ]);
-			this.visibleShape.animate({ cx: scaled[0], cy: scaled[1] }, time );
-			this.mouseTarget.animate({ cx: scaled[0], cy: scaled[1] }, time );
+			var end = { cx: scaled[0], cy: scaled[1] };
+			if ( updateLines ) {
+				var start = {
+					cx: this.visibleShape.attr("cx"),
+					cy: this.visibleShape.attr("cy")
+				};
+				jQuery( start ).animate( end, {
+					duration: time,
+					easing: "linear",
+					step: function( now, fx ) {
+						movablePoint.visibleShape.attr( fx.prop, now );
+						movablePoint.mouseTarget.attr( fx.prop, now );
+						if ( fx.prop === "cx" ) {
+							movablePoint.coord[0] = now / graph.scale[0] + graph.range[0][0];
+						} else {
+							movablePoint.coord[1] = graph.range[1][1] - now / graph.scale[1];
+						}
+						movablePoint.updateLineEnds();
+					}
+				});
+
+			} else {
+				this.visibleShape.animate( end, time );
+				this.mouseTarget.animate( end, time );
+			}
 			this.coord = [ coordX, coordY ];
 			if ( jQuery.isFunction( this.onMove ) ) {
 				this.onMove( coordX, coordY );
 			}
 		};
+
 
 		// After moving the point, call this to update all line segments terminating at the point
 		movablePoint.updateLineEnds = function() {
@@ -811,7 +835,8 @@ jQuery.extend( KhanUtil, {
 			},
 			highlight: false,
 			dragging: false,
-			tick: []
+			tick: [],
+			extendLine: false
 		}, options);
 
 		// If the line segment is defined by movablePoints, coordA/coordZ are
@@ -843,13 +868,14 @@ jQuery.extend( KhanUtil, {
 		}
 		lineSegment.visibleLine = graph.raphael.path( path );
 		lineSegment.visibleLine.attr( lineSegment.normalStyle );
-		//lineSegment.visibleLine = graph.line( [graph.range[0][0], graph.range[1][1]], [graph.range[0][0]+1, graph.range[1][1]] );
-		lineSegment.mouseTarget = graph.mouselayer.rect(
-			graph.scalePoint([graph.range[0][0], graph.range[1][1]])[0],
-			graph.scalePoint([graph.range[0][0], graph.range[1][1]])[1] - 15,
-			graph.scaleVector([1, 1])[0], 30
-		);
-		lineSegment.mouseTarget.attr({fill: "#000", "opacity": 0.0});
+		if ( !lineSegment.fixed ) {
+			lineSegment.mouseTarget = graph.mouselayer.rect(
+				graph.scalePoint([graph.range[0][0], graph.range[1][1]])[0],
+				graph.scalePoint([graph.range[0][0], graph.range[1][1]])[1] - 15,
+				graph.scaleVector([1, 1])[0], 30
+			);
+			lineSegment.mouseTarget.attr({fill: "#000", "opacity": 0.0});
+		}
 
 		// Reposition the line segment. Call after changing coordA and/or
 		// coordZ, or pass syncToPoints = true to use the current position of
@@ -866,24 +892,55 @@ jQuery.extend( KhanUtil, {
 			}
 			var angle = KhanUtil.findAngle( this.coordZ, this.coordA );
 			var scaledA = graph.scalePoint( this.coordA );
-			this.visibleLine.translate( scaledA[0] - this.visibleLine.attr("translation").x, scaledA[1] - this.visibleLine.attr("translation").y );
+			var lineLength = KhanUtil.distance(this.coordA, this.coordZ);
+			if ( this.extendLine ) {
+				if ( this.coordA[0] !== this.coordZ[0] ) {
+					var slope = ( this.coordZ[1] - this.coordA[1] ) / ( this.coordZ[0] - this.coordA[0] );
+					var y1 = slope * ( graph.range[0][0] - this.coordA[0] ) + this.coordA[1];
+					var y2 = slope * ( graph.range[0][1] - this.coordA[0] ) + this.coordA[1];
+					if (this.coordA[0] < this.coordZ[0] ) {
+						scaledA = graph.scalePoint([ graph.range[0][0], y1 ]);
+						scaledA[0]++;
+					} else {
+						scaledA = graph.scalePoint([ graph.range[0][1], y2 ]);
+						scaledA[0]--;
+					}
+					lineLength = KhanUtil.distance( [ graph.range[0][0], y1 ], [ graph.range[0][1], y2 ] );
+				} else {
+					if (this.coordA[1] < this.coordZ[1] ) {
+						scaledA = graph.scalePoint([ this.coordA[0], graph.range[1][0] ]);
+					} else {
+						scaledA = graph.scalePoint([ this.coordA[0], graph.range[1][1] ]);
+					}
+					lineLength = graph.range[1][1] - graph.range[1][0];
+				}
+			}
+			this.visibleLine.translate( scaledA[0] - this.visibleLine.attr("translation").x,
+					scaledA[1] - this.visibleLine.attr("translation").y );
 			this.visibleLine.rotate( -angle, scaledA[0], scaledA[1] );
-			this.visibleLine.scale( KhanUtil.distance(this.coordA, this.coordZ), 1, scaledA[0], scaledA[1] );
+			this.visibleLine.scale( lineLength, 1, scaledA[0], scaledA[1] );
 
-			this.mouseTarget.translate( scaledA[0] - this.mouseTarget.attr("translation").x, scaledA[1] - this.mouseTarget.attr("translation").y );
-			this.mouseTarget.rotate( -angle, scaledA[0], scaledA[1] );
-			this.mouseTarget.scale( KhanUtil.distance(this.coordA, this.coordZ), 1, scaledA[0], scaledA[1] );
+			if ( !this.fixed ) {
+				this.mouseTarget.translate( scaledA[0] - this.mouseTarget.attr("translation").x,
+						scaledA[1] - this.mouseTarget.attr("translation").y );
+				this.mouseTarget.rotate( -angle, scaledA[0], scaledA[1] );
+				this.mouseTarget.scale( lineLength, 1, scaledA[0], scaledA[1] );
+			}
 		};
 
-		// Change z-order to back
+		// Change z-order to back;
 		lineSegment.toBack = function() {
-			lineSegment.mouseTarget.toBack();
+			if ( !lineSegment.fixed ) {
+				lineSegment.mouseTarget.toBack();
+			}
 			lineSegment.visibleLine.toBack();
 		};
 
 		// Change z-order to front
 		lineSegment.toFront = function() {
-			lineSegment.mouseTarget.toFront();
+			if ( !lineSegment.fixed ) {
+				lineSegment.mouseTarget.toFront();
+			}
 			lineSegment.visibleLine.toFront();
 		};
 
@@ -959,7 +1016,12 @@ jQuery.extend( KhanUtil, {
 			});
 		}
 
-		lineSegment.toBack();
+
+		if ( lineSegment.pointA !== undefined )
+			lineSegment.pointA.toFront();
+		if ( lineSegment.pointZ !== undefined ) {
+			lineSegment.pointZ.toFront();
+		}
 		lineSegment.transform();
 		return lineSegment;
 	}
