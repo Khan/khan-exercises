@@ -2,7 +2,7 @@
 <html data-require="math graphie interactive">
 <head>
 	<meta charset="UTF-8" />
-	<title>Domain and Range of a Function 0.5</title>
+	<title>Domain and range of a function 0.5</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -22,7 +22,7 @@
 
 					push([ DOMAIN[0], randRange( -5, 5 ) ]);
 
-					for( var i = DOMAIN[0]+1; i <= DOMAIN[1]; i++ ) {
+					for( var i = DOMAIN[0]+1; i &lt;= DOMAIN[1]; i++ ) {
 						if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && prev[1] < 8 ) {
 							push([i, prev[1]+1]);
 
@@ -45,29 +45,29 @@
 			<var id="RANGE">
 				(function() {
 					var values = jQuery.map( FUNCTION_PATH, function( p ) { return p[1]; } );
-					return [ Math.min.apply( null, values ), Math.max.apply( null, values ) ];
+					return [ min.apply( null, values ), max.apply( null, values ) ];
 				})()
 			</var>
 		</div>
 
 		<div class="problems">
-			<div class="domain">
+			<div id="domain">
 				<p class="question">The function <code>f(x)</code> is graphed; what is its domain?</p>
 
 				<div id="graph" class="graphie">
 					graphInit({
 						range: 10,
 						scale: 20,
-						axisArrows: "<->",
+						axisArrows: "&lt;-&gt;",
 						tickStep: 1,
 						labelStep: 1,
 						unityLabels: false,
 						labelFormat: function( s ) { return "\\small{" + s + "}"; }
 					});
 
-					graph.fn_path = path( FUNCTION_PATH, { stroke: "#6495ed" } );
-					circle( FUNCTION_PATH[0], 0.15, { stroke: "none", fill: "#6495ed" } );
-					circle( FUNCTION_PATH[ FUNCTION_PATH.length - 1], 0.15, { stroke: "none", fill: "#6495ed" } );
+					graph.fn_path = path( FUNCTION_PATH, { stroke: BLUE } );
+					circle( FUNCTION_PATH[0], 0.15, { stroke: "none", fill: BLUE } );
+					circle( FUNCTION_PATH[ FUNCTION_PATH.length - 1], 0.15, { stroke: "none", fill: BLUE } );
 				</div>
 
 				<p class="solution" data-type="multiple"><span class="sol"><var>DOMAIN[0]</var></span><code>\;\le x\le\;</code><span class="sol"><var>DOMAIN[1]</var></span></p>
@@ -79,36 +79,20 @@
 						<div class="graphie" data-update="graph">
 							var domain_path = graph.fn_path.clone();
 							var tmp_path = path( jQuery.map( FUNCTION_PATH, function( p ) { return [[ p[0], 0 ]]; }), { stroke: "none" } );
-							domain_path.animate( { path: tmp_path.attrs.path, "stroke-width": 4, stroke: "#88cc00" }, ANIM_SPEED, "ease-in-out");
-							circle( [ FUNCTION_PATH[0][0], 0 ], 0.3, { stroke: "none", fill: "#88cc00", "fill-opacity": 0 } )
+							domain_path.animate( { path: tmp_path.attrs.path, "stroke-width": 4, stroke: GREEN }, ANIM_SPEED, "ease-in-out");
+							circle( [ FUNCTION_PATH[0][0], 0 ], 0.3, { stroke: "none", fill: GREEN, "fill-opacity": 0 } )
 								.animate( { "fill-opacity": 1.0 }, ANIM_SPEED, "ease-in-out" );
-							circle( [ FUNCTION_PATH[ FUNCTION_PATH.length - 1 ][0], 0 ], 0.3, { stroke: "none", fill: "#88cc00", "fill-opacity": 0 } )
+							circle( [ FUNCTION_PATH[ FUNCTION_PATH.length - 1 ][0], 0 ], 0.3, { stroke: "none", fill: GREEN, "fill-opacity": 0 } )
 								.animate( { "fill-opacity": 1.0 }, ANIM_SPEED, "ease-in-out" );
 							tmp_path.remove();
 						</div>
 					</div>
 
-					<p><code><var>DOMAIN[0]</var>\le x\le <var>DOMAIN[1]</var></code>.</p>
+					<p><code><var>DOMAIN[0]</var>\le x\le <var>DOMAIN[1]</var></code></p>
 				</div>
 			</div>
-			<div class="range">
+			<div id="range" data-type="domain">
 				<p class="question">The function <code>f(x)</code> is graphed; what is its range?</p>
-
-				<div id="graph" class="graphie">
-					graphInit({
-						range: 10,
-						scale: 20,
-						axisArrows: "<->",
-						tickStep: 1,
-						labelStep: 1,
-						unityLabels: false,
-						labelFormat: function( s ) { return "\\small{" + s + "}"; }
-					});
-
-					graph.fn_path = path( FUNCTION_PATH, { stroke: "#6495ed" } );
-					circle( FUNCTION_PATH[0], 0.15, { stroke: "none", fill: "#6495ed" } );
-					circle( FUNCTION_PATH[ FUNCTION_PATH.length - 1], 0.15, { stroke: "none", fill: "#6495ed" } );
-				</div>
 
 				<p class="solution" data-type="multiple"><span class="sol"><var>RANGE[0]</var></span><code>\;\le f(x)\le\;</code><span class="sol"><var>RANGE[1]</var></span></p>
 
@@ -119,16 +103,16 @@
 						<div class="graphie" data-update="graph">
 							var range_path = graph.fn_path.clone();
 							var tmp_path = path( jQuery.map( FUNCTION_PATH, function( p ) { return [[ 0, p[1] ]]; }), { stroke: "none" } );
-							range_path.animate( { path: tmp_path.attrs.path, "stroke-width": 4, stroke: "#88cc00" }, ANIM_SPEED, "ease-in-out");
-							circle( [ 0, RANGE[0] ], 0.3, { stroke: "none", fill: "#88cc00", "fill-opacity": 0 } )
+							range_path.animate( { path: tmp_path.attrs.path, "stroke-width": 4, stroke: GREEN }, ANIM_SPEED, "ease-in-out");
+							circle( [ 0, RANGE[0] ], 0.3, { stroke: "none", fill: GREEN, "fill-opacity": 0 } )
 								.animate( { "fill-opacity": 1.0 }, ANIM_SPEED, "ease-in-out" );
-							circle( [ 0, RANGE[1] ], 0.3, { stroke: "none", fill: "#88cc00", "fill-opacity": 0 } )
+							circle( [ 0, RANGE[1] ], 0.3, { stroke: "none", fill: GREEN, "fill-opacity": 0 } )
 								.animate( { "fill-opacity": 1.0 }, ANIM_SPEED, "ease-in-out" );
 							tmp_path.remove();
 						</div>
 					</div>
 
-					<p><code><var>RANGE[0]</var>\le f(x)\le <var>RANGE[1]</var></code>.</p>
+					<p><code><var>RANGE[0]</var>\le f(x)\le <var>RANGE[1]</var></code></p>
 				</div>
 			</div>
 		</div>
