@@ -69,7 +69,7 @@
 						snapY: 0.5,
 						normalStyle: {
 							stroke: KhanUtil.BLUE,
-							fill: KhanUtil.BLUE,
+							fill: KhanUtil.BLUE
 						}
 					});
 					graph.pointB = addMovablePoint({
@@ -78,7 +78,7 @@
 						snapY: 0.5,
 						normalStyle: {
 							stroke: KhanUtil.BLUE,
-							fill: KhanUtil.BLUE,
+							fill: KhanUtil.BLUE
 						}
 					});
 					graph.pointC = addMovablePoint({
@@ -87,7 +87,7 @@
 						snapY: 0.5,
 						normalStyle: {
 							stroke: KhanUtil.GREEN,
-							fill: KhanUtil.GREEN,
+							fill: KhanUtil.GREEN
 						}
 					});
 					graph.pointD = addMovablePoint({
@@ -96,7 +96,7 @@
 						snapY: 0.5,
 						normalStyle: {
 							stroke: KhanUtil.GREEN,
-							fill: KhanUtil.GREEN,
+							fill: KhanUtil.GREEN
 						}
 					});
 					graph.line1 = addMovableLineSegment({
@@ -138,7 +138,7 @@
 					graph.pointB.toFront();
 
 				</div>
-				Click and drag the points to move the lines
+				Click and drag the points to move the lines.
 			</div>
 			<div class="solution" data-type="multiple">
 				<p><code>x</code> = <span class="sol"><var>X</var></span></p>
@@ -192,12 +192,12 @@
 			<var>"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1 ? "s" : "" )</var>
 			<span data-if="SLOPE_1_FRAC[0] < 0">down</span><span data-else>up</span> from
 			<code>(0, <var>YINT_1</var>)</code> is
-			<code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>
+			<code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.
 		</p>
 		<p class="hint_blue">
 			Graph the blue line so it passes through
 			<code>(0, <var>YINT_1</var>)</code> and
-			<code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>
+			<code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.
 			<br /><input type="button" value="Show me" onClick="javascript:
 				KhanUtil.currentGraph.graph.pointA.moveTo( 0, KhanUtil.tmpl.getVAR( 'YINT_1' ), true );
 				KhanUtil.currentGraph.graph.pointB.moveTo( KhanUtil.tmpl.getVAR( 'SLOPE_1_FRAC[1]' ),
@@ -236,12 +236,12 @@
 			<var>"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1 ? "s" : "" )</var>
 			<span data-if="SLOPE_2_FRAC[0] < 0">down</span><span data-else>up</span> from
 			<code>(0, <var>YINT_2</var>)</code> is
-			<code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>
+			<code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.
 		</p>
 		<p class="hint_green">
 			Graph the green line so it passes through
 			<code>(0, <var>YINT_2</var>)</code> and
-			<code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>
+			<code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.
 			<br /><input type="button" value="Show me" onClick="javascript:
 				KhanUtil.currentGraph.graph.pointC.moveTo( 0, KhanUtil.tmpl.getVAR( 'YINT_2' ), true );
 				KhanUtil.currentGraph.graph.pointD.moveTo( KhanUtil.tmpl.getVAR( 'SLOPE_2_FRAC[1]' ),
@@ -249,11 +249,11 @@
 			" />
 		</p>
 		<p>
-			The solution is the point where the two lines intersect
+			The solution is the point where the two lines intersect.
 		</p>
 		<div>
 			<p>
-				The lines intersect at <code class="hint_pink">(<var>X</var>, <var>Y</var>)</code>
+				The lines intersect at <code class="hint_pink">(<var>X</var>, <var>Y</var>)</code>.
 			</p>
 			<div class="graphie" data-update="grid">
 				style({ stroke: PINK });
