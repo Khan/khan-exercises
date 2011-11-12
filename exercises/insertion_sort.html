@@ -66,7 +66,8 @@ Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin fr
       <div class="question">
         <div id="instructions"><p class="spin">{How many {swaps|rearrangements}
           do|What is the {minimum|smallest} number of {swaps|rearrangements}} 
-          you need to {sort|arrange} these cards in {increasing|ascending} order?</p>  
+          you need to {sort|arrange} these cards in {increasing|ascending} order? 
+          Perform a swap by clicking on two cards.</p>  
         </div>
         <div id="original_hint" style="display:none;">Original order:<div id="original" ><var>collection</var></div></div>
         <div id='counter'>
@@ -93,7 +94,10 @@ Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin fr
       </div>
       <div class="solution" data-forms="integer"><var>swap_counter()</var></div>
       <div class="hints">
-        <p></p>
+        <p>The smallest cards go on the left.</p>
+        <p>At any point in time, only one visible card is out of order.</p>
+        <p>When moving the out-of-place card into the correct position, 
+        keep swapping it with its left neighbor.</p>
       </div>
     </div>
   </div>
