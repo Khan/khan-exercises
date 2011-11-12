@@ -1787,7 +1787,7 @@ var Khan = (function() {
 
 				// Bingo if user completed problem after a wrong try
 				if ( attempts > 1 && typeof window.remindAnswerFormatAbTest !== "undefined" ) {
-					gae_bingo.bingo( "remind_answer_format" );
+					gae_bingo.bingo( "remind_correct_after_wrong" );
 				}
 			} else {
 				// Wrong answer. Enable all the input elements, but wait until
@@ -1795,6 +1795,10 @@ var Khan = (function() {
 				// button.
 				jQuery( "#answercontent input" ).not( "#check-answer-button, #hint" )
 					.removeAttr( "disabled" );
+
+				if ( attempts === 1 && typeof window.remindAnswerFormatAbTest !== "undefined" ) {
+					gae_bingo.bingo( "remind_first_attempt_wrong" );
+				}
 			}
 
 			// Remember when the last action was
