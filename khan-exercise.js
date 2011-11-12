@@ -2181,7 +2181,7 @@ function updateData( data ) {
 	var streakMaxWidth = jQuery(".streak-bar").width(),
 
 		// Streak and longest streak pixel widths
-		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth),
+		streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
 
 	if ( data.summative ) {
 		jQuery( ".summative-help ")
