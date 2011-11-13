@@ -1984,14 +1984,12 @@ var Khan = (function() {
 			} else {
 				labels.push( type.slice( "issue-".length ) );
 
-				var hintOrVideoMsg = "Please click the hint button above or watch a video for additional help.";
+				var hintOrVideoMsg = "Please click the hint button above to see our solution, or watch a video for additional help.";
 				var refreshOrBrowserMsg = "Please try a hard refresh (press Ctrl + Shift + R)" +
 						" or use Khan Academy from a different browser (such as Chrome or Firefox).";
 				var suggestion = {
-					"issue-incorrect": hintOrVideoMsg,
-					"issue-unclear": hintOrVideoMsg,
+					"issue-wrong-or-unclear": hintOrVideoMsg,
 					"issue-hard": hintOrVideoMsg,
-					"issue-slow": refreshOrBrowserMsg,
 					"issue-not-showing": refreshOrBrowserMsg,
 					"issue-other": ""
 				}[ type ];
