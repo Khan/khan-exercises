@@ -219,10 +219,11 @@ var Khan = (function() {
 		+ "the issue manually at <a href=\""
 		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
 		+ "Please reference exercise: " + exerciseName + ".",
-	issueSuccess = function( a, b ) {
-		return "Thank you for your feedback! Your issue has been created and can be "
-			+ "found at the following link:</p>"
-			+ "<p><a id=\"issue-link\" href=\"" + a + "\">" + b + "</a>";
+	issueSuccess = function( url, title, suggestion ) {
+		return ["Thank you for your feedback! Your issue has been created and can be ",
+			"found at the following link:",
+			"<p><a id=\"issue-link\" href=\"", url, "\">", title, "</a>",
+			"<p>", suggestion, "</p>"].join('');
 	},
 	issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!";
 
@@ -2017,6 +2018,18 @@ var Khan = (function() {
 				return;
 			} else {
 				labels.push( type.slice( "issue-".length ) );
+
+				var hintOrVideoMsg = "Please click the hint button above or watch a video for additional help.";
+				var refreshOrBrowserMsg = "Please try a hard refresh (press Ctrl + Shift + R)" +
+						" or use Khan Academy from a different browser (such as Chrome or Firefox).";
+				var suggestion = {
+					"issue-incorrect": hintOrVideoMsg,
+					"issue-unclear": hintOrVideoMsg,
+					"issue-hard": hintOrVideoMsg,
+					"issue-slow": refreshOrBrowserMsg,
+					"issue-not-showing": refreshOrBrowserMsg,
+					"issue-other": ""
+				}[ type ];
 			}
 
 			if ( title === "" ) {
@@ -2060,7 +2073,7 @@ var Khan = (function() {
 
 					// show status message
 					jQuery( "#issue-status" ).removeClass( "error" )
-						.html( issueSuccess( data.html_url, data.title ) )
+						.html( issueSuccess( data.html_url, data.title, suggestion ) )
 						.show();
 
 					// reset the form elements
