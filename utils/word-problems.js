@@ -346,7 +346,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 	var indefiniteArticle = function(word) {
 		var vowels = ['a', 'e', 'i', 'o', 'u'];
-		if ( vowels.indexOf( word[0].toLowerCase() ) > -1 ) {
+		if ( _(vowels).indexOf( word[0].toLowerCase() ) > -1 ) {
 			return 'An ' + word;
 		}
 		return 'A ' + word;
