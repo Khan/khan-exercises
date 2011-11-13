@@ -1962,6 +1962,7 @@ var Khan = (function() {
 			if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
 			var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text().replace(/ \|.*/, ''),
+				type = jQuery( "input[name=issue-type]:checked" ).prop( "id" ),
 				title = jQuery( "#issue-title" ).val(),
 				email = jQuery( "#issue-email" ).val(),
 				path = exerciseName + ".html"
@@ -2009,6 +2010,14 @@ var Khan = (function() {
 			jQuery.each( flags, function( k, v ) {
 				if ( v ) labels.push( k );
 			});
+
+			if ( !type ) {
+				jQuery( "#issue-status" ).addClass( "error" )
+					.html( "Please specify the issue type." ).show();
+				return;
+			} else {
+				labels.push( type.slice( "issue-".length ) );
+			}
 
 			if ( title === "" ) {
 				jQuery( "#issue-status" ).addClass( "error" )

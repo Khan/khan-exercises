@@ -69,12 +69,25 @@ body.debug .graphie { outline: 1px dashed red; }
 
 }
 
-#issue .error { font-style: italic; font-weight: bold; }
+#issue #issue-status.error { font-weight: bold; color: #A21; font-size: 1.2em; }
 #issue-link { font-style: italic; }
 #issue form label { display: block; }
 #issue form input[type=text] { display: block; width: 98%; }
 #issue form textarea { display: block; width: 98%; height: 100px; }
-#issue-cancel { position: relative; bottom: 1px; }
+#issue-cancel { float: right; }
+#issue fieldset {
+  list-style: none;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  padding-left: 10px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  line-height: 22px;
+  margin-bottom: 3px;
+}
+#issue fieldset legend { padding-left: 5px; padding-right: 5px; }
+#issue fieldset label { display: inline; }
+#issue fieldset li { margin-top: 0px; margin-bottom: 0px; }
 
 var, div.graphie { white-space: pre; }
 
