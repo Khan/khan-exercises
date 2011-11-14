@@ -302,20 +302,20 @@
 		</div>
 		<div>
 			<p data-if="POINT_1_SOLUTION && !POINT_2_SOLUTION">
-				<code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is a solution, but
+				<code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is a solution because it's inside the shaded area, but
 				<code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is not.
 			</p>
 			<p data-else-if="POINT_2_SOLUTION && !POINT_1_SOLUTION">
-				<code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is not a solution, but
+				<code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is outside the shaded area, so it's not a solution, but
 				<code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is a solution.
 			</p>
 			<p data-else-if="POINT_1_SOLUTION && POINT_2_SOLUTION"> Both
 				<code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> and
-				<code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> are solutions.
+				<code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> are both solutions because they're both inside the shaded area.
 			</p>
 			<p data-else> Neither
 				<code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> or
-				<code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> are solutions.
+				<code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> are solutions because they are not within the shaded area.
 			</p>
 		</div>
 	</div>
