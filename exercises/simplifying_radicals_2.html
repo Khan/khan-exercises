@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Simplifying radicals 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+
+		<div id="both-perfect-squares" data-weight="2">
+			<div class="vars">
+				<var id="NUM, DENOM">shuffle( [ 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225], 2 )</var>
+				<var id="NUM_SPLIT">splitRadical(NUM)</var>
+				<var id="DENOM_SPLIT">splitRadical(DENOM)</var>
+				<var id="NUM_COEFFICIENT">NUM_SPLIT[0] === 1 ? "" : NUM_SPLIT[0]</var>
+				<var id="DENOM_COEFFICIENT">DENOM_SPLIT[0] === 1 ? "" : DENOM_SPLIT[0]</var>
+			</div>
+
+			<div class="question">
+				<p>Simplify <code>\sqrt{<var>NUM</var>/<var>DENOM</var>}</code>.</p>
+			</div>
+
+			<div class="solution" data-type="radical"><var>NUM</var>/<var>DENOM</var></div>
+
+			<div class="hints">
+				<p>First number <code><var>NUM</var></code> is a perfect square, so <code>\sqrt{<var>NUM</var>} = <var>NUM_COEFFICIENT</var></code>.</p>
+				<p>Second number <code><var>DENOM</var></code> is a perfect square, so <code>\sqrt{<var>DENOM</var>} = <var>DENOM_COEFFICIENT</var></code>.</p>
+				<p>Both numbers <code><var>NUM</var></code> and <code><var>DENOM</var></code> are perfect squares, so <code>\sqrt{<var>NUM</var>/<var>DENOM</var>} = <var>NUM_COEFFICIENT</var>/<var>DENOM_COEFFICIENT</var></code>.</p>
+			</div>
+		</div>
+		
+		<div id="first-perfect-square_second-not" data-weight="2">
+			<div class="vars">
+				<var id="NUM">randFromArray([9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225])</var>
+				<var id="DENOM">randFromArray([8, 12, 18, 20, 24, 27, 28, 32, 40, 44, 45, 48, 50, 54, 56, 60, 63, 72, 75, 80, 88, 90, 98, 99, 120, 125, 128, 140, 150, 160, 175, 180, 200, 216])</var>
+				<var id="NUM_SPLIT">splitRadical(NUM)</var>
+				<var id="DENOM_SPLIT">splitRadical(DENOM)</var>
+				<var id="NUM_COEFFICIENT">NUM_SPLIT[0] === 1 ? "" : NUM_SPLIT[0]</var>
+				<var id="DENOM_COEFFICIENT">DENOM_SPLIT[0] === 1 ? "" : DENOM_SPLIT[0]</var>
+				<var id="DENOM_RADICAL">DENOM_SPLIT[1] === 1 ? "" : DENOM_SPLIT[1]</var>
+			</div>
+
+			<div class="question">
+				<p>Simplify <code>\sqrt{<var>NUM</var>/<var>DENOM</var>}</code>.</p>
+			</div>
+
+			<div class="solution" data-type="radical"><var>NUM</var>/<var>DENOM</var></div>
+
+			<div class="hints">
+				<p>First number <code><var>NUM</var></code> is a perfect square, so <code>\sqrt{<var>NUM</var>} = <var>NUM_COEFFICIENT</var></code>.</p>
+				<p>The largest perfect square that divides <code><var>DENOM</var></code> is <code><var>DENOM_COEFFICIENT * DENOM_COEFFICIENT</var></code>.</p>
+				<p>Factoring it out, we have <code><var>DENOM</var> = <var>DENOM_COEFFICIENT</var>^2\cdot <var>DENOM_RADICAL</var></code>.</p>
+				<p>Thus, <code>\sqrt{<var>NUM</var>/<var>DENOM</var>} = <var>NUM_COEFFICIENT</var>/<var>DENOM_COEFFICIENT</var>\sqrt{1/<var>DENOM_RADICAL</var>}</code>.</p>
+			</div>
+		</div>
+		
+		<div id="first-not_second-perfect-square" data-weight="2">
+			<div class="vars">
+				<var id="NUM">randFromArray([8, 12, 18, 20, 24, 27, 28, 32, 40, 44, 45, 48, 50, 54, 56, 60, 63, 72, 75, 80, 88, 90, 98, 99, 120, 125, 128, 140, 150, 160, 175, 180, 200, 216])</var>
+				<var id="DENOM">randFromArray([9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225])</var>
+				<var id="NUM_SPLIT">splitRadical(NUM)</var>
+				<var id="DENOM_SPLIT">splitRadical(DENOM)</var>
+				<var id="NUM_COEFFICIENT">NUM_SPLIT[0] === 1 ? "" : NUM_SPLIT[0]</var>
+				<var id="DENOM_COEFFICIENT">DENOM_SPLIT[0] === 1 ? "" : DENOM_SPLIT[0]</var>
+				<var id="NUM_RADICAL">NUM_SPLIT[1] === 1 ? "" : NUM_SPLIT[1]</var>
+			</div>
+
+			<div class="question">
+				<p>Simplify <code>\sqrt{<var>NUM</var>/<var>DENOM</var>}</code>.</p>
+			</div>
+
+			<div class="solution" data-type="radical"><var>NUM</var>/<var>DENOM</var></div>
+
+			<div class="hints">
+				<p>The largest perfect square that divides <code><var>NUM</var></code> is <code><var>NUM_COEFFICIENT * NUM_COEFFICIENT</var></code>.</p>
+				<p>Factoring it out, we have <code><var>NUM</var> = <var>NUM_COEFFICIENT</var>^2\cdot <var>NUM_RADICAL</var></code>.</p>
+				<p>Second number <code><var>DENOM</var></code> is a perfect square, so <code>\sqrt{<var>DENOM</var>} = <var>DENOM_COEFFICIENT</var></code>.</p>
+				<p>Thus, <code>\sqrt{<var>NUM</var>/<var>DENOM</var>} = <var>NUM_COEFFICIENT</var>/<var>DENOM_COEFFICIENT</var>\sqrt{<var>NUM_RADICAL</var>}</code>.</p>
+			</div>
+		</div>
+
+		<div id="not-yet-simple" data-weight="2000">
+			<div class="vars">
+				<var id="NUM, DENOM">shuffle( [ 8, 10, 12, 18, 20, 21, 24, 27, 28, 30, 32, 40, 42, 44, 45, 48, 50, 54, 56, 60, 63, 66, 70, 72, 75, 80, 88, 90, 98, 99, 105, 110, 120, 125, 128, 140, 150, 154, 160, 165, 175, 180, 200, 210, 216], 2 )</var>
+				<var id="NUM_SPLIT">splitRadical(NUM)</var>
+				<var id="DENOM_SPLIT">splitRadical(DENOM)</var>
+				<var id="NUM_COEFFICIENT">NUM_SPLIT[0] === 1 ? "" : NUM_SPLIT[0]</var>
+				<var id="DENOM_COEFFICIENT">DENOM_SPLIT[0] === 1 ? "" : DENOM_SPLIT[0]</var>
+				<var id="NUM_RADICAL">NUM_SPLIT[1] === 1 ? "" : NUM_SPLIT[1]</var>
+				<var id="DENOM_RADICAL">NUM_SPLIT[1] === 1 ? "" : NUM_SPLIT[1]</var>
+			</div>
+
+			<div class="question">
+				<p>Simplify <code>\sqrt{<var>NUM</var>/<var>DENOM</var>}</code>.</p>
+			</div>
+
+			<div class="solution" data-type="radical"><var>NUM</var>/<var>DENOM</var></div>
+
+			<div class="hints">
+				<p>The largest perfect square that divides <code><var>NUM</var></code> is <code><var>NUM_COEFFICIENT * NUM_COEFFICIENT</var></code>.</p>
+				<p>Factoring it out, we have <code><var>NUM</var> = <var>NUM_COEFFICIENT</var>^2\cdot <var>NUM_RADICAL</var></code>.</p>
+				<p>The largest perfect square that divides <code><var>DENOM</var></code> is <code><var>DENOM_COEFFICIENT * DENOM_COEFFICIENT</var></code>.</p>
+				<p>Factoring it out, we have <code><var>DENOM</var> = <var>DENOM_COEFFICIENT</var>^2\cdot <var>DENOM_RADICAL</var></code>.</p>
+				<p>Thus, <code>\sqrt{<var>NUM</var>/<var>DENOM</var>} = <var>NUM_COEFFICIENT</var>/<var>DENOM_COEFFICIENT</var>\sqrt{<var>NUM_RADICAL</var>/<var>DENOM_RADICAL</var>}</code>.</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
