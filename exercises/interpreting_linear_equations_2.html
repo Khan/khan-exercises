@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Interpreting Linear Equations 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">		
+			<var id="get_Randy">randRange( 1, 10 )</var>
+			<var id="randy_jr">1/get_Randy</var>
+			<var id="B">randRange( -3, 3 )</var>
+			<var id="value_of_Why">(get_Randy * randy_jr) + B</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question">If X = <span class="point1"><var>get_Randy</var></span> , what is the value of Y? </p>
+				<div class="graphie" id="graph">
+				<!--Draw a Grid -->
+						graphInit({
+						range: 11,
+						scale: 20,
+						tickStep: 1,
+						labelStep: 1,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; },
+						axisArrows: "<->"
+					});
+				<!--Draw Line -->
+						style({
+							stroke: "#6495ED",
+							strokeWidth: 2,
+							arrows: null
+						});
+
+				<!--Probably a bit more elegant way to do this. Any takers? -->
+						plot( function( familyPlot ) {
+							return ( randy_jr ) * familyPlot + B;
+						}, [-10, 10]);
+
+				</div>
+
+				<div class="solution" data-forms="integer"><var>value_of_Why</var></div>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>
+
+

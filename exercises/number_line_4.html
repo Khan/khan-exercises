@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
+<head>
+	<meta charset="UTF-8" />
+	<title>Number Line 4</title>
+	<script src="../khan-exercise.js"></script>
+	
+		<!--Define colors for emphasized text -->
+		<style>
+		.blue_text { color: #0969A2; }
+		.magenta_text { color: #A62ADD; }
+		</style>
+		
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="(dot_A_pos_X !== dot_B_pos_X)">
+			<var id="dot_A_pos_X">randRangeNonZero( -9, 9 )</var>
+			<var id="dot_B_pos_X">randRangeNonZero( -9, 9 )</var>
+			<var id="surrogate">randRange( 1, 5 )</var>
+			<var id="line_pos_Y">10</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question">If <span class="blue_text"><b>A</b></span> = <span class="blue_text"><var>(dot_A_pos_X * surrogate)</var></span> , 
+				what is the value of <span class="magenta_text"><b>B</b></span> ? </p>
+
+				<!-- Set Graphic Drawing Area -->
+				<div class="graphie" id="grid">
+					init({
+						range: [[-10, 10], [-10, 12]],
+						scale: [30, 30]
+					});
+
+<!-- Horizontal Dotted Line Start -->
+				<!-- Prepare to Draw Lines -->
+					style({
+						stroke: "#888",
+						strokeWidth: 2,
+						arrow: null
+					});
+
+				<!-- Draw Horizontal Line  [beginX, beginY], [endX, endY] -->
+					path( [ [-10, line_pos_Y], [10, line_pos_Y] ] );
+					
+				<!-- Populate with Vertical Lines -->
+				for ( var count = -10; count < 11; count++ ) 
+				{
+					path( [ [count, (line_pos_Y -.3)], [count, (line_pos_Y + .3)] ] );
+				}
+<!-- Horizontal Dotted Line End -->
+				
+					<!--Draw Blue Dot  -->
+					style({ stroke: "#6495ED", fill: "#6495ED", arrows: null });
+					circle( [dot_A_pos_X, line_pos_Y], 0.15 );
+					<!--Write a letter about it  -->		
+					label([ (dot_A_pos_X + .1), (line_pos_Y + .6) ], "<b>A</b>" ,  { color: "#6495ED" } );
+					
+					<!--Draw Magenta Dot  -->
+					style({ stroke: "#A62ADD", fill: "#A62ADD", arrows: null });					
+					circle( [dot_B_pos_X, line_pos_Y], 0.15 );
+					label([ (dot_B_pos_X + .1), (line_pos_Y + .6) ], "<b>B</b>" ,  { color: "#A62ADD" } );
+					
+					<!--Draw Black Dot @ zero -->
+					style({ stroke: "#000000", fill: "#000000", arrows: null });					
+					circle( [0, line_pos_Y], 0.15 );
+					label([ 0, (line_pos_Y + .5) ], "0" ,  { color: "#000000" } );
+										
+				</div>
+					<div class="solution" data-forms="integer"><var>(dot_B_pos_X * surrogate)</var></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
