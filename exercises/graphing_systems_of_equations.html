@@ -141,8 +141,40 @@
 				Click and drag the points to move the lines.
 			</div>
 			<div class="solution" data-type="multiple">
-				<p><code>x</code> = <span class="sol"><var>X</var></span></p>
-				<p><code>y</code> = <span class="sol"><var>Y</var></span></p>
+				<p><code>x = </code> <span class="sol"><var>X</var></span></p>
+				<p><code>y = </code> <span class="sol"><var>Y</var></span></p>
+				<div class="sol" data-type="interactive">
+					<div class="instruction">
+						Your graphs are also part of your answer.
+					</div>
+					<div class="guess">
+						[ graph.pointA.coord, graph.pointB.coord, graph.pointC.coord, graph.pointD.coord ]
+					</div>
+					<div class="validator-function">
+						var slope1 = ( guess[1][1] - guess[0][1] ) / ( guess[1][0] - guess[0][0] );
+						var slope2 = ( guess[3][1] - guess[2][1] ) / ( guess[3][0] - guess[2][0] );
+						var yint1 = slope1 * ( 0 - guess[0][0] ) + guess[0][1];
+						var yint2 = slope2 * ( 0 - guess[2][0] ) + guess[2][1];
+						// allows blue function to be graphed with green line and vice versa, fwiw
+						return ( abs( SLOPE_1 - slope1 ) &lt; 0.001
+							&amp;&amp; abs( SLOPE_2 - slope2 ) &lt; 0.001
+							&amp;&amp; abs( YINT_1 - yint1 ) &lt; 0.001
+							&amp;&amp; abs( YINT_2 - yint2 ) &lt; 0.001 )
+							|| ( abs( SLOPE_1 - slope2 ) &lt; 0.001
+							&amp;&amp; abs( SLOPE_2 - slope1 ) &lt; 0.001
+							&amp;&amp; abs( YINT_2 - yint1 ) &lt; 0.001
+							&amp;&amp; abs( YINT_1 - yint2 ) &lt; 0.001 );
+					</div>
+					<div class="show-guess">
+						graph.pointA.setCoord( guess[0] );
+						graph.pointB.setCoord( guess[1] );
+						graph.pointC.setCoord( guess[2] );
+						graph.pointD.setCoord( guess[3] );
+						graph.line1.transform( true );
+						graph.line2.transform( true );
+					</div>
+				</div>
+				<div class="example">two integers like <code>6</code></div>
 			</div>
 		</div>
 		<div id="slope-intercept" data-type="standard" data-weight="5">
