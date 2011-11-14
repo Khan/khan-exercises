@@ -9,7 +9,7 @@
 	<div class="exercise">
 	<div class="vars">
 		<var id="LIST">shuffle( ['"' + fruit(1) + '"','"' + fruit(2) + '"','"' + person(1) + '"',randRange( 0, 20 ),randRange( 0, 20 ),randRange( 0, 20 )], randRange( 3, 6 ) )</var>
-		<var id="RANDOM_INDEX">rand(LIST.length)</var>
+		<var id="RANDOM_INDEX">randRange( 0, LIST.length - 1)</var>
 		<var id="RESULT">LIST[RANDOM_INDEX]</var>
 	</div>
 
