@@ -1036,9 +1036,10 @@ var Khan = (function() {
 							}
 						} else {
 							var thisValidator = Khan.answerTypes[answerType]( thissolutionarea, solution );
+
 							thisValidator.showGuess( guess );
 
-							if (thisValidator()) {
+							if (thisValidator() === true) {
 								// If the user didn't get the problem right on the first try, all
 								// answers are labelled incorrect by default
 								thissolutionarea
@@ -1158,27 +1159,39 @@ var Khan = (function() {
 				}
 
 				MathJax.Hub.Queue( function() {
-					thisHintArea = realHintsArea.clone();
-					thisProblem = realWorkArea.clone();
+					var recordState = function() {
+						jQuery( "#problemarea input" ).attr({ disabled: "disabled" });
+						thisHintArea = realHintsArea.clone();
+						thisProblem = realWorkArea.clone();
 
-					var thisState = {
-						slide: thisSlide,
-						hintNum: hintNum,
-						hintArea: thisHintArea,
-						problem: thisProblem,
-						scroll: scroll
+						var thisState = {
+							slide: thisSlide,
+							hintNum: hintNum,
+							hintArea: thisHintArea,
+							problem: thisProblem,
+							scroll: scroll
+						};
+
+						statelist[i] = thisState;
+
+						if (i+1 < states.length) {
+							MathJax.Hub.Queue( function() {
+								create( i+1 );
+							} );
+						} else {
+							activate( i );
+						}
 					};
 
-					statelist[i] = thisState;
-
-					if (i+1 < states.length) {
-						MathJax.Hub.Queue( function() {
-							create( i+1 );
-						} );
+					if ( thisSlide.data( "guess" ) !== undefined && jQuery.isFunction( validator.showInteractiveGuess ) ) {
+						KhanUtil.currentGraph = jQuery( realWorkArea ).find( ".graphie" ).data( "graphie" );
+						validator.showInteractiveGuess( thisSlide.data( "guess" ) );
+						MathJax.Hub.Queue( recordState );
 					} else {
-						activate( i );
+						recordState();
 					}
-				} );
+
+				});
 			};
 
 			MathJax.Hub.Queue( function() {create(0);} );

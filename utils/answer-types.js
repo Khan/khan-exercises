@@ -534,6 +534,23 @@ jQuery.extend( Khan.answerTypes, {
 			});
 		};
 
+		ret.showInteractiveGuess = function( guess ) {
+			guess = jQuery.extend( true, [], guess );
+
+			solutionarea.find( ".sol" ).each(function() {
+				var validator = jQuery( this ).data( "validator", validator );
+
+				if ( validator != null ) {
+					// Shift regardless of whether we can show the interactive guess
+					var next = guess.shift();
+
+					if ( jQuery.isFunction( validator.showInteractiveGuess ) ) {
+						validator.showInteractiveGuess( next );
+					}
+				}
+			});
+		};
+
 		ret.examples = solutionarea.find( ".example" ).remove()
 			.map(function(i, el) {
 				return jQuery( el ).html();
@@ -592,7 +609,7 @@ jQuery.extend( Khan.answerTypes, {
 			var solarea = jQuery( this ).empty(),
 				input = jQuery( '<input type="checkbox"/>' );
 			solarea.append( input );
-			var solution = ( jQuery.trim( sol.text() ) === "true" );
+			var solution = KhanUtil.tmpl.getVAR( sol.text() );
 			jQuery( input ).data( "solution", solution );
 			checkboxArray.push( input );
 			solutionArray.push( solution );
@@ -655,7 +672,6 @@ jQuery.extend( Khan.answerTypes, {
 				var guess = jQuery( this ).is( ":checked" ),
 					answer = jQuery( this ).data( "solution" ),
 					label_text = jQuery( this ).closest( "label" ).text();
-
 				if (label_text == "") {
 					label_text = "checked";
 				}
@@ -703,6 +719,7 @@ jQuery.extend( Khan.answerTypes, {
 		};
 
 		ret.showGuess = function( guess ) {
+			guess = jQuery.extend( true, [], guess );
 			jQuery( inputArray ).each(function() {
 				var item = guess.shift();
 				if ( item instanceof Array ) {
@@ -713,8 +730,9 @@ jQuery.extend( Khan.answerTypes, {
 					this.val( item );
 				}
 			});
-			jQuery( checkboxArray ).each(function() {
-				this.attr('checked', guess.shift() != "");
+			solutionarea.find( ".checkbox input:checkbox" ).each(function() {
+				var ans = guess.shift();
+				jQuery( this ).attr('checked', ans !== undefined && ans !== "");
 			});
 		};
 
@@ -905,6 +923,48 @@ jQuery.extend( Khan.answerTypes, {
 		];
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
+	},
+
+	interactive: function( solutionarea, solution ) {
+		var isTimeline = !( solutionarea.attr( "id" ) === "solutionarea" || solutionarea.parent().attr( "id" ) === "solutionarea" );
+		var guessCorrect = false;
+		solution.find( ".instruction" ).appendTo( solutionarea );
+		var guessCode = solution.find( ".guess" ).text();
+
+		var validatorCode = solution.find( ".validator-function" ).text();
+		var validator = function( guess ) {
+			var code = "(function() { var guess = " + JSON.stringify( guess ) + ";" + validatorCode + "})()";
+			return KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
+		};
+
+		ret = function() {
+			ret.guess = KhanUtil.tmpl.getVAR( guessCode, KhanUtil.currentGraph );
+			if ( isTimeline ) {
+				return guessCorrect;
+			} else {
+				return validator( ret.guess );
+			}
+		};
+
+		ret.examples = solution.find( ".example" ).map(function(i, el) {
+			return jQuery( el ).html();
+		});
+		ret.solution = "interactive";
+		ret.showGuess = function( guess ) {
+			if ( isTimeline ) {
+				guessCorrect = validator( guess );
+				jQuery( solutionarea ).empty();
+				jQuery( solutionarea ).append( guessCorrect ? "Interactive answer correct" : "Interactive answer incorrect" );
+			}
+		}
+
+		var showGuessCode = jQuery( solution ).find( ".show-guess" ).text();
+		ret.showInteractiveGuess = function( guess ) {
+			var code = "(function() { var guess = " + JSON.stringify( guess ) + ";" + showGuessCode + "})()";
+			KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
+		}
+
+		return ret;
 	}
 } );
 
