@@ -166,6 +166,7 @@ var Khan = (function() {
 	once = true,
 
 	guessLog,
+	userActivityLog,
 
 	// For loading remote exercises
 	remoteCount = 0,
@@ -525,8 +526,17 @@ var Khan = (function() {
 	// Load query string params
 	Khan.query = Khan.queryString();
 
+	if ( Khan.query.activity !== undefined ) {
+		userExercise = {
+			exercise_model: {},
+			read_only: true,
+			user_activity: JSON.parse( Khan.query.activity )
+		};
+	}
+
 	// Seed the random number generator with the user's hash
 	randomSeed = testMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
+
 
 	// Load in jQuery
 	var scripts = (typeof jQuery !== "undefined") ? [] : [ { src: "../jquery.js" } ];
@@ -855,6 +865,7 @@ var Khan = (function() {
 		// (this includes possibly generating the multiple choice problems,
 		// if this fails then we will need to try generating another one.)
 		guessLog = [];
+		userActivityLog = [];
 		validator = Khan.answerTypes[answerType]( solutionarea, solution );
 
 		// A working solution was generated
@@ -1357,6 +1368,20 @@ var Khan = (function() {
 				.attr( "href", debugURL + "&seed=" + problemSeed )
 				.appendTo( links );
 
+
+			if ( !Khan.query.activity ) {
+				links.append("<br>");
+				var historyURL = debugURL + "&seed=" + problemSeed + "&activity=";
+				jQuery( "<a>Problem history</a>" ).attr( "href", "javascript:" ).click(function( event ) {
+					window.location.href = historyURL + encodeURIComponent( JSON.stringify( userActivityLog ) );
+				}).appendTo( links );
+			} else {
+				links.append("<br>");
+				jQuery( "<a>Random problem</a>" )
+					.attr( "href", debugURL )
+					.appendTo( links );
+			}
+
 			links.append("<br>");
 			links.append("Problem type: ");
 
@@ -1638,6 +1663,14 @@ var Khan = (function() {
 
 		// Build the data to pass to the server
 		function buildAttemptData(pass, attemptNum, attemptContent, curTime) {
+			var timeTaken = Math.round((curTime - lastAction) / 1000);
+
+			if ( attemptContent !== "hint" ) {
+				userActivityLog.push([ pass ? "correct-activity" : "incorrect-activity", attemptContent, timeTaken ]);
+			} else {
+				userActivityLog.push([ "hint-activity", "0", timeTaken ]);
+			}
+
 			return {
 				// The user answered correctly
 				complete: pass === true ? 1 : 0,
@@ -1646,7 +1679,7 @@ var Khan = (function() {
 				count_hints: hintsUsed,
 
 				// How long it took them to complete the problem
-				time_taken: Math.round((curTime - lastAction) / 1000),
+				time_taken: timeTaken,
 
 				// How many times the problem was attempted
 				attempt_number: attemptNum,
@@ -1956,12 +1989,13 @@ var Khan = (function() {
 					+ "?seed=" + problemSeed
 					+ "&problem=" + problemID,
 				pathlink = "[" + path + ( exercise.data( "name" ) != null && exercise.data( "name" ) !== exerciseName ? " (" + exercise.data( "name" ) + ")" : "" ) + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
+				historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent( JSON.stringify( userActivityLog ) ) + ")",
 				agent = navigator.userAgent,
 				mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" :
 					( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),
 				localStorageInfo = ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "localStorage NOT enabled" : null ),
 				warningInfo = jQuery( "#warning-bar-content" ).text(),
-				parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, pathlink, "    " + JSON.stringify( guessLog ), agent, localStorageInfo, mathjaxInfo, warningInfo ],
+				parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, pathlink, historyLink, "    " + JSON.stringify( guessLog ), agent, localStorageInfo, mathjaxInfo, warningInfo ],
 				body = jQuery.grep( parts, function( e ) { return e != null; } ).join( "\n\n" );
 
 			var mathjaxLoadFailures = jQuery.map( MathJax.Ajax.loading, function( info, script ) {
