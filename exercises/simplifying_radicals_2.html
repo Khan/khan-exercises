@@ -8,6 +8,31 @@
 <body>
 	<div class="exercise">
 	<div class="problems">
+		<div id="already-simplified" data-weight="2">
+			<div class="vars">
+				<var id="NUM, DENOM">shuffle( [ 10, 21, 30, 42, 66, 70, 105, 110, 154, 165, 210], 2 )</var>
+				<var id="NUM_SPLIT">splitRadical(NUM)</var>
+				<var id="DENOM_SPLIT">splitRadical(DENOM)</var>
+				<var id="GCD">getGCD(NUM,DENOM)</var>
+				<var id="NUM_COEFFICIENT">NUM_SPLIT[0] === 1 ? "" : NUM_SPLIT[0]</var>
+				<var id="DENOM_COEFFICIENT">DENOM_SPLIT[0] === 1 ? "" : DENOM_SPLIT[0]</var>
+			</div>
+
+			<div class="question">
+				<p>Simplify <code>\sqrt{<var>NUM</var>/<var>DENOM</var>}</code>.</p>
+			</div>
+
+			<div class="solution" data-type="radical"><var>NUM/GCD</var>/<var>DENOM/GCD</var></div>
+
+			<div class="hints">
+				<p>Both numbers <code><var>NUM</var></code> and <code><var>DENOM</var></code> have no perfect-square factors, but <code>\sqrt{<var>NUM</var>/<var>DENOM</var>}</code> still can be simplified.</p>
+				<p>The largest number that divides both <code><var>NUM</var></code> and <code><var>DENOM</var></code> is <code><var>GCD</var></code>.</p>
+				<p>We see that <code><var>NUM</var></code> = <code><var>NUM/GCD</var>\cdot<var>GCD</var></code>.</p>
+				<p>We also see that <code><var>DENOM</var></code> = <code><var>DENOM/GCD</var>\cdot<var>GCD</var></code>.</p>
+				<p>Since <code><var>GCD</var></code>/<code><var>GCD</var></code> just equals 1, the fraction <code><var>NUM</var></code>/<code><var>DENOM</var></code> ends up simplifying to <code><var>NUM/GCD</var></code>/<code><var>DENOM/GCD</var></code>.</p>
+				<p>Thus, <code>\sqrt{<var>NUM</var>/<var>DENOM</var>} = sqrt{<var>NUM/GCD</var>/<var>DENOM/GCD</var>}</code>.</p>
+			</div>
+		</div>
 
 		<div id="both-perfect-squares" data-weight="2">
 			<div class="vars">
@@ -25,7 +50,7 @@
 			<div class="solution" data-type="radical"><var>NUM</var>/<var>DENOM</var></div>
 
 			<div class="hints">
-				<p>First number <code><var>NUM</var></code> is a perfect square, so <code>\sqrt{<var>NUM</var>} = <var>NUM_COEFFICIENT</var></code>.</p>
+				<p>First number <code><var>NUM</var></code> has no perfect square, so it simplifies to <code>\sqrt{<var>NUM</var>} = <var>NUM_COEFFICIENT</var></code>.</p>
 				<p>Second number <code><var>DENOM</var></code> is a perfect square, so <code>\sqrt{<var>DENOM</var>} = <var>DENOM_COEFFICIENT</var></code>.</p>
 				<p>Both numbers <code><var>NUM</var></code> and <code><var>DENOM</var></code> are perfect squares, so <code>\sqrt{<var>NUM</var>/<var>DENOM</var>} = <var>NUM_COEFFICIENT</var>/<var>DENOM_COEFFICIENT</var></code>.</p>
 			</div>
@@ -81,9 +106,9 @@
 			</div>
 		</div>
 
-		<div id="not-yet-simple" data-weight="2000">
+		<div id="not-yet-simple" data-weight="2">
 			<div class="vars">
-				<var id="NUM, DENOM">shuffle( [ 8, 10, 12, 18, 20, 21, 24, 27, 28, 30, 32, 40, 42, 44, 45, 48, 50, 54, 56, 60, 63, 66, 70, 72, 75, 80, 88, 90, 98, 99, 105, 110, 120, 125, 128, 140, 150, 154, 160, 165, 175, 180, 200, 210, 216], 2 )</var>
+				<var id="NUM, DENOM">shuffle( [ 8, 12, 18, 20, 24, 27, 28, 32, 40, 44, 45, 48, 50, 54, 56, 60, 63, 72, 75, 80, 88, 90, 98, 99, 120, 125, 128, 140, 150, 160, 175, 180, 200, 216], 2 )</var>
 				<var id="NUM_SPLIT">splitRadical(NUM)</var>
 				<var id="DENOM_SPLIT">splitRadical(DENOM)</var>
 				<var id="NUM_COEFFICIENT">NUM_SPLIT[0] === 1 ? "" : NUM_SPLIT[0]</var>
