@@ -1628,6 +1628,10 @@ var Khan = (function() {
 			jQuery( "#extras" ).css("visibility", "hidden");
 		}
 
+		// Change form target to the current page, so that errors do not kick us
+		// back to the dashboard
+		jQuery( "#answerform" ).attr( "action", window.location.href );
+
 		// Watch for a solution submission
 		jQuery("#check-answer-button").click( handleSubmit );
 		jQuery("#answerform").submit( handleSubmit );
