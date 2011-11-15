@@ -534,6 +534,10 @@ var Khan = (function() {
 	// Actually load the scripts. This is getting evaluated when the file is loaded.
 	Khan.loadScripts( scripts, function() {
 
+		if ( testMode ) {
+			Khan.require( [ "../jquery-ui" ] );
+		};
+
 		// Base modules required for every problem
 		Khan.require( [ "answer-types", "tmpl", "underscore" ] );
 
