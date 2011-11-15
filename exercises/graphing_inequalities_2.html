@@ -189,7 +189,7 @@
 					<div class="show-guess">
 						graph.pointA.setCoord( guess[0] );
 						graph.pointB.setCoord( guess[1] );
-						graph.shadetop = graph.pointA.coord[0] &lt; graph.pointB.coord[0] ? guess[2] : !guess[2];
+						graph.shadetop = graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? guess[2] : !guess[2];
 						if ( guess[3] ) {
 							graph.dasharray = "";
 							jQuery( "input[name=dashradio][value=solid]" ).attr( "checked", true );

@@ -293,8 +293,8 @@
 						graph.pointB.setCoord( guess[1] );
 						graph.pointC.setCoord( guess[4] );
 						graph.pointD.setCoord( guess[5] );
-						graph.shadetop1 = graph.pointA.coord[0] &lt; graph.pointB.coord[0] ? guess[2] : !guess[2];
-						graph.shadetop2 = graph.pointC.coord[0] &lt; graph.pointD.coord[0] ? guess[6] : !guess[6];
+						graph.shadetop1 = graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? guess[2] : !guess[2];
+						graph.shadetop2 = graph.pointC.coord[0] &gt; graph.pointD.coord[0] ? guess[6] : !guess[6];
 						if ( guess[3] ) {
 							graph.dasharray1 = "";
 							jQuery( "input[name=dashradio1][value=solid]" ).attr( "checked", true );
