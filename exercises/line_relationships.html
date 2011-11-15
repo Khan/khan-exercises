@@ -22,7 +22,7 @@
 					<var id="M_FRAC">decimalFraction( M, "true", "true" )</var>
 					<var id="M_PERP_FRAC">decimalFraction( -1 / M, "true", "true" )</var>
 					<var id="B">randRange( -5, 5 )</var>
-					<var id="X" data-ensure="abs( M * X ) &lt;= 12">randRange( 2, 8 ) * randRangeNonZero( -1, 1 )</var>
+					<var id="X" data-ensure="abs( ( -1 / M ) * X ) &lt;= 12">randRange( 2, 8 ) * randRangeNonZero( -1, 1 )</var>
 					<var id="Y" data-ensure="abs( Y - ( -1 / M ) * X ) &lt; 10">randRange( 2, 8 ) * randRangeNonZero( -1, 1 )</var>
 					<var id="LINE_TYPE">"perpendicular"</var>
 				</div>
@@ -86,6 +86,7 @@
 			<div id="parallel-graph" data-type="perpendicular-graph" data-weight="2">
 				<div class="vars">
 					<var id="LINE_TYPE">"parallel"</var>
+					<var id="X" data-ensure="abs( M * X ) &lt;= 12">randRange( 2, 8 ) * randRangeNonZero( -1, 1 )</var>
 					<var id="Y" data-ensure="abs( Y - M * X ) &lt; 10 && abs( Y - M * X - B ) &gt;= 1">randRange( 2, 8 ) * randRangeNonZero( -1, 1 )</var>
 				</div>
 				<div class="solution" data-type="multiple">
