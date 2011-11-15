@@ -457,35 +457,87 @@ function Protractor( center, r ) {
 	return this;
 }
 
-function analogClock( hour, minute, radius, labelShown ){
-	this.hour = hour;
-	this.minute = minute;
+function analogClock( radius, labelShown ){
+	var minuteLength = 0.65;
+	var hourLength = 0.45;
+	
+	var minutehand = KhanUtil.currentGraph.raphael.set();
+	var hourhand = KhanUtil.currentGraph.raphael.set();
+	
 	this.radius = radius;
-	this.set = KhanUtil.currentGraph.raphael.set();
+	this.clock = KhanUtil.currentGraph.raphael.set();
 
 	this.graph = KhanUtil.currentGraph;
 	this.draw = function(){
 		for( var x = 0; x < 12; x++ ){
-			this.set.push( this.graph.line( [ this.radius *  Math.sin( 2 * Math.PI * x/12  ), this.radius * Math.cos( 2 * Math.PI * x/12 ) ], [ 0.8 * this.radius * Math.sin( 2 * Math.PI * x/12 ), 0.8 * this.radius * Math.cos( 2 * Math.PI * x/12 ) ] ) );
+			this.clock.push( this.graph.line( [ this.radius *  Math.sin( 2 * Math.PI * x/12  ), this.radius * Math.cos( 2 * Math.PI * x/12 ) ], [ 0.8 * this.radius * Math.sin( 2 * Math.PI * x/12 ), 0.8 * this.radius * Math.cos( 2 * Math.PI * x/12 ) ] ) );
 		}
-
-		this.set.push( this.graph.line( [ 0.45 * this.radius *  Math.sin( 2 * Math.PI * this.hour/12 + ( this.minute / 60 ) / 12 * 2 * Math.PI ), 0.45 * this.radius * Math.cos( 2 * Math.PI * this.hour/12 + ( this.minute / 60 ) / 12  * 2 * Math.PI ) ], [ 0, 0  ] ) );
-
-		this.set.push( this.graph.line( [ 0.6 * this.radius *  Math.sin( ( this.minute / 60 ) * 2 * Math.PI ), 0.6 * this.radius * Math.cos(  ( this.minute / 60 ) * 2 * Math.PI ) ], [ 0, 0  ] ) );
-		this.set.push( this.graph.circle( [ 0, 0 ], this.radius ) );
-		this.set.push( this.graph.circle( [ 0, 0 ], this.radius/ 40 ) );
+		
+		this.clock.push( this.graph.circle( [ 0, 0 ], this.radius ) );
+		this.clock.push( this.graph.circle( [ 0, 0 ], this.radius/ 40 ) );
 		if( labelShown ){
 			this.drawLabels();
 		}
-		return this.set;
+	};
+	
+	this.addHand = function(set, length, minute) {
+		set.push( this.graph.line( 
+			[
+			 	length * this.radius * Math.sin( ( minute / 60 ) * 2 * Math.PI ),
+				length * this.radius * Math.cos( ( minute / 60 ) * 2 * Math.PI )
+			], [
+				0,
+				0
+			]
+		));
+	}
+	
+	this.clearTime = function() {
+		minutehand.hide();
+		hourhand.hide();
+	}
+			
+	this.setTime = function(hour, minute){
+		this.addHand(minutehand, minuteLength, minute);
+		this.addHand(hourhand, hourLength, hour * 5 + minute / 60 * 5);
 	};
 
 	this.drawLabels = function(){
 		for( var x = 1; x < 13; x++ ){
-			this.set.push( this.graph.label( [ 0.7 * this.radius *  Math.sin( 2 * Math.PI * x/12  ), 0.7 * this.radius * Math.cos( 2 * Math.PI * x/12 ) ], x  ) );
+			this.clock.push( this.graph.label( [ 0.7 * this.radius *  Math.sin( 2 * Math.PI * x/12  ), 0.7 * this.radius * Math.cos( 2 * Math.PI * x/12 ) ], x  ) );
 		}
-		return this.set;
 	};
+	
+	// hand = "minute" or "hour"
+	// callback return the minute (N/60) the user clicked
+	this.watchForClick = function(hand, callback){
+		var coord = $("#pie").offset();
+	 	var centerx = coord.left + this.graph.raphael.width / 2;
+	 	var centery = coord.top + this.graph.raphael.height / 2;
+		var that = this;
+		
+		var len = hand === 'minute' ? minuteLength : hourLength;
+		var hand = hand === 'minute' ? minutehand : hourhand;
+				
+		function handleClickAngle(e){
+			var xwidth = e.pageX - centerx;
+			var xheight = e.pageY - centery;
+			var angle = (360 - (Math.atan2(xwidth, xheight) +  Math.PI) * 180 / Math.PI) / 360;		
+			return angle; //Math.round( angle / (Math.PI/30) ) * (Math.PI/30);
+		}
+		
+		function addHand(e){
+			var minute = handleClickAngle(e) * 60;
+			hand.hide();
+			that.addHand(hand, len, minute);
+			return minute;
+		}
+		
+		$("#pie").mousemove(addHand).click(function(e) {
+			$("#pie").unbind('mousemove').unbind('click');
+			callback(addHand(e));
+		}); 
+	}
 }
 
 

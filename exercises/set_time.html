@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
+<head>
+	<meta charset="UTF-8" />
+	<title>Setting time</title>
+	<script src="../khan-exercise.js"></script>
+	<style type="text/css">
+		#answer_area .short input[type=text] {
+			width: 30px;
+		}
+		
+		.hidden-instruction {
+			display: none;
+		}
+	</style>
+	
+	<script type='text/javascript'>
+	function setupInteractiveClock() {
+		var minuteFirst = Math.random() >= 0.5;
+		var showFirst = minuteFirst ? 'minute' : 'hour';
+		var showSecond = minuteFirst ? 'hour' : 'minute';
+		
+		function setup() {
+			
+			// do both of these in case we're redoing them after a reset
+			$("#instruct-"+showFirst).removeClass('hidden-instruction');
+			$("#instruct-"+showSecond).addClass('hidden-instruction');
+			
+			PIECH.watchForClick(showFirst, function(firstTime) {
+				
+				$("#instruct-"+showFirst).addClass('hidden-instruction');
+				$("#instruct-"+showSecond).removeClass('hidden-instruction');
+				
+				PIECH.watchForClick(showSecond, function(secondTime) {
+					var userHour = (minuteFirst ? secondTime : firstTime) / 5;
+					var userMinute = minuteFirst ? firstTime : secondTime;
+					var correctHour = MY_HOUR + MY_MINUTE / 60;
+					
+					if (correctHour > 12 && correctHour < 13) {
+						correctHour -= 12;
+					}
+					
+					// TODO: develop decision boundaries for correct answers
+					// TODO: add ability to correct your answer					
+					console.log("Your minute hand was "+(Math.round(Math.abs(userMinute - MY_MINUTE) / 60 * 1000) / 10) + "% away");
+					console.log("Your hour hand was "+(Math.round(Math.abs(userHour - correctHour) / 12 * 1000) / 10) + "% away");
+					
+				});
+				
+			});
+			
+		}
+		
+		$("#clear-clock").click(function(){
+			PIECH.clearTime();
+			setup();
+		});
+		
+		setup();
+	}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="HOUR">randRange( 1, 12 )</var>
+		<var id="MINUTE">randRange( 0, 11 ) * 5</var>
+		<var id="NICE_MINUTE">MINUTE &gt; 5 ? MINUTE : "0" + "" + MINUTE</var>
+	</div>
+
+	<div class="problems">
+		<div id="analog">
+			<div class="question">
+				<p>Set the time to <var>HOUR</var>:<var>NICE_MINUTE</var>.</p>
+				<p id='instruct-minute' class='hidden-instruction'>Set the <b>minute</b> hand:</p>
+				<p id='instruct-hour' class='hidden-instruction'>Set the <b>hour</b> hand:</p>
+				<div class="graphie" id="pie" style="float: left;">
+					init({ range: [ [-4, 4 ], [ -4, 4] ], scale: 25 });
+					PIECH = new analogClock( 3.5, false );
+					PIECH.draw();
+					setupInteractiveClock();
+					
+					// TODO: how do I export these vars to header functions?
+					MY_HOUR = HOUR;
+					MY_MINUTE = MINUTE;
+				</div>
+				<div class="graphie" id="digital" style="float: left;">
+					init({ range: [ [-5, 5], [-3, 3] ], scale: 25 });
+				</div>
+				<div style="clear: both;"></div>
+				<br /><input type='button' value='Clear the clock' id='clear-clock'>
+			</div>
+			<div class="solution" data-type="multiple">
+				<p class="example">a 12-hour time in hours and minutes</p>
+			</div>		
+		
+		</div>
+	</div>
+	</div>
+</body>
+</html>
