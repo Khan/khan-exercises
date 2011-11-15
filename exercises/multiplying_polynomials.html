@@ -44,8 +44,8 @@
 						}
 						
 						if ( likeTerms[ i + j ] === undefined ) {
-							likeTerms[ i + j ] = false;
-						} else if ( !likeTerms[ i + j ] ) {
+							likeTerms[ i + j ] = "";
+						} else if ( likeTerms[ i + j ] === "" ) {
 							likeTerms[ i + j ] = COLORS[ counter++ ]; 
 							areLikeTerms = true;
 						}
