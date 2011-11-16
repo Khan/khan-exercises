@@ -1743,15 +1743,13 @@ var Khan = (function() {
 				// Show the examples (acceptable answer formats) if available -- we get
 				// a lot of issues due to incorrect formats (eg. "3.14159" instead of
 				// "3pi", "log(2^5)" instead of "log(32)").
-				if ( window.remindAnswerFormatAbTest ) {
-					var examples = jQuery( "#examples" ),
-						examplesLink = jQuery( "#examples-show" );
-					if ( examplesLink.is( ":visible" ) ) {
-						if ( !examples.is( ":visible" ) ) {
-							examplesLink.click();
-						}
-						examples.effect( "pulsate", { times: 1 }, "slow" );
+				var examples = jQuery( "#examples" ),
+					examplesLink = jQuery( "#examples-show" );
+				if ( examplesLink.is( ":visible" ) ) {
+					if ( !examples.is( ":visible" ) ) {
+						examplesLink.click();
 					}
+					examples.effect( "pulsate", { times: 1 }, "slow" );
 				}
 
 				// Refocus text field so user can type a new answer
@@ -1804,21 +1802,12 @@ var Khan = (function() {
 						.focus();
 				}
 				nextProblem( 1 );
-
-				// Bingo if user completed problem after a wrong try
-				if ( attempts > 1 && typeof window.remindAnswerFormatAbTest !== "undefined" ) {
-					gae_bingo.bingo( "remind_correct_after_wrong" );
-				}
 			} else {
 				// Wrong answer. Enable all the input elements, but wait until
 				// until server acknowledges before enabling the check answer
 				// button.
 				jQuery( "#answercontent input" ).not( "#check-answer-button, #hint" )
 					.removeAttr( "disabled" );
-
-				if ( attempts === 1 && typeof window.remindAnswerFormatAbTest !== "undefined" ) {
-					gae_bingo.bingo( "remind_first_attempt_wrong" );
-				}
 			}
 
 			// Remember when the last action was
