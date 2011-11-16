@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Point Slope Form</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="standard-to-slope">
+			<div class="vars"  data-ensure="X !== X1">
+				<var id="X">randRangeNonZero( -5, 5 )</var>
+				<var id="Y">randRangeNonZero( -5, 5 )</var>
+				<var id="X1">randRangeNonZero( -5, 5 )</var>
+				<var id="Y1">randRangeNonZero( -5, 5 )</var>				
+				<var id="SLOPE">(Y - Y1) / (X - X1)</var>
+			</div>
+			<p class="problem">Using the following values, create an equation in point slope form.</p>
+			<p>In other words, given the values below, for a formula that looks like <code> (y - y1) = m(x - x1)</code>, what are the values of <code>y1</code>, <code>x1</code>, and <code>m</code>?</p>
+			<p><code>x1\text{ } =\text{ }\color{#b22222}{<var>X</var>},\text{ } f(x1)\text{ } =\text{ } \color{#b22222}{<var>Y</var>}.</code><br /><code>x2 \text{ } = \text{ }\color{#4169E1}{<var>X1</var>},\text{ } f(x2)\text{ } = \text{ }\color{#4169E1}{<var>Y1</var>}.</code> </p>
+		  <div class="solution" data-type="set">
+			  <div class="set-sol" data-type="multiple">
+				<span class="sol"><var>X1</var></span>
+				<span class="sol"><var>Y1</var></span>
+				<span class="sol"><var>SLOPE</var></span>
+			  </div>
+			  <div class="set-sol" data-type="multiple">
+				<span class="sol"><var>X</var></span>
+				<span class="sol"><var>Y</var></span>
+				<span class="sol"><var>SLOPE</var></span>
+			  </div>
+
+			  <div class="input-format">
+				<p class="entry" data-type="multiple">
+				  <code>\text{x1 = }</code><span class="sol"></span><br />
+				  <code>\text{y1 = }</code><span class="sol"></span><br />
+				  <code>\text{m = }</code><span class="sol"></span>
+				</p>
+			  </div>
+		  </div>
+		   <div class="hints">
+				<p><code>f(x)</code> is just a fancy term for <code>y</code>.  So one point is (<code>\color{#b22222}{<var>X</var>}\text{, }\color{#b22222}{<var>Y</var>}</code>).</p>
+				<p>The formula for a slope is <code>m = (y1 - y2) / (x1 - x2)</code>.</p>
+				<p>So, by plugging in the numbers, we get <code>\displaystyle {} \frac{\color{#b22222}{<var>Y</var>} - \color{#4169E1}{<var>Y1</var>}}{\color{#b22222}{<var>X</var>} - \color{#4169E1}{<var>X1</var>}}</code> =<code>\color{#68228B}{<var>fractionReduce(Y - Y1, X - X1)</var>}</code></p>
+				<p>Select one of the points to subsitute for x1 and y1 in the slope point formula.  The solution is then either:<br /> <code>(y - \color{#b22222}{<var>Y</var>}) = \color{#68228B}{<var>fractionReduce(Y - Y1, X - X1)</var>}(x - \color{#b22222}{<var>X</var>})</code><br />  OR <br /><code>(y - \color{#4169E1}{<var>Y1</var>}) = \color{#68228B}{<var>fractionReduce(Y - Y1, X - X1)</var>}(x - \color{#4169E1}{<var>X1</var>})</code></p>
+
+		</div>
+	</div>
+
+	</div>
+</body>
+</html>
