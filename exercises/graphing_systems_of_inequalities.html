@@ -62,6 +62,47 @@
 					<code>y <var>COMP_2</var> <var>PRETTY_SLOPE_2</var> x + <var>YINT_2</var></code>
 				</p>
 
+				<form>
+					<span class="hint_blue" style="width: 40px">Inequality 1:</span>
+					<input type="button" value="Shade other side" onClick="javascript:
+						KhanUtil.currentGraph.graph.shadetop1 = !KhanUtil.currentGraph.graph.shadetop1;
+						KhanUtil.currentGraph.graph.update();
+					" />
+					<label class="hint_blue">
+						<input name="dashradio1" type="radio" value="solid" checked onClick="javascript:
+							KhanUtil.currentGraph.graph.dasharray1 = '';
+							KhanUtil.currentGraph.graph.update();
+						" />
+						Solid line
+					</label>
+					<label class="hint_blue">
+						<input name="dashradio1" type="radio" value="dashed" onClick="javascript:
+							KhanUtil.currentGraph.graph.dasharray1 = '- ';
+							KhanUtil.currentGraph.graph.update();
+						" />
+						Dashed line
+					</label>
+					<br />
+					<span class="hint_green" style="width: 40px">Inequality 2:</span>
+					<input type="button" value="Shade other side" onClick="javascript:
+						KhanUtil.currentGraph.graph.shadetop2 = !KhanUtil.currentGraph.graph.shadetop2;
+						KhanUtil.currentGraph.graph.update();
+					" />
+					<label class="hint_green">
+						<input name="dashradio2" type="radio" value="solid" checked onClick="javascript:
+							KhanUtil.currentGraph.graph.dasharray2 = '';
+							KhanUtil.currentGraph.graph.update();
+						" />
+						Solid line
+					</label>
+					<label class="hint_green">
+						<input name="dashradio2" type="radio" value="dashed" onClick="javascript:
+							KhanUtil.currentGraph.graph.dasharray2 = '- ';
+							KhanUtil.currentGraph.graph.update();
+						" />
+						Dashed line
+					</label>
+				</form>
 				<div class="graphie" id="grid">
 					graphInit({
 						range: 11,
@@ -75,7 +116,7 @@
 						labelOpacity: 0.5
 					});
 
-					label( [ 0, 11 ], "y", "above" );
+					label( [ 0, -11 ], "y", "below" );
 					label( [ 11, 0 ], "x", "right" );
 
 					addMouseLayer();
@@ -219,47 +260,6 @@
 					graph.pointD.toFront();
 
 				</div>
-				<form>
-					<span class="hint_blue" style="width: 40px">Inequality 1:</span>
-					<input type="button" value="Shade other side" onClick="javascript:
-						KhanUtil.currentGraph.graph.shadetop1 = !KhanUtil.currentGraph.graph.shadetop1;
-						KhanUtil.currentGraph.graph.update();
-					" />
-					<label class="hint_blue">
-						<input name="dashradio1" type="radio" value="solid" checked onClick="javascript:
-							KhanUtil.currentGraph.graph.dasharray1 = '';
-							KhanUtil.currentGraph.graph.update();
-						" />
-						Solid line
-					</label>
-					<label class="hint_blue">
-						<input name="dashradio1" type="radio" value="dashed" onClick="javascript:
-							KhanUtil.currentGraph.graph.dasharray1 = '- ';
-							KhanUtil.currentGraph.graph.update();
-						" />
-						Dashed line
-					</label>
-					<br />
-					<span class="hint_green" style="width: 40px">Inequality 2:</span>
-					<input type="button" value="Shade other side" onClick="javascript:
-						KhanUtil.currentGraph.graph.shadetop2 = !KhanUtil.currentGraph.graph.shadetop2;
-						KhanUtil.currentGraph.graph.update();
-					" />
-					<label class="hint_green">
-						<input name="dashradio2" type="radio" value="solid" checked onClick="javascript:
-							KhanUtil.currentGraph.graph.dasharray2 = '';
-							KhanUtil.currentGraph.graph.update();
-						" />
-						Solid line
-					</label>
-					<label class="hint_green">
-						<input name="dashradio2" type="radio" value="dashed" onClick="javascript:
-							KhanUtil.currentGraph.graph.dasharray2 = '- ';
-							KhanUtil.currentGraph.graph.update();
-						" />
-						Dashed line
-					</label>
-				</form>
 
 			</div>
 			<div class="solution" data-type="multiple">
@@ -320,6 +320,9 @@
 					</p>
 				</div>
 				-->
+				<div class="example">graph the inequalities</div>
+				<div class="example">make sure the correct sides are shaded</div>
+				<div class="example">make sure each line is correctly shown as solid or dashed</div>
 			</div>
 		</div>
 	</div>

@@ -55,6 +55,26 @@
 					<code>y <var>COMP</var> <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
 				</p>
 
+				<form>
+					<input type="button" value="Shade other side" onClick="javascript:
+						KhanUtil.currentGraph.graph.shadetop = !KhanUtil.currentGraph.graph.shadetop;
+						KhanUtil.currentGraph.graph.update();
+					" />
+					<label>
+						<input name="dashradio" type="radio" value="solid" checked onClick="javascript:
+							KhanUtil.currentGraph.graph.dasharray = '';
+							KhanUtil.currentGraph.graph.update();
+						" />
+						Solid line
+					</label>
+					<label>
+						<input name="dashradio" type="radio" value="dashed" onClick="javascript:
+							KhanUtil.currentGraph.graph.dasharray = '- ';
+							KhanUtil.currentGraph.graph.update();
+						" />
+						Dashed line
+					</label>
+				</form>
 				<div class="graphie" id="grid">
 					graphInit({
 						range: 11,
@@ -68,7 +88,7 @@
 						labelOpacity: 0.5
 					});
 
-					label( [ 0, 11 ], "y", "above" );
+					label( [ 0, -11 ], "y", "below" );
 					label( [ 11, 0 ], "x", "right" );
 
 					addMouseLayer();
@@ -147,26 +167,6 @@
 					graph.pointB.toFront();
 
 				</div>
-				<form>
-					<input type="button" value="Shade other side" onClick="javascript:
-						KhanUtil.currentGraph.graph.shadetop = !KhanUtil.currentGraph.graph.shadetop;
-						KhanUtil.currentGraph.graph.update();
-					" />
-					<label>
-						<input name="dashradio" type="radio" value="solid" checked onClick="javascript:
-							KhanUtil.currentGraph.graph.dasharray = '';
-							KhanUtil.currentGraph.graph.update();
-						" />
-						Solid line
-					</label>
-					<label>
-						<input name="dashradio" type="radio" value="dashed" onClick="javascript:
-							KhanUtil.currentGraph.graph.dasharray = '- ';
-							KhanUtil.currentGraph.graph.update();
-						" />
-						Dashed line
-					</label>
-				</form>
 
 			</div>
 			<div class="solution" data-type="multiple">
@@ -206,6 +206,9 @@
 						<label><span class="checkbox">POINT_2_SOLUTION</span><code>(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is a solution</label>
 					</p>
 				</div>
+				<div class="example">graph the inequality</div>
+				<div class="example">make sure the correct side is shaded</div>
+				<div class="example">make sure the line is correctly shown as solid or dashed</div>
 			</div>
 		</div>
 	</div>
