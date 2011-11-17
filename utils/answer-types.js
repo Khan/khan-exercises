@@ -534,7 +534,7 @@ jQuery.extend( Khan.answerTypes, {
 			});
 		};
 
-		ret.showInteractiveGuess = function( guess ) {
+		ret.showCustomGuess = function( guess ) {
 			guess = jQuery.extend( true, [], guess );
 
 			solutionarea.find( ".sol" ).each(function() {
@@ -544,8 +544,8 @@ jQuery.extend( Khan.answerTypes, {
 					// Shift regardless of whether we can show the interactive guess
 					var next = guess.shift();
 
-					if ( jQuery.isFunction( validator.showInteractiveGuess ) ) {
-						validator.showInteractiveGuess( next );
+					if ( jQuery.isFunction( validator.showCustomGuess ) ) {
+						validator.showCustomGuess( next );
 					}
 				}
 			});
@@ -925,7 +925,7 @@ jQuery.extend( Khan.answerTypes, {
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
-	interactive: function( solutionarea, solution ) {
+	custom: function( solutionarea, solution ) {
 		var isTimeline = !( solutionarea.attr( "id" ) === "solutionarea" || solutionarea.parent().attr( "id" ) === "solutionarea" );
 		var guessCorrect = false;
 		solution.find( ".instruction" ).appendTo( solutionarea );
@@ -949,17 +949,17 @@ jQuery.extend( Khan.answerTypes, {
 		ret.examples = solution.find( ".example" ).map(function(i, el) {
 			return jQuery( el ).html();
 		});
-		ret.solution = "interactive";
+		ret.solution = "custom";
 		ret.showGuess = function( guess ) {
 			if ( isTimeline ) {
 				guessCorrect = validator( guess );
 				jQuery( solutionarea ).empty();
-				jQuery( solutionarea ).append( guessCorrect ? "Interactive answer correct" : "Interactive answer incorrect" );
+				jQuery( solutionarea ).append( guessCorrect ? "Answer correct" : "Answer incorrect" );
 			}
 		}
 
 		var showGuessCode = jQuery( solution ).find( ".show-guess" ).text();
-		ret.showInteractiveGuess = function( guess ) {
+		ret.showCustomGuess = function( guess ) {
 			var code = "(function() { var guess = " + JSON.stringify( guess ) + ";" + showGuessCode + "})()";
 			KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
 		}

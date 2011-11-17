@@ -1198,9 +1198,9 @@ var Khan = (function() {
 						}
 					};
 
-					if ( thisSlide.data( "guess" ) !== undefined && jQuery.isFunction( validator.showInteractiveGuess ) ) {
+					if ( thisSlide.data( "guess" ) !== undefined && jQuery.isFunction( validator.showCustomGuess ) ) {
 						KhanUtil.currentGraph = jQuery( realWorkArea ).find( ".graphie" ).data( "graphie" );
-						validator.showInteractiveGuess( thisSlide.data( "guess" ) );
+						validator.showCustomGuess( thisSlide.data( "guess" ) );
 						MathJax.Hub.Queue( recordState );
 					} else {
 						recordState();
