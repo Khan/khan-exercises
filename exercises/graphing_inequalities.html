@@ -36,6 +36,26 @@
 					<code>y <var>COMP</var> <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
 				</p>
 
+				<form>
+					<input type="button" value="Shade other side" onClick="javascript:
+						KhanUtil.currentGraph.graph.shadetop = !KhanUtil.currentGraph.graph.shadetop;
+						KhanUtil.currentGraph.graph.update();
+					" />
+					<label>
+						<input name="dashradio" type="radio" value="solid" checked onClick="javascript:
+							KhanUtil.currentGraph.graph.dasharray = '';
+							KhanUtil.currentGraph.graph.update();
+						" />
+						Solid line
+					</label>
+					<label>
+						<input name="dashradio" type="radio" value="dashed" onClick="javascript:
+							KhanUtil.currentGraph.graph.dasharray = '- ';
+							KhanUtil.currentGraph.graph.update();
+						" />
+						Dashed line
+					</label>
+				</form>
 				<div class="graphie" id="grid">
 					graphInit({
 						range: 11,
@@ -49,7 +69,7 @@
 						labelOpacity: 0.5
 					});
 
-					label( [ 0, 11 ], "y", "above" );
+					label( [ 0, -11 ], "y", "below" );
 					label( [ 11, 0 ], "x", "right" );
 
 					addMouseLayer();
@@ -128,29 +148,9 @@
 					graph.pointB.toFront();
 
 				</div>
-				<form>
-					<input type="button" value="Shade other side" onClick="javascript:
-						KhanUtil.currentGraph.graph.shadetop = !KhanUtil.currentGraph.graph.shadetop;
-						KhanUtil.currentGraph.graph.update();
-					" />
-					<label>
-						<input name="dashradio" type="radio" value="solid" checked onClick="javascript:
-							KhanUtil.currentGraph.graph.dasharray = '';
-							KhanUtil.currentGraph.graph.update();
-						" />
-						Solid line
-					</label>
-					<label>
-						<input name="dashradio" type="radio" value="dashed" onClick="javascript:
-							KhanUtil.currentGraph.graph.dasharray = '- ';
-							KhanUtil.currentGraph.graph.update();
-						" />
-						Dashed line
-					</label>
-				</form>
 
 			</div>
-			<div class="solution" data-type="interactive">
+			<div class="solution" data-type="custom">
 				<div class="instruction">
 					Drag the two points to move the line into the correct position.
 				</div>
@@ -169,7 +169,7 @@
 				<div class="show-guess">
 					graph.pointA.setCoord( guess[0] );
 					graph.pointB.setCoord( guess[1] );
-					graph.shadetop = graph.pointA.coord[0] &lt; graph.pointB.coord[0] ? guess[2] : !guess[2];
+					graph.shadetop = graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? guess[2] : !guess[2];
 					if ( guess[3] ) {
 						graph.dasharray = "";
 						jQuery( "input[name=dashradio][value=solid]" ).attr( "checked", true );
@@ -179,6 +179,9 @@
 					}
 					graph.update();
 				</div>
+				<div class="example">graph the inequality</div>
+				<div class="example">make sure the correct side is shaded</div>
+				<div class="example">make sure the line is correctly shown as solid or dashed</div>
 			</div>
 		</div>
 	</div>
