@@ -3,17 +3,18 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Decimal Word Problems 1</title>
-	<script src="../khan-exercise.js"></script>
+	<script src="../khan-exercise.js"><!-- </script> -->
 </head>
 <body>
 	<div class="exercise">
 		<div class="vars">
 
 			<var id="X_MAX"> 3.5 </var>
-			<var id="Y_CARRY"> 3 </var>
+<!-- 			<var id="Y_CARRY"> 3 </var> -->
 			<var id="Y_TOP"> 2 </var>
 			<var id="Y_BOTTOM"> 1 </var>
-	
+            <var id="Y_BOTTOM_2"> 0 </var>
+
 		</div>
 
 		<div class="problems">
@@ -22,27 +23,28 @@
 			
 				<div class="vars">			
 					<var id="PRICE_SEED"> randRange( 600,750 ) </var>
-					<var id="PRICE"> ( PRICE_SEED % 100 == 0 ) ? ( PRICE_SEED * 0.01 ).toFixed( 2 ) : ( ( PRICE_SEED + 1 ) * 0.01 ).toFixed( 2 ) </var>
-					<var id="PRICE_MAX"> 8.79 </var>
+					<var id="PRICE"> ( PRICE_SEED % 100 == 0 ) ? ( PRICE_SEED * 0.01 ).toFixed( 2 ) : ( ( PRICE_SEED + 1 ) * 0.01 ).toFixed( 2 ) </var> <!-- Make sure this isn't a trivial (integer) value -->
 					<var id="PRICE_DIGITS"> digits( ( PRICE * 100 ).toFixed() ) </var> 
 
 					<var id="PAYMENT_SEED"> randRange( 800,950 ) </var>
-					<var id="PAYMENT"> ( PAYMENT_SEED % 100 == 0 ) ? ( PAYMENT_SEED * 0.01 ).toFixed( 2 ) : ( ( PAYMENT_SEED + 1 ) * 0.01).toFixed( 2 ) </var> 
-					<var id="PAYMENT_MAX"> 11.67 </var>		
-					<var id="ORIG_PAYMENT_DIGITS"> digits( ( PAYMENT * 100 ).toFixed() ) </var>
+					<var id="PAYMENT"> ( PAYMENT_SEED % 100 == 0 ) ? ( PAYMENT_SEED * 0.01 ).toFixed( 2 ) : ( ( PAYMENT_SEED + 1 ) * 0.01).toFixed( 2 ) </var>  <!-- Make sure this isn't a trivial (integer) value -->
 					<var id="PAYMENT_DIGITS"> digits( ( PAYMENT * 100 ).toFixed() ) </var>
+
+                    <var id="SOLUTION"> ( PAYMENT - PRICE ).toFixed( 2 ) </var>
+                    <var id="SOLUTION_DIGITS"> digits( ( SOLUTION * 100 ).toFixed() ) </var>
 				</div>
 
 	
 				<p class="problem">On a sunny morning, <var>person( 1 )</var> rode <var>his( 1 )</var> bicycle to a farm that sold flats of <var>fruit( 1 )</var> for $<var>PRICE</var> each.  <var>person( 1 )</var> had some bills and coins in <var>his( 1 )</var> wallet totalling $<var>PAYMENT</var>, which <var>he( 1 )</var> used to pay for one flat of <var>fruit( 1 )</var>.</p>
 				<p class="question"> How much change did <var>person( 1 )</var> receive?</p>
-				<p class="solution"><var>PAYMENT - PRICE</var></p>
+				<p class="solution"><var>SOLUTION</var></p>
 
 				<div class="hints">
-					<p>The change <var>person( 1 )<var> received is the difference between the amount <var>he( 1 )</var> paid and the cost of the strawberries.  Since we're finding a difference between 2 numbers, we need to subtract.</p>
+					<p>The change <var>person( 1 )</var> received is the difference between the amount <var>he( 1 )</var> paid and the cost of the strawberries.  Since we're finding a difference between 2 numbers, we need to subtract.</p>
 					
-					<div class="graphie" id="numbers">
-						init({
+					<div class="graphie" id="problem-1">
+
+                        init({
 							range: [ [ -2, 17 ], [ -0.5, 4 ] ],
 							scale: [30, 45]
 						});
@@ -50,24 +52,10 @@
 							fill: "black"
 						});
 	
-						graph.highlights = [];
-						for ( var i = 0; i &lt; PAYMENT_DIGITS.length; i++ ) {
-							graph.highlights.unshift( [] );
-						}
-	
-						path( [ [ -0.5, 0.5 ], [ 4, 0.5 ] ]);
+						path( [ [ X_MAX - 3, Y_BOTTOM - 0.5 ], [ X_MAX + 0.5, Y_BOTTOM - 0.5 ] ]);
 
 						label( [ -0.25, Y_BOTTOM ] ,"\\huge{-\\vphantom{0}}" );
 
-						var oldHighlights = graph.highlights[ 0 ];
-						while( oldHighlights.length ) {
-							oldHighlights.shift().remove();
-						}
-
-						path( [ [ -0.5, 0.5 ], [ 4.5, 0.5 ] ]);
-
-						graph.highlights[0].push( label( [ 7.5, 1.5 ], "\\text{Make sure the decimals are lined up.}", "right" ) );
-					
 						var offset = PAYMENT_DIGITS.length - PRICE_DIGITS.length;
 						for ( var i = 0; i &lt; offset; i++ ){
 							PRICE_DIGITS.push(0);
@@ -78,66 +66,28 @@
 						for ( var i = 0; i &lt; 3; i++ ){
 							ellipse( [ 1.5 + 0.5, i - 0.18 ], [ 0.09, 0.06 ] );
 						}
-					</div>
-
-					<div class="graphie" data-update="numbers" data-each="PAYMENT_DIGITS as index, value">
-						var index = <var>index</var>;
-
-						var oldHighlights = graph.highlights[ index ];
-						while( oldHighlights.length ) {
-							oldHighlights.shift().remove();
-						}
-
-						if ( index !== 0 ) {
-							oldHighlights = graph.highlights[ index - 1 ];
-							while( oldHighlights.length ) {
-								oldHighlights.shift().remove();
-							}
-						}
-
-						var value = PAYMENT_DIGITS[ index ];
-						var withinB = index &lt; PRICE_DIGITS.length;
-						var subtrahend = withinB ? PRICE_DIGITS[ index ] : 0;
-						var subStr = "";
-
-						if ( value &lt; subtrahend ) {
-							borrow( index, PAYMENT_DIGITS, X_MAX, Y_TOP, Y_CARRY, graph.highlights );
-						} else if ( PAYMENT_DIGITS[ index ] === ORIG_PAYMENT_DIGITS[ index ] ) {
-							graph.highlights[ index ].push( label( [ X_MAX- index, Y_TOP ],
-								"\\Huge{\\color{#6495ED}{" + PAYMENT_DIGITS[ index ] +"}}" ) );
-						} else {
-							graph.highlights[ index ].push( label( [ X_MAX - index, Y_CARRY ],
-								"\\color{#6495ED}{" + PAYMENT_DIGITS[ index ] + "}", "below" ) );
-						}
-
-						if ( withinB ) {
-							graph.highlights[ index ].push( label( [ X_MAX - index, 1 ],
-								"\\Huge{\\color{#6495ED}{" + PRICE_DIGITS[ index ] + "}}" ) );
-							subStr = " - \\color{#6495ED}{" + subtrahend + "}";
-						}
-
-						var diff = PAYMENT_DIGITS[ index ] - subtrahend;
-						label( [ X_MAX - index, 0 ],  "\\Huge{" + diff + "}" );
-
-
-						graph.highlights[ index ].push( label( [ X_MAX - index, 0 ],  "\\Huge{\\color{#28AE7B}{" + diff + "}}" ) );
-
-						graph.highlights[ index ].push( label( [ 7, 1.5 ], "\\Large{"
-							+ "\\color{#6495ED}{" + PAYMENT_DIGITS[ index ] + "}"
-							+ subStr
-							+ " = "
-							+ "\\color{#28AE7B}{" + diff + "}}", "right" ) );
 
 					</div>
-					<div class="graphie" data-update="numbers">
-						while( graph.highlights.length ) {
-							var column = graph.highlights.shift();
-							while ( column.length ) {
-								column.shift().remove();
-							}
-						}
-					</div>
 
+                    <div class="graphie" id="solution-1">
+
+                        init({
+							range: [ [ -2, 17 ], [ -0.5, 4 ] ],
+							scale: [30, 45]
+						});
+						style({
+							fill: "black"
+						});
+        
+                        // Add 0s to end of solution for alignment
+                        while ( SOLUTION_DIGITS.length < 3 ){
+                            SOLUTION_DIGITS.unshift(0);
+                        }
+
+						var offset = PAYMENT_DIGITS.length - PRICE_DIGITS.length;
+                        drawDigits( SOLUTION_DIGITS.slice ( 0 ).reverse(), X_MAX - (2 + offset), Y_TOP + 2.5 );
+
+                    </div>
 
 				</div>
 
@@ -148,24 +98,79 @@
 
 				<div class="vars">
 
-					<var id="WEIGHT_1_SEED"> randRange( 350,550 ) </var>
-					<var id="PRICE"> ( PRICE_SEED % 100 == 0 ) ? ( PRICE_SEED * 0.01 ).toFixed( 2 ) : ( ( PRICE_SEED + 1 ) * 0.01 ).toFixed( 2 ) </var>
-					<var id="PRICE_MAX"> 8.79 </var>
-					<var id="PRICE_DIGITS"> digits( ( PRICE * 100 ).toFixed() ) </var> 
+    		        <var id="W1_SEED"> randRange( 368,524 ) </var>
+					<var id="W1"> ( W1_SEED % 100 == 0 ) ? ( W1_SEED * 0.01 ).toFixed( 2 ) : ( ( W1_SEED + 1 ) * 0.01 ).toFixed( 2 ) </var>
+					<var id="W1_DIGITS"> digits( ( W1 * 100 ).toFixed() ) </var> 
 
-					<var id="PAYMENT_SEED"> randRange( 800,950 ) </var>
-					<var id="PAYMENT"> ( PAYMENT_SEED % 100 == 0 ) ? ( PAYMENT_SEED * 0.01 ).toFixed( 2 ) : ( ( PAYMENT_SEED + 1 ) * 0.01).toFixed( 2 ) </var> 
-					<var id="PAYMENT_MAX"> 11.67 </var>		
-					<var id="ORIG_PAYMENT_DIGITS"> digits( ( PAYMENT * 100 ).toFixed() ) </var>
-					<var id="PAYMENT_DIGITS"> digits( ( PAYMENT * 100 ).toFixed() ) </var>
+        		    <var id="W2_SEED"> randRange( 483,617 ) </var>
+					<var id="W2"> ( W2_SEED % 100 == 0 ) ? ( W2_SEED * 0.01 ).toFixed( 2 ) : ( ( W2_SEED + 1 ) * 0.01 ).toFixed( 2 ) </var>
+					<var id="W2_DIGITS"> digits( ( W2 * 100 ).toFixed() ) </var> 
+
+    		        <var id="W3_SEED"> randRange( 456,789 ) </var>
+					<var id="W3"> ( W3_SEED % 100 == 0 ) ? ( W3_SEED * 0.01 ).toFixed( 2 ) : ( ( W3_SEED + 1 ) * 0.01 ).toFixed( 2 ) </var>
+					<var id="W3_DIGITS"> digits( ( W3 * 100 ).toFixed() ) </var> 
+
+                    <var id="SUM_SEED"> ( W1_SEED + W2_SEED + W3_SEED )</var>
+                    <var id="SUM">( SUM_SEED * 0.01 ).toFixed( 2 )</var>
+                    <var id="SUM_DIGITS"> digits( ( SUM * 100 ).toFixed() ) </var>
 
 				</div>
 
 
-				<p class="problem"><var>person( 1 )</var>'s parents gave birth to triplets last week and named them <var>person( 2 )</var>, <var>person( 3 )</var>, and <var>person( 4 )</var>.  When they were first born, <var>person( 2 )</var> weighed 
+				<p class="problem"><var>person( 1 )</var> gave birth to triplets last week and named them <var>person( 2 )</var>, <var>person( 3 )</var>, and <var>person( 4 )</var>.  When they were first born, <var>person( 2 )</var> weighed <var>W1</var> pounds, <var>person( 3 )</var> weighed <var>W2</var> pounds, and <var>person( 4 )</var> weighed <var>W3</var> pounds.   
 
-				<p class="question">  How much change did <var>person( 1 )</var> receive? </p>
-				<p class="solution"> <var>PAYMENT - PRICE</var> </p>
+				<p class="question">  How much did the three weigh altogether? </p>
+				<p class="solution"> <var>SUM</var> </p>
+
+
+				<div class="hints">
+					<p>The total weight is simply the sum of the <var>person( 2 )</var>'s weight, <var>person( 3 )</var>'s weight, and <var>person( 4 )</var>'s weight.</p>
+					
+					<div class="graphie" id="problem-2">
+
+                        init({
+							range: [ [ -3, 18 ], [ -1.5, 5 ] ],
+							scale: [30, 45]
+						});
+						style({
+							fill: "black"
+						});
+	
+						path( [ [ X_MAX - 3, Y_BOTTOM_2 - 0.5 ], [ X_MAX + 0.5, Y_BOTTOM_2 - 0.5 ] ]);
+
+						label( [ -0.25, Y_BOTTOM_2 ] ,"\\huge{+\\vphantom{0}}" );
+
+						var offset = SUM_DIGITS.length - W1_DIGITS.length;
+	
+                        drawDigits( W1_DIGITS.slice( 0 ).reverse(), X_MAX - (1 + offset), Y_TOP );
+						drawDigits( W2_DIGITS.slice( 0 ).reverse(), X_MAX - (1 + offset), Y_BOTTOM );
+                        drawDigits( W3_DIGITS.slice( 0 ).reverse(), X_MAX - (1 + offset), Y_BOTTOM_2);
+
+						for ( var i = 0; i &lt; 4; i++ ){
+							ellipse( [ 1.5 + 0.5, i - 1.18 ], [ 0.09, 0.06 ] );
+						}
+
+					</div>
+
+                    <div class="graphie" id="solution-2">
+                        init({
+							range: [ [ -2, 17 ], [ -0.5, 4 ] ],
+							scale: [30, 45]
+						});
+						style({
+							fill: "black"
+						});
+
+   						var offset = SUM_DIGITS.length - W1_DIGITS.length;
+
+                        while ( SUM_DIGITS.length < 4 ){
+                            SUM_DIGITS.unshift(0);
+                        }
+
+                        drawDigits( SUM_DIGITS.slice ( 0 ).reverse(), X_MAX - (1 + offset), Y_TOP + 2.5  );
+                    </div>
+				</div>
+
 
 			</div>
 		
