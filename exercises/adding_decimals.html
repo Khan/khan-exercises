@@ -30,7 +30,7 @@
 					}
 					return result;
 				})()</var>
-			<var id="DUMMY">[]</var>
+			<var id="HINT_COUNT">0</var>
 		</div>
 
 	<div class="problems">
@@ -39,7 +39,7 @@
 			<div class="solution" data-type="decimal"><var>A / pow( 10, A_DECIMAL ) + B / pow( 10, B_DECIMAL )</var></div>
 			<div class="graphie" id="numbers">
 				graph.adder = new Adder( NEW_A, NEW_B, A_DIGITS, B_DIGITS );
-				DUMMY = Array( graph.adder.getNumHints() );
+				HINT_COUNT = graph.adder.getNumHints();
 			</div>
 		</div>
 	</div>
@@ -48,7 +48,7 @@
 			graph.adder.show();
 			graph.adder.showDecimals( A_DECIMAL, B_DECIMAL );
 		</div>
-		<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+		<div class="graphie" data-update="numbers" data-each="HINT_COUNT times">
 			graph.adder.showHint();
 		</div>
 	</div>
