@@ -942,7 +942,11 @@ jQuery.extend( Khan.answerTypes, {
 			if ( isTimeline ) {
 				return guessCorrect;
 			} else {
-				return validator( ret.guess );
+				var result = validator( ret.guess );
+				if ( result === "" ) {
+					ret.guess = "";
+				}
+				return result;
 			}
 		};
 
