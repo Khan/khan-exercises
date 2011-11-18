@@ -16,6 +16,13 @@ Please comment on the issue to say whether it is an invalid or valid issue by do
 Feel free to include more information in your comment regarding what the underlying problem might be. If you think you can fix the issue try submitting a `pull request <http://help.github.com/send-pull-requests/>`_ to fix it!
 
 
+Browsing Tagged Issues
+**********************
+
+There is a minimalist ui for the github issues page which lets you look at `issues sorted by exercise <http://www.eater.net/khanissues/>`_. This is super useful if you're looking to see if a particular exercise is disproportionately problematic 
+
+Additionally, this page also lets you filter by exercises with realbug / notabug tags. Amazing!
+
 Sesame: Our Chrome Extension for Issues
 ***************************************
 
