@@ -16,26 +16,21 @@
 
 			<var id="A_FLOAT">A / pow( 10, A_DECIMAL )</var>
 			<var id="B_FLOAT">B / pow( 10, B_DECIMAL )</var>
-
-			<var id="HINT_COUNT">0</var>
 		</div>
 
 	<div class="problems">
 		<div>
 			<p class="question"><code>\Huge{<var>A_FLOAT.toFixed( A_DECIMAL )</var> + <var>B_FLOAT.toFixed( B_DECIMAL )</var> = {?}}</code></p>
 			<div class="solution" data-type="decimal"><var>A_FLOAT + B_FLOAT</var></div>
-			<div class="graphie" id="numbers">
-				graph.adder = new DecimalAdder( A, A_DECIMAL, B, B_DECIMAL );
-				HINT_COUNT = graph.adder.getNumHints();
-			</div>
 		</div>
 	</div>
 	<div class="hints">
-		<div class="graphie" data-update="numbers">
+		<div class="graphie" id="numbers">
+			graph.adder = new DecimalAdder( A, A_DECIMAL, B, B_DECIMAL );
 			graph.adder.show();
 			graph.adder.showDecimals();
 		</div>
-		<div class="graphie" data-update="numbers" data-each="HINT_COUNT times">
+		<div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( A, A_DECIMAL, B, B_DECIMAL ) times">
 			graph.adder.showHint();
 		</div>
 	</div>

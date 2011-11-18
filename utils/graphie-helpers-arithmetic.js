@@ -13,7 +13,7 @@ function Adder( a, b, digitsA, digitsB ) {
 		sideY: 1.5 };
 
 	var index = 0;
-	var numHints = pos.max + 1;
+	var numHints = Adder.numHintsFor( a, b );
 
 	this.show = function() {
 		graph.init({
@@ -119,6 +119,10 @@ function Adder( a, b, digitsA, digitsB ) {
 	}
 }
 
+Adder.numHintsFor = function( a, b ) {
+	return KhanUtil.digits( a + b ).length + 1;
+};
+
 function DecimalAdder( a, aDecimal, b, bDecimal ) {
 	var newA = a * ( bDecimal > aDecimal ? Math.pow( 10, bDecimal - aDecimal ) : 1 );
 	var newB = b * ( aDecimal > bDecimal ? Math.pow( 10, aDecimal - bDecimal ) : 1 );
@@ -142,6 +146,13 @@ function DecimalAdder( a, aDecimal, b, bDecimal ) {
 	})( adder.showDecimals );
 
 	return adder;
+}
+
+DecimalAdder.numHintsFor = function( a, aDecimal, b, bDecimal ) {
+	var newA = a * ( bDecimal > aDecimal ? Math.pow( 10, bDecimal - aDecimal ) : 1 );
+	var newB = b * ( aDecimal > bDecimal ? Math.pow( 10, aDecimal - bDecimal ) : 1 );
+
+	return Adder.numHintsFor( newA, newB );
 }
 
 function Subtractor( a, b, digitsA, digitsB ) {
