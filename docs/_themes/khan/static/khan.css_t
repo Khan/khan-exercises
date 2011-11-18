@@ -156,20 +156,25 @@ div.body h6 {
     background-color: white;
     font-weight: normal;
     color: #212224;
-    margin: 30px 0px 10px 0px;
+    margin: 2.5em 0px 10px 0px;
     padding: 5px 0 5px 0;
     text-shadow: 0px 1px 0 white
 }
  
 div.body h1 { border-top: 20px solid white; margin-top: 0; font-size: 200%; }
-div.body h2 { font-size: 150%; background-color: white; }
-div.body h3 { font-size: 120%; /*background-color: #D8DEE3;*/ }
+div.body h2 { font-size: 150%; }
+div.body h3 { font-size: 120%;  }
 div.body h4 { 
   font-size: 110%; 
 }
 div.body h5 { font-size: 100%; background-color: #D8DEE3; }
 div.body h6 { font-size: 100%; background-color: #D8DEE3; }
- 
+
+div.body h2, 
+div.body h3, 
+div.body h4 {
+  border-bottom:1px solid #ddd;
+}
 a.headerlink {
     color: #c60f0f;
     font-size: 0.8em;
@@ -235,8 +240,9 @@ pre {
 }
  
 tt {
-    color: #222;
-    /* padding: 1px 2px; */
+    color: #333;
+    background-color: #efefef;
+    padding: 1px 2px; 
     font-size: .9em;
     font-family: monospace;
 }

@@ -27,11 +27,11 @@ Writing Exercises
 If you want to start writing a new exercise, look no further. This should get you started writing up new exercises.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    
    exercises/introduction
-   exercises/modules
    exercises/structure
+   exercises/variables
    exercises/hints
    exercises/testing
 
@@ -50,7 +50,7 @@ The framework exists in two components:
    :maxdepth: 2
    
    api/khan-exercises
-   api/writing-exercises
+   api/utility-module
 
 
 More
