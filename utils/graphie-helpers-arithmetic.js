@@ -119,6 +119,31 @@ function Adder( a, b, digitsA, digitsB ) {
 	}
 }
 
+function DecimalAdder( a, aDecimal, b, bDecimal ) {
+	var newA = a * ( bDecimal > aDecimal ? Math.pow( 10, bDecimal - aDecimal ) : 1 );
+	var newB = b * ( aDecimal > bDecimal ? Math.pow( 10, aDecimal - bDecimal ) : 1 );
+
+	var aDigits = KhanUtil.digits( newA );
+	for ( var i = 0; i < ( aDecimal - bDecimal ) || aDigits.length < aDecimal + 1; i++ ) {
+		aDigits.push( 0 );
+	}
+
+	var bDigits = KhanUtil.digits( newB );
+	for ( var i = 0; i < ( bDecimal - aDecimal ) || bDigits.length < bDecimal + 1; i++ ) {
+		bDigits.push( 0 );
+	}
+
+	var adder = new Adder( newA, newB, aDigits, bDigits );
+
+	adder.showDecimals = (function( old ) {
+		return function() {
+			old.call( adder, aDecimal, bDecimal );
+		}
+	})( adder.showDecimals );
+
+	return adder;
+}
+
 function Subtractor( a, b, digitsA, digitsB ) {
 	var graph = KhanUtil.currentGraph;
 	digitsA = digitsA || KhanUtil.digits( a );
@@ -636,9 +661,9 @@ function squareFractions( nom, den, perLine, spacing, size ){
 	var x = 0;
 	var y = 0;
 
-	for( y = 0;  y < den/perLine && y * perLine <= nom  ; y++ ){	
+	for( y = 0;  y < den/perLine && y * perLine <= nom  ; y++ ){
 		for ( x = 0; x < perLine &&  y * perLine + x < nom   ; x++ ){
-			arr.push( graph.regularPolygon( [ x * spacing * size, y * 2.5 * size ], 4, size, Math.PI/4 ).attr("stroke", "none").attr("fill", "#6495ed"  ).attr("stroke-linecap", "square" ) );	
+			arr.push( graph.regularPolygon( [ x * spacing * size, y * 2.5 * size ], 4, size, Math.PI/4 ).attr("stroke", "none").attr("fill", "#6495ed"  ).attr("stroke-linecap", "square" ) );
 		}
 	}
 
@@ -646,11 +671,11 @@ function squareFractions( nom, den, perLine, spacing, size ){
 	for ( x = x; x < perLine; x++ ){
 		arr.push( graph.regularPolygon( [ x * spacing * size, y * 2.5 * size ], 4, size, Math.PI/4 ).attr("fill", "black" ).attr("stroke", "none").attr("stroke-linecap", "square" ) );
 	}
-	
+
 	y++;
-	for( y = y ;  y < den/perLine; y++ ){	
+	for( y = y ;  y < den/perLine; y++ ){
 		for ( x = 0; x < perLine; x++ ){
-			arr.push( graph.regularPolygon( [ x * spacing * size, y * 2.5 * size], 4, size, Math.PI/4 ).attr("fill", "black" ).attr("stroke", "none").attr("stroke-linecap", "square" )  );	
+			arr.push( graph.regularPolygon( [ x * spacing * size, y * 2.5 * size], 4, size, Math.PI/4 ).attr("fill", "black" ).attr("stroke", "none").attr("stroke-linecap", "square" )  );
 		}
 	}
 
