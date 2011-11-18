@@ -682,9 +682,9 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 
 		var coords = jQuery.map( coordArr, function( coord, index ) {
 			if ( index === 0 ) { // x-coordinate
-				return coord + radius / Math.tan( KhanUtil.toRadians( bisect ) );
+				return coord - 0.4 * (label.placement === "left" ? 1 : -1);
 			} else { // y-coordinate
-				return coord - 0.6 * sign( bisect - 180 );
+				return coord - 0.3 * sign( bisect - 180 );
 			}
 		});
 
