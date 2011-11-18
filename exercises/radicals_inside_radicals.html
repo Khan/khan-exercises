@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Radicals inside radicals</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="subtract">
+			<div class="vars">
+				<var id="IMPERFECT_SQUARES">[2, 3, 5, 6, 7, 10, 11, 13]</var>
+				<var id="INDEX1">randRange( 1, IMPERFECT_SQUARES.length - 1 )</var>
+				<var id="INDEX2">randRange( 0, INDEX1 - 1 )</var>
+				<var id="A">IMPERFECT_SQUARES[INDEX1]</var>
+				<var id="B">IMPERFECT_SQUARES[INDEX2]</var>
+				<var id="C">
+				(function() {
+					var int = 2;
+					var rad = A * B;
+					var count = 2;
+					while( count &lt; 6 ) {
+						if( rad % pow( count, 2 ) === 0 ) {
+							int *= count;
+							rad /= pow( count, 2 );
+						}
+						
+						count++;
+					}
+					
+					return ( { int: int, rad: rad } );
+
+				})()
+				</var>
+			</div>
+			<p class="problem"><b>Simplify <code>\sqrt{<var>A + B</var> - <var>C.int</var>\sqrt{<var>C.rad</var>}}\enspace</code> into the form <code>\enspace( \sqrt{x} - \sqrt{y} \enspace )</code>.</b></p>
+			<div class="solution" data-type="multiple">
+				<p><code>x = \enspace</code><span class="sol"><var>A</var></span></p>
+				<p><code>y = \enspace</code><span class="sol"><var>B</var></span></p>
+			</div>
+			<div class="hints">
+				<div>
+					<p>Set the two expressions equal to each other, then square both sides.</p>
+					<p><code>\sqrt{<var>A + B</var> - <var>C.int</var>\sqrt{<var>C.rad</var>}}\enspace = \enspace \sqrt{x} - \sqrt{y}</code></p>
+					<p><code><var>A + B</var> - <var>C.int</var>\sqrt{<var>C.rad</var>}\enspace = \enspace ( \sqrt{x} - \sqrt{y} \enspace )^2</code></p>
+				</div>
+				<div>
+					<p>Multiply out the right side.</p>
+					<p><code><var>A + B</var> - <var>C.int</var>\sqrt{<var>C.rad</var>}\enspace = \enspace ( \sqrt{x} - \sqrt{y} \enspace )( \sqrt{x} - \sqrt{y} \enspace ) = x - 2\sqrt{xy} + y</code></p>
+					<p data-if="C.int !== 2"><code><var>A + B</var> - <var>C.int</var>\sqrt{<var>C.rad</var>}\enspace = ( x + y ) - 2\sqrt{xy}</code></p>
+					<p data-else><code>\color{blue}{<var>A + B</var>} - 2\sqrt{\color{red}{<var>A * B</var>}}\enspace = \color{blue}{( x + y )} - 2\sqrt{\color{red}{xy}}</code></p>
+				</div>
+				<div data-if="C.int !== 2">
+					<p>Rearrange the left side so that there is a <code>2</code> in front of the radical.</p>
+					<p><code><var>A + B</var> - ( 2 \cdot <var>C.int / 2</var> )\sqrt{<var>C.rad</var>}\enspace = ( x + y ) - 2\sqrt{xy}</code></p>
+					<p><code><var>A + B</var> - 2( \sqrt{<var>pow( C.int / 2, 2 )</var>} \cdot \sqrt{<var>C.rad</var>} )\enspace = ( x + y ) - 2\sqrt{xy}</code></p>
+					<p><code>\color{blue}{<var>A + B</var>} - 2\sqrt{\color{red}{<var>A * B</var>}}\enspace = \color{blue}{( x + y )} - 2\sqrt{\color{red}{xy}}</code></p>
+				</div>
+				<div>
+					<p>Comparing the two sides, we see that we must select two numbers, <code>x</code> and <code>y</code>, that satisfy:</p>
+					<p><code>\color{blue}{x + y = <var>A + B</var>} \quad \text{and} \quad \color{red}{xy = <var>A * B</var>} \quad </code></p>
+				</div>
+				<div>
+					<p><code><var>A</var></code> and <code><var>B</var></code> satisfy both equations. <code><var>A</var> + <var>B</var> = <var>A + B</var> \enspace</code> and <code>\enspace <var>A</var> \cdot <var>B</var> = <var>A * B</var></code></p>
+				</div>
+				<div>
+					<p>Since the original expression is a positive radical, <code>( \sqrt{x} - \sqrt{y} \enspace )</code> must be positive, so <code>x \ge y</code>.</p>
+					<p>Thus <code>x = <var>A</var> \enspace</code> and <code>\enspace y = <var>B</var>, \enspace</code> and <code>\enspace \sqrt{<var>A + B</var> - <var>C.int</var>\sqrt{<var>C.rad</var>}}\enspace = \enspace \sqrt{<var>A</var>} - \sqrt{<var>B</var>}</code></p>
+				</div>
+			</div>
+		</div>
+		<div id="add" data-type="subtract">
+			<p class="problem"><b>Simplify <code>\sqrt{<var>A + B</var> + <var>C.int</var>\sqrt{<var>C.rad</var>}}\enspace</code> into the form <code>\enspace( \sqrt{x} + \sqrt{y} \enspace )</code>.</b></p>
+			<div class="solution" data-type="set">
+				<div class="set-sol"><var>A</var></div>
+				<div class="set-sol"><var>B</var></div>
+				
+				<div class="input-format">
+					<p><code>x = \enspace</code><span class="entry"></span></p>
+					<p><code>y = \enspace</code><span class="entry"></span></p>
+				</div>
+			</div>
+			<div class="hints">
+				<div>
+					<p>Set the two expressions equal to each other, then square both sides.</p>
+					<p><code>\sqrt{<var>A + B</var> + <var>C.int</var>\sqrt{<var>C.rad</var>}}\enspace = \enspace \sqrt{x} + \sqrt{y}</code></p>
+					<p><code><var>A + B</var> + <var>C.int</var>\sqrt{<var>C.rad</var>}\enspace = \enspace ( \sqrt{x} + \sqrt{y} \enspace )^2</code></p>
+				</div>
+				<div>
+					<p>Multiply out the right side.</p>
+					<p><code><var>A + B</var> + <var>C.int</var>\sqrt{<var>C.rad</var>}\enspace = \enspace ( \sqrt{x} + \sqrt{y} \enspace )( \sqrt{x} + \sqrt{y} \enspace ) = x + 2\sqrt{xy} + y</code></p>
+					<p data-if="C.int !== 2"><code><var>A + B</var> + <var>C.int</var>\sqrt{<var>C.rad</var>}\enspace = ( x + y ) + 2\sqrt{xy}</code></p>
+					<p data-else><code>\color{blue}{<var>A + B</var>} + 2\sqrt{\color{red}{<var>A * B</var>}}\enspace = \color{blue}{( x + y )} + 2\sqrt{\color{red}{xy}}</code></p>
+				</div>
+				<div data-if="C.int !== 2">
+					<p>Rearrange the left side so that there is a <code>2</code> in front of the radical.</p>
+					<p><code><var>A + B</var> + ( 2 \cdot <var>C.int / 2</var> )\sqrt{<var>C.rad</var>}\enspace = ( x + y ) + 2\sqrt{xy}</code></p>
+					<p><code><var>A + B</var> + 2( \sqrt{<var>pow( C.int / 2, 2 )</var>} \cdot \sqrt{<var>C.rad</var>} )\enspace = ( x + y ) + 2\sqrt{xy}</code></p>
+					<p><code>\color{blue}{<var>A + B</var>} + 2\sqrt{\color{red}{<var>A * B</var>}}\enspace = \color{blue}{( x + y )} + 2\sqrt{\color{red}{xy}}</code></p>
+				</div>
+				<div>
+					<p>Comparing the two sides, we see that we must select two numbers, <code>x</code> and <code>y</code>, that satisfy:</p>
+					<p><code>\color{blue}{x + y = <var>A + B</var>} \quad \text{and} \quad \color{red}{xy = <var>A * B</var>} \quad </code></p>
+				</div>
+				<div>
+					<p><code><var>A</var></code> and <code><var>B</var></code> satisfy both equations. <code><var>A</var> + <var>B</var> = <var>A + B</var> \enspace</code> and <code>\enspace <var>A</var> \cdot <var>B</var> = <var>A * B</var></code></p>
+				</div>
+				<p>Thus <code>x = <var>A</var> \enspace</code> and <code>\enspace y = <var>B</var>, \enspace</code> and <code>\enspace \sqrt{<var>A + B</var> + <var>C.int</var>\sqrt{<var>C.rad</var>}}\enspace = \enspace \sqrt{<var>A</var>} + \sqrt{<var>B</var>}</code></p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
