@@ -123,38 +123,6 @@ Adder.numHintsFor = function( a, b ) {
 	return KhanUtil.digits( a + b ).length + 1;
 };
 
-function DecimalAdder( a, aDecimal, b, bDecimal ) {
-	var newA = a * ( bDecimal > aDecimal ? Math.pow( 10, bDecimal - aDecimal ) : 1 );
-	var newB = b * ( aDecimal > bDecimal ? Math.pow( 10, aDecimal - bDecimal ) : 1 );
-
-	var aDigits = KhanUtil.digits( newA );
-	for ( var i = 0; i < ( aDecimal - bDecimal ) || aDigits.length < aDecimal + 1; i++ ) {
-		aDigits.push( 0 );
-	}
-
-	var bDigits = KhanUtil.digits( newB );
-	for ( var i = 0; i < ( bDecimal - aDecimal ) || bDigits.length < bDecimal + 1; i++ ) {
-		bDigits.push( 0 );
-	}
-
-	var adder = new Adder( newA, newB, aDigits, bDigits );
-
-	adder.showDecimals = (function( old ) {
-		return function() {
-			old.call( adder, aDecimal, bDecimal );
-		}
-	})( adder.showDecimals );
-
-	return adder;
-}
-
-DecimalAdder.numHintsFor = function( a, aDecimal, b, bDecimal ) {
-	var newA = a * ( bDecimal > aDecimal ? Math.pow( 10, bDecimal - aDecimal ) : 1 );
-	var newB = b * ( aDecimal > bDecimal ? Math.pow( 10, aDecimal - bDecimal ) : 1 );
-
-	return Adder.numHintsFor( newA, newB );
-}
-
 function Subtractor( a, b, digitsA, digitsB ) {
 	var graph = KhanUtil.currentGraph;
 	digitsA = digitsA || KhanUtil.digits( a );
@@ -172,7 +140,7 @@ function Subtractor( a, b, digitsA, digitsB ) {
 		sideY: 1.5 };
 
 	var index = 0;
-	var numHints = digitsA.length + 1;
+	var numHints = Subtractor.numHintsFor( a, b );
 
 	this.show = function() {
 		graph.init({
@@ -291,6 +259,59 @@ function Subtractor( a, b, digitsA, digitsB ) {
 		this.showSideLabel( "\\text{Make sure the decimals are lined up.}" );
 	};
 }
+
+Subtractor.numHintsFor = function( a, b ) {
+	return KhanUtil.digits( a ).length + 1;
+};
+
+// convert Adder -> DecimalAdder and Subtractor -> DecimalSubtractor
+(function() {
+	var decimate = function( drawer ) {
+		var news = function( a, aDecimal, b, bDecimal ) {
+			var newA = a * ( bDecimal > aDecimal ? Math.pow( 10, bDecimal - aDecimal ) : 1 );
+			var newB = b * ( aDecimal > bDecimal ? Math.pow( 10, aDecimal - bDecimal ) : 1 );
+			return [ newA, newB ];
+		};
+
+		var decimated = function( a, aDecimal, b, bDecimal ) {
+			var newAB = news( a, aDecimal, b, bDecimal );
+			var newA = newAB[0], newB = newAB[1];
+
+			var aDigits = KhanUtil.digits( newA );
+			for ( var i = 0; i < ( aDecimal - bDecimal ) || aDigits.length < aDecimal + 1; i++ ) {
+				aDigits.push( 0 );
+			}
+
+			var bDigits = KhanUtil.digits( newB );
+			for ( var i = 0; i < ( bDecimal - aDecimal ) || bDigits.length < bDecimal + 1; i++ ) {
+				bDigits.push( 0 );
+			}
+
+			var drawn = new drawer( newA, newB, aDigits, bDigits );
+
+			drawn.showDecimals = (function( old ) {
+				return function() {
+					old.call( drawn, aDecimal, bDecimal );
+				}
+			})( drawn.showDecimals );
+
+			return drawn;
+		};
+
+		decimated.numHintsFor = function( a, aDecimal, b, bDecimal ) {
+			var newAB = news( a, aDecimal, b, bDecimal );
+			var newA = newAB[0], newB = newAB[1];
+
+			return drawer.numHintsFor( newA, newB );
+		};
+
+		return decimated;
+	};
+
+	// I hate global variables
+	DecimalAdder = decimate(Adder);
+	DecimalSubtractor = decimate(Subtractor);
+})();
 
 function drawCircles( num, color ) {
 	with ( KhanUtil.currentGraph ) {
