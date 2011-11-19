@@ -8,6 +8,38 @@
 <body>
 	<div class="exercise">
 	<div class="problems">
+		<div id="standard-to-point-slope">
+			
+			<div class="vars">
+				<var id="A">randRangeNonZero(-5,5)</var>
+				<var id="B">randRangeNonZero(-5,5)</var>
+				<var id="C">randRangeNonZero(-5,5)</var>
+				<var id="X1">[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]</var>
+				<var id="Y1">$.map(X1, function(x){ return (C-A*x)/B; })</var>
+				<var id="SLOPE">-A/B</var>
+				<var id="Y_INTERCEPT">C/B</var>
+			</div>
+			<p class="question">Convert the folllowing equation from standard form to point-slope</p>
+			<p>Make the <code>x1</code> coordinate an integer between -5 and 5</p>
+			<code><var>expr(['*',A,'x'])</var> + <var>expr(['*',B,'y'])</var> = <var>C</var></code>
+			<div class="solution" data-type="set">
+				<div class="set-sol" data-type="multiple" data-each="X1 as x">
+					<span class="sol"><var>x</var></span>
+					<span class="sol"><var>(C-A*x)/B</var></span>
+					<span class="sol"><var>SLOPE</var></span>
+				</div>
+				
+				<div class="input-format">
+					<div class="entry" data-type="multiple">
+						<p><code>x1 = \enspace</code><span class="sol"></span></p>
+						<p><code>y1 = \enspace</code><span class="sol"></span></p>
+						<p><code>m = \enspace</code><span class="sol"></span></p>		
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
 		<div id="point-slope-to-standard">
 			<div class="vars">
 				<var id="X1">randRangeNonZero( -5, 5 )</var>
