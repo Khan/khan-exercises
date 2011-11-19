@@ -440,7 +440,7 @@
 
 				// allow options to be specified by a single number for shorthand if 
 				// the horizontal and vertical components are the same
-				if ( prop !== "gridOpacity" && prop !== "range" 
+				if ( !prop.match( /.*Opacity$/ ) && prop !== "range"
 						&& typeof val === "number" ) {
 					options[ prop ] = [ val, val ];
 				}
@@ -465,11 +465,14 @@
 				gridStep = options.gridStep || [ 1, 1 ],
 				axes = options.axes || true,
 				axisArrows = options.axisArrows || "",
+				axisOpacity = options.axisOpacity || 1.0,
 				ticks = options.ticks || true,
 				tickStep = options.tickStep || [ 2, 2 ],
 				tickLen = options.tickLen || [ 5, 5 ],
+				tickOpacity = options.tickOpacity || 1.0,
 				labels = options.labels || options.labelStep || false,
 				labelStep = options.labelStep || [ 1, 1 ],
+				labelOpacity = options.labelOpacity || 1.0,
 				unityLabels = options.unityLabels || false,
 				labelFormat = options.labelFormat || function(a) { return a; },
 				xLabelFormat = options.xLabelFormat || labelFormat,
@@ -507,6 +510,7 @@
 				if ( axisArrows === "<->" || true ) {
 					this.style({
 						stroke: "#000000",
+						opacity: axisOpacity,
 						strokeWidth: 2,
 						arrows: "->"
 					}, function() {
@@ -521,6 +525,7 @@
 				} else if ( axisArrows === "->" || axisArrows === "" ) {
 					this.style({
 						stroke: "#000000",
+						opacity: axisOpacity,
 						strokeWidth: 2,
 						arrows: axisArrows
 					}, function() {
@@ -536,6 +541,7 @@
 			if ( ticks ) {
 				this.style({
 					stroke: "#000000",
+					opacity: tickOpacity,
 					strokeWidth: 1
 				}, function() {
 
@@ -581,7 +587,8 @@
 			// draw axis labels
 			if ( labels ) {
 				this.style({
-					stroke: "#000000"
+					stroke: "#000000",
+					opacity: labelOpacity
 				}, function() {
 
 					// horizontal axis

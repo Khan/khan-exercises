@@ -208,7 +208,7 @@ jQuery.extend(KhanUtil, {
 	getFactors: function( number ) {
 		var factors = [],
 			ins = function( n ) {
-				if ( factors.indexOf( n ) === -1 ) {
+				if ( _(factors).indexOf( n ) === -1 ) {
 					factors.push( n );
 				}
 			};
@@ -268,13 +268,31 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
-	//Get an array of unique random numbers between min and max
+	// Get an array of unique random numbers between min and max
 	randRangeUnique: function( min, max, count ) {
 		if ( count == null ) {
-			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
+			return KhanUtil.randRange( min, max );
 		} else {
 			var toReturn = [];
 			for ( var i = min; i < max; i++ ){
+				toReturn.push( i );
+			}
+			
+			return KhanUtil.shuffle( toReturn, count );
+		}
+	},
+
+	// Get an array of unique random numbers between min and max,
+	// that ensures that none of the integers in the array are 0.  
+	randRangeUniqueNonZero: function( min, max, count ) {
+		if ( count == null ) {
+			return KhanUtil.randRangeNonZero( min, max );
+		} else {
+			var toReturn = [];
+			for ( var i = min; i < max; i++ ){
+				if ( i === 0 ) {
+					continue;
+				}
 				toReturn.push( i );
 			}
 			
@@ -299,7 +317,7 @@ jQuery.extend(KhanUtil, {
 
 		do {
 			result = KhanUtil.randRange( min, max );
-		} while ( excludes.indexOf(result) !== -1 );
+		} while ( _(excludes).indexOf(result) !== -1 );
 
 		return result;
 	},
@@ -312,7 +330,7 @@ jQuery.extend(KhanUtil, {
 								
 		do {
 			result = KhanUtil.randRangeWeighted( min, max, target, perc );
-		} while ( excludes.indexOf(result) !== -1 );
+		} while ( _(excludes).indexOf(result) !== -1 );
 
 		return result;
 	},
@@ -339,7 +357,7 @@ jQuery.extend(KhanUtil, {
 	randFromArrayExclude: function( arr, excludes ) {
 		var cleanArr = [];
 		for ( var i = 0; i < arr.length; i++ ) {
-			if ( excludes.indexOf( arr[i] ) === -1 ) {
+			if ( _(excludes).indexOf( arr[i] ) === -1 ) {
 				cleanArr.push( arr[i] );
 			}
 		}
@@ -385,7 +403,7 @@ jQuery.extend(KhanUtil, {
 			var loN = 0, loD = 1, hiN = 1, hiD = 1, midN = 1, midD = 2;
 
 			while ( 1 ) {
-				if ( Math.abs( midN / midD - decimal ) <= tolerance ) {
+				if ( Math.abs( Number(midN / midD) - decimal ) <= tolerance ) {
 					return [ midN, midD ];
 				} else if ( midN / midD < decimal) {
 					loN = midN;

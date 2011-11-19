@@ -11,8 +11,8 @@
 		<var id="LEADING"> Array( randRange( 0, 2 ) ).join( '0' ) </var>
 		<var id="RIGHTLEADING"> Array( randRange( 0, 2) ).join( '0' ) </var>
 		<var id="TRAILING"> Array( randRange( 0, 4 ) ).join( '0' ) </var>
-		<var id="IS_ZERO"> random() > 0.5 </var>
-		<var id="HAS_DOT"> IS_ZERO ? true : random() > 0.5 </var>
+		<var id="IS_ZERO"> random() &gt; 0.5 </var>
+		<var id="HAS_DOT"> IS_ZERO ? true : random() &gt; 0.5 </var>
 		<var id="RIGHTSIDE"> randRange( 1, 9, randRange( 1, 6 ) ).join('') </var>
 		<var id="LEFTSIDE"> IS_ZERO ? '0' : randRange( 1, 9, randRange( 1, 4 ) ).join('') </var>
 		<var id="TOTAL"> HAS_DOT ?
@@ -34,7 +34,6 @@
 		</div>
 	</div>
 	<div class="hints">
-		<p><code><var>PROPER_LEADING</var><var>INBETWEEN</var><var>TRAILING</var></code></p>
 		<div>
 			<p>Identify the non-zero digits and any zeros between them. These are all significant.</p>
 			<p><code><var>PROPER_LEADING</var>\color{blue}{<var>INBETWEEN</var>}<var>TRAILING</var></code></p>

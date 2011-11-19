@@ -70,7 +70,7 @@ function RegularPolygon( center, numSides, radius, rotation, fillColor ){
 				currPath.push( point );
 				paths.push( currPath );
 				currPath = [ point ];
-				points.splice( points.indexOf( point ), 1 );
+				points.splice( _(points).indexOf( point ), 1 );
 			}
 		}
 		currPath.push( this.path[ i ] )
