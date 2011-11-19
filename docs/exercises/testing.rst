@@ -7,7 +7,8 @@ To test exercises, you need to also have the `QUnit testing Framework <http://do
 * khan-exercises/utils/test has unit tests for utility functions
 
 
-## setting up qunit:
+setting up qunit:
+*****************
 
 you should just be able to do a git submodule init; git submodule update from within the khan-exercises repo
 
