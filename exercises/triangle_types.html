@@ -34,14 +34,15 @@
 			var c = 180 - 2 * a;
 			var sa = KhanUtil.randRange( 4, 8 );
 			var sc = sa * Math.sin( c * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
-			var ang =  KhanUtil.shuffle( [ a, a, c ] );
+			var ang = [ a, a, a ];
 			var sides = [ sa, sa, sa ];
-			sides[ ang.indexOf( c ) ] = sc.toFixed( 1 );
+			var oddside = KhanUtil.randRange( 0, 2 );
+			ang[ oddside ] = c;
+			sides[ oddside ] = sc.toFixed( 1 );
 			if( a == 60 ){
 				return isoTriangle();
 			}
 			return [ ang , sides ];
-
 		}
 
 	</script>
