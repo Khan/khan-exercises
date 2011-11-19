@@ -2653,12 +2653,7 @@ var Khan = (function() {
 			}
 
 			newContents = dummy.contents();
-			self.replaceWith( newContents );
-
-			// Somehow this seems to magically remind IE8 that it shouldn't occasionally
-			// remove whitespace from .graphie or var elements. Somehow.
-			newContents.find( ".graphie" ).css( "white-space" );
-			newContents.find( "var" ).css( "white-space" );
+			self.replaceWith( jQuery( "<pre>" ).append( newContents ) );
 
 			// Maybe the exercise we just loaded loads some others
 			newContents.find( ".exercise[data-name]" ).each( loadExercise );
