@@ -60,6 +60,26 @@
 						y1 &amp;= <var>HINT_Y1</var>\\
 						m &amp;= <var>SLOPE</var>\end{align*}</code></p>
 				</div>
+				<div>
+					<p>Behold! The magic of math, that the given point <code>(<var>HINT_X1</var>,<var>HINT_Y1</var>)</code> is on the line with slope <code><var>SLOPE</var></code>!</p>
+					<div class="graphie" id="grid">
+						graphInit({
+							range: 10,
+							scale: 20,
+							axisArrows: "&lt;-&gt;",
+							tickStep: 1,
+							labelStep: 1
+						});
+
+						style({ stroke: BLUE, fill: BLUE });
+
+						plot(function( x ) {
+							return x * SLOPE + Y_INTERCEPT;
+						}, [ -10, 10 ]);
+						
+						circle([HINT_X1,HINT_Y1], .25);
+					</div>
+				</div>
 			</div>
 		</div>
 		
