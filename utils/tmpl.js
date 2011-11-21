@@ -61,11 +61,22 @@ jQuery.tmpl = {
 			// Remove the data-each attribute so it doesn't end up in the generated elements
 			jQuery( elem ).removeAttr( "data-each" );
 
+			// HINT_COUNT times
+			// HINT_COUNT times as INDEX
+			if ( (match = /^(.+) times(?: as (\w+))?$/.exec( value )) ) {
+				var times = jQuery.tmpl.getVAR( match[1] );
+
+				return {
+					items: jQuery.map( new Array( times ), function ( e, i ) { return i; } ),
+					value: match[2],
+					oldValue: VARS[ match[2] ]
+				}
+
 			// Extract the 1, 2, or 3 parts of the data-each attribute, which could be
 			//   - items
 			//   - items as value
 			//   - items as pos, value
-			if ( (match = /^(.*?)(?: as (?:(\w+), )?(\w+))?$/.exec( value )) ) {
+			} else if ( (match = /^(.*?)(?: as (?:(\w+), )?(\w+))?$/.exec( value )) ) {
 				// See "if ( ret.items )" in traverse() for the other half of the data-each code
 				return {
 					// The collection which we'll iterate through
@@ -238,7 +249,7 @@ if ( typeof KhanUtil !== "undefined" ) {
 // Reinitialize VARS for each problem
 jQuery.fn.tmplLoad = function( problem, info ) {
 	VARS = {};
-	
+
 	// Check to see if we're in test mode
 	if ( info.testMode ) {
 		// Expose the variables if we're in test mode
@@ -323,7 +334,7 @@ jQuery.fn.tmpl = function() {
 
 				// Prepend all conditional statements with a declaration of ret.value
 				// and ret.post and an assignment of their current values so that
-				// the conditional will still make sense even when outside of the 
+				// the conditional will still make sense even when outside of the
 				// data-each context
 				var conditionals = [ "data-if", "data-else-if", "data-else" ];
 

@@ -97,9 +97,30 @@
 			<span class="info-box-header">Report a Problem</span>
 			<span id="issue-status" class="info-box-sub-description"></span>
 			<form>
+				<fieldset>
+					<legend>Issue Type</legend>
+					<ul>
+						<li>
+							<input type="radio" name="issue-type" id="issue-wrong-or-unclear">
+							<label for="issue-wrong-or-unclear">Answer is wrong or question is unclear</label>
+						</li>
+						<li>
+							<input type="radio" name="issue-type" id="issue-hard">
+							<label for="issue-hard">I'm frustrated (tell us why) or this is too hard</label>
+						</li>
+						<li>
+							<input type="radio" name="issue-type" id="issue-not-showing">
+							<label for="issue-not-showing">I can't see the problem or website is stuck</label>
+						</li>
+						<li>
+							<input type="radio" name="issue-type" id="issue-other">
+							<label for="issue-other">Other (please describe below)</label>
+						</li>
+					</ul>
+				</fieldset>
 				<label for="issue-title">Issue Title:<input type="text" name="issue-title" id="issue-title" /></label>
 				<label for="issue-email">Your Email (optional):<input type="text" name="issue-email" id="issue-email" /></label>
-        <label for-"issue-body">Description of Issue:<textarea name="issue-body" id="issue-body"></textarea></label>
+				<label for="issue-body">Description of Issue:<textarea name="issue-body" id="issue-body"></textarea></label>
 				<input type="submit" class="simple-button action-gradient orange" value="Submit Issue">
 				<a href="/#" id="issue-cancel">Cancel</a>
 				<img id="issue-throbber" style="display:none;" name="issue-throbber">
