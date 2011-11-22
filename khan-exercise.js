@@ -2551,7 +2551,7 @@ var Khan = (function() {
 
 		if ( exerciseStates ) {
 			var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
-			var src = exerciseStates.review ? "/images/node-review.png" :
+			var src = exerciseStates.reviewing ? "/images/node-review.png" :
 						exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" :
 							exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" :
 								"/images/" + sPrefix + "-not-started.png";
