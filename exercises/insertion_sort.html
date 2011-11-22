@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!-- 
+Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin from Olin College
+-->
+<html data-require="math graphie graphie-helpers-arithmetic word-problems spin">
+<head>
+  <meta charset="UTF-8" />
+  <title>Insertion Sort</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+  <script src="../khan-exercise.js"></script>
+  <style type="text/css">
+    .card {
+      padding-top: 50px;
+      width: 100px;
+      height: 120px;
+                        border-radius: 15px;
+                        -moz-border-radius: 15px;
+      border-style: solid;
+      border-width: 1px;
+      border-color: black;
+      float: left;
+      margin: 5px;
+      text-align: center;
+      font-size: 24pt;
+      cursor: pointer;
+    }
+    
+    .hidden {
+      display: none;
+    }  
+    
+    .selected_card {
+      border-color: blue;
+      border-width: 5px;
+    }
+
+    .green_highlight {
+      border-color: green;
+      border-width: 3px;
+    }
+
+    div#counter {
+      font-weight: bold;                      
+    }
+
+    div#original_hint {
+      font-weight: bold;                      
+    }
+
+  </style>
+</head>
+<body>
+  <div class="exercise">
+  <div class="vars">
+    <var id="A" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="B" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="C" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="D" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="E" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="F" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="collection">[A, B, C, D, E, F]</var>
+  </div>
+
+  <div class="problems">
+    <div>
+      <div class="question">
+        <div id="instructions"><p class="spin">{How many {swaps|rearrangements}
+          do|What is the {minimum|smallest} number of {swaps|rearrangements}} 
+          you need to {sort|arrange} these cards in {increasing|ascending} order? 
+          Perform a swap by clicking on two cards.</p>  
+        </div>
+        <div id="original_hint" style="display:none;">Original order:<div id="original" ><var>collection</var></div></div>
+        <div id='counter'>
+          Swaps so far:<div id="count" style="display: inline">0</div>
+        </div>
+        <div class="card"> 
+          <div class="content"><var>A</var></div>
+        </div>
+        <div class="card"> 
+          <div class="content"><var>B</var></div>
+        </div>
+        <div class="card"> 
+          <div class="content hidden"><var>C</var></div>
+        </div>
+        <div class="card"> 
+          <div class="content hidden"><var>D</var></div>
+        </div>
+        <div class="card"> 
+          <div class="content hidden"><var>E</var></div>
+        </div>
+        <div class="card"> 
+          <div class="content hidden"><var>F</var></div>
+        </div>
+      </div>
+      <div class="solution" data-forms="integer"><var>swap_counter()</var></div>
+      <div class="hints">
+        <p>The smallest cards go on the left.</p>
+        <p>At any point in time, only one visible card is out of order.</p>
+        <p>When moving the out-of-place card into the correct position, 
+        keep swapping it with its left neighbor.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="graphie">
+  </div>
+  <script type="text/javascript">
+    function in_order(){
+      if ($(".hidden").size() == 0){
+        $("#original_hint").show();
+        return false;
+      }
+      var last = 0;
+      var b = true;
+      $(".content").not(".hidden").each(function(index){
+        if (parseInt($(this).text()) < last)
+          {b = false;
+          $(this).parent().removeClass("green_highlight");}
+        else{
+          $(this).parent().addClass("green_highlight");
+        }
+        last = parseInt($(this).text());
+      });
+      return b;
+    }
+    function show_cards(){
+      if (in_order()){
+        $(".hidden:first").removeClass('hidden');
+        show_cards();
+      }
+    }
+    $(".card").live("click", function() {
+      if ($(".selected_card").size() > 0){
+        var a = $(".selected_card").find(".content").html();
+        var b = $(this).find(".content").html();
+        $(".selected_card").find(".content").html(b);
+        $(this).find(".content").html(a);
+        $(".card").removeClass("selected_card");
+        $("#count").text(parseInt($("#count").text())+1);
+        show_cards();
+      }
+      else {
+        $(this).removeClass("green_highlight");
+        $(this).addClass("selected_card");
+      }
+    });
+    function swap_counter(col){
+      var a = [];
+      $(".content").each(function(index){
+        a.push(parseInt($(this).text()));
+      });
+      var swaps = 0; 
+      col = a; 
+      for(var j = 1; j < col.length; j++) {
+        var key = col[j];
+        var i = j - 1;
+       
+        while(i >= 0 && col[i] > key) {
+          col[i+1] = col[i];
+          i = i - 1;     
+          swaps += 1;
+        }            
+        col[i+1] = key;
+      }
+      show_cards();
+      return swaps;
+    }
+  </script>
+</body>
+</html>
