@@ -11,167 +11,168 @@
 		table.plug_hint td {
 			padding-left: 40px;
 		}
+		#answer_area input[type=text] {
+			width: 50px;
+		}
 	</style>
-	<script type="text/javascript">
-		// Returns an array of length count of elements produced by
-		// the generate function, all of whom match the given predicate
-		function takeNMatching( count, generator, predicate ) {
-			var toReturn = [];
-			while (toReturn.length < count) {
-				var val = generator();
-				if (predicate(val)) {
-					toReturn.push(val);
-				}
-			}
-			return toReturn;
-		}
-
-		function toOrdinalString( n ) {
-			return {
-				1: "first",
-				2: "second",
-				3: "third",
-				4: "fourth"
-			}[n]
-		}
-
-		function generatePlugCoefficient() {
-			return KhanUtil.randRange( 2, 5 );
-		}
-
-		function generatePlugConstant() {
-			return KhanUtil.randRange( 1, 10 );
-		}
-	</script>
 </head>
 <body>
 <div class="exercise">
-
-	<div class="vars">
-		<var id="COEF">generatePlugCoefficient()</var>
-		<var id="CONST">generatePlugConstant()</var>
-		<var id="XVALS">randRangeUnique( 1, 9, 4 ).sort()</var>
-		<var id="COUNTEREXAMPLES">
-			[]
-		</var>
-		<var id="WRONG_ANSWERS">
-			takeNMatching(3,
-			  function generateCandidates() {
-					return {
-						coef: generatePlugCoefficient(),
-						const: generatePlugConstant()
-					}
-				},
-				function acceptIncorrectAnswers( candidateAnswer ) {
-					for (var i = 0; i &lt; XVALS.length; i++) {
-						var correct = COEF * XVALS[i] + CONST;
-						var candidateResult = candidateAnswer.coef * XVALS[i] + candidateAnswer.const;
-						//if this candidate disagrees with the correct answer in at least one visible place
-						//then we accept it
-						if (correct != candidateResult) {
-							COUNTEREXAMPLES.push(i);
-							return true;
-						}
-					}
-					//if it produces identical values for all of the given table entries then it is rejected
-					return false;
-				}
-			)
-		</var>
-		<var id="FLAVORS">[
-			{
-				x: "x",
-				y: "y",
-				x_header: "x",
-				y_header: "y",
-				intro: "Some ordered pairs for a linear function of "
-							 + "&lt;span class='hint_orange'>x&lt;/span>"
-							 + " are given in the table below.",
-				question: "Which equation was used to generate this table?"
-			},
-			{
-				x: "p",
-				y: "c",
-				x_header: "Pound (p)",
-				y_header: "Cost (c)",
-				intro: "The data in the table show the cost of buying bulk vegetables per pound,"
-						 + " including the fee for the clerk to package the vegetables in boxes.",
-				question: "What equation fits the data?"
-			},
-			{
-				x: "X",
-				y: "Y",
-				x_header: "X",
-				y_header: "Y",
-				question: "Which of these equations was used to solve for "
-								+	"&lt;span class='hint_blue'>Y&lt;/span>"
-								+ " in the table below?"
-			}
-		]
-		</var>
-		<var id="FLAVOR">FLAVORS[randRange( 0, FLAVORS.length-1 )]</var>
-	</div>
-
+	<div class="vars"></div>
 	<div class="problems">
-		<div>
-			<p><var>FLAVOR.intro</var></p>
-			<p class="question"><var>FLAVOR.question</var></p>
+		<div id="linear">
+			<div class="vars">
+				<var id="A1">2</var>
+				<var id="A2">5</var>
+				<var id="B1">1</var>
+				<var id="B2">10</var>
+				<var id="COEF">randRange( A1, A2 )</var>
+				<var id="CONST">randRange( B1, B2 )</var>
+				<var id="XVALS">randRangeUnique( 1, 9, 4 ).sort()</var>
+				<var id="WRONG_ANSWERS">
+				(function() {
+					var wrongs = [];
+					var i = randRangeWeighted( A1, A2, COEF, 0 );
+					var j = ( COEF * XVALS[0] + CONST ) - ( i * XVALS[0] );
+					wrongs.push( { coef: i, const: j } );
+					while( wrongs.length &lt; 4 ) {
+						i = randRange( A1, A2 );
+						if( i === COEF ) {
+							j = randRangeWeighted( B1, B2, CONST, 0 );
+						}
+						else {
+							j = randRange( B1, B2 );
+						}
+						wrongs.push( { coef: i, const: j } );
+					}
+					
+					return wrongs;
+
+				})()
+				</var>
+				<var id="X_VAR">"x"</var>
+				<var id="Y_VAR">"y"</var>
+				<var id="X_HEADER">"x"</var>
+				<var id="Y_HEADER">"y"</var>
+			</div>
+			<div class="question">
+				<p>Some ordered pairs for a linear function of <span class='hint_orange'><code><var>X_VAR</var></code></span> are given in the table below.</p>
+				<p><b>Which equation was used to generate this table?</b></p>
+			</div>
 			<div class="fake_header plug_in">
-				<span class='hint_orange'><var>FLAVOR.x_header</var></span>
-				<span class='hint_blue'><var>FLAVOR.y_header</var></span>
+				<span class='hint_orange'><var>X_HEADER</var></span>
+				<span class='hint_blue'><var>Y_HEADER</var></span>
 			</div>
 			<div class='fake_row plug_in' data-each="XVALS as xval">
 				<span><var>xval</var></span>
 				<span><var>COEF * xval + CONST</var></span>
 			</div>
+			<p class="solution"><code>\thinspace\thinspace\thinspace <var>Y_VAR</var> = <var>COEF</var><var>X_VAR</var> + <var>CONST</var></code></p>
+			<ul class="choices" data-show="5">
+					<li data-each="WRONG_ANSWERS as wrong">
+						<code><var>Y_VAR</var> = <var>wrong.coef</var><var>X_VAR</var> + <var>wrong.const</var></code>
+					</li>
+			</ul>
+			<div class="hints">
+				<p>Take one of the equations and try plugging in the values from the table. If the equality does not hold for at least one set of values, then we can eliminate that answer choice.</p>
+				<div>
+					<p>For example, consider <code><var>Y_VAR</var> = <var>WRONG_ANSWERS[0].coef</var><var>X_VAR</var> + <var>WRONG_ANSWERS[0].const</var></code>. Substituting in <code>\color{<var>ORANGE</var>}{<var>X_VAR</var> = <var>XVALS[0]</var>}</code> and <code>\color{<var>BLUE</var>}{<var>Y_VAR</var> = <var>XVALS[0] * COEF + CONST</var>}</code> shows that the equality holds for the first row of the table :</p>
+					<p><code>\color{<var>BLUE</var>}{<var>XVALS[0] * COEF + CONST</var>} =  <var>WRONG_ANSWERS[0].coef</var>(\color{<var>ORANGE</var>}{<var>XVALS[0]</var>}) + <var>WRONG_ANSWERS[0].const</var></code></p>
+					<p><code><var>XVALS[0] * COEF + CONST</var> = <var>XVALS[0] * COEF + CONST</var></code></p>
+				</div>
+				<div>
+					<p>However, plugging in <code>\color{<var>ORANGE</var>}{<var>X_VAR</var> = <var>XVALS[1]</var>}</code> and <code>\color{<var>BLUE</var>}{<var>Y_VAR</var> = <var>XVALS[1] * COEF + CONST</var>}</code> from the second row of the table gives us:</p>
+					<p><code>\color{<var>BLUE</var>}{<var>XVALS[1] * COEF + CONST</var>} =  <var>WRONG_ANSWERS[0].coef</var>(\color{<var>ORANGE</var>}{<var>XVALS[1]</var>}) + <var>WRONG_ANSWERS[0].const</var></code></p>
+					<p><code><var>XVALS[1] * COEF + CONST</var> \ne <var>WRONG_ANSWERS[0].coef * XVALS[1] + WRONG_ANSWERS[0].const</var></code></p>
+					<p>So we can eliminate <code><var>Y_VAR</var> = <var>WRONG_ANSWERS[0].coef</var><var>X_VAR</var> + <var>WRONG_ANSWERS[0].const</var></code> from consideration and try a different answer choice.</p>
+				</div>
+				<div>
+					<p>When we try <code><var>Y_VAR</var> = <var>COEF</var><var>X_VAR</var> + <var>CONST</var></code>, we see that it holds up for each set of values in the table.</p>
+					<table class='plug_hint'>
+						<tr data-each="XVALS as xval">
+							<td>
+								<code>\color{<var>BLUE</var>}{<var>COEF * xval + CONST</var>} = <var>COEF</var> \cdot \color{<var>ORANGE</var>}{<var>xval</var>} + <var>CONST</var></code>
+							</td>
+							<td>&rarr;</td>
+							<td>
+								<code>\color{<var>BLUE</var>}{<var>COEF * xval + CONST</var>} = <var>COEF * xval + CONST</var></code>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<p>The equation that fits this table of values is <code><var>Y_VAR</var> = <var>COEF</var><var>X_VAR</var> + <var>CONST</var></code>.</p>
+			</div>
 		</div>
-	</div>
-
-	<div class="solution"><code><var>FLAVOR.y</var> = <var>COEF</var><var>FLAVOR.x</var> + <var>CONST</var></code></div>
-	<ul class="choices">
-		<li data-each="WRONG_ANSWERS as answer">
-			<code><var>FLAVOR.y</var> = <var>answer.coef</var><var>FLAVOR.x</var> + <var>answer.const</var></code>
-		</li>
-	</ul>
-
-	<div class="hints">
-		<p>Try one of the answers and substituting the values for <code class="hint_orange"><var>FLAVOR.x</var></code>
-			and <code class="hint_blue"><var>FLAVOR.y</var></code> from the table. If the equality doesn't hold, then
-			that equation doesn't work with this table.</p>
-		<div>
-			<p>For example, consider <code>\color{<var>BLUE</var>}{<var>FLAVOR.y</var>} = <var>WRONG_ANSWERS[0].coef</var>\color{<var>ORANGE</var>}{<var>FLAVOR.x</var>} + <var>WRONG_ANSWERS[0].const</var></code>.</p>
-			<p>Substituting <code class="hint_orange"><var>FLAVOR.x</var></code> and <code class="hint_blue"><var>FLAVOR.y</var></code>
-				for the values in the <var>toOrdinalString( COUNTEREXAMPLES[0] + 1 )</var> row of the table, we get the equality:</p>
-			<p><code>\color{<var>BLUE</var>}{<var>COEF * XVALS[COUNTEREXAMPLES[0]] + CONST</var>} =  <var>WRONG_ANSWERS[0].coef</var> \cdot \color{<var>ORANGE</var>}{<var>XVALS[COUNTEREXAMPLES[0]]</var>} + <var>WRONG_ANSWERS[0].const</var></code></p>
+		<div id="grocery" data-type="linear">
+			<div class="vars">
+				<var id="X_VAR">"p"</var>
+				<var id="Y_VAR">"c"</var>
+				<var id="X_HEADER">"Pound (p)"</var>
+				<var id="Y_HEADER">"Cost (c)"</var>
+			</div>
+			<div class="question">
+				<p>The data in the table show the cost of buying bulk vegetables per pound, including the fee for the clerk to package the vegetables in boxes.</p>
+				<p><b>Which equation fits the data?</b></p>
+			</div>
+			<div class='fake_row plug_in' data-each="XVALS as xval">
+				<span><var>xval</var></span>
+				<span>$<var>COEF * xval + CONST</var></span>
+			</div>
 		</div>
-		<div>
-			<p>Which reduces to:</p>
-			<p><code>\color{<var>BLUE</var>}{<var>COEF * XVALS[COUNTEREXAMPLES[0]] + CONST</var>} =
-					<var>WRONG_ANSWERS[0].coef * XVALS[COUNTEREXAMPLES[0]] + WRONG_ANSWERS[0].const</var>
-				</code> <span style="color: red;">✗</span></p>
-			<p>Which isn't true, so we can eliminate
-
-			<code>\color{<var>BLUE</var>}{<var>FLAVOR.y</var>} = <var>WRONG_ANSWERS[0].coef</var>\color{<var>ORANGE</var>}{<var>FLAVOR.x</var>} + <var>WRONG_ANSWERS[0].const</var></code>
-			because it doesn't work for the <var>toOrdinalString( COUNTEREXAMPLES[0] + 1 )</var> row of the table.</p>
+		<div id="negative" data-type="linear">
+			<div class="vars">
+				<var id="A1">-5</var>
+				<var id="A2">-2</var>
+			</div>
 		</div>
-		<p>We can continue to try each of the equations to see if they work with the values in the table.</p>
+		<div id="fill-table" data-type="linear" data-weight="3">
+			<div class="vars">
+				<var id="COEF">randRange( A1, A2 ) * randRangeNonZero( -1, 1 )</var>
+				<var id="CONST">randRange( B1, B2 ) * randRangeNonZero( -1, 1 )</var>
+				<var id="Y_VAR">"f(x)"</var>
+				<var id="Y_HEADER">"f(x)"</var>
+				<var id="I">randRange( 1, 3 )</var>
+				<var id="TABLEVALS">
+				(function() {
+					var wrongs = [];
+					var count = 0;
+					while ( wrongs.length &lt; 4 ) {
+						wrongs.push( { xval: XVALS[count], yval: COEF * XVALS[count] + CONST } );
+						count++;
+					}
+					count = 0;
+					var j = randRangeUnique( 0, 3, I );
+					while( count &lt; I ) {
+						wrongs[j[count]].yval = "&nbsp;";
+						count++;
+					}
 
-		<div>
-			When we try
-			<code>\color{<var>BLUE</var>}{<var>FLAVOR.y</var>} = <var>COEF</var>\color{<var>ORANGE</var>}{<var>FLAVOR.x</var>} + <var>CONST</var></code> we can see that it holds for each of the rows of the table:
-			<table class='plug_hint'>
-				<tr data-each="XVALS as xval">
-					<td>
-						<code>\color{<var>BLUE</var>}{<var>COEF * xval + CONST</var>} = <var>COEF</var> \cdot
-						\color{<var>ORANGE</var>}{<var>xval</var>} + <var>CONST</var></code>
-					</td>
-					<td>&rarr;</td>
-					<td>
-						<code>\color{<var>BLUE</var>}{<var>COEF * xval + CONST</var>} =
-						<var>COEF * xval + CONST</var></code> <span style="color: green;">✓</span>
-					</td>
-				</tr>
-			</table>
+					return wrongs;
+
+				})()
+				</var>
+			</div>
+			<div class='fake_row plug_in' data-each="TABLEVALS as tableval">
+				<span><var>tableval.xval</var></span>
+				<span><var>tableval.yval</var></span>
+			</div>
+			<div class="question">
+				<p><b>The table below was generated using the following equation:</b><code>\quad f(x) = <var>COEF</var>x + <var>CONST</var></code></p>
+				<p><b>Find the missing values.</b></p>
+			</div>
+			<div class="solution" data-each="TABLEVALS as tableval" data-type="multiple">
+				<p data-if="tableval.yval === '&nbsp;'"><code>f(<var>tableval.xval</var>)</code> = <span class="sol"><var>COEF * tableval.xval + CONST</var></span></p>
+			</div>
+			<div class="hints">
+				<p>Plug the corresponding values of <code class="hint_orange">x</code> into the equation to find the missing values of <code class="hint_blue">f(x)</code>.</p>
+				<div>
+					<p data-each="TABLEVALS as tableval"><span data-if="tableval.yval === '&nbsp;'"><code>\color{<var>BLUE</var>}{f(<var>tableval.xval</var>)} = <var>COEF</var> \cdot \color{<var>ORANGE</var>}{<var>tableval.xval</var>} + <var>CONST</var> = <var>tableval.xval * COEF</var> + <var>CONST</var> = <var>tableval.xval * COEF + CONST</var></code></span></p>
+				</div>
+				<div>
+					<p>The missing <span data-if="I === 1">value is</span><span data-else>values are</span>:</p>
+					<p data-each="TABLEVALS as tableval"><span data-if="tableval.yval === '&nbsp;'"><code>f(<var>tableval.xval</var>) = <var>tableval.xval * COEF + CONST</var></code></span></p>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
