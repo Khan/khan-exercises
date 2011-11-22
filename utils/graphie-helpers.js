@@ -666,29 +666,16 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 
 	function labelAngle( coordArr, angles, color, label ) {
 		var graph = KhanUtil.currentGraph;
-		var measure = ( angles[ 1 ] - angles[ 0 ] );
-		var bisect = ( angles[ 0 ] + angles[ 1 ] ) / 2;
-		var radius = 0.6;
-
-		var sign = function( x ) {
-			if ( x > 0 ) {
-				return 1;
-			} else if ( x < 0 ) {
-				return -1;
-			} else {
-				return 0;
-			}
-		};
-
+        
 		var coords = jQuery.map( coordArr, function( coord, index ) {
 			if ( index === 0 ) { // x-coordinate
-				return coord - 0.4 * (label.placement === "left" ? 1 : -1);
+				return coord + 0.5 * (label.placementX === "right" ? 1 : -1);
 			} else { // y-coordinate
-				return coord - 0.3 * sign( bisect - 180 );
+				return coord + 0.3 * (label.placementY === "top" ? 1 : -1);
 			}
 		});
 
-		graph.label( coords, label.text, label.placement, { color: color } );
+		graph.label( coords, label.text, label.placementX, { color: color } );
 	}
 
 	this.draw = function() {
@@ -724,21 +711,29 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 
 		var labelPlacement;
 		switch( index % 4 ) {
-			case 0:
+			case 0: // Quadrant 1
 				angles = [ 0, anchorAngle ];
-				labelPlacement = "right";
+				//alert("0" + anchorAngle);
+				labelPlacementX = "right";
+				labelPlacementY = "top";
 				break;
-			case 1:
+			case 1: // Quadrant 2
 				angles = [ anchorAngle, 180 ];
-				labelPlacement = "left";
+				//alert("1" + anchorAngle);
+				labelPlacementX = "left";
+				labelPlacementY = "top";
 				break;
-			case 2:
+			case 2: // Quadrant 3
 				angles = [ 180, 180 + anchorAngle ];
-				labelPlacement = "left";
+				//alert("2" + anchorAngle);
+				labelPlacementX = "left";
+				labelPlacementY = "bottom";
 				break;
-			case 3:
+			case 3: // Quadrant 4
 				angles = [ 180 + anchorAngle, 360 ];
-				labelPlacement = "right";
+				//alert("3" + anchorAngle);
+				labelPlacementX = "right";
+				labelPlacementY = "bottom";
 				break;
 		}
 		jQuery.merge( args, angles );
@@ -746,7 +741,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		graph.style({ stroke: color}, function() {
 			graph.arc.apply( graph, args );
 			if ( label ) {
-				var labelOptions = { text: label, placement: labelPlacement };
+				var labelOptions = { text: label, placementX: labelPlacementX, placementY: labelPlacementY };
 
 				if ( typeof label === "boolean" ) {
 					labelOptions.text = (angles[1] - angles[0]) + "^\\circ";

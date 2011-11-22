@@ -13,7 +13,7 @@
 		<var id="C" data-ensure="C !== A && abs( A - C ) < 4">randRange( 2, 9 )</var>
 		<var id="D" data-ensure="D !== B && (D-B) % (A-C) === 0 && abs((A*D-B*C)/(A-C)) > 30 && abs((A*D-B*C)/(A-C)) < 150">randRangeNonZero( -150, 150 )</var>
 		<var id="ANCHOR">abs((A*D-B*C) / (A-C))</var>
-		<var id="SOLUTION">abs((D-B) / (A-C))</var>
+		<var id="SOLUTION">(D-B) / (A-C)</var>
 		<var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 2, 0 ], [ 3, 1 ] ] ) )</var>
 		<var id="MEASURE">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
 	</div>
