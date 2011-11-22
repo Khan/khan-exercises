@@ -44,11 +44,11 @@
 				<div class="solution" data-type="multiple">
 					<p><code>x</code> = <span class="sol"><var>X_NUMER / X_DENOM</var></span></p>
 					<p><code>y</code> = <span class="sol"><var>Y_NUMER / Y_DENOM</var></span></p>
-				</div>	
+				</div>
 				<div class="hints">
 					<p>We can eliminate <code><var>( XY_FLAG ? "x" : "y" )</var></code> when its corresponding coefficients are negative inverses.</p>
 
-					<div data-unwrap data-if="XY_FLAG"> 
+					<div data-unwrap data-if="XY_FLAG">
 						<div data-if="MULT_1 !== 1 || MULT_2 !== 1">
 							<p>Recalling our knowledge of least common multiples, multiply the top equation by <code><var>MULT_1</var></code> and the bottom equation by <code><var>MULT_2</var></code>.</p>
 							<p><code>\begin{align*}<var>expr(["+", ["*", A1*MULT_1, "x"], ["*", B1*MULT_1, "y"]])</var> &amp;= <var>C1*MULT_1</var>\\
@@ -100,7 +100,7 @@
 							<p>The solution is<code>\enspace x = <var>fractionReduce( X_NUMER, X_DENOM )</var>, \enspace y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code>.</p>
 						</div>
 					</div>
-				</div>		
+				</div>
 			</div>
 			<div id="substitution-y">
 				<div class="vars">
