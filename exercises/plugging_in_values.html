@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems">
+<html data-require="math">
 <head>
 	<meta charset="UTF-8" />
 	<title>Plugging in X and Y Values</title>
@@ -76,12 +76,12 @@
 			<div class="hints">
 				<p>Take one of the equations and try plugging in the values from the table. If the equality does not hold for at least one set of values, then we can eliminate that answer choice.</p>
 				<div>
-					<p>For example, consider <code><var>Y_VAR</var> = <var>WRONG_ANSWERS[0].coef</var><var>X_VAR</var> + <var>WRONG_ANSWERS[0].const</var></code>. Substituting in <code>\color{<var>ORANGE</var>}{<var>X_VAR</var> = <var>XVALS[0]</var>} \text{ and } \color{<var>BLUE</var>}{<var>Y_VAR</var> = <var>XVALS[0] * COEF + CONST</var>}</code> shows that the equality holds for the first row of the table :</p>
+					<p>For example, consider <code><var>Y_VAR</var> = <var>WRONG_ANSWERS[0].coef</var><var>X_VAR</var> + <var>WRONG_ANSWERS[0].const</var></code>. Substituting in <code>\color{<var>ORANGE</var>}{<var>X_VAR</var> = <var>XVALS[0]</var>}</code> and <code>\color{<var>BLUE</var>}{<var>Y_VAR</var> = <var>XVALS[0] * COEF + CONST</var>}</code> shows that the equality holds for the first row of the table :</p>
 					<p><code>\color{<var>BLUE</var>}{<var>XVALS[0] * COEF + CONST</var>} =  <var>WRONG_ANSWERS[0].coef</var>(\color{<var>ORANGE</var>}{<var>XVALS[0]</var>}) + <var>WRONG_ANSWERS[0].const</var></code></p>
 					<p><code><var>XVALS[0] * COEF + CONST</var> = <var>XVALS[0] * COEF + CONST</var></code></p>
 				</div>
 				<div>
-					<p>However, plugging in <code>\color{<var>ORANGE</var>}{<var>X_VAR</var> = <var>XVALS[1]</var>} \text{ and } \color{<var>BLUE</var>}{<var>Y_VAR</var> = <var>XVALS[1] * COEF + CONST</var>}</code> from the second row of the table gives us:</p>
+					<p>However, plugging in <code>\color{<var>ORANGE</var>}{<var>X_VAR</var> = <var>XVALS[1]</var>}</code> and <code>\color{<var>BLUE</var>}{<var>Y_VAR</var> = <var>XVALS[1] * COEF + CONST</var>}</code> from the second row of the table gives us:</p>
 					<p><code>\color{<var>BLUE</var>}{<var>XVALS[1] * COEF + CONST</var>} =  <var>WRONG_ANSWERS[0].coef</var>(\color{<var>ORANGE</var>}{<var>XVALS[1]</var>}) + <var>WRONG_ANSWERS[0].const</var></code></p>
 					<p><code><var>XVALS[1] * COEF + CONST</var> \ne <var>WRONG_ANSWERS[0].coef * XVALS[1] + WRONG_ANSWERS[0].const</var></code></p>
 					<p>So we can eliminate <code><var>Y_VAR</var> = <var>WRONG_ANSWERS[0].coef</var><var>X_VAR</var> + <var>WRONG_ANSWERS[0].const</var></code> from consideration and try a different answer choice.</p>
@@ -95,7 +95,7 @@
 							</td>
 							<td>&rarr;</td>
 							<td>
-								<code>\color{<var>BLUE</var>}{<var>COEF * xval + CONST</var>} = <var>COEF * xval + CONST</var></code></span>
+								<code>\color{<var>BLUE</var>}{<var>COEF * xval + CONST</var>} = <var>COEF * xval + CONST</var></code>
 							</td>
 						</tr>
 					</table>
@@ -129,6 +129,9 @@
 			<div class="vars">
 				<var id="COEF">randRange( A1, A2 ) * randRangeNonZero( -1, 1 )</var>
 				<var id="CONST">randRange( B1, B2 ) * randRangeNonZero( -1, 1 )</var>
+				<var id="Y_VAR">"f(x)"</var>
+				<var id="Y_HEADER">"f(x)"</var>
+				<var id="I">randRange( 1, 3 )</var>
 				<var id="TABLEVALS">
 				(function() {
 					var wrongs = [];
@@ -138,13 +141,12 @@
 						count++;
 					}
 					count = 0;
-					var i = randRange( 1, 3 );
-					var j = randRangeUnique( 0, 3, i );
-					while( count &lt; i ) {
-						wrongs[j[count]].yval = "&nbsp";
+					var j = randRangeUnique( 0, 3, I );
+					while( count &lt; I ) {
+						wrongs[j[count]].yval = "&nbsp;";
 						count++;
 					}
-					
+
 					return wrongs;
 
 				})()
@@ -155,20 +157,20 @@
 				<span><var>tableval.yval</var></span>
 			</div>
 			<div class="question">
-				<p><b>The table below was generated using the following equation:</b><code>\quad y = <var>COEF</var>x + <var>CONST</var></code></p>
+				<p><b>The table below was generated using the following equation:</b><code>\quad f(x) = <var>COEF</var>x + <var>CONST</var></code></p>
 				<p><b>Find the missing values.</b></p>
-			</div>	
+			</div>
 			<div class="solution" data-each="TABLEVALS as tableval" data-type="multiple">
-				<p data-if="tableval.yval === '&nbsp'"><code>f(<var>tableval.xval</var>)</code> = <span class="sol"><var>COEF * tableval.xval + CONST</var></span></p>
+				<p data-if="tableval.yval === '&nbsp;'"><code>f(<var>tableval.xval</var>)</code> = <span class="sol"><var>COEF * tableval.xval + CONST</var></span></p>
 			</div>
 			<div class="hints">
-				<p>Plug the corresponding values of <code class="hint_orange">x</code> into the equation to find the missing values of <code class="hint_blue">y</code>, or <code>f(x)</code>.</p>
+				<p>Plug the corresponding values of <code class="hint_orange">x</code> into the equation to find the missing values of <code class="hint_blue">f(x)</code>.</p>
 				<div>
-					<span data-each="TABLEVALS as tableval"><p data-if="tableval.yval === '&nbsp'"><code>f(\color{<var>ORANGE</var>}{<var>tableval.xval</var>}) = <var>COEF</var> \cdot \color{<var>ORANGE</var>}{<var>tableval.xval</var>} + <var>CONST</var> = <var>tableval.xval * COEF</var> + <var>CONST</var> = <var>tableval.xval * COEF + CONST</var></code></p></span>
+					<p data-each="TABLEVALS as tableval"><span data-if="tableval.yval === '&nbsp;'"><code>\color{<var>BLUE</var>}{f(<var>tableval.xval</var>)} = <var>COEF</var> \cdot \color{<var>ORANGE</var>}{<var>tableval.xval</var>} + <var>CONST</var> = <var>tableval.xval * COEF</var> + <var>CONST</var> = <var>tableval.xval * COEF + CONST</var></code></span></p>
 				</div>
 				<div>
-					<p>The missing values are:</p>
-					<span data-each="TABLEVALS as tableval"><p data-if="tableval.yval === '&nbsp'"><code>f(<var>tableval.xval</var>) = <var>tableval.xval * COEF + CONST</var></code></p></span>
+					<p>The missing <span data-if="I === 1">value is</span><span data-else>values are</span>:</p>
+					<p data-each="TABLEVALS as tableval"><span data-if="tableval.yval === '&nbsp;'"><code>f(<var>tableval.xval</var>) = <var>tableval.xval * COEF + CONST</var></code></span></p>
 				</div>
 			</div>
 		</div>
