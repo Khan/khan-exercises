@@ -7,35 +7,116 @@
       <body>
           <div class="exercise">
               <div class="vars">
-                  <var id="start_speed">0 + rand(30)</var>
-                  <var id="end_speed">31 + rand(30)</var>
-                  <var id="time">2 + rand(15)</var>
-                  <var id="direction">randFromArray(['north', 'south', 'east', 'west'])</var>
-                  <var id="acceleration">(end_speed-start_speed)/time</var>
+                  <var id="delta_speed">rand(100) - 50</var>
+                  <var id="start_speed">55 + rand(100)</var>
+                  <var id="end_speed">start_speed + delta_speed</var>
+                  <var id="converted_speed">delta_speed*1000/3600</var>
+                  <var id="time">3 + rand(15)</var>
+                  <var id="acceleration">roundTo(2,converted_speed/time)</var>
+                  <var id="verb">delta_speed>=0?"accelerates":"brakes"</var>
               </div>
 
               <div class="problems">
-                  <div id="problem-type-or-description">
-                      <p class="problem"><!-- An overview of the problem including all needed info. --></p>
+                  <div id="solve_for_acceleration" data-weight="2">
+                      <p class="problem">
+                          Alice was driving in a car down a straight road at <var>start_speed</var> km/h.
+                          She <var>verb</var> at a constant rate for <var>time</var> seconds, and ends up at <var>end_speed</var>
+                          km/h.  
+                      </p>
                       <p class="question">
-                          Alice was driving in a car down a straight road at <var>start_speed</var> km/h <var>direction</var>.
-                          She accelerates at a constant rate for <var>time</var> seconds, and ends up at <var>end_speed</var>
-                          in the same direction.  What was her rate of acceleration in meters per second per second. 
+                          What was her rate of acceleration in meters per second per second. 
                           <br/>
                           Round to the nearest hundredth.
                       </p>
-                      <p class="solution" data-type="decimal"><var>roundTo(2, (end_speed-start_speed)/time/3600*1000)</var></p>
+                      <p class="solution" data-type="decimal"><var>roundTo(2, converted_speed/time)</var></p>
+                      <div class="hints">
+                          <p>Acceleration can be calculated with the formula: <code>acceleration = \dfrac{\Delta speed}{\Delta time}</code></p>
+                          <p><code>\Delta speed = speed_{end} - speed_{start} = <var>end_speed</var> - <var>start_speed</var> = <var>delta_speed</var> km/h</code></p>
+                          <p>
+                             <code>\Delta speed</code> units need to be in m/s:
+                             <code>\dfrac{<var>delta_speed</var> km}{h}*\dfrac{h}{3600s}*\dfrac{1000m}{km} = <var>converted_speed</var> m/s</code>
+                          </p>
+                          <p>
+                             Substitude in the known variables: 
+                             <code>acceleration = \dfrac{<var>converted_speed</var> m/s}{<var>time</var> s}</code>
+                          </p>
+                      </div>
                   </div>
-              </div>
-
-              <div class="hints">
-                  <p>Acceleration can be calculated with the formula: <code>acceleration = \dfrac{\Delta speed}{\Delta time}</code></p>
-                  <p>Substitude in the known variables: <code>acceleration = \dfrac{(<var>end_speed</var> - <var>start_speed</var>) km/h}{<var>time</var> seconds}</code></p>
-                  <p>The resultant value is in units <code>\dfrac{\dfrac{km}{hour}}{second}</code></p>
-                  <p>To convert to feet per seconds: <code>\dfrac{<var>acceleration</var> km}{hr*s} * \dfrac{1 hr}{3600s} * \dfrac{1000m}{1km}</code></p>
+                  <div id="solve_for_time" data-weight="2">
+                      <p class="problem">
+                          Alice was driving in a car down a straight road at <var>start_speed</var> km/h.
+                          She <var>verb</var> at <code><var>acceleration</var>\dfrac{m}{s^2}</code>.
+                      </p>
+                      <p class="question">
+                          How many seconds will it take for her to get to <var>end_speed</var> km/h?
+                          <br/>
+                          Round to the nearest second.
+                      </p>
+                      <p class="solution" data-type="decimal"><var>time</var></p>
+                      <div class="hints">
+                          <p>Acceleration can be calculated with the formula: <code>acceleration = \dfrac{\Delta speed}{\Delta time}</code></p>
+                          <p>Solve for <code>\Delta time</code>: <code>\Delta time = \dfrac{\Delta speed}{acceleration}</code></p>
+                          <p><code>\Delta speed = speed_{end} - speed_{start} = <var>end_speed</var> - <var>start_speed</var> = <var>delta_speed</var> km/h</code></p>
+                          <p>
+                             The speed units need to match the acceleration units: 
+                             <code>\dfrac{<var>delta_speed</var>km}{h} * \dfrac{h}{3600s} * \dfrac{1000m}{km} = <var>converted_speed</var>\dfrac{m}{s}</code>
+                          </p>
+                          <p>
+                             Substitude in the known variables:
+                             <code>\Delta time = \dfrac{<var>converted_speed</var> m/s}{<var>acceleration</var> m/s^2} = <var>time</var> seconds</code>
+                          </p>
+                      </div>
+                  </div>
+                  <div id="solve_for_start_speed">
+                      <p class="problem">
+                          Alice was driving in a car down a straight road.  She <var>verb</var> at a rate of <var>acceleration</var> <code>m/s^2</code>
+                          for <var>time</var> seconds.  She looks at her speedometer, and she is now going <var>end_speed</var> km/h.
+                      </p>
+                      <p class="question">
+                          What speed, in km/h, did she start with?
+                      </p>
+                      <p class="solution" data-type="decimal"><var>start_speed</var></p>
+                      <div class="hints">
+                          <p>Acceleration can be calculated with the formula: <code>acceleration = \dfrac{\Delta speed}{\Delta time}</code></p>
+                          <p>Solve for <code>\Delta speed</code>: <code>\Delta speed = acceleration * \Delta time</code></p>
+                          <p>
+                             Substitude in the known variables:
+                             <code>\Delta speed = <var>acceleration</var> m/s^2 * <var>time</var> s  = <var>converted_speed</var> m/s</code>
+                          </p>
+                          <p>
+                             Convert m/s to km/h:
+                             <code>\dfrac{<var>converted_speed</var>m}{s} * \dfrac{3600s}{h} * \dfrac{km}{1000m} = <var>delta_speed</var>\dfrac{km}{h}</code>
+                          </p>
+                          <p><code>\Delta speed = speed_{end} - speed_{start}</code><br /> or<br /><code>speed_{start} = speed_{end} - \Delta speed</code></p>
+                          <p><code>speed_{start}  = <var>end_speed</var> - <var>delta_speed</var> = <var>start_speed</var> km/h</code></p>
+                      </div>
+                  </div>
+                  <div id="solve_for_end_speed">
+                      <p class="problem">
+                          Alice was driving in a car down a straight road at <var>start_speed</var> km/h.  
+                          She <var>verb</var> at a rate of <var>acceleration</var> <code>m/s^2</code>
+                          for <var>time</var> seconds.
+                      </p>
+                      <p class="question">
+                          What is her current speed in km/h?
+                      </p>
+                      <p class="solution" data-type="decimal"><var>end_speed</var></p>
+                      <div class="hints">
+                          <p>Acceleration can be calculated with the formula: <code>acceleration = \dfrac{\Delta speed}{\Delta time}</code></p>
+                          <p>Solve for <code>\Delta speed</code>: <code>\Delta speed = acceleration * \Delta time</code></p>
+                          <p>
+                             Substitude in the known variables:
+                             <code>\Delta speed = <var>acceleration</var> m/s^2 * <var>time</var> s  = <var>converted_speed</var> m/s</code>
+                          </p>
+                          <p>
+                             Convert m/s to km/h:
+                             <code>\dfrac{<var>converted_speed</var>m}{s} * \dfrac{3600s}{h} * \dfrac{km}{1000m} = <var>delta_speed</var>\dfrac{km}{h}</code>
+                          </p>
+                          <p><code>\Delta speed = speed_{end} - speed_{start}</code><br /> or <br /><code>speed_{end} = speed_{start} + \Delta speed</code></p>
+                          <p><code>speed_{end}  = <var>start_speed</var> + <var>delta_speed</var> = <var>end_speed</var> km/h</code></p>
+                      </div>
+                  </div>
               </div>
           </div>
       </body>
   </html>
-
-
