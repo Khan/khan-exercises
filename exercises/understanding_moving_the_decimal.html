@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Understanding moving the decimal</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="PM">randRangeNonZero( -1, 1 )</var>
+			<var id="OPERATOR">( PM === 1 ? "multiply" : "divide" )</var>
+			<var id="A">randRange( 0, 99999 )</var>
+					
+			<div data-ensure="( PM === 1 ? A_DECIMAL > B_DECIMAL : A_DECIMAL < B_DECIMAL )">
+				<var id="A_DECIMAL">randRange( 1, 5 )</var>
+				<var id="B_DECIMAL">randRange( 1, 5 )</var>
+			</div>
+			
+			<var id="A_FLOAT">A / pow( 10, A_DECIMAL )</var>
+			<var id="B_FLOAT">A / pow( 10, B_DECIMAL )</var>
+			<var id="POW_DIFF">( PM === 1 ? ( A_DECIMAL - B_DECIMAL ) : ( B_DECIMAL - A_DECIMAL ) )</var>
+		</div>
+		
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p><var>person(1)</var> needs to <var>OPERATOR</var> <var>A_FLOAT.toFixed( A_DECIMAL )</var> by 10 <b>?</b> times to get <var>B_FLOAT.toFixed( B_DECIMAL )</var></p>
+				</div>
+
+				<p class="solution" data-forms="integer"><var>POW_DIFF</var></p>
+			</div>
+		</div>
+				
+		<div class="hints">
+			<div>
+				<p><span data-if="PM === 1">Moving the decimal one position to the right is the same as <var>person(1)</var> multiplying the number by 10.</span>
+				<span data-else>Moving the decimal one position to the left is the same as <var>person(1)</var> dividing the number by 10.</span></p>
+			</div>
+
+			<div data-if="PM === 1">
+				<p>Moving the decimal right <var>POW_DIFF</var> is the same as multiplying the number by 10 <var>POW_DIFF</var> times.</p>
+				<p>This is the same as multiplying the number by <var>pow( 10, POW_DIFF )</var>:</p>
+				<p><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} * {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></p></div>
+			<div data-else>
+				<p>Moving the decimal left <var>POW_DIFF</var> is the same as dividing the number by 10 <var>POW_DIFF</var> times.</p>
+				<p>This is the same as dividing the number by <var>pow( 10, POW_DIFF )</var>:</p>
+				<p><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} / {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
