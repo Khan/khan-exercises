@@ -124,6 +124,12 @@ jQuery.extend(KhanUtil, {
 
 		};
 
+                this.getTermMap = function(){
+                    var polynomial = this; 
+                    return _.map(_.range(polynomial.getNumberOfTerms()),function(i){
+                                    return polynomial.getCoefAndDegreeForTerm(i);});
+                };
+
 		this.text = function() {
 			return KhanUtil.expr( this.expr( this.variable ) );
 		};
@@ -317,16 +323,13 @@ jQuery.extend(KhanUtil, {
 
         integratePolynomial: function(polynomial){
 
-            var termMap = _.map(_.range(polynomial.getNumberOfTerms()),function(i){
-                                    return polynomial.getCoefAndDegreeForTerm(i);});
-
-            var integratedTermMap= _.map(termMap, function(term){
+            var integratedTermMap= _.map(polynomial.getTermMap(), function(term){
                 var newTerm = new Object();
                 newTerm.degree =term.degree+1;
                 newTerm.coef = term.coef/newTerm.degree;
                 return newTerm;});
 
-            var degrees=_.map(integratedTermMap,function(term){return term.degree;});
+            var degrees=_.pluck(integratedTermMap,'degree');
             var maxDegree = _.max(degrees);
             var minDegree = _.min(degrees);
 
