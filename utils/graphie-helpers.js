@@ -721,22 +721,18 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		switch( index % 4 ) {
 			case 0: // Quadrant 1
 				angles = [ 0, anchorAngle ];
-				//alert("0" + anchorAngle);
 				labelPlacement = "right";
 				break;
 			case 1: // Quadrant 2
 				angles = [ anchorAngle, 180 ];
-				//alert("1" + anchorAngle);
 				labelPlacement = "left";
 				break;
 			case 2: // Quadrant 3
 				angles = [ 180, 180 + anchorAngle ];
-				//alert("2" + anchorAngle);
 				labelPlacement = "left";
 				break;
 			case 3: // Quadrant 4
 				angles = [ 180 + anchorAngle, 360 ];
-				//alert("3" + anchorAngle);
 				labelPlacement = "right";
 				break;
 		}
