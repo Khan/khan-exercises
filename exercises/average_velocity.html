@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+  <html data-require="math math-format">
+      <head>
+          <title>Calculating Average Velocity</title>
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+                  <var id="distance">50 + rand(50)</var>
+                  <var id="time">2 + rand(10)</var>
+                  <var id="direction">randFromArray(['north', 'south', 'east', 'west'])</var>
+              </div>
+
+              <div class="problems">
+                  <div id="problem-type-or-description">
+                      <p class="problem"><!-- An overview of the problem including all needed info. --></p>
+                      <p class="question">
+                          If Alice was able to travel <var>distance</var> km <var>direction</var> 
+                          in <var>time</var> hours in her car, what was her average velocity?
+                          <br/>
+                          Round to the nearest thousandth.
+                      </p>
+                      <p class="solution" data-type="multiple">
+                          <span class="sol" data-type="decimal"><var>roundTo(3, distance/time) + ' ' + direction</var></span> km/h
+                          <span class="sol" data-type="list" data-choices="['','north','south','east','west']"><var>direction</var></span> direction
+                      </p>
+                  </div>
+              </div>
+
+              <div class="hints">
+                  <p>Average velocity can be calculated as distance travelled divided by the time.</p>
+                  <p class="math-format">The magnitude of the average velocity can be calculated with <code>\dfrac{<var>distance</var> km}{<var>time</var> hr}</code></p>
+                  <p>Don't forget the direction!</p>
+              </div>
+          </div>
+      </body>
+  </html>
+
