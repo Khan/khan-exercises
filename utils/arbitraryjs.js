@@ -9,9 +9,8 @@
 
 			code = "(function() {" + code + "})()";
 
-			// Execute the graph-specific code
+			// Execute the code
 			jQuery.tmpl.getVAR( code );
-			// delete KhanUtil.currentGraph;
 		}).end();
 	};
 })();
