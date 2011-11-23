@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+  <html data-require="math math-format">
+      <head>
+          <title>Newtons laws of motion</title>
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+                  <var id="mass">10 + rand(30)</var>
+                  <var id="acceleration">5 + rand(10)</var>
+                  <var id="force">mass*acceleration</var>
+              </div>
+              <div class="problems">
+                  <div id="solve_for_acceleration">
+                      <p class="problem">
+                          A <var>mass</var> kg ball is pushed with a force of <var>force</var> newtons. 
+                      </p>
+                      <p class="question"> 
+                          What is the resulting acceleration in <code>\dfrac{m}{s^2}</code>?
+                      </p>
+                      <p class="solution" data-type="decimal"><var>acceleration</var></p>
+                      <div class="hints">
+                         <p>Remember the formula: <code>force = mass * acceleration</code></p>
+                         <p>Solve for acceleration: <code>acceleration = \dfrac{force}{mass}</code></p>
+                         <p>Substitute known variables: <code>acceleration = \dfrac{<var>force</var>}{<var>mass</var>}</code></p>
+                      </div>
+                  </div>
+                  <div id="solve_for_mass">
+                      <p class="problem">
+                          A ball is pushed with a force of <var>force</var> newtons, and accelerates at 
+                          <var>acceleration</var><code>\dfrac{m}{s^2}</code>.  
+                      </p>
+                      <p class="question">What is the ball's mass in kg?</p>
+                      <p class="solution" data-type="decimal"><var>mass</var></p>
+                      <div class="hints">
+                          <p>Remember the formula: <code>force = mass * acceleration</code></p>
+                          <p>Solve for mass: <code>mass = \dfrac{force}{acceleration}</code></p>
+                          <p>Substitude known variables: <code>mass = \dfrac{<var>force</var>}{<var>acceleration</var>}</code></p>
+                      </div>
+                  </div>
+                  <div id="solve_for_force">
+                      <p class="problem">
+                          A <var>mass</var> kg ball suddenly accelerates at a rate of <var>acceleration</var>
+                          <code>\dfrac{m}{s^2}</code>.  
+                      </p>
+                      <p class="question">Calculate the force that was enacted on the ball.</p>
+                      <p class="solution" data-type="decimal"><var>force</var></p>
+                      <div class="hints">
+                          <p>Remember the formula: <code>force = mass * acceleration</code></p>
+                          <p>Substitute known variables: <code>force = <var>mass</var> * <var>acceleration</var></code></p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </body>
+  </html>
