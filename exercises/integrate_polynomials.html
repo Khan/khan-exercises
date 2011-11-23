@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html data-require="math math-format polynomials functional">
+<head>
+	<meta charset="UTF-8" />
+	<title>Integrating polynomials</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function getFakeAnswers( solution ) {
+			var answers = [];
+			for ( var i = 0; i < 4; i++ ) {
+				var coefs = []; 
+
+				for ( var j = 0; j < solution.getNumberOfTerms(); j++ ) {
+					var term = solution.getCoefAndDegreeForTerm( j );
+
+					if ( i === j ) {
+						coefs[ term.degree ] = KhanUtil.randRangeNonZero( -7, 7 );
+					} else {
+						coefs[ term.degree ] = term.coef; 
+					}
+				}
+				
+				for ( var j = 0; j < coefs.length; j++ ) {
+					if ( coefs[ j ] === undefined ) {
+						coefs[ j ] = 0;
+					}
+				} 
+
+				answers.push( new KhanUtil.Polynomial(0, solution.maxDegree, coefs, solution.variable) );
+			}
+
+			return answers;
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="X">"x"</var>
+			<var id="COLORS">[ BLUE, ORANGE, GREEN ]</var>
+			<var id="MAX_DEGREE">6</var>
+                        <var id="MIN_DEGREE">0</var>
+			<var id="NON_ZERO_INDICES">randRangeUniqueNonZero( 0, MAX_DEGREE, randRange(1, 5) ).sort().reverse()</var>
+			<var id="POL_1">
+                          (function (){
+				var coefs = [];
+				for ( var i = 0; i <= MAX_DEGREE; i++ ) {
+					var value = 0;
+					for ( var j = 0; j < NON_ZERO_INDICES.length; j++ ) {
+						if ( i === NON_ZERO_INDICES[ j ] ) {
+							value = randRangeNonZero( -7, 7 )*(i+1);
+							break;
+						} 
+					}
+					coefs[ i ] = value;
+				}
+				return new Polynomial( 0, MAX_DEGREE, coefs, X );
+			})()</var>
+		</div>
+		<div class="problems">
+			<div id="integrate">
+				<div class="vars">
+					<var id="SOLUTION">integratePolynomial(POL_1)</var>	
+					<var id="FAKE_ANSWERS">getFakeAnswers(SOLUTION)</var>
+				</div>
+				<p class="question">Compute the integral.</p>
+				<p class="problem">
+                                  <code>
+                                    \int <var>POL_1</var>d <var>X</var>
+                                  </code>
+                                </p>
+				<p class="solution"><code><var>SOLUTION</var></code></p>
+				<ul class="choices" data-none="true">
+				  <li data-each="FAKE_ANSWERS as FAKE_ANSWER"><code><var>FAKE_ANSWER</var></code></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
