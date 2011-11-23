@@ -31,6 +31,7 @@ Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin fr
     
     .hidden {
       display: none;
+      cursor: default;
     }  
     
     .selected-card {
@@ -47,10 +48,10 @@ Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin fr
       font-weight: bold;                      
     }
 
-    div#original_hint {
-      font-weight: bold;                      
+    #start-over {
+	width: 80px;
+	clear: both;
     }
-
   </style>
 </head>
 <body>
@@ -71,7 +72,7 @@ Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin fr
         <div id="instructions">
 		<p class="spin">{How many {swaps|rearrangements}
 		  do|What is the {minimum|smallest} number of {swaps|rearrangements}} 
-		  you need to {sort|arrange} these cards in {increasing|ascending} order? 
+		  you need to {sort|arrange} these cards in {increasing|ascending} order using the Insertion Sort Algorithm? 
 		  Perform a swap by clicking on two cards.</p>  
         </div>
         <div id='counter'>
@@ -95,6 +96,9 @@ Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin fr
         <div class="card"> 
           <div class="content hidden"><var>F</var></div>
         </div>
+	<div id="start-over" class="simple-button action-gradient">
+		Start Over	
+	</div>
       </div>
       <div class="solution" data-forms="integer"><var>KhanUtil.calculateInsertionSortAnswer(collection)</var></div>
       <div class="hints">

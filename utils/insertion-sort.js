@@ -59,6 +59,8 @@ jQuery.extend(KhanUtil, {
 	
 	initInsertionSort: function(){
 	      $(".card").click(function() {
+		   if ($(this).find(".content").hasClass("hidden"))
+			return;
 		   if ($(".selected-card").size() > 0){
 			   var a = $(".selected-card").find(".content").html();
 			   var b = $(this).find(".content").html();
