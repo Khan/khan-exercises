@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+  <html data-require="math math-format">
+      <head>
+          <title>Calculating Acceleration</title>
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+                  <var id="start_speed">0 + rand(30)</var>
+                  <var id="end_speed">31 + rand(30)</var>
+                  <var id="time">2 + rand(15)</var>
+                  <var id="direction">randFromArray(['north', 'south', 'east', 'west'])</var>
+                  <var id="acceleration">(end_speed-start_speed)/time</var>
+              </div>
+
+              <div class="problems">
+                  <div id="problem-type-or-description">
+                      <p class="problem"><!-- An overview of the problem including all needed info. --></p>
+                      <p class="question">
+                          Alice was driving in a car down a straight road at <var>start_speed</var> km/h <var>direction</var>.
+                          She accelerates at a constant rate for <var>time</var> seconds, and ends up at <var>end_speed</var>
+                          in the same direction.  What was her rate of acceleration in meters per second per second. 
+                          <br/>
+                          Round to the nearest hundredth.
+                      </p>
+                      <p class="solution" data-type="decimal"><var>roundTo(2, (end_speed-start_speed)/time/3600*1000)</var></p>
+                  </div>
+              </div>
+
+              <div class="hints">
+                  <p>Acceleration can be calculated with the formula: <code>acceleration = \dfrac{\Delta speed}{\Delta time}</code></p>
+                  <p>Substitude in the known variables: <code>acceleration = \dfrac{(<var>end_speed</var> - <var>start_speed</var>) km/h}{<var>time</var> seconds}</code></p>
+                  <p>The resultant value is in units <code>\dfrac{\dfrac{km}{hour}}{second}</code></p>
+                  <p>To convert to feet per seconds: <code>\dfrac{<var>acceleration</var> km}{hr*s} * \dfrac{1 hr}{3600s} * \dfrac{1000m}{1km}</code></p>
+              </div>
+          </div>
+      </body>
+  </html>
+
+
