@@ -8,25 +8,34 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-      <var id="TERMS">KhanUtil.randRange(1,4)</var>
-      <var id="DEGREES">KhanUtil.randIntegralExpts(TERMS, -2, 5)</var>
-      <var id="POLY">KhanUtil.randIntegralPolynomial(DEGREES)</var>
-
+			<var id="TERMS">KhanUtil.randRange(1,4)</var>
+			<var id="DEGREES">KhanUtil.randIntegralExpts(TERMS, -3, 5)</var>
+			<var id="POLY">KhanUtil.randIntegralPolynomial(DEGREES)</var>
+			<var id="ANSWER">KhanUtil.integratePolynomial(POLY)</var>
 		</div> <!-- vars -->
 
 		<div class="problems">
 			<div>
-        <p class="problem">Find the indefinite integral when C = 0.</p>
+				<p class="problem">
+					Find the indefinite integral. Assume C = 0.<br />
+
+					<code><var>ANSWER</var></code>
+				</p>
+
 
 				<p class="question"><code>\int <var>POLY.text()</var>~dx = {?}</code></p>
 
-				<p class="solution"><var>0</var></p>
+				<p class="solution"><code><var>ANSWER</var></code></p>
+				<ul class="choices">
+					<li><code><var>KhanUtil.ddxPolynomial(POLY)</var></code></li>
+				</ul>
 			</div>
 		</div>
 
 		<div class="hints">
-      i i i 
+			<var>ANSWER</var>
 		</div>
 	</div>
 </body>
 </html>
+
