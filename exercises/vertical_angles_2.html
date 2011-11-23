@@ -10,7 +10,7 @@
 	<div class="vars">
 		<var id="A">randRange( 2, 9 )</var>
 		<var id="B">randRangeNonZero( -75, 75 )</var>
-		<var id="C" data-ensure="C !== A && abs( A - C ) < 4">randRange( 2, 9 )</var>
+		<var id="C" data-ensure="C !== A && abs( A - C ) < 4 && abs( A - C ) > 1">randRange( 2, 9 )</var>
 		<var id="D" data-ensure="D !== B && (D-B) % (A-C) === 0 && abs((A*D-B*C)/(A-C)) > 30 && abs((A*D-B*C)/(A-C)) < 150">randRangeNonZero( -150, 150 )</var>
 		<var id="ANCHOR">abs((A*D-B*C) / (A-C))</var>
 		<var id="SOLUTION">(D-B) / (A-C)</var>
@@ -41,7 +41,7 @@
 
 	<div class="hints">
 		<div>
-			<p>We learned in Vertical Angles 1 that vertical angles are equal. Watch this video to understand why.</p>
+			<p>We learned in Vertical Angles 1 that vertical angles are equal. <a href="http://www.youtube.com/watch?v=wRBMmiNHQaE" target="_blank">Watch this video</a> to understand why.</p>
 		</div>
 		<div>
 			<p>Set the sides equal to one another:</p>
