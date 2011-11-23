@@ -1,3 +1,5 @@
+// FIXME: 3x^-3 is integrated wrong!
+
 jQuery.extend(KhanUtil, {
 	// Generate exponents suitable for a polynomial integration problem.
 
@@ -18,8 +20,8 @@ jQuery.extend(KhanUtil, {
 		return expts
 	},
 
-	// Generate a polynomial suitable for an integration problem
-	randIntegralPolynomial: function(expts) {
+	// Generate a expression suitable for an integration problem using the power rule and constant rules
+	randIntegralBasic: function(expts) {
 		console.log('randIntegralPolynomial expts: '+expts)
 		var coefs = []
 
@@ -30,10 +32,7 @@ jQuery.extend(KhanUtil, {
 			// When we get 0 as an exponent, we'll generate a constant in its
 			// place
 			if(expt == 0) {
-				coefs[expt] = KhanUtil.randRange(-99, 99)
-				if(coefs[expt] == 0) {
-					coefs[expt] = 1
-				}
+				coefs[expt] = KhanUtil.randRangeNonZero(-99, 99)
 				return
 			}
 
@@ -73,22 +72,21 @@ jQuery.extend(KhanUtil, {
 		
 		var poly = new KhanUtil.Polynomial(min, max, coefs)
 
-/*
 		// tmp for testing
+		var dbg=false
 		var tmpcoefs=[]
-		tmpcoefs[5]=-1
-		var tmppoly = new KhanUtil.Polynomial(0, 5, tmpcoefs)
+		tmpcoefs[-3]=3
+		var tmppoly = new KhanUtil.Polynomial(-3, 3, tmpcoefs)
+		if(dbg) return tmppoly
+		
 
-		if(tmppoly!= undefined) return tmppoly
 		//console.log('poly minDegree: ' + poly.findMinDegree() + ', maxDegree: ' + poly.findMaxDegree() + ' numberOfTerms: ' + poly.getNumberOfTerms())
-*/
-
 		console.log('randIntegralPolynomial: ' + poly)
 		return poly
 	},
 
-	// Mainly meant for output of randIntegralPolynomial, will probably not work well with generic expressions
-	integratePolynomial: function(poly) {
+	// Mainly meant for output of randIntegralPolynomial
+	integrateBasic: function(poly) {
 		// We'll create a new polynomial using this array to store the results of the integration
 		var coefs = []
 
@@ -96,12 +94,15 @@ jQuery.extend(KhanUtil, {
 		for(var i = poly.maxDegree; i >= poly.minDegree; i--) {
 			var new_coef = 0
 
+			// Instead of dividing and ending up with some gross
+			// floating-point number, we'll attempt to format the answer
+			// using fractions
 			if(poly.coefs[i] == undefined || poly.coefs[i] == 0) {
 				new_coef = 0
-			} else if(Math.abs(poly.coefs[i]) == i) {
+			} else if(Math.abs(poly.coefs[i]) == Math.abs(i)) {
 				// Deal with coefficients that are the same as the power
 				// ex: 3x^3 => (3/4)x^4
-				new_coef = ["frac", poly.coefs[i] < 0 ? -i : i, i+1]
+				new_coef = ["frac", poly.coefs[i], i+1]
 			} else if(Math.abs(poly.coefs[i]) == 1 && i != 0 && i != -2) {
 				// Deal with coefficients of one, unless the power is 0 or -2
 				new_coef = ["frac", poly.coefs[i], i+1]
@@ -139,8 +140,36 @@ jQuery.extend(KhanUtil, {
 		}
 
 		console.log('integratePolynomial coefs: ' + coefs)
-		var poly = new KhanUtil.Polynomial(poly.minDegree + 1, poly.maxDegree + 1, coefs, poly.variable)
-		console.log('integratePolynomial poly: ' + poly)
-		return poly
+		var new_poly = new KhanUtil.Polynomial(poly.minDegree + 1, poly.maxDegree + 1, coefs, poly.variable)
+		new_poly.wrongs = []
+		new_poly.wrongs[0] = 1
+		new_poly.wrongs[1] = 2
+		new_poly.wrongs[2] = 3
+		new_poly.wrongs[3] = 4
+		new_poly.wrongs[4] = 5
+
+		/*
+		new_poly.wrongs = {}
+		new_poly.wrongs[0] = (function() {
+			var cpoly = new KhanUtil.Polynomial(new_poly.minDegree, new_poly.maxDegree, new_poly.coefs, new_poly.variable)
+			for(var i = cpoly.maxDegree; i >= cpoly.minDegree; i--) {
+				if(cpoly.coefs[i] == undefined || cpoly.coefs[i] == 0)
+					continue
+				if(typeof(cpoly.coefs[i]) == "number")
+					cpoly.coefs[i] = -cpoly.coefs[i]
+				else if(jQuery.isArray(cpoly.coefs[i])) {
+					if(cpoly.coefs[i][0] == "-") {
+						cpoly.coefs[i].shift()
+					} else {
+						cpoly.coefs[i].unshift("-")
+					}
+				}
+			}
+		})()
+		new_poly.wrongs[1] = KhanUtil.ddxPolynomial(poly)
+			*/
+
+		console.log('integratePolynomial poly: ' + new_poly)
+		return new_poly
 	},
 })

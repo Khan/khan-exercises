@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html data-require="math calculus calculus-integrals polynomials expressions">
+<head>
+	<meta charset="UTF-8" />
+	<title>Basic Indefinite Integrals</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="TERMS">KhanUtil.randRange(1,4)</var>
+			<var id="DEGREES">KhanUtil.randIntegralExpts(TERMS, -3, 5)</var>
+			<var id="POLY">KhanUtil.randIntegralBasic(DEGREES)</var>
+			<var id="ANSWER">KhanUtil.integrateBasic(POLY)</var>
+		</div> <!-- vars -->
+
+		<div class="problems">
+			<div>
+				<p class="problem">
+					Find the indefinite integral. Assume C = 0.<br />
+
+					<code><var>ANSWER</var></code>
+				</p>
+
+				<p class="question"><code>\int <var>POLY.text()</var>~dx = {?}</code></p>
+
+				<p class="solution"><code><var>ANSWER</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li><code><var>ANSWER.wrongs[0]</var></code></li>
+					<li><code><var>ANSWER.wrongs[1]</var></code></li>
+					<li><code><var>ANSWER.wrongs[2]</var></code></li>
+					<li><code><var>ANSWER.wrongs[3]</var></code></li>
+					<li><code><var>ANSWER.wrongs[4]</var></code></li>
+					<!--<li><code><var>KhanUtil.ddxPolynomial(POLY)</var></code></li>-->
+				</ul>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>In order to compute the indefinite integral of this expression, we use the following rules: <code>\displaystyle \int x^{n} dx = \frac{x^{n+1}}{n+1} + C, n \not{=} 1</code></p>
+			<p><var>ANSWER</var></p>
+		</div>
+	</div>
+</body>
+</html>
+
