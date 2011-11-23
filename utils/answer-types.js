@@ -117,7 +117,7 @@ jQuery.extend( Khan.answerTypes, {
 					value: num / denom,
 					exact: simplified
 				} ];
-			} else if ( !isNaN( parsedInt ) ) {
+			} else if ( !isNaN( parsedInt ) && "" + parsedInt === text ) {
 				return [ {
 					value: parsedInt,
 					exact: true
