@@ -802,7 +802,7 @@ var Khan = (function() {
 				problems.filter( "#" + pid );
 
 		// If we have the exercise id, grab a problem of that exercise
-		} else if ( typeof exid !== "undefined" ) {
+		} else if ( exid ) {
 			var problems = exercises.filter(function() {
 				return jQuery.data( this, "name" ) === exid;
 			}).children( ".problems" ).children();
@@ -1906,12 +1906,7 @@ var Khan = (function() {
 				jQuery( "#sidebar" ).hide();
 
 			} else {
-				// Generate a new problem
-				if ( isReview ) {
-					makeProblem( reviewQueue.shift() );
-				} else {
-					makeProblem();
-				}
+				makeProblem( isReview && reviewQueue.shift() );
 			}
 		});
 
