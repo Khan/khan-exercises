@@ -17,7 +17,7 @@
 				<p class="problem">
 					Find the indefinite integral. Assume C = 0.<br />
 
-					<code><var>RESULT.answer</var></code>
+					<!--<code><var>RESULT.answer</var></code>-->
 				</p>
 
 				<p class="question"><code>\int <var>EXPR.text()</var>~dx = {?}</code></p>
@@ -47,12 +47,12 @@
 				<code><var>RESULT.hint_addition</var></code>
 			</p>
 			<!-- Show each step -->
-			<p>
-				Integrate each term. <br />
-				<span data-each="RESULT.hint_integration as hint"><code><var>hint</var></code><br /></span>
+			<p data-each="RESULT.hint_integration as hint"><code><var>hint</var></code><br /></p>
 			</p>
 			<!-- Show answer -->
-			<p>Adding the results together gives us: <br /><code><var>RESULT.answer</var></code></p>
+			<p>
+				And the answer is: <br /><code><var>RESULT.answer</var></code>
+			</p>
 		</div>
 	</div>
 </body>
