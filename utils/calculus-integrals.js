@@ -31,11 +31,11 @@ jQuery.extend(KhanUtil, {
 			// A coefficient of 1, ex: x^2 => (1/3)x^3
 			// The same as the exponent ex: 5x^5 => (5/6)x^6
 
-			// Coefficients will randomly be made negative
-
 			var multiple = (expt + 1) * KhanUtil.randRange(1,4)
 
 			coefs[expt] = KhanUtil.randFromArray([multiple, multiple, 1, expt])
+
+			// Coefficients will randomly be made negative
 			coefs[expt] *= KhanUtil.randRangeNonZero(-1, 1)
 		})
 
@@ -176,5 +176,6 @@ jQuery.extend(KhanUtil, {
 
 			this.hint_integration.push(string)
 		}
+		console.log(this.hint_integration)
 	},
 })
