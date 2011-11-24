@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html data-require="math">
+	<head>
+		<title>2X2 Determinants</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="A">[randRange(-9,9,2),randRange(-9,9,2)]</var>
+				<var id="DET">A[0][0]*A[1][1] - A[0][1]*A[1][0]</var>
+			</div>
+
+			<div class="problems">
+				<div id="No Variable">
+					<p class="problem"><!-- An overview of the problem including all needed info. --></p>
+					<p class="question">Find 
+						<code>
+							\left|
+							\begin{array}{rcl}
+							<var>A[0][0]</var>&<var>A[0][1]</var>\\
+							<var>A[1][0]</var>&<var>A[1][1]</var>
+							\end{array}
+							\right|
+						</code>:</p>
+					<p class="solution"><var>DET</var></p>
+				</div>
+				
+				<div id="Variable">
+					<p class="problem"><b>A</b> = 
+						<code>
+							\left[
+							\begin{array}{rcl}
+							<var>A[0][0]</var>&<var>A[0][1]</var>\\
+							<var>A[1][0]</var>&<var>A[1][1]</var>
+							\end{array}
+							\right]
+						</code></p>
+					<p class="question">Find Det(<b>A</b>):</p>
+					<p class="solution"><var>DET</var></p>
+				</div>
+			</div>
+
+			<div class="hints">
+				<p>
+					Remember, to find the determinant of a 2X2 Matrix, you multiply opposite terms and subtract 
+					the off diagonal terms from the diagonal terms. <br><br>
+					<code>
+						\left|
+						\begin{array}{rcl}
+						a&b\\
+						c&d\\
+						\end{array}
+						\right|
+						= </code><code class="hint_blue">a</code><code class="hint_red">d</code>
+						<code>- </code><code class="hint_green">b</code><code class="hint_orange">c
+					</code>
+				</p>
+			
+				<p>
+					<code>
+						\left|
+						\begin{array}{rcl}
+						<var>A[0][0]</var>&<var>A[0][1]</var>\\
+						<var>A[1][0]</var>&<var>A[1][1]</var>
+						\end{array}
+						\right|
+						= </code><code class="hint_blue">(<var>A[0][0]</var>)</code><code class="hint_red">(<var>A[1][1]</var>)</code>
+						<code>- </code><code class="hint_green">(<var>A[0][1]</var>)</code><code class="hint_orange">(<var>A[1][0]</var>)
+					</code>
+				</p>
+				
+				<p><code>= <var>A[0][0]*A[1][1]</var> - <var>A[0][1]*A[1][0]</var></code></p>
+				<p><code>= <var>A[0][0]*A[1][1]-A[0][1]*A[1][0]</var></code></p>
+			</div>
+		</div>
+	</body>
+</html>
