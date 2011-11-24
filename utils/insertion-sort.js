@@ -1,4 +1,5 @@
 jQuery.extend(KhanUtil, {
+  initialArray: [],
   inOrder: function(){
     // If everything is shown
     var last_card = 0;
@@ -38,6 +39,25 @@ jQuery.extend(KhanUtil, {
     });
     return a;
   },
+  setInitialCardArrayValue: function(){
+    //var valsToSet = KhanUtil.initialArray.slice(0); //copy the array
+    //valsToSet.reverse(); //reverse the array, as we iterate in the opposite order
+      $(".content").each(function(index){
+        $(this).text(KhanUtil.initialArray[index]);
+      });
+  },
+  setInitialHiddenStates: function(){
+  $(".content").each(function(index){
+        if( index > 1){ //the first two elements are always shown
+            $(this).parent().removeClass("correct-card"); //only first two cards are correct to begin with
+            $(this).addClass("hidden");
+            if(!$(this).parent().find(".card-bg").length) //card-bg is contained in card, not content.
+            {            
+                $(this).parent().append("<div class='card-bg'></div>"); //there is a better way to do this...
+            }
+        }
+      });
+  },
 
   calculateInsertionSortAnswer: function(col){
     var swaps = 0; 
@@ -60,7 +80,11 @@ jQuery.extend(KhanUtil, {
   },
   
   initInsertionSort: function(){
+    console.log(KhanUtil.initialArray);
+    KhanUtil.initialArray = KhanUtil.getCardValueArray();
+    console.log(KhanUtil.initialArray);
     $(".card").click(function() {
+
       //Swapping with a hidden card is prohibited
       if ($(this).find(".content").hasClass("hidden"))
         return;
@@ -85,7 +109,12 @@ jQuery.extend(KhanUtil, {
       }
 
     );
+  $("#start-over").click(function(){
+    KhanUtil.setInitialCardArrayValue();
+    KhanUtil.setInitialHiddenStates();
+  });
   }
+  
 });
 
 
