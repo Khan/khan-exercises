@@ -112,10 +112,10 @@ jQuery.extend(KhanUtil, {
 		this.answer = new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree + 1, coefs, poly.variable)
 
 		this.wrongs = []
-		this.wrongs.push(new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree+1, wrong_coefs1, poly.variable).text())
-		this.wrongs.push(new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree+1, wrong_coefs2, poly.variable).text())
-		//this.wrongs.push(2)
-		this.wrongs.push(new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree+1, wrong_coefs3, poly.variable).text())
+
+		this.wrongs.push(new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree + 1, wrong_coefs1, poly.variable))
+		this.wrongs.push(new KhanUtil.Polynomial(poly.minDegree - 1, poly.maxDegree + 1, wrong_coefs2, poly.variable).text())
+		this.wrongs.push(new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree + 1, wrong_coefs3, poly.variable).text())
 		// Wrong answer 4: expression is differentiated instead of integrated
 		this.wrongs.push(KhanUtil.ddxPolynomial(poly))
 
