@@ -113,6 +113,7 @@ var Khan = (function() {
 	server = typeof apiServer !== "undefined" ? apiServer :
 		testMode ? "http://localhost:8080" : "",
 
+	// XXX(david): Ensure this is working
 	// The name of the exercise
 	exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]),
 
@@ -151,6 +152,10 @@ var Khan = (function() {
 
 	// If we're dealing with a summative exercise
 	isSummative = false,
+
+	// If we're in review mode: present a mix of different exercises
+	isReview = false,
+	reviewQueue = [],
 
 	// Where we are in the shuffled list of problem types
 	problemBag,
@@ -710,6 +715,34 @@ var Khan = (function() {
 		return bag;
 	}
 
+	function enqueueReviewProblems() {
+		// XXX(david): Does the seed still work? -- for submitting issues
+
+		// Load in the exercise data from the server
+		// XXX(david): don't need to do this in test mode? or is it even an issue
+		//		 because this won't be called in testmode?
+		jQuery.ajax({
+			url: "/api/v1/user/exercises/review_problems",
+			type: "GET",
+			dataType: "json",
+			xhrFields: { withCredentials: true },
+			success: function( reviewExercises ) {
+				reviewQueue = reviewQueue.concat( reviewExercises );
+
+				// Load all unloaded exercises
+				jQuery.each( reviewExercises, function( i, exid ) {
+					var loaded = exercises.filter(function() {
+						return jQuery.data( this, "name" ) === exid;
+					}).length;
+
+					if ( !loaded ) {
+						loadExercise.call( jQuery( '<div data-name="' + exid + '">' ) );
+					}
+				});
+			}
+		});
+	}
+
 	function enableCheckAnswer() {
 		jQuery( "#check-answer-button" )
 			.removeAttr( "disabled" )
@@ -724,7 +757,16 @@ var Khan = (function() {
 			.val('Please wait...');
 	}
 
-	function makeProblem( id, seed ) {
+	// TODO(david): NAMING! I don't want to call pid problemId because taht's too
+	//		 similar to problemID, which is another variable we use
+	function makeProblem( exid, pid, seed ) {
+		// Kick off a request to queue up the next problems if there's none left
+		// XXX(david): What do we do if the user is done with their reviews (no more problems left?)
+		// TODO(david): Should probably not have length === 0 but some other buffer (eg. 1).
+		if ( isReview && reviewQueue.length === 0 ) {
+			enqueueReviewProblems();
+		}
+
 		if ( typeof Badges !== "undefined" ) {
 			Badges.hide();
 		}
@@ -746,32 +788,42 @@ var Khan = (function() {
 
 		// Check to see if we want to test a specific problem
 		if ( testMode ) {
-			id = typeof id !== "undefined" ? id : Khan.query.problem;
+			pid = typeof pid !== "undefined" ? pid : Khan.query.problem;
 		}
 
-		if ( typeof id !== "undefined" ) {
+		if ( typeof pid !== "undefined" ) {
 			var problems = exercises.children( ".problems" ).children();
 
-			problem = /^\d+$/.test( id ) ?
+			problem = /^\d+$/.test( pid ) ?
 				// Access a problem by number
-				problems.eq( parseFloat( id ) ) :
+				problems.eq( parseFloat( pid ) ) :
 
 				// Or by its ID
-				problems.filter( "#" + id );
+				problems.filter( "#" + pid );
+
+		// If we have the exercise id, grab a problem of that exercise
+		} else if ( typeof exid !== "undefined" ) {
+			var problems = exercises.filter(function() {
+				return jQuery.data( this, "name" ) === exid;
+			}).children( ".problems" ).children();
+
+			// TODO(david): Testing. Does this correctly select problem with the weights?
+			problem = makeProblemBag( problems, 1 )[0];
+			pid = problem.data( "id" );
 
 		// Otherwise we grab a problem at random from the bag of problems
 		// we made earlier to ensure that every problem gets shown the
 		// appropriate number of times
 		} else if ( problemBag.length > 0 ) {
 			problem = problemBag[ problemBagIndex ];
-			id = problem.data( "id" );
+			pid = problem.data( "id" );
 
 		// No valid problem was found, bail out
 		} else {
 			return;
 		}
 
-		problemID = id;
+		problemID = pid;
 
 		// Find which exercise this problem is from
 		exercise = problem.parents( ".exercise" ).eq( 0 );
@@ -885,7 +937,7 @@ var Khan = (function() {
 		} else {
 			// Making the problem failed, let's try again
 			problem.remove();
-			makeProblem( id, randomSeed );
+			makeProblem( exid, pid, randomSeed );
 			return;
 		}
 
@@ -1855,7 +1907,11 @@ var Khan = (function() {
 
 			} else {
 				// Generate a new problem
-				makeProblem();
+				if ( isReview ) {
+					makeProblem( reviewQueue.shift() );
+				} else {
+					makeProblem();
+				}
 			}
 		});
 
@@ -2556,6 +2612,12 @@ var Khan = (function() {
 							exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" :
 								"/images/" + sPrefix + "-not-started.png";
 			jQuery("#exercise-icon-container img").attr("src", src);
+
+			// You stay in review mode once you're in... muahahhahaha
+			// XXX(david): Does this make sense? Maybe query param is better... if we
+			// were proficient then got one wrong, it probably doesn't make sense to
+			// fall back to exercise mode.
+			isReview = isReview || exerciseStates.reviewing;
 		}
 		//drawExerciseState( data );
 
@@ -2689,7 +2751,13 @@ var Khan = (function() {
 			}
 
 			newContents = dummy.contents();
-			self.replaceWith( newContents );
+
+			// Replace the element if it's in the DOM, otherwise directly append to the exercises set
+			if ( self.parent().length ) {
+				self.replaceWith( newContents );
+			} else {
+				exercises = exercises.add( newContents );
+			}
 
 			// Maybe the exercise we just loaded loads some others
 			newContents.find( ".exercise[data-name]" ).each( loadExercise );
@@ -2720,7 +2788,7 @@ var Khan = (function() {
 			}
 
 			remoteCount--;
-			if ( remoteCount === 0 ) {
+			if ( remoteCount === 0 && !exercises ) {
 				loadModules();
 			}
 		});
