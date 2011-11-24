@@ -67,13 +67,17 @@ Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin fr
       text-align: center;
     }
 
+    div#deck {
+      min-width: 720px;
+    }
+
     div#counter {
       font-weight: bold;                      
     }
 
     #start-over {
-	width: 80px;
-	clear: both;
+      width: 80px;
+      clear: both;
     }
   </style>
 </head>
@@ -96,32 +100,34 @@ Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin fr
 		<p class="spin">{How many {swaps|rearrangements}
 		  do|What is the {minimum|smallest} number of {swaps|rearrangements}} 
 		  you need to {sort|arrange} these cards in {increasing|ascending} order using the Insertion Sort Algorithm? 
-		  Perform a swap by clicking on two cards.</p>  
+		  {Perform a swap by clicking on two cards | Click on two cards to {perform a swap|swap them}}.</p>  
         </div>
         <div id='counter'>
           Swaps so far: <div id="count" style="display: inline">0</div>
         </div>
-        <div class="card">
-          <div class="content"><var>A</var></div>
-        </div>
-        <div class="card"> 
-          <div class="content"><var>B</var></div>
-        </div>
-        <div class="card"> 
-          <div class="card-bg"></div> 
-          <div class="content hidden"><var>C</var></div>
-        </div>
-        <div class="card"> 
-          <div class="card-bg"></div> 
-          <div class="content hidden"><var>D</var></div>
-        </div>
-        <div class="card">
-          <div class="card-bg"></div> 
-          <div class="content hidden"><var>E</var></div>
-        </div>
-        <div class="card">
-          <div class="card-bg"></div> 
-          <div class="content hidden"><var>F</var></div>
+        <div id='deck'>
+          <div class="card">
+            <div class="content"><var>A</var></div>
+          </div>
+          <div class="card"> 
+            <div class="content"><var>B</var></div>
+          </div>
+          <div class="card"> 
+            <div class="card-bg"></div> 
+            <div class="content hidden"><var>C</var></div>
+          </div>
+          <div class="card"> 
+            <div class="card-bg"></div> 
+            <div class="content hidden"><var>D</var></div>
+          </div>
+          <div class="card">
+            <div class="card-bg"></div> 
+            <div class="content hidden"><var>E</var></div>
+          </div>
+          <div class="card">
+            <div class="card-bg"></div> 
+            <div class="content hidden"><var>F</var></div>
+          </div>
         </div>
 	<div id="start-over" class="simple-button action-gradient">
 	  Start Over	
