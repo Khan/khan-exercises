@@ -114,6 +114,7 @@ var Khan = (function() {
 		testMode ? "http://localhost:8080" : "",
 
 	// XXX(david): Ensure this is working
+	// TODO(david): Do we need to update the userExercise object upon advancing to a new problem?
 	// The name of the exercise
 	exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]),
 
@@ -757,6 +758,10 @@ var Khan = (function() {
 			.val('Please wait...');
 	}
 
+	function getDisplayNameFromId(id) {
+		return id.charAt( 0 ).toUpperCase() + id.slice(1).replace(/_/g, ' ');
+	}
+
 	// TODO(david): NAMING! I don't want to call pid problemId because taht's too
 	//		 similar to problemID, which is another variable we use
 	function makeProblem( exid, pid, seed ) {
@@ -807,9 +812,13 @@ var Khan = (function() {
 				return jQuery.data( this, "name" ) === exid;
 			}).children( ".problems" ).children();
 
-			// TODO(david): Testing. Does this correctly select problem with the weights?
+			// TODO(david): Test this. Does this correctly select problem with the weights?
 			problem = makeProblemBag( problems, 1 )[0];
 			pid = problem.data( "id" );
+
+			// Also update the title because the exercise may have changed
+			// TODO(david): Can we/should we be getting this from userExercise.exercise_model?
+			jQuery( ".exercise-title" ).text( getDisplayNameFromId(exid) );
 
 		// Otherwise we grab a problem at random from the bag of problems
 		// we made earlier to ensure that every problem gets shown the
