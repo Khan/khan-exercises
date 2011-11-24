@@ -1030,7 +1030,7 @@ var Khan = (function() {
 				.append( "<div>\
 							<div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
 							<div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\
-						  </div>" )
+							</div>" )
 				.insertBefore( "#extras" );
 
 			if (getData().total_done === 0) {
@@ -1051,7 +1051,7 @@ var Khan = (function() {
 				.append( "<div>\
 							<div id='next-problem' class='simple-button action-gradient'>Next Problem</div>\
 							<div id='next-step' class='simple-button action-gradient'><span>Next Step</span></div>\
-						  </div>" );
+							</div>" );
 
 			jQuery( "<div class='user-activity correct-activity'>Started</div>" )
 				.data( 'hint', false )
@@ -1084,12 +1084,12 @@ var Khan = (function() {
 				} else { // This panel is a solution (or the first panel)
 					thissolutionarea.data( 'hint', false );
 					if (guess === "Activity Unavailable") {
-					  thissolutionarea.text( guess );
+						thissolutionarea.text( guess );
 					} else {
 						if (answerType === 'radio') {
 							// radio is the only answer type that can't display its own guesses
 							thissolutionarea.append( jQuery(
-							  "<p class='solution'>" + guess + "</p>" ).tmpl()
+								"<p class='solution'>" + guess + "</p>" ).tmpl()
 							);
 
 							if (index === userExercise.user_activity.length - 1) {
@@ -1141,11 +1141,11 @@ var Khan = (function() {
 				currentSlide = states.length - 1,
 				numSlides = states.length,
 				firstHintIndex = timeline.find( '.hint-activity:first' )
-				  .index( '.user-activity' ),
-				lastHintIndex  = timeline.find( '.hint-activity:last' )
-				  .index( '.user-activity' ),
+					.index( '.user-activity' ),
+				lastHintIndex	= timeline.find( '.hint-activity:last' )
+					.index( '.user-activity' ),
 				totalHints = timeline.find( '.hint-activity:last' )
-				  .index( '.hint-activity' ),
+					.index( '.hint-activity' ),
 				hintButton = jQuery( '#hint' ),
 				hintRemainder = jQuery( '#hint-remainder' ),
 				timelineMiddle = timeline.width() / 2,
@@ -1222,7 +1222,7 @@ var Khan = (function() {
 					scroll = Math.min( currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25 );
 
 				if (hintNum >= 0) {
-				  jQuery( hints[hintNum] ).appendTo( realHintsArea ).runModules( problem );
+					jQuery( hints[hintNum] ).appendTo( realHintsArea ).runModules( problem );
 				}
 
 				MathJax.Hub.Queue( function() {
@@ -1388,7 +1388,7 @@ var Khan = (function() {
 			jQuery( '#hint' ).attr( 'disabled', true );
 			jQuery( '#answercontent input' ).attr( 'disabled', true );
 			jQuery( '#answercontent select' ).attr( 'disabled', true );
-	  }
+		}
 
 
 		// Show the debug info
@@ -1492,7 +1492,7 @@ var Khan = (function() {
 
 		jQuery(Khan).trigger( "newProblem" );
 
-	  return answerType;
+		return answerType;
 	}
 
 	function drawGraph( followups ){
@@ -1506,11 +1506,11 @@ var Khan = (function() {
 			// get from the api which exercises follow this one and then render the map
 			var getUserFollowups = function(){
 				$.ajax({
-				  url: "/api/v1/user/exercises/"+exerciseName+"/followup_exercises",
+					url: "/api/v1/user/exercises/"+exerciseName+"/followup_exercises",
 					type: "GET",
 					dataType: "json",
 					xhrFields: { withCredentials : true },
-				  success: renderFollowups
+					success: renderFollowups
 				});
 			};
 		
