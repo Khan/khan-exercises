@@ -63,11 +63,10 @@ jQuery.extend(KhanUtil, {
       if ($(this).find(".content").hasClass("hidden"))
         return;
         if ($(".selected-card").size() > 0){
-          var a = $(".selected-card").find(".content").html();
-          var b = $(this).find(".content").html();
-          
-          if ($(".selected-card")[0] !== $(this)[0]) { //Allow deselection of curr card
+          if ($(".selected-card")[0] !== $(this)[0]) { //Don't count deselection of curr card
             //Swap card contents:
+            var a = $(".selected-card").find(".content").html();
+            var b = $(this).find(".content").html();
             $(".selected-card").find(".content").html(b);
             $(this).find(".content").html(a);
 
