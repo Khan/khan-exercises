@@ -9,24 +9,34 @@ Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin fr
   <script src="../khan-exercise.js"></script>
   <style type="text/css">
     .card {
-      padding-top: 50px;
-      width: 82px;
-      height: 100px;
-      border-radius: 15px;
-      -moz-border-radius: 15px;
+      /* According to Wikipedia, playing card dimensions are 2.5in × 3.5in */
+      width: 94px;
+      height: 130px;
+      border-radius: 10px;
+      -moz-border-radius: 10px;
       border-style: solid;
       border-width: 1px;
       border-color: black;
       float: left;
       margin: 5px;
-      text-align: center;
-      font-size: 24pt;
       cursor: pointer;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-o-user-select: none;
 	user-select: none;
+    }
+
+    .content {
+      margin: 13px;
+      width: 68px;
+      height: 104px;
+      font-size: 24pt;
+      border-style: solid;
+      border-width: 1px;
+      text-align: center;
+      top: 50px;
+      line-height: 100px;
     }
     
     .hidden {
@@ -78,7 +88,7 @@ Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin fr
         <div id='counter'>
           Swaps:<div id="count" style="display: inline">0</div>
         </div>
-        <div class="card"> 
+        <div class="card">
           <div class="content"><var>A</var></div>
         </div>
         <div class="card"> 
