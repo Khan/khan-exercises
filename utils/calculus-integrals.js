@@ -50,7 +50,7 @@ jQuery.extend(KhanUtil, {
 				coefs[i] = 0
 		}
 		
-		if(true) {
+		if(false) {
 			var tmpcoefs = []
 			tmpcoefs[-4] = -3
 			tmpcoefs[-3] = 3
@@ -73,53 +73,21 @@ jQuery.extend(KhanUtil, {
 		// Given a numerator and a denominator, converts them to a
 		// nicely-formatted fraction (or integer if possible)
 		var maybeFraction = function(n, d) {
-			var as_int = n[1] / n[2]
+			var as_int = n / d
 			// If the division results in an integer, return that
 			if(as_int % 1 == 0)
 				return as_int
 
-			var negative = n < 0 || d < 0
+			var negative = n * d < 0
 			var fraction = ["frac", Math.abs(n), Math.abs(d)]
 			
 			return negative ? ["-", fraction] : fraction
 		}
 
-
-		// Function for touching up fractions
-		var fixFraction = function(n) {
-			if(!jQuery.isArray(n)) return n
-
-			var as_int = n[1] / n[2]			
-   		// If the division can be represented with an integer, do that instead,
-			// because integration will occasionally produce silly results, ex: 
-			// -2x^2 => (-2/-1)x^-1, which is correct but silly
-			if(as_int % 1 == 0)
-				return as_int
-
-			// Remove negative signs from inside fractions
-			if(n[1] < 0 && n[2] < 0) {
-				// numerator & denominator are negative
-				return ["frac", -n[1], -n[2]]
-			} else if(n[1] < 0) {
-				// numerator is negative
-				return ["-", ["frac", -n[1], n[2]]];
-			} else if(n[2] < 0) {
-				// denominator is negative
-				return ["-", ["frac", n[1], -n[2]]];
-			}
-
-			// fraction has no negatives
-			return n
-		}
-
 		// We'll create a new expression using this array to store the results of the integration
-		var coefs = []
-		var wrong_coefs1 = []
-		var wrong_coefs2 = []
-		var wrong_coefs3 = []
-		var wrong_coefs4 = []
+		var coefs = [], wrong_coefs1 = [], wrong_coefs2 = [], wrong_coefs3 = []
 
-		// Iterate through the polynomial
+		// Perform the actual integration
 		for(var i = poly.maxDegree; i >= poly.minDegree; i--) {
 			// Ignore terms set to zero
 			if(poly.coefs[i] == 0)
@@ -137,34 +105,45 @@ jQuery.extend(KhanUtil, {
 			if(i == 0) {
 				coefs[i+1] = poly.coefs[i]
 				wrong_coefs1[i] = poly.coefs[i]
+				wrong_coefs2[i+1] = poly.coefs[i]
+				wrong_coefs3[i+1] = poly.coefs[i]
 				continue
 			}
 
 			// Instead of dividing and ending up with some gross
 			// floating-point number, we'll attempt to format the answer
 			// using fractions
+			coefs[i+1] = maybeFraction(poly.coefs[i], i+1)
 
-			answer_coef = ["frac", poly.coefs[i], i+1]
-			wrong_coef1 = ["frac", poly.coefs[i], i]
+			// Wrong answer 1: Does not increment exponents at all
+			wrong_coefs1[i] = maybeFraction(poly.coefs[i], i)
 
+			// Wrong answer 2: Decrements negative exponents
+			if(i < 0) {
+				wrong_coefs2[i-1] = maybeFraction(poly.coefs[i], i-1)
+			} else {
+				wrong_coefs2[i+1] = maybeFraction(poly.coefs[i], i+1)
+			}
 
-			// Increment power and store
-			coefs[i+1] = fixFraction(answer_coef)
-			wrong_coefs1[i] = fixFraction(wrong_coef1)
+			// Wrong answer 3: Reversed signs
+			console.log('reversi! ' + (-poly.coefs[i]) + ' ' + (i+1))
+			wrong_coefs3[i+1] = maybeFraction(-poly.coefs[i], i+1)
 		}
 
-		this.answer = new KhanUtil.Polynomial(poly.minDegree + 1, poly.maxDegree + 1, coefs, poly.variable)
+		// Generate answers
+
+
+		this.answer = new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree + 1, coefs, poly.variable)
 
 		this.wrongs = []
-		this.wrongs.push(new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree, wrong_coefs1, poly.variable))
-		this.wrongs.push(2)
-		this.wrongs.push(3)
-		this.wrongs.push(4)
+		this.wrongs.push(new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree+1, wrong_coefs1, poly.variable).text())
+		this.wrongs.push(new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree+1, wrong_coefs2, poly.variable).text())
+		//this.wrongs.push(2)
+		this.wrongs.push(new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree+1, wrong_coefs3, poly.variable).text())
+		// Wrong answer 4: expression is differentiated instead of integrated
+		this.wrongs.push(KhanUtil.ddxPolynomial(poly))
 
 		this.hint_addition = ''
-
-		console.log('answer ' + this.answer)
-		console.log('wrong1 ' + this.wrongs[0] + ' ' + wrong_coefs1)
 
 		// Generate hints
 
