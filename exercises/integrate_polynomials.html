@@ -82,14 +82,15 @@
 		</div>
                 <div class="hints">
 		  <div id="paren">
-		    <p>Since integration is linear, we can split the integral of the polynomial into smaller integrals.</p>
+		    <p>Since integration is linear,  the integral can be split into smaller integrals.</p>
 		    <p>
                       <div class ="vars">
                         <var id="TERMS">POL_1.getTermMap()</var>
+                        <var id="FIRST_TERMS">TERMS.slice(0,TERMS.length-1)</var>
                         <var id="LAST_TERM">TERMS[TERMS.length-1]</var>
                       </div>
                       <code>
-                        <span data-each="TERMS.slice(0,TERMS.length-1) as TERM">                  
+                        <span data-each="FIRST_TERMS as TERM">                  
                           \color{<var>COLORS[TERMS.indexOf(TERM)]</var>}{\int<var>TERM.coef</var><var>X</var>^{<var>TERM.degree</var>}dx}+
                         </span>
                         \color{<var>COLORS[TERMS.indexOf(LAST_TERM)]</var>}{\int <var>LAST_TERM.coef</var><var>X</var>^{<var>LAST_TERM.degree</var>}dx}
@@ -97,26 +98,29 @@
 		  </div>
 
 		  <div>
-		    <p>Next we can bring the coefficients outside of the integrals.</p>
+		    <p>Next, bring the coefficients outside of the integrals.</p>
                     <code>
-                        <span data-each="TERMS.slice(0,TERMS.length-1) as TERM">                  
+                        <span data-each="FIRST_TERMS as TERM">                  
                           \color{<var>GREEN</var>}{<var>TERM.coef</var>} \color{<var>BLUE</var>}{\int <var>X</var>^{<var>TERM.degree</var>}dx}+
                         </span>
                         \color{<var>GREEN</var>}{<var>LAST_TERM.coef</var>} \color{<var>BLUE</var>}{\int <var>X</var>^{<var>LAST_TERM.degree</var>}dx}
                       </code>
                   </div>
 
+
+
 		  <div>
 		    <p>Apply the idea that <code> \int x^p dx = \frac{x^{p+1}}{p+1}+c</code> for the next step. </p>
                     <code>
-                        <span data-each="TERMS.slice(0,TERMS.length-1) as TERM">                  
-                          \color{<var>GREEN</var>}{<var>TERM.coef</var>} \color{<var>BLUE</var>}{\frac{<var>X</var>^{<var>TERM.degree</var>}}{<var> TERM.degree </var>}
-                          +c_{<var>TERMS.indexOf(TERM)</var>}+
+                        <span data-each="FIRST_TERMS as TERM">                  
+                          \color{<var>GREEN</var>}{<var>TERM.coef</var>} (\color{<var>BLUE</var>}{\frac{<var>X</var>^{<var>TERM.degree+1</var>}}{<var> TERM.degree+1 </var>}+c_{<var>TERMS.indexOf(TERM)</var>}})+
                         </span>
-                        \color{<var>GREEN</var>}{<var>LAST_TERM.coef</var>} \color{<var>BLUE</var>}{\frac{<var>X</var>^{<var>LAST_TERM.degree</var>}}{<var> LAST_TERM.degree </var>}
-                        +c_{<var>TERMS.indexOf(LAST_TERM)</var>}
+                        (\color{<var>GREEN</var>}{<var>LAST_TERM.coef</var>} \color{<var>BLUE</var>}{\frac{<var>X</var>^{<var>LAST_TERM.degree+1</var>}}{<var> LAST_TERM.degree+1 </var>}+c_{<var>TERMS.indexOf(LAST_TERM)</var>}})
+
 		    </code>
 		  </div>
+
+
 
 		  <div>
 		    <div>
