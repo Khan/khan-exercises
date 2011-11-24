@@ -33,42 +33,65 @@ jQuery.extend(KhanUtil, {
 			// A coefficient of 1, ex: x^2 => (1/3)x^3
 			// The same as the exponent ex: 5x^5 => (5/6)x^6
 
-			switch(KhanUtil.randRange(1,4)) {
-			case 1:
-			case 2:
-				coefs[expt] = (expt + 1) * KhanUtil.randRange(1,4)
-				break
-			case 3:
-				coefs[expt] = 1
-				break
-			case 4:
-				coefs[expt] = expt
-				break
-			}
+			// Coefficients will randomly be made negative
 
-			// Randomly make coefficients negative just to mix things up
-			coefs[expt] = KhanUtil.randFromArray([coefs[expt], -coefs[expt]])
+			var multiple = (expt + 1) * KhanUtil.randRange(1,4)
+
+			coefs[expt] = KhanUtil.randFromArray([multiple, multiple, 1, expt])
+			coefs[expt] *= KhanUtil.randRangeNonZero(-1, 1)
 		})
 
 		var min = Math.min.apply(Math, expts)
 		var max = Math.max.apply(Math, expts)
 
+		// Zero out coefficients
 		for(var i = max; i != min; i--) {
 			if(coefs[i] === undefined)
 				coefs[i] = 0
 		}
 		
+		if(true) {
+			var tmpcoefs = []
+			tmpcoefs[-4] = -3
+			tmpcoefs[-3] = 3
+			tmpcoefs[-2] = -2
+			tmpcoefs[-1] = 0
+			tmpcoefs[0] = 100
+			tmpcoefs[1] = 10
+			tmpcoefs[2] = -6
+			tmpcoefs[3] = 0
+			tmpcoefs[4] = 0 
+			tmpcoefs[5] = 12
+			return new KhanUtil.Polynomial(-4, 5, tmpcoefs)
+		}
+
 		return new KhanUtil.Polynomial(min, max, coefs)
 	},
 
 	// Meant for output of randBasicIntegral
 	integrateBasic: function(poly) {
+		// Given a numerator and a denominator, converts them to a
+		// nicely-formatted fraction (or integer if possible)
+		var maybeFraction = function(n, d) {
+			var as_int = n[1] / n[2]
+			// If the division results in an integer, return that
+			if(as_int % 1 == 0)
+				return as_int
+
+			var negative = n < 0 || d < 0
+			var fraction = ["frac", Math.abs(n), Math.abs(d)]
+			
+			return negative ? ["-", fraction] : fraction
+		}
+
+
+		// Function for touching up fractions
 		var fixFraction = function(n) {
 			if(!jQuery.isArray(n)) return n
 
 			var as_int = n[1] / n[2]			
    		// If the division can be represented with an integer, do that instead,
-			// because the above will occasionally produce silly results, ex: 
+			// because integration will occasionally produce silly results, ex: 
 			// -2x^2 => (-2/-1)x^-1, which is correct but silly
 			if(as_int % 1 == 0)
 				return as_int
@@ -85,57 +108,63 @@ jQuery.extend(KhanUtil, {
 				return ["-", ["frac", n[1], -n[2]]];
 			}
 
-			// Fraction has no negative signs
+			// fraction has no negatives
 			return n
 		}
 
 		// We'll create a new expression using this array to store the results of the integration
 		var coefs = []
 		var wrong_coefs1 = []
+		var wrong_coefs2 = []
+		var wrong_coefs3 = []
+		var wrong_coefs4 = []
 
 		// Iterate through the polynomial
 		for(var i = poly.maxDegree; i >= poly.minDegree; i--) {
+			// Ignore terms set to zero
+			if(poly.coefs[i] == 0)
+				continue
+
 			var answer_coef = 0
 
-			// Wrong answer 1: Does not increment exponents
+			// Wrong answer 1: Does not increment exponents at all
 			var wrong_coef1 = 0
+
+			// Wrong answer 2: Decrements negative exponents
+			var wrong_coef2 = 0
+
+			// Deal with constants
+			if(i == 0) {
+				coefs[i+1] = poly.coefs[i]
+				wrong_coefs1[i] = poly.coefs[i]
+				continue
+			}
 
 			// Instead of dividing and ending up with some gross
 			// floating-point number, we'll attempt to format the answer
 			// using fractions
-			if(poly.coefs[i] == undefined || poly.coefs[i] == 0) {
-				answer_coef = wrong_coef1 = 0
-			} else if(Math.abs(poly.coefs[i]) == Math.abs(i)) {
-				// Deal with coefficients that are the same as the power
-				// ex: 3x^3 => (3/4)x^4
-				answer_coef = ["frac", poly.coefs[i], i+1]
-				wrong_coef1 = poly.coefs[i] / i
-			} else if(Math.abs(poly.coefs[i]) == 1 && i != 0 && i != -2) {
-				// Deal with coefficients of one, unless the power is 0 or -2
-				answer_coef = ["frac", poly.coefs[i], i+1]
-				wrong_coef1 = ["frac", poly.coefs[i], i]
-			} else {
-				answer_coef = poly.coefs[i] * 1/(i+1)
-				wrong_coef1 = poly.coefs[i] * 1/i
-			}
 
-			console.log('answer_coef = '+ answer_coef)
-			console.log('answer_coef fixFraction =  ' + fixFraction(answer_coef))
+			answer_coef = ["frac", poly.coefs[i], i+1]
+			wrong_coef1 = ["frac", poly.coefs[i], i]
+
 
 			// Increment power and store
 			coefs[i+1] = fixFraction(answer_coef)
+			wrong_coefs1[i] = fixFraction(wrong_coef1)
 		}
 
 		this.answer = new KhanUtil.Polynomial(poly.minDegree + 1, poly.maxDegree + 1, coefs, poly.variable)
 
 		this.wrongs = []
-		this.wrongs.push(1)
+		this.wrongs.push(new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree, wrong_coefs1, poly.variable))
 		this.wrongs.push(2)
 		this.wrongs.push(3)
 		this.wrongs.push(4)
-		this.wrongs.push(5)
 
 		this.hint_addition = ''
+
+		console.log('answer ' + this.answer)
+		console.log('wrong1 ' + this.wrongs[0] + ' ' + wrong_coefs1)
 
 		// Generate hints
 
@@ -150,6 +179,8 @@ jQuery.extend(KhanUtil, {
 				string += constant ? "" : poly.variable
 				// Add exponent
 				string += constant ? "" :  "^{" + i + "}"
+
+				string += " dx "
 
 				if(i != poly.maxDegree)
 					string += "+"
