@@ -24,7 +24,9 @@ jQuery.extend(KhanUtil, {
       if (!$(".hidden").length){
         return;
       }
-      $(".hidden:first").removeClass('hidden');
+      var firstHiddenContent = $(".hidden:first");
+      firstHiddenContent.removeClass('hidden');
+      firstHiddenContent.parent().find(".card-bg").remove();
       KhanUtil.showCards();
     }
   },
