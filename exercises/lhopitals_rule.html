@@ -4,22 +4,6 @@
 	<meta charset="UTF-8" />
 	<title>L'Hopital's Rule</title>
 	<script src="../khan-exercise.js"></script>
-	<script type="text/javascript">
-		function formatLHopitalHint(steps, form) {
-			var buffer = ""
-			for(var i = 0; i != steps.length-1; i++) {
-				var step = steps[i]
-				buffer += "<code>\\displaystyle \\frac{\\frac{d}{dx} ( " + step[0].text() + ")}{\\frac{d}{dx} (" + step[1].text() + ")} = "
-				buffer += "\\frac{"+steps[i+1][0].text()+"}{"+steps[i+1][1].text()+"}</code><br />"
-		
-				// If we're not at the end 
-				if(i+1 != steps.length-1) {
-					buffer += "<br />Since evaluating the limit at this point still results in <code>"+form+"</code>, we must apply L'Hopital's rule again:<br />"
-				}
-			}
-			return buffer
-		}
-	</script>
 </head>
 <body>
 	<div class="exercise">
@@ -97,9 +81,19 @@
 					<!-- Show them the steps of L'Hopital's rule by deriving until the indeterminate form can be resolved -->
 					<p>
 						Repeat this process until evaluating the limit will not result in an indeterminate form:<br />
-						<var>formatLHopitalHint(STEPS, INDETERMINATE_FORM)</var>
+						<span data-each="STEPS as N, STEP">
+							<span data-if="N != STEPS.length-1">
+								<code>
+									\displaystyle\frac{\frac{d}{dx} (<var>STEP[0]</var>)}{\frac{d}{dx} (<var>STEP[1]</var>)} = 
+									\frac{<var>STEPS[N+1][0]</var>}{<var>STEPS[N+1][1]</var>}
+								</code>
+								<br />
+								<span data-if="N+1 != STEPS.length-1">
+									<br />Since evaluating the limit at this point still results in <code><var>INDETERMINATE_FORM</var></code>, we must apply L'Hopital's rule again:<br />
+								</span>
+							</span>
+						</span>
 					</p>
-
 
 					<!-- Evaluate the limit and give the solution in both unsimplified and simplified form (if necessary) -->
 					<p>
