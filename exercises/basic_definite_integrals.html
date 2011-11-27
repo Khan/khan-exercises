@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html data-require="math math-format calculus calculus-integrals polynomials expressions">
+<head>
+	<meta charset="UTF-8" />
+	<title>Basic Definite Integrals</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="UPPER">KhanUtil.randRange(1,10)</var>
+			<var id="LOWER">KhanUtil.randRange(-10, UPPER)</var>
+			<var id="EXPR">KhanUtil.randBasicIntegral(true)</var>
+			<var id="RESULT">new KhanUtil.integrateBasic(EXPR)</var>
+			<var id="ANSWER">RESULT.answer.evalOf(UPPER) - RESULT.answer.evalOf(LOWER)</var>
+			<!-- Not sure why .text().replace('x', blah) didn't work, but it didn't -->
+			<var id="FINAL_HINT">KhanUtil.expr(RESULT.answer.expr('('+UPPER+')')) + ' - ' + KhanUtil.expr(RESULT.answer.expr('('+LOWER+')')) + ' = '</var>
+		</div> <!-- vars -->
+
+		<div class="problems">
+			<div>
+				<p class="problem">
+					Compute the definite integral.<br />
+				</p>
+
+				<p class="question">
+					<code>\int_{<var>LOWER</var>}^{<var>UPPER</var>} <var>EXPR</var> ~dx = {?}</code></p>
+
+				<p class="solution" data-type="rational" data-simplify="optional"><code><var>ANSWER</var></code></p>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>
+				<!-- State the Fundamental Theorem of Calculus -->
+				Recall the Fundamental Theorem of Calculus: when f(x) is continuous on [a,b]<br />
+				Assuming <code>\frac{d}{dx}F(x) = f(x)</code><br />
+				<code>\int_b^a f(x) ~dx = F(b) - F(a)</code><br />
+
+				Since <code><var>EXPR</var></code> is a function and
+				continuous on [<var>LOWER</var>,<var>UPPER</var>], the theorem
+				applies.
+			</p>
+
+			<!-- Show the integration -->
+			<p>
+				Take the integral of the expression.<br />
+				<code>
+					\int <var>EXPR</var> ~dx = <var>RESULT.answer.text()</var> + C
+				</code>
+			</p>
+
+			<!-- Show the final step -->
+			<p><code><var>FINAL_HINT</var> ~?</code></p>
+
+			<!-- Show the answer -->
+			<p>
+				<code><var>FINAL_HINT</var> <var>ANSWER</var></code>
+			</p>
+		</div> <!-- hints -->
+	</div>
+</body>
+</html>

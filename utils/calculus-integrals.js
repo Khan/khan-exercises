@@ -1,12 +1,23 @@
 jQuery.extend(KhanUtil, {
 	// Generate a expression suitable for an integration problem using the power rule and constant rules
-	randBasicIntegral: function() {
-		var coefs = []
-		var terms = KhanUtil.randRange(1,4)
+
+	// definite_integral: will generate the expression using parameters
+	// suitable for a definite integral problem
+	randBasicIntegral: function(definite_integral) {
+		var min_degree = definite_integral ? 1 : -3
+		var max_degree = 4
+
+		// Since repeat exponents are not allowed, we have to have a
+		// maximum of max_degree-min_degree terms in the problem otherwise
+		// the exponent generator will enter an endless loop
+		var terms = KhanUtil.randRange(1, Math.min(4, max_degree-min_degree))
+
+		// Generate exponents
 		var expts = []
 
+
 		while(terms) {
-			var expt = KhanUtil.randRange(-3, 5)
+			var expt = KhanUtil.randRange(min_degree, max_degree)
 			// Discard 1/x because they haven't learned it yet,
 			// discard repeat exponents
 			if(expt == -1 || jQuery.inArray(expt, expts) != -1) {
@@ -14,9 +25,11 @@ jQuery.extend(KhanUtil, {
 			}
 			expts.push(expt)
 			terms--
-		}
+		}			
 
 		// Generate coefficients
+		var coefs = []
+
 		jQuery.each(expts, function(_, expt) {
 			// When we get 0 as an exponent, we'll generate a constant in its
 			// place
@@ -33,7 +46,11 @@ jQuery.extend(KhanUtil, {
 
 			var multiple = (expt + 1) * KhanUtil.randRange(1,4)
 
-			coefs[expt] = KhanUtil.randFromArray([multiple, multiple, 1, expt])
+			if(definite_integral) {
+				coefs[expt] = multiple
+			} else {
+				coefs[expt] = KhanUtil.randFromArray([multiple, multiple, 1, expt])
+			}
 
 			// Coefficients will randomly be made negative
 			coefs[expt] *= KhanUtil.randRangeNonZero(-1, 1)
@@ -176,6 +193,5 @@ jQuery.extend(KhanUtil, {
 
 			this.hint_integration.push(string)
 		}
-		console.log(this.hint_integration)
 	},
 })
