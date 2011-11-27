@@ -1,7 +1,7 @@
 jQuery.extend( KhanUtil, {
 	initialArray: [],
+
 	inOrder: function() {
-		// If everything is shown
 		var last_card = 0;
 		var all_shown_ordered = true;
 		$( ".content" ).not( ".hidden" ).each( function( index ) {
@@ -37,13 +37,13 @@ jQuery.extend( KhanUtil, {
 		} );
 		return a;
 	},
+
 	setInitialCardArrayValue: function() {
-		//var valsToSet = KhanUtil.initialArray.slice(0); //copy the array
-		//valsToSet.reverse(); //reverse the array, as we iterate in the opposite order
 		$( ".content" ).each( function( index ) {
 			$( this ).text( KhanUtil.initialArray[ index ] );
 		} );
 	},
+
 	setInitialHiddenStates: function() {
 		$( ".content" ).each( function( index ) {
 			$( this ).parent().removeClass( "correct-card" ); //make all cards incorrect to start
@@ -80,7 +80,6 @@ jQuery.extend( KhanUtil, {
 	initInsertionSort: function() {
 		KhanUtil.initialArray = KhanUtil.getCardValueArray();
 		$( ".card" ).click( function() {
-
 			//Swapping with a hidden card is prohibited
 			if ( $( this ).find( ".content" ).hasClass( "hidden" ) ) return;
 			if ( $( ".selected-card" ).size() > 0 ) {
