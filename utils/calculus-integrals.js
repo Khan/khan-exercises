@@ -15,7 +15,6 @@ jQuery.extend(KhanUtil, {
 		// Generate exponents
 		var expts = []
 
-
 		while(terms) {
 			var expt = KhanUtil.randRange(min_degree, max_degree)
 			// Discard 1/x because they haven't learned it yet,
