@@ -107,7 +107,8 @@
 					</div>
 				</div>
 				<div>
-					<p>The table already accounts for <span class="hint_orange"><var>ENROLLMENTS[ ROW_INDEX ].slice( 0, COL_INDEX ).concat( ENROLLMENTS[ ROW_INDEX ].slice(COL_INDEX + 1, COLUMNS.length - 1 ) ).join( "+" )</var></span> <var>UNIT</var>.</p>
+					<p>The table already accounts for <span class="hint_orange"><var>ENROLLMENTS[ ROW_INDEX ].slice( 0, COL_INDEX ).concat( ENROLLMENTS[ ROW_INDEX ].slice( COL_INDEX + 1, COLUMNS.length - 1 ) ).join( "+" )</var> =
+                    <var>ENROLLMENTS[ ROW_INDEX ][ COLUMNS.length - 1 ] - ANSWER</var></span> <var>UNIT</var>.</p>
 					<div class="graphie">
 						jQuery.each( COLUMNS, function( i, c ) {
 							if ( i !== 0 ) {
@@ -117,8 +118,9 @@
 						});
 					</div>
 				</div>
+				<p>The missing number must be the difference between <var>HINT2.slice( 0, 1 ).toLowerCase() + HINT2.slice( 1 )</var>, <span class="hint_blue"><var>ENROLLMENTS[ ROW_INDEX ][ COLUMNS.length - 1 ]</var></span>, and the values already accounted for, <span class="hint_orange"><var>ENROLLMENTS[ ROW_INDEX ][ COLUMNS.length - 1 ] - ANSWER</var></span>.</p>
 				<div>
-					<p>The missing number must be the difference of the blue and orange numbers, or <span class="hint_pink"><var>ANSWER</var></span>.</p>
+					<p><span class="hint_blue"><var>ENROLLMENTS[ ROW_INDEX ][ COLUMNS.length - 1 ]</var></span> - <span class="hint_orange"><var>ENROLLMENTS[ ROW_INDEX ][ COLUMNS.length - 1 ] - ANSWER</var></span> = <span class="hint_pink"><var>ANSWER</var></span></p>
 					<div class="graphie">
 						fillInCorrectAnswer( ROW_INDEX, COL_INDEX, ANSWER, KhanUtil.PINK );
 					</div>

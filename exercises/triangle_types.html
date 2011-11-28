@@ -28,22 +28,23 @@
 			var a = KhanUtil.randRange( 4, 8 );
 			return [ [ 60, 60, 60 ], [ a, a, a ] ];
 		}
-		
+
 		function isoTriangle(){
 			var a = KhanUtil.randRange( 25, 75 );
 			var c = 180 - 2 * a;
 			var sa = KhanUtil.randRange( 4, 8 );
 			var sc = sa * Math.sin( c * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
-			var ang =  KhanUtil.shuffle( [ a, a, c ] );
+			var ang = [ a, a, a ];
 			var sides = [ sa, sa, sa ];
-			sides[ ang.indexOf( c ) ] = sc.toFixed( 1 );
+			var oddside = KhanUtil.randRange( 0, 2 );
+			ang[ oddside ] = c;
+			sides[ oddside ] = sc.toFixed( 1 );
 			if( a == 60 ){
 				return isoTriangle();
-			} 
+			}
 			return [ ang , sides ];
-			
 		}
-	
+
 	</script>
 </head>
 <body>
@@ -72,12 +73,18 @@
 				</div>
 				<div class="question">
 					<div class="graphie" id="typeTr" >
-						init({
-							range: [ [ -1, 10 ], [ -8, 1 ] ]
-						})
-						var tr = new Triangle( [ 3, -4],  TRIANGLE[ 0 ], 5, {} );
+						var tr = new Triangle( [ 0, 0 ],  TRIANGLE[ 0 ], 5, {} );
 						tr.labels = { "angles" : clearArray( tr.niceAngles, [ 0, 1 ] ) };
 						tr.rotate( randRange( 0, 90 ) );
+
+						var xmin = min( tr.points[0][0], tr.points[1][0], tr.points[2][0] );
+						var xmax = max( tr.points[0][0], tr.points[1][0], tr.points[2][0] );
+						var ymin = min( tr.points[0][1], tr.points[1][1], tr.points[2][1] );
+						var ymax = max( tr.points[0][1], tr.points[1][1], tr.points[2][1] );
+						init({
+							range: [ [ xmin - 1, xmax + 1 ], [ ymin - 1, ymax + 1 ] ]
+						})
+
 						tr.draw();
 						tr.drawLabels();
 						graph.TR = tr;
@@ -89,7 +96,7 @@
 				</ul>
 				<div class="hints">
 					<p>We know two angles of this triangle, so we can find the third by subtracting from <code>180</code></p>
-					<div>		
+					<div>
 						<p><code>180 -<var>TRIANGLE[ 0 ][ 0 ]</var> - <var>TRIANGLE[ 0 ][ 1 ]</var> = <var>TRIANGLE[ 0 ][ 2 ]</var></code></p>
 						<div class="graphie" data-update="typeTr" >
 							graph.TR.labels = { "angles" : graph.TR.niceAngles };
@@ -104,12 +111,18 @@
 			<div id="knownSides" data-type="knownAngles">
 				<div class="question">
 					<div class="graphie">
-						init({
-							range: [ [ -1, 10 ], [ -8, 1 ] ]
-						})
-						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, {} );
+						var tr = new Triangle( [ 0, 0 ],  TRIANGLE[ 0 ], 5, {} );
 						tr.labels = {  "sides" : tr.niceSideLengths };
 						tr.rotate( randRange( 0, 90 ) );
+
+						var xmin = min( tr.points[0][0], tr.points[1][0], tr.points[2][0] );
+						var xmax = max( tr.points[0][0], tr.points[1][0], tr.points[2][0] );
+						var ymin = min( tr.points[0][1], tr.points[1][1], tr.points[2][1] );
+						var ymax = max( tr.points[0][1], tr.points[1][1], tr.points[2][1] );
+
+						init({
+							range: [ [ xmin - 1, xmax + 1 ], [ ymin - 1, ymax + 1 ] ]
+						})
 						tr.draw();
 						tr.drawLabels();
 					</div>

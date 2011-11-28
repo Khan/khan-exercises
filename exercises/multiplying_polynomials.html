@@ -44,8 +44,8 @@
 						}
 						
 						if ( likeTerms[ i + j ] === undefined ) {
-							likeTerms[ i + j ] = false;
-						} else if ( !likeTerms[ i + j ] ) {
+							likeTerms[ i + j ] = "";
+						} else if ( likeTerms[ i + j ] === "" ) {
 							likeTerms[ i + j ] = COLORS[ counter++ ]; 
 							areLikeTerms = true;
 						}
@@ -75,7 +75,7 @@
 		<div class="problems">
 			<div id="multiply">
 				<p class="question">Simplify the expression.</p>
-				<p class="problem"><code><span data-each="[ POL_1, POL_2 ] as POL" data-unwrap>(<var>POL</var>)</code></p>
+				<p class="problem"><code><span data-each="[ POL_1, POL_2 ] as POL" data-unwrap>(<var>POL</var>)</span></code></p>
 				<p class="solution"><code><var>SOLUTION</var></code></p>
 				<ul class="choices" data-show="4" data-none="true">
 					<li><code><var>SOLUTION.multiply( -1 )</var></code></li>

@@ -53,21 +53,37 @@ jQuery.extend(KhanUtil, {
 		this.name = name || "f";
 
 		this.findMaxDegree = function( coefs ) {
-			for ( var i = coefs.length - 1; i >= 0; i-- ) {
-				if ( coefs[i] !== 0 ) {
-					return i;
+			if ( !coefs ) {
+				for ( var i = this.maxDegree; i >= this.minDegree; i-- ) {
+					if ( this.coefs[i] !== 0 ) {
+						return i;
+					}
 				}
+			} else {
+				for ( var i = coefs.length - 1; i >= 0; i-- ) {
+					if ( coefs[i] !== 0 ) {
+						return i;
+					}
+				}
+				return -1;
 			}
-			return -1;
 		};
 
 		this.findMinDegree = function( coefs ) {
-			for ( var i = 0; i < coefs.length; i++ ) {
-				if ( coefs[i] !== 0 ) {
-					return i;
+			if ( !coefs ) {
+				for ( var i = this.minDegree; i <= this.maxDegree; i++ ) {
+					if ( this.coefs[i] !== 0 ) {
+						return i;
+					}
 				}
+			} else {
+				for ( var i = 0; i < coefs.length; i++ ) {
+					if ( coefs[i] !== 0 ) {
+						return i;
+					}
+				}
+				return -1;
 			}
-			return -1;
 		};
 
 		this.expr = function( vari ) {

@@ -208,7 +208,7 @@ jQuery.extend(KhanUtil, {
 	getFactors: function( number ) {
 		var factors = [],
 			ins = function( n ) {
-				if ( factors.indexOf( n ) === -1 ) {
+				if ( _(factors).indexOf( n ) === -1 ) {
 					factors.push( n );
 				}
 			};
@@ -317,7 +317,7 @@ jQuery.extend(KhanUtil, {
 
 		do {
 			result = KhanUtil.randRange( min, max );
-		} while ( excludes.indexOf(result) !== -1 );
+		} while ( _(excludes).indexOf(result) !== -1 );
 
 		return result;
 	},
@@ -330,7 +330,7 @@ jQuery.extend(KhanUtil, {
 								
 		do {
 			result = KhanUtil.randRangeWeighted( min, max, target, perc );
-		} while ( excludes.indexOf(result) !== -1 );
+		} while ( _(excludes).indexOf(result) !== -1 );
 
 		return result;
 	},
@@ -357,7 +357,7 @@ jQuery.extend(KhanUtil, {
 	randFromArrayExclude: function( arr, excludes ) {
 		var cleanArr = [];
 		for ( var i = 0; i < arr.length; i++ ) {
-			if ( excludes.indexOf( arr[i] ) === -1 ) {
+			if ( _(excludes).indexOf( arr[i] ) === -1 ) {
 				cleanArr.push( arr[i] );
 			}
 		}

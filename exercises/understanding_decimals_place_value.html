@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems jquery.mobile.vmouse">
+<head>
+	<meta charset="UTF-8" />
+	<title>Understanding decimals place value</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		.column { float: left; height: 430px;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+		.coin-column { position: relative; margin: 0px; float: left; left: 1px; z-index: 1; }
+		.bill {
+			width: 70px; margin: 10px; line-height: 30px;
+			background-color: #eee; border-width: 1px; border-style: solid; border-color: #ddd; color: #ddd;
+			font-weight: bold; text-align: center; font-size: 20px;
+			cursor: pointer;
+		}
+		.bill:hover { border-color: #999; }
+		.coin { width: 51px; margin: 10px; line-height: 32px; color: #ddd; font-size: 20px; font-weight: bold; text-align: center; cursor: pointer; }
+		.thou-selected { background-color: #ff00af; border-color: #000; color: #fff; }
+		.hund-selected { background-color: #ffa500; border-color: #000; color: #fff; }
+		.ten-selected { background-color: #28ae7b; border-color: #000; color: #fff; }
+		.one-selected { background-color: #6495ed; border-color: #000; color: #fff; }
+		.dime { font-size: 17px; }
+		.dime-selected { color: #fff; }
+		.penny-selected { color: #fff; }
+	</style>
+</head>
+<body>
+<div class="exercise">
+	<div class="problems">
+		<div>
+			<div class="vars">
+				<div data-ensure="!( THOUSANDS === 0 && HUNDREDS === 0 )">
+					<var id="THOUSANDS">randFromArray([ 0, randRange( 1, 9 ) ])</var>
+					<var id="HUNDREDS">randRange( 0, 9 )</var>
+				</div>
+				<var id="TENS">randRange( 0, 9 )</var>
+				<var id="ONES">randRange( 0, 9 )</var>
+				<var id="TENTHS">randRange( 0, 9 )</var>
+				<var id="HUNDREDTHS">randRange( 1, 9 )</var>
+			</div>
+
+			<p class="question">
+				Choose the right number of bills and coins to make<br />
+				<code>\Huge{$
+				<span data-if="THOUSANDS !== 0">\color{<var>PINK</var>}{<var>THOUSANDS</var>}</span>
+				\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}
+				\color{<var>GREEN</var>}{<var>TENS</var>}
+				\color{<var>BLUE</var>}{<var>ONES</var>}.
+				\color{purple}{<var>TENTHS</var>}
+				\color{gray}{<var>HUNDREDTHS</var>}
+				}</code>
+			</p>
+
+			<div class="problem">
+				<div class="column">
+					<div data-each="10 times" class="bill thou">$1000</div>
+				</div>
+				<div class="column">
+					<div data-each="10 times" class="bill hund">$100</div>
+				</div>
+				<div class="column">
+					<div data-each="10 times" class="bill ten">$10</div>
+				</div>
+				<div class="column">
+					<div data-each="10 times" class="bill one">$1</div>
+				</div>
+				<div class="column">
+					<div class="coin-column">
+						<div data-each="10 times" class="coin dime">10&cent;</div>
+					</div>
+					<div class="coin-column">
+						<div data-each="10 times" class="coin penny">1&cent;</div>
+					</div>
+					<div class="graphie">
+						init({ range: [ [ 0, 143 ], [ -430, 0 ] ], scale: [ 1, 1 ] });
+						style({ fill: "#eee", stroke: "#ddd", strokeWidth: 1 });
+						graph.tenths = [];
+						graph.hundredths = [];
+						for ( var i = 0; i &lt; 10; ++i ) {
+							graph.tenths.push( circle( [ 37, (-42 * i) - 26 ], 18 ) );
+							graph.hundredths.push( circle( [ 107, (-42 * i) - 26 ], 18 ) );
+						}
+
+						// click handlers
+						jQuery( "#problemarea .thou" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'thou-selected' );
+						});
+						jQuery( "#problemarea .hund" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'hund-selected' );
+						});
+						jQuery( "#problemarea .ten" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'ten-selected' );
+						});
+						jQuery( "#problemarea .one" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'one-selected' );
+						});
+						jQuery( "#problemarea .dime" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'dime-selected' );
+							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
+								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() ].attr({ fill: 'purple', stroke: '#000' });
+							} else {
+								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() ].attr({ fill: '#eee', stroke: '#ddd' });
+							}
+						});
+						jQuery( "#problemarea .penny" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'penny-selected' );
+							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
+								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() ].attr({ fill: 'gray', stroke: '#000' });
+							} else {
+								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() ].attr({ fill: '#eee', stroke: '#ddd' });
+							}
+						});
+
+						// mouseover handlers
+						jQuery( "#problemarea .dime" ).bind( "vmouseover", function( event ) {
+							KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() ].attr({ stroke: '#999' });
+						});
+						jQuery( "#problemarea .penny" ).bind( "vmouseover", function( event ) {
+							KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() ].attr({ stroke: '#999' });
+						});
+
+						// mouseout handlers
+						jQuery( "#problemarea .dime" ).bind( "vmouseout", function( event ) {
+							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
+								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() ].attr({ stroke: '#000' });
+							} else {
+								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() ].attr({ stroke: '#ddd' });
+							}
+						});
+						jQuery( "#problemarea .penny" ).bind( "vmouseout", function( event ) {
+							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
+								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() ].attr({ stroke: '#000' });
+							} else {
+								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() ].attr({ stroke: '#ddd' });
+							}
+						});
+					</div>
+				</div>
+				<p style="clear: left">&nbsp;</p>
+			</div>
+
+
+			<div class="solution" data-type="custom">
+				<div class="instruction">
+					Click on the bills and coins to select them.
+				</div>
+				<div class="guess">digitsToInteger([
+					jQuery( "#problemarea .thou-selected" ).length,
+					jQuery( "#problemarea .hund-selected" ).length,
+					jQuery( "#problemarea .ten-selected" ).length,
+					jQuery( "#problemarea .one-selected" ).length,
+					jQuery( "#problemarea .dime-selected" ).length,
+					jQuery( "#problemarea .penny-selected" ).length
+				]) / 100
+				</div>
+				<div class="validator-function">
+					if ( guess === 0 ) {
+						return "";
+					} else {
+						return guess === ( digitsToInteger([ THOUSANDS, HUNDREDS, TENS, ONES, TENTHS, HUNDREDTHS ]) / 100 );
+					}
+				</div>
+				<div class="show-guess">
+					var places = digits( guess * 100 );
+
+					// unselect everything
+					jQuery( "#problemarea .bill" ).removeClass( 'thou-selected hund-selected ten-selected one-selected' );
+					jQuery( "#problemarea .dime" ).removeClass( 'dime-selected' );
+					jQuery( "#problemarea .penny" ).removeClass( 'penny-selected' );
+					jQuery.each( KhanUtil.currentGraph.graph.tenths, function() {
+						this.attr({ fill: '#eee', stroke: '#ddd' });
+					});
+					jQuery.each( KhanUtil.currentGraph.graph.hundredths, function() {
+						this.attr({ fill: '#eee', stroke: '#ddd' });
+					});
+
+					// select the approprate number of each thing
+					jQuery( "#problemarea .thou" ).slice( 0, places[5] || 0 ).addClass( 'thou-selected' );
+					jQuery( "#problemarea .hund" ).slice( 0, places[4] ).addClass( 'hund-selected' );
+					jQuery( "#problemarea .ten" ).slice( 0, places[3] ).addClass( 'ten-selected' );
+					jQuery( "#problemarea .one" ).slice( 0, places[2] ).addClass( 'one-selected' );
+					jQuery( "#problemarea .dime" ).slice( 0, places[1] ).addClass( 'dime-selected' );
+					jQuery( "#problemarea .penny" ).slice( 0, places[0] ).addClass( 'penny-selected' );
+					for ( var i = 0; i &lt; places[1]; ++i ) {
+						KhanUtil.currentGraph.graph.tenths[ i ].attr({ fill: 'purple', stroke: '#000' });
+					}
+					for ( var i = 0; i &lt; places[0]; ++i ) {
+						KhanUtil.currentGraph.graph.hundredths[ i ].attr({ fill: 'gray', stroke: '#000' });
+					}
+				</div>
+				<div class="example">click a bill or coin to select it</div>
+				<div class="example">click a bill or coin again to deselect it</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<p>
+			<code>\Large{
+				<span data-if="THOUSANDS !== 0">\color{<var>PINK</var>}{<var>THOUSANDS</var>}</span>
+				\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}
+				\color{<var>GREEN</var>}{<var>TENS</var>}
+				\color{<var>BLUE</var>}{<var>ONES</var>}.
+				\color{purple}{<var>TENTHS</var>}
+				\color{gray}{<var>HUNDREDTHS</var>}}
+			</code>
+			is the same as
+			<code>\large{
+				<span data-if="THOUSANDS !== 0">\color{<var>PINK</var>}{<var>THOUSANDS</var>000} + </span>
+				<span data-if="HUNDREDS !== 0">\color{<var>ORANGE</var>}{<var>HUNDREDS</var>00} + </span>
+				<span data-if="TENS !== 0">\color{<var>GREEN</var>}{<var>TENS</var>0} + </span>
+				<span data-if="ONES !== 0">\color{<var>BLUE</var>}{<var>ONES</var>} + </span>
+				<span data-if="TENTHS !== 0">\color{purple}{0.<var>TENTHS</var>} + </span>
+				<span data-if="HUNDREDTHS !== 0">\color{gray}{0.0<var>HUNDREDTHS</var>}</span>
+			}</code>.
+		</p>
+		<p data-if="THOUSANDS !== 0">
+			<code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>000}}</code> is the same as <code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code>
+			<var>plural( "thousand", THOUSANDS )</var>, the place value four places to the left of the decimal point.
+		</p>
+		<p data-if="HUNDREDS !== 0">
+			<code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>00}}</code> is the same as <code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code>
+			<var>plural( "hundred", HUNDREDS )</var>, the place value three places to the left of the decimal point.
+		</p>
+		<p data-if="TENS !== 0">
+			<code>\large{\color{<var>GREEN</var>}{<var>TENS</var>0}}</code> is the same as <code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code>
+			<var>plural( "ten", TENS )</var>, the place value two places to the left of the decimal point.
+		</p>
+		<p data-if="ONES !== 0">
+			<code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> is the same as <code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code>
+			<var>plural( "one", ONES )</var>, the place value one place to the left of the decimal point.
+		</p>
+		<p data-if="TENTHS !== 0">
+			<code>\large{\color{purple}{0.<var>TENTHS</var>}}</code> is the same as <code>\large{\color{purple}{<var>TENTHS</var>}}</code>
+			<var>plural( "tenth", TENTHS )</var>, the place value one place to the right of the decimal point.
+		</p>
+		<p data-if="HUNDREDTHS !== 0">
+			<code>\large{\color{gray}{0.0<var>HUNDREDTHS</var>}}</code> is the same as <code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code>
+			<var>plural("hundredth", HUNDREDTHS )</var>, the place value two places to the right of the decimal point.
+		</p>
+		<p>
+			Therefore you need
+			<span data-if="THOUSANDS !== 0"><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> <var>plural( "thousand", THOUSANDS )</var>, </span>
+			<span data-if="HUNDREDS !== 0"><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> <var>plural( "hundred", HUNDREDS )</var>, </span>
+			<span data-if="TENS !== 0"><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> <var>plural( "ten", TENS )</var>, </span>
+			<span data-if="ONES !== 0"><code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> <var>plural( "one", ONES )</var>, </span>
+			<span data-if="TENTHS !== 0"><code>\large{\color{purple}{<var>TENTHS</var>}}</code> <var>plural( "tenth", TENTHS )</var>, </span>
+			and <code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> <var>plural( "hundredth", HUNDREDTHS )</var>
+		</p>
+	</div>
+
+</div>
+</body>
+</html>

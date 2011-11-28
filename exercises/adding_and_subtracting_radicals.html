@@ -8,20 +8,18 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-			<var id="NUM">randFromArray([2, 3, 5, 6, 7, 10, 11, 13])</var>
+		<var id="NUM">randFromArray([2, 3, 5, 6, 7, 10, 11, 13])</var>
 	</div>
 	<div class="problems">
 		<div id="add">
 			<div class="vars">
-				<var id="COEFFS">shuffle( [1, 2, 3, 4, 5] )</var>
-				<var id="A_COEFF">COEFFS[0]</var>
-				<var id="B_COEFF">COEFFS[1]</var>
+				<var id="A_COEFF, B_COEFF">randRangeUnique( 1, 5, 2 )</var>
 				<var id="A">pow( A_COEFF, 2 ) * NUM</var>
 				<var id="B">pow( B_COEFF, 2 ) * NUM</var>
 			</div>
 			<p class="question">Simplify the following expression:</p>
-				<p><code>\sqrt{<var>A</var>} + \sqrt{<var>B</var>}</code>.</p>
-			<div class="solution" data-type="radical"><var>pow( A_COEFF + B_COEFF, 2 ) * NUM</var></var></span></div>
+			<p><code>\sqrt{<var>A</var>} + \sqrt{<var>B</var>}</code></p>
+			<div class="solution" data-type="radical"><var>pow( A_COEFF + B_COEFF, 2 ) * NUM</var></div>
 			<div class="hints">
 				<p>First, try to factor any perfect squares out of the radicals.</p>
 				<div>
@@ -45,8 +43,8 @@
 				<var id="B">pow( B_COEFF, 2 ) * NUM</var>
 			</div>
 			<p class="question">Simplify the following expression:</p>
-				<p><code>\sqrt{<var>A</var>} - \sqrt{<var>B</var>}</code>.</p>
-			<div class="solution" data-type="radical"><var>pow( A_COEFF - B_COEFF, 2 ) * NUM</var></var></span></div>
+			<p><code>\sqrt{<var>A</var>} - \sqrt{<var>B</var>}</code></p>
+			<div class="solution" data-type="radical"><var>pow( A_COEFF - B_COEFF, 2 ) * NUM</var></div>
 			<div class="hints">
 				<p>First, try to factor any perfect squares out of the radicals.</p>
 				<div>
@@ -66,29 +64,17 @@
 			<div class="vars">
 				<var id="COEFFS">
 				(function() {
-					var coeffs = [];
-					var start = [1, 2, 3, 4, 5];
-					var shuffled = shuffle( start );
+					var coeffs = [1, 2, 3, 4, 5];
+					var shuffled = shuffle( coeffs, 3 );
 
-					coeffs.push( shuffled[0] );
-					coeffs.push( randRangeNonZero( -1, 1 ) * shuffled[1] );
-					if ( shuffled[2] &gt; ( coeffs[0] + coeffs[1] ) ) {
-						if ( shuffled[2] + coeffs[0] + coeffs[1] &gt;= 0 ) {
-							coeffs.push( shuffled[2] );
-						}
-						else {
-							var i = 3;
-							while ( shuffled[i] + coeffs[0] + coeffs[1] &lt; 0 ) {
-								i++;
-							}
-							coeffs.push( shuffled[i] );
-						}
-					}
-					else {
-						coeffs.push( randRangeNonZero( -1, 1 ) * shuffled[2] );
+					shuffled[1] *= randRangeNonZero( -1, 1 );
+					shuffled[2] *= randRangeNonZero( -1, 1 );
+					while ( shuffled[0] + shuffled[1] + shuffled[2] &lt;= 0 ) {
+						shuffled[1] *= randRangeNonZero( -1, 1 );
+						shuffled[2] *= randRangeNonZero( -1, 1 );
 					}
 
-					return coeffs;
+					return shuffled;
 
 				})()
 				</var>
@@ -102,8 +88,8 @@
 				<var id="C_SIGN">C_COEFF > 0 ? "+" : "-"</var>
 			</div>
 			<p class="question">Simplify the following expression:</p>
-				<p><code>\sqrt{<var>A</var>}<var>B_SIGN</var>\sqrt{<var>B</var>}<var>C_SIGN</var>\sqrt{<var>C</var>}</code>.</p>
-			<div class="solution" data-type="radical"><var>pow( A_COEFF + B_COEFF + C_COEFF, 2 ) * NUM</var></var></span></div>
+			<p><code>\sqrt{<var>A</var>}<var>B_SIGN</var>\sqrt{<var>B</var>}<var>C_SIGN</var>\sqrt{<var>C</var>}</code></p>
+			<div class="solution" data-type="radical"><var>pow( A_COEFF + B_COEFF + C_COEFF, 2 ) * NUM</var></div>
 			<div class="hints">
 				<p>First, try to factor any perfect squares out of the radicals.</p>
 				<div>
