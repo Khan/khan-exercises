@@ -1024,5 +1024,101 @@ jQuery.extend( KhanUtil, {
 		}
 		lineSegment.transform();
 		return lineSegment;
+	},
+
+
+	createSorter: function() {
+		var sorter = {};
+		var list;
+
+		sorter.init = function( element ) {
+			list = jQuery( "#" + element );
+			var container = list.wrap( "<div>" ).parent();
+			var placeholder = jQuery( "<li>" );
+			placeholder.addClass( "placeholder" );
+			container.addClass( "sortable ui-helper-clearfix" );
+			var leftEdge = list.offset().left;
+			var tileWidth = list.find( "li" ).outerWidth( true );
+			var numTiles = list.find( "li" ).length;
+
+			list.find( "li" ).each(function( tileNum, tile ) {
+				jQuery( tile ).bind( "vmousedown", function( event ) {
+					if ( event.type === "vmousedown" && (event.which === 1 || event.which === 0) ) {
+						event.preventDefault();
+						jQuery( tile ).addClass( "dragging" );
+						var tileIndex = jQuery( this ).index()
+						placeholder.insertAfter( tile );
+						jQuery( this ).css( "z-index", 100 );
+						var offset = jQuery( this ).offset();
+						var click = {
+							left: event.pageX - offset.left - 3,
+							top: event.pageY - offset.top - 3
+						};
+						jQuery( tile ).css({ position: "absolute" });
+						jQuery( tile ).offset({
+							left: offset.left,
+							top: offset.top
+						});
+						jQuery( document ).bind( "vmousemove vmouseup", function( event ) {
+							event.preventDefault();
+							if ( event.type === "vmousemove" ) {
+								jQuery( tile ).offset({
+									left: event.pageX - click.left,
+									top: event.pageY - click.top
+								});
+								var index = Math.max( 0, Math.min( numTiles - 1, Math.floor( ( event.pageX - leftEdge ) / tileWidth ) ) );
+								if ( index !== tileIndex ) {
+									tileIndex = index;
+									if ( index === 0 ) {
+										placeholder.prependTo( list );
+										jQuery( tile ).prependTo( list );
+									} else {
+										placeholder.detach();
+										jQuery( tile ).detach();
+										var preceeding = list.find( "li" )[index - 1]
+										placeholder.insertAfter( preceeding );
+										jQuery( tile ).insertAfter( preceeding );
+									}
+									offset.left = leftEdge + tileWidth * index;
+								}
+							} else if ( event.type === "vmouseup" ) {
+								jQuery( document ).unbind( "vmousemove vmouseup" );
+								var position = jQuery( tile ).offset();
+								jQuery( position ).animate( offset, {
+									duration: 150,
+									step: function( now, fx ) {
+										position[ fx.prop ] = now;
+										jQuery( tile ).offset( position );
+									},
+									complete: function() {
+										jQuery( tile ).css( "z-index", 0 );
+										placeholder.detach();
+										jQuery( tile ).css({ position: "static" });
+										jQuery( tile ).removeClass( "dragging" );
+									}
+								});
+							}
+						});
+					}
+				});
+			});
+		};
+
+		sorter.getContent = function() {
+			content = [];
+			list.find( "li" ).each(function( tileNum, tile ) {
+				content.push( jQuery( tile ).find( "code" ).text().trim() );
+			});
+			return content;
+		};
+
+		sorter.setContent = function( content ) {
+			list.find( "li" ).each(function( tileNum, tile ) {
+				jQuery( tile ).find( "code" ).text( content[ tileNum ] );
+				MathJax.Hub.Queue([ "Reprocess", MathJax.Hub, tile ]);
+			});
+		};
+
+		return sorter;
 	}
 });

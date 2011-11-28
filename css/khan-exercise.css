@@ -425,3 +425,66 @@ div.timeline-total {
   text-decoration: none;
   font-size: 11px;
 }
+
+.sortable {
+	background: #eee;
+	border: 1px solid #ccc;
+	border-bottom: 1px solid #aaa;
+	padding: 13px;
+
+	box-shadow: 0 1px 2px #ccc;
+	-moz-box-shadow: 0 1px 2px #ccc;
+	-webkit-box-shadow: 0 1px 2px #ccc;
+}
+
+.sortable > ul {
+	list-style-type: none;
+}
+
+.sortable > ul > li {
+	background-color: #fff;
+	border: 1px solid #b9b9b9;
+	border-bottom-color: #939393
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	cursor: pointer;
+	margin-right: 4px;
+	width: 82px;
+	height: 65px;
+	text-align: center;
+	font-size: 1.5em;
+	float: left;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.sortable > ul > li.placeholder {
+	background:#ddd;
+	border: 0;
+	border: 1px solid #ccc;
+	float: left;
+}
+
+
+.sortable > ul > li .MathJax {
+	line-height: 65px;
+}
+
+.sortable > ul > li:hover {
+	border-color: #ffa500;
+	box-shadow: 0 0 4px #c56f00;
+	-moz-box-shadow: 0 0 4px #c56f00;
+	-ms-box-shadow: 0 0 4px #c56f00;
+	-o-box-shadow: 0 0 4px #c56f00;
+	-webkit-box-shadow: 0 0 4px #c56f00;
+}
+
+.sortable > ul > li:active, .sortable > ul > li.dragging {
+	background-color: #ffedcd;
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
