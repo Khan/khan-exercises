@@ -776,6 +776,12 @@ var Khan = (function() {
 			Badges.hide();
 		}
 
+		// TODO(david): This should preferably go in prepareSite so it's only run once.
+		// Hide the "Show next 10 problems" link button if we're in review mode.
+		if ( isReview ) {
+			jQuery( "#print-ten" ).parent().hide();
+		}
+
 		// Enable scratchpad (unless the exercise explicitly disables it later)
 		Khan.scratchpad.enable();
 
@@ -810,6 +816,7 @@ var Khan = (function() {
 		} else if ( exid ) {
 			exerciseName = exid;
 
+			// Get all problems of this exercise type.
 			var problems = exercises.filter(function() {
 				return jQuery.data( this, "name" ) === exid;
 			}).children( ".problems" ).children();
@@ -823,6 +830,7 @@ var Khan = (function() {
 			// TODO(david): Can we/should we be getting this from userExercise.exercise_model?
 			jQuery( ".exercise-title" ).text( displayName );
 
+			// TODO(david): Should we have a review URL, like /exercise/review#addition_1 or something?
 			// If the history API is supported, update the URL to the new exercise
 			if (window.history && window.history.replaceState) {
 				window.history.replaceState({}, '', '/exercise/' + exid);
