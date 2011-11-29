@@ -13,7 +13,7 @@
 	    
         <var id="A">randRange( 2, 9 )</var>
         <var id="B" data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150">randRangeNonZero( -200, 200 )</var>
-        <var id="C" data-ensure="C !== A && abs( A - C ) < 6 && abs( A - C ) > 1">randRange( 2, 9 )</var>
+        <var id="C" data-ensure="C !== A && abs( A - C ) < 6 && abs( A - C ) > 1 && A * SOLUTION + B - C * SOLUTION !== 0">randRange( 2, 9 )</var>
         <var id="D">A * SOLUTION + B - C * SOLUTION</var>    
 		    
 		<var id="ANCHOR">(A*D-B*C) / (A-C)</var>
@@ -51,12 +51,12 @@
 
 		<div data-if="A > C" data-unwrap>
 			<div>
-				<p>Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides:</p>
+				<p>Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides.</p>
 				<p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>C</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>C</var>x}</code></p>
 				<p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
 			</div>
 			<div>
-				<p><var>B > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> <var>B > 0 ? "from" : "to"</var> both sides:</p>
+				<p><var>B > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> <var>B > 0 ? "from" : "to"</var> both sides.</p>
 				<p><code>(<var>A - C</var>x + <var>B</var>) \color{<var>PINK</var>}{+ <var>-B</var>} = <var>D</var> \color{<var>PINK</var>}{+ <var>-B</var>}</code></p>
 				<p><code><var>A - C</var>x = <var>D - B</var></code></p>
 			</div>
