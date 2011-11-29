@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
+<html data-require="math graphie graphie-helpers-arithmetic">
 <head>
 	<meta charset="UTF-8" />
 	<title>Understanding moving the decimal</title>
@@ -25,28 +25,89 @@
 		<div class="problems">
 			<div>
 				<div class="question">
-					<p><var>person(1)</var> needs to <var>OPERATOR</var> <var>A_FLOAT.toFixed( A_DECIMAL )</var> by 10 <b>?</b> times to get <var>B_FLOAT.toFixed( B_DECIMAL )</var></p>
+					<p><b>How many times do you need to <var>OPERATOR</var> <code><var>A_FLOAT.toFixed( A_DECIMAL )</var></code> by <code class="hint_blue">10</code> to get <code><var>B_FLOAT.toFixed( B_DECIMAL )</var></code>?</b></p>
 				</div>
-
+				
 				<p class="solution" data-forms="integer"><var>POW_DIFF</var></p>
+				
 			</div>
 		</div>
 				
 		<div class="hints">
 			<div>
-				<p><span data-if="PM === 1">Moving the decimal one position to the right is the same as <var>person(1)</var> multiplying the number by 10.</span>
-				<span data-else>Moving the decimal one position to the left is the same as <var>person(1)</var> dividing the number by 10.</span></p>
+				<p><span data-if="PM === 1">Moving the decimal one position to the right is the same as multiplying by <code class="hint_blue">10</code> once.</span>
+				<span data-else>Moving the decimal one position to the left is the same as dividing by <code class="hint_blue">10</code> once.</span></p>
+			</div>
+			
+			<div class="graphie">
+				init({
+							range: [ [ -1, 11 ], [ -1, 3 ] ],
+							scale: [30, 45]
+						});
+				
+				var digitsA = KhanUtil.digits( A );
+				
+				//Pad zeroes if need be for the decimal point
+				while ( digitsA.length < A_DECIMAL + 1) {
+					digitsA.push( 0 );
+				}
+				
+				var digitsB = digitsA.slice();
+				
+				//For the leading zero 0.# only occurs with division
+				if ( digitsA.length < B_DECIMAL + 1) {
+					digitsA.push( ' ' );
+					digitsB.push( 0 );
+				}
+				
+				drawDigits( digitsA.reverse(), 0, 1);
+				drawDigits( digitsB.reverse(), 0, 0);
+				//translate(cx,cy) scale(-1,1) translate(-cx,-cy)
+				
+				for ( var i = 0; i < POW_DIFF; i++) {
+					if ( PM === 1 ) {
+						arc( [ digitsA.length - A_DECIMAL + i, 1.5 ], 0.5, 0, 180, { stroke: "blue" } );
+						label( [ digitsA.length - A_DECIMAL + i, 2 ], i+1, "above" );
+						
+						if ( i === POW_DIFF - 1 ) {
+							//hack for the final arrow...is there a better way?
+							line( [ digitsA.length - A_DECIMAL + i + 0.5, 1.5 ], [ digitsA.length - A_DECIMAL + i + 0.5, 1.46 ], { stroke: "blue", arrows: "->" } );
+						}
+					}
+					else {
+						//to draw the final arrow
+						if ( i === POW_DIFF - 1 ) {
+							style({ arrows: "->" });
+						}
+							
+						arc( [ digitsA.length - A_DECIMAL - (i + 1), 1.5 ], 0.5, 0, 180, { stroke: "blue" } );
+						label( [ digitsA.length - A_DECIMAL - (i + 1), 2 ], i+1, "above" );
+					}
+				}
+
+				//draw a black ellipse to be used as a decimal point
+				style({ fill: "#000" });
+				ellipse( [ digitsA.length - A_DECIMAL - 0.5, 0.8 ], [ 0.09, 0.09 ] );
+				ellipse( [ digitsB.length - B_DECIMAL - 0.5, -0.2 ], [ 0.09, 0.09 ] );
+				
+				var labelstr = "\\text{The decimal point needs to be moved " + POW_DIFF + " time" + ( POW_DIFF !== 1 ? "s.}" : ".}");
+				label ([ digitsA.length + 0.5, 0.5 ], labelstr, "right", 1);
 			</div>
 
-			<div data-if="PM === 1">
-				<p>Moving the decimal right <var>POW_DIFF</var> is the same as multiplying the number by 10 <var>POW_DIFF</var> times.</p>
-				<p>This is the same as multiplying the number by <var>pow( 10, POW_DIFF )</var>:</p>
-				<p><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} * {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></p></div>
-			<div data-else>
-				<p>Moving the decimal left <var>POW_DIFF</var> is the same as dividing the number by 10 <var>POW_DIFF</var> times.</p>
-				<p>This is the same as dividing the number by <var>pow( 10, POW_DIFF )</var>:</p>
+			<div data-if="PM === 1 && POW_DIFF !== 1">
+				<p>Thus, moving the decimal right <code><var>POW_DIFF</var></code> times is the same as multiplying by <code class="hint_blue">10</code> <code><var>POW_DIFF</var></code> times.
+				<br>This is the same as multiplying by <code><var>pow( 10, POW_DIFF )</var></code>:</br>
+				<br><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} * {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></br></p></div>
+			<div data-if="PM !== 1 && POW_DIFF !== 1">
+				<p>Moving the decimal left <code><var>POW_DIFF</var></code> is the same as dividing by <code class="hint_blue">10</code> <code><var>POW_DIFF</var></code> times.</p>
+				<p>This is the same as dividing by <code><var>pow( 10, POW_DIFF )</var></code>:</p>
 				<p><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} / {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></p>
 			</div>
+			
+			<div>
+				<p>You need to <var>OPERATOR</var> by <code>10</code> <code class="hint_orange"><var>POW_DIFF</var></code> time<span data-if="POW_DIFF !== 1">s</span>.</p>
+			</div>	
+			
 		</div>
 	</div>
 </body>
