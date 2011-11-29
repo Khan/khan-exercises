@@ -106,12 +106,12 @@
                       </code>
                   </div>
 		  <div>
-		    <p>Apply the idea that <code> \int x^p dx = \frac{x^{p+1}}{p+1}+c</code> for the next step. </p>
+		    <p>Apply the idea that when  <code> p\not = -1,\int x^p dx = \frac{x^{p+1}}{p+1}+c</code>. </p>
                     <code>
                         <span data-each="FIRST_TERMS as TERM">                  
                           \color{<var>GREEN</var>}{<var>TERM.coef</var>} (\color{<var>BLUE</var>}{\frac{<var>X</var>^{<var>TERM.degree+1</var>}}{<var> TERM.degree+1 </var>}+c_{<var>TERMS.indexOf(TERM)</var>}})+
                         </span>
-                        (\color{<var>GREEN</var>}{<var>LAST_TERM.coef</var>} \color{<var>BLUE</var>}{\frac{<var>X</var>^{<var>LAST_TERM.degree+1</var>}}{<var> LAST_TERM.degree+1 </var>}+c_{<var>TERMS.indexOf(LAST_TERM)</var>}})
+                        \color{<var>GREEN</var>}{<var>LAST_TERM.coef</var>}(\color{<var>BLUE</var>}{\frac{<var>X</var>^{<var>LAST_TERM.degree+1</var>}}{<var> LAST_TERM.degree+1 </var>}+c_{<var>TERMS.indexOf(LAST_TERM)</var>}})
 
 		    </code>
 		  </div>
