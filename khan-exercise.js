@@ -808,6 +808,8 @@ var Khan = (function() {
 
 		// If we have the exercise id, grab a problem of that exercise
 		} else if ( exid ) {
+			exerciseName = exid;
+
 			var problems = exercises.filter(function() {
 				return jQuery.data( this, "name" ) === exid;
 			}).children( ".problems" ).children();
@@ -816,9 +818,19 @@ var Khan = (function() {
 			problem = makeProblemBag( problems, 1 )[0];
 			pid = problem.data( "id" );
 
-			// Also update the title because the exercise may have changed
+			var displayName = getDisplayNameFromId(exid);
+
 			// TODO(david): Can we/should we be getting this from userExercise.exercise_model?
-			jQuery( ".exercise-title" ).text( getDisplayNameFromId(exid) );
+			jQuery( ".exercise-title" ).text( displayName );
+
+			// If the history API is supported, update the URL to the new exercise
+			if (window.history && window.history.replaceState) {
+				window.history.replaceState({}, '', '/exercise/' + exid);
+			}
+
+			// Update the document title
+			var title = document.title;
+			document.title = displayName + ' ' + title.slice( jQuery.inArray('|', title) );
 
 		// Otherwise we grab a problem at random from the bag of problems
 		// we made earlier to ensure that every problem gets shown the
