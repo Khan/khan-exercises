@@ -101,7 +101,10 @@ jQuery.extend( Khan.answerTypes, {
 				.replace( /\u2212/, "-" )
 
 				// Remove space after +, -
-				.replace( /([+-])\s+/g, "$1" );
+				.replace( /([+-])\s+/g, "$1" )
+
+				// Remove leading/trailing whitespace
+				.replace(/(^\s*)|(\s*$)/gi,"");
 
 				// Extract numerator and denominator
 			var match = text.match( /^([+-]?\d+)\s*\/\s*([+-]?\d+)$/ );
@@ -117,7 +120,7 @@ jQuery.extend( Khan.answerTypes, {
 					value: num / denom,
 					exact: simplified
 				} ];
-			} else if ( !isNaN( parsedInt ) ) {
+			} else if ( !isNaN( parsedInt ) && "" + parsedInt === text ) {
 				return [ {
 					value: parsedInt,
 					exact: true

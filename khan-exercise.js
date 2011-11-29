@@ -2640,10 +2640,9 @@ var Khan = (function() {
 		var self = jQuery( this );
 		var name = self.data( "name" );
 		var weight = self.data( "weight" );
-		var dummy = jQuery( "<div>" );
 
 		remoteCount++;
-		dummy.load( urlBase + "exercises/" + name + ".html .exercise", function( data, status, xhr ) {
+		jQuery.get( urlBase + "exercises/" + name + ".html", function( data, status, xhr ) {
 			var match, newContents;
 
 			if ( !( /success|notmodified/ ).test( status ) ) {
@@ -2652,7 +2651,9 @@ var Khan = (function() {
 				return;
 			}
 
-			newContents = dummy.contents();
+			// Wrap everything in <pre> tags to keep IE from removing newlines
+			data = data.replace( /(<body[^>]*>)/, "$1<pre>" ).replace( "</body>", "</pre></body>" );
+			newContents = jQuery( data ).find( "div.exercise" );
 			self.replaceWith( newContents );
 
 			// Maybe the exercise we just loaded loads some others
