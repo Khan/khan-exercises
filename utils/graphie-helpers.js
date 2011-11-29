@@ -677,9 +677,9 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
         
 		var coords = jQuery.map( coordArr, function( coord, index ) {
 			if ( index === 0 ) { // x-coordinate
-				return coord + radius * Math.cos( KhanUtil.toRadians ( bisect ) );
+				return coord + radius * Math.cos( KhanUtil.toRadians( bisect ) );
 			} else { // y-coordinate
-				return coord + radius * Math.sin( KhanUtil.toRadians ( bisect ) );
+				return coord + radius * Math.sin( KhanUtil.toRadians( bisect ) );
 			}
 		});
 

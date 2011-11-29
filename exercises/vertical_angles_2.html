@@ -8,20 +8,23 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="A">randRange( 2, 9 )</var>
-		<var id="B">randRangeNonZero( -75, 75 )</var>
-		<var id="C" data-ensure="C !== A && abs( A - C ) < 4 && abs( A - C ) > 1">randRange( 2, 9 )</var>
-		<var id="D" data-ensure="D !== B && (D-B) % (A-C) === 0 && abs((A*D-B*C)/(A-C)) > 30 && abs((A*D-B*C)/(A-C)) < 150">randRangeNonZero( -150, 150 )</var>
-		<var id="ANCHOR">abs((A*D-B*C) / (A-C))</var>
-		<var id="SOLUTION">(D-B) / (A-C)</var>
-		<var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 2, 0 ], [ 3, 1 ] ] ) )</var>
+		
+	    <var id="SOLUTION" data-ensure="abs(SOLUTION) > 5">randRangeNonZero( -20, 20 )</var>
+	    
+        <var id="A">randRange( 2, 9 )</var>
+        <var id="B" data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150">randRangeNonZero( -200, 200 )</var>
+        <var id="C" data-ensure="C !== A && abs( A - C ) < 6 && abs( A - C ) > 1">randRange( 2, 9 )</var>
+        <var id="D">A * SOLUTION + B - C * SOLUTION</var>    
+		    
+		<var id="ANCHOR">(A*D-B*C) / (A-C)</var>
+		<var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 2, 4 ], [ 3, 1 ] ] ) )</var>
 		<var id="MEASURE">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
 	</div>
 
 	<div class="problems">
 		<div>
 			<p class="question">Solve for <code>x</code>:</p>
-			<p class="solution" data-forms="integer"><var>SOLUTION</var></p>
+			<p class="solution" data-type="rational"><var>SOLUTION</var></p>
 			<div class="graphie" id="lines">
 
 				var eq1 = A + "x + " + B + "^\\circ";
@@ -40,11 +43,9 @@
 	</div>
 
 	<div class="hints">
+		<p>We learned in Vertical Angles 1 that vertical angles are equal. <a class="related-video" href="/video/proof-vertical-angles-are-equal" data-youtube-id="wRBMmiNHQaE">Watch this video</a> to understand why.</p>
 		<div>
-			<p>We learned in Vertical Angles 1 that vertical angles are equal. <a href="http://www.youtube.com/watch?v=wRBMmiNHQaE" target="_blank">Watch this video</a> to understand why.</p>
-		</div>
-		<div>
-			<p>Set the sides equal to one another:</p>
+			<p>Set the angle measures equal to one another:</p>
 			<p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
 		</div>
 
