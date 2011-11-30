@@ -44,6 +44,8 @@ def sandcastle(request, number=None, branch=None):
 			pull_data = u.read()
 		pull_data = json.loads(pull_data)
 		user, branch = pull_data['pull']['head']['label'].split(":")
+	elif ":" in branch:
+		user, branch = branch.split(":")
 	
 	name = "%s:%s" % (user, branch)
 	castle = "/media/castles/%s" % name
