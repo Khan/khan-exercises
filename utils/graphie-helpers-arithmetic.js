@@ -4,7 +4,7 @@ function Adder( a, b, digitsA, digitsB ) {
 	digitsB = digitsB || KhanUtil.digits( b );
 	var highlights = [];
 	var carry = 0;
-	var pos = { max: KhanUtil.digits( a + b ).length,
+	var pos = { max: Math.max( digitsA.length, digitsB.length, KhanUtil.digits( a + b ).length ),
 		carry: 3,
 		first: 2,
 		second: 1,
@@ -123,7 +123,7 @@ Adder.numHintsFor = function( a, b ) {
 	return KhanUtil.digits( a + b ).length + 1;
 };
 
-function Subtractor( a, b, digitsA, digitsB ) {
+function Subtractor( a, b, digitsA, digitsB, decimalPlaces ) {
 	var graph = KhanUtil.currentGraph;
 	digitsA = digitsA || KhanUtil.digits( a );
 	digitsB = digitsB || KhanUtil.digits( b );
@@ -141,6 +141,7 @@ function Subtractor( a, b, digitsA, digitsB ) {
 
 	var index = 0;
 	var numHints = Subtractor.numHintsFor( a, b );
+	decimalPlaces = decimalPlaces || 0;
 
 	this.show = function() {
 		graph.init({
@@ -213,7 +214,7 @@ function Subtractor( a, b, digitsA, digitsB ) {
 		}
 
 		var diff = workingDigitsA[ index ] - subtrahend;
-		if ( ( ( a - b ) / Math.pow( 10, index ) ) > 1 ) {
+		if ( ( ( a - b ) / Math.pow( 10, index ) ) > 1 || index < decimalPlaces ) {
 			graph.label( [ pos.max - index, pos.diff ],  "\\Huge{" + diff + "}" );
 		}
 
@@ -286,8 +287,7 @@ Subtractor.numHintsFor = function( a, b ) {
 			for ( var i = 0; i < ( bDecimal - aDecimal ) || bDigits.length < bDecimal + 1; i++ ) {
 				bDigits.push( 0 );
 			}
-
-			var drawn = new drawer( newA, newB, aDigits, bDigits );
+			var drawn = new drawer( newA, newB, aDigits, bDigits, Math.max( aDecimal, bDecimal ) );
 
 			drawn.showDecimals = (function( old ) {
 				return function() {
