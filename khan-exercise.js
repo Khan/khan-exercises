@@ -723,7 +723,7 @@ var Khan = (function() {
 		// XXX(david): don't need to do this in test mode? or is it even an issue
 		//		 because this won't be called in testmode?
 		jQuery.ajax({
-			url: "/api/v1/user/exercises/review_problems",
+			url: "/api/v1/user/exercises/" + exerciseName + "/review_problems",
 			type: "GET",
 			dataType: "json",
 			xhrFields: { withCredentials: true },
