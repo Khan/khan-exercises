@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems jquery.mobile.vmouse">
+<head>
+	<meta charset="UTF-8" />
+	<title>Understanding decimals place value 2</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		.column { float: left; height: 430px;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+		.bill {
+			width: 70px; margin: 6px; line-height: 30px;
+			background-color: #eee; border-width: 1px; border-style: solid; border-color: #ddd; color: #ddd;
+			font-weight: bold; text-align: center; font-size: 20px;
+			cursor: pointer;
+		}
+		.bill:hover { border-color: #999; }
+		.thou-selected { background-color: #ff00af; border-color: #000; color: #fff; }
+		.hund-selected { background-color: #ffa500; border-color: #000; color: #fff; }
+		.ten-selected { background-color: #28ae7b; border-color: #000; color: #fff; }
+		.one-selected { background-color: #6495ed; border-color: #000; color: #fff; }
+		.tenth-selected { background-color: purple; border-color: #000; color: #fff; }
+		.hundth-selected { background-color: gray; border-color: #000; color: #fff; }
+		.thouth-selected { background-color: #a52a2a; border-color: #000; color: #fff; }
+	</style>
+</head>
+<body>
+<div class="exercise">
+	<div class="problems">
+		<div>
+			<div class="vars">
+				<div data-ensure="!( THOUSANDS === 0 && HUNDREDS === 0 )">
+					<var id="THOUSANDS">randFromArray([ 0, randRange( 1, 9 ) ])</var>
+					<var id="HUNDREDS">randRange( 0, 9 )</var>
+				</div>
+				<var id="TENS">randRange( 0, 9 )</var>
+				<var id="ONES">randRange( 0, 9 )</var>
+				<var id="TENTHS">randRange( 0, 9 )</var>
+				<var id="HUNDREDTHS">randRange( 0, 9 )</var>
+				<var id="THOUSANDTHS">randRange( 1, 9 )</var>
+			</div>
+
+			<p class="question">
+				Choose the right number of of each place value to make<br />
+				<code>\Huge{
+				<span data-if="THOUSANDS !== 0">\color{<var>PINK</var>}{<var>THOUSANDS</var>}</span>
+				\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}
+				\color{<var>GREEN</var>}{<var>TENS</var>}
+				\color{<var>BLUE</var>}{<var>ONES</var>}.
+				\color{purple}{<var>TENTHS</var>}
+				\color{gray}{<var>HUNDREDTHS</var>}
+				\color{#a52a2a}{<var>THOUSANDTHS</var>}
+				}</code>
+			</p>
+
+			<div class="problem">
+				<div class="column">
+					<div data-each="10 times" class="bill thou">1000</div>
+				</div>
+				<div class="column">
+					<div data-each="10 times" class="bill hund">100</div>
+				</div>
+				<div class="column">
+					<div data-each="10 times" class="bill ten">10</div>
+				</div>
+				<div class="column">
+					<div data-each="10 times" class="bill one">1</div>
+				</div>
+				<div class="column">
+					<div data-each="10 times" class="bill tenth">0.1</div>
+				</div>
+				<div class="column">
+					<div data-each="10 times" class="bill hundth">0.01</div>
+				</div>
+				<div class="column">
+					<div data-each="10 times" class="bill thouth">0.001</div>
+				</div>
+
+				<var>
+					(function() {
+						// click handlers
+						jQuery( "#problemarea .thou" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'thou-selected' );
+						});
+						jQuery( "#problemarea .hund" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'hund-selected' );
+						});
+						jQuery( "#problemarea .ten" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'ten-selected' );
+						});
+						jQuery( "#problemarea .one" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'one-selected' );
+						});
+						jQuery( "#problemarea .tenth" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'tenth-selected' );
+						});
+						jQuery( "#problemarea .hundth" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'hundth-selected' );
+						});
+						jQuery( "#problemarea .thouth" ).bind( "vmousedown", function( event ) {
+							event.preventDefault();
+							jQuery( this ).toggleClass( 'thouth-selected' );
+						});
+					})()
+				</var>
+				<p style="clear: left">&nbsp;</p>
+			</div>
+
+			<div class="solution" data-type="custom">
+				<div class="instruction">
+					Click on the numbers in rectangles to select them.
+				</div>
+				<div class="guess">digitsToInteger([
+					jQuery( "#problemarea .thou-selected" ).length,
+					jQuery( "#problemarea .hund-selected" ).length,
+					jQuery( "#problemarea .ten-selected" ).length,
+					jQuery( "#problemarea .one-selected" ).length,
+					jQuery( "#problemarea .tenth-selected" ).length,
+					jQuery( "#problemarea .hundth-selected" ).length,
+					jQuery( "#problemarea .thouth-selected" ).length
+				]) / 1000
+				</div>
+				<div class="validator-function">
+					if ( guess === 0 ) {
+						return "";
+					} else {
+						return guess === ( digitsToInteger([ THOUSANDS, HUNDREDS, TENS, ONES, TENTHS, HUNDREDTHS, THOUSANDTHS ]) / 1000 );
+					}
+				</div>
+				<div class="show-guess">
+					var places = digits( guess * 1000 );
+
+					// unselect everything
+					jQuery( "#problemarea .bill" ).removeClass( 'thou-selected hund-selected ten-selected one-selected tenth-selected, hundth-selected, thouth-selected' );
+
+					// select the approprate number of each thing
+					jQuery( "#problemarea .thou" ).slice( 0, places[6] || 0 ).addClass( 'thou-selected' );
+					jQuery( "#problemarea .hund" ).slice( 0, places[5] || 0 ).addClass( 'hund-selected' );
+					jQuery( "#problemarea .ten" ).slice( 0, places[4] || 0 ).addClass( 'ten-selected' );
+					jQuery( "#problemarea .one" ).slice( 0, places[3] || 0 ).addClass( 'one-selected' );
+					jQuery( "#problemarea .tenth" ).slice( 0, places[2] || 0 ).addClass( 'tenth-selected' );
+					jQuery( "#problemarea .hundth" ).slice( 0, places[1] || 0 ).addClass( 'hundth-selected' );
+					jQuery( "#problemarea .thouth" ).slice( 0, places[0] || 0 ).addClass( 'thouth-selected' );
+				</div>
+				<div class="example">click a number to select it</div>
+				<div class="example">click a number again to deselect it</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<p>
+			<code>\Large{
+				<span data-if="THOUSANDS !== 0">\color{<var>PINK</var>}{<var>THOUSANDS</var>}</span>
+				\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}
+				\color{<var>GREEN</var>}{<var>TENS</var>}
+				\color{<var>BLUE</var>}{<var>ONES</var>}.
+				\color{purple}{<var>TENTHS</var>}
+				\color{gray}{<var>HUNDREDTHS</var>}
+				\color{#a52a2a}{<var>THOUSANDTHS</var>}}
+			</code>
+			is the same as
+			<code>\large{
+				<span data-if="THOUSANDS !== 0">\color{<var>PINK</var>}{<var>THOUSANDS</var>000} + </span>
+				<span data-if="HUNDREDS !== 0">\color{<var>ORANGE</var>}{<var>HUNDREDS</var>00} + </span>
+				<span data-if="TENS !== 0">\color{<var>GREEN</var>}{<var>TENS</var>0} + </span>
+				<span data-if="ONES !== 0">\color{<var>BLUE</var>}{<var>ONES</var>} + </span>
+				<span data-if="TENTHS !== 0">\color{purple}{0.<var>TENTHS</var>} + </span>
+				<span data-if="HUNDREDTHS !== 0">\color{gray}{0.0<var>HUNDREDTHS</var>} + </span>
+				<span data-if="THOUSANDTHS !== 0">\color{#a52a2a}{0.00<var>THOUSANDTHS</var>}</span>
+			}</code>.
+		</p>
+		<p data-if="THOUSANDS !== 0">
+			<code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>000}}</code> is the same as <code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code>
+			<var>plural( "thousand", THOUSANDS )</var>, the place value four places to the left of the decimal point.
+		</p>
+		<p data-if="HUNDREDS !== 0">
+			<code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>00}}</code> is the same as <code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code>
+			<var>plural( "hundred", HUNDREDS )</var>, the place value three places to the left of the decimal point.
+		</p>
+		<p data-if="TENS !== 0">
+			<code>\large{\color{<var>GREEN</var>}{<var>TENS</var>0}}</code> is the same as <code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code>
+			<var>plural( "ten", TENS )</var>, the place value two places to the left of the decimal point.
+		</p>
+		<p data-if="ONES !== 0">
+			<code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> is the same as <code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code>
+			<var>plural( "one", ONES )</var>, the place value one place to the left of the decimal point.
+		</p>
+		<p data-if="TENTHS !== 0">
+			<code>\large{\color{purple}{0.<var>TENTHS</var>}}</code> is the same as <code>\large{\color{purple}{<var>TENTHS</var>}}</code>
+			<var>plural( "tenth", TENTHS )</var>, the place value one place to the right of the decimal point.
+		</p>
+		<p data-if="HUNDREDTHS !== 0">
+			<code>\large{\color{gray}{0.0<var>HUNDREDTHS</var>}}</code> is the same as <code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code>
+			<var>plural("hundredth", HUNDREDTHS )</var>, the place value two places to the right of the decimal point.
+		</p>
+		<p data-if="THOUSANDTHS !== 0">
+			<code>\large{\color{#a52a2a}{0.00<var>THOUSANDTHS</var>}}</code> is the same as <code>\large{\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code>
+			<var>plural("thousandth", THOUSANDTHS )</var>, the place value three places to the right of the decimal point.
+		</p>
+		<p>
+			Therefore you need
+			<span data-if="THOUSANDS !== 0"><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> <var>plural( "thousand", THOUSANDS )</var>, </span>
+			<span data-if="HUNDREDS !== 0"><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> <var>plural( "hundred", HUNDREDS )</var>, </span>
+			<span data-if="TENS !== 0"><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> <var>plural( "ten", TENS )</var>, </span>
+			<span data-if="ONES !== 0"><code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> <var>plural( "one", ONES )</var>, </span>
+			<span data-if="TENTHS !== 0"><code>\large{\color{purple}{<var>TENTHS</var>}}</code> <var>plural( "tenth", TENTHS )</var>, </span>
+			<span data-if="HUNDREDTHS !== 0"><code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> <var>plural( "hundredth", HUNDREDTHS )</var>, </span>
+			and <code>\large{\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> <var>plural( "thousandth", THOUSANDTHS )</var>
+		</p>
+	</div>
+
+</div>
+</body>
+</html>

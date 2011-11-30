@@ -2,7 +2,7 @@
 <html data-require="math graphie word-problems jquery.mobile.vmouse">
 <head>
 	<meta charset="UTF-8" />
-	<title>Understanding decimals place value</title>
+	<title>Understanding decimals place value 1</title>
 	<script src="../khan-exercise.js"></script>
 	<style>
 		.column { float: left; height: 430px;
@@ -188,11 +188,11 @@
 
 					// select the approprate number of each thing
 					jQuery( "#problemarea .thou" ).slice( 0, places[5] || 0 ).addClass( 'thou-selected' );
-					jQuery( "#problemarea .hund" ).slice( 0, places[4] ).addClass( 'hund-selected' );
-					jQuery( "#problemarea .ten" ).slice( 0, places[3] ).addClass( 'ten-selected' );
-					jQuery( "#problemarea .one" ).slice( 0, places[2] ).addClass( 'one-selected' );
-					jQuery( "#problemarea .dime" ).slice( 0, places[1] ).addClass( 'dime-selected' );
-					jQuery( "#problemarea .penny" ).slice( 0, places[0] ).addClass( 'penny-selected' );
+					jQuery( "#problemarea .hund" ).slice( 0, places[4] || 0 ).addClass( 'hund-selected' );
+					jQuery( "#problemarea .ten" ).slice( 0, places[3] || 0 ).addClass( 'ten-selected' );
+					jQuery( "#problemarea .one" ).slice( 0, places[2] || 0 ).addClass( 'one-selected' );
+					jQuery( "#problemarea .dime" ).slice( 0, places[1] || 0 ).addClass( 'dime-selected' );
+					jQuery( "#problemarea .penny" ).slice( 0, places[0] || 0 ).addClass( 'penny-selected' );
 					for ( var i = 0; i &lt; places[1]; ++i ) {
 						KhanUtil.currentGraph.graph.tenths[ i ].attr({ fill: 'purple', stroke: '#000' });
 					}
