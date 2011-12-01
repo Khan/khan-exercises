@@ -168,6 +168,9 @@ var Khan = (function() {
 	guessLog,
 	userActivityLog,
 
+	// A map of jQuery queues for serially sending and receiving AJAX requests.
+	requestQueue = {},
+
 	// For loading remote exercises
 	remoteCount = 0,
 
@@ -1790,7 +1793,7 @@ var Khan = (function() {
 				} else {
 					// TODO: Implement alternative error handling
 				}
-			});
+			}, "attempt_hint_queue" );
 
 			if ( pass === true ) {
 				// Correct answer, so show the next question button.
@@ -1914,7 +1917,8 @@ var Khan = (function() {
 					buildAttemptData(false, attempts, "hint", new Date().getTime()),
 					// Don't do anything on success or failure, silently failing is ok here
 					function() {},
-					function() {}
+					function() {},
+					"attempt_hint_queue"
 				);
 			}
 
@@ -2395,7 +2399,7 @@ var Khan = (function() {
 		}
 	}
 
-	function request( method, data, fn, fnError ) {
+	function request( method, data, fn, fnError, queue ) {
 		if ( testMode ) {
 			// Pretend we have success
 			if ( jQuery.isFunction( fn ) ) {
@@ -2434,12 +2438,36 @@ var Khan = (function() {
 			error: fnError
 		};
 
-		// Do request using OAuth, if available
-		if ( typeof oauth !== "undefined" && jQuery.oauth ) {
-			jQuery.oauth( jQuery.extend( {}, oauth, request ) );
+		// Send request and return a jqXHR (which implements the Promise interface)
+		function sendRequest() {
+			// Do request using OAuth, if available
+			if ( typeof oauth !== "undefined" && jQuery.oauth ) {
+				return jQuery.oauth( jQuery.extend( {}, oauth, request ) );
+			}
 
+			return jQuery.ajax( request );
+		}
+
+		// We may want to queue up the requests so that they're sent serially.
+		//
+		// We currently do this for problem attempts and hints to avoid a race
+		// condition:
+		// 1) request A fetches UserExercise X
+		// 2) request B also fetches X
+		// 3) A finishes updating X and saves as A(X)
+		// 4) now B finishes updating X and overwrites A(X) with B(X)
+		// ...when what we actually wanted saved is B(A(X)). We should really fix it
+		// on the server by running the hint and attempt requests in transactions.
+		if ( queue != null ) {
+			// Create an empty jQuery object to use as a queue holder, if needed.
+			requestQueue[queue] = requestQueue[queue] || jQuery( {} );
+
+			// Queue up sending the request to run when old requests have completed.
+			requestQueue[queue].queue(function(next) {
+				sendRequest().always( next );
+			});
 		} else {
-			jQuery.ajax( request );
+			sendRequest();
 		}
 	}
 
