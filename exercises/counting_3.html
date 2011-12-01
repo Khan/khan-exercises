@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html data-require="math graphie probability">
+<head>
+	<meta charset="UTF-8" />
+	<title>Counting 3</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="GRYFF">randRange( 2, 5)</var>
+		<var id="SLYTH">randRange(1, 3)</var>
+		<var id="HUFFLE">randRange(1, 3)</var>
+		<var id="RAVEN">randRange(1, 3)</var>
+		<var id="APPLICANTS">GRYFF+SLYTH+HUFFLE+RAVEN</var>
+		<var id="ANSWER">choose(APPLICANTS,4)</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>You've been transported to the world of Harry Potter. You are leading a magical expedition with a group of 4 students from Hogwarts.</p>
+				<p><var>GRYFF</var> students from the house of Gryffindor, <var>SLYTH</var> from Slytherin, <var>HUFFLE</var> from Hufflepuff, and <var>RAVEN</var> from Ravenclaw applied to join your team. Group members are chosen randomly.</p>	
+				<p>How many different groups can be formed?</p>
+			</div>
+			<div class="solution"><var>ANSWER</var></div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<div>
+			<p><strong>Hint #1:</strong><br>
+			Let&#39;s change the problem to make it more simple. <br> <br>
+			You are leading  a group of <strong>2 students</strong> from Hogwarts. Pretend Harry and Hermoine from Gryffindor, and Draco from Slytherin are applying. How many different groups can be formed? Let&#39;s write out all the possible groups. <br>
+				<ul>
+				<li>Harry and Hermoine</li>
+				<li>Harry and Draco</li>
+				<li>Hermoine and Draco</li>
+				</ul><br>
+			There are 3 different groups you can form. Notice how we did not count both
+			Harry and Hermione <strong>and</strong> Hermione and Harry. Is there a technique that can help you count the different groups when you don&#39;t care about order?
+			</p>
+		</div>
+		<div>
+			<strong>Hint #2:</strong><br>
+			The combination formula will calculate the different ways of selecting a group of things when order does not matter. The formula for a combination is:<br><br> 
+			<strong>nCr = n! / r!(n-r)!</strong><br><br> 			
+			
+			In our simple problem from Hint #1, the n is 3 and the r is 2. There are 3 people applying and you want to grab 2 people as part of your group.<br> 
+			
+			How can we apply that same technique to the original problem now? 
+		</div>
+		<div>
+			<p><strong>Hint #3:</strong><br>
+			We need to count the total number of people applying to be our n.<br>
+			This is <var>GRYFF</var> + <var>SLYTH</var> + <var>HUFFLE</var> + <var>RAVEN</var>. <br>
+			There are <var>APPLICANTS</var> people applying and you want to grab 4 people so the answer is (<var>APPLICANTS</var> choose 4).</p>
+		</div>
+	</div>
+</body>
+</html>
