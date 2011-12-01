@@ -110,7 +110,7 @@ function Rotator( center, r, pro ) {
 
 	this.set.push( graph.arc( center, r + 1, 150, 180, { "stroke": "#aab", "stroke-width": 20 } )
 				   .drag( arcDragMove, arcDragStart, arcDragStop ) );
-	
+
 	this.downArrow = graph.path( [ [center[0]-(r+0.25), center[1]],
 								  [center[0]-(r+1), center[1]-0.75],
 								  [center[0]-(r+1.75), center[1]],
@@ -192,7 +192,7 @@ function Translator( center, r, pro ) {
 	this.set = graph.raphael.set();
 
 	this.set.push( graph.line( [center[0]+1, center[1]-1], [center[0]+r-1, center[1]-1], { "stroke": "#aab", "stroke-width": 20 } ) );
-	
+
 	this.leftArrow = graph.path( [ [center[0]+1, center[1]-0.25],
 								   [center[0]+0.25, center[1]-1],
 								   [center[0]+1, center[1]-1.75]
@@ -278,7 +278,7 @@ function Protractor( center, r ) {
 
 	var imgPos = graph.scalePoint([ this.cx - r, this.cy + r ]);
 	this.set.push( graph.raphael.image( Khan.urlBase + "images/protractor.png", imgPos[0], imgPos[1], 322, 166 ) );
-	
+
 	this._rotation = 0;
 	this.getRotation = function() {
 		return this._rotation;
@@ -288,7 +288,7 @@ function Protractor( center, r ) {
 		rOffset = rOffset || -1;
 		stroke = stroke || lineColor;
 		labelStroke = stroke || "#000";
-		
+
 		var an = angle - this.getRotation(),
 		dx = Math.cos( Math.PI * an / 180 ),
 		dy = Math.sin( Math.PI * an / 180 ),
@@ -305,15 +305,15 @@ function Protractor( center, r ) {
 	var setNodes = jQuery.map( this.set, function( el ) { return el.node; } );
 	function makeTranslatable() {
 		jQuery( setNodes ).css( "cursor", "move" );
-		
+
 		jQuery( setNodes ).mousedown( function( event ) {
 			event.preventDefault();
-			
+
 			var i;
 			//store the starting point for each item in the set
 			for ( i=0; i < pro.set.items.length; i++ ) {
 				var obj = pro.set.items[i];
-				
+
 				obj.ox = event.pageX;
 				obj.oy = event.pageY;
 
@@ -327,9 +327,9 @@ function Protractor( center, r ) {
 					var obj = pro.set.items[i],
 					trans_x = event.pageX - obj.ox,
 					trans_y = event.pageY - obj.oy;
-					
+
 					obj.translate( trans_x, trans_y );
-					
+
 					obj.ox = event.pageX;
 					obj.oy = event.pageY;
 				}
@@ -340,12 +340,12 @@ function Protractor( center, r ) {
 				//remove the starting point for each of the objects
 				for ( i=0; i < pro.set.items.length; i++ ) {
 					var obj = pro.set.items[i];
-					
+
 					delete(obj.ox);
 					delete(obj.oy);
-					
+
 					obj.animate( { opacity: 0.5 }, 500, ">" );
-					
+
 					jQuery(document).unbind("mousemove");
 				}
 			});
@@ -360,7 +360,7 @@ function Protractor( center, r ) {
 
 		pro.translator.translationOff();
 	}
-	
+
 	this.rotator = new Rotator( [this.cx, this.cy], r, this );
 	this.set.push( this.rotator.set );
 
@@ -397,7 +397,7 @@ function Protractor( center, r ) {
 		if ( absolute ) {
 			this.cx = x;
 			this.cy = y;
-			
+
 			var d = graph.scalePoint([ x, y ]),
 			c = this.getCenter();
 
@@ -405,7 +405,7 @@ function Protractor( center, r ) {
 		} else {
 			this.cx += x;
 			this.cy += y;
-			
+
 			this.set.translate( x, y );
 		}
 		return this;
@@ -413,9 +413,9 @@ function Protractor( center, r ) {
 
 	this.rotatedTranslate = function( k ) {
 		k = k || 1;
-		
+
 		var rot = Math.PI * this.getRotation() / 180;
-		
+
 		var x = k * Math.cos( rot ),
 		y = k * Math.sin( rot );
 
@@ -664,22 +664,26 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		});
 	}
 
-	function labelAngle( coordArr, angles, color ) {
+	function labelAngle( coordArr, angles, color, label ) {
 		var graph = KhanUtil.currentGraph;
-		var measure = ( angles[ 1 ] - angles[ 0 ] );
-		var bisect = ( angles[ 0 ] + angles[ 1 ] ) / 2;
-		var radius = 0.8;
-		if ( measure < 90 ) {
-			radius = 0.8 / Math.sin( KhanUtil.toRadians ( measure ) );
-		}
+        var measure = (angles[ 1 ] - angles[ 0 ])
+        var bisect = ( angles[ 0 ] + angles[ 1 ] ) / 2;
+        
+        var radius = 0.6
+        
+        if ( measure < 60 ) { // control for angle label getting squeezed between intersecting lines
+            radius /= Math.sin( KhanUtil.toRadians ( measure ) );
+        }
+        
 		var coords = jQuery.map( coordArr, function( coord, index ) {
-			if ( index === 0 ) {
+			if ( index === 0 ) { // x-coordinate
 				return coord + radius * Math.cos( KhanUtil.toRadians( bisect ) );
-			} else {
+			} else { // y-coordinate
 				return coord + radius * Math.sin( KhanUtil.toRadians( bisect ) );
 			}
 		});
-		graph.label( coords, measure + "^{\\circ}", "center", {color: color});
+
+		graph.label( coords, label.text, label.placement, { color: color } );
 	}
 
 	this.draw = function() {
@@ -700,6 +704,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 	};
 
 	this.drawAngle = function( index, label, color ) {
+
 		var graph = KhanUtil.currentGraph,
 			radius = 0.5,
 			args, angles;
@@ -712,18 +717,23 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 			args = [ upperIntersection, radius ];
 		}
 
+		var labelPlacement;
 		switch( index % 4 ) {
-			case 0:
+			case 0: // Quadrant 1
 				angles = [ 0, anchorAngle ];
+				labelPlacement = "right";
 				break;
-			case 1:
+			case 1: // Quadrant 2
 				angles = [ anchorAngle, 180 ];
+				labelPlacement = "left";
 				break;
-			case 2:
+			case 2: // Quadrant 3
 				angles = [ 180, 180 + anchorAngle ];
+				labelPlacement = "left";
 				break;
-			case 3:
+			case 3: // Quadrant 4
 				angles = [ 180 + anchorAngle, 360 ];
+				labelPlacement = "right";
 				break;
 		}
 		jQuery.merge( args, angles );
@@ -731,7 +741,13 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		graph.style({ stroke: color}, function() {
 			graph.arc.apply( graph, args );
 			if ( label ) {
-				labelAngle( args[ 0 ], angles, color );
+				var labelOptions = { text: label, placement: labelPlacement};
+
+				if ( typeof label === "boolean" ) {
+					labelOptions.text = (angles[1] - angles[0]) + "^\\circ";
+				}
+
+				labelAngle( args[ 0 ], angles, color, labelOptions );
 			}
 		});
 	};
