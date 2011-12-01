@@ -147,7 +147,7 @@
 
 					style({ stroke: COLORS[index].hex });
 					plot(function( x ) {
-						return x * SLOPES[index].value + B;
+						return ( x - 1 ) * SLOPES[index].value + B;
 					}, [ -11, 11 ]);
 				</div>
 			</div>
@@ -174,7 +174,7 @@
 				<var id="SLOPES">[
 					{ value: M_INIT, display: M_INIT },
 					{ value: 0, display: 0 },
-					{ value: Number.POSITIVE_INFINITY, display: "undefined" },
+					{ value: 99999, display: "undefined" },
 					{ value: 1 / M_INIT, display: "\\dfrac{1}{" + M_INIT + "}" }
 					]</var>
 				<var id="WHICH">randRange( 1, 2 )</var>
