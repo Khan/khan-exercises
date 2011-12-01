@@ -5,8 +5,9 @@
 	<title>Equation of a hyperbola</title>
 	<script src="../khan-exercise.js"></script>
 	<style type="text/css">
-		#answer_area .short input[type=text] {
-			width: 60px;
+		#answer_area input[type="text"] {
+			margin: 0 0 0 5px;
+			width: 30px;
 		}
 	</style>
 </head>
@@ -24,8 +25,7 @@
 		<var id="X_MINUS"> WHICH_NEG === 1 ? "+" : "+"</var>
 		<var id="Y_MINUS"> WHICH_NEG === 1 ? "" : "-"</var>
 
-
-		<var id="ASYMPT">plus( "\\dfrac{" + expr( ["*", reduce( A, B )[1] , plus( "x", -H ) ] ) +  "}{" + reduce( A, B )[0] + "}",  K) </var>
+		<var id="ASYMPT">plus( expr ( ["*", "\\dfrac{"+ reduce( A, B )[1] + "}{" + reduce( A, B )[0] + "}", plus( "x", -H ) ] ),  K ) </var>
 		<var id="ANSWER">B+"*(-" + H + "+x)/" + A + "+" +  K</var>
 		<var id="X">H === 0 ? "x^2" :  expr(["^", ["+", "x", -H], 2])</var>
 		<var id="Y">K === 0 ? "y^2" :  expr(["^", ["+", "y", -K], 2])</var>
@@ -41,7 +41,15 @@
 			</div>
 
 			<div class="solution" data-type="multiple">
-				<p class="short"><code>y = \pm</code><span class="sol"><var>B/A</var></span><code>(x</code><span class="sol"><var>-H</var></span><code>)</code><span class="sol"><var>K</var></span></p>
+				<p>
+					Equation of the hyperbola:<br />
+					<code>y \pm (</code><span class="sol" data-fallback="1"><var>B/A</var></span>
+					<code>)(x + </code><span class="sol" data-fallback="0"><var>-H</var></span>
+					<code>) + </code><span class="sol" data-fallback="0"><var>K</var></span>
+				</p>
+				
+				<p class="example">for the equation of the hyperbola, you may enter integers, fractions, or exact decimals for each term</p>
+				<p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
 			</div>
 		</div>
 	</div>
