@@ -1107,7 +1107,7 @@ jQuery.extend( KhanUtil, {
 		sorter.getContent = function() {
 			content = [];
 			list.find( "li" ).each(function( tileNum, tile ) {
-				content.push( jQuery( tile ).find( "code" ).text().trim() );
+				content.push( jQuery.trim( jQuery( tile ).find( "code" ).text() ) );
 			});
 			return content;
 		};
@@ -1118,6 +1118,9 @@ jQuery.extend( KhanUtil, {
 				MathJax.Hub.Queue([ "Reprocess", MathJax.Hub, tile ]);
 			});
 		};
+
+		// Hide the scratchpad so the numbers are draggable
+		Khan.scratchpad.hide();
 
 		return sorter;
 	}
