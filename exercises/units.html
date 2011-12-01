@@ -81,7 +81,7 @@
 								units = factor + "\\dfrac{\\text{" + D_UNITS[i + increment].plural + "}}{\\text{" + D_UNITS[i].str + "}}";
 							}
 							else {
-								units = factor + "\\dfrac{\\text{" + D_UNITS[i + increment].plural + "}}{\\text{" + D_UNITS[i].plural + "}}";
+								units = factor + "\\dfrac{\\text{" + D_UNITS[i + increment].str + "}}{\\text{" + D_UNITS[i].plural + "}}";
 							}
 							hint += "\\cdot" + units;
 						}
@@ -101,7 +101,7 @@
 								units = factor + "\\dfrac{\\text{" + T_UNITS[i].plural + "}}{\\text{" + T_UNITS[i + increment].str + "}}";
 							}
 							else {
-								units = factor + "\\dfrac{\\text{" + T_UNITS[i].plural + "}}{\\text{" + T_UNITS[i + increment].plural + "}}";
+								units = factor + "\\dfrac{\\text{" + T_UNITS[i].str + "}}{\\text{" + T_UNITS[i + increment].plural + "}}";
 							}
 							hint += "\\cdot" + units;
 						}
