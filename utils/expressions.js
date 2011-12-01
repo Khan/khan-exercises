@@ -450,6 +450,13 @@ jQuery.extend(KhanUtil, {
 					return e.slice(1);
 				}
 				break;
+				
+				case "-":
+				if ( e[0] === "-" ) {
+					expr[0] = "+";
+					return e.slice(1);
+				}
+				break;
 			}
 			//make sure that we encapsulate e in an array so jQuery's map 
 			//does't accidently unpacks e itself.
