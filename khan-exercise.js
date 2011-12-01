@@ -2458,9 +2458,11 @@ var Khan = (function() {
 		// 4) now B finishes updating X and overwrites A(X) with B(X)
 		// ...when what we actually wanted saved is B(A(X)). We should really fix it
 		// on the server by running the hint and attempt requests in transactions.
-		if ( typeof queue !== "undefined" ) {
+		if ( queue != null ) {
+			// Create an empty jQuery object to use as a queue holder, if needed.
 			requestQueue[queue] = requestQueue[queue] || jQuery( {} );
 
+			// Queue up sending the request to run when old requests have completed.
 			requestQueue[queue].queue(function(next) {
 				sendRequest().always( next );
 			});
