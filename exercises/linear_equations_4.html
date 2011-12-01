@@ -35,6 +35,10 @@
 					</div>
 					<div>
 						<p>Divide by <code><var>A * C</var></code>:</p>
+						<p><code>\qquad x = <var>fraction( B - A * D, A * C, false, false )</var></code></p>
+					</div>
+					<div data-if="reduces( B - A * D, A * C )">
+						<p>Reduce the fraction</code>:</p>
 						<p><code>\qquad x = <var>fractionReduce( B - A * D, A * C )</var></code></p>
 					</div>
 				</div>
@@ -72,6 +76,10 @@
 					</div>
 					<div>
 						<p>Divide by <code><var>A - E * C</var></code>:</p>
+						<p><code>\qquad x = <var>fraction( E * D - B, A - E * C, false, false )</var></code></p>
+					</div>
+					<div data-if="reduces(E * D - B, A - E * C)">
+						<p>Reduce the fraction.</code>:</p>
 						<p><code>\qquad x = <var>fractionReduce( E * D - B, A - E * C )</var></code></p>
 					</div>
 				</div>
