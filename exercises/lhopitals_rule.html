@@ -2,7 +2,7 @@
 <html data-require="math math-format calculus polynomials expressions">
 <head>
 	<meta charset="UTF-8" />
-	<title>L'Hopital's Rule</title>
+	<title>L'Hopital's rule</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -80,21 +80,22 @@
 					</p>
 
 					<!-- Show them the steps of L'Hopital's rule by deriving until the indeterminate form can be resolved -->
-					<p>
-						Repeat this process until evaluating the limit will not result in an indeterminate form:<br />
-						<span data-each="STEPS as N, STEP">
-							<span data-if="N !== STEPS.length - 1">
+					<div data-each="STEPS as N, STEP" data-unwrap>
+						<div data-if="N != STEPS.length-1">
+							<p data-if="N === 0">
+								Repeat this process until evaluating the limit will not result in an indeterminate form:
+							</p>
+							<p data-else>
+								Since evaluating the limit at this point still results in <code><var>INDETERMINATE_FORM</var></code>, we must apply L'Hopital's rule again:
+							</p>
+							<p>
 								<code>
 									\displaystyle\frac{\frac{d}{dx} (<var>STEP[0]</var>)}{\frac{d}{dx} (<var>STEP[1]</var>)} =
 									\frac{<var>STEPS[N+1][0]</var>}{<var>STEPS[N+1][1]</var>}
 								</code>
-								<br />
-								<span data-if="N + 1 !== STEPS.length - 1">
-									<br />Since evaluating the limit at this point still results in <code><var>INDETERMINATE_FORM</var></code>, we must apply L'Hopital's rule again:<br />
-								</span>
-							</span>
-						</span>
-					</p>
+							</p>
+						</div>
+					</div>
 
 					<!-- Evaluate the limit and give the solution in both unsimplified and simplified form (if necessary) -->
 					<p>
