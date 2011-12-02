@@ -17,7 +17,7 @@
 				<var id="INDEX">randRange( 0, 1 )</var>
 				<var id="Y">randRangeNonZero( -20, 19 )</var>
 				<var id="Z" data-ensure="Z > Y">randRange( 1, 20 )</var>
-				<var id="Y_SIGN">Y > 0 ? "-" : "+"</var>
+				<var id="Y_SIGN">Y &gt; 0 ? "-" : "+"</var>
 				<var id="LEFT">[expr( ["+", X, Y] ), Z][INDEX]</var>
 				<var id="RIGHT">[Z, expr( ["+", X, Y] )][INDEX]</var>
 			</div>
@@ -25,10 +25,10 @@
 				<p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
 			<div class="solution" data-forms="integer"><var>Z - Y</var></div>
 			<div class="hints">
-				<p><var>Y > 0 ? "Subtract" : "Add"</var> <var>abs(Y)</var> <var>Y > 0 ? "from" : "to"</var> both sides.</p>
+				<p><var>Y &gt; 0 ? "Subtract" : "Add"</var> <var>abs(Y)</var> <var>Y &gt; 0 ? "from" : "to"</var> both sides.</p>
 				<div>
-					<p data-if="INDEX === 0"><code>\large{<var>X</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>RIGHT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
-					<p data-else><code>\large{<var>LEFT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>X</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
+					<p data-if="INDEX === 0"><code>\large{<var>LEFT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>RIGHT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
+					<p data-else><code>\large{<var>LEFT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>RIGHT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
 				</div>
 				<div>
 					<p>Simplify.</p>
@@ -56,8 +56,8 @@
 			<div class="hints">
 				<p>Divide both sides by <var>Y</var>.</p>
 				<div>    
-				    <p data-if="INDEX === 0"><code>\large{\dfrac{<var>X</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}}}</code></p>
-				    <p data-else><code>\large{\dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>X</var>}{\color{blue}{<var>Y</var>}}}</code></p>
+				    <p data-if="INDEX === 0"><code>\large{\dfrac{<var>LEFT</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}}}</code></p>
+				    <p data-else><code>\large{\dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>RIGHT</var>}{\color{blue}{<var>Y</var>}}}</code></p>
 				</div>    
 				<div>
 					<p>Simplify.</p>
