@@ -776,12 +776,6 @@ var Khan = (function() {
 			Badges.hide();
 		}
 
-		// TODO(david): This should preferably go in prepareSite so it's only run once.
-		// Hide the "Show next 10 problems" link button if we're in review mode.
-		if ( isReview ) {
-			jQuery( "#print-ten" ).parent().hide();
-		}
-
 		// Enable scratchpad (unless the exercise explicitly disables it later)
 		Khan.scratchpad.enable();
 
@@ -2479,6 +2473,15 @@ var Khan = (function() {
 		}
 	};
 
+	function switchToReviewMode() {
+		// Hide the "Show next 10 problems" link button
+		jQuery( "#print-ten" ).parent().hide();
+
+		// Replace the proficiency progress bar with "REVIEW MODE" title
+		jQuery( "#streak-bar-container" ).hide();
+		jQuery( "#review-mode-title" ).show();
+	}
+
 	function prepareUserExercise( data ) {
 		// Update the local data store
 		updateData( data );
@@ -2634,7 +2637,13 @@ var Khan = (function() {
 			// XXX(david): Does this make sense? Maybe query param is better... if we
 			// were proficient then got one wrong, it probably doesn't make sense to
 			// fall back to exercise mode.
-			isReview = isReview || exerciseStates.reviewing;
+			if ( !isReview && exerciseStates.reviewing ) {
+				isReview = true;
+
+				jQuery(function() {
+					switchToReviewMode();
+				});
+			}
 
 			var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
 			var src = isReview ? "/images/node-review.png" :
