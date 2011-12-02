@@ -11,7 +11,7 @@
 	    
 	    <var id="SOLUTION" data-ensure="abs(SOLUTION) > 5">randRangeNonZero( -20, 20 )</var>
 	    
-	    <var id="A">randRange( 2, 9 )</var>
+	    <var id="A">randRange( 2, 8 )</var>
         <var id="B" data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150">randRangeNonZero( -200, 200 )</var>
         <var id="C" data-ensure="C !== A && abs( A - C ) < 6 && abs( A - C ) > 1 && 180 - (A + C) * SOLUTION - B !== 0">randRange( 2, 9 )</var>
         <var id="D">180 - (A + C) * SOLUTION - B</var>
