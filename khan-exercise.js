@@ -2630,18 +2630,18 @@ var Khan = (function() {
 		var exerciseStates = data && data.exercise_states;
 
 		if ( exerciseStates ) {
-			var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
-			var src = exerciseStates.reviewing ? "/images/node-review.png" :
-						exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" :
-							exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" :
-								"/images/" + sPrefix + "-not-started.png";
-			jQuery("#exercise-icon-container img").attr("src", src);
-
 			// You stay in review mode once you're in... muahahhahaha
 			// XXX(david): Does this make sense? Maybe query param is better... if we
 			// were proficient then got one wrong, it probably doesn't make sense to
 			// fall back to exercise mode.
 			isReview = isReview || exerciseStates.reviewing;
+
+			var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
+			var src = isReview ? "/images/node-review.png" :
+						exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" :
+							exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" :
+								"/images/" + sPrefix + "-not-started.png";
+			jQuery("#exercise-icon-container img").attr("src", src);
 		}
 		//drawExerciseState( data );
 
