@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers angles">
+<head>
+	<meta charset="UTF-8" />
+	<title>Overeenkomstige hoeken</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="ANCHOR">randRange( 20, 160 )</var>
+		<var id="KNOWN_INDEX">randRange( 0, 7 )</var>
+		<var id="UNKNOWN_INDEX">( KNOWN_INDEX + 4 ) % 8</var>
+		<var id="MEASURE">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<p>De twee horizontale lijnen lopen evenwijdig,  en er is een derde lijn die beide lijnen snijdt, zoals in onderstaande afbeelding te zien is.</p>
+			<p class="question">Als we weten dat de <span class="hint_blue">blauwe hoek <var>MEASURE</var> graden is</span>, hoe groot is dan  <span class="hint_orange">de oranje hoek</span>?</p>
+			<p class="solution" data-forms="integer"><var>MEASURE</var></p>
+			<div class="graphie" id="parallel-lines">
+				init({
+					range: [ [ -1, 11 ], [-1, 4] ]
+				});
+				graph.pl = new ParallelLines( 0, 0, 10, 0, 3 );
+				graph.pl.draw();
+				graph.pl.drawTransverse( ANCHOR );
+				graph.pl.drawAngle( KNOWN_INDEX, true );
+				graph.pl.drawAngle( UNKNOWN_INDEX, false, "#FFA500" );
+			</div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<p>De blauwe en oranje hoeken bevinden zich op dezelfde plaats maar op verschillende intersecties.</p>
+		<p>We noemen deze hoeken ook wel overeenkomstige hoeken.</p>
+		<p>Er is bewijs dat overeenkomstige hoeken gelijk zijn, maar neem het voor nu maar gewoon aan.</p>
+		<div>
+			<p>The orange angle measures <var>MEASURE</var> degrees.</p>
+			<div class="graphie" data-update="parallel-lines">
+				graph.pl.drawAngle( UNKNOWN_INDEX, true, "#FFA500" );
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<title>Decimalen omzetten in breuken 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="to-the-tenth">
+			<div class="vars">
+				<var id="D">randRange( 1, 9 ) / 10</var>
+				<var id="T">floor( D * 10 )</var>
+			</div>
+			<p class="question">Druk <code><var>D.toFixed( 1 )</var></code> uit als een breuk.</p>
+			<p class="solution" data-type="rational" data-simplify="optional"><var>D</var></p>
+			<div class="hints">
+				<p>Het getal <code><var>T</var></code> staat op de plaats van de tienden, we hebben dus <var>cardinal( T )</var> tiende<span data-if="T !== 1"></span>.</p>
+				<p><var>Cardinal( T )</var> tiende<span data-if="T !== 1">n</span> kan geschreven worden als <code><var>fraction( T, 10 )</var></code>.</p>
+			</div>
+		</div>
+
+		<div id="to-the-hundredth" data-type="to-the-tenth" data-weight="3">
+			<div class="vars">
+				<var id="D">randRangeExclude(1, 99, [10,20,30,40,50,60,70,80,90]) / 100</var>
+				<var id="T">floor( D * 10 )</var>
+				<var id="H">floor( ( D * 100 ) % 10 )</var>
+			</div>
+			<p class="question">Express <code><var>D.toFixed( 2 )</var></code> as a fraction.</p>
+			<p class="solution" data-type="rational" data-simplify="optional"><var>D</var></p> 
+			<div class="hints">
+				<p>Het getal <code><var>T</var></code> staat op de plaats van de tienden, we hebben dus <var>cardinal( T )</var> tiende<span data-if="T !== 1"></span>.</p>
+				<p><var>Cardinal( T )</var> tiende<span data-if="T !== 1"></span> kan geschreven worden als <code><var>fraction( T, 10 )</var></code>.</p>
+				<p>Het getal <code><var>H</var></code> staat op de plaats van de honderdsten, we hebben dus <var>cardinal( H )</var> honderdste<span data-if="H !== 1"></span>.</p>
+				<p><var>Cardinal( H )</var> honderdste<span data-if="H !== 1">s</span> kan geschreven worden als <code><var>fraction( H, 100 )</var></code>.</p>
+				<div>
+					<p>Tel de beide delen op.</p>
+					<p><code><var>fraction( T, 10 )</var> + <var>fraction( H, 100 )</var></code></p>
+				</div>
+				<div>
+					<p><code>= <var>fraction( T * 10, 100 )</var> + <var>fraction( H, 100 )</var></code></p>
+					<p><code>= <var>fraction( T * 10 + H, 100 )</var></code></p>
+				</div>
+				<div>
+					<p>Je kunt een aantal stappen overslaan door een breuk te amken met <code><var>floor( D * 100 )</var></code> als de teller en <code>100</code> (omdat de decimaal tot in de honderdsten loopt) als de noemer.</p>
+					<p><code><var>fraction( T * 10 + H, 100 )</var></code></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

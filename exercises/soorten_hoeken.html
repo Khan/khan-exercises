@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+	<meta charset="UTF-8" />
+	<title>Soorten hoeken</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+		function protractorHint( pro, rot, angle ) {
+			pro.translate( 0, 0, true );
+			pro.rotate( rot, true );
+			pro.translatable( false );
+			pro.rotatable( false );
+
+			pro.drawAngle( angle, 2, "green", "green" );
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="acute">
+			<div class="vars">
+				<var id="ANGLE_ONE">randRange(0, 359)</var>
+				<var id="DIFF">randRange(20, 70)</var>
+			</div>
+
+			<div class="question">
+				<p>Is de getoonde hoek scherp, recht of stomp?</p>
+
+				<div class="graphie" id="angle">
+
+					var ANGLE_TWO = ANGLE_ONE + DIFF;
+					var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
+					var ANGLE_TWO_R = ANGLE_TWO * PI / 180;
+
+					init({
+						range: [ [-11, 31], [-10, 10] ],
+						scale: 20
+					});
+					path([ [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )], [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
+
+					arc( [0,0], 1, ANGLE_ONE, ANGLE_TWO );
+
+					graph.protractor = new Protractor( [22, 0], 8 );
+					Khan.scratchpad.disable();
+				</div>
+			</div>
+
+			<div class="solution">Acute</div>
+			<ul class="choices" data-category="true">
+				<li>Scherp</li>
+				<li>Recht</li>
+				<li>Stomp</li>
+			</ul>
+
+			<div class="hints">
+				<div class="graphie" data-update="angle">
+					protractorHint( graph.protractor, 360 - ANGLE_ONE, DIFF );
+				</div>
+				<p>De getoonde hoek is minder dan <code>90^\circ</code>.</p>
+				<p>Daarom noemen we het een scherpe hoek.</p>
+			</div>
+		</div>
+
+		<div id="right" data-type="acute">
+			<div class="vars">
+				<var id="DIFF">90</var>
+			</div>
+
+			<div class="solution">Right</div>
+
+			<div class="hints">
+				<div class="graphie" data-update="angle">
+					protractorHint( graph.protractor, 360 - ANGLE_ONE, DIFF );
+				</div>
+				<p>De getoonde hoek is <code>90^\circ</code>.</p>
+				<p>Daarom noemen we het een rechte hoek.</p>
+			</div>
+		</div>
+
+		<div id="obtuse" data-type="acute">
+			<div class="vars">
+				<var id="DIFF">randRange(110, 160)</var>
+			</div>
+
+			<div class="solution">Obtuse</div>
+
+			<div class="hints">
+				<div class="graphie" data-update="angle">
+					protractorHint( graph.protractor, 360 - ANGLE_ONE, DIFF );
+				</div>
+				<p>De getoonde hoek is meer dan <code>90^\circ</code>.</p>
+				<p>Daarom noemen we het een stompe hoek.</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

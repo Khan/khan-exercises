@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+	<head>
+		<title>Hoeken meten</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="ANGLE_ONE">randRange(0, 359)</var>
+				<var id="DIFF">10 * randRange(1, 18)</var>
+			</div>
+
+			<div class="problems">
+				<div>
+					<div class="problem">
+						Meet hoeveel graden deze hoek is.
+					</div>
+					<div class="question">
+						<div class="graphie" id="angle">
+							var ANGLE_TWO = ANGLE_ONE + DIFF;
+							var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
+							var ANGLE_TWO_R = ANGLE_TWO * PI / 180;
+							
+							init({
+								range: [ [-11, 31], [-10, 10] ],
+								scale: 20
+							});
+							path([ [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )], [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
+							arc( [0, 0], 1, ANGLE_ONE, ANGLE_TWO );
+
+							graph.protractor = new Protractor( [22, 0], 8 );
+							Khan.scratchpad.disable();
+						</div>
+					</div>
+					<p class="solution" data-type="rational" data-inexact data-max-error="5"><var>DIFF</var></p>
+				</div>
+			</div>
+
+			<div class="hints">
+				<div>
+					<div class="graphie" data-update="angle">
+						graph.protractor.translate( 0, 0, true );
+						graph.protractor.rotate( 360 - ANGLE_ONE, true );
+						graph.protractor.rotatable( false );
+						graph.protractor.translatable( false );
+					</div>
+					<p>Zorg eerst dat de gradenboog goed ligt.</p>
+				</div>
+				<div>
+					<div class="graphie" data-update="angle">
+						graph.protractor.drawAngle( DIFF, 2, "green", "green" );
+					</div>
+					<p>De hoek is <code><var>DIFF</var></code> graden.</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

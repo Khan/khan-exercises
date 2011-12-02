@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers d3 word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Staafgrafiek lezen 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="HOUSES"> [ "Griffoendor", "Huffelpuf", "Ravenklauw", "Zwadderich" ]</var>
+		<var id="INDEX">randRange( 0, HOUSES.length - 1 )</var>
+		<var id="VALUES">shuffle( [ 1, 2, 3, 4, 5 ], 4 )</var>
+		<var id="DATA">
+			(function() {
+				var ordinals = jQuery.map( HOUSES, function( house, i ) {
+					return house.charAt( 0 );
+				});
+
+				return { min: 0,
+					max: 5,
+					tickCount: 5,
+					values: VALUES,
+					ordinals: ordinals };
+			})()
+		</var>
+	</div>
+	<div class="problems">
+		<div>
+			<p>Op Zweinstein zijn vier afdelingen: <var>toSentence( HOUSES )</var>. De staafgrafiek toont het aantal punten dat elk van de groepen vandaag heeft ontvangen.</p>
+			<p class="question">Hoeveel punten heeft <var>HOUSES[ INDEX ]</var> vandaag ontvangen?</p>
+			<div class="graphie" id="barchart">
+				var width = 5;
+				var height = 5;
+
+				init({
+					range: [ [ -1, width + 1 ], [ -1, height + 0.5 ] ]
+				});
+
+				var pos = { lx: 0, ly: 0, width: width, height: height};
+				graph.barchart = new BarChart( DATA, pos );
+				graph.barchart.draw();
+			</div>
+
+			<div class="solution" data-type="multiple">
+				<span style="padding-right: 5px" class="sol"><var>VALUES[ INDEX ]</var></span> afdelingspunten
+			</div>
+
+			<div class="hints">
+				<div>
+					<p>Vind de staaf van <var>HOUSES[ INDEX ]</var> door naar de letter onder elke staaf te kijken.</p>
+					<div class="graphie" data-update="barchart">
+						graph.barchart.highlightDataPoint( INDEX );
+					</div>
+				</div>
+				<div>
+					<p>Kijk hoe hoog de staaf is door naar de getallen aan de linkerkant te kijken.</p>
+					<div class="graphie" data-update="barchart">
+						graph.barchart.labelDataPoint( INDEX );
+					</div>
+				</div>
+				<p><var>HOUSES[ INDEX ]</var> heeft vandaag <var>plural( VALUES[ INDEX ], "punt" )</var> ontvangen.</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

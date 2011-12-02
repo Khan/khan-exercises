@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Getallenlijn 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="MIDPOINT">randRange( -15, 15 )</var>
+		<var id="DISTANCE">randRange( -2, 2 )</var>
+		<var id="NUMBER">randRangeExclude( max(MIDPOINT-5, MIDPOINT-5-DISTANCE),min(MIDPOINT+5, MIDPOINT+5-DISTANCE), [ 0, MIDPOINT - DISTANCE ] )</var>
+	</div>
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p data-if="DISTANCE !== 0">Welk getal staat <strong><var>plural( abs( DISTANCE ), "positie")</var> <span data-if="DISTANCE < 1">links</span><span data-else>rechts</span> van de oranje stip</strong>? De afstand tussen twee streepjes is 1.</p>
+				<p data-else>Op welk getal staat de oranje stip?</p>
+				<div class="graphie" id="number-line">
+					init({
+						range: [ [ MIDPOINT-6, MIDPOINT+6 ], [ -1, 1 ] ]
+					});
+
+					line( [ MIDPOINT-5, 0 ], [ MIDPOINT+5, 0 ] );
+					for ( var x = MIDPOINT-5; x &lt;= MIDPOINT+5; x++ ) {
+						line( [ x, -0.2 ], [ x, 0.2 ] );
+					}
+
+					style({ stroke: "#6495ED", strokeWidth: 3.5 });
+					line( [ MIDPOINT, -0.2], [MIDPOINT, 0.2]);
+					label( [ MIDPOINT, -0.53 ],  MIDPOINT, "center", { color: "#6495ED" });
+
+					style({ stroke: "#FFA500", fill: "#FFA500" });
+					graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
+				</div>
+			</div>
+			<div class="solution" data-forms="integer"><var>NUMBER+DISTANCE</var></div>
+
+			<div class="hints">
+				<p>We weten waar <code><var>MIDPOINT</var></code> is op deze getallenlijn, want daar staat het getal <code><var>MIDPOINT</var></code> bij.</p>
+				<p>Getallen aan de linkerkant van de <code><var>MIDPOINT</var></code> zijn kleiner, en getallen aan de rechterkant zijn groter dan <code><var>MIDPOINT</var></code>.</p>
+				<div data-if="DISTANCE !== 0">
+					<p>We zoeken de waarde van het getal dat hoort bij de blauwe stip, wat <var>plural( abs( DISTANCE ), "positie")</var> <span data-if="DISTANCE < 1">links</span><span data-else>rechts</span> van de oranje stip.</p>
+					<div class="graphie" data-update="number-line">
+						style({ stroke: "#6495ED", fill: "#6495ED" });
+						graph.blueDot = circle( [ NUMBER+DISTANCE, 0 ], 0.10 );
+					</div>
+				</div>
+				<div>
+					<p>Beginnend bij <code><var>MIDPOINT</var></code>, schuiven we <code><var>abs( NUMBER-MIDPOINT+DISTANCE )</var></code> naar <span data-if="NUMBER-MIDPOINT+DISTANCE < 0">links</span><span data-else>rechts</span> om de <span data-if="DISTANCE !== 0">blauwe</span><span data-else>oranje</span> stip te bereiken.</p>
+					<div class="graphie" data-update="number-line">
+						var color = "#6495ED";
+						if ( DISTANCE === 0 ) {
+							color = "#FFA500";
+						}
+						style({ stroke: color, fill: color, strokeWidth: 3.5, arrows: "->" });
+						line( [ MIDPOINT, 0 ], [ NUMBER+DISTANCE, 0 ] );
+						graph.blueDot.toFront();
+					</div>
+				</div>
+				<div>
+					<p>Bij de <span data-if="DISTANCE !== 0">blauwe</span><span data-else>oranje</span> stip hoort het nummer <code><var>NUMBER+DISTANCE</var></code>.</p>
+					<div class="graphie" data-update="number-line">
+						var color = "#6495ED";
+						if ( DISTANCE === 0 ) {
+							color = "#FFA500";
+						}
+						label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
+						label( [ NUMBER+DISTANCE, -0.53 ],  NUMBER+DISTANCE, "center", { color: color });
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

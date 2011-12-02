@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+	<meta charset="UTF-8" />
+	<title>Breuken herkennen</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="NUMERATOR < DENOMINATOR">
+			<var id="NUMERATOR">randRange( 1, 11 )</var>
+			<var id="DENOMINATOR">randRange( 2, 12 )</var>
+		</div>
+
+		<div class="problems">
+			<div id="original">
+				<p class="question">In de breuk <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>, wat is de teller?</p>
+				<p class="solution" data-forms="integer"><var>NUMERATOR</var></p>
+				<div class="hints">
+					<p>Met breuken kun je een gedeelte van een geheel tonen.</p>
+					<div>
+						<p>De breuk <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> kun je je voorstellen als <var>NUMERATOR</var> van de  <var>DENOMINATOR</var> stukken van een taart. Met andere woorden, de taart is in <var>DENOMINATOR</var> stukken gesneden, en we hebben het over <var>NUMERATOR</var> van deze stukken.</p>
+						<div class="graphie">
+							init({
+								range: [ [-2, 10], [-2, 2] ],
+								scale: 25
+							});
+
+							piechart( [NUMERATOR, DENOMINATOR - NUMERATOR], ["#6495ED", "#FFA500"], 2 );
+							label( [2, 0], "=\\dfrac{\\color{#6495ED}{" + NUMERATOR + "}}{" + DENOMINATOR + "}"
+								+ "=\\dfrac{\\color{#6495ED}{\\text{teller}}}{\\text{noemer}}", "right");
+						</div>
+					</div>
+					<p>De teller is het aantal stukken taart waar we het over hebben, en wordt boven de streep geschreven. De noemer is het totaal aantal stukken waarin de taart is opgedeeld, en wordt onder de streep geschreven.</p>
+					<p id="answer_hint">In dit geval is de teller dus <code><var>NUMERATOR</var></code>.</p>
+				</div>
+			</div>
+			<div data-type="original">
+				<p class="question">In de breuk <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>, wat is de noemer?</p>
+				<p class="solution" data-forms="integer"><var>DENOMINATOR</var></p>
+				<div class="hints" data-apply="appendContents">
+					<p id="answer_hint">In dit geval is de noemer dus <code><var>DENOMINATOR</var></code>.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

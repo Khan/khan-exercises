@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic">
+<head>
+	<meta charset="UTF-8" />
+	<title>Optellen 3</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="A">randRange( 100, 999 )</var>
+			<var id="B">randRange( 1, 999 )</var>
+			<var id="DUMMY">[]</var>
+		</div>
+
+	<div class="problems">
+		<div>
+			<div class="graphie" id="numbers">
+				graph.adder = new Adder( A, B );
+				graph.adder.show();
+				DUMMY = Array( graph.adder.getNumHints() );
+			</div>
+			<div class="solution" data-forms="integer"><var>A + B</var></div>
+		</div>
+	</div>
+	<div class="hints">
+		<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+			graph.adder.showHint();
+		</div>
+	</div>
+	</div>
+</body>
+</html>

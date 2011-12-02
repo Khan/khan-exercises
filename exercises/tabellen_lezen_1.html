@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html data-require="math word-problems graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Tabellen lezen 1</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		.reading span {
+			width: 100px;
+		}
+		.reading span:first-child {
+			width: 130px;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div>
+			<div class="vars">
+				<!-- Should probably go into word-problems -->
+				<var id="SCHOOLS">[ "Julianaschool", "Noordwijkseschool", "Jozefschool", "Leonardoschool De Werf" ]</var>
+				<var id="COLUMNS">[ "Groep 6", "Groep 7", "Groep 8", "Totaal" ]</var>
+				<var id="ENROLLMENTS">
+					(function() {
+						var enrollments = [];
+						var classMin = 60;
+						var classMax = 80;
+						for ( var i = 0; i &lt; SCHOOLS.length; i++ ) {
+							var enroll = randRange( classMin, classMax, COLUMNS.length - 1 );
+							var total = 0;
+							jQuery.each( enroll, function( i, e ) {
+								total += e;
+							});
+							enroll.push( total );
+							enrollments.push( enroll );
+						}
+						return enrollments;
+					})()
+				</var>
+				<var id="COL_INDEX">randRange( 0, COLUMNS.length - 1 )</var>
+				<var id="SCHOOL_INDEX">randRange( 0, SCHOOLS.length - 1 )</var>
+				<var id="ANSWER">ENROLLMENTS[ SCHOOL_INDEX ][ COL_INDEX]</var>
+			</div>
+			<p>Onderstaande tabel toont de aantallen leerlingen van groep 6 tot en met groep 8 van vier verschillende scholen.</p>
+			<p class="question">
+				<span data-if="COL_INDEX === COLUMNS.length - 1">Hoeveel groep 6 tot en met 8 leerlingen heeft de <var>SCHOOLS[ SCHOOL_INDEX ]</var> in totaal?</span>
+				<span data-else>Hoeveel leerlingen zitten er in <var>COLUMNS[ COL_INDEX ]</var> op de <var>SCHOOLS[ SCHOOL_INDEX ]</var>?</span>
+			</p>
+			<div class="fake_header reading">
+				<span>Scholen</span><span data-each="COLUMNS as i, grade"><var>grade</var></span>
+			</div>
+			<div class="fake_row reading" data-each="SCHOOLS as i, school">
+				<span><var>school</var></span><span data-each="ENROLLMENTS[i] as j, enrollment"><var>enrollment</var></span>
+			</div>
+
+			<div class="solution" data-type="multiple">
+				<span style="padding-right: 5px" class="sol"><var>ANSWER</var></span> leerlingen
+			</div>
+
+			<div class="hints">
+				<div>
+					<p>De blauwe rij toont het aantal leerlingen op de <var>SCHOOLS[ SCHOOL_INDEX ]</var>.</p>
+					<div class="graphie">
+						jQuery( ".fake_row" ).eq( SCHOOL_INDEX ).find( "span" )
+							.css( "background", KhanUtil.BLUE );
+					</div>
+				</div>
+				<div>
+					<p>De oranje kolom toont <span data-if="COL_INDEX === COLUMNS.length - 1">het totale aantal leerlingen</span><span data-else>het aantal leerlingen in <var>COLUMNS[ COL_INDEX ]</var></span> op elke school.</p>
+					<div class="graphie">
+						var nth = ":nth-child(" + ( COL_INDEX + 2 ) + ")";
+						jQuery( ".fake_row span" + nth )
+							.css( "background", KhanUtil.ORANGE );
+						jQuery( ".fake_header span" + nth )
+							.css( "background", KhanUtil.ORANGE );
+						jQuery( ".fake_row" ).eq( SCHOOL_INDEX ).find( "span" + nth )
+							.css( "background", "#aaa" );
+					</div>
+				</div>
+				<p>Er zijn <var>ANSWER</var> <span data-if="COL_INDEX !== COLUMNS.length - 1"><var>COLUMNS[ COL_INDEX ]</var> </span>leerlingen op de <var>SCHOOLS[ SCHOOL_INDEX ]</var>.</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

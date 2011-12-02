@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic">
+<head>
+	<meta charset="UTF-8" />
+	<title>Aftrekken 4</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="A">randRange( 20, 9999 )</var>
+			<var id="B">randRange( 1, A - 1 )</var>
+			<var id="DUMMY">[]</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="graphie" id="numbers">
+					graph.subtractor = new Subtractor( A, B );
+					graph.subtractor.show();
+					DUMMY = Array( graph.subtractor.getNumHints() );
+				</div>
+				<div class="solution" data-forms="integer"><var>A - B</var></div>
+			</div>
+		</div>
+		<div class="hints">
+			<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+				graph.subtractor.showHint();
+			</div>
+		</div>
+	</div>
+</body>
+</html>
