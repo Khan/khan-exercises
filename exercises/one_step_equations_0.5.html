@@ -25,8 +25,8 @@
 				<p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
 			<div class="solution" data-forms="integer"><var>Z - Y</var></div>
 			<div class="hints">
+				<p><var>Y > 0 ? "Subtract" : "Add"</var> <var>abs(Y)</var> <var>Y > 0 ? "from" : "to"</var> both sides.</p>
 				<div>
-					<p><var>Y > 0 ? "Subtract" : "Add"</var> <var>abs(Y)</var> <var>Y > 0 ? "from" : "to"</var> both sides.</p>
 					<p data-if="INDEX === 0"><code>\large{<var>X</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>RIGHT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
 					<p data-else><code>\large{<var>LEFT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>X</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
 				</div>
@@ -39,6 +39,7 @@
 					    <p><code>\large{<var>Z - Y</var> = <var>X</var>}</code></p>
 					</div>    
 				</div>
+				<p data-if="INDEX === 1"><code>\large{<var>X</var> = <var>Z - Y</var>}</code></p>
 			</div>
 		</div>
 		<div id="multiply" data-weight="2">
@@ -53,14 +54,11 @@
 				<p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
 			<div class="solution" data-type="rational"><var>Z / Y</var></div>
 			<div class="hints">
-				<div data-if="INDEX === 0">
-					<p>Divide both sides by <var>Y</var>.</p>
-					<p><code>\large{\dfrac{<var>X</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}}}</code></p>
-				</div>
-				<div data-else>
-					<p>Divide both sides by <var>Y</var>.</p>
-					<p><code>\large{\dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>X</var>}{\color{blue}{<var>Y</var>}}}</code></p>
-				</div>
+				<p>Divide both sides by <var>Y</var>.</p>
+				<div>    
+				    <p data-if="INDEX === 0"><code>\large{\dfrac{<var>X</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}}}</code></p>
+				    <p data-else><code>\large{\dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>X</var>}{\color{blue}{<var>Y</var>}}}</code></p>
+				</div>    
 				<div>
 					<p>Simplify.</p>
 					<div data-if="INDEX === 0">
@@ -70,6 +68,7 @@
 					    <p><code>\large{<var>Z / Y</var> = <var>X</var>}</code></p>
 					</div>        
 				</div>
+				<p data-if="INDEX === 1"><code>\large{<var>X</var> = <var>Z / Y</var>}</code></p>
 			</div>
 		</div>
 		<div id="divide" data-weight="1">
@@ -82,10 +81,8 @@
 			<p class="question"><code>\large{\dfrac{<var>X</var>}{<var>Y</var>} = <var>Z</var>}</code></p>
 			<div class="solution" data-type="rational"><var>Z * Y</var></div>
 			<div class="hints">
-				<div>
-					<p>Multiply both sides by <var>Y</var>.</p>
-					<p><code>\large{\dfrac{<var>X</var>}{<var>Y</var>} \cdot {\color{blue}{<var>Y</var>}} = <var>Z</var> \cdot {\color{blue}{<var>Y</var>}}}</code></p>
-				</div>
+				<p>Multiply both sides by <var>Y</var>.</p>
+				<p><code>\large{\dfrac{<var>X</var>}{<var>Y</var>} \cdot {\color{blue}{<var>Y</var>}} = <var>Z</var> \cdot {\color{blue}{<var>Y</var>}}}</code></p>
 				<div>
 					<p>Simplify.</p>
 					<p><code>\large{<var>X</var> = <var>Z * Y</var>}</code></p>
@@ -95,14 +92,13 @@
 		<div id="divide-right" data-type="divide" data-weight="1">
 			<p class="question"><code>\large{<var>Z</var> = \dfrac{<var>X</var>}{<var>Y</var>}}</code></p>
 			<div class="hints">
-				<div>
-					<p>Multiply both sides by <var>Y</var>.</p>
-					<p><code>\large{<var>Z</var> \cdot {\color{blue}{<var>Y</var>}} = \dfrac{<var>X</var>}{<var>Y</var>} \cdot {\color{blue}{<var>Y</var>}}}</code></p>
-				</div>
+				<p>Multiply both sides by <var>Y</var>.</p>
+				<p><code>\large{<var>Z</var> \cdot {\color{blue}{<var>Y</var>}} = \dfrac{<var>X</var>}{<var>Y</var>} \cdot {\color{blue}{<var>Y</var>}}}</code></p>
 				<div>
 					<p>Simplify.</p>
 					<p><code>\large{<var>Z * Y</var> = <var>X</var>}</code></p>
 				</div>
+				<p><code>\large{<var>X</var> = <var>Z * Y</var>}</code></p>
 			</div>
 		</div>
 	</div>
