@@ -367,9 +367,12 @@ function Triangle( center, angles, scale, labels, points ){
 	}
 
 	this.color = "black";
-	this.createLabel = function( p, v ){
+	this.createLabel = function( p, v, alignment ){
+    if( alignment === undefined || alignment === "" ){
+      alignment = "center";
+    }
 
-		this.set.push( KhanUtil.currentGraph.label( p , v, "center",{ color: this.color } ) );
+		this.set.push( KhanUtil.currentGraph.label( p, v, alignment, { color: this.color } ) );
 	}
 
 	this.boxOut = function( pol, amount, type ){
@@ -451,7 +454,33 @@ function Triangle( center, angles, scale, labels, points ){
 
 		if ( "angles" in this.labels ){	
 			for( i = this.angles.length - 1; i >= 0; i-- ){
-				this.labelObjects.angles.push( this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % this.angles.length ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ ( i + 1 ) % this.angles.length ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % this.angles.length ] ) );
+        var label_positions = bisectAngle( this.sides[ ( i + 1 ) % this.angles.length ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ ( i + 1 ) % this.angles.length ] ) )[ 1 ];
+        var sides = this.sides[i];
+        var alignment = "";
+
+        // Make sure we don't have overlapping labels (label must be not within 2% of any point, tweak alignment if it is)
+        for( j = sides.length - 1; j >= 0; j-- ){
+          for( k = sides[j].length - 1; k >= 0; k-- ){
+            if ( Math.abs( sides[j][k] - label_positions[k] ) < ( this.scale * 0.02 ) ){
+              if ( label_positions[k] > sides[j][k] ) {
+                if ( k === 1 ){
+                  alignment += " above";
+                } else if ( k === 0 ) {
+                  alignment += " right";
+                }
+
+              } else {
+                if ( k === 1 ){
+                  alignment += " below";
+                } else if ( k === 0 ){
+                  alignment += " left";
+                }
+              }
+            }
+          }
+        }
+
+				this.labelObjects.angles.push( this.createLabel( label_positions, this.labels.angles[ ( i + 1 ) % this.angles.length ], jQuery.trim( alignment ) ) );
 			}
 		}
 
