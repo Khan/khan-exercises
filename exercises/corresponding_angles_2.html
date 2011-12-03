@@ -8,14 +8,14 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
+		<var data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150 && C !== A && abs( A - C ) < 6 && abs( A - C ) > 1 && A * SOLUTION + B - C * SOLUTION !== 0">
+			<var id="SOLUTION" data-ensure="abs(SOLUTION) > 5">randRangeNonZero( -20, 20 )</var>
+			<var id="A">randRange( 2, 8 )</var>
+			<var id="B">randRangeNonZero( -200, 200 )</var>
+			<var id="C">randRange( 2, 9 )</var>
+		</var>
+		<var id="D">A * SOLUTION + B - C * SOLUTION</var>
 
-	    <var id="SOLUTION" data-ensure="abs(SOLUTION) > 5">randRangeNonZero( -20, 20 )</var>
-	    
-	    <var id="A">randRange( 2, 8 )</var>
-        <var id="B" data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150">randRangeNonZero( -200, 200 )</var>
-        <var id="C" data-ensure="C !== A && abs( A - C ) < 6 && abs( A - C ) > 1 && A * SOLUTION + B - C * SOLUTION !== 0">randRange( 2, 9 )</var>
-        <var id="D">A * SOLUTION + B - C * SOLUTION</var>    
-		    
 		<var id="ANCHOR">(A*D-B*C) / (A-C)</var>
 		<var id="KNOWN_INDEX">randRange( 0, 7 )</var>
 		<var id="UNKNOWN_INDEX">( KNOWN_INDEX + 4 ) % 8</var>
@@ -27,10 +27,10 @@
 			<p class="question">Solve for <code>x</code>:</p>
 			<p class="solution"><var>SOLUTION</var></p>
 			<div class="graphie" id="parallel-lines">
-				
+
 				var eq1 = A + "x + " + B + "^\\circ";
 				var eq2 = C + "x + " + D + "^\\circ";
-				
+
 				init({
 					range: [ [ -1, 11 ], [-1, 4] ]
 				});
@@ -44,7 +44,7 @@
 	</div>
 
 	<div class="hints">
-        <p>Corresponding angles are equal to one another. <a class="related-video" href="/video/angles-formed-by-parallel-lines-and-transversals" data-youtube-id="H-E5rlpCVu4">Watch this video</a> to understand why.</p>
+i		<p>Corresponding angles are equal to one another. <a class="related-video" href="/video/angles-formed-by-parallel-lines-and-transversals" data-youtube-id="H-E5rlpCVu4">Watch this video</a> to understand why.</p>
 		<div>
 			<p>The <code>\color{<var>BLUE</var>}{\text{blue angle}}</code> and the <code>\color{<var>ORANGE</var>}{\text{orange angle}}</code> are corresponding angles. Therefore, we can set them equal to one another.</p>
 			<p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>

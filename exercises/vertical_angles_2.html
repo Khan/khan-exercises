@@ -8,14 +8,14 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		
-	    <var id="SOLUTION" data-ensure="abs(SOLUTION) > 5">randRangeNonZero( -20, 20 )</var>
-	    
-        <var id="A">randRange( 2, 9 )</var>
-        <var id="B" data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150">randRangeNonZero( -200, 200 )</var>
-        <var id="C" data-ensure="C !== A && abs( A - C ) < 6 && abs( A - C ) > 1 && A * SOLUTION + B - C * SOLUTION !== 0">randRange( 2, 9 )</var>
-        <var id="D">A * SOLUTION + B - C * SOLUTION</var>    
-		    
+		<div data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150 && C !== A && abs( A - C ) < 6 && abs( A - C ) > 1 && A * SOLUTION + B - C * SOLUTION !== 0">
+			<var id="SOLUTION" data-ensure="abs(SOLUTION) > 5">randRangeNonZero( -20, 20 )</var>
+			<var id="A">randRange( 2, 9 )</var>
+			<var id="B">randRangeNonZero( -200, 200 )</var>
+			<var id="C">randRange( 2, 9 )</var>
+		</div>
+		<var id="D">A * SOLUTION + B - C * SOLUTION</var>
+
 		<var id="ANCHOR">(A*D-B*C) / (A-C)</var>
 		<var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 2, 4 ], [ 3, 1 ] ] ) )</var>
 	</div>
