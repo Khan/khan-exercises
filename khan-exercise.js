@@ -2582,8 +2582,9 @@ var Khan = (function() {
 		// Make sure we have current data
 		var oldData = getData();
 
-		// Change users, if needed
-		if ( data && (data.total_done >= oldData.total_done || data.user !== oldData.user) ) {
+		// Change users or exercises, if needed
+		if ( data && (data.total_done >= oldData.total_done ||
+				data.user !== oldData.user || data.exercise !== oldData.exercise) ) {
 			// Cache the data locally
 			if ( user != null ) {
 				window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
