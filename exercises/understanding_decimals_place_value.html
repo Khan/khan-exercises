@@ -108,6 +108,7 @@
 
 				<var>
 					(function() {
+						Khan.scratchpad.disable();
 						// click handlers
 						jQuery( "#problemarea .thou" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
@@ -228,6 +229,7 @@
 						<div data-each="10 times" class="coin penny">1&cent;</div>
 					</div>
 					<div class="graphie">
+						Khan.scratchpad.disable();
 						init({ range: [ [ 0, 143 ], [ -430, 22 ] ], scale: [ 1, 1 ] });
 						style({ fill: "#eee", stroke: "#ddd", strokeWidth: 1 });
 						graph.tenths = [];
