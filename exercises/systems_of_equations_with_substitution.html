@@ -30,7 +30,7 @@
 				</div>
 				<p class="problem">Solve for <code>x</code> and <code>y</code> using substitution.</p>
 				<div class="question">
-					<p><code>\color{blue}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
+					<p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
 					<code class="hint_green">y = <var>expr(["+", ["*", -A2, "x"], C2])</var></code></p>
 				</div>
 				<div class="solution" data-type="multiple">
@@ -40,16 +40,20 @@
 				<div class="hints">
 					<div>
 						<p>Since <code>y</code> has already been solved for, substitute <code class="hint_green"><var>expr(["+", ["*", -A2, "x"], C2])</var></code> for <code>y</code> in the first equation.</p>
-						<p><code>\color{blue}{<var>expr(["*", A1, "x"])</var> + <span data-if="abs( B1 ) !== 1"><var>B1</var></span><span data-if="B1 === -1">-</span>}\color{<var>GREEN</var>}{(<var>expr(["+", ["*", -A2, "x"], C2])</var>)}\color{blue}{= <var>C1</var>}</code></p>
+						<p><code>\color{<var>BLUE</var>}{<var>expr(["*", A1, "x"])</var> + <span data-if="abs( B1 ) !== 1"><var>B1</var></span><span data-if="B1 === -1">-</span>}\color{<var>GREEN</var>}{(<var>expr(["+", ["*", -A2, "x"], C2])</var>)}\color{<var>BLUE</var>}{= <var>C1</var>}</code></p>
 					</div>
-					<div>
-						<p>Simplify and solve for <code>x</code>.</p>
-						<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1 * -A2, "x"]])</var> + <var>B1 * C2</var> = <var>C1</var></code></p>
-						<p><code><var>expr(["+", ["*", A1 + B1 * -A2, "x"], B1 * C2])</var> = <var>C1</var></code></p>
-						<p><code><var>expr(["+", ["*", A1 + B1 * -A2, "x"], B1 * C2])</var>\enspace(<var>SIGN_1</var><var>abs( B1 * C2 )</var>) = <var>C1</var>\enspace(<var>SIGN_1</var><var>abs( B1 * C2 )</var>)</code></p>
-						<p data-if="( A1 + B1 * -A2 ) !== 1"><code><var>expr(["*", A1 + B1 * -A2, "x"])</var> = <var>C1 - B1 * C2</var></code></p>
-						<p data-if="( A1 + B1 * -A2 ) !== 1"><code>\dfrac{<var>expr(["*", A1 + B1 * -A2, "x"])</var>}{<var>A1 + B1 * -A2</var>} = \dfrac{<var>C1 - B1 * C2</var>}{<var>A1 + B1 * -A2</var>}</code></p>
-						<p><code>\color{red}{x = <var>X</var>}</code></p>
+					<div data-unwrap>
+						<div>
+							<p>Simplify and solve for <code>x</code>.</p>
+							<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1 * -A2, "x"]])</var> + <var>B1 * C2</var> = <var>C1</var></code></p>
+							<p><code><var>expr(["+", ["*", A1 + B1 * -A2, "x"], B1 * C2])</var> = <var>C1</var></code></p>
+							<p><code><var>expr(["+", ["*", A1 + B1 * -A2, "x"], B1 * C2])</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( B1 * C2 )</var>} = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( B1 * C2 )</var>}</code></p>
+							<p data-if="( A1 + B1 * -A2 ) !== 1"><code><var>expr(["*", A1 + B1 * -A2, "x"])</var> = <var>C1 - B1 * C2</var></code></p>
+						</div>
+						<div>
+							<p data-if="( A1 + B1 * -A2 ) !== 1"><code>\dfrac{<var>expr(["*", A1 + B1 * -A2, "x"])</var>}{\color{<var>BLUE</var>}{<var>A1 + B1 * -A2</var>}} = \dfrac{<var>C1 - B1 * C2</var>}{\color{<var>BLUE</var>}{<var>A1 + B1 * -A2</var>}}</code></p>
+							<p><code>\color{red}{x = <var>X</var>}</code></p>
+						</div>
 					</div>
 					<div>
 						<p>Now that you know <code>\color{red}{x = <var>X</var>}</code>, plug it back into <code>\thinspace \color{<var>GREEN</var>}{y = <var>expr(["+", ["*", -A2, "x"], C2])</var>}\thinspace</code> to find <code>y</code>.</p>
@@ -57,14 +61,18 @@
 						<p data-if="A2 !== -1"><code>y = <var>-A2 * X</var> + <var>C2</var></code></p>
 						<p><code class="hint_orange">y = <var>Y</var></code></p>
 					</div>
-					<div>
-						<p>You can also plug <code>\color{red}{x = <var>X</var>}</code> into <code>\thinspace \color{blue}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}\thinspace</code> and get the same answer for <code>y</code>:</p>
-						<p><code>\color{blue}{<span data-if="abs( A1 ) !== 1"><var>A1</var></span><span data-if="A1 === -1">-</span>}\color{red}{(<var>X</var>)}\color{blue}{ + <var>expr(["*", B1, "y"])</var> = <var>C1</var>}</code></p>
-						<p data-if="A1 !== 1"><code><var>expr(["+", A1 * X, ["*", B1, "y"]])</var> = <var>C1</var></code></p>
-						<p><code><var>A1 * X</var>\enspace(<var>SIGN_2</var><var>abs( A1 * X )</var>) + <var>expr(["*", B1, "y"])</var> = <var>C1</var>\enspace(<var>SIGN_2</var><var>abs( A1 * X )</var>)</code></p>
-						<p data-if="B1 !== 1"><code><var>expr(["*", B1, "y"])</var> = <var>C1 - A1 * X</var></code></p>
-						<p data-if="B1 !== 1"><code>\dfrac{<var>expr(["*", B1, "y"])</var>}{<var>B1</var>} = \dfrac{<var>C1 - A1 * X</var>}{<var>B1</var>}</code></p>
-						<p><code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code></p>
+					<div data-unwrap>
+						<div>
+							<p>You can also plug <code>\color{red}{x = <var>X</var>}</code> into <code>\thinspace \color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}\thinspace</code> and get the same answer for <code>y</code>:</p>
+							<p><code>\color{<var>BLUE</var>}{<span data-if="abs( A1 ) !== 1"><var>A1</var></span><span data-if="A1 === -1">-</span>}\color{red}{(<var>X</var>)}\color{<var>BLUE</var>}{ + <var>expr(["*", B1, "y"])</var> = <var>C1</var>}</code></p>
+							<p data-if="A1 !== 1"><code><var>expr(["+", A1 * X, ["*", B1, "y"]])</var> = <var>C1</var></code></p>
+							<p><code><var>A1 * X</var>\color{<var>BLUE</var>}{<var>SIGN_2</var><var>abs( A1 * X )</var>} + <var>expr(["*", B1, "y"])</var> = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_2</var><var>abs( A1 * X )</var>}</code></p>
+							<p data-if="B1 !== 1"><code><var>expr(["*", B1, "y"])</var> = <var>C1 - A1 * X</var></code></p>
+						</div>
+						<div>
+							<p data-if="B1 !== 1"><code>\dfrac{<var>expr(["*", B1, "y"])</var>}{\color{<var>BLUE</var>}{<var>B1</var>}} = \dfrac{<var>C1 - A1 * X</var>}{\color{<var>BLUE</var>}{<var>B1</var>}}</code></p>
+							<p><code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code></p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -83,7 +91,7 @@
 				</div>
 				<p class="problem">Solve for <code>x</code> and <code>y</code> using substitution.</p>
 				<div class="question">
-					<p><code>\color{blue}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
+					<p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
 					<code class="hint_green">x = <var>expr(["+", ["*", -B2, "y"], C2])</var></code></p>
 				</div>
 				<div class="solution" data-type="multiple">
@@ -93,16 +101,20 @@
 				<div class="hints">
 					<div>
 						<p>Since <code>x</code> has already been solved for, substitute <code class="hint_green"><var>expr(["+", ["*", -B2, "y"], C2])</var></code> for <code>x</code> in the first equation.</p>
-						<p><code>\color{blue}{<span data-if="abs( A1 ) !== 1"><var>A1</var></span><span data-if="A1 === -1">-</span>}\color{<var>GREEN</var>}{(<var>expr(["+", ["*", -B2, "y"], C2])</var>)}\color{blue}{+ <var>expr(["*", B1, "y"])</var> = <var>C1</var>}</code></p>
+						<p><code>\color{<var>BLUE</var>}{<span data-if="abs( A1 ) !== 1"><var>A1</var></span><span data-if="A1 === -1">-</span>}\color{<var>GREEN</var>}{(<var>expr(["+", ["*", -B2, "y"], C2])</var>)}\color{<var>BLUE</var>}{+ <var>expr(["*", B1, "y"])</var> = <var>C1</var>}</code></p>
 					</div>
-					<div>
-						<p>Simplify and solve for <code>y</code>.</p>
-						<p><code><var>expr(["+", ["*", A1 * -B2, "y"], A1 * C2])</var> + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
-						<p><code><var>expr(["+", ["*", A1 * -B2 + B1, "y"], A1 * C2])</var> = <var>C1</var></code></p>
-						<p><code><var>expr(["+", ["*", A1 * -B2 + B1, "y"], A1 * C2])</var>\enspace(<var>SIGN_1</var><var>abs( A1 * C2 )</var>) = <var>C1</var>\enspace(<var>SIGN_1</var><var>abs( A1 * C2 )</var>)</code></p>
-						<p data-if="( A1 * -B2 + B1 ) !== 1"><code><var>expr(["*", A1 * -B2 + B1, "y"])</var> = <var>C1 - A1 * C2</var></code></p>
-						<p data-if="( A1 * -B2 + B1 ) !== 1"><code>\dfrac{<var>expr(["*", A1 * -B2 + B1, "y"])</var>}{<var>A1 * -B2 + B1</var>} = \dfrac{<var>C1 - A1 * C2</var>}{<var>A1 * -B2 + B1</var>}</code></p>
-						<p><code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code></p>
+					<div data-unwrap>
+						<div>
+							<p>Simplify and solve for <code>y</code>.</p>
+							<p><code><var>expr(["+", ["*", A1 * -B2, "y"], A1 * C2])</var> + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
+							<p><code><var>expr(["+", ["*", A1 * -B2 + B1, "y"], A1 * C2])</var> = <var>C1</var></code></p>
+							<p><code><var>expr(["+", ["*", A1 * -B2 + B1, "y"], A1 * C2])</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( A1 * C2 )</var>} = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( A1 * C2 )</var>}</code></p>
+							<p data-if="( A1 * -B2 + B1 ) !== 1"><code><var>expr(["*", A1 * -B2 + B1, "y"])</var> = <var>C1 - A1 * C2</var></code></p>
+						</div>
+						<div>
+							<p data-if="( A1 * -B2 + B1 ) !== 1"><code>\dfrac{<var>expr(["*", A1 * -B2 + B1, "y"])</var>}{\color{<var>BLUE</var>}{<var>A1 * -B2 + B1</var>}} = \dfrac{<var>C1 - A1 * C2</var>}{\color{<var>BLUE</var>}{<var>A1 * -B2 + B1</var>}}</code></p>
+							<p><code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code></p>
+						</div>
 					</div>
 					<div>
 						<p>Now that you know <code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code>, plug it back into <code>\thinspace \color{<var>GREEN</var>}{x = <var>expr(["+", ["*", -B2, "y"], C2])</var>}\thinspace</code> to find <code>x</code>.</p>
@@ -110,14 +122,18 @@
 						<p data-if="B2 !== -1"><code>x = <var>-B2 * Y</var> + <var>C2</var></code></p>
 						<p><code>\color{red}{x = <var>X</var>}</code></p>
 					</div>
-					<div>
-						<p>You can also plug <code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code> into <code>\thinspace \color{blue}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}\thinspace</code> and get the same answer for <code>x</code>:</p>
-						<p><code>\color{blue}{<var>expr(["*", A1, "x"])</var> + <span data-if="abs( B1 ) !== 1"><var>B1</var></span><span data-if="B1 === -1">-</span>}\color{<var>ORANGE</var>}{(<var>Y</var>)}\color{blue}{= <var>C1</var>}</code></p>
-						<p data-if="B1 !== 1"><code><var>expr(["+", ["*", A1, "x"], B1 * Y])</var> = <var>C1</var></code></p>
-						<p><code><var>expr(["+", ["*", A1, "x"], B1 * Y])</var>\enspace(<var>SIGN_2</var><var>abs( B1 * Y )</var>) = <var>C1</var>\enspace(<var>SIGN_2</var><var>abs( B1 * Y )</var>)</code></p>
-						<p data-if="A1 !== 1"><code><var>expr(["*", A1, "x"])</var> = <var>C1 - B1 * Y</var></code></p>
-						<p data-if="A1 !== 1"><code>\dfrac{<var>expr(["*", A1, "x"])</var>}{<var>A1</var>} = \dfrac{<var>C1 - B1 * Y</var>}{<var>A1</var>}</code></p>
-						<p><code>\color{red}{x = <var>X</var>}</code></p>
+					<div data-unwrap>
+						<div>
+							<p>You can also plug <code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code> into <code>\thinspace \color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}\thinspace</code> and get the same answer for <code>x</code>:</p>
+							<p><code>\color{<var>BLUE</var>}{<var>expr(["*", A1, "x"])</var> + <span data-if="abs( B1 ) !== 1"><var>B1</var></span><span data-if="B1 === -1">-</span>}\color{<var>ORANGE</var>}{(<var>Y</var>)}\color{<var>BLUE</var>}{= <var>C1</var>}</code></p>
+							<p data-if="B1 !== 1"><code><var>expr(["+", ["*", A1, "x"], B1 * Y])</var> = <var>C1</var></code></p>
+							<p><code><var>expr(["+", ["*", A1, "x"], B1 * Y])</var>\color{<var>BLUE</var>}{<var>SIGN_2</var><var>abs( B1 * Y )</var>} = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_2</var><var>abs( B1 * Y )</var>}</code></p>
+							<p data-if="A1 !== 1"><code><var>expr(["*", A1, "x"])</var> = <var>C1 - B1 * Y</var></code></p>
+						</div>
+						<div>
+							<p data-if="A1 !== 1"><code>\dfrac{<var>expr(["*", A1, "x"])</var>}{\color{<var>BLUE</var>}{<var>A1</var>}} = \dfrac{<var>C1 - B1 * Y</var>}{\color{<var>BLUE</var>}{<var>A1</var>}}</code></p>
+							<p><code>\color{red}{x = <var>X</var>}</code></p>
+						</div>
 					</div>
 				</div>
 			</div>
