@@ -619,6 +619,12 @@ var Khan = (function() {
 			}
 		});
 
+		// An animation that fades in then out a text shadow
+		jQuery.fx.step.reviewGlow = function(fx) {
+			var val = -4 * Math.pow( fx.now - 0.5, 2 ) + 1;
+			jQuery( fx.elem ).css( 'textShadow', 'rgba(227, 93, 4, ' + val + ') 0 0 12px');
+		};
+
 		// See if an element is detached
 		jQuery.expr[":"].attached = function( elem ) {
 			return jQuery.contains( elem.ownerDocument.documentElement, elem );
@@ -716,7 +722,12 @@ var Khan = (function() {
 		return bag;
 	}
 
-	function enqueueReviewProblems() {
+	function getDisplayNameFromId(id) {
+		return id.charAt( 0 ).toUpperCase() + id.slice(1).replace(/_/g, ' ');
+	}
+
+	function maybeEnqueueReviewProblems() {
+		if ( !isReview || reviewQueue.length >= 3 ) return;
 		// XXX(david): Does the seed still work? -- for submitting issues
 
 		// Load in the exercise data from the server
@@ -730,13 +741,17 @@ var Khan = (function() {
 			success: function( reviewExercises ) {
 				reviewQueue = reviewQueue.concat( reviewExercises );
 
-				// Load all unloaded exercises
 				jQuery.each( reviewExercises, function( i, exid ) {
-					var loaded = exercises.filter(function() {
+					// Append the exercise to the "upcoming exercises" list
+					jQuery( "#next-exercises" )
+						.append( "<p>" + getDisplayNameFromId(exid) + "</p>" );
+
+					// Load all unloaded exercises
+					var isLoaded = exercises.filter(function() {
 						return jQuery.data( this, "name" ) === exid;
 					}).length;
 
-					if ( !loaded ) {
+					if ( !isLoaded ) {
 						loadExercise.call( jQuery( '<div data-name="' + exid + '">' ) );
 					}
 				});
@@ -758,19 +773,12 @@ var Khan = (function() {
 			.val('Please wait...');
 	}
 
-	function getDisplayNameFromId(id) {
-		return id.charAt( 0 ).toUpperCase() + id.slice(1).replace(/_/g, ' ');
-	}
-
 	// TODO(david): NAMING! I don't want to call pid problemId because taht's too
 	//		 similar to problemID, which is another variable we use
 	function makeProblem( exid, pid, seed ) {
 		// Kick off a request to queue up the next problems if there's none left
 		// XXX(david): What do we do if the user is done with their reviews (no more problems left?)
-		// TODO(david): Should probably not have length === 0 but some other buffer (eg. 1).
-		if ( isReview && reviewQueue.length === 0 ) {
-			enqueueReviewProblems();
-		}
+		maybeEnqueueReviewProblems();
 
 		if ( typeof Badges !== "undefined" ) {
 			Badges.hide();
@@ -820,9 +828,6 @@ var Khan = (function() {
 			pid = problem.data( "id" );
 
 			var displayName = getDisplayNameFromId(exid);
-
-			// TODO(david): Can we/should we be getting this from userExercise.exercise_model?
-			jQuery( ".exercise-title" ).text( displayName );
 
 			// TODO(david): Should we have a review URL, like /exercise/review#addition_1 or something?
 			// If the history API is supported, update the URL to the new exercise
@@ -1713,10 +1718,11 @@ var Khan = (function() {
 	function prepareSite() {
 
 		// Set exercise title
-		jQuery(".exercise-title").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
+		jQuery("#current-exercise").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
 			userExercise.exercise_model.display_name : document.title );
 
 		exercises = jQuery( ".exercise" ).detach();
+		maybeEnqueueReviewProblems();
 
 		// Setup appropriate img URLs
 		jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
@@ -1893,6 +1899,47 @@ var Khan = (function() {
 			return false;
 		}
 
+		function transitionExerciseTitle() {
+			var currentExercise = jQuery( "#current-exercise" ),
+					nextExercises = jQuery( "#next-exercises" ),
+					revertDelay = 200,
+					animationOptions = {
+						speed: 800,
+						easing: "easeInOutCubic"
+					};
+
+			// Fade the current title away to the right, then replace it with the
+			// new exercise"s title and revert the animation.
+			currentExercise.stop().animate({
+				left: 400,
+				opacity: 0,
+				fontSize: "-=4"
+			}, animationOptions).delay( revertDelay ).queue(function( next ) {
+				jQuery( this ).text( getDisplayNameFromId(exerciseName) );
+				next();
+			}).queue(function(next) {
+				jQuery( this ).removeAttr( "style" );
+			});
+
+			// Slide up the next set of exercises, then revert the animation.
+			nextExercises.stop().animate({
+				top: 0,
+				height: nextExercises.height() + nextExercises.position().top
+			}, animationOptions).delay( revertDelay ).queue(function() {
+				jQuery( this ).removeAttr( "style" );
+			});
+
+			// Make the next exercise title transition to match the appearance of the
+			// current exercise title, then remove it from the set of next exercises.
+			jQuery( "#next-exercises > p:first-child" ).stop().animate({
+				color: currentExercise.css( "color" ),
+				fontSize: currentExercise.css( "fontSize" ),
+				reviewGlow: 1
+			}, animationOptions).delay( revertDelay ).queue(function() {
+				jQuery( this ).remove();
+			});
+		}
+
 		// Watch for when the next button is clicked
 		jQuery("#next-question-button").click(function(ev) {
 			jQuery("#happy").hide();
@@ -1908,6 +1955,11 @@ var Khan = (function() {
 			jQuery("#hint").attr( "disabled", false );
 
 			Khan.scratchpad.clear();
+
+			// Change the title of the exercise, if necessary
+			if ( isReview ) {
+				transitionExerciseTitle();
+			}
 
 			if ( testMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount ) {
 				// Show the dump data
@@ -2044,7 +2096,7 @@ var Khan = (function() {
 			// don't do anything if the user clicked a second time quickly
 			if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
-			var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text().replace(/ \|.*/, ''),
+			var pretitle = jQuery( "#current-exercise" ).text() || jQuery( "title" ).text().replace(/ \|.*/, ''),
 				type = jQuery( "input[name=issue-type]:checked" ).prop( "id" ),
 				title = jQuery( "#issue-title" ).val(),
 				email = jQuery( "#issue-email" ).val(),
@@ -2639,11 +2691,9 @@ var Khan = (function() {
 			// were proficient then got one wrong, it probably doesn't make sense to
 			// fall back to exercise mode.
 			if ( !isReview && exerciseStates.reviewing ) {
+				// TODO(david): comment?
 				isReview = true;
-
-				jQuery(function() {
-					switchToReviewMode();
-				});
+				jQuery( switchToReviewMode );
 			}
 
 			var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
