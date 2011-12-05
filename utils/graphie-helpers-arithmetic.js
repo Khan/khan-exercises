@@ -634,7 +634,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 				+ "\\times"
 				+ "\\color{#28AE7B}{" + quotient + "}"
 				+ " = "
-				+ "\\color{#FFA500}{" + value + "}", "right" );
+				+ "\\color{#FFA500}{" + ( divisor * quotient ) + "}", "right" );
 			index++;
 			fShowFirstHalf = true;
 		}
