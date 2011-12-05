@@ -16,11 +16,11 @@
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars" data-ensure="X1 !== X2 || Y1 !== Y2">
-			<var id="X1">randRange( -8, 7 )</var>
-			<var id="X2">randRange( -8, 7 )</var>
-			<var id="Y1">randRange( -8, 8 )</var>
-			<var id="Y2">randRange( -8, 8 )</var>
+		<div class="vars" data-ensure="Y1 !== Y2">
+			<var id="X1">randRangeExclude( -8, 10, [0, 1, 2] )</var>
+			<var id="X2">randRangeExclude( -10, 8, [-1, -2, -3, -4] )</var>
+			<var id="Y1">randRangeExclude( -8, 8, [-1, 0] )</var>
+			<var id="Y2">randRangeExclude( -8, 8, [-1, 0] )</var>
 			<var id="X_DIST">abs( X2 - X1 )</var>
 			<var id="Y_DIST">abs( Y2 - Y1 )</var>
 			<var id="HYP2">X_DIST * X_DIST + Y_DIST * Y_DIST</var>
