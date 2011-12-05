@@ -73,8 +73,8 @@
 						<p><code>\color{<var>GREEN</var>}{<var>expr(["*", A2, "x"])</var> + <span data-if="abs( B2 ) !== 1"><var>B2</var></span><span data-if="B2 === -1">-</span>}\color{<var>ORANGE</var>}{(<var>Y</var>)}\color{<var>GREEN</var>}{= <var>C2</var>}</code></p>
 						<p data-if="B2 !== 1"><code><var>expr(["+", ["*", A2, "x"], B2 * Y])</var> = <var>C2</var></code></p>
 						<p><code><var>expr(["+", ["*", A2, "x"], B2 * Y])</var>\color{<var>BLUE</var>}{<var>SIGN_2</var><var>abs( B2 * Y )</var>} = <var>C2</var>\color{<var>BLUE</var>}{<var>SIGN_2</var><var>abs( B2 * Y )</var>}</code></p>
-						<p data-if="B2 !== 1"><code><var>expr(["*", A2, "x"])</var> = <var>C2 - B2 * Y</var></code></p>
-						<p data-if="B2 !== 1"><code>\dfrac{<var>expr(["*", A2, "x"])</var>}{<var>A2</var>} = \dfrac{<var>C2 - B2 * Y</var>}{<var>A2</var>}</code></p>
+						<p data-if="A2 !== 1"><code><var>expr(["*", A2, "x"])</var> = <var>C2 - B2 * Y</var></code></p>
+						<p data-if="A2 !== 1"><code>\dfrac{<var>expr(["*", A2, "x"])</var>}{<var>A2</var>} = \dfrac{<var>C2 - B2 * Y</var>}{<var>A2</var>}</code></p>
 						<p><code>\color{red}{x = <var>X</var>}</code></p>
 					</div>
 				</div>
