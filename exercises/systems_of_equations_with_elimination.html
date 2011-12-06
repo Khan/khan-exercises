@@ -13,8 +13,8 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="X">randRangeNonZero( -5, 5 )</var>
-			<var id="Y" data-ensure="X !== Y">randRangeNonZero( -5, 5 )</var>
+			<var id="X">randRange( 1, 10 )</var>
+			<var id="Y" data-ensure="X !== Y">randRange( 1, 10 )</var>
 			<var id="INDEX">randRange( 0, 3 )</var>
 			<var id="Z1">randRangeWeighted( 1, 3, 1, 0.5 ) * randRangeNonZero( -1, 1 )</var>
 			<var id="Z2" data-ensure="abs( Z2 ) <= 6 && Z2 !== 0">INDEX === 0 ? -1 * Z1 : randRangeWeighted( -4, 4, -1, 0 ) * Z1</var>
