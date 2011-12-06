@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html data-require="math graphie ast equations-model">
+  <head>
+	<meta charset="UTF-8" />
+	<title>[CCSS-8-EE-7A-1] Solve linear equations in one variable to determine the number of solutions.</title>
+	<script src="../khan-exercise.js"></script>
+  </head>
+  <body>
+	<div class="exercise">
+	  <div class="problems">
+		<div id="one solution">
+		  <div class="vars">
+			<var id="A">randRange( 2, 8 )</var>
+			<var id="B">A*randRange( 2, 5 )</var>
+			<var id="C">A*randRange( 2, 8 )</var>
+			<var id="D">3*A</var>
+			<var id="E">2*B+3</var>
+			<var id="E1">EquationsModel.init(["=", ["+", B+"x", A+"y"], C])</var>
+			<var id="E2">EquationsModel.init(["=", "y", ["+", D+"x", E]])</var>
+			<var id="H1">EquationsModel.init(["=", ["+", ["-", B+"x", ["HI", B+"x"]], A+"y"], ["-", C, ["HI", B+"x"]]])</var>
+			<var id="H2">EquationsModel.init(["=", A+"y", ["-", C, B+"x"]])</var>
+			<var id="H3">EquationsModel.init(["=", ["/", A+"y", ["HI", A]], ["/", ["PAREN", ["-", C, B+"x"]], ["HI", A]]])</var>
+			<var id="H4">EquationsModel.init(["=", "y", ["-", ["/", C, A], ["/", B+"x", A]]])</var>
+			<var id="H5">EquationsModel.init(["=", "y", ["-", C/A, B/A+"x"]])</var>
+			<var id="H6_1">EquationsModel.init(["=", "y", ["-", C/A, ["HI", B/A+"x"]]])</var>
+			<var id="H6_2">EquationsModel.init(["=", "y", ["+", ["HI", D+"x"], E]])</var>
+		  </div>
+		  <div>
+			<div class="graphie">
+			  E2.graph("equation").draw()
+			</div>
+			<div class="graphie">
+			  E1.graph("equation").draw()
+			</div>
+		  </div>
+		  <div class="solution">One</div>
+		  <ul class="choices">
+			<li>Zero</li>
+			<li>Infinite</li>
+		  </ul>
+		  <div class="hints">
+			<div>
+			  Convert both equations into slope-intercept form. (The first equation is already in slope-intercept form.)
+			</div>
+			<div>
+			  <div>
+				1. Begin by subtracting the "x" term from both sides.
+			  </div>
+			  <div class="graphie">
+				H1.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				2. Reduce both sides.
+			  </div>
+			  <div class="graphie">
+				H2.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				3. Divide both sides by the coefficient of "y".
+			  </div>
+			  <div class="graphie">
+				H3.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				4. Distribute the divisor.
+			  </div>
+			  <div class="graphie">
+				H4.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				5. Reduce each term.
+			  </div>
+			  <div class="graphie">
+				H5.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				The slopes of the two equations are different, so there is exactly one solution.
+			  </div>
+			  <div>
+				<div class="graphie">
+				  H6_1.graph("hint").draw()
+				</div>
+				<div class="graphie">
+				  H6_2.graph("hint").draw()
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		<div id="infinite solutions">
+		  <div class="vars">
+			<var id="A">randRange( 2, 5 )</var>
+			<var id="B">A*randRange( 2, 4 )</var>
+			<var id="C">A*randRange( 2, 4 )</var>
+			<var id="D">B/A</var>
+			<var id="E">C/A</var>
+			<var id="E1">EquationsModel.init(["=", ["+", B+"x", A+"y"], C])</var>
+			<var id="E2">EquationsModel.init(["=", "y", ["-", E, D+"x"]])</var>
+			<var id="H1">EquationsModel.init(["=", ["+", ["-", B+"x", ["HI", B+"x"]], A+"y"], ["-", C, ["HI", B+"x"]]])</var>
+			<var id="H2">EquationsModel.init(["=", A+"y", ["-", C, B+"x"]])</var>
+			<var id="H3">EquationsModel.init(["=", ["/", A+"y", ["HI", A]], ["/", ["PAREN", ["-", C, B+"x"]], ["HI", A]]])</var>
+			<var id="H4">EquationsModel.init(["=", "y", ["-", ["/", C, A], ["/", B+"x", A]]])</var>
+			<var id="H5">EquationsModel.init(["=", "y", ["-", C/A, B/A+"x"]])</var>
+			<var id="H6_1">EquationsModel.init(["=", "y", ["-", ["HI", C/A], ["HI", B/A+"x"]]])</var>
+			<var id="H6_2">EquationsModel.init(["=", "y", ["-", ["HI", E], ["HI", D+"x"]]])</var>
+		  </div>
+		  <div>
+			<div class="graphie">
+			  E2.graph("equation").draw()
+			</div>
+			<div class="graphie">
+			  E1.graph("equation").draw()
+			</div>
+		  </div>
+		  <p class="solution">Infinite</p>
+		  <ul class="choices">
+			<li>Zero</li>
+			<li>One</li>
+		  </ul>
+		  <div class="hints">
+			<div>
+			  Convert both equations into slope-intercept form. (The first equation is already in slope-intercept form.)
+			</div>
+			<div>
+			  <div>
+				1. Begin by subtracting the "x" term from both sides.
+			  </div>
+			  <div class="graphie">
+				H1.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				2. Reduce both sides.
+			  </div>
+			  <div class="graphie">
+				H2.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				3. Divide both sides by the coefficient of "y".
+			  </div>
+			  <div class="graphie">
+				H3.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				4. Distribute the divisor.
+			  </div>
+			  <div class="graphie">
+				H4.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				5. Reduce each term.
+			  </div>
+			  <div class="graphie">
+				H5.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				The slopes and the y intercepts of the two equations are the same, so there are infinity solutions.
+			  </div>
+			  <div>
+				<div class="graphie">
+				  H6_1.graph("hint").draw()
+				</div>
+				<div class="graphie">
+				  H6_2.graph("hint").draw()
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		<div id="zero solutions">
+		  <div class="vars">
+			<var id="A">randRange( 2, 5 )</var>
+			<var id="B">A*randRange( 2, 4 )</var>
+			<var id="C">A*randRange( 2, 4 )</var>
+			<var id="D">B/A</var>
+			<var id="E">C/A+randRange( 1, 10 )</var>
+			<var id="E1">EquationsModel.init(["=", ["+", B+"x", A+"y"], C])</var>
+			<var id="E2">EquationsModel.init(["=", "y", ["-", E, D+"x"]])</var>
+			<var id="H1">EquationsModel.init(["=", ["+", ["-", B+"x", ["HI", B+"x"]], A+"y"], ["-", C, ["HI", B+"x"]]])</var>
+			<var id="H2">EquationsModel.init(["=", A+"y", ["-", C, B+"x"]])</var>
+			<var id="H3">EquationsModel.init(["=", ["/", A+"y", ["HI", A]], ["/", ["PAREN", ["-", C, B+"x"]], ["HI", A]]])</var>
+			<var id="H4">EquationsModel.init(["=", "y", ["-", ["/", C, A], ["/", B+"x", A]]])</var>
+			<var id="H5">EquationsModel.init(["=", "y", ["-", C/A, B/A+"x"]])</var>
+			<var id="H6_1">EquationsModel.init(["=", "y", ["-", ["HI", C/A], B/A+"x"]])</var>
+			<var id="H6_2">EquationsModel.init(["=", "y", ["-", ["HI", E], D+"x"]])</var>
+		  </div>
+		  <div>
+			<div class="graphie">
+			  E2.graph("equation").draw()
+			</div>
+			<div class="graphie">
+			  E1.graph("equation").draw()
+			</div>
+		  </div>
+		  <p class="solution">Zero</p>
+		  <ul class="choices">
+			<li>One</li>
+			<li>Infinite</li>
+		  </ul>
+		  <div class="hints">
+			<div>
+			  Convert both equations into slope-intercept form. (The first equation is already in slope-intercept form.)
+			</div>
+			<div>
+			  <div>
+				1. Begin by subtracting the "x" term from both sides.
+			  </div>
+			  <div class="graphie">
+				H1.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				2. Reduce both sides.
+			  </div>
+			  <div class="graphie">
+				H2.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				3. Divide both sides by the coefficient of "y".
+			  </div>
+			  <div class="graphie">
+				H3.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				4. Distribute the divisor.
+			  </div>
+			  <div class="graphie">
+				H4.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				5. Reduce each term.
+			  </div>
+			  <div class="graphie">
+				H5.graph("hint").draw()
+			  </div>
+			</div>
+			<div>
+			  <div>
+				The slopes of the two equations are the same but the y intercepts are different, so there are exactly zero solutions.
+			  </div>
+			  <div>
+				<div class="graphie">
+				  H6_1.graph("hint").draw()
+				</div>
+				<div class="graphie">
+				  H6_2.graph("hint").draw()
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </body>
+</html>
