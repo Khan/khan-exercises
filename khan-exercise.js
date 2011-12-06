@@ -1722,7 +1722,6 @@ var Khan = (function() {
 			userExercise.exercise_model.display_name : document.title );
 
 		exercises = jQuery( ".exercise" ).detach();
-		maybeEnqueueReviewProblems();
 
 		// Setup appropriate img URLs
 		jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
@@ -1785,6 +1784,8 @@ var Khan = (function() {
 		}
 
 		function handleSubmit() {
+			maybeEnqueueReviewProblems();
+
 			var pass = validator();
 
 			// Stop if the user didn't enter a response
