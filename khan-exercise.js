@@ -1779,7 +1779,10 @@ var Khan = (function() {
 				problem_type: problemID,
 
 				// The non-summative exercise that the current problem belongs to
-				non_summative: exercise.data( "name" )
+				non_summative: exercise.data( "name" ),
+
+				// Whether we are currently in review mode
+				review_mode: isReview ? 1 : 0
 			};
 		}
 
