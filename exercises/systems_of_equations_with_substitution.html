@@ -17,8 +17,8 @@
 		<div class="problems">
 			<div id="substitution-y">
 				<div class="vars">
-					<var id="X">randRangeNonZero( -10, 10 )</var>
-					<var id="Y" data-ensure="X !== Y">randRangeNonZero( -10, 10 )</var>
+					<var id="X">randRange( 1, 10 )</var>
+					<var id="Y" data-ensure="X !== Y">randRange( 1, 10 )</var>
 					<var id="A1" data-ensure="( abs( A1 * X ) - abs( 6 * Y ) ) < 13">randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
 					<var id="B1" data-ensure="abs( A1 * X + B1 * Y ) < 13">randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
 					<var id="C1">A1 * X + B1 * Y</var>
