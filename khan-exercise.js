@@ -734,10 +734,13 @@ var Khan = (function() {
 		// XXX(david): don't need to do this in test mode? or is it even an issue
 		//		 because this won't be called in testmode?
 		jQuery.ajax({
-			url: "/api/v1/user/exercises/" + exerciseName + "/review_problems",
+			url: "/api/v1/user/exercises/review_problems",
 			type: "GET",
 			dataType: "json",
 			xhrFields: { withCredentials: true },
+			data: {
+				queued: reviewQueue.concat( exerciseName ).join( "," )
+			},
 			success: function( reviewExercises ) {
 				reviewQueue = reviewQueue.concat( reviewExercises );
 
@@ -776,10 +779,6 @@ var Khan = (function() {
 	// TODO(david): NAMING! I don't want to call pid problemId because taht's too
 	//		 similar to problemID, which is another variable we use
 	function makeProblem( exid, pid, seed ) {
-		// Kick off a request to queue up the next problems if there's none left
-		// XXX(david): What do we do if the user is done with their reviews (no more problems left?)
-		maybeEnqueueReviewProblems();
-
 		if ( typeof Badges !== "undefined" ) {
 			Badges.hide();
 		}
@@ -1787,8 +1786,6 @@ var Khan = (function() {
 		}
 
 		function handleSubmit() {
-			maybeEnqueueReviewProblems();
-
 			var pass = validator();
 
 			// Stop if the user didn't enter a response
@@ -1986,6 +1983,10 @@ var Khan = (function() {
 
 			} else {
 				makeProblem( isReview && reviewQueue.shift() );
+
+				// Kick off a request to queue up the next problems if there's none left
+				// XXX(david): What do we do if the user is done with their reviews (no more problems left?)
+				maybeEnqueueReviewProblems();
 			}
 		});
 
@@ -2932,6 +2933,8 @@ var Khan = (function() {
 
 			// Generate the initial problem when dependencies are done being loaded
 			var answerType = makeProblem();
+
+			maybeEnqueueReviewProblems();
 		}
 	}
 
