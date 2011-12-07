@@ -155,7 +155,7 @@ var Khan = (function() {
 	isSummative = false,
 
 	// If we're in review mode: present a mix of different exercises
-	isReview = false,
+	reviewMode = false,
 	reviewQueue = [],
 
 	// Where we are in the shuffled list of problem types
@@ -727,7 +727,7 @@ var Khan = (function() {
 	}
 
 	function maybeEnqueueReviewProblems() {
-		if ( !isReview || reviewQueue.length >= 3 ) return;
+		if ( !reviewMode || reviewQueue.length >= 3 ) return;
 		// XXX(david): Does the seed still work? -- for submitting issues
 
 		// Load in the exercise data from the server
@@ -813,9 +813,18 @@ var Khan = (function() {
 				// Or by its ID
 				problems.filter( "#" + pid );
 
-		// If we have the exercise id, grab a problem of that exercise
+		// If we have the exercise id, grab a problem of that exercise. This is
+		// currently used for review mode.
 		} else if ( exid ) {
-			exerciseName = exid;
+			if ( exerciseName !== exid ) {
+				exerciseName = exid;
+
+				// Update the exercise icon if we just switched exercises
+				var currentStates = getData().exercise_states;
+				if ( currentStates ) {
+					updateExerciseIcon( currentStates );
+				}
+			}
 
 			// Get all problems of this exercise type.
 			var problems = exercises.filter(function() {
@@ -830,8 +839,8 @@ var Khan = (function() {
 
 			// TODO(david): Should we have a review URL, like /exercise/review#addition_1 or something?
 			// If the history API is supported, update the URL to the new exercise
-			if (window.history && window.history.replaceState) {
-				window.history.replaceState({}, '', '/exercise/' + exid);
+			if ( window.history && window.history.replaceState ) {
+				window.history.replaceState( {}, '', '/exercise/' + exid );
 			}
 
 			// Update the document title
@@ -1781,7 +1790,7 @@ var Khan = (function() {
 				non_summative: exercise.data( "name" ),
 
 				// Whether we are currently in review mode
-				review_mode: isReview ? 1 : 0
+				review_mode: reviewMode ? 1 : 0
 			};
 		}
 
@@ -1958,7 +1967,7 @@ var Khan = (function() {
 			Khan.scratchpad.clear();
 
 			// Change the title of the exercise, if necessary
-			if ( isReview ) {
+			if ( reviewMode ) {
 				transitionExerciseTitle();
 			}
 
@@ -1982,7 +1991,7 @@ var Khan = (function() {
 				jQuery( "#sidebar" ).hide();
 
 			} else {
-				makeProblem( isReview && reviewQueue.shift() );
+				makeProblem( reviewMode && reviewQueue.shift() );
 
 				// Kick off a request to queue up the next problems if there's none left
 				// XXX(david): What do we do if the user is done with their reviews (no more problems left?)
@@ -2539,6 +2548,16 @@ var Khan = (function() {
 		jQuery( "#review-mode-title" ).show();
 	}
 
+	function updateExerciseIcon( exerciseStates ) {
+		var sPrefix = "/images/" + (
+				exerciseStates.summative ? "node-challenge" : "node" );
+		var src = exerciseStates.reviewing ? "/images/node-review.png" :
+					exerciseStates.suggested ? sPrefix + "-suggested.png" :
+						exerciseStates.proficient ? sPrefix + "-complete.png" :
+							sPrefix + "-not-started.png";
+		jQuery( "#exercise-icon-container img" ).attr( "src", src );
+	}
+
 	function prepareUserExercise( data ) {
 		// Update the local data store
 		updateData( data );
@@ -2691,22 +2710,14 @@ var Khan = (function() {
 		var exerciseStates = data && data.exercise_states;
 
 		if ( exerciseStates ) {
-			// You stay in review mode once you're in... muahahhahaha
-			// XXX(david): Does this make sense? Maybe query param is better... if we
-			// were proficient then got one wrong, it probably doesn't make sense to
-			// fall back to exercise mode.
-			if ( !isReview && exerciseStates.reviewing ) {
-				// TODO(david): comment?
-				isReview = true;
+
+			// Allow entering review mode only on initial page load
+			if ( once && exerciseStates.reviewing ) {
+				reviewMode = true;
 				jQuery( switchToReviewMode );
 			}
 
-			var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
-			var src = isReview ? "/images/node-review.png" :
-						exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" :
-							exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" :
-								"/images/" + sPrefix + "-not-started.png";
-			jQuery("#exercise-icon-container img").attr("src", src);
+			updateExerciseIcon( exerciseStates );
 		}
 		//drawExerciseState( data );
 
