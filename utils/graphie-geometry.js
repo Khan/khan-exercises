@@ -384,6 +384,14 @@ function Triangle( center, angles, scale, labels, points ){
 		} 
 	}
 
+	this.boundingRange = function( margin ) {
+		margin = margin || 0;
+		var X = jQuery.map(this.points, function( p ){ return p[0]; });
+		var Y = jQuery.map(this.points, function( p ){ return p[1]; });
+		return [ [ _.min(X) - margin, _.max(X) + margin ],
+			 [ _.min(Y) - margin, _.max(Y) + margin ] ];
+	}
+
 	this.findCenterPoints = function(){
 		var Ax = this.points[ 0 ][ 0 ];
 		var Ay = this.points[ 0 ][ 1 ];
