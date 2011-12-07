@@ -1967,7 +1967,7 @@ var Khan = (function() {
 			Khan.scratchpad.clear();
 
 			// Change the title of the exercise, if necessary
-			if ( reviewMode ) {
+			if ( reviewMode && reviewQueue.length ) {
 				transitionExerciseTitle();
 			}
 
