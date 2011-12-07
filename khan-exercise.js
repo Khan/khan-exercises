@@ -6,14 +6,14 @@
 	When this loadScripts is called, it loads in many of the pre-reqs and then
 	calls, one way or another, prepareUserExercise concurrently with loadModules.
 
-	prepareUserExercise calls updateData and advances the problem counter 
+	prepareUserExercise calls updateData and advances the problem counter
 	via setProblemNum. updateData refreshes the page ui based on this current
 	problem (among other things). setProblemNum updates some instance vars
 	that get looked at by other functions.
 
-	loadModules takes care of loading an individual exercise's prereqs (i.e. 
+	loadModules takes care of loading an individual exercise's prereqs (i.e.
 	word problems, etc). It _also_ loads in the khan academy site skin and
-	exercise template via injectSite which runs prepareSite first then 
+	exercise template via injectSite which runs prepareSite first then
 	makeProblemBag and makeProblem when it finishes loading dependencies.
 
 	pepareSite and makeProblem are both fairly heavyweight functions.
@@ -1464,7 +1464,7 @@ var Khan = (function() {
 				  success: renderFollowups
 				});
 			};
-		
+
 			// a rectangle centered at x,y
 			Raphael.fn.centeredBox = function (x, y, w, h, r) {
 				return this.rect(x - (w/2), y - (h/2), w, h, r);
@@ -1592,7 +1592,7 @@ var Khan = (function() {
 					};
 
 					// mouseout, fade out the path to its original color
-					var out = function(){ 
+					var out = function(){
 						route.animate( {stroke : routeColor }, 550, "<>" );
 					};
 
@@ -1612,13 +1612,13 @@ var Khan = (function() {
 
 
 			// actually doing things
-			if ( jQuery.isArray(followups) ){ 
+			if ( jQuery.isArray(followups) ){
 
 				// how considerate! let's just render this now.
 				renderFollowups( followups );
 				return;
 
-			}else { 
+			}else {
 
 				// if nothing of use was fed to us just grab it from the api
 				getUserFollowups();
@@ -2361,8 +2361,8 @@ var Khan = (function() {
 	}
 
 	function drawExerciseState( data ) {
-		// drawExerciseState changes the #exercise-icon-container's status to 
-		// reflect the current state of the 
+		// drawExerciseState changes the #exercise-icon-container's status to
+		// reflect the current state of the
 		var icon = jQuery("#exercise-icon-container");
 		var exerciseStates = data && data.exercise_states;
 		if ( exerciseStates ){
@@ -2382,7 +2382,7 @@ var Khan = (function() {
 	function prepareUserExercise( data ) {
 		// Update the local data store
 		updateData( data );
-	
+
 		if ( data.exercise ) {
 			exerciseName = data.exercise;
 		}
@@ -2471,9 +2471,9 @@ var Khan = (function() {
 		}
 	}
 
-	// updateData is used to update some user interface elements as the result of 
+	// updateData is used to update some user interface elements as the result of
 	// a page load or after a post / problem attempt. updateData doesn't know if an
-	// attempt was successful or not, it's simply reacting to the state of the data 
+	// attempt was successful or not, it's simply reacting to the state of the data
 	// object returned by the server (or window.localStorage for phantom users)
 	//
 	// It gets called a few times
@@ -2563,11 +2563,12 @@ var Khan = (function() {
 
 	function displayRelatedVideos( videos ) {
 		var relatedVideoAnchorElement = function(video, needComma) {
-			return jQuery("#related-video-link-tmpl").tmplPlugin({
+			var template = Templates.get("video.related-video-link");
+			return jQuery(template({
 				href: Khan.relatedVideoHref(video),
 				video: video,
 				separator: needComma
-			}).data('video', video);
+			})).data('video', video);
 		};
 
 		var displayRelatedVideoInHeader = function(i, video) {
@@ -2577,10 +2578,11 @@ var Khan = (function() {
 		};
 
 		var displayRelatedVideoInSidebar = function(i, video) {
-			var thumbnailDiv = jQuery("#thumbnail-tmpl").tmplPlugin({
+			var template = Templates.get('video.thumbnail');
+			var thumbnailDiv = jQuery(template({
 				href: Khan.relatedVideoHref(video),
 				video: video
-			}).find('a.related-video').data('video', video).end();
+			})).find('a.related-video').data('video', video).end();
 
 			var inlineLink = relatedVideoAnchorElement(video)
 				.addClass("related-video-inline");
@@ -2598,7 +2600,7 @@ var Khan = (function() {
 			jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
 		};
 
-		if ( jQuery.fn.tmplPlugin ) {
+		if ( window.Templates ) {
 			jQuery.each(videos, displayRelatedVideoInHeader);
 			jQuery.each(videos, displayRelatedVideoInSidebar);
 			jQuery( ".related-content, .related-video-box" ).show();
