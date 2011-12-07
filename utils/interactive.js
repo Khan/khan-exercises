@@ -56,7 +56,7 @@ jQuery.extend( KhanUtil, {
 		var ymax = (graph.ypixels / graph.scale[1]) + ymin;
 		graph.range = [ [ xmin, xmax ], [ ymin, ymax ] ];
 
-		graph.mouselayer = Raphael( graph.raphael.canvas.parentNode.id, graph.xpixels, graph.ypixels );
+		graph.mouselayer = Raphael( graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels );
 		jQuery( graph.mouselayer.canvas ).css( "z-index", 1 );
 		Khan.scratchpad.disable();
 	},
