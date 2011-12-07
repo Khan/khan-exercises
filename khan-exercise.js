@@ -2692,6 +2692,76 @@ var Khan = (function() {
 	}
 
 	function loadModules() {
+	
+	
+		// Load Tokenreplace
+		if(document.documentElement.getAttribute("data-translatable") != null){
+
+			tokenreplace = { 
+
+				lang : "nl",
+
+				// defaults to "en" or entry [0]
+				// example:
+				//	switchLang(["en":object1, "nl":object2]) == object2
+				switchLang : function(langobjectmap){
+					if(langobjectmap[tokenreplace.lang]){
+						return langobjectmap[tokenreplace.lang]
+					}
+					else if(langobjectmap["en"]){
+						return langobjectmap["en"]
+					}
+					else{
+						return langobjectmap[0]
+					}
+				}
+
+			}
+
+			langfile = $('title').html().toLowerCase().replace(" ", "_")+".lang.js"
+
+			$.ajax({
+				type: "GET",
+				url: langfile,
+				success: function(data){
+					table = eval(data)
+					if(table[tokenreplace.lang]){
+						$('[data-tt]').each(function(){
+							token = $(this).attr('data-tt')
+							if(table[tokenreplace.lang][token]){
+								$(this).html(table[tokenreplace.lang][token])
+							}
+						})
+					}
+				}
+			})
+
+			$.ajax({
+				type: "GET",
+				url: "lang.js",
+				success: function(data){
+					table = eval(data)
+					if(table["titles"][tokenreplace.lang]){
+						$('title').each(function(){
+							token = $(this).text()
+							if(table["titles"][tokenreplace.lang][token]){
+								$(this).html(table["titles"][tokenreplace.lang][token])
+							}
+						})
+					}
+					if(table["globals"][tokenreplace.lang]){
+						$('[data-tg]').each(function(){
+							token = $(this).attr('data-tg')
+							if(table["globals"][tokenreplace.lang][token]){
+								$(this).html(table["globals"][tokenreplace.lang][token])
+							}
+						})
+					}
+				}
+			})
+
+		}
+	
 		// Load module dependencies
 		Khan.loadScripts( jQuery.map( Khan.modules, function( mod, name ) {
 			return mod;
@@ -2755,3 +2825,8 @@ var Khan = (function() {
 
 // Make this publicly accessible
 var KhanUtil = Khan.Util;
+
+/*
+ * Tokenreplace
+ */
+var tokenreplace
