@@ -2693,38 +2693,46 @@ var Khan = (function() {
 
 	function loadModules() {
 	
-	
-		// Load Tokenreplace
+		tokenreplace = { 
+
+			// Default language when untranslatable
+			lang : "en",
+
+			//switchLang(["en":object1, "nl":object2]) == object2
+			//(defaults to "en" or entry [0])
+			switchLang : function(langobjectmap){
+				if(langobjectmap[tokenreplace.lang]){
+					return langobjectmap[tokenreplace.lang]
+				}
+				else if(langobjectmap["en"]){
+					return langobjectmap["en"]
+				}
+				else{
+					return langobjectmap[0]
+				}
+			}
+
+		}
+
+		// If translatable load translation file
+
 		if(document.documentElement.getAttribute("data-translatable") != null){
 
-			tokenreplace = { 
-
-				lang : "nl",
-
-				// defaults to "en" or entry [0]
-				// example:
-				//	switchLang(["en":object1, "nl":object2]) == object2
-				switchLang : function(langobjectmap){
-					if(langobjectmap[tokenreplace.lang]){
-						return langobjectmap[tokenreplace.lang]
-					}
-					else if(langobjectmap["en"]){
-						return langobjectmap["en"]
-					}
-					else{
-						return langobjectmap[0]
-					}
-				}
-
-			}
+			// Default language when translatable
+			tokenreplace.lang = "nl"
 
 			langfile = $('title').html().toLowerCase().replace(" ", "_")+".lang.js"
 
+			console.log(langfile)
+
+			// Load exercise translation file
 			$.ajax({
 				type: "GET",
 				url: langfile,
 				success: function(data){
 					table = eval(data)
+					console.log(table)
+					console.log("hello!")
 					if(table[tokenreplace.lang]){
 						$('[data-tt]').each(function(){
 							token = $(this).attr('data-tt')
@@ -2736,6 +2744,7 @@ var Khan = (function() {
 				}
 			})
 
+			// Load global translation file
 			$.ajax({
 				type: "GET",
 				url: "lang.js",
