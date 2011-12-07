@@ -831,11 +831,10 @@ var Khan = (function() {
 				return jQuery.data( this, "name" ) === exid;
 			}).children( ".problems" ).children();
 
-			// TODO(david): Test this. Does this correctly select problem with the weights?
-			problem = makeProblemBag( problems, 1 )[0];
+			// TODO(david): Repetitive code with what's in the else-if
+			problemBag = makeProblemBag( problems, 10 );
+			problem = problemBag[ problemBagIndex ];
 			pid = problem.data( "id" );
-
-			var displayName = getDisplayNameFromId(exid);
 
 			// TODO(david): Should we have a review URL, like /exercise/review#addition_1 or something?
 			// If the history API is supported, update the URL to the new exercise
@@ -845,7 +844,8 @@ var Khan = (function() {
 
 			// Update the document title
 			var title = document.title;
-			document.title = displayName + ' ' + title.slice( jQuery.inArray('|', title) );
+			document.title = getDisplayNameFromId(exid) + ' ' +
+				title.slice( jQuery.inArray('|', title) );
 
 		// Otherwise we grab a problem at random from the bag of problems
 		// we made earlier to ensure that every problem gets shown the
