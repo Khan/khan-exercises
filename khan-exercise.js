@@ -516,7 +516,7 @@ var Khan = (function() {
 			if ( data ) {
 				exid_param = "?exid=" + data.exercise_model.name;
 			}
-			return video.ka_url + exid_param;
+			return video.relative_url + exid_param;
 		},
 
 		showSolutionButtonText: function() {
