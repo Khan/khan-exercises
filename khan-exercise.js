@@ -2563,11 +2563,12 @@ var Khan = (function() {
 
 	function displayRelatedVideos( videos ) {
 		var relatedVideoAnchorElement = function(video, needComma) {
-			return jQuery("#related-video-link-tmpl").tmplPlugin({
+			var template = Templates.get("video.related-video-link");
+			return jQuery(template({
 				href: Khan.relatedVideoHref(video),
 				video: video,
 				separator: needComma
-			}).data('video', video);
+			})).data('video', video);
 		};
 
 		var displayRelatedVideoInHeader = function(i, video) {
@@ -2577,10 +2578,11 @@ var Khan = (function() {
 		};
 
 		var displayRelatedVideoInSidebar = function(i, video) {
-			var thumbnailDiv = jQuery("#thumbnail-tmpl").tmplPlugin({
+			var template = Templates.get('video.thumbnail');
+			var thumbnailDiv = jQuery(template({
 				href: Khan.relatedVideoHref(video),
 				video: video
-			}).find('a.related-video').data('video', video).end();
+			})).find('a.related-video').data('video', video).end();
 
 			var inlineLink = relatedVideoAnchorElement(video)
 				.addClass("related-video-inline");
@@ -2598,7 +2600,7 @@ var Khan = (function() {
 			jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
 		};
 
-		if ( jQuery.fn.tmplPlugin ) {
+		if ( window.Templates ) {
 			jQuery.each(videos, displayRelatedVideoInHeader);
 			jQuery.each(videos, displayRelatedVideoInSidebar);
 			jQuery( ".related-content, .related-video-box" ).show();
