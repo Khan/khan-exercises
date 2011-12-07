@@ -146,6 +146,8 @@
 					});
 
 					style({ stroke: COLORS[index].hex });
+					label([0,-6], "\\color{<var>" + COLORS[index].hex + "</var>}" +
+								  "{\\text{" + COLORS[index].name + "}}", "below");
 					plot(function( x ) {
 						return ( x - 1 ) * SLOPES[index].value + B;
 					}, [ -11, 11 ]);
