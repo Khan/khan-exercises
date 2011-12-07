@@ -77,12 +77,8 @@
 						tr.labels = { "angles" : clearArray( tr.niceAngles, [ 0, 1 ] ) };
 						tr.rotate( randRange( 0, 90 ) );
 
-						var xmin = min( tr.points[0][0], tr.points[1][0], tr.points[2][0] );
-						var xmax = max( tr.points[0][0], tr.points[1][0], tr.points[2][0] );
-						var ymin = min( tr.points[0][1], tr.points[1][1], tr.points[2][1] );
-						var ymax = max( tr.points[0][1], tr.points[1][1], tr.points[2][1] );
 						init({
-							range: [ [ xmin - 1, xmax + 1 ], [ ymin - 1, ymax + 1 ] ]
+							range: tr.boundingRange( 1 )
 						})
 
 						tr.draw();
@@ -115,13 +111,8 @@
 						tr.labels = {  "sides" : tr.niceSideLengths };
 						tr.rotate( randRange( 0, 90 ) );
 
-						var xmin = min( tr.points[0][0], tr.points[1][0], tr.points[2][0] );
-						var xmax = max( tr.points[0][0], tr.points[1][0], tr.points[2][0] );
-						var ymin = min( tr.points[0][1], tr.points[1][1], tr.points[2][1] );
-						var ymax = max( tr.points[0][1], tr.points[1][1], tr.points[2][1] );
-
 						init({
-							range: [ [ xmin - 1, xmax + 1 ], [ ymin - 1, ymax + 1 ] ]
+							range: tr.boundingRange( 1 )
 						})
 						tr.draw();
 						tr.drawLabels();
