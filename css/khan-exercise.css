@@ -339,14 +339,14 @@ div.timeline-total {
 
 /* Faux table styles that allow revealing data row by row in hints */
 
-.fake_header span {
+.fake_header > span {
 	font-weight: bold;
 	display: inline-block;
 	padding-left: 10px;
 	border-bottom: 2px solid #CCCCCC;
 }
 
-.fake_row span {
+.fake_row > span {
 	display: inline-block;
 	padding-top: 5px;
 	padding-bottom: 5px;
@@ -354,11 +354,11 @@ div.timeline-total {
 	border-bottom: 1px solid #DDD;
 }
 
-.fake_row:nth-child(n) span {
+.fake_row:nth-child(n) > span {
 	border-bottom: none;
 }
 
-.fake_row:nth-child(2n+1) span {
+.fake_row:nth-child(2n+1) > span {
 	background-color: #F3F3F3;
 }
 
