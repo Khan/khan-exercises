@@ -25,7 +25,7 @@
 	
 		<div class="problem spin">
 				<div class="question spin">
-					<p>{Next week|On Saturday}, <var>person(1)</var> is having a party, and <var>he(1)</var> plans to serve hot dogs in buns. {<var>He(1)</var> is also planning to play his <var>randRange(10,25)</var> favorite songs. |}<var>He(1)</var> does not want to have any food left over.</p>
+					<p>{Next week|On Saturday}, <var>person(1)</var> is having a party, and <var>he(1)</var> plans to serve hot dogs in buns. {<var>He(1)</var> is also planning to play <var>his(1)</var> <var>randRange(2,30)</var> favorite songs. |}<var>He(1)</var> does not want to have any food left over.</p>
 					<p>Hot dogs come in packages of <var>A</var>, and buns come in packages of <var>B</var>.</p>
 					<p><strong>What is the minimum amount of hot dogs and buns <var>person(1)</var> can buy?</strong></p>
 				</div>
@@ -37,7 +37,7 @@
 			<p>The least common multiple is the smallest number that is a multiple of <var>A</var> and <var>B</var>.</p>
 			<p>We know that <var>A</var> x <var>B</var> (or <var>PRODUCT</var>) is a common multiple, but is it the least common multiple?</p>
 			<p>Write out the multiples of <var>BIGGER</var> until we find a number divisible by <var>SMALLER</var>.</p>
-			<span data-each="MULTIPLES as M"> <var>M</var>, </span>
+			<span data-each="MULTIPLES as M"><span data-if="M === LCM"><code class="hint_blue">\text{<var>M</var>}</code></span><span data-else> <code>\text{<var>M</var>}</code>, </span></span>
 			<p>So, <var>LCM</var> is the least common multiple of <var>A</var> and <var>B</var>.</p>
 			<p><strong>The smallest amount of food <var>person(1)</var> can buy is <var>LCM</var> hot dogs and buns</strong>, or <var>plural(<var>LCM/A</var>,"package")</var> of hot dogs and <var>plural(<var>LCM/B</var>,"package")</var> of buns.</p>
 		</div>
@@ -60,8 +60,8 @@
 	
 		<div class="problem">
 				<div class="question spin">
-					<p spin><var>person(1)</var> is organizing a {baseball|softball} league, and <var>he(1)</var> needs to purchase uniforms. Jerseys come in sets of <var>A</var>, and visors come in sets of <var>B</var>.</p>
-					<p><var>person(1)</var> does not want to have any uniforms left over.</p>
+					<p spin><var>person(1)</var> is organizing a {baseball|softball} league, and <var>he(1)</var> needs to purchase jerseys and visors for the players. Jerseys come in sets of <var>A</var>, and visors come in sets of <var>B</var>.</p>
+					<p><var>person(1)</var> does not want to have any jerseys or visors left over.</p>
 					<p><strong>What is the minimum number of jerseys and visors <var>person(1)</var> can purchase?</strong></p>
 				</div>
 				<p class="solution" data-forms="integer"><var>LCM</var></p>
@@ -72,7 +72,7 @@
 			<p>The least common multiple is the smallest number that is a multiple of <var>A</var> and <var>B</var>.</p>
 			<p>We know that <var>A</var> x <var>B</var> (or <var>PRODUCT</var>) is a common multiple, but is it the least common multiple?</p>
 			<p>Write out the multiples of <var>BIGGER</var> until we find a number divisible by <var>SMALLER</var>.</p>
-			<span data-each="MULTIPLES as M"> <var>M</var>, </span>
+			<span data-each="MULTIPLES as M"><span data-if="M === LCM"><code class="hint_blue">\text{<var>M</var>}</code></span><span data-else> <code>\text{<var>M</var>}</code>, </span></span>
 			<p>So, <var>LCM</var> is the least common multiple of <var>A</var> and <var>B</var>.</p>
 			<p><strong>At a minimum, <var>person(1)</var> needs to purchase <var>LCM</var> jerseys and visors</strong>, or <var>plural(<var>LCM/A</var>,"set")</var> of jerseys and <var>plural(<var>LCM/B</var>,"set")</var> of visors.</p>
 		</div>
@@ -107,7 +107,7 @@
 			<p>The least common multiple is the smallest number that is a multiple of <var>A</var> and <var>B</var>.</p>
 			<p>We know that <var>A</var> x <var>B</var> (or <var>PRODUCT</var>) is a common multiple, but is it the least common multiple?</p>
 			<p>Write out the multiples of <var>BIGGER</var> until we find a number divisible by <var>SMALLER</var>.</p>
-			<span data-each="MULTIPLES as M"> <var>M</var>, </span>
+			<span data-each="MULTIPLES as M"><span data-if="M === LCM"><code class="hint_blue">\text{<var>M</var>}</code></span><span data-else> <code>\text{<var>M</var>}</code>, </span></span>
 			<p>So, <var>LCM</var> is the least common multiple of <var>A</var> and <var>B</var>.</p>
 			<p><strong>The least number of questions <var>person(1)</var> and <var>person(2)</var> each give is <var>LCM</var></strong>, or <var>plural(<var>LCM/A</var>,"<var>exam(1)</var>")</var> in <var>person(1)</var>'s class and <var>plural(<var>LCM/B</var>,"<var>exam(1)</var>")</var> in <var>person(2)</var>'s class.</p>
 		</div>
@@ -175,7 +175,7 @@
 			<div>
 				<div class="question spin">
 					<p>People who eat at <var>person(1)</var>'s famous dessert restaurant expect consistency, so <var>person(1)</var> must ensure that every plate of cookies is {exactly the same|identical}.</p>
-					<p><var>person(1)</var> bakes chocolate-chip cookies in batches of <var>A</var> and oatmeal cookies in batches of <var>B</var>; since <var>person(1)</var> bakes cookies fresh daily, <var>he(1)</var> does not want any cookies left over at the end of the night.</p>
+					<p><var>person(1)</var> bakes one batch of <var>A</var> chocolate-chip cookies and one batch of <var>B</var> oatmeal cookies each day; since <var>person(1)</var> bakes cookies fresh daily, <var>he(1)</var> does not want any cookies left over at the end of the night.</p>
 					<p><strong>What is the greatest number of plates of cookies <var>person(1)</var> can serve on one night?</strong></p>
 									</div>
 
