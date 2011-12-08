@@ -15,11 +15,12 @@
 		<div class="vars">
 			<var id="X">randRangeNonZero( -10, 10 )</var>
 			<var id="Y" data-ensure="abs( X ) !== abs( Y )">randRangeNonZero( -10, 10 )</var>
+			<var id="GCD">getGCD( abs( X ), abs( Y ) )</var>
 		</div>
 		<div class="problems">
 			<div id="substitution-y">
 				<div class="vars">
-					<var id="A1" data-ensure="( abs( A1 * X ) - abs( 6 * Y ) ) < 13">randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
+					<var id="A1" data-ensure="( abs( A1 * X ) - abs( 6 * Y ) ) < 13">GCD !== 1 ? randRange( 4, 6 ) * randRangeNonZero( -1, 1 ) : randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
 					<var id="B1" data-ensure="abs( A1 * X + B1 * Y ) < 13">randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
 					<var id="C1">A1 * X + B1 * Y</var>
 					<var id="B2">1</var>
@@ -70,7 +71,7 @@
 			</div>
 			<div id="substitution-x">
 				<div class="vars">
-					<var id="A1" data-ensure="( abs( A1 * X ) - abs( 6 * Y ) ) < 13">randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
+					<var id="A1" data-ensure="( abs( A1 * X ) - abs( 6 * Y ) ) < 13">GCD !== 1 ? randRange( 4, 6 ) * randRangeNonZero( -1, 1 ) : randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
 					<var id="B1" data-ensure="abs( A1 * X + B1 * Y ) < 13">randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
 					<var id="C1">A1 * X + B1 * Y</var>
 					<var id="A2">1</var>
