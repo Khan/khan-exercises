@@ -17,7 +17,7 @@ jQuery.extend( KhanUtil, {
 			}
 
 		}
-	},	
+	},
 	sec: {name: "sec", print: function( angle ){
 		if( angle == 0 ){
 			return 1;
@@ -38,7 +38,7 @@ jQuery.extend( KhanUtil, {
 	},
 	convertsTo: ["cos","tan"],
 	convertTo: function( type, angle){
-		if( type.name ==  "cos" ){ 
+		if( type.name ==  "cos" ){
 			var cosv =  KhanUtil.trigFunc.cos.print( angle );
 			var secv =  KhanUtil.trigFunc.sec.print( angle );
 			var toReturn = [];
@@ -59,10 +59,10 @@ jQuery.extend( KhanUtil, {
 			toReturn.push( "\\tan^2 x = (" + secv + ")^2 - 1" );
 			toReturn.push( "\\tan x = \\sqrt { " + secv + "  ^2 - 1 }");
 			toReturn.push( "\\tan x = " + tanv );
-			return toReturn;	
+			return toReturn;
 		}
 	}
-},	
+},
 tan: {name: "tan", print: function( angle ){
 	if( angle == 0 ){
 		return 0;
@@ -84,7 +84,7 @@ tan: {name: "tan", print: function( angle ){
 },
 convertsTo: ["sec"],
 convertTo: function( type, angle){
-	if( type.name ==  "sec" ){ 
+	if( type.name ==  "sec" ){
 
 		var tanv =  KhanUtil.trigFunc.tan.print( angle );
 		var secv =  KhanUtil.trigFunc.sec.print( angle );
@@ -95,7 +95,7 @@ convertTo: function( type, angle){
 		toReturn.push( "(" + tanv + ")^2 + 1 = \\sec^2 x" );
 		toReturn.push( "\\sqrt{(" + tanv + ")^2 + 1} = \\sec x" );
 		toReturn.push( secv + ' = \\sec x');
-		return toReturn;	
+		return toReturn;
 	}
 }
 },
@@ -122,12 +122,12 @@ convertTo: function( type, angle){
 		toReturn = new Array();
 		toReturn.push( cosv + " = \\cos x" );
 		toReturn.push( secv + " = \\frac{1}{\\cos x}" );
-		toReturn.push( secv + " = \\sec x" ); 
+		toReturn.push( secv + " = \\sec x" );
 		return toReturn;
 	}
 }
 },
-sin: {name: "sin", print: function( angle ){ 
+sin: {name: "sin", print: function( angle ){
 	if( angle == 0 ){
 		return 0;
 	}
@@ -154,7 +154,7 @@ convertTo: function( type, angle ){
 		toReturn.push( "\\sin^2 x + \\cos^2 x = 1" );
 		toReturn.push( "(" + sinv + ")^2 + \\cos^2 x = 1" );
 		toReturn.push( "(" + sinv + ")^2 = 1- \\cos^2 x " );
-		toReturn.push( "(" + sinv + ")^2 - 1 = - \\cos^2 x " ); 
+		toReturn.push( "(" + sinv + ")^2 - 1 = - \\cos^2 x " );
 		toReturn.push( "-(" + sinv + ")^2 + 1 = \\cos^2 x " );
 		toReturn.push( cosv + " =  \\cos x" );
 		return toReturn;
@@ -193,14 +193,14 @@ jQuery.extend( KhanUtil, {
 				});
 			}
 			next = queue.shift();
-		}	
+		}
 		var prev = next;
 		var steps = [];
 		while( prev.name != start.name ){
 			steps.unshift( prev.name );
 			prev = prev.parent;
 
-		}		
+		}
 		steps.unshift( prev.name );
 		var toReturn = [];
 		for( var x=0; x<steps.length-1 ;x++ ){

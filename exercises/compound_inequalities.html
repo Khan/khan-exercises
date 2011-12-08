@@ -22,25 +22,25 @@
 <body>
 	<div class="exercise">
 		<div class="vars" data-ensure="abs( SOLUTION[0] - SOLUTION[1] ) <= 5 && FAKE_ANSWER[0] !== SOLUTION[0] && FAKE_ANSWER[1] !== SOLUTION[1]">
-			<var id="COEF">tabulate( function() { 
+			<var id="COEF">tabulate( function() {
 				return randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 );
 			} , 2 )</var>
-			<var id="ONE_OVER_COEF">tabulate( function(i) { 
-				return fraction( 1, COEF[i] ); 
+			<var id="ONE_OVER_COEF">tabulate( function(i) {
+				return fraction( 1, COEF[i] );
 			}, 2 )</var>
 			<var id="SIGN">randFromArray( [ "-", "+" ], 2)</var>
-			<var id="LEFT_INT">tabulate( function() { 
+			<var id="LEFT_INT">tabulate( function() {
 				return rand( 3 ) > 0 ? randRange( 2, 9 ) : 0;
 			}, 2 )</var>
-			<var id="ADD_TO_SIMPLIFY">tabulate( function(i) { 
+			<var id="ADD_TO_SIMPLIFY">tabulate( function(i) {
 				return LEFT_INT[i] * ( SIGN[i] === "+" ? -1 : 1 );
 			}, 2 )</var>
 			<var id="COMP">randFromArray( [ "&lt;", "&gt;", "&le;", "&ge;" ], 2 )</var>
-			<var id="RIGHT_INT">tabulate( function(i) { 
+			<var id="RIGHT_INT">tabulate( function(i) {
 				return randRange( 1, 6 ) * abs( COEF[i] ) + ( SIGN[i] === "+" ? 1 : -1 ) * LEFT_INT[i];
 			}, 2 )</var>
 			<var id="VARIABLE_NAME">randFromArray([ "a", "b", "c", "x", "y", "z" ])</var>
-			<var id="COMP_SOLUTION">tabulate( function(i) { 
+			<var id="COMP_SOLUTION">tabulate( function(i) {
 				return getComp( COEF[i], COMP[i] );
 			}, 2 )</var>
 			<var id="SOLUTION_NOT_REDUCED">tabulate( function(i) {
@@ -133,8 +133,8 @@
 						</div>
 					</div>
 					<div class="graphie">
-						var start = min( SOLUTION[0], SOLUTION[1] ) - randRange( 2, 5 );	
-						var end = max( SOLUTION[0], SOLUTION[1] ) + randRange( 2, 5 );	
+						var start = min( SOLUTION[0], SOLUTION[1] ) - randRange( 2, 5 );
+						var end = max( SOLUTION[0], SOLUTION[1] ) + randRange( 2, 5 );
 
 						init({
 							range: [ [ start - 1, end + 1 ], [ -1, 1 ] ]
@@ -161,8 +161,8 @@
 						<div data-else>
 							<p>Therefore, since the graphs of the equalities do not intersect, the solution is:</p>
 							<p>
-								<code>\color{<var>COLOR[0]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var>}</code> or 
-								<code>\color{<var>COLOR[1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var>}</code> 
+								<code>\color{<var>COLOR[0]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var>}</code> or
+								<code>\color{<var>COLOR[1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var>}</code>
 							</p>
 						</div>
 					</div>
@@ -181,7 +181,7 @@
 							<p>Therefore, the solution is:</p>
 							<p>
 								<code>\color{<var>COLOR[0]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var>}</code> and
-								<code>\color{<var>COLOR[1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var>}</code> 
+								<code>\color{<var>COLOR[1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var>}</code>
 							</p>
 						</div>
 					</div>

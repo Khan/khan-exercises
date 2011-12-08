@@ -668,13 +668,13 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 		var graph = KhanUtil.currentGraph;
         var measure = (angles[ 1 ] - angles[ 0 ])
         var bisect = ( angles[ 0 ] + angles[ 1 ] ) / 2;
-        
+
         var radius = 0.6
-        
+
         if ( measure < 60 ) { // control for angle label getting squeezed between intersecting lines
             radius /= Math.sin( KhanUtil.toRadians ( measure ) );
         }
-        
+
 		var coords = jQuery.map( coordArr, function( coord, index ) {
 			if ( index === 0 ) { // x-coordinate
 				return coord + radius * Math.cos( KhanUtil.toRadians( bisect ) );

@@ -51,7 +51,7 @@
 					<div>
 					    <p>Add the equations together. Notice that the terms <code class="hint_blue"><var>expr(["*", A1, "x"])</var></code> and <code class="hint_green"><var>expr(["*", A2, "x"])</var></code> cancel out.</p>
 					</div>
-					<div>    
+					<div>
 						<p data-if="( B1 * MULT1 + B2 * MULT2 ) !== 1"><code><var>expr(["*", B1 * MULT1 + B2 * MULT2, "y"])</var> = <var>C1 * MULT1 + C2 * MULT2</var></code></p>
 						<p data-if="( B1 * MULT1 + B2 * MULT2 ) !== 1"><code>\dfrac{<var>expr(["*", B1 * MULT1 + B2 * MULT2, "y"])</var>}{\color{<var>BLUE</var>}{<var>B1 * MULT1 + B2 * MULT2</var>}} = \dfrac{<var>C1 * MULT1 + C2 * MULT2</var>}{\color{<var>BLUE</var>}{<var>B1 * MULT1 + B2 * MULT2</var>}}</code></p>
 						<p><code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code></p>
@@ -62,7 +62,7 @@
 					<div>
 					    <p><code>\color{<var>BLUE</var>}{<var>expr(["*", A1, "x"])</var> + <span data-if="abs( B1 ) !== 1"><var>B1</var></span><span data-if="B1 === -1">-</span>}\color{<var>ORANGE</var>}{(<var>Y</var>)}\color{<var>BLUE</var>}{= <var>C1</var>}</code></p>
 					</div>
-					<div>	
+					<div>
 						<p data-if="B1 !== 1"><code><var>expr(["+", ["*", A1, "x"], B1 * Y])</var> = <var>C1</var></code></p>
 						<p><code><var>expr(["+", ["*", A1, "x"], B1 * Y])</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( B1 * Y )</var>} = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( B1 * Y )</var>}</code></p>
 						<p data-if="A1 !== 1"><code><var>expr(["*", A1, "x"])</var> = <var>C1 - B1 * Y</var></code></p>
@@ -103,7 +103,7 @@
 					<div>
 						<p>Add the equations together. Notice that the terms <code class="hint_blue"><var>expr(["*", B1, "y"])</var></code> and <code class="hint_green"><var>expr(["*", B2, "y"])</var></code> cancel out.</p>
 					</div>
-					<div>	    
+					<div>
 						<p data-if="( A1 * MULT1 + A2 * MULT2 ) !== 1"><code><var>expr(["*", A1 * MULT1 + A2 * MULT2, "x"])</var> = <var>C1 * MULT1 + C2 * MULT2</var></code></p>
 						<p data-if="( A1 * MULT1 + A2 * MULT2 ) !== 1"><code>\dfrac{<var>expr(["*", A1 * MULT1 + A2 * MULT2, "x"])</var>}{\color{<var>BLUE</var>}{<var>A1 * MULT1 + A2 * MULT2</var>}} = \dfrac{<var>C1 * MULT1 + C2 * MULT2</var>}{\color{<var>BLUE</var>}{<var>A1 * MULT1 + A2 * MULT2</var>}}</code></p>
 						<p><code>\color{red}{x = <var>X</var>}</code></p>
@@ -113,8 +113,8 @@
 					</div>
 					<div>
 					    <p><code>\color{<var>BLUE</var>}{<span data-if="abs( A1 ) !== 1"><var>A1</var></span><span data-if="A1 === -1">-</span>}\color{red}{(<var>X</var>)}\color{<var>BLUE</var>}{ + <var>expr(["*", B1, "y"])</var> = <var>C1</var>}</code></p>
-					</div>  
-					<div>  
+					</div>
+					<div>
 					    <p data-if="A1 !== 1"><code><var>expr(["+", A1 * X, ["*", B1, "y"]])</var> = <var>C1</var></code></p>
 						<p><code><var>A1 * X</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( A1 * X )</var>} + <var>expr(["*", B1, "y"])</var> = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( A1 * X )</var>}</code></p>
 						<p data-if="B1 !== 1"><code><var>expr(["*", B1, "y"])</var> = <var>C1 - A1 * X</var></code></p>

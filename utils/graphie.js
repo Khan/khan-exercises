@@ -438,14 +438,14 @@
 
 			jQuery.each( options, function( prop, val ) {
 
-				// allow options to be specified by a single number for shorthand if 
+				// allow options to be specified by a single number for shorthand if
 				// the horizontal and vertical components are the same
 				if ( !prop.match( /.*Opacity$/ ) && prop !== "range"
 						&& typeof val === "number" ) {
 					options[ prop ] = [ val, val ];
 				}
 
-				// allow symmetric ranges to be specified by the absolute values 
+				// allow symmetric ranges to be specified by the absolute values
 				if ( prop === "range" ) {
 					if ( val.constructor === Array ) {
 						if ( val[0].constructor !== Array ) {  // but don't mandate symmetric ranges
