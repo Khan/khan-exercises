@@ -42,37 +42,31 @@
 				<var id="LESS_THAN_2">COMP_2 == "&lt;" || COMP_2 == "&le;"</var>
 				<var id="INCLUSIVE_1">COMP_1 == "&ge;" || COMP_1 == "&le;"</var>
 				<var id="INCLUSIVE_2">COMP_2 == "&ge;" || COMP_2 == "&le;"</var>
-				<!-- Ensure at least one of the points is a solution at least 75% of the time.
-				Otherwise, very often, neither point will be a solution and the student
-				might become proficient without seeing an example of a solution -->
-				<var id="NO_SOLUTION_OK">random() &lt; 0.25</var>
-				<div data-ensure="NO_SOLUTION_OK || POINT_1_SOLUTION || POINT_2_SOLUTION">
-					<div data-ensure="sqrt( pow( POINT_1[0] - POINT_2[0], 2 ) + pow( POINT_1[1] - POINT_2[1], 2 ) ) > 4">
-						<var id="POINT_1">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
-						<var id="POINT_2">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
-						<var id="POINT_1_SOLUTION">
-								(((COMP_1 == "&lt;") &amp;&amp; ( POINT_1[1] &lt;  SLOPE_1 * POINT_1[0] + YINT_1 ))
-							|| ((COMP_1 == "&le;") &amp;&amp; ( POINT_1[1] &lt;= SLOPE_1 * POINT_1[0] + YINT_1 ))
-							|| ((COMP_1 == "&gt;") &amp;&amp; ( POINT_1[1] &gt;  SLOPE_1 * POINT_1[0] + YINT_1 ))
-							|| ((COMP_1 == "&ge;") &amp;&amp; ( POINT_1[1] &gt;= SLOPE_1 * POINT_1[0] + YINT_1 )))
-							&amp;&amp;
-								(((COMP_2 == "&lt;") &amp;&amp; ( POINT_1[1] &lt;  SLOPE_2 * POINT_1[0] + YINT_2 ))
-							|| ((COMP_2 == "&le;") &amp;&amp; ( POINT_1[1] &lt;= SLOPE_2 * POINT_1[0] + YINT_2 ))
-							|| ((COMP_2 == "&gt;") &amp;&amp; ( POINT_1[1] &gt;  SLOPE_2 * POINT_1[0] + YINT_2 ))
-							|| ((COMP_2 == "&ge;") &amp;&amp; ( POINT_1[1] &gt;= SLOPE_2 * POINT_1[0] + YINT_2 )))
-						</var>
-						<var id="POINT_2_SOLUTION">
-								(((COMP_1 == "&lt;") &amp;&amp; ( POINT_2[1] &lt;  SLOPE_1 * POINT_2[0] + YINT_1 ))
-							|| ((COMP_1 == "&le;") &amp;&amp; ( POINT_2[1] &lt;= SLOPE_1 * POINT_2[0] + YINT_1 ))
-							|| ((COMP_1 == "&gt;") &amp;&amp; ( POINT_2[1] &gt;  SLOPE_1 * POINT_2[0] + YINT_1 ))
-							|| ((COMP_1 == "&ge;") &amp;&amp; ( POINT_2[1] &gt;= SLOPE_1 * POINT_2[0] + YINT_1 )))
-							&amp;&amp;
-								(((COMP_2 == "&lt;") &amp;&amp; ( POINT_2[1] &lt;  SLOPE_2 * POINT_2[0] + YINT_2 ))
-							|| ((COMP_2 == "&le;") &amp;&amp; ( POINT_2[1] &lt;= SLOPE_2 * POINT_2[0] + YINT_2 ))
-							|| ((COMP_2 == "&gt;") &amp;&amp; ( POINT_2[1] &gt;  SLOPE_2 * POINT_2[0] + YINT_2 ))
-							|| ((COMP_2 == "&ge;") &amp;&amp; ( POINT_2[1] &gt;= SLOPE_2 * POINT_2[0] + YINT_2 )))
-						</var>
-					</div>
+				<div data-ensure="sqrt( pow( POINT_1[0] - POINT_2[0], 2 ) + pow( POINT_1[1] - POINT_2[1], 2 ) ) > 4">
+					<var id="POINT_1">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
+					<var id="POINT_2">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
+					<var id="POINT_1_SOLUTION">
+							(((COMP_1 == "&lt;") &amp;&amp; ( POINT_1[1] &lt;  SLOPE_1 * POINT_1[0] + YINT_1 ))
+						|| ((COMP_1 == "&le;") &amp;&amp; ( POINT_1[1] &lt;= SLOPE_1 * POINT_1[0] + YINT_1 ))
+						|| ((COMP_1 == "&gt;") &amp;&amp; ( POINT_1[1] &gt;  SLOPE_1 * POINT_1[0] + YINT_1 ))
+						|| ((COMP_1 == "&ge;") &amp;&amp; ( POINT_1[1] &gt;= SLOPE_1 * POINT_1[0] + YINT_1 )))
+						&amp;&amp;
+							(((COMP_2 == "&lt;") &amp;&amp; ( POINT_1[1] &lt;  SLOPE_2 * POINT_1[0] + YINT_2 ))
+						|| ((COMP_2 == "&le;") &amp;&amp; ( POINT_1[1] &lt;= SLOPE_2 * POINT_1[0] + YINT_2 ))
+						|| ((COMP_2 == "&gt;") &amp;&amp; ( POINT_1[1] &gt;  SLOPE_2 * POINT_1[0] + YINT_2 ))
+						|| ((COMP_2 == "&ge;") &amp;&amp; ( POINT_1[1] &gt;= SLOPE_2 * POINT_1[0] + YINT_2 )))
+					</var>
+					<var id="POINT_2_SOLUTION">
+							(((COMP_1 == "&lt;") &amp;&amp; ( POINT_2[1] &lt;  SLOPE_1 * POINT_2[0] + YINT_1 ))
+						|| ((COMP_1 == "&le;") &amp;&amp; ( POINT_2[1] &lt;= SLOPE_1 * POINT_2[0] + YINT_1 ))
+						|| ((COMP_1 == "&gt;") &amp;&amp; ( POINT_2[1] &gt;  SLOPE_1 * POINT_2[0] + YINT_1 ))
+						|| ((COMP_1 == "&ge;") &amp;&amp; ( POINT_2[1] &gt;= SLOPE_1 * POINT_2[0] + YINT_1 )))
+						&amp;&amp;
+							(((COMP_2 == "&lt;") &amp;&amp; ( POINT_2[1] &lt;  SLOPE_2 * POINT_2[0] + YINT_2 ))
+						|| ((COMP_2 == "&le;") &amp;&amp; ( POINT_2[1] &lt;= SLOPE_2 * POINT_2[0] + YINT_2 ))
+						|| ((COMP_2 == "&gt;") &amp;&amp; ( POINT_2[1] &gt;  SLOPE_2 * POINT_2[0] + YINT_2 ))
+						|| ((COMP_2 == "&ge;") &amp;&amp; ( POINT_2[1] &gt;= SLOPE_2 * POINT_2[0] + YINT_2 )))
+					</var>
 				</div>
 			</div>
 
