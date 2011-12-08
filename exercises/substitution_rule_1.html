@@ -10,9 +10,10 @@
         <div class="vars">   
             <var id="CALCULUS">new Calculus()</var>
             <var id="FORMATTER">CALCULUS.EquationFormatter</var>
+            <var id="VARIABLE">"x"</var>
             <var id="P1">CALCULUS.generateSimple()</var>
-            <var id="P">FORMATTER.integral(P1.equation())</var>
-            <var id="S">P1.toString()</var>
+            <var id="P">FORMATTER.derivative( P1.equation(), VARIABLE )</var>
+            <var id="S">FORMATTER.format( P1.solution(), VARIABLE )</var>
         </div>
         <div class="problems">
             <div>
