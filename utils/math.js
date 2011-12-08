@@ -67,7 +67,7 @@ jQuery.extend(KhanUtil, {
 			return KhanUtil.placesLeftOfDecimal[ power ];
 		}
 	},
-	
+
 
 	//Adds 0.001 because of floating points uncertainty so it errs on the side of going further away from 0
 	roundTowardsZero: function( x ){
@@ -75,7 +75,7 @@ jQuery.extend(KhanUtil, {
 			return Math.ceil( x - 0.001 );
 		}
 		return Math.floor( x + 0.001 );
-		
+
 
 	},
 
@@ -277,13 +277,13 @@ jQuery.extend(KhanUtil, {
 			for ( var i = min; i < max; i++ ){
 				toReturn.push( i );
 			}
-			
+
 			return KhanUtil.shuffle( toReturn, count );
 		}
 	},
 
 	// Get an array of unique random numbers between min and max,
-	// that ensures that none of the integers in the array are 0.  
+	// that ensures that none of the integers in the array are 0.
 	randRangeUniqueNonZero: function( min, max, count ) {
 		if ( count == null ) {
 			return KhanUtil.randRangeNonZero( min, max );
@@ -295,7 +295,7 @@ jQuery.extend(KhanUtil, {
 				}
 				toReturn.push( i );
 			}
-			
+
 			return KhanUtil.shuffle( toReturn, count );
 		}
 	},
@@ -327,7 +327,7 @@ jQuery.extend(KhanUtil, {
 	// It never returns any of the values in the excludes array.
 	randRangeWeightedExclude: function( min, max, target, perc, excludes ) {
 		var result;
-								
+
 		do {
 			result = KhanUtil.randRangeWeighted( min, max, target, perc );
 		} while ( _(excludes).indexOf(result) !== -1 );
