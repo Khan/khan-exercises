@@ -776,8 +776,41 @@ var Khan = (function() {
 			.val('Please wait...');
 	}
 
+	function switchToExercise( exid ) {
+		exerciseName = exid;
+
+		// Update the exercise icon
+		var currentStates = getData().exercise_states;
+		if ( currentStates ) {
+			updateExerciseIcon( currentStates );
+		}
+
+		// Get all problems of this exercise type...
+		var problems = exercises.filter(function() {
+			return jQuery.data( this, "name" ) === exid;
+		}).children( ".problems" ).children();
+
+		// ...and create a new problem bag with problems of our new exercise type.
+		// TODO(david): Possibly save this in hash map, so we don't have to
+		//     recompute it?
+		problemBag = makeProblemBag( problems, 10 );
+
+		// TODO(david): Should we have a review URL, like /exercise/review#addition_1 or something?
+		// If the history API is supported, update the URL to the new exercise
+		if ( window.history && window.history.replaceState ) {
+			window.history.replaceState( {}, '', '/exercise/' + exid );
+		}
+
+		// Update the document title
+		var title = document.title;
+		document.title = getDisplayNameFromId(exid) + ' ' +
+			title.slice( jQuery.inArray('|', title) );
+	}
+
 	// TODO(david): NAMING! I don't want to call pid problemId because taht's too
 	//		 similar to problemID, which is another variable we use
+	//		 Or, instead of messing up makeProblem, somebody else could call
+	//		 switchToExercise?
 	function makeProblem( exid, pid, seed ) {
 		if ( typeof Badges !== "undefined" ) {
 			Badges.hide();
@@ -803,6 +836,12 @@ var Khan = (function() {
 			pid = typeof pid !== "undefined" ? pid : Khan.query.problem;
 		}
 
+		// If an exercise ID was given, switch to that exercise. This is currently
+		// used for the mixed-exercise review mode.
+		if ( exid && exerciseName !== exid ) {
+			switchToExercise( exid );
+		}
+
 		if ( typeof pid !== "undefined" ) {
 			var problems = exercises.children( ".problems" ).children();
 
@@ -812,40 +851,6 @@ var Khan = (function() {
 
 				// Or by its ID
 				problems.filter( "#" + pid );
-
-		// If we have the exercise id, grab a problem of that exercise. This is
-		// currently used for review mode.
-		} else if ( exid ) {
-			if ( exerciseName !== exid ) {
-				exerciseName = exid;
-
-				// Update the exercise icon if we just switched exercises
-				var currentStates = getData().exercise_states;
-				if ( currentStates ) {
-					updateExerciseIcon( currentStates );
-				}
-			}
-
-			// Get all problems of this exercise type.
-			var problems = exercises.filter(function() {
-				return jQuery.data( this, "name" ) === exid;
-			}).children( ".problems" ).children();
-
-			// TODO(david): Repetitive code with what's in the else-if
-			problemBag = makeProblemBag( problems, 10 );
-			problem = problemBag[ problemBagIndex ];
-			pid = problem.data( "id" );
-
-			// TODO(david): Should we have a review URL, like /exercise/review#addition_1 or something?
-			// If the history API is supported, update the URL to the new exercise
-			if ( window.history && window.history.replaceState ) {
-				window.history.replaceState( {}, '', '/exercise/' + exid );
-			}
-
-			// Update the document title
-			var title = document.title;
-			document.title = getDisplayNameFromId(exid) + ' ' +
-				title.slice( jQuery.inArray('|', title) );
 
 		// Otherwise we grab a problem at random from the bag of problems
 		// we made earlier to ensure that every problem gets shown the
