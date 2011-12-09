@@ -2022,7 +2022,7 @@ var Khan = (function() {
 					//     point, unless the user is deliberately messing around).
 					// Switch to a new exercise if there's queued up exercises
 					var nextExerciseName = reviewQueue.shift();
-					if ( nextExerciseName !== exerciseName ) {
+					if ( nextExerciseName && nextExerciseName !== exerciseName ) {
 						switchToExercise( nextExerciseName );
 					}
 
