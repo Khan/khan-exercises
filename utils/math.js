@@ -463,6 +463,5 @@ jQuery.extend(KhanUtil, {
 	BLUE: "#6495ED",
 	ORANGE: "#FFA500",
 	PINK: "#FF00AF",
-	GREEN: "#28AE7B",
-	FILL_OPACITY: 0.5
+	GREEN: "#28AE7B"
 });

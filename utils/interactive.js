@@ -1123,5 +1123,15 @@ jQuery.extend( KhanUtil, {
 		Khan.scratchpad.hide();
 
 		return sorter;
-	}
+	},
+	
+	/***
+	
+	 Constants
+	 
+	 ***/
+	
+	// Fill opacity for inequality shading
+	FILL_OPACITY: 0.5 
+	
 });
