@@ -195,7 +195,7 @@
 							style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: graph.dasharray1 }, function() {
 								graph.set.push( line( [ -11, -11 * slope + yint ], [ 11, 11 * slope + yint ] ) );
 							});
-							style({ fill: BLUE, stroke: null, opacity: 0.1 }, function() {
+							style({ fill: BLUE, stroke: null, opacity: KhanUtil.FILL_OPACITY }, function() {
 								graph.set.push( path([ [ 11, shadeEdge ], [ 11, 11 * slope + yint ], [ -11, -11 * slope + yint ], [ -11, shadeEdge ] ]) );
 							});
 
@@ -206,7 +206,7 @@
 							style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: graph.dasharray1 }, function() {
 								graph.set.push( line( [ x, -11 ], [ x, 11 ] ) );
 							});
-							style({ fill: BLUE, stroke: null, opacity: 0.1 }, function() {
+							style({ fill: BLUE, stroke: null, opacity: KhanUtil.FILL_OPACITY }, function() {
 								graph.set.push( path([ [ x, -11 ], [ x, 11 ], [ shadeEdge, 11 ], [ shadeEdge, -11 ] ]) );
 							});
 						}
@@ -219,7 +219,7 @@
 							style({ stroke: GREEN, strokeWidth: 2, strokeDasharray: graph.dasharray2 }, function() {
 								graph.set.push( line( [ -11, -11 * slope + yint ], [ 11, 11 * slope + yint ] ) );
 							});
-							style({ fill: GREEN, stroke: null, opacity: 0.1 }, function() {
+							style({ fill: GREEN, stroke: null, opacity: KhanUtil.FILL_OPACITY }, function() {
 								graph.set.push( path([ [ 11, shadeEdge ], [ 11, 11 * slope + yint ], [ -11, -11 * slope + yint ], [ -11, shadeEdge ] ]) );
 							});
 
@@ -230,7 +230,7 @@
 							style({ stroke: GREEN, strokeWidth: 2, strokeDasharray: graph.dasharray2 }, function() {
 								graph.set.push( line( [ x, -11 ], [ x, 11 ] ) );
 							});
-							style({ fill: GREEN, stroke: null, opacity: 0.1 }, function() {
+							style({ fill: GREEN, stroke: null, opacity: KhanUtil.FILL_OPACITY }, function() {
 								graph.set.push( path([ [ x, -11 ], [ x, 11 ], [ shadeEdge, 11 ], [ shadeEdge, -11 ] ]) );
 							});
 						}

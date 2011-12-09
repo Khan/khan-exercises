@@ -104,7 +104,7 @@
 							style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: graph.dasharray }, function() {
 								graph.line1 = line( [ -11, -11 * slope + yint ], [ 11, 11 * slope + yint ] ).toBack();
 							});
-							style({ fill: BLUE, stroke: null, opacity: 0.1 }, function() {
+							style({ fill: BLUE, stroke: null, opacity: KhanUtil.FILL_OPACITY }, function() {
 								graph.shading = path([ [ 11, shadeEdge ], [ 11, 11 * slope + yint ], [ -11, -11 * slope + yint ], [ -11, shadeEdge ] ]);
 							});
 
@@ -115,7 +115,7 @@
 							style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: graph.dasharray }, function() {
 								graph.line1 = line( [ x, -11 ], [ x, 11 ] ).toBack();
 							});
-							style({ fill: BLUE, stroke: null, opacity: 0.1 }, function() {
+							style({ fill: BLUE, stroke: null, opacity: KhanUtil.FILL_OPACITY }, function() {
 								graph.shading = path([ [ x, -11 ], [ x, 11 ], [ shadeEdge, 11 ], [ shadeEdge, -11 ] ]);
 							});
 						}
