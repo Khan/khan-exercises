@@ -722,6 +722,15 @@ var Khan = (function() {
 		return bag;
 	}
 
+	function cacheUserExerciseDataLocally( exerciseName, data ) {
+		if ( user == null ) return;
+
+		window.localStorage[ "exercise:" + user + ":" + exerciseName ] =
+			JSON.stringify( data );
+	}
+
+	// TODO(david): Would be preferable to use the exercise model's display_name
+	//     property instead of duplicating that code here on the client.
 	function getDisplayNameFromId(id) {
 		return id.charAt( 0 ).toUpperCase() + id.slice(1).replace(/_/g, ' ');
 	}
@@ -730,7 +739,39 @@ var Khan = (function() {
 		if ( !reviewMode || reviewQueue.length >= 3 ) return;
 		// XXX(david): Does the seed still work? -- for submitting issues
 
-		// Load in the exercise data from the server
+		// Handle successful retrieval of review exercises from the server
+		function enqueueReviewExercises( reviewExercises ) {
+			reviewQueue = reviewQueue.concat( reviewExercises );
+
+			jQuery.each( reviewExercises, function( i, exid ) {
+				// Append the exercise to the "upcoming exercises" list
+				jQuery( "#next-exercises" )
+					.append( "<p>" + getDisplayNameFromId(exid) + "</p>" );
+
+				// Was this exercise's data and HTML loaded already?
+				var isLoaded = exercises.filter(function() {
+					return jQuery.data( this, "name" ) === exid;
+				}).length;
+
+				// Load all unloaded exercises
+				if ( !isLoaded ) {
+					loadExercise.call( jQuery( '<div data-name="' + exid + '">' ) );
+
+					// Update the cached UserExercise model for this exercise. One reason
+					// we do this is to update the states (for correct icon display),
+					// which may have changed since the user last did the exercise.
+					jQuery.ajax({
+						url: server + "/api/v1/user/exercises/" + exid,
+						type: "GET",
+						dataType: "json",
+						xhrFields: { withCredentials: true },
+						success: _.bind( cacheUserExerciseDataLocally, null, exid )
+					});
+				}
+			});
+		}
+
+		// Send the request to fetch the next set of review exercises
 		// XXX(david): don't need to do this in test mode? or is it even an issue
 		//		 because this won't be called in testmode?
 		jQuery.ajax({
@@ -741,24 +782,7 @@ var Khan = (function() {
 			data: {
 				queued: reviewQueue.concat( exerciseName ).join( "," )
 			},
-			success: function( reviewExercises ) {
-				reviewQueue = reviewQueue.concat( reviewExercises );
-
-				jQuery.each( reviewExercises, function( i, exid ) {
-					// Append the exercise to the "upcoming exercises" list
-					jQuery( "#next-exercises" )
-						.append( "<p>" + getDisplayNameFromId(exid) + "</p>" );
-
-					// Load all unloaded exercises
-					var isLoaded = exercises.filter(function() {
-						return jQuery.data( this, "name" ) === exid;
-					}).length;
-
-					if ( !isLoaded ) {
-						loadExercise.call( jQuery( '<div data-name="' + exid + '">' ) );
-					}
-				});
-			}
+			success: enqueueReviewExercises
 		});
 	}
 
@@ -2666,10 +2690,7 @@ var Khan = (function() {
 		// Change users or exercises, if needed
 		if ( data && (data.total_done >= oldData.total_done ||
 				data.user !== oldData.user || data.exercise !== oldData.exercise) ) {
-			// Cache the data locally
-			if ( user != null ) {
-				window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
-			}
+			cacheUserExerciseDataLocally( exerciseName, data );
 
 		// If no data is provided then we're just updating the UI
 		} else {
