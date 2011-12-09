@@ -1943,7 +1943,7 @@ var Khan = (function() {
 					nextExercises = jQuery( "#next-exercises" ),
 					revertDelay = 200,
 					animationOptions = {
-						duration: 800,
+						duration: 400,
 						easing: "easeInOutCubic"
 					};
 
