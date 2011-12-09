@@ -34,7 +34,6 @@
 
 */
 
-
 var Khan = (function() {
 	function warn( message, showClose ) {
 		jQuery(function() {
