@@ -200,6 +200,14 @@ var Khan = (function() {
 	user = window.localStorage["exercise:lastUser"] || null,
 	userCRC32,
 
+	// Wrapper on top of localStorage to store exercises
+	localStorageExercises = new LocalStorageLRU( "exercises", 40,
+						     function ( key, value ) {
+							 if ( !/^exercise/.test( key ) ) return false;
+							 var data = JSON.parse( value );
+							 return data.last_done || data.first_done || '0';
+						     } ),
+
 	// The current problem and its corresponding exercise
 	problem,
 	exercise,
@@ -1859,7 +1867,7 @@ var Khan = (function() {
 						// If there' a discrepancy between server and localStorage such that
 						// problem numbers are out of order or anything else, we want
 						// to restart with whatever the server sends back on reload.
-						delete window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+						localStorageExercises.del( "exercise:" + user + ":" + exerciseName );
 					}
 
 					window.location.reload();
@@ -2580,7 +2588,8 @@ var Khan = (function() {
 		if ( data && (data.total_done >= oldData.total_done || data.user !== oldData.user) ) {
 			// Cache the data locally
 			if ( user != null ) {
-				window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
+				localStorageExercises.set( "exercise:" + user + ":" + exerciseName,
+							  JSON.stringify( data ) );
 			}
 
 		// If no data is provided then we're just updating the UI
@@ -2717,7 +2726,7 @@ var Khan = (function() {
 			return userExercise;
 
 		} else {
-			var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+			var data = localStorageExercises.get( "exercise:" + user + ":" + exerciseName );
 
 			// Parse the JSON if it exists
 			if ( data ) {
