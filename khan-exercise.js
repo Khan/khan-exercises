@@ -735,7 +735,6 @@ var Khan = (function() {
 
 	function maybeEnqueueReviewProblems() {
 		if ( !reviewMode || reviewQueue.length >= 3 ) return;
-		// XXX(david): Does the seed still work? -- for submitting issues
 
 		// Handle successful retrieval of review exercises from the server
 		function enqueueReviewExercises( reviewExercises ) {
@@ -775,8 +774,6 @@ var Khan = (function() {
 		}
 
 		// Send the request to fetch the next set of review exercises
-		// XXX(david): don't need to do this in test mode? or is it even an issue
-		//		 because this won't be called in testmode?
 		jQuery.ajax({
 			url: "/api/v1/user/exercises/review_problems",
 			type: "GET",
