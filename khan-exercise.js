@@ -113,8 +113,6 @@ var Khan = (function() {
 	server = typeof apiServer !== "undefined" ? apiServer :
 		testMode ? "http://localhost:8080" : "",
 
-	// XXX(david): Ensure this is working
-	// TODO(david): Do we need to update the userExercise object upon advancing to a new problem?
 	// The name of the exercise
 	exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]),
 
@@ -808,11 +806,14 @@ var Khan = (function() {
 	function switchToExercise( exid ) {
 		exerciseName = exid;
 
+		var data = getData();
+
 		// Update the exercise icon
-		var currentStates = getData().exercise_states;
-		if ( currentStates ) {
-			updateExerciseIcon( currentStates );
+		if ( data.exercise_states ) {
+			updateExerciseIcon( data.exercise_states );
 		}
+
+		setProblemNum( data.total_done + 1 );
 
 		// Get all problems of this exercise type...
 		var problems = exercises.filter(function() {
@@ -824,7 +825,8 @@ var Khan = (function() {
 		//     recompute it?
 		problemBag = makeProblemBag( problems, 10 );
 
-		// TODO(david): Should we have a review URL, like /exercise/review#addition_1 or something?
+		// TODO(david): Should we have a review URL, like
+		//     /exercise/review#addition_1 or /review/addition_1 or something?
 		// If the history API is supported, update the URL to the new exercise
 		if ( window.history && window.history.replaceState ) {
 			window.history.replaceState( {}, '', '/exercise/' + exid );
@@ -2025,6 +2027,8 @@ var Khan = (function() {
 				jQuery( "#sidebar" ).hide();
 
 			} else {
+				// TODO(david): Handle the case of the XHR to fetch the next set of
+				//     review exercises not having returned yet.
 				makeProblem( reviewMode && reviewQueue.shift() );
 
 				// Kick off a request to queue up the next problems if there's none left
