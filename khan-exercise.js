@@ -618,7 +618,7 @@ var Khan = (function() {
 		});
 
 		// An animation that fades in then out a text shadow
-		jQuery.fx.step.reviewGlow = function(fx) {
+		jQuery.fx.step.reviewGlow = function( fx ) {
 			var val = -4 * Math.pow( fx.now - 0.5, 2 ) + 1;
 			jQuery( fx.elem ).css( 'textShadow', 'rgba(227, 93, 4, ' + val + ') 0 0 12px');
 		};
@@ -729,7 +729,7 @@ var Khan = (function() {
 
 	// TODO(david): Would be preferable to use the exercise model's display_name
 	//     property instead of duplicating that code here on the client.
-	function getDisplayNameFromId(id) {
+	function getDisplayNameFromId( id ) {
 		return id.charAt( 0 ).toUpperCase() + id.slice( 1 ).replace( /_/g, ' ' );
 	}
 
@@ -744,10 +744,10 @@ var Khan = (function() {
 
 				// Slide up the exercise into the upcoming exercises queue, one-by-one
 				jQuery( "#next-exercises" ).queue(function( next ) {
-					jQuery( "<p>" + getDisplayNameFromId(exid) + "</p>" )
+					jQuery( "<p>" + getDisplayNameFromId( exid ) + "</p>" )
 						.css( "marginTop", Math.max(38 - i * 15, 10) )
 						.appendTo( this )
-						.animate({ marginTop: 0 }, /* duration */ 365, next);
+						.animate( { marginTop: 0 }, /* duration */ 365, next );
 				});
 
 				// Was this exercise's data and HTML loaded already?
@@ -826,13 +826,13 @@ var Khan = (function() {
 		//     /exercise/review#addition_1 or /review/addition_1 or something?
 		// If the history API is supported, update the URL to the new exercise
 		if ( window.history && window.history.replaceState ) {
-			window.history.replaceState( {}, '', '/exercise/' + exid );
+			window.history.replaceState( {}, "", "/exercise/" + exid );
 		}
 
 		// Update the document title
 		var title = document.title;
-		document.title = getDisplayNameFromId(exid) + ' ' +
-			title.slice( jQuery.inArray('|', title) );
+		document.title = getDisplayNameFromId( exid ) + " " +
+			title.slice( jQuery.inArray("|", title) );
 	}
 
 	function makeProblem( id, seed ) {
@@ -1545,7 +1545,7 @@ var Khan = (function() {
 		jQuery( "#hint-remainder" ).hide();
 
 		if ( once ) {
-			updateData();
+			updateData( /* data */ null, /* isFirstUpdate */ once );
 			once = false;
 		}
 
@@ -1947,10 +1947,10 @@ var Khan = (function() {
 				left: 400,
 				opacity: 0,
 				fontSize: "-=4"
-			}, animationOptions).delay( revertDelay ).queue(function( next ) {
+			}, animationOptions ).delay( revertDelay ).queue(function( next ) {
 				jQuery( this ).text( getDisplayNameFromId(exerciseName) );
 				next();
-			}).queue(function(next) {
+			}).queue(function( next ) {
 				jQuery( this ).removeAttr( "style" );
 			});
 
@@ -1958,7 +1958,7 @@ var Khan = (function() {
 			nextExercises.stop().animate({
 				top: 0,
 				height: nextExercises.height() + nextExercises.position().top
-			}, animationOptions).delay( revertDelay ).queue(function() {
+			}, animationOptions ).delay( revertDelay ).queue(function() {
 				jQuery( this ).removeAttr( "style" );
 			});
 
@@ -1968,7 +1968,7 @@ var Khan = (function() {
 				color: currentExercise.css( "color" ),
 				fontSize: currentExercise.css( "fontSize" ),
 				reviewGlow: 1
-			}, animationOptions).delay( revertDelay ).queue(function() {
+			}, animationOptions ).delay( revertDelay ).queue(function() {
 				jQuery( this ).remove();
 			});
 		}
@@ -2671,7 +2671,7 @@ var Khan = (function() {
 	// * and then by makeProblem, when a problem is being initialized
 	// * when a post to the /api/v1/user/exercises/<exercisename>/attempt succeeds
 	//   which just means there was no 500 error on the server
-	function updateData( data ) {
+	function updateData( data, isFirstUpdate ) {
 
 		// easeInOutCubic easing from
 		// jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
@@ -2743,8 +2743,9 @@ var Khan = (function() {
 
 		if ( exerciseStates ) {
 
-			// Allow entering review mode only on initial page load
-			if ( once && exerciseStates.reviewing ) {
+			// Allow entering review mode only on initial page load -- don't fall in
+			// when getting a problem wrong after proficiency (would cause confusion).
+			if ( isFirstUpdate && exerciseStates.reviewing ) {
 				reviewMode = true;
 				jQuery( switchToReviewMode );
 			}
@@ -2884,7 +2885,8 @@ var Khan = (function() {
 
 			newContents = dummy.contents();
 
-			// Replace the element if it's in the DOM, otherwise directly append to the exercises set
+			// Replace the element if it's in the DOM, otherwise directly append to
+			// the exercises DOM set
 			if ( self.parent().length ) {
 				self.replaceWith( newContents );
 			} else {
