@@ -59,7 +59,9 @@ function LocalStorageLRU( lru_name, limit, upgrade_fun ) {
 
     // No index present yet and we're given upgrade_fun. Create index.
     with_lru( function( lru_idx ) {
-	if ( typeof window.localStorage[ lru_idx_key_name ] === 'undefined' && upgrade_fun ) {
+	// localStorage for unknown value returns undefined in all
+	// browsers and null in ff.
+	if ( !window.localStorage[ lru_idx_key_name ] && upgrade_fun ) {
 	    var order = {}; // key --> date
 	    for ( var i = 0; i < window.localStorage.length; i++ ) {
 		var k = window.localStorage.key( i );
