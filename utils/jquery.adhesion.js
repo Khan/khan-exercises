@@ -27,11 +27,8 @@
 			} );
 
 			if ( updateDimensions ) {
-				console.log( data );
 				if ( data.scrollHandler != null ) {
 					data.scrollHandler();
-				} else {
-					console.log( "no scroll handler :(" );
 				}
 
 				return;
@@ -88,7 +85,7 @@
 
 				} );
 
-				state = "buttom";
+				state = "bottom";
 			};
 
 			var scrollHandler = function( update ) {
@@ -120,7 +117,6 @@
 			};
 
 			data.scrollHandler = scrollHandler;
-			console.log( data );
 
 			jQuery( window ).scroll( scrollHandler );
 			jQuery( window ).resize( resizeHandler );
