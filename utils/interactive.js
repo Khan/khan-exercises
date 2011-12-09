@@ -1,5 +1,8 @@
 jQuery.extend( KhanUtil, {
-
+	
+	// Fill opacity for inequality shading
+	FILL_OPACITY: 0.3,
+    
 	dragging: false,
 
 	// Wrap graphInit to create a fixed-size graph automatically scaled to the given range
@@ -1123,15 +1126,6 @@ jQuery.extend( KhanUtil, {
 		Khan.scratchpad.hide();
 
 		return sorter;
-	},
-	
-	/***
-	
-	 Constants
-	 
-	 ***/
-	
-	// Fill opacity for inequality shading
-	FILL_OPACITY: 0.5 
+	} 
 	
 });
