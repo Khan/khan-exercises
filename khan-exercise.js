@@ -68,8 +68,8 @@ function LocalStorageLRU( lru_name, limit, upgrade_fun ) {
 		var d = upgrade_fun( k, window.localStorage[ k ] );
 		if ( d ) { order[ k ] = d; }
 	    }
-	    lru_idx = Object.keys( order );
-	    lru_idx.sort( function ( k1, k2 ) {return order[ k1 ] > order[ k2 ];} );
+	    lru_idx = []
+	    for(k in order) lru_idx.push(k);
 	}
 	return lru_idx;
     } );
