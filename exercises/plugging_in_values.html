@@ -143,7 +143,7 @@
 					count = 0;
 					var j = randRangeUnique( 0, 3, I );
 					while( count &lt; I ) {
-						wrongs[j[count]].yval = " ";
+						wrongs[j[count]].yval = "&nbsp;";
 						count++;
 					}
 
@@ -153,8 +153,8 @@
 				</var>
 			</div>
 			<div class='fake_row plug_in' data-each="TABLEVALS as tableval">
-				<span><code><var>tableval.xval</var></code></span>
-				<span><code><var>tableval.yval</var></code></span>
+				<span><var>tableval.xval</var></span>
+				<span><var>tableval.yval</var></span>
 			</div>
 			<div class="question">
 				<p><b>The table below was generated using the following equation:</b><code>\quad f(x) = <var>COEF</var>x + <var>CONS</var></code></p>
