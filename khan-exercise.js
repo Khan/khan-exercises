@@ -131,9 +131,9 @@ var Khan = (function() {
 	// Wrapper on top of localStorage to store exercises
 	localStorageExercises = new LocalStorageLRU( "exercises", 40,
 						     function ( key, value ) {
-							 if ( !/^exercise/.test( key ) ) return null;
-							 var data = JSON.parse( value );
-							 return data.last_done || data.first_done || '1970-01-01T00:00:00Z';
+							     if ( !/^exercise/.test( key ) ) return null;
+							     var data = JSON.parse( value );
+							     return data.last_done || data.first_done || '1970-01-01T00:00:00Z';
 						     } ),
 
 	// The current problem and its corresponding exercise
@@ -2517,7 +2517,7 @@ var Khan = (function() {
 			// Cache the data locally
 			if ( user != null ) {
 				localStorageExercises.set( "exercise:" + user + ":" + exerciseName,
-							  JSON.stringify( data ) );
+							   JSON.stringify( data ) );
 			}
 
 		// If no data is provided then we're just updating the UI
