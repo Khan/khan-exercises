@@ -397,7 +397,7 @@ jQuery.extend(KhanUtil, {
 			var nd = KhanUtil.toFraction( fract, tolerance );
 			nd[0] += Math.round( decimal - fract ) * nd[1];
 			return nd;
-		} else if ( Math.abs( Math.round( decimal ) - decimal ) <= tolerance ) {
+		} else if ( Math.abs( Math.round( Number( decimal ) ) - decimal ) <= tolerance ) {
 			return [ Math.round( decimal ), 1 ];
 		} else {
 			var loN = 0, loD = 1, hiN = 1, hiD = 1, midN = 1, midD = 2;
