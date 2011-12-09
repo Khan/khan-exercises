@@ -34,6 +34,79 @@
 
 */
 
+
+// window.localStorage is cool. But, it has a limited storage. In
+// order to avoid QUOTA_EXCEEDED_ERR exception we should make sure
+// that we don't store too much data. The solution to this is quite
+// simple: let's create a simple LRU structure. All the items are
+// stored in localStorage as usual and we add another item xxx_lru_idx,
+// which is an array of keys, ordered by the time of last use. Keys
+// recently used will be closer to the end of the lru_idx. When the
+// size of the index is exceeded - we just remove items at the
+// beginning.
+function LocalStorageLRU( lru_name, limit, upgrade_fun ) {
+    var lru_idx_key_name = lru_name + '_lru_idx';
+
+    // Quick wrapper, loads and stores lru_idx.
+    var with_lru = function ( fun ) {
+	var raw_lru_idx = window.localStorage[ lru_idx_key_name ], lru_idx = [];
+	if ( typeof raw_lru_idx !== 'undefined' ) {
+	    lru_idx = JSON.parse( raw_lru_idx );
+	}
+	lru_idx = fun( lru_idx );
+	window.localStorage[ lru_idx_key_name ] = JSON.stringify( lru_idx );
+    }
+
+    // No index present yet and we're given upgrade_fun. Create index.
+    with_lru( function( lru_idx ) {
+	if ( typeof window.localStorage[ lru_idx_key_name ] === 'undefined' && upgrade_fun ) {
+	    var order = {}; // key --> date
+	    for ( var i = 0; i < window.localStorage.length; i++ ) {
+		var k = window.localStorage.key( i );
+		var d = upgrade_fun( k, window.localStorage[ k ] );
+		if ( d ) { order[ k ] = d; }
+	    }
+	    lru_idx = Object.keys( order );
+	    lru_idx.sort( function ( k1, k2 ) {return order[ k1 ] > order[ k2 ];} );
+	}
+	return lru_idx;
+    } );
+
+    var lru = {
+	set: function ( key, value ) {
+	    with_lru( function ( lru_idx ) {
+		// Push key to the end and remove old items;
+		lru_idx = _.without( lru_idx, key );
+		lru_idx.push( key );
+		while ( lru_idx.length > limit ) {
+		    var k = lru_idx.shift();
+		    delete window.localStorage[ k ];
+		}
+		return lru_idx;
+	    } );
+	    window.localStorage[ key ] = value;
+	},
+	get: function ( key ) {
+	    with_lru( function ( lru_idx ) {
+		if ( _.indexOf( lru_idx, key ) !== -1 ) {
+		    lru_idx = _.without( lru_idx, key );
+		    lru_idx.push( key );
+		}
+		return lru_idx;
+	    } );
+	    return window.localStorage[ key ];
+	},
+	del: function ( key ) {
+	    with_lru( function( lru_idx ) {
+		return _.without( lru_idx, key );
+	    } );
+	    delete window.localStorage[ key ];
+	}
+    }
+    return lru;
+}
+
+
 var Khan = (function() {
 	function warn( message, showClose ) {
 		jQuery(function() {
