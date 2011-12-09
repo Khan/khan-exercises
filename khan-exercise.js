@@ -66,10 +66,11 @@ function LocalStorageLRU( lru_name, limit, upgrade_fun ) {
 	    for ( var i = 0; i < window.localStorage.length; i++ ) {
 		var k = window.localStorage.key( i );
 		var d = upgrade_fun( k, window.localStorage[ k ] );
-		if ( d ) { order[ k ] = d; }
+		if ( d !== null ) { order[ k ] = d; }
 	    }
 	    lru_idx = []
 	    for(k in order) lru_idx.push(k);
+	    lru_idx.sort( function ( k1, k2 ) {return order[ k1 ] < order[ k2 ] ? -1 : 1;} );
 	}
 	return lru_idx;
     } );
@@ -207,9 +208,9 @@ var Khan = (function() {
 	// Wrapper on top of localStorage to store exercises
 	localStorageExercises = new LocalStorageLRU( "exercises", 40,
 						     function ( key, value ) {
-							 if ( !/^exercise/.test( key ) ) return false;
+							 if ( !/^exercise/.test( key ) ) return null;
 							 var data = JSON.parse( value );
-							 return data.last_done || data.first_done || '0';
+							 return data.last_done || data.first_done || '1970-01-01T00:00:00Z';
 						     } ),
 
 	// The current problem and its corresponding exercise
