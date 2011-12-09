@@ -57,27 +57,28 @@ function LocalStorageLRU( lru_name, limit, upgrade_fun ) {
 	window.localStorage[ lru_idx_key_name ] = JSON.stringify( lru_idx );
     }
 
-    // No index present yet and we're given upgrade_fun. Create index.
-    with_lru( function( lru_idx ) {
-	// localStorage for unknown value returns undefined in all
-	// browsers and null in ff.
-	if ( !window.localStorage[ lru_idx_key_name ] && upgrade_fun ) {
-	    var order = {}; // key --> date
-	    for ( var i = 0; i < window.localStorage.length; i++ ) {
-		var k = window.localStorage.key( i );
-		var d = upgrade_fun( k, window.localStorage[ k ] );
-		if ( d !== null ) { order[ k ] = d; }
-	    }
-	    lru_idx = []
-	    for(k in order) lru_idx.push(k);
-	    lru_idx.sort( function ( k1, k2 ) {return order[ k1 ] < order[ k2 ] ? -1 : 1;} );
+    var create_index = function() {
+	var lru_idx, order = {}; // key --> date
+	for ( var i = 0; i < window.localStorage.length; i++ ) {
+	    var k = window.localStorage.key( i );
+	    var d = upgrade_fun( k, window.localStorage[ k ] );
+	    if ( d !== null ) { order[ k ] = d; }
 	}
+	lru_idx = _.keys(order);
+	lru_idx.sort( function ( k1, k2 ) {return order[ k1 ] < order[ k2 ] ? -1 : 1;} );
 	return lru_idx;
-    } );
+    }
 
     var lru = {
 	set: function ( key, value ) {
 	    with_lru( function ( lru_idx ) {
+		// localStorage for unknown value returns undefined in all
+		// browsers and null in ff.
+		if ( !window.localStorage[ lru_idx_key_name ] && upgrade_fun ) {
+		    // No index present yet and we're given upgrade_fun. Create one.
+		    lru_idx = create_index();
+		}
+
 		// Push key to the end and remove old items;
 		lru_idx = _.without( lru_idx, key );
 		lru_idx.push( key );
