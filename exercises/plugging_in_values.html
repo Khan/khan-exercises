@@ -161,16 +161,16 @@
 				<p><b>Find the missing values.</b></p>
 			</div>
 			<div class="solution" data-each="TABLEVALS as tableval" data-type="multiple">
-				<p data-if="tableval.yval === '&nbsp;'"><code>f(<var>tableval.xval</var>)</code> = <span class="sol"><var>COEF * tableval.xval + CONS</var></span></p>
+				<p data-if="tableval.yval === ' '"><code>f(<var>tableval.xval</var>)</code> = <span class="sol"><var>COEF * tableval.xval + CONS</var></span></p>
 			</div>
 			<div class="hints">
 				<p>Plug the corresponding values of <code class="hint_orange">x</code> into the equation to find the missing values of <code class="hint_blue">f(x)</code>.</p>
 				<div>
-					<p data-each="TABLEVALS as tableval"><span data-if="tableval.yval === '&nbsp;'"><code>\color{<var>BLUE</var>}{f(<var>tableval.xval</var>)} = <var>COEF</var> \cdot \color{<var>ORANGE</var>}{<var>tableval.xval</var>} + <var>CONS</var> = <var>tableval.xval * COEF</var> + <var>CONS</var> = <var>tableval.xval * COEF + CONS</var></code></span></p>
+					<p data-each="TABLEVALS as tableval"><span data-if="tableval.yval === ' '"><code>\color{<var>BLUE</var>}{f(<var>tableval.xval</var>)} = <var>COEF</var> \cdot \color{<var>ORANGE</var>}{<var>tableval.xval</var>} + <var>CONS</var> = <var>tableval.xval * COEF</var> + <var>CONS</var> = <var>tableval.xval * COEF + CONS</var></code></span></p>
 				</div>
 				<div>
 					<p>The missing <span data-if="I === 1">value is</span><span data-else>values are</span>:</p>
-					<p data-each="TABLEVALS as tableval"><span data-if="tableval.yval === '&nbsp;'"><code>f(<var>tableval.xval</var>) = <var>tableval.xval * COEF + CONS</var></code></span></p>
+					<p data-each="TABLEVALS as tableval"><span data-if="tableval.yval === ' '"><code>f(<var>tableval.xval</var>) = <var>tableval.xval * COEF + CONS</var></code></span></p>
 				</div>
 			</div>
 		</div>
