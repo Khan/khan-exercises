@@ -552,7 +552,7 @@ var Khan = (function() {
 		};
 
 		// Base modules required for every problem
-		Khan.require( [ "answer-types", "tmpl", "underscore" ] );
+		Khan.require( [ "answer-types", "tmpl", "underscore", "jquery.adhesion" ] );
 
 		Khan.require( document.documentElement.getAttribute("data-require") );
 
@@ -1441,6 +1441,9 @@ var Khan = (function() {
 			once = false;
 		}
 
+		// Update dimensions for sticky box
+		jQuery( "#answer_area" ).adhere();
+
 		jQuery(Khan).trigger( "newProblem" );
 
 	  return answerType;
@@ -1655,6 +1658,12 @@ var Khan = (function() {
 		if (typeof userExercise !== "undefined" && userExercise.read_only) {
 			jQuery( "#extras" ).css("visibility", "hidden");
 		}
+
+		jQuery( "#answer_area" ).adhere( {
+			container: jQuery( "#answer_area_wrap" ).parent(),
+			topMargin: 10,
+			bottomMargin: 10
+		} );
 
 		// Change form target to the current page, so that errors do not kick us
 		// back to the dashboard
@@ -1885,6 +1894,9 @@ var Khan = (function() {
 			var hint = hints.shift();
 			jQuery( "#hint-remainder" ).text( hints.length + " remaining" )
 				.fadeIn( 500 );
+
+			// Update dimensions for sticky box
+			jQuery( "#answer_area" ).adhere();
 
 			if ( hint ) {
 
@@ -2160,7 +2172,10 @@ var Khan = (function() {
 					exampleLink.text( "Show acceptable answer formats" );
 				}
 
-				examples.slideToggle( 190 );
+				examples.slideToggle( 190, function() {
+					// Update dimensions for sticky box
+					jQuery( "#answer_area" ).adhere();
+				} );
 				exampleLink.data( "show", !show );
 			}).trigger( "click" );
 
