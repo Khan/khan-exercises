@@ -80,7 +80,8 @@ function LocalStorageLRU( lru_name, limit, upgrade_fun ) {
 		lru_idx.push( key );
 		while ( lru_idx.length > limit ) {
 		    var k = lru_idx.shift();
-		    delete window.localStorage[ k ];
+		    if (k in window.localStorage)
+			delete window.localStorage[ k ];
 		}
 		return lru_idx;
 	    } );
@@ -100,7 +101,8 @@ function LocalStorageLRU( lru_name, limit, upgrade_fun ) {
 	    with_lru( function( lru_idx ) {
 		return _.without( lru_idx, key );
 	    } );
-	    delete window.localStorage[ key ];
+	    if (key in window.localStorage)
+		delete window.localStorage[ key ];
 	}
     }
     return lru;
