@@ -838,11 +838,7 @@ var Khan = (function() {
 			title.slice( jQuery.inArray('|', title) );
 	}
 
-	// TODO(david): NAMING! I don't want to call pid problemId because taht's too
-	//		 similar to problemID, which is another variable we use
-	//		 Or, instead of messing up makeProblem, somebody else could call
-	//		 switchToExercise?
-	function makeProblem( exid, pid, seed ) {
+	function makeProblem( id, seed ) {
 		if ( typeof Badges !== "undefined" ) {
 			Badges.hide();
 		}
@@ -864,38 +860,32 @@ var Khan = (function() {
 
 		// Check to see if we want to test a specific problem
 		if ( testMode ) {
-			pid = typeof pid !== "undefined" ? pid : Khan.query.problem;
+			id = typeof id !== "undefined" ? id : Khan.query.problem;
 		}
 
-		// If an exercise ID was given, switch to that exercise. This is currently
-		// used for the mixed-exercise review mode.
-		if ( exid && exerciseName !== exid ) {
-			switchToExercise( exid );
-		}
-
-		if ( typeof pid !== "undefined" ) {
+		if ( typeof id !== "undefined" ) {
 			var problems = exercises.children( ".problems" ).children();
 
-			problem = /^\d+$/.test( pid ) ?
+			problem = /^\d+$/.test( id ) ?
 				// Access a problem by number
-				problems.eq( parseFloat( pid ) ) :
+				problems.eq( parseFloat( id ) ) :
 
 				// Or by its ID
-				problems.filter( "#" + pid );
+				problems.filter( "#" + id );
 
 		// Otherwise we grab a problem at random from the bag of problems
 		// we made earlier to ensure that every problem gets shown the
 		// appropriate number of times
 		} else if ( problemBag.length > 0 ) {
 			problem = problemBag[ problemBagIndex ];
-			pid = problem.data( "id" );
+			id = problem.data( "id" );
 
 		// No valid problem was found, bail out
 		} else {
 			return;
 		}
 
-		problemID = pid;
+		problemID = id;
 
 		// Find which exercise this problem is from
 		exercise = problem.parents( ".exercise" ).eq( 0 );
@@ -1009,7 +999,7 @@ var Khan = (function() {
 		} else {
 			// Making the problem failed, let's try again
 			problem.remove();
-			makeProblem( exid, pid, randomSeed );
+			makeProblem( id, randomSeed );
 			return;
 		}
 
@@ -2027,13 +2017,23 @@ var Khan = (function() {
 				jQuery( "#sidebar" ).hide();
 
 			} else {
-				// TODO(david): Handle the case of the XHR to fetch the next set of
-				//     review exercises not having returned yet.
-				makeProblem( reviewMode && reviewQueue.shift() );
 
-				// Kick off a request to queue up the next problems if there's none left
-				// XXX(david): What do we do if the user is done with their reviews (no more problems left?)
-				maybeEnqueueReviewProblems();
+				if ( reviewMode ) {
+
+					// TODO(david): Wait for the XHR that fetches the next set of review
+					//     exercises to return first (almost certainly it has at this
+					//     point, unless the user is deliberately messing around).
+					// Switch to a new exercise if there's queued up exercises
+					var nextExerciseName = reviewQueue.shift();
+					if ( nextExerciseName !== exerciseName ) {
+						switchToExercise( nextExerciseName );
+					}
+
+					// Kick off a request to queue up more exercises if we're running low.
+					maybeEnqueueReviewProblems();
+				}
+
+				makeProblem();
 			}
 		});
 
