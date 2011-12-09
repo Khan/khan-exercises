@@ -732,7 +732,7 @@ var Khan = (function() {
 	// TODO(david): Would be preferable to use the exercise model's display_name
 	//     property instead of duplicating that code here on the client.
 	function getDisplayNameFromId(id) {
-		return id.charAt( 0 ).toUpperCase() + id.slice(1).replace(/_/g, ' ');
+		return id.charAt( 0 ).toUpperCase() + id.slice( 1 ).replace( /_/g, ' ' );
 	}
 
 	function maybeEnqueueReviewProblems() {
@@ -744,9 +744,14 @@ var Khan = (function() {
 			reviewQueue = reviewQueue.concat( reviewExercises );
 
 			jQuery.each( reviewExercises, function( i, exid ) {
-				// Append the exercise to the "upcoming exercises" list
-				jQuery( "#next-exercises" )
-					.append( "<p>" + getDisplayNameFromId(exid) + "</p>" );
+
+				// Slide up the exercise into the upcoming exercises queue, one-by-one
+				jQuery( "#next-exercises" ).queue(function( next ) {
+					jQuery( "<p>" + getDisplayNameFromId(exid) + "</p>" )
+						.css( "marginTop", Math.max(38 - i * 15, 10) )
+						.appendTo( this )
+						.animate({ marginTop: 0 }, /* duration */ 365, next);
+				});
 
 				// Was this exercise's data and HTML loaded already?
 				var isLoaded = exercises.filter(function() {
