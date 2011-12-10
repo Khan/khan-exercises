@@ -760,6 +760,9 @@ var Khan = (function() {
 		function enqueueReviewExercises( reviewExercises ) {
 			reviewQueue = reviewQueue.concat( reviewExercises );
 
+			// Stop any running animations and clear the fx queue
+			jQuery( "#next-exercises" ).stop( true, true );
+
 			jQuery.each( reviewExercises, function( i, exid ) {
 
 				// Slide up the exercise into the upcoming exercises queue, one-by-one
@@ -1961,6 +1964,8 @@ var Khan = (function() {
 			var currentExercise = jQuery( "#current-exercise" ),
 					nextExercises = jQuery( "#next-exercises" ),
 					revertDelay = 200,
+					clearQueue = true,
+					jumpToEnd = true,
 					animationOptions = {
 						duration: 400,
 						easing: "easeInOutCubic"
@@ -1968,7 +1973,7 @@ var Khan = (function() {
 
 			// Fade the current title away to the right, then replace it with the
 			// new exercise"s title and revert the animation.
-			currentExercise.stop().animate({
+			currentExercise.stop( clearQueue, jumpToEnd ).animate({
 				left: 400,
 				opacity: 0,
 				fontSize: "-=4"
@@ -1980,7 +1985,7 @@ var Khan = (function() {
 			});
 
 			// Slide up the next set of exercises, then revert the animation.
-			nextExercises.stop().animate({
+			nextExercises.stop( clearQueue, jumpToEnd ).animate({
 				top: 0,
 				height: nextExercises.height() + nextExercises.position().top
 			}, animationOptions ).delay( revertDelay ).queue(function() {
@@ -1989,13 +1994,14 @@ var Khan = (function() {
 
 			// Make the next exercise title transition to match the appearance of the
 			// current exercise title, then remove it from the set of next exercises.
-			jQuery( "#next-exercises > p:first-child" ).stop().animate({
-				color: currentExercise.css( "color" ),
-				fontSize: currentExercise.css( "fontSize" ),
-				reviewGlow: 1
-			}, animationOptions ).delay( revertDelay ).queue(function() {
-				jQuery( this ).remove();
-			});
+			jQuery( "#next-exercises > p:first-child" )
+				.stop( clearQueue, jumpToEnd ).animate({
+					color: currentExercise.css( "color" ),
+					fontSize: currentExercise.css( "fontSize" ),
+					reviewGlow: 1
+				}, animationOptions ).delay( revertDelay ).queue(function() {
+					jQuery( this ).remove();
+				});
 		}
 
 		// Watch for when the next button is clicked
