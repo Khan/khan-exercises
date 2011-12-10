@@ -155,6 +155,7 @@ var Khan = (function() {
 	// If we're in review mode: present a mix of different exercises
 	reviewMode = false,
 	reviewQueue = [],
+	waitForReviewRequest = false,
 
 	// Where we are in the shuffled list of problem types
 	problemBag,
@@ -614,6 +615,25 @@ var Khan = (function() {
 						}
 					});
 				});
+			},
+
+			enableButton: function() {
+				this.removeAttr( "disabled" ).removeClass( "buttonDisabled" );
+
+				var savedVal = this.data( "saved-val" );
+				if ( savedVal ) {
+					this.val( savedVal );
+				}
+
+				return this;
+			},
+
+			disableButton: function() {
+				return this
+					.attr( "disabled", "disabled" )
+					.addClass( "buttonDisabled" )
+					.data( "saved-val", this.val() )
+					.val('Please wait...');
 			}
 		});
 
@@ -771,6 +791,13 @@ var Khan = (function() {
 					});
 				}
 			});
+
+			var nextButton = jQuery( "#next-question-button" ).enableButton();
+			if ( nextButton.is( ":visible" ) ) {
+				nextButton.focus();
+			}
+
+			waitForReviewRequest = false;
 		}
 
 		// Send the request to fetch the next set of review exercises
@@ -784,20 +811,12 @@ var Khan = (function() {
 			},
 			success: enqueueReviewExercises
 		});
-	}
 
-	function enableCheckAnswer() {
-		jQuery( "#check-answer-button" )
-			.removeAttr( "disabled" )
-			.removeClass( "buttonDisabled" )
-			.val('Check Answer');
-	}
-
-	function disableCheckAnswer() {
-		jQuery( "#check-answer-button" )
-			.attr( "disabled", "disabled" )
-			.addClass( "buttonDisabled" )
-			.val('Please wait...');
+		// Disable moving on to the next question until the XHR has returned
+		if ( reviewQueue.length < 1 ) {
+			jQuery( "#next-question-button" ).disableButton();
+			waitForReviewRequest = true;
+		}
 	}
 
 	function switchToExercise( exid ) {
@@ -1015,7 +1034,7 @@ var Khan = (function() {
 		// Only enable the check answer button if we are not still waiting for
 		// server acknowledgement of the previous problem.
 		if ( !jQuery("#throbber").is(':visible') ) {
-			enableCheckAnswer();
+			jQuery( "#check-answer-button" ).enableButton();
 		}
 
 		if ( validator.examples && validator.examples.length > 0 ) {
@@ -1831,12 +1850,13 @@ var Khan = (function() {
 			}
 
 			// Stop if the form is already disabled and we're waiting for a response.
-			if ( jQuery( "#answercontent input" ).not( "#hint" ).is( ":disabled" )) {
+			if ( jQuery( "#answercontent input" )
+					.not( "#hint, #next-question-button" ).is( ":disabled" ) ) {
 				return false;
 			}
 
 			jQuery( "#throbber" ).show();
-			disableCheckAnswer();
+			jQuery( "#check-answer-button" ).disableButton();
 			jQuery( "#answercontent input" ).not("#check-answer-button, #hint")
 				.attr( "disabled", "disabled" );
 			jQuery( "#check-answer-results p" ).hide();
@@ -1886,7 +1906,7 @@ var Khan = (function() {
 				jQuery(Khan).trigger( "answerSaved" );
 
 				jQuery( "#throbber" ).hide();
-				enableCheckAnswer();
+				jQuery( "#check-answer-button" ).enableButton();
 			}, function() {
 				// Error during submit. Cheat, for now, and reload the page in
 				// an attempt to get updated data.
@@ -1910,10 +1930,15 @@ var Khan = (function() {
 				// Correct answer, so show the next question button.
 				jQuery( "#check-answer-button" ).hide();
 				if ( !testMode || Khan.query.test == null ) {
-					jQuery( "#next-question-button" ).show();
-					jQuery( "#next-question-button" ).removeAttr( "disabled" )
-						.removeClass( "buttonDisabled" )
-						.focus();
+					var nextQuestionButton = jQuery( "#next-question-button" );
+
+					// Don't enable the next question button if we're still waiting for
+					// the next set of review exercises.
+					if ( !waitForReviewRequest ) {
+						nextQuestionButton.enableButton();
+					}
+
+					nextQuestionButton.show().focus();
 				}
 				nextProblem( 1 );
 			} else {
@@ -2017,9 +2042,6 @@ var Khan = (function() {
 
 				if ( reviewMode ) {
 
-					// TODO(david): Wait for the XHR that fetches the next set of review
-					//     exercises to return first (almost certainly it has at this
-					//     point, unless the user is deliberately messing around).
 					// Switch to a new exercise if there's queued up exercises
 					var nextExerciseName = reviewQueue.shift();
 					if ( nextExerciseName && nextExerciseName !== exerciseName ) {
@@ -2030,6 +2052,7 @@ var Khan = (function() {
 					maybeEnqueueReviewProblems();
 				}
 
+				// Generate a new problem
 				makeProblem();
 			}
 		});
