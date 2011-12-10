@@ -825,14 +825,7 @@ var Khan = (function() {
 	function switchToExercise( exid ) {
 		exerciseName = exid;
 
-		var data = getData();
-
-		// Update the exercise icon
-		if ( data.exercise_states ) {
-			updateExerciseIcon( data.exercise_states );
-		}
-
-		setProblemNum( data.total_done + 1 );
+		setProblemNum( getData().total_done + 1 );
 
 		// Get all problems of this exercise type...
 		var problems = exercises.filter(function() {
@@ -1566,7 +1559,7 @@ var Khan = (function() {
 		jQuery( "#hint" ).val( "I'd like a hint" );
 		jQuery( "#hint-remainder" ).hide();
 
-		if ( once ) {
+		if ( once || reviewMode ) {
 			updateData( /* data */ null, /* isFirstUpdate */ once );
 			once = false;
 		}
@@ -2727,6 +2720,11 @@ var Khan = (function() {
 				data.user !== oldData.user || data.exercise !== oldData.exercise) ) {
 			cacheUserExerciseDataLocally( exerciseName, data );
 
+			// Don't update the UI with data from a different exercise
+			if ( data.exercise !== exerciseName ) {
+				return;
+			}
+
 		// If no data is provided then we're just updating the UI
 		} else {
 			data = oldData;
@@ -2779,6 +2777,7 @@ var Khan = (function() {
 				jQuery( switchToReviewMode );
 			}
 
+			// TODO(david): Oh no imminent merge conflict here. :(
 			updateExerciseIcon( exerciseStates );
 		}
 		//drawExerciseState( data );
