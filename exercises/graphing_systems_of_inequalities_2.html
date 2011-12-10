@@ -44,7 +44,68 @@
 				<var id="INCLUSIVE_2">COMP_2 == "&ge;" || COMP_2 == "&le;"</var>
 				<div data-ensure="sqrt( pow( POINT_1[0] - POINT_2[0], 2 ) + pow( POINT_1[1] - POINT_2[1], 2 ) ) > 4">
 					<var id="POINT_1">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
-					<var id="POINT_2">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
+					<var id="POINT_2">
+						(function() {
+							var coords = [];
+							var x_point, y_point, xbound_1, xbound_2;
+							// if both lines are "less than", move down from the point of intersection, then move laterally while staying between the lines
+							if ( LESS_THAN_1 &amp;&amp; LESS_THAN_2 ) {
+								y_point = randRange( -9, Y - 1 );
+								xbound_1 = ( y_point - YINT_1 ) / SLOPE_1;
+								xbound_2 = ( y_point - YINT_2 ) / SLOPE_2;
+								if ( SLOPE_1 &gt; 0 &amp;&amp; SLOPE_2 &gt; 0 ) {
+									x_point = randRange( max( -9, ceilTo( 0, max( xbound_1, xbound_2 ) + .01 ) ), 9 );
+								}
+								else if ( SLOPE_1 &lt; 0 &amp;&amp; SLOPE_2 &lt; 0 ) {
+									x_point = randRange( -9, min( 9, floorTo( 0, min( xbound_1, xbound_2 ) - .01 ) ) );
+								}
+								else {
+									x_point = randRange( max( -9, ceilTo( 0, min( xbound_1, xbound_2 ) + .01 ) ), min( 9, floorTo( 0, max( xbound_1, xbound_2 ) - .01 ) ) );
+								}
+							}
+							// move up from the intersection, then side to side
+							else if ( !LESS_THAN_1 &amp;&amp; !LESS_THAN_2 ) {
+								y_point = randRange( Y + 1, 9 );
+								xbound_1 = ( y_point - YINT_1 ) / SLOPE_1;
+								xbound_2 = ( y_point - YINT_2 ) / SLOPE_2;
+								if ( SLOPE_1 &gt; 0 &amp;&amp; SLOPE_2 &gt; 0 ) {
+									x_point = randRange( -9, min( 9, floorTo( 0, min( xbound_1, xbound_2 ) - .01 ) ) );
+								}
+								else if ( SLOPE_1 &lt; 0 &amp;&amp; SLOPE_2 &lt; 0 ) {
+									x_point = randRange( max( -9, ceilTo( 0, max( xbound_1, xbound_2 ) + .01 ) ), 9 );
+								}
+								else {
+									x_point = randRange( max( -9, ceilTo( 0, min( xbound_1, xbound_2 ) + .01 ) ), min( 9, floorTo( 0, max( xbound_1, xbound_2 ) - .01 ) ) );
+								}
+							}
+							// move left from the intersection, pick x value where lines are more than 1 unit apart, pick y
+							else if ( ( LESS_THAN_1 &amp;&amp; !LESS_THAN_2 &amp;&amp; ( ( X - 1 ) * SLOPE_1 + YINT_1 ) &gt; ( ( X - 1 ) * SLOPE_2 + YINT_2 ) )
+							|| ( !LESS_THAN_1 &amp;&amp; LESS_THAN_2 &amp;&amp; ( ( X - 1 ) * SLOPE_1 + YINT_1 ) &lt; ( ( X - 1 ) * SLOPE_2 + YINT_2 ) ) ) {
+								xbound_1 = X - 1 / abs( SLOPE_1 - SLOPE_2 );
+								xbound_2 = ( ( -9 * SLOPE_1 + YINT_1 ) &lt; -9 && ( -9 * SLOPE_2 + YINT_2 ) &lt; -9 )
+								|| ( ( -9 * SLOPE_1 + YINT_1 ) &gt; 9 && ( -9 * SLOPE_2 + YINT_2 ) &gt; 9 ) ? xbound_1 - 1 : -9;
+								x_point = randRange( max( -9, ceilTo( 0, xbound_2 + .01 ) ), min( 9, floorTo( 0, xbound_1 - .01 ) ) );
+								y_point = randRange( max( -9, ceilTo( 0, min( SLOPE_1 * x_point + YINT_1, SLOPE_2 * x_point + YINT_2 ) + .01 ) ), min( 9, floorTo( 0, max( SLOPE_1 * x_point + YINT_1, SLOPE_2 * x_point + YINT_2 ) - .01 ) ) );
+							}
+							// move right from intersection, pick x where lines are more than 1 unit apart, pick y
+							else {
+								xbound_1 = X + 1 / abs( SLOPE_1 - SLOPE_2 );
+								xbound_2 = ( ( 9 * SLOPE_1 + YINT_1 ) &lt; -9 && ( 9 * SLOPE_2 + YINT_2 ) &lt; -9 )
+								|| ( ( 9 * SLOPE_1 + YINT_1 ) &gt; 9 && ( 9 * SLOPE_2 + YINT_2 ) &gt; 9 ) ? xbound_1 + 1 : 9;
+								x_point = randRange( max( -9, ceilTo( 0, xbound_1 + .01 ) ), min( 9, floorTo( 0, xbound_2 - .01 ) ) );
+								y_point = randRange( max( -9, ceilTo( 0, min( SLOPE_1 * x_point + YINT_1, SLOPE_2 * x_point + YINT_2 ) + .01 ) ), min( 9, floorTo( 0, max( SLOPE_1 * x_point + YINT_1, SLOPE_2 * x_point + YINT_2 ) - .01 ) ) );
+							}
+							
+							if ( ( x_point &lt; -3 || x_point &gt; 0 ) &amp;&amp; ( y_point !== -1 &amp;&amp; y_point !== -2 ) ) {
+								coords.push( x_point, y_point );
+							}
+							else {
+								coords.push( randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) );
+							}
+							return coords;
+
+						})()
+					</var>
 					<var id="POINT_1_SOLUTION">
 							(((COMP_1 == "&lt;") &amp;&amp; ( POINT_1[1] &lt;  SLOPE_1 * POINT_1[0] + YINT_1 ))
 						|| ((COMP_1 == "&le;") &amp;&amp; ( POINT_1[1] &lt;= SLOPE_1 * POINT_1[0] + YINT_1 ))
