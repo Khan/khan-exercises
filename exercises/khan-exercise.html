@@ -36,9 +36,15 @@
 		</div>
 	</div>
 
-    <div class="summative-help" style="display:none;">
-        Fill up <span class="summative-required-streaks"></span> bars to complete this challenge. Once you complete a bar, it will not be set back.
-    </div>
+	<div class="related-content" style="display:none;">
+		<span class="related-content-title">Related videos:</span>
+		<ul class="related-video-list"></ul>
+	</div>
+
+	<div class="summative-help" style="display:none;">
+		Fill up <span class="summative-required-streaks"></span> bars to complete this challenge. Once you complete a bar, it will not be set back.
+	</div>
+
 </div>
 <div id="exercise-message-container" style="display: none;">
 	<div class="exercise_message"></div>
@@ -66,7 +72,7 @@
 		<div id='workarea'></div>
 		<div id='hintsarea'></div>
 	</div>
-	<div id="answer_area">
+	<div id="answer_area_wrap"><div id="answer_area">
 		<form id="answerform" action="/exercisedashboard?k" method="get" name="answerform">
 			<div id="answercontent" class="info-box fancy-scrollbar">
 				<span class="info-box-header">Answer</span>
@@ -144,6 +150,6 @@
 				<img id="issue-throbber" style="display:none;" name="issue-throbber">
 			</form>
 		</div>
-	</div>
+	</div></div>
+	<div style="clear: both;"></div>
 </div>
-<div style="clear: both;"></div>

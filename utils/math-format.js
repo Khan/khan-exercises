@@ -174,7 +174,7 @@ jQuery.extend(KhanUtil, {
 
 		// improper
 		} else {
-			var imp = Math.floor( n / d );		
+			var imp = Math.floor( n / d );
 			return imp + KhanUtil.fraction( n - ( d * imp ), d );
 		}
 	},
@@ -413,7 +413,7 @@ jQuery.extend(KhanUtil, {
 
 			// if we're dealing with a string that looks like a number
 		} else if ( !isNaN( s ) ) {
-			
+
 			return +s;
 
 		}
@@ -424,4 +424,3 @@ jQuery.extend(KhanUtil, {
 		return KhanUtil.randFromArray([ "x", "k", "y", "a", "n", "r", "p", "u", "v" ])
 	}
 });
-

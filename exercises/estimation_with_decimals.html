@@ -23,7 +23,7 @@
 				<var id="ANSWER">eval( $.map( VALUES, round ).join("+") )</var>
 				<var id="TYPES">randFromArray( [ [ "jogging", "ran", "mile" ], [ "riding a bicycle ", "traveled", "mile" ], [ "collecting mushrooms", "collected", "pound" ], [ "painting a roof", "painted", "square foot" ], [ "harvesting grain", "harvested", "tonne" ] ] )</var>
 				<var id="ACC">0</var>
-				<var id="SIZE">$.map( VALUES, function( i ){ 
+				<var id="SIZE">$.map( VALUES, function( i ){
 							if ( round( i ) &lt; i ) {
 								return "smaller than";
 							}

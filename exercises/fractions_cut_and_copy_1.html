@@ -11,9 +11,9 @@
 			<!-- An integer will be a starting or ending quantity 1/3 of the time -->
 			<var id="D_PARENT">randRangeWeighted( 3, 12, 1, 1 / 6 )</var>
 			<var id="D_OFFSPRING">D_PARENT === 1 ? randRange( 3, 12 ) : ( rand( 5 ) > 0 ? D_PARENT : 1 )</var>
-			<div data-ensure="getGCD( N_PARENT * ( D_PARENT === 1 ? D_OFFSPRING : 1 ), N_OFFSPRING * ( D_OFFSPRING === 1 ? D_PARENT : 1 ) ) === 1 && N_PARENT / D_PARENT > N_OFFSPRING / D_OFFSPRING"> 
+			<div data-ensure="getGCD( N_PARENT * ( D_PARENT === 1 ? D_OFFSPRING : 1 ), N_OFFSPRING * ( D_OFFSPRING === 1 ? D_PARENT : 1 ) ) === 1 && N_PARENT / D_PARENT > N_OFFSPRING / D_OFFSPRING">
 				<var id="N_PARENT">D_PARENT === 1 ? randRange( 1, 4 ) : randRangeExclude( 2,  2 * D_PARENT - 1, [ D_PARENT ] )</var>
-				<var id="N_OFFSPRING">D_OFFSPRING === 1 ? randRange( 1, 4 ) : randRangeExclude( 2, 2 * D_OFFSPRING - 1, [ D_OFFSPRING ] )</var> 
+				<var id="N_OFFSPRING">D_OFFSPRING === 1 ? randRange( 1, 4 ) : randRangeExclude( 2, 2 * D_OFFSPRING - 1, [ D_OFFSPRING ] )</var>
 			</div>
 			<var id="CODE_PARENT">D_PARENT === 1 ? N_PARENT : mixedOrImproper( N_PARENT, D_PARENT )</var>
 			<var id="CODE_OFFSPRING">D_OFFSPRING === 1 ? N_OFFSPRING : mixedOrImproper( N_OFFSPRING, D_OFFSPRING )</var>

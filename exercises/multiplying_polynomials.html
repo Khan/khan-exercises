@@ -22,7 +22,7 @@
 						if ( i === NON_ZERO_INDICES[ n ][ j ] ) {
 							value = randRangeNonZero( -7, 7 );
 							break;
-						} 
+						}
 					}
 					coefs[ i ] = value;
 				}
@@ -33,27 +33,27 @@
 				var likeTerms = [];
 				var counter = 0;
 				var areLikeTerms = false;
-				
+
 				for ( var i = POL_1.minDegree; i <= POL_1.maxDegree; i++ ) {
 					if ( POL_1.coefs[ i ] === 0 ) {
 						continue;
 					}
 					for ( var j = POL_2.minDegree; j <= POL_2.maxDegree; j++ ) {
 						if ( POL_2.coefs[ j ] === 0 ) {
-							continue; 
+							continue;
 						}
-						
+
 						if ( likeTerms[ i + j ] === undefined ) {
 							likeTerms[ i + j ] = "";
 						} else if ( likeTerms[ i + j ] === "" ) {
-							likeTerms[ i + j ] = COLORS[ counter++ ]; 
+							likeTerms[ i + j ] = COLORS[ counter++ ];
 							areLikeTerms = true;
 						}
-					}	  
-				}	   
+					}
+				}
 
 				return areLikeTerms ? likeTerms : false;
-			}()</var> 
+			}()</var>
 			<var id="SOLUTION">POL_1.multiply( POL_2 )</var>
 			<var id="FAKE_SOLUTION_1, FAKE_SOLUTION_2">tabulate( function(n) {
 				var counter = 0;
@@ -64,10 +64,10 @@
 					if ( SOLUTION.coefs[ i ] === 0 ) {
 						continue;
 					}
-					
-					coefs[ i ] = SOLUTION.coefs[ i ] * ( n + counter++ % 2 === 0  ? 1 : -1 );					
+
+					coefs[ i ] = SOLUTION.coefs[ i ] * ( n + counter++ % 2 === 0  ? 1 : -1 );
 				}
-			
+
 				return new Polynomial( SOLUTION.minDegree, SOLUTION.maxDegree, coefs, SOLUTION.variable );
 			}, 2 )</var>
 		</div>

@@ -37,70 +37,157 @@
 		</div>
 
 		<div class="problems">
-			<div>
+			<div id="elimination">
 				<p class="problem">Solve for <code>x</code> and <code>y</code> using elimination.</p>
-				<p class="question"><code>\begin{align*}<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> &= <var>C1</var> \\
-					                <var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> &= <var>C2</var>\end{align*}</code></p>
+				<p class="question"><code>\begin{align*}<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> &amp;= <var>C1</var> \\
+									<var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> &amp;= <var>C2</var>\end{align*}</code></p>
 				<div class="solution" data-type="multiple">
 					<p><code>x</code> = <span class="sol"><var>X_NUMER / X_DENOM</var></span></p>
 					<p><code>y</code> = <span class="sol"><var>Y_NUMER / Y_DENOM</var></span></p>
 				</div>
+				<div class="hints">
+					<p>We can eliminate <code><var>( XY_FLAG ? "x" : "y" )</var></code> when its corresponding coefficients are negative inverses.</p>
+
+					<div data-unwrap data-if="XY_FLAG">
+						<div data-if="MULT_1 !== 1 || MULT_2 !== 1">
+							<p>Recalling our knowledge of least common multiples, multiply the top equation by <code><var>MULT_1</var></code> and the bottom equation by <code><var>MULT_2</var></code>.</p>
+							<p><code>\begin{align*}<var>expr(["+", ["*", A1*MULT_1, "x"], ["*", B1*MULT_1, "y"]])</var> &amp;= <var>C1*MULT_1</var>\\
+							<var>expr(["+", ["*", A2*MULT_2, "x"], ["*", B2*MULT_2, "y"]])</var> &amp;= <var>C2*MULT_2</var>\end{align*}</code></p>
+						</div>
+						<div>
+							<p>Add the top and bottom equations.</p>
+							<p><code><var>expr(["*", B1*MULT_1+B2*MULT_2, "y"])</var> = <var>C1*MULT_1+C2*MULT_2</var></code></p>
+						</div>
+
+						<div data-if="(B1*MULT_1+B2*MULT_2) !== 1">
+							<p>Divide both sides by <code><var>B1*MULT_1+B2*MULT_2</var></code> and reduce as necessary.</p>
+							<p><code>y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
+						</div>
+
+						<div>
+							<p>Substitute <code><var>fractionReduce( Y_NUMER, Y_DENOM )</var></code> for <code>y</code> in the top equation.</p>
+							<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, " " + fractionReduce( Y_NUMER, Y_DENOM )]])</var> = <var>C1</var></code></p>
+							<p><code><var>expr(["+", ["*", A1, "x"], fractionReduce( B1 * Y_NUMER, Y_DENOM )])</var> = <var>C1</var></code></p>
+							<p><code><var>expr(["*", A1, "x"])</var> = <var>fractionReduce( C1 * Y_DENOM - B1 * Y_NUMER, Y_DENOM )</var></code></p>
+							<p><code data-if="A1 !== 1">x = <var>fractionReduce(X_NUMER,X_DENOM)</var></code></p>
+							<p>The solution is<code>\enspace x = <var>fractionReduce( X_NUMER, X_DENOM )</var>, \enspace y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code>.</p>
+						</div>
+					</div>
+
+					<div data-unwrap data-else>
+						<div data-if="MULT_3 !== 1 || MULT_4 !== 1">
+							<p>Recalling our knowledge of least common multiples, multiply the top equation by <code><var>MULT_3</var></code> and the bottom equation by <code><var>MULT_4</var></code>.</p>
+							<p><code>\begin{align*}<var>expr(["+", ["*", A1*MULT_3, "x"], ["*", B1*MULT_3, "y"]])</var> &amp;= <var>C1*MULT_3</var>\\
+								<var>expr(["+", ["*", A2*MULT_4, "x"], ["*", B2*MULT_4, "y"]])</var> &amp;= <var>C2*MULT_4</var>\end{align*}</code></p>
+						</div>
+
+						<div>
+							<p>Add the top and bottom equations.</p>
+							<p><code><var>expr(["*", A1*MULT_3+A2*MULT_4, "x"])</var> = <var>C1*MULT_3+C2*MULT_4</var></code></p>
+						</div>
+
+						<div>
+							<p data-if="(A1*MULT_3+A2*MULT_4) !== 1">Divide both sides by <code><var>A1*MULT_3+A2*MULT_4</var></code> and reduce as necessary.</p>
+							<p><code>x = <var>fractionReduce( X_NUMER, X_DENOM )</var></code></p>
+						</div>
+
+						<div>
+							<p>Substitute <code><var>fractionReduce( X_NUMER, X_DENOM )</var></code> for <code>x</code> in the top equation.</p>
+							<p><code><var>expr(["+", ["*", A1, " " + fractionReduce( X_NUMER, X_DENOM )], ["*", B1, "y"]])</var> = <var>C1</var></code></p>
+							<p><code><var>expr(["+", fractionReduce( A1 * X_NUMER, X_DENOM ), ["*", B1, "y"]])</var> = <var>C1</var></code></p>
+							<p><code><var>expr(["*", B1, "y"])</var> = <var>fractionReduce( C1 * X_DENOM - A1 * X_NUMER, X_DENOM )</var></code></p>
+							<p><code data-if="A1 !== 1">y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
+							<p>The solution is<code>\enspace x = <var>fractionReduce( X_NUMER, X_DENOM )</var>, \enspace y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code>.</p>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-
-		<div class="hints">
-			<p>We can eliminate <code><var>( XY_FLAG ? "x" : "y" )</var></code> when its corresponding coefficients are negative inverses.</p>
-
-			<div data-unwrap data-if="XY_FLAG"> 
-				<div data-if="MULT_1 !== 1 || MULT_2 !== 1">
-					<p>Recalling our knowledge of least common multiples, multiply the top equation by <code><var>MULT_1</var></code> and the bottom equation by <code><var>MULT_2</var></code>.</p>
-					<p><code>\begin{align*}<var>expr(["+", ["*", A1*MULT_1, "x"], ["*", B1*MULT_1, "y"]])</var> &= <var>C1*MULT_1</var>\\
-					   <var>expr(["+", ["*", A2*MULT_2, "x"], ["*", B2*MULT_2, "y"]])</var> &= <var>C2*MULT_2</var>\end{align*}</code></p>
+			<div id="substitution-y">
+				<div class="vars">
+					<var id="A1_SIGN">A1 &gt; 0 ? "" : "-"</var>
+					<var id="B1_SIGN">B1 &gt; 0 ? "+" : "-"</var>
+					<var id="SIGN_1">A2 / B2 &gt; 0 ? "-" : ""</var>
+					<var id="SIGN_2">A2 / B2 * B1 &gt; 0 ? "-" : ""</var>
 				</div>
-				<div>
-					<p>Add the top and bottom equations.</p>
-					<p><code><var>expr(["*", B1*MULT_1+B2*MULT_2, "y"])</var> = <var>C1*MULT_1+C2*MULT_2</var></code></p>
+				<p class="problem">Solve for <code>x</code> and <code>y</code> by deriving an expression for <code>y</code> from the second equation, and substituting it back into the first equation.</p>
+				<p class="question"><code>\begin{align*}<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> &amp;= <var>C1</var> \\
+									<var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> &amp;= <var>C2</var>\end{align*}</code></p>
+				<div class="solution" data-type="multiple">
+					<p><code>x</code> = <span class="sol"><var>X_NUMER / X_DENOM</var></span></p>
+					<p><code>y</code> = <span class="sol"><var>Y_NUMER / Y_DENOM</var></span></p>
 				</div>
-
-				<div data-if="(B1*MULT_1+B2*MULT_2) !== 1">
-					<p>Divide both sides by <code><var>B1*MULT_1+B2*MULT_2</var></code> and reduce as necessary.</p>
-					<p><code>y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
-				</div>
-
-				<div>
-					<p>Substitute <code><var>fractionReduce( Y_NUMER, Y_DENOM )</var></code> for <code>y</code> in the top equation.</p>
-					<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, " " + fractionReduce( Y_NUMER, Y_DENOM )]])</var> = <var>C1</var></code></p>
-					<p><code><var>expr(["+", ["*", A1, "x"], fractionReduce( B1 * Y_NUMER, Y_DENOM )])</var> = <var>C1</var></code></p>
-					<p><code><var>expr(["*", A1, "x"])</var> = <var>fractionReduce( C1 * Y_DENOM - B1 * Y_NUMER, Y_DENOM )</var></code></p>
-					<p><code data-if="A1!=1">x = <var>fractionReduce(X_NUMER,X_DENOM)</var></code></p>
-					<p><code>x = <var>fractionReduce(X_NUMER,X_DENOM)</var>, y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
+				<div class="hints">
+					<div>
+						<p>Begin by moving the <code>x</code>-term in the second equation to the right side of the equation.</p>
+						<p><code><var>expr(["*", B2, "y"])</var> = <span data-if="B2 === 1">\color{<var>BLUE</var>}{</span><var>expr(["+", ["*", -A2, "x"], C2])</var><span data-if="B2 === 1">}</span></code></p>
+					</div>
+					<div data-if="B2 !== 1">
+						<p>Divide both sides by <code><var>B2</var></code> to isolate <code>y</code>.</p>
+						<p><code>y = \color{<var>BLUE</var>}{<span data-if="abs( abs( A2 / B2 ) - 1 ) < .0001"><var>SIGN_1</var></span><span data-else><var>decimalFraction( -A2 / B2, "true", "true" )</var></span>x + <var>decimalFraction( C2 / B2, "true", "true" )</var>}</code></p>
+					</div>
+					<div>
+						<p>Substitute this expression for <code>y</code> in the first equation.</p>
+						<p><code><var>expr(["*", A1, "x"])</var><var>B1_SIGN</var><span data-if="abs( B1 ) !== 1"><var>abs( B1 )</var></span>(\color{<var>BLUE</var>}{<span data-if="abs( abs( A2 / B2 ) - 1 ) < .0001"><var>SIGN_1</var></span><span data-else><var>decimalFraction( -A2 / B2, "true", "true" )</var></span>x + <var>decimalFraction( C2 / B2, "true", "true" )</var>}) = <var>C1</var></code></p>
+					</div>
+					<p><code><var>expr(["*", A1, "x"])</var> + <span data-if="abs( abs( -A2 / B2 * B1 ) - 1 ) < .0001"><var>SIGN_2</var></span><span data-else><var>decimalFraction( -A2 / B2 * B1, "true", "true" )</var></span>x + <var>decimalFraction( C2 / B2 * B1, "true", "true" )</var> = <var>C1</var></code></p>
+					<div>
+						<p>Simplify by combining terms, then solve for <code>x</code>.</p>
+						<p><code><var>decimalFraction( A1 + ( -A2 / B2 * B1 ), "true", "true" )</var>x + <var>decimalFraction( C2 / B2 * B1, "true", "true" )</var> = <var>C1</var></code></p>
+						<p><code><var>decimalFraction( A1 + ( -A2 / B2 * B1 ), "true", "true" )</var>x = <var>decimalFraction( C1 - ( C2 / B2 * B1 ), "true", "true" )</var></code></p>
+						<p><code>x = <var>fractionReduce( X_NUMER, X_DENOM )</var></code></p>
+					</div>
+					<div>
+						<p>Substitute <code><var>fractionReduce( X_NUMER, X_DENOM )</var></code> for <code>x</code> back into the top equation.</p>
+						<p><code><var>expr(["+", ["*", A1, " " + fractionReduce( X_NUMER, X_DENOM )], ["*", B1, "y"]])</var> = <var>C1</var></code></p>
+						<p><code><var>expr(["+", fractionReduce( A1 * X_NUMER, X_DENOM ), ["*", B1, "y"]])</var> = <var>C1</var></code></p>
+						<p><code><var>expr(["*", B1, "y"])</var> = <var>fractionReduce( C1 * X_DENOM - A1 * X_NUMER, X_DENOM )</var></code></p>
+						<p><code data-if="A1 !== 1">y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
+					</div>
+					<p>The solution is<code>\enspace x = <var>fractionReduce( X_NUMER, X_DENOM )</var>, \enspace y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code>.</p>
 				</div>
 			</div>
-
-			<div data-unwrap data-else>
-				<div data-if="MULT_3 !== 1 || MULT_4 !== 1">
-					<p>Recalling our knowledge of least common multiples, multiply the top equation by <code><var>MULT_3</var></code> and the bottom equation by <code><var>MULT_4</var></code>.</p>
-					<p><code>\begin{align*}<var>expr(["+", ["*", A1*MULT_3, "x"], ["*", B1*MULT_3, "y"]])</var> &= <var>C1*MULT_3</var>\\
-						<var>expr(["+", ["*", A2*MULT_4, "x"], ["*", B2*MULT_4, "y"]])</var> &= <var>C2*MULT_4</var>\end{align*}</code></p>
+			<div id="substitution-x">
+				<div class="vars">
+					<var id="A1_SIGN">A1 &gt; 0 ? "" : "-"</var>
+					<var id="B1_SIGN">B1 &gt; 0 ? "+" : "-"</var>
+					<var id="SIGN_1">A2 / B2 &gt; 0 ? "-" : ""</var>
+					<var id="SIGN_2">A2 / B2 * A1 &gt; 0 ? "-" : ""</var>
 				</div>
-
-				<div>
-					<p>Add the top and bottom equations.</p>
-					<p><code><var>expr(["*", A1*MULT_3+A2*MULT_4, "x"])</var> = <var>C1*MULT_3+C2*MULT_4</var></code></p>
+				<p class="problem">Solve for <code>x</code> and <code>y</code> by deriving an expression for <code>x</code> from the second equation, and substituting it back into the first equation.</p>
+				<p class="question"><code>\begin{align*}<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> &amp;= <var>C1</var> \\
+									<var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> &amp;= <var>C2</var>\end{align*}</code></p>
+				<div class="solution" data-type="multiple">
+					<p><code>x</code> = <span class="sol"><var>X_NUMER / X_DENOM</var></span></p>
+					<p><code>y</code> = <span class="sol"><var>Y_NUMER / Y_DENOM</var></span></p>
 				</div>
-
-				<div>
-					<p data-if="(A1*MULT_3+A2*MULT_4) !==1 ">Divide both sides by <code><var>A1*MULT_3+A2*MULT_4</var></code> and reduce as necessary.</p>
-					<p><code>x = <var>fractionReduce( X_NUMER, X_DENOM )</var></code></p>
-				</div>
-
-				<div>
-					<p>Substitute <code><var>fractionReduce( X_NUMER, X_DENOM )</var></code> for <code>x</code> in the top equation.</p>
-					<p><code><var>expr(["+", ["*", A1, " " + fractionReduce( X_NUMER, X_DENOM )], ["*", B1, "y"]])</var> = <var>C1</var></code></p>
-					<p><code><var>expr(["+", fractionReduce( A1 * X_NUMER, X_DENOM ), ["*", B1, "y"]])</var> = <var>C1</var></code></p>
-					<p><code><var>expr(["*", B1, "y"])</var> = <var>fractionReduce( C1 * X_DENOM - A1 * X_NUMER, X_DENOM )</var></code></p>
-					<p><code data-if="A1!=1">y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
-					<p><code>x = <var>fractionReduce( X_NUMER, X_DENOM )</var>, y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
+				<div class="hints">
+					<div>
+						<p>Begin by moving the <code>y</code>-term in the second equation to the right side of the equation.</p>
+						<p><code><var>expr(["*", A2, "x"])</var> = <span data-if="A2 === 1">\color{<var>ORANGE</var>}{</span><var>expr(["+", ["*", -B2, "y"], C2])</var><span data-if="A2 === 1">}</span></code></p>
+					</div>
+					<div data-if="A2 !== 1">
+						<p>Divide both sides by <code><var>A2</var></code> to isolate <code>x</code>.</p>
+						<p><code>x = \color{<var>ORANGE</var>}{<span data-if="abs( abs( B2 / A2 ) - 1 ) < .0001"><var>SIGN_1</var></span><span data-else><var>decimalFraction( -B2 / A2, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2, "true", "true" )</var>}</code></p>
+					</div>
+					<div>
+						<p>Substitute this expression for <code>x</code> in the first equation.</p>
+						<p><code><var>A1_SIGN</var><span data-if="abs( A1 ) !== 1"><var>abs( A1 )</var></span>(\color{<var>ORANGE</var>}{<span data-if="abs( abs( A2 / B2 ) - 1 ) < .0001"><var>SIGN_1</var></span><span data-else><var>decimalFraction( -B2 / A2, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2, "true", "true" )</var>}) + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
+					</div>
+					<p><code><span data-if="abs( abs( -A2 / B2 * A1 ) - 1 ) < .0001"><var>SIGN_2</var></span><span data-else><var>decimalFraction( -B2 / A2 * A1, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2 * A1, "true", "true" )</var> + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
+					<div>
+						<p>Simplify by combining terms, then solve for <code>y</code>.</p>
+						<p><code><var>decimalFraction( B1 + ( -B2 / A2 * A1 ), "true", "true" )</var>y + <var>decimalFraction( C2 / A2 * A1, "true", "true" )</var> = <var>C1</var></code></p>
+						<p><code><var>decimalFraction( B1 + ( -B2 / A2 * A1 ), "true", "true" )</var>y = <var>decimalFraction( C1 - ( C2 / A2 * A1 ), "true", "true" )</var></code></p>
+						<p><code>y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code></p>
+					</div>
+					<div>
+						<p>Substitute <code><var>fractionReduce( Y_NUMER, Y_DENOM )</var></code> for <code>y</code> in the top equation.</p>
+						<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, " " + fractionReduce( Y_NUMER, Y_DENOM )]])</var> = <var>C1</var></code></p>
+						<p><code><var>expr(["+", ["*", A1, "x"], fractionReduce( B1 * Y_NUMER, Y_DENOM )])</var> = <var>C1</var></code></p>
+						<p><code><var>expr(["*", A1, "x"])</var> = <var>fractionReduce( C1 * Y_DENOM - B1 * Y_NUMER, Y_DENOM )</var></code></p>
+						<p><code data-if="A1 !== 1">x = <var>fractionReduce(X_NUMER,X_DENOM)</var></code></p>
+					</div>
+					<p>The solution is<code>\enspace x = <var>fractionReduce( X_NUMER, X_DENOM )</var>, \enspace y = <var>fractionReduce( Y_NUMER, Y_DENOM )</var></code>.</p>
 				</div>
 			</div>
 		</div>
