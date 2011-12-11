@@ -257,14 +257,25 @@ jQuery.extend(KhanUtil, {
 	},
 
 	// Get a random integer between min and max, inclusive
-	// If a count is passed, it gives an array of random numbers in the range
-	randRange: function( min, max, count ) {
-		if ( count == null ) {
+	// If columns is passed, it gives an array of random numbers in the range
+	// If columns and rows are passed, it gives a two dimensional array of random numbers in the range
+	randRange: function( min, max, columns, rows ) {
+		if ( columns == null && rows == null ) {
 			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
-		} else {
-			return jQuery.map(new Array(count), function() {
+		} else if (rows == null) {
+			return jQuery.map(new Array(columns), function() {
 				return KhanUtil.randRange( min, max );
 			});
+		} else {
+			var matrix = new Array( rows );
+			
+			for (var i = 0; i < rows; i++) {
+				matrix[i] = new Array( columns );
+				for (var j = 0; j < columns; j++) {
+					matrix[i][j] = KhanUtil.randRange( min, max );
+				}
+			}
+			return matrix;
 		}
 	},
 
