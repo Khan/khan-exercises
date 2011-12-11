@@ -256,14 +256,19 @@ jQuery.extend(KhanUtil, {
 		return [coefficient, radical];
 	},
 
-	// Get a random integer between min and max, inclusive
-	// If a count is passed, it gives an array of random numbers in the range
-	randRange: function( min, max, count ) {
-		if ( count == null ) {
+	// randRange( min, max ) - Get a random integer between min and max, inclusive
+	// randRange( min, max, count ) - Get count random integers
+	// randRange( min, max, rows, cols ) - Get a rows x cols matrix of random integers
+	// randRange( min, max, x, y, z ) - You get the point...
+	randRange: function( min, max ) {
+		var dimensions = [].slice.call( arguments, 2 );
+
+		if ( dimensions.length === 0 ) {
 			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
 		} else {
-			return jQuery.map(new Array(count), function() {
-				return KhanUtil.randRange( min, max );
+			var args = [ min, max ].concat( dimensions.slice( 1 ) );
+			return jQuery.map(new Array( dimensions[ 0 ] ), function() {
+				return [ KhanUtil.randRange.apply( null, args ) ];
 			});
 		}
 	},
