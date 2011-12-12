@@ -201,7 +201,9 @@ var Khan = (function() {
 			"<p><a id=\"issue-link\" href=\"", url, "\">", title, "</a>",
 			"<p>", suggestion, "</p>"].join('');
 	},
-	issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!";
+	issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!",
+
+	relatedVideosForExercise = null;
 
 	// Nuke the global userExercise object to make
 	// it significantly harder to cheat
@@ -746,8 +748,13 @@ var Khan = (function() {
 	function cacheUserExerciseDataLocally( exerciseName, data ) {
 		if ( user == null ) return;
 
-		window.localStorage[ "exercise:" + user + ":" + exerciseName ] =
-			JSON.stringify( data );
+		var key = "exercise:" + user + ":" + exerciseName;
+		var oldVal = window.localStorage[ key ];
+
+		// We sometimes patch UserExercise.exercise_model with related_videos and
+		// sometimes don't, so extend existing objects to avoid erasing old values.
+		window.localStorage[ key ] = JSON.stringify( typeof oldVal === "string" ?
+				jQuery.extend( /* deep */ true, JSON.parse(oldVal), data ) : data );
 	}
 
 	// TODO(david): Would be preferable to use the exercise model's display_name
@@ -2603,6 +2610,8 @@ var Khan = (function() {
 		// Replace the proficiency progress bar with "REVIEW MODE" title
 		jQuery( "#streak-bar-container" ).hide();
 		jQuery( "#review-mode-title" ).show();
+
+		jQuery( ".gradient-overlay" ).show();
 	}
 
 	function updateExerciseIcon( exerciseStates ) {
@@ -2799,32 +2808,33 @@ var Khan = (function() {
 		}
 
 		var videos = data && data.exercise_model.related_videos;
-		if ( videos && videos.length &&
-			jQuery(".related-video-list").is(":empty") &&
+		if ( videos && videos.length && ( jQuery(".related-video-list").is(":empty")
+					|| relatedVideosForExercise !== data.exercise ) &&
 			typeof ModalVideo !== "undefined"
 		) {
 			displayRelatedVideos(videos);
-			ModalVideo && ModalVideo.hookup();
+			ModalVideo && relatedVideosForExercise === null && ModalVideo.hookup();
+			relatedVideosForExercise = data.exercise;
 		}
 	}
 
 	function displayRelatedVideos( videos ) {
-		var relatedVideoAnchorElement = function(video, needComma) {
+		function relatedVideoAnchorElement( video, needComma ) {
 			var template = Templates.get("video.related-video-link");
 			return jQuery(template({
 				href: Khan.relatedVideoHref(video),
 				video: video,
 				separator: needComma
 			})).data('video', video);
-		};
+		}
 
-		var displayRelatedVideoInHeader = function(i, video) {
+		function displayRelatedVideoInHeader( i, video ) {
 			var needComma = i < videos.length - 1;
 			var li = jQuery( "<li>" ).append( relatedVideoAnchorElement(video, needComma) );
 			jQuery( ".related-content > .related-video-list" ).append( li ).show();
-		};
+		}
 
-		var displayRelatedVideoInSidebar = function(i, video) {
+		function displayRelatedVideoInSidebar( i, video ) {
 			var template = Templates.get('video.thumbnail');
 			var thumbnailDiv = jQuery(template({
 				href: Khan.relatedVideoHref(video),
@@ -2840,17 +2850,23 @@ var Khan = (function() {
 
 			if ( i > 0 ) {
 				thumbnailDiv.hide();
-			}
-			else {
+			} else {
 				inlineLink.hide();
 			}
 			jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
-		};
+		}
 
 		if ( window.Templates ) {
-			jQuery.each(videos, displayRelatedVideoInHeader);
-			jQuery.each(videos, displayRelatedVideoInSidebar);
-			jQuery( ".related-content, .related-video-box" ).show();
+			jQuery( ".related-video-list" ).empty();
+
+			jQuery.each( videos, displayRelatedVideoInSidebar );
+			jQuery( ".related-video-box" ).show();
+
+			// Review queue overlaps with the content here
+			if ( !reviewMode ) {
+				jQuery.each( videos, displayRelatedVideoInHeader );
+				jQuery( ".related-content" ).show();
+			}
 		}
 
 		// make caption slide up over the thumbnail on hover
