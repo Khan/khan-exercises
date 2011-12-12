@@ -8,20 +8,22 @@
 
    var nid = ast.fromExpr(["=", ["+", 1, 1], 2]));
    var node = ast.node(nid);  // returns a node object corresponding to nid
-   var equation = ast.node(node.lhs);
-   var answer = ast.node(node.rhs);
+   var expr = ast.node("lhs");
+   var answer = ast.node("rhs");
    var kind	= node.kind();
    var op = node.operator();
 
    NOTE: this file is a work in progress and will be expanded as needed to support
-   new exercise models.
+   syntax for new exercises.
+
+   @author: Jeff Dyer
 
 */
 
 jQuery.extend ( KhanUtil, {
 
 
-	ASSERT : true ,
+	ASSERT : false ,
 
 	assert : function (val, str) {
 		if ( !this.ASSERT ) {
@@ -35,7 +37,7 @@ jQuery.extend ( KhanUtil, {
 		}
 	} ,
 
-	ast : function () {
+	ast : new function () {
 
 		var nodePool = [ "unused" ];	// nodePool[0] is reserved
 
@@ -107,6 +109,10 @@ jQuery.extend ( KhanUtil, {
 					return model;
 				} ,
 
+				nid : function () {
+					return nid;
+				} ,
+
 			} ) ;
 		}
 
@@ -172,14 +178,13 @@ jQuery.extend ( KhanUtil, {
 			} ,
 			
 			fromExpr : function (expr) {
-				if (typeof expr === "number") {
+				switch (jQuery.type(expr)) {
+				case "number": 
 					return this.numberLiteral(expr);
-				}
-				else if (typeof expr == "string") {
+				case "string":
+					//return parse(expr);
 					return this.stringLiteral(expr);
-				}
-				else if (typeof expr == "object") {
-					KhanUtil.assert ( expr.constructor === Array, "ast.fromExpr(): invalid input" );
+				case "array":
 					switch (expr.length) {
 					case 1:
 						return fromExpr(expr[0]);
@@ -191,6 +196,10 @@ jQuery.extend ( KhanUtil, {
 						KhanUtil.assert ( false, "ast.fromExpr(): Invalid case." );
 						return void 0;
 					}
+				default:
+					KhanUtil.assert ( expr.constructor === Node, "ast.fromExpr(): invalid input" );
+					// already a Node so just return it.
+					return expr.nid();
 				}
 			} ,
 
@@ -237,6 +246,7 @@ jQuery.extend ( KhanUtil, {
 				, SOH : "SOH"
 				, TOA : "TOA"
 				, COMMA : ","
+				, POW : "^"
 			} ,
 			
 			// Binary ops
@@ -274,61 +284,6 @@ jQuery.extend ( KhanUtil, {
 					return str;  // probably doesn't need translation
 				}
 	 		} ,
-
-			defaultFormatter : {
-				formatValue : function (node) {
-					return ""+node.val;
-				} ,
-				
-				formatUnary : function (node, formatter) {
-					var ast = KhanUtil.ast;
-					var text = ast.format(node.expr, formatter);
-					switch (node.op) {
-					case ast.UnOp.ABS:
-						return "<code>\\lvert " + text + " \\rvert</code>";
-					case ast.UnOp.VAR:
-						return "<code>" + text + "</code>";
-					}
-					KhanUtil.assert (false, "unhandled case in formatUnary");
-				} ,
-				
-				formatBinary : function (node, formatter) {
-					var ast = KhanUtil.ast;
-					var lhsText = ast.format(node.lhs, formatter);
-					var rhsText = ast.format(node.rhs, formatter);
-					var text;
-					switch (node.op) {
-					case ast.BinOp.MUL:
-						text = "<code>"+lhsText+node.op+rhsText+"</code>"
-						break;
-					default:
-						text = "<code>"+lhsText+node.op+rhsText+"</code>";
-						break;
-					}
-					return text;
-				} ,
-			} ,
-	 		
-			format : function (nid, formatter) {
-				if (formatter === void 0) {
-					formatter = this.defaultFormatter;
-				}
-				var node = this.nodePool[nid];
-				var text;
-				switch (node.kind) {
-				case this.Kind.UNARY:
-					text = formatter.formatUnary(node, formatter);
-					break;
-				case this.Kind.BINARY:
-					text = formatter.formatBinary(node, formatter);
-					break;
-				default:
-					text = formatter.formatValue(node);
-					break;
-				}
-				KhanUtil.assert (text != void 0, "assert: ast.format(), unhandled case");
-				return text;
-			} ,
 			
 			// Unary expression node
 			unaryExpr : function ( opstr, expr ) {
@@ -364,58 +319,7 @@ jQuery.extend ( KhanUtil, {
 				}
 				return nid;
 			} ,
-			
-			// get the value of an expression
-			
-			val : function (nid) {
-				var solve = KhanUtil.solve;
-				var node = this.nodePool[nid];
-				if ( node.val != void 0 ) {
-					return node.val;
-				}
-				
-				if ( node.kind === this.Kind.BINARY ) {
-					return ( node.val = solve.simpleArithmetic( nid ) );
-				}
-				else {
-					KhanUtil.assert ( false, "unhandled case in ast/val()" );
-				}
-			} ,
-			
-			defaultValue : function (nid) {
-				var node = this.nodePool[nid];
-				if ( node.val != void 0 ) {
-					return node.val;
-				}
-				KahnUtil.assert(false, "ast.defaultValue(): ast has no default value");
-			} ,
-			
-			// Return the number value of a node.
-			numberValue : function (nid) {
-				var ast = KhanUtil.ast;
-				var node = ast.nodePool[nid];
-				switch (node.kind) {
-				case ast.Kind.NUM:
-					return node.val;
-				default:
-					return Number.NaN;
-				}
-			} ,
-			
-			// Return the string value of a node.
-			stringValue : function (nid) {
-				var ast = KhanUtil.ast;
-				var node = ast.nodePool[nid];
-				switch (node.kind) {
-				case ast.Kind.NUM:
-					return ""+node.val;
-				case ast.Kind.STR:
-					return ""+node.val;
-				default:
-					return String(node);
-				}
-			} ,
-			
+
 		} );
 
 		return this;

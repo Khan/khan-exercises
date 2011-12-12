@@ -10,32 +10,36 @@
 	  <div class="problems">
 	<div id="">
 	  <div class="vars">
-		<var id="M">PolynomialModel.init("Factoring Trinomials 1")</var>
-		<var id="A">M.node("a").numberValue()</var>
-		<var id="B">M.node("b").numberValue()</var>
-		<var id="P">M.node("problem")</var>
-		<var id="S">M.node("solution")</var>
-		<var id="C1">M.node("choice 1")</var>
-		<var id="C2">M.node("choice 2")</var>
-		<var id="C3">M.node("choice 3")</var>
-		<var id="H1">M.equation([",", ["=", "a", A], ["=", "b", B]])</var>
-		<var id="H2">M.equation(["=", "B", ["+", "a", "b"]])</var>
-		<var id="H3">M.equation(["=", "C", ["*", "a", "b"]])</var>
-		<var id="H4">M.equation([",", ["=", "B", A+B], ["=", "C", A*B]])</var>
-		<var id="H5">M.equation(["+", ["+", "x^2", "Bx"], "C"])</var>
-		<var id="H6">M.equation(["*", ["PAREN", ["+", "x", "a"]], ["PAREN", ["+", "x", "b"]]])</var>
-		<var id="V1">M.equation("B")</var>
-		<var id="V2">M.equation("C")</var>
-		<var id="V3">M.equation("a")</var>
-		<var id="V4">M.equation("b")</var>
+		<var id="a_val">randRangeNonZero(-4, 4)</var>
+		<var id="b_val">randRange(6, 19)</var>
+		<var id="c_val">randRange(20, 29)</var>
+		<var id="M">PolynomialModel.init()</var>
+		<var id="A">M.expr(1)</var>
+		<var id="B">M.expr(a_val+b_val)</var>
+		<var id="C">M.expr(a_val*b_val)</var>
+		<var id="P">M.expr(["+", ["+", ["^", "x", "2"], ["*", B, "x"]], C])</var>
+		<var id="S">M.expr(["*", ["+", "x", a_val], ["+", "x", b_val]])</var>
+		<var id="C1">M.expr(["*", ["+", "x", a_val], ["+", "x", b_val]])</var>
+		<var id="C2">M.expr(["*", ["+", "x", a_val], ["+", "x", a_val]])</var>
+		<var id="C3">M.expr(["*", ["+", "x", c_val], ["+", "x", b_val]])</var>
+		<var id="H1">M.expr([",", ["=", "a", a_val], ["=", "b", b_val]])</var>
+		<var id="H2">M.expr(["=", "B", ["+", "a", "b"]])</var>
+		<var id="H3">M.expr(["=", "C", ["*", "a", "b"]])</var>
+		<var id="H4">M.expr([",", ["=", "B", B], ["=", "C", C]])</var>
+		<var id="H5">M.expr(["+", ["+", ["^", "x", 2], "Bx"], "C"])</var>
+		<var id="H6">M.expr(["*", ["+", "x", "a"], ["+", "x", "b"]])</var>
+		<var id="B_sym">M.expr("B")</var>
+		<var id="C_sym">M.expr("C")</var>
+		<var id="a_sym">M.expr("a")</var>
+		<var id="b_sym">M.expr("b")</var>
 	  </div>
 	  <div>
-		<div class="question">
-		  Factor the following equation.
-		</div>
-		<div class="graphie">
-		  P.graph("equation").draw()	
-	  </div>
+	    <div class="question">
+	      Factor the following expression:
+	    </div>
+	    <div class="graphie">
+	      P.graph("expr").draw()	
+	    </div>
 	  </div>
 	  <div class="solution"><code><var>S.format()</var></code></div>
 	  <ul class="choices" data-none="true">
@@ -45,11 +49,11 @@
 	  </ul>
 	  <div class="hints">
 		<div>
-		  1. Recognize that the equation is of the form 
+		  1. Recognize that the expression is of the form 
 		  <code><var>H5.format()</var></code>.
 		</div>
 		<div>
-		  2. Recall that equations of the form 
+		  2. Recall that expressions of the form 
 		  <code><var>H5.format()</var></code> can be rewritten in the form 
 		  <code><var>H6.format()</var></code> where 
 		  <code><var>H2.format()</var></code> and 
@@ -57,24 +61,24 @@
 		</div>
 		<div>
 		  3. Identify  
-		  <code><var>V1.format()</code> and
-		  <code><var>V2.format()</var></code> in the original equation.
+		  <code><var>B_sym.format()</code> and
+		  <code><var>C_sym.format()</var></code> in the original expression.
 		</div>
 		<div class="graphie">
 		  H4.graph("hint").draw()
 		</div>
 		<div>
 		  4. Find the factors of the value of 
-		  <code><var>V2.format()</var></code> whose sum is the value of 
-		  <code><var>V1.format()</var></code>.
+		  <code><var>C_sym.format()</var></code> whose sum is the value of 
+		  <code><var>B_sym.format()</var></code>.
 		</div>
 		<div class="graphie">
 		  H1.graph("hint").draw()
 		</div>
 		<div>
 		  5. Compute the solution by substituting the values of 
-		  <code><var>V3.format()</var></code> and 
-		  <code><var>V4.format()</var></code> in 
+		  <code><var>a_sym.format()</var></code> and 
+		  <code><var>b_sym.format()</var></code> in 
 		  <code><var>H6.format()</var></code>.
 		</div>
 		<div class="graphie">

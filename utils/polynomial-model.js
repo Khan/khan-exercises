@@ -12,10 +12,10 @@
    The general usage is as follows:
 
 	  model = PolynomialModel.init();
-	  problem = model.equation(["+", ["+", "x^2", "Bx"], C]);
+	  problem = model.equation(["+", ["+", ["^", "x", 2], ["*", B, "x"]], C]);
 	  problem.format(); // returning the latex for the equation
 	  problem.draw();   // drawing the equation inside a grphie div
-	  solution = model.equation(["*", ["PAREN", ["+", a+"x"]], ["PAREN, ["+", b+"x"]]]);
+	  solution = model.equation(["*", ["+", a+"x"], ["+", b+"x"]]);
 	  solution.format();
 	  ... ditto for the incorrect choices
 	  choice1 = model.equation([...]);
@@ -26,27 +26,17 @@
 
 	  model.dumpAll()
 
-   Pre-defined initializers can be developed for existing exercises. For example,
-
-	  model = PolynomialModel.init("Factoring Trinomials 1");
-
-   returns a model that is initialized with the core equations of an appropriate
-   problem and its solution. Thus, instead of constructing the equations from
-   the exercise HTML, the exercise writer can simply refer to them by name.
-
-	  problem = model.node("problem");
-	  solution = model.node("solution");
-	  choice1 = model.node("choice 1");
-	  ... etc
-
    For a complete example of using this model, see factoring_trinomials_1.html
+
+   @author: Jeff Dyer
+
 */
 
 jQuery.extend ( KhanUtil, {
 
 	PolynomialModel : function (name) {
 
-		// Public model interface
+		// Model interface
 			
 		jQuery.extend ( this, {
 
@@ -54,6 +44,7 @@ jQuery.extend ( KhanUtil, {
 				return ast.dumpAll();
 			} ,
 
+			// Return the expression associated with the given value.
 			node : function (expr) {
 				switch (jQuery.type(expr)) {
 				case "string":
@@ -69,14 +60,28 @@ jQuery.extend ( KhanUtil, {
 				
 			} ,
 
-			equation : function (expr) {
-				var nid = ast.fromExpr(expr);
+			// Return an AST for the given expression.
+			expr : function f (expr) {
+				var nid = ast.fromExpr(expr, f);
 				return ast.node(nid, this);
 			} ,
 
-			// source to AST translation
-			parse : function (src) {
-				assert (false);
+			// Compute some result based the given node.
+			compute : function (options, nid) {
+				var node = (nid===void 0) ? rootNode : ast.node(nid, this);
+				var ast = KhanUtil.ast;
+				var result;
+				switch (options) {
+				case "coefficients":
+					// return an array containing the coefficient of each term by degree
+					result = computeCoefficients(node);
+				default:
+					KhanUtil.assert(false, "PolynomialModel.compute(): invalid options = " + options);
+					result = void 0;
+					break;
+				}
+
+				return result;
 			} ,
 
 			// Return the solution
@@ -84,16 +89,17 @@ jQuery.extend ( KhanUtil, {
 				var node = (nid===void 0) ? rootNode : ast.node(nid, this);
 				var ast = KhanUtil.ast;
 				if (solution === void 0) {
-					solution = solve(node).numberValue();
+					solution = compute(node).numberValue();
 				}
 				return solution;
 			} ,
 
-			graph : function (selector, nid) {
+			// Graph part for all of a node.
+			graph : function (options, nid) {
 				var node = (nid===void 0) ? rootNode : ast.node(nid, this);
-				var color = selector.indexOf("green") >= 0 ? KhanUtil.GREEN : 
-							selector.indexOf("orange") >= 0 ? KhanUtil.ORANGE : KhanUtil.BLUE;
-				var mode = selector.indexOf("hint") >= 0 ? "hint" : "equation";
+				var color = options.indexOf("green") >= 0 ? KhanUtil.GREEN : 
+							options.indexOf("orange") >= 0 ? KhanUtil.ORANGE : KhanUtil.BLUE;
+				var mode = options.indexOf("hint") >= 0 ? "hint" : "expr";
 				switch (mode) {
 				case "hint":
 					return {
@@ -101,19 +107,20 @@ jQuery.extend ( KhanUtil, {
 							drawHint(node, color)
 						} ,
 					}
-				case "equation":
+				case "expr":
 				default:
 					return {
 						draw : function () {
-							drawEquation(node, color)
+							drawExpr(node, color)
 						} ,
 					}
 				}
 			} ,
 
-			text : function (selector, nid) {
+			// Generate the text for all or part of a node.
+			text : function (options, nid) {
 				var node = (nid===void 0) ? rootNode : ast.node(nid, this);
-				switch (selector) {
+				switch (options) {
 				case "latex":
 				default:
 					return {
@@ -131,56 +138,18 @@ jQuery.extend ( KhanUtil, {
 		function isValidAST(n) {
 			return n.kind() !== void 0;
 		}
-		
-		// This method returns the AST of the solution.
-		function solve (n) {
+
+		// This method returns the AST for some computation on the given ast.
+		// For example, n.compute("factors") might compute the factors of the
+		// polynomial represented by 'n'.
+
+		function compute(options, n) {
 			if (!isValidAST(n)) {
 				KhanUtil.assert ( false, "need valie AST. got " + n.constructor);
 				return void 0;
 			}
 
-			var val;
-			switch (n.kind()) {
-			case ast.Kind.BINARY:
-				var lhs = solve(n.node("lhs")).numberValue();
-				var rhs = solve(n.node("rhs")).numberValue();
-				switch (n.operator()) {
-				case ast.BinOp.ADD:
-					val = lhs + rhs;
-					break;
-				case ast.BinOp.SUB:
-					val = lhs - rhs;
-					break;
-				case ast.BinOp.MUL:
-					val = lhs * rhs;
-					break;
-				case ast.BinOp.DIV:
-					val = lhs / rhs;
-					break;
-				}
-				n = ast.node(ast.numberLiteral(val), this);
-				break;
-			case ast.Kind.UNARY:
-				var val = solve(n.node("expr")).numberValue();
-				switch (n.operator()) {
-				case ast.UnOp.PAREN:
-					// do nothing. precedence is encoded in ast.
-					break;
-				}
-				n = ast.node(ast.numberLiteral(val), this);
-				break;
-			case ast.Kind.STR:
-			case ast.Kind.NUM:
-				// do nothing
-				break;
-			default:
-				KhanUtil.assert (false, "math-operations-model.solve(): missing case or invalid input");
-				n = void 0;
-				break;
-			}
-
 			return n;
-
 		}
 
 		function format(n, textSize, color) {
@@ -189,24 +158,77 @@ jQuery.extend ( KhanUtil, {
 			switch (n.kind()) {
 			case ast.Kind.BINARY:
 				switch (n.operator()) {
+				case ast.BinOp.POW:
+					text = format(n.node("lhs"), textSize, color) + "^{" + 
+						format(n.node("rhs"), textSize, color)+"}";
+					break;
 				case ast.BinOp.DIV:
 					text = "\\"+textSize+"{\\color{"+"#000"+"}{"+
-						"\\dfrac{"+format(n.node("lhs"), textSize, color)+"}{"+format(n.node("rhs"), textSize, color)+"}}}";
+						"\\dfrac{"+format(n.node("lhs"), textSize, color)+ 
+						"}{" +format(n.node("rhs"), textSize, color)+"}}}";
 					break;
 				case ast.BinOp.COMMA:
-					text = "\\"+textSize+"{\\color{"+color+"}{"+
-						format(n.node("lhs"), textSize, color)+"} \\ \\ \\color{"+color+"}{"+
-						format(n.node("rhs"), textSize, color)+"}}";
+					text = "\\" + textSize + "{\\color{"+color + "}{" +
+						format(n.node("lhs"), textSize, color) + "} \\ \\ \\color{" +
+						color + "}{" + format(n.node("rhs"), textSize, color) + "}}";
+					break;
+				case ast.BinOp.MUL:
+					var lhs = n.node("lhs");
+					var rhs = n.node("rhs");
+					if (lhs.kind()==ast.Kind.NUM && lhs.numberValue()===1) {
+						// elide coefficient when it is 1.
+						text = format(rhs, textSize, color);
+					}
+					else if (lhs.kind()==ast.Kind.NUM && lhs.numberValue()===-1) {
+						// elide coefficient when it is 1.
+						text = "\\color{#000}{-}"+format(rhs, textSize, color);
+					}
+					else if (lhs.kind()===ast.Kind.BINARY || rhs.kind()===ast.Kind.BINARY) {
+						var lhsText = format(lhs, textSize, color);
+						var rhsText = format(rhs, textSize, color);
+						// if subexpr is lower precedence, wrap in parens
+						if (lhs.operator()===ast.BinOp.ADD || lhs.operator()===ast.BinOp.SUB) {
+							lhsText = "\\"+textSize+"{\\color{#000}{(}}\\color{"+color+"}{"+lhsText+"}\\color{#000}{)}";
+						}
+						if (rhs.operator()===ast.BinOp.ADD || rhs.operator()===ast.BinOp.SUB) {
+							rhsText = "\\"+textSize+"{\\color{#000}{(}}\\color{"+color+"}{"+rhsText+"}\\color{#000}{)}";
+						}
+						text = lhsText + rhsText;
+					}
+					else if (rhs.operator()===ast.UnOp.PAREN || 
+						lhs.kind()===ast.Kind.NUM) {
+						// elide the times symbol if either operand is parenthesized
+						text = "\\"+textSize+"{\\color{"+color+"}{"+
+							format(lhs, textSize, color)+"} \\color{"+color+"}{"+
+							format(rhs, textSize, color)+"}}";
+					}
+					else {
+						text = "\\"+textSize+"{\\color{"+color+"}{"+
+							format(lhs, textSize, color)+"} \\color{#000}{"+ n.operator() +"}\\color{"+color+"}{"+
+							format(rhs, textSize, color)+"}}";
+					}
 					break;
 				default:
-					if (n.operator()===ast.BinOp.ADD && (n.node("rhs").numberValue() < 0 || n.node("rhs").stringValue().indexOf("-")===0)) {
-						// elide the plus symbol if the rhs has aleading minus.
-						text = "\\"+textSize+"{\\color{"+color+"}{"+
-							format(n.node("lhs"), textSize, color)+"} \\color{"+color+"}{"+
-							format(n.node("rhs"), textSize, color)+"}}";
+					if (n.operator()===ast.BinOp.ADD) {
+						var plain = formatPlain(n.node("rhs"));
+						if (plain.indexOf("-")===0) {
+							// elide the plus symbol if the rhs has aleading minus.
+							text = "\\"+textSize+"{\\color{"+color+"}{"+
+								format(n.node("lhs"), textSize, color)+"} \\color{"+color+"}{"+
+								format(n.node("rhs"), textSize, color)+"}}";
+						}
+						else if (plain.indexOf("0")===0) {
+							// elide the operator and rhs.
+							text = format(n.node("lhs"), textSize, color);
+						}
+						else {
+							text = "\\"+textSize+"{\\color{"+color+"}{"+
+								format(n.node("lhs"), textSize, color)+"} \\color{#000}{"+ n.operator() +"}\\color{"+color+"}{"+
+								format(n.node("rhs"), textSize, color)+"}}";
+						}
 					}
-					else 
-					if (n.operator()===ast.BinOp.MUL && n.node("lhs").operator()===ast.UnOp.PAREN || n.node("rhs").operator()===ast.UnOp.PAREN) {
+					else
+					if (n.node("rhs").operator()===ast.UnOp.PAREN) {
 						// elide the times symbol if either operand is parenthesized
 						text = "\\"+textSize+"{\\color{"+color+"}{"+
 							format(n.node("lhs"), textSize, color)+"} \\color{"+color+"}{"+
@@ -260,9 +282,56 @@ jQuery.extend ( KhanUtil, {
 			return text;
 		}
 	
+		function formatPlain(n) {
+			var ast = KhanUtil.ast;
+			var text;
+			switch (n.kind()) {
+			case ast.Kind.BINARY:
+				switch (n.operator()) {
+				case ast.BinOp.POW:
+					text = formatPlain(n.node("lhs")) + "^" + formatPlain(n.node("rhs"));
+					break;
+				case ast.BinOp.DIV:
+					text = formatPlain(n.node("lhs")) + "/" + formatPlain(n.node("rhs"));
+					break;
+				case ast.BinOp.COMMA:
+					text = formatPlain(n.node("lhs")) + "," + formatPlain(n.node("rhs"));
+					break;
+				case ast.BinOp.MUL:
+					text = formatPlain(n.node("lhs")) + "*" + formatPlain(n.node("rhs"));
+					break;
+				default:
+					text = formatPlain(n.node("lhs")) + n.operator() + formatPlain(n.node("rhs"));
+					break;
+				}
+				break;
+			case ast.Kind.UNARY:
+				switch (n.operator()) {
+				case ast.UnOp.HIGHLIGHT:
+					text = formatPlain(n.node("expr"));
+					break;
+				case ast.UnOp.PAREN:
+					text = "(" + format(n.node("expr")) + "}";
+					break;
+				default:
+					break;
+				}
+				break;
+			case ast.Kind.STR:
+				text = n.stringValue();
+				break;
+			case ast.Kind.NUM:
+				text = n.numberValue();
+				break;
+			default:
+				break;
+			}
+			return ""+text;
+		}
+	
 		var mainLabel;
 
-		function drawEquation (n, color) {
+		function drawExpr (n, color) {
 			var graph = KhanUtil.currentGraph;
 			var ast = KhanUtil.ast;
 
@@ -286,74 +355,10 @@ jQuery.extend ( KhanUtil, {
 			graph.label( [0, 0], format(n, "normalsize", color), "right" );			
 		}
 
-		// initialize the model
+		// initialize the model here
 
 		var util = KhanUtil;
-		var ast  = KhanUtil.ast;
-		var nodes = { };
-
-		switch (name) {
-		case "Factoring Trinomials 1":
-			var a_val = util.randRangeNonZero(-4, 4);
-			var b_val = util.randRange(6, 19);
-			var c_val = util.randRange(20, 29);
-			var a_nid = ast.numberLiteral(a_val);
-			var b_nid = ast.numberLiteral(b_val);
-			var A_nid = ast.numberLiteral(1);
-			var B_nid = ast.numberLiteral(a_val+b_val);
-			var C_nid = ast.numberLiteral(a_val*b_val);
-			var p_nid = ast.fromExpr(["+", ["+", "x^2", (a_val+b_val)+"x"], a_val*b_val]);
-			var s_nid = ast.fromExpr(["*",  ["PAREN", ["+", "x", a_val]], ["PAREN", ["+", "x", b_val]]]);
-			var c1_nid = ast.fromExpr(["*", ["PAREN", ["+", "x", b_val]], ["PAREN", ["+", "x", b_val]]]);
-			var c2_nid = ast.fromExpr(["*", ["PAREN", ["+", "x", a_val]], ["PAREN", ["+", "x", a_val]]]);
-			var c3_nid = ast.fromExpr(["*", ["PAREN", ["+", "x", c_val]], ["PAREN", ["+", "x", b_val]]]);
-			nodes["a"] = ast.node(a_nid, this);
-			nodes["b"] = ast.node(b_nid, this);
-			nodes["A"] = ast.node(A_nid, this);
-			nodes["B"] = ast.node(B_nid, this);
-			nodes["C"] = ast.node(C_nid, this);
-			nodes["problem"] = ast.node(p_nid, this);
-			nodes["solution"] = ast.node(s_nid, this);
-			nodes["choice 1"] = ast.node(c1_nid, this);
-			nodes["choice 2"] = ast.node(c2_nid, this);
-			nodes["choice 3"] = ast.node(c3_nid, this);
-			var rootNode = nodes["problem"];
-			break;
-		case "Factoring Trinomials 2":
-			var A_val = util.getPrimeFactorization(util.randRange(10, 30))[0];
-			var a_val = A_val;
-			var b_val = util.randRange(1, 9);
-			var c_val = 1;
-			var d_val = util.randRangeNonZero(-4, 4);
-			var B_val = b_val*c_val+a_val*d_val;
-			var C_val = b_val*d_val;
-			var a_nid = ast.numberLiteral(a_val);
-			var b_nid = ast.numberLiteral(b_val);
-			var A_nid = ast.numberLiteral(A_val);
-			var B_nid = ast.numberLiteral(B_val);
-			var C_nid = ast.numberLiteral(C_val);
-			var p_nid = ast.fromExpr(["+", ["+", A_val+"x^2", B_val+"x"], C_val]);
-			var s_nid = ast.fromExpr(["*",  ["PAREN", ["+", a_val+"x", b_val]], ["PAREN", ["+", c_val+"x", d_val]]]);
-			var c1_nid = ast.fromExpr(["*", ["PAREN", ["+", "x", b_val]], ["PAREN", ["+", "x", b_val]]]);
-			var c2_nid = ast.fromExpr(["*", ["PAREN", ["+", "x", a_val]], ["PAREN", ["+", "x", a_val]]]);
-			var c3_nid = ast.fromExpr(["*", ["PAREN", ["+", "x", c_val]], ["PAREN", ["+", "x", b_val]]]);
-			nodes["a"] = ast.node(a_nid, this);
-			nodes["b"] = ast.node(b_nid, this);
-			nodes["A"] = ast.node(A_nid, this);
-			nodes["B"] = ast.node(B_nid, this);
-			nodes["C"] = ast.node(C_nid, this);
-			nodes["problem"] = ast.node(p_nid, this);
-			nodes["solution"] = ast.node(s_nid, this);
-			nodes["choice 1"] = ast.node(c1_nid, this);
-			nodes["choice 2"] = ast.node(c2_nid, this);
-			nodes["choice 3"] = ast.node(c3_nid, this);
-			var rootNode = nodes["problem"];
-			break;
-		default:
-			break;
-
-		}
-
+		var ast  = util.ast;
 		var solution;
 
 		return this;
