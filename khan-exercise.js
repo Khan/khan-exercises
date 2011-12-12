@@ -806,6 +806,11 @@ var Khan = (function() {
 			waitForReviewRequest = false;
 		}
 
+		// Indicates to the server which reviews are already queued up, including
+		// the current exercise if it has not been attempted yet.
+		var reviewsToAttempt = ( attempts == 0 && hintsUsed == 0 ?
+				reviewQueue.concat( exerciseName ) : reviewQueue );
+
 		// Send the request to fetch the next set of review exercises
 		jQuery.ajax({
 			url: "/api/v1/user/exercises/review_problems",
@@ -813,7 +818,7 @@ var Khan = (function() {
 			dataType: "json",
 			xhrFields: { withCredentials: true },
 			data: {
-				queued: reviewQueue.concat( exerciseName ).join( "," )
+				queued: reviewsToAttempt.join( "," )
 			},
 			success: enqueueReviewExercises
 		});
@@ -1915,6 +1920,10 @@ var Khan = (function() {
 
 				jQuery( "#throbber" ).hide();
 				jQuery( "#check-answer-button" ).enableButton();
+
+				// If in review mode, the server may decide the user needs to practice
+				// this exercise again -- provide quick feedback if so.
+				maybeEnqueueReviewProblems();
 			}, function() {
 				// Error during submit. Cheat, for now, and reload the page in
 				// an attempt to get updated data.
@@ -2049,20 +2058,20 @@ var Khan = (function() {
 
 			} else {
 
+				// Switch exercises if there's a different queued up exercise in review mode
 				if ( reviewMode ) {
-
-					// Switch to a new exercise if there's queued up exercises
 					var nextExerciseName = reviewQueue.shift();
 					if ( nextExerciseName && nextExerciseName !== exerciseName ) {
 						switchToExercise( nextExerciseName );
 					}
-
-					// Kick off a request to queue up more exercises if we're running low.
-					maybeEnqueueReviewProblems();
 				}
 
 				// Generate a new problem
 				makeProblem();
+
+				// Kick off a request to queue up more exercises if we're running low.
+				// This needs to run after makeProblem to get the updated problem state.
+				maybeEnqueueReviewProblems();
 			}
 		});
 
