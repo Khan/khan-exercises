@@ -757,7 +757,7 @@ var Khan = (function() {
 	}
 
 	function maybeEnqueueReviewProblems() {
-		if ( !reviewMode || reviewQueue.length >= 3 ) return;
+		if ( !reviewMode || reviewQueue.length >= 3 || waitForReviewRequest ) return;
 
 		// Handle successful retrieval of review exercises from the server
 		function enqueueReviewExercises( reviewExercises ) {
@@ -824,10 +824,8 @@ var Khan = (function() {
 		});
 
 		// Disable moving on to the next question until the XHR has returned
-		if ( reviewQueue.length < 1 ) {
-			jQuery( "#next-question-button" ).disableButton();
-			waitForReviewRequest = true;
-		}
+		jQuery( "#next-question-button" ).disableButton();
+		waitForReviewRequest = true;
 	}
 
 	function switchToExercise( exid ) {
