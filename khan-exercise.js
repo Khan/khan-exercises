@@ -763,16 +763,16 @@ var Khan = (function() {
 		function enqueueReviewExercises( reviewExercises ) {
 			reviewQueue = reviewQueue.concat( reviewExercises );
 
-			// Stop any running animations and clear the fx queue
-			jQuery( "#next-exercises" ).stop( true, true );
+			// Use an empty jQuery object to use as a sliding animations queue holder
+			var slideQueue = jQuery( {} );
 
 			jQuery.each( reviewExercises, function( i, exid ) {
 
 				// Slide up the exercise into the upcoming exercises queue, one-by-one
-				jQuery( "#next-exercises" ).queue(function( next ) {
+				slideQueue.queue(function( next ) {
 					jQuery( "<p>" + getDisplayNameFromId( exid ) + "</p>" )
 						.css( "marginTop", Math.max(38 - i * 15, 10) )
-						.appendTo( this )
+						.appendTo( jQuery("#next-exercises") )
 						.animate( { marginTop: 0 }, /* duration */ 365, next );
 				});
 
