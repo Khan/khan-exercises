@@ -1968,7 +1968,6 @@ var Khan = (function() {
 		function transitionExerciseTitle() {
 			var currentExercise = jQuery( "#current-exercise" ),
 					nextExercises = jQuery( "#next-exercises" ),
-					revertDelay = 200,
 					clearQueue = true,
 					jumpToEnd = true,
 					animationOptions = {
@@ -1982,18 +1981,17 @@ var Khan = (function() {
 				left: 400,
 				opacity: 0,
 				fontSize: "-=4"
-			}, animationOptions ).delay( revertDelay ).queue(function( next ) {
-				jQuery( this ).text( getDisplayNameFromId(exerciseName) );
-				next();
-			}).queue(function( next ) {
-				jQuery( this ).removeAttr( "style" );
+			}, animationOptions ).queue(function() {
+				jQuery( this )
+					.text( getDisplayNameFromId(exerciseName) )
+					.removeAttr( "style" );
 			});
 
 			// Slide up the next set of exercises, then revert the animation.
 			nextExercises.stop( clearQueue, jumpToEnd ).animate({
 				top: 0,
 				height: nextExercises.height() + nextExercises.position().top
-			}, animationOptions ).delay( revertDelay ).queue(function() {
+			}, animationOptions ).queue(function() {
 				jQuery( this ).removeAttr( "style" );
 			});
 
@@ -2004,7 +2002,7 @@ var Khan = (function() {
 					color: currentExercise.css( "color" ),
 					fontSize: currentExercise.css( "fontSize" ),
 					reviewGlow: 1
-				}, animationOptions ).delay( revertDelay ).queue(function() {
+				}, animationOptions ).queue(function() {
 					jQuery( this ).remove();
 				});
 		}
