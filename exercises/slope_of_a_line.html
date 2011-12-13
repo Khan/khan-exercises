@@ -7,8 +7,8 @@
 	<style type="text/css">
 		.quarter-graph {
 			float: left;
-			padding-bottom: 20px;
-			padding-right: 20px;
+			margin-bottom: 45px;
+			margin-right: 45px;
 		}
 	</style>
 </head>
@@ -146,8 +146,10 @@
 					});
 
 					style({ stroke: COLORS[index].hex });
+					label([0,-6], "\\color{<var>" + COLORS[index].hex + "</var>}" +
+								  "{\\text{" + COLORS[index].name + "}}", "below");
 					plot(function( x ) {
-						return x * SLOPES[index].value + B;
+						return ( x - 1 ) * SLOPES[index].value + B;
 					}, [ -11, 11 ]);
 				</div>
 			</div>
@@ -174,7 +176,7 @@
 				<var id="SLOPES">[
 					{ value: M_INIT, display: M_INIT },
 					{ value: 0, display: 0 },
-					{ value: Number.POSITIVE_INFINITY, display: "undefined" },
+					{ value: 99999, display: "undefined" },
 					{ value: 1 / M_INIT, display: "\\dfrac{1}{" + M_INIT + "}" }
 					]</var>
 				<var id="WHICH">randRange( 1, 2 )</var>

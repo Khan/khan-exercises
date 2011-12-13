@@ -6,14 +6,14 @@
 	When this loadScripts is called, it loads in many of the pre-reqs and then
 	calls, one way or another, prepareUserExercise concurrently with loadModules.
 
-	prepareUserExercise calls updateData and advances the problem counter 
+	prepareUserExercise calls updateData and advances the problem counter
 	via setProblemNum. updateData refreshes the page ui based on this current
 	problem (among other things). setProblemNum updates some instance vars
 	that get looked at by other functions.
 
-	loadModules takes care of loading an individual exercise's prereqs (i.e. 
+	loadModules takes care of loading an individual exercise's prereqs (i.e.
 	word problems, etc). It _also_ loads in the khan academy site skin and
-	exercise template via injectSite which runs prepareSite first then 
+	exercise template via injectSite which runs prepareSite first then
 	makeProblemBag and makeProblem when it finishes loading dependencies.
 
 	pepareSite and makeProblem are both fairly heavyweight functions.
@@ -167,6 +167,9 @@ var Khan = (function() {
 
 	guessLog,
 	userActivityLog,
+
+	// A map of jQuery queues for serially sending and receiving AJAX requests.
+	requestQueue = {},
 
 	// For loading remote exercises
 	remoteCount = 0,
@@ -513,7 +516,7 @@ var Khan = (function() {
 			if ( data ) {
 				exid_param = "?exid=" + data.exercise_model.name;
 			}
-			return video.ka_url + exid_param;
+			return video.relative_url + exid_param;
 		},
 
 		showSolutionButtonText: function() {
@@ -549,7 +552,7 @@ var Khan = (function() {
 		};
 
 		// Base modules required for every problem
-		Khan.require( [ "answer-types", "tmpl", "underscore" ] );
+		Khan.require( [ "answer-types", "tmpl", "underscore", "jquery.adhesion" ] );
 
 		Khan.require( document.documentElement.getAttribute("data-require") );
 
@@ -1438,6 +1441,9 @@ var Khan = (function() {
 			once = false;
 		}
 
+		// Update dimensions for sticky box
+		jQuery( "#answer_area" ).adhere();
+
 		jQuery(Khan).trigger( "newProblem" );
 
 	  return answerType;
@@ -1461,7 +1467,7 @@ var Khan = (function() {
 				  success: renderFollowups
 				});
 			};
-		
+
 			// a rectangle centered at x,y
 			Raphael.fn.centeredBox = function (x, y, w, h, r) {
 				return this.rect(x - (w/2), y - (h/2), w, h, r);
@@ -1589,7 +1595,7 @@ var Khan = (function() {
 					};
 
 					// mouseout, fade out the path to its original color
-					var out = function(){ 
+					var out = function(){
 						route.animate( {stroke : routeColor }, 550, "<>" );
 					};
 
@@ -1609,13 +1615,13 @@ var Khan = (function() {
 
 
 			// actually doing things
-			if ( jQuery.isArray(followups) ){ 
+			if ( jQuery.isArray(followups) ){
 
 				// how considerate! let's just render this now.
 				renderFollowups( followups );
 				return;
 
-			}else { 
+			}else {
 
 				// if nothing of use was fed to us just grab it from the api
 				getUserFollowups();
@@ -1652,6 +1658,12 @@ var Khan = (function() {
 		if (typeof userExercise !== "undefined" && userExercise.read_only) {
 			jQuery( "#extras" ).css("visibility", "hidden");
 		}
+
+		jQuery( "#answer_area" ).adhere( {
+			container: jQuery( "#answer_area_wrap" ).parent(),
+			topMargin: 10,
+			bottomMargin: 10
+		} );
 
 		// Change form target to the current page, so that errors do not kick us
 		// back to the dashboard
@@ -1790,7 +1802,7 @@ var Khan = (function() {
 				} else {
 					// TODO: Implement alternative error handling
 				}
-			});
+			}, "attempt_hint_queue" );
 
 			if ( pass === true ) {
 				// Correct answer, so show the next question button.
@@ -1883,6 +1895,9 @@ var Khan = (function() {
 			jQuery( "#hint-remainder" ).text( hints.length + " remaining" )
 				.fadeIn( 500 );
 
+			// Update dimensions for sticky box
+			jQuery( "#answer_area" ).adhere();
+
 			if ( hint ) {
 
 				hintsUsed += 1;
@@ -1914,7 +1929,8 @@ var Khan = (function() {
 					buildAttemptData(false, attempts, "hint", new Date().getTime()),
 					// Don't do anything on success or failure, silently failing is ok here
 					function() {},
-					function() {}
+					function() {},
+					"attempt_hint_queue"
 				);
 			}
 
@@ -1978,7 +1994,7 @@ var Khan = (function() {
 					+ "?seed=" + problemSeed
 					+ "&problem=" + problemID,
 				pathlink = "[" + path + ( exercise.data( "name" ) != null && exercise.data( "name" ) !== exerciseName ? " (" + exercise.data( "name" ) + ")" : "" ) + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
-				historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent( JSON.stringify( userActivityLog ) ).replace( ")", "\\)" ) + ")",
+				historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent( JSON.stringify( userActivityLog ) ).replace( /\)/g, "\\)" ) + ")",
 				agent = navigator.userAgent,
 				mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" :
 					( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),
@@ -2156,7 +2172,10 @@ var Khan = (function() {
 					exampleLink.text( "Show acceptable answer formats" );
 				}
 
-				examples.slideToggle( 190 );
+				examples.slideToggle( 190, function() {
+					// Update dimensions for sticky box
+					jQuery( "#answer_area" ).adhere();
+				} );
 				exampleLink.data( "show", !show );
 			}).trigger( "click" );
 
@@ -2357,8 +2376,8 @@ var Khan = (function() {
 	}
 
 	function drawExerciseState( data ) {
-		// drawExerciseState changes the #exercise-icon-container's status to 
-		// reflect the current state of the 
+		// drawExerciseState changes the #exercise-icon-container's status to
+		// reflect the current state of the
 		var icon = jQuery("#exercise-icon-container");
 		var exerciseStates = data && data.exercise_states;
 		if ( exerciseStates ){
@@ -2378,7 +2397,7 @@ var Khan = (function() {
 	function prepareUserExercise( data ) {
 		// Update the local data store
 		updateData( data );
-	
+
 		if ( data.exercise ) {
 			exerciseName = data.exercise;
 		}
@@ -2395,7 +2414,7 @@ var Khan = (function() {
 		}
 	}
 
-	function request( method, data, fn, fnError ) {
+	function request( method, data, fn, fnError, queue ) {
 		if ( testMode ) {
 			// Pretend we have success
 			if ( jQuery.isFunction( fn ) ) {
@@ -2434,18 +2453,42 @@ var Khan = (function() {
 			error: fnError
 		};
 
-		// Do request using OAuth, if available
-		if ( typeof oauth !== "undefined" && jQuery.oauth ) {
-			jQuery.oauth( jQuery.extend( {}, oauth, request ) );
+		// Send request and return a jqXHR (which implements the Promise interface)
+		function sendRequest() {
+			// Do request using OAuth, if available
+			if ( typeof oauth !== "undefined" && jQuery.oauth ) {
+				return jQuery.oauth( jQuery.extend( {}, oauth, request ) );
+			}
 
+			return jQuery.ajax( request );
+		}
+
+		// We may want to queue up the requests so that they're sent serially.
+		//
+		// We currently do this for problem attempts and hints to avoid a race
+		// condition:
+		// 1) request A fetches UserExercise X
+		// 2) request B also fetches X
+		// 3) A finishes updating X and saves as A(X)
+		// 4) now B finishes updating X and overwrites A(X) with B(X)
+		// ...when what we actually wanted saved is B(A(X)). We should really fix it
+		// on the server by running the hint and attempt requests in transactions.
+		if ( queue != null ) {
+			// Create an empty jQuery object to use as a queue holder, if needed.
+			requestQueue[queue] = requestQueue[queue] || jQuery( {} );
+
+			// Queue up sending the request to run when old requests have completed.
+			requestQueue[queue].queue(function(next) {
+				sendRequest().always( next );
+			});
 		} else {
-			jQuery.ajax( request );
+			sendRequest();
 		}
 	}
 
-	// updateData is used to update some user interface elements as the result of 
+	// updateData is used to update some user interface elements as the result of
 	// a page load or after a post / problem attempt. updateData doesn't know if an
-	// attempt was successful or not, it's simply reacting to the state of the data 
+	// attempt was successful or not, it's simply reacting to the state of the data
 	// object returned by the server (or window.localStorage for phantom users)
 	//
 	// It gets called a few times
@@ -2535,11 +2578,12 @@ var Khan = (function() {
 
 	function displayRelatedVideos( videos ) {
 		var relatedVideoAnchorElement = function(video, needComma) {
-			return jQuery("#related-video-link-tmpl").tmplPlugin({
+			var template = Templates.get("video.related-video-link");
+			return jQuery(template({
 				href: Khan.relatedVideoHref(video),
 				video: video,
 				separator: needComma
-			}).data('video', video);
+			})).data('video', video);
 		};
 
 		var displayRelatedVideoInHeader = function(i, video) {
@@ -2549,10 +2593,11 @@ var Khan = (function() {
 		};
 
 		var displayRelatedVideoInSidebar = function(i, video) {
-			var thumbnailDiv = jQuery("#thumbnail-tmpl").tmplPlugin({
+			var template = Templates.get('video.thumbnail');
+			var thumbnailDiv = jQuery(template({
 				href: Khan.relatedVideoHref(video),
 				video: video
-			}).find('a.related-video').data('video', video).end();
+			})).find('a.related-video').data('video', video).end();
 
 			var inlineLink = relatedVideoAnchorElement(video)
 				.addClass("related-video-inline");
@@ -2570,7 +2615,7 @@ var Khan = (function() {
 			jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
 		};
 
-		if ( jQuery.fn.tmplPlugin ) {
+		if ( window.Templates ) {
 			jQuery.each(videos, displayRelatedVideoInHeader);
 			jQuery.each(videos, displayRelatedVideoInSidebar);
 			jQuery( ".related-content, .related-video-box" ).show();

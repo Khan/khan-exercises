@@ -49,7 +49,7 @@
 							stroke: "none",
 							fill: "#ff0000"
 						} );
-					
+
 					</div>
 				</div>
 				<div class="solution" data-type="multiple">
@@ -57,7 +57,7 @@
 					<p><code>b</code> = <span class="sol"><var>Y - ( -1 / M * X )</var></span></p>
 				</div>
 				<div class="hints">
-					<p>Lines are considered perpendicular if their slopes are negative reciprocals of each other. 
+					<p>Lines are considered perpendicular if their slopes are negative reciprocals of each other.
 					<div>
 						<p>The slope of the blue line is <code>\color{<var>BLUE</var>}{<var>M_FRAC</var>}</code>, and its negative reciprocal is <code>\color{<var>GREEN</var>}{<var>M_PERP_FRAC</var>}</code>.</p>
 						<p>Thus, the equation of our perpendicular line will be of the form <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_PERP_FRAC ) !== 1"><var>M_PERP_FRAC</var></span><span data-else><var>M_PERP_SIGN</var></span>x + b}\enspace</code>.</p>
@@ -94,7 +94,7 @@
 					<p><code>b</code> = <span class="sol"><var>Y - M * X </var></span></p>
 				</div>
 				<div class="hints">
-					<div>	
+					<div>
 						<p>Parallel lines have the same slope.</p>
 						<p>The slope of the blue line is <code>\color{<var>BLUE</var>}{<var>M_FRAC</var>}</code>, so the equation of our parallel line will be of the form <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else><var>M_SIGN</var></span>x + b}\enspace</code>.</p>
 					</div>
@@ -191,7 +191,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div id="different-lines" data-type="compare-lines">
 				<div class="vars" data-ensure="A1 / B1 !== A2 / B2 && A1 / B1 !== -B2 / A2">
 					<var id="A1">randRangeNonZero( -5, 5 )</var>
@@ -208,7 +208,7 @@
 					<p>The slopes are not the same, so the lines are not equivalent or parallel. The slopes are not negative inverses of each other, so the lines are not perpendicular. The correct answer is none of the above.</p>
 				</div>
 			</div>
-			
+
 			<div id="same-line" data-type="compare-lines">
 				<div class="vars">
 					<var id="A1">randRangeNonZero( -5, 5 )</var>

@@ -17,7 +17,7 @@
 			this.name = name;
 			this.toJs = function() {
 				return this.text;
-			}	
+			}
 		}
 
 		function creatingNewVariable( span, varName  ) {
@@ -37,36 +37,36 @@
 								else{
 									variables.push( new Variable ( $("#function").val() , varName));
 								}
-								if ( (  $(span).attr('id').substring(0,1) === 'q') ) { 
+								if ( (  $(span).attr('id').substring(0,1) === 'q') ) {
 									inputArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" + varName + "</var> " ;
 								}
-								else if (  $(span).attr('id').substring(0,1) === 's') { 
+								else if (  $(span).attr('id').substring(0,1) === 's') {
 									solutionArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" + varName + "</var> ";
 								}
-								else if (  $(span).attr('id').substring(0,1) === 'h') { 
+								else if (  $(span).attr('id').substring(0,1) === 'h') {
 									hintsArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" + varName + "</var> ";
 								}
-								
+
 								$(this).dialog("close");
 								$(this).remove();
 							}
 						}
 			})
 		}
-		
+
 		function genVars( vars ){
-			toReturn = '<div class="vars">'; 
+			toReturn = '<div class="vars">';
 			for( x = 0; x< vars.length; x++ ) {
 				toReturn += '<var id = "' + vars[x].name + '">' + vars[x].toJs()+ '</var>'
 			}
 			toReturn += '</div>';
 			return toReturn;
 		}
-		
+
 		function genQuestion( text ) {
-			
+
 			return '<div class="question">' + text + '</div>';
-	
+
 		}
 
 		function genSolution( text ) {
@@ -86,7 +86,7 @@
 				alreadyThere += variables[x].name + " <input type='radio' name='var' value = '" + variables[x].name + "' />"
 			}
 			alreadyThere += "NewOne <input type='radio' name='var' value = '_New' /><input type='textbox' id = 'varName' /> "
-			
+
 			$variableDialog = $('<div></div>').html(alreadyThere).dialog({
 						title: 'Randomize a number',
 						width: 400,
@@ -96,19 +96,19 @@
 						buttons: {
 							"Confirm": function() {
 								if( $('input[name=var]:checked').val()  !== "_New" ){
-									if(  $(span).attr('id').substring(0,1) === 'q') { 
+									if(  $(span).attr('id').substring(0,1) === 'q') {
 									inputArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" +$('input[name=var]:checked').val() + "</var> ";
 									}
-									else if (  $(span).attr('id').substring(0,1) === 's') { 
+									else if (  $(span).attr('id').substring(0,1) === 's') {
 										solutionArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" +$('input[name=var]:checked').val() + "</var> ";
 									}
-									else if (  $(span).attr('id').substring(0,1) === 'h') { 
+									else if (  $(span).attr('id').substring(0,1) === 'h') {
 										hintsArray[  $( span ).attr( 'id' ).substring( 1 ) ] = " <var>" +$('input[name=var]:checked').val() + "</var> ";
 									}
 								}
 								else{
 									creatingNewVariable( span, $("#varName").val() );
-	
+
 								}
 								generate();
 								$(this).dialog("close");
@@ -117,7 +117,7 @@
 						}
 			 })
 
-			
+
 		}
 
 		function populateQuestion(){
@@ -129,7 +129,7 @@
 			var openVar = false
 			for( x = 0; x< inputArray.length; x++ ) {
 				if( inputArray[x].substring(0,5) == "</var" || inputArray[x].substring( inputArray[x].length - 6) == "</var>" ){
-					openVar = false; 
+					openVar = false;
 					toReturn += inputArray[x];
 				}
 				else if( openVar || inputArray[x].substring(0,5) == "<var>"){
@@ -139,14 +139,14 @@
 				else {
 					toReturn += "<span id='q" + x +  "' onClick='addVariable(this)' > " + inputArray[x] + "</span>";
 				}
-			
+
 			}
 			$("#questionInput").html( toReturn );
-			return; 
+			return;
 		}
 
 		function populateSolution(){
-		
+
 			var input = $("#solution").val();
 			if ( solutionArray.length < 1 ){
 				solutionArray = input.split(" ");
@@ -155,7 +155,7 @@
 			var openVar = false
 			for( x = 0; x< solutionArray.length; x++ ) {
 				if( solutionArray[x].substring(0,5) == "</var" || solutionArray[x].substring( solutionArray[x].length - 6) == "</var>" ){
-					openVar = false; 
+					openVar = false;
 					toReturn += solutionArray[x];
 				}
 				else if( openVar || solutionArray[x].substring(0,5) == "<var>"){
@@ -165,13 +165,13 @@
 				else {
 					toReturn += "<span id='s" + x +  "' onClick='addVariable(this)' > " + solutionArray[x] + "</span>";
 				}
-			
+
 			}
 			alert(toReturn);
 			$("#solutionInput").html( toReturn );
 		}
-		
-		function populateHints(){	
+
+		function populateHints(){
 			var input = $("#hints").val();
 			if ( hintsArray.length < 2 ){
 				hintsArray = input.split(" ");
@@ -180,7 +180,7 @@
 			var openVar = false
 			for( x = 0; x< hintsArray.length; x++ ) {
 				if( hintsArray[x].substring(0,5) == "</var" || hintsArray[x].substring( hintsArray[x].length - 6) == "</var>" ){
-					openVar = false; 
+					openVar = false;
 					toReturn += hintsArray[x];
 				}
 				else if( openVar || hintsArray[x].substring(0,5) == "<var>"){
@@ -190,20 +190,20 @@
 				else {
 					toReturn += "<span id='h" + x +  "' onClick='addVariable(this)' > " + hintsArray[x] + "</span>";
 				}
-			
+
 			}
 			$("#hintsInput").html( toReturn );
 		}
 
 		function genHead( title ){
-			var head = '' +  
+			var head = '' +
 				'<!DOCTYPE html>' +
 				'<html data-require="math math-format expressions">' +
 				'<head>' +
 				'	<meta charset="UTF-8" />' +
 				'       <title>' + title + '</title>' +
 				'       <script src="../khan-exercise.js"></script\> ' +
-				'</head>' ; 
+				'</head>' ;
 			return head;
 		}
 		function generate(){
@@ -211,29 +211,29 @@
 			populateSolution();
 			populateHints();
 		alert( genHints( $('#hintsInput' ).html() ) );
-		var html =  genHead($("#title").val()) + '<body><div class="exercise">' + genVars( variables ) + 
+		var html =  genHead($("#title").val()) + '<body><div class="exercise">' + genVars( variables ) +
 '' +
 '	<div class="problems">' +
-'		<div>' + genQuestion( $("#questionInput").html()) + 
- genSolution( $("#solutionInput").html() ) 
+'		<div>' + genQuestion( $("#questionInput").html()) +
+ genSolution( $("#solutionInput").html() )
  +  genHints( $( '#hintsInput' ).html() ) +
 '</div>' +
 '	</div>' +
 '</body>' +
 '</html>';
 	alert( html );
-	$("#frame").remove();	
-        var $frame = $('<iframe id="frame" style="width:1000px; height:800px;">'); 
-        $('body').append( $frame ); 
+	$("#frame").remove();
+        var $frame = $('<iframe id="frame" style="width:1000px; height:800px;">');
+        $('body').append( $frame );
 
-		setTimeout( function() { 
+		setTimeout( function() {
 		var ifrm = document.getElementById('frame');
 		ifrm = (ifrm.contentWindow) ? ifrm.contentWindow : (ifrm.contentDocument.document) ? ifrm.contentDocument.document : ifrm.contentDocument;
 		ifrm.document.open();
 		ifrm.document.write(html);
 		ifrm.document.close();
- 
-        }, 1 ); 
+
+        }, 1 );
 }
 </script>
 <body>
@@ -255,6 +255,6 @@
 	<input type="button" value="Generate" onClick="generate();">
 	<div id="fr">
 	</div>
-	
+
 </body>
 </html>

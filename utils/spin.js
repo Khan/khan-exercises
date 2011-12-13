@@ -1,5 +1,5 @@
-jQuery.extend( KhanUtil, { 
-	spin: function( content ) { 
+jQuery.extend( KhanUtil, {
+	spin: function( content ) {
 		// First find all top-level blocks and spin them
 		var startingBracePos = -1;
 		var nestingLevel = 0;
@@ -9,7 +9,7 @@ jQuery.extend( KhanUtil, {
 
 				// We encounter our first "{"
 				if ( startingBracePos === -1 ) {
-					startingBracePos = i;		
+					startingBracePos = i;
 
 				// We are already inside a top-level block, this starts a nested block
 				} else {

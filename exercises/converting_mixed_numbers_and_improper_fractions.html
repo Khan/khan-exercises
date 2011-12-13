@@ -8,13 +8,13 @@
 		<div class="exercise">
 			<div class="vars" data-ensure="M_NUM &lt; M_DENOM">
 				<var id="WHOLE">randRange( 1, 10 )</var>
-				
+
 				<var id="M_NUM">randRange( 1, 30 )</var>
 				<var id="M_DENOM">randRange( 1, 30 )</var>
 
 				<var id="M_REDUCED_NUM">M_NUM / getGCD( M_NUM, M_DENOM )</var>
 				<var id="M_REDUCED_DENOM">M_DENOM / getGCD( M_NUM, M_DENOM )</var>
-				
+
 				<var id="I_NUM">WHOLE * M_REDUCED_DENOM + M_REDUCED_NUM</var>
 				<var id="I_DENOM">M_REDUCED_DENOM</var>
 			</div>
@@ -64,7 +64,7 @@
 						<p>Note that if we add up the two pieces of our mixed fraction, <code>\color{#28AE7B}{<var>fraction( I_DENOM * WHOLE, I_DENOM, false, false )</var>} + \color{purple}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>, we get the original improper fraction <code><var>fraction( I_NUM, I_DENOM, false, true )</var></code>.</p>
 					</div>
 				</div>
-				
+
 				<div id="mixed-to-improper">
 					<p class="question">Convert <code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code> to an improper fraction.</p>
 
