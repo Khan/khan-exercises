@@ -66,6 +66,8 @@
 					</div>
 					<div>
 						<p>Now that you know <code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code>, plug it back into <code>\thinspace \color{<var>GREEN</var>}{x = <var>expr(["+", ["*", -B2, "y"], C2])</var>}\thinspace</code> to find <code>x</code>.</p>
+					</div>
+					<div>	
 						<p><code>\color{<var>GREEN</var>}{x = <span data-if="abs( B2 ) !== 1"><var>-B2</var></span><span data-if="B2 === 1">-</span>}\color{<var>ORANGE</var>}{(<var>Y</var>)}\color{<var>GREEN</var>}{ + <var>C2</var>}</code></p>
 						<p data-if="B2 !== -1"><code>x = <var>-B2 * Y</var> + <var>C2</var></code></p>
 						<p><code>\color{red}{x = <var>X</var>}</code></p>
@@ -130,6 +132,8 @@
 					</div>
 					<div>
 						<p>Now that you know <code>\color{red}{x = <var>X</var>}</code>, plug it back into <code>\thinspace \color{<var>GREEN</var>}{y = <var>expr(["+", ["*", -A2, "x"], C2])</var>}\thinspace</code> to find <code>y</code>.</p>
+					</div>
+					<div>    	
 						<p><code>\color{<var>GREEN</var>}{y = <span data-if="abs( A2 ) !== 1"><var>-A2</var></span><span data-if="A2 === 1">-</span>}\color{red}{(<var>X</var>)}\color{<var>GREEN</var>}{ + <var>C2</var>}</code></p>
 						<p data-if="A2 !== -1"><code>y = <var>roundTo( 8, -A2 * X )</var> + <var>C2</var></code></p>
 						<p><code class="hint_orange">y = <var>Y</var></code></p>
@@ -196,6 +200,8 @@
 					</div>
 					<div>
 						<p>Now that you know <code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code>, plug it back into <code>\thinspace \color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}\thinspace</code> to find <code>x</code>.</p>
+					</div>
+					<div>	
 						<p><code>\color{<var>BLUE</var>}{<var>expr(["*", A1, "x"])</var> + <span data-if="abs( B1 ) !== 1"><var>B1</var></span><span data-if="B1 === -1">-</span>}\color{<var>ORANGE</var>}{(<var>Y</var>)}\color{<var>BLUE</var>}{= <var>C1</var>}</code></p>
 						<p data-if="B1 !== 1"><code><var>expr(["+", ["*", A1, "x"], B1 * Y])</var> = <var>C1</var></code></p>
 						<p><code><var>expr(["+", ["*", A1, "x"], B1 * Y])</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( B1 * Y )</var>} = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( B1 * Y )</var>}</code></p>
@@ -266,6 +272,8 @@
 					</div>
 					<div>
 						<p>Now that you know <code>\color{red}{x = <var>X</var>}</code>, plug it back into <code>\thinspace \color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}\thinspace</code> to find <code>y</code>.</p>
+					</div>
+					<div>	
 						<p><code>\color{<var>BLUE</var>}{<span data-if="abs( A1 ) !== 1"><var>A1</var></span><span data-if="A1 === -1">-</span>}\color{red}{(<var>X</var>)}\color{<var>BLUE</var>}{ + <var>expr(["*", B1, "y"])</var> = <var>C1</var>}</code></p>
 						<p data-if="A1 !== 1"><code><var>expr(["+", A1 * X, ["*", B1, "y"]])</var> = <var>C1</var></code></p>
 						<p><code><var>A1 * X</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( A1 * X )</var>} + <var>expr(["*", B1, "y"])</var> = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( A1 * X )</var>}</code></p>
