@@ -155,7 +155,6 @@ var Khan = (function() {
 	// If we're in review mode: present a mix of different exercises
 	reviewMode = false,
 	reviewQueue = [],
-	waitForReviewRequest = false,
 
 	// Where we are in the shuffled list of problem types
 	problemBag,
@@ -620,25 +619,6 @@ var Khan = (function() {
 						}
 					});
 				});
-			},
-
-			enableButton: function() {
-				this.removeAttr( "disabled" ).removeClass( "buttonDisabled" );
-
-				var savedVal = this.data( "saved-val" );
-				if ( savedVal ) {
-					this.val( savedVal );
-				}
-
-				return this;
-			},
-
-			disableButton: function() {
-				return this
-					.attr( "disabled", "disabled" )
-					.addClass( "buttonDisabled" )
-					.data( "saved-val", this.val() )
-					.val('Please wait...');
 			}
 		});
 
@@ -763,8 +743,11 @@ var Khan = (function() {
 		return id.charAt( 0 ).toUpperCase() + id.slice( 1 ).replace( /_/g, ' ' );
 	}
 
-	function maybeEnqueueReviewProblems() {
-		if ( !reviewMode || reviewQueue.length >= 3 || waitForReviewRequest ) return;
+	// This function is a closure returned from an immediately-called function so
+	// we can have private static variables (requestPending).
+	var maybeEnqueueReviewProblems = (function() {
+
+		var requestPending = false;
 
 		// Handle successful retrieval of review exercises from the server
 		function enqueueReviewExercises( reviewExercises ) {
@@ -805,34 +788,45 @@ var Khan = (function() {
 				}
 			});
 
-			var nextButton = jQuery( "#next-question-button" ).enableButton();
-			if ( nextButton.is( ":visible" ) ) {
-				nextButton.focus();
-			}
-
-			waitForReviewRequest = false;
+			requestPending = false;
 		}
 
-		// Indicates to the server which reviews are already queued up, including
-		// the current exercise if it has not been attempted yet.
-		var reviewsToAttempt = ( attempts == 0 && hintsUsed == 0 ?
-				reviewQueue.concat( exerciseName ) : reviewQueue );
+		return function() {
+			if ( !reviewMode || reviewQueue.length >= 3 || requestPending ) return;
 
-		// Send the request to fetch the next set of review exercises
-		jQuery.ajax({
-			url: "/api/v1/user/exercises/review_problems",
-			type: "GET",
-			dataType: "json",
-			xhrFields: { withCredentials: true },
-			data: {
-				queued: reviewsToAttempt.join( "," )
-			},
-			success: enqueueReviewExercises
-		});
+			// Indicates to the server which reviews are already queued up, including
+			// the current exercise if it has not been attempted yet.
+			var reviewsToAttempt = ( attempts == 0 && hintsUsed == 0 ?
+					reviewQueue.concat( exerciseName ) : reviewQueue );
 
-		// Disable moving on to the next question until the XHR has returned
-		jQuery( "#next-question-button" ).disableButton();
-		waitForReviewRequest = true;
+			// Send the request to fetch the next set of review exercises
+			jQuery.ajax({
+				url: "/api/v1/user/exercises/review_problems",
+				type: "GET",
+				dataType: "json",
+				xhrFields: { withCredentials: true },
+				data: {
+					queued: reviewsToAttempt.join( "," )
+				},
+				success: enqueueReviewExercises
+			});
+
+			requestPending = true;
+		};
+	})();
+
+	function enableCheckAnswer() {
+		jQuery( "#check-answer-button" )
+			.removeAttr( "disabled" )
+			.removeClass( "buttonDisabled" )
+			.val('Check Answer');
+	}
+
+	function disableCheckAnswer() {
+		jQuery( "#check-answer-button" )
+			.attr( "disabled", "disabled" )
+			.addClass( "buttonDisabled" )
+			.val('Please wait...');
 	}
 
 	function switchToExercise( exid ) {
@@ -1043,7 +1037,7 @@ var Khan = (function() {
 		// Only enable the check answer button if we are not still waiting for
 		// server acknowledgement of the previous problem.
 		if ( !jQuery("#throbber").is(':visible') ) {
-			jQuery( "#check-answer-button" ).enableButton();
+			enableCheckAnswer();
 		}
 
 		if ( validator.examples && validator.examples.length > 0 ) {
@@ -1868,13 +1862,12 @@ var Khan = (function() {
 			}
 
 			// Stop if the form is already disabled and we're waiting for a response.
-			if ( jQuery( "#answercontent input" )
-					.not( "#hint, #next-question-button" ).is( ":disabled" ) ) {
+			if ( jQuery( "#answercontent input" ).not( "#hint" ).is( ":disabled" ) ) {
 				return false;
 			}
 
 			jQuery( "#throbber" ).show();
-			jQuery( "#check-answer-button" ).disableButton();
+			disableCheckAnswer();
 			jQuery( "#answercontent input" ).not("#check-answer-button, #hint")
 				.attr( "disabled", "disabled" );
 			jQuery( "#check-answer-results p" ).hide();
@@ -1924,7 +1917,7 @@ var Khan = (function() {
 				jQuery(Khan).trigger( "answerSaved" );
 
 				jQuery( "#throbber" ).hide();
-				jQuery( "#check-answer-button" ).enableButton();
+				enableCheckAnswer();
 
 				// If in review mode, the server may decide the user needs to practice
 				// this exercise again -- provide quick feedback if so.
@@ -1952,15 +1945,11 @@ var Khan = (function() {
 				// Correct answer, so show the next question button.
 				jQuery( "#check-answer-button" ).hide();
 				if ( !testMode || Khan.query.test == null ) {
-					var nextQuestionButton = jQuery( "#next-question-button" );
-
-					// Don't enable the next question button if we're still waiting for
-					// the next set of review exercises.
-					if ( !waitForReviewRequest ) {
-						nextQuestionButton.enableButton();
-					}
-
-					nextQuestionButton.show().focus();
+					jQuery( "#next-question-button" )
+						.removeAttr( "disabled" )
+						.removeClass( "buttonDisabled" )
+						.show()
+						.focus();
 				}
 				nextProblem( 1 );
 			} else {
