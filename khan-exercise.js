@@ -751,6 +751,10 @@ var Khan = (function() {
 
 		// Handle successful retrieval of review exercises from the server
 		function enqueueReviewExercises( reviewExercises ) {
+			// Only process and keep the first few exercises returned so we don't send
+			// off a huge stream of AJAX requests.
+			reviewExercises = reviewExercises.slice( 0, 3 );
+
 			reviewQueue = reviewQueue.concat( reviewExercises );
 
 			// Use an empty jQuery object to use as a sliding animations queue holder
