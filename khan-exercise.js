@@ -962,6 +962,24 @@ var Khan = (function() {
 			jQuery( ".hint-box" ).remove();
 		}
 
+		// Evaluate any inline script tags in this exercise's source
+		jQuery.each( exercise.data("script") || [], function( i, scriptContents ) {
+			jQuery.globalEval( scriptContents );
+		});
+
+		// ...and inline style tags.
+		if ( exercise.data( "style" ) ) {
+			var exerciseStyleElem = jQuery( "head #exercise-inline-style" );
+
+			// Clear old exercise style definitions
+			exerciseStyleElem.empty();
+
+			// Then add rules specific to this exercise.
+			jQuery.each( exercise.data("style"), function( i, styleContents ) {
+				exerciseStyleElem.append( styleContents );
+			});
+		}
+
 		// Run the main method of any modules
 		problem.runModules( problem, "Load" );
 		problem.runModules( problem );
@@ -2953,9 +2971,11 @@ var Khan = (function() {
 			// Maybe the exercise we just loaded loads some others
 			newContents.find( ".exercise[data-name]" ).each( loadExercise );
 
+			var exerciseElem = newContents.filter( ".exercise" );
+
 			// Save the filename and weights
-			newContents.filter( ".exercise" ).data( "name", name );
-			newContents.filter( ".exercise" ).data( "weight", weight );
+			exerciseElem.data( "name", name );
+			exerciseElem.data( "weight", weight );
 
 			// Extract data-require
 			var requires = data.match( /<html(?:[^>]+)data-require=(['"])((?:(?!\1).)*)\1/ );
@@ -2966,17 +2986,27 @@ var Khan = (function() {
 
 			Khan.require( requires );
 
-			// Extract title
-			var rtitle = /<title>([^<]*(?:(?!<\/title>)<[^<]*)*)<\/title>/gi;
-			while ( ( match = rtitle.exec( data ) ) != null ) {
-				newContents.filter( ".exercise" ).data( "title", match[1] );
-			}
+			// Extract contents from various tags and save them up for parsing when
+			// actually showing this particular exercise.
+			var tagsToExtract = {
+				title: /<title>([^<]*(?:(?!<\/title>)<[^<]*)*)<\/title>/gi,
 
-			// Extract scripts with no src
-			var rscript = /<(?:)script\b[^s>]*(?:(?!src=)s[^s>]*)*>([^<]*(?:(?!<\/script>)<[^<]*)*)<\/script>/gi;
-			while ( ( match = rscript.exec( data ) ) != null ) {
-				jQuery.globalEval( match[1] );
-			}
+				// Scripts with no src
+				script: /<(?:)script\b[^s>]*(?:(?!src=)s[^s>]*)*>([^<]*(?:(?!<\/script>)<[^<]*)*)<\/script>/gi,
+
+				style: /<style[^>]*>([\s\S]*?)<\/style>/gi
+			};
+
+			jQuery.each( tagsToExtract, function( tag, regex ) {
+				var result = [];
+				while ( ( match = regex.exec( data ) ) != null ) {
+					result.push( match[1] );
+				}
+
+				if ( result.length ) {
+					exerciseElem.data( tag, result );
+				}
+			});
 
 			remoteCount--;
 			if ( remoteCount === 0 && !exercises ) {
