@@ -1,8 +1,8 @@
 jQuery.extend( KhanUtil, {
-	
+
 	// Fill opacity for inequality shading
 	FILL_OPACITY: 0.3,
-    
+
 	dragging: false,
 
 	// Wrap graphInit to create a fixed-size graph automatically scaled to the given range
@@ -248,7 +248,7 @@ jQuery.extend( KhanUtil, {
 				var constrainedAngle = (constraints.fixedAngle.angle + KhanUtil.findAngle( ref, vertex ) ) * Math.PI / 180;
 				// angle is the angle from vertex to the mouse with reference to the screen
 				var angle = KhanUtil.findAngle( coord, vertex ) * Math.PI / 180;
-				var distance = KhanUtil.distance( coord, vertex );
+				var distance = KhanUtil.getDistance( coord, vertex );
 				var length = distance * Math.cos(constrainedAngle - angle);
 				length = length < 1.0 ? 1.0 : length;
 				newCoord[0] = length * Math.cos(constrainedAngle) + vertex[0];
@@ -384,7 +384,7 @@ jQuery.extend( KhanUtil, {
 		// as part of a hint to show the user the correct place to put the point.
 		movablePoint.moveTo = function( coordX, coordY, updateLines ) {
 			// find distance in pixels to move
-			var distance = KhanUtil.distance( this.graph.scalePoint([ coordX, coordY ]), this.graph.scalePoint( this.coord ) );
+			var distance = KhanUtil.getDistance( this.graph.scalePoint([ coordX, coordY ]), this.graph.scalePoint( this.coord ) );
 
 			// 5ms per pixel seems good
 			var time = distance * 5;
@@ -635,7 +635,7 @@ jQuery.extend( KhanUtil, {
 		}).join("");
 	},
 
-	distance: function( point1, point2 ) {
+	getDistance: function( point1, point2 ) {
 		return Math.sqrt( (point1[0] - point2[0]) * (point1[0] - point2[0]) + (point1[1] - point2[1]) * (point1[1] - point2[1]) );
 	},
 
@@ -895,7 +895,7 @@ jQuery.extend( KhanUtil, {
 			}
 			var angle = KhanUtil.findAngle( this.coordZ, this.coordA );
 			var scaledA = graph.scalePoint( this.coordA );
-			var lineLength = KhanUtil.distance(this.coordA, this.coordZ);
+			var lineLength = KhanUtil.getDistance(this.coordA, this.coordZ);
 			if ( this.extendLine ) {
 				if ( this.coordA[0] !== this.coordZ[0] ) {
 					var slope = ( this.coordZ[1] - this.coordA[1] ) / ( this.coordZ[0] - this.coordA[0] );
@@ -908,7 +908,7 @@ jQuery.extend( KhanUtil, {
 						scaledA = graph.scalePoint([ graph.range[0][1], y2 ]);
 						scaledA[0]--;
 					}
-					lineLength = KhanUtil.distance( [ graph.range[0][0], y1 ], [ graph.range[0][1], y2 ] );
+					lineLength = KhanUtil.getDistance( [ graph.range[0][0], y1 ], [ graph.range[0][1], y2 ] );
 				} else {
 					if (this.coordA[1] < this.coordZ[1] ) {
 						scaledA = graph.scalePoint([ this.coordA[0], graph.range[1][0] ]);
