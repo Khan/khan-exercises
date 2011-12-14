@@ -2614,7 +2614,7 @@ var Khan = (function() {
 		}
 	};
 
-	function switchToReviewMode() {
+	function enterReviewMode() {
 		// Hide the "Show next 10 problems" link button
 		jQuery( "#print-ten" ).parent().hide();
 
@@ -2623,6 +2623,13 @@ var Khan = (function() {
 		jQuery( "#review-mode-title" ).show();
 
 		jQuery( ".gradient-overlay" ).show();
+
+		if ( typeof Review !== "undefined" &&
+				typeof initialReviewsLeftCount !== "undefined" ) {
+			Review.initCounter();
+			setTimeout( _.bind(
+					Review.updateCounter, null, initialReviewsLeftCount), 500 );
+		}
 	}
 
 	function updateExerciseIcon( exerciseStates ) {
@@ -2815,7 +2822,7 @@ var Khan = (function() {
 		if ( isFirstUpdate && data && data.exercise_states &&
 				data.exercise_states.reviewing ) {
 			reviewMode = true;
-			jQuery( switchToReviewMode );
+			jQuery( enterReviewMode );
 		}
 
 		var videos = data && data.exercise_model.related_videos;
