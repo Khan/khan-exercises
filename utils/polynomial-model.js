@@ -1,12 +1,12 @@
 /*
    Khan exercise polynomial model
 
-   This is an exercise models, a kind of object model that reflects the 
+   This is an exercise models, a kind of object model that reflects the
    semantics that are specific to a class of exercises. This one is designed for
-   supporting the writing of exercises involving polynomials. Models have a 
+   supporting the writing of exercises involving polynomials. Models have a
    structure that mirrors the structure of Khan exercisesa and its requirement
    to display problems, solutions and hints. Models hide the details of formatting and
-   drawing text and graphics, and also of managing the state of the underlying 
+   drawing text and graphics, and also of managing the state of the underlying
    equations.
 
    The general usage is as follows:
@@ -43,6 +43,23 @@ jQuery.extend ( KhanUtil, {
 			dumpAll : function () {
 				return ast.dumpAll();
 			} ,
+
+			isEqual: function(nid1, nid2) {
+				if (nid1===nid2) {
+					return true;
+				}
+
+				var n1 = ast.node(nid1);
+				var n2 = ast.node(nid2);
+				if (n1.kind()===ast.Kind.BINARY &&
+					n2.kind()===ast.Kind.BINARY &&
+					n1.operator()===n2.operator() &&
+					n1.nid("lhs")===n2.nid("rhs") &&
+					n1.nid("rhs")===n2.nid("lhs")) {
+					return true;
+				}
+				return false;
+			},
 
 			// Return the expression associated with the given value.
 			node : function (expr) {
@@ -97,7 +114,7 @@ jQuery.extend ( KhanUtil, {
 			// Graph part for all of a node.
 			graph : function (options, nid) {
 				var node = (nid===void 0) ? rootNode : ast.node(nid, this);
-				var color = options.indexOf("green") >= 0 ? KhanUtil.GREEN : 
+				var color = options.indexOf("green") >= 0 ? KhanUtil.GREEN :
 							options.indexOf("orange") >= 0 ? KhanUtil.ORANGE : KhanUtil.BLUE;
 				var mode = options.indexOf("hint") >= 0 ? "hint" : "expr";
 				switch (mode) {
@@ -145,7 +162,7 @@ jQuery.extend ( KhanUtil, {
 
 		function compute(options, n) {
 			if (!isValidAST(n)) {
-				KhanUtil.assert ( false, "need valie AST. got " + n.constructor);
+				KhanUtil.assert( false, "need valie AST. got " + n.constructor);
 				return void 0;
 			}
 
@@ -159,12 +176,12 @@ jQuery.extend ( KhanUtil, {
 			case ast.Kind.BINARY:
 				switch (n.operator()) {
 				case ast.BinOp.POW:
-					text = format(n.node("lhs"), textSize, color) + "^{" + 
+					text = format(n.node("lhs"), textSize, color) + "^{" +
 						format(n.node("rhs"), textSize, color)+"}";
 					break;
 				case ast.BinOp.DIV:
 					text = "\\"+textSize+"{\\color{"+"#000"+"}{"+
-						"\\dfrac{"+format(n.node("lhs"), textSize, color)+ 
+						"\\dfrac{"+format(n.node("lhs"), textSize, color)+
 						"}{" +format(n.node("rhs"), textSize, color)+"}}}";
 					break;
 				case ast.BinOp.COMMA:
@@ -195,12 +212,18 @@ jQuery.extend ( KhanUtil, {
 						}
 						text = lhsText + rhsText;
 					}
-					else if (rhs.operator()===ast.UnOp.PAREN || 
+					else if (rhs.operator()===ast.UnOp.PAREN ||
 						lhs.kind()===ast.Kind.NUM) {
 						// elide the times symbol if either operand is parenthesized
 						text = "\\"+textSize+"{\\color{"+color+"}{"+
 							format(lhs, textSize, color)+"} \\color{"+color+"}{"+
 							format(rhs, textSize, color)+"}}";
+					}
+					else if (rhs.operator()===ast.UnOp.PAREN || rhs.kind()===ast.Kind.STR) {
+						// elide the times symbol if either operand is parenthesized
+						text = "\\"+textSize+"{\\color{"+color+"}{"+
+							format(n.node("lhs"), textSize, color)+"} \\color{"+color+"}{"+
+							format(n.node("rhs"), textSize, color)+"}}";
 					}
 					else {
 						text = "\\"+textSize+"{\\color{"+color+"}{"+
@@ -226,13 +249,6 @@ jQuery.extend ( KhanUtil, {
 								format(n.node("lhs"), textSize, color)+"} \\color{#000}{"+ n.operator() +"}\\color{"+color+"}{"+
 								format(n.node("rhs"), textSize, color)+"}}";
 						}
-					}
-					else
-					if (n.node("rhs").operator()===ast.UnOp.PAREN) {
-						// elide the times symbol if either operand is parenthesized
-						text = "\\"+textSize+"{\\color{"+color+"}{"+
-							format(n.node("lhs"), textSize, color)+"} \\color{"+color+"}{"+
-							format(n.node("rhs"), textSize, color)+"}}";
 					}
 					else {
 						text = "\\"+textSize+"{\\color{"+color+"}{"+
@@ -367,7 +383,7 @@ jQuery.extend ( KhanUtil, {
 
 } );
 
-KhanUtil.PolynomialModel.init = function (name) { 
-	return new KhanUtil.PolynomialModel(name); 
+KhanUtil.PolynomialModel.init = function (name) {
+	return new KhanUtil.PolynomialModel(name);
 };
 

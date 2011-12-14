@@ -2,7 +2,7 @@
    AST library for khan-exercises
 
    ASTs (abstract syntax trees) are used to store structured information about
-   exercises. The typical example is of an expression 1 + 1 = 2, which is stored 
+   exercises. The typical example is of an expression 1 + 1 = 2, which is stored
    as ["=", ["+", 1, 1], 2]. Once constructed, accessor methods can be used to
    get at the various sub trees.
 
@@ -23,9 +23,9 @@
 jQuery.extend ( KhanUtil, {
 
 
-	ASSERT : false ,
+	ASSERT: false,
 
-	assert : function (val, str) {
+	assert: function (val, str) {
 		if ( !this.ASSERT ) {
 			return;
 		}
@@ -35,9 +35,9 @@ jQuery.extend ( KhanUtil, {
 		if ( !val ) {
 			alert("assert: " + str);
 		}
-	} ,
+	},
 
-	ast : new function () {
+	ast: new function () {
 
 		var nodePool = [ "unused" ];	// nodePool[0] is reserved
 
@@ -47,41 +47,41 @@ jQuery.extend ( KhanUtil, {
 			jQuery.extend ( this, {
 
 				// n.node("lhs").numberValue()
-				node : function (selector, m) {
+				node: function (selector, m) {
 					var newNid = nodePool[nid][selector];
-					KhanUtil.assert (selector in nodePool[nid], "invalid selector");
-					return new Node(newNid, (m===void 0) ? model : m);
-				} ,
+					KhanUtil.assert(selector in nodePool[nid], "invalid selector");
+					return new Node(newNid, (m===void 0) ? model: m);
+				},
 
-				graph : function (selector) {
-					KhanUtil.assert (model!==void 0, "ast.Node.graph(): model undefined");
+				graph: function (selector) {
+					KhanUtil.assert(model!==void 0, "ast.Node.graph(): model undefined");
 					return model.graph(selector, nid);
-				} ,
+				},
 
-				draw : function () {
-					KhanUtil.assert (model!==void 0, "ast.Node.draw(): model undefined");
+				draw: function () {
+					KhanUtil.assert(model!==void 0, "ast.Node.draw(): model undefined");
 					return model.graph("", nid).draw();
-				} ,
+				},
 
-				text : function (selector) {
-					KhanUtil.assert (model!==void 0, "ast.Node.text(): model undefined");
+				text: function (selector) {
+					KhanUtil.assert(model!==void 0, "ast.Node.text(): model undefined");
 					return model.text(selector, nid);
-				} ,
+				},
 
-				format : function (options) {
-					KhanUtil.assert (model!==void 0, "ast.Node.format(): model undefined");
+				format: function (options) {
+					KhanUtil.assert(model!==void 0, "ast.Node.format(): model undefined");
 					return model.text("", nid).format();
-				} ,
+				},
 
-				numberValue : function () {
+				numberValue: function () {
 					return Number(nodePool[nid].val);
-				} ,
+				},
 
-				intValue : function () {
+				intValue: function () {
 					return Number(nodePool[nid].val) << 0;
-				} ,
+				},
 
-				stringValue : function () {
+				stringValue: function () {
 					var ast = KhanUtil.ast;
 					var n = nodePool[nid];
 					if (n.kind === ast.Kind.STR || n.kind === ast.Kind.NUM) {
@@ -90,28 +90,38 @@ jQuery.extend ( KhanUtil, {
 					else {
 						return "";
 					}
-				} ,
+				},
 
-				operator : function (selector) {
+				operator: function (selector) {
 					var node = nodePool[nid];
-					//KhanUtil.assert ( node.op !== void 0, "ast.Node.operator(): node has no operator." );
+					//KhanUtil.assert( node.op !== void 0, "ast.Node.operator(): node has no operator." );
 					return node.op;
-				} ,
+				},
 
-				kind : function () {
+				kind: function () {
 					var node = nodePool[nid];
-					KhanUtil.assert ( node.kind !== void 0, "ast.Node.operator(): node has no kind." );
+					KhanUtil.assert( node.kind !== void 0, "ast.Node.operator(): node has no kind." );
 					return node.kind;
-				} ,
+				},
 
-				model : function () {
-					KhanUtil.assert (model!==void 0, "ast.Node.model(): model undefined");
+				model: function () {
+					KhanUtil.assert(model!==void 0, "ast.Node.model(): model undefined");
 					return model;
-				} ,
+				},
 
-				nid : function () {
+				nid: function () {
 					return nid;
-				} ,
+				},
+
+				nid: function (selector, m) {
+					if (selector===void 0) {
+						return nid;
+					}
+					else {
+						KhanUtil.assert(selector in nodePool[nid], "invalid selector");
+						return nodePool[nid][selector];
+					}
+				},
 
 			} ) ;
 		}
@@ -122,37 +132,86 @@ jQuery.extend ( KhanUtil, {
 		var unaryExprMap = { };
 		var binaryExprMap = { };
 
+		var Kind = {
+			UNARY: 1,
+			BINARY: 2,
+			VAR: 3,
+			INT: 4,
+			NUM: 5,
+			STR: 6,
+		};
+
+		var BinOp = {
+			ADD: "+",
+			SUB: "-",
+			MUL: "\\times",
+			DIV: "\\div",
+			EQL: "=",
+			ATAN2: "ATAN2",
+			CAH: "CAH",
+			SOH: "SOH",
+			TOA: "TOA",
+			COMMA: ",",
+			POW: "^",
+		};
+		
+		var UnOp = {
+			ADD: "+",
+			SUB: "-",
+			ABS: "ABS",
+			VAR: "VAR",
+			COS: "\\cos",
+			SIN: "\\sin",
+			TAN: "\\tan",
+			PAREN: "PAREN",
+			BRACKET: "BRACKET",
+			BRACE: "BRACE",
+			HIGHLIGHT: "HI",
+		};
+		
+		function strToOp(str) {
+			switch (str) {
+			case "*":
+				return BinOp.MUL;
+			case "/":
+				return BinOp.DIV;
+			case "COS":
+				return UnOp.COS;
+			case "SIN":
+				return UnOp.SIN;
+			case "TAN":
+				return UnOp.TAN;
+			default:
+				return str;  // probably doesn't need translation
+			}
+	 	};
+			
+			
 		// public ast interface
 
 		jQuery.extend ( this, {
 
-
-			// AST node kinds	
-			Kind : {
-				  UNARY  : 1
-				, BINARY : 2
-				, VAR	 : 3
-				, INT	 : 4
-				, NUM	: 5
-				, STR	: 6
-			} ,
+			Kind: Kind,
+			BinOp: BinOp,
+			UnOp: UnOp,
+			strToOp: strToOp,
 			
 			// Expression pool for mapping index to expressions
-			nodePool : nodePool ,
+			nodePool: nodePool,
 
-			node : function (nid, model) {
+			node: function (nid, model) {
 				return new Node(nid, model);
-			} ,
+			},
 
-			dumpAll : function () {
+			dumpAll: function () {
 				var s = "";
 				for (var i=1; i < nodePool.length; i++) {
 					s = s + "<p>" + i+": "+this.dump(i) + "</p>";
 				}
 				return s;
-			} ,
+			},
 
-			dump : function (nid) {
+			dump: function (nid) {
 				var node = this.nodePool[nid];
 				var s;
 				switch (node.kind) {
@@ -175,11 +234,11 @@ jQuery.extend ( KhanUtil, {
 					s = "UNKNOWN KIND " + node;
 				}
 				return s;
-			} ,
+			},
 			
-			fromExpr : function (expr) {
+			fromExpr: function (expr) {
 				switch (jQuery.type(expr)) {
-				case "number": 
+				case "number":
 					return this.numberLiteral(expr);
 				case "string":
 					//return parse(expr);
@@ -191,138 +250,94 @@ jQuery.extend ( KhanUtil, {
 					case 2:
 						return this.unaryExpr ( this.strToOp(expr[0]), this.fromExpr (expr[1]) );
 					case 3:
+						// normalize the case of x + -1 to x - 1
+						if (expr[0]==="+" &&
+							jQuery.type(expr[2])==="number" &&
+							expr[2] < 0) {
+							expr[0] = "-";
+							expr[2] = -1*expr[2]
+						}
 						return this.binaryExpr ( this.strToOp(expr[0]), this.fromExpr(expr[1]), this.fromExpr(expr[2]) );
 					default:
-						KhanUtil.assert ( false, "ast.fromExpr(): Invalid case." );
+						KhanUtil.assert( false, "ast.fromExpr(): Invalid case." );
 						return void 0;
 					}
 				default:
-					KhanUtil.assert ( expr.constructor === Node, "ast.fromExpr(): invalid input" );
+					KhanUtil.assert( expr.constructor === Node, "ast.fromExpr(): invalid input" );
 					// already a Node so just return it.
 					return expr.nid();
 				}
-			} ,
+			},
 
 			// Variable node
-			varExpr : function ( text, expr ) {
+			varExpr: function ( text, expr ) {
 				this.nodePool.push( { kind: this.Kind.VAR, text: text, expr: expr } );
 				return this.nodePool.length - 1 ;
-			} ,
+			},
 			
-			intExpr : function ( val ) {
-				this.nodePool.push ( { kind: this.Kind.INT, name : name, val : val } );
+			intExpr: function ( val ) {
+				this.nodePool.push ( { kind: this.Kind.INT, name: name, val: val } );
 				return this.nodePool.length - 1 ;
-			} ,
+			},
 			
-			numberLiteral : function ( val ) {
+			numberLiteral: function ( val ) {
 				var nid = numberMap[val];
 				if (nid === void 0) {
-					this.nodePool.push ( { kind: this.Kind.NUM, val : val } );
+					this.nodePool.push ( { kind: this.Kind.NUM, val: val } );
 					nid = this.nodePool.length - 1 ;
 					numberMap[val] = nid;
 				}
 				return nid;
-			} ,
+			},
 			
-			stringLiteral : function ( val ) {
+			stringLiteral: function ( val ) {
 				var nid = stringMap[val];
 				if (nid === void 0) {
-					this.nodePool.push ( { kind: this.Kind.STR, val : val } );
+					this.nodePool.push ( { kind: this.Kind.STR, val: val } );
 					nid = this.nodePool.length - 1 ;
 					stringMap[val] = nid;
 				}
 				return nid;
-			} ,
+			},
 			
-			// Binary ops
-			BinOp : {
-				ADD : "+"
-				, SUB : "-"
-				, MUL : "\\times"
-				, DIV : "\\div"
-				, EQL : "="
-				, ATAN2 : "ATAN2"
-				, CAH : "CAH"
-				, SOH : "SOH"
-				, TOA : "TOA"
-				, COMMA : ","
-				, POW : "^"
-			} ,
-			
-			// Binary ops
-			UnOp : {
-				ADD : "+"
-				, SUB : "-"
-				, ABS : "ABS"
-				, VAR : "VAR"
-				, COS : "\\cos"
-				, SIN : "\\sin"
-				, TAN : "\\tan"
-				, PAREN : "PAREN"
-				, BRACKET : "BRACKET"
-				, BRACE : "BRACE"
-				, HIGHLIGHT : "HI"
-			} ,
-			
-			strToOp : function (str) {
-				switch (str) {
-				case "+":
-					return this.BinOp.ADD;
-				case "-":
-					return this.BinOp.SUB;
-				case "*":
-					return this.BinOp.MUL;
-				case "/":
-					return this.BinOp.DIV;
-				case "COS":
-					return this.UnOp.COS;
-				case "SIN":
-					return this.UnOp.SIN;
-				case "TAN":
-					return this.UnOp.TAN;
-				default:
-					return str;  // probably doesn't need translation
-				}
-	 		} ,
-			
-			// Unary expression node
-			unaryExpr : function ( opstr, expr ) {
+ 			// Unary expression node
+			unaryExpr: function ( opstr, expr ) {
 				var key = opstr+expr;
 				var nid = unaryExprMap[key];
 				if (nid === void 0) {
 					this.nodePool.push(
 						{ kind: this.Kind.UNARY
-						  , op: this.strToOp(opstr)
-						  , expr: expr
-						  , val: void 0
+						 , op: this.strToOp(opstr)
+						 , expr: expr
+						 , val: void 0
 						});
 					nid = this.nodePool.length - 1 ;
 					unaryExprMap[key] = nid;
 				}
 				return nid;
-			} ,
+			},
 			
 			// Binary expression node
-			binaryExpr : function ( opstr, lhs, rhs ) {
+			binaryExpr: function ( opstr, lhs, rhs ) {
 				var key = opstr+lhs+","+rhs;
 				var nid = binaryExprMap[key];
 				if (nid === void 0) {
-					this.nodePool.push({ 
-						kind: this.Kind.BINARY
-						, op: this.strToOp(opstr)
-						, lhs: lhs
-						, rhs: rhs
-						, val: void 0 
+					nodePool.push({
+						kind: Kind.BINARY,
+						op: strToOp(opstr),
+						lhs: lhs,
+						rhs: rhs,
+						val: void 0,
 					});
-					nid = this.nodePool.length - 1 ;
+					nid = nodePool.length - 1 ;
 					binaryExprMap[key] = nid;
 				}
 				return nid;
-			} ,
+			},
 
 		} );
 
 		return this;
 
-	} () ,  // 
+	} (),
 });
