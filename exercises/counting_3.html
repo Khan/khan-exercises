@@ -4,6 +4,16 @@
 	<meta charset="UTF-8" />
 	<title>Counting 3</title>
 	<script src="../khan-exercise.js"></script>
+		<script type="text/javascript">
+		function factorial(n){
+			var i = n-1;
+			while(i>0){
+				n=n*i;
+				i--;
+			}
+			return(n)
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
@@ -13,49 +23,104 @@
 		<var id="HUFFLE">randRange(1, 3)</var>
 		<var id="RAVEN">randRange(1, 3)</var>
 		<var id="APPLICANTS">GRYFF+SLYTH+HUFFLE+RAVEN</var>
-		<var id="ANSWER">choose(APPLICANTS,4)</var>
+		<var id="NUM_GROUPS">choose(APPLICANTS,4)</var>
+		<var id="NUM_STUDENTS">randRange(3,9)</var>
+		<var id="SEATING_ARRANGEMENTS">factorial(NUM_STUDENTS)</var>
 	</div>
 
 	<div class="problems">
-		<div>
+		<div id = "combination_group">
 			<div class="question">
 				<p>You've been transported to the world of Harry Potter. You are leading a magical expedition with a group of 4 students from Hogwarts.</p>
-				<p><var>GRYFF</var> students from the house of Gryffindor, <var>SLYTH</var> from Slytherin, <var>HUFFLE</var> from Hufflepuff, and <var>RAVEN</var> from Ravenclaw applied to join your team. Group members are chosen randomly.</p>	
+				<p><var>GRYFF</var> students from the house of Gryffindor, <var>SLYTH</var> from Slytherin, <var>HUFFLE</var> from Hufflepuff, and <var>RAVEN</var> from Ravenclaw applied to join your team. Any of the applicants can be chosen in your group.</p>	
 				<p>How many different groups can be formed?</p>
 			</div>
-			<div class="solution"><var>ANSWER</var></div>
+			<div class="solution"><var>NUM_GROUPS</var></div>
+			<div class="hints">
+				<div>
+					<p><strong>Hint #1:</strong><br>
+					Let&#39;s change the problem to make it more simple. <br> <br>
+					You are leading  a group of <strong>2 students</strong> from Hogwarts. Pretend Harry and Hermoine from Gryffindor, and Draco from Slytherin are applying. How many different groups can be formed? Let&#39;s write out all the possible groups. <br>
+						<ul>
+						<li>Harry and Hermoine</li>
+						<li>Harry and Draco</li>
+						<li>Hermoine and Draco</li>
+						</ul><br>
+					There are 3 different groups you can form. Notice how we did not count both
+					Harry and Hermione <strong>and</strong> Hermione and Harry. Is there a technique that can help you count the different groups when you don&#39;t care about order?
+					</p>
+				</div>
+				<div>
+					<strong>Hint #2:</strong><br>
+					The combination formula will calculate the different ways of selecting a group of things when order does not matter. The formula for a combination is:<br><br> 
+					<strong>nCr = n! / r!(n-r)!</strong><br><br> 			
+					
+					In our simple problem from Hint #1, the n is 3 and the r is 2. There are 3 people applying and you want to grab 2 people as part of your group.<br> 
+					
+					How can we apply that same technique to the original problem now? 
+				</div>
+				<div>
+					<p><strong>Hint #3:</strong><br>
+					We need to count the total number of people applying to be our n.<br>
+					This is <var>GRYFF</var> + <var>SLYTH</var> + <var>HUFFLE</var> + <var>RAVEN</var>. <br>
+					There are <var>APPLICANTS</var> people applying and you want to grab 4 people so the answer is (<var>APPLICANTS</var> choose 4).</p>
+				</div>
+			</div>
+		</div>
+		<div id ="permutation_simple">
+			<div class="question">
+				<p>There are <var>NUM_STUDENTS</var> students to be seated in a row. How many different seating arrangements is possible? </p>
+				
+			</div>
+			<div class="solution"><var>SEATING_ARRANGEMENTS</var></div>
+			<div class="hints">
+				
+				<div>
+					<strong>Hint #1:</strong><br>
+					Watch the video <a class="related-video" href="/video/permutations?playlist=Precalculus" data-youtube-id="XqQTXW7XfYA">Permutations</a>
+				</div>
+				<div>
+					<p><strong>Hint #2:</strong><br>
+					In the video example, there are 7 students in 3 chairs. In this problem we need to seat all the students. To seat all the students we must have <var> NUM_STUDENTS </var> chairs. <br> <br>
+					In the first chair, we can have <var> NUM_STUDENTS </var> students.
+				</div>
+				<div>
+					<p><strong>Hint #3:</strong><br>
+					In the second chair, we have <var> NUM_STUDENTS </var> - 1 students remaining to sit in the chair. <br>
+					If we say there are n students in total, so far our formula for solving the number of seating arrangements for the first two chairs is: <br> <br>
+					
+					n*(n-1)
+				</div>
+				<div>
+					<p><strong>Hint #4:</strong><br>
+					To calculate all possible seating arrangements, use the factorial formula. There are <var> NUM_STUDENTS </var> factorial seating arrangements.
+				</div>
+			</div>
+		</div>
+		<div id = "combination_simple">
+			<div class="question">
+				<p>You've been transported to the world of Harry Potter. You are leading a magical expedition with a group of 4 students from Hogwarts.</p>
+				<p>There are <var>APPLICANTS</var> students applying. Any of the applicants can be chosen in your group.</p>	
+				<p>How many different groups can be formed?</p>
+			</div>
+			<div class="solution"><var>NUM_GROUPS</var></div>
+			<div class="hints">
+				<div>
+					<p><strong>Hint #1:</strong><br>
+					The combination formula will calculate the different ways of selecting a group of things when order does not matter. The formula for a combination is:<br><br> 
+					<strong>nCr = n! / r!(n-r)!</strong><br><br> 			
+					
+					What is the n in this problem? What is the r in this problem?
+				</div>
+				<div>
+					<p><strong>Hint #2:</strong><br>
+					n is equal to <var> APPLICANTS</var> student applicants. <br>
+					r is equal to the 4 people you are choosing.
+					Calculate <var>APPLICANTS</var>C4.
+				</div>
+			</div>
 		</div>
 	</div>
 
-	<div class="hints">
-		<div>
-			<p><strong>Hint #1:</strong><br>
-			Let&#39;s change the problem to make it more simple. <br> <br>
-			You are leading  a group of <strong>2 students</strong> from Hogwarts. Pretend Harry and Hermoine from Gryffindor, and Draco from Slytherin are applying. How many different groups can be formed? Let&#39;s write out all the possible groups. <br>
-				<ul>
-				<li>Harry and Hermoine</li>
-				<li>Harry and Draco</li>
-				<li>Hermoine and Draco</li>
-				</ul><br>
-			There are 3 different groups you can form. Notice how we did not count both
-			Harry and Hermione <strong>and</strong> Hermione and Harry. Is there a technique that can help you count the different groups when you don&#39;t care about order?
-			</p>
-		</div>
-		<div>
-			<strong>Hint #2:</strong><br>
-			The combination formula will calculate the different ways of selecting a group of things when order does not matter. The formula for a combination is:<br><br> 
-			<strong>nCr = n! / r!(n-r)!</strong><br><br> 			
-			
-			In our simple problem from Hint #1, the n is 3 and the r is 2. There are 3 people applying and you want to grab 2 people as part of your group.<br> 
-			
-			How can we apply that same technique to the original problem now? 
-		</div>
-		<div>
-			<p><strong>Hint #3:</strong><br>
-			We need to count the total number of people applying to be our n.<br>
-			This is <var>GRYFF</var> + <var>SLYTH</var> + <var>HUFFLE</var> + <var>RAVEN</var>. <br>
-			There are <var>APPLICANTS</var> people applying and you want to grab 4 people so the answer is (<var>APPLICANTS</var> choose 4).</p>
-		</div>
-	</div>
 </body>
 </html>
