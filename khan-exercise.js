@@ -770,12 +770,12 @@ var Khan = (function() {
 						.animate( { marginTop: 0 }, /* duration */ 365, next );
 				});
 
-				// Was this exercise's data and HTML loaded already?
+				// Was this exercise's data and HTML loaded by loadExercise already?
 				var isLoaded = exercises.filter(function() {
 					return jQuery.data( this, "name" ) === exid;
 				}).length;
 
-				// Load all unloaded exercises
+				// Load all non-loadExercise loaded exercises
 				if ( !isLoaded ) {
 					loadExercise.call( jQuery( '<div data-name="' + exid + '">' ) );
 
@@ -3003,9 +3003,7 @@ var Khan = (function() {
 					result.push( match[1] );
 				}
 
-				if ( result.length ) {
-					exerciseElem.data( tag, result );
-				}
+				exerciseElem.data( tag, result );
 			});
 
 			remoteCount--;
