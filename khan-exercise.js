@@ -146,8 +146,8 @@ var Khan = (function() {
 
 	hints,
 
-	// The exercise elements
-	exercises,
+	// The exercise elements, initialized to an empty jQuery set
+	exercises = jQuery(),
 
 	// If we're dealing with a summative exercise
 	isSummative = false,
@@ -202,7 +202,9 @@ var Khan = (function() {
 	},
 	issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!",
 
-	relatedVideosForExercise = null;
+	relatedVideosForExercise = null,
+
+	modulesLoaded = false;
 
 	// Nuke the global userExercise object to make
 	// it significantly harder to cheat
@@ -772,12 +774,15 @@ var Khan = (function() {
 
 				// Was this exercise's data and HTML loaded by loadExercise already?
 				var isLoaded = exercises.filter(function() {
-					return jQuery.data( this, "name" ) === exid;
+					return jQuery.data( this, "rootName" ) === exid;
 				}).length;
 
 				// Load all non-loadExercise loaded exercises
 				if ( !isLoaded ) {
-					loadExercise.call( jQuery( '<div data-name="' + exid + '">' ) );
+					var exerciseElem = jQuery( "<div>" )
+						.data( "name", exid )
+						.data( "rootName", exid );
+					loadExercise.call( exerciseElem );
 
 					// Update the cached UserExercise model for this exercise. One reason
 					// we do this is to update the states (for correct icon display),
@@ -840,7 +845,7 @@ var Khan = (function() {
 
 		// Get all problems of this exercise type...
 		var problems = exercises.filter(function() {
-			return jQuery.data( this, "name" ) === exid;
+			return jQuery.data( this, "rootName" ) === exid;
 		}).children( ".problems" ).children();
 
 		// ...and create a new problem bag with problems of our new exercise type.
@@ -1799,7 +1804,8 @@ var Khan = (function() {
 		jQuery("#current-exercise").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
 			userExercise.exercise_model.display_name : document.title );
 
-		exercises = jQuery( ".exercise" ).detach();
+		// TODO(david): Don't add homepage elements with "exercise" class
+		exercises = exercises.add( jQuery( ".exercise" ).detach() );
 
 		// Setup appropriate img URLs
 		jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
@@ -2948,9 +2954,10 @@ var Khan = (function() {
 	}
 
 	function loadExercise() {
-		var self = jQuery( this );
+		var self = jQuery( this ).detach();
 		var name = self.data( "name" );
 		var weight = self.data( "weight" );
+		var rootName = self.data( "rootName" );
 
 		remoteCount++;
 		jQuery.get( urlBase + "exercises/" + name + ".html", function( data, status, xhr ) {
@@ -2967,22 +2974,21 @@ var Khan = (function() {
 
 			newContents = jQuery( data ).find( "div.exercise" );
 
-			// Replace the element if it's in the DOM, otherwise directly append to
-			// the exercises DOM set
-			if ( self.parent().length ) {
-				self.replaceWith( newContents );
-			} else {
-				exercises = exercises.add( newContents );
-			}
+			// Name of the top-most ancestor exercise
+			newContents.data( "rootName", rootName );
 
 			// Maybe the exercise we just loaded loads some others
-			newContents.find( ".exercise[data-name]" ).each( loadExercise );
+			newContents.filter( "[data-name]" ).each( loadExercise );
 
-			var exerciseElem = newContents.filter( ".exercise" );
+			// Throw out divs that just load other exercises
+			newContents = newContents.not( "[data-name]" );
 
 			// Save the filename and weights
-			exerciseElem.data( "name", name );
-			exerciseElem.data( "weight", weight );
+			// TODO(david): Make sure weights work for recursively-loaded exercises.
+			newContents.data( "name", name ).data( "weight", weight );
+
+			// Add the new exercise elements to the exercises DOM set
+			exercises = exercises.add( newContents );
 
 			// Extract data-require
 			var requires = data.match( /<html(?:[^>]+)data-require=(['"])((?:(?!\1).)*)\1/ );
@@ -3010,17 +3016,19 @@ var Khan = (function() {
 					result.push( match[1] );
 				}
 
-				exerciseElem.data( tag, result );
+				newContents.data( tag, result );
 			});
 
 			remoteCount--;
-			if ( remoteCount === 0 && !exercises ) {
+			if ( remoteCount === 0 && !modulesLoaded ) {
 				loadModules();
 			}
 		});
 	}
 
 	function loadModules() {
+		modulesLoaded = true;
+
 		// Load module dependencies
 		Khan.loadScripts( jQuery.map( Khan.modules, function( mod, name ) {
 			return mod;
