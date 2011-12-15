@@ -63,7 +63,7 @@ var Khan = (function() {
 
 	if ( !localStorageEnabled ) {
 		if ( typeof jQuery !== "undefined" ) {
-			warn( "You must enable DOM storage in your browser to see an exercise.", false );
+			warn( "You must enable DOM storage in your browser, see <a href='https://sites.google.com/a/khanacademy.org/forge/for-developers/how-to-enable-dom-storage'>here</a> for instructions.", false );
 		}
 		return;
 	}
