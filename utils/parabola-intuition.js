@@ -15,7 +15,7 @@ jQuery.extend( KhanUtil, {
 			directrixLine.remove();
 			lineEndcap.remove();
 			graph.style({ strokeWidth: 1.5, stroke: KhanUtil.GREEN, opacity: 0.0 });
-			var vertexDistance = KhanUtil.distance( [ coordX, coordY ], vertex.coord );
+			var vertexDistance = KhanUtil.getDistance( [ coordX, coordY ], vertex.coord );
 
 			// Draw a line from the vertex to the highlighted point on the parabola
 			vertexLine = graph.line( [coordX, coordY], vertex.coord );
