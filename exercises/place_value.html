@@ -72,11 +72,16 @@
 						(function() {
 							var maxPower = DIGITS.length - 1;
 							return jQuery.map(DIGITS, function(digit, index) {
-								if (digit === 0 || index === DIGITS.length - 1) {
+								if ( digit === 0 ) {
 									return null;
 								}
 
-								if (index === DIGITS.length - 2) {
+								if ( index === DIGITS.length - 1 ) {
+									if ( DIGITS[ index - 1] === 0 ) {
+										ADDENDS.push( digit );
+										return cardinal( digit ) + " is the same as " + digit;
+									}
+								} else if ( index === DIGITS.length - 2 ) {
 									var addend = digit * 10 + DIGITS[ DIGITS.length - 1 ];
 									ADDENDS.push( addend );
 									return cardinal( addend ) + " is the same as " + addend;

@@ -13,10 +13,10 @@
 
 		var P_COLOR = "green";
 		var K_COLOR = "red";
-		
+
 		function initRect( L, W ) {
 			var graph = KhanUtil.currentGraph;
-			
+
 			graph.init({
 				range: [ [-1, L + 1], [-1, W + 1] ],
 				scale: 500 / (2 * L + 2 * W)
@@ -24,10 +24,10 @@
 
 			graph.path( [ [0, 0], [L, 0] ], { "stroke": L_COLOR } );
 			graph.label( [L/2, 0], "\\color{" + L_COLOR + "}{l = " + L + "}", "below" );
-			
+
 			graph.path( [ [L, 0], [L, W] ], { "stroke": W_COLOR } );
 			graph.label( [L, W/2], "\\color{" + W_COLOR + "}{w = " + W + "}", "right" );
-			
+
 			graph.path( [ [L, W], [0, W], [0, 0] ] );
 		}
 
@@ -58,21 +58,21 @@
 
 		function drawSqSide( S ) {
 			var graph = KhanUtil.currentGraph;
-			
+
 			graph.path( [ [S, 0], [S, S] ], { "stroke": S_COLOR } );
 			graph.label( [S, S/2], "\\color{" + S_COLOR + "}{s = " + S + "}", "right" );
 		}
 
 		function drawSqPerimeter( S ) {
 			var graph = KhanUtil.currentGraph;
-			
+
 			graph.path( [ [0, 0], [0, S], [S, S], [S, 0], [0, 0] ], { "stroke": P_COLOR } );
 			graph.label( [S/2, S], "\\color{" + P_COLOR + "}{P = " + 4*S + "}", "above" );
 		}
 
 		function drawSqArea( S ) {
 			var graph = KhanUtil.currentGraph;
-			
+
 			graph.path( [ [0, 0], [S, 0], [S, S], [0, S], [0, 0] ], { "stroke-opacity": 0, "fill": "#ffcccc" } );
 			graph.label( [S/2, S/2], "\\color{" + K_COLOR + "}{K = " + S * S + "}", "center" );
 		}
@@ -272,7 +272,7 @@
 				<p>The area of a rectangle is <code>K = lw</code>.</p>
 				<div>
 					<p>Substituting in <code>l = \color{<var>L_COLOR</var>}{<var>L</var>}</code> and <code>w = \color{<var>W_COLOR</var>}{<var>W</var>}</code> gives <code>K = \color{<var>L_COLOR</var>}{<var>L</var>} \cdot \color{<var>W_COLOR</var>}{<var>W</var>} = \color{<var>K_COLOR</var>}{<var>L * W</var>}</code>.</p>
-					
+
 					<div class="graphie" data-update="rectangle">
 						drawRectArea( L, W );
 					</div>
@@ -288,7 +288,7 @@
 
 			<div class="question">
 				<p>Suppose a rectangle has length <code>\color{<var>L_COLOR</var>}{<var>L</var>}</code> and width <code>\color{<var>W_COLOR</var>}{<var>W</var>}</code>. What is its perimeter?</p>
-			
+
 			</div>
 
 			<div class="solution"><var>2 * L + 2 * W</var></div>

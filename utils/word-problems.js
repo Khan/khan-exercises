@@ -44,7 +44,8 @@ jQuery.extend( KhanUtil, {
 			'person': 'people',
 			'is': 'are',
 			'was': 'were',
-			'square foot': 'square feet'
+			'square foot': 'square feet',
+			'tomato': 'tomatoes'
 		};
 
 		var pluralizeWord = function(word) {
@@ -345,7 +346,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 	var indefiniteArticle = function(word) {
 		var vowels = ['a', 'e', 'i', 'o', 'u'];
-		if ( vowels.indexOf( word[0].toLowerCase() ) > -1 ) {
+		if ( _(vowels).indexOf( word[0].toLowerCase() ) > -1 ) {
 			return 'An ' + word;
 		}
 		return 'A ' + word;

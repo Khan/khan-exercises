@@ -3,7 +3,7 @@
 <head>
 	<title>Changing fractions to decimals 1</title>
 	<script src="../khan-exercise.js"></script>
-	
+
 	<script type="text/javascript">
 	function decimalLength( n ) {
 		return ( ( n + "" ).split( "." )[1] || "" ).length;
@@ -32,7 +32,7 @@
 			<div class="solution" data-type="decimal"><var>DEC</var></div>
 		</div>
 	</div>
-	
+
 	<div class="hints">
 		<p data-if="GCD > 1"><code><var>fraction( _N, _D )</var></code> reduces to <code><var>fraction( N, D )</var></code>.</p>
 		<p data-if="D === 10 || D === 100">Denominators of 10 or 100 are easy cases: The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator.

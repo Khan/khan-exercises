@@ -15,7 +15,7 @@
 				<var id="NUM">+DIGITS.join( "" )</var>
 				<var id="PLACE">randFromArray([ -2, -3 ])</var>
 				<var id="TPLACE">placesLeftOfDecimal[ -PLACE ]</var>
-				<var id="ROUNDED">roundTo( PLACE, NUM )</var>
+				<var id="ROUNDED">Math.round(roundTo( PLACE, NUM ))</var>
 			</div>
 
 			<p class="question">Round <code><var>commafy( NUM )</var></code> to the nearest <var>TPLACE</var>.</p>

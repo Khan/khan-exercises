@@ -67,7 +67,7 @@ jQuery.extend(KhanUtil, {
 			return KhanUtil.placesLeftOfDecimal[ power ];
 		}
 	},
-	
+
 
 	//Adds 0.001 because of floating points uncertainty so it errs on the side of going further away from 0
 	roundTowardsZero: function( x ){
@@ -75,7 +75,7 @@ jQuery.extend(KhanUtil, {
 			return Math.ceil( x - 0.001 );
 		}
 		return Math.floor( x + 0.001 );
-		
+
 
 	},
 
@@ -212,7 +212,7 @@ jQuery.extend(KhanUtil, {
 	getFactors: function( number ) {
 		var factors = [],
 			ins = function( n ) {
-				if ( factors.indexOf( n ) === -1 ) {
+				if ( _(factors).indexOf( n ) === -1 ) {
 					factors.push( n );
 				}
 			};
@@ -260,28 +260,51 @@ jQuery.extend(KhanUtil, {
 		return [coefficient, radical];
 	},
 
-	// Get a random integer between min and max, inclusive
-	// If a count is passed, it gives an array of random numbers in the range
-	randRange: function( min, max, count ) {
-		if ( count == null ) {
+	// randRange( min, max ) - Get a random integer between min and max, inclusive
+	// randRange( min, max, count ) - Get count random integers
+	// randRange( min, max, rows, cols ) - Get a rows x cols matrix of random integers
+	// randRange( min, max, x, y, z ) - You get the point...
+	randRange: function( min, max ) {
+		var dimensions = [].slice.call( arguments, 2 );
+
+		if ( dimensions.length === 0 ) {
 			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
 		} else {
-			return jQuery.map(new Array(count), function() {
-				return KhanUtil.randRange( min, max );
+			var args = [ min, max ].concat( dimensions.slice( 1 ) );
+			return jQuery.map(new Array( dimensions[ 0 ] ), function() {
+				return [ KhanUtil.randRange.apply( null, args ) ];
 			});
 		}
 	},
 
-	//Get an array of unique random numbers between min and max
+	// Get an array of unique random numbers between min and max
 	randRangeUnique: function( min, max, count ) {
 		if ( count == null ) {
-			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
+			return KhanUtil.randRange( min, max );
 		} else {
 			var toReturn = [];
 			for ( var i = min; i < max; i++ ){
 				toReturn.push( i );
 			}
-			
+
+			return KhanUtil.shuffle( toReturn, count );
+		}
+	},
+
+	// Get an array of unique random numbers between min and max,
+	// that ensures that none of the integers in the array are 0.
+	randRangeUniqueNonZero: function( min, max, count ) {
+		if ( count == null ) {
+			return KhanUtil.randRangeNonZero( min, max );
+		} else {
+			var toReturn = [];
+			for ( var i = min; i < max; i++ ){
+				if ( i === 0 ) {
+					continue;
+				}
+				toReturn.push( i );
+			}
+
 			return KhanUtil.shuffle( toReturn, count );
 		}
 	},
@@ -303,7 +326,7 @@ jQuery.extend(KhanUtil, {
 
 		do {
 			result = KhanUtil.randRange( min, max );
-		} while ( excludes.indexOf(result) !== -1 );
+		} while ( _(excludes).indexOf(result) !== -1 );
 
 		return result;
 	},
@@ -313,10 +336,10 @@ jQuery.extend(KhanUtil, {
 	// It never returns any of the values in the excludes array.
 	randRangeWeightedExclude: function( min, max, target, perc, excludes ) {
 		var result;
-								
+
 		do {
 			result = KhanUtil.randRangeWeighted( min, max, target, perc );
-		} while ( excludes.indexOf(result) !== -1 );
+		} while ( _(excludes).indexOf(result) !== -1 );
 
 		return result;
 	},
@@ -343,7 +366,7 @@ jQuery.extend(KhanUtil, {
 	randFromArrayExclude: function( arr, excludes ) {
 		var cleanArr = [];
 		for ( var i = 0; i < arr.length; i++ ) {
-			if ( excludes.indexOf( arr[i] ) === -1 ) {
+			if ( _(excludes).indexOf( arr[i] ) === -1 ) {
 				cleanArr.push( arr[i] );
 			}
 		}
@@ -383,13 +406,13 @@ jQuery.extend(KhanUtil, {
 			var nd = KhanUtil.toFraction( fract, tolerance );
 			nd[0] += Math.round( decimal - fract ) * nd[1];
 			return nd;
-		} else if ( Math.abs( Math.round( decimal ) - decimal ) <= tolerance ) {
+		} else if ( Math.abs( Math.round( Number( decimal ) ) - decimal ) <= tolerance ) {
 			return [ Math.round( decimal ), 1 ];
 		} else {
 			var loN = 0, loD = 1, hiN = 1, hiD = 1, midN = 1, midD = 2;
 
 			while ( 1 ) {
-				if ( Math.abs( midN / midD - decimal ) <= tolerance ) {
+				if ( Math.abs( Number(midN / midD) - decimal ) <= tolerance ) {
 					return [ midN, midD ];
 				} else if ( midN / midD < decimal) {
 					loN = midN;

@@ -32,7 +32,7 @@ jQuery.extend( KhanUtil, {
 			if (i === exp - 1 ) {
 				multiplier = KhanUtil.negParens( multiplier );
 			}
-			
+
 			steps.unshift( multiplier + expansion );
 
 			expansion += "\\cdot " + base_str;
@@ -51,11 +51,11 @@ jQuery.extend( KhanUtil, {
 		exp = Math.abs( exp );
 		var flip_n = exp > 0 ? base_n : base_d,
 			flip_d = exp > 0 ? base_d : base_n,
-			parens = function( n, d ) { 
+			parens = function( n, d ) {
 				return KhanUtil.fraction( n, d, true, true, false, true );
 			}, noParens = function( n, d ) {
 				return KhanUtil.fraction( n, d, true, true, false, false );
-			}, base_str = parens( flip_n, flip_d ), 
+			}, base_str = parens( flip_n, flip_d ),
 			expansion = "\\cdot" + base_str, steps = [], mult_n, mult_d;
 
 		steps.unshift( noParens(
@@ -66,9 +66,9 @@ jQuery.extend( KhanUtil, {
 			mult_n = Math.round( Math.pow( flip_n, exp - i ) );
 			mult_d = Math.round( Math.pow( flip_d, exp - i ) );
 
-			steps.unshift( 
+			steps.unshift(
 				( i === exp - 1  ? parens : noParens )
-					.call(this, mult_n, mult_d ) 
+					.call(this, mult_n, mult_d )
 				+ expansion );
 
 			expansion += "\\cdot " + base_str;
@@ -118,10 +118,10 @@ jQuery.extend( KhanUtil, {
 		for ( var i = 0; i < bases.length; i++ ) {
 			var base = bases[ i ];
 			for ( var j = 2; j <= 4; j++ ) {
-				if ( bases_by_root[ j ].indexOf( base ) !== -1 ) {
+				if ( _(bases_by_root[ j ]).indexOf( base ) !== -1 ) {
 					if ( roots_by_base[ base ] === undefined ) {
 						roots_by_base[ base ] = [ j ];
-					} else if ( roots_by_base[ base ].indexOf( j ) === -1 ) {
+					} else if ( _(roots_by_base[ base ]).indexOf( j ) === -1 ) {
 						roots_by_base[ base ].push( j );
 					}
 				}

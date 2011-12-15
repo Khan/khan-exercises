@@ -26,11 +26,11 @@
 
 			<var id="TR_A">
 				function(){
-					var trA = new Triangle( [ 3, -5 ], ANGLES ,6, {} ); 
+					var trA = new Triangle( [ 3, -5 ], ANGLES ,6, {} );
 					trA.labels = { "points" : [ "A", "B", "C" ], "sides" : clearArray( trA.niceSideLengths, SIDES_A ), "angles" : clearArray( trA.niceAngles, ANGLES_A ) };
 					return trA;
 				}()
-			</var>	
+			</var>
 			<var id="TR_B">
 				function(){
 					var trB = new Triangle( [ TR_A.centroid[ 0 ],  TR_A.centroid[ 1  ] ], ANGLES, 6, {} );
@@ -131,13 +131,13 @@
 					<var id="ANG">ANGLES[ 0 ] / 2</var>
 					<var id="TR_A">
 						function(){
-							var trA = new Triangle( [ 7, -3 ], ANGLES ,6, {} ); 
+							var trA = new Triangle( [ 7, -3 ], ANGLES ,6, {} );
 							trA.rotationCenter = trA.points[ 0 ];
 							trA.rotate( ANG );
 							trA.labels = { "points" : [ "", "B", "C" ], "sides" : clearArray( trA.niceSideLengths, SIDES_A ), "angles" : clearArray( trA.niceAngles, ANGLES_A ) };
 							return trA;
 						}()
-					</var>	
+					</var>
 					<var id="TR_B">
 						function(){
 							var trB = new Triangle( [ 7 - cos( ANG * PI / 180 ) * TR_A.sideLengths[ 0 ], -3 - sin( ANG * PI / 180 ) * TR_A.sideLengths[ 0 ] ], [ ANGLES[ 1 ], ANGLES[ 0 ], ANGLES[ 2 ] ] , 6, {} );

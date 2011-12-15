@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
+<html data-require="math math-format graphie graphie-helpers word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Telling time</title>
@@ -15,13 +15,14 @@
 	<div class="vars">
 		<var id="HOUR">randRange( 1, 12 )</var>
 		<var id="MINUTE">randRange( 0, 3 ) * 15 </var>
-		<var id="NICE_MINUTE"> MINUTE > 5 ? MINUTE : "0" + "" + MINUTE</var>
+		<var id="NICE_MINUTE"> MINUTE &gt; 5 ? MINUTE : "0" + "" + MINUTE</var>
+		<var id="AM_PM">randFromArray([ "a.m.", "p.m." ])</var>
 	</div>
 
 	<div class="problems">
 		<div id="analog">
 			<div class="question">
-				<p>What time is it? ( It is before noon currently. )</p>
+				<p>What time is it?</p>
 				<div class="graphie" id="pie" style="float: left;">
 					init({ range: [ [-4, 4 ], [ -4, 4] ], scale: 25 });
 					PIECH = new analogClock( HOUR, MINUTE,  3.5, false );
@@ -34,7 +35,8 @@
 				<div style="clear: both;"></div>
 			</div>
 			<div class="solution" data-type="multiple">
-				<p class="short">The time is <span class="sol"><var>HOUR</var></span> : <span class="sol"><var>NICE_MINUTE</var></span>.</p>
+				<p class="short">The time is <span class="sol"><var>HOUR</var></span> : <span class="sol"><var>NICE_MINUTE</var></span> <var>AM_PM</var></p>
+				<p class="example">a 12-hour time in hours and minutes</p>
 			</div>
 
 			<div class="hints">
@@ -64,7 +66,7 @@
 					<p>For each quarter of the circle that the minute hand passes, add <code>15</code> minutes.</p>
 				</div>
 				<div>
-					<p>The minute hand is pointing at <code><var> (MINUTE / 5) === 0 ? 12: MINUTE / 5 </var></code>, which represents <span data-if="MINUTE === 0"><code>0</code></span><span data-else><code><var>MINUTE</var></code></span> minutes.</p>
+					<p>The minute hand has passed <var>plural( MINUTE / 15, "fourth" )</var> of a circle, which represents <span data-if="MINUTE === 0"><code>0</code></span><span data-else><code><var>MINUTE</var></code></span> minutes.</p>
 					<div class="graphie" data-update="digital">
 						graph.time.remove();
 						var padding = MINUTE &lt; 10 ? "0" : "";
