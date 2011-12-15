@@ -153,7 +153,7 @@ var Khan = (function() {
 	isSummative = false,
 
 	// If we're in review mode: present a mix of different exercises
-	reviewMode = false,
+	reviewMode = typeof initialReviewsLeftCount === "number",
 	reviewQueue = [],
 
 	// Where we are in the shuffled list of problem types
@@ -852,13 +852,6 @@ var Khan = (function() {
 		// TODO(david): Possibly save this in hash map, so we don't have to
 		//     recompute it?
 		problemBag = makeProblemBag( problems, 10 );
-
-		// TODO(david): Should we have a review URL, like
-		//     /exercise/review#addition_1 or /review/addition_1 or something?
-		// If the history API is supported, update the URL to the new exercise
-		if ( window.history && window.history.replaceState ) {
-			window.history.replaceState( {}, "", "/exercise/" + exid );
-		}
 
 		// Update the document title
 		var title = document.title;
@@ -1815,6 +1808,10 @@ var Khan = (function() {
 
 		if (typeof userExercise !== "undefined" && userExercise.read_only) {
 			jQuery( "#extras" ).css("visibility", "hidden");
+		}
+
+		if ( reviewMode ) {
+			enterReviewMode();
 		}
 
 		jQuery( "#answer_area" ).adhere( {
@@ -2822,14 +2819,6 @@ var Khan = (function() {
 		jQuery(".streak-bar").toggleClass("proficient", data.progress >= 1.0);
 
 		drawExerciseState( data );
-
-		// Allow entering review mode only on initial page load -- don't fall in
-		// when getting a problem wrong after proficiency (would cause confusion).
-		if ( isFirstUpdate && data && data.exercise_states &&
-				data.exercise_states.reviewing ) {
-			reviewMode = true;
-			jQuery( enterReviewMode );
-		}
 
 		var videos = data && data.exercise_model.related_videos;
 		if ( videos && videos.length && ( jQuery(".related-video-list").is(":empty")
