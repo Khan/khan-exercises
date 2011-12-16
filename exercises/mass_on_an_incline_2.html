@@ -19,17 +19,18 @@
 	<div class="problems">
 		<div id="original">
 			<div class="problem">
-				<p>There is a mass of <code><var>MASS</var></code> kg sitting on an incline of angle <code><var>INCLINE</var></code> degrees. The left corner of the mass is at a height of <code><var>HEIGHT</var></code>d meters above the ground, as depicted in the diagram.</p>
+				<p>There is a mass of <code><var>MASS</var></code> kg sitting on an incline of angle <code><var>INCLINE</var></code> degrees. The left corner of the mass is at a height of <code><var>HEIGHT</var></code> meters above the ground, as depicted in the diagram.</p>
 				<p>Use <code>9.8\ \mathrm{m/s^2}</code> for the acceleration due to gravity, <code>g</code>. You may do arithmetic with a calculator. Round your answer to the nearest tenth.</p>
 				<div class="graphie" id="incline">
+					var ANGLE = Math.min (INCLINE, 35);
+					ANGLE *= PI/180;
+					var BOX_HEIGHT = 13.5*abs(tan(ANGLE));
 					init({
-						range: [ [-3, 10], [-2, 8] ],
+						range: [ [-3, 10], [-1.5, BOX_HEIGHT] ],
 						scale: 40
 					});
 					
-					var ANGLE = Math.min (INCLINE, 40)
 					arc( [7, 0], 1, 180-ANGLE, 180);
-					ANGLE *= PI/180
 					path([ [0, 0], [7, 0] ]);
 					path([ [0, 7*tan(ANGLE)], [0, 0] ]);
 					path([ [0, 7*tan(ANGLE)], [7, 0] ]);
@@ -46,11 +47,13 @@
 			<p class="question"> If the coefficient of friction between the mass and the incline is <code><var>MU</var></code> and the mass is released from rest, what is the acceleration of the mass due to the forces that act upon it?</p>
 			<p class="solution" data-type="decimal" data-inexact data-max-error="0.1"><var>((9.8*sin(INCLINE_RAD))-(MU*9.8*cos(INCLINE_RAD)))</var>
 			<div class="hints">
-				<p>First, find the forces acting on the mass.</p>
-				<p>In this case there are two forces that act on the mass. The force of gravity acts directly downward, and the force of friction acts in the opposite direction of the motion of the mass along the incline.</p>
+				<p>First, define a coordinate system. It is easiest to define it in relation to the incline.</p>
+				<p>The positive x-direction will be down the incline and the positive y-direction will be perpendicular to the incline.</p>
+				<p>Then, find the forces acting on the mass.</p>
+				<p>In this case there are three forces that act on the mass. The force of gravity acts directly downward, and the force of friction acts in the opposite direction of the motion of the mass along the incline. The normal force acts upon the surface so that the block neither floats nor goes into the surface.</p>
 					<div class="graphie" data-update="incline">
-					var ANGLE = Math.min (INCLINE, 40)
-					ANGLE *= PI/180
+					var ANGLE = Math.min (INCLINE, 35);
+					ANGLE *= PI/180;
 					line( [cos(ANGLE), 7*tan(ANGLE) - 1.5*sin(ANGLE)], 
 						[cos(ANGLE), -1], {
 						arrows: "&gt;"
@@ -61,17 +64,26 @@
 						(7*tan(ANGLE) - 1.5*sin(ANGLE)) + (HYPO*pow(sin(ANGLE),2))], {
 						arrows: "&gt;"
 					});
+					var DX = (HYPO-1)*sin(ANGLE);
+					var DY = (HYPO-1)*cos(ANGLE);
+					line( [sin(ANGLE) + 0.75*cos(ANGLE), 7*tan(ANGLE) + cos(ANGLE) - 0.75*sin(ANGLE)],
+					 	  [sin(ANGLE) + 0.75*cos(ANGLE) + DX, 
+					      7*tan(ANGLE) + cos(ANGLE) - 0.75*sin(ANGLE) + DY], {
+						arrows: "&gt;"
+					}); 
 					
 					label( [cos(ANGLE), -1], "F_g", "below");
 					label( [cos(ANGLE) - (HYPO*sin(ANGLE)*cos(ANGLE)), 
 							(7*tan(ANGLE) - 1.5*sin(ANGLE)) + (HYPO*pow(sin(ANGLE),2))], 
 							"F_{f}", "below");
+					label( [sin(ANGLE) + 0.75*cos(ANGLE) + DX, 
+					       7*tan(ANGLE) + cos(ANGLE) - 0.75*sin(ANGLE) + DY], "F_{n}", "right");
 					</div>
 				<p>Break up the components of the forces to find which one causes the mass to move, which one acts against the motion, and which one is the normal force. </p>
 				<p>If we define the x-axis to be along the incline, and the y-axis to be perpendicular to the incline, the only force that must be broken down into components is gravity.The force of gravity breaks down into <code>mg\sin(\theta)</code>, <code> F_x</code>, down the incline and <code>mg\cos(\theta)</code>, <code> F_y</code>. </p>
 					<div class="graphie" data-update="incline">
-						var ANGLE = Math.min (INCLINE, 40)
-						ANGLE *= PI/180
+						var ANGLE = Math.min (INCLINE, 35);
+						ANGLE *= PI/180;
 						var HYPO = 7*tan(ANGLE) - 1.5*sin(ANGLE) + 1
 						line( [cos(ANGLE), 7*tan(ANGLE) - 1.5*sin(ANGLE)], 
 							[cos(ANGLE) + (HYPO*sin(ANGLE)*cos(ANGLE)), 
