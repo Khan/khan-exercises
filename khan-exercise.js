@@ -146,8 +146,9 @@ var Khan = (function() {
 
 	hints,
 
-	// The exercise elements, initialized to an empty jQuery set
-	exercises = jQuery(),
+	// The exercise elements, initialized to an empty jQuery set.
+	// It is possible that jQuery may not be loaded at this stage in test mode.
+	exercises = typeof jQuery !== "undefined" && jQuery(),
 
 	// If we're dealing with a summative exercise
 	isSummative = false,
@@ -204,7 +205,9 @@ var Khan = (function() {
 
 	relatedVideosForExercise = null,
 
-	modulesLoaded = false;
+	modulesLoaded = false,
+
+	gae_bingo = window.gae_bingo || { bingo: function() {} };
 
 	// Nuke the global userExercise object to make
 	// it significantly harder to cheat
@@ -1798,7 +1801,8 @@ var Khan = (function() {
 			userExercise.exercise_model.display_name : document.title );
 
 		// TODO(david): Don't add homepage elements with "exercise" class
-		exercises = exercises.add( jQuery( ".exercise" ).detach() );
+		var domExercises = jQuery( ".exercise" ).detach();
+		exercises = exercises ? exercises.add( domExercises ) : domExercises;
 
 		// Setup appropriate img URLs
 		jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
@@ -2649,7 +2653,7 @@ var Khan = (function() {
 		// Update the local data store
 		updateData( data );
 
-		if ( data.exercise ) {
+		if ( data && data.exercise ) {
 			exerciseName = data.exercise;
 		}
 
@@ -2977,7 +2981,7 @@ var Khan = (function() {
 			newContents.data( "name", name ).data( "weight", weight );
 
 			// Add the new exercise elements to the exercises DOM set
-			exercises = exercises.add( newContents );
+			exercises = exercises ? exercises.add( newContents ) : newContents;
 
 			// Extract data-require
 			var requires = data.match( /<html(?:[^>]+)data-require=(['"])((?:(?!\1).)*)\1/ );
