@@ -47,8 +47,8 @@
 					<p>Let <code>x</code> equal the number of <var>UNIT_1</var> and <code>y</code> equal the number of <var>UNIT_2</var>.</p>
 					<div>
 						<p>The system of equations is then:</p>
-						<p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code> (<span data-if="INDEX === 0 || INDEX === 1">Tickets cost $<var>A1.toFixed( 2 )</var> each for adults and $<var>B1.toFixed( 2 )</var> each for kids, and the group paid $<var>C1.toFixed( 2 )</var> in total.</span><span data-else>Everyone there was a fan of either the home team or the away team.</span>)<br />
-						<code class="hint_green">x = <var>expr(["+", ["*", -B2, "y"], C2])</var></code> (<span data-if="INDEX === 0 || INDEX === 1">There were <var>abs( C2 )</var> fewer adults than kids in the group.</span><span data-else>The number of home team fans was <var>abs( C2 )</var> less than <var>abs( B2 )</var> times the number of away team fans.</span>)</p>
+						<p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
+						<code class="hint_green">x = <var>expr(["+", ["*", -B2, "y"], C2])</var></code></p>
 						<p>Solve for <code>x</code> and <code>y</code> using substitution.
 					</div>
 					<div>
@@ -111,8 +111,8 @@
 					<p>Let <code>x</code> equal the <span data-if="INDEX !== 2">number</span><span data-else>measure</span> of <var>UNIT_1</var> and <code>y</code> equal the <span data-if="INDEX !== 2">number</span><span data-else>measure</span> of <var>UNIT_2</var>.</p>
 					<div>
 						<p>The system of equations is then:</p>
-						<p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code> (<span data-if="INDEX === 0 || INDEX === 1">Bags of candy cost $<var>A1.toFixed( 2 )</var>, and bags of cookies cost $<var>B1.toFixed( 2 )</var>, and sales equaled $<var>C1.toFixed( 2 )</var> in total.</span><span data-else>The sum of two angles' measures is <var>C1</var> degrees.</span>)<br />
-						<code class="hint_green">y = <var>expr(["+", ["*", -A2, "x"], C2])</var></code>(<span data-if="INDEX === 0 || INDEX === 1">There were <var>C2</var> more bags of cookies than candy sold.</span><span data-else>Angle 2 is <var>abs( C2 )</var> degrees smaller than <var>abs( A2 )</var> times angle 1.</span>)</p>
+						<p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
+						<code class="hint_green">y = <var>expr(["+", ["*", -A2, "x"], C2])</var></code></p>
 					</div>
 					<div>
 						<p>Since we already have solved for <code>y</code> in terms of x, we can use substitution to solve for <code>x</code> and <code>y</code>.
@@ -183,9 +183,8 @@
 					<p>Let <code>x</code> equal the number of teachers and <code>y</code> equal the number of students.</p>
 					<div>
 						<p>The system of equations is:</p>
-						<p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code> (Tickets were $<var>A1.toFixed( 2 )</var> each for teachers and $<var>B1.toFixed( 2 )</var> each for students, and the group paid $<var>C1.toFixed( 2 )</var> in total.)<br />
-						<code class="hint_green"><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> = <var>C2</var></code> (... the tickets cost $<var>A2.toFixed( 2 )</var> each for teachers and $<var>B2.toFixed( 2 )</var> each for students, and the 
-        					group paid $<var>C2.toFixed( 2 )</var> in total.)</p>
+						<p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
+						<code class="hint_green"><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> = <var>C2</var></code></p>
 						<p>Solve for <code>x</code> and <code>y</code> using elimination.</p>
 					</div>
 					<div data-if="INDEX !== 0">
@@ -255,6 +254,8 @@
 				<div class="hints">
 					<div>
 						<p>Let <code>x</code> be the first number, and let <code>y</code> be the second number.</p>
+					</div>
+					<div>	
 						<p>The system of equations is:</p>
 						<p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
 						<code class="hint_green"><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> = <var>C2</var></code></p>
