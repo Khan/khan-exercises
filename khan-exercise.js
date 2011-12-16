@@ -34,6 +34,94 @@
 
 */
 
+var tokenreplace
+
+function initTokenreplace(){
+
+	tokenreplace = {
+
+		// Default language when untranslatable
+		lang : "en",
+
+		//switchLang(["en":object1, "nl":object2]) == object2
+		//(defaults to "en" or entry [0])
+		switchLang : function(langobjectmap){
+			if(langobjectmap[tokenreplace.lang]){
+				return langobjectmap[tokenreplace.lang]
+			}
+			else if(langobjectmap["en"]){
+				return langobjectmap["en"]
+			}
+			else{
+				return langobjectmap[0]
+			}
+		},
+
+		production: ( $('html').attr('itemscope') != null ),
+
+	}
+
+	// Default language when translatable
+	tokenreplace.lang = "nl"
+
+	langfile = $('title').html().toLowerCase().replace(new RegExp(" ", "g"), "_")
+	globallangfile = "lang.js"
+	if(tokenreplace.production){
+		langfile = "khan-exercises/exercises/"+langfile.substring(0, langfile.indexOf('|')-1)+".lang.js"
+		globallangfile = "khan-exercises/exercises/"+globallangfile
+	}
+	else{
+		langfile = langfile+".lang.js";
+	}
+
+	// Load exercise translation file
+	$.ajax({
+		type: "GET",
+		url: langfile,
+		success: function(data){
+			table = eval(data)
+			if(table[tokenreplace.lang]){
+				$('[data-tt]').each(function(){
+					token = $(this).attr('data-tt')
+					if(table[tokenreplace.lang][token]){
+						$(this).html(table[tokenreplace.lang][token])
+					}
+				})
+			}
+		}
+	})
+
+	// Load global translation file
+	$.ajax({
+		type: "GET",
+		url: globallangfile,
+		success: function(data){
+			table = eval(data)
+			if(table["titles"][tokenreplace.lang]){
+				$('.exercise-title').each(function(){
+					token = $('title').html().substring(0, $('title').html().indexOf('|')-1)
+					if(table["titles"][tokenreplace.lang][token]){
+						$(this).html(table["titles"][tokenreplace.lang][token])
+					}
+				})
+			}
+			if(table["globals"][tokenreplace.lang]){
+				$('[data-tg]').each(function(){
+					token = $(this).attr('data-tg')
+					if(table["globals"][tokenreplace.lang][token]){
+						$(this).html(table["globals"][tokenreplace.lang][token])
+					}
+				})
+			}
+		}
+	})
+
+}
+
+if(typeof jQuery != 'undefined'){
+	initTokenreplace()
+}
+
 var Khan = (function() {
 	function warn( message, showClose ) {
 		jQuery(function() {
@@ -1638,8 +1726,10 @@ var Khan = (function() {
 	function prepareSite() {
 
 		// Set exercise title
-		jQuery(".exercise-title").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
-			userExercise.exercise_model.display_name : document.title );
+		if(jQuery(".exercise-title").text().length == 0){
+			jQuery(".exercise-title").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
+				userExercise.exercise_model.display_name : document.title );
+		}
 
 		exercises = jQuery( ".exercise" ).detach();
 
@@ -2692,84 +2782,11 @@ var Khan = (function() {
 	}
 
 	function loadModules() {
-	
-		tokenreplace = { 
 
-			// Default language when untranslatable
-			lang : "en",
-
-			//switchLang(["en":object1, "nl":object2]) == object2
-			//(defaults to "en" or entry [0])
-			switchLang : function(langobjectmap){
-				if(langobjectmap[tokenreplace.lang]){
-					return langobjectmap[tokenreplace.lang]
-				}
-				else if(langobjectmap["en"]){
-					return langobjectmap["en"]
-				}
-				else{
-					return langobjectmap[0]
-				}
-			}
-
+		if(tokenreplace == null){
+			initTokenreplace()
 		}
-
-		// If translatable load translation file
-
-		if(document.documentElement.getAttribute("data-translatable") != null){
-
-			// Default language when translatable
-			tokenreplace.lang = "nl"
-
-			langfile = $('title').html().toLowerCase().replace(" ", "_")+".lang.js"
-
-			console.log(langfile)
-
-			// Load exercise translation file
-			$.ajax({
-				type: "GET",
-				url: langfile,
-				success: function(data){
-					table = eval(data)
-					console.log(table)
-					console.log("hello!")
-					if(table[tokenreplace.lang]){
-						$('[data-tt]').each(function(){
-							token = $(this).attr('data-tt')
-							if(table[tokenreplace.lang][token]){
-								$(this).html(table[tokenreplace.lang][token])
-							}
-						})
-					}
-				}
-			})
-
-			// Load global translation file
-			$.ajax({
-				type: "GET",
-				url: "lang.js",
-				success: function(data){
-					table = eval(data)
-					if(table["titles"][tokenreplace.lang]){
-						$('title').each(function(){
-							token = $(this).text()
-							if(table["titles"][tokenreplace.lang][token]){
-								$(this).html(table["titles"][tokenreplace.lang][token])
-							}
-						})
-					}
-					if(table["globals"][tokenreplace.lang]){
-						$('[data-tg]').each(function(){
-							token = $(this).attr('data-tg')
-							if(table["globals"][tokenreplace.lang][token]){
-								$(this).html(table["globals"][tokenreplace.lang][token])
-							}
-						})
-					}
-				}
-			})
-
-		}
+		Khan.tokenreplace = tokenreplace;
 	
 		// Load module dependencies
 		Khan.loadScripts( jQuery.map( Khan.modules, function( mod, name ) {
