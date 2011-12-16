@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<html data-translatable data-require="math graphie graphie-helpers graphie-geometry math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Angle Bisector Theorem</title>
@@ -25,14 +25,14 @@
 						return pointD;
 					}()
 				</var>
-				<var id="TR_B">
+				<var id="TR_B" data-tt="exercise1">
 					function(){
 						var trB = new Triangle( [0,0],[], 3, {}, [ TR_A.points[ 0 ], TR_A.points[ 1 ], POINT_D ] );
 						trB.labels = { "angles" : clearArray( trB.niceAngles, [ 0 ] ), "sides" : mergeArray( clearArray( trB.niceSideLengths, SIDES_B[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_B[ 1 ] ) ),  "points": [ "A", "B", "D" ] };
 						return trB;
 					}()
 				</var>
-				<var id="TR_C">
+				<var id="TR_C" data-tt="exercise2">
 					function(){
 						var trC = new Triangle( [0,0],[], 3, {}, [ TR_A.points[ 0 ], POINT_D, TR_A.points[ 2 ] ] );
 						trC.labels = { "angles" : clearArray( trC.niceAngles, [ 0 ] ) , "sides" :  mergeArray( clearArray( trC.niceSideLengths, SIDES_C[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_C[ 1 ] ) ),  "points": [ "", "", "C" ] };
@@ -48,7 +48,7 @@
 				<var id="CD">TR_C.niceSideLengths[ 1 ]</var>
 				<var id="AC">TR_C.niceSideLengths[ 2 ]</var>
 		</div>
-		<div class="problem">
+		<div class="problem" data-tt="exercise3">
 			What is the length of the side AC? 
 		</div>
 		<div class="question">
@@ -63,9 +63,9 @@
 			</div>
 		</div>
 		<div class="hints">
-			<p>Angles <code>DAB</code> and <code>DAC</code> are equal.</p>
-			<p>Therefore <code>AD</code> is the bisector of <code>CAB</code></p>
-			<p>Angle Bisector Theorem states that <code>\dfrac{ AB }{ BD }	= \dfrac{ AC }{ CD }</code></p>
+			<p data-tt="hint1">Angles <code>DAB</code> and <code>DAC</code> are equal.</p>
+			<p data-tt="hint2">Therefore <code>AD</code> is the bisector of <code>CAB</code></p>
+			<p data-tt="hint3">Angle Bisector Theorem states that <code>\dfrac{ AB }{ BD }	= \dfrac{ AC }{ CD }</code></p>
 		</div>
 
 
