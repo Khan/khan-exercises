@@ -7,7 +7,12 @@
 	<!-- TODO: Update with real point value -->
 	<div id="exercise-points" class="energy-points-badge"></div>
 	<!-- TODO: Update with real title -->
-	<div class="exercise-title"></div>
+	<div class="exercise-title">
+		<div id="current-exercise"></div>
+		<div class="gradient-overlay" style="display: none;"></div>
+		<div id="next-exercises"></div>
+	</div>
+
 	<div id="streak-bar-container">
 		<div class="streak-bar">
 			<div class="longest-streak">
@@ -24,13 +29,27 @@
 			</div>
 		</div>
 	</div>
+
+	<div id="review-mode-title" style="display: none;">
+		<div>
+			<h1>Exercises Left</h1>
+			<span id="review-counter-container">
+				<span class="ones"></span>
+				<span class="tens"></span>
+				<div class="gradient-overlay"></div>
+			</span>
+		</div>
+	</div>
+
 	<div class="related-content" style="display:none;">
 		<span class="related-content-title">Related videos:</span>
 		<ul class="related-video-list"></ul>
 	</div>
+
 	<div class="summative-help" style="display:none;">
 		Fill up <span class="summative-required-streaks"></span> bars to complete this challenge. Once you complete a bar, it will not be set back.
 	</div>
+
 </div>
 <div id="exercise-message-container" style="display: none;">
 	<div class="exercise_message"></div>
@@ -44,7 +63,13 @@
 		<a href="/exercisedashboard?k" title="Back to Dashboard">&laquo; Back to Dashboard</a>
 	</div>
 	<!-- TODO: Toggle scratchpad display -->
-		<a id="scratchpad-show" href="">Show scratchpad</a><span id="scratchpad-not-available">Scratchpad not available</span> | <a id="print-ten" href="">Show next 10 problems</a>
+	<ul>
+		<li>
+			<a id="scratchpad-show" href="">Show scratchpad</a>
+			<span id="scratchpad-not-available">Scratchpad not available</span>
+		</li>
+		<li><a id="print-ten" href="">Show next 10 problems</a></li>
+	</ul>
 </div>
 <div>
 	<div id='problemarea'>
