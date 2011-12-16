@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems">
+<html data-translatable data-require="math graphie word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Number line 2</title>
@@ -15,7 +15,7 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>What number does the orange dot represent? The distance between adjacent tick marks is 1.</p>
+				<p data-tt="exercise">What number does the orange dot represent? The distance between adjacent tick marks is 1.</p>
 				<div class="graphie" id="number-line">
 					init({
 						range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ]
@@ -36,22 +36,22 @@
 			<div class="solution" data-forms="integer"><var>NUMBER</var></div>
 
 			<div class="hints">
-				<p>We know where 0 is on the number line because it is labeled.</p>
-				<p>Numbers to the left are smaller, and numbers to the right are bigger.</p>
-				<p>Numbers smaller than 0 are negative, and numbers bigger than 0 are positive.</p>
+				<p data-tt="hint1">We know where 0 is on the number line because it is labeled.</p>
+				<p data-tt="hint2">Numbers to the left are smaller, and numbers to the right are bigger.</p>
+				<p data-tt="hint3">Numbers smaller than 0 are negative, and numbers bigger than 0 are positive.</p>
 				<div>
 					<div class="graphie" data-update="number-line">
 						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->" });
 						line( [ 0, 0 ], [ NUMBER, 0 ] );
 						graph.orangeDot.toFront();
 					</div>
-					<p>The orange dot is <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER < 0">left</span><span data-else>right</span> of 0.</p>
+					<p data-tt='hint4'>The orange dot is <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER < 0">left</span><span data-else>right</span> of 0.</p>
 				</div>
 				<div>
 					<div class="graphie" data-update="number-line">
 						label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
 					</div>
-					<p>The orange dot represents the number <var>NUMBER</var>.</p>
+					<p data-tt="hint5">The orange dot represents the number <var>NUMBER</var>.</p>
 				</div>
 			</div>
 		</div>

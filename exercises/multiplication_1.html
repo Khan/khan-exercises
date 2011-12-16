@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<html data-translatable data-require="math graphie graphie-helpers-arithmetic word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Multiplication 1</title>
@@ -28,13 +28,13 @@
 		<div class="hints">
 			<div data-if="B > 0" data-unwrap>
 				<div>
-					<div class="graphie" data-update="numbers">
+					<div class="graphie" data-update="numbers" data-tt="exercise">
 						label( [ 0, B - 1 ], "\\text{Draw " + plural( A, "circle" ) + ".}", "right" );
 						drawRow( A, B - 3, "#6495ED", 1 );
 					</div>
 				</div>
 				<div>
-					<div class="graphie" data-update="numbers">
+					<div class="graphie" data-update="numbers" data-tt="hint1">
 						label( [ 0, B - 2 ], "\\text{"
 							+ "If there" + ( B === 1 ? " is " : " are " ) + plural( B, "row" )
 							+ " with " + plural( A, "circle" ) +  ( B === 1 ? " " : " each " ) + ", there is a total of how many circles?"
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 			<div data-else>
-				<div class="graphie" data-update="numbers">
+				<div class="graphie" data-update="numbers" data-tt="hint2">
 					label( [ 0, B - 1 ], "\\large{\\text{Multiplying any number by 0 equals 0.}}", "right" );
 				</div>
 			</div>

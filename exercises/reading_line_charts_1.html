@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math d3 graphie graphie-helpers word-problems">
+<html data-translatable data-require="math d3 graphie graphie-helpers word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Reading line charts 1</title>
@@ -8,7 +8,7 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="DAYS">[ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]</var>
+		<var id="DAYS" data-tt="weekdays">[ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]</var>
 		<var id="INDEX">randRange( 0, DAYS.length - 1 )</var>
 		<var id="VALUES">shuffle( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ], DAYS.length )</var>
 		<var id="DATA">
@@ -27,8 +27,8 @@
 	</div>
 	<div class="problems">
 		<div>
-			<p><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> <var>he( 1 )</var> saw every day this week. </p>
-			<p class="question">How many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> did <var>he( 1 )</var> see on <var>DAYS[ INDEX ]</var>?</p>
+			<p data-tt="exercise"><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> <var>he( 1 )</var> saw every day this week. </p>
+			<p class="question" data-tt="exercise1">How many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> did <var>he( 1 )</var> see on <var>DAYS[ INDEX ]</var>?</p>
 			<div class="graphie" id="scatter">
 				var width = 10;
 				var height = 10;
@@ -48,18 +48,18 @@
 
 			<div class="hints">
 				<div>
-					<p>Find the dot for <var>DAYS[ INDEX ]</var> by looking at the text at the bottom of the scatter plot.</p>
+					<p data-tt="hint1">Find the dot for <var>DAYS[ INDEX ]</var> by looking at the text at the bottom of the scatter plot.</p>
 					<div class="graphie" data-update="scatter">
 						graph.lc.highlightDataPoint( INDEX );
 					</div>
 				</div>
 				<div>
-					<p>Compare how high up the dot is with the numbers to the left.</p>
+					<p data-tt="hint2">Compare how high up the dot is with the numbers to the left.</p>
 					<div class="graphie" data-update="scatter">
 						graph.lc.labelDataPoint( INDEX );
 					</div>
 				</div>
-				<p><var>He( 1 )</var> saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> on <var>DAYS[ INDEX ]</var>.</p>
+				<p data-tt="hint3"><var>He( 1 )</var> saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> on <var>DAYS[ INDEX ]</var>.</p>
 			</div>
 		</div>
 	</div>
