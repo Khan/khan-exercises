@@ -231,7 +231,7 @@ jQuery.extend( Khan.answerTypes, {
 					// Replace unicode minus sign with hyphen
 					text = text.replace( /\u2212/, "-" );
 
-					if ( match = text.match( /^log\(\s*(\S+)\s*\)$/i ) ) {
+					if ( match = text.match( /^log[\( ]\s*(\S+)\s*[\) ]*$/i ) ) {
 						possibilities = forms.decimal.transformer( match[1] );
 					} else if ( text === "0") {
 						possibilities = [ { value: 0, exact: true } ];
