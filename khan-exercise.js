@@ -127,6 +127,14 @@ var Khan = (function() {
 	user = window.localStorage["exercise:lastUser"] || null,
 	userCRC32,
 
+	// Wrapper on top of localStorage to store exercises
+	localStorageExercises = new LocalStorageLRU( "exercises", 40,
+						     function ( key, value ) {
+							     if ( !/^exercise/.test( key ) ) return null;
+							     var data = JSON.parse( value );
+							     return data.last_done || data.first_done || '1970-01-01T00:00:00Z';
+						     } ),
+
 	// The current problem and its corresponding exercise
 	problem,
 	exercise,
@@ -1795,7 +1803,7 @@ var Khan = (function() {
 						// If there' a discrepancy between server and localStorage such that
 						// problem numbers are out of order or anything else, we want
 						// to restart with whatever the server sends back on reload.
-						delete window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+						localStorageExercises.del( "exercise:" + user + ":" + exerciseName );
 					}
 
 					window.location.reload();
@@ -2522,7 +2530,8 @@ var Khan = (function() {
 		if ( data && (data.total_done >= oldData.total_done || data.user !== oldData.user) ) {
 			// Cache the data locally
 			if ( user != null ) {
-				window.localStorage[ "exercise:" + user + ":" + exerciseName ] = JSON.stringify( data );
+				localStorageExercises.set( "exercise:" + user + ":" + exerciseName,
+							   JSON.stringify( data ) );
 			}
 
 		// If no data is provided then we're just updating the UI
@@ -2659,7 +2668,7 @@ var Khan = (function() {
 			return userExercise;
 
 		} else {
-			var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+			var data = localStorageExercises.get( "exercise:" + user + ":" + exerciseName );
 
 			// Parse the JSON if it exists
 			if ( data ) {
@@ -2792,6 +2801,92 @@ var Khan = (function() {
 	if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
 		Khan.loadExercise = loadExercise;
 		Khan.prepareUserExercise = prepareUserExercise;
+	}
+
+	// window.localStorage is cool, but it has a limited storage. In order
+	// to avoid QUOTA_EXCEEDED_ERR exception we should make sure that we
+	// don't store too much data. The solution to this is quite simple:
+	// let's use a simple abstract LRU structure. The items are stored in
+	// localStorage as usual and we add another index xxx_lru_idx, which
+	// is an array of keys, ordered by the time of last use. Keys recently
+	// used will be closer to the end of that list. When the size of the
+	// list gets above threshold - we will remove items from the
+	// beginning.
+	//
+	// The constructor takes:
+	//   lru_name - prefix name, in order to enable multiple LRU lists
+	//   limit - maximum size of index (ie: max number of elements for this LRU)
+	//   upgrade_fun - If the index isn't present yet, we iterate over all the
+	//        keys in localStorage and try to create one. This function is called
+	//        for every found key. It should return null if the key doesn't belong
+	//        to our bucket or a value which will be used to sort items and get
+	//        proper initial ordering.
+	function LocalStorageLRU( lru_name, limit, upgrade_fun ) {
+		var lru_idx_key_name = lru_name + '_lru_idx';
+
+		// Quick wrapper, loads and stores lru_idx.
+		var with_lru = function ( fun ) {
+			var raw_lru_idx = window.localStorage[ lru_idx_key_name ], lru_idx = [];
+			if ( typeof raw_lru_idx !== 'undefined' ) {
+				lru_idx = JSON.parse( raw_lru_idx );
+			}
+			lru_idx = fun( lru_idx );
+			window.localStorage[ lru_idx_key_name ] = JSON.stringify( lru_idx );
+		}
+
+		var create_index = function() {
+			var lru_idx, order = {}; // key --> date
+			for ( var i = 0; i < window.localStorage.length; i++ ) {
+				var k = window.localStorage.key( i );
+				var d = upgrade_fun( k, window.localStorage[ k ] );
+				if ( d !== null ) { order[ k ] = d; }
+			}
+			lru_idx = _.keys( order );
+			lru_idx.sort( function ( k1, k2 ) {return order[ k1 ] < order[ k2 ] ? -1 : 1;} );
+			return lru_idx;
+		}
+
+		var lru = {
+			set: function ( key, value ) {
+				with_lru( function ( lru_idx ) {
+					// localStorage for unknown value returns undefined in all
+					// browsers and null in ff.
+					if ( !window.localStorage[ lru_idx_key_name ] && upgrade_fun ) {
+						// No index present yet and we're given upgrade_fun. Create one.
+						lru_idx = create_index();
+					}
+
+					// Push key to the end and remove old items;
+					lru_idx = _.without( lru_idx, key );
+					lru_idx.push( key );
+					while ( lru_idx.length > limit ) {
+						var k = lru_idx.shift();
+						if (k in window.localStorage)
+							delete window.localStorage[ k ];
+					}
+					return lru_idx;
+				} );
+				window.localStorage[ key ] = value;
+			},
+			get: function ( key ) {
+				with_lru( function ( lru_idx ) {
+					if ( _.indexOf( lru_idx, key ) !== -1 ) {
+						lru_idx = _.without( lru_idx, key );
+						lru_idx.push( key );
+					}
+					return lru_idx;
+				} );
+				return window.localStorage[ key ];
+			},
+			del: function ( key ) {
+				with_lru( function( lru_idx ) {
+					return _.without( lru_idx, key );
+				} );
+				if (key in window.localStorage)
+					delete window.localStorage[ key ];
+			}
+		}
+		return lru;
 	}
 
 	return Khan;
