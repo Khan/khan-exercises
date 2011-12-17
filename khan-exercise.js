@@ -63,7 +63,7 @@ var Khan = (function() {
 
 	if ( !localStorageEnabled ) {
 		if ( typeof jQuery !== "undefined" ) {
-			warn( "You must enable DOM storage in your browser, see <a href='https://sites.google.com/a/khanacademy.org/forge/for-developers/how-to-enable-dom-storage'>here</a> for instructions.", false );
+			warn( "You must enable DOM storage in your browser; see <a href='https://sites.google.com/a/khanacademy.org/forge/for-developers/how-to-enable-dom-storage'>here</a> for instructions.", false );
 		}
 		return;
 	}
@@ -560,12 +560,15 @@ var Khan = (function() {
 
 		if ( testMode ) {
 			Khan.require( [ "../jquery-ui" ] );
-		};
+		}
 
 		// Base modules required for every problem
 		Khan.require( [ "answer-types", "tmpl", "underscore", "jquery.adhesion" ] );
 
 		Khan.require( document.documentElement.getAttribute("data-require") );
+
+		// Initialize to an empty jQuery set if needed (now that jQuery is loaded)
+		exercises = exercises || jQuery();
 
 		if ( typeof userExercise !== "undefined" ) {
 			prepareUserExercise( userExercise );
@@ -1801,8 +1804,7 @@ var Khan = (function() {
 			userExercise.exercise_model.display_name : document.title );
 
 		// TODO(david): Don't add homepage elements with "exercise" class
-		var domExercises = jQuery( ".exercise" ).detach();
-		exercises = exercises ? exercises.add( domExercises ) : domExercises;
+		exercises = exercises.add( jQuery( ".exercise" ).detach() );
 
 		// Setup appropriate img URLs
 		jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
@@ -2981,7 +2983,7 @@ var Khan = (function() {
 			newContents.data( "name", name ).data( "weight", weight );
 
 			// Add the new exercise elements to the exercises DOM set
-			exercises = exercises ? exercises.add( newContents ) : newContents;
+			exercises = exercises.add( newContents );
 
 			// Extract data-require
 			var requires = data.match( /<html(?:[^>]+)data-require=(['"])((?:(?!\1).)*)\1/ );
