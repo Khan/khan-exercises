@@ -146,9 +146,8 @@ var Khan = (function() {
 
 	hints,
 
-	// The exercise elements, initialized to an empty jQuery set.
-	// It is possible that jQuery may not be loaded at this stage in test mode.
-	exercises = typeof jQuery !== "undefined" && jQuery(),
+	// The exercise elements
+	exercises,
 
 	// If we're dealing with a summative exercise
 	isSummative = false,
@@ -567,8 +566,8 @@ var Khan = (function() {
 
 		Khan.require( document.documentElement.getAttribute("data-require") );
 
-		// Initialize to an empty jQuery set if needed (now that jQuery is loaded)
-		exercises = exercises || jQuery();
+		// Initialize to an empty jQuery set
+		exercises = jQuery();
 
 		if ( typeof userExercise !== "undefined" ) {
 			prepareUserExercise( userExercise );
