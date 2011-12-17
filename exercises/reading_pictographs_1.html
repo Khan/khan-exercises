@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Reading pictographs 1</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		.fake_header span, .fake_row span {
+			width: 40px;
+			height: 40px;
+			vertical-align: top;
+			line-height: 40px;
+		}
+		.fake_row span:first-child {
+			width: 80px;
+		}
+		.fake_header span:first-child {
+			width: 480px;
+		}
+	</style>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="DATA">randRangeUnique( 1, 8, 5 )</var>
+		<var id="BADGE">randFromArray([ "meteorite", "moon", "earth" ])</var>
+		<var id="FULL_IMAGE">"&lt;img src='" + Khan.urlBase + "images/" + BADGE + "-small.png'&gt;"</var>
+		<var id="VALUE_PER_IMG">1</var>
+	</div>
+
+	<div class="problem">
+		<p>Use the pictograph to answer the question below:</p>
+		<div class="fake_header">
+			<span><span style="text-transform:capitalize"><var>BADGE</var></span> badges earned by each student</span>
+		</div>
+		<div class="fake_row" data-each="5 times as n">
+			<span><var>person( n + 1 )</var></span><span data-each="DATA[n] times"><var>FULL_IMAGE</var>
+			</span><span data-each="(8 - DATA[n]) times">&nbsp;</span>
+		</div>
+		<span style="height: 50px; vertical-align: top; line-height: 50px;">
+			<var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var>
+			<var>plural( "badge", VALUE_PER_IMG )</var>
+		</span>
+	</div>
+
+	<div class="problems">
+
+		<div id="most" data-weight="1">
+			<div class="vars">
+				<var id="MOST">DATA.indexOf( Math.max.apply( Math, DATA ) )</var>
+			</div>
+			<p class="question">Who earned the most <var>BADGE</var> badges?</p>
+			<div class="solution"><var>person( MOST + 1 )</var></div>
+			<ul class="choices" data-category="true">
+				<li><var>person( 1 )</var></li>
+				<li><var>person( 2 )</var></li>
+				<li><var>person( 3 )</var></li>
+				<li><var>person( 4 )</var></li>
+				<li><var>person( 5 )</var></li>
+			</ul>
+
+			<div class="hints">
+				<p>Who has the largest number of <var>BADGE</var> symbols next to <var>his( MOST + 1 )</var> name in the chart?</p>
+				<p><var>person( MOST + 1 )</var> has the largest number of symbols next to <var>his( MOST + 1)</var> name.</p>
+				<p><var>person( MOST + 1 )</var> earned the most <var>BADGE</var> badges.</p>
+			</div>
+		</div>
+
+		<div id="least" data-weight="1">
+			<div class="vars">
+				<var id="LEAST">DATA.indexOf( Math.min.apply( Math, DATA ) )</var>
+			</div>
+			<p class="question">Who earned the fewest <var>BADGE</var> badges?</p>
+			<div class="solution"><var>person( LEAST + 1 )</var></div>
+			<ul class="choices" data-category="true">
+				<li><var>person( 1 )</var></li>
+				<li><var>person( 2 )</var></li>
+				<li><var>person( 3 )</var></li>
+				<li><var>person( 4 )</var></li>
+				<li><var>person( 5 )</var></li>
+			</ul>
+
+			<div class="hints">
+				<p>Who has the smallest number of <var>BADGE</var> symbols next to <var>his( LEAST + 1 )</var> name in the chart?</p>
+				<p><var>person( LEAST + 1 )</var> has the smallest number of symbols next to <var>his( LEAST + 1)</var> name.</p>
+				<p><var>person( LEAST + 1 )</var> earned the fewest <var>BADGE</var> badges.</p>
+			</div>
+		</div>
+
+		<div id="read-chart" data-weight="3">
+			<div class="vars">
+				<var id="PERSON">rand( 5 )</var>
+				<var id="ANSWER">DATA[ PERSON ] * VALUE_PER_IMG</var>
+			</div>
+
+			<p class="question">How many <var>BADGE</var> badges did <var>person( PERSON + 1 )</var> earn?</p>
+
+			<div class="solution" data-forms="integer"><var>ANSWER</var></div>
+
+			<div class="hints">
+				<p>The key at the bottom of the pictograph shows that each symbol represents <var>plural( VALUE_PER_IMG, "badge" )</var>.</p>
+				<div>
+					Find <var>person( PERSON + 1 )</var>'s row in the table:
+					<div class="fake_row">
+						<span><var>person( PERSON + 1 )</var></span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
+						</span><span data-each="(8 - DATA[ PERSON ]) times">&nbsp;</span>
+					</div>
+				</div>
+				<p>
+					There <var>plural( "is", DATA[PERSON] )</var> <var>plural( DATA[ PERSON ], "symbol" )</var>.
+				</p>
+
+				<div>
+					<div>
+						<code><var>DATA[ PERSON ]</var></code> <var>plural( "symbol", DATA[ PERSON ] )</var>
+						<code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbol
+						<code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code>
+						<var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>.
+					</div>
+				</div>
+				<p><var>person( PERSON + 1 )</var> earned <code><var>ANSWER</var></code> <var>BADGE</var> <var>plural( "badge", ANSWER )</var>.</p>
+			</div>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>

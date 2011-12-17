@@ -2,7 +2,7 @@
 <html data-require="math math-format word-problems graphie">
 <head>
 	<meta charset="UTF-8" />
-	<title>Reading pictographs</title>
+	<title>Reading pictographs 2</title>
 	<script src="../khan-exercise.js"></script>
 	<style>
 		.fake_header span, .fake_row span {
@@ -26,7 +26,7 @@
 		<var id="BADGE">randFromArray([ "meteorite", "moon", "earth" ])</var>
 		<var id="FULL_IMAGE">"&lt;img src='" + Khan.urlBase + "images/" + BADGE + "-small.png'&gt;"</var>
 		<var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.urlBase + "images/" + BADGE + "-small.png'); width:20px; height:40px;\"&gt;&nbsp;&lt;/div&gt;"</var>
-		<var id="VALUE_PER_IMG">randFromArray([ 1, 2, 4 ])</var>
+		<var id="VALUE_PER_IMG">randFromArray([ 2, 4 ])</var>
 		<var id="HALF">VALUE_PER_IMG === 1 ? [ 0, 0, 0, 0, 0 ] : [ rand(2), rand(2), rand(2), rand(2), rand(2) ]</var>
 	</div>
 
@@ -45,49 +45,7 @@
 
 	<div class="problems">
 
-		<div id="most" data-weight="1">
-			<div class="vars">
-				<var id="MOST">DATA.indexOf( Math.max.apply( Math, DATA ) )</var>
-			</div>
-			<p class="question">Who earned the most <var>BADGE</var> badges?</p>
-			<div class="solution"><var>person( MOST + 1 )</var></div>
-			<ul class="choices" data-category="true">
-				<li><var>person( 1 )</var></li>
-				<li><var>person( 2 )</var></li>
-				<li><var>person( 3 )</var></li>
-				<li><var>person( 4 )</var></li>
-				<li><var>person( 5 )</var></li>
-			</ul>
-
-			<div class="hints">
-				<p>Who has the largest number of <var>BADGE</var> symbols next to <var>his( MOST + 1 )</var> name in the chart?</p>
-				<p><var>person( MOST + 1 )</var> has the largest number of symbols next to <var>his( MOST + 1)</var> name.</p>
-				<p><var>person( MOST + 1 )</var> earned the most <var>BADGE</var> badges.</p>
-			</div>
-		</div>
-
-		<div id="least" data-weight="1">
-			<div class="vars">
-				<var id="LEAST">DATA.indexOf( Math.min.apply( Math, DATA ) )</var>
-			</div>
-			<p class="question">Who earned the fewest <var>BADGE</var> badges?</p>
-			<div class="solution"><var>person( LEAST + 1 )</var></div>
-			<ul class="choices" data-category="true">
-				<li><var>person( 1 )</var></li>
-				<li><var>person( 2 )</var></li>
-				<li><var>person( 3 )</var></li>
-				<li><var>person( 4 )</var></li>
-				<li><var>person( 5 )</var></li>
-			</ul>
-
-			<div class="hints">
-				<p>Who has the smallest number of <var>BADGE</var> symbols next to <var>his( LEAST + 1 )</var> name in the chart?</p>
-				<p><var>person( LEAST + 1 )</var> has the smallest number of symbols next to <var>his( LEAST + 1)</var> name.</p>
-				<p><var>person( LEAST + 1 )</var> earned the fewest <var>BADGE</var> badges.</p>
-			</div>
-		</div>
-
-		<div id="read-chart" data-weight="3">
+		<div id="read-chart">
 			<div class="vars">
 				<var id="PERSON">rand( 5 )</var>
 				<var id="ANSWER">DATA[ PERSON ] * VALUE_PER_IMG + HALF[ PERSON ] * VALUE_PER_IMG / 2</var>
@@ -127,7 +85,7 @@
 			</div>
 		</div>
 
-		<div id="reverse" data-weight="2">
+		<div id="reverse">
 			<div class="vars">
 				<var id="PERSON">rand( 5 )</var>
 				<var id="VALUE">DATA[ PERSON ] * VALUE_PER_IMG + HALF[ PERSON ] * VALUE_PER_IMG / 2</var>
@@ -167,7 +125,7 @@
 			</div>
 		</div>
 
-		<div id="difference" data-weight="2">
+		<div id="difference">
 			<div class="vars">
 				<div data-ensure="VAL1 > VAL2">
 					<var id="PERSON1">rand( 5 )</var>
@@ -213,7 +171,7 @@
 			</div>
 		</div>
 
-		<div id="total" data-weight="2">
+		<div id="total">
 			<div class="vars">
 				<var id="FULL_SYM">eval( DATA.join( "+" ) )</var>
 				<var id="HALF_SYM">eval( HALF.join( "+" ) )</var>
