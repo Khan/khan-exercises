@@ -108,6 +108,8 @@ jQuery.extend( KhanUtil, {
   },
   
   // TODO: not limited to time. belongs in another package.
+  degreesToCoord: function( radius, degrees ) {
+    var radians = KhanUtil.toRadians(degrees);
     var x = radius * Math.cos( radians );
     var y = radius * Math.sin( radians );
     return [x, y];
