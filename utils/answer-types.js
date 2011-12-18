@@ -12,7 +12,7 @@ jQuery.extend( Khan.answerTypes, {
 		if ( !input ) {
 			input = jQuery('<input type="text">');
 		}
-		
+
 		jQuery( solutionarea ).append( input );
 
 		var correct = typeof solution === "object" ? jQuery( solution ).text() : solution;
@@ -391,9 +391,9 @@ jQuery.extend( Khan.answerTypes, {
 				verifier.examples.push( forms[ form ].example );
 			}
 		});
-		
+
 		var input;
-		
+
 		if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
 			input = jQuery("<input type='number'/>");
 		}

@@ -44,7 +44,7 @@
 					<var id="YSIGN">randRangeNonZero( -1, 1 )</var>
 				</div>
 
-				
+
 				<p class="problem"><code><var>plus( A+PLUSPARENS( X, YSIGN+Y ), B )</var></code></p>
 				<p class="question">Use the distributive property to simplify the expression.</p>
 				<p class="solution"><code><var>plus( A+X, A*YSIGN+Y, B )</var></code></p>
@@ -58,7 +58,7 @@
 					<li><code><var>plus( X, YSIGN+Y, A+B )</var></code></li>
 					<li><code><var>plus( X, YSIGN+Y, A*B )</var></code></li>
 				</ul>
-				
+
 				<div class="hints">
 					<div>
 						<p>Distribute across the parenthesis.</p>
@@ -69,20 +69,20 @@
 						<p><code>\color{ blue }{ -1 }*<var>plus( PLUSPARENS( color( X, false ), color( YSIGN+Y, false ) ), B )</var></code></p>
 					</div>
 					<p><code><var>color( A, true )</var>*<var>color( X, false )</var> + <var>color( A*YSIGN, true )</var>*<var>color( Y, false )</var> + <var>B</var></code></p>
-					
+
 					<div>
 						<p><code><var>plus( A+X, A*YSIGN+Y, B )</var></code></p>
 						<p>You're done!</p>
 					</div>
-					
+
 					<div>
 						<p>Remember that the <em>distributive property</em> shows that multiplying an expression involving addition (or subtraction) by <code>x</code> is the same thing as multiplying each term of the expression by <code>x</code> before performing the addition.
 						<p><code>x(y + z) = xy + xz</code></p>
 					</div>
-					
+
 				</div>
 			</div>
-			
+
 			<!-- A + B(x + C) + D, B is only 1 or -1 -->
 			<div id="ABXCD">
 				<div class="vars">
@@ -91,10 +91,10 @@
 					<var id="C">randRangeNonZero( -10, 10 )</var>
 					<var id="D">randRangeNonZero( -10, 10 )</var>
 				</div>
-			
+
 				<p class="problem"><code><var>A</var> + <var>plus( B+PLUSPARENS( X, C ) )</var> + <var>D</var></code></p>
 				<p class="question">Using the distributive property, simplify the expression as much as possible.</p>
-				
+
 				<p class="solution"><code><var>plus( B+X, A+(B*C)+D )</var></code></p>
 				<ul class="choices" data-show="4" data-none="true">
 					<li data-if="C != (A+D)"><code><var>X</var> - <var>A+(-1*C)+D</var></code></li>
@@ -105,7 +105,7 @@
 					<li data-if="(C+D) != 0"><code><var>plus( A, B+X, C+D )</var></code></li>
 					<li data-if="C != D"><code><var>plus( A, B+X, (-1*C)+D )</var></code></li>
 				</ul>
-				
+
 				<div class="hints">
 					<div>
 						<p>The first and last numbers here can be combined to simplify the expression.</p>
@@ -130,9 +130,9 @@
 						<p><code>x(y + z) = xy + xz</code></p>
 					</div>
 				</div>
-				
+
 			</div>
-			
+
 			<!-- A(x + B) + C(D + x) -->
 			<div id="AXBCDX">
 				<div class="vars">
@@ -141,10 +141,10 @@
 					<var id="C">randRangeNonZero( -10, 10 )</var>
 					<var id="D">randRangeNonZero( -10, 10 )</var>
 				</div>
-			
+
 				<p class="problem"><code><var>plus( A+PLUSPARENS( X, B ), C+PLUSPARENS( D, X ) )</var></code></p>
 				<p class="question">Using the distributive property, simplify the expression as much as possible.</p>
-				
+
 				<p class="solution"><code><var>plus( (A+C)+X, (A*B)+(C*D) )</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
 					<li><code><var>plus( (A+1)+X, B+(C*D) )</var></code></li>
@@ -155,7 +155,7 @@
 					<li><code><var>plus( (C+1)+X, A*B+C*D )</var></code></li>
 					<li><code><var>plus( A+X, A*B, C+PLUSPARENS( D, X ) )</var></code></li>
 				</ul>
-				
+
 				<div class="hints">
 					<div>
 						<p>Distribute across the first parenthesis.</p>
@@ -189,9 +189,9 @@
 						<p><code>x(y + z) = xy + xz</code></p>
 					</div>
 				</div>
-				
+
 			</div>
-			
+
 			<!-- A(x + B) + Cx -->
 			<div id="AXBCX">
 				<div class="vars">
@@ -199,10 +199,10 @@
 					<var id="B">randRangeNonZero( -10, 10 )</var>
 					<var id="C">randRangeNonZero( -10, 10 )</var>
 				</div>
-			
+
 				<p class="problem"><code><var>plus( A+PLUSPARENS( X, B ), C+X )</var></code></p>
 				<p class="question">Using the distributive property, simplify the expression as much as possible.</p>
-				
+
 				<p class="solution"><code><var>plus( (A+C)+X, A*B )</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
 					<li><code><var>plus( (A+1)+X, B+C )</var></code></li>
@@ -213,7 +213,7 @@
 					<li><code><var>plus( (A+C)+X, B )</var></code></li>
 					<li><code><var>plus( (1 + C)+X, A*B )</var></code></li>
 				</ul>
-				
+
 				<div class="hints">
 					<div>
 						<p>Distribute across the parenthesis.</p>
@@ -238,9 +238,9 @@
 					</div>
 				</div>
 			</div>
-				
+
 		</div>
-		
+
 	</div>
 </body>
 </html>

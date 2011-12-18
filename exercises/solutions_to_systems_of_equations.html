@@ -37,12 +37,12 @@
 							if( INDICES[i] === 3 ) {
 								equations.push( expr(["+", ["*", -AB_VALS[i].a * MULT[i], "x"], ["*", MULT[i], "y"]]) + " = " + AB_VALS[i].b * MULT[i] );
 							}
-						
+
 							i++;
 						}
-						
+
 						return equations;
-	
+
 					})()
 					</var>
 					<var id="SIGNS_1">[AB_VALS[0].a &gt; 0 ? "+" : "-", AB_VALS[1].a &gt; 0 ? "+" : "-"]</var>
@@ -102,7 +102,7 @@
 							}, [-10, 10], {
 								stroke: "BLUE"
 							});
-							
+
 							plot(function( x ) {
 								return ( AB_VALS[1].a * x + AB_VALS[1].b );
 							}, [-10, 10], {
@@ -166,7 +166,7 @@
 							}, [-10, 10], {
 								stroke: "BLUE"
 							});
-							
+
 							plot(function( x ) {
 								return ( AB_VALS[1].a * x + AB_VALS[1].b );
 							}, [-10, 10], {

@@ -26,7 +26,7 @@
 			var a = KhanUtil.randRange( 4, 8 );
 			return [ [ 60, 60, 60 ], [ a, a, a ] ];
 		}
-		
+
 		function isoTriangle(){
 			var a = KhanUtil.randRangeExclude( 25, 75, [ 60 ] );
 			var c = 180 - 2 * a;
@@ -35,9 +35,9 @@
 			var ang =  [ a, a, c ];
 			var sides = [ sc.toFixed( 1 ), sa,  sa ];
 			return [ ang , sides ];
-			
+
 		}
-	
+
 	</script>
 </head>
 <body>
@@ -48,7 +48,7 @@
 					<var id="TRIANGLE">scTriangle()</var>
 				</div>
 				<div class="problem">
-					What is the value of the angle marked with "X" ? 
+					What is the value of the angle marked with "X" ?
 				</div>
 				<div class="question">
 					<div class="graphie">
@@ -57,7 +57,7 @@
 						})
 						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "sides" : TRIANGLE[ 1 ], "angles" : [ TRIANGLE[ 0 ][ 0 ]  + "^{\\circ}", TRIANGLE[ 0 ][ 1 ] + "^{\\circ}",  "X" ] } );
 						tr.rotate( randRange( 0, 90 ) );
-						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] ) 
+						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] )
 						tr.draw();
 						tr.drawLabels();
 					</div>
@@ -81,7 +81,7 @@
 						})
 						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "sides" : TRIANGLE[ 1 ], "angles" : [ TRIANGLE[ 0 ][ 0 ] + "^{\\circ}", "",  "X" ] } );
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
-						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] ) 
+						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] )
 						tr.draw();
 						tr.drawLabels();
 					</div>
@@ -110,7 +110,7 @@
 						})
 						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "sides" : TRIANGLE[ 1 ], "angles" : [ "X", "", TRIANGLE[ 0 ][ 2 ] + "^{\\circ}" ]  } );
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
-						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] ) 
+						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] )
 						tr.draw();
 						tr.drawLabels();
 					</div>
@@ -141,7 +141,7 @@
 						})
 						var tr = new Triangle( [ 3, -4 ],  TRIANGLE[ 0 ], 5, { "sides" : TRIANGLE[ 1 ], "angles" : [ TRIANGLE[ 0 ][ 0 ]+ "^{\\circ}",  "X", "" ]  } );
 						tr.rotate( randRange( 0, 90 ), 3, -3 );
-						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] ) 
+						tr.boxOut( [ [ [ -10, 1 ], [ 10, 1 ] ] ], [ 0,-0.5 ] )
 						tr.draw();
 						tr.drawLabels();
 					</div>
@@ -153,7 +153,7 @@
 					<p>The angles that are on the base (the unique) side are equal, and the angle between the equal sides is unique.</p>
 					<p>We know that one base angle is <var>TRIANGLE[ 0 ][ 0 ]</var>, and the angle we are looking for is also on the base. </p>
 					<p>Therefore the angle we are looking for is also <var>TRIANGLE[ 0 ][ 0 ]</var>.</p>
-				</div>	
+				</div>
 			</div>
 		</div>
 	</div>

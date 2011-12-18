@@ -714,4 +714,3 @@ function squareFractions( nom, den, perLine, spacing, size ){
 
 	return arr;
 }
-

@@ -18,7 +18,7 @@
 					What is the type of this quadrilateral? Be as specific as possible with the given data.
 				</div>
 				<div class="question">
-					<div class="graphie">	
+					<div class="graphie">
 						init({
 							range: [ [-2, 12 ], [ -8, -1 ] ]
 						})
@@ -27,7 +27,7 @@
 						q.boxOut( [ [ [ 11, -10 ], [ 11, 10 ] ] ], [ -0.7, 0 ] );
 						q.draw();
 						q.labels = { "angles" : ANGLE_LABELS, "sides" : jQuery.map( jQuery.map( q.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } ) };
-						q.drawLabels();	
+						q.drawLabels();
 					</div>
 				</div>
 				<div class="solution">Trapezoid</div>
@@ -58,7 +58,7 @@
 					<p>It is a trapezoid.</p>
 					<p>However, its legs are equal, so it is an isosceles trapezoid.</p>
 				</div>
-			</div>	
+			</div>
 			<div id="parallelogram" data-type="trapezoid">
 				<div class="vars">
 					<var id="TYPE">"parallelogram"</var>
@@ -71,7 +71,7 @@
 					<p>Parallel sides are equal.</p>
 					<p>Therefore it is a parallelogram.</p>
 				</div>
-			</div>	
+			</div>
 			<div id="rectangle" data-type="trapezoid">
 				<div class="vars">
 					<var id="TYPE">"rectangle"</var>
@@ -88,7 +88,7 @@
 					<var id="TYPE">"rectangle"</var>
 				</div>
 				<div class="question">
-					<div class="graphie">	
+					<div class="graphie">
 						init({
 							range: [ [-1, 12 ], [ -8, -1 ] ]
 						})
@@ -97,7 +97,7 @@
 						q.boxOut( [ [ [ 0, -10 ], [ 0, 10 ] ] ], [ 0.7, 0 ] );
 						q.draw();
 						q.labels = { "angles" : ANGLE_LABELS, "sides" : jQuery.map( jQuery.map( q.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } ) };
-						q.drawLabels();	
+						q.drawLabels();
 					</div>
 				</div>
 				<div class="solution">Square</div>
@@ -119,7 +119,7 @@
 					<p>It also has a pair of equal angles, positioned between the non-equal sides.</p>
 					<p>It is a kite.</p>
 				</div>
-			</div>	
+			</div>
 			<div id="rhombus" data-type="square">
 				<div class="vars">
 					<var id="TYPE">"rhombus"</var>
