@@ -462,7 +462,7 @@ function analogClock( hour, minute, radius, labelShown ){
 	this.minute = minute;
 	this.radius = radius;
 	this.set = KhanUtil.currentGraph.raphael.set();
-
+	
 	this.graph = KhanUtil.currentGraph;
 	this.draw = function(){
 		for( var x = 0; x < 12; x++ ){
@@ -487,7 +487,6 @@ function analogClock( hour, minute, radius, labelShown ){
 		return this.set;
 	};
 }
-
 
 // for line graph intuition
 function updateEquation() {

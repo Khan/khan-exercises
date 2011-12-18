@@ -23,15 +23,31 @@
 		<div id="analog">
 			<div class="question">
 				<p>What time is it?</p>
-				<div class="graphie" id="pie" style="float: left;">
-					init({ range: [ [-4, 4 ], [ -4, 4] ], scale: 25 });
-					PIECH = new analogClock( HOUR, MINUTE,  3.5, false );
-					PIECH.draw();
+				<div class="graphie" id="pie" style="float: right;">
+          <!-- init({ range: [ [-4, 4 ], [ -4, 4] ], scale: 45 });
+          PIECH = new analogClock( HOUR, MINUTE,  3.5, false );
+          PIECH.draw(); -->
+          
+          init({
+            range: [ [-5, 5], [-5, 5] ]
+          });
+          
+					addMouseLayer();
+
+					graph.point = addMovablePoint({
+					  coord: [-4, 0]
+					});
+					
+					graph.line = addMovableLineSegment({
+					  pointA: graph.point,
+					  coordZ: [0, 0]
+					});
+					
 				</div>
-				<div class="graphie" id="digital" style="float: left;">
-					init({ range: [ [-5, 5], [-3, 3] ], scale: 25 });
-				</div>
-				<div style="clear: both;"></div>
+        <!-- <div class="graphie" id="digital" style="float: left;">
+          init({ range: [ [-5, 5], [-3, 3] ], scale: 25 });
+        </div>
+        <div style="clear: both;"></div> -->
 			</div>
 			<div class="solution" data-type="multiple">
 				<p class="short">The time is <span class="sol"><var>HOUR</var></span> : <span class="sol"><var>NICE_MINUTE</var></span> <var>AM_PM</var></p>

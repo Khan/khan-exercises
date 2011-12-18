@@ -23,6 +23,11 @@ jQuery.extend( KhanUtil, {
 	toRadians: function( degrees ) {
 		return degrees * Math.PI / 180;
 	},
+	
+	// Convert a radian value to a degree value
+	toDegrees: function( radians ) {
+		return radians * 180 / Math.PI;
+	},
 
 	wrongCommonAngle: function( angleIdx, i ) {
 		// i is a value from 1 to 3

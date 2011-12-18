@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie interactive angles time">
+<head>
+  <meta charset="UTF-8" />
+  <title>Telling time, interactive</title>
+  <script src="../khan-exercise.js"></script>
+</head>
+<body>
+  <div class="exercise">
+    <div class="problems">
+      <div id="set-hands" data-weight="3">
+
+        <div class="vars">
+          <var id="HOUR">randRange( 1, 12 )</var>
+          <var id="MINUTE_INCREMENT">15</var>
+          <var id="MINUTE">randRange( 0, 60 / MINUTE_INCREMENT - 1 ) * MINUTE_INCREMENT</var>
+          <var id="MINUTE_IS_ZERO">MINUTE === 0</var>
+          <var id="MINUTE_FRACTION">KhanUtil.toFraction(MINUTE/60)</var>
+          <var id="NICE_MINUTE"> MINUTE &gt; 5 ? MINUTE : "0" + MINUTE</var>
+        </div>
+
+        <p class="question">Set the clock to <var>HOUR</var>:<var>NICE_MINUTE</var>. The hour hand is <span class="hint_blue" style="font-weight: bold">blue</span> and the minute hand is <span class="hint_orange" style="font-weight: bold">orange</span>.</p>
+
+        <div class="problem">
+
+          <div class="graphie" id="clock">
+
+            init({ range: [ [-4, 4 ], [ -4, 4 ] ], scale: 45 });
+
+            var clockRadius = 3.75;
+            var minuteSnapPoints = 12;
+            var hourSnapPoints = 12 * 60 / MINUTE_INCREMENT;
+
+            var outerPointRadius = clockRadius * 1.01;
+            var minuteRadius = clockRadius * 0.6;
+            var hourRadius = clockRadius * 0.45;
+
+            graph.minuteSnapDegrees = 360 / minuteSnapPoints;
+            graph.hourSnapDegrees = 360 / hourSnapPoints;
+
+            graph.clock = KhanUtil.addAnalogClock( { radius: clockRadius, minuteTicks: hourSnapPoints } );
+            graph.clock.draw();
+
+            addMouseLayer();
+
+            function movePartnerPoint( options ) {
+
+              var x = options.x;
+              var y = options.y;
+              var point = options.point;
+              var outerPoint = options.outerPoint;
+              var isOuterPoint = options.isOuterPoint;
+
+              var ratio = outerPoint.constraints.fixedDistance.dist / point.constraints.fixedDistance.dist;
+
+              if (isOuterPoint) {
+                ratio = 1 / ratio;
+                point.setCoord( [ x * ratio , y * ratio ] );
+                outerPoint.setCoord( [ x, y ] );
+              } else {
+                point.setCoord( [ x, y ] );
+                outerPoint.setCoord( [ x * ratio, y * ratio ] );
+              }
+
+              point.updateLineEnds();
+              return true;
+            }
+
+            graph.minutePoint = addMovablePoint({
+              coord: [ 0, minuteRadius ],
+              constraints: {
+                fixedDistance: {
+                  dist: minuteRadius,
+                  point: [ 0, 0 ],
+                  snapPoints: 12
+                }
+              },
+              onMove: function( x, y ) {
+                return movePartnerPoint( { x: x, y: y, point: this, outerPoint: graph.outerMinutePoint, isOuterPoint: false } );
+              }
+            });
+
+            graph.outerMinutePoint = addMovablePoint({
+              coord: [ 0, outerPointRadius ],
+              constraints: {
+                fixedDistance: {
+                  dist: outerPointRadius,
+                  point: [ 0, 0 ],
+                  snapPoints: 12
+                }
+              },
+              onMove: function( x, y ) {
+                return movePartnerPoint( { x: x, y: y, point: graph.minutePoint, outerPoint: this, isOuterPoint: true } );
+              }
+            })
+
+            graph.hourPoint = addMovablePoint({
+              coord: [ hourRadius * Math.cos( Math.PI/3 ), hourRadius * Math.sin( Math.PI/3 ) ],
+              constraints: {
+                fixedDistance: {
+                  dist: hourRadius,
+                  point: [ 0, 0 ],
+                  snapPoints: hourSnapPoints
+                }
+              },
+              onMove: function( x, y ) {
+                return movePartnerPoint( { x: x, y: y, point: this, outerPoint: graph.outerHourPoint, isOuterPoint: false } );
+              },
+              normalStyle: {
+                fill: KhanUtil.BLUE,
+                stroke: KhanUtil.BLUE
+              },
+              highlightStyle: {
+                fill: KhanUtil.BLUE,
+                stroke: KhanUtil.BLUE
+              }
+            });
+
+            graph.outerHourPoint = addMovablePoint({
+              coord: [ outerPointRadius * Math.cos( Math.PI/3 ), outerPointRadius * Math.sin( Math.PI/3 ) ],
+              constraints: {
+                fixedDistance: {
+                  dist: outerPointRadius,
+                  point: [ 0, 0 ],
+                  snapPoints: hourSnapPoints
+                }
+              },
+              onMove: function( x, y ) {
+                return movePartnerPoint( { x: x, y: y, point: graph.hourPoint, outerPoint: this, isOuterPoint: true } );
+              },
+              normalStyle: {
+                fill: KhanUtil.BLUE,
+                stroke: KhanUtil.BLUE
+              },
+              highlightStyle: {
+                fill: KhanUtil.BLUE,
+                stroke: KhanUtil.BLUE
+              }
+            })
+
+            graph.minuteHand = addMovableLineSegment({
+              pointA: graph.minutePoint,
+              coordZ: [ 0, 0 ],
+              fixed: true,
+              normalStyle: {
+                fill: KhanUtil.ORANGE,
+                stroke: KhanUtil.ORANGE,
+                "stroke-width": 10
+              },
+            });
+
+            graph.hourHand = addMovableLineSegment({
+              pointA: graph.hourPoint,
+              coordZ: [ 0, 0 ],
+              fixed: true,
+              normalStyle: {
+                fill: KhanUtil.BLUE,
+                stroke: KhanUtil.BLUE,
+                "stroke-width": 10
+              },
+            });   
+
+            graph.centerPoint = addMovablePoint({
+              coord: [ 0, 0 ],
+              constraints: {
+                fixed: true
+              },
+              normalStyle: {
+                fill: "#fff",
+                stroke: "#000",
+                "stroke-width": 2
+              }
+            });   
+
+            graph.correctMinuteAngle = KhanUtil.timeToDegrees( MINUTE );
+            graph.correctHourAngle = KhanUtil.timeToDegrees( 5 * (HOUR + MINUTE/60) );
+
+            graph.correctMinuteAngle = KhanUtil.roundToNearest( graph.minuteSnapDegrees, graph.correctMinuteAngle );
+            graph.correctHourAngle = KhanUtil.roundToNearest( graph.hourSnapDegrees, graph.correctHourAngle );
+
+          </div>
+        </div>
+
+        <div class="solution" data-type="custom">
+          <div class="instruction">
+            Drag the two hands so the clock reads <var>HOUR</var>:<var>NICE_MINUTE</var>.
+          </div>
+          <div class="guess">
+            [ graph.minutePoint.coord, graph.hourPoint.coord ]
+          </div>
+          <div class="validator-function">
+
+            var minuteAngle = KhanUtil.coordToDegrees( graph.minutePoint.coord );
+            var hourAngle = KhanUtil.coordToDegrees( graph.hourPoint.coord );
+
+            minuteAngle = KhanUtil.roundToNearest( graph.minuteSnapDegrees, minuteAngle );
+            hourAngle = KhanUtil.roundToNearest( graph.hourSnapDegrees, hourAngle );
+
+            return (minuteAngle == graph.correctMinuteAngle) &amp;&amp; (hourAngle == graph.correctHourAngle);
+
+          </div>
+          <div class="show-guess">
+            graph.minutePoint.moveTo( guess[0][0], guess[0][1], true );
+            graph.hourPoint.moveTo( guess[1][0], guess[1][1], true );
+          </div>
+        </div>
+
+        <div class="hints">
+
+          <p>The first part of the time is the hour. The second part of the time is the number of minutes past the hour. So, it is <var>HOUR</var> hours and <var>MINUTE</var> minutes.</p>
+
+          <div>
+            <p>The 12 <strong>long</strong> tick marks correspond to the hours in the day (assuming AM/PM time).</p>
+            <p>Each long tick mark is also an increment of 5 minutes, because 60 minutes / 12 tick marks = 5 minutes per tick mark.</p>
+            <div class="graphie" data-update="clock">
+              graph.clock.drawTicks( { n: 12, p: 0.8, tickAttr: { stroke: "#ff0", "stroke-opacity": 0.3, "stroke-linecap": "round" } } );
+            </div>
+          </div>
+
+          <div>
+            <p>Multiply each long tick mark by 5 to get the corresponding number of minutes. For example, the tick mark labeled "9" corresponds to 45 minutes. The tick mark labeled "12" is an exception; it corresponds to 0 minutes.</p>
+          </div>
+
+          <div>
+            <p>If it is <strong>zero</strong> minutes, the hour hand belongs directly on the corresponding hour mark. However, for any other number of minutes, the hour hand should be proportionally past the hour mark.</p>
+            <p>For example, if it's 5 hours and 45 minutes, the hour hand should be <code>\Large{ \frac{45}{60} = \frac{3}{4} }</code> of the way past the 5 hour mark.</p>
+          </div>
+
+          <div>
+            <p data-if="MINUTE_IS_ZERO">
+              The hour hand should be exactly at the <var>HOUR</var> hour mark. The minute hand should be at the tick mark labeled "12".
+            </p>
+            <p data-else>
+              The hour hand should be <code>\Large{ \frac{<var>MINUTE</var>}{60} = \frac{<var>MINUTE_FRACTION[0]</var>}{<var>MINUTE_FRACTION[1]</var>} }</code> of the way past the <var>HOUR</var> hour mark. The minute hand should be at the tick mark labeled <code>\Large{ \frac{<var>MINUTE</var>}{5} = <var>MINUTE/5</var>}</code>.
+            </p>
+            <div class="graphie" data-update="clock">
+
+              var minuteRadius = graph.minutePoint.constraints.fixedDistance.dist;
+              var hourRadius = graph.hourPoint.constraints.fixedDistance.dist;
+
+              var minuteCoord = KhanUtil.degreesToCoord( minuteRadius, graph.correctMinuteAngle );
+              var hourCoord = KhanUtil.degreesToCoord( hourRadius, graph.correctHourAngle );
+
+              graph.minutePoint.moveTo( minuteCoord[0], minuteCoord[1], true );
+              graph.hourPoint.moveTo( hourCoord[0], hourCoord[1], true );
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="set-hands-20-minutes" data-type="set-hands" data-weight="2">
+        <div class="vars">
+          <var id="MINUTE_INCREMENT">20</var>
+        </div>
+      </div>
+
+      <div id="set-hands-30-minutes" data-type="set-hands" data-weight="2">
+        <div class="vars">
+          <var id="MINUTE_INCREMENT">30</var>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

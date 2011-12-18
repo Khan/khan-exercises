@@ -302,14 +302,50 @@ jQuery.extend( KhanUtil, {
 						// can't go beyond 10 pixels from the edge
 						mouseX = Math.max(10, Math.min(graph.xpixels-10, mouseX));
 						mouseY = Math.max(10, Math.min(graph.ypixels-10, mouseY));
-
+          
 						// snap to grid
 						if (movablePoint.snapX) {
-							mouseX = Math.round(mouseX / (graph.scale[0] * movablePoint.snapX)) * (graph.scale[0] * movablePoint.snapX);
+              mouseX = Math.round(mouseX / (graph.scale[0] * movablePoint.snapX)) * (graph.scale[0] * movablePoint.snapX);
 						}
 						if (movablePoint.snapY) {
-							mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
+              mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
 						}
+						
+						// NOTE: redundancy with functions in angles.js and time.js
+						// snap to points around circle
+            if ( movablePoint.constraints.fixedDistance.snapPoints ) { 
+              
+              var snapRadians = 2 * Math.PI / movablePoint.constraints.fixedDistance.snapPoints;
+              var radius = movablePoint.constraints.fixedDistance.dist;
+              
+              // TODO: make this so that it's relative to the center of the movablePoint
+              // get coordinates relative to origin of graph
+              var centerCoord = movablePoint.constraints.fixedDistance.point;
+              var centerX = (centerCoord[0] - graph.range[0][0]) * graph.scale[0];
+              var centerY = (-centerCoord[1] + graph.range[1][1]) * graph.scale[1];
+              
+              var mouseXrel = mouseX - centerX;
+              var mouseYrel = -mouseY + centerY;
+              var radians = Math.atan(mouseYrel / mouseXrel);  
+              var outsideArcTanRange = (mouseXrel < 0);  
+            
+              // correct so that angles increase from 0 to 2 pi as you go around the circle
+              if (outsideArcTanRange) {
+                radians += Math.PI;
+              }
+                 
+              // perform the snap
+              radians = Math.round(radians / snapRadians) * snapRadians;
+                    
+              // convert from radians back to pixels
+              mouseXrel = radius * Math.cos(radians);
+              mouseYrel = radius * Math.sin(radians);
+                      
+              // convert back to coordinates relative to graphie canvas
+              mouseX = mouseXrel + centerX;
+              mouseY = - mouseYrel + centerY;
+            }
+						
 						// coord{X|Y} are the scaled coordinate values
 						var coordX = mouseX / graph.scale[0] + graph.range[0][0];
 						var coordY = graph.range[1][1] - mouseY / graph.scale[1];
