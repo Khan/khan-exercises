@@ -321,8 +321,7 @@ jQuery.extend( KhanUtil, {
               var snapRadians = 2 * Math.PI / movablePoint.constraints.fixedDistance.snapPoints;
               var radius = movablePoint.constraints.fixedDistance.dist;
               
-              // TODO: make this so that it's relative to the center of the movablePoint
-              // get coordinates relative to origin of graph
+              // get coordinates relative to the fixedDistance center
               var centerCoord = movablePoint.constraints.fixedDistance.point;
               var centerX = (centerCoord[0] - graph.range[0][0]) * graph.scale[0];
               var centerY = (-centerCoord[1] + graph.range[1][1]) * graph.scale[1];
@@ -332,7 +331,7 @@ jQuery.extend( KhanUtil, {
               var radians = Math.atan(mouseYrel / mouseXrel);  
               var outsideArcTanRange = (mouseXrel < 0);  
             
-              // correct so that angles increase from 0 to 2 pi as you go around the circle
+              // adjust so that angles increase from 0 to 2 pi as you go around the circle
               if (outsideArcTanRange) {
                 radians += Math.PI;
               }
