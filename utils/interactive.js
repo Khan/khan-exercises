@@ -1060,7 +1060,7 @@ jQuery.extend( KhanUtil, {
 		var list;
 
 		sorter.init = function( element ) {
-			list = jQuery( "#" + element );
+			list = jQuery( "[id=" + element + "]" ).last();
 			var container = list.wrap( "<div>" ).parent();
 			var placeholder = jQuery( "<li>" );
 			placeholder.addClass( "placeholder" );
