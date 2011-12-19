@@ -81,7 +81,7 @@
 					top: "auto",
 					bottom: 0,
 					left: "auto",
-					width: shim.width(),
+					width: shim.width()
 
 				} );
 
