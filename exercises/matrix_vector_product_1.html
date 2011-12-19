@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html data-require="math">
+	<head>
+		<title>Product of a matrix and a vector 1</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="A">randRange(-9,9,2,3)</var>
+				<var id="X">randRange(1,9,3,1)</var>
+				<var id="AX">[A[0][0]*X[0][0]+A[0][1]*X[1][0]+A[0][2]*X[2][0],A[1][0]*X[0][0]+A[1][1]*X[1][0]+A[1][2]*X[2][0]]</var>
+			</div>
+			
+			<div class="problems">
+				<div id="2x3Matrix">
+				
+					<p class="problem">
+						
+						<code>
+							A =
+							\left[
+							\begin{array}{rcl}
+							<var>A[0][0]</var>&<var>A[0][1]</var>&<var>A[0][2]</var>\\
+							<var>A[1][0]</var>&<var>A[1][1]</var>&<var>A[1][2]</var>
+							\end{array}
+							\right]
+						</code> , 
+						<code>
+						
+							\vec x =
+							\left[
+							\begin{array}{rcl}
+							<var>X[0][0]</var>\\
+							<var>X[1][0]</var>\\
+							<var>X[2][0]</var>
+							\end{array}
+							\right]
+						</code>
+					</p>
+					
+					<p class="question">
+						Compute
+						<code>
+							A \vec x =
+							\left[
+							\begin{array}{rcl}
+							\color{<var>BLUE</var>}{b_1}\\
+							\color{<var>BLUE</var>}{b_2}</var>
+							\end{array}
+							\right]
+						</code>
+					</p>
+					
+					<div class="solution" data-type="multiple">
+						<p><code>\color{<var>BLUE</var>}{b_1}</code> = <span class="sol" data-type="rational"><var>AX[0]</var></span></p>
+						<p><code>\color{<var>BLUE</var>}{b_2}</code> = <span class="sol" data-type="rational"><var>AX[1]</var></span></p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="hints">
+				<p>
+					The first entry in the product A<code>\vec x</code> is the sum of the products (the dot product),
+					using the first row of A and the entries in <code>\vec x</code>:<br>
+					<code>
+						\left[
+						\begin{array}{rcl}
+						\color{<var>BLUE</var>}{a_{11}}&\color{<var>GREEN</var>}{a_{12}}&\color{<var>ORANGE</var>}{a_{13}}\\
+						\\
+						\\
+						\end{array}
+						\right]
+						\left[
+						\begin{array}{rcl}
+						\color{<var>BLUE</var>}{x_1}\\
+						\color{<var>GREEN</var>}{x_2}\\
+						\color{<var>ORANGE</var>}{x_3}\\
+						\end{array}
+						\right]
+						=\left[
+						\begin{array}{rcl}
+						\color{<var>BLUE</var>}{{a_{11}}x_1} + &\color{<var>GREEN</var>}{{a_{12}}x_2}+\color{<var>ORANGE</var>}{{a_{13}}x_3}\\
+						\\
+						\\
+						\end{array}
+						\right]
+					</code>
+				</p>
+				
+				<p>
+					<code>
+						\left[
+						\begin{array}{rcl}
+						\color{<var>BLUE</var>}{<var>A[0][0]</var>}&\color{<var>GREEN</var>}{<var>A[0][1]</var>}&\color{<var>ORANGE</var>}{<var>A[0][2]</var>}\\
+						\\
+						\\
+						\end{array}
+						\right]
+						\left[
+						\begin{array}{rcl}
+						\color{<var>BLUE</var>}{<var>X[0][0]</var>}\\
+						\color{<var>GREEN</var>}{<var>X[1][0]</var>}\\
+						\color{<var>ORANGE</var>}{<var>X[2][0]</var>}\\
+						\end{array}
+						\right]
+						=\left[
+						\begin{array}{rcl}
+						\color{<var>BLUE</var>}{<var>A[0][0]</var>(<var>X[0][0]</var>)} + &\color{<var>GREEN</var>}{<var>A[0][1]</var>(<var>X[1][0]</var>)}+\color{<var>ORANGE</var>}{<var>A[0][2]</var>(<var>X[2][0]</var>)}\\
+						\\
+						\\
+						\end{array}
+						\right]
+					</code>
+				</p>
+				
+				<p>
+					<code>
+						=
+						\left[
+						\begin{array}{rcl}
+						<var>A[0][0]*X[0][0]</var> + <var>A[0][1]*X[1][0]</var> + <var>A[0][2]*X[2][0]</var>
+						\\
+						\\
+						\end{array}
+						\right]
+					</code>
+				</p>
+				
+				<p>
+					Thus,
+					<code>
+						\left[
+							\begin{array}{rcl}
+							\color{<var>BLUE</var>}{b_1}
+							\\
+							\\
+							\end{array}
+							\right]
+						=
+						\left[
+						\begin{array}{rcl}
+						<var>A[0][0]*X[0][0] + A[0][1]*X[1][0] + A[0][2]*X[2][0]</var>
+						\\
+						\\
+						\end{array}
+						\right]
+					</code>
+				</p>
+				
+				<p>
+					The second entry in the product A<code>\vec x</code> is the sum of the products (the dot product),
+					using the second row of A and the entries in <code>\vec x</code>:<br>
+					<code>
+						\left[
+						\begin{array}{rcl}
+						\\
+						\\
+						\color{<var>BLUE</var>}{a_{21}}&\color{<var>GREEN</var>}{a_{22}}&\color{<var>ORANGE</var>}{a_{23}}\\
+						\end{array}
+						\right]
+						\left[
+						\begin{array}{rcl}
+						\color{<var>BLUE</var>}{x_1}\\
+						\color{<var>GREEN</var>}{x_2}\\
+						\color{<var>ORANGE</var>}{x_3}\\
+						\end{array}
+						\right]
+						=\left[
+						\begin{array}{rcl}
+						\\
+						\\
+						\color{<var>BLUE</var>}{{a_{21}}x_1} + &\color{<var>GREEN</var>}{{a_{22}}x_2}+\color{<var>ORANGE</var>}{{a_{23}}x_3}\\
+						\end{array}
+						\right]
+					</code>
+				</p>
+				
+				<p>	
+					<code>
+						\left[
+						\begin{array}{rcl}
+						\\
+						\\
+						\color{<var>BLUE</var>}{<var>A[1][0]</var>}&\color{<var>GREEN</var>}{<var>A[1][1]</var>}&\color{<var>ORANGE</var>}{<var>A[1][2]</var>}\\
+						\end{array}
+						\right]
+						\left[
+						\begin{array}{rcl}
+						\color{<var>BLUE</var>}{<var>X[0][0]</var>}\\
+						\color{<var>GREEN</var>}{<var>X[1][0]</var>}\\
+						\color{<var>ORANGE</var>}{<var>X[2][0]</var>}\\
+						\end{array}
+						\right]
+						=\left[
+						\begin{array}{rcl}
+						\\
+						\\
+						\color{<var>BLUE</var>}{<var>A[1][0]</var>(<var>X[0][0]</var>)} + &\color{<var>GREEN</var>}{<var>A[1][1]</var>(<var>X[1][0]</var>)}+\color{<var>ORANGE</var>}{<var>A[1][2]</var>(<var>X[2][0]</var>)}\\
+						\end{array}
+						\right]
+					</code>
+				</p>
+				
+				<p>
+					<code>
+						=
+						\left[
+						\begin{array}{rcl}
+						\\
+						\\
+						<var>A[1][0]*X[0][0]</var> + <var>A[1][1]*X[1][0]</var> + <var>A[1][2]*X[2][0]</var>
+						\end{array}
+						\right]
+					</code>
+				</p>
+				
+				<p> 	Thus, 
+					<code>
+						\left[
+						\begin{array}{rcl}
+						\\
+						\\
+						\color{<var>BLUE</var>}{b_2}
+						\end{array}
+						\right]
+						=
+						\left[
+						\begin{array}{rcl}
+						\\
+						\\
+						<var>A[1][0]*X[0][0] + A[1][1]*X[1][0] + A[1][2]*X[2][0]</var>
+						\end{array}
+						\right]
+					</code>
+				</p>
+			</div>
+		</div>
+	</body>
+</html>
+
