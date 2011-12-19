@@ -2575,11 +2575,6 @@ var Khan = (function() {
 			);
 		}
 
-		// record a bingo if came here from knowledge map after clicking on green button or dashboard link
-		if(document.referrer.indexOf("move_on") > 0 && window.gae_bingo){
-			gae_bingo.bingo("clicked_followup");
-		}
-
 		// Make scratchpad persistent per-user
 		if (user) {
 			var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
