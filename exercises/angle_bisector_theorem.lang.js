@@ -11,8 +11,8 @@
 						'return trC; '+
 						'}()',
 		"exercise3"			: 'Hoe lang is de zijde AC?',
-		"hint1"				: 'De hoeken <code>DAB</code> en <code>DAC</code> zijn gelijk.',
-		"hint2"				: 'Daarom is <code>AD</code> de bisector van <code>CAB</code>',		
-		"hint3"				: 'Angle Bisector Theorem states that <code>\dfrac{ AB }{ BD }	= \dfrac{ AC }{ CD }</code>'
+		"hint1"			: 'Angles <code>DAB</code> and <code>DAC</code> are equal.',
+		"hint2"			: 'Therefore <code>AD</code> is the bisector of <code>CAB</code>',		
+		"hint3"			: 'Angle Bisector Theorem states that <code>\dfrac{ AB }{ BD }	= \dfrac{ AC }{ CD }</code>'
 		}
 })
