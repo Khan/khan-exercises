@@ -975,6 +975,10 @@ var Khan = (function() {
 		}
 
 		if (typeof userExercise !== "undefined" && userExercise.read_only) {
+			if (!userExercise.current) {
+				warn("This exercise may have changed since it was done", true);
+			}
+
 			var timelineEvents, timeline;
 
 			var timelinecontainer = jQuery( "<div id='timelinecontainer'>" )
