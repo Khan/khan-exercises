@@ -8,6 +8,7 @@
 <body>
 	<div class="exercise">
 	<div class="problems">
+
 		<div id="lcm-hot-dog-count">
 			<div class="vars">
 				<var id="C">randRange( 2, 6 )</var>
@@ -37,7 +38,7 @@
 				<p>Write out the multiples of <var>BIGGER</var> until we find a number divisible by <var>SMALLER</var>.</p>
 				<span data-each="MULTIPLES as M"><span data-if="M === LCM"><code class="hint_blue">\text{<var>M</var>}</code></span><span data-else> <code>\text{<var>M</var>}</code>, </span></span>
 				<p>So, <var>LCM</var> is the least common multiple of <var>A</var> and <var>B</var>.</p>
-				<p><strong>The smallest amount of food <var>person(1)</var> can buy is <var>LCM</var> hot dogs and buns</strong>, or <var>plural(<var>LCM/A</var>,"package")</var> of hot dogs and <var>plural(<var>LCM/B</var>,"package")</var> of buns.</p>
+				<p><strong>The smallest amount of food <var>person(1)</var> can buy is <var>LCM</var> hot dogs and buns</strong>, or <var>plural(LCM/A,"package")</var> of hot dogs and <var>plural(LCM/B,"package")</var> of buns.</p>
 			</div>
 		</div>
 
@@ -55,7 +56,7 @@
 				<var id="LCM">PRODUCT / GCD</var>
 				<var id="MULTIPLES">getMultiples( BIGGER, LCM )</var>
 			</div>
-	
+
 			<div class="question spin">
 				<p spin><var>person(1)</var> is organizing a {baseball|softball} league, and <var>he(1)</var> needs to purchase jerseys and visors for the players. Jerseys come in sets of <var>A</var>, and visors come in sets of <var>B</var>.</p>
 				<p><var>person(1)</var> does not want to have any jerseys or visors left over.</p>
@@ -70,7 +71,7 @@
 				<p>Write out the multiples of <var>BIGGER</var> until we find a number divisible by <var>SMALLER</var>.</p>
 				<span data-each="MULTIPLES as M"><span data-if="M === LCM"><code class="hint_blue">\text{<var>M</var>}</code></span><span data-else> <code>\text{<var>M</var>}</code>, </span></span>
 				<p>So, <var>LCM</var> is the least common multiple of <var>A</var> and <var>B</var>.</p>
-				<p><strong>At a minimum, <var>person(1)</var> needs to purchase <var>LCM</var> jerseys and visors</strong>, or <var>plural(<var>LCM/A</var>,"set")</var> of jerseys and <var>plural(<var>LCM/B</var>,"set")</var> of visors.</p>
+				<p><strong>At a minimum, <var>person(1)</var> needs to purchase <var>LCM</var> jerseys and visors</strong>, or <var>plural(LCM/A,"set")</var> of jerseys and <var>plural(LCM/B,"set")</var> of visors.</p>
 			</div>
 		</div>
 
@@ -88,7 +89,7 @@
 				<var id="LCM">PRODUCT / GCD</var>
 				<var id="MULTIPLES">getMultiples( BIGGER, LCM )</var>
 			</div>
-	
+
 			<div class="question spin">
 				<p spin><var>person(1)</var> and <var>person(2)</var> both teach <var>course(1)</var> at <var>school(1)</var>. They give their students the same number of total <var>exam(1)</var> questions each year.</p>
 				<p>Each <var>exam(1)</var> <var>person(1)</var> gives contains <var>A</var> questions, and each <var>exam(1)</var> <var>person(2)</var> gives has <var>B</var> questions on it. {<var>person(1)</var> has <var>randRange(15,40)</var> students in <var>his(1)</var> class.|<var>person(2)</var> also assigns <var>randRange(3,10)</var> projects per year.}</p>
@@ -103,7 +104,7 @@
 				<p>Write out the multiples of <var>BIGGER</var> until we find a number divisible by <var>SMALLER</var>.</p>
 				<span data-each="MULTIPLES as M"><span data-if="M === LCM"><code class="hint_blue">\text{<var>M</var>}</code></span><span data-else> <code>\text{<var>M</var>}</code>, </span></span>
 				<p>So, <var>LCM</var> is the least common multiple of <var>A</var> and <var>B</var>.</p>
-				<p><strong>The least number of questions <var>person(1)</var> and <var>person(2)</var> each give is <var>LCM</var></strong>, or <var>plural(<var>LCM/A</var>,"<var>exam(1)</var>")</var> in <var>person(1)</var>'s class and <var>plural(<var>LCM/B</var>,"<var>exam(1)</var>")</var> in <var>person(2)</var>'s class.</p>
+				<p><strong>The least number of questions <var>person(1)</var> and <var>person(2)</var> each give is <var>LCM</var></strong>, or <var>plural(LCM/A, exam(1))</var> in <var>person(1)</var>'s class and <var>plural(LCM/B, exam(1))</var> in <var>person(2)</var>'s class.</p>
 			</div>
 		</div>
 
@@ -143,7 +144,7 @@
 					<p><code>\gcd(<var>A</var>, <var>B</var>) = <var>GCD</var></code></p>
 				</div>
 				<div>
-					<p><strong>The greatest number of teams that can be formed is <var>plural(<var>GCD</var>,"team")</var></strong>, with <var>plural(<var>A/GCD</var>,"sprinter")</var> and <var>plural(<var>B/GCD</var>,"long-distance runner")</var> each.</p>
+					<p><strong>The greatest number of teams that can be formed is <var>plural(GCD,"team")</var></strong>, with <var>plural(A/GCD,"sprinter")</var> and <var>plural(B/GCD,"long-distance runner")</var> each.</p>
 				</div>
 			</div>
 		</div>
@@ -185,11 +186,10 @@
 					<p><code>\gcd(<var>A</var>, <var>B</var>) = <var>GCD</var></code></p>
 				</div>
 				<div>	
-					<p><strong>The greatest number of cookie plates that can be served is <var>plural(<var>GCD</var>,"plate")</var></strong>, with <var>plural(<var>A/GCD</var>,"chocolate-chip cookie")</var> and <var>plural(<var>B/GCD</var>,"oatmeal cookie")</var> per plate.</p>
+					<p><strong>The greatest number of cookie plates that can be served is <var>plural(GCD, "plate")</var></strong>, with <var>plural(A/GCD, "chocolate-chip cookie")</var> and <var>plural(B/GCD,"oatmeal cookie")</var> per plate.</p>
 				</div>
 			</div>
-		</div>	
-
+		</div>
 		<div id="gcd-office-supplies">
 			<div class="vars" data-ensure="A_START !== B_START">
 				<var id="A_START">randRange( 1, 10 )</var>
@@ -204,7 +204,7 @@
 			</div>
 
 			<div class="question spin">
-				<p><var>person(1)</var> wants to create identical sets of office supplies for all of <var>his(1)</var> coworkers, with at least 1 <var>deskItem(1)</var> and <var>deskItem(2)</var> in each. <var>Each <var>deskItem(1)</var> comes in a package of <var>A</var>, and each <var>deskItem(2)</var> comes in a package of <var>B</var>.</p>
+				<p><var>person(1)</var> wants to create identical sets of office supplies for all of <var>his(1)</var> coworkers, with at least 1 <var>deskItem(1)</var> and <var>deskItem(2)</var> in each. Each <var>deskItem(1)</var> comes in a package of <var>A</var>, and each <var>deskItem(2)</var> comes in a package of <var>B</var>.</p>
 				<p><var>person(1)</var> wants to use one entire package of each item.</p>
 				<p><strong>What is the greatest number of sets of office supplies <var>person(1)</var> can make?</strong></p>
 			</div>
@@ -227,7 +227,7 @@
 					<p><code>\gcd(<var>A</var>, <var>B</var>) = <var>GCD</var></code></p>
 				</div>
 				<div>
-					<p><strong>The greatest number of office supply sets that can be created is <var>plural(<var>GCD</var>,"set")</var></strong>, with <var>plural(<var>A/GCD</var>,"<var>deskItem(1)</var>")</var> and <var>plural(<var>B/GCD</var>,"<var>deskItem(2)</var>")</var> per set.</p>
+					<p><strong>The greatest number of office supply sets that can be created is <var>plural(GCD,"set")</var></strong>, with <var>plural(A/GCD,deskItem(1))</var> and <var>plural(B/GCD, deskItem(2))</var> per set.</p>
 				</div>
 			</div>
 		</div>
