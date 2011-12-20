@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers word-problems">
+<html data-translatable data-require="math math-format graphie graphie-helpers word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Telling time</title>
@@ -22,7 +22,7 @@
 	<div class="problems">
 		<div id="analog">
 			<div class="question">
-				<p>What time is it?</p>
+				<p data-tt="exercise1">What time is it?</p>
 				<div class="graphie" id="pie" style="float: left;">
 					init({ range: [ [-4, 4 ], [ -4, 4] ], scale: 25 });
 					PIECH = new analogClock( HOUR, MINUTE,  3.5, false );
@@ -35,8 +35,8 @@
 				<div style="clear: both;"></div>
 			</div>
 			<div class="solution" data-type="multiple">
-				<p class="short">The time is <span class="sol"><var>HOUR</var></span> : <span class="sol"><var>NICE_MINUTE</var></span> <var>AM_PM</var></p>
-				<p class="example">a 12-hour time in hours and minutes</p>
+				<p class="short" data-tt="exercise2">The time is <span class="sol"><var>HOUR</var></span> : <span class="sol"><var>NICE_MINUTE</var></span> <var>AM_PM</var></p>
+				<p class="example" data-tt="exercise3">a 12-hour time in hours and minutes</p>
 			</div>
 
 			<div class="hints">
@@ -47,12 +47,12 @@
 							"\\Huge{\\phantom{00}:\\phantom{00}}",
 							"center" );
 					</div>
-					<p>The small hand is for the hour, and the big hand is for the minutes.</p>
+					<p data-tt="hint1">The small hand is for the hour, and the big hand is for the minutes.</p>
 				</div>
 				<div>
-					<p data-if="MINUTE == 0"> The hour hand is pointing at <code><var>HOUR</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
-					<p data-else-if="MINUTE > 10  && MINUTE < 45">The hour hand is between <code><var>HOUR</var></code> and <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
-					<p data-else>The hour hand is close to but hasn't passed <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is still <code><var>HOUR</var></code>.</p>
+					<p data-if="MINUTE == 0" data-tt="hint2"> The hour hand is pointing at <code><var>HOUR</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
+					<p data-else-if="MINUTE > 10  && MINUTE < 45" data-tt="hint3">The hour hand is between <code><var>HOUR</var></code> and <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
+					<p data-else data-tt="hint4">The hour hand is close to but hasn't passed <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is still <code><var>HOUR</var></code>.</p>
 					<div class="graphie" data-update="digital">
 						graph.time.remove();
 						var padding = HOUR &lt; 10 ? "\\phantom{0}" : "";
@@ -62,11 +62,11 @@
 					</div>
 				</div>
 				<div>
-					<p>The minute hand starts pointing straight up for <code>0</code> minutes, and makes a complete circle in <code>1</code> hour.</p>
-					<p>For each quarter of the circle that the minute hand passes, add <code>15</code> minutes.</p>
+					<p data-tt="hint5">The minute hand starts pointing straight up for <code>0</code> minutes, and makes a complete circle in <code>1</code> hour.</p>
+					<p data-tt="hint6">For each quarter of the circle that the minute hand passes, add <code>15</code> minutes.</p>
 				</div>
 				<div>
-					<p>The minute hand has passed <var>plural( MINUTE / 15, "fourth" )</var> of a circle, which represents <span data-if="MINUTE === 0"><code>0</code></span><span data-else><code><var>MINUTE</var></code></span> minutes.</p>
+					<p data-tt="hint7">The minute hand has passed <var>plural( MINUTE / 15, "fourth" )</var> of a circle, which represents <span data-if="MINUTE === 0"><code>0</code></span><span data-else><code><var>MINUTE</var></code></span> minutes.</p>
 					<div class="graphie" data-update="digital">
 						graph.time.remove();
 						var padding = MINUTE &lt; 10 ? "0" : "";
@@ -76,7 +76,7 @@
 					</div>
 				</div>
 
-				<p>The time is <code><var>HOUR</var></code>:<code><var>NICE_MINUTE</var></code>.</p>
+				<p data-tt="hint8">The time is <code><var>HOUR</var></code>:<code><var>NICE_MINUTE</var></code>.</p>
 			</div>
 		</div>
 	</div>
