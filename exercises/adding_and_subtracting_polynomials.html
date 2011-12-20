@@ -65,7 +65,7 @@
 					<var id="FAKE_ANSWERS">getFakeAnswers( SOLUTION )</var>
 				</div>
 
-				<p class="question">Simplify the expression.</p>
+				<p data-tt="exercise1" class="question">Simplify the expression.</p>
 				<p class="problem"><code>(<var>POL_1</var>) <var>SIGN</var> (<var>POL_2</var>)</code></p>
 				<p class="solution"><code><var>SOLUTION</var></code></p>
 				<ul class="choices" data-none="true">
@@ -88,7 +88,7 @@
 
 				<div class="hints" data-apply="appendContents">
 					<div id="paren">
-						<p>Since this is subtraction, when removing the parenthesis we must distribute the minus sign to all terms in the second polynomial.</p>
+						<p data-tt="hint1">Since this is subtraction, when removing the parenthesis we must distribute the minus sign to all terms in the second polynomial.</p>
 						<var>POL_2 = POL_2.multiply( -1 ), null</var>
 						<p><code><var>POL_1</var> + <var>POL_2</var></code></p>
 					</div>
@@ -98,23 +98,23 @@
 
 		<div class="hints">
 			<div id="paren">
-				<p>Since this is addition, we can remove the parenthesis without any extra steps.</p>
+				<p data-tt="hint2">Since this is addition, we can remove the parenthesis without any extra steps.</p>
 				<p><code><var>POL_1</var> + <var>POL_2</var></code></p>
 			</div>
 			<div>
-				<p>Identify like terms.</p>
+				<p data-tt="hint3">Identify like terms.</p>
 				<p><code><span data-each="[ POL_1, POL_2 ] as POL"><span data-each="NON_ZERO_INDICES as n, index" data-unwrap><var>( POL.coefs[ index ] < 0 ) ? "-" : ( n === 0 && POL === POL_1 ) ? "" : "+"</var>\color{<var>COLORS[ n ]</var>}{<var>abs( POL.coefs[ index ] ) === 1 ? "" : abs( POL.coefs[ index ] )</var><var>X</var>^<var>index</var>}</span></span></code></p>
 
 			</div>
 			<div>
-				<p>Combine like terms.</p>
+				<p data-tt="hint4">Combine like terms.</p>
 				<p><code><span data-each="NON_ZERO_INDICES as n, index"><span data-if="n !== 0">+</span>\color{<var>COLORS[ n ]</var>}{(<var>POL_1.coefs[ index ]</var> + <var>POL_2.coefs[ index ]</var>)<var>X</var>^<var>index</var>}</span></code></p>
 			</div>
 			<div>
 			<div>
-				<p>Add the coefficients.</p>
+				<p data-tt="hint5">Add the coefficients.</p>
 				<p><code><var>POL_1.add(POL_2).text()</var></code></p>
-				<p>You're done!</p>
+				<p data-tt="hint6">You're done!</p>
 			</div>
 		</div>
 	</div>
