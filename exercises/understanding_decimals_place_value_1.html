@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems jquery.mobile.vmouse">
+<html data-translatable data-require="math graphie word-problems jquery.mobile.vmouse">
 <head>
 	<meta charset="UTF-8" />
 	<title>Understanding decimals place value 1</title>
@@ -45,7 +45,7 @@
 				<var id="HUNDREDTHS">randRange( 1, 9 )</var>
 			</div>
 
-			<p class="question">
+			<p class="question" data-tt="exercise1">
 				Choose the right number of bills and coins to make<br />
 				<code>\Huge{$
 				<span data-if="THOUSANDS !== 0">\color{<var>PINK</var>}{<var>THOUSANDS</var>}</span>
@@ -153,7 +153,7 @@
 
 
 			<div class="solution" data-type="custom">
-				<div class="instruction">
+				<div class="instruction" data-tt="exercise2">
 					Click on the bills and coins to select them.
 				</div>
 				<div class="guess">digitsToInteger([
@@ -200,14 +200,14 @@
 						KhanUtil.currentGraph.graph.hundredths[ i ].attr({ fill: 'gray', stroke: '#000' });
 					}
 				</div>
-				<div class="example">click a bill or coin to select it</div>
-				<div class="example">click a bill or coin again to deselect it</div>
+				<div class="example" data-tt="example1">click a bill or coin to select it</div>
+				<div class="example" data-tt="example2">click a bill or coin again to deselect it</div>
 			</div>
 		</div>
 	</div>
 
 	<div class="hints">
-		<p>
+		<p data-tt="hint1">
 			<code>\Large{
 				<span data-if="THOUSANDS !== 0">\color{<var>PINK</var>}{<var>THOUSANDS</var>}</span>
 				\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}
@@ -226,31 +226,31 @@
 				<span data-if="HUNDREDTHS !== 0">\color{gray}{0.0<var>HUNDREDTHS</var>}</span>
 			}</code>.
 		</p>
-		<p data-if="THOUSANDS !== 0">
+		<p data-if="THOUSANDS !== 0" data-tt="hint2">
 			<code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>000}}</code> is the same as <code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code>
 			<var>plural( "thousand", THOUSANDS )</var>, the place value four places to the left of the decimal point.
 		</p>
-		<p data-if="HUNDREDS !== 0">
+		<p data-if="HUNDREDS !== 0" data-tt="hint3">
 			<code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>00}}</code> is the same as <code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code>
 			<var>plural( "hundred", HUNDREDS )</var>, the place value three places to the left of the decimal point.
 		</p>
-		<p data-if="TENS !== 0">
+		<p data-if="TENS !== 0" data-tt="hint4">
 			<code>\large{\color{<var>GREEN</var>}{<var>TENS</var>0}}</code> is the same as <code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code>
 			<var>plural( "ten", TENS )</var>, the place value two places to the left of the decimal point.
 		</p>
-		<p data-if="ONES !== 0">
+		<p data-if="ONES !== 0" data-tt="hint5">
 			<code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> is the same as <code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code>
 			<var>plural( "one", ONES )</var>, the place value one place to the left of the decimal point.
 		</p>
-		<p data-if="TENTHS !== 0">
+		<p data-if="TENTHS !== 0" data-tt="hint6">
 			<code>\large{\color{purple}{0.<var>TENTHS</var>}}</code> is the same as <code>\large{\color{purple}{<var>TENTHS</var>}}</code>
 			<var>plural( "tenth", TENTHS )</var>, the place value one place to the right of the decimal point.
 		</p>
-		<p data-if="HUNDREDTHS !== 0">
+		<p data-if="HUNDREDTHS !== 0" data-tt="hint7">
 			<code>\large{\color{gray}{0.0<var>HUNDREDTHS</var>}}</code> is the same as <code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code>
 			<var>plural("hundredth", HUNDREDTHS )</var>, the place value two places to the right of the decimal point.
 		</p>
-		<p>
+		<p data-tt="hint8">
 			Therefore you need
 			<span data-if="THOUSANDS !== 0"><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> <var>plural( "thousand", THOUSANDS )</var>, </span>
 			<span data-if="HUNDREDS !== 0"><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> <var>plural( "hundred", HUNDREDS )</var>, </span>
