@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-translatable data-require="math graphie">
 	<head>
 	<meta charset="UTF-8" />
 	<title>Prime factorization</title>
@@ -17,10 +17,10 @@
 					<div class="vars">
 						<var id="NUMBER">getPrime()</var>
 					</div>
-					<p class="question">What is the prime factorization of <code><var>NUMBER</var></code>?</p>
+					<p data-tt="exercise1" class="question">What is the prime factorization of <code><var>NUMBER</var></code>?</p>
 					<p class="solution" data-type="primeFactorization"><var>NUMBER</var></p>
 					<div class="hints">
-						<p>Let us draw a factor tree.</p>
+						<p data-tt="hint1">Let us draw a factor tree.</p>
 
 						<div class="graphie" id="factor-tree">
 							init({
@@ -35,7 +35,7 @@
 							circle( [cx, y], 0.5 );
 						</div>
 
-						<p>Because <code><var>NUMBER</var></code> is prime, its prime factorization is simply <code><var>NUMBER</var></code>.</p>
+						<p data-tt="hint2">Because <code><var>NUMBER</var></code> is prime, its prime factorization is simply <code><var>NUMBER</var></code>.</p>
 					</div>
 				</div>
 
@@ -47,12 +47,12 @@
 						<var id="curr">NUMBER</var>
 					</div>
 
-					<p class="question">What is the prime factorization of <code><var>NUMBER</var></code>?</p>
+					<p data-tt="exercise3" class="question">What is the prime factorization of <code><var>NUMBER</var></code>?</p>
 					<p class="solution" data-type="primeFactorization"><var>SOLUTION.join("x")</var></p>
 
 					<div class="hints">
 						<div>
-							<p>Let us draw a factor tree.</p>
+							<p data-tt="hint3">Let us draw a factor tree.</p>
 							<div class="graphie" id="factor-tree">
 								init({
 									range: [ [-1, FACTORIZATION.length + 2], [ -2 * FACTORIZATION.length - 1, 1] ],
@@ -80,7 +80,7 @@
 							circle( [cx + 1, y], 0.5);
 						</div>
 
-						<p>The prime factorization of <code><var>NUMBER</var></code> is <code><var>SOLUTION.join(" &times; ")</var></code>.</p>
+						<p data-tt="hint4">The prime factorization of <code><var>NUMBER</var></code> is <code><var>SOLUTION.join(" &times; ")</var></code>.</p>
 					</div>
 				</div>
 			</div>

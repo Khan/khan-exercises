@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
+<html data-translatable data-require="math graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>Comparing absolute values</title>
@@ -52,7 +52,7 @@
 				</div>
 
 				<div class="problem">
-					<p>Fill in the blank.</p>
+					<p data-tt="exercise1">Fill in the blank.</p>
 					<p>
 					<code><var>ABS_1 + NUM_1 + ABS_1</var></code> ____ <code><var>ABS_2 + NUM_2 + ABS_2</var></code>
 					</p>
@@ -67,16 +67,16 @@
 					<div class="graphie" data-if="ABS_1 === '|'">
 						drawNumberLine( NUM_1 );
 					</div>
-					<p data-if="ABS_1 === '|'">
+					<p data-tt="hint1" data-if="ABS_1 === '|'">
 						The "absolute value" can be viewed as the distance from 0. The distance from <var>NUM_1</var> to 0 is <var>NUM_1_VALUE</var> so <code>|<var>NUM_1</var>| = <var>NUM_1_VALUE</var></code>
 					</p>
 					<div class="graphie" data-if="ABS_2 === '|'">
 						drawNumberLine( NUM_2 );
 					</div>
-					<p data-if="ABS_2 === '|'">
+					<p data-tt="hint2" data-if="ABS_2 === '|'">
 						The "absolute value" can be viewed as the distance from 0. The distance from <var>NUM_2</var> to 0 is <var>NUM_2_VALUE</var> so <code>|<var>NUM_2</var>| = <var>NUM_2_VALUE</var></code>
 					</p>
-					<p>Is <var>NUM_1_VALUE</var> less than, greater than, or equal to <var>NUM_2_VALUE</var>?</p>
+					<p data-tt="hint3">Is <var>NUM_1_VALUE</var> less than, greater than, or equal to <var>NUM_2_VALUE</var>?</p>
 					<p><code><var>NUM_1_VALUE</var> <var>SOLUTION</var> <var>NUM_2_VALUE</var></code></p>
 					<p><code><var>ABS_1</var><var>NUM_1</var><var>ABS_1</var> <var>SOLUTION</var> <var>ABS_2</var><var>NUM_2</var><var>ABS_2</var></code></p>
 				</div>
