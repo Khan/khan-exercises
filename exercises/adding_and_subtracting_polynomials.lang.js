@@ -1,6 +1,6 @@
 ({
 	"nl" : {
-		"exersice1"	: 'Simplify the expression.',
+		"exercise1"	: 'Simplify the expression.',
 		"hint1"		: 'Since this is subtraction, when removing the parenthesis we must distribute the minus sign to all terms in the second polynomial.',
 		"hint2"		: 'Since this is addition, we can remove the parenthesis without any extra steps.',
 		"hint3"		: 'Identify like terms.',
