@@ -2831,6 +2831,11 @@ var Khan = (function() {
 			ModalVideo && relatedVideosForExercise === null && ModalVideo.hookup();
 			relatedVideosForExercise = data.exercise;
 		}
+
+		// Hide related videos box if the videos shown are not for this exercise
+		if ( relatedVideosForExercise !== data.exercise ) {
+			jQuery( ".related-video-box, .related-content" ).hide();
+		}
 	}
 
 	function displayRelatedVideos( videos ) {
