@@ -1817,6 +1817,8 @@ var Khan = (function() {
 
 		if ( reviewMode ) {
 			enterReviewMode();
+		} else {
+			jQuery( "#streak-bar-container" ).show();
 		}
 
 		jQuery( "#answer_area" ).adhere( {
