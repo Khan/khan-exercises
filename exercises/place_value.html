@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems math-format expressions">
+<html data-translatable data-require="math word-problems math-format expressions">
 <head>
 	<meta charset="UTF-8" />
 	<title>Place value</title>
@@ -47,7 +47,7 @@
 					<var id="SOLUTION">PLACES[ DIGITS.length - 1 - POWER ]</var>
 				</div>
 
-				<p class="question">What is the place value of <var>DIGIT</var> in <var>NUMBER</var>?</p>
+				<p data-tt="question1" class="question">What is the place value of <var>DIGIT</var> in <var>NUMBER</var>?</p>
 				<p class="solution"><var>SOLUTION</var></p>
 				<ul class="choices" data-category="true">
 					<li data-each="PLACES as place"><var>place</var></li>
@@ -55,11 +55,11 @@
 
 				<div class="hints">
 					<div>
-						<p><var>NUMBER</var> can be represented as follows.</p>
+						<p data-tt="hint1"><var>NUMBER</var> can be represented as follows.</p>
 						<p><code>= <var>HINT_IN_NUMBERS</var></code></p>
 					</div>
 					<p><code>= </code> <var>HINT_IN_WORDS</var></p>
-					<p class="final_hint">Thus, <var>DIGIT</var> is in the <var>SOLUTION</var> place.</p>
+					<p data-tt="hint2" class="final_hint">Thus, <var>DIGIT</var> is in the <var>SOLUTION</var> place.</p>
 				</div>
 			</div>
 
@@ -68,7 +68,7 @@
 					<var id="DIGITS">randRange( 0, 9, 4 )</var>
 					<var id="NUMBER">digitsToInteger( DIGITS )</var>
 					<var id="ADDENDS">[ ]</var>
-					<var id="HINT">
+					<var data-tt="hint4" id="HINT">
 						(function() {
 							var maxPower = DIGITS.length - 1;
 							return jQuery.map(DIGITS, function(digit, index) {
@@ -99,12 +99,12 @@
 					</var>
 				</div>
 
-				<p class="question">What is <var>cardinal( NUMBER )</var> in standard form?</p>
+				<p data-tt="question2" class="question">What is <var>cardinal( NUMBER )</var> in standard form?</p>
 				<p class="solution"><var>NUMBER</var></p>
 				<div class="hints">
 					<p data-each="HINT as hint"><var>hint</var></p>
 					<div>
-						<p>Add all these parts up:</p>
+						<p data-tt="hint3" >Add all these parts up:</p>
 						<p><var>ADDENDS.join( " + " )</var></p>
 					</div>
 					<p>= <var>NUMBER</var></p>
