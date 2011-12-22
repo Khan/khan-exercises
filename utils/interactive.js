@@ -55,8 +55,8 @@ jQuery.extend( KhanUtil, {
 		graph.scale = [ graph.scalePoint([ 1, 1 ])[0] - graph.scalePoint([ 0, 0 ])[0], graph.scalePoint([ 0, 0 ])[1] - graph.scalePoint([ 1, 1 ])[1] ];
 		var xmin = 0 - (graph.scalePoint([0, 0])[0] / graph.scale[0]);
 		var xmax = (graph.xpixels / graph.scale[0]) + xmin;
-		var ymin = 0 - (graph.scalePoint([0, 0])[1] / graph.scale[1]);
-		var ymax = (graph.ypixels / graph.scale[1]) + ymin;
+		var ymax = graph.scalePoint([0, 0])[1] / graph.scale[1];
+		var ymin = ymax - (graph.ypixels / graph.scale[1]);
 		graph.range = [ [ xmin, xmax ], [ ymin, ymax ] ];
 
 		graph.mouselayer = Raphael( graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels );
@@ -825,7 +825,8 @@ jQuery.extend( KhanUtil, {
 			graph: KhanUtil.currentGraph,
 			coordA: [ 0, 0 ],
 			coordZ: [ 1, 1 ],
-			snap: 0,
+			snapX: 0,
+			snapY: 0,
 			fixed: false,
 			ticks: 0,
 			normalStyle: {
@@ -834,12 +835,17 @@ jQuery.extend( KhanUtil, {
 			},
 			highlightStyle: {
 				"stroke": KhanUtil.ORANGE,
-				"stroke-width": 5
+				"stroke-width": 6
 			},
 			highlight: false,
 			dragging: false,
 			tick: [],
-			extendLine: false
+			extendLine: false,
+			constraints: {
+				fixed: false,
+				constrainX: false,
+				constrainY: false
+			},
 		}, options);
 
 		// If the line segment is defined by movablePoints, coordA/coordZ are
@@ -947,7 +953,7 @@ jQuery.extend( KhanUtil, {
 			lineSegment.visibleLine.toFront();
 		};
 
-		if ( !lineSegment.fixed ) {
+		if ( !lineSegment.fixed && !lineSegment.constraints.fixed ) {
 			jQuery( lineSegment.mouseTarget[0] ).css( "cursor", "move" );
 			jQuery( lineSegment.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
 				if ( event.type === "vmouseover" ) {
@@ -967,6 +973,12 @@ jQuery.extend( KhanUtil, {
 					// coord{X|Y} are the scaled coordinate values of the mouse position
 					var coordX = (event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left) / graph.scale[0] + graph.range[0][0];
 					var coordY = graph.range[1][1] - (event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top) / graph.scale[1];
+					if ( lineSegment.snapX > 0 ) {
+						coordX = Math.round( coordX / lineSegment.snapX ) * lineSegment.snapX;
+					}
+					if ( lineSegment.snapY > 0 ) {
+						coordY = Math.round( coordY / lineSegment.snapY ) * lineSegment.snapY;
+					}
 					// Offsets between the mouse and each end of the line segment
 					var mouseOffsetA = [ lineSegment.coordA[0] - coordX, lineSegment.coordA[1] - coordY ];
 					var mouseOffsetZ = [ lineSegment.coordZ[0] - coordX, lineSegment.coordZ[1] - coordY ];
@@ -992,7 +1004,20 @@ jQuery.extend( KhanUtil, {
 						// coord{X|Y} are the scaled coordinate values
 						var coordX = mouseX / graph.scale[0] + graph.range[0][0];
 						var coordY = graph.range[1][1] - mouseY / graph.scale[1];
+						if ( lineSegment.snapX > 0 ) {
+							coordX = Math.round( coordX / lineSegment.snapX ) * lineSegment.snapX;
+						}
+						if ( lineSegment.snapY > 0 ) {
+							coordY = Math.round( coordY / lineSegment.snapY ) * lineSegment.snapY;
+						}
+
 						if ( event.type === "vmousemove" ) {
+							if ( lineSegment.constraints.constrainX ) {
+								coordX = lineSegment.coordA[0] - mouseOffsetA[0]
+							}
+							if ( lineSegment.constraints.constrainY ) {
+								coordY = lineSegment.coordA[1] - mouseOffsetA[1]
+							}
 							var dX = coordX + mouseOffsetA[0] - lineSegment.coordA[0];
 							var dY = coordY + mouseOffsetA[1] - lineSegment.coordA[1];
 							lineSegment.coordA = [coordX + mouseOffsetA[0], coordY + mouseOffsetA[1]];
@@ -1035,7 +1060,7 @@ jQuery.extend( KhanUtil, {
 		var list;
 
 		sorter.init = function( element ) {
-			list = jQuery( "#" + element );
+			list = jQuery( "[id=" + element + "]" ).last();
 			var container = list.wrap( "<div>" ).parent();
 			var placeholder = jQuery( "<li>" );
 			placeholder.addClass( "placeholder" );
@@ -1126,6 +1151,6 @@ jQuery.extend( KhanUtil, {
 		Khan.scratchpad.hide();
 
 		return sorter;
-	} 
-	
+	}
+
 });

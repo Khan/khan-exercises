@@ -63,7 +63,7 @@ var Khan = (function() {
 
 	if ( !localStorageEnabled ) {
 		if ( typeof jQuery !== "undefined" ) {
-			warn( "You must enable DOM storage in your browser, see <a href='https://sites.google.com/a/khanacademy.org/forge/for-developers/how-to-enable-dom-storage'>here</a> for instructions.", false );
+			warn( "You must enable DOM storage in your browser; see <a href='https://sites.google.com/a/khanacademy.org/forge/for-developers/how-to-enable-dom-storage'>here</a> for instructions.", false );
 		}
 		return;
 	}
@@ -146,9 +146,8 @@ var Khan = (function() {
 
 	hints,
 
-	// The exercise elements, initialized to an empty jQuery set.
-	// It is possible that jQuery may not be loaded at this stage in test mode.
-	exercises = typeof jQuery !== "undefined" && jQuery(),
+	// The exercise elements
+	exercises,
 
 	// If we're dealing with a summative exercise
 	isSummative = false,
@@ -560,12 +559,15 @@ var Khan = (function() {
 
 		if ( testMode ) {
 			Khan.require( [ "../jquery-ui" ] );
-		};
+		}
 
 		// Base modules required for every problem
 		Khan.require( [ "answer-types", "tmpl", "underscore", "jquery.adhesion" ] );
 
 		Khan.require( document.documentElement.getAttribute("data-require") );
+
+		// Initialize to an empty jQuery set
+		exercises = jQuery();
 
 		if ( typeof userExercise !== "undefined" ) {
 			prepareUserExercise( userExercise );
@@ -1799,8 +1801,7 @@ var Khan = (function() {
 			userExercise.exercise_model.display_name : document.title );
 
 		// TODO(david): Don't add homepage elements with "exercise" class
-		var domExercises = jQuery( ".exercise" ).detach();
-		exercises = exercises ? exercises.add( domExercises ) : domExercises;
+		exercises = exercises.add( jQuery( ".exercise" ).detach() );
 
 		// Setup appropriate img URLs
 		jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
@@ -1814,6 +1815,8 @@ var Khan = (function() {
 
 		if ( reviewMode ) {
 			enterReviewMode();
+		} else {
+			jQuery( "#streak-bar-container" ).show();
 		}
 
 		jQuery( "#answer_area" ).adhere( {
@@ -2572,11 +2575,6 @@ var Khan = (function() {
 			);
 		}
 
-		// record a bingo if came here from knowledge map after clicking on green button or dashboard link
-		if(document.referrer.indexOf("move_on") > 0 && window.gae_bingo){
-			gae_bingo.bingo("clicked_followup");
-		}
-
 		// Make scratchpad persistent per-user
 		if (user) {
 			var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
@@ -2831,6 +2829,11 @@ var Khan = (function() {
 			ModalVideo && relatedVideosForExercise === null && ModalVideo.hookup();
 			relatedVideosForExercise = data.exercise;
 		}
+
+		// Hide related videos box if the videos shown are not for this exercise
+		if ( relatedVideosForExercise !== data.exercise ) {
+			jQuery( ".related-video-box, .related-content" ).hide();
+		}
 	}
 
 	function displayRelatedVideos( videos ) {
@@ -2979,7 +2982,7 @@ var Khan = (function() {
 			newContents.data( "name", name ).data( "weight", weight );
 
 			// Add the new exercise elements to the exercises DOM set
-			exercises = exercises ? exercises.add( newContents ) : newContents;
+			exercises = exercises.add( newContents );
 
 			// Extract data-require
 			var requires = data.match( /<html(?:[^>]+)data-require=(['"])((?:(?!\1).)*)\1/ );

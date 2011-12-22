@@ -327,6 +327,24 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"short-sleeved"
 	]);
 
+	var animals = KhanUtil.shuffle([
+		"alligator",
+		"anteater",
+		"bear",
+		"elephant",
+		"gorilla",
+		"lion",
+		"lizard",
+		"meerkat",
+		"porcupine",
+		"seal",
+		"sloth",
+		"snake",
+		"tiger",
+		"turtle",
+		"zebra"
+	]);
+
 	var farmers = KhanUtil.shuffle([
 		{farmer:"farmer", crops:KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk"]), field:"field"},
 		{farmer:"gardener", crops:KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily"]), field:"garden"}
@@ -508,5 +526,9 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		shirtStyle: function( i ) {
 			return shirtStyles[i - 1];
 		},
+
+		animal: function( i ) {
+			return animals[i - 1];
+		}
 	});
 };
