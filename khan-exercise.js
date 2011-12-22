@@ -37,13 +37,16 @@
 var Khan = (function() {
 	function warn( message, showClose ) {
 		jQuery(function() {
+			var warningBar = jQuery( "#warning-bar" );
 			jQuery( "#warning-bar-content" ).html( message );
 			if ( showClose ) {
-				jQuery( "#warning-bar-close" ).show();
+				warningBar.addClass( "warning" )
+					  .children( "#warning-bar-close" ).show();
 			} else {
-				jQuery( "#warning-bar-close" ).hide();
+				warningBar.addClass( "error" )
+					  .children( "#warning-bar-close" ).hide();
 			}
-			jQuery( "#warning-bar" ).fadeIn( "fast" );
+			warningBar.fadeIn( "fast" );
 		});
 	}
 
