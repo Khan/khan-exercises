@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
+<html data-translatable data-require="math graphie graphie-helpers">
 	<head>
 		<title>Measuring angles</title>
 		<script src="../khan-exercise.js"></script>
@@ -13,7 +13,7 @@
 
 			<div class="problems">
 				<div>
-					<div class="problem">
+					<div class="problem" data-tt="exercise1">
 						Measure this angle in degrees.
 					</div>
 					<div class="question">
@@ -45,13 +45,13 @@
 						graph.protractor.rotatable( false );
 						graph.protractor.translatable( false );
 					</div>
-					<p>First, align the protractor with the angle.</p>
+					<p data-tt="hint1">First, align the protractor with the angle.</p>
 				</div>
 				<div>
 					<div class="graphie" data-update="angle">
 						graph.protractor.drawAngle( DIFF, 2, "green", "green" );
 					</div>
-					<p>The angle is <code><var>DIFF</var></code> degrees.</p>
+					<p data-tt="hint2">The angle is <code><var>DIFF</var></code> degrees.</p>
 				</div>
 			</div>
 		</div>

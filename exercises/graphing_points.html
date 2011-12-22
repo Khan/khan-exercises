@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-translatable data-require="math graphie">
 	<head>
 	<meta charset="UTF-8" />
 	<title>Graphing points</title>
@@ -39,12 +39,12 @@
 			<div class="problems">
 				<div>
 					<div class="problem">
-						<p>Consider the following coordinate pairs:</p>
+						<p data-tt="exercise">Consider the following coordinate pairs:</p>
 						<p><code><var>jQuery.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
 					</div>
 
 					<div class="question">
-						<p>Which of those pairs is not graphed below?</p>
+						<p data-tt="exercise1">Which of those pairs is not graphed below?</p>
 						<div class="graphie" id="grid">
 							graphInit({
 								range: 10,
@@ -83,7 +83,7 @@
 					</div>
 				</div>
 
-				<div class="graphie" data-update="grid">
+				<div class="graphie" data-update="grid" data-tt="hint">
 					var point = POINTS[FORGOTTEN];
 					label( point, PAIR( point ) + "\\text{ was not graphed.}", "above right" );
 					circle( point, 0.15, { stroke: "red", fill: "red"} );
