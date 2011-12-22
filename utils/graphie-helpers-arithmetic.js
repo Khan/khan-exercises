@@ -501,11 +501,13 @@ function Multiplier( a, b, digitsA, digitsB, deciA, deciB ) {
 
 	this.showDecimals = function() {
 		graph.style({
-				fill: "#000"
-			}, function() {
+			fill: "#000"
+		}, function() {
+			if ( deciA > 0 )
 				graph.ellipse( [ -deciA + 0.5, 1.8 ], [ 0.09, 0.06 ] );
+			if ( deciB > 0 )
 				graph.ellipse( [ -deciB + 0.5, 0.8 ], [ 0.09, 0.06 ] );
-			});
+		});
 	};
 
 	this.showDecimalsInProduct = function() {
