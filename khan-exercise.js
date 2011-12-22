@@ -1129,7 +1129,7 @@ var Khan = (function() {
 
 		if (typeof userExercise !== "undefined" && userExercise.read_only) {
 			if (!userExercise.current) {
-				warn("This exercise may have changed since it was done", true);
+				warn("This exercise may have changed since it was completed", true);
 			}
 
 			var timelineEvents, timeline;
@@ -1266,38 +1266,31 @@ var Khan = (function() {
 			jQuery( '#solutionarea' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
 
 			jQuery.fn.scrubber = function() {
+				// create triangular scrubbers above and below current selection
 				var scrubber1 = jQuery( '#scrubber1' ),
-						scrubber2 = jQuery( '#scrubber2' );
-
-				scrubber1 = scrubber1.length ? scrubber1 : jQuery("<div id='scrubber1'>").appendTo(document.body);
-				scrubber2 = scrubber2.length ? scrubber2 : jQuery("<div id='scrubber2'>").appendTo(document.body);
-
-				// triangle top of scrubber
-				scrubber1.css( {
+				    scrubber2 = jQuery( '#scrubber2' ),
+				    scrubberCss = {
 					display: 'block',
 					width: '0',
 					height: '0',
 					'border-left': '6px solid transparent',
 					'border-right': '6px solid transparent',
-					'border-bottom': '6px solid #888',
 					position: 'absolute',
-					top: (timelinecontainer.offset().top + timelinecontainer.height() - 6) + 'px',
-					left: (this.offset().left + this.width()/2) + 'px',
-					bottom: '0'
-				} );
+					left: (this.position().left + this.width()/2 + 7) + 'px'
+				    };
 
-				// rectangle bottom of scrubber
-				scrubber2.css( {
-					display: 'block',
-					width: '0',
-					height: '0',
+				scrubber1 = scrubber1.length ? scrubber1 : jQuery("<div id='scrubber1'>").appendTo( "#timeline" );
+				scrubber2 = scrubber2.length ? scrubber2 : jQuery("<div id='scrubber2'>").appendTo( "#timeline" );
+
+				scrubber1.css( jQuery.extend( {}, scrubberCss, {
 					'border-bottom': '6px solid #888',
-					'border-left': '6px solid #888',
-					'border-right': '6px solid #888',
-					position: 'absolute',
-					top: (scrubber1.offset().top + 7) + 'px',
-					left: scrubber1.offset().left + 'px'
-				} );
+					bottom: '0'
+				}) );
+
+				scrubber2.css( jQuery.extend( {}, scrubberCss, {
+					'border-top': '6px solid #888',
+					top: '0'
+				}) );
 
 				return this;
 			};
@@ -1306,12 +1299,12 @@ var Khan = (function() {
 			MathJax.Hub.Queue( function() {
 				var maxHeight = 0;
 				timelineEvents.children().each( function() {
-					maxHeight = Math.max( maxHeight, jQuery( this ).height() );
+					maxHeight = Math.max( maxHeight, jQuery( this ).outerHeight(true) );
 				});
 
 				if (maxHeight > timelinecontainer.height()) {
-					timelinecontainer.height( maxHeight + 16 );
-					timeline.height( maxHeight + 16 );
+					timelinecontainer.height( maxHeight );
+					timeline.height( maxHeight );
 				}
 			} );
 
@@ -1320,7 +1313,7 @@ var Khan = (function() {
 
 				var thisHintArea, thisProblem,
 					hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
-								.filter('.hint-activity').length - 1,
+							.filter('.hint-activity').length - 1,
 					// Bring the currently focused panel as close to the middle as possible
 					itemOffset = thisSlide.position().left,
 					itemMiddle = itemOffset + thisSlide.width() / 2,
@@ -1373,7 +1366,8 @@ var Khan = (function() {
 
 			var activate = function( slideNum ) {
 				var hint, thisState,
-					thisSlide = states.eq( slideNum );
+				    thisSlide = states.eq( slideNum ),
+				    fadeTime = 150;
 
 				// All content for this state has been built before
 				if (statelist[slideNum]) {
@@ -1381,23 +1375,23 @@ var Khan = (function() {
 
 					timeline.animate({
 						scrollLeft: thisState.scroll
-					}, 150, function() {
+					}, fadeTime, function() {
 						thisState.slide.scrubber();
 					});
 
 					if (slideNum < firstHintIndex) {
-						hintRemainder.fadeOut( 150 );
+						hintRemainder.fadeOut( fadeTime );
 						hintButton.val( "I'd like a hint" );
 					} else if (slideNum >= lastHintIndex) {
 						if (states.eq( lastHintIndex ).data( 'hint' ) < hints.length) {
-							hintRemainder.fadeOut( 150 );
+							hintRemainder.fadeOut( fadeTime );
 						}
 					} else {
 						hintButton.val( "I'd like another hint" );
 
 						hintRemainder
 							.text( (totalHints - thisState.hintNum) + " remaining" )
-							.fadeIn( 150 );
+							.fadeIn( fadeTime );
 					}
 
 					jQuery( '#workarea' ).remove();
@@ -1405,7 +1399,7 @@ var Khan = (function() {
 					jQuery( '#problemarea' ).append( thisState.problem ).append( thisState.hintArea );
 
 					if (thisSlide.data( 'guess' )) {
-						solutionarea.effect( 'highlight', {}, 200 );
+						solutionarea.effect( 'highlight', {}, fadeTime );
 
 						// If there is a guess we show it as if it was filled in by the user
 						validator.showGuess( thisSlide.data( 'guess' ) );
@@ -1417,7 +1411,7 @@ var Khan = (function() {
 					if (slideNum > 0 && (thisState.hintNum > statelist[slideNum-1].hintNum)) {
 						jQuery( '#hintsarea' ).children().each( function( index, elem ) {
 							if (index > previousHintNum) {
-								jQuery( elem ).effect( 'highlight', {}, 200 );
+								jQuery( elem ).effect( 'highlight', {}, fadeTime );
 							}
 						} );
 

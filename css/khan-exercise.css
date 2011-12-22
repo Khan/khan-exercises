@@ -116,7 +116,7 @@ var, div.graphie { white-space: pre; }
 }
 
 .user-activity {
-  margin: 5px;
+  margin: 8px;
   padding: 2px 5px;
   border: 1px solid #999;
   border-radius: 4px;
@@ -124,7 +124,6 @@ var, div.graphie { white-space: pre; }
   -moz-border-radius: 4px;
   float: left;
   cursor: pointer;
-  /*height: 25px;*/
   color: white;
 }
 
