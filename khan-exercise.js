@@ -1283,7 +1283,8 @@ var Khan = (function() {
 
 			jQuery.fn.scrubber = function() {
 				// create triangular scrubbers above and below current selection
-				var scrubber1 = jQuery( '#scrubber1' ),
+				var timeline = jQuery( '#timeline' ),
+				    scrubber1 = jQuery( '#scrubber1' ),
 				    scrubber2 = jQuery( '#scrubber2' ),
 				    scrubberCss = {
 					display: 'block',
@@ -1292,11 +1293,11 @@ var Khan = (function() {
 					'border-left': '6px solid transparent',
 					'border-right': '6px solid transparent',
 					position: 'absolute',
-					left: (this.position().left + this.width()/2 + 7) + 'px'
+					left: (timeline.scrollLeft() + this.position().left + this.outerWidth()/2 + 2) + 'px'
 				    };
 
-				scrubber1 = scrubber1.length ? scrubber1 : jQuery("<div id='scrubber1'>").appendTo( "#timeline" );
-				scrubber2 = scrubber2.length ? scrubber2 : jQuery("<div id='scrubber2'>").appendTo( "#timeline" );
+				scrubber1 = scrubber1.length ? scrubber1 : jQuery("<div id='scrubber1'>").appendTo( timeline );
+				scrubber2 = scrubber2.length ? scrubber2 : jQuery("<div id='scrubber2'>").appendTo( timeline );
 
 				scrubber1.css( jQuery.extend( {}, scrubberCss, {
 					'border-bottom': '6px solid #888',
