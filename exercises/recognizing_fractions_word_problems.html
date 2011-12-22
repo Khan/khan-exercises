@@ -1,8 +1,3 @@
-
-
-
-
-
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers word-problems">
 <head>
@@ -21,7 +16,10 @@
 
 		<div class="problems">
 			<div id="show-total-want-eaten">
-				<p class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
+				<p class="problem">
+					<var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var>
+					ate <var>plural( B, "slice" )</var>.
+				</p>
 				<p class="question">If there were initially <var>TOTAL</var> slices, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
 				<p class="solution" data-type="rational" data-simplify="optional"><var>(A + B) / TOTAL</var></p>
 				<div class="hints">
@@ -42,12 +40,18 @@
 			</div>
 
 			<div id="show-left-want-eaten">
-				<p class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
+				<p class="problem">
+					<var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var>
+					ate <var>plural( B, "slice" )</var>.
+				</p>
 				<p class="question">If there were <var>plural(LEFT, "slice")</var> remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
 				<p class="solution" data-type="rational" data-simplify="optional"><var>(A + B) / TOTAL</var></p>
 				<div class="hints">
 					<p><code>\text{fraction of <var>pizza( 1 )</var> eaten} = \dfrac{\text{number of slices eaten}}{\text{number slices total}}</code></p>
-					<p>Since they ate <var>A + B</var> slices of <var>pizza( 1 )</var> with <var>plural( LEFT, "slice" )</var> remaining, they must have begun with <var>TOTAL</var> slices.</p>
+					<p>
+						Since they ate <var>A + B</var> slices of <var>pizza( 1 )</var> with <var>plural( LEFT, "slice" )</var> remaining,
+						they must have begun with <var>TOTAL</var> slices.
+					</p>
 					<div>
 						<p>They ate <code>\color{#6495ED}{<var>A + B</var>}</code> out of <code><var>TOTAL</var></code> slices.</p>
 						<div class="graphie">
@@ -64,11 +68,21 @@
 			</div>
 
 			<div id="show-first-want-eaten">
-				<p class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
-				<p class="question">If <var>person( 1 )</var> ate <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
+				<p class="problem">
+					<var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var>
+					ate <var>plural( B, "slice" )</var>.
+				</p>
+				<p class="question">
+					If <var>person( 1 )</var> ate <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>,
+					what fraction of the <var>pizza( 1 )</var> was eaten?
+				</p>
 				<p class="solution" data-type="rational" data-simplify="optional"><var>(A + B) / TOTAL</var></p>
 				<div class="hints">
-					<p>If <var>plural( A, "slice")</var> represent<var>A &gt; 1 ? "" : "s"</var> <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, there must have been a total of <var>TOTAL</var> slices.</p>
+					<p>
+						If <var>plural( A, "slice")</var> represent<var>A &gt; 1 ? "" : "s"</var>
+						<code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, there must have been a total of
+						<var>TOTAL</var> slices.
+					</p>
 					<p><code>\text{fraction of <var>pizza( 1 )</var> eaten} = \dfrac{\text{number of slices eaten}}{\text{number slices total}}</code></p>
 					<div>
 						<p>They ate <code>\color{#6495ED}{<var>A + B</var>}</code> out of <code><var>TOTAL</var></code> slices.</p>
@@ -86,7 +100,10 @@
 			</div>
 
 			<div id="show-total-want-left">
-				<p class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
+				<p class="problem">
+					<var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and
+					<var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.
+				</p>
 				<p class="question">If there were initially <var>TOTAL</var> slices, what fraction of the <var>pizza( 1 )</var> is remaining?</p>
 				<p class="solution" data-type="rational" data-simplify="optional"><var>LEFT / TOTAL</var></p>
 				<div class="hints">
@@ -107,11 +124,21 @@
 			</div>
 
 			<div id="show-first-want-left">
-				<p class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
-				<p class="question">If <var>person( 1 )</var> ate <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, what fraction of the <var>pizza( 1 )</var> is remaining?</p>
+				<p class="problem">
+					<var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and
+					<var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.
+				</p>
+				<p class="question">
+					If <var>person( 1 )</var> ate <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>,
+					what fraction of the <var>pizza( 1 )</var> is remaining?
+				</p>
 				<p class="solution" data-type="rational" data-simplify="optional"><var>LEFT / TOTAL</var></p>
 				<div class="hints">
-					<p>If <var>plural( A, "slice" )</var> represent<var>A &gt; 1 ? "" : "s"</var> <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, there must have been a total of <var>TOTAL</var> slices.</p>
+					<p>
+						If <var>plural( A, "slice" )</var> represent<var>A &gt; 1 ? "" : "s"</var>
+						<code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>,
+						there must have been a total of <var>TOTAL</var> slices.
+					</p>
 					<p><code>\text{fraction of <var>pizza( 1 )</var> remaining} = \dfrac{\text{number of slices remaining}}{\text{number slices total}}</code></p>
 					<div>
 						<p>Together they ate <var>A + B</var> slices, which leaves <var>LEFT</var> out of <var>TOTAL</var> slices remaining.</p>
@@ -128,5 +155,6 @@
 				</div>
 			</div>
 		</div>
+	</div>
 </body>
 </html>
