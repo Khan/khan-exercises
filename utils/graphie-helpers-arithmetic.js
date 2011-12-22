@@ -641,7 +641,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 	}
 
 	this.getNumHints = function() {
-		return 1 + ( digitsDividend.length + ( deciDiff > 0 ? deciDiff : 0 ) ) * 2;
+		return Divider.numHintsFor( divisor, dividend, deciDivisor, deciDividend );
 	};
 
 	this.removeHighlights = function() {
@@ -684,6 +684,12 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 		}
 	};
 }
+
+Divider.numHintsFor = function( divisor, dividend, deciDivisor, deciDividend ) {
+	var digitsDividend = KhanUtil.integerToDigits( dividend );
+	return 1 + ( digitsDividend.length + Math.max( deciDivisor - deciDividend, 0 ) ) * 2;
+};
+
 function squareFractions( nom, den, perLine, spacing, size ){
 	spacing = spacing || 2.5;
 	perLine = perLine || 10;
