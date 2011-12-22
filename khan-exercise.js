@@ -1146,15 +1146,26 @@ var Khan = (function() {
 							</div>" )
 				.insertBefore( "#extras" );
 
+			jQuery.fn.disable = function() {
+				this.addClass( 'disabled' )
+				    .css( {
+					cursor: 'default !important'
+				    } )
+				    .data( 'disabled', true );
+				return this;
+			}
+			
+			jQuery.fn.enable = function() {
+				this.removeClass( 'disabled' )
+				    .css( {
+					cursor: 'pointer'
+				    } )
+				    .data( 'disabled', false );
+				return this;
+			}
+
 			if (getData().total_done === 0) {
-				jQuery( '#previous-problem' )
-					.addClass( 'disabled' )
-					.css( {
-						cursor: 'default !important',
-						top: '0',
-						color: '#333 !important'
-					} )
-					.data( 'disabled', true );
+				jQuery( '#previous-problem' ).disable();
 			}
 
 			timeline = jQuery( "<div id='timeline'>" ).appendTo( timelinecontainer );
@@ -1423,8 +1434,12 @@ var Khan = (function() {
 						previousHintNum = thisState.hintNum;
 					}
 
+					jQuery( '#previous-step, #next-step' ).enable();
 					if (slideNum === 0) {
 						previousHintNum = -1;
+						jQuery( '#previous-step' ).disable();
+					} else if (slideNum === numSlides - 1) {
+						jQuery( '#next-step' ).disable();
 					}
 				}
 			};
