@@ -1,7 +1,7 @@
 sandcastle
 ==========
 
-This is a Django application which allows you to test pull requests from your browser.
+This is a Django project which allows you to test pull requests from your browser.
 
 Configuration
 -------------
