@@ -2,7 +2,7 @@
 <html data-require="math graphie graphie-helpers-arithmetic">
 <head>
 	<meta charset="UTF-8" />
-	<title>Adding decimals</title>
+	<title>Adding decimals 2</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -10,27 +10,47 @@
 		<div class="vars">
 			<var id="A">randRange( 100, 999 )</var>
 			<var id="B">randRange( 100, 999 )</var>
-
-			<var id="A_DECIMAL">randRange( 1, 3 )</var>
-			<var id="B_DECIMAL">randRange( 1, 3 )</var>
-
-			<var id="A_FLOAT">A / pow( 10, A_DECIMAL )</var>
-			<var id="B_FLOAT">B / pow( 10, B_DECIMAL )</var>
+			<div data-ensure="B_DECIMAL !== A_DECIMAL">
+				<var id="A_DECIMAL">randRangeWeighted( 0, 3, 0, .1 )</var>
+				<var id="B_DECIMAL">randRange( 1, 3 )</var>
+			</div>
+			<var id="NEW_A">A * ( B_DECIMAL &gt; A_DECIMAL ? pow( 10, B_DECIMAL - A_DECIMAL ) : 1)</var>
+			<var id="NEW_B">B * ( A_DECIMAL &gt; B_DECIMAL ? pow( 10, A_DECIMAL - B_DECIMAL ) : 1)</var>
+			<var id="A_DIGITS">
+				(function() {
+					var result = digits( NEW_A );
+					for ( var i = 0; i &lt; ( A_DECIMAL - B_DECIMAL ) || result.length &lt; A_DECIMAL + 1; i++ ) {
+						result.push( 0 );
+					}
+					return result;
+				})()</var>
+			<var id="B_DIGITS">
+				(function() {
+					var result = digits( NEW_B );
+					for ( var i = 0; i &lt; ( B_DECIMAL - A_DECIMAL ) || result.length &lt; B_DECIMAL + 1; i++ ) {
+						result.push( 0 );
+					}
+					return result;
+				})()</var>
+			<var id="DUMMY">[]</var>
 		</div>
 
 	<div class="problems">
 		<div>
-			<p class="question"><code>\Huge{<var>A_FLOAT.toFixed( A_DECIMAL )</var> + <var>B_FLOAT.toFixed( B_DECIMAL )</var> = {?}}</code></p>
-			<div class="solution" data-type="decimal"><var>A_FLOAT + B_FLOAT</var></div>
+			<p class="question"><code>\Huge{<var>roundTo( A_DECIMAL, A * pow( 10, -A_DECIMAL ) ).toFixed( A_DECIMAL )</var> + <var>roundTo( B_DECIMAL, B * pow( 10, -B_DECIMAL ) ).toFixed( B_DECIMAL )</var> = {?}}</code></p>
+			<p class="solution" data-type="decimal"><var>A / pow( 10, A_DECIMAL ) + B / pow( 10, B_DECIMAL )</var></p>
+			<div class="graphie" id="numbers">
+				graph.adder = new Adder( NEW_A, NEW_B, A_DIGITS, B_DIGITS );
+				DUMMY = Array( graph.adder.getNumHints() );
+			</div>
 		</div>
 	</div>
 	<div class="hints">
-		<div class="graphie" id="numbers">
-			graph.adder = new DecimalAdder( A, A_DECIMAL, B, B_DECIMAL );
+		<div class="graphie" data-update="numbers">
 			graph.adder.show();
-			graph.adder.showDecimals();
+			graph.adder.showDecimals( A_DECIMAL, B_DECIMAL );
 		</div>
-		<div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( A, A_DECIMAL, B, B_DECIMAL ) times">
+		<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
 			graph.adder.showHint();
 		</div>
 	</div>

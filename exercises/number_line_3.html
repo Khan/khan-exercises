@@ -16,7 +16,7 @@
 		<div>
 			<div class="question">
 				<p data-if="DISTANCE !== 0">What number is <strong><var>plural( abs( DISTANCE ), "position")</var> to the <span data-if="DISTANCE < 1">left</span><span data-else>right</span> of the orange dot</strong>? The distance between adjacent tick marks is 1.</p>
-				<p data-else>What number does the orange dot represent?</p>
+				<p data-else>What number does the orange dot represent? The distance between adjacent tick marks is 1.</p>
 				<div class="graphie" id="number-line">
 					init({
 						range: [ [ MIDPOINT-6, MIDPOINT+6 ], [ -1, 1 ] ]

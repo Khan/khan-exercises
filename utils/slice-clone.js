@@ -17,7 +17,7 @@ jQuery.extend( KhanUtil, {
 
 		KhanUtil.pieces += ( increase ) ? 1 : -1;
 
-		jQuery( "#pieces" ).text( KhanUtil.plural(KhanUtil.pieces, "piece") ); 
+		jQuery( "#pieces" ).text( KhanUtil.plural(KhanUtil.pieces, "piece") );
 
 		KhanUtil.currentGraph = jQuery( "#problemarea" ).find( "#parent_block" ).data( "graphie" );
 		rectchart( [ 1, KhanUtil.pieces - 1 ], ["#e00", "#999" ] );

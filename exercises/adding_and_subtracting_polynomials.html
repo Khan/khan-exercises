@@ -8,7 +8,7 @@
 		function getFakeAnswers( solution ) {
 			var answers = [];
 			for ( var i = 0; i < solution.getNumberOfTerms(); i++ ) {
-				var coefs = []; 
+				var coefs = [];
 
 				for ( var j = 0; j < solution.getNumberOfTerms(); j++ ) {
 					var term = solution.getCoefAndDegreeForTerm( j );
@@ -16,15 +16,15 @@
 					if ( i === j ) {
 						coefs[ term.degree ] = KhanUtil.randRangeNonZero( -7, 7 );
 					} else {
-						coefs[ term.degree ] = term.coef; 
+						coefs[ term.degree ] = term.coef;
 					}
 				}
-				
+
 				for ( var j = 0; j < coefs.length; j++ ) {
 					if ( coefs[ j ] === undefined ) {
 						coefs[ j ] = 0;
 					}
-				} 
+				}
 
 				answers.push( new KhanUtil.Polynomial(0, solution.maxDegree, coefs, solution.variable) );
 			}
@@ -48,7 +48,7 @@
 						if ( i === NON_ZERO_INDICES[ j ] ) {
 							value = randRangeNonZero( -7, 7 );
 							break;
-						} 
+						}
 					}
 					coefs[ i ] = value;
 				}
@@ -61,7 +61,7 @@
 			<div id="add">
 				<div class="vars">
 					<var id="SIGN">"+"</var>
-					<var id="SOLUTION">POL_1.add( POL_2 )</var>	
+					<var id="SOLUTION">POL_1.add( POL_2 )</var>
 					<var id="FAKE_ANSWERS">getFakeAnswers( SOLUTION )</var>
 				</div>
 

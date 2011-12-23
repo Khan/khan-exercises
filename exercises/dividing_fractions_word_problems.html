@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html data-require="math word-problems spin">
+<head>
+	<meta charset="UTF-8" />
+	<title>Dividing fractions word problems</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<var>
+			// Add \cancel{} and \bcancel{} to MathJax
+			(function() {
+				MathJax.InputJax.TeX.Definitions.macros.cancel  = [ "Cancel", MathJax.ElementJax.mml.NOTATION.UPDIAGONALSTRIKE ];
+				MathJax.InputJax.TeX.Definitions.macros.bcancel = [ "Cancel", MathJax.ElementJax.mml.NOTATION.DOWNDIAGONALSTRIKE ];
+				MathJax.InputJax.TeX.Parse.Augment({
+					Cancel: function (name,notation) {
+						this.Push( MathJax.ElementJax.mml.menclose( this.ParseArg( name ) ).With({ notation:notation }) );
+					}
+				});
+			})()
+		</var>
+		<div class="problems">
+
+			<div id="candy">
+				<div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
+					<var id="PIECES">(randRange( 1, 5 )*N)</var>
+					<var id="D">randFromArray([ 5, 8 ])</var>
+					<var id="N">randRange( 3, D - 1 )</var>
+					<var id="SOLUTION">PIECES*(D/N) </var>
+				</div>
+
+				<p class="problem">
+					<span class="spin">
+						{Many|All|Several} of <var>person(1)</var>'s friends wanted to try the candy bars
+						<var>he(1)</var> brought back from <var>his(1)</var> trip, but there were only <var>PIECES</var> candy bars.
+					</span>
+					<var>person(1)</var> decided to cut the candy bars into pieces so that each person could have
+					<code>\frac{<var>N</var>}{<var>D</var>}</code> of a candy bar.
+				</p>
+
+				<p class="question">After cutting up the candy bars, how many friends could <var>person(1)</var> share <var>his(1)</var> candy with?</p>
+
+				<div class="solution"><var>SOLUTION</var></div>
+
+				<div class="hints">
+					<p>
+						We can divide the number of candy bars (<code><var>PIECES</var></code>) by the amount <var>person(1)</var> gave to each person
+						(<code>\frac{<var>N</var>}{<var>D</var>}</code> of a bar) to find out how many people <var>he(1)</var> could share with.
+					</p>
+					<p><code>
+						\dfrac{\color{<var>ORANGE</var>}{<var>PIECES</var> \text{ candy bars}}}
+						{\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ bar per person}}} = \color{<var>PINK</var>}{\text{ total people}}
+					</code></p>
+					<p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
+					<p>
+						The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ bar per person}</code>
+						is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ people per bar}</code>.
+					</p>
+					<p><code>
+						\color{<var>ORANGE</var>}{<var>PIECES</var>\text{ candy bars}} \times
+						\color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ people per bar}}
+						= \color{<var>PINK</var>}{\text{total people}}
+					</code></p>
+					<p><code>\color{<var>PINK</var>}{\dfrac{<var>D * PIECES</var>}{<var>N</var>}\text{ people}} = <var>SOLUTION</var>\text{ people}</code></p>
+					<strong>By cutting up the candy bars, <var>person(1)</var> could share <var>his(1)</var> candy with <var>SOLUTION</var> of <var>his(1)</var> friends.</strong>
+				</div>
+			</div>
+
+
+			<div id="scarves">
+				<div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
+					<var id="YARN">(randRange( 3, 6 )*N)</var>
+					<var id="D">randFromArray([ 3, 5 ])</var>
+					<var id="N">randRange( 2, D - 1 )</var>
+					<var id="SOLUTION">YARN*(D/N) </var>
+				</div>
+
+				<p class="problem">
+					<span class="spin">
+						<var>person(1)</var> just found beautiful yarn {for <var>randFromArray([5,20])</var> percent off }at
+						<var>his(1)</var> favorite yarn store.
+					</span>
+					<var>He(1)</var> can make 1 scarf from <code>\frac{<var>N</var>}{<var>D</var>}</code> of a ball of yarn.
+				</p>
+
+				<p class="question">If <var>person(1)</var> buys <var>YARN</var> balls of yarn, how many scarves can <var>he(1)</var> make?</p>
+
+				<div class="solution"><var>SOLUTION</var></div>
+
+				<div class="hints">
+					<p>
+						We can divide the balls of yarn (<var>YARN</var>) by the yarn needed per scarf (<code>\frac{<var>N</var>}{<var>D</var>}</code> of
+						a ball) to find out how many scarves <var>person(1)</var> can make.
+					</p>
+					<p><code>
+						\dfrac{\color{<var>ORANGE</var>}{<var>YARN</var> \text{ balls of yarn}}}
+						{\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ ball per scarf}}} = \color{<var>PINK</var>}{\text{ number of scarves}}
+					</code></p>
+					<p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
+					<p>
+						The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ ball per scarf}</code>
+						is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ scarves per ball}</code>.
+					</p>
+					<p><code>
+						\color{<var>ORANGE</var>}{<var>YARN</var>\text{ balls of yarn}} \times
+						\color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ scarves per ball}}
+						= \color{<var>PINK</var>}{\text{ number of scarves}}
+					</code></p>
+					<p><code>\color{<var>PINK</var>}{\dfrac{<var>D * YARN</var>}{<var>N</var>}\text{ scarves}} = <var>SOLUTION</var>\text{ scarves}</code></p>
+					<p><strong><var>person(1)</var> can make <var>SOLUTION</var> scarves.</strong></p>
+				</div>
+			</div>
+
+
+			<div id="paint">
+				<div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
+					<var id="PAINT">(randRange( 1, 3 )*N)</var>
+					<var id="D">randFromArray([ 2, 5 ])</var>
+					<var id="N">randRange( 2, D - 1 )</var>
+					<var id="SOLUTION">PAINT*(D/N) </var>
+					<var id="ROOM">(randRange( 1, 20 )+SOLUTION)</var>
+				</div>
+
+				<p class="problem">
+					<var>person(1)</var> decided to paint some of the rooms at <var>his(1)</var> <var>ROOM</var>-room inn,
+					<var>person(1)</var>'s Place. <var>He(1)</var> discovered <var>he(1)</var> needed <code>\frac{<var>N</var>}{<var>D</var>}</code>
+					of a can of paint per room.
+				</p>
+
+				<p class="question">If <var>person(1)</var> had <var>PAINT</var> cans of paint, how many rooms could <var>he(1)</var> paint?</p>
+
+				<div class="solution"><var>SOLUTION</var></div>
+
+				<div class="hints">
+					<p>
+						We can divide the cans of paint (<var>PAINT</var>) by the paint needed per room (<code>\frac{<var>N</var>}{<var>D</var>}</code> of
+						a can) to find out how many rooms <var>person(1)</var> could paint.
+					</p>
+					<p><code>
+						\dfrac{\color{<var>ORANGE</var>}{<var>PAINT</var> \text{ cans of paint}}}
+						{\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ can per room}}} = \color{<var>PINK</var>}{\text{ rooms}}
+					</code></p>
+					<p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
+					<p>
+						The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ can per room}</code>
+						is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ rooms per can}</code>.
+					</p>
+					<p><code>
+						\color{<var>ORANGE</var>}{<var>PAINT</var>\text{ cans of paint}} \times
+						\color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ rooms per can}}
+						= \color{<var>PINK</var>}{\text{ rooms}}
+					</code></p>
+					<p><code>\color{<var>PINK</var>}{\dfrac{<var>D * PAINT</var>}{<var>N</var>}\text{ rooms}} = <var>SOLUTION</var>\text{ rooms}</code></p>
+					<p><strong><var>person(1)</var> could paint <var>SOLUTION</var> rooms.</strong></p>
+				</div>
+			</div>
+
+
+			<div id="relay">
+				<div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1 && getGCD ( A, B ) ===1">
+					<var id="D">randRange( 8, 15 )</var>
+					<var id="N">randRange( 2, D - 1 )</var>
+					<var id="B">randRange( 3, 7 )</var>
+					<var id="A">randRange( 2, B - 1 )</var>
+					<var id="GCD1">getGCD( N, A )</var>
+					<var id="SIMP_A">A / GCD1</var>
+					<var id="SIMP_N">N / GCD1</var>
+					<var id="GCD2">getGCD( D, B )</var>
+					<var id="SIMP_B">B / GCD2</var>
+					<var id="SIMP_D">D / GCD2</var>
+					<var id="SOLUTION">((A*D)/(B*N)) </var>
+				</div>
+
+				<div class="problem">
+					<p>As the swim coach at <var>school(1)</var>, <var>person(1)</var> selects which athletes will participate in the state-wide swim relay.</p>
+					<p>
+						The relay team swims <code>\frac{<var>A</var>}{<var>B</var>}</code> of a mile all together, with each team
+						member responsible for swimming <code>\frac{<var>N</var>}{<var>D</var>}</code> of a mile.
+						The team must complete the swim in <code>\frac{3}{<var>randRange(4,5)</var>}</code> of an hour.
+					</p>
+				</div>
+
+				<p class="question">How many swimmers does <var>person(1)</var> need on the relay team?</p>
+
+				<div class="solution"><var>SOLUTION</var></div>
+
+				<div class="hints">
+					<p>
+						To find out how many swimmers <var>person(1)</var> needs on the team, divide the total distance
+						(<code>\frac{<var>A</var>}{<var>B</var>}</code> of a mile) by the distance each team member will swim
+						(<code>\frac{<var>N</var>}{<var>D</var>}</code> of a mile).
+					</p>
+					<p><code>
+						\dfrac{\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>} \text{ mile}}}
+						{\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ mile per swimmer}}} = \color{<var>PINK</var>}{\text{ number of swimmers}}
+					</code></p>
+					<p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
+					<p>
+						The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ mile per swimmer}</code>
+						is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ swimmers per mile}</code>.
+					</p>
+					<p><code>
+						\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>}\text{ mile}} \times
+						\color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ swimmers per mile}}
+						= \color{<var>PINK</var>}{\text{ number of swimmers}}
+					</code></p>
+					<p><code>
+						\dfrac{\color{<var>ORANGE</var>}{<var>A</var>} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
+						{\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{<var>N</var>}}
+						= \color{<var>PINK</var>}{\text{ number of swimmers}}
+					</code></p>
+					<div data-if="GCD1 !== 1">
+						<p>
+							Reduce terms with common factors by dividing the <code><var>A</var></code> in the numerator
+							and the <code><var>N</var></code> in the denominator by <code><var>GCD1</var></code>:
+						</p>
+						<p><code>
+							\dfrac{\color{<var>ORANGE</var>}{\cancel{<var>A</var>}^{<var>SIMP_A</var>}} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
+							{\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>N</var>}^{<var>SIMP_N</var>}}}
+							= \color{<var>PINK</var>}{\text{ number of swimmers}}
+						</code></p>
+					</div>
+					<div data-if="GCD2 !== 1">
+						<p>
+							Reduce terms with common factors by dividing the <code><var>D</var></code> in the numerator
+							and the <code><var>B</var></code> in the denominator by <code><var>GCD2</var></code>:
+						</p>
+						<p><code>
+							\dfrac{\color{<var>ORANGE</var>}{<var>SIMP_A</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>D</var>}^{<var>SIMP_D</var>}}}
+							{\color{<var>ORANGE</var>}{\cancel{<var>B</var>}^{<var>SIMP_B</var>}} \cdot \color{<var>GREEN</var>}{<var>SIMP_N</var>}}
+							= \color{<var>PINK</var>}{\text{ number of swimmers}}
+						</code></p>
+					</div>
+					<div>
+						<p>Simplify:</p>
+						<p><code>
+							\dfrac{\color{<var>ORANGE</var>}{<var>SIMP_A</var>} \cdot \color{<var>GREEN</var>}{<var>SIMP_D</var>}}
+							{\color{<var>ORANGE</var>}{<var>SIMP_B</var>} \cdot \color{<var>GREEN</var>}{<var>SIMP_N</var>}}
+							= \color{<var>PINK</var>}{<var>SOLUTION</var>}
+						</code></p>
+					</div>
+					<p><strong><var>person(1)</var> needs <var>SOLUTION</var> swimmers on <var>his(1)</var> team.</strong></p>
+				</div>
+			</div>
+
+
+			<div id="gift-bags">
+				<div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1 && getGCD ( A, B ) ===1">
+					<var id="D">randRange( 6, 30 )</var>
+					<var id="N">randRange( 2, D - 1 )</var>
+					<var id="B">randRange( 3, 5 )</var>
+					<var id="A">randRange( 2, B - 1 )</var>
+					<var id="GCD1">getGCD( N, A )</var>
+					<var id="SIMP_A">A / GCD1</var>
+					<var id="SIMP_N">N / GCD1</var>
+					<var id="GCD2">getGCD( D, B )</var>
+					<var id="SIMP_B">B / GCD2</var>
+					<var id="SIMP_D">D / GCD2</var>
+					<var id="SOLUTION">((A*D)/(B*N)) </var>
+				</div>
+
+				<p class="problem">
+					<var>person(1)</var> thought it would be nice to include <code>\frac{<var>N</var>}{<var>D</var>}</code> of a pound of chocolate in each
+					of the holiday gift bags <var>he(1)</var> made for <var>his(1)</var> friends and family.
+				</p>
+
+				<p class="question">How many holiday gift bags could <var>person(1)</var> make with <code>\frac{<var>A</var>}{<var>B</var>}</code> of a pound of chocolate?</p>
+
+				<div class="solution"><var>SOLUTION</var></div>
+
+				<div class="hints">
+					<p>
+						To find out how many gift bags <var>person(1)</var> could create, divide the total chocolate
+						(<code>\frac{<var>A</var>}{<var>B</var>}</code> of a pound) by the amount <var>he(1)</var> wanted to include in each gift bag
+						(<code>\frac{<var>N</var>}{<var>D</var>}</code> of a pound).
+					</p>
+					<p><code>
+						\dfrac{\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>} \text{ pound of chocolate}}}
+						{\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ pound per bag}}} = \color{<var>PINK</var>}{\text{ number of bags}}
+					</code></p>
+					<p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
+					<p>
+						The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ pound per bag}</code>
+						is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ bags per pound}</code>.
+					</p>
+					<p><code>
+						\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>}\text{ pound}} \times
+						\color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ bags per pound}}
+						= \color{<var>PINK</var>}{\text{ number of bags}}
+					</code></p>
+					<p><code>
+						\dfrac{\color{<var>ORANGE</var>}{<var>A</var>} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
+						{\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{<var>N</var>}}
+						= \color{<var>PINK</var>}{\text{ number of bags}}
+					</code></p>
+					<div data-if="GCD1 !== 1">
+						<p>
+							Reduce terms with common factors by dividing the <code><var>A</var></code> in the numerator
+							and the <code><var>N</var></code> in the denominator by <code><var>GCD1</var></code>:
+						</p>
+						<p><code>
+							\dfrac{\color{<var>ORANGE</var>}{\cancel{<var>A</var>}^{<var>SIMP_A</var>}} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
+							{\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>N</var>}^{<var>SIMP_N</var>}}}
+							= \color{<var>PINK</var>}{\text{ number of bags}}
+						</code></p>
+					</div>
+					<div data-if="GCD2 !== 1">
+						<p>
+							Reduce terms with common factors by dividing the <code><var>D</var></code> in the numerator
+							and the <code><var>B</var></code> in the denominator by <code><var>GCD2</var></code>:
+						</p>
+						<p><code>
+							\dfrac{\color{<var>ORANGE</var>}{<var>SIMP_A</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>D</var>}^{<var>SIMP_D</var>}}}
+							{\color{<var>ORANGE</var>}{\cancel{<var>B</var>}^{<var>SIMP_B</var>}} \cdot \color{<var>GREEN</var>}{<var>SIMP_N</var>}}
+							= \color{<var>PINK</var>}{\text{ number of bags}}
+						</code></p>
+					</div>
+					<div>
+						<p>Simplify:</p>
+						<p><code>
+							\dfrac{\color{<var>ORANGE</var>}{<var>SIMP_A</var>} \cdot \color{<var>GREEN</var>}{<var>SIMP_D</var>}}
+							{\color{<var>ORANGE</var>}{<var>SIMP_B</var>} \cdot \color{<var>GREEN</var>}{<var>SIMP_N</var>}}
+							= \color{<var>PINK</var>}{<var>SOLUTION</var>}
+						</code></p>
+					</div>
+					<p><strong><var>person(1)</var> could create <var>SOLUTION</var> gift bags.</strong></p>
+				</div>
+			</div>
+
+
+			<div id="workout">
+				<div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1 && getGCD ( A, B ) ===1">
+					<var id="D">randRange( 7, 20 )</var>
+					<var id="N">randRange( 2, D - 1 )</var>
+					<var id="B">randRange( 3, 6 )</var>
+					<var id="A">randRange( 2, B - 1 )</var>
+					<var id="GCD1">getGCD( N, A )</var>
+					<var id="SIMP_A">A / GCD1</var>
+					<var id="SIMP_N">N / GCD1</var>
+					<var id="GCD2">getGCD( D, B )</var>
+					<var id="SIMP_B">B / GCD2</var>
+					<var id="SIMP_D">D / GCD2</var>
+					<var id="SOLUTION">((A*D)/(B*N)) </var>
+				</div>
+
+				<p class="problem">
+					<var>person(1)</var> works out for <code>\frac{<var>A</var>}{<var>B</var>}</code> of an hour every day. To keep <var>his(1)</var>
+					exercise routines interesting, <var>he(1)</var> includes different types of exercises, such as
+					<var>plural(exercise(1))</var> and <var>plural(exercise(2))</var>, in each workout.
+				</p>
+
+				<p class="question">
+					If each type of exercise takes <code>\frac{<var>N</var>}{<var>D</var>}</code> of an hour, how many different types of
+					exercise can <var>person(1)</var> do in each workout?
+				</p>
+
+				<div class="solution"><var>SOLUTION</var></div>
+
+				<div class="hints">
+					<p>
+						To find out how many types of exercise <var>person(1)</var> could do in each workout, divide
+						the total amount of exercise time (<code>\frac{<var>A</var>}{<var>B</var>}</code> of an hour) by the amount of
+						time each exercise type takes (<code>\frac{<var>N</var>}{<var>D</var>}</code> of an hour).
+					</p>
+					<p><code>
+						\dfrac{\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>} \text{ hour}}}
+						{\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ hour per exercise}}} = \color{<var>PINK</var>}{\text{ number of exercises}}
+					</code></p>
+					<p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
+					<p>
+						The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ hour per exercise}</code>
+						is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ exercises per hour}</code>.
+					</p>
+					<p><code>
+						\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>}\text{ hour}} \times
+						\color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ exercises per hour}}
+						= \color{<var>PINK</var>}{\text{ number of exercises}}
+					</code></p>
+					<p><code>
+						\dfrac{\color{<var>ORANGE</var>}{<var>A</var>} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
+						{\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{<var>N</var>}}
+						= \color{<var>PINK</var>}{\text{ number of exercises}}
+					</code></p>
+					<div data-if="GCD1 !== 1">
+						<p>
+							Reduce terms with common factors by dividing the <code><var>A</var></code> in the numerator
+							and the <code><var>N</var></code> in the denominator by <code><var>GCD1</var></code>:
+						</p>
+						<p><code>
+							\dfrac{\color{<var>ORANGE</var>}{\cancel{<var>A</var>}^{<var>SIMP_A</var>}} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
+							{\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>N</var>}^{<var>SIMP_N</var>}}}
+							= \color{<var>PINK</var>}{\text{ number of exercises}}
+						</code></p>
+					</div>
+					<div data-if="GCD2 !== 1">
+						<p>
+							Reduce terms with common factors by dividing the <code><var>D</var></code> in the numerator
+							and the <code><var>B</var></code> in the denominator by <code><var>GCD2</var></code>:
+						</p>
+						<p><code>
+							\dfrac{\color{<var>ORANGE</var>}{<var>SIMP_A</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>D</var>}^{<var>SIMP_D</var>}}}
+							{\color{<var>ORANGE</var>}{\cancel{<var>B</var>}^{<var>SIMP_B</var>}} \cdot \color{<var>GREEN</var>}{<var>SIMP_N</var>}}
+							= \color{<var>PINK</var>}{\text{ number of exercises}}
+						</code></p>
+					</div>
+					<div>
+						<p>Simplify:</p>
+						<p><code>
+							\dfrac{\color{<var>ORANGE</var>}{<var>SIMP_A</var>} \cdot \color{<var>GREEN</var>}{<var>SIMP_D</var>}}
+							{\color{<var>ORANGE</var>}{<var>SIMP_B</var>} \cdot \color{<var>GREEN</var>}{<var>SIMP_N</var>}}
+							= \color{<var>PINK</var>}{<var>SOLUTION</var>}
+						</code></p>
+					</div>
+					<p><strong><var>person(1)</var> can do <var>SOLUTION</var> different types of exercise per workout.</strong></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

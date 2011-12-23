@@ -29,29 +29,29 @@
 					setTimeout("unBlock()",300);
 				}
 		}
-		
-		
+
+
 		function follow(){
 			$(".graphie").mousemove(function(e){
     			  $('.follow').css('top', e.clientY).css('left', e.clientX);
 			});
-	
+
 			$(".graphie").click(function(e){
-				realFollow();	
+				realFollow();
 			});
-	
+
 			$(".follow").click(function(e){
 				realFollow();
 			});
 		}
 
 		function locate(){
-				$( "#fakePos input" ).val( ( (  $('.follow').position().left - $('.graphie').position().left)  / 80  - 3.5 ) ) 	
+				$( "#fakePos input" ).val( ( (  $('.follow').position().left - $('.graphie').position().left)  / 80  - 3.5 ) )
 		}
 
 		function unFollow(){
 			$(".graphie").unbind( "mousemove" );
-		}	
+		}
 	</script>
 
 

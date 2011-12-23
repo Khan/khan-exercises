@@ -47,7 +47,7 @@
 			<p><code><var>NUM</var>   = <var>getPrimeFactorization( NUM   ).join( "\\cdot" )</var></code><br />
 			   <code><var>DENOM</var> = <var>getPrimeFactorization( DENOM ).join( "\\cdot" )</var></code></p>
 
-			<p><code>\mbox{GCD}(<var>NUM</var>, <var>DENOM</var>) = <var>GCD_FACTORS.join( "\\cdot" )</var> = <var>GCD</var></code></p>
+			<p><code>\mbox{GCD}(<var>NUM</var>, <var>DENOM</var>)<span data-if="!isPrime(GCD)"> = <var>GCD_FACTORS.join( "\\cdot" )</var></span> = <var>GCD</var></code></p>
 
 			<p>
 				<code>\dfrac{<var>NUM</var>}{<var>DENOM</var>}
