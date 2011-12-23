@@ -241,17 +241,31 @@
               var minuteCoord = KhanUtil.degreesToCoord( minuteRadius, graph.correctMinuteAngle );
               var hourCoord = KhanUtil.degreesToCoord( hourRadius, graph.correctHourAngle );
 
+              var dotOpacity = 0.6;
+              var handOpacity = 0.5;
+
               addMovableLineSegment({
                 coordA: minuteCoord,
                 coordZ: [ 0, 0 ],
                 fixed: true,
                 normalStyle: {
-                  fill: KhanUtil.BLUE,
-                  stroke: KhanUtil.BLUE,
+                  stroke: KhanUtil.ORANGE,
                   "stroke-width": 10,
-                  "stroke-dasharray": "..",
+                  "stroke-dasharray": ".",
                   "stroke-linecap": "round",
-                  "stroke-opacity": 0.4
+                  "stroke-opacity": dotOpacity
+                },
+              });
+              
+              addMovableLineSegment({
+                coordA: minuteCoord,
+                coordZ: [ 0, 0 ],
+                fixed: true,
+                normalStyle: {
+                  stroke: KhanUtil.ORANGE,
+                  "stroke-width": 10,
+                  "stroke-linecap": "round",
+                  "stroke-opacity": handOpacity
                 },
               });
               
@@ -260,15 +274,41 @@
                 coordZ: [ 0, 0 ],
                 fixed: true,
                 normalStyle: {
-                  fill: KhanUtil.ORANGE,
-                  stroke: KhanUtil.ORANGE,
+                  stroke: KhanUtil.BLUE,
                   "stroke-width": 10,
-                  "stroke-dasharray": "--",
+                  "stroke-dasharray": ".",
                   "stroke-linecap": "round",
-                  "stroke-opacity": 0.4
+                  "stroke-opacity": dotOpacity
                 },
               });
               
+              addMovableLineSegment({
+                coordA: hourCoord,
+                coordZ: [ 0, 0 ],
+                fixed: true,
+                normalStyle: {
+                  stroke: KhanUtil.BLUE,
+                  "stroke-width": 10,
+                  "stroke-linecap": "round",
+                  "stroke-opacity": handOpacity
+                },
+              });
+
+              // for some reason this doesn't work, so for now, create another center point
+              // graph.centerPoint.toFront();
+              addMovablePoint({
+                coord: [ 0, 0 ],
+                constraints: {
+                  fixed: true
+                },
+                normalStyle: {
+                  fill: "#fff",
+                  stroke: "#000",
+                  "stroke-dasharray": "",
+                  "stroke-width": 2,
+                  "stroke-opacity": 1
+                }
+              });
 
             </div>
           </div>
