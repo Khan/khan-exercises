@@ -11,11 +11,10 @@
       <div id="set-hands" data-weight="3">
 
         <div class="vars">
-          <var id="HOUR">randRange( 1, 12 )</var>
+          <var id="HOUR" data-ensure="!(HOUR === 1 && MINUTE === 0)">randRange( 1, 12 )</var>
           <var id="MINUTE_INCREMENT">15</var>
           <var id="MINUTE">randRange( 0, 60 / MINUTE_INCREMENT - 1 ) * MINUTE_INCREMENT</var>
           <var id="MINUTE_IS_ZERO">MINUTE === 0</var>
-          <var id="MINUTE_FRACTION">KhanUtil.toFraction(MINUTE/60)</var>
           <var id="NICE_MINUTE"> MINUTE &gt; 5 ? MINUTE : "0" + MINUTE</var>
           <var id="TIME">HOUR + ":" + NICE_MINUTE</var>
         </div>
