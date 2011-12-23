@@ -94,7 +94,7 @@
 				return el[2];
 			})</var>
 			<var id="DENOMS_TEX_COLOR">jQuery.map( NUMS, function( el ) {
-				return "\\color{" + el[5] + "}{" + el[2] + "}";
+				return "\\color{" + el[4] + "}{" + el[2] + "}";
 			}).join( "," )</var>
 
 			<var id="LCD">getLCM.apply( KhanUtil, DENOMS )</var>
@@ -164,7 +164,7 @@
 
 				<div class="hints">
 				  <div>
-	         		     <p>Convert any mixed fractions or whole numbers to their improper form.</p>
+	         		     <p>It's easier to compare fractions if they are all in the same form, so convert 						mixed numbers and whole numbers into improper fractions.</p>
 				     <p class="number-list"><code><var>NUMS_TEX_COLOR</var></code></p>
 				  </div>
 				
@@ -175,7 +175,9 @@
 				</div>
 				
 				<div>
-  				  <p>Multiply each fraction by a fraction <code>\dfrac{a}{a} </code> such that it's 					     denominator becomes  <code><var>LCD</var></code>.
+  				  <p>We can change the denominator of fractions by multiplying by a form of <code>1</code>, such as
+				     <code>\dfrac{2}{2}</code> or <code>\dfrac{10}{10}</code>. Multiply the improper 					     fractions above by forms of <code>1</code> so that their denominators are all equal to
+				     <code><var>LCD</var></code>.
 				  </p>
 				
 				<div>
@@ -191,17 +193,17 @@
 			   </div>
 			
 			  <div>
-			    <p>Now all the fractions are in a form where we can compare them by numerator:</p>
+			    <p>Now all the fractions are in a form where we can compare them by numerator.</p>
 	 		    <p class="number-list"><code><var>NUMS_LCD_TEX_COLOR</var></code></p>
 			  </div>
 
 			<div>
-			  <p>Sort the fractions from least to greatest by their numerators:</p>
+			  <p>Sort the fractions from least to greatest by their numerators.</p>
 			  <p class="number-list"><code><var>NUMS_LCD_SORT_COLOR_TEX</var></code></p>
 			</div>
 				
 			<div>
-			  <p>Finally, convert the numbers back to their original form:</p>
+			  <p>Finally, convert the numbers back to their original form.</p>
 			  <p class="number-list"><code><var>MIXED_NUMS_SORT_TEX_COLOR</var></code></p>
 			</div>
 		   </div>
