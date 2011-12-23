@@ -40,9 +40,9 @@
 				})</var>
 				<var id="SORTED_DATA">DATA.slice().sort(function(a, b) { return a - b; })</var>
 				<var id="MIN">SORTED_DATA[0]</var>
-				<var id="Q1">SORTED_DATA[3]</var>
+				<var id="Q1">(SORTED_DATA[3] + SORTED_DATA[4]) / 2</var>
 				<var id="MEDIAN">SORTED_DATA[7]</var>
-				<var id="Q3">SORTED_DATA[11]</var>
+				<var id="Q3">(SORTED_DATA[11] + SORTED_DATA[12]) / 2</var>
 				<var id="MAX">SORTED_DATA[14]</var>
 				<var id="SORTER">createSorter()</var>
 			</div>
@@ -216,11 +216,15 @@
 		</div>
 
 		<div>
-			<p>Plot the first quartile (halfway between the smallest number and the middle number):<p>
+			<p>
+				Plot the first quartile (halfway between the smallest number and the middle number). Since there isn't
+				a single number halfway between the smallest number and the median, average the two numbers:
+			<p>
 			<p><code>
 				\qquad \large{<var>toSentence( SORTED_DATA.slice( 0, 3 ), "" )</var>,
-				\color{<var>PINK</var>}{<var>Q1</var>},
-				<var>toSentence( SORTED_DATA.slice( 4 ), "" )</var>}
+				\color{<var>PINK</var>}{<var>SORTED_DATA[3]</var>},
+				\color{<var>PINK</var>}{<var>SORTED_DATA[4]</var>},
+				<var>toSentence( SORTED_DATA.slice( 5 ), "" )</var>}
 			</code></p>
 			<div class="graphie" data-update="boxplot">
 				style({ stroke: PINK, strokeWidth: 2 }, function() {
@@ -230,11 +234,15 @@
 		</div>
 
 		<div>
-			<p>Plot the third quartile (halfway between the middle number and the largest number):<p>
+			<p>
+				Plot the third quartile (halfway between the middle number and the largest number). Since there isn't
+				a single number halfway between the median and the largest number, average the two numbers:
+			<p>
 			<p><code>
 				\qquad \large{<var>toSentence( SORTED_DATA.slice( 0, 11 ), "" )</var>,
-				\color{<var>PINK</var>}{<var>Q3</var>},
-				<var>toSentence( SORTED_DATA.slice( 12 ), "" )</var>}
+				\color{<var>PINK</var>}{<var>SORTED_DATA[11]</var>},
+				\color{<var>PINK</var>}{<var>SORTED_DATA[12]</var>},
+				<var>SORTED_DATA.slice( 13 ).join( ", " )</var>}
 			</code></p>
 			<div class="graphie" data-update="boxplot">
 				style({ stroke: PINK, strokeWidth: 2 }, function() {
