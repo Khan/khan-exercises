@@ -29,20 +29,19 @@
 						range: [ [LOWER_SCALED - 1, UPPER_SCALED + 1], [-1, 1] ],
 						scale: [80, 40]
 					});
-                    
+					                    
                     style({arrows: "&gt;"});
 					line( [ LOWER_SCALED, 0 ], [ UPPER_SCALED + 0.25, 0 ] );
-					
 					style({arrows: ""});
 					for ( var x = LOWER_SCALED; x &lt;= UPPER_SCALED; x++ ) {
 						line( [ x, -0.2 ], [ x, 0.2 ] );
 					}
-					style({ stroke: "#6495ED", strokeWidth: 3.5 });
-					line( [ LOWER_SCALED, -0.2], [LOWER_SCALED, 0.2]);
-					label( [ LOWER_SCALED, -0.53 ],  LOWER_BOUND, "center", { color: "#6495ED" });
 					
+					style({ stroke: BLUE, strokeWidth: 3.5 });
+					line( [ LOWER_SCALED, -0.2], [LOWER_SCALED, 0.2]);
+					label( [ LOWER_SCALED, -0.53 ],  LOWER_BOUND, "center", { color: BLUE });
 					line( [ UPPER_SCALED, -0.2], [UPPER_SCALED, 0.2]);
-					label( [ UPPER_SCALED, -0.53 ],  UPPER_BOUND, "center", { color: "#6495ED" });
+					label( [ UPPER_SCALED, -0.53 ],  UPPER_BOUND, "center", { color: BLUE });
 
 					addMouseLayer();
 					this.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
@@ -60,15 +59,15 @@
 			</div>
 
 			<div class="hints">
-				<p>We know the number line is the range 0 to 1, which is divided into even pieces.</p>
-				<p>Since the denominator of the fraction is <code>\color{red}{<var>DENOMINATOR</var>}</code>, the number line is divided into <code>\color{red}{<var>DENOMINATOR</var>}</code> even pieces.</p>
+				<p>Above we've drawn the number line from 0 to 1, divided into equal pieces.</p>
+				<p>The number line is divided into <code><var>DENOMINATOR</var></code> equal pieces, so each piece represents <code><var>fraction(1, DENOMINATOR)</var></code>.</p>
 				<div>
 					<div class="graphie" data-update="number-line">
 						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
 						line( [ 0, 0 ], [ NUMERATOR, 0 ] );
 						movablePoint.visibleShape.toFront();
 					</div>
-					<p>The orange dot should be shifted to the position <code>\color{orange}{<var>fraction(NUMERATOR, DENOMINATOR)</var>}</code> right of 0.</p>
+					<p>The orange dot should be shifted <span class="hint_blue"><code><strong><var>NUMERATOR</var></strong></code></span> segment<var>plural(NUMERATOR)</var> over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code></p>
 				</div>
 				<div>
 					<div class="graphie" data-update="number-line">
