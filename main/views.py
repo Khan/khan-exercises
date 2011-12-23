@@ -44,8 +44,11 @@ def sandcastle(request, number=None, branch=None):
 			pull_data = u.read()
 		pull_data = json.loads(pull_data)
 		user, branch = pull_data['pull']['head']['label'].split(":")
+	elif ":" in branch:
+		user, branch = branch.split(":")
 	
 	name = "%s:%s" % (user, branch)
+	castle = "/media/castles/%s" % name
 
 	os.chdir(os.path.join(settings.PROJECT_DIR, 'media/castles'))
 	if os.path.isdir(name):
@@ -55,20 +58,21 @@ def sandcastle(request, number=None, branch=None):
 		call(["git", "clone", "--branch=%s" % branch, "git://github.com/%s/%s.git" % (user, settings.SANDCASTLE_REPO), name])
 
 	if number:
-		with closing(urllib2.urlopen(pull_data['pull']['patch_url'])) as u:
+		with closing(urllib2.urlopen(pull_data['pull']['diff_url'])) as u:
 			patch = encoding.force_unicode(u.read(), errors='ignore')
 
-
-		r_diff = re.compile(r'^diff ', re.MULTILINE)
-		patch_info, patch_diff = r_diff.split(html.escape(patch), 1)
-		r_filename = re.compile(r'^ (.+?)( +\|)', re.MULTILINE)
-		patch_info = r_filename.sub(r' <a href="/media/castles/%s/\1">\1</a>\2' % name, patch_info, 0)
-		patch_linked = html.mark_safe(patch_info + 'diff ' + patch_diff)
+		patch = html.escape(patch)
+		r_filename = re.compile(r'(?<=^\+\+\+ b/)(.+)$', re.MULTILINE)
+		all_files = r_filename.findall(patch)
+		patch = r_filename.sub(r'<a href="%s/\1">\1</a>' % castle, patch, 0)
+		patch_linked = html.mark_safe(patch)
 
 		context = {
 			'title': pull_data['pull']['title'],
 			'body': pull_data['pull']['body'],
 			'patch': patch_linked,
+			'all_files': all_files,
+			'castle': castle,
 		}
 
 		return render_to_response(
