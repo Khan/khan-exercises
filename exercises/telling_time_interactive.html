@@ -17,9 +17,10 @@
           <var id="MINUTE_IS_ZERO">MINUTE === 0</var>
           <var id="MINUTE_FRACTION">KhanUtil.toFraction(MINUTE/60)</var>
           <var id="NICE_MINUTE"> MINUTE &gt; 5 ? MINUTE : "0" + MINUTE</var>
+          <var id="TIME">HOUR + ":" + NICE_MINUTE</var>
         </div>
 
-        <p class="question">Set the clock to <var>HOUR</var>:<var>NICE_MINUTE</var>. The hour hand is <span class="hint_blue" style="font-weight: bold">blue</span> and the minute hand is <span class="hint_orange" style="font-weight: bold">orange</span>.</p>
+        <p class="question">Set the clock to <var>TIME</var>. The hour hand is <span class="hint_blue" style="font-weight: bold">blue</span> and the minute hand is <span class="hint_orange" style="font-weight: bold">orange</span>.</p>
 
         <div class="problem">
 
@@ -207,13 +208,13 @@
 
         <div class="hints">
 
-          <p>The first part of the time is the hour. The second part of the time is the number of minutes past the hour. So, it is <var>HOUR</var> hours and <var>MINUTE</var> minutes.</p>
+          <p>The number before the <strong>:</strong> symbol represents the number of minutes past the hour. So  <var>TIME</var> represents <var>MINUTE</var> minutes past the <var>nth(HOUR)</var> hour.</p>
 
           <div>
             <p>The 12 <strong>long</strong> tick marks correspond to the hours in the day (assuming AM/PM time).</p>
             <p>Each long tick mark is also an increment of 5 minutes, because 60 minutes / 12 tick marks = 5 minutes per tick mark.</p>
             <div class="graphie" data-update="clock">
-              graph.clock.drawTicks( { n: 12, p: 0.8, tickAttr: { stroke: "#ff0", "stroke-opacity": 0.3, "stroke-linecap": "round" } } );
+              // graph.clock.drawTicks( { n: 12, p: 0.8, tickAttr: { stroke: "#ff0", "stroke-opacity": 0.3, "stroke-linecap": "round" } } );
             </div>
           </div>
 
@@ -223,7 +224,7 @@
 
           <div>
             <p>If it is <strong>zero</strong> minutes, the hour hand belongs directly on the corresponding hour mark. However, for any other number of minutes, the hour hand should be proportionally past the hour mark.</p>
-            <p>For example, if it's 5 hours and 45 minutes, the hour hand should be <code>\Large{ \frac{45}{60} = \frac{3}{4} }</code> of the way past the 5 hour mark.</p>
+            <p>For example, if it's 5 hours and 45 minutes, the hour hand should be <code><var>fraction(45, 60)</var> = <var>fraction(45, 60, false, true)</var></code> of the way past the 5 hour mark.</p>
           </div>
 
           <div>
@@ -231,7 +232,7 @@
               The hour hand should be exactly at the <var>HOUR</var> hour mark. The minute hand should be at the tick mark labeled "12".
             </p>
             <p data-else>
-              The hour hand should be <code>\Large{ \frac{<var>MINUTE</var>}{60} = \frac{<var>MINUTE_FRACTION[0]</var>}{<var>MINUTE_FRACTION[1]</var>} }</code> of the way past the <var>HOUR</var> hour mark. The minute hand should be at the tick mark labeled <code>\Large{ \frac{<var>MINUTE</var>}{5} = <var>MINUTE/5</var>}</code>.
+              The hour hand should be <code><var>fraction(MINUTE, 60)</var> = <var>fraction(MINUTE, 60, false, true)</var></code> of the way past the <var>HOUR</var> hour mark. The minute hand should be at the tick mark labeled <code><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code>.
             </p>
             <div class="graphie" data-update="clock">
 
