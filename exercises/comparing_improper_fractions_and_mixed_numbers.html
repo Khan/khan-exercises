@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Comparing improper fractions and mixed numbers</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	
+	<div class="exercise">
+		<div class="problems">
+			<div id="same-whole">
+				<div class="vars" data-ensure="M_DENOM !== I_DENOM">
+					<var id="WHOLE">randRange( 1, 5 )</var>
+					<var id="WHOLE_2">WHOLE</var>
+				
+					<var id="M_NUM">randRange( 1, 9 )</var>
+					<var id="M_DENOM">randRange( M_NUM + 1, 10 )</var>
+					<var id="M_DENOM_REDUCED">M_DENOM/ getGCD( M_NUM, M_DENOM )</var>
+					<var id="M_NUM_REDUCED">M_NUM/ getGCD( M_NUM, M_DENOM )</var>
+										
+					<var id="M_NUM_2">randRange( 1, 9 )</var>
+					<var id="M_DENOM_2">randRange( M_NUM_2 + 1, 10 )</var>
+
+					<var id="M_REDUCED_NUM">M_NUM_2 / getGCD( M_NUM_2, M_DENOM_2 )</var>
+					<var id="M_REDUCED_DENOM">M_DENOM_2 / getGCD( M_NUM_2, M_DENOM_2 )</var>
+					
+					<var id="I_NUM">WHOLE_2 * M_REDUCED_DENOM + M_REDUCED_NUM</var>
+					<var id="I_DENOM">M_REDUCED_DENOM</var>	
+					
+					<var id="LCM">getLCM( M_DENOM_REDUCED, I_DENOM )</var>
+					<var id="F1">LCM / M_DENOM_REDUCED</var>
+					<var id="F2">LCM / I_DENOM</var>
+					<var id="BECOMES_1">F1 === 1 ? "remains as" : "becomes"</var>
+					<var id="BECOMES_2">F2 === 1 ? "remains as" : "becomes"</var>
+					<var id="M_AS_I">M_DENOM_REDUCED*WHOLE+M_NUM_REDUCED</var>
+					
+					<var id="SOLUTION">(function() {
+						if ( (M_AS_I*F1) > (I_NUM*F2) ) {
+							return "&gt;";
+						} else {
+							return "&lt;";
+						}
+					})()</var>
+					<var id="MORE">M_DENOM > I_DENOM ? "more" : "fewer"</var>
+					<var id="SMALLER">M_DENOM > I_DENOM ? "smaller" : "bigger"</var>
+					<var id="LESS">M_DENOM > I_DENOM ? "less" : "more"</var>
+					<var id="BIGGER">SMALLER === "smaller" ? "bigger" : "smaller"</var>
+				</div>
+
+				<div class="problem">
+					<p>Fill in the blank.</p>
+					<p>
+						<code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code>
+						____<code><var>fraction( I_NUM, I_DENOM, false, true )</var></code>
+					</p>
+				</div>
+				<p class="solution"><code><var>SOLUTION</var></code></p>
+				<ul class="choices" data-category="true">
+					<li><code>&lt;</code></li>
+					<li><code>&gt;</code></li>
+				</ul>
+				<div class="hints">
+					<p>First, let's convert the mixed number to an improper fraction with the same denominator.</p>
+					<p>To get the numerator of the improper fraction, multiply the denominator (<strong><var>M_DENOM_REDUCED</var></strong>) by the whole number (<strong><var>WHOLE</var></strong>) and add the numerator (<strong><var>M_NUM_REDUCED</var></strong>).<p class="hint_purple"><strong><code><var>M_DENOM_REDUCED</var> * <var>WHOLE</var>+<var>M_NUM_REDUCED</var> = <var>M_AS_I</var></code></strong></p> 
+						<p>We can write the mixed number as an improper fraction with numerator <strong><var>M_AS_I</var></strong> and denominator <strong><var>M_DENOM_REDUCED</var></strong>.</p>
+					<p>Now we need to compare <code><var>fraction ( M_AS_I, M_DENOM_REDUCED, false, true )</var></code> to <code><var>fraction ( I_NUM, I_DENOM, false, true )</var></code>.</p>	
+					<p>It is easier to compare these two fractions when they have the same denominator.</p>
+					<p>Their smallest common denominator is the LCM of <var>M_DENOM_REDUCED</var> and <var>I_DENOM</var>.</p>
+					<p><code>\lcm(<var>M_DENOM_REDUCED</var>, <var>I_DENOM</var>) = <var>LCM</var></code></p>
+					<div>
+						<p>The first fraction <var>BECOMES_1</var> <code>\dfrac{<var>M_AS_I * F1</var>}{<var>LCM</var>}</code>.</p>
+						<p>The second fraction <var>BECOMES_2</var> <code>\dfrac{<var>I_NUM * F2</var>}{<var>LCM</var>}</code>.</p>
+					</div>
+					<p>We see that <code>\dfrac{<var>M_AS_I * F1</var>}{<var>LCM</var>} <var>SOLUTION</var> \dfrac{<var>I_NUM * F2</var>}{<var>LCM</var>}</code>.</p>
+				</div>
+			</div>
+			<div id="different-whole">
+				<div class="vars" data-ensure="M_DENOM !== I_DENOM">
+					<var id="WHOLE">randRange( 1, 5 )</var>
+					<var id="WHOLE_2">randRange( 1, 5 )</var>
+				
+					<var id="M_NUM">randRange( 1, 9 )</var>
+					<var id="M_DENOM">randRange( M_NUM + 1, 10 )</var>
+					<var id="M_DENOM_REDUCED">M_DENOM/ getGCD( M_NUM, M_DENOM )</var>
+					<var id="M_NUM_REDUCED">M_NUM/ getGCD( M_NUM, M_DENOM )</var>
+										
+					<var id="M_NUM_2">randRange( 1, 9 )</var>
+					<var id="M_DENOM_2">randRange( M_NUM_2 + 1, 10 )</var>
+
+					<var id="M_REDUCED_NUM">M_NUM_2 / getGCD( M_NUM_2, M_DENOM_2 )</var>
+					<var id="M_REDUCED_DENOM">M_DENOM_2 / getGCD( M_NUM_2, M_DENOM_2 )</var>
+					
+					<var id="I_NUM">WHOLE_2 * M_REDUCED_DENOM + M_REDUCED_NUM</var>
+					<var id="I_DENOM">M_REDUCED_DENOM</var>	
+					
+					<var id="LCM">getLCM( M_DENOM_REDUCED, I_DENOM )</var>
+					<var id="F1">LCM / M_DENOM_REDUCED</var>
+					<var id="F2">LCM / I_DENOM</var>
+					<var id="BECOMES_1">F1 === 1 ? "remains as" : "becomes"</var>
+					<var id="BECOMES_2">F2 === 1 ? "remains as" : "becomes"</var>
+					<var id="M_AS_I">M_DENOM_REDUCED*WHOLE+M_NUM_REDUCED</var>
+					
+					<var id="SOLUTION">(function() {
+						if ( (M_AS_I*F1) > (I_NUM*F2) ) {
+							return "&gt;";
+						} else {
+							return "&lt;";
+						}
+					})()</var>
+					<var id="MORE">M_DENOM > I_DENOM ? "more" : "fewer"</var>
+					<var id="SMALLER">M_DENOM > I_DENOM ? "smaller" : "bigger"</var>
+					<var id="LESS">M_DENOM > I_DENOM ? "less" : "more"</var>
+					<var id="BIGGER">SMALLER === "smaller" ? "bigger" : "smaller"</var>
+				</div>
+
+				<div class="problem">
+					<p>Fill in the blank.</p>
+					<p>
+						<code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code>
+						____<code><var>fraction( I_NUM, I_DENOM, false, true )</var></code>
+					</p>
+				</div>
+				<p class="solution"><code><var>SOLUTION</var></code></p>
+				<ul class="choices" data-category="true">
+					<li><code>&lt;</code></li>
+					<li><code>&gt;</code></li>
+				</ul>
+				<div class="hints">
+					<p>First, let's convert the mixed number to an improper fraction with the same denominator.</p>
+					<p>To get the numerator of the improper fraction, multiply the denominator (<strong><var>M_DENOM_REDUCED</var></strong>) by the whole number (<strong><var>WHOLE</var></strong>) and add the numerator (<strong><var>M_NUM_REDUCED</var></strong>).<p class="hint_purple"><strong><code><var>M_DENOM_REDUCED</var>*<var>WHOLE</var>+<var>M_NUM_REDUCED</var> = <var>M_AS_I</var></code></strong></p> 
+						<p>We can write the mixed number as an improper fraction with numerator <strong><var>M_AS_I</var></strong> and denominator <strong><var>M_DENOM_REDUCED</var></strong>.</p>
+					<p>Now we need to compare <code><var>fraction ( M_AS_I, M_DENOM_REDUCED, false, true )</var></code> to <code><var>fraction ( I_NUM, I_DENOM, false, true )</var></code></p>	
+					<p>It is easier to compare these two fractions when they have the same denominator.</p>
+					<p>Their smallest common denominator is the LCM of <var>M_DENOM_REDUCED</var> and <var>I_DENOM</var>.</p>
+					<p><code>\lcm(<var>M_DENOM_REDUCED</var>, <var>I_DENOM</var>) = <var>LCM</var></code></p>
+					<div>
+						<p>The first fraction <var>BECOMES_1</var> <code>\dfrac{<var>M_AS_I * F1</var>}{<var>LCM</var>}</code>.</p>
+						<p>The second fraction <var>BECOMES_2</var> <code>\dfrac{<var>I_NUM * F2</var>}{<var>LCM</var>}</code>.</p>
+					</div>
+					<p>We see that <code>\dfrac{<var>M_AS_I * F1</var>}{<var>LCM</var>} <var>SOLUTION</var> \dfrac{<var>I_NUM * F2</var>}{<var>LCM</var>}</code>.</p>
+				</div>
+			</div>
+			</div>
+
+			
+			</div>
+		
+</body>
+</html>
