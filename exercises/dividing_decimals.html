@@ -11,9 +11,9 @@
 			<var id="DIVISOR">randRange( 10, 99 )</var>
 			<var id="QUOTIENT">randRange( 100, 999 )</var>
 			<var id="DIVIDEND">DIVISOR * QUOTIENT</var>
-			<var id="DIVISOR_DECIMAL">randRange( 1, 2 )</var>
+			<var id="DIVISOR_DECIMAL">randRange( 0, 2 )</var>
 			<var id="MAX_DIVIDEND_DECIMAL">DIVIDEND &lt; 10000 ? 4 : 5</var>
-			<var id="DIVIDEND_DECIMAL">randRange( DIVISOR_DECIMAL, MAX_DIVIDEND_DECIMAL)</var>
+			<var id="DIVIDEND_DECIMAL">randRange( Math.max( DIVISOR_DECIMAL, 1 ), MAX_DIVIDEND_DECIMAL)</var>
 			<var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
 			<var id="DUMMY">[]</var>
 		</div>

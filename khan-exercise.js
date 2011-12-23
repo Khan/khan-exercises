@@ -37,13 +37,16 @@
 var Khan = (function() {
 	function warn( message, showClose ) {
 		jQuery(function() {
+			var warningBar = jQuery( "#warning-bar" );
 			jQuery( "#warning-bar-content" ).html( message );
 			if ( showClose ) {
-				jQuery( "#warning-bar-close" ).show();
+				warningBar.addClass( "warning" )
+					  .children( "#warning-bar-close" ).show();
 			} else {
-				jQuery( "#warning-bar-close" ).hide();
+				warningBar.addClass( "error" )
+					  .children( "#warning-bar-close" ).hide();
 			}
-			jQuery( "#warning-bar" ).fadeIn( "fast" );
+			warningBar.fadeIn( "fast" );
 		});
 	}
 
@@ -1130,6 +1133,10 @@ var Khan = (function() {
 		}
 
 		if (typeof userExercise !== "undefined" && userExercise.read_only) {
+			if (!userExercise.current) {
+				warn("This exercise may have changed since it was completed", true);
+			}
+
 			var timelineEvents, timeline;
 
 			var timelinecontainer = jQuery( "<div id='timelinecontainer'>" )
@@ -1139,15 +1146,26 @@ var Khan = (function() {
 							</div>" )
 				.insertBefore( "#extras" );
 
+			jQuery.fn.disable = function() {
+				this.addClass( 'disabled' )
+				    .css( {
+					cursor: 'default !important'
+				    } )
+				    .data( 'disabled', true );
+				return this;
+			}
+			
+			jQuery.fn.enable = function() {
+				this.removeClass( 'disabled' )
+				    .css( {
+					cursor: 'pointer'
+				    } )
+				    .data( 'disabled', false );
+				return this;
+			}
+
 			if (getData().total_done === 0) {
-				jQuery( '#previous-problem' )
-					.addClass( 'disabled' )
-					.css( {
-						cursor: 'default !important',
-						top: '0',
-						color: '#333 !important'
-					} )
-					.data( 'disabled', true );
+				jQuery( '#previous-problem' ).disable();
 			}
 
 			timeline = jQuery( "<div id='timeline'>" ).appendTo( timelinecontainer );
@@ -1264,38 +1282,32 @@ var Khan = (function() {
 			jQuery( '#solutionarea' ).css( 'background-color', jQuery( '#answercontent' ).css( 'background-color' ) );
 
 			jQuery.fn.scrubber = function() {
-				var scrubber1 = jQuery( '#scrubber1' ),
-						scrubber2 = jQuery( '#scrubber2' );
-
-				scrubber1 = scrubber1.length ? scrubber1 : jQuery("<div id='scrubber1'>").appendTo(document.body);
-				scrubber2 = scrubber2.length ? scrubber2 : jQuery("<div id='scrubber2'>").appendTo(document.body);
-
-				// triangle top of scrubber
-				scrubber1.css( {
+				// create triangular scrubbers above and below current selection
+				var timeline = jQuery( '#timeline' ),
+				    scrubber1 = jQuery( '#scrubber1' ),
+				    scrubber2 = jQuery( '#scrubber2' ),
+				    scrubberCss = {
 					display: 'block',
 					width: '0',
 					height: '0',
 					'border-left': '6px solid transparent',
 					'border-right': '6px solid transparent',
-					'border-bottom': '6px solid #888',
 					position: 'absolute',
-					top: (timelinecontainer.offset().top + timelinecontainer.height() - 6) + 'px',
-					left: (this.offset().left + this.width()/2) + 'px',
-					bottom: '0'
-				} );
+					left: (timeline.scrollLeft() + this.position().left + this.outerWidth()/2 + 2) + 'px'
+				    };
 
-				// rectangle bottom of scrubber
-				scrubber2.css( {
-					display: 'block',
-					width: '0',
-					height: '0',
+				scrubber1 = scrubber1.length ? scrubber1 : jQuery("<div id='scrubber1'>").appendTo( timeline );
+				scrubber2 = scrubber2.length ? scrubber2 : jQuery("<div id='scrubber2'>").appendTo( timeline );
+
+				scrubber1.css( jQuery.extend( {}, scrubberCss, {
 					'border-bottom': '6px solid #888',
-					'border-left': '6px solid #888',
-					'border-right': '6px solid #888',
-					position: 'absolute',
-					top: (scrubber1.offset().top + 7) + 'px',
-					left: scrubber1.offset().left + 'px'
-				} );
+					bottom: '0'
+				}) );
+
+				scrubber2.css( jQuery.extend( {}, scrubberCss, {
+					'border-top': '6px solid #888',
+					top: '0'
+				}) );
 
 				return this;
 			};
@@ -1304,12 +1316,12 @@ var Khan = (function() {
 			MathJax.Hub.Queue( function() {
 				var maxHeight = 0;
 				timelineEvents.children().each( function() {
-					maxHeight = Math.max( maxHeight, jQuery( this ).height() );
+					maxHeight = Math.max( maxHeight, jQuery( this ).outerHeight(true) );
 				});
 
 				if (maxHeight > timelinecontainer.height()) {
-					timelinecontainer.height( maxHeight + 16 );
-					timeline.height( maxHeight + 16 );
+					timelinecontainer.height( maxHeight );
+					timeline.height( maxHeight );
 				}
 			} );
 
@@ -1318,7 +1330,7 @@ var Khan = (function() {
 
 				var thisHintArea, thisProblem,
 					hintNum = jQuery( '#timeline-events .user-activity:lt('+(i+1)+')' )
-								.filter('.hint-activity').length - 1,
+							.filter('.hint-activity').length - 1,
 					// Bring the currently focused panel as close to the middle as possible
 					itemOffset = thisSlide.position().left,
 					itemMiddle = itemOffset + thisSlide.width() / 2,
@@ -1371,7 +1383,8 @@ var Khan = (function() {
 
 			var activate = function( slideNum ) {
 				var hint, thisState,
-					thisSlide = states.eq( slideNum );
+				    thisSlide = states.eq( slideNum ),
+				    fadeTime = 150;
 
 				// All content for this state has been built before
 				if (statelist[slideNum]) {
@@ -1379,23 +1392,23 @@ var Khan = (function() {
 
 					timeline.animate({
 						scrollLeft: thisState.scroll
-					}, 150, function() {
+					}, fadeTime, function() {
 						thisState.slide.scrubber();
 					});
 
 					if (slideNum < firstHintIndex) {
-						hintRemainder.fadeOut( 150 );
+						hintRemainder.fadeOut( fadeTime );
 						hintButton.val( "I'd like a hint" );
 					} else if (slideNum >= lastHintIndex) {
 						if (states.eq( lastHintIndex ).data( 'hint' ) < hints.length) {
-							hintRemainder.fadeOut( 150 );
+							hintRemainder.fadeOut( fadeTime );
 						}
 					} else {
 						hintButton.val( "I'd like another hint" );
 
 						hintRemainder
 							.text( (totalHints - thisState.hintNum) + " remaining" )
-							.fadeIn( 150 );
+							.fadeIn( fadeTime );
 					}
 
 					jQuery( '#workarea' ).remove();
@@ -1403,7 +1416,7 @@ var Khan = (function() {
 					jQuery( '#problemarea' ).append( thisState.problem ).append( thisState.hintArea );
 
 					if (thisSlide.data( 'guess' )) {
-						solutionarea.effect( 'highlight', {}, 200 );
+						solutionarea.effect( 'highlight', {}, fadeTime );
 
 						// If there is a guess we show it as if it was filled in by the user
 						validator.showGuess( thisSlide.data( 'guess' ) );
@@ -1415,15 +1428,19 @@ var Khan = (function() {
 					if (slideNum > 0 && (thisState.hintNum > statelist[slideNum-1].hintNum)) {
 						jQuery( '#hintsarea' ).children().each( function( index, elem ) {
 							if (index > previousHintNum) {
-								jQuery( elem ).effect( 'highlight', {}, 200 );
+								jQuery( elem ).effect( 'highlight', {}, fadeTime );
 							}
 						} );
 
 						previousHintNum = thisState.hintNum;
 					}
 
+					jQuery( '#previous-step, #next-step' ).enable();
 					if (slideNum === 0) {
 						previousHintNum = -1;
+						jQuery( '#previous-step' ).disable();
+					} else if (slideNum === numSlides - 1) {
+						jQuery( '#next-step' ).disable();
 					}
 				}
 			};
@@ -1817,6 +1834,8 @@ var Khan = (function() {
 
 		if ( reviewMode ) {
 			enterReviewMode();
+		} else {
+			jQuery( "#streak-bar-container" ).show();
 		}
 
 		jQuery( "#answer_area" ).adhere( {
@@ -2575,11 +2594,6 @@ var Khan = (function() {
 			);
 		}
 
-		// record a bingo if came here from knowledge map after clicking on green button or dashboard link
-		if(document.referrer.indexOf("move_on") > 0 && window.gae_bingo){
-			gae_bingo.bingo("clicked_followup");
-		}
-
 		// Make scratchpad persistent per-user
 		if (user) {
 			var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
@@ -2833,6 +2847,11 @@ var Khan = (function() {
 			displayRelatedVideos(videos);
 			ModalVideo && relatedVideosForExercise === null && ModalVideo.hookup();
 			relatedVideosForExercise = data.exercise;
+		}
+
+		// Hide related videos box if the videos shown are not for this exercise
+		if ( relatedVideosForExercise !== data.exercise ) {
+			jQuery( ".related-video-box, .related-content" ).hide();
 		}
 	}
 

@@ -116,7 +116,7 @@ var, div.graphie { white-space: pre; }
 }
 
 .user-activity {
-  margin: 5px;
+  margin: 8px;
   padding: 2px 5px;
   border: 1px solid #999;
   border-radius: 4px;
@@ -124,7 +124,6 @@ var, div.graphie { white-space: pre; }
   -moz-border-radius: 4px;
   float: left;
   cursor: pointer;
-  /*height: 25px;*/
   color: white;
 }
 
@@ -311,11 +310,9 @@ div.timeline-total {
 }
 
 #warning-bar {
-    background: red;
     width: 100%;
     height: 35px;
     text-align: center;
-    color: #eee;
     font-size: 15px;
 	display: none;
 }
@@ -332,13 +329,26 @@ div.timeline-total {
 	position: relative;
 }
 
-#warning-bar a {
-    color: #eee;
+#warning-bar-content a {
+	text-decoration: underline;
 }
 
-#warning-bar-content a {
-	color: #eee;
-	text-decoration: underline;
+#warning-bar.error {
+  background-color: red;
+  color: #eee;
+}
+
+#warning-bar.error a {
+  color: #eee;
+}
+
+#warning-bar.warning {
+  background-color: #f5e722;
+  color: #222;
+}
+
+#warning-bar.warning a {
+  color: #222;
 }
 
 /* Faux table styles that allow revealing data row by row in hints */

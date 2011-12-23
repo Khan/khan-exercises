@@ -238,66 +238,70 @@
 
 				latex = (typeof latex === "undefined") || latex;
 
-				if (latex) {
+				var span;
+
+				if ( latex ) {
 					var code = jQuery( "<code>" ).text( text );
-					var pad = currentStyle["label-distance"];
-					var span = jQuery( "<span>" ).append( code ).css({
-						position: "absolute",
-						left: scaled[0],
-						top: scaled[1],
-						padding: ( pad != null ? pad : 7 ) + "px"
-					}).appendTo( el );
-
+					span = jQuery( "<span>" ).append( code )
+					// Add to the MathJax queue
 					if ( typeof MathJax !== "undefined") {
-						// Add to the MathJax queue
 						jQuery.tmpl.type.code()( code[0] );
-
-						// Run after MathJax typesetting
-						MathJax.Hub.Queue(function() {
-							// Avoid an icky flash
-							span.css( "visibility", "hidden" );
-
-							var setMargins = function( size ) {
-								span.css( "visibility", "" );
-								var multipliers = directions[ direction || "center" ];
-								span.css({
-									marginLeft: Math.round( size[0] * multipliers[0] ),
-									marginTop: Math.round( size[1] * multipliers[1] )
-								});
-							};
-
-							var callback = MathJax.Callback( function() {} );
-
-							// Wait for the browser to render it
-							var tries = 0,
-							    size = [ span.outerWidth(), span.outerHeight() ];
-
-							if ( size[1] > 18 ) {
-								setMargins( size );
-								callback();
-							} else {
-								var inter = setInterval(function() {
-									size = [ span.outerWidth(), span.outerHeight() ];
-
-									// Heuristic to guess if the font has kicked in so we have box metrics
-									// (Magic number ick, but this seems to work mostly-consistently)
-									if ( size[1] > 18 || ++tries >= 10 ) {
-										setMargins( size );
-										clearInterval(inter);
-										callback();
-									}
-								}, 100);
-							}
-
-							return callback;
-						});
 					}
-
-					return span;
 				} else {
-					var rtext = raphael.text( scaled[0], scaled[1], text );
-					return rtext;
+					span = jQuery( "<span>" ).html( text );
 				}
+
+				var pad = currentStyle["label-distance"];
+				span.css({
+					position: "absolute",
+					left: scaled[0],
+					top: scaled[1],
+					padding: ( pad != null ? pad : 7 ) + "px"
+				}).appendTo( el );
+
+				if ( typeof MathJax !== "undefined") {
+					// Run after MathJax typesetting
+					MathJax.Hub.Queue(function() {
+						// Avoid an icky flash
+						span.css( "visibility", "hidden" );
+
+						var setMargins = function( size ) {
+							span.css( "visibility", "" );
+							var multipliers = directions[ direction || "center" ];
+							span.css({
+								marginLeft: Math.round( size[0] * multipliers[0] ),
+								marginTop: Math.round( size[1] * multipliers[1] )
+							});
+						};
+
+						var callback = MathJax.Callback( function() {} );
+
+						// Wait for the browser to render it
+						var tries = 0;
+						var size = [ span.outerWidth(), span.outerHeight() ];
+
+						if ( size[1] > 18 ) {
+							setMargins( size );
+							callback();
+						} else {
+							var inter = setInterval(function() {
+								size = [ span.outerWidth(), span.outerHeight() ];
+
+								// Heuristic to guess if the font has kicked in so we have box metrics
+								// (Magic number ick, but this seems to work mostly-consistently)
+								if ( size[1] > 18 || ++tries >= 10 ) {
+									setMargins( size );
+									clearInterval(inter);
+									callback();
+								}
+							}, 100);
+						}
+
+						return callback;
+					});
+				}
+
+				return span;
 			},
 
 			plotParametric: function( fn, range ) {
