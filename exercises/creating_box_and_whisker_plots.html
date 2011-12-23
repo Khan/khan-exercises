@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math stat graphie word-problems interactive">
+<html data-require="math stat graphie interactive">
 <head>
 	<meta charset="UTF-8" />
 	<title>Creating box and whisker plots</title>
@@ -42,7 +42,7 @@
 				<var id="MIN">SORTED_DATA[0]</var>
 				<var id="Q1">(SORTED_DATA[3] + SORTED_DATA[4]) / 2</var>
 				<var id="MEDIAN">SORTED_DATA[7]</var>
-				<var id="Q3">(SORTED_DATA[11] + SORTED_DATA[12]) / 2</var>
+				<var id="Q3">(SORTED_DATA[10] + SORTED_DATA[11]) / 2</var>
 				<var id="MAX">SORTED_DATA[14]</var>
 				<var id="SORTER">createSorter()</var>
 			</div>
@@ -177,12 +177,12 @@
 	<div class="hints">
 		<div>
 			<p>Begin by putting the data in order:<p>
-			<p><code>\qquad \large{<var>toSentence( SORTED_DATA, "" )</var>}</code></p>
+			<p><code>\qquad \large{<var>SORTED_DATA.join( ", " )</var>}</code></p>
 		</div>
 
 		<div>
 			<p>Plot the sample minimum (smallest number):<p>
-			<p><code>\qquad \large{\color{<var>PINK</var>}{<var>MIN</var>}, <var>toSentence( SORTED_DATA.slice( 1 ), "" )</var>}</code></p>
+			<p><code>\qquad \large{\color{<var>PINK</var>}{<var>MIN</var>}, <var>SORTED_DATA.slice( 1 ).join( ", " )</var>}</code></p>
 			<div class="graphie" data-update="boxplot">
 				init({ range: [[ -2, 18 ], [ -6, 2 ]], scale: [ 30, 30 ] });
 				style({ stroke: PINK, fill: PINK }, function() {
@@ -193,7 +193,7 @@
 
 		<div>
 			<p>Plot the sample maximum (largest number):<p>
-			<p><code>\qquad \large{<var>toSentence( SORTED_DATA.slice( 0, -1 ), "" )</var>, \color{<var>PINK</var>}{<var>MAX</var>}}</code></p>
+			<p><code>\qquad \large{<var>SORTED_DATA.slice( 0, -1 ).join( ", " )</var>, \color{<var>PINK</var>}{<var>MAX</var>}}</code></p>
 			<div class="graphie" data-update="boxplot">
 				style({ stroke: PINK, fill: PINK }, function() {
 					circle( [ MAX, -4.5 ], 0.13 );
@@ -204,9 +204,9 @@
 		<div>
 			<p>Plot the median (middle number):<p>
 			<p><code>
-				\qquad \large{<var>toSentence( SORTED_DATA.slice( 0, 7 ), "" )</var>,
+				\qquad \large{<var>SORTED_DATA.slice( 0, 7 ).join( ", " )</var>,
 				\color{<var>PINK</var>}{<var>MEDIAN</var>},
-				<var>toSentence( SORTED_DATA.slice( 8 ), "" )</var>}
+				<var>SORTED_DATA.slice( 8 ).join( ", " )</var>}
 			</code></p>
 			<div class="graphie" data-update="boxplot">
 				style({ stroke: PINK, strokeWidth: 2 }, function() {
@@ -221,10 +221,10 @@
 				a single number halfway between the smallest number and the median, average the two numbers:
 			<p>
 			<p><code>
-				\qquad \large{<var>toSentence( SORTED_DATA.slice( 0, 3 ), "" )</var>,
+				\qquad \large{<var>SORTED_DATA.slice( 0, 3 ).join( ", " )</var>,
 				\color{<var>PINK</var>}{<var>SORTED_DATA[3]</var>},
 				\color{<var>PINK</var>}{<var>SORTED_DATA[4]</var>},
-				<var>toSentence( SORTED_DATA.slice( 5 ), "" )</var>}
+				<var>SORTED_DATA.slice( 5 ).join( ", " )</var>}
 			</code></p>
 			<div class="graphie" data-update="boxplot">
 				style({ stroke: PINK, strokeWidth: 2 }, function() {
@@ -239,10 +239,10 @@
 				a single number halfway between the median and the largest number, average the two numbers:
 			<p>
 			<p><code>
-				\qquad \large{<var>toSentence( SORTED_DATA.slice( 0, 11 ), "" )</var>,
+				\qquad \large{<var>SORTED_DATA.slice( 0, 11 ).join( ", " )</var>,
+				\color{<var>PINK</var>}{<var>SORTED_DATA[10]</var>},
 				\color{<var>PINK</var>}{<var>SORTED_DATA[11]</var>},
-				\color{<var>PINK</var>}{<var>SORTED_DATA[12]</var>},
-				<var>SORTED_DATA.slice( 13 ).join( ", " )</var>}
+				<var>SORTED_DATA.slice( 12 ).join( ", " )</var>}
 			</code></p>
 			<div class="graphie" data-update="boxplot">
 				style({ stroke: PINK, strokeWidth: 2 }, function() {
