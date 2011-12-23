@@ -24,7 +24,7 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>Plot <strong><code>\color{orange}{<var>SOLUTION</var>}</code></strong> on the number line.</p>
+				<p>Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to  <strong><code>\color{orange}{<var>SOLUTION</var>}</code></strong> on the number line.</p>
 				<div class="graphie" id="number-line">
 					init({
 						range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ],
@@ -42,12 +42,11 @@
 						line( [ x, -0.2 ], [ x, 0.2 ] );
 					}
 					
-					style({ stroke: "#6495ED", strokeWidth: 3.5 });
+					style({ stroke: BLUE, strokeWidth: 3.5 });
 					line( [ LOWER_BOUND, -0.2], [LOWER_BOUND, 0.2]);
-					label( [ LOWER_BOUND, -0.53 ],  LOWER_VALUE, "center", { color: "#6495ED" });
-					
+					label( [ LOWER_BOUND, -0.53 ],  LOWER_VALUE, "center", { color: BLUE });
 					line( [ UPPER_BOUND, -0.2], [UPPER_BOUND, 0.2]);
-					label( [ UPPER_BOUND, -0.53 ],  UPPER_VALUE, "center", { color: "#6495ED" });
+					label( [ UPPER_BOUND, -0.53 ],  UPPER_VALUE, "center", { color: BLUE });
 
 					addMouseLayer();
 					this.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 1 });
@@ -65,7 +64,7 @@
 			</div>
 
 			<div class="hints">
-				<p>We know the number line is the range 0 to 1, which is divided into even pieces.</p>
+				<p>Above we've drawn the number line from 0 to 1, divided into 10 equal pieces.</p>
 				<div>
 				    <p>The line is divided into 10 pieces, which means:</p>
 				    <p><code>\color{green}{\text{piece of line}}</code> = <code>\color{red}{<var>MARK_INCREMENT</var>}</code>

@@ -15,14 +15,14 @@
 		<var id="UPPER_VALUE">UPPER_BOUND</var>
         
 		<var id="SOLUTION">roundTo(1, randRangeNonZero(-19, 19) / 10)</var>
-		<var id="SOLUTION_DECIMAL">SOLUTION % 1</var>
+		<var id="SOLUTION_DECIMAL">roundTo(1, SOLUTION % 1)</var>
 		<var id="SOLUTION_WHOLE">SOLUTION - SOLUTION_DECIMAL</var>
 
 	</div>
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>Plot <strong><code>\color{orange}{<var>SOLUTION</var>}</code></strong> on the number line. The distance between adjacent tick marks is 0.5.</p>
+				<p>Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to   <strong><code>\color{orange}{<var>SOLUTION</var>}</code></strong> on the number line. The distance between adjacent tick marks is 0.5.</p>
 				<div class="graphie" id="number-line">
 					init({
 						range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ],
@@ -68,7 +68,7 @@
 			</div>
 
 			<div class="hints">
-				<p> Because <code>\color{orange}{<var>NUMBER</var>}</code> is <span data-if="SOLUTION > 0">positive</span><span data-else>negative</span> the orange dot will be to the <span data-if="SOLUTION > 0">right</span><span data-else>left</span> of 0.</p>
+				<p> Because <code>\color{orange}{<var>SOLUTION</var>}</code> is <span data-if="SOLUTION > 0">positive</span><span data-else>negative</span> the orange dot will be to the <span data-if="SOLUTION > 0">right</span><span data-else>left</span> of 0.</p>
 				<span data-if="abs(SOLUTION) > 1">
     				<div>
     				    <p>Separate the decimal from the whole number:</p>
@@ -76,7 +76,7 @@
     				</div>
 				</span>
 				<div>
-				    <p>Therefore, we know <code>\color{orange}{<var>SOLUTION</var>}</code> lies between <code>\color{orange}{<var>SOLUTION_WHOLE</var>}</code> and <code>\color{orange}{<var>SOLUTION_WHOLE + (SOLUTION > 1 ? 1 : -1)</var>}</code> on the number line.</p>
+				    <p>Therefore, we know <code>\color{orange}{<var>SOLUTION</var>}</code> lies between <code>\color{orange}{<var>SOLUTION_WHOLE</var>}</code> and <code>\color{orange}{<var>SOLUTION_WHOLE + (SOLUTION > 0 ? 1 : -1)</var>}</code> on the number line.</p>
 				    <div class="graphie" data-update="number-line">
 				        style({ stroke: "#FFA500", strokeWidth: 3.5 });
 				        line( [SOLUTION_WHOLE, -0.2], [SOLUTION_WHOLE, 0.2]);
@@ -94,7 +94,7 @@
 				</div>
 				<div>
 					<div class="graphie" data-update="number-line">
-						label( [ SOLUTION, -0.83 ],  SOLUTION, "center", { color: "#FFA500" });
+						label( [ SOLUTION, -0.53 ],  SOLUTION, "center", { color: "#FFA500" });
 						movablePoint.moveTo( SOLUTION, 0 );
 					</div>
 					<p>The orange number shows where <code>\color{orange}{<var>SOLUTION</var>}</code> is on the number line.</p>
