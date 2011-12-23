@@ -120,6 +120,6 @@ jQuery.extend( KhanUtil, {
 	// E.g., if increment = 30 and num = 40, return 30. if increment = 30 and num = 45, return 60.
 	roundToNearest: function( increment, num ) {
 		return Math.round( num / increment ) * increment;
-	},
+	}
 
 });
