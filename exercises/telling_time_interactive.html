@@ -241,8 +241,34 @@
               var minuteCoord = KhanUtil.degreesToCoord( minuteRadius, graph.correctMinuteAngle );
               var hourCoord = KhanUtil.degreesToCoord( hourRadius, graph.correctHourAngle );
 
-              graph.minutePoint.moveTo( minuteCoord[0], minuteCoord[1], true );
-              graph.hourPoint.moveTo( hourCoord[0], hourCoord[1], true );
+              addMovableLineSegment({
+                coordA: minuteCoord,
+                coordZ: [ 0, 0 ],
+                fixed: true,
+                normalStyle: {
+                  fill: KhanUtil.BLUE,
+                  stroke: KhanUtil.BLUE,
+                  "stroke-width": 10,
+                  "stroke-dasharray": "..",
+                  "stroke-linecap": "round",
+                  "stroke-opacity": 0.4
+                },
+              });
+              
+              addMovableLineSegment({
+                coordA: hourCoord,
+                coordZ: [ 0, 0 ],
+                fixed: true,
+                normalStyle: {
+                  fill: KhanUtil.ORANGE,
+                  stroke: KhanUtil.ORANGE,
+                  "stroke-width": 10,
+                  "stroke-dasharray": "--",
+                  "stroke-linecap": "round",
+                  "stroke-opacity": 0.4
+                },
+              });
+              
 
             </div>
           </div>
