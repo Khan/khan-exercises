@@ -213,7 +213,7 @@
 
           <div>
             <p>Each long tick mark is also an increment of 5 minutes, because 60 minutes / 12 tick marks = 5 minutes per tick mark.</p>
-            <p>Since we are <var>MINUTE</var> minutes past the hour, the minute hand should be at <code><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code>.
+            <p>Since we are <var>MINUTE</var> minutes past the hour, the minute hand should be at <code class="hint_orange"><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code>.
           </div>
 
           <p>Next, let's set the hour hand.</p>
@@ -227,13 +227,14 @@
 
           <div>
             <p data-if="MINUTE_IS_ZERO">
-              Since we are exactly on the hour, the hour hand should be right on the <var>HOUR</var> hour mark.
+              Since we are exactly on the hour, the hour hand should be right on the <code class="hint_blue"><var>HOUR</var></code> hour mark.
             </p>
             <p data-else>
-              In this problem, the hour hand should be <code><var>fraction(MINUTE, 60)</var> = <var>fraction(MINUTE, 60, false, true)</var></code> of the way past the <var>HOUR</var> hour mark.
+              In this problem, the hour hand should be <code class="hint_blue"><var>fraction(MINUTE, 60)</var> = <var>fraction(MINUTE, 60, false, true)</var></code> of the way past the <code class="hint_blue"><var>HOUR</var></code> hour mark.
             </p>
-            <div class="graphie" data-update="clock">
-
+          </div>
+          
+          <div class="graphie" data-update="clock">
               var minuteRadius = graph.minutePoint.constraints.fixedDistance.dist;
               var hourRadius = graph.hourPoint.constraints.fixedDistance.dist;
 
@@ -308,8 +309,6 @@
                   "stroke-opacity": 1
                 }
               });
-
-            </div>
           </div>
 
         </div>
