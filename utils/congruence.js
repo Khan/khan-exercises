@@ -690,6 +690,10 @@ jQuery.extend( Khan.answerTypes, {
 				// no guess, don't grade answer
 				ret.guess = "";
 				return false;
+			} else if ( guess === "Yes" && !triangle.isCongruent ) {
+				return "You have constructed a valid triangle, but the triangles aren't congruent.";
+			} else if ( correct === "No" && guess === "Yes" && triangle.isCongruent ) {
+				return "You have constructed a congruent triangle, but that alone doesn't prove the congruency postulate. An incongruent triangle can be constructed as well.";
 			} else if ( guess !== correct) {
 				return false;
 			} else if ( !triangle.isTriangle) {
