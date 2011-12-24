@@ -36,6 +36,25 @@
 			</ul>
 			<!-- TODO: write hints for this one (I don't yet have a firm grip on the hint system, will probably do this later...) -->
 			<div class="hints">
+				<p data-if="EXP == 1">
+					Anything to the first power is the number itself.
+				</p>
+				<p data-if="EXP == 1">
+					<code>i ^ 1 = i</code>
+				</p>
+				<p data-if="EXP > 2">
+					The most important property of the imaginary unit <code>i</code> is
+					that <code>i ^ 2 = -1</code>.
+				</p>
+				<p data-if="EXP == 3">
+					<code>i ^ 3 = (i ^ 2) \cdot i = (-1) cdot i = -i</code>
+				</p>
+				<p data-if="EXP == 4">
+					<code>i ^ 4 = (i ^ 2) ^ 2 = (-1) ^ 2 = 1</code>
+				</p>
+				<p>
+					<code>i ^ <var>EXP</var> = <var>SOLUTION</var></code>
+				</p>
 			</div>
 		</div>
 		<div id="simple-i-power-more-than-4" data-weight="5">
