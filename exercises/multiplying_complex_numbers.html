@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<meta charset="UTF-8" />
+	<title>Multiplying complex numbers</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="A_REAL">randRange(-5, 5)</var>
+		<var id="A_IMAG">randRange(-5, 5)</var>
+		<var id="B_REAL">randRange(-5, 5)</var>
+		<var id="B_IMAG">randRange(-5, 5)</var>
+		<var id="ANSWER_REAL">(A_REAL * B_REAL) - (A_IMAG * B_IMAG)</var>
+		<var id="ANSWER_IMAG">(A_REAL * B_IMAG) + (A_IMAG * B_REAL)</var>
+	</div>
+
+	<div class="problems">
+		<div id="multiply-cplx">
+			<p class="question">Multiply the following complex numbers:</p>
+			<p><code>(<var>A_REAL</var> + <var>A_IMAG</var>i) + (<var>B_REAL</var> + <var>B_IMAG</var>i)</code></p>
+			<div class="solution" data-type="multiple">
+				<p>Real part = <span class="sol" data-type="decimal"><var>ANSWER_REAL</var><span></p>
+				<p>Imaginary part = <span class="sol" data-type="decimal"><var>ANSWER_IMAG</var></span></p>
+				<p class="example">the separate parts of a complex number (<code>5 + 3i</code> has real part 5, imaginary part 3)</p>	
+			</div>
+			<div class="hints">
+				<p>
+					Complex numbers are multiplied like any polynomials.
+				</p>
+				<p>
+					<code>(<var>A_REAL</var> + <var>A_IMAG</var>i) \cdot (<var>B_REAL</var> + <var>B_IMAG</var>i) = 
+						(<var>A_REAL</var> \cdot <var>B_REAL</var>) + (<var>A_REAL</var> \cdot <var>B_IMAG</var>i) +
+						(<var>A_IMAG</var>i \cdot <var>B_REAL</var>) + (<var>A_IMAG</var>i \cdot <var>B_IMAG</var>i)
+					</code>
+				</p>
+				<p>
+					The imaginary units on can be grouped together. The real and imaginary parts are normally multiplied.
+					<code>
+						(<var>A_REAL * B_REAL</var>) + (<var>A_REAL * B_IMAG</var> + <var>A_IMAG * B_REAL</var>)i + (<var>A_IMAG * B_IMAG</var>i^2)
+					</code>
+				</p>
+				<p>
+					After we plug in <code>i^2 = -1</code>, the result becomes
+					<code>
+						(<var>A_REAL * B_REAL</var>) + (<var>A_REAL * B_IMAG</var> + <var>A_IMAG * B_REAL</var>)i - (<var>A_IMAG * B_IMAG</var>)
+					</code>
+				</p>
+				<p>
+					The result is simplified.
+					<code>
+						(<var>ANSWER_REAL</var> + <var>ANSWER_IMAG</var>i)
+					</code>
+				<p>
+				<p class="solution">
+					The real part is <var>ANSWER_REAL</var> and the imaginary part is <var>ANSWER_IMAG</var>.
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
