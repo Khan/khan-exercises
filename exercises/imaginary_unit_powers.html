@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<meta charset="UTF-8" />
+	<title>Imaginary unit powers</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="simple-i-power-less-than-4">
+			<div class="vars">
+				<var id="EXP">randRange(1, 4)</var>
+				<var id="SOLUTION">(function() {
+					switch (EXP % 4) {
+						case 0: return '1';
+						case 1: return 'i';
+						case 2: return '-1';
+						case 3: return '-i';
+					}
+					})()</var>
+			</div>
+
+			<div class="problem">
+				<p>Simplify.</p>
+				<p>
+				<code>i ^ {<var>EXP</var>}</code>
+				</p>
+			</div>
+			<p class="solution"><code><var>SOLUTION</var></code></p>
+			<ul class="choices" data-category="true">
+				<li><code>1</code></li>
+				<li><code>i</code></li>
+				<li><code>-1</code></li>
+				<li><code>-i</code></li>
+			</ul>
+			<!-- TODO: write hints for this one (I don't yet have a firm grip on the hint system, will probably do this later...) -->
+			<div class="hints">
+			</div>
+		</div>
+		<div id="simple-i-power-more-than-4">
+			<div class="vars">
+				<var id="EXP">4 + randRange(1, 30)</var>
+				<var id="SOLUTION">(function() {
+					switch (EXP % 4) {
+						case 0: return '1';
+						case 1: return 'i';
+						case 2: return '-1';
+						case 3: return '-i';
+					}
+					})()</var>
+			</div>
+
+			<div class="problem">
+				<p>Simplify.</p>
+				<p>
+				<code>i ^ {<var>EXP</var>}</code>
+				</p>
+			</div>
+			<p class="solution"><code><var>SOLUTION</var></code></p>
+			<ul class="choices" data-category="true">
+				<li><code>1</code></li>
+				<li><code>i</code></li>
+				<li><code>-1</code></li>
+				<li><code>-i</code></li>
+			</ul>
+			<div class="hints">
+				<p>
+					The most important property of the imaginary unit <code>i</code> is
+					that <code>i ^ 2 = -1</code>.
+				</p>
+				<p>
+					When this property is plugged into <code>i ^ 4</code>, we get:
+					<code>i ^ 4 = (i ^ 2) ^ 2 = (-1) ^ 2 = 1</code>
+				</p>
+				<p>
+					Plugging this result into <code>i ^ {<var>EXP</var>}</code>, we get:
+					<code>i ^ {<var>EXP</var>} = i ^ 4 \cdot i ^ {<var>EXP - 4</var>} = i ^ {<var>EXP - 4</var>}</code>
+				</p>
+				<p>
+					Whenever we want to find <code>i ^ X</code> with <code>X \geq 4</code>, we can
+					drop 4 off X.	
+				</p>
+				<p>
+					The number that remains when we decrease a number by 4 while it's greater than 4
+					is the remainder after dividing the number by 4.
+				</p>
+				<p>
+					The remainder after dividing <var>EXP</var> by 4 is <var>EXP % 4</var>,
+					so <code>i ^ {<var>EXP</var>} = i ^ {<var>EXP % 4</var>}</code>.
+				</p>
+				<p>
+					<code>i ^ {<var>EXP</var>} = i ^ {<var>EXP % 4</var>} = <var>SOLUTION</var></code>.
+				</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
