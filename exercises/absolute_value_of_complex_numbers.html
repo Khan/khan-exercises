@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Absolute value of complex numbers</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="REAL">randRange(-5, 8)</var>
+		<var id="IMAG">randRange(-5, 8)</var>
+		<var id="ABS_SQUARE">REAL * REAL + IMAG * IMAG</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<p class="question">Determine the absolute value of the following complex number:</p>
+			<p><code>|<var>REAL</var> + <var>IMAG</var>i|</code></p>
+			<div class="solution" data-type="radical">
+				<var>ABS_SQUARE</var>
+			</div>
+			<div class="hints">
+				<!--
+				<p>
+					The absolute value of any number is its distance from zero.
+					Absolute values of complex numbers can be determined using the Pythagorean theorem.
+					<div class="graphie">
+						var graph = KhanUtil.currentGraph;
+						graph.init({ range: [[-10, 10], [-10, 10]] });
+					</div>
+				</p>
+				-->
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+
