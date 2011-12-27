@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
+<html data-translatable data-require="math graphie graphie-helpers-arithmetic">
 <head>
 	<title>Converting fractions to decimals</title>
 	<script src="../khan-exercise.js"></script>
@@ -14,11 +14,11 @@
 				<var id="DENOMINATOR">randRange( NUMERATOR + 1, 30 )</var>
 				<var id="DECIMAL">roundTo( 3, NUMERATOR / DENOMINATOR )</var>
 			</div>
-			<p>Express the fraction as a decimal, rounded to the thousandth.</p>
+			<p data-tt="question1" >Express the fraction as a decimal, rounded to the thousandth.</p>
 			<p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
 			<p class="solution" data-type="decimal"><var>DECIMAL</var></p>
 			<div class="hints">
-				<p>This fraction represents the result of dividing <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
+				<p data-tt="hint1">This fraction represents the result of dividing <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
 				<div class="graphie" id="numbers">
 					var dividendDigits = integerToDigits( NUMERATOR );
 					var divisorDigits = integerToDigits( DENOMINATOR );

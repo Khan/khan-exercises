@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<html data-translatable data-require="math graphie graphie-helpers graphie-geometry math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Congruent Triangles 2</title>
@@ -8,7 +8,7 @@
 
 <body>
 	<div class="exercise">
-		<div class="problem">
+		<div data-tt="question1" class="problem">
 			What is the value of the angle x?
 		</div>
 		<div class="vars">
@@ -64,11 +64,11 @@
 					<var id="ANSWER">TR_B.angles[ ANG_LEFT ]</var>
 				</div>
 				<div class="hints">
-					<p>These two triangles have three sides equal (they share one of them).</p>
-					<p>Therefore they are congruent.</p>
-					<p>Congruent triangles also have congruent (equal) angles.</p>
-					<p>If we superimpose these two triangles, by rotating triangle ABC, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var></p>
-					<p>Angle x is therefore equal to <var>ANSWER</var>.</p>
+					<p data-tt="hint1" >These two triangles have three sides equal (they share one of them).</p>
+					<p data-tt="hint2" >Therefore they are congruent.</p>
+					<p data-tt="hint3" >Congruent triangles also have congruent (equal) angles.</p>
+					<p data-tt="hint4" >If we superimpose these two triangles, by rotating triangle ABC, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var></p>
+					<p data-tt="hint5" >Angle x is therefore equal to <var>ANSWER</var>.</p>
 				</div>
 			</div>
 
@@ -81,10 +81,10 @@
 				</div>
 				<div class="solution"><var>TR_B.angles[ ANG_LEFT ]</var></div>
 				<div class="hints">
-					<p>These two triangles have three sides equal (they share one of them).</p>
-					<p>Therefore they are congruent.</p>
-					<p>Congruent triangles also have congruent (equal) angles.</p>
-					<p>If we superimpose these two triangles, by rotating triangle ABC, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var>.</p>
+					<p data-tt="hint6" >These two triangles have three sides equal (they share one of them).</p>
+					<p data-tt="hint7" >Therefore they are congruent.</p>
+					<p data-tt="hint8" >Congruent triangles also have congruent (equal) angles.</p>
+					<p data-tt="hint9" >If we superimpose these two triangles, by rotating triangle ABC, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var>.</p>
 					<p><code><var>ANGLE_LABELS[ ANG_LEFT ]</var> = 180 - <var>TR_A.angles[ ANG_FIRST[ 0 ] ]</var> -  <var>TR_A.angles[ ANG_FIRST[ 1 ] ]</var></code></p>
 					<div>
 						<p><code><var>ANGLE_LABELS[ ANG_LEFT ]</var> = x = <var>TR_B.angles[ ANG_LEFT ]</var></code></p>
@@ -163,10 +163,10 @@
 				</div>
 				<div class="solution"><var>ANSWER</var></div>
 				<div class="hints">
-					<p>These two triangles have two sides and an angle equal.</p>
-					<p>Therefore they are congruent.</p>
-					<p>Congruent triangles also have congruent (equal) angles.</p>
-					<p>If we superimpose these two triangles, by flipping triangle <code>EDA</code>, we see that angle x corresponds to angle <var>ANGLE_LABELS[ SHOW_ANGLE ]</var></p>
+					<p data-tt="hint10" >These two triangles have two sides and an angle equal.</p>
+					<p data-tt="hint11" >Therefore they are congruent.</p>
+					<p data-tt="hint12" >Congruent triangles also have congruent (equal) angles.</p>
+					<p data-tt="hint13" >If we superimpose these two triangles, by flipping triangle <code>EDA</code>, we see that angle x corresponds to angle <var>ANGLE_LABELS[ SHOW_ANGLE ]</var></p>
 					<div data-if="! SAME_ANGLE">
 						<p><code><var>ANGLE_LABELS[ SHOW_ANGLE ]</var> = 180 - <var>TR_A.angles[ ANG_FIRST[ 0 ] ]</var> -  <var>TR_A.angles[ ANG_FIRST[ 1 ] ]</var></code></p>
 						<div>
@@ -177,7 +177,7 @@
 							</div>
 						</div>
 					</div>
-					<p>Angle x is therefore equal to <var>ANSWER</var></p>
+					<p data-tt="hint14" >Angle x is therefore equal to <var>ANSWER</var></p>
 				</div>
 			</div>
 		</div>
