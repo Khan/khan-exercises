@@ -25,7 +25,7 @@
 			</div>
 
 			<div class="question">
-				<p>Is the shown angle acute, right, or obtuse?</p>
+				<p data-tt="question1">Is the shown angle acute, right, or obtuse?</p>
 
 				<div class="graphie" id="angle">
 
@@ -49,17 +49,17 @@
 
 			<div class="solution">Acute</div>
 			<ul class="choices" data-category="true">
-				<li>Acute</li>
-				<li>Right</li>
-				<li>Obtuse</li>
+				<li data-tt="list1">Acute</li>
+				<li data-tt="list2">Right</li>
+				<li data-tt="list3">Obtuse</li>
 			</ul>
 
 			<div class="hints">
 				<div class="graphie" data-update="angle">
 					protractorHint( graph.protractor, 360 - ANGLE_ONE, DIFF );
 				</div>
-				<p>The shown angle measures less than <code>90^\circ</code>.</p>
-				<p>Therefore, it is an acute angle.</p>
+				<p data-tt="hint1">The shown angle measures less than <code>90^\circ</code>.</p>
+				<p data-tt="hint2">Therefore, it is an acute angle.</p>
 			</div>
 		</div>
 
@@ -74,8 +74,8 @@
 				<div class="graphie" data-update="angle">
 					protractorHint( graph.protractor, 360 - ANGLE_ONE, DIFF );
 				</div>
-				<p>The shown angle measures <code>90^\circ</code>.</p>
-				<p>Therefore, it is a right angle.</p>
+				<p data-tt="hint3">The shown angle measures <code>90^\circ</code>.</p>
+				<p data-tt="hint4">Therefore, it is a right angle.</p>
 			</div>
 		</div>
 
@@ -90,8 +90,8 @@
 				<div class="graphie" data-update="angle">
 					protractorHint( graph.protractor, 360 - ANGLE_ONE, DIFF );
 				</div>
-				<p>The shown angle measures more than <code>90^\circ</code>.</p>
-				<p>Therefore, it is an obtuse angle.</p>
+				<p data-tt="hint5">The shown angle measures more than <code>90^\circ</code>.</p>
+				<p data-tt="hint6">Therefore, it is an obtuse angle.</p>
 			</div>
 		</div>
 	</div>
