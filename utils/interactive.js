@@ -695,7 +695,7 @@ jQuery.extend( KhanUtil, {
 			var x1 = x;
 			var y1 = fn(x) + (mouseAreaWidth / (2 * graph.scale[1]));
 
-			if (ddx != 0) {
+			if (ddx !== 0) {
 				var normalslope = (-1 / (ddx * (graph.scale[1] / graph.scale[0]))) / (graph.scale[1] / graph.scale[0]);
 				if ( ddx < 0 ) {
 					x1 = x - Math.cos( -Math.atan(normalslope * (graph.scale[1] / graph.scale[0]))) * mouseAreaWidth / (2 * graph.scale[0]);
@@ -713,7 +713,7 @@ jQuery.extend( KhanUtil, {
 			var x1 = x;
 			var y1 = fn(x) - (mouseAreaWidth / (2 * graph.scale[1]));
 
-			if (ddx != 0) {
+			if (ddx !== 0) {
 				var normalslope = (-1 / (ddx * (graph.scale[1] / graph.scale[0]))) / (graph.scale[1] / graph.scale[0]);
 				if ( ddx < 0 ) {
 					x1 = x + Math.cos( -Math.atan(normalslope * (graph.scale[1] / graph.scale[0]))) * mouseAreaWidth / (2 * graph.scale[0]);
@@ -845,7 +845,7 @@ jQuery.extend( KhanUtil, {
 				fixed: false,
 				constrainX: false,
 				constrainY: false
-			},
+			}
 		}, options);
 
 		// If the line segment is defined by movablePoints, coordA/coordZ are
@@ -1013,10 +1013,10 @@ jQuery.extend( KhanUtil, {
 
 						if ( event.type === "vmousemove" ) {
 							if ( lineSegment.constraints.constrainX ) {
-								coordX = lineSegment.coordA[0] - mouseOffsetA[0]
+								coordX = lineSegment.coordA[0] - mouseOffsetA[0];
 							}
 							if ( lineSegment.constraints.constrainY ) {
-								coordY = lineSegment.coordA[1] - mouseOffsetA[1]
+								coordY = lineSegment.coordA[1] - mouseOffsetA[1];
 							}
 							var dX = coordX + mouseOffsetA[0] - lineSegment.coordA[0];
 							var dY = coordY + mouseOffsetA[1] - lineSegment.coordA[1];
@@ -1045,8 +1045,9 @@ jQuery.extend( KhanUtil, {
 		}
 
 
-		if ( lineSegment.pointA !== undefined )
+		if ( lineSegment.pointA !== undefined ) {
 			lineSegment.pointA.toFront();
+		}
 		if ( lineSegment.pointZ !== undefined ) {
 			lineSegment.pointZ.toFront();
 		}
