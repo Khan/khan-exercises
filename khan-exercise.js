@@ -243,7 +243,7 @@ var Khan = (function() {
 
 		moduleDependencies: {
 			"math": [ {
-				src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-7018d213c4354228862b1ba15a62d3d5"
+				src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-77111459c7d82564a705f9c5480e2c88"
 			}, "raphael" ],
 
 			// Load Raphael locally because IE8 has a problem with the 1.5.2 minified release

@@ -49,7 +49,7 @@
 					label( [ UPPER_BOUND, -0.53 ],  UPPER_VALUE, "center", { color: BLUE });
 
 					addMouseLayer();
-					this.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 1 });
+					this.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
 					movablePoint.onMove = function( x, y ) {
 						if (x &lt; LOWER_BOUND || UPPER_BOUND &lt; x) { 
 							return false; // don't allow the point to move past the bounds
