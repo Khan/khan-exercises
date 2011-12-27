@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems">
+<html data-translatable data-require="math graphie graphie-helpers word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Equivalent fractions</title>
@@ -18,49 +18,49 @@
 
 	<div class="problems">
 		<div>
-			<p class="question">What number could replace <code><var>SYMBOL</var></code> below?</p>
+			<p data-tt="question1" class="question">What number could replace <code><var>SYMBOL</var></code> below?</p>
 			<p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>SYMBOL</var>}{<var>D</var>}</code></p>
 			<div class="solution" data-forms="integer"><var>C</var></div>
 			<div class="hints">
 				<div>
-					<p>The fraction on the left represents <var>A</var> out of <var>B</var> slices of a rectangular <var>pizza( 1 )</var>.</p>
+					<p data-tt="hint1" >The fraction on the left represents <var>A</var> out of <var>B</var> slices of a rectangular <var>pizza( 1 )</var>.</p>
 					<div class="graphie">
 						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
 						rectchart( [A, B - A], ["#e00", "#999"] );
 					</div>
 				</div>
 				<div>
-					<p>What if we cut the <var>pizza( 1 )</var> into <var>D</var> slices instead? How many slices would result in the same amount of <var>pizza( 1 )</var>?</p>
+					<p data-tt="hint2" >What if we cut the <var>pizza( 1 )</var> into <var>D</var> slices instead? How many slices would result in the same amount of <var>pizza( 1 )</var>?</p>
 					<div class="graphie">
 						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
 						rectchart( [0, D], ["#e00", "#999"] );
 					</div>
 				</div>
 				<div>
-					<p>We would need <var>C</var> slices.</p>
+					<p data-tt="hint3" >We would need <var>C</var> slices.</p>
 					<div class="graphie">
 						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
 						rectchart( [C, D - C], ["#e00", "#999"] );
 					</div>
 				</div>
-				<p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>D</var>}</code> and so the answer is <code><var>C</var></code>.</p>
+				<p data-tt="hint4" ><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>D</var>}</code> and so the answer is <code><var>C</var></code>.</p>
 
 				<div>
-					<p>Another way to get the answer is to multiply by <code>\dfrac{<var>M</var>}{<var>M</var>}</code>.</p>
-					<p><code>\dfrac{<var>M</var>}{<var>M</var>} = \dfrac{1}{1} = 1</code> so really we are multiplying by 1.</p>					
+					<p data-tt="hint5" >Another way to get the answer is to multiply by <code>\dfrac{<var>M</var>}{<var>M</var>}</code>.</p>
+					<p data-tt="hint6" ><code>\dfrac{<var>M</var>}{<var>M</var>} = \dfrac{1}{1} = 1</code> so really we are multiplying by 1.</p>					
 				</div>
-				<p>The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} = \dfrac{<var>C</var>}{<var>D</var>} </code> so our answer is <code><var>C</var></code>.</p>
+				<p data-tt="hint7" >The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} = \dfrac{<var>C</var>}{<var>D</var>} </code> so our answer is <code><var>C</var></code>.</p>
 
 			</div>
 		</div>
 
 		<div>
-			<p class="question">What number could replace <code><var>SYMBOL</var></code> below?</p>
+			<p  data-tt="question2" class="question">What number could replace <code><var>SYMBOL</var></code> below?</p>
 			<p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>SYMBOL</var>}</code></p>
 			<div class="solution" data-forms="integer"><var>D</var></div>
 			<div class="hints">
 				<div>
-					<p>The fraction on the left represents <var>A</var> out of <var>B</var> slices of a rectangular <var>pizza( 1 )</var>.</p>
+					<p data-tt="hint8" >The fraction on the left represents <var>A</var> out of <var>B</var> slices of a rectangular <var>pizza( 1 )</var>.</p>
 					<div class="graphie">
 						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
 						rectchart( [A, B - A], ["#e00", "#999"] );
@@ -68,7 +68,7 @@
 				</div>
 
 				<div>
-					<p>How many total slices would we need if we want the same amount of <var>pizza( 1 )</var> in <var>C</var> slices? </p>
+					<p data-tt="hint9" >How many total slices would we need if we want the same amount of <var>pizza( 1 )</var> in <var>C</var> slices? </p>
 					<div class="graphie">
 						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
 						rectchart( [C, D - C], ["#e00", "#fff"] );
@@ -76,20 +76,20 @@
 				</div>
 
 				<div>
-					<p>We would need to cut the <var>pizza( 1 )</var> into <var>D</var> slices.</p>
+					<p data-tt="hint10" >We would need to cut the <var>pizza( 1 )</var> into <var>D</var> slices.</p>
 					<div class="graphie">
 						init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
 						rectchart( [C, D - C], ["#e00", "#999"] );
 					</div>
 				</div>
-				<p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>D</var>}</code> and so the answer is <code><var>D</var></code>.</p>					
+				<p data-tt="hint11" ><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>D</var>}</code> and so the answer is <code><var>D</var></code>.</p>					
 
 				<div>
-					<p>Another way to get the answer is to multiply by <code>\dfrac{<var>M</var>}{<var>M</var>}</code>.</p>
-					<p><code>\dfrac{<var>M</var>}{<var>M</var>} = \dfrac{1}{1} = 1</code> so really we are multiplying by 1.</p>					
+					<p data-tt="hint12" >Another way to get the answer is to multiply by <code>\dfrac{<var>M</var>}{<var>M</var>}</code>.</p>
+					<p data-tt="hint13" ><code>\dfrac{<var>M</var>}{<var>M</var>} = \dfrac{1}{1} = 1</code> so really we are multiplying by 1.</p>					
 				</div>
 
-				<p>The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} = \dfrac{<var>C</var>}{<var>D</var>} </code> so our answer is <code><var>D</var></code>.</p>
+				<p data-tt="hint14" >The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} = \dfrac{<var>C</var>}{<var>D</var>} </code> so our answer is <code><var>D</var></code>.</p>
 
 			</div>
 		</div>

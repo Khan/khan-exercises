@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems">
+<html data-translatable data-require="math math-format word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Estimation with decimals</title>
@@ -41,9 +41,9 @@
 					})()
 				</var>
 			</div>
-			<p><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> every day for the last <var>VALUES.length</var> days.</p>
-			<p class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much <var>he( 1 )</var> <var>TYPES[ 1 ]</var> in total by rounding each amount to a whole number and then summing.</p>
-			<p>Note that if you sum all the amounts first and then round, you'll get <var>SUM.toFixed( 2 )</var>. For fun, pay attention to how this number compares with your estimate.</p>
+			<p data-tt="question1" ><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> every day for the last <var>VALUES.length</var> days.</p>
+			<p data-tt="question1" class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much <var>he( 1 )</var> <var>TYPES[ 1 ]</var> in total by rounding each amount to a whole number and then summing.</p>
+			<p data-tt="note1" >Note that if you sum all the amounts first and then round, you'll get <var>SUM.toFixed( 2 )</var>. For fun, pay attention to how this number compares with your estimate.</p>
 			<div class="fake_header estimation">
 				<span>Day</span>
 				<span>Amount</span>
@@ -57,7 +57,7 @@
 			</p>
 
 			<div class="hints">
-				<p>Round all the numbers to the nearest <var>TYPES[ 2 ]</var> and add them up.</p>
+				<p data-tt="hint1">Round all the numbers to the nearest <var>TYPES[ 2 ]</var> and add them up.</p>
 				<div class="fake_header estimation">
 					<span>Day</span>
 					<span>Amount</span>
@@ -70,7 +70,7 @@
 					<span><var>round( val )</var></span>
 					<span><var>ACC += round( val )</var></span>
 				</div>
-				<p>Therefore the estimate is <code><var>ANSWER</var></code> <var>plural( TYPES[ 2 ] )</var>.</p>
+				<p data-tt="hint2">Therefore the estimate is <code><var>ANSWER</var></code> <var>plural( TYPES[ 2 ] )</var>.</p>
 			</div>
 		</div>
 	</div>
