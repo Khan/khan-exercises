@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
+<html data-require="math graphie graphie-helpers math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Complex number polar form intuition</title>
@@ -25,7 +25,7 @@
 		}
 
 		function redrawFormula() {
-			var angleRep = "{" + currentAngle + " \\cdot {\\pi / 12}}";
+			var angleRep = KhanUtil.piFraction(currentAngle * Math.PI / 6);
 			var equation = "x = " + currentRadius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
 			equation = KhanUtil.cleanMath(equation);
 			jQuery("#number-label").html("<code>"+equation+"</code").tmpl();
@@ -83,6 +83,8 @@
 						tickStep: 1,
 						axisArrows: "<->"
 					});
+					label( [10, 0.5], "Re", "left");
+					label( [0.5, 9], "Im", "right");
 
 					circle( [REAL, IMAG], 1 / 4, {
 						fill: "blue",
