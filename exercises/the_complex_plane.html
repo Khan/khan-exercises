@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format interactive">
+<head>
+	<meta charset="UTF-8" />
+	<title>The complex plane</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="LOWER_BOUND">-5</var>
+		<var id="UPPER_BOUND">5</var>
+		<var id="REAL">randRange(LOWER_BOUND, UPPER_BOUND)</var>
+		<var id="IMAG" data-ensure="IMAG != 0">randRange(LOWER_BOUND, UPPER_BOUND)</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<p class="question">Move the orange dot to <code><var>REAL</var> + <var>IMAG</var>i</code>.</p>
+			<div class="graphie">
+				graphInit({
+					range: [ [ LOWER_BOUND - 1, UPPER_BOUND + 1], [ LOWER_BOUND - 1, UPPER_BOUND + 1 ] ],
+					tickStep: 1,
+					labelStep: 1,
+					scale: 30
+				});
+
+				label( [6, 0.5], "Re", "left");
+				label( [0.5, 5], "Im", "right");
+
+				addMouseLayer();
+				this.movablePoint = addMovablePoint({ constraints: {}, snapX: 0.5, snapY: 0.5 });
+				movablePoint.onMove = function(x, y) {
+					if (x &lt; LOWER_BOUND || x &gt; UPPER_BOUND || y &lt; LOWER_BOUND || y &gt; UPPER_BOUND) {
+						return false;
+					}
+					jQuery("#real-part input").val(x);
+					jQuery("#imaginary-part input").val(y);
+				};
+			</div>
+			<div class="solution" data-type="multiple">
+				<span class="sol" id="real-part" style="display: none"><var>REAL</var></span>
+				<span class="sol" id="imaginary-part" style="display: none"><var>IMAG</var></span>
+			</div>
+			<div class="hints">
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+
