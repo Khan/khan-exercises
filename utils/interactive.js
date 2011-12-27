@@ -1065,7 +1065,6 @@ jQuery.extend( KhanUtil, {
 			var placeholder = jQuery( "<li>" );
 			placeholder.addClass( "placeholder" );
 			container.addClass( "sortable ui-helper-clearfix" );
-			var leftEdge = list.offset().left;
 			var tileWidth = list.find( "li" ).outerWidth( true );
 			var numTiles = list.find( "li" ).length;
 
@@ -1074,7 +1073,7 @@ jQuery.extend( KhanUtil, {
 					if ( event.type === "vmousedown" && (event.which === 1 || event.which === 0) ) {
 						event.preventDefault();
 						jQuery( tile ).addClass( "dragging" );
-						var tileIndex = jQuery( this ).index()
+						var tileIndex = jQuery( this ).index();
 						placeholder.insertAfter( tile );
 						jQuery( this ).css( "z-index", 100 );
 						var offset = jQuery( this ).offset();
@@ -1094,6 +1093,7 @@ jQuery.extend( KhanUtil, {
 									left: event.pageX - click.left,
 									top: event.pageY - click.top
 								});
+								var leftEdge = list.offset().left;
 								var index = Math.max( 0, Math.min( numTiles - 1, Math.floor( ( event.pageX - leftEdge ) / tileWidth ) ) );
 								if ( index !== tileIndex ) {
 									tileIndex = index;
@@ -1103,7 +1103,7 @@ jQuery.extend( KhanUtil, {
 									} else {
 										placeholder.detach();
 										jQuery( tile ).detach();
-										var preceeding = list.find( "li" )[index - 1]
+										var preceeding = list.find( "li" )[index - 1];
 										placeholder.insertAfter( preceeding );
 										jQuery( tile ).insertAfter( preceeding );
 									}
@@ -1146,9 +1146,6 @@ jQuery.extend( KhanUtil, {
 				MathJax.Hub.Queue([ "Reprocess", MathJax.Hub, tile ]);
 			});
 		};
-
-		// Hide the scratchpad so the numbers are draggable
-		Khan.scratchpad.hide();
 
 		return sorter;
 	}

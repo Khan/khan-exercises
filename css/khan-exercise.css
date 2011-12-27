@@ -445,6 +445,8 @@ div.timeline-total {
 	border: 1px solid #ccc;
 	border-bottom: 1px solid #aaa;
 	padding: 13px;
+	position: relative;
+	z-index: 2;
 
 	box-shadow: 0 1px 2px #ccc;
 	-moz-box-shadow: 0 1px 2px #ccc;
