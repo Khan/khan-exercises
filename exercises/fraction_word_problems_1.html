@@ -4,7 +4,7 @@
 
 
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems">
+<html data-translatable data-require="math graphie graphie-helpers word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Fraction word problems 1</title>
@@ -21,13 +21,13 @@
 
 		<div class="problems">
 			<div id="show-total-want-eaten">
-				<p class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
-				<p class="question">If there were initially <var>TOTAL</var> slices, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
+				<p data-tt="problem1" class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
+				<p data-tt="question1" class="question">If there were initially <var>TOTAL</var> slices, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
 				<p class="solution" data-type="rational" data-simplify="optional"><var>(A + B) / TOTAL</var></p>
 				<div class="hints">
-					<p><code>\text{fraction of <var>pizza( 1 )</var> eaten} = \dfrac{\text{number of slices eaten}}{\text{number slices total}}</code></p>
+					<p data-tt="hint0"><code>\text{fraction of <var>pizza( 1 )</var> eaten} = \dfrac{\text{number of slices eaten}}{\text{number slices total}}</code></p>
 					<div>
-						<p>They ate <code>\color{#6495ED}{<var>A + B</var>}</code> out of <code><var>TOTAL</var></code> slices.</p>
+						<p data-tt="hint1">They ate <code>\color{#6495ED}{<var>A + B</var>}</code> out of <code><var>TOTAL</var></code> slices.</p>
 						<div class="graphie">
 							init({
 								range: [ [-2, 2], [-2, 2] ],
@@ -37,19 +37,19 @@
 							piechart( [ eaten, TOTAL - eaten ], [ "#6495ED", "#FFA500" ], 2 );
 						</div>
 					</div>
-					<p>They ate <code>\dfrac{<var>A + B</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>.</p>
+					<p data-tt="hint2">They ate <code>\dfrac{<var>A + B</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>.</p>
 				</div>
 			</div>
 
 			<div id="show-left-want-eaten">
-				<p class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
-				<p class="question">If there were <var>plural(LEFT, "slice")</var> remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
+				<p  data-tt="problem2" class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
+				<p  data-tt="question2" class="question">If there were <var>plural(LEFT, "slice")</var> remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
 				<p class="solution" data-type="rational" data-simplify="optional"><var>(A + B) / TOTAL</var></p>
 				<div class="hints">
 					<p><code>\text{fraction of <var>pizza( 1 )</var> eaten} = \dfrac{\text{number of slices eaten}}{\text{number slices total}}</code></p>
-					<p>Since they ate <var>A + B</var> slices of <var>pizza( 1 )</var> with <var>plural( LEFT, "slice" )</var> remaining, they must have begun with <var>TOTAL</var> slices.</p>
+					<p data-tt="hint3">Since they ate <var>A + B</var> slices of <var>pizza( 1 )</var> with <var>plural( LEFT, "slice" )</var> remaining, they must have begun with <var>TOTAL</var> slices.</p>
 					<div>
-						<p>They ate <code>\color{#6495ED}{<var>A + B</var>}</code> out of <code><var>TOTAL</var></code> slices.</p>
+						<p data-tt="hint4">They ate <code>\color{#6495ED}{<var>A + B</var>}</code> out of <code><var>TOTAL</var></code> slices.</p>
 						<div class="graphie">
 							init({
 								range: [ [-2, 2], [-2, 2] ],
@@ -59,19 +59,19 @@
 							piechart( [ eaten, TOTAL - eaten ], [ "#6495ED", "#FFA500" ], 2 );
 						</div>
 					</div>
-					<p>They ate <code>\dfrac{<var>A + B</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>.</p>
+					<p data-tt="hint5">They ate <code>\dfrac{<var>A + B</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>.</p>
 				</div>
 			</div>
 
 			<div id="show-first-want-eaten">
-				<p class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
-				<p class="question">If <var>person( 1 )</var> ate <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
+				<p  data-tt="problem3" class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
+				<p  data-tt="question3" class="question">If <var>person( 1 )</var> ate <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
 				<p class="solution" data-type="rational" data-simplify="optional"><var>(A + B) / TOTAL</var></p>
 				<div class="hints">
-					<p>If <var>plural( A, "slice")</var> represent<var>A &gt; 1 ? "" : "s"</var> <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, there must have been a total of <var>TOTAL</var> slices.</p>
+					<p data-tt="hint6">If <var>plural( A, "slice")</var> represent<var>A &gt; 1 ? "" : "s"</var> <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, there must have been a total of <var>TOTAL</var> slices.</p>
 					<p><code>\text{fraction of <var>pizza( 1 )</var> eaten} = \dfrac{\text{number of slices eaten}}{\text{number slices total}}</code></p>
 					<div>
-						<p>They ate <code>\color{#6495ED}{<var>A + B</var>}</code> out of <code><var>TOTAL</var></code> slices.</p>
+						<p data-tt="hint7">They ate <code>\color{#6495ED}{<var>A + B</var>}</code> out of <code><var>TOTAL</var></code> slices.</p>
 						<div class="graphie">
 							init({
 								range: [ [-2, 2], [-2, 2] ],
@@ -81,18 +81,18 @@
 							piechart( [ eaten, TOTAL - eaten ], [ "#6495ED", "#FFA500" ], 2 );
 						</div>
 					</div>
-					<p>They ate <code>\dfrac{<var>A + B</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>.</p>
+					<p data-tt="hint8">They ate <code>\dfrac{<var>A + B</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>.</p>
 				</div>
 			</div>
 
 			<div id="show-total-want-left">
-				<p class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
-				<p class="question">If there were initially <var>TOTAL</var> slices, what fraction of the <var>pizza( 1 )</var> is remaining?</p>
+				<p  data-tt="problem4" class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
+				<p  data-tt="question4" class="question">If there were initially <var>TOTAL</var> slices, what fraction of the <var>pizza( 1 )</var> is remaining?</p>
 				<p class="solution" data-type="rational" data-simplify="optional"><var>LEFT / TOTAL</var></p>
 				<div class="hints">
 					<p><code>\text{fraction of <var>pizza( 1 )</var> remaining} = \dfrac{\text{number of slices remaining}}{\text{number slices total}}</code></p>
 					<div>
-						<p>Together they ate <var>A + B</var> slices, which leaves <var>LEFT</var> out of <var>TOTAL</var> slices remaining.</p>
+						<p data-tt="hint9">Together they ate <var>A + B</var> slices, which leaves <var>LEFT</var> out of <var>TOTAL</var> slices remaining.</p>
 						<div class="graphie">
 							init({
 								range: [ [-2, 2], [-2, 2] ],
@@ -102,19 +102,19 @@
 							piechart( [ remaining, TOTAL - remaining ], [ "#FFA500", "#6495ED" ], 2 );
 						</div>
 					</div>
-					<p>There is <code>\dfrac{<var>LEFT</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var> remaining.</p>
+					<p data-tt="hint10">There is <code>\dfrac{<var>LEFT</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var> remaining.</p>
 				</div>
 			</div>
 
 			<div id="show-first-want-left">
-				<p class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
-				<p class="question">If <var>person( 1 )</var> ate <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, what fraction of the <var>pizza( 1 )</var> is remaining?</p>
+				<p  data-tt="problem5" class="problem"><var>person( 1 )</var> ate <var>plural( A, "slice" )</var> of <var>pizza( 1 )</var>, and <var>person( 2 )</var> ate <var>plural( B, "slice" )</var>.</p>
+				<p  data-tt="question5" class="question">If <var>person( 1 )</var> ate <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, what fraction of the <var>pizza( 1 )</var> is remaining?</p>
 				<p class="solution" data-type="rational" data-simplify="optional"><var>LEFT / TOTAL</var></p>
 				<div class="hints">
-					<p>If <var>plural( A, "slice" )</var> represent<var>A &gt; 1 ? "" : "s"</var> <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, there must have been a total of <var>TOTAL</var> slices.</p>
+					<p data-tt="hint11">If <var>plural( A, "slice" )</var> represent<var>A &gt; 1 ? "" : "s"</var> <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, there must have been a total of <var>TOTAL</var> slices.</p>
 					<p><code>\text{fraction of <var>pizza( 1 )</var> remaining} = \dfrac{\text{number of slices remaining}}{\text{number slices total}}</code></p>
 					<div>
-						<p>Together they ate <var>A + B</var> slices, which leaves <var>LEFT</var> out of <var>TOTAL</var> slices remaining.</p>
+						<p data-tt="hint12">Together they ate <var>A + B</var> slices, which leaves <var>LEFT</var> out of <var>TOTAL</var> slices remaining.</p>
 						<div class="graphie">
 							init({
 								range: [ [-2, 2], [-2, 2] ],
@@ -124,7 +124,7 @@
 							piechart( [ remaining, TOTAL - remaining ], [ "#FFA500", "#6495ED" ], 2 );
 						</div>
 					</div>
-					<p>There is <code>\dfrac{<var>LEFT</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var> remaining.</p>
+					<p data-tt="hint13">There is <code>\dfrac{<var>LEFT</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var> remaining.</p>
 				</div>
 			</div>
 
@@ -136,13 +136,13 @@
 					<var id="SOLUTION">N / D * INVITEES</var>
 				</div>
 
-				<p class="problem spin"><var>person( 1 )</var> invited <var>INVITEES</var> friends to <var>his( 1 )</var> birthday party. Some people had other plans and could not attend, but <var>N</var>/<var>D</var> of the people <var>person( 1 )</var> invited were able to attend.</p>
-				<p class="question">How many people went to <var>person( 1 )</var>’s birthday party?</p>
+				<p  data-tt="problem6" class="problem spin"><var>person( 1 )</var> invited <var>INVITEES</var> friends to <var>his( 1 )</var> birthday party. Some people had other plans and could not attend, but <var>N</var>/<var>D</var> of the people <var>person( 1 )</var> invited were able to attend.</p>
+				<p  data-tt="question6" class="question">How many people went to <var>person( 1 )</var>’s birthday party?</p>
 
 				<div class="solution"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>We can multiply <code>\dfrac{<var>N</var>}{<var>D</var>}</code> by <code><var>INVITEES</var></code> to find out how many people attended the party.</p>
+					<p data-tt="hint14">We can multiply <code>\dfrac{<var>N</var>}{<var>D</var>}</code> by <code><var>INVITEES</var></code> to find out how many people attended the party.</p>
 					<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>INVITEES</var></code></p>
 					<p data-if="getGCD( D, INVITEES ) !== 1"><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>INVITEES</var></code></p>
 					<div class="graphie">
@@ -151,7 +151,7 @@
 							rectchart( [ N, D - N ], ["#e00", "#999" ], y );
 						}
 					</div>
-					<p><code>\color{#e00}{\dfrac{<var>N * INVITEES</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
+					<p data-tt="hint15"><code>\color{#e00}{\dfrac{<var>N * INVITEES</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
 					<strong><var>SOLUTION</var> people attended <var>person( 1 )</var>’s party.</strong>
 				</div>
 			</div>
@@ -164,14 +164,14 @@
 					<var id="SOLUTION">roundTo( 2, N / D * AMOUNT )</var>
 				</div>
 
-				<p class="problem spin">After saving up for a while, <var>person( 1 )</var> had $<var>AMOUNT</var> in <var>his( 1 )</var> piggy bank, and <var>he( 1 )</var> spent <var>N</var>/<var>D</var> of that money on books at the bookstore.</p>
-				<p class="question">How much money did <var>person( 1 )</var> spend?</p>
-				<p class="extra-info">Round to the nearest cent, or hundredth of a dollar.</p>
+				<p  data-tt="problem7" class="problem spin">After saving up for a while, <var>person( 1 )</var> had $<var>AMOUNT</var> in <var>his( 1 )</var> piggy bank, and <var>he( 1 )</var> spent <var>N</var>/<var>D</var> of that money on books at the bookstore.</p>
+				<p  data-tt="question7" class="question">How much money did <var>person( 1 )</var> spend?</p>
+				<p data-tt="info1" class="extra-info">Round to the nearest cent, or hundredth of a dollar.</p>
 
 				<div class="solution" data-forms="dollar"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>We, we can multiply <code><var>AMOUNT</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code>  to find out how much money <var>person( 1 )</var> spent.</p>
+					<p data-tt="hint16">We, we can multiply <code><var>AMOUNT</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code>  to find out how much money <var>person( 1 )</var> spent.</p>
 					<div>
 						<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>AMOUNT</var></code></p>
 						<div class="graphie">
@@ -182,7 +182,7 @@
 						</div>
 					</div>
 					<p><code>\color{#e00}{\dfrac{<var>N * AMOUNT</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
-					<p><strong><var>person( 1 )</var> spent $<var>SOLUTION</var> on books.</strong></p>
+					<p data-tt="hint17"><strong><var>person( 1 )</var> spent $<var>SOLUTION</var> on books.</strong></p>
 				</div>
 			</div>
 
@@ -194,14 +194,14 @@
 					<var id="SOLUTION">roundTo( 2, N / D * AMOUNT )</var>
 				</div>
 
-				<p class="problem spin">Every day <var>person( 1 )</var> put the extra change from <var>his( 1 )</var> pockets into a glass jar. After <var>randRange( 10, 30 )</var> weeks, <var>person( 1 )</var> had saved up $<var>AMOUNT</var>. <var>person( 1 )</var> decided to use <var>N</var>/<var>D</var> of the money from the jar to buy canned food for a homeless shelter.</p>
-				<p class="question">How much money did <var>person( 1 )</var> spend on canned food?</p>
-				<p class="extra-info">Round to the nearest cent, or hundredth of a dollar.</p>
+				<p  data-tt="problem8"  class="problem spin">Every day <var>person( 1 )</var> put the extra change from <var>his( 1 )</var> pockets into a glass jar. After <var>randRange( 10, 30 )</var> weeks, <var>person( 1 )</var> had saved up $<var>AMOUNT</var>. <var>person( 1 )</var> decided to use <var>N</var>/<var>D</var> of the money from the jar to buy canned food for a homeless shelter.</p>
+				<p  data-tt="question8" class="question">How much money did <var>person( 1 )</var> spend on canned food?</p>
+				<p data-tt="info2" class="extra-info">Round to the nearest cent, or hundredth of a dollar.</p>
 
 				<div class="solution" data-forms="dollar"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>We can multiply <code><var>AMOUNT</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find out how much money <var>person( 1 )</var> spent on canned food.</p>
+					<p data-tt="hint18">We can multiply <code><var>AMOUNT</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find out how much money <var>person( 1 )</var> spent on canned food.</p>
 					<div>
 						<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>AMOUNT</var></code></p>
 						<div class="graphie">
@@ -212,7 +212,7 @@
 						</div>
 					</div>
 					<p><code>\color{#e00}{\dfrac{<var>N * AMOUNT</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
-					<p><strong><var>person( 1 )</var> spent $<var>SOLUTION</var> on canned food for the homeless shelter.</strong></p>
+					<p data-tt="hint19"><strong><var>person( 1 )</var> spent $<var>SOLUTION</var> on canned food for the homeless shelter.</strong></p>
 				</div>
 			</div>
 
@@ -224,13 +224,13 @@
 					<var id="SOLUTION">N / D * GALLONS</var>
 				</div>
 
-				<p class="problem spin">Before leaving on a road trip, <var>person( 1 )</var> filled up <var>his( 1 )</var> gas tank, which holds <var>GALLONS</var> gallons of gas. After <var>0.5 * randRange( 3 / 0.5, 10 / 0.5 )</var> hours, <var>person( 1 )</var> noticed that the gas tank was <var>N</var>/<var>D</var> full.</p>
-				<p class="question">How many gallons of gas were left in the tank?</p>
+				<p  data-tt="problem9" class="problem spin">Before leaving on a road trip, <var>person( 1 )</var> filled up <var>his( 1 )</var> gas tank, which holds <var>GALLONS</var> gallons of gas. After <var>0.5 * randRange( 3 / 0.5, 10 / 0.5 )</var> hours, <var>person( 1 )</var> noticed that the gas tank was <var>N</var>/<var>D</var> full.</p>
+				<p  data-tt="question9" class="question">How many gallons of gas were left in the tank?</p>
 
 				<div class="solution"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>Since a fraction of the gas in <var>his( 1 )</var> tank was left, we can multiply <code><var>GALLONS</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find out how much gas was left in the tank.</p>
+					<p data-tt="hint20">Since a fraction of the gas in <var>his( 1 )</var> tank was left, we can multiply <code><var>GALLONS</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find out how much gas was left in the tank.</p>
 					<div>
 						<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>GALLONS</var></code></p>
 						<div class="graphie">
@@ -241,7 +241,7 @@
 						</div>
 					</div>
 					<p><code>\color{#e00}{\dfrac{<var>N * GALLONS</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
-					<p><strong><var>person( 1 )</var> had <var>SOLUTION</var> gallons of gas left in <var>his( 1 )</var> tank when <var>he( 1 )</var> checked.</strong></p>
+					<p data-tt="hint21"><strong><var>person( 1 )</var> had <var>SOLUTION</var> gallons of gas left in <var>his( 1 )</var> tank when <var>he( 1 )</var> checked.</strong></p>
 				</div>
 			</div>
 
@@ -253,13 +253,13 @@
 					<var id="SOLUTION">N / D * ATTENDEES</var>
 				</div>
 
-				<p class="problem spin"><var>ATTENDEES</var> people had a picnic in the park. <var>N</var>/<var>D</var> of the people at the picnic were adults.</p>
-				<p class="question">How many adults were at the picnic?</p>
+				<p  data-tt="problem10" class="problem spin"><var>ATTENDEES</var> people had a picnic in the park. <var>N</var>/<var>D</var> of the people at the picnic were adults.</p>
+				<p  data-tt="question10" class="question">How many adults were at the picnic?</p>
 
 				<div class="solution"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>We can multiply <code><var>ATTENDEES</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find out how many people at the picnic were adults.</p>
+					<p data-tt="hint22">We can multiply <code><var>ATTENDEES</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find out how many people at the picnic were adults.</p>
 					<div>
 						<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>ATTENDEES</var></code></p>
 						<div class="graphie">
@@ -270,7 +270,7 @@
 						</div>
 					</div>
 					<p><code>\color{#e00}{\dfrac{<var>N * ATTENDEES</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
-					<p><strong><var>SOLUTION</var> people at the picnic were adults.</strong></p>
+					<p data-tt="hint23"><strong><var>SOLUTION</var> people at the picnic were adults.</strong></p>
 				</div>
 			</div>
 		</div>
