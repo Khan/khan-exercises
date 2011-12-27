@@ -306,16 +306,23 @@ jQuery.extend( KhanUtil, {
 						mouseX = Math.max(10, Math.min(graph.xpixels-10, mouseX));
 						mouseY = Math.max(10, Math.min(graph.ypixels-10, mouseY));
 
-						// snap to grid
-						if (movablePoint.snapX) {
+						// snap mouse to grid
+						if ( movablePoint.snapX !== 0 ) {
 							mouseX = Math.round(mouseX / (graph.scale[0] * movablePoint.snapX)) * (graph.scale[0] * movablePoint.snapX);
 						}
-						if (movablePoint.snapY) {
+						if ( movablePoint.snapY !== 0 ) {
 							mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
 						}
 						// coord{X|Y} are the scaled coordinate values
 						var coordX = mouseX / graph.scale[0] + graph.range[0][0];
 						var coordY = graph.range[1][1] - mouseY / graph.scale[1];
+						// snap coordinates to grid
+						if ( movablePoint.snapX !== 0 ) {
+							coordX = Math.round( coordX / movablePoint.snapX ) * movablePoint.snapX;
+						}
+						if ( movablePoint.snapY !== 0 ) {
+							coordY = Math.round( coordY / movablePoint.snapY ) * movablePoint.snapY;
+						}
 						// apply any constraints on movement
 						var coord = movablePoint.applyConstraint([ coordX, coordY ]);
 						coordX = coord[0];
