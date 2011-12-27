@@ -17,7 +17,7 @@
 	<div class="problems">
 		<div>
 			<p class="question">Move the orange dot to <code><var>REAL</var> + <var>IMAG</var>i</code>.</p>
-			<div class="graphie">
+			<div class="graphie" id="gauss-plane">
 				graphInit({
 					range: [ [ LOWER_BOUND - 1, UPPER_BOUND + 1], [ LOWER_BOUND - 1, UPPER_BOUND + 1 ] ],
 					tickStep: 1,
@@ -43,6 +43,35 @@
 				<span class="sol" id="imaginary-part" style="display: none"><var>IMAG</var></span>
 			</div>
 			<div class="hints">
+				<p>
+					Complex numbers can be visualized as points on the Gauss plane. The coordinates on the
+					real and imaginary axes correspond to the real and imaginary parts of the complex number.
+				</p>
+				<p>
+					<code><var>REAL</var> + <var>IMAG</var>i</code> has real part <var>REAL</var> and imaginary part <var>IMAG</var>.
+				</p>
+				<div>
+					<div class="graphie" data-update="gauss-plane">
+						style({ stroke: "red", strokeWidth: 2.0 });
+						line( [ REAL, LOWER_BOUND - 1 ], [ REAL, UPPER_BOUND + 1 ] );
+						movablePoint.visibleShape().toFront();
+					</div>
+					<p>The red line represents all complex numbers with real part <var>REAL</var> (including <code><var>REAL</var> + <var>IMAG</var>i</code>).
+				</div>
+				<div>
+					<div class="graphie" data-update="gauss-plane">
+						style({ stroke: "blue", strokeWidth: 2.0 });
+						line( [ LOWER_BOUND - 1, IMAG ], [ UPPER_BOUND + 1, IMAG ] );
+						movablePoint.visibleShape.toFront();
+					</div>
+					<p>The blue line represents all complex numbers with imaginary part <var>IMAG</var>, also including <code><var>REAL</var> + <var>IMAG</var>i</code>.
+				</div>
+				<div>
+					<div class="graphie" data-update="gauss-plane">
+						movablePoint.moveTo( REAL, IMAG );
+					</div>
+					<p>The only complex number with real part <var>REAL</var> and imaginary part <var>IMAG</var> is <code><var>REAL</var> + <var>IMAG</var>i</code>, so it lies on the intersection of the red line and the blue line.</p>
+				</div>
 			</div>
 		</div>
 	</div>
