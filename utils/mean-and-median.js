@@ -58,8 +58,8 @@ jQuery.extend( KhanUtil, {
 			median /= 2;
 		}
 
-		KhanUtil.updateMean( mean );
-		KhanUtil.updateMedian( median );
+		KhanUtil.updateMean( KhanUtil.roundTo( 2, mean ) );
+		KhanUtil.updateMedian( KhanUtil.roundTo( 2, median ) );
 	},
 
 
