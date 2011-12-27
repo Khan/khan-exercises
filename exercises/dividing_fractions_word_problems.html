@@ -7,18 +7,6 @@
 </head>
 <body>
 	<div class="exercise">
-		<var>
-			// Add \cancel{} and \bcancel{} to MathJax
-			(function() {
-				MathJax.InputJax.TeX.Definitions.macros.cancel  = [ "Cancel", MathJax.ElementJax.mml.NOTATION.UPDIAGONALSTRIKE ];
-				MathJax.InputJax.TeX.Definitions.macros.bcancel = [ "Cancel", MathJax.ElementJax.mml.NOTATION.DOWNDIAGONALSTRIKE ];
-				MathJax.InputJax.TeX.Parse.Augment({
-					Cancel: function (name,notation) {
-						this.Push( MathJax.ElementJax.mml.menclose( this.ParseArg( name ) ).With({ notation:notation }) );
-					}
-				});
-			})()
-		</var>
 		<div class="problems">
 
 			<div id="candy">
