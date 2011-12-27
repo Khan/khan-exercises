@@ -62,7 +62,7 @@
 
 
 				<div class="graphie" id="boxplot">
-					init({ range: [[ -2, 18 ], [ -4, 2 ]], scale: [ 30, 30 ] });
+					init({ range: [[ -2, 18 ], [ -6, 2 ]], scale: [ 30, 30 ] });
 
 					addMouseLayer();
 					line( [ 0, -2 ], [ 15, -2 ] );
@@ -184,7 +184,6 @@
 			<p>Plot the sample minimum (smallest number):<p>
 			<p><code>\qquad \large{\color{<var>PINK</var>}{<var>MIN</var>}, <var>SORTED_DATA.slice( 1 ).join( ", " )</var>}</code></p>
 			<div class="graphie" data-update="boxplot">
-				init({ range: [[ -2, 18 ], [ -6, 2 ]], scale: [ 30, 30 ] });
 				style({ stroke: PINK, fill: PINK }, function() {
 					circle( [ MIN, -4.5 ], 0.13 );
 				});
@@ -218,7 +217,8 @@
 		<div>
 			<p>
 				Plot the first quartile (halfway between the smallest number and the middle number). Since there isn't
-				a single number halfway between the smallest number and the median, average the two numbers:
+				a single number halfway between the smallest number and the median, average the two numbers to get
+				<code class="hint_pink"><var>Q1</var></code>:
 			<p>
 			<p><code>
 				\qquad \large{<var>SORTED_DATA.slice( 0, 3 ).join( ", " )</var>,
@@ -236,10 +236,11 @@
 		<div>
 			<p>
 				Plot the third quartile (halfway between the middle number and the largest number). Since there isn't
-				a single number halfway between the median and the largest number, average the two numbers:
+				a single number halfway between the median and the largest number, average the two numbers to get
+				<code class="hint_pink"><var>Q3</var></code>:
 			<p>
 			<p><code>
-				\qquad \large{<var>SORTED_DATA.slice( 0, 11 ).join( ", " )</var>,
+				\qquad \large{<var>SORTED_DATA.slice( 0, 10 ).join( ", " )</var>,
 				\color{<var>PINK</var>}{<var>SORTED_DATA[10]</var>},
 				\color{<var>PINK</var>}{<var>SORTED_DATA[11]</var>},
 				<var>SORTED_DATA.slice( 12 ).join( ", " )</var>}
