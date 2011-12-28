@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-translatable data-require="math">
 <head>
 	<meta charset="UTF-8" />
 	<title>Kinematic equations</title>
@@ -61,8 +61,8 @@
 				</div>
 
 				<div class="question">
-					<p>Solve for <code><var>UNKNOWN</var></code>. Round to the nearest tenth.</p>
-					<p>Make sure you select the proper units. You may do arithmetic with a calculator. If there is more than one correct solution, you may enter either one.</p>
+					<p data-tt="question1">Solve for <code><var>UNKNOWN</var></code>. Round to the nearest tenth.</p>
+					<p data-tt="question2">Make sure you select the proper units. You may do arithmetic with a calculator. If there is more than one correct solution, you may enter either one.</p>
 				</div>
 
 				<div class="solution" data-type="set" data-show-unused="true">
@@ -114,7 +114,7 @@
 						</span>
 					</p>
 
-					<p class="example">a decimal <em>and</em> a unit of measure</p>
+					<p class="example" data-tt="question3">a decimal <em>and</em> a unit of measure</p>
 				</div>
 			</div>
 
@@ -195,11 +195,11 @@
 				<div data-if="UNKNOWN === 't'" data-unwrap>
 					<p><code>0 = -\frac{1}{2}a*t^2 + v_f*t - d</code></p>
 					<div>
-						<p>By the quadratic formula:</p>
+						<p data-tt="hint1">By the quadratic formula:</p>
 						<p><code>t = \dfrac{ -v_f \pm \sqrt{ v_f^2 - 2ad } }{-a}</code></p>
 					</div>
 					<p><code>t = \dfrac{-(<var>V_FINAL</var> \frac{\text{m}}{\text{s}}) \pm \sqrt{(<var>V_FINAL</var> \frac{\text{m}}{\text{s}})^2 - 2(<var>ACCEL</var> \frac{\text{m}}{\text{s}^2})(<var>DISP</var> \text{m})}}{-(<var>ACCEL</var> \frac{\text{m}}{\text{s}^2})}</code></p>
-					<p data-if="QUADRATIC_TWO_SOLUTION">
+					<p data-if="QUADRATIC_TWO_SOLUTION" data-tt="hint2">
 						The quadratic has two solutions. Without making any assumptions about the direction of <code>v_i</code>, 
 						either one could be correct. Intuitively, you can imagine throwing an object upward or downward in such a way
 						that they will both have the same downward velocity at the same point in space, but the one thrown downward 
@@ -236,11 +236,11 @@
 				<div data-if="UNKNOWN === 't'" data-unwrap>
 					<p><code>0 = \frac{1}{2} at^2 + v_i t - d</code></p>
 					<div>
-						<p>By the quadratic formula:</p>
+						<p data-tt="hint3">By the quadratic formula:</p>
 						<p><code>t = \dfrac{ -v_i \pm \sqrt{v_i^2 + 2ad} }{a}</code></p>
 					</div>
 					<p><code>t = \dfrac{-(<var>V_INIT</var> \frac{\text{m}}{\text{s}}) \pm \sqrt{(<var>V_INIT</var> \frac{\text{m}}{\text{s}})^2 + 2(<var>ACCEL</var> \frac{\text{m}}{\text{s}^2})(<var>DISP</var> \text{m})}}{<var>ACCEL</var> \frac{\text{m}}{\text{s}^2}}</code></p>
-					<p data-if="QUADRATIC_TWO_SOLUTION">
+					<p data-if="QUADRATIC_TWO_SOLUTION" data-tt="hint4">
 						The quadratic has two solutions. Without making any assumptions about the direction of <code>v_f</code>, 
 						either one could be correct. Intuitively, this is because an object moving upward at velocity <code>v</code>
 						at one point in time will eventually be falling at the same speed (<code>-v</code>) at a different point in time.
@@ -292,29 +292,29 @@
 				<div data-if="UNKNOWN === 'v_i'" data-unwrap>
 					<p><code>\pm\sqrt{v_f^2 - 2ad} = v_i</code></p>
 					<p><code>\pm\sqrt{(<var>V_FINAL</var> \frac{\text{m}}{\text{s}})^2 - 2(<var>ACCEL</var> \frac{\text{m}}{\text{s}^2})(<var>DISP</var> \text{m})} = v_i</code></p>
-					<p data-if="ACCEL != 0">
+					<p data-if="ACCEL != 0" data-tt="hint5">
 						Without making any assumptions about <code>t</code>, either direction for <code>v_i</code> could be correct.
 						Imagine throwing an object upward at velocity <code>v</code> compared to throwing it downward at the same
 						speed (<code>-v</code>). In both cases it will reach the same final velocity <code>v_f</code> at the same
 						point in space; it will just take different amounts of time to get there.
 					</p>
 					<p><code>v_i = <var>roundTo(1, V_INIT)</var> \frac{\text{m}}{\text{s}} \text{ or } <var>roundTo(1, -V_INIT)</var> \frac{\text{m}}{\text{s}}</code></p>
-					<p data-if="ACCEL == 0">However, we also know <code>a = 0 \frac{\text{m}}{\text{s}^2}</code></p>
-					<p data-if="ACCEL == 0">We know intuitively that with zero acceleration <code>v_i</code> must equal <code>v_f</code>, so <code>v_i = <var>roundTo(1, V_INIT)</var> \frac{\text{m}}{\text{s}}</code></p> 
+					<p data-if="ACCEL == 0" data-tt="hint6">However, we also know <code>a = 0 \frac{\text{m}}{\text{s}^2}</code></p>
+					<p data-if="ACCEL == 0" data-tt="hint7">We know intuitively that with zero acceleration <code>v_i</code> must equal <code>v_f</code>, so <code>v_i = <var>roundTo(1, V_INIT)</var> \frac{\text{m}}{\text{s}}</code></p> 
 				</div>
 
 				<div data-if="UNKNOWN === 'v_f'" data-unwrap>
 					<p><code>v_f = \pm\sqrt{v_i^2 + 2ad}</code></p>
 					<p><code>v_f = \pm\sqrt{(<var>V_INIT</var> \frac{\text{m}}{\text{s}})^2 + 2(<var>ACCEL</var> \frac{\text{m}}{\text{s}^2})(<var>DISP</var> \text{m})}</code></p>
-					<p data-if="ACCEL != 0">
+					<p data-if="ACCEL != 0" data-tt="hint8">
 						Without making any assumptions about <code>t</code>, either direction for <code>v_f</code> could be correct.
 						Imagine an object traveling upward at velocity <code>v_i</code>. It will reach a particular velocity
 						<code>v</code> on the way up, then reach the same speed in the opposite direction (<code>-v</code>) on the
 						way down at the same point in space; it will just take a different amount of time to get there.
 					</p>
 					<p><code>v_f = <var>roundTo(1, V_FINAL)</var> \frac{\text{m}}{\text{s}} \text{ or } <var>roundTo(1, -V_FINAL)</var> \frac{\text{m}}{\text{s}}</code></p>
-					<p data-if="ACCEL == 0">However, we also know <code>a = 0 \frac{\text{m}}{\text{s}^2}</code></p>
-					<p data-if="ACCEL == 0">We know intuitively that with zero acceleration <code>v_f</code> must equal <code>v_i</code>, so <code>v_f = <var>roundTo(1, V_FINAL)</var> \frac{\text{m}}{\text{s}}</code></p> 
+					<p data-if="ACCEL == 0" data-tt="hint9">However, we also know <code>a = 0 \frac{\text{m}}{\text{s}^2}</code></p>
+					<p data-if="ACCEL == 0" data-tt="hint10">We know intuitively that with zero acceleration <code>v_f</code> must equal <code>v_i</code>, so <code>v_f = <var>roundTo(1, V_FINAL)</var> \frac{\text{m}}{\text{s}}</code></p> 
 				</div>
 
 				<div data-if="UNKNOWN === 'a'" data-unwrap>
