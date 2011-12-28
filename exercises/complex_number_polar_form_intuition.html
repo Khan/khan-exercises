@@ -83,6 +83,30 @@
 						tickStep: 1,
 						axisArrows: "<->"
 					});
+
+					// Draw lines of cplx. numbers with same angle and
+					// circles of cplx. numbers with same radius to help the intuition.
+
+					style({
+						strokeWidth: 1.0
+					});
+
+					var safeRadius = 10 * sqrt(2);
+					
+					for (var i = 1; i &lt;= safeRadius; i++) {
+						circle( [0, 0], i, {
+							fill: "none",
+							stroke: "#eee"
+						});
+					}
+
+					for (var i = 0; i &lt; 12; i++) {
+						var angle = i * PI / 6;
+						if (i % 3 != 0) { // Don't draw over axes.
+							line( [ 0, 0 ], [ sin(angle) * safeRadius, cos(angle) * safeRadius ], { stroke: "#eee" });
+						}
+					}
+
 					label( [10, 0.5], "Re", "left");
 					label( [0.5, 9], "Im", "right");
 
