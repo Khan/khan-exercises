@@ -319,8 +319,7 @@ jQuery.extend( KhanUtil, {
 						if ( movablePoint.snapY !== 0 ) {
 							mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
 						}
-						
-						// NOTE: redundancy with functions in angles.js and time.js
+
 						// snap to points around circle
 						if ( movablePoint.constraints.fixedDistance.snapPoints ) { 
 
