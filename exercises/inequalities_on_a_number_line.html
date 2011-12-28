@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
+<html data-translatable data-require="math math-format graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>Inequalities on a number line</title>
@@ -119,7 +119,7 @@
 	<div class="problems">
 		<div id="line_from_equation">
 			<div class="question">
-				<p>Which graph on the number line represents <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>?</p>
+				<p data-tt="question1">Which graph on the number line represents <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>?</p>
 
 				<div class="graphie" data-each="LINE_LABELS as index, label">
 					numberLineWithArrowAndMistakes(
@@ -137,7 +137,7 @@
 
 			<div class="hints">
 				
-				<p>First, draw a number line with at least a few numbers on each side of <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
+				<p data-tt="hint1">First, draw a number line with at least a few numbers on each side of <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
 				<div class="graphie" id="number_line_hint">
 
 					// Draw number line only
@@ -157,21 +157,21 @@
 
 			   <div class="graphie" data-update="number_line_hint">pt.show();</div>
 
-			   <p data-if="LESS_THAN">
+			   <p data-if="LESS_THAN" data-tt="hint2">
 				   Now draw an arrow to the left of the circle to include all numbers less than <code><var>SIGN + ( INT + FRAC )</var></code>.
-			   </p><p data-else>
+			   </p><p data-else data-tt="hint3">
 				   Now draw an arrow to the right of the circle to include all numbers greater than <code><var>SIGN + ( INT + FRAC )</var></code>.
 				</p>
 
 			   <div class="graphie" data-update="number_line_hint">arrow.show();</div>
 
-			   <p>This looks like it matches the arrow and circle from Graph <var>LINE_SOLUTION</var> above.</p>
+			   <p data-tt="hint4">This looks like it matches the arrow and circle from Graph <var>LINE_SOLUTION</var> above.</p>
 			</div>
 		</div>
 
 		<div id="equation_from_line">
 			<div class="question">
-				<p>Determine the inequality represented by this graph on the number line:</p>
+				<p data-tt="question2">Determine the inequality represented by this graph on the number line:</p>
 
 				<div class="graphie">
 					numberLineWithArrowAndMistakes(
@@ -191,15 +191,15 @@
 
 			<div class="hints">
 
-				<p data-if="LESS_THAN">
+				<p data-if="LESS_THAN" data-tt="hint5">
 					The arrow is pointing to the left of <code><var>SIGN + INT</var></code>, so everything less than <code><var>SIGN + INT</var></code> is included.
-				</p><p data-else>
+				</p><p data-else data-tt="hint6">
 					The arrow is pointing to the right of <code><var>SIGN + INT</var></code>, so everything greater than <code><var>SIGN + INT</var></code> is included.
 				</p>
 
-				<p data-if="INCLUSIVE">
+				<p data-if="INCLUSIVE" data-tt="hint7">
 					The circle is filled in, so <code><var>SIGN + INT</var></code> itself is also included.
-				</p><p data-else>
+				</p><p data-else data-tt="hint8">
 					The circle is not filled in, so <code><var>SIGN + INT</var></code> itself is not included.
 				</p>
 
