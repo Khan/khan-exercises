@@ -12,16 +12,20 @@
 		<var id="A_IMAG">randRange(-5, 5)</var>
 		<var id="B_REAL">randRange(-5, 5)</var>
 		<var id="B_IMAG">randRange(-5, 5)</var>
+		<var id="OPERATION">randFromArray(["add", "subtract"])</var>
+		<var id="OPERATOR">(OPERATION == "add" ? "+" : "-")</var>
+		<var id="ANSWER_REAL">
+			(OPERATION == "add" ? (A_REAL + B_REAL) : (A_REAL - B_REAL))
+		</var>
+		<var id="ANSWER_IMAG">
+			(OPERATION == "add" ? (A_IMAG + B_IMAG) : (A_IMAG - B_IMAG))
+		</var>
 	</div>
 
 	<div class="problems">
-		<div id="add">
-			<div class="vars">
-				<var id="ANSWER_REAL">A_REAL + B_REAL</var>
-				<var id="ANSWER_IMAG">A_IMAG + B_IMAG</var>
-			</div>
-			<p class="question">Add the following complex numbers:</p>
-			<p><code>(<var>A_REAL</var> + <var>A_IMAG</var>i) + (<var>B_REAL</var> + <var>B_IMAG</var>i)</code></p>
+		<div>
+			<p class="question"><var>OPERATION == "add" ? "Add" : "Subtract"</var> the following complex numbers:</p>
+			<p><code>(<var>A_REAL</var> + <var>A_IMAG</var>i) <var>OPERATOR</var> (<var>B_REAL</var> + <var>B_IMAG</var>i)</code></p>
 			<div class="solution" data-type="multiple">
 				<p>Real part = <span class="sol" data-type="decimal"><var>ANSWER_REAL</var><span></p>
 				<p>Imaginary part = <span class="sol" data-type="decimal"><var>ANSWER_IMAG</var></span></p>
@@ -29,46 +33,15 @@
 			</div>
 			<div class="hints">
 				<p>
-					Complex numbers can be added by separately adding their real and imaginary components.
+					Complex numbers can be <var>OPERATION</var>ed by separately <var>OPERATION</var>ing their real and imaginary components.
 				</p>
 				<p>
 					The real components of the two complex numbers are <var>A_REAL</var> and <var>B_REAL</var>, respectively,
-					so the real component of the result will be <code><var>A_REAL</var> + <var>B_REAL</var></code>, which equals <var>ANSWER_REAL</var>.
+					so the real component of the result will be <code><var>A_REAL</var> <var>OPERATOR</var> <var>B_REAL</var></code>, which equals <var>ANSWER_REAL</var>.
 				</p>
 				<p>
 					The imaginary components of the two complex numbers are <var>A_IMAG</var> and <var>B_IMAG</var>, respectively,
-					so the imaginary component of the result will be <code><var>A_IMAG</var> + <var>B_IMAG</var></code>, which equals <var>ANSWER_IMAG</var>.
-				</p>
-				<p>
-					The result is <code><var>ANSWER_REAL</var> + <var>ANSWER_IMAG</var>i</code>; its real component is <var>ANSWER_REAL</var>
-					and its complex component is <var>ANSWER_IMAG</var>.
-				</p>
-			</div>
-		</div>
-
-		<div id="subtract">
-			<div class="vars">
-				<var id="ANSWER_REAL">A_REAL - B_REAL</var>
-				<var id="ANSWER_IMAG">A_IMAG - B_IMAG</var>
-			</div>
-			<p class="question">Subtract the following complex numbers:</p>
-			<p><code>(<var>A_REAL</var> + <var>A_IMAG</var>i) - (<var>B_REAL</var> + <var>B_IMAG</var>i)</code></p>
-			<div class="solution" data-type="multiple">
-				<p>Real part = <span class="sol" data-type="decimal"><var>ANSWER_REAL</var></span></p>
-				<p>Imaginary part = <span class="sol" data-type="decimal"><var>ANSWER_IMAG</var></span></p>
-				<p class="example">the separate parts of a complex number (<code>5 + 3i</code> has real part 5, imaginary part 3)</p>	
-			</div>
-			<div class="hints">
-				<p>
-					Complex numbers can be subtracted by separately subtracting their real and imaginary components.
-				</p>
-				<p>
-					The real components of the two complex numbers are <var>A_REAL</var> and <var>B_REAL</var>, respectively,
-					so the real component of the result will be <code><var>A_REAL</var> - <var>B_REAL</var></code>, which equals <var>ANSWER_REAL</var>.
-				</p>
-				<p>
-					The imaginary components of the two complex numbers are <var>A_IMAG</var> and <var>B_IMAG</var>, respectively,
-					so the imaginary component of the result will be <code><var>A_IMAG</var> - <var>B_IMAG</var></code>, which equals <var>ANSWER_IMAG</var>.
+					so the imaginary component of the result will be <code><var>A_IMAG</var> <var>OPERATOR</var> <var>B_IMAG</var></code>, which equals <var>ANSWER_IMAG</var>.
 				</p>
 				<p>
 					The result is <code><var>ANSWER_REAL</var> + <var>ANSWER_IMAG</var>i</code>; its real component is <var>ANSWER_REAL</var>
@@ -77,7 +50,7 @@
 			</div>
 		</div>
 	</div>
-
 	</div>
-</div>
+</body>
+</html>
 
