@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format exponents">
+<html data-translatable data-require="math math-format exponents">
 <head>
 	<meta charset="UTF-8" />
 	<title>Exponents 3</title>
@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div class="exercise">
-		<p class="summary">This exercise covers exponential arithmetic with positive rational bases and rational exponents with unit numerator. This exercise covers the first chunk of material from the Level 3 Exponents video.</p>
+		<p class="summary" data-tt="question1">This exercise covers exponential arithmetic with positive rational bases and rational exponents with unit numerator. This exercise covers the first chunk of material from the Level 3 Exponents video.</p>
 
 		<div class="problems">
 			<div>
@@ -38,10 +38,10 @@
 					<!-- For a question like (4/9)^(1/2)... -->
 
 					<!-- "Figure out what goes in the blank: ?^2=4/9" -->
-					<p>Figure out what goes in the blank:<br /><code>\Big(? \Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
+					<p data-tt="hint1">Figure out what goes in the blank:<br /><code>\Big(? \Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
 
 					<!-- fill 2/3 into the ? -->
-					<p>Figure out what goes in the blank:<br /><code>\Big(\color{blue}{<var>frac( SOL_N, SOL_D )</var>}\Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
+					<p data-tt="hint2">Figure out what goes in the blank:<br /><code>\Big(\color{blue}{<var>frac( SOL_N, SOL_D )</var>}\Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
 
 					<!-- (4/9)^(1/2)=2/3 -->
 					<p data-if="EXP_NEG">So <code><var>fracParens( BASE_N, BASE_D )</var>^{<var>fracSmall( EXP_NEG ? -1 : 1, EXP_D )</var>}=<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>fraction( SOL_N, SOL_D, true, true, false, false )</var></code></p>

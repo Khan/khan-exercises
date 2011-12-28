@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math expressions">
+<html data-translatable data-require="math expressions">
 <head>
 	<meta charset="UTF-8" />
 	<title>Exponent rules</title>
@@ -38,7 +38,7 @@
 			</div>
 
 			<div id="subtracting" data-type="adding">
-				<p class="question">What is <code>\displaystyle <var>expr(["frac", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var></code>?</p>
+				<p class="question" data-tt="question1">What is <code>\displaystyle <var>expr(["frac", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var></code>?</p>
 				<p class="solution" data-type="multiple">
 					<code><var>BASE</var></code> <span class="sol exp"><var>EXP1 - EXP2</var></span>
 				</p>
@@ -54,7 +54,7 @@
 			</div>
 
 			<div id="multiplying" data-type="adding">
-				<p class="question">What is <code><var>expr(["^", ["^", BASE, EXP1], EXP2])</var></code>?</p>
+				<p class="question" data-tt="question2">What is <code><var>expr(["^", ["^", BASE, EXP1], EXP2])</var></code>?</p>
 				<p class="solution" data-type="multiple">
 					<code><var>BASE</var></code> <span class="sol exp"><var>EXP1 * EXP2</var></span>
 				</p>
@@ -79,7 +79,7 @@
 					<var id="EXP3">randRange(3, 12) * (rand(2) ? 1 : -1)</var>
 				</div>
 
-				<p class="question">What is <code><var>expr(["^", ["*", ["^", BASE1, EXP1], ["^", BASE2, EXP2]], EXP3])</var></code>?</p>
+				<p class="question" data-tt="question3">What is <code><var>expr(["^", ["*", ["^", BASE1, EXP1], ["^", BASE2, EXP2]], EXP3])</var></code>?</p>
 				<p class="solution" data-type="multiple">
 					<code><var>BASE1</var></code> <span class="sol exp"><var>EXP1 * EXP3</var></span> &middot; <code><var>BASE2</var></code> <span class="sol exp"><var>EXP2 * EXP3</var></span>
 				</p>
