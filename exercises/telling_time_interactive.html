@@ -38,7 +38,7 @@
 						graph.minuteSnapDegrees = 360 / minuteSnapPoints;
 						graph.hourSnapDegrees = 360 / hourSnapPoints;
 
-						graph.clock = KhanUtil.addAnalogClock( { radius: clockRadius, minuteTicks: hourSnapPoints } );
+						graph.clock = addAnalogClock( { radius: clockRadius, minuteTicks: hourSnapPoints } );
 						graph.clock.draw();
 
 						addMouseLayer();
@@ -107,12 +107,12 @@
 								return movePartnerPoint( { x: x, y: y, point: this, outerPoint: graph.outerHourPoint, isOuterPoint: false } );
 							},
 							normalStyle: {
-								fill: KhanUtil.BLUE,
-								stroke: KhanUtil.BLUE
+								fill: BLUE,
+								stroke: BLUE
 							},
 							highlightStyle: {
-								fill: KhanUtil.BLUE,
-								stroke: KhanUtil.BLUE
+								fill: BLUE,
+								stroke: BLUE
 							}
 						});
 
@@ -129,12 +129,12 @@
 								return movePartnerPoint( { x: x, y: y, point: graph.hourPoint, outerPoint: this, isOuterPoint: true } );
 							},
 							normalStyle: {
-								fill: KhanUtil.BLUE,
-								stroke: KhanUtil.BLUE
+								fill: BLUE,
+								stroke: BLUE
 							},
 							highlightStyle: {
-								fill: KhanUtil.BLUE,
-								stroke: KhanUtil.BLUE
+								fill: BLUE,
+								stroke: BLUE
 							}
 						})
 
@@ -143,8 +143,8 @@
 							coordZ: [ 0, 0 ],
 							fixed: true,
 							normalStyle: {
-								fill: KhanUtil.ORANGE,
-								stroke: KhanUtil.ORANGE,
+								fill: ORANGE,
+								stroke: ORANGE,
 								"stroke-width": 10
 							},
 						});
@@ -154,8 +154,8 @@
 							coordZ: [ 0, 0 ],
 							fixed: true,
 							normalStyle: {
-								fill: KhanUtil.BLUE,
-								stroke: KhanUtil.BLUE,
+								fill: BLUE,
+								stroke: BLUE,
 								"stroke-width": 10
 							},
 						});	 
@@ -172,11 +172,11 @@
 							}
 						});
 
-						graph.correctMinuteAngle = KhanUtil.timeToDegrees( MINUTE );
-						graph.correctHourAngle = KhanUtil.timeToDegrees( 5 * (HOUR + MINUTE/60) );
+						graph.correctMinuteAngle = timeToDegrees( MINUTE );
+						graph.correctHourAngle = timeToDegrees( 5 * (HOUR + MINUTE/60) );
 
-						graph.correctMinuteAngle = KhanUtil.roundToNearest( graph.minuteSnapDegrees, graph.correctMinuteAngle );
-						graph.correctHourAngle = KhanUtil.roundToNearest( graph.hourSnapDegrees, graph.correctHourAngle );
+						graph.correctMinuteAngle = roundToNearest( graph.minuteSnapDegrees, graph.correctMinuteAngle );
+						graph.correctHourAngle = roundToNearest( graph.hourSnapDegrees, graph.correctHourAngle );
 
 					</div>
 				</div>
@@ -196,7 +196,7 @@
 						minuteAngle = KhanUtil.roundToNearest( graph.minuteSnapDegrees, minuteAngle );
 						hourAngle = KhanUtil.roundToNearest( graph.hourSnapDegrees, hourAngle );
 
-						return (minuteAngle == graph.correctMinuteAngle) &amp;&amp; (hourAngle == graph.correctHourAngle);
+						return (minuteAngle === graph.correctMinuteAngle) &amp;&amp; (hourAngle === graph.correctHourAngle);
 
 					</div>
 					<div class="show-guess">
@@ -238,8 +238,8 @@
 							var minuteRadius = graph.minutePoint.constraints.fixedDistance.dist;
 							var hourRadius = graph.hourPoint.constraints.fixedDistance.dist;
 
-							var minuteCoord = KhanUtil.degreesToCoord( minuteRadius, graph.correctMinuteAngle );
-							var hourCoord = KhanUtil.degreesToCoord( hourRadius, graph.correctHourAngle );
+							var minuteCoord = degreesToCoord( minuteRadius, graph.correctMinuteAngle );
+							var hourCoord = degreesToCoord( hourRadius, graph.correctHourAngle );
 
 							var dotOpacity = 0.4;
 							var handOpacity = 0.3;
@@ -249,7 +249,7 @@
 								coordZ: [ 0, 0 ],
 								fixed: true,
 								normalStyle: {
-									stroke: KhanUtil.ORANGE,
+									stroke: ORANGE,
 									"stroke-width": 10,
 									"stroke-dasharray": ".",
 									"stroke-linecap": "round",
@@ -262,7 +262,7 @@
 								coordZ: [ 0, 0 ],
 								fixed: true,
 								normalStyle: {
-									stroke: KhanUtil.ORANGE,
+									stroke: ORANGE,
 									"stroke-width": 10,
 									"stroke-linecap": "round",
 									"stroke-opacity": handOpacity
@@ -274,7 +274,7 @@
 								coordZ: [ 0, 0 ],
 								fixed: true,
 								normalStyle: {
-									stroke: KhanUtil.BLUE,
+									stroke: BLUE,
 									"stroke-width": 10,
 									"stroke-dasharray": ".",
 									"stroke-linecap": "round",
@@ -287,7 +287,7 @@
 								coordZ: [ 0, 0 ],
 								fixed: true,
 								normalStyle: {
-									stroke: KhanUtil.BLUE,
+									stroke: BLUE,
 									"stroke-width": 10,
 									"stroke-linecap": "round",
 									"stroke-opacity": handOpacity

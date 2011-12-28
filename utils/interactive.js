@@ -312,6 +312,7 @@ jQuery.extend( KhanUtil, {
 						}
 						if (movablePoint.snapY) {
 							mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
+						}
 						// snap mouse to grid
 						if ( movablePoint.snapX !== 0 ) {
 							mouseX = Math.round(mouseX / (graph.scale[0] * movablePoint.snapX)) * (graph.scale[0] * movablePoint.snapX);
@@ -334,7 +335,7 @@ jQuery.extend( KhanUtil, {
 							var mouseXrel = mouseX - centerX;
 							var mouseYrel = -mouseY + centerY;
 							var radians = Math.atan(mouseYrel / mouseXrel);  
-							var outsideArcTanRange = (mouseXrel < 0);  
+							var outsideArcTanRange = mouseXrel < 0;  
 
 							// adjust so that angles increase from 0 to 2 pi as you go around the circle
 							if (outsideArcTanRange) {
