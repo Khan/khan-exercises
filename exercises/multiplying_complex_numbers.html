@@ -36,8 +36,9 @@
 					</code>
 				</p>
 				<p>
-					The imaginary units on can be grouped together. The real and imaginary parts are normally multiplied.
+					The imaginary units can be grouped together. The real and imaginary parts are normally multiplied.
 					<code>
+						(<var>A_REAL</var> \cdot <var>B_REAL</var>) + (<var>A_REAL</var> \cdot <var>B_IMAG</var> + <var>A_IMAG</var> \cdot <var>B_REAL</var>)i + (<var>A_IMAG</var> \cdot <var>B_IMAG</var>)i^2 =
 						(<var>A_REAL * B_REAL</var>) + (<var>A_REAL * B_IMAG</var> + <var>A_IMAG * B_REAL</var>)i + (<var>A_IMAG * B_IMAG</var>i^2)
 					</code>
 				</p>
@@ -48,13 +49,13 @@
 					</code>
 				</p>
 				<p>
-					The result is simplified.
+					The result is simplified:
 					<code>
-						(<var>ANSWER_REAL</var> + <var>ANSWER_IMAG</var>i)
+						(<var>A_REAL * B_REAL</var> - <var>A_IMAG * B_IMAG</var>) + (<var>ANSWER_IMAG</var>i) = <var>ANSWER_REAL</var> + <var>ANSWER_IMAG</var>i
 					</code>
 				<p>
 				<p>
-					The real part is <var>ANSWER_REAL</var> and the imaginary part is <var>ANSWER_IMAG</var>.
+					The real part of the result is <var>ANSWER_REAL</var> and the imaginary part is <var>ANSWER_IMAG</var>.
 				</p>
 			</div>
 		</div>
