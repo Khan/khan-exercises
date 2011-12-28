@@ -190,8 +190,8 @@
           </div>
           <div class="validator-function">
 
-            var minuteAngle = KhanUtil.coordToDegrees( graph.minutePoint.coord );
-            var hourAngle = KhanUtil.coordToDegrees( graph.hourPoint.coord );
+            var minuteAngle = KhanUtil.coordToDegrees( guess[0] );
+            var hourAngle = KhanUtil.coordToDegrees( guess[1] );
 
             minuteAngle = KhanUtil.roundToNearest( graph.minuteSnapDegrees, minuteAngle );
             hourAngle = KhanUtil.roundToNearest( graph.hourSnapDegrees, hourAngle );
