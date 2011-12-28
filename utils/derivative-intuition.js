@@ -16,7 +16,7 @@ jQuery.extend( KhanUtil, {
 			ydivisions: 20,
 			labels: true,
 			unityLabels: true,
-			range: (typeof range === "undefined" ? [ [-10, 10], [-10, 10] ] : range),
+			range: (typeof range === "undefined" ? [ [-10, 10], [-10, 10] ] : range)
 		}, options);
 
 		options.scale = [ options.xpixels/(options.range[0][1] - options.range[0][0]),
@@ -148,7 +148,7 @@ jQuery.extend( KhanUtil, {
 
 		graph.style({
 			fill: KhanUtil.FN_COLOR,
-			stroke: KhanUtil.FN_COLOR,
+			stroke: KhanUtil.FN_COLOR
 		}, function() {
 			graph.tangentPoints[index] = graph.ellipse( [ xval, KhanUtil.fnx(xval) ], [ 4 / graph.scale[0], 4 / graph.scale[1] ] );
 		});
@@ -161,7 +161,7 @@ jQuery.extend( KhanUtil, {
 
 		graph.style({
 			fill: KhanUtil.DDX_COLOR,
-			stroke: KhanUtil.DDX_COLOR,
+			stroke: KhanUtil.DDX_COLOR
 		}, function() {
 			graph.slopePoints[index] = graph.ellipse( [ xval, 0 ], [ 4 / graph.scale[0], 4 / graph.scale[1] ] );
 		});
@@ -274,7 +274,7 @@ jQuery.extend( KhanUtil, {
 			graph.style({
 				stroke: KhanUtil.DDX_COLOR,
 				strokeWidth: 1,
-				opacity: 0,
+				opacity: 0
 			}, function() {
 				ddxplot = graph.plot( function( x ) {
 					return KhanUtil.ddx( x );
@@ -287,6 +287,6 @@ jQuery.extend( KhanUtil, {
 			ddxplot.animate( { opacity: 1 }, duration );
 			KhanUtil.ddxShown = true;
 		}
-	},
+	}
 
 });

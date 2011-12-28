@@ -58,8 +58,8 @@ jQuery.extend( KhanUtil, {
 			median /= 2;
 		}
 
-		KhanUtil.updateMean( mean );
-		KhanUtil.updateMedian( median );
+		KhanUtil.updateMean( KhanUtil.roundTo( 2, mean ) );
+		KhanUtil.updateMedian( KhanUtil.roundTo( 2, median ) );
 	},
 
 
@@ -197,7 +197,7 @@ jQuery.extend( KhanUtil, {
 			});
 			mean /= values.length;
 			return mean;
-		}
+		};
 
 		var sortedPoints = points.sort (function(a, b){ return a.coord[0]-b.coord[0]; });
 		var oldValues = [];

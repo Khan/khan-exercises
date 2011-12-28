@@ -675,7 +675,7 @@ jQuery.extend( Khan.answerTypes, {
 				var guess = jQuery( this ).is( ":checked" ),
 					answer = jQuery( this ).data( "solution" ),
 					label_text = jQuery( this ).closest( "label" ).text();
-				if (label_text == "") {
+				if (label_text === "") {
 					label_text = "checked";
 				}
 				// un-checked boxes are recorded as "" to prevent the question from
@@ -957,19 +957,23 @@ jQuery.extend( Khan.answerTypes, {
 			return jQuery( el ).html();
 		});
 		ret.solution = "custom";
+		var showGuessSolutionCode = jQuery( solution ).find( ".show-guess-solutionarea" ).text() || "";
 		ret.showGuess = function( guess ) {
 			if ( isTimeline ) {
 				guessCorrect = validator( guess );
 				jQuery( solutionarea ).empty();
-				jQuery( solutionarea ).append( guessCorrect ? "Answer correct" : "Answer incorrect" );
+				jQuery( solutionarea ).append( guessCorrect === true ? "Answer correct" : "Answer incorrect" );
+			} else {
+				var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" + showGuessSolutionCode + "})()";
+				KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
 			}
-		}
+		};
 
 		var showGuessCode = jQuery( solution ).find( ".show-guess" ).text();
 		ret.showCustomGuess = function( guess ) {
 			var code = "(function() { var guess = " + JSON.stringify( guess ) + ";" + showGuessCode + "})()";
 			KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
-		}
+		};
 
 		return ret;
 	}

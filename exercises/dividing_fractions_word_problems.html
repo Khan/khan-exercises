@@ -7,18 +7,6 @@
 </head>
 <body>
 	<div class="exercise">
-		<var>
-			// Add \cancel{} and \bcancel{} to MathJax
-			(function() {
-				MathJax.InputJax.TeX.Definitions.macros.cancel  = [ "Cancel", MathJax.ElementJax.mml.NOTATION.UPDIAGONALSTRIKE ];
-				MathJax.InputJax.TeX.Definitions.macros.bcancel = [ "Cancel", MathJax.ElementJax.mml.NOTATION.DOWNDIAGONALSTRIKE ];
-				MathJax.InputJax.TeX.Parse.Augment({
-					Cancel: function (name,notation) {
-						this.Push( MathJax.ElementJax.mml.menclose( this.ParseArg( name ) ).With({ notation:notation }) );
-					}
-				});
-			})()
-		</var>
 		<div class="problems">
 
 			<div id="candy">
@@ -31,7 +19,7 @@
 
 				<p class="problem">
 					<span class="spin">
-						{A number|All|Several} of <var>person(1)</var>'s friends wanted to try the candy bars
+						{Many|All|Several} of <var>person(1)</var>'s friends wanted to try the candy bars
 						<var>he(1)</var> brought back from <var>his(1)</var> trip, but there were only <var>PIECES</var> candy bars.
 					</span>
 					<var>person(1)</var> decided to cut the candy bars into pieces so that each person could have

@@ -482,7 +482,7 @@ jQuery.extend( KhanUtil, {
 					triangle.isTriangle = true;
 					triangle.rotationPoint.setCoord([
 						1/3 * (triangle.points[0].coord[0] + triangle.points[1].coord[0] + triangle.points[2].coord[0]),
-						1/3 * (triangle.points[0].coord[1] + triangle.points[1].coord[1] + triangle.points[2].coord[1]),
+						1/3 * (triangle.points[0].coord[1] + triangle.points[1].coord[1] + triangle.points[2].coord[1])
 					]);
 				} else {
 					triangle.isTriangle = false;
@@ -673,45 +673,4 @@ jQuery.extend( KhanUtil, {
 		jQuery( triangle.set ).each( function() { this.toBack(); });
 	}
 
-});
-
-
-jQuery.extend( Khan.answerTypes, {
-	congruence: function( solutionarea, solution, fallback, verifier, input ) {
-		jQuery( solutionarea ).append( jQuery( solution ).clone().contents().tmpl() );
-		var correct = solutionarea.find( ".answer" ).text();
-		solutionarea.find( ".answer" ).empty();
-
-		ret = function() {
-			var triangle = KhanUtil.currentGraph.interactiveTriangle;
-			var guess = solutionarea.find( "input:checked" ).val();
-			ret.guess = [ guess, triangle.points[0].coord, triangle.points[1].coord, triangle.points[2].coord, triangle.points[3].coord ];
-			if ( guess === undefined ) {
-				// no guess, don't grade answer
-				ret.guess = "";
-				return false;
-			} else if ( guess !== correct) {
-				return false;
-			} else if ( !triangle.isTriangle) {
-				return "Your answer is almost correct, but you haven't constructed a triangle.";
-			} else if ( correct === "No" && triangle.isCongruent ) {
-				return "Your answer is almost correct, but the two triangles are congruent. Prove your answer by trying to construct an incongruent triangle.";
-			} else {
-				return true;
-			}
-		};
-		ret.examples = [ "the shapes to the left are part of your answer" ];
-		ret.solution = correct;
-		ret.showGuess = function( guess ) {
-			var triangle = KhanUtil.currentGraph.interactiveTriangle;
-			solutionarea.find( "input:checked" ).prop( 'checked', false );
-			solutionarea.find( "input[value=" + guess[0] + "]" ).prop( 'checked', true );
-			triangle.points[0].setCoord(guess[1]);
-			triangle.points[1].setCoord(guess[2]);
-			triangle.points[2].setCoord(guess[3]);
-			triangle.points[3].setCoord(guess[4]);
-			triangle.update();
-		};
-		return ret;
-	}
 });

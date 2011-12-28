@@ -63,13 +63,16 @@
 		</div>
 		<div>
 			<p>Take the square root of both sides.</p>
-			<p><code>\sqrt{<var>Y</var>} = \sqrt { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
-			<p><code><var>plus( "y", -K )</var> = \pm \left(<var>B</var> <var>X_MINUS</var> \dfrac{<var>B</var> \cdot (<var>plus( "x", -H )</var>)}{<var> A </var>}\right)</code></p>
+			<p><code>\sqrt{<var>Y</var>} = \pm \sqrt { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
+			<p><code> <var>plus("y", -K)</var> = \pm \sqrt { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
 		</div>
 		<div>
-			<p>As <code>x</code> approaches positive or negative infinity, the plus-or-minus constant term matters less and less, so we can just ignore it.</p>
+			<p>As <code>x</code> approaches positive or negative infinity, the constant term in the square root matters less and less, so we can just ignore it.</p>
+			<p><code><var>plus( "y", -K )</var> \approx \pm \sqrt {\dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
+
 			<p><code><var>plus( "y", -K )</var> \approx \pm \left(\dfrac{<var>B</var> \cdot (<var>plus( "x", -H )</var>)}{<var> A </var>}\right)</code></p>
 		</div>
+
 		<div>
 			<p>
 				<span data-if="K > 0">Add <code><var>K</var></code> to both sides and rewrite</span>

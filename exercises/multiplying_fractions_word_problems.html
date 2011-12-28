@@ -11,15 +11,15 @@
 
 			<div id="birthday-party-guests">
 				<div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
-					<var id="INVITEES">(randRange( 1, 5 )*D)</var>
 					<var id="D">randFromArray([ 5, 8 ])</var>
 					<var id="N">randRange( 3, D - 1 )</var>
+					<var id="INVITEES">randRange( 1, 5 ) * D</var>
 					<var id="SOLUTION">N / D * INVITEES</var>
 				</div>
 
-				<p class="problem spin">
+				<p class="problem">
 					<var>person( 1 )</var> invited <var>INVITEES</var> friends to <var>his( 1 )</var> birthday party. Some people
-					had other plans and could not attend, but <var>N</var>/<var>D</var> of the people <var>person( 1 )</var>
+					had other plans and could not attend, but <code>\frac{<var>N</var>}{<var>D</var>}</code> of the people <var>person( 1 )</var>
 					invited were able to attend.
 				</p>
 
@@ -29,18 +29,48 @@
 
 				<div class="hints">
 					<p>
-						We can multiply <code>\dfrac{<var>N</var>}{<var>D</var>}</code> by <code><var>INVITEES</var></code> to find out
+						We need to figure out what <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>INVITEES</var></code> is to find out
 						how many people attended the party.
 					</p>
-					<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>INVITEES</var></code></p>
-					<p data-if="getGCD( D, INVITEES ) !== 1"><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>INVITEES</var></code></p>
-					<div class="graphie">
-						init({ range: [ [ 0, 1 ], [ 0, INVITEES + 1 ] ],scale: [ 250, 25 ] });
-						for ( var y = 1; y &lt;= INVITEES; y++ ) {
-							rectchart( [ N, D - N ], ["#e00", "#999" ], y );
-						}
+					<p>
+						We can find <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>INVITEES</var></code> by multiplying
+						<code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> and <code class="hint_orange"><var>INVITEES</var></code>.
+					</p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{<var>INVITEES</var>} =
+						\color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{\dfrac{<var>INVITEES</var>}{1}} =
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>INVITEES</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>} \cdot \color{<var>ORANGE</var>}{1}} = \color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>INVITEES</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>}} = \color{<var>GREEN</var>}{\dfrac{<var>N * INVITEES</var>}{<var>D</var>}} =
+						\color{<var>GREEN</var>}{<var>SOLUTION</var>}
+					</code></p>
+					<div>
+						<p>
+							We can also visually see that <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> of
+							<code class="hint_orange"><var>INVITEES</var></code> is <code class="hint_green"><var>SOLUTION</var></code>:
+						</p>
+						<div class="graphie">
+							init({ range: [ [ -0.05, 1 ], [ 0,  3 ] ],scale: [ 500, 30 ] });
+							rectchart( [ N, D - N ], [ BLUE, "#ccc" ], 2 );
+							rectchart( [ INVITEES, 0 ], [ ORANGE, "#999" ], 1 );
+							rectchart( [ SOLUTION, INVITEES - SOLUTION ], [ GREEN, "#fff" ], 0 );
+							style({ color: BLUE }, function() {
+								label([ 0, 2.5 ], "\\frac{" + N + "}{" + D + "}", "left" );
+							});
+							style({ color: ORANGE }, function() {
+								label([ 0, 1.5 ], INVITEES, "left" );
+							});
+							style({ color: GREEN }, function() {
+								label([ 0, 0.5 ], SOLUTION, "left" );
+							});
+						</div>
 					</div>
-					<p><code>\color{#e00}{\dfrac{<var>N * INVITEES</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
 					<p><strong><var>SOLUTION</var> people attended <var>person( 1 )</var>'s party.</strong></p>
 				</div>
 			</div>
@@ -54,10 +84,10 @@
 					<var id="SOLUTION">N / D * AMOUNT</var>
 				</div>
 
-				<p class="problem spin">
-					After saving up for a while, <var>person( 1 )</var> had $<var>AMOUNT</var> in
-					<var>his( 1 )</var> piggy bank, and <var>he( 1 )</var> spent <var>N</var>/<var>D</var> of that money on books at
-					the bookstore.
+				<p class="problem">
+					After saving up for a while, <var>person( 1 )</var> had $<var>AMOUNT</var>.00 in
+					<var>his( 1 )</var> piggy bank, and <var>he( 1 )</var> spent
+					<code>\frac{<var>N</var>}{<var>D</var>}</code> of that money on books at the bookstore.
 				</p>
 
 				<p class="question">How much money did <var>person( 1 )</var> spend?</p>
@@ -66,20 +96,49 @@
 
 				<div class="hints">
 					<p>
-						We, we can multiply <code><var>AMOUNT</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find
-						out how much money <var>person( 1 )</var> spent.
+						We need to figure out what <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code>$<var>AMOUNT</var>.00</code> is to find out
+						how much <var>person(1)</var> spent.
 					</p>
+					<p>
+						We can find <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code>$<var>AMOUNT</var>.00</code> by multiplying
+						<code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> and <code class="hint_orange"><var>AMOUNT</var></code>.
+					</p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{<var>AMOUNT</var>} =
+						\color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{\dfrac{<var>AMOUNT</var>}{1}} =
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>AMOUNT</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>} \cdot \color{<var>ORANGE</var>}{1}} = \color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>AMOUNT</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>}} = \color{<var>GREEN</var>}{\dfrac{<var>N * AMOUNT</var>}{<var>D</var>}} =
+						\color{<var>GREEN</var>}{<var>SOLUTION</var>}
+					</code></p>
 					<div>
-						<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>AMOUNT</var></code></p>
+						<p>
+							We can also visually see that <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> of
+							<code class="hint_orange"><var>AMOUNT</var></code> is <code class="hint_green"><var>SOLUTION</var></code>:
+						</p>
 						<div class="graphie">
-							init({ range: [ [ 0, 1 ], [ 0, AMOUNT + 1 ] ],scale: [ 250, 25 ] });
-							for ( var y = 1; y &lt;= AMOUNT; y++ ) {
-								rectchart( [ N, D - N ], ["#e00", "#999" ], y );
-							}
+							init({ range: [ [ -0.05, 1 ], [ 0,  3 ] ],scale: [ 500, 30 ] });
+							rectchart( [ N, D - N ], [ BLUE, "#ccc" ], 2 );
+							rectchart( [ AMOUNT, 0 ], [ ORANGE, "#999" ], 1 );
+							rectchart( [ SOLUTION, AMOUNT - SOLUTION ], [ GREEN, "#fff" ], 0 );
+							style({ color: BLUE }, function() {
+								label([ 0, 2.5 ], "\\frac{" + N + "}{" + D + "}", "left" );
+							});
+							style({ color: ORANGE }, function() {
+								label([ 0, 1.5 ], AMOUNT, "left" );
+							});
+							style({ color: GREEN }, function() {
+								label([ 0, 0.5 ], SOLUTION, "left" );
+							});
 						</div>
 					</div>
-					<p><code>\color{#e00}{\dfrac{<var>N * AMOUNT</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
-					<p><strong><var>person( 1 )</var> spent $<var>SOLUTION</var> on books.</strong></p>
+					<p><strong><var>person( 1 )</var> spent $<var>SOLUTION</var>.00 on books.</strong></p>
 				</div>
 			</div>
 
@@ -92,10 +151,10 @@
 					<var id="SOLUTION">roundTo( 2, N / D * AMOUNT )</var>
 				</div>
 
-				<p class="problem spin">
+				<p class="problem">
 					Every day <var>person( 1 )</var> put the extra change from <var>his( 1 )</var> pockets into a glass jar. After
-					<var>randRange( 10, 30 )</var> weeks, <var>person( 1 )</var> had saved up $<var>AMOUNT</var>. <var>person( 1 )</var>
-					decided to use <var>N</var>/<var>D</var> of the money from the jar to buy canned food for a homeless shelter.
+					<var>randRange( 10, 30 )</var> weeks, <var>he( 1 )</var> had saved up $<var>AMOUNT</var>.00. <var>person( 1 )</var>
+					decided to use <code>\frac{<var>N</var>}{<var>D</var>}</code> of the money from the jar to buy canned food for a homeless shelter.
 				</p>
 
 				<p class="question">How much money did <var>person( 1 )</var> spend on canned food?</p>
@@ -104,20 +163,49 @@
 
 				<div class="hints">
 					<p>
-						We can multiply <code><var>AMOUNT</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find out
-						how much money <var>person( 1 )</var> spent on canned food.
+						We need to figure out what <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code>$<var>AMOUNT</var>.00</code> is to find out
+						how much <var>person(1)</var> spent.
 					</p>
+					<p>
+						We can find <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code>$<var>AMOUNT</var>.00</code> by multiplying
+						<code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> and <code class="hint_orange"><var>AMOUNT</var></code>.
+					</p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{<var>AMOUNT</var>} =
+						\color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{\dfrac{<var>AMOUNT</var>}{1}} =
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>AMOUNT</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>} \cdot \color{<var>ORANGE</var>}{1}} = \color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>AMOUNT</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>}} = \color{<var>GREEN</var>}{\dfrac{<var>N * AMOUNT</var>}{<var>D</var>}} =
+						\color{<var>GREEN</var>}{<var>SOLUTION</var>}
+					</code></p>
 					<div>
-						<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>AMOUNT</var></code></p>
+						<p>
+							We can also visually see that <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> of
+							<code class="hint_orange"><var>AMOUNT</var></code> is <code class="hint_green"><var>SOLUTION</var></code>:
+						</p>
 						<div class="graphie">
-							init({ range: [ [ 0, 1 ], [ 0, AMOUNT + 1 ] ],scale: [ 250, 25 ] });
-							for ( var y = 1; y &lt;= AMOUNT; y++ ) {
-								rectchart( [ N, D - N ], ["#e00", "#999" ], y );
-							}
+							init({ range: [ [ -0.05, 1 ], [ 0,  3 ] ],scale: [ 500, 30 ] });
+							rectchart( [ N, D - N ], [ BLUE, "#ccc" ], 2 );
+							rectchart( [ AMOUNT, 0 ], [ ORANGE, "#999" ], 1 );
+							rectchart( [ SOLUTION, AMOUNT - SOLUTION ], [ GREEN, "#fff" ], 0 );
+							style({ color: BLUE }, function() {
+								label([ 0, 2.5 ], "\\frac{" + N + "}{" + D + "}", "left" );
+							});
+							style({ color: ORANGE }, function() {
+								label([ 0, 1.5 ], AMOUNT, "left" );
+							});
+							style({ color: GREEN }, function() {
+								label([ 0, 0.5 ], SOLUTION, "left" );
+							});
 						</div>
 					</div>
-					<p><code>\color{#e00}{\dfrac{<var>N * AMOUNT</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
-					<p><strong><var>person( 1 )</var> spent $<var>SOLUTION</var> on canned food for the homeless shelter.</strong></p>
+					<p><strong><var>person( 1 )</var> spent $<var>SOLUTION</var>.00 on canned food for the homeless shelter.</strong></p>
 				</div>
 			</div>
 
@@ -130,10 +218,10 @@
 					<var id="SOLUTION">N / D * GALLONS</var>
 				</div>
 
-				<p class="problem spin">
+				<p class="problem">
 					Before leaving on a road trip, <var>person( 1 )</var> filled up <var>his( 1 )</var> gas tank, which holds
 					<var>GALLONS</var> gallons of gas. After <var>0.5 * randRange( 3 / 0.5, 10 / 0.5 )</var> hours, <var>person( 1 )</var>
-					noticed that the gas tank was <var>N</var>/<var>D</var> full.
+					noticed that the gas tank was <code>\frac{<var>N</var>}{<var>D</var>}</code> full.
 				</p>
 
 				<p class="question">How many gallons of gas were left in the tank?</p>
@@ -142,19 +230,49 @@
 
 				<div class="hints">
 					<p>
-						Since a fraction of the gas in <var>his( 1 )</var> tank was left, we can multiply <code><var>GALLONS</var></code>
-						by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find out how much gas was left in the tank.
+						Since a fraction of the gas in <var>his( 1 )</var> tank was left, we just need to figure out what
+						<code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>GALLONS</var></code> gallons is to find out
+						how much gas was left in the tank.
 					</p>
+					<p>
+						We can find <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>GALLONS</var></code> gallons by multiplying
+						<code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> and <code class="hint_orange"><var>GALLONS</var></code>.
+					</p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{<var>GALLONS</var>} =
+						\color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{\dfrac{<var>GALLONS</var>}{1}} =
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>GALLONS</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>} \cdot \color{<var>ORANGE</var>}{1}} = \color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>GALLONS</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>}} = \color{<var>GREEN</var>}{\dfrac{<var>N * GALLONS</var>}{<var>D</var>}} =
+						\color{<var>GREEN</var>}{<var>SOLUTION</var>}
+					</code></p>
 					<div>
-						<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>GALLONS</var></code></p>
+						<p>
+							We can also visually see that <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> of
+							<code class="hint_orange"><var>GALLONS</var></code> is <code class="hint_green"><var>SOLUTION</var></code>:
+						</p>
 						<div class="graphie">
-							init({ range: [ [ 0, 1 ], [ 0, GALLONS + 1 ] ],scale: [ 250, 25 ] });
-							for ( var y = 1; y &lt;= GALLONS; y++ ) {
-								rectchart( [ N, D - N ], ["#e00", "#999" ], y );
-							}
+							init({ range: [ [ -0.05, 1 ], [ 0,  3 ] ],scale: [ 500, 30 ] });
+							rectchart( [ N, D - N ], [ BLUE, "#ccc" ], 2 );
+							rectchart( [ GALLONS, 0 ], [ ORANGE, "#999" ], 1 );
+							rectchart( [ SOLUTION, GALLONS - SOLUTION ], [ GREEN, "#fff" ], 0 );
+							style({ color: BLUE }, function() {
+								label([ 0, 2.5 ], "\\frac{" + N + "}{" + D + "}", "left" );
+							});
+							style({ color: ORANGE }, function() {
+								label([ 0, 1.5 ], GALLONS, "left" );
+							});
+							style({ color: GREEN }, function() {
+								label([ 0, 0.5 ], SOLUTION, "left" );
+							});
 						</div>
 					</div>
-					<p><code>\color{#e00}{\dfrac{<var>N * GALLONS</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
 					<p><strong><var>person( 1 )</var> had <var>SOLUTION</var> gallons of gas left in <var>his( 1 )</var> tank when <var>he( 1 )</var> checked.</strong></p>
 				</div>
 			</div>
@@ -168,24 +286,59 @@
 					<var id="SOLUTION">N / D * ATTENDEES</var>
 				</div>
 
-				<p class="problem spin"><var>ATTENDEES</var> people had a picnic in the park. <var>N</var>/<var>D</var> of the people at the picnic were adults.</p>
+				<p class="problem">
+					<var>ATTENDEES</var> people had a picnic in the park.
+					<code>\frac{<var>N</var>}{<var>D</var>}</code> of the people at the picnic were adults.
+				</p>
 
 				<p class="question">How many adults were at the picnic?</p>
 
 				<div class="solution"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>We can multiply <code><var>ATTENDEES</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find out how many people at the picnic were adults.</p>
+					<p>
+						We need to figure out what <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>ATTENDEES</var></code> is to find out
+						how many people at the picnic were adults.
+					</p>
+					<p>
+						We can find <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>ATTENDEES</var></code> by multiplying
+						<code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> and <code class="hint_orange"><var>ATTENDEES</var></code>.
+					</p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{<var>ATTENDEES</var>} =
+						\color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{\dfrac{<var>ATTENDEES</var>}{1}} =
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>ATTENDEES</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>} \cdot \color{<var>ORANGE</var>}{1}} = \color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>ATTENDEES</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>}} = \color{<var>GREEN</var>}{\dfrac{<var>N * ATTENDEES</var>}{<var>D</var>}} =
+						\color{<var>GREEN</var>}{<var>SOLUTION</var>}
+					</code></p>
 					<div>
-						<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>ATTENDEES</var></code></p>
+						<p>
+							We can also visually see that <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> of
+							<code class="hint_orange"><var>ATTENDEES</var></code> is <code class="hint_green"><var>SOLUTION</var></code>:
+						</p>
 						<div class="graphie">
-							init({ range: [ [ 0, 1 ], [ 0, ATTENDEES + 1 ] ],scale: [ 250, 25 ] });
-							for ( var y = 1; y &lt;= ATTENDEES; y++ ) {
-								rectchart( [ N, D - N ], ["#e00", "#999" ], y );
-							}
+							init({ range: [ [ -0.05, 1 ], [ 0,  3 ] ],scale: [ 500, 30 ] });
+							rectchart( [ N, D - N ], [ BLUE, "#ccc" ], 2 );
+							rectchart( [ ATTENDEES, 0 ], [ ORANGE, "#999" ], 1 );
+							rectchart( [ SOLUTION, ATTENDEES - SOLUTION ], [ GREEN, "#fff" ], 0 );
+							style({ color: BLUE }, function() {
+								label([ 0, 2.5 ], "\\frac{" + N + "}{" + D + "}", "left" );
+							});
+							style({ color: ORANGE }, function() {
+								label([ 0, 1.5 ], ATTENDEES, "left" );
+							});
+							style({ color: GREEN }, function() {
+								label([ 0, 0.5 ], SOLUTION, "left" );
+							});
 						</div>
 					</div>
-					<p><code>\color{#e00}{\dfrac{<var>N * ATTENDEES</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
 					<p><strong><var>SOLUTION</var> people at the picnic were adults.</strong></p>
 				</div>
 			</div>
@@ -202,7 +355,7 @@
 				<div class="problem">
 					<p>
 						<var>person(1)</var> decided to bake cookies for the school bake sale. <var>He(1)</var> found a recipe
-						that called for <var>N</var>/<var>D</var> of a cup of chocolate chips.
+						that called for <code>\frac{<var>N</var>}{<var>D</var>}</code> of a cup of chocolate chips.
 					</p>
 					<p>
 						To have enough cookies for the bake sale, <var>person(1)</var> needed to make <var>BATCHES</var> batches of cookies.
@@ -215,19 +368,49 @@
 
 				<div class="hints">
 					<p>
-						We can multiply <code><var>BATCHES</var></code> by <code>\dfrac{<var>N</var>}{<var>D</var>}</code> to find out
-						how many cups of chocolate chips <var>person(1)</var> needed.
+						We can multiply <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> cup by <code class="hint_orange"><var>BATCHES</var></code>
+						batches to find out how many cups of chocolate chips <var>person(1)</var> needed.
 					</p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{<var>BATCHES</var>} =
+						\color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>}} \times \color{<var>ORANGE</var>}{\dfrac{<var>BATCHES</var>}{1}} =
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>BATCHES</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>} \cdot \color{<var>ORANGE</var>}{1}} = \color{<var>GREEN</var>}{\text{?}}
+					</code></p>
+					<p><code>
+						\dfrac{\color{<var>BLUE</var>}{<var>N</var>} \cdot \color{<var>ORANGE</var>}{<var>BATCHES</var>}}
+						{\color{<var>BLUE</var>}{<var>D</var>}} = \color{<var>GREEN</var>}{\dfrac{<var>N * BATCHES</var>}{<var>D</var>}} =
+						\color{<var>GREEN</var>}{<var>SOLUTION</var>}
+					</code></p>
+					<!--
+
+					This is backwards for this problem. The visualization should somehow show that BATCHES instances of N/D is SOLUTION
+
 					<div>
-						<p><code>\color{#e00}{\dfrac{<var>N</var>}{<var>D</var>}} \cdot <var>ATTENDEES</var></code></p>
+						<p>
+							We can also visually see that <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> of
+							<code class="hint_orange"><var>BATCHES</var></code> is <code class="hint_green"><var>SOLUTION</var></code>:
+						</p>
 						<div class="graphie">
-							init({ range: [ [ 0, 1 ], [ 0, ATTENDEES + 1 ] ],scale: [ 250, 25 ] });
-							for ( var y = 1; y &lt;= ATTENDEES; y++ ) {
-								rectchart( [ N, D - N ], ["#e00", "#999" ], y );
-							}
+							init({ range: [ [ -0.05, 1 ], [ 0,  3 ] ],scale: [ 500, 30 ] });
+							rectchart( [ N, D - N ], [ BLUE, "#ccc" ], 2 );
+							rectchart( [ BATCHES, 0 ], [ ORANGE, "#999" ], 1 );
+							rectchart( [ SOLUTION, BATCHES - SOLUTION ], [ GREEN, "#fff" ], 0 );
+							style({ color: BLUE }, function() {
+								label([ 0, 2.5 ], "\\frac{" + N + "}{" + D + "}", "left" );
+							});
+							style({ color: ORANGE }, function() {
+								label([ 0, 1.5 ], BATCHES, "left" );
+							});
+							style({ color: GREEN }, function() {
+								label([ 0, 0.5 ], SOLUTION, "left" );
+							});
 						</div>
 					</div>
-					<p><code>\color{#e00}{\dfrac{<var>N * BATCHES</var>}{<var>D</var>}} = <var>SOLUTION</var></code></p>
+					-->
 					<p><strong><var>person(1)</var> needed <var>plural(<var>SOLUTION</var>,"cup")</var> of chocolate chips to make enough cookies for the bake sale.</strong></p>
 				</div>
 			</div>

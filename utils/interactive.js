@@ -305,52 +305,64 @@ jQuery.extend( KhanUtil, {
 						// can't go beyond 10 pixels from the edge
 						mouseX = Math.max(10, Math.min(graph.xpixels-10, mouseX));
 						mouseY = Math.max(10, Math.min(graph.ypixels-10, mouseY));
-          
+
 						// snap to grid
 						if (movablePoint.snapX) {
-              mouseX = Math.round(mouseX / (graph.scale[0] * movablePoint.snapX)) * (graph.scale[0] * movablePoint.snapX);
+							mouseX = Math.round(mouseX / (graph.scale[0] * movablePoint.snapX)) * (graph.scale[0] * movablePoint.snapX);
 						}
 						if (movablePoint.snapY) {
-              mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
+							mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
+						// snap mouse to grid
+						if ( movablePoint.snapX !== 0 ) {
+							mouseX = Math.round(mouseX / (graph.scale[0] * movablePoint.snapX)) * (graph.scale[0] * movablePoint.snapX);
+						}
+						if ( movablePoint.snapY !== 0 ) {
+							mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
 						}
 						
 						// NOTE: redundancy with functions in angles.js and time.js
 						// snap to points around circle
-            if ( movablePoint.constraints.fixedDistance.snapPoints ) { 
-              
-              var snapRadians = 2 * Math.PI / movablePoint.constraints.fixedDistance.snapPoints;
-              var radius = movablePoint.constraints.fixedDistance.dist;
-              
-              // get coordinates relative to the fixedDistance center
-              var centerCoord = movablePoint.constraints.fixedDistance.point;
-              var centerX = (centerCoord[0] - graph.range[0][0]) * graph.scale[0];
-              var centerY = (-centerCoord[1] + graph.range[1][1]) * graph.scale[1];
-              
-              var mouseXrel = mouseX - centerX;
-              var mouseYrel = -mouseY + centerY;
-              var radians = Math.atan(mouseYrel / mouseXrel);  
-              var outsideArcTanRange = (mouseXrel < 0);  
-            
-              // adjust so that angles increase from 0 to 2 pi as you go around the circle
-              if (outsideArcTanRange) {
-                radians += Math.PI;
-              }
-                 
-              // perform the snap
-              radians = Math.round(radians / snapRadians) * snapRadians;
-                    
-              // convert from radians back to pixels
-              mouseXrel = radius * Math.cos(radians);
-              mouseYrel = radius * Math.sin(radians);
-                      
-              // convert back to coordinates relative to graphie canvas
-              mouseX = mouseXrel + centerX;
-              mouseY = - mouseYrel + centerY;
-            }
+						if ( movablePoint.constraints.fixedDistance.snapPoints ) { 
+
+							var snapRadians = 2 * Math.PI / movablePoint.constraints.fixedDistance.snapPoints;
+							var radius = movablePoint.constraints.fixedDistance.dist;
+
+							// get coordinates relative to the fixedDistance center
+							var centerCoord = movablePoint.constraints.fixedDistance.point;
+							var centerX = (centerCoord[0] - graph.range[0][0]) * graph.scale[0];
+							var centerY = (-centerCoord[1] + graph.range[1][1]) * graph.scale[1];
+
+							var mouseXrel = mouseX - centerX;
+							var mouseYrel = -mouseY + centerY;
+							var radians = Math.atan(mouseYrel / mouseXrel);  
+							var outsideArcTanRange = (mouseXrel < 0);  
+
+							// adjust so that angles increase from 0 to 2 pi as you go around the circle
+							if (outsideArcTanRange) {
+								radians += Math.PI;
+							}
+
+							// perform the snap
+							radians = Math.round(radians / snapRadians) * snapRadians;
+
+							// convert from radians back to pixels
+							mouseXrel = radius * Math.cos(radians);
+							mouseYrel = radius * Math.sin(radians);
+							// convert back to coordinates relative to graphie canvas
+							mouseX = mouseXrel + centerX;
+							mouseY = - mouseYrel + centerY;
+						}
 						
 						// coord{X|Y} are the scaled coordinate values
 						var coordX = mouseX / graph.scale[0] + graph.range[0][0];
 						var coordY = graph.range[1][1] - mouseY / graph.scale[1];
+						// snap coordinates to grid
+						if ( movablePoint.snapX !== 0 ) {
+							coordX = Math.round( coordX / movablePoint.snapX ) * movablePoint.snapX;
+						}
+						if ( movablePoint.snapY !== 0 ) {
+							coordY = Math.round( coordY / movablePoint.snapY ) * movablePoint.snapY;
+						}
 						// apply any constraints on movement
 						var coord = movablePoint.applyConstraint([ coordX, coordY ]);
 						coordX = coord[0];
@@ -730,7 +742,7 @@ jQuery.extend( KhanUtil, {
 			var x1 = x;
 			var y1 = fn(x) + (mouseAreaWidth / (2 * graph.scale[1]));
 
-			if (ddx != 0) {
+			if (ddx !== 0) {
 				var normalslope = (-1 / (ddx * (graph.scale[1] / graph.scale[0]))) / (graph.scale[1] / graph.scale[0]);
 				if ( ddx < 0 ) {
 					x1 = x - Math.cos( -Math.atan(normalslope * (graph.scale[1] / graph.scale[0]))) * mouseAreaWidth / (2 * graph.scale[0]);
@@ -748,7 +760,7 @@ jQuery.extend( KhanUtil, {
 			var x1 = x;
 			var y1 = fn(x) - (mouseAreaWidth / (2 * graph.scale[1]));
 
-			if (ddx != 0) {
+			if (ddx !== 0) {
 				var normalslope = (-1 / (ddx * (graph.scale[1] / graph.scale[0]))) / (graph.scale[1] / graph.scale[0]);
 				if ( ddx < 0 ) {
 					x1 = x + Math.cos( -Math.atan(normalslope * (graph.scale[1] / graph.scale[0]))) * mouseAreaWidth / (2 * graph.scale[0]);
@@ -880,7 +892,7 @@ jQuery.extend( KhanUtil, {
 				fixed: false,
 				constrainX: false,
 				constrainY: false
-			},
+			}
 		}, options);
 
 		// If the line segment is defined by movablePoints, coordA/coordZ are
@@ -1048,10 +1060,10 @@ jQuery.extend( KhanUtil, {
 
 						if ( event.type === "vmousemove" ) {
 							if ( lineSegment.constraints.constrainX ) {
-								coordX = lineSegment.coordA[0] - mouseOffsetA[0]
+								coordX = lineSegment.coordA[0] - mouseOffsetA[0];
 							}
 							if ( lineSegment.constraints.constrainY ) {
-								coordY = lineSegment.coordA[1] - mouseOffsetA[1]
+								coordY = lineSegment.coordA[1] - mouseOffsetA[1];
 							}
 							var dX = coordX + mouseOffsetA[0] - lineSegment.coordA[0];
 							var dY = coordY + mouseOffsetA[1] - lineSegment.coordA[1];
@@ -1080,8 +1092,9 @@ jQuery.extend( KhanUtil, {
 		}
 
 
-		if ( lineSegment.pointA !== undefined )
+		if ( lineSegment.pointA !== undefined ) {
 			lineSegment.pointA.toFront();
+		}
 		if ( lineSegment.pointZ !== undefined ) {
 			lineSegment.pointZ.toFront();
 		}
@@ -1100,7 +1113,6 @@ jQuery.extend( KhanUtil, {
 			var placeholder = jQuery( "<li>" );
 			placeholder.addClass( "placeholder" );
 			container.addClass( "sortable ui-helper-clearfix" );
-			var leftEdge = list.offset().left;
 			var tileWidth = list.find( "li" ).outerWidth( true );
 			var numTiles = list.find( "li" ).length;
 
@@ -1109,7 +1121,7 @@ jQuery.extend( KhanUtil, {
 					if ( event.type === "vmousedown" && (event.which === 1 || event.which === 0) ) {
 						event.preventDefault();
 						jQuery( tile ).addClass( "dragging" );
-						var tileIndex = jQuery( this ).index()
+						var tileIndex = jQuery( this ).index();
 						placeholder.insertAfter( tile );
 						jQuery( this ).css( "z-index", 100 );
 						var offset = jQuery( this ).offset();
@@ -1129,6 +1141,7 @@ jQuery.extend( KhanUtil, {
 									left: event.pageX - click.left,
 									top: event.pageY - click.top
 								});
+								var leftEdge = list.offset().left;
 								var index = Math.max( 0, Math.min( numTiles - 1, Math.floor( ( event.pageX - leftEdge ) / tileWidth ) ) );
 								if ( index !== tileIndex ) {
 									tileIndex = index;
@@ -1138,7 +1151,7 @@ jQuery.extend( KhanUtil, {
 									} else {
 										placeholder.detach();
 										jQuery( tile ).detach();
-										var preceeding = list.find( "li" )[index - 1]
+										var preceeding = list.find( "li" )[index - 1];
 										placeholder.insertAfter( preceeding );
 										jQuery( tile ).insertAfter( preceeding );
 									}
@@ -1181,9 +1194,6 @@ jQuery.extend( KhanUtil, {
 				MathJax.Hub.Queue([ "Reprocess", MathJax.Hub, tile ]);
 			});
 		};
-
-		// Hide the scratchpad so the numbers are draggable
-		Khan.scratchpad.hide();
 
 		return sorter;
 	}
