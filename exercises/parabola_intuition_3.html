@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie interactive parabola-intuition">
+<html data-translatable data-require="math math-format graphie interactive parabola-intuition">
 <head>
 	<meta charset="UTF-8" />
 	<title>Parabola intuition 3</title>
@@ -28,7 +28,7 @@
 
 		<div class="problems">
 			<div>
-				<p class="question">
+				<p class="question" data-tt="question1">
 					First, find the <span class="hint_orange">focus</span> and <span class="hint_orange">directrix</span> of the parabola by moving
 					the orange point and line to their correct positions. Then use that information to find the equation of the parabola.
 				</p>
@@ -65,15 +65,15 @@
 
 					doParabolaInteraction( this.func, this.vertex, this.directrix );
 				</div>
-				<p>
+				<p data-tt="question2">
 					The <span class="hint_green">two green line segments</span> you see when you point to the parabola are always the same
 					length as each other. Use them to check that you've found the right focus and directrix.
 				</p>
 
 				<div class="solution" data-type="multiple">
-					<p><span>Focus: </span><code>(</code><span id="focus-x-label"><code>0</code></span><code>\text{, }</code><span id="focus-y-label"><code>1</code></span><code>)</code></p>
-					<p>Directrix: <code>y = </code><span id="directrix-label"><code>-1</code></span></p>
-					<p>
+					<p><span data-tt="question3">Focus: </span><code>(</code><span id="focus-x-label"><code>0</code></span><code>\text{, }</code><span id="focus-y-label"><code>1</code></span><code>)</code></p>
+					<p data-tt="question4">Directrix: <code>y = </code><span id="directrix-label"><code>-1</code></span></p>
+					<p data-tt="question5">
 						Equation of the parabola:<br />
 						<code>y - </code><span class="sol" data-fallback="0"><var>Y1</var></span>
 						<code> = </code><span class="sol" data-fallback="1"><var>A</var></span>
@@ -84,13 +84,13 @@
 					<span class="sol" id="focus-y" style="display: none"><var>Y1 + 1/(4*A)</var></span>
 					<span class="sol" id="directrix" style="display: none" data-fallback="-1"><var>Y1 - 1/(4*A)</var></span>
 
-					<p class="example">set the focus and directrix by moving them around the graph</p>
-					<p class="example">for the equation of the parabola, you may enter integers, fractions, or exact decimals for each term</p>
-					<p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
+					<p class="example" data-tt="question6">set the focus and directrix by moving them around the graph</p>
+					<p class="example" data-tt="question7">for the equation of the parabola, you may enter integers, fractions, or exact decimals for each term</p>
+					<p class="example" data-tt="question8">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
 				</div>
 
 				<div class="hints">
-				<p>
+				<p data-tt="hint1">
 					All points on a parabola are equidistant from the focus and directrix. There is only one place to put the orange focus point
 					and directrix line where this is true.
 					<button onClick="javascript:
@@ -98,30 +98,30 @@
 						directrix.moveTo(KhanUtil.tmpl.getVAR('Y1') - 1/(4*KhanUtil.tmpl.getVAR('A')));
 					">Show me</button>
 				</p>
-				<p>
+				<p data-tt="hint2">
 					The focus is <code>(<var>PRETTY_X1</var>,	<var>PRETTY_FOCUS_Y</var>)</code>
 					and the directrix is <code>y = <var>PRETTY_DIR_Y</var></code>
 				</p>
-				<p>
+				<p data-tt="hint3">
 					The equation for a parabola is <code>y - y_1 = a (x - x_1)^2</code>, where <code>x_1</code> and <code>y_1</code>
 					are the coordinates of the <em>vertex</em> of the parabola (halfway between the focus and directrix).
 				</p>
-				<p>
+				<p data-tt="hint4">
 					<code>x_1</code> is the same as the <code>x</code> coordinate of the focus.
 					<code>y_1</code> is at the midpoint of <code><var>PRETTY_FOCUS_Y</var></code> and <code><var>PRETTY_DIR_Y</var></code>.
 				</p>
-				<p>
+				<p data-tt="hint5">
 					So <code>x_1 = <var>PRETTY_X1</var></code>.
 					And <code>y_1 = \dfrac{<var>PRETTY_FOCUS_Y</var> + <var>PRETTY_DIR_Y</var>}{2} = <var>PRETTY_Y1</var></code>.
 				</p>
-				<p>
+				<p data-tt="hint6">
 					The leading coefficient <code>a</code> in the equation <code>y - y_1 = a (x - x_1)^2</code> indicates how "wide" and
 					in what direction the parabola opens. It's always the reciprocal of 2 times the distance from the directrix to the focus.
 				</p>
 				<p>
 					<code>a = \dfrac{1}{2 \times (<var>PRETTY_FOCUS_Y</var> - <var>PRETTY_DIR_Y</var>)} = <var>PRETTY_A</var></code>
 				</p>
-				<p>
+				<p data-tt="hint7">
 					So the equation of the parabola is <code>y - <var>PRETTY_Y1</var> = <var>PRETTY_A</var>(x - <var>PRETTY_X1</var>)^2</code>.
 				</p>
 				</div>
