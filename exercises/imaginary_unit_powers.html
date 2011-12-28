@@ -92,20 +92,11 @@
 					<code>i ^ 4 = (i ^ 2) ^ 2 = (-1) ^ 2 = 1</code>
 				</p>
 				<p>
-					Plugging this result into <code>i ^ {<var>EXP</var>}</code>, we get:
-					<code>i ^ {<var>EXP</var>} = i ^ 4 \cdot i ^ {<var>EXP - 4</var>} = i ^ {<var>EXP - 4</var>}</code>
+					So, we can reduce the exponent by multiples of 4 and have the same result.  
 				</p>
 				<p>
-					Whenever we want to find <code>i ^ X</code> with <code>X \geq 4</code>, we can
-					drop 4 off X.	
-				</p>
-				<p>
-					The number that remains when we decrease a number by 4 while it's greater than 4
-					is the remainder after dividing the number by 4.
-				</p>
-				<p>
-					The remainder after dividing <var>EXP</var> by 4 is <var>EXP % 4</var>,
-					so <code>i ^ {<var>EXP</var>} = i ^ {<var>EXP % 4</var>}</code>.
+					The remainder after dividing <var>EXP</var> by 4 is <var>EXP % 4</var>. <!-- maybe add a reference to mod here... probably after a mod module is made-->
+					So <code>i ^ {<var>EXP</var>} = i ^ {<var>EXP % 4</var>}</code>.
 				</p>
 				<p>
 					<code>i ^ {<var>EXP</var>} = i ^ {<var>EXP % 4</var>} = <var>SOLUTION</var></code>.
