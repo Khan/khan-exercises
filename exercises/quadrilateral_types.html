@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<html data-translatable data-require="math graphie graphie-helpers graphie-geometry math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Quadrilateral Types</title>
@@ -14,7 +14,7 @@
 					<var id="ANGLES">randomQuadAngles[ TYPE ]()</var>
 					<var id="ANGLE_LABELS">jQuery.map( ANGLES,function( x ){ return x  + "^{\\circ}"; } )</var>
 				</div>
-				<div class="problem">
+				<div data-tt="problem1" class="problem">
 					What is the type of this quadrilateral? Be as specific as possible with the given data.
 				</div>
 				<div class="question">
@@ -32,19 +32,19 @@
 				</div>
 				<div class="solution">Trapezoid</div>
 				<ul class="choices" data-category="true">
-					<li>Kite</li>
-					<li>Trapezoid</li>
-					<li>Isosceles Trapezoid</li>
-					<li>Parallelogram</li>
-					<li>Rhombus</li>
-					<li>Rectangle</li>
-					<li>Square</li>
-					<li>None of the above</li>
+					<li data-tt="list1" >Kite</li>
+					<li data-tt="list2" >Trapezoid</li>
+					<li data-tt="list3" >Isosceles Trapezoid</li>
+					<li data-tt="list4" >Parallelogram</li>
+					<li data-tt="list5" >Rhombus</li>
+					<li data-tt="list6" >Rectangle</li>
+					<li data-tt="list7" >Square</li>
+					<li data-tt="list8" >None of the above</li>
 				</ul>
 				<div class="hints">
-					<p>This figure has two parallel sides.</p>
-					<p>It also has 2 pairs of adjacent angles which are supplementary.</p>
-					<p>It is a trapezoid.</p>
+					<p data-tt="hint1" >This figure has two parallel sides.</p>
+					<p data-tt="hint2" >It also has 2 pairs of adjacent angles which are supplementary.</p>
+					<p data-tt="hint3" >It is a trapezoid.</p>
 				</div>
 			</div>
 			<div id="isoscelesTrap" data-type="trapezoid">
@@ -53,10 +53,10 @@
 				</div>
 				<div class="solution">Isosceles Trapezoid</div>
 				<div class="hints">
-					<p>This figure has two parallel sides.</p>
-					<p>It also has 2 pairs of adjacent angles which are supplementary.</p>
-					<p>It is a trapezoid.</p>
-					<p>However, its legs are equal, so it is an isosceles trapezoid.</p>
+					<p data-tt="hint4" >This figure has two parallel sides.</p>
+					<p data-tt="hint5" >It also has 2 pairs of adjacent angles which are supplementary.</p>
+					<p data-tt="hint6" >It is a trapezoid.</p>
+					<p data-tt="hint7" >However, its legs are equal, so it is an isosceles trapezoid.</p>
 				</div>
 			</div>	
 			<div id="parallelogram" data-type="trapezoid">
@@ -65,11 +65,11 @@
 				</div>
 				<div class="solution">Parallelogram</div>
 				<div class="hints">
-					<p>Opposite angles of this  quadrilateral are equal.</p>
-					<p>Adjacent angles are supplementary.</p>
-					<p>It has 2 pairs of parallel sides.</p>
-					<p>Parallel sides are equal.</p>
-					<p>Therefore it is a parallelogram.</p>
+					<p data-tt="hint8" >Opposite angles of this  quadrilateral are equal.</p>
+					<p data-tt="hint9" >Adjacent angles are supplementary.</p>
+					<p data-tt="hint10" >It has 2 pairs of parallel sides.</p>
+					<p data-tt="hint11" >Parallel sides are equal.</p>
+					<p data-tt="hint12" >Therefore it is a parallelogram.</p>
 				</div>
 			</div>	
 			<div id="rectangle" data-type="trapezoid">
@@ -78,9 +78,9 @@
 				</div>
 				<div class="solution">Rectangle</div>
 				<div class="hints">
-					<p>This quadrilateral has 2 pairs of parallel sides.</p>
-					<p>Its angles are equal to 90.</p>
-					<p>Therefore it is a rectangle.</p>
+					<p data-tt="hint13" >This quadrilateral has 2 pairs of parallel sides.</p>
+					<p data-tt="hint14" >Its angles are equal to 90.</p>
+					<p data-tt="hint15" >Therefore it is a rectangle.</p>
 				</div>
 			</div>
 			<div id="square" data-type="trapezoid">
@@ -102,10 +102,10 @@
 				</div>
 				<div class="solution">Square</div>
 				<div class="hints">
-					<p>This quadrilateral has 2 pairs of parallel sides.</p>
-					<p>Its angles are equal to 90.</p>
-					<p>All sides are equal.</p>
-					<p>Therefore it is a square.</p>
+					<p data-tt="hint16" >This quadrilateral has 2 pairs of parallel sides.</p>
+					<p data-tt="hint17" >Its angles are equal to 90.</p>
+					<p data-tt="hint18" >All sides are equal.</p>
+					<p data-tt="hint19" >Therefore it is a square.</p>
 				</div>
 			</div>
 			<div id="kite" data-type="square">
@@ -114,10 +114,10 @@
 				</div>
 				<div class="solution">Kite</div>
 				<div class="hints">
-					<p>This quadrilateral has two pairs of equal sides.</p>
-					<p>Those sides are adjacent.</p>
-					<p>It also has a pair of equal angles, positioned between the non-equal sides.</p>
-					<p>It is a kite.</p>
+					<p data-tt="hint20" >This quadrilateral has two pairs of equal sides.</p>
+					<p data-tt="hint21" >Those sides are adjacent.</p>
+					<p data-tt="hint22" >It also has a pair of equal angles, positioned between the non-equal sides.</p>
+					<p data-tt="hint23" >It is a kite.</p>
 				</div>
 			</div>	
 			<div id="rhombus" data-type="square">
@@ -126,8 +126,8 @@
 				</div>
 				<div class="solution">Rhombus</div>
 				<div class="hints">
-					<p>This quadrilateral has all sides equal.</p>
-					<p>Therefore it is a rhombus.</p>
+					<p data-tt="hint24" >This quadrilateral has all sides equal.</p>
+					<p data-tt="hint25" >Therefore it is a rhombus.</p>
 				</div>
 			</div>
 		</div>

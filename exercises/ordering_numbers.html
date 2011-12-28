@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-translatable data-require="math math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Ordering numbers</title>
@@ -119,7 +119,7 @@
 
 			<div>
 				<div class="question">
-					<p>Order the following numbers from least to greatest:</p>
+					<p data-tt="question1" >Order the following numbers from least to greatest:</p>
 					<p class="number-list"><code><var>NUMS_TEX</var></code></p>
 				</div>
 
@@ -132,12 +132,12 @@
 				</ul>
 
 				<div class="hints">
-					<p>Convert each number to a decimal.</p>
+					<p data-tt="hint1" >Convert each number to a decimal.</p>
 					<p><code>\begin{align*}
 						<span data-each="NUMS as NUM"><var>NUM[4] || NUM[2]</var> & <var>NUM[3]</var> \\</span>
 					\end{align*}</code></p>
-					<p>Sort the decimals: <code><var>NUMS_SORT_DECS</var></code>.</p>
-					<p>Convert back: <code><var>NUMS_SORT_TEXT</var></code>.</p>
+					<p data-tt="hint2" >Sort the decimals: <code><var>NUMS_SORT_DECS</var></code>.</p>
+					<p data-tt="hint3" >Convert back: <code><var>NUMS_SORT_TEXT</var></code>.</p>
 				</div>
 			</div>
 		</div>

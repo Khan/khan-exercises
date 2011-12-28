@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions">
+<html data-translatable data-require="math graphie expressions">
 <head>
 	<meta charset="UTF-8" />
 	<title>Range of a function</title>
@@ -17,7 +17,7 @@
 
 				<p class="problem"><code>f(x) = <var>expr(["+", ["*", A, ["^", "x", 2]], B])</var></code></p>
 
-				<p class="question">What is the range of <code>f(x)</code>?</p>
+				<p data-tt="question1" class="question">What is the range of <code>f(x)</code>?</p>
 
 				<p class="solution" data-type="multiple">
 					<code>\{\, y \in \RR \mid y</code>
@@ -45,7 +45,7 @@
 					<var>expr(["+", ["*", A, ["^", "x", 2]], B])</var> & \text{otherwise}
 				\end{cases}</code></p>
 
-				<p class="question">What is the range of <code>f(x)</code>?</p>
+				<p  data-tt="question2" class="question">What is the range of <code>f(x)</code>?</p>
 
 				<p class="solution" data-type="multiple">
 					<code>\{\, y \in \RR \mid y</code>
@@ -57,9 +57,9 @@
 				</p>
 
 				<div class="hints" data-apply="appendContents">
-					<p id="prehint">First consider the behavior for <code>x \ne <var>HOLE</var></code>.</p>
+					<p data-tt="hint1" id="prehint">First consider the behavior for <code>x \ne <var>HOLE</var></code>.</p>
 					<div id="posthint">
-						<p>If <code>x = <var>HOLE</var></code>, then <code>f(x) = <var>3 * A + B</var></code>, but the range does not change.</p>
+						<p data-tt="hint2" >If <code>x = <var>HOLE</var></code>, then <code>f(x) = <var>3 * A + B</var></code>, but the range does not change.</p>
 						<div class="graphie" data-update="grid">
 							circle( [HOLE, 3 * A + B], 3 / 20, {
 								fill: "red",
@@ -89,9 +89,9 @@
 				</p>
 
 				<div class="hints" data-apply="appendContents">
-					<p id="prehint">First consider the behavior for <code>x \ne <var>HOLE</var></code>.</p>
+					<p  data-tt="hint3" id="prehint">First consider the behavior for <code>x \ne <var>HOLE</var></code>.</p>
 					<div id="posthint">
-						<p>If <code>x = <var>HOLE</var></code>, then <code>f(x) = <var>3 * A + B</var></code>, which eliminates <code>f(x) = <var>B</var></code> from the range.</p>
+						<p data-tt="hint4" >If <code>x = <var>HOLE</var></code>, then <code>f(x) = <var>3 * A + B</var></code>, which eliminates <code>f(x) = <var>B</var></code> from the range.</p>
 						<div class="graphie" data-update="grid">
 							circle( [HOLE, 3 * A + B], 3 / 20, {
 								fill: "red",
@@ -103,7 +103,7 @@
 							} );
 						</div>
 					</div>
-					<p>The new range is <code>\{\, y \mid y <var>A > 0 ? "&gt;" : "&lt;"</var> <var>B</var> \,\}</code>.</p>
+					<p data-tt="hint5" >The new range is <code>\{\, y \mid y <var>A > 0 ? "&gt;" : "&lt;"</var> <var>B</var> \,\}</code>.</p>
 				</div>
 			</div>
 		</div>
@@ -131,12 +131,12 @@
 						strokeDasharray: "- "
 					});
 				</div>
-				<p>Consider the range of <code><var>expr(["*", A, ["^", "x", 2]])</var></code>.</p>
+				<p data-tt="hint6" >Consider the range of <code><var>expr(["*", A, ["^", "x", 2]])</var></code>.</p>
 			</div>
-			<p data-if="A > 0">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> doesn't change the range.</p>
-			<p data-else>The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> flips the range to <code>\{\, y \mid y \le 0 \,\}</code>.</p>
+			<p  data-tt="hint7" data-if="A > 0">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> doesn't change the range.</p>
+			<p  data-tt="hint8" data-else>The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> flips the range to <code>\{\, y \mid y \le 0 \,\}</code>.</p>
 			<div>
-				<p>Now <var>B > 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>. The range becomes: <code>\{\, y \mid y <var>A > 0 ? "&ge;" : "&le;"</var> <var>B</var> \,\}</code>.</p>
+				<p data-tt="hint9" >Now <var>B > 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>. The range becomes: <code>\{\, y \mid y <var>A > 0 ? "&ge;" : "&le;"</var> <var>B</var> \,\}</code>.</p>
 
 				<div class="graphie" data-update="grid">
 					graph.pl.remove();

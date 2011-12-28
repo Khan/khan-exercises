@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie graphie-helpers">
+<html data-translatable data-require="math math-format expressions graphie graphie-helpers">
 <head>
 	<title>Quadratic inequalities 1</title>
 	<script src="../khan-exercise.js"></script>
@@ -35,7 +35,7 @@
 			<div id="bounded-quadratic-inquality">
 
 				<div class="question">
-					<p>For what values of <code>x</code> does
+					<p data-tt="question1" >For what values of <code>x</code> does
 					<p style="text-align:center"><code><var>plus(XX, (A+B)+X)</var> < <var>-C</var></code></p>
 				</div>
 
@@ -49,14 +49,14 @@
 		</div>
 		
 		<div class="hints">
-			<p>First, move the term over to the other side of the inequality<br><code><var>plus(XX, (A+B)+X, C)</var> < 0</code></p>
-			<p>Now, let's factor the quadratic equation<br><code><var>mult(LEFT, RIGHT)</var> < 0</code></p>
-			<p>either <code> <var>LEFT</var> < 0</code> and <code><var>RIGHT</var> > 0</code> or <br>
+			<p data-tt="hint1" >First, move the term over to the other side of the inequality<br><code><var>plus(XX, (A+B)+X, C)</var> < 0</code></p>
+			<p data-tt="hint2" >Now, let's factor the quadratic equation<br><code><var>mult(LEFT, RIGHT)</var> < 0</code></p>
+			<p data-tt="hint3" >either <code> <var>LEFT</var> < 0</code> and <code><var>RIGHT</var> > 0</code> or <br>
 				<code><var>LEFT</var> > 0</code> and <code><var>RIGHT</var> < 0</code> </p>
-			<p>either <code> <var>X</var> < <var>-A</var></code> and <code><var>X</var> > <var>-B</var></code> or <br>
+			<p data-tt="hint4" >either <code> <var>X</var> < <var>-A</var></code> and <code><var>X</var> > <var>-B</var></code> or <br>
 				<code><var>X</var> > <var>-A</var></code> and <code><var>X</var> < <var>-B</var></code> </p>
 			<div>
-				<p>which we can graph, like so:</p>
+				<p data-tt="hint5" >which we can graph, like so:</p>
 				<div class="graphie">
 					init({
 						range: [ [0, 24], [-2, 1.25] ],
@@ -92,7 +92,7 @@
 				</div>
 			</div>
 			
-			<p>By plugging in a value for <code>x</code> we can see which of the inequalities fits
+			<p data-tt="hint6" >By plugging in a value for <code>x</code> we can see which of the inequalities fits
 				
 		</div>
 	</div>

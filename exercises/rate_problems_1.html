@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
+<html data-translatable data-require="math word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Rate problems 1</title>
@@ -20,35 +20,35 @@
 		<div class="problems">
 			<div id="original">
 				<div class="problem">
-					<p><var>person(1)</var> traveled by <var>vehicle(1)</var> at an average speed of <var>SPEED1</var> miles per hour.</p>
-					<p>Then, <var>he(1)</var> traveled by <var>vehicle(2)</var> at an average speed of <var>SPEED2</var> miles per hour.</p>
-					<p>In total, <var>he(1)</var> traveled <var>DIST</var> miles for <var>plural(TIME, "hour")</var>.</p>
+					<p data-tt="problem1" ><var>person(1)</var> traveled by <var>vehicle(1)</var> at an average speed of <var>SPEED1</var> miles per hour.</p>
+					<p data-tt="problem2" >Then, <var>he(1)</var> traveled by <var>vehicle(2)</var> at an average speed of <var>SPEED2</var> miles per hour.</p>
+					<p data-tt="problem3" >In total, <var>he(1)</var> traveled <var>DIST</var> miles for <var>plural(TIME, "hour")</var>.</p>
 				</div>
-				<p class="question">How many miles did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest mile.)</p>
+				<p data-tt="question1" class="question">How many miles did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest mile.)</p>
 				<p class="solution"><var>round(DIST1)</var></p>
 				<div class="hints" data-apply="appendContents">
-					<p id="final-hint"><code>d_<var>vehicleVar(1)</var> = <var>round(DIST1)</var></code> miles</p>
+					<p data-tt="hint1" id="final-hint"><code>d_<var>vehicleVar(1)</var> = <var>round(DIST1)</var></code> miles</p>
 				</div>
 			</div>
 			<div data-type="original">
-				<p class="question">How many miles did <var>person(1)</var> travel by <var>vehicle(2)</var>? (Round to the nearest mile.)</p>
+				<p data-tt="question1"  class="question">How many miles did <var>person(1)</var> travel by <var>vehicle(2)</var>? (Round to the nearest mile.)</p>
 				<p class="solution"><var>round(DIST2)</var></p>
 				<div class="hints" data-apply="appendContents">
-					<p id="final-hint"><code>d_<var>vehicleVar(2)</var> = <var>round(DIST2)</var></code> miles</p>
+					<p  data-tt="hint2" id="final-hint"><code>d_<var>vehicleVar(2)</var> = <var>round(DIST2)</var></code> miles</p>
 				</div>
 			</div>
 			<div data-type="original">
-				<p class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest minute.)</p>
+				<p data-tt="question1"  class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest minute.)</p>
 				<p class="solution"><var>round(DIST1 / SPEED1 * 60)</var></p>
 				<div class="hints" data-apply="appendContents">
-					<p id="final-hint"><code>t_<var>vehicleVar(1)</var> = <var>round(DIST1 / SPEED1 * 60)</var></code> minutes</p>
+					<p  data-tt="hint3" id="final-hint"><code>t_<var>vehicleVar(1)</var> = <var>round(DIST1 / SPEED1 * 60)</var></code> minutes</p>
 				</div>
 			</div>
 			<div data-type="original">
-				<p class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(2)</var>? (Round to the nearest minute.)</p>
+				<p data-tt="question1"  class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(2)</var>? (Round to the nearest minute.)</p>
 				<p class="solution"><var>round(DIST2 / SPEED2 * 60)</var></p>
 				<div class="hints" data-apply="appendContents">
-					<p id="final-hint"><code>t_<var>vehicleVar(2)</var> = <var>round(DIST2 / SPEED2 * 60)</var></code> minutes</p>
+					<p  data-tt="hint4" id="final-hint"><code>t_<var>vehicleVar(2)</var> = <var>round(DIST2 / SPEED2 * 60)</var></code> minutes</p>
 				</div>
 			</div>
 		</div>

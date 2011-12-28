@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive">
+<html data-translatable data-require="math math-format expressions graphie interactive">
 <head>
 	<meta charset="UTF-8" />
 	<title>Graphing inequalities</title>
@@ -26,7 +26,7 @@
 
 			</div>
 
-			<p class="question">Graph the following inequality:</p>
+			<p data-tt="question1" class="question">Graph the following inequality:</p>
 
 			<div class="problem">
 				<p class="hint_blue" data-if="STD_FORM">
@@ -41,14 +41,14 @@
 						KhanUtil.currentGraph.graph.shadetop = !KhanUtil.currentGraph.graph.shadetop;
 						KhanUtil.currentGraph.graph.update();
 					" />
-					<label>
+					<label data-tt="label1">
 						<input name="dashradio" type="radio" value="solid" checked onClick="javascript:
 							KhanUtil.currentGraph.graph.dasharray = '';
 							KhanUtil.currentGraph.graph.update();
 						" />
 						Solid line
 					</label>
-					<label>
+					<label data-tt="label2">
 						<input name="dashradio" type="radio" value="dashed" onClick="javascript:
 							KhanUtil.currentGraph.graph.dasharray = '- ';
 							KhanUtil.currentGraph.graph.update();
@@ -151,7 +151,7 @@
 
 			</div>
 			<div class="solution" data-type="custom">
-				<div class="instruction">
+				<div data-tt="instruction1" class="instruction">
 					Drag the two points to move the line into the correct position.
 				</div>
 				<div class="guess">[ graph.pointA.coord, graph.pointB.coord,
@@ -179,28 +179,28 @@
 					}
 					graph.update();
 				</div>
-				<div class="example">graph the inequality</div>
-				<div class="example">make sure the correct side is shaded</div>
-				<div class="example">make sure the line is correctly shown as solid or dashed</div>
+				<div data-tt="example1" class="example">graph the inequality</div>
+				<div data-tt="example2" class="example">make sure the correct side is shaded</div>
+				<div data-tt="example3" class="example">make sure the line is correctly shown as solid or dashed</div>
 			</div>
 		</div>
 	</div>
 
 	<div class="hints">
 		<div data-if="STD_FORM" data-unwrap>
-			<p>
+			<p data-tt="hint1" >
 				Convert <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> <var>STD_FORM_COMP</var> <var>C</var></code>
 				to slope-intercept form by solving for <code>y</code>.
 			</p>
 			<div>
-				<p>
+				<p data-tt="hint2" >
 					<var>A &lt; 0 ? "Add" : "Subtract"</var> <code><var>abs( A )</var>x</code> <var>A &lt; 0 ? "to" : "from"</var> both sides:
 				</p><p>
 					<code>\qquad <var>expr( [ "*", B, "y" ] )</var> <var>STD_FORM_COMP</var> <var>expr([ "+", [ "*", -A, "x" ], C ])</var></code>
 				</p>
 			</div>
 			<div data-if="B !== 1">
-				<p>
+				<p data-tt="hint3" >
 					Divide both sides by <code><var>B</var></code><span data-if="B < 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
 				</p><p>
 					<code>\qquad y <var>COMP</var> <var>expr([ "+", "\\dfrac{" + expr([ "*", -A, "x" ]) + "}{" + B + "}", "\\dfrac{" + C + "}{" + B + "}" ])</var></code>
@@ -210,7 +210,7 @@
 		<div>
 			<p>
 				<code>\qquad y <var>COMP</var> \color{purple}{<var>PRETTY_SLOPE</var>} x \color{<var>GREEN</var>}{+ <var>YINT</var>}</code>
-			</p><p>
+			</p><p data-tt="hint4" >
 				The y-intercept is <code class="hint_green"><var>YINT</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>.
 				Since the y-intercept is <code class="hint_green"><var>YINT</var></code>, the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
 			</p>
@@ -221,7 +221,7 @@
 			</div>
 		</div>
 		<div>
-			<p>
+			<p data-tt="hint5" >
 				The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that
 				the slope tells you rise over run. So in this case for every
 				<code><var>abs( SLOPE_FRAC[0] )</var></code>
@@ -248,17 +248,17 @@
 				graph.yint.toBack();
 			</div>
 		</div>
-		<p>
+		<p data-tt="hint6" >
 			Since our inequality has a <var>LESS_THAN ? "less-than" : "greater-than"</var><var>INCLUSIVE ? " or equal to" : ""</var> sign, that means that any point
 			<strong><var>LESS_THAN ? "below" : "above"</var></strong> the line is a solution to the inequality, so the area <var>LESS_THAN ? "below" : "above"</var>
 			the line should be shaded.
 		</p>
 		<div>
-			<p data-if="INCLUSIVE">
+			<p  data-tt="hint7" data-if="INCLUSIVE">
 				Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> or <strong>equal to</strong>, any point on the line is also a solution, so the
 				line should be solid.
 			</p>
-			<p data-else>
+			<p  data-tt="hint8" data-else>
 				Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> (and not equal to), any point on the line is <strong>not</strong> part of the solution,
 				so the line should be dashed to indicate this.
 			</p>
