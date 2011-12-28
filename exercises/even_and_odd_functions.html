@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- TDOO: remove <var>s in graphie data-eachs -->
-<html data-require="math expressions graphie">
+<html data-translatable data-require="math expressions graphie">
 <head>
 	<meta charset="UTF-8" />
 	<title>Even and odd functions</title>
@@ -122,7 +122,7 @@
 			<div>
 
 				<div class="problem">
-					<p><code>f(x)</code> is graphed below.</p>
+					<p data-tt="question1"><code>f(x)</code> is graphed below.</p>
 					<div id="graph" class="graphie">
 						graphInit({
 							range: 10,
@@ -145,12 +145,12 @@
 					</div>
 				</div>
 
-				<p class="question">Is <code>f(x)</code> even, odd, or neither?</p>
+				<p class="question" data-tt="question2">Is <code>f(x)</code> even, odd, or neither?</p>
 				<p class="solution"><var>SOL</var></p>
 				<ul class="choices" data-category="true">
-					<li>Even</li>
-					<li>Odd</li>
-					<li>Neither</li>
+					<li data-tt="question3">Even</li>
+					<li data-tt="question4">Odd</li>
+					<li data-tt="question5">Neither</li>
 				</ul>
 			</div>
 		</div>
@@ -179,11 +179,11 @@
 					label( [ 0, valAt( WIDES, -PT ) ], "f(-a)", "right");
 				</div>
 
-				<p>
+				<p data-tt="hint1">
 					<code>f(-a)\neq f(a)</code>, so <code>f(x)</code> is not even.
 				</p>
 
-				<p>
+				<p data-tt="hint2">
 					<code>f(-a)\neq -f(a)</code>, so <code>f(x)</code> is not odd.
 				</p>
 
@@ -210,15 +210,15 @@
 				</div>
 
 				<div data-unwrap data-if="SOL === 'Odd'">
-					<p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
+					<p data-tt="hint3"><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
 
-					<p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">odd</span>.</p>
+					<p data-tt="hint4"><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">odd</span>.</p>
 				</div>
 
 				<div data-unwrap data-else>
-					<p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
+					<p data-tt="hint5"><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
 
-					<p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">even</span>.</p>
+					<p data-tt="hint6"><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">even</span>.</p>
 				</div>
 
 			</div>
