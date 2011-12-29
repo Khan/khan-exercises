@@ -1,4 +1,5 @@
 jQuery.extend(KhanUtil, {
+	
 	// Simplify formulas before display
 	cleanMath: function( expr ) {
 		return typeof expr === "string" ?
@@ -12,7 +13,8 @@ jQuery.extend(KhanUtil, {
 	// A simple random number picker
 	// Returns a random int in [0, num)
 	rand: function( num ) {
-		return Math.floor( num * KhanUtil.random() );
+		// return Math.floor( num * KhanUtil.random() );
+		return 10;
 	},
 
 	/* Returns an array of the digits of a nonnegative integer in reverse
