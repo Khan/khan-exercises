@@ -21,7 +21,13 @@
 				<var id="OUTER_WRONG_2">randFromArray( OUTER.wrongs )</var>
 			</div>
 
-			<var id="DERIVATIVE">expr(["*", OUTER.ddxF, INNER.ddxF])</var>
+			<var id="DERIVATIVE">
+			    ( ( OUTER.f[0] === '^' &amp;&amp; OUTER.f[1] === 'e' &amp;&amp; INNER.f[0] === 'ln' )
+			        || ( OUTER.f[0] === 'ln' &amp;&amp; INNER.f[0] === '^' &amp;&amp; INNER.f[1] == 'e' ) )
+			        ? '1'
+			        : expr(["*", OUTER.ddxF, INNER.ddxF])
+			</var>
+
 			<var id="NOTATION">funcNotation("x")</var>
 		</div>
 
