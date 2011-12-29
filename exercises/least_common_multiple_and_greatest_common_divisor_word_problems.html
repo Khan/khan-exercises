@@ -4,107 +4,339 @@
 	<meta charset="UTF-8" />
 	<title>Least common multiple and greatest common divisor word problems</title>
 	<script src="../khan-exercise.js"></script>
+	<style>
+		.gcd-column {
+			position: relative;
+			float: left;
+			margin-left: 20px;
+		}
+	</style>
 </head>
 <body>
 	<div class="exercise">
 	<div class="problems">
 
 		<div id="lcm-hot-dog-count">
-			<div class="vars">
+			<div class="vars" data-ensure="LCM !== A && LCM !== B">
 				<var id="C">randRange( 2, 6 )</var>
 				<var id="START_A">randRange( 1, 10 )</var>
 				<var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
 				<var id="A">START_A * C</var>
 				<var id="B">START_B * C</var>
-				<var id="BIGGER">Math.max( A, B )</var>
-				<var id="SMALLER">Math.min( A, B )</var>
 				<var id="PRODUCT">A * B</var>
 				<var id="GCD">getGCD( A, B )</var>
 				<var id="LCM">PRODUCT / GCD</var>
-				<var id="MULTIPLES">getMultiples( BIGGER, LCM )</var>
 			</div>
 
-			<div class="question spin">
-				<p>{Next week|On Saturday}, <var>person(1)</var> is having a party, and <var>he(1)</var> plans to serve hot dogs in buns. {<var>He(1)</var> is also planning to play <var>his(1)</var> <var>randRange(2,30)</var> favorite songs. |}<var>He(1)</var> does not want to have any food left over.</p>
-				<p>Hot dogs come in packages of <var>A</var>, and buns come in packages of <var>B</var>.</p>
-				<p><strong>What is the minimum amount of hot dogs and buns <var>person(1)</var> can buy?</strong></p>
-			</div>
+			<p class="problem spin">
+				{Next week|On Saturday}, <var>person(1)</var> is having a party{ and <var>he(1)</var>'s planning to play <var>his(1)</var>
+				<var>randRange(2,30)</var> favorite songs. <var>He(1)</var> also|. <var>He(1)</var>} wants to get some hot dogs for the party. When <var>he(1)</var>
+				goes to the store, <var>he(1)</var> finds that hot dogs come in packages of <var>A</var> and buns come in packages of <var>B</var>.
+			</p>
+
+			<p class="question">
+				If <var>person(1)</var> wants to have the same number of hot dogs and buns,
+				what is the minimum number of hot dogs <var>he(1)</var> will have to buy?
+			</p>
+
 			<p class="solution" data-forms="integer"><var>LCM</var></p>
 
 			<div class="hints">
-				<p>To find the minimum amount of hot dogs and buns <var>person(1)</var> can buy, we need to find the least common multiple of the number of hot dogs per package (<var>A</var>) and the number of buns per package (<var>B</var>).</p>
-				<p>The least common multiple is the smallest number that is a multiple of <var>A</var> and <var>B</var>.</p>
-				<p>We know that <var>A</var> x <var>B</var> (or <var>PRODUCT</var>) is a common multiple, but is it the least common multiple?</p>
-				<p>Write out the multiples of <var>BIGGER</var> until we find a number divisible by <var>SMALLER</var>.</p>
-				<span data-each="MULTIPLES as M"><span data-if="M === LCM"><code class="hint_blue">\text{<var>M</var>}</code></span><span data-else> <code>\text{<var>M</var>}</code>, </span></span>
-				<p>So, <var>LCM</var> is the least common multiple of <var>A</var> and <var>B</var>.</p>
-				<p><strong>The smallest amount of food <var>person(1)</var> can buy is <var>LCM</var> hot dogs and buns</strong>, or <var>plural(LCM/A,"package")</var> of hot dogs and <var>plural(LCM/B,"package")</var> of buns.</p>
+				<div>
+					<p>
+						We know that hot dogs come in packages of <code><var>A</var></code>. Write out the first few multiples
+						of <code><var>A</var></code> to see the possible numbers of hot dogs <var>person(1)</var> can buy:
+					</p>
+					<p>
+						<code>\qquad dogs: </code>
+						<span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 14, LCM ) ) ) as M"><code><var>M</var>,</code> </span>
+						<code>...</code>
+					</p>
+				</div>
+				<div>
+					<p>
+						We know that buns come in packages of <code><var>B</var></code>. Write out the first few multiples
+						of <code><var>B</var></code> to see the possible numbers of buns <var>person(1)</var> can buy:
+					</p>
+					<p>
+						<code>\qquad buns: </code>
+						<span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 14, LCM ) ) ) as M"><code><var>M</var>,</code> </span>
+						<code>...</code>
+					</p>
+				</div>
+				<div>
+					<p>
+						Since <var>person(1)</var> wants to have the same number of hot dogs and buns, look for <em>common multiples</em> where it's
+						possible to buy the same number of hot dogs and buns:
+					</p>
+					<p>
+						<code>\qquad dogs: </code>
+						<span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 14, LCM ) ) ) as M">
+							<span data-if="M % LCM === 0 && M / LCM === 1">
+								<code>\color{<var>PINK</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 2">
+								<code>\color{<var>BLUE</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 3">
+								<code>\color{<var>GREEN</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else>
+								<code><var>M</var>,</code>
+							</span>
+						</span>
+						<code>...</code>
+					</p>
+					<p>
+						<code>\qquad buns: </code>
+						<span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 14, LCM ) ) ) as M">
+							<span data-if="M % LCM === 0 && M / LCM === 1">
+								<code>\color{<var>PINK</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 2">
+								<code>\color{<var>BLUE</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 3">
+								<code>\color{<var>GREEN</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else>
+								<code><var>M</var>,</code>
+							</span>
+						</span>
+						<code>...</code>
+					</p>
+				</div>
+
+				<p>
+					The <em>least</em> common multiple is the minimum number of hot dogs <var>person(1)</var> will have to buy to get
+					the same number of hot dogs and buns.
+				</p>
+				<p><code class="hint_pink"><var>LCM</var></code> is the least common multiple of <code><var>A</var></code> and <code><var>B</var></code>.</p>
+				<p>
+					To get the same number of each, <strong>the smallest amount of food <var>person(1)</var> can buy is <var>LCM</var> hot dogs and buns</strong>,
+					or <var>plural(LCM/A,"package")</var> of hot dogs and <var>plural(LCM/B,"package")</var> of buns.
+				</p>
 			</div>
 		</div>
 
 		<div id="lcm-uniforms">
-			<div class="vars">
+			<div class="vars" data-ensure="LCM !== A && LCM !== B">
 				<var id="C">randRange( 2, 6 )</var>
 				<var id="START_A">randRange( 1, 10 )</var>
 				<var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
 				<var id="A">START_A * C</var>
 				<var id="B">START_B * C</var>
-				<var id="BIGGER">Math.max( A, B )</var>
-				<var id="SMALLER">Math.min( A, B )</var>
 				<var id="PRODUCT">A * B</var>
 				<var id="GCD">getGCD( A, B )</var>
 				<var id="LCM">PRODUCT / GCD</var>
-				<var id="MULTIPLES">getMultiples( BIGGER, LCM )</var>
 			</div>
 
-			<div class="question spin">
-				<p spin><var>person(1)</var> is organizing a {baseball|softball} league, and <var>he(1)</var> needs to purchase jerseys and visors for the players. Jerseys come in sets of <var>A</var>, and visors come in sets of <var>B</var>.</p>
-				<p><var>person(1)</var> does not want to have any jerseys or visors left over.</p>
-				<p><strong>What is the minimum number of jerseys and visors <var>person(1)</var> can purchase?</strong></p>
-			</div>
+			<p class="problem spin">
+				<var>person(1)</var> is organizing a {baseball|softball} league, and <var>he(1)</var> needs to purchase jerseys and
+				visors for the players. Jerseys come in sets of <var>A</var>, and visors come in sets of <var>B</var>.
+			</p>
+			<p class="question">
+				If <var>person(1)</var> wants to buy the same number of jerseys and visors,
+				what is the minimum number of jerseys or visors <var>he(1)</var> will have to purchase?
+			</p>
 			<p class="solution" data-forms="integer"><var>LCM</var></p>
 
 			<div class="hints">
-				<p>To find the minimum number of jerseys and visors <var>person(1)</var> can purchase, we need to find the least common multiple of the number of jerseys per set (<var>A</var>) and visors per set (<var>B</var>).</p>
-				<p>The least common multiple is the smallest number that is a multiple of <var>A</var> and <var>B</var>.</p>
-				<p>We know that <var>A</var> x <var>B</var> (or <var>PRODUCT</var>) is a common multiple, but is it the least common multiple?</p>
-				<p>Write out the multiples of <var>BIGGER</var> until we find a number divisible by <var>SMALLER</var>.</p>
-				<span data-each="MULTIPLES as M"><span data-if="M === LCM"><code class="hint_blue">\text{<var>M</var>}</code></span><span data-else> <code>\text{<var>M</var>}</code>, </span></span>
-				<p>So, <var>LCM</var> is the least common multiple of <var>A</var> and <var>B</var>.</p>
-				<p><strong>At a minimum, <var>person(1)</var> needs to purchase <var>LCM</var> jerseys and visors</strong>, or <var>plural(LCM/A,"set")</var> of jerseys and <var>plural(LCM/B,"set")</var> of visors.</p>
+				<div>
+					<p>
+						We know that jerseys come in packages of <code><var>A</var></code>. Write out the first few multiples
+						of <code><var>A</var></code> to see the possible numbers of jerseys <var>person(1)</var> can buy:
+					</p>
+					<p>
+						<code>\qquad jerseys: </code>
+						<span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 12, LCM ) ) ) as M"><code><var>M</var>,</code> </span>
+						<code>...</code>
+					</p>
+				</div>
+				<div>
+					<p>
+						We know that visors come in packages of <code><var>B</var></code>. Write out the first few multiples
+						of <code><var>B</var></code> to see the possible numbers of visors <var>person(1)</var> can buy:
+					</p>
+					<p>
+						<code>\qquad visors: </code>
+						<span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 12, LCM ) ) ) as M"><code><var>M</var>,</code> </span>
+						<code>...</code>
+					</p>
+				</div>
+				<div>
+					<p>
+						Since <var>person(1)</var> wants to have the same number of jerseys and visors, look for <em>common multiples</em> where it's
+						possible to buy the same number of jerseys and visors:
+					</p>
+					<p>
+						<code>\qquad jerseys: </code>
+						<span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 12, LCM ) ) ) as M">
+							<span data-if="M % LCM === 0 && M / LCM === 1">
+								<code>\color{<var>PINK</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 2">
+								<code>\color{<var>BLUE</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 3">
+								<code>\color{<var>GREEN</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else>
+								<code><var>M</var>,</code>
+							</span>
+						</span>
+						<code>...</code>
+					</p>
+					<p>
+						<code>\qquad visors: </code>
+						<span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 12, LCM ) ) ) as M">
+							<span data-if="M % LCM === 0 && M / LCM === 1">
+								<code>\color{<var>PINK</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 2">
+								<code>\color{<var>BLUE</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 3">
+								<code>\color{<var>GREEN</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else>
+								<code><var>M</var>,</code>
+							</span>
+						</span>
+						<code>...</code>
+					</p>
+				</div>
+
+				<p>
+					The <em>least</em> common multiple is the minimum number of jerseys <var>person(1)</var> will have to buy to get
+					the same number of jerseys and visors.
+				</p>
+				<p><code class="hint_pink"><var>LCM</var></code> is the least common multiple of <code><var>A</var></code> and <code><var>B</var></code>.</p>
+				<p>
+					To get the same number of each, <strong>the smallest number <var>person(1)</var> can buy is <var>LCM</var> jerseys and visors</strong>,
+					or <var>plural( LCM / A, "set" )</var> of jerseys and <var>plural( LCM / B, "set" )</var> of visors.
+				</p>
 			</div>
 		</div>
 
 		<div id="lcm-test-questions">
-			<div class="vars">
+			<div class="vars" data-ensure="LCM !== A && LCM !== B">
 				<var id="C">randRange( 2, 6 )</var>
 				<var id="START_A">randRange( 1, 10 )</var>
 				<var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
 				<var id="A">START_A * C</var>
 				<var id="B">START_B * C</var>
-				<var id="BIGGER">Math.max( A, B )</var>
-				<var id="SMALLER">Math.min( A, B )</var>
 				<var id="PRODUCT">A * B</var>
 				<var id="GCD">getGCD( A, B )</var>
 				<var id="LCM">PRODUCT / GCD</var>
-				<var id="MULTIPLES">getMultiples( BIGGER, LCM )</var>
 			</div>
 
-			<div class="question spin">
-				<p spin><var>person(1)</var> and <var>person(2)</var> both teach <var>course(1)</var> at <var>school(1)</var>. They give their students the same number of total <var>exam(1)</var> questions each year.</p>
-				<p>Each <var>exam(1)</var> <var>person(1)</var> gives contains <var>A</var> questions, and each <var>exam(1)</var> <var>person(2)</var> gives has <var>B</var> questions on it. {<var>person(1)</var> has <var>randRange(15,40)</var> students in <var>his(1)</var> class.|<var>person(2)</var> also assigns <var>randRange(3,10)</var> projects per year.}</p>
-				<p><strong>What is the minimum number of total <var>exam(1)</var> questions <var>person(1)</var> and <var>person(2)</var> each give their students in a year?</strong></p>
+			<div class="problem">
+				<p class="spin">
+					<var>person(1)</var> and <var>person(2)</var> are in different <var>course(1)</var> classes at <var>school(1)</var>.
+					<span data-if="A > B">
+						<var>person(1)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>A</var> questions on them while
+						<var>person(2)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>B</var> questions.
+					</span>
+					<span data-else>
+						<var>person(2)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>B</var> questions on them while
+						<var>person(1)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>A</var> questions.
+					</span>
+					{<var>person(1)</var> has <var>randRange(15,40)</var> other students in <var>his(1)</var> class.
+					|<var>person(2)</var>'s teacher also assigns <var>randRange(3,10)</var> projects per year.}
+				</p>
+				<p>
+					Even though the two classes have to take a different number of <var>plural( exam(1) )</var>, their teachers have
+					told them that both classes will get the same total number of <var>exam(1)</var> questions each year.
+				</p>
 			</div>
+
+			<p class="question">
+				What is the minimum number of <var>exam(1)</var> questions <var>person(1)</var>'s or <var>person(2)</var>'s class
+				can expect to get in a year?
+			</p>
+
 			<p class="solution" data-forms="integer"><var>LCM</var></p>
 
 			<div class="hints">
-				<p>To find the minimum number of questions <var>person(1)</var> and <var>person(2)</var> give, we need to find the least common multiple of the number of questions on <var>person(1)</var>'s tests (<var>A</var>) and <var>person(2)</var>'s tests (<var>B</var>).</p>
-				<p>The least common multiple is the smallest number that is a multiple of <var>A</var> and <var>B</var>.</p>
-				<p>We know that <var>A</var> x <var>B</var> (or <var>PRODUCT</var>) is a common multiple, but is it the least common multiple?</p>
-				<p>Write out the multiples of <var>BIGGER</var> until we find a number divisible by <var>SMALLER</var>.</p>
-				<span data-each="MULTIPLES as M"><span data-if="M === LCM"><code class="hint_blue">\text{<var>M</var>}</code></span><span data-else> <code>\text{<var>M</var>}</code>, </span></span>
-				<p>So, <var>LCM</var> is the least common multiple of <var>A</var> and <var>B</var>.</p>
-				<p><strong>The least number of questions <var>person(1)</var> and <var>person(2)</var> each give is <var>LCM</var></strong>, or <var>plural(LCM/A, exam(1))</var> in <var>person(1)</var>'s class and <var>plural(LCM/B, exam(1))</var> in <var>person(2)</var>'s class.</p>
+				<div>
+					<p>
+						We know that in <var>person(1)</var>'s class, all the <var>plural( exam(1) )</var> have <code><var>A</var></code> questions. Write
+						out the first few multiples of <code><var>A</var></code> to see the possible numbers of questions
+						<var>person(1)</var> might have to answer over the whole year:
+					</p>
+					<p>
+						<code>\qquad</code>
+						<span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 15, LCM ) ) ) as M"><code><var>M</var>,</code> </span>
+						<code>...</code>
+					</p>
+				</div>
+				<div>
+					<p>
+						We know that in <var>person(2)</var>'s class, all the <var>plural( exam(1) )</var> have <code><var>B</var></code> questions. Write
+						out the first few multiples of <code><var>B</var></code> to see the possible numbers of questions
+						<var>person(2)</var> might have to answer over the whole year:
+					</p>
+					<p>
+						<code>\qquad</code>
+						<span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 15, LCM ) ) ) as M"><code><var>M</var>,</code> </span>
+						<code>...</code>
+					</p>
+				</div>
+				<div>
+					<p>
+						Since <var>person(1)</var>'s and <var>person(2)</var>'s teachers have told them that both classes will have the same total
+						number of <var>exam(1)</var> questions over the whole year, look for the <em>common multiples</em> to find the possible
+						numbers of <var>exam(1)</var> questions they will have to answer.
+					</p>
+					<p>
+						<code>\qquad</code>
+						<span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 15, LCM ) ) ) as M">
+							<span data-if="M % LCM === 0 && M / LCM === 1">
+								<code>\color{<var>PINK</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 2">
+								<code>\color{<var>BLUE</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 3">
+								<code>\color{<var>GREEN</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else>
+								<code><var>M</var>,</code>
+							</span>
+						</span>
+						<code>...</code>
+					</p>
+					<p>
+						<code>\qquad</code>
+						<span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 15, LCM ) ) ) as M">
+							<span data-if="M % LCM === 0 && M / LCM === 1">
+								<code>\color{<var>PINK</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 2">
+								<code>\color{<var>BLUE</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else-if="M % LCM === 0 && M / LCM === 3">
+								<code>\color{<var>GREEN</var>}{<var>M</var>},</code>
+							</span>
+							<span data-else>
+								<code><var>M</var>,</code>
+							</span>
+						</span>
+						<code>...</code>
+					</p>
+				</div>
+
+				<p>
+					The <em>least</em> common multiple is the minimum number questions <var>person(1)</var> and <var>person(2)</var> might
+					have to answer over the year.
+				</p>
+				<p><code class="hint_pink"><var>LCM</var></code> is the least common multiple of <code><var>A</var></code> and <code><var>B</var></code>.</p>
+				<p>
+					If <var>person(1)</var>'s and <var>person(2)</var>'s classes get the same total number of questions,
+					<strong>the minimum number of <var>exam(1)</var> questions they can expect to get in a year is <var>LCM</var> questions</strong>,
+					or <var>plural( LCM / A, exam(1) )</var> in <var>person(1)</var>'s class and <var>plural( LCM / B, exam(1) )</var> in <var>person(2)</var>'s class.
+				</p>
 			</div>
 		</div>
 
@@ -112,40 +344,118 @@
 			<div class="vars" data-ensure="A_START !== B_START">
 				<var id="A_START">randRange( 1, 10 )</var>
 				<var id="B_START">randRange( 1, 10 )</var>
-				<var id="FACTOR">randRange( 1, 5 )</var>
+				<var id="FACTOR">randRange( 2, 5 )</var>
 
 				<var id="A">A_START * FACTOR</var>
 				<var id="B">B_START * FACTOR</var>
 				<var id="GCD">getGCD( A, B )</var>
-				<var id="A_FACTORS">toSentence(getFactors( A ))</var>
-				<var id="B_FACTORS">toSentence(getFactors( B ))</var>
+				<var id="A_FACTORS">getFactors( A )</var>
+				<var id="B_FACTORS">getFactors( B )</var>
 			</div>
 
 			<div class="question spin">
-				<p spin>At a track and field competition, there are <var>A</var> sprinters and <var>B</var> long-distance runners{ and <var>randRange(5,100)</var> fans|}. All teams need to have the same number of sprinters and the same number of long-distance runners.</p>
-				<p><strong>What is the greatest number of teams that can be formed?</strong></p>
+				<p>
+					At a track and field competition, there are <var>A</var> sprinters and <var>B</var> long-distance
+					runners{ and <var>randRange(5,100)</var> fans|}. <var>person(1)</var> has to assign all of the athletes
+					to teams. <var>He(1)</var> wants to make sure all of the teams have the same number of sprinters and
+					the same number of long-distance runners.
+				</p>
+				<p><strong>What is the greatest number of teams <var>person(1)</var> can form?</strong></p>
 			</div>
 
 			<p class="solution" data-forms="integer"><var>GCD</var></p>
 
 			<div class="hints">
-				<p>To find the greatest number of teams that can be formed, we need to find the greatest common divisor of the number of sprinters (<var>A</var>) and long-distance runners (<var>B</var>).</p>
-				<p>The greatest common divisor is the largest number that is a factor (or divisor) of both <var>A</var> and <var>B</var>.</p>
+				<p>
+					Let's start by just thinking about the sprinters. We can think about all the ways to divide the
+					<var>A</var> sprinters into equally sized teams by finding the factors of <var>A</var>.
+				</p>
+
 				<div>
-					<p data-if="A === 1">The only factor (divisor) of 1 is 1.</p>
-					<p data-else>The factors (divisors) of <var>A</var> are <var>A_FACTORS</var>.</p>
+					<p>
+						The factors of <var>A</var> are <span class="hint_blue"><var>toSentence( getFactors( A ) )</var></span> since
+						those are all the numbers that divide evenly into <var>A</var>.
+						That means we can divide the sprinters into equally sized teams in any of the following ways:
+					</p>
+					<p style="margin-left: 20px">
+						<span data-each="getFactors( A ) as F" class="hint_blue">
+							<var>plural( F, "team" )</var> with <var>plural( A / F, "sprinter" )</var> <var>plural( "", "each", F )</var><br />
+						</span>
+					</p>
 				</div>
+
+				<p>
+					Now lets think about the long-distance runners. We can also list all the ways to divide the
+					<var>B</var> long-distance runners into equally sized teams by finding the factors of <var>B</var>.
+				</p>
+
 				<div>
-					<p data-if="B === 1">The only factor (divisor) of 1 is 1.</p>
-					<p data-else>The factors (divisors) of <var>B</var> are <var>B_FACTORS</var>.</p>
+					<p>
+						The factors of <var>B</var> are <span class="hint_green"><var>toSentence( getFactors( B ) )</var></span> since
+						those are all the numbers that divide evenly into <var>B</var>.
+						That means we can divide the long-distance runners into equally sized teams in any of the following ways:
+					</p>
+					<p style="margin-left: 20px">
+						<span data-each="getFactors( B ) as F" class="hint_green">
+							<var>plural( F, "team" )</var> with <var>plural( B / F, "long-distance runner" )</var> <var>plural( "", "each", F )</var><br />
+						</span>
+					</p>
 				</div>
+
+
 				<div>
-					<p>So, the greatest common divisor of <var>A</var> and <var>B</var> is <var>GCD</var>.</p>
-					<p><code>\gcd(<var>A</var>, <var>B</var>) = <var>GCD</var></code></p>
+					<p>
+						Since each team will have sprinters and long-distance runners, compare the numbers of teams the sprinters can be divided into and
+						the numbers of teams the runners can be divided into to find the <em>common divisors</em>:
+					</p>
+					<div class="gcd-column">
+						<span data-each="max( A, B ) times as N">
+							<span data-if="jQuery.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
+								<var>plural( N + 1, "team" )</var> with <var>plural( A / ( N + 1 ), "sprinter" )</var><br />
+							</span>
+							<span data-else-if="jQuery.inArray( N + 1, B_FACTORS ) !== -1">
+								<br />
+							</span>
+						</span>
+					</div>
+					<div class="gcd-column">
+						<span data-each="max( A, B ) times as N">
+							<span data-if="jQuery.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
+								<var>plural( N + 1, "team" )</var> with <var>plural( B / ( N + 1 ), "long-distance runner" )</var><br />
+							</span>
+							<span data-else-if="jQuery.inArray( N + 1, A_FACTORS ) !== -1">
+								<br />
+							</span>
+						</span>
+					</div>
+					<div class="ui-helper-clearfix"></div>
 				</div>
+
 				<div>
-					<p><strong>The greatest number of teams that can be formed is <var>plural(GCD,"team")</var></strong>, with <var>plural(A/GCD,"sprinter")</var> and <var>plural(B/GCD,"long-distance runner")</var> each.</p>
+					<p>
+						The common divisors of <var>A</var> and <var>B</var> are <span class="hint_pink"><var>toSentence( _.intersection( A_FACTORS, B_FACTORS ) )</var></span>.
+						In other words, with <var>A</var> sprinters and <var>B</var> long-distance runners,
+						<var>person(1)</var> can make the following equal teams:
+					</p>
+					<p style="margin-left: 20px">
+						<span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+							<var>plural( F, "team" )</var> with <var>plural( A / F, "sprinter" )</var> and
+							<var>plural( B / F, "long-distance runner" )</var>
+							<br />
+						</span>
+					</p>
 				</div>
+
+				<p>
+					We want to know the <em>greatest</em> number of equal teams <var>person(1)</var> can make, so from the common divisors above,
+					we want the <em>greatest common divisor</em>.
+				</p>
+
+				<p>
+					<strong>The greatest number of teams that <var>person(1)</var> can form is <var>GCD</var> teams</strong>,
+					with <var>plural( A / GCD, "sprinter" )</var> and <var>plural( B / GCD, "long-distance runner" )</var> per team.
+				</p>
+
 			</div>
 		</div>
 
@@ -153,82 +463,242 @@
 			<div class="vars" data-ensure="A_START !== B_START">
 				<var id="A_START">randRange( 1, 10 )</var>
 				<var id="B_START">randRange( 1, 10 )</var>
-				<var id="FACTOR">randRange( 1, 5 )</var>
+				<var id="FACTOR">randRange( 2, 5 )</var>
 
 				<var id="A">A_START * FACTOR</var>
 				<var id="B">B_START * FACTOR</var>
 				<var id="GCD">getGCD( A, B )</var>
-				<var id="A_FACTORS">toSentence(getFactors( A ))</var>
-				<var id="B_FACTORS">toSentence(getFactors( B ))</var>
+				<var id="A_FACTORS">getFactors( A )</var>
+				<var id="B_FACTORS">getFactors( B )</var>
 			</div>
 
-			<div class="question spin">
-				<p>People who eat at <var>person(1)</var>'s famous dessert restaurant expect consistency, so <var>person(1)</var> must ensure that every plate of cookies is {exactly the same|identical}.</p>
-				<p><var>person(1)</var> bakes one batch of <var>A</var> chocolate-chip cookies and one batch of <var>B</var> oatmeal cookies each day; since <var>person(1)</var> bakes cookies fresh daily, <var>he(1)</var> does not want any cookies left over at the end of the night.</p>
-				<p><strong>What is the greatest number of plates of cookies <var>person(1)</var> can serve on one night?</strong></p>
+			<div class="problem spin">
+				<p>
+					At <var>person(1)</var>'s bakery, <var>person(1)</var> bakes one batch of <var>A</var> chocolate chip cookies
+					and one batch of <var>B</var> oatmeal cookies each day. <var>person(1)</var> sells all <var>his(1)</var> cookies
+					the same day in gift baskets.
+				</p>
+				<p>
+					{Because <var>his(1)</var> customers expect consistency|To keep the price the same}, <var>person(1)</var> wants
+					to make sure each gift basket is identical.
+				</p>
 			</div>
+
+			<p class="question">
+				What is the greatest number of gift baskets <var>person(1)</var> can sell each day?
+			</p>
 
 			<p class="solution" data-forms="integer"><var>GCD</var></p>
 
 			<div class="hints">
-				<p>To find the greatest number of cookie plates that can be served, we need to find the greatest common divisor of the number of chocolate-chip cookies per batch (<var>A</var>) and oatmeal cookies per batch (<var>B</var>).</p>
-				<p>The greatest common divisor is the largest number that is a factor (or divisor) of both <var>A</var> and <var>B</var>.</p>
+				<p>
+					Let's start by just thinking about the chocolate chip cookies. We can think about all the ways to equally
+					divide the <var>A</var> chocolate chip cookies into gift baskets by finding the factors of <var>A</var>.
+				</p>
+
 				<div>
-					<p data-if="A === 1">The only factor (divisor) of 1 is 1.</p>
-					<p data-else>The factors (divisors) of <var>A</var> are <var>A_FACTORS</var>.</p>
+					<p>
+						The factors of <var>A</var> are <span class="hint_blue"><var>toSentence( getFactors( A ) )</var></span> since
+						those are all the numbers that divide evenly into <var>A</var>.
+						That means we can equally divide the chocolate chip cookies into gift baskets in any of the following ways:
+					</p>
+					<p style="margin-left: 20px">
+						<span data-each="getFactors( A ) as F" class="hint_blue">
+							<var>plural( F, "basket" )</var> with <var>plural( A / F, "chocolate chip cookie" )</var> <var>plural( "", "each", F )</var><br />
+						</span>
+					</p>
 				</div>
+
+				<p>
+					Now lets think about the oatmeal cookies. We can also list all the ways to equally divide the
+					<var>B</var> oatmeal cookies into gift baskets by finding the factors of <var>B</var>.
+				</p>
+
 				<div>
-					<p data-if="B === 1">The only factor (divisor) of 1 is 1.</p>
-					<p data-else>The factors (divisors) of <var>B</var> are <var>B_FACTORS</var>.</p>
+					<p>
+						The factors of <var>B</var> are <span class="hint_green"><var>toSentence( getFactors( B ) )</var></span> since
+						those are all the numbers that divide evenly into <var>B</var>.
+						That means we can equally divide the oatmeal cookies into gift baskets in any of the following ways:
+					</p>
+					<p style="margin-left: 20px">
+						<span data-each="getFactors( B ) as F" class="hint_green">
+							<var>plural( F, "basket" )</var> with <var>plural( B / F, "oatmeal cookie" )</var> <var>plural( "", "each", F )</var><br />
+						</span>
+					</p>
 				</div>
+
 				<div>
-					<p>So, the greatest common divisor of <var>A</var> and <var>B</var> is <var>GCD</var>.</p>
-					<p><code>\gcd(<var>A</var>, <var>B</var>) = <var>GCD</var></code></p>
+					<p>
+						Since each gift basket will have chocolate chip and oatmeal cookies, compare the ways of dividing the chocolate chip cookies
+						and the ways of dividing the oatmeal cookies to find the <em>common divisors</em>:
+					</p>
+					<div class="gcd-column">
+						<span data-each="max( A, B ) times as N">
+							<span data-if="jQuery.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
+								<var>plural( N + 1, "basket" )</var> with <var>plural( A / ( N + 1 ), "chocolate chip cookie" )</var><br />
+							</span>
+							<span data-else-if="jQuery.inArray( N + 1, B_FACTORS ) !== -1">
+								<br />
+							</span>
+						</span>
+					</div>
+					<div class="gcd-column">
+						<span data-each="max( A, B ) times as N">
+							<span data-if="jQuery.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
+								<var>plural( N + 1, "basket" )</var> with <var>plural( B / ( N + 1 ), "oatmeal cookie" )</var><br />
+							</span>
+							<span data-else-if="jQuery.inArray( N + 1, A_FACTORS ) !== -1">
+								<br />
+							</span>
+						</span>
+					</div>
+					<div class="ui-helper-clearfix"></div>
 				</div>
-				<div>	
-					<p><strong>The greatest number of cookie plates that can be served is <var>plural(GCD, "plate")</var></strong>, with <var>plural(A/GCD, "chocolate-chip cookie")</var> and <var>plural(B/GCD,"oatmeal cookie")</var> per plate.</p>
+
+				<div>
+					<p>
+						The common divisors of <var>A</var> and <var>B</var> are <span class="hint_pink"><var>toSentence( _.intersection( A_FACTORS, B_FACTORS ) )</var></span>.
+						In other words, with <var>A</var> chocolate chip and <var>B</var> oatmeal cookies,
+						<var>person(1)</var> can make any of the following gift baskets:
+					</p>
+					<p style="margin-left: 20px">
+						<span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+							<var>plural( F, "basket" )</var> with <var>plural( A / F, "chocolate chip cookie" )</var> and
+							<var>plural( B / F, "oatmeal cookie" )</var>
+							<br />
+						</span>
+					</p>
 				</div>
+
+				<p>
+					We want to know the <em>greatest</em> number of identical gift baskets <var>person(1)</var> can make, so from the common divisors above,
+					we want the <em>greatest common divisor</em>.
+				</p>
+
+				<p>
+					<strong>The greatest number of gift baskets that <var>person(1)</var> can make each day is <var>GCD</var> baskets</strong>,
+					with <var>plural( A / GCD, "chocolate chip cookie" )</var> and <var>plural( B / GCD, "oatmeal cookie" )</var> per basket.
+				</p>
 			</div>
 		</div>
+
 		<div id="gcd-office-supplies">
 			<div class="vars" data-ensure="A_START !== B_START">
 				<var id="A_START">randRange( 1, 10 )</var>
 				<var id="B_START">randRange( 1, 10 )</var>
-				<var id="FACTOR">randRange( 1, 5 )</var>
+				<var id="FACTOR">randRange( 2, 5 )</var>
 
 				<var id="A">A_START * FACTOR</var>
 				<var id="B">B_START * FACTOR</var>
 				<var id="GCD">getGCD( A, B )</var>
-				<var id="A_FACTORS">toSentence(getFactors( A ))</var>
-				<var id="B_FACTORS">toSentence(getFactors( B ))</var>
+				<var id="A_FACTORS">getFactors( A )</var>
+				<var id="B_FACTORS">getFactors( B )</var>
 			</div>
 
-			<div class="question spin">
-				<p><var>person(1)</var> wants to create identical sets of office supplies for all of <var>his(1)</var> coworkers, with at least 1 <var>deskItem(1)</var> and <var>deskItem(2)</var> in each. Each <var>deskItem(1)</var> comes in a package of <var>A</var>, and each <var>deskItem(2)</var> comes in a package of <var>B</var>.</p>
-				<p><var>person(1)</var> wants to use one entire package of each item.</p>
-				<p><strong>What is the greatest number of sets of office supplies <var>person(1)</var> can make?</strong></p>
+			<div class="problem spin">
+				<p>
+					<var>person(1)</var> just bought 1 package of <var>plural( A, deskItem(1) )</var> and 1 package of
+					<var>plural( B, deskItem(2) )</var>. <var>He(1)</var> wants to use all of the <var>plural( deskItem(1) )</var>
+					and <var>plural( deskItem(2) )</var> to create identical sets of office supplies for <var>his(1)</var>
+					{coworkers|friends|classmates}.
+				</p>
 			</div>
+			<p class="question">
+				What is the greatest number of sets of office supplies <var>person(1)</var> can make?
+			</p>
 
 			<p class="solution" data-forms="integer"><var>GCD</var></p>
 
 			<div class="hints">
-				<p>To find the greatest number of sets of office supplies that <var>person(1)</var> can make, we need to find the greatest common divisor of <var>A</var> (since each <var>deskItem(1)</var> comes in a package of <var>A</var>) and <var>B</var> (since each <var>deskItem(2)</var> comes in a package of <var>B</var>).</p>
-				<p>The greatest common divisor is the largest number that is a factor (or divisor) of both <var>A</var> and <var>B</var>.</p>
+				<p>
+					Let's start by just thinking about the <var>plural( deskItem(1) )</var>. We can think about all the ways to
+					equally divide the <var>plural( A, deskItem(1) )</var> into sets by finding the factors of <var>A</var>.
+				</p>
+
 				<div>
-					<p data-if="A === 1">The only factor (divisor) of 1 is 1.</p>
-					<p data-else>The factors (divisors) of <var>A</var> are <var>A_FACTORS</var>.</p>
+					<p>
+						The factors of <var>A</var> are <span class="hint_blue"><var>toSentence( getFactors( A ) )</var></span> since
+						those are all the numbers that divide evenly into <var>A</var>.
+						That means we can equally divide the <var>plural( deskItem(1) )</var> into sets in any of the following ways:
+					</p>
+					<p style="margin-left: 20px">
+						<span data-each="getFactors( A ) as F" class="hint_blue">
+							<var>plural( F, "set" )</var> with <var>plural( A / F, deskItem(1) )</var> <var>plural( "", "each", F )</var><br />
+						</span>
+					</p>
 				</div>
+
+				<p>
+					Now lets think about the <var>plural( deskItem(2) )</var>. We can also list all the ways to equally divide the
+					<var>plural( B, deskItem(2) )</var> into sets by finding the factors of <var>B</var>.
+				</p>
+
 				<div>
-					<p data-if="B === 1">The only factor (divisor) of 1 is 1.</p>
-					<p data-else>The factors (divisors) of <var>B</var> are <var>B_FACTORS</var>.</p>
+					<p>
+						The factors of <var>B</var> are <span class="hint_green"><var>toSentence( getFactors( B ) )</var></span> since
+						those are all the numbers that divide evenly into <var>B</var>.
+						That means we can equally divide the <var>plural( deskItem(2) )</var> into sets in any of the following ways:
+					</p>
+					<p style="margin-left: 20px">
+						<span data-each="getFactors( B ) as F" class="hint_green">
+							<var>plural( F, "set" )</var> with <var>plural( B / F, deskItem(2) )</var> <var>plural( "", "each", F )</var><br />
+						</span>
+					</p>
 				</div>
+
 				<div>
-					<p>So, the greatest common divisor of <var>A</var> and <var>B</var> is <var>GCD</var>.</p>
-					<p><code>\gcd(<var>A</var>, <var>B</var>) = <var>GCD</var></code></p>
+					<p>
+						Since each set will have <var>plural( deskItem(1) )</var> and <var>plural( deskItem(2) )</var>, compare the
+						ways of dividing the <var>plural( deskItem(1) )</var> and the ways of dividing the
+						<var>plural( deskItem(2) )</var> to find the <em>common divisors</em>:
+					</p>
+					<div class="gcd-column">
+						<span data-each="max( A, B ) times as N">
+							<span data-if="jQuery.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
+								<var>plural( N + 1, "set" )</var> with <var>plural( A / ( N + 1 ), deskItem(1) )</var><br />
+							</span>
+							<span data-else-if="jQuery.inArray( N + 1, B_FACTORS ) !== -1">
+								<br />
+							</span>
+						</span>
+					</div>
+					<div class="gcd-column">
+						<span data-each="max( A, B ) times as N">
+							<span data-if="jQuery.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
+								<var>plural( N + 1, "set" )</var> with <var>plural( B / ( N + 1 ), deskItem(2) )</var><br />
+							</span>
+							<span data-else-if="jQuery.inArray( N + 1, A_FACTORS ) !== -1">
+								<br />
+							</span>
+						</span>
+					</div>
+					<div class="ui-helper-clearfix"></div>
 				</div>
+
 				<div>
-					<p><strong>The greatest number of office supply sets that can be created is <var>plural(GCD,"set")</var></strong>, with <var>plural(A/GCD,deskItem(1))</var> and <var>plural(B/GCD, deskItem(2))</var> per set.</p>
+					<p>
+						The common divisors of <var>A</var> and <var>B</var> are <span class="hint_pink"><var>toSentence( _.intersection( A_FACTORS, B_FACTORS ) )</var></span>.
+						In other words, with <var>plural( A, deskItem(1) )</var> and <var>plural( B, deskItem(2) )</var>,
+						<var>person(1)</var> can make any of the following sets:
+					</p>
+					<p style="margin-left: 20px">
+						<span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+							<var>plural( F, "set" )</var> with <var>plural( A / F, deskItem(1) )</var> and
+							<var>plural( B / F, deskItem(2) )</var>
+							<br />
+						</span>
+					</p>
 				</div>
+
+				<p>
+					We want to know the <em>greatest</em> number of identical sets <var>person(1)</var> can make, so from the common divisors above,
+					we want the <em>greatest common divisor</em>.
+				</p>
+
+				<p>
+					<strong>The greatest number of sets of office supplies that <var>person(1)</var> can make is <var>GCD</var> sets</strong>,
+					with <var>plural( A / GCD, deskItem(1) )</var> and <var>plural( B / GCD, deskItem(2) )</var> each.
+				</p>
 			</div>
 		</div>
 	</div>
