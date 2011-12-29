@@ -344,13 +344,11 @@
 			<div class="vars" data-ensure="A_START !== B_START">
 				<var id="A_START">randRange( 1, 10 )</var>
 				<var id="B_START">randRange( 1, 10 )</var>
-				<var id="FACTOR">randRange( 1, 5 )</var>
+				<var id="FACTOR">randRange( 2, 5 )</var>
 
-				<div data-ensure="GCD !== 1">
-					<var id="A">A_START * FACTOR</var>
-					<var id="B">B_START * FACTOR</var>
-					<var id="GCD">getGCD( A, B )</var>
-				</div>
+				<var id="A">A_START * FACTOR</var>
+				<var id="B">B_START * FACTOR</var>
+				<var id="GCD">getGCD( A, B )</var>
 				<var id="A_FACTORS">getFactors( A )</var>
 				<var id="B_FACTORS">getFactors( B )</var>
 			</div>
