@@ -13,8 +13,7 @@ jQuery.extend(KhanUtil, {
 	// A simple random number picker
 	// Returns a random int in [0, num)
 	rand: function( num ) {
-		// return Math.floor( num * KhanUtil.random() );
-		return 10;
+		return Math.floor( num * KhanUtil.random() );
 	},
 
 	/* Returns an array of the digits of a nonnegative integer in reverse
@@ -77,8 +76,6 @@ jQuery.extend(KhanUtil, {
 			return Math.ceil( x - 0.001 );
 		}
 		return Math.floor( x + 0.001 );
-
-
 	},
 
 	getGCD: function( a, b ) {
@@ -369,6 +366,12 @@ jQuery.extend(KhanUtil, {
 			}
 		}
 		return KhanUtil.randFromArray( cleanArr );
+	},
+
+	// Round a number to the nearest increment
+	// E.g., if increment = 30 and num = 40, return 30. if increment = 30 and num = 45, return 60.
+	roundToNearest: function( increment, num ) {
+		return Math.round( num / increment ) * increment;
 	},
 
 	// Round a number to a certain number of decimal places

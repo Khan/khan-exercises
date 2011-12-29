@@ -19,18 +19,16 @@ jQuery.extend( KhanUtil, {
 			var n = options.n;
 			var p = options.p;
 			var x, y, outerPoint, innerPoint;
-
+			
 			for( var i = 0; i < n; i++ ) {
 				x = this.radius * Math.cos( 2 * Math.PI * i/n );
 				y = this.radius * Math.sin( 2 * Math.PI * i/n );
 				outerPoint = [ x, y ];
 				innerPoint = [ p*x, p*y ];
 				var line = this.graph.line( outerPoint, innerPoint );
-
 				if ( options.tickAttr ) {
 					line.attr( options.tickAttr );
 				}
-
 				this.set.push(line);
 			}
 		}
@@ -51,34 +49,30 @@ jQuery.extend( KhanUtil, {
 			if ( this.hourTicks ) {
 				this.drawTicks( {n: this.hourTicks, p: this.hourTickLength} );
 			}
-
 			if ( this.minuteTicks ) {
 				this.drawTicks( {n: this.minuteTicks, p: this.minuteTickLength} );
 			}
-
 			// draw circles
 			this.set.push( this.graph.circle( [ 0, 0 ], this.radius ) );
 			this.set.push( this.graph.circle( [ 0, 0 ], this.radius/ 40 ) );
-
-
 			if ( this.labelShown ) {
 				this.drawLabels();
 			}
-
 			if ( this.hour && this.minute ) {
 				this.drawHands();
 			}
-
 			return this.set;
 		};
-
 		return analogClock;
 	},
 
-	// function to map minutes, which start at positive y-axis and increase clockwise,
-	// to angle in degrees, which starts at positive x-axis and increases counterclockwise
-	// (e.g., 0 minutes => 90 degrees; 15 minutes => 0 degrees; 30 minutes => 270 degrees; 45 minutes => 180 degrees)
-	timeToDegrees: function( minutes ) {  
+	/* Map time in minutes to angle in degrees
+	 * - Minutes start at positive y-axis and increase clockwise
+	 * - Angle starts at positive x-axis and increases counterclockwise
+	 * - (e.g., 0 minutes => 90 degrees; 15 minutes => 0 degrees; 30 minutes => 270 degrees; 45 minutes => 180 degrees)
+	 * - Will return angle in radians if `angleInRadians` is specified as truthy.
+	 */
+	timeToDegrees: function( minutes, angleInRadians ) {  
 		// p is the proportion of total time
 		var p = minutes / 60;
 		var angleProportion;
@@ -89,35 +83,10 @@ jQuery.extend( KhanUtil, {
 			angleProportion = (1.25 - p);
 		}
 
-		return 360 * angleProportion;
-	},
-
-	// TODO: not limited to time. belongs in another package.
-	coordToDegrees: function( coord ) {
-		var radians = Math.atan(coord[1]/coord[0]);
-
-		if (coord[0] < 0) {
-			radians += Math.PI;
-		} else if (coord[1] < 0) {
-			radians += 2*Math.PI;
+		if ( angleInRadians ) {
+			return 2 * Math.PI * angleProportion; 
 		}
-
-		return KhanUtil.toDegrees(radians);
-	},
-
-	// TODO: not limited to time. belongs in another package.
-	degreesToCoord: function( radius, degrees ) {
-		var radians = KhanUtil.toRadians(degrees);
-		var x = radius * Math.cos( radians );
-		var y = radius * Math.sin( radians );
-		return [x, y];
-	},
-
-	// TODO: not limited to time... belongs in math.js
-	// Round a number to the nearest increment
-	// E.g., if increment = 30 and num = 40, return 30. if increment = 30 and num = 45, return 60.
-	roundToNearest: function( increment, num ) {
-		return Math.round( num / increment ) * increment;
+		return 360 * angleProportion;
 	}
-
+	
 });

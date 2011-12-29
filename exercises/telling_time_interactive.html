@@ -38,8 +38,6 @@
 						graph.minuteSnapDegrees = 360 / minuteSnapPoints;
 						graph.hourSnapDegrees = 360 / hourSnapPoints;
 
-						alert(rand(2));
-
 						graph.clock = addAnalogClock( { radius: clockRadius, minuteTicks: hourSnapPoints } );
 						graph.clock.draw();
 
@@ -192,8 +190,8 @@
 					</div>
 					<div class="validator-function">
 
-						var minuteAngle = coordToDegrees( guess[0] );
-						var hourAngle = coordToDegrees( guess[1] );
+						var minuteAngle = cartToPolar( guess[0] )[1];
+						var hourAngle = cartToPolar( guess[1] )[1];
 
 						minuteAngle = roundToNearest( graph.minuteSnapDegrees, minuteAngle );
 						hourAngle = roundToNearest( graph.hourSnapDegrees, hourAngle );
@@ -238,8 +236,8 @@
 							var minuteRadius = graph.minutePoint.constraints.fixedDistance.dist;
 							var hourRadius = graph.hourPoint.constraints.fixedDistance.dist;
 
-							var minuteCoord = degreesToCoord( minuteRadius, graph.correctMinuteAngle );
-							var hourCoord = degreesToCoord( hourRadius, graph.correctHourAngle );
+							var minuteCoord = polar( minuteRadius, graph.correctMinuteAngle );
+							var hourCoord = polar( hourRadius, graph.correctHourAngle );
 
 							var dotOpacity = 0.4;
 							var handOpacity = 0.3;
