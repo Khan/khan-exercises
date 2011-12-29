@@ -37,6 +37,9 @@
 						var minuteRadius = clockRadius * 0.6;
 						var hourRadius = clockRadius * 0.45;
 
+						var minuteStartAngle = 90;
+						var hourStartAngle = 60;
+
 						graph.minuteSnapDegrees = 360 / minuteSnapPoints;
 						graph.hourSnapDegrees = 360 / hourSnapPoints;
 
@@ -69,7 +72,7 @@
 						}
 
 						graph.minutePoint = addMovablePoint({
-							coord: [ 0, minuteRadius ],
+							coord: polar( minuteRadius, minuteStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: minuteRadius,
@@ -79,11 +82,19 @@
 							},
 							onMove: function( x, y ) {
 								return movePartnerPoint( { x: x, y: y, point: this, outerPoint: graph.outerMinutePoint, isOuterPoint: false } );
+							},
+							normalStyle: {
+								fill: ORANGE,
+								stroke: ORANGE
+							},
+							highlightStyle: {
+								fill: ORANGE,
+								stroke: ORANGE
 							}
 						});
 
 						graph.outerMinutePoint = addMovablePoint({
-							coord: [ 0, outerPointRadius ],
+							coord: polar( outerPointRadius, minuteStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: outerPointRadius,
@@ -93,11 +104,19 @@
 							},
 							onMove: function( x, y ) {
 								return movePartnerPoint( { x: x, y: y, point: graph.minutePoint, outerPoint: this, isOuterPoint: true } );
+							},
+							normalStyle: {
+								fill: ORANGE,
+								stroke: ORANGE
+							},
+							highlightStyle: {
+								fill: ORANGE,
+								stroke: ORANGE
 							}
 						})
 
 						graph.hourPoint = addMovablePoint({
-							coord: [ hourRadius * Math.cos( Math.PI/3 ), hourRadius * Math.sin( Math.PI/3 ) ],
+							coord: polar( hourRadius, hourStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: hourRadius,
@@ -119,7 +138,7 @@
 						});
 
 						graph.outerHourPoint = addMovablePoint({
-							coord: [ outerPointRadius * Math.cos( Math.PI/3 ), outerPointRadius * Math.sin( Math.PI/3 ) ],
+							coord: polar( outerPointRadius, hourStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: outerPointRadius,
@@ -145,7 +164,6 @@
 							coordZ: [ 0, 0 ],
 							fixed: true,
 							normalStyle: {
-								fill: ORANGE,
 								stroke: ORANGE,
 								"stroke-width": 10
 							},
@@ -156,7 +174,6 @@
 							coordZ: [ 0, 0 ],
 							fixed: true,
 							normalStyle: {
-								fill: BLUE,
 								stroke: BLUE,
 								"stroke-width": 10
 							},
@@ -197,6 +214,11 @@
 
 						minuteAngle = roundToNearest( graph.minuteSnapDegrees, minuteAngle );
 						hourAngle = roundToNearest( graph.hourSnapDegrees, hourAngle );
+
+						// if hands have not been moved, return `""`
+						if ( minuteAngle === 90 &amp;&amp; hourAngle ==== ) {
+							return "";
+						}
 
 						return (minuteAngle === graph.correctMinuteAngle) &amp;&amp; (hourAngle === graph.correctHourAngle);
 
