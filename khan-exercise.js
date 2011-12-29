@@ -982,7 +982,18 @@ var Khan = (function() {
 
 			// Then add rules specific to this exercise.
 			jQuery.each( exercise.data("style"), function( i, styleContents ) {
-				exerciseStyleElem.append( styleContents );
+//				exerciseStyleElem.append( styleContents );
+//
+//			The above (commented) line fails horribly if all of the following conditions are met:
+//				- Internet explorer
+//				- Loading exercise through [dev] appengine, not standalone exercise framework
+//				- Exercise has a <style> tag
+//				- The exercise is loaded through a summative exercise, not on its own
+//
+//			Otherwise (i.e. almost always), the above line works just fine.
+//			But since ( almost always !== always ), this hack appears to work:
+//
+				jQuery( "<style type='text/css'>" + styleContents + "</style>" ).appendTo( "head" );
 			});
 		}
 
