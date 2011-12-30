@@ -215,8 +215,12 @@ var Khan = (function() {
 	// it significantly harder to cheat
 	try {
 		delete window.userExercise;
-	} catch(e) {
-		window.userExercise = undefined;
+	}
+	catch(e) {} // swallow exception from IE
+	finally {
+		if (window.userExercise) {
+			window.userExercise = undefined;
+		}
 	}
 
 	// Add in the site stylesheets
@@ -1164,7 +1168,7 @@ var Khan = (function() {
 				    .data( 'disabled', true );
 				return this;
 			}
-			
+
 			jQuery.fn.enable = function() {
 				this.removeClass( 'disabled' )
 				    .css( {
