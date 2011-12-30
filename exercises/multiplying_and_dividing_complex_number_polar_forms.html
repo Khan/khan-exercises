@@ -1,0 +1,220 @@
+<!--
+	This exercise (and other polar form ones) are written for
+	the trigonometric complex number form (z = r(cos phi + i sin phi)).
+	It might be cool to sometimes mix this up with z = r e^{i phi}.
+-->
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Multiplying and dividing complex number polar forms</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+		var currentAngle = 0, currentRadius = 1;
+
+		function polarForm(radius, angle) {
+			var angleRep = KhanUtil.piFraction(angle * Math.PI / 12);
+			return radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
+		}
+
+		function redrawFormula() {
+			var angleRep = KhanUtil.piFraction(currentAngle * Math.PI / 12);
+			var equation = polarForm(currentRadius, currentAngle);
+			equation = KhanUtil.cleanMath(equation);
+			jQuery("#number-label").html("<code>"+equation+"</code>").tmpl();
+			jQuery("#current-radius").html(currentRadius);
+			jQuery("#current-angle").html("<code>"+angleRep+"</code>").tmpl();
+		}
+
+		function updateComplex(deltaAngle, deltaRadius) {
+			currentAngle += deltaAngle;
+			currentRadius += deltaRadius;
+
+			if (currentRadius < 1) currentRadius = 1;
+			if (currentRadius > 15) currentRadius = 15;
+
+			while (currentAngle < 0) currentAngle += 24;
+			while (currentAngle > 23) currentAngle -= 24;
+			
+			jQuery("#angle input").val(currentAngle);
+			jQuery("#radius input").val(currentRadius);
+
+			redrawFormula();
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="multiply-cplx">
+			<div class="vars" data-ensure="ANSWER_RADIUS < 15">
+				<var id="A_RADIUS">randRange(1, 7)</var>
+				<var id="A_ANGLE">randRange(0, 23)</var> <!-- the angle is in 1/12's of pi -->
+				<var id="A_ANGLE_REP">piFraction(A_ANGLE * PI / 12)</var>
+				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE)</var>
+
+				<var id="B_RADIUS">randRange(1, 7)</var>
+				<var id="B_ANGLE">randRange(0, 23)</var>
+				<var id="B_ANGLE_REP">piFraction(B_ANGLE * PI / 12)</var>
+				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE)</var>
+
+				<var id="ANSWER_RADIUS">(A_RADIUS * B_RADIUS)</var>
+				<var id="ANSWER_ANGLE">(A_ANGLE + B_ANGLE) % 24</var>
+				<var>
+					(function() {
+						currentAngle = 0;
+						currentRadius = 1;
+					})()
+				</var>
+			</div>
+			<p class="question">Multiply the following complex numbers:</p>
+			<p><code>[<var>A_REP</var>] \cdot [<var>B_REP</var>]</code></p>
+
+			<!-- TODO: factor the answer type out... -->
+			<div class="solution" data-type="multiple">
+				<table> <!-- with apologies to any self-respecting webdesigner, I just need the buttons to line up... -->
+					<tr>
+						<td style="width: 100px">
+					Radius: <span id="current-radius">1</span>
+						</td>
+						<td>
+							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplex( 0, 1 )" />
+							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplex( 0, -1 )" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+					Angle: <span id="current-angle"><code>0 \pi</code></span>
+						</td>
+						<td>
+							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplex( 1, 0 )" />
+							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplex( -1, 0 )" />
+						</td>
+					</tr>
+				</table>
+
+				<p id="number-label" style="margin: 8px 0px 2px 0px"><code><var>polarForm(1, 0)</var></code></p>
+
+				<span class="sol" id="angle" style="display: none"><var>ANSWER_ANGLE</var></span>
+				<span class="sol" id="radius" style="display: none"><var>ANSWER_RADIUS</var></span>
+			</div>
+
+			<div class="hints">
+				<p>
+					Multiplying complex numbers in polar forms can be done by multiplying the radii
+					and adding the angles.
+				</p>
+				<p>
+					The first number (<code><var>A_REP</var></code>) has angle <code><var>A_ANGLE_REP</var></code> and radius <var>A_RADIUS</var>.
+					The second number (<code><var>B_REP</var></code>) has angle <code><var>B_ANGLE_REP</var></code> and radius <var>B_RADIUS</var>.
+				</p>
+				<p>
+					The radius of the result will be <code><var>A_RADIUS</var> \cdot <var>B_RADIUS</var></code>, which is <var>ANSWER_RADIUS</var>.
+				</p>
+				<div data-if="A_ANGLE + B_ANGLE > 12 * 2" data-unwrap>
+					<p>
+						The sum of the angles is <code><var>A_ANGLE_REP</var> + <var>B_ANGLE_REP</var> = <var>piFraction((A_ANGLE + B_ANGLE) * PI / 12)</var></code>.
+					</p>
+					<p>
+						That is more than <code>2 \pi</code>. A complex number goes a full circle if its angle is increased by <code>2 \pi</code>, so it 
+						goes back to itself. Because of that, angles of complex numbers are convient to keep between 0 and <code>2 \pi</code>.
+					</p>
+					<p>
+						After taking <code>2 \pi</code> from the sum, the angle becomes <code><var>piFraction(ANSWER_ANGLE * PI / 12)</var></code>.
+						<!-- The A and B angles are both between 0 and 2pi, so the maximum angle here is 4pi, so it's safe not to handle further 2pi multiples. -->
+					</p>
+				</div>
+				<p data-else>
+					The angle of the result is <code><var>A_ANGLE_REP</var> + <var>B_ANGLE_REP</var> = <var>piFraction(ANSWER_ANGLE * PI / 12)</var></code>.
+				</p>
+			</div>
+		</div>
+
+		<div id="divide-cplx">
+			<div class="vars">
+
+				<var id="ANSWER_RADIUS">randRange(1, 10)</var>
+				<var id="ANSWER_ANGLE">randRange(0, 23)</var>
+
+				<var id="B_RADIUS">randRange(1, 7)</var>
+				<var id="B_ANGLE">randRange(0, 23)</var>
+				<var id="B_ANGLE_REP">piFraction(B_ANGLE * PI / 12)</var>
+				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE)</var>
+
+				<var id="A_RADIUS">ANSWER_RADIUS * B_RADIUS</var>
+				<var id="A_ANGLE">(ANSWER_ANGLE + B_ANGLE) % 24</var>
+				<var id="A_ANGLE_REP">piFraction(A_ANGLE * PI / 12)</var>
+				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE)</var>
+		
+				<var>
+					(function() {
+						currentAngle = 0;
+						currentRadius = 1;
+					})()
+				</var>
+			</div>
+			<p class="question">Divide the following complex numbers:</p>
+			<p><code>\frac{<var>A_REP</var>}{<var>B_REP</var>}</code></p>
+
+			<div class="solution" data-type="multiple">
+				<table>
+					<tr>
+						<td style="width: 100px">
+					Radius: <span id="current-radius">1</span>
+						</td>
+						<td>
+							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplex( 0, 1 )" />
+							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplex( 0, -1 )" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+					Angle: <span id="current-angle"><code>0 \pi</code></span>
+						</td>
+						<td>
+							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplex( 1, 0 )" />
+							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplex( -1, 0 )" />
+						</td>
+					</tr>
+				</table>
+
+				<p id="number-label" style="margin: 8px 0px 2px 0px"><code>1 \cdot (cos(0 \pi) + i \cdot sin(0 \pi))</code></p>
+
+				<span class="sol" id="angle" style="display: none"><var>ANSWER_ANGLE</var></span>
+				<span class="sol" id="radius" style="display: none"><var>ANSWER_RADIUS</var></span>
+			</div>
+
+			<div class="hints">
+				<p>
+					Dividing complex numbers in polar forms can be done by dividing the radii
+					and subtracting the angles.
+				</p>
+				<p>
+					The first number (<code><var>A_REP</var></code>) has angle <code><var>A_ANGLE_REP</var></code> and radius <var>A_RADIUS</var>.
+					The second number (<code><var>B_REP</var></code>) has angle <code><var>B_ANGLE_REP</var></code> and radius <var>B_RADIUS</var>.
+				</p>
+				<p>
+					The radius of the result will be <code>\frac{<var>A_RADIUS</var>}{<var>B_RADIUS</var>}</code>, which is <var>ANSWER_RADIUS</var>.
+				</p>
+				<div data-if="A_ANGLE - B_ANGLE < 0" data-unwrap>
+					<p>
+						The difference of the angles is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>piFraction((A_ANGLE - B_ANGLE) * PI / 12)</var></code>.
+					</p>
+					<p>
+						That is a negative number. A complex number goes a full circle if its angle is increased by <code>2 \pi</code>, so it 
+						goes back to itself. Because of that, angles of complex numbers are convient to keep between 0 and <code>2 \pi</code>.
+					</p>
+					<p>
+						After adding <code>2 \pi</code> to the difference, the angle becomes <code><var>piFraction(ANSWER_ANGLE * PI / 12)</var></code>.
+					</p>
+				</div>
+				<p data-else>
+					The angle of the result is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>piFraction(ANSWER_ANGLE * PI / 12)</var></code>.
+				</p>
+			</div>
+
+		</div>
+	</div>
+	</div>
+</body>
+</html>
