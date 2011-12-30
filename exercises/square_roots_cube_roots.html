@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-translatable data-require="math graphie">
 <head>
 	<title>Square roots and cube roots</title>
 	<script src="../khan-exercise.js"></script>
@@ -15,7 +15,7 @@
 		</div>
 
 		<div class="hints">
-			<p>The best thing is to do a prime factorization of this number and look for groups of numbers.</p>
+			<p data-tt="hint1">The best thing is to do a prime factorization of this number and look for groups of numbers.</p>
 			<div>
 				<p>Let's draw a factor tree.</p>
 				<div class="graphie" id="factor-tree">
@@ -45,7 +45,7 @@
 				circle( [cx + 1, y], 0.5);
 			</div>
 
-			<p>So we found that the prime factorization of <code><var>Q</var></code> is <code><var>PRIMES.join( "\\times " )</var></code>.</p>
+			<p data-tt="hint2">So we found that the prime factorization of <code><var>Q</var></code> is <code><var>PRIMES.join( "\\times " )</var></code>.</p>
 		</div>
 
 		<div class="problems">
@@ -59,35 +59,35 @@
 					<var id="curr">Q</var>
 				</div>
 
-				<p class="question">What is the square root of <code><var>Q</var></code>?</p>
+				<p class="question" data-tt="question1">What is the square root of <code><var>Q</var></code>?</p>
 
 				<p class="solution"><var>N</var></p>
 
 				<div class="hints" data-apply="appendContents">
 
-					<p>We're looking for the square root of <code><var>Q</var></code>, so we want to split the prime factors into two identical groups.</p>
+					<p data-tt="hint3">We're looking for the square root of <code><var>Q</var></code>, so we want to split the prime factors into two identical groups.</p>
 
 					<div data-if="PRIMES.length === 2" data-unwrap>
 
-						<p>We only have two prime factors, and we want to split them into two groups, so this is easy.</p>
+						<p data-tt="hint4">We only have two prime factors, and we want to split them into two groups, so this is easy.</p>
 						<p><code><var>Q</var> = <var>PRIMES.join( "\\times " )</var></code>, so <code><var>N</var>^2 = <var>Q</var></code>.</p>
 
 					</div><div data-else data-unwrap>
 
 						<div>
-							<p>Notice that we can rearrange the factors like so:</p>
+							<p data-tt="hint5">Notice that we can rearrange the factors like so:</p>
 							<p><code><var>Q</var> = <var>PRIMES.join(" &times; ")</var> = \left(<var>F_N.join( "\\times " )</var>\right) \times \left(<var>F_N.join(" &times; ")</var>\right)</code></p>
 						</div>
 
-						<p data-if="F_N.length > 1">
+						<p data-if="F_N.length > 1" data-tt="hint6">
 							So <code>\left(<var>F_N.join( "\\times " )</var>\right)^2 = <var>N</var>^2 = <var>Q</var></code>.
-						</p><p data-else>
+						</p><p data-else data-tt="hint7">
 							So <code><var>N</var>^2 = <var>Q</var></code>.
 						</p>
 
 					</div>
 
-					<p>So the square root of <code><var>Q</var></code> is <code><var>N</var></code>.</p>
+					<p data-tt="hint8">So the square root of <code><var>Q</var></code> is <code><var>N</var></code>.</p>
 
 				</div>
 
@@ -102,35 +102,35 @@
 					<var id="curr">Q</var>
 				</div>
 
-				<p class="question">What is the cube root of <code><var>Q</var></code>?</p>
+				<p class="question" data-tt="question2">What is the cube root of <code><var>Q</var></code>?</p>
 
 				<p class="solution"><var>N</var></p>
 
 				<div class="hints" data-apply="appendContents">
 
-					<p>We're looking for the cube root of <code><var>Q</var></code>, so we want to split the prime factors into three identical groups.</p>
+					<p data-tt="hint9">We're looking for the cube root of <code><var>Q</var></code>, so we want to split the prime factors into three identical groups.</p>
 
 					<div data-if="PRIMES.length === 3" data-unwrap>
 
-						<p>We only have three prime factors, and we want to split them into three groups, so this is easy.</p>
+						<p data-tt="hint10">We only have three prime factors, and we want to split them into three groups, so this is easy.</p>
 						<p><code><var>Q</var> = <var>PRIMES.join( "\\times " )</var></code>, so <code><var>N</var>^3 = <var>Q</var></code>.</p>
 
 					</div><div data-else data-unwrap>
 
 						<div>
-							<p>Notice that we can rearrange the factors like so:</p>
+							<p data-tt="hint11">Notice that we can rearrange the factors like so:</p>
 							<p><code><var>Q</var> = <var>PRIMES.join( "\\times " )</var> = \left(<var>[ F_N.join( "\\times " ), F_N.join( "\\times " ), F_N.join( "\\times ") ].join( "\\right)\\times\\left(" )</var>\right)</code><p>
 						</div>
 
-						<p data-if="F_N.length > 1">
+						<p data-if="F_N.length > 1" data-tt="hint12">
 							So <code>\left(<var>F_N.join( "\\times " )</var>\right)^3 = <var>N</var>^3 = <var>Q</var></code>.
-						</p><p data-else>
+						</p><p data-else data-tt="hint13">
 							So <code><var>N</var>^3 = <var>Q</var></code>.
 						</p>
 
 					</div>
 
-					<p>So the cube root of <code><var>Q</var></code> is <code><var>N</var></code>.</p>
+					<p data-tt="hint14">So the cube root of <code><var>Q</var></code> is <code><var>N</var></code>.</p>
 
 				</div>
 

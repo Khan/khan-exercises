@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions">
+<html data-translatable data-require="math graphie expressions">
 <head>
 	<meta charset="UTF-8" />
 	<title>Shifting and reflecting functions</title>
@@ -21,9 +21,9 @@
 		<div class="problems">
 			<div>
 				<div class="problem">
-					<p><code>\color{red}{f(x)}</code> is graphed in <span class="hint_red">red</span>.</p>
-					<p><code>\color{blue}{g(x)}</code> is graphed in <span class="hint_blue">blue</span>.</p>
-					<p>What is <code>\color{blue}{g(x)}</code> in terms of <code>\color{red}{f(x)}</code>?</p>
+					<p data-tt="question1"><code>\color{red}{f(x)}</code> is graphed in <span class="hint_red">red</span>.</p>
+					<p data-tt="question2"><code>\color{blue}{g(x)}</code> is graphed in <span class="hint_blue">blue</span>.</p>
+					<p data-tt="question3">What is <code>\color{blue}{g(x)}</code> in terms of <code>\color{red}{f(x)}</code>?</p>
 				</div>
 				<div class="graphie" id="G">
 					graphInit({
@@ -64,7 +64,7 @@
 
 		<div class="hints">
 			<div data-if="FLIP === -1">
-				<p>To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by <code>-1</code>, giving <code class="hint_purple">-f(x)</code>.</p>
+				<p data-tt="hint1">To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by <code>-1</code>, giving <code class="hint_purple">-f(x)</code>.</p>
 
 				<div class="graphie" data-update="G">
 					style({
@@ -77,7 +77,7 @@
 			</div>
 
 			<div>
-				<p>Shift the function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> <var>(abs(Y_SHIFT) == 1 ? "unit" : "units")</var>, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</p>
+				<p data-tt="hint2">Shift the function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> <var>(abs(Y_SHIFT) == 1 ? "unit" : "units")</var>, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</p>
 
 				<div class="graphie" data-update="G">
 					style({
@@ -101,9 +101,9 @@
 			</div>
 
 			<div>
-				<p>Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)</var> <var>(abs(X_SHIFT) == 1 ? "unit" : "units")</var>, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</p>
+				<p data-tt="hint3">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)</var> <var>(abs(X_SHIFT) == 1 ? "unit" : "units")</var>, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</p>
 
-				<p>We now know that <code>g(x)</code> = <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
+				<p data-tt="hint4">We now know that <code>g(x)</code> = <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
 
 				<div class="graphie" data-update="G">
 					style({
