@@ -21,19 +21,19 @@
 				<var id="OUTER_WRONG_2">randFromArray( OUTER.wrongs )</var>
 			</div>
 			
-			<var id="UNSIMPLIFIED_DERIVATIVE">expr(['*', OUTER.ddxF, INNER.ddxF])</var>
+			<var id="UNSIMPLIFIED_DERIVATIVE">['*', OUTER.ddxF, INNER.ddxF]</var>
 			
-			<var id="SIMPLIFIES_TO">
+			<var id="DERIVATIVE_SIMPLIFICATIONS">
 				( ( OUTER.f[0] === '^' &amp;&amp; OUTER.f[1] === 'e' &amp;&amp; INNER.f[0] === 'ln' )
 					|| ( OUTER.f[0] === 'ln' &amp;&amp; INNER.f[0] === '^' &amp;&amp; INNER.f[1] == 'e' ) )
-					? '1'
+					? [['frac', 'x', 'x'], '1']
 					: false
 			</var>
 
 			<var id="DERIVATIVE">
-				SIMPLIFIES_TO === false
-					? UNSIMPLIFIED_DERIVATIVE
-					: expr(SIMPLIFIES_TO)
+				DERIVATIVE_SIMPLIFICATIONS === false
+					? expr(UNSIMPLIFIED_DERIVATIVE)
+					: expr(DERIVATIVE_SIMPLIFICATIONS[DERIVATIVE_SIMPLIFICATIONS.length - 1])
 			</var>
 
 			<var id="NOTATION">funcNotation("x")</var>
