@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
+<html data-translatable data-require="math graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>Recognizing fractions</title>
@@ -14,12 +14,12 @@
 
 		<div class="problems">
 			<div id="original">
-				<p class="question">Given <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>, what is the fraction's numerator?</p>
+				<p class="question" data-tt="question1">Given <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>, what is the fraction's numerator?</p>
 				<p class="solution" data-forms="integer"><var>NUMERATOR</var></p>
 				<div class="hints">
-					<p>Fractions help represent parts of a whole.</p>
+					<p data-tt="hint1">Fractions help represent parts of a whole.</p>
 					<div>
-						<p>The fraction <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> could represent <var>NUMERATOR</var> out of <var>DENOMINATOR</var> slices of pie. In other words, the pie has been cut into <var>DENOMINATOR</var> slices, and we are only considering <var>NUMERATOR</var> of those slices.</p>
+						<p data-tt="hint2">The fraction <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> could represent <var>NUMERATOR</var> out of <var>DENOMINATOR</var> slices of pie. In other words, the pie has been cut into <var>DENOMINATOR</var> slices, and we are only considering <var>NUMERATOR</var> of those slices.</p>
 						<div class="graphie">
 							init({
 								range: [ [-2, 10], [-2, 2] ],
@@ -31,15 +31,15 @@
 								+ "=\\dfrac{\\color{#6495ED}{\\text{numerator}}}{\\text{denominator}}", "right");
 						</div>
 					</div>
-					<p>The numerator is the number of slices we consider, and it is written above the fraction line. The denominator is the total number of slices, and it is written below the line.</p>
-					<p id="answer_hint">Thus, the numerator is <code><var>NUMERATOR</var></code>.</p>
+					<p data-tt="hint3">The numerator is the number of slices we consider, and it is written above the fraction line. The denominator is the total number of slices, and it is written below the line.</p>
+					<p id="answer_hint" data-tt="hint4">Thus, the numerator is <code><var>NUMERATOR</var></code>.</p>
 				</div>
 			</div>
 			<div data-type="original">
-				<p class="question">Given <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>, what is the fraction's denominator?</p>
+				<p class="question" data-tt="question2">Given <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>, what is the fraction's denominator?</p>
 				<p class="solution" data-forms="integer"><var>DENOMINATOR</var></p>
 				<div class="hints" data-apply="appendContents">
-					<p id="answer_hint">Thus, the denominator is <code><var>DENOMINATOR</var></code>.</p>
+					<p id="answer_hint" data-tt="hint5">Thus, the denominator is <code><var>DENOMINATOR</var></code>.</p>
 				</div>
 			</div>
 		</div>
