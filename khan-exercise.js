@@ -978,11 +978,21 @@ var Khan = (function() {
 			var exerciseStyleElem = jQuery( "head #exercise-inline-style" );
 
 			// Clear old exercise style definitions
-			exerciseStyleElem.empty();
+			if ( exerciseStyleElem[0].styleSheet ) {
+				// IE refuses to modify the contents of <style> the normal way
+				exerciseStyleElem[0].styleSheet.cssText = "";
+			} else {
+				exerciseStyleElem.empty();
+			}
 
 			// Then add rules specific to this exercise.
 			jQuery.each( exercise.data("style"), function( i, styleContents ) {
-				exerciseStyleElem.append( styleContents );
+				if ( exerciseStyleElem[0].styleSheet ) {
+					// IE refuses to modify the contents of <style> the normal way
+					exerciseStyleElem[0].styleSheet.cssText = exerciseStyleElem[0].styleSheet.cssText + styleContents;
+				} else {
+					exerciseStyleElem.append( styleContents );
+				}
 			});
 		}
 
