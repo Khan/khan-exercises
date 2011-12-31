@@ -23,6 +23,16 @@ jQuery.extend( KhanUtil, {
 		}
 	},
 
+	toSentenceTex: function( array, conjunction, highlight, highlightClass ) {
+		var wrapped = jQuery.map( array, function( elem ) {
+			if ( ( jQuery.isFunction( highlight ) && highlight( elem ) ) || ( highlight !== undefined && elem === highlight ) ) {
+				return "<code class='" + highlightClass + "'>" + elem + "</code>";
+			}
+			return "<code>" + elem + "</code>";
+		});
+		return KhanUtil.toSentence( wrapped, conjunction );
+	},
+
 	// pluralization helper.  There are five signatures
 	// - plural(NUMBER): return "s" if NUMBER is not 1
 	// - plural(NUMBER, singular):

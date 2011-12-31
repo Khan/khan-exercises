@@ -554,10 +554,16 @@ jQuery.extend( Khan.answerTypes, {
 			});
 		};
 
-		ret.examples = solutionarea.find( ".example" ).remove()
-			.map(function(i, el) {
-				return jQuery( el ).html();
-			});
+		// If there's only a single sol in the multiple and there aren't any examples defined,
+		// use the examples from the single sol element.
+		if ( solutionarea.find( ".sol" ).length === 1 && solutionarea.find( ".example" ).length === 0 ) {
+			ret.examples = solutionarea.find( ".sol" ).first().data( "validator" ).examples;
+		} else {
+			ret.examples = solutionarea.find( ".example" ).remove()
+				.map(function(i, el) {
+					return jQuery( el ).html();
+				});
+		}
 		ret.solution = solutionArray;
 
 		return ret;

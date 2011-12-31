@@ -8,10 +8,27 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="SPEED1">11 + rand(9)</var>
-			<var id="SPEED2">41 + rand(9)</var>
-			<var id="AVG">31 + rand(9)</var>
-			<var id="TIME">1 + rand(9)</var>
+			<var id="VEHC1">vehicle(1)</var>
+			<var id="VEHC2">vehicle(2)</var>
+
+			<var id="REASONABLESPEED">
+				function(vehicletype) {
+					if (vehicletype === "bike") {
+						return randRange(5, 15);
+					} else if (vehicletype ==="horse") {
+						return randRange(3, 30);
+					} else if (vehicletype ==="train") {
+						return randRange(30, 70);
+					} else {
+						return randRange(10, 65);
+					}
+				}
+			</var>
+
+			<var id="SPEED1">REASONABLESPEED(VEHC1)</var>
+			<var id="SPEED2" data-ensure="SPEED2 !== SPEED1">REASONABLESPEED(VEHC2)</var>
+			<var id="AVG">SPEED1 < SPEED2 ? randRange(SPEED1 + 1, SPEED2 - 1) : randRange(SPEED2 + 1, SPEED1 - 1)</var>
+			<var id="TIME">randRange(1, 9)</var>
 			<var id="DIST">AVG * TIME</var>
 			<var id="DIST2">(SPEED1 * SPEED2 * TIME - DIST * SPEED2) / (SPEED1 - SPEED2)</var>
 			<var id="DIST1">DIST - DIST2</var>
@@ -20,11 +37,11 @@
 		<div class="problems">
 			<div id="original">
 				<div class="problem">
-					<p><var>person(1)</var> traveled by <var>vehicle(1)</var> at an average speed of <var>SPEED1</var> miles per hour.</p>
-					<p>Then, <var>he(1)</var> traveled by <var>vehicle(2)</var> at an average speed of <var>SPEED2</var> miles per hour.</p>
+					<p><var>person(1)</var> traveled by <var>VEHC1</var> at an average speed of <var>SPEED1</var> miles per hour.</p>
+					<p>Then, <var>he(1)</var> traveled by <var>VEHC2</var> at an average speed of <var>SPEED2</var> miles per hour.</p>
 					<p>In total, <var>he(1)</var> traveled <var>DIST</var> miles for <var>plural(TIME, "hour")</var>.</p>
 				</div>
-				<p class="question">How many miles did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest mile.)</p>
+				<p class="question">How many miles did <var>person(1)</var> travel by <var>VEHC1</var>? (Round to the nearest mile.)</p>
 				<p class="solution" data-forms="integer"><var>round(DIST1)</var></p>
 				<div class="hints" data-apply="appendContents">
 					<p id="final-hint"><code>d_<var>vehicleVar(1)</var> = <var>round(DIST1)</var></code> miles</p>
