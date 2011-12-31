@@ -6,7 +6,7 @@ jQuery.extend( KhanUtil, {
 			graph: KhanUtil.currentGraph,
 			set: KhanUtil.currentGraph.raphael.set(),
 			radius: 3.5,
-			labelShown: true,
+			showLabels: true,
 			hour: false,
 			minute: false,
 			hourTicks: 12,
@@ -19,7 +19,7 @@ jQuery.extend( KhanUtil, {
 			var n = options.n;
 			var p = options.p;
 			var x, y, outerPoint, innerPoint;
-			
+
 			for( var i = 0; i < n; i++ ) {
 				x = this.radius * Math.cos( 2 * Math.PI * i/n );
 				y = this.radius * Math.sin( 2 * Math.PI * i/n );
@@ -55,7 +55,7 @@ jQuery.extend( KhanUtil, {
 			// draw circles
 			this.set.push( this.graph.circle( [ 0, 0 ], this.radius ) );
 			this.set.push( this.graph.circle( [ 0, 0 ], this.radius/ 40 ) );
-			if ( this.labelShown ) {
+			if ( this.showLabels ) {
 				this.drawLabels();
 			}
 			if ( this.hour && this.minute ) {

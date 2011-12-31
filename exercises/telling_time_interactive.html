@@ -37,8 +37,8 @@
 						var minuteRadius = clockRadius * 0.6;
 						var hourRadius = clockRadius * 0.45;
 
-						var minuteStartAngle = 90;
-						var hourStartAngle = 60;
+						graph.minuteStartAngle = 90;
+						graph.hourStartAngle = 60;
 
 						graph.minuteSnapDegrees = 360 / minuteSnapPoints;
 						graph.hourSnapDegrees = 360 / hourSnapPoints;
@@ -72,7 +72,7 @@
 						}
 
 						graph.minutePoint = addMovablePoint({
-							coord: polar( minuteRadius, minuteStartAngle ),
+							coord: polar( minuteRadius, graph.minuteStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: minuteRadius,
@@ -94,7 +94,7 @@
 						});
 
 						graph.outerMinutePoint = addMovablePoint({
-							coord: polar( outerPointRadius, minuteStartAngle ),
+							coord: polar( outerPointRadius, graph.minuteStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: outerPointRadius,
@@ -116,7 +116,7 @@
 						})
 
 						graph.hourPoint = addMovablePoint({
-							coord: polar( hourRadius, hourStartAngle ),
+							coord: polar( hourRadius, graph.hourStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: hourRadius,
@@ -138,7 +138,7 @@
 						});
 
 						graph.outerHourPoint = addMovablePoint({
-							coord: polar( outerPointRadius, hourStartAngle ),
+							coord: polar( outerPointRadius, graph.hourStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: outerPointRadius,
@@ -216,7 +216,7 @@
 						hourAngle = roundToNearest( graph.hourSnapDegrees, hourAngle );
 
 						// if hands have not been moved, return `""`
-						if ( minuteAngle === 90 &amp;&amp; hourAngle ==== ) {
+						if ( minuteAngle === graph.minuteStartAngle &amp;&amp; hourAngle ==== graph.hourStartAngle) {
 							return "";
 						}
 
