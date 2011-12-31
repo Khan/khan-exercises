@@ -18,12 +18,14 @@
 					: null
 			</var>
 
-			<div data-ensure="expr(INNER_WRONG_1) !== expr(['-', INNER.ddxF]) || expr(OUTER_WRONG_1) !== expr(['-', OUTER.ddxF])">
+			<div data-ensure="expr(INNER_WRONG_1) !== expr(exprSimplifyAssociative(['-', INNER.ddxF])) 
+								&& expr(OUTER_WRONG_1) !== expr(exprSimplifyAssociative(['-', OUTER.ddxF]))">
 				<var id="INNER_WRONG_1">randFromArray( INNER.wrongs )</var>
 				<var id="OUTER_WRONG_1">randFromArray( OUTER.wrongs )</var>
 			</div>
 
-			<div data-ensure="expr(INNER_WRONG_2) !== expr(['-', INNER.ddxF]) || expr(OUTER_WRONG_2) !== expr(['-', OUTER.ddxF])">
+			<div data-ensure="expr(INNER_WRONG_2) !== expr(exprSimplifyAssociative(['-', INNER.ddxF])) 
+								&& expr(OUTER_WRONG_2) !== expr(exprSimplifyAssociative(['-', OUTER.ddxF]))">
 				<var id="INNER_WRONG_2">randFromArray( INNER.wrongs )</var>
 				<var id="OUTER_WRONG_2">randFromArray( OUTER.wrongs )</var>
 			</div>

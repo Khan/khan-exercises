@@ -286,9 +286,6 @@ jQuery.extend(KhanUtil, {
 
 			hints = hints.concat( composed.hint( val ) );
 
-			hints.push( "<p>Okay, so <code>" + composedFuncWithVal + " = " +
-				composed.evalOf(val) + "</code>.</p>" );
-
 			hints.push( "<p>That means <code>" + this.name + "(" + val + ") = " +
 				this.hintEvalOf(val, true) + "</code></p>" );
 
