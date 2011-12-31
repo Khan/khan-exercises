@@ -9,17 +9,17 @@
 	<div class="exercise">
 	<div class="vars">
 		<var id="LOWER_BOUND">0</var>
-		<var id="UPPER_BOUND">10</var>		
-		
+		<var id="UPPER_BOUND">10</var>
+
 		<var id="LOWER_VALUE">0</var>
 		<var id="UPPER_VALUE">1</var>
-        
+
 		<var id="TICK_MARK_SOLUTION">randRange(1, 9)</var>
 		<var id="MARK_INCREMENT">UPPER_VALUE / UPPER_BOUND</var>
-		
+
 		<var id="SOLUTION">LOWER_VALUE + TICK_MARK_SOLUTION / UPPER_BOUND</var>
 
-			
+
 	</div>
 	<div class="problems">
 		<div>
@@ -30,18 +30,18 @@
 						range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ],
 						scale: [60, 40]
 					});
-                    
+
                     style({arrows: "&gt;"});
 					line( [ 0, 0 ], [ UPPER_BOUND + 0.25, 0 ] );
-					
+
 					style({arrows: "-&gt;"});
 					line( [ 0, 0 ], [ LOWER_BOUND - 0.25, 0 ] );
-					
+
 					style({arrows: ""});
 					for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++ ) {
 						line( [ x, -0.2 ], [ x, 0.2 ] );
 					}
-					
+
 					style({ stroke: BLUE, strokeWidth: 3.5 });
 					line( [ LOWER_BOUND, -0.2], [LOWER_BOUND, 0.2]);
 					label( [ LOWER_BOUND, -0.53 ],  LOWER_VALUE, "center", { color: BLUE });
@@ -51,7 +51,7 @@
 					addMouseLayer();
 					this.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
 					movablePoint.onMove = function( x, y ) {
-						if (x &lt; LOWER_BOUND || UPPER_BOUND &lt; x) { 
+						if (x &lt; LOWER_BOUND || UPPER_BOUND &lt; x) {
 							return false; // don't allow the point to move past the bounds
 						}
 						jQuery("#solutionarea input").val( x );
@@ -69,10 +69,10 @@
 				    <p>The line is divided into 10 pieces, which means:</p>
 				    <p><code>\color{green}{\text{piece of line}}</code> = <code>\color{red}{<var>MARK_INCREMENT</var>}</code>
 				</div>
-				
+
 				<p><code>\color{orange}{<var>SOLUTION</var>}</code> = <code>\color{red}{<var>MARK_INCREMENT</var>}</code> * <code>\color{blue}{<var>TICK_MARK_SOLUTION</var>}</code></p>
 				<p>Therefore, moving the <code>\color{orange}{\text{orange dot}}</code> <code>\color{blue}{<var>TICK_MARK_SOLUTION</var>}</code> place<var>plural(TICK_MARK_SOLUTION)</var> will put it at the position <code>\color{orange}{<var>SOLUTION</var>}</code>.</p>
-				
+
 				<div>
 					<div class="graphie" data-update="number-line">
     					for ( var x = LOWER_BOUND + 1; x &lt; UPPER_BOUND; x++ ) {
@@ -80,19 +80,19 @@
     					}
                     </div>
 				</div>
-				
+
 				<div>
 					<div class="graphie" data-update="number-line">
 						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
 						line( [ 0, 0 ], [ TICK_MARK_SOLUTION, 0 ] );
 						movablePoint.visibleShape.toFront();
-						
+
 						label( [ TICK_MARK_SOLUTION, -0.53 ], SOLUTION, "center", { color: "orange" });
 						movablePoint.moveTo( TICK_MARK_SOLUTION, 0 );
 					</div>
 					<p>The orange number shows where <code>\color{orange}{<var>SOLUTION</var>}</code> is on the number line.</p>
 				</div>
-				    
+
 			</div>
 		</div>
 	</div>

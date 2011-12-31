@@ -11,14 +11,14 @@
 		<var id="LOWER_BOUND">0</var>
 		<var id="UPPER_BOUND">1</var>
 		<var id="SCALING_FACTOR">5</var>
-		
+
 		<var id="DENOMINATOR">randRange(2, 6)</var>
 		<var id="NUMERATOR">randRange(1, DENOMINATOR-1)</var>
-		
+
 		<var id="LOWER_SCALED">LOWER_BOUND * DENOMINATOR</var>
 		<var id="UPPER_SCALED">UPPER_BOUND * DENOMINATOR</var>
-		
-		<var id="SOLUTION">NUMERATOR</var>		
+
+		<var id="SOLUTION">NUMERATOR</var>
 	</div>
 	<div class="problems">
 		<div>
@@ -29,14 +29,14 @@
 						range: [ [LOWER_SCALED - 1, UPPER_SCALED + 1], [-1, 1] ],
 						scale: [80, 40]
 					});
-					                    
+
                     style({arrows: "&gt;"});
 					line( [ LOWER_SCALED, 0 ], [ UPPER_SCALED + 0.25, 0 ] );
 					style({arrows: ""});
 					for ( var x = LOWER_SCALED; x &lt;= UPPER_SCALED; x++ ) {
 						line( [ x, -0.2 ], [ x, 0.2 ] );
 					}
-					
+
 					style({ stroke: BLUE, strokeWidth: 3.5 });
 					line( [ LOWER_SCALED, -0.2], [LOWER_SCALED, 0.2]);
 					label( [ LOWER_SCALED, -0.53 ],  LOWER_BOUND, "center", { color: BLUE });
@@ -46,7 +46,7 @@
 					addMouseLayer();
 					this.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
 					movablePoint.onMove = function( x, y ) {
-						if (x &lt; LOWER_SCALED || UPPER_SCALED &lt; x) { 
+						if (x &lt; LOWER_SCALED || UPPER_SCALED &lt; x) {
 							return false; // don't allow the point to move past the bounds
 						}
 						jQuery("#solutionarea input").val( x );

@@ -9,11 +9,11 @@
 	<div class="exercise">
 	<div class="vars">
 		<var id="LOWER_BOUND">-2</var>
-		<var id="UPPER_BOUND">2</var>		
-		
+		<var id="UPPER_BOUND">2</var>
+
 		<var id="LOWER_VALUE">LOWER_BOUND</var>
 		<var id="UPPER_VALUE">UPPER_BOUND</var>
-        
+
 		<var id="SOLUTION">roundTo(1, randRangeNonZero(-19, 19) / 10)</var>
 		<var id="SOLUTION_DECIMAL">roundTo(1, SOLUTION % 1)</var>
 		<var id="SOLUTION_WHOLE">SOLUTION - SOLUTION_DECIMAL</var>
@@ -28,24 +28,24 @@
 						range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ],
 						scale: [120, 40]
 					});
-                    
+
                     style({arrows: "&gt;"});
 					line( [ 0, 0 ], [ UPPER_BOUND + 0.25, 0 ] );
-					
+
 					style({arrows: "-&gt;"});
 					line( [ 0, 0 ], [ LOWER_BOUND - 0.25, 0 ] );
-					
+
 					style({arrows: ""});
 					for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=0.5 ) {
 						var markLength;
 						x % 1 === 0 ? markLength = 0.2 : markLength = 0.1
 						line( [ x, -markLength ], [ x, markLength ] );
 					}
-					
+
 					style({ stroke: GREEN, strokeWidth: 3.5 });
 					line( [ LOWER_BOUND, -0.2], [LOWER_BOUND, 0.2]);
 					label( [ LOWER_BOUND, -0.53 ],  LOWER_BOUND, "center", { color: GREEN });
-					
+
 					line( [ UPPER_BOUND, -0.2], [UPPER_BOUND, 0.2]);
 					label( [ UPPER_BOUND, -0.53 ],  UPPER_BOUND, "center", { color: GREEN });
 
@@ -55,7 +55,7 @@
 					addMouseLayer();
 					this.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.1 });
 					movablePoint.onMove = function( x, y ) {
-						if (x &lt; LOWER_BOUND || UPPER_BOUND &lt; x) { 
+						if (x &lt; LOWER_BOUND || UPPER_BOUND &lt; x) {
 							return false; // don't allow the point to move past the bounds
 						}
 						jQuery("#solutionarea input").val( x );
@@ -81,9 +81,9 @@
 				        style({ stroke: "#FFA500", strokeWidth: 3.5 });
 				        line( [SOLUTION_WHOLE, -0.2], [SOLUTION_WHOLE, 0.2]);
 					    line( [SOLUTION_WHOLE + (SOLUTION > 0 ? 1 : -1), -0.2], [SOLUTION_WHOLE + (SOLUTION > 0 ? 1 : -1), 0.2]);
-				    </div>        
-				</div>    
-				
+				    </div>
+				</div>
+
                 <div>
 					<div class="graphie" data-update="number-line">
 						style({ stroke: GREEN, fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
@@ -99,7 +99,7 @@
 					</div>
 					<p>The orange number shows where <code>\color{orange}{<var>SOLUTION</var>}</code> is on the number line.</p>
 				</div>
-				    
+
 			</div>
 		</div>
 	</div>
