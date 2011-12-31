@@ -30,7 +30,7 @@
 			font-weight: bold; text-align: center; font-size: 20px;
 			cursor: pointer;
 		}
-		.bill:hover, .place-value:hover { border-color: #999; }
+		.bill:hover, .place-value:hover, .hovereffect { border-color: #999; }
 		.coin { width: 51px; margin: 10px; line-height: 32px; color: #ddd; font-size: 20px; font-weight: bold; text-align: center; cursor: pointer; }
 		.thou-selected { background-color: #ff00af; border-color: #000; color: #fff; }
 		.hund-selected { background-color: #ffa500; border-color: #000; color: #fff; }
@@ -109,34 +109,65 @@
 				<var>
 					(function() {
 						Khan.scratchpad.disable();
+						jQuery( "#problemarea .place-value" ).bind( "vmouseover vmouseout", function( event ) {
+							if ( event.type === "vmouseout" ) {
+								jQuery( this ).prevUntil( ".columnhead" ).removeClass( 'hovereffect' );
+							}
+							if ( event.type === "vmouseover" ) {
+								if ( !jQuery( this ).hasClass( 'thou-selected hund-selected ten-selected one-selected tenth-selected hundth-selected thouth-selected' ) ) {
+									jQuery( this ).prevUntil( ".columnhead" ).addClass( 'hovereffect' );
+								}
+							}
+						});
 						// click handlers
 						jQuery( "#problemarea .thou" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'thou-selected' );
+							if ( jQuery( this ).hasClass( 'thou-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'thou-selected' );
+							}
 						});
 						jQuery( "#problemarea .hund" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'hund-selected' );
+							if ( jQuery( this ).hasClass( 'hund-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'hund-selected' );
+							}
 						});
 						jQuery( "#problemarea .ten" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'ten-selected' );
+							if ( jQuery( this ).hasClass( 'ten-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'ten-selected' );
+							}
 						});
 						jQuery( "#problemarea .one" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'one-selected' );
+							if ( jQuery( this ).hasClass( 'one-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'one-selected' );
+							}
 						});
 						jQuery( "#problemarea .tenth" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'tenth-selected' );
+							if ( jQuery( this ).hasClass( 'tenth-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'tenth-selected' );
+							}
 						});
 						jQuery( "#problemarea .hundth" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'hundth-selected' );
+							if ( jQuery( this ).hasClass( 'hundth-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'hundth-selected' );
+							}
 						});
 						jQuery( "#problemarea .thouth" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'thouth-selected' );
+							if ( jQuery( this ).hasClass( 'thouth-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'thouth-selected' );
+							}
 						});
 					})()
 				</var>
@@ -243,24 +274,39 @@
 						jQuery( "#problemarea .thou" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'thou-selected' );
+							if ( jQuery( this ).hasClass( 'thou-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'thou-selected' );
+							}
 						});
 						jQuery( "#problemarea .hund" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'hund-selected' );
+							if ( jQuery( this ).hasClass( 'hund-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'hund-selected' );
+							}
 						});
 						jQuery( "#problemarea .ten" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'ten-selected' );
+							if ( jQuery( this ).hasClass( 'ten-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'ten-selected' );
+							}
 						});
 						jQuery( "#problemarea .one" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'one-selected' );
+							if ( jQuery( this ).hasClass( 'one-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'one-selected' );
+							}
 						});
 						jQuery( "#problemarea .dime" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'dime-selected' );
 							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
-								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ fill: 'purple', stroke: '#000' });
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'dime-selected' );
+								for ( var i = 0; i &lt; jQuery( this ).index(); ++i ) {
+									KhanUtil.currentGraph.graph.tenths[ i ].attr({ fill: 'purple', stroke: '#000' });
+								}
 							} else {
 								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ fill: '#eee', stroke: '#ddd' });
 							}
@@ -269,34 +315,59 @@
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'penny-selected' );
 							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
-								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ fill: 'gray', stroke: '#000' });
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'penny-selected' );
+								for ( var i = 0; i &lt; jQuery( this ).index(); ++i ) {
+									KhanUtil.currentGraph.graph.hundredths[ i ].attr({ fill: 'gray', stroke: '#000' });
+								}
 							} else {
 								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ fill: '#eee', stroke: '#ddd' });
 							}
 						});
 
 						// mouseover handlers
+						jQuery( "#problemarea .bill" ).bind( "vmouseover", function( event ) {
+							if ( !jQuery( this ).hasClass( 'thou-selected hund-selected ten-selected one-selected' ) ) {
+								jQuery( this ).prevUntil( ".columnhead" ).addClass( 'hovereffect' );
+							}
+						});
 						jQuery( "#problemarea .dime" ).bind( "vmouseover", function( event ) {
 							KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#999' });
+							if ( !jQuery( this ).hasClass( 'dime-selected' ) ) {
+								for ( var i = 0; i &lt; jQuery( this ).index(); ++i ) {
+									KhanUtil.currentGraph.graph.tenths[ i ].attr({ stroke: '#999' });
+								}
+							}
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmouseover", function( event ) {
 							KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#999' });
+							if ( !jQuery( this ).hasClass( 'penny-selected' ) ) {
+								for ( var i = 0; i &lt; jQuery( this ).index(); ++i ) {
+									KhanUtil.currentGraph.graph.hundredths[ i ].attr({ stroke: '#999' });
+								}
+							}
 						});
 
 						// mouseout handlers
+						jQuery( "#problemarea .bill" ).bind( "vmouseout", function( event ) {
+							jQuery( this ).prevUntil( ".columnhead" ).removeClass( 'hovereffect' );
+						});
 						jQuery( "#problemarea .dime" ).bind( "vmouseout", function( event ) {
-							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
-								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
-							} else {
-								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#ddd' });
-							}
+							jQuery( "#problemarea .dime" ).each(function() {
+								if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
+									KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
+								} else {
+									KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#ddd' });
+								}
+							});
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmouseout", function( event ) {
-							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
-								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
-							} else {
-								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#ddd' });
-							}
+							jQuery( "#problemarea .penny" ).each(function() {
+								if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
+									KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
+								} else {
+									KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#ddd' });
+								}
+							});
 						});
 					</div>
 				</div>
