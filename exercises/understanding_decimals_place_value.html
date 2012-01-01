@@ -388,13 +388,19 @@
 							event.preventDefault();
 
               var dime = jQuery(this);
-              var thisDime = KhanUtil.currentGraph.graph.tenths[ dime.index() - 1 ],
-                  prevDimes = KhanUtil.currentGraph.graph.tenths.slice(0, dime.index());
-              var stroke = thisDime.attr('stroke') === '#000' ? '#ddd' : '#000';
 
-              jQuery.each([thisDime].concat(prevDimes), function(i, dime) {
-                dime.attr({stroke: stroke});
-              });
+              if (!dime.hasClass('selected')) {
+                var dimeIndex = dime.index() - 1;
+
+                var thisDime = KhanUtil.currentGraph.graph.tenths[dimeIndex],
+                    prevDimesStart = dimeIndex - dime.prevAll('.dime:not(.selected)').length;
+
+                var prevDimes = KhanUtil.currentGraph.graph.tenths.slice(prevDimesStart, dimeIndex);
+
+                jQuery.each([thisDime].concat(prevDimes), function(i, dime) {
+                  dime.attr({stroke: event.type === 'vmouseout' ? '#ddd' : '#999'});
+                });
+              }
 						});
 
 						jQuery( "#problemarea .penny" ).bind( "vmouseout", function( event ) {
