@@ -12,14 +12,19 @@
 	<script>
 		var currentAngle = 0, currentRadius = 1;
 
-		function polarForm(radius, angle) {
+		// useEulerForm: if truthy, use the form Re^A, otherwise use R (cos(A) + i sin(A))
+		function polarForm(radius, angle, useEulerForm) {
 			var angleRep = KhanUtil.piFraction(angle * Math.PI / 12);
-			return radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
+			if (useEulerForm) {
+				return radius + " e^{" + angleRep + "}";
+			} else {
+				return radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
+			}
 		}
 
 		function redrawFormula() {
 			var angleRep = KhanUtil.piFraction(currentAngle * Math.PI / 12);
-			var equation = polarForm(currentRadius, currentAngle);
+			var equation = polarForm(currentRadius, currentAngle, USE_EULER_FORM);
 			equation = KhanUtil.cleanMath(equation);
 			jQuery("#number-label").html("<code>"+equation+"</code>").tmpl();
 			jQuery("#current-radius").html(currentRadius);
@@ -48,18 +53,25 @@
 	<div class="problems">
 		<div id="multiply-cplx">
 			<div class="vars" data-ensure="ANSWER_RADIUS < 15">
+				<var id="USE_EULER_FORM">randFromArray([true, false])</var>
 				<var id="A_RADIUS">randRange(1, 7)</var>
 				<var id="A_ANGLE">randRange(0, 23)</var> <!-- the angle is in 1/12's of pi -->
 				<var id="A_ANGLE_REP">piFraction(A_ANGLE * PI / 12)</var>
-				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE)</var>
+				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE, USE_EULER_FORM)</var>
 
 				<var id="B_RADIUS">randRange(1, 7)</var>
 				<var id="B_ANGLE">randRange(0, 23)</var>
 				<var id="B_ANGLE_REP">piFraction(B_ANGLE * PI / 12)</var>
-				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE)</var>
+				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE, USE_EULER_FORM)</var>
 
 				<var id="ANSWER_RADIUS">(A_RADIUS * B_RADIUS)</var>
 				<var id="ANSWER_ANGLE">(A_ANGLE + B_ANGLE) % 24</var>
+
+				<!-- the R(cos A + i sin A) form contains parentheses, so it's better wrapped in brackets
+				     rather than another pair of parentheses... -->
+				<var id="BRACKETS">USE_EULER_FORM ? '()' : '[]'</var>
+				<var id="LEFT_BRACKET">BRACKETS[0]</var>
+				<var id="RIGHT_BRACKET">BRACKETS[1]</var>
 				<var>
 					(function() {
 						currentAngle = 0;
@@ -68,7 +80,7 @@
 				</var>
 			</div>
 			<p class="question">Multiply the following complex numbers:</p>
-			<p><code>[<var>A_REP</var>] \cdot [<var>B_REP</var>]</code></p>
+			<p><code><var>LEFT_BRACKET</var><var>A_REP</var><var>RIGHT_BRACKET</var> \cdot <var>LEFT_BRACKET</var><var>B_REP</var><var>RIGHT_BRACKET</var></code></p>
 
 			<!-- TODO: factor the answer type out... -->
 			<div class="solution" data-type="multiple">
@@ -93,7 +105,7 @@
 					</tr>
 				</table>
 
-				<p id="number-label" style="margin: 8px 0px 2px 0px"><code><var>polarForm(1, 0)</var></code></p>
+				<p id="number-label" style="margin: 8px 0px 2px 0px"><code><var>polarForm(1, 0, USE_EULER_FORM)</var></code></p>
 
 				<span class="sol" id="angle" style="display: none"><var>ANSWER_ANGLE</var></span>
 				<span class="sol" id="radius" style="display: none"><var>ANSWER_RADIUS</var></span>
@@ -132,6 +144,7 @@
 
 		<div id="divide-cplx">
 			<div class="vars">
+				<var id="USE_EULER_FORM">randFromArray([true, false])</var>
 
 				<var id="ANSWER_RADIUS">randRange(1, 10)</var>
 				<var id="ANSWER_ANGLE">randRange(0, 23)</var>
@@ -139,12 +152,12 @@
 				<var id="B_RADIUS">randRange(1, 7)</var>
 				<var id="B_ANGLE">randRange(0, 23)</var>
 				<var id="B_ANGLE_REP">piFraction(B_ANGLE * PI / 12)</var>
-				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE)</var>
+				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE, USE_EULER_FORM)</var>
 
 				<var id="A_RADIUS">ANSWER_RADIUS * B_RADIUS</var>
 				<var id="A_ANGLE">(ANSWER_ANGLE + B_ANGLE) % 24</var>
 				<var id="A_ANGLE_REP">piFraction(A_ANGLE * PI / 12)</var>
-				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE)</var>
+				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE, USE_EULER_FORM)</var>
 		
 				<var>
 					(function() {
