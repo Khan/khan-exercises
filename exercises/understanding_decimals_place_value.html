@@ -277,13 +277,54 @@
 
 						jQuery( "#problemarea .dime" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'selected' );
-							if ( jQuery( this ).hasClass( 'selected' ) ) {
-								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ fill: 'purple', stroke: '#000' });
-							} else {
-								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ fill: '#eee', stroke: '#ddd' });
-							}
-						});
+
+              var dime = jQuery(this);
+
+							if (dime.hasClass('selected')) {
+                if (dime.next().hasClass('selected')) {
+                  // Example Scenario
+                  //   Dimes 1 through 8 were selected.
+                  //   The user selects dime 5.
+                  //   Deselect dimes 6 through 8.
+                  var nextDimes = KhanUtil.currentGraph.graph.tenths.slice(dime.index());
+
+                  jQuery.each(nextDimes, function(i, dime) {
+                    dime.attr({ fill: '#eee', stroke: '#ddd' });
+                  });
+
+                  dime.nextAll('.selected').removeClass('selected');
+                } else {
+                  // Example Scenario
+                  //   Dimes 1 through 5 were selected.
+                  //   The user selects dime 5.
+                  //   Deselect dimes 1 through 5.
+                  var thisDime = KhanUtil.currentGraph.graph.tenths[ dime.index() - 1 ],
+                      prevDimes = KhanUtil.currentGraph.graph.tenths.slice(0, dime.index());
+
+                  jQuery.each([thisDime].concat(prevDimes), function(i, dime) {
+                    dime.attr({ fill: '#eee', stroke: '#ddd' });
+                  });
+
+                  dime.removeClass('selected');
+                  dime.prevAll('.selected').removeClass('selected');
+                }
+              } else {
+                // Example Scenario
+                //   Dime 5 was not selected.
+                //   The user selects dime 5.
+                //   Ensure dimes 1 through 5 are selected.
+                var thisDime = KhanUtil.currentGraph.graph.tenths[ dime.index() - 1 ],
+                    prevDimes = KhanUtil.currentGraph.graph.tenths.slice(0, dime.index());
+
+                jQuery.each([thisDime].concat(prevDimes), function(i, dime) {
+                  dime.attr({ fill: 'purple', stroke: '#000' });
+                });
+
+                dime.addClass('selected');
+                dime.prevAll('.dime').addClass('selected');
+              }
+            });
+
 						jQuery( "#problemarea .penny" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'selected' );
