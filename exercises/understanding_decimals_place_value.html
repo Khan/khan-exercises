@@ -327,13 +327,53 @@
 
 						jQuery( "#problemarea .penny" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'selected' );
-							if ( jQuery( this ).hasClass( 'selected' ) ) {
-								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ fill: 'gray', stroke: '#000' });
-							} else {
-								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ fill: '#eee', stroke: '#ddd' });
-							}
-						});
+
+              var penny = jQuery(this);
+
+							if (penny.hasClass('selected')) {
+                if (penny.next().hasClass('selected')) {
+                  // Example Scenario
+                  //   Pennies 1 through 8 were selected.
+                  //   The user selects penny 5.
+                  //   Deselect pennies 6 through 8.
+                  var nextPennies = KhanUtil.currentGraph.graph.hundredths.slice(penny.index());
+
+                  jQuery.each(nextPennies, function(i, penny) {
+                    penny.attr({ fill: '#eee', stroke: '#ddd' });
+                  });
+
+                  penny.nextAll('.selected').removeClass('selected');
+                } else {
+                  // Example Scenario
+                  //   Pennies 1 through 5 were selected.
+                  //   The user selects penny 5.
+                  //   Deselect pennies 1 through 5.
+                  var thisPenny = KhanUtil.currentGraph.graph.hundredths[ penny.index() - 1 ],
+                      prevPennies = KhanUtil.currentGraph.graph.hundredths.slice(0, penny.index());
+
+                  jQuery.each([thisPenny].concat(prevPennies), function(i, penny) {
+                    penny.attr({ fill: '#eee', stroke: '#ddd' });
+                  });
+
+                  penny.removeClass('selected');
+                  penny.prevAll('.selected').removeClass('selected');
+                }
+              } else {
+                // Example Scenario
+                //   Penny 5 was not selected.
+                //   The user selects penny 5.
+                //   Ensure pennies 1 through 5 are selected.
+                var thisPenny = KhanUtil.currentGraph.graph.hundredths[ penny.index() - 1 ],
+                    prevPennies = KhanUtil.currentGraph.graph.hundredths.slice(0, penny.index());
+
+                jQuery.each([thisPenny].concat(prevPennies), function(i, penny) {
+                  penny.attr({ fill: 'gray', stroke: '#000' });
+                });
+
+                penny.addClass('selected');
+                penny.prevAll('.penny').addClass('selected');
+              }
+            });
 
             // mouseout and mouseover handlers
 						jQuery('#problemarea .bill').bind('vmouseout vmouseover', function(event) {
