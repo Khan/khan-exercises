@@ -403,16 +403,23 @@
               }
 						});
 
-						jQuery( "#problemarea .penny" ).bind( "vmouseout", function( event ) {
-							if ( jQuery( this ).hasClass( 'selected' ) ) {
-								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
-							} else {
-								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#ddd' });
-							}
-						});
+						jQuery('#problemarea .penny').bind('vmouseout vmouseover', function(event) {
+							event.preventDefault();
 
-						jQuery( "#problemarea .penny" ).bind( "vmouseover", function( event ) {
-							KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#999' });
+              var penny = jQuery(this);
+
+              if (!penny.hasClass('selected')) {
+                var pennyIndex = penny.index() - 1;
+
+                var thisPenny = KhanUtil.currentGraph.graph.hundredths[pennyIndex],
+                    prevPenniesStart = pennyIndex - penny.prevAll('.penny:not(.selected)').length;
+
+                var prevPennies = KhanUtil.currentGraph.graph.hundredths.slice(prevPenniesStart, pennyIndex);
+
+                jQuery.each([thisPenny].concat(prevPennies), function(i, penny) {
+                  penny.attr({stroke: event.type === 'vmouseout' ? '#ddd' : '#999'});
+                });
+              }
 						});
 					</div>
 				</div>
