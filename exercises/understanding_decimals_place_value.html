@@ -32,16 +32,16 @@
 		}
 		.bill:hover, .place-value:hover { border-color: #999; }
 		.coin { width: 51px; margin: 10px; line-height: 32px; color: #ddd; font-size: 20px; font-weight: bold; text-align: center; cursor: pointer; }
-		.thou-selected { background-color: #ff00af; border-color: #000; color: #fff; }
-		.hund-selected { background-color: #ffa500; border-color: #000; color: #fff; }
-		.ten-selected { background-color: #28ae7b; border-color: #000; color: #fff; }
-		.one-selected { background-color: #6495ed; border-color: #000; color: #fff; }
-		.tenth-selected { background-color: purple; border-color: #000; color: #fff; }
-		.hundth-selected { background-color: gray; border-color: #000; color: #fff; }
-		.thouth-selected { background-color: #a52a2a; border-color: #000; color: #fff; }
+		.thou.selected { background-color: #ff00af; border-color: #000; color: #fff; }
+		.hund.selected { background-color: #ffa500; border-color: #000; color: #fff; }
+		.ten.selected { background-color: #28ae7b; border-color: #000; color: #fff; }
+		.one.selected { background-color: #6495ed; border-color: #000; color: #fff; }
+		.tenth.selected { background-color: purple; border-color: #000; color: #fff; }
+		.hundth.selected { background-color: gray; border-color: #000; color: #fff; }
+		.thouth.selected { background-color: #a52a2a; border-color: #000; color: #fff; }
 		.dime { font-size: 17px; }
-		.dime-selected { color: #fff; }
-		.penny-selected { color: #fff; }
+		.dime.selected { color: #fff; }
+		.penny.selected { color: #fff; }
 	</style>
 </head>
 <body>
@@ -110,33 +110,10 @@
 					(function() {
 						Khan.scratchpad.disable();
 						// click handlers
-						jQuery( "#problemarea .thou" ).bind( "vmousedown", function( event ) {
+						jQuery( "#problemarea .place-value" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'thou-selected' );
-						});
-						jQuery( "#problemarea .hund" ).bind( "vmousedown", function( event ) {
-							event.preventDefault();
-							jQuery( this ).toggleClass( 'hund-selected' );
-						});
-						jQuery( "#problemarea .ten" ).bind( "vmousedown", function( event ) {
-							event.preventDefault();
-							jQuery( this ).toggleClass( 'ten-selected' );
-						});
-						jQuery( "#problemarea .one" ).bind( "vmousedown", function( event ) {
-							event.preventDefault();
-							jQuery( this ).toggleClass( 'one-selected' );
-						});
-						jQuery( "#problemarea .tenth" ).bind( "vmousedown", function( event ) {
-							event.preventDefault();
-							jQuery( this ).toggleClass( 'tenth-selected' );
-						});
-						jQuery( "#problemarea .hundth" ).bind( "vmousedown", function( event ) {
-							event.preventDefault();
-							jQuery( this ).toggleClass( 'hundth-selected' );
-						});
-						jQuery( "#problemarea .thouth" ).bind( "vmousedown", function( event ) {
-							event.preventDefault();
-							jQuery( this ).toggleClass( 'thouth-selected' );
+               
+							jQuery( this ).toggleClass( 'selected' );
 						});
 					})()
 				</var>
@@ -148,13 +125,13 @@
 					Click on the numbers in rectangles to select them.
 				</div>
 				<div class="guess">digitsToInteger([
-					jQuery( "#problemarea .thou-selected" ).length,
-					jQuery( "#problemarea .hund-selected" ).length,
-					jQuery( "#problemarea .ten-selected" ).length,
-					jQuery( "#problemarea .one-selected" ).length,
-					jQuery( "#problemarea .tenth-selected" ).length,
-					jQuery( "#problemarea .hundth-selected" ).length,
-					jQuery( "#problemarea .thouth-selected" ).length
+					jQuery( "#problemarea .thou.selected" ).length,
+					jQuery( "#problemarea .hund.selected" ).length,
+					jQuery( "#problemarea .ten.selected" ).length,
+					jQuery( "#problemarea .one.selected" ).length,
+					jQuery( "#problemarea .tenth.selected" ).length,
+					jQuery( "#problemarea .hundth.selected" ).length,
+					jQuery( "#problemarea .thouth.selected" ).length
 				]) / 1000
 				</div>
 				<div class="validator-function">
@@ -168,16 +145,16 @@
 					var places = digits( guess * 1000 );
 
 					// unselect everything
-					jQuery( "#problemarea .place-value" ).removeClass( 'thou-selected hund-selected ten-selected one-selected tenth-selected, hundth-selected, thouth-selected' );
+					jQuery( "#problemarea .place-value" ).removeClass( 'selected' );
 
 					// select the approprate number of each thing
-					jQuery( "#problemarea .thou" ).slice( 0, places[6] || 0 ).addClass( 'thou-selected' );
-					jQuery( "#problemarea .hund" ).slice( 0, places[5] || 0 ).addClass( 'hund-selected' );
-					jQuery( "#problemarea .ten" ).slice( 0, places[4] || 0 ).addClass( 'ten-selected' );
-					jQuery( "#problemarea .one" ).slice( 0, places[3] || 0 ).addClass( 'one-selected' );
-					jQuery( "#problemarea .tenth" ).slice( 0, places[2] || 0 ).addClass( 'tenth-selected' );
-					jQuery( "#problemarea .hundth" ).slice( 0, places[1] || 0 ).addClass( 'hundth-selected' );
-					jQuery( "#problemarea .thouth" ).slice( 0, places[0] || 0 ).addClass( 'thouth-selected' );
+					jQuery( "#problemarea .thou" ).slice( 0, places[6] || 0 ).addClass( 'selected' );
+					jQuery( "#problemarea .hund" ).slice( 0, places[5] || 0 ).addClass( 'selected' );
+					jQuery( "#problemarea .ten" ).slice( 0, places[4] || 0 ).addClass( 'selected' );
+					jQuery( "#problemarea .one" ).slice( 0, places[3] || 0 ).addClass( 'selected' );
+					jQuery( "#problemarea .tenth" ).slice( 0, places[2] || 0 ).addClass( 'selected' );
+					jQuery( "#problemarea .hundth" ).slice( 0, places[1] || 0 ).addClass( 'selected' );
+					jQuery( "#problemarea .thouth" ).slice( 0, places[0] || 0 ).addClass( 'selected' );
 				</div>
 				<div class="example">click a number to select it</div>
 				<div class="example">click a number again to deselect it</div>
@@ -240,26 +217,15 @@
 						}
 
 						// click handlers
-						jQuery( "#problemarea .thou" ).bind( "vmousedown", function( event ) {
+						jQuery( "#problemarea .bill" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'thou-selected' );
+							jQuery( this ).toggleClass( 'selected' );
 						});
-						jQuery( "#problemarea .hund" ).bind( "vmousedown", function( event ) {
-							event.preventDefault();
-							jQuery( this ).toggleClass( 'hund-selected' );
-						});
-						jQuery( "#problemarea .ten" ).bind( "vmousedown", function( event ) {
-							event.preventDefault();
-							jQuery( this ).toggleClass( 'ten-selected' );
-						});
-						jQuery( "#problemarea .one" ).bind( "vmousedown", function( event ) {
-							event.preventDefault();
-							jQuery( this ).toggleClass( 'one-selected' );
-						});
+
 						jQuery( "#problemarea .dime" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'dime-selected' );
-							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
+							jQuery( this ).toggleClass( 'selected' );
+							if ( jQuery( this ).hasClass( 'selected' ) ) {
 								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ fill: 'purple', stroke: '#000' });
 							} else {
 								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ fill: '#eee', stroke: '#ddd' });
@@ -267,8 +233,8 @@
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'penny-selected' );
-							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
+							jQuery( this ).toggleClass( 'selected' );
+							if ( jQuery( this ).hasClass( 'selected' ) ) {
 								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ fill: 'gray', stroke: '#000' });
 							} else {
 								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ fill: '#eee', stroke: '#ddd' });
@@ -285,14 +251,14 @@
 
 						// mouseout handlers
 						jQuery( "#problemarea .dime" ).bind( "vmouseout", function( event ) {
-							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
+							if ( jQuery( this ).hasClass( 'selected' ) ) {
 								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
 							} else {
 								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#ddd' });
 							}
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmouseout", function( event ) {
-							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
+							if ( jQuery( this ).hasClass( 'selected' ) ) {
 								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
 							} else {
 								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#ddd' });
@@ -309,12 +275,12 @@
 					Click on the bills and coins to select them.
 				</div>
 				<div class="guess">digitsToInteger([
-					jQuery( "#problemarea .thou-selected" ).length,
-					jQuery( "#problemarea .hund-selected" ).length,
-					jQuery( "#problemarea .ten-selected" ).length,
-					jQuery( "#problemarea .one-selected" ).length,
-					jQuery( "#problemarea .dime-selected" ).length,
-					jQuery( "#problemarea .penny-selected" ).length
+					jQuery( "#problemarea .thou.selected" ).length,
+					jQuery( "#problemarea .hund.selected" ).length,
+					jQuery( "#problemarea .ten.selected" ).length,
+					jQuery( "#problemarea .one.selected" ).length,
+					jQuery( "#problemarea .dime.selected" ).length,
+					jQuery( "#problemarea .penny.selected" ).length
 				]) / 100
 				</div>
 				<div class="validator-function">
@@ -328,9 +294,7 @@
 					var places = digits( guess * 100 );
 
 					// unselect everything
-					jQuery( "#problemarea .bill" ).removeClass( 'thou-selected hund-selected ten-selected one-selected' );
-					jQuery( "#problemarea .dime" ).removeClass( 'dime-selected' );
-					jQuery( "#problemarea .penny" ).removeClass( 'penny-selected' );
+					jQuery( "#problemarea .bill, #problemarea .coin" ).removeClass( 'selected' );
 					jQuery.each( KhanUtil.currentGraph.graph.tenths, function() {
 						this.attr({ fill: '#eee', stroke: '#ddd' });
 					});
@@ -339,12 +303,12 @@
 					});
 
 					// select the approprate number of each thing
-					jQuery( "#problemarea .thou" ).slice( 0, places[5] || 0 ).addClass( 'thou-selected' );
-					jQuery( "#problemarea .hund" ).slice( 0, places[4] || 0 ).addClass( 'hund-selected' );
-					jQuery( "#problemarea .ten" ).slice( 0, places[3] || 0 ).addClass( 'ten-selected' );
-					jQuery( "#problemarea .one" ).slice( 0, places[2] || 0 ).addClass( 'one-selected' );
-					jQuery( "#problemarea .dime" ).slice( 0, places[1] || 0 ).addClass( 'dime-selected' );
-					jQuery( "#problemarea .penny" ).slice( 0, places[0] || 0 ).addClass( 'penny-selected' );
+					jQuery( "#problemarea .thou" ).slice( 0, places[5] || 0 ).addClass( 'selected' );
+					jQuery( "#problemarea .hund" ).slice( 0, places[4] || 0 ).addClass( 'selected' );
+					jQuery( "#problemarea .ten" ).slice( 0, places[3] || 0 ).addClass( 'selected' );
+					jQuery( "#problemarea .one" ).slice( 0, places[2] || 0 ).addClass( 'selected' );
+					jQuery( "#problemarea .dime" ).slice( 0, places[1] || 0 ).addClass( 'selected' );
+					jQuery( "#problemarea .penny" ).slice( 0, places[0] || 0 ).addClass( 'selected' );
 					for ( var i = 0; i &lt; places[1]; ++i ) {
 						KhanUtil.currentGraph.graph.tenths[ i ].attr({ fill: 'purple', stroke: '#000' });
 					}
