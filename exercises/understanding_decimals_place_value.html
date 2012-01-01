@@ -145,8 +145,6 @@
 
             // mouseout and mouseover handlers
 						jQuery('#problemarea .place-value').bind('vmouseout vmouseover', function(event) {
-							event.preventDefault();
-
               var placeValue = jQuery(this);
               placeValue.prevAll('.place-value').toggleClass('hover');
               placeValue.toggleClass('hover');
@@ -377,16 +375,12 @@
 
             // mouseout and mouseover handlers
 						jQuery('#problemarea .bill').bind('vmouseout vmouseover', function(event) {
-							event.preventDefault();
-
               var bill = jQuery(this);
               bill.prevAll('.bill').toggleClass('hover');
               bill.toggleClass('hover');
 						});
 
 						jQuery('#problemarea .dime').bind('vmouseout vmouseover', function(event) {
-							event.preventDefault();
-
               var dime = jQuery(this);
 
               if (!dime.hasClass('selected')) {
@@ -404,8 +398,6 @@
 						});
 
 						jQuery('#problemarea .penny').bind('vmouseout vmouseover', function(event) {
-							event.preventDefault();
-
               var penny = jQuery(this);
 
               if (!penny.hasClass('selected')) {
