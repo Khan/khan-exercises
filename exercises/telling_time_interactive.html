@@ -37,14 +37,14 @@
 						var minuteRadius = clockRadius * 0.6;
 						var hourRadius = clockRadius * 0.45;
 
-						graph.minuteStartAngle = 90;
-						graph.hourStartAngle = 60;
+						minuteStartAngle = 90;
+						hourStartAngle = 60;
 
-						graph.minuteSnapDegrees = 360 / minuteSnapPoints;
-						graph.hourSnapDegrees = 360 / hourSnapPoints;
+						minuteSnapDegrees = 360 / minuteSnapPoints;
+						hourSnapDegrees = 360 / hourSnapPoints;
 
-						graph.clock = addAnalogClock( { radius: clockRadius, minuteTicks: hourSnapPoints } );
-						graph.clock.draw();
+						clock = addAnalogClock( { radius: clockRadius, minuteTicks: hourSnapPoints } );
+						clock.draw();
 
 						addMouseLayer();
 
@@ -71,8 +71,8 @@
 							return true;
 						}
 
-						graph.minutePoint = addMovablePoint({
-							coord: polar( minuteRadius, graph.minuteStartAngle ),
+						minutePoint = addMovablePoint({
+							coord: polar( minuteRadius, minuteStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: minuteRadius,
@@ -81,7 +81,7 @@
 								}
 							},
 							onMove: function( x, y ) {
-								return movePartnerPoint( { x: x, y: y, point: this, outerPoint: graph.outerMinutePoint, isOuterPoint: false } );
+								return movePartnerPoint( { x: x, y: y, point: this, outerPoint: outerMinutePoint, isOuterPoint: false } );
 							},
 							normalStyle: {
 								fill: ORANGE,
@@ -93,8 +93,8 @@
 							}
 						});
 
-						graph.outerMinutePoint = addMovablePoint({
-							coord: polar( outerPointRadius, graph.minuteStartAngle ),
+						outerMinutePoint = addMovablePoint({
+							coord: polar( outerPointRadius, minuteStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: outerPointRadius,
@@ -103,7 +103,7 @@
 								}
 							},
 							onMove: function( x, y ) {
-								return movePartnerPoint( { x: x, y: y, point: graph.minutePoint, outerPoint: this, isOuterPoint: true } );
+								return movePartnerPoint( { x: x, y: y, point: minutePoint, outerPoint: this, isOuterPoint: true } );
 							},
 							normalStyle: {
 								fill: ORANGE,
@@ -115,8 +115,8 @@
 							}
 						})
 
-						graph.hourPoint = addMovablePoint({
-							coord: polar( hourRadius, graph.hourStartAngle ),
+						hourPoint = addMovablePoint({
+							coord: polar( hourRadius, hourStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: hourRadius,
@@ -125,7 +125,7 @@
 								}
 							},
 							onMove: function( x, y ) {
-								return movePartnerPoint( { x: x, y: y, point: this, outerPoint: graph.outerHourPoint, isOuterPoint: false } );
+								return movePartnerPoint( { x: x, y: y, point: this, outerPoint: outerHourPoint, isOuterPoint: false } );
 							},
 							normalStyle: {
 								fill: BLUE,
@@ -137,8 +137,8 @@
 							}
 						});
 
-						graph.outerHourPoint = addMovablePoint({
-							coord: polar( outerPointRadius, graph.hourStartAngle ),
+						outerHourPoint = addMovablePoint({
+							coord: polar( outerPointRadius, hourStartAngle ),
 							constraints: {
 								fixedDistance: {
 									dist: outerPointRadius,
@@ -147,7 +147,7 @@
 								}
 							},
 							onMove: function( x, y ) {
-								return movePartnerPoint( { x: x, y: y, point: graph.hourPoint, outerPoint: this, isOuterPoint: true } );
+								return movePartnerPoint( { x: x, y: y, point: hourPoint, outerPoint: this, isOuterPoint: true } );
 							},
 							normalStyle: {
 								fill: BLUE,
@@ -159,8 +159,8 @@
 							}
 						})
 
-						graph.minuteHand = addMovableLineSegment({
-							pointA: graph.minutePoint,
+						minuteHand = addMovableLineSegment({
+							pointA: minutePoint,
 							coordZ: [ 0, 0 ],
 							fixed: true,
 							normalStyle: {
@@ -169,8 +169,8 @@
 							},
 						});
 
-						graph.hourHand = addMovableLineSegment({
-							pointA: graph.hourPoint,
+						hourHand = addMovableLineSegment({
+							pointA: hourPoint,
 							coordZ: [ 0, 0 ],
 							fixed: true,
 							normalStyle: {
@@ -179,7 +179,7 @@
 							},
 						});	 
 
-						graph.centerPoint = addMovablePoint({
+						centerPoint = addMovablePoint({
 							coord: [ 0, 0 ],
 							constraints: {
 								fixed: true
@@ -191,11 +191,11 @@
 							}
 						});
 
-						graph.correctMinuteAngle = timeToDegrees( MINUTE );
-						graph.correctHourAngle = timeToDegrees( 5 * (HOUR + MINUTE/60) );
+						correctMinuteAngle = timeToDegrees( MINUTE );
+						correctHourAngle = timeToDegrees( 5 * (HOUR + MINUTE/60) );
 
-						graph.correctMinuteAngle = roundToNearest( graph.minuteSnapDegrees, graph.correctMinuteAngle );
-						graph.correctHourAngle = roundToNearest( graph.hourSnapDegrees, graph.correctHourAngle );
+						correctMinuteAngle = roundToNearest( minuteSnapDegrees, correctMinuteAngle );
+						correctHourAngle = roundToNearest( hourSnapDegrees, correctHourAngle );
 
 					</div>
 				</div>
@@ -205,27 +205,27 @@
 						Drag the two hands so the clock reads <var>HOUR</var>:<var>NICE_MINUTE</var>.
 					</div>
 					<div class="guess">
-						[ graph.minutePoint.coord, graph.hourPoint.coord ]
+						[ minutePoint.coord, hourPoint.coord ]
 					</div>
 					<div class="validator-function">
 
 						var minuteAngle = cartToPolar( guess[0] )[1];
 						var hourAngle = cartToPolar( guess[1] )[1];
 
-						minuteAngle = roundToNearest( graph.minuteSnapDegrees, minuteAngle );
-						hourAngle = roundToNearest( graph.hourSnapDegrees, hourAngle );
+						minuteAngle = roundToNearest( minuteSnapDegrees, minuteAngle );
+						hourAngle = roundToNearest( hourSnapDegrees, hourAngle );
 
 						// if hands have not been moved, return `""`
-						if ( minuteAngle === graph.minuteStartAngle &amp;&amp; hourAngle ==== graph.hourStartAngle) {
+						if ( minuteAngle === minuteStartAngle &amp;&amp; hourAngle ==== hourStartAngle) {
 							return "";
 						}
 
-						return (minuteAngle === graph.correctMinuteAngle) &amp;&amp; (hourAngle === graph.correctHourAngle);
+						return (minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle === correctHourAngle);
 
 					</div>
 					<div class="show-guess">
-						graph.minutePoint.moveTo( guess[0][0], guess[0][1], true );
-						graph.hourPoint.moveTo( guess[1][0], guess[1][1], true );
+						minutePoint.moveTo( guess[0][0], guess[0][1], true );
+						hourPoint.moveTo( guess[1][0], guess[1][1], true );
 					</div>
 				</div>
 
@@ -257,11 +257,11 @@
 					</div>
 
 					<div class="graphie" data-update="clock">
-							var minuteRadius = graph.minutePoint.constraints.fixedDistance.dist;
-							var hourRadius = graph.hourPoint.constraints.fixedDistance.dist;
+							var minuteRadius = minutePoint.constraints.fixedDistance.dist;
+							var hourRadius = hourPoint.constraints.fixedDistance.dist;
 
-							var minuteCoord = polar( minuteRadius, graph.correctMinuteAngle );
-							var hourCoord = polar( hourRadius, graph.correctHourAngle );
+							var minuteCoord = polar( minuteRadius, correctMinuteAngle );
+							var hourCoord = polar( hourRadius, correctHourAngle );
 
 							var dotOpacity = 0.4;
 							var handOpacity = 0.3;
@@ -317,7 +317,7 @@
 							});
 
 							// for some reason this doesn't work, so for now, create another center point
-							// graph.centerPoint.toFront();
+							// centerPoint.toFront();
 							addMovablePoint({
 								coord: [ 0, 0 ],
 								constraints: {
