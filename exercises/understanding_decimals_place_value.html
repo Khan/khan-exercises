@@ -19,7 +19,7 @@
 		}
 		.coin-column { position: relative; margin: 0px; float: left; left: 1px; z-index: 1; }
 		.place-value {
-			width: 67px; margin: 8px; line-height: 30px;
+			width: 57px; margin: 8px; line-height: 30px;
 			background-color: #eee; border-width: 1px; border-style: solid; border-color: #ddd; color: #ddd;
 			font-weight: bold; text-align: center; font-size: 20px;
 			cursor: pointer;
@@ -42,6 +42,17 @@
 		.dime { font-size: 17px; }
 		.dime.selected { color: #fff; }
 		.penny.selected { color: #fff; }
+
+    #money .rowhead { margin: 10px; }
+    #place-value .rowhead { margin: 8px; }
+
+    .rowhead {
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 32px;
+      text-align: center;
+      width: 34px;
+    }
 	</style>
 </head>
 <body>
@@ -77,6 +88,10 @@
 			</p>
 
 			<div class="problem">
+				<div class="column">
+					<span style="font-size: 12px;font-weight: bold;">&nbsp;</span>
+					<div data-each="10 times as INDEX" class="rowhead"><var>INDEX + 1</var></div>
+				</div>
 				<div class="column">
 					<span class="columnhead">Thousands</span>
 					<div data-each="10 times" class="place-value thou">1000</div>
@@ -180,6 +195,10 @@
 			</p>
 
 			<div class="problem">
+				<div class="column">
+					<span style="font-size: 12px;font-weight: bold;">&nbsp;</span>
+					<div data-each="10 times as INDEX" class="rowhead"><var>INDEX + 1</var></div>
+				</div>
 				<div class="column">
 					<span class="columnhead">Thousands</span>
 					<div data-each="10 times" class="bill thou">$1000</div>
