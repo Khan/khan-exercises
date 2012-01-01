@@ -30,7 +30,7 @@
 			font-weight: bold; text-align: center; font-size: 20px;
 			cursor: pointer;
 		}
-		.bill:hover, .place-value:hover { border-color: #999; }
+		.bill:hover, .place-value:hover, .place-value.hover { border-color: #999; }
 		.coin { width: 51px; margin: 10px; line-height: 32px; color: #ddd; font-size: 20px; font-weight: bold; text-align: center; cursor: pointer; }
 		.thou.selected { background-color: #ff00af; border-color: #000; color: #fff; }
 		.hund.selected { background-color: #ffa500; border-color: #000; color: #fff; }
@@ -127,8 +127,29 @@
 						// click handlers
 						jQuery( "#problemarea .place-value" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-               
-							jQuery( this ).toggleClass( 'selected' );
+
+              var placeValue = jQuery(this);
+
+              if (placeValue.hasClass('selected')) {
+                if (placeValue.next().hasClass('selected')) {
+                  placeValue.nextAll('.selected').removeClass('selected');
+                } else {
+                  placeValue.removeClass('selected');
+                  placeValue.prevAll('.selected').removeClass('selected');
+                }
+              } else {
+                placeValue.addClass('selected');
+                placeValue.prevAll('.place-value').addClass('selected');
+              }
+						});
+
+            // mouseout and mouseover handlers
+						jQuery('#problemarea .place-value').bind('vmouseout vmouseover', function(event) {
+							event.preventDefault();
+
+              var placeValue = jQuery(this);
+              placeValue.prevAll('.place-value').toggleClass('hover');
+              placeValue.toggleClass('hover');
 						});
 					})()
 				</var>
