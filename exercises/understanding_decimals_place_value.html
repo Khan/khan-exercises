@@ -30,7 +30,7 @@
 			font-weight: bold; text-align: center; font-size: 20px;
 			cursor: pointer;
 		}
-		.bill:hover, .place-value:hover, .place-value.hover { border-color: #999; }
+		.bill:hover, .bill.hover, .place-value:hover, .place-value.hover { border-color: #999; }
 		.coin { width: 51px; margin: 10px; line-height: 32px; color: #ddd; font-size: 20px; font-weight: bold; text-align: center; cursor: pointer; }
 		.thou.selected { background-color: #ff00af; border-color: #000; color: #fff; }
 		.hund.selected { background-color: #ffa500; border-color: #000; color: #fff; }
@@ -259,7 +259,20 @@
 						// click handlers
 						jQuery( "#problemarea .bill" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'selected' );
+
+              var bill = jQuery(this);
+
+              if (bill.hasClass('selected')) {
+                if (bill.next().hasClass('selected')) {
+                  bill.nextAll('.selected').removeClass('selected');
+                } else {
+                  bill.removeClass('selected');
+                  bill.prevAll('.selected').removeClass('selected');
+                }
+              } else {
+                bill.addClass('selected');
+                bill.prevAll('.bill').addClass('selected');
+              }
 						});
 
 						jQuery( "#problemarea .dime" ).bind( "vmousedown", function( event ) {
@@ -281,15 +294,15 @@
 							}
 						});
 
-						// mouseover handlers
-						jQuery( "#problemarea .dime" ).bind( "vmouseover", function( event ) {
-							KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#999' });
-						});
-						jQuery( "#problemarea .penny" ).bind( "vmouseover", function( event ) {
-							KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#999' });
+            // mouseout and mouseover handlers
+						jQuery('#problemarea .bill').bind('vmouseout vmouseover', function(event) {
+							event.preventDefault();
+
+              var bill = jQuery(this);
+              bill.prevAll('.bill').toggleClass('hover');
+              bill.toggleClass('hover');
 						});
 
-						// mouseout handlers
 						jQuery( "#problemarea .dime" ).bind( "vmouseout", function( event ) {
 							if ( jQuery( this ).hasClass( 'selected' ) ) {
 								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
@@ -303,6 +316,13 @@
 							} else {
 								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#ddd' });
 							}
+						});
+
+						jQuery( "#problemarea .dime" ).bind( "vmouseover", function( event ) {
+							KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#999' });
+						});
+						jQuery( "#problemarea .penny" ).bind( "vmouseover", function( event ) {
+							KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#999' });
 						});
 					</div>
 				</div>
