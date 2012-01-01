@@ -384,13 +384,19 @@
               bill.toggleClass('hover');
 						});
 
-						jQuery( "#problemarea .dime" ).bind( "vmouseout", function( event ) {
-							if ( jQuery( this ).hasClass( 'selected' ) ) {
-								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
-							} else {
-								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#ddd' });
-							}
+						jQuery('#problemarea .dime').bind('vmouseout vmouseover', function(event) {
+							event.preventDefault();
+
+              var dime = jQuery(this);
+              var thisDime = KhanUtil.currentGraph.graph.tenths[ dime.index() - 1 ],
+                  prevDimes = KhanUtil.currentGraph.graph.tenths.slice(0, dime.index());
+              var stroke = thisDime.attr('stroke') === '#000' ? '#ddd' : '#000';
+
+              jQuery.each([thisDime].concat(prevDimes), function(i, dime) {
+                dime.attr({stroke: stroke});
+              });
 						});
+
 						jQuery( "#problemarea .penny" ).bind( "vmouseout", function( event ) {
 							if ( jQuery( this ).hasClass( 'selected' ) ) {
 								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
@@ -399,9 +405,6 @@
 							}
 						});
 
-						jQuery( "#problemarea .dime" ).bind( "vmouseover", function( event ) {
-							KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#999' });
-						});
 						jQuery( "#problemarea .penny" ).bind( "vmouseover", function( event ) {
 							KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#999' });
 						});
