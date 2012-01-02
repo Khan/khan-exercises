@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html data-require="math math-format interactive">
+<head>
+	<meta charset="UTF-8" />
+	<title>Ordering Decimals</title>
+	<script src="../khan-exercise.js"></script>
+	<style type="text/css">
+		.number-list {
+			font-size: 1.7em;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<!-- COLORS needed in hints section to explain the sorting -->
+			<var id="COLORS">KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown" ])</var>
+			<var id="NUMS">(function() {
+				"use strict";
+				var DECIMAL_PLACES = 4,
+					array = [],
+					used = {};
+
+				// calculate values to be utilized later in hints and solution
+				while ( array.length &lt; 4 ) {
+					var numerator = getPrime();
+					var denominator = randRangeExclude( 2, 20, KhanUtil.primes );
+					var number = ( numerator / denominator ).toFixed( DECIMAL_PLACES );
+					var integerPart = roundTowardsZero( numerator / denominator );
+					var fractionPart = ( number - integerPart).toFixed( DECIMAL_PLACES );
+
+					if ( !used[ numerator / denominator ] ) {
+						array.push([ integerPart,
+							fractionPart,
+							roundTo( DECIMAL_PLACES, numerator / denominator ),
+							COLORS[ array.length ],
+							number
+						]);
+						used[ numerator / denominator ] = true;
+					}
+				}
+
+				// generate a number very similar to any one of the numbers in the array
+				var offset = randRange( 1, 3 ) / Math.pow( 10, randRange( 1, DECIMAL_PLACES ) );
+				var anyNumber = array[ rand( array.length ) ][ 2 ];
+				var aSimilarDecimal = anyNumber + offset;
+				var similarIntegerPart = roundTowardsZero( aSimilarDecimal );
+				var similarFractionPart = ( aSimilarDecimal - similarIntegerPart ).toFixed( DECIMAL_PLACES );
+				var aSimilarDecimalForDisplay = aSimilarDecimal.toFixed( DECIMAL_PLACES );
+
+				array.push([ similarIntegerPart,
+					similarFractionPart,
+					roundTo( DECIMAL_PLACES, aSimilarDecimal ),
+					COLORS[ array.length ],
+					aSimilarDecimalForDisplay
+				]);
+
+				return shuffle( array );
+			})()</var>
+			<var id="INTEGER_PART"> jQuery.map( NUMS, function( array ) {
+				return "\\color{" + array[3] + "}{" + array[0] + "}" + array[ 1 ].substring( 1 );
+			}).join( "," ) </var>
+			<var id="SORTED_BY_INTEGER_PART_ONLY"> jQuery.extend( true, [], NUMS ).sort( function( a, b) {
+				return a[ 0 ] - b[ 0 ];
+			}) </var>
+			<var id="DISPLAY_DECIMALS_SORTED_BY_INTEGER"> jQuery.map( SORTED_BY_INTEGER_PART_ONLY, function( array ) {
+				return array[ 4 ];
+			}).join( "," ) </var>
+			<var id="NUMS_SORT">jQuery.extend( true, [], NUMS ).sort( function(a, b) {
+				return a[ 2 ] - b[ 2 ];
+			})</var>
+			<var id="NUMS_SORT_TEX">jQuery.map( NUMS_SORT, function( array ) {
+				return array[ 2 ];
+			}).join( "," )</var>
+			<var id="SORTER">createSorter()</var>
+		</div>
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>Order the following decimals from least to greatest.</p>
+					<p>
+						<ul id="sortable">
+							<li data-each="NUMS as NUM">
+								<code><var>NUM[ 2 ]</var></code>
+							</li>
+						</ul>
+						<var>SORTER.init( "sortable" )</var>
+					</p>
+				</div>
+				<div class="solution" data-type="custom">
+					<div class="instruction">Drag the decimals to the left or the right so they are in order from least to greatest.</div>
+					<div class="guess">SORTER.getContent()</div>
+					<div class="validator-function">return guess.join( "," ) === NUMS_SORT_TEX;</div>
+					<div class="show-guess">SORTER.setContent( guess );</div>
+				</div>
+				<div class="hints">
+					<div>
+						<p>First, order the decimals by their integer part( shown in color below ).</p>
+						<p class="number-list"> <code><var>INTEGER_PART</var></code></p>
+					</div>
+					<div>
+						<p>The decimals sorted only by the integer part are shown below. However, this may not be the final step, there may be decimals with the same integer part which may need further ordering!</p>
+						<p class="number-list"><code><var>DISPLAY_DECIMALS_SORTED_BY_INTEGER </var></code></p>
+					</div>
+					<div>
+						<p>For numbers with the same integer part, start by ordering the first digit on the right of the decimal point i.e. the 1/10th's place value ( e.g. The decimal number <code>3.</code><code>\color{red}{7}</code><code>84</code> is smaller than <code>3.</code><code>\color{red}{9}</code><code>13</code> ). If they are the same, order the next place on the right i.e. the 1/100th's place ( e.g. The decimal number <code>5.7</code><code>\color{red}{1}</code><code>5</code> is smaller than <code>5.7</code><code>\color{red}{2}</code><code>9</code> ). If they are the same too, then proceed to the next digit on the right until you find a place where they are not the same.</p>
+					</div>
+					<div>
+						<p>The sorted decimals are.</p>
+						<p class = "number-list"><code><var> NUMS_SORT_TEX </var></code></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
