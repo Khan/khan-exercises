@@ -140,8 +140,8 @@
 				</div>
 
 				<div class="question">
-          <p data-if="POINTX === SOLUTION">What is <code>X</code> when <code>Y</code> is <var>POINTY</var>?</p>
-          <p data-else>What is <code>Y</code> when <code>X</code> is <var>POINTX</var>?</p>
+          <p data-if="POINTX === SOLUTION">What is <code>X</code> when <code>Y</code> is <code><var>POINTY</var></code>?</p>
+          <p data-else>What is <code>Y</code> when <code>X</code> is <code><var>POINTX</var></code>?</p>
           
 
 					<div class="graphie">
@@ -149,15 +149,17 @@
 							axisArrows:  '<->',
 							labelStep:   1,
 							scale:       20,
+						  labelFormat: function(s) { return '\\small{' + s + '}'; },
 							tickStep:    2,
 							unityLabels: true
 						});
 
+            style({stroke: '#6495ed'});
 						line([LINESTARTX, LINESTARTY], LINEEND);
 					</div>
 				</div>
 
-				<div class="solution"><var>SOLUTION</var></div>
+				<div class="solution" data-forms="integer"><var>SOLUTION</var></div>
 			</div>
 
 		</div>
