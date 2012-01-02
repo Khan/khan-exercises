@@ -10,13 +10,13 @@
 	<title>Multiplying and dividing complex number polar forms</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
-		var currentAngle = 0, currentRadius = 1;
+		var currentAngle = 0, currentRadius = 1, useEulerForm;
 
 		// useEulerForm: if truthy, use the form Re^A, otherwise use R (cos(A) + i sin(A))
 		function polarForm(radius, angle, useEulerForm) {
 			var angleRep = KhanUtil.piFraction(angle * Math.PI / 12);
 			if (useEulerForm) {
-				return radius + " e^{" + angleRep + "}";
+				return radius + " e^{" + angleRep + " i}";
 			} else {
 				return radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
 			}
@@ -24,7 +24,7 @@
 
 		function redrawFormula() {
 			var angleRep = KhanUtil.piFraction(currentAngle * Math.PI / 12);
-			var equation = polarForm(currentRadius, currentAngle, USE_EULER_FORM);
+			var equation = polarForm(currentRadius, currentAngle, useEulerForm);
 			equation = KhanUtil.cleanMath(equation);
 			jQuery("#number-label").html("<code>"+equation+"</code>").tmpl();
 			jQuery("#current-radius").html(currentRadius);
@@ -41,10 +41,13 @@
 			while (currentAngle < 0) currentAngle += 24;
 			while (currentAngle > 23) currentAngle -= 24;
 			
+			fillAnswerInputs();
+			redrawFormula();
+		}
+
+		function fillAnswerInputs() {
 			jQuery("#angle input").val(currentAngle);
 			jQuery("#radius input").val(currentRadius);
-
-			redrawFormula();
 		}
 	</script>
 </head>
@@ -76,6 +79,9 @@
 					(function() {
 						currentAngle = 0;
 						currentRadius = 1;
+						useEulerForm = USE_EULER_FORM;
+						redrawFormula();
+						fillAnswerInputs();
 					})()
 				</var>
 			</div>
@@ -163,6 +169,9 @@
 					(function() {
 						currentAngle = 0;
 						currentRadius = 1;
+						useEulerForm = USE_EULER_FORM;
+						redrawFormula();
+						fillAnswerInputs();
 					})()
 				</var>
 			</div>
