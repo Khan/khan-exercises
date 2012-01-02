@@ -114,6 +114,49 @@
 					<p>Thus, as <var>X_AXIS_QUESTION</var> increases, <var>Y_AXIS_QUESTION</var> <b>stays the same</b>.</p>
 				</div>
 			</div>
+
+			<div>
+				<div class="vars" data-ensure="Math.abs(LINESTARTX + POINTX) !== 20 && Math.abs(LINESTARTY + POINTY) !== 20">
+					<var id="LINESTARTX">randFromArray([-10, 10])</var>
+					<var id="LINESTARTY">randFromArray([-10, 10])</var>
+					<var id="POINTX">randRange(-10, 10)</var>
+					<var id="POINTY">randRange(-10, 10)</var>
+					<var id="LINEEND">
+						(function() {
+							var lineEndX = POINTX,
+									lineEndY = POINTY,
+									xDelta = -(LINESTARTX - POINTX),
+									yDelta = -(LINESTARTY - POINTY);
+
+							while (Math.abs(lineEndX) &lt; 10 && Math.abs(lineEndY) &lt; 10) {
+								lineEndX += xDelta;
+								lineEndY += yDelta;
+							}
+
+							return [lineEndX, lineEndY];
+						})()
+					</var>
+				</div>
+
+				<div class="question">
+					<p>What is <code>X</code> when <code>Y</code> is <var>POINTY</var>?</p>
+
+					<div class="graphie">
+						graphInit({
+							axisArrows:  '<->',
+							labelStep:   1,
+							scale:       20,
+							tickStep:    2,
+							unityLabels: true
+						});
+
+						line([LINESTARTX, LINESTARTY], LINEEND);
+					</div>
+				</div>
+
+				<div class="solution"><var>POINTX</var></div>
+			</div>
+
 		</div>
 	</div>
 </body>
