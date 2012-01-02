@@ -273,103 +273,67 @@
 							}
 						});
 
-						jQuery( "#problemarea .dime" ).bind( "vmousedown", function( event ) {
+						function getCoinGraph(coin) {
+							var coinGraphs;
+
+							if (coin.hasClass('dime')) {
+								coinGraphs = KhanUtil.currentGraph.graph.tenths;
+							} else {
+								coinGraphs = KhanUtil.currentGraph.graph.hundredths;
+							}
+
+							return coinGraphs[coin.index() - 1];
+						}
+
+						jQuery( "#problemarea .coin" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 
-							var dime = jQuery(this);
+							var coin = jQuery(this);
 
-							if (dime.hasClass('selected')) {
-								if (dime.next().hasClass('selected')) {
+							if (coin.hasClass('selected')) {
+								if (coin.next().hasClass('selected')) {
 									// Example Scenario
-									//   Dimes 1 through 8 were selected.
-									//   The user selects dime 5.
-									//   Deselect dimes 6 through 8.
-									var nextDimes = KhanUtil.currentGraph.graph.tenths.slice(dime.index());
+									//   Coins 1 through 8 were selected.
+									//   The user selects coin 5.
+									//   Deselect coins 6 through 8.
+									coin.nextAll('.selected').each(function() {
+										var coin = jQuery(this),
+												coinGraph = getCoinGraph(coin);
 
-									jQuery.each(nextDimes, function(i, dime) {
-										dime.attr({ fill: '#eee', stroke: '#ddd' });
+										coin.removeClass('selected');
+										coinGraph.attr({ fill: '#eee', stroke: '#ddd'});
 									});
-
-									dime.nextAll('.selected').removeClass('selected');
 								} else {
 									// Example Scenario
 									//   Dimes 1 through 5 were selected.
 									//   The user selects dime 5.
 									//   Deselect dimes 1 through 5.
-									var thisDime = KhanUtil.currentGraph.graph.tenths[ dime.index() - 1 ],
-											prevDimes = KhanUtil.currentGraph.graph.tenths.slice(0, dime.index());
+									var coins = jQuery.merge(coin, coin.prevAll('.coin')),
+											fill = coin.hasClass('dime') ? 'purple' : 'gray';
 
-									jQuery.each([thisDime].concat(prevDimes), function(i, dime) {
-										dime.attr({ fill: '#eee', stroke: '#ddd' });
+									coins.each(function() {
+										var coin = jQuery(this),
+												coinGraph = getCoinGraph(coin);
+
+										coin.removeClass('selected');
+										coinGraph.attr({ fill: '#eee', stroke: '#ddd' });
 									});
-
-									dime.removeClass('selected');
-									dime.prevAll('.selected').removeClass('selected');
 								}
 							} else {
 								// Example Scenario
 								//   Dime 5 was not selected.
 								//   The user selects dime 5.
 								//   Ensure dimes 1 through 5 are selected.
-								var thisDime = KhanUtil.currentGraph.graph.tenths[ dime.index() - 1 ],
-										prevDimes = KhanUtil.currentGraph.graph.tenths.slice(0, dime.index());
+								var coins = jQuery.merge(coin, coin.prevAll('.coin')),
+										fill = coin.hasClass('dime') ? 'purple' : 'gray';
 
-								jQuery.each([thisDime].concat(prevDimes), function(i, dime) {
-									dime.attr({ fill: 'purple', stroke: '#000' });
+								coins.each(function() {
+									var coin = jQuery(this),
+											coinGraph = getCoinGraph(coin);
+
+									coin.addClass('selected');
+									coinGraph.attr({ fill: fill, stroke: '#000' });
 								});
-
-								dime.addClass('selected');
-								dime.prevAll('.dime').addClass('selected');
-							}
-						});
-
-						jQuery( "#problemarea .penny" ).bind( "vmousedown", function( event ) {
-							event.preventDefault();
-
-							var penny = jQuery(this);
-
-							if (penny.hasClass('selected')) {
-								if (penny.next().hasClass('selected')) {
-									// Example Scenario
-									//   Pennies 1 through 8 were selected.
-									//   The user selects penny 5.
-									//   Deselect pennies 6 through 8.
-									var nextPennies = KhanUtil.currentGraph.graph.hundredths.slice(penny.index());
-
-									jQuery.each(nextPennies, function(i, penny) {
-										penny.attr({ fill: '#eee', stroke: '#ddd' });
-									});
-
-									penny.nextAll('.selected').removeClass('selected');
-								} else {
-									// Example Scenario
-									//   Pennies 1 through 5 were selected.
-									//   The user selects penny 5.
-									//   Deselect pennies 1 through 5.
-									var thisPenny = KhanUtil.currentGraph.graph.hundredths[ penny.index() - 1 ],
-											prevPennies = KhanUtil.currentGraph.graph.hundredths.slice(0, penny.index());
-
-									jQuery.each([thisPenny].concat(prevPennies), function(i, penny) {
-										penny.attr({ fill: '#eee', stroke: '#ddd' });
-									});
-
-									penny.removeClass('selected');
-									penny.prevAll('.selected').removeClass('selected');
-								}
-							} else {
-								// Example Scenario
-								//   Penny 5 was not selected.
-								//   The user selects penny 5.
-								//   Ensure pennies 1 through 5 are selected.
-								var thisPenny = KhanUtil.currentGraph.graph.hundredths[ penny.index() - 1 ],
-										prevPennies = KhanUtil.currentGraph.graph.hundredths.slice(0, penny.index());
-
-								jQuery.each([thisPenny].concat(prevPennies), function(i, penny) {
-									penny.attr({ fill: 'gray', stroke: '#000' });
-								});
-
-								penny.addClass('selected');
-								penny.prevAll('.penny').addClass('selected');
 							}
 						});
 
