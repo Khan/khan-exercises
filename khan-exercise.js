@@ -2726,7 +2726,7 @@ var Khan = (function() {
 			Khan.relatedVideos.setVideos(userExercise.exercise_model.related_videos);
 		}
 
-		if (ModalVideo) {
+		if (window.ModalVideo) {
 			ModalVideo.hookup();
 		}
 	}
