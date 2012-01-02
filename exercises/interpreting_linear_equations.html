@@ -121,6 +121,7 @@
 					<var id="LINESTARTY">randFromArray([-10, 10])</var>
 					<var id="POINTX">randRange(-10, 10)</var>
 					<var id="POINTY">randRange(-10, 10)</var>
+          <var id="SOLUTION">randFromArray([POINTX, POINTY])</var>
 					<var id="LINEEND">
 						(function() {
 							var lineEndX = POINTX,
@@ -139,7 +140,9 @@
 				</div>
 
 				<div class="question">
-					<p>What is <code>X</code> when <code>Y</code> is <var>POINTY</var>?</p>
+          <p data-if="POINTX === SOLUTION">What is <code>X</code> when <code>Y</code> is <var>POINTY</var>?</p>
+          <p data-else>What is <code>Y</code> when <code>X</code> is <var>POINTX</var>?</p>
+          
 
 					<div class="graphie">
 						graphInit({
@@ -154,7 +157,7 @@
 					</div>
 				</div>
 
-				<div class="solution"><var>POINTX</var></div>
+				<div class="solution"><var>SOLUTION</var></div>
 			</div>
 
 		</div>
