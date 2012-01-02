@@ -344,36 +344,17 @@
 							bill.toggleClass('hover');
 						});
 
-						jQuery('#problemarea .dime').bind('vmouseout vmouseover', function(event) {
-							var dime = jQuery(this);
+						jQuery('#problemarea .coin').bind('vmouseout vmouseover', function(event) {
+							var coin = jQuery(this);
 
-							if (!dime.hasClass('selected')) {
-								var dimeIndex = dime.index() - 1;
+							if (!coin.hasClass('selected')) {
+								var coins = jQuery.merge(coin, coin.prevAll('.coin:not(.selected)'));
 
-								var thisDime = KhanUtil.currentGraph.graph.tenths[dimeIndex],
-										prevDimesStart = dimeIndex - dime.prevAll('.dime:not(.selected)').length;
+								coins.each(function() {
+									var coin = jQuery(this),
+											coinGraph = getCoinGraph(coin);
 
-								var prevDimes = KhanUtil.currentGraph.graph.tenths.slice(prevDimesStart, dimeIndex);
-
-								jQuery.each([thisDime].concat(prevDimes), function(i, dime) {
-									dime.attr({stroke: event.type === 'vmouseout' ? '#ddd' : '#999'});
-								});
-							}
-						});
-
-						jQuery('#problemarea .penny').bind('vmouseout vmouseover', function(event) {
-							var penny = jQuery(this);
-
-							if (!penny.hasClass('selected')) {
-								var pennyIndex = penny.index() - 1;
-
-								var thisPenny = KhanUtil.currentGraph.graph.hundredths[pennyIndex],
-										prevPenniesStart = pennyIndex - penny.prevAll('.penny:not(.selected)').length;
-
-								var prevPennies = KhanUtil.currentGraph.graph.hundredths.slice(prevPenniesStart, pennyIndex);
-
-								jQuery.each([thisPenny].concat(prevPennies), function(i, penny) {
-									penny.attr({stroke: event.type === 'vmouseout' ? '#ddd' : '#999'});
+									coinGraph.attr({stroke: event.type === 'vmouseout' ? '#ddd' : '#999'});
 								});
 							}
 						});
