@@ -162,25 +162,39 @@
 				</p>
 
 				<div class="hints">
-					
 					<div>
 						<p>Remember our order of operations is:</p>
-						<ul>
+						<ul><strong>
 							<li><span class="hint_red">Parenthesis</span></li>
 							<li><span class="hint_purple">Exponents</span></li>
 							<li><span class="hint_blue">Multiplication/Division</span></li>
 							<li><span class="hint_green">Addition/Subtraction</span></li>
+							</strong>
 						</ul>
 					</div>
-					<p><code>
-							= <var>A</var> + (<var>B</var>)
-					</code></p>
-					<p><code>
-							= <var>A</var> + <var>B</var>
-					</code></p>
-					<p><code>
-							= <var>A+B</var>
-					</code></p>
+					<div>
+						<p>We will look at our <span class="hint_red" style="font-weight:bold">Parenthesis</span> first.</p>
+						<p>
+							<code><var>A</var> + </code><span class="hint_red" style="font-weight:bold"><code>(\dfrac{<var>B*C</var>}{<var>C</var>})</code></span>
+						</p>
+					</div>
+					<div>
+						<p>In the parenthesis, we have just a fraction or <span class="hint_blue" style="font-weight:bold">Division</span>.</p>
+						<p>
+							<code><var>A</var> + </code><span class="hint_red" style="font-weight:bold"><code>(</code></span><span class="hint_blue" style="font-weight:bold"><code>\dfrac{<var>B*C</var>}{<var>C</var>}</code></span><span class="hint_red" style="font-weight:bold"><code>)</code></span>
+						</p>
+						<p><code><var>A</var> + </code><span class="hint_red" style="font-weight:bold"><code>(</code></span><span class="hint_blue" style="font-weight:bold"><code><var>B</var></code></span><span class="hint_red" style="font-weight:bold"><code>)</code></span></code>
+						</p>
+					</div>
+					<div>
+						<p>Since there is nothing left to do in the parenthesis, we can remove them.<p>
+						<p><code><var>A</var> + <var>B</var></code></p>
+					</div>
+					<div>
+						<p>Now we can finish up by doing the <span class="hint_green" style="font-weight:bold">Addition</span>.</p>
+						<p class="hint_green" style="font-weight:bold"><code><var>A</var> + <var>B</var></code></p>
+						<p><code><var>A+B</var></code></p>
+					</div>
 				</div>
 			</div>
 			<div data-type="order-of-operations">
@@ -197,19 +211,27 @@
 				<div class="hints">
 					<div>
 						<p>Remember our order of operations is:</p>
-						<ul>
+						<ul><strong>
 							<li><span class="hint_red">Parenthesis</span></li>
 							<li><span class="hint_purple">Exponents</span></li>
 							<li><span class="hint_blue">Multiplication/Division</span></li>
 							<li><span class="hint_green">Addition/Subtraction</span></li>
+							</strong>
 						</ul>
 					</div>
-					<p><code>
-							= <var>A</var> + <var>B</var>
-					</code></p>
-					<p><code>
-							= <var>A+B</var>
-					</code></p>
+					<div>
+						<p>Since we have no <span class="hint_red" style="font-weight:bold">Parenthesis</span> and no <span class="hint_purple" style="font-weight:bold">Exponents</span>, we begin with our fraction or <span class="hint_blue" style="font-weight:bold">Division</span>.</p>
+						<p>
+							<code><var>A</var> + </code><span class="hint_blue" style="font-weight:bold"><code>\dfrac{<var>B*C</var>}{<var>C</var>}</code></span>
+						</p>
+						<p><code><var>A</var> + </code><span class="hint_blue" style="font-weight:bold"><code><var>B</var></code></span>
+						</p>
+					</div>
+					<div>
+						<p>Now we can finish up by doing the <span class="hint_green" style="font-weight:bold">Addition</span>.</p>
+						<p class="hint_green" style="font-weight:bold"><code><var>A</var> + <var>B</var></code></p>
+						<p><code><var>A+B</var></code></p>
+					</div>
 				</div>
 			</div>
 			<div data-type="order-of-operations">
@@ -222,27 +244,61 @@
 				<p class="solution" data-forms="integer">
 					<var>A</var>
 				</p>
-
 				<div class="hints">
 					<div>
 						<p>Remember our order of operations is:</p>
-						<ul>
+						<ul><strong>
 							<li><span class="hint_red">Parenthesis</span></li>
 							<li><span class="hint_purple">Exponents</span></li>
 							<li><span class="hint_blue">Multiplication/Division</span></li>
 							<li><span class="hint_green">Addition/Subtraction</span></li>
+							</strong>
 						</ul>
 					</div>
-					<p><code>
-							= \dfrac{ <var>(A*(B+C))</var> }{ (<var>(B+C)</var>) }
-					</code></p>
-					<p><code>
-							= \dfrac{ <var>(A*(B+C))</var> }{ <var>B+C</var> }
-					</code></p>
-					<p><code>
-							= <var>A</var>
-					</code></p>
-				</div>
+					<div>
+						<p>When we have an addition in a fraction we treat it as if we have parenthesis around the numerator and denominator.
+						</p>
+						<p>
+							<code>
+								\dfrac{ (<var>(A*(B+C))</var>) }{ (<var>B</var> + <var>C</var>) }
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>We will look at our <span class="hint_red" style="font-weight:bold">Parenthesis</span> first.</p>
+						<p>
+							<code>
+								\dfrac{\color{red}{(<var>(A*(B+C))</var>)}}{ \color{red}{(<var>B</var> + <var>C</var>)} }
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>The only operation inside parenthesis is <span class="hint_green" style="font-weight:bold">Addition</span>.</p>
+						<p>
+							<code>
+								\dfrac{\color{red}{(<var>(A*(B+C))</var>)}}{ \color{red}{(}\color{green}{<var>B</var> + <var>C</var>}\color{red}{)} }
+							</code>
+						</p>
+						<p>
+							<code>
+								\dfrac{\color{red}{(<var>(A*(B+C))</var>)}}{ \color{red}{(<var>B + C</var>)} }
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Since there is nothing left to do in the parenthesis, we can remove them.<p>
+						<code>
+								\dfrac{<var>(A*(B+C))</var>}{<var>B + C</var>}
+						</code>
+					</div>
+					<div>
+						<p>Now we can finish up by doing the fraction or <span class="hint_blue" style="font-weight:bold">Division</span>.</p>
+						<p class="hint_blue" style="font-weight:bold">
+							<code>\dfrac{<var>(A*(B+C))</var>}{<var>B + C</var>}</code>
+						</p>
+						<p><code><var>A</var></code></p>
+					</div>
+				</div>	
 			</div>
 			<div data-type="order-of-operations">
 				<p class="problem">
