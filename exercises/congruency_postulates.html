@@ -106,12 +106,16 @@
 						interactiveTriangle.update();
 						if ( guess[0] == null ) {
 							return "";
-						} else if ( guess[0] !== ANSWER ) {
-							return false;
 						} else if ( !isTriangle ) {
 							return "Your answer is almost correct, but you haven't constructed a triangle.";
-						} else if ( ANSWER === "No" &amp;&amp; isCongruent ) {
+						} else if ( guess[0] === "Yes" &amp;&amp; !isCongruent ) {
+							return "The triangle you constructed is not congruent. It proves that " + NAME + " is not a congruency postulate.";
+						} else if ( ANSWER === "No" &amp;&amp; guess[0] === "No" &amp;&amp; isCongruent ) {
 							return "Your answer is almost correct, but the two triangles are congruent. Prove your answer by trying to construct an incongruent triangle.";
+						} else if ( ANSWER === "No" &amp;&amp; guess[0] === "Yes") {
+							return "Your answer is almost correct, but there is another incongruent triangle that can be constructed, so " + NAME + " is not a congruency postulate. Try to construct it.";
+						} else if ( guess[0] !== ANSWER ) {
+							return false;
 						} else {
 							return true;
 						}
