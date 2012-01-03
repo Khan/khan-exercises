@@ -457,38 +457,6 @@ function Protractor( center, r ) {
 	return this;
 }
 
-function analogClock( hour, minute, radius, labelShown ){
-	this.hour = hour;
-	this.minute = minute;
-	this.radius = radius;
-	this.set = KhanUtil.currentGraph.raphael.set();
-
-	this.graph = KhanUtil.currentGraph;
-	this.draw = function(){
-		for( var x = 0; x < 12; x++ ){
-			this.set.push( this.graph.line( [ this.radius *  Math.sin( 2 * Math.PI * x/12  ), this.radius * Math.cos( 2 * Math.PI * x/12 ) ], [ 0.8 * this.radius * Math.sin( 2 * Math.PI * x/12 ), 0.8 * this.radius * Math.cos( 2 * Math.PI * x/12 ) ] ) );
-		}
-
-		this.set.push( this.graph.line( [ 0.45 * this.radius *  Math.sin( 2 * Math.PI * this.hour/12 + ( this.minute / 60 ) / 12 * 2 * Math.PI ), 0.45 * this.radius * Math.cos( 2 * Math.PI * this.hour/12 + ( this.minute / 60 ) / 12  * 2 * Math.PI ) ], [ 0, 0  ] ) );
-
-		this.set.push( this.graph.line( [ 0.6 * this.radius *  Math.sin( ( this.minute / 60 ) * 2 * Math.PI ), 0.6 * this.radius * Math.cos(  ( this.minute / 60 ) * 2 * Math.PI ) ], [ 0, 0  ] ) );
-		this.set.push( this.graph.circle( [ 0, 0 ], this.radius ) );
-		this.set.push( this.graph.circle( [ 0, 0 ], this.radius/ 40 ) );
-		if( labelShown ){
-			this.drawLabels();
-		}
-		return this.set;
-	};
-
-	this.drawLabels = function(){
-		for( var x = 1; x < 13; x++ ){
-			this.set.push( this.graph.label( [ 0.7 * this.radius *  Math.sin( 2 * Math.PI * x/12  ), 0.7 * this.radius * Math.cos( 2 * Math.PI * x/12 ) ], x  ) );
-		}
-		return this.set;
-	};
-}
-
-
 // for line graph intuition
 function updateEquation() {
 	var graph = KhanUtil.currentGraph;
