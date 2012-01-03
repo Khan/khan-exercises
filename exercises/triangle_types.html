@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<html data-translatable data-require="math graphie graphie-helpers graphie-geometry math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Triangle Types</title>
@@ -68,7 +68,7 @@
 
 		<div class="problems">
 			<div id="knownAngles">
-				<div class="problem">
+				<div class="problem" data-tt="question1">
 					Is this triangle equilateral, isosceles, or scalene?
 				</div>
 				<div class="question">
@@ -95,7 +95,7 @@
 					<li data-each="TYPES as t"><var>t</var></li>
 				</ul>
 				<div class="hints">
-					<p>We know two angles of this triangle, so we can find the third by subtracting from <code>180</code></p>
+					<p data-tt="hint1">We know two angles of this triangle, so we can find the third by subtracting from <code>180</code></p>
 					<div>
 						<p><code>180 -<var>TRIANGLE[ 0 ][ 0 ]</var> - <var>TRIANGLE[ 0 ][ 1 ]</var> = <var>TRIANGLE[ 0 ][ 2 ]</var></code></p>
 						<div class="graphie" data-update="typeTr" >
@@ -103,9 +103,9 @@
 							graph.TR.drawLabels();
 						</div>
 					</div>
-				<p data-if="TYPE === 'Scalene'">Because all three angles are different, this triangle is scalene.</p>
-					<p data-else-if="TYPE === 'Isosceles'">Two angles are the same, therefore two corresponding sides are as well. Therefore, this triangle is isosceles. Isosceles means a triangle with same (iso) legs (sceles).</p>
-					<p data-else>All angles equal 60. That means that all the sides are the same and that the triangle is equilateral. (Equilateral means equal(equi) sided(lateral).</p>
+				<p data-if="TYPE === 'Scalene'" data-tt="hint2">Because all three angles are different, this triangle is scalene.</p>
+					<p data-else-if="TYPE === 'Isosceles'" data-tt="hint3">Two angles are the same, therefore two corresponding sides are as well. Therefore, this triangle is isosceles. Isosceles means a triangle with same (iso) legs (sceles).</p>
+					<p data-else data-tt="hint4">All angles equal 60. That means that all the sides are the same and that the triangle is equilateral. (Equilateral means equal(equi) sided(lateral).</p>
 				</div>
 			</div>
 			<div id="knownSides" data-type="knownAngles">
@@ -128,9 +128,9 @@
 					</div>
 				</div>
 				<div class="hints">
-					<p data-if="TYPE === 'Scalene'">Because all three sides are different, this triangle is scalene.</p>
-					<p data-else-if="TYPE === 'Isosceles'">Two sides are the same, therefore, this triangle is isosceles. Isosceles means a triangle with same (iso) legs (sceles).</p>
-					<p data-else>All sides are the same. That means that all the angles are 60 and that the triangle is equilateral. Equilateral means equal (equi) sided (lateral).</p>
+					<p data-if="TYPE === 'Scalene'" data-tt="hint5">Because all three sides are different, this triangle is scalene.</p>
+					<p data-else-if="TYPE === 'Isosceles'" data-tt="hint6">Two sides are the same, therefore, this triangle is isosceles. Isosceles means a triangle with same (iso) legs (sceles).</p>
+					<p data-else data-tt="hint7">All sides are the same. That means that all the angles are 60 and that the triangle is equilateral. Equilateral means equal (equi) sided (lateral).</p>
 				</div>
 			</div>
 		</div>

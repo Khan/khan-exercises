@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
+<html data-translatable data-require="math math-format graphie graphie-helpers">
 	<head>
 		<title>Multiplying Fractions 1</title>
 		<script src="../khan-exercise.js"></script>
@@ -404,13 +404,13 @@
 					</p>
 
 					<div class="hints">
-						<p>
+						<p data-tt="hint1">
 							Another way to word this problem is: <br />
 							What is <code><var>fraction( N1, D1 )</var></code> of <code><var>fraction( N2, D2 )</var></code>?
 						</p>
 
 						<div>
-							<p>Let's overlay the two boxes on top of each other.</p>
+							<p data-tt="hint2">Let's overlay the two boxes on top of each other.</p>
 							<div id="problem1-hint2-box-div" style="display: block; position: relative; height: 220px;">
 									<var>TABLE_1_HINT</var>
 									<var>TABLE_2_HINT</var>
@@ -429,7 +429,7 @@
 						</div>
 
 						<div>
-							<p>Notice how there are <var>cardinal( N1 * N2 )</var> boxes in the overlap, and <var>cardinal( D1 * D2 )</var> boxes total.</p>
+							<p data-tt="hint3">Notice how there are <var>cardinal( N1 * N2 )</var> boxes in the overlap, and <var>cardinal( D1 * D2 )</var> boxes total.</p>
 							<div id="problem1-hint3-box-div" style="display: block; position: relative; height: 220px;">
 								<var>COMBINED_HINT</var>
 							</div>
@@ -439,7 +439,7 @@
 						</div>
 
 						<div>
-							<p>So this is equivalent to having <var>cardinal( N1 * N2 )</var> out of <var>cardinal( D1 * D2 )</var> slices of pie.</p>
+							<p data-tt="hint4">So this is equivalent to having <var>cardinal( N1 * N2 )</var> out of <var>cardinal( D1 * D2 )</var> slices of pie.</p>
 							<div class="graphie">
 								init({
 									range: [ [-2, 2], [-2, 2] ],
@@ -450,11 +450,11 @@
 							</div>
 						</div>
 
-						<p>Notice how there are <code><var>N1</var>\times<var>N2</var>=<var>N1*N2</var></code> out of <code><var>D1</var>\times<var>D2</var>=<var>D1*D2</var></code> slices of pie.</p>
+						<p data-tt="hint5">Notice how there are <code><var>N1</var>\times<var>N2</var>=<var>N1*N2</var></code> out of <code><var>D1</var>\times<var>D2</var>=<var>D1*D2</var></code> slices of pie.</p>
 
-						<p>This explains why the resulting fraction is <code><var>fraction( N1 * N2, D1 * D2 )</var></code>.</p>
+						<p data-tt="hint6">This explains why the resulting fraction is <code><var>fraction( N1 * N2, D1 * D2 )</var></code>.</p>
 
-						<p data-if="getGCD( N1*N2, D1*D2 ) > 1">Optionally, this reduces to <code><var>fractionReduce( N1*N2, D1*D2 )</var></code>.</p>
+						<p data-if="getGCD( N1*N2, D1*D2 ) > 1" data-tt="hint7">Optionally, this reduces to <code><var>fractionReduce( N1*N2, D1*D2 )</var></code>.</p>
 
 					</div><!-- End of Hints -->
 				</div><!-- End of problem 1 -->
@@ -472,7 +472,7 @@
 					</div>
 
 					<div class="question">
-						<p class="question-text">What is</p>
+						<p class="question-text" data-tt="hint14">What is</p>
 						<table><tbody>
 							<tr>
 								<td class="centered_cell"><code><var>fraction( N, D )</var></code></td>
@@ -494,28 +494,28 @@
 					<div class="hints">
 
 						<div>
-							<p>Another way to word this is:</p>
-							<p>What is <code><var>fraction( N, D )</var></code> of <code><var>B</var></code>?</p>
+							<p data-tt="hint8">Another way to word this is:</p>
+							<p data-tt="hint9">What is <code><var>fraction( N, D )</var></code> of <code><var>B</var></code>?</p>
 						</div>
 
 						<div>
-							<p>So we have <var>cardinal( B )</var> of these partially-filled in boxes.</p>
+							<p data-tt="hint10">So we have <var>cardinal( B )</var> of these partially-filled in boxes.</p>
 							<table><tbody><tr>
 								<td data-each="BOXES as i"><var>createVertTable( N, D, cardinal( i ) )</var></td>
 							</tr></tbody></table>
 						</div>
 
 						<div>
-							<p>Let's put all these pieces together.</p>
+							<p data-tt="hint11">Let's put all these pieces together.</p>
 							<div><var>mixedBoxes( N, D, B, true )</var></div>
 						</div>
 
 						<div>
-							<p>So there are <code><var>mixedFractionFromImproper( N*B, D )</var></code> boxes filled in.</p>
+							<p data-tt="hint12">So there are <code><var>mixedFractionFromImproper( N*B, D )</var></code> boxes filled in.</p>
 							<div><var>mixedBoxes( N, D, B, false )</var></div>
 						</div>
 
-						<p>Or, since we have <code><var>N*B</var></code> pieces and <code><var>D</var></code> pieces per box, this is the same as <code><var>fraction( N*B, D )</var></code>.</p>
+						<p data-tt="hint13">Or, since we have <code><var>N*B</var></code> pieces and <code><var>D</var></code> pieces per box, this is the same as <code><var>fraction( N*B, D )</var></code>.</p>
 
 					</div><!-- End of hints -->
 				</div><!-- End of Problem 2 -->

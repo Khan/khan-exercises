@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
+<html data-translatable data-require="math math-format graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>Ordering negative numbers</title>
@@ -19,7 +19,7 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="COLORS">KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown", "gray", "teal", "olive" ])</var>
+			<var data-tt="colors1" id="COLORS">KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown", "gray", "teal", "olive" ])</var>
 
 			<var id="NUMS">(function() {
 				var array = [];
@@ -59,7 +59,7 @@
 		<div class="problems">
 			<div>
 				<div class="question">
-					<p>Order the following negative numbers from least to greatest:</p>
+					<p data-tt="question1" >Order the following negative numbers from least to greatest:</p>
 					<p class="number-list"><code><var>NUMS_TEX</var></code></p>
 				</div>
 
@@ -69,10 +69,10 @@
 
 				<div class="hints">
 					<div>
-						<p>Let's use different colors for each number.</p>
+						<p data-tt="hint1" >Let's use different colors for each number.</p>
 						<p class="number-list"><code><var>NUMS_TEX_COLOR</var></code></p>
 					</div>
-					<p>Plot these numbers on a number line. Then we can see which ones are lower and which ones are higher.</p>
+					<p data-tt="hint2" >Plot these numbers on a number line. Then we can see which ones are lower and which ones are higher.</p>
 					<div class="graphie" id="number-line">
 						init({
 							range: [ [-1, 101], [-1, 1] ],
@@ -96,8 +96,8 @@
 						} );
 					</div>
 					<div>
-						<p>Now just read the numbers from left to right on the number line.</p>
-						<p>The leftmost numbers are least, and the rightmost numbers are greatest.</p>
+						<p data-tt="hint3" >Now just read the numbers from left to right on the number line.</p>
+						<p data-tt="hint4" >The leftmost numbers are least, and the rightmost numbers are greatest.</p>
 					</div>
 					<p class="number-list"><code><var>NUMS_SORT_TEX_COLOR</var></code></p>
 				</div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie">
+<html data-translatable data-require="math math-format expressions graphie">
 <head>
 	<meta charset="UTF-8" />
 	<title>Line relationships</title>
@@ -27,7 +27,7 @@
 					<var id="LINE_TYPE">"perpendicular"</var>
 				</div>
 				<div class="question">
-					<p><b>Find the slope and y-intercept of the line that is <code>\color{<var>GREEN</var>}{\text{<var>LINE_TYPE</var>}}</code> to <code>\enspace \color{<var>BLUE</var>}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else><var>M_SIGN</var></span>x <span data-if="B !== 0">+ <var>B</var></span>}\enspace</code> and passes through the point <code>\color{red}{(<var>X</var>, <var>Y</var>)}</code>.</b></p>
+					<p data-tt="question1" ><b>Find the slope and y-intercept of the line that is <code>\color{<var>GREEN</var>}{\text{<var>LINE_TYPE</var>}}</code> to <code>\enspace \color{<var>BLUE</var>}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else><var>M_SIGN</var></span>x <span data-if="B !== 0">+ <var>B</var></span>}\enspace</code> and passes through the point <code>\color{red}{(<var>X</var>, <var>Y</var>)}</code>.</b></p>
 					<div class="graphie" id="grid">
 							graphInit({
 								range: [[-10, 10], [-10, 10]],
@@ -57,13 +57,13 @@
 					<p><code>b</code> = <span class="sol"><var>Y - ( -1 / M * X )</var></span></p>
 				</div>
 				<div class="hints">
-					<p>Lines are considered perpendicular if their slopes are negative reciprocals of each other. 
+					<p data-tt="hint1" >Lines are considered perpendicular if their slopes are negative reciprocals of each other. 
 					<div>
-						<p>The slope of the blue line is <code>\color{<var>BLUE</var>}{<var>M_FRAC</var>}</code>, and its negative reciprocal is <code>\color{<var>GREEN</var>}{<var>M_PERP_FRAC</var>}</code>.</p>
-						<p>Thus, the equation of our perpendicular line will be of the form <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_PERP_FRAC ) !== 1"><var>M_PERP_FRAC</var></span><span data-else><var>M_PERP_SIGN</var></span>x + b}\enspace</code>.</p>
+						<p data-tt="hint2" >The slope of the blue line is <code>\color{<var>BLUE</var>}{<var>M_FRAC</var>}</code>, and its negative reciprocal is <code>\color{<var>GREEN</var>}{<var>M_PERP_FRAC</var>}</code>.</p>
+						<p data-tt="hint3" >Thus, the equation of our perpendicular line will be of the form <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_PERP_FRAC ) !== 1"><var>M_PERP_FRAC</var></span><span data-else><var>M_PERP_SIGN</var></span>x + b}\enspace</code>.</p>
 					</div>
 					<div>
-						<p>We can plug our point, <code>(<var>X</var>, <var>Y</var>)</code>, into this equation to solve for <code>\color{<var>GREEN</var>}{b}</code>, the y-intercept.</p>
+						<p data-tt="hint4" >We can plug our point, <code>(<var>X</var>, <var>Y</var>)</code>, into this equation to solve for <code>\color{<var>GREEN</var>}{b}</code>, the y-intercept.</p>
 						<p data-if="M !== -1"><code><var>Y</var> = \color{<var>GREEN</var>}{<span data-if="abs( M_PERP_FRAC ) !== 1"><var>M_PERP_FRAC</var></span><span data-else><var>M_PERP_SIGN</var></span>}(<var>X</var>) + \color{<var>GREEN</var>}{b}</code></p>
 					</div>
 					<div>
@@ -71,7 +71,7 @@
 						<p><code><var>Y</var> - <var>decimalFraction( -1 / M * X, "true", "true" )</var> = \color{<var>GREEN</var>}{b} = <var>decimalFraction( Y - ( -1 / M * X ), "true", "true" )</var></code></p>
 					</div>
 					<div>
-						<p>The equation of the perpendicular line is <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_PERP_FRAC ) !== 1"><var>M_PERP_FRAC</var></span><span data-else><var>M_PERP_SIGN</var></span>x<span data-if="Y - ( -1 / M * X ) !== 0"> + <var>decimalFraction( Y - ( -1 / M * X ), "true", "true" )</var></span>}\enspace</code>.</p>
+						<p data-tt="hint5" >The equation of the perpendicular line is <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_PERP_FRAC ) !== 1"><var>M_PERP_FRAC</var></span><span data-else><var>M_PERP_SIGN</var></span>x<span data-if="Y - ( -1 / M * X ) !== 0"> + <var>decimalFraction( Y - ( -1 / M * X ), "true", "true" )</var></span>}\enspace</code>.</p>
 						<p><code>\color{<var>GREEN</var>}{m = <var>decimalFraction( -1 / M, "true", "true" )</var>, \enspace b = <var>decimalFraction( Y - ( -1 / M * X ), "true", "true" )</var>}</code></p>
 						<div class="graphie" data-update="grid">
 							plot(function( x ) {
@@ -95,11 +95,11 @@
 				</div>
 				<div class="hints">
 					<div>	
-						<p>Parallel lines have the same slope.</p>
-						<p>The slope of the blue line is <code>\color{<var>BLUE</var>}{<var>M_FRAC</var>}</code>, so the equation of our parallel line will be of the form <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else><var>M_SIGN</var></span>x + b}\enspace</code>.</p>
+						<p data-tt="hint6" >Parallel lines have the same slope.</p>
+						<p data-tt="hint7" >The slope of the blue line is <code>\color{<var>BLUE</var>}{<var>M_FRAC</var>}</code>, so the equation of our parallel line will be of the form <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else><var>M_SIGN</var></span>x + b}\enspace</code>.</p>
 					</div>
 					<div>
-						<p>We can plug our point, <code>(<var>X</var>, <var>Y</var>)</code>, into this equation to solve for <code>\color{<var>GREEN</var>}{b}</code>, the y-intercept.</p>
+						<p data-tt="hint8" >We can plug our point, <code>(<var>X</var>, <var>Y</var>)</code>, into this equation to solve for <code>\color{<var>GREEN</var>}{b}</code>, the y-intercept.</p>
 						<p data-if="M !== 1"><code><var>Y</var> = \color{<var>GREEN</var>}{<span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else><var>M_SIGN</var></span>}(<var>X</var>) + \color{<var>GREEN</var>}{b}</code></p>
 					</div>
 					<div>
@@ -107,7 +107,7 @@
 						<p><code><var>Y</var> - <var>decimalFraction( M * X, "true", "true" )</var> = \color{<var>GREEN</var>}{b} = <var>decimalFraction( Y - M * X, "true", "true" )</var></code></p>
 					</div>
 					<div>
-						<p>The equation of the parallel line is <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else><var>M_SIGN</var></span>x<span data-if="Y - ( M * X ) !== 0"> + <var>decimalFraction( Y - M * X, "true", "true" )</var>}</span>\enspace</code>.</p>
+						<p data-tt="hint9" >The equation of the parallel line is <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else><var>M_SIGN</var></span>x<span data-if="Y - ( M * X ) !== 0"> + <var>decimalFraction( Y - M * X, "true", "true" )</var>}</span>\enspace</code>.</p>
 						<p><code>\color{<var>GREEN</var>}{m = <var>decimalFraction( M, "true", "true" )</var>, \enspace b = <var>decimalFraction( Y - M * X, "true", "true" )</var>}</code></p>
 						<div class="graphie" data-update="grid">
 							plot(function( x ) {
@@ -133,16 +133,16 @@
 					<var id="EQ2">expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var>
 				</div>
 				<div class="question">
-					<p>What do the following two equations represent?</p>
+					<p data-tt="question2" >What do the following two equations represent?</p>
 					<p><code><var>EQ1</var></code></p>
 					<p><code><var>EQ2</var></code></p>
 				</div>
 				<div class="solution">Equivalent lines</div>
 				<ul class="choices" data-category="true">
-					<li>Equivalent lines</li>
-					<li>Parallel lines</li>
-					<li>Perpendicular lines</li>
-					<li>None of the above</li>
+					<li data-tt="list1" >Equivalent lines</li>
+					<li data-tt="list2" >Parallel lines</li>
+					<li data-tt="list3" >Perpendicular lines</li>
+					<li data-tt="list4" >None of the above</li>
 				</ul>
 				<div class="hints">
 					<div>
@@ -173,7 +173,7 @@
 								return ( C1 / B1 ) - ( A1 / B1 ) * x;
 							}, [-10, 10]);
 						</div>
-						<p>Putting the first equation in <code>y = mx + b</code> form gives:</p>
+						<p data-tt="hint10" >Putting the first equation in <code>y = mx + b</code> form gives:</p>
 						<p><code><var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]]) + " = " + C1</var></code></p>
 						<p><code><var>expr(["*", B1, "y"]) + " = " + expr(["+", ["*", (-1 * A1), "x"], C1])</var></code></p>
 						<p data-if="B1 !== 1"><code><var>"y = " + fractionReduce( -A1, B1 ) + "x + " + fractionReduce( C1, B1 )</var></code></p>
@@ -184,7 +184,7 @@
 								return ( C2 / B2 ) - ( A2 / B2 ) * x;
 							}, [-10, 10]);
 						</div>
-						<p>Putting the second equation in <code>y = mx + b</code> form gives:</p>
+						<p data-tt="hint11" >Putting the second equation in <code>y = mx + b</code> form gives:</p>
 						<p><code><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var></code></p>
 						<p><code><var>expr(["*", B2, "y"]) + " = " + expr(["+", ["*", (-1 * A2), "x"], C2])</var></code></p>
 						<p data-if="B2 !== 1"><code><var>"y = " + fractionReduce( -A2, B2 ) + "x + " + fractionReduce( C2, B2 )</var></code></p>
@@ -205,7 +205,7 @@
 				</div>
 				<div class="solution">None of the above</div>
 				<div class="hints" data-apply="appendContents">
-					<p>The slopes are not the same, so the lines are not equivalent or parallel. The slopes are not negative inverses of each other, so the lines are not perpendicular. The correct answer is none of the above.</p>
+					<p data-tt="hint12" >The slopes are not the same, so the lines are not equivalent or parallel. The slopes are not negative inverses of each other, so the lines are not perpendicular. The correct answer is none of the above.</p>
 				</div>
 			</div>
 			
@@ -223,7 +223,7 @@
 				</div>
 				<div class="solution">Equivalent lines</div>
 				<div class="hints" data-apply="appendContents">
-					<p>The above equations turn into the same equation, so they represent equivalent lines.</p>
+					<p  data-tt="hint13" >The above equations turn into the same equation, so they represent equivalent lines.</p>
 				</div>
 			</div>
 
@@ -241,7 +241,7 @@
 				</div>
 				<div class="solution">Parallel lines</div>
 				<div class="hints" data-apply="appendContents">
-					<p>The slopes are equal, and the y-intercepts are different, so the lines are parallel.</p>
+					<p data-tt="hint14" >The slopes are equal, and the y-intercepts are different, so the lines are parallel.</p>
 				</div>
 			</div>
 
@@ -259,7 +259,7 @@
 				</div>
 				<div class="solution">Perpendicular lines</div>
 				<div class="hints" data-apply="appendContents">
-					<p>The slopes are negative inverses of each other, so the lines are perpendicular.</p>
+					<p data-tt="hint15" >The slopes are negative inverses of each other, so the lines are perpendicular.</p>
 				</div>
 			</div>
 		</div>

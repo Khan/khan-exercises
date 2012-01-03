@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie math-format">
+<html data-translatable data-require="math graphie math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Pythagorean theorem 1</title>
@@ -40,7 +40,7 @@
 			</div>
 
 			<div class="question">
-				<p>In the right triangle shown, <code>AC = <var>AC</var></code> and
+				<p data-tt="question1" >In the right triangle shown, <code>AC = <var>AC</var></code> and
 				<code>BC = <var>BC</var></code>. What is <code>AB</code>?</p>
 
 				<div class="graphie">
@@ -51,10 +51,10 @@
 			<div class="solution" data-type="radical"><var>AB2</var></div>
 
 			<div class="hints" data-apply="appendContents">
-				<p>We want to find <code>c</code>; let <code>a = <var>BC</var></code> and <code>b = <var>AC</var></code>.</p>
-				<p>So <code>c^2 = <var>BC</var>^2 + <var>AC</var>^2 = <var>AB2</var></code>.</p>
-				<p>Then, <code>c = \sqrt{<var>AB2</var>}</code>.</p>
-				<p data-if="squareRootCanSimplify(AB2)">Simplifying the radical gives <code>c = <var>formattedSquareRootOf(AB2)</var>.</code></p>
+				<p data-tt="hint1" >We want to find <code>c</code>; let <code>a = <var>BC</var></code> and <code>b = <var>AC</var></code>.</p>
+				<p data-tt="hint2" >So <code>c^2 = <var>BC</var>^2 + <var>AC</var>^2 = <var>AB2</var></code>.</p>
+				<p data-tt="hint3" >Then, <code>c = \sqrt{<var>AB2</var>}</code>.</p>
+				<p  data-tt="hint4" data-if="squareRootCanSimplify(AB2)">Simplifying the radical gives <code>c = <var>formattedSquareRootOf(AB2)</var>.</code></p>
 			</div>
 		</div>
 
@@ -71,7 +71,7 @@
 			</div>
 
 			<div class="question">
-				<p>In the right triangle shown, <code><var>bside</var> = <var>AC</var></code> and
+				<p data-tt="question2" >In the right triangle shown, <code><var>bside</var> = <var>AC</var></code> and
 				<code>AB = <var>AB</var></code>. What is <code><var>aside</var></code>?</p>
 
 				<div class="graphie">
@@ -82,16 +82,16 @@
 			<div class="solution" data-type="radical"><var>BC2</var></div>
 
 			<div class="hints" data-apply="appendContents">
-				<p>We want to find <code><var>a</var></code>; let <code><var>b</var> = <var>AC</var></code> and <code>c = <var>AB</var></code>.</p>
-				<p>So <code><var>a</var>^2 = c^2 - <var>b</var>^2 = <var>AB</var>^2 - <var>AC</var>^2 = <var>BC2</var></code>.</p>
-				<p>Then, <code><var>a</var> = \sqrt{<var>BC2</var>}</code>.</p>
-				<p data-if="squareRootCanSimplify(BC2)">Simplifying the radical gives <code><var>a</var> = <var>formattedSquareRootOf(BC2)</var>.</code></p>
+				<p data-tt="hint5" >We want to find <code><var>a</var></code>; let <code><var>b</var> = <var>AC</var></code> and <code>c = <var>AB</var></code>.</p>
+				<p data-tt="hint6" >So <code><var>a</var>^2 = c^2 - <var>b</var>^2 = <var>AB</var>^2 - <var>AC</var>^2 = <var>BC2</var></code>.</p>
+				<p data-tt="hint7" >Then, <code><var>a</var> = \sqrt{<var>BC2</var>}</code>.</p>
+				<p  data-tt="hint8" data-if="squareRootCanSimplify(BC2)">Simplifying the radical gives <code><var>a</var> = <var>formattedSquareRootOf(BC2)</var>.</code></p>
 			</div>
 		</div>
 	</div>
 
 	<div class="hints">
-		<p>We know <code>a^2 + b^2 = c^2</code>.</p>
+		<p data-tt="hint9" >We know <code>a^2 + b^2 = c^2</code>.</p>
 	</div>
 	</div>
 </body>
