@@ -1,10 +1,6 @@
 ({
 	"nl" : {
 		"question1"	: 'Express <code><var>A</var>\%</code> as a fraction. Reduce to lowest terms.',
-		"question2"	: '',
-		"question3"	: '',
-		"question4"	: '',
-		"question5"	: '',
 		
 		"hint1"		: '<code><var>A</var>\%</code> literally means <code><var>A</var></code> per 100',
 		"hint2"		: 'Putting this in fraction form: <code><var>fraction( A , 100 )</var></code>',
