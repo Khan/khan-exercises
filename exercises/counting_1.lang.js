@@ -1,19 +1,20 @@
 ({
 	"nl" : {
-		"exercise1"	: 'spin( "{do,did,problems|read,read,{pages|papers|articles}}" ).split( "," )',
-		"exercise2"	: '<var>person( 1 )</var> {had to <var>DO</var>|was assigned} <var>PROBLEMS</var> <var>START</var> through <var>END</var> for homework {{last {week|night}}|tonight}.',
-		"exercise3"	: 'If <var>person( 1 )</var> <var>DID</var> all of the <var>PROBLEMS</var> <var>he( 1 )</var> was assigned, how many <var>PROBLEMS</var> did <var>he( 1 )</var> <var>DO</var>?</p>',
-		"exercise4"	: 'A baker has a whole {baguette|loaf of bread}.',
-		"exercise5"	: 'How many cuts must {he|she} make to have exactly <var>NUM</var> even slices?',
-		"exercise6"	: '<var>person( 1 )</var> is building a straight fence, with posts one meter apart.',
-		"exercise7"	: 'If the fence is <var>LENGTH</var> meters long, how many fence posts does <var>he( 1 )</var> need?',
-		"hint1"		: 'Instead of counting <var>PROBLEMS</var> <var>START</var> through <var>END</var>, we can subtract <var>START - 1</var> from each number so we instead consider <var>PROBLEMS</var> 1 through <var>ANSWER</var>.',
-		"hint2"		: 'We see that <var>person( 1 )</var> <var>DID</var> <var>ANSWER</var> <var>PROBLEMS</var>.',
-		"hint3"		: 'Notice that <var>he( 1 )</var> <var>DID</var> <var>ANSWER</var> and not <var>ANSWER - 1</var> <var>PROBLEMS</var>.',
-		"hint4"		: 'One cut will make two slices, two cuts will make three slices, and so on.',
-		"hint5"		: 'Therefore, we need <var>NUM - 1</var> cuts to make <var>NUM</var> slices.',
-		"hint6"		: "If the fence is one meter long, <var>he( 1 )</var> needs two posts (one for each end).",
-		"hint7"		: "If the fence is two meters long, then <var>he( 1 )</var> needs three posts, and so on.",
-		"hint8"		: "Therefore, <var>he( 1 )</var> needs <var>LENGTH + 1</var> posts for a <var>LENGTH</var> meter fence."
+		"exercise1"	: 'spin( "{do,did,problems|lezen,las,{bladzijden|hoofdstukken}}" ).split( "," )',
+		"exercise2"	: '<var>person( 1 )</var> {moest als huiswerk|had als opdracht} <var>PROBLEMS</var> <var>START</var> tot en met <var>END</var> <var>DO</var>.',
+		"exercise3"	: 'Als <var>person( 1 )</var>  alle <var>PROBLEMS</var> <var>DO</var> die <var>he( 1 )</var> had opgekregen, hoeveel <var>PROBLEMS</var> <var>he( 1 )</var> <var>DID</var> hij dan?</p>',
+		"exercise4"	: 'Een bakker heeft een heel brood.',
+		"exercise5"	: 'Hoeveel sneden moet {hij|zij} maken om precies <var>NUM</var> boterhammen te krijgen?',
+		"exercise6"	: '<var>person( 1 )</var> bouwt een hek, waarvan de palen &eacute;&eacute;n meter uit elkaar staan.',
+		"exercise7"	: 'Als het hek <var>LENGTH</var> meter lang is, hoeveel palen heeft <var>he( 1 )</var> dan nodig?',
+		"hint1"		: 'In plaats van het tellen van <var>PROBLEMS</var> <var>START</var> tot en met <var>END</var>, kunnen we <var>START - 1</var> aftrekken van beide getallen zodat we uit kunnen gaan van <var>PROBLEMS</var> 1 tot en met <var>ANSWER</var>.',
+		"hint2"		: 'Dus <var>person( 1 )</var> <var>DID</var> <var>ANSWER</var> <var>PROBLEMS</var>.',
+		"hint3"		: 'Let op: <var>he( 1 )</var> <var>DID</var> <var>ANSWER</var> en niet <var>ANSWER - 1</var> <var>PROBLEMS</var>.',
+		"hint4"		: 'E&eacute;n keer snijden levert twee stukken op, twee keer snijden levert drie stukken, etcetera.',
+		"hint5"		: 'Daarom moeten we <var>NUM - 1</var> keer snijden om <var>NUM</var> boterhammen te krijgen.',
+		"hint6"		: "Als het hek 1 meter lang is, zijn er twee palen nodig (&eacute;&eacute;n aan elke kant).",
+		"hint7"		: "Als het hek twee meter lang is, zijn er drie palen nodig, etcetera.",
+		"hint8"		: "Daarom zijn er <var>LENGTH + 1</var> palen nodig voor een hek van <var>LENGTH</var> meter lang."
 		}
 })
+
