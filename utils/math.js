@@ -1,4 +1,5 @@
 jQuery.extend(KhanUtil, {
+	
 	// Simplify formulas before display
 	cleanMath: function( expr ) {
 		return typeof expr === "string" ?
@@ -75,8 +76,6 @@ jQuery.extend(KhanUtil, {
 			return Math.ceil( x - 0.001 );
 		}
 		return Math.floor( x + 0.001 );
-
-
 	},
 
 	getGCD: function( a, b ) {
@@ -367,6 +366,12 @@ jQuery.extend(KhanUtil, {
 			}
 		}
 		return KhanUtil.randFromArray( cleanArr );
+	},
+
+	// Round a number to the nearest increment
+	// E.g., if increment = 30 and num = 40, return 30. if increment = 30 and num = 45, return 60.
+	roundToNearest: function( increment, num ) {
+		return Math.round( num / increment ) * increment;
 	},
 
 	// Round a number to a certain number of decimal places
