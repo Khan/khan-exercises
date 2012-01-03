@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html data-require="angles math math-format graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Dot products of vectors</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars" data-ensure="!(AX == 0 && AY == 0) && !(BX == 0 && BY == 0)">
+		<var id="AX">randRange( -9, 9 )</var>
+		<var id="AY">randRange( -9, 9 )</var>
+		<var id="AF">1 + 0.8 / sqrt( AX * AX + AY * AY )</var>
+
+		<var id="BX">randRange( -9, 9 )</var>
+		<var id="BY">randRange( -9, 9 )</var>
+		<var id="BF">1 + 0.8 / sqrt( BX * BX + BY * BY )</var>
+	</div>
+
+	<div class="problems">
+		<div id="dot-product">
+			<div id="graph" class="graphie" style="float: right">
+				graphInit({
+					range: 10,
+					scale: 20,
+					tickStep: 1,
+					labelStep: 1,
+					unityLabels: false,
+					labelFormat: function( s ) { return "\\small{" + s + "}"; },
+					axisArrows: "<->"
+				});
+
+				line( [0, 0], [AX, AY], { stroke: "#6495ed", arrows: "->" } );
+				line( [0, 0], [BX, BY], { stroke: "#28ae7b", arrows: "->" } );
+
+				label( [AF * AX, AF * AY], "\\vec a", { color: "#6495ed" } );
+				label( [BF * BX, BF * BY], "\\vec b", { color: "#28ae7b" } );
+			</div>
+			<div class="question">
+				<p>What is <code>\vec a \cdot \vec b</code>?</p>
+
+				<p><code>\begin{align*}
+					\vec a &= <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath \\
+					\vec b &= <var>BX</var> \hat\imath + <var>BY</var> \hat\jmath
+				\end{align*}</code></p>
+
+				<p class="solution" data-type="decimal"><var>AX * BX + AY * BY</var></p>
+			</div>
+			<div class="hints">
+				<p>The dot product of two vectors is defined as the sum of the products of the vectors' individual components.</p>
+				<p>Multiply the <code>\hat\imath</code> and <code>\hat\jmath</code> components separately, then add them up.</p>
+				<p><code>\vec a \cdot \vec b = (<var>AX</var>\cdot<var>BX</var>) + (<var>AY</var>\cdot<var>BY</var>)</code></p>
+				<div>
+					<p><code> = <var>AX * BX</var> + <var>AY * BY</var></code></p>
+	 				<p><code> = <var>AX * BX + AY * BY</var></code></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
