@@ -23,25 +23,86 @@
 			strokeWidth: 1.5
 		};
 
-		function getPos( refPoint, otherPoint ) {
+// getQuad Function codes point location by quadrants or axes (3D quadrants are 5-8) and Axes are (9-14)//
+		function getQuad( Point ) {
+			quad=0;
+			if(Point[0] > 0){
+				if(Point[1] > 0){
+					quad=1;
+				} else {
+					quad=4}
+			} else {
+				if( Point[1] > 0){
+					quad=2;
+				} else {
+					quad=3}
+			}
+			if(Point[0] == 0) {
+				if(Point[1] == 0) {
+					quad="0";
+				} else {
+					if(Point[0] > 0){
+						quad=10;
+					} else {
+						quad=12;
+					}
+				}
+			}
+			if(Point[1] == 0) {
+				if(Point[0] == 0) {
+					quad=0;
+				} else {
+				if(Point[0] > 0){
+						quad=9;
+					} else {
+						quad=11;
+					}
+				}
+			}
+			return quad;
+			}
+
+// getPos Function provides position of label text with respect to point//
+			function getPos( refPoint, otherPoint ) {
 			var pos = "";
-			if( refPoint[1] > otherPoint[1] ) {
-				pos += "above";
+			var pointQuad ="";
+			pointQuad=getQuad(refPoint);
+			if (pointQuad == 1){
+			pos = "above right"
 			} else {
-				pos += "below";
-			}
-
-			if( refPoint[0] !== otherPoint[0] ) {
-				pos += " ";
-			}
-
-			if( refPoint[0] > otherPoint[0] ) {
-				pos += "right";
-			} else {
-				pos += "left";
-			}
+				if(pointQuad == 2){
+					pos = "above left"
+				} else {
+					if (pointQuad == 3){
+						pos="below left"
+					} else {
+						if (pointQuad == 4){
+							pos="below right"
+						} else {
+							pos="above right"
+						}
+					}
+				}
+			}	
 			return pos;
-		}
+			}
+
+// getDist Function calculates magnitude of vector between points to check for potential overlaps//
+			function getDist( refPoint, otherPoint ) {
+			dist=Math.sqrt(Math.pow((refPoint[0]-otherPoint[0]),2)+Math.pow((refPoint[1]-otherPoint[1]),2));
+			return dist;
+			}
+			
+// getDirCos Function calculates 2D Unit vector between points for use if line overlaps//
+			function getDirCos( refPoint, otherPoint ) {
+			dirCos=[];
+			xvalue=(otherPoint[0]-refPoint[0])/getDist(refPoint,otherPoint);
+			yvalue=(otherPoint[1]-refPoint[1])/getDist(refPoint,otherPoint);
+			dirCos=[xvalue,yvalue];
+			return dirCos;
+			}
+
+
 	</script>
 </head>
 <body>
@@ -185,7 +246,6 @@
 							circle( [ X2, Y2 ], 0.15 );
 							label( [ X2, Y2 ], "(" + X2 + ", " + Y2 + ")",
 								getPos( [ X2, Y2 ], [ XM, YM ]) );
-
 							graph.first.toFront();
 							graph.midpoint.toFront();
 						</span>
