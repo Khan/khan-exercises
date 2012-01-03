@@ -48,7 +48,7 @@
 						</p>
 					</div>
 					<div>
-						<p>Here, we have just <span class="hint_blue" style="font-weight:bold">Multiplication</span>.</p>
+						<p>In the parenthesis, we have just <span class="hint_blue" style="font-weight:bold">Multiplication</span>.</p>
 						<p>
 							<code><var>A</var> + </code><span class="hint_red" style="font-weight:bold"><code>(</code></span><span class="hint_blue" style="font-weight:bold"><code><var>B</var> \times <var>C</var></code></span><span class="hint_red" style="font-weight:bold"><code>)</code></span>
 						</p>
@@ -80,19 +80,25 @@
 				<div class="hints">
 					<div>
 						<p>Remember our order of operations is:</p>
-						<ul>
+						<ul><strong>
 							<li><span class="hint_red">Parenthesis</span></li>
 							<li><span class="hint_purple">Exponents</span></li>
 							<li><span class="hint_blue">Multiplication/Division</span></li>
 							<li><span class="hint_green">Addition/Subtraction</span></li>
+							</strong>
 						</ul>
 					</div>
 					<div>
-						<p>Here, we will do our Multiplication first.</p>
-						<p><code><var>A</var> + <var>B*C</var></code></p>
+						<p>Since we have no <span class="hint_red" style="font-weight:bold">Parenthesis</span> and no <span class="hint_purple" style="font-weight:bold">Exponents</span>, we begin with our <span class="hint_blue" style="font-weight:bold">Multiplication</span>.</p>
+						<p>
+							<code><var>A</var> + </code><span class="hint_blue" style="font-weight:bold"><code><var>B</var> \times <var>C</var></code></span>
+						</p>
+						<p><code><var>A</var> + </code><span class="hint_blue" style="font-weight:bold"><code><var>B*C</var></code></span>
+						</p>
 					</div>
 					<div>
-						<p>Now we can finish up by doing the addition.</p>
+						<p>Now we can finish up by doing the <span class="hint_green" style="font-weight:bold">Addition</span>.</p>
+						<p class="hint_green" style="font-weight:bold"><code><var>A</var> + <var>B*C</var></code></p>
 						<p><code><var>A+B*C</var></code></p>
 					</div>
 				</div>
@@ -111,21 +117,38 @@
 				<div class="hints">
 					<div>
 						<p>Remember our order of operations is:</p>
-						<ul>
+						<ul><strong>
 							<li><span class="hint_red">Parenthesis</span></li>
 							<li><span class="hint_purple">Exponents</span></li>
 							<li><span class="hint_blue">Multiplication/Division</span></li>
 							<li><span class="hint_green">Addition/Subtraction</span></li>
+							</strong>
 						</ul>
 					</div>
-					<p>
-						<code>
-							= <var>A</var> \times <var>B+C</var>
-					</code></p>
-					<p><code>
-							= <var>A*(B+C)</var>
-					</code></p>
-				</div>
+					<div>
+						<p>We will look at our <span class="hint_red" style="font-weight:bold">Parenthesis</span> first.</p>
+						<p>
+							<code><var>A</var> \times </code><span class="hint_red" style="font-weight:bold"><code>(<var>B</var> + <var>C</var>)</code></span>
+						</p>
+					</div>
+					<div>
+						<p>In the parenthesis, we have just <span class="hint_green" style="font-weight:bold">Addition</span>.</p>
+						<p>
+							<code><var>A</var> \times </code><span class="hint_red" style="font-weight:bold"><code>(</code></span><span class="hint_green" style="font-weight:bold"><code><var>B</var> + <var>C</var></code></span><span class="hint_red" style="font-weight:bold"><code>)</code></span>
+						</p>
+						<p><code><var>A</var> \times </code><span class="hint_red" style="font-weight:bold"><code>(</code></span><span class="hint_green" style="font-weight:bold"><code><var>B+C</var></code></span><span class="hint_red" style="font-weight:bold"><code>)</code></span></code>
+						</p>
+					</div>
+					<div>
+						<p>Since there is nothing left to do in the parenthesis, we can remove them.<p>
+						<p><code><var>A</var> \times <var>B+C</var></code></p>
+					</div>
+					<div>
+						<p>Now we can finish up by doing the <span class="hint_blue" style="font-weight:bold">Multiplication</span>.</p>
+						<p class="hint_blue" style="font-weight:bold"><code><var>A</var> \times <var>B+C</var></code></p>
+						<p><code><var>A*(B+C)</var></code></p>
+					</div>
+				</div>								
 			</div>
 			<div data-type="order-of-operations">
 				<p class="problem">
