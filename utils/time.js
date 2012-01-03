@@ -58,7 +58,7 @@ jQuery.extend( KhanUtil, {
 			if ( this.showLabels ) {
 				this.drawLabels();
 			}
-			if ( this.hour !== undefined && this.minute !== undefined ) {
+			if ( this.hour !== false && this.minute !== false ) {
 				this.drawHands();
 			}
 			return this.set;
