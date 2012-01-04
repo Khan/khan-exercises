@@ -57,7 +57,7 @@
 			<var id="LESS_THAN">tabulate( function(i) {
 				return COMP_SOLUTION[i] === "&le;" || COMP_SOLUTION[i] === "&lt;";
 			}, 2 )</var>
-			<var id="ALL_NUMBERS">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[0] >= SOLUTION [1] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] <= SOLUTION [1] )</var>
+			<var id="ALL_NUMBERS">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[0] >= SOLUTION [1] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] &lt;= SOLUTION [1] )</var>
 			<var id="NO_SOLUTION">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[1] > SOLUTION[0] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] > SOLUTION[1] ) || ( LESS_THAN[0] !== LESS_THAN[1] && SOLUTION[0] === SOLUTION[1] && ( !INCLUSIVE[0] || !INCLUSIVE[1] ) )</var>
 			<var id="OR">randFromArray([ "or", "and" ])</var>
 			<var id="IS_OR">OR === "or"</var>
@@ -74,7 +74,7 @@
 					if ( SOLUTION[0] === SOLUTION[1] ) {
 						return INCLUSIVE[0] ? 1 : 2;
 					}
-					return SOLUTION[0] < SOLUTION[1] ? 1 : 2;
+					return SOLUTION[0] &lt; SOLUTION[1] ? 1 : 2;
 				}
 
 				return 0;
@@ -144,7 +144,7 @@
 
 						// Draw both inequalities
 						var y_placement = [ 0.05, -0.05 ];
-						for ( var i = 0; i < 2; i++ ) {
+						for ( var i = 0; i &lt; 2; i++ ) {
 							style({ stroke: COLOR[i], fill: COLOR[i], strokeWidth: 3.5, arrows: "->" });
 							path([ [ SOLUTION[i] + 0.15 * ( LESS_THAN[i] ? -1 : 1  ), y_placement[i] ], [ LESS_THAN[i] ? start : end, y_placement[i] ] ]);
 							style({ stroke: COLOR[i], fill: INCLUSIVE[i] ? COLOR[i] : null });

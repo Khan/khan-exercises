@@ -6,7 +6,7 @@
 </head>
 <body>
 	<div class="exercise">
-		<div class="vars" data-ensure="( A != 0 ) && -10 < C && C < 10 ">
+		<div class="vars" data-ensure="( A != 0 ) && -10 &lt; C && C &lt; 10 ">
 			<!-- Pick a random top point and coefficient A -->
 			<!-- This makes it easy to spot whether B is zero or not. -->
 			<var id="A"> randRange( -5, 5 ) </var>
@@ -44,8 +44,8 @@
 
 				<div class="solution" data-type="multiple">
 					<p><code>a</code> is <span class="sol" data-type="list" data-choices="['positive', 'zero', 'negative']"><var>(A > 0) ? 'positive' : 'negative' </var></span></p>
-					<p><code>b</code> is <span class="sol" data-type="list" data-choices="['positive', 'zero', 'negative']"><var>(B > 0) ? 'positive' : ( (B < 0) ? 'negative' : 'zero' )</var></span></p>
-					<p><code>c</code> is <span class="sol" data-type="list" data-choices="['positive', 'zero', 'negative']"><var>(C > 0) ? 'positive' : ( (C < 0) ? 'negative' : 'zero' )</var></span></p>
+					<p><code>b</code> is <span class="sol" data-type="list" data-choices="['positive', 'zero', 'negative']"><var>(B > 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var></span></p>
+					<p><code>c</code> is <span class="sol" data-type="list" data-choices="['positive', 'zero', 'negative']"><var>(C > 0) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var></span></p>
 				</div>
 
 				<div class="hints">
@@ -54,15 +54,15 @@
 					<p>The parabola is <var>( A > 0) ? "smiling" : "frowning"</var> thus <code>a</code> is <var>( A > 0 ) ? "positive" : "negative"</var>.</p>
 					<p>The number <code>c</code> determines where the parabola intersects the <code>y</code>-axis. Is the positive or negative part?</p>
 					<p>If the parabola intersected the positive part of the <code>y</code>-axis, then <code>c</code> would be positive.</p>
-					<p>The parabola intersects the <code>y</code>-axis in the point <code>(0,c) = (0,<var>C</var>)</code>, thus <code>c</code> is <var>( C > 0 ) ? 'positive' : ( (C<0) ? 'negative' : 'zero' )</var>.</p>
+					<p>The parabola intersects the <code>y</code>-axis in the point <code>(0,c) = (0,<var>C</var>)</code>, thus <code>c</code> is <var>( C > 0 ) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var>.</p>
 					<p>The number <code>b</code> determines how the parabola intersects the <code>y</code>-axis. Imagine the tangent at the intersection. What is the slope?</p>
 					<div class="graphie" data-update="grid">
 						style({ stroke: "#FF8800", strokeWidth: 2});
 						line( [ -10, F( -10 )], [ 10, F( 10 )]);
 					</div>
 					<p>The tangent where the parabola intersects the <code>y</code>-axis was drawn in orange. The number <code>b</code> is the slope.</p>
-					<p>The tangent has a <var>(B > 0) ? 'positive' : ( (B < 0) ? 'negative' : 'zero' )</var> slope, so <code>b</code> is <var>(B > 0) ? 'positive' : ( (B < 0) ? 'negative' : 'zero' )</var>.</p>
-					<p><code>a</code> is <var>( A > 0 ) ? "positive" : "negative"</var>, <code>b</code> is <var>(B > 0) ? 'positive' : ( (B < 0) ? 'negative' : 'zero' )</var>, and <code>c</code> is <var>(C > 0) ? 'positive' : ( (C < 0) ? 'negative' : 'zero' )</var>.</p>
+					<p>The tangent has a <var>(B > 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var> slope, so <code>b</code> is <var>(B > 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var>.</p>
+					<p><code>a</code> is <var>( A > 0 ) ? "positive" : "negative"</var>, <code>b</code> is <var>(B > 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var>, and <code>c</code> is <var>(C > 0) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var>.</p>
 				</div>
 			</div>
 		</div>

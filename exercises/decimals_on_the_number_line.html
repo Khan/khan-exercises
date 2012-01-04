@@ -12,7 +12,7 @@
 		<var id="NUMBER">( randRange( -300, 300 ) / 100 )</var>
 		<var id="WRONGS">( function() {
 					var pos = rand( 5 );
-					while( NUMBER - (0.47 * pos) < -3 ){
+					while( NUMBER - (0.47 * pos) &lt; -3 ){
 						pos--;
 					}
 					while( NUMBER + 0.47 * (5 - pos) > 3 ){
@@ -20,11 +20,11 @@
 					}
 
 					arr = [];
-					for ( i = 0; i < pos; i++){
+					for ( i = 0; i &lt; pos; i++){
 						arr.push( NUMBER - ((pos - i) * 0.47))
 					}
 					arr.push( NUMBER );
-					for ( i = pos + 1; i < 5; i++ ){
+					for ( i = pos + 1; i &lt; 5; i++ ){
 						arr.push( NUMBER + (( i - pos) * 0.47))
 					}
 					return arr;

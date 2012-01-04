@@ -27,7 +27,7 @@
 
 			<var id="SPEED1">REASONABLESPEED(VEHC1)</var>
 			<var id="SPEED2" data-ensure="SPEED2 !== SPEED1">REASONABLESPEED(VEHC2)</var>
-			<var id="AVG">SPEED1 < SPEED2 ? randRange(SPEED1 + 1, SPEED2 - 1) : randRange(SPEED2 + 1, SPEED1 - 1)</var>
+			<var id="AVG">SPEED1 &lt; SPEED2 ? randRange(SPEED1 + 1, SPEED2 - 1) : randRange(SPEED2 + 1, SPEED1 - 1)</var>
 			<var id="TIME">randRange(1, 9)</var>
 			<var id="DIST">AVG * TIME</var>
 			<var id="DIST2">(SPEED1 * SPEED2 * TIME - DIST * SPEED2) / (SPEED1 - SPEED2)</var>

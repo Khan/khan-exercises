@@ -57,10 +57,10 @@
     				( function() {
 						var optionalPercentage = USEPERCENTAGES ? "% are " : " ";
     					var qstn = INTRO;
-  						for (var i=0; i< ORDER.length-1; i++) {
+  						for (var i=0; i &lt; ORDER.length-1; i++) {
 							qstn += (i===ORDER.length-2) ? " and " : "";
 							qstn += VARVALS[ORDER[i]] + optionalPercentage + VARDESC[ORDER[i]];
-							qstn += (i< ORDER.length-2) ? ", " : ".  ";
+							qstn += (i &lt; ORDER.length-2) ? ", " : ".  ";
     					}
     					qstn += QSTNPRETEXT + VARDESC[ORDER[ORDER.length-1]] + QSTNPOSTTEXT;
     					return qstn;

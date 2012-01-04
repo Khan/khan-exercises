@@ -117,7 +117,7 @@
 				style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
 				var already = [];
 				for( i = 0; i !=  WRONGS.length; i++ ){
-						if( WRONGS[ i ] >= start && WRONGS[ i ] <= end ){
+						if( WRONGS[ i ] >= start && WRONGS[ i ] &lt;= end ){
 							ellipse(  [ WRONGS[ i ] - start, 0 ], [ 0.01, 0.12 ] );
 							label( [WRONGS[ i ] - start, 0 ], POSS_ANSWER[ i ] , "above", { labelDistance: 5 } );
 						}

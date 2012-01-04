@@ -12,10 +12,10 @@
 		<div class="vars">
 
 			<!-- whether we present the question as arcsin(x) = ? or sin^-1(x) = ? -->
-			<var id="ARC">random() < 0.5</var>
+			<var id="ARC">random() &lt; 0.5</var>
 
 			<!-- whether we expect the answer in terms of degrees or radians -->
-			<var id="DEG">random() < 0.5</var>
+			<var id="DEG">random() &lt; 0.5</var>
 
 			<var id="FN">randFromArray([ "sin", "cos", "tan" ])</var>
 			<var id="FN_INV">"\\" + FN + "^{-1}"</var>
@@ -27,7 +27,7 @@
 			<var id="SIN_RANGE">[ 0, 1/2, sqrt(2)/2, sqrt(3)/2 ]</var>
 			<var id="TAN_RANGE">[ 0, sqrt(3)/3, 1, sqrt(3) ]</var>
 
-			<var id="X">( random() < 0.5 ? -1 : 1 ) * {
+			<var id="X">( random() &lt; 0.5 ? -1 : 1 ) * {
 				sin: randFromArray( SIN_RANGE ),
 				cos: randFromArray( SIN_RANGE ),
 				tan: randFromArray( TAN_RANGE )
@@ -47,7 +47,7 @@
 
 			<var id="PRETTY">function( n ) {
 
-				var sign = n < 0 ? "-" : "";
+				var sign = n &lt; 0 ? "-" : "";
 				n = abs( n );
 
 				var o = {};

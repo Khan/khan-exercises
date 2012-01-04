@@ -20,10 +20,10 @@
 
 					<var id="NO_SOLUTION">
 						/* negative under radical */
-						(OMITTED=='v_i' && UNKNOWN == 't'   && (V_FINAL * V_FINAL - 2 * ACCEL * DISP < 0.1)) ||
-						(OMITTED=='v_f' && UNKNOWN == 't'   && (V_INIT  * V_INIT  + 2 * ACCEL * DISP < 0.1)) ||
-						(OMITTED=='t'   && UNKNOWN == 'v_i' && (V_FINAL * V_FINAL - 2 * ACCEL * DISP < 0.1)) ||
-						(OMITTED=='t'   && UNKNOWN == 'v_f' && (V_INIT  * V_INIT  + 2 * ACCEL * DISP < 0.1)) ||
+						(OMITTED=='v_i' && UNKNOWN == 't'   && (V_FINAL * V_FINAL - 2 * ACCEL * DISP &lt; 0.1)) ||
+						(OMITTED=='v_f' && UNKNOWN == 't'   && (V_INIT  * V_INIT  + 2 * ACCEL * DISP &lt; 0.1)) ||
+						(OMITTED=='t'   && UNKNOWN == 'v_i' && (V_FINAL * V_FINAL - 2 * ACCEL * DISP &lt; 0.1)) ||
+						(OMITTED=='t'   && UNKNOWN == 'v_f' && (V_INIT  * V_INIT  + 2 * ACCEL * DISP &lt; 0.1)) ||
 
 						/* division by 0 */
 						(OMITTED=='d'   && UNKNOWN == 'a'   && TIME  == 0) ||
@@ -36,7 +36,7 @@
 						(OMITTED=='v_f' && UNKNOWN == 't'   && ACCEL == 0) ||
 						(OMITTED=='a'   && UNKNOWN == 'v_i' && TIME  == 0) ||
 						(OMITTED=='a'   && UNKNOWN == 'v_f' && TIME  == 0) ||
-						(OMITTED=='a'   && UNKNOWN == 't'   && (-0.1 < V_INIT + V_FINAL) && (V_INIT + V_FINAL < 0.1)) ||
+						(OMITTED=='a'   && UNKNOWN == 't'   && (-0.1 &lt; V_INIT + V_FINAL) && (V_INIT + V_FINAL &lt; 0.1)) ||
 						(OMITTED=='t'   && UNKNOWN == 'd'   && ACCEL == 0) ||
 						(OMITTED=='t'   && UNKNOWN == 'a'   && DISP  == 0)
 					</var>

@@ -51,7 +51,7 @@
 			<var id="UNFAIR_HEADS_DECIMAL_FORMULA">
 				(function() {
 					var uhdf = DECIMAL_CHANCE_UNFAIR_HEADS.toString()
-					for (var i = 0; i < NUM_FLIPS - 1; i++) {
+					for (var i = 0; i &lt; NUM_FLIPS - 1; i++) {
 						uhdf += " \\times " + DECIMAL_CHANCE_UNFAIR_HEADS;
 					}
 					return uhdf;
@@ -60,7 +60,7 @@
 			<var id="UNFAIR_HEADS_PERCENT_FORMULA">
 				(function() {
 					var uhpf = PERCENT_CHANCE_UNFAIR_HEADS + "\\%";
-					for (var i = 0; i < NUM_FLIPS - 1; i++) {
+					for (var i = 0; i &lt; NUM_FLIPS - 1; i++) {
 						uhpf += " \\times " + PERCENT_CHANCE_UNFAIR_HEADS + "\\%";
 					}
 					return uhpf;
@@ -70,7 +70,7 @@
 			<var id="FAIR_HEADS_DECIMAL_FORMULA">
 				(function() {
 					var fhdf = DECIMAL_CHANCE_FAIR_HEADS.toString();
-					for (var i = 0; i < NUM_FLIPS - 1; i++) {
+					for (var i = 0; i &lt; NUM_FLIPS - 1; i++) {
 						fhdf += " \\times " + DECIMAL_CHANCE_FAIR_HEADS;
 					}
 					return fhdf;

@@ -147,9 +147,7 @@
 						</div>
 						<div data-each="HINTS as I, HINT">
 							<div class="graphie" data-update="expression">
-								// hack to get around graphie script not working with data-each
-								// (graphie script executes after the data-each templating's done)
-								HINTS[<var>I</var>].graph( KhanUtil.currentGraph );
+								HINTS[I].graph( KhanUtil.currentGraph );
 							</div>
 							<p><var>HINT.text</var></p>
 						</div>
