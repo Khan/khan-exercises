@@ -95,20 +95,20 @@ shows the mapping between the AST nodes and LaTeX.
 {\bf AST}                           & {\bf LaTeX} \\ \hline
 \verb'{op: "+", args: [1, 2]}'      & \verb'1+2' \\ \hline
 \verb'{op: "-", args: [1, 2]}'      & \verb'1-2' \\ \hline
-\verb'{op: "\times", args: [1, 2]}' & \verb'1 \times 2' \\ \hline
-\verb'{op: "\div", args: [1, 2]}'   & \verb'1 \div 2' \\ \hline
-\verb'{op: "\frac", args: [1, 2]}'  & \verb'\frac{1}{2}' \\ \hline
+\verb'{op: "times", args: [1, 2]}'  & \verb'1 \times 2' \\ \hline
+\verb'{op: "div", args: [1, 2]}'    & \verb'1 \div 2' \\ \hline
+\verb'{op: "frac", args: [1, 2]}'   & \verb'\frac{1}{2}' \\ \hline
 \verb'{op: "^", args: [1, 2]}'      & \verb'1^2' \\ \hline
-\verb'{op: "\sqrt", args: [9]}'     & \verb'\sqrt{9}' \\ \hline
-\verb'{op: "\sqrt", args: [3, 8]}'  & \verb'\sqrt[3]{8}' \\ \hline
-\verb'{op: "\pm", args: [2, 1]}'    & \verb'2 \pm 1' \\ \hline
-\verb'{op: "\sin", args: [0]}'      & \verb'\sin{0}' \\ \hline
-\verb'{op: "\cos", args: [0]}'      & \verb'\cos{0}' \\ \hline
-\verb'{op: "\tan", args: [0]}'      & \verb'\tan{0}' \\ \hline
-\verb'{op: "\sec", args: [0]}'      & \verb'\sec{0}' \\ \hline
-\verb'{op: "\ln", args: [1]}'       & \verb'\ln{1}' \\ \hline
+\verb'{op: "sqrt", args: [9]}'      & \verb'\sqrt{9}' \\ \hline
+\verb'{op: "sqrt", args: [3, 8]}'   & \verb'\sqrt[3]{8}' \\ \hline
+\verb'{op: "pm", args: [2, 1]}'     & \verb'2 \pm 1' \\ \hline
+\verb'{op: "sin", args: [0]}'       & \verb'\sin{0}' \\ \hline
+\verb'{op: "cos", args: [0]}'       & \verb'\cos{0}' \\ \hline
+\verb'{op: "tan", args: [0]}'       & \verb'\tan{0}' \\ \hline
+\verb'{op: "sec", args: [0]}'       & \verb'\sec{0}' \\ \hline
+\verb'{op: "ln", args: [1]}'        & \verb'\ln{1}' \\ \hline
 \verb'{op: "()", args: [10]}'       & \verb'(10)' \\ \hline
-\verb'{op: "\var", args: ["x"]}'    & \verb'\var{x}' \\ \hline
+\verb'{op: "var", args: ["x"]}'     & \verb'\var{x}' \\ \hline
 \end{tabular}
 
 
@@ -138,8 +138,8 @@ These formatting and parsing algorithms conform to common practice including:
 
 The AST API is implemented as a module that can be loaded into an exercise. All functions are 
 instance methods of the {\bf ast} property added to {\bf KhanUtil}, and therefore are called through 
-that property (e.g. {\bf ast.fromLaTeX}(``1+2''), or simply {\bf fromLaTeX}(``1+2'') when called from
-exercise HTML that loads the AST module).
+that property (e.g. {\bf KhanUtil.ast.fromLaTeX}(``1+2''), or {\bf ast.fromLaTeX}(``1+2'') when 
+called from exercise HTML that loads the AST module).
 
 Below is the list of API methods implemented by {\tt ast.js}.
 
