@@ -539,7 +539,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 	var index = 0;
 	var remainder = 0;
 	var fOnlyZeros = true;
-	var fShowFirstHalf = true;
+	var showHintI = 0;
 	var leadingZeros = [];
 	var value = 0;
 	var decimals = [];
@@ -579,7 +579,16 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 			return;
 		}
 
-		if ( fShowFirstHalf ) {
+		// There are two types of hints. Ones that are questions, like:
+		//
+		//   How many times does 8 go into 6?
+		//
+		// And ones that are answers, like:
+		//
+		//   6 % 8 = 0 and 8 x 0 = 0.
+		//
+		// When showHintI is even show a question; otherwise, show an answer.
+		if ( showHintI % 2 === 0 ) {
 			value = digitsDividend[ index ];
 			var quotient = value / divisor;
 			var total = value + remainder;
@@ -603,7 +612,6 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 				+ "\\color{#6495ED}{" + total + "}"
 				+ "\\text{?}", "right" );
 
-			fShowFirstHalf = false;
 		} else {
 			value += remainder;
 			var quotient = Math.floor( value / divisor );
@@ -638,8 +646,9 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 				+ " = "
 				+ "\\color{#FFA500}{" + ( divisor * quotient ) + "}", "right" );
 			index++;
-			fShowFirstHalf = true;
 		}
+
+		showHintI++;
 	}
 
 	this.getNumHints = function() {
