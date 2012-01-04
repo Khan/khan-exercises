@@ -5,10 +5,27 @@ begin
   require 'fileutils'
 rescue LoadError
   puts
+  puts "-" * 78
   puts "Oops! Some gems are missing; please run:"
-  puts "  sudo gem install nokogiri uglifier"
+  puts "  sudo gem install nokogiri uglifier therubyracer"
+  puts
+  puts "If you prefer another JS runtime (https://github.com/sstephenson/execjs),"
+  puts "be aware that this script is much faster (around 50x speedup) using"
+  puts "therubyracer, which is based on Chrome's V8 engine."
+  puts "-" * 78
   puts
   exit 1
+end
+
+begin
+  require 'v8'
+rescue LoadError
+  puts
+  puts "-" * 78
+  puts "Warning! You don't have therubyracer installed, packing might be slow. Try:"
+  puts "  sudo gem install therubyracer"
+  puts "-" * 78
+  puts
 end
 
 # All paths are relative to khan-exercises/ root
