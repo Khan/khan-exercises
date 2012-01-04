@@ -539,7 +539,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 	var index = 0;
 	var remainder = 0;
 	var fOnlyZeros = true;
-	var fShowFirstHalf = true;
+	var showHintI = 0;
 	var leadingZeros = [];
 	var value = 0;
 	var decimals = [];
@@ -572,30 +572,42 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 
 	this.showHint = function() {
 		this.removeHighlights();
-		if ( index === digitsDividend.length ) {
-			while( leadingZeros.length ) {
-				leadingZeros.pop().remove();
-			}
-			return;
-		}
 
-		if ( fShowFirstHalf ) {
+		// There are two types of hints. Ones that are questions, like:
+		//
+		//   How many times does 8 go into 6?
+		//
+		// And ones that are answers, like:
+		//
+		//   6 % 8 = 0 and 8 x 0 = 0.
+		//
+		// When showHintI is even show a question; otherwise, show an answer.
+		if ( showHintI % 2 === 0 ) {
 			value = digitsDividend[ index ];
 			var quotient = value / divisor;
 			var total = value + remainder;
+
+			// Highlight the dividend.
 			highlights = highlights.concat( drawDigits( [ value ], index, 0, KhanUtil.BLUE ) );
-			if ( index !== 0 ) {
+
+
+			if ( showHintI !== 0 ) {
+				// Highlight the number the arrow is pointing from.	
+			  drawDigits( [ value ], index, -2 * index );
+
+				// Add the arrow.
 				graph.style({
 					arrows: "->"
 				}, function(){
 					highlights.push( graph.path( [ [ index, 0 - 0.5 ], [ index, -2 * index + 0.5 ]] ) );
 				});
+
+				// Highlight the number the arrow is pointing to.
+				var totalDigits = KhanUtil.integerToDigits( total );
+				highlights = highlights.concat( drawDigits( totalDigits , index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE ) );
 			}
 
-			drawDigits( [ value ], index, -2 * index );
-			var totalDigits = KhanUtil.integerToDigits( total );
-			highlights = highlights.concat( drawDigits( totalDigits , index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE ) );
-
+			// Add the hint.
 			graph.label( [ digitsDividend.length + 1, -2 * index ],
 				"\\text{How many times does }"
 				+ divisor
@@ -603,29 +615,48 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 				+ "\\color{#6495ED}{" + total + "}"
 				+ "\\text{?}", "right" );
 
-			fShowFirstHalf = false;
 		} else {
 			value += remainder;
 			var quotient = Math.floor( value / divisor );
 			var diff = value - ( quotient * divisor );
 			remainder = diff * 10;
+
+			// Add and highlight the next digit of the quotient.
 			var quotientLabel = drawDigits( [ quotient ], index, 1 );
+
 			if ( quotient === 0 && fOnlyZeros && digitsDividend.length - deciDividend + deciDivisor > index + 1 ) {
 				leadingZeros = leadingZeros.concat( quotientLabel );
 			} else {
 				fOnlyZeros = false;
 			}
+
 			highlights = highlights.concat( drawDigits( [ quotient ], index, 1, KhanUtil.GREEN ) );
 
+			// Given...
+			//
+			//     1
+			//   ------
+			// 4 | 4 6
+			//
+			// ...add and highlight the product of the 1 and the divisor.
 			var product = KhanUtil.integerToDigits( divisor * quotient );
 			drawDigits( product, index - product.length + 1, -2 * index - 1 );
 			highlights = highlights.concat( drawDigits( product, index - product.length + 1, -2 * index - 1, KhanUtil.ORANGE ) );
 
+			// Given...
+			//
+			//     4
+			//   ------
+			// 2 | 9 9
+			//     8
+			//
+			// ...add and highlight the difference between the 9 and the 8.
 			var diffDigits = KhanUtil.integerToDigits( diff );
 			drawDigits( diffDigits, index - diffDigits.length + 1, -2 * index - 2)
 			graph.label( [ index - product.length, -2 * index - 1 ] ,"-\\vphantom{0}" );
 			graph.path( [ [ index - product.length - 0.25, -2 * index - 1.5 ], [ index + 0.5, -2 * index - 1.5 ] ] );
 
+			// Add the hint.
 			graph.label( [ digitsDividend.length + 1, -2 * index - 1 ],
 				"\\color{#6495ED}{" + value + "}"
 				+ "\\div"
@@ -638,8 +669,9 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 				+ " = "
 				+ "\\color{#FFA500}{" + ( divisor * quotient ) + "}", "right" );
 			index++;
-			fShowFirstHalf = true;
 		}
+
+		showHintI++;
 	}
 
 	this.getNumHints = function() {
@@ -649,6 +681,12 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 	this.removeHighlights = function() {
 		while ( highlights.length ) {
 			highlights.pop().remove();
+		}
+	};
+
+	this.removeLeadingZeros = function() {
+		while(leadingZeros.length) {
+			leadingZeros.pop().remove();
 		}
 	};
 
