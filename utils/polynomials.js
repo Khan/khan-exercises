@@ -17,7 +17,7 @@ jQuery.extend(KhanUtil, {
 
 		};
 
-		// inverse of term.	Given an expression it returns the coef and degree. 
+		// inverse of term.	Given an expression it returns the coef and degree.
 		// calculus needs this for hints
 		var extractFromExpr = function ( expr ){
 			var coef,degree;
@@ -107,12 +107,12 @@ jQuery.extend(KhanUtil, {
 		this.getNumberOfTerms = function() {
 
 			// -1 as the first term in the expression for a polynomial is always a "+"
-			return this.expr().length - 1 ; 
+			return this.expr().length - 1 ;
 
 		};
 
-		this.getCoefAndDegreeForTerm = function( termIndex ) { 
-			
+		this.getCoefAndDegreeForTerm = function( termIndex ) {
+
 			//returns the coef and degree for a particular term
 			var numberOfTerms = this.getNumberOfTerms();
 
@@ -200,9 +200,9 @@ jQuery.extend(KhanUtil, {
 						var coef = this.coefs[ i ] * value.coefs[ j ];
 
 						if ( coefs[ i + j ] === undefined ) {
-							coefs[ i + j ] = coef; 
+							coefs[ i + j ] = coef;
 						} else {
-							coefs[ i + j ] += coef; 
+							coefs[ i + j ] += coef;
 						}
 					}
 				}
@@ -223,7 +223,7 @@ jQuery.extend(KhanUtil, {
 
 	CompositePolynomial: function( minDegree, maxDegree, coefs, variable, name,
 			composed, composedCoef ) {
-		var base = new KhanUtil.Polynomial( 
+		var base = new KhanUtil.Polynomial(
 			minDegree, maxDegree, coefs, variable, name );
 
 		jQuery.extend(this, base);
@@ -258,12 +258,12 @@ jQuery.extend(KhanUtil, {
 		this.hintEvalOf = function( val, evalInner ) {
 			if ( evalInner ) {
 
-				return KhanUtil.expr( tackOn( base.expr( val ), 
+				return KhanUtil.expr( tackOn( base.expr( val ),
 					["*", composedCoef, composed.evalOf( val )] ) );
 
 			} else {
 
-				return KhanUtil.expr( tackOn( base.expr( val ), 
+				return KhanUtil.expr( tackOn( base.expr( val ),
 					["*", composedCoef, composed.name+"("+val+")"] ) );
 
 			}
