@@ -55,7 +55,7 @@
 				'hint33' : 'Op dat moment was <var>person(1)</var> <var>C</var> keer zo oud als <var>person(2)</var>, dat kunnen we noteren als <code><var>A</var> <var>personVar(2)</var> - <var>B</var> = <var>C</var> (<var>personVar(2)</var> - <var>B</var>)</code>.',
 				'hint34' : 'Uitwerken geeft: <code><var>A</var> <var>personVar(2)</var> - <var>B</var> = <var>C</var> <var>personVar(2)</var> - <var>B * C</var></code>.',
 				'hint35' : 'Los op voor <code><var>personVar(2)</var></code> en krijg <code><var>C - A</var> <var>personVar(2)</var> = <var>B * (C - 1)</var></code>; <code><var>personVar(2)</var> = <var>B * (C - 1) / (C - A)</var></code>.',
-				'exercise13' : 'In <var>B</var> years, <var>person(1)</var> will be <var>A</var> times as old as <var>he(1)</var> is right now.',
+				'exercise13' : 'Over <var>B</var> jaar is <var>person(1)</var> <var>A</var> keer zo oud als <var>he(1)</var> nu is.',
 				'exercise14' : 'Hoe oud is <var>he(1)</var> nu?',
 				'hint36' : 'De leeftijd van <var>person(1)</var> noemen we <code><var>personVar(1)</var></code>.',
 				'hint37' : 'Over <var>B</var> jaar, is <var>he(1)</var> <code><var>personVar(1)</var> + <var>B</var></code> jaar oud.',
