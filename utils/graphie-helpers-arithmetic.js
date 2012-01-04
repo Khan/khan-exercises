@@ -572,12 +572,6 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 
 	this.showHint = function() {
 		this.removeHighlights();
-		if ( index === digitsDividend.length ) {
-			while( leadingZeros.length ) {
-				leadingZeros.pop().remove();
-			}
-			return;
-		}
 
 		// There are two types of hints. Ones that are questions, like:
 		//
@@ -667,6 +661,12 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 	this.removeHighlights = function() {
 		while ( highlights.length ) {
 			highlights.pop().remove();
+		}
+	};
+
+	this.removeLeadingZeros = function() {
+		while(leadingZeros.length) {
+			leadingZeros.pop().remove();
 		}
 	};
 
