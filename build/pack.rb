@@ -67,6 +67,13 @@ Dir["exercises/*.html"].each do |filename|
     graphie.content = @uglifier.compile(js)
   end
 
+  %w[data-ensure data-if data-else-if].each do |data_attr|
+    doc.css("[#{data_attr}]").each do |el|
+      js = el[data_attr]
+      el[data_attr] = @uglifier.compile(js)
+    end
+  end
+
   File.open(packed_filename, "w") do |f|
     f.write doc.to_html
   end
