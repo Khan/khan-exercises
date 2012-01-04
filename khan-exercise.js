@@ -3004,6 +3004,8 @@ var Khan = (function() {
 		var rootName = self.data( "rootName" );
 
 		remoteCount++;
+
+		// Packing occurs on the server but at the same "exercises/" URL
 		jQuery.get( urlBase + "exercises/" + name + ".html", function( data, status, xhr ) {
 			var match, newContents;
 
@@ -3012,9 +3014,6 @@ var Khan = (function() {
 				Khan.error( "Error loading exercise from file " + name + ".html: " + xhr.status + " " + xhr.statusText );
 				return;
 			}
-
-			// Wrap everything in <pre> tags to keep IE from removing newlines
-			data = data.replace( /(<body[^>]*>)/, "$1<pre>" ).replace( "</body>", "</pre></body>" );
 
 			newContents = jQuery( data ).find( "div.exercise" );
 
