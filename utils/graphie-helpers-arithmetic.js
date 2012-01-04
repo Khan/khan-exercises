@@ -592,19 +592,28 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 			value = digitsDividend[ index ];
 			var quotient = value / divisor;
 			var total = value + remainder;
+
+			// Highlight the dividend.
 			highlights = highlights.concat( drawDigits( [ value ], index, 0, KhanUtil.BLUE ) );
-			if ( index !== 0 ) {
+
+
+			if ( showHintI !== 0 ) {
+				// Highlight the number the arrow is pointing from.	
+			  drawDigits( [ value ], index, -2 * index );
+
+				// Add the arrow.
 				graph.style({
 					arrows: "->"
 				}, function(){
 					highlights.push( graph.path( [ [ index, 0 - 0.5 ], [ index, -2 * index + 0.5 ]] ) );
 				});
+
+				// Highlight the number the arrow is pointing to.
+				var totalDigits = KhanUtil.integerToDigits( total );
+				highlights = highlights.concat( drawDigits( totalDigits , index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE ) );
 			}
 
-			drawDigits( [ value ], index, -2 * index );
-			var totalDigits = KhanUtil.integerToDigits( total );
-			highlights = highlights.concat( drawDigits( totalDigits , index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE ) );
-
+			// Add the hint.
 			graph.label( [ digitsDividend.length + 1, -2 * index ],
 				"\\text{How many times does }"
 				+ divisor
