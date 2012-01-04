@@ -1,8 +1,8 @@
 ({
 	"nl" : {
-		"exercise1"	: 'spin( "{do,did,problems|lezen,las,{bladzijden|hoofdstukken}}" ).split( "," )',
+		"exercise1"	: 'spin( "{maken,maakte,opgaven|lezen,las,{bladzijden|hoofdstukken}}" ).split( "," )',
 		"exercise2"	: '<var>person( 1 )</var> {moest als huiswerk|had als opdracht} <var>PROBLEMS</var> <var>START</var> tot en met <var>END</var> <var>DO</var>.',
-		"exercise3"	: 'Als <var>person( 1 )</var>  alle <var>PROBLEMS</var> <var>DO</var> die <var>he( 1 )</var> had opgekregen, hoeveel <var>PROBLEMS</var> <var>he( 1 )</var> <var>DID</var> hij dan?</p>',
+		"exercise3"	: 'Als <var>person( 1 )</var> alle <var>PROBLEMS</var> zou <var>DO</var> die <var>he( 1 )</var> had opgekregen, hoeveel <var>PROBLEMS</var> <var>DID</var> <var>he( 1 )</var> dan?</p>',
 		"exercise4"	: 'Een bakker heeft een heel brood.',
 		"exercise5"	: 'Hoeveel sneden moet {hij|zij} maken om precies <var>NUM</var> boterhammen te krijgen?',
 		"exercise6"	: '<var>person( 1 )</var> bouwt een hek, waarvan de palen &eacute;&eacute;n meter uit elkaar staan.',
@@ -17,4 +17,3 @@
 		"hint8"		: "Daarom zijn er <var>LENGTH + 1</var> palen nodig voor een hek van <var>LENGTH</var> meter lang."
 		}
 })
-

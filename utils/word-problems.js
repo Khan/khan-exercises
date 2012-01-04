@@ -9,7 +9,7 @@
 jQuery.extend( KhanUtil, {
 	toSentence: function( array, conjunction ) {
 		if ( conjunction == null ) {
-			conjunction = "and";
+			conjunction = "en";
 		}
 
 		if ( array.length === 0 ) {
@@ -22,6 +22,17 @@ jQuery.extend( KhanUtil, {
 			return array.slice(0, -1).join(", ") + ", " + conjunction + " " + array[ array.length - 1 ];
 		}
 	},
+
+	toSentenceTex: function( array, conjunction, highlight, highlightClass ) {
+		var wrapped = jQuery.map( array, function( elem ) {
+			if ( ( jQuery.isFunction( highlight ) && highlight( elem ) ) || ( highlight !== undefined && elem === highlight ) ) {
+				return "<code class='" + highlightClass + "'>" + elem + "</code>";
+			}
+			return "<code>" + elem + "</code>";
+		});
+		return KhanUtil.toSentence( wrapped, conjunction );
+	},
+
 
 	// pluralization helper.  There are five signatures
 	// - plural(NUMBER): return "s" if NUMBER is not 1
@@ -38,16 +49,33 @@ jQuery.extend( KhanUtil, {
 	plural: (function() {
 		var oneOffs = {
 			'quiz': 'quizzes',
-			'shelf': 'shelves',
-			'loaf': 'loaves',
-			'potato': 'potatoes',
-			'person': 'people',
-			'is': 'are',
-			'was': 'were',
-			'square foot': 'square feet',
-			'tomato': 'tomatoes'
+			'plank': 'planken',
+			'rij': 'rijen',
+			'druif': 'druiven',
+			'is': 'zijn',
+			'was': 'waren',
+			'tomaat': 'tomaten',
+			'banaan':'bananen',
+			'kokosnoot':'kokosnoten',
+			'kiwi':'kiwi\'s',
+			'citroen':'citroenen',
+			'mango':'mango\'s',
+			'watermeloen':'watermeloenen',
+			'pen':'pennen',
+			'potlood':'potloden',
+			'schrift':'schriften',
+			'zaag':'zagen',
+			'brood':'broden',
+			'pak melk':'pakken melk',
+			'knuffelbeer':'knuffelberen',
+			'pop':'poppen',
+			'taart':'taarten',
+			'pizza':'pizza\'s',
+			'persoon':'personen',
+			'auto':'auto\'s',
+			'boom':'bomen'
 		};
-
+		
 		var pluralizeWord = function(word) {
 
 			// noone really needs extra spaces at the edges, do they?
@@ -135,33 +163,33 @@ jQuery.extend( KhanUtil, {
 
 jQuery.fn[ "word-problemsLoad" ] = function() {
 	var people = KhanUtil.shuffle([
-		["Ashley", "f"],
-		["Brandon", "m"],
-		["Christopher", "m"],
-		["Daniel", "m"],
-		["Emily", "f"],
-		["Gabriela", "f"],
-		["Ishaan", "m"],
+		["Yvonne", "f"],
+		["Arco", "m"],
+		["Philipp", "m"],
+		["Ronald", "m"],
+		["Britta", "f"],
+		["Pauline", "f"],
+		["Josh", "m"],
 		["Jessica", "f"],
-		["Kevin", "m"],
-		["Luis", "m"],
-		["Michael", "m"],
-		["Nadia", "f"],
-		["Omar", "m"],
-		["Stephanie", "f"],
-		["Tiffany", "f"],
-		["Umaima", "f"],
-		["Vanessa", "f"],
-		["William", "m"]
+		["Tjalle", "m"],
+		["Diederik", "m"],
+		["Julius", "m"],
+		["Frum", "f"],
+		["Dennis", "m"],
+		["Els", "f"],
+		["Maud", "f"],
+		["Bambi", "f"],
+		["Hanneke", "f"],
+		["Levi", "m"]
 	]);
 
 	var vehicles = KhanUtil.shuffle([
-		"bike",
-		"car",
-		"horse",
-		"motorcycle",
+		"fiets",
+		"auto",
+		"paard",
+		"motor",
 		"scooter",
-		"train"
+		"trein"
 	]);
 
 	var courses = KhanUtil.shuffle([
@@ -174,8 +202,8 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var exams = KhanUtil.shuffle([
-		"exam",
-		"test",
+		"examen",
+		"toets",
 		"quiz"
 	]);
 
@@ -198,47 +226,46 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var collections = KhanUtil.shuffle([
-		["chair", "row", "make"],
-		["party favor", "bag", "fill"],
-		["jelly bean", "pile", "make"],
-		["book", "shelf", "fill"],
-		["can of food", "box", "fill"]
+		["stoel", "rij", "maakt"],
+		["snoepjes", "zak", "vult"],
+		["koekjes", "stapel", "maakt"],
+		["boek", "plank", "vult"],
+		["blikken soep", "doos", "vult"]
 	]);
 
 	var stores = KhanUtil.shuffle([
 		{
-			name: "office supply",
-			items: KhanUtil.shuffle( ["pen", "pencil", "notebook"] )
+			name: "kantoorboekhandel",
+			items: KhanUtil.shuffle( ["pen", "potlood", "schrift"] )
 		},
 		{
-			name: "hardware",
-			items: KhanUtil.shuffle( ["hammer", "nail", "saw"] )
+			name: "gereedschapswinkel",
+			items: KhanUtil.shuffle( ["hamer", "spijker", "zaag"] )
 		},
 		{
-			name: "grocery",
-			items: KhanUtil.shuffle( ["banana", "loaf of bread", "gallon of milk", "potato"] )
+			name: "supermarkt",
+			items: KhanUtil.shuffle( ["banaan", "brood", "pak melk", "aardappel"] )
 		},
 		{
-			name: "gift",
-			items: KhanUtil.shuffle( ["toy", "game", "souvenir"] )
+			name: "cadeauwinkel",
+			items: KhanUtil.shuffle( ["speeltje", "game", "souvenir"] )
 		},
 		{
-			name: "toy",
-			items: KhanUtil.shuffle( ["stuffed animal", "video game", "race car", "doll"] )
+			name: "speelgoedwinkel",
+			items: KhanUtil.shuffle( ["knuffelbeer", "videospelletje", "autootje", "pop"] )
 		}
 	]);
 
 	var pizzas = KhanUtil.shuffle([
 		"pizza",
-		"pie",
+		"taart",
 		"cake"
 	]);
 
 	var timesofday = KhanUtil.shuffle([
-		"in the morning",
-		"around noon",
-		"in the evening",
-		"at night"
+		"in de ochtend",
+		"in de middag",
+		"\'s avonds"
 	]);
 
 	var exercises = KhanUtil.shuffle([
@@ -249,17 +276,16 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var fruits = KhanUtil.shuffle([
-		"apple",
-		"banana",
-		"coconut",
-		"eggplant",
+		"appel",
+		"banaan",
+		"kokosnoot",
 		"kiwi",
-		"lemon",
+		"citroen",
 		"mango",
 		"nectarine",
-		"orange",
-		"pomegranate",
-		"watermelon"
+		"sinaasappel",
+		"watermeloen",
+		"druif"
 	]);
 
 	var deskItems = KhanUtil.shuffle([
@@ -275,18 +301,18 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var colors = KhanUtil.shuffle([
-		"red",
-		"orange",
-		"yellow",
-		"green",
-		"blue",
-		"purple",
-		"white",
-		"black",
-		"brown",
-		"silver",
-		"gold",
-		"pink"
+		"rood",
+		"oranje",
+		"geel",
+		"groen",
+		"blauw",
+		"paars",
+		"wit",
+		"zwart",
+		"bruin",
+		"zilver",
+		"goud",
+		"roze"
 	]);
 
 	var schools = KhanUtil.shuffle([
@@ -318,13 +344,30 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var sides = KhanUtil.shuffle([
-		"left",
-		"right"
+		"linker",
+		"rechter"
 	]);
 
 	var shirtStyles = KhanUtil.shuffle([
 		"long-sleeved",
 		"short-sleeved"
+	]);
+
+	var animals = KhanUtil.shuffle([
+		"krokodil",
+		"miereneter",
+		"beer",
+		"olifant",
+		"gorilla",
+		"leeuw",
+		"hagedis",
+		"stokstaartje",
+		"stekelvarken",
+		"zeehond",
+		"slang",
+		"tijger",
+		"schildpad",
+		"zebra"
 	]);
 
 	var farmers = KhanUtil.shuffle([
@@ -338,10 +381,10 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var distanceActivities = KhanUtil.shuffle([
-		{present:"ride", past:"rode", noun:"bike", done:"biked", continuous:"biking"},
-		{present:"row", past:"rowed", noun:"boat", done:"rowed", continuous:"rowing"},
-		{present:"drive", past:"drove", noun:"car", done:"driven", continuous:"driving"},
-		{present:"walk", past:"walked", noun:"dog", done:"walked", continuous:"walking"}
+		{present:"rijdt", past:"reed", noun:"fiets", done:"heeft gefietst", continuous:"aan het fietsen"},
+		{present:"roeit", past:"roeide", noun:"boot", done:"heeft geroeid", continuous:"aan het roeien"},
+		{present:"rijdt", past:"reed", noun:"auto", done:"heeft gereden", continuous:"aan het rijden"},
+		{present:"loopt", past:"liep", noun:"hond", done:"heeft gelopen", continuous:"aan het lopen"}
 	]);
 
 	var indefiniteArticle = function(word) {
@@ -362,23 +405,23 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		},
 
 		he: function( i ) {
-			return people[i - 1][1] === "m" ? "he" : "she";
+			return people[i - 1][1] === "m" ? "hij" : "zij";
 		},
 
 		He: function( i ) {
-			return people[i - 1][1] === "m" ? "He" : "She";
+			return people[i - 1][1] === "m" ? "Hij" : "Zij";
 		},
 
 		him: function( i ) {
-			return people[i - 1][1] === "m" ? "him" : "her";
+			return people[i - 1][1] === "m" ? "hem" : "haar";
 		},
 
 		his: function( i ) {
-			return people[i - 1][1] === "m" ? "his" : "her";
+			return people[i - 1][1] === "m" ? "zijn" : "haar";
 		},
 
 		His: function( i ) {
-			return people[i - 1][1] === "m" ? "His" : "Her";
+			return people[i - 1][1] === "m" ? "Zijn" : "Haar";
 		},
 
 		An: function(word) {
@@ -508,5 +551,9 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		shirtStyle: function( i ) {
 			return shirtStyles[i - 1];
 		},
+
+		animal: function( i ) {
+			return animals[i - 1];
+		}
 	});
 };

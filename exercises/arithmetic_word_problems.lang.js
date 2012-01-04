@@ -1,16 +1,16 @@
 ({
 	"nl" : {
-		"question1" : '<var>person(1)</var> is putting <var>plural( item(1) )</var> into <var>plural( group(1) )</var>.
+		"question1" : '<var>person(1)</var> stopt <var>plural( item(1) )</var> in <var>plural( group(1) )</var>.
 
-					If <var>he(1)</var> puts <var>plural( ITEMS_PER_GROUP, item(1) )</var>
-					in each <var>group(1)</var> <var>he(1)</var> will <var>groupVerb(1)</var>
-					<var>plural( GROUPS, group(1) )</var> and have
-					<var>plural( ITEMS_LEFT, item(1) )</var> left over.
+					Als <var>he(1)</var> <var>plural( ITEMS_PER_GROUP, item(1) )</var>
+					in elke <var>group(1)</var> stopt, <var>groupVerb(1)</var> <var>he(1)</var> 
+					<var>plural( GROUPS, group(1) )</var> en blijven er 
+					<var>plural( ITEMS_LEFT, item(1) )</var> over.
 
-					If <var>he(1)</var> instead puts
-					<var>plural( NEW_ITEMS_PER_GROUP, item(1) )</var> in each
-					<var>group(1)</var>, how many <var>plural( group(1) )</var> of
-					<var>plural( item(1) )</var> can <var>he(1)</var> <var>groupVerb(1)</var>?',
+					Als <var>he(1)</var> in plaats daarvan 
+					<var>plural( NEW_ITEMS_PER_GROUP, item(1) )</var> in elke
+					<var>group(1)</var> stopt, hoeveel <var>plural( group(1) )</var> met
+					<var>plural( item(1) )</var> <var>groupVerb(1)</var> <var>he(1)</var> dan?',
 		"hint1.1" : '<var>plural( GROUPS, group(1) )</var> of
 						<var>plural( ITEMS_PER_GROUP, item(1) )</var> each results in
 						<code><var>GROUPS</var> \times <var>ITEMS_PER_GROUP</var> = <var>ITEMS_IN_GROUPS</var></code>
