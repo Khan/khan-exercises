@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie word-problems interactive">
+<html data-translatable data-require="math math-format graphie word-problems interactive">
 <head>
 	<meta charset="UTF-8" />
 	<title>Fractions on the number line 1</title>
@@ -23,7 +23,7 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to   <strong><code>\color{orange}{<var>fraction(NUMERATOR, DENOMINATOR)</var>}</code></strong> on the number line.</p>
+				<p data-tt="question1">Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to   <strong><code>\color{orange}{<var>fraction(NUMERATOR, DENOMINATOR)</var>}</code></strong> on the number line.</p>
 				<div class="graphie" id="number-line">
 					init({
 						range: [ [LOWER_SCALED - 1, UPPER_SCALED + 1], [-1, 1] ],
@@ -54,27 +54,27 @@
 				</div>
 			</div>
 				<div class="solution" data-type="multiple">
-				<span>Move the orange dot to select your answer.</span>
+				<span data-tt="question2">Move the orange dot to select your answer.</span>
 				<div class="sol" data-type="decimal" style="visibility:hidden"><var>SOLUTION</var></div>
 			</div>
 
 			<div class="hints">
-				<p>Above we've drawn the number line from 0 to 1, divided into equal pieces.</p>
-				<p>The number line is divided into <code><var>DENOMINATOR</var></code> equal pieces, so each piece represents <code><var>fraction(1, DENOMINATOR)</var></code>.</p>
+				<p data-tt="hint1">Above we've drawn the number line from 0 to 1, divided into equal pieces.</p>
+				<p data-tt="hint2">The number line is divided into <code><var>DENOMINATOR</var></code> equal pieces, so each piece represents <code><var>fraction(1, DENOMINATOR)</var></code>.</p>
 				<div>
 					<div class="graphie" data-update="number-line">
 						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
 						line( [ 0, 0 ], [ NUMERATOR, 0 ] );
 						movablePoint.visibleShape.toFront();
 					</div>
-					<p>The orange dot should be shifted <span class="hint_blue"><code><strong><var>NUMERATOR</var></strong></code></span> segment<var>plural(NUMERATOR)</var> over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code></p>
+					<p data-tt="hint3">The orange dot should be shifted <span class="hint_blue"><code><strong><var>NUMERATOR</var></strong></code></span> segment<var>plural(NUMERATOR)</var> over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code></p>
 				</div>
 				<div>
 					<div class="graphie" data-update="number-line">
 						label( [ NUMERATOR, -0.83 ],  fraction(NUMERATOR, DENOMINATOR), "center", { color: "#FFA500" });
 						movablePoint.moveTo( NUMERATOR, 0 );
 					</div>
-					<p>The orange number shows where <code>\color{orange}{<var>fraction(NUMERATOR, DENOMINATOR)</var>}</code> is on the number line.</p>
+					<p data-tt="hint4">The orange number shows where <code>\color{orange}{<var>fraction(NUMERATOR, DENOMINATOR)</var>}</code> is on the number line.</p>
 				</div>
 			</div>
 		</div>
