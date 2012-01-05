@@ -3015,7 +3015,7 @@ var Khan = (function() {
 				return;
 			}
 
-			newContents = jQuery( data ).find( "div.exercise" );
+			newContents = jQuery( data );
 
 			// Name of the top-most ancestor exercise
 			newContents.data( "rootName", rootName );
