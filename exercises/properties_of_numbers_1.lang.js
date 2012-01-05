@@ -1,8 +1,8 @@
 ({
 	"nl" : {
-		"variables1"	: '<var id="FIRST">randRange( 1, 10 )</var>'+
+		"variable1"	: '<var id="FIRST">randRange( 1, 10 )</var>'+
 							'<var id="SECOND">randRangeExclude( 1, 10, [ FIRST ] )</var>'+
-							'<var id="OP, OP_WORD, ADDENDS">randFromArray( [ [ "+", "optellen", "getallen" ], [ "\\keer", "vermenigvuldigen", "factoren" ] ] )</var>'+
+							'<var id="OP, OP_WORD, ADDENDS">randFromArray( [ [ "+", "optellen", "getallen" ], [ "\\\\keer", "vermenigvuldigen", "factoren" ] ] )</var>'+
 							'<var id="SYMBOL">binop( 1 )</var>',
 		"exercise1"		: 'Welk getal kan onderstaand <code><var>SYMBOL</var></code> vervangen?',
 		"exercise2"		: 'Vereenvoudig de uitdrukking.',
