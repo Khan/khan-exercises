@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-translatable data-require="math graphie">
 <head>
 	<meta charset="UTF-8" />
 	<title>Functions 1</title>
@@ -40,7 +40,7 @@
 
 		<div class="problems">
 			<div>
-				<p class="question">The function <code>f(x)</code> is graphed. Find <code>f(<var>CORRECT_X</var>)</code>.</p>
+				<p data-tt="question1" class="question">The function <code>f(x)</code> is graphed. Find <code>f(<var>CORRECT_X</var>)</code>.</p>
 
 				<div id="graph" class="graphie">
 					graphInit({
@@ -62,7 +62,7 @@
 
 		<div class="hints">
 			<div>
-				<p>At what point does <code>f(x)</code> intersect <code>x = <var>CORRECT_X</var></code>?</p>
+				<p data-tt="hint1" >At what point does <code>f(x)</code> intersect <code>x = <var>CORRECT_X</var></code>?</p>
 				<div class="graphie" data-update="graph">
 					graph.vert = line( [CORRECT_X, -10], [CORRECT_X, 10], {
 						stroke: "#28ae7b",
@@ -76,10 +76,10 @@
 				</div>
 			</div>
 
-			<p>They intersect at <code>(<var>CORRECT_X</var>, <var>CORRECT_Y</var>)</code>.</p>
+			<p data-tt="hint2">They intersect at <code>(<var>CORRECT_X</var>, <var>CORRECT_Y</var>)</code>.</p>
 
 			<div>
-				<p>Thus, <code>f(<var>CORRECT_X</var>) = <var>CORRECT_Y</var></code>.</p>
+				<p data-tt="hint3" >Thus, <code>f(<var>CORRECT_X</var>) = <var>CORRECT_Y</var></code>.</p>
 				<div class="graphie" data-update="graph">
 					graph.vert.remove();
 				</div>

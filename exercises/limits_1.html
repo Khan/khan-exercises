@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie math-format expressions">
+<html data-translatable data-require="math graphie math-format expressions">
 <head>
 	<meta charset="UTF-8" />
 	<title>Limits 1</title>
@@ -54,7 +54,7 @@
 					<li><code><var>q_lcoef</var></code></li>
 					<li><code><var>l_cons</var></code></li>
 					<li><code><var>curFunc(0)</var></code></li>
-					<li>Does not exist.</li>
+					<li data-tt="question2">Does not exist.</li>
 				</ul>
 			</div>
 			<div>
@@ -94,7 +94,7 @@
 						circle( [-abs_cons, abs_coef], 4 / 20, { fill: "white" } )
 					});
 				</div>
-				<p class="solution">Does not exist.</p>
+				<p class="solution" data-tt="question1">Does not exist.</p>
 				<ul class="choices" data-show="5" data-none="true">
 					<li><code>0</code></li>
 					<li><code><var>a</var></code></li>
@@ -107,7 +107,7 @@
 					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
 				</ul>
 				<div class="hints" data-apply="appendContents">
-					<p id="final">The limit as we approach from the left doesn't match the limit as we approach from the right, so <code>f(x)</code> has no limit as <code>x \to <var>a</var></code>.</p>
+					<p id="final" data-tt="hint1">The limit as we approach from the left doesn't match the limit as we approach from the right, so <code>f(x)</code> has no limit as <code>x \to <var>a</var></code>.</p>
 				</div>
 			</div>
 			<div>
@@ -162,7 +162,7 @@
 					<li><code><var>fractionReduce(l_cons * -1, l_coef)</var></code></li>
 					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
 					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
-					<li>Does not exist.</li>
+					<li data-tt="question2">Does not exist.</li>
 				</ul>
 			</div>
 			<div>
@@ -206,14 +206,14 @@
 					<li><code><var>randRangeNonZero(-3, 3)</var></code></li>
 					<li><code><var>q_cons</var></code></li>
 					<li><code><var>q_cons * -1</var></code></li>
-					<li>Does not exist.</li>
+					<li data-tt="question2">Does not exist.</li>
 				</ul>
 			</div>
 		</div>
 
 		<div class="hints">
 			<div>
-				<p>What happens as we approach <code>x = <var>a</var></code> from the left?</p>
+				<p data-tt="hint2">What happens as we approach <code>x = <var>a</var></code> from the left?</p>
 				<div class="graphie" data-update="graph" data-style="stroke: orange; marker: arrow;">
 					line( [a - 2, 0], [a, 0], {
 						stroke: "#ff00af",
@@ -221,14 +221,14 @@
 					});
 				</div>
 			</div>
-			<div>
+			<div data-tt="hint3">
 				<table class="limit">
 					<tr><th><code>x</code></th><th><var>a - 0.1</var></th><th><var>a - 0.01</var></th><th><var>a - 0.001</var></th></tr>
 					<tr><th><code>f(x)</code></th><td><var>curFunc(a - 0.1).toFixed(4)</var></td><td><var>curFunc(a - 0.01).toFixed(4)</var></td><td><var>curFunc(a - 0.001).toFixed(4)</var></td></tr>
 				</table>
 				It looks like <code>f(x)</code> is approaching <code><var>l_limtoa</var></code> from the left.
 			</div>
-			<div>
+			<div data-tt="hint4">
 				<p>When we approach <code>x = <var>a</var></code> from the right, we get:</p>
 				<table class="limit">
 					<tr><th><code>x</code></th><th><var>a + 0.1</var></th><th><var>a + 0.01</var></th><th><var>a + 0.001</var></th></tr>
@@ -242,7 +242,7 @@
 					});
 				</div>
 			</div>
-			<p id="final">So the limit is <code><var>limtoa</var></code>.</p>
+			<p id="final" data-tt="hint6">So the limit is <code><var>limtoa</var></code>.</p>
 		</div>
 	</div>
 </body>

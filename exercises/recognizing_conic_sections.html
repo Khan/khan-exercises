@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie">
+<html data-translatable data-require="math math-format graphie">
 	<head>
 		<title>Recognizing conic sections</title>
 		<script src="../khan-exercise.js"></script>
@@ -19,7 +19,7 @@
 					</div>
 
 					<div class="problem">
-						<p>Identify this conic section.</p>
+						<p data-tt="question1">Identify this conic section.</p>
 
 						<div class="graphie" id="conic">
 							graphInit({
@@ -37,17 +37,17 @@
 						</div>
 					</div>
 
-					<div class="solution">Parabola</div>
+					<div class="solution" data-tt="question6">Parabola</div>
 					<ul class="choices" data-category="true">
-						<li>Parabola</li>
-						<li>Hyperbola</li>
-						<li>Circle</li>
-						<li>Ellipse</li>
+						<li data-tt="question2">Parabola</li>
+						<li data-tt="question3">Hyperbola</li>
+						<li data-tt="question4">Circle</li>
+						<li data-tt="question5">Ellipse</li>
 					</ul>
 
 					<div class="hints">
-						<p>This graph has a vertex and is U-shaped. It extends to infinity on both ends.</p>
-						<p>That describes a <em>parabola</em>.</p>
+						<p data-tt="hint1">This graph has a vertex and is U-shaped. It extends to infinity on both ends.</p>
+						<p data-tt="hint2">That describes a <em>parabola</em>.</p>
 					</div>
 				</div>
 
@@ -69,11 +69,11 @@
 						</div>
 					</div>
 
-					<div class="solution">Ellipse</div>
+					<div class="solution" data-tt="question7">Ellipse</div>
 
 					<div class="hints">
-						<p>You can see that the graph resembles a squished circle.</p>
-						<p>This shape is an <em>ellipse</em>.</p>
+						<p data-tt="hint3">You can see that the graph resembles a squished circle.</p>
+						<p data-tt="hint4">This shape is an <em>ellipse</em>.</p>
 					</div>
 				</div>
 
@@ -83,11 +83,11 @@
 						<var id="B">A</var>
 					</div>
 
-					<div class="solution">Circle</div>
+					<div class="solution" data-tt="question8">Circle</div>
 
 					<div class="hints">
-						<p>This shape is perfectly round and symmetrical. All the points on it are equidistant from its center.</p>
-						<p>A <em>circle</em> has those properties.</p>
+						<p data-tt="hint5">This shape is perfectly round and symmetrical. All the points on it are equidistant from its center.</p>
+						<p data-tt="hint6">A <em>circle</em> has those properties.</p>
 					</div>
 				</div>
 
@@ -111,17 +111,17 @@
 						</div>
 					</div>
 
-					<div class="solution">Hyperbola</div>
+					<div class="solution" data-tt="question9">Hyperbola</div>
 
 					<div class="hints">
 						<div>
-							<p>This graph has two asymptotes which it approaches. It's also U-shaped on each side.</p>
+							<p data-tt="hint7">This graph has two asymptotes which it approaches. It's also U-shaped on each side.</p>
 							<div class="graphie" data-update="conic">
 								plot( function( x ) { return (B/A) * x; }, [-10, 10], { stroke: "gray" } );
 								plot( function( x ) { return (B/A) * -1 * x; }, [-10, 10], { stroke: "gray" } );
 							</div>
 						</div>
-						<p>This conic section is therefore a <em>hyperbola</em>.</p>
+						<p data-tt="hint8">This conic section is therefore a <em>hyperbola</em>.</p>
 					</div>
 				</div>
 			</div>

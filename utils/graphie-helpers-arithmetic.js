@@ -115,7 +115,7 @@ function Adder( a, b, digitsA, digitsB ) {
 				graph.ellipse( [ pos.max - Math.max( deciA, deciB ) + 0.5, i - 0.2 ], [ 0.09, 0.06 ] );
 			});
 		}
-		this.showSideLabel( "\\text{Make sure the decimals are lined up.}" );
+		this.showSideLabel( "\\text{Zorg dat de decimaal-tekens recht onder elkaar staan.}" );
 	}
 }
 
@@ -257,7 +257,7 @@ function Subtractor( a, b, digitsA, digitsB, decimalPlaces ) {
 				graph.ellipse( [ pos.max - Math.max( deciA, deciB ) + 0.5, i - 0.2 ], [ 0.09, 0.06 ] );
 			});
 		}
-		this.showSideLabel( "\\text{Make sure the decimals are lined up.}" );
+		this.showSideLabel( "\\text{Zorg dat de decimaal-tekens recht onder elkaar staan.}" );
 	};
 }
 
@@ -512,12 +512,12 @@ function Multiplier( a, b, digitsA, digitsB, deciA, deciB ) {
 		var x = -maxNumDigits;
 		var y = -digitsB.length * digitsA.length;
 		graph.label( [ x, y + 2 ],
-			"\\text{The top number has " + KhanUtil.plural( deciA, "digit" ) + " to the right of the decimal.}", "right" );
+			"\\text{Het bovenste getal heeft " + KhanUtil.plural( deciA, "cijfer" ) + " rechts van het decimaalteken staan.}", "right" );
 		graph.label( [ x,  y + 1 ],
-			"\\text{The bottom number has " + KhanUtil.plural( deciB, "digit" ) + " to the right of the decimal.}", "right" );
+			"\\text{Het onderste getal heeft " + KhanUtil.plural( deciB, "cijfer" ) + " rechts van het decimaalteken staan.}", "right" );
 		graph.label( [ x,  y ],
-			"\\text{The product has " + deciA + " + " + deciB + " = " + ( deciA + deciB )
-			 + " digits to the right of the decimal.}", "right" );
+			"\\text{Het product heeft " + deciA + " + " + deciB + " = " + ( deciA + deciB )
+			 + " cijfers rechts van het decimaalteken staan.}", "right" );
 		graph.style({
 			fill: "#000"
 		}, function() {
@@ -595,9 +595,9 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 			highlights = highlights.concat( drawDigits( totalDigits , index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE ) );
 
 			graph.label( [ digitsDividend.length + 1, -2 * index ],
-				"\\text{How many times does }"
+				"\\text{Hoevaak past }"
 				+ divisor
-				+ "\\text{ go into }"
+				+ "\\text{ in }"
 				+ "\\color{#6495ED}{" + total + "}"
 				+ "\\text{?}", "right" );
 

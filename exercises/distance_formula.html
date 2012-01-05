@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie math-format">
+<html data-translatable data-require="math graphie math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Distance formula</title>
@@ -28,7 +28,7 @@
 
 		<div class="problems">
 			<div>
-				<p class="question">Find the distance between the points <span class="point1">(<var>X1</var>, <var>Y1</var>)</span> and <span class="point2">(<var>X2</var>, <var>Y2</var>)</span>.</p>
+				<p class="question" data-tt="question1">Find the distance between the points <span class="point1">(<var>X1</var>, <var>Y1</var>)</span> and <span class="point2">(<var>X2</var>, <var>Y2</var>)</span>.</p>
 				<div class="graphie" id="graph">
 					graphInit({
 						range: 11,
@@ -53,7 +53,7 @@
 
 		<div class="hints">
 			<div>
-				<p>
+				<p data-tt="hint1">
 					Change in <span style="color: #679B00"> <code>x</code>:</span>
 					<span data-if="X2 - X1 > 0">
 						<span class="point2"><var>X2</var></span> - <span class="point1"><var>negParens(X1)</var></span>
@@ -76,7 +76,7 @@
 			</div>
 
 			<div>
-				<p>
+				<p data-tt="hint2">
 				Change in <span style="color: #A66000"><code>y</code>:</span>
 					<span data-if="Y2 - Y1 > 0">
 						<span class="point2"><var>Y2</var></span> - <span class="point1"><var>negParens(Y1)</var></span>
@@ -99,7 +99,7 @@
 			</div>
 
 			<div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0 " >
-				<p>The distance is the <span style="color: #FF4900">length of the hypotenuse</span> of this right triangle.</p>
+				<p data-tt="hint3">The distance is the <span style="color: #FF4900">length of the hypotenuse</span> of this right triangle.</p>
 
 				<div class="graphie" data-update="graph">
 					style({
@@ -111,13 +111,13 @@
 			</div>
 
 			<div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0 ">
-				<p>By the Pythagorean Theorem, <span style="color: #FF4900">that length</span> is equal to:</p>
+				<p data-tt="hint4">By the Pythagorean Theorem, <span style="color: #FF4900">that length</span> is equal to:</p>
 				<p><code>\sqrt{<var>X_DIST</var>^2 + <var>Y_DIST</var>^2}</code></p>
 				<p><code>{}= \sqrt{<var>Math.pow( X_DIST, 2 ) + pow( Y_DIST, 2 )</var>}</code></p>
 				<p data-if="squareRootCanSimplify(HYP2)" style="color: #FF4900"><code>{}= <var>formattedSquareRootOf(HYP2)</var></code></p>
 			</div>
 			<div data-else>
-				  <p>The distance is equal to the length of the side, which is <var>X_DIST+Y_DIST</var></p>
+				  <p data-tt="hint5">The distance is equal to the length of the side, which is <var>X_DIST+Y_DIST</var></p>
 			</div>
 
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
+<html data-translatable data-require="math word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Greatest common divisor</title>
@@ -22,8 +22,8 @@
 		<div class="problems">
 			<div>
 				<div class="question">
-					<p>What is the greatest common divisor of <var>A</var> and <var>B</var>?</p>
-					<p>Another way to say this is: </p>
+					<p data-tt="question1">What is the greatest common divisor of <var>A</var> and <var>B</var>?</p>
+					<p data-tt="question2">Another way to say this is: </p>
 					<p><code>\gcd(<var>A</var>, <var>B</var>) = {?}</code></p>
 				</div>
 
@@ -32,17 +32,17 @@
 		</div>
 
 		<div class="hints">
-			<p>The greatest common divisor is the largest number that is a factor (or divisor) of both <var>A</var> and <var>B</var>.</p>
+			<p data-tt="hint1">The greatest common divisor is the largest number that is a factor (or divisor) of both <var>A</var> and <var>B</var>.</p>
 			<div>
-				<p data-if="A === 1">The only factor (divisor) of 1 is 1.</p>
-				<p data-else>The factors (divisors) of <var>A</var> are <var>A_FACTORS</var>.</p>
+				<p data-if="A === 1" data-tt="hint2">The only factor (divisor) of 1 is 1.</p>
+				<p data-else data-tt="hint3">The factors (divisors) of <var>A</var> are <var>A_FACTORS</var>.</p>
 			</div>
 			<div>
-				<p data-if="B === 1">The only factor (divisor) of 1 is 1.</p>
-				<p data-else>The factors (divisors) of <var>B</var> are <var>B_FACTORS</var>.</p>
+				<p data-if="B === 1" data-tt="hint4">The only factor (divisor) of 1 is 1.</p>
+				<p data-else data-tt="hint5">The factors (divisors) of <var>B</var> are <var>B_FACTORS</var>.</p>
 			</div>
 			<div>
-				<p>Thus, the greatest common divisor of <var>A</var> and <var>B</var> is <var>GCD</var>.</p>
+				<p data-tt="hint6">Thus, the greatest common divisor of <var>A</var> and <var>B</var> is <var>GCD</var>.</p>
 				<p><code>\gcd(<var>A</var>, <var>B</var>) = <var>GCD</var></code></p>
 			</div>
 		</div>

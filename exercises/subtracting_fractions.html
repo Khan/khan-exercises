@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-translatable data-require="math math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Subtracting fractions</title>
@@ -32,20 +32,20 @@
 
 	<div class="hints">
 		<div data-if="GCD1 !== 1 || GCD2 !== 1">
-			<p>Simplify each fraction.</p>
+			<p data-tt="hint1">Simplify each fraction.</p>
 			<p><code><var>fraction( SIMP_N1, SIMP_D1 )</var> - <var>fraction( SIMP_N2, SIMP_D2 )</var></code></p>
 		</div>
-		<p>Find a common denominator by finding the least common multiple of <code><var>SIMP_D1</var></code> and <code><var>SIMP_D2</var></code>.</p>
+		<p data-tt="hint2">Find a common denominator by finding the least common multiple of <code><var>SIMP_D1</var></code> and <code><var>SIMP_D2</var></code>.</p>
 		<p><code>\lcm(<var>SIMP_D1</var>, <var>SIMP_D2</var>) = <var>LCM</var></code></p>
 		<div>
-			<p>Change each fraction to an equivalent fraction with a denominator of <code><var>LCM</var></code>.</p>
+			<p data-tt="hint3">Change each fraction to an equivalent fraction with a denominator of <code><var>LCM</var></code>.</p>
 			<p><code><var>fraction( SIMP_N1, SIMP_D1 )</var> - <var>fraction( SIMP_N2, SIMP_D2 )</var></code></p>
 			<p><code>=<var>fraction( SIMP_N1, SIMP_D1 )</var> <span data-if="LCM !== SIMP_D1">\cdot <var>fraction( LCM / SIMP_D1, LCM / SIMP_D1 )</var></span> - <var>fraction( SIMP_N2, SIMP_D2 )</var> <span data-if="LCM !== SIMP_D2">\cdot <var>fraction( LCM / SIMP_D2, LCM / SIMP_D2 )</var></span></code></p>
 		</div>
 		<p><code>=<var>fraction( SIMP_N1 * LCM / SIMP_D1, LCM )</var> - <var>fraction( SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
 		<p><code>=<var>fraction( SIMP_N1 * LCM / SIMP_D1 - SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
 		<div data-if="getGCD( SIMP_N1 * LCM / SIMP_D1 - SIMP_N2 * LCM / SIMP_D2, LCM ) !== 1">
-			<p>Simplify.</p>
+			<p data-tt="hint4">Simplify.</p>
 			<p><code>=<var>fractionReduce( SIMP_N1 * LCM / SIMP_D1 - SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
 		</div>
 	</div>

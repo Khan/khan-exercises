@@ -1,8 +1,8 @@
 (function() {
 
 var inexactMessages = {
-	unsimplified: "Your answer is almost correct, but it needs to be simplified.",
-	missingPercentSign: "Your answer is almost correct, but it is missing a <code>\\%</code> at the end."
+	unsimplified: "Je antwoord is bijna goed, maar moet vereenvoudigd worden.",
+	missingPercentSign: "Je antwoord is bijna goed, maar het <code>\\%</code> ontbreekt."
 };
 
 Khan.answerTypes = Khan.answerTypes || {};
@@ -67,19 +67,19 @@ jQuery.extend( Khan.answerTypes, {
 
 				var newGuess = guess
 						.replace( /\u2212/, "-" )
-						.replace( /(\d)(x)/, "$1 * $2" )
+						.replace( /(\d)(x)/, "€1 * €2" )
 						.replace( "x", sampleX )
-						.replace( /(\d)(\()/, "$1 * $2" );
+						.replace( /(\d)(\()/, "€1 * €2" );
 				var newCorrect = correct
-						.replace( /(\d)(x)/, "$1 * $2" )
+						.replace( /(\d)(x)/, "€1 * €2" )
 						.replace( "x", sampleX )
-						.replace( /(\d)(\()/, "$1 * $2" )
+						.replace( /(\d)(\()/, "€1 * €2" )
 						.replace( /-\s?-/, "");
 				result = result &&  ( eval( newCorrect ) === eval( newGuess ) ) ;
 			}
 			return result;
 		};
-		verifier.examples = "An equation of a line, like 3(x+1)/2 or 2x + 1";
+		verifier.examples = "Een vergelijking van een lijn, zoals 3(x+1)/2 of 2x + 1";
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 
 	},

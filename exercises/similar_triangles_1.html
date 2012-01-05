@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<html data-translatable data-require="math graphie graphie-helpers graphie-geometry math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Similar Triangles 1</title>
@@ -70,7 +70,7 @@
 
 		<div class="problems">
 		<div id="similar">
-			<div class="problem">
+			<div class="problem" data-tt="question1">
 				Which triangles are similar to triangle <code>A</code>?
 			</div>
 			<div class="question">
@@ -99,13 +99,13 @@
 			<ul class="choices" data-category="true">
 				<li>B</li>
 				<li>C</li>
-				<li>Both</li>
-				<li>None</li>
+				<li data-tt="question2">Both</li>
+				<li data-tt="question3">None</li>
 			</ul>
 			<div class="hints">
-				<p>Two triangles are similar if their angles are congruent (equal).</p>
+				<p data-tt="hint1">Two triangles are similar if their angles are congruent (equal).</p>
 				<div>
-					<p>We see that triangle <code>A</code> has angles of <code><var>MAIN[ 0 ]</var></code> and <code><var>MAIN[ 2 ]</var></code>. The third angle is therefore <code>180 - <var>MAIN[ 0 ]</var> - <var>MAIN[ 2 ]</var> = <var>MAIN[ 1 ]</var></code></p>
+					<p data-tt="hint2">We see that triangle <code>A</code> has angles of <code><var>MAIN[ 0 ]</var></code> and <code><var>MAIN[ 2 ]</var></code>. The third angle is therefore <code>180 - <var>MAIN[ 0 ]</var> - <var>MAIN[ 2 ]</var> = <var>MAIN[ 1 ]</var></code></p>
 	
 					<div class="graphie" data-update="triangles">
 						TR.labels.angles = TR.niceAngles;
@@ -114,7 +114,7 @@
 				</div>
 
 				<div>	
-					<p>Triangle <code>B</code> has angles of <code><var>B[ 0 ]</var></code> and <code><var>B[ 1 ]</var></code>. The third angle is <code>180 - <var>B[ 0 ]</var> -  <var>B[ 1 ]</var> = <var>B[ 2 ]</var></code>. Therefore triangle <code>B</code> is <span data-if="ANSWER === 'None' || ANSWER === 'C'" >not</span> similar to triangle <code>A</code>.</p>
+					<p data-tt="hint3">Triangle <code>B</code> has angles of <code><var>B[ 0 ]</var></code> and <code><var>B[ 1 ]</var></code>. The third angle is <code>180 - <var>B[ 0 ]</var> -  <var>B[ 1 ]</var> = <var>B[ 2 ]</var></code>. Therefore triangle <code>B</code> is <span data-if="ANSWER === 'None' || ANSWER === 'C'" >not</span> similar to triangle <code>A</code>.</p>
 					<div class="graphie" data-update="triangles">
 						style({
 						    stroke: "blue",
@@ -124,7 +124,7 @@
 					</div>
 				</div>
 				<div>	
-					<p>Triangle <code>C</code> has angles of <code><var>C[ 0 ]</var></code> and <code><var>C[ 2 ]</var></code>. The third angle is <code>180 - <var>C[ 0 ]</var> -  <var>B[ 2 ]</var> = <var>C[ 1 ]</var></code>. Therefore triangle <code>C</code> is <span data-if="ANSWER === 'None' || ANSWER === 'B'" >not</span>  similar to triangle <code>A</code>.</p>
+					<p data-tt="hint4">Triangle <code>C</code> has angles of <code><var>C[ 0 ]</var></code> and <code><var>C[ 2 ]</var></code>. The third angle is <code>180 - <var>C[ 0 ]</var> -  <var>B[ 2 ]</var> = <var>C[ 1 ]</var></code>. Therefore triangle <code>C</code> is <span data-if="ANSWER === 'None' || ANSWER === 'B'" >not</span>  similar to triangle <code>A</code>.</p>
 					<div class="graphie" data-update="triangles">
 						style({
 							 stroke: "red",

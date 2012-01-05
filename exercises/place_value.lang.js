@@ -1,11 +1,11 @@
 ({
 	"nl" : {
-		"question1" : "What is the place value of <var>DIGIT</var> in <var>NUMBER</var>?"
-		"hint1" : "<var>NUMBER</var> can be represented as follows."
-		"hint2" : "Thus, <var>DIGIT</var> is in the <var>SOLUTION</var> place."
-		"question2" : "What is <var>cardinal( NUMBER )</var> in standard form?"
-		"hint3" : "Add all these parts up:"
-		"hint4" : "(function() {
+		"question1" : "What is the place value of <var>DIGIT</var> in <var>NUMBER</var>?",
+		"hint1" : "<var>NUMBER</var> can be represented as follows.",
+		"hint2" : "Thus, <var>DIGIT</var> is in the <var>SOLUTION</var> place.",
+		"question2" : "What is <var>cardinal( NUMBER )</var> in standard form?",
+		"hint3" : "Add all these parts up:",
+		"hint4" : '(function() {
 							var maxPower = DIGITS.length - 1;
 							return jQuery.map(DIGITS, function(digit, index) {
 								if ( digit === 0 ) {
@@ -31,6 +31,6 @@
 									return words + " is the same as " + ex + " = " + addend;
 								}
 							});
-						})()"
+						})()'
 	}
 })

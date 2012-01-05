@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format polynomials expressions">
+<html data-translatable data-require="math math-format polynomials expressions">
 <head>
 	<meta charset="UTF-8" />
 	<title>Limits 2</title>
@@ -26,12 +26,12 @@
 					<li><code>+\infty</code></li>
 					<li><code>-\infty</code></li>
 					<li><code>0</code></li>
-					<li>undefined</li>
+					<li data-tt="question1">undefined</li>
 				</ul>
 
 				<div class="hints">
-					<p>Look at the leading terms <code><var>expr(NUM.expr()[1])</var></code> and <code><var>expr(DEN.expr()[1])</var></code>.</p>
-					<p>Because they have the same degree <code><var>DEG</var></code>, the limit is equal to the quotient of their coefficients.</p>
+					<p data-tt="hint1">Look at the leading terms <code><var>expr(NUM.expr()[1])</var></code> and <code><var>expr(DEN.expr()[1])</var></code>.</p>
+					<p data-tt="hint2">Because they have the same degree <code><var>DEG</var></code>, the limit is equal to the quotient of their coefficients.</p>
 					<p><code>\displaystyle\lim_{x \to <var>PM</var>\infty}\dfrac{<var>NUM.text()</var>}{<var>DEN.text()</var>} = <var>fractionSimplification( NUM.coefs[DEG], DEN.coefs[DEG] )</var></code></p>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 				</div>
 
 				<div class="question">
-					<p>Find <code>\displaystyle\lim_{x \to <var>PM</var>\infty}\dfrac{<var>NUM.text()</var>}{<var>DEN.text()</var>}</code>.</p>
+					<p data-tt="question4">Find <code>\displaystyle\lim_{x \to <var>PM</var>\infty}\dfrac{<var>NUM.text()</var>}{<var>DEN.text()</var>}</code>.</p>
 				</div>
 
 				<p class="solution"><code>0</code></p>
@@ -58,9 +58,9 @@
 				</ul>
 
 				<div class="hints">
-					<p>Look at the leading terms <code><var>expr(NUM.expr()[1])</var></code> and <code><var>expr(DEN.expr()[1])</var></code>.</p>
-					<p>Because the numerator's degree <code><var>NUM.getCoefAndDegreeForTerm(0).degree</var></code> is less than the denominator's degree <code><var>DEN.getCoefAndDegreeForTerm(0).degree</var></code>, the bottom term dominates as <code>x</code> approaches <code><var>PM</var>\infty</code>.</p>
-					<p>Since the denominator grows faster than the numerator, the limit goes to <code>0</code>.</p>
+					<p data-tt="hint3">Look at the leading terms <code><var>expr(NUM.expr()[1])</var></code> and <code><var>expr(DEN.expr()[1])</var></code>.</p>
+					<p data-tt="hint4">Because the numerator's degree <code><var>NUM.getCoefAndDegreeForTerm(0).degree</var></code> is less than the denominator's degree <code><var>DEN.getCoefAndDegreeForTerm(0).degree</var></code>, the bottom term dominates as <code>x</code> approaches <code><var>PM</var>\infty</code>.</p>
+					<p data-tt="hint5">Since the denominator grows faster than the numerator, the limit goes to <code>0</code>.</p>
 				</div>
 			</div>
 
@@ -74,7 +74,7 @@
 				</div>
 
 				<div class="question">
-					<p>Find <code>\displaystyle\lim_{x \to \infty}\dfrac{<var>NUM.text()</var>}{<var>DEN.text()</var>}</code>.</p>
+					<p data-tt="question2">Find <code>\displaystyle\lim_{x \to \infty}\dfrac{<var>NUM.text()</var>}{<var>DEN.text()</var>}</code>.</p>
 				</div>
 
 				<p class="solution"><code><var>RIGHT_SIGN</var>\infty</code></p>
@@ -83,16 +83,16 @@
 					<li><code><var>fractionReduce( -NUM.getCoefAndDegreeForTerm(0).coef, DEN.getCoefAndDegreeForTerm(0).coef )</var></code></li>
 					<li><code><var>WRONG_SIGN</var>\infty</code></li>
 					<li><code>0</code></li>
-					<li>undefined</li>
+					<li data-tt="question1">undefined</li>
 				</ul>
 
 				<div class="hints">
-					<p>Look at the leading terms <code><var>expr(NUM.expr()[1])</var></code> and <code><var>expr(DEN.expr()[1])</var></code>.</p>
-					<p>As <code>x \to \infty</code>, the numerator approaches <code><var>NUM.getCoefAndDegreeForTerm(0).coef < 0 ? "-" : ""</var>\infty</code> because the coefficient <code><var>NUM.getCoefAndDegreeForTerm(0).coef</var></code> is <var>NUM.getCoefAndDegreeForTerm(0).coef < 0 ? "negative" : "positive"</var>.</p>
-					<p>As <code>x \to \infty</code>, the denominator <var>NUM.getCoefAndDegreeForTerm(0).coef * DEN.getCoefAndDegreeForTerm(0).coef > 0 ? "also " : ""</var>approaches <code><var>DEN.getCoefAndDegreeForTerm(0).coef < 0 ? "-" : ""</var>\infty</code> because the coefficient <code><var>DEN.getCoefAndDegreeForTerm(0).coef</var></code> is <var>DEN.getCoefAndDegreeForTerm(0).coef < 0 ? "negative" : "positive"</var>.</p>
-					<p>Because the numerator's degree <code><var>NUM.getCoefAndDegreeForTerm(0).degree</var></code> is greater than the denominator's degree <code><var>DEN.getCoefAndDegreeForTerm(0).degree</var></code>, the limit diverges.</p>
-					<p data-if="NUM.getCoefAndDegreeForTerm(0).coef * DEN.getCoefAndDegreeForTerm(0).coef > 0">The numerator and denominator have the same sign as <code>x</code> gets large, so the limit is <code>+\infty</code>.</p>
-					<p data-else>The numerator and denominator have differing signs as <code>x</code> gets large, so the limit is <code>-\infty</code>.</p>
+					<p data-tt="hint6">Look at the leading terms <code><var>expr(NUM.expr()[1])</var></code> and <code><var>expr(DEN.expr()[1])</var></code>.</p>
+					<p data-tt="hint7">As <code>x \to \infty</code>, the numerator approaches <code><var>NUM.getCoefAndDegreeForTerm(0).coef < 0 ? "-" : ""</var>\infty</code> because the coefficient <code><var>NUM.getCoefAndDegreeForTerm(0).coef</var></code> is <var>NUM.getCoefAndDegreeForTerm(0).coef < 0 ? "negative" : "positive"</var>.</p>
+					<p data-tt="hint8">As <code>x \to \infty</code>, the denominator <var>NUM.getCoefAndDegreeForTerm(0).coef * DEN.getCoefAndDegreeForTerm(0).coef > 0 ? "also " : ""</var>approaches <code><var>DEN.getCoefAndDegreeForTerm(0).coef < 0 ? "-" : ""</var>\infty</code> because the coefficient <code><var>DEN.getCoefAndDegreeForTerm(0).coef</var></code> is <var>DEN.getCoefAndDegreeForTerm(0).coef < 0 ? "negative" : "positive"</var>.</p>
+					<p data-tt="hint9">Because the numerator's degree <code><var>NUM.getCoefAndDegreeForTerm(0).degree</var></code> is greater than the denominator's degree <code><var>DEN.getCoefAndDegreeForTerm(0).degree</var></code>, the limit diverges.</p>
+					<p data-tt="hint10" data-if="NUM.getCoefAndDegreeForTerm(0).coef * DEN.getCoefAndDegreeForTerm(0).coef > 0">The numerator and denominator have the same sign as <code>x</code> gets large, so the limit is <code>+\infty</code>.</p>
+					<p  data-tt="hint11"data-else>The numerator and denominator have differing signs as <code>x</code> gets large, so the limit is <code>-\infty</code>.</p>
 				</div>
 			</div>
 
@@ -106,7 +106,7 @@
 					<p>Find <code>\displaystyle\lim_{x \to <var>K</var>}\dfrac{<var>A</var>}{<var>B</var>x + <var>-K</var>}</code>.</p>
 				</div>
 
-				<p class="solution">undefined</p>
+				<p class="solution" data-tt="question1">undefined</p>
 				<ul class="choices">
 					<li><code><var>fractionReduce( A, K )</var></code></li>
 					<li><code><var>fractionReduce( A, -K )</var></code></li>
@@ -116,10 +116,10 @@
 				</ul>
 
 				<div class="hints">
-					<p>Consider the behavior of the function as <code>x \to <var>K</var></code> from each direction.</p>
-					<p>As <code>x</code> approaches <code><var>K</var></code> from the left, <code><var>B</var>x + <var>-K</var></code> starts negative and increases as it approaches <code>0</code>, so <code>\dfrac{<var>A</var>}{<var>B</var>x + <var>-K</var>}</code> approaches <code>-\infty</code>.</p>
-					<p>As <code>x</code> approaches <code><var>K</var></code> from the right, <code><var>B</var>x + <var>-K</var></code> starts positive and decreases as it approaches <code>0</code>, so <code>\dfrac{<var>A</var>}{<var>B</var>x + <var>-K</var>}</code> approaches <code>+\infty</code>.</p>
-					<p>Since the left- and right-hand limits are not equal, the limit is not defined.</p>
+					<p data-tt="hint12">Consider the behavior of the function as <code>x \to <var>K</var></code> from each direction.</p>
+					<p data-tt="hint13">As <code>x</code> approaches <code><var>K</var></code> from the left, <code><var>B</var>x + <var>-K</var></code> starts negative and increases as it approaches <code>0</code>, so <code>\dfrac{<var>A</var>}{<var>B</var>x + <var>-K</var>}</code> approaches <code>-\infty</code>.</p>
+					<p data-tt="hint14">As <code>x</code> approaches <code><var>K</var></code> from the right, <code><var>B</var>x + <var>-K</var></code> starts positive and decreases as it approaches <code>0</code>, so <code>\dfrac{<var>A</var>}{<var>B</var>x + <var>-K</var>}</code> approaches <code>+\infty</code>.</p>
+					<p data-tt="hint15">Since the left- and right-hand limits are not equal, the limit is not defined.</p>
 				</div>
 			</div>
 
@@ -132,7 +132,7 @@
 				</div>
 
 				<div class="question">
-					<p>Find <code>\displaystyle\lim_{x \to <var>K</var>}\dfrac{<var>A</var>}{(<var>B</var>x + <var>-K</var>\smash{)}^2}</code>.</p>
+					<p date-tt="question3">Find <code>\displaystyle\lim_{x \to <var>K</var>}\dfrac{<var>A</var>}{(<var>B</var>x + <var>-K</var>\smash{)}^2}</code>.</p>
 				</div>
 
 				<p class="solution"><code><var>RIGHT_SIGN</var>\infty</code></p>
@@ -141,13 +141,13 @@
 					<li><code><var>fractionReduce( A, -K * K )</var></code></li>
 					<li><code><var>WRONG_SIGN</var>\infty</code></li>
 					<li><code>0</code></li>
-					<li>undefined</li>
+					<li data-tt="question1">undefined</li>
 				</ul>
 
 				<div class="hints">
-					<p>Consider the behavior of the function as <code>x \to <var>K</var></code> from each direction.</p>
-					<p>In either direction, <code>(x + <var>-K</var>)^2</code> approaches <code>0</code>, so <code>\dfrac{<var>A</var>}{(<var>B</var>x + <var>-K</var>\smash{)}^2}</code> diverges.</p>
-					<p>Because <code>(x + <var>-K</var>)^2</code> is always positive and <code><var>A</var></code> is <var>A > 0 ? "positive" : "negative"</var>, <code>\dfrac{<var>A</var>}{(<var>B</var>x + <var>-K</var>\smash{)}^2}</code> approaches <code><var>RIGHT_SIGN</var>\infty</code>.</p>
+					<p data-tt="hint16">Consider the behavior of the function as <code>x \to <var>K</var></code> from each direction.</p>
+					<p data-tt="hint17">In either direction, <code>(x + <var>-K</var>)^2</code> approaches <code>0</code>, so <code>\dfrac{<var>A</var>}{(<var>B</var>x + <var>-K</var>\smash{)}^2}</code> diverges.</p>
+					<p data-tt="hint18">Because <code>(x + <var>-K</var>)^2</code> is always positive and <code><var>A</var></code> is <var>A > 0 ? "positive" : "negative"</var>, <code>\dfrac{<var>A</var>}{(<var>B</var>x + <var>-K</var>\smash{)}^2}</code> approaches <code><var>RIGHT_SIGN</var>\infty</code>.</p>
 				</div>
 			</div>
 		</div>

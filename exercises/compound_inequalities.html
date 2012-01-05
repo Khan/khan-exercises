@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers functional">
+<html data-translatable data-require="math math-format graphie graphie-helpers functional">
 <head>
 	<meta charset="UTF-8" />
 	<title>Compound inequalities</title>
@@ -49,7 +49,7 @@
 			<var id="SOLUTION">tabulate( function(i) {
 				return ( RIGHT_INT[i] + ADD_TO_SIMPLIFY[i] ) / COEF[i];
 			}, 2 )</var>
-			<var id="FIRST">[ "first", "second" ]</var>
+			<var data-tt="id2" id="FIRST">[ "first", "second" ]</var>
 			<var id="COLOR">[ "#1F78B4", "#B30000" ]</var>
 			<var id="INCLUSIVE">tabulate( function(i) {
 				return COMP_SOLUTION[i] === "&le;" || COMP_SOLUTION[i] === "&ge;";
@@ -59,7 +59,7 @@
 			}, 2 )</var>
 			<var id="ALL_NUMBERS">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[0] >= SOLUTION [1] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] <= SOLUTION [1] )</var>
 			<var id="NO_SOLUTION">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[1] > SOLUTION[0] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] > SOLUTION[1] ) || ( LESS_THAN[0] !== LESS_THAN[1] && SOLUTION[0] === SOLUTION[1] && ( !INCLUSIVE[0] || !INCLUSIVE[1] ) )</var>
-			<var id="OR">randFromArray([ "or", "and" ])</var>
+			<var  data-tt="id1" id="OR">randFromArray([ "or", "and" ])</var>
 			<var id="IS_OR">OR === "or"</var>
 			<var id="FAKE_ANSWER">tabulate( function() {
 				return randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 )
@@ -85,7 +85,7 @@
 
 		<div class="problems">
 			<div>
-				<p class="question">Solve for <code><var>VARIABLE_NAME</var></code>:</p>
+				<p data-tt="question1" class="question">Solve for <code><var>VARIABLE_NAME</var></code>:</p>
 				<div>
 					<code>\color{<var>COLOR[0]</var>}{<var>COEF[0] + VARIABLE_NAME</var><var data-if="LEFT_INT[0] !== 0">SIGN[0] + LEFT_INT[0]</var><var>COMP[0] + RIGHT_INT[0]</var>}</code> <var>OR</var>
 					<code>\color{<var>COLOR[1]</var>}{<var>COEF[1] + VARIABLE_NAME</var><var data-if="LEFT_INT[1] !== 0">SIGN[1] + LEFT_INT[1]</var><var>COMP[1] + RIGHT_INT[1]</var>}</code>
@@ -128,7 +128,7 @@
 				<div class="hints">
 					<div data-each="[ 0, 1 ] as i" data-unwrap>
 						<div>
-							<p>The <var>FIRST[i]</var> inequality can be simplified into this:</p>
+							<p  data-tt="question2" >The <var>FIRST[i]</var> inequality can be simplified into this:</p>
 							<p><code>\color{<var>COLOR[i]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[i] + SOLUTION[i]</var>}</code></p>
 						</div>
 					</div>
@@ -152,14 +152,14 @@
 						}
 					</div>
 					<div data-if="IS_OR">
-						<p>Since this is an "or" inequality, the solution is the part of the number line which is covered by <strong>either</strong> of the graphs of the inequalities.</p>
-						<p data-if="ALL_NUMBERS">The combined graphs of the inequalities span the entire number line, therefore the solution is "All real numbers."</p>
+						<p data-tt="hint1" >Since this is an "or" inequality, the solution is the part of the number line which is covered by <strong>either</strong> of the graphs of the inequalities.</p>
+						<p  data-tt="hint2" data-if="ALL_NUMBERS">The combined graphs of the inequalities span the entire number line, therefore the solution is "All real numbers."</p>
 						<div data-else-if="CONTAINS">
-							<p>Notice how the <var>FIRST[IS_CONTAINED - 1]</var> inequality is completely included by the <var>FIRST[CONTAINS - 1]</var> inequality. Therefore the answer is:</p>
+							<p data-tt="hint3" >Notice how the <var>FIRST[IS_CONTAINED - 1]</var> inequality is completely included by the <var>FIRST[CONTAINS - 1]</var> inequality. Therefore the answer is:</p>
 							<p><code>\color{<var>COLOR[CONTAINS - 1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[CONTAINS - 1] + SOLUTION[CONTAINS - 1]</var>}</code></p>
 						</div>
 						<div data-else>
-							<p>Therefore, since the graphs of the equalities do not intersect, the solution is:</p>
+							<p data-tt="hint4" >Therefore, since the graphs of the equalities do not intersect, the solution is:</p>
 							<p>
 								<code>\color{<var>COLOR[0]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var>}</code> or 
 								<code>\color{<var>COLOR[1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var>}</code> 
@@ -167,18 +167,18 @@
 						</div>
 					</div>
 					<div data-else>
-						<p>The solution to an inequality with the word "and" is the intersection of the graphs of the inequalities.</p>
+						<p data-tt="hint5" >The solution to an inequality with the word "and" is the intersection of the graphs of the inequalities.</p>
 						<div data-if="SINGLE_SOLUTION">
-							<p>Therefore, the solution is:</p>
+							<p data-tt="hint6" >Therefore, the solution is:</p>
 							<code>\color{magenta}{<var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var>}</code>
 						</div>
-						<p data-else-if="NO_SOLUTION">Since the graphs of the inequalities do not intersect, there is no solution.</p>
+						<p  data-tt="hint7" data-else-if="NO_SOLUTION">Since the graphs of the inequalities do not intersect, there is no solution.</p>
 						<div data-else-if="CONTAINS">
-							<p>Since the <var>FIRST[IS_CONTAINED - 1]</var> inequality is completely included by the <var>FIRST[CONTAINS - 1]</var> inequality, their intersection is the <var>FIRST[IS_CONTAINED -1]</var> inequality. Therefore the answer is:</p>
+							<p  data-tt="hint8" data-tt="hint1" >Since the <var>FIRST[IS_CONTAINED - 1]</var> inequality is completely included by the <var>FIRST[CONTAINS - 1]</var> inequality, their intersection is the <var>FIRST[IS_CONTAINED -1]</var> inequality. Therefore the answer is:</p>
 							<p><code>\color{<var>COLOR[IS_CONTAINED - 1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[IS_CONTAINED - 1] + SOLUTION[IS_CONTAINED - 1]</var>}</code></p>
 						</div>
 						<div data-else>
-							<p>Therefore, the solution is:</p>
+							<p data-tt="hint9" >Therefore, the solution is:</p>
 							<p>
 								<code>\color{<var>COLOR[0]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var>}</code> and
 								<code>\color{<var>COLOR[1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var>}</code> 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie math-format">
+<html data-translatable data-require="math graphie math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Solid geometry</title>
@@ -14,7 +14,7 @@
 			</div>
 
 			<div class="question">
-				<p>What is the volume of a cube with side length <code><var>s</var></code>?</p>
+				<p data-tt="question1">What is the volume of a cube with side length <code><var>s</var></code>?</p>
 
 				<div class="graphie">
 					init({
@@ -30,7 +30,7 @@
 			<p class="solution"><var>s * s * s</var></p>
 
 			<div class="hints">
-				<p>The volume of a cube with side length <code>s</code> is <code>V = s^3</code>.</p>
+				<p data-tt="hint1">The volume of a cube with side length <code>s</code> is <code>V = s^3</code>.</p>
 				<p><code>\qquad V = <var>s</var>^3</code></p>
 				<p><code>\qquad \hphantom{V} = <var>s</var> \cdot <var>s</var> \cdot <var>s</var></code></p>
 				<p><code>\qquad \hphantom{V} = <var>s * s * s</var></code></p>
@@ -43,7 +43,7 @@
 			</div>
 
 			<div class="question">
-				<p>What is the surface area of a cube with side length <code><var>s</var></code>?</p>
+				<p data-tt="question2">What is the surface area of a cube with side length <code><var>s</var></code>?</p>
 
 				<div class="graphie">
 					init({
@@ -59,8 +59,8 @@
 			<p class="solution"><var>6 * s * s</var></p>
 
 			<div class="hints">
-				<p>The area of each face is simply the area of a square: <code><var>s</var>^2 = <var>s * s</var></code>.</p>
-				<p>A cube has six faces so the total surface area is <code>6 \cdot <var>s * s</var> = <var>6 * s * s</var></code>.</p>
+				<p data-tt="hint2">The area of each face is simply the area of a square: <code><var>s</var>^2 = <var>s * s</var></code>.</p>
+				<p data-tt="hint3">A cube has six faces so the total surface area is <code>6 \cdot <var>s * s</var> = <var>6 * s * s</var></code>.</p>
 			</div>
 		</div>
 
@@ -71,7 +71,7 @@
 			</div>
 
 			<div class="question">
-				<p>What is the volume of a cylinder with base radius <code><var>r</var></code> and height <code><var>h</var></code>?</p>
+				<p data-tt="question3">What is the volume of a cylinder with base radius <code><var>r</var></code> and height <code><var>h</var></code>?</p>
 
 				<div class="graphie">
 					init({
@@ -96,8 +96,8 @@
 			<div class="solution" data-forms="pi"><var>Math.PI * r * r * h</var></div>
 
 			<div class="hints">
-				<p>The area of the base is simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
-				<p>The volume of the cylinder is the area of the base times the height: <code>B \cdot h = <var>r * r</var>\pi \cdot <var>h</var> = <var>r * r * h</var>\pi</code>.</p>
+				<p data-tt="hint4">The area of the base is simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
+				<p data-tt="hint5">The volume of the cylinder is the area of the base times the height: <code>B \cdot h = <var>r * r</var>\pi \cdot <var>h</var> = <var>r * r * h</var>\pi</code>.</p>
 			</div>
 		</div>
 
@@ -108,7 +108,7 @@
 			</div>
 
 			<div class="question">
-				<p>What is the surface area of a cylinder with base radius <code><var>r</var></code> and height <code><var>h</var></code>?</p>
+				<p data-tt="question4">What is the surface area of a cylinder with base radius <code><var>r</var></code> and height <code><var>h</var></code>?</p>
 
 				<div class="graphie">
 					init({
@@ -133,11 +133,11 @@
 			<div class="solution" data-forms="pi"><var>Math.PI * 2 * r * ( r + h )</var></div>
 
 			<div class="hints">
-				<p>The areas of the top and the base are simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
-				<p>The lateral surface area is the same as the area of a rectangle with height <code><var>h</var></code> and width equal to the circumference of the base.</p>
-				<p>That circumference is <code>2 \pi r = 2\pi \cdot <var>r</var> = <var>2 * r</var>\pi</code>.</p>
-				<p>Thus, the lateral surface area is <code>wh = <var>2 * r</var> \pi \cdot <var>h</var> = <var>2 * r * h</var> \pi</code>.</p>
-				<p>The total surface area is <code><var>r * r</var> \pi + <var>r * r</var> \pi + <var>2 * r * h</var> \pi = <var>2 * r * ( r + h )</var>\pi</code>.</p>
+				<p data-tt="hint6">The areas of the top and the base are simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
+				<p data-tt="hint7">The lateral surface area is the same as the area of a rectangle with height <code><var>h</var></code> and width equal to the circumference of the base.</p>
+				<p data-tt="hint8">That circumference is <code>2 \pi r = 2\pi \cdot <var>r</var> = <var>2 * r</var>\pi</code>.</p>
+				<p data-tt="hint9">Thus, the lateral surface area is <code>wh = <var>2 * r</var> \pi \cdot <var>h</var> = <var>2 * r * h</var> \pi</code>.</p>
+				<p data-tt="hint10">The total surface area is <code><var>r * r</var> \pi + <var>r * r</var> \pi + <var>2 * r * h</var> \pi = <var>2 * r * ( r + h )</var>\pi</code>.</p>
 			</div>
 		</div>
 
@@ -149,7 +149,7 @@
 			</div>
 
 			<div class="question">
-				<p>What is the volume of a rectangular box with width <code><var>w</var></code>, height <code><var>h</var></code>, and depth <code><var>d</var></code>?</p>
+				<p data-tt="question5">What is the volume of a rectangular box with width <code><var>w</var></code>, height <code><var>h</var></code>, and depth <code><var>d</var></code>?</p>
 
 				<div class="graphie">
 					init({
@@ -173,8 +173,8 @@
 			<p class="solution"><var>w * h * d</var></p>
 
 			<div class="hints">
-				<p>The volume of a right rectangular prism with width <code>w</code>, height <code>h</code>, and depth <code>d</code> is <code>V = whd</code>.</p>
-				<p>In this case, the volume is <code><var>w</var> \cdot <var>h</var> \cdot <var>d</var> = <var>w * h * d</var></code>.</p>
+				<p data-tt="hint11">The volume of a right rectangular prism with width <code>w</code>, height <code>h</code>, and depth <code>d</code> is <code>V = whd</code>.</p>
+				<p data-tt="hint12">In this case, the volume is <code><var>w</var> \cdot <var>h</var> \cdot <var>d</var> = <var>w * h * d</var></code>.</p>
 			</div>
 		</div>
 
@@ -186,7 +186,7 @@
 			</div>
 
 			<div class="question">
-				<p>What is the surface area of a rectangular box with width <code><var>w</var></code>, height <code><var>h</var></code>, and depth <code><var>d</var></code>?</p>
+				<p data-tt="question6">What is the surface area of a rectangular box with width <code><var>w</var></code>, height <code><var>h</var></code>, and depth <code><var>d</var></code>?</p>
 
 				<div class="graphie">
 					init({
@@ -210,8 +210,8 @@
 			<p class="solution"><var>2 * ( w * h + w * d + h * d )</var></p>
 
 			<div class="hints">
-				<p>The surface area of a right rectangular prism with width <code>w</code>, height <code>h</code>, and depth <code>d</code> is <code>T = 2wh + 2wd + 2hd</code>.</p>
-				<p>In this case, the surface area is <code>2 \cdot (<var>w</var> \cdot <var>h</var>) + 2 \cdot (<var>w</var> \cdot <var>d</var>) + 2 \cdot (<var>h</var> \cdot <var>d</var>) = <var>2 * ( w * h + w * d + h * d )</var></code>.</p>
+				<p data-tt="hint13">The surface area of a right rectangular prism with width <code>w</code>, height <code>h</code>, and depth <code>d</code> is <code>T = 2wh + 2wd + 2hd</code>.</p>
+				<p data-tt="hint14">In this case, the surface area is <code>2 \cdot (<var>w</var> \cdot <var>h</var>) + 2 \cdot (<var>w</var> \cdot <var>d</var>) + 2 \cdot (<var>h</var> \cdot <var>d</var>) = <var>2 * ( w * h + w * d + h * d )</var></code>.</p>
 			</div>
 		</div>
 
@@ -223,7 +223,7 @@
 			</div>
 
 			<div class="question">
-				<p>What is the volume of a triangular prism of depth <code><var>d</var></code> whose base has width <code><var>w</var></code> and height <code><var>h</var></code>?</p>
+				<p data-tt="question7">What is the volume of a triangular prism of depth <code><var>d</var></code> whose base has width <code><var>w</var></code> and height <code><var>h</var></code>?</p>
 
 				<div class="graphie">
 					init({
@@ -254,8 +254,8 @@
 			<p class="solution"><var>w * h * d / 2</var></p>
 
 			<div class="hints">
-				<p>The area of the triangular base is <code>\frac12 w h = \frac12 (<var>w</var> \cdot <var>h</var>) = <var>w * h / 2</var></code>.</p>
-				<p>The volume of the prism is the area of the base times the depth: <code>B \cdot d = <var>w * h / 2</var> \cdot <var>d</var> = <var>w * h * d / 2</var></code>.</p>
+				<p data-tt="hint15">The area of the triangular base is <code>\frac12 w h = \frac12 (<var>w</var> \cdot <var>h</var>) = <var>w * h / 2</var></code>.</p>
+				<p data-tt="hint16">The volume of the prism is the area of the base times the depth: <code>B \cdot d = <var>w * h / 2</var> \cdot <var>d</var> = <var>w * h * d / 2</var></code>.</p>
 			</div>
 		</div>
 	</div>

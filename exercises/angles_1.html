@@ -24,7 +24,7 @@
 		<div class="problems">
 			<div id="complementary-and-opposite-angles">
 				<div class="problem">
-					<div class="question">
+					<div data-tt="question1" class="question">
 						Given the following angles:
 						<ul>
 							<li>
@@ -113,7 +113,7 @@
 							arc( [0, 0], 1.2, 0, 70, { stroke: "blue" } );
 						}
 					</div>
-					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+					<p data-tt="note1"style="font-size:70%; color:grey"><strong>NOTE:</strong> 
 					Angles not necessarily drawn to scale.</p>
 				</div>
 
@@ -123,7 +123,7 @@
 				</div>
 
 				<div class="hints">
-					<p data-if="RAND3 === 0">
+					<p data-tt="hint1" data-if="RAND3 === 0">
 						Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
 						<code>\color{purple}{\angle{CGB}} = 90&deg;</code>
 						<span class="graphie" data-update="complementary-and-opposite">
@@ -132,7 +132,7 @@
 							arc( [0, 0], 3, 0, 90, { stroke: "purple" } );
 						</span>
 					</p>
-					<p data-else-if="RAND3 === 1">
+					<p data-tt="hint2" data-else-if="RAND3 === 1">
 						<code>\color{orange}{\angle{EGB}} = \color{green}{\angle{AGF}}
 							= <var>90 - ACCUTEANGLE</var>&deg;</code>,
 						because they are opposite angles from each other.  Opposite angles 
@@ -143,7 +143,7 @@
 							arc( [0, 0], 1.2, 0, 68, { stroke: "orange" } );
 						</span>
 					</p>
-					<p data-else>
+					<p data-tt="hint3" data-else>
 						Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
 						<code>\color{purple}{\angle{AGD}} = 90&deg;</code>
 						<span class="graphie" data-update="complementary-and-opposite">
@@ -153,7 +153,7 @@
 						</span>
 					</p>
 
-					<p data-if="RAND3===0">
+					<p data-tt="hint4" data-if="RAND3===0">
 						<code>\color{orange}{\angle{EGB}} = \color{purple}{90&deg;} 
 							- \color{green}{\angle{CGE}} = <var>90 - ACCUTEANGLE</var>&deg;</code>
 						<span class="graphie" data-update="complementary-and-opposite">
@@ -162,7 +162,7 @@
 							arc( [0, 0], 1.2, 0, 68, { stroke: "orange" } );
 						</span>
 					</p>
-					<p data-else-if="RAND3===1">
+					<p data-tt="hint5" data-else-if="RAND3===1">
 						Because we know <code>\overline{AB} \perp \overline{CD}</code>, we know 
 						<code>\color{purple}{\angle{CGB}} = 90&deg;</code>
 						<span class="graphie" data-update="complementary-and-opposite">
@@ -171,7 +171,7 @@
 							arc( [0, 0], 3, 0, 90, { stroke: "purple" } );
 						</span>
 					</p>
-					<p data-else>
+					<p data-tt="hint6"data-else>
 						<code>\color{orange}{\angle{AGF}} = 
 							\color{purple}{90&deg;} - \color{green}{\angle{DGF}} = 
 							<var>90 - ACCUTEANGLE</var>&deg;</code>
@@ -182,7 +182,7 @@
 						</span>
 					</p>
 
-					<p data-if="RAND3===0">
+					<p data-tt="hint7" data-if="RAND3===0">
 						<code>\color{blue}{\angle{AGF}} = \color{orange}{\angle{EGB}} =
 						<var>90 - ACCUTEANGLE</var>&deg;</code>, 
 						because they are opposite from each other.  Opposite angles are 
@@ -194,7 +194,7 @@
 								"below left" );
 						</span>
 					</p>
-					<p data-else-if="RAND3===1">
+					<p data-tt="hint8" data-else-if="RAND3===1">
 						<code>\color{blue}{\angle{CGE}} = 
 							\color{purple}{90&deg;} - \color{orange}{\angle{EGB}} = 
 							<var>ACCUTEANGLE</var>&deg;
@@ -206,7 +206,7 @@
 								"above" )
 						</span>
 					</p>
-					<p data-else>
+					<p data-tt="hint9"data-else>
 						<code>\color{blue}{\angle{BGE}} = \color{orange}{\angle{AGF}} = 
 						<var>90 - ACCUTEANGLE</var>&deg;</code>, 
 						because they are opposite from each other.  Opposite angles are 
@@ -223,7 +223,7 @@
 
 			<div id="supplementary-angles-and-180-degrees-in-triangle">
 				<div class="problem">
-					<div class="question">
+					<div data-tt="question2" class="question">
 						<p>Given the following:</p>
 						<div data-if="RAND2===0">
 							<ul>
@@ -299,7 +299,7 @@
 						}
 
 					</div>
-					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+					<p data-tt="note2" style="font-size:70%; color:grey"><strong>NOTE:</strong> 
 					Angles not necessarily drawn to scale.</p>
 				</div>
 
@@ -309,7 +309,7 @@
 				</div>
 				
 				<div class="hints">
-					<p data-if="RAND2 === 0">
+					<p data-tt="hint10" data-if="RAND2 === 0">
 						<code>
 							\color{orange}{\angle{BAC}} = 
 								180&deg; - \color{purple}{\angle{ABC}} - \color{green}{\angle{ACB}} = 
@@ -322,7 +322,7 @@
 							arc( [-4, -2], 0.75, 0, 49, {stroke: "orange"} );
 						</span>
 					</p>
-					<p data-else>
+					<p data-tt="hint11"data-else>
 						<code>
 							\color{orange}{\angle{BAC}} = 
 								180&deg; - \color{green}{\angle{DAB}} = 
@@ -337,7 +337,7 @@
 						</span>
 					</p>
 					
-					<p data-if="RAND2 === 0">
+					<p data-tt="hint12" data-if="RAND2 === 0">
 						<code>
 							\color{blue}{\angle{DAB}} = 
 								180&deg; - \color{orange}{\angle{BAC}} = 
@@ -352,7 +352,7 @@
 						</span>
 
 					</p>
-					<p data-else>
+					<p data-tt="hint13" data-else>
 						<code>
 							\color{blue}{\angle{ACB}} = 
 								180&deg; - \color{orange}{\angle{BAC}} - \color{purple}{\angle{ABC}} = 
@@ -372,7 +372,7 @@
 			<div id="corresponding-and-180-in-triangle">
 				<div class="problem">
 
-					<div class="question">
+					<div data-tt="question3" class="question">
 						Given the following:
 							<ul>
 								<li><code>\overline{HI} \parallel \overline{JK}</code>,
@@ -476,7 +476,7 @@
 						}
 
 					</div>
-					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+					<p data-tt="note3" style="font-size:70%; color:grey"><strong>NOTE:</strong> 
 					Angles not necessarily drawn to scale.</p>
 				</div>
 
@@ -486,7 +486,7 @@
 				</div>
 
 				<div class="hints">
-					<p data-if="RAND3 === 0">
+					<p data-tt="hint14" data-if="RAND3 === 0">
 						<code>\color{orange}{\angle{AHI}} = \color{green}{\angle{AJK}}</code>, 
 						because they are corresponding angles formed by 2 parallel lines and 
 						a transversal line. Corresponding angles are congruent (equal).
@@ -496,7 +496,7 @@
 							arc( [-5.07, 1.75], 1, 260, 325, {stroke: "orange"} );
 						</span>
 					</p>
-					<p data-else>
+					<p data-tt="hint15" data-else>
 						<code>\color{orange}{\angle{AJK}} = \color{green}{\angle{AHI}}</code>, 
 						because they are corresponding angles formed by 2 parallel lines and 
 						a transversal line. Corresponding angles are congruent (equal).
@@ -508,7 +508,7 @@
 					</p>
 
 
-					<p data-if="RAND3 === 0">
+					<p data-tt="hint16" data-if="RAND3 === 0">
 						<code>
 							\color{blue}{\angle{AIH}} = 
 								180&deg; - \color{orange}{\angle{AHI}} - \color{purple}{\angle{BAC}} = 
@@ -523,7 +523,7 @@
 								"left" ); 
 						</span>
 					</p>
-					<p data-else>
+					<p data-tt="hint17" data-else>
 						<span class="graphie" data-update="parallel-and-triangle">
 							ORIGINAL_LABEL.remove(); 
 							if ( RAND3 === 1 ) {
@@ -555,7 +555,7 @@
 			<div id="alternate-exterior-and-complementary-angles">
 				<div class="problem">
 
-					<div class="question">
+					<div data-tt="question4" class="question">
 						Given the following:
 						<ul>
 							<li><code>\overline{DE} \parallel \overline{FG}</code>,
@@ -629,7 +629,7 @@
 							arc( [4, -2], .75, 315, 360, {stroke: "blue"} )
 						}
 					</div>
-					<p style="font-size:70%; color:grey"><strong>NOTE:</strong> 
+					<p data-tt="note4" style="font-size:70%; color:grey"><strong>NOTE:</strong> 
 					Angles not necessarily drawn to scale.</p>
 				</div>
 
@@ -637,7 +637,7 @@
 
 				<div class="hints">
 
-					<p data-if="RAND2 === 0">
+					<p data-tt="hint18" data-if="RAND2 === 0">
 						<code>\color{orange}{\angle{DAI}} = \color{green}{\angle{GCJ}} = 
 						<var>Tri_Y</var>&deg;</code>, 
 						because they are alternate exterior angles, formed by 2 parallel lines 
@@ -660,7 +660,7 @@
 						</span>
 					</p>
 
-					<p>
+					<p data-tt="hint19">
 						<code>\color{purple}{\angle{DAK}} = 90&deg;</code>,  
 						because angles formed by perpendicular lines are equal to 90&deg;.
 						<span class="graphie" data-update="alternate-exterior-and-complementary">
@@ -669,7 +669,7 @@
 						</span>
 					</p>
 
-					<p data-if="RAND2 === 0">
+					<p data-tt="hint20" data-if="RAND2 === 0">
 						<code>\color{blue}{\angle{IAK}} = 90&deg; - \color{orange}{\angle{DAI}} = 
 						<var>90 - Tri_Y</var>&deg;</code>, 
  						because angles <code>\color{blue}{\angle{IAK}}</code> 
@@ -683,7 +683,7 @@
 						</span>
 					</p>
 
-					<p data-if="RAND2 !== 0">
+					<p data-tt="hint21" data-if="RAND2 !== 0">
 						<code>\color{orange}{\angle{IAK}} = 90&deg; - \color{green}{\angle{IAK}} = 
 						<var>90 - Tri_Y</var>&deg;</code>, 
 						because angles <code>\color{green}{\angle{IAK}}</code> 
@@ -696,7 +696,7 @@
 						</span> 
 					</p>
 
-					<p data-if="RAND2 !== 0">
+					<p data-tt="hint22" data-if="RAND2 !== 0">
 						<code>\color{blue}{\angle{GCJ}} = \color{orange}{\angle{DAI}} = 
 						<var>90 - Tri_Y</var>&deg;</code>,  
 						because they are alternate exterior angles formed by 2 parallel lines 

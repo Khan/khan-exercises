@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions">
+<html data-translatable data-require="math math-format expressions">
 <head>
 	<meta charset="UTF-8" />
 	<title>Equation of a circle 2</title>
@@ -28,7 +28,7 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>The equation of a circle <code>C</code> is
+				<p data-tt="question1" >The equation of a circle <code>C</code> is
 					<code><var>expr(["+",
 						"x^2",
 						"y^2",
@@ -37,7 +37,7 @@
 						F === 0 ? null : F
 					])</var> = 0</code>.</p>
 
-				<p>What is its center <code>(h, k)</code> and its radius <code>r</code>?</p>
+				<p data-tt="question2" >What is its center <code>(h, k)</code> and its radius <code>r</code>?</p>
 
 			</div>
 
@@ -49,11 +49,11 @@
 	</div>
 
 	<div class="hints">
-		<p>To find the equation in standard form, complete the square.</p>
+		<p data-tt="hint1" >To find the equation in standard form, complete the square.</p>
 		<p><code>(<var>expr(["+", "x^2", ["*", D, "x"]])</var>) + (<var>expr(["+", "y^2", ["*", E, "y"]])</var>) = <var>-F</var></code></p>
 		<p><code>(<var>expr(["+", "x^2", ["*", D, "x"], H * H])</var>) + (<var>expr(["+", "y^2", ["*", E, "y"], K * K])</var>) = <var>-F</var> + <var>H * H</var> + <var>K * K</var></code></p>
 		<p><code><var>X2T</var> + <var>Y2T</var> = <var>R * R</var> = <var>R</var>^2</code></p>
-		<p>Thus, <code>(h, k) = (<var>H</var>, <var>K</var>)</code> and <code>r = <var>R</var></code>.</p>
+		<p data-tt="hint1" >Thus, <code>(h, k) = (<var>H</var>, <var>K</var>)</code> and <code>r = <var>R</var></code>.</p>
 	</div>
 	</div>
 </body>
