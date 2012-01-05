@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive">
+<html data-translatable data-require="math graphie interactive">
 <head>
 	<meta charset="UTF-8" />
 	<title>Domain and range of a function 0.5</title>
@@ -52,7 +52,7 @@
 
 		<div class="problems">
 			<div id="domain">
-				<p class="question">The function <code>f(x)</code> is graphed; what is its domain?</p>
+				<p data-tt="question1" class="question">The function <code>f(x)</code> is graphed; what is its domain?</p>
 
 				<div id="graph" class="graphie">
 					graphInit({
@@ -73,9 +73,9 @@
 				<p class="solution" data-type="multiple"><span class="sol"><var>DOMAIN[0]</var></span><code>\;\le x\le\;</code><span class="sol"><var>DOMAIN[1]</var></span></p>
 
 				<div class="hints">
-					<p>For what values of <code>x</code> does <code>f(x)</code> have a value?</p>
+					<p data-tt="hint1" >For what values of <code>x</code> does <code>f(x)</code> have a value?</p>
 					<div>
-						<p>Look at the horizontal axis as if it were a number line.</p>
+						<p data-tt="hint4">Look at the horizontal axis as if it were a number line.</p>
 						<div class="graphie" data-update="graph">
 							var domain_path = graph.fn_path.clone();
 							var tmp_path = path( jQuery.map( FUNCTION_PATH, function( p ) { return [[ p[0], 0 ]]; }), { stroke: "none" } );
@@ -92,14 +92,14 @@
 				</div>
 			</div>
 			<div id="range" data-type="domain">
-				<p class="question">The function <code>f(x)</code> is graphed; what is its range?</p>
+				<p data-tt="question2" class="question">The function <code>f(x)</code> is graphed; what is its range?</p>
 
 				<p class="solution" data-type="multiple"><span class="sol"><var>RANGE[0]</var></span><code>\;\le f(x)\le\;</code><span class="sol"><var>RANGE[1]</var></span></p>
 
 				<div class="hints">
-					<p>What values can <code>f(x)</code> have?</p>
+					<p data-tt="hint2" >What values can <code>f(x)</code> have?</p>
 					<div>
-						<p>Look at the vertical axis as if it were a number line.</p>
+						<p data-tt="hint3" >Look at the vertical axis as if it were a number line.</p>
 						<div class="graphie" data-update="graph">
 							var range_path = graph.fn_path.clone();
 							var tmp_path = path( jQuery.map( FUNCTION_PATH, function( p ) { return [[ 0, p[1] ]]; }), { stroke: "none" } );
