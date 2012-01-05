@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-translatable data-require="math math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Converting repeating decimals to fractions 1</title>
@@ -24,18 +24,18 @@
 
 	<div class="problems">
 		<div>
-			<p class="question">Rewrite as a simplified fraction.</p>
+			<p data-tt="question1" class="question">Rewrite as a simplified fraction.</p>
 			<p><code>\large{<var>N1</var>.\overline{<var>N2</var>} = {?}}</code></p>
 			<p class="solution" data-type="rational"><var>N4</var></p>
 		</div>
 	</div>
 
 	<div class="hints">
-		<p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
+		<p data-tt="hint1" >Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
 		<p><code>\large{\begin{align*}<var>MULT1</var>x &= <var>RES1</var>...\\
 		<var>MULT2</var>x &= <var>RES2</var>...\end{align*}}</code></p>
 		<div>
-			<p>Subtracting the two equations, we have:</p>
+			<p data-tt="hint2" >Subtracting the two equations, we have:</p>
 			<p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
 		</div>
 		<p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) == 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
