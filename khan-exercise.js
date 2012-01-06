@@ -971,7 +971,7 @@ var Khan = (function() {
 		// Update the document title
 		var title = document.title;
 		document.title = getDisplayNameFromId( exid ) + " " +
-			title.slice( jQuery.inArray("|", title) );
+			title.slice( title.indexOf("|") );
 
 		// update related videos
 		Khan.relatedVideos.setVideos(newUserExercise.exercise_model.related_videos);
