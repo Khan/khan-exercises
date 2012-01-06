@@ -1289,22 +1289,29 @@ function Protractor( center ) {
 
 		jQuery( setNodes ).bind( "vmousedown", function( event ) {
 			event.preventDefault();
-			var startx = event.pageX;
-			var starty = event.pageY;
+			var startx = event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left;
+			var starty = event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top;
 
 			jQuery( setNodes ).animate( { opacity: 0.25 }, 150 );
 
 			jQuery( document ).bind ( "vmousemove", function( event ) {
-				var dx = event.pageX - startx;
-				var dy = event.pageY - starty;
+				// mouse{X|Y} are in pixels relative to the SVG
+				var mouseX = event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left;
+				var mouseY = event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top;
+				// can't go beyond 10 pixels from the edge
+				mouseX = Math.max( 10, Math.min( graph.xpixels - 10, mouseX ) );
+				mouseY = Math.max( 10, Math.min( graph.ypixels - 10, mouseY ) );
+
+				var dx = mouseX - startx;
+				var dy = mouseY - starty;
 
 				jQuery.each( pro.set.items, function() {
 					this.translate( dx, dy );
 				});
 				pro.centerPoint.setCoord([ pro.centerPoint.coord[0] + dx / graph.scale[0], pro.centerPoint.coord[1] - dy / graph.scale[1] ]);
 				pro.rotateHandle.setCoord([ pro.rotateHandle.coord[0] + dx / graph.scale[0], pro.rotateHandle.coord[1] - dy / graph.scale[1] ]);
-				startx = event.pageX;
-				starty = event.pageY;
+				startx = mouseX;
+				starty = mouseY;
 			});
 
 			jQuery( document ).one( "vmouseup", function( event ) {
