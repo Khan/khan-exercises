@@ -1,7 +1,8 @@
 ({
 	"nl" : {
-		"exercise1"	: 'Het is <span class="sol"><var>HOUR</var></span> : <span class="sol"><var>NICE_MINUTE</var></span> uur.',
-		"exercise2"	: 'een 12-uurs tijd in uren en minuten.',
+		"exercise1"	: 'Hoe laat is het?',
+		"solution1"	: 'Het is <span class="sol"><var>HOUR</var></span> : <span class="sol"><var>NICE_MINUTE</var></span> uur.',
+		"solution2"	: 'een 12-uurs tijd in uren en minuten.',
 		"hint1"		: 'De kleine wijzer wijst de uren aan en de grote wijzer wijst de minuten aan.',
 		"hint2"		: 'De urenwijzer wijst naar de <code><var>HOUR</var></code>, dus het aantal uur is <code><var>HOUR</var></code>.',
 		"hint3"		: 'De urenwijzer staat tussen de <code><var>HOUR</var></code> en de <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, dus het uur is <code><var>HOUR</var></code>.',
