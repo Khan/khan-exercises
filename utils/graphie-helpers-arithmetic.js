@@ -595,7 +595,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 			highlights = highlights.concat( drawDigits( totalDigits , index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE ) );
 
 			graph.label( [ digitsDividend.length + 1, -2 * index ],
-				"\\text{Hoevaak past }"
+				"\\text{Hoe vaak past }"
 				+ divisor
 				+ "\\text{ in }"
 				+ "\\color{#6495ED}{" + total + "}"
@@ -629,12 +629,12 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 				+ "\\div"
 				+ divisor + "="
 				+ "\\color{#28AE7B}{" + quotient + "}"
-				+ "\\text{ or }"
+				+ "\\text{ of }"
 				+ divisor
 				+ "\\times"
 				+ "\\color{#28AE7B}{" + quotient + "}"
 				+ " = "
-				+ "\\color{#FFA500}{" + value + "}", "right" );
+				+ "\\color{#FFA500}{" + (divisor * quotient) + "}", "right" );
 			index++;
 			fShowFirstHalf = true;
 		}

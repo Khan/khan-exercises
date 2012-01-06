@@ -1,5 +1,5 @@
 ({
 	"nl" : {
-		"question1"	: 'Simplify the following expression.'
+		"question1"	: 'Vereenvoudig en los op.'
 		}
 })
