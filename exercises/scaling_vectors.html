@@ -17,7 +17,7 @@
 			} else {
 				var t = cross( qx - px, qy - py, sx, sy ) / cross( rx, ry, sx, sy );
 				var u = cross( qx - px, qy - py, rx, ry ) / cross( rx, ry, sx, sy );
-				return 0 &lt;= t && t &lt;= 1 && 0 &lt;= u && u &lt;= 1;
+				return 0 <= t && t <= 1 && 0 <= u && u <= 1;
 			}
 		}
 	</script>
