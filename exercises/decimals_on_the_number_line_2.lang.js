@@ -1,12 +1,12 @@
 ({
 	"nl" : {
-		"question1"	: 'Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to   <strong><code>\color{orange}{<var>SOLUTION</var>}</code></strong> on the number line. The distance between adjacent tick marks is 0.5.',
-		"question2"	: 'Move the orange dot to select your answer.',
+		"question1"	: 'Plaats de <strong><code>\\color{orange}{\\\\text{oranje stip}}</code></strong> op de getallenlijn bij <strong><code>\\color{orange}{<var>SOLUTION</var>}</code></strong>. De afstand tussen twee opeenvolgende streepjes is 0,5.',
+		"question2"	: 'Sleep de oranje stip naar de juiste positie.',
 		
-		"hint1"		: ' Because <code>\color{orange}{<var>SOLUTION</var>}</code> is <span data-if="SOLUTION > 0">positive</span><span data-else>negative</span> the orange dot will be to the <span data-if="SOLUTION > 0">right</span><span data-else>left</span> of 0.',
-		"hint2"		: 'Separate the decimal from the whole number:',
-		"hint3"		: 'Therefore, we know <code>\color{orange}{<var>SOLUTION</var>}</code> lies between <code>\color{orange}{<var>SOLUTION_WHOLE</var>}</code> and <code>\color{orange}{<var>SOLUTION_WHOLE + (SOLUTION > 0 ? 1 : -1)</var>}</code> on the number line.',
-		"hint4"		: 'The orange dot should be shifted to the position <code>\color{orange}{<var>SOLUTION</var>}</code> right of 0.',
-		"hint5"		: 'The orange number shows where <code>\color{orange}{<var>SOLUTION</var>}</code> is on the number line.'
+		"hint1"		: 'Omdat <code>\\color{orange}{<var>SOLUTION</var>}</code> <span data-if="SOLUTION > 0">positief</span><span data-else>negatief</span> is, moet de oranje stip <span data-if="SOLUTION > 0">rechts</span><span data-else>links</span> van de 0 staan.',
+		"hint2"		: 'Scheid de decimaal van het gehele getal:',
+		"hint3"		: 'We weten nu dus dat <code>\\color{orange}{<var>SOLUTION</var>}</code> zich op de getallenlijn tussen de <code>\\color{orange}{<var>SOLUTION_WHOLE</var>}</code> en de <code>\\color{orange}{<var>SOLUTION_WHOLE + (SOLUTION > 0 ? 1 : -1)</var>}</code> bevindt.',
+		"hint4"		: 'De oranje stip moet naar <code>\\color{orange}{<var>SOLUTION</var>}</code> rechts van de 0.',
+		"hint5"		: 'Het oranje getal toont waar <code>\\color{orange}{<var>SOLUTION</var>}</code> op de getallenlijn is.'
 		}
 })
