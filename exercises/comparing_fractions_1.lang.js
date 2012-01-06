@@ -1,16 +1,16 @@
 ({
 	"nl" : {
-		"question1"	: 'Fill in the blank.',
-		"question2"	: 'Fill in the blank.',
+		"question1"	: 'Kies het juiste teken.',
+		"question2"	: 'Kies het juiste teken.',
 		
-		"hint1"		: 'This is like comparing two equally sized pizzas where one is cut into <var>DEN_1</var> equal slices and the other is cut into <var>DEN_2</var> equal slices.',
-		"hint2"		: 'Note that cutting a pizza into more slices will result in smaller slices.',
-		"hint3"		: 'The left fraction represents a pizza with <var>MORE</var> slices, and so each slice is <var>SMALLER</var>.',
-		"hint4"		: '<var>NUM_1</var> <var>SMALLER</var> slice<var>plural( NUM_1 )</var> is <var>LESS</var> pizza than <var>NUM_2</var> <var> BIGGER</var> slice<var>plural( NUM_2 )</var>.',
-		"hint5"		: 'So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.',
-		"hint6"		: 'This is like considering two equally sized pizzas that have been cut into <var>DEN_1</var> equal slices.',
-		"hint7"		: 'Since both pizzas have the same number of slices, all the slices are the same size.',
-		"hint8"		: '<var>plural( NUM_1, "slice" )</var> is <var>LESS</var> pizza than <var>plural( NUM_2, "slice" )</var>.',
-		"hint9"		: 'So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.'
+		"hint1"		: 'Vergelijk dit met twee evengrote pizza\'s waarvan de ene in <var>DEN_1</var> gelijke stukken is gesneden en de andere in <var>DEN_2</var> gelijke stukken.',
+		"hint2"		: 'Bedenk daarbij dat het opdelen van een pizza in meer stukken, kleinere stukken oplevert.',
+		"hint3"		: 'De linkerbreuk betreft de pizza met <var>MORE</var> stukken, dus elk stuk is <var>SMALLER</var>.',
+		"hint4"		: '<var>NUM_1</var> <var>SMALLER</var><var>plural( " stuk", "e stukken", NUM_1)</var> is <var>LESS</var> pizza dan <var>NUM_2</var> <var> BIGGER</var><var>plural(" stuk", "e stukken", NUM_2)</var>.',
+		"hint5"		: 'Dat betekent dus dat <code>\\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \\dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.',
+		"hint6"		: 'Vergelijk dit met evengrote twee pizza\'s die allebei in <var>DEN_1</var> stukken zijn gesneden.',
+		"hint7"		: 'Omdat beide pizza\'s in evenveel stukken zijn gesneden, zijn de stukken even groot.',
+		"hint8"		: '<var>plural( NUM_1, "stuk", "stukken" )</var> is <var>LESS</var> pizza dan <var>plural( NUM_2, "stuk", "stukken" )</var>.',
+		"hint9"		: 'Dat betekent dus dat <code>\\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \\dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.'
 		}
 })

@@ -62,7 +62,7 @@ jQuery.extend(KhanUtil, {
 		"en" : ["one", "ten", "hundred", "thousand"]
 	}),
 	placesRightOfDecimal: tokenreplace.switchLang({
-		"nl" : ["hele getal", "tiental", "honderdtal", "duizendtal"],
+		"nl" : ["hele getal", "tienden", "honderdsten", "duizendsten"],
 		"en" : ["one", "tenth", "hundredth", "thousandth"]
 	}),
 
