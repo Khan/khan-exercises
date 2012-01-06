@@ -57,7 +57,7 @@ Dir["exercises/*.html"].each do |filename|
     var.content = @uglifier.compile(exp)
   end
 
-  doc.css(".graphie").each do |graphie|
+  doc.css(".graphie", "div.guess", "div.show-guess", "div.show-guess-solutionarea").each do |graphie|
     if graphie.elements.any?
       puts "-- error: JS element has children"
       exit 1
@@ -65,6 +65,20 @@ Dir["exercises/*.html"].each do |filename|
 
     js = graphie.content
     graphie.content = @uglifier.compile(js)
+  end
+
+  doc.css("div.validator-function").each do |validator|
+    if validator.elements.any?
+      puts "-- error: JS element has children"
+      exit 1
+    end
+
+    # need to wrap validator-function content in a function, so uglifier
+    # doesn't get confused by the estranged 'return' statement
+    js = "(function(){" + validator.content + "})()"
+    uglified = @uglifier.compile(js)
+    # strip out the anonymous function wrapper to put things back the way they were
+    validator.content = uglified[ /^\(function\(\)\{(.*)\}\)\(\)$/, 1 ]
   end
 
   %w[data-ensure data-if data-else-if].each do |data_attr|
