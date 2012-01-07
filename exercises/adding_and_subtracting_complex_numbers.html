@@ -15,10 +15,10 @@
 		<var id="OPERATION">randFromArray(["add", "subtract"])</var>
 		<var id="OPERATOR">(OPERATION == "add" ? "+" : "-")</var>
 		<var id="ANSWER_REAL">
-			(OPERATION == "add" ? (A_REAL + B_REAL) : (A_REAL - B_REAL))
+			( OPERATION === "add" ? ( A_REAL + B_REAL ) : ( A_REAL - B_REAL ) )
 		</var>
 		<var id="ANSWER_IMAG">
-			(OPERATION == "add" ? (A_IMAG + B_IMAG) : (A_IMAG - B_IMAG))
+			( OPERATION === "add" ? ( A_IMAG + B_IMAG ) : ( A_IMAG - B_IMAG ) )
 		</var>
 	</div>
 
@@ -36,7 +36,7 @@
 					Complex numbers can be <var>OPERATION</var>ed by separately <var>OPERATION</var>ing their real and imaginary components.
 				</p>
 				<p>
-					The real components of the two complex numbers are <var>A_REAL</var> and <var>B_REAL</var>, respectively,
+					The real components of the two complex numbers are <code><var>A_REAL</var></code> and <code><var>B_REAL</var></code>, respectively,
 					so the real component of the result will be <code><var>A_REAL</var> <var>OPERATOR</var> <var>B_REAL</var></code>, which equals <var>ANSWER_REAL</var>.
 				</p>
 				<p>
