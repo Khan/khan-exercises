@@ -12,6 +12,8 @@
 		<var id="A_IMAG">randRange(-5, 5)</var>
 		<var id="B_REAL">randRange(-5, 5)</var>
 		<var id="B_IMAG">randRange(-5, 5)</var>
+		<var id="A_REP">expr([ "+", A_REAL, [ "*", A_IMAG, "i" ] ])</var>
+		<var id="B_REP">expr([ "+", B_REAL, [ "*", B_IMAG, "i" ] ])</var>
 		<var id="ANSWER_REAL">(A_REAL * B_REAL) - (A_IMAG * B_IMAG)</var>
 		<var id="ANSWER_IMAG">(A_REAL * B_IMAG) + (A_IMAG * B_REAL)</var>
 	</div>
@@ -19,7 +21,7 @@
 	<div class="problems">
 		<div id="multiply-cplx">
 			<p class="question">Multiply the following complex numbers:</p>
-			<p><code>(<var>A_REAL</var> + <var>A_IMAG</var>i) \cdot (<var>B_REAL</var> + <var>B_IMAG</var>i)</code></p>
+			<p><code>(<var>A_REP</var>) \cdot (<var>B_REP</var>)</code></p>
 			<div class="solution" data-type="multiple">
 				<p>Real part = <span class="sol" data-type="decimal"><var>ANSWER_REAL</var><span></p>
 				<p>Imaginary part = <span class="sol" data-type="decimal"><var>ANSWER_IMAG</var></span></p>
@@ -30,7 +32,7 @@
 					Complex numbers are multiplied like any two binomials.
 				</p>
 				<p>
-					<code>(<var>A_REAL</var> + <var>A_IMAG</var>i) \cdot (<var>B_REAL</var> + <var>B_IMAG</var>i) = 
+					<code>(<var>A_REP</var>) \cdot (<var>B_REP</var>) = 
 						(<var>A_REAL</var> \cdot <var>B_REAL</var>) + (<var>A_REAL</var> \cdot <var>B_IMAG</var>i) +
 						(<var>A_IMAG</var>i \cdot <var>B_REAL</var>) + (<var>A_IMAG</var>i \cdot <var>B_IMAG</var>i)
 					</code>
