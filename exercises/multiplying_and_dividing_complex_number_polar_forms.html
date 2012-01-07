@@ -25,10 +25,10 @@
 		function redrawFormula() {
 			var angleRep = KhanUtil.piFraction(currentAngle * Math.PI / 12);
 			var equation = polarForm(currentRadius, currentAngle, useEulerForm);
-			equation = KhanUtil.cleanMath(equation);
-			jQuery("#number-label").html("<code>"+equation+"</code>").tmpl();
-			jQuery("#current-radius").html(currentRadius);
-			jQuery("#current-angle").html("<code>"+angleRep+"</code>").tmpl();
+			equation = KhanUtil.cleanMath( equation );
+			jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
+			jQuery( "#current-radius" ).html( currentRadius );
+			jQuery( "#current-angle" ).html( "<code>" + angleRep + "</code>" ).tmpl();
 		}
 
 		function updateComplex(deltaAngle, deltaRadius) {
@@ -234,7 +234,6 @@
 					The angle of the result is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>piFraction(ANSWER_ANGLE * PI / 12)</var></code>.
 				</p>
 			</div>
-
 		</div>
 	</div>
 	</div>
