@@ -33,21 +33,21 @@
 						tickStep: 1,
 						labelStep: 1,
 					});
-					label( [10, 0.5], "Re", "left");
-					label( [0.5, 9], "Im", "right");
+					label( [10, 0.5], "Re", "left" );
+					label( [0.5, 9], "Im", "right" );
 					circle( [REAL, IMAG], 3 / 20, {
-						fill: "blue",
+						fill: KhanUtil.BLUE,
 						stroke: "none"
 					});
 					label( [REAL, IMAG], REAL + " + " + IMAG + "i", "left", {
-						color: "blue",
+						color: KhanUtil.BLUE,
 						labelDistance: 4 
 					} );
 					path([ [0,0], [REAL, 0], [REAL, IMAG]], {
-						stroke: "blue"
+						stroke: KhanUtil.BLUE
 					});
 					path([ [0,0], [REAL, IMAG]], {
-						stroke: "red"
+						stroke: KhanUtil.ORANGE 
 					});
 				</div>
 				<p>

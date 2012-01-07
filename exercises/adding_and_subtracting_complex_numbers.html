@@ -12,8 +12,8 @@
 		<var id="A_IMAG">randRange(-5, 5)</var>
 		<var id="B_REAL">randRange(-5, 5)</var>
 		<var id="B_IMAG">randRange(-5, 5)</var>
-		<var id="OPERATION">randFromArray(["add", "subtract"])</var>
-		<var id="OPERATOR">(OPERATION == "add" ? "+" : "-")</var>
+		<var id="OPERATION">randFromArray( [ "add", "subtract" ] )</var>
+		<var id="OPERATOR">( OPERATION === "add" ? "+" : "-" )</var>
 		<var id="ANSWER_REAL">
 			( OPERATION === "add" ? ( A_REAL + B_REAL ) : ( A_REAL - B_REAL ) )
 		</var>

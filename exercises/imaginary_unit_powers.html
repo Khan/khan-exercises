@@ -35,20 +35,17 @@
 				<li><code>-i</code></li>
 			</ul>
 			<div class="hints">
-				<p data-if="EXP == 1">
+				<p data-if="EXP === 1">
 					Anything to the first power is the number itself.
 				</p>
-				<p data-if="EXP == 1">
-					<code>i ^ 1 = i</code>
-				</p>
-				<p data-if="EXP > 2">
+				<p data-if="EXP >= 2">
 					The most important property of the imaginary unit <code>i</code> is
 					that <code>i ^ 2 = -1</code>.
 				</p>
-				<p data-if="EXP == 3">
-					<code>i ^ 3 = (i ^ 2) \cdot i = (-1) cdot i = -i</code>
+				<p data-if="EXP === 3">
+					<code>i ^ 3 = (i ^ 2) \cdot i = (-1) \cdot i = -i</code>
 				</p>
-				<p data-if="EXP == 4">
+				<p data-if="EXP === 4">
 					<code>i ^ 4 = (i ^ 2) ^ 2 = (-1) ^ 2 = 1</code>
 				</p>
 				<p>
@@ -97,6 +94,21 @@
 				<p>
 					The remainder after dividing <var>EXP</var> by 4 is <var>EXP % 4</var>. <!-- maybe add a reference to mod here... probably after a mod module is made-->
 					So <code>i ^ {<var>EXP</var>} = i ^ {<var>EXP % 4</var>}</code>.
+				</p>
+				<p data-if="(EXP % 4) === 1">
+					Anything to the first power is the number itself.
+				</p>
+				<p data-if="(EXP % 4) >= 2">
+					As stated above, <code>i ^ 2 = -1</code>.
+				</p>
+				<p data-if="(EXP % 4) === 3">
+					<code>i ^ 3 = (i ^ 2) \cdot i = (-1) \cdot i = -i</code>
+				</p>
+				<p data-if="(EXP % 4) === 4">
+					<code>i ^ 4 = (i ^ 2) ^ 2 = (-1) ^ 2 = 1</code>
+				</p>
+				<p>
+					<code>i ^ {<var>EXP % 4</var>} = <var>SOLUTION</var></code>
 				</p>
 				<p>
 					<code>i ^ {<var>EXP</var>} = i ^ {<var>EXP % 4</var>} = <var>SOLUTION</var></code>.
