@@ -122,15 +122,19 @@ jQuery.extend(KhanUtil, {
 				return Math.abs(p - n) <= 0.5;
 			}).length;
 		} else {
-			/* maybe do something faster, like Miller-Rabin */
-			for(var i = 2; i * i <= n; i++) {
-				if ( n % i <= 0.5 ) {
-					return false;
+			if (n <= 1 || n > 2 && n % 2 === 0) {
+				return false;
+			} else {
+				for(var i = 3, sqrt = Math.sqrt(n); i <= sqrt; i += 2) {
+					if ( n % i === 0 ) {
+						return false;
+					}
 				}
 			}
-
+			
 			return true;
 		}
+
 	},
 
 	isOdd: function( n ) {
