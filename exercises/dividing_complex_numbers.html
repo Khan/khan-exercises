@@ -26,7 +26,7 @@
 	<div class="problems">
 		<div>
 			<p class="question">Divide the following complex numbers:</p>
-			<p><code>\frac{<var>A_REP</var>}{<var>B_REP</var>}</code></p>
+			<p><code>\dfrac{<var>A_REP</var>}{<var>B_REP</var>}</code></p>
 			<div class="solution" data-type="multiple">
 				<p>Real part = <span class="sol" data-type="decimal"><var>ANSWER_REAL</var><span></p>
 				<p>Imaginary part = <span class="sol" data-type="decimal"><var>ANSWER_IMAG</var></span></p>
@@ -38,9 +38,9 @@
 					Complex number division is converted to complex multiplication using the denominator's complex conjugate.
 				</p>
 				<p>
-					<code>\frac{<var>A_REP</var>}{<var>B_REP</var>} = 
-						\frac{<var>A_REAL</var> + <var>A_IMAG</var>i}{<var>B_REAL</var> + <var>B_IMAG</var>i} \cdot
-						\frac{<var>B_REAL</var> - <var>B_IMAG</var>i}{<var>B_REAL</var> - <var>B_IMAG</var>i}
+					<code>\dfrac{<var>A_REP</var>}{<var>B_REP</var>} = 
+						\dfrac{<var>A_REAL</var> + <var>A_IMAG</var>i}{<var>B_REAL</var> + <var>B_IMAG</var>i} \cdot
+						\dfrac{<var>B_REAL</var> - <var>B_IMAG</var>i}{<var>B_REAL</var> - <var>B_IMAG</var>i}
 					</code>
 				</p>
 				<p>
@@ -49,13 +49,13 @@
 				</p>
 				<p>
 					<code>
-						\frac{(<var>A_REP</var>) \cdot (<var>B_REAL</var> - <var>B_IMAG</var>i)}
+						\dfrac{(<var>A_REP</var>) \cdot (<var>B_REAL</var> - <var>B_IMAG</var>i)}
 						{(<var>B_REP</var>) \cdot (<var>B_REAL</var> - <var>B_IMAG</var>i)} =
-						\frac{(<var>A_REP</var>) \cdot (<var>B_REAL</var> - <var>B_IMAG</var>i)}
+						\dfrac{(<var>A_REP</var>) \cdot (<var>B_REAL</var> - <var>B_IMAG</var>i)}
 						{(<var>B_REAL</var>)^2 - (<var>B_IMAG</var>i)^2} =
-						\frac{(<var>A_REP</var>) \cdot (<var>B_REAL</var> - <var>B_IMAG</var>i)}
+						\dfrac{(<var>A_REP</var>) \cdot (<var>B_REAL</var> - <var>B_IMAG</var>i)}
 						{<var>B_REAL * B_REAL</var> + <var>B_IMAG * B_IMAG</var>} =
-						\frac{(<var>A_REP</var>) \cdot (<var>B_REAL</var> - <var>B_IMAG</var>i)}
+						\dfrac{(<var>A_REP</var>) \cdot (<var>B_REAL</var> - <var>B_IMAG</var>i)}
 						{<var>B_REAL * B_REAL + B_IMAG * B_IMAG</var>}
 					</code>
 				</p>
@@ -64,15 +64,15 @@
 				</p>
 				<p>
 					<code>
-						\frac{(<var>A_REP</var>) \cdot (<var>B_REAL</var> - <var>B_IMAG</var>i)}
+						\dfrac{(<var>A_REP</var>) \cdot (<var>B_REAL</var> - <var>B_IMAG</var>i)}
 						{<var>DENOMINATOR</var>} = 
-						\frac{(<var>A_REAL</var> \cdot <var>negParens(B_REAL)</var>) + (<var>A_IMAG</var> \cdot <var>negParens(B_REAL)</var>i) + (<var>A_REAL</var> \cdot <var>negParens(B_IMAG)</var>i) + (<var>A_IMAG</var> \cdot <var>negParens(B_IMAG)</var> i^2)}
+						\dfrac{(<var>A_REAL</var> \cdot <var>negParens(B_REAL)</var>) + (<var>A_IMAG</var> \cdot <var>negParens(B_REAL)</var>i) + (<var>A_REAL</var> \cdot <var>negParens(B_IMAG)</var>i) + (<var>A_IMAG</var> \cdot <var>negParens(B_IMAG)</var> i^2)}
 						{<var>DENOMINATOR</var>} =
 					</code><br />
 					<code>\qquad
-						= \frac{<var>A_REAL * B_REAL</var> + <var>A_IMAG * B_REAL</var>i + <var>A_REAL * B_IMAG</var>i - <var>A_IMAG * B_IMAG</var>}
+						= \dfrac{<var>A_REAL * B_REAL</var> + <var>A_IMAG * B_REAL</var>i + <var>A_REAL * B_IMAG</var>i - <var>A_IMAG * B_IMAG</var>}
 						{<var>DENOMINATOR</var>} =
-						\frac{<var>REAL_NUMERATOR</var> + <var>IMAG_NUMERATOR</var>i</var>}
+						\dfrac{<var>REAL_NUMERATOR</var> + <var>IMAG_NUMERATOR</var>i</var>}
 						{<var>DENOMINATOR</var>} =
 						<var>fraction(REAL_NUMERATOR, DENOMINATOR, true, true)</var> +
 						<var>fraction(IMAG_NUMERATOR, DENOMINATOR, true, true, false, true)</var>i
