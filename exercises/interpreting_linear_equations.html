@@ -115,7 +115,7 @@
 				</div>
 			</div>
 
-			<div>
+			<div data-weight="3">
 				<div class="vars" data-ensure="DATAENSURE">
 					<var id="POINTX">randRange(-9, 9)</var>
 					<var id="POINTY">randRange(-9, 9)</var>
@@ -235,17 +235,16 @@
 								});
 							</div>
 
-							<p data-if="POINTX === SOLUTION">The <span style="color: #28ae7b;">green</span> line shows where <code>y</code> is <code><var>POINTY</var></code>.</p>
-							<p data-else>The <span style="color: #28ae7b;">green</span> line shows where <code>x</code> is <code><var>POINTX</var></code>.</p>
+							<p data-if="POINTX === SOLUTION">The dashed <span style="color: #28ae7b;">green</span> line shows where <code>y</code> is <code><var>POINTY</var></code>.</p>
+							<p data-else>The dashed <span style="color: #28ae7b;">green</span> line shows where <code>x</code> is <code><var>POINTX</var></code>.</p>
 						</div>
 
-						<p>The <span style="color: #6495ed;">blue</span> and <span style="color: #28ae7b;">green</span> lines meet at <code><var>POINTX</var>, <var>POINTY</var></code>.</p>
+						<p>The <span style="color: #6495ed;">blue</span> and dashed <span style="color: #28ae7b;">green</span> lines meet at <code><var>POINTX</var>, <var>POINTY</var></code>.</p>
 						<p>Therefore <code><var>POINTX === SOLUTION ? 'x' : 'y'</var></code> is <code><var>SOLUTION</var></code>.</p>
 				</div>
 
 				<div class="solution" data-forms="integer" data-type="multiple">
-					<p><code><var>POINTX === SOLUTION ? 'x' : 'y'</var> =</code> <span class="sol"><var>SOLUTION</var></span></p>
-					<p class="example">an integer, like 6</p>
+					<p><code><var>POINTX === SOLUTION ? 'x' : 'y'</var> =</code> <span class="sol" data-forms="integer"><var>SOLUTION</var></span></p>
 				</var>
 
 			</div>
