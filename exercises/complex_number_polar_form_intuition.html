@@ -17,25 +17,25 @@
 			var graph = KhanUtil.currentGraph;
 			var storage = graph.graph;
 			var dot = storage.complexDot;
-			if (typeof(dot) != "undefined") dot.remove();
-			storage.complexDot = graph.circle( [currentReal, currentImag], 1 / 4, {
-				fill: "red",
+			if ( typeof( dot ) !== "undefined" ) dot.remove();
+			storage.complexDot = graph.circle( [ currentReal, currentImag ], 1 / 4, {
+				fill: KhanUtil.ORANGE,
 				stroke: "none"
 			});
 		}
 
 		function redrawFormula() {
-			var angleRep = KhanUtil.piFraction(currentAngle * Math.PI / 6);
+			var angleRep = KhanUtil.piFraction( currentAngle * Math.PI / 6 );
 			var equation = "x = " + currentRadius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
 			equation = KhanUtil.cleanMath(equation);
-			jQuery("#number-label").html("<code>"+equation+"</code").tmpl();
+			jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
 		}
 
 		function redrawComplex() {
 			recalculateComplexDotCoordinates();
 			redrawFormula();
-			jQuery("#angle input").val(currentAngle);
-			jQuery("#radius input").val(currentRadius);
+			jQuery( "#angle input" ).val(currentAngle);
+			jQuery( "#radius input" ).val(currentRadius);
 			redrawComplexDot();
 		}
 
@@ -70,7 +70,7 @@
 					<var id="IMAG">sin(ANGLE * PI / 6) * RADIUS</var>
 				</div>
 				<p class="question">
-					Adjust the angle and radius of the red plotted complex number to match the blue plotted complex number <code><var>round(REAL * 100) / 100</var> + <var>round(IMAG * 100) / 100</var>i</code>.
+					Adjust the angle and radius of the <span class="hint_orange">orange</span> plotted complex number to match the <span class="hint_blue">blue</span> plotted complex number <code><var>round(REAL * 100) / 100</var> + <var>round(IMAG * 100) / 100</var>i</code>.
 				</p>
 				<p>
 					How do these numbers affect the complex number they represent?
@@ -111,7 +111,7 @@
 					label( [0.5, 9], "Im", "right");
 
 					circle( [REAL, IMAG], 1 / 4, {
-						fill: "blue",
+						fill: KhanUtil.BLUE,
 						stroke: "none"
 					});
 
