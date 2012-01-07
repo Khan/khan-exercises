@@ -8,8 +8,8 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="REAL">(random() < 0.5) ? randRange(2, 8) : randRange(-8, -2)</var> <!-- leave some space for label -->
-		<var id="IMAG">(random() < 0.5) ? randRange(2, 8) : randRange(-8, -2)</var>
+		<var id="REAL">randRangeExclude( -8, 8, [ -1, 0, 1, 2 ] )</var>
+		<var id="IMAG">randRangeExclude( -8, 8, [ -1, 0, 1, 2 ] )</var>
 		<var id="ABS_SQUARE">REAL * REAL + IMAG * IMAG</var>
 	</div>
 
@@ -26,7 +26,7 @@
 					As complex numbers can be visualized as points on the complex plane, absolute values 
 					of complex numbers can be determined using the distance formula.
 				</p>
-				<div class="graphie">
+				<div class="graphie" id="graph">
 					graphInit({
 						range: [[-10, 10], [-10, 10]],
 						scale: 20,
@@ -56,17 +56,18 @@
 					The length of the hypotenuse is the distance of <code><var>REAL</var> + <var>IMAG</var>i</code> from zero, or the absolute value we want to find.
 				</p>
 				<p>
-					Substituting into the Pythagorean theorem, <code>|<var>REAL</var> + <var>IMAG</var>i|^2 = <var>abs(REAL)</var>^2 + <var>abs(IMAG)</var>^2</code>, so
-					<code>|<var>REAL</var> + <var>IMAG</var>i| = \sqrt{<var>abs(REAL)</var>^2 + <var>abs(IMAG)</var>^2}</code>.
+					Substituting into the Pythagorean theorem:<br />
+					<code>\qquad |<var>REAL</var> + <var>IMAG</var>i|^2 = <var>abs(REAL)</var>^2 + <var>abs(IMAG)</var>^2</code>, so <br />
+					<code>\qquad |<var>REAL</var> + <var>IMAG</var>i| = \sqrt{<var>abs(REAL)</var>^2 + <var>abs(IMAG)</var>^2}</code>.
 				</p>
 				<p>
-					<code>\sqrt{<var>abs(REAL)</var>^2 + <var>abs(IMAG)</var>^2} = \sqrt{<var>REAL * REAL</var> + <var>IMAG * IMAG</var>} = \sqrt{<var>ABS_SQUARE</var>}</code>
+					<code>\qquad \sqrt{<var>abs(REAL)</var>^2 + <var>abs(IMAG)</var>^2} = \sqrt{<var>REAL * REAL</var> + <var>IMAG * IMAG</var>} = \sqrt{<var>ABS_SQUARE</var>}</code>
 				</p>
 				<p data-if="squareRootCanSimplify(ABS_SQUARE)">
 					Simplifying the radical gives <code><var>formattedSquareRootOf(ABS_SQUARE)</var></code>. That is the absolute value of <code>|<var>REAL</var> + <var>IMAG</var>i|</code>.
 				</p>
 				<p data-else>
-					The radical cannot be simplified. The absolute value of <code>|<var>REAL</var> + <var>IMAG</var>i|</code> is <code>\sqrt{<var>ABS_SQUARE</var>}</code>.
+					The radical cannot be simplified. The absolute value of <code><var>REAL</var> + <var>IMAG</var>i</code> is <code>\sqrt{<var>ABS_SQUARE</var>}</code>.
 				</p>
 			</div>
 		</div>
