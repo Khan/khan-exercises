@@ -116,18 +116,49 @@
 			</div>
 
 			<div>
-				<div class="vars">
-					<var id="LINESTARTX">randFromArray([-10, 10])</var>
-					<var id="LINESTARTY">randFromArray([-10, 10])</var>
+				<div class="vars" data-ensure="DATAENSURE">
 					<var id="POINTX">randRange(-9, 9)</var>
 					<var id="POINTY">randRange(-9, 9)</var>
 					<var id="SOLUTION">randFromArray([POINTX, POINTY])</var>
+					<var id="LINESTART">
+						(function() {
+							var lineStartX,
+									lineStartY;
+
+							if (randFromArray([false, true])) {
+								lineStartX = randFromArray([-10, 10]);
+								lineStartY = randRange(-10, 10);
+							} else {
+								lineStartX = randRange(-10, 10);
+								lineStartY = randFromArray([-10, 10]);
+							}
+
+							return [lineStartX, lineStartY];
+						})()
+					</var>
 					<var id="LINEEND">
 						(function() {
 							var lineEndX = POINTX,
 									lineEndY = POINTY,
-									xDelta = -(LINESTARTX - POINTX),
-									yDelta = -(LINESTARTY - POINTY);
+									newXDelta,
+									newYDelta,
+									xDelta = -(LINESTART[0] - POINTX),
+									yDelta = -(LINESTART[1] - POINTY);
+
+
+							// Reduce xDelta and yDelta until their absolute values are less than or equal
+							// to one.
+							if (Math.abs(xDelta) &gt; Math.abs(yDelta)) {
+								newXDelta = xDelta > 0 ? 1 : -1;
+								newYDelta = yDelta * newXDelta / xDelta;
+							} else {
+								newYDelta = yDelta > 0 ? 1 : -1;
+								newXDelta = xDelta * newYDelta / yDelta;
+							}
+
+							xDelta = newXDelta;
+							yDelta = newYDelta;
+
 
 							while (Math.abs(lineEndX) &lt; 10 && Math.abs(lineEndY) &lt; 10) {
 								lineEndX += xDelta;
@@ -135,6 +166,32 @@
 							}
 
 							return [lineEndX, lineEndY];
+						})()
+					</var>
+					<var id="DATAENSURE">
+						(function() {
+						// Ensure the X and Y deltas of the beginning and end of the line are at least three.
+						if (LINESTART[0] > LINEEND[0]) {
+							if (LINESTART[0] - LINEEND[0] &lt; 3) {
+								return false;
+							}
+						} else {
+							if (LINEEND[0] - LINESTART[0] &lt; 3) {
+								return fasle;
+							}
+						}
+
+						if (LINESTART[1] > LINEEND[1]) {
+							if (LINESTART[1] - LINEEND[1] &lt; 3) {
+								return false;
+							}
+						} else {
+							if (LINEEND[1] - LINESTART[1] &lt; 3) {
+								return fasle;
+							}
+						}
+						
+						return true;
 						})()
 					</var>
 				</div>
@@ -154,7 +211,7 @@
 						});
 
 						style({stroke: '#6495ed'});
-						line([LINESTARTX, LINESTARTY], LINEEND);
+						line(LINESTART, LINEEND);
 					</div>
 				</div>
 
