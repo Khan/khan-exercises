@@ -735,7 +735,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 				angles = [ 180 + anchorAngle, 360 ];
 				labelPlacement = "right";
 				break;
-		}
+			}
 		jQuery.merge( args, angles );
 
 		graph.style({ stroke: color}, function() {
@@ -856,4 +856,84 @@ function BarChart( data, pos ) {
 		graph.line( bottomCoord, [ x, this.transformY( data.values[ index ] ) ] );
 		graph.label( bottomCoord, "\\text{" + ord + "}", "below" );
 	};
+}
+
+function ComplexPolarForm( angleDenominator, maxRadius ) {
+	var denominator = angleDenominator;
+	var maximumRadius = maxRadius;
+	var angle = 0, radius = 1;
+	var raphaelObjects = [];
+
+	this.update = function ( newAngle, newRadius ) {
+		angle = newAngle;
+		while (angle < 0) angle += denominator;
+		angle %= denominator;
+
+		radius = Math.max( 0, Math.min( newRadius, maximumRadius ) ); // keep between 0 and maximumRadius...
+
+		this.redraw();
+	}
+
+	this.delta = function ( deltaAngle, deltaRadius ) {
+		this.update( angle + deltaAngle, radius + deltaRadius );
+	}
+
+	this.getAngleNumerator = function () {
+		return angle;
+	}
+
+	this.getAngle = function () {
+		return angle * 2 * Math.PI / denominator;
+	}
+
+	this.getRadius = function () {
+		return radius;
+	}
+
+	this.getRealPart = function () {
+		return Math.cos(this.getAngle()) * radius;
+	}
+
+	this.getImaginaryPart = function () {
+		return Math.sin(this.getAngle()) * radius;
+	}
+
+	this.plot = function () {
+		var graph = KhanUtil.currentGraph;
+		raphaelObjects.push( graph.circle( [this.getRealPart(), this.getImaginaryPart()], 1/4, {
+			fill: KhanUtil.ORANGE,
+			stroke: "none"
+		}));
+	}
+
+	this.redraw = function () {
+		jQuery.each( raphaelObjects, function( i, el ) {
+			el.remove();
+		});
+		raphaelObjects = [];
+		this.plot();
+	}
+}
+
+function updateComplexPolarForm( deltaAngle, deltaRadius ) {
+	KhanUtil.currentGraph.graph.currComplexPolar.delta( deltaAngle, deltaRadius );
+	redrawComplexPolarForm();
+}
+
+// TODO: Euler
+function redrawComplexPolarForm() {
+	var graph = KhanUtil.currentGraph;
+	var storage = graph.graph;
+	var point = storage.currComplexPolar;
+	point.redraw();
+
+	var radius = point.getRadius();
+
+	var angleRep = KhanUtil.piFraction( point.getAngle() );
+	var equation = "x = " + radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
+	equation = KhanUtil.cleanMath( equation );
+
+	jQuery( "#angle input" ).val( point.getAngleNumerator() );
+	jQuery( "#radius input" ).val( radius );
+	jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
 }

@@ -4,54 +4,6 @@
 	<meta charset="UTF-8" />
 	<title>Complex number polar form intuition</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		var currentAngle = 0, currentRadius = 1;
-		var currentReal = 1, currentImag = 0;
-
-		function recalculateComplexDotCoordinates() {
-			currentReal = Math.cos(currentAngle * Math.PI / 6) * currentRadius;
-			currentImag = Math.sin(currentAngle * Math.PI / 6) * currentRadius;
-		}
-
-		function redrawComplexDot() {
-			var graph = KhanUtil.currentGraph;
-			var storage = graph.graph;
-			var dot = storage.complexDot;
-			if ( typeof( dot ) !== "undefined" ) dot.remove();
-			storage.complexDot = graph.circle( [ currentReal, currentImag ], 1 / 4, {
-				fill: KhanUtil.ORANGE,
-				stroke: "none"
-			});
-		}
-
-		function redrawFormula() {
-			var angleRep = KhanUtil.piFraction( currentAngle * Math.PI / 6 );
-			var equation = "x = " + currentRadius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
-			equation = KhanUtil.cleanMath(equation);
-			jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
-		}
-
-		function redrawComplex() {
-			recalculateComplexDotCoordinates();
-			redrawFormula();
-			jQuery( "#angle input" ).val(currentAngle);
-			jQuery( "#radius input" ).val(currentRadius);
-			redrawComplexDot();
-		}
-
-		function updateComplexDot(deltaAngle, deltaRadius) {
-			currentAngle += deltaAngle;
-			currentRadius += deltaRadius;
-
-			if (currentRadius < 1) currentRadius = 1;
-			if (currentRadius > 10) currentRadius = 10;
-
-			while (currentAngle < 0) currentAngle += 12;
-			while (currentAngle > 11) currentAngle -= 12;
-			
-			redrawComplex();
-		}
-	</script>
 	<style>
 		.info-box .mini-button {
 			padding: 0px 5px;
@@ -64,10 +16,11 @@
 		<div class="problems">
 			<div>
 				<div class="vars" data-ensure="!(ANGLE == 0 && RADIUS == 1)">
-					<var id="ANGLE">randRange( 0, 11 )</var> <!-- the angle of the complex number is ANGLE * 24pi -->
+					<var id="DENOMINATOR">12</var>
+					<var id="ANGLE">randRange( 0, DENOMINATOR - 1 )</var> <!-- the angle of the complex number is ANGLE * (2 * DENOMINATOR) pi -->
 					<var id="RADIUS">randRange( 1, 10 )</var>
-					<var id="REAL">cos(ANGLE * PI / 6) * RADIUS</var>
-					<var id="IMAG">sin(ANGLE * PI / 6) * RADIUS</var>
+					<var id="REAL">cos(ANGLE * PI * 2 / DENOMINATOR) * RADIUS</var>
+					<var id="IMAG">sin(ANGLE * PI * 2 / DENOMINATOR) * RADIUS</var>
 				</div>
 				<p class="question">
 					Adjust the angle and radius of the <span class="hint_orange">orange</span> plotted complex number to match the <span class="hint_blue">blue</span> plotted complex number <code><var>round(REAL * 100) / 100</var> + <var>round(IMAG * 100) / 100</var>i</code>.
@@ -100,10 +53,12 @@
 						});
 					}
 
-					for (var i = 0; i &lt; 12; i++) {
-						var angle = i * PI / 6;
-						if (i % 3 != 0) { // Don't draw over axes.
-							line( [ 0, 0 ], [ sin(angle) * safeRadius, cos(angle) * safeRadius ], { stroke: "#eee" });
+					for (var i = 0; i &lt; DENOMINATOR; i++) {
+						var angle = i * 2 * PI / DENOMINATOR;
+						if (DENOMINATOR % 4 == 0 &amp;&amp; i % (DENOMINATOR / 4) != 0) { // Don't draw over axes.
+							line( [ 0, 0 ], [ sin(angle) * safeRadius, cos(angle) * safeRadius ], {
+								stroke: "#eee"
+							});
 						}
 					}
 
@@ -115,18 +70,21 @@
 						stroke: "none"
 					});
 
-					redrawComplex();
+					graph.currComplexPolar = new ComplexPolarForm( DENOMINATOR, 10 );
+					redrawComplexPolarForm();
+
+					// redrawComplex();
 				</div>
 
 				<div class="solution" data-type="multiple">
-					<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 10px;" value="+" onclick="updateComplexDot( 0, 1 )" />
-					<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 30px;" value="+" onclick="updateComplexDot( 1, 0 )" />
+					<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 10px;" value="+" onclick="updateComplexPolarForm( 0, 1 )" />
+					<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 30px;" value="+" onclick="updateComplexPolarForm( 1, 0 )" />
 
 					<p id="number-label" style="margin: 8px 0px 2px 0px"><code>x = 1 \cdot (cos({0}) + i \cdot sin({0}))</code></p>
 
 					<div style="padding-bottom: 15px">
-						<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 10px;" value="-" onclick="updateComplexDot( 0, -1 )" />
-						<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 30px;" value="-" onclick="updateComplexDot( -1, 0 )" />
+						<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 10px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />
+						<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 30px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />
 					</div>
 
 					<span class="sol" id="angle" style="display: none"><var>ANGLE</var></span>
