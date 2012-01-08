@@ -10,25 +10,26 @@
 	<div class="problems">
 		<div id="multiply-cplx">
 			<div class="vars" data-ensure="ANSWER_REAL &gt;= -10 &amp;&amp; ANSWER_IMAG &gt;= -10 &amp;&amp; ANSWER_REAL &lt;= 10 &amp;&amp; ANSWER_IMAG &lt;= 10">
+				<var id="DENOMINATOR">24</var>
 				<var id="USE_EULER_FORM">randFromArray([true, false])</var>
 				<var id="A_RADIUS">randRange(1, 7)</var>
-				<var id="A_ANGLE">randRange(0, 23)</var> <!-- the angle is in 1/12's of pi -->
-				<var id="A_ANGLE_REP">piFraction(A_ANGLE * PI / 12)</var>
-				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE * PI / 12, USE_EULER_FORM)</var>
-				<var id="A_REAL">cos(A_ANGLE * PI / 12) * A_RADIUS</var>
-				<var id="A_IMAG">sin(A_ANGLE * PI / 12) * A_RADIUS</var>
+				<var id="A_ANGLE">randRange(0, DENOMINATOR - 1)</var>
+				<var id="A_ANGLE_REP">piFraction(A_ANGLE * PI * 2 / DENOMINATOR)</var>
+				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE * PI * 2 / DENOMINATOR, USE_EULER_FORM)</var>
+				<var id="A_REAL">cos(A_ANGLE * PI * 2 / DENOMINATOR) * A_RADIUS</var>
+				<var id="A_IMAG">sin(A_ANGLE * PI * 2 / DENOMINATOR) * A_RADIUS</var>
 
 				<var id="B_RADIUS">randRange(1, 7)</var>
-				<var id="B_ANGLE">randRange(0, 23)</var>
-				<var id="B_ANGLE_REP">piFraction(B_ANGLE * PI / 12)</var>
-				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE * PI / 12, USE_EULER_FORM)</var>
-				<var id="B_REAL">cos(B_ANGLE * PI / 12) * B_RADIUS</var>
-				<var id="B_IMAG">sin(B_ANGLE * PI / 12) * B_RADIUS</var>
+				<var id="B_ANGLE">randRange(0, DENOMINATOR - 1)</var>
+				<var id="B_ANGLE_REP">piFraction(B_ANGLE * PI * 2 / DENOMINATOR)</var>
+				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE * PI * 2 / DENOMINATOR, USE_EULER_FORM)</var>
+				<var id="B_REAL">cos(B_ANGLE * PI * 2 / DENOMINATOR) * B_RADIUS</var>
+				<var id="B_IMAG">sin(B_ANGLE * PI * 2 / DENOMINATOR) * B_RADIUS</var>
 
 				<var id="ANSWER_RADIUS">(A_RADIUS * B_RADIUS)</var>
-				<var id="ANSWER_ANGLE">(A_ANGLE + B_ANGLE) % 24</var>
-				<var id="ANSWER_REAL">cos(ANSWER_ANGLE * PI / 12) * ANSWER_RADIUS</var>
-				<var id="ANSWER_IMAG">sin(ANSWER_ANGLE * PI / 12) * ANSWER_RADIUS</var>
+				<var id="ANSWER_ANGLE">(A_ANGLE + B_ANGLE) % DENOMINATOR</var>
+				<var id="ANSWER_REAL">cos(ANSWER_ANGLE * PI * 2 / DENOMINATOR) * ANSWER_RADIUS</var>
+				<var id="ANSWER_IMAG">sin(ANSWER_ANGLE * PI * 2 / DENOMINATOR) * ANSWER_RADIUS</var>
 
 				<!-- the R(cos A + i sin A) form contains parentheses, so it's better wrapped in brackets
 				     rather than another pair of parentheses... -->
@@ -48,7 +49,7 @@
 					axisArrows: "<->"
 				});
 
-				drawComplexChart(10, 24);	
+				drawComplexChart(10, DENOMINATOR);	
 
 				circle( [A_REAL, A_IMAG], 1 / 4, {
 					fill: KhanUtil.BLUE,
@@ -60,7 +61,7 @@
 					stroke: "none"
 				});
 
-				graph.currComplexPolar = new ComplexPolarForm( 24, 10, USE_EULER_FORM );
+				graph.currComplexPolar = new ComplexPolarForm( DENOMINATOR, 10, USE_EULER_FORM );
 				redrawComplexPolarForm();
 			</div>
 
@@ -107,43 +108,44 @@
 				</p>
 				<div data-if="A_ANGLE + B_ANGLE > 12 * 2" data-unwrap>
 					<p>
-						The sum of the angles is <code><var>A_ANGLE_REP</var> + <var>B_ANGLE_REP</var> = <var>piFraction((A_ANGLE + B_ANGLE) * PI / 12)</var></code>.
+						The sum of the angles is <code><var>A_ANGLE_REP</var> + <var>B_ANGLE_REP</var> = <var>piFraction((A_ANGLE + B_ANGLE) * PI * 2 / DENOMINATOR)</var></code>.
 					</p>
 					<p>
 						That is more than <code>2 \pi</code>. A complex number goes a full circle if its angle is increased by <code>2 \pi</code>, so it 
 						goes back to itself. Because of that, angles of complex numbers are convient to keep between 0 and <code>2 \pi</code>.
 					</p>
 					<p>
-						After taking <code>2 \pi</code> from the sum, the angle becomes <code><var>piFraction(ANSWER_ANGLE * PI / 12)</var></code>.
+						After taking <code>2 \pi</code> from the sum, the angle becomes <code><var>piFraction(ANSWER_ANGLE * PI * 2 / DENOMINATOR)</var></code>.
 						<!-- The A and B angles are both between 0 and 2pi, so the maximum angle here is 4pi, so it's safe not to handle further 2pi multiples. -->
 					</p>
 				</div>
 				<p data-else>
-					The angle of the result is <code><var>A_ANGLE_REP</var> + <var>B_ANGLE_REP</var> = <var>piFraction(ANSWER_ANGLE * PI / 12)</var></code>.
+					The angle of the result is <code><var>A_ANGLE_REP</var> + <var>B_ANGLE_REP</var> = <var>piFraction(ANSWER_ANGLE * PI * 2 / DENOMINATOR)</var></code>.
 				</p>
 			</div>
 		</div>
 
 		<div id="divide-cplx">
 			<div class="vars">
+				<var id="DENOMINATOR">24</var>
 				<var id="USE_EULER_FORM">randFromArray([true, false])</var>
 
 				<var id="ANSWER_RADIUS">randRange(1, 10)</var>
-				<var id="ANSWER_ANGLE">randRange(0, 23)</var>
+				<var id="ANSWER_ANGLE">randRange(0, DENOMINATOR - 1)</var>
 
 				<var id="B_RADIUS">randRange(1, 7)</var>
-				<var id="B_ANGLE">randRange(0, 23)</var>
-				<var id="B_ANGLE_REP">piFraction(B_ANGLE * PI / 12)</var>
-				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE * PI / 12, USE_EULER_FORM)</var>
-				<var id="B_REAL">cos(B_ANGLE * PI / 12) * B_RADIUS</var>
-				<var id="B_IMAG">sin(B_ANGLE * PI / 12) * B_RADIUS</var>
+				<var id="B_ANGLE">randRange(0, DENOMINATOR - 1)</var>
+				<var id="B_ANGLE_REP">piFraction(B_ANGLE * PI * 2 / DENOMINATOR)</var>
+				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE * PI * 2 / DENOMINATOR, USE_EULER_FORM)</var>
+				<var id="B_REAL">cos(B_ANGLE * PI * 2 / DENOMINATOR) * B_RADIUS</var>
+				<var id="B_IMAG">sin(B_ANGLE * PI * 2 / DENOMINATOR) * B_RADIUS</var>
 
 				<var id="A_RADIUS">ANSWER_RADIUS * B_RADIUS</var>
-				<var id="A_ANGLE">(ANSWER_ANGLE + B_ANGLE) % 24</var>
-				<var id="A_ANGLE_REP">piFraction(A_ANGLE * PI / 12)</var>
-				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE * PI / 12, USE_EULER_FORM)</var>
-				<var id="A_REAL">cos(A_ANGLE * PI / 12) * A_RADIUS</var>
-				<var id="A_IMAG">sin(A_ANGLE * PI / 12) * A_RADIUS</var>
+				<var id="A_ANGLE">(ANSWER_ANGLE + B_ANGLE) % DENOMINATOR</var>
+				<var id="A_ANGLE_REP">piFraction(A_ANGLE * PI * 2 / DENOMINATOR)</var>
+				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE * PI * 2 / DENOMINATOR, USE_EULER_FORM)</var>
+				<var id="A_REAL">cos(A_ANGLE * PI * 2 / DENOMINATOR) * A_RADIUS</var>
+				<var id="A_IMAG">sin(A_ANGLE * PI * 2 / DENOMINATOR) * A_RADIUS</var>
 			</div>
 			<p class="question">Divide the following complex numbers:</p>
 			<p><code>\dfrac{<var>A_REP</var>}{<var>B_REP</var>}</code></p>
@@ -157,7 +159,7 @@
 					axisArrows: "<->"
 				});
 
-				drawComplexChart(10, 24);	
+				drawComplexChart(10, DENOMINATOR);	
 
 				circle( [A_REAL, A_IMAG], 1 / 4, {
 					fill: KhanUtil.BLUE,
@@ -169,7 +171,7 @@
 					stroke: "none"
 				});
 
-				graph.currComplexPolar = new ComplexPolarForm( 24, 10, USE_EULER_FORM );
+				graph.currComplexPolar = new ComplexPolarForm( DENOMINATOR, 10, USE_EULER_FORM );
 				redrawComplexPolarForm();
 			</div>
 
@@ -216,18 +218,18 @@
 				</p>
 				<div data-if="A_ANGLE - B_ANGLE < 0" data-unwrap>
 					<p>
-						The difference of the angles is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>piFraction((A_ANGLE - B_ANGLE) * PI / 12)</var></code>.
+						The difference of the angles is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>piFraction((A_ANGLE - B_ANGLE) * PI * 2 / DENOMINATOR)</var></code>.
 					</p>
 					<p>
 						That is a negative number. A complex number goes a full circle if its angle is increased by <code>2 \pi</code>, so it 
 						goes back to itself. Because of that, angles of complex numbers are convient to keep between 0 and <code>2 \pi</code>.
 					</p>
 					<p>
-						After adding <code>2 \pi</code> to the difference, the angle becomes <code><var>piFraction(ANSWER_ANGLE * PI / 12)</var></code>.
+						After adding <code>2 \pi</code> to the difference, the angle becomes <code><var>piFraction(ANSWER_ANGLE * PI * 2 / DENOMINATOR)</var></code>.
 					</p>
 				</div>
 				<p data-else>
-					The angle of the result is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>piFraction(ANSWER_ANGLE * PI / 12)</var></code>.
+					The angle of the result is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>piFraction(ANSWER_ANGLE * PI * 2 / DENOMINATOR)</var></code>.
 				</p>
 			</div>
 		</div>
