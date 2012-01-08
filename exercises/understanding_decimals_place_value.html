@@ -228,7 +228,7 @@
 						<span class="columnhead">Hundredths</span>
 						<div data-each="10 times" class="coin penny">1&cent;</div>
 					</div>
-					<div class="graphie">
+					<div class="graphie" id="graph">
 						Khan.scratchpad.disable();
 						init({ range: [ [ 0, 143 ], [ -430, 22 ] ], scale: [ 1, 1 ] });
 						style({ fill: "#eee", stroke: "#ddd", strokeWidth: 1 });
@@ -387,7 +387,7 @@
 				<var>plural( "thousand", THOUSANDS )</var>, the place value four places to the left of the decimal point.
 			</p>
 
-			<div class="graphie">
+			<div class="graphie" data-update="graph">
 				var thous = $('#problemarea .thou');
 				thous.removeClass('thou-selected');
 
@@ -405,7 +405,7 @@
 				<var>plural( "hundred", HUNDREDS )</var>, the place value three places to the left of the decimal point.
 			</p>
 
-			<div class="graphie">
+			<div class="graphie" data-update="graph">
 				var hunds = $('#problemarea .hund');
 				hunds.removeClass('hund-selected');
 
@@ -423,7 +423,7 @@
 				<var>plural( "ten", TENS )</var>, the place value two places to the left of the decimal point.
 			</p>
 
-			<div class="graphie">
+			<div class="graphie" data-update="graph">
 				var tens = $('#problemarea .ten');
 				tens.removeClass('ten-selected');
 
@@ -441,7 +441,7 @@
 				<var>plural( "one", ONES )</var>, the place value one place to the left of the decimal point.
 			</p>
 
-			<div class="graphie">
+			<div class="graphie" data-update="graph">
 				var ones = $('#problemarea .one');
 				ones.removeClass('one-selected');
 
@@ -459,7 +459,7 @@
 				<var>plural( "tenth", TENTHS )</var>, the place value one place to the right of the decimal point.
 			</p>
 
-			<div class="graphie">
+			<div class="graphie" data-update="graph">
 				if ($('#place-value').length === 1) {
 					var tenths = $('#problemarea .tenth');
 					tenths.removeClass('tenth-selected');
@@ -479,7 +479,7 @@
 				<var>plural("hundredth", HUNDREDTHS )</var>, the place value two places to the right of the decimal point.
 			</p>
 
-			<div class="graphie">
+			<div class="graphie" data-update="graph">
 				if ($('#place-value').length === 1) {
 					var hundths = $('#problemarea .hundth');
 					hundths.removeClass('hundth-selected');
@@ -499,7 +499,7 @@
 				<var>plural("thousandth", THOUSANDTHS )</var>, the place value three places to the right of the decimal point.
 			</p>
 
-			<div class="graphie">
+			<div class="graphie" data-update="graph">
 				var thouths = $('#problemarea .thouth');
 				thouths.removeClass('thouth-selected');
 
