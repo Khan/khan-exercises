@@ -45,8 +45,6 @@ jQuery.extend ( KhanUtil, {
 		var stringMap = { };
 		var nodeMap = { };
 
-		Node.prototype = new NodeClass();
-
 		// KhanUtil.ast public interface
 
 		jQuery.extend ( this, {
@@ -177,94 +175,6 @@ jQuery.extend ( KhanUtil, {
 				var s = n;
 			}
 			return s;
-		}
-
-		// Wrapper for navigating ASTs
-		function NodeClass (model) {
-
-			jQuery.extend ( this, {
-
-				// n.node("lhs").numberValue()
-				node: function (selector, m) {
-					var nid = this.nid();
-					var newNid = nodePool[nid][selector];
-					KhanUtil.assert(selector in nodePool[nid], "invalid selector");
-					return new Node(newNid, (m===void 0) ? model: m);
-				},
-
-				graph: function (selector) {
-					KhanUtil.assert(model!==void 0, "ast.Node.graph(): model undefined");
-					return model.graph(selector, nid);
-				},
-
-				draw: function () {
-					KhanUtil.assert(model!==void 0, "ast.Node.draw(): model undefined");
-					return model.graph("", nid).draw();
-				},
-
-				text: function (selector) {
-					KhanUtil.assert(model!==void 0, "ast.Node.text(): model undefined");
-					return model.text(selector, nid);
-				},
-
-				format: function (options) {
-					KhanUtil.assert(model!==void 0, "ast.Node.format(): model undefined");
-					return model.text("", nid).format();
-				},
-
-				numberValue: function () {
-					return Number(nodePool[nid].val);
-				},
-
-				intValue: function () {
-					return Number(nodePool[nid].val) << 0;
-				},
-
-				stringValue: function () {
-					var ast = KhanUtil.ast;
-					var n = nodePool[nid];
-					if (n.kind === ast.Kind.STR || n.kind === ast.Kind.NUM) {
-						return String(n.val);
-					}
-					else {
-						return "";
-					}
-				},
-
-				operator: function (selector) {
-					var node = nodePool[nid];
-					//KhanUtil.assert( node.op !== void 0, "ast.Node.operator(): node has no operator." );
-					return node.op;
-				},
-
-				kind: function () {
-					var node = nodePool[nid];
-					KhanUtil.assert( node.kind !== void 0, "ast.Node.operator(): node has no kind." );
-					return node.kind;
-				},
-
-				model: function () {
-					KhanUtil.assert(model!==void 0, "ast.Node.model(): model undefined");
-					return model;
-				},
-
-				nid: function (selector, m) {
-					if (selector===void 0) {
-						return nid;
-					}
-					else {
-						KhanUtil.assert(selector in nodePool[nid], "invalid selector");
-						return nodePool[nid][selector];
-					}
-				},
-
-			} ) ;
-		}
-
-		function Node(n) {
-			this.op = n.op;
-			this.args = n.args;
-			this.nid  = n.nid;
 		}
 
 	} (),
