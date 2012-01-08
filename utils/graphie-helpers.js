@@ -858,11 +858,43 @@ function BarChart( data, pos ) {
 	};
 }
 
-function ComplexPolarForm( angleDenominator, maxRadius ) {
+function drawComplexChart( radius, denominator ) {
+	var graph = KhanUtil.currentGraph;
+	var safeRadius = radius * Math.sqrt(2);
+
+	// Draw lines of cplx. numbers with same angle and
+	// circles of cplx. numbers with same radius to help the intuition.
+	
+	graph.style({
+		strokeWidth: 1.0
+	});
+
+	for (var i = 1; i <= safeRadius; i++) {
+		graph.circle( [0, 0], i, {
+			fill: "none",
+			stroke: "#eee"
+		});
+	}
+
+	for (var i = 0; i < denominator; i++) {
+		var angle = i * 2 * Math.PI / denominator;
+		if (denominator % 4 === 0 && i % (denominator / 4) != 0) { // Don't draw over axes.
+			graph.line( [ 0, 0 ], [ Math.sin(angle) * safeRadius, Math.cos(angle) * safeRadius ], {
+				stroke: "#eee"
+			});
+		}
+	}
+
+	graph.label( [ radius, 0.5 ], "Re", "left");
+	graph.label( [ 0.5, radius - 1 ], "Im", "right");
+}
+
+function ComplexPolarForm( angleDenominator, maxRadius, euler ) {
 	var denominator = angleDenominator;
 	var maximumRadius = maxRadius;
 	var angle = 0, radius = 1;
 	var raphaelObjects = [];
+	var useEuler = euler;
 
 	this.update = function ( newAngle, newRadius ) {
 		angle = newAngle;
@@ -898,6 +930,10 @@ function ComplexPolarForm( angleDenominator, maxRadius ) {
 		return Math.sin(this.getAngle()) * radius;
 	}
 
+	this.getUseEulerForm = function () {
+		return this.useEulerForm;
+	}
+
 	this.plot = function () {
 		var graph = KhanUtil.currentGraph;
 		raphaelObjects.push( graph.circle( [this.getRealPart(), this.getImaginaryPart()], 1/4, {
@@ -920,20 +956,31 @@ function updateComplexPolarForm( deltaAngle, deltaRadius ) {
 	redrawComplexPolarForm();
 }
 
-// TODO: Euler
+function polarForm( radius, angleRep, useEulerForm ) {
+	var equation;
+	if ( useEulerForm ) {
+		equation = radius + " e^{" + angleRep + " i}";
+	} else {
+		equation = radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
+	}
+	return equation;
+}
+
 function redrawComplexPolarForm() {
 	var graph = KhanUtil.currentGraph;
 	var storage = graph.graph;
 	var point = storage.currComplexPolar;
 	point.redraw();
 
+	var useEulerForm = point.getUseEulerForm();
 	var radius = point.getRadius();
 
 	var angleRep = KhanUtil.piFraction( point.getAngle() );
-	var equation = "x = " + radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
-	equation = KhanUtil.cleanMath( equation );
+	var equation = polarForm( radius, angleRep, useEulerForm );
 
 	jQuery( "#angle input" ).val( point.getAngleNumerator() );
 	jQuery( "#radius input" ).val( radius );
 	jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
+	jQuery( "#current-radius" ).html( radius );
+	jQuery( "#current-angle" ).html( "<code>" + angleRep + "</code>" ).tmpl();
 }
