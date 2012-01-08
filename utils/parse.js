@@ -33,25 +33,50 @@ jQuery.extend ( KhanUtil, {
 		var TK_VAR          = 'a'.charCodeAt(0);
 		var TK_NEXT         = 0x108;
 
+		var OpStr = {
+			ADD: "+",
+			SUB: "-",
+			MUL: "times",
+			DIV: "div",
+			FRAC: "frac",
+			EQL: "=",
+			ATAN2: "atan2",
+			SQRT: "sqrt",
+			PM: "pm",
+			SIN: "sin",
+			COS: "cos",
+			TAN: "tan",
+			SEC: "sec",
+			LN: "ln",
+			VAR: "var",
+			COMMA: ",",
+			POW: "^",
+			ABS: "abs",
+			PAREN: "()",
+			HIGHLIGHT: "hi",
+		};
+		
+
+
 		var util = KhanUtil;
 		var ast = util.ast;
 		var tokenToOperator = [ ];
 
 		var T0=TK_NONE, T1=TK_NONE;
 
-		tokenToOperator[TK_FRAC]  = ast.OpStr.FRAC;
-		tokenToOperator[TK_SQRT]  = ast.OpStr.SQRT;
-		tokenToOperator[TK_ADD]   = ast.OpStr.ADD;
-		tokenToOperator[TK_SUB]   = ast.OpStr.SUB;
-		tokenToOperator[TK_PM]    = ast.OpStr.PM;
-		tokenToOperator[TK_CARET] = ast.OpStr.POW;
-		tokenToOperator[TK_MUL]   = ast.OpStr.MUL;
-		tokenToOperator[TK_DIV]   = ast.OpStr.DIV;
-		tokenToOperator[TK_SIN]   = ast.OpStr.SIN;
-		tokenToOperator[TK_COS]   = ast.OpStr.COS;
-		tokenToOperator[TK_TAN]   = ast.OpStr.TAN;
-		tokenToOperator[TK_SEC]   = ast.OpStr.SEC;
-		tokenToOperator[TK_LN]    = ast.OpStr.LN;
+		tokenToOperator[TK_FRAC]  = OpStr.FRAC;
+		tokenToOperator[TK_SQRT]  = OpStr.SQRT;
+		tokenToOperator[TK_ADD]   = OpStr.ADD;
+		tokenToOperator[TK_SUB]   = OpStr.SUB;
+		tokenToOperator[TK_PM]    = OpStr.PM;
+		tokenToOperator[TK_CARET] = OpStr.POW;
+		tokenToOperator[TK_MUL]   = OpStr.MUL;
+		tokenToOperator[TK_DIV]   = OpStr.DIV;
+		tokenToOperator[TK_SIN]   = OpStr.SIN;
+		tokenToOperator[TK_COS]   = OpStr.COS;
+		tokenToOperator[TK_TAN]   = OpStr.TAN;
+		tokenToOperator[TK_SEC]   = OpStr.SEC;
+		tokenToOperator[TK_LN]    = OpStr.LN;
 
 		var scan = scanner(src);
 
@@ -216,7 +241,7 @@ jQuery.extend ( KhanUtil, {
 			var t;
 
 			while((t=hd())===TK_VAR || t===TK_LEFTPAREN) {
-				e = {op: ast.OpStr.MUL, args: [e, exponentialExpr()]};
+				e = {op: OpStr.MUL, args: [e, exponentialExpr()]};
 			}
 
 			while (isMultiplicative(t = hd())) {
