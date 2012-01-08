@@ -1,9 +1,9 @@
 ({
 	"nl" : {
-		"exercise1"	: '{This afternoon, an outdoor temperature had a reading of|On a cold February afternoon, the temperature outside was} <var>abs( X )</var> degrees below zero. {By evening, the temperature had dropped by|In the evening, you take a quick look at the thermometer, and see that the temperature had dropped by} <var>Y</var> degrees.',
-		"exercise2"	: 'What was the temperature in the evening?',
-		"exercise3"	: '<var>Z</var></span> degrees',
-		"exercise4"	: '{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for <var>his( 1 )</var> daily sledding practice}, <var>he( 1 )</var> {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>plural( randRange( 1, 8 ), "hour" )</var>,|After a long day of sledding <var>he( 1 )</var> saw that} the temperature was now <var>Z</var> degrees.',
+		"exercise1"	: '{\'s Middags wees de thermometer een temperatuur aan van|Op een koude middag in februari was het buiten} <var>abs( X )</var> graden onder nul. {\'s Avonds was de temperatuur <var>Y</var> graden lager:|Als je \'s avonds weer op de thermometer kijkt, zie je dat de temperatuur gedaald is met<var>Y</var> graden}.',
+		"exercise2"	: 'Hoe koud was het \'s avonds?',
+		"exercise3"	: '<var>Z</var></span> graden',
+		"exercise4"	: '{Toen <var>person( 1 )</var> \'s ochtend naar buiten ging om te gaan schaatsen|As <var>person( 1 )</var> prepared for <var>his( 1 )</var> daily sledding practice}, {keek <var>he( 1 )</var> op de thermometer en zag|hoorde <var>he( 1 )</var> op de radio} dat de temperatuur <var>abs( X )</var> graden onder nul was. Nadat <var>he( 1 )</var> {<var>( randRange( 1, 8 ))</var> uur geschaatst had| een lange dag geschaatst had} zag <var>he( 1 )</var> dat de temperatuur <var>Z</var> graden was.',
 		"exercise5"	: 'By how many degrees had the temperature increased?',
 		"exercise6"	: '<span class="sol" data-forms="integer"><var>Y</var></span> degrees',
 		"exercise7"	: '<var>person( 1 )</var> was scuba diving <var>X</var> meters below sea level when <var>he( 1 )</var> spotted a beautiful fish below. {From a distance, the fish looked to be about <var>randRange( 25, 35 )</var> cm wide. |}{To take a proper photograph|To see the fish up close}, <var>person( 1 )</var> dove <var>Y</var> meters until <var>he( 1 )</var> was level with the fish, staring into its eyes.',
