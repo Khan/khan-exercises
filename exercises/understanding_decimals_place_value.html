@@ -189,6 +189,20 @@
 			<div class="vars">
 				<var id="HUNDREDTHS">randRange( 1, 9 )</var>
 				<var id="THOUSANDTHS">0</var>
+				<var id="GETCOINCIRCLE">
+					function(coin) {
+						var coins,
+								coin = $(coin);
+
+						if (coin.hasClass('dime')) {
+							coins = KhanUtil.currentGraph.graph.tenths;
+						} else {
+							coins = KhanUtil.currentGraph.graph.hundredths;
+						}
+
+						return coins[coin.index() - 1];	
+					}
+				</var>
 			</div>
 			<p class="question">
 				Choose the right number of bills and coins to make<br />
@@ -260,42 +274,42 @@
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'dime-selected' );
 							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
-								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ fill: 'purple', stroke: '#000' });
+								GETCOINCIRCLE(this).attr({ fill: 'purple', stroke: '#000' });
 							} else {
-								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ fill: '#eee', stroke: '#ddd' });
+								GETCOINCIRCLE(this).attr({ fill: '#eee', stroke: '#ddd' });
 							}
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'penny-selected' );
 							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
-								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ fill: 'gray', stroke: '#000' });
+								GETCOINCIRCLE(this).attr({ fill: 'gray', stroke: '#000' });
 							} else {
-								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ fill: '#eee', stroke: '#ddd' });
+								GETCOINCIRCLE(this).attr({ fill: '#eee', stroke: '#ddd' });
 							}
 						});
 
 						// mouseover handlers
 						jQuery( "#problemarea .dime" ).bind( "vmouseover", function( event ) {
-							KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#999' });
+							GETCOINCIRCLE(this).attr({ stroke: '#999' });
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmouseover", function( event ) {
-							KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#999' });
+							GETCOINCIRCLE(this).attr({ stroke: '#999' });
 						});
 
 						// mouseout handlers
 						jQuery( "#problemarea .dime" ).bind( "vmouseout", function( event ) {
 							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
-								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
+								GETCOINCIRCLE(this).attr({ stroke: '#000' });
 							} else {
-								KhanUtil.currentGraph.graph.tenths[ jQuery( this ).index() - 1 ].attr({ stroke: '#ddd' });
+								GETCOINCIRCLE(this).attr({ stroke: '#ddd' });
 							}
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmouseout", function( event ) {
 							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
-								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#000' });
+								GETCOINCIRCLE(this).attr({ stroke: '#000' });
 							} else {
-								KhanUtil.currentGraph.graph.hundredths[ jQuery( this ).index() - 1 ].attr({ stroke: '#ddd' });
+								GETCOINCIRCLE(this).attr({ stroke: '#ddd' });
 							}
 						});
 					</div>
@@ -467,6 +481,18 @@
 					for (var i = 0;i &lt; TENTHS;i++) {
 						$(tenths[i]).addClass('tenth-selected');
 					}
+				} else {
+					var dimes = $('#problemarea .dime');
+					dimes.removeClass('dime-selected');
+
+					for (var i = 0;i &lt; dimes.length;i++) {
+						GETCOINCIRCLE(dimes[i]).attr({ fill: '#eee', stroke: '#ddd' });
+					}
+
+					for (var i = 0;i &lt; TENTHS;i++) {
+						$(dimes[i]).addClass('dime-selected');
+						GETCOINCIRCLE(dimes[i]).attr({ fill: 'purple', stroke: '#000' });
+					}
 				}
 			</div>
 		</div>
@@ -486,6 +512,18 @@
 
 					for (var i = 0;i &lt; HUNDREDTHS;i++) {
 						$(hundths[i]).addClass('hundth-selected');
+					}
+				} else {
+					var pennies = $('#problemarea .penny');
+					pennies.removeClass('penny-selected');
+
+					for (var i = 0;i &lt; pennies.length;i++) {
+						GETCOINCIRCLE(pennies[i]).attr({ fill: '#eee', stroke: '#ddd' });
+					}
+
+					for (var i = 0;i &lt; HUNDREDTHS;i++) {
+						$(pennies[i]).addClass('penny-selected');
+						GETCOINCIRCLE(pennies[i]).attr({ fill: 'gray', stroke: '#000' });
 					}
 				}
 			</div>
