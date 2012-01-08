@@ -77,6 +77,18 @@
 			</p>
 
 			<div class="problem">
+				<!--
+					If this didn't exist you would get the following error:
+
+						Uncaught TypeError: Cannot read property 'graph' of undefined
+
+					Because:
+
+						- Both problems use the same .hints.
+						- .hints uses .graphie.
+						- The other problem uses graphie so .hints's .graphies must use data-update.
+				-->
+				<div class="graphie" id="graph"></div>
 				<div class="column">
 					<span class="columnhead">Thousands</span>
 					<div data-each="10 times" class="place-value thou">1000</div>
@@ -189,20 +201,6 @@
 			<div class="vars">
 				<var id="HUNDREDTHS">randRange( 1, 9 )</var>
 				<var id="THOUSANDTHS">0</var>
-				<var id="GETCOINCIRCLE">
-					function(coin) {
-						var coins,
-								coin = $(coin);
-
-						if (coin.hasClass('dime')) {
-							coins = KhanUtil.currentGraph.graph.tenths;
-						} else {
-							coins = KhanUtil.currentGraph.graph.hundredths;
-						}
-
-						return coins[coin.index() - 1];	
-					}
-				</var>
 			</div>
 			<p class="question">
 				Choose the right number of bills and coins to make<br />
@@ -253,6 +251,19 @@
 							graph.hundredths.push( circle( [ 107, (-42 * i) - 26 ], 18 ) );
 						}
 
+						graph.getCoinCircle = function(coin) {
+							var coins,
+							    coin = $(coin);
+
+							if (coin.hasClass('dime')) {
+								coins = KhanUtil.currentGraph.graph.tenths;
+							} else {
+								coins = KhanUtil.currentGraph.graph.hundredths;
+							}
+
+							return coins[coin.index() - 1];	
+						}
+
 						// click handlers
 						jQuery( "#problemarea .thou" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
@@ -274,42 +285,42 @@
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'dime-selected' );
 							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
-								GETCOINCIRCLE(this).attr({ fill: 'purple', stroke: '#000' });
+								graph.getCoinCircle(this).attr({ fill: 'purple', stroke: '#000' });
 							} else {
-								GETCOINCIRCLE(this).attr({ fill: '#eee', stroke: '#ddd' });
+								graph.getCoinCircle(this).attr({ fill: '#eee', stroke: '#ddd' });
 							}
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'penny-selected' );
 							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
-								GETCOINCIRCLE(this).attr({ fill: 'gray', stroke: '#000' });
+								graph.getCoinCircle(this).attr({ fill: 'gray', stroke: '#000' });
 							} else {
-								GETCOINCIRCLE(this).attr({ fill: '#eee', stroke: '#ddd' });
+								graph.getCoinCircle(this).attr({ fill: '#eee', stroke: '#ddd' });
 							}
 						});
 
 						// mouseover handlers
 						jQuery( "#problemarea .dime" ).bind( "vmouseover", function( event ) {
-							GETCOINCIRCLE(this).attr({ stroke: '#999' });
+							graph.getCoinCircle(this).attr({ stroke: '#999' });
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmouseover", function( event ) {
-							GETCOINCIRCLE(this).attr({ stroke: '#999' });
+							graph.getCoinCircle(this).attr({ stroke: '#999' });
 						});
 
 						// mouseout handlers
 						jQuery( "#problemarea .dime" ).bind( "vmouseout", function( event ) {
 							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
-								GETCOINCIRCLE(this).attr({ stroke: '#000' });
+								graph.getCoinCircle(this).attr({ stroke: '#000' });
 							} else {
-								GETCOINCIRCLE(this).attr({ stroke: '#ddd' });
+								graph.getCoinCircle(this).attr({ stroke: '#ddd' });
 							}
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmouseout", function( event ) {
 							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
-								GETCOINCIRCLE(this).attr({ stroke: '#000' });
+								graph.getCoinCircle(this).attr({ stroke: '#000' });
 							} else {
-								GETCOINCIRCLE(this).attr({ stroke: '#ddd' });
+								graph.getCoinCircle(this).attr({ stroke: '#ddd' });
 							}
 						});
 					</div>
@@ -402,6 +413,7 @@
 			</p>
 
 			<div class="graphie" data-update="graph">
+				// Select thousands.
 				var thous = $('#problemarea .thou');
 				thous.removeClass('thou-selected');
 
@@ -420,6 +432,7 @@
 			</p>
 
 			<div class="graphie" data-update="graph">
+				// Select hundreds.
 				var hunds = $('#problemarea .hund');
 				hunds.removeClass('hund-selected');
 
@@ -438,6 +451,7 @@
 			</p>
 
 			<div class="graphie" data-update="graph">
+				// Select tens.
 				var tens = $('#problemarea .ten');
 				tens.removeClass('ten-selected');
 
@@ -456,6 +470,7 @@
 			</p>
 
 			<div class="graphie" data-update="graph">
+				// Select ones.
 				var ones = $('#problemarea .one');
 				ones.removeClass('one-selected');
 
@@ -474,6 +489,7 @@
 			</p>
 
 			<div class="graphie" data-update="graph">
+				// Select pennies/tenths.
 				if ($('#place-value').length === 1) {
 					var tenths = $('#problemarea .tenth');
 					tenths.removeClass('tenth-selected');
@@ -486,12 +502,12 @@
 					dimes.removeClass('dime-selected');
 
 					for (var i = 0;i &lt; dimes.length;i++) {
-						GETCOINCIRCLE(dimes[i]).attr({ fill: '#eee', stroke: '#ddd' });
+						graph.getCoinCircle(dimes[i]).attr({ fill: '#eee', stroke: '#ddd' });
 					}
 
 					for (var i = 0;i &lt; TENTHS;i++) {
 						$(dimes[i]).addClass('dime-selected');
-						GETCOINCIRCLE(dimes[i]).attr({ fill: 'purple', stroke: '#000' });
+						graph.getCoinCircle(dimes[i]).attr({ fill: 'purple', stroke: '#000' });
 					}
 				}
 			</div>
@@ -506,6 +522,7 @@
 			</p>
 
 			<div class="graphie" data-update="graph">
+				// Select dimes/hundredths.
 				if ($('#place-value').length === 1) {
 					var hundths = $('#problemarea .hundth');
 					hundths.removeClass('hundth-selected');
@@ -518,12 +535,12 @@
 					pennies.removeClass('penny-selected');
 
 					for (var i = 0;i &lt; pennies.length;i++) {
-						GETCOINCIRCLE(pennies[i]).attr({ fill: '#eee', stroke: '#ddd' });
+						graph.getCoinCircle(pennies[i]).attr({ fill: '#eee', stroke: '#ddd' });
 					}
 
 					for (var i = 0;i &lt; HUNDREDTHS;i++) {
 						$(pennies[i]).addClass('penny-selected');
-						GETCOINCIRCLE(pennies[i]).attr({ fill: 'gray', stroke: '#000' });
+						graph.getCoinCircle(pennies[i]).attr({ fill: 'gray', stroke: '#000' });
 					}
 				}
 			</div>
@@ -538,6 +555,7 @@
 			</p>
 
 			<div class="graphie" data-update="graph">
+				// Select thousandths.
 				var thouths = $('#problemarea .thouth');
 				thouths.removeClass('thouth-selected');
 
