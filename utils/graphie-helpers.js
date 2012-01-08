@@ -894,14 +894,14 @@ function ComplexPolarForm( angleDenominator, maxRadius, euler ) {
 	var maximumRadius = maxRadius;
 	var angle = 0, radius = 1;
 	var raphaelObjects = [];
-	var useEuler = euler;
+	var useEulerForm = euler;
 
 	this.update = function ( newAngle, newRadius ) {
 		angle = newAngle;
 		while (angle < 0) angle += denominator;
 		angle %= denominator;
 
-		radius = Math.max( 0, Math.min( newRadius, maximumRadius ) ); // keep between 0 and maximumRadius...
+		radius = Math.max( 1, Math.min( newRadius, maximumRadius ) ); // keep between 0 and maximumRadius...
 
 		this.redraw();
 	}
@@ -931,7 +931,7 @@ function ComplexPolarForm( angleDenominator, maxRadius, euler ) {
 	}
 
 	this.getUseEulerForm = function () {
-		return this.useEulerForm;
+		return useEulerForm;
 	}
 
 	this.plot = function () {
@@ -956,10 +956,11 @@ function updateComplexPolarForm( deltaAngle, deltaRadius ) {
 	redrawComplexPolarForm();
 }
 
-function polarForm( radius, angleRep, useEulerForm ) {
+function polarForm( radius, angle, useEulerForm ) {
+	var angleRep = KhanUtil.piFraction(angle);
 	var equation;
 	if ( useEulerForm ) {
-		equation = radius + " e^{" + angleRep + " i}";
+		equation = KhanUtil.expr([ "*", radius, " e^{" + (angleRep + " i") + "}"]);
 	} else {
 		equation = radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
 	}
@@ -972,15 +973,14 @@ function redrawComplexPolarForm() {
 	var point = storage.currComplexPolar;
 	point.redraw();
 
-	var useEulerForm = point.getUseEulerForm();
 	var radius = point.getRadius();
+	var angle = point.getAngle();
 
-	var angleRep = KhanUtil.piFraction( point.getAngle() );
-	var equation = polarForm( radius, angleRep, useEulerForm );
+	var equation = polarForm( radius, angle, point.getUseEulerForm() );
 
 	jQuery( "#angle input" ).val( point.getAngleNumerator() );
 	jQuery( "#radius input" ).val( radius );
 	jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
 	jQuery( "#current-radius" ).html( radius );
-	jQuery( "#current-angle" ).html( "<code>" + angleRep + "</code>" ).tmpl();
+	jQuery( "#current-angle" ).html( "<code>" + KhanUtil.piFraction(angle) + "</code>" ).tmpl();
 }

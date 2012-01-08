@@ -1,92 +1,68 @@
-<!--
-	This exercise (and other polar form ones) are written for
-	the trigonometric complex number form (z = r(cos phi + i sin phi)).
-	It might be cool to sometimes mix this up with z = r e^{i phi}.
--->
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>Multiplying and dividing complex number polar forms</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-		var currentAngle = 0, currentRadius = 1, useEulerForm;
-
-		// useEulerForm: if truthy, use the form Re^A, otherwise use R (cos(A) + i sin(A))
-		function polarForm(radius, angle, useEulerForm) {
-			var angleRep = KhanUtil.piFraction(angle * Math.PI / 12);
-			if (useEulerForm) {
-				return radius + " e^{" + angleRep + " i}";
-			} else {
-				return radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
-			}
-		}
-
-		function redrawFormula() {
-			var angleRep = KhanUtil.piFraction(currentAngle * Math.PI / 12);
-			var equation = polarForm(currentRadius, currentAngle, useEulerForm);
-			equation = KhanUtil.cleanMath( equation );
-			jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
-			jQuery( "#current-radius" ).html( currentRadius );
-			jQuery( "#current-angle" ).html( "<code>" + angleRep + "</code>" ).tmpl();
-		}
-
-		function updateComplex(deltaAngle, deltaRadius) {
-			currentAngle += deltaAngle;
-			currentRadius += deltaRadius;
-
-			if (currentRadius < 1) currentRadius = 1;
-			if (currentRadius > 15) currentRadius = 15;
-
-			while (currentAngle < 0) currentAngle += 24;
-			while (currentAngle > 23) currentAngle -= 24;
-			
-			fillAnswerInputs();
-			redrawFormula();
-		}
-
-		function fillAnswerInputs() {
-			jQuery( "#angle input" ).val( currentAngle );
-			jQuery( "#radius input" ).val( currentRadius );
-		}
-	</script>
 </head>
 <body>
 	<div class="exercise">
 	<div class="problems">
 		<div id="multiply-cplx">
-			<div class="vars" data-ensure="ANSWER_RADIUS < 15">
+			<div class="vars" data-ensure="ANSWER_REAL &gt;= -10 &amp;&amp; ANSWER_IMAG &gt;= -10 &amp;&amp; ANSWER_REAL &lt;= 10 &amp;&amp; ANSWER_IMAG &lt;= 10">
 				<var id="USE_EULER_FORM">randFromArray([true, false])</var>
 				<var id="A_RADIUS">randRange(1, 7)</var>
 				<var id="A_ANGLE">randRange(0, 23)</var> <!-- the angle is in 1/12's of pi -->
 				<var id="A_ANGLE_REP">piFraction(A_ANGLE * PI / 12)</var>
-				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE, USE_EULER_FORM)</var>
+				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE * PI / 12, USE_EULER_FORM)</var>
+				<var id="A_REAL">cos(A_ANGLE * PI / 12) * A_RADIUS</var>
+				<var id="A_IMAG">sin(A_ANGLE * PI / 12) * A_RADIUS</var>
 
 				<var id="B_RADIUS">randRange(1, 7)</var>
 				<var id="B_ANGLE">randRange(0, 23)</var>
 				<var id="B_ANGLE_REP">piFraction(B_ANGLE * PI / 12)</var>
-				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE, USE_EULER_FORM)</var>
+				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE * PI / 12, USE_EULER_FORM)</var>
+				<var id="B_REAL">cos(B_ANGLE * PI / 12) * B_RADIUS</var>
+				<var id="B_IMAG">sin(B_ANGLE * PI / 12) * B_RADIUS</var>
 
 				<var id="ANSWER_RADIUS">(A_RADIUS * B_RADIUS)</var>
 				<var id="ANSWER_ANGLE">(A_ANGLE + B_ANGLE) % 24</var>
+				<var id="ANSWER_REAL">cos(ANSWER_ANGLE * PI / 12) * ANSWER_RADIUS</var>
+				<var id="ANSWER_IMAG">sin(ANSWER_ANGLE * PI / 12) * ANSWER_RADIUS</var>
 
 				<!-- the R(cos A + i sin A) form contains parentheses, so it's better wrapped in brackets
 				     rather than another pair of parentheses... -->
 				<var id="BRACKETS">USE_EULER_FORM ? '()' : '[]'</var>
 				<var id="LEFT_BRACKET">BRACKETS[0]</var>
 				<var id="RIGHT_BRACKET">BRACKETS[1]</var>
-				<var>
-					(function() {
-						currentAngle = 0;
-						currentRadius = 1;
-						useEulerForm = USE_EULER_FORM;
-						redrawFormula();
-						fillAnswerInputs();
-					})()
-				</var>
 			</div>
-			<p class="question">Multiply the following complex numbers:</p>
+			<p class="question">Multiply the following complex numbers, marked as <span class="hint_blue">blue</span> dots on the graph:</p>
 			<p><code><var>LEFT_BRACKET</var><var>A_REP</var><var>RIGHT_BRACKET</var> \cdot <var>LEFT_BRACKET</var><var>B_REP</var><var>RIGHT_BRACKET</var></code></p>
+
+			<!-- TODO: use the dots in hints? -->
+			<div class="graphie">
+				graphInit({
+					range: [[-10, 10], [-10, 10]],
+					scale: 20,
+					tickStep: 1,
+					axisArrows: "<->"
+				});
+
+				drawComplexChart(10, 24);	
+
+				circle( [A_REAL, A_IMAG], 1 / 4, {
+					fill: KhanUtil.BLUE,
+					stroke: "none"
+				});
+
+				circle( [B_REAL, B_IMAG], 1 / 4, {
+					fill: KhanUtil.BLUE,
+					stroke: "none"
+				});
+
+				graph.currComplexPolar = new ComplexPolarForm( 24, 10, USE_EULER_FORM );
+				redrawComplexPolarForm();
+			</div>
 
 			<!-- TODO: factor the answer type out... -->
 			<div class="solution" data-type="multiple">
@@ -96,8 +72,8 @@
 					Radius: <span id="current-radius">1</span>
 						</td>
 						<td>
-							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplex( 0, 1 )" />
-							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplex( 0, -1 )" />
+							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />
+							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />
 						</td>
 					</tr>
 					<tr>
@@ -105,13 +81,13 @@
 					Angle: <span id="current-angle"><code>0 \pi</code></span>
 						</td>
 						<td>
-							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplex( 1, 0 )" />
-							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplex( -1, 0 )" />
+							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />
+							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />
 						</td>
 					</tr>
 				</table>
 
-				<p id="number-label" style="margin: 8px 0px 2px 0px"><code><var>polarForm(1, 0, USE_EULER_FORM)</var></code></p>
+				<p id="number-label" style="margin: 8px 0px 2px 0px"></p>
 
 				<span class="sol" id="angle" style="display: none"><var>ANSWER_ANGLE</var></span>
 				<span class="sol" id="radius" style="display: none"><var>ANSWER_RADIUS</var></span>
@@ -158,25 +134,45 @@
 				<var id="B_RADIUS">randRange(1, 7)</var>
 				<var id="B_ANGLE">randRange(0, 23)</var>
 				<var id="B_ANGLE_REP">piFraction(B_ANGLE * PI / 12)</var>
-				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE, USE_EULER_FORM)</var>
+				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE * PI / 12, USE_EULER_FORM)</var>
+				<var id="B_REAL">cos(B_ANGLE * PI / 12) * B_RADIUS</var>
+				<var id="B_IMAG">sin(B_ANGLE * PI / 12) * B_RADIUS</var>
 
 				<var id="A_RADIUS">ANSWER_RADIUS * B_RADIUS</var>
 				<var id="A_ANGLE">(ANSWER_ANGLE + B_ANGLE) % 24</var>
 				<var id="A_ANGLE_REP">piFraction(A_ANGLE * PI / 12)</var>
-				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE, USE_EULER_FORM)</var>
-		
-				<var>
-					(function() {
-						currentAngle = 0;
-						currentRadius = 1;
-						useEulerForm = USE_EULER_FORM;
-						redrawFormula();
-						fillAnswerInputs();
-					})()
-				</var>
+				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE * PI / 12, USE_EULER_FORM)</var>
+				<var id="A_REAL">cos(A_ANGLE * PI / 12) * A_RADIUS</var>
+				<var id="A_IMAG">sin(A_ANGLE * PI / 12) * A_RADIUS</var>
 			</div>
 			<p class="question">Divide the following complex numbers:</p>
-			<p><code>\frac{<var>A_REP</var>}{<var>B_REP</var>}</code></p>
+			<p><code>\dfrac{<var>A_REP</var>}{<var>B_REP</var>}</code></p>
+
+			<!-- TODO: differentiate the dots! -->
+			<div class="graphie">
+				graphInit({
+					range: [[-10, 10], [-10, 10]],
+					scale: 20,
+					tickStep: 1,
+					axisArrows: "<->"
+				});
+
+				drawComplexChart(10, 24);	
+
+				circle( [A_REAL, A_IMAG], 1 / 4, {
+					fill: KhanUtil.BLUE,
+					stroke: "none"
+				});
+
+				circle( [B_REAL, B_IMAG], 1 / 4, {
+					fill: KhanUtil.BLUE,
+					stroke: "none"
+				});
+
+				graph.currComplexPolar = new ComplexPolarForm( 24, 10, USE_EULER_FORM );
+				redrawComplexPolarForm();
+			</div>
+
 
 			<div class="solution" data-type="multiple">
 				<table>
@@ -185,8 +181,8 @@
 					Radius: <span id="current-radius">1</span>
 						</td>
 						<td>
-							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplex( 0, 1 )" />
-							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplex( 0, -1 )" />
+							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />
+							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />
 						</td>
 					</tr>
 					<tr>
@@ -194,13 +190,13 @@
 					Angle: <span id="current-angle"><code>0 \pi</code></span>
 						</td>
 						<td>
-							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplex( 1, 0 )" />
-							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplex( -1, 0 )" />
+							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />
+							<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />
 						</td>
 					</tr>
 				</table>
 
-				<p id="number-label" style="margin: 8px 0px 2px 0px"><code>1 \cdot (cos(0 \pi) + i \cdot sin(0 \pi))</code></p>
+				<p id="number-label" style="margin: 8px 0px 2px 0px"></p>
 
 				<span class="sol" id="angle" style="display: none"><var>ANSWER_ANGLE</var></span>
 				<span class="sol" id="radius" style="display: none"><var>ANSWER_RADIUS</var></span>
