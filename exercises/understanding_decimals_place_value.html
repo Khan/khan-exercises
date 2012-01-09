@@ -251,9 +251,9 @@
 							graph.hundredths.push( circle( [ 107, (-42 * i) - 26 ], 18 ) );
 						}
 
-						graph.getCoinCircle = function( coin ) {
+						graph.getCoinCircle = function( coinEl ) {
 							var coins,
-							    coin = jQuery( coin );
+							    coin = jQuery( coinEl );
 
 							if ( coin.hasClass( 'dime' ) ) {
 								coins = KhanUtil.currentGraph.graph.tenths;
