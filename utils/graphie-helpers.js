@@ -861,9 +861,10 @@ function BarChart( data, pos ) {
 function drawComplexChart( radius, denominator ) {
 	var graph = KhanUtil.currentGraph;
 	var safeRadius = radius * Math.sqrt(2);
+	var color = "#ddd";
 
-	// Draw lines of cplx. numbers with same angle and
-	// circles of cplx. numbers with same radius to help the intuition.
+	// Draw lines of complex numbers with same angle and
+	// circles of complex numbers with same radius to help the intuition.
 	
 	graph.style({
 		strokeWidth: 1.0
@@ -872,15 +873,15 @@ function drawComplexChart( radius, denominator ) {
 	for (var i = 1; i <= safeRadius; i++) {
 		graph.circle( [0, 0], i, {
 			fill: "none",
-			stroke: "#eee"
+			stroke: color 
 		});
 	}
 
 	for (var i = 0; i < denominator; i++) {
 		var angle = i * 2 * Math.PI / denominator;
 		if (denominator % 4 === 0 && i % (denominator / 4) != 0) { // Don't draw over axes.
-			graph.line( [ 0, 0 ], [ Math.sin(angle) * safeRadius, Math.cos(angle) * safeRadius ], {
-				stroke: "#eee"
+			graph.line( [ 0, 0 ], [ Math.sin( angle ) * safeRadius, Math.cos( angle ) * safeRadius ], {
+				stroke: color
 			});
 		}
 	}
@@ -923,11 +924,11 @@ function ComplexPolarForm( angleDenominator, maxRadius, euler ) {
 	}
 
 	this.getRealPart = function () {
-		return Math.cos(this.getAngle()) * radius;
+		return Math.cos( this.getAngle() ) * radius;
 	}
 
 	this.getImaginaryPart = function () {
-		return Math.sin(this.getAngle()) * radius;
+		return Math.sin( this.getAngle() ) * radius;
 	}
 
 	this.getUseEulerForm = function () {
@@ -960,7 +961,7 @@ function polarForm( radius, angle, useEulerForm ) {
 	var angleRep = KhanUtil.piFraction(angle);
 	var equation;
 	if ( useEulerForm ) {
-		equation = KhanUtil.expr([ "*", radius, " e^{" + (angleRep + " i") + "}"]);
+		equation = KhanUtil.expr( [ "*", radius, " e^{" + (angleRep + " i") + "}" ] );
 	} else {
 		equation = radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
 	}

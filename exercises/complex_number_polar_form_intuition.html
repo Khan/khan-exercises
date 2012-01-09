@@ -37,33 +37,7 @@
 						axisArrows: "<->"
 					});
 
-					// Draw lines of cplx. numbers with same angle and
-					// circles of cplx. numbers with same radius to help the intuition.
-
-					style({
-						strokeWidth: 1.0
-					});
-
-					var safeRadius = 10 * sqrt(2);
-					
-					for (var i = 1; i &lt;= safeRadius; i++) {
-						circle( [0, 0], i, {
-							fill: "none",
-							stroke: "#eee"
-						});
-					}
-
-					for (var i = 0; i &lt; DENOMINATOR; i++) {
-						var angle = i * 2 * PI / DENOMINATOR;
-						if (DENOMINATOR % 4 == 0 &amp;&amp; i % (DENOMINATOR / 4) != 0) { // Don't draw over axes.
-							line( [ 0, 0 ], [ sin(angle) * safeRadius, cos(angle) * safeRadius ], {
-								stroke: "#eee"
-							});
-						}
-					}
-
-					label( [10, 0.5], "Re", "left");
-					label( [0.5, 9], "Im", "right");
+					drawComplexChart( 10, DENOMINATOR );
 
 					circle( [REAL, IMAG], 1 / 4, {
 						fill: KhanUtil.BLUE,
@@ -72,8 +46,6 @@
 
 					graph.currComplexPolar = new ComplexPolarForm( DENOMINATOR, 10 );
 					redrawComplexPolarForm();
-
-					// redrawComplex();
 				</div>
 
 				<div class="solution" data-type="multiple">
