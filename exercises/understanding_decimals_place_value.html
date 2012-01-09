@@ -88,7 +88,7 @@
 						- .hints uses .graphie.
 						- The other problem uses graphie so .hints's .graphies must use data-update.
 				-->
-				<div class="graphie" id="graph"></div>
+				<div class="graphie" id="graph" style="display: none;"></div>
 				<div class="column">
 					<span class="columnhead">Thousands</span>
 					<div data-each="10 times" class="place-value thou">1000</div>
@@ -251,17 +251,17 @@
 							graph.hundredths.push( circle( [ 107, (-42 * i) - 26 ], 18 ) );
 						}
 
-						graph.getCoinCircle = function(coin) {
+						graph.getCoinCircle = function( coin ) {
 							var coins,
-							    coin = $(coin);
+							    coin = jQuery( coin );
 
-							if (coin.hasClass('dime')) {
+							if ( coin.hasClass( 'dime' ) ) {
 								coins = KhanUtil.currentGraph.graph.tenths;
 							} else {
 								coins = KhanUtil.currentGraph.graph.hundredths;
 							}
 
-							return coins[coin.index() - 1];	
+							return coins[ coin.index() - 1 ];	
 						}
 
 						// click handlers
@@ -285,42 +285,42 @@
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'dime-selected' );
 							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
-								graph.getCoinCircle(this).attr({ fill: 'purple', stroke: '#000' });
+								graph.getCoinCircle( this ).attr({ fill: 'purple', stroke: '#000' });
 							} else {
-								graph.getCoinCircle(this).attr({ fill: '#eee', stroke: '#ddd' });
+								graph.getCoinCircle( this ).attr({ fill: '#eee', stroke: '#ddd' });
 							}
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
 							jQuery( this ).toggleClass( 'penny-selected' );
 							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
-								graph.getCoinCircle(this).attr({ fill: 'gray', stroke: '#000' });
+								graph.getCoinCircle( this ).attr({ fill: 'gray', stroke: '#000' });
 							} else {
-								graph.getCoinCircle(this).attr({ fill: '#eee', stroke: '#ddd' });
+								graph.getCoinCircle( this ).attr({ fill: '#eee', stroke: '#ddd' });
 							}
 						});
 
 						// mouseover handlers
 						jQuery( "#problemarea .dime" ).bind( "vmouseover", function( event ) {
-							graph.getCoinCircle(this).attr({ stroke: '#999' });
+							graph.getCoinCircle( this ).attr({ stroke: '#999' });
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmouseover", function( event ) {
-							graph.getCoinCircle(this).attr({ stroke: '#999' });
+							graph.getCoinCircle( this ).attr({ stroke: '#999' });
 						});
 
 						// mouseout handlers
 						jQuery( "#problemarea .dime" ).bind( "vmouseout", function( event ) {
 							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
-								graph.getCoinCircle(this).attr({ stroke: '#000' });
+								graph.getCoinCircle( this ).attr({ stroke: '#000' });
 							} else {
-								graph.getCoinCircle(this).attr({ stroke: '#ddd' });
+								graph.getCoinCircle( this ).attr({ stroke: '#ddd' });
 							}
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmouseout", function( event ) {
 							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
-								graph.getCoinCircle(this).attr({ stroke: '#000' });
+								graph.getCoinCircle( this ).attr({ stroke: '#000' });
 							} else {
-								graph.getCoinCircle(this).attr({ stroke: '#ddd' });
+								graph.getCoinCircle( this ).attr({ stroke: '#ddd' });
 							}
 						});
 					</div>
@@ -414,11 +414,11 @@
 
 			<div class="graphie" data-update="graph">
 				// Select thousands.
-				var thous = $('#problemarea .thou');
-				thous.removeClass('thou-selected');
+				var thous = jQuery( '#problemarea .thou' );
+				thous.removeClass( 'thou-selected' );
 
-				for (var i = 0;i &lt; THOUSANDS;i++) {
-					$(thous[i]).addClass('thou-selected');
+				for ( var i = 0; i &lt; THOUSANDS; i++ ) {
+					jQuery( thous[ i ] ).addClass( 'thou-selected' );
 				}
 			</div>
 		</div>
@@ -433,11 +433,11 @@
 
 			<div class="graphie" data-update="graph">
 				// Select hundreds.
-				var hunds = $('#problemarea .hund');
-				hunds.removeClass('hund-selected');
+				var hunds = jQuery( '#problemarea .hund' );
+				hunds.removeClass( 'hund-selected' );
 
-				for (var i = 0;i &lt; HUNDREDS;i++) {
-					$(hunds[i]).addClass('hund-selected');
+				for ( var i = 0; i &lt; HUNDREDS; i++ ) {
+					jQuery( hunds[ i ] ).addClass( 'hund-selected' );
 				}
 			</div>
 		</div>
@@ -452,11 +452,11 @@
 
 			<div class="graphie" data-update="graph">
 				// Select tens.
-				var tens = $('#problemarea .ten');
-				tens.removeClass('ten-selected');
+				var tens = jQuery( '#problemarea .ten' );
+				tens.removeClass( 'ten-selected' );
 
-				for (var i = 0;i &lt; TENS;i++) {
-					$(tens[i]).addClass('ten-selected');
+				for ( var i = 0; i &lt; TENS; i++ ) {
+					jQuery( tens[ i ] ).addClass( 'ten-selected' );
 				}
 			</div>
 		</div>
@@ -471,11 +471,11 @@
 
 			<div class="graphie" data-update="graph">
 				// Select ones.
-				var ones = $('#problemarea .one');
-				ones.removeClass('one-selected');
+				var ones = jQuery( '#problemarea .one' );
+				ones.removeClass( 'one-selected' );
 
-				for (var i = 0;i &lt; ONES;i++) {
-					$(ones[i]).addClass('one-selected');
+				for ( var i = 0; i &lt; ONES; i++ ) {
+					jQuery( ones[ i ] ).addClass( 'one-selected' );
 				}
 			</div>
 		</div>
@@ -489,25 +489,25 @@
 			</p>
 
 			<div class="graphie" data-update="graph">
-				// Select pennies/tenths.
-				if ($('#place-value').length === 1) {
-					var tenths = $('#problemarea .tenth');
-					tenths.removeClass('tenth-selected');
+				// Select dimes/tenths.
+				if ( jQuery( '#place-value' ).length === 1 ) {
+					var tenths = jQuery( '#problemarea .tenth' );
+					tenths.removeClass( 'tenth-selected' );
 
-					for (var i = 0;i &lt; TENTHS;i++) {
-						$(tenths[i]).addClass('tenth-selected');
+					for ( var i = 0; i &lt; TENTHS; i++ ) {
+						jQuery( tenths[ i ] ).addClass( 'tenth-selected' );
 					}
 				} else {
-					var dimes = $('#problemarea .dime');
-					dimes.removeClass('dime-selected');
+					var dimes = jQuery( '#problemarea .dime' );
+					dimes.removeClass( 'dime-selected' );
 
-					for (var i = 0;i &lt; dimes.length;i++) {
-						graph.getCoinCircle(dimes[i]).attr({ fill: '#eee', stroke: '#ddd' });
+					for ( var i = 0; i &lt; dimes.length; i++ ) {
+						graph.getCoinCircle( dimes[ i ] ).attr({ fill: '#eee', stroke: '#ddd' });
 					}
 
-					for (var i = 0;i &lt; TENTHS;i++) {
-						$(dimes[i]).addClass('dime-selected');
-						graph.getCoinCircle(dimes[i]).attr({ fill: 'purple', stroke: '#000' });
+					for ( var i = 0; i &lt; TENTHS; i++ ) {
+						jQuery( dimes[ i ] ).addClass( 'dime-selected' );
+						graph.getCoinCircle( dimes[ i ] ).attr({ fill: 'purple', stroke: '#000' });
 					}
 				}
 			</div>
@@ -522,25 +522,25 @@
 			</p>
 
 			<div class="graphie" data-update="graph">
-				// Select dimes/hundredths.
-				if ($('#place-value').length === 1) {
-					var hundths = $('#problemarea .hundth');
-					hundths.removeClass('hundth-selected');
+				// Select pennies/hundredths.
+				if ( jQuery( '#place-value' ).length === 1 ) {
+					var hundths = jQuery( '#problemarea .hundth' );
+					hundths.removeClass( 'hundth-selected' );
 
-					for (var i = 0;i &lt; HUNDREDTHS;i++) {
-						$(hundths[i]).addClass('hundth-selected');
+					for ( var i = 0; i &lt; HUNDREDTHS; i++ ) {
+						jQuery( hundths[ i ] ).addClass( 'hundth-selected' );
 					}
 				} else {
-					var pennies = $('#problemarea .penny');
-					pennies.removeClass('penny-selected');
+					var pennies = jQuery( '#problemarea .penny' );
+					pennies.removeClass( 'penny-selected' );
 
-					for (var i = 0;i &lt; pennies.length;i++) {
-						graph.getCoinCircle(pennies[i]).attr({ fill: '#eee', stroke: '#ddd' });
+					for ( var i = 0; i &lt; pennies.length; i++ ) {
+						graph.getCoinCircle( pennies[ i ] ).attr({ fill: '#eee', stroke: '#ddd' });
 					}
 
-					for (var i = 0;i &lt; HUNDREDTHS;i++) {
-						$(pennies[i]).addClass('penny-selected');
-						graph.getCoinCircle(pennies[i]).attr({ fill: 'gray', stroke: '#000' });
+					for ( var i = 0; i &lt; HUNDREDTHS; i++ ) {
+						jQuery( pennies[ i ] ).addClass( 'penny-selected' );
+						graph.getCoinCircle( pennies[ i ] ).attr({ fill: 'gray', stroke: '#000' });
 					}
 				}
 			</div>
@@ -556,11 +556,11 @@
 
 			<div class="graphie" data-update="graph">
 				// Select thousandths.
-				var thouths = $('#problemarea .thouth');
-				thouths.removeClass('thouth-selected');
+				var thouths = jQuery( '#problemarea .thouth' );
+				thouths.removeClass( 'thouth-selected' );
 
-				for (var i = 0;i &lt; THOUSANDTHS;i++) {
-					$(thouths[i]).addClass('thouth-selected');
+				for ( var i = 0; i &lt; THOUSANDTHS; i++) {
+					jQuery( thouths[ i ] ).addClass( 'thouth-selected' );
 				}
 			</div>
 		</div>
