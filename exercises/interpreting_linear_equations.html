@@ -118,23 +118,23 @@
 			<div data-weight="7" id="identifypoint">
 				<!-- Ensure the X and Y deltas of the beginning and end of the line are at least three. -->
 				<div class="vars" data-ensure="abs( LINESTART[ 0 ] - LINEEND[ 0 ] ) >= 3 && abs( LINESTART[ 1 ] - LINEEND[ 1 ] ) >= 3">
-					<var id="POINTX">randRange(-9, 9)</var>
-					<var id="POINTY">randRange(-9, 9)</var>
-					<var id="SOLUTION">randFromArray([POINTX, POINTY])</var>
+					<var id="POINTX">randRange( -9, 9 )</var>
+					<var id="POINTY">randRange( -9, 9 )</var>
+					<var id="SOLUTION">randFromArray([ POINTX, POINTY ])</var>
 					<var id="LINESTART">
 						(function() {
 							var lineStartX,
 									lineStartY;
 
-							if (randFromArray([false, true])) {
-								lineStartX = randFromArray([-10, 10]);
-								lineStartY = randRange(-10, 10);
+							if (randFromArray([ false, true ])) {
+								lineStartX = randFromArray([ -10, 10 ]);
+								lineStartY = randRange( -10, 10 );
 							} else {
-								lineStartX = randRange(-10, 10);
-								lineStartY = randFromArray([-10, 10]);
+								lineStartX = randRange( -10, 10 );
+								lineStartY = randFromArray([ -10, 10 ]);
 							}
 
-							return [lineStartX, lineStartY];
+							return [ lineStartX, lineStartY ];
 						})()
 					</var>
 					<var id="LINEEND">
@@ -143,13 +143,13 @@
 									lineEndY = POINTY,
 									newXDelta,
 									newYDelta,
-									xDelta = -(LINESTART[0] - POINTX),
-									yDelta = -(LINESTART[1] - POINTY);
+									xDelta = -( LINESTART[ 0 ] - POINTX ),
+									yDelta = -( LINESTART[ 1 ] - POINTY );
 
 
 							// Reduce xDelta and yDelta until their absolute values are less than or equal
 							// to one.
-							if (Math.abs(xDelta) &gt; Math.abs(yDelta)) {
+							if ( Math.abs( xDelta ) &gt; Math.abs( yDelta ) ) {
 								newXDelta = xDelta > 0 ? 1 : -1;
 								newYDelta = yDelta * newXDelta / xDelta;
 							} else {
@@ -161,12 +161,12 @@
 							yDelta = newYDelta;
 
 
-							while (Math.abs(lineEndX) &lt; 10 && Math.abs(lineEndY) &lt; 10) {
+							while ( Math.abs( lineEndX ) &lt; 10 && Math.abs( lineEndY ) &lt; 10 ) {
 								lineEndX += xDelta;
 								lineEndY += yDelta;
 							}
 
-							return [lineEndX, lineEndY];
+							return [ lineEndX, lineEndY ];
 						})()
 					</var>
 				</div>
@@ -180,13 +180,13 @@
 							axisArrows:  '<->',
 							labelStep:   1,
 							scale:       20,
-							labelFormat: function(s) { return '\\small{' + s + '}'; },
+							labelFormat: function( s ) { return '\\small{' + s + '}'; },
 							tickStep:    2,
 							unityLabels: true
 						});
 
-						style({stroke: '#6495ed'});
-						line(LINESTART, LINEEND);
+						style({ stroke: '#6495ed' });
+						line( LINESTART, LINEEND );
 					</div>
 				</div>
 
@@ -196,15 +196,15 @@
 								var lineStart,
 										lineEnd;
 
-								if (POINTX === SOLUTION) {
-									lineStart = [-10, POINTY];
-									lineEnd = [10, POINTY];
+								if ( POINTX === SOLUTION ) {
+									lineStart = [ -10, POINTY ];
+									lineEnd = [ 10, POINTY ];
 								} else {
-									lineStart = [POINTX, -10];
-									lineEnd = [POINTX, 10];
+									lineStart = [ POINTX, -10 ];
+									lineEnd = [ POINTX, 10 ];
 								}
 
-								line(lineStart, lineEnd, {
+								line( lineStart, lineEnd, {
 									stroke:          '#28ae7b',
 									strokeDasharray: '- '
 								});
