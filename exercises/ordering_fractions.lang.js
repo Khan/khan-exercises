@@ -1,16 +1,13 @@
 ({
 	"nl" : {
-		"question1"	: 'Order the following fractions from least to greatest:',
-		
-		"colors1"	: 'KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown" ])',
-	
-		"hint1"		: 'Lets use different colors for each fraction.',
-		"hint2"		: 'Find the least common denominator of all the fractions, so that we can compare them more easily.',
-		"hint3"		: 'The least common denominator is the least common multiple of all the denominators.',
-		"hint4"		: 'The least common multiple of <code><var>DENOMS_TEX_COLOR</var></code> is <code><var>LCD</var></code>.',
-		"hint5"		: 'Multiply all the fractions <code>\dfrac{a}{b}</code> by <code>\dfrac{\frac{<var>LCD</var>}{b}}{\frac{<var>LCD</var>}{b}}</code>. Then each fraction will have <code><var>LCD</var></code> as its denominator:',
-		"hint6"		: 'Now all the fractions are in a form where we can compare them by numerator:',
-		"hint7"		: 'Sort the fractions from least to greatest by their numerators:',
-		"hint8"		: 'Finally, reduce each fraction again.'
+		"question1"	: 'Zet de volgende breuken op volgorde van klein naar groot:',
+		"hint1"		: 'We gebruiken voor elke breuk een andere kleur.',
+		"hint2"		: 'Zoek het kleinste gemene veelvoud van deze breuken, zodat we ze makkelijker kunner vergelijken.',
+		"hint3"		: 'De kleinste gemene noemer is het kleinste gemene veelvoud van alle noemers.',
+		"hint4"		: 'Het kleinste gemene veelvoud van <code><var>DENOMS_TEX_COLOR</var></code> is <code><var>LCD</var></code>.',
+		"hint5"		: 'Vermenigvuldig alle breuken <code>\\dfrac{a}{b}</code> met <code>\\dfrac{\\frac{<var>LCD</var>}{b}}{\\frac{<var>LCD</var>}{b}}</code>. Elke breuk heeft dan <code><var>LCD</var></code> als noemer:',
+		"hint6"		: 'Nu kunnen we de tellers van alle breuken vergelijken:',
+		"hint7"		: 'Sorteer nu aan de hand van de tellers de breuken van klein naar groot:',
+		"hint8"		: 'En als laatste stap vereenvoudig je de breuken.'
 		}
 })
