@@ -1,6 +1,6 @@
 ({
 	"nl" : {
-		"exercise1"	: 'Use distribution to solve:',
+		"exercise1"	: 'Los onderstaande som op:',
 		"exercise1"	: 'Gebruik onderstaande afbeelding als hulpmiddel: door welk getal kan <code><var>SYMBOL</var></code> worden vervangen?',
 		"exercise1"	: 'Er zijn <code><var>A</var></code> rijen, en elke rij heeft <code><var>B</var> + <var>C</var> = <var>B+C</var></code> rechthoeken.',
 		"hint1"		: 'Elke rij heeft <code><var>B</var> + <var>C</var> = <var>B+C</var></code> rechthoeken, en er zijn <code><var>A</var></code> rijen.',
@@ -12,8 +12,8 @@
 		"hint7"		: 'Aantal rijen: <code><var>A</var></code>',
 		"hint8"		: 'Aantal rechthoeken in een rij: <code><var>B</var> + <var>C</var> = <var>B + C</var></code>',
 		"hint9"		: 'Totale aantal rechthoeken: <code><var>A</var> \\times <var>B + C</var> = <var>RESULT</var></code>',
-		"hint10"		: 'Beide manieren van tellen geven hetzelfde aantal. Dit principe staat bekend als XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX the distributive property.XXXXXXXXXXXXXXXXX',
-		"hint11"		: 'Counting by color:',
+		"hint10"		: 'Beide manieren van tellen geven hetzelfde aantal, dat is een wetmatigheid omdat de volgorde van vermenigvuldigen niet uitmaakt.',
+		"hint11"		: 'Tellen per kleur:',
 		"hint12"		: 'Aantal oranje rechthoeken: <code><var>A</var> \\times <var>B</var> = <var>A * B</var></code>',
 		"hint13"		: 'Aantal blauwe rechthoeken: <code><var>A</var> \\times <var>C</var> = <var>A* C</var></code>',
 		"hint14"		: 'Total aantal rechthoeken: <code><var>A * B</var> + <var>A * C</var> = <var>RESULT</var></code>',
