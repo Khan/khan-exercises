@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html data-require="math graphie ast math-model">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Evaluating Polynomials</title>
+    <script src="../khan-exercise.js"></script>
+  </head>
+  <body>
+    <div class="exercise">
+      <div class="problems">
+	<div>
+	  <div class="vars">
+	    <var id="MATH">MathModel.init()</var>
+	    <var id="a_val">randRangeNonZero(-4, 4)</var>
+	    <var id="b_val">randRange(6, 19)</var>
+	    <var id="x_val">randRangeNonZero(-4, 4)</var>
+	    <var id="B">a_val+b_val</var>
+	    <var id="C">a_val*b_val</var>
+	    <var id="PROBLEM">MATH.parse("x^2+"+B+"x+"+C)</var>
+	    <var id="SOLUTION">x_val*x_val+B*x_val+C</var>
+	  </div>
+	  <div>
+	    <p class="question">
+	      Evaluate the following expression given that <code><var>MATH.format({op:"=", args: ["x", x_val]})</var></code>:
+	    </p>
+	    <p>
+	      <code><var>MATH.format(PROBLEM,"large",KhanUtil.BLUE)</var></code>	
+	    </p>
+	  </div>
+	  <div class="solution" data-type="custom">
+	    <div class="instruction">
+	      Enter the result here:<br>
+	      <input name="response" type="text" onblur="window._guess=value"></input>
+	    </div>
+	    <div class="guess">window._guess</div>
+	    <div class="validator-function">
+	      return MATH.isEqual(MATH.parse(guess), SOLUTION)
+	    </div>
+	    <div class="show-guess">
+	    </div>
+	    <div class="example">(x+1)(x+2)</div>
+	  </div>
+	  <div class="hints">
+	    <p>
+	      Recognize that the expression is of the form
+	      <code><var>MATH.format("x^2+Bx+C")</var></code>.
+	    </p>
+	    <p>
+	      Recall that expressions of the form
+	      <code><var>MATH.format("x^2+Bx+C")</var></code> can be rewritten in the form
+	      <code><var>MATH.format("(x+a)(x+b)")</var></code> where
+	      <code><var>MATH.format({op:"=", args: ["B", "a+b"]})</var></code> and
+	      <code><var>MATH.format({op:"=", args: ["C", "a*b"]})</var></code>.
+	    </p>
+	    <p>
+	      Identify
+	      <code><var>MATH.format("B")</code> and
+	      <code><var>MATH.format("C")</var></code> in the original expression.
+	    </p>
+	    <p>
+	      <code><var>MATH.format({op: "=", args: ["B", B]})</var></code><br>
+	      <code><var>MATH.format({op: "=", args: ["C", C]})</var></code>
+	    </p>
+	    <p>
+	      Find the factors of the value of
+	      <code><var>MATH.format("C")</var></code> whose sum is the value of
+	      <code><var>MATH.format("B")</var></code>.
+	    </p>
+	    <p>
+	      <code><var>MATH.format({op: "=", args: ["a", a_val]})</var></code><br>
+	      <code><var>MATH.format({op: "=", args: ["b", b_val]})</var></code>
+	    </p>
+	    <p>
+	      Compute the solution by substituting the values of
+	      <code><var>MATH.format("a")</var></code> and
+	      <code><var>MATH.format("b")</var></code> in
+	      <code><var>MATH.format("(x+a)(x+b)")</var></code>.
+	    </p>
+	    <p>
+	      <code><var>MATH.format(SOLUTION, "Large", KhanUtil.GREEN)</var></code>
+	    </p>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

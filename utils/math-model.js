@@ -243,9 +243,12 @@ jQuery.extend ( KhanUtil, {
 			var expr;
 			switch (t = hd()) {
 			case TK_ADD:
+				next();
+				expr = unaryExpr();
+				break;
 			case TK_SUB:
 				next();
-				expr = {op: tokenToOperator[t], args: [unaryExpr()]};
+				expr = negate(unaryExpr());
 				break;
 			default:
 				expr = primaryExpr();
@@ -259,29 +262,77 @@ jQuery.extend ( KhanUtil, {
 			var t;
 			while ((t=hd())===TK_CARET) {
 				next();
-				expr = {op: tokenToOperator[t], args: [expr, unaryExpr()]};
+				var expr2 = unaryExpr();
+				if (expr2===1) {
+					expr = expr;
+				}
+				else if (expr2===0) {
+					expr = 1;
+				}
+				else {
+					expr = {op: tokenToOperator[t], args: [expr, expr2]};
+				}
 			}
 
 			return expr;
 		}
 
 		function multiplicativeExpr() {
-			var e = exponentialExpr();
+			var expr = exponentialExpr();
 			var t;
 
 			while((t=hd())===TK_VAR || t===TK_LEFTPAREN) {
-				e = {op: OpStr.MUL, args: [e, exponentialExpr()]};
+				var expr2 = exponentialExpr();
+				if (expr2 === 1) {
+					expr = expr;
+				}
+				else if (expr === 1) {
+					expr = expr2;
+				}
+				else {
+					expr = {op: OpStr.MUL, args: [expr, expr2]};
+				}
 			}
 
 			while (isMultiplicative(t = hd())) {
 				next();
-				e = {op: tokenToOperator[t], args: [e, exponentialExpr()]};
+				var expr2 = exponentialExpr();
+				if (expr2===1) {
+					expr = expr;
+				}
+				else if (expr === 1) {
+					expr = expr2;
+				}
+				else {
+					expr = {op: tokenToOperator[t], args: [expr, expr2]};
+				}
 			}
-			return e;
+			return expr;
 
 			function isMultiplicative(t) {
 				return t===TK_MUL || t===TK_DIV;
 			}
+		}
+
+		function isNeg(n) {
+			if (jQuery.type(n)==="number") {
+				return n < 0;
+			}
+			else {
+				return n.args.length===1 &&	n.op===OpStr.SUB && n.args[0] > 0;  // is unary minus
+			}
+		}
+
+		function negate(n) {
+			if (jQuery.type(n)==="number") {
+				return -n;
+			}
+			else if (n.args.length===1 && n.op===OpStr.SUB) {
+				return n.args[0];  // strip the unary minus
+			}
+			// can't simplify, so multiply by -1
+			return {op: "times", args: [-1, n]};
+		
 		}
 
 		function additiveExpr() {
@@ -289,7 +340,12 @@ jQuery.extend ( KhanUtil, {
 			var t;
 			while (isAdditive(t = hd())) {
 				next();
-			    expr = {op: tokenToOperator[t], args: [expr, multiplicativeExpr()]};
+				var expr2 = multiplicativeExpr();
+				if (t===TK_ADD && isNeg(expr2)) {
+					t = TK_SUB;
+					expr2 = negate(expr2);
+				}
+			    expr = {op: tokenToOperator[t], args: [expr, expr2]};
 			}
 			return expr;
 
@@ -429,20 +485,26 @@ jQuery.extend ( KhanUtil, {
 				return ast.dumpAll();
 			} ,
 
-			isEqual: function(nid1, nid2) {
+			isEqual: function(n1, n2) {
+				var ast = KhanUtil.ast;
+
+				var nid1 = ast.intern(n1);
+				var nid2 = ast.intern(n2);
 
 				if (nid1===nid2) {
 					return true;
 				}
 
-				var n1 = ast.node(nid1);
-				var n2 = ast.node(nid2);
-				if (n1.kind()===ast.Kind.BINARY &&
-					n2.kind()===ast.Kind.BINARY &&
-					n1.operator()===n2.operator() &&
-					n1.nid("lhs")===n2.nid("rhs") &&
-					n1.nid("rhs")===n2.nid("lhs")) {
-					return true;
+				if (n1.op===n2.op && n1.args.length===n2.args.length) {
+					if (n1.args.length===2) {
+						var n1arg0 = ast.intern(n1.args[0]);
+						var n1arg1 = ast.intern(n1.args[1]);
+						var n2arg0 = ast.intern(n2.args[0]);
+						var n2arg1 = ast.intern(n2.args[1]);
+						if (n1arg0===n2arg1 && n1arg1===n2arg0) {
+							return true;
+						}
+					}
 				}
 				return false;
 			},
@@ -603,28 +665,7 @@ jQuery.extend ( KhanUtil, {
 			return n;
 		}
 
-		function drawExpr (n, color) {
-			var graph = KhanUtil.currentGraph;
-			var ast = KhanUtil.ast;
-
-			graph.init({
-				range: [ [0, 12], [-1, 1] ],
-				scale: 25,
-			});
-
-			mainLabel = graph.label( [0, 0], format(n, "Large", color), "right" );			
-		}
-
-		function drawHint(n, color) {
-			var graph = KhanUtil.currentGraph;
-			var ast = KhanUtil.ast;
-
-			graph.init({
-				range: [ [0, 4], [-1, 1] ],
-				scale: 25,
-			});
-
-			graph.label( [0, 0], format(n, "normalsize", color), "right" );			
+		function expand(n) {
 		}
 
 		function parse(str) {
@@ -632,6 +673,19 @@ jQuery.extend ( KhanUtil, {
 		}
 
 		function format(n, textSize, color) {
+
+			if (textSize===void 0) {
+				textSize = "normalsize";
+			}
+
+			if (color===void 0) {
+				color = void 0;  // just use black for now
+			}
+
+			if (jQuery.type(n)==="string") {
+				n = parse(n);
+			}
+
 			var ast = KhanUtil.ast;
 			var text;
 			if (jQuery.type(n)==="object") {
@@ -640,6 +694,16 @@ jQuery.extend ( KhanUtil, {
 					text = "\\color{"+color+"}{"+n.args[0]+"}";
 					break;
 			    case OpStr.SUB:
+					if (n.args.length===1) {
+						text = "\\"+textSize+"{\\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
+							format(n.args[0], textSize, color)+"}}";
+					}
+					else {
+						text = "\\"+textSize+"{\\color{"+color+"}{"+
+							format(n.args[0], textSize, color)+"} \\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
+							format(n.args[1], textSize, color)+"}}";
+					}
+				    break;
 			    case OpStr.DIV:
 				case OpStr.PM:
 				    text = "\\"+textSize+"{\\color{"+color+"}{"+
@@ -657,7 +721,12 @@ jQuery.extend ( KhanUtil, {
 						lhs.op===OpStr.SQRT) {
 						lhsText = "\\"+textSize+"{\\color{#000}{(}}\\color{"+color+"}{"+lhsText+"}\\color{#000}{)}";
 					}
-					text = lhsText + "^{" +	rhsText + "}";
+					if (rhs===1) {
+						text = lhsText;
+					}
+					else {
+						text = lhsText + "^{" +	rhsText + "}";
+					}
 					break;
 				case OpStr.SIN:
 				case OpStr.COS:
@@ -770,6 +839,18 @@ jQuery.extend ( KhanUtil, {
 			else {
 				return n.args.length===1 &&	n.op===OpStr.SUB && n.args[0] > 0;  // is unary minus
 			}
+		}
+
+		function negate(n) {
+			if (jQuery.type(n)==="number") {
+				return -n;
+			}
+			else if (n.args.length===1 && n.op===OpStr.SUB) {
+				return n.args[0];  // strip the unary minus
+			}
+			assert(false);
+			return n;
+		
 		}
 
 		function isZero(n) {

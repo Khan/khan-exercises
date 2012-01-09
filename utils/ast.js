@@ -20,7 +20,7 @@
 jQuery.extend ( KhanUtil, {
 
 
-	ASSERT: false,
+	ASSERT: true,
 
 	assert: function (val, str) {
 		if ( !this.ASSERT ) {
@@ -37,8 +37,6 @@ jQuery.extend ( KhanUtil, {
 	ast: new function () {
 
 		var nodePool = [ "unused" ];	// nodePool[0] is reserved
-
-		var defaultModel = KhanUtil.MathModel.init();   // default model
 
 		// maps for fast lookup of nodes
 		var numberMap = { };
@@ -63,14 +61,14 @@ jQuery.extend ( KhanUtil, {
 
 		function fromLaTeX(str, model) {
 			if (model===void 0) {
-				model = defaultModel;
+				model = KhanUtil.MathModel.init();   // default model
 			}
 			return model.parse(str);
 		}
 
 		function toLaTeX(n, model) {
 			if (model===void 0) {
-				model = defaultModel;
+				model = KhanUtil.MathModel.init();   // default model
 			}
 			return model.format(n, "large", KhanUtil.BLUE);
 		}
