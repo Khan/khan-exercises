@@ -2,7 +2,7 @@
 <html data-require="math math-format graphie graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
-	<title>Rounding numbers</title>
+	<title>Rounding decimals</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -16,11 +16,12 @@
 				<var id="PLACE">randFromArray( [0, 1, 2] )</var>
 				<var id="TPLACE">placesRightOfDecimal[ PLACE ]</var>
 				<var id="ROUNDED">roundTo( PLACE, NUM )</var>
-				<var id="TEST">DIGITS[ DIGITS.length- 4 + PLACE ] </var>
 			</div>
 
 			<div class="question">
-				<p>Round <code><var>commafy( NUM )</var></code> to the nearest <var>TPLACE</var>.</p>
+				<p>Round <code><var>commafy( NUM )</var></code> to the nearest 
+				<span data-if="PLACE == 0">whole number</span><span
+					data-else><var>TPLACE</var></span>.</p>
 			</div>
 			<div class="solution" data-forms="integer, decimal"><var>ROUNDED</var></div>
 
