@@ -126,8 +126,8 @@ var Khan = (function() {
 	// The seed information
 	randomSeed,
 
-	// Get the username of the user
-	user = window.localStorage["exercise:lastUser"] || null,
+	// Holds the current username
+	user = null,
 	userCRC32,
 
 	// The current problem and its corresponding exercise
