@@ -276,7 +276,8 @@ var Khan = (function() {
 			"word-problems": [ "math" ],
 			"derivative-intuition": [ "jquery.mobile.vmouse" ],
 			"unit-circle": [ "jquery.mobile.vmouse" ],
-			"interactive": [ "jquery.mobile.vmouse" ]
+			"interactive": [ "jquery.mobile.vmouse" ],
+			"mean-and-median": [ "stat" ]
 		},
 
 		warnTimeout: function() {

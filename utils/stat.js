@@ -54,6 +54,36 @@ jQuery.extend(KhanUtil, {
 		return mode;
 	},
 
+	variance: function( values ) {
+		var xbar = KhanUtil.mean( values );
+		var n = values.length;
+
+		var sum = 0;
+		jQuery.each( values, function( i, x_i ) {
+			sum += ( x_i - xbar ) * ( x_i - xbar );
+		});
+		return sum / ( n - 1 );
+	},
+
+	variancePop: function( values ) {
+		var xbar = KhanUtil.mean( values );
+		var N = values.length;
+
+		var sum = 0;
+		jQuery.each( values, function( i, x_i ) {
+			sum += ( x_i - xbar ) * ( x_i - xbar );
+		});
+		return sum / N;
+	},
+
+	stdDev: function( values ) {
+		return Math.sqrt( KhanUtil.variance( values ) );
+	},
+
+	stdDevPop: function( values ) {
+		return Math.sqrt( KhanUtil.variancePop( values ) );
+	},
+
 	// Standard normal distribution using Box-Muller transform
 	randGaussian: function() {
 		var x1, x2, rad, y1;
@@ -67,5 +97,10 @@ jQuery.extend(KhanUtil, {
 		var c = Math.sqrt( -2 * Math.log( rad ) / rad );
 
 		return x1 * c;
+	},
+
+	gaussianPDF: function( mean, stddev, x ) {
+		return ( 1 / Math.sqrt( 2 * Math.PI * stddev * stddev ) ) * Math.exp( -( ( x - mean ) * ( x - mean ) ) / ( 2 * stddev * stddev ) );
 	}
+
 });
