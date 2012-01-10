@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<html data-translatable data-require="math graphie graphie-helpers-arithmetic word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Recognizing percents</title>
@@ -21,7 +21,7 @@
 
 		<div class="problems">
 			<div id="lines">
-				<div class="question">
+				<div class="question" data-tt="question1">
 					What percent of lines are blue?
 				</div>
 				<p class="graphie" id="numbers">
@@ -33,13 +33,13 @@
 				</p>
 				<div class="solution"><var>BIG_PERCENT</var></div>
 				<div class="hints">
-					<p>The entire grid is 100%.</p>
-					<p>There are 10 lines total, so each line is 10%.</p>
-					<p>There are <var>( BIG_PERCENT / 10).toFixed( 0 )</var> blue lines, so blue lines represent <var>BIG_PERCENT</var>% of the grid.</p>
+					<p data-tt="hint1">The entire grid is 100%.</p>
+					<p data-tt="hint2">There are 10 lines total, so each line is 10%.</p>
+					<p data-tt="hin3">There are <var>( BIG_PERCENT / 10).toFixed( 0 )</var> blue lines, so blue lines represent <var>BIG_PERCENT</var>% of the grid.</p>
 				</div>
 			</div>
 			<div id="squares">
-				<div class="question">
+				<div class="question" data-tt="question2">
 					What percent of the grid is represented by the blue squares?
 				</div>
 				<p class="graphie" id="numbers">
@@ -51,19 +51,19 @@
 				</p>
 				<div class="solution"><var>PERCENT</var></div>
 				<div class="hints">
-					<p>The entire grid is 100%.</p>
-					<p>There are 10 columns and 10 rows, so there are 100 squares total.</p>
-					<p>Therefore, each square is equal to 1%.</p>
-					<p>There are <var>PERCENT</var> blue squares, so blue squares represent <var>PERCENT</var>% of the grid.</p>
+					<p data-tt="hint4">The entire grid is 100%.</p>
+					<p data-tt="hint5">There are 10 columns and 10 rows, so there are 100 squares total.</p>
+					<p data-tt="hint6">Therefore, each square is equal to 1%.</p>
+					<p data-tt="hint7">There are <var>PERCENT</var> blue squares, so blue squares represent <var>PERCENT</var>% of the grid.</p>
 				</div>
 
-
+				
 			</div>
 			<div id="equation1">
-				<div class="problem">
+				<div class="problem" data-tt="question3">
 					In the statement: <p><code><var>PERCENT</var>\%</code> of <code><var>NUMBER</var></code> is <code><var>RESULT</var></code></p>
 				</div>
-				<div class="question">
+				<div class="question" data-tt="question4">
 					What is <code><var>ANSWER_VALUE</var></code>?
 				</div>
 				<div class="solution"><var>ANSWER_NAME</var></div>
@@ -71,16 +71,16 @@
 					<li data-each="ANSWER_TYPES as ans"><var>ans</var></li>
 				</ul>
 				<div class="hints">
-i					<p>Percent <code>\cdot</code> Base = Amount</p>
+i					<p data-tt="hint9">Percent <code>\cdot</code> Base = Amount</p>
 					<p><code><var>PERCENT</var>\% \cdot <var>NUMBER</var> = <var>RESULT</var></code></p>
-					<p>Therefore, <code><var>ANSWER_VALUE</var></code> is the <var>ANSWER_NAME.toLowerCase()</var>.</p>
+					<p data-tt="hint8">Therefore, <code><var>ANSWER_VALUE</var></code> is the <var>ANSWER_NAME.toLowerCase()</var>.</p>
 				</div>
 			</div>
 			<div id="equation2">
-				<div class="problem">
+				<div class="problem" data-tt="question5">
 					In the statement: <p><code><var>RESULT</var></code> is <code><var>PERCENT</var>\%</code> of <code><var>NUMBER</var></code></p>
 				</div>
-				<div class="question">
+				<div class="question" data-tt="question6">
 					What is <code><var>ANSWER_VALUE</var></code>?
 				</div>
 				<div class="solution"><var>ANSWER_NAME</var></div>
@@ -88,10 +88,10 @@ i					<p>Percent <code>\cdot</code> Base = Amount</p>
 					<li data-each="ANSWER_TYPES as ans"><var>ans</var></li>
 				</ul>
 				<div class="hints">
-i					<p>Percent <code>\cdot</code> Base = Amount</p>
+i					<p data-tt="hint9">Percent <code>\cdot</code> Base = Amount</p>
 					<p><code><var>RESULT</var>= <var>PERCENT</var>\% \cdot <var>NUMBER</var></code></p>
-					<p>We can rewrite that as <code><var>PERCENT</var>\% \cdot <var>NUMBER</var> = <var>RESULT</var></code></p>
-					<p>Therefore, <code><var>ANSWER_VALUE</var></code> is the <var>ANSWER_NAME.toLowerCase()</var>.</p>
+					<p data-tt="hint10">We can rewrite that as <code><var>PERCENT</var>\% \cdot <var>NUMBER</var> = <var>RESULT</var></code></p>
+					<p data-tt="hint11">Therefore, <code><var>ANSWER_VALUE</var></code> is the <var>ANSWER_NAME.toLowerCase()</var>.</p>
 				</div>
 			</div>
 

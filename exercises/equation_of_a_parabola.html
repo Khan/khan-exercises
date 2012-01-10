@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions">
+<html data-translatable data-require="math math-format expressions">
 <head>
 	<meta charset="UTF-8" />
 	<title>Equation of a parabola</title>
@@ -24,8 +24,8 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>The equation of a parabola <code>P</code> is <code>y = <var>A</var>x^2 + <var>B</var>x + <var>C</var></code>.</p>
-				<p>What are its vertex <code>(h, k)</code> and its <code>y</code>-intercept?</p>
+				<p data-tt="question1" >The equation of a parabola <code>P</code> is <code>y = <var>A</var>x^2 + <var>B</var>x + <var>C</var></code>.</p>
+				<p data-tt="question2">What are its vertex <code>(h, k)</code> and its <code>y</code>-intercept?</p>
 			</div>
 
 			<div class="solution" data-type="multiple">
@@ -36,16 +36,16 @@
 	</div>
 
 	<div class="hints">
-		<p>The <code>y</code>-intercept is the point on the <code>y</code>-axis where <code>x = 0</code>.</p>
-		<p>If <code>x = 0</code>, we have <code>y = <var>A</var> \cdot 0^2 + <var>B</var> \cdot 0 + <var>C</var> = <var>C</var></code>, so the <code>y</code>-intercept is <code><var>C</var></code>.</p>
+		<p data-tt="hint1" >The <code>y</code>-intercept is the point on the <code>y</code>-axis where <code>x = 0</code>.</p>
+		<p data-tt="hint2" >If <code>x = 0</code>, we have <code>y = <var>A</var> \cdot 0^2 + <var>B</var> \cdot 0 + <var>C</var> = <var>C</var></code>, so the <code>y</code>-intercept is <code><var>C</var></code>.</p>
 
-		<p>The equation of a parabola with vertex <code>(h, k)</code> is <code>y = a(x - h)^2 + k</code>.</p>
-		<p>We can rewrite the given equation as <code><var>A</var>x^2 + <var>A</var> \cdot <var>- 2 * H</var>x + <var>H * A * H</var> + <var>K</var></code>, in order to get the form <code>a(x - h)^2</code></p>
-i		<p>We factor out <code>A</code>, giving <code>y = <var>A</var> ( x^2 + <var>2 * H</var>x + <var>H * H</var> ) + <var>K</var></code></p>
-		<p>The equation in the parentheses is of the form <code>( a + b )^2</code>, because <code> ( x^2 + <var>2 * H</var> + <var>H * H</var> )  =  ( x^2 + 2 \cdot <var>H</var> + <var>H</var>^2 ) </code></p>
-		<p>Therefore, <code>y = <var>A</var>( x - <var>H</var>)^2 + <var>K</var></code>.</p>
+		<p data-tt="hint3" >The equation of a parabola with vertex <code>(h, k)</code> is <code>y = a(x - h)^2 + k</code>.</p>
+		<p data-tt="hint4" >We can rewrite the given equation as <code><var>A</var>x^2 + <var>A</var> \cdot <var>- 2 * H</var>x + <var>H * A * H</var> + <var>K</var></code>, in order to get the form <code>a(x - h)^2</code></p>
+i		<p data-tt="hint5" >We factor out <code>A</code>, giving <code>y = <var>A</var> ( x^2 + <var>2 * H</var>x + <var>H * H</var> ) + <var>K</var></code></p>
+		<p data-tt="hint6" >The equation in the parentheses is of the form <code>( a + b )^2</code>, because <code> ( x^2 + <var>2 * H</var> + <var>H * H</var> )  =  ( x^2 + 2 \cdot <var>H</var> + <var>H</var>^2 ) </code></p>
+		<p data-tt="hint7" >Therefore, <code>y = <var>A</var>( x - <var>H</var>)^2 + <var>K</var></code>.</p>
 		<p data-if="H < 0"> <code> y = <var>A</var>(x - (<var>H</var>))^2 + <var>K</var></code>.</p>
-		<p>Thus, the center <code>(h, k)</code> is <code>(<var>H</var>, <var>K</var>)</code></p>
+		<p data-tt="hint8" >Thus, the center <code>(h, k)</code> is <code>(<var>H</var>, <var>K</var>)</code></p>
 	</div>
 	</div>
 </body>
