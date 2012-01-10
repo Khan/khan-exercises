@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Adding and subtracting fractions with like denominators</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div id="add">
+				<div class="vars"> <var id="N1">randRange( 1, 9 )</var>
+					<var id="N2">randRange( 1, 9 )</var>
+					<var id="D">randRange( N1 + N2 + 1, 20 )</var>
+				</div>
+
+				<div class="question">
+					<p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = {?}</code></p>
+				</div>
+
+				<div class="hints">
+					<div style="height: 150px;">
+						<div class="graphie" style="float: left">
+							init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+							piechart( [ N1, D - N1 ], ["#e00", "#999"], 2 );
+						</div>
+						<div class="graphie" style="float: left;">
+							init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+							piechart( [ N2, D - N2 ], ["#e00", "#999"], 2 );
+						</div>
+					</div>
+					<p>Add the numerators.</p>
+					<div class="graphie">
+						init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+						piechart( [ N1+N2, D - N2 - N1], ["#e00", "#999"], 2 );
+					</div>
+					<div>
+						<p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = <var>fraction( N1 + N2, D )</var></code></p>
+					</div>
+					<div data-if="getGCD( N1 + N2, D ) !== 1">
+						<p>Simplify.</p>
+						<div class="graphie">
+							init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+							piechart( [ reduce( N1 + N2, D)[0], reduce( N1 + N2, D)[1] -  reduce( N1 + N2, D)[0]], ["#e00", "#999"], 2 );
+						</div>
+						<p><code><var>fraction( N1 + N2, D )</var> = <var>fractionReduce( N1 + N2, D )</var></code></p>
+					</div>
+				</div>
+
+				<div class="solution" data-type="rational"><var>( N1 + N2 ) / D</var></div>
+			</div>
+
+			<div id="subtract">
+				<div class="vars">
+					<var id="N1">randRange( 2, 10 )</var>
+					<var id="N2">randRange( 1, N1 - 1 )</var>
+					<var id="D">randRange( 10, 20 )</var>
+				</div>
+
+				<div class="question">
+					<p><code><var>fraction( N1, D )</var> - <var>fraction( N2, D )</var> = {?}</code></p>
+				</div>
+
+				<div class="hints">
+						<div class="graphie" id="pie" style="float: left">
+							init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+							PIECH = piechart( [ N1, D - 1 ], ["#e00", "#999"], 2 );
+						</div>
+					<div>
+						<div class="graphie">
+							init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+							piechart( [ N1-N2,N2, D - 1 ], ["#e00","#122", "#999"], 2 );
+						</div>
+						<p>Subtract the numerators.</p>
+					</div>
+					<div>
+						<div class="graphie">
+							init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+							piechart( [ N1 - N2, D - 1 ], ["#e00", "#999"], 2 );
+						</div>
+						<p><code><var>fraction( N1, D )</var> - <var>fraction( N2, D )</var> = <var>fraction( N1 - N2, D )</var></code></p>
+					</div>
+					<div data-if="getGCD( N1 - N2, D ) !== 1">
+						<p>Simplify.</p>
+						<div class="graphie">
+							init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+							piechart( [ reduce(N1 - N2 , D)[0] , reduce(N1 - N2, D)[1] - 1 ], ["#e00", "#999"], 2 );
+						</div>
+						<p><code><var>fraction( N1 - N2, D )</var> = <var>fractionReduce( N1 - N2, D )</var></code></p>
+					</div>
+				</div>
+
+				<div class="solution" data-type="rational"><var>( N1 - N2 ) / D</var></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
