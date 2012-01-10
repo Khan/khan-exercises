@@ -85,8 +85,6 @@
 			'<span data-else data-unwrap>'+
 				'<span data-if="HUNDREDTHS !== 0"><code>\\large{\\color{gray}{<var>HUNDREDTHS</var>}}</code> <var>plural( "hundredth", HUNDREDTHS )</var>, </span> '+
 				'and <code>\\large{\\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> <var>plural( "thousandth", THOUSANDTHS )</var>. '+
-			'</span>',
-					"hint15"	: '<span data-if="HUNDREDTHS !== 0"><code>\\large{\\color{gray}{<var>HUNDREDTHS</var>}}</code> <var>plural( "hundredth", HUNDREDTHS )</var>, </span> '+
-				'and <code>\\large{\\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> <var>plural( "thousandth", THOUSANDTHS )</var>.'
+			'</span>'
 		}
 })

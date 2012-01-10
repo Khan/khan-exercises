@@ -1,6 +1,6 @@
 ({
 	"nl" : {
-		"question1"	: 'Plaats de <strong><code>\\color{orange}{\\\\text{oranje stip}}</code></strong> op de getallenlijn bij <strong><code>\\color{orange}{<var>SOLUTION</var>}</code></strong>. De afstand tussen twee opeenvolgende streepjes is 0,5.',
+		"question1"	: 'Plaats de <strong><code>\\color{orange}{\\text{oranje stip}}</code></strong> op de getallenlijn bij <strong><code>\\color{orange}{<var>SOLUTION</var>}</code></strong>. De afstand tussen twee opeenvolgende streepjes is 0,5.',
 		"question2"	: 'Sleep de oranje stip naar de juiste positie.',
 		
 		"hint1"		: 'Omdat <code>\\color{orange}{<var>SOLUTION</var>}</code> <span data-if="SOLUTION > 0">positief</span><span data-else>negatief</span> is, moet de oranje stip <span data-if="SOLUTION > 0">rechts</span><span data-else>links</span> van de 0 staan.',
