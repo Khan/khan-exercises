@@ -13,27 +13,27 @@
 <body>
 	<div class="exercise">
 		<div class="vars" data-ensure="BASE1 !== BASE2">
-				<var id="BASE1">randVar()</var>
-				<var id="BASE2">randVar()</var>
-				<var id="EXPNUM1">randRangeNonZero( -5, 5 )</var>
-				<var id="EXPNUM3">randRangeNonZero( -5, 5 )</var>
-				<var id="EXPDEN1">randRangeNonZero( -5, 5 )</var>
-				<var id="EXPDEN2">randRangeNonZero( -5, 5 )</var>
-				<var id="EXPDEN3">randRangeNonZero( -5, 5 )</var>
+			<var id="BASE1">randVar( )</var>
+			<var id="BASE2">randVar( )</var>
+			<var id="EXPNUM1">randRangeNonZero( -5, 5 )</var>
+			<var id="EXPNUM3">randRangeNonZero( -5, 5 )</var>
+			<var id="EXPDEN1">randRangeNonZero( -5, 5 )</var>
+			<var id="EXPDEN2">randRangeNonZero( -5, 5 )</var>
+			<var id="EXPDEN3">randRangeNonZero( -5, 5 )</var>
 				
-				<var id="DEN">[ "^", [ "*", [ "^", BASE1, EXPDEN1 ], [ "^", BASE2, EXPDEN2 ] ], EXPDEN3]</var>
-				<var id="DENHINT1">[ "*", [ "^", [ "^", BASE1, EXPDEN1], EXPDEN3],  [ "^", [ "^", BASE2, EXPDEN2], EXPDEN3] ]</var>
-				<var id="DENHINT2">[ "*", [ "^", BASE1, EXPDEN1 * EXPDEN3], [ "^", BASE2, EXPDEN2 * EXPDEN3] ]</var>
+			<var id="DEN">[ "^", [ "*", [ "^", BASE1, EXPDEN1 ], [ "^", BASE2, EXPDEN2 ] ], EXPDEN3 ]</var>
+			<var id="DENHINT1">[ "*", [ "^", [ "^", BASE1, EXPDEN1 ], EXPDEN3 ],  [ "^", [ "^", BASE2, EXPDEN2 ], EXPDEN3 ] ]</var>
+			<var id="DENHINT2">[ "*", [ "^", BASE1, EXPDEN1 * EXPDEN3 ], [ "^", BASE2, EXPDEN2 * EXPDEN3 ] ]</var>
 		</div>
 		<div class="problems">
 			<div id="simplify-exponential-form-full" data-weight="2">
 				<div class="vars">
 					<var id="EXPNUM2">randRangeNonZero( -5, 5 )</var>
 				  
-					<var id="NUM">[ "^", [ "*", [ "^", BASE1, EXPNUM1 ], [ "^", BASE2, EXPNUM2 ] ], EXPNUM3]</var>
+					<var id="NUM">[ "^", [ "*", [ "^", BASE1, EXPNUM1 ], [ "^", BASE2, EXPNUM2 ] ], EXPNUM3 ]</var>
 				  
-					<var id="NUMHINT1">[ "*", [ "^", [ "^", BASE1, EXPNUM1], EXPNUM3],  [ "^", [ "^", BASE2, EXPNUM2], EXPNUM3] ]</var>
-					<var id="NUMHINT2">[ "*", [ "^", BASE1, EXPNUM1 * EXPNUM3], [ "^", BASE2, EXPNUM2 * EXPNUM3] ]</var>
+					<var id="NUMHINT1">[ "*", [ "^", [ "^", BASE1, EXPNUM1 ], EXPNUM3 ],  [ "^", [ "^", BASE2, EXPNUM2 ], EXPNUM3 ] ]</var>
+					<var id="NUMHINT2">[ "*", [ "^", BASE1, EXPNUM1 * EXPNUM3 ], [ "^", BASE2, EXPNUM2 * EXPNUM3 ] ]</var>
 				  
 					<var id="EXP1">EXPNUM1 * EXPNUM3 - EXPDEN1 * EXPDEN3</var>
 					<var id="EXP2">EXPNUM2 * EXPNUM3 - EXPDEN2 * EXPDEN3</var>
@@ -52,10 +52,10 @@
 				<div class="hints">
 					<p>To start, try working on the numerator and the denominator independently.</p>
 					<div>
-						<p>Since we have a product of two terms taken to a power, we can take each term to that power:</p>
+						<p>In the numerator, we have a product of two terms taken to an exponent, so we can take each term to that exponent:</p>
 						<p><code>\color{orange}{<var>expr( NUM )</var> = <var>expr( NUMHINT1 )</var>}</code>.</p>
 					</div>
-					<p>On the left, we have <code>\color{orange}{<var>expr( ["^", BASE1, EXPNUM1 ] )</var>}</code> to the power <code>\color{orange}{<var>EXPNUM3</var>}</code>.  Now <code>\color{orange}{<var>EXPNUM1</var> \times <var>EXPNUM3</var> = <var>EXPNUM1 * EXPNUM3</var>}</code>, so <code>\color{orange}{<var>expr( [ "^", [ "^", BASE1, EXPNUM1 ], EXPNUM3 ] )</var> = <var>expr( [ "^", BASE1, EXPNUM1 * EXPNUM3 ] )</var>}</code>.</p>
+					<p>On the left, we have <code>\color{orange}{<var>expr( [ "^", BASE1, EXPNUM1 ] )</var>}</code> to the exponent <code>\color{orange}{<var>EXPNUM3</var>}</code>.  Now <code>\color{orange}{<var>EXPNUM1</var> \times <var>EXPNUM3</var> = <var>EXPNUM1 * EXPNUM3</var>}</code>, so <code>\color{orange}{<var>expr( [ "^", [ "^", BASE1, EXPNUM1 ], EXPNUM3 ] )</var> = <var>expr( [ "^", BASE1, EXPNUM1 * EXPNUM3 ] )</var>}</code>.</p>
 					<div>
 						<p>Using the ideas above, you should find that<p>
 						<p><code>\dfrac{\color{orange}{<var>expr( NUM )</var>}}{\color{green}{<var>expr( DEN )</var>}} = \dfrac{\color{orange}{<var>expr( NUMHINT2 )</var>}}{\color{green}{<var>expr( DENHINT2 )</var>}}</code>.</p>
@@ -66,14 +66,15 @@
 					</div>
 				</div>	
 			</div> <!-- simplify-exponential-form-full-->
+			
 			<div id="simplify-exponential-form-mini" data-weight="3">
 				<div class="vars">
 					<var id="EXPNUM2">0</var>
 				  
-					<var id="NUM">[ "^", [ "^", BASE1, EXPNUM1 ], EXPNUM3]</var>
+					<var id="NUM">[ "^", [ "^", BASE1, EXPNUM1 ], EXPNUM3 ]</var>
 				  
-					<var id="NUMHINT1">[ "^", [ "^", BASE1, EXPNUM1 ], EXPNUM3]</var>
-					<var id="NUMHINT2">[  "^", BASE1, EXPNUM1 * EXPNUM3]</var>
+					<var id="NUMHINT1">[ "^", [ "^", BASE1, EXPNUM1 ], EXPNUM3 ]</var>
+					<var id="NUMHINT2">[  "^", BASE1, EXPNUM1 * EXPNUM3 ]</var>
 				  
 					<var id="EXP1">EXPNUM1 * EXPNUM3 - EXPDEN1 * EXPDEN3</var>
 					<var id="EXP2">EXPNUM2 * EXPNUM3 - EXPDEN2 * EXPDEN3</var>
@@ -91,9 +92,9 @@
 				
 				<div class="hints">
 					<p>To start, try working on the numerator and the denominator independently.</p>
-					<p>In the numerator, we have <code>\color{orange}{<var>expr( ["^", BASE1, EXPNUM1 ] )</var>}</code> to the power <code>\color{orange}{<var>EXPNUM3</var>}</code>.  Now <code>\color{orange}{<var>EXPNUM1</var> \times <var>EXPNUM3</var> = <var>EXPNUM1 * EXPNUM3</var>}</code>, so <code>\color{orange}{<var>expr( NUM )</var> = <var>expr( NUMHINT2 )</var>}</code>.</p>
+					<p>In the numerator, we have <code>\color{orange}{<var>expr( [ "^", BASE1, EXPNUM1 ] )</var>}</code> to the exponent <code>\color{orange}{<var>EXPNUM3</var>}</code>.  Now <code>\color{orange}{<var>EXPNUM1</var> \times <var>EXPNUM3</var> = <var>EXPNUM1 * EXPNUM3</var>}</code>, so <code>\color{orange}{<var>expr( NUM )</var> = <var>expr( NUMHINT2 )</var>}</code>.</p>
 					<div>
-						<p>In the denominator, we have a product of two terms taken to a power, so we can take each term to that power:</p>
+						<p>In the denominator, we have a product of two terms taken to a exponent, so we can take each term to that exponent:</p>
 						<p><code>\color{green}{<var>expr( DEN )</var> = <var>expr( DENHINT1 )</var>}</code>.</p>
 					</div>
 					<div>
@@ -105,9 +106,10 @@
 						<p><code>\dfrac{\color{orange}{<var>expr( NUMHINT2 )</var>}}{\color{green}{<var>expr( DENHINT2 )</var>}} = \dfrac{\color{orange}{<var>expr( [ "^", BASE1, EXPNUM1 * EXPNUM3 ] )</var>}}{\color{green}{<var>expr( [ "^", BASE1, EXPDEN1 * EXPDEN3 ] )</var>}} \cdot \dfrac{\color{orange}{1}}{\color{green}{<var>expr( [ "^", BASE2, EXPDEN2 * EXPDEN3 ] )</var>}} = <var>BASE1</var>^{\color{orange}{<var>EXPNUM1 * EXPNUM3</var>} - \color{green}{<var>negParens( EXPDEN1 * EXPDEN3 )</var>}} \cdot <var>BASE2</var>^{- \color{green}{<var>negParens( EXPDEN2 * EXPDEN3 )</var>}} = <var>expr( ANS )</var></code>.</p>
 					</div>
 
-					</div>	
+				</div>
 			</div> <!-- simplify-exponential-form-mini-->
 			
+
 		</div> <!-- problems -->
 	</div> <!-- exercise -->
 </body> 
