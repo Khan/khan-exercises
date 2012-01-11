@@ -8,7 +8,7 @@
 						'return [ "Hoeveel leerlingen heeft de " + ROWS[ ROW_INDEX ] + " school in totaal?", "Hoeveel kippen heeft " + ROWS[ ROW_INDEX ] + " in totaal verkocht?", "Hoeveel punten heeft " + ROWS[ ROW_INDEX ] + " in totaal gescoord?", "Hoeveel zonnepanelen zijn er afgelopen jaar ge&iuml;nstalleerd in " + ROWS[ ROW_INDEX ] + "?" ][ INDEX ];'+
 						'} else {'+
 						'return [ "Hoeveel leerlingen uit " + COLUMNS[ COL_INDEX ] + " heeft de " + ROWS[ ROW_INDEX ] + "?", "Hoeveel kippen heeft " + ROWS[ ROW_INDEX ] + " verkocht in " + COLUMNS[ COL_INDEX ] + "?", "Hoeveel punten heeft " + ROWS[ ROW_INDEX ] + " gescoord in het " + COLUMNS[ COL_INDEX ] + "?", "Hoeveel zonnepanelen zijn er in " + ROWS[ ROW_INDEX ] + " in " + COLUMNS[ COL_INDEX ] + " ge&iuml;nstalleerd?" ][ INDEX ];'+
-						'	}'+
+						'}'+
 				'})()',
 		"array5" :	'[ "Scholen", "Boeren", "Spelers", "Provincies" ][ INDEX ]',
 		"array6" :	'[ "leerlingen", "kippen", "punten", "zonnepanelen" ][ INDEX ]',	
