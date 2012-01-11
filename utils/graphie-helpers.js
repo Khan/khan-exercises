@@ -735,7 +735,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
 				angles = [ 180 + anchorAngle, 360 ];
 				labelPlacement = "right";
 				break;
-			}
+		}
 		jQuery.merge( args, angles );
 
 		graph.style({ stroke: color}, function() {
