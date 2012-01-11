@@ -852,10 +852,14 @@ jQuery.extend( Khan.answerTypes, {
 			shownChoices.push( none );
 		}
 
+		var correctIndex = -1;
+
 		jQuery.each(shownChoices, function( i, choice ) {
-			var correct = choice.data( "correct" );
+			if ( choice.data( "correct" ) ) {
+				correctIndex = i + "";
+			}
 			choice.contents().wrapAll( '<li><label><span class="value"></span></label></li>' )
-				.parent().before( '<input type="radio" name="solution" value="' + (correct ? 1 : 0) + '">' )
+				.parent().before( '<input type="radio" name="solution" value="' + i + '">' )
 				.parent().parent()
 				.appendTo(list);
 		});
@@ -863,7 +867,7 @@ jQuery.extend( Khan.answerTypes, {
 		var ret = function() {
 			var choice = list.find("input:checked");
 
-			if ( noneIsCorrect && choice.val() === "1") {
+			if ( noneIsCorrect && choice.val() === correctIndex ) {
 				choice.next()
 					.fadeOut( "fast", function() {
 						jQuery( this ).replaceWith( list.data( "real-answer" ) )
@@ -873,8 +877,9 @@ jQuery.extend( Khan.answerTypes, {
 
 			ret.guess = jQuery.trim( extractRawCode(choice.closest("li")) );
 
-			return choice.val() === "1";
+			return choice.val() === correctIndex;
 		};
+
 		ret.solution = jQuery.trim( solutionText );
 		ret.showGuess = function( guess ) {
 			list.find( 'input:checked' ).prop( 'checked', false);
