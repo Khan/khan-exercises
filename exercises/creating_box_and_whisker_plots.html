@@ -40,14 +40,14 @@
 				})</var>
 				<var id="SORTED_DATA">DATA.slice().sort(function(a, b) { return a - b; })</var>
 				<var id="MIN">SORTED_DATA[0]</var>
-				<var id="Q1">(SORTED_DATA[3] + SORTED_DATA[4]) / 2</var>
+				<var id="Q1">SORTED_DATA[3]</var>
 				<var id="MEDIAN">SORTED_DATA[7]</var>
-				<var id="Q3">(SORTED_DATA[10] + SORTED_DATA[11]) / 2</var>
+				<var id="Q3">SORTED_DATA[11]</var>
 				<var id="MAX">SORTED_DATA[14]</var>
 				<var id="SORTER">createSorter()</var>
 			</div>
 
-			<p class="question">Represent the following data using a box-and-whiskers plot:</p>
+			<p class="question">Represent the following data using a box-and-whiskers plot. Exclude the median when computing the quartiles:</p>
 
 			<div class="problem">
 				<p>
@@ -176,7 +176,7 @@
 
 	<div class="hints">
 		<div>
-			<p>Begin by putting the data in order:<p>
+			<p>Begin by putting the data in order:</p>
 			<p><code>\qquad \large{<var>SORTED_DATA.join( ", " )</var>}</code></p>
 		</div>
 
@@ -191,7 +191,7 @@
 		</div>
 
 		<div>
-			<p>Plot the sample maximum (largest number):<p>
+			<p>Plot the sample maximum (largest number):</p>
 			<p><code>\qquad \large{<var>SORTED_DATA.slice( 0, -1 ).join( ", " )</var>, \color{<var>PINK</var>}{<var>MAX</var>}}</code></p>
 			<div class="graphie" data-update="boxplot">
 				style({ stroke: PINK, fill: PINK }, function() {
@@ -201,7 +201,7 @@
 		</div>
 
 		<div>
-			<p>Plot the median (middle number):<p>
+			<p>Plot the median (middle number):</p>
 			<p><code>
 				\qquad \large{<var>SORTED_DATA.slice( 0, 7 ).join( ", " )</var>,
 				\color{<var>PINK</var>}{<var>MEDIAN</var>},
@@ -215,16 +215,11 @@
 		</div>
 
 		<div>
-			<p>
-				Plot the first quartile (halfway between the smallest number and the middle number). Since there isn't
-				a single number halfway between the smallest number and the median, average the two numbers to get
-				<code class="hint_pink"><var>Q1</var></code>:
-			<p>
+			<p>Plot the first quartile (halfway between the smallest number and the middle number):</p>
 			<p><code>
 				\qquad \large{<var>SORTED_DATA.slice( 0, 3 ).join( ", " )</var>,
 				\color{<var>PINK</var>}{<var>SORTED_DATA[3]</var>},
-				\color{<var>PINK</var>}{<var>SORTED_DATA[4]</var>},
-				<var>SORTED_DATA.slice( 5 ).join( ", " )</var>}
+				<var>SORTED_DATA.slice( 4 ).join( ", " )</var>}
 			</code></p>
 			<div class="graphie" data-update="boxplot">
 				style({ stroke: PINK, strokeWidth: 2 }, function() {
@@ -234,14 +229,9 @@
 		</div>
 
 		<div>
-			<p>
-				Plot the third quartile (halfway between the middle number and the largest number). Since there isn't
-				a single number halfway between the median and the largest number, average the two numbers to get
-				<code class="hint_pink"><var>Q3</var></code>:
-			<p>
+			<p>Plot the third quartile (halfway between the middle number and the largest number):</p>
 			<p><code>
-				\qquad \large{<var>SORTED_DATA.slice( 0, 10 ).join( ", " )</var>,
-				\color{<var>PINK</var>}{<var>SORTED_DATA[10]</var>},
+				\qquad \large{<var>SORTED_DATA.slice( 0, 11 ).join( ", " )</var>,
 				\color{<var>PINK</var>}{<var>SORTED_DATA[11]</var>},
 				<var>SORTED_DATA.slice( 12 ).join( ", " )</var>}
 			</code></p>
