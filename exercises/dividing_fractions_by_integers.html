@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script src="../khan-exercise.js"></script>
+	<title>Dividing fractions by integers</title>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="INTEGER">randRange( 1, 10 )</var>
+			<var id="NUMERATOR, DENOMINATOR">reduce( randRange( 1, 5 ), randRange( 6, 10 ) )</var>
+
+			<var id="SOLUTIONNEEDSSIMPLIFYING">
+				(function() {
+					var reducedSolution,
+						solutionDenominator = DENOMINATOR * INTEGER,
+					    solutionNumerator = NUMERATOR;
+
+					reducedSolution = reduce( solutionNumerator, solutionDenominator );
+					return solutionNumerator !== reducedSolution[ 0 ] || solutionDenominator !== reducedSolution[ 1 ];
+				})()
+			</var>
+		</div>
+
+		<div class="problems">
+			<p>
+				<code><var>fraction( NUMERATOR, DENOMINATOR )</var> \div <var>INTEGER</var> = {?}</code>
+			</p>
+		</div>
+
+		<div class="hints">
+			<p>To divide a fraction by an integer multiply the fraction by the inverse of the integer.</p>
+
+			<div>
+				<p>Thus, the problem becomes:</p>
+
+				<p>
+					<code><var>fraction( NUMERATOR, DENOMINATOR )</var> * <var>fraction( 1, INTEGER )</var> = {?}</code>
+				</p>
+			</div>
+
+			<p>
+				<code><var>fraction( NUMERATOR, DENOMINATOR )</var> * <var>fraction( 1, INTEGER )</var> = <var>fraction( NUMERATOR, DENOMINATOR * INTEGER )</var></code>
+				<span data-if="SOLUTIONNEEDSSIMPLIFYING"><code> = <var>fractionReduce( NUMERATOR, DENOMINATOR * INTEGER )</var></code></span>
+			</p>
+		</div>
+
+		<div class="solution" data-type="rational"><var>NUMERATOR / DENOMINATOR / INTEGER</var></div>
+	</div>
+</body>
+</html>
