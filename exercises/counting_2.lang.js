@@ -1,7 +1,7 @@
 ({
 	"nl" : {
 		"exercise1"	: '<var>person( 1 )</var> begint met tellen bij <var>START</var>, en <var>he( 1 )</var> telt met <var>cardinal( INCR )</var> tegelijk.',
-		"exercise2"	: 'Als <var>START</var> het eerste getal is dat <var>person( 1 )</var> telt, wat is dan het <var>NTH</var>  getal dat <var>he( 1 )</var> telt?',
+		"exercise2"	: 'Als <var>START</var> het eerste getal is dat <var>person( 1 )</var> telt, wat is dan het <var>NTH</var>e  getal dat <var>he( 1 )</var> telt?',
 		"exercise3"	: 'Er zijn <var>NUM</var> mensen in een kamer.',
 		"exercise4"	: "Als iedereen handen schudt met ieder ander, hoevaak wordt er dan handengeschud?",
 		"exercise5"	: '<var>person( 1 )</var> wil <var>his( 1 )</var> vriend een bos bloemen in een vaas geven. Bij de bloemenwinkel hebben ze bloemen in <var>NUM_COLORS</var> verschillende kleuren, en ze hebben de keus uit <var>NUM_POTS</var> verschillende vazen.',

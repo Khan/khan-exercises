@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems">
+<html data-translatable data-require="math graphie graphie-helpers word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Multiplying fractions word problems</title>
@@ -17,24 +17,22 @@
 					<var id="SOLUTION">N / D * INVITEES</var>
 				</div>
 
-				<p class="problem">
+				<p data-tt="problem1" class="problem">
 					<var>person( 1 )</var> invited <var>INVITEES</var> friends to <var>his( 1 )</var> birthday party. Some people
 					had other plans and could not attend, but <code>\frac{<var>N</var>}{<var>D</var>}</code> of the people <var>person( 1 )</var>
 					invited were able to attend.
 				</p>
 
-				<p class="question">How many people went to <var>person( 1 )</var>'s birthday party?</p>
+				<p data-tt="question1" class="question">How many people went to <var>person( 1 )</var>'s birthday party?</p>
 
-				<div class="solution" data-type="multiple">
-					<span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> people
-				</div>
+				<div class="solution"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>
+					<p data-tt="hint1" >
 						We need to figure out what <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>INVITEES</var></code> is to find out
 						how many people attended the party.
 					</p>
-					<p>
+					<p data-tt="hint2" >
 						We can find <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>INVITEES</var></code> by multiplying
 						<code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> and <code class="hint_orange"><var>INVITEES</var></code>.
 					</p>
@@ -53,7 +51,7 @@
 						\color{<var>GREEN</var>}{<var>SOLUTION</var>}
 					</code></p>
 					<div>
-						<p>
+						<p data-tt="hint3" >
 							We can also visually see that <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> of
 							<code class="hint_orange"><var>INVITEES</var></code> is <code class="hint_green"><var>SOLUTION</var></code>:
 						</p>
@@ -73,7 +71,7 @@
 							});
 						</div>
 					</div>
-					<p><strong><var>SOLUTION</var> people attended <var>person( 1 )</var>'s party.</strong></p>
+					<p data-tt="hint4" ><strong><var>SOLUTION</var> people attended <var>person( 1 )</var>'s party.</strong></p>
 				</div>
 			</div>
 
@@ -86,22 +84,22 @@
 					<var id="SOLUTION">N / D * AMOUNT</var>
 				</div>
 
-				<p class="problem">
+				<p  data-tt="problem2" class="problem">
 					After saving up for a while, <var>person( 1 )</var> had $<var>AMOUNT</var>.00 in
 					<var>his( 1 )</var> piggy bank, and <var>he( 1 )</var> spent
 					<code>\frac{<var>N</var>}{<var>D</var>}</code> of that money on books at the bookstore.
 				</p>
 
-				<p class="question">How much money did <var>person( 1 )</var> spend?</p>
+				<p  data-tt="question2" class="question">How much money did <var>person( 1 )</var> spend?</p>
 
 				<div class="solution" data-forms="dollar"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>
+					<p data-tt="hint5" >
 						We need to figure out what <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code>$<var>AMOUNT</var>.00</code> is to find out
 						how much <var>person(1)</var> spent.
 					</p>
-					<p>
+					<p data-tt="hint6" >
 						We can find <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code>$<var>AMOUNT</var>.00</code> by multiplying
 						<code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> and <code class="hint_orange"><var>AMOUNT</var></code>.
 					</p>
@@ -120,7 +118,7 @@
 						\color{<var>GREEN</var>}{<var>SOLUTION</var>}
 					</code></p>
 					<div>
-						<p>
+						<p data-tt="hint7" >
 							We can also visually see that <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> of
 							<code class="hint_orange"><var>AMOUNT</var></code> is <code class="hint_green"><var>SOLUTION</var></code>:
 						</p>
@@ -140,7 +138,7 @@
 							});
 						</div>
 					</div>
-					<p><strong><var>person( 1 )</var> spent $<var>SOLUTION</var>.00 on books.</strong></p>
+					<p data-tt="hint8" ><strong><var>person( 1 )</var> spent $<var>SOLUTION</var>.00 on books.</strong></p>
 				</div>
 			</div>
 
@@ -153,22 +151,22 @@
 					<var id="SOLUTION">roundTo( 2, N / D * AMOUNT )</var>
 				</div>
 
-				<p class="problem">
+				<p  data-tt="problem3" class="problem">
 					Every day <var>person( 1 )</var> put the extra change from <var>his( 1 )</var> pockets into a glass jar. After
 					<var>randRange( 10, 30 )</var> weeks, <var>he( 1 )</var> had saved up $<var>AMOUNT</var>.00. <var>person( 1 )</var>
 					decided to use <code>\frac{<var>N</var>}{<var>D</var>}</code> of the money from the jar to buy canned food for a homeless shelter.
 				</p>
 
-				<p class="question">How much money did <var>person( 1 )</var> spend on canned food?</p>
+				<p  data-tt="question3" class="question">How much money did <var>person( 1 )</var> spend on canned food?</p>
 
 				<div class="solution" data-forms="dollar"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>
+					<p data-tt="hint9" >
 						We need to figure out what <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code>$<var>AMOUNT</var>.00</code> is to find out
 						how much <var>person(1)</var> spent.
 					</p>
-					<p>
+					<p data-tt="hint10" >
 						We can find <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code>$<var>AMOUNT</var>.00</code> by multiplying
 						<code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> and <code class="hint_orange"><var>AMOUNT</var></code>.
 					</p>
@@ -187,7 +185,7 @@
 						\color{<var>GREEN</var>}{<var>SOLUTION</var>}
 					</code></p>
 					<div>
-						<p>
+						<p data-tt="hint11" >
 							We can also visually see that <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> of
 							<code class="hint_orange"><var>AMOUNT</var></code> is <code class="hint_green"><var>SOLUTION</var></code>:
 						</p>
@@ -207,7 +205,7 @@
 							});
 						</div>
 					</div>
-					<p><strong><var>person( 1 )</var> spent $<var>SOLUTION</var>.00 on canned food for the homeless shelter.</strong></p>
+					<p data-tt="hint12" ><strong><var>person( 1 )</var> spent $<var>SOLUTION</var>.00 on canned food for the homeless shelter.</strong></p>
 				</div>
 			</div>
 
@@ -220,25 +218,23 @@
 					<var id="SOLUTION">N / D * GALLONS</var>
 				</div>
 
-				<p class="problem">
+				<p  data-tt="problem4" class="problem">
 					Before leaving on a road trip, <var>person( 1 )</var> filled up <var>his( 1 )</var> gas tank, which holds
 					<var>GALLONS</var> gallons of gas. After <var>0.5 * randRange( 3 / 0.5, 10 / 0.5 )</var> hours, <var>person( 1 )</var>
 					noticed that the gas tank was <code>\frac{<var>N</var>}{<var>D</var>}</code> full.
 				</p>
 
-				<p class="question">How many gallons of gas were left in the tank?</p>
+				<p  data-tt="question4" class="question">How many gallons of gas were left in the tank?</p>
 
-				<div class="solution" data-type="multiple">
-					<span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> gallons
-				</div>
+				<div class="solution"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>
+					<p data-tt="hint13" >
 						Since a fraction of the gas in <var>his( 1 )</var> tank was left, we just need to figure out what
 						<code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>GALLONS</var></code> gallons is to find out
 						how much gas was left in the tank.
 					</p>
-					<p>
+					<p data-tt="hint14" >
 						We can find <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>GALLONS</var></code> gallons by multiplying
 						<code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> and <code class="hint_orange"><var>GALLONS</var></code>.
 					</p>
@@ -257,7 +253,7 @@
 						\color{<var>GREEN</var>}{<var>SOLUTION</var>}
 					</code></p>
 					<div>
-						<p>
+						<p data-tt="hint15" >
 							We can also visually see that <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> of
 							<code class="hint_orange"><var>GALLONS</var></code> is <code class="hint_green"><var>SOLUTION</var></code>:
 						</p>
@@ -277,7 +273,7 @@
 							});
 						</div>
 					</div>
-					<p><strong><var>person( 1 )</var> had <var>SOLUTION</var> gallons of gas left in <var>his( 1 )</var> tank when <var>he( 1 )</var> checked.</strong></p>
+					<p data-tt="hint16" ><strong><var>person( 1 )</var> had <var>SOLUTION</var> gallons of gas left in <var>his( 1 )</var> tank when <var>he( 1 )</var> checked.</strong></p>
 				</div>
 			</div>
 
@@ -290,23 +286,21 @@
 					<var id="SOLUTION">N / D * ATTENDEES</var>
 				</div>
 
-				<p class="problem">
+				<p  data-tt="problem5" class="problem">
 					<var>ATTENDEES</var> people had a picnic in the park.
 					<code>\frac{<var>N</var>}{<var>D</var>}</code> of the people at the picnic were adults.
 				</p>
 
-				<p class="question">How many adults were at the picnic?</p>
+				<p  data-tt="question5" class="question">How many adults were at the picnic?</p>
 
-				<div class="solution" data-type="multiple">
-					<span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> adults
-				</div>
+				<div class="solution"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>
+					<p data-tt="hint17" >
 						We need to figure out what <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>ATTENDEES</var></code> is to find out
 						how many people at the picnic were adults.
 					</p>
-					<p>
+					<p data-tt="hint18" >
 						We can find <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>ATTENDEES</var></code> by multiplying
 						<code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> and <code class="hint_orange"><var>ATTENDEES</var></code>.
 					</p>
@@ -325,7 +319,7 @@
 						\color{<var>GREEN</var>}{<var>SOLUTION</var>}
 					</code></p>
 					<div>
-						<p>
+						<p data-tt="hint19" >
 							We can also visually see that <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> of
 							<code class="hint_orange"><var>ATTENDEES</var></code> is <code class="hint_green"><var>SOLUTION</var></code>:
 						</p>
@@ -345,7 +339,7 @@
 							});
 						</div>
 					</div>
-					<p><strong><var>SOLUTION</var> people at the picnic were adults.</strong></p>
+					<p data-tt="hint20" ><strong><var>SOLUTION</var> people at the picnic were adults.</strong></p>
 				</div>
 			</div>
 
@@ -359,23 +353,21 @@
 				</div>
 
 				<div class="problem">
-					<p>
+					<p data-tt="problem6" >
 						<var>person(1)</var> decided to bake cookies for the school bake sale. <var>He(1)</var> found a recipe
 						that called for <code>\frac{<var>N</var>}{<var>D</var>}</code> of a cup of chocolate chips.
 					</p>
-					<p>
+					<p data-tt="problem7" >
 						To have enough cookies for the bake sale, <var>person(1)</var> needed to make <var>BATCHES</var> batches of cookies.
 					</p>
 				</div>
 
-				<p class="question">How many cups of chocolate chips did <var>person(1)</var> need in total?</p>
+				<p  data-tt="question6" class="question">How many cups of chocolate chips did <var>person(1)</var> need in total?</p>
 
-				<div class="solution" data-type="multiple">
-					<span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> minutes
-				</div>
+				<div class="solution"><var>SOLUTION</var></div>
 
 				<div class="hints">
-					<p>
+					<p data-tt="hint21" >
 						We can multiply <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>}</code> cup by <code class="hint_orange"><var>BATCHES</var></code>
 						batches to find out how many cups of chocolate chips <var>person(1)</var> needed.
 					</p>
@@ -419,7 +411,7 @@
 						</div>
 					</div>
 					-->
-					<p><strong><var>person(1)</var> needed <var>plural(<var>SOLUTION</var>,"cup")</var> of chocolate chips to make enough cookies for the bake sale.</strong></p>
+					<p data-tt="hint22" ><strong><var>person(1)</var> needed <var>plural(<var>SOLUTION</var>,"cup")</var> of chocolate chips to make enough cookies for the bake sale.</strong></p>
 				</div>
 			</div>
 		</div>
