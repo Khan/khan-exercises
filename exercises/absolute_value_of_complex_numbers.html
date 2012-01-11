@@ -27,45 +27,51 @@
 					As complex numbers can be visualized as points on the complex plane, absolute values 
 					of complex numbers can be determined using the distance formula.
 				</p>
-				<div class="graphie" id="graph">
-					graphInit({
+				<div>
+					<div class="graphie" id="graph">
+						graphInit({
 						range: [[-10, 10], [-10, 10]],
-						scale: 20,
-						tickStep: 1,
-						labelStep: 1,
-					});
-					label( [10, 0.5], "Re", "left" );
-					label( [0.5, 9], "Im", "right" );
-					circle( [REAL, IMAG], 3 / 20, {
-						fill: KhanUtil.BLUE,
-						stroke: "none"
-					});
-					label( [REAL, IMAG], REPRESENTATION, "left", {
-						color: KhanUtil.BLUE,
-						labelDistance: 4 
-					} );
+							scale: 20,
+							tickStep: 1,
+							labelStep: 1,
+						});
+						label( [10, 0.5], "Re", "left" );
+						label( [0.5, 9], "Im", "right" );
+						circle( [REAL, IMAG], 3 / 20, {
+							fill: KhanUtil.BLUE,
+							stroke: "none"
+						});
+						label( [REAL, IMAG], REPRESENTATION, "left", {
+							color: KhanUtil.BLUE,
+							labelDistance: 4 
+						} );
+					</div>
+					<p>
+						<code><var>REPRESENTATION</var></code> is plotted as a <span class="hint_blue">blue</span> circle above.
+					</p>
 				</div>
-				<p>
-					<code><var>REPRESENTATION</var></code> is plotted as a <span class="hint_blue">blue</span> circle above.
-				</p>
-				<div class="graphie" data-update="graph">
-					path([ [0,0], [REAL, IMAG]], {
-						stroke: KhanUtil.ORANGE 
-					});
+				<div>
+					<div class="graphie" data-update="graph">
+						path([ [0,0], [REAL, IMAG]], {
+							stroke: KhanUtil.ORANGE 
+						});
+					</div>
+					<p>
+						The absolute value we need is the length of the <span class="hint_orange">orange</span> line segment.
+					</p>
 				</div>
-				<p>
-					The absolute value we need is the length of the <span class="hint_orange">orange</span> line segment.
-				</p>
-				<div class="graphie" data-update="graph">
-					path([ [0,0], [REAL, 0], [REAL, IMAG]], {
-						stroke: KhanUtil.BLUE
-					});
+				<div>
+					<div class="graphie" data-update="graph">
+						path([ [0,0], [REAL, 0], [REAL, IMAG]], {
+							stroke: KhanUtil.BLUE
+						});
+					</div>
+					<p>
+						The <span class="hint_orange">orange</span> line segment is the hypotenuse of a right triangle.
+						Its two legs (shown in <span class="hint_blue">blue</span>) have lengths <var>abs(REAL)</var> and <var>abs(IMAG)</var>, which corresponds
+						to the absolute values of the real and imaginary parts of the complex number <code><var>REPRESENTATION</var></code>.
+					</p>
 				</div>
-				<p>
-					The <span class="hint_orange">orange</span> line segment is the hypotenuse of a right triangle.
-					Its two legs (shown in <span class="hint_blue">blue</span>) have lengths <var>abs(REAL)</var> and <var>abs(IMAG)</var>, which corresponds
-					to the absolute values of the real and imaginary parts of the complex number <code><var>REPRESENTATION</var></code>.
-				</p>
 				<p>
 					Substituting into the Pythagorean theorem:<br />
 					<code>\qquad |<var>REPRESENTATION</var>|^2 = <var>abs(REAL)</var>^2 + <var>abs(IMAG)</var>^2</code>, so <br />
