@@ -41,6 +41,7 @@ jQuery.extend ( KhanUtil, {
 		var TK_CARET        = '^'.charCodeAt(0);
 		var TK_COS          = 0x105;
 		var TK_DIV          = '/'.charCodeAt(0);
+		var TK_EQL          = '='.charCodeAt(0);
 		var TK_FRAC         = 0x100;
 		var TK_LN           = 0x107;
 		var TK_LEFTBRACE    = '{'.charCodeAt(0);
@@ -83,6 +84,7 @@ jQuery.extend ( KhanUtil, {
 			ABS: "abs",
 			PAREN: "()",
 			HIGHLIGHT: "hi",
+			EQL: "=",
 		};
 		
 
@@ -106,6 +108,7 @@ jQuery.extend ( KhanUtil, {
 		tokenToOperator[TK_TAN]   = OpStr.TAN;
 		tokenToOperator[TK_SEC]   = OpStr.SEC;
 		tokenToOperator[TK_LN]    = OpStr.LN;
+		tokenToOperator[TK_EQL]   = OpStr.EQL;
 
 		var scan = scanner(src);
 
@@ -354,8 +357,20 @@ jQuery.extend ( KhanUtil, {
 			}
 		}
 
+		function equalExpr() {
+			var expr = additiveExpr();
+			var t;
+			while ((t = hd())===TK_EQL) {
+				next();
+				var expr2 = additiveExpr();
+			    expr = {op: tokenToOperator[t], args: [expr, expr2]};
+			}
+			return expr;
+
+		}
+
 		function commaExpr ( ) {
-			var n = additiveExpr();
+			var n = equalExpr();
 			return n;
 		}
 
@@ -410,6 +425,7 @@ jQuery.extend ( KhanUtil, {
 					case 44:  // comma
 					case 45:  // dash
 					case 47:  // slash
+					case 61:  // equal
 					case 91:  // left bracket
 					case 93:  // right bracket
 					case 94:  // caret
@@ -706,6 +722,7 @@ jQuery.extend ( KhanUtil, {
 				    break;
 			    case OpStr.DIV:
 				case OpStr.PM:
+				case OpStr.EQL:
 				    text = "\\"+textSize+"{\\color{"+color+"}{"+
 					    format(n.args[0], textSize, color)+"} \\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
 					    format(n.args[1], textSize, color)+"}}";
@@ -770,7 +787,8 @@ jQuery.extend ( KhanUtil, {
 						// elide coefficient when it is 1.
 						text = "\\color{#000}{-}"+format(rhs, textSize, color);
 					}
-					else if ((lhs.args && lhs.args.length===2) || (rhs.args && rhs.args.length===2)) {
+
+					if ((lhs.args && lhs.args.length===2) || (rhs.args && rhs.args.length===2)) {
 						var lhsText = format(lhs, textSize, color);
 						var rhsText = format(rhs, textSize, color);
 						// if subexpr is lower precedence, wrap in parens
@@ -804,10 +822,10 @@ jQuery.extend ( KhanUtil, {
 					var lhs = n.args[0];
 					var rhs = n.args[1];
 					if (isNeg(rhs)) {
-						// elide the plus symbol if the rhs has alreading minus.
+						// replace plus with minus and negate operand.
 						text = "\\"+textSize+"{\\color{"+color+"}{"+
-							format(lhs, textSize, color)+"} \\color{"+color+"}{"+
-							format(rhs, textSize, color)+"}}";
+							format(lhs, textSize, color)+"} \\color{#000}{-}\\color{"+color+"}{"+
+							format(negate(rhs), textSize, color)+"}}";
 					}
 					else if (isZero(rhs)) {
 						// elide the operator and rhs.
@@ -836,8 +854,11 @@ jQuery.extend ( KhanUtil, {
 			if (jQuery.type(n)==="number") {
 				return n < 0;
 			}
-			else {
-				return n.args.length===1 &&	n.op===OpStr.SUB && n.args[0] > 0;  // is unary minus
+			else if (n.args.length===1) {
+				return n.op===OpStr.SUB && n.args[0] > 0;  // is unary minus
+			}
+			else if (n.args.length===2) {
+				return n.op===OpStr.MUL && isNeg(n.args[0]);  // leading term is neg
 			}
 		}
 
@@ -847,6 +868,10 @@ jQuery.extend ( KhanUtil, {
 			}
 			else if (n.args.length===1 && n.op===OpStr.SUB) {
 				return n.args[0];  // strip the unary minus
+			}
+			else if (n.args.length===2 && n.op===OpStr.MUL && isNeg(n.args[0])) {
+				n.args[0] = negate(n.args[0]);
+				return n;
 			}
 			assert(false);
 			return n;
