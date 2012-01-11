@@ -102,7 +102,7 @@ jQuery.extend ( KhanUtil, {
 		tokenToOperator[TK_PM]    = OpStr.PM;
 		tokenToOperator[TK_CARET] = OpStr.POW;
 		tokenToOperator[TK_MUL]   = OpStr.MUL;
-		tokenToOperator[TK_DIV]   = OpStr.DIV;
+		tokenToOperator[TK_DIV]   = OpStr.FRAC;
 		tokenToOperator[TK_SIN]   = OpStr.SIN;
 		tokenToOperator[TK_COS]   = OpStr.COS;
 		tokenToOperator[TK_TAN]   = OpStr.TAN;
@@ -303,7 +303,7 @@ jQuery.extend ( KhanUtil, {
 				if (expr2===1) {
 					expr = expr;
 				}
-				else if (expr === 1) {
+				else if (t===TK_MUL && expr===1) {
 					expr = expr2;
 				}
 				else {
