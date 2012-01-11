@@ -51,12 +51,12 @@ var Khan = (function() {
 	}
 
 	// Adapted from a comment on http://mathiasbynens.be/notes/localstorage-pattern
-	var localStorageEnabled = function() {
+	var sessionStorageEnabled = function() {
 		var enabled, uid = +new Date;
 		try {
-			localStorage[ uid ] = uid;
-			enabled = ( localStorage[ uid ] == uid );
-			localStorage.removeItem( uid );
+			sessionStorage[ uid ] = uid;
+			enabled = ( sessionStorage[ uid ] == uid );
+			sessionStorage.removeItem( uid );
 			return enabled;
 		}
 		catch( e ) {
@@ -64,7 +64,7 @@ var Khan = (function() {
 		}
 	}();
 
-	if ( !localStorageEnabled ) {
+	if ( !sessionStorageEnabled ) {
 		if ( typeof jQuery !== "undefined" ) {
 			warn( "You must enable DOM storage in your browser; see <a href='https://sites.google.com/a/khanacademy.org/forge/for-developers/how-to-enable-dom-storage'>here</a> for instructions.", false );
 		}
@@ -844,11 +844,11 @@ var Khan = (function() {
 		if ( user == null ) return;
 
 		var key = "exercise:" + user + ":" + exerciseName;
-		var oldVal = window.localStorage[ key ];
+		var oldVal = window.sessionStorage[ key ];
 
 		// We sometimes patch UserExercise.exercise_model with related_videos and
 		// sometimes don't, so extend existing objects to avoid erasing old values.
-		window.localStorage[ key ] = JSON.stringify( typeof oldVal === "string" ?
+		window.sessionStorage[ key ] = JSON.stringify( typeof oldVal === "string" ?
 				jQuery.extend( /* deep */ true, JSON.parse(oldVal), data ) : data );
 	}
 
@@ -2096,11 +2096,11 @@ var Khan = (function() {
 
 				if ( typeof userExercise === "undefined" || !userExercise.tablet ) {
 					if ( user != null && exerciseName != null ) {
-						// Before we reload, clear out localStorage's UserExercise.
-						// If there' a discrepancy between server and localStorage such that
+						// Before we reload, clear out sessionStorage's UserExercise.
+						// If there' a discrepancy between server and sessionStorage such that
 						// problem numbers are out of order or anything else, we want
 						// to restart with whatever the server sends back on reload.
-						delete window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+						delete window.sessionStorage[ "exercise:" + user + ":" + exerciseName ];
 					}
 
 					window.location.reload();
@@ -2364,9 +2364,9 @@ var Khan = (function() {
 				agent = navigator.userAgent,
 				mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" :
 					( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),
-				localStorageInfo = ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "localStorage NOT enabled" : null ),
+				sessionStorageInfo = ( typeof sessionStorage === "undefined" || typeof sessionStorage.getItem === "undefined" ? "sessionStorage NOT enabled" : null ),
 				warningInfo = jQuery( "#warning-bar-content" ).text(),
-				parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, pathlink, historyLink, "    " + JSON.stringify( guessLog ), agent, localStorageInfo, mathjaxInfo, warningInfo ],
+				parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, pathlink, historyLink, "    " + JSON.stringify( guessLog ), agent, sessionStorageInfo, mathjaxInfo, warningInfo ],
 				body = jQuery.grep( parts, function( e ) { return e != null; } ).join( "\n\n" );
 
 			var mathjaxLoadFailures = jQuery.map( MathJax.Ajax.loading, function( info, script ) {
@@ -2887,7 +2887,7 @@ var Khan = (function() {
 	// updateData is used to update some user interface elements as the result of
 	// a page load or after a post / problem attempt. updateData doesn't know if an
 	// attempt was successful or not, it's simply reacting to the state of the data
-	// object returned by the server (or window.localStorage for phantom users)
+	// object returned by the server (or window.sessionStorage for phantom users)
 	//
 	// It gets called a few times
 	// * by prepareUserExercise when it's setting up the exercise state
@@ -2975,7 +2975,7 @@ var Khan = (function() {
 			return userExercise;
 
 		} else {
-			var data = window.localStorage[ "exercise:" + user + ":" + exerciseName ];
+			var data = window.sessionStorage[ "exercise:" + user + ":" + exerciseName ];
 
 			// Parse the JSON if it exists
 			if ( data ) {
