@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-polygon interactive">
+<html data-translatable data-require="math graphie graphie-polygon interactive">
 <head>
 	<meta charset="UTF-8" />
 	<title>Inscribed angles 3</title>
@@ -38,11 +38,11 @@
 				<var id="RADIUS">4</var>
 
 				<var id="GIVEN">CENTRAL</var>
-				<var id="GIVEN_LABEL">"blue"</var>
-				<var id="ASKED_LABEL">"orange"</var>
+				<var  data-tt="var1" id="GIVEN_LABEL">"blue"</var>
+				<var  data-tt="var2" id="ASKED_LABEL">"orange"</var>
 			</div>
-			<p class="question">If the <var>GIVEN_LABEL</var> angle measures <var>GIVEN</var> degrees, what does the <var>ASKED_LABEL</var> angle measure?</p>
-			<p>This is a special case where the center of the circle is outside the inscribed orange angle. The blue angle is called a central angle.</p>
+			<p  data-tt="question1" class="question">If the <var>GIVEN_LABEL</var> angle measures <var>GIVEN</var> degrees, what does the <var>ASKED_LABEL</var> angle measure?</p>
+			<p data-tt="question2" >This is a special case where the center of the circle is outside the inscribed orange angle. The blue angle is called a central angle.</p>
 			<div class="graphie" id="circle">
 				init({
 					range: [ [ -RADIUS - 1, RADIUS + 1 ], [ -RADIUS - 1, RADIUS + 1 ] ]
@@ -62,12 +62,12 @@
 
 				graph.circle.drawMovablePoint( SUBTENDED_POINT, START + CENTRAL, START );
 			</div>
-			<div class="solution" data-type="multiple">
+			<div  data-tt="problem1" class="solution" data-type="multiple">
 				<span class="sol"><var>CENTRAL / 2</var></span> degrees
 			</div>
 			<div class="hints">
 				<div>
-					<p>What do we know about the angles formed by the dashed diameter shown above?</p>
+					<p data-tt="hint1" >What do we know about the angles formed by the dashed diameter shown above?</p>
 					<div class="graphie" data-update="circle">
 						style({stroke: BLUE, "stroke-dasharray": "-"}, function() {
 							graph.circle.drawChord( SUBTENDED_POINT, SUBTENDED_POINT + 180 );
@@ -75,8 +75,8 @@
 					</div>
 				</div>
 				<div>
-					<p>From the previous inscribed angles exercises, we know the following about the green and pink angles.</p>
-					<p><code>\color{<var>GREEN</var>}{\text{green angle}} = \dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{pink angle}}</code></p>
+					<p data-tt="hint1.1" >From the previous inscribed angles exercises, we know the following about the green and pink angles.</p>
+					<p data-tt="color1" ><code>\color{<var>GREEN</var>}{\text{green angle}} = \dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{pink angle}}</code></p>
 					<div class="graphie" data-update="circle">
 						style({stroke: BLUE, fill: BLUE}, function() {
 							graph.circle.drawPoint( SUBTENDED_POINT + 180 );
@@ -90,7 +90,7 @@
 					</div>
 				</div>
 				<div>
-					<p>We can see another pair of these special case inscribed and central angles, with the same relationship between green and pink angles.</p>
+					<p data-tt="hint1.2" >We can see another pair of these special case inscribed and central angles, with the same relationship between green and pink angles.</p>
 					<div class="graphie" data-update="circle">
 						graph.central.arc.animate({opacity: 0.4});
 						graph.central.radii[0].remove();
@@ -108,8 +108,8 @@
 					</div>
 				</div>
 				<div>
-					<p>Looking at the picture, we can see the following is true:</p>
-					<p><code>\color{<var>GREEN</var>}{\text{small green angle}} + \color{<var>ORANGE</var>}{\text{orange angle}} = \color{<var>GREEN</var>}{\text{big green angle}}</code></p>
+					<p data-tt="hint2" >Looking at the picture, we can see the following is true:</p>
+					<p data-tt="color2" ><code>\color{<var>GREEN</var>}{\text{small green angle}} + \color{<var>ORANGE</var>}{\text{orange angle}} = \color{<var>GREEN</var>}{\text{big green angle}}</code></p>
 					<div class="graphie" data-update="circle">
 						graph.central.arc.animate({opacity: 0.4});
 						graph.central.radii[0].remove();
@@ -120,35 +120,35 @@
 					</div>
 				</div>
 				<div>
-					<p>Substituting what we know about green and pink angles, we get the following:</p>
-					<p><code>\dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{small pink angle}} + \color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{big pink angle}}</code></p>
+					<p data-tt="hint3" >Substituting what we know about green and pink angles, we get the following:</p>
+					<p data-tt="color3" ><code>\dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{small pink angle}} + \color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{big pink angle}}</code></p>
 				</div>
-				<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2}( \color{<var>PINK</var>}{\text{big pink angle}} - \color{<var>PINK</var>}{\text{small pink angle}})</code></p>
+				<p data-tt="color4" ><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2}( \color{<var>PINK</var>}{\text{big pink angle}} - \color{<var>PINK</var>}{\text{small pink angle}})</code></p>
 				<div>
-					<p>We can see from the picture that the following is also true:</p>
-					<p><code>\color{<var>PINK</var>}{\text{small pink angle}} + \color{<var>BLUE</var>}{\text{blue angle}} = \color{<var>PINK</var>}{\text{big pink angle}}</code></p>
-					<p><code>\color{<var>BLUE</var>}{\text{blue angle}} = \color{<var>PINK</var>}{\text{big pink angle}} - \color{<var>PINK</var>}{\text{small pink angle}}</code></p>
+					<p data-tt="hint4" >We can see from the picture that the following is also true:</p>
+					<p data-tt="color5" ><code>\color{<var>PINK</var>}{\text{small pink angle}} + \color{<var>BLUE</var>}{\text{blue angle}} = \color{<var>PINK</var>}{\text{big pink angle}}</code></p>
+					<p data-tt="color6" ><code>\color{<var>BLUE</var>}{\text{blue angle}} = \color{<var>PINK</var>}{\text{big pink angle}} - \color{<var>PINK</var>}{\text{small pink angle}}</code></p>
 				</div>
 				<div>
-					<p>Combining what we know about blue and orange angles:</p>
-					<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{\text{blue angle}}</code></p>
+					<p data-tt="hint5" >Combining what we know about blue and orange angles:</p>
+					<p data-tt="color7" ><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{\text{blue angle}}</code></p>
 				</div>
-				<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{<var>CENTRAL</var>^{\circ}}</code></p>
-				<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \color{<var>ORANGE</var>}{<var>CENTRAL / 2</var>^{\circ}}</code></p>
+				<p data-tt="color8" ><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{<var>CENTRAL</var>^{\circ}}</code></p>
+				<p data-tt="color9" ><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \color{<var>ORANGE</var>}{<var>CENTRAL / 2</var>^{\circ}}</code></p>
 			</div>
 		</div>
 		<div id="find-central" data-type="find-inscribed-outside">
 			<div class="vars">
 				<var id="GIVEN">CENTRAL / 2</var>
-				<var id="GIVEN_LABEL">"orange"</var>
-				<var id="ASKED_LABEL">"blue"</var>
+				<var data-tt="var3" id="GIVEN_LABEL">"orange"</var>
+				<var data-tt="var4" id="ASKED_LABEL">"blue"</var>
 			</div>
 			<div class="solution" data-type="multiple">
 				<span class="sol"><var>CENTRAL</var></span> degrees
 			</div>
 			<div class="hints">
 				<div>
-					<p>What do we know about the angles formed by the dashed diameter shown above?</p>
+					<p data-tt="hint6" >What do we know about the angles formed by the dashed diameter shown above?</p>
 					<div class="graphie" data-update="circle">
 						style({stroke: BLUE, "stroke-dasharray": "-"}, function() {
 							graph.circle.drawChord( SUBTENDED_POINT, SUBTENDED_POINT + 180 );
@@ -156,8 +156,8 @@
 					</div>
 				</div>
 				<div>
-					<p>From the previous inscribed angles exercises, we know the following about the green and pink angles.</p>
-					<p><code>\color{<var>PINK</var>}{\text{pink angle}} = 2 \cdot \color{<var>GREEN</var>}{\text{green angle}}</code></p>
+					<p data-tt="hint7" >From the previous inscribed angles exercises, we know the following about the green and pink angles.</p>
+					<p data-tt="color10" ><code>\color{<var>PINK</var>}{\text{pink angle}} = 2 \cdot \color{<var>GREEN</var>}{\text{green angle}}</code></p>
 					<div class="graphie" data-update="circle">
 						style({stroke: BLUE, fill: BLUE}, function() {
 							graph.circle.drawPoint( SUBTENDED_POINT + 180 );
@@ -172,7 +172,7 @@
 					</div>
 				</div>
 				<div>
-					<p>We can see another pair of these special case inscribed and central angles, with the same relationship between green and pink angles.</p>
+					<p data-tt="hint8" >We can see another pair of these special case inscribed and central angles, with the same relationship between green and pink angles.</p>
 					<div class="graphie" data-update="circle">
 						graph.central.arc.animate({opacity: 0.4});
 						graph.central.radii[0].remove();
@@ -190,8 +190,8 @@
 					</div>
 				</div>
 				<div>
-					<p>Looking at the picture, we can see the following is true:</p>
-					<p><code>\color{<var>PINK</var>}{\text{small pink angle}} + \color{<var>BLUE</var>}{\text{blue angle}} = \color{<var>PINK</var>}{\text{big pink angle}}</code></p>
+					<p data-tt="hint9" >Looking at the picture, we can see the following is true:</p>
+					<p data-tt="color11" ><code>\color{<var>PINK</var>}{\text{small pink angle}} + \color{<var>BLUE</var>}{\text{blue angle}} = \color{<var>PINK</var>}{\text{big pink angle}}</code></p>
 					<div class="graphie" data-update="circle">
 						graph.central.arc.animate({opacity: 0.4});
 						graph.central.radii[0].remove();
@@ -202,21 +202,21 @@
 					</div>
 				</div>
 				<div>
-					<p>Substituting what we know about green and pink angles, we get the following:</p>
-					<p><code>2 \cdot \color{<var>GREEN</var>}{\text{small green angle}} + \color{<var>BLUE</var>}{\text{blue angle}} = 2 \cdot \color{<var>GREEN</var>}{\text{big green angle}}</code></p>
+					<p data-tt="hint10" >Substituting what we know about green and pink angles, we get the following:</p>
+					<p data-tt="color12" ><code>2 \cdot \color{<var>GREEN</var>}{\text{small green angle}} + \color{<var>BLUE</var>}{\text{blue angle}} = 2 \cdot \color{<var>GREEN</var>}{\text{big green angle}}</code></p>
 				</div>
-				<p><code>\color{<var>BLUE</var>}{\text{blue angle}} = 2( \color{<var>GREEN</var>}{\text{big green angle}} - \color{<var>GREEN</var>}{\text{small green angle}})</code></p>
+				<p data-tt="color13" ><code>\color{<var>BLUE</var>}{\text{blue angle}} = 2( \color{<var>GREEN</var>}{\text{big green angle}} - \color{<var>GREEN</var>}{\text{small green angle}})</code></p>
 				<div>
-					<p>We can see from the picture that the following is also true:</p>
-					<p><code>\color{<var>GREEN</var>}{\text{small green angle}} + \color{<var>ORANGE</var>}{\text{orange angle}} = \color{<var>GREEN</var>}{\text{big green angle}}</code></p>
-					<p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \color{<var>GREEN</var>}{\text{big green angle}} - \color{<var>GREEN</var>}{\text{small green angle}}</code></p>
+					<p data-tt="hint11" >We can see from the picture that the following is also true:</p>
+					<p data-tt="color14" ><code>\color{<var>GREEN</var>}{\text{small green angle}} + \color{<var>ORANGE</var>}{\text{orange angle}} = \color{<var>GREEN</var>}{\text{big green angle}}</code></p>
+					<p data-tt="color15" ><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \color{<var>GREEN</var>}{\text{big green angle}} - \color{<var>GREEN</var>}{\text{small green angle}}</code></p>
 				</div>
 				<div>
-					<p>Combining what we know about blue and orange angles:</p>
-					<p><code>\color{<var>BLUE</var>}{\text{blue angle}} = 2 \cdot \color{<var>ORANGE</var>}{\text{orange angle}}</code></p>
+					<p data-tt="hint12" >Combining what we know about blue and orange angles:</p>
+					<p data-tt="color16" ><code>\color{<var>BLUE</var>}{\text{blue angle}} = 2 \cdot \color{<var>ORANGE</var>}{\text{orange angle}}</code></p>
 				</div>
-				<p><code>\color{<var>BLUE</var>}{\text{blue angle}} = 2 \cdot \color{<var>ORANGE</var>}{<var>CENTRAL / 2</var>^{\circ}}</code></p>
-				<p><code>\color{<var>BLUE</var>}{\text{blue angle}} = \color{<var>BLUE</var>}{<var>CENTRAL</var>^{\circ}}</code></p>
+				<p data-tt="color17" ><code>\color{<var>BLUE</var>}{\text{blue angle}} = 2 \cdot \color{<var>ORANGE</var>}{<var>CENTRAL / 2</var>^{\circ}}</code></p>
+				<p data-tt="color18" ><code>\color{<var>BLUE</var>}{\text{blue angle}} = \color{<var>BLUE</var>}{<var>CENTRAL</var>^{\circ}}</code></p>
 			</div>
 		</div>
 	</div>

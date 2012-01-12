@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive congruence">
+<html  data-translatable data-require="math graphie graphie-helpers graphie-geometry math-format interactive congruence">
 <head>
 	<meta charset="UTF-8" />
 	<title>Congruency Postulates</title>
@@ -36,13 +36,13 @@
 					<var id="ANSWER">{ "SSS": "Yes", "SAS": "Yes", "SAA": "Yes", "ASA": "Yes", "SSA": "No", "AAA": "No" }[ TYPE ]</var>
 					<var id="TRIANGLE">new Triangle( [ 0, 0 ], ANGLES, SCALE, {} )</var>
 				</div>
-				<p class="problem">
+				<p  data-tt="problem1" class="problem">
 					<strong>Is <em><var>NAME</var></em> a triangle congruency postulate?</strong><br />
 					Answer the question by clicking and dragging the points below to see what triangles you can construct.<br />
 					If you believe <var>NAME</var> is not a triangle congruency postulate, prove it by constructing incongruent triangles. Otherwise, construct congruent triangles.
 				</p>
-				<div class="question">
-					<em>Your triangle can be anywhere. There is no need to line up the two triangles.</em>
+				<div  class="question">
+					<em data-tt="question1">Your triangle can be anywhere. There is no need to line up the two triangles.</em>
 					<div class="graphie" id="triangles">
 						init({
 							range: [ [ -7, 7 ], [ -7, 7 ] ]
@@ -64,8 +64,8 @@
 
 				<div class="solution" data-type="congruence">
 					<ul>
-						<li><input type="radio" name="solution" id="r1" value="Yes" /><label for="r1"><span class="value">Yes &mdash; And I've constructed a congruent triangle.</span></label></li>
-						<li><input type="radio" name="solution" id="r2" value="No" /><label for="r2"><span class="value">No &mdash; And I've proven it by constructing an incongruent triangle.</span></label></li>
+						<li data-tt="list1" ><input type="radio" name="solution" id="r1" value="Yes" /><label for="r1"><span class="value">Yes &mdash; And I've constructed a congruent triangle.</span></label></li>
+						<li data-tt="list2" ><input type="radio" name="solution" id="r2" value="No" /><label for="r2"><span class="value">No &mdash; And I've proven it by constructing an incongruent triangle.</span></label></li>
 					</ul>
 					<div class="answer"><var>ANSWER</var></div>
 				</div>

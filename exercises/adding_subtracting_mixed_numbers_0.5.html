@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-translatable data-require="math math-format">
 <head>
 	<title>Adding and subtracting mixed numbers with like denominators</title>
 	<script src="../khan-exercise.js"></script>
@@ -37,38 +37,38 @@
 				<var id="GCD">getGCD( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2 , LCM )</var>
 			</div>
 
-			<p class="problem">Express your answer as a mixed number simplified to lowest terms.</p>
+			<p  data-tt="problem1" class="problem">Express your answer as a mixed number simplified to lowest terms.</p>
 			<p class="question"><code><var>expr(["+", W1 + fraction( N1, D1 ), W2 + fraction( N2, D2 )])</var> = {?}</code></p>
 			<div class="solution" data-type="mixed"><var>W1 + W2 + N1 / D1 + PM * N2 / D2</var></div>
 
 			<div class="hints">
 				<div>
-					<p>Separate the whole numbers from the fractional parts:</p>
+					<p data-tt="hint1" >Separate the whole numbers from the fractional parts:</p>
 					<p><code>= \color{red}{<var>W1</var>} + \color{red}{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \color{blue}{<var>abs( W2 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D2 )</var>}</code></p>
 				</div>
 
 				<div>
-					<p>Bring the whole numbers together and the fractions together:</p>
+					<p data-tt="hint2" >Bring the whole numbers together and the fractions together:</p>
 					<p><code>= \color{red}{<var>W1</var>} <var>SIGN</var> \color{blue}{<var>abs( W2 )</var>} + \color{red}{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D2 )</var>}</code></p>
 				</div>
 
 				<div>
-					<p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the whole numbers:</p>
+					<p data-tt="hint3" ><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the whole numbers:</p>
 					<p><code>=<var>W1 + W2</var> + \color{red}{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D2 )</var>}</code></p>
 				</div>
 
 				<div>
-					<p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the fractions:</p>
+					<p data-tt="hint4" ><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the fractions:</p>
 					<p><code>= <var>expr(["+", W1 + W2, fraction( N1 + PM * N2, D2 )])</var></code></p>
 				</div>
 
 				<div>
-					<p>Combine the whole and fractional parts into a mixed number:</p>
+					<p data-tt="hint5" >Combine the whole and fractional parts into a mixed number:</p>
 					<p><code>= <var>W1 + W2 + fraction( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
 				</div>
 
 				<div data-if="GCD > 1">
-					<p>Simplify to lowest terms:</p>
+					<p data-tt="hint6" >Simplify to lowest terms:</p>
 					<p><code>= <var>W1 + W2 + fractionReduce( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
 				</div>
 			</div>
