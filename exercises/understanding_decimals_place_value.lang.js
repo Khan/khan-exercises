@@ -54,37 +54,37 @@
 				'<span data-if="THOUSANDTHS !== 0"> + \\color{brown}{0.00<var>THOUSANDTHS</var>}</span> '+
 			'}</code>.',
 		"hint2"		: '<code>\\large{\\color{<var>PINK</var>} {<var>THOUSANDS</var>000}}</code> is gelijk aan <code>\\large{\\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> '+
-		'<var>plural( "thousand", THOUSANDS )</var>, the place value four places to the left of the decimal point.',
-		"hint3"		: 'Because there is no number in the <span class="hint_pink">thousands</span> place, you dont need any <span class="hint_pink">thousands</span>.',
-		"hint4"		: '<code>\\large{\\color{<var>ORANGE</var>}{<var>HUNDREDS</var>00}}</code> is the same as <code>\\large{\\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> '+
-			'<var>plural( "hundred", HUNDREDS )</var>, the place value three places to the left of the decimal point.',
-		"hint5"		: 'Because the <span class="hint_orange">hundreds</span> place is <code class="hint_orange">\\large{0}</code>, you dont need any <span class="hint_orange">hundreds</span>.',
-		"hint6"		: '<code>\\large{\\color{<var>GREEN</var>}{<var>TENS</var>0}}</code> is the same as <code>\\large{\\color{<var>GREEN</var>}{<var>TENS</var>}}</code> '+
-			'<var>plural( "ten", TENS )</var>, the place value two places to the left of the decimal point.',
-		"hint7"		: 'Because the <span class="hint_green">tens</span> place is <code class="hint_green">\\large{0}</code>, you dont need any <span class="hint_green">tens</span>.',
-		"hint8"		: '<code>\\large{\\color{<var>BLUE</var>}{<var>ONES</var>}}</code> is the same as <code>\\large{\\color{<var>BLUE</var>}{<var>ONES</var>}}</code> '+
-			'<var>plural( "one", ONES )</var>, the place value one place to the left of the decimal point.',
-		"hint9"		: 'Because the <span class="hint_blue">ones</span> place is <code class="hint_blue">\\large{0}</code>, you dont need any <span class="hint_blue">ones</span>.',
-		"hint10"	: '<code>\\large{\\color{purple}{0.<var>TENTHS</var>}}</code> is the same as <code>\\large{\\color{purple}{<var>TENTHS</var>}}</code> '+
-			'<var>plural( "tenth", TENTHS )</var>, the place value one place to the right of the decimal point.',
-		"hint11"	: 'Because the <span class="hint_purple">tenths</span> place is <code class="hint_purple">\\large{0}</code>, you dont need any <span class="hint_purple">tenths</span>.',
-		"hint12"	: '<code>\\large{\\color{gray}{0.0<var>HUNDREDTHS</var>}}</code> is the same as <code>\\large{\\color{gray}{<var>HUNDREDTHS</var>}}</code> '+
-			'<var>plural("hundredth", HUNDREDTHS )</var>, the place value two places to the right of the decimal point.',
-		"hint13"	: 'Because the <span class="hint_gray">hundreds</span> place is <code class="hint_gray">\\large{0}</code>, you dont need any <span class="hint_gray">hundreds</span>.',
-		"hint14"	: '<code>\\large{\\color{#a52a2a}{0.00<var>THOUSANDTHS</var>}}</code> is the same as <code>\\large{\\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> '+
-			'<var>plural("thousandth", THOUSANDTHS )</var>, the place value three places to the right of the decimal point.',
-		"hint15"	: 'Therefore you need'+
-			'<span data-if="THOUSANDS !== 0"><code>\\large{\\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> <var>plural( "thousand", THOUSANDS )</var>, </span> '+
-			'<span data-if="HUNDREDS !== 0"><code>\\large{\\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> <var>plural( "hundred", HUNDREDS )</var>, </span> '+
-			'<span data-if="TENS !== 0"><code>\\large{\\color{<var>GREEN</var>}{<var>TENS</var>}}</code> <var>plural( "ten", TENS )</var>, </span> '+
-			'<span data-if="ONES !== 0"><code>\\large{\\color{<var>BLUE</var>}{<var>ONES</var>}}</code> <var>plural( "one", ONES )</var>, </span> '+
-			'<span data-if="TENTHS !== 0"><code>\\large{\\color{purple}{<var>TENTHS</var>}}</code> <var>plural( "tenth", TENTHS )</var>, </span> '+
+		'<var>plural( "duizendtal", "duizendtallen", THOUSANDS )</var>, de vierde plaats links van de komma.',
+		"hint3"		: 'Omdat er geen getal op de plek van de <span class="hint_pink">duizendtallen</span> staat, heb je geen <span class="hint_pink">duizendtallen</span> nodig.',
+		"hint4"		: '<code>\\large{\\color{<var>ORANGE</var>}{<var>HUNDREDS</var>00}}</code> is gelijk aan <code>\\large{\\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> '+
+			'<var>plural( "honderdtal", "honderdtallen", HUNDREDS )</var>, de derde plaats links van de komma.',
+		"hint5"		: 'Omdat er geen getal op de plek van de <span class="hint_orange">honderdtallen</span><code class="hint_orange">\\large{0}</code> staat, heb je geen <span class="hint_orange">honderdtallen</span> nodig.',
+		"hint6"		: '<code>\\large{\\color{<var>GREEN</var>}{<var>TENS</var>0}}</code> is gelijk aan <code>\\large{\\color{<var>GREEN</var>}{<var>TENS</var>}}</code> '+
+			'<var>plural( "tiental", "tientallen", TENS )</var>, de tweede plaats links van de komma.',
+		"hint7"		: 'Omdat er geen getal op de plek van de <span class="hint_green">tientallen</span><code class="hint_green">\\large{0}</code> staat, heb je geen <span class="hint_green">tientallen</span> nodig.',
+		"hint8"		: '<code>\\large{\\color{<var>BLUE</var>}{<var>ONES</var>}}</code> is gelijk aan <code>\\large{\\color{<var>BLUE</var>}{<var>ONES</var>}}</code> '+
+			'<var>plural( "eenheid", "eenheden", ONES )</var>, de eerste plaats links van de komma.',
+		"hint9"		: 'Omdat er geen getal op de plek van de <span class="hint_blue">eenheden</span><code class="hint_blue">\\large{0}</code> staat, you dont need any <span class="hint_blue">ones</span>.',
+		"hint10"	: '<code>\\large{\\color{purple}{0.<var>TENTHS</var>}}</code> is gelijk aan <code>\\large{\\color{purple}{<var>TENTHS</var>}}</code> '+
+			'<var>plural( "tiende", "tienden", TENTHS )</var>, de eerste plaats rechts van de komma.',
+		"hint11"	: 'Omdat er geen getal op de plek van de <span class="hint_purple">tienden</span><code class="hint_purple">\\large{0}</code> staat, heb je geen <span class="hint_purple">tienden</span> nodig.',
+		"hint12"	: '<code>\\large{\\color{gray}{0.0<var>HUNDREDTHS</var>}}</code> is gelijk aan <code>\\large{\\color{gray}{<var>HUNDREDTHS</var>}}</code> '+
+			'<var>plural("honderdste", "honderdsten", HUNDREDTHS )</var>, de tweede plaats rechts van de komma.',
+		"hint13"	: 'Omdat er geen getal op de plek van de <span class="hint_gray">honderdsten</span><code class="hint_gray">\\large{0}</code> staat, heb je geen <span class="hint_gray">honderdsten</span> nodig.',
+		"hint14"	: '<code>\\large{\\color{#a52a2a}{0.00<var>THOUSANDTHS</var>}}</code> is gelijk aan <code>\\large{\\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> '+
+			'<var>plural("duizendste", "duizendsten", THOUSANDTHS )</var>, de derde plaats rechts van de komma.',
+		"hint15"	: 'Je kiest dus voor '+
+			'<span data-if="THOUSANDS !== 0"><code>\\large{\\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> <var>plural( "duizendtal", "duizendtallen", THOUSANDS )</var>, </span> '+
+			'<span data-if="HUNDREDS !== 0"><code>\\large{\\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> <var>plural( "honderdtal", "honderdtallen", HUNDREDS )</var>, </span> '+
+			'<span data-if="TENS !== 0"><code>\\large{\\color{<var>GREEN</var>}{<var>TENS</var>}}</code> <var>plural( "tiental", "tientallen", TENS  )</var>, </span> '+
+			'<span data-if="ONES !== 0"><code>\\large{\\color{<var>BLUE</var>}{<var>ONES</var>}}</code> <var>plural( "eenheid", "eenheden", ONES )</var>, </span> '+
+			'<span data-if="TENTHS !== 0"><code>\\large{\\color{purple}{<var>TENTHS</var>}}</code> <var>plural( "tiende", "tienden", TENTHS )</var>, </span> '+
 			'<span data-if="THOUSANDTHS === 0" data-unwrap>'+
-				'and <code>\\large{\\color{gray}{<var>HUNDREDTHS</var>}}</code> <var>plural( "hundredth", HUNDREDTHS )</var>. '+
+				'and <code>\\large{\\color{gray}{<var>HUNDREDTHS</var>}}</code> <var>plural("honderdste", "honderdsten", HUNDREDTHS )</var>. '+
 			'</span>'+
 			'<span data-else data-unwrap>'+
-				'<span data-if="HUNDREDTHS !== 0"><code>\\large{\\color{gray}{<var>HUNDREDTHS</var>}}</code> <var>plural( "hundredth", HUNDREDTHS )</var>, </span> '+
-				'and <code>\\large{\\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> <var>plural( "thousandth", THOUSANDTHS )</var>. '+
+				'<span data-if="HUNDREDTHS !== 0"><code>\\large{\\color{gray}{<var>HUNDREDTHS</var>}}</code> <var>plural("honderdste", "honderdsten", HUNDREDTHS )</var>, </span> '+
+				'and <code>\\large{\\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> <var>plural("duizendste", "duizendsten", THOUSANDTHS )</var>. '+
 			'</span>'
 		}
 })
