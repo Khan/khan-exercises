@@ -1,5 +1,5 @@
 ({
 	"nl" : {
-		"question1"	: 'Subtract the numerators.'
+		"question1"	: 'Trek de tellers van elkaar af.'
 		}
 })
