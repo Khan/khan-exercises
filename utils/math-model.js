@@ -494,8 +494,9 @@ jQuery.extend ( KhanUtil, {
 			
 		jQuery.extend ( this, {
 
-			parse : parse,
-			format : format,
+			parse: parse,
+			format: format,
+			polynomial: polynomial,
 
 			dumpAll : function () {
 				return ast.dumpAll();
@@ -668,9 +669,43 @@ jQuery.extend ( KhanUtil, {
 			return n.kind() !== void 0;
 		}
 
-		// This method returns the AST for some computation on the given ast.
-		// For example, n.compute("factors") might compute the factors of the
-		// polynomial represented by 'n'.
+		function polynomial(coeffs, ident, lhs) {
+			// build left recursive ast
+
+			if (coeffs.length===0) {
+				// we're done
+				return lhs;
+			}
+
+			if (ident===void 0) {
+				// default identifier
+				ident = "x";
+			}
+
+			if (coeffs.length === 1) {
+				// degree zero
+				var rhs = coeffs[0]
+			}
+			else {
+				// construct a term of degree given by the size of coeffs
+				var rhs = {op: "times", args: [coeffs[0], {op: "^", args: [ident, coeffs.length-1]}]};
+			}
+
+			if (coeffs[0]===0) {
+				// zero coefficient, erase term by not updating lhs
+			}
+			else if (lhs===void 0) {
+				// first term, no lhs to contribute
+				var lhs = rhs;
+			}
+			else {
+				// normal case
+				var lhs = {op: "+", args: [lhs, rhs]}
+			}
+
+			// recurse until no more coefficients
+			return polynomial(coeffs.slice(1), ident, lhs);
+		}
 
 		function compute(options, n) {
 			if (!isValidAST(n)) {
@@ -679,9 +714,6 @@ jQuery.extend ( KhanUtil, {
 			}
 
 			return n;
-		}
-
-		function expand(n) {
 		}
 
 		function parse(str) {
@@ -779,16 +811,22 @@ jQuery.extend ( KhanUtil, {
 				case OpStr.MUL:
 					var lhs = n.args[0];
 					var rhs = n.args[1];
-					if (jQuery.type(lhs)==="number" && lhs===1) {
-						// elide coefficient when it is 1.
-						text = format(rhs, textSize, color);
+					if (jQuery.type(lhs)==="number" && (lhs===1 || lhs===-1)) {
+						//if (lhs === 0) {
+						//	// elide term if multiplied by 0.
+						//	text = "";
+						//}
+						//else 
+						if (lhs === 1) {
+							// elide coefficient when it is 1.
+							text = format(rhs, textSize, color);
+						}
+						else if (lhs===-1) {
+							// elide coefficient when it is 1.
+							text = "\\color{#000}{-}"+format(rhs, textSize, color);
+						}
 					}
-					else if (jQuery.type(lhs)==="number" && lhs===-1) {
-						// elide coefficient when it is 1.
-						text = "\\color{#000}{-}"+format(rhs, textSize, color);
-					}
-
-					if ((lhs.args && lhs.args.length===2) || (rhs.args && rhs.args.length===2)) {
+					else if ((lhs.args && lhs.args.length===2) || (rhs.args && rhs.args.length===2)) {
 						var lhsText = format(lhs, textSize, color);
 						var rhsText = format(rhs, textSize, color);
 						// if subexpr is lower precedence, wrap in parens
