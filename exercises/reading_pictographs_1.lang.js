@@ -11,13 +11,17 @@
 		"hint4"		: 'Wie heeft de minste <var>BADGE</var> symbolen naast <var>his( LEAST + 1 )</var> naam staan?',
 		"hint5"		: '<var>person( LEAST + 1 )</var> heeft de minste symbolen naast <var>his( LEAST + 1)</var> naam staan.',
 		"hint6"		: '<var>person( LEAST + 1 )</var> heeft de minste <var>BADGE</var> badges verdiend.',
-		"hint7"		: 'Onderaan de infographic staat dat elk symbool een aantal van <var>plural( VALUE_PER_IMG, "badge" )</var> vertegenwoordigd.',
+		"hint7"		: 'Onderaan de infographic staat dat elk symbool <var>plural( VALUE_PER_IMG, "badge" )</var> vertegenwoordigt.',
 		"hint8"		: 'Kijk naar de rij van <var>person( PERSON + 1 )</var> in de tabel: '+
 					'<div class="fake_row">'+
 						'<span><var>person( PERSON + 1 )</var></span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var> '+
 						'</span><span data-each="(8 - DATA[ PERSON ]) times">&nbsp;</span> '+
 					'</div>',
-		"hint9"		: 'There <var>plural( "is", DATA[PERSON] )</var> <var>plural( DATA[ PERSON ], "symbol" )</var>.',
-		"hint10"	: 'person( PERSON + 1 )</var> heeft <code><var>ANSWER</var></code> <var>BADGE</var> <var>plural( "badge", ANSWER )</var> verdiend.'
+		"hint9"		: 'Er <var>plural( "is", "zijn", DATA[PERSON] )</var> <var>plural( DATA[ PERSON ], "symbool", "symbolen" )</var>.',
+		"hint10"	: '<code><var>DATA[ PERSON ]</var></code> <var>plural( "symbool", "symbolen", DATA[ PERSON ] )</var>'+
+					  '	<code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbool '+
+					  '	<code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code>'+
+					  '	<var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>.',
+		"hint11"	: '<var>person( PERSON + 1 )</var> heeft <code><var>ANSWER</var></code> <var>BADGE</var> <var>plural( "badge", ANSWER )</var> verdiend.'
 		}
 })

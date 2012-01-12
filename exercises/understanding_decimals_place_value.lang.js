@@ -61,18 +61,18 @@
 		"hint5"		: 'Omdat op de plaats van de <span class="hint_orange">honderdtallen</span> een <code class="hint_orange">\\large{0}</code> staat, heb je geen <span class="hint_orange">honderdtallen</span> nodig.',
 		"hint6"		: '<code>\\large{\\color{<var>GREEN</var>}{<var>TENS</var>0}}</code> is gelijk aan <code>\\large{\\color{<var>GREEN</var>}{<var>TENS</var>}}</code> '+
 			'<var>plural( "tiental", "tientallen", TENS )</var>, op de plaats twee getallen links van het decimaalteken.',
-		"hint7"		: 'Omdat op de plaats van de <span class="hint_green">tens</span> een <code class="hint_green">\\large{0}</code> staat, heb je geen <span class="hint_green">tens</span>.',
+		"hint7"		: 'Omdat op de plaats van de <span class="hint_green">tens</span> een <code class="hint_green">\\large{0}</code> staat, heb je geen <span class="hint_green">tientallen</span> nodig.',
 		"hint8"		: '<code>\\large{\\color{<var>BLUE</var>}{<var>ONES</var>}}</code> is gelijk aan <code>\\large{\\color{<var>BLUE</var>}{<var>ONES</var>}}</code> '+
 			'<var>plural( "eenheid", "eenheden", ONES )</var>, op de plaats links van het decimaalteken.',
-		"hint9"		: 'Omdat op de plaats van de <span class="hint_blue">ones</span> een <code class="hint_blue">\\large{0}</code> staat, heb je geen <span class="hint_blue">ones</span>.',
+		"hint9"		: 'Omdat op de plaats van de <span class="hint_blue">ones</span> een <code class="hint_blue">\\large{0}</code> staat, heb je geen <span class="hint_blue">eenheden</span> nodig.',
 		"hint10"	: '<code>\\large{\\color{purple}{0.<var>TENTHS</var>}}</code> is gelijk aan <code>\\large{\\color{purple}{<var>TENTHS</var>}}</code> '+
 			'<var>plural( "tiende", "tienden", TENTHS )</var>, op de plaats rechts van het decimaalteken..',
-		"hint11"	: 'Omdat op de plaats van de <span class="hint_purple">tenths</span> een <code class="hint_purple">\\large{0}</code> staat, heb je geen <span class="hint_purple">tenths</span>.',
+		"hint11"	: 'Omdat op de plaats van de <span class="hint_purple">tenths</span> een <code class="hint_purple">\\large{0}</code> staat, heb je geen <span class="hint_purple">tienden</span> nodig.',
 		"hint12"	: '<code>\\large{\\color{gray}{0.0<var>HUNDREDTHS</var>}}</code> is gelijk aan <code>\\large{\\color{gray}{<var>HUNDREDTHS</var>}}</code> '+
 			'<var>plural( "honderdste", "honderdsten", HUNDREDTHS )</var>, op de plaats twee getallen rechts van het decimaalteken.',
-		"hint13"	: 'Omdat op de plaats van de <span class="hint_gray">honderdsten</span> een <code class="hint_gray">\\large{0}</code> staat, heb je geen <span class="hint_gray">honderdtallen</span>.',
+		"hint13"	: 'Omdat op de plaats van de <span class="hint_gray">honderdsten</span> een <code class="hint_gray">\\large{0}</code> staat, heb je geen <span class="hint_gray">honderdsten</span> nodig.',
 		"hint14"	: '<code>\\large{\\color{#a52a2a}{0.00<var>THOUSANDTHS</var>}}</code> is gelijk aan <code>\\large{\\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> '+
-			'<var>plural("thousandth", THOUSANDTHS )</var>, op de plaats drie getallen rechts van het decimaalteken.',
+			'<var>plural( "duizendste", "duizendsten", THOUSANDTHS )</var>, op de plaats drie getallen rechts van het decimaalteken.',
 		"hint15"	: 'Voor dit getal heb je dus nodig: '+
 			'<span data-if="THOUSANDS !== 0"><code>\\large{\\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> <var>plural( "duizendtal", "duizendtallen", THOUSANDS )</var>, </span> '+
 			'<span data-if="HUNDREDS !== 0"><code>\\large{\\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> <var>plural( "honderdtal", "honderdtallen", HUNDREDS )</var>, </span> '+
