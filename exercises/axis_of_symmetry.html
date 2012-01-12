@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math angles graphie graphie-geometry graphie-helpers">
+<html data-translatable data-require="math angles graphie graphie-geometry graphie-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>Axis of symmetry</title>
@@ -16,7 +16,7 @@
 
 	<div class="problems">
 		<div>
-			<p class="question">Is the blue line an axis of symmetry?</p>
+			<p data-tt="question1" class="question">Is the blue line an axis of symmetry?</p>
 			<div class="graphie" id="main">
 				init({
 					 range: [ [ -5, 5 ], [ -5, 5 ] ]
@@ -31,20 +31,20 @@
 			</div>
 			<div class="solution"><var>ANSWER</var></div>
 			<ul class="choices" data-category="true">
-				<li>Yes</li>
-				<li>No</li>
+				<li data-tt="list1" >Yes</li>
+				<li data-tt="list2" >No</li>
 			</ul>
 			<div class="hints">
-				<p>Does the blue line split the shape into two parts which look like reflections of each other?</p>
+				<p data-tt="hint1" >Does the blue line split the shape into two parts which look like reflections of each other?</p>
 				<div>
-					<p>The orange line is one of two parts made by the blue line.</p>
+					<p data-tt="hint2" >The orange line is one of two parts made by the blue line.</p>
 					<div class="graphie" data-update="main">
 						graph.half = graph.polygon.splitPath( graph.split ).graphiePath;
 					</div>
 				</div>
-				<p>If the blue line were a mirror, what would the orange line's reflection look like?</p>
+				<p data-tt="hint3" >If the blue line were a mirror, what would the orange line's reflection look like?</p>
 				<div>
-					<p>The pink line is the orange line's reflection.</p>
+					<p data-tt="hint4" >The pink line is the orange line's reflection.</p>
 					<div class="graphie" data-update="main">
 						var temp = [];
 						var i = 0;
@@ -54,8 +54,8 @@
 						path( temp, { "stroke-width": 5, stroke: KhanUtil.PINK } )
 					</div>
 				</div>
-				<p data-if="SYM">The blue line splits the shape into two equal halves, so it is an axis of symmetry.</p>
-				<p data-else>The blue line did not split the shape into two equal halves, so it is not an axis of symmetry.</p>
+				<p  data-tt="hint5" data-if="SYM">The blue line splits the shape into two equal halves, so it is an axis of symmetry.</p>
+				<p  data-tt="hint6" data-else>The blue line did not split the shape into two equal halves, so it is not an axis of symmetry.</p>
 			</div>
 		</div>
 	</div>

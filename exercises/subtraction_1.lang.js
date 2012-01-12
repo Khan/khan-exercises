@@ -1,5 +1,5 @@
 ({
 	"nl" : {
-		'hint' : 'Er waren <var>plural( A, "cirkel" )</var> waarvan we er <var>B</var> doorstreepten, dus houden we <var>plural( A - B, "cirkel" )</var> over.'
+		'hint' : 'Er <var>plural( "was","waren", A )</var> <var>plural( A, "cirkel" )</var> waarvan we er <var>plural(B, "doorstreepte","doorstreepten" )</var>, dus houden we <var>plural( A - B, "cirkel" )</var> over.'
 	}
 })

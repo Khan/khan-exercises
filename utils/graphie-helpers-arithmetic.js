@@ -115,7 +115,7 @@ function Adder( a, b, digitsA, digitsB ) {
 				graph.ellipse( [ pos.max - Math.max( deciA, deciB ) + 0.5, i - 0.2 ], [ 0.09, 0.06 ] );
 			});
 		}
-		this.showSideLabel( "\\text{Zorg dat de decimaal-tekens recht onder elkaar staan.}" );
+		this.showSideLabel( "\\text{Zorg dat de decimaaltekens recht onder elkaar staan.}" );
 	}
 }
 
@@ -257,7 +257,7 @@ function Subtractor( a, b, digitsA, digitsB, decimalPlaces ) {
 				graph.ellipse( [ pos.max - Math.max( deciA, deciB ) + 0.5, i - 0.2 ], [ 0.09, 0.06 ] );
 			});
 		}
-		this.showSideLabel( "\\text{Zorg dat de decimaal-tekens recht onder elkaar staan.}" );
+		this.showSideLabel( "\\text{Zorg dat de decimaaltekens recht onder elkaar staan.}" );
 	};
 }
 
@@ -657,7 +657,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 
 		if ( deciDivisor !== 0 ) {
 			graph.label( [ digitsDividend.length + 1 + ( deciDiff > 0 ? deciDiff : 0 ), 1 ],
-				"\\text{Shift the decimal " + deciDivisor + " to the right.}", "right" );
+				"\\text{Verplaats het decimaalteken " + deciDivisor + " plaatsen naar rechts.}", "right" );
 			graph.style({
 				fill: "#000"
 			}, function() {
@@ -665,7 +665,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 			});
 		} else {
 			graph.label( [ digitsDividend.length + 1, 1 ],
-				"\\text{Bring the decimal up into the answer (the quotient).}", "right" );
+				"\\text{Zet het decimaalteken in het antwoord.}", "right" );
 		}
 
 		graph.style({

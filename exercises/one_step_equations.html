@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions">
+<html  data-translatable data-require="math math-format expressions">
 <head>
 	<meta charset="UTF-8" />
 	<title>One-step equations</title>
@@ -21,17 +21,17 @@
 				<var id="LEFT">[expr( ["+", X, Y] ), expr( ["+", Y, X] ), Z, Z][INDEX]</var>
 				<var id="RIGHT">[Z, Z, expr( ["+", X, Y] ), expr( ["+", Y, X] )][INDEX]</var>
 			</div>
-			<p class="question">Solve for <var>X</var>.</p>
+			<p  data-tt="question1" class="question">Solve for <var>X</var>.</p>
 				<p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
 			<div class="solution" data-type="rational"><var>Z - Y</var></div>
 			<div class="hints">
 				<div>
-					<p><span data-if="Y &lt; 0">Add <var>Y * -1</var> to</span><span data-else>Subtract <var>Y</var> from</span> both sides.</p>
+					<p data-tt="hint1" ><span data-if="Y &lt; 0">Add <var>Y * -1</var> to</span><span data-else>Subtract <var>Y</var> from</span> both sides.</p>
 					<p data-if="INDEX &lt; 2"><code>\large{<var>X</var> = <var>RIGHT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
 					<p data-else><code>\large{<var>LEFT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>X</var>}</code></p>
 				</div>
 				<div>
-					<p>Simplify.</p>
+					<p data-tt="hint2" >Simplify.</p>
 					<p><code>\large{<var>X</var> = <var>Z - Y</var>}</code></p>
 				</div>
 			</div>
@@ -45,22 +45,22 @@
 				<var id="LEFT">[expr( ["*", Y, X] ), Z][INDEX]</var>
 				<var id="RIGHT">[Z, expr( ["*", Y, X] )][INDEX]</var>
 			</div>
-			<p class="question">Solve for <var>X</var>.</p>
+			<p  data-tt="question2" class="question">Solve for <var>X</var>.</p>
 				<p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
 			<div class="solution" data-type="rational"><var>Z / Y</var></div>
 			<div class="hints">
 				<div data-if="INDEX === 0">
-					<p>Divide both sides by <var>Y</var>.</p>
+					<p data-tt="hint3" >Divide both sides by <var>Y</var>.</p>
 					<p data-if="Y &lt; 0 && Z &lt; 0"><code>\large{<var>X</var> = \dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}}}</code></p>
 					<p data-else><code>\large{<var>X</var> = <span data-if="Y &lt; 0">\color{blue}{<var>Y_SIGN</var>}</span><span data-else><var>Y_SIGN</var></span>\dfrac{<var>abs( Z )</var>}{\color{blue}{<var>abs( Y )</var>}}}</code></p>
 				</div>
 				<div data-else>
-					<p>Divide both sides by <var>Y</var>.</p>
+					<p data-tt="hint4" >Divide both sides by <var>Y</var>.</p>
 					<p data-if="Y &lt; 0 && Z &lt; 0"><code>\large{\dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}} = <var>X</var>}</code></p>
 					<p data-else><code>\large{<span data-if="Y &lt; 0">\color{blue}{<var>Y_SIGN</var>}</span><span data-else><var>Y_SIGN</var></span>\dfrac{<var>abs( Z )</var>}{\color{blue}{<var>abs( Y )</var>}} = <var>X</var>}</code></p>
 				</div>
 				<div>
-					<p>Simplify.</p>
+					<p data-tt="hint5" >Simplify.</p>
 					<p><code>\large{<var>X</var> = <var>Z / Y</var>}</code></p>
 				</div>
 			</div>
@@ -71,16 +71,16 @@
 				<var id="Y">randRange( 2, 20 )</var>
 				<var id="Z">randRange( 2, 20 - abs( Y ) + 5 ) * randRangeNonZero( -1, 1 )</var>
 			</div>
-			<p class="problem"><b>Solve for <var>X</var>.</b></p>
+			<p  data-tt="problem1" class="problem"><b>Solve for <var>X</var>.</b></p>
 			<p class="question"><code>\large{\dfrac{<var>X</var>}{<var>Y</var>} = <var>Z</var>}</code></p>
 			<div class="solution" data-type="rational"><var>Z * Y</var></div>
 			<div class="hints">
 				<div>
-					<p>Multiply both sides by <var>Y</var>.</p>
+					<p data-tt="hint6" >Multiply both sides by <var>Y</var>.</p>
 					<p><code>\large{<var>X</var> = <var>Z</var> \cdot {\color{blue}{<var>Y</var>}}}</code></p>
 				</div>
 				<div>
-					<p>Simplify.</p>
+					<p data-tt="hint7" >Simplify.</p>
 					<p><code>\large{<var>X</var> = <var>Z * Y</var>}</code></p>
 				</div>
 			</div>
@@ -89,11 +89,11 @@
 			<p class="question"><code>\large{<var>Z</var> = \dfrac{<var>X</var>}{<var>Y</var>}}</code></p>
 			<div class="hints">
 				<div>
-					<p>Multiply both sides by <var>Y</var>.</p>
+					<p data-tt="hint8" >Multiply both sides by <var>Y</var>.</p>
 					<p><code>\large{<var>Z</var> \cdot {\color{blue}{<var>Y</var>}} = <var>X</var>}</code></p>
 				</div>
 				<div>
-					<p>Simplify.</p>
+					<p data-tt="hint9" >Simplify.</p>
 					<p><code>\large{<var>X</var> = <var>Z * Y</var>}</code></p>
 				</div>
 			</div>

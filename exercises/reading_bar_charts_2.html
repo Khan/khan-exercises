@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie word-problems">
+<html data-translatable data-require="math math-format graphie word-problems">
 <head>
 	<meta charset="UTF-8" />
 	<title>Reading bar charts 2</title>
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<div class="problem">
-			<p>Use the following graph to answer the question below:</p>
+			<p data-tt="problem1" >Use the following graph to answer the question below:</p>
 			<div class="graphie" id="barchart">
 				init({
 					range: [ [ -2, 17 ], [ -3, 11 ] ],
@@ -77,7 +77,7 @@
 					<var id="MOST_IMPROVED_IDX">_.indexOf( IMPROVEMENT, BEST_IMPROVEMENT )</var>
 					<var id="MOST_IMPROVED">person( MOST_IMPROVED_IDX + 1 )</var>
 				</div>
-				<p class="question">Which student's score improved the most between the midterm and final exams?</p>
+				<p  data-tt="question1" class="question">Which student's score improved the most between the midterm and final exams?</p>
 
 				<div class="solution"><var>MOST_IMPROVED</var></div>
 				<ul class="choices" data-category="true">
@@ -91,7 +91,7 @@
 				<div class="hints">
 					<div data-each="5 times as INDEX">
 						<div data-if="IMPROVEMENT[ INDEX ] > 0">
-							<p><var>person( INDEX + 1 )</var>'s final exam bar is taller than <var>his( INDEX + 1 )</var>
+							<p data-tt="hint1" ><var>person( INDEX + 1 )</var>'s final exam bar is taller than <var>his( INDEX + 1 )</var>
 							midterm bar, so <var>person( INDEX + 1 )</var> improved <var>his( INDEX + 1 )</var> score. <var>His( INDEX + 1 )</var> midterm score was
 							<code><var>MIDTERM[ INDEX ]</var></code> and <var>his( INDEX + 1 )</var> final exam score was <code><var>FINAL[ INDEX ]</var></code>, so
 							<var>he( INDEX + 1 )</var> improved by <code><var>IMPROVEMENT[ INDEX ]</var></code> points.</p>
@@ -103,7 +103,7 @@
 							</div>
 						</div>
 						<div data-else-if="IMPROVEMENT[ INDEX ] < 0">
-							<p><var>person( INDEX + 1 )</var>'s final exam bar is shorter than <var>his( INDEX + 1 )</var>
+							<p data-tt="hint2" ><var>person( INDEX + 1 )</var>'s final exam bar is shorter than <var>his( INDEX + 1 )</var>
 							midterm bar, so <var>person( INDEX + 1 )</var> did not improve <var>his( INDEX + 1 )</var> score.</p>
 							<div class="graphie" data-update="barchart">
 								style({ stroke: "grey", strokeWidth: 2, arrows: "-&gt;" });
@@ -111,11 +111,11 @@
 							</div>
 						</div>
 						<div data-else>
-							<p><var>person( INDEX + 1 )</var>'s final exam bar is the same height as <var>his( INDEX + 1 )</var>
+							<p data-tt="hint3" ><var>person( INDEX + 1 )</var>'s final exam bar is the same height as <var>his( INDEX + 1 )</var>
 							midterm bar, so <var>person( INDEX + 1 )</var> did not improve <var>his( INDEX + 1 )</var> score.</p>
 						</div>
 					</div>
-					<p>
+					<p data-tt="hint4" >
 						<var>MOST_IMPROVED</var> improved <var>his( MOST_IMPROVED_IDX + 1 )</var> score the most, scoring <code><var>BEST_IMPROVEMENT</var></code> more points
 						on <var>his( MOST_IMPROVED_IDX + 1 )</var> final exam than on <var>his( MOST_IMPROVED_IDX + 1 )</var> midterm.
 					</p>
@@ -127,13 +127,13 @@
 					<var id="INDEX" data-ensure="IMPROVEMENT[ INDEX ] > 0">randRange( 0, 4 )</var>
 					<var id="STUDENT">person( INDEX + 1 )</var>
 				</div>
-				<p class="question">By how many points did <var>STUDENT</var>'s score improve from the midterm to the final exam?</p>
+				<p  data-tt="question2" class="question">By how many points did <var>STUDENT</var>'s score improve from the midterm to the final exam?</p>
 
 				<div class="solution" data-forms="integer"><var>IMPROVEMENT[ INDEX ]</var></div>
 
 				<div class="hints">
 					<div>
-						<p>Find the two bars for <var>STUDENT</var>.</p>
+						<p data-tt="hint5" >Find the two bars for <var>STUDENT</var>.</p>
 						<div class="graphie" data-update="barchart">
 							style({ stroke: PINK, fill: "none", strokeWidth: 2 });
 							ellipse( [ INDEX * 3 + 2, -0.6 ], [ 1.2, 0.5 ] );
@@ -141,7 +141,7 @@
 					</div>
 
 					<div>
-						<p>
+						<p data-tt="hint6" >
 							Compare the height of <var>STUDENT</var>'s blue bar to the scale on the left to find <var>his( INDEX + 1 )</var> midterm score.
 							<span data-if="MIDTERM[ INDEX ] % 10 === 5">
 								The bar's height is halfway between <code><var>MIDTERM[ INDEX ] - 5</var></code> and <code><var>MIDTERM[ INDEX ] + 5</var></code>, so
@@ -155,7 +155,7 @@
 					</div>
 
 					<div>
-						<p>
+						<p data-tt="hint7" >
 							Compare the height of <var>STUDENT</var>'s orange bar to the scale on the left to find <var>his( INDEX + 1 )</var> final exam score.
 							<span data-if="FINAL[ INDEX ] % 10 === 5">
 								The bar's height is halfway between <code><var>FINAL[ INDEX ] - 5</var></code> and <code><var>FINAL[ INDEX ] + 5</var></code>, so
@@ -168,11 +168,11 @@
 						</div>
 					</div>
 
-					<p>
+					<p data-tt="hint8" >
 						Subtract the midterm score from the final exam score to find out how much <var>STUDENT</var> improved.
 					</p>
 
-					<p>
+					<p data-tt="hint9" >
 						<code>\color{ORANGE}{<var>FINAL[ INDEX ]</var>} - \color{#6495ED}{<var>MIDTERM[ INDEX ]</var>} = <var>IMPROVEMENT[ INDEX ]</var></code>, so
 						<var>STUDENT</var> improved by <code><var>IMPROVEMENT[ INDEX ]</var></code> points from the midterm to the final exam.
 					</p>
@@ -188,51 +188,51 @@
 					<var id="TEST">[ "midterm", "final exam" ][ COLUMN ]</var>
 					<var id="ANSWER">COLUMN === 0 ? MIDTERM[ INDEX ] : FINAL[ INDEX ]</var>
 				</div>
-				<p class="question">How many points did <var>STUDENT</var> earn on the <var>TEST</var>?</p>
+				<p  data-tt="question3" class="question">How many points did <var>STUDENT</var> earn on the <var>TEST</var>?</p>
 
 				<div class="solution" data-forms="integer"><var>ANSWER</var></div>
 
 				<div class="hints">
 					<div>
-						<p>Find the two bars for <var>STUDENT</var>.</p>
+						<p data-tt="hint10" >Find the two bars for <var>STUDENT</var>.</p>
 						<div class="graphie" data-update="barchart">
 							style({ stroke: PINK, fill: "none", strokeWidth: 2 });
 							ellipse( [ INDEX * 3 + 2, -0.6 ], [ 1.2, 0.5 ] );
 						</div>
 					</div>
 					<div>
-						<p>Use the key to figure out which of the two bars shows the score for the <var>TEST</var>.</p>
+						<p data-tt="hint11" >Use the key to figure out which of the two bars shows the score for the <var>TEST</var>.</p>
 						<div class="graphie" data-update="barchart">
 							style({ stroke: PINK, fill: "none", strokeWidth: 2 });
 							ellipse( [ COLUMN * 3 + 1.2, -2.25 ], [ 1.5, 0.5 ] );
 						</div>
 					</div>
 					<div>
-						<p>Compare the height of <var>STUDENT</var>'s <span data-if="COLUMN === 0">blue</span><span data-else>orange</span> bar to the scale on the left.</p>
+						<p data-tt="hint12" >Compare the height of <var>STUDENT</var>'s <span data-if="COLUMN === 0">blue</span><span data-else>orange</span> bar to the scale on the left.</p>
 						<div class="graphie" data-update="barchart">
 							style({ stroke: PINK, strokeWidth: 2, arrows: "-&gt;", strokeDasharray: "-" });
 							line( [ INDEX * 3 + 1 + COLUMN, ANSWER / 10 ], [ 0, ANSWER / 10 ] );
 						</div>
 					</div>
-					<p data-if="ANSWER % 10 === 5">
+					<p data-tt="hint13"  data-if="ANSWER % 10 === 5">
 						The bar's height is halfway between <code><var>ANSWER - 5</var></code> and <code><var>ANSWER + 5</var></code>, so
 						<var>STUDENT</var> earned <code><var>ANSWER</var></code> points on the <var>TEST</var>.
 					</p>
-					<p data-else>
+					<p  data-tt="hint14" data-else>
 						<var>STUDENT</var> earned <code><var>ANSWER</var></code> points on the <var>TEST</var>.
 					</p>
 				</div>
 			</div>
 
 			<div id="num-improved">
-				<p class="question">How many students improved their scores from the midterm to the final exam?</p>
+				<p  data-tt="question4" class="question">How many students improved their scores from the midterm to the final exam?</p>
 
 				<div class="solution" data-forms="integer"><var>NUM_IMPROVED</var></div>
 
 				<div class="hints">
 					<div data-each="5 times as INDEX">
 						<div data-if="IMPROVEMENT[ INDEX ] > 0">
-							<p><var>person( INDEX + 1 )</var>'s final exam bar is taller than <var>his( INDEX + 1 )</var>
+							<p data-tt="hint15" ><var>person( INDEX + 1 )</var>'s final exam bar is taller than <var>his( INDEX + 1 )</var>
 							midterm bar, so <var>person( INDEX + 1 )</var> improved <var>his( INDEX + 1 )</var> score.</p>
 							<div class="graphie" data-update="barchart">
 								style({ stroke: "grey", strokeWidth: 2, arrows: "-&gt;" });
@@ -240,16 +240,16 @@
 							</div>
 						</div>
 						<div data-else-if="IMPROVEMENT[ INDEX ] < 0">
-							<p><var>person( INDEX + 1 )</var>'s final exam bar is shorter than <var>his( INDEX + 1 )</var>
+							<p data-tt="hint16" ><var>person( INDEX + 1 )</var>'s final exam bar is shorter than <var>his( INDEX + 1 )</var>
 							midterm bar, so <var>person( INDEX + 1 )</var> did not improve <var>his( INDEX + 1 )</var> score.</p>
 						</div>
 						<div data-else>
-							<p><var>person( INDEX + 1 )</var>'s final exam bar is the same height as <var>his( INDEX + 1 )</var>
+							<p data-tt="hint17" ><var>person( INDEX + 1 )</var>'s final exam bar is the same height as <var>his( INDEX + 1 )</var>
 							midterm bar, so <var>person( INDEX + 1 )</var> did not improve <var>his( INDEX + 1 )</var> score.</p>
 						</div>
 					</div>
-					<p>Count the number of students who improved their scores.</p>
-					<p><code><var>NUM_IMPROVED</var></code> students improved their scores from the midterm to the final exam.</p>
+					<p data-tt="hint18" >Count the number of students who improved their scores.</p>
+					<p data-tt="hint19" ><code><var>NUM_IMPROVED</var></code> students improved their scores from the midterm to the final exam.</p>
 				</div>
 			</div>
 

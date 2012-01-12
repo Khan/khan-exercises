@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format polynomials functional">
+<html  data-translatable data-require="math math-format polynomials functional">
 <head>
 	<meta charset="UTF-8" />
 	<title>Multiplying polynomials</title>
@@ -74,7 +74,7 @@
 
 		<div class="problems">
 			<div id="multiply">
-				<p class="question">Simplify the expression.</p>
+				<p  data-tt="question1" class="question">Simplify the expression.</p>
 				<p class="problem"><code><span data-each="[ POL_1, POL_2 ] as POL" data-unwrap>(<var>POL</var>)</span></code></p>
 				<p class="solution"><code><var>SOLUTION</var></code></p>
 				<ul class="choices" data-show="4" data-none="true">
@@ -87,26 +87,26 @@
 
 		<div class="hints">
 			<div>
-				<p>First use the distributive property.</p>
+				<p data-tt="hint1" >First use the distributive property.</p>
 				<code><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2"><var>( POL_1.coefs[ index1 ] < 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] ) === 1 ? "" : abs( POL_1.coefs[ index1 ] )</var><var>X</var>^<var>index1</var>(<var>( POL_2.coefs[ index2 ] === 1 ) ? "" : ( POL_2.coefs[ index2 ] === -1 ) ? "-" : POL_2.coefs[ index2 ]</var><var>X</var>^<var>index2</var>)</span></span></code>
 			</div>
 			<div>
-				<p>Simplify.</p>
+				<p data-tt="hint2" >Simplify.</p>
 				<code data-if="LIKE_TERMS"><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2"><var>( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] < 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] )</var><var>X</var>^{<var>index1 + index2</var>}</span></span></code>
 				<div data-else>
 					<code><var>SOLUTION</var></code>
-					<p>You're done!</p>
+					<p data-tt="hint3" >You're done!</p>
 				</div>
 			</div>
 			<div data-if="LIKE_TERMS">
 				<div>
-					<p>Identify like terms.</p>
+					<p data-tt="hint4" >Identify like terms.</p>
 					<code><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2">\color{<var>LIKE_TERMS[ index1 + index2 ]</var>}{<var>( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] < 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] )</var><var>X</var>^{<var>index1 + index2</var>}}</span></span></code>
 				</div>
 				<div>
-					<p>Add the coefficients.</p>
+					<p data-tt="hint5" >Add the coefficients.</p>
 					<p><code><span data-each="new Array( SOLUTION.getNumberOfTerms() ) as n, index">\color{<var>LIKE_TERMS[ SOLUTION.getCoefAndDegreeForTerm( n ).degree ]</var>}{<var>( SOLUTION.getCoefAndDegreeForTerm( n ).coef < 0 || n === 0 ) ? "" : "+"</var><var>expr( SOLUTION.expr()[ n + 1 ] )</var>}</span></code></p>
-					<p>You're done!</p>
+					<p data-tt="hint6" >You're done!</p>
 				</div>
 			</div>
 		</div>

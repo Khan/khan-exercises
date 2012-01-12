@@ -1,11 +1,9 @@
 ({
 	"nl" : {
-		"question1"	: 'Order the following negative numbers from least to greatest:',
-		"colors1" 	: 'KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown", "gray", "teal", "olive" ])'
-		
-		"hint1"		: 'Lets use different colors for each number.',
-		"hint2"		: 'Plot these numbers on a number line. Then we can see which ones are lower and which ones are higher.',
-		"hint3"		: 'Now just read the numbers from left to right on the number line.',
-		"hint4"		: 'The leftmost numbers are least, and the rightmost numbers are greatest.'
+		"question1"	: 'Zet de volgende negatieve getallen op volgorde van klein naar groot:',
+		"hint1"		: 'Voor elk getal gebruiken we een andere kleur.',
+		"hint2"		: 'Zet deze getallen op de getallenlijn. Zo kunnen we zien welke kleiner en welke groter zijn.',
+		"hint3"		: 'Lees nu de getallen van links naar rechts af op de getallenlijn.',
+		"hint4"		: 'De getallen uiterst links zijn het kleinst, de getallen uiterst rechts zijn het grootst.'
 		}
 })

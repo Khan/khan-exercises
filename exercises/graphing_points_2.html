@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions">
+<html data-translatable data-require="math graphie expressions">
 	<head>
 	<meta charset="UTF-8" />
 	<title>Graphing points 2</title>
@@ -36,7 +36,7 @@
 
 		<div class="problems">
 			<div id="equation">
-				<p class="question">Which of the following ordered pairs represents a solution to the equation below?</p>
+				<p data-tt="question1" class="question">Which of the following ordered pairs represents a solution to the equation below?</p>
 				<p><code><var>jQuery.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
 				<p><code>y = <var>expr(["+", ["*", M, "x"], B])</var></code></p>
 				<p class="solution"><code><var>PAIR( POINTS[CORRECT] )</var></code></p>
@@ -44,18 +44,18 @@
 					<li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
 				</ul>
 				<div class="hints">
-					<p>We can try plugging in the x-value of each ordered pair into the equation.</p>
-					<p>If we evaluate and get the y-value of the ordered pair, then that ordered pair is a solution!</p>
+					<p data-tt="hint1" >We can try plugging in the x-value of each ordered pair into the equation.</p>
+					<p data-tt="hint2" >If we evaluate and get the y-value of the ordered pair, then that ordered pair is a solution!</p>
 					<div data-each="POINTS as i, point" data-unwrap>
 						<div>
-							<p>Let's consider <code><var>PAIR( point )</var></code>.</p>
-							<p>If we plug in <code><var>point[ 0 ]</var></code> for <code>x</code> and evaluate, do we get <code><var>point[ 1 ]</var></code>?</p>
+							<p data-tt="hint3" >Let's consider <code><var>PAIR( point )</var></code>.</p>
+							<p data-tt="hint4" >If we plug in <code><var>point[ 0 ]</var></code> for <code>x</code> and evaluate, do we get <code><var>point[ 1 ]</var></code>?</p>
 						</div>
 						<p><code>y = <span data-if="M !== 1">(<var>M</var>)</span>(<var>point[ 0 ]</var>) + <var>B</var> = <span data-if="M !== 1"><var>M * point[ 0 ]</var> + <var>B</var> = </span><var>M * point[ 0 ] + B</var></code></p>
 					</div>
-					<p>Thus the only ordered pair that is a solution to the equation is <code><var>PAIR( POINTS[ CORRECT ] )</var></code>.</p>
+					<p data-tt="hint5" >Thus the only ordered pair that is a solution to the equation is <code><var>PAIR( POINTS[ CORRECT ] )</var></code>.</p>
 					<div>
-						<p>We come to the same answer by plotting the points and the equation.</p>
+						<p data-tt="hint6" >We come to the same answer by plotting the points and the equation.</p>
 						<div class="graphie" id="grid">
 							graphInit({
 								range: 10,
@@ -86,7 +86,7 @@
 			</div>
 
 			<div id="graphed">
-				<p class="question">Which of the following ordered pairs represents a solution to the equation graphed below?</p>
+				<p data-tt="question2" class="question">Which of the following ordered pairs represents a solution to the equation graphed below?</p>
 				<p><code><var>jQuery.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
 
 				<div class="graphie" id="grid">
@@ -109,12 +109,12 @@
 					<li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
 				</ul>
 				<div class="hints">
-					<p>Let's try graphing each of the points.</p>
+					<p data-tt="hint7" >Let's try graphing each of the points.</p>
 					<div class="graphie" data-update="grid" data-each="POINTS as i, point">
 						circle( point, 0.15 );
 					</div>
 					<div>
-						<p>The only point that falls on the line is <code><var>PAIR( POINTS[ CORRECT ] )</var></code>.</p>
+						<p data-tt="hint8" >The only point that falls on the line is <code><var>PAIR( POINTS[ CORRECT ] )</var></code>.</p>
 						<div class="graphie" data-update="grid">
 							style({ stroke: ORANGE, fill: ORANGE });
 							circle( POINTS[ CORRECT ], 0.3);
