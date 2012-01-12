@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Converting between point slope and slope intercept form</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="point-to-intercept">
+			<div class="vars" data-ensure="y1 != 0">
+				<var id="m">(random() > 0.5 ? -1 : 1) * (rand(5) + 1)</var>
+				<var id="b">(random() > 0.5 ? -1 : 1) * (rand(5) + 1)</var>
+				<var id="x1">(random() > 0.5 ? -1 : 1) * (rand(3) + 1)</var>
+				<var id="y1">m*x1+b</var>
+				<var id="var1">m*x1</var>
+			</div>
+			<p class="question">Convert the following equation from point slope to slope intercept form.</p>
+			<p>In other words, if the equation is rewritten to look like <code>y = mx + b</code>, what are the values of <code>m</code> and <code>b</code>?</p>
+			<p><code>y - <var>y1</var> = <var>m</var>(x - <var>x1</var>)</code></p>
+			<div class="solution" data-type="multiple">
+				<p><code>m</code> = <span class="sol"><var>m</var></span></p>
+				<p><code>b</code> = <span class="sol"><var>b</var></span></p>
+			</div>
+			<div class="hints">
+				<div>
+					<p>Multiply out the <code><var>m</var>(x - <var>x1</var>)</code> term on the right.</p>
+					<p><code>y - <var>y1</var> = <var>expr([ "*", m, "x" ])</var> - <var>var1</var></code></p>
+				</div>
+				<div>
+					<p>Isolate the y term on the left.</p>
+					<p><code>y = <var>expr([ "*", m, "x" ])</var> - <var>var1</var> + <var>y1</var></code></p>
+				</div>	
+				<div>
+					<p>Factor terms on the right.</p>
+					<p><code>y = <var>expr([ "*", m, "x" ])</var> + <var>b</var></code></p>
+				</div>	
+				<div>
+					<p>Inspecting the equation in slope intercept form, we see the following:</p>
+					<p><code>m = <var>m</var></code></p>
+					<p><code>b = <var>b</var></code></p>
+				</div>
+					<p>Both equations could represent the same line!</p>
+					<div class="graphie" id="grid">
+						graphInit({
+							range: 10,
+							scale: 20,
+							axisArrows: "&lt;-&gt;",
+							tickStep: 1,
+							labelStep: 1
+						});
+
+						style({ stroke: BLUE, fill: BLUE });
+
+						plot(function( x ) {
+							return x * m + b;
+						}, [ -10, 10 ]);
+					</div>
+			</div>
+		</div>
+	</div>
+
+
+	</div>
+
+</body>
+</html>
