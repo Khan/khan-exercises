@@ -18,7 +18,7 @@
 
 	<div class="problems">
 		<div>
-			<div class="vars">
+			<div class="vars"  data-tt="variables1">
 				<var id="VALUES">$.map( randRange( 1000, 16000, randRange( 3, 7 ) ), function( n ){ return ( n / 1000 ).toFixed( randRange( 1, 2 ) ); } )</var>
 				<var id="ANSWER">eval( $.map( VALUES, round ).join("+") )</var>
 				<var id="TYPES">randFromArray( [ [ "jogging", "ran", "mile" ], [ "riding a bicycle ", "traveled", "mile" ], [ "collecting mushrooms", "collected", "pound" ], [ "painting a roof", "painted", "square foot" ], [ "harvesting grain", "harvested", "tonne" ] ] )</var>
@@ -41,10 +41,10 @@
 					})()
 				</var>
 			</div>
-			<p data-tt="question1" ><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> every day for the last <var>VALUES.length</var> days.</p>
-			<p data-tt="question1" class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much <var>he( 1 )</var> <var>TYPES[ 1 ]</var> in total by rounding each amount to a whole number and then summing.</p>
-			<p data-tt="note1" >Note that if you sum all the amounts first and then round, you'll get <var>SUM.toFixed( 2 )</var>. For fun, pay attention to how this number compares with your estimate.</p>
-			<div class="fake_header estimation">
+			<p data-tt="question1"><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> every day for the last <var>VALUES.length</var> days.</p>
+			<p data-tt="question2" class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much <var>he( 1 )</var> <var>TYPES[ 1 ]</var> in total by rounding each amount to a whole number and then summing.</p>
+			<p data-tt="note1">Note that if you sum all the amounts first and then round, you'll get <var>SUM.toFixed( 2 )</var>. For fun, pay attention to how this number compares with your estimate.</p>
+			<div class="fake_header estimation" data-tt="header1">
 				<span>Day</span>
 				<span>Amount</span>
 			</div>
@@ -58,7 +58,7 @@
 
 			<div class="hints">
 				<p data-tt="hint1">Round all the numbers to the nearest <var>TYPES[ 2 ]</var> and add them up.</p>
-				<div class="fake_header estimation">
+				<div class="fake_header estimation" data-tt="header2">
 					<span>Day</span>
 					<span>Amount</span>
 					<span>Rounded</span>

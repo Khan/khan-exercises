@@ -1,9 +1,8 @@
 ({
 	"nl" : {
-		"question1"	: 'Which dot marks the position of <code><var>NUMBER</var></code> on the number line?',
-		
-		"hint1"		: '<var>NUMBER</var> is between <var>floor( NUMBER )</var> and <var>ceil( NUMBER )</var>.',
-		"hint2"		: '<var>NUMBER</var> is closest to <var>round( NUMBER )</var>',
-		"hint3"		: 'It is <var>ANSWER</var>.'
+		"question1"	: 'Welke stip staat bij <code><var>NUMBER</var></code> op de getallenlijn?',
+		"hint1"		: '<var>NUMBER</var> is tussen <var>floor( NUMBER )</var> en <var>ceil( NUMBER )</var>.',
+		"hint2"		: '<var>NUMBER</var> is het dichtste bij <var>round( NUMBER )</var>',
+		"hint3"		: 'Het is <var>ANSWER</var>.'
 		}
 })

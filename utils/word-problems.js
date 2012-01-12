@@ -39,12 +39,12 @@ jQuery.extend( KhanUtil, {
 	// - plural(NUMBER, singular):
 	//		- if necessary, magically pluralize <singular>
 	//		- return "NUMBER word"
-	// - plural(NUMBER, singular, plural):
+	// - plural(NUMBER, singular, plural): bijvoorbeeld plural (x, "paard","paarden") Als X=1: 1 paard, als x=5 5 paarden
 	//		- return "NUMBER word"
 	// - plural(singular, NUMBER):
 	//		- if necessary, magically pluralize <singular>
 	//		- return "word"
-	// - plural(singular, plural, NUMBER):
+	// - plural(singular, plural, NUMBER): bijvoorbeeld plural ("paard","paarden",x) Als X=1: paard, als x=5: paarden
 	//		- return "word"
 	plural: (function() {
 		var oneOffs = {

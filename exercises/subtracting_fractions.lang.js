@@ -1,9 +1,9 @@
 ({
 	"nl" : {
 	
-		"hint1"		: 'Simplify each fraction.',
-		"hint2"		: 'Find a common denominator by finding the least common multiple of <code><var>SIMP_D1</var></code> and <code><var>SIMP_D2</var></code>.',
-		"hint3"		: 'Change each fraction to an equivalent fraction with a denominator of <code><var>LCM</var></code>.',
-		"hint4"		: 'Simplify.'
+		"hint1"		: 'Vereenvoudig elke breuk.',
+		"hint2"		: 'Zoek een gemeenschappelijk noemer door het Kleinste Gemene Veelvoud te vinden van <code><var>SIMP_D1</var></code> en <code><var>SIMP_D2</var></code>.',
+		"hint3"		: 'Verander elke breuk in een gelijkwaardige breuk met een noemer van <code><var>LCM</var></code>.',
+		"hint4"		: 'Vereenvoudig.'
 		}
 })

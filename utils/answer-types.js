@@ -142,7 +142,7 @@ jQuery.extend( Khan.answerTypes, {
 				transformer: function( text ) {
 					return forms.decimal.transformer( text );
 				},
-				example: "an integer, like <code>6</code>"
+				example: "een geheel getal, zoals bijv. <code>6</code>"
 			},
 
 			proper: {
@@ -157,9 +157,9 @@ jQuery.extend( Khan.answerTypes, {
 				},
 				example: (function() {
 					if ( options.simplify === "optional" ) {
-						return "a <em>proper</em> fraction, like <code>1/2</code> or <code>6/10</code>";
+						return "een <em>proper</em> breuk, zoals <code>1/2</code> of <code>6/10</code>";
 					} else {
-						return "a <em>simplified proper</em> fraction, like <code>3/5</code>";
+						return "een <em>vereenvoudigde</em> breuk, zoals <code>3/5</code>";
 					}
 				})()
 			},
@@ -220,7 +220,7 @@ jQuery.extend( Khan.answerTypes, {
 					} );
 					return possibilities;
 				},
-				example: "a multiple of pi, like <code>12\\ \\text{pi}</code> or <code>2/3\\ \\text{pi}</code>"
+				example: "een veelvoud van pi, bijv. <code>12\\ \\text{pi}</code> of <code>2/3\\ \\text{pi}</code>"
 			},
 
 			// simple log( c ) form
@@ -238,7 +238,7 @@ jQuery.extend( Khan.answerTypes, {
 					}
 					return possibilities;
 				},
-				example: "an expression, like <code>\\log(100)</code>"
+				example: "an expression, bijv. <code>\\log(100)</code>"
 			},
 
 			percent: {
@@ -257,7 +257,7 @@ jQuery.extend( Khan.answerTypes, {
 					});
 					return transformed;
 				},
-				example: "a percent, like <code>12.34\\%</code>"
+				example: "een percentage, bijv. <code>12.34\\%</code>"
 			},
 
 			dollar: {
@@ -266,7 +266,7 @@ jQuery.extend( Khan.answerTypes, {
 
 					return forms.decimal.transformer( text );
 				},
-				example: "a money amount, like <code>$2.75</code>"
+				example: "een geldbedrag, bijv. <code>&euro;2,75</code>"
 			},
 
 			mixed: {
@@ -276,7 +276,7 @@ jQuery.extend( Khan.answerTypes, {
 						.replace( /\u2212/, "-" )
 
 						// Remove space after +, -
-						.replace( /([+-])\s+/g, "$1" )
+						.replace( /([+-])\s+/g, "&euro;1" )
 
 						// Extract integer, numerator and denominator
 						.match( /^([+-]?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/ );
