@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math stat graphie interactive">
+<html  data-translatable data-require="math stat graphie interactive">
 <head>
 	<meta charset="UTF-8" />
 	<title>Creating box and whisker plots</title>
@@ -47,10 +47,10 @@
 				<var id="SORTER">createSorter()</var>
 			</div>
 
-			<p class="question">Represent the following data using a box-and-whiskers plot:</p>
+			<p  data-tt="question1" class="question">Represent the following data using a box-and-whiskers plot:</p>
 
 			<div class="problem">
-				<p>
+				<p data-tt="problem1" >
 					<ul id="sortable">
 						<li data-each="DATA as NUM">
 							<code><var>NUM</var></code>
@@ -139,7 +139,7 @@
 				</div>
 			</div>
 			<div class="solution" data-type="custom">
-				<div class="instruction">
+				<div  data-tt="problem2" class="instruction">
 					Drag each part of the box-and-whiskers plot left and right so it correctly represents the data.
 				</div>
 				<div class="guess">[
@@ -176,12 +176,12 @@
 
 	<div class="hints">
 		<div>
-			<p>Begin by putting the data in order:<p>
+			<p data-tt="hint1" >Begin by putting the data in order:<p>
 			<p><code>\qquad \large{<var>SORTED_DATA.join( ", " )</var>}</code></p>
 		</div>
 
 		<div>
-			<p>Plot the sample minimum (smallest number):<p>
+			<p data-tt="hint2" >Plot the sample minimum (smallest number):<p>
 			<p><code>\qquad \large{\color{<var>PINK</var>}{<var>MIN</var>}, <var>SORTED_DATA.slice( 1 ).join( ", " )</var>}</code></p>
 			<div class="graphie" data-update="boxplot">
 				style({ stroke: PINK, fill: PINK }, function() {
@@ -191,7 +191,7 @@
 		</div>
 
 		<div>
-			<p>Plot the sample maximum (largest number):<p>
+			<p data-tt="hint3" >Plot the sample maximum (largest number):<p>
 			<p><code>\qquad \large{<var>SORTED_DATA.slice( 0, -1 ).join( ", " )</var>, \color{<var>PINK</var>}{<var>MAX</var>}}</code></p>
 			<div class="graphie" data-update="boxplot">
 				style({ stroke: PINK, fill: PINK }, function() {
@@ -201,7 +201,7 @@
 		</div>
 
 		<div>
-			<p>Plot the median (middle number):<p>
+			<p data-tt="hint4" >Plot the median (middle number):<p>
 			<p><code>
 				\qquad \large{<var>SORTED_DATA.slice( 0, 7 ).join( ", " )</var>,
 				\color{<var>PINK</var>}{<var>MEDIAN</var>},
@@ -215,11 +215,11 @@
 		</div>
 
 		<div>
-			<p>
+			<p data-tt="hint5" >
 				Plot the first quartile (halfway between the smallest number and the middle number). Since there isn't
 				a single number halfway between the smallest number and the median, average the two numbers to get
 				<code class="hint_pink"><var>Q1</var></code>:
-			<p>
+			</p>
 			<p><code>
 				\qquad \large{<var>SORTED_DATA.slice( 0, 3 ).join( ", " )</var>,
 				\color{<var>PINK</var>}{<var>SORTED_DATA[3]</var>},
@@ -234,11 +234,11 @@
 		</div>
 
 		<div>
-			<p>
+			<p data-tt="hint6" >
 				Plot the third quartile (halfway between the middle number and the largest number). Since there isn't
 				a single number halfway between the median and the largest number, average the two numbers to get
 				<code class="hint_pink"><var>Q3</var></code>:
-			<p>
+			</p>
 			<p><code>
 				\qquad \large{<var>SORTED_DATA.slice( 0, 10 ).join( ", " )</var>,
 				\color{<var>PINK</var>}{<var>SORTED_DATA[10]</var>},
@@ -253,7 +253,7 @@
 		</div>
 
 		<div>
-			<p>Your box-and-whisker plot should look like the example below the number line.</p>
+			<p data-tt="hint7" >Your box-and-whisker plot should look like the example below the number line.</p>
 			<div class="graphie" data-update="boxplot">
 				style({ stroke: PINK, strokeWidth: 2 }, function() {
 					line( [ MIN, -4.5 ], [ Q1, -4.5 ] );
