@@ -1,15 +1,14 @@
 ({
 	"nl" : {
-		"question1"	: 'Identify this figure.',
-		"question2"	: 'Line segment',
-		"question3"	: 'Ray',
-		"question4"	: 'Line',
-		
-		"hint1"		: "This one-dimensional figure has two endpoints and a set length (it doesn't go on forever).",
-		"hint2"		: 'A 1D figure that has two endpoints and a set length is a <em>line segment</em>.',
-		"hint3"		: 'This figure is one-dimensional and has one endpoint. It goes on forever in the other direction, though.',
-		"hint4"		: 'Therefore, this figure is a <em>ray</em>.',
-		"hint5"		: "This figure is straight, one-dimensional, and it goes on forever in both directions. It doesn't have any endpoints.",
-		"hint6"		: 'That description means this figure is a <em>line</em>.'
+		"question1"	: 'Wat is dit?',
+		"question2"	: 'Lijnstuk',
+		"question3"	: 'Halve lijn',
+		"question4"	: 'Lijn',
+		"hint1"		: "Dit &eacute;&eacute;n-dimensionale figuur heeft twee eindpunten en een vaste lengte (gaat niet eindeloos door).",
+		"hint2"		: 'Een 1D figuur dat twee eindpunten en een vaste lengte is een <em>lijnstuk</em>.',
+		"hint3"		: 'Dit figuur is &eacute;&eacute;n-dimensionaal en heeft &eacute;&eacute;n eindpunt. Aan de andere kant loopt het echter eindeloos door.',
+		"hint4"		: 'Daarom is dit een halve lijn <em>ray</em>.',
+		"hint5"		: "Dit figuur is recht, &eacute;&eacute;n-dimensionaal en loopt in beide richtingen eindeloos door. Het heeft geen eindpunten.",
+		"hint6"		: 'Dat betekent dat dit een <em>lijn</em> is.'
 		}
 })
