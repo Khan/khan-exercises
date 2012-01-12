@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html data-require="math graphie jquery.mobile.vmouse interactive">
+    <head>
+		<meta charset="UTF-8" />
+		<title>Venn Diagrams 0.5</title>
+		<script src="../khan-exercise.js"></script>
+		
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="radius1"> 8 </var>
+				<var id="radius2"> 8 </var>
+				<var id="center1"> [ -10 , 0 ] </var>
+				<var id="center2"> [ 0 , 0 ] </var>
+				<var id="inter1"> [ -5 , sqrt(39) ] </var>
+				<var id="inter2"> [ -5 , -sqrt(39) ] </var>
+				<!-- pick from the choices, but pick A or B less -->
+				<var id="shaded"> randFromArray([1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 7, 7]) </var>
+				<!-- a little magic to turn the integer into binary -->
+				<var id="shadedBinary">	[ (shaded%8>>2) , (shaded%4>>1) , shaded%2] </var>
+				<!-- list of the possible regions both in logical notation and in words -->
+				<var id="Regions"> [ "B \\cap \\lnot A" , "A \\cap B" , "B" , "A \\cap \\lnot B" ,  "\\lnot (A \\cap B)" , "A" , "A \\cup B" ] </var>
+				<var id="RegionsInWords">[ "\\text {B but not A}" , "\\text{A and B}" , "\\text{B}" , "\\text{A but not B}" , "\\text{A or B but not both}" , "\\text{A}" , "\\text{A or B}"]</var>
+				<!-- What we want -->
+				<var id="TextOrCode">randFromArray( [ "Code" , "Words" ])</var>
+				<var id="LookingFor"> ( ( TextOrCode ==="Code" ) ? Regions[shaded - 1] : RegionsInWords[shaded - 1]</var>
+			</div>
+
+			<div class="problems">
+				<div id="shade-the-diagram">
+
+					<div class="problem">
+						<p class="question">
+							Shade the Venn Diagram to match <code><var>LookingFor</var></code>.
+						</p>
+						<div class="graphie" id="Venn_Diagram">
+							init({
+								range: [ [ -20, 15 ], [ -10, 10 ] ],
+								scale: [ 15, 15 ]
+							});
+
+							style({
+								stroke: "Black",
+								strokeWidth: 5, 
+							});
+
+							// Left Circle
+							circle( center1, radius1, {
+								stroke: "Black",
+								strokeWidth: 5,
+							});
+							label( [-12 , 9],"\\huge{A}", "left");
+							// Right Circle
+							circle( center2, radius2, {
+								stroke: "Black",
+								strokeWidth: 5,
+							});
+							label( [2, 9],"\\huge{B}", "right" );
+
+							var scale_and_join= function(x)
+								{
+									var temp=scalePoint(x);
+									return temp.join(" ")
+								};
+
+							var arc_string =
+								function(start, end, radius, largeAngle, sweep){
+									var radii=scaleVector(radius);
+
+									var retstring="M" + scale_and_join(start) + "A" + radii.join(" ") + " 0 " + ( largeAngle ? 1 : 0 ) + " " +( sweep ? 1 : 0 ) + " " + scale_and_join(end)  ;
+
+									return retstring;
+									};
+
+							var	curve_inner_circle1=arc_string(inter1, inter2, radius1, 0, 1);
+							var curve_inner_circle2=arc_string(inter1, inter2, radius2, 0, 0);
+							var curve_outer_circle1=arc_string(inter1, inter2, radius1, 1, 1);
+							var curve_outer_circle2=arc_string(inter1, inter2, radius2, 1, 0);
+
+
+							graph.intersection= raphael.path(curve_inner_circle1 + curve_inner_circle2 + "M" + scale_and_join(inter1) +" Z" ).attr({ fill: ORANGE, "stroke-width" : 4, "fill-opacity" : 0 });
+
+							var radii1=scaleVector(radius1);
+
+							graph.justB =raphael.path(curve_inner_circle1 + "A " + radii1.join(" ") + " 0 1 0 " + scale_and_join(inter1) +"M" + scale_and_join(inter1) +" Z").attr({ fill : BLUE, "stroke-width" : 4, "fill-opacity" : 0 });
+
+							graph.justA =raphael.path(curve_inner_circle2 + "A " + radii1.join(" ") + " 0 1 1 " + scale_and_join(inter1) +"M" + scale_and_join(inter1) +" Z").attr({ fill : GREEN, "stroke-width" : 4, "fill-opacity" : 0 });
+
+							jQuery(graph.intersection.node).bind("vmousedown",function() {
+								graph.intersection.attr({'fill-opacity': graph.intersection.attr('fill-opacity') === 1 ? 0 : 1})
+							})
+							jQuery(graph.justA.node).bind("vmousedown",function() {
+								graph.justA.attr({'fill-opacity': graph.justA.attr('fill-opacity') === 1 ? 0 : 1})
+							})
+							jQuery(graph.justB.node).bind("vmousedown",function() {
+								graph.justB.attr({'fill-opacity': graph.justB.attr('fill-opacity') === 1 ? 0 : 1})
+							})
+
+						</div>
+					</div>
+
+					<div class="solution" data-type="custom">
+						<div class="instruction">
+							Click on the areas in the Venn Diagram to shade the matching regions.
+						</div>
+						<div class="guess">[graph.justA.attr( 'fill-opacity' ), graph.intersection.attr( 'fill-opacity' ), graph.justB.attr( 'fill-opacity' )]
+						</div>
+						<div class="validator-function">
+							if ( guess[0] === 0 && guess[1] === 0 && guess[2]===0 ) {
+								return "";
+							} else {
+								return ((guess[0] === shadedBinary[0]) && (guess[1] ===shadedBinary[1]) && (guess[2]=== shadedBinary[2]));
+							}
+						</div>
+						
+						<div class="show-guess">
+							//select shaded regions
+							graph.justA.attr( { 'fill-opacity' : guess[0] } );
+							graph.intersection.attr( { 'fill-opacity' : guess[1] } );
+							graph.justB.attr( { 'fill-opacity': guess[2] } );
+						</div>
+						<div class="example">click a region to select it</div>
+						<div class="example">click a region again to deselect it</div>
+					</div>
+
+					<div class="hints">
+						<div data-if="shaded === 1" data-unwrap>
+							<p>We are looking for the part of the diagram that is in the B circle, but not in the A circle.</p>
+							<p>The B circle is made up of two parts.</p>
+						</div>
+							<div data-if="shaded === 2" data-unwrap>
+							<p>We are looking for the part of the diagram that is in both circles</p>
+						</div>
+						<div data-if="shaded === 3" data-unwrap>
+							<p>We are looking for the part of the diagram that is in the B circle.</p>
+							<p>The B circle is made up of two parts.</p>
+						</div>
+						<div data-if="shaded === 4" data-unwrap>
+							<p>We are looking for the part of the diagram that is in the A circle, but not in the B circle.</p>
+							<p>The A circle is made up of two parts.</p>
+						</div>
+						<div data-if="shaded === 5" data-unwrap>
+							<p>We are looking for the parts of the diagram that are in either the A circle or the B circle, but not both circles.</p>
+						</div>
+						<div data-if="shaded === 6" data-unwrap>
+							<p>We are looking for the part of the diagram that is in the A circle.</p>
+							<p>The A circle is made up of two parts.</p>
+						</div>
+						<div data-if="shaded === 7" data-unwrap>
+							<p>We are looking for the parts of the diagram that are in the A circle, the B circle or both.</p>
+							<p>There are three parts that make up this description.</p>
+						</div>
+						<div data-if="shadedBinary[0] === 1" data-unwrap>
+							<p>We want to shade the part of the A circle that is not also in the B circle.</p>
+							<div class="graphie" data-update="Venn_Diagram">
+								graph.justA.attr( { 'fill-opacity' : 1 } )
+							</div>
+						</div>
+						<div data-if="shadedBinary[1] === 1" data-unwrap>
+							<p>We <span data-if="shadedBinary[0] === 1" > also </span> want to shade the part of the diagram that is in both circles.</p>
+							<div class="graphie" data-update="Venn_Diagram">
+								graph.intersection.attr( { 'fill-opacity' : 1 } )
+							</div>
+						</div>
+						<div data-if="shadedBinary[2] === 1" data-unwrap>
+							<p>We 
+							<span data-if="shadedBinary[0] === 1 && shadedBinary[1] ===1"> finally </span>
+							<span data-if="shadedBinary[0] === 1 || shadedBinary[1] ===1"> also </span>
+							want to shade the part of the B circle that is not also in the A circle.</p>
+							<div class="graphie" data-update="Venn_Diagram">
+								graph.justB.attr( { 'fill-opacity' : 1 } )
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="identify-the-diagram">
+					<div class="problem">
+						<p class="question">
+							Which description matches the Venn Diagram shown?
+						</p>
+						<div class="graphie" id="Venn_Diagram2">
+							init({
+								range: [ [ -20, 15 ], [ -10, 10 ] ],
+								scale: [ 15, 15 ]
+							});
+
+							style({
+								stroke: "Black",
+								strokeWidth: 5, 
+							});
+
+							// Left Circle
+							circle( center1, radius1, {
+								stroke: "Black",
+								strokeWidth: 5,
+							});
+							label( [ -12 , 9 ], "\\huge{A}" , "left");
+							// Right Circle
+							circle( center2, radius2, {
+								stroke: "Black",
+								strokeWidth: 5,
+							});
+							label( [2, 9],"\\huge{B}", "right" );
+
+							var scale_and_join= function(x)
+								{
+									var temp=scalePoint(x);
+									return temp.join(" ")
+								}	;
+
+							var arc_string =
+								function(start, end, radius, largeAngle, sweep){
+									var radii=scaleVector(radius);
+
+									var retstring="M" + scale_and_join(start) + "A" + radii.join(" ") + " 0 " + ( largeAngle ? 1 : 0 ) + " " +( sweep ? 1 : 0 ) + " " + scale_and_join(end);
+
+									return retstring;
+									};
+
+							var	curve_inner_circle1=arc_string( inter1 , inter2 , radius1 , 0 , 1 );
+							var curve_inner_circle2=arc_string( inter1 , inter2 , radius2 , 0 , 0 );
+							var curve_outer_circle1=arc_string( inter1 , inter2 , radius1 , 1 , 1 );
+							var curve_outer_circle2=arc_string( inter1 , inter2 , radius2 , 1 , 0 );
+
+							graph.intersection= raphael.path(curve_inner_circle1 + curve_inner_circle2 + "M" + scale_and_join(inter1) + " Z" ).attr( { fill: ORANGE, "stroke-width" : 4, "fill-opacity" : ( shadedBinary[1] - .4) } );
+
+							var radii1=scaleVector(radius1);
+
+							graph.justB =raphael.path(curve_inner_circle1 + "A " + radii1.join(" ") + " 0 1 0 " + scale_and_join(inter1) + "M" + scale_and_join(inter1) + " Z").attr( { fill : BLUE, "stroke-width" : 4,  "fill-opacity" : (shadedBinary[2] - .4) } );
+
+							graph.justA =raphael.path(curve_inner_circle2 + "A " + radii1.join(" ") + " 0 1 1 " + scale_and_join(inter1) +"M" + scale_and_join(inter1) + " Z").attr( { fill : GREEN , "stroke-width" : 4, "fill-opacity" : ( shadedBinary[0] - .4) } );
+						</div>
+					</div>
+					
+					<!-- wrong answers for list -->
+					
+					<var id="Wrong">_( ( TextOrCode === "Code" ) ? Regions : RegionsInWords ).without(  LookingFor )</var>
+
+					<P class="solution" > <code> <var>LookingFor</var> </code> </p>
+					<ul class="choices" data-show="5">
+						<li data-each="Wrong as item"> <code> <var>item</var> </code> </li>
+					</ul>
+
+					<div class="hints">
+						<div data-if="shadedBinary[0] === 1" data-unwrap>
+							<div>
+								<p>We have the part of the A circle that is not also in the B circle shaded.</p>
+								<div class="graphie" data-update="Venn_Diagram2">
+									graph.justA.attr( { 'fill-opacity' : 1 } )
+								</div>
+							</div>
+						</div>
+						<div data-if="shadedBinary[1] === 1" data-unwrap>
+							<div>
+								<p>We <span data-if="shadedBinary[0] === 1" > also </span> have the part of the diagram that is in both circles shaded.</p>
+								<div class="graphie" data-update="Venn_Diagram2">
+									graph.intersection.attr( { 'fill-opacity' : 1 } )
+								</div>
+							</div>
+						</div>
+						<div data-if="shadedBinary[2] === 1" data-unwrap>
+							<div>
+								<p>We 
+								<span data-if="shadedBinary[0] === 1 && shadedBinary[1] ===1"> finally </span>
+								<span data-if="shadedBinary[0] === 1 || shadedBinary[1] ===1"> also </span>
+								have the part of the B circle that is not also in the A circle shaded.</p>
+								<div class="graphie" data-update="Venn_Diagram2">
+									graph.justB.attr( { 'fill-opacity' : 1 } )
+								</div>
+							</div>
+						</div>
+
+						<div>
+							<p><span data-if="shadedBinary[0] + shadedBinary[1] + shadedBinary[2] > 1">Together these</span> <span data-else>This</span> can be described as <code> <var>LookingFor</var> </code>.</p>
+						</div>
+					</div>
+				</div>
+            </div>
+		</div>
+	</body>
+</html>
