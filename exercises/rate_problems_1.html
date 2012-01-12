@@ -58,7 +58,8 @@
 				<p class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest minute.)</p>
 				<p class="solution" data-forms="integer"><var>round(DIST1 / SPEED1 * 60)</var></p>
 				<div class="hints" data-apply="appendContents">
-					<p id="final-hint"><code>t_<var>vehicleVar(1)</var> = <var>round(roundDIST1) / SPEED1 * 60)</var></code> minutes</p>
+					<p id="final-hint"><code>t_<var>vehicleVar(1)</var> =
+            <var>round(round(DIST1) / SPEED1 * 60)</var></code> minutes</p>
 				</div>
 			</div>
 			<div data-type="original">
