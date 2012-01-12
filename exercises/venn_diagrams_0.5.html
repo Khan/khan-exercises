@@ -23,8 +23,10 @@
 				<var id="Regions"> [ "B \\cap \\lnot A" , "A \\cap B" , "B" , "A \\cap \\lnot B" ,  "\\lnot (A \\cap B)" , "A" , "A \\cup B" ] </var>
 				<var id="RegionsInWords">[ "\\text {B but not A}" , "\\text{A and B}" , "\\text{B}" , "\\text{A but not B}" , "\\text{A or B but not both}" , "\\text{A}" , "\\text{A or B}"]</var>
 				<!-- What we want -->
-				<var id="TextOrCode">randFromArray( [ "Code" , "Words" ])</var>
-				<var id="LookingFor"> ( ( TextOrCode ==="Code" ) ? Regions[shaded - 1] : RegionsInWords[shaded - 1]</var>
+				<var id="TextOrCode">randFromArray([ "Code", "Words" ])</var>
+				<var id="LookingFor"> TextOrCode ==="Code" ? Regions[shaded - 1] : RegionsInWords[shaded - 1]</var>
+				<var id="Wrong">_(TextOrCode === "Code" ? Regions : RegionsInWords ).without( LookingFor)</var>
+
 			</div>
 
 			<div class="problems">
@@ -236,7 +238,6 @@
 					
 					<!-- wrong answers for list -->
 					
-					<var id="Wrong">_( ( TextOrCode === "Code" ) ? Regions : RegionsInWords ).without(  LookingFor )</var>
 
 					<P class="solution" > <code> <var>LookingFor</var> </code> </p>
 					<ul class="choices" data-show="5">
