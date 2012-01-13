@@ -958,13 +958,35 @@ function updateComplexPolarForm( deltaAngle, deltaRadius ) {
 }
 
 function polarForm( radius, angle, useEulerForm ) {
-	var angleRep = KhanUtil.piFraction(angle);
+	var fraction = KhanUtil.toFraction( angle / Math.PI, 0.001 );
+	var numerator = fraction[0], denominator = fraction[1];
+
 	var equation;
 	if ( useEulerForm ) {
-		equation = KhanUtil.expr( [ "*", radius, "e^{" + (angleRep + " i") + "}" ] );
+		if ( numerator > 0 ) {
+			var eExp = (( numerator > 1) ? ( numerator ) : ("")) + "\\pi i";
+			if (denominator !== 1) {
+				eExp += " / " + denominator;
+			}
+			var ePower = KhanUtil.expr( [ "^", "e", eExp ] );
+			equation = (( radius > 1 ) ? radius : "") + " " + ePower;
+		} else {
+			equation = radius;
+		}
 	} else {
-		equation = KhanUtil.expr( [ "*", radius, "\\cos(" + angleRep + ") + i \\sin(" + angleRep + ")" ] );
-		//equation = radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
+		if (angle === 0) {
+			equation = radius;
+		} else {
+			var angleRep = KhanUtil.piFraction(angle, true);
+			var cis = "\\cos(" + angleRep + ") + i \\sin(" + angleRep + ")";
+
+			// Special case to circumvent ugly "*1* (sin(...) + i cos(...))"
+			if (radius !== 1) {
+				equation = KhanUtil.expr( [ "*", radius, cis ] );
+			} else {
+				equation = cis;
+			}
+		}
 	}
 	return equation;
 }
@@ -984,5 +1006,5 @@ function redrawComplexPolarForm() {
 	jQuery( "#radius input" ).val( radius );
 	jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
 	jQuery( "#current-radius" ).html( "<code>" + radius + "</code>" ).tmpl();
-	jQuery( "#current-angle" ).html( "<code>" + KhanUtil.piFraction(angle) + "</code>" ).tmpl();
+	jQuery( "#current-angle" ).html( "<code>" + KhanUtil.piFraction(angle, true) + "</code>" ).tmpl();
 }

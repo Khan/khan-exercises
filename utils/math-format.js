@@ -138,13 +138,25 @@ jQuery.extend(KhanUtil, {
 	},
 
 	/* Interprets a decimal as a multiple of pi and formats it as would be
-	 * expected. */
-	piFraction: function( num ) {
+	 * expected. 
+	 *
+	 * If niceAngle is truthy, it also delivers more natural values for 0 (0 instead
+	 * of 0 \pi) and 1 (\pi instead of 1 \pi).
+	 * */
+	piFraction: function( num, niceAngle ) {
 		if ( num.constructor === Number ) {
 			var f = KhanUtil.toFraction( num / Math.PI, 0.001 ),
 			 n = f[0],
 			 d = f[1];
 
+			if ( niceAngle ) {
+				if ( n === 0) {
+					return "0";
+				}
+				if ( n === 1 && d === 1) {
+					return "\\pi";
+				}
+			}
 			return d === 1 ? n + "\\pi" : KhanUtil.fractionSmall( n, d ) + "\\pi";
 		}
 	},
