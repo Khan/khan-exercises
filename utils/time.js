@@ -31,19 +31,19 @@ jQuery.extend( KhanUtil, {
 				}
 				this.set.push(line);
 			}
-		}
+		};
 
 		analogClock.drawLabels = function() {
 			for( var i = 1; i < 13; i++ ){
 				this.set.push( this.graph.label( [ 0.7 * this.radius *  Math.sin( 2 * Math.PI * i/12  ), 0.7 * this.radius * Math.cos( 2 * Math.PI * i/12 ) ], i  ) );
 			}
 			return this.set;
-		}
+		};
 
 		analogClock.drawHands = function() {
 			this.set.push( this.graph.line( [ 0.45 * this.radius *  Math.sin( 2 * Math.PI * this.hour/12 + ( this.minute / 60 ) / 12 * 2 * Math.PI ), 0.45 * this.radius * Math.cos( 2 * Math.PI * this.hour/12 + ( this.minute / 60 ) / 12  * 2 * Math.PI ) ], [ 0, 0  ] ) );
 			this.set.push( this.graph.line( [ 0.6 * this.radius *  Math.sin( ( this.minute / 60 ) * 2 * Math.PI ), 0.6 * this.radius * Math.cos(  ( this.minute / 60 ) * 2 * Math.PI ) ], [ 0, 0  ] ) );
-		}
+		};
 
 		analogClock.draw = function() {
 			if ( this.hourTicks ) {
@@ -63,6 +63,7 @@ jQuery.extend( KhanUtil, {
 			}
 			return this.set;
 		};
+
 		return analogClock;
 	},
 

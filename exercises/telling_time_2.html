@@ -26,7 +26,6 @@
 				<div class="problem">
 
 					<div class="graphie" id="clock">
-
 						init({ range: [ [-4, 4 ], [ -4, 4 ] ], scale: 45 });
 
 						var clockRadius = 3.75;
@@ -43,7 +42,7 @@
 						minuteSnapDegrees = 360 / minuteSnapPoints;
 						hourSnapDegrees = 360 / hourSnapPoints;
 
-						clock = addAnalogClock( { radius: clockRadius, minuteTicks: hourSnapPoints } );
+						var clock = addAnalogClock( { radius: clockRadius, minuteTicks: hourSnapPoints } );
 						clock.draw();
 
 						addMouseLayer();
@@ -113,7 +112,7 @@
 								fill: ORANGE,
 								stroke: ORANGE
 							}
-						})
+						});
 
 						hourPoint = addMovablePoint({
 							coord: polar( hourRadius, hourStartAngle ),
@@ -157,7 +156,7 @@
 								fill: BLUE,
 								stroke: BLUE
 							}
-						})
+						});
 
 						minuteHand = addMovableLineSegment({
 							pointA: minutePoint,
@@ -166,7 +165,7 @@
 							normalStyle: {
 								stroke: ORANGE,
 								"stroke-width": 10
-							},
+							}
 						});
 
 						hourHand = addMovableLineSegment({
@@ -176,7 +175,7 @@
 							normalStyle: {
 								stroke: BLUE,
 								"stroke-width": 10
-							},
+							}
 						});
 
 						centerPoint = addMovablePoint({
@@ -196,7 +195,6 @@
 
 						correctMinuteAngle = roundToNearest( minuteSnapDegrees, correctMinuteAngle );
 						correctHourAngle = roundToNearest( hourSnapDegrees, correctHourAngle );
-
 					</div>
 				</div>
 
