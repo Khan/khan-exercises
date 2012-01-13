@@ -17,9 +17,7 @@
 
 jQuery.extend ( KhanUtil, {
 
-	assert : true,
-
-	parse : function (src) {
+	parse: function (src) {
 
 		var TK_NONE         = 0;
 		var TK_ADD          = '+'.charCodeAt(0);

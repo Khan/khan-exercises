@@ -20,7 +20,7 @@
 jQuery.extend ( KhanUtil, {
 
 
-	ASSERT: true,
+	ASSERT: false,
 
 	assert: function (val, str) {
 		if ( !this.ASSERT ) {
