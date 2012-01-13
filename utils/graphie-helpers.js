@@ -961,9 +961,10 @@ function polarForm( radius, angle, useEulerForm ) {
 	var angleRep = KhanUtil.piFraction(angle);
 	var equation;
 	if ( useEulerForm ) {
-		equation = KhanUtil.expr( [ "*", radius, " e^{" + (angleRep + " i") + "}" ] );
+		equation = KhanUtil.expr( [ "*", radius, "e^{" + (angleRep + " i") + "}" ] );
 	} else {
-		equation = radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
+		equation = KhanUtil.expr( [ "*", radius, "\\cos(" + angleRep + ") + i \\sin(" + angleRep + ")" ] );
+		//equation = radius + " \\cdot (cos(" + angleRep + ") + i \\cdot sin(" + angleRep + "))";
 	}
 	return equation;
 }
@@ -982,6 +983,6 @@ function redrawComplexPolarForm() {
 	jQuery( "#angle input" ).val( point.getAngleNumerator() );
 	jQuery( "#radius input" ).val( radius );
 	jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
-	jQuery( "#current-radius" ).html( radius );
+	jQuery( "#current-radius" ).html( "<code>" + radius + "</code>" ).tmpl();
 	jQuery( "#current-angle" ).html( "<code>" + KhanUtil.piFraction(angle) + "</code>" ).tmpl();
 }

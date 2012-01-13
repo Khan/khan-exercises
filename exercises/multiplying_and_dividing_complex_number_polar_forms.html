@@ -40,6 +40,8 @@
 				<var id="BRACKETS">USE_EULER_FORM ? '()' : '[]'</var>
 				<var id="LEFT_BRACKET">BRACKETS[0]</var>
 				<var id="RIGHT_BRACKET">BRACKETS[1]</var>
+
+				<var id="INTERMEDIATE_ANGLE_REP">piFraction((A_ANGLE_NUMERATOR + B_ANGLE_NUMERATOR) * PI * 2 / DENOMINATOR)</var>
 			</div>
 			<p class="question">Multiply the following complex numbers, marked as <span class="hint_blue">blue</span> dots on the graph:</p>
 			<p><code><var>LEFT_BRACKET</var><var>A_REP</var><var>RIGHT_BRACKET</var> \cdot <var>LEFT_BRACKET</var><var>B_REP</var><var>RIGHT_BRACKET</var></code></p>
@@ -75,7 +77,7 @@
 				<table> <!-- with apologies to any self-respecting webdesigner, I just need the buttons to line up... -->
 					<tr>
 						<td style="width: 100px">
-					Radius: <span id="current-radius">1</span>
+							Radius: <span id="current-radius"><code>1</code></span>
 						</td>
 						<td>
 							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />
@@ -84,7 +86,7 @@
 					</tr>
 					<tr>
 						<td>
-					Angle: <span id="current-angle"><code>0 \pi</code></span>
+							Angle: <span id="current-angle"><code>0 \pi</code></span>
 						</td>
 						<td>
 							<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />
@@ -101,31 +103,36 @@
 
 			<div class="hints">
 				<p>
-					Multiplying complex numbers in polar forms can be done by multiplying the radii
+					Multiplying complex numbers in polar forms can be done by multiplying the lengths
 					and adding the angles.
 				</p>
 				<p>
-					The first number (<code><var>A_REP</var></code>) has angle <code><var>A_ANGLE_REP</var></code> and radius <var>A_RADIUS</var>.
-					The second number (<code><var>B_REP</var></code>) has angle <code><var>B_ANGLE_REP</var></code> and radius <var>B_RADIUS</var>.
+					The first number (<code><var>A_REP</var></code>) has angle <code><var>A_ANGLE_REP</var></code> and radius <code><var>A_RADIUS</var></code>.
 				</p>
 				<p>
-					The radius of the result will be <code><var>A_RADIUS</var> \cdot <var>B_RADIUS</var></code>, which is <var>ANSWER_RADIUS</var>.
+					The second number (<code><var>B_REP</var></code>) has angle <code><var>B_ANGLE_REP</var></code> and radius <code><var>B_RADIUS</var></code>.
+				</p>
+				<p>
+					The radius of the result will be <code><var>A_RADIUS</var> \cdot <var>B_RADIUS</var></code>, which is <code><var>ANSWER_RADIUS</var></code>.
 				</p>
 				<div data-if="A_ANGLE_NUMERATOR + B_ANGLE_NUMERATOR > 12 * 2" data-unwrap>
 					<p>
-						The sum of the angles is <code><var>A_ANGLE_REP</var> + <var>B_ANGLE_REP</var> = <var>piFraction((A_ANGLE_NUMERATOR + B_ANGLE_NUMERATOR) * PI * 2 / DENOMINATOR)</var></code>.
+						The sum of the angles is <code><var>A_ANGLE_REP</var> + <var>B_ANGLE_REP</var> = <var>INTERMEDIATE_ANGLE_REP</var></code>.
 					</p>
 					<p>
-						That is more than <code>2 \pi</code>. A complex number goes a full circle if its angle is increased by <code>2 \pi</code>, so it 
-						goes back to itself. Because of that, angles of complex numbers are convient to keep between 0 and <code>2 \pi</code>.
+						The angle <code><var>INTERMEDIATE_ANGLE_REP</var></code> is more than <code>2 \pi</code>. A complex number goes a full circle if its angle is increased by <code>2 \pi</code>, so it 
+						goes back to itself. Because of that, angles of complex numbers are convient to keep between <code>0</code> and <code>2 \pi</code>.
 					</p>
 					<p>
-						After taking <code>2 \pi</code> from the sum, the angle becomes <code><var>ANSWER_ANGLE_REP</var></code>.
+						<code><var>INTERMEDIATE_ANGLE_REP</var> - 2 \pi = <var>ANSWER_ANGLE_REP</var></code>
 						<!-- The A and B angles are both between 0 and 2pi, so the maximum angle here is 4pi, so it's safe not to handle further 2pi multiples. -->
 					</p>
 				</div>
 				<p data-else>
 					The angle of the result is <code><var>A_ANGLE_REP</var> + <var>B_ANGLE_REP</var> = <var>ANSWER_ANGLE_REP</var></code>.
+				</p>
+				<p>
+					The radius of the result is <code><var>ANSWER_RADIUS</var></code> and the angle of the result is <code><var>ANSWER_ANGLE_REP</var></code>.
 				</p>
 			</div>
 		</div>
@@ -155,6 +162,8 @@
 				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE, USE_EULER_FORM)</var>
 				<var id="A_REAL">cos(A_ANGLE) * A_RADIUS</var>
 				<var id="A_IMAG">sin(A_ANGLE) * A_RADIUS</var>
+
+				<var id="INTERMEDIATE_ANGLE_REP">piFraction((A_ANGLE_NUMERATOR - B_ANGLE_NUMERATOR) * PI * 2 / DENOMINATOR)</var>
 			</div>
 			<p class="question">Divide the following complex numbers:</p>
 			<p><code>\dfrac{<var>A_REP</var>}{<var>B_REP</var>}</code></p>
@@ -231,11 +240,11 @@
 				</p>
 				<div data-if="A_ANGLE_NUMERATOR - B_ANGLE_NUMERATOR < 0" data-unwrap>
 					<p>
-						The difference of the angles is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>piFraction((A_ANGLE_NUMERATOR - B_ANGLE_NUMERATOR) * PI * 2 / DENOMINATOR)</var></code>.
+						The difference of the angles is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>INTERMEDIATE_ANGLE_REP</var></code>.
 					</p>
 					<p>
-						That is a negative number. A complex number goes a full circle if its angle is increased by <code>2 \pi</code>, so it 
-						goes back to itself. Because of that, angles of complex numbers are convient to keep between 0 and <code>2 \pi</code>.
+						The angle <code><var>INTERMEDIATE_ANGLE_REP</var></code> is negative. A complex number goes a full circle if its angle is increased by <code>2 \pi</code>, so it 
+						goes back to itself. Because of that, angles of complex numbers are convient to keep between <code>0</code> and <code>2 \pi</code>.
 					</p>
 					<p>
 						After adding <code>2 \pi</code> to the difference, the angle becomes <code><var>ANSWER_ANGLE_REP</var></code>.
@@ -243,6 +252,9 @@
 				</div>
 				<p data-else>
 					The angle of the result is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>ANSWER_ANGLE_REP</var></code>.
+				</p>
+				<p>
+					The radius of the result is <code><var>ANSWER_RADIUS</var></code> and the angle of the result is <code><var>ANSWER_ANGLE_REP</var></code>.
 				</p>
 			</div>
 		</div>
