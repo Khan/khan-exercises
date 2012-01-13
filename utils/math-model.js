@@ -1,38 +1,23 @@
 /*
-   Math model for Khan exercises
+    Math model for Khan exercises
 
-   This is an exercise models, a kind of object model that reflects the
-   semantics that are specific to a class of exercises. This one is designed for
-   supporting the writing of exercises involving polynomials. Models have a
-   structure that mirrors the structure of Khan exercisesa and its requirement
-   to display problems, solutions and hints. Models hide the details of formatting and
-   drawing text and graphics, and also of managing the state of the underlying
-   equations.
+    This is an exercise model, a kind of object model that reflects the
+    semantics that are specific to creating math based exercises. Currently
+    this model supports enough math to construct and format polynomials, but
+    it can be extended as necessary.
 
-   The general usage is as follows:
+    The general usage is as follows:
 
-	  model = PolynomialModel.init();
-	  problem = model.equation(["+", ["+", ["^", "x", 2], ["*", B, "x"]], C]);
-	  problem.format(); // returning the latex for the equation
-	  problem.draw();   // drawing the equation inside a grphie div
-	  solution = model.equation(["*", ["+", a+"x"], ["+", b+"x"]]);
-	  solution.format();
-	  ... ditto for the incorrect choices
-	  choice1 = model.equation([...]);
-	  choice1.format();
-	  ... hints can be derived from existing ASTs or constructed similarly
+    var math = MathModel.init();
+    var problem = math.parse("x^2+"+B+"x+"+C);  // B and C are variable containing integer values
+    var text = math.format(problem); // returning the latex for the problem
 
-   To get html representing all of the AST nodes in the node pool, call:
-
-	  model.dumpAll()
-
-   For a complete example of using this model, see factoring_trinomials_1.html
-
-   @author: Jeff Dyer
-
+    @author: Jeff Dyer
 */
 
 jQuery.extend ( KhanUtil, {
+
+	assert : true,
 
 	parse : function (src) {
 
@@ -497,6 +482,8 @@ jQuery.extend ( KhanUtil, {
 			parse: parse,
 			format: format,
 			polynomial: polynomial,
+			graph: graph,
+			eval: eval,
 
 			dumpAll : function () {
 				return ast.dumpAll();
@@ -576,29 +563,6 @@ jQuery.extend ( KhanUtil, {
 				return solution;
 			} ,
 
-			// Graph part for all of a node.
-			graph : function (options, nid) {
-				var node = (nid===void 0) ? rootNode : ast.node(nid, this);
-				var color = options.indexOf("green") >= 0 ? KhanUtil.GREEN :
-							options.indexOf("orange") >= 0 ? KhanUtil.ORANGE : KhanUtil.BLUE;
-				var mode = options.indexOf("hint") >= 0 ? "hint" : "expr";
-				switch (mode) {
-				case "hint":
-					return {
-						draw : function () {
-							drawHint(node, color)
-						} ,
-					}
-				case "expr":
-				default:
-					return {
-						draw : function () {
-							drawExpr(node, color)
-						} ,
-					}
-				}
-			} ,
-
 			// Generate the text for all or part of a node.
 			text : function (options, nid) {
 				var node = (nid===void 0) ? rootNode : ast.node(nid, this);
@@ -664,6 +628,30 @@ jQuery.extend ( KhanUtil, {
 		return this;
 
 		// private implementation
+
+	    function graph(n) {
+			var graph = KhanUtil.currentGraph;
+
+			function g(x) {
+				// set up the lexical environment for evaluating ast n
+				var env = {x: x};
+				return eval(n, env);
+			}
+
+			var y0 = Math.floor(g(0));
+
+			//KhanUtil.assert(false, y0);
+
+			graph.graphInit({
+				range: 11,
+				scale: 20,
+				axisArrows: "&lt;-&gt;",
+				tickStep: 1,
+				labelStep: 1
+			});
+
+			graph.plot( g, [-10, 10] );
+		}
 
 		function isValidAST(n) {
 			return n.kind() !== void 0;
@@ -886,6 +874,73 @@ jQuery.extend ( KhanUtil, {
 				text = "\\color{"+color+"}{"+n+"}";
 			}
 			return text;
+		}
+
+		function eval(n, env) {
+
+			var ast = KhanUtil.ast;
+
+			var val;
+			if (jQuery.type(n)==="object") {
+				var args = [];
+				for (var i = 0; i < n.args.length; i++) {
+					args[i] = eval(n.args[i], env);
+				}
+
+			    switch (n.op) {
+				case OpStr.VAR:
+					val = env[args[0]];
+					break;
+			    case OpStr.SUB:
+					val = args[0] - args[1];
+				    break;
+			    case OpStr.DIV:
+				case OpStr.FRAC:
+					val = args[0] / args[1];
+				    break;
+				case OpStr.POW:
+					val = Math.pow(args[0], args[1]);
+					break;
+				case OpStr.SIN:
+					val = Math.sin(args[0]);
+					break;
+				case OpStr.COS:
+					val = Math.cos(args[0]);
+					break;
+				case OpStr.TAN:
+					val = Math.tan(args[0]);
+					break;
+				case OpStr.SQRT:
+					switch (args.length) {
+					case 1:
+						val = Math.sqrt(args[0]);
+						break;
+					case 2:
+					default:
+						assert(false, "unimplemented eval operator");
+						break;
+					}
+					break;
+				case OpStr.MUL:
+					val = args[0] * args[1];
+					break;
+				case OpStr.ADD:
+					val = args[0] + args[1];
+					break;
+				case OpStr.SEC:
+				case OpStr.LN:
+				case OpStr.PM:
+				case OpStr.EQL:
+				case OpStr.COMMA:
+				default:
+					assert(false, "unimplemented eval operator");
+					break;
+				}
+			}
+			else {
+				val = n;
+			}
+			return val;
 		}
 
 		function isNeg(n) {
