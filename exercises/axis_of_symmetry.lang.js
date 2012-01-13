@@ -1,15 +1,18 @@
 ({
 	"nl" : {
-		"question1"	: 'Is the blue line an axis of symmetry?',
+		"question1"	: 'Is de blauwe lijn een symmetrie-as?',
+		"vars"		: '<var id="SYM">randRange( 0, 1 )</var>'+
+						'<var id="SIDES">randRange( 3, 8 )</var>'+
+						'<var id="SIDE">randRange( 0, SIDES - 1 )</var>'+
+						'<var id="ANSWER">SYM ? "Ja" : "Nee"</var>',
+		"list1"		: 'Ja',
+		"list2"		: 'Nee',
 		
-		"list1"		: 'Yes',
-		"list2"		: 'No',
-		
-		"hint1"		: 'Does the blue line split the shape into two parts which look like reflections of each other?',
-		"hint2"		: 'The orange line is one of two parts made by the blue line.',
-		"hint3"		: "If the blue line were a mirror, what would the orange line's reflection look like?",
-		"hint4"		: "The pink line is the orange line's reflection.",
-		"hint5"		: 'The blue line splits the shape into two equal halves, so it is an axis of symmetry.',
-		"hint6"		: 'The blue line did not split the shape into two equal halves, so it is not an axis of symmetry.'
+		"hint1"		: 'Deelt de blauwe lijn het figuur in twee delen die elkaars spiegelbeeld kunnen zijn?',
+		"hint2"		: 'De oranje lijn toont &eacute;&eacute;n van de figuren die wordt gevormd met de blauwe lijn.',
+		"hint3"		: "Als de blauwe lijn een spiegel zou zijn, hoe zou het spiegelbeeld van de oranje lijn er dan uitzien?",
+		"hint4"		: "De roze lijn is het spiegelbeeld van de oranje lijn.",
+		"hint5"		: 'De blauwe lijn deelt het figuur in twee gelijke delen, dus de blauwe lijn is een symmetrie-as.',
+		"hint6"		: 'De blauwe lijn deelt het figuur niet in twee gelijke delen, en is dus geen symmetrie-as.'
 		}
 })

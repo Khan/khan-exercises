@@ -5,7 +5,7 @@
 				'<span data-if="THOUSANDS !== 0">\\color{<var>PINK</var>}{<var>THOUSANDS</var>}</span>'+
 				'\\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}'+
 				'\\color{<var>GREEN</var>}{<var>TENS</var>}'+
-				'\\color{<var>BLUE</var>}{<var>ONES</var>}.'+
+				'\\color{<var>BLUE</var>}{<var>ONES</var>},'+
 				'\\color{purple}{<var>TENTHS</var>}'+
 				'\\color{gray}{<var>HUNDREDTHS</var>}'+
 				'}</code>',
@@ -14,7 +14,7 @@
 				'<span data-if="THOUSANDS !== 0">\\color{<var>PINK</var>}{<var>THOUSANDS</var>}</span>'+
 				'\\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}'+
 				'\\color{<var>GREEN</var>}{<var>TENS</var>}'+
-				'\\color{<var>BLUE</var>}{<var>ONES</var>}.'+
+				'\\color{<var>BLUE</var>}{<var>ONES</var>},'+
 				'\\color{purple}{<var>TENTHS</var>}'+
 				'\\color{gray}{<var>HUNDREDTHS</var>}'+
 				'\\color{#a52a2a}{<var>THOUSANDTHS</var>}'+
@@ -32,12 +32,18 @@
 		"question13"	: 'Click op de biljetten en de munten om ze te selecteren.',
 		"question14"	: 'Click op een biljet of munt om ze te selecteren.',
 		"question15"	: 'Click nogmaals op een biljet of munt om ze te deselecteren.',
+		"question16"	: 'Duizendjes',
+		"question17"	: 'Honderdjes',
+		"question18"	: 'Tientjes',
+		"question19"	: 'Euro\'s',
+		"question20"	: 'Dubbeltjes',
+		"question21"	: 'Centen',
 		
 		"hint1"		: '<code>\\Large{'+
 				'<span data-if="THOUSANDS !== 0">\\color{<var>PINK</var>}{<var>THOUSANDS</var>}</span>'+
 				'\\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}'+
 				'\\color{<var>GREEN</var>}{<var>TENS</var>}'+
-				'\\color{<var>BLUE</var>}{<var>ONES</var>}.'+
+				'\\color{<var>BLUE</var>}{<var>ONES</var>},'+
 				'\\color{purple}{<var>TENTHS</var>}'+
 				'\\color{gray}{<var>HUNDREDTHS</var>}'+
 				'<span data-if="THOUSANDTHS !== 0">\\color{brown}{<var>THOUSANDTHS</var>}</span>'+
@@ -49,9 +55,9 @@
 				'<span data-if="HUNDREDS !== 0">\\color{<var>ORANGE</var>}{<var>HUNDREDS</var>00} + </span> '+
 				'<span data-if="TENS !== 0">\\color{<var>GREEN</var>}{<var>TENS</var>0} + </span> '+
 				'<span data-if="ONES !== 0">\\color{<var>BLUE</var>}{<var>ONES</var>} + </span> '+
-				'<span data-if="TENTHS !== 0">\\color{purple}{0.<var>TENTHS</var>} + </span> '+
-				'<span data-if="HUNDREDTHS !== 0">\\color{gray}{0.0<var>HUNDREDTHS</var>}</span> '+
-				'<span data-if="THOUSANDTHS !== 0"> + \\color{brown}{0.00<var>THOUSANDTHS</var>}</span> '+
+				'<span data-if="TENTHS !== 0">\\color{purple}{0,<var>TENTHS</var>} + </span> '+
+				'<span data-if="HUNDREDTHS !== 0">\\color{gray}{0,0<var>HUNDREDTHS</var>}</span> '+
+				'<span data-if="THOUSANDTHS !== 0"> + \\color{brown}{0,00<var>THOUSANDTHS</var>}</span> '+
 			'}</code>.',
 		"hint2"		: '<code>\\large{\\color{<var>PINK</var>} {<var>THOUSANDS</var>000}}</code> is gelijk aan <code>\\large{\\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> '+
 		'<var>plural( "duizendtal", "duizendtallen", THOUSANDS )</var>, op de plaats vier getallen links van het decimaalteken.',
@@ -64,14 +70,14 @@
 		"hint7"		: 'Omdat op de plaats van de <span class="hint_green">tens</span> een <code class="hint_green">\\large{0}</code> staat, heb je geen <span class="hint_green">tientallen</span> nodig.',
 		"hint8"		: '<code>\\large{\\color{<var>BLUE</var>}{<var>ONES</var>}}</code> is gelijk aan <code>\\large{\\color{<var>BLUE</var>}{<var>ONES</var>}}</code> '+
 			'<var>plural( "eenheid", "eenheden", ONES )</var>, op de plaats links van het decimaalteken.',
-		"hint9"		: 'Omdat op de plaats van de <span class="hint_blue">ones</span> een <code class="hint_blue">\\large{0}</code> staat, heb je geen <span class="hint_blue">eenheden</span> nodig.',
-		"hint10"	: '<code>\\large{\\color{purple}{0.<var>TENTHS</var>}}</code> is gelijk aan <code>\\large{\\color{purple}{<var>TENTHS</var>}}</code> '+
-			'<var>plural( "tiende", "tienden", TENTHS )</var>, op de plaats rechts van het decimaalteken..',
-		"hint11"	: 'Omdat op de plaats van de <span class="hint_purple">tenths</span> een <code class="hint_purple">\\large{0}</code> staat, heb je geen <span class="hint_purple">tienden</span> nodig.',
-		"hint12"	: '<code>\\large{\\color{gray}{0.0<var>HUNDREDTHS</var>}}</code> is gelijk aan <code>\\large{\\color{gray}{<var>HUNDREDTHS</var>}}</code> '+
+		"hint9"		: 'Omdat op de plaats van de <span class="hint_blue">eenheden</span> een <code class="hint_blue">\\large{0}</code> staat, heb je geen <span class="hint_blue">eenheden</span> nodig.',
+		"hint10"	: '<code>\\large{\\color{purple}{0,<var>TENTHS</var>}}</code> is gelijk aan <code>\\large{\\color{purple}{<var>TENTHS</var>}}</code> '+
+			'<var>plural( "tiende", "tienden", TENTHS )</var>, op de plaats rechts van het decimaalteken.',
+		"hint11"	: 'Omdat op de plaats van de <span class="hint_purple">tienden</span> een <code class="hint_purple">\\large{0}</code> staat, heb je geen <span class="hint_purple">dubbeltjes</span> nodig.',
+		"hint12"	: '<code>\\large{\\color{gray}{0,0<var>HUNDREDTHS</var>}}</code> is gelijk aan <code>\\large{\\color{gray}{<var>HUNDREDTHS</var>}}</code> '+
 			'<var>plural( "honderdste", "honderdsten", HUNDREDTHS )</var>, op de plaats twee getallen rechts van het decimaalteken.',
 		"hint13"	: 'Omdat op de plaats van de <span class="hint_gray">honderdsten</span> een <code class="hint_gray">\\large{0}</code> staat, heb je geen <span class="hint_gray">honderdsten</span> nodig.',
-		"hint14"	: '<code>\\large{\\color{#a52a2a}{0.00<var>THOUSANDTHS</var>}}</code> is gelijk aan <code>\\large{\\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> '+
+		"hint14"	: '<code>\\large{\\color{#a52a2a}{0,00<var>THOUSANDTHS</var>}}</code> is gelijk aan <code>\\large{\\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> '+
 			'<var>plural( "duizendste", "duizendsten", THOUSANDTHS )</var>, op de plaats drie getallen rechts van het decimaalteken.',
 		"hint15"	: 'Voor dit getal heb je dus nodig: '+
 			'<span data-if="THOUSANDS !== 0"><code>\\large{\\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> <var>plural( "duizendtal", "duizendtallen", THOUSANDS )</var>, </span> '+

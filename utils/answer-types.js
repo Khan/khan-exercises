@@ -157,7 +157,7 @@ jQuery.extend( Khan.answerTypes, {
 				},
 				example: (function() {
 					if ( options.simplify === "optional" ) {
-						return "een <em>proper</em> breuk, zoals <code>1/2</code> of <code>6/10</code>";
+						return "een <em>breuk</em>, zoals <code>1/2</code> of <code>6/10</code>";
 					} else {
 						return "een <em>vereenvoudigde</em> breuk, zoals <code>3/5</code>";
 					}
@@ -341,9 +341,9 @@ jQuery.extend( Khan.answerTypes, {
 				},
 				example: (function() {
 					if ( options.inexact === undefined ) {
-						return "an <em>exact</em> decimal, like <code>0.75</code>";
+						return "een <em>decimaal</em>, bijv. <code>0,75</code>";
 					} else {
-						return "a decimal, like <code>0.75</code>";
+						return "een decimaal, zoals <code>0,75</code>";
 					}
 				})()
 			}
@@ -830,7 +830,7 @@ jQuery.extend( Khan.answerTypes, {
 		}
 
 		if( showNone ) {
-			var none = jQuery( "<span>None of the above.</span>" );
+			var none = jQuery( "<span>Geen van allen.</span>" );
 
 			if( noneIsCorrect ) {
 				none.data( "correct", true );
@@ -921,8 +921,8 @@ jQuery.extend( Khan.answerTypes, {
 			return guess === correct;
 		};
 		verifier.examples = [
-			"a product of prime factors, like <code>2 \\times 3</code>",
-			"a single prime number, like <code>5</code>"
+			"het product van priemgetallen, bijv. <code>2 \\times 3</code>",
+			"een enkel priemgetal, bijv. <code>5</code>"
 		];
 
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
@@ -961,7 +961,7 @@ jQuery.extend( Khan.answerTypes, {
 			if ( isTimeline ) {
 				guessCorrect = validator( guess );
 				jQuery( solutionarea ).empty();
-				jQuery( solutionarea ).append( guessCorrect ? "Answer correct" : "Answer incorrect" );
+				jQuery( solutionarea ).append( guessCorrect ? "Juist antwoord" : "Fout antwoord" );
 			}
 		}
 
