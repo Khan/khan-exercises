@@ -138,7 +138,7 @@ function Rotator( center, r, pro ) {
 							  [center[0]+(r+1)*Math.cos(29 * Math.PI / 36)-0.8, center[1]+(r+1)*Math.sin(29 * Math.PI / 36)-0.2],
 							  { "stroke-width": 2, arrows: "->" } ) );
 
-		set.push( graph.label( [center[0]-(r+4), center[1]+2], "Click these to rotate!", "center", false,  { "stroke-width": 1, "font-size": 12, stroke: "black" } ) );
+		set.push( graph.label( [center[0]-(r+4), center[1]+2], "Click hier om te draaien!", "center", false,  { "stroke-width": 1, "font-size": 12, stroke: "black" } ) );
 
 		jQuery(document).one( "mousedown", function( event ) {
 			set.remove();
@@ -218,7 +218,7 @@ function Translator( center, r, pro ) {
 							  [center[0]+r-1+0.5, center[1]-1.5],
 							  { "stroke-width": 2, arrows: "->" } ) );
 
-		set.push( graph.label( [center[0]+r/2-1+0.75, center[1]-4], "Click these to move!", "center", false,  { "stroke-width": 1, "font-size": 12, stroke: "black" } ) );
+		set.push( graph.label( [center[0]+r/2-1+0.75, center[1]-4], "Click hier om te verplaatsen!", "center", false,  { "stroke-width": 1, "font-size": 12, stroke: "black" } ) );
 
 		jQuery(document).one( "mousedown", function( event ) {
 			set.remove();

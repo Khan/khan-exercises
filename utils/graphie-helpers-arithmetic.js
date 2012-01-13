@@ -657,7 +657,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 
 		if ( deciDivisor !== 0 ) {
 			graph.label( [ digitsDividend.length + 1 + ( deciDiff > 0 ? deciDiff : 0 ), 1 ],
-				"\\text{Verplaats het decimaalteken " + deciDivisor + " plaatsen naar rechts.}", "right" );
+				"\\text{Verplaats het decimaalteken " + deciDivisor + " naar rechts.}", "right" );
 			graph.style({
 				fill: "#000"
 			}, function() {
