@@ -12,7 +12,7 @@
 			<div class="vars">
 				<var id="YEAR_PERCENT_MORE">randRange( 10, 150 )</var>
 				<var id="YEAR_THIS">randRange( 50, 999 )</var>
-				<var id="YEAR_LAST">round(YEAR_THIS * 10000 / (100 + YEAR_PERCENT_MORE)) / 100</var>
+				<var id="YEAR_LAST">(YEAR_THIS * 10000 / (100 + YEAR_PERCENT_MORE)) / 100</var>
 			</div>
 			<p class="question">
 				<var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than <var>he(1)</var> did this time last year. If <var>person(1)</var> has $<var>YEAR_THIS</var> today, how much money did <var>he(1)</var> make over this past year? (Round to the nearest cent, or hundredth of a dollar.)</p>
@@ -22,11 +22,11 @@
 				<p><code>x + <var>YEAR_PERCENT_MORE / 100</var>x = $<var>YEAR_THIS</var></code></p>
 				<p><code><var>(100 + YEAR_PERCENT_MORE) / 100</var>x = $<var>YEAR_THIS</var></code></p>
 				<p><code>x = \frac{$<var>YEAR_THIS</var>}{<var>(100 + YEAR_PERCENT_MORE) / 100</var>}</code></p>
-				<p><code>x = $<var>YEAR_LAST</var></code> (rounding to the nearest penny in this step)</p>
-				<p>So, <var>he(1)</var> had $<var>YEAR_LAST</var> last year, but we want to know how much <var>he(1)</var> has made <b>over the past year!</b></p>
+				<p><code>x = $<var>floor(YEAR_LAST * 100) / 100</var>..</code> (don't round here) </p>
+				<p>So, <var>he(1)</var> had $<var>floor(YEAR_LAST * 100) / 100</var>.. last year, but we want to know how much <var>he(1)</var> has made <b>over the past year!</b></p>
 				<p><code>\text{money made over the past year} = \text{amount of money today} - \text{amount of money last year}</code></p>
-				<p><code>\qquad =$<var>YEAR_THIS</var>-$<var>YEAR_LAST</var></code></p>
-				<p><code>\qquad \approx $<var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></code>
+				<p><code>\qquad =$<var>YEAR_THIS</var>-$\frac{$<var>YEAR_THIS</var>}{<var>(100 + YEAR_PERCENT_MORE) / 100</var>}</code></p>
+				<p><code>\qquad \approx $<var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></code> (rounding to the nearest penny in this step)</p>
 				<p>So, the answer is $<var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var>.</p>
 			</div>
 		</div>
