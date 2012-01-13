@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<html data-require="math graphie graphie-helpers-arithmetic word-problems graphie-geometry angles">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Recognizing percents</title>
@@ -31,7 +31,7 @@
 					});
 					var f = squareFractions( BIG_PERCENT, 100, 10, 1.37, 0.25 );
 				</p>
-				<div class="solution"><var>BIG_PERCENT</var></div>
+				<div class="solution" data-forms="percent"><var>BIG_PERCENT</var></div>
 				<div class="hints">
 					<p>The entire grid is 100%.</p>
 					<p>There are 10 lines total, so each line is 10%.</p>
@@ -49,7 +49,7 @@
 					});
 					var f = squareFractions( PERCENT, 100, 10 );
 				</p>
-				<div class="solution"><var>PERCENT</var></div>
+				<div class="solution" data-forms="percent"><var>PERCENT</var></div>
 				<div class="hints">
 					<p>The entire grid is 100%.</p>
 					<p>There are 10 columns and 10 rows, so there are 100 squares total.</p>
