@@ -235,7 +235,7 @@
 
 					<div>
 						<p>Each long tick mark is an increment of 5 minutes, because 60 minutes / 12 tick marks = 5 minutes per tick mark.</p>
-						<p>Since we are <code><var>MINUTE</var></code> minutes past the hour, and there are 5 minutes per tick mark, the minute hand should be at the mark numbered <code class="hint_orange"><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code>.
+						<p>Since we are <code><var>MINUTE</var></code> minutes past the hour, <span data-if="MINUTE_IS_ZERO">the minute hand should be at the mark numbered <code class="hint_orange">12</code>, which is the first tick mark on the clock and represents <code>0</code> minutes past the hour</span><span data-else>and there are 5 minutes per tick mark, the minute hand should be at the mark numbered <code class="hint_orange"><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code></span>.</p>
 					</div>
 
 					<p>Next, let's set the <span class="hint_blue" style="font-weight: bold">hour</span> hand.</p>
