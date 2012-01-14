@@ -2,7 +2,7 @@
 <html data-require="math math-format graphie time interactive angles word-problems">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Setting time</title>
+	<title>Telling time 2</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -12,9 +12,9 @@
 
 				<div class="vars">
 					<div data-ensure="!( HOUR === 1 && MINUTE === 0 )">
-					  <var id="HOUR">randRange( 1, 12 )</var>
-					  <var id="MINUTE_INCREMENT">15</var>
-					  <var id="MINUTE">randRange( 0, (60 / MINUTE_INCREMENT) - 1 ) * MINUTE_INCREMENT</var>
+						<var id="HOUR">randRange( 1, 12 )</var>
+						<var id="MINUTE_INCREMENT">15</var>
+						<var id="MINUTE">randRange( 0, (60 / MINUTE_INCREMENT) - 1 ) * MINUTE_INCREMENT</var>
 					</div>
 					<var id="MINUTE_IS_ZERO">MINUTE === 0</var>
 					<var id="NICE_MINUTE"> MINUTE &gt; 5 ? MINUTE : "0" + MINUTE</var>
