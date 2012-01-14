@@ -10,7 +10,7 @@
 	<div class="exercise">
 		<div class="problems">
 			<div id="same-whole">
-				<div class="vars" data-ensure="M_DENOM !== I_DENOM">
+				<div class="vars" data-ensure="M_DENOM !== I_DENOM && WHOLE + M_NUM / M_DENOM !== I_NUM / I_DENOM">
 					<var id="WHOLE">randRange( 1, 5 )</var>
 					<var id="WHOLE_2">WHOLE</var>
 
@@ -26,7 +26,7 @@
 					<var id="M_REDUCED_DENOM">M_DENOM_2 / getGCD( M_NUM_2, M_DENOM_2 )</var>
 
 					<var id="I_NUM">WHOLE_2 * M_REDUCED_DENOM + M_REDUCED_NUM</var>
-					<var id="I_DENOM">M_REDUCED_DENOM</var>
+					<var id="I_DENOM">M_REDUCED_DENOM</var-->
 
 					<var id="LCM">getLCM( M_DENOM_REDUCED, I_DENOM )</var>
 					<var id="F1">LCM / M_DENOM_REDUCED</var>
