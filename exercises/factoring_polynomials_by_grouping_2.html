@@ -18,11 +18,12 @@
 	    <var id="A">randFromArrayExclude(getFactors(a*b_abs), [1])</var>
 	    <var id="B">a+b</var>
 	    <var id="C">a*b/A</var>
-	    <var id="gcd1">getGCD(A, a)</var>
-	    <var id="gcd2">b_sign*getGCD(b_abs, C)</var>
-	    <var id="PROBLEM">MATH.parse(A+"x^2+"+B+"x+"+C)</var>
-	    <var id="SOLUTION">MATH.parse("("+gcd1+"x+"+gcd2+")("+A/gcd1+"x+"+a/gcd1+")")</var>
-	    <var id="HINT1">MATH.parse(gcd1+"x("+A/gcd1+"x+"+a/gcd1+")+"+gcd2+"("+b/gcd2+"x+"+C/gcd2+")")</var>
+	    <var id="F1">getGCD(A, a)</var>
+	    <var id="F2">b_sign*getGCD(b_abs, C)</var>
+	    <var id="PROBLEM">MATH.polynomial([A, B, C], "x")</var>
+	    <!-- use parse so that the ast matches the parsed user input -->
+	    <var id="SOLUTION">MATH.parse("("+F1+"x+"+F2+")("+A/F1+"x+"+a/F1+")")</var>
+	    <var id="HINT1">MATH.parse(F1+"x("+A/F1+"x+"+a/F1+")+"+F2+"("+b/F2+"x+"+C/F2+")")</var>
 	  </div>
 	  <div>
 	    <p class="question">

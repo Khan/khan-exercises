@@ -13,11 +13,11 @@
 	    <var id="MATH">MathModel.init()</var>
 	    <var id="a_val">randRangeNonZero(-4, 4)</var>
 	    <var id="b_val">randRange(6, 19)</var>
-	    <var id="c_val">randRange(20, 29)</var>
 	    <var id="B">a_val+b_val</var>
 	    <var id="C">a_val*b_val</var>
-	    <var id="PROBLEM">MATH.parse("x^2+"+B+"x+"+C)</var>
-	    <var id="SOLUTION">MATH.parse("(x+"+a_val+")(x+"+b_val+")")</var>
+	    <var id="PROBLEM">MATH.polynomial([1, B, C], "x")</var>
+	    <!-- use parse so that the ast matches the parsed user input -->
+	    <var id="SOLUTION">MATH.parse("(x+"+a_val+")(x+"+b_val+")")</var>  
 	  </div>
 	  <div>
 	    <p class="question">

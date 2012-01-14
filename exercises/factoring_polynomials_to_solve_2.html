@@ -20,7 +20,7 @@
 	    <var id="C">a*b/A</var>
 	    <var id="F1">getGCD(A, a)</var>
 	    <var id="F2">b_sign*getGCD(b_abs, C)</var>
-	    <var id="PROBLEM">MATH.parse(A+"x^2+"+B+"x+"+C+"=0")</var>
+	    <var id="PROBLEM">MATH.polynomial([A, B, C], "x")</var>
 	    <var id="SOLUTION">MATH.parse("("+F1+"x+"+F2+")("+A/F1+"x+"+a/F1+")=0")</var>
 	    <var id="HINT1">MATH.parse(F1+"x("+A/F1+"x+"+a/F1+")+"+F2+"("+b/F2+"x+"+C/F2+")=0")</var>
 	    <var id="X">MATH.parse("x=1/2")</var>
