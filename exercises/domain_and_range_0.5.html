@@ -12,13 +12,13 @@
 			<var id="DOMAIN">[ randRange( -9, -1 ), randRange( 1, 9 ) ]</var>
 			<var id="FUNCTION_PATH">
 				(function() {
-					var functionPath = new Array();
+					var functionPath = [];
 					var prev;
 
 					var push = function( val ) {
 						prev = val;
 						functionPath.push( prev );
-					}
+					};
 
 					push([ DOMAIN[0], randRange( -5, 5 ) ]);
 

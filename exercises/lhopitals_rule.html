@@ -11,8 +11,8 @@
 			<div id="polynomial">
 				<div class="vars">
 					<var id="APPROACHES">randFromArray([ 0, Infinity ])</var>
-					<var id="APPROACHES_TEXT">{ 0: "0", Infinity: "\\infty" }[ APPROACHES ]</var>
-					<var id="INDETERMINATE_FORM">"\\frac" + { 0: "{0}{0}", Infinity: "{\\infty}{\\infty}" }[ APPROACHES ]</var>
+					<var id="APPROACHES_TEXT">{ 0: "0", "Infinity": "\\infty" }[ APPROACHES ]</var>
+					<var id="INDETERMINATE_FORM">"\\frac" + { 0: "{0}{0}", "Infinity": "{\\infty}{\\infty}" }[ APPROACHES ]</var>
 
 					<!-- Generate polynomials suitable for an L'Hopital's rule
 					problem (has no plain numbers, requires taking no more
@@ -81,7 +81,7 @@
 
 					<!-- Show them the steps of L'Hopital's rule by deriving until the indeterminate form can be resolved -->
 					<div data-each="STEPS as N, STEP" data-unwrap>
-						<div data-if="N != STEPS.length-1">
+						<div data-if="N !== STEPS.length-1">
 							<p data-if="N === 0">
 								Repeat this process until evaluating the limit will not result in an indeterminate form:
 							</p>

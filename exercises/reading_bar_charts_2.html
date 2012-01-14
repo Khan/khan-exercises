@@ -25,7 +25,7 @@
 				<var id="FINAL">jQuery.map( new Array( 5 ), function() { return randRange( 12, 20 ) * 5; } )</var>
 				<var id="IMPROVEMENT">jQuery.map( new Array( 5 ), function( e, n ) { return FINAL[ n ] - MIDTERM[ n ]; } )</var>
 				<var id="NUM_IMPROVED">jQuery.map( IMPROVEMENT, function( x ) { return x &gt; 0 ? 1 : null; }).length</var>
-				<var id="IMPROVE_TIE">IMPROVEMENT.slice().sort(function(a,b){return a - b})[4] === IMPROVEMENT.slice().sort(function(a,b){return a - b})[3]</var>
+				<var id="IMPROVE_TIE">IMPROVEMENT.slice().sort(function(a,b){return a - b;})[4] === IMPROVEMENT.slice().sort(function(a,b){return a - b;})[3]</var>
 				<var id="UNBIASED">false</var>
 			</div>
 		</div>

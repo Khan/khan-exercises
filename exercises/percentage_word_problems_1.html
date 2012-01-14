@@ -81,8 +81,8 @@
 				<var id="TIP_PERCENT">randRange( 1, 4 ) * 5</var>
 				<var id="TIP_AMOUNT">BILL * ( TIP_PERCENT / 100 )</var>
 				<var id="TIP_AMOUNT_FORMAT">parseFloat( TIP_AMOUNT ).toFixed( 2 )</var>
-				<var id="TIP_TEN_PERCENT">parseFloat( BILL * .1 ).toFixed( 2 )</var>
-				<var id="TIP_FIVE_PERCENT">parseFloat( BILL * .05 ).toFixed( 2 )</var>
+				<var id="TIP_TEN_PERCENT">parseFloat( BILL * 0.1 ).toFixed( 2 )</var>
+				<var id="TIP_FIVE_PERCENT">parseFloat( BILL * 0.05 ).toFixed( 2 )</var>
 				<var id="TOTAL">BILL + TIP_AMOUNT</var>
 				<var id="TOTAL_FORMAT">parseFloat( TOTAL ).toFixed( 2 )</var>
 			</div>
@@ -93,7 +93,7 @@
 			<div class="hints">
 				<div>
 					<p>The tip amount is equal to <code><var>TIP_PERCENT</var>\% \times \$<var>BILL_FORMAT</var></code>.</p>
-					<p data-if="TIP_PERCENT != 10">We can find the tip by first calculating a <code>10\%</code> tip <span data-if="TIP_PERCENT === 5"> and then dividing that number by two.</span><span data-else-if="TIP_PERCENT === 20"> and then multiplying that number by two.</span><span data-else> and a <code>5\%</code> tip, and then adding those two numbers together.</span></p>
+					<p data-if="TIP_PERCENT !== 10">We can find the tip by first calculating a <code>10\%</code> tip <span data-if="TIP_PERCENT === 5"> and then dividing that number by two.</span><span data-else-if="TIP_PERCENT === 20"> and then multiplying that number by two.</span><span data-else> and a <code>5\%</code> tip, and then adding those two numbers together.</span></p>
 				</div>
 				<div>
 					<p>To calculate a <code>10\%</code> tip, move the decimal point in <code>\$<var>BILL_FORMAT</var></code> one place to the left.</p>

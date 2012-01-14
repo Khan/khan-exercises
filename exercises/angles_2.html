@@ -278,19 +278,19 @@
 							label([0,2], "\\color{orange}{" + X + "&deg;}", "below left");
 						</span>
 					</p>
-					<p data-if="RAND_COMBO == 20">
+					<p data-if="RAND_COMBO === 20">
 						<code>\color{blue}{\angle{GHD}} = \color{orange}{\angle{AGH}}</code>.
 						We know those 2 angles are equal because they are alternate interior angles
 						of 2 parallel lines.
 					</p>
-					<p data-else-if="RAND_COMBO == 21 || RAND_COMBO == 1">
+					<p data-else-if="RAND_COMBO === 21 || RAND_COMBO === 1">
 						<code>\color{blue}{\angle{CHF}} = \color{orange}{\angle{AGH}}</code>.
 						We know those 2 angles are equal because they are corresponding angles
 						formed by parallel lines, and a single bisecting lines.
 					</p>
 					<p>
 						Therefore,
-						<span data-if="RAND_SWITCH2 == 0">
+						<span data-if="RAND_SWITCH2 === 0">
 							<code>\angle{GHD} = <var>X</var>&deg;</code>
 							<span class="graphie" data-update="opposite-parallel">
 								LABEL.remove();
@@ -543,7 +543,7 @@
 				<div class="solution"><var>Tri2_X</var></div>
 
 				<div class="hints">
-					<p data-if="RAND_SWITCH2==0">
+					<p data-if="RAND_SWITCH2 === 0">
 						<code>\color{purple}{\angle{DIJ}} = 180&deg; - \color{orange}{\angle{AIC}}</code>.
 						This is because angles along a line total 180&deg;.
 						<span class="graphie" data-update="star2">
@@ -564,7 +564,7 @@
 						</span>
 					</p>
 
-					<p data-if="RAND_SWITCH2==0">
+					<p data-if="RAND_SWITCH2 === 0">
 						<code>\color{teal}{\angle{DJI}} = 180&deg; - \color{green}{\angle{BDC}} -
 							\color{purple}{\angle{DIJ}}</code>.
 						We know this because the sum of angles inside a triangle add up to 180&deg;.
@@ -588,7 +588,7 @@
 					</p>
 
 
-					<p data-if="RAND_SWITCH2==0">
+					<p data-if="RAND_SWITCH2 === 0">
 						<code>\color{blue}{\angle{AJF}} = \color{teal}{\angle{DJI}}</code>.
 						We know they are equal because they are opposite angles.
 					</p>
@@ -599,7 +599,7 @@
 
 					<p>
 						Therefore,
-						<span data-if="RAND_SWITCH2 == 0">
+						<span data-if="RAND_SWITCH2 === 0">
 							<code>\angle{AJF} = <var>Tri2_X</var>&deg;</code>
 							<span class="graphie" data-update="star2">
 								LABEL.remove();

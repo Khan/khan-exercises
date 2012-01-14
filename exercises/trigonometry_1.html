@@ -71,10 +71,10 @@
 			<var id="OPPOSITE_NAME">(ANGLE.substring(0,1) + ANGLE.substring(2))</var>
 			<var id="OPPOSITE_VALUE">
 			(function(){
-				if ( OPPOSITE_NAME == "AC" ){
+				if ( OPPOSITE_NAME === "AC" ){
 					return AC;
 				}
-				else if ( OPPOSITE_NAME == "BC" ){
+				else if ( OPPOSITE_NAME === "BC" ){
 					return CB;
 				}
 				return AB_STRING;
@@ -87,10 +87,10 @@
 			<var id="ADJACENT_NAME">ANGLE.substring(1)</var>
 			<var id="ADJACENT_VALUE">
 			(function(){
-				if ( ADJACENT_NAME=="AC" ){
+				if ( ADJACENT_NAME === "AC" ){
 					return AC;
 				}
-				else if ( ADJACENT_NAME=="BC" ){
+				else if ( ADJACENT_NAME === "BC" ){
 					return BC;
 				}
 

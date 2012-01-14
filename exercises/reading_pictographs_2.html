@@ -173,9 +173,9 @@
 
 		<div id="total">
 			<div class="vars">
-				<var id="FULL_SYM">eval( DATA.join( "+" ) )</var>
-				<var id="HALF_SYM">eval( HALF.join( "+" ) )</var>
-				<var id="TOTAL">eval( DATA.join( "+" ) ) * VALUE_PER_IMG + eval( HALF.join( "+" ) ) * ( VALUE_PER_IMG / 2 )</var>
+				<var id="FULL_SYM">sum( DATA )</var>
+				<var id="HALF_SYM">sum( HALF )</var>
+				<var id="TOTAL">sum( DATA ) * VALUE_PER_IMG + sum( HALF ) * ( VALUE_PER_IMG / 2 )</var>
 			</div>
 			<p class="question">How many <var>BADGE</var> badges were earned by everyone all together?</p>
 			<div class="solution" data-forms="integer"><var>TOTAL</var></div>

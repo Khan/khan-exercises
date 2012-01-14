@@ -14,11 +14,11 @@
 				var used = {};
 
 				while ( array.length &lt; 5 ) {
-					var type = types[ array.length ];
+					var type = types[ array.length ], n, ns;
 					switch ( type ) {
 						case 1: // decimal
-							var n = randRange( 100, 999 ) / 1000;
-							var ns = n.toFixed( 3 );
+							n = randRange( 100, 999 ) / 1000;
+							ns = n.toFixed( 3 );
 
 							if ( !used[ ns ] ) {
 								array.push([ type, n, ns, "= " + ns ]);
@@ -28,8 +28,8 @@
 							break;
 
 						case 2: // percentage
-							var n = randRange( 100, 999 ) / 1000;
-							var ns = n.toFixed( 3 );
+							n = randRange( 100, 999 ) / 1000;
+							ns = n.toFixed( 3 );
 
 							if ( !used[ ns ] ) {
 								array.push([ type, n, (100 * n).toFixed( 1 ) + "\\%", "= " + ns ]);
@@ -40,8 +40,8 @@
 
 						case 3: // fraction
 							var d = 4 * randRange( 5, 15 );
-							var n = randRange( 1, d - 1 );
-							var ns = ( n / d ).toFixed( 3 );
+							n = randRange( 1, d - 1 );
+							ns = ( n / d ).toFixed( 3 );
 
 							if ( !used[ ns ] ) {
 								var gcd = KhanUtil.getGCD( n, d );

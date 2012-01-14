@@ -144,7 +144,9 @@
 							ns = [ E, F-D, A, B, C ];
 
 						for( var i = 0; i &lt; ns.length; i++ ) {
-							(ns[ i ] &lt; 0 ) &amp;&amp; n++;
+							if (ns[ i ] &lt; 0 ) {
+								n++;
+							}
 						}
 
 						return n &gt;= 3;

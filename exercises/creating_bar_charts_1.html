@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive word-problems">
+<html data-require="math math-format expressions graphie interactive word-problems stat">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Creating bar charts 1</title>
@@ -25,7 +25,7 @@
 				<var id="SUBJECT">randFromArray([ "animal", "color", "fruit", "course" ])</var>
 				<var id="CATEGORIES">jQuery.map( _.range(5), function( n ) { return ( KhanUtil[ SUBJECT ] )( n + 1 ); } )</var>
 				<var id="DATA">jQuery.map( _.range(5), function() { return randRange( 0, 10 ); } )</var>
-				<var id="TOTAL">eval( DATA.join( "+" ) )</var>
+				<var id="TOTAL">sum( DATA )</var>
 				<var id="RESPONDENT">randFromArray([ "student", "teacher", "person" ])</var>
 			</div>
 

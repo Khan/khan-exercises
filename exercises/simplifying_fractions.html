@@ -20,7 +20,7 @@
 					var hint = "\\dfrac{" + NUM + "}{" + DENOM + "}";
 					jQuery.each( GCD_FACTORS, function( index, value) {
 						factorValue *= value;
-						var dot = index == 0 ? "" : "\\cdot ";
+						var dot = index === 0 ? "" : "\\cdot ";
 						factorDisplay += dot + value;
 						hint += "= \\dfrac{" + factorDisplay + "\\cdot" + NUM / factorValue + "}{" + factorDisplay + "\\cdot" + DENOM / factorValue + "}";
 					});

@@ -24,7 +24,7 @@
 			<var id="FN">randFromArray( [ "cos", "sin" ] )</var>
 			<var id="FNS">{ "cos": "cosine", "sin": "sine"}[FN]</var>
 			<var id="VSCALE">randRange( 1, 5 ) / 2</var>
-			<var id="HSCALE">random() &lt; .5 ? randRange( 1, 4 ) : 1 / randRange( 1, 4 )</var>
+			<var id="HSCALE">random() &lt; 0.5 ? randRange( 1, 4 ) : 1 / randRange( 1, 4 )</var>
 			<var id="PERIOD">2 * PI * HSCALE</var>
 
 			<var id="VRANGE">3.5</var>
@@ -37,7 +37,7 @@
 
 			<!-- this is the distance between grid lines -->
 			<var id="HSTEP">HSCALE * PI / 4</var>
-			<var id="VSTEP">.5</var>
+			<var id="VSTEP">0.5</var>
 
 			<!-- this is how many grid lines are between each tick mark -->
 			<var id="HTICKSTEP">2</var>

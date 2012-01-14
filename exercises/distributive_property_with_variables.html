@@ -97,13 +97,13 @@
 
 				<p class="solution"><code><var>plus( B+X, A+(B*C)+D )</var></code></p>
 				<ul class="choices" data-show="4" data-none="true">
-					<li data-if="C != (A+D)"><code><var>X</var> - <var>A+(-1*C)+D</var></code></li>
-					<li data-if="(A+C+D) != 0"><code><var>plus( B+X )</var> + <var>A+C+D</var></code></li>
-					<li data-if="C != (A+D)"><code><var>X</var> + <var>A+(-1*C)+D</var></code></li>
-					<li data-if="(A+C+D) != 0"><code><var>X</var> - <var>A+C+D</var></code></li>
-					<li data-if="(A+C+D) != 0"><code><var>X</var> + <var>A+C+D</var></code></li>
-					<li data-if="(C+D) != 0"><code><var>plus( A, B+X, C+D )</var></code></li>
-					<li data-if="C != D"><code><var>plus( A, B+X, (-1*C)+D )</var></code></li>
+					<li data-if="C !== (A+D)"><code><var>X</var> - <var>A+(-1*C)+D</var></code></li>
+					<li data-if="(A+C+D) !== 0"><code><var>plus( B+X )</var> + <var>A+C+D</var></code></li>
+					<li data-if="C !== (A+D)"><code><var>X</var> + <var>A+(-1*C)+D</var></code></li>
+					<li data-if="(A+C+D) !== 0"><code><var>X</var> - <var>A+C+D</var></code></li>
+					<li data-if="(A+C+D) !== 0"><code><var>X</var> + <var>A+C+D</var></code></li>
+					<li data-if="(C+D) !== 0"><code><var>plus( A, B+X, C+D )</var></code></li>
+					<li data-if="C !== D"><code><var>plus( A, B+X, (-1*C)+D )</var></code></li>
 				</ul>
 
 				<div class="hints">
@@ -171,7 +171,7 @@
 						<p><code><var>plus( A+X, A*B )</var> + <var>plus( color( C, true )+color( PLUSPARENS( D, X ), false ) )</var></code></p>
 					</div>
 					<div data-if="C === -1">
-						<p data-if="A != -1">A negative sign before an expression is the same as -1 times that expression.</p>
+						<p data-if="A !== -1">A negative sign before an expression is the same as -1 times that expression.</p>
 						<p><code><var>plus( A+X, A*B )</var> + \color{ blue }{ -1 }*<var>plus( color( PLUSPARENS( D, X ), false ) )</var></code></p>
 					</div>
 					<p><code><var>plus( A+X, A*B )</var> + <var>color( plus( C*D, C+X ) )</var></code></p>

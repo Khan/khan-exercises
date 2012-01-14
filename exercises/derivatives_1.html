@@ -71,52 +71,52 @@
 		</div>
 		<p><code>\qquad = \displaystyle \lim_{<var>H</var> \to 0} \frac{(<var>expr(
 			["+", ["*", A, ["^", ["+", "x", H], 2]],
-			      ["*", B, ["+", "x", H]],
-			      C]
+				["*", B, ["+", "x", H]],
+				C]
 		)</var>) - (<var>expr(
 			["+", ["*", A, ["^", "x", 2]],
-			      ["*", B, "x"],
-			      C]
+				["*", B, "x"],
+				C]
 		)</var>)}{<var>H</var>}</code></p>
 		<p><code>\qquad = \displaystyle \lim_{<var>H</var> \to 0} \frac{(<var>expr(
 			["+", ["*", A, ["+", ["^", "x", 2],
-			                     "2x " + H,
-			                     ["^", H, 2]]],
-			      ["*", B, ["+", "x", H]],
-			      C]
+								"2x " + H,
+								["^", H, 2]]],
+				["*", B, ["+", "x", H]],
+				C]
 		)</var>) - (<var>expr(
 			["+", ["*", A, ["^", "x", 2]],
-			      ["*", B, "x"],
-			      C]
+				["*", B, "x"],
+				C]
 		)</var>)}{<var>H</var>}</code></p>
 		<p><code>\qquad = \displaystyle \lim_{<var>H</var> \to 0} \frac{<var>expr(
 			["+", ["*", A, ["^", "x", 2]],
-			      ["*", 2 * A, "x " + H],
-			      ["*", A, ["^", H, 2]],
-			      ["*", B, "x"],
-			      ["*", B, H],
-			      C,
-			      ["*", -A, ["^", "x", 2]],
-			      ["*", -B, "x"],
-			      -C]
+				["*", 2 * A, "x " + H],
+				["*", A, ["^", H, 2]],
+				["*", B, "x"],
+				["*", B, H],
+				C,
+				["*", -A, ["^", "x", 2]],
+				["*", -B, "x"],
+				-C]
 		)</var>}{<var>H</var>}</code></p>
 		<p><code>\qquad = \displaystyle \lim_{<var>H</var> \to 0} \frac{<var>expr(
 			["+", ["*", 2 * A, "x " + H],
-			      ["*", A, ["^", H, 2]],
-			      ["*", B, H]]
+				["*", A, ["^", H, 2]],
+				["*", B, H]]
 		)</var>}{<var>H</var>}</code></p>
 		<p><code>\qquad = \displaystyle \lim_{<var>H</var> \to 0} <var>expr(
 			["+", ["*", 2 * A, "x"],
-			      ["*", A, H],
-			      B]
+				["*", A, H],
+				B]
 		)</var></code></p>
 		<p><code>\qquad = \displaystyle <var>expr(
 			["+", ["*", 2 * A, "x"],
-			      B]
+				B]
 		)</var></code></p>
 		<p><code>\qquad = \displaystyle <var>expr(
 			["+", ["*", 2 * A, X],
-			      B]
+				B]
 		)</var></code></p>
 		<p><code>\qquad = <var>2 * A * X + B</var></code></p>
 	</div>

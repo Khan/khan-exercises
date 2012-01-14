@@ -29,7 +29,7 @@
 				<var id="FINAL">jQuery.map( new Array( NUM_STUDENTS ), function() { return randRange( 12, 20 ) * 5; } )</var>
 				<var id="IMPROVEMENT">jQuery.map( new Array( NUM_STUDENTS ), function( e, n ) { return FINAL[ n ] - MIDTERM[ n ]; } )</var>
 				<var id="NUM_IMPROVED">jQuery.map( IMPROVEMENT, function( x ) { return x &gt; 0 ? 1 : null; }).length</var>
-				<var id="IMPROVE_TIE">IMPROVEMENT.slice().sort(function(a,b){return a - b})[4] === IMPROVEMENT.slice().sort(function(a,b){return a - b})[3]</var>
+				<var id="IMPROVE_TIE">IMPROVEMENT.slice().sort(function(a,b){return a - b;})[4] === IMPROVEMENT.slice().sort(function(a,b){return a - b;})[3]</var>
 				<var id="UNBIASED">false</var>
 			</div>
 		</div>
@@ -110,7 +110,7 @@
 					<p>
 						<code>
 							\dfrac{<var>plus.apply( null, COLUMN === 0 ? MIDTERM : FINAL )</var>}{<var>NUM_STUDENTS</var>} =
-							\dfrac{<var>COLUMN === 0 ? eval( MIDTERM.join( "+" ) ) : eval( FINAL.join( "+" ) )</var>}{<var>NUM_STUDENTS</var>} =
+							\dfrac{<var>sum( COLUMN === 0 ? MIDTERM :  FINAL )</var>}{<var>NUM_STUDENTS</var>} =
 							<var>AVERAGE</var>
 						</code>
 					</p>
@@ -147,7 +147,7 @@
 					<div class="hint_blue">
 						<p><code>
 							\dfrac{<var>plus.apply( null, MIDTERM )</var>}{<var>NUM_STUDENTS</var>} =
-							\dfrac{<var>eval( MIDTERM.join( "+" ) )</var>}{<var>NUM_STUDENTS</var>} =
+							\dfrac{<var>sum( MIDTERM )</var>}{<var>NUM_STUDENTS</var>} =
 							<var>MIDTERM_AVG</var>
 						</code></p>
 						<p>The average student's score on the midterm was <code><var>MIDTERM_AVG</var></code>.</p>
@@ -164,7 +164,7 @@
 					<div class="hint_orange">
 						<p><code>
 							\dfrac{<var>plus.apply( null, FINAL )</var>}{<var>NUM_STUDENTS</var>} =
-							\dfrac{<var>eval( FINAL.join( "+" ) )</var>}{<var>NUM_STUDENTS</var>} =
+							\dfrac{<var>sum( FINAL )</var>}{<var>NUM_STUDENTS</var>} =
 							<var>FINAL_AVG</var>
 						</code></p>
 						<p>The average student's score on the final exam was <code><var>FINAL_AVG</var></code>.</p>

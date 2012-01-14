@@ -15,7 +15,7 @@
 				<div class="vars">
 					<var id="ANGLES">randomQuadAngles.trapezoid()</var>
 					<var id="ANSWER_POS">randRange( 0, 3 )</var>
-					<var id="SHOWN_POS">ANSWER_POS % 2 == 0 ? ( ANSWER_POS + 3 ) % 4 : ( ANSWER_POS + 1 ) % 4</var>
+					<var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 3 ) % 4 : ( ANSWER_POS + 1 ) % 4</var>
 					<var id="ANG_LABELS">
 						function(){
 							var a = [ "", "","" ,"" ];
@@ -59,7 +59,7 @@
 			<div id="isoscelesTrap2" data-type="trapezoid">
 				<div class="vars">
 					<var id="ANGLES">randomQuadAngles.isoscelesTrapezoid()</var>
-					<var id="SHOWN_POS">ANSWER_POS % 2 == 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
+					<var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
 				</div>
 
 				<div class="hints">
@@ -82,7 +82,7 @@
 			<div id="parallelogram2" data-type="trapezoid">
 				<div class="vars">
 					<var id="ANGLES">randomQuadAngles.parallelogram()</var>
-					<var id="SHOWN_POS">ANSWER_POS % 2 == 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
+					<var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
 				</div>
 				<div class="hints">
 					<p>This quadrilateral is a parallelogram.</p>
@@ -119,7 +119,7 @@
 			<div id="rhombus2" data-type="rhombus1">
 				<div class="vars">
 					<var id="ANGLES">randomQuadAngles.rhombus()</var>
-					<var id="SHOWN_POS">ANSWER_POS % 2 == 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
+					<var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
 				</div>
 				<div class="hints">
 					<p>This quadrilateral is a rhombus, because it has all sides equal.</p>

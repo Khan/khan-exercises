@@ -50,7 +50,7 @@
 			<var id="DECIMAL_CHANCE_UNFAIR_HEADS">PERCENT_CHANCE_UNFAIR_HEADS / 100</var>
 			<var id="UNFAIR_HEADS_DECIMAL_FORMULA">
 				(function() {
-					var uhdf = DECIMAL_CHANCE_UNFAIR_HEADS.toString()
+					var uhdf = DECIMAL_CHANCE_UNFAIR_HEADS.toString();
 					for (var i = 0; i &lt; NUM_FLIPS - 1; i++) {
 						uhdf += " \\times " + DECIMAL_CHANCE_UNFAIR_HEADS;
 					}
@@ -82,7 +82,7 @@
 			<var id="CHANCE_FAIR_PICKED">1 - CHANCE_UNFAIR_PICKED</var>
 
 			<var id="ANSWER">round(10000 * (CHANCE_UNFAIR_PICKED * pow((PERCENT_CHANCE_UNFAIR_HEADS / 100), NUM_FLIPS) +
-				CHANCE_FAIR_PICKED * pow(.5,NUM_FLIPS))) / 100</var>
+				CHANCE_FAIR_PICKED * pow(0.5,NUM_FLIPS))) / 100</var>
 
 		</div>
 

@@ -22,8 +22,8 @@
 
 		<var id="WHICH_NEG">rand(2)</var>
 
-		<var id="X_MINUS"> WHICH_NEG === 1 ? "+" : "+"</var>
-		<var id="Y_MINUS"> WHICH_NEG === 1 ? "" : "-"</var>
+		<var id="X_MINUS">WHICH_NEG === 1 ? "+" : "+"</var>
+		<var id="Y_MINUS">WHICH_NEG === 1 ? "" : "-"</var>
 
 		<var id="X">H === 0 ? "x^2" :  expr(["^", ["+", "x", -H], 2])</var>
 		<var id="Y">K === 0 ? "y^2" :  expr(["^", ["+", "y", -K], 2])</var>
@@ -34,7 +34,7 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>The equation of hyperbola <code>H</code> is <code><var>WHICH_NEG == 1 ? expr(["-", Y2T, X2T]) : expr(["-", X2T, Y2T])</var> = 1</code>.</p>
+				<p>The equation of hyperbola <code>H</code> is <code><var>WHICH_NEG === 1 ? expr(["-", Y2T, X2T]) : expr(["-", X2T, Y2T])</var> = 1</code>.</p>
 				<p>What are the asymptotes?</p>
 			</div>
 

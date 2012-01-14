@@ -74,7 +74,7 @@
 						var hint = "";
 						var units = "";
 						var increment = (END_D_INDEX - START_D_INDEX) > 0 ? 1 : -1;
-						for ( var i = START_D_INDEX; i != END_D_INDEX; i += increment ) {
+						for ( var i = START_D_INDEX; i !== END_D_INDEX; i += increment ) {
 							var factor = fractionReduce( D_UNITS[i].multiplier, D_UNITS[i + increment].multiplier );
 							if ( !factor.match( "dfrac" ) ) {
 								factor = "\\dfrac{" + factor + "}{1}";
@@ -94,7 +94,7 @@
 						var hint = "";
 						var units = "";
 						var increment = (END_T_INDEX - START_T_INDEX) > 0 ? 1 : -1;
-						for ( var i = START_T_INDEX; i != END_T_INDEX; i += increment ) {
+						for ( var i = START_T_INDEX; i !== END_T_INDEX; i += increment ) {
 							var factor = fractionReduce( T_UNITS[i + increment].multiplier, T_UNITS[i].multiplier );
 							if ( !factor.match( "dfrac" ) ) {
 								factor = "\\dfrac{" + factor + "}{1}";

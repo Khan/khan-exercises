@@ -29,11 +29,11 @@
 			function(C, D, x, y) { return ["-", ["*", D, ["^", x, 2]], ["^", y, 2]]; },
 			function(C, D, x, y) { return ["-", ["*", D, x], C]; },
 			function(C, D, x, y) { return ["+", ["*", C, y], D]; },
-			function(C, D, x, y) { return ["+", ["*", x, y], ["*", D, x], ["-", y]]; },
+			function(C, D, x, y) { return ["+", ["*", x, y], ["*", D, x], ["-", y]]; }
 		], 2)</var>
 
-		<var id="FUN1_XONLY">!isNaN(expr(FUN1(A, B, 0, Number.NaN), true))</var>
-		<var id="FUN1_YONLY">!isNaN(expr(FUN1(A, B, Number.NaN, 0), true))</var>
+		<var id="FUN1_XONLY">!isNaN(expr(FUN1(A, B, 0, NaN), true))</var>
+		<var id="FUN1_YONLY">!isNaN(expr(FUN1(A, B, NaN, 0), true))</var>
 
 		<var id="X">randRange(-6, 6)</var>
 		<var id="Y">randRange(-6, 6)</var>

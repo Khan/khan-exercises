@@ -1,6 +1,7 @@
 begin
   require 'rubygems'
   require 'nokogiri'
+  require 'execjs'
   require 'uglifier'
   require 'fileutils'
 rescue LoadError
@@ -8,10 +9,6 @@ rescue LoadError
   puts "-" * 78
   puts "Oops! Some gems are missing; please run:"
   puts "  sudo gem install nokogiri uglifier therubyracer"
-  puts
-  puts "If you prefer another JS runtime (https://github.com/sstephenson/execjs),"
-  puts "be aware that this script is much faster (around 50x speedup) using"
-  puts "therubyracer, which is based on Chrome's V8 engine."
   puts "-" * 78
   puts
   exit 1
@@ -24,15 +21,39 @@ rescue LoadError
   puts "-" * 78
   puts "Warning! You don't have therubyracer installed, packing might be slow. Try:"
   puts "  sudo gem install therubyracer"
+  puts
+  puts "If you prefer another JS runtime (https://github.com/sstephenson/execjs),"
+  puts "be aware that this script is much faster (around 50x speedup) using"
+  puts "therubyracer, which is based on Chrome's V8 engine."
   puts "-" * 78
   puts
+end
+
+JSHINT_ENABLED = false
+JSHINT_OPTIONS = {
+  :laxbreak => true,
+  :eqeqeq => true,
+  :loopfunc => true,
+}
+
+def jshint(js)
+  return unless JSHINT_ENABLED
+  if !@jshint.call("JSHINT", js, JSHINT_OPTIONS)
+    @jshint.eval("JSHINT.errors").each do |err|
+      break if err["reason"] == "Expected ')' to match '(' from line 1 and instead saw ','."
+      # puts "-- #{js}"
+      puts "-- #{err["reason"]} (#{err["line"]}:#{err["character"]})"
+      puts "-- > #{(err["evidence"] || "").strip}"
+      puts "--"
+    end
+  end
 end
 
 # All paths are relative to khan-exercises/ root
 Dir.chdir(File.join(File.dirname(__FILE__), ".."))
 
-# Discard all comments
-@uglifier = Uglifier.new(:copyright => false)
+@uglifier = Uglifier.new(:copyright => false)  # Discard all comments
+@jshint = ExecJS.compile(File.read("build/jshint.js"))
 
 FileUtils.mkdir_p("exercises-packed")
 
@@ -53,6 +74,7 @@ Dir["exercises/*.html"].each do |filename|
 
     next if var.content !~ /\S/ # only whitespace
 
+    jshint("return (#{var.content});")
     exp = "(#{var.content})"
     var.content = @uglifier.compile(exp)
   end
@@ -83,6 +105,7 @@ Dir["exercises/*.html"].each do |filename|
 
   %w[data-ensure data-if data-else-if].each do |data_attr|
     doc.css("[#{data_attr}]").each do |el|
+      jshint("return (#{el[data_attr]});")
       js = el[data_attr]
       el[data_attr] = @uglifier.compile(js)
     end

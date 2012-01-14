@@ -13,7 +13,7 @@
 
 			<var id="PRE_SIMPLIFICATION">
 				( ( OUTER.f[0] === '^' &amp;&amp; OUTER.f[1] === 'e' &amp;&amp; INNER.f[0] === 'ln' )
-					|| ( OUTER.f[0] === 'ln' &amp;&amp; INNER.f[0] === '^' &amp;&amp; INNER.f[1] == 'e' ) )
+					|| ( OUTER.f[0] === 'ln' &amp;&amp; INNER.f[0] === '^' &amp;&amp; INNER.f[1] === 'e' ) )
 					? 'x'
 					: null
 			</var>
@@ -32,7 +32,7 @@
 
 			<var id="DERIVATIVE_SIMPLIFICATIONS">
 				( ( OUTER.f[0] === '^' &amp;&amp; OUTER.f[1] === 'e' &amp;&amp; INNER.f[0] === 'ln' )
-					|| ( OUTER.f[0] === 'ln' &amp;&amp; INNER.f[0] === '^' &amp;&amp; INNER.f[1] == 'e' ) )
+					|| ( OUTER.f[0] === 'ln' &amp;&amp; INNER.f[0] === '^' &amp;&amp; INNER.f[1] === 'e' ) )
 					? [['frac', 'x', 'x'], '1']
 					: []
 			</var>
