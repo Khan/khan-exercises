@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html data-require="math word-problems spin">
+	<head>
+    	<title>Comparing Decimals Word Problems</title>
+        <script src="../khan-exercise.js"></script>
+	</head>
+    <body>
+        <div class="exercise">
+        	<div class="problems">
+
+				<div id="price">
+					<div class="vars">
+						<var id="A">randRange( 100, 1000 )</var>
+						<var id="B">A + rand( 30 ) + 1</var>
+						<var id="C">B + rand( 10 ) + 1</var>
+						<var id="STORES">[ school( 1 ) + '\'s', school( 2 ) + ' ' + store( 1 ).charAt( 0 ).toUpperCase() + store( 1 ).substr( 1 ) + ' Store', school( 3 ) + ' Mall' ] </var>
+						<var id="DATA">shuffle( [A / 100, B / 100, C / 100] )</var>
+						<var id="PLACES">["first", "second", "third"]</var>
+		            </div>
+
+                    <p class="problem">
+						<var>person( 1 )</var> wants to buy <var>an( storeItem( 1, 1 ) )</var><span class="spin">{ for <var>his(1)</var> friend <var>person( 2 )</var>|}.</span>
+						There are three <var>store( 1 )</var> stores near <var>him( 1 )</var>. <var>STORES[ 0 ]</var> sells them for <code>$<var>DATA[0].toFixed( 2 )</var></code>, 
+						the <var>STORES[ 1 ]</var> sells them for <code>$<var>DATA[1].toFixed( 2 )</var></code>, and 
+						the <var>STORES[ 2 ]</var> has them <span class="spin">{on sale for|}</span> <code>$<var>DATA[2].toFixed( 2 )</var></code>. 
+					</p>
+	
+					<p class="question">Rank each store based on price.</p>
+					<div class="solution" data-type="multiple">
+						<var>STORES[ 0 ]</var>: <span class="sol" data-type="list" data-choices="['', '1', '2', '3' ]"><var>[ A / 100, B / 100, C / 100 ].indexOf( DATA[ 0 ] ) + 1</var></span><br />
+						<var>STORES[ 1 ]</var>: <span class="sol" data-type="list" data-choices="['', '1', '2', '3' ]"><var>[ A / 100, B / 100, C / 100 ].indexOf( DATA[ 1 ] ) + 1</var></span><br />
+						<var>STORES[ 2 ]</var>: <span class="sol" data-type="list" data-choices="['', '1', '2', '3' ]"><var>[ A / 100, B / 100, C / 100 ].indexOf( DATA[ 2 ] ) + 1</var></span><br />
+						<p class="example">Place a 1 next to the store with the cheapest price</p>
+						<p class="example">Place a 2 next to the store with the second-cheapest price</p>
+						<p class="example">Place a 3 next to the store with the most expensive price</p>
+					</div>
+
+					<div class="hints">
+						<p>First, determine if <span class="hint_red"><var>STORES[ 0 ]</var></span> is cheaper than <span class="hint_green"><var>STORES[ 1 ]</var></span> and <span class="hint_blue"><var>STORES[ 2 ]</var></span> like in <a class="related-video" href="/video/comparing-decimals-4" data-youtube-id="5RzDVNob0-0">this video</a></p>
+						<p><code class="hint_red"><var>DATA[ 0 ]</var></code> is <span data-if="DATA[ 0 ] < DATA[ 1 ]">smaller</span><span data-else>larger</span> than <code class="hint_green"><var>DATA[ 1 ]</var></code> and is <span data-if="DATA[ 0 ] < DATA[ 2 ]">smaller</span><span data-else>larger</span> than <code class="hint_blue"><var>DATA[ 2 ]</var></code>, so <span class="hint_red"><var>STORES[ 0 ]</var></span> is <var>PLACES[ [A / 100, B / 100, C / 100].indexOf( DATA[ 0 ] ) ]</var>.</p>
+						<p>Now compare the prices of <span class="hint_green"><var>STORES[ 1 ]</var></span> and <span class="hint_blue"><var>STORES[ 2 ]</var></span>.</p>
+						<p>Since <code class="hint_green"><var>DATA[ 1 ]</var></code> is <span data-if="DATA[ 1 ] < DATA[ 2 ]">smaller</span><span data-else>larger</span> than <code class="hint_blue"><var>DATA[ 2 ]</var></code>, <span class="hint_green"><var>STORES[ 1 ]</var></span> is <var>PLACES[ [A / 100, B / 100, C / 100].indexOf( DATA[ 1 ] ) ]</var>.</p>
+						<p>This means that <span class="hint_blue"><var>STORES[ 2 ]</var></span> is in <var>PLACES[ [A / 100, B / 100, C / 100].indexOf( DATA[ 2 ] ) ]</var>.</p>
+					</div>
+				</div>
+				
+				<div id="race-total">
+					<div class="vars">
+						<var id="SPORT">randRange( 2 )</var>
+						<var id="A">randRange(2500, 9000)</var>
+						<var id="B">A + randRange(1, 2)</var>
+						<var id="C">B + randRange(1, 5)</var>
+						<var id="D">C + randRange(1, 9)</var>
+						<var id="SORTED">[A, B, C, D]</var>
+						<var id="TIMES">shuffle( SORTED )</var>
+						<var id="UNITS">rand( 2 ) ? "seconds" : "minutes"</var>
+						<var id="PLACE">rand(4)</var>
+						<var id="ORDS">["first", "second", "third", "fourth"]</var>
+
+					</div>
+					<p class="problem">
+						<var>person( 1 )</var>, <var>person( 2 )</var>, <var>person( 3 )</var>, and <var>person( 4 )</var> are competing in an Olympic
+						<span data-if="SPORT === 0">swimming</span><span
+							data-else>running</span> event.
+						<var>person( 1 )</var> finished in <code><var>( TIMES[0] /
+								100.0 ).toFixed( 2 )</var></code> <var>UNITS</var>,
+						<var>person( 2 )</var> finished in <code><var>( TIMES[1] /
+								100.0 ).toFixed( 2 )</var></code>
+						<var>UNITS</var>, <var>person( 3 )</var> finished in
+						<code><var>(TIMES[2] / 100.0).toFixed( 2 )</var></code> <var>UNITS</var>, and
+						<var>person( 4 )</var> finished in
+						<code><var>(TIMES[3] / 100.0).toFixed( 2 )</var></code>
+						<var>UNITS</var>.</p>
+						<p class="question">Put the <span data-if="SPORT ===
+							0">swimmers</span> <span data-else>runners</span> in
+						order from fastest to slowest.</span></p>
+				<div class="solution" data-type="multiple">
+					1. <span class="sol" data-type="list"
+							data-choices="['', person( 1 ), person( 2 ), person(
+							3 ), person( 4 )]"><var>person(
+								TIMES.indexOf( A ) + 1 )</var></span>
+						<br />
+					2. <span class="sol" data-type="list"
+							data-choices="['', person( 1 ), person( 2 ), person(
+							3 ), person( 4 )]"><var>person(
+								TIMES.indexOf( B ) + 1 )</var></span>
+						<br />
+					3. <span class="sol" data-type="list"
+							data-choices="['', person( 1 ), person( 2 ), person(
+							3 ), person( 4 )]"><var>person(
+								TIMES.indexOf( C ) + 1 )</var></span>
+						<br />
+					4. <span class="sol" data-type="list"
+							data-choices="['', person( 1 ), person( 2 ), person(
+							3 ), person( 4 )]"><var>person(
+								TIMES.indexOf( D ) + 1 )</var></span>
+						<br />
+	
+					<p class="example">Next to each number, select the athlete who got that place.</p>
+				</div>
+				<div class="hints">
+					<p>Compare <var>person( TIMES.indexOf( A ) + 1 )</var>'s time to everyone else's like in <a class="related-video" href="/video/comparing-decimals-4" data-youtube-id="5RzDVNob0-0">this video</a></p>
+					<p><var>His( TIMES.indexOf( A ) + 1 )</var> time is less than everyone else's, so <var>he( TIMES.indexOf( A ) + 1)</var> is in first place.</p>
+					<p>Compare <var>person( TIMES.indexOf( B ) + 1 )</var>'s time to  <var>person( TIMES.indexOf( C ) + 1 )</var>'s and <var>person( TIMES.indexOf( D ) + 1 )</var>'s. 
+					Since <var>his ( TIMES.indexOf( B ) + 1 )</var> time is less than their times, <var>he( TIMES.indexOf( B ) + 1</var> is in second place</p>
+					<p>Compare <var>person( TIMES.indexOf( C ) + 1 )</var>'s time to  <var>person( TIMES.indexOf( D ) + 1 )</var>'s.
+					Since <var>his ( TIMES.indexOf( C ) + 1 )</var> time is less than <var>person( TIMES.indexOf( D ) + 1)</var>'s time, <var>person( TIMES.indexOf( C ) + 1</var> is in third place</p>
+					<p><var>person( TIMES.indexOf( D ) + 1 )</var>'s time is larger than everyone else's, so <var>he( TIMES.indexOf( D ) + 1 )</var> is in last place.</p>
+	
+				</div>
+
+
+
+				</div>
+				<div id="race-place" data-type="race-total">
+					<p class="question">Who came in <var>ORDS[ PLACE ]</var> place?</p>
+					<p class="solution"><var>person( TIMES.indexOf( SORTED[ PLACE ] ) + 1)</var></p>
+					<ul class="choices">
+						<li><var>person( TIMES.indexOf( SORTED[ ( PLACE + 1 ) % 4 ] ) + 1 )</var></li>
+						<li><var>person( TIMES.indexOf( SORTED[ ( PLACE + 2 ) % 4 ] ) + 1 )</var></li>
+						<li><var>person( TIMES.indexOf( SORTED[ ( PLACE + 3 ) % 4 ] ) + 1 )</var></li>
+					</ul>
+				</div>
+
+				<div id="science-short">
+					<div class="vars">
+						<var id="A">randRange( 1000, 10000 )</var>
+						<var id="B">A + rand( 150 ) + 1</var>
+						<var id="C">B + rand( 75 ) + 1</var>
+						<var id="DATA">shuffle( [A / 1000, B / 1000, C / 1000] )</var>
+						<var id="UNITS">rand( 2 ) ? "inches" : "centimeters"</var>
+					</div>
+
+					<p class="problem"><var>person( 1 )</var> wants to grow <var>plural( fruit( 1 ) )</var>. <var>He( 1 )</var> decides to do a science experiment to find out which 
+					fertilizer is best at growing them.
+					There are two fertilizers to choose from, so <var>he( 1 )</var> buys <var>randRange( 1, 3 ) * 30</var> plants and plants them in three groups.
+					<var>He( 1 )</var> needs a control group, so one group won't get any fertilizer. The other two groups will each get a different fertilizer. After <var>he( 1 )</var> plants them, <var>he( 1 )</var> waits <span class="spin">{two weeks|three weeks|one month}</span> and measures the plants.
+					The average size of plants in the control group is <code><var>DATA[0]</var></code> <var>UNITS</var>.
+					The plants that got the first fertilizer grew to an average height of <code><var>DATA[1]</var></code> <var>UNITS</var>.
+					The plants treated with the second fertilizer grew to an average height of <code><var>DATA[2]</var></code> <var>UNITS</var>.</p> 
+					<p class="question">In <var>UNITS</var>, what is the height of the shortest plants?</p>
+					<p class="solution"><code><var>A / 1000</var></code></p>
+					<ul class="choices">
+						<li><code><var>B / 1000</var></code></li>
+						<li><code><var>C / 1000</var></code></li>
+					</ul>
+				</div>
+
+				<div id="science-tall" data-type="science-short">
+					<p class="question">In <var>UNITS</var>, what is the height of the tallest plants?</p>
+					<p class="solution"><code><var>C</var></code></p>
+					<ul class="choices">
+						<li><code><var>B<var></code></li>
+						<li><code><var>A</var></code></li>
+					</ul>
+				</div>
+
+				<div id="space">
+					<div class="vars">
+						<var id="A">randRange( 10000, 99999 )</var>
+						<var id="B">A + rand( 300 ) + 1</var>
+						<var id="C">B + rand( 100 ) + 1</var>
+						<var id="X">randRange( 10000, 99999 )</var>
+						<var id="Y">X + rand( 300 ) + 1</var>
+						<var id="Z">Y + rand( 100 ) + 1</var>
+						<var id="SORTED_D">[ A, B, C ]</var>
+						<var id="SORTED_W">[ X, Y, Z ]</var>
+						<var id="DISTS">shuffle( SORTED_D )</var>
+						<var id="WEIGHTS">shuffle( SORTED_W )</var>
+						<var id="QUESTION">rand( 2 )</var>
+						<var id="FIRST">QUESTION ? X : A</var>
+						<var id="SECOND">QUESTION ? Y : B</var>
+						<var id="THIRD">QUESTION ? Z : C</var>
+					</div>
+
+					<p class="problem"><var>person( 1 )</var>, <var>person( 2 )</var> and <var>person( 3 )</var> are all commanders of spaceships with warp drives.
+					After looking at <var>his( 1 )</var> flight logs,  <var>person( 1 )</var> calculated that <var>he ( 1 )</var> had flown <code><var>DISTS[0] / 1000</var></code> light years in his <code><var>WEIGHTS[0] / 1000</var></code> ton spaceship.
+					<var>person( 2 )</var> also looked at <var>his( 2 )</var> logs and found that <var>he( 2 )</var> flew <code><var>DISTS[1] / 1000</var></code> light years in <var>his( 1 )</var> ship (which weighs <code><var>WEIGHTS[1] / 1000</var></code> tons).
+					Not to be outdone, <var>person( 3 )</var> also totaled up <var>his( 3 )</var> distances and said <var>he( 3 )</var> had flown <code><var>DISTS[2] / 1000</var></code> light years in his ship which weighs <code><var>WEIGHTS[2] / 1000</var></code> tons.
+					Recently, all of the commanders got into an argument about who had flown the most around the universe.</p>
+					<p class="question"><span data-if="QUESTION === 0">Rank the commanders by the distance they have traveled.</span>
+					<span data-else>Rank the commanders by the weight of their spaceship</span></p>
+					<div class="solution" data-type="multiple">
+					1. <span class="sol" data-type="list"
+							data-choices="['', person( 1 ), person( 2 ), person(
+							3 )]"><var>person(
+								TIMES.indexOf( FIRST ) + 1 )</var></span>
+						<br />
+					2. <span class="sol" data-type="list"
+							data-choices="['', person( 1 ), person( 2 ), person(
+							3 )]"><var>person(
+								TIMES.indexOf( SECOND ) + 1 )</var></span>
+						<br />
+					3. <span class="sol" data-type="list"
+							data-choices="['', person( 1 ), person( 2 ), person(
+							3 )]"><var>person(
+								TIMES.indexOf( THIRD ) + 1 )</var></span>
+						<br />
+
+						<p class="example">Next to 1, select the commander who traveled the most. Next to 2, select the commander who traveled the second-most, and so on.</p>
+						<p class="example" data-else>Next to 1, select the commander who has the heaviest spaceship. Next to 2, select the commander who has the second-heaviest spaceship, and so on.</p>
+					</div>
+	
+				</div>
+         </div>
+      </div>
+    </body>
+</html>
+
