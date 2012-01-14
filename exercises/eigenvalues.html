@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Determinants 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="lambda1">randRange(-8, 8)</var>
+		<var id="lambda2">randRange(-8, 8)</var>
+		<var id="A">randRange(-8, 8)</var>
+		<var id="D">lambda1 + lambda2 - A</var>
+		<var id="BC">A*D-lambda1*lambda2</var>
+		<var id="absBC">abs(BC)</var>
+		<var id="BCcantbefactored">isPrime(absBC) || (absBC == 0)</var>
+		<var id="Bcandidate">(BCcantbefactored ? 1 : getNontrivialFactor(absBC))</var>
+		<var id="B">(random() > 0.5 ? Bcandidate : -Bcandidate)</var>
+		<var id="C">BC / B</var>
+		<var id="ApD">A+D</var>
+		<var id="constTerm">A*D-B*C</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>Determine the eigenvalues of <code>A = \begin{bmatrix}
+					<var>A</var> & <var>B</var> \\
+					<var>C</var> & <var>D</var>
+				\end{bmatrix}</code>.</p>
+			</div>
+
+			<div class="solution" data-type="multiple">
+				<p>
+					<code>\lambda_1 = </code><span class="sol" data-fallback="1"><var>lambda1</var></span> 
+					<code>\lambda_2 = </code><span class="sol" data-fallback="1"><var>lambda2</var></span>
+				</p>
+			</div>
+			<div class="solution" data-type="set">
+				<div class="set-sol"><var>lambda1</var></div>
+				<div class="set-sol"><var>lambda2</var></div>
+				<div class="input-format">
+					<p><code>\lambda = \quad </code><span class="entry"></span><code>\quad \text{and} \quad \lambda = \quad</code><span class="entry"></span></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="hints">
+		<p>First write the characteristic polynomial</p>
+		<p><code>p(\lambda) = (\lambda - <var>A</var>) \cdot (\lambda - <var>D</var>) - <var>C</var> \cdot <var>B</var></code></p>
+		<p><code>\hphantom{p(\lambda)}
+				= \lambda^2 - <var>ApD</var> \lambda + <var>constTerm</var></code></p>
+		<p>Then factor it</p>
+		<p><code>\hphantom{p(\lambda)}
+				= (\lambda - <var>lambda1</var>) \cdot (\lambda - <var>lambda2</var>)</code></p>
+		<p>The eigenvalues are the roots of the characteristic polynomial</p>
+		<p><code>\lambda = <var>lambda1</var></code> and <code>\lambda = <var>lambda2</var></code></p>
+	</div>
+	</div>
+</body>
+</html>
