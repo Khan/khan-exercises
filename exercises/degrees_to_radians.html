@@ -13,29 +13,40 @@
 			<var id="NUM_RADIANS">roundTo( 2, toRadians(NUM_DEGREES) )</var>
 
 			<!-- Common degree and radian values -->
-			<!-- (index rather than member-based selection is for wrong answer generation) -->
+			<!-- (reformatted to include tau) -->
 			<var id="COMMON_INDEX">rand( commonAngles.length )</var>
 			<var id="COMMON_DEGREES">commonAngles[COMMON_INDEX].deg</var>
 			<var id="COMMON_RADIANS">commonAngles[COMMON_INDEX].rad</var>
+			<var id="COMMON_TAURADIANS">commonAngles[COMMON_INDEX].trad</var>
+			<var id="PIRADIANS">COMMON_DEGREES/ 180</var>
+			<var id="TAURADIANS">COMMON_DEGREES/ 360</var>
 		</div>
 
 		<div class="problems">
 			<div id="degrees-to-radians">
-				<p class="question">Convert the angle <var>COMMON_DEGREES</var>&deg; into radians.</p>
-				<p class="solution"><code><var>COMMON_RADIANS</var></code></p>
+				<p class="question">Convert the angle <var>COMMON_DEGREES</var>&deg; into radians.  (Note that answer is in terms of <code>\pi</code>)</p>
+				<div class="solution" data-type="multiple">
+					<span class="sol"> <var>PIRADIANS</var></span><code>\pi</code>
+				</div>
 
 				<div class="hints">
 					<p>To convert from degrees to radians, you multiply by <code>\pi</code> and then divide by <code>180^{\circ}</code>.</p>
-					<p><code><var>COMMON_DEGREES</var>^{\circ} \times \frac{\pi}{(180^{\circ})} = <var>COMMON_RADIANS</var></code></p>
+					<p><code><var>COMMON_DEGREES</var>^{\circ} \times \frac{\pi}{(180^{\circ})} = <var>COMMON_RADIANS</var>= <var>PIRADIANS</var> \pi</code></p>
+				</div>
+				
+			</div>
+			<div id="degrees-to-tau-radians">
+				<p class="question">Convert the angle <var>COMMON_DEGREES</var>&deg; into radians.  (Note that answer is in terms of <code>\tau</code>, which equals <code>2\pi</code>)</p>
+				<div class="solution" data-type="multiple">
+					<span class="sol"> <var>TAURADIANS</var></span><code>\tau</code>
 				</div>
 
-				<ul class="choices" data-show="4" data-none="true">
-					<li><code><var>wrongCommonAngle( COMMON_INDEX, 1 ).rad</var></code></li>
-					<li><code><var>wrongCommonAngle( COMMON_INDEX, 2 ).rad</var></code></li>
-					<li><code><var>wrongCommonAngle( COMMON_INDEX, 3 ).rad</var></code></li>
-				</ul>
-			</div>
+				<div class="hints">
+					<p>To convert from degrees to radians, you multiply by <code>\tau</code> and then divide by <code>360^{\circ}</code>.</p>
+					<p><code><var>COMMON_DEGREES</var>^{\circ} \times \frac{\tau}{(360^{\circ})} = <var>COMMON_TAURADIANS</var> = <var>TAURADIANS</var> \tau</code></p>
+				</div>
 
+			</div>
 			<div data-type="degrees-to-radians">
 				<p class="question">Convert the angle <var>NUM_DEGREES</var>&deg; into radians. (Round to the nearest hundredth of a radian.)</p>
 				<p class="solution"><var>NUM_RADIANS.toFixed( 2 )</var></p>
@@ -45,11 +56,6 @@
 					<p><code><var>NUM_DEGREES</var>^{\circ} \times \frac{\pi}{180^{\circ}} = <var>NUM_RADIANS</var></code></p>
 				</div>
 
-				<ul class="choices" data-show="4" data-none="true">
-					<li><var>wrongRadians( NUM_RADIANS ).toFixed( 2 )</var></li>
-					<li><var>wrongRadians( NUM_RADIANS ).toFixed( 2 )</var></li>
-					<li><var>wrongRadians( NUM_RADIANS ).toFixed( 2 )</var></li>
-				</ul>
 			</div>
 		</div>
 	</div>
