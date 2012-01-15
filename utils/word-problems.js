@@ -337,22 +337,24 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"short-sleeved"
 	]);
 
+	// animal, avg-lifespan, stddev-lifespan
+	// (data is from cursory google searches and wild guessing)
 	var animals = KhanUtil.shuffle([
-		"alligator",
-		"anteater",
-		"bear",
-		"elephant",
-		"gorilla",
-		"lion",
-		"lizard",
-		"meerkat",
-		"porcupine",
-		"seal",
-		"sloth",
-		"snake",
-		"tiger",
-		"turtle",
-		"zebra"
+		[ "alligator", 68, 20 ],
+		[ "anteater", 15, 10 ],
+		[ "bear", 40, 20],
+		[ "elephant", 60, 10 ],
+		[ "gorilla", 20, 5 ],
+		[ "lion", 12, 5 ],
+		[ "lizard", 3, 1 ],
+		[ "meerkat", 13, 5 ],
+		[ "porcupine", 20, 5 ],
+		[ "seal", 15, 10 ],
+		[ "sloth", 16, 5 ],
+		[ "snake", 25, 10 ],
+		[ "tiger", 22, 5 ],
+		[ "turtle", 100, 20 ],
+		[ "zebra", 25, 10 ]
 	]);
 
 	var farmers = KhanUtil.shuffle([
@@ -538,7 +540,15 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		},
 
 		animal: function( i ) {
-			return animals[i - 1];
+			return animals[i - 1][0];
+		},
+
+		animalAvgLifespan: function( i ) {
+			return animals[i - 1][1];
+		},
+
+		animalStddevLifespan: function( i ) {
+			return animals[i - 1][2];
 		}
 	});
 };
