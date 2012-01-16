@@ -19,7 +19,7 @@
 					'</div>',
 		"hint9"		: 'Er <var>plural( "is", "zijn", DATA[PERSON] )</var> <var>plural( DATA[ PERSON ], "symbool", "symbolen" )</var>.',
 		"hint10"	: '<code><var>DATA[ PERSON ]</var></code> <var>plural( "symbool", "symbolen", DATA[ PERSON ] )</var>'+
-					  '	<code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbool '+
+					  '	<code> \keer </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbool '+
 					  '	<code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code>'+
 					  '	<var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>.',
 		"hint11"	: '<var>person( PERSON + 1 )</var> heeft <code><var>ANSWER</var></code> <var>BADGE</var> <var>plural( "badge", ANSWER )</var> verdiend.'
