@@ -61,10 +61,10 @@
 						var el = new Element(i);
 						var color;
 						switch (el.block) {
-							case "s": color = "red"; break;
-							case "p": color = "blue"; break;
-							case "d": color = "yellow"; break;
-							case "f": color = "black"; break;
+							case "s": color = "#ffdead"; break;
+							case "p": color = "#c0ffff"; break;
+							case "d": color = "#ffc0c0"; break;
+							case "f": color = "#e8e8e8"; break;
 						}
 						var x = el.leftOffset * cellSize[0];
 						var y = height - (el.period * cellSize[1]);
@@ -73,9 +73,31 @@
 							y -= 2;
 						}
 
-						label( [x, y], el.symbol, "center", {
-							color: color
+						if (i == ELEMENT.protonNumber) {
+							color = "#80D5F2";
+						}
+
+						style( {
+							strokeWidth: 1,
+							fill: color
+						} );
+
+						path( [ [x - cellSize[0] / 2, y - cellSize[1] / 2],
+							  [x + cellSize[0] / 2, y - cellSize[1] / 2],
+							  [x + cellSize[0] / 2, y + cellSize[1] / 2],
+							  [x - cellSize[0] / 2, y + cellSize[1] / 2],
+							  true ] );
+
+						var theLabel = label( [x, y], el.symbol, "center", false);
+						theLabel.css({
+							color: "#000"
 						});
+
+						if (i == ELEMENT.protonNumber) {
+							theLabel.css( {
+								fontWeight: "bold"
+							});
+						}
 					}
 				});
 
