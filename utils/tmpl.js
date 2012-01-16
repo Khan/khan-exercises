@@ -4,6 +4,8 @@
 var VARS = {};
 
 jQuery.tmpl = {
+	DATA_ENSURE_LOOPS: 0,
+
 	// Processors that act based on element attributes
 	attr: {
 		"data-ensure": function( elem, ensure ) {
@@ -11,7 +13,11 @@ jQuery.tmpl = {
 			return function( elem ) {
 				// Return a boolean corresponding to the ensure's value
 				// False means all templating will be run again, so new values will be chosen
-				return !!(ensure && jQuery.tmpl.getVAR( ensure ));
+				var result = !!(ensure && jQuery.tmpl.getVAR( ensure ));
+				if ( !result ) {
+					++jQuery.tmpl.DATA_ENSURE_LOOPS;
+				}
+				return result;
 			};
 		},
 
@@ -249,6 +255,7 @@ if ( typeof KhanUtil !== "undefined" ) {
 // Reinitialize VARS for each problem
 jQuery.fn.tmplLoad = function( problem, info ) {
 	VARS = {};
+	jQuery.tmpl.DATA_ENSURE_LOOPS = 0;
 
 	// Check to see if we're in test mode
 	if ( info.testMode ) {
