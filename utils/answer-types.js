@@ -200,7 +200,7 @@ jQuery.extend( Khan.answerTypes, {
 
 					// 5 pi / 6
 					} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
-						possibilities = fractionTransformer( match[1] + match[2] );
+						possibilities = fractionTransformer( match[1] + "/" + match[2] );
 
 					// - pi / 4
 					} else if ( match = text.match( /^([+-]?)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
