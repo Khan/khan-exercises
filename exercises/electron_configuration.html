@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="chemistry">
+<html data-require="math chemistry graphie graphie-chemistry">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Electron configuration</title>
@@ -36,7 +36,7 @@
 <body>
 	<div class="exercise">
 	<div class="vars" data-ensure="!ELEMENT.violatesMadelung">
-		<var id="ELEMENT">KhanUtil.randElement(1, 10)</var>
+		<var id="ELEMENT">KhanUtil.randElement(1, 48)</var>
 		<var>(function() { addOrbital(); })()</var>
 	</div>
 
@@ -44,6 +44,41 @@
 		<div>
 			<div class="question">
 				<p>What is the electron configuration of <var>ELEMENT.name</var> (proton number <var>ELEMENT.protonNumber</var>)?</p>
+				<!-- TODO: show the periodic table -->
+			</div>
+
+			<div class="graphie">
+				var height = 10;
+				var cellSize = [ 0.8, 0.8 ];
+
+				init({
+					range: [ [ 0, 15 ], [0, height] ]
+				});
+
+				var els = [];
+				$.each(elements, function (i, el) {
+					if (i &gt; 0) {
+						var el = new Element(i);
+						var color;
+						switch (el.block) {
+							case "s": color = "red"; break;
+							case "p": color = "blue"; break;
+							case "d": color = "yellow"; break;
+							case "f": color = "black"; break;
+						}
+						var x = el.leftOffset * cellSize[0];
+						var y = height - (el.period * cellSize[1]);
+
+						if (el.block == "f") {
+							y -= 2;
+						}
+
+						label( [x, y], el.symbol, "center", {
+							color: color
+						});
+					}
+				});
+
 			</div>
 		</div>
 	</div>
@@ -74,15 +109,23 @@
 		<div class="validator-function">
 			var ec = ELEMENT.electronConfiguration;
 			for (var i = 0; i &lt; ec.length; i++) {
-				if (ec[i].type != guess[i].type ||
+				if ( ec[i].type != guess[i].type ||
 					ec[i].level != guess[i].level ||
-					ec[i].value != guess[i].value) {
+					ec[i].value != guess[i].value ) {
 					return false;
 				}
 			}
 			return true;
 		</div>
 		<div class="show-guess">
+			$("#orbitals div").each(function(i, el) { el.remove(); } );
+			for (var i = 0; i &lt; guess.length; i++) {
+				addOrbital();
+				var control = $("#orbitals div").last();
+				control.find(".type").val( guess[i].type );
+				control.find(".level").val( guess[i].level );
+				control.find(".value").val( guess[i].value );
+			}
 		</div>
 	</div>
 

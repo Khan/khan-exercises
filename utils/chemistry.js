@@ -1,5 +1,3 @@
-(function() {
-
 function Element(identifier) {
 	var elements = KhanUtil.elements;
 	var element, number;
@@ -29,13 +27,47 @@ function Element(identifier) {
 		if (!this.violatesMadelung) { // ensure violatesMadelung exists
 			this.violatesMadelung = false;
 		}
-		this.electronConfiguration = KhanUtil.getElectronConfiguration(number);
+		var ec = KhanUtil.getElectronConfiguration(number);
+		this.electronConfiguration = ec;
+
+		// Period = highest layer of electrons
+		this.period = 0;
+		for (var i in ec) {
+			if (ec[i].level > this.period) {
+				this.period = ec[i].level;
+			}
+		}
+
+		// Block = last filled orbital type 
+		this.block = ec[ec.length - 1].type;
+
+		// Count elements since last inert gas
+		var l = 0;
+		for (var i = ec.length - 1; i >= 0; i--) {
+			if (i != ec.length - 1 && (ec[i].type == "p" || (ec[i].type == "s" && number > 2 && i == 0))) {
+				break;
+			}
+			l += ec[i].count;
+		}
+
+		// Shift P-group in period 2 and 3
+		if (l > 2 && this.period < 4) l += 10;
+
+		// Helium is a special case
+		if (number == 2) l = 18;
+
+		// Shift lanthanoids and actinoids out
+		if (l > 16 && this.period > 5) l -= 14;
+
+		this.leftOffset = l;
 	}
 }
 
+(function() {
 jQuery.extend( KhanUtil, {
 	elements: [
 		{}, // fodder to map element index to the proton number
+		// violatesMadelung is truthy if the element's electron configuration doesn't follow common rules.
 		{ name: "hydrogen", symbol: "H" },
 		{ name: "helium", symbol: "He" },
 		{ name: "lithium", symbol: "Li" },
@@ -77,15 +109,91 @@ jQuery.extend( KhanUtil, {
 		{ name: "yttrium", symbol: "Y" },
 		{ name: "zirconium", symbol: "Zr" },
 		{ name: "niobium", symbol: "Nb", violatesMadelung: true },
-		{ name: "molybdenum", symbol: "Mo", violatesMadelung: true }
-
-		// TODO: more (Tc)
+		{ name: "molybdenum", symbol: "Mo", violatesMadelung: true },
+		{ name: "technetium", symbol: "Tc" },
+		{ name: "ruthenium", symbol: "Ru", violatesMadelung: true },
+		{ name: "rhodium", symbol: "Rh", violatesMadelung: true },
+		{ name: "palladium", symbol: "Pd", violatesMadelung: true },
+		{ name: "silver", symbol: "Ag", violatesMadelung: true },
+		{ name: "cadmium", symbol: "Cd" },
+		{ name: "indium", symbol: "In" },
+		{ name: "tin", symbol: "Sn" },
+		{ name: "antimony", symbol: "Sb" },
+		{ name: "tellurium", symbol: "Te" },
+		{ name: "iodine", symbol: "I" },
+		{ name: "xenon", symbol: "Xe" },
+		{ name: "caesium", symbol: "Ce" },
+		{ name: "barium", symbol: "Ba" },
+		{ name: "lanthanum", symbol: "La", violatesMadelung: true },
+		{ name: "cerium", symbol: "Ce", violatesMadelung: true },
+		{ name: "praseodymium", symbol: "Pr" },
+		{ name: "neodymium", symbol: "Nd" },
+		{ name: "promethium", symbol: "Pm" },
+		{ name: "samarium", symbol: "Sm" },
+		{ name: "europium", symbol: "Eu" },
+		{ name: "gadolinium", symbol: "Gd", violatesMadelung: true },
+		{ name: "terbium", symbol: "Tb" },
+		{ name: "dysprosium", symbol: "Dy" },
+		{ name: "holmium", symbol: "Ho" },
+		{ name: "erbium", symbol: "Er" },
+		{ name: "thulium", symbol: "Tm" },
+		{ name: "ytterbium", symbol: "Yb" },
+		{ name: "lutetium", symbol: "Lu" },
+		{ name: "hafnium", symbol: "Hf" },
+		{ name: "tantalum", symbol: "Ta" },
+		{ name: "tungsten", symbol: "W" },
+		{ name: "rhenium", symbol: "Re" },
+		{ name: "osmium", symbol: "Os" },
+		{ name: "iridium", symbol: "Ir" },
+		{ name: "platinum", symbol: "Pt", violatesMadelung: true },
+		{ name: "gold", symbol: "Au", violatesMadelung: true },
+		{ name: "mercury", symbol: "Hg" },
+		{ name: "thallium", symbol: "Tl" },
+		{ name: "lead", symbol: "Pb" },
+		{ name: "bismuth", symbol: "Bi" },
+		{ name: "polonium", symbol: "Po" },
+		{ name: "astatine", symbol: "At" },
+		{ name: "radon", symbol: "Rn" },
+		{ name: "francium", symbol: "Fr" },
+		{ name: "radium", symbol: "Ra" },
+		{ name: "actinium", symbol: "Ac", violatesMadelung: true },
+		{ name: "thorium", symbol: "Th", violatesMadelung: true },
+		{ name: "protactinium", symbol: "Pa", violatesMadelung: true },
+		{ name: "uranium", symbol: "U", violatesMadelung: true },
+		{ name: "neptunium", symbol: "Np", violatesMadelung: true },
+		{ name: "plutonium", symbol: "Pu" },
+		{ name: "americium", symbol: "Am" },
+		{ name: "curium", symbol: "Cm", violatesMadelung: true },
+		{ name: "berkelium", symbol: "Bk" },
+		{ name: "californium", symbol: "Cf" },
+		{ name: "einsteinium", symbol: "Es" },
+		{ name: "fermium", symbol: "Fm" },
+		{ name: "mendelevium", symbol: "Md" },
+		{ name: "nobelium", symbol: "No" },
+		{ name: "lawrencium", symbol: "Lr", violatesMadelung: true },
+		{ name: "rutherfordium", symbol: "Rf" },
+		{ name: "dubnium", symbol: "Db" },
+		{ name: "seaborgium", symbol: "Sg" },
+		{ name: "bohrium", symbol: "Bh" },
+		{ name: "hassium", symbol: "Hs" },
+		{ name: "meitnerium", symbol: "Mt" },
+		{ name: "darmstadtium", symbol: "Ds" },
+		{ name: "roentgenium", symbol: "Rg" },
+		{ name: "copernicium", symbol: "Cn" },
+		{ name: "ununtritium", symbol: "Uut" },
+		{ name: "ununquadium", symbol: "Uuq" },
+		{ name: "ununpentium", symbol: "Uup" },
+		{ name: "ununhexium", symbol: "Uuh" },
+		{ name: "ununseptium", symbol: "Uus" },
+		{ name: "ununoctium", symbol: "Uuo" }
 	],
 
+	// Computes the electron configuration of a well-behaved element
+	// by filling it an orbital at a time.
 	getElectronConfiguration: function (n) {
-		if (KhanUtil.elements[n].violatesMadelung) {
-			return [];
-		}
+		//if (KhanUtil.elements[n].violatesMadelung) {
+		//	return [];
+		//}
 		var configuration = [];
 		var orbitals = [
 			"1s", "2s", "2p", "3s", "3p", "4s", "3d", "4p", "5s", "4d", "5p",
