@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers angles">
+<html data-translatable data-require="math graphie graphie-helpers angles">
 <head>
 	<meta charset="UTF-8" />
 	<title>Vertical angles 2</title>
@@ -22,7 +22,7 @@
 
 	<div class="problems">
 		<div>
-			<p class="question">Solve for <code>x</code>:</p>
+			<p class="question" data-tt="question1">Solve for <code>x</code>:</p>
 			
 			<div class="solution" data-type="multiple">
 					<p><code>x=</code>  <span class="sol" data-type="rational"><var>SOLUTION</var></span></p>
@@ -45,49 +45,49 @@
 	</div>
 
 	<div class="hints">
-		<p>We learned in Vertical angles 1 that vertical angles are equal. <a class="related-video" href="/video/proof-vertical-angles-are-equal" data-youtube-id="wRBMmiNHQaE">Watch this video</a> to understand why.</p>
+		<p data-tt="hint1">We learned in Vertical angles 1 that vertical angles are equal. <a class="related-video" href="/video/proof-vertical-angles-are-equal" data-youtube-id="wRBMmiNHQaE">Watch this video</a> to understand why.</p>
 		<div>
-			<p>Set the angle measures equal to one another.</p>
+			<p data-tt="hint2">Set the angle measures equal to one another.</p>
 			<p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
 		</div>
 
 		<div data-if="A > C" data-unwrap>
 			<div>
-				<p>Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides.</p>
+				<p data-tt="hint3">Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides.</p>
 				<p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>C</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>C</var>x}</code></p>
 				<p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
 			</div>
 			<div>
-				<p><var>B > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> <var>B > 0 ? "from" : "to"</var> both sides.</p>
+				<p data-tt="hint4"><var>B > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> <var>B > 0 ? "from" : "to"</var> both sides.</p>
 				<p><code>(<var>A - C</var>x + <var>B</var>) \color{<var>PINK</var>}{+ <var>-B</var>} = <var>D</var> \color{<var>PINK</var>}{+ <var>-B</var>}</code></p>
 				<p><code><var>A - C</var>x = <var>D - B</var></code></p>
 			</div>
 			<div>
-				<p>Divide both sides by <code>\color{<var>PINK</var>}{<var>A - C</var>}</code>.</p>
+				<p data-tt="hint5">Divide both sides by <code>\color{<var>PINK</var>}{<var>A - C</var>}</code>.</p>
 				<p><code>\dfrac{<var>A - C</var>x}{\color{<var>PINK</var>}{<var>A - C</var>}} = \dfrac{<var>D - B</var>}{\color{<var>PINK</var>}{<var>A - C</var>}}</code></p>
 			</div>
 			<div>
-				<p>Simplify.</p>
+				<p data-tt="hint6">Simplify.</p>
 				<p><code>x = <var>SOLUTION</var></code></p>
 			</div>
 		</div>
 		<div data-else data-unwrap>
 			<div>
-				<p>Subtract <code>\color{<var>PINK</var>}{<var>A</var>x}</code> from both sides.</p>
+				<p data-tt="hint7">Subtract <code>\color{<var>PINK</var>}{<var>A</var>x}</code> from both sides.</p>
 				<p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>A</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>A</var>x}</code></p>
 				<p><code><var>B</var> = <var>C - A</var>x + <var>D</var></code></p>
 			</div>
 			<div>
-				<p><var>D > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> <var>D > 0 ? "from" : "to"</var> both sides.</p>
+				<p data-tt="hint8"><var>D > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> <var>D > 0 ? "from" : "to"</var> both sides.</p>
 				<p><code><var>B</var> \color{<var>PINK</var>}{+ <var>-D</var>} = (<var>C - A</var>x + <var>D</var>) \color{<var>PINK</var>}{+ <var>-D</var>}</code></p>
 				<p><code><var>B - D</var> = <var>C - A</var>x</code></p>
 			</div>
 			<div>
-				<p>Divide both sides by <code>\color{<var>PINK</var>}{<var>C - A</var>}</code>.</p>
+				<p data-tt="hint9">Divide both sides by <code>\color{<var>PINK</var>}{<var>C - A</var>}</code>.</p>
 				<p><code>\dfrac{<var>B - D</var>}{\color{<var>PINK</var>}{<var>C - A</var>}} = \dfrac{<var>C - A</var>x}{\color{<var>PINK</var>}{<var>C - A</var>}}</code></p>
 			</div>
 			<div>
-				<p>Simplify.</p>
+				<p data-tt="hint6">Simplify.</p>
 				<p><code><var>SOLUTION</var> = x</code></p>
 			</div>
 		</div>
