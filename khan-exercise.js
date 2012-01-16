@@ -1706,7 +1706,7 @@ var Khan = (function() {
 				links.append("Original exercise: " + exercise.data( "name" ));
 			}
 
-			if ( jQuery.tmpl.DATA_ENSURE_LOOPS !== undefined && jQuery.tmpl.DATA_ENSURE_LOOPS > 0 ) {
+			if ( jQuery.tmpl.DATA_ENSURE_LOOPS > 0 ) {
 				var dataEnsureInfo = jQuery( "<p>" );
 				dataEnsureInfo.append("Data-ensure loops: " + jQuery.tmpl.DATA_ENSURE_LOOPS);
 				if ( jQuery.tmpl.DATA_ENSURE_LOOPS > 15 ) {
