@@ -49,12 +49,19 @@
 	</div>
 	<div class="hints">
 		<p>First write the characteristic polynomial</p>
-		<p><code>p(\lambda) = (\lambda - <var>A</var>) \cdot (\lambda - <var>D</var>) - <var>C</var> \cdot <var>B</var></code></p>
+		<p><code>p(\lambda) 
+			= \det(I \cdot \lambda - A)  
+			= \begin{bmatrix}
+					\lambda - <var>A</var> & <var>-B</var> \\
+					<var>-C</var> & \lambda - <var>D</var>
+				\end{bmatrix}</code>.</p>
 		<p><code>\hphantom{p(\lambda)}
-				= \lambda^2 - <var>ApD</var> \lambda + <var>constTerm</var></code></p>
+			= (\lambda - <var>A</var>) \cdot (\lambda - <var>D</var>) - <var>C</var> \cdot <var>B</var></code></p>
+		<p><code>\hphantom{p(\lambda)}
+			= \lambda^2 - <var>ApD</var> \lambda + <var>constTerm</var></code></p>
 		<p>Then factor it</p>
 		<p><code>\hphantom{p(\lambda)}
-				= (\lambda - <var>lambda1</var>) \cdot (\lambda - <var>lambda2</var>)</code></p>
+			= (\lambda - <var>lambda1</var>) \cdot (\lambda - <var>lambda2</var>)</code></p>
 		<p>The eigenvalues are the roots of the characteristic polynomial</p>
 		<p><code>\lambda = <var>lambda1</var></code> and <code>\lambda = <var>lambda2</var></code></p>
 	</div>
