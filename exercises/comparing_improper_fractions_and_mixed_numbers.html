@@ -10,7 +10,7 @@
 	<div class="exercise">
 		<div class="problems">
 			<div id="same-whole">
-				<div class="vars" data-ensure="M_DENOM !== I_DENOM && abs( ( WHOLE + M_NUM / M_DENOM ) -  ( I_NUM / I_DENOM ) ) > 0.001">
+				<div class="vars" data-ensure="M_DENOM !== I_DENOM && abs( ( WHOLE + M_NUM / M_DENOM ) -  ( I_NUM / I_DENOM ) ) > 0.001 && ( M_AS_I * F1 ) !== ( I_NUM * F2 )">
 					<var id="WHOLE">randRange( 1, 5 )</var>
 					<var id="WHOLE_2">WHOLE</var>
 
@@ -36,15 +36,15 @@
 					<var id="M_AS_I">M_DENOM_REDUCED*WHOLE+M_NUM_REDUCED</var>
 
 					<var id="SOLUTION">(function() {
-						if ( (M_AS_I*F1) > (I_NUM*F2) ) {
+						if ( (M_AS_I*F1) &gt; (I_NUM*F2) ) {
 							return "&gt;";
 						} else {
 							return "&lt;";
 						}
 					})()</var>
-					<var id="MORE">M_DENOM > I_DENOM ? "more" : "fewer"</var>
-					<var id="SMALLER">M_DENOM > I_DENOM ? "smaller" : "bigger"</var>
-					<var id="LESS">M_DENOM > I_DENOM ? "less" : "more"</var>
+					<var id="MORE">M_DENOM &gt; I_DENOM ? "more" : "fewer"</var>
+					<var id="SMALLER">M_DENOM &gt; I_DENOM ? "smaller" : "bigger"</var>
+					<var id="LESS">M_DENOM &gt; I_DENOM ? "less" : "more"</var>
 					<var id="BIGGER">SMALLER === "smaller" ? "bigger" : "smaller"</var>
 				</div>
 
@@ -78,7 +78,7 @@
 				</div>
 			</div>
 			<div id="different-whole">
-				<div class="vars" data-ensure="M_DENOM !== I_DENOM && abs( ( WHOLE + M_NUM / M_DENOM ) -  ( I_NUM / I_DENOM ) ) > 0.001">
+				<div class="vars" data-ensure="M_DENOM !== I_DENOM && abs( ( WHOLE + M_NUM / M_DENOM ) -  ( I_NUM / I_DENOM ) ) > 0.001 && ( M_AS_I * F1 ) !== ( I_NUM * F2 )">
 					<var id="WHOLE">randRange( 1, 5 )</var>
 					<var id="WHOLE_2">randRange( 1, 5 )</var>
 
@@ -104,15 +104,15 @@
 					<var id="M_AS_I">M_DENOM_REDUCED*WHOLE+M_NUM_REDUCED</var>
 
 					<var id="SOLUTION">(function() {
-						if ( (M_AS_I*F1) > (I_NUM*F2) ) {
+						if ( (M_AS_I*F1) &gt; (I_NUM*F2) ) {
 							return "&gt;";
 						} else {
 							return "&lt;";
 						}
 					})()</var>
-					<var id="MORE">M_DENOM > I_DENOM ? "more" : "fewer"</var>
-					<var id="SMALLER">M_DENOM > I_DENOM ? "smaller" : "bigger"</var>
-					<var id="LESS">M_DENOM > I_DENOM ? "less" : "more"</var>
+					<var id="MORE">M_DENOM &gt; I_DENOM ? "more" : "fewer"</var>
+					<var id="SMALLER">M_DENOM &gt; I_DENOM ? "smaller" : "bigger"</var>
+					<var id="LESS">M_DENOM &gt; I_DENOM ? "less" : "more"</var>
 					<var id="BIGGER">SMALLER === "smaller" ? "bigger" : "smaller"</var>
 				</div>
 
