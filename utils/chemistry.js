@@ -86,7 +86,6 @@ jQuery.extend( KhanUtil, {
 		if (KhanUtil.elements[n].violatesMadelung) {
 			return [];
 		}
-
 		var configuration = [];
 		var orbitals = [
 			"1s", "2s", "2p", "3s", "3p", "4s", "3d", "4p", "5s", "4d", "5p",
@@ -115,9 +114,15 @@ jQuery.extend( KhanUtil, {
 		return configuration;
 	},
 
-	// Returns a random element
-	randElement: function ( ) {
-		return new Element(Math.floor( (KhanUtil.elements.length - 1) * KhanUtil.random()) + 1);
+	// Returns a random element from a given range of proton numbers
+	randElement: function ( min, max ) {
+		if (!min || min < 1) {
+			min = 1;
+		}
+		if (!max || max < min || max >= KhanUtil.elements.length) {
+			max = KhanUtil.elements.length - 1;
+		}
+		return new Element(Math.floor( max * KhanUtil.random() ) + min);
 	}
 });
 

@@ -4,11 +4,40 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Electron configuration</title>
 	<script src="../khan-exercise.js"></script>
+	<script>
+		/*
+		 * Used magic constants:
+		 *	maximum number of orbitals: 10
+		 *	maimum element proton number: 48 (cadmium; exactly what fits in the first 10 orbitals).
+		 */
+		function addOrbital() {
+			if ($("#orbitals div").length >= 10) {
+				return;
+			}
+			var newControl = $('<div />');
+			newControl.append('<input type="number" class="level" min="1" max="8" style="width: 4em;" />');
+			newControl.append('<select class="type">\n' +
+				'<option value="s">s</option>' +
+				'<option value="p">p</option>' +
+				'<option value="d">d</option>' +
+				'<option value="f">f</option>');
+			newControl.append('<input type="number" class="count" min="1" max="14" style="width: 4em;" />');
+			$("#orbitals").append(newControl);
+		}
+
+		function removeOrbital() {
+			if ($("#orbitals div").length <= 1) {
+				return;
+			}
+			$("#orbitals div").last().remove();
+		}
+	</script>
 </head>
 <body>
 	<div class="exercise">
 	<div class="vars" data-ensure="!ELEMENT.violatesMadelung">
-		<var id="ELEMENT">KhanUtil.randElement()</var>
+		<var id="ELEMENT">KhanUtil.randElement(1, 10)</var>
+		<var>(function() { addOrbital(); })()</var>
 	</div>
 
 	<div class="problems">
@@ -21,10 +50,37 @@
 
 	<div class="solution" data-type="custom">
 		<div class="instruction">
+			Express the electron configuration using the controls below.
+			<div style="text-align: center;">
+				<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="addOrbital()" />
+				<input type="button" class="simple-button action-gradient mini-button" value="-" onclick="removeOrbital()" />
+			</div>
+			<div id="orbitals">
+			</div>
 		</div>
 		<div class="guess">
+			(function() {
+				var guess = [];
+				$("#orbitals div").each(function (i, el) {
+					guess.push({
+						level: parseInt($(el).find(".level").val()), 
+						type: $(el).find(".type").val(),
+						count: parseInt($(el).find(".count").val())
+					});
+				});
+				return guess;
+			})()
 		</div>
 		<div class="validator-function">
+			var ec = ELEMENT.electronConfiguration;
+			for (var i = 0; i &lt; ec.length; i++) {
+				if (ec[i].type != guess[i].type ||
+					ec[i].level != guess[i].level ||
+					ec[i].value != guess[i].value) {
+					return false;
+				}
+			}
+			return true;
 		</div>
 		<div class="show-guess">
 		</div>
