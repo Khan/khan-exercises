@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
+<head>
+	<title>Basic decimal problems</title>
+	<script src="../khan-exercise.js"></script>
+	
+	<script type="text/javascript">
+	function decimalLength( n ) {
+		return ( ( n + "" ).split( "." )[1] || "" ).length;
+	}
+
+	</script>
+</head>
+
+<body>
+<div class="exercise">
+	<div class="problems">
+		<div id="fraction convert">
+			<div class="vars">
+				<div data-ensure="decimalLength( DEC ) <= 4">
+					<var id="D">randFromArray([10, 100 ])</var>
+					<var id="N">randRange( 1, D - 1 )</var>
+					<var id="DEC">N / D</var>
+				</div>
+			</div>
+
+			<div class="problems">
+				<div>
+					<p class="question">Express <code><var>fraction( N, D )</var></code> as a decimal.</p>
+					<div class="solution" data-type="decimal"><var>DEC</var></div>
+				</div>
+			</div>
+			
+			<div class="hints">
+				<p>The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator. </p>
+				<p>For this question, this means <var>D === 10 ? "1 place" : "2 places"</var>.</p>
+				<p>If you move the correct number of decimal places, you get <var>DEC</var>.</p>
+			</div>
+		</div>
+		<div id="word">
+			<div class="vars">
+				<div data-ensure="decimalLength( DEC ) <= 4">
+					<var id="THOU">randRange( 0, 9)</var>
+					<var id="HUND">randRange( 0, 9 )</var>
+					<var id="TEN">randRange( 0, 9 )</var>
+					<var id="DEC">(TEN/10) + (HUND/100) + (THOU/1000)</var>
+				</div>
+			</div>
+
+			<div class="problems">
+				<div>
+					<div class="question">
+						<p>Write the following as a decimal:</p>
+						<p data-if="!(TEN === 0)"><var>TEN+" tenths "</var></p>
+						<p data-if="!(HUND === 0)"><var>HUND+" hundredths "</var></p>
+						<p data-if="!(THOU === 0)"><var>THOU+" thousandths"</var></p>  
+					</div>
+					<div class="solution" data-type="decimal"><var>DEC</var></div>
+				</div>
+			</div>
+			
+			<div class="hints">
+				<p>There is no oneths place on the right side of the decimal, so start with the tenths.</p>
+				<p>The word next to the number tells you want to divide that number by. So the tenths would be <code><var>fraction( TEN, 10 )</var></code>, or simply <code><var>TEN === 0 ? "0.0" : TEN/10</var></code>.</p>
+				<p>Add the different values together: <code><var>fraction(TEN, 10)</var></code> + <code><var>fraction(HUND, 100)</var></code> + <code><var>fraction(THOU, 1000)</var></code> or <code><var>TEN/10</var></code> + <code><var>HUND/100</var></code> + <code><var>THOU/1000</var></code></p>
+				<p>The final answer is: <code><var>DEC</var></code></p>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
