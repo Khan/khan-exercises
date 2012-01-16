@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math chemistry graphie graphie-chemistry">
+<html data-require="math chemistry graphie graphie-chemistry word-problems">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Electron configuration</title>
@@ -8,7 +8,7 @@
 		/*
 		 * Used magic constants:
 		 *	maximum number of orbitals: 10
-		 *	maimum element proton number: 48 (cadmium; exactly what fits in the first 10 orbitals).
+		 *	maximum element proton number: 48 (cadmium; exactly what fits in the first 10 orbitals).
 		 */
 		function addOrbital() {
 			if ($("#orbitals div").length >= 10) {
@@ -31,12 +31,72 @@
 			}
 			$("#orbitals div").last().remove();
 		}
+
+		function electrons(n) {
+			return KhanUtil.plural(n, "electron");
+		}
+
+		function electronsRemain(n) {
+			return electrons(n) + " " + KhanUtil.plural("remains", "remain", n) + ".";
+		}
+
+		function lastGoes(where, text) {
+			return "The last electron goes to the " + where + " orbital, <code>" + text + "^1</code>.";
+		}
+
+		function thenGoRemain(size, order, where, remain, at) {
+			/* TODO: spin (go to) / (are put to) etc. */
+			var then = KhanUtil.randFromArray([ "Then, ", "Afterwards, ", "In the next step, " ]);
+			var go = KhanUtil.randFromArray([ "go to", "are put to"]);
+			var text = electrons(size) + " " + go + " the " + order + " orbital (<code>" + where + "</code>), which is written as <code>" + where + "^{" + size + "}</code>. " + electronsRemain(remain);
+			var nowAt = 'We are now before <strong class="hint_green">' + KhanUtil.elements[at].name + '</strong>.';
+
+			var result = '<div> <p> ' + text + nowAt + ' </p> <div class="graphie" data-update="pt">\n' +
+					'graph.pt.highlightElement(' + at + ', HINT);\n' +
+					'</div> </div>';
+			return result;
+		}
+
+		function remainingTwo(where, orbital) {
+			return "The last 2 electrons go to the " + where + " orbital, <code>" + orbital + "^2</code>.";
+		}
+
+		function allRemaining(size, order, orbital) {
+			return "All remaining electrons are placed in the " + order + " orbital (<code>" + orbital + "</code>), which is written as <code>" + orbital + "^{" + size + "}</code>.";
+		}
+
+		function orbitalFill(order, orbital, size, n, at) {
+			if (n == 1) {
+				return lastGoes(order, orbital);
+			} else if (n == 2) {
+				return remainingTwo(order, orbital);
+			} else if (n <= size) {
+				return allRemaining(n, order, orbital);
+			} else {
+				return thenGoRemain(size, order, orbital, n - size, at);
+			}
+		}
+
+		function hintElement(n) {
+			return '<strong class="hint_green">' + KhanUtil.elements[n].name + '</strong>';
+		}
 	</script>
 </head>
 <body>
 	<div class="exercise">
 	<div class="vars" data-ensure="!ELEMENT.violatesMadelung">
+		<var id="HINT">GREEN</var>
 		<var id="ELEMENT">KhanUtil.randElement(1, 48)</var>
+		<var id="N">ELEMENT.protonNumber</var>
+		<var id="SOLUTION">(function() {
+			var text = "";
+			for (var i in ELEMENT.electronConfiguration) {
+				var o = ELEMENT.electronConfiguration[i];
+				if (i != 0) text += " ";
+				text += o.level + o.type + "^{" + o.count + "}";
+			}
+			return text;
+		})()</var>
 		<var>(function() { addOrbital(); })()</var>
 	</div>
 
@@ -47,60 +107,14 @@
 				<!-- TODO: show the periodic table -->
 			</div>
 
-			<div class="graphie">
-				var height = 10;
-				var cellSize = [ 0.8, 0.8 ];
-
+			<div class="graphie" id="pt">
 				init({
-					range: [ [ 0, 15 ], [0, height] ]
+					range: [ [ 0, 15], [0, 10] ]
 				});
 
-				var els = [];
-				$.each(elements, function (i, el) {
-					if (i &gt; 0) {
-						var el = new Element(i);
-						var color;
-						switch (el.block) {
-							case "s": color = "#CDF1FA"; break;
-							case "p": color = "#8FD0E0"; break;
-							case "d": color = "#569DBB"; break;
-							case "f": color = "#e8e8e8"; break;
-						}
-						var x = el.leftOffset * cellSize[0];
-						var y = height - (el.period * cellSize[1]);
-
-						if (el.block == "f") {
-							y -= 2;
-						}
-
-						if (i == ELEMENT.protonNumber) {
-							color = ORANGE;
-						}
-
-						style( {
-							strokeWidth: 1,
-							fill: color
-						} );
-
-						path( [ [x - cellSize[0] / 2, y - cellSize[1] / 2],
-							  [x + cellSize[0] / 2, y - cellSize[1] / 2],
-							  [x + cellSize[0] / 2, y + cellSize[1] / 2],
-							  [x - cellSize[0] / 2, y + cellSize[1] / 2],
-							  true ] );
-
-						var theLabel = label( [x, y], el.symbol, "center", false);
-						theLabel.css({
-							color: "#000"
-						}).attr("title", el.name);
-
-						if (i == ELEMENT.protonNumber) {
-							theLabel.css( {
-								fontWeight: "bold"
-							});
-						}
-					}
-				});
-
+				graph.pt = new PeriodicTable( 10, [ 0.8, 0.8 ] );
+				graph.pt.draw();
+				graph.pt.highlightElement( N, ORANGE );
 			</div>
 		</div>
 	</div>
@@ -152,7 +166,82 @@
 	</div>
 
 	<div class="hints">
-		<!-- TODO: hints -->
+		<!-- Maximum proton number is 48. -->
+		<p>
+			The electron configuration of most elements can be created by "reading" the periodic table left to right.
+		</p>
+		<div data-if="N > 1">
+			<div class="graphie" data-update="pt">
+				graph.pt.highlightElement(1, HINT);
+			</div>
+			<p>
+				As <strong class="hint_orange"><var>ELEMENT.name</var></strong> has <var>N</var> electrons, we will "read through" <var>N</var> elements.
+				We start reading before <var>hintElement(1)</var>.
+			</p>
+		</div>
+		<p data-if="N == 1">
+			The first and only electron of <strong class="hint_orange">hydrogen</strong> goes into the first orbital (<code>1s</code>).
+		</p>
+		<p data-if="N == 2">
+			The only two electrons of <strong class="hint_orange">helium</strong> fill the whole first orbital (<code>1s^2</code>).
+		</p>
+		<div data-if="N > 2">
+			<div class="graphie" data-update="pt">
+				graph.pt.highlightElement(3, HINT);
+			</div>
+			<p>
+				The first two electrons of <strong class="hint_orange"><var>ELEMENT.name</var></strong> fill the whole first orbital (<code>1s^2</code>). <var>electronsRemain(N-2)</var> 
+				We are now before <var>hintElement(3)</var>.
+			</p>
+		</div>
+
+		<p data-if="N >= 3">
+			<var>orbitalFill("second", "2s", 2, N - 2, 5)</var>
+		</p>
+
+		<p data-if="N >= 5">
+			<var>orbitalFill("third", "2p", 6, N - 4, 11)</var>
+		</p>
+
+		<p data-if="N >= 11">
+			<var>orbitalFill("4th", "3s", 2, N - 10, 13)</var>
+		</p>
+
+		<p data-if="N >= 13">
+			<var>orbitalFill("5th", "3p", 6, N - 12, 19)</var>
+		</p>
+
+		<p data-if="N >= 19">
+			<var>orbitalFill("6th", "4s", 2, N - 18, 21)</var>
+		</p>
+
+		<p data-if="N >= 21">
+			The next orbital is of the <code>d</code> type and lies in the 4th period,
+			but <code>d</code> orbitals are "pushed down a layer", so it is written as
+			<code>3d</code> instead of <code>4d</code>.
+		</p>
+		<p data-if="N >= 21">
+			<var>orbitalFill("7th", "3d", 10, N - 20, 31)</var>
+		</p>
+
+		<p data-if="N >= 31">
+			<var>orbitalFill("8th", "4p", 6, N - 30, 37)</var>
+		</p>
+
+		<p data-if="N >= 37">
+			<var>orbitalFill("9th", "5s", 2, N - 36, 39)</var>
+		</p>
+
+		<p data-if="N >= 39">
+			The next orbital is of the <code>d</code> type and lies in the 5th period,
+			but <code>d</code> orbitals are "pushed down a layer", so it is written as
+			<code>4d</code> instead of <code>5d</code>.
+		</p>
+		<p data-if="N >= 39">
+			<var>orbitalFill("10th", "4d", 10, N - 38, 49)</var>
+		</p>
+
+		<p>The electron configuration of <strong class="hint_orange"><var>ELEMENT.name</var></strong> is <code><var>SOLUTION</var></code>.</p>
 	</div>
 	</div>
 </body>
