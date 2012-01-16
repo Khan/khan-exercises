@@ -9,7 +9,7 @@
 	<div class="exercise">
 		<div class="problems">
 			<div id="accelerated" data-weight="3">
-				<div class="vars" data-ensure="(OMITTED !== UNKNOWN) && !NO_SOLUTION">
+				<div class="vars" data-ensure="(OMITTED !== UNKNOWN) &amp;&amp; !NO_SOLUTION">
 					<var id="OMITTED">randFromArray(['a', 'd', 't', 'v_i', 'v_f'])</var>
 					<var id="UNKNOWN">randFromArray(['a', 'd', 't', 'v_i', 'v_f'])</var>
 					<var id="ACCEL">randRangeNonZero(-200, 200) / 10</var>
@@ -20,42 +20,42 @@
 
 					<var id="NO_SOLUTION">
 						/* negative under radical */
-						(OMITTED === 'v_i' && UNKNOWN === 't'   && (V_FINAL * V_FINAL - 2 * ACCEL * DISP &lt; 0.1)) ||
-						(OMITTED === 'v_f' && UNKNOWN === 't'   && (V_INIT  * V_INIT  + 2 * ACCEL * DISP &lt; 0.1)) ||
-						(OMITTED === 't'   && UNKNOWN === 'v_i' && (V_FINAL * V_FINAL - 2 * ACCEL * DISP &lt; 0.1)) ||
-						(OMITTED === 't'   && UNKNOWN === 'v_f' && (V_INIT  * V_INIT  + 2 * ACCEL * DISP &lt; 0.1)) ||
+						(OMITTED === 'v_i' &amp;&amp; UNKNOWN === 't'   &amp;&amp; (V_FINAL * V_FINAL - 2 * ACCEL * DISP &lt; 0.1)) ||
+						(OMITTED === 'v_f' &amp;&amp; UNKNOWN === 't'   &amp;&amp; (V_INIT  * V_INIT  + 2 * ACCEL * DISP &lt; 0.1)) ||
+						(OMITTED === 't'   &amp;&amp; UNKNOWN === 'v_i' &amp;&amp; (V_FINAL * V_FINAL - 2 * ACCEL * DISP &lt; 0.1)) ||
+						(OMITTED === 't'   &amp;&amp; UNKNOWN === 'v_f' &amp;&amp; (V_INIT  * V_INIT  + 2 * ACCEL * DISP &lt; 0.1)) ||
 
 						/* division by 0 */
-						(OMITTED === 'd'   && UNKNOWN === 'a'   && TIME  === 0) ||
-						(OMITTED === 'd'   && UNKNOWN === 't'   && ACCEL === 0) ||
-						(OMITTED === 'v_i' && UNKNOWN === 'v_f' && TIME  === 0) ||
-						(OMITTED === 'v_i' && UNKNOWN === 'a'   && TIME  === 0) ||
-						(OMITTED === 'v_i' && UNKNOWN === 't'   && ACCEL === 0) ||
-						(OMITTED === 'v_f' && UNKNOWN === 'v_i' && TIME  === 0) ||
-						(OMITTED === 'v_f' && UNKNOWN === 'a'   && TIME  === 0) ||
-						(OMITTED === 'v_f' && UNKNOWN === 't'   && ACCEL === 0) ||
-						(OMITTED === 'a'   && UNKNOWN === 'v_i' && TIME  === 0) ||
-						(OMITTED === 'a'   && UNKNOWN === 'v_f' && TIME  === 0) ||
-						(OMITTED === 'a'   && UNKNOWN === 't'   && (-0.1 &lt; V_INIT + V_FINAL) && (V_INIT + V_FINAL &lt; 0.1)) ||
-						(OMITTED === 't'   && UNKNOWN === 'd'   && ACCEL === 0) ||
-						(OMITTED === 't'   && UNKNOWN === 'a'   && DISP  === 0)
+						(OMITTED === 'd'   &amp;&amp; UNKNOWN === 'a'   &amp;&amp; TIME  === 0) ||
+						(OMITTED === 'd'   &amp;&amp; UNKNOWN === 't'   &amp;&amp; ACCEL === 0) ||
+						(OMITTED === 'v_i' &amp;&amp; UNKNOWN === 'v_f' &amp;&amp; TIME  === 0) ||
+						(OMITTED === 'v_i' &amp;&amp; UNKNOWN === 'a'   &amp;&amp; TIME  === 0) ||
+						(OMITTED === 'v_i' &amp;&amp; UNKNOWN === 't'   &amp;&amp; ACCEL === 0) ||
+						(OMITTED === 'v_f' &amp;&amp; UNKNOWN === 'v_i' &amp;&amp; TIME  === 0) ||
+						(OMITTED === 'v_f' &amp;&amp; UNKNOWN === 'a'   &amp;&amp; TIME  === 0) ||
+						(OMITTED === 'v_f' &amp;&amp; UNKNOWN === 't'   &amp;&amp; ACCEL === 0) ||
+						(OMITTED === 'a'   &amp;&amp; UNKNOWN === 'v_i' &amp;&amp; TIME  === 0) ||
+						(OMITTED === 'a'   &amp;&amp; UNKNOWN === 'v_f' &amp;&amp; TIME  === 0) ||
+						(OMITTED === 'a'   &amp;&amp; UNKNOWN === 't'   &amp;&amp; (-0.1 &lt; V_INIT + V_FINAL) &amp;&amp; (V_INIT + V_FINAL &lt; 0.1)) ||
+						(OMITTED === 't'   &amp;&amp; UNKNOWN === 'd'   &amp;&amp; ACCEL === 0) ||
+						(OMITTED === 't'   &amp;&amp; UNKNOWN === 'a'   &amp;&amp; DISP  === 0)
 					</var>
 					<var id="PLUS_OR_MINUS_SOLUTION">
-						(OMITTED === 't' && UNKNOWN === 'v_i') ||
-						(OMITTED === 't' && UNKNOWN === 'v_f')
+						(OMITTED === 't' &amp;&amp; UNKNOWN === 'v_i') ||
+						(OMITTED === 't' &amp;&amp; UNKNOWN === 'v_f')
 					</var>
 					<var id="QUADRATIC_TWO_SOLUTION">
-						(OMITTED === 'v_i' && UNKNOWN === 't' && (V_FINAL * V_FINAL - 2 * ACCEL * DISP > 0.1)) ||
-						(OMITTED === 'v_f' && UNKNOWN === 't' && (V_INIT  * V_INIT  + 2 * ACCEL * DISP > 0.1))
+						(OMITTED === 'v_i' &amp;&amp; UNKNOWN === 't' &amp;&amp; (V_FINAL * V_FINAL - 2 * ACCEL * DISP &gt; 0.1)) ||
+						(OMITTED === 'v_f' &amp;&amp; UNKNOWN === 't' &amp;&amp; (V_INIT  * V_INIT  + 2 * ACCEL * DISP &gt; 0.1))
 					</var>
 				</div>
 
 				<div class="problem">
-					<p data-if="'d'   !== OMITTED && 'd'   !== UNKNOWN"><code>d =   <var>DISP</var> \text{m}</code></p>
-					<p data-if="'v_i' !== OMITTED && 'v_i' !== UNKNOWN"><code>v_i = <var>V_INIT</var> \frac{\text{m}}{\text{s}}</code></p>
-					<p data-if="'v_f' !== OMITTED && 'v_f' !== UNKNOWN"><code>v_f = <var>V_FINAL</var> \frac{\text{m}}{\text{s}}</code></p>
-					<p data-if="'a'   !== OMITTED && 'a'   !== UNKNOWN"><code>a =   <var>ACCEL</var> \frac{\text{m}}{\text{s}^2}</code></p>
-					<p data-if="'t'   !== OMITTED && 't'   !== UNKNOWN"><code>t =   <var>TIME</var> \text{s}</code></p>
+					<p data-if="'d'   !== OMITTED &amp;&amp; 'd'   !== UNKNOWN"><code>d =   <var>DISP</var> \text{m}</code></p>
+					<p data-if="'v_i' !== OMITTED &amp;&amp; 'v_i' !== UNKNOWN"><code>v_i = <var>V_INIT</var> \frac{\text{m}}{\text{s}}</code></p>
+					<p data-if="'v_f' !== OMITTED &amp;&amp; 'v_f' !== UNKNOWN"><code>v_f = <var>V_FINAL</var> \frac{\text{m}}{\text{s}}</code></p>
+					<p data-if="'a'   !== OMITTED &amp;&amp; 'a'   !== UNKNOWN"><code>a =   <var>ACCEL</var> \frac{\text{m}}{\text{s}^2}</code></p>
+					<p data-if="'t'   !== OMITTED &amp;&amp; 't'   !== UNKNOWN"><code>t =   <var>TIME</var> \text{s}</code></p>
 					<p><code><var>OMITTED</var> = {?}</code></p>
 					<p><code><var>UNKNOWN</var> = {?}</code></p>
 				</div>
@@ -93,15 +93,15 @@
 
 					<div class="set-sol" data-type="multiple" data-if="QUADRATIC_TWO_SOLUTION">
 						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
-							<var data-if="UNKNOWN === 't' && OMITTED === 'v_i'">roundTo(1, ((-V_FINAL) + sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var>
-							<var data-if="UNKNOWN === 't' && OMITTED === 'v_f'">roundTo(1, ((-V_INIT) + sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var>
+							<var data-if="UNKNOWN === 't' &amp;&amp; OMITTED === 'v_i'">roundTo(1, ((-V_FINAL) + sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var>
+							<var data-if="UNKNOWN === 't' &amp;&amp; OMITTED === 'v_f'">roundTo(1, ((-V_INIT) + sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var>
 						</span>
 						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">s</span>
 					</div>
 					<div class="set-sol" data-type="multiple" data-if="QUADRATIC_TWO_SOLUTION">
 						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
-							<var data-if="UNKNOWN === 't' && OMITTED === 'v_i'">roundTo(1, ((-V_FINAL) - sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var>
-							<var data-if="UNKNOWN === 't' && OMITTED === 'v_f'">roundTo(1, ((-V_INIT) - sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var>
+							<var data-if="UNKNOWN === 't' &amp;&amp; OMITTED === 'v_i'">roundTo(1, ((-V_FINAL) - sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var>
+							<var data-if="UNKNOWN === 't' &amp;&amp; OMITTED === 'v_f'">roundTo(1, ((-V_INIT) - sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var>
 						</span>
 						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">s</span>
 					</div>
@@ -131,7 +131,7 @@
 
 
 			<div id="constant" data-type="accelerated" data-weight="1">
-				<div class="vars" data-ensure="!(OMITTED === 'd' && UNKNOWN === 't') && !(OMITTED === 't' && UNKNOWN === 'd')">
+				<div class="vars" data-ensure="!(OMITTED === 'd' &amp;&amp; UNKNOWN === 't') &amp;&amp; !(OMITTED === 't' &amp;&amp; UNKNOWN === 'd')">
 					<var id="ACCEL">0</var>
 					<var id="V_INIT">randRange(5, 25)</var>
 					<var id="V_FINAL">V_INIT</var>
