@@ -1,5 +1,19 @@
 ({
 	"nl" : {
+		"vars1"	: '<var id="TYPES">[ "Equilateral", "Isosceles", "Scalene" ]</var>'+
+			'<var id="TYPE">randFromArray( TYPES )</var>'+
+			'<var id="TRIANGLE">function(){'+
+								'if ( TYPE === "Equilateral" ){'+
+									'return eqTriangle();'+
+								'}'+
+								'if ( TYPE === "Isosceles" ){'+
+									'return isoTriangle();'+
+								'}'+
+								'if ( TYPE === "Scalene" ){'+
+									'return scTriangle();'+
+								'}'+
+							'}()'+ 
+			'</var>',
 		"question1"	: 'Is this triangle equilateral, isosceles, or scalene?',
 		
 		"hint1"		: 'We know two angles of this triangle, so we can find the third by subtracting from <code>180</code>',
