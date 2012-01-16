@@ -73,7 +73,11 @@ jQuery.extend( KhanUtil, {
 			'pizza':'pizza\'s',
 			'persoon':'personen',
 			'auto':'auto\'s',
-			'boom':'bomen'
+			'boom':'bomen',
+			'hele getal':'hele getallen',
+			'tiental':'tientallen',
+			'honderdtal':'honderdtallen'',
+			'duizendtal':'duizendtallen'
 		};
 		
 		var pluralizeWord = function(word) {
