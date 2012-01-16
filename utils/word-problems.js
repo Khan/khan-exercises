@@ -186,10 +186,11 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	var vehicles = KhanUtil.shuffle([
 		"fiets",
 		"auto",
-		"paard",
+		"tram",
 		"motor",
 		"scooter",
-		"trein"
+		"trein",
+		"bus"
 	]);
 
 	var courses = KhanUtil.shuffle([
@@ -270,9 +271,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 	var exercises = KhanUtil.shuffle([
 		"push-up",
-		"sit-up",
-		"squat",
-		"jumping jack"
+		"sit-up"
 	]);
 
 	var fruits = KhanUtil.shuffle([
@@ -289,15 +288,15 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var deskItems = KhanUtil.shuffle([
-		"binder",
-		"crayon",
-		"eraser",
-		"folder",
+		"schrift",
+		"krijtje",
+		"gum",
+		"map",
 		"glue stick",
-		"marker",
+		"stift",
 		"notebook",
-		"pencil",
-		"rubber stamp"
+		"pen",
+		"potlood"
 	]);
 
 	var colors = KhanUtil.shuffle([
@@ -316,8 +315,8 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var schools = KhanUtil.shuffle([
-		"Loyola",
-		"Gardner Bullis",
+		"Noordwijkse school",
+		"Emmaschool",
 		"Almond",
 		"Covington",
 		"Springer",
@@ -371,12 +370,11 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var farmers = KhanUtil.shuffle([
-		{farmer:"farmer", crops:KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk"]), field:"field"},
-		{farmer:"gardener", crops:KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily"]), field:"garden"}
+		{farmer:"tuinder", crops:KhanUtil.shuffle(["tomaat", "aardappel", "wortel", "bonen", "corn stalk"]), field:"land"},
+		{farmer:"kweker", crops:KhanUtil.shuffle(["roos", "tulp", "narcis", "iris", "lily"]), field:"kas"}
 	]);
 
 	var distances = KhanUtil.shuffle([
-		"mile",
 		"kilometer"
 	]);
 
