@@ -43,7 +43,7 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>What is the electron configuration of <var>ELEMENT.name</var> (proton number <var>ELEMENT.protonNumber</var>)?</p>
+				<p>What is the electron configuration of <strong class="hint_orange"><var>ELEMENT.name</var></strong> (proton number <var>ELEMENT.protonNumber</var>)?</p>
 				<!-- TODO: show the periodic table -->
 			</div>
 
@@ -61,9 +61,9 @@
 						var el = new Element(i);
 						var color;
 						switch (el.block) {
-							case "s": color = "#ffdead"; break;
-							case "p": color = "#c0ffff"; break;
-							case "d": color = "#ffc0c0"; break;
+							case "s": color = "#CDF1FA"; break;
+							case "p": color = "#8FD0E0"; break;
+							case "d": color = "#569DBB"; break;
 							case "f": color = "#e8e8e8"; break;
 						}
 						var x = el.leftOffset * cellSize[0];
@@ -74,7 +74,7 @@
 						}
 
 						if (i == ELEMENT.protonNumber) {
-							color = "#80D5F2";
+							color = ORANGE;
 						}
 
 						style( {
@@ -91,7 +91,7 @@
 						var theLabel = label( [x, y], el.symbol, "center", false);
 						theLabel.css({
 							color: "#000"
-						});
+						}).attr("title", el.name);
 
 						if (i == ELEMENT.protonNumber) {
 							theLabel.css( {
