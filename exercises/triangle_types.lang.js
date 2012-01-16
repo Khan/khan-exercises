@@ -1,13 +1,13 @@
 ({
 	"nl" : {
-		"question1"	: 'Is this triangle equilateral, isosceles, or scalene?',
+		"question1"	: 'Is deze driehoek gelijkzijdig, gelijkbenig of ongelijkzijdig?',
 		
-		"hint1"		: 'We know two angles of this triangle, so we can find the third by subtracting from <code>180</code>',
-		"hint2"		: 'Because all three angles are different, this triangle is scalene.',
-		"hint3"		: 'Two angles are the same, therefore two corresponding sides are as well. Therefore, this triangle is isosceles. Isosceles means a triangle with same (iso) legs (sceles).',
-		"hint4"		: 'All angles equal 60. That means that all the sides are the same and that the triangle is equilateral. (Equilateral means equal(equi) sided(lateral).',
-		"hint5"		: 'Because all three sides are different, this triangle is scalene.',
-		"hint6"		: 'Two sides are the same, therefore, this triangle is isosceles. Isosceles means a triangle with same (iso) legs (sceles).',
-		"hint7"		: 'All sides are the same. That means that all the angles are 60 and that the triangle is equilateral. Equilateral means equal (equi) sided (lateral).'
+		"hint1"		: 'We weten al twee hoeken van deze driehoek, dus we kunnen de derde hoek berekenen door af te trekken van <code>180</code>',
+		"hint2"		: 'Omdat alledrie de hoeken verschillend zijn, is deze driehoek ongelijkzijdig.',
+		"hint3"		: 'Twee hoeken zijn gelijk, dus daarom zijn twee zijden ook gelijk. Daarom is deze driehoek gelijkbenig. Gelijkbenig betekent een driehoek met twee dezelfde zijden.',
+		"hint4"		: 'Alle hoeken zijn 60 graden. Dat betekent dat alle zijden gelijk zijn en dan noemen we een driehoek gelijkzijdig.',
+		"hint5"		: 'Omdat alle zijden verschillend zijn, is deze driehoek ongelijkzijdig.',
+		"hint6"		: 'Twee zijden zijn gelijk, daarom is deze driehoek gelijkbenig. Gelijkbenig betekent een driehoek met twee dezelfde (Gelijk) zijden (benig).',
+		"hint7"		: 'Alle zijden zijn gelijk. Dat betekent dat alle hoeken 60 graden zijn en dat de driehoek gelijkzijdig is.'
 		}
 })

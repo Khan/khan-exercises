@@ -1,10 +1,10 @@
 ({
 	"nl" : {
-		"question1"	: 'Reduce to lowest terms:',
+		"question1"	: 'Vereenvoudig zo ver mogelijk:',
 		
-		"hint1"		: 'Turn into a multiplication problem:',
+		"hint1"		: 'Maak er een vermenigvuldiging van:',
 		"hint2"		: 'Reduce terms with common factors:',
-		"hint3"		: 'Combine into one fraction:',
-		"hint4"		: 'Simplify:'
+		"hint3"		: 'Combineer tot &eacute;&eacute;n breuk:',
+		"hint4"		: 'Vereenvoudig:'
 		}
 })

@@ -47,7 +47,7 @@
 			<p><code><var>NUM</var>   = <var>getPrimeFactorization( NUM   ).join( "\\cdot" )</var></code><br />
 			   <code><var>DENOM</var> = <var>getPrimeFactorization( DENOM ).join( "\\cdot" )</var></code></p>
 
-			<p><code>\mbox{GCD}(<var>NUM</var>, <var>DENOM</var>) = <var>GCD_FACTORS.join( "\\cdot" )</var> = <var>GCD</var></code></p>
+			<p data-tt="hint3"><code>\mbox{GCD}(<var>NUM</var>, <var>DENOM</var>) = <var>GCD_FACTORS.join( "\\cdot" )</var> = <var>GCD</var></code></p>
 
 			<p>
 				<code>\dfrac{<var>NUM</var>}{<var>DENOM</var>}
@@ -68,9 +68,9 @@
 				= \dfrac{<var>NUM / GCD</var>}{<var>DENOM / GCD</var>}</code>
 			</p>
 			<div data-if="GCD_FACTORS.length !== 1" data-unwrap>
-				<p data-tt="hint3">You can also solve this problem by repeatedly breaking the numerator and denominator into common factors.</p>
+				<p data-tt="hint4">You can also solve this problem by repeatedly breaking the numerator and denominator into common factors.</p>
 				<div>
-					<p data-tt="hint4">For example:</p>
+					<p data-tt="hint5">For example:</p>
 					<p><code><var>HINT</var></code></p>
 				</div>
 			</div>
