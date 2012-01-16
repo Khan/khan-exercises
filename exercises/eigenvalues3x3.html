@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Eigenvalues</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="lambda1">randRange(-8, 8)</var>
+		<var id="lambda2">randRange(-8, 8)</var>
+		<var id="lambda3">randRange(-8, 8)</var>
+		<div data-ensure="AEI === sumoflambdas && const2 === const3 && const4 === const5">
+			<var id="A">randRange(-8, 8)</var>
+			<var id="B">randRange(-8, 8)</var>
+			<var id="C">randRange(-8, 8)</var>
+			<var id="D">randRange(-8, 8)</var>
+			<var id="E">randRange(-8, 8)</var>
+			<var id="F">randRange(-8, 8)</var>
+			<var id="G">randRange(-8, 8)</var>
+			<var id="H">randRange(-8, 8)</var>
+			<var id="I">randRange(-8, 8)</var>
+			<var id="AEI">A + E + I</var>
+			<var id="sumoflambdas">lambda1 + lambda2 + lambda3</var>
+			<var id="const2">A*E+A*I+E*I-B*D-E*G-H*F</var>
+			<var id="const3">lambda1 * lambda2 + lambda1*lambda3 + lambda2*lambda3</var>
+			<var id="const4">-A*E*I+A*F*H+B*D*I-B*F*G-C*D*H+C*E*G</var>
+			<var id="const5">-lambda1*lambda2*lambda3</var>
+		</div>
+		
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>Determine the eigenvalues of <code>A = \begin{bmatrix}
+					<var>A</var> & <var>B</var> & <var>C</var> \\
+					<var>D</var> & <var>E</var> & <var>F</var> \\
+					<var>G</var> & <var>H</var> & <var>I</var>
+				\end{bmatrix}</code>.</p>
+			</div>
+
+			<div class="solution" data-type="multiple">
+				<p>
+					<code>\lambda_1 = </code><span class="sol" data-fallback="1"><var>lambda1</var></span> 
+					<code>\lambda_2 = </code><span class="sol" data-fallback="1"><var>lambda2</var></span>
+				</p>
+			</div>
+			<div class="solution" data-type="set">
+				<div class="set-sol"><var>lambda1</var></div>
+				<div class="set-sol"><var>lambda2</var></div>
+				<div class="input-format">
+					<p><code>\lambda = \quad </code><span class="entry"></span></p>
+					<p><code>\lambda = \quad </code><span class="entry"></span></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="hints">
+		<p>First write the characteristic polynomial</p>
+		<p><code>p(\lambda) 
+			= \det(I \cdot \lambda - A)  
+			= \begin{bmatrix}
+					\color{blue}{\lambda - <var>A</var>} & \color{green}{<var>-B</var>} \\
+					\color{red}{<var>-C</var>} & \color{orange}{\lambda - <var>D</var>}
+				\end{bmatrix}</code>.</p>
+		<p><code>\hphantom{p(\lambda)}
+			= (\color{blue}{\lambda - <var>A</var>}) \cdot (\color{orange}{\lambda - <var>D</var>}) 
+				- \color{red}{<var>negParens(-C)</var>} \cdot \color{green}{<var>negParens(-B)</var>}</code></p>
+		<p><code>\hphantom{p(\lambda)}
+			= \lambda^2 - <var>ApD</var> \lambda + <var>A*D</var> - <var>B*C</var></code></p>
+		<p><code>\hphantom{p(\lambda)}
+			= \lambda^2 - <var>ApD</var> \lambda + <var>constTerm</var></code></p>
+		<p>Then factor it</p>
+		<p><code>\hphantom{p(\lambda)}
+			= (\lambda - <var>lambda1</var>) \cdot (\lambda - <var>lambda2</var>)</code></p>
+		<p>The eigenvalues are the roots of the characteristic polynomial</p>
+		<p><code>\lambda = <var>lambda1</var></code> and <code>\lambda = <var>lambda2</var></code></p>
+		<p>Bonus info: Try to compare the sum of the diagonal elements in <code>A</code> 
+			with the sum of the eigenvalues <code><var>lambda1</var> + <var>lambda2</var></code></p>
+	</div>
+	</div>
+</body>
+</html>
