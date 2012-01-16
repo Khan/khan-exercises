@@ -1706,6 +1706,21 @@ var Khan = (function() {
 				links.append("Original exercise: " + exercise.data( "name" ));
 			}
 
+			if ( jQuery.tmpl.DATA_ENSURE_LOOPS > 0 ) {
+				var dataEnsureInfo = jQuery( "<p>" );
+				dataEnsureInfo.append("Data-ensure loops: " + jQuery.tmpl.DATA_ENSURE_LOOPS);
+				if ( jQuery.tmpl.DATA_ENSURE_LOOPS > 15 ) {
+					dataEnsureInfo.css( "background-color", "yellow" );
+				}
+				if ( jQuery.tmpl.DATA_ENSURE_LOOPS > 30 ) {
+					dataEnsureInfo.css( "background-color", "orange" );
+				}
+				if ( jQuery.tmpl.DATA_ENSURE_LOOPS > 50 ) {
+					dataEnsureInfo.css( "background-color", "red" );
+				}
+				dataEnsureInfo.appendTo( debugWrap );
+			}
+
 			if ( typeof jQuery.tmpl.VARS !== "undefined" ) {
 				var varInfo = jQuery( "<p>" );
 
