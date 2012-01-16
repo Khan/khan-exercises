@@ -1,8 +1,8 @@
 ({
 	"nl" : {
-		"exercise1"	: '{\'s Middags wees de thermometer een temperatuur aan van|Op een koude middag in februari was het buiten} <var>abs( X )</var> graden onder nul. {\'s Avonds was de temperatuur <var>Y</var> graden lager:|Als je \'s avonds weer op de thermometer kijkt, zie je dat de temperatuur gedaald is met <var>Y</var> graden}.',
+		"exercise1"	: '{\'s Middags wees de thermometer een temperatuur aan van|Op een koude middag in februari was het buiten} <var>abs( X )</var> graden onder nul. {\'s Avonds was de temperatuur <var>Y</var> graden lager|Als je \'s avonds weer op de thermometer kijkt, zie je dat de temperatuur gedaald is met <var>Y</var> graden}.',
 		"exercise2"	: 'Hoe koud was het \'s avonds?',
-		"exercise3"	: '<var>Z</var></span> graden',
+		"exercise3"	: '<span class="sol" data-forms="integer"><var>Z</var></span> graden',
 		"exercise4"	: '{Toen <var>person( 1 )</var> \'s ochtends naar buiten ging om te gaan schaatsen|Toen <var>person( 1 )</var> zich voorbereidde op een dag lang schaatsen}, {keek <var>he( 1 )</var> op de thermometer en zag|hoorde <var>he( 1 )</var> op de radio} dat de temperatuur <var>abs( X )</var> graden onder nul was. Nadat <var>he( 1 )</var> {<var>( randRange( 1, 8 ))</var> uur geschaatst had| een lange dag geschaatst had} zag <var>he( 1 )</var> dat de temperatuur <var>Z</var> graden was.',
 		"exercise5"	: 'Met hoeveel graden was de temperatuur gestegen?',
 		"exercise6"	: '<span class="sol" data-forms="integer"><var>Y</var></span> graden',
@@ -21,8 +21,8 @@
 		"hint5"		: 'Verandering in temperatuur = uiteindelijke temperatuur - oorspronkelijke temperatuur',
 		"hint6"		: 'Verandering in temperatuur = <code><var>Z</var>^{\\circ} - (<var>X</var>^{\\circ}) = <var>Z</var>^{\\circ} - <var>X</var>^{\\circ} = <var>Y</var>^{\\circ}</code>',
 		"hint7"		: 'De temperatuur was gestegen met <code><var>Y</var>^{\\circ}</code>.',
-		"hint8"		: '<var>person( 1 )</var> was oorspronkelijkel <code><var>X</var></code> meter onder de oppervlakte, wat geschreven kan worden als een negatief getal, <code>-<var>X</var></code> meter.',
-		"hint9"		: '<var>person( 1 )</var> dook <code><var>Y</var></code> meter naar beneden, dus die afstand kunnen we aftrekken van <var>person( 1 )</var>’s oorspronkelijke niveau om te achterhalen hoe diep de vis was.',
+		"hint8"		: '<var>person( 1 )</var> was oorspronkelijk <code><var>X</var></code> meter onder de oppervlakte, wat geschreven kan worden als een negatief getal, <code>-<var>X</var></code> meter.',
+		"hint9"		: '<var>person( 1 )</var> dook <code><var>Y</var></code> meter naar beneden, dus die afstand kunnen we aftrekken van het oorspronkelijke niveau van <var>person( 1 )</var> om te achterhalen hoe diep de vis was.',
 		"hint10"		: 'De positie van de vis ten opzichte van het wateroppervlak <code>=-<var>X</var>\\text{ meter} - <var>Y</var>\\text{ meter} = <var>Z</var>\\text{ meter}</code>',
 		"hint11"		: 'De dolfijn was oorspronkelijk <var>X</var> meter onder de oppervlakte, wat geschreven kan worden als een negatief getal, -<var>X</var> meter.',
 		"hint12"		: 'Hoogte die dolfijn sprong = hoogste punt - oorspronkelijke positie',
