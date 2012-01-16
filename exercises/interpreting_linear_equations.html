@@ -154,7 +154,7 @@
 
 							// Reduce xDelta and yDelta until their absolute values are less than or equal
 							// to one.
-							if ( Math.abs( xDelta ) &gt; Math.abs( yDelta ) ) {
+							if ( Math.abs( xDelta ) > Math.abs( yDelta ) ) {
 								newXDelta = xDelta > 0 ? 1 : -1;
 								newYDelta = yDelta * newXDelta / xDelta;
 							} else {
@@ -182,7 +182,7 @@
 
 					<div class="graphie" id="graph">
 						graphInit({
-							axisArrows:  '<->',
+							axisArrows:  '&lt;->',
 							labelStep:   1,
 							scale:       20,
 							labelFormat: function( s ) { return '\\small{' + s + '}'; },
@@ -196,37 +196,35 @@
 				</div>
 
 				<div class="hints">
-						<div>
-							<div class="graphie" data-update="graph">
-								var lineStart,
-										lineEnd;
+					<div>
+						<div class="graphie" data-update="graph">
+							var lineStart, lineEnd;
 
-								if ( POINTX === SOLUTION ) {
-									lineStart = [ -10, POINTY ];
-									lineEnd = [ 10, POINTY ];
-								} else {
-									lineStart = [ POINTX, -10 ];
-									lineEnd = [ POINTX, 10 ];
-								}
+							if ( POINTX === SOLUTION ) {
+								lineStart = [ -10, POINTY ];
+								lineEnd = [ 10, POINTY ];
+							} else {
+								lineStart = [ POINTX, -10 ];
+								lineEnd = [ POINTX, 10 ];
+							}
 
-								line( lineStart, lineEnd, {
-									stroke:          '#28ae7b',
-									strokeDasharray: '- '
-								});
-							</div>
-
-							<p data-if="POINTX === SOLUTION">The dashed <span style="color: #28ae7b;">green</span> line shows where <code>y</code> is <code><var>POINTY</var></code>.</p>
-							<p data-else>The dashed <span style="color: #28ae7b;">green</span> line shows where <code>x</code> is <code><var>POINTX</var></code>.</p>
+							line( lineStart, lineEnd, {
+								stroke:          '#28ae7b',
+								strokeDasharray: '- '
+							});
 						</div>
 
-						<p>The <span style="color: #6495ed;">blue</span> and dashed <span style="color: #28ae7b;">green</span> lines meet at <code>(<var>POINTX</var>, <var>POINTY</var>)</code>.</p>
-						<p>Therefore <code><var>POINTX === SOLUTION ? 'x' : 'y'</var></code> is <code><var>SOLUTION</var></code>.</p>
+						<p data-if="POINTX === SOLUTION">The dashed <span style="color: #28ae7b;">green</span> line shows where <code>y</code> is <code><var>POINTY</var></code>.</p>
+						<p data-else>The dashed <span style="color: #28ae7b;">green</span> line shows where <code>x</code> is <code><var>POINTX</var></code>.</p>
+					</div>
+
+					<p>The <span style="color: #6495ed;">blue</span> and dashed <span style="color: #28ae7b;">green</span> lines meet at <code>(<var>POINTX</var>, <var>POINTY</var>)</code>.</p>
+					<p>Therefore <code><var>POINTX === SOLUTION ? 'x' : 'y'</var></code> is <code><var>SOLUTION</var></code>.</p>
 				</div>
 
 				<div class="solution" data-forms="integer" data-type="multiple">
 					<p><code><var>POINTX === SOLUTION ? 'x' : 'y'</var> =</code> <span class="sol" data-forms="integer"><var>SOLUTION</var></span></p>
-				</var>
-
+				</div>
 			</div>
 		</div>
 	</div>
