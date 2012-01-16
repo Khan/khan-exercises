@@ -52,11 +52,12 @@
 		<p><code>p(\lambda) 
 			= \det(I \cdot \lambda - A)  
 			= \begin{bmatrix}
-					\lambda - <var>A</var> & <var>-B</var> \\
-					<var>-C</var> & \lambda - <var>D</var>
+					\color{blue}{\lambda - <var>A</var>} & \color{green}{<var>-B</var>} \\
+					\color{red}{<var>-C</var>} & \color{orange}{\lambda - <var>D</var>}
 				\end{bmatrix}</code>.</p>
 		<p><code>\hphantom{p(\lambda)}
-			= (\lambda - <var>A</var>) \cdot (\lambda - <var>D</var>) - <var>C</var> \cdot <var>B</var></code></p>
+			= (\color{blue}{\lambda - <var>A</var>}) \cdot (\color{orange}{\lambda - <var>D</var>}) 
+				- \color{red}{<var>negParens(-C)</var>} \cdot \color{green}{<var>negParens(-B)</var>}</code></p>
 		<p><code>\hphantom{p(\lambda)}
 			= \lambda^2 - <var>ApD</var> \lambda + <var>constTerm</var></code></p>
 		<p>Then factor it</p>
