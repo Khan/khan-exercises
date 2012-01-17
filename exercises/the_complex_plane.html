@@ -12,11 +12,12 @@
 		<var id="UPPER_BOUND">5</var>
 		<var id="REAL">randRange(LOWER_BOUND, UPPER_BOUND)</var>
 		<var id="IMAG" data-ensure="IMAG != 0">randRange(LOWER_BOUND, UPPER_BOUND)</var>
+		<var id="REP">expr([ "+", REAL, [ "*", IMAG, "i"] ])</var>
 	</div>
 
 	<div class="problems">
 		<div>
-			<p class="question">Move the orange dot to <code><var>expr([ "+", REAL, [ "*", IMAG, "i"] ])</code>.</p>
+			<p class="question">Move the orange dot to <code><var>REP</var></code>.</p>
 			<div class="graphie" id="gauss-plane">
 				graphInit({
 					range: [ [ LOWER_BOUND - 1, UPPER_BOUND + 1], [ LOWER_BOUND - 1, UPPER_BOUND + 1 ] ],
@@ -34,8 +35,8 @@
 					if (x &lt; LOWER_BOUND || x &gt; UPPER_BOUND || y &lt; LOWER_BOUND || y &gt; UPPER_BOUND) {
 						return false;
 					}
-					jQuery("#real-part input").val(x);
-					jQuery("#imaginary-part input").val(y);
+					jQuery( "#real-part input" ).val( x );
+					jQuery( "#imaginary-part input" ).val( y );
 				};
 			</div>
 			<div class="solution" data-type="multiple">
@@ -48,15 +49,15 @@
 					real and imaginary axes correspond to the real and imaginary parts of the complex number.
 				</p>
 				<p>
-					<code><var>REAL</var> + <var>IMAG</var>i</code> has real part <var>REAL</var> and imaginary part <var>IMAG</var>.
+					<code><var>REP</var></code> has real part <code><var>REAL</var></code> and imaginary part <code><var>IMAG</var></code>.
 				</p>
 				<div>
 					<div class="graphie" data-update="gauss-plane">
-						style({ stroke: KhanUtil.RED, strokeWidth: 2.0 });
+						style({ stroke: KhanUtil.ORANGE, strokeWidth: 2.0 });
 						line( [ REAL, LOWER_BOUND - 1 ], [ REAL, UPPER_BOUND + 1 ] );
 						movablePoint.visibleShape().toFront();
 					</div>
-					<p>The vertical red line represents all complex numbers with real part <var>REAL</var> (including <code><var>REAL</var> + <var>IMAG</var>i</code>).
+					<p>The vertical <strong class="hint_orange">orange</strong> line represents all complex numbers with real part <code><var>REAL</var></code> (including <code><var>REP</var></code>).
 				</div>
 				<div>
 					<div class="graphie" data-update="gauss-plane">
@@ -64,13 +65,16 @@
 						line( [ LOWER_BOUND - 1, IMAG ], [ UPPER_BOUND + 1, IMAG ] );
 						movablePoint.visibleShape.toFront();
 					</div>
-					<p>The horizontal blue line represents all complex numbers with imaginary part <var>IMAG</var>, also including <code><var>REAL</var> + <var>IMAG</var>i</code>.
+					<p>The horizontal <strong class="hint_blue">blue</strong> line represents all complex numbers with imaginary part <code><var>IMAG</var></code>, also including <code><var>REP</var></code>.
 				</div>
 				<div>
 					<div class="graphie" data-update="gauss-plane">
 						movablePoint.moveTo( REAL, IMAG );
 					</div>
-					<p>The only complex number with real part <var>REAL</var> and imaginary part <var>IMAG</var> is <code><var>REAL</var> + <var>IMAG</var>i</code>, so it lies on the intersection of the vertical red line and the horizontal blue line.</p>
+					<p>
+						The only complex number with real part <code><var>REAL</var></code> and imaginary part <code><var>IMAG</var></code> is <code><var>REP</var></code>,
+						so it lies on the intersection of the vertical <strong class="hint_orange">orange</strong> line and the horizontal <strong class="hint_blue">blue</strong> line.
+					</p>
 				</div>
 			</div>
 		</div>
