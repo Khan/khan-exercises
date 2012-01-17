@@ -14,70 +14,69 @@
 			if ($("#orbitals div").length >= 10) {
 				return;
 			}
-			var newControl = $('<div />');
-			newControl.append('<input type="number" class="level" min="1" max="8" style="width: 4em;" />');
-			newControl.append('<select class="type">\n' +
+			var newControl = $( '<div />' );
+			newControl.append( '<input type="number" class="level" min="1" max="8" style="width: 4em;" />' );
+			newControl.append( '<select class="type">\n' +
 				'<option value="s">s</option>' +
 				'<option value="p">p</option>' +
 				'<option value="d">d</option>' +
-				'<option value="f">f</option>');
-			newControl.append('<input type="number" class="count" min="1" max="14" style="width: 4em;" />');
-			$("#orbitals").append(newControl);
+				'<option value="f">f</option>' );
+			newControl.append('<input type="number" class="count" min="1" max="14" style="width: 4em;" />' );
+			$( "#orbitals" ).append( newControl );
 		}
 
 		function removeOrbital() {
-			if ($("#orbitals div").length <= 1) {
+			if ( $( "#orbitals div" ).length <= 1 ) {
 				return;
 			}
-			$("#orbitals div").last().remove();
+			$( "#orbitals div" ).last().remove();
 		}
 
-		function electrons(n) {
-			return KhanUtil.plural(n, "electron");
+		function electrons( n ) {
+			return KhanUtil.plural( n, "electron" );
 		}
 
-		function electronsRemain(n) {
-			return electrons(n) + " " + KhanUtil.plural("remains", "remain", n) + ".";
+		function electronsRemain( n ) {
+			return electrons( n ) + " " + KhanUtil.plural( "remains", "remain", n ) + ".";
 		}
 
-		function lastGoes(where, text) {
+		function lastGoes( where, text ) {
 			return "The last electron goes to the " + where + " orbital, <code>" + text + "^1</code>.";
 		}
 
-		function thenGoRemain(size, order, where, remain, at) {
-			/* TODO: spin (go to) / (are put to) etc. */
-			var then = KhanUtil.randFromArray([ "Then, ", "Afterwards, ", "In the next step, " ]);
-			var go = KhanUtil.randFromArray([ "go to", "are put to"]);
-			var text = electrons(size) + " " + go + " the " + order + " orbital (<code>" + where + "</code>), which is written as <code>" + where + "^{" + size + "}</code>. " + electronsRemain(remain);
+		function thenGoRemain( size, order, where, remain, at ) {
+			var then = KhanUtil.randFromArray( [ "Then, ", "Afterwards, ", "In the next step, " ] );
+			var go = KhanUtil.randFromArray( [ "go to", "are put to"] );
+			var text = electrons(size) + " " + go + " the " + order + " orbital (<code>" + where + "</code>), which is written as <code>" + where + "^{" + size + "}</code>.";
 			var nowAt = 'We are now before <strong class="hint_green">' + KhanUtil.elements[at].name + '</strong>.';
 
-			var result = '<div> <p> ' + text + nowAt + ' </p> <div class="graphie" data-update="pt">\n' +
+			var result = '<div> <p> ' + text + electronsRemain( remain ) + nowAt + ' </p> <div class="graphie" data-update="pt">\n' +
 					'graph.pt.highlightElement(' + at + ', HINT);\n' +
 					'</div> </div>';
 			return result;
 		}
 
-		function remainingTwo(where, orbital) {
+		function remainingTwo( where, orbital ) {
 			return "The last 2 electrons go to the " + where + " orbital, <code>" + orbital + "^2</code>.";
 		}
 
-		function allRemaining(size, order, orbital) {
+		function allRemaining( size, order, orbital ) {
 			return "All remaining electrons are placed in the " + order + " orbital (<code>" + orbital + "</code>), which is written as <code>" + orbital + "^{" + size + "}</code>.";
 		}
 
-		function orbitalFill(order, orbital, size, n, at) {
+		function orbitalFill( order, orbital, size, n, at ) {
 			if (n == 1) {
-				return lastGoes(order, orbital);
+				return lastGoes( order, orbital );
 			} else if (n == 2) {
-				return remainingTwo(order, orbital);
+				return remainingTwo( order, orbital );
 			} else if (n <= size) {
-				return allRemaining(n, order, orbital);
+				return allRemaining( n, order, orbital );
 			} else {
-				return thenGoRemain(size, order, orbital, n - size, at);
+				return thenGoRemain( size, order, orbital, n - size, at );
 			}
 		}
 
-		function hintElement(n) {
+		function hintElement( n ) {
 			return '<strong class="hint_green">' + KhanUtil.elements[n].name + '</strong>';
 		}
 	</script>
@@ -90,14 +89,14 @@
 		<var id="N">ELEMENT.protonNumber</var>
 		<var id="SOLUTION">(function() {
 			var text = "";
-			for (var i in ELEMENT.electronConfiguration) {
+			for ( var i in ELEMENT.electronConfiguration ) {
 				var o = ELEMENT.electronConfiguration[i];
 				if (i != 0) text += " ";
 				text += o.level + o.type + "^{" + o.count + "}";
 			}
 			return text;
 		})()</var>
-		<var>(function() { addOrbital(); })()</var>
+		<var>addOrbital()</var>
 	</div>
 
 	<div class="problems">
@@ -132,13 +131,13 @@
 		<div class="guess">
 			(function() {
 				var guess = [];
-				$("#orbitals div").each(function (i, el) {
-					guess.push({
-						level: parseInt($(el).find(".level").val()), 
-						type: $(el).find(".type").val(),
-						count: parseInt($(el).find(".count").val())
-					});
-				});
+				$( "#orbitals div" ).each( function (i, el) {
+					guess.push( {
+						level: parseInt( $( el ).find( ".level" ).val() ), 
+						type: $( el ).find( ".type" ).val(),
+						count: parseInt( $( el ).find( ".count" ).val())
+					} );
+				} );
 				return guess;
 			})()
 		</div>
@@ -154,29 +153,28 @@
 			return true;
 		</div>
 		<div class="show-guess">
-			$("#orbitals div").each(function(i, el) { el.remove(); } );
+			$( "#orbitals div" ).each( function(i, el) { el.remove(); } );
 			for (var i = 0; i &lt; guess.length; i++) {
 				addOrbital();
-				var control = $("#orbitals div").last();
-				control.find(".type").val( guess[i].type );
-				control.find(".level").val( guess[i].level );
-				control.find(".value").val( guess[i].value );
+				var control = $( "#orbitals div" ).last();
+				control.find( ".type" ).val( guess[i].type );
+				control.find( ".level" ).val( guess[i].level );
+				control.find( ".value" ).val( guess[i].value );
 			}
 		</div>
 	</div>
 
 	<div class="hints">
-		<!-- Maximum proton number is 48. -->
 		<p>
 			The electron configuration of most elements can be created by "reading" the periodic table left to right.
 		</p>
 		<div data-if="N > 1">
 			<div class="graphie" data-update="pt">
-				graph.pt.highlightElement(1, HINT);
+				graph.pt.highlightElement( 1, HINT );
 			</div>
 			<p>
 				As <strong class="hint_orange"><var>ELEMENT.name</var></strong> has <var>N</var> electrons, we will "read through" <var>N</var> elements.
-				We start reading before <var>hintElement(1)</var>.
+				We start reading before <var>hintElement( 1 )</var>.
 			</p>
 		</div>
 		<p data-if="N == 1">
@@ -187,32 +185,33 @@
 		</p>
 		<div data-if="N > 2">
 			<div class="graphie" data-update="pt">
-				graph.pt.highlightElement(3, HINT);
+				graph.pt.highlightElement( 3, HINT );
 			</div>
 			<p>
-				The first two electrons of <strong class="hint_orange"><var>ELEMENT.name</var></strong> fill the whole first orbital (<code>1s^2</code>). <var>electronsRemain(N-2)</var> 
-				We are now before <var>hintElement(3)</var>.
+				The first two electrons of <strong class="hint_orange"><var>ELEMENT.name</var></strong> fill the whole first orbital (<code>1s^2</code>).
+				<var>electronsRemain( N - 2 )</var> 
+				We are now before <var>hintElement( 3 )</var>.
 			</p>
 		</div>
 
 		<p data-if="N >= 3">
-			<var>orbitalFill("second", "2s", 2, N - 2, 5)</var>
+			<var>orbitalFill( "second", "2s", 2, N - 2, 5 )</var>
 		</p>
 
 		<p data-if="N >= 5">
-			<var>orbitalFill("third", "2p", 6, N - 4, 11)</var>
+			<var>orbitalFill( "third", "2p", 6, N - 4, 11 )</var>
 		</p>
 
 		<p data-if="N >= 11">
-			<var>orbitalFill("4th", "3s", 2, N - 10, 13)</var>
+			<var>orbitalFill( "4th", "3s", 2, N - 10, 13 )</var>
 		</p>
 
 		<p data-if="N >= 13">
-			<var>orbitalFill("5th", "3p", 6, N - 12, 19)</var>
+			<var>orbitalFill( "5th", "3p", 6, N - 12, 19 )</var>
 		</p>
 
 		<p data-if="N >= 19">
-			<var>orbitalFill("6th", "4s", 2, N - 18, 21)</var>
+			<var>orbitalFill( "6th", "4s", 2, N - 18, 21 )</var>
 		</p>
 
 		<p data-if="N >= 21">
@@ -221,15 +220,15 @@
 			<code>3d</code> instead of <code>4d</code>.
 		</p>
 		<p data-if="N >= 21">
-			<var>orbitalFill("7th", "3d", 10, N - 20, 31)</var>
+			<var>orbitalFill( "7th", "3d", 10, N - 20, 31 )</var>
 		</p>
 
 		<p data-if="N >= 31">
-			<var>orbitalFill("8th", "4p", 6, N - 30, 37)</var>
+			<var>orbitalFill( "8th", "4p", 6, N - 30, 37 )</var>
 		</p>
 
 		<p data-if="N >= 37">
-			<var>orbitalFill("9th", "5s", 2, N - 36, 39)</var>
+			<var>orbitalFill( "9th", "5s", 2, N - 36, 39 )</var>
 		</p>
 
 		<p data-if="N >= 39">
@@ -238,8 +237,9 @@
 			<code>4d</code> instead of <code>5d</code>.
 		</p>
 		<p data-if="N >= 39">
-			<var>orbitalFill("10th", "4d", 10, N - 38, 49)</var>
+			<var>orbitalFill( "10th", "4d", 10, N - 38, 49 )</var>
 		</p>
+		<!-- Maximum proton number is 48. -->
 
 		<p>The electron configuration of <strong class="hint_orange"><var>ELEMENT.name</var></strong> is <code><var>SOLUTION</var></code>.</p>
 	</div>

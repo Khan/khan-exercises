@@ -1,6 +1,7 @@
 function Element(identifier) {
 	var elements = KhanUtil.elements;
 	var element, number;
+
 	switch (typeof identifier) {
 		case "number":
 			// Assume proton number.
@@ -41,6 +42,7 @@ function Element(identifier) {
 		// Block = last filled orbital type 
 		this.block = ec[ec.length - 1].type;
 
+		// The following is used to determine the X coordinate of the element in the periodic table.
 		// Count elements since last inert gas
 		var l = 0;
 		for (var i = ec.length - 1; i >= 0; i--) {
@@ -56,7 +58,7 @@ function Element(identifier) {
 		// Helium is a special case
 		if (number == 2) l = 18;
 
-		// Shift lanthanoids and actinoids out
+		// Shift elements after lanthanoids and actinoids as if they weren't there
 		if (l > 16 && this.period > 5) l -= 14;
 
 		this.leftOffset = l;
@@ -189,11 +191,10 @@ jQuery.extend( KhanUtil, {
 	],
 
 	// Computes the electron configuration of a well-behaved element
-	// by filling it an orbital at a time.
+	// by filling it an orbital at a time. If the element violatesMadelung,
+	// this doesn't give the exact right result, but what it gives is still
+	// used in calculations of the position of the element in the periodic table.
 	getElectronConfiguration: function (n) {
-		//if (KhanUtil.elements[n].violatesMadelung) {
-		//	return [];
-		//}
 		var configuration = [];
 		var orbitals = [
 			"1s", "2s", "2p", "3s", "3p", "4s", "3d", "4p", "5s", "4d", "5p",
@@ -222,7 +223,7 @@ jQuery.extend( KhanUtil, {
 		return configuration;
 	},
 
-	// Returns a random element from a given range of proton numbers
+	// Returns a random element from a given range of proton numbers.
 	randElement: function ( min, max ) {
 		if (!min || min < 1) {
 			min = 1;
