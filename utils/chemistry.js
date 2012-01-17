@@ -71,10 +71,37 @@ function Element(identifier) {
 		// Helium is a special case
 		if (number == 2) l = 18;
 
-		// Shift elements after lanthanoids and actinoids as if they weren't there
+		// Shift elements after lanthanides and actinides as if they weren't there
 		if (l > 16 && this.period > 5) l -= 14;
 
 		this.leftOffset = l;
+
+		// The following element types have their type listed in the KhanUtil.elements array.
+		//	- post-transition metals (Al, Ga, In, Sn, Tl, Pb, Bi)
+		//	- metalloids (B, Si, Ge, As, Sb, Te, Po)
+		//	- general nonmetals (H, C, N, O, P, S, Se)
+		if (!this.type) {
+			var type;
+			if (this.leftOffset == 1 && number > 1) { // alkali metals: everything in group 1 but hydrogen
+				type = "alkali metal";
+			} else if (this.leftOffset == 2) { // alkaline earth metals
+				type = "alkaline earth metal";
+			} else if (this.number >= 57 && this.number <= 71) {
+				type = "lanthanide";
+			} else if (this.number >= 89 && this.number <= 103) {
+				type = "actinide";
+			} else if (this.block == "d") {
+				type = "transition metal";
+			} else if (this.leftOffset == 17) {
+				type = "halogen";
+			} else if (this.leftOffset == 18) {
+				type = "noble gas";
+			}
+
+			if (type) {
+				this.type = type;
+			}
+		}
 	}
 
 	KhanUtil.elements[number] = this;
@@ -88,22 +115,22 @@ jQuery.extend( KhanUtil, {
 	elements: [
 		{}, // fodder to map element index to the proton number
 		// violatesMadelung is truthy if the element's electron configuration doesn't follow common rules.
-		{ name: "hydrogen", symbol: "H" },
+		{ name: "hydrogen", symbol: "H", type: "general nonmetal" },
 		{ name: "helium", symbol: "He" },
 		{ name: "lithium", symbol: "Li" },
 		{ name: "beryllium", symbol: "Be" },
-		{ name: "boron", symbol: "B" },
-		{ name: "carbon", symbol: "C" },
-		{ name: "nitrogen", symbol: "N" },
-		{ name: "oxygen", symbol: "O" },
+		{ name: "boron", symbol: "B", type: "metalloid" },
+		{ name: "carbon", symbol: "C", type: "general nonmetal" },
+		{ name: "nitrogen", symbol: "N", type: "general nonmetal" },
+		{ name: "oxygen", symbol: "O", type: "general nonmetal" },
 		{ name: "fluorine", symbol: "F" },
 		{ name: "neon", symbol: "Ne" },
 		{ name: "sodium", symbol: "Na" },
 		{ name: "magnesium", symbol: "Mg" },
-		{ name: "aluminium", symbol: "Al" },
-		{ name: "silicon", symbol: "Si" },
-		{ name: "phosphorus", symbol: "P" },
-		{ name: "sulfur", symbol: "S" },
+		{ name: "aluminium", symbol: "Al", type: "post-transition metal" },
+		{ name: "silicon", symbol: "Si", type: "metalloid" },
+		{ name: "phosphorus", symbol: "P", type: "general nonmetal" },
+		{ name: "sulfur", symbol: "S", type: "general nonmetal" },
 		{ name: "chlorine", symbol: "Cl" },
 		{ name: "argon", symbol: "Ar" },
 		{ name: "potassium", symbol: "K" },
@@ -118,10 +145,10 @@ jQuery.extend( KhanUtil, {
 		{ name: "nickel", symbol: "Ni", violatesMadelung: true },
 		{ name: "copper", symbol: "Cu", violatesMadelung: true },
 		{ name: "zinc", symbol: "Zn" },
-		{ name: "gallium", symbol: "Ga" },
-		{ name: "germanium", symbol: "Ge" },
-		{ name: "arsenic", symbol: "As" },
-		{ name: "selenium", symbol: "Se" },
+		{ name: "gallium", symbol: "Ga", type: "post-transition metal" },
+		{ name: "germanium", symbol: "Ge", type: "metalloid" },
+		{ name: "arsenic", symbol: "As", type: "metalloid" },
+		{ name: "selenium", symbol: "Se", type: "general nonmetal" },
 		{ name: "bromine", symbol: "Br" },
 		{ name: "krypton", symbol: "Kr" },
 		{ name: "rubidium", symbol: "Rb" },
@@ -136,10 +163,10 @@ jQuery.extend( KhanUtil, {
 		{ name: "palladium", symbol: "Pd", violatesMadelung: true },
 		{ name: "silver", symbol: "Ag", violatesMadelung: true },
 		{ name: "cadmium", symbol: "Cd" },
-		{ name: "indium", symbol: "In" },
-		{ name: "tin", symbol: "Sn" },
-		{ name: "antimony", symbol: "Sb" },
-		{ name: "tellurium", symbol: "Te" },
+		{ name: "indium", symbol: "In", type: "post-transition metal" },
+		{ name: "tin", symbol: "Sn", type: "post-transition metal" },
+		{ name: "antimony", symbol: "Sb", type: "metalloid" },
+		{ name: "tellurium", symbol: "Te", type: "metalloid" },
 		{ name: "iodine", symbol: "I" },
 		{ name: "xenon", symbol: "Xe" },
 		{ name: "caesium", symbol: "Ce" },
@@ -168,10 +195,10 @@ jQuery.extend( KhanUtil, {
 		{ name: "platinum", symbol: "Pt", violatesMadelung: true },
 		{ name: "gold", symbol: "Au", violatesMadelung: true },
 		{ name: "mercury", symbol: "Hg" },
-		{ name: "thallium", symbol: "Tl" },
-		{ name: "lead", symbol: "Pb" },
-		{ name: "bismuth", symbol: "Bi" },
-		{ name: "polonium", symbol: "Po" },
+		{ name: "thallium", symbol: "Tl", type: "post-transition metal" },
+		{ name: "lead", symbol: "Pb", type: "post-transition metal" },
+		{ name: "bismuth", symbol: "Bi", type: "post-transition metal" },
+		{ name: "polonium", symbol: "Po", type: "metalloid" },
 		{ name: "astatine", symbol: "At" },
 		{ name: "radon", symbol: "Rn" },
 		{ name: "francium", symbol: "Fr" },
