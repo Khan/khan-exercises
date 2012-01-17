@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Adding and subtracting complex numbers</title>
@@ -20,12 +20,22 @@
 		<var id="ANSWER_IMAG">
 			( OPERATION === "add" ? ( A_IMAG + B_IMAG ) : ( A_IMAG - B_IMAG ) )
 		</var>
+		<var id="A_REP">
+			expr( [ "+", A_REAL, [ "*", A_IMAG, "i"] ] )
+		</var>
+		<var id="B_REP">
+			expr( [ "+", B_REAL, [ "*", B_IMAG, "i"] ] )
+		</var>
 	</div>
 
 	<div class="problems">
 		<div>
 			<p class="question"><var>OPERATION == "add" ? "Add" : "Subtract"</var> the following complex numbers:</p>
-			<p><code>(<var>A_REAL</var> + <var>A_IMAG</var>i) <var>OPERATOR</var> (<var>B_REAL</var> + <var>B_IMAG</var>i)</code></p>
+			<p>
+				<code class="hint_orange">(<var>A_REP</var>)</code>
+				<code><var>OPERATOR</var></code>
+				<code class="hint_blue">(<var>B_REP</var>)</code>
+			</p>
 			<div class="solution" data-type="multiple">
 				<p>Real part = <span class="sol" data-type="decimal"><var>ANSWER_REAL</var><span></p>
 				<p>Imaginary part = <span class="sol" data-type="decimal"><var>ANSWER_IMAG</var></span></p>
@@ -36,16 +46,24 @@
 					Complex numbers can be <var>OPERATION</var>ed by separately <var>OPERATION</var>ing their real and imaginary components.
 				</p>
 				<p>
-					The real components of the two complex numbers are <code><var>A_REAL</var></code> and <code><var>B_REAL</var></code>, respectively,
-					so the real component of the result will be <code><var>A_REAL</var> <var>OPERATOR</var> <var>B_REAL</var></code>, which equals <var>ANSWER_REAL</var>.
+					The real components of the two complex numbers are <code class="hint_orange"><var>A_REAL</var></code> and <code class="hint_blue"><var>B_REAL</var></code>, respectively,
+					so the real component of the result will be 
+						<code class="hint_orange"><var>A_REAL</var></code>
+						<code><var>OPERATOR</var></code>
+						<code class="hint_blue"><var>negParens(B_REAL)</var></code>,
+					which equals <code><var>ANSWER_REAL</var></code>.
 				</p>
 				<p>
-					The imaginary components of the two complex numbers are <var>A_IMAG</var> and <var>B_IMAG</var>, respectively,
-					so the imaginary component of the result will be <code><var>A_IMAG</var> <var>OPERATOR</var> <var>B_IMAG</var></code>, which equals <var>ANSWER_IMAG</var>.
+					The imaginary components of the two complex numbers are <code class="hint_orange"><var>A_IMAG</var></code> and <code class="hint_blue"><var>B_IMAG</var></code>, respectively,
+					so the imaginary component of the result will be
+						<code class="hint_orange"><var>A_IMAG</var></code>
+						<code><var>OPERATOR</var></code>
+						<code class="hint_blue"><var>negParens(B_IMAG)</var></code>,
+					which equals <code><var>ANSWER_IMAG</var></code>.
 				</p>
 				<p>
-					The result is <code><var>ANSWER_REAL</var> + <var>ANSWER_IMAG</var>i</code>; its real component is <var>ANSWER_REAL</var>
-					and its complex component is <var>ANSWER_IMAG</var>.
+					The result is <code><var>ANSWER_REAL</var> + <var>ANSWER_IMAG</var>i</code>; its real component is <code><var>ANSWER_REAL</var></code>
+					and its complex component is <code><var>ANSWER_IMAG</var></code>.
 				</p>
 			</div>
 		</div>
