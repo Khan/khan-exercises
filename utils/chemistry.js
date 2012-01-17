@@ -22,6 +22,11 @@ function Element(identifier) {
 			return null;
 	}
 
+	// If this element is already known as an Element instance, return it.
+	if (KhanUtil.elements[number] instanceof Element) {
+		return KhanUtil.elements[number];
+	}
+
 	if (element) {
 		$.extend(this, element);
 		this.protonNumber = number;
@@ -45,16 +50,19 @@ function Element(identifier) {
 		this.block = ec[ec.length - 1].type;
 
 		// The following is used to determine the X coordinate of the element in the periodic table.
-		// Count elements since last inert gas
-		var l = 0; //number - lastNobleGas;
+		// Count elements since last noble gas.
+		var l = 0;
 		for (var i = ec.length - 1; i >= 0; i--) {
-			if (i != ec.length - 1 && (ec[i].type == "p" || (ec[i].type == "s" && number > 2 && i == 0))) {
+			// If we are a noble gas, we don't want to stop at ourselves.
+			if (i != ec.length - 1 &&
+				(ec[i].type == "p" || (ec[i].type == "s" && number > 2 && i == 0))) {
 				break;
 			}
 			l += ec[i].count;
 		}
 
 		this.lastNobleGas = number - l;
+
 		this.isNobleGas = (this.block === "p" && ec[ec.length - 1].count == 6) || (number == 2);
 
 		// Shift P-group in period 2 and 3
@@ -68,10 +76,15 @@ function Element(identifier) {
 
 		this.leftOffset = l;
 	}
+
+	KhanUtil.elements[number] = this;
 }
 
 (function() {
 jQuery.extend( KhanUtil, {
+	// The periodic table.
+	// This is replaced on the fly with Element objects (those also know their electron configuration etc.)
+	// to conserve resources.
 	elements: [
 		{}, // fodder to map element index to the proton number
 		// violatesMadelung is truthy if the element's electron configuration doesn't follow common rules.
@@ -250,7 +263,7 @@ jQuery.extend( KhanUtil, {
 			var element;
 			$( KhanUtil.elements ).each(function (i, e) {
 				if (e.symbol === match[1]) {
-					element = new Element(i);
+					element = new Element( i );
 					return false;
 				}
 			});
@@ -261,9 +274,9 @@ jQuery.extend( KhanUtil, {
 
 			result = element.electronConfiguration;
 			
-			// Handle [Kr]5s2 gracefully
+			// Handle [Kr]5s2 gracefully: remove the [Kr] and keep the 5s2
 			if (split[0].length > match[1].length + 2) {
-				split[0] = split[0].slice(match[1].length + 2);
+				split[0] = split[0].slice( match[1].length + 2 );
 			} else {
 				split.shift();
 			}
@@ -277,9 +290,9 @@ jQuery.extend( KhanUtil, {
 			match = split[i].match( /(\d+)(\w)(\d+)/ );
 			if (match) {
 				result.push({
-					level: parseInt(match[1]),
+					level: parseInt( match[1] ),
 					type: match[2],
-					count: parseInt(match[3])
+					count: parseInt( match[3] )
 				});
 			} else {
 				return false;
