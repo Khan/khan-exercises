@@ -14,7 +14,7 @@
 					<var id="B">randRangeNonZero( -4, 4 )</var>
 					<var id="C">randRange( -50, 50 )</var>
 					<var id="GCD">getGCD( A, B )</var>
-					<var id="SIGN">A*B &lt 0 ? -1 : 1</var>
+					<var id="SIGN">A*B &lt 0 ? 1 : -1</var>
 					<var id="NCOEF">Math.abs( A / GCD )</var>
 					<var id="DCOEF">Math.abs( B / GCD )</var>
 					<var id="N">['*', NCOEF, 'x']</var>
@@ -67,7 +67,7 @@
 					</div>
 					<div>
 						<p>Solving for <code>y'</code>:</p>
-						<p><code>y' = \dfrac{<var>2*A</var>x}{<var>2*B</var>y}</code></p>
+						<p><code>y' = \dfrac{<var>-2*A</var>x}{<var>2*B</var>y}</code></p>
 					</div>
 					<div>
 						<p>Simplifying:</p>
