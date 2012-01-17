@@ -46,6 +46,14 @@ function Element(identifier) {
 			}
 		}
 
+		// Now calculate the number of valence electrons.
+		this.valenceElectrons = 0;
+		for (var i in ec) {
+			if (ec[i].level === this.period) {
+				this.valenceElectrons += ec[i].count;
+			}
+		}
+
 		// Block = last filled orbital type.
 		this.block = ec[ec.length - 1].type;
 
