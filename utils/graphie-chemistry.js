@@ -63,11 +63,11 @@ function PeriodicTable(height, cellSize) {
 			var color;
 
 			switch (el.block) {
-				// several shades of blue
-				case "s": color = "#CDF1FA"; break;
-				case "p": color = "#8FD0E0"; break;
-				case "d": color = "#569DBB"; break;
-				case "f": color = "#E8E8E8"; break;
+				// several shades of light green
+				case "s": color = "#E6FFCF"; break;
+				case "p": color = "#C6F29F"; break;
+				case "d": color = "#94E685"; break;
+				case "f": color = "#5FD866"; break;
 			}
 
 			_this.renderCell(el, color);

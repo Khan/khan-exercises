@@ -5,72 +5,122 @@
 	<title>Electron configuration</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
-		/*
-		 * Used magic constants:
-		 *	maximum number of orbitals: 10
-		 *	maximum element proton number: 48 (cadmium; exactly what fits in the first 10 orbitals).
-		 */
-
 		function electrons( n ) {
 			return KhanUtil.plural( n, "electron" );
 		}
 
 		function electronsRemain( n ) {
-			return electrons( n ) + " " + KhanUtil.plural( "remains", "remain", n ) + ".";
+			return electrons( n ) + " " + KhanUtil.plural( "remains", "remain", n );
 		}
 
-		function lastGoes( where, text ) {
-			return "The last electron goes to the " + where + " orbital, <code>" + text + "^1</code>.";
+		function lastGoes( orbital ) {
+			return "The last electron goes to orbital <code>" + KhanUtil.orbitals[orbital] + "</code>: <code>" + KhanUtil.orbitals[orbital] + "^{1}</code>.";
 		}
 
-		function thenGoRemain( size, order, where, remain, at ) {
-			var then = KhanUtil.randFromArray( [ "Then, ", "Afterwards, ", "In the next step, " ] );
-			var go = KhanUtil.randFromArray( [ "go to", "are put to"] );
-			var text = electrons(size) + " " + go + " the " + order + " orbital (<code>" + where + "</code>), which is written as <code>" + where + "^{" + size + "}</code>.";
-			var nowAt = 'We are now before <strong class="hint_green">' + KhanUtil.elements[at].name + '</strong>.';
+		function orbitalText( order, period, orbital ) {
+			var orb = KhanUtil.orbitals[orbital];
+			var type = orb[1];
+			var text = "The " + order + " orbital we will put electrons in is of type <code>" + KhanUtil.capitalize(type) + "</code> " +
+				" and lies in period <code>" + period + "</code>. ";
+			text += "It is an <code>" + KhanUtil.capitalize(type) + "</code> orbital, so ";
+			switch (type) {
+				case "s":
+				case "p":
+					text += "the layer is the same as the period";
+					break;
+				case "d":
+					text += "the layer is 1 less than the period";
+					break;
+				case "f":
+					text += "the layer is 2 less than the period";
+					break;
+			}
+			text += ": <code>" + orb + "</code>. ";
 
-			var result = '<div> <p> ' + text + " " + electronsRemain( remain ) + " " + nowAt + ' </p> <div class="graphie" data-update="pt">\n' +
-					'graph.pt.highlightElement(' + at + ', HINT);\n' +
-					'</div> </div>';
-			return result;
+			text += "<code>" + KhanUtil.capitalize(type) + "</code> orbitals hold up to " + KhanUtil.orbitalCapacities[type] + " electrons.";
+			return text;
 		}
 
-		function remainingTwo( where, orbital ) {
-			return "The last 2 electrons go to the " + where + " orbital, <code>" + orbital + "^2</code>.";
+		var colorPairs = [
+			[ "hint_blue", "BLUE" ],
+			[ "hint_pink", "PINK" ]
+		];
+
+		function electronsFill( N, M, orbital, colorPair ) {
+			var orb = KhanUtil.orbitals[orbital];
+			var cap = KhanUtil.orbitalCapacities[orb[1]];
+			var highlight = '<div class="graphie" data-update="pt">\n' +
+				'graph.pt.highlightElement(' + (N + cap) + ', KhanUtil.' + colorPair[1] + ');\n' +
+				'</div>';
+			var text = "<div> " + highlight + " <p>";
+			text += electrons( cap ) + " fill the orbital <code>" + orb + "</code>: <code>" + orb + "^{" + cap + "}</code>. ";
+			text += electronsRemain( M - cap ) + ' and we are now adding electrons to <strong class="' + colorPair[0] + '">' +
+				KhanUtil.elements[ N + cap ].name + '</strong>.';
+			text += "</p> </div>";
+			// TODO hint
+			return text;
+		}
+
+		function lastElectrons( N, orbital ) {
+			var orb = KhanUtil.orbitals[orbital];
+			var text = "The last " + N + " electrons are put in orbital <code>" + orb + "</code>: <code>" + orb + "^{" + N + "}</code>.";
+			return "<p>" + text + "</p>";
+		}
+
+		function remainingTwo( orbital ) {
+			var orb = KhanUtil.orbitals[orbital];
+			return "The remaining two electrons fill <code>" + orb + "</code>: "+
+				"<code>" + orb + "^{2}</code>.";
 		}
 
 		function allRemaining( size, order, orbital ) {
 			return "All remaining electrons are placed in the " + order + " orbital (<code>" + orbital + "</code>), which is written as <code>" + orbital + "^{" + size + "}</code>.";
 		}
 
-		function orbitalFill( order, orbital, size, n, at ) {
-			if (n == 1) {
-				return lastGoes( order, orbital );
-			} else if (n == 2) {
-				return remainingTwo( order, orbital );
-			} else if (n <= size) {
-				return allRemaining( n, order, orbital );
-			} else {
-				return thenGoRemain( size, order, orbital, n - size, at );
-			}
-		}
+		var orders = [ "first", "second", "third", "fourth", "fifth" ];
 
-		function hintElement( n ) {
-			return '<strong class="hint_green">' + KhanUtil.elements[n].name + '</strong>';
+		function orbitalFill( order, period, orbital, N, M ) {
+			var text = "<div data-unwrap>";
+			text += "<p>" + orbitalText( orders[order], period, orbital ) + "</p>";
+			var orb = KhanUtil.orbitals[orbital];
+			var cap = KhanUtil.orbitalCapacities[orb[1]];
+			if (M == 1) {
+				text += "<p>" + lastGoes( orbital ) + "</p>";
+			} else if (M == 2 && cap == 2) {
+				text += "<p>" + remainingTwo( orbital ) + "</p>";
+			} else if (M <= cap) {
+				text += lastElectrons( M, orbital );
+			} else if (M > cap) {
+				text += electronsFill( N, M, orbital, colorPairs[ order % colorPairs.length ] );
+				text += orbitalFill( order + 1, period, orbital + 1, N + cap, M - cap );
+			}
+			text += "</div>";
+			console.log(text);
+			return text;
 		}
 	</script>
 </head>
 <body>
 	<div class="exercise">
 	<div class="vars" data-ensure="!ELEMENT.violatesMadelung">
-		<var id="HINT">GREEN</var>
-		<var id="ELEMENT">KhanUtil.randElement(1, 48)</var>
+		<var id="ELEMENT">KhanUtil.randElement()</var>
 		<var id="N">ELEMENT.protonNumber</var>
+		<var id="LAST_NOBLE_GAS">(ELEMENT.lastNobleGas > 0) ? new Element(ELEMENT.lastNobleGas) : false</var>
+		<var id="M">LAST_NOBLE_GAS ? (ELEMENT.protonNumber - LAST_NOBLE_GAS.protonNumber) : ELEMENT.protonNumber</var>
+		<var id="O">LAST_NOBLE_GAS ? LAST_NOBLE_GAS.orbitalCount : 0</var>
+		<var id="P">ELEMENT.period</var>
+
 		<var id="SOLUTION">(function() {
 			var text = "";
+			if (LAST_NOBLE_GAS) {
+				text = "[" + LAST_NOBLE_GAS.symbol + "]";
+			}
 			for ( var i in ELEMENT.electronConfiguration ) {
+				if (LAST_NOBLE_GAS && LAST_NOBLE_GAS.electronConfiguration.length > i) {
+					continue;
+				}
 				var o = ELEMENT.electronConfiguration[i];
-				if (i != 0) text += " ";
+				if (text != "") text += " ";
 				text += o.level + o.type + "^{" + o.count + "}";
 			}
 			return text;
@@ -106,8 +156,6 @@
 		<div class="validator-function">
 			var ec = ELEMENT.electronConfiguration;
 			var g = KhanUtil.parseElectronConfiguration( guess );
-			console.log(ec);
-			console.log(g);
 			for (var i = 0; i &lt; ec.length; i++) {
 				if ( ec[i].type != g[i].type ||
 					ec[i].level != g[i].level ||
@@ -123,17 +171,12 @@
 	</div>
 
 	<div class="hints">
-		<!-- TODO: rewrite to use last noble gas -->
-		<p>
-			The electron configuration of most elements can be created by "reading" the periodic table left to right.
-		</p>
-		<div data-if="N > 1">
-			<div class="graphie" data-update="pt">
-				graph.pt.highlightElement( 1, HINT );
-			</div>
+		<div data-unwrap>
 			<p>
-				As <strong class="hint_orange"><var>ELEMENT.name</var></strong> has <var>N</var> electrons, we will "read through" <var>N</var> elements.
-				We start reading before <var>hintElement( 1 )</var>.
+				The electron configuration of most elements can be created by "reading" the periodic table left to right.
+			</p>
+			<p>
+				Electron configurations are commonly written as electrons added after the electron configuration of the last noble gas.
 			</p>
 		</div>
 		<p data-if="N == 1">
@@ -142,65 +185,29 @@
 		<p data-if="N == 2">
 			The only two electrons of <strong class="hint_orange">helium</strong> fill the whole first orbital (<code>1s^2</code>).
 		</p>
-		<div data-if="N > 2">
-			<div class="graphie" data-update="pt">
-				graph.pt.highlightElement( 3, HINT );
+		<div data-if="N > 2" data-unwrap>
+			<div>
+				<div class="graphie" data-update="pt">
+					graph.pt.highlightElement( LAST_NOBLE_GAS.protonNumber, "#fff" );
+				</div>
+				<p>
+					The last noble gas before <strong class="hint_orange"><var>ELEMENT.name</var></strong> is
+					<strong><var>LAST_NOBLE_GAS.name</var></strong> (shown as white),
+					so the electron configuration will start with <code>[<var>LAST_NOBLE_GAS.symbol</var>]</code>.
+				</p>
 			</div>
 			<p>
-				The first two electrons of <strong class="hint_orange"><var>ELEMENT.name</var></strong> fill the whole first orbital (<code>1s^2</code>).
-				<var>electronsRemain( N - 2 )</var> 
-				We are now before <var>hintElement( 3 )</var>.
+				<strong class="hint_orange"><var>capitalize(ELEMENT.name)</var></strong> has <var>KhanUtil.plural( M, "more electron" )</var> than 
+				<strong class="hint_green"><var>LAST_NOBLE_GAS.name</var></strong>.
 			</p>
+
+			<!-- Recursively generate the hints. -->
+			<var>
+				orbitalFill( 0, P, O, LAST_NOBLE_GAS.protonNumber, M )
+			</var>
 		</div>
 
-		<p data-if="N >= 3">
-			<var>orbitalFill( "second", "2s", 2, N - 2, 5 )</var>
-		</p>
-
-		<p data-if="N >= 5">
-			<var>orbitalFill( "third", "2p", 6, N - 4, 11 )</var>
-		</p>
-
-		<p data-if="N >= 11">
-			<var>orbitalFill( "4th", "3s", 2, N - 10, 13 )</var>
-		</p>
-
-		<p data-if="N >= 13">
-			<var>orbitalFill( "5th", "3p", 6, N - 12, 19 )</var>
-		</p>
-
-		<p data-if="N >= 19">
-			<var>orbitalFill( "6th", "4s", 2, N - 18, 21 )</var>
-		</p>
-
-		<p data-if="N >= 21">
-			The next orbital is of the <code>d</code> type and lies in the 4th period,
-			but <code>d</code> orbitals are "pushed down a layer", so it is written as
-			<code>3d</code> instead of <code>4d</code>.
-		</p>
-		<p data-if="N >= 21">
-			<var>orbitalFill( "7th", "3d", 10, N - 20, 31 )</var>
-		</p>
-
-		<p data-if="N >= 31">
-			<var>orbitalFill( "8th", "4p", 6, N - 30, 37 )</var>
-		</p>
-
-		<p data-if="N >= 37">
-			<var>orbitalFill( "9th", "5s", 2, N - 36, 39 )</var>
-		</p>
-
-		<p data-if="N >= 39">
-			The next orbital is of the <code>d</code> type and lies in the 5th period,
-			but <code>d</code> orbitals are "pushed down a layer", so it is written as
-			<code>4d</code> instead of <code>5d</code>.
-		</p>
-		<p data-if="N >= 39">
-			<var>orbitalFill( "10th", "4d", 10, N - 38, 49 )</var>
-		</p>
-		<!-- Maximum proton number is 48. -->
-
-		<p>The electron configuration of <strong class="hint_orange"><var>ELEMENT.name</var></strong> is <code><var>SOLUTION</var></code>.</p>
+		<p>All electrons are now in place. The electron configuration of <strong class="hint_orange"><var>ELEMENT.name</var></strong> is <code><var>SOLUTION</var></code>.</p>
 	</div>
 	</div>
 </body>

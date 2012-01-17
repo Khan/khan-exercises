@@ -31,6 +31,7 @@ function Element(identifier) {
 		var ec = KhanUtil.getElectronConfiguration(number);
 
 		this.electronConfiguration = ec;
+		this.orbitalCount = ec.length;
 
 		// Period = highest layer of electrons.
 		this.period = 0;
@@ -194,27 +195,27 @@ jQuery.extend( KhanUtil, {
 		{ name: "ununoctium", symbol: "Uuo" }
 	],
 
+	orbitals: [
+		"1s", "2s", "2p", "3s", "3p", "4s", "3d", "4p", "5s", "4d", "5p",
+		"6s", "4f", "5d", "6p", "7s", "5f", "6d", "7p" // orbitals beyond Uuo omitted
+	],
+
+	orbitalCapacities: {
+		s: 2, p: 6, d: 10, f: 14
+	},
+
 	// Computes the electron configuration of a well-behaved element
 	// by filling it an orbital at a time. If the element violatesMadelung,
 	// this doesn't give the exact right result, but what it gives is still
 	// used in calculations of the position of the element in the periodic table.
 	getElectronConfiguration: function (n) {
 		var configuration = [];
-		var orbitals = [
-			"1s", "2s", "2p", "3s", "3p", "4s", "3d", "4p", "5s", "4d", "5p",
-			"6s", "4f", "5d", "6p", "7s", "5f", "6d", "7p" // orbitals beyond Uuo omitted
-		];
-		var capacities = [];
-		capacities["s"] = 2;
-		capacities["p"] = 6;
-		capacities["d"] = 10;
-		capacities["f"] = 14;
 
-		for (var index in orbitals) {
-			var orbital = orbitals[index];
+		for (var index in KhanUtil.orbitals) {
+			var orbital = KhanUtil.orbitals[index];
 			var level = parseInt(orbital[0]);
 			var type = orbital[1];
-			var maximum = capacities[type];
+			var maximum = KhanUtil.orbitalCapacities[type];
 			if (n > maximum) {
 				configuration.push({ level: level, type: type, count: maximum });
 				n -= maximum;
@@ -240,7 +241,6 @@ jQuery.extend( KhanUtil, {
 
 	// Parses an electron configuration string.
 	parseElectronConfiguration: function ( str ) {
-		// \w+(\[(.+)\]\w+)?((\d+)(.)(\d+)\w+)+
 		var split = str.split( /\s+/ );
 
 		var match = split[0].match( /\[(\w+)\]/ );
@@ -260,7 +260,13 @@ jQuery.extend( KhanUtil, {
 			}
 
 			result = element.electronConfiguration;
-			split.shift();
+			
+			// Handle [Kr]5s2 gracefully
+			if (split[0].length > match[1].length + 2) {
+				split[0] = split[0].slice(match[1].length + 2);
+			} else {
+				split.shift();
+			}
 		}
 
 		if (split.length === 0) { // Do not accept just saying [Symbol] without anything else
