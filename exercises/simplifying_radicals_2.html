@@ -42,18 +42,22 @@
         <var id="DENOM_SPLIT">splitRadical(DENOM)</var>
         <var id="NUM_COEFFICIENT">NUM_SPLIT[0] === 1 ? "" : NUM_SPLIT[0]</var>
         <var id="DENOM_COEFFICIENT">DENOM_SPLIT[0] === 1 ? "" : DENOM_SPLIT[0]</var>
+        <var id="GCD">getGCD(NUM, DENOM)</var>
       </div>
 
       <div class="question">
         <p>Simplify <code>\sqrt{\dfrac{<var>NUM</var>}{<var>DENOM</var>}}</code>.</p>
       </div>
 
-      <div class="solution" data-type="radical"><var>NUM</var>/<var>DENOM</var></div>
+      <div class="solution" data-type="radical">
+        <span data-if="GCD > 1"><var>NUM / GCD</var>/<var>DENOM / GCD</var></span>
+        <span data-else><var>NUM</var>/<var>DENOM</var></span>
+      </div>
 
       <div class="hints">
         <p>The numerator <code><var>NUM</var></code> is a perfect square, so it simplifies to <code>\sqrt{<var>NUM</var>} = <var>NUM_COEFFICIENT</var></code>.</p>
         <p>The denominator <code><var>DENOM</var></code> is a perfect square, so <code>\sqrt{<var>DENOM</var>} = <var>DENOM_COEFFICIENT</var></code>.</p>
-        <p>Both numbers <code><var>NUM</var></code> and <code><var>DENOM</var></code> are perfect squares, so <code>\sqrt{\dfrac{<var>NUM</var>}{<var>DENOM</var>}} = <span data-if="DENOM_SPLIT !== ''">\dfrac{<var>NUM_COEFFICIENT</var>}{<var>DENOM_COEFFICIENT</var>}</span><span data-else><var>NUM_COEFFICIENT</span></code>.</p>
+        <p>Both numbers <code><var>NUM</var></code> and <code><var>DENOM</var></code> are perfect squares, so <code>\sqrt{\dfrac{<var>NUM</var>}{<var>DENOM</var>}} = <span data-if="DENOM_SPLIT !== ''">\dfrac{<var>NUM_COEFFICIENT</var>}{<var>DENOM_COEFFICIENT</var>}</span><span data-else><var>NUM_COEFFICIENT</span><span data-if="GCD > 1">= \dfrac{<var>NUM_COEFFICIENT / sqrt(GCD)</var>}{<var>DENOM_COEFFICIENT / sqrt(GCD)</var>}</span></code>.</p>
       </div>
     </div>
 
