@@ -1,19 +1,19 @@
 /*
-    Math model for Khan exercises
+  Math model for Khan exercises
 
-    This is an exercise model, a kind of object model that reflects the 
-	semantics that are specific to creating math based exercises. Currently this 
-	model supports enough math to construct and format polynomials, but it can 
-	be extended as necessary.
+  This is an exercise model, a kind of object model that reflects the 
+  semantics that are specific to creating math based exercises. Currently this 
+  model supports enough math to construct and format polynomials, but it can 
+  be extended as necessary.
 
-    The general usage is as follows:
+  The general usage is as follows:
 
-    var math = MathModel.init();
-    var problem = math.parse("x^2+"+B+"x+"+C); // B and C are variable containing integer values
-    var text = math.format(problem);           // returning the latex for the problem
-	var val = math.eval(problem, {x: 10});     // evaluate with x=10
+  var math = MathModel.init();
+  var problem = math.parse("x^2+"+B+"x+"+C); // B and C are variable containing integer values
+  var text = math.format(problem);		   // returning the latex for the problem
+  var val = math.eval(problem, {x: 10});	 // evaluate with x=10
 
-    @author: Jeff Dyer
+  @author: Jeff Dyer
 */
 
 
@@ -22,7 +22,7 @@ jQuery.extend ( KhanUtil, {
 	MathModel : function (name) {
 
 		// Model interface
-			
+		
 		jQuery.extend ( this, {
 			parse: parse,
 			format: format,
@@ -82,16 +82,8 @@ jQuery.extend ( KhanUtil, {
 
 		// private implementation
 
-	    function graph(n) {
+		function graphInit() {
 			var graph = KhanUtil.currentGraph;
-
-			function g(x) {
-				// set up the lexical environment for evaluating ast n
-				var env = {x: x};
-				return eval(n, env);
-			}
-
-			var y0 = Math.floor(g(0));
 
 			graph.graphInit({
 				range: 11,
@@ -100,8 +92,52 @@ jQuery.extend ( KhanUtil, {
 				tickStep: 1,
 				labelStep: 1
 			});
+		}
 
-			graph.plot( g, [-10, 10] );
+		function graph(n, color) {
+			var graph = KhanUtil.currentGraph;
+
+			function g(x) {
+				// set up the lexical environment for evaluating ast n
+				var env = {x: x};
+				var val = eval(n, env);
+				return val;
+			}
+
+			if (graph.last) {
+				jQuery(graph).remove();
+				graph.last.remove();
+
+				graph.style({
+					stroke: color,
+					strokeWidth: 3,
+					fill: "none",
+					clipRect:[ [-10, -10], [20, 20] ],
+					arrows: null
+				});
+				
+				graph.last = graph.plot( g, [-10, 10] );
+			}
+			else {
+				graph.graphInit({
+					range: 11,
+					scale: 20,
+					axisArrows: "&lt;-&gt;",
+					tickStep: 1,
+					labelStep: 1
+				});
+				graph.style({
+					stroke: color,
+					strokeWidth: 3,
+					fill: "none",
+					clipRect:[ [-10, -10], [20, 20] ],
+					arrows: null
+				});
+				
+				graph.plot( g, [-10, 10] );
+				graph.last = graph.plot( g, [-10, 10] );
+			}
+			
 		}
 
 		function isValidAST(n) {
@@ -136,12 +172,12 @@ jQuery.extend ( KhanUtil, {
 			// construct a polynomial expression
 			// build left recursive ast
 
-			if (coeffs.length===0) {
+			if (coeffs.length === 0) {
 				// we're done
 				return lhs;
 			}
 
-			if (ident===void 0) {
+			if (ident === void 0) {
 				// default identifier
 				ident = "x";
 			}
@@ -152,13 +188,13 @@ jQuery.extend ( KhanUtil, {
 			}
 			else {
 				// construct a term of degree given by the size of coeffs
-				var rhs = {op: "times", args: [coeffs[0], {op: "^", args: [ident, coeffs.length-1]}]};
+				var rhs = {op: "times", args: [coeffs[0], {op: "^", args: [{op: "var", args: [ident]}, coeffs.length-1]}]};
 			}
 
-			if (coeffs[0]===0) {
+			if (coeffs[0] === 0) {
 				// zero coefficient, erase term by not updating lhs
 			}
-			else if (lhs===void 0) {
+			else if (lhs === void 0) {
 				// first term, no lhs to contribute
 				var lhs = rhs;
 			}
@@ -193,11 +229,11 @@ jQuery.extend ( KhanUtil, {
 			var ast = KhanUtil.ast;
 			var text;
 			if (jQuery.type(n)==="object") {
-			    switch (n.op) {
+				switch (n.op) {
 				case OpStr.VAR:
 					text = "\\color{"+color+"}{"+n.args[0]+"}";
 					break;
-			    case OpStr.SUB:
+				case OpStr.SUB:
 					if (n.args.length===1) {
 						text = "\\"+textSize+"{\\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
 							format(n.args[0], textSize, color)+"}}";
@@ -207,14 +243,14 @@ jQuery.extend ( KhanUtil, {
 							format(n.args[0], textSize, color)+"} \\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
 							format(n.args[1], textSize, color)+"}}";
 					}
-				    break;
-			    case OpStr.DIV:
+					break;
+				case OpStr.DIV:
 				case OpStr.PM:
 				case OpStr.EQL:
-				    text = "\\"+textSize+"{\\color{"+color+"}{"+
-					    format(n.args[0], textSize, color)+"} \\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
-					    format(n.args[1], textSize, color)+"}}";
-				    break;
+					text = "\\"+textSize+"{\\color{"+color+"}{"+
+						format(n.args[0], textSize, color)+"} \\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
+						format(n.args[1], textSize, color)+"}}";
+					break;
 				case OpStr.POW:
 					var lhs = n.args[0];
 					var rhs = n.args[1];
@@ -349,68 +385,82 @@ jQuery.extend ( KhanUtil, {
 			var ast = KhanUtil.ast;
 
 			var val;
-			if (jQuery.type(n)==="object") {
-				var args = [];
-				for (var i = 0; i < n.args.length; i++) {
-					args[i] = eval(n.args[i], env);
-				}
 
-			    switch (n.op) {
-				case OpStr.VAR:
-					val = env[args[0]];
-					break;
-			    case OpStr.SUB:
-					val = args[0] - args[1];
-				    break;
-			    case OpStr.DIV:
-				case OpStr.FRAC:
-					val = args[0] / args[1];
-				    break;
-				case OpStr.POW:
-					val = Math.pow(args[0], args[1]);
-					break;
-				case OpStr.SIN:
-					val = Math.sin(args[0]);
-					break;
-				case OpStr.COS:
-					val = Math.cos(args[0]);
-					break;
-				case OpStr.TAN:
-					val = Math.tan(args[0]);
-					break;
-				case OpStr.SQRT:
-					switch (args.length) {
-					case 1:
-						val = Math.sqrt(args[0]);
-						break;
-					case 2:
-					default:
-						assert(false, "unimplemented eval operator");
-						break;
-					}
-					break;
-				case OpStr.MUL:
-					val = args[0] * args[1];
-					break;
-				case OpStr.ADD:
-					val = args[0] + args[1];
-					break;
-				case OpStr.SEC:
-				case OpStr.LN:
-				case OpStr.PM:
-				case OpStr.EQL:
-				case OpStr.COMMA:
-				default:
-					assert(false, "unimplemented eval operator");
-					break;
-				}
-			}
-			else {
+			if (jQuery.type(n)==="string" ||
+				jQuery.type(n)==="number") {
 				val = n;
 			}
+			else
+				if (jQuery.type(n)==="object") {
+					var args = [];
+					for (var i = 0; i < n.args.length; i++) {
+						args[i] = eval(n.args[i], env);
+					}
+					
+					switch (n.op) {
+					case OpStr.VAR:
+						val = env[args[0]];
+						break;
+					case OpStr.SUB:
+						switch (args.length) {
+						case 1:
+							val = -args[0];
+							break;
+						case 2:
+							val = args[0] - args[1];
+							break;
+						}
+						break;
+					case OpStr.DIV:
+					case OpStr.FRAC:
+						val = args[0] / args[1];
+						break;
+					case OpStr.POW:
+						val = Math.pow(args[0], args[1]);
+						break;
+					case OpStr.SIN:
+						val = Math.sin(args[0]);
+						break;
+					case OpStr.COS:
+						val = Math.cos(args[0]);
+						break;
+					case OpStr.TAN:
+						val = Math.tan(args[0]);
+						break;
+					case OpStr.SQRT:
+						switch (args.length) {
+						case 1:
+							val = Math.sqrt(args[0]);
+							break;
+						case 2:
+						default:
+							KhanUtil.assert(false, "unimplemented eval operator");
+							break;
+						}
+						break;
+					case OpStr.MUL:
+						val = args[0] * args[1];
+						break;
+					case OpStr.ADD:
+						val = args[0] + args[1];
+						break;
+					case OpStr.SEC:
+					case OpStr.LN:
+					case OpStr.PM:
+					case OpStr.EQL:
+					case OpStr.COMMA:
+					default:
+						KhanUtil.assert(false, "unimplemented eval operator");
+						break;
+					}
+				}
+			else {
+				KhanUtil.assert(false, "invalid expression type");
+			}
+			
 			return val;
 		}
-
+		
 		function isNeg(n) {
 			if (jQuery.type(n)==="number") {
 				return n < 0;
@@ -431,12 +481,11 @@ jQuery.extend ( KhanUtil, {
 				return n.args[0];  // strip the unary minus
 			}
 			else if (n.args.length===2 && n.op===OpStr.MUL && isNeg(n.args[0])) {
-				n.args[0] = negate(n.args[0]);
-				return n;
+				return {op: n.op, args: [negate(n.args[0]), n.args[1]]};
 			}
 			assert(false);
 			return n;
-		
+			
 		}
 
 		function isZero(n) {
@@ -447,7 +496,7 @@ jQuery.extend ( KhanUtil, {
 				return n.args.length===1 &&	n.op===OpStr.SUB && n.args[0] === 0;  // is unary minus
 			}
 		}
-	
+		
 	} , // MathModel
 
 } );
@@ -461,32 +510,32 @@ jQuery.extend ( KhanUtil, {
 
 	parse: function (src) {
 
-		var TK_NONE         = 0;
-		var TK_ADD          = '+'.charCodeAt(0);
-		var TK_CARET        = '^'.charCodeAt(0);
-		var TK_COS          = 0x105;
-		var TK_DIV          = '/'.charCodeAt(0);
-		var TK_EQL          = '='.charCodeAt(0);
-		var TK_FRAC         = 0x100;
-		var TK_LN           = 0x107;
-		var TK_LEFTBRACE    = '{'.charCodeAt(0);
+		var TK_NONE		 = 0;
+		var TK_ADD		  = '+'.charCodeAt(0);
+		var TK_CARET		= '^'.charCodeAt(0);
+		var TK_COS		  = 0x105;
+		var TK_DIV		  = '/'.charCodeAt(0);
+		var TK_EQL		  = '='.charCodeAt(0);
+		var TK_FRAC		 = 0x100;
+		var TK_LN		   = 0x107;
+		var TK_LEFTBRACE	= '{'.charCodeAt(0);
 		var TK_LEFTBRACKET  = '['.charCodeAt(0);
-		var TK_LEFTPAREN    = '('.charCodeAt(0);
-		var TK_MUL          = '*'.charCodeAt(0);
-		var TK_NUM          = '0'.charCodeAt(0);
-		var TK_PM           = 0x102;
+		var TK_LEFTPAREN	= '('.charCodeAt(0);
+		var TK_MUL		  = '*'.charCodeAt(0);
+		var TK_NUM		  = '0'.charCodeAt(0);
+		var TK_PM		   = 0x102;
 		var TK_RIGHTBRACE   = '}'.charCodeAt(0);
 		var TK_RIGHTBRACKET = ']'.charCodeAt(0);
 		var TK_RIGHTPAREN   = ')'.charCodeAt(0);
-		var TK_SEC          = 0x106;
-		var TK_SIN          = 0x103;
-		var TK_SQRT         = 0x101;
-		var TK_SUB          = '-'.charCodeAt(0);
-		var TK_TAN          = 0x104;
-		var TK_VAR          = 'a'.charCodeAt(0);
-		var TK_COEFF        = 'A'.charCodeAt(0);
-		var TK_VAR          = 'a'.charCodeAt(0);
-		var TK_NEXT         = 0x108;
+		var TK_SEC		  = 0x106;
+		var TK_SIN		  = 0x103;
+		var TK_SQRT		 = 0x101;
+		var TK_SUB		  = '-'.charCodeAt(0);
+		var TK_TAN		  = 0x104;
+		var TK_VAR		  = 'a'.charCodeAt(0);
+		var TK_COEFF		= 'A'.charCodeAt(0);
+		var TK_VAR		  = 'a'.charCodeAt(0);
+		var TK_NEXT		 = 0x108;
 
 		var OpStr = {
 			ADD: "+",
@@ -524,7 +573,7 @@ jQuery.extend ( KhanUtil, {
 		tokenToOperator[TK_SQRT]  = OpStr.SQRT;
 		tokenToOperator[TK_ADD]   = OpStr.ADD;
 		tokenToOperator[TK_SUB]   = OpStr.SUB;
-		tokenToOperator[TK_PM]    = OpStr.PM;
+		tokenToOperator[TK_PM]	= OpStr.PM;
 		tokenToOperator[TK_CARET] = OpStr.POW;
 		tokenToOperator[TK_MUL]   = OpStr.MUL;
 		tokenToOperator[TK_DIV]   = OpStr.FRAC;
@@ -532,7 +581,7 @@ jQuery.extend ( KhanUtil, {
 		tokenToOperator[TK_COS]   = OpStr.COS;
 		tokenToOperator[TK_TAN]   = OpStr.TAN;
 		tokenToOperator[TK_SEC]   = OpStr.SEC;
-		tokenToOperator[TK_LN]    = OpStr.LN;
+		tokenToOperator[TK_LN]	= OpStr.LN;
 		tokenToOperator[TK_EQL]   = OpStr.EQL;
 
 		var scan = scanner(src);
@@ -746,8 +795,11 @@ jQuery.extend ( KhanUtil, {
 			if (jQuery.type(n)==="number") {
 				return n < 0;
 			}
-			else {
-				return n.args.length===1 &&	n.op===OpStr.SUB && n.args[0] > 0;  // is unary minus
+			else if (n.args.length===1) {
+				return n.op===OpStr.SUB && n.args[0] > 0;  // is unary minus
+			}
+			else if (n.args.length===2) {
+				return n.op===OpStr.MUL && isNeg(n.args[0]);  // leading term is neg
 			}
 		}
 
@@ -758,9 +810,12 @@ jQuery.extend ( KhanUtil, {
 			else if (n.args.length===1 && n.op===OpStr.SUB) {
 				return n.args[0];  // strip the unary minus
 			}
-			// can't simplify, so multiply by -1
-			return {op: "times", args: [-1, n]};
-		
+			else if (n.args.length===2 && n.op===OpStr.MUL && isNeg(n.args[0])) {
+				return {op: n.op, args: [negate(n.args[0]), n.args[1]]};
+			}
+			assert(false);
+			return n;
+			
 		}
 
 		function additiveExpr() {
@@ -773,7 +828,7 @@ jQuery.extend ( KhanUtil, {
 					t = TK_SUB;
 					expr2 = negate(expr2);
 				}
-			    expr = {op: tokenToOperator[t], args: [expr, expr2]};
+				expr = {op: tokenToOperator[t], args: [expr, expr2]};
 			}
 			return expr;
 
@@ -788,7 +843,7 @@ jQuery.extend ( KhanUtil, {
 			while ((t = hd())===TK_EQL) {
 				next();
 				var expr2 = additiveExpr();
-			    expr = {op: tokenToOperator[t], args: [expr, expr2]};
+				expr = {op: tokenToOperator[t], args: [expr, expr2]};
 			}
 			return expr;
 
@@ -816,12 +871,12 @@ jQuery.extend ( KhanUtil, {
 			lexemeToToken["\\div"]   = TK_DIV;
 			lexemeToToken["\\frac"]  = TK_FRAC;
 			lexemeToToken["\\sqrt"]  = TK_SQRT;
-			lexemeToToken["\\pm"]    = TK_PM;
+			lexemeToToken["\\pm"]	 = TK_PM;
 			lexemeToToken["\\sin"]   = TK_SIN;
 			lexemeToToken["\\cos"]   = TK_COS;
 			lexemeToToken["\\tan"]   = TK_TAN;
 			lexemeToToken["\\sec"]   = TK_SEC;
-			lexemeToToken["\\ln"]    = TK_LN;
+			lexemeToToken["\\ln"]	 = TK_LN;
 
 			return {
 				start : start ,

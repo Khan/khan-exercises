@@ -3,7 +3,6 @@
 
    @see http://artcompiler.org/articles/asts-for-khan-exercises.pdf
 
-   var nid = ast.fromExpr(["=", ["+", 1, 1], 2]));
    var node = ast.node(nid);  // returns a node object corresponding to nid
    var expr = ast.node("lhs");
    var answer = ast.node("rhs");
@@ -20,7 +19,7 @@
 jQuery.extend ( KhanUtil, {
 
 
-	ASSERT: false,
+	ASSERT: true,
 
 	assert: function (val, str) {
 		if ( !this.ASSERT ) {
