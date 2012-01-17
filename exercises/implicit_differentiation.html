@@ -9,160 +9,161 @@
 	<div class="exercise">
 		<div class="problems">
 			<div>
-		                <div class="vars">
-			                <var id="A">randRangeNonZero( -4, 4 )</var>
-			                <var id="B">randRangeNonZero( -4, 4 )</var>
-			                <var id="C">randRange( -50, 50 )</var>
-                                        <var id="GCD">getGCD( A, B )</var>
-                                        <var id="SIGN">A*B &lt 0 ? -1 : 1</var>
-                                        <var id="NCOEF">Math.abs( A / GCD )</var>
-                                        <var id="DCOEF">Math.abs( B / GCD )</var>
-                                        <var id="N">['*', NCOEF, 'x']</var>
-                                        <var id="D">['*', DCOEF, 'y']</var>
-                                        <var id="ANSWER">expr( ['*', SIGN, ["frac", N, D]] )</var>
-                                        <var id="WRONG_SIGN">expr( ['*', -SIGN, ["frac", N, D]] )</var>
-                                        <var id="WRONG_INVERTED">expr( ['*', SIGN, ["frac", D, N]] )</var>
-                                        <var id="WRONG_JUST_X">expr( ['*', A * 2, 'x'] )</var>
-                                        <var id="WRONG_JUST_Y">expr( ['*', B * 2, 'y'] )</var>
-                                        <var id="WRONG_X_POWER">expr( ['*', SIGN, ["frac", ['*', NCOEF, ['^', 'x', 2]], D]] )</var>
-                                        <var id="WRONG_Y_POWER">expr( ['*', SIGN, ["frac", N, ['*', DCOEF, ['^', 'y', 2]]]] )</var>
-                                        <var id="WRONGS">[
-                                                WRONG_SIGN, WRONG_INVERTED, WRONG_JUST_X,
-                                                WRONG_JUST_Y, WRONG_X_POWER, WRONG_Y_POWER
-                                                ]</var>
-		                </div>
-
+				<div class="vars">
+					<var id="A">randRangeNonZero( -4, 4 )</var>
+					<var id="B">randRangeNonZero( -4, 4 )</var>
+					<var id="C">randRange( -50, 50 )</var>
+					<var id="GCD">getGCD( A, B )</var>
+					<var id="SIGN">A*B &lt 0 ? -1 : 1</var>
+					<var id="NCOEF">Math.abs( A / GCD )</var>
+					<var id="DCOEF">Math.abs( B / GCD )</var>
+					<var id="N">['*', NCOEF, 'x']</var>
+					<var id="D">['*', DCOEF, 'y']</var>
+					<var id="ANSWER">expr( ['*', SIGN, ["frac", N, D]] )</var>
+					<var id="WRONG_SIGN">expr( ['*', -SIGN, ["frac", N, D]] )</var>
+					<var id="WRONG_INVERTED">expr( ['*', SIGN, ["frac", D, N]] )</var>
+					<var id="WRONG_JUST_X">expr( ['*', A * 2, 'x'] )</var>
+					<var id="WRONG_JUST_Y">expr( ['*', B * 2, 'y'] )</var>
+					<var id="WRONG_X_POWER">expr( ['*', SIGN, ["frac", ['*', NCOEF, ['^', 'x', 2]], D]] )</var>
+					<var id="WRONG_Y_POWER">expr( ['*', SIGN, ["frac", N, ['*', DCOEF, ['^', 'y', 2]]]] )</var>
+					<var id="WRONGS">[
+						WRONG_SIGN, WRONG_INVERTED, WRONG_JUST_X,
+						WRONG_JUST_Y, WRONG_X_POWER, WRONG_Y_POWER
+						]
+					</var>
+				</div>
+				
 				<p class="problem">
-                                        <p>Find the derivative of <code>y</code> with respect to <code>x</code> in the following equation:</p>
-                                        <p><code><var>expr( ['+', ['*', A, ['^', 'x', 2]], ['*', B, ['^', 'y', 2]]] )</var> = <var>C</var></code></p>
-                                </p>
-
+				<p>Find the derivative of <code>y</code> with respect to <code>x</code> in the following equation:</p>
+				<p><code><var>expr( ['+', ['*', A, ['^', 'x', 2]], ['*', B, ['^', 'y', 2]]] )</var> = <var>C</var></code></p>
+				</p>
+				
 				<p class="solution"><code><var>ANSWER</var></code></p>
-
-                                <ul class="choices" data-show="5">
-                                        <li data-each="WRONGS as WRONG"><code><var>WRONG</var></code></li>
-                                </ul>
-                              
-                                <div class="hints">
-                                        <div>
-                                                <p>Taking the derivative operator on both sides:</p>
-                                                <p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*',  A, ['^', 'x', 2]] )</var> + <var>expr(['*', B, ['^', 'y', 2]] )</var>] = \color{blue}{\dfrac{dy}{dx}}[<var>C</var></code>]</p>
+				
+				<ul class="choices" data-show="5">
+					<li data-each="WRONGS as WRONG"><code><var>WRONG</var></code></li>
+				</ul>
+				
+				<div class="hints">
+					<div>
+						<p>Taking the derivative operator on both sides:</p>
+						<p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*',  A, ['^', 'x', 2]] )</var> + <var>expr(['*', B, ['^', 'y', 2]] )</var>] = \color{blue}{\dfrac{dy}{dx}}[<var>C</var></code>]</p>
+					</div>
+					<div>
+						<p>By the <span class="hint_purple">sum rule</span>:</p>
+						<p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*',  A, ['^', 'x', 2]] )</var>] + \color{blue}{\dfrac{dy}{dx}}[<var>expr(['*', B, ['^', 'y', 2]] )</var>] = \color{blue}{\dfrac{dy}{dx}}[<var>C</var>]</code></p>
+					</div>
+					<div>
+						<p>By the <span class="hint_purple">constant rule</span>, <code>\dfrac{dy}{dx}[<var>C</var>]</code> becomes 0:</p>
+						<p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*',  A, ['^', 'x', 2]] )</var>] + \color{blue}{\dfrac{dy}{dx}}[<var>expr(['*', B, ['^', 'y', 2]] )</var>] = \color{orange}{0}</code></p>
+					</div>
+					<div>
+						<p>By the <span class="hint_purple">power rule</span>, <code>\dfrac{dy}{dx}[<var>expr( ['*',  A, ['^', 'x', 2]] )</var>]</code> becomes <code>2(<var>A</var>)x = <var>2*A</var>x:</code></p>
+						<p><code>\color{orange}{<var>2*A</var>x} + \color{blue}{\dfrac{dy}{dx}}[<var>expr(['*', B, ['^', 'y', 2]] )</var>] = 0</code></p>
                                         </div>
-                                        <div>
-                                                <p>By the <span class="hint_purple">sum rule</span>:</p>
-                                                <p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*',  A, ['^', 'x', 2]] )</var>] + \color{blue}{\dfrac{dy}{dx}}[<var>expr(['*', B, ['^', 'y', 2]] )</var>] = \color{blue}{\dfrac{dy}{dx}}[<var>C</var>]</code></p>
-                                        </div>
-                                        <div>
-                                                <p>By the <span class="hint_purple">constant rule</span>, <code>\dfrac{dy}{dx}[<var>C</var>]</code> becomes 0:</p>
-                                                <p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*',  A, ['^', 'x', 2]] )</var>] + \color{blue}{\dfrac{dy}{dx}}[<var>expr(['*', B, ['^', 'y', 2]] )</var>] = \color{orange}{0}</code></p>
-                                        </div>
-                                        <div>
-                                                <p>By the <span class="hint_purple">power rule</span>, <code>\dfrac{dy}{dx}[<var>expr( ['*',  A, ['^', 'x', 2]] )</var>]</code> becomes <code>2(<var>A</var>)x = <var>2*A</var>x:</code></p>
-                                                <p><code>\color{orange}{<var>2*A</var>x} + \color{blue}{\dfrac{dy}{dx}}[<var>expr(['*', B, ['^', 'y', 2]] )</var>] = 0</code></p>
-                                        </div>
-                                        <div>
-                                                <p>By the <span class="hint_purple">power rule</span>, <code>\dfrac{dy}{dx}[<var>expr(['*', B, ['^', 'y', 2]] )</var>]</code> becomes <code>2(<var>B</var>)yy' = <var>2*B</var>yy':</code></p>
-                                                <p><code><var>2*A</var>x <var>(B*2 &lt 0 ? '' : '+')</var> \color{orange}{<var>2*B</var>yy'} = 0</code></p>
-                                        </div>
-                                        <div>
-                                                <p>Solving for <code>y'</code>:</p>
-                                                <p><code>y' = \dfrac{<var>2*A</var>x}{<var>2*B</var>y}</code></p>
-                                        </div>
-                                        <div>
-                                                <p>Simplifying:</p>
-                                                <p><code>y' = <var>expr( ['*', SIGN, "\\dfrac{"+expr(N)+"}{"+expr(D)+"}"] )</var></code></p>
-                                        </div>
-                                </div>
-                                
+					<div>
+						<p>By the <span class="hint_purple">power rule</span>, <code>\dfrac{dy}{dx}[<var>expr(['*', B, ['^', 'y', 2]] )</var>]</code> becomes <code>2(<var>B</var>)yy' = <var>2*B</var>yy':</code></p>
+						<p><code><var>2*A</var>x <var>(B*2 &lt 0 ? '' : '+')</var> \color{orange}{<var>2*B</var>yy'} = 0</code></p>
+					</div>
+					<div>
+						<p>Solving for <code>y'</code>:</p>
+						<p><code>y' = \dfrac{<var>2*A</var>x}{<var>2*B</var>y}</code></p>
+					</div>
+					<div>
+						<p>Simplifying:</p>
+						<p><code>y' = <var>expr( ['*', SIGN, "\\dfrac{"+expr(N)+"}{"+expr(D)+"}"] )</var></code></p>
+					</div>
+				</div>
+				
 			</div>
 			<div>
-		                <div class="vars">
-			                <var id="A">randRangeNonZero( -4, 4 )</var>
-			                <var id="B">randRangeNonZero( -4, 4 )</var>
-			                <var id="C">randRange( -50, 50 )</var>
-                                        <var id="B_SIGN">B &lt 0 ? '' : '+'</var>
-                                        <var id="SIGN">A*B &lt 0 ? -1 : 1</var>
-                                        <var id="GCD">getGCD( B, A*2 )</var>
-                                        <var id="NCOEF">Math.abs( (B / GCD) * 2 )</var>
-                                        <var id="DCOEF1">Math.abs( B / GCD )</var>
-                                        <var id="DCOEF2">Math.abs( (A / GCD) * 2 )</var>
-                                        <var id="N">['*', NCOEF, 'x', 'y']</var>
-                                        <var id="N_WRONG_X_POWER">['*', NCOEF, ['^', 'x', 2], 'y']</var>
-                                        <var id="N_WRONG_Y_POWER">['*', NCOEF, 'x', ['^', 'y', 2]]</var>
-                                        <var id="D">['+', ['*', DCOEF1, ['^', 'x', 2]], ['*', SIGN, DCOEF2, 'y']]</var>
-                                        <var id="D_WRONG_SIGN">['+', ['*', DCOEF1, ['^', 'x', 2]], ['*', -SIGN, DCOEF2, 'y']]</var>
-                                        <var id="D_WRONG_X_POWER">['+', ['*', DCOEF1, 'x'], ['*', -SIGN, DCOEF2, 'y']]</var>
-                                        <var id="D_WRONG_Y_POWER">['+', ['*', DCOEF1, 'x'], ['*', -SIGN, DCOEF2, ['^', 'y', 2]]]</var>
-                                        <var id="ANSWER">expr( ['*', -1, ["frac", N, D]] )</var>
-                                        <var id="WRONG_SIGN_1">expr( ['*', ["frac", N, D]] )</var>
-                                        <var id="WRONG_SIGN_2">expr( ['*', -1, ["frac", N, D_WRONG_SIGN]] )</var>
-                                        <var id="WRONG_INVERTED">expr( ['*', -1, ["frac", D, N]] )</var>
-                                        <var id="WRONG_JUST_X">expr( ['*', B * 2, 'x'] )</var>
-                                        <var id="WRONG_JUST_Y">expr( ['+', ['*', A * 2, 'y'], ['*', B, ['^', 'x', 2]]] )</var>
-                                        <var id="WRONG_X_POWER_1">expr( ['*', -1, ["frac", N_WRONG_X_POWER, D]] )</var>
-                                        <var id="WRONG_X_POWER_2">expr( ['*', -1, ["frac", N, D_WRONG_X_POWER]] )</var>
-                                        <var id="WRONG_Y_POWER_1">expr( ['*', -1, ["frac", N_WRONG_Y_POWER, D]] )</var>
-                                        <var id="WRONG_Y_POWER_2">expr( ['*', -1, ["frac", N, D_WRONG_Y_POWER]] )</var>
-                                        <var id="WRONGS">[
-                                                WRONG_SIGN_1, WRONG_SIGN_2, WRONG_INVERTED, 
-                                                WRONG_JUST_X, WRONG_JUST_Y, WRONG_X_POWER_1, 
-                                                WRONG_X_POWER_2, WRONG_Y_POWER_1, WRONG_Y_POWER_2
-                                                ]</var>
-		                </div>
-
-				<p class="problem">
-                                        <p>Find the derivative of <code>y</code> with respect to <code>x</code> in the following equation:</p>
-                                        <p><code><var>expr( ['+', ['*', A, ['^', 'y', 2]], ['*', B, ['^', 'x', 2], 'y']] )</var> = <var>C</var></code></p>
-                                </p>
-
+				<div class="vars">
+					<var id="A">randRangeNonZero( -4, 4 )</var>
+					<var id="B">randRangeNonZero( -4, 4 )</var>
+					<var id="C">randRange( -50, 50 )</var>
+					<var id="B_SIGN">B &lt 0 ? '' : '+'</var>
+					<var id="SIGN">A*B &lt 0 ? -1 : 1</var>
+					<var id="GCD">getGCD( B, A*2 )</var>
+					<var id="NCOEF">Math.abs( (B / GCD) * 2 )</var>
+					<var id="DCOEF1">Math.abs( B / GCD )</var>
+					<var id="DCOEF2">Math.abs( (A / GCD) * 2 )</var>
+					<var id="N">['*', NCOEF, 'x', 'y']</var>
+					<var id="N_WRONG_X_POWER">['*', NCOEF, ['^', 'x', 2], 'y']</var>
+					<var id="N_WRONG_Y_POWER">['*', NCOEF, 'x', ['^', 'y', 2]]</var>
+					<var id="D">['+', ['*', DCOEF1, ['^', 'x', 2]], ['*', SIGN, DCOEF2, 'y']]</var>
+					<var id="D_WRONG_SIGN">['+', ['*', DCOEF1, ['^', 'x', 2]], ['*', -SIGN, DCOEF2, 'y']]</var>
+					<var id="D_WRONG_X_POWER">['+', ['*', DCOEF1, 'x'], ['*', -SIGN, DCOEF2, 'y']]</var>
+					<var id="D_WRONG_Y_POWER">['+', ['*', DCOEF1, 'x'], ['*', -SIGN, DCOEF2, ['^', 'y', 2]]]</var>
+					<var id="ANSWER">expr( ['*', -1, ["frac", N, D]] )</var>
+					<var id="WRONG_SIGN_1">expr( ['*', ["frac", N, D]] )</var>
+					<var id="WRONG_SIGN_2">expr( ['*', -1, ["frac", N, D_WRONG_SIGN]] )</var>
+					<var id="WRONG_INVERTED">expr( ['*', -1, ["frac", D, N]] )</var>
+					<var id="WRONG_JUST_X">expr( ['*', B * 2, 'x'] )</var>
+					<var id="WRONG_JUST_Y">expr( ['+', ['*', A * 2, 'y'], ['*', B, ['^', 'x', 2]]] )</var>
+					<var id="WRONG_X_POWER_1">expr( ['*', -1, ["frac", N_WRONG_X_POWER, D]] )</var>
+					<var id="WRONG_X_POWER_2">expr( ['*', -1, ["frac", N, D_WRONG_X_POWER]] )</var>
+					<var id="WRONG_Y_POWER_1">expr( ['*', -1, ["frac", N_WRONG_Y_POWER, D]] )</var>
+					<var id="WRONG_Y_POWER_2">expr( ['*', -1, ["frac", N, D_WRONG_Y_POWER]] )</var>
+					<var id="WRONGS">[
+						WRONG_SIGN_1, WRONG_SIGN_2, WRONG_INVERTED, 
+						WRONG_JUST_X, WRONG_JUST_Y, WRONG_X_POWER_1, 
+						WRONG_X_POWER_2, WRONG_Y_POWER_1, WRONG_Y_POWER_2
+						]</var>
+				</div>
+				
+				<div class="problem">
+					<p>Find the derivative of <code>y</code> with respect to <code>x</code> in the following equation:</p>
+					<p><code><var>expr( ['+', ['*', A, ['^', 'y', 2]], ['*', B, ['^', 'x', 2], 'y']] )</var> = <var>C</var></code></p>
+				</div>
+				
 				<p class="solution"><code><var>ANSWER</var></code></p>
-
-                                <ul class="choices" data-show="5">
-                                        <li data-each="WRONGS as WRONG"><code><var>WRONG</var></code></li>
-                                </ul>
-
-                                <div class="hints">
-                                        <div>
-                                                <p>Taking the derivative operator on both sides:</p>
-                                                <p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', A, ['^', 'y', 2]] )</var> + <var>expr( ['*', B, ['^', 'x', 2], 'y'] )</var>] = \color{blue}{\dfrac{dy}{dx}}[<var>C</var></code>]</p>
-                                        </div>
-                                        <div>
-                                                <p>By the <span class="hint_purple">sum rule</span>:</p>
-                                                <p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', A, ['^', 'y', 2]] )</var>] + \color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', B, ['^', 'x', 2], 'y'] )</var>] = \color{blue}{\dfrac{dy}{dx}}[<var>C</var>]</code></p>
-                                        </div>
-                                        <div>
-                                                <p>By the <span class="hint_purple">constant rule</span>, <code>\dfrac{dy}{dx}[<var>C</var>]</code> becomes 0:</p>
-                                                <p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', A, ['^', 'y', 2]] )</var>] + \color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', B, ['^', 'x', 2], 'y'] )</var>] = \color{orange}{0}</code></p>
-                                        </div>
-                                        <div>
-                                                <p>By the <span class="hint_purple">power rule</span>, <code>\dfrac{dy}{dx}[<var>expr( ['*',  A, ['^', 'y', 2]] )</var>]</code> becomes <code>2(<var>A</var>)y = <var>2*A</var>yy':</code></p>
-                                                <p><code>\color{orange}{<var>2*A</var>yy'} + \color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', B, ['^', 'x', 2], 'y'] )</var>] = 0</code></p>
-                                        </div>
-                                        <div>
-                                                <p>By the <span class="hint_purple">product rule</span>, <code>\dfrac{dy}{dx}[<var>expr( ['*', B, ['^', 'x', 2], 'y'] )</var>]</code> is decomposed into <code><var>expr( ['*', B, 'y'] )</var>\dfrac{dy}{dx}[<var>expr( ['^', 'x', 2] )</var>]</code> and <code><var>expr( ['*', B, ['^', 'x', 2]] )</var>\dfrac{dy}{dx}[y]</code>:</p>
-                                                <p><code><var>2*A</var>yy' <var>B_SIGN</var> <var>expr( ['*', B, 'y'] )</var>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['^', 'x', 2] )</var>] + <var>expr( ['*', B, ['^', 'x', 2]] )</var>\color{blue}{\dfrac{dy}{dx}}[y]= 0</code></p>
-                                        </div>
-                                        <div>
-                                                <p>By the <span class="hint_purple">power rule</span>, <code>\dfrac{dy}{dx}[<var>expr( ['^', 'x', 2] )</var>]</code> becomes <code>2x</code>:</p>
-                                                <p><code><var>2*A</var>yy' <var>B_SIGN</var> \color{orange}{<var>expr( ['*', B*2, 'x', 'y'] )</var>} + <var>expr( ['*', B, ['^', 'x', 2]] )</var>\color{blue}{\dfrac{dy}{dx}}[y]= 0</code></p>
-                                        </div>
-                                        <div>
-                                                <p>By the <span class="hint_purple">power rule</span>, <code>\dfrac{dy}{dx}[y]</code> becomes <code>y'</code>:</p>
-                                                <p><code><var>2*A</var>yy' <var>B_SIGN</var> <var>expr( ['*', B*2, 'x', 'y'] )</var> <var>B_SIGN</var> \color{orange}{<var>expr( ['*', B, ['^', 'x', 2]] )</var>y'} = 0</code></p>
-                                        </div>
-                                        <div>
-                                                <p>Solving for <code>y'</code>:</p>
-                                                <p><code>y' = \dfrac{<var>expr( ['*', -2*B, 'x', 'y'] )</var>}{<var>expr( ['+', ['*', B, ['^', 'x', 2]], ['*', 2*A, 'y']] )</var>}</code></p>
-                                        </div>
-                                        <div>
-                                                <p>Simplifying:</p>
-                                                <p><code>y' = <var>expr( ['*', -1, "\\dfrac{"+expr(N)+"}{"+expr(D)+"}"] )</var></code></p>
-                                        </div>
-                                </div>
-                                
+				
+				<ul class="choices" data-show="5">
+					<li data-each="WRONGS as WRONG"><code><var>WRONG</var></code></li>
+				</ul>
+				
+				<div class="hints">
+					<div>
+						<p>Taking the derivative operator on both sides:</p>
+						<p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', A, ['^', 'y', 2]] )</var> + <var>expr( ['*', B, ['^', 'x', 2], 'y'] )</var>] = \color{blue}{\dfrac{dy}{dx}}[<var>C</var></code>]</p>
+					</div>
+					<div>
+						<p>By the <span class="hint_purple">sum rule</span>:</p>
+						<p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', A, ['^', 'y', 2]] )</var>] + \color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', B, ['^', 'x', 2], 'y'] )</var>] = \color{blue}{\dfrac{dy}{dx}}[<var>C</var>]</code></p>
+					</div>
+					<div>
+						<p>By the <span class="hint_purple">constant rule</span>, <code>\dfrac{dy}{dx}[<var>C</var>]</code> becomes 0:</p>
+						<p><code>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', A, ['^', 'y', 2]] )</var>] + \color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', B, ['^', 'x', 2], 'y'] )</var>] = \color{orange}{0}</code></p>
+					</div>
+					<div>
+						<p>By the <span class="hint_purple">power rule</span>, <code>\dfrac{dy}{dx}[<var>expr( ['*',  A, ['^', 'y', 2]] )</var>]</code> becomes <code>2(<var>A</var>)y = <var>2*A</var>yy':</code></p>
+						<p><code>\color{orange}{<var>2*A</var>yy'} + \color{blue}{\dfrac{dy}{dx}}[<var>expr( ['*', B, ['^', 'x', 2], 'y'] )</var>] = 0</code></p>
+					</div>
+					<div>
+						<p>By the <span class="hint_purple">product rule</span>, <code>\dfrac{dy}{dx}[<var>expr( ['*', B, ['^', 'x', 2], 'y'] )</var>]</code> is decomposed into <code><var>expr( ['*', B, 'y'] )</var>\dfrac{dy}{dx}[<var>expr( ['^', 'x', 2] )</var>]</code> and <code><var>expr( ['*', B, ['^', 'x', 2]] )</var>\dfrac{dy}{dx}[y]</code>:</p>
+						<p><code><var>2*A</var>yy' <var>B_SIGN</var> <var>expr( ['*', B, 'y'] )</var>\color{blue}{\dfrac{dy}{dx}}[<var>expr( ['^', 'x', 2] )</var>] + <var>expr( ['*', B, ['^', 'x', 2]] )</var>\color{blue}{\dfrac{dy}{dx}}[y]= 0</code></p>
+					</div>
+					<div>
+						<p>By the <span class="hint_purple">power rule</span>, <code>\dfrac{dy}{dx}[<var>expr( ['^', 'x', 2] )</var>]</code> becomes <code>2x</code>:</p>
+						<p><code><var>2*A</var>yy' <var>B_SIGN</var> \color{orange}{<var>expr( ['*', B*2, 'x', 'y'] )</var>} + <var>expr( ['*', B, ['^', 'x', 2]] )</var>\color{blue}{\dfrac{dy}{dx}}[y]= 0</code></p>
+					</div>
+					<div>
+						<p>By the <span class="hint_purple">power rule</span>, <code>\dfrac{dy}{dx}[y]</code> becomes <code>y'</code>:</p>
+						<p><code><var>2*A</var>yy' <var>B_SIGN</var> <var>expr( ['*', B*2, 'x', 'y'] )</var> <var>B_SIGN</var> \color{orange}{<var>expr( ['*', B, ['^', 'x', 2]] )</var>y'} = 0</code></p>
+					</div>
+					<div>
+						<p>Solving for <code>y'</code>:</p>
+						<p><code>y' = \dfrac{<var>expr( ['*', -2*B, 'x', 'y'] )</var>}{<var>expr( ['+', ['*', B, ['^', 'x', 2]], ['*', 2*A, 'y']] )</var>}</code></p>
+					</div>
+					<div>
+						<p>Simplifying:</p>
+						<p><code>y' = <var>expr( ['*', -1, "\\dfrac{"+expr(N)+"}{"+expr(D)+"}"] )</var></code></p>
+					</div>
+				</div>
+				
 			</div>                                
-			</div>
 		</div>
 	</div>
+</div>
 </body>
 </html>
