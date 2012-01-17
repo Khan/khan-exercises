@@ -73,10 +73,6 @@
 				"<code>" + orb + "^{2}</code>.";
 		}
 
-		function allRemaining( size, order, orbital ) {
-			return "All remaining electrons are placed in the " + order + " orbital (<code>" + orbital + "</code>), which is written as <code>" + orbital + "^{" + size + "}</code>.";
-		}
-
 		var orders = [ "first", "second", "third", "fourth", "fifth" ];
 
 		function orbitalFill( order, period, orbital, N, M ) {
@@ -171,14 +167,6 @@
 	</div>
 
 	<div class="hints">
-		<div data-unwrap>
-			<p>
-				The electron configuration of most elements can be created by "reading" the periodic table left to right.
-			</p>
-			<p>
-				Electron configurations are commonly written as electrons added after the electron configuration of the last noble gas.
-			</p>
-		</div>
 		<p data-if="N == 1">
 			The first and only electron of <strong class="hint_orange">hydrogen</strong> goes into the first orbital (<code>1s</code>).
 		</p>
@@ -186,6 +174,12 @@
 			The only two electrons of <strong class="hint_orange">helium</strong> fill the whole first orbital (<code>1s^2</code>).
 		</p>
 		<div data-if="N > 2" data-unwrap>
+			<p>
+				The electron configuration of most elements can be found by "reading" the periodic table left to right.
+			</p>
+			<p>
+				Electron configurations are commonly written as electrons added after the electron configuration of the last noble gas.
+			</p>
 			<div>
 				<div class="graphie" data-update="pt">
 					graph.pt.highlightElement( LAST_NOBLE_GAS.protonNumber, "#fff" );
@@ -198,7 +192,7 @@
 			</div>
 			<p>
 				<strong class="hint_orange"><var>capitalize(ELEMENT.name)</var></strong> has <var>KhanUtil.plural( M, "more electron" )</var> than 
-				<strong class="hint_green"><var>LAST_NOBLE_GAS.name</var></strong>.
+				<strong><var>LAST_NOBLE_GAS.name</var></strong>.
 			</p>
 
 			<!-- Recursively generate the hints. -->
@@ -207,7 +201,10 @@
 			</var>
 		</div>
 
-		<p>All electrons are now in place. The electron configuration of <strong class="hint_orange"><var>ELEMENT.name</var></strong> is <code><var>SOLUTION</var></code>.</p>
+		<p>
+			<span data-if="N > 2">All electrons are now in place.</span>
+			The electron configuration of <strong class="hint_orange"><var>ELEMENT.name</var></strong> is <code><var>SOLUTION</var></code>.
+		</p>
 	</div>
 	</div>
 </body>
