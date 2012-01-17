@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
+<head>
+	<title>Converting fractions and mixed numbers to decimals 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+
+		<div class="vars">
+			<var id="WHOLE">randRange(1,9)</var>
+			<var id="DENOMINATOR">randFromArray([2, 4, 5, 10 ])</var>
+			<var id="DIVISOR">DENOMINATOR</var>
+			<var id="NUMERATOR" data-ensure="NUMERATOR &lt; DENOMINATOR">randRange( 1, 9 )</var>
+			<var id="IMPROPER_NUMERATOR">( ( WHOLE * DENOMINATOR ) + NUMERATOR )</var>
+			<var id="DIVIDEND">IMPROPER_NUMERATOR*100</var>
+			<var id="DIVISOR_DECIMAL">0</var>
+			<var id="DIVIDEND_DECIMAL">2</var>
+			<var id="DUMMY">[]</var>
+		</div>	
+
+		<div class="problems">
+			<div id="improper-fraction">
+				<p>Express the fraction as a decimal.</p>
+				<p class="question"><code>\dfrac{<var>IMPROPER_NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+
+				<p class="solution" data-type="decimal"><var>IMPROPER_NUMERATOR  / DENOMINATOR</var></p>
+
+				<div class="hints">
+				 	<p>To convert this fraction to a decimal, divide <code><var>IMPROPER_NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
+
+				 	<div class="graphie" id="numbers">
+						graph.divider = new Divider( DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL );
+						graph.divider.show();
+						DUMMY = Array( graph.divider.getNumHints() );
+					</div>
+
+					<div class="graphie" data-update="numbers">
+						graph.divider.shiftDecimals();
+					</div>
+
+					<div class="graphie" data-update="numbers" data-each="Divider.numHintsFor( DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL ) times">
+						graph.divider.showHint();
+					</div>
+				</div>
+			</div>
+
+			<div id="mixed-number">
+				<p class="question">Convert <code><var>WHOLE</var>\ <var>fraction( NUMERATOR, DENOMINATOR, false, true )</var></code> to a decimal.</p>
+
+				<p class="solution" data-type="decimal"><var>IMPROPER_NUMERATOR  / DENOMINATOR</var></p>
+
+				<div class="hints">
+					<p>This mixed number is equivalent to <code>\color{#FFA500}{<var>WHOLE</var>} + \color{#6495ED}{<var>fraction( NUMERATOR, DENOMINATOR, false, true )</var>}</code>.</p>
+
+					<p>To convert the mixed number to a decimal, divide <code>\color{#6495ED}{<var>NUMERATOR</var>}</code> by <code>\color{#6495ED}{<var>DENOMINATOR</var>}</code> and add  it to the <code>\color{#FFA500}{<var>WHOLE</var>}</code> .</p>
+	
+					<div class="graphie" id="numbers">
+						graph.divider = new Divider( DIVISOR, NUMERATOR * 100 , DIVISOR_DECIMAL, DIVIDEND_DECIMAL );
+						graph.divider.show();
+						DUMMY = Array( graph.divider.getNumHints() );
+					</div>
+
+					<div class="graphie" data-update="numbers">
+						graph.divider.shiftDecimals();
+					</div>
+
+					<div class="graphie" data-update="numbers" data-each="Divider.numHintsFor( DIVISOR, NUMERATOR * 100 , DIVISOR_DECIMAL, DIVIDEND_DECIMAL ) times">
+						graph.divider.showHint();
+					</div>
+
+					<div>
+						<code><var>WHOLE</var>\ <var>fraction( NUMERATOR, DENOMINATOR, false, true )</var></code> is equal to <code><var>IMPROPER_NUMERATOR / DENOMINATOR</var></code>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
