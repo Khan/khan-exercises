@@ -324,7 +324,7 @@ jQuery.extend(KhanUtil, {
 		if(n2 >= 2){
 			if(n1 >= 1){
 				if(n1 == 2 || n1 == 3){
-					result += basis[n1] + "ën" + tienen[n2]
+					result += basis[n1] + "&euml;n" + tienen[n2]
 				}
 				else{
 					result += basis[n1] + "en" + tienen[n2]
@@ -336,7 +336,7 @@ jQuery.extend(KhanUtil, {
 		}
 		else if(n2 == 1){
 			if(n1 >= 5){
-				result += basis[n1] + tienen[0]
+				result += basis[n1] + tienen[n2]
 			}
 			else{
 				result += uitzonderingen[n1]
