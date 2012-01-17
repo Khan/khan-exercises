@@ -72,7 +72,7 @@ function Element(identifier) {
 		if (number == 2) l = 18;
 
 		// Shift elements after lanthanides and actinides as if they weren't there
-		if (l > 16 && this.period > 5) l -= 14;
+		if (l > 17 && this.period > 5) l -= 14;
 
 		this.leftOffset = l;
 
@@ -86,9 +86,9 @@ function Element(identifier) {
 				type = "alkali metal";
 			} else if (this.leftOffset == 2) { // alkaline earth metals
 				type = "alkaline earth metal";
-			} else if (this.number >= 57 && this.number <= 71) {
+			} else if (number >= 57 && number <= 71) {
 				type = "lanthanide";
-			} else if (this.number >= 89 && this.number <= 103) {
+			} else if (number >= 89 && number <= 103) {
 				type = "actinide";
 			} else if (this.block == "d") {
 				type = "transition metal";
