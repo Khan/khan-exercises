@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Graph Faces</title>
+	<script src="../khan-exercise.js"></script><script type="text/javascript">
+		function drawK3( colors ) {
+			var graph = KhanUtil.currentGraph;
+			
+			graph.init({
+				range: [ [-1, 7], [-2, 6] ]
+			});
+			graph.path([ [-1, -1], [-1, 6], [7, 6], [7, -1], true], {"fill": colors[0], "stroke": "white"});
+			graph.path([ [0, 0], [3, 5.5], [6, 0], true], {"fill": colors[1]});
+			graph.circle( [0, 0], .1, { "fill": "black" });
+			graph.circle( [3, 5.5], .1, { "fill": "black" });
+			graph.circle( [6, 0], .1, { "fill": "black" });
+		}
+		
+		function drawK4( colors ) {
+			var graph = KhanUtil.currentGraph;
+			
+			graph.init({
+				range: [ [-1, 7], [-2, 6.5] ]
+			});
+			graph.path([ [-1, -1], [-1, 6.5], [7, 6.5], [7, -1], true], {"fill": colors[0], "stroke": "white"});
+			graph.arc( [3, 3], 3, 270, 180, false, {"fill": colors[1]});
+			graph.path([ [0, 0], [0, 3], [3, 3], true ], {"fill": colors[2]});
+			graph.path([ [0, 0], [3, 3], [3, 0], true ], {"fill": colors[3]});
+			graph.circle( [0, 0], .1, { "fill": "black" });
+			graph.circle( [0, 3], .1, { "fill": "black" });
+			graph.circle( [3, 3], .1, { "fill": "black" });
+			graph.circle( [3, 0], .1, { "fill": "black" });
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="CompleteGraphs">
+			<div class="vars">
+				<var id="magv">randRange( 3, 4 )</var>
+				<var id="answer">magv === 3 ? 2 : 4 </var>
+			</div>
+
+			<div class="question">
+				<p>How many faces are in the planar graph <code>K_<var>magv</var></code>?</p>
+				<div class="graphie" id="completeGraph">
+					<div data-if="magv === 3">
+						drawK3(["white", "white"]);
+					</div>
+					<div data-else="magv === 4">
+						drawK4(["white", "white", "white", "white"]);
+					</div>
+				</div>
+			</div>
+
+			<p class="solution"><var>answer</var></p>
+
+			<div class="hints">
+				<p>Remember that the exterior of a graph counts as a face.</p>
+				<p>Each closed polygon in a graph is a face.</p>
+				<div class="graphie" data-update="completeGraph">
+					<div data-if="magv === 3">
+						drawK3(["yellow", "green"]);
+					</div>
+					<div data-else>
+						drawK4(["yellow", "green", "red", "blue"]);
+					</div>
+				</div>
+				<p><code>K_<var>magv</var></code> has <var>answer</var> faces.</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
