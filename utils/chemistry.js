@@ -327,6 +327,26 @@ jQuery.extend( KhanUtil, {
 		}
 
 		return result;
+	},
+
+	formatElectronConfiguration: function (el) {
+		var lastNobleGas = (el.lastNobleGas > 0) ? (new Element( el.lastNobleGas)) : false;
+		var text = "";
+
+		if (lastNobleGas) {
+			text = "[" + lastNobleGas.symbol + "]";
+		}
+
+		for ( var i in el.electronConfiguration ) {
+			if (lastNobleGas && lastNobleGas.electronConfiguration.length > i) {
+				continue;
+			}
+			var o = el.electronConfiguration[i];
+			if (text != "") text += " ";
+			text += o.level + o.type + "^{" + o.count + "}";
+		}
+
+		return text;
 	}
 });
 

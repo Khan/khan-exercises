@@ -91,7 +91,6 @@
 				text += orbitalFill( order + 1, period, orbital + 1, N + cap, M - cap );
 			}
 			text += "</div>";
-			console.log(text);
 			return text;
 		}
 	</script>
@@ -106,21 +105,7 @@
 		<var id="O">LAST_NOBLE_GAS ? LAST_NOBLE_GAS.orbitalCount : 0</var>
 		<var id="P">ELEMENT.period</var>
 
-		<var id="SOLUTION">(function() {
-			var text = "";
-			if (LAST_NOBLE_GAS) {
-				text = "[" + LAST_NOBLE_GAS.symbol + "]";
-			}
-			for ( var i in ELEMENT.electronConfiguration ) {
-				if (LAST_NOBLE_GAS && LAST_NOBLE_GAS.electronConfiguration.length > i) {
-					continue;
-				}
-				var o = ELEMENT.electronConfiguration[i];
-				if (text != "") text += " ";
-				text += o.level + o.type + "^{" + o.count + "}";
-			}
-			return text;
-		})()</var>
+		<var id="SOLUTION">KhanUtil.formatElectronConfiguration(ELEMENT)</var>
 	</div>
 
 	<div class="problems">

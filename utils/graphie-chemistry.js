@@ -85,15 +85,11 @@ function PeriodicTable(height, cellSize) {
 
 	function getElementColor(el) {
 		// several shades of light green
-		if (el.type === "lanthanide" ||
-			el.type === "actinide") {
-			return "#5FD866";
-		}
-
 		switch ( el.block ) {
 			case "s": return "#E6FFCF";
 			case "p": return "#C6F29F";
 			case "d": return "#94E685";
+			case "f": return "#5FD866";
 		}
 	}
 
