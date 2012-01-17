@@ -293,6 +293,63 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
+	kardinaal: function(n){
+		if(n >= 10000){
+			return n
+		}
+		var basis = ["", "een", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen"]
+		var tienen = ["", "tien", "twintig", "dertig", "veertig", "vijftig", "zestig", "zeventig", "tachtig", "negentig"]
+		var uitzonderingen = ["tien", "elf", "twaalf", "dertien", "veertien"]
+		var result = ""
+
+		n4 = Math.floor(n/1000)
+		n3 = Math.floor((n%1000)/100)
+		n2 = Math.floor((n%100)/10)
+		n1 = (n%10)
+
+		if(n4 >= 1){
+			if(n4 >= 2){
+				result += basis[n4]
+			}
+			result += "duizend "
+		}
+
+		if(n3 >= 1){
+			if(n3 >= 2){
+				result += basis[n3]
+			}
+			result += "honderd "
+		}
+
+		if(n2 >= 2){
+			if(n1 >= 1){
+				if(n1 == 2 || n1 == 3){
+					result += basis[n1] + "ën" + tienen[n2]
+				}
+				else{
+					result += basis[n1] + "en" + tienen[n2]
+				}
+			}
+			else{
+				result += tienen[n2]
+			}
+		}
+		else if(n2 == 1){
+			if(n1 >= 5){
+				result += basis[n1] + tienen[0]
+			}
+			else{
+				result += uitzonderingen[n1]
+			}
+		}
+		else if(n1 >= 1){
+			result += basis[n1]
+		}
+
+		return result
+
+	},
+
 	Cardinal: function( n ) {
 		var card = KhanUtil.cardinal( n );
 		return card.charAt(0).toUpperCase() + card.slice(1);

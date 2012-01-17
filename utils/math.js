@@ -57,14 +57,10 @@ jQuery.extend(KhanUtil, {
 		return digits;
 	},
 
-	placesLeftOfDecimal: tokenreplace.switchLang({
-		"nl" : ["hele getal", "tiental", "honderdtal", "duizendtal"],
-		"en" : ["one", "ten", "hundred", "thousand"]
-	}),
-	placesRightOfDecimal: tokenreplace.switchLang({
-		"nl" : ["hele getal", "tienden", "honderdsten", "duizendsten"],
-		"en" : ["one", "tenth", "hundredth", "thousandth"]
-	}),
+	placesLeftOfDecimal: ["hele getal", "tiental", "honderdtal", "duizendtal"],
+	placesRightOfDecimal: ["hele getal", "tiende", "honderdste", "duizendste"],
+
+
 
 	powerToPlace: function( power ) {
 		if ( power < 0 ) {
