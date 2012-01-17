@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive">
+<html data-translatable data-require="math math-format expressions graphie interactive">
 <head>
 	<meta charset="UTF-8" />
 	<title>Graphing linear equations</title>
@@ -87,7 +87,7 @@
 				</div>
 			</div>
 			<div class="solution" data-type="custom">
-				<div class="instruction">
+				<div class="instruction" data-tt="question1">
 					Drag the two points to move the line into the correct position.
 				</div>
 				<div class="guess"> [ graph.pointA.coord, graph.pointB.coord ] </div>
@@ -107,19 +107,19 @@
 
 	<div class="hints">
 		<div data-if="STD_FORM" data-unwrap>
-			<p>
+			<p data-tt="hint1">
 				Convert <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> = <var>C</var></code>
 				to slope-intercept form by solving for <code>y</code>.
 			</p>
 			<div>
-				<p>
+				<p data-tt="hint2">
 					<var>A &lt; 0 ? "Add" : "Subtract"</var> <code><var>abs( A )</var>x</code> <var>A &lt; 0 ? "to" : "from"</var> both sides:
 				</p><p>
 					<code>\qquad <var>expr( [ "*", B, "y" ] )</var> = <var>expr([ "+", [ "*", -A, "x" ], C ])</var></code>
 				</p>
 			</div>
 			<div data-if="B !== 1">
-				<p>
+				<p data-tt="hint3">
 					Divide both sides by <code><var>B</var></code>:
 				</p><p>
 					<code>\qquad y = <var>expr([ "+", "\\dfrac{" + expr([ "*", -A, "x" ]) + "}{" + B + "}", "\\dfrac{" + C + "}{" + B + "}" ])</var></code>
@@ -129,12 +129,12 @@
 		<div>
 			<p>
 				<code>\qquad y = \color{purple}{<var>PRETTY_SLOPE</var>} x \color{<var>GREEN</var>}{+ <var>YINT</var>}</code>
-			</p><p>
+			</p><p data-tt="hint4">
 				The y-intercept is <code class="hint_green"><var>YINT</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>.
 			</p>
 		</div>
 		<div>
-			<p>
+			<p data-tt="hint5">
 				The y-intercept is <code class="hint_green"><var>YINT</var></code>, so the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
 			</p>
 			<div class="graphie" data-update="grid">
@@ -144,7 +144,7 @@
 			</div>
 		</div>
 		<div>
-			<p>
+			<p data-tt="hint6">
 				The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that
 				the slope tells you rise over run. So in this case for every
 				<code><var>abs( SLOPE_FRAC[0] )</var></code>
@@ -157,7 +157,7 @@
 				<var>"position" + ( abs( SLOPE_FRAC[1] ) !== 1 ? "s" : "" )</var>
 				to the right.
 			</p>
-			<div class="graphie" data-update="grid">
+			<div class="graphie" data-update="grid"  data-tt="hint7">
 				style({
 					stroke: "purple",
 					strokeWidth: 2,
@@ -172,7 +172,7 @@
 			</div>
 		</div>
 		<div>
-			<p>So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC[1]</var>, <var>YINT + SLOPE_FRAC[0]</var>)</code></p>
+			<p data-tt="hint8">So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC[1]</var>, <var>YINT + SLOPE_FRAC[0]</var>)</code></p>
 			<div class="graphie" data-update="grid">
 				style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: "." }, function() {
 					plot( function( x ) {

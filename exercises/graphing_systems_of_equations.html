@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive">
+<html data-translatable data-require="math math-format expressions graphie interactive">
 <head>
 	<meta charset="UTF-8" />
 	<title>Graphing systems of equations</title>
@@ -36,7 +36,7 @@
 				<var id="STD_FORM_2">true</var>
 			</div>
 
-			<p class="question">Graph this system of equations and solve.</p>
+			<p class="question" data-tt="question1">Graph this system of equations and solve.</p>
 
 			<div class="problem">
 				<p class="hint_blue" data-if="STD_FORM_1">
@@ -138,13 +138,13 @@
 					graph.pointB.toFront();
 
 				</div>
-				Click and drag the points to move the lines.
+				<p data-tt="question2">Click and drag the points to move the lines.</p>
 			</div>
 			<div class="solution" data-type="multiple">
 				<p><code>x = </code> <span class="sol"><var>X</var></span></p>
 				<p><code>y = </code> <span class="sol"><var>Y</var></span></p>
 				<div class="sol" data-type="custom">
-					<div class="instruction">
+					<div class="instruction" data-tt="question3">
 						Your graphs are also part of your answer.
 					</div>
 					<div class="guess">
@@ -174,7 +174,7 @@
 						graph.line2.transform( true );
 					</div>
 				</div>
-				<div class="example">two integers like <code>6</code></div>
+				<div class="example" data-tt="question4">two integers like <code>6</code></div>
 			</div>
 		</div>
 		<div id="slope-intercept" data-type="standard" data-weight="5">
@@ -193,18 +193,18 @@
 
 	<div class="hints">
 		<div data-if="STD_FORM_1" data-unwrap>
-			<p class="hint_blue">
+			<p class="hint_blue" data-tt="hint1">
 				Convert the first equation,
 				<code><var>expr([ "+", [ "*", A1, "x" ], [ "*", B1, "y" ] ])</var> = <var>C1</var></code>,
 				to slope-intercept form.
 			</p>
 			<p class="hint_blue"><code>y = <var>PRETTY_SLOPE_1</var> x + <var>YINT_1</var></code></p>
 		</div>
-		<p class="hint_blue">
+		<p class="hint_blue" data-tt="hint2">
 			The y-intercept for the first equation is <code><var>YINT_1</var></code>, so the first line
 			must pass through the point <code>(0, <var>YINT_1</var>)</code>.
 		</p>
-		<p class="hint_blue">
+		<p class="hint_blue" data-tt="hint3">
 			The slope for the first equation is <code><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
 			the slope tells you rise over run. So in this case for every
 			<code><var>abs( SLOPE_1_FRAC[0] )</var></code>
@@ -217,7 +217,7 @@
 			<var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var>
 			to the right.
 		</p>
-		<p class="hint_blue">
+		<p class="hint_blue" data-tt="hint4">
 			<code><var>SLOPE_1_FRAC[1]</var></code>
 			<var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var> to the right and
 			<code><var>abs( SLOPE_1_FRAC[0] )</var></code>
@@ -226,7 +226,7 @@
 			<code>(0, <var>YINT_1</var>)</code> is
 			<code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.
 		</p>
-		<p class="hint_blue">
+		<p class="hint_blue" data-tt="hint5">
 			Graph the blue line so it passes through
 			<code>(0, <var>YINT_1</var>)</code> and
 			<code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.
@@ -237,18 +237,18 @@
 			" />
 		</p>
 		<div data-if="STD_FORM_2" data-unwrap>
-			<p class="hint_green">
+			<p class="hint_green" data-tt="hint6">
 				Convert the second equation,
 				<code><var>expr([ "+", [ "*", A2, "x" ], [ "*", B2, "y" ] ])</var> = <var>C2</var></code>,
 				to slope-intercept form.
 			</p>
 			<p class="hint_green"><code>y = <var>PRETTY_SLOPE_2</var> x + <var>YINT_2</var></code></p>
 		</div>
-		<p class="hint_green">
+		<p class="hint_green" data-tt="hint7">
 			The y-intercept for the second equation is <code><var>YINT_2</var></code>, so the second line
 			must pass through the point <code>(0, <var>YINT_2</var>)</code>.
 		</p>
-		<p class="hint_green">
+		<p class="hint_green" data-tt="hint8">
 			The slope for the second equation is <code><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
 			the slope tells you rise over run. So in this case for every
 			<code><var>abs( SLOPE_2_FRAC[0] )</var></code>
@@ -261,7 +261,7 @@
 			<var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var>
 			to the right.
 		</p>
-		<p class="hint_green">
+		<p class="hint_green" data-tt="hint9">
 			<code><var>SLOPE_2_FRAC[1]</var></code>
 			<var>"position" + ( abs( SLOPE_2_FRAC[1] ) !== 1 ? "s" : "" )</var> to the right and
 			<code><var>abs( SLOPE_2_FRAC[0] )</var></code>
@@ -270,7 +270,7 @@
 			<code>(0, <var>YINT_2</var>)</code> is
 			<code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.
 		</p>
-		<p class="hint_green">
+		<p class="hint_green" data-tt="hint10">
 			Graph the green line so it passes through
 			<code>(0, <var>YINT_2</var>)</code> and
 			<code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.
@@ -280,11 +280,11 @@
 					KhanUtil.tmpl.getVAR( 'YINT_2' ) + KhanUtil.tmpl.getVAR( 'SLOPE_2_FRAC[0]' ), true );
 			" />
 		</p>
-		<p>
+		<p data-tt="hint11">
 			The solution is the point where the two lines intersect.
 		</p>
 		<div>
-			<p>
+			<p data-tt="hint12">
 				The lines intersect at <code class="hint_pink">(<var>X</var>, <var>Y</var>)</code>.
 			</p>
 			<div class="graphie" data-update="grid">
