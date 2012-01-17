@@ -63,8 +63,6 @@ function Element(identifier) {
 
 		this.lastNobleGas = number - l;
 
-		this.isNobleGas = (this.block === "p" && ec[ec.length - 1].count == 6) || (number == 2);
-
 		// Shift P-group in period 2 and 3
 		if (l > 2 && this.period < 4) l += 10;
 
@@ -295,7 +293,7 @@ jQuery.extend( KhanUtil, {
 				}
 			});
 
-			if (!element || !element.isNobleGas) { // Accept just noble gases.
+			if (!element || element.type !== "noble gas") { // Accept just noble gases.
 				return false;
 			}
 
