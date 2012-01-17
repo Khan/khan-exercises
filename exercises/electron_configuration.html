@@ -10,28 +10,6 @@
 		 *	maximum number of orbitals: 10
 		 *	maximum element proton number: 48 (cadmium; exactly what fits in the first 10 orbitals).
 		 */
-		function addOrbital() {
-			if ($("#orbitals div").length >= 10) {
-				return;
-			}
-			var newControl = $( '<div />' );
-			newControl.append( '<input type="number" class="level" min="1" max="8" style="width: 4em; margin-right: 2px;" />' );
-			newControl.append( '<select class="type" style="margin: 0 2px;">\n' +
-				'<option value="s">s</option>\n' +
-				'<option value="p">p</option>\n' +
-				'<option value="d">d</option>\n' +
-				'<option value="f">f</option>\n' +
-				'</select>');
-			newControl.append('<input type="number" class="count" min="1" max="14" style="width: 4em; margin-left: 2px;" />' );
-			$( "#orbitals" ).append( newControl );
-		}
-
-		function removeOrbital() {
-			if ( $( "#orbitals div" ).length <= 1 ) {
-				return;
-			}
-			$( "#orbitals div" ).last().remove();
-		}
 
 		function electrons( n ) {
 			return KhanUtil.plural( n, "electron" );
@@ -97,14 +75,12 @@
 			}
 			return text;
 		})()</var>
-		<var>addOrbital()</var>
 	</div>
 
 	<div class="problems">
 		<div>
 			<div class="question">
 				<p>What is the electron configuration of <strong class="hint_orange"><var>ELEMENT.name</var></strong> (proton number <var>ELEMENT.protonNumber</var>)?</p>
-				<!-- TODO: show the periodic table -->
 			</div>
 
 			<div class="graphie" id="pt">
@@ -121,51 +97,33 @@
 
 	<div class="solution" data-type="custom">
 		<div class="instruction">
-			Express the electron configuration using the controls below, in order of increasing energy.
-			<div style="text-align: center; margin-bottom: 4px;">
-				<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="addOrbital()" />
-				<input type="button" class="simple-button action-gradient mini-button" value="-" onclick="removeOrbital()" />
-			</div>
-			<div id="orbitals">
-			</div>
+			Express the electron configuration (example: [Ar] 4s2 3d10 4p4)
+			<input type="text" id="configuration" />
 		</div>
 		<div class="guess">
-			(function() {
-				var guess = [];
-				$( "#orbitals div" ).each( function (i, el) {
-					guess.push( {
-						level: parseInt( $( el ).find( ".level" ).val() ), 
-						type: $( el ).find( ".type" ).val(),
-						count: parseInt( $( el ).find( ".count" ).val())
-					} );
-				} );
-				return guess;
-			})()
+			$( "#configuration" ).val()
 		</div>
 		<div class="validator-function">
 			var ec = ELEMENT.electronConfiguration;
+			var g = KhanUtil.parseElectronConfiguration( guess );
+			console.log(ec);
+			console.log(g);
 			for (var i = 0; i &lt; ec.length; i++) {
-				if ( ec[i].type != guess[i].type ||
-					ec[i].level != guess[i].level ||
-					ec[i].value != guess[i].value ) {
+				if ( ec[i].type != g[i].type ||
+					ec[i].level != g[i].level ||
+					ec[i].value != g[i].value ) {
 					return false;
 				}
 			}
 			return true;
 		</div>
 		<div class="show-guess">
-			$( "#orbitals div" ).each( function(i, el) { el.remove(); } );
-			for (var i = 0; i &lt; guess.length; i++) {
-				addOrbital();
-				var control = $( "#orbitals div" ).last();
-				control.find( ".type" ).val( guess[i].type );
-				control.find( ".level" ).val( guess[i].level );
-				control.find( ".value" ).val( guess[i].value );
-			}
+			$( "#configuration" ).val( guess );
 		</div>
 	</div>
 
 	<div class="hints">
+		<!-- TODO: rewrite to use last noble gas -->
 		<p>
 			The electron configuration of most elements can be created by "reading" the periodic table left to right.
 		</p>

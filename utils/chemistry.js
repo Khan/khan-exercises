@@ -29,9 +29,10 @@ function Element(identifier) {
 			this.violatesMadelung = false;
 		}
 		var ec = KhanUtil.getElectronConfiguration(number);
+
 		this.electronConfiguration = ec;
 
-		// Period = highest layer of electrons
+		// Period = highest layer of electrons.
 		this.period = 0;
 		for (var i in ec) {
 			if (ec[i].level > this.period) {
@@ -39,18 +40,21 @@ function Element(identifier) {
 			}
 		}
 
-		// Block = last filled orbital type 
+		// Block = last filled orbital type.
 		this.block = ec[ec.length - 1].type;
 
 		// The following is used to determine the X coordinate of the element in the periodic table.
 		// Count elements since last inert gas
-		var l = 0;
+		var l = 0; //number - lastNobleGas;
 		for (var i = ec.length - 1; i >= 0; i--) {
 			if (i != ec.length - 1 && (ec[i].type == "p" || (ec[i].type == "s" && number > 2 && i == 0))) {
 				break;
 			}
 			l += ec[i].count;
 		}
+
+		this.lastNobleGas = number - l;
+		this.isNobleGas = (this.block === "p" && ec[ec.length - 1].count == 6) || (number == 2);
 
 		// Shift P-group in period 2 and 3
 		if (l > 2 && this.period < 4) l += 10;
@@ -232,6 +236,51 @@ jQuery.extend( KhanUtil, {
 			max = KhanUtil.elements.length - 1;
 		}
 		return new Element(Math.floor( max * KhanUtil.random() ) + min);
+	},
+
+	// Parses an electron configuration string.
+	parseElectronConfiguration: function ( str ) {
+		// \w+(\[(.+)\]\w+)?((\d+)(.)(\d+)\w+)+
+		var split = str.split( /\s+/ );
+
+		var match = split[0].match( /\[(\w+)\]/ );
+		var result = [];
+
+		if (match) {
+			var element;
+			$( KhanUtil.elements ).each(function (i, e) {
+				if (e.symbol === match[1]) {
+					element = new Element(i);
+					return false;
+				}
+			});
+
+			if (!element || !element.isNobleGas) { // Accept just noble gases.
+				return false;
+			}
+
+			result = element.electronConfiguration;
+			split.shift();
+		}
+
+		if (split.length === 0) { // Do not accept just saying [Symbol] without anything else
+			return false;
+		}
+
+		for (var i in split) {
+			match = split[i].match( /(\d+)(\w)(\d+)/ );
+			if (match) {
+				result.push({
+					level: parseInt(match[1]),
+					type: match[2],
+					count: parseInt(match[3])
+				});
+			} else {
+				return false;
+			}
+		}
+
+		return result;
 	}
 });
 
