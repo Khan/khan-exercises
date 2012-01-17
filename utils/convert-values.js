@@ -23,7 +23,7 @@ jQuery.extend( KhanUtil, {
 			return 1;
 		}
 		else if( angle == 30 ){
-			return "\\frac{2 \\sqrt 3}{3}";
+			return "\\frac{2\\sqrt 3}{3}";
 		}
 		else if( angle == 45 ){
 			return '\\sqrt 2';
