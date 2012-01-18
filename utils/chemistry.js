@@ -2,7 +2,7 @@ function Element(identifier) {
 	var elements = KhanUtil.elements;
 	var element, number;
 
-	switch (typeof identifier) {
+	switch ( typeof identifier ) {
 		case "number":
 			// Assume proton number.
 			element = elements[identifier];
@@ -11,7 +11,7 @@ function Element(identifier) {
 		case "string":
 			// Assume symbol or name.
 			$( KhanUtil.elements ).each(function (i, e) {
-				if (e.symbol === identifier || e.name === identifier) {
+				if ( e.symbol === identifier || e.name === identifier ) {
 					element = e;
 					number = i;
 					return false;
@@ -23,16 +23,13 @@ function Element(identifier) {
 	}
 
 	// If this element is already known as an Element instance, return it.
-	if (KhanUtil.elements[number] instanceof Element) {
+	if ( KhanUtil.elements[number] instanceof Element ) {
 		return KhanUtil.elements[number];
 	}
 
-	if (element) {
-		$.extend(this, element);
+	if ( element ) {
+		$.extend( this, element );
 		this.protonNumber = number;
-		if (!this.violatesMadelung) { // ensure violatesMadelung exists
-			this.violatesMadelung = false;
-		}
 		var ec = KhanUtil.getElectronConfiguration(number);
 
 		this.electronConfiguration = ec;
@@ -111,6 +108,33 @@ function Element(identifier) {
 	}
 
 	KhanUtil.elements[number] = this;
+}
+
+// TODO: jak se v JavaScriptu dela dedicnost?!
+
+function SimpleCompoundPart(value) {
+	// content:
+	//	an array of:
+	//		.thing (Element of SimpleCompoundPart)
+	//		.count (number)
+	this.content = value;
+}
+
+// Specification can be:
+//	- a "compound skeleton" (from the compounds array in KhanUtil)
+//	- a compound formula (which means that the compound will not have a name)
+function SimpleCompound(specification) {
+	var content;
+	if (typeof specification === "string") {
+		this.content = new SimpleCompoundPart(specification);
+		this.formula = specification;
+	} else {
+		// TODO: can this also be cached?
+		$.extend(this, specification);
+		if (!this.content) {
+			this.content = KhanUtil.parseCompoundPart(this.formula);
+		}
+	}
 }
 
 (function() {
@@ -241,6 +265,13 @@ jQuery.extend( KhanUtil, {
 		{ name: "ununoctium", symbol: "Uuo" }
 	],
 
+	compounds: [
+		{ name: "carbon monoxide", formula: "CO" },
+		{ name: "carbon oxide", formula: "CO2" },
+		{ name: "water", formula: "H2O" },
+		{ name: "hydrochloric acid", formula: "HCl" }
+	],
+
 	orbitals: [
 		"1s", "2s", "2p", "3s", "3p", "4s", "3d", "4p", "5s", "4d", "5p",
 		"6s", "4f", "5d", "6p", "7s", "5f", "6d", "7p" // orbitals beyond Uuo omitted
@@ -336,23 +367,137 @@ jQuery.extend( KhanUtil, {
 	},
 
 	formatElectronConfiguration: function (el) {
-		var lastNobleGas = (el.lastNobleGas > 0) ? (new Element( el.lastNobleGas)) : false;
+		var lastNobleGas = ( el.lastNobleGas > 0 ) ? ( new Element( el.lastNobleGas) ) : false;
 		var text = "";
 
-		if (lastNobleGas) {
+		if ( lastNobleGas ) {
 			text = "[" + lastNobleGas.symbol + "]";
 		}
 
 		for ( var i in el.electronConfiguration ) {
-			if (lastNobleGas && lastNobleGas.electronConfiguration.length > i) {
+			if ( lastNobleGas && lastNobleGas.electronConfiguration.length > i ) {
 				continue;
 			}
 			var o = el.electronConfiguration[i];
-			if (text != "") text += " ";
+			if ( text != "" ) text += " ";
 			text += o.level + o.type + "^{" + o.count + "}";
 		}
 
 		return text;
+	},
+
+	// Parses a simple compound part from a string in a format like
+	// H2O or H3 (P O4)2.
+	parseCompoundPart: function (formula) {
+		// Big letter starts the name of an element.
+
+		var element = null;
+		var count = 0;
+		var parts = [];
+		var SENTINEL = '#';
+
+		var str = formula + SENTINEL; // Sentinel character
+
+		// TODO: check contained characters with some regex
+
+		for (var i = 0; i < str.length; i++) {
+			var c = str[i];
+			if ( ( c >= 'A' && c <= 'Z' ) || c === '(' || c === SENTINEL ) {
+				// End the current element.
+				if ( element ) {
+					if ( typeof element === "string" ) {
+						element = new Element(element);
+					}
+					parts.push({
+						thing: element,
+						count: count || 1
+					});
+				}
+				count = 0;
+			}
+
+			if ( c >= 'A' && c <= 'Z' ) { // The start of a new element.
+				element = c;
+			} else if ( c >= 'a' && c <= 'z' ) {
+				if ( !element ) {
+					console.log( "Stray lowercase letter '" + c + "' in compound part '" + formula + "'" );
+					return null;
+				}
+				element += c;
+			} else if ( parseInt(c).toString() === c ) {
+				count *= 10;
+				count += parseInt(c);
+				if (count === 0) {
+					console.log( "Stray zero in compound part '" + formula + "'" );
+					return null;
+				}
+			} else if ( c === '(' ) {
+				// Skip through to the matching parens.
+				// Recursively call self.
+				var j, level;
+				for ( j = i + 1, level = 1; j < str.length; j++ ) {
+					if ( str[j] === ')' ) {
+						level--;
+						if ( level === 0 ) {
+							break;
+						}
+					} else if ( str[j] === '(' ) {
+						level++;
+					}
+				}
+				if ( j === str.length && str[j] !== ')' ) {
+					console.log( "Unmatched parenthesis in '" + formula + "'" );
+					return null;
+				}
+				var slice = str.slice( i + 1, j );
+				element = KhanUtil.parseCompoundPart( slice );
+				if ( !element ) {
+					console.log( "Failed to parse compound part '" + slice + "'" );
+					return null;
+				}
+				i = j;
+			}
+		}
+
+		return new SimpleCompoundPart( parts );
+	},
+
+	formatCompoundPart: function ( part ) {
+		var result = "";
+		var parts;
+		if ( part instanceof SimpleCompoundPart ) {
+			parts = part.content;
+		} else { // assume array of parts
+			parts = part;
+		}
+		$( parts ).each(function (i, el) {
+			var item = el.thing;
+			var count = el.count;
+
+			if ( result !== "" ) {
+				result += " ";
+			}
+
+			if ( item instanceof Element ) {
+				console.log("element");
+				result += item.symbol;
+			} else if ( item instanceof SimpleCompoundPart ) {
+				console.log("scp");
+				console.log(item);
+				result += "(" + KhanUtil.formatCompoundFormula(item) + ")";
+			}
+
+			if ( count > 1 ) {
+				result += "_{" + count + "}";
+			}
+			console.log(result);
+		});
+		return result;
+	},
+
+	// Returns the formatted formula of a compound.
+	formatCompoundFormula: function ( compound ) {
+		return KhanUtil.formatCompoundPart( compound.content );
 	}
 });
 
