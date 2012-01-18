@@ -321,6 +321,18 @@ jQuery.extend( KhanUtil, {
 							mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
 						}
 
+						// coord{X|Y} are the scaled coordinate values
+						var coordX = mouseX / graph.scale[0] + graph.range[0][0];
+						var coordY = graph.range[1][1] - mouseY / graph.scale[1];
+
+						// snap coordinates to grid
+						if ( movablePoint.snapX !== 0 ) {
+							coordX = Math.round( coordX / movablePoint.snapX ) * movablePoint.snapX;
+						}
+						if ( movablePoint.snapY !== 0 ) {
+							coordY = Math.round( coordY / movablePoint.snapY ) * movablePoint.snapY;
+						}
+
 						// snap to points around circle
 						if ( movablePoint.constraints.fixedDistance.snapPoints ) {
 
@@ -351,18 +363,10 @@ jQuery.extend( KhanUtil, {
 							// convert back to coordinates relative to graphie canvas
 							mouseX = mouseXrel + centerX;
 							mouseY = - mouseYrel + centerY;
+							coordX = KhanUtil.roundTo( 5, mouseX / graph.scale[0] + graph.range[0][0] );
+							coordY = KhanUtil.roundTo( 5, graph.range[1][1] - mouseY / graph.scale[1] );
 						}
 
-						// coord{X|Y} are the scaled coordinate values
-						var coordX = mouseX / graph.scale[0] + graph.range[0][0];
-						var coordY = graph.range[1][1] - mouseY / graph.scale[1];
-						// snap coordinates to grid
-						if ( movablePoint.snapX !== 0 ) {
-							coordX = Math.round( coordX / movablePoint.snapX ) * movablePoint.snapX;
-						}
-						if ( movablePoint.snapY !== 0 ) {
-							coordY = Math.round( coordY / movablePoint.snapY ) * movablePoint.snapY;
-						}
 						// apply any constraints on movement
 						var coord = movablePoint.applyConstraint([ coordX, coordY ]);
 						coordX = coord[0];

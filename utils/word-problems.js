@@ -76,7 +76,13 @@ jQuery.extend( KhanUtil, {
 			'hele getal':'hele getallen',
 			'tiental':'tientallen',
 			'honderdtal':'honderdtallen',
-			'duizendtal':'duizendtallen'
+			'duizendtal':'duizendtallen',
+			'broek':'broeken',
+			'riem':'riemen',
+			'ketting':'kettingen',
+			'stropdas':'stropdassen',
+			'trui':'truien',
+			'jas':'jassen'
 		};
 
 		var pluralizeWord = function(word) {
@@ -303,17 +309,17 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var colors = KhanUtil.shuffle([
-		"rood",
+		"rode",
 		"oranje",
-		"geel",
-		"groen",
-		"blauw",
-		"paars",
-		"wit",
-		"zwart",
-		"bruin",
-		"zilver",
-		"goud",
+		"gele",
+		"groene",
+		"blauwe",
+		"paarse",
+		"witte",
+		"zwarte",
+		"bruine",
+		"zilveren",
+		"gouden",
 		"roze"
 	]);
 
@@ -328,21 +334,20 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var clothes = KhanUtil.shuffle([
-		"hat",
-		"pair of pants",
-		"belt",
-		"necklace",
-		"purse",
-		"pair of shoes",
-		"blouse",
-		"skirt",
-		"watch",
-		"pair of socks",
-		"sweatshirt",
+		"hoedje",
+		"broek",
+		"riem",
+		"ketting",
+		"tasje",
+		"bloesje",
+		"rokje",
+		"horloge",
+		"trui",
 		"sweater",
-		"tie",
-		"scarf",
-		"dress"
+		"stropdas",
+		"sjaal",
+		"jurkje",
+		"jas"
 	]);
 
 	var sides = KhanUtil.shuffle([
@@ -351,8 +356,8 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var shirtStyles = KhanUtil.shuffle([
-		"long-sleeved",
-		"short-sleeved"
+		"lange mouwen",
+		"korte mouwen"
 	]);
 
 	// animal, avg-lifespan, stddev-lifespan
@@ -376,8 +381,8 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var farmers = KhanUtil.shuffle([
-		{farmer:"tuinder", crops:KhanUtil.shuffle(["tomaat", "aardappel", "wortel", "bonen", "corn stalk"]), field:"land"},
-		{farmer:"kweker", crops:KhanUtil.shuffle(["roos", "tulp", "narcis", "iris", "lily"]), field:"kas"}
+		{farmer:"tuinder", crops:KhanUtil.shuffle(["tomaat", "aardappel", "wortel", "bonen", "mais"]), field:"land"},
+		{farmer:"kweker", crops:KhanUtil.shuffle(["roos", "tulp", "narcis", "sneeuwklokje", "lelie"]), field:"kas"}
 	]);
 
 	var distances = KhanUtil.shuffle([
