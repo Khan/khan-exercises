@@ -930,7 +930,6 @@ jQuery.extend( Khan.answerTypes, {
 
 	// The user is asked to enter the separate parts of a complex number in 2 checkboxes.
 	// Expected solution: [ real part, imaginary part ]
-	// TODO: custom validator for rounded parts and similar
 	complexNumberSeparate: function ( solutionarea, solution ) {
 		solutionarea = jQuery( solutionarea );
 
@@ -939,8 +938,6 @@ jQuery.extend( Khan.answerTypes, {
 		var correct = eval( json );
 
 		var solutionArray = [];
-
-		console.log(correct);
 
 		var realArea = jQuery( '<p />' ).html('Real part: ');
 		var realControl = jQuery( '<span />' ).html( correct[0] );
@@ -951,7 +948,7 @@ jQuery.extend( Khan.answerTypes, {
 		var imagValidator = Khan.answerTypes["decimal"]( imagArea, imagControl ); // fallback?
 
 		var area = jQuery( '<div />' );
-		area.append( realArea ).append(imagArea).tmpl();
+		area.append( realArea ).append( imagArea ).tmpl();
 		solutionarea.append( area );
 
 		var ret = function() {
@@ -975,7 +972,7 @@ jQuery.extend( Khan.answerTypes, {
 		};
 
 		ret.examples = [
-			"the separate parts of a complex number (<code>5 + 3i</code> has real part 5, imaginary part 3)"
+			"the separate parts of a complex number (<code>5.3 - 3i</code> has real part 5.3 and imaginary part -3)"
 		];
 
 		ret.solution = [ realValidator.solution, imagValidator.solution ];
