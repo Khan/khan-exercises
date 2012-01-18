@@ -111,7 +111,7 @@ function Element(identifier) {
 				this.oxidationStates = [ 1 ];
 			} else if ( this.type === "alkaline earth metal" ) {
 				this.oxidationStates = [ 2 ];
-			} else if ( this.type === "rare gas" ) {
+			} else if ( this.type === "noble gas" ) {
 				this.oxidationStates = [];
 			} else if ( this.leftOffset === 3 ) { // Sc, Y, La, Ac
 				this.oxidationStates = [ 3 ];
@@ -121,8 +121,10 @@ function Element(identifier) {
 				this.oxidationStates = [ 5, 3, -3 ];
 			} else if ( this.type === "lanthanide" ) { // other lanthanides
 				this.oxidationStates = [ 3 ];
-			} else if ( this.protonNumer >= 106 ) { // not yet known (Sg and beyond)
+			} else if ( this.protonNumber >= 105 ) { // not yet known (Db and beyond)
 				this.oxidationStates = [];
+			} else {
+				alert("NO O-STATE: " + this.protonNumber);
 			}
 		}
 	}
@@ -214,7 +216,7 @@ jQuery.extend( KhanUtil, {
 		{ name: "indium", symbol: "In", type: "post-transition metal", oxidationStates: [ 3 ] },
 		{ name: "tin", symbol: "Sn", type: "post-transition metal" },
 		{ name: "antimony", symbol: "Sb", type: "metalloid" },
-		{ name: "tellurium", symbol: "Te", type: "metalloid" },
+		{ name: "tellurium", symbol: "Te", type: "metalloid", oxidationStates: [ 6, 4, 2 ] },
 		{ name: "iodine", symbol: "I", oxidationStates: [ 7, 5, 1, -1 ] },
 		{ name: "xenon", symbol: "Xe" },
 		{ name: "caesium", symbol: "Ce" },
@@ -342,6 +344,12 @@ jQuery.extend( KhanUtil, {
 			max = KhanUtil.elements.length - 1;
 		}
 		return new Element(Math.floor( max * KhanUtil.random() ) + min);
+	},
+
+	// Returns a random relatively common element
+	randCommonElement: function () {
+		// hydrogen through astatine
+		return KhanUtil.randElement( 1, 85 );
 	},
 
 	// Parses an electron configuration string.
@@ -507,18 +515,14 @@ jQuery.extend( KhanUtil, {
 			}
 
 			if ( item instanceof Element ) {
-				console.log("element");
 				result += item.symbol;
 			} else if ( item instanceof SimpleCompoundPart ) {
-				console.log("scp");
-				console.log(item);
 				result += "(" + KhanUtil.formatCompoundFormula(item) + ")";
 			}
 
 			if ( count > 1 ) {
 				result += "_{" + count + "}";
 			}
-			console.log(result);
 		});
 		return result;
 	},
@@ -526,6 +530,54 @@ jQuery.extend( KhanUtil, {
 	// Returns the formatted formula of a compound.
 	formatCompoundFormula: function ( compound ) {
 		return KhanUtil.formatCompoundPart( compound.content );
+	},
+
+	randomSimpleOxide: function () {
+		var element;
+		do {
+			element = KhanUtil.randCommonElement();
+			// Check that the element has a suitable oxidation state.
+			var i;
+			for (i = 0; i < element.oxidationStates.length; i++) {
+				if ( element.oxidationStates[i] > 0 ) {
+					break;
+				}
+			}
+
+			if (i < element.oxidationStates.length) {
+				break; // Found one.
+			}
+		} while (true);
+
+		var state;
+		do {
+			state = KhanUtil.randFromArray( element.oxidationStates );
+			
+			if ( state > 0 ) {
+				break; // TODO: won't this create nonexistant oxides? (P2O7?)
+			}
+		} while (true);
+
+		console.log("state: " + state);
+
+		if ( state % 2 === 0 ) {
+			elementCount = 1;
+			oxyCount = state / 2;
+		} else {
+			elementCount = 2;
+			oxyCount = state;
+		}
+
+		var content = new SimpleCompoundPart( [
+			{ thing: element, count: elementCount },
+			{ thing: new Element("O"), count: oxyCount }
+		] );
+		
+		var compound = new SimpleCompound( {
+			content: content
+		} );
+
+		return compound;
 	}
 });
 
