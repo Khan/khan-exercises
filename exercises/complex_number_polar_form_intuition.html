@@ -21,9 +21,11 @@
 					<var id="RADIUS">randRange( 1, 10 )</var>
 					<var id="REAL">cos(ANGLE * PI * 2 / DENOMINATOR) * RADIUS</var>
 					<var id="IMAG">sin(ANGLE * PI * 2 / DENOMINATOR) * RADIUS</var>
+					<var id="REP">expr( [ "+", roundTo(2, REAL), [ "*", roundTo(2, IMAG), "i" ] ] )</var>
 				</div>
 				<p class="question">
-					Adjust the angle and radius of the <span class="hint_orange">orange</span> plotted complex number to match the <span class="hint_blue">blue</span> plotted complex number <code><var>round(REAL * 100) / 100</var> + <var>round(IMAG * 100) / 100</var>i</code>.
+					Adjust the angle and radius of the <span class="hint_orange">orange</span> plotted complex number 
+					to match the <span class="hint_blue">blue</span> plotted complex number <code><var>REP</var></code>.
 				</p>
 				<p>
 					How do these numbers affect the complex number they represent?
@@ -49,7 +51,7 @@
 				</div>
 
 				<div class="solution" data-type="multiple">
-					<table> <!-- with apologies to any self-respecting webdesigner, I just need the buttons to line up... -->
+					<table>
 						<tr>
 							<td style="width: 100px">
 								Radius: <span id="current-radius"><code>1</code></span>
