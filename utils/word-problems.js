@@ -9,7 +9,7 @@
 jQuery.extend( KhanUtil, {
 	toSentence: function( array, conjunction ) {
 		if ( conjunction == null ) {
-			conjunction = "en";
+			conjunction = "and";
 		}
 
 		if ( array.length === 0 ) {
@@ -32,7 +32,6 @@ jQuery.extend( KhanUtil, {
 		});
 		return KhanUtil.toSentence( wrapped, conjunction );
 	},
-
 
 	// pluralization helper.  There are five signatures
 	// - plural(NUMBER): return "s" if NUMBER is not 1
@@ -76,10 +75,10 @@ jQuery.extend( KhanUtil, {
 			'boom':'bomen',
 			'hele getal':'hele getallen',
 			'tiental':'tientallen',
-			'honderdtal':'honderdtallen'',
+			'honderdtal':'honderdtallen',
 			'duizendtal':'duizendtallen'
 		};
-		
+
 		var pluralizeWord = function(word) {
 
 			// noone really needs extra spaces at the edges, do they?
@@ -356,21 +355,24 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"short-sleeved"
 	]);
 
+	// animal, avg-lifespan, stddev-lifespan
+	// (data is from cursory google searches and wild guessing)
 	var animals = KhanUtil.shuffle([
-		"krokodil",
-		"miereneter",
-		"beer",
-		"olifant",
-		"gorilla",
-		"leeuw",
-		"hagedis",
-		"stokstaartje",
-		"stekelvarken",
-		"zeehond",
-		"slang",
-		"tijger",
-		"schildpad",
-		"zebra"
+		[ "krokodil", 68, 20 ],
+		[ "miereneter", 15, 10 ],
+		[ "beer", 40, 20],
+		[ "olifant", 60, 10 ],
+		[ "gorilla", 20, 5 ],
+		[ "leeuw", 12, 5 ],
+		[ "hagedis", 3, 1 ],
+		[ "stokstaartje", 13, 5 ],
+		[ "stekelvarken", 20, 5 ],
+		[ "zeehond", 15, 10 ],
+		[ "luiaard", 16, 5 ],
+		[ "slang", 25, 10 ],
+		[ "tijger", 22, 5 ],
+		[ "schildpad", 100, 20 ],
+		[ "zebra", 25, 10 ]
 	]);
 
 	var farmers = KhanUtil.shuffle([
@@ -425,6 +427,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		His: function( i ) {
 			return people[i - 1][1] === "m" ? "Zijn" : "Haar";
 		},
+
 
 		An: function(word) {
 			return indefiniteArticle(word);
@@ -555,7 +558,15 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		},
 
 		animal: function( i ) {
-			return animals[i - 1];
+			return animals[i - 1][0];
+		},
+
+		animalAvgLifespan: function( i ) {
+			return animals[i - 1][1];
+		},
+
+		animalStddevLifespan: function( i ) {
+			return animals[i - 1][2];
 		}
 	});
 };
