@@ -82,19 +82,7 @@ jQuery.extend ( KhanUtil, {
 
 		// private implementation
 
-		function graphInit() {
-			var graph = KhanUtil.currentGraph;
-
-			graph.graphInit({
-				range: 11,
-				scale: 20,
-				axisArrows: "&lt;-&gt;",
-				tickStep: 1,
-				labelStep: 1
-			});
-		}
-
-		function graph(n, color) {
+		function graph(n, color, range) {
 			var graph = KhanUtil.currentGraph;
 
 			function g(x) {
@@ -104,6 +92,11 @@ jQuery.extend ( KhanUtil, {
 				return val;
 			}
 
+			if (!range) {
+				range = 10;
+			}
+
+
 			if (graph.last) {
 				jQuery(graph).remove();
 				graph.last.remove();
@@ -112,7 +105,7 @@ jQuery.extend ( KhanUtil, {
 					stroke: color,
 					strokeWidth: 3,
 					fill: "none",
-					clipRect:[ [-10, -10], [20, 20] ],
+					clipRect:[ [-range, -range], [2*range, 2*range] ],
 					arrows: null
 				});
 				
@@ -120,7 +113,7 @@ jQuery.extend ( KhanUtil, {
 			}
 			else {
 				graph.graphInit({
-					range: 11,
+					range: range+1,
 					scale: 20,
 					axisArrows: "&lt;-&gt;",
 					tickStep: 1,
@@ -130,12 +123,12 @@ jQuery.extend ( KhanUtil, {
 					stroke: color,
 					strokeWidth: 3,
 					fill: "none",
-					clipRect:[ [-10, -10], [20, 20] ],
+					clipRect:[ [-range, -range], [2*range, 2*range] ],
 					arrows: null
 				});
 				
-				graph.plot( g, [-10, 10] );
-				graph.last = graph.plot( g, [-10, 10] );
+				graph.plot( g, [-range, range] );
+				graph.last = graph.plot( g, [-range, range] );
 			}
 			
 		}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html data-require="math graphie ast math-model">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Polynomial Intuition</title>
+    <script src="../khan-exercise.js"></script>
+  </head>
+  <body>
+    <div class="exercise">
+      <div class="problems">
+	<div>
+	  <div class="vars">
+	    <var id="MATH">MathModel.init()</var>
+	    <var id="DEGREE">randRange(0, 4)</var>
+	    <var id="SIGN">randRangeNonZero(-1, 1)</var>
+	    <var id="P">MATH.parse(SIGN+"*x^"+DEGREE)</var>
+	  </div>
+	  <div>
+	    <p class="question">
+	      What is the degree of the polynomial function graphed below?
+	    </p>
+	    <div class="graphie" id="poly">
+	      MATH.graph(P, BLUE, 17)
+	    </div>
+	  </div>
+	  <div class="solution" data-type="text">
+	      <var>DEGREE</var>
+	  </div>
+	  <div class="hints">
+	      <p>
+		The degree of a polynomial determines the rate at which its value increases as a function
+		of its variable.
+	      </p>
+	      <div>
+	      <p>
+		One way to determine the degree of polynomial function is by experimenting with different values
+		for its variable. In the graph above, we see that:
+	      </p>
+	      <p>
+		<code>f(-2)=<var>MATH.eval(P, {x:-2})</var></code><br>
+		<code>f(-1)=<var>MATH.eval(P, {x:-1})</var></code><br>
+		<code>f(0)=<var>MATH.eval(P, {x:0})</var></code><br>
+		<code>f(1)=<var>MATH.eval(P, {x:1})</var></code><br>
+		<code>f(2)=<var>MATH.eval(P, {x:2})</var></code><br>
+	      </p>
+	      </div>
+	      <p>
+		The value of the function is changing at a rate of <code><var>MATH.format("x^"+DEGREE)</var></code>.
+	      </p>
+	      <p>
+		Therefore we know that the polynomial function is of degree <code><var>MATH.format(DEGREE)</var></code>.
+	      </p>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>
