@@ -83,21 +83,21 @@ function Element(identifier) {
 		//	- post-transition metals (Al, Ga, In, Sn, Tl, Pb, Bi)
 		//	- metalloids (B, Si, Ge, As, Sb, Te, Po)
 		//	- general nonmetals (H, C, N, O, P, S, Se)
-		if (!this.type) {
+		if ( !this.type ) {
 			var type;
-			if (this.leftOffset == 1 && number > 1) { // alkali metals: everything in group 1 but hydrogen
+			if ( this.leftOffset === 1 && number > 1 ) { // alkali metals: everything in group 1 but hydrogen
 				type = "alkali metal";
-			} else if (this.leftOffset == 2) { // alkaline earth metals
+			} else if ( this.leftOffset == 2 ) { // alkaline earth metals
 				type = "alkaline earth metal";
-			} else if (number >= 57 && number <= 71) {
+			} else if ( number >= 57 && number <= 71 ) {
 				type = "lanthanide";
-			} else if (number >= 89 && number <= 103) {
+			} else if ( number >= 89 && number <= 103 ) {
 				type = "actinide";
-			} else if (this.block == "d") {
+			} else if ( this.block === "d" ) {
 				type = "transition metal";
-			} else if (this.leftOffset == 17) {
+			} else if ( this.leftOffset === 17 ) {
 				type = "halogen";
-			} else if (this.leftOffset == 18) {
+			} else if ( this.leftOffset === 18 ) {
 				type = "noble gas";
 			}
 
@@ -105,12 +105,30 @@ function Element(identifier) {
 				this.type = type;
 			}
 		}
+
+		if ( !this.oxidationStates ) {
+			if ( this.type === "alkali metal" ) {
+				this.oxidationStates = [ 1 ];
+			} else if ( this.type === "alkaline earth metal" ) {
+				this.oxidationStates = [ 2 ];
+			} else if ( this.type === "rare gas" ) {
+				this.oxidationStates = [];
+			} else if ( this.leftOffset === 3 ) { // Sc, Y, La, Ac
+				this.oxidationStates = [ 3 ];
+			} else if ( this.leftOffset === 14 ) { // Ge, Sn, Pb, Uuq
+				this.oxidationStates = [ 4, 2 ];
+			} else if ( this.leftOffset === 15 ) { // As, Sb, Uup
+				this.oxidationStates = [ 5, 3, -3 ];
+			} else if ( this.type === "lanthanide" ) { // other lanthanides
+				this.oxidationStates = [ 3 ];
+			} else if ( this.protonNumer >= 106 ) { // not yet known (Sg and beyond)
+				this.oxidationStates = [];
+			}
+		}
 	}
 
 	KhanUtil.elements[number] = this;
 }
-
-// TODO: jak se v JavaScriptu dela dedicnost?!
 
 function SimpleCompoundPart(value) {
 	// content:
@@ -145,110 +163,110 @@ jQuery.extend( KhanUtil, {
 	elements: [
 		{}, // fodder to map element index to the proton number
 		// violatesMadelung is truthy if the element's electron configuration doesn't follow common rules.
-		{ name: "hydrogen", symbol: "H", type: "general nonmetal" },
+		{ name: "hydrogen", symbol: "H", type: "general nonmetal", oxidationStates: [ 1, -1 ] },
 		{ name: "helium", symbol: "He" },
 		{ name: "lithium", symbol: "Li" },
 		{ name: "beryllium", symbol: "Be" },
-		{ name: "boron", symbol: "B", type: "metalloid" },
-		{ name: "carbon", symbol: "C", type: "general nonmetal" },
-		{ name: "nitrogen", symbol: "N", type: "general nonmetal" },
-		{ name: "oxygen", symbol: "O", type: "general nonmetal" },
-		{ name: "fluorine", symbol: "F" },
+		{ name: "boron", symbol: "B", type: "metalloid", oxidationStates: [ 3 ] },
+		{ name: "carbon", symbol: "C", type: "general nonmetal", oxidationStates: [ 4, 2, -4 ] },
+		{ name: "nitrogen", symbol: "N", type: "general nonmetal", oxidationStates: [ 5, 4, 3, 2, 1, -1, -2, -3 ] },
+		{ name: "oxygen", symbol: "O", type: "general nonmetal", oxidationStates: [ -2 ] },
+		{ name: "fluorine", symbol: "F", oxidationStates: [ -1 ] },
 		{ name: "neon", symbol: "Ne" },
 		{ name: "sodium", symbol: "Na" },
 		{ name: "magnesium", symbol: "Mg" },
-		{ name: "aluminium", symbol: "Al", type: "post-transition metal" },
-		{ name: "silicon", symbol: "Si", type: "metalloid" },
-		{ name: "phosphorus", symbol: "P", type: "general nonmetal" },
-		{ name: "sulfur", symbol: "S", type: "general nonmetal" },
-		{ name: "chlorine", symbol: "Cl" },
+		{ name: "aluminium", symbol: "Al", type: "post-transition metal", oxidationStates: [ 3 ] },
+		{ name: "silicon", symbol: "Si", type: "metalloid", oxidationStates: [ 4, 2, -4 ] },
+		{ name: "phosphorus", symbol: "P", type: "general nonmetal", oxidationStates: [ 5, 3, -3 ] },
+		{ name: "sulfur", symbol: "S", type: "general nonmetal", oxidationStates: [ 6, 4, -2 ] },
+		{ name: "chlorine", symbol: "Cl", oxidationStates: [ 7, 5, 1, -1 ] },
 		{ name: "argon", symbol: "Ar" },
 		{ name: "potassium", symbol: "K" },
 		{ name: "calcium", symbol: "Ca" },
 		{ name: "scandium", symbol: "Sc" },
-		{ name: "titanium", symbol: "T" },
-		{ name: "vanadium", symbol: "V" },
-		{ name: "chromium", symbol: "Cr", violatesMadelung: true },
-		{ name: "manganese", symbol: "Mn" },
-		{ name: "iron", symbol: "Fe" },
-		{ name: "cobalt", symbol: "Co" },
-		{ name: "nickel", symbol: "Ni", violatesMadelung: true },
-		{ name: "copper", symbol: "Cu", violatesMadelung: true },
-		{ name: "zinc", symbol: "Zn" },
-		{ name: "gallium", symbol: "Ga", type: "post-transition metal" },
+		{ name: "titanium", symbol: "T", oxidationStates: [ 4, 3, 2 ] },
+		{ name: "vanadium", symbol: "V", oxidationStates: [ 5, 4, 3, 2 ] },
+		{ name: "chromium", symbol: "Cr", violatesMadelung: true, oxidationStates: [ 6, 3, 2 ] },
+		{ name: "manganese", symbol: "Mn", oxidationStates: [ 7, 4, 3, 2 ] },
+		{ name: "iron", symbol: "Fe", oxidationStates: [ 3, 2 ] },
+		{ name: "cobalt", symbol: "Co", oxidationStates: [ 3, 2 ] },
+		{ name: "nickel", symbol: "Ni", violatesMadelung: true, oxidationStates: [ 3, 2 ] },
+		{ name: "copper", symbol: "Cu", violatesMadelung: true, oxidationStates: [ 2, 1 ] },
+		{ name: "zinc", symbol: "Zn", oxidationStates: [ 2 ] },
+		{ name: "gallium", symbol: "Ga", type: "post-transition metal", oxidationStates: [ 3 ] },
 		{ name: "germanium", symbol: "Ge", type: "metalloid" },
 		{ name: "arsenic", symbol: "As", type: "metalloid" },
-		{ name: "selenium", symbol: "Se", type: "general nonmetal" },
-		{ name: "bromine", symbol: "Br" },
+		{ name: "selenium", symbol: "Se", type: "general nonmetal", oxidationStates: [ 6, 4, -2 ] },
+		{ name: "bromine", symbol: "Br", oxidationStates: [ 5, 1, -1 ] },
 		{ name: "krypton", symbol: "Kr" },
 		{ name: "rubidium", symbol: "Rb" },
 		{ name: "strontium", symbol: "Sr" },
 		{ name: "yttrium", symbol: "Y" },
-		{ name: "zirconium", symbol: "Zr" },
-		{ name: "niobium", symbol: "Nb", violatesMadelung: true },
-		{ name: "molybdenum", symbol: "Mo", violatesMadelung: true },
-		{ name: "technetium", symbol: "Tc" },
-		{ name: "ruthenium", symbol: "Ru", violatesMadelung: true },
-		{ name: "rhodium", symbol: "Rh", violatesMadelung: true },
-		{ name: "palladium", symbol: "Pd", violatesMadelung: true },
-		{ name: "silver", symbol: "Ag", violatesMadelung: true },
-		{ name: "cadmium", symbol: "Cd" },
-		{ name: "indium", symbol: "In", type: "post-transition metal" },
+		{ name: "zirconium", symbol: "Zr", oxidationStates: [ 4 ] },
+		{ name: "niobium", symbol: "Nb", violatesMadelung: true, oxidationStates: [ 5, 3 ] },
+		{ name: "molybdenum", symbol: "Mo", violatesMadelung: true, oxidationStates: [ 6 ] },
+		{ name: "technetium", symbol: "Tc", oxidationStates: [ 7, 6, 4 ] },
+		{ name: "ruthenium", symbol: "Ru", violatesMadelung: true, oxidationStates: [ 3 ] },
+		{ name: "rhodium", symbol: "Rh", violatesMadelung: true, oxidationStates: [ 3 ] },
+		{ name: "palladium", symbol: "Pd", violatesMadelung: true, oxidationStates: [ 3, 2 ] },
+		{ name: "silver", symbol: "Ag", violatesMadelung: true, oxidationStates: [ 1 ] },
+		{ name: "cadmium", symbol: "Cd", oxidationStates: [ 2 ] },
+		{ name: "indium", symbol: "In", type: "post-transition metal", oxidationStates: [ 3 ] },
 		{ name: "tin", symbol: "Sn", type: "post-transition metal" },
 		{ name: "antimony", symbol: "Sb", type: "metalloid" },
 		{ name: "tellurium", symbol: "Te", type: "metalloid" },
-		{ name: "iodine", symbol: "I" },
+		{ name: "iodine", symbol: "I", oxidationStates: [ 7, 5, 1, -1 ] },
 		{ name: "xenon", symbol: "Xe" },
 		{ name: "caesium", symbol: "Ce" },
 		{ name: "barium", symbol: "Ba" },
 		{ name: "lanthanum", symbol: "La", violatesMadelung: true },
-		{ name: "cerium", symbol: "Ce", violatesMadelung: true },
+		{ name: "cerium", symbol: "Ce", violatesMadelung: true, oxidationStates: [ 4, 3 ] },
 		{ name: "praseodymium", symbol: "Pr" },
 		{ name: "neodymium", symbol: "Nd" },
 		{ name: "promethium", symbol: "Pm" },
-		{ name: "samarium", symbol: "Sm" },
-		{ name: "europium", symbol: "Eu" },
+		{ name: "samarium", symbol: "Sm", oxidationStates: [ 3, 2 ] },
+		{ name: "europium", symbol: "Eu", oxidationStates: [ 3, 2 ] },
 		{ name: "gadolinium", symbol: "Gd", violatesMadelung: true },
 		{ name: "terbium", symbol: "Tb" },
 		{ name: "dysprosium", symbol: "Dy" },
 		{ name: "holmium", symbol: "Ho" },
 		{ name: "erbium", symbol: "Er" },
 		{ name: "thulium", symbol: "Tm" },
-		{ name: "ytterbium", symbol: "Yb" },
+		{ name: "ytterbium", symbol: "Yb", oxidationStates: [ 3, 2 ] },
 		{ name: "lutetium", symbol: "Lu" },
-		{ name: "hafnium", symbol: "Hf" },
-		{ name: "tantalum", symbol: "Ta" },
-		{ name: "tungsten", symbol: "W" },
-		{ name: "rhenium", symbol: "Re" },
-		{ name: "osmium", symbol: "Os" },
-		{ name: "iridium", symbol: "Ir" },
-		{ name: "platinum", symbol: "Pt", violatesMadelung: true },
-		{ name: "gold", symbol: "Au", violatesMadelung: true },
-		{ name: "mercury", symbol: "Hg" },
-		{ name: "thallium", symbol: "Tl", type: "post-transition metal" },
+		{ name: "hafnium", symbol: "Hf", oxidationStates: [ 4 ] },
+		{ name: "tantalum", symbol: "Ta", oxidationStates: [ 5 ] },
+		{ name: "tungsten", symbol: "W", oxidationStates: [ 6 ] },
+		{ name: "rhenium", symbol: "Re", oxidationStates: [ 7, 6, 4 ] },
+		{ name: "osmium", symbol: "Os", oxidationStates: [ 4, 3 ] },
+		{ name: "iridium", symbol: "Ir", oxidationStates: [ 4, 3 ] },
+		{ name: "platinum", symbol: "Pt", violatesMadelung: true, oxidationStates: [ 4, 2 ] },
+		{ name: "gold", symbol: "Au", violatesMadelung: true, oxidationStates: [ 3, 1 ] },
+		{ name: "mercury", symbol: "Hg", oxidationStates: [ 2, 1 ] },
+		{ name: "thallium", symbol: "Tl", type: "post-transition metal", oxidationStates: [ 3, 1 ] },
 		{ name: "lead", symbol: "Pb", type: "post-transition metal" },
-		{ name: "bismuth", symbol: "Bi", type: "post-transition metal" },
-		{ name: "polonium", symbol: "Po", type: "metalloid" },
-		{ name: "astatine", symbol: "At" },
-		{ name: "radon", symbol: "Rn" },
-		{ name: "francium", symbol: "Fr" },
-		{ name: "radium", symbol: "Ra" },
-		{ name: "actinium", symbol: "Ac", violatesMadelung: true },
-		{ name: "thorium", symbol: "Th", violatesMadelung: true },
-		{ name: "protactinium", symbol: "Pa", violatesMadelung: true },
-		{ name: "uranium", symbol: "U", violatesMadelung: true },
-		{ name: "neptunium", symbol: "Np", violatesMadelung: true },
-		{ name: "plutonium", symbol: "Pu" },
-		{ name: "americium", symbol: "Am" },
-		{ name: "curium", symbol: "Cm", violatesMadelung: true },
-		{ name: "berkelium", symbol: "Bk" },
-		{ name: "californium", symbol: "Cf" },
-		{ name: "einsteinium", symbol: "Es" },
-		{ name: "fermium", symbol: "Fm" },
-		{ name: "mendelevium", symbol: "Md" },
-		{ name: "nobelium", symbol: "No" },
-		{ name: "lawrencium", symbol: "Lr", violatesMadelung: true },
-		{ name: "rutherfordium", symbol: "Rf" },
+		{ name: "bismuth", symbol: "Bi", type: "post-transition metal", oxidationStates: [ 5, 3 ] },
+		{ name: "polonium", symbol: "Po", type: "metalloid", oxidationStates: [ 4, 2 ] },
+		{ name: "astatine", symbol: "At", oxidationStates: [] },
+		{ name: "radon", symbol: "Rn", oxidationStates: [] },
+		{ name: "francium", symbol: "Fr", oxidationStates: [ 1 ] },
+		{ name: "radium", symbol: "Ra", oxidationStates: [ 2 ] },
+		{ name: "actinium", symbol: "Ac", violatesMadelung: true, oxidationStates: [ 3 ] },
+		{ name: "thorium", symbol: "Th", violatesMadelung: true, oxidationStates: [ 4 ] },
+		{ name: "protactinium", symbol: "Pa", violatesMadelung: true, oxidationStates: [ 5, 4 ] },
+		{ name: "uranium", symbol: "U", violatesMadelung: true, oxidationStates: [ 6, 5, 4, 3 ] },
+		{ name: "neptunium", symbol: "Np", violatesMadelung: true, oxidationStates: [ 6, 5, 4, 3 ] },
+		{ name: "plutonium", symbol: "Pu", oxidationStates: [ 6, 5, 4, 3 ] },
+		{ name: "americium", symbol: "Am", oxidationStates: [ 6, 5, 4, 3 ] },
+		{ name: "curium", symbol: "Cm", violatesMadelung: true, oxidationStates: [ 3 ] },
+		{ name: "berkelium", symbol: "Bk", oxidationStates: [ 4, 3 ] },
+		{ name: "californium", symbol: "Cf", oxidationStates: [ 3 ] },
+		{ name: "einsteinium", symbol: "Es", oxidationStates: [ 3 ] },
+		{ name: "fermium", symbol: "Fm", oxidationStates: [ 3 ] },
+		{ name: "mendelevium", symbol: "Md", oxidationStates: [ 3, 2 ] },
+		{ name: "nobelium", symbol: "No", oxidationStates: [ 3, 2 ] },
+		{ name: "lawrencium", symbol: "Lr", violatesMadelung: true, oxidationStates: [ 3 ] },
+		{ name: "rutherfordium", symbol: "Rf", oxidationStates: [ 4 ] },
 		{ name: "dubnium", symbol: "Db" },
 		{ name: "seaborgium", symbol: "Sg" },
 		{ name: "bohrium", symbol: "Bh" },
@@ -267,9 +285,19 @@ jQuery.extend( KhanUtil, {
 
 	compounds: [
 		{ name: "carbon monoxide", formula: "CO" },
-		{ name: "carbon oxide", formula: "CO2" },
 		{ name: "water", formula: "H2O" },
-		{ name: "hydrochloric acid", formula: "HCl" }
+		{ name: "hydrochloric acid", formula: "HCl" },
+		{ name: "nitrogen dioxide", formula: "NO2" },
+		{ name: "carbon dioxide", formula: "CO2" },
+		{ name: "nitrous oxide", formula: "NO" },
+		{ name: "sulfur trioxide", formula: "SO3" },
+		{ name: "sulfur dioxide", formula: "SO2" },
+		{ name: "iron(III) oxide", formula: "Fe2O3" },
+		{ name: "aluminium oxide", formula: "Al2O3" },
+		{ name: "copper(II) oxide", formula: "CuO" },
+		{ name: "dichlorine heptoxide", formula: "Cl2O7" },
+
+		{ name: "sodium hydroxide", formula: "NaOH" }
 	],
 
 	orbitals: [
