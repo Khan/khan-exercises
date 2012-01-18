@@ -23,10 +23,10 @@
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars" data-tt="vars1">
+	<div class="vars">
 		<var id="INDEX">randRange( 0, 3 )</var>
-		<var id="ROWS">[ [ school(1), school(2), school(3), school(4) ], [ person(1), person(2), person(3), person(4) ], [ person(1), person(2), person(3), person(4) ], [ "Alabama", "Michigan", "New York", "Wyoming" ] ][ INDEX ]</var>
-		<var id="COLUMNS">[ [ "3rd grade", "4th grade", "5th grade", "Total" ], [ "January", "February", "March", "Total" ], [ "1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter", "Final" ], [ "Q1", "Q2", "Q3", "Q4", "Total" ] ][ INDEX ]</var>
+		<var id="ROWS" data-tt="array1">[ [ school(1), school(2), school(3), school(4) ], [ person(1), person(2), person(3), person(4) ], [ person(1), person(2), person(3), person(4) ], [ "Alabama", "Michigan", "New York", "Wyoming" ] ][ INDEX ]</var>
+		<var id="COLUMNS" data-tt="array2">[ [ "3rd grade", "4th grade", "5th grade", "Total" ], [ "January", "February", "March", "Total" ], [ "1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter", "Final" ], [ "Q1", "Q2", "Q3", "Q4", "Total" ] ][ INDEX ]</var>
 		<var id="COL_INDEX">randRange( 0, COLUMNS.length - 1 )</var>
 		<var id="ROW_INDEX">randRange( 0, ROWS.length - 1 )</var>
 		<var id="ENROLLMENTS, ANSWER">
@@ -48,10 +48,10 @@
 				return [ enrollments, answer ];
 			})()
 		</var>
-		<var id="PROBLEM">[ "shows the enrollment at four different elementary schools that have 3rd through 5th grade students", "shows the number of chickens sold by four friends from January to March", "indicates the points scored by four players in a charity basketball game", "shows solar panel installations by state during the last fiscal year" ][ INDEX ]</var>
-		<var id="HEADER">[ "Schools", "Farmers", "Players", "States" ][ INDEX ]</var>
-		<var id="UNIT">[ "students", "chickens", "points", "solar panels" ][ INDEX ]</var>
-		<var id="HINT1">
+		<var id="PROBLEM" data-tt="array3">[ "shows the enrollment at four different elementary schools that have 3rd through 5th grade students", "shows the number of chickens sold by four friends from January to March", "indicates the points scored by four players in a charity basketball game", "shows solar panel installations by state during the last fiscal year" ][ INDEX ]</var>
+		<var id="HEADER" data-tt="array4">[ "Schools", "Farmers", "Players", "States" ][ INDEX ]</var>
+		<var id="UNIT" data-tt="array5">[ "students", "chickens", "points", "solar panels" ][ INDEX ]</var>
+		<var id="HINT1" data-tt="array6">
 			(function() {
 				if ( COL_INDEX === COLUMNS.length - 1 ) {
 					return [ "the total number of students at " + ROWS[ ROW_INDEX ] + " Elementary School", "the total number of chickens sold by " + ROWS[ ROW_INDEX ], "the total number of points scored by " + ROWS[ ROW_INDEX ], "the total number of solar panels installed in " + ROWS [ ROW_INDEX ] ][ INDEX ];
@@ -60,7 +60,7 @@
 				}
 			})()
 		</var>
-		<var id="HINT2">[ "The total number of students at " + ROWS[ ROW_INDEX ] + " Elementary School", "The total number of chickens sold by " + ROWS[ ROW_INDEX ], "The total number of points scored by " + ROWS[ ROW_INDEX ], "The total number of solar panels installed in " + ROWS [ ROW_INDEX ] ][ INDEX ]</var>
+		<var id="HINT2" data-tt="array7">[ "The total number of students at " + ROWS[ ROW_INDEX ] + " Elementary School", "The total number of chickens sold by " + ROWS[ ROW_INDEX ], "The total number of points scored by " + ROWS[ ROW_INDEX ], "The total number of solar panels installed in " + ROWS [ ROW_INDEX ] ][ INDEX ]</var>
 	</div>
 	<div class="problems">
 		<div>
