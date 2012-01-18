@@ -928,6 +928,61 @@ jQuery.extend( Khan.answerTypes, {
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
+	// The user is asked to enter the separate parts of a complex number in 2 checkboxes.
+	// Expected solution: [ real part, imaginary part ]
+	// TODO: custom validator for rounded parts and similar
+	complexNumberSeparate: function ( solutionarea, solution ) {
+		solutionarea = jQuery( solutionarea );
+
+		var json = typeof solution === "object" ? jQuery( solution ).text() : solution;
+		// TODO: is there a better way than eval?
+		var correct = eval( json );
+
+		var solutionArray = [];
+
+		console.log(correct);
+
+		var realArea = jQuery( '<p />' ).html('Real part: ');
+		var realControl = jQuery( '<span />' ).html( correct[0] );
+		var realValidator = Khan.answerTypes["decimal"]( realArea, realControl ); // fallback?
+
+		var imagArea = jQuery( '<p />' ).html('Imaginary part: ');
+		var imagControl = jQuery( '<span />' ).html( correct[1] );
+		var imagValidator = Khan.answerTypes["decimal"]( imagArea, imagControl ); // fallback?
+
+		var area = jQuery( '<div />' );
+		area.append( realArea ).append(imagArea).tmpl();
+		solutionarea.append( area );
+
+		var ret = function() {
+			var valid = true;	
+			var guess = [];
+			if (realValidator != null) {
+				valid = realValidator() && valid;
+				guess.push( realValidator.guess );
+			}
+			if (imagValidator != null) {
+				valid = imagValidator() && valid;
+				guess.push( imagValidator.guess );
+			}
+			ret.guess = guess;
+			return valid;
+		};
+
+		ret.showGuess = function( guess ) {
+			realValidator.showGuess( guess[0] );
+			imagValidator.showGuess( guess[1] );
+		};
+
+		ret.examples = [
+			"the separate parts of a complex number (<code>5 + 3i</code> has real part 5, imaginary part 3)"
+		];
+
+		ret.solution = [ realValidator.solution, imagValidator.solution ];
+
+		return ret;
+	},
+
 	// To be used with ComplexPolarForm in graphie-helpers.js
 	// (see The complex plane for an example)
 	// The solution argument is expected to be [ angle, magnitude ]
