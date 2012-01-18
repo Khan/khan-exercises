@@ -19,8 +19,8 @@
 					<var id="DENOMINATOR">12</var>
 					<var id="ANGLE">randRange( 0, DENOMINATOR - 1 )</var> <!-- the angle of the complex number is ANGLE * (2 * DENOMINATOR) pi -->
 					<var id="RADIUS">randRange( 1, 10 )</var>
-					<var id="REAL">cos(ANGLE * PI * 2 / DENOMINATOR) * RADIUS</var>
-					<var id="IMAG">sin(ANGLE * PI * 2 / DENOMINATOR) * RADIUS</var>
+					<var id="REAL">cos( ANGLE * PI * 2 / DENOMINATOR ) * RADIUS</var>
+					<var id="IMAG">sin( ANGLE * PI * 2 / DENOMINATOR ) * RADIUS</var>
 					<var id="REP">expr( [ "+", roundTo(2, REAL), [ "*", roundTo(2, IMAG), "i" ] ] )</var>
 				</div>
 				<p class="question">
@@ -50,32 +50,8 @@
 					redrawComplexPolarForm();
 				</div>
 
-				<div class="solution" data-type="multiple">
-					<table>
-						<tr>
-							<td style="width: 100px">
-								Radius: <span id="current-radius"><code>1</code></span>
-							</td>
-							<td>
-								<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />
-								<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								Angle: <span id="current-angle"><code>0 \pi</code></span>
-							</td>
-							<td>
-								<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />
-								<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />
-							</td>
-						</tr>
-					</table>
-
-					<p id="number-label" style="margin: 8px 0px 2px 0px"></p>
-
-					<span class="sol" id="angle" style="display: none"><var>ANGLE</var></span>
-					<span class="sol" id="radius" style="display: none"><var>RADIUS</var></span>
+				<div class="solution" data-type="complexNumberPolarForm">
+					[ <var>ANGLE</var>, <var>RADIUS</var> ]
 				</div>
 			</div>
 		</div>

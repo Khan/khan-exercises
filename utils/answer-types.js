@@ -928,6 +928,57 @@ jQuery.extend( Khan.answerTypes, {
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
+	// To be used with ComplexPolarForm in graphie-helpers.js
+	// (see The complex plane for an example)
+	// The solution argument is expected to be [ angle, magnitude ]
+	complexNumberPolarForm: function ( solutionarea, solution ) {
+		solutionarea = jQuery( solutionarea );
+		
+		var json = typeof solution === "object" ? jQuery( solution ).text() : solution;
+		// TODO: is there a better way than eval?
+		var correct = eval( json );
+		var table = jQuery( '<table />' );
+		var row = jQuery( '<tr />' );
+		row.append( '<td style="width: 100px">\n'+
+			'Radius: <span id="current-radius"><code>1</code></span>\n'+
+			'</td>' )
+			.append( '<td>\n'+
+			'<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />\n'+
+			'<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />\n' +
+			'</td>' ).tmpl();
+		table.append(row);
+
+		row = jQuery( '<tr />' );
+		row.append( '<td style="width: 100px">\n'+
+			'Angle: <span id="current-angle"><code>0</code></span>\n'+
+			'</td>' )
+			.append( '<td>\n'+
+			'<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />\n'+
+			'<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />\n' +
+			'</td>' ).tmpl();
+		table.append(row);
+
+		var numberLabel = jQuery( '<p id="number-label" style="margin: 8px 0 2px 0" />' );
+
+		solutionarea.append(table, numberLabel);
+
+		var ret = function() {
+			var cplx = KhanUtil.currentGraph.graph.currComplexPolar;
+			ret.guess = [ cplx.getAngleNumerator(), cplx.getRadius() ];
+			return (ret.guess[0] === correct[0]) &&
+				(ret.guess[1] === correct[1]);
+		};
+
+		ret.showGuess = function( guess ) {
+			var cplx = KhanUtil.currentGraph.graph.currComplexPolar;
+			cplx.update( guess[0], guess[1] );
+		};
+
+		ret.solution = solution;
+		
+		return ret;
+	},
+
 	custom: function( solutionarea, solution ) {
 		var isTimeline = !( solutionarea.attr( "id" ) === "solutionarea" || solutionarea.parent().attr( "id" ) === "solutionarea" );
 		var guessCorrect = false;
