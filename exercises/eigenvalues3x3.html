@@ -8,24 +8,32 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="lambda1">randRange(-3, 3)</var>
-		<var id="lambda2">randRange(-3, 3)</var>
-		<var id="lambda3">randRange(-3, 3)</var>
-		<var id="A">1</var>
-		<var id="E">2</var>
-		<var id="I">lambda1 + lambda2 + lambda3 - A - E</var>
-		<var id="B">1</var>
-		<var id="G">-2</var>
-		<var id="D">randRange(-4, 4)</var>
-		<div data-ensure="const2 === const3 && const4 === const5">
-			<var id="C">randRange(-4, 4)</var>
-			<var id="F">randRange(-8, 8)</var>
-			<var id="H">randRange(-8, 8)</var>
-			<var id="const2">A*E + A*I + E*I - B*D - C*G - H*F</var>
-			<var id="const3">lambda1*lambda2 + lambda1*lambda3 + lambda2*lambda3</var>
-			<var id="const4">-A*E*I+A*F*H+B*D*I-B*F*G-C*D*H+C*E*G</var>
-			<var id="const5">-lambda1*lambda2*lambda3</var>
+		<var id="lambda1">randRange(-5, 5)</var>
+		<var id="lambda2">randRange(-5, 5)</var>
+		<var id="lambda3">randRange(-5, 5)</var>
+		<var id="A">randRange(-8, 8)</var>
+		<var id="C">randRange(-8, 8)</var>
+		<var id="I">randRange(-8, 8)</var>
+
+		<div data-ensure="BDistToInt == 0 && DDistToInt == 0 && EDistToInt == 0 && FDistToInt == 0">
+			<var id="G">randRangeExclude(-8, 8, [0])</var>
+			<var id="H">randRangeExclude(-8, 8, [0])</var>
+
+			<var id="B">H*(A-lambda1)/G</var>
+			<var id="D">(-A*G-G*I+G*lambda2+G*lambda3)/H</var>
+			<var id="E">lambda1 + lambda2 + lambda3 - A - I</var>
+			<var id="F">(-C*G-I*I+I*lambda2+I*lambda3-lambda2*lambda3)/H</var>
+
+			<var id="BDistToInt">B - round(B)</var>
+			<var id="DDistToInt">D - round(D)</var>
+			<var id="EDistToInt">E - round(E)</var>
+			<var id="FDistToInt">F - round(F)</var>
 		</div>
+
+		<var id="const2">A*E + A*I + E*I - B*D - C*G - H*F</var>
+		<var id="const3">lambda1*lambda2 + lambda1*lambda3 + lambda2*lambda3</var>
+		<var id="const4">-A*E*I+A*F*H+B*D*I-B*F*G-C*D*H+C*E*G</var>
+		<var id="const5">-lambda1*lambda2*lambda3</var>
 		
 	</div>
 
