@@ -1,15 +1,15 @@
 ({
 	"nl" : {
-		"question1"	: 'Express <code><var>D.toFixed( 1 )</var></code> as a fraction.',
-		"question2"	: 'Express <code><var>D.toFixed( 2 )</var></code> as a fraction.',
+		"question1"	: 'Schrijf <code><var>D.toFixed( 1 )</var></code> als een breuk.',
+		"question2"	: 'Schrijf <code><var>D.toFixed( 2 )</var></code> als een breuk.',
 		
-		"hint1"		: 'The number <code><var>T</var></code> is in the tenths place, so we have <var>cardinal( T )</var> tenth<span data-if="T !== 1">s</span>.',
-		"hint2"		: '<var>Cardinal( T )</var> tenth<span data-if="T !== 1">s</span> can be written as <code><var>fraction( T, 10 )</var></code>.',
-		"hint3"		: 'The number <code><var>T</var></code> is in the tenths place, so we have <var>cardinal( T )</var> tenth<span data-if="T !== 1">s</span>.',
-		"hint4"		: '<var>Cardinal( T )</var> tenth<span data-if="T !== 1">s</span> can be written as <code><var>fraction( T, 10 )</var></code>.',
-		"hint5"		: 'The number <code><var>H</var></code> is in the hundredths place, so we have <var>cardinal( H )</var> hundredth<span data-if="H !== 1">s</span>.',
-		"hint6"		: '<var>Cardinal( H )</var> hundredth<span data-if="H !== 1">s</span> can be written as <code><var>fraction( H, 100 )</var></code>.',
-		"hint7"		: 'Add the two parts together.',
-		"hint8"		: 'You can also skip a few steps by making a fraction with <code><var>floor( D * 100 )</var></code> as the numerator and <code>100</code> (because the decimal extends to the hundredths place) as the denominator.'
+		"hint1"		: 'Het getal <code><var>T</var></code> is op de plaats van de tienden, dus we hebben <var>kardinaal( T )</var> tiende<span data-if="T !== 1">n</span>.',
+		"hint2"		: '<var>Kardinaal( T )</var> tiende<span data-if="T !== 1">n</span> kan geschreven worden als <code><var>fraction( T, 10 )</var></code>.',
+		"hint3"		: 'Het getal <code><var>T</var></code> is op de plaats van de tienden, dus we hebben <var>kardinaal( T )</var> tiende<span data-if="T !== 1">n</span>.',
+		"hint4"		: '<var>Kardinaal( T )</var> tiende<span data-if="T !== 1">n</span> kan geschreven worden als <code><var>fraction( T, 10 )</var></code>.',
+		"hint5"		: 'Het getal <code><var>H</var></code> is op de plaats van de honderdsten, dus we hebben <var>kardinaal( H )</var> honderdste<span data-if="H !== 1">n</span>.',
+		"hint6"		: '<var>Kardinaal( H )</var> honderdste<span data-if="H !== 1">n</span> kan geschreven worden als <code><var>fraction( H, 100 )</var></code>.',
+		"hint7"		: 'Tel beide delen bij elkaar op.',
+		"hint8"		: 'Je kunt een paar stappen overslaan door een breuk te maken met <code><var>floor( D * 100 )</var></code> als de teller en <code>100</code> (omdat de decimaal doorloopt tot in de honderdsten) als de noemer.'
 		}
 })

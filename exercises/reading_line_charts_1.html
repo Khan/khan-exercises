@@ -8,7 +8,7 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var data-tt="days1" id="DAYS">[ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]</var>
+		<var data-tt="weekdays" id="DAYS">[ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]</var>
 		<var id="INDEX">randRange( 0, DAYS.length - 1 )</var>
 		<var id="VALUES">shuffle( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ], DAYS.length )</var>
 		<var id="DATA">
@@ -59,7 +59,7 @@
 						graph.lc.labelDataPoint( INDEX );
 					</div>
 				</div>
-				<p data-tt="hint3"><var>He( 1 )</var> saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> on <var>DAYS[ INDEX ]</var>.</p>
+				<p data-tt="hint3"><var>person( 1 )</var> saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> on <var>DAYS[ INDEX ]</var>.</p>
 			</div>
 		</div>
 	</div>
