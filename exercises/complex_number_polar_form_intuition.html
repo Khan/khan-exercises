@@ -49,15 +49,28 @@
 				</div>
 
 				<div class="solution" data-type="multiple">
-					<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 10px;" value="+" onclick="updateComplexPolarForm( 0, 1 )" />
-					<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 30px;" value="+" onclick="updateComplexPolarForm( 1, 0 )" />
+					<table> <!-- with apologies to any self-respecting webdesigner, I just need the buttons to line up... -->
+						<tr>
+							<td style="width: 100px">
+								Radius: <span id="current-radius"><code>1</code></span>
+							</td>
+							<td>
+								<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />
+								<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Angle: <span id="current-angle"><code>0 \pi</code></span>
+							</td>
+							<td>
+								<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />
+								<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />
+							</td>
+						</tr>
+					</table>
 
-					<p id="number-label" style="margin: 8px 0px 2px 0px"><code>x = 1 \cdot (cos({0}) + i \cdot sin({0}))</code></p>
-
-					<div style="padding-bottom: 15px">
-						<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 10px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />
-						<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 30px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />
-					</div>
+					<p id="number-label" style="margin: 8px 0px 2px 0px"></p>
 
 					<span class="sol" id="angle" style="display: none"><var>ANGLE</var></span>
 					<span class="sol" id="radius" style="display: none"><var>RADIUS</var></span>
