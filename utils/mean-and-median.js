@@ -14,7 +14,7 @@ jQuery.extend( KhanUtil, {
 		);
 
 		graph.graph.meanLabel.remove();
-		graph.graph.meanLabel = graph.label( [ mean, 1.3 ],	"\\text{mean}", "above", { color: KhanUtil.BLUE });
+		graph.graph.meanLabel = graph.label( [ mean, 1.3 ],	"\\text{gemiddelde}", "above", { color: KhanUtil.BLUE });
 
 		graph.graph.mean = mean;
 	},
@@ -32,7 +32,7 @@ jQuery.extend( KhanUtil, {
 		);
 
 		graph.graph.medianLabel.remove();
-		graph.graph.medianLabel = graph.label( [ median, -1.7 ],	"\\text{median}", "below", { color: KhanUtil.GREEN });
+		graph.graph.medianLabel = graph.label( [ median, -1.7 ],	"\\text{mediaan}", "below", { color: KhanUtil.GREEN });
 
 		graph.graph.median = median;
 	},
