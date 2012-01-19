@@ -2,7 +2,7 @@
 <!-- TDOO: remove <var>s in graphie data-eachs -->
 <html data-require="math expressions graphie">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Even and odd functions</title>
 	<script src="../khan-exercise.js"></script>
 	<script type="text/javascript">
@@ -99,8 +99,8 @@
 				jQuery.grep( [1,2,3,4,5,6,7,8,9,10],
 					function( i ) {
 						return ( abs( valAt( WIDES, i ) ) > 1 || abs( valAt( WIDES, -i ) ) > 1 )
-							&& abs( valAt( WIDES, i ) ) < 10
-							&& abs( valAt( WIDES, -i ) ) < 10;
+							&& abs( valAt( WIDES, i ) ) &lt; 10
+							&& abs( valAt( WIDES, -i ) ) &lt; 10;
 					}
 				)
 			</var>
@@ -111,7 +111,7 @@
 					jQuery.grep( PTS,
 						function( i ) {
 							return abs( abs( valAt( WIDES, i ) ) - abs( valAt( WIDES, -i ) ) ) > 0.5
-								&& abs( i ) < 10;
+								&& abs( i ) &lt; 10;
 						}
 					)
 				)</var>

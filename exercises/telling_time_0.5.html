@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers word-problems">
+<html data-require="math math-format graphie time word-problems">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Telling time</title>
 	<script src="../khan-exercise.js"></script>
 	<style type="text/css">
@@ -24,10 +24,9 @@
 			<div class="question">
 				<p>What time is it?</p>
 				<div class="graphie" id="pie" style="float: left;">
-					init({ range: [ [-4, 4 ], [ -4, 4] ], scale: 25 });
-					PIECH = new analogClock( HOUR, MINUTE,  3.5, false );
-					PIECH.drawLabels();
-					PIECH.draw();
+					init({ range: [ [-4, 4 ], [ -4, 4 ] ], scale: 25 });
+					clock = addAnalogClock({ hour: HOUR, minute: MINUTE, minuteTicks: 0 });
+					clock.draw();
 				</div>
 				<div class="graphie" id="digital" style="float: left;">
 					init({ range: [ [-5, 5], [-3, 3] ], scale: 25 });
@@ -50,7 +49,7 @@
 					<p>The small hand is for the hour, and the big hand is for the minutes.</p>
 				</div>
 				<div>
-					<p data-if="MINUTE == 0"> The hour hand is pointing at <code><var>HOUR</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
+					<p data-if="MINUTE === 0"> The hour hand is pointing at <code><var>HOUR</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
 					<p data-else-if="MINUTE > 10  && MINUTE < 45">The hour hand is between <code><var>HOUR</var></code> and <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
 					<p data-else>The hour hand is close to but hasn't passed <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is still <code><var>HOUR</var></code>.</p>
 					<div class="graphie" data-update="digital">

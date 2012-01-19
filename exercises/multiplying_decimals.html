@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers-arithmetic word-problems">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Multiplying decimals</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -11,8 +11,10 @@
 			<var id="SMALL_FACTOR">randRange( 100, 999 )</var>
 			<var id="BIG_FACTOR">randRange( 100, 999 )</var>
 			<var id="PRODUCT">SMALL_FACTOR * BIG_FACTOR</var>
-			<var id="BIG_FACTOR_DECIMAL">randRange( 1, 3 )</var>
-			<var id="SMALL_FACTOR_DECIMAL">randRange( 1, 3 )</var>
+			<div data-ensure="BIG_FACTOR_DECIMAL > 0 || SMALL_FACTOR_DECIMAL > 0">
+				<var id="BIG_FACTOR_DECIMAL">randRange( 0, 3 )</var>
+				<var id="SMALL_FACTOR_DECIMAL">randRange( 0, 3 )</var>
+			</div>
 			<var id="SMALL_FACTOR_DIGITS">padDigitsToNum( digits( SMALL_FACTOR ), SMALL_FACTOR_DECIMAL + 1 )</var>
 			<var id="BIG_FACTOR_DIGITS">padDigitsToNum( digits( BIG_FACTOR ), BIG_FACTOR_DECIMAL + 1 )</var>
 			<var id="DUMMY">[]</var>

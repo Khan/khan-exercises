@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format polynomials calculus graphie derivative-intuition">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Derivative intuition</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -91,8 +91,8 @@
 						{
 							text:    "sin(x)",
 							ddxtext: "cos(x)",
-							fnx:     function(x) { return Math.sin(x) },
-							ddx:     function(x) { return Math.cos(x) },
+							fnx:     function(x) { return Math.sin(x); },
+							ddx:     function(x) { return Math.cos(x); },
 							xrange:  [-1.25*Math.PI, 1.25*Math.PI],
 							yrange:  [ -1.25, 1.25 ],
 							points:  [ -1*Math.PI, -3*Math.PI/4, -Math.PI/2, -Math.PI/4, 0, Math.PI/4, Math.PI/2, 3*Math.PI/4, Math.PI ],
@@ -100,8 +100,8 @@
 						}, {
 							text:    "cos(x)",
 							ddxtext: "-sin(x)",
-							fnx:     function(x) { return Math.cos(x) },
-							ddx:     function(x) { return -Math.sin(x) },
+							fnx:     function(x) { return Math.cos(x); },
+							ddx:     function(x) { return -Math.sin(x); },
 							xrange:  [-1.25*Math.PI, 1.25*Math.PI],
 							yrange:  [ -1.25, 1.25 ],
 							points:  [ -1*Math.PI, -3*Math.PI/4, -Math.PI/2, -Math.PI/4, 0, Math.PI/4, Math.PI/2, 3*Math.PI/4, Math.PI ],
@@ -109,8 +109,8 @@
 						}, {
 							text:    "e^x",
 							ddxtext: "e^x",
-							fnx:     function(x) { return Math.exp(x, Math.E) },
-							ddx:     function(x) { return Math.exp(x, Math.E) },
+							fnx:     function(x) { return Math.exp(x, Math.E); },
+							ddx:     function(x) { return Math.exp(x, Math.E); },
 							xrange:  [-5, 5],
 							yrange:  [ -5, 15 ],
 							points:  [ -2, -1, 0, 1, 2 ],
@@ -118,11 +118,11 @@
 						}, {
 							text:    "ln(x)",
 							ddxtext: "\\frac{1}{x}",
-							fnx:     function(x) { return Math.log(x) },
-							ddx:     function(x) { return 1/x },
-							xrange:  [.001, 5],
+							fnx:     function(x) { return Math.log(x); },
+							ddx:     function(x) { return 1/x; },
+							xrange:  [ 0.001, 5 ],
 							yrange:  [ -5, 5 ],
-							points:  [ .25, .5, 1, 2, 3, 4 ],
+							points:  [ 0.25, 0.5, 1, 2, 3, 4 ],
 							options: { range: [ [ -0.25, 4.75 ], [ -5, 5 ] ] }
 						}
 					])

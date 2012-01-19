@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Scaling vectors</title>
 	<script src="../khan-exercise.js"></script>
 
@@ -27,7 +27,7 @@
 	<div class="vars" data-ensure="( BX !== CX || BY !== CY ) && ( BX !== DX || BY !== DY ) && ( BX !== EX || BY !== EY ) && ( CX !== DX || CY !== DY ) && ( CX !== EX || CY !== EY ) && ( DX !== EX || DY !== EY ) && !vectorsIntersect( 0, 0, AX, AY, BOX, BOY, BX, BY ) && !vectorsIntersect( 0, 0, AX, AY, COX, COY, CX, CY ) && !vectorsIntersect( 0, 0, AX, AY, DOX, DOY, DX, DY ) && !vectorsIntersect( 0, 0, AX, AY, EOX, EOY, EX, EY ) && !vectorsIntersect( BOX, BOY, BX, BY, COX, COY, CX, CY ) && !vectorsIntersect( BOX, BOY, BX, BY, DOX, DOY, DX, DY ) && !vectorsIntersect( BOX, BOY, BX, BY, EOX, EOY, EX, EY ) && !vectorsIntersect( COX, COY, CX, CY, DOX, DOY, DX, DY ) && !vectorsIntersect( COX, COY, CX, CY, EOX, EOY, EX, EY ) && !vectorsIntersect( DOX, DOY, DX, DY, EOX, EOY, EX, EY )">
 		<var id="AX">randRangeNonZero( -3, 3 )</var>
 		<var id="AY">randRangeNonZero( -3, 3 )</var>
-		<var id="SA" data-ensure="abs( SA * AX ) < 8 && abs( SA * AY ) < 8">randRangeNonZero( -1, 1 ) * randRange( 2, 3 )</var>
+		<var id="SA" data-ensure="abs( SA * AX ) &lt; 8 && abs( SA * AY ) &lt; 8">randRangeNonZero( -1, 1 ) * randRange( 2, 3 )</var>
 
 		<var id="BX">randRangeNonZero( -7, 7 )</var>
 		<var id="BY">randRangeNonZero( -7, 7 )</var>
@@ -44,7 +44,7 @@
 			["b", "#ff00af"],
 			["c", "#28ae7b"],
 			["d", "#ffa500"],
-			["e", "#fd0000"],
+			["e", "#fd0000"]
 		][ jQuery.inArray( ANS, SHUF ) ]</var>
 
 		<var id="BX, BY">SHUF[0]</var>
@@ -52,14 +52,14 @@
 		<var id="DX, DY">SHUF[2]</var>
 		<var id="EX, EY">SHUF[3]</var>
 
-		<var id="BOX" data-ensure="abs( BX + BOX ) < 9">randRangeNonZero( -9, 9 )</var>
-		<var id="BOY" data-ensure="abs( BY + BOY ) < 9">randRangeNonZero( -9, 9 )</var>
-		<var id="COX" data-ensure="abs( CX + COX ) < 9">randRangeNonZero( -9, 9 )</var>
-		<var id="COY" data-ensure="abs( CY + COY ) < 9">randRangeNonZero( -9, 9 )</var>
-		<var id="DOX" data-ensure="abs( DX + DOX ) < 9">randRangeNonZero( -9, 9 )</var>
-		<var id="DOY" data-ensure="abs( DY + DOY ) < 9">randRangeNonZero( -9, 9 )</var>
-		<var id="EOX" data-ensure="abs( EX + EOX ) < 9">randRangeNonZero( -9, 9 )</var>
-		<var id="EOY" data-ensure="abs( EY + EOY ) < 9">randRangeNonZero( -9, 9 )</var>
+		<var id="BOX" data-ensure="abs( BX + BOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+		<var id="BOY" data-ensure="abs( BY + BOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+		<var id="COX" data-ensure="abs( CX + COX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+		<var id="COY" data-ensure="abs( CY + COY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+		<var id="DOX" data-ensure="abs( DX + DOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+		<var id="DOY" data-ensure="abs( DY + DOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+		<var id="EOX" data-ensure="abs( EX + EOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+		<var id="EOY" data-ensure="abs( EY + EOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
 	</div>
 
 	<div class="problems">
@@ -72,7 +72,7 @@
 						range: 10,
 						scale: 20,
 						tickStep: 1,
-						axisArrows: "<->"
+						axisArrows: "&lt;->"
 					});
 
 					style({
@@ -84,7 +84,7 @@
 						do {
 							var AOX = randRange( -9, 9 );
 							var AOY = randRange( -9, 9 );
-						} while ( 0 < abs( AOX + AX ) && abs( AOX + AX ) < 9 );
+						} while ( 0 &lt; abs( AOX + AX ) && abs( AOX + AX ) &lt; 9 );
 
 						line( [0, 0], [AX, AY], { arrows: "->" } );
 						label( [AF * AX, AF * AY], "\\vec a" );

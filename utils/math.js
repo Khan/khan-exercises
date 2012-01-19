@@ -1,4 +1,5 @@
 jQuery.extend(KhanUtil, {
+	
 	// Simplify formulas before display
 	cleanMath: function( expr ) {
 		return typeof expr === "string" ?
@@ -75,8 +76,6 @@ jQuery.extend(KhanUtil, {
 			return Math.ceil( x - 0.001 );
 		}
 		return Math.floor( x + 0.001 );
-
-
 	},
 
 	getGCD: function( a, b ) {
@@ -123,15 +122,19 @@ jQuery.extend(KhanUtil, {
 				return Math.abs(p - n) <= 0.5;
 			}).length;
 		} else {
-			/* maybe do something faster, like Miller-Rabin */
-			for(var i = 2; i * i <= n; i++) {
-				if ( n % i <= 0.5 ) {
-					return false;
+			if (n <= 1 || n > 2 && n % 2 === 0) {
+				return false;
+			} else {
+				for(var i = 3, sqrt = Math.sqrt(n); i <= sqrt; i += 2) {
+					if ( n % i === 0 ) {
+						return false;
+					}
 				}
 			}
-
+			
 			return true;
 		}
+
 	},
 
 	isOdd: function( n ) {
@@ -256,14 +259,19 @@ jQuery.extend(KhanUtil, {
 		return [coefficient, radical];
 	},
 
-	// Get a random integer between min and max, inclusive
-	// If a count is passed, it gives an array of random numbers in the range
-	randRange: function( min, max, count ) {
-		if ( count == null ) {
+	// randRange( min, max ) - Get a random integer between min and max, inclusive
+	// randRange( min, max, count ) - Get count random integers
+	// randRange( min, max, rows, cols ) - Get a rows x cols matrix of random integers
+	// randRange( min, max, x, y, z ) - You get the point...
+	randRange: function( min, max ) {
+		var dimensions = [].slice.call( arguments, 2 );
+
+		if ( dimensions.length === 0 ) {
 			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
 		} else {
-			return jQuery.map(new Array(count), function() {
-				return KhanUtil.randRange( min, max );
+			var args = [ min, max ].concat( dimensions.slice( 1 ) );
+			return jQuery.map(new Array( dimensions[ 0 ] ), function() {
+				return [ KhanUtil.randRange.apply( null, args ) ];
 			});
 		}
 	},
@@ -362,6 +370,12 @@ jQuery.extend(KhanUtil, {
 			}
 		}
 		return KhanUtil.randFromArray( cleanArr );
+	},
+
+	// Round a number to the nearest increment
+	// E.g., if increment = 30 and num = 40, return 30. if increment = 30 and num = 45, return 60.
+	roundToNearest: function( increment, num ) {
+		return Math.round( num / increment ) * increment;
 	},
 
 	// Round a number to a certain number of decimal places

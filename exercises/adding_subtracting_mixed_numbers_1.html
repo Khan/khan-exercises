@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format">
 <head>
-	<title>Adding and subtracting mixed numbers 1</title>
+	<title>Adding and subtracting mixed numbers with unlike denominators</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 
@@ -54,12 +54,12 @@
 
 				<div>
 					<p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the whole numbers:</p>
-					<p><code>=<var>W1 + W2</var> + \color{red}{<var>fraction( SIMP_N1, SIMP_D1 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( SIMP_N2, SIMP_D2 )</var>}</code></p>
+					<p><code>=<var>W1 + W2</var> + \color{red}{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D2 )</var>}</code></p>
 				</div>
 
 				<div data-if="GCD1 !== 1 || GCD2 !== 1">
 					<p>Simplify each fraction:</p>
-					<p><code>= \color{red}{<var>W1</var>} <var>SIGN</var> \color{blue}{<var>abs( W2 )</var>} + \color{red}{<var>fraction( SIMP_N1, SIMP_D1 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( SIMP_N2, SIMP_D2 )</var>}</code></p>
+					<p><code>= <var>W1+W2</var> + \color{red}{<var>fraction( SIMP_N1, SIMP_D1 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( SIMP_N2, SIMP_D2 )</var>}</code></p>
 				</div>
 
 				<div>

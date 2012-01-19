@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math polynomials expressions math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Quadratic equation</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -24,7 +24,7 @@
 			<var id="WRONGS">
 				(function() {
 					var wrongs = [];
-					for ( var i = 0; i < 5; i++ ) {
+					for ( var i = 0; i &lt; 5; i++ ) {
 						var bad_a = randRangeNonZero(-10, 10);
 						var bad_b = randRangeNonZero(-10, 10);
 						var bad_c = randRangeNonZero(-10, 10);
@@ -32,11 +32,11 @@
 						var good_gcd = getGCD( A, B, C );
 						var bad_gcd = getGCD( bad_a, bad_b, bad_c );
 
-						while ((	abs(A*bad_gcd) == abs(bad_a*good_gcd) &&
-									abs(B*bad_gcd)== abs(bad_b*good_gcd) &&
-									abs(C*bad_gcd)== abs(bad_c*good_gcd) ) ||
+						while ((	abs(A*bad_gcd) === abs(bad_a*good_gcd) &&
+									abs(B*bad_gcd) === abs(bad_b*good_gcd) &&
+									abs(C*bad_gcd) === abs(bad_c*good_gcd) ) ||
 
-									(( (bad_b * bad_b) - (4 * bad_a * bad_c) ) < 0))
+									(( (bad_b * bad_b) - (4 * bad_a * bad_c) ) &lt; 0))
 						{
 							bad_a = randRangeNonZero(-10, 10);
 							bad_b = randRangeNonZero(-10, 10);

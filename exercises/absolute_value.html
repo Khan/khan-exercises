@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Absolute value</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars" data-ensure="SIGN == &quot;&quot; || INT != 0 || FRAC != 0">
+	<div class="vars" data-ensure="SIGN === &quot;&quot; || INT !== 0 || FRAC !== 0">
 		<var id="INT">rand(5) > 0 ? randRange( 1, 9 ) : 0</var>
 		<var id="FRAC">rand(3) > 0 ? "." + randRange(1, 9) : ""</var>
 		<var id="SIGN">randFromArray(["", "-"])</var>

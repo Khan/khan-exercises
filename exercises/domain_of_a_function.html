@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Domain of a function</title>
 	<script src="../khan-exercise.js"></script>
 	<script type="text/javascript">
@@ -95,7 +95,7 @@
 
 				<p class="problem"><code>f(x) = \sqrt{ x - <var>A</var> }</code></p>
 
-				<p class="solution"><code><var>CHOICES["sqrt"]</var></code></p>
+				<p class="solution"><code><var>CHOICES.sqrt</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">
 					<li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt'; } ) as c"><code><var>c</var></code></li>
 				</ul>
@@ -104,7 +104,7 @@
 					<p><code>f(x)</code> is undefined when the radicand (the expression under the radical) is less than zero.</p>
 					<p>So the radicand, <code>x - <var>A</var></code>, must be greater than or equal to zero.</p>
 					<p>So <code>x - <var>A</var> \geq 0</code>; this means <code>x \geq <var>A</var></code>.</p>
-					<p>Expressing this mathematically, the domain is <code><var>CHOICES["sqrt"]</var></code>.</p>
+					<p>Expressing this mathematically, the domain is <code><var>CHOICES.sqrt</var></code>.</p>
 				</div>
 
 			</div>
@@ -135,7 +135,7 @@
 
 			<div id="inverse-sqrt-cond" data-type="two-denom-simplify">
 
-				<p class="problem"><code>f(x) = \begin{cases} \dfrac{ 1 }{ \sqrt{ x - <var>A</var> } } & \text{if $x \geq <var>A</var>$} \\ \dfrac{ 1 }{ \sqrt{ <var>A</var> - x } } & \text{if $x < <var>A</var>$} \end{cases}</code></p>
+				<p class="problem"><code>f(x) = \begin{cases} \dfrac{ 1 }{ \sqrt{ x - <var>A</var> } } & \text{if $x \geq <var>A</var>$} \\ \dfrac{ 1 }{ \sqrt{ <var>A</var> - x } } & \text{if $x &lt; <var>A</var>$} \end{cases}</code></p>
 
 				<p class="solution"><code><var>CHOICES["inverse-sqrt-cond"]</var></code></p>
 				<ul class="choices" data-show="5" data-none="true">

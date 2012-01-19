@@ -52,7 +52,7 @@ jQuery.extend( KhanUtil, {
 			// When point 0 moves, check if it's close enough to point 3 to make a triangle
 			triangle.points[0].onMove = function( coordX, coordY ) {
 				triangle.points[0].coord = [ coordX, coordY ];
-				if ( KhanUtil.distance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
+				if ( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
 					triangle.snapCorrect();
 				}
 				triangle.update();
@@ -62,7 +62,7 @@ jQuery.extend( KhanUtil, {
 			// When point 3 moves, check if it's close enough to point 0 to make a triangle
 			triangle.points[3].onMove = function( coordX, coordY ) {
 				triangle.points[3].coord = [ coordX, coordY ];
-				if ( KhanUtil.distance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
+				if ( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
 					triangle.snapCorrect();
 				}
 				triangle.update();
@@ -117,7 +117,7 @@ jQuery.extend( KhanUtil, {
 			// When point 0 moves, check if it's close enough to point 3 to make a triangle
 			triangle.points[0].onMove = function( coordX, coordY ) {
 				triangle.points[0].coord = [ coordX, coordY ];
-				if ( KhanUtil.distance( triangle.points[0].coord, triangle.points[3].coord ) < 0.2 ) {
+				if ( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[3].coord ) < 0.2 ) {
 					triangle.snapCorrect();
 				}
 				triangle.update();
@@ -130,12 +130,12 @@ jQuery.extend( KhanUtil, {
 				triangle.points[2].coord = [ coordX, coordY ];
 				triangle.points[3].setCoord(triangle.points[3].applyConstraint( triangle.points[3].coord, {
 					fixedDistance: {
-						dist: KhanUtil.distance( triangle.points[3].coord, origCoord ),
+						dist: KhanUtil.getDistance( triangle.points[3].coord, origCoord ),
 						point: triangle.points[2]
 					}
 				}));
 				// Check if point 3 ends up close enough to point 0 to make a triangle
-				if ( KhanUtil.distance( triangle.points[0].coord, triangle.points[3].coord ) < 0.2 ) {
+				if ( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[3].coord ) < 0.2 ) {
 					triangle.snapCorrect();
 				}
 				triangle.update();
@@ -144,7 +144,7 @@ jQuery.extend( KhanUtil, {
 			// When point 3 moves, check if it's close enough to point 0 to make a triangle
 			triangle.points[3].onMove = function( coordX, coordY ) {
 				triangle.points[3].coord = [ coordX, coordY ];
-				if ( KhanUtil.distance( triangle.points[0].coord, triangle.points[3].coord ) < 0.2 ) {
+				if ( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[3].coord ) < 0.2 ) {
 					triangle.snapCorrect();
 				}
 				triangle.update();
@@ -154,7 +154,7 @@ jQuery.extend( KhanUtil, {
 			triangle.snapCorrect = function() {
 				var angle1 = options.triangle.angles[1] * (triangle.reflected ? -1 : 1);
 				// SSA has two possible shapes: See which one we're closest to'
-				if ( Math.abs( KhanUtil.distance( triangle.points[2].coord, triangle.points[3].coord ) - options.triangle.sideLengths[2] ) > 1.0 ) {
+				if ( Math.abs( KhanUtil.getDistance( triangle.points[2].coord, triangle.points[3].coord ) - options.triangle.sideLengths[2] ) > 1.0 ) {
 					this.isCongruent = false;
 					angle1 = Math.abs(angle1);
 					var angle2 = Math.abs(options.triangle.angles[2] * (triangle.reflected ? -1 : 1));
@@ -210,7 +210,7 @@ jQuery.extend( KhanUtil, {
 					}
 				}));
 				// Check if point 0 ends up close enough to point 3 to make a triangle
-				if ( KhanUtil.distance( triangle.points[0].coord, triangle.points[3].coord ) < 0.2 ) {
+				if ( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[3].coord ) < 0.2 ) {
 					triangle.snapCorrect();
 				}
 				triangle.update();
@@ -220,7 +220,7 @@ jQuery.extend( KhanUtil, {
 			// When point 3 moves, check if it's close enough to point 0 to make a triangle
 			triangle.points[3].onMove = function( coordX, coordY ) {
 				triangle.points[3].coord = [ coordX, coordY ];
-				if ( KhanUtil.distance( triangle.points[0].coord, triangle.points[3].coord ) < 0.2 ) {
+				if ( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[3].coord ) < 0.2 ) {
 					triangle.snapCorrect();
 				}
 				triangle.update();
@@ -270,7 +270,7 @@ jQuery.extend( KhanUtil, {
 					}
 				}));
 				// Check if point 0 ends up close enough to point 3 to make a triangle
-				if ( KhanUtil.distance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
+				if ( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
 					triangle.snapCorrect();
 				}
 				triangle.update();
@@ -280,7 +280,7 @@ jQuery.extend( KhanUtil, {
 			// When point 3 moves, check if it's close enough to point 0 to make a triangle
 			triangle.points[3].onMove = function( coordX, coordY ) {
 				triangle.points[3].coord = [ coordX, coordY ];
-				if ( KhanUtil.distance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
+				if ( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
 					triangle.snapCorrect();
 				}
 				triangle.update();
@@ -340,7 +340,7 @@ jQuery.extend( KhanUtil, {
 			// When point 0 moves, check if it's close enough to point 3 to make a triangle
 			triangle.points[0].onMove = function( coordX, coordY ) {
 				triangle.points[0].coord = [ coordX, coordY ];
-				if ( KhanUtil.distance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
+				if ( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
 					triangle.snapCorrect();
 				}
 				triangle.update();
@@ -350,7 +350,7 @@ jQuery.extend( KhanUtil, {
 			// When point 3 moves, check if it's close enough to point 0 to make a triangle
 			triangle.points[3].onMove = function( coordX, coordY ) {
 				triangle.points[3].coord = [ coordX, coordY ];
-				if ( KhanUtil.distance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
+				if ( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[3].coord ) < 0.3 ) {
 					triangle.snapCorrect();
 				}
 				triangle.update();
@@ -408,7 +408,7 @@ jQuery.extend( KhanUtil, {
 				var origCoord = triangle.points[3].coord;
 				triangle.points[3].coord = [ coordX, coordY ];
 				triangle.points[0].setCoord([ coordX, coordY ]);
-				var scaleFactor = KhanUtil.distance([ coordX, coordY ], triangle.rotationPoint.coord) / triangle.radii[3];
+				var scaleFactor = KhanUtil.getDistance([ coordX, coordY ], triangle.rotationPoint.coord) / triangle.radii[3];
 				triangle.points[1].setCoord( triangle.points[1].applyConstraint( triangle.points[1].coord, {
 					fixedDistance: {
 						dist: triangle.radii[1] * scaleFactor,
@@ -422,7 +422,7 @@ jQuery.extend( KhanUtil, {
 					}
 				}));
 				// Check if the triangle is close enough to congruent to make it easier/possible to get wrong
-				if ( Math.abs( KhanUtil.distance( triangle.points[0].coord, triangle.points[1].coord ) - options.triangle.sideLengths[0] ) < 0.3 ) {
+				if ( Math.abs( KhanUtil.getDistance( triangle.points[0].coord, triangle.points[1].coord ) - options.triangle.sideLengths[0] ) < 0.3 ) {
 					triangle.snapCorrect();
 					triangle.isCongruent = true;
 				} else {
@@ -435,20 +435,20 @@ jQuery.extend( KhanUtil, {
 			triangle.snapCorrect = function() {
 				this.points[3].setCoord( this.points[0].applyConstraint( this.points[0].coord, {
 					fixedDistance: {
-						dist: KhanUtil.distance( options.triangle.points[0], options.triangle.centroid ),
+						dist: KhanUtil.getDistance( options.triangle.points[0], options.triangle.centroid ),
 						point: this.rotationPoint
 					}
 				}));
 				this.points[0].setCoord( this.points[3].coord );
 				this.points[1].setCoord( this.points[1].applyConstraint( this.points[1].coord, {
 					fixedDistance: {
-						dist: KhanUtil.distance( options.triangle.points[1], options.triangle.centroid ),
+						dist: KhanUtil.getDistance( options.triangle.points[1], options.triangle.centroid ),
 						point: this.rotationPoint
 					}
 				}));
 				this.points[2].setCoord( this.points[2].applyConstraint( this.points[2].coord, {
 					fixedDistance: {
-						dist: KhanUtil.distance( options.triangle.points[2], options.triangle.centroid ),
+						dist: KhanUtil.getDistance( options.triangle.points[2], options.triangle.centroid ),
 						point: this.rotationPoint
 					}
 				}));
@@ -482,7 +482,7 @@ jQuery.extend( KhanUtil, {
 					triangle.isTriangle = true;
 					triangle.rotationPoint.setCoord([
 						1/3 * (triangle.points[0].coord[0] + triangle.points[1].coord[0] + triangle.points[2].coord[0]),
-						1/3 * (triangle.points[0].coord[1] + triangle.points[1].coord[1] + triangle.points[2].coord[1]),
+						1/3 * (triangle.points[0].coord[1] + triangle.points[1].coord[1] + triangle.points[2].coord[1])
 					]);
 				} else {
 					triangle.isTriangle = false;
@@ -495,7 +495,7 @@ jQuery.extend( KhanUtil, {
 				}
 
 				for ( var point = 0; point < 4; ++point ) {
-					triangle.radii[point] = KhanUtil.distance( triangle.points[point].coord, triangle.rotationPoint.coord );
+					triangle.radii[point] = KhanUtil.getDistance( triangle.points[point].coord, triangle.rotationPoint.coord );
 					if ( triangle.points[point].isRotationPoint ) {
 						triangle.points[point].constraints.fixedDistance = { dist: triangle.radii[point], point: triangle.rotationPoint };
 					}
@@ -673,45 +673,4 @@ jQuery.extend( KhanUtil, {
 		jQuery( triangle.set ).each( function() { this.toBack(); });
 	}
 
-});
-
-
-jQuery.extend( Khan.answerTypes, {
-	congruence: function( solutionarea, solution, fallback, verifier, input ) {
-		jQuery( solutionarea ).append( jQuery( solution ).clone().contents().tmpl() );
-		var correct = solutionarea.find( ".answer" ).text();
-		solutionarea.find( ".answer" ).empty();
-
-		ret = function() {
-			var triangle = KhanUtil.currentGraph.interactiveTriangle;
-			var guess = solutionarea.find( "input:checked" ).val();
-			ret.guess = [ guess, triangle.points[0].coord, triangle.points[1].coord, triangle.points[2].coord, triangle.points[3].coord ];
-			if ( guess === undefined ) {
-				// no guess, don't grade answer
-				ret.guess = "";
-				return false;
-			} else if ( guess !== correct) {
-				return false;
-			} else if ( !triangle.isTriangle) {
-				return "Your answer is almost correct, but you haven't constructed a triangle.";
-			} else if ( correct === "No" && triangle.isCongruent ) {
-				return "Your answer is almost correct, but the two triangles are congruent. Prove your answer by trying to construct an incongruent triangle.";
-			} else {
-				return true;
-			}
-		};
-		ret.examples = [ "the shapes to the left are part of your answer" ];
-		ret.solution = correct;
-		ret.showGuess = function( guess ) {
-			var triangle = KhanUtil.currentGraph.interactiveTriangle;
-			solutionarea.find( "input:checked" ).prop( 'checked', false );
-			solutionarea.find( "input[value=" + guess[0] + "]" ).prop( 'checked', true );
-			triangle.points[0].setCoord(guess[1]);
-			triangle.points[1].setCoord(guess[2]);
-			triangle.points[2].setCoord(guess[3]);
-			triangle.points[3].setCoord(guess[4]);
-			triangle.update();
-		};
-		return ret;
-	}
 });

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions graphie">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Line relationships</title>
 	<script src="../khan-exercise.js"></script>
 	<style type="text/css">
@@ -42,7 +42,7 @@
 							plot(function( x ) {
 								return ( M * x + B );
 							}, [-10, 10], {
-								stroke: "<var>BLUE</var>"
+								stroke: BLUE
 							});
 
 							circle( [X, Y], 1/4, {
@@ -77,7 +77,7 @@
 							plot(function( x ) {
 								return ( -1 / M * x + ( Y - ( -1 / M * X ) ) );
 							}, [-10, 10], {
-								stroke: "<var>GREEN</var>"
+								stroke: GREEN
 							});
 						</div>
 					</div>
@@ -113,7 +113,7 @@
 							plot(function( x ) {
 								return ( M * x + ( Y - M * X ) );
 							}, [-10, 10], {
-								stroke: "<var>GREEN</var>"
+								stroke: GREEN
 							});
 						</div>
 					</div>

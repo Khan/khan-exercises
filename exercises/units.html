@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Units</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -72,13 +72,17 @@
 				<var id="D_HINT">
 					(function() {
 						var hint = "";
+						var units = "";
 						var increment = (END_D_INDEX - START_D_INDEX) > 0 ? 1 : -1;
-						for ( var i = START_D_INDEX; i != END_D_INDEX; i += increment ) {
+						for ( var i = START_D_INDEX; i !== END_D_INDEX; i += increment ) {
 							var factor = fractionReduce( D_UNITS[i].multiplier, D_UNITS[i + increment].multiplier );
 							if ( !factor.match( "dfrac" ) ) {
-								factor = "\\dfrac{" + factor + "}{1}"
+								factor = "\\dfrac{" + factor + "}{1}";
+								units = factor + "\\dfrac{\\text{" + D_UNITS[i + increment].plural + "}}{\\text{" + D_UNITS[i].str + "}}";
 							}
-							var units = factor + "\\dfrac{\\text{" + D_UNITS[i + increment].plural + "}}{\\text{" + D_UNITS[i].str + "}}";
+							else {
+								units = factor + "\\dfrac{\\text{" + D_UNITS[i + increment].str + "}}{\\text{" + D_UNITS[i].plural + "}}";
+							}
 							hint += "\\cdot" + units;
 						}
 						return hint;
@@ -88,13 +92,17 @@
 				<var id="T_HINT">
 					(function() {
 						var hint = "";
+						var units = "";
 						var increment = (END_T_INDEX - START_T_INDEX) > 0 ? 1 : -1;
-						for ( var i = START_T_INDEX; i != END_T_INDEX; i += increment ) {
+						for ( var i = START_T_INDEX; i !== END_T_INDEX; i += increment ) {
 							var factor = fractionReduce( T_UNITS[i + increment].multiplier, T_UNITS[i].multiplier );
 							if ( !factor.match( "dfrac" ) ) {
-								factor = "\\dfrac{" + factor + "}{1}"
+								factor = "\\dfrac{" + factor + "}{1}";
+								units = factor + "\\dfrac{\\text{" + T_UNITS[i].plural + "}}{\\text{" + T_UNITS[i + increment].str + "}}";
 							}
-							var units = factor + "\\dfrac{\\text{" + T_UNITS[i].plural + "}}{\\text{" + T_UNITS[i + increment].str + "}}";
+							else {
+								units = factor + "\\dfrac{\\text{" + T_UNITS[i].str + "}}{\\text{" + T_UNITS[i + increment].plural + "}}";
+							}
 							hint += "\\cdot" + units;
 						}
 						return hint;
@@ -124,7 +132,7 @@
 			<div class="solution" data-type="decimal"><var>SOLUTION</var></div>
 			<div class="hints">
 				<p><code><var>commafy( START_SPEED )</var> \dfrac{\text{<var>D_UNITS[START_D_INDEX].plural</var>}}{\text{<var>T_UNITS[START_T_INDEX].str</var>}} <var>D_HINT + " " + T_HINT</var></code></p>
-				<p><code>= <var>commafy( SOLUTION )</var> \dfrac{\text{<var>D_UNITS[END_D_INDEX].str</var>}}{\text{<var>T_UNITS[END_T_INDEX].str</var>}}</code></p>
+				<p><code>= <var>commafy( SOLUTION )</var> \dfrac{\text{<var>D_UNITS[END_D_INDEX].plural</var>}}{\text{<var>T_UNITS[END_T_INDEX].str</var>}}</code></p>
 			</div>
 		</div>
 	</div>

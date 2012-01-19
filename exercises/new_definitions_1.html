@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math word-problems expressions">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>New definitions 1</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -35,8 +35,8 @@
 		<var id="SUBS">expr(FUN(X, Y))</var>
 		<var id="VALU">expr(FUN(X, Y), true)</var>
 
-		<var id="XONLY">!isNaN(expr(FUN(0, Number.NaN), true))</var>
-		<var id="YONLY">!isNaN(expr(FUN(Number.NaN, 0), true))</var>
+		<var id="XONLY">!isNaN(expr(FUN(0, NaN), true))</var>
+		<var id="YONLY">!isNaN(expr(FUN(NaN, 0), true))</var>
 	</div>
 
 	<div class="problems">

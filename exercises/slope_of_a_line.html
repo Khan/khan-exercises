@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Slope of a line</title>
 	<script src="../khan-exercise.js"></script>
 	<style type="text/css">
@@ -63,7 +63,7 @@
 							});
 							style({ fill: BLUE, stroke: BLUE });
 							line( [ -1,-1 ], [ 1,4 ] );
-							label([0,-4], "\\color{<var>BLUE</var>}{\\text{Airplane Taking  Off}}", "below");
+							label([0,-4], "\\color{" + BLUE + "}{\\text{Airplane Taking  Off}}", "below");
 					</div>
 					<div class="graphie" style="float: left; margin: 8px;">
 							graphInit({
@@ -74,7 +74,7 @@
 							});
 							style({ fill: GREEN, stroke: GREEN });
 							line( [ 0, 2 ], [ 2, -1 ] );
-							label([0,-4], "\\color{<var>GREEN</var>}{\\text{Airplane Landing}}", "below");
+							label([0,-4], "\\color{" + GREEN + "}{\\text{Airplane Landing}}", "below");
 					</div>
 				</div>
 			  </div>
@@ -146,7 +146,7 @@
 					});
 
 					style({ stroke: COLORS[index].hex });
-					label([0,-6], "\\color{<var>" + COLORS[index].hex + "</var>}" +
+					label([0,-6], "\\color{" + COLORS[index].hex + "}" +
 								  "{\\text{" + COLORS[index].name + "}}", "below");
 					plot(function( x ) {
 						return ( x - 1 ) * SLOPES[index].value + B;

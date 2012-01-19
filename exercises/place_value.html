@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math word-problems math-format expressions">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Place value</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -76,20 +76,21 @@
 									return null;
 								}
 
+								var addend;
 								if ( index === DIGITS.length - 1 ) {
 									if ( DIGITS[ index - 1] === 0 ) {
 										ADDENDS.push( digit );
 										return cardinal( digit ) + " is the same as " + digit;
 									}
 								} else if ( index === DIGITS.length - 2 ) {
-									var addend = digit * 10 + DIGITS[ DIGITS.length - 1 ];
+									addend = digit * 10 + DIGITS[ DIGITS.length - 1 ];
 									ADDENDS.push( addend );
 									return cardinal( addend ) + " is the same as " + addend;
 								} else {
 									var words = cardinal( digit ) + " " + powerToPlace(maxPower - index);
 									var input = [ "*", digit, pow(10, maxPower - index) ];
 									var ex = expr( input );
-									var addend = expr( input, true );
+									addend = expr( input, true );
 
 									ADDENDS.push( addend );
 									return words + " is the same as " + ex + " = " + addend;

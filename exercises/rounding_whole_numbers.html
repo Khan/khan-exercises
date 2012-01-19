@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Rounding whole numbers</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -26,7 +26,7 @@
 				<var id="PLACE">randFromArray([ -2, -3 ])</var>
 				<var id="DIGITS">
 					(function() {
-						var digits = shuffle( [1, 2, 3, 4, 6, 7, 8, 9], 5 )
+						var digits = shuffle( [1, 2, 3, 4, 6, 7, 8, 9], 5 );
 						digits[ 5 + PLACE ] = 5;
 						return digits;
 					})()

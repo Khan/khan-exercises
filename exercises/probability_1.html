@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format probability word-problems">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Probability 1</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -17,7 +17,7 @@
 				<var id="BLUE">randRange(3, 11)</var>
 				<var id="TOTAL">RED + GREEN + BLUE</var>
 
-				<var id="NOT">rand(2) == 0</var>
+				<var id="NOT">rand(2) === 0</var>
 				<var id="CHOSEN_COLOR, CHOSEN_NUMBER">randFromArray([["red", RED], ["green", GREEN], ["blue", BLUE]])</var>
 				<var id="NUMBER">NOT ? TOTAL - CHOSEN_NUMBER : CHOSEN_NUMBER</var>
 			</div>
@@ -75,7 +75,7 @@
 
 			<div class="hints">
 				<p>When rolling a die, there are <code>6</code> possibilities: 1, 2, 3, 4, 5, and 6.</p>
-				<p data-if="RESULT_COUNT == 1">In this case, only <code>1</code> result is favorable: the number <var>RESULT_POSSIBLE[0]</var>.</p>
+				<p data-if="RESULT_COUNT === 1">In this case, only <code>1</code> result is favorable: the number <var>RESULT_POSSIBLE[0]</var>.</p>
 				<p data-else>In this case, <code><var>RESULT_COUNT</var></code> results are favorable: <var>toSentence(RESULT_POSSIBLE)</var>.</p>
 				<p>The probability is <code>\displaystyle <var>fractionSimplification(RESULT_COUNT, 6)</var></code>.</p>
 			</div>
@@ -133,7 +133,7 @@
 			</div>
 
 			<div class="question">
-				<p>A fair coin is flipped <var>REPS == 3 ? "three" : "four"</var> times. What is the
+				<p>A fair coin is flipped <var>REPS === 3 ? "three" : "four"</var> times. What is the
 				probability of getting <var>DESC</var>?  Write your answer as a simplified fraction.</p>
 			</div>
 
@@ -142,7 +142,7 @@
 			<div class="hints">
 				<p>There are <code><var>(new Array(REPS)).join("2 \\cdot ")</var>2 = 2^{<var>REPS</var>} = <var>TWO_TO_REPS</var></code> possibilities for the sequence of flips.</p>
 				<p>The possibilities are <var>toSentence(ALL_SEQS)</var>.</p>
-				<p>There <var>WANTED_COUNT == 1 ? "is only" : "are"</var> <var>plural(WANTED_COUNT, "favorable outcome")</var>: <var>toSentence(WANTED_LIST)</var>.</p>
+				<p>There <var>WANTED_COUNT === 1 ? "is only" : "are"</var> <var>plural(WANTED_COUNT, "favorable outcome")</var>: <var>toSentence(WANTED_LIST)</var>.</p>
 				<p>The probability is <code>\displaystyle <var>fractionSimplification(WANTED_COUNT, TWO_TO_REPS)</var></code>.</p>
 			</div>
 		</div>
@@ -178,7 +178,7 @@
 
 			<div class="hints">
 				<p>There are <var>POSSIBLE.length</var> possibilities for the chosen number.<br>The possibilities are <var>toSentence(POSSIBLE)</var>.</p>
-				<p>There <var>WANTED_COUNT == 1 ? "is only" : "are"</var> <var>plural(WANTED_COUNT, "favorable outcome")</var>: <var>toSentence(WANTED_LIST)</var>.</p>
+				<p>There <var>WANTED_COUNT === 1 ? "is only" : "are"</var> <var>plural(WANTED_COUNT, "favorable outcome")</var>: <var>toSentence(WANTED_LIST)</var>.</p>
 				<p>The probability is <code>\displaystyle <var>fractionSimplification(WANTED_COUNT, POSSIBLE.length)</var></code>.</p>
 			</div>
 		</div>

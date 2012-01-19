@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers math-format word-problems">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Distributive property</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -54,7 +54,7 @@
 				<var id="SYM_A, SYM_B, SYM_C">
 					(function() {
 						return jQuery.map( NUMS, function( el, i ) {
-							if ( i == SWAP_INDEX ) {
+							if ( i === SWAP_INDEX ) {
 								return SYMBOL;
 							} else {
 								return el;

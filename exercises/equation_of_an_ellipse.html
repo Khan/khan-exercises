@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Equation of an ellipse</title>
 	<script src="../khan-exercise.js"></script>
 	<style type="text/css">
@@ -14,7 +14,7 @@
 	<div class="exercise">
 	<div class="vars">
 		<var id="A">randRange( 2, 9 )</var>
-		<var id="B" data-ensure=" A !== B" >randRange( 2, 9 )</var>
+		<var id="B" data-ensure="A !== B">randRange( 2, 9 )</var>
 
 		<var id="H">randRange( -9, 9 )</var>
 		<var id="K">randRange( -9, 9 )</var>
@@ -29,7 +29,7 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>The equation of an ellipse <code>E</code> is <code><var>rand(2) == 1 ? expr(["+", Y2T, X2T]) : expr(["+", X2T, Y2T])</var> = 1</code>.</p>
+				<p>The equation of an ellipse <code>E</code> is <code><var>rand(2) === 1 ? expr(["+", Y2T, X2T]) : expr(["+", X2T, Y2T])</var> = 1</code>.</p>
 
 				<p>What are its center <code>(h, k)</code> and its  major and minor radius?</p>
 

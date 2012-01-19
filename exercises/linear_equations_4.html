@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Linear equations 4</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -20,7 +20,9 @@
 				<p class="question">Solve for <code>x</code>:</p>
 				<div><code><var>A</var> = \dfrac{<var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>}</code></div>
 
-				<p class="solution"><var>ANSWER</var></p>
+				<div class="solution" data-type="multiple">
+					<p><code>x</code> = <span class="sol"><var>ANSWER</var></span></p>
+				</div>
 
 				<div class="hints">
 					<div>
@@ -29,12 +31,16 @@
 						<p><code>\qquad <var>A * C</var>x + <var>A * D</var> = <var>B</var></code></p>
 					</div>
 					<div>
-						<p>Now <var>A * D < 0 ? "add" : "subtract"</var> <code><var>abs( A * D )</var></code> <var>A * D < 0 ? "to" : "from"</var> both sides:</p>
+						<p>Now <var>A * D &lt; 0 ? "add" : "subtract"</var> <code><var>abs( A * D )</var></code> <var>A * D &lt; 0 ? "to" : "from"</var> both sides:</p>
 						<p><code>\qquad (<var>A * C</var>x + <var>A * D</var>) + <var>-A * D</var> = <var>B</var> + <var>- A * D</var></code></p>
 						<p><code>\qquad <var>A * C</var>x = <var>B - A * D</var></code></p>
 					</div>
 					<div>
 						<p>Divide by <code><var>A * C</var></code>:</p>
+						<p><code>\qquad x = <var>fraction( B - A * D, A * C, false, false )</var></code></p>
+					</div>
+					<div data-if="reduces( B - A * D, A * C )">
+						<p>Reduce the fraction</code>:</p>
 						<p><code>\qquad x = <var>fractionReduce( B - A * D, A * C )</var></code></p>
 					</div>
 				</div>
@@ -61,17 +67,21 @@
 						<p><code>\qquad <var>expr(["*", A, "x"])</var> + <var>B</var> = <var>expr(["*", E * C, "x"])</var> + <var>E * D</var></code></p>
 					</div>
 					<div>
-						<p>Now <var>E * C < 0 ? "add" : "subtract"</var> <code><var>abs( E * C )</var>x</code> <var>E * C < 0 ? "to" : "from"</var> both sides:</p>
+						<p>Now <var>E * C &lt; 0 ? "add" : "subtract"</var> <code><var>abs( E * C )</var>x</code> <var>E * C &lt; 0 ? "to" : "from"</var> both sides:</p>
 						<p><code>\qquad (<var>expr(["*", A, "x"])</var> + <var>B</var>) + <var>-E * C</var>x = (<var>expr(["*", E * C, "x"])</var> + <var>E * D</var>) + <var>-E * C</var>x</code></p>
 						<p><code>\qquad <var>A - E * C</var>x + <var>B</var> = <var>E * D</var></code></p>
 					</div>
 					<div>
-						<p>Now <var>B < 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>:</p>
+						<p>Now <var>B &lt; 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>:</p>
 						<p><code>\qquad (<var>A - E * C</var>x + <var>B</var>) + <var>-B</var> = <var>E * D</var> + <var>-B</var></code></p>
 						<p><code>\qquad <var>A - E * C</var>x = <var>E * D - B</var></code></p>
 					</div>
 					<div>
 						<p>Divide by <code><var>A - E * C</var></code>:</p>
+						<p><code>\qquad x = <var>fraction( E * D - B, A - E * C, false, false )</var></code></p>
+					</div>
+					<div data-if="reduces(E * D - B, A - E * C)">
+						<p>Reduce the fraction</code>:</p>
 						<p><code>\qquad x = <var>fractionReduce( E * D - B, A - E * C )</var></code></p>
 					</div>
 				</div>

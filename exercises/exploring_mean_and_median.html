@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html data-require="math graphie interactive mean-and-median">
 <head>
-	<meta charset="UTF-8" />
-	<title>Exploring Mean and Median</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Exploring mean and median</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -80,20 +80,41 @@
 
 						graph.median = 0;
 						graph.mean = 0;
+						graph.moved = false;
 						jQuery.each( graph.points, function( idx, point ) {
 							this.onMove = function( x, y ) {
-								return onMovePoint( point, x, y );
+								graph.moved = true;
+								return onMovePoint( point, x, y, updateMeanAndMedian );
 							};
 						});
 					</div>
 				</div>
-				<div class="solution" data-type="exploringMeanMedian">
-					<span>Move the orange dots to select your answer.</span>
+				<div class="solution" data-type="custom">
+					<div class="instruction">
+						Move the orange dots to select your answer.
+					</div>
+					<div class="guess">jQuery.map( graph.points, function( el ) { return el.coord[0]; } )</div>
+					<div class="validator-function">
+						if ( roundTo( 1, mean( guess ) ) === MEAN &amp;&amp; roundTo( 1, median( guess ) ) === MEDIAN ) {
+							return true;
+						} else if ( graph.moved ) {
+							return false;
+						} else {
+							return "";
+						}
+					</div>
+					<div class="show-guess">
+						jQuery.each( guess, function( i, x ) {
+							onMovePoint( graph.points[i], x, 0 );
+						});
+						updateMeanAndMedian();
+					</div>
+					<div class="example">any arrangement of the orange dots so that the mean and median are correct</div>
 				</div>
 
 				<div class="hints">
 					<p>
-						The median is middle number. In other words there are always as many points to the
+						The median is the middle number. In other words there are always as many points to the
 						right of the median as to the left.
 					</p>
 					<p>

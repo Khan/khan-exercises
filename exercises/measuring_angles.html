@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
+<html data-require="math graphie angles interactive">
 	<head>
 		<title>Measuring angles</title>
 		<script src="../khan-exercise.js"></script>
@@ -29,27 +29,33 @@
 							path([ [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )], [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
 							arc( [0, 0], 1, ANGLE_ONE, ANGLE_TWO );
 
-							graph.protractor = new Protractor( [22, 0], 8 );
-							Khan.scratchpad.disable();
+							addMouseLayer();
+							graph.protractor = new Protractor([ 22, 0 ]);
 						</div>
 					</div>
-					<p class="solution" data-type="rational" data-inexact data-max-error="5"><var>DIFF</var></p>
+					<div class="solution" data-type="multiple">
+						<span class="sol" data-type="rational" data-inexact data-max-error="5"><var>DIFF</var></span><code>^{\circ}</code>
+					</div>
 				</div>
 			</div>
 
 			<div class="hints">
+				<p>
+					First, align the origin of the protractor with the vertex of the angle.
+					<button onClick="javascript: KhanUtil.currentGraph.graph.protractor.moveTo( 0, 0 ); ">Show me</button>
+				</p>
+				<p>
+					Next, rotate the protractor so that the <code>0^{\circ}</code> mark lines up with one side of the angle.
+					<button onClick="javascript:
+						KhanUtil.currentGraph.graph.protractor.moveTo( 0, 0 );
+						KhanUtil.currentGraph.graph.protractor.rotateTo( 360 - KhanUtil.tmpl.getVAR('ANGLE_ONE') );
+					">Show me</button>
+				</p>
 				<div>
 					<div class="graphie" data-update="angle">
-						graph.protractor.translate( 0, 0, true );
-						graph.protractor.rotate( 360 - ANGLE_ONE, true );
-						graph.protractor.rotatable( false );
-						graph.protractor.translatable( false );
-					</div>
-					<p>First, align the protractor with the angle.</p>
-				</div>
-				<div>
-					<div class="graphie" data-update="angle">
-						graph.protractor.drawAngle( DIFF, 2, "green", "green" );
+						graph.protractor.moveTo( 0, 0 );
+						graph.protractor.rotateTo( 360 - ANGLE_ONE );
+						label( [ 9 * cos( toRadians( ANGLE_ONE + DIFF ) ), 9 * sin( toRadians( ANGLE_ONE + DIFF ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
 					</div>
 					<p>The angle is <code><var>DIFF</var></code> degrees.</p>
 				</div>

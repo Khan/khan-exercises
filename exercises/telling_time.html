@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
+<html data-require="math math-format graphie time">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Telling time</title>
 	<script src="../khan-exercise.js"></script>
 	<style type="text/css">
@@ -24,9 +24,9 @@
 			<div class="question">
 				<p>What time is it?</p>
 				<div class="graphie" id="pie" style="float: left;">
-					init({ range: [ [-4, 4 ], [ -4, 4] ], scale: 25 });
-					PIECH = new analogClock( HOUR, MINUTE,  3.5, false );
-					PIECH.draw();
+					init({ range: [ [-4, 4 ], [ -4, 4 ] ], scale: 25 });
+					clock = addAnalogClock({ hour: HOUR, minute: MINUTE, minuteTicks: 0, showLabels: false });
+					clock.draw();
 				</div>
 				<div class="graphie" id="digital" style="float: left;">
 					init({ range: [ [-5, 5], [-3, 3] ], scale: 25 });
@@ -41,7 +41,7 @@
 			<div class="hints">
 				<div>
 					<div class="graphie">
-						PIECH.drawLabels();
+							clock.drawLabels();
 					</div>
 					<div class="graphie" data-update="digital">
 						path([ [-3, -1], [3, -1], [3, 1], [-3, 1], [-3, -1] ]);

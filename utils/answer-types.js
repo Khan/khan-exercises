@@ -200,7 +200,7 @@ jQuery.extend( Khan.answerTypes, {
 
 					// 5 pi / 6
 					} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
-						possibilities = fractionTransformer( match[1] + match[2] );
+						possibilities = fractionTransformer( match[1] + "/" + match[2] );
 
 					// - pi / 4
 					} else if ( match = text.match( /^([+-]?)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
@@ -230,8 +230,9 @@ jQuery.extend( Khan.answerTypes, {
 
 					// Replace unicode minus sign with hyphen
 					text = text.replace( /\u2212/, "-" );
+					text = text.replace( /[ \(\)]/g, "");
 
-					if ( match = text.match( /^log\(\s*(\S+)\s*\)$/i ) ) {
+					if ( match = text.match( /^log\s*(\S+)\s*$/i ) ) {
 						possibilities = forms.decimal.transformer( match[1] );
 					} else if ( text === "0") {
 						possibilities = [ { value: 0, exact: true } ];
@@ -554,10 +555,16 @@ jQuery.extend( Khan.answerTypes, {
 			});
 		};
 
-		ret.examples = solutionarea.find( ".example" ).remove()
-			.map(function(i, el) {
-				return jQuery( el ).html();
-			});
+		// If there's only a single sol in the multiple and there aren't any examples defined,
+		// use the examples from the single sol element.
+		if ( solutionarea.find( ".sol" ).length === 1 && solutionarea.find( ".example" ).length === 0 ) {
+			ret.examples = solutionarea.find( ".sol" ).first().data( "validator" ).examples;
+		} else {
+			ret.examples = solutionarea.find( ".example" ).remove()
+				.map(function(i, el) {
+					return jQuery( el ).html();
+				});
+		}
 		ret.solution = solutionArray;
 
 		return ret;
@@ -675,7 +682,7 @@ jQuery.extend( Khan.answerTypes, {
 				var guess = jQuery( this ).is( ":checked" ),
 					answer = jQuery( this ).data( "solution" ),
 					label_text = jQuery( this ).closest( "label" ).text();
-				if (label_text == "") {
+				if (label_text === "") {
 					label_text = "checked";
 				}
 				// un-checked boxes are recorded as "" to prevent the question from
@@ -845,10 +852,14 @@ jQuery.extend( Khan.answerTypes, {
 			shownChoices.push( none );
 		}
 
+		var correctIndex = -1;
+
 		jQuery.each(shownChoices, function( i, choice ) {
-			var correct = choice.data( "correct" );
+			if ( choice.data( "correct" ) ) {
+				correctIndex = i + "";
+			}
 			choice.contents().wrapAll( '<li><label><span class="value"></span></label></li>' )
-				.parent().before( '<input type="radio" name="solution" value="' + (correct ? 1 : 0) + '">' )
+				.parent().before( '<input type="radio" name="solution" value="' + i + '">' )
 				.parent().parent()
 				.appendTo(list);
 		});
@@ -856,7 +867,7 @@ jQuery.extend( Khan.answerTypes, {
 		var ret = function() {
 			var choice = list.find("input:checked");
 
-			if ( noneIsCorrect && choice.val() === "1") {
+			if ( noneIsCorrect && choice.val() === correctIndex ) {
 				choice.next()
 					.fadeOut( "fast", function() {
 						jQuery( this ).replaceWith( list.data( "real-answer" ) )
@@ -866,8 +877,9 @@ jQuery.extend( Khan.answerTypes, {
 
 			ret.guess = jQuery.trim( extractRawCode(choice.closest("li")) );
 
-			return choice.val() === "1";
+			return choice.val() === correctIndex;
 		};
+
 		ret.solution = jQuery.trim( solutionText );
 		ret.showGuess = function( guess ) {
 			list.find( 'input:checked' ).prop( 'checked', false);
@@ -957,19 +969,23 @@ jQuery.extend( Khan.answerTypes, {
 			return jQuery( el ).html();
 		});
 		ret.solution = "custom";
+		var showGuessSolutionCode = jQuery( solution ).find( ".show-guess-solutionarea" ).text() || "";
 		ret.showGuess = function( guess ) {
 			if ( isTimeline ) {
 				guessCorrect = validator( guess );
 				jQuery( solutionarea ).empty();
-				jQuery( solutionarea ).append( guessCorrect ? "Answer correct" : "Answer incorrect" );
+				jQuery( solutionarea ).append( guessCorrect === true ? "Answer correct" : "Answer incorrect" );
+			} else {
+				var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" + showGuessSolutionCode + "})()";
+				KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
 			}
-		}
+		};
 
 		var showGuessCode = jQuery( solution ).find( ".show-guess" ).text();
 		ret.showCustomGuess = function( guess ) {
 			var code = "(function() { var guess = " + JSON.stringify( guess ) + ";" + showGuessCode + "})()";
 			KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
-		}
+		};
 
 		return ret;
 	}

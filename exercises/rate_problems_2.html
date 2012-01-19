@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format word-problems">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Rate problems 2</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -13,15 +13,13 @@
 				<var id="DISTANCE">randRange( 2, 6 )</var>
 				<var id="FACTORS">shuffle( getPrimeFactorization( 60 ).concat( getPrimeFactorization( DISTANCE ) ) )</var>
 				<var id="MULTIPLY">
-					(function() {
-						return function( factors ) {
-							var product = 1;
-							for ( var i = 0; i &lt; factors.length; i++ ) {
-								product *= factors[ i ];
-							}
-							return product;
+					function( factors ) {
+						var product = 1;
+						for ( var i = 0; i &lt; factors.length; i++ ) {
+							product *= factors[ i ];
 						}
-					})()
+						return product;
+					}
 				</var>
 				<var id="SPLIT">randRange( 3, FACTORS.length - 2 )</var>
 				<var id="TIME_UP">MULTIPLY( FACTORS.slice( 0, SPLIT ) )</var>

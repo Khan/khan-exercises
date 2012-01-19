@@ -19,6 +19,7 @@ MathJax.Hub.Config({
 			Definitions: {
 				macros: {
 					lrsplit: "LRSplit",
+					cancel: "Cancel",
 					lcm: ["NamedOp", 0]
 				}
 			},
@@ -33,6 +34,9 @@ MathJax.Hub.Config({
 						frac.denomalign = MathJax.ElementJax.mml.ALIGN.RIGHT;
 						frac.linethickness = "0em";
 						this.Push( frac );
+					},
+					Cancel: function( name ) {
+						this.Push( MathJax.ElementJax.mml.menclose( this.ParseArg( name ) ).With({ notation: MathJax.ElementJax.mml.NOTATION.UPDIAGONALSTRIKE }) );
 					}
 				}
 			}
