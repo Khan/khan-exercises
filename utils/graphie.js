@@ -688,7 +688,7 @@
 				graphie.graph = {};
 			}
 
-			code = "(function() {" + code + "})()";
+			code = "(function() {/* Code */" + code + "/* /Code */})()";
 
 			// Execute the graph-specific code
 			KhanUtil.currentGraph = graphie;
