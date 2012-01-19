@@ -22,7 +22,9 @@
 			</div>
 
 			<div class="problem">
-				<p>Simplify.</p>
+				<p class="question">
+					Simplify.
+				</p>
 				<p>
 					<code>i ^ {<var>EXP</var>}</code>
 				</p>
@@ -40,13 +42,13 @@
 				</p>
 				<p data-if="EXP >= 2">
 					The most important property of the imaginary unit <code>i</code> is
-					that <code>i ^ 2 = -1</code>.
+					that <code>\color{<var>BLUE</var>}{i ^ 2} = \color{<var>ORANGE</var>}{-1}</code>.
 				</p>
 				<p data-if="EXP === 3">
-					<code>i ^ 3 = (i ^ 2) \cdot i = (-1) \cdot i = -i</code>
+					<code>i ^ 3 = (\color{<var>ORANGE</var>}{i ^ 2}) \cdot i = (\color{<var>BLUE</var>}{-1}) \cdot i = -i</code>
 				</p>
 				<p data-if="EXP === 4">
-					<code>i ^ 4 = (i ^ 2) ^ 2 = (-1) ^ 2 = 1</code>
+					<code>i ^ 4 = (\color{<var>ORANGE</var>}{i ^ 2}) ^ 2 = (\color{<var>BLUE</var>}{-1}) ^ 2 = 1</code>
 				</p>
 				<p>
 					<code>i ^ <var>EXP</var> = <var>SOLUTION</var></code>
@@ -67,7 +69,9 @@
 			</div>
 
 			<div class="problem">
-				<p>Simplify.</p>
+				<p class="question">
+					Simplify.
+				</p>
 				<p>
 					<code>i ^ {<var>EXP</var>}</code>
 				</p>
@@ -82,11 +86,11 @@
 			<div class="hints">
 				<p>
 					The most important property of the imaginary unit <code>i</code> is
-					that <code>i ^ 2 = -1</code>.
+					that <code>\color{<var>BLUE</var>}{i ^ 2} = \color{<var>ORANGE</var>}{-1}</code>.
 				</p>
 				<p>
 					When this property is plugged into <code>i ^ 4</code>, we get:
-					<code>i ^ 4 = (i ^ 2) ^ 2 = (-1) ^ 2 = 1</code>
+					<code>i ^ 4 = (\color{<var>BLUE</var>}{i ^ 2}) ^ 2 = (\color{<var>ORANGE</var>}{-1}) ^ 2 = 1</code>
 				</p>
 				<p>
 					So, we can reduce the exponent by multiples of 4 and have the same result.  
@@ -95,22 +99,30 @@
 					The remainder after dividing <var>EXP</var> by 4 is <var>EXP % 4</var>, <!-- maybe add a reference to mod here... probably after a mod module is made -->
 					so <code>i ^ {<var>EXP</var>} = i ^ {<var>EXP % 4</var>}</code>.
 				</p>
-				<p data-if="(EXP % 4) === 0">
-					Any number but zero to the zeroth power is one.<br />
-					<code>i ^ 0 = 1</code>
-				</p>
-				<p data-if="(EXP % 4) === 1">
-					Anything to the first power is the number itself.<br />
-					<code>i ^ 1 = i</code>
-				</p>
+				<div data-if="(EXP % 4) === 0">
+					<p>
+						Any number but zero to the zeroth power is one.
+					</p>
+					<p>
+						<code>i ^ 0 = 1</code>
+					</p>
+				</div>
+				<div data-if="(EXP % 4) === 1">
+					<p>
+						Anything to the first power is the number itself.
+					</p>
+					<p>
+						<code>i ^ 1 = i</code>
+					</p>
+				</div>
 				<p data-if="(EXP % 4) >= 2">
-					As stated above, <code>i ^ 2 = -1</code>.
+					As stated above, <code>\color{<var>ORANGE</var>}{i ^ 2} = \color{<var>BLUE</var>}{-1}</code>.
 				</p>
 				<p data-if="(EXP % 4) === 3">
-					<code>i ^ 3 = (i ^ 2) \cdot i = (-1) \cdot i = -i</code>
+					<code>i ^ 3 = (\color{<var>ORANGE</var>}{i ^ 2}) \cdot i = (\color{<var>BLUE</var>}{-1}) \cdot i = -i</code>
 				</p>
-				<p data-if="(EXP % 4) === 4">
-					<code>i ^ 4 = (i ^ 2) ^ 2 = (-1) ^ 2 = 1</code>
+				<p data-if="(EXP % 4) === 0">
+					<code>i ^ 4 = (\color{<var>ORANGE</var>}{i ^ 2}) ^ 2 = (\color{<var>BLUE</var>}{-1}) ^ 2 = 1</code>
 				</p>
 				<p>
 					<code>i ^ {<var>EXP</var>} = i ^ {<var>EXP % 4</var>} = <var>SOLUTION</var></code>.
