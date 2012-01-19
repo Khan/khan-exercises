@@ -76,7 +76,13 @@ jQuery.extend( KhanUtil, {
 			'hele getal':'hele getallen',
 			'tiental':'tientallen',
 			'honderdtal':'honderdtallen',
-			'duizendtal':'duizendtallen'
+			'duizendtal':'duizendtallen',
+			'broek':'broeken',
+			'riem':'riemen',
+			'ketting':'kettingen',
+			'stropdas':'stropdassen',
+			'trui':'truien',
+			'jas':'jassen'
 		};
 
 		var pluralizeWord = function(word) {
@@ -295,7 +301,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"krijtje",
 		"gum",
 		"map",
-		"lijmstift",
+		"glue stick",
 		"stift",
 		"notebook",
 		"pen",
@@ -328,19 +334,20 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var clothes = KhanUtil.shuffle([
-		"hoed",
+		"hoedje",
 		"broek",
 		"riem",
 		"ketting",
-		"portemonnee",
-		"blousje",
+		"tasje",
+		"bloesje",
 		"rokje",
 		"horloge",
-		"shirt",
+		"trui",
 		"sweater",
-		"das",
-		"overhemd",
-		"jurkje"
+		"stropdas",
+		"sjaal",
+		"jurkje",
+		"jas"
 	]);
 
 	var sides = KhanUtil.shuffle([
@@ -349,8 +356,8 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var shirtStyles = KhanUtil.shuffle([
-		"long-sleeved",
-		"short-sleeved"
+		"lange mouwen",
+		"korte mouwen"
 	]);
 
 	// animal, avg-lifespan, stddev-lifespan
@@ -374,8 +381,8 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var farmers = KhanUtil.shuffle([
-		{farmer:"tuinder", crops:KhanUtil.shuffle(["tomaat", "aardappel", "wortel", "bonen", "corn stalk"]), field:"land"},
-		{farmer:"kweker", crops:KhanUtil.shuffle(["roos", "tulp", "narcis", "iris", "lily"]), field:"kas"}
+		{farmer:"tuinder", crops:KhanUtil.shuffle(["tomaat", "aardappel", "wortel", "bonen", "mais"]), field:"land"},
+		{farmer:"kweker", crops:KhanUtil.shuffle(["roos", "tulp", "narcis", "sneeuwklokje", "lelie"]), field:"kas"}
 	]);
 
 	var distances = KhanUtil.shuffle([

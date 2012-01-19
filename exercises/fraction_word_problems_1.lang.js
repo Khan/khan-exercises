@@ -27,7 +27,7 @@
 		"hint9"		: 'Samen aten ze <var>A + B</var> stukken, zodat er <var>LEFT</var> van de <var>TOTAL</var> stukken overbleven.',
 		"hint10"	: '<code>\\dfrac{<var>LEFT</var>}{<var>TOTAL</var>}</code> van de <var>pizza( 1 )</var> blijft over.',
 		
-		"hint11"	: '<code>\\text{gedeelte van de <var>pizza( 1 )</var> dat overblijft} = \\dfrac{\text{aantal stukken dat overblijft}}{\\text{totaal aantal stukken}}</code>',
+		"hint11"	: '<code>\\text{gedeelte van de <var>pizza( 1 )</var> dat overblijft} = \\dfrac{\\text{aantal stukken dat overblijft}}{\\text{totaal aantal stukken}}</code>',
 		"hint12"	: 'Samen aten ze  <var>A + B</var> stukken, waardoor er <var>LEFT</var> van de <var>TOTAL</var> stukken overblijft.',
 		"hint13"	: '<code>\\dfrac{<var>LEFT</var>}{<var>TOTAL</var>}</code> van de  <var>pizza( 1 )</var> blijft over.',
 		"hint14"	: 'We kunnen <code>\\dfrac{<var>N</var>}{<var>D</var>}</code> vermenigvuldigen met <code><var>INVITEES</var></code> om te weten hoeveel mensen er op het feest kwamen.',
