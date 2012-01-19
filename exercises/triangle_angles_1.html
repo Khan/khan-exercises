@@ -6,10 +6,10 @@
 	<script src="../khan-exercise.js"></script>
 	<script>
 		function scTriangle(){
-			while( ! a || Math.abs( a - b ) < 5 || Math.abs( a - c ) < 5 || Math.abs( b - c ) < 5 ){
-				var a = KhanUtil.randRange( 25, 150 );
+			while( ! a || Math.abs( a - b ) < 5 || Math.abs( a - c ) < 5 || Math.abs( b - c ) < 5 || c < 20){
+				var a = KhanUtil.randRange( 25, 120);
 				var b = KhanUtil.randRange( 25, 180 - a );
-				if ( a + b > 170 ){
+				if ( a + b > 150){
 					a = Math.max( 30, a - 15  );
 					b = Math.max( 30, b - 15  );
 				}
