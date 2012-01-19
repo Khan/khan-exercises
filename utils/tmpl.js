@@ -212,23 +212,26 @@ jQuery.tmpl = {
 		try {
 			if ( testMode && scriptLang === "cs" ) {
 				// Compile the CoffeeScript.
-				var addFn = false;
+				var prefix, start,
+				    end    = -4,
+				    suffix = "})()";
 
-				if ( code.indexOf ( "(function() {" ) === 0 ) {
-					// The CoffeeScript has been wrapped in an immediate function by line 376.
+				if ( code.indexOf( "(function() {" ) === 0 ) {
+					// The CoffeeScript has been wrapped in an immediate function by traverse.
 					// Unwrap it.
-					addFn = true;
-					code  = code.slice( 13, -4 );
+					start  = code.indexOf( "\treturn " ) + 8;
+					prefix = code.slice( 0, start );
+					code   = code.slice( start, end );
 				}
 
 				code = CoffeeScript.compile( code, { bare: true } );
 				// Remove the leading and trailing whitespace and trailing semicolon added by
 				// the CoffeeScript compiler.
 				code = jQuery.trim( code );
-				code = code.slice(0, -1);
+				code = code.slice( 0, -1 );
 
-				if ( addFn ) {
-					code = "(function() { " + code + " })()";
+				if ( prefix ) {
+					code = prefix + code + suffix;
 				}
 			}
 
