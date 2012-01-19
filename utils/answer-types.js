@@ -954,11 +954,11 @@ jQuery.extend( Khan.answerTypes, {
 		var ret = function() {
 			var valid = true;	
 			var guess = [];
-			if (realValidator != null) {
+			if ( realValidator != null ) {
 				valid = realValidator() && valid;
 				guess.push( realValidator.guess );
 			}
-			if (imagValidator != null) {
+			if ( imagValidator != null ) {
 				valid = imagValidator() && valid;
 				guess.push( imagValidator.guess );
 			}
@@ -1017,8 +1017,7 @@ jQuery.extend( Khan.answerTypes, {
 		var ret = function() {
 			var cplx = KhanUtil.currentGraph.graph.currComplexPolar;
 			ret.guess = [ cplx.getAngleNumerator(), cplx.getRadius() ];
-			return (ret.guess[0] === correct[0]) &&
-				(ret.guess[1] === correct[1]);
+			return ( ret.guess[0] === correct[0] ) && ( ret.guess[1] === correct[1] );
 		};
 
 		ret.showGuess = function( guess ) {

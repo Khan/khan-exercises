@@ -11,29 +11,29 @@
 		<div id="multiply-cplx">
 			<div class="vars" data-ensure="ANSWER_REAL &gt;= -10 &amp;&amp; ANSWER_IMAG &gt;= -10 &amp;&amp; ANSWER_REAL &lt;= 10 &amp;&amp; ANSWER_IMAG &lt;= 10">
 				<var id="DENOMINATOR">24</var>
-				<var id="USE_EULER_FORM">randFromArray([true, false])</var>
-				<var id="A_RADIUS">randRange(1, 7)</var>
-				<var id="A_ANGLE_NUMERATOR">randRange(0, DENOMINATOR - 1)</var>
+				<var id="USE_EULER_FORM">randFromArray( [ true, false ] )</var>
+				<var id="A_RADIUS">randRange( 1, 7 )</var>
+				<var id="A_ANGLE_NUMERATOR">randRange( 0, DENOMINATOR - 1 )</var>
 				<var id="A_ANGLE">A_ANGLE_NUMERATOR * PI * 2 / DENOMINATOR</var>
-				<var id="A_ANGLE_REP">piFraction(A_ANGLE)</var>
-				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE, USE_EULER_FORM)</var>
-				<var id="A_REAL">cos(A_ANGLE) * A_RADIUS</var>
-				<var id="A_IMAG">sin(A_ANGLE) * A_RADIUS</var>
+				<var id="A_ANGLE_REP">piFraction( A_ANGLE, true )</var>
+				<var id="A_REP">polarForm( A_RADIUS, A_ANGLE, USE_EULER_FORM )</var>
+				<var id="A_REAL">cos( A_ANGLE ) * A_RADIUS</var>
+				<var id="A_IMAG">sin( A_ANGLE ) * A_RADIUS</var>
 
-				<var id="B_RADIUS">randRange(1, 7)</var>
-				<var id="B_ANGLE_NUMERATOR">randRange(0, DENOMINATOR - 1)</var>
+				<var id="B_RADIUS">randRange( 1, 7 )</var>
+				<var id="B_ANGLE_NUMERATOR">randRange( 0, DENOMINATOR - 1 )</var>
 				<var id="B_ANGLE">B_ANGLE_NUMERATOR * PI * 2 / DENOMINATOR</var>
-				<var id="B_ANGLE_REP">piFraction(B_ANGLE)</var>
-				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE, USE_EULER_FORM)</var>
-				<var id="B_REAL">cos(B_ANGLE) * B_RADIUS</var>
-				<var id="B_IMAG">sin(B_ANGLE) * B_RADIUS</var>
+				<var id="B_ANGLE_REP">piFraction( B_ANGLE, true )</var>
+				<var id="B_REP">polarForm( B_RADIUS, B_ANGLE, USE_EULER_FORM )</var>
+				<var id="B_REAL">cos( B_ANGLE ) * B_RADIUS</var>
+				<var id="B_IMAG">sin( B_ANGLE ) * B_RADIUS</var>
 
-				<var id="ANSWER_RADIUS">(A_RADIUS * B_RADIUS)</var>
-				<var id="ANSWER_ANGLE_NUMERATOR">(A_ANGLE_NUMERATOR + B_ANGLE_NUMERATOR) % DENOMINATOR</var>
+				<var id="ANSWER_RADIUS">A_RADIUS * B_RADIUS</var>
+				<var id="ANSWER_ANGLE_NUMERATOR">( A_ANGLE_NUMERATOR + B_ANGLE_NUMERATOR ) % DENOMINATOR</var>
 				<var id="ANSWER_ANGLE">ANSWER_ANGLE_NUMERATOR * PI * 2 / DENOMINATOR</var>
-				<var id="ANSWER_ANGLE_REP">piFraction(ANSWER_ANGLE)</var>
-				<var id="ANSWER_REAL">cos(ANSWER_ANGLE) * ANSWER_RADIUS</var>
-				<var id="ANSWER_IMAG">sin(ANSWER_ANGLE) * ANSWER_RADIUS</var>
+				<var id="ANSWER_ANGLE_REP">piFraction( ANSWER_ANGLE, true )</var>
+				<var id="ANSWER_REAL">cos( ANSWER_ANGLE ) * ANSWER_RADIUS</var>
+				<var id="ANSWER_IMAG">sin( ANSWER_ANGLE ) * ANSWER_RADIUS</var>
 
 				<!-- the R(cos A + i sin A) form contains parentheses, so it's better wrapped in brackets
 				     rather than another pair of parentheses... -->
@@ -41,7 +41,7 @@
 				<var id="LEFT_BRACKET">BRACKETS[0]</var>
 				<var id="RIGHT_BRACKET">BRACKETS[1]</var>
 
-				<var id="INTERMEDIATE_ANGLE_REP">piFraction((A_ANGLE_NUMERATOR + B_ANGLE_NUMERATOR) * PI * 2 / DENOMINATOR)</var>
+				<var id="INTERMEDIATE_ANGLE_REP">piFraction( ( A_ANGLE_NUMERATOR + B_ANGLE_NUMERATOR ) * PI * 2 / DENOMINATOR, true )</var>
 			</div>
 			<p class="question">
 				Multiply the following complex numbers, marked as <strong class="hint_blue">blue</strong> dots on the graph:
@@ -56,13 +56,13 @@
 			<!-- TODO: use the dots in hints? -->
 			<div class="graphie">
 				graphInit({
-					range: [[-10, 10], [-10, 10]],
+					range: [ [ -10, 10 ], [ -10 ,10 ] ],
 					scale: 20,
 					tickStep: 1,
 					axisArrows: "<->"
 				});
 
-				drawComplexChart(10, DENOMINATOR);	
+				drawComplexChart( 10, DENOMINATOR );
 
 				circle( [A_REAL, A_IMAG], 1 / 4, {
 					fill: KhanUtil.BLUE,
@@ -121,30 +121,30 @@
 		<div id="divide-cplx">
 			<div class="vars" data-ensure="A_REAL &gt;= -10 &amp;&amp; A_IMAG &gt;= -10 &amp;&amp; A_REAL &lt;= 10 &amp;&amp; A_IMAG &lt;= 10">
 				<var id="DENOMINATOR">24</var>
-				<var id="USE_EULER_FORM">randFromArray([true, false])</var>
+				<var id="USE_EULER_FORM">randFromArray( [ true, false ] )</var>
 
-				<var id="ANSWER_RADIUS">randRange(1, 10)</var>
-				<var id="ANSWER_ANGLE_NUMERATOR">randRange(0, DENOMINATOR - 1)</var>
+				<var id="ANSWER_RADIUS">randRange( 1, 10 )</var>
+				<var id="ANSWER_ANGLE_NUMERATOR">randRange( 0, DENOMINATOR - 1 )</var>
 				<var id="ANSWER_ANGLE">ANSWER_ANGLE_NUMERATOR * PI * 2 / DENOMINATOR</var>
-				<var id="ANSWER_ANGLE_REP">piFraction(ANSWER_ANGLE)</var>
+				<var id="ANSWER_ANGLE_REP">piFraction( ANSWER_ANGLE, true )</var>
 
-				<var id="B_RADIUS">randRange(1, 7)</var>
-				<var id="B_ANGLE_NUMERATOR">randRange(0, DENOMINATOR - 1)</var>
+				<var id="B_RADIUS">randRange( 1, 7 )</var>
+				<var id="B_ANGLE_NUMERATOR">randRange( 0, DENOMINATOR - 1 )</var>
 				<var id="B_ANGLE">B_ANGLE_NUMERATOR * PI * 2 / DENOMINATOR</var>
-				<var id="B_ANGLE_REP">piFraction(B_ANGLE)</var>
-				<var id="B_REP">polarForm(B_RADIUS, B_ANGLE, USE_EULER_FORM)</var>
-				<var id="B_REAL">cos(B_ANGLE) * B_RADIUS</var>
-				<var id="B_IMAG">sin(B_ANGLE) * B_RADIUS</var>
+				<var id="B_ANGLE_REP">piFraction( B_ANGLE )</var>
+				<var id="B_REP">polarForm( B_RADIUS, B_ANGLE, USE_EULER_FORM )</var>
+				<var id="B_REAL">cos( B_ANGLE ) * B_RADIUS</var>
+				<var id="B_IMAG">sin( B_ANGLE ) * B_RADIUS</var>
 
 				<var id="A_RADIUS">ANSWER_RADIUS * B_RADIUS</var>
-				<var id="A_ANGLE_NUMERATOR">(ANSWER_ANGLE_NUMERATOR + B_ANGLE_NUMERATOR) % DENOMINATOR</var>
+				<var id="A_ANGLE_NUMERATOR">( ANSWER_ANGLE_NUMERATOR + B_ANGLE_NUMERATOR ) % DENOMINATOR</var>
 				<var id="A_ANGLE">A_ANGLE_NUMERATOR * PI * 2 / DENOMINATOR</var>
-				<var id="A_ANGLE_REP">piFraction(A_ANGLE)</var>
-				<var id="A_REP">polarForm(A_RADIUS, A_ANGLE, USE_EULER_FORM)</var>
-				<var id="A_REAL">cos(A_ANGLE) * A_RADIUS</var>
-				<var id="A_IMAG">sin(A_ANGLE) * A_RADIUS</var>
+				<var id="A_ANGLE_REP">piFraction( A_ANGLE, true )</var>
+				<var id="A_REP">polarForm( A_RADIUS, A_ANGLE, USE_EULER_FORM )</var>
+				<var id="A_REAL">cos( A_ANGLE ) * A_RADIUS</var>
+				<var id="A_IMAG">sin( A_ANGLE ) * A_RADIUS</var>
 
-				<var id="INTERMEDIATE_ANGLE_REP">piFraction((A_ANGLE_NUMERATOR - B_ANGLE_NUMERATOR) * PI * 2 / DENOMINATOR)</var>
+				<var id="INTERMEDIATE_ANGLE_REP">piFraction( ( A_ANGLE_NUMERATOR - B_ANGLE_NUMERATOR ) * PI * 2 / DENOMINATOR, true )</var>
 			</div>
 			<p class="question">
 				Divide the following complex numbers:
@@ -160,13 +160,13 @@
 			<!-- TODO: differentiate the dots! -->
 			<div class="graphie">
 				graphInit({
-					range: [[-10, 10], [-10, 10]],
+					range: [ [ -10, 10 ], [ -10, 10 ] ],
 					scale: 20,
 					tickStep: 1,
 					axisArrows: "<->"
 				});
 
-				drawComplexChart(10, DENOMINATOR);	
+				drawComplexChart( 10, DENOMINATOR );
 
 				circle( [A_REAL, A_IMAG], 1 / 4, {
 					fill: KhanUtil.BLUE,

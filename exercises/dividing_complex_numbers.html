@@ -16,7 +16,7 @@
 		<var id="REAL_NUMERATOR">( A_REAL * B_REAL ) + ( A_IMAG * B_IMAG )</var>
 		<var id="IMAG_NUMERATOR">( A_IMAG * B_REAL ) - ( A_REAL * B_IMAG )</var>
 		<var id="REAL_FRACTION">fraction( REAL_NUMERATOR, DENOMINATOR, true, true )</var>
-		<var id="IMAG_FRACTION">fraction( IMAG_NUMERATOR, DENOMINATOR, true, true, false, true )</var>
+		<var id="IMAG_FRACTION">fraction( IMAG_NUMERATOR, DENOMINATOR, true, true )</var>
 		<var id="ANSWER">complexFraction( REAL_NUMERATOR, DENOMINATOR, IMAG_NUMERATOR, DENOMINATOR )</var>
 		<var id="ANSWER_REAL_UNROUNDED">REAL_NUMERATOR / DENOMINATOR</var>
 		<var id="ANSWER_IMAG_UNROUNDED">IMAG_NUMERATOR / DENOMINATOR</var>
@@ -87,7 +87,7 @@
 					<code>
 						\qquad \dfrac{(<var>A_REP_COLORED</var>) \cdot (<var>CONJUGATE_COLORED</var>)}
 						{<var>DENOMINATOR</var>} = 
-						\dfrac{(<var>A_REAL_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens(B_REAL)</var>}) + (<var>A_IMAG_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens(B_REAL)</var>i}) + (<var>A_REAL_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens(B_IMAG_COLORED)</var>i}) + (<var>A_IMAG_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens(B_IMAG_COLORED)</var> i^2})}
+						\dfrac{(<var>A_REAL_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens( B_REAL )</var>}) + (<var>A_IMAG_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens( B_REAL )</var>i}) + (<var>A_REAL_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens(B_IMAG_COLORED)</var>i}) + (<var>A_IMAG_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens(B_IMAG_COLORED)</var> i^2})}
 						{<var>DENOMINATOR</var>}
 					</code>
 					<p>
@@ -115,7 +115,7 @@
 						The real part of the result is <code><var>REAL_FRACTION</var></code>, which is (rounded to 2 decimal places) <code><var>ANSWER_REAL</var></code>.
 					</p>
 					<p>
-						The imaginary part of the result is <code><var>fraction(IMAG_NUMERATOR, DENOMINATOR, true, true)</var></code>, which is (rounded to 2 decimal places) <code><var>ANSWER_IMAG</var></code>.
+						The imaginary part of the result is <code><var>IMAG_FRACTION</var></code>, which is (rounded to 2 decimal places) <code><var>ANSWER_IMAG</var></code>.
 					</p>
 				</div>
 			</div>

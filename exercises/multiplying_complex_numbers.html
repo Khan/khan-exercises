@@ -8,10 +8,10 @@
 <body>
 	<div class="exercise">
 	<div class="vars">
-		<var id="A_REAL">randRange(-5, 5)</var>
-		<var id="A_IMAG">randRange(-5, 5)</var>
-		<var id="B_REAL">randRange(-5, 5)</var>
-		<var id="B_IMAG">randRange(-5, 5)</var>
+		<var id="A_REAL">randRange( -5, 5 )</var>
+		<var id="A_IMAG">randRange( -5, 5 )</var>
+		<var id="B_REAL">randRange( -5, 5 )</var>
+		<var id="B_IMAG">randRange( -5, 5 )</var>
 		<var id="A_REAL_COLORED">
 			"\\color{" + ORANGE + "}{" + A_REAL + "}"
 		</var>
@@ -26,8 +26,8 @@
 		</var>
 		<var id="A_REP">"\\color{" + ORANGE + "}{" + complexNumber( A_REAL, A_IMAG ) + "}"</var>
 		<var id="B_REP">"\\color{" + BLUE + "}{" + complexNumber( B_REAL, B_IMAG ) + "}"</var>
-		<var id="ANSWER_REAL">(A_REAL * B_REAL) - (A_IMAG * B_IMAG)</var>
-		<var id="ANSWER_IMAG">(A_REAL * B_IMAG) + (A_IMAG * B_REAL)</var>
+		<var id="ANSWER_REAL">( A_REAL * B_REAL ) - ( A_IMAG * B_IMAG )</var>
+		<var id="ANSWER_IMAG">( A_REAL * B_IMAG ) + ( A_IMAG * B_REAL )</var>
 	</div>
 
 	<div class="problems">
@@ -65,19 +65,19 @@
 					</p>
 					<code>
 						\qquad
-						<var>A_REAL * B_REAL</var> + (<var>A_REAL * B_IMAG</var> + <var>A_IMAG * B_REAL</var>)i + <var>negParens((A_IMAG * B_IMAG) + "i^2")</var>
+						<var>A_REAL * B_REAL</var> + (<var>A_REAL * B_IMAG</var> + <var>A_IMAG * B_REAL</var>)i + <var>negParens( ( A_IMAG * B_IMAG ) + "i^2" )</var>
 					</code>
 				</div>
 				<p>
 					After we plug in <code>i^2 = -1</code>, the result becomes
 					<code>
-						<var>A_REAL * B_REAL</var> + (<var>A_REAL * B_IMAG</var> + <var>A_IMAG * B_REAL</var>)i - <var>negParens(A_IMAG * B_IMAG)</var>
+						<var>A_REAL * B_REAL</var> + (<var>A_REAL * B_IMAG</var> + <var>A_IMAG * B_REAL</var>)i - <var>negParens( A_IMAG * B_IMAG )</var>
 					</code>
 				</p>
 				<p>
 					The result is simplified:
 					<code>
-						(<var>A_REAL * B_REAL</var> - <var>A_IMAG * B_IMAG</var>) + (<var>ANSWER_IMAG</var>i) = <var>ANSWER_REAL</var> + <var>ANSWER_IMAG</var>i
+						(<var>A_REAL * B_REAL</var> - <var>A_IMAG * B_IMAG</var>) + (<var>ANSWER_IMAG</var>i) = <var>complexNumber( ANSWER_REAL, ANSWER_IMAG)</var>
 					</code>
 				</p>
 				<p>

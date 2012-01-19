@@ -937,7 +937,7 @@ function ComplexPolarForm( angleDenominator, maxRadius, euler ) {
 
 	this.plot = function () {
 		var graph = KhanUtil.currentGraph;
-		raphaelObjects.push( graph.circle( [this.getRealPart(), this.getImaginaryPart()], 1/4, {
+		raphaelObjects.push( graph.circle( [ this.getRealPart(), this.getImaginaryPart() ], 1/4, {
 			fill: KhanUtil.ORANGE,
 			stroke: "none"
 		}));
@@ -968,9 +968,7 @@ function redrawComplexPolarForm() {
 
 	var equation = KhanUtil.polarForm( radius, angle, point.getUseEulerForm() );
 
-	jQuery( "#angle input" ).val( point.getAngleNumerator() );
-	jQuery( "#radius input" ).val( radius );
 	jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
 	jQuery( "#current-radius" ).html( "<code>" + radius + "</code>" ).tmpl();
-	jQuery( "#current-angle" ).html( "<code>" + KhanUtil.piFraction(angle, true) + "</code>" ).tmpl();
+	jQuery( "#current-angle" ).html( "<code>" + KhanUtil.piFraction( angle, true ) + "</code>" ).tmpl();
 }
