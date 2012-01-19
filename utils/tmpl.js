@@ -212,16 +212,16 @@ jQuery.tmpl = {
 		try {
 			if ( testMode && scriptLang === "cs" ) {
 				// Compile the CoffeeScript.
-				var prefix, start,
-				    end    = -4,
-				    suffix = "})()";
+				var end, prefix, start, suffix;
 
-				if ( code.indexOf( "(function() {" ) === 0 ) {
-					// The CoffeeScript has been wrapped in an immediate function by traverse.
-					// Unwrap it.
-					start  = code.indexOf( "\treturn " ) + 8;
+				if ( code.indexOf( "/* Code */" ) !== -1 ) {
+					end   = code.indexOf( "/* /Code */" );
+					start = code.indexOf( "/* Code */" ) + 10;
+
 					prefix = code.slice( 0, start );
-					code   = code.slice( start, end );
+					suffix = code.slice( end );
+
+					code = code.slice( start, end );
 				}
 
 				code = CoffeeScript.compile( code, { bare: true } );
@@ -376,7 +376,7 @@ jQuery.fn.tmpl = function() {
 					var conditional = conditionals[i];
 					jQuery( clone ).find( "[" + conditional + "]" ).each(function() {
 						var code = jQuery( this ).attr( conditional );
-						code = "(function() {  " + declarations + " return " + code + " })()";
+						code = "(function() {  " + declarations + " return /* Code */" + code + "/* /Code */ })()";
 						jQuery( this ).attr( conditional, code );
 					});
 				}
