@@ -295,7 +295,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"krijtje",
 		"gum",
 		"map",
-		"glue stick",
+		"lijmstift",
 		"stift",
 		"notebook",
 		"pen",
@@ -303,17 +303,17 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var colors = KhanUtil.shuffle([
-		"rood",
+		"rode",
 		"oranje",
-		"geel",
-		"groen",
-		"blauw",
-		"paars",
-		"wit",
-		"zwart",
-		"bruin",
-		"zilver",
-		"goud",
+		"gele",
+		"groene",
+		"blauwe",
+		"paarse",
+		"witte",
+		"zwarte",
+		"bruine",
+		"zilveren",
+		"gouden",
 		"roze"
 	]);
 
@@ -328,21 +328,19 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var clothes = KhanUtil.shuffle([
-		"hat",
-		"pair of pants",
-		"belt",
-		"necklace",
-		"purse",
-		"pair of shoes",
-		"blouse",
-		"skirt",
-		"watch",
-		"pair of socks",
-		"sweatshirt",
+		"hoed",
+		"broek",
+		"riem",
+		"ketting",
+		"portemonnee",
+		"blousje",
+		"rokje",
+		"horloge",
+		"shirt",
 		"sweater",
-		"tie",
-		"scarf",
-		"dress"
+		"das",
+		"overhemd",
+		"jurkje"
 	]);
 
 	var sides = KhanUtil.shuffle([
