@@ -73,24 +73,37 @@
         <var id="DENOM">randFromArray([8, 12, 18, 20, 24, 27, 28, 32, 40, 44, 45, 48, 50, 54, 56, 60, 63, 72, 75, 80, 88, 90, 98, 99, 120, 125, 128, 140, 150, 160, 175, 180, 200, 216])</var>
         <var id="NUM_SPLIT">splitRadical(NUM)</var>
         <var id="DENOM_SPLIT">splitRadical(DENOM)</var>
+        <var id="COEFFICIENT_GCD">getGCD(NUM_SPLIT[0], DENOM_SPLIT[0])</var>
         <var id="NUM_COEFFICIENT">NUM_SPLIT[0] === 1 ? "" : NUM_SPLIT[0]</var>
         <var id="DENOM_COEFFICIENT">DENOM_SPLIT[0] === 1 ? "" : DENOM_SPLIT[0]</var>
+        <var id="SIMPLIFIED_NUM_COEFFICIENT">(NUM_SPLIT[0] / COEFFICIENT_GCD) === 1 ? "" : (NUM_SPLIT[0] / COEFFICIENT_GCD)</var>
+        <var id="SIMPLIFIED_DENOM_COEFFICIENT">(DENOM_SPLIT[0] / COEFFICIENT_GCD) === 1 ? "" : (DENOM_SPLIT[0] / COEFFICIENT_GCD)</var>
         <var id="DENOM_RADICAL">DENOM_SPLIT[1] === 1 ? "" : DENOM_SPLIT[1]</var>
-        <var id="GCD">getGCD(NUM, DENOM)</var>
       </div>
 
       <div class="question">
         <p>Simplify <code>\sqrt{\dfrac{<var>NUM</var>}{<var>DENOM</var>}}</code>.</p>
       </div>
 
-      <div class="solution" data-type="radical"><var>NUM</var>/<var>DENOM</var></div>
+      <div class="solution" data-type="radical"><var>NUM / pow(COEFFICIENT_GCD, 2)</var> / <var>DENOM / pow(COEFFICIENT_GCD, 2)</var></div>
 
       <div class="hints">
         <p>The numerator <code><var>NUM</var></code> is a perfect square, so <code>\sqrt{<var>NUM</var>} = <var>NUM_COEFFICIENT</var></code>.</p>
-        <p>The largest perfect square that divides <code><var>DENOM</var></code> is <code><var>DENOM_COEFFICIENT * DENOM_COEFFICIENT</var></code>.</p>
+        <p>The largest perfect square that divides <code><var>DENOM</var></code> is <code><var>pow(DENOM_COEFFICIENT, 2)</var></code>.</p>
         <p>Factoring it out, we have <code><var>DENOM</var> = <var>DENOM_COEFFICIENT</var>^2\cdot <var>DENOM_RADICAL</var></code>.</p>
         <p>Thus,
-          <code>\sqrt{\dfrac{<var>NUM</var>}{<var>DENOM</var>}} = \dfrac{<var>NUM_COEFFICIENT</var>}{<var>DENOM_COEFFICIENT</var>}\sqrt{1/<var>DENOM_RADICAL</var>}</code>.
+          <code>\sqrt{\dfrac{<var>NUM</var>}{<var>DENOM</var>}} =
+            \dfrac{<var>NUM_COEFFICIENT</var>}{<var>DENOM_COEFFICIENT</var>}\sqrt{\dfrac{1}{<var>DENOM_RADICAL</var>}}
+            <span data-if="COEFFICIENT_GCD > 1"> =
+              <span data-if="SIMPLIFIED_DENOM_COEFFICIENT > 1">
+                \dfrac{<var>SIMPLIFIED_NUM_COEFFICIENT</var>}{<var>SIMPLIFIED_DENOM_COEFFICIENT</var>}
+              </span>
+              <span data-else>
+                <var>SIMPLIFIED_NUM_COEFFICIENT</var>
+              </span>
+              \sqrt{\dfrac{1}{<var>DENOM_RADICAL</var>}}
+            </span>
+          </code>.
         </p>
       </div>
     </div>
