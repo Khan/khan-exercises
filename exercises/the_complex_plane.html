@@ -10,9 +10,9 @@
 	<div class="vars">
 		<var id="LOWER_BOUND">-5</var>
 		<var id="UPPER_BOUND">5</var>
-		<var id="REAL">randRange(LOWER_BOUND, UPPER_BOUND)</var>
-		<var id="IMAG" data-ensure="IMAG != 0">randRange(LOWER_BOUND, UPPER_BOUND)</var>
-		<var id="REP">expr([ "+", REAL, [ "*", IMAG, "i"] ])</var>
+		<var id="REAL">randRange( LOWER_BOUND, UPPER_BOUND )</var>
+		<var id="IMAG" data-ensure="IMAG != 0">randRange( LOWER_BOUND, UPPER_BOUND )</var>
+		<var id="REP">complexNumber( REAL, IMAG )</var>
 	</div>
 
 	<div class="problems">
@@ -32,7 +32,7 @@
 				addMouseLayer();
 				this.movablePoint = addMovablePoint({ constraints: {}, snapX: 0.5, snapY: 0.5 });
 				movablePoint.onMove = function(x, y) {
-					if (x &lt; LOWER_BOUND || x &gt; UPPER_BOUND || y &lt; LOWER_BOUND || y &gt; UPPER_BOUND) {
+					if ( x &lt; LOWER_BOUND || x > UPPER_BOUND || y &lt; LOWER_BOUND || y > UPPER_BOUND ) {
 						return false;
 					}
 					jQuery( "#real-part input" ).val( x );

@@ -957,40 +957,6 @@ function updateComplexPolarForm( deltaAngle, deltaRadius ) {
 	redrawComplexPolarForm();
 }
 
-function polarForm( radius, angle, useEulerForm ) {
-	var fraction = KhanUtil.toFraction( angle / Math.PI, 0.001 );
-	var numerator = fraction[0], denominator = fraction[1];
-
-	var equation;
-	if ( useEulerForm ) {
-		if ( numerator > 0 ) {
-			var eExp = (( numerator > 1) ? ( numerator ) : ("")) + "\\pi i";
-			if (denominator !== 1) {
-				eExp += " / " + denominator;
-			}
-			var ePower = KhanUtil.expr( [ "^", "e", eExp ] );
-			equation = (( radius > 1 ) ? radius : "") + " " + ePower;
-		} else {
-			equation = radius;
-		}
-	} else {
-		if (angle === 0) {
-			equation = radius;
-		} else {
-			var angleRep = KhanUtil.piFraction(angle, true);
-			var cis = "\\cos(" + angleRep + ") + i \\sin(" + angleRep + ")";
-
-			// Special case to circumvent ugly "*1* (sin(...) + i cos(...))"
-			if (radius !== 1) {
-				equation = KhanUtil.expr( [ "*", radius, cis ] );
-			} else {
-				equation = cis;
-			}
-		}
-	}
-	return equation;
-}
-
 function redrawComplexPolarForm() {
 	var graph = KhanUtil.currentGraph;
 	var storage = graph.graph;
@@ -1000,7 +966,7 @@ function redrawComplexPolarForm() {
 	var radius = point.getRadius();
 	var angle = point.getAngle();
 
-	var equation = polarForm( radius, angle, point.getUseEulerForm() );
+	var equation = KhanUtil.polarForm( radius, angle, point.getUseEulerForm() );
 
 	jQuery( "#angle input" ).val( point.getAngleNumerator() );
 	jQuery( "#radius input" ).val( radius );

@@ -24,8 +24,8 @@
 		<var id="B_IMAG_COLORED">
 			"\\color{" + BLUE + "}{" + B_IMAG + "}"
 		</var>
-		<var id="A_REP">"\\color{" + ORANGE + "}{" + expr([ "+", A_REAL, [ "*", A_IMAG, "i" ] ]) + "}"</var>
-		<var id="B_REP">"\\color{" + BLUE + "}{" + expr([ "+", B_REAL, [ "*", B_IMAG, "i" ] ]) + "}"</var>
+		<var id="A_REP">"\\color{" + ORANGE + "}{" + complexNumber( A_REAL, A_IMAG ) + "}"</var>
+		<var id="B_REP">"\\color{" + BLUE + "}{" + complexNumber( B_REAL, B_IMAG ) + "}"</var>
 		<var id="ANSWER_REAL">(A_REAL * B_REAL) - (A_IMAG * B_IMAG)</var>
 		<var id="ANSWER_IMAG">(A_REAL * B_IMAG) + (A_IMAG * B_REAL)</var>
 	</div>
