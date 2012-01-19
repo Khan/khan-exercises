@@ -193,6 +193,11 @@ jQuery.tmpl = {
 
 	// Eval a string in the context of Math, KhanUtil, VARS, and optionally another passed context
 	getVAR: function( elem, ctx ) {
+		var scriptLang, testMode;
+
+		scriptLang = jQuery( "html" ).attr( "data-script-lang" ) || "js";
+		testMode   = typeof CoffeeScript === "object";
+
 		// We need to compute the value
 		var code = elem.nodeName ? jQuery(elem).text() : elem;
 
@@ -205,6 +210,28 @@ jQuery.tmpl = {
 		}
 
 		try {
+			if ( testMode && scriptLang === "cs" ) {
+				// Compile the CoffeeScript.
+				var addFn = false;
+
+				if ( code.indexOf ( "(function() {" ) === 0 ) {
+					// The CoffeeScript has been wrapped in an immediate function by line 376.
+					// Unwrap it.
+					addFn = true;
+					code  = code.slice( 13, -4 );
+				}
+
+				code = CoffeeScript.compile( code, { bare: true } );
+				// Remove the leading and trailing whitespace and trailing semicolon added by
+				// the CoffeeScript compiler.
+				code = jQuery.trim( code );
+				code = code.slice(0, -1);
+
+				if ( addFn ) {
+					code = "(function() { " + code + " })()";
+				}
+			}
+
 			// Use the methods from JavaScript's built-in Math methods
 			with ( Math ) {
 				// And the methods provided by the library
