@@ -8,33 +8,38 @@
 <body>
 	<div class="exercise">
 	<div class="vars" data-ensure="B_REAL !== 0 || B_IMAG !== 0"> <!-- safeguard against division by zero -->
-		<var id="A_REAL">randRange(-5, 5)</var>
-		<var id="A_IMAG">randRange(-5, 5)</var>
-		<var id="B_REAL">randRange(-5, 5)</var>
-		<var id="B_IMAG">randRange(-5, 5)</var>
+		<var id="A_REAL">randRange( -5, 5 )</var>
+		<var id="A_IMAG">randRange( -5, 5 )</var>
+		<var id="B_REAL">randRange( -5, 5 )</var>
+		<var id="B_IMAG">randRange( -5, 5 )</var>
 		<var id="DENOMINATOR">B_REAL * B_REAL + B_IMAG * B_IMAG</var>
 		<var id="REAL_NUMERATOR">( A_REAL * B_REAL ) + ( A_IMAG * B_IMAG )</var>
 		<var id="IMAG_NUMERATOR">( A_IMAG * B_REAL ) - ( A_REAL * B_IMAG )</var>
+		<var id="REAL_FRACTION">fraction( REAL_NUMERATOR, DENOMINATOR, true, true )</var>
+		<var id="IMAG_FRACTION">fraction( IMAG_NUMERATOR, DENOMINATOR, true, true, false, true )</var>
+		<var id="ANSWER">complexFraction( REAL_NUMERATOR, DENOMINATOR, IMAG_NUMERATOR, DENOMINATOR )</var>
 		<var id="ANSWER_REAL_UNROUNDED">REAL_NUMERATOR / DENOMINATOR</var>
 		<var id="ANSWER_IMAG_UNROUNDED">IMAG_NUMERATOR / DENOMINATOR</var>
-		<var id="ANSWER_REAL">roundTo(2, ANSWER_REAL_UNROUNDED)</var>
-		<var id="ANSWER_IMAG">roundTo(2, ANSWER_IMAG_UNROUNDED)</var>
-		<var id="A_REP">expr([ "+", A_REAL, [ "*", A_IMAG, "i" ] ])</var>
-		<var id="B_REP">expr([ "+", B_REAL, [ "*", B_IMAG, "i" ] ])</var>
+		<var id="ANSWER_REAL">roundTo( 2, ANSWER_REAL_UNROUNDED )</var>
+		<var id="ANSWER_IMAG">roundTo( 2, ANSWER_IMAG_UNROUNDED )</var>
+		<var id="A_REP">complexNumber( A_REAL, A_IMAG )</var>
+		<var id="B_REP">complexNumber( B_REAL, B_IMAG )</var>
 		<var id="A_REP_COLORED">"\\color{" + ORANGE + "}{" + A_REP + "}"</var>
 		<var id="B_REP_COLORED">"\\color{" + BLUE + "}{" + B_REP + "}"</var>
 		<var id="A_REAL_COLORED">"\\color{" + ORANGE + "}{" + A_REAL + "}"</var>
 		<var id="A_IMAG_COLORED">"\\color{" + ORANGE + "}{" + A_IMAG + "}"</var>
 		<var id="B_REAL_COLORED">"\\color{" + BLUE + "}{" + B_REAL + "}"</var>
 		<var id="B_IMAG_COLORED">"\\color{" + BLUE + "}{" + B_IMAG + "}"</var>
-		<var id="CONJUGATE">expr([ "+", B_REAL, [ "*", -B_IMAG, "i" ] ])</var>
+		<var id="CONJUGATE">complexNumber( B_REAL, -B_IMAG )</var>
 		<var id="CONJUGATE_COLORED">"\\color{" + BLUE + "}{" + CONJUGATE + "}"</var>
 	</div>
 
 	<div class="problems">
 		<div>
 			<p class="question">Divide the following complex numbers. Round the real and imaginary parts of the result to 2 decimal digits.</p>
-			<p><code>\qquad \dfrac{<var>A_REP_COLORED</var>}{<var>B_REP_COLORED</var>}</code></p>
+			<p>
+				<code>\qquad \dfrac{<var>A_REP_COLORED</var>}{<var>B_REP_COLORED</var>}</code>
+			</p>
 			<div class="solution" data-type="complexNumberSeparate">
 				[ <var>ANSWER_REAL</var>, <var>ANSWER_IMAG</var> ]
 			</div>
@@ -102,13 +107,12 @@
 						{<var>DENOMINATOR</var>} =
 						\dfrac{<var>REAL_NUMERATOR</var> + <var>IMAG_NUMERATOR</var>i</var>}
 						{<var>DENOMINATOR</var>} =
-						<var>fraction(REAL_NUMERATOR, DENOMINATOR, true, true)</var> +
-						<var>fraction(IMAG_NUMERATOR, DENOMINATOR, true, true, false, true)</var>i
+						<var>ANSWER</var>
 					</code>
 				</div>
 				<div>
 					<p>
-						The real part of the result is <code><var>fraction(REAL_NUMERATOR, DENOMINATOR, true, true)</var></code>, which is (rounded to 2 decimal places) <code><var>ANSWER_REAL</var></code>.
+						The real part of the result is <code><var>REAL_FRACTION</var></code>, which is (rounded to 2 decimal places) <code><var>ANSWER_REAL</var></code>.
 					</p>
 					<p>
 						The imaginary part of the result is <code><var>fraction(IMAG_NUMERATOR, DENOMINATOR, true, true)</var></code>, which is (rounded to 2 decimal places) <code><var>ANSWER_IMAG</var></code>.

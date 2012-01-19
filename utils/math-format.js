@@ -475,11 +475,31 @@ jQuery.extend(KhanUtil, {
 		if ( real === 0 && imaginary === 0 ) {
 			return "0";
 		} else if ( real === 0 ) {
-			return KhanUtil.expr([ "*", IMAG, i ]);
-		} else if ( imag === 0 ) {
+			return imaginary + "i";
+		} else if ( imaginary === 0 ) {
 			return real;
 		} else {
-			return KhanUtil.expr([ "+", REAL, [ "*", IMAG, "i" ] ]);
+			return KhanUtil.expr([ "+", real, [ "*", imaginary, "i" ] ]);
 		}
+	},
+
+	complexFraction: function( real, realDenominator, imag, imagDenominator ) {
+		var ret = "";
+		if ( real == 0 && imag == 0 ) {
+			ret = "0";
+		}
+		if ( real != 0 ) {
+			ret += KhanUtil.fraction( real, realDenominator, false, true );
+		} 
+		if ( imag != 0 ) {
+			if ( imag / imagDenominator > 0 ) {
+				ret += " + " + KhanUtil.fraction( imag, imagDenominator, false, true ) + " i";
+			} else {
+				imag = Math.abs( imag );
+				imagDenominator = Math.abs( imagDenominator );
+				ret += " - " + KhanUtil.fraction( imag, imagDenominator, false, true ) + " i";
+			}
+		}
+		return ret;
 	}
 });
