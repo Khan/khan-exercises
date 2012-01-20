@@ -437,7 +437,7 @@ jQuery.extend( KhanUtil, {
 		return result;
 	},
 
-	formatElectronConfiguration: function (el) {
+	formatElectronConfiguration: function ( el ) {
 		var lastNobleGas = ( el.lastNobleGas > 0 ) ? ( new Element( el.lastNobleGas) ) : false;
 		var text = "";
 
@@ -459,7 +459,7 @@ jQuery.extend( KhanUtil, {
 
 	// Parses a simple compound part from a string in a format like
 	// H2O or H3 (P O4)2.
-	parseCompoundPart: function (formula) {
+	parseCompoundPart: function ( formula ) {
 		// Big letter starts the name of an element.
 
 		var element = null;
@@ -533,7 +533,26 @@ jQuery.extend( KhanUtil, {
 		return new SimpleCompoundPart( parts );
 	},
 
-	formatCompoundPart: function ( part ) {
+	romanNumeral: function ( i ) {
+		if ( i < 0 ) {
+			return "-" + KhanUtil.romanNumeral( -i );
+		}
+		var n = [ "0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII" ];
+		return n[i];
+	},
+
+	oxidationNumberIsTrivial: function ( element ) {
+		var trivialElements = [ "H", "O" ];
+		var result = $.inArray( element.symbol, trivialElements );
+		return result != -1;
+	},
+
+	formatCompoundPart: function ( part, oxidationStates ) {
+		if ( typeof oxidationStates === "undefined" ) {
+			oxidationStates = {
+				show: false
+			};
+		}
 		var result = "";
 		var parts;
 		if ( part instanceof SimpleCompoundPart ) {
@@ -552,22 +571,37 @@ jQuery.extend( KhanUtil, {
 			if ( item instanceof Element ) {
 				result += item.symbol;
 			} else if ( item instanceof SimpleCompoundPart ) {
-				result += "(" + KhanUtil.formatCompoundFormula(item) + ")";
+				var osHandling;
+				if ( oxidationStates.recursive ) {
+					osHandling = oxidationStates;
+				}
+				result += "(" + KhanUtil.formatCompoundFormula( item, osHandling ) + ")";
 			}
 
 			if ( count > 1 ) {
 				result += "_{" + count + "}";
+			}
+
+			if ( oxidationStates.show && item instanceof Element ) {
+				var show = true;
+				show &= !(KhanUtil.oxidationNumberIsTrivial( item ) && !oxidationStates.showTrivial);
+				show &= !el.omitOxidationState;
+				show |= oxidationStates.showAll;
+
+				if (show) {
+					result += "^{" + KhanUtil.romanNumeral( el.oxidationState ) + "}";
+				}
 			}
 		});
 		return result;
 	},
 
 	// Returns the formatted formula of a compound.
-	formatCompoundFormula: function ( compound ) {
-		return KhanUtil.formatCompoundPart( compound.content );
+	formatCompoundFormula: function ( compound, showOxidationStates, omitTrivialOxidationStates ) {
+		return KhanUtil.formatCompoundPart( compound.content, showOxidationStates, omitTrivialOxidationStates );
 	},
 
-	randomSimpleOxide: function () {
+	randSimpleOxide: function () {
 		var element;
 		do {
 			element = KhanUtil.randCommonElement();
@@ -610,6 +644,41 @@ jQuery.extend( KhanUtil, {
 			content: content
 		} );
 
+		return compound;
+	},
+
+	// Returns a random compound with no braces (like KNO3, H2O, ...)
+	randSimpleCompound: function () {
+		// TODO: Oxides are not the only "simple compounds": include also
+		// stuff like NH3, CH4, simple salts, acids and bases, ...
+		return KhanUtil.randSimpleOxide();
+	},
+
+	// Flags a nontrivial first-level component part of a component for oxidation state omitting
+	omitOxidationNumber: function ( compound ) {
+		var indices = [];
+		var trivialElements = [ "H", "O" ];
+		var content = compound.content.content;
+
+		$.each( content, function ( i, el ) {
+			var use = true;
+			if ( el.thing instanceof Element && KhanUtil.oxidationNumberIsTrivial( el.thing ) ) {
+				use = false;
+			}
+			if ( use ) {
+				indices.push( i );
+			}
+		} );
+
+		if ( indices.length === 0 ) {
+			// Found no easily omittable elements, omit anything
+			$.each( content, function ( i ) {
+				indices.push( i );
+			} );
+		}
+
+		compound.content.content[ KhanUtil.randFromArray( indices ) ].omitOxidationState = true;
+		
 		return compound;
 	}
 });
