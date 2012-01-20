@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html data-require="NL jquery-ui">
+<head>
+	<meta charset="UTF-8" />
+	<title>Geschiedenis Sort</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+
+		<div>
+			<div class="vars">
+				<var id="table">[
+					"Ijstijd",
+					"Bronstijd",
+					"Ijzertijd",
+					"Klassieke Oudheid",
+					"Middeleeuwen",
+					"Renaissance",
+					"Gouden Eeuw",
+					"Nieuwe Tijd",
+					"Eigentijdse Tijd"
+				]</var>
+				<var id="chosen">
+					shuffle(table).slice(0,5)
+				</var>
+			</div>
+			<div class="question" style="float:left;">
+				<style>
+					#sortable { list-style-type: none; margin: 0; padding: 0; }
+					#sortable li { margin: 3px 3px 3px 0; padding: 5px; float: left; min-width: 70px; text-align: center; border:1px solid black }
+				</style>
+				<ul id="sortable">
+					<li><var>chosen[0]</var></li>
+					<li><var>chosen[1]</var></li>
+					<li><var>chosen[2]</var></li>
+					<li><var>chosen[3]</var></li>
+					<li><var>chosen[4]</var></li>
+				</ul>
+				<script>
+					$("#sortable").sortable();
+					$("#sortable").disableSelection();
+				</script>
+			</div>
+			<div class="solution" data-type="custom">
+				<div class="instruction">
+					Zet de gebeurtenissen in de juiste volgorde
+				</div>
+				<div class="validator-function">
+					var last = 0;
+					var result = true;
+					$('#sortable').children('li').each(function(){
+						for(var i = 0; i &lt; table.length; i++){
+							if(table[i] == $(this).text()){
+								if(last &gt; i){
+									result = false;
+								}
+								else{
+									last = i;
+								}
+							}
+						}
+					});
+					return result;
+				</div>
+				<div class="guess">0</div>
+				<div class="show-guess">0</div>
+			</div>
+			<div class="hints">
+			</div>
+		</div>
+
+	</div>
+	</div>
+</body>
+</html>
