@@ -111,11 +111,11 @@ jQuery.extend( KhanUtil, {
 			],
 				// Type 2 Werkwoorden waarbij eerst -EN, dan extra klinker
 			[
-				["bevelen","bevel"],
+				["bevelen","beveel"],
 				["braden","braad"],
 				["breken","breek"],
 				["dragen","draag"],
-				["ervaren","erva"],
+				["ervaren","ervaar"],
 				["eten","eet"],
 				["heten","heet"],
 				["jagen","jaag"],
@@ -155,7 +155,6 @@ jQuery.extend( KhanUtil, {
 				["glimmen","glim"],
 				["heffen","hef"],
 				["klimmen","klim"],
-				["kunnen","kun"],
 				["leggen","leg"],
 				["liggen","lig"],
 				["scheppen","schep"],
