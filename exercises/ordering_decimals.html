@@ -6,73 +6,144 @@
 	<script src="../khan-exercise.js"></script>
 	<style type="text/css">
 		.number-list {
-			font-size: 1.7em;
 			text-align: center;
+			margin-bottom:0;
+			margin-top:0;
 		}
 	</style>
 </head>
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<!-- COLORS needed in hints section to explain the sorting -->
-			<var id="COLORS">KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown" ])</var>
+			<!------------------------------------ START OF GLOBAL CONSTANTS -------------------------------------->
+			<var id = "DECIMAL_PLACES">3</var>
+			<var id = "ONES_PLACE">0</var>
+			<var id = "TENTHS_PLACE">1</var>
+			<var id = "HUNDREDTHS_PLACE">2</var>
+			<var id = "THOUSANDTHS_PLACE">3</var>
+			<!------------------------------------ END OF GLOBAL CONSTANTS -------------------------------------->
+
+			<!------------------------------------ START OF CLOSURES -------------------------------------->
+			<!-- Pads numbers with zeroes upto DECIMAL_PLACES
+				PAD([1.2,1.444]) returns ["1.200","1.44"]
+			-->
+			<var id = "PAD">(function() {
+				"use strict";
+
+				return function( decimals ) {
+					return jQuery.map( decimals, function( decimal ) {
+						return decimal.toFixed( DECIMAL_PLACES );
+					});
+				};
+			}())</var>
+
+			<!-- Returns an ordered array ONLY upto the place value
+				ORDERED_UPTO(TENTHS_PLACE, [1.29,1.23,1.15]) returns [1.15,1.29,1.23]
+				ORDERED_UPTO(HUNDREDTHS_PLACE, [1.29,1.23,1.15]) returns [1.15,1.23,1.29]
+			-->
+			<var id = "ORDERED_UPTO">(function() {
+				"use strict";
+
+				return function( placeValue, array ) {
+					return jQuery.extend( true, [], array ).sort(function(a, b){
+						return floorTo( placeValue, a ) - floorTo( placeValue, b );
+					});
+				};
+			}())</var>
+			<!-- Returns an array where those decimals similar just before the place value are highlighted in the same color so that the student knows which decimals to order with each other. Also the digit at the place value is underlined. If there are no similar decimals, they will not be colored.
+				HIGHLIGHT_AT( TENTHS_PLACE,["1.29","1.23","2.15","0.45","0.23"]) returns
+					[ "\\color{color1}{1.}\\underline{2}9",
+					"\\color{color1}{1.}\\underline{2}3",
+					"2.15",
+					"\\color{color2}{0.}\\underline{4}5",
+					\\color{color2}{0.}\\underline{2}3]"
+			-->
+			<var id = "HIGHLIGHT_AT">(function() {
+				"use strict";
+
+				return function( placeValue, decimals ) {
+					var formattedDecimals = [],
+						prevDecimal = decimals[ 0 ],
+						COLORS = KhanUtil.shuffle( [ "blue", "green", "red", "purple", "orange", "brown" ] ),
+						currentColor = 0,
+						decimalForDisplay = "";
+
+					jQuery.each( decimals , function( position, decimal ) {
+
+						// if there are more than one decimal that are same just before the place value, highlight them with the same color
+						if( noOfElementsEqualTo(decimal, placeValue - 1, decimals) !== 1 ){
+							if ( floorTo( placeValue - 1, parseFloat( decimal) ) === floorTo( placeValue - 1, parseFloat( prevDecimal ) ) ) {
+								decimalForDisplay = color_upto( placeValue, decimal, COLORS[ currentColor ] );
+							} else {
+								currentColor = currentColor + 1;
+								decimalForDisplay = color_upto( placeValue, decimal, COLORS[ currentColor ] );
+							}
+						} else {
+							decimalForDisplay = decimal.toString();
+						}
+						prevDecimal = decimal;
+						formattedDecimals.push( decimalForDisplay );
+					});
+					return formattedDecimals;
+				};
+
+				/* Will underline the digit at the place value and color all digits before it with the given color. Works only for decimals less than 10
+				color_upto( TENTHS_PLACE, 1.235, "blue") returns "\\color{blue}{1.}\\underline{2}35"
+				color_upto( ONES_PLACE, 1.235, "blue") returns "\\underline{1}.235"
+				*/
+				function color_upto( placeValue, decimal, color ){
+					var str = decimal.toString(),
+					beforePlaceValue = str.substring( 0, placeValue + 1),
+					digitAtPlaceValue = str.substring( placeValue + 1, placeValue + 2 ),
+					afterPlaceValue = str.substring( placeValue + 2 );
+
+					if ( placeValue === ONES_PLACE ) {
+						return "\\underline{"+ str.split(".")[0] +"}" + "." + str.split(".")[1];
+					} else {
+						return "\\color{" + color +"}{" + beforePlaceValue + "}"+ "\\underline{" + digitAtPlaceValue + "}" + afterPlaceValue;
+					}
+				}
+
+				function noOfElementsEqualTo( decimal, placeValue, decimals ){
+					"use strict";
+
+					var noOfElements = jQuery.grep( decimals, function( element, index ) {
+						return floorTo( placeValue, parseFloat( decimal ) ) === floorTo( parseFloat( placeValue ), element );
+					}).length;
+					return noOfElements;
+				}
+			}())</var>
+			<!------------------------------------ END OF CLOSURES -------------------------------------->
+
 			<var id="NUMS">(function() {
 				"use strict";
-				var DECIMAL_PLACES = 4,
-					array = [],
-					used = {};
 
-				// calculate values to be utilized later in hints and solution
-				while ( array.length &lt; 4 ) {
+				var array = [],
+					used = {},
+					anyNumber = 0,
+					offset = 0;
+
+				while ( array.length &lt; 3 ) {
 					var numerator = getPrime();
 					var denominator = randRangeExclude( 2, 20, KhanUtil.primes );
-					var number = ( numerator / denominator ).toFixed( DECIMAL_PLACES );
-					var integerPart = roundTowardsZero( numerator / denominator );
-					var fractionPart = ( number - integerPart).toFixed( DECIMAL_PLACES );
 
-					if ( !used[ numerator / denominator ] ) {
-						array.push([ integerPart,
-							fractionPart,
-							roundTo( DECIMAL_PLACES, numerator / denominator ),
-							COLORS[ array.length ],
-							number
-						]);
+					// if number is not already used up and numbers less than 10.
+					if ( !used[ numerator / denominator ] && ( numerator / denominator &lt 10 ) ) {
+						array.push( roundTo( DECIMAL_PLACES, numerator / denominator ) );
 						used[ numerator / denominator ] = true;
 					}
 				}
 
-				// generate a number very similar to any one of the numbers in the array
-				var offset = randRange( 1, 3 ) / Math.pow( 10, randRange( 1, DECIMAL_PLACES ) );
-				var anyNumber = array[ rand( array.length ) ][ 2 ];
-				var aSimilarDecimal = anyNumber + offset;
-				var similarIntegerPart = roundTowardsZero( aSimilarDecimal );
-				var similarFractionPart = ( aSimilarDecimal - similarIntegerPart ).toFixed( DECIMAL_PLACES );
-				var aSimilarDecimalForDisplay = aSimilarDecimal.toFixed( DECIMAL_PLACES );
-
-				array.push([ similarIntegerPart,
-					similarFractionPart,
-					roundTo( DECIMAL_PLACES, aSimilarDecimal ),
-					COLORS[ array.length ],
-					aSimilarDecimalForDisplay
-				]);
+				// generate two numbers very similar to two of the numbers in the array
+				for( var i = 0; i &lt; 2; i++ ) {
+					anyNumber = array[ rand( array.length ) ];
+					offset = randRange( 1, 3 ) / Math.pow( 10, randRange( 2, DECIMAL_PLACES ) );
+					array.push( roundTo( DECIMAL_PLACES, anyNumber + offset ) );
+				}
 
 				return shuffle( array );
-			})()</var>
-			<var id="INTEGER_PART"> jQuery.map( NUMS, function( array ) {
-				return "\\color{" + array[3] + "}{" + array[0] + "}" + array[ 1 ].substring( 1 );
-			}).join( "," ) </var>
-			<var id="SORTED_BY_INTEGER_PART_ONLY"> jQuery.extend( true, [], NUMS ).sort( function( a, b) {
-				return a[ 0 ] - b[ 0 ];
-			}) </var>
-			<var id="DISPLAY_DECIMALS_SORTED_BY_INTEGER"> jQuery.map( SORTED_BY_INTEGER_PART_ONLY, function( array ) {
-				return array[ 4 ];
-			}).join( "," ) </var>
-			<var id="NUMS_SORT">jQuery.extend( true, [], NUMS ).sort( function(a, b) {
-				return a[ 2 ] - b[ 2 ];
-			})</var>
-			<var id="NUMS_SORT_TEX">jQuery.map( NUMS_SORT, function( array ) {
-				return array[ 2 ];
-			}).join( "," )</var>
+			}())</var>
+
 			<var id="SORTER">createSorter()</var>
 		</div>
 		<div class="problems">
@@ -82,7 +153,7 @@
 					<p>
 						<ul id="sortable">
 							<li data-each="NUMS as NUM">
-								<code><var>NUM[ 2 ]</var></code>
+								<code><var>NUM</var></code>
 							</li>
 						</ul>
 						<var>SORTER.init( "sortable" )</var>
@@ -91,24 +162,57 @@
 				<div class="solution" data-type="custom">
 					<div class="instruction">Drag the decimals to the left or the right so they are in order from least to greatest.</div>
 					<div class="guess">SORTER.getContent()</div>
-					<div class="validator-function">return guess.join( "," ) === NUMS_SORT_TEX;</div>
+					<div class="validator-function">return guess.join( "," ) === ORDERED_UPTO( THOUSANDTHS_PLACE, NUMS ).join(",");</div>
 					<div class="show-guess">SORTER.setContent( guess );</div>
 				</div>
 				<div class="hints">
 					<div>
-						<p>First, order the decimals by their integer part( shown in color below ).</p>
-						<p class="number-list"> <code><var>INTEGER_PART</var></code></p>
+						<p>Order by the digits at the ones place. Let's add trailing zeros if required to make it easier visually.</p>
+						<p class = "number-list" data-each = "HIGHLIGHT_AT( ONES_PLACE, PAD( NUMS ) ) as NUM">
+							<code><var>NUM</var></code>
+						</p>
 					</div>
 					<div>
-						<p>The decimals sorted only by the integer part are shown below. However, this may not be the final step, there may be decimals with the same integer part which may need further ordering!</p>
-						<p class="number-list"><code><var>DISPLAY_DECIMALS_SORTED_BY_INTEGER </var></code></p>
+						<p>The decimals ordered to the ones place only are below.</p>
+						<p class = "number-list" data-each = "PAD( ORDERED_UPTO( ONES_PLACE, NUMS ) ) as NUM">
+							<code><var>NUM</var></code>
+						</p>
 					</div>
 					<div>
-						<p>For numbers with the same integer part, start by ordering the first digit on the right of the decimal point i.e. the 1/10th's place value ( e.g. The decimal number <code>3.</code><code>\color{red}{7}</code><code>84</code> is smaller than <code>3.</code><code>\color{red}{9}</code><code>13</code> ). If they are the same, order the next place on the right i.e. the 1/100th's place ( e.g. The decimal number <code>5.7</code><code>\color{red}{1}</code><code>5</code> is smaller than <code>5.7</code><code>\color{red}{2}</code><code>9</code> ). If they are the same too, then proceed to the next digit on the right until you find a place where they are not the same.</p>
+						<p>Order by the digits at the tenths place. Those numbers which should be ordered with each other are colored the same!</p>
+						<p class = "number-list" data-each = "HIGHLIGHT_AT( TENTHS_PLACE, PAD( ORDERED_UPTO( ONES_PLACE, NUMS ) ) ) as NUM">
+							<code><var>NUM</var></code>
+						</p>
 					</div>
 					<div>
-						<p>The sorted decimals are.</p>
-						<p class = "number-list"><code><var> NUMS_SORT_TEX </var></code></p>
+						<p>The decimals ordered to the tenths place only are:</p>
+						<p class = "number-list" data-each = "PAD( ORDERED_UPTO( TENTHS_PLACE, NUMS ) ) as NUM">
+							<code><var>NUM</var></code>
+						</p>
+					</div>
+					<div>
+						<p>Order by digits at the hundredths place.</p>
+						<p class = "number-list" data-each = "HIGHLIGHT_AT( HUNDREDTHS_PLACE, PAD( ORDERED_UPTO( TENTHS_PLACE, NUMS ) ) ) as NUM">
+							<code><var>NUM</var></code>
+						</p>
+					</div>
+					<div>
+						<p>The decimals ordered to the hundredths place only are:</p>
+						<p class = "number-list" data-each = "PAD( ORDERED_UPTO( HUNDREDTHS_PLACE, NUMS ) ) as NUM">
+							<code><var>NUM</var></code>
+						</p>
+					</div>
+					<div>
+						<p>Order by the digits at the thousandths place.</p>
+						<p class = "number-list" data-each = "HIGHLIGHT_AT( THOUSANDTHS_PLACE, PAD( ORDERED_UPTO( HUNDREDTHS_PLACE, NUMS ) ) ) as NUM">
+							<code><var>NUM</var></code>
+						</p>
+					</div>
+					<div>
+						<p>The final order is:</p>
+						<p class = "number-list" data-each = "PAD( ORDERED_UPTO( THOUSANDTHS_PLACE, NUMS ) ) as NUM">
+							<code><var>NUM</var></code>
+						</p>
 					</div>
 				</div>
 			</div>
