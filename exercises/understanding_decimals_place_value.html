@@ -121,34 +121,74 @@
 				<var>
 					(function() {
 						Khan.scratchpad.disable();
+						
+						var deSelectOne = function ( el, klass ) {
+							jQuery( el ).removeClass( klass );
+							if ( jQuery( el ).hasClass( 'dime' ) || jQuery( el ).hasClass( 'penny' ) ) {
+								graph.getCoinCircle( el ).attr({ fill: '#eee', stroke: '#ddd' });
+							}
+						}
+						
+						var selectOne = function ( el, klass ) {
+							jQuery( el ).addClass( klass );
+							if ( jQuery( el ).hasClass( 'dime' ) ) {
+								graph.getCoinCircle( el ).attr({ fill: 'purple', stroke: '#000' });
+							}
+							if ( jQuery( el ).hasClass( 'penny' ) ) {
+								graph.getCoinCircle( el ).attr({ fill: 'gray', stroke: '#000' });
+							}
+						}						
+						
+						var selectCorrect = function( el, klass ) {
+							var klassSelector = "."+klass;
+							var hasClass = jQuery( el ).hasClass( klass );
+							var valid = '.bill, .coin, .place-value';
+							var selectedBeforeCount = jQuery( el ).parent().children( klassSelector ).size();
+							
+							jQuery( el ).parent().children( valid ).each( function( index, child ) {
+								deSelectOne( child, klass);
+							});
+							
+
+							jQuery( el ).prevAll( valid ).add( el ).each( function( index, prev ) {
+								selectOne( prev, klass );
+							});	
+
+							var selectedAfterCount = jQuery( el ).parent().children( klassSelector ).size();							
+							
+							if (selectedBeforeCount === 1 && selectedAfterCount === 1) {
+								deSelectOne( el, klass );
+							}							
+						}						
+
 						// click handlers
 						jQuery( "#problemarea .thou" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'thou-selected' );
+							selectCorrect( this, 'thou-selected' );							
 						});
 						jQuery( "#problemarea .hund" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'hund-selected' );
+							selectCorrect( this, 'hund-selected' );
 						});
 						jQuery( "#problemarea .ten" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'ten-selected' );
+							selectCorrect( this, 'ten-selected' );
 						});
 						jQuery( "#problemarea .one" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'one-selected' );
+							selectCorrect( this, 'one-selected' );
 						});
 						jQuery( "#problemarea .tenth" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'tenth-selected' );
+							selectCorrect( this, 'tenth-selected' );
 						});
 						jQuery( "#problemarea .hundth" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'hundth-selected' );
+							selectCorrect( this, 'hundth-selected' );
 						});
 						jQuery( "#problemarea .thouth" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'thouth-selected' );
+							selectCorrect( this, 'thouth-selected' );
 						});
 					})()
 				</var>
@@ -242,6 +282,46 @@
 					</div>
 					<div class="graphie" id="graph">
 						Khan.scratchpad.disable();
+
+						var deSelectOne = function ( el, klass ) {
+							jQuery( el ).removeClass( klass );
+							if ( jQuery( el ).hasClass( 'dime' ) || jQuery( el ).hasClass( 'penny' ) ) {
+								graph.getCoinCircle( el ).attr({ fill: '#eee', stroke: '#ddd' });
+							}
+						}
+						
+						var selectOne = function ( el, klass ) {
+							jQuery( el ).addClass( klass );
+							if ( jQuery( el ).hasClass( 'dime' ) ) {
+								graph.getCoinCircle( el ).attr({ fill: 'purple', stroke: '#000' });
+							}
+							if ( jQuery( el ).hasClass( 'penny' ) ) {
+								graph.getCoinCircle( el ).attr({ fill: 'gray', stroke: '#000' });
+							}
+						}						
+						
+						var selectCorrect = function( el, klass ) {
+							var klassSelector = "."+klass;
+							var hasClass = jQuery( el ).hasClass( klass );
+							var valid = '.bill, .coin, .place-value';
+							var selectedBeforeCount = jQuery( el ).parent().children( klassSelector ).size();
+							
+							jQuery( el ).parent().children( valid ).each( function( index, child ) {
+								deSelectOne( child, klass);
+							});
+							
+
+							jQuery( el ).prevAll( valid ).add( el ).each( function( index, prev ) {
+								selectOne( prev, klass );
+							});	
+
+							var selectedAfterCount = jQuery( el ).parent().children( klassSelector ).size();							
+							
+							if (selectedBeforeCount === 1 && selectedAfterCount === 1) {
+								deSelectOne( el, klass );
+							}							
+						}							
+						
 						init({ range: [ [ 0, 143 ], [ -430, 22 ] ], scale: [ 1, 1 ] });
 						style({ fill: "#eee", stroke: "#ddd", strokeWidth: 1 });
 						graph.tenths = [];
@@ -267,37 +347,27 @@
 						// click handlers
 						jQuery( "#problemarea .thou" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'thou-selected' );
+							selectCorrect( this, 'thou-selected' );
 						});
 						jQuery( "#problemarea .hund" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'hund-selected' );
+							selectCorrect( this, 'hund-selected' );
 						});
 						jQuery( "#problemarea .ten" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'ten-selected' );
+							selectCorrect( this, 'ten-selected' );
 						});
 						jQuery( "#problemarea .one" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'one-selected' );
+							selectCorrect( this, 'one-selected' );
 						});
 						jQuery( "#problemarea .dime" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'dime-selected' );
-							if ( jQuery( this ).hasClass( 'dime-selected' ) ) {
-								graph.getCoinCircle( this ).attr({ fill: 'purple', stroke: '#000' });
-							} else {
-								graph.getCoinCircle( this ).attr({ fill: '#eee', stroke: '#ddd' });
-							}
+							selectCorrect( this, 'dime-selected' );
 						});
 						jQuery( "#problemarea .penny" ).bind( "vmousedown", function( event ) {
 							event.preventDefault();
-							jQuery( this ).toggleClass( 'penny-selected' );
-							if ( jQuery( this ).hasClass( 'penny-selected' ) ) {
-								graph.getCoinCircle( this ).attr({ fill: 'gray', stroke: '#000' });
-							} else {
-								graph.getCoinCircle( this ).attr({ fill: '#eee', stroke: '#ddd' });
-							}
+							selectCorrect( this, 'penny-selected' );
 						});
 
 						// mouseover handlers
