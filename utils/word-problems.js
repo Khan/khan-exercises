@@ -7,6 +7,10 @@
 // but not across them.
 
 jQuery.extend( KhanUtil, {
+	capitalize: function( word ) {
+		return word[0].toUpperCase() + word.slice(1);
+	},
+
 	toSentence: function( array, conjunction ) {
 		if ( conjunction == null ) {
 			conjunction = "and";
