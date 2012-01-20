@@ -106,25 +106,26 @@ function Element(identifier) {
 			}
 		}
 
-		if ( !this.oxidationStates ) {
+		if ( !this.oxidationNumbers ) {
 			if ( this.type === "alkali metal" ) {
-				this.oxidationStates = [ 1 ];
+				this.oxidationNumbers = [ 1 ];
 			} else if ( this.type === "alkaline earth metal" ) {
-				this.oxidationStates = [ 2 ];
+				this.oxidationNumbers = [ 2 ];
 			} else if ( this.type === "noble gas" ) {
-				this.oxidationStates = [];
+				this.oxidationNumbers = [];
 			} else if ( this.leftOffset === 3 ) { // Sc, Y, La, Ac
-				this.oxidationStates = [ 3 ];
+				this.oxidationNumbers = [ 3 ];
 			} else if ( this.leftOffset === 14 ) { // Ge, Sn, Pb, Uuq
-				this.oxidationStates = [ 4, 2 ];
+				this.oxidationNumbers = [ 4, 2 ];
 			} else if ( this.leftOffset === 15 ) { // As, Sb, Uup
-				this.oxidationStates = [ 5, 3, -3 ];
+				this.oxidationNumbers = [ 5, 3, -3 ];
 			} else if ( this.type === "lanthanide" ) { // other lanthanides
-				this.oxidationStates = [ 3 ];
+				this.oxidationNumbers = [ 3 ];
 			} else if ( this.protonNumber >= 105 ) { // not yet known (Db and beyond)
-				this.oxidationStates = [];
+				this.oxidationNumbers = [];
 			} else {
-				alert("NO O-STATE: " + this.protonNumber);
+				// TODO: This is an error: an element must have some defined oxidation
+				// state by now!
 			}
 		}
 	}
@@ -132,29 +133,99 @@ function Element(identifier) {
 	KhanUtil.elements[number] = this;
 }
 
-function SimpleCompoundPart(value) {
+function SimpleCompoundPart( content, oxidationNumber ) {
 	// content:
 	//	an array of:
 	//		.thing (Element of SimpleCompoundPart)
 	//		.count (number)
-	this.content = value;
+	//		.oxidationNumber (if Element)
+	
+	// If the oxidation state isn't known, try to calculate it from the parts.
+	var total = 0;
+	var okay = true;
+	$.each( content, function ( i, el ) {
+		var part = el.thing;
+		if ( typeof el.oxidationNumber === "undefined" ) {
+			if ( part instanceof SimpleCompoundPart && part.oxidationNumber ) {
+				el.oxidationNumber = part.oxidationNumber;
+			} else if ( part instanceof Element && part.oxidationNumbers.length === 1 ) {
+				el.oxidationNumber = part.oxidationNumbers[0];
+			}
+		}
+
+		if ( typeof el.oxidationNumber !== "undefined" ) {
+			total += el.oxidationNumber * el.count;
+		} else {
+			okay = false;
+			// Don't break, it's useful to know at least some oxidation states even
+			// if we don't currently know all of them.
+		}
+	} );
+	if ( okay ) {
+		if ( typeof oxidationNumber === "undefined" ) {
+			oxidationNumber = total;
+		}
+		// Assume that the user knows what he is doing when he gives something else than
+		// what we calculated... (possibly useful in peroxides, for example)
+	} else if ( typeof oxidationNumber !== "undefined" ) {
+		// TODO: Calculate the oxidation state of the components by back propagation
+	}
+
+	this.oxidationNumber = oxidationNumber;
+	this.content = content;
+
+	this.containsElement = function ( element ) {
+		var found = false;
+
+		$.each( content, function ( i, el ) {
+			if ( content[i].thing instanceof Element ) {
+				if ( content[i].thing.symbol === element.symbol ) {
+					found = true;
+					return false;
+				}
+			} else if ( content[i].thing instanceof SimpleCompoundPart ) {
+				if ( content[i].thing.containsElement( element ) ) {
+					found = true;
+					return false;
+				}
+			}
+		} );
+
+		return found;
+	};
+
+	this.findOmittedOxidationNumbers = function () {
+		var result = [];
+		$.each( content, function ( i, el ) {
+			if ( el.omitOxidationNumber ) {
+				result.push( el );
+			}
+			if ( el instanceof SimpleCompoundPart ) {
+				results = results.concat( el.findOmittedOxidationNumber() );
+			}
+		} );
+		return result;
+	};
 }
 
 // Specification can be:
 //	- a "compound skeleton" (from the compounds array in KhanUtil)
 //	- a compound formula (which means that the compound will not have a name)
-function SimpleCompound(specification) {
+function SimpleCompound( specification ) {
 	var content;
 	if (typeof specification === "string") {
-		this.content = new SimpleCompoundPart(specification);
 		this.formula = specification;
 	} else {
 		// TODO: can this also be cached?
 		$.extend(this, specification);
-		if (!this.content) {
-			this.content = KhanUtil.parseCompoundPart(this.formula);
-		}
 	}
+
+	if (!this.content) {
+		this.content = KhanUtil.parseCompoundPart( this.formula, 0 );
+	}
+		
+	this.containsElement = this.content.containsElement;
+	this.findOmittedOxidationNumbers = this.content.findOmittedOxidationNumbers;
 }
 
 (function() {
@@ -165,110 +236,110 @@ jQuery.extend( KhanUtil, {
 	elements: [
 		{}, // fodder to map element index to the proton number
 		// violatesMadelung is truthy if the element's electron configuration doesn't follow common rules.
-		{ name: "hydrogen", symbol: "H", type: "general nonmetal", oxidationStates: [ 1, -1 ] },
+		{ name: "hydrogen", symbol: "H", type: "general nonmetal", oxidationNumbers: [ 1, -1 ] },
 		{ name: "helium", symbol: "He" },
 		{ name: "lithium", symbol: "Li" },
 		{ name: "beryllium", symbol: "Be" },
-		{ name: "boron", symbol: "B", type: "metalloid", oxidationStates: [ 3 ] },
-		{ name: "carbon", symbol: "C", type: "general nonmetal", oxidationStates: [ 4, 2, -4 ] },
-		{ name: "nitrogen", symbol: "N", type: "general nonmetal", oxidationStates: [ 5, 4, 3, 2, 1, -1, -2, -3 ] },
-		{ name: "oxygen", symbol: "O", type: "general nonmetal", oxidationStates: [ -2 ] },
-		{ name: "fluorine", symbol: "F", oxidationStates: [ -1 ] },
+		{ name: "boron", symbol: "B", type: "metalloid", oxidationNumbers: [ 3 ] },
+		{ name: "carbon", symbol: "C", type: "general nonmetal", oxidationNumbers: [ 4, 2, -4 ] },
+		{ name: "nitrogen", symbol: "N", type: "general nonmetal", oxidationNumbers: [ 5, 4, 3, 2, 1, -1, -2, -3 ] },
+		{ name: "oxygen", symbol: "O", type: "general nonmetal", oxidationNumbers: [ -2 ] },
+		{ name: "fluorine", symbol: "F", oxidationNumbers: [ -1 ] },
 		{ name: "neon", symbol: "Ne" },
 		{ name: "sodium", symbol: "Na" },
 		{ name: "magnesium", symbol: "Mg" },
-		{ name: "aluminium", symbol: "Al", type: "post-transition metal", oxidationStates: [ 3 ] },
-		{ name: "silicon", symbol: "Si", type: "metalloid", oxidationStates: [ 4, 2, -4 ] },
-		{ name: "phosphorus", symbol: "P", type: "general nonmetal", oxidationStates: [ 5, 3, -3 ] },
-		{ name: "sulfur", symbol: "S", type: "general nonmetal", oxidationStates: [ 6, 4, -2 ] },
-		{ name: "chlorine", symbol: "Cl", oxidationStates: [ 7, 5, 1, -1 ] },
+		{ name: "aluminium", symbol: "Al", type: "post-transition metal", oxidationNumbers: [ 3 ] },
+		{ name: "silicon", symbol: "Si", type: "metalloid", oxidationNumbers: [ 4, 2, -4 ] },
+		{ name: "phosphorus", symbol: "P", type: "general nonmetal", oxidationNumbers: [ 5, 3, -3 ] },
+		{ name: "sulfur", symbol: "S", type: "general nonmetal", oxidationNumbers: [ 6, 4, -2 ] },
+		{ name: "chlorine", symbol: "Cl", oxidationNumbers: [ 7, 5, 1, -1 ] },
 		{ name: "argon", symbol: "Ar" },
 		{ name: "potassium", symbol: "K" },
 		{ name: "calcium", symbol: "Ca" },
 		{ name: "scandium", symbol: "Sc" },
-		{ name: "titanium", symbol: "T", oxidationStates: [ 4, 3, 2 ] },
-		{ name: "vanadium", symbol: "V", oxidationStates: [ 5, 4, 3, 2 ] },
-		{ name: "chromium", symbol: "Cr", violatesMadelung: true, oxidationStates: [ 6, 3, 2 ] },
-		{ name: "manganese", symbol: "Mn", oxidationStates: [ 7, 4, 3, 2 ] },
-		{ name: "iron", symbol: "Fe", oxidationStates: [ 3, 2 ] },
-		{ name: "cobalt", symbol: "Co", oxidationStates: [ 3, 2 ] },
-		{ name: "nickel", symbol: "Ni", violatesMadelung: true, oxidationStates: [ 3, 2 ] },
-		{ name: "copper", symbol: "Cu", violatesMadelung: true, oxidationStates: [ 2, 1 ] },
-		{ name: "zinc", symbol: "Zn", oxidationStates: [ 2 ] },
-		{ name: "gallium", symbol: "Ga", type: "post-transition metal", oxidationStates: [ 3 ] },
+		{ name: "titanium", symbol: "T", oxidationNumbers: [ 4, 3, 2 ] },
+		{ name: "vanadium", symbol: "V", oxidationNumbers: [ 5, 4, 3, 2 ] },
+		{ name: "chromium", symbol: "Cr", violatesMadelung: true, oxidationNumbers: [ 6, 3, 2 ] },
+		{ name: "manganese", symbol: "Mn", oxidationNumbers: [ 7, 4, 3, 2 ] },
+		{ name: "iron", symbol: "Fe", oxidationNumbers: [ 3, 2 ] },
+		{ name: "cobalt", symbol: "Co", oxidationNumbers: [ 3, 2 ] },
+		{ name: "nickel", symbol: "Ni", violatesMadelung: true, oxidationNumbers: [ 3, 2 ] },
+		{ name: "copper", symbol: "Cu", violatesMadelung: true, oxidationNumbers: [ 2, 1 ] },
+		{ name: "zinc", symbol: "Zn", oxidationNumbers: [ 2 ] },
+		{ name: "gallium", symbol: "Ga", type: "post-transition metal", oxidationNumbers: [ 3 ] },
 		{ name: "germanium", symbol: "Ge", type: "metalloid" },
 		{ name: "arsenic", symbol: "As", type: "metalloid" },
-		{ name: "selenium", symbol: "Se", type: "general nonmetal", oxidationStates: [ 6, 4, -2 ] },
-		{ name: "bromine", symbol: "Br", oxidationStates: [ 5, 1, -1 ] },
+		{ name: "selenium", symbol: "Se", type: "general nonmetal", oxidationNumbers: [ 6, 4, -2 ] },
+		{ name: "bromine", symbol: "Br", oxidationNumbers: [ 5, 1, -1 ] },
 		{ name: "krypton", symbol: "Kr" },
 		{ name: "rubidium", symbol: "Rb" },
 		{ name: "strontium", symbol: "Sr" },
 		{ name: "yttrium", symbol: "Y" },
-		{ name: "zirconium", symbol: "Zr", oxidationStates: [ 4 ] },
-		{ name: "niobium", symbol: "Nb", violatesMadelung: true, oxidationStates: [ 5, 3 ] },
-		{ name: "molybdenum", symbol: "Mo", violatesMadelung: true, oxidationStates: [ 6 ] },
-		{ name: "technetium", symbol: "Tc", oxidationStates: [ 7, 6, 4 ] },
-		{ name: "ruthenium", symbol: "Ru", violatesMadelung: true, oxidationStates: [ 3 ] },
-		{ name: "rhodium", symbol: "Rh", violatesMadelung: true, oxidationStates: [ 3 ] },
-		{ name: "palladium", symbol: "Pd", violatesMadelung: true, oxidationStates: [ 3, 2 ] },
-		{ name: "silver", symbol: "Ag", violatesMadelung: true, oxidationStates: [ 1 ] },
-		{ name: "cadmium", symbol: "Cd", oxidationStates: [ 2 ] },
-		{ name: "indium", symbol: "In", type: "post-transition metal", oxidationStates: [ 3 ] },
+		{ name: "zirconium", symbol: "Zr", oxidationNumbers: [ 4 ] },
+		{ name: "niobium", symbol: "Nb", violatesMadelung: true, oxidationNumbers: [ 5, 3 ] },
+		{ name: "molybdenum", symbol: "Mo", violatesMadelung: true, oxidationNumbers: [ 6 ] },
+		{ name: "technetium", symbol: "Tc", oxidationNumbers: [ 7, 6, 4 ] },
+		{ name: "ruthenium", symbol: "Ru", violatesMadelung: true, oxidationNumbers: [ 3 ] },
+		{ name: "rhodium", symbol: "Rh", violatesMadelung: true, oxidationNumbers: [ 3 ] },
+		{ name: "palladium", symbol: "Pd", violatesMadelung: true, oxidationNumbers: [ 3, 2 ] },
+		{ name: "silver", symbol: "Ag", violatesMadelung: true, oxidationNumbers: [ 1 ] },
+		{ name: "cadmium", symbol: "Cd", oxidationNumbers: [ 2 ] },
+		{ name: "indium", symbol: "In", type: "post-transition metal", oxidationNumbers: [ 3 ] },
 		{ name: "tin", symbol: "Sn", type: "post-transition metal" },
 		{ name: "antimony", symbol: "Sb", type: "metalloid" },
-		{ name: "tellurium", symbol: "Te", type: "metalloid", oxidationStates: [ 6, 4, 2 ] },
-		{ name: "iodine", symbol: "I", oxidationStates: [ 7, 5, 1, -1 ] },
+		{ name: "tellurium", symbol: "Te", type: "metalloid", oxidationNumbers: [ 6, 4, 2 ] },
+		{ name: "iodine", symbol: "I", oxidationNumbers: [ 7, 5, 1, -1 ] },
 		{ name: "xenon", symbol: "Xe" },
 		{ name: "caesium", symbol: "Ce" },
 		{ name: "barium", symbol: "Ba" },
 		{ name: "lanthanum", symbol: "La", violatesMadelung: true },
-		{ name: "cerium", symbol: "Ce", violatesMadelung: true, oxidationStates: [ 4, 3 ] },
+		{ name: "cerium", symbol: "Ce", violatesMadelung: true, oxidationNumbers: [ 4, 3 ] },
 		{ name: "praseodymium", symbol: "Pr" },
 		{ name: "neodymium", symbol: "Nd" },
 		{ name: "promethium", symbol: "Pm" },
-		{ name: "samarium", symbol: "Sm", oxidationStates: [ 3, 2 ] },
-		{ name: "europium", symbol: "Eu", oxidationStates: [ 3, 2 ] },
+		{ name: "samarium", symbol: "Sm", oxidationNumbers: [ 3, 2 ] },
+		{ name: "europium", symbol: "Eu", oxidationNumbers: [ 3, 2 ] },
 		{ name: "gadolinium", symbol: "Gd", violatesMadelung: true },
 		{ name: "terbium", symbol: "Tb" },
 		{ name: "dysprosium", symbol: "Dy" },
 		{ name: "holmium", symbol: "Ho" },
 		{ name: "erbium", symbol: "Er" },
 		{ name: "thulium", symbol: "Tm" },
-		{ name: "ytterbium", symbol: "Yb", oxidationStates: [ 3, 2 ] },
+		{ name: "ytterbium", symbol: "Yb", oxidationNumbers: [ 3, 2 ] },
 		{ name: "lutetium", symbol: "Lu" },
-		{ name: "hafnium", symbol: "Hf", oxidationStates: [ 4 ] },
-		{ name: "tantalum", symbol: "Ta", oxidationStates: [ 5 ] },
-		{ name: "tungsten", symbol: "W", oxidationStates: [ 6 ] },
-		{ name: "rhenium", symbol: "Re", oxidationStates: [ 7, 6, 4 ] },
-		{ name: "osmium", symbol: "Os", oxidationStates: [ 4, 3 ] },
-		{ name: "iridium", symbol: "Ir", oxidationStates: [ 4, 3 ] },
-		{ name: "platinum", symbol: "Pt", violatesMadelung: true, oxidationStates: [ 4, 2 ] },
-		{ name: "gold", symbol: "Au", violatesMadelung: true, oxidationStates: [ 3, 1 ] },
-		{ name: "mercury", symbol: "Hg", oxidationStates: [ 2, 1 ] },
-		{ name: "thallium", symbol: "Tl", type: "post-transition metal", oxidationStates: [ 3, 1 ] },
+		{ name: "hafnium", symbol: "Hf", oxidationNumbers: [ 4 ] },
+		{ name: "tantalum", symbol: "Ta", oxidationNumbers: [ 5 ] },
+		{ name: "tungsten", symbol: "W", oxidationNumbers: [ 6 ] },
+		{ name: "rhenium", symbol: "Re", oxidationNumbers: [ 7, 6, 4 ] },
+		{ name: "osmium", symbol: "Os", oxidationNumbers: [ 4, 3 ] },
+		{ name: "iridium", symbol: "Ir", oxidationNumbers: [ 4, 3 ] },
+		{ name: "platinum", symbol: "Pt", violatesMadelung: true, oxidationNumbers: [ 4, 2 ] },
+		{ name: "gold", symbol: "Au", violatesMadelung: true, oxidationNumbers: [ 3, 1 ] },
+		{ name: "mercury", symbol: "Hg", oxidationNumbers: [ 2, 1 ] },
+		{ name: "thallium", symbol: "Tl", type: "post-transition metal", oxidationNumbers: [ 3, 1 ] },
 		{ name: "lead", symbol: "Pb", type: "post-transition metal" },
-		{ name: "bismuth", symbol: "Bi", type: "post-transition metal", oxidationStates: [ 5, 3 ] },
-		{ name: "polonium", symbol: "Po", type: "metalloid", oxidationStates: [ 4, 2 ] },
-		{ name: "astatine", symbol: "At", oxidationStates: [] },
-		{ name: "radon", symbol: "Rn", oxidationStates: [] },
-		{ name: "francium", symbol: "Fr", oxidationStates: [ 1 ] },
-		{ name: "radium", symbol: "Ra", oxidationStates: [ 2 ] },
-		{ name: "actinium", symbol: "Ac", violatesMadelung: true, oxidationStates: [ 3 ] },
-		{ name: "thorium", symbol: "Th", violatesMadelung: true, oxidationStates: [ 4 ] },
-		{ name: "protactinium", symbol: "Pa", violatesMadelung: true, oxidationStates: [ 5, 4 ] },
-		{ name: "uranium", symbol: "U", violatesMadelung: true, oxidationStates: [ 6, 5, 4, 3 ] },
-		{ name: "neptunium", symbol: "Np", violatesMadelung: true, oxidationStates: [ 6, 5, 4, 3 ] },
-		{ name: "plutonium", symbol: "Pu", oxidationStates: [ 6, 5, 4, 3 ] },
-		{ name: "americium", symbol: "Am", oxidationStates: [ 6, 5, 4, 3 ] },
-		{ name: "curium", symbol: "Cm", violatesMadelung: true, oxidationStates: [ 3 ] },
-		{ name: "berkelium", symbol: "Bk", oxidationStates: [ 4, 3 ] },
-		{ name: "californium", symbol: "Cf", oxidationStates: [ 3 ] },
-		{ name: "einsteinium", symbol: "Es", oxidationStates: [ 3 ] },
-		{ name: "fermium", symbol: "Fm", oxidationStates: [ 3 ] },
-		{ name: "mendelevium", symbol: "Md", oxidationStates: [ 3, 2 ] },
-		{ name: "nobelium", symbol: "No", oxidationStates: [ 3, 2 ] },
-		{ name: "lawrencium", symbol: "Lr", violatesMadelung: true, oxidationStates: [ 3 ] },
-		{ name: "rutherfordium", symbol: "Rf", oxidationStates: [ 4 ] },
+		{ name: "bismuth", symbol: "Bi", type: "post-transition metal", oxidationNumbers: [ 5, 3 ] },
+		{ name: "polonium", symbol: "Po", type: "metalloid", oxidationNumbers: [ 4, 2 ] },
+		{ name: "astatine", symbol: "At", oxidationNumbers: [] },
+		{ name: "radon", symbol: "Rn", oxidationNumbers: [] },
+		{ name: "francium", symbol: "Fr", oxidationNumbers: [ 1 ] },
+		{ name: "radium", symbol: "Ra", oxidationNumbers: [ 2 ] },
+		{ name: "actinium", symbol: "Ac", violatesMadelung: true, oxidationNumbers: [ 3 ] },
+		{ name: "thorium", symbol: "Th", violatesMadelung: true, oxidationNumbers: [ 4 ] },
+		{ name: "protactinium", symbol: "Pa", violatesMadelung: true, oxidationNumbers: [ 5, 4 ] },
+		{ name: "uranium", symbol: "U", violatesMadelung: true, oxidationNumbers: [ 6, 5, 4, 3 ] },
+		{ name: "neptunium", symbol: "Np", violatesMadelung: true, oxidationNumbers: [ 6, 5, 4, 3 ] },
+		{ name: "plutonium", symbol: "Pu", oxidationNumbers: [ 6, 5, 4, 3 ] },
+		{ name: "americium", symbol: "Am", oxidationNumbers: [ 6, 5, 4, 3 ] },
+		{ name: "curium", symbol: "Cm", violatesMadelung: true, oxidationNumbers: [ 3 ] },
+		{ name: "berkelium", symbol: "Bk", oxidationNumbers: [ 4, 3 ] },
+		{ name: "californium", symbol: "Cf", oxidationNumbers: [ 3 ] },
+		{ name: "einsteinium", symbol: "Es", oxidationNumbers: [ 3 ] },
+		{ name: "fermium", symbol: "Fm", oxidationNumbers: [ 3 ] },
+		{ name: "mendelevium", symbol: "Md", oxidationNumbers: [ 3, 2 ] },
+		{ name: "nobelium", symbol: "No", oxidationNumbers: [ 3, 2 ] },
+		{ name: "lawrencium", symbol: "Lr", violatesMadelung: true, oxidationNumbers: [ 3 ] },
+		{ name: "rutherfordium", symbol: "Rf", oxidationNumbers: [ 4 ] },
 		{ name: "dubnium", symbol: "Db" },
 		{ name: "seaborgium", symbol: "Sg" },
 		{ name: "bohrium", symbol: "Bh" },
@@ -412,7 +483,7 @@ jQuery.extend( KhanUtil, {
 		return result;
 	},
 
-	formatElectronConfiguration: function (el) {
+	formatElectronConfiguration: function ( el ) {
 		var lastNobleGas = ( el.lastNobleGas > 0 ) ? ( new Element( el.lastNobleGas) ) : false;
 		var text = "";
 
@@ -434,7 +505,7 @@ jQuery.extend( KhanUtil, {
 
 	// Parses a simple compound part from a string in a format like
 	// H2O or H3 (P O4)2.
-	parseCompoundPart: function (formula) {
+	parseCompoundPart: function ( formula, oxidationNumber ) {
 		// Big letter starts the name of an element.
 
 		var element = null;
@@ -505,10 +576,29 @@ jQuery.extend( KhanUtil, {
 			}
 		}
 
-		return new SimpleCompoundPart( parts );
+		return new SimpleCompoundPart( parts, oxidationNumber );
 	},
 
-	formatCompoundPart: function ( part ) {
+	romanNumeral: function ( i ) {
+		if ( i < 0 ) {
+			return "-" + KhanUtil.romanNumeral( -i );
+		}
+		var n = [ "0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII" ];
+		return n[i];
+	},
+
+	oxidationNumberIsTrivial: function ( element ) {
+		var trivialElements = [ "H", "O" ];
+		var result = $.inArray( element.symbol, trivialElements );
+		return result != -1;
+	},
+
+	formatCompoundPart: function ( part, oxidationNumbers ) {
+		if ( typeof oxidationNumbers === "undefined" ) {
+			oxidationNumbers = {
+				show: false
+			};
+		}
 		var result = "";
 		var parts;
 		if ( part instanceof SimpleCompoundPart ) {
@@ -524,51 +614,73 @@ jQuery.extend( KhanUtil, {
 				result += " ";
 			}
 
+			var showON = oxidationNumbers.show && item instanceof Element;
+			showON &= !(KhanUtil.oxidationNumberIsTrivial( item ) && !oxidationNumbers.showTrivial);
+			showON &= !el.omitOxidationNumber;
+			showON |= oxidationNumbers.showAll;
+
+			var showONQuestionMarked = el.omitOxidationNumber && !oxidationNumbers.showAll;
+			
+			if ( el.omitOxidationNumber && oxidationNumbers.markOmittedParts ) {
+				result += "\\color{" + oxidationNumbers.markOmittedParts + "}{";
+			}
+
 			if ( item instanceof Element ) {
 				result += item.symbol;
 			} else if ( item instanceof SimpleCompoundPart ) {
-				result += "(" + KhanUtil.formatCompoundFormula(item) + ")";
+				var osHandling;
+				if ( oxidationNumbers.recursive ) {
+					osHandling = oxidationNumbers;
+				}
+				result += "(" + KhanUtil.formatCompoundFormula( item, osHandling ) + ")";
 			}
 
 			if ( count > 1 ) {
 				result += "_{" + count + "}";
+			}
+			if ( showONQuestionMarked ) {
+				result += "^{?}";
+			} else if ( showON ) {
+				result += "^{" + KhanUtil.romanNumeral( el.oxidationNumber ) + "}";
+			}
+
+			if ( el.omitOxidationNumber && oxidationNumbers.markOmittedParts ) {
+				result += "}";
 			}
 		});
 		return result;
 	},
 
 	// Returns the formatted formula of a compound.
-	formatCompoundFormula: function ( compound ) {
-		return KhanUtil.formatCompoundPart( compound.content );
+	formatCompoundFormula: function ( compound, oxidationNumbers ) {
+		return "\\mathrm{" + KhanUtil.formatCompoundPart( compound.content, oxidationNumbers ) + "}";
 	},
 
-	randomSimpleOxide: function () {
+	randSimpleOxide: function () {
 		var element;
 		do {
 			element = KhanUtil.randCommonElement();
 			// Check that the element has a suitable oxidation state.
 			var i;
-			for (i = 0; i < element.oxidationStates.length; i++) {
-				if ( element.oxidationStates[i] > 0 ) {
+			for (i = 0; i < element.oxidationNumbers.length; i++) {
+				if ( element.oxidationNumbers[i] > 0 ) {
 					break;
 				}
 			}
 
-			if (i < element.oxidationStates.length) {
+			if (i < element.oxidationNumbers.length) {
 				break; // Found one.
 			}
 		} while (true);
 
 		var state;
 		do {
-			state = KhanUtil.randFromArray( element.oxidationStates );
+			state = KhanUtil.randFromArray( element.oxidationNumbers );
 			
 			if ( state > 0 ) {
 				break; // TODO: won't this create nonexistant oxides? (P2O7?)
 			}
 		} while (true);
-
-		console.log("state: " + state);
 
 		if ( state % 2 === 0 ) {
 			elementCount = 1;
@@ -579,14 +691,49 @@ jQuery.extend( KhanUtil, {
 		}
 
 		var content = new SimpleCompoundPart( [
-			{ thing: element, count: elementCount },
-			{ thing: new Element("O"), count: oxyCount }
+			{ thing: element, count: elementCount, oxidationNumber: state },
+			{ thing: new Element("O"), count: oxyCount, oxidationNumber: -2 }
 		] );
 		
 		var compound = new SimpleCompound( {
 			content: content
 		} );
 
+		return compound;
+	},
+
+	// Returns a random compound with no braces (like KNO3, H2O, ...)
+	randSimpleCompound: function () {
+		// TODO: Oxides are not the only "simple compounds": include also
+		// stuff like NH3, CH4, simple salts, acids and bases, ...
+		return KhanUtil.randSimpleOxide();
+	},
+
+	// Flags a nontrivial first-level component part of a component for oxidation state omitting
+	omitOxidationNumber: function ( compound ) {
+		var indices = [];
+		var trivialElements = [ "H", "O" ];
+		var content = compound.content.content;
+
+		$.each( content, function ( i, el ) {
+			var use = true;
+			if ( el.thing instanceof Element && KhanUtil.oxidationNumberIsTrivial( el.thing ) ) {
+				use = false;
+			}
+			if ( use ) {
+				indices.push( i );
+			}
+		} );
+
+		if ( indices.length === 0 ) {
+			// Found no easily omittable elements, omit anything
+			$.each( content, function ( i ) {
+				indices.push( i );
+			} );
+		}
+
+		compound.content.content[ KhanUtil.randFromArray( indices ) ].omitOxidationNumber = true;
+		
 		return compound;
 	}
 });
