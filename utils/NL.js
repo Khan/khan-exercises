@@ -4,19 +4,19 @@ jQuery.extend( KhanUtil, {
 		werkwoordmap: [
 				//Type 1
 			[
-				["loop", "lopen"],
-				["koop", "kopen"],
-				["programmeer", "programmeren"]
+				["lopen", "loop"],
+				["kopen", "koop"],
+				["programmeren", "programmeer"]
 			],
 				// Type 2
 			[
-				["fiets", "fietsen"]
+				["fietsen", "fiets"]
 			],
 				// Type 3
 			[
-				["ken", "kennen"],
-				["kun", "kunnen"],
-				["wil", "willen"]
+				["kennen", "ken"],
+				["kunnen", "kun"],
+				["willen", "wil"]
 			]
 		]
 	},
