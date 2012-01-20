@@ -10,7 +10,7 @@ function Element(identifier) {
 			break;
 		case "string":
 			// Assume symbol or name.
-			$( KhanUtil.elements ).each(function (i, e) {
+			$( KhanUtil.elements ).each( function ( i, e ) {
 				if ( e.symbol === identifier || e.name === identifier ) {
 					element = e;
 					number = i;
@@ -37,16 +37,16 @@ function Element(identifier) {
 
 		// Period = highest layer of electrons.
 		this.period = 0;
-		for (var i in ec) {
-			if (ec[i].level > this.period) {
+		for ( var i in ec ) {
+			if ( ec[i].level > this.period ) {
 				this.period = ec[i].level;
 			}
 		}
 
 		// Now calculate the number of valence electrons.
 		this.valenceElectrons = 0;
-		for (var i in ec) {
-			if (ec[i].level === this.period) {
+		for ( var i in ec ) {
+			if ( ec[i].level === this.period ) {
 				this.valenceElectrons += ec[i].count;
 			}
 		}
@@ -57,10 +57,10 @@ function Element(identifier) {
 		// The following is used to determine the X coordinate of the element in the periodic table.
 		// Count elements since last noble gas.
 		var l = 0;
-		for (var i = ec.length - 1; i >= 0; i--) {
+		for ( var i = ec.length - 1; i >= 0; i-- ) {
 			// If we are a noble gas, we don't want to stop at ourselves.
-			if (i != ec.length - 1 &&
-				(ec[i].type == "p" || (ec[i].type == "s" && number > 2 && i == 0))) {
+			if ( i !== ec.length - 1 &&
+				( ec[i].type === "p" || ( ec[i].type === "s" && number > 2 && i === 0 ) ) ) {
 				break;
 			}
 			l += ec[i].count;
@@ -69,13 +69,13 @@ function Element(identifier) {
 		this.lastNobleGas = number - l;
 
 		// Shift P-group in period 2 and 3
-		if (l > 2 && this.period < 4) l += 10;
+		if ( l > 2 && this.period < 4 ) l += 10;
 
 		// Helium is a special case
-		if (number == 2) l = 18;
+		if ( number === 2 ) l = 18;
 
 		// Shift elements after lanthanides and actinides as if they weren't there
-		if (l > 17 && this.period > 5) l -= 14;
+		if ( l > 17 && this.period > 5 ) l -= 14;
 
 		this.leftOffset = l;
 
@@ -101,7 +101,7 @@ function Element(identifier) {
 				type = "noble gas";
 			}
 
-			if (type) {
+			if ( type ) {
 				this.type = type;
 			}
 		}
@@ -213,14 +213,14 @@ function SimpleCompoundPart( content, oxidationNumber ) {
 //	- a compound formula (which means that the compound will not have a name)
 function SimpleCompound( specification ) {
 	var content;
-	if (typeof specification === "string") {
+	if ( typeof specification === "string" ) {
 		this.formula = specification;
 	} else {
 		// TODO: can this also be cached?
-		$.extend(this, specification);
+		$.extend( this, specification );
 	}
 
-	if (!this.content) {
+	if ( !this.content ) {
 		this.content = KhanUtil.parseCompoundPart( this.formula, 0 );
 	}
 		
@@ -356,22 +356,15 @@ jQuery.extend( KhanUtil, {
 		{ name: "ununoctium", symbol: "Uuo" }
 	],
 
+	/*
+	 * This is where more complicated compounds might be stored in the future.
 	compounds: [
 		{ name: "carbon monoxide", formula: "CO" },
 		{ name: "water", formula: "H2O" },
-		{ name: "hydrochloric acid", formula: "HCl" },
-		{ name: "nitrogen dioxide", formula: "NO2" },
-		{ name: "carbon dioxide", formula: "CO2" },
-		{ name: "nitrous oxide", formula: "NO" },
-		{ name: "sulfur trioxide", formula: "SO3" },
-		{ name: "sulfur dioxide", formula: "SO2" },
-		{ name: "iron(III) oxide", formula: "Fe2O3" },
-		{ name: "aluminium oxide", formula: "Al2O3" },
-		{ name: "copper(II) oxide", formula: "CuO" },
 		{ name: "dichlorine heptoxide", formula: "Cl2O7" },
-
 		{ name: "sodium hydroxide", formula: "NaOH" }
 	],
+	*/
 
 	orbitals: [
 		"1s", "2s", "2p", "3s", "3p", "4s", "3d", "4p", "5s", "4d", "5p",
@@ -386,15 +379,15 @@ jQuery.extend( KhanUtil, {
 	// by filling it an orbital at a time. If the element violatesMadelung,
 	// this doesn't give the exact right result, but what it gives is still
 	// used in calculations of the position of the element in the periodic table.
-	getElectronConfiguration: function (n) {
+	getElectronConfiguration: function ( n ) {
 		var configuration = [];
 
-		for (var index in KhanUtil.orbitals) {
+		for ( var index in KhanUtil.orbitals ) {
 			var orbital = KhanUtil.orbitals[index];
-			var level = parseInt(orbital[0]);
+			var level = parseInt( orbital[0] );
 			var type = orbital[1];
 			var maximum = KhanUtil.orbitalCapacities[type];
-			if (n > maximum) {
+			if ( n > maximum ) {
 				configuration.push({ level: level, type: type, count: maximum });
 				n -= maximum;
 			} else {
@@ -408,13 +401,13 @@ jQuery.extend( KhanUtil, {
 
 	// Returns a random element from a given range of proton numbers.
 	randElement: function ( min, max ) {
-		if (!min || min < 1) {
+		if ( !min || min < 1 ) {
 			min = 1;
 		}
-		if (!max || max < min || max >= KhanUtil.elements.length) {
+		if ( !max || max < min || max >= KhanUtil.elements.length ) {
 			max = KhanUtil.elements.length - 1;
 		}
-		return new Element(Math.floor( max * KhanUtil.random() ) + min);
+		return new Element( Math.floor( max * KhanUtil.random() ) + min );
 	},
 
 	// Returns a random relatively common element
@@ -442,34 +435,34 @@ jQuery.extend( KhanUtil, {
 
 		if (match) {
 			var element;
-			$( KhanUtil.elements ).each(function (i, e) {
-				if (e.symbol === match[1]) {
+			$( KhanUtil.elements ).each( function ( i, e ) {
+				if ( e.symbol === match[1] ) {
 					element = new Element( i );
 					return false;
 				}
 			});
 
-			if (!element || element.type !== "noble gas") { // Accept just noble gases.
+			if ( !element || element.type !== "noble gas" ) { // Accept just noble gases.
 				return false;
 			}
 
 			result = element.electronConfiguration;
 			
 			// Handle [Kr]5s2 gracefully: remove the [Kr] and keep the 5s2
-			if (split[0].length > match[1].length + 2) {
+			if ( split[0].length > match[1].length + 2 ) {
 				split[0] = split[0].slice( match[1].length + 2 );
 			} else {
 				split.shift();
 			}
 		}
 
-		if (split.length === 0) { // Do not accept just saying [Symbol] without anything else
+		if ( split.length === 0 ) { // Do not accept just saying [Symbol] without anything else
 			return false;
 		}
 
-		for (var i in split) {
+		for ( var i in split ) {
 			match = split[i].match( /(\d+)(\w)(\d+)/ );
-			if (match) {
+			if ( match ) {
 				result.push({
 					level: parseInt( match[1] ),
 					type: match[2],
@@ -606,7 +599,7 @@ jQuery.extend( KhanUtil, {
 		} else { // assume array of parts
 			parts = part;
 		}
-		$( parts ).each(function (i, el) {
+		$( parts ).each(function ( i, el ) {
 			var item = el.thing;
 			var count = el.count;
 
@@ -615,7 +608,7 @@ jQuery.extend( KhanUtil, {
 			}
 
 			var showON = oxidationNumbers.show && item instanceof Element;
-			showON &= !(KhanUtil.oxidationNumberIsTrivial( item ) && !oxidationNumbers.showTrivial);
+			showON &= !( KhanUtil.oxidationNumberIsTrivial( item ) && !oxidationNumbers.showTrivial );
 			showON &= !el.omitOxidationNumber;
 			showON |= oxidationNumbers.showAll;
 
@@ -662,13 +655,13 @@ jQuery.extend( KhanUtil, {
 			element = KhanUtil.randCommonElement();
 			// Check that the element has a suitable oxidation state.
 			var i;
-			for (i = 0; i < element.oxidationNumbers.length; i++) {
+			for ( i = 0; i < element.oxidationNumbers.length; i++ ) {
 				if ( element.oxidationNumbers[i] > 0 ) {
 					break;
 				}
 			}
 
-			if (i < element.oxidationNumbers.length) {
+			if ( i < element.oxidationNumbers.length ) {
 				break; // Found one.
 			}
 		} while (true);
@@ -692,7 +685,7 @@ jQuery.extend( KhanUtil, {
 
 		var content = new SimpleCompoundPart( [
 			{ thing: element, count: elementCount, oxidationNumber: state },
-			{ thing: new Element("O"), count: oxyCount, oxidationNumber: -2 }
+			{ thing: new Element( "O" ), count: oxyCount, oxidationNumber: -2 }
 		] );
 		
 		var compound = new SimpleCompound( {

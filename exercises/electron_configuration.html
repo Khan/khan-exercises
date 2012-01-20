@@ -20,9 +20,10 @@
 		function orbitalText( order, period, orbital ) {
 			var orb = KhanUtil.orbitals[orbital];
 			var type = orb[1];
-			var text = "The " + order + " orbital we will put electrons in is of type <code>" + KhanUtil.capitalize(type) + "</code> " +
+			var typeCode = "<code>" + KhanUtil.capitalize( type ) + "</code>";
+			var text = "The " + order + " orbital we will put electrons in is of type " + typeCode + " " +
 				" and lies in period <code>" + period + "</code>. ";
-			text += "It is an <code>" + KhanUtil.capitalize(type) + "</code> orbital, so ";
+			text += "It is an " + typeCode + " orbital, so ";
 			switch (type) {
 				case "s":
 				case "p":
@@ -37,7 +38,7 @@
 			}
 			text += ": <code>" + orb + "</code>. ";
 
-			text += "<code>" + KhanUtil.capitalize(type) + "</code> orbitals hold up to " + KhanUtil.orbitalCapacities[type] + " electrons.";
+			text += typeCode + " orbitals hold up to " + KhanUtil.orbitalCapacities[type] + " electrons.";
 			return text;
 		}
 
@@ -75,18 +76,19 @@
 
 		var orders = [ "first", "second", "third", "fourth", "fifth" ];
 
+		// Explains the filling of 1 layer and then calls self to fill the rest.
 		function orbitalFill( order, period, orbital, N, M ) {
 			var text = "<div data-unwrap>";
 			text += "<p>" + orbitalText( orders[order], period, orbital ) + "</p>";
 			var orb = KhanUtil.orbitals[orbital];
 			var cap = KhanUtil.orbitalCapacities[orb[1]];
-			if (M == 1) {
+			if ( M === 1 ) {
 				text += "<p>" + lastGoes( orbital ) + "</p>";
-			} else if (M == 2 && cap == 2) {
+			} else if ( M === 2 && cap === 2 ) {
 				text += "<p>" + remainingTwo( orbital ) + "</p>";
-			} else if (M <= cap) {
+			} else if ( M <= cap ) {
 				text += lastElectrons( M, orbital );
-			} else if (M > cap) {
+			} else if ( M > cap ) {
 				text += electronsFill( N, M, orbital, colorPairs[ order % colorPairs.length ] );
 				text += orbitalFill( order + 1, period, orbital + 1, N + cap, M - cap );
 			}
@@ -100,8 +102,8 @@
 	<div class="vars" data-ensure="!ELEMENT.violatesMadelung">
 		<var id="ELEMENT">KhanUtil.randElement()</var>
 		<var id="N">ELEMENT.protonNumber</var>
-		<var id="LAST_NOBLE_GAS">(ELEMENT.lastNobleGas > 0) ? new Element(ELEMENT.lastNobleGas) : false</var>
-		<var id="M">LAST_NOBLE_GAS ? (ELEMENT.protonNumber - LAST_NOBLE_GAS.protonNumber) : ELEMENT.protonNumber</var>
+		<var id="LAST_NOBLE_GAS">( ELEMENT.lastNobleGas > 0 ) ? new Element( ELEMENT.lastNobleGas ) : false</var>
+		<var id="M">LAST_NOBLE_GAS ? ( ELEMENT.protonNumber - LAST_NOBLE_GAS.protonNumber ) : ELEMENT.protonNumber</var>
 		<var id="O">LAST_NOBLE_GAS ? LAST_NOBLE_GAS.orbitalCount : 0</var>
 		<var id="P">ELEMENT.period</var>
 
@@ -137,7 +139,7 @@
 		<div class="validator-function">
 			var ec = ELEMENT.electronConfiguration;
 			var g = KhanUtil.parseElectronConfiguration( guess );
-			for (var i = 0; i &lt; ec.length; i++) {
+			for ( var i = 0; i &lt; ec.length; i++ ) {
 				if ( ec[i].type != g[i].type ||
 					ec[i].level != g[i].level ||
 					ec[i].value != g[i].value ) {
