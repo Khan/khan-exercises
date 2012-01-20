@@ -124,7 +124,8 @@ function Element(identifier) {
 			} else if ( this.protonNumber >= 105 ) { // not yet known (Db and beyond)
 				this.oxidationStates = [];
 			} else {
-				alert("NO O-STATE: " + this.protonNumber);
+				// TODO: This is an error: an element must have some defined oxidation
+				// state by now!
 			}
 		}
 	}
@@ -132,12 +133,46 @@ function Element(identifier) {
 	KhanUtil.elements[number] = this;
 }
 
-function SimpleCompoundPart(value) {
+function SimpleCompoundPart( content, oxidationState ) {
 	// content:
 	//	an array of:
 	//		.thing (Element of SimpleCompoundPart)
 	//		.count (number)
-	this.content = value;
+	//		.oxidationState (if Element)
+	
+	// If the oxidation state isn't known, try to calculate it from the parts.
+	var total = 0;
+	var okay = true;
+	$.each( content, function ( i, el ) {
+		var part = el.thing;
+		if ( typeof el.oxidationState === "undefined" ) {
+			if ( part instanceof SimpleCompoundPart && part.oxidationState ) {
+				el.oxidationState = part.oxidationState;
+			} else if ( part instanceof Element && part.oxidationStates.length === 1 ) {
+				el.oxidationState = part.oxidationStates[0];
+			}
+		}
+
+		if ( typeof el.oxidationState !== "undefined" ) {
+			total += el.oxidationState * el.count;
+		} else {
+			okay = false;
+			// Don't break, it's useful to know at least some oxidation states even
+			// if we don't currently know all of them.
+		}
+	} );
+	if ( okay ) {
+		if ( typeof oxidationState === "undefined" ) {
+			oxidationState = total;
+		}
+		// Assume that the user knows what he is doing when he gives something else than
+		// what we calculated... (possibly useful in peroxides, for example)
+	} else if ( typeof oxidationState !== "undefined" ) {
+		// TODO: Calculate the oxidation state of the components by back propagation
+	}
+
+	this.oxidationState = oxidationState;
+	this.content = content;
 }
 
 // Specification can be:
@@ -146,7 +181,7 @@ function SimpleCompoundPart(value) {
 function SimpleCompound(specification) {
 	var content;
 	if (typeof specification === "string") {
-		this.content = new SimpleCompoundPart(specification);
+		this.content = new SimpleCompoundPart( specification );
 		this.formula = specification;
 	} else {
 		// TODO: can this also be cached?
@@ -558,8 +593,6 @@ jQuery.extend( KhanUtil, {
 			}
 		} while (true);
 
-		console.log("state: " + state);
-
 		if ( state % 2 === 0 ) {
 			elementCount = 1;
 			oxyCount = state / 2;
@@ -569,8 +602,8 @@ jQuery.extend( KhanUtil, {
 		}
 
 		var content = new SimpleCompoundPart( [
-			{ thing: element, count: elementCount },
-			{ thing: new Element("O"), count: oxyCount }
+			{ thing: element, count: elementCount, oxidationState: state },
+			{ thing: new Element("O"), count: oxyCount, oxidationState: -2 }
 		] );
 		
 		var compound = new SimpleCompound( {
