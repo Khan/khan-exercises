@@ -1,10 +1,10 @@
 ({
 	"nl" : {
-		"weekdays" : '[ "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag" ]',
-		"exercise" : "<var>person( 1 )</var> heeft opgeschreven hoeveel <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> <var>he( 1 )</var> elke dag van de week heeft gezien.",
-		"exercise1" : "Hoeveel <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> heeft <var>he( 1 )</var> op <var>DAYS[ INDEX ]</var> gezien?",
-		"hint1"	: 	"Vind het punt voor <var>DAYS[ INDEX ]</var> door te kijken naar de tekst onderaan de de grafiek.",
-		"hint2"	:	"Zoek op welke waarde bij dit punt hoort door naar de waarden aan de linkerkant te kijken.",
-		"hint3"	:	"<var>He( 1 )</var> zag <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> op <var>DAYS[ INDEX ]</var>."
+		"houses" : ' [ "Griffoendor", "Huffelpuf", "Ravenklauw", "Zwadderich" ]',
+		"question1" : "Op Zweinstein zijn vier afdelingen: <var>toSentence( HOUSES )</var>. De staafgrafiek toont het aantal punten dat elk van de groepen vandaag heeft ontvangen.",
+		"question2" : "Hoeveel punten heeft <var>HOUSES[ INDEX ]</var> vandaag ontvangen?",
+		"hint1"	: 	"Vind de staaf van <var>HOUSES[ INDEX ]</var> door naar de letter onder elke staaf te kijken.",
+		"hint2"	:	"Kijk hoe hoog de staaf is door naar de getallen aan de linkerkant te kijken.",
+		"hint3"	:	'<var>HOUSES[ INDEX ]</var> heeft vandaag <var>plural( VALUES[ INDEX ], "punt" )</var> ontvangen.'
 	}
 })

@@ -1,37 +1,38 @@
 ({
 	"nl" : {
-		"question1"	: 'Arrange the <var>POINTS</var> orange points on the number line so the'+
-					'<span class="hint_blue">arithmetic mean is <code><var>MEAN</var></code></span>'+
-					'and the <span class="hint_green">median is <code><var>MEDIAN</var></code></span>.'+
-					'The distance between adjacent tick marks is 1.',
-		"question2"	: 'Move the orange dots to select your answer.',
+		"question1"	: 'Orden de <var>POINTS</var> oranje punten op de getallenlijn zo dat het '+
+					'<span class="hint_blue">rekenkundig gemiddelde gelijk is aan <code><var>MEAN</var></code></span> '+
+					'en de <span class="hint_green">mediaan gelijk is aan <code><var>MEDIAN</var></code></span>. '+
+					'De afstand tussen twee opeenvolgende streepjes is 1.',
+		"question2"	: 'Verplaats de oranje stippen om je antwoord te selecteren.',
+		"example1"	: 'elke ordening van de oranje stippen waarbij gemiddelde en mediaan correct zijn',
 		
-		"hint1"		: 'The median is middle number. In other words there are always as many points to the'+
-						'right of the median as to the left.',
-		"hint2"		: 'Try dragging the points so that half of them are to the left of'+
-						'<span class="hint_green"><code><var>MEDIAN</var></code></span>'+
-						 'and half of them are to the right of'+
-						'<span class="hint_green"><code><var>MEDIAN</var></code></span>.'+
+		"hint1"		: 'De mediaan is het middelste getal. Er zijn dus altijd evenveel punten links, '+
+						'als rechts van de mediaan.',
+		"hint2"		: 'Sleep de punten zo dat de helft zich links van '+
+						'<span class="hint_green"><code><var>MEDIAN</var></code></span> '+
+						 'bevindt en de andere helft zich rechts van '+
+						'<span class="hint_green"><code><var>MEDIAN</var></code></span> bevindt. '+
 						'<span data-if="POINTS % 2 === 0">'+
-							'The two points in the middle should be the same distance from'+
+							'De twee punten in het midden moeten even ver af staan van '+
 							'<span class="hint_green"><code><var>MEDIAN</var></code></span>.'+
 						'</span>'+
 						'<span data-else>'+
-							'The middle point should be at'+
+							'Het middelste punt moet zich bevinden op '+
 							'<span class="hint_green"><code><var>MEDIAN</var></code></span>.'+
 						'</span><br />'+
-						'<input type="button" value="Show me an example" onClick="javascript:'+
+						'<input type="button" value="Show me an example" onClick="javascript: '+
 							'KhanUtil.showMedianExample();'+
 						'"></button>',
-		"hint3"		: 'As long as there are as many points to the left and to the right of the'+
-						'median, the median will stay the same. But the arithmetic mean is calculated'+
-						'using the value of every point. Try moving the points on either side of the'+
-						'median closer and further from the median to see how the mean is affected.',
-		"hint4"		: 'There are a number of different ways to arrange the points so the mean is'+
-						'<span class="hint_blue"><code><var>MEAN</var></code></span>'+
-						'and the median is'+
-						'<span class="hint_green"><code><var>MEDIAN</var></code></span>.'+
-						'<input type="button" value="Show me an example" onClick="javascript:'+
+		"hint3"		: 'Zolang er zich evenveel punten links als rechts van de mediaan bevinden, blijft '+
+						'de mediaan hetzelfde. Het rekenkundig gemiddelde wordt echter berekend op basis '+
+						'van de waarden van alle punten. Probeer de punten aan beide kanten van de mediaan '+
+						'dichterbij of verder van de mediaan af te bewegen om te zien hoe dit het gemiddelde be&iuml;nvloed. ',
+		"hint4"		: 'Er zijn meerdere mogelijkheden om de punten zo te plaatsen dat het gemiddelde gelijk is aan '+
+						'<span class="hint_blue"><code><var>MEAN</var></code></span> '+
+						'en de mediaan gelijk is aan '+
+						'<span class="hint_green"><code><var>MEDIAN</var></code></span>. '+
+						'<input type="button" value="Toon me een oplossing" onClick="javascript:'+
 							'KhanUtil.showMeanExample();'+
 						'"></button>'
 		}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-translatable data-require="math math-format">
 <head>
 	<meta charset="UTF-8" />
 	<title>Units</title>
@@ -10,7 +10,7 @@
 	<div class="problems">
 		<div id="metric">
 			<div class="vars">
-				<var id="PREFIXES">[
+				<var id="PREFIXES" data-tt="question1">[
 					{ str: "milli", math: "\\dfrac{1}{1000}", inverse: "1000" },
 					{ str: "centi", math: "\\dfrac{1}{100}", inverse: "100" },
 					{ str: "deci", math: "\\dfrac{1}{10}", inverse: "10" },
@@ -18,7 +18,7 @@
 					{ str: "deca", math: "10", inverse: "\\dfrac{1}{10}" },
 					{ str: "hecto", math: "100", inverse: "\\dfrac{1}{100}" },
 					{ str: "kilo", math: "1000", inverse: "\\dfrac{1}{1000}" } ]</var>
-				<var id="UNIT">shuffle( [ "meter", "liter", "gram", "watt" ] ).shift()</var>
+				<var id="UNIT" data-tt="question2">shuffle( [ "meter", "liter", "gram", "watt" ] ).shift()</var>
 				<var id="QUANTITY">randRange( 100, 999 )</var>
 				<var id="START_POWER">randRangeNonZero( -3, 3 )</var>
 				<var id="START_PREFIX">PREFIXES[ START_POWER + 3 ]</var>
@@ -28,21 +28,21 @@
 				<var id="END_UNIT">END_PREFIX.str + UNIT</var>
 				<var id="SOLUTION">roundTo( 6, QUANTITY * pow( 10, START_POWER - END_POWER ) )</var>
 			</div>
-			<div class="question">How many <var>END_UNIT</var>s are in <var>QUANTITY + " " + START_UNIT</var>s?</div>
+			<div class="question" data-tt="question3">How many <var>END_UNIT</var>s are in <var>QUANTITY + " " + START_UNIT</var>s?</div>
 			<div class="solution"><var>SOLUTION</var></div>
 			<div class="hints">
 				<div>
-					<p>The following table shows a few prefixes and their meanings.</p>
+					<p data-tt="question4">The following table shows a few prefixes and their meanings.</p>
 					<table>
-						<tr><th>Prefix</th><th>Meaning</th></tr>
+						<tr data-tt="question5"><th>Prefix</th><th>Meaning</th></tr>
 						<tr data-each="PREFIXES as prefix">
 							<td><var>prefix.str</var></td><td><code><var>prefix.math</var></code></td>
 						</tr>
 					</table>
 				</div>
-				<p>Looking at the table, we see that 1 <var>START_UNIT</var> corresponds to <code><var>START_PREFIX.math</var></code> <var>UNIT</var>s.</p>
+				<p data-tt="question6">Looking at the table, we see that 1 <var>START_UNIT</var> corresponds to <code><var>START_PREFIX.math</var></code> <var>UNIT</var>s.</p>
 
-				<p>We can also see that, 1 <var>END_UNIT</var> corresponds to <code><var>END_PREFIX.math</var></code> <var>UNIT</var>s.</p>
+				<p data-tt="question7">We can also see that, 1 <var>END_UNIT</var> corresponds to <code><var>END_PREFIX.math</var></code> <var>UNIT</var>s.</p>
 
 
 				<p><code><var>QUANTITY</var> \text{ <var>START_UNIT</var>s } \cdot <var>START_PREFIX.math</var> \dfrac{ \text{ <var>UNIT</var> } }{ \text{ <var>START_UNIT</var> } }
@@ -53,11 +53,11 @@
 		</div>
 		<div id="english">
 			<div class="vars">
-				<var id="D_UNITS">[
+				<var id="D_UNITS" data-tt="question8">[
 					{ str: "mile", plural: "miles", multiplier: 63360 },
 					{ str: "foot", plural: "feet", multiplier: 12 },
 					{ str: "inch", plural: "inches", multiplier: 1 } ]</var>
-				<var id="T_UNITS">[
+				<var id="T_UNITS" data-tt="question9">[
 					{ str: "hour", plural: "hours", multiplier: 3600 },
 					{ str: "minute", plural: "minutes", multiplier: 60 },
 					{ str: "second", plural: "seconds", multiplier: 1 }
@@ -119,7 +119,7 @@
 				<var id="SOLUTION">roundTo( 3, SCALE * START_SPEED ).toFixed( 3 )</var>
 
 			</div>
-			<div class="question">An alien rocketship is traveling at a speed of <code><var>commafy( START_SPEED )</var></code> <var>D_UNITS[START_D_INDEX].plural</var> per <var>T_UNITS[START_T_INDEX].str</var>. At this speed, how many <var>D_UNITS[END_D_INDEX].plural</var> will it travel in 1 <var>T_UNITS[END_T_INDEX].str</var>? Round to the nearest thousandth.</div>
+			<div class="question" data-tt="question10">An alien rocketship is traveling at a speed of <code><var>commafy( START_SPEED )</var></code> <var>D_UNITS[START_D_INDEX].plural</var> per <var>T_UNITS[START_T_INDEX].str</var>. At this speed, how many <var>D_UNITS[END_D_INDEX].plural</var> will it travel in 1 <var>T_UNITS[END_T_INDEX].str</var>? Round to the nearest thousandth.</div>
 
 			<div class="solution" data-type="decimal"><var>SOLUTION</var></div>
 			<div class="hints">

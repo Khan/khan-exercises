@@ -41,7 +41,7 @@
 				<var id="COL_INDEX">randRange( 0, COLUMNS.length - 1 )</var>
 				<var id="ROW_INDEX">randRange( 0, ROWS.length - 1 )</var>
 				<var id="ANSWER">ENROLLMENTS[ ROW_INDEX ][ COL_INDEX ]</var>
-				<var data-tt="array3" id="PROBLEM" >[ "shows the enrollment at four different elementary schools that have 3rd through 5th grade students", "shows the number of chickens sold by four friends from January to March", "indicates the points scored by four players in a charity basketball game", "shows solar panel installations by state during the last fiscal year" ][ INDEX ]</var>
+				<var data-tt="array3" id="PROBLEM">[ "shows the enrollment at four different elementary schools that have 3rd through 5th grade students", "shows the number of chickens sold by four friends from January to March", "indicates the points scored by four players in a charity basketball game", "shows solar panel installations by state during the last fiscal year" ][ INDEX ]</var>
 				<var data-tt="array4" id="QUESTION">(function() {
 					if ( COL_INDEX === COLUMNS.length - 1 ) {
 						return [ "How many students does " + ROWS[ ROW_INDEX ] + " Elementary School have in total?", "How many chickens did " + ROWS[ ROW_INDEX ] + " sell in total?", "How many points did " + ROWS[ ROW_INDEX ] + " have in total?", "How many total solar panels were installed last year in " + ROWS[ ROW_INDEX ] + "?" ][ INDEX ];

@@ -2,7 +2,7 @@
 	"nl" : {
 		"array1" :	'[ [ "Noordwijkse school", "Leonardoschool", "Julianaschool", "Emmaschool" ], [ person(1), person(2), person(3), person(4) ], [ person(1), person(2), person(3), person(4) ], [ "Noord-Holland", "Zuid-Holland", "Friesland", "Utrecht" ] ][ INDEX ]',
 		"array2" :	'[ [ "Groep 6", "Groep 7", "Groep 8", "Totaal" ], [ "Januari", "Februari", "Maart", "Totaal" ], [ "1e kwart", "2e kwart", "3e kwart", "4e kwart", "???" ], [ "Q1", "Q2", "Q3", "Q4", "Totaal" ] ][ INDEX ]',
-		"array3" :	'[ "toont het aantal leerlingen in groep 6 t/m groep 8 op vier verschillende scholen", "toont het aantal kippen dat in januari tot en met maart is verkocht door vier boeren", "toont het aantal punten dat vier spelers scoorden in een basketbal wedstrijd", "toont het aantal ge&iuml;nstalleerde zonnepanelen per provincie in het afgelopen jaar" ][ INDEX ]',
+		"array3" :	'[ "toont het aantal leerlingen in groep 6 t/m groep 8 op vier verschillende scholen", "toont het aantal kippen dat in januari tot en met maart is verkocht door vier boeren", "toont het aantal punten dat vier spelers scoorden in een basketbalwedstrijd", "toont het aantal ge&iuml;nstalleerde zonnepanelen per provincie in het afgelopen jaar" ][ INDEX ]',
 		"array4" :	'(function() {'+
 						'if ( COL_INDEX === COLUMNS.length - 1 ) {'+
 						'return [ "Hoeveel leerlingen heeft de " + ROWS[ ROW_INDEX ] + " school in totaal?", "Hoeveel kippen heeft " + ROWS[ ROW_INDEX ] + " in totaal verkocht?", "Hoeveel punten heeft " + ROWS[ ROW_INDEX ] + " in totaal gescoord?", "Hoeveel zonnepanelen zijn er afgelopen jaar ge&iuml;nstalleerd in " + ROWS[ ROW_INDEX ] + "?" ][ INDEX ];'+

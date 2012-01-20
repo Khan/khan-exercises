@@ -9,7 +9,7 @@
 jQuery.extend( KhanUtil, {
 	toSentence: function( array, conjunction ) {
 		if ( conjunction == null ) {
-			conjunction = "en";
+			conjunction = "and";
 		}
 
 		if ( array.length === 0 ) {
@@ -32,7 +32,6 @@ jQuery.extend( KhanUtil, {
 		});
 		return KhanUtil.toSentence( wrapped, conjunction );
 	},
-
 
 	// pluralization helper.  There are five signatures
 	// - plural(NUMBER): return "s" if NUMBER is not 1
@@ -73,9 +72,19 @@ jQuery.extend( KhanUtil, {
 			'pizza':'pizza\'s',
 			'persoon':'personen',
 			'auto':'auto\'s',
-			'boom':'bomen'
+			'boom':'bomen',
+			'hele getal':'hele getallen',
+			'tiental':'tientallen',
+			'honderdtal':'honderdtallen',
+			'duizendtal':'duizendtallen',
+			'broek':'broeken',
+			'riem':'riemen',
+			'ketting':'kettingen',
+			'stropdas':'stropdassen',
+			'trui':'truien',
+			'jas':'jassen'
 		};
-		
+
 		var pluralizeWord = function(word) {
 
 			// noone really needs extra spaces at the edges, do they?
@@ -186,10 +195,11 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	var vehicles = KhanUtil.shuffle([
 		"fiets",
 		"auto",
-		"paard",
+		"tram",
 		"motor",
 		"scooter",
-		"trein"
+		"trein",
+		"bus"
 	]);
 
 	var courses = KhanUtil.shuffle([
@@ -270,9 +280,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 	var exercises = KhanUtil.shuffle([
 		"push-up",
-		"sit-up",
-		"squat",
-		"jumping jack"
+		"sit-up"
 	]);
 
 	var fruits = KhanUtil.shuffle([
@@ -289,35 +297,35 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var deskItems = KhanUtil.shuffle([
-		"binder",
-		"crayon",
-		"eraser",
-		"folder",
+		"schrift",
+		"krijtje",
+		"gum",
+		"map",
 		"glue stick",
-		"marker",
+		"stift",
 		"notebook",
-		"pencil",
-		"rubber stamp"
+		"pen",
+		"potlood"
 	]);
 
 	var colors = KhanUtil.shuffle([
-		"rood",
+		"rode",
 		"oranje",
-		"geel",
-		"groen",
-		"blauw",
-		"paars",
-		"wit",
-		"zwart",
-		"bruin",
-		"zilver",
-		"goud",
+		"gele",
+		"groene",
+		"blauwe",
+		"paarse",
+		"witte",
+		"zwarte",
+		"bruine",
+		"zilveren",
+		"gouden",
 		"roze"
 	]);
 
 	var schools = KhanUtil.shuffle([
-		"Loyola",
-		"Gardner Bullis",
+		"Noordwijkse school",
+		"Emmaschool",
 		"Almond",
 		"Covington",
 		"Springer",
@@ -326,21 +334,20 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var clothes = KhanUtil.shuffle([
-		"hat",
-		"pair of pants",
-		"belt",
-		"necklace",
-		"purse",
-		"pair of shoes",
-		"blouse",
-		"skirt",
-		"watch",
-		"pair of socks",
-		"sweatshirt",
+		"hoedje",
+		"broek",
+		"riem",
+		"ketting",
+		"tasje",
+		"bloesje",
+		"rokje",
+		"horloge",
+		"trui",
 		"sweater",
-		"tie",
-		"scarf",
-		"dress"
+		"stropdas",
+		"sjaal",
+		"jurkje",
+		"jas"
 	]);
 
 	var sides = KhanUtil.shuffle([
@@ -349,34 +356,36 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var shirtStyles = KhanUtil.shuffle([
-		"long-sleeved",
-		"short-sleeved"
+		"lange mouwen",
+		"korte mouwen"
 	]);
 
+	// animal, avg-lifespan, stddev-lifespan
+	// (data is from cursory google searches and wild guessing)
 	var animals = KhanUtil.shuffle([
-		"krokodil",
-		"miereneter",
-		"beer",
-		"olifant",
-		"gorilla",
-		"leeuw",
-		"hagedis",
-		"stokstaartje",
-		"stekelvarken",
-		"zeehond",
-		"slang",
-		"tijger",
-		"schildpad",
-		"zebra"
+		[ "krokodil", 68, 20 ],
+		[ "miereneter", 15, 10 ],
+		[ "beer", 40, 20],
+		[ "olifant", 60, 10 ],
+		[ "gorilla", 20, 5 ],
+		[ "leeuw", 12, 5 ],
+		[ "hagedis", 3, 1 ],
+		[ "stokstaartje", 13, 5 ],
+		[ "stekelvarken", 20, 5 ],
+		[ "zeehond", 15, 10 ],
+		[ "luiaard", 16, 5 ],
+		[ "slang", 25, 10 ],
+		[ "tijger", 22, 5 ],
+		[ "schildpad", 100, 20 ],
+		[ "zebra", 25, 10 ]
 	]);
 
 	var farmers = KhanUtil.shuffle([
-		{farmer:"farmer", crops:KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk"]), field:"field"},
-		{farmer:"gardener", crops:KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily"]), field:"garden"}
+		{farmer:"tuinder", crops:KhanUtil.shuffle(["tomaat", "aardappel", "wortel", "bonen", "mais"]), field:"land"},
+		{farmer:"kweker", crops:KhanUtil.shuffle(["roos", "tulp", "narcis", "sneeuwklokje", "lelie"]), field:"kas"}
 	]);
 
 	var distances = KhanUtil.shuffle([
-		"mile",
 		"kilometer"
 	]);
 
@@ -423,6 +432,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		His: function( i ) {
 			return people[i - 1][1] === "m" ? "Zijn" : "Haar";
 		},
+
 
 		An: function(word) {
 			return indefiniteArticle(word);
@@ -553,7 +563,15 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		},
 
 		animal: function( i ) {
-			return animals[i - 1];
+			return animals[i - 1][0];
+		},
+
+		animalAvgLifespan: function( i ) {
+			return animals[i - 1][1];
+		},
+
+		animalStddevLifespan: function( i ) {
+			return animals[i - 1][2];
 		}
 	});
 };
