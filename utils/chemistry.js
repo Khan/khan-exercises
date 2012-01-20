@@ -352,6 +352,16 @@ jQuery.extend( KhanUtil, {
 		return KhanUtil.randElement( 1, 85 );
 	},
 
+	// Returns one of basic and common elements
+	randBasicCommonElement: function () {
+		var common = [
+			"H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na",
+			"Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Fe", "Cu",
+			"Ag", "Pt", "Au", "Hg"
+		];
+		return new Element( KhanUtil.randFromArray( common ) );
+	},
+
 	// Parses an electron configuration string.
 	parseElectronConfiguration: function ( str ) {
 		var split = str.split( /\s+/ );
