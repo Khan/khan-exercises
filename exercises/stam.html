@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html data-require="NL math">
+<head>
+	<meta charset="UTF-8" />
+	<title>Werkwoorden</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+
+	<div class="vars">
+		<var id="Type">randRange( 1, 3 )</var>
+		<var id="Set">randomWerkwoordset(Type)</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>Geef de stam van het woord "<var>Set[1]</var>"</p>
+			</div>
+			<div class="solution"><var>Set[0]</var></div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<p data-if="Type == 1">Blah blah dit dat</p>
+		<p data-if="Type == 1">Blah blah dit dat</p>
+		<p data-if="Type == 2">Zus zo</p>
+		<p data-if="Type == 2">Zus zo</p>
+		<p data-if="Type == 3">Etc etc</p>
+		<p data-if="Type == 3">Etc etc</p>
+	</div>
+	</body>
+</html>
