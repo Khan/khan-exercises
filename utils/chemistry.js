@@ -646,7 +646,7 @@ jQuery.extend( KhanUtil, {
 
 	// Returns the formatted formula of a compound.
 	formatCompoundFormula: function ( compound, oxidationNumbers ) {
-		return "\\text{" + KhanUtil.formatCompoundPart( compound.content, oxidationNumbers ) + "}";
+		return "\\mathrm{" + KhanUtil.formatCompoundPart( compound.content, oxidationNumbers ) + "}";
 	},
 
 	randSimpleOxide: function () {
