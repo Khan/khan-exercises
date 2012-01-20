@@ -17,6 +17,10 @@ jQuery.extend( KhanUtil, {
 				["kennen", "ken"],
 				["kunnen", "kun"],
 				["willen", "wil"]
+			],
+				// Type 4
+			[
+				["ben", "zijn"]
 			]
 		]
 	},
