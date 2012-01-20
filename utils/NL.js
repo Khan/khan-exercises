@@ -20,7 +20,7 @@ jQuery.extend( KhanUtil, {
 			],
 				// Type 4
 			[
-				["ben", "zijn"]
+				["zijn", "ben"]
 			]
 		]
 	},
@@ -30,6 +30,20 @@ jQuery.extend( KhanUtil, {
 		return this.NL.werkwoordmap[type][
 			Math.floor(Math.random()*this.NL. werkwoordmap[type].length)
 		]
+	},
+
+	shuffle: function(l) {
+		list = l.slice();
+		var i, j, t;
+		for (i = 1; i < list.length; i++){
+			j = Math.floor(Math.random()*(1+i));
+			if (j != i){
+				t = list[i];
+				list[i] = list[j];
+				list[j] = t;
+			}
+		}
+		return list
 	}
 
 });
