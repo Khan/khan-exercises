@@ -6,7 +6,7 @@
 		"hint2"		: 'Je kunt een verhouding schrijven als twee getallen, gescheiden door een dubbele punt.',
 		"hint3"		: 'Je kunt het schrijven in een zin, zoals:',
 		"hint4"		: '<code><var>NUM</var>\ { staat tot } <var>DENOM</var></code>',
-		"hint5"		:'Of je kan de verhoudsing schrijven als een breuk.',
+		"hint5"		:'Of je kan de verhouding schrijven als een breuk.',
 		"hint6"		: 'De verhouding van <var>fruit( 0 )</var>s tot <var>fruit( 1 )</var>s gechreven als een vereenvoudigde breuk is <code><var>fractionReduce( NUM, DENOM )</var></code>.'
 		}
 })
