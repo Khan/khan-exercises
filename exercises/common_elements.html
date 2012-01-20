@@ -30,9 +30,23 @@
 			<p class="question">
 				What element has the symbol of <strong class="hint_orange"><var>ELEMENT.symbol</var></strong>?
 			</p>
-			<!-- TODO: accept mixed-case -->
-			<div class="solution" data-type="text">
-					<var>ELEMENT.name</var>
+			<!-- Would use regex, but it doesn't seem to allow case-insensitive matching... -->
+			<div class="solution" data-type="custom">
+				<div class="instruction">
+					<input type="text" id="answer" />
+				</div>
+				<div class="guess">
+					$( "#answer" ).val()
+				</div>
+				<div class="validator-function">
+					return guess.trim().toLowerCase() === ELEMENT.name.toLowerCase();
+				</div>
+				<div class="show-guess">
+					$( "#configuration" ).val( guess );
+				</div>
+				<div class="example">
+					An element name (like "antimony")
+				</div>
 			</div>
 			<div class="hints">
 				<p>

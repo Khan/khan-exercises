@@ -58,7 +58,6 @@
 			text += electronsRemain( M - cap ) + ' and we are now adding electrons to <strong class="' + colorPair[0] + '">' +
 				KhanUtil.elements[ N + cap ].name + '</strong>.';
 			text += "</p> </div>";
-			// TODO hint
 			return text;
 		}
 
@@ -130,7 +129,6 @@
 
 	<div class="solution" data-type="custom">
 		<div class="instruction">
-			Express the electron configuration (example: [Ar] 4s2 3d10 4p4)
 			<input type="text" id="configuration" />
 		</div>
 		<div class="guess">
@@ -150,6 +148,9 @@
 		</div>
 		<div class="show-guess">
 			$( "#configuration" ).val( guess );
+		</div>
+		<div class="example">
+			An electron configuration; can include noble gas abbreviations (like [Ar] 4s2 3d10 4p4)
 		</div>
 	</div>
 
