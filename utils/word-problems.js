@@ -82,7 +82,8 @@ jQuery.extend( KhanUtil, {
 			'ketting':'kettingen',
 			'stropdas':'stropdassen',
 			'trui':'truien',
-			'jas':'jassen'
+			'jas':'jassen',
+			'keer':'keer'
 		};
 
 		var pluralizeWord = function(word) {

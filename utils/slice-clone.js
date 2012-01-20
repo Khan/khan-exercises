@@ -17,7 +17,7 @@ jQuery.extend( KhanUtil, {
 
 		KhanUtil.pieces += ( increase ) ? 1 : -1;
 
-		jQuery( "#pieces" ).text( KhanUtil.plural(KhanUtil.pieces, "piece") ); 
+		jQuery( "#pieces" ).text( KhanUtil.plural(KhanUtil.pieces, "stukje") ); 
 
 		KhanUtil.currentGraph = jQuery( "#problemarea" ).find( "#parent_block" ).data( "graphie" );
 		rectchart( [ 1, KhanUtil.pieces - 1 ], ["#e00", "#999" ] );
@@ -33,7 +33,7 @@ jQuery.extend( KhanUtil, {
 
 		KhanUtil.times[ id ] += ( increase ) ? 1 : -1;
 
-		jQuery( "#" + id + "_times" ).text( KhanUtil.plural(KhanUtil.times[ id ], "time") );
+		jQuery( "#" + id + "_times" ).text( KhanUtil.plural(KhanUtil.times[ id ], "keer") );
 
 		KhanUtil.updateGraphAndAnswer();
 	},
