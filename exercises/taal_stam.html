@@ -2,7 +2,7 @@
 <html data-require="NL math">
 <head>
 	<meta charset="UTF-8" />
-	<title>Werkwoorden</title>
+	<title>Stam van een werkwoord</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -16,19 +16,21 @@
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>Geef de stam van het woord "<var>Set[0]</var>"</p>
+				<p>Geef de stam van het werkwoord "<var>Set[0]</var>"</p>
 			</div>
 			<div class="solution" data-type="text"><var>Set[1]</var></div>
 		</div>
 	</div>
 
 	<div class="hints">
-		<p data-if="Type == 1">Blah blah dit dat</p>
-		<p data-if="Type == 1">Blah blah dit dat</p>
-		<p data-if="Type == 2">Zus zo</p>
-		<p data-if="Type == 2">Zus zo</p>
-		<p data-if="Type == 3">Etc etc</p>
-		<p data-if="Type == 3">Etc etc</p>
+		<p>De stam van een werkwoord is de ik-vorm, bijvoorbeeld "ik zie".</p>
+		<p data-if="Type == 1">Bij dit werkwoord is de stam het hele werkwoord, zonder EN op het einde.</p>
+		<p data-if="Type == 2">Eerst haal je -EN van het werkwoord, je krijgt dan "<var>Set[0].substring(0, Set[0].length-2)</var>".</p>
+		<p data-if="Type == 2">Omdat er in "<var>Set[0].substring(0, Set[0].length-3)</var>-<var>Set[0].substring(Set[0].length-3)</var>" sprake is van een open lettergreep 
+								met een lange klank, moet er in de gesloten lettergreep een dubbele klinker worden gebruikt.</p>
+		<p data-if="Type == 3">Eerst haal je -EN van het werkwoord, je krijgt dan "<var>Set[0].substring(0, Set[0].length-2)</var>".</p>
+		<p data-if="Type == 3">We schrijven aan het einde van een woord nooit dubbele medeklinkers, we halen dus 1 <var>Set[0].substring(Set[0].length-3).charAt(0)</var> weg.</p>
+		<p>De stam van <var>Set[0]</var> is dus <var>Set[1]</var>.</p>
 	</div>
 	</body>
 </html>
