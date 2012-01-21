@@ -195,6 +195,7 @@ jQuery.extend(KhanUtil, {
 					var parenthesize;
 					switch ( KhanUtil.exprType( factor ) ) {
 						case "number":
+						case "color":
 						if ( i > 0 ) {
 							parenthesize = true;
 						}
