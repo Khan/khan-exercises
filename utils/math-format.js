@@ -436,6 +436,16 @@ jQuery.extend(KhanUtil, {
 		return KhanUtil.randFromArray([ "x", "k", "y", "a", "n", "r", "p", "u", "v" ])
 	},
 
+	eulerFormExponent: function( angle ) {
+		var fraction = KhanUtil.toFraction( angle / Math.PI, 0.001 );
+		var numerator = fraction[0], denominator = fraction[1];
+		var eExp = ( ( numerator > 1) ? numerator : "" ) + "\\pi i";
+		if ( denominator !== 1 ) {
+			eExp += " / " + denominator;
+		}
+		return eExp;
+	},
+
 	// Formats a complex number in polar form.
 	polarForm: function( radius, angle, useEulerForm ) {
 		var fraction = KhanUtil.toFraction( angle / Math.PI, 0.001 );
@@ -444,11 +454,7 @@ jQuery.extend(KhanUtil, {
 		var equation;
 		if ( useEulerForm ) {
 			if ( numerator > 0 ) {
-				var eExp = ( ( numerator > 1) ? numerator : "" ) + "\\pi i";
-				if ( denominator !== 1 ) {
-					eExp += " / " + denominator;
-				}
-				var ePower = KhanUtil.expr( [ "^", "e", eExp ] );
+				var ePower = KhanUtil.expr( [ "^", "e", KhanUtil.eulerFormExponent( angle ) ] );
 				equation = ( ( radius > 1 ) ? radius : "" ) + " " + ePower;
 			} else {
 				equation = radius;
