@@ -476,7 +476,7 @@ jQuery.extend ( KhanUtil, {
 			else if (n.args.length===2 && n.op===OpStr.MUL && isNeg(n.args[0])) {
 				return {op: n.op, args: [negate(n.args[0]), n.args[1]]};
 			}
-			assert(false);
+			KhanUtil.assert(false);
 			return n;
 			
 		}
@@ -621,7 +621,7 @@ jQuery.extend ( KhanUtil, {
 		function eat (tc) {
 			var tk = hd();
 			if (tk !== tc) {
-				alert("Expecting " + tc + " found " + tk);
+				KhanUtil.assert(false, "Expecting " + tc + " found " + tk);
 			}
 			next();
 		}
@@ -668,7 +668,7 @@ jQuery.extend ( KhanUtil, {
 					e = {op: tokenToOperator[TK_SQRT], args: [braceExpr()]};
 					break;
 				default:
-					assert(false);
+					KhanUtil.assert(false);
 					break;
 				}
 				break;
@@ -806,7 +806,7 @@ jQuery.extend ( KhanUtil, {
 			else if (n.args.length===2 && n.op===OpStr.MUL && isNeg(n.args[0])) {
 				return {op: n.op, args: [negate(n.args[0]), n.args[1]]};
 			}
-			assert(false);
+			KhanUtil.assert(false);
 			return n;
 			
 		}
