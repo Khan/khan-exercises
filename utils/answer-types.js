@@ -1013,6 +1013,7 @@ jQuery.extend( Khan.answerTypes, {
 		var numberLabel = jQuery( '<p id="number-label" style="margin: 8px 0 2px 0" />' );
 
 		solutionarea.append(table, numberLabel);
+		redrawComplexPolarForm();
 
 		var ret = function() {
 			var cplx = KhanUtil.currentGraph.graph.currComplexPolar;
