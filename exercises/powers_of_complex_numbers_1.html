@@ -41,12 +41,11 @@
 	<div class="problems">
 		<div>
 			<p class="question">
-				Determine the value of the following complex number (plotted in
-				<strong class="hint_blue">blue</strong>). Your answer will be plotted in
+				Determine the value of the following complex number power. Your answer will be plotted in
 				<strong class="hint_orange">orange</strong>.
 			</p>
 			<code>
-				(<var>BASE_REP</var>) ^ {<var>EXPONENT</var>}
+				(\color{<var>BLUE</var>}{<var>BASE_REP</var>}) ^ {<var>EXPONENT</var>}
 			</code>
 			<div class="graphie" id="gauss-plane">
 				graphInit({
@@ -63,7 +62,7 @@
 					stroke: "none"
 				});
 
-				graph.currComplexPolar = new ComplexPolarForm( DENOMINATOR, 10 );
+				graph.currComplexPolar = new ComplexPolarForm( DENOMINATOR, 10, EULER_FORM );
 				redrawComplexPolarForm();
 			</div>
 			<div class="solution" data-type="complexNumberPolarForm">
@@ -106,13 +105,15 @@
 					</p>
 				</div>
 
-				<p>
-					Our result is <code><var>ANSWER_EULER</var></code>.
-					<span data-if="!EULER_FORM">
+				<div>
+					<p>
+						Our result is <code><var>ANSWER_EULER</var></code>.
+					</p>
+					<p data-if="!EULER_FORM">
 						Converting this back from Euler form, we get
 						<code><var>ANSWER</var></code>.
-					</span>
-				</p>
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>
