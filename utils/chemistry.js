@@ -130,6 +130,8 @@ function Element(identifier) {
 		}
 	}
 
+	this.toString = function () { return this.name; };
+
 	KhanUtil.elements[number] = this;
 }
 
@@ -499,20 +501,21 @@ jQuery.extend( KhanUtil, {
 	// Parses a simple compound part from a string in a format like
 	// H2O or H3 (P O4)2.
 	parseCompoundPart: function ( formula, oxidationNumber ) {
-		// Big letter starts the name of an element.
+		// First make sure the formula contains just alphanumerical characters,
+		// spaces or braces.
+		if (! formula.match( /^(\w|\s|[\(\)])+$/ ) ) {
+			return null;
+		}
 
 		var element = null;
 		var count = 0;
 		var parts = [];
-		var SENTINEL = '#';
 
-		var str = formula + SENTINEL; // Sentinel character
-
-		// TODO: check contained characters with some regex
-
-		for (var i = 0; i < str.length; i++) {
-			var c = str[i];
-			if ( ( c >= 'A' && c <= 'Z' ) || c === '(' || c === SENTINEL ) {
+		// The <= is deliberate; the "character after the string"
+		// closes open elements.
+		for (var i = 0; i <= formula.length; i++) {
+			var c = formula[i];
+			if ( ( c >= 'A' && c <= 'Z' ) || c === '(' || i === formula.length ) {
 				// End the current element.
 				if ( element ) {
 					if ( typeof element === "string" ) {
@@ -545,21 +548,21 @@ jQuery.extend( KhanUtil, {
 				// Skip through to the matching parens.
 				// Recursively call self.
 				var j, level;
-				for ( j = i + 1, level = 1; j < str.length; j++ ) {
-					if ( str[j] === ')' ) {
+				for ( j = i + 1, level = 1; j < formula.length; j++ ) {
+					if ( formula[j] === ')' ) {
 						level--;
 						if ( level === 0 ) {
 							break;
 						}
-					} else if ( str[j] === '(' ) {
+					} else if ( formula[j] === '(' ) {
 						level++;
 					}
 				}
-				if ( j === str.length && str[j] !== ')' ) {
+				if ( j === formula.length && formula[j] !== ')' ) {
 					console.log( "Unmatched parenthesis in '" + formula + "'" );
 					return null;
 				}
-				var slice = str.slice( i + 1, j );
+				var slice = formula.slice( i + 1, j );
 				element = KhanUtil.parseCompoundPart( slice );
 				if ( !element ) {
 					console.log( "Failed to parse compound part '" + slice + "'" );

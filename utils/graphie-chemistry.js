@@ -3,37 +3,37 @@ function PeriodicTable(height, cellSize) {
 	var cells = [];
 	var labels = [];
 
-	$.each(KhanUtil.elements, function (i, el) {
-		if (i > 0) {
-			elements[i] = new Element(i);
+	$.each( KhanUtil.elements, function ( i, el ) {
+		if ( i > 0 ) {
+			elements[i] = new Element( i );
 		}
 	});
 
-	this.highlightElement = function (N, color) {
+	this.highlightElement = function ( N, color ) {
 		cells[N].remove();
 		labels[N].remove();
 
-		this.renderCell(elements[N], color);
-		this.renderLabel(elements[N]);
+		this.renderCell( elements[N], color );
+		this.renderLabel( elements[N] );
 	};
 
-	this.getElementCoordinates = function (el) {
+	this.getElementCoordinates = function ( el ) {
 		var x = el.leftOffset * cellSize[0];
-		var y = height - (el.period * cellSize[1]);
+		var y = height - ( el.period * cellSize[1] );
 
 		// Lanthanoids and actinoids go under the table.
-		var isBelow = (el.block === "f");
+		var isBelow = ( el.block === "f" );
 		var ec = el.electronConfiguration;
-		isBelow |= (ec.length > 1 && ec[ec.length - 2].type === "f" && ec[ec.length - 1].count === 1);
+		isBelow |= ( ec.length > 1 && ec[ec.length - 2].type === "f" && ec[ec.length - 1].count === 1 );
 
-		if (isBelow) {
+		if ( isBelow ) {
 			y -= 2;
 		}
 
 		return [x, y];
 	};
 
-	function createBox(x, y) {
+	function createBox( x, y ) {
 		return KhanUtil.currentGraph.path( [ [x - cellSize[0] / 2, y - cellSize[1] / 2],
 			[x + cellSize[0] / 2, y - cellSize[1] / 2],
 			[x + cellSize[0] / 2, y + cellSize[1] / 2],
@@ -41,8 +41,8 @@ function PeriodicTable(height, cellSize) {
 			true ] );
 	}
 
-	this.renderCell = function (el, color) {
-		var coords = this.getElementCoordinates(el), x = coords[0], y = coords[1];
+	this.renderCell = function ( el, color ) {
+		var coords = this.getElementCoordinates( el ), x = coords[0], y = coords[1];
 		
 		graph = KhanUtil.currentGraph;
 		graph.style( {
@@ -50,15 +50,15 @@ function PeriodicTable(height, cellSize) {
 			fill: color
 		} );
 
-		cells[el.protonNumber] = createBox(x, y);
+		cells[el.protonNumber] = createBox( x, y );
 	}
 
-	this.renderLabel = function (el) {
-		var coords = this.getElementCoordinates(el), x = coords[0], y = coords[1];
+	this.renderLabel = function ( el ) {
+		var coords = this.getElementCoordinates( el ), x = coords[0], y = coords[1];
 
 		graph = KhanUtil.currentGraph;
-		labels[el.protonNumber] = graph.label( [x, y], el.symbol, "center", false);
-		labels[el.protonNumber].attr(el.name);
+		labels[el.protonNumber] = graph.label( [x, y], el.symbol, "center", false );
+		labels[el.protonNumber].attr( el.name );
 	}
 
 	// Renders the labels of omitted lanthanides and actinides
@@ -72,15 +72,15 @@ function PeriodicTable(height, cellSize) {
 		graph.style({
 			fill: getElementColor( new Element("La") )
 		});
-		var laBox = createBox(x, y);
+		var laBox = createBox( x, y );
 		var laLabel = graph.label( [x, y], "*", "center", false);
 
 		y -= cellSize[1];
 		graph.style({
 			fill: getElementColor( new Element("Ac") )
 		});
-		var acBox = createBox(x, y);
-		var acLabel = graph.label( [x, y], "*", "center", false);
+		var acBox = createBox( x, y );
+		var acLabel = graph.label( [x, y], "**", "center", false);
 	}
 
 	function getElementColor(el) {
@@ -97,7 +97,7 @@ function PeriodicTable(height, cellSize) {
 		var graph = KhanUtil.currentGraph;
 
 		var _this = this;
-		$.each( elements, function (i, el) {
+		$.each( elements, function ( i, el ) {
 			if (el === undefined) return;
 
 			_this.renderCell( el, getElementColor( el ) );
