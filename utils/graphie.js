@@ -23,6 +23,15 @@
 			return [ x * xScale, y * yScale ];
 		};
 
+		var unScaleVector = function unScaleVector( point ) {
+			if ( typeof point === "number" ) {
+				return unScaleVector([ point, point ]);
+			}
+
+			var x = point[0], y = point[1];
+			return [ x / xScale, y / yScale ];
+		};
+
 		var scalePoint = function scalePoint( point ) {
 			if ( typeof point === "number" ) {
 				return scalePoint([ point, point ]);
@@ -398,6 +407,7 @@
 
 			scalePoint: scalePoint,
 			scaleVector: scaleVector,
+			unScaleVector: unScaleVector,
 
 			polar: polar,
 			cartToPolar: cartToPolar
