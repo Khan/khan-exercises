@@ -58,8 +58,26 @@
 				</div>
 				<div class="problem">
 					<p>What is the value of the angle marked with "x" ?</p>
+				</div>			
+			</div>
+			<div id="isoscelesTrap2" data-type="trapezoid">
+				<div class="vars">
+					<var id="ANGLES">randomQuadAngles.isoscelesTrapezoid()</var>
+					<var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
 				</div>
-				<div class="question">
+
+				<div class="hints">
+					<p>This figure is an isosceles trapezoid.</p>
+					<p>The angles of bases of an isosceles trapezoid are equal.</p>
+					<p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+				</div>
+			</div>
+			<div id="parallelogram1" data-type="trapezoid">		
+				<div class="vars">
+					<var id="ANGLES">randomQuadAngles.parallelogram()</var>
+					<var id="SHOWN_POS">( ANSWER_POS + 2 ) % 4</var>
+				</div>
+				<div class="question">				
 					<div class="graphie">
 						<!-- This is just a copy of the Trapezoid question but with the explicitly shown parallel lines removed -->
 						init({
@@ -72,25 +90,7 @@
 						q.draw();
 						q.labels = { "angles" : ANG_LABELS, "sides" : jQuery.map( jQuery.map( q.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } ) };
 						q.drawLabels();
-					</div>
-				</div>				
-			</div>
-			<div id="isoscelesTrap2" data-type="isoscelesTrap1">
-				<div class="vars">
-					<var id="ANGLES">randomQuadAngles.isoscelesTrapezoid()</var>
-					<var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
-				</div>
-
-				<div class="hints">
-					<p>This figure is an isosceles trapezoid.</p>
-					<p>The angles of bases of an isosceles trapezoid are equal.</p>
-					<p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
-				</div>
-			</div>
-			<div id="parallelogram1" data-type="isoscelesTrap1">
-				<div class="vars">
-					<var id="ANGLES">randomQuadAngles.parallelogram()</var>
-					<var id="SHOWN_POS">( ANSWER_POS + 2 ) % 4</var>
+					</div>		
 				</div>
 				<div class="hints">
 					<p>This quadrilateral is a parallelogram.</p>
@@ -98,7 +98,7 @@
 					<p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
 				</div>
 			</div>
-			<div id="parallelogram2" data-type="isoscelesTrap1">
+			<div id="parallelogram2" data-type="parallelogram1">
 				<div class="vars">
 					<var id="ANGLES">randomQuadAngles.parallelogram()</var>
 					<var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
