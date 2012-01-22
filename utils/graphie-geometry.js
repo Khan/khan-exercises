@@ -489,7 +489,6 @@ function Triangle( center, angles, scale, labels, points ){
 					});
 				}
 			});
-			window.triangle = this;
 		}
 
 		if ( "sides" in this.labels ){
