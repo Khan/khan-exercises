@@ -11,10 +11,12 @@
 		<var id="LOWER_BOUND">0</var>
 		<var id="UPPER_BOUND">1</var>
 		<var id="SCALING_FACTOR">5</var>
-
-		<var id="DENOMINATOR">randRange(2, 6)</var>
-		<var id="NUMERATOR">randRange(1, DENOMINATOR-1)</var>
-
+		<!-- use array to make the fractions come up evenly(ish) -->
+		<var id="fractionArray">[ [1, 2], [1, 3], [2, 3], [1, 4], [2, 4], [3, 4], [1, 5], [2, 5], [3, 5], [4, 5], [1, 6], [2, 6], [3, 6], [4, 6], [5, 6] ] </var>
+		<var id="fractionToFind">randFromArray(fractionArray)</var>
+		<var id="DENOMINATOR">fractionToFind[1]</var>
+		<var id="NUMERATOR">fractionToFind[0]</var>
+		
 		<var id="LOWER_SCALED">LOWER_BOUND * DENOMINATOR</var>
 		<var id="UPPER_SCALED">UPPER_BOUND * DENOMINATOR</var>
 
