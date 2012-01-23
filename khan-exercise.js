@@ -36,11 +36,10 @@
 
 var tokenreplace = {
 
-	// Default language when untranslatable
-	lang : "en",
+	table : {},
 
-	//switchLang(["en":object1, "nl":object2]) with tokenreplace.lang = "nl" returns object2
-	//(defaults to "en" or entry [0])
+	lang : "nl",
+
 	switchLang : function(langobjectmap){
 		if(langobjectmap[tokenreplace.lang]){
 			return langobjectmap[tokenreplace.lang]
@@ -53,7 +52,11 @@ var tokenreplace = {
 		}
 	},
 	
-	loaded : false
+	loaded : false,
+
+	add : function(name, data){
+		tokenreplace.table[name] = data;
+	}
 
 }
 
@@ -64,15 +67,13 @@ function initTokenreplace(){
 	else
 		tokenreplace.loaded = true
 
-	// Default language when translatable
-	tokenreplace.lang = "nl"
-
-	langfile = $('title').html().toLowerCase().replace(new RegExp(" ", "g"), "_")
-	globallangfile = "lang.js"
+	var name = window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
+	var langfile = name;
+	var globallangfile = "lang.js";
 	// If not in production
 	var production = ( typeof(userExercise) !== "undefined" )
 	if(production){
-		langfile = "/khan-exercises/exercises/"+langfile.substring(0, langfile.indexOf('|')-1)+".lang.js"
+		langfile = "/khan-exercises/exercises/"+langfile+".lang.js"
 		globallangfile = "/khan-exercises/exercises/"+globallangfile
 	}
 	else{
@@ -85,15 +86,16 @@ function initTokenreplace(){
 		url: langfile,
 		async:false,
 		success: function(data){
-			table = eval(data)
+			table = eval(data);
 			if(table[tokenreplace.lang]){
 				$('[data-tt]').each(function(){
-					token = $(this).attr('data-tt')
+					token = $(this).attr('data-tt');
 					if(table[tokenreplace.lang][token]){
-						$(this).html(table[tokenreplace.lang][token])
+						$(this).html(table[tokenreplace.lang][token]);
 					}
 				})
 			}
+			tokenreplace.add(name, data);
 		}
 	})
 
@@ -124,7 +126,6 @@ function initTokenreplace(){
 	})
 
 	Khan.tokenreplace = tokenreplace
-
 
 }
 
@@ -1731,7 +1732,8 @@ var Khan = (function() {
 
 	function prepareSite() {
 
-	initTokenreplace();
+		initTokenreplace();
+
 		// Set exercise title
 		if(jQuery(".exercise-title").text().length == 0){
 			jQuery(".exercise-title").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
@@ -2755,6 +2757,31 @@ var Khan = (function() {
 
 			// Maybe the exercise we just loaded loads some others
 			newContents.find( ".exercise[data-name]" ).each( loadExercise );
+
+			//Tokenreplace
+			var production = ( typeof(userExercise) !== "undefined" )
+			if(production){
+				langfile = "/khan-exercises/exercises/"+name+".lang.js"
+			}
+			else{
+				langfile = name+".lang.js";
+			}
+
+			$.ajax({
+				type: "GET",
+				url: langfile,
+				async:false,
+				success: function(data){
+					data = eval(data)
+					tokenreplace.add(name, eval(data))
+					newContents.find('[data-tt]').each(function(){
+						token = $(this).attr('data-tt');
+						if(data[tokenreplace.lang][token]){
+							$(this).html(data[tokenreplace.lang][token]);
+						}
+					})
+				}
+			})
 
 			// Save the filename and weights
 			newContents.filter( ".exercise" ).data( "name", name );
