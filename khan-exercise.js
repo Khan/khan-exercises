@@ -34,100 +34,66 @@
 
 */
 
-var tokenreplace = {
+var Translate = new function(){
 
-	table : {},
+	this.langdefault = "en";
+	this.lang = "nl";
+	this.table = {};
+	this.current = window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
+	this.production = ( typeof(userExercise) !== "undefined" );
+	this.exercisefile = ( this.production ? "/khan-exercises/exercises/" : "" ) + this.current + ".lang.js";
+	this.globalfile = ( this.production ? "/khan-exercises/exercises/" : "" ) +"lang.js";
 
-	lang : "nl",
-
-	switchLang : function(langobjectmap){
-		if(langobjectmap[tokenreplace.lang]){
-			return langobjectmap[tokenreplace.lang]
-		}
-		else if(langobjectmap["en"]){
-			return langobjectmap["en"]
+	this.switchLang = function(map){
+		if(map[this.lang]){
+			return map[this.lang];
 		}
 		else{
-			return langobjectmap[0]
+			return map["en"];
 		}
-	},
-	
-	loaded : false,
-
-	add : function(name, data){
-		tokenreplace.table[name] = data;
 	}
 
-}
-
-function initTokenreplace(){
-
-	if(tokenreplace.loaded)
-		return
-	else
-		tokenreplace.loaded = true
-
-	var name = window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
-	var langfile = name;
-	var globallangfile = "lang.js";
-	// If not in production
-	var production = ( typeof(userExercise) !== "undefined" )
-	if(production){
-		langfile = "/khan-exercises/exercises/"+langfile+".lang.js"
-		globallangfile = "/khan-exercises/exercises/"+globallangfile
-	}
-	else{
-		langfile = langfile+".lang.js";
+	this.getTranslation = function(url, name){
+		//TODO: Implement caching on client side
+		$.ajax({
+			type: "GET",
+			url: url,
+			async:false,
+			success: function(data){
+				Translate.table[name] = eval(data);
+			}
+		})
+		return this.table[name];
 	}
 
-	// Load exercise translation file
-	$.ajax({
-		type: "GET",
-		url: langfile,
-		async:false,
-		success: function(data){
-			table = eval(data);
-			if(table[tokenreplace.lang]){
-				$('[data-tt]').each(function(){
-					token = $(this).attr('data-tt');
-					if(table[tokenreplace.lang][token]){
-						$(this).html(table[tokenreplace.lang][token]);
-					}
-				})
-			}
-			tokenreplace.add(name, data);
+	this.load = function(){
+
+		Khan.Util.tokenreplace = Translate;
+		Khan.Util.translate = Translate;
+
+		var globals = this.getTranslation(this.globalfile, "globals");
+		if(globals[this.lang]){
+			$('.exercise-title').each(function(){
+				var title = $('title').html().substring(0, $('title').html().indexOf('|')-1)
+				if(Translate.table["globals"][Translate.lang][title]){
+					$(this).html(Translate.table["globals"][Translate.lang][title])
+				}
+			});
 		}
-	})
 
-	// Load global translation file
-	$.ajax({
-		type: "GET",
-		url: globallangfile,
-		async:false,
-		success: function(data){
-			table = eval(data)
-			if(table["titles"][tokenreplace.lang]){
-				$('.exercise-title').each(function(){
-					token = $('title').html().substring(0, $('title').html().indexOf('|')-1)
-					if(table["titles"][tokenreplace.lang][token]){
-						$(this).html(table["titles"][tokenreplace.lang][token])
-					}
-				})
-			}
-			if(table["globals"][tokenreplace.lang]){
-				$('[data-tg]').each(function(){
-					token = $(this).attr('data-tg')
-					if(table["globals"][tokenreplace.lang][token]){
-						$(this).html(table["globals"][tokenreplace.lang][token])
-					}
-				})
-			}
+		var exercisedata = this.getTranslation(this.exercisefile, this.current);
+		if(exercisedata && exercisedata[this.lang]){
+			$('[data-tt]').each(function(){
+				token = $(this).attr('data-tt');
+				if(Translate.table[Translate.current][Translate.lang][token]){
+					$(this).html(Translate.table[Translate.current][Translate.lang][token]);
+				}
+			});
 		}
-	})
 
-	Khan.tokenreplace = tokenreplace
+	}
 
-}
+};
 
 var Khan = (function() {
 	function warn( message, showClose ) {
@@ -1732,7 +1698,7 @@ var Khan = (function() {
 
 	function prepareSite() {
 
-		initTokenreplace();
+		Translate.load();
 
 		// Set exercise title
 		if(jQuery(".exercise-title").text().length == 0){
@@ -2759,29 +2725,17 @@ var Khan = (function() {
 			newContents.find( ".exercise[data-name]" ).each( loadExercise );
 
 			//Tokenreplace
-			var production = ( typeof(userExercise) !== "undefined" )
-			if(production){
-				langfile = "/khan-exercises/exercises/"+name+".lang.js"
-			}
-			else{
-				langfile = name+".lang.js";
-			}
 
-			$.ajax({
-				type: "GET",
-				url: langfile,
-				async:false,
-				success: function(data){
-					data = eval(data)
-					tokenreplace.add(name, eval(data))
-					newContents.find('[data-tt]').each(function(){
-						token = $(this).attr('data-tt');
-						if(data[tokenreplace.lang][token]){
-							$(this).html(data[tokenreplace.lang][token]);
-						}
-					})
-				}
-			})
+			var langfile = ( Translate.production ? "/khan-exercises/exercises/" : "" ) + name + ".lang.js";
+			var translation = Translate.getTranslation(langfile, name);
+			if(translation && translation[Translate.lang]){
+				newContents.find('[data-tt]').each(function(){
+					token = $(this).attr('data-tt');
+					if(translation[Translate.lang][token]){
+						$(this).html(translation[Translate.lang][token]);
+					}
+				})
+			}
 
 			// Save the filename and weights
 			newContents.filter( ".exercise" ).data( "name", name );
@@ -2881,8 +2835,3 @@ var Khan = (function() {
 
 // Make this publicly accessible
 var KhanUtil = Khan.Util;
-
-/*
- * Tokenreplace
- */
-var tokenreplace
