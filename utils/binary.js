@@ -22,20 +22,6 @@ jQuery.extend(KhanUtil, {
 	},
 
 	generateBinary: function( power ) {
-		/*
-		if ( !power ) {
-			power = 8;
-		}
-		var bits = [];
-		for( var i = 0; i < power; ++ i ) {
-			bits[i] = KhanUtil.randRange( 0, 1 ).toString();
-		}
-		return bits;
-		*/
-		return KhanUtil.randRange( 0, Math.pow( 2, power ) );
-	},
-
-	generateDecimal: function( power ) {
 		return KhanUtil.randRange( 0, Math.pow( 2, power ) - 1 );
 	},
 
