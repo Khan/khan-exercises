@@ -22,11 +22,11 @@
 	<div class="problems">
 		<div>
 			<div class="vars">
-				<var id="SUBJECT">randFromArray([ "animal", "color", "fruit", "course" ])</var>
+				<var id="SUBJECT" data-tt="vars1">randFromArray([ "animal", "color", "fruit", "course" ])</var>
 				<var id="CATEGORIES">jQuery.map( _.range(5), function( n ) { return ( KhanUtil[ SUBJECT ] )( n + 1 ); } )</var>
 				<var id="DATA">jQuery.map( _.range(5), function() { return randRange( 0, 10 ); } )</var>
 				<var id="TOTAL">eval( DATA.join( "+" ) )</var>
-				<var id="RESPONDENT">randFromArray([ "student", "teacher", "person" ])</var>
+				<var id="RESPONDENT" data-tt="vars2">randFromArray([ "student", "teacher", "person" ])</var>
 			</div>
 
 			<code><var>TOTAL</var></code> <var>plural( RESPONDENT, TOTAL )</var><p data-tt="question1"> were asked about their favorite </p><var>SUBJECT</var>.

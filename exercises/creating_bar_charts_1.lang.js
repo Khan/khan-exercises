@@ -1,5 +1,7 @@
 ({
 	"nl" : {
+		"vars1"	: 'randFromArray([ "animal", "color", "fruit", "course" ])', 
+		"vars2"	: 'randFromArray([ "student", "teacher", "person" ])', 
 		"question1"	: ' werd gevraagd naar hun favoriete ',
 		"question2"	: 'Maak een staafdiagram met ieders favoriete <var>plural( SUBJECT )</var>: ',
 		"question3"	: 'Maak een staafdiagram door de bovenkant van elke staaf omhoog en omlaag te bewegen.',
