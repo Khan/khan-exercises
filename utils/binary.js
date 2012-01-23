@@ -6,9 +6,12 @@
 // [<Name> <Date>]
 
 jQuery.extend(KhanUtil, {
-	formatBinary: function( bits ) {
+	formatBinary: function( bits, precision ) {
+		if ( typeof precision === "undefined" ) {
+			precision = 8;
+		}
 		if ( typeof bits === "number" ) {
-			return KhanUtil.formatBinary( KhanUtil.decimalToBinary( bits, 8 ) );
+			return KhanUtil.formatBinary( KhanUtil.decimalToBinary( bits, precision ) );
 		} else {
 			if ( !bits ) {
 				bits = 8;
