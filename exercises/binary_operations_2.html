@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <!-- Binary 2 Exercise - Eliot Van Uytfanghe -->
 <html data-require="math binary expressions">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Binary operations 2</title>
-        <script src="../khan-exercise.js"></script>
-    </head>
-    <body>
-        <div class="exercise">
-            <div class="vars">
-                <var id="A">generateBinary( 8 )</var>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Binary operations 2</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="A">generateBinary( 8 )</var>
 				<var id="B">generateBinary( 8 )</var>
 				<var id="A_BIN">formatBinary( A )</var>
 				<var id="B_BIN">formatBinary( B )</var>
 				<var id="C">generateBinary( 3 )</var> <!-- a small number, for bitwise shifts -->
-            </div>
-                    
+			</div>
+					
 			<!-- TODO: elaborate on the operations: show them bit by bit -->
-            <div class="problems">
-                <div id="AND">
-                    <div class="vars">
+			<div class="problems">
+				<div id="AND">
+					<div class="vars">
 						<var id="SOLUTION">A & B</var>
 						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
-                    </div>
+					</div>
 
 					<p class="question">
 						What is the result of the following binary expression?
@@ -33,8 +33,8 @@
 					<div class="solution" data-forms="binary">
 						<var>SOLUTION</var>
 					</div>
-                    
-                    <div class="hints">
+					
+					<div class="hints">
 						<p>
 							<code>\wedge</code> is the symbol of logical conjunction, or the "and" operation.
 						</p>
@@ -47,15 +47,15 @@
 								<var>A_BIN</var> \wedge <var>B_BIN</var> = <var>SOLUTION_BIN</var>
 							</code>
 						</p>
-                    </div>
-                </div>
-                
-                <div id="OR">
-                    <div class="vars">
+					</div>
+				</div>
+				
+				<div id="OR">
+					<div class="vars">
 						<var id="SOLUTION">A | B</var>
 						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
-                    </div>
-                  
+					</div>
+				  
 					<p class="question">
 						What is the result of the following binary expression?
 					</p>
@@ -65,8 +65,8 @@
 					<div class="solution" data-forms="binary">
 						<var>SOLUTION</var>
 					</div>
-                    
-                    <div class="hints">
+					
+					<div class="hints">
 						<p>
 							<code>\vee</code> is the symbol of logical disjunction, or the "or" operation.
 						</p>
@@ -78,16 +78,16 @@
 							<code>
 								<var>A_BIN</var> \wedge <var>B_BIN</var> = <var>SOLUTION_BIN</var>
 							</code>
-                        </p>
-                    </div>
-                </div>
-                
-                <div id="XOR">
-                    <div class="vars">
+						</p>
+					</div>
+				</div>
+				
+				<div id="XOR">
+					<div class="vars">
 						<var id="SOLUTION">A ^ B</var>
 						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
-                    </div>
-                  
+					</div>
+				  
 					<p class="question">
 						What is the result of the following binary expression?
 					</p>
@@ -97,8 +97,8 @@
 					<div class="solution" data-forms="binary">
 						<var>SOLUTION</var>
 					</div>
-                    
-                    <div class="hints">
+					
+					<div class="hints">
 						<p>
 							<code>\oplus</code> is the symbol of exclusive disjunction, or the "XOR" operation.
 						</p>
@@ -113,12 +113,12 @@
 							<code>
 								<var>A_BIN</var> \oplus <var>B_BIN</var> = <var>SOLUTION_BIN</var>
 							</code>
-                        </p>
-                    </div>
-                </div>
-                
+						</p>
+					</div>
+				</div>
+				
 				<!-- TODO: bitwise negation applies only to BYTES, not all binary numbers! -->
-                <div id="NOT">
+				<div id="NOT">
 					<div class="vars">
 						<var id="SOLUTION">255 - A</var>
 						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
@@ -144,17 +144,17 @@
 							<code>
 								\sim <var>A_BIN</var> = <var>SOLUTION_BIN</var>
 							</code>
-                        </p>
+						</p>
 					</div>
 				</div>
-                
+				
 				<!-- TODO: once again, binary number !== bytes; shouldn't we strip the 8th bytes and beyond? -->
-                <div id="LSH">
-                    <div class="vars">
+				<div id="LSH">
+					<div class="vars">
 						<var id="SOLUTION">A &lt;&lt; C</var>
 						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
-                    </div>
-                  
+					</div>
+				  
 					<p class="question">
 						What is the result of the following binary expression?
 					</p>
@@ -164,7 +164,7 @@
 					<div class="solution" data-forms="binary">
 						<var>SOLUTION</var>
 					</div>
-                    
+					
 					<div class="hints">
 						<p>
 							<code>\ll</code> is the symbol of left bitwise shift.
@@ -175,15 +175,15 @@
 						<p>
 							<code><var>A_BIN</var> \ll <var>C</var> = <var>SOLUTION_BIN</var></code>
 						</p>
-                    </div>
-                </div>
-                
-                <div id="RSH">
-                    <div class="vars">
+					</div>
+				</div>
+				
+				<div id="RSH">
+					<div class="vars">
 						<var id="SOLUTION">A >> C</var>
 						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
-                    </div>
-                  
+					</div>
+				  
 					<p class="question">
 						What is the result of the following binary expression?
 					</p>
@@ -193,7 +193,7 @@
 					<div class="solution" data-forms="binary">
 						<var>SOLUTION</var>
 					</div>
-                    
+					
 					<div class="hints">
 						<p>
 							<code>\gg</code> is the symbol of right bitwise shift.
@@ -204,9 +204,9 @@
 						<p>
 							<code><var>A_BIN</var> \gg <var>C</var> = <var>SOLUTION_BIN</var></code>
 						</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
