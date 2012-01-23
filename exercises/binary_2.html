@@ -9,13 +9,14 @@
     <body>
         <div class="exercise">
             <div class="vars">
-                <var id="A">generateBinary( 8 )</var>
+                <var id="A">generateDecimal( 8 )</var>
             </div>
                     
             <div class="problems">
                 <div id="AND">
                     <div class="vars">
-                        <var id="B">generateBinary( 8 )</var>
+                        <var id="B">generateDecimal( 8 )</var>
+						<var id="SOLUTION">A & B</var>
                     </div>
 
 					<p class="question">
@@ -24,9 +25,8 @@
 					<code>
 						<var>formatBinary( A )</var> \wedge <var>formatBinary( B )</var>
 					</code>
-                    <p>Input the answer without the leading zero digits!</p>
 					<div class="solution" data-forms="integer">
-						<var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) & binaryToDecimal(B, 8), 8) )</var>
+						<var>formatBinary( SOLUTION )</var>
 					</div>
                     
                     <div class="hints">
@@ -36,7 +36,8 @@
                 
                 <div id="OR">
                     <div class="vars">
-                        <var id="B">generateBinary( 8 )</var>
+                        <var id="B">generateDecimal( 8 )</var>
+						<var id="SOLUTION">A | B</var>
                     </div>
                   
 					<p class="question">
@@ -45,21 +46,21 @@
 					<code>
 						<var>formatBinary( A )</var> \vee <var>formatBinary( B )</var>
 					</code>
-                    <p>Input the answer without the leading zero digits!</p>
-                    <div class="solution" data-forms="integer"><var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) | binaryToDecimal(B, 8), 8) )</var></div>
+                    <div class="solution" data-forms="integer"><var>formatBinary( SOLUTION )</var></div>
                     
                     <div class="hints">
                         <p>Combine the positive digits.</p>
                         <p>
                             Left-operand digits combined with the positive digits of the right-operand
-                            becomes <var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) | binaryToDecimal(B, 8)) )</var>
+                            becomes <var>formatBinary( SOLUTION )</var>.
                         </p>
                     </div>
                 </div>
                 
                 <div id="XOR">
                     <div class="vars">
-                        <var id="B">generateBinary( 8 )</var>
+                        <var id="B">generateDecimal( 8 )</var>
+						<var id="SOLUTION">A ^ B</var>
                     </div>
                   
 					<p class="question">
@@ -68,27 +69,33 @@
 					<code>
 						<var>formatBinary( A )</var> \oplus <var>formatBinary( B )</var>
 					</code>
-                    <p>Input the answer without the leading zero digits!</p>
-                    <div class="solution" data-forms="integer"><var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) ^ binaryToDecimal(B, 8), 8) )</var></div>
+                    <div class="solution" data-forms="integer"><var>formatBinary( SOLUTION )</var></div>
                     
                     <div class="hints">
                         <p>Start from left to right. For each equal digit value, input 0 or 1 if not equal.</p>
                     </div>
                 </div>
                 
-                <!-- Commented because solution is always 0(TODO:FIX)<div id="NOT">
-<p class="question">Solve this binary with the bitwise operator NOT.</p>
-<p>~<var>formatBinary( A )</var></p>
-<p>Input the answer without the leading zero digits!</p>
-<div class="solution" data-forms="string"><var>formatBinary( decimalToBinary(~binaryToDecimal(A, 8), 8) )</var></div>
-<div class="hints">
-<p>Reverse each digit from positive to negative and vice-versa.</p>
-</div>
-</div>-->
+                <div id="NOT">
+					<div class="vars">
+						<var id="SOLUTION">255 - binaryToDecimal( A, 8 )</var>
+					</div>
+					<p class="question">
+						What is the result of the following binary expression?
+					</p>
+					<code>
+						\sim <var>formatBinary( A )</var>
+					</code>
+					<div class="solution" data-forms="integer"><var>formatBinary( SOLUTION )</var></div>
+					<div class="hints">
+						<p>Reverse each digit from positive to negative and vice-versa.</p>
+					</div>
+				</div>
                 
                 <div id="LSH">
                     <div class="vars">
-                        <var id="B">Math.round( generateDecimal(3) )</var>
+                        <var id="B">Math.round( generateDecimal( 3 ) )</var>
+						<var id="SOLUTION">A &lt;&lt; B</var>
                     </div>
                   
 					<p class="question">
@@ -97,9 +104,8 @@
 					<code>
 						<var>formatBinary( A )</var> \ll <var>B</var>
 					</code>
-                    <p>Input the answer without the leading zero digits!</p>
 					<div class="solution" data-forms="integer">
-						<var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) &lt;&lt; B, 8) )</var>
+						<var>formatBinary( SOLUTION )</var>
 					</div>
                     
                     <div class="hints">
@@ -110,6 +116,7 @@
                 <div id="RSH">
                     <div class="vars">
                         <var id="B">Math.round( generateDecimal(3) )</var>
+						<var id="SOLUTION">A >> B</var>
                     </div>
                   
 					<p class="question">
@@ -118,9 +125,8 @@
 					<code>
 						<var>formatBinary( A )</var> \gg <var>B</var>
 					</code>
-                    <p>Input the answer without the leading zero digits!</p>
 					<div class="solution" data-forms="integer">
-						<var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) >> B, 8) )</var>
+						<var>formatBinary( SOLUTION )</var>
 					</div>
                     
                     <div class="hints">

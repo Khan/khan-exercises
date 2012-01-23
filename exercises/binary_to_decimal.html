@@ -12,6 +12,7 @@
 				<div id="binary-to-decimal">
 					<div class="vars">
 						<var id="A">generateBinary( 8 )</var>
+						<var id="A_BIN">formatBinary( A )</var>
 					</div>
 
 					<div class="question">
@@ -19,19 +20,19 @@
 							init( {range: [[0, 12], [-1, 1]]} );
 
 							label( [0, 0],
-							"\\text{Convert this binary }" + "\\color{#6495ED}{<var>formatBinary( A )</var>}" + "\\text{ to decimal.}",
+							"\\text{Convert }" + "\\color{#6495ED}{<var>A_BIN</var>}" + "\\text{ from binary to decimal.}",
 							"right" );
 						</div>
 					</div>
-					<div class="solution" data-forms="integer"><var>binaryToDecimal( A, 8 )</var></div>
+					<div class="solution" data-forms="integer"><var>A</var></div>
 
 					<div class="hints">
 						<div>
 							<div class="graphie" data-update="hint">
 								label( [0, -1.5], "\\text{Add up the value of each positive digit.}", "right" );
 								label( [0, -2.7], "\\text{# }", "right" );
-								for( i = 0; i < A.length; ++ i ){
-									label( [i + 1, -2.7], A[i], "right" );
+								for( i = 0; i < A_BIN.length; ++ i ){
+									label( [i + 1, -2.7], A_BIN[i], "right" );
 									label( [i + 1, -2.2], Math.pow( 2, 8 - i - 1 ), "right" );
 								}
 							</div>
@@ -40,8 +41,8 @@
 							<div class="graphie" data-update="hint">
 								val = 0;
 								label( [0, -3.2], "\\text{+ }", "right" );
-								for( i = 0; i < A.length; ++ i ){
-									val += A[i] == '1' ? Math.pow( 2, 8 - i - 1 ) : 0;
+								for( i = 0; i < A_BIN.length; ++ i ){
+									val += A_BIN[i] == '1' ? Math.pow( 2, 8 - i - 1 ) : 0;
 									label( [i + 1, -3.2], A[i] == '1' ? "\\color{#00FF00}{\\text{" + val + "}}" : "\\color{#FF0000}{\\text{" + val + "}}", "right" );
 								}
 							</div>

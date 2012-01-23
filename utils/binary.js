@@ -7,26 +7,42 @@
 
 jQuery.extend(KhanUtil, {
 	formatBinary: function( bits ) {
-		var newBin = '';
-		for( var i = bits.length - 1; i >= 0; -- i ) {
-			newBin = bits[i] /*+ (i % 4 == 0 ? ' ' : '')*/ + newBin;
+		if ( typeof bits === "number" ) {
+			return KhanUtil.formatBinary( KhanUtil.decimalToBinary( bits, 8 ) );
+		} else {
+			if ( !bits ) {
+				bits = 8;
+			}
+			var newBin = '';
+			for( var i = bits.length - 1; i >= 0; -- i ) {
+				newBin = bits[i] + newBin;
+			}
+			return newBin;
 		}
-		return newBin;
 	},
 
 	generateBinary: function( power ) {
+		/*
+		if ( !power ) {
+			power = 8;
+		}
 		var bits = [];
 		for( var i = 0; i < power; ++ i ) {
 			bits[i] = KhanUtil.randRange( 0, 1 ).toString();
 		}
 		return bits;
+		*/
+		return KhanUtil.randRange( 0, Math.pow( 2, power ) );
 	},
 
 	generateDecimal: function( power ) {
-		return KhanUtil.randRange( 0, Math.pow( 2, power )-1 );
+		return KhanUtil.randRange( 0, Math.pow( 2, power ) - 1 );
 	},
 
 	binaryToDecimal: function( bits, power ) {
+		if ( typeof bits === "number" ) {
+			return bits.toString();
+		}
 		var value = 0;
 		for( var i = power - 1; i >= 0; -- i ) {
 			if( bits[i] === '1' ) {
@@ -37,13 +53,14 @@ jQuery.extend(KhanUtil, {
 	},
 
 	decimalToBinary: function( decimal, power ) {
-		var binary = '';
-		var c = 1;
+		var binary = '', c = 0;
 
 		do {
-			binary = (((decimal & c) === c) ? '1' : '0') + binary;
-			c *= 2;
-		} while( c <= decimal && c !== Math.pow( 2, power ) /* all bits */);
+			binary = ( ( decimal & 1 ) ? '1' : '0' ) + binary;
+			decimal >>= 1;
+			c++;
+		} while ( decimal > 0 || c < power );
+
 		return binary;
 	}
 });
