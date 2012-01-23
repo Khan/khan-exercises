@@ -1,5 +1,5 @@
 ({
 	"nl" : {
-		"question1"	: 'Given that x is in the first quadrant and <code> \<var>FUN_NAME</var> x </code> is <code><var>FUN_VALUE</var></code>, what is <code> \<var>END_NAME</var> x</code> ?'
+		"question1"	: 'Gegeven het feit dat x in het eerste kwadrant ligt en dat <code> \\<var>FUN_NAME</var> x </code> is <code><var>FUN_VALUE</var></code>, hoeveel is dan <code> \\<var>END_NAME</var> x</code> ?'
 		}
 })
