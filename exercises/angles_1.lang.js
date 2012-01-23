@@ -203,16 +203,16 @@
 								'"above left" );'+
 						'</span>',
 		"hint14"	: '<code>\\color{orange}{\\angle{AHI}} = \\color{green}{\\angle{AJK}}</code>, '+
-						'omdat het because they are corresponding angles formed by 2 parallel lines and '+
-						'a transversal line. Corresponding angles are congruent (equal).'+
+						'omdat het because they are overeenkomende hoeken formed by 2 parallel lines and '+
+						'a transversal line. Overeenkomende hoeken zijn congruent (gelijk).'+
 						'<span class="graphie" data-update="parallel-and-triangle">'+
 							'label( [-4.60, 0.75], "\\\\color{orange}{<var>Tri_Z</var>&deg;}", '+
 								'"below" );'+
 							'arc( [-5.07, 1.75], 1, 260, 325, {stroke: "orange"} );'+
 						'</span>',
 		"hint15"	: '<code>\\color{orange}{\\angle{AJK}} = \\color{green}{\\angle{AHI}}</code>, '+
-						'because they are corresponding angles formed by 2 parallel lines and '+
-						'a transversal line. Corresponding angles are congruent (equal).'+
+						'omdat het overeenkomende hoeken zijn, gevormd door twee evenwijdige lijnen die '+
+						'worden doorsneden door een derde lijn. Overeenkomende hoeken zijn congruent (gelijk).'+
 						'<span class="graphie" data-update="parallel-and-triangle">'+
 							'label( [-4.00, 4.25], "\\\\color{orange}{<var>Tri_Z</var>&deg;}", '+
 								'"below" );'+
@@ -276,16 +276,16 @@
 							'arc( [4, -2], 1, 135, 180, {stroke: "pink"} );'+
 						'</span>',
 		"hint19"	: '<code>\\color{purple}{\\angle{DAK}} = 90&deg;</code>,  '+
-						'because angles formed by perpendicular lines are equal to 90&deg;.'+
+						'omdat de hoek gevormd door twee lijnen die loodrecht op elkaar staan gelijk is aan 90&deg;.'+
 						'<span class="graphie" data-update="alternate-exterior-and-complementary">'+
 							'label( [-1.68, 2], "\\\\color{purple}{90&deg;}", "above left" );'+
 							'arc( [0, 2], 1.65, 90, 180, {stroke: "purple"} );'+
 						'</span>',
 		"hint20"	: '<code>\\color{blue}{\\angle{IAK}} = 90&deg; - \\color{orange}{\\angle{DAI}} = '+
 						'<var>90 - Tri_Y</var>&deg;</code>, '+
- 						'because angles <code>\\color{blue}{\\angle{IAK}}</code> '+
- 						'and <code>\\color{orange}{\\angle{DAI}}</code> make up angle '+
- 						'<code>\\color{purple}{\\angle{DAK}}</code>.'+
+ 						'omdat de hoeken <code>\\color{blue}{\\angle{IAK}}</code> '+
+ 						'en <code>\\color{orange}{\\angle{DAI}}</code> samen de hoek '+
+ 						'<code>\\color{purple}{\\angle{DAK}}</code> vormen.'+
  						'<span class="graphie" data-update="alternate-exterior-and-complementary">'+
 							'ORIGINAL_LABEL.remove();'+
 							'label( [0, 3.5], '+
@@ -294,9 +294,9 @@
 						'</span>',
 		"hint21"	: '<code>\\color{orange}{\\angle{IAK}} = 90&deg; - \\color{green}{\\angle{IAK}} = '+
 						'<var>90 - Tri_Y</var>&deg;</code>, '+
-						'because angles <code>\\color{green}{\\angle{IAK}}</code> '+
-						'and <code>\\color{orange}{\\angle{DAI}}</code>, make up angle '+
-						'<code>\\color{purple}{\\angle{DAK}}</code>.'+
+						'omdat de hoeken <code>\\color{green}{\\angle{IAK}}</code> '+
+						'en <code>\\color{orange}{\\angle{DAI}}</code> samen de hoek '+
+						'<code>\\color{purple}{\\angle{DAK}}</code> vormen.'+
 						'<span class="graphie" data-update="alternate-exterior-and-complementary">'+
 							'label( [-.80, 2], "\\\\color{orange}{<var>90-Tri_Y</var>&deg;}", '+
 								"above left" );'+
