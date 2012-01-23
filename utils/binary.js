@@ -10,45 +10,34 @@ jQuery.extend(KhanUtil, {
 		if ( typeof precision === "undefined" ) {
 			precision = 8;
 		}
-		if ( typeof bits === "number" ) {
-			return KhanUtil.formatBinary( KhanUtil.decimalToBinary( bits, precision ) );
-		} else {
-			if ( !bits ) {
-				bits = 8;
-			}
-			var newBin = '';
-			for( var i = bits.length - 1; i >= 0; -- i ) {
-				newBin = bits[i] + newBin;
-			}
-			return newBin;
+		switch ( typeof bits ) {
+			case "number":
+				bits = KhanUtil.decimalToBinary( bits, precision ); // fall through to string case
+			case "string":
+				// Pad with zeroes on left
+				while ( bits.length < precision ) {
+					bits = '0' + bits;
+				}
+				return bits;
+			case "object": // assume it's an array; call self to pad with zeroes.
+				return KhanUtil.formatBinary( bits.join(''), precision );
 		}
 	},
 
+	// Generates a random (power)-bit number.
 	generateBinary: function( power ) {
 		return KhanUtil.randRange( 0, Math.pow( 2, power ) - 1 );
 	},
 
-	binaryToDecimal: function( bits, power ) {
-		if ( typeof bits === "number" ) {
-			return bits.toString();
-		}
-		var value = 0;
-		for( var i = power - 1; i >= 0; -- i ) {
-			if( bits[i] === '1' ) {
-				value += Math.pow( 2, power - i - 1 );
-			}
-		}
-		return value;
-	},
-
-	decimalToBinary: function( decimal, power ) {
+	// Converts a number to its binary representation (with no padding zeroes).
+	decimalToBinary: function( decimal ) {
 		var binary = '', c = 0;
 
 		do {
 			binary = ( ( decimal & 1 ) ? '1' : '0' ) + binary;
 			decimal >>= 1;
 			c++;
-		} while ( decimal > 0 || c < power );
+		} while ( decimal > 0 );
 
 		return binary;
 	}
