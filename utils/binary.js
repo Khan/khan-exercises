@@ -43,7 +43,10 @@ jQuery.extend(KhanUtil, {
 	},
 
 	randBinaryOperator: function() {
-		return KhanUtil.randFromArray( [ "&", "|", "~", "^" ] );
+		// The tilde is commented out, because currently the exercises don't tell you the
+		// number of bits to flip. That might change in the future if the exercise
+		// get a bit more CS-centric.
+		return KhanUtil.randFromArray( [ "&", "|", /* "~", */"^" ] );
 	},
 
 	// Generates a random binary expression
