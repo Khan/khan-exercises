@@ -42,19 +42,19 @@ jQuery.extend(KhanUtil, {
 		return binary;
 	},
 
-	randBitOperator: function() {
+	randBinaryOperator: function() {
 		return KhanUtil.randFromArray( [ "&", "|", "~", "^" ] );
 	},
 
 	// Generates a random binary expression
-	randBitExpression: function( bits ) {
+	randBinaryExpression: function( bits ) {
 		var randExpr = function( depth ) {
 			if ( depth <= 0 ) {
-				return KhanUtil.formatBinary( KhanUtil.generateBinary( bits ) );
+				return KhanUtil.generateBinary( bits );
 			}
 
 			var expression = [];
-			expression.push( KhanUtil.randBitOperator() );
+			expression.push( KhanUtil.randBinaryOperator() );
 			expression.push( randExpr( depth - KhanUtil.randRange( 1, 2 ) ) );
 			if ( expression[0] !== '~' ) {
 				expression.push( randExpr( depth - KhanUtil.randRange( 1, 2 ) ) );
@@ -80,16 +80,18 @@ jQuery.extend(KhanUtil, {
 		var recurse = function( expr ) {
 			var result = KhanUtil.formatBinaryExpression( expr );
 			if ( typeof expr === "object" && expr.length > 1 ) {
-				return "(" + result + ")";
-			} else {
-				return result;
+				result = "(" + result + ")";
 			}
+			if ( expr.color ) {
+				result = "\\color{"+ expr.color +"}{" + result + "}";
+			}
+			return result;
 		};
 		if ( expr.length === 1 ) {
 			expr = expr[0];
 		}
 		if ( typeof expr === "string" || typeof expr === "number" ) {
-			return expr;
+			return KhanUtil.formatBinary( expr );
 		}
 		var sym = KhanUtil.binarySymbol( expr[0] );
 		switch ( expr[0] ) {
@@ -120,18 +122,8 @@ jQuery.extend(KhanUtil, {
 		}
 	},
 
-	bitFlip: function( a ) {
-		for ( var i = 0; i < a.length; i++ ) {
-			a[i] = ( a[i] == 1 ? 0 : 1 );
-		}
-		return a;
-	},
-
-	applyBitOperator: function( operator, a, b ) {
-		if ( operator[0] === "0" || operator[0] === "1" ) {
-			return KhanUtil.parseBinary( operator );
-		}
-		if ( typeof operator !== "string" ) {
+	applyBinaryOperator: function( operator, a, b ) {
+		if ( typeof operator === "object" ) {
 			a = operator[1];
 			b = operator[2];
 			operator = operator[0];
@@ -146,7 +138,7 @@ jQuery.extend(KhanUtil, {
 				result = a | b;
 				break;
 			case "~":
-				result = KhanUtil.bitFlip( a, 8 );
+				result = 255 - a;
 				break;
 			case "^":
 				result = a ^ b;
@@ -155,7 +147,7 @@ jQuery.extend(KhanUtil, {
 		return result;
 	},
 
-	evaluateBitExpression: function( expression ) {
+	evaluateBinaryExpression: function( expression ) {
 		if ( typeof expression === "undefined" ) {
 			return;
 		}
@@ -165,11 +157,19 @@ jQuery.extend(KhanUtil, {
 		if ( expression.length <= 3 &&
 			 typeof expression[1] !== "object" &&
 			 typeof expression[2] !== "object" ) {
-			return KhanUtil.applyBitOperator( expression );
+			return KhanUtil.applyBinaryOperator( expression );
 		}
 
-		return KhanUtil.applyBitOperator( expression[0],
-				KhanUtil.evaluateBitExpression( expression[1] ),
-				KhanUtil.evaluateBitExpression( expression[2] ) );
+		return KhanUtil.applyBinaryOperator( expression[0],
+				KhanUtil.evaluateBinaryExpression( expression[1] ),
+				KhanUtil.evaluateBinaryExpression( expression[2] ) );
+	},
+
+	countBinaryExpressionOperators: function( expression ) {
+		if ( typeof expression === "object" ) {
+			return 1 + KhanUtil.countBinaryExpressionOperators( expression[1] ) +
+				KhanUtil.countBinaryExpressionOperators( expression[2] );
+		}
+		return 0;
 	}
 });
