@@ -1044,17 +1044,22 @@ jQuery.extend( Khan.answerTypes, {
 
 		ret.showGuess = function( guess ) {
 			if ( typeof guess === "undefined" ) {
-				guess = [ 0, 1 ]; // magic: this is the default position of the complex number polar form dot
+				guess = [ 0, 1 ]; // magic: default complex polar form value
 			}
 			if ( isTimeline ) {
 				guessCorrect = validator( guess );
 				jQuery( solutionarea ).empty();
 				jQuery( solutionarea ).append( guessCorrect === true ? "Answer correct" : "Answer incorrect" );
 			} else {
-				var cplx = KhanUtil.currentGraph.graph.currComplexPolar;
-				cplx.update( guess[0], guess[1] );
-				redrawComplexPolarForm();
+				redrawComplexPolarForm( guess[0], guess[1] );
 			}
+		};
+
+		ret.showCustomGuess = function( guess ) {
+			var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" + 
+				"graph.currComplexPolar.update( guess[0], guess[1] );" +
+				"})()";
+			KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
 		};
 
 		ret.solution = solution;

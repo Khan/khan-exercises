@@ -495,7 +495,7 @@ function ComplexPolarForm( angleDenominator, maxRadius, euler ) {
 	var denominator = angleDenominator;
 	var maximumRadius = maxRadius;
 	var angle = 0, radius = 1;
-	var raphaelObjects = [];
+	var circle;
 	var useEulerForm = euler;
 
 	this.update = function ( newAngle, newRadius ) {
@@ -514,6 +514,10 @@ function ComplexPolarForm( angleDenominator, maxRadius, euler ) {
 
 	this.getAngleNumerator = function () {
 		return angle;
+	}
+
+	this.getAngleDenominator = function () {
+		return denominator;
 	}
 
 	this.getAngle = function () {
@@ -537,19 +541,16 @@ function ComplexPolarForm( angleDenominator, maxRadius, euler ) {
 	}
 
 	this.plot = function () {
-		var graph = KhanUtil.currentGraph;
-		var circle = graph.circle( [ this.getRealPart(), this.getImaginaryPart() ], 1/4, {
+		circle = KhanUtil.currentGraph.circle( [ this.getRealPart(), this.getImaginaryPart() ], 1/4, {
 			fill: KhanUtil.ORANGE,
 			stroke: "none"
 		});
-		raphaelObjects.push( circle );
-	}
-
+	},
+	
 	this.redraw = function () {
-		jQuery.each( raphaelObjects, function( i, el ) {
-			el.remove();
-		});
-		raphaelObjects = [];
+		if ( circle ) {
+			circle.remove();
+		}
 		this.plot();
 	}
 }
@@ -559,14 +560,20 @@ function updateComplexPolarForm( deltaAngle, deltaRadius ) {
 	redrawComplexPolarForm();
 }
 
-function redrawComplexPolarForm() {
+function redrawComplexPolarForm( angle, radius ) {
 	var graph = KhanUtil.currentGraph;
 	var storage = graph.graph;
 	var point = storage.currComplexPolar;
 	point.redraw();
 
-	var radius = point.getRadius();
-	var angle = point.getAngle();
+	if ( typeof radius === "undefined" ) {
+		radius = point.getRadius();
+	}
+	if ( typeof angle === "undefined" ) {
+		angle = point.getAngleNumerator();
+	}
+
+	angle *= 2 * Math.PI / point.getAngleDenominator();
 
 	var equation = KhanUtil.polarForm( radius, angle, point.getUseEulerForm() );
 
