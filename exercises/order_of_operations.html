@@ -4,6 +4,13 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Order of operations</title>
 	<script src="../khan-exercise.js"></script>
+	<style type="text/css">
+		ul.bold {font-weight:bold;}
+		span.paren {color:red; font-weight:bold;}
+		span.exp {color:purple; font-weight:bold;}
+		span.mult {color:blue; font-weight:bold;}
+		span.add {color:green; font-weight:bold;}
+</style>
 </head>
 <body>
 	<div class="exercise">
@@ -16,259 +23,788 @@
 			<var id="D">randRange(1, 10)</var>
 			<var id="E">randRange(1, 10)</var>
 		</div>
-
+	
 		<div class="problems">
 			<div id="order-of-operations">
 				<p class="question">Simplify the following expression.</p>
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						<var>A</var> + (<var>B</var> \times <var>C</var>)
-				</code></p>
+					</code>
+				</p>
 
 				<p class="solution" data-forms="integer">
 					<var>A+B*C</var>
 				</p>
-
 				<div class="hints">
-					<p><code>
-							= <var>A</var> + (<var>B*C</var>)
-					</code></p>
-					<p><code>
-							= <var>A</var> + <var>B*C</var>
-					</code></p>
-					<p><code>
-							= <var>A+B*C</var>
-					</code></p>
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>	
+					<div>
+						<p>We will look at our <span class="paren">Parentheses</span> first.</p>
+						<p>
+							<code>
+								<var>A</var> + \color{red}{(<var>B</var> \times <var>C</var>)}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>In the <span class="paren">Parentheses</span>, we have just <span class="mult">Multiplication</span>.</p>
+						<p>
+							<code>
+								<var>A</var> + \color{red}{(}\color{blue}{<var>B</var> \times <var>C</var>}\color{red}{)}
+							</code>
+						</p>
+						<p>
+							<code>
+								=<var>A</var> + \color{red}{(}\color{blue}{<var>B*C</var>}\color{red}{)}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Since there is nothing left to do in the Parentheses, we can remove them.<p>
+						<p><code><var>A</var> + <var>B*C</var></code></p>
+					</div>
+					<div>
+						<p>Now we can finish up by doing the <span class="add">Addition</span>.</p>
+						<p class="add"><code><var>A</var> + <var>B*C</var></code></p>
+						<p><code>=<var>A+B*C</var></code></p>
+					</div>
 				</div>
 			</div>
 			<div data-type="order-of-operations">
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						<var>A</var> + <var>B</var> \times <var>C</var>
-				</code></p>
+					</code>
+				</p>
 
 				<p class="solution" data-forms="integer">
 					<var>A+B*C</var>
 				</p>
 
 				<div class="hints">
-					<p><code>
-							= <var>A</var> + <var>B*C</var>
-					</code></p>
-					<p><code>
-							= <var>A+B*C</var>
-					</code></p>
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>
+					<div>
+						<p>Since we have no <span class="paren">Parentheses</span> and no <span class="exp">Exponents</span>, we begin with our <span class="mult">Multiplication</span>.</p>
+						<p>
+							<code>
+								<var>A</var> + \color{blue}{<var>B</var> \times <var>C</var>}
+							</code>
+						</p>
+						<p><code>=<var>A</var> + </code><span class="mult"><code><var>B*C</var></code></span>
+						</p>
+					</div>
+					<div>
+						<p>Now we can finish up by doing the <span class="add">Addition</span>.</p>
+						<p> <span class="add"><code><var>A</var> + <var>B*C</var></code></p>
+						<p><code>=<var>A+B*C</var></code></p>
+					</div>
 				</div>
 			</div>
 			<div data-type="order-of-operations">
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						<var>A</var> \times (<var>B</var> + <var>C</var>)
-				</code></p>
+					</code>
+				</p>
 
 				<p class="solution" data-forms="integer">
 					<var>A*(B+C)</var>
 				</p>
 
 				<div class="hints">
-					<p><code>
-							= <var>A</var> \times <var>B+C</var>
-					</code></p>
-					<p><code>
-							= <var>A*(B+C)</var>
-					</code></p>
-				</div>
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>
+					<div>
+						<p>We will look at our <span class="paren">Parentheses</span> first.</p>
+						<p>
+							<code>
+								<var>A</var> \times \color{red}{(<var>B</var> + <var>C</var>)}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>In the Parentheses, we have just <span class="add">Addition</span>.</p>
+						<p>
+							<code>
+								<var>A</var> \times \color{red}{(}\color{green}{<var>B</var> + <var>C</var>}\color{red}{)}
+							</code>
+						</p>
+						<p>
+							<code>
+								=<var>A</var> \times \color{red}{(}\color{green}{<var>B+C</var>}\color{red}{)}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Since there is nothing left to do in the <span class="paren">Parentheses</span>, we can remove them.<p>
+						<p><code><var>A</var> \times <var>B+C</var></code></p>
+					</div>
+					<div>
+						<p>Now we can finish up by doing the <span class="mult">Multiplication</span>.</p>
+						<p>
+							<code>
+								\color{blue}{<var>A</var> \times <var>B+C</var>}
+							</code>
+						</p>
+						<p>
+							<code>
+								=<var>A*(B+C)</var>
+							</code>
+						</p>
+					</div>
+				</div>								
 			</div>
 			<div data-type="order-of-operations">
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						<var>A</var> + (\dfrac{<var>B*C</var>}{<var>C</var>})
-				</code></p>
+					</code>
+				</p>
 
 				<p class="solution" data-forms="integer">
 					<var>A+B</var>
 				</p>
 
 				<div class="hints">
-					<p><code>
-							= <var>A</var> + (<var>B</var>)
-					</code></p>
-					<p><code>
-							= <var>A</var> + <var>B</var>
-					</code></p>
-					<p><code>
-							= <var>A+B</var>
-					</code></p>
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>
+					<div>
+						<p>We will look at our <span class="paren">Parentheses</span> first.</p>
+						<p>
+							<code>
+								<var>A</var> + \color{red}{(\dfrac{<var>B*C</var>}{<var>C</var>})}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>In the Parentheses, we have just a fraction or <span class="mult">Division</span>.</p>
+						<p>
+							<code>
+								<var>A</var> + \color{red}{(}\color{blue}{\dfrac{<var>B*C</var>}{<var>C</var>}}\color{red}{)}
+							</code>
+						</p>
+						<p>
+							<code>
+								=<var>A</var> + \color{red}{(}\color{blue}{<var>B</var>}\color{red}{)}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Since there is nothing left to do in the <span class="paren">Parentheses</span>, we can remove them.<p>
+						<p>
+							<code>
+								<var>A</var> + <var>B</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Now we can finish up by doing the <span class="add">Addition</span>.</p>
+						<p>
+							<code>
+								\color{green}{<var>A</var> + <var>B</var>}
+							</code>
+						</p>
+						<p>
+							<code>
+								=<var>A+B</var>
+							</code>
+						</p>
+					</div>
 				</div>
 			</div>
 			<div data-type="order-of-operations">
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						<var>A</var> + \dfrac{<var>B*C</var>}{<var>C</var>}
-				</code></p>
+					</code>
+				</p>
 
 				<p class="solution" data-forms="integer">
 					<var>A+B</var>
 				</p>
 
 				<div class="hints">
-					<p><code>
-							= <var>A</var> + <var>B</var>
-					</code></p>
-					<p><code>
-							= <var>A+B</var>
-					</code></p>
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>
+					<div>
+						<p>Since we have no <span class="paren">Parentheses</span> and no <span class="exp">Exponents</span>, we begin with our fraction or <span class="mult">Division</span>.</p>
+						<p>
+							<code>
+								<var>A</var> + \color{blue}{\dfrac{<var>B*C</var>}{<var>C</var>}}
+							</code>
+						</p>
+						<p>
+							<code>
+								=<var>A</var> + \color{blue}{<var>B</var>}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Now we can finish up by doing the <span class="add">Addition</span>.</p>
+						<p>
+							<code>
+								\color{green}{<var>A</var> + <var>B</var>}
+							</code>
+						</p>
+						<p><code><var>A+B</var></code></p>
+					</div>
 				</div>
 			</div>
 			<div data-type="order-of-operations">
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						\dfrac{ <var>(A*(B+C))</var> }{ <var>B</var> + <var>C</var> }
-				</code></p>
+					</code>
+				</p>
 
 				<p class="solution" data-forms="integer">
 					<var>A</var>
 				</p>
-
 				<div class="hints">
-					<p><code>
-							= \dfrac{ <var>(A*(B+C))</var> }{ (<var>(B+C)</var>) }
-					</code></p>
-					<p><code>
-							= \dfrac{ <var>(A*(B+C))</var> }{ <var>B+C</var> }
-					</code></p>
-					<p><code>
-							= <var>A</var>
-					</code></p>
-				</div>
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>
+					<div>
+						<p>
+							When we have an <span class="add">Addition</span> in a fraction we treat it as if we have <span class="paren">Parentheses</span> around the <span class="add"> Addition </span>.
+						</p>
+						<p>
+							<code>
+								\dfrac{ <var>(A*(B+C)</var>) }{ (<var>B</var> + <var>C</var>) }
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>We will look at our <span class="paren">Parentheses</span> first.</p>
+						<p>
+							<code>
+								\dfrac{\color{red}{\bf{(<var>(A*(B+C))</var>)}}}{ \color{red}{\bf{(<var>B</var> + <var>C</var>)}} }
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>The only operation inside <span class="paren">Parentheses</span> is <span class="add">Addition</span>.</p>
+						<p>
+							<code>
+								\dfrac{\color{red}{\bf{(<var>(A*(B+C))</var>)}}}{ \color{red}{\bf{(}}\color{green}{\bf{<var>B</var> + <var>C</var>}}\color{red}{\bf{)}} }
+							</code>
+						</p>
+						<p>
+							<code>
+								=\dfrac{\color{red}{(<var>(A*(B+C))</var>)}}{ \color{red}{(<var>B + C</var>)} }
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Since there is nothing left to do in the <span class="paren">Parentheses</span>, we can remove them.</p>
+						<p>
+							<code>
+								\dfrac{<var>(A*(B+C))</var>}{<var>B + C</var>}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Now we can finish up by doing the fraction or <span class="mult">Division</span>.</p>
+						<p class="hint_blue" style="font-weight:bold">
+							<code>\dfrac{<var>(A*(B+C))</var>}{<var>B + C</var>}</code>
+						</p>
+						<p><code>=<var>A</var></code></p>
+					</div>
+				</div>	
 			</div>
 			<div data-type="order-of-operations">
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						\dfrac{ <var>(A*(B-C))</var> }{ (<var>B</var> - <var>C</var>) }
-				</code></p>
-
+					</code>
+				</p>
 				<p class="solution" data-forms="integer">
 					<var>A</var>
 				</p>
-
 				<div class="hints">
-					<p><code>
-							= \dfrac{ <var>(A*(B-C))</var> }{ (<var>(B-C)</var>) }
-					</code></p>
-					<p><code>
-							= \dfrac{ <var>(A*(B-C))</var> }{ <var>B-C</var> }
-					</code></p>
-					<p><code>
-							= <var>A</var>
-					</code></p>
-				</div>
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>
+					<div>
+						<p>We will look at our <span class="paren">Parentheses</span> first.</p>
+						<p>
+							<code>
+								\dfrac{<var>(A*(B-C))</var>}{ \color{red}{\bf{(<var>B</var> - <var>C</var>)}} }
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>The only operation inside Parentheses is <span class="add">Subtraction</span>.</p>
+						<p>
+							<code>
+								\dfrac{<var>(A*(B-C))</var>}{ \color{red}{\bf{(}}\color{green}{\bf{<var>B</var> - <var>C</var>}}\color{red}{\bf{)}} }
+							</code>
+						</p>
+						<p>
+							<code>=
+								\dfrac{<var>(A*(B-C))</var>}{ \color{red}{(<var>B - C</var>)} }
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Since there is nothing left to do in the Parentheses, we can remove them.<p>
+						<code>
+								\dfrac{<var>(A*(B-C))</var>}{<var>B - C</var>}
+						</code>
+					</div>
+					<div>
+						<p>Now we can finish up by doing the fraction or <span class="mult">Division</span>.</p>
+						<p class="mult">
+							<code>\dfrac{<var>(A*(B-C))</var>}{<var>B - C</var>}</code>
+						</p>
+						<p><code>=<var>A</var></code></p>
+					</div>
+				</div>	
 			</div>
 			<div data-type="order-of-operations">
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						(<var>A</var> + (<var>B</var> - <var>C</var> \times <var>D</var>)) \times <var>E</var>
-				</code></p>
+					</code>
+				</p>
 
 				<p class="solution" data-forms="integer">
 					<var>(A+(B-(C*D)))*E</var>
 				</p>
-
 				<div class="hints">
-					<p><code>
-							= (<var>A</var> + (<var>B</var> - <var>(C*D)</var>)) \times <var>E</var>
-					</code></p>
-					<p><code>
-							= (<var>A</var> + (<var>(B-(C*D))</var>)) \times <var>E</var>
-					</code></p>
-					<p><code>
-							= (<var>A</var> + <var>(B-(C*D))</var>) \times <var>E</var>
-					</code></p>
-					<p><code>
-							= (<var>(A+(B-(C*D)))</var>) \times <var>E</var>
-					</code></p>
-					<p><code>
-							= <var>(A+(B-(C*D)))</var> \times <var>E</var>
-					</code></p>
-					<p><code>
-							= <var>(A+(B-(C*D)))*E</var>
-					</code></p>
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>
+					<div>
+						<p>
+							Since we have multiple sets of <span class="paren">Parentheses</span>, we start with the inner most set.
+						</p>
+						<p>
+							<code>
+								(<var>A</var> + \color{red}{(<var>B</var> - <var>C</var> \times <var>D</var>)}) \times <var>E</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Inside this set of parenthesis our highest order of operation is <span class="mult"> Muliplication</span>.</p>
+						<p>
+							<code>
+								(<var>A</var> + \color{red}{(<var>B</var> - }\color{blue}{<var>C</var> \times <var>D</var>}\color{red}{)}) \times <var>E</var>
+							</code>
+						</p>
+						<p>
+							<code>
+								= (<var>A</var> + \color{red}{(<var>B</var> -} \color{blue}{<var>(C*D)</var>}\color{red}{)}) \times <var>E</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>
+							Now that we've taken care of the multiplication in the Parentheses, our highest order of operations in the parentheses is <span class="add">Subtraction</span>.
+						</p>
+						<p>
+							<code>
+								(<var>A</var> + \color{red}{(}\color{green}{<var>B</var> -<var>(C*D)</var>}\color{red}{)}) \times <var>E</var>
+							</code>
+						</p>
+						<p>
+							<code>
+								= (<var>A</var> + \color{red}{(}\color{green}{<var>B - (C*D)</var>}\color{red}{)}) \times <var>E</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Now, we have nothing else we can do in that parentheis, so we can remove them, and look at the parenthesis that are left.</p>
+						<p>
+							<code>
+								\color{red}{(<var>A</var> + <var>B -(C*D)</var>)} \times <var>E</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>In this set of parentheses, the only operation we have is <span class="add">Addition</span>.</p>
+						<p>
+							<code>
+								\color{red}{(}\color{green}{<var>A</var> + <var>B - (C*D)</var>}\color{red}{)} \times <var>E</var>
+							</code>
+						</p>
+						<p>
+							<code>
+								=\color{red}{(}\color{green}{<var>A + (B - (C*D))</var>}\color{red}{)} \times <var>E</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>
+							Since there is nothing left in <span class="paren">Parentheses</span> for us to do, we can remove the <span class="paren">Parentheses</span>.
+						</p>
+						<p>
+							<code>
+								<var>(A+(B-(C*D)))</var> \times <var>E</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p> The only thing we have left to do to finish the problem is the <span class="mult">Multiplication</span>.</p>
+						<p>
+							<code>
+								\color{blue}{<var>(A+(B-(C*D)))</var> \times <var>E</var>}
+							</code>
+						</p>
+						<p>
+							<code>
+								= \color{blue}{<var>(A+(B-(C*D)))*E</var>}
+							</code>
+						</p>
+					</div>
 				</div>
-			</div>
+			</div>	
 			<div data-type="order-of-operations">
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						<var>A</var> + (<var>B</var> - <var>C</var> \times <var>D</var>) \times <var>E</var>
-				</code></p>
+					</code>
+				</p>
 
 				<p class="solution" data-forms="integer">
 					<var>A+((B-(C*D))*E)</var>
 				</p>
 
 				<div class="hints">
-					<p><code>
-							= <var>A</var> + (<var>B</var> - <var>(C*D)</var>) \times <var>E</var>
-					</code></p>
-					<p><code>
-							= <var>A</var> + (<var>(B-(C*D))</var>) \times <var>E</var>
-					</code></p>
-					<p><code>
-							= <var>A</var> + <var>((B-(C*D))*E)</var>
-					</code></p>
-					<p><code>
-							= <var>A+((B-(C*D))*E)</var>
-					</code></p>
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>
+					<div>
+						<p>
+							We start with our <span class="paren">Parentheses </span>.
+						</p>
+						<p>
+							<code>
+								<var>A</var> + \color{red}{(<var>B</var> - <var>C</var> \times <var>D</var>)} \times <var>E</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Inside the <span class="paren">Parentheses</span> our highest order of operations is <span class="mult">Multiplication</span>.</p>
+						<code>
+								<var>A</var> + \color{red}{(<var>B</var> - \color{blue}{<var>C</var> \times <var>D</var>}\color{red}{)} \times <var>E</var>
+							</code>
+						<p>
+							<code>
+								= <var>A</var> + \color{red}{(<var>B</var> -}\color{blue}{<var>(C*D)</var>}\color{red}{)} \times <var>E</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Our next order of operations in the <span class="paren">Parentheses</span> is <span class="add">Subtraction</span>.</p>
+						<p>
+							<code>
+								= <var>A</var> + \color{red}{(}\color{green}{<var>B</var> -{<var>(C*D)</var>}\color{red}{)} \times <var>E</var>
+							</code>
+						</p>
+						<p>
+							<code>
+								=<var>A</var> + \color{red}{(}\color{green}{<var>(B-(C*D)}\color{red}{)}</var>) \times <var>E</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Since we have nothing left to do in the <span class="paren"> Parentheses</span>, we can remove them.</p>
+						<p>
+							<code>
+								<var>A</var> + <var>(B-(C*D)</var> \times <var>E</var>
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Now the highest level of operation is <span class="add"> Multiplication</span>.
+						</p>
+						<p>
+							<code>
+								<var>A</var> + \color{green}{<var>(B-(C*D)</var> \times <var>E</var>}
+							</code>
+						</p>
+						<p>
+							<code>
+								= <var>A</var> + \color{green}{<var>((B-(C*D))*E)</var>}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>The only thing left to do is our <span class="mult">Addition</span>.
+						</p>
+						<p>
+							<code>
+								\color{blue}{<var>A</var> + <var>((B-(C*D))*E)</var>}
+							</code>
+						</p>
+						<p>
+							<code>
+								= <var>A+((B-(C*D))*E)</var>
+							</code>
+						</p>
+					</div>
 				</div>
 			</div>
 			<div data-type="order-of-operations">
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						<var>A</var> - <var>B</var> \times <var>C</var> + \dfrac{ <var>(D*E)</var> }{ <var>E</var> }
-				</code></p>
+					</code>
+				</p>
 
 				<p class="solution" data-forms="integer">
 					<var>A-B*C+D</var>
 				</p>
 
 				<div class="hints">
-					<p><code>
-							= <var>A</var> - <var>B</var> \times <var>C</var> + <var>D</var>
-					</code></p>
-					<p><code>
-							= <var>A</var> - <var>(B*C)</var> + <var>D</var>
-					</code></p>
-					<p><code>
-							= <var>(A-B*C)</var> + <var>D</var>
-					</code></p>
-					<p><code>
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>
+					<div>
+						<p>
+							We have both <span class="mult">Mulitplication</span> and <span class="mult">Division</span> (the fraction) here.  Since these are both on the same level of order, we need to do these <strong>from left to right</strong>.
+						</p>
+						<p>
+							<code>
+								<var>A</var> - \color{blue}{<var>B</var> \times <var>C</var>} + \color{blue}{\dfrac{ <var>(D*E)</var> 	}{ <var>E</var> }}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Starting at the <strong>left</strong>, our first operation at this level is our <span class="mult">Multiplication</span>.
+						</p>
+						<p>
+							<code>
+								<var>A</var> - \color{blue}{\bf{<var>B</var> \times <var>C</var>}} + \color{blue}{\dfrac{ <var>(D*E)</var> 	}{ <var>E</var> }}
+							</code>
+						</p>
+						<p>
+							<code>
+								=<var>A</var> - \color{blue}{<var>B*C</var>} + \color{blue}{\dfrac{ <var>(D*E)</var> 	}{ <var>E</var> }}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Now we continue to the <strong>right</strong> and do our fraction or <span class="mult">Division</span>.
+						</p>
+						<p>
+							<code>
+								<var>A</var> - <var>B*C</var> + \color{blue}{\bf{\dfrac{ <var>(D*E)</var>}{ <var>E</var> }}}
+							</code>
+						</p>
+						<p>
+							<code>
+								=<var>A</var> - <var>B*C</var> + \color{blue}{\bf{ <var>D</var>}}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>
+							We are left with <span class="add">Addition</span> and <span class="add">Subtraction</span>.  Again, these are on the same level of order of operations, so we do these <strong>from left to right</strong>.
+						</p>
+						<p>
+							<code>
+								\color{green}{\bf{<var>A</var> - <var>B*C</var>} + <var>D </var>}
+							</code>
+						</p>
+					</div>
+					<p>
+						<code>
+							=\color{green}{<var>(A-B*C)</var> + <var>D</var>}
+						</code>
+					</p>
+					<p>
+						<code>
 							= <var>A-B*C+D</var>
-					</code></p>
+						</code>
+					</p>
 				</div>
 			</div>
 			<div data-type="order-of-operations">
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						<var>A</var> \times <var>B</var> + <var>C</var> \times \dfrac{ <var>(D*E)</var> }{ <var>E</var> }
-				</code></p>
+					</code>
+				</p>
 
 				<p class="solution" data-forms="integer">
 					<var>(A*B)+(C*D)</var>
 				</p>
 
 				<div class="hints">
-					<p><code>
-							= <var>A</var> \times <var>B</var> + <var>C</var> \times <var>D</var>
-					</code></p>
-					<p><code>
-							= <var>(A*B)</var> + <var>C</var> \times <var>D</var>
-					</code></p>
-					<p><code>
-							= <var>(A*B)</var> + <var>(C*D)</var>
-					</code></p>
-					<p><code>
-							= <var>(A*B)+(C*D)</var>
-					</code></p>
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>
+					<div>
+						<p>
+							We have both <span class="mult">Mulitplication</span> and <span class="mult">Division</span> (the fraction) here.  Since these are both on the same level of order, we need to do these <strong>from left to right</strong>.
+						</p>
+						<p>
+							<code>
+								\color{blue}{<var>A</var> \times <var>B</var>} + \color{blue}{<var>C</var> \times \dfrac{ <var>(D*E)</var> }{ <var>E</var> }}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>Since the fraction can be reduced, we want to reduce the fraction before <span class="mult">Multiplying</span> to keep our numbers small.
+						</p>
+						<p>
+							<code>
+								\color{blue}{<var>A</var> \times <var>B</var>} + \color{blue}{\bf{<var>C</var> \times \dfrac{ <var>(D*E)</var> }{ <var>E</var> }}}
+							</code>
+						</p>
+						<p>
+							<code>
+								= \color{blue}{<var>A*B</var>} + \color{blue}{<var>C</var> \times <var>D</var>}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>
+							We have multiple places were we need to <span class="mult">Multiply</span> , we need to do these <strong>from left to right</strong>.
+						</p>
+						<p>
+							<code>
+								\color{blue}{\bf{<var>A*B</var>}} + \color{blue}{<var>C</var> \times <var>D</var>}
+							</code>
+						</p>
+						<p>
+							<code>
+								= \color{blue}{<var>(A*B)</var>} + <var>C</var> \times <var>D</var>
+							</code>
+						</p>
+					</div>
+						<p>Now we continue to the <strong>right</strong> and do our final <span class="mult">Multiplication</span>.
+						</p>
+						<p>
+							<code>
+								= <var>(A*B)</var> + \color{blue}{<var>C</var> \times <var>D</var>}
+							</code>
+						</p>
+						<p>
+							<code>
+								= <var>(A*B)</var> + \color{blue}{<var>(C*D)</var>}
+							</code>
+						</p>
+					</div>
+					<div>
+						<p>
+							We are left with <span class="add">Addition</span>.
+						</p>
+						<p>
+							<code>
+								= \color{green}{<var>(A*B)</var> + <var>(C*D)</var>}
+							</code>
+						</p>
+						<p>
+							<code>
+								= <var>(A*B)+(C*D)</var>
+							</code>
+						</p>
+					</div>
 				</div>
 			</div>
 			<div data-type="order-of-operations">
-				<p class="problem"><code>
+				<p class="problem">
+					<code>
 						(<var>A</var> + <var>B</var> \times <var>C</var>) - <var>D</var> \times <var>E</var>
-				</code></p>
+					</code>
+				</p>
 
 				<p class="solution" data-forms="integer">
 					<var>(A+B*C)-(D*E)</var>
 				</p>
 
 				<div class="hints">
+					<div>
+						<p>Remember our order of operations is:</p>
+						<ul>
+							<li><span class="paren">Parentheses</span></li>
+							<li><span class="exp">Exponents</span></li>
+							<li><span class="mult">Multiplication/Division</span></li>
+							<li><span class="add">Addition/Subtraction</span></li>
+						</ul>
+					</div>
+					<div>
+					
+						<code>
+							(<var>A</var> + <var>B</var> \times <var>C</var>) - <var>D</var> \times <var>E</var>
+						</code>
+					</div>
 					<p><code>
 							= (<var>A</var> + <var>(B*C)</var>) - <var>D</var> \times <var>E</var>
 					</code></p>
