@@ -394,6 +394,13 @@ jQuery.extend(KhanUtil, {
 		return Math.ceil( ( num * factor ).toFixed(5) ) / factor;
 	},
 
+	// Round a number to a certain number of significant digits
+	roundToSignificant: function( precision, num ) {
+		var maxPlace = Math.floor( Math.log( num ) / Math.log( 10 ) );
+		var decimals = precision - maxPlace - 1;
+		return this.roundTo( decimals, num ).toFixed( decimals < 0 ? 0 : decimals );
+	},
+
 	// toFraction( 4/8 ) => [1, 2]
 	// toFraction( 0.666 ) => [333, 500]
 	// toFraction( 0.666, 0.001 ) => [2, 3]
