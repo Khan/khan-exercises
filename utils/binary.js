@@ -40,5 +40,136 @@ jQuery.extend(KhanUtil, {
 		} while ( decimal > 0 );
 
 		return binary;
+	},
+
+	randBitOperator: function() {
+		return KhanUtil.randFromArray( [ "&", "|", "~", "^" ] );
+	},
+
+	// Generates a random binary expression
+	randBitExpression: function( bits ) {
+		var randExpr = function( depth ) {
+			if ( depth <= 0 ) {
+				return KhanUtil.formatBinary( KhanUtil.generateBinary( bits ) );
+			}
+
+			var expression = [];
+			expression.push( KhanUtil.randBitOperator() );
+			expression.push( randExpr( depth - KhanUtil.randRange( 1, 2 ) ) );
+			if ( expression[0] !== '~' ) {
+				expression.push( randExpr( depth - KhanUtil.randRange( 1, 2 ) ) );
+			}
+			return expression;
+		};
+
+		return randExpr( 3 );
+	},
+
+	binarySymbol: function( oper ) {
+		var dict = {
+			"&": "\\wedge",
+			"|": "\\vee",
+			"^": "\\oplus",
+			"~": "\\sim"
+		};
+		return dict[oper];
+	},
+
+	// Formats a binary expression
+	formatBinaryExpression: function( expr ) {
+		var recurse = function( expr ) {
+			var result = KhanUtil.formatBinaryExpression( expr );
+			if ( typeof expr === "object" && expr.length > 1 ) {
+				return "(" + result + ")";
+			} else {
+				return result;
+			}
+		};
+		if ( expr.length === 1 ) {
+			expr = expr[0];
+		}
+		if ( typeof expr === "string" || typeof expr === "number" ) {
+			return expr;
+		}
+		var sym = KhanUtil.binarySymbol( expr[0] );
+		switch ( expr[0] ) {
+			case "~": 
+				return sym + recurse( expr[1] );
+			default:
+				return recurse( expr[1] ) + sym + recurse( expr[2] );
+		}
+	},
+
+	parseBinary: function( x ) {
+		if ( typeof x === "number" ) {
+			return x;
+		}
+		if ( typeof x === "string" ) {
+			if ( x === "0" ) {
+				return 0;
+			}
+			if ( x === "1" ) {
+				return 1;
+			}
+			var result = 0;
+			for ( var i = 0; i < x.length; i++ ) {
+				result <<= 1;
+				result += ( x[i] == 0 ? 0 : 1 );
+			}
+			return result;
+		}
+	},
+
+	bitFlip: function( a ) {
+		for ( var i = 0; i < a.length; i++ ) {
+			a[i] = ( a[i] == 1 ? 0 : 1 );
+		}
+		return a;
+	},
+
+	applyBitOperator: function( operator, a, b ) {
+		if ( operator[0] === "0" || operator[0] === "1" ) {
+			return KhanUtil.parseBinary( operator );
+		}
+		if ( typeof operator !== "string" ) {
+			a = operator[1];
+			b = operator[2];
+			operator = operator[0];
+		}
+		a = KhanUtil.parseBinary(a);
+		b = KhanUtil.parseBinary(b);
+		switch ( operator ) {
+			case "&":
+				result = a & b;
+				break;
+			case "|":
+				result = a | b;
+				break;
+			case "~":
+				result = KhanUtil.bitFlip( a, 8 );
+				break;
+			case "^":
+				result = a ^ b;
+				break;
+		}
+		return result;
+	},
+
+	evaluateBitExpression: function( expression ) {
+		if ( typeof expression === "undefined" ) {
+			return;
+		}
+		if ( expression[0] === '0' || expression[1] === '1' ) {
+			return KhanUtil.parseBinary( expression );
+		}
+		if ( expression.length <= 3 &&
+			 typeof expression[1] !== "object" &&
+			 typeof expression[2] !== "object" ) {
+			return KhanUtil.applyBitOperator( expression );
+		}
+
+		return KhanUtil.applyBitOperator( expression[0],
+				KhanUtil.evaluateBitExpression( expression[1] ),
+				KhanUtil.evaluateBitExpression( expression[2] ) );
 	}
 });

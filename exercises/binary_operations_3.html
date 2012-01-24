@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html data-require="math binary expressions">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Binary operations 3</title>
+		<script src="../khan-exercise.js"></script>
+		<script>
+			function createHints() {
+				return "";
+			}
+		</script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="EXPRESSION">randBitExpression( 8 )</var>
+				<var id="RESULT">evaluateBitExpression( EXPRESSION )</var>
+			</div>
+					
+			<div class="problems">
+				<div>
+					<p class="question">
+						What is the result of the following binary expression?
+					</p>
+					<code>
+						<var>formatBinaryExpression( EXPRESSION )</var>
+					</code>
+					<div class="solution" data-forms="binary">
+						<var>RESULT</var>
+					</div>
+					
+					<div class="hints">
+						<var>createHints( EXPRESSION )</var>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
