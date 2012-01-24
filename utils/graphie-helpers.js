@@ -500,7 +500,7 @@ function ComplexPolarForm( angleDenominator, maxRadius, euler ) {
 
 	this.update = function ( newAngle, newRadius ) {
 		angle = newAngle;
-		while (angle < 0) angle += denominator;
+		while ( angle < 0 ) angle += denominator;
 		angle %= denominator;
 
 		radius = Math.max( 1, Math.min( newRadius, maximumRadius ) ); // keep between 0 and maximumRadius...
@@ -538,10 +538,11 @@ function ComplexPolarForm( angleDenominator, maxRadius, euler ) {
 
 	this.plot = function () {
 		var graph = KhanUtil.currentGraph;
-		raphaelObjects.push( graph.circle( [ this.getRealPart(), this.getImaginaryPart() ], 1/4, {
+		var circle = graph.circle( [ this.getRealPart(), this.getImaginaryPart() ], 1/4, {
 			fill: KhanUtil.ORANGE,
 			stroke: "none"
-		}));
+		});
+		raphaelObjects.push( circle );
 	}
 
 	this.redraw = function () {
