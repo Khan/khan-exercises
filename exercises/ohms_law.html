@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html data-require="math electronics math-format graphie">
+<head>
+	<meta charset="UTF-8" />
+	<title>Ohm's Law</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars" data-ensure="I * V < 0.25">
+		<var id="R">randResistor()</var>
+		<var id="V">1.5 * randRange( 1, 8 )</var>
+		<var id="I">V / R</var>
+	</div>
+	<div class="problems">
+		<div id="V-unknown">
+			<div class="question">
+				<p>A <code><var>formatQuantity( R, "\\Omega", 2 )</var></code>
+				   resistor is connected across a battery, which causes
+				   <code><var>formatQuantity( I, "A", 3 )</var></code> of current
+				   to flow through it.</p>
+				<p class="question">How much voltage is the battery providing?</p>
+
+				<div class="graphie">
+					init({
+						range: [ [-0.5, 3.0 ], [-0.5, 1.5] ],
+						scale: 100,
+					});
+					graph.R = new Resistor( [ 2, 1 ], [ 2, 0 ] );
+					graph.R.setLabel( formatQuantity( R, "\\Omega", 2 ) );
+					graph.R.showCurrent( formatQuantity( I, "A", 3 ) );
+					graph.VCC = new Battery( [ 0, 0 ], [ 0, 1 ] );
+					// graph.VCC.setLabel( formatQuantity( V, "V", 2 ) );
+					new Wire( [0, 1], [2, 1] );
+					new Wire( [2, 0], [0, 0] );
+				</div>
+			</div>
+
+			<p class="solution" data-type="si_quantity" ><var>V</var> volts</p>
+
+			<div class="hints">
+				<p>One ohm <code>(\mathrm \Omega)</code> is one Volt per Ampere <code>\left (\frac{\mathrm V}{\mathrm A}\right )</code></p>
+				<p>The voltage <code>V</code> across a resistor with resistance
+				   <code>R</code> and current <code>I</code> is
+				   <code>V=I\times R</code>.</p>
+				<p><code>V = <var>formatQuantity( I, "A", 3 )</var> \times
+							 <var>formatQuantity( R, "\\Omega", 2 )</var></code>
+				   </p>
+				<p><code>\hphantom{V} = (<var>scientific( 3, I )</var>)\,\mathrm{A}
+								 \times (<var>scientific( 2, R )</var>)\,\mathrm{\Omega}</code></p>
+				<p><code>\hphantom{V} = (<var>scientific( 3, I )</var>)\,\mathrm{A}
+								 \times (<var>scientific( 2, R )</var>)\,\frac{\mathrm V}{\mathrm A}</code></p>
+				<p><code>\hphantom{V} =(<var>scientificMantissa( 3, I )</var>
+								 \times <var>scientificMantissa( 2, R )</var>)
+							\times (10^{<var>scientificExponent( I )</var>}
+							\times  10^{<var>scientificExponent( R )</var>})
+							\times \left ( \mathrm{A}
+							\times \frac{\mathrm V}{\mathrm A} \right )</code></p>
+				<p><code>\hphantom{V} = <var>scientific( 2, V )</var>
+								 \times \mathrm V</code></p>
+				<p><code>\hphantom{V} = <var>formatQuantity( V, "V", 2 )</var>
+				   </code></p>
+			</div>
+		</div>
+		<div id="I-unknown">
+			<div class="question">
+				<p>A <code><var>formatQuantity( R, "\\Omega", 2 )</var></code>
+				   resistor is connected across a
+				   <code><var>formatQuantity( V, "V", 2 )</var></code> battery.</p>
+
+				<p class="question">How much current is flowing through the resistor?</p>
+
+				<div class="graphie">
+					init({
+						range: [ [-0.5, 3.0 ], [-0.5, 1.5] ],
+						scale: 100,
+					});
+					graph.R = new Resistor( [ 2, 1 ], [ 2, 0 ] );
+					graph.R.setLabel( formatQuantity( R, "\\Omega", 2 ) );
+					// graph.R.showCurrent( formatQuantity( I, "A", 3 ) );
+					graph.VCC = new Battery( [ 0, 0 ], [ 0, 1 ] );
+					graph.VCC.setLabel( formatQuantity( V, "V", 2 ) );
+					new Wire( [0, 1], [2, 1] );
+					new Wire( [2, 0], [0, 0] );
+				</div>
+			</div>
+
+			<p class="solution" data-type="si_quantity" ><var>I</var> Amperes</p>
+
+			<div class="hints">
+				<p>One ohm <code>(\mathrm \Omega)</code> is one Volt per Ampere <code>\left (\frac{\mathrm V}{\mathrm A}\right )</code></p>
+				<p>The voltage <code>V</code> across a resistor with resistance
+				   <code>R</code> and current <code>I</code> is
+				   <code>V=I\times R</code>.</p>
+				<p><code>I = \frac{V}{R}</code></p>
+				<p><code>\hphantom{I} = \frac{<var>formatQuantity( V, "V", 2 )</var>}{<var>formatQuantity( R, "\\Omega", 2 )</var>}</code></p>
+				<p><code>\hphantom{I} = \frac{(<var>scientific( 2, V )</var>)\,\mathrm{V}}{(<var>scientific( 2, R )</var>)\,\mathrm{\Omega}}</code></p>
+				<p><code>\hphantom{I} = \left (\frac{<var>scientificMantissa( 2, V )</var>}{<var>scientificMantissa( 2, R )</var>}\right )\times
+										\left (\frac{10^{<var>scientificExponent( V )</var>}}{10^{<var>scientificExponent( R )</var>}}\right )\times
+										\left (\frac{\mathrm{V}}{\mathrm{VA}^{-1}}\right)</code></p>
+				<p><code>\hphantom{I} = <var>scientific( 3, I )</var>
+								 \times \mathrm A</code></p>
+				<p><code>\hphantom{I} = <var>formatQuantity( I, "A", 3 )</var>
+				   </code></p>
+			</div>
+		</div>
+		<div id="R-unknown">
+			<div class="question">
+				<p>A resistor is connected across a
+				   <code><var>formatQuantity( V, "V", 2 )</var></code> battery,
+				   which causes
+				   <code><var>formatQuantity( I, "A", 3 )</var></code> of current
+				   to flow through it.</p>
+				<p class="question">What is the resistor's resistance?</p>
+
+				<div class="graphie">
+					init({
+						range: [ [-0.5, 3.0 ], [-0.5, 1.5] ],
+						scale: 100,
+					});
+					graph.R = new Resistor( [ 2, 1 ], [ 2, 0 ] );
+					// graph.R.setLabel( formatQuantity( R, "\\Omega", 2 ) );
+					graph.R.showCurrent( formatQuantity( I, "A", 3 ) );
+					graph.VCC = new Battery( [ 0, 0 ], [ 0, 1 ] );
+					graph.VCC.setLabel( formatQuantity( V, "V", 2 ) );
+					new Wire( [0, 1], [2, 1] );
+					new Wire( [2, 0], [0, 0] );
+				</div>
+			</div>
+
+			<p class="solution" data-type="si_quantity" ><var>R</var> ohms</p>
+
+			<div class="hints">
+				<p>One ohm <code>(\mathrm \Omega)</code> is one Volt per Ampere <code>\left (\frac{\mathrm V}{\mathrm A}\right )</code></p>
+				<p>The voltage <code>V</code> across a resistor with resistance
+				   <code>R</code> and current <code>I</code> is
+				   <code>V=I\times R</code>.</p>
+				<p><code>R = \frac{V}{I}</code></p>
+				<p><code>\hphantom{R} = \frac{<var>formatQuantity( V, "V", 2 )</var>}{<var>formatQuantity( I, "A", 3 )</var>}</code></p>
+				<p><code>\hphantom{R} = \frac{(<var>scientific( 2, V )</var>)\,\mathrm{V}}{(<var>scientific( 3, I )</var>)\,\mathrm{A}}</code></p>
+				<p><code>\hphantom{R} = \left (\frac{<var>scientificMantissa( 2, V )</var>}{<var>scientificMantissa( 3, I )</var>}\right )\times
+										\left (\frac{10^{<var>scientificExponent( V )</var>}}{10^{<var>scientificExponent( I )</var>}}\right )\times
+										\left(\frac{\mathrm{V}}{\mathrm{A}}\right)</code></p>
+				<p><code>\hphantom{R} = <var>scientific( 2, R )</var>
+								 \times \mathrm \Omega</code></p>
+				<p><code>\hphantom{R} = <var>formatQuantity( R, "\\Omega", 2 )</var>
+				   </code></p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
