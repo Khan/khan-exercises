@@ -928,24 +928,23 @@ jQuery.extend( Khan.answerTypes, {
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
-	// The user is asked to enter the separate parts of a complex number in 2 checkboxes.
+	// The user is asked to enter the separate parts of a complex number in 2 textboxes.
 	// Expected solution: [ real part, imaginary part ]
 	complexNumberSeparate: function ( solutionarea, solution ) {
 		solutionarea = jQuery( solutionarea );
 
 		var json = typeof solution === "object" ? jQuery( solution ).text() : solution;
-		// TODO: is there a better way than eval?
 		var correct = eval( json );
 
 		var solutionArray = [];
 
 		var realArea = jQuery( '<p />' ).html('Real part: ');
 		var realControl = jQuery( '<span />' ).html( correct[0] );
-		var realValidator = Khan.answerTypes["decimal"]( realArea, realControl ); // fallback?
+		var realValidator = Khan.answerTypes["decimal"]( realArea, realControl, 0 );
 
 		var imagArea = jQuery( '<p />' ).html('Imaginary part: ');
 		var imagControl = jQuery( '<span />' ).html( correct[1] );
-		var imagValidator = Khan.answerTypes["decimal"]( imagArea, imagControl ); // fallback?
+		var imagValidator = Khan.answerTypes["decimal"]( imagArea, imagControl, 0 );
 
 		var area = jQuery( '<div />' );
 		area.append( realArea ).append( imagArea ).tmpl();
