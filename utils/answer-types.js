@@ -951,12 +951,12 @@ jQuery.extend( Khan.answerTypes, {
 		var solutionArray = [];
 
 		var realArea = jQuery( '<p />' ).html('Real part: ');
-		var realControl = jQuery( '<span />' ).html( correct[0] );
-		var realValidator = Khan.answerTypes["decimal"]( realArea, realControl, 0 );
+		var realControl = jQuery( '<span data-inexact data-max-error="0.01" />' ).html( correct[0] );
+		var realValidator = Khan.answerTypes["number"]( realArea, realControl, 0 );
 
 		var imagArea = jQuery( '<p />' ).html('Imaginary part: ');
-		var imagControl = jQuery( '<span />' ).html( correct[1] );
-		var imagValidator = Khan.answerTypes["decimal"]( imagArea, imagControl, 0 );
+		var imagControl = jQuery( '<span data-inexact data-max-error="0.01" />' ).html( correct[1] );
+		var imagValidator = Khan.answerTypes["number"]( imagArea, imagControl, 0 );
 
 		var area = jQuery( '<div />' );
 		area.append( realArea ).append( imagArea ).tmpl();
@@ -995,10 +995,10 @@ jQuery.extend( Khan.answerTypes, {
 	// (see The complex plane for an example)
 	// The solution argument is expected to be [ angle, magnitude ]
 	complexNumberPolarForm: function ( solutionarea, solution ) {
+		var isTimeline = !( solutionarea.attr( "id" ) === "solutionarea" || solutionarea.parent().attr( "id" ) === "solutionarea" );
 		solutionarea = jQuery( solutionarea );
 		
 		var json = typeof solution === "object" ? jQuery( solution ).text() : solution;
-		// TODO: is there a better way than eval?
 		var correct = eval( json );
 		var table = jQuery( '<table />' );
 		var row = jQuery( '<tr />' );
@@ -1022,6 +1022,11 @@ jQuery.extend( Khan.answerTypes, {
 		table.append(row);
 
 		var numberLabel = jQuery( '<p id="number-label" style="margin: 8px 0 2px 0" />' );
+		var guessCorrect = false;
+
+		var validator = function( guess ) {
+			return ( guess[0] === correct[0] ) && ( guess[1] === correct[1] );
+		};
 
 		solutionarea.append(table, numberLabel);
 		redrawComplexPolarForm();
@@ -1029,12 +1034,32 @@ jQuery.extend( Khan.answerTypes, {
 		var ret = function() {
 			var cplx = KhanUtil.currentGraph.graph.currComplexPolar;
 			ret.guess = [ cplx.getAngleNumerator(), cplx.getRadius() ];
-			return ( ret.guess[0] === correct[0] ) && ( ret.guess[1] === correct[1] );
+
+			if ( isTimeline ) {
+				return guessCorrect;
+			} else {
+				return validator( ret.guess );
+			}
 		};
 
 		ret.showGuess = function( guess ) {
-			var cplx = KhanUtil.currentGraph.graph.currComplexPolar;
-			cplx.update( guess[0], guess[1] );
+			if ( typeof guess === "undefined" ) {
+				guess = [ 0, 1 ]; // magic: default complex polar form value
+			}
+			if ( isTimeline ) {
+				guessCorrect = validator( guess );
+				jQuery( solutionarea ).empty();
+				jQuery( solutionarea ).append( guessCorrect === true ? "Answer correct" : "Answer incorrect" );
+			} else {
+				redrawComplexPolarForm( guess[0], guess[1] );
+			}
+		};
+
+		ret.showCustomGuess = function( guess ) {
+			var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" + 
+				"graph.currComplexPolar.update( guess[0], guess[1] );" +
+				"})()";
+			KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
 		};
 
 		ret.solution = solution;
