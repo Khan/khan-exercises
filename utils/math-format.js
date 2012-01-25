@@ -506,9 +506,7 @@ jQuery.extend(KhanUtil, {
 			} else {
 				imag = Math.abs( imag );
 				imagDenominator = Math.abs( imagDenominator );
-				if ( real != 0 ) {
-					ret += " - ";
-				}
+				ret += " - ";
 				ret += KhanUtil.fraction( imag, imagDenominator, false, true ) + " i";
 			}
 		}
