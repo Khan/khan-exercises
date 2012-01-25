@@ -499,11 +499,17 @@ jQuery.extend(KhanUtil, {
 		} 
 		if ( imag != 0 ) {
 			if ( imag / imagDenominator > 0 ) {
-				ret += " + " + KhanUtil.fraction( imag, imagDenominator, false, true ) + " i";
+				if ( real != 0 ) {
+					ret += " + ";
+				}
+				ret += KhanUtil.fraction( imag, imagDenominator, false, true ) + " i";
 			} else {
 				imag = Math.abs( imag );
 				imagDenominator = Math.abs( imagDenominator );
-				ret += " - " + KhanUtil.fraction( imag, imagDenominator, false, true ) + " i";
+				if ( real != 0 ) {
+					ret += " - ";
+				}
+				ret += KhanUtil.fraction( imag, imagDenominator, false, true ) + " i";
 			}
 		}
 		return ret;

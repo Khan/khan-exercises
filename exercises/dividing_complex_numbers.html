@@ -30,7 +30,9 @@
 		<var id="A_IMAG_COLORED">"\\color{" + ORANGE + "}{" + A_IMAG + "}"</var>
 		<var id="B_REAL_COLORED">"\\color{" + BLUE + "}{" + B_REAL + "}"</var>
 		<var id="B_IMAG_COLORED">"\\color{" + BLUE + "}{" + B_IMAG + "}"</var>
-		<var id="CONJUGATE">complexNumber( B_REAL, -B_IMAG )</var>
+		<var id="B_CONJUGATE_IMAG">-B_IMAG</var>
+		<var id="B_CONJUGATE_IMAG_COLORED">"\\color{" + BLUE + "}{" + negParens( B_CONJUGATE_IMAG ) +"}"</var>
+		<var id="CONJUGATE">complexNumber( B_REAL, B_CONJUGATE_IMAG )</var>
 		<var id="CONJUGATE_COLORED">"\\color{" + BLUE + "}{" + CONJUGATE + "}"</var>
 	</div>
 
@@ -87,14 +89,14 @@
 					<code>
 						\qquad \dfrac{(<var>A_REP_COLORED</var>) \cdot (<var>CONJUGATE_COLORED</var>)}
 						{<var>DENOMINATOR</var>} = 
-						\dfrac{(<var>A_REAL_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens( B_REAL )</var>}) + (<var>A_IMAG_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens( B_REAL )</var>i}) + (<var>A_REAL_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens(B_IMAG_COLORED)</var>i}) + (<var>A_IMAG_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens(B_IMAG_COLORED)</var> i^2})}
+						\dfrac{(<var>A_REAL_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens( B_REAL )</var>}) + (<var>A_IMAG_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens( B_REAL )</var>} i) + (<var>A_REAL_COLORED</var> \cdot \color{<var>BLUE</var>}{<var> B_CONJUGATE_IMAG_COLORED </var>}i) + (<var>A_IMAG_COLORED</var> \cdot \color{<var>BLUE</var>}{<var> B_CONJUGATE_IMAG_COLORED </var>} i^2)}
 						{<var>DENOMINATOR</var>}
 					</code>
 					<p>
 						All multiplications are evaluated.
 					</p>
 					<code>
-						\qquad \dfrac{(<var>A_REAL * B_REAL</var>) + (<var>A_IMAG * B_REAL</var>i) + (<var>A_REAL * B_IMAG</var>i) + (<var>A_IMAG * B_IMAG</var> i^2)}
+						\qquad \dfrac{(<var>A_REAL * B_REAL</var>) + (<var>A_IMAG * B_REAL</var>i) + (<var>A_REAL * B_CONJUGATE_IMAG</var>i) + (<var>A_IMAG * B_CONJUGATE_IMAG</var> i^2)}
 						{<var>DENOMINATOR</var>}
 					</code>
 				</div>
@@ -103,7 +105,7 @@
 						Finally, the fraction is simplified.
 					</p>
 					<code>
-						\qquad \dfrac{<var>A_REAL * B_REAL</var> + <var>A_IMAG * B_REAL</var>i + <var>A_REAL * B_IMAG</var>i - <var>A_IMAG * B_IMAG</var>}
+						\qquad \dfrac{<var>A_REAL * B_REAL</var> + <var>A_IMAG * B_REAL</var>i + <var>A_REAL * B_CONJUGATE_IMAG</var>i - <var>A_IMAG * B_CONJUGATE_IMAG</var>}
 						{<var>DENOMINATOR</var>} =
 						\dfrac{<var>REAL_NUMERATOR</var> + <var>IMAG_NUMERATOR</var>i</var>}
 						{<var>DENOMINATOR</var>} =
