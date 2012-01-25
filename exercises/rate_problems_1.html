@@ -58,14 +58,15 @@
 				<p class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest minute.)</p>
 				<p class="solution" data-forms="integer"><var>round(DIST1 / SPEED1 * 60)</var></p>
 				<div class="hints" data-apply="appendContents">
-					<p id="final-hint"><code>t_<var>vehicleVar(1)</var> = <var>round(DIST1 / SPEED1 * 60)</var></code> minutes</p>
+					<p id="final-hint"><code>t_<var>vehicleVar(1)</var> =
+            <var>round(round(DIST1) / SPEED1 * 60)</var></code> minutes</p>
 				</div>
 			</div>
 			<div data-type="original">
 				<p class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(2)</var>? (Round to the nearest minute.)</p>
 				<p class="solution" data-forms="integer"><var>round(DIST2 / SPEED2 * 60)</var></p>
 				<div class="hints" data-apply="appendContents">
-					<p id="final-hint"><code>t_<var>vehicleVar(2)</var> = <var>round(DIST2 / SPEED2 * 60)</var></code> minutes</p>
+					<p id="final-hint"><code>t_<var>vehicleVar(2)</var> = <var>round(round(DIST2) / SPEED2 * 60)</var></code> minutes</p>
 				</div>
 			</div>
 		</div>
@@ -89,8 +90,8 @@
 			<p>Calculating all variables (and then rounding to the nearest integer):<br>
 				<code>d_<var>vehicleVar(2)</var> =</code> <var>roundTo( 4 , DIST2 )</var> <code>(<var>round(DIST2)</var>)</code> miles<br>
 				<code>d_<var>vehicleVar(1)</var> =</code> <var>roundTo( 4 , DIST1 )</var> <code>(<var>round(DIST1)</var>)</code> miles<br>
-				<code>t_<var>vehicleVar(1)</var> =</code> <var>roundTo( 4 , DIST1 / SPEED1 * 60 )</var> <code>(<var>round(DIST1 / SPEED1 * 60)</var>)</code> minutes<br>
-				<code>t_<var>vehicleVar(2)</var> =</code> <var>roundTo( 4 , DIST2 / SPEED2 * 60 )</var> <code>(<var>round(DIST2 / SPEED2 * 60)</var>)</code> minutes</p>
+				<code>t_<var>vehicleVar(1)</var> =</code> <var>roundTo( 4 , round(DIST1) / SPEED1 * 60 )</var> <code>(<var>round(DIST1 / SPEED1 * 60)</var>)</code> minutes<br>
+				<code>t_<var>vehicleVar(2)</var> =</code> <var>roundTo( 4 , round(DIST2) / SPEED2 * 60 )</var> <code>(<var>round(DIST2 / SPEED2 * 60)</var>)</code> minutes</p>
 		</div>
 	</div>
 </body>
