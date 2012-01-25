@@ -2599,43 +2599,31 @@ var Khan = (function() {
 	}
 
 	function displayRelatedVideos( videos ) {
-		var relatedVideoAnchorElement = function(video, needComma) {
-			return jQuery("#related-video-link-tmpl").tmplPlugin({
-				href: Khan.relatedVideoHref(video),
-				video: video,
-				separator: needComma
-			}).data('video', video);
-		};
 
 		var displayRelatedVideoInHeader = function(i, video) {
 			var needComma = i < videos.length - 1;
-			var li = jQuery( "<li>" ).append( relatedVideoAnchorElement(video, needComma) );
+			var li = jQuery( "<li>" ).append("<a href='"+Khan.relatedVideoHref(video)+"'><img src='http://img.youtube.com/vi/"+video.youtube_id+"/hqdefault.jpg' width='' height='' alt='"+video.title+"'/></a>");
+			console.log(video);
 			jQuery( ".related-content > .related-video-list" ).append( li ).show();
+			jQuery( "#related-video-list,#related-video-list>*,#related-video-list>ul>li>a" ).show();
 		};
 
 		var displayRelatedVideoInSidebar = function(i, video) {
-			var thumbnailDiv = jQuery("#thumbnail-tmpl").tmplPlugin({
+			var thumbnailDiv = jQuery("#thumbnail-tmpl").tmpl({
 				href: Khan.relatedVideoHref(video),
 				video: video
 			}).find('a.related-video').data('video', video).end();
 
-			var inlineLink = relatedVideoAnchorElement(video)
-				.addClass("related-video-inline");
+			var inlineLink = jQuery("<a href='"+Khan.relatedVideoHref(video)+"' alt='"+video.title+"'><img src='http://img.youtube.com/vi/"+video.youtube_id+"/hqdefault.jpg' width='120px' height='60px'/></a>");
 
 			var sideBarLi = jQuery( "<li>" )
 				.append( inlineLink )
 				.append( thumbnailDiv );
 
-			if ( i > 0 ) {
-				thumbnailDiv.hide();
-			}
-			else {
-				inlineLink.hide();
-			}
 			jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
 		};
 
-		if ( jQuery.fn.tmplPlugin ) {
+		if ( jQuery.tmplPlugin ) {
 			jQuery.each(videos, displayRelatedVideoInHeader);
 			jQuery.each(videos, displayRelatedVideoInSidebar);
 			jQuery( ".related-content, .related-video-box" ).show();
