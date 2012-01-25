@@ -20,8 +20,11 @@
 				<var id="D1">randRange( 3, 20 )</var>
 				<var id="D2">D1</var>
 				
-				<var id="N1">randRange( 1, D1 - 1 )</var>
+
+				
+				<var id="N1">(PM === 1 ? randRange( 1, D1 - 2 ) : randRange(2, D1 - 1))</var>
 				<var id="N2">(PM === 1 ? randRange( 1, D1 - N1 -1) : randRange( 1, N1 -1))</var>
+				
 
 				<var id="GCD1">getGCD( N1, D1 )</var>
 				<var id="SIMP_N1">N1 / GCD1</var>
