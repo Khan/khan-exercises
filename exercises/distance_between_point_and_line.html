@@ -188,9 +188,7 @@
 								axisArrows: "<->"
 							});
 
-							plot(function( x ) {
-								return ( M1 * ( x - B1 ) );
-							}, [-10, 10], {
+							line( [ B1, -10 ], [ B1, 10 ], {
 								stroke: BLUE
 							});
 
