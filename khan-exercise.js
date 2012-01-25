@@ -39,7 +39,7 @@ var Translate = new function(){
 	this.langdefault = "en";
 	this.lang = "nl";
 	this.table = {};
-	this.current = window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
+	this.current = window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1).split('.')[0];
 	this.production = ( typeof(userExercise) !== "undefined" );
 	this.exercisefile = ( this.production ? "/khan-exercises/exercises/" : "" ) + this.current + ".lang.js";
 	this.globalfile = ( this.production ? "/khan-exercises/exercises/" : "" ) +"lang.js";
@@ -49,7 +49,7 @@ var Translate = new function(){
 			return map[this.lang];
 		}
 		else{
-			return map["en"];
+			return map[this.langdefault];
 		}
 	}
 
