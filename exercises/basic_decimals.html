@@ -33,7 +33,7 @@
 			
 			<div class="hints">
 				<p>The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator. </p>
-				<p>For this question, this means <var>D === 10 ? "1 place" : "2 places"</var>.</p>
+				<p>For division by <var>D</var>, this means <var>D === 10 ? "1 place" : "2 places"</var>.</p>
 				<p>If you move the correct number of decimal places, you get <var>DEC</var>.</p>
 			</div>
 		</div>
@@ -51,19 +51,17 @@
 				<div>
 					<div class="question">
 						<p>Write the following as a decimal:</p>
-						<p data-if="!(TEN === 0)"><var>TEN+" tenths "</var></p>
-						<p data-if="!(HUND === 0)"><var>HUND+" hundredths "</var></p>
-						<p data-if="!(THOU === 0)"><var>THOU+" thousandths"</var></p>  
+						<p><span data-if="!(TEN === 0)" ><var>TEN</var> tenths</span><span data-if="(!(HUND === 0) && !(TEN === 0)) || (!(THOU === 0) && !(TEN === 0))">, </span><span data-if="HUND === 0 && THOU === 0" >.</span><span data-if="!(HUND === 0)" ><var>HUND</var> hundredths</span><span data-if="!(HUND === 0) && !(THOU === 0)" >, </span><span data-if="THOU === 0 && !(HUND === 0)" >.</span><span data-if="!(THOU === 0)" ><var>THOU</var> thousandths.</span></p>
 					</div>
 					<div class="solution" data-type="decimal"><var>DEC</var></div>
 				</div>
 			</div>
 			
 			<div class="hints">
-				<p>There is no oneths place on the right side of the decimal, so start with the tenths.</p>
-				<p>The word next to the number tells you want to divide that number by. So the tenths would be <code><var>fraction( TEN, 10 )</var></code>, or simply <code><var>TEN === 0 ? "0.0" : TEN/10</var></code>.</p>
-				<p>Add the different values together: <code><var>fraction(TEN, 10)</var></code> + <code><var>fraction(HUND, 100)</var></code> + <code><var>fraction(THOU, 1000)</var></code> or <code><var>TEN/10</var></code> + <code><var>HUND/100</var></code> + <code><var>THOU/1000</var></code></p>
-				<p>The final answer is: <code><var>DEC</var></code></p>
+				<p>The first place to the right of the decimal is the tenths place.</p>
+				<p>The word next to the number tells you want to divide that number by. So the tenths would be <code><var>fraction( TEN, 10 )</var></code>, or simply <code><var>(TEN/10).toFixed(1)</var></code>.</p>
+				<p>Add the different values together: <code><var>fraction(TEN, 10)</var></code> + <code><var>fraction(HUND, 100)</var></code> + <code><var>fraction(THOU, 1000)</var></code> or <code><var>(TEN/10).toFixed(1)</var></code> + <code><var>(HUND/100).toFixed(2)</var></code> + <code><var>(THOU/1000).toFixed(3)</var></code></p>
+				<p>The final answer is: <code><var>DEC</var></code>.</p>
 			</div>
 		</div>
 	</div>
