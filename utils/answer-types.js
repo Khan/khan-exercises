@@ -951,12 +951,12 @@ jQuery.extend( Khan.answerTypes, {
 		var solutionArray = [];
 
 		var realArea = jQuery( '<p />' ).html('Real part: ');
-		var realControl = jQuery( '<span />' ).html( correct[0] );
-		var realValidator = Khan.answerTypes["decimal"]( realArea, realControl, 0 );
+		var realControl = jQuery( '<span data-inexact data-max-error="0.01" />' ).html( correct[0] );
+		var realValidator = Khan.answerTypes["number"]( realArea, realControl, 0 );
 
 		var imagArea = jQuery( '<p />' ).html('Imaginary part: ');
-		var imagControl = jQuery( '<span />' ).html( correct[1] );
-		var imagValidator = Khan.answerTypes["decimal"]( imagArea, imagControl, 0 );
+		var imagControl = jQuery( '<span data-inexact data-max-error="0.01" />' ).html( correct[1] );
+		var imagValidator = Khan.answerTypes["number"]( imagArea, imagControl, 0 );
 
 		var area = jQuery( '<div />' );
 		area.append( realArea ).append( imagArea ).tmpl();
