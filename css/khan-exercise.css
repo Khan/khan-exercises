@@ -1,6 +1,7 @@
 .exercise, .vars, #next { display: none; }
 p.question { font-weight: bold; }
 var { font-style: normal; }
+
 .hint_blue { color: #6495ED; }
 .hint_orange { color: #FFA500; }
 .hint_pink { color: #FF00AF; }
@@ -8,6 +9,9 @@ var { font-style: normal; }
 .hint_green { color: #28AE7B; }
 .hint_gray { color: gray; }
 .hint_purple{ color: purple; }
+
+.final_answer{ font-weight:bold; }
+
 #workarea { margin-left: 30px; }
 #hintsarea { margin-left: 50px; }
 #answer_area ul { list-style: none; }
