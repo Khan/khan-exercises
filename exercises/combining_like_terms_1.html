@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<title>Combining like terms 1</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+		function mapcolor (array, exps) {
+			return jQuery.map( array, function( el ) {
+				var exp = el[1];
+				switch ( exp ) {
+					case exps[0]:
+						var color = "blue";
+						break;
+						
+					case exps[1]:
+						var color = "green";
+						break;
+						
+					case exps[2]:
+						var color = "red";
+						break;
+						
+					case exps[3]:
+						var color = "orange";
+						break;
+				}
+				
+				return "\\color{" + color + "}{" + ( el[0] == -1 ? "-" : ( el[0] == 1 ? "" : el[0])) + ( el[1] == 1 ? "x" : "x^{" + el[1] + "}" ) + "}";
+			} );
+		}
+	</script>
+</head>
+
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="TERMS">randRange( 5, 8 )</var>
+		
+		<var id="EXPS">shuffle( [1, 2, 3, 4, 5, 6, 7, 8, 9], 4 ).sort().reverse()</var>
+
+		<div class="vars" data-ensure="N_EXPS[4] > 1 && !( N_EXPS[0] != 0 && TOTALS[ 0 ] == 0 || N_EXPS[1] != 0 && TOTALS[ 1 ] == 0 || N_EXPS[2] != 0 && TOTALS[ 2 ] == 0 || N_EXPS[3] != 0 && TOTALS[ 3 ] == 0 )">
+		
+			<var id="INDS">(function() {
+				var array = [];
+				while ( array.length < TERMS ) {
+					array.push([ randRangeNonZero( -12, 12 ) , EXPS[ randRange( 0, 3 )]]);
+				}
+					
+				return array;
+			})()</var>
+
+			<var id="TOTALS">(function() {
+				var array = [ 0, 0, 0, 0 ];
+
+				for ( var i = 0; i < TERMS; i++ ) {
+					array[ EXPS.indexOf(INDS[ i ][ 1 ]) ] += INDS[ i ][ 0 ];
+				}
+				
+				return array;
+			})()</var>
+			
+			<var id="N_EXPS">(function() {
+				var array = [ 0, 0, 0, 0, 0 ];
+
+				for ( var i = 0; i < TERMS; i++ ) {
+					array[ EXPS.indexOf(INDS[ i ][ 1 ]) ] += 1;
+				}
+				for ( var i = 0; i < 4; i++ ) {
+					if ( array [i] != 0) {
+						array[ 4 ] += 1;
+					}
+				}
+				
+				return array;
+			})()</var>
+			
+			<var id="ONES">(function() {
+				var array = [ 0, 0 ];
+
+				for ( var i = 0; i < 4; i++ ) {
+					if ( N_EXPS[i] > 0 && TOTALS[i] == -1 ) {
+						array[ 0 ] += 1;
+					} else if ( N_EXPS[i] > 0 && TOTALS[i] == 1 ) {
+						array[ 1 ] += 1;
+					}
+				}
+				
+				return array;
+			})()</var>
+			
+			<var id="T_ARR">(function() {
+				var array = [];
+
+				for ( var i = 0; i < 4; i++ ) {
+					if ( N_EXPS[i] != 0) {
+						array.push([ TOTALS[i] , EXPS[i] ]);
+					}
+				}
+				
+				return array;
+			})()</var>
+
+			<!-- Var names: P = Polynomial, T = Totals, C = Color, S = Sorted -->
+			<var id="P">jQuery.map( INDS, function( el ) {
+				return ( el[0] == -1 ? "-" : ( el[0] == 1 ? "" : el[0])) + ( el[1] == 1 ? "x" : "x^{" + el[1] + "}" );
+			} )</var>
+			
+			<var id="PC">mapcolor( INDS , EXPS )</var>
+
+			<var id="T">jQuery.map( T_ARR, function( el ) {
+				return ( el[0] == -1 ? "-" : ( el[0] == 1 ? "" : el[0])) + ( el[1] == 1 ? "x" : "x^{" + el[1] + "}" );
+			} )</var>
+			
+			<var id="TC">mapcolor( T_ARR , EXPS )</var>
+			
+			<var id="P_SORT">jQuery.extend( true, [], INDS ).sort( function(a, b) {
+				return b[1] - a[1];
+			} )</var>
+			
+			<var id="PCS">mapcolor( P_SORT , EXPS )</var>
+			
+		</div>
+	</div>
+
+	<div class="problems">
+		<div>
+			<p class="problem">Simplify:</p>
+			<p class="question"><code><var>P.join( " + " )</var></code></p>
+			<div class="solution" data-type="multiple">
+				<p>
+					<span data-if="N_EXPS[0] != 0"><span class="sol" data-fallback="1"><var>TOTALS[ 0 ]</var></span> <code>x^{<var>EXPS[0]</var>}</code> +</br></span>
+					<span data-if="N_EXPS[1] != 0"><span class="sol" data-fallback="1"><var>TOTALS[ 1 ]</var></span> <code>x^{<var>EXPS[1]</var>}</code></span>
+					<span data-if="!(N_EXPS[1] == 0 || N_EXPS[2] == 0)"> +</br></span>
+					<span data-if="N_EXPS[2] != 0"><span class="sol" data-fallback="1"><var>TOTALS[ 2 ]</var></span> <code>x^{<var>EXPS[2]</var>}</code></span>
+					<span data-if="N_EXPS[3] != 0"><span data-if="!(N_EXPS[4] == 2 && N_EXPS[1] == 0 && N_EXPS[2] == 0)"> +</br></span>
+					<span class="sol" data-fallback="1"><var>TOTALS[ 3 ]</var></span> <code><var>( EXPS[3] == 1 ? "x" : "x^{" + EXPS[3] + "}" )</code></span>
+				</p>
+			</div>
+			<div class="hints">
+				<div>
+					<p>Identify like terms by finding terms where x is raised to the same power or terms which have the same degree of x:</p>
+					<p><code><var>PC.join( " + " )</var></code></p>
+				</div>
+				
+				<div>
+					<p>Group like terms, largest exponents first:</p>
+					<p><code><var>PCS.join( " + " )</var></code></p>
+				</div>
+				
+				<div>
+					<p>Add like terms:</p>
+					<p><code><var>TC.join( " + " )</var></code></p>
+				</div>
+				
+				<div>
+					<p>Final answer:</p>
+					<p><code><var>T.join( " + " )</var></code></p>
+					<span data-if="ONES[0] != 0">The <code>-x</code> means <code>x</code> has a coefficient of <code>-1</code>. </span>
+					<span data-if="ONES[1] != 0">The <code>x</code> with no coefficient means <code>x</code> has a coefficient of <code>1</code>. </p>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
