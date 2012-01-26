@@ -37,11 +37,11 @@
 				<div class="solution"><var>ANSWER</var></div>
 				<div class="hints">
 					<div class="graphie" data-update="numbers">
-						jQuery.tmpl.VARS.REMOVE = label(
+						REMOVE.push(label(
 							[0, -1],
 							"\\Huge{\\color{#6495ED}{#{A}} \\color{#28AE7B}{#{B}} = {?}}",
 							"right"
-						)
+						))
 					</div>
 					<div class="graphie" data-update="numbers">
 						numberLine(START, END, 1, 1, -2)
@@ -56,7 +56,7 @@
 						circle([1 + ANSWER - START, -2], 5/40, {stroke: "none", fill: "#FF00AF"})
 					</div>
 					<div class="graphie" data-update="numbers">
-						jQuery.tmpl.VARS.REMOVE.remove()
+						REMOVE[0].remove()
 
 						label(
 							[0, -1],
@@ -90,11 +90,11 @@
 				<div class="solution"><var>ANSWER</var></div>
 				<div class="hints">
 					<div class="graphie" data-update="numbers">
-						jQuery.tmpl.VARS.REMOVE = label(
+						REMOVE.push(label(
 							[0, -1],
 							"\\Huge{\\color{#6495ED}{#{A}} \\color{#28AE7B}{+#{abs(B)}} = {?}}",
 							"right"
-						)
+						))
 					</div>
 					<div class="graphie" data-update="numbers">
 						numberLine(START, END, 1, 1, -2)
@@ -109,7 +109,7 @@
 						circle([1 + ANSWER - START, -2], 5/40, {stroke: "none", fill: "#FF00AF"})
 					</div>
 					<div class="graphie" data-update="numbers">
-						jQuery.tmpl.VARS.REMOVE.remove()
+						REMOVE[0].remove()
 
 						label(
 							[0, -1],
