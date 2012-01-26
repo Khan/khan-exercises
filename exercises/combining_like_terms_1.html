@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Combining like terms 1</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function color( str, blue ) {
+			var pre = "";
+
+			if ( typeof str === "number" && str < 0 ) {
+				pre = "-";
+				str = Math.abs( str );
+			} else if ( typeof str === "string" ) {
+				if ( str.indexOf( "-" ) === 0 ) {
+					pre = "-";
+					str = str.slice( 1 );
+				}
+				if ( str.charAt( 0 ) === "1" && str.length === 2 ) {
+					str = str.slice( 1 );
+				}
+			}
+
+			return pre + "\\color{" + ( blue === 0 ? "<var>BLUE</var>" : ( blue === 1 ? "<var>ORANGE</var>" : "<var>BLACK</var>" ) ) + "}{" + str + "}";
+		}
+	</script>
+	<style type="text/css">
+		#answer_area input[type=text] {
+			width: 40px;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="LETTERS">"abkmnpvx"</var>
+		<var id="X">LETTERS.charAt( randRange( 0, LETTERS.length - 1 ) )</var>
+	</div>
+	<div class="problems">
+		<div id="none">
+			<div class="vars" data-ensure="ANSWER1 !== 0 && ANSWER2 !== 0">
+				<var id="INDEX">randRange( 0, 6 )</var>
+				<var id="A">randRangeNonZero( -1, 1 ) * randRange( 1, randRangeWeighted( 1, 20, 10, INDEX &gt; 6 ? 1 : 0 ) )</var>
+				<var id="B" data-ensure="abs( A ) !== abs( B )">randRangeNonZero( -1, 1 ) * randRange( 1, randRangeWeighted( 1, 20, 10, INDEX &gt; 6 ? 1 : 0 ) )</var>
+				<var id="C">randRangeNonZero( -1, 1 ) * randRange( 1, randRangeWeighted( 1, 20, 10, INDEX &gt; 6 ? 1 : 0 ) )</var>
+				<var id="D" data-ensure="abs( C ) !== abs( D )">randRangeNonZero( -1, 1 ) * randRange( 1, randRangeWeighted( 1, 20, 10, INDEX &gt; 6 ? 1 : 0 ) )</var>
+				<var id="E" data-ensure="E !== 1">randRangeNonZero( -1, 1 ) * randRange( 1, randRange( 1, 10 ) )</var>
+				<var id="F" data-ensure="F !== 1">randRangeNonZero( -1, 1 ) * randRange( 1, randRange( 1, 10 ) )</var>
+				<var id="TERMS">[expr( ["+", ["*", A, X], ["*", B, X]] ), expr( ["+", ["*", A, X], ["*", B, X], C] ), expr( ["+", ["*", A, X], C, ["*", B, X]] ),
+				expr( ["+", ["*", A, X], C, ["*", B, X], D] ), expr( ["+", ["*", A, X], C, D, ["*", B, X]] ), expr( ["+", ["*", A, X], C, D] ), expr( ["+", C, ["*", A, X], D] ),
+				expr( ["+", ["*", A, X], ["*", F, ["+", ["*", B, X], D]]] ), expr( ["+", C, ["*", F, ["+", D, ["*", B, X]]]] ),
+				expr( ["+", ["*", E, ["+", C, ["*", A, X]]], ["*", F, ["+", ["*", B, X], D]]] ), expr( ["+", ["*", E, ["+", ["*", A, X], C]], ["*", F, ["+", D, ["*", B, X]]]] )][INDEX]</var>
+				<var id="DIST1">INDEX &gt; 8 ? 1 : 0</var>
+				<var id="DIST2">INDEX &gt; 6 ? 1 : 0</var>
+				<var id="COMBINE1">( INDEX === 5 || INDEX === 6 || INDEX === 8 ) ? 0 : 1</var>
+				<var id="COMBINE2">( INDEX === 0 || INDEX === 1 || INDEX === 2 || INDEX === 7 ) ? 0 : 1</var>
+				<var id="ANSWER1">INDEX &lt; 5 ? A + B : ( INDEX === 5 || INDEX === 6 ) ? A : INDEX === 7 ? A + F * B : INDEX === 8 ? F * B : E * A + F * B</var>
+				<var id="ANSWER2">INDEX &lt; 3 ? C : ( INDEX &gt; 2 && INDEX &lt; 7 ) ? C + D : INDEX == 7 ? F * D : INDEX === 8 ? C + F * D : E * C + F * D</var>
+			</div>
+			<p class="question">Simplify the expression below.</p>
+				<p><code>\large{<var>TERMS</var>}</code></p>
+			<div class="solution" data-type="set">
+				<div class="set-sol" data-type="multiple">
+					<span class="sol"><var>ANSWER1</var></span>
+					<span data-if="INDEX !== 0"><span class="sol"><var>ANSWER2</var></span></span>
+				</div>
+				<div class="input-format">
+					<p class="entry" data-type="multiple">
+						<span class="sol"></span><code><var>X</var></code><span data-if="INDEX !== 0"><code>\space + \space</code><span class="sol"></span></span>
+					</p>
+				</div>
+				<p class="example">enter integers for the coefficient and constant terms, such as -3 or 10</p>
+			</div>
+			<div class="hints">
+				<div data-if="DIST1">
+					<p>Distribute over the first parenthesis.</p>
+					<div data-if="INDEX === 9">
+						<p><code>\color{<var>BLUE</var>}{<var>expr( ["*", E, ["+", C, ["*", A, X]]] )</var>} + <var>expr( ["*", F, ["+", ["*", B, X], D]] )</code></p>
+						<p><code>\color{<var>BLUE</var>}{<var>expr( ["+", E * C, ["*", E * A, X]] )</var>} + <var>expr( ["*", F, ["+", ["*", B, X], D]] )</code></p>
+					</div>
+					<div data-if="INDEX === 10">
+						<p><code>\color{<var>BLUE</var>}{<var>expr( ["*", E, ["+", ["*", A, X], C]] )</var>} + <var>expr( ["*", F, ["+", D, ["*", B, X]]] )</code></p>
+						<p><code>\color{<var>BLUE</var>}{<var>expr( ["+", ["*", E * A, X], E * C] )</var>} + <var>expr( ["*", F, ["+", D, ["*", B, X]]] )</code></p>
+					</div>
+				</div>
+				<div data-if="DIST2">
+					<p>Distribute over the <span data-if="DIST1">second </span>parenthesis.</p>
+					<div data-if="INDEX === 7">
+						<p><code><var>expr( ["*", A, X] )</var>\color{<var>ORANGE</var>}{<span data-if="F < 0">-</span><span data-else>+</span><var>expr( ["*", abs( F ), ["+", ["*", B, X], D]] )</var>}</code></p>
+						<p><code><var>expr( ["*", A, X] )</var>\color{<var>ORANGE</var>}{<span data-if="( F * B ) < 0">-</span><span data-else>+</span><var>expr( ["+", ["*", abs( F * B ), X], F * D] )</var>}</code></p>
+					</div>
+					<div data-if="INDEX === 8">
+						<p><code><var>C</var>\color{<var>ORANGE</var>}{<span data-if="F < 0">-</span><span data-else>+</span><var>expr( ["*", abs( F ), ["+", D, ["*", B, X]]] )</var>}</code></p>
+						<p><code><var>C</var>\color{<var>ORANGE</var>}{<span data-if="( F * D ) < 0">-</span><span data-else>+</span><var>expr( ["+", abs( F * D ), ["*", F * B, X]] )</var>}</code></p>
+					</div>
+					<div data-if="INDEX === 9">
+						<p><code><var>expr( ["+", E * C, ["*", E * A, X]] )</var>\color{<var>ORANGE</var>}{<span data-if="F < 0">-</span><span data-else>+</span><var>expr( ["*", abs( F ), ["+", ["*", B, X], D]] )</var>}</code></p>
+						<p><code><var>expr( ["+", E * C, ["*", E * A, X]] )</var>\color{<var>ORANGE</var>}{<span data-if="( F * B ) < 0">-</span><span data-else>+</span><var>expr( ["+", ["*", abs( F * B ), X], F * D] )</var>}</code></p>
+					</div>
+					<div data-if="INDEX === 10">
+						<p><code><var>expr( ["+", ["*", E * A, X], E * C] )</var>\color{<var>ORANGE</var>}{<span data-if="F < 0">-</span><span data-else>+</span><var>expr( ["*", abs( F ), ["+", D, ["*", B, X]]] )</var>}</code></p>
+						<p><code><var>expr( ["+", ["*", E * A, X], E * C] )</var>\color{<var>ORANGE</var>}{<span data-if="( F * D ) < 0">-</span><span data-else>+</span><var>expr( ["+", abs( F * D ), ["*", F * B, X]] )</var>}</code></p>
+					</div>
+				</div>
+				<div data-if="COMBINE1">
+					<p>Combine the variable terms:</p>
+					<p data-if="INDEX === 0"><code><var>color( A + X, 0 )</var> + <var>color( B + X, 0 )</var> = <var>color( ( A + B ) + X, 0 )</var></code></p>
+					<p data-if="INDEX === 1"><code><var>color( A + X, 0 )</var> + <var>color( B + X, 0 )</var> + <var>color( C, 2 )</var> = <var>color( ( A + B ) + X, 0 )</var> + <var>color( C, 2 )</var></code></p>
+					<p data-if="INDEX === 2"><code><var>color( A + X, 0 )</var> + <var>color( C, 2 )</var> + <var>color( B + X, 0 )</var> = <var>color( ( A + B ) + X, 0 )</var> + <var>color( C, 2 )</var></code></p>
+					<p data-if="INDEX === 3"><code><var>color( A + X, 0 )</var> + <var>color( C, 2 )</var> + <var>color( B + X, 0 )</var> + <var>color( D, 2 )</var> = <var>color( ( A + B ) + X, 0 )</var> + <var>color( C, 2 )</var> + <var>color( D, 2 )</var></code></p>
+					<p data-if="INDEX === 4"><code><var>color( A + X, 0 )</var> + <var>color( C, 2 )</var> + <var>color( D, 2 )</var> + <var>color( B + X, 0 )</var> = <var>color( ( A + B ) + X, 0 )</var> + <var>color( C, 2 )</var> + <var>color( D, 2 )</var></code></p>
+					<p data-if="INDEX === 7"><code><var>color( A + X, 0 )</var> + <var>color( ( F * B ) + X, 0 )</var> + <var>color( ( F * D ), 2 )</var> = <var>color( ( A + F * B ) + X, 0 )</var> + <var>color( ( F * D ), 2 )</var></code></p>
+					<p data-if="INDEX === 9"><code><var>color( E * C, 2 )</var> + <var>color( ( E * A ) + X, 0 )</var> + <var>color( ( F * B ) + X, 0 )</var> + <var>color( F * D, 2 )</var> = <var>color( ( E * A + F * B ) + X, 0 )</var> + <var>color( E * C, 2 )</var> + <var>color( F * D, 2 )</var></code></p>
+					<p data-if="INDEX === 10"><code><var>color( ( E * A ) + X, 0 )</var> + <var>color( E * C, 2 )</var> + <var>color( F * D, 2 )</var> + <var>color( ( F * B ) + X, 0 )</var> = <var>color( ( E * A + F * B ) + X, 0 )</var> + <var>color( E * C, 2 )</var> + <var>color( F * D, 2 )</var></code></p>
+				</div>
+				<div data-if="COMBINE2">
+					<p>Combine the constant terms:</p>
+					<p data-if="INDEX === 3 || INDEX === 4"><code><var>color( ( A + B ) + X, 2 )</var> + <var>color( C, 1 )</var> + <var>color( D, 1 )</var> = <var>color( ( A + B ) + X, 2 )</var> + <var>color( ( C + D ), 1 )</var></code></p>
+					<p data-if="INDEX === 5"><code><var>color( A + X, 2 )</var> + <var>color( C, 1 )</var> + <var>color( D, 1 )</var> = <var>color( A + X, 2 )</var> + <var>color( ( C + D ), 1 )</var></code></p>
+					<p data-if="INDEX === 6"><code><var>color( C, 1 )</var> + <var>color( A + X, 2 )</var> + <var>color( D, 1 )</var> = <var>color( A + X, 2 )</var> + <var>color( ( C + D ), 1 )</var></code></p>
+					<p data-if="INDEX === 8"><code><var>color( C, 1 )</var> + <var>color( F * D, 1 )</var> + <var>color( ( F * B ) + X, 2 )</var> = <var>color( ( F * B ) + X, 2 )</var> + <var>color( ( C + F * D ), 1 )</var></code></p>
+					<p data-if="INDEX === 9"><code><var>color( ( E * A + F * B ) + X, 2 )</var> + <var>color( E * C, 1 )</var> + <var>color( F * D, 1 )</var> = <var>color( ( E * A + F * B ) + X, 2 )</var> + <var>color( E * C + F * D, 1 )</var></code></p>
+					<p data-if="INDEX === 10"><code><var>color( ( E * A + F * B ) + X, 2 )</var> + <var>color( E * C, 1 )</var> + <var>color( F * D, 1 )</var> = <var>color( ( E * A + F * B ) + X, 2 )</var> + <var>color( E * C + F * D, 1 )</var></code></p>
+				</div>
+				<div style="font-weight:bold">
+					<p data-if="INDEX === 0">The simplified expression is <code><var>expr( ["*", A + B, X] )</var></code>.</p>
+					<p data-if="INDEX === 1 || INDEX === 2">The simplified expression is <code><var>expr( ["+", ["*", A + B, X], C] )</var></code>.</p>
+					<p data-if="INDEX === 3 || INDEX === 4">The simplified expression is <code><var>expr( ["+", ["*", A + B, X], C + D] )</var></code>.</p>
+					<p data-if="INDEX === 5 || INDEX === 6">The simplified expression is <code><var>expr( ["+", ["*", A, X], C + D] )</var></code>.</p>
+					<p data-if="INDEX === 7">The simplified expression is <code><var>expr( ["+", ["*", A + F * B, X], F * D] )</var></code>.</p>
+					<p data-if="INDEX === 8">The simplified expression is <code><var>expr( ["+", ["*", F * B, X], C + F * D] )</var></code>.</p>
+					<p data-if="INDEX === 9 || INDEX === 10">The simplified expression is <code><var>expr( ["+", ["*", E * A + F * B, X], E * C + F * D] )</var></code>.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
