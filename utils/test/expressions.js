@@ -55,7 +55,7 @@ test( "Expression formatter", function() {
 
 	// Test colors
 	equals( expr([ "*", 4, [ "+", 2, [ "color", "blue", 2 ] ] ]), "4(2+\\color{blue}{2})", "4(2+\\color{blue}{2})" );
-	equals( expr([ "*", 4, [ "color", "blue", 2 ] ]), "(4)(\\color{blue}{2})", "(4)(\\color{blue}{2})" );
+	equals( expr([ "*", 4, [ "color", "blue", 2 ] ]), "4(\\color{blue}{2})", "4(\\color{blue}{2})" );
 });
 
 test( "Expression evaluator", function() {
