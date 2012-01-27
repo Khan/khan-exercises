@@ -1296,8 +1296,6 @@ function Protractor( center ) {
 			var startx = event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left;
 			var starty = event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top;
 
-			jQuery( setNodes ).animate( { opacity: 0.25 }, 150 );
-
 			jQuery( document ).bind ( "vmousemove", function( event ) {
 				// mouse{X|Y} are in pixels relative to the SVG
 				var mouseX = event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left;
@@ -1319,7 +1317,6 @@ function Protractor( center ) {
 			});
 
 			jQuery( document ).one( "vmouseup", function( event ) {
-				jQuery( setNodes ).animate( { opacity: 0.50 }, 150 );
 				jQuery( document ).unbind( "vmousemove" );
 			});
 		});

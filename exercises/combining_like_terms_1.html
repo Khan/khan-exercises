@@ -61,7 +61,7 @@
 				<p><code>\large{<var>TERMS</var>}</code></p>
 			<div class="solution" data-type="set">
 				<div class="set-sol" data-type="multiple">
-					<span class="sol"><var>ANSWER1</var></span>
+					<span class="sol" data-fallback="1"><var>ANSWER1</var></span>
 					<span data-if="INDEX !== 0"><span class="sol"><var>ANSWER2</var></span></span>
 				</div>
 				<div class="input-format">
@@ -122,7 +122,7 @@
 					<p data-if="INDEX === 9"><code><var>color( ( E * A + F * B ) + X, 2 )</var> + <var>color( E * C, 1 )</var> + <var>color( F * D, 1 )</var> = <var>color( ( E * A + F * B ) + X, 2 )</var> + <var>color( E * C + F * D, 1 )</var></code></p>
 					<p data-if="INDEX === 10"><code><var>color( ( E * A + F * B ) + X, 2 )</var> + <var>color( E * C, 1 )</var> + <var>color( F * D, 1 )</var> = <var>color( ( E * A + F * B ) + X, 2 )</var> + <var>color( E * C + F * D, 1 )</var></code></p>
 				</div>
-				<div style="font-weight:bold">
+				<div class="final_answer">
 					<p data-if="INDEX === 0">The simplified expression is <code><var>expr( ["*", A + B, X] )</var></code>.</p>
 					<p data-if="INDEX === 1 || INDEX === 2">The simplified expression is <code><var>expr( ["+", ["*", A + B, X], C] )</var></code>.</p>
 					<p data-if="INDEX === 3 || INDEX === 4">The simplified expression is <code><var>expr( ["+", ["*", A + B, X], C + D] )</var></code>.</p>
