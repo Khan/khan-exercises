@@ -651,7 +651,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 		this.addDecimal();
 		this.show();
 		graph.label( [ digitsDividend.length + 1, 1 ],
-				"\\text{Write in a decimal and a zero then continue dividing as before.}", "right" );
+				"\\text{ Write in a decimal and a zero then continue dividing as before. }", "right" );
 	};
 
 	this.getNumHints = function() {
@@ -666,11 +666,11 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 
 	this.addDecimal = function() {
 		graph.style({
-				fill: "#000"
-			}, function() {
-				graph.ellipse( [ digitsDividend.length + deciDiff - 0.5, -0.2 ], [ 0.09, 0.06 ] );
-				graph.ellipse( [ digitsDividend.length + deciDiff - 0.5, 0.8 ], [ 0.09, 0.06 ] );
-			});
+			fill: "#000"
+		}, function() {
+			graph.ellipse( [ digitsDividend.length + deciDiff - 0.5, -0.2 ], [ 0.09, 0.06 ] );
+			graph.ellipse( [ digitsDividend.length + deciDiff - 0.5, 0.8 ], [ 0.09, 0.06 ] );
+		});
 	}
 	
 	this.shiftDecimals = function() {
