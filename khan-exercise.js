@@ -1172,7 +1172,10 @@ var Khan = (function() {
 			var firstInput = solutionarea.find( ":input" ).first();
 			setTimeout( function() {
 				if (!firstInput.is(":disabled")) {
-					firstInput.focus().select();
+					firstInput.focus();
+					if (firstInput.is("input[type=text]")) {
+						firstInput.select();
+					}
 				}
 			}, 1 );
 
@@ -2105,7 +2108,10 @@ var Khan = (function() {
 
 						if (!focusInput.is(":disabled")) {
 							// focus should always work; hopefully select will work for text fields
-							focusInput.focus().select();
+							focusInput.focus();
+							if (focusInput.is("input[type=text]")) {
+								focusInput.select();
+							}
 						}
 					}, 1 );
 				}
