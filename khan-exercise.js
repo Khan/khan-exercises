@@ -244,7 +244,7 @@ var Khan = (function() {
 
 	issueError = "Communication with GitHub isn't working. Please file "
 		+ "the issue manually at <a href=\""
-		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
+		+ "http://github.com/PerceptumNL/khan-exercises/issues/new\">GitHub</a>. "
 		+ "Please reference exercise: " + exerciseName + ".",
 	issueSuccess = function( url, title, suggestion ) {
 		return ["Thank you for your feedback! Your issue has been created and can be ",
