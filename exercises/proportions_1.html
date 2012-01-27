@@ -19,9 +19,8 @@
 		<div class="vars">
 			<var id="denominator1, denominator2, numerator1, numerator2">
 				(function() {
-					var numbers = randRangeUnique( 5, 14, 4 );
-					numbers[ randRange( 0, 3 ) ] = "x";
-
+					var numbers = randRangeUnique( 5, 14, 3 );
+					numbers.splice( randRange( 0, 3 ), 0, "x" );
 					return numbers;
 				})()
 			</var>
