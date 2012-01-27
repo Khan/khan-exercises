@@ -19,17 +19,10 @@
 		<div class="vars">
 			<var id="denominator1, denominator2, numerator1, numerator2">
 				(function() {
-					var number,
-					    numbers = [ "x" ].concat( randRangeUnique( 5, 14, 3 ) ),
-					    randomNumbers = [];
+					var numbers = randRangeUnique( 5, 14, 4 );
+					numbers[ randRange( 0, 3 ) ] = "x";
 
-					while ( numbers.length ) {
-						number = randFromArray( numbers );
-						numbers.splice( numbers.indexOf( number ), 1 );
-						randomNumbers.push( number );
-					}
-
-					return randomNumbers;
+					return numbers;
 				})()
 			</var>
 
