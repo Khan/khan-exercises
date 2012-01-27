@@ -81,13 +81,8 @@
 			"Multiplication 3" : "Vermenigvuldig 3",
 			"Multiplication 4" : "Vermenigvuldig 4",
 			"Multiplying and dividing negative numbers" : "Vermenigvuldigen en delen van negatieve getallen",
-			"Multiplying decimals" : "Vermenigvuldigen van decimalen"
-		}
-	},
-
-	"globals" : {
-		"nl" : {
-			"Veel" : "voorkomende woorden"
+			"Multiplying decimals" : "Vermenigvuldigen van decimalen",
+			"Geometry 1" : "Geometrie 1"
 		}
 	}
 

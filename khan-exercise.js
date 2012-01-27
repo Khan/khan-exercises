@@ -72,14 +72,12 @@ var Translate = new function(){
 		Khan.Util.translate = Translate;
 
 		var globals = this.getTranslation(this.globalfile, "globals");
-		if(globals[this.lang]){
-			$('.exercise-title').each(function(){
-				var title = $('title').html().substring(0, $('title').html().indexOf('|')-1)
-				if(Translate.table["globals"][Translate.lang][title]){
-					$(this).html(Translate.table["globals"][Translate.lang][title])
-				}
-			});
-		}
+		$('.exercise-title').each(function(){
+			var title = $('title').html().substring(0, $('title').html().indexOf('|')-1)
+			if(Translate.table["globals"]["titles"][Translate.lang][title]){
+				$(this).html(Translate.table["globals"]["titles"][Translate.lang][title])
+			}
+		});
 
 		var exercisedata = this.getTranslation(this.exercisefile, this.current);
 		if(exercisedata && exercisedata[this.lang]){
@@ -1698,13 +1696,13 @@ var Khan = (function() {
 
 	function prepareSite() {
 
-		Translate.load();
-
 		// Set exercise title
 		if(jQuery(".exercise-title").text().length == 0){
 			jQuery(".exercise-title").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
 				userExercise.exercise_model.display_name : document.title );
 		}
+
+		Translate.load();
 
 		exercises = jQuery( ".exercise" ).detach();
 
@@ -2603,7 +2601,6 @@ var Khan = (function() {
 		var displayRelatedVideoInHeader = function(i, video) {
 			var needComma = i < videos.length - 1;
 			var li = jQuery( "<li>" ).append("<a href='"+Khan.relatedVideoHref(video)+"'><img src='http://img.youtube.com/vi/"+video.youtube_id+"/hqdefault.jpg' width='' height='' alt='"+video.title+"'/></a>");
-			console.log(video);
 			jQuery( ".related-content > .related-video-list" ).append( li ).show();
 			jQuery( "#related-video-list,#related-video-list>*,#related-video-list>ul>li>a" ).show();
 		};
@@ -2623,7 +2620,7 @@ var Khan = (function() {
 			jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
 		};
 
-		if ( jQuery.tmplPlugin ) {
+		if ( jQuery.tmpl ) {
 			jQuery.each(videos, displayRelatedVideoInHeader);
 			jQuery.each(videos, displayRelatedVideoInSidebar);
 			jQuery( ".related-content, .related-video-box" ).show();
