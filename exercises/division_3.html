@@ -42,7 +42,7 @@
 			</div>
 
 			<div id="decimal">
-				<div class="vars" data-ensure="DIVIDEND % 10 == 0">
+				<div class="vars" data-ensure="( DIVIDEND * 10 ) % 10 === 0">
 					<var id="DIVISOR">randRange( 2, 9 )</var>
 					<var id="QUOTIENT" data-ensure="( QUOTIENT * 10 ) % 10 !== 0">randRange( 10, 99 ) / 10</var>
 					<var id="DIVIDEND">DIVISOR * QUOTIENT</var>

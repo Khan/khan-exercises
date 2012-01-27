@@ -643,15 +643,15 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 	}
 	
 	this.addDecimalRemainder = function() {
-		dividend = dividend * 10;
+		this.addDecimal();
+		dividend *= 10;
 		digitsDividend = KhanUtil.integerToDigits( dividend );
-		deciDividend = 1;
+		deciDividend++;
 		deciDiff = deciDivisor - deciDividend;
 		
-		this.addDecimal();
 		this.show();
 		graph.label( [ digitsDividend.length + 1, 1 ],
-				"\\text{ Write in a decimal and a zero then continue dividing as before. }", "right" );
+				"\\text{ Write a decimal point and a zero, then continue dividing. }", "right" );
 	};
 
 	this.getNumHints = function() {
