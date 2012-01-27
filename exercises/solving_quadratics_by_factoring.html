@@ -1,96 +1,101 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math graphie ast math-model">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8" />
 	<title>Solving quadratics by factoring</title>
 	<script src="../khan-exercise.js"></script>
-	<style type="text/css">
-		#answer_area input[type=text] {
-			width: 50px;
-		}
-	</style>
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars">
-		<div data-ensure="A !== B">
-			<var id="A">randRangeNonZero( -10, 10 )</var>
-			<var id="B">randRangeNonZero( -10, 10 )</var>
-		</div>
-		<var id="SQUARE">randRange(1,6)</var>
-	</div>
+		<div class="problems">
+			<div>
+				<div class="vars">
+					<var id="MATH">MathModel.init()</var>
+					<var id="a_val">randRangeNonZero( -4, 4 )</var>
+					<var id="b_val">randRange( 6, 19 )</var>
+					<var id="c_val">randRange( 20, 29 )</var>
+					<var id="B">a_val + b_val</var>
+					<var id="C">a_val * b_val</var>
+					<var id="PROBLEM">MATH.polynomial( [ 1, B, C ], "x" )</var>
+				</div>
+				<div>
+					<p class="question">
+						Determine where <code>f(x)</code> intersects the <code>x</code>-axis:
+					</p>
+					<p>
+						<code>f(x) = <var>MATH.format( PROBLEM, "large" )</var></code>
+					</p>
+				</div>
 
-	<div class="problems">
-		<div id="original">
-			<div class="vars">
-				<var id="CONSTANT">SQUARE*A*B</var>
-				<var id="SIMPLECONSTANT">A*B</var>
-				<var id="LINEAR">SQUARE*(-A-B)</var>
-				<var id="SIMPLELINEAR">-A-B</var>
-			</div>
+				<div class="solution" data-type="set">
+					<div class="set-sol"><var>-a_val</var></div>
+					<div class="set-sol"><var>-b_val</var></div>
+					<div class="input-format">
+						<p><code>x = \quad</code><span class="entry short"></span><code>\quad \text{or} \quad x = \quad</code><span class="entry short"></span></p>
+					</div>
+					<div class="example">two integers, like <code>6</code></div>
+				</div>
 
-			<p class="problem">Determine where <code>f(x)</code> intersects the <code>x</code>-axis.</p>
-			<p class="question"><code>f(x) = <var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
 
-			<div class="solution" data-type="set">
-				<div class="set-sol"><var>A</var></div>
-				<div class="set-sol"><var>B</var></div>
-				<div class="input-format">
-					<p><code>x = \quad</code><span class="entry"></span><code>\quad \text{and} \quad x = \quad</code><span class="entry"></span></p>
+				<div class="hints">
+					<div>
+						<p>The function intersects the <code>x</code>-axis where <code>f(x)=0</code>, so solve the equation:</p>
+						<p><code><var>MATH.format( PROBLEM, "normalsize", BLUE )</var> = \color{<var>BLUE</var>}{0}</code></p>
+					</div>
+					<p>
+						Recognize that the left hand side expression is of the form
+						<code><var>MATH.format( "x^2+Bx+C", "normalsize", BLUE )</var></code>
+						, which can be factored by grouping.
+					</p>
+					<p>
+						Find the factors
+						<code><var>MATH.format( "a", "normalsize", BLUE )</var></code> and
+						<code><var>MATH.format( "b", "normalsize", BLUE )</var></code> of the value of
+						<code><var>MATH.format( "C=" + C, "normalsize", BLUE )</var></code> whose sum is the value of
+						<code><var>MATH.format( "B=" + B, "normalsize", BLUE )</var></code>.
+					</p>
+					<p>
+						<code><var>MATH.format( "a=" + a_val, "normalsize", BLUE )</var></code><br>
+						<code><var>MATH.format( "b=" + b_val, "normalsize", BLUE )</var></code>
+					</p>
+					<p>
+						Rewrite the middle term of the original equation using these factors to form
+						two groups.
+					</p>
+					<p>
+						<code><var>MATH.format( "x^2+" + a_val + "x+" + b_val + "x+" + C + "=0", "normalsize", BLUE )</var></code>
+					</p>
+					<p>
+						Factor the first two terms terms and the second two terms.
+					</p>
+					<p>
+						<code><var>MATH.format( "x(x+" + a_val + ")+" + b_val + "(x+" + a_val + ")=0", "normalsize", BLUE )</var></code>
+					</p>
+					<p>
+						Redistribute the common term to get the answer.
+					</p>
+					<p>
+						<code><var>MATH.format( "(x+" + b_val + ")(x+" + a_val + ")=0", "normalsize", BLUE )</var></code>
+					</p>
+					<p>
+						Recall that for the left hand side to be equal to zero one or both of the terms being multiplied must be equal to zero.
+					</p>
+					<p>
+						<code><var>MATH.format( "(x+" + b_val + ")=0", "normalsize", BLUE )</var>\quad</code>
+						<b>or</b>
+						<code>\quad<var>MATH.format( "(x+" + a_val + ")=0", "normalsize", BLUE )</var></code>
+					</p>
+					<p>
+						Therefore the solutions are:
+					</p>
+					<p>
+						<code><var>MATH.format( "x=" + ( -b_val ), "large", GREEN )</var>\quad</code>
+						<b>or</b>
+						<code>\quad<var>MATH.format( "x=" + ( -a_val ), "large", GREEN )</var></code>
+					</p>
 				</div>
 			</div>
-
-			<div class="hints" data-apply="appendContents">
-				<div id="hint1">
-					<p>The two numbers <code><var>-A</var></code> and <code><var>-B</var></code> satisfy both conditions:</p>
-					<p><code><var>-A</var> + <var>-B</var> = <var>SIMPLELINEAR</var></code></p>
-					<p><code><var>-A</var> \cdot <var>-B</var> = <var>SIMPLECONSTANT</var></code></p>
-				</div>
-				<p id="hint2">So <code>(x + <var>-A</var>)(x + <var>-B</var>) = 0</code>.</p>
-				<p id="hint3"><code>x + <var>-A</var> = 0</code> or <code>x + <var>-B</var> = 0</code></p>
-				<p id="hint4">Thus, <code>x = <var>A</var></code> and <code>x = <var>B</var></code> are the solutions.</p>
-			</div>
 		</div>
-
-
-		<div id="one-root" data-type="original">
-			<div class="vars">
-				<var id="CONSTANT">SQUARE * A * A</var>
-				<var id="SIMPLECONSTANT">A * A</var>
-				<var id="LINEAR">SQUARE * ( -2 * A )</var>
-				<var id="SIMPLELINEAR">-2 * A</var>
-			</div>
-			<p class="problem">Determine where <code>f(x)</code> intersects the x-axis.</p>
-			<p class="question"><code>f(x) = <var>plus( SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
-			<div class="solution" data-type="multiple">
-				<p><code>x = \quad</code><span class="sol"><var>A</var></span></p>
-			</div>
-			<div class="hints" data-apply="appendContents">
-				<div id="hint1">
-					<p>The number <code><var>-A</var></code> used twice satisfies both conditions:</p>
-					<p><code><var>-A</var> + <var>-A</var> = <var>SIMPLELINEAR</var></code></p>
-					<p><code><var>-A</var> \cdot <var>-A</var> = <var>SIMPLECONSTANT</var></code></p>
-				</div>
-				<p id="hint2">So <code>(x + <var>-A</var>)^2 = 0</code>.</p>
-				<p id="hint3"><code>x + <var>-A</var> = 0</code></p>
-				<p id="hint4">Thus, <code>x = <var>A</var></code> is the solution.</p>
-			</div>
-		</div>
-	</div>
-
-	<div class="hints">
-		<div>
-			<p>The function intersects the <code>x</code>-axis where <code>f(x) = 0</code>, so solve the equation:</p>
-			<p><code><var>plus( SQUARE + "x^2" )</var> + <var>plus( LINEAR + "x")</var> + <var>CONSTANT</var>=0</code></p>
-		</div>
-
-		<div data-if="SQUARE > 1">
-			<p>Dividing both sides by <var>SQUARE</var> gives:</p>
-			<p><code>x^2 + <var> plus(SIMPLELINEAR + "x")</var> + <var>SIMPLECONSTANT</var>=0</code></p>
-		</div>
-
-		<p>The coefficient on the <code>x</code> term is <code><var>SIMPLELINEAR</var></code> and the constant term is <code><var>SIMPLECONSTANT</var></code>, so we need to find two numbers that add up to <code><var>SIMPLELINEAR</var></code> and multiply to <code><var>SIMPLECONSTANT</var></code>.</p>
-	</div>
 	</div>
 </body>
 </html>
