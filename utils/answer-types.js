@@ -311,9 +311,6 @@ jQuery.extend( Khan.answerTypes, {
 							// Remove space after +, -
 							.replace( /([+-])\s+/g, "$1" )
 
-							// Remove commas
-							.replace( /,\s*/g, "" )
-
 							// Extract integer, numerator and denominator
 							// This matches [+-]?\.; will f
 							.match( /^([+-]?(?:\d+\.?|\d*\.\d+))$/ );
