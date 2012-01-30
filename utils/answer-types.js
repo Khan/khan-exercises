@@ -275,7 +275,7 @@ jQuery.extend( Khan.answerTypes, {
 				//      is 12%. It will fail if the answer is 123,456% and the solution is 123.456%
 				//      because 123,456% is ambiguous (Is it euro 123.456% or normal 123,456%?).
 				transformer: function( text ) {
-					var exact, normalText, ret,
+					var exact, normalText,
 
 					    euro1  = /^[-+]?(\d{1,2})*(\.\d{3})*(,\d+)?%?$/, // Matches 123.456,789%.
 					    euro2  = /^[-+]?(\d{1,2})*( \d{3})*(,\d+)?%?$/,  // Matches 123 456,789%.
