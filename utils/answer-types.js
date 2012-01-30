@@ -265,11 +265,8 @@ jQuery.extend( Khan.answerTypes, {
 				// Better than percent. Still crap.
 				//
 				// Notes:
-				//   1. Answers must be properly formatted. The following answers will not be accepted:
-				//
-				//        1a. 123456.789%    - The comma between the 3 and the 4 is missing.
-				//        1b. - 123,456.789% - There is a space between the - and the 1.
-				//        1c. 123,456,789 %  - There is a space between the 9 and the %.
+				//   1. Answers must be properly formatted. 123456.789% will not be accepted because
+				//      the comma between the 3 and the 4 is missing.
 				//
 				//   2. Unlike percent, this will not fail if the answer is 1.2% and the solution
 				//      is 12%. It will fail if the answer is 123,456% and the solution is 123.456%
@@ -277,19 +274,23 @@ jQuery.extend( Khan.answerTypes, {
 				transformer: function( text ) {
 					var exact, normalText,
 
-					    euro1  = /^[-+]?(\d{1,2})*(\.\d{3})*(,\d+)?%?$/, // Matches 123.456,789%.
-					    euro2  = /^[-+]?(\d{1,2})*( \d{3})*(,\d+)?%?$/,  // Matches 123 456,789%.
-					    normal = /^[-+]?(\d{1,2})*(,\d{3})*(\.\d+)?%?$/, // Matches 123,456.789%.
+					    euro1  = /^[-+]? *(\d{1,2})*(\.\d{3})*(,\d+)? *%?$/, // Matches 123.456,789%.
+					    euro2  = /^[-+]? *(\d{1,2})*( \d{3})*(,\d+)? *%?$/,  // Matches 123 456,789%.
+					    normal = /^[-+]? *(\d{1,2})*(,\d{3})*(\.\d+)? *%?$/, // Matches 123,456.789%.
 
 					    ret = [];
 
-					text = jQuery.trim( text );
+					text = jQuery.trim( text )
+						// Remove spaces between...
+						.replace( /(-|\+) +/, "$1" ) // ...the minus or plus sign and the first number.
+						.replace( / +%/, "%" );      // ...the last number and the percent sign.
+
 					exact = text[ text.length - 1 ] === "%";
 
 					if ( euro1.test( text ) ) {
 						// Convert the number from euro 1 to normal.
 						normalText = text.replace( /\./g, "" );
-						normalText = normalText.replace( /,/, "." );
+						normalText = normalText.replace( ",", "." );
 
 						ret.push({
 							exact: exact,
@@ -300,7 +301,7 @@ jQuery.extend( Khan.answerTypes, {
 					if ( euro2.test( text ) ) {
 						// Convert the number from euro 2 to normal.
 						normalText = text.replace( / /g, "" );
-						normalText = normalText.replace( /,/, "." );
+						normalText = normalText.replace( ",", "." );
 
 						ret.push({
 							exact: exact,
@@ -309,9 +310,12 @@ jQuery.extend( Khan.answerTypes, {
 					}
 
 					if ( normal.test( text ) ) {
+						// Remove commas because parseFloat( "1,234" ) returns 1.
+						normalText = text.replace( /,/g, "" );
+
 						ret.push({
 							exact: exact,
-							value: parseFloat( text )
+							value: parseFloat( normalText )
 						});
 					}
 
