@@ -252,7 +252,7 @@ jQuery.extend( Khan.answerTypes, {
 						hasPercentSign = true;
 					}
 
-					var transformed = forms.decimal.transformer( text );
+					var transformed = forms.simple_decimal.transformer( text );
 					jQuery.each( transformed, function( ix, t ) {
 						t.exact = hasPercentSign;
 					});
@@ -311,6 +311,10 @@ jQuery.extend( Khan.answerTypes, {
 							// Remove space after +, -
 							.replace( /([+-])\s+/g, "$1" )
 
+							// Remove commas
+							.replace( /,\s*/g, "" )
+
+							
 							// Extract integer, numerator and denominator
 							// This matches [+-]?\.; will f
 							.match( /^([+-]?(?:\d+\.?|\d*\.\d+))$/ );
@@ -335,6 +339,52 @@ jQuery.extend( Khan.answerTypes, {
 					return [
 						{ value: normal( text ), exact: true },
 						{ value: commas( text ), exact: true }
+					];
+				},
+				example: (function() {
+					if ( options.inexact === undefined ) {
+						return "an <em>exact</em> decimal, like <code>0.75</code>";
+					} else {
+						return "a decimal, like <code>0.75</code>";
+					}
+				})()
+			},
+
+			simple_decimal: {
+				transformer: function( text ) {
+					var normal = function( text ) {
+						var match = text
+
+							// Replace unicode minus sign with hyphen
+							.replace( /\u2212/, "-" )
+
+							// Remove space after +, -
+							.replace( /([+-])\s+/g, "$1" )
+
+							// Extract integer, numerator and denominator
+							// This matches [+-]?\.; 
+
+							.match( /^([+-]?(?:\d+\.?|\d*\.\d+))$/ );
+						if ( match ) {
+							var x = parseFloat( match[1] );
+
+							if ( options.inexact === undefined ) {
+								var factor = Math.pow( 10, 10 );
+								x = Math.round( x * factor ) / factor;
+							}
+
+							return x;
+						}
+					};
+					
+					var commas = function( text ) {
+						text = text.replace( /([\.,])/g, function( _, c ) { return ( c === "." ? "," : "." ); } );
+						return normal( text );
+					};
+
+					return [
+						{ value: normal( text ), exact: true },
+						{  value: commas( text ), exact: true } 
 					];
 				},
 				example: (function() {
