@@ -7,18 +7,20 @@
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars" data-ensure="SIMP_D1 < SIMP_D2">
+    <div class="vars" data-ensure="SIMP1 > SIMP2">
 		<var id="N1">randRange( 1, 5 )</var> 
 		<var id="D1">randRange( N1 + 1, 6 )</var> 
 		<var id="GCD1">getGCD( N1, D1 )</var>
 		<var id="SIMP_N1">N1 / GCD1</var>
 		<var id="SIMP_D1">D1 / GCD1</var>
+	    <var id="SIMP1">N1 / D1</var>
 
-		<var id="N2">randRange( 1, N1 - 1 )</var>
-		<var id="D2">randRange( N2 + 1, 6 )</var> 
+		<var id="N2">randRange( 1, 5 )</var>
+		<var id="D2">randRange( N2 + 1, 7 )</var> 
 		<var id="GCD2">getGCD( N2, D2 )</var>
 		<var id="SIMP_N2">N2 / GCD2</var>
 		<var id="SIMP_D2">D2 / GCD2</var>
+	    <var id="SIMP2">N2 / D2</var>
 
 		<var id="LCM">getLCM( SIMP_D1, SIMP_D2 )</var>
 	</div>
