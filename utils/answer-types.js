@@ -279,9 +279,9 @@ jQuery.extend( Khan.answerTypes, {
 
 					    euro1  = /^[-+]?(\d{1,2})*(\.\d{3})*(,\d+)?%?$/, // Matches 123.456,789%.
 					    euro2  = /^[-+]?(\d{1,2})*( \d{3})*(,\d+)?%?$/,  // Matches 123 456,789%.
-						normal = /^[-+]?(\d{1,2})*(,\d{3})*(\.\d+)?%?$/, // Matches 123,456.789%.
+					    normal = /^[-+]?(\d{1,2})*(,\d{3})*(\.\d+)?%?$/, // Matches 123,456.789%.
 
-						ret = [];
+					    ret = [];
 
 					text = jQuery.trim( text );
 					exact = text[ text.length - 1 ] === "%";
