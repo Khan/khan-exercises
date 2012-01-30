@@ -458,3 +458,126 @@ function BarChart( data, pos ) {
 		graph.label( bottomCoord, "\\text{" + ord + "}", "below" );
 	};
 }
+
+function drawComplexChart( radius, denominator ) {
+	var graph = KhanUtil.currentGraph;
+	var safeRadius = radius * Math.sqrt(2);
+	var color = "#ddd";
+
+	// Draw lines of complex numbers with same angle and
+	// circles of complex numbers with same radius to help the intuition.
+	
+	graph.style({
+		strokeWidth: 1.0
+	});
+
+	for (var i = 1; i <= safeRadius; i++) {
+		graph.circle( [0, 0], i, {
+			fill: "none",
+			stroke: color 
+		});
+	}
+
+	for (var i = 0; i < denominator; i++) {
+		var angle = i * 2 * Math.PI / denominator;
+		if (denominator % 4 === 0 && i % (denominator / 4) != 0) { // Don't draw over axes.
+			graph.line( [ 0, 0 ], [ Math.sin( angle ) * safeRadius, Math.cos( angle ) * safeRadius ], {
+				stroke: color
+			});
+		}
+	}
+
+	graph.label( [ radius, 0.5 ], "Re", "left");
+	graph.label( [ 0.5, radius - 1 ], "Im", "right");
+}
+
+function ComplexPolarForm( angleDenominator, maxRadius, euler ) {
+	var denominator = angleDenominator;
+	var maximumRadius = maxRadius;
+	var angle = 0, radius = 1;
+	var circle;
+	var useEulerForm = euler;
+
+	this.update = function ( newAngle, newRadius ) {
+		angle = newAngle;
+		while ( angle < 0 ) angle += denominator;
+		angle %= denominator;
+
+		radius = Math.max( 1, Math.min( newRadius, maximumRadius ) ); // keep between 0 and maximumRadius...
+
+		this.redraw();
+	}
+
+	this.delta = function ( deltaAngle, deltaRadius ) {
+		this.update( angle + deltaAngle, radius + deltaRadius );
+	}
+
+	this.getAngleNumerator = function () {
+		return angle;
+	}
+
+	this.getAngleDenominator = function () {
+		return denominator;
+	}
+
+	this.getAngle = function () {
+		return angle * 2 * Math.PI / denominator;
+	}
+
+	this.getRadius = function () {
+		return radius;
+	}
+
+	this.getRealPart = function () {
+		return Math.cos( this.getAngle() ) * radius;
+	}
+
+	this.getImaginaryPart = function () {
+		return Math.sin( this.getAngle() ) * radius;
+	}
+
+	this.getUseEulerForm = function () {
+		return useEulerForm;
+	}
+
+	this.plot = function () {
+		circle = KhanUtil.currentGraph.circle( [ this.getRealPart(), this.getImaginaryPart() ], 1/4, {
+			fill: KhanUtil.ORANGE,
+			stroke: "none"
+		});
+	},
+	
+	this.redraw = function () {
+		if ( circle ) {
+			circle.remove();
+		}
+		this.plot();
+	}
+}
+
+function updateComplexPolarForm( deltaAngle, deltaRadius ) {
+	KhanUtil.currentGraph.graph.currComplexPolar.delta( deltaAngle, deltaRadius );
+	redrawComplexPolarForm();
+}
+
+function redrawComplexPolarForm( angle, radius ) {
+	var graph = KhanUtil.currentGraph;
+	var storage = graph.graph;
+	var point = storage.currComplexPolar;
+	point.redraw();
+
+	if ( typeof radius === "undefined" ) {
+		radius = point.getRadius();
+	}
+	if ( typeof angle === "undefined" ) {
+		angle = point.getAngleNumerator();
+	}
+
+	angle *= 2 * Math.PI / point.getAngleDenominator();
+
+	var equation = KhanUtil.polarForm( radius, angle, point.getUseEulerForm() );
+
+	jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
+	jQuery( "#current-radius" ).html( "<code>" + radius + "</code>" ).tmpl();
+	jQuery( "#current-angle" ).html( "<code>" + KhanUtil.piFraction( angle, true ) + "</code>" ).tmpl();
+}

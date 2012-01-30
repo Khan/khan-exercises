@@ -1171,7 +1171,12 @@ var Khan = (function() {
 			// Use .select() and on a delay to make IE happy
 			var firstInput = solutionarea.find( ":input" ).first();
 			setTimeout( function() {
-				firstInput.focus().select();
+				if (!firstInput.is(":disabled")) {
+					firstInput.focus();
+					if (firstInput.is("input:text")) {
+						firstInput.select();
+					}
+				}
 			}, 1 );
 
 			lastFocusedSolutionInput = firstInput;
@@ -2099,8 +2104,15 @@ var Khan = (function() {
 				// Refocus text field so user can type a new answer
 				if ( lastFocusedSolutionInput != null ) {
 					setTimeout( function() {
-						// focus should always work; hopefully select will work for text fields
-						jQuery( lastFocusedSolutionInput ).focus().select();
+						var focusInput = jQuery( lastFocusedSolutionInput );
+
+						if (!focusInput.is(":disabled")) {
+							// focus should always work; hopefully select will work for text fields
+							focusInput.focus();
+							if (focusInput.is("input:text")) {
+								focusInput.select();
+							}
+						}
 					}, 1 );
 				}
 			}
