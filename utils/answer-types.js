@@ -318,7 +318,7 @@ jQuery.extend( Khan.answerTypes, {
 					return ret;
 				},
 
-				example: "a percent, like <code>123,456.789\\%</code>"
+				example: "a percent, like <code>1,234.5\\%</code>"
 			},
 
 			dollar: {
