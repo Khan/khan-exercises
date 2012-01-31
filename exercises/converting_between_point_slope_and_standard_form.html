@@ -22,22 +22,25 @@
         <var id="Y_INTERCEPT">C / B</var>
       </div>
       <p class="question">Convert the following equation from standard form to point-slope.</p>
-      <p>Make the <code>x_{1}</code> coordinate an integer between -5 and 5.</p>
       <code><var>expr(['*', A, 'x'])</var> + <var>expr(['*', B, 'y'])</var> = <var>C</var></code>
-      <div class="solution" data-type="set">
-        <div class="set-sol" data-type="multiple" data-each="X1 as x">
-          <span class="sol"><var>x</var></span>
-          <span class="sol"><var>(C - A * x) / B</var></span>
-          <span class="sol"><var>SLOPE</var></span>
+      <!-- Custom validation is used to allow for x to be any value.  If we allowed a finite range for x, then we could have a set of solutions.-->
+      <div class="solution" data-type="custom">
+        <div class="instruction">
+          <p><code>x = </code> <input id="solution_x" type="text"></input></p>
+          <p><code>y = </code> <input id="solution_y" type="text"></input></p>
+          <p><code>m = </code> <input id="solution_m" type="text"></input></p>
+        </div>
+        <div class="guess">
+          [$('#solution_x').val(), $('#solution_y').val(), $('#solution_m').val()]
+        </div>
+        <!-- I'm sure the framework handles floating point errors in the general case, but they only come into play if the user does not choose an integer for x. -->
+        <div class="validator-function">
+          var answer_x = guess[0];
+          var answer_y = guess[1];
+          var answer_slope = guess[2];
+          return (answer_y == (C - A * answer_x) / B) && answer_slope == SLOPE;
         </div>
 
-        <div class="input-format">
-          <div class="entry" data-type="multiple">
-            <p><code>x_{1} = \enspace</code><span class="sol"></span></p>
-            <p><code>y_{1} = \enspace</code><span class="sol"></span></p>
-            <p><code>m = \enspace</code><span class="sol"></span></p>    
-          </div>
-        </div>
       </div>
       <div class="hints">
         <div>
@@ -50,7 +53,7 @@
           <p>where <code>(x_{1}, y_{1})</code> is any point on the line.</p>
         </div>
         <div>
-          <p>Since the problem asks us to pick an integer between -5 and 5 for <code>x_{1}</code>, 
+          <p>Since the problem asks us to pick a value for <code>x_{1}</code>, 
             let's choose <var>HINT_X1</var>.</p>
         </div>
         <div>
