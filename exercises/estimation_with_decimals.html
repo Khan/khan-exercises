@@ -44,16 +44,16 @@
 				</var>
 			</div>
 			<p><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> every day for the last <var>VALUES.length</var> days.</p>
-			<p class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much <var>he( 1 )</var> <var>TYPES[ 1 ]</var> in total by rounding each amount to a whole number and then summing.</p>
-			<p>Note that if you sum all the amounts first and then round, you'll get <var>SUM.toFixed( 2 )</var>. For fun, pay attention to how this number compares with your estimate.</p>
+			<p class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much <var>he( 1 )</var> <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p>
 			<div class="fake_header estimation">
-				<span>Day</span>
-				<span>Amount</span>
+				<span>Day<br /> <span style="color:white">" "</span></span>
+				<span>Amount <br /><font size="2">(in <var>plural( TYPES[ 2 ] )</var>)</font></span>
 			</div>
 			<div class="fake_row estimation" data-each="VALUES as i, val">
 				<span><var>i+1</var></span>
 				<span><var>val</var></span>
 			</div>
+			<p><br />Note that if you first sum the exact amounts (<var>SUM.toFixed( 2 )</var>) and then round, you'll get <var>round( SUM )</var>. For fun, pay attention to how this number compares with your estimate.</p>
 			<p class="solution" data-type="multiple">
 				<span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>plural( TYPES[ 2 ] )</var>
 			</p>
