@@ -28,8 +28,8 @@
 			<p class="question"><code><var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
 
 			<div class="solution" data-type="set">
-				<div class="set-sol" data-type="regex">\s*\(\s*[xX]\s*<var>A < 0 ? "\\+" : "-"</var>\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*<var>B < 0 ? "\\+" : "-"</var>\s*<var>abs( B )</var>\s*\)\s*</div>
-				<div class="set-sol" data-type="regex">\s*\(\s*[xX]\s*<var>B < 0 ? "\\+" : "-"</var>\s*<var>abs( B )</var>\s*\)\s*\(\s*[xX]\s*<var>A < 0 ? "\\+" : "-"</var>\s*<var>abs( A )</var>\s*\)\s*</div>
+				<div class="set-sol" data-type="regex">\s*\(\s*[xX]\s*<var>A &lt; 0 ? "\\+" : "-"</var>\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "-"</var>\s*<var>abs( B )</var>\s*\)\s*</div>
+				<div class="set-sol" data-type="regex">\s*\(\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "-"</var>\s*<var>abs( B )</var>\s*\)\s*\(\s*[xX]\s*<var>A &lt; 0 ? "\\+" : "-"</var>\s*<var>abs( A )</var>\s*\)\s*</div>
 				<div class="input-format"><span class="entry"></span></div>
 				<div class="example">a factored expression, like <b>(x+1)(x+2)</b></div>
 			</div>
@@ -51,9 +51,9 @@
 						\qquad \begin{eqnarray}
 							\hphantom{(x + a)(x + b) \quad}&amp;\hphantom{=}&amp;\hphantom{\quad xx }&amp;\hphantom{+}&amp;\hphantom{ (a + b)x }&amp;\hphantom{+}&amp; \\
 							&amp;=&amp;\quad x^2 &amp;
-							<var>SIMPLELINEAR >= 0 ? "+" : ""</var>&amp;
+							<var>SIMPLELINEAR &gt;= 0 ? "+" : ""</var>&amp;
 							<var>plus( "\\color{" + GREEN + "}{" + SIMPLELINEAR + "}x" )</var>&amp;
-							<var>SIMPLECONSTANT >= 0 ? "+" : ""</var>&amp;
+							<var>SIMPLECONSTANT &gt;= 0 ? "+" : ""</var>&amp;
 							<var>plus( "\\color{" + BLUE + "}{" + SIMPLECONSTANT + "}" )</var>
 						\end{eqnarray}
 					</code></p>
@@ -86,8 +86,8 @@
 				</div>
 
 				<p><b>
-					So we can factor the expression as: <code>(x <var>A < 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
-					(x <var>B < 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})</code>
+					So we can factor the expression as: <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
+					(x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})</code>
 				</b></p>
 
 			</div>
