@@ -261,6 +261,70 @@ jQuery.extend( Khan.answerTypes, {
 				example: "a percent, like <code>12.34\\%</code>"
 			},
 
+			newpercent: {
+				// Better than percent. Still crap.
+				//
+				// Notes:
+				//   1. Answers must be properly formatted. 123456.789% will not be accepted because
+				//      the comma between the 3 and the 4 is missing.
+				//
+				//   2. Unlike percent, this will not fail if the answer is 1.2% and the solution
+				//      is 12%. It will fail if the answer is 123,456% and the solution is 123.456%
+				//      because 123,456% is ambiguous (Is it euro 123.456% or normal 123,456%?).
+				transformer: function( text ) {
+					var exact, normalText,
+
+					    euro1  = /^[-+]? *(\d{1,2})*(\.\d{3})*(,\d+)? *%?$/, // Matches 123.456,789%.
+					    euro2  = /^[-+]? *(\d{1,2})*( \d{3})*(,\d+)? *%?$/,  // Matches 123 456,789%.
+					    normal = /^[-+]? *(\d{1,2})*(,\d{3})*(\.\d+)? *%?$/, // Matches 123,456.789%.
+
+					    ret = [];
+
+					text = jQuery.trim( text )
+						// Remove spaces between...
+						.replace( /(-|\+) +/, "$1" ) // ...the minus or plus sign and the first number.
+						.replace( / +%/, "%" );      // ...the last number and the percent sign.
+
+					exact = text[ text.length - 1 ] === "%";
+
+					if ( euro1.test( text ) ) {
+						// Convert the number from euro 1 to normal.
+						normalText = text.replace( /\./g, "" );
+						normalText = normalText.replace( ",", "." );
+
+						ret.push({
+							exact: exact,
+							value: parseFloat( normalText )
+						});
+					}
+
+					if ( euro2.test( text ) ) {
+						// Convert the number from euro 2 to normal.
+						normalText = text.replace( / /g, "" );
+						normalText = normalText.replace( ",", "." );
+
+						ret.push({
+							exact: exact,
+							value: parseFloat( normalText )
+						});
+					}
+
+					if ( normal.test( text ) ) {
+						// Remove commas because parseFloat( "1,234" ) returns 1.
+						normalText = text.replace( /,/g, "" );
+
+						ret.push({
+							exact: exact,
+							value: parseFloat( normalText )
+						});
+					}
+
+					return ret;
+				},
+
+				example: "a percent, like <code>1,234.5\\%</code>"
+			},
+
 			dollar: {
 				transformer: function( text ) {
 					text = jQuery.trim( text ).replace( '$', '' );
@@ -372,7 +436,7 @@ jQuery.extend( Khan.answerTypes, {
 							Math.abs( correctFloat - val ) < options.maxError ) {
 						if ( exact || options.simplify === "optional" ) {
 							ret = true;
-						} else if ( form === "percent" ){
+						} else if ( form === "percent" || form === "newpercent" ){
 							ret = inexactMessages.missingPercentSign;
 						} else {
 							ret = inexactMessages.unsimplified;
