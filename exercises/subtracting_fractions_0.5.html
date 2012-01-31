@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div class="exercise">
-    <div class="vars" data-ensure="SIMP1 < 1 && SIMP2 < 1 && SIMP1 > SIMP2 && SIMP1 !== round ( SIMP1 ) && SIMP2 !== round ( SIMP2 ) && SIMP1 > ( 1/UPPER_BOUND ) && D1 !== D2">
+    <div class="vars" data-ensure="SIMP1 < 1 && SIMP2 < 1 && SIMP1 > SIMP2 && SIMP1 > ( 1/UPPER_BOUND ) && D1 !== D2">
 		<var id="UPPER_BOUND">8</var>
 		<var id="N1">randRange( 1, UPPER_BOUND )</var> 
 		<var id="D1">randRange( 2, UPPER_BOUND )</var> 
@@ -49,7 +49,19 @@
 			<p><code>=<var>fraction( SIMP_N1, SIMP_D1 )</var> <span data-if="LCM !== SIMP_D1">\cdot <var>fraction( LCM / SIMP_D1, LCM / SIMP_D1 )</var></span> - <var>fraction( SIMP_N2, SIMP_D2 )</var> <span data-if="LCM !== SIMP_D2">\cdot <var>fraction( LCM / SIMP_D2, LCM / SIMP_D2 )</var></span></code></p>
 		<p><code>=<var>fraction( SIMP_N1 * LCM / SIMP_D1, LCM )</var> - <var>fraction( SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
         </div>
+        <div>
+        <div style="height: 150px;">
+            <div class="graphie" style="float: left">
+                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                piechart( [  SIMP_N1 * LCM / SIMP_D1 ,  LCM - SIMP_N1 * LCM / SIMP_D1 ], ["#e00", "#999"], 2 );
+            </div>
+            <div class="graphie" style="float: left;">
+                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                piechart( [ SIMP_N2 * LCM / SIMP_D2 , LCM - SIMP_N2 * LCM / SIMP_D2 ], ["#e00", "#999"], 2 );
+            </div>
+        </div>
 		<p><code>=<var>fraction( SIMP_N1 * LCM / SIMP_D1 - SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
+        </div>
         </div>
 		<div data-if="getGCD( SIMP_N1 * LCM / SIMP_D1 - SIMP_N2 * LCM / SIMP_D2, LCM ) !== 1">
 			<p>Simplify.</p>
