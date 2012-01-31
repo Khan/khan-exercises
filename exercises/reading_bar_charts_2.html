@@ -129,8 +129,9 @@
 				</div>
 				<p class="question">By how many points did <var>STUDENT</var>'s score improve from the midterm to the final exam?</p>
 
-				<div class="solution" data-forms="integer"><var>IMPROVEMENT[ INDEX ]</var></div>
-
+				<div class="solution" data-type="multiple">
+					<p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>IMPROVEMENT[ INDEX ]</var></span> points</p>
+				</div>
 				<div class="hints">
 					<div>
 						<p>Find the two bars for <var>STUDENT</var>.</p>
@@ -190,8 +191,9 @@
 				</div>
 				<p class="question">How many points did <var>STUDENT</var> earn on the <var>TEST</var>?</p>
 
-				<div class="solution" data-forms="integer"><var>ANSWER</var></div>
-
+				<div class="solution" data-type="multiple">
+					<p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>ANSWER</var></span> points</p>
+				</div>
 				<div class="hints">
 					<div>
 						<p>Find the two bars for <var>STUDENT</var>.</p>
@@ -226,8 +228,10 @@
 
 			<div id="num-improved">
 				<p class="question">How many students improved their scores from the midterm to the final exam?</p>
-
-				<div class="solution" data-forms="integer"><var>NUM_IMPROVED</var></div>
+			
+				<div class="solution" data-type="multiple">
+					<p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>NUM_IMPROVED</var></span> students</p>
+				</div>
 
 				<div class="hints">
 					<div data-each="5 times as INDEX">

@@ -21,9 +21,12 @@
 				<var id="LEFT">[expr( ["+", X, Y] ), expr( ["+", Y, X] ), Z, Z][INDEX]</var>
 				<var id="RIGHT">[Z, Z, expr( ["+", X, Y] ), expr( ["+", Y, X] )][INDEX]</var>
 			</div>
-			<p class="question">Solve for <var>X</var>.</p>
+			<p class="question">Solve for <code><var>X</var></code>.</p>
 				<p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
-			<div class="solution" data-type="rational"><var>Z - Y</var></div>
+			<div class="solution" data-type="rational"></div>
+			<div class="solution" data-type="multiple">
+					<p><code><var>X</var>=</code> <span class="sol"><var>Z - Y</var></span></p>
+			</div>
 			<div class="hints">
 				<div>
 					<p><span data-if="Y &lt; 0">Add <var>Y * -1</var> to</span><span data-else>Subtract <var>Y</var> from</span> both sides.</p>
@@ -45,9 +48,12 @@
 				<var id="LEFT">[expr( ["*", Y, X] ), Z][INDEX]</var>
 				<var id="RIGHT">[Z, expr( ["*", Y, X] )][INDEX]</var>
 			</div>
-			<p class="question">Solve for <var>X</var>.</p>
-				<p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
-			<div class="solution" data-type="rational"><var>Z / Y</var></div>
+			<p class="question">Solve for <code><var>X</var></code>.</p>
+			<p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
+			<div class="solution" data-type="multiple">
+				<p><code><var>X</var>=</code> <span class="sol" data-type="rational"><var>Z / Y</var></span></p>
+			</div>
+
 			<div class="hints">
 				<div data-if="INDEX === 0">
 					<p>Divide both sides by <var>Y</var>.</p>
@@ -71,9 +77,13 @@
 				<var id="Y">randRange( 2, 20 )</var>
 				<var id="Z">randRange( 2, 20 - abs( Y ) + 5 ) * randRangeNonZero( -1, 1 )</var>
 			</div>
-			<p class="problem"><b>Solve for <var>X</var>.</b></p>
+			<p class="problem"><b>Solve for <code><var>X</var></code>.</b></p>
 			<p class="question"><code>\large{\dfrac{<var>X</var>}{<var>Y</var>} = <var>Z</var>}</code></p>
-			<div class="solution" data-type="rational"><var>Z * Y</var></div>
+			
+			<div class="solution" data-type="multiple">
+					<p><code><var>X</var>=</code> <span class="sol" data-type="rational"><var>Z * Y</var></span></p>
+			</div>
+
 			<div class="hints">
 				<div>
 					<p>Multiply both sides by <var>Y</var>.</p>
