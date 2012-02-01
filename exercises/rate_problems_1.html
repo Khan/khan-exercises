@@ -42,28 +42,36 @@
 					<p>In total, <var>he(1)</var> traveled <var>DIST</var> miles for <var>plural(TIME, "hour")</var>.</p>
 				</div>
 				<p class="question">How many miles did <var>person(1)</var> travel by <var>VEHC1</var>? (Round to the nearest mile.)</p>
-				<p class="solution" data-forms="integer"><var>round(DIST1)</var></p>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" style="padding-right: 5px" data-forms="integer"><var>round(DIST1)</var></span> miles</p>
+				</div>
 				<div class="hints" data-apply="appendContents">
 					<p id="final-hint"><code>d_<var>vehicleVar(1)</var> = <var>round(DIST1)</var></code> miles</p>
 				</div>
 			</div>
 			<div data-type="original">
 				<p class="question">How many miles did <var>person(1)</var> travel by <var>vehicle(2)</var>? (Round to the nearest mile.)</p>
-				<p class="solution" data-forms="integer"><var>round(DIST2)</var></p>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" style="padding-right: 5px" data-forms="integer"><var>round(DIST2)</var></span> miles</p>
+				</div>
 				<div class="hints" data-apply="appendContents">
 					<p id="final-hint"><code>d_<var>vehicleVar(2)</var> = <var>round(DIST2)</var></code> miles</p>
 				</div>
 			</div>
 			<div data-type="original">
 				<p class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest minute.)</p>
-				<p class="solution" data-forms="integer"><var>round(DIST1 / SPEED1 * 60)</var></p>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" style="padding-right: 5px" data-forms="integer"><var>round(DIST1 / SPEED1 * 60)</var></span> minutes</p>
+				</div>
 				<div class="hints" data-apply="appendContents">
 					<p id="final-hint"><code>t_<var>vehicleVar(1)</var> = <var>round(DIST1 / SPEED1 * 60)</var></code> minutes</p>
 				</div>
 			</div>
 			<div data-type="original">
 				<p class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(2)</var>? (Round to the nearest minute.)</p>
-				<p class="solution" data-forms="integer"><var>round(DIST2 / SPEED2 * 60)</var></p>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" style="padding-right: 5px" data-forms="integer"><var>round(DIST2 / SPEED2 * 60)</var></span> minutes</p>
+				</div>
 				<div class="hints" data-apply="appendContents">
 					<p id="final-hint"><code>t_<var>vehicleVar(2)</var> = <var>round(DIST2 / SPEED2 * 60)</var></code> minutes</p>
 				</div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie ast math-model">
+<html data-require="math">
 <head>
 	<meta charset="UTF-8" />
 	<title>Factoring difference of squares 1</title>
@@ -10,63 +10,50 @@
 		<div class="problems">
 			<div>
 				<div class="vars">
-					<var id="MATH">MathModel.init()</var>
-					<var id="b">randRange( 2, 9 )</var>
-					<var id="A">1</var>
-					<var id="B">0</var>
-					<var id="C">-b * b</var>
-					<var id="PROBLEM">MATH.polynomial( [ A, B, C ], "x" )</var>
-					<!-- use parse so that the ast matches the parsed user input -->
-					<var id="SOLUTION">MATH.parse( "(x+" + b + ")(x-" + b + ")" )</var>
+					<var id="A">randRange( 2, 9 )</var>
+					<var id="SQUARE">1</var>
+					<var id="CONSTANT">-A * A</var>
 				</div>
 				<div>
 					<p class="question">
 						Factor the following expression:
 					</p>
 					<p>
-						<code><var>MATH.format( PROBLEM, "large" )</var></code>
+						<code>x^2 + <var>CONSTANT</var></code>
 					</p>
 				</div>
 
-				<div class="solution" data-type="custom">
-					<div class="instruction">
-						<input name="response" type="text"></input>
-					</div>
-					<div class="guess">jQuery( "div.instruction input" ).val()</div>
-					<div class="validator-function">
-						return MATH.isEqual(MATH.parse(guess), SOLUTION);
-					</div>
-					<div class="show-guess">
-					</div>
-					<div class="show-guess-solutionarea">
-						jQuery( "div.instruction input" ).val( guess );
-					</div>
-					<div class="example">a factored expression, like <b>(x+2)(x-2)</b></div>
+				<div class="solution" data-type="set">
+					<div class="set-sol" data-type="regex">\s*\(\s*[xX]\s*\+\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*-\s*<var>abs( A )</var>\s*\)\s*</div>
+					<div class="set-sol" data-type="regex">\s*\(\s*[xX]\s*-\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*\+\s*<var>abs( A )</var>\s*\)\s*</div>
+					<div class="input-format"><span class="entry"></span></div>
+					<div class="example">a factored expression, like <b>(x+1)(x+2)</b></div>
 				</div>
 
 				<div class="hints">
 					<p>
-						Recognize that the expression is of the form
-						<code><var>MATH.format( "a^2-b^2", "normalsize", BLUE )</var></code>
-						, which can be factored as
-						<code><var>MATH.format( "(a+b)(a-b)", "normalsize", BLUE )</var></code>.
+						The expression is in the form <code>\color{<var>PINK</var>}{a^2} - \color{<var>BLUE</var>}{b^2}</code>,
+						which is a difference of two squares so we can factor it as
+						<code>(\color{<var>PINK</var>}{a} + \color{<var>BLUE</var>}{b})
+						(\color{<var>PINK</var>}{a} - \color{<var>BLUE</var>}{b})</code>.
 					</p>
 					<p>
-						First, determine the values of
-						<code><var>MATH.format( "a", "normalsize", BLUE )</var></code> and
-						<code><var>MATH.format( "b", "normalsize", BLUE )</var></code>.
+						What are the values of <code class="hint_pink">a</code> and <code class="hint_blue">b</code>?
 					</p>
+					<div>
+						<p><code class="hint_pink">\qquad a = x</code></p>
+						<p><code class="hint_blue">\qquad b = \sqrt{<var>A * A</var>} = <var>A</var></code></p>
+					</div>
 					<p>
-						<code><var>MATH.format( "a=" + "x", "normalsize", BLUE )</var></code><br><br>
-						<code><var>MATH.format( "b=\\sqrt{" + b * b + "}=" + b, "normalsize", BLUE )</var></code>
+						Use the values we found for <code class="hint_pink">a</code> and <code class="hint_blue">b</code>
+						to complete the factored expression,
+						<code>(\color{<var>PINK</var>}{a} + \color{<var>BLUE</var>}{b})
+						(\color{<var>PINK</var>}{a} - \color{<var>BLUE</var>}{b})</code>.
 					</p>
-					<p>
-						Replace
-						<code><var>MATH.format( "a", "normalsize", BLUE )</var></code> and
-						<code><var>MATH.format( "b", "normalsize", BLUE )</var></code> in the factored equation to find the answer.
-					</p>
-					<p>
-						<code><var>MATH.format( "(x+" + b + ")(x-" + b + ")", "large", ORANGE )</var></code>
+					<p class="final_answer">
+						So we can factor the expression as:
+						<code>(\color{<var>PINK</var>}{x} + \color{<var>BLUE</var>}{<var>A</var>})
+						(\color{<var>PINK</var>}{x} - \color{<var>BLUE</var>}{<var>A</var>})</code>
 					</p>
 				</div>
 			</div>
