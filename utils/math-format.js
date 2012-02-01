@@ -138,13 +138,25 @@ jQuery.extend(KhanUtil, {
 	},
 
 	/* Interprets a decimal as a multiple of pi and formats it as would be
-	 * expected. */
-	piFraction: function( num ) {
+	 * expected. 
+	 *
+	 * If niceAngle is truthy, it also delivers more natural values for 0 (0 instead
+	 * of 0 \pi) and 1 (\pi instead of 1 \pi).
+	 * */
+	piFraction: function( num, niceAngle ) {
 		if ( num.constructor === Number ) {
 			var f = KhanUtil.toFraction( num / Math.PI, 0.001 ),
 			 n = f[0],
 			 d = f[1];
 
+			if ( niceAngle ) {
+				if ( n === 0) {
+					return "0";
+				}
+				if ( n === 1 && d === 1) {
+					return "\\pi";
+				}
+			}
 			return d === 1 ? n + "\\pi" : KhanUtil.fractionSmall( n, d ) + "\\pi";
 		}
 	},
@@ -422,5 +434,82 @@ jQuery.extend(KhanUtil, {
 
 	randVar: function() {
 		return KhanUtil.randFromArray([ "x", "k", "y", "a", "n", "r", "p", "u", "v" ])
+	},
+
+	eulerFormExponent: function( angle ) {
+		var fraction = KhanUtil.toFraction( angle / Math.PI, 0.001 );
+		var numerator = fraction[0], denominator = fraction[1];
+		var eExp = ( ( numerator > 1) ? numerator : "" ) + "\\pi i";
+		if ( denominator !== 1 ) {
+			eExp += " / " + denominator;
+		}
+		return eExp;
+	},
+
+	// Formats a complex number in polar form.
+	polarForm: function( radius, angle, useEulerForm ) {
+		var fraction = KhanUtil.toFraction( angle / Math.PI, 0.001 );
+		var numerator = fraction[0], denominator = fraction[1];
+
+		var equation;
+		if ( useEulerForm ) {
+			if ( numerator > 0 ) {
+				var ePower = KhanUtil.expr( [ "^", "e", KhanUtil.eulerFormExponent( angle ) ] );
+				equation = ( ( radius > 1 ) ? radius : "" ) + " " + ePower;
+			} else {
+				equation = radius;
+			}
+		} else {
+			if ( angle === 0 ) {
+				equation = radius;
+			} else {
+				var angleRep = KhanUtil.piFraction( angle, true );
+				var cis = "\\cos(" + angleRep + ") + i \\sin(" + angleRep + ")";
+
+				// Special case to circumvent ugly "*1* (sin(...) + i cos(...))"
+				if ( radius !== 1 ) {
+					equation = KhanUtil.expr( [ "*", radius, cis ] );
+				} else {
+					equation = cis;
+				}
+			}
+		}
+		return equation;
+	},
+
+	complexNumber: function( real, imaginary ) {
+		if ( real === 0 && imaginary === 0 ) {
+			return "0";
+		} else if ( real === 0 ) {
+			return imaginary + "i";
+		} else if ( imaginary === 0 ) {
+			return real;
+		} else {
+			return KhanUtil.expr([ "+", real, [ "*", imaginary, "i" ] ]);
+		}
+	},
+
+	complexFraction: function( real, realDenominator, imag, imagDenominator ) {
+		var ret = "";
+		if ( real == 0 && imag == 0 ) {
+			ret = "0";
+		}
+		if ( real != 0 ) {
+			ret += KhanUtil.fraction( real, realDenominator, false, true );
+		} 
+		if ( imag != 0 ) {
+			if ( imag / imagDenominator > 0 ) {
+				if ( real != 0 ) {
+					ret += " + ";
+				}
+				ret += KhanUtil.fraction( imag, imagDenominator, false, true ) + " i";
+			} else {
+				imag = Math.abs( imag );
+				imagDenominator = Math.abs( imagDenominator );
+				ret += " - ";
+				ret += KhanUtil.fraction( imag, imagDenominator, false, true ) + " i";
+			}
+		}
+		return ret;
 	}
 });

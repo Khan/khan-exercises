@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Complex number polar form intuition</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		.info-box .mini-button {
+			padding: 0px 5px;
+			width: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div>
+				<div class="vars">
+					<var id="DENOMINATOR">12</var>
+					<var id="ANGLE">randRange( 0, DENOMINATOR - 1 )</var> <!-- the angle of the complex number is ANGLE * (2 * DENOMINATOR) pi -->
+					<var id="RADIUS">randRange( 1, 10 )</var>
+					<var id="REAL">cos( ANGLE * PI * 2 / DENOMINATOR ) * RADIUS</var>
+					<var id="IMAG">sin( ANGLE * PI * 2 / DENOMINATOR ) * RADIUS</var>
+					<var id="REP">complexNumber( roundTo( 2, REAL ), roundTo( 2, IMAG ) )</var>
+				</div>
+				<p class="question">
+					Adjust the angle and radius of the <span class="hint_orange">orange</span> plotted complex number 
+					to match the <span class="hint_blue">blue</span> plotted complex number <code><var>REP</var></code>.
+				</p>
+				<p>
+					How do these numbers affect the complex number they represent?
+				</p>
+
+				<div class="graphie">
+					graphInit({
+						range: [[-10, 10], [-10, 10]],
+						scale: 20,
+						tickStep: 1,
+						axisArrows: "<->"
+					});
+
+					drawComplexChart( 10, DENOMINATOR );
+
+					circle( [REAL, IMAG], 1 / 4, {
+						fill: KhanUtil.BLUE,
+						stroke: "none"
+					});
+
+					graph.currComplexPolar = new ComplexPolarForm( DENOMINATOR, 10 );
+				</div>
+
+				<div class="solution" data-type="complexNumberPolarForm">
+					[ <var>ANGLE</var>, <var>RADIUS</var> ]
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

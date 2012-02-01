@@ -185,7 +185,9 @@
 
 			<p class="question">How many <var>plural( LOCATION )</var> have exactly <var>plural( AMOUNT, ITEM )</var>?</p>
 
-			<div class="solution" data-forms="integer"><var>SOLUTION</var></div>
+			<div class="solution" data-type="multiple">
+				<p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+			</div>
 		</div>
 
 		<div id="less-than">
@@ -198,7 +200,9 @@
 
 			<p class="question">How many <var>plural( LOCATION )</var> have fewer than <var>plural( AMOUNT, ITEM )</var>?</p>
 
-			<div class="solution" data-forms="integer"><var>SOLUTION</var></div>
+			<div class="solution" data-type="multiple">
+				<p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+			</div>
 		</div>
 
 		<div id="greater-than">
@@ -211,7 +215,9 @@
 
 			<p class="question">How many <var>plural( LOCATION )</var> have more than <var>plural( AMOUNT, ITEM )</var>?</p>
 
-			<div class="solution" data-forms="integer"><var>SOLUTION</var></div>
+			<div class="solution" data-type="multiple">
+				<p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+			</div>
 		</div>
 
 		<div id="extreme">
@@ -227,7 +233,9 @@
 				<span data-if="TYPE === 'largest'">What was the largest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
 			</p>
 
-			<div class="solution" data-forms="integer"><var>SOLUTION</var></div>
+			<div class="solution" data-type="multiple">
+				<p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( ITEM )</var></p>
+			</div>
 		</div>
 	</div>
 
