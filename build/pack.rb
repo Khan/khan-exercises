@@ -55,6 +55,25 @@ Dir.chdir(File.join(File.dirname(__FILE__), ".."))
 @uglifier = Uglifier.new(:copyright => false)  # Discard all comments
 @jshint = ExecJS.compile(File.read("build/jshint.js"))
 
+def uglifier_insane
+  puts
+  puts "-" * 78
+  puts "Error! The uglifier gem is doing weird things that we don't expect."
+  puts "Stopping now so that the children can keep learning."
+  puts "-" * 78
+  puts
+  exit 1
+end
+
+# uglifier sanity check
+[
+  ["(A + B)", ["A+B", "A+B;"]],
+  ["(function() { return 5; })", ["(function(){return 5})", "(function(){return 5});"]],
+].each do |input, expected|
+  output = @uglifier.compile(input)
+  uglifier_insane unless expected.include? output
+end
+
 FileUtils.mkdir_p("exercises-packed")
 
 Dir["exercises/*.html"].each do |filename|
@@ -76,7 +95,7 @@ Dir["exercises/*.html"].each do |filename|
 
     jshint("return (#{var.content});")
     exp = "(#{var.content})"
-    var.content = @uglifier.compile(exp)
+    var.content = @uglifier.compile(exp).gsub(/;$/, "")
   end
 
   doc.css(".graphie", "div.guess", "div.show-guess", "div.show-guess-solutionarea").each do |graphie|
@@ -86,7 +105,7 @@ Dir["exercises/*.html"].each do |filename|
     end
 
     js = graphie.content
-    graphie.content = @uglifier.compile(js)
+    graphie.content = @uglifier.compile(js).gsub(/;$/, "")
   end
 
   doc.css("div.validator-function").each do |validator|
@@ -95,12 +114,18 @@ Dir["exercises/*.html"].each do |filename|
       exit 1
     end
 
-    # need to wrap validator-function content in a function, so uglifier
+    # Need to wrap validator-function content in a function, so uglifier
     # doesn't get confused by the estranged 'return' statement
     js = "(function(){" + validator.content + "})()"
     uglified = @uglifier.compile(js)
-    # strip out the anonymous function wrapper to put things back the way they were
-    validator.content = uglified[ /^\(function\(\)\{(.*)\}\)\(\)$/, 1 ]
+
+    # Strip out the anonymous function wrapper to put things back the way they were
+    match = uglified.match(/^\(function\(\)\{(.*)\}\)\(\);?$/)
+    if match
+      validator.content = match[1]
+    else
+      uglifier_insane
+    end
   end
 
   %w[data-ensure data-if data-else-if].each do |data_attr|
