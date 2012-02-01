@@ -51,7 +51,7 @@ jQuery.extend( Khan.answerTypes, {
 	graphic: function( solutionarea, solution, fallback ) {
 			var verifier = function( correct, guess ){
 					return Math.abs( correct - guess ) < 0.3;
-				}
+				};
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
@@ -311,15 +311,12 @@ jQuery.extend( Khan.answerTypes, {
 							// Remove space after +, -
 							.replace( /([+-])\s+/g, "$1" )
 
-							// Remove commas
-							.replace( /,\s*/g, "" )
-
 							// Extract integer, numerator and denominator
-							// This matches [+-]?\.; will f
-							.match( /^([+-]?(?:\d+\.?|\d*\.\d+))$/ );
+							// If commas or spaces are used, they must be in the "correct" places
+							.match( /^([+-]?(?:\d{1,3}(?:[, ]?\d{3})*\.?|\d{0,3}(?:[, ]?\d{3})*\.(?:\d{3}[, ]?)*\d{1,3}))$/ );
 
 						if ( match ) {
-							var x = parseFloat( match[1] );
+							var x = parseFloat( match[1].replace( /[, ]/g, "" ) );
 
 							if ( options.inexact === undefined ) {
 								var factor = Math.pow( 10, 10 );
@@ -963,7 +960,7 @@ jQuery.extend( Khan.answerTypes, {
 		solutionarea.append( area );
 
 		var ret = function() {
-			var valid = true;	
+			var valid = true;
 			var guess = [];
 			if ( realValidator != null ) {
 				valid = realValidator() && valid;
@@ -997,7 +994,7 @@ jQuery.extend( Khan.answerTypes, {
 	complexNumberPolarForm: function ( solutionarea, solution ) {
 		var isTimeline = !( solutionarea.attr( "id" ) === "solutionarea" || solutionarea.parent().attr( "id" ) === "solutionarea" );
 		solutionarea = jQuery( solutionarea );
-		
+
 		var json = typeof solution === "object" ? jQuery( solution ).text() : solution;
 		var correct = eval( json );
 		var table = jQuery( '<table />' );
@@ -1056,14 +1053,14 @@ jQuery.extend( Khan.answerTypes, {
 		};
 
 		ret.showCustomGuess = function( guess ) {
-			var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" + 
+			var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" +
 				"graph.currComplexPolar.update( guess[0], guess[1] );" +
 				"})()";
 			KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
 		};
 
 		ret.solution = solution;
-		
+
 		return ret;
 	},
 
