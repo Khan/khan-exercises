@@ -431,6 +431,15 @@ jQuery.extend(KhanUtil, {
 		}
 
 	},
+	
+	// Formats a number with brackets around it if it's negative. Used with powers.
+	bracketsIfNegative: function(s) {
+		if (s > 0) {
+			return s;
+		} else {
+			return "(" + s + ")";
+		}
+	},
 
 	randVar: function() {
 		return KhanUtil.randFromArray([ "x", "k", "y", "a", "n", "r", "p", "u", "v" ])
