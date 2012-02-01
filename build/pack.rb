@@ -132,7 +132,7 @@ Dir["exercises/*.html"].each do |filename|
     doc.css("[#{data_attr}]").each do |el|
       jshint("return (#{el[data_attr]});")
       js = el[data_attr]
-      el[data_attr] = @uglifier.compile(js)
+      el[data_attr] = @uglifier.compile(js).gsub(/;$/, "")
     end
   end
 
