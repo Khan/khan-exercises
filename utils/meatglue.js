@@ -5,7 +5,7 @@ TODO problems that use the same data but over multiple questions
 TODO use _.has when checking for properties to retain in scoped eval since console is not being saved
 */
 
-(function(){
+jQuery(document).ready(function(){
 
   var trapper = {
 
@@ -16,13 +16,13 @@ TODO use _.has when checking for properties to retain in scoped eval since conso
     },
 
     reveal: function( section ){
-      $(".tangly[data-section=" + section + "]:hidden").show()
+      $(".meatglue[data-section=" + section + "]:hidden").show()
     }
 
   }
 
   // gather all the vars on the page
-  $("span[data-name]", $(".tangly")).each( function(i, e){
+  $("span[data-name]", $(".meatglue")).each( function(i, e){
     $el = $(e);
     var name = $el.data("name");
     trapper.vars.push(name);
@@ -36,10 +36,10 @@ TODO use _.has when checking for properties to retain in scoped eval since conso
   var scopedEval = function( src, propWhitelist, callback){
     var scope = {};
     for (prop in this){
-		if (prop !== "console" && prop !== "KhanUtil") {
-			scope[prop] = undefined;
-		}
-	}
+      if (prop !== "console" && prop !== "KhanUtil") {
+        scope[prop] = undefined;
+      }
+    }
 
     // capture whitelisted properties in scope if defined
     if(propWhitelist !== undefined){
@@ -64,7 +64,7 @@ TODO use _.has when checking for properties to retain in scoped eval since conso
   }
 
   // evaluate all the trapper scripts in a protected context
-  var defaultSrc = $("script[type='trapper/script']");
+  var defaultSrc = jQuery("script[type='text/meatglue']");
   if (defaultSrc){
     try {
       var scopey = scopedEval(defaultSrc.text(), ["defaults", "update", "init"]);
@@ -72,7 +72,7 @@ TODO use _.has when checking for properties to retain in scoped eval since conso
         $.extend(trapper, scopey)
       }
     }
-    catch(e) { 
+    catch(e) {
       console.error("omg wtf problem with trapper script:", e);
     }
   }
@@ -234,7 +234,7 @@ TODO use _.has when checking for properties to retain in scoped eval since conso
 
 
   // map across all vars and assign them views
-  _( $( "span[data-name]", $( ".tangly" ) ) ).each( function(elt, idx){
+  _( $( "span[data-name]", $( ".meatglue" ) ) ).each( function(elt, idx){
     var bundle = {el: $(elt), model: binder};
     var type = $(elt).data("type");
     if (type === "editable"){
@@ -256,4 +256,4 @@ TODO use _.has when checking for properties to retain in scoped eval since conso
     inst.render()
   });
 
-})();
+});
