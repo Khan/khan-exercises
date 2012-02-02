@@ -14,7 +14,7 @@ SEND_BROKEN_LINK_EMAILS = False
 MANAGERS = ADMINS
 
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-TIME_ZONE = 'Africa/Accra' # UTC+00 and no DST
+TIME_ZONE = 'UTC'
 
 LANGUAGE_CODE = 'en-us'
 
