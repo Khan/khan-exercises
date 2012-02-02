@@ -2,10 +2,10 @@
 
 TODO show-guess support from khan-exercises needs to be added in
 TODO problems that use the same data but over multiple questions
-
+TODO use _.has when checking for properties to retain in scoped eval since console is not being saved
 */
 
-$(document).ready(function(){
+(function(){
 
   var trapper = {
 
@@ -35,7 +35,11 @@ $(document).ready(function(){
   // evaluates some text in the context of an empty scope var
   var scopedEval = function( src, propWhitelist, callback){
     var scope = {};
-    for (prop in this){ if (prop !== "console" || prop !== "KhanUtil") scope[prop] = undefined; }
+    for (prop in this){
+		if (prop !== "console" && prop !== "KhanUtil") {
+			scope[prop] = undefined;
+		}
+	}
 
     // capture whitelisted properties in scope if defined
     if(propWhitelist !== undefined){
@@ -252,4 +256,4 @@ $(document).ready(function(){
     inst.render()
   });
 
-})
+})();
