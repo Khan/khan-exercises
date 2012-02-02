@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
+<html data-require="math math-format graphie graphie-helpers meatglue">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Line graph intuition</title>
@@ -19,9 +19,22 @@
 			<var id="INCR">abs( RUN ) / getGCD( abs( RISE), abs( RUN ) )</var>
 		</div>
 
+		<script type="trapper/script">
+			defaults = {foo : 23};
+			console.log("hahahaha")
+			update = function(){
+				console.log("calling update!")
+			}
+			init = function(){
+				this.update();
+				console.log("init time!")
+			}
+		</script>
+
 		<div class="problems">
 			<div>
-				<div class="question">
+				<div class="question tangly">
+					<span data-name="foo"></span>
 					Adjust the slope and y-intercept until it connects the two points. How do the slope and y-intercept values affect the line?
 				</div>
 
