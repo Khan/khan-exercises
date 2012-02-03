@@ -22,6 +22,7 @@
 		<script type="text/meatglue">
 			defaults = {foo : 23};
 			update = function(){
+				this.set("bar", this.get("foo") * 4)
 				console.log("calling update!")
 			}
 			init = function(){
@@ -33,7 +34,8 @@
 		<div class="problems">
 			<div>
 				<div class="question meatglue">
-					<span data-name="foo" data-type="slidable"></span>
+					<span data-name="foo" data-type="editable"></span> * 4 = <span data-name="bar"></span>
+				<p>
 					Adjust the slope and y-intercept until it connects the two points. How do the slope and y-intercept values affect the line?
 				</div>
 
