@@ -2033,80 +2033,7 @@ var Khan = (function() {
 			// don't do anything if the user clicked a second time quickly
 			if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
-			var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text().replace(/ \|.*/, ''),
-				type = jQuery( "input[name=issue-type]:checked" ).prop( "id" ),
-				title = jQuery( "#issue-title" ).val(),
-				email = jQuery( "#issue-email" ).val(),
-				path = exerciseName + ".html"
-					+ "?seed=" + problemSeed
-					+ "&problem=" + problemID,
-				pathlink = "[" + path + ( exercise.data( "name" ) != null && exercise.data( "name" ) !== exerciseName ? " (" + exercise.data( "name" ) + ")" : "" ) + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
-				historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent( JSON.stringify( userActivityLog ) ).replace( ")", "\\)" ) + ")",
-				agent = navigator.userAgent,
-				mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" :
-					( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),
-				localStorageInfo = ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "localStorage NOT enabled" : null ),
-				warningInfo = jQuery( "#warning-bar-content" ).text(),
-				parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, pathlink, historyLink, "    " + JSON.stringify( guessLog ), agent, localStorageInfo, mathjaxInfo, warningInfo ],
-				body = jQuery.grep( parts, function( e ) { return e != null; } ).join( "\n\n" );
-
-			var mathjaxLoadFailures = jQuery.map( MathJax.Ajax.loading, function( info, script ) {
-				if ( info.status === -1 ) {
-					return [ script + ": error" ];
-				} else {
-					return [];
-				}
-			} ).join( "\n" );
-			if ( mathjaxLoadFailures.length > 0 ) {
-				body += "\n\n" + mathjaxLoadFailures;
-			}
-
-			// flagging of browsers/os for issue labels. very primitive, but
-			// hopefully sufficient.
-			var agent_contains = function( sub ) { return agent.indexOf( sub ) !== -1; },
-				flags = {
-					ie8: agent_contains( "MSIE 8.0" ),
-					ie9: agent_contains( "Trident/5.0" ),
-					chrome: agent_contains( "Chrome/" ),
-					safari: !agent_contains( "Chrome/" ) && agent_contains( "Safari/" ),
-					firefox: agent_contains( "Firefox/" ),
-					win7: agent_contains( "Windows NT 6.1" ),
-					vista: agent_contains( "Windows NT 6.0" ),
-					xp: agent_contains( "Windows NT 5.1" ),
-					leopard: agent_contains( "OS X 10_5" ) || agent_contains( "OS X 10.5" ),
-					snowleo: agent_contains( "OS X 10_6" ) || agent_contains( "OS X 10.6" ),
-					lion: agent_contains( "OS X 10_7" ) || agent_contains( "OS X 10.7" ),
-					scratchpad: ( /scratch\s*pad/i ).test( body ),
-					ipad: agent_contains( "iPad" )
-				},
-				labels = [];
-			jQuery.each( flags, function( k, v ) {
-				if ( v ) labels.push( k );
-			});
-
-			if ( !type ) {
-				jQuery( "#issue-status" ).addClass( "error" )
-					.html( "Please specify the issue type." ).show();
-				return;
-			} else {
-				labels.push( type.slice( "issue-".length ) );
-
-				var hintOrVideoMsg = "Please click the hint button above to see our solution, or watch a video for additional help.";
-				var refreshOrBrowserMsg = "Please try a hard refresh (press Ctrl + Shift + R)" +
-						" or use Khan Academy from a different browser (such as Chrome or Firefox).";
-				var suggestion = {
-					"issue-wrong-or-unclear": hintOrVideoMsg,
-					"issue-hard": hintOrVideoMsg,
-					"issue-not-showing": refreshOrBrowserMsg,
-					"issue-other": ""
-				}[ type ];
-			}
-
-			if ( title === "" ) {
-				jQuery( "#issue-status" ).addClass( "error" )
-					.html( "Please provide a valid title for the issue." ).show();
-				return;
-			}
+			var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text().replace(/ \|.*/, '');
 
 			var formElements = jQuery( "#issue input" ).add( "#issue textarea" );
 
@@ -2117,9 +2044,9 @@ var Khan = (function() {
 			jQuery( "#issue-throbber" ).show();
 
 			var dataObj = {
-				title: pretitle + " - " + title,
-				body: body,
-				labels: labels
+				page: pretitle,
+				ureport: jQuery( "#issue-body" ).val(),
+				ucontact: jQuery( "#issue-email" ).val(),
 			};
 
 			// we try to post ot github without a cross-domain request, but if we're
@@ -2127,23 +2054,17 @@ var Khan = (function() {
 			// to fall back to jsonp.
 			jQuery.ajax({
 
-				url: ( testMode ? "http://www.khanacademy.org/" : "/" ) + "githubpost",
-				type: testMode ? "GET" : "POST",
-				data: testMode
-					? { json: JSON.stringify( dataObj ) }
-					: JSON.stringify( dataObj ),
-				contentType: testMode ? "application/x-www-form-urlencoded" : "application/json",
-				dataType: testMode ? "jsonp" : "json",
+				url: "/nl_report",
+				type: "POST",
+				data: dataObj,
 				success: function( json ) {
-
-					data = json.data || json;
 
 					// hide the form
 					jQuery( "#issue form" ).hide();
 
 					// show status message
 					jQuery( "#issue-status" ).removeClass( "error" )
-						.html( issueSuccess( data.html_url, data.title, suggestion ) )
+						.html( Translate.switchLang({"nl":"Bedankt voor je feedback!", "en":"Thanks for your feedback!"}) )
 						.show();
 
 					// reset the form elements
@@ -2160,7 +2081,10 @@ var Khan = (function() {
 
 					// show status message
 					jQuery( "#issue-status" ).addClass( "error" )
-						.html( issueError ).show();
+						.html( Translate.switchLang({
+							"nl":"Het melden is mislukt, probeer het later nog een keer.",
+							"en":"Reporting the problem failed, try again later."
+						}) ).show();
 
 					// enable the inputs
 					formElements.attr( "disabled", false );
@@ -2329,7 +2253,7 @@ var Khan = (function() {
 				};
 
 				jQuery.ajax({
-					url: "https://api.github.com/repos/Khan/khan-exercises/issues?labels=tester%20bugs",
+					url: "https://api.github.com/repos/PerceptumNL/khan-exercises/issues?labels=tester%20bugs",
 					dataType: "jsonp",
 					error: function( json ) {
 						err( dataDump.problems, dump, description );
