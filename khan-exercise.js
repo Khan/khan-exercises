@@ -2030,6 +2030,13 @@ var Khan = (function() {
 
 			e.preventDefault();
 
+			var dataObj = {
+				page: pretitle,
+				ureport: jQuery( "#issue-body" ).val(),
+				ucontact: jQuery( "#issue-email" ).val(),
+				utype: jQuery( "input[name=issue-type]:checked" ).data("text")
+			};
+
 			// don't do anything if the user clicked a second time quickly
 			if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
@@ -2043,11 +2050,6 @@ var Khan = (function() {
 			jQuery( "#issue-cancel" ).hide();
 			jQuery( "#issue-throbber" ).show();
 
-			var dataObj = {
-				page: pretitle,
-				ureport: jQuery( "#issue-body" ).val(),
-				ucontact: jQuery( "#issue-email" ).val(),
-			};
 
 			// we try to post ot github without a cross-domain request, but if we're
 			// just running the exercises locally, then we can't help it and need
