@@ -263,7 +263,7 @@ jQuery.extend( Khan.answerTypes, {
 
 			dollar: {
 				transformer: function( text ) {
-					text = jQuery.trim( text ).replace( '$', '' );
+					text = jQuery.trim( text.replace( '$', '' ) );
 
 					return forms.decimal.transformer( text );
 				},
@@ -963,7 +963,7 @@ jQuery.extend( Khan.answerTypes, {
 		solutionarea.append( area );
 
 		var ret = function() {
-			var valid = true;	
+			var valid = true;
 			var guess = [];
 			if ( realValidator != null ) {
 				valid = realValidator() && valid;
@@ -997,7 +997,7 @@ jQuery.extend( Khan.answerTypes, {
 	complexNumberPolarForm: function ( solutionarea, solution ) {
 		var isTimeline = !( solutionarea.attr( "id" ) === "solutionarea" || solutionarea.parent().attr( "id" ) === "solutionarea" );
 		solutionarea = jQuery( solutionarea );
-		
+
 		var json = typeof solution === "object" ? jQuery( solution ).text() : solution;
 		var correct = eval( json );
 		var table = jQuery( '<table />' );
@@ -1056,14 +1056,14 @@ jQuery.extend( Khan.answerTypes, {
 		};
 
 		ret.showCustomGuess = function( guess ) {
-			var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" + 
+			var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" +
 				"graph.currComplexPolar.update( guess[0], guess[1] );" +
 				"})()";
 			KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
 		};
 
 		ret.solution = solution;
-		
+
 		return ret;
 	},
 
