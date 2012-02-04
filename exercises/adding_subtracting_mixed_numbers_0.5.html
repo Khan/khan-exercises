@@ -20,10 +20,12 @@
 				<var id="D1">randRange( 3, 20 )</var>
 				<var id="D2">D1</var>
 				
-
 				
-				<var id="N1">(PM === 1 ? randRange( 1, D1 - 2 ) : randRange(2, D1 - 1))</var>
-				<var id="N2">(PM === 1 ? randRange( 1, D1 - N1 -1) : randRange( 1, N1 -1))</var>
+				<div data-ensure="( PM === 1 ? (N1 / D1) + (N2 / D2) < 1 : (N1 / D1) + PM * (N2 / D2) > 0)">
+				<var id="MAX_RANGE">(PM == 1 ? D1 - 2 :  D1 - 1)</var>
+				<var id="N1">randRange( 1, MAX_RANGE )</var>
+				<var id="N2">randRange( 1, MAX_RANGE )</var>
+				</div>
 				
 
 				<var id="GCD1">getGCD( N1, D1 )</var>
