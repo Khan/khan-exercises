@@ -25,7 +25,8 @@
 					<!-- base flipped if the exponent is negative. -->
 					<var id="BASEF_N">EXP_NEG ? BASE_D : BASE_N</var>
 					<var id="BASEF_D">EXP_NEG ? BASE_N : BASE_D</var>
-
+					<var id="REDUCED">reduce ( BASEF_N, BASEF_D )</var>
+					
 					<!-- the base will only be negative when the root would also be negative. -->
 					<var id="ROOT_NEG">BASE_NEG</var>
 					<var id="ROOT_N_ORIG">round( pow( EXP_NEG ? BASE_D : BASE_N, 1 / EXP_D_ORIG ) )</var>
@@ -46,7 +47,8 @@
 					<var id="EXP_D">EXP_D_ORIG / GCD</var>
 					<var id="ROOT_N">round( pow( EXP_NEG ? BASE_D : BASE_N, 1 / EXP_D ) )</var>
 					<var id="ROOT_D">round( pow( EXP_NEG ? BASE_N : BASE_D, 1 / EXP_D ) )</var>
-
+					<var id="REDUCED_ROOTS">reduce ( ROOT_N, ROOT_D )</var> 
+					
 					<var id="SOL_NEG">ROOT_NEG && isOdd( EXP_N )</var>
 					<var id="SOL_N">round( pow( ROOT_N, EXP_N ) )</var>
 					<var id="SOL_D">round( pow( ROOT_D, EXP_N ) )</var>
@@ -58,28 +60,36 @@
 				<div class="hints">
 					<!-- Extra first step, for a question like (4/9)^(-3/2), display "=(9/4)^(3/2)" -->
 					<p data-if="EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( EXP_N, EXP_D )</var>}</code></p>
-
+					
 					<!-- For a question like (4/9)^(3/2)... -->
 
 					<!-- "=((4/9)^(1/2))^3" -->
 					<p data-if="EXP_N > 1"><code>= \left(<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>}</code></p>
 
-					<!-- "To simplify (4/9)^(1/2), figure out whta goes in the blank: ?^2 = 4/9" -->
-					<p>To simplify <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code>, figure out what goes in the blank:<br /> <code>\left(? \right)^{<var>abs( EXP_D )</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
+					<!-- "Various roots, parentheses and exponents which lead eventually to an answer like '1^3/4^3' or '1/4' or '5^2'" -->
+					
+					<p data-if="EXP_N != 1 && !(isInt( BASEF_N/BASEF_D )) && EXP_D === 2"><code>\left(<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>} = \left(\sqrt{<var>frac( REDUCED[0], REDUCED[1] )</var>}\right)^{<var>EXP_N</var>} = \left(\dfrac{ \sqrt{ <var>REDUCED[0]</var> }}{ \sqrt{ <var>REDUCED[1]</var> }}\right)^{<var>EXP_N</var>}</code></p>
+					
+					<p data-if="EXP_N != 1 && isInt( BASEF_N/BASEF_D ) && EXP_D === 2"><code>\left(<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>} = \left(\sqrt{<var>frac( BASEF_N, BASEF_D )</var>}\right)^{<var>EXP_N</var>} = <var>frac( ROOT_N, ROOT_D )</var>^{<var>EXP_N</var>}</code></p>
+					
+					<p data-if="EXP_N != 1 && !(isInt( BASEF_N/BASEF_D )) && EXP_D != 2"><code>\left(<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>} = \left(\sqrt[<var>EXP_D</var>]{<var>frac( BASEF_N, BASEF_D )</var>}\right)^{<var>EXP_N</var>} = \left(\dfrac{ \sqrt[<var>EXP_D</var>]{ <var>REDUCED[0]</var> }}{ \sqrt[<var>EXP_D</var>]{ <var>REDUCED[1]</var> }}\right)^{<var>EXP_N</var>}</code></p>
+					
+					<p data-if="EXP_N != 1 && isInt( BASEF_N/BASEF_D ) && EXP_D != 2"><code>\left(<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>} = \left(\sqrt[<var>EXP_D</var>]{<var>frac( BASEF_N, BASEF_D )</var>}\right)^{<var>EXP_N</var>} = <var>frac( ROOT_N, ROOT_D )</var>^{<var>EXP_N</var>}</code></p>
+					
+					<p data-if="EXP_N != 1 && !(isInt( BASEF_N/BASEF_D )) && EXP_D === 2"><code>\left(\dfrac{ \sqrt{ <var>REDUCED[0]</var> }}{ \sqrt{ <var>REDUCED[1]</var> }}\right)^{<var>EXP_N</var>} = \left(<var>frac( ROOT_N, ROOT_D )</var>\right)^{<var>EXP_N</var>} = \dfrac{<var>REDUCED_ROOTS[0]</var>^{<var>EXP_N</var>}}{<var>REDUCED_ROOTS[1]</var>^{<var>EXP_N</var>}}</code></p>
+					
+					<p data-if="EXP_N != 1 && !(isInt( BASEF_N/BASEF_D )) && EXP_D != 2"><code>\left(\dfrac{ \sqrt[<var>EXP_D</var>]{ <var>REDUCED[0]</var> }}{ \sqrt[<var>EXP_D</var>]{ <var>REDUCED[1]</var> }}\right)^{<var>EXP_N</var>} = \left(<var>frac( ROOT_N, ROOT_D )</var>\right)^{<var>EXP_N</var>} = \dfrac{<var>REDUCED_ROOTS[0]</var>^{<var>EXP_N</var>}}{<var>REDUCED_ROOTS[1]</var>^{<var>EXP_N</var>}}</code></p>
+					
+					<p data-if="EXP_N === 1 && !(isInt( BASEF_N/BASEF_D )) && EXP_D === 2"><code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>} = \sqrt{<var>frac( REDUCED[0], REDUCED[1] )</var>} = \dfrac{ \sqrt{ <var>REDUCED[0]</var> }}{ \sqrt{ <var>REDUCED[1]</var> }}</code></p>
+					
+					<p data-if="EXP_N === 1 && isInt( BASEF_N/BASEF_D ) && EXP_D === 2"><code><var>frac( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>} = \sqrt{<var>frac( BASEF_N, BASEF_D )</var>} = <var>frac( ROOT_N, ROOT_D )</var></code></p>
+					
+					<p data-if="EXP_N === 1 && !(isInt( BASEF_N/BASEF_D )) && EXP_D != 2"><code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>} = \sqrt[<var>EXP_D</var>]{<var>frac( BASEF_N, BASEF_D )</var>} = \dfrac{ \sqrt[<var>EXP_D</var>]{ <var>REDUCED[0]</var> }}{ \sqrt[<var>EXP_D</var>]{ <var>REDUCED[1]</var> }}</code></p>
+					
+					<p data-if="EXP_N === 1 && isInt( BASEF_N/BASEF_D ) && EXP_D != 2"><code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>} = \sqrt[<var>EXP_D</var>]{<var>frac( BASEF_N, BASEF_D )</var>} = <var>frac( ROOT_N, ROOT_D )</var></code></p>
 
-					<!-- Replace the ? with 2/3 -->
-					<p>To simplify <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code>, figure out what goes in the blank:<br /> <code>\left(\color{blue}{<var>frac( ROOT_N, ROOT_D )</var>}\right)^{<var>abs( EXP_D )</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
-
-					<!-- "So (4/9)^(1/2)." -->
-					<p>so <code>\quad<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>frac( ROOT_N, ROOT_D )</var></code></p>
-
-					<!-- "So (4/9)^(3/2)=((4/9)^(1/2))^3=(2/3)^3" -->
-					<p data-if="EXP_N > 1">So <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( EXP_N, EXP_D )</var>}=\left(<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}\right)^{<var>EXP_N</var>}=<var>fracParens( ROOT_N, ROOT_D )</var>^{<var>EXP_N</var>}</code></p>
-
-					<p data-if="EXP_N > 1 && reduces( ROOT_N, ROOT_D )"><code>= <var>fraction( ROOT_N, ROOT_D, true, true, false, true )</var>^{<var>EXP_N</var>}</code></p>
-
-					<!-- "=(2/3)(2/3)(2/3)" -->
-					<p data-if="EXP_N > 1" data-each="expandFractionExponent( ROOT_N, ROOT_D, EXP_N ) as v"><code>= <var>v</var></code></p>
+					<!-- "=In case there's an exponent in the final answer, get rid of it or break it to (2/3)(2/3)(2/3)" -->
+					<p data-if="!(EXP_N === 1 && isInt( BASEF_N/BASEF_D ))" data-each="expandFractionExponent( ROOT_N, ROOT_D, EXP_N ) as v"><code>= <var>v</var></code></p>
 				</div>
 			</div>
 		</div>
