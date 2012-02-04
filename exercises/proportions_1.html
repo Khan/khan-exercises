@@ -6,12 +6,13 @@
 	<title>Proportions 1</title>
 
 	<style>
-		.arrow { font-size: 200%; }
-
-		.arrow,
-		.fraction {
-			text-align: center;
+		.arrow {
+			text-align:right;
+			font-size: 200%;
 		}
+
+		.lfrac { text-align:right; width:130px; display:inline-block;}
+		.rfrac { text-align:left; width:auto; display:inline-block; }
 	</style>
 </head>
 <body>
@@ -92,87 +93,94 @@
 		</div>
 
 		<div class="hints">
-			<div style="margin-left:-20px;">
-				<div class="col1 forty-sixty spinealign">
-					<p>Multiply both sides by <code><var>hint1Multiplier</var></code>.</p>
+			<div style="margin-left:-20px;" class="spinealign">
+				<div class="col1 forty-sixty">
+					<p>Multiply both sides by <code><var>hint1Multiplier</var></code>
 				</div>
-				<div class="col2 forty-sixty spinealign">
-					<p class="fraction">
+
+				<div class="col2 forty-sixty">
+					<p>
+					<span class="lfrac">
 						<code>
-							\color{red}{
-								<var>hint1Multiplier</var>
-								\times
-							}
+							\color{red}{ <var>hint1Multiplier</var> \times }
 							\dfrac{<var>numerator1</var>}{<var>denominator1</var>}
 							=
-							\dfrac{<var>numerator2</var>}{<var>denominator2</var>}
-							\color{red}{
-								\times
-								<var>hint1Multiplier</var>
-							}
 						</code>
-					</p>
-
-					<p class="arrow">&darr;</p>
-
-					<p class="fraction">
+					</span>
+					<span class="rfrac">
 						<code>
-							<var>hint1Product1</var>
-							=
-							<var>hint1Product2</var>
+							\dfrac{<var>numerator2</var>}{<var>denominator2</var>}
+							\color{red}{ \times <var>hint1Multiplier</var> }
 						</code>
-					</p>
+					</span>
 
+					<br>
+					<span class="lfrac arrow">&darr;</span>
+					<br>
+
+					<span class="lfrac">
+						<code><var>hint1Product1</var> = </code>
+					</span>
+					<span class="rfrac">
+						<code><var>hint1Product2</var></code>
+					</span>
 				</div>
 			</div>
 
-			<div data-if="denominator1 === 'x' || denominator2 === 'x'"  style="margin-left:-20px;">
+			<div data-if="denominator1 === 'x' || denominator2 === 'x'"  style="margin-left:-20px;" class="spinealign">
 				<div class="col1 forty-sixty">
-					<p>Multiply both sides by <code><var>hint2Multiplier</var></code>.</p>
+					<p>Multiply both sides by <code><var>hint2Multiplier</var></code>
 				</div>
 				<div class="col2 forty-sixty">
-					<p class="fraction">
-						<code>
-							\color{red}{
-								<var>hint2Multiplier</var>
-								\times
-							}
-							<var>hint1Product1</var>
-							=
+					<p>
+						<span class="lfrac">
+							<code>
+								\color{red}{ <var>hint2Multiplier</var> \times }
+								<var>hint1Product1</var> =
+							</code>
+						</span>
+						<span class="rfrac">
+							<code>
 							<var>hint1Product2</var>
-							\color{red}{
-								\times
-								<var>hint2Multiplier</var>
-							}
-						</code>
-					</p>
+							\color{red}{ \times <var>hint2Multiplier</var> }
+							</code>
+						</span>
 
-					<p class="arrow">&darr;</p>
+						<br><span class="lfrac arrow">&darr;</span>
+						<br>
 
-					<p class="fraction">
-						<code>
-							<var>hint2Product1</var>
-							=
-							<var>hint2Product2</var>
-						</code>
+						<span class="lfrac">
+							<code><var>hint2Product1</var> = </code>
+						</span>
+						<span class="rfrac">
+							<code><var>hint2Product2</var></code>
+						</span>
 					</p>
 				</div>
 			</div>
 
-			<div style="margin-left:-20px;">
-				<div class="col1 forty-sixty"><code>x</code> is </div>
-				<div class="col2 forty-sixty"><code>\dfrac{<var>solutionNumerator</var>}{<var>solutionDenominator</var>}</code>.</p></div>
+			<div style="margin-left:-20px;" class="spinealign">
+				<div class="col1 forty-sixty">
+					<p><code>x</code> is
+				</div>
+				<div class="col2 forty-sixty">
+					<p><span class="lfrac"><code>=</code></span>
+					<span class="rfrac">
+						<code>\dfrac{<var>solutionNumerator</var>}{<var>solutionDenominator</var>}</code>.
+				</div>
 			</div>
 
 		</div>
 
 		<div class="problems">
-			<div>
-				<div class="col1 forty-sixty spinealign">
+			<div class="spinealign">
+				<div class="col1 forty-sixty">
 					<p>Solve for <code>x</code>.</p>
 				</div>
-				<div class="col2 forty-sixty spinealign">
-					<p><code>\dfrac{<var>numerator1</var>}{<var>denominator1</var>} = \dfrac{<var>numerator2</var>}{<var>denominator2</var>}</code></p>
+				<div class="col2 forty-sixty">
+					<p>
+						<span class="lfrac"><code>\dfrac{<var>numerator1</var>}{<var>denominator1</var>} = </code></span>
+						<span class="rfrac"><code>\dfrac{<var>numerator2</var>}{<var>denominator2</var>}</code></span></p>
 				</div>
 			</div>
 		</div>
