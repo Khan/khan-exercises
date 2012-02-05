@@ -22,9 +22,8 @@
 				
 				
 				<div data-ensure="( PM === 1 ? (N1 / D1) + (N2 / D2) < 1 : (N1 / D1) + PM * (N2 / D2) > 0)">
-				<var id="MAX_RANGE">(PM === 1 ? D1 - 2 :  D1 - 1)</var>
-				<var id="N1">randRange( 1, MAX_RANGE )</var>
-				<var id="N2">randRange( 1, MAX_RANGE )</var>
+				<var id="N1">randRange( 1, (PM === 1 ? D1 - 2 :  D1 - 1) )</var>
+				<var id="N2">randRange( 1, (PM === 1 ? D1 - 2 :  D1 - 1) )</var>
 				</div>
 				
 
