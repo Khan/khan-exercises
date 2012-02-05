@@ -173,7 +173,7 @@
 						<p>Substitute this expression for <code>x</code> in the first equation.</p>
 						<p><code><var>A1_SIGN</var><span data-if="abs( A1 ) !== 1"><var>abs( A1 )</var></span>(\color{<var>ORANGE</var>}{<span data-if="abs( abs( A2 / B2 ) - 1 ) < 0.0001"><var>SIGN_1</var></span><span data-else><var>decimalFraction( -B2 / A2, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2, "true", "true" )</var>}) + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
 					</div>
-					<p><code><span data-if="abs( abs( -A2 / B2 * A1 ) - 1 ) < 0.0001"><var>SIGN_2</var></span><span data-else><var>decimalFraction( -B2 / A2 * A1, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2 * A1, "true", "true" )</var> + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
+					<p><code><span data-if="abs( abs( -B2 / A2 * A1 ) - 1 ) < 0.0001"><var>SIGN_2</var></span><span data-else><var>decimalFraction( -B2 / A2 * A1, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2 * A1, "true", "true" )</var> + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
 					<div>
 						<p>Simplify by combining terms, then solve for <code>y</code>.</p>
 						<p><code><var>decimalFraction( B1 + ( -B2 / A2 * A1 ), "true", "true" )</var>y + <var>decimalFraction( C2 / A2 * A1, "true", "true" )</var> = <var>C1</var></code></p>
