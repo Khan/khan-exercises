@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format word-problems">
 <head>
 	<title>Geometric Mean</title>
 	<script src="../khan-exercise.js"></script>
@@ -18,32 +18,6 @@
 
 <body>
 	<div class="exercise">
-
-		<div class="vars">
-			<var id="NAME">(function() {
-				var num = randRange( 0, 7 );
-				switch(num){
-				case 0: name = "Barbara";
-				break;
-				case 1: name = "Elisabeth";
-				break;
-				case 2: name = "Simon";
-				break;
-				case 3: name = "Greg";
-				break;
-				case 4: name = "Gina";
-				break;
-				case 5: name = "Mehran";
-				break;
-				case 6: name = "Julie";
-				break;
-				case 7: name = "Clayton";
-				break;
-				}
-				return name;
-				})()
-			</var>
-		</div>
 
 		<div class="problems">
 
@@ -140,7 +114,7 @@
 				</div>
 
 				<p class="problem">
-					<p><var>NAME</var> measures the amount of bacteria in different parts of a 
+					<p><var>person( 1 )</var> measures the amount of bacteria in different parts of a 
 					<var>WATER_SOURCE</var>.</br>
 					What is the geometric mean of the bacteria amounts?</p>
 					<p id="number_set"><code><var>ARRAY_OF_NUMS</var></code></p>
@@ -219,8 +193,8 @@
 				</div>
 
 				<p class="problem">
-					<p><var>NAME</var> invests money in a company; each year the investment return value changes.
-					</br>Find the rate of the investment returns, for the years.</p>
+					<p><var>person( 1 )</var> invests money in a company; each year the investment return value changes.
+					</br>Of the years, find the overall rate of the investment returns.</p>
 					<p id="number_set"><code><var>ARRAY_W_PERCENT</var></code></p>
 					<p id="reminder">Round the percentage to the nearest integer.</br>
 					Each percentage represents the investment return value for each year.</p>
