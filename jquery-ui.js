@@ -578,10 +578,10 @@ $.widget("ui.mouse", {
 		var self = this;
 
 		this.element
-			.bind('mousedown.'+this.widgetName, function(event) {
+			.bind('vmousedown.'+this.widgetName, function(event) {
 				return self._mouseDown(event);
 			})
-			.bind('click.'+this.widgetName, function(event) {
+			.bind('vclick.'+this.widgetName, function(event) {
 				if(self._preventClickEvent) {
 					self._preventClickEvent = false;
 					event.stopImmediatePropagation();
@@ -639,8 +639,8 @@ $.widget("ui.mouse", {
 			return self._mouseUp(event);
 		};
 		$(document)
-			.bind('mousemove.'+this.widgetName, this._mouseMoveDelegate)
-			.bind('mouseup.'+this.widgetName, this._mouseUpDelegate);
+			.bind('vmousemove.'+this.widgetName, this._mouseMoveDelegate)
+			.bind('vmouseup.'+this.widgetName, this._mouseUpDelegate);
 
 		// preventDefault() is used to prevent the selection of text here -
 		// however, in Safari, this causes select boxes not to be selectable
@@ -673,8 +673,8 @@ $.widget("ui.mouse", {
 
 	_mouseUp: function(event) {
 		$(document)
-			.unbind('mousemove.'+this.widgetName, this._mouseMoveDelegate)
-			.unbind('mouseup.'+this.widgetName, this._mouseUpDelegate);
+			.unbind('vmousemove.'+this.widgetName, this._mouseMoveDelegate)
+			.unbind('vmouseup.'+this.widgetName, this._mouseUpDelegate);
 
 		if (this._mouseStarted) {
 			this._mouseStarted = false;
