@@ -241,7 +241,7 @@ jQuery(document).ready(function(){
 
   var bindMeat = function (elt, idx){
     var bundle = {el: $(elt), model: binder};
-    var type = $(elt).data("type").toLowerCase();
+    var type = ( $(elt).data("type") || "" ).toLowerCase();
 
     if (type === "editable"){
       var inst = new EditableVar( bundle );
@@ -263,9 +263,10 @@ jQuery(document).ready(function(){
   }
 
 
-  jQuery.fn[ "meatglueLoad" ] = function(){
+  jQuery.fn[ "meatglueLoad" ] = function(prob, info){
     // map across all vars and assign them views
     _( $( "span[data-name]", $( ".meatglue" ) ) ).each( bindMeat );
+    console.log("hi from meatglue land", prob, info)
   }
 
 });

@@ -245,6 +245,10 @@ jQuery.tmpl = {
 	// Make sure any HTML formatting is stripped
 	cleanHTML: function( text ) {
 		return ("" + text).replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&");
+	},
+
+	getVARS: function (){
+		return VARS;
 	}
 };
 

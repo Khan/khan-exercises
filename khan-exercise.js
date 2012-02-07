@@ -1086,6 +1086,8 @@ var Khan = (function() {
 			jQuery( this ).find( "[id]" ).add( children ).tmplApply();
 		});
 
+		console.log($(KhanUtil.tmpl.getVAR("A")).tmplApply())
+
 		// Remove and store hints to delay running modules on it
 		hints = problem.children( ".hints" ).remove();
 
