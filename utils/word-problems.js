@@ -9,7 +9,7 @@
 jQuery.extend( KhanUtil, {
 	toSentence: function( array, conjunction ) {
 		if ( conjunction == null ) {
-			conjunction = "and";
+			conjunction = "en";
 		}
 
 		if ( array.length === 0 ) {
