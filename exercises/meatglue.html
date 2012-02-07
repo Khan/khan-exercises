@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic word-problems backbone meatglue">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Meatglue Test</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="A">randRange( 1, 10 )</var>
+		<var id="B">randRange( 1, 10 )</var>
+	</div>
+
+	<script type="text/meatglue">
+		defaults = {foo : 23};
+		update = function(){
+			this.set("bar", this.get("foo") * 4)
+			console.log("calling update!")
+		}
+		init = function(){
+			this.update();
+			console.log("init time!")
+		}
+	</script>
+
+	<div class="problems">
+		<div>
+			<div class="question meatglue">
+				<span data-name="foo" data-type="editable"></span> * 4 = <span data-name="bar"></span>
+			</div>
+			<div class="solution" data-forms="integer"><var>A + B</var></div>
+			<div class="hints">
+				<div class="graphie" style="float: left;">
+					drawCircles( A, "#6495ED" );
+				</div>
+				<div class="graphie" style="float: left;">
+					drawCircles( B, "#28AE7B" );
+				</div>
+				<p style="clear: left;">There are <var>plural( A, "blue dot" )</var> and <var>plural( B, "green dot" )</var>, for a total of <var>A + B</var> dots.</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
