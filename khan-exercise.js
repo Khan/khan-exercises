@@ -1086,8 +1086,6 @@ var Khan = (function() {
 			jQuery( this ).find( "[id]" ).add( children ).tmplApply();
 		});
 
-		console.log($(KhanUtil.tmpl.getVAR("A")).tmplApply())
-
 		// Remove and store hints to delay running modules on it
 		hints = problem.children( ".hints" ).remove();
 
@@ -1127,6 +1125,11 @@ var Khan = (function() {
 		// Run the main method of any modules
 		problem.runModules( problem, "Load" );
 		problem.runModules( problem );
+
+		var _getVARS = _getVARS ? _getVARS : KhanUtil.tmpl.getVARS;
+		KhanUtil.tmpl.getVARS = function(){};
+		console.log("every day i'm hustlin", _getVARS())
+		// remove access to VARS
 
 		// Store the solution to the problem
 		var solution = problem.find(".solution"),
