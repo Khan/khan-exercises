@@ -255,6 +255,9 @@ var Khan = (function() {
 	var Khan = {
 		modules: {},
 
+		// expose reviewMode to other extensions
+		reviewMode: reviewMode,
+
 		// So modules can use file paths properly
 		urlBase: urlBase,
 

@@ -120,7 +120,7 @@ jQuery.extend( Khan, { relatedVideos: {
 
 		this.renderInSidebar();
 		// Review queue overlaps with the content here
-		if ( !reviewMode ) {
+		if ( !Khan.reviewMode ) {
 			this.renderInHeader();
 		}
 	}
