@@ -44,6 +44,7 @@ jQuery.extend( KhanUtil, {
 		for ( var id in KhanUtil.times ) {
 			times = KhanUtil.times[ id ];
 			KhanUtil.currentGraph = jQuery( "#problemarea" ).find( "#" + id ).data( "graphie" );
+			KhanUtil.currentGraph.raphael.clear();
 			KhanUtil.currentGraph.init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600 / pieces * times, 25 ] });
 			rectchart( [ times, 0 ], ["#e00", "#999" ] );
 			jQuery( "#" + id + "_answer input" ).val( KhanUtil.roundTo(3, times / pieces) );
