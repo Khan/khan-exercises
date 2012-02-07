@@ -90,7 +90,7 @@
 					\quad
 					\begin{matrix}
 					<span data-each="STEMS times as STEM" data-unwrap>
-						<span data-each="DATA[ STEM ] as LEAF" data-unwrap>\color{<VAR>BLUE</var>}{<var>LEAF</var>}&amp;</span>
+						<span data-each="DATA[ STEM ] as LEAF" data-unwrap>\color{<var>BLUE</var>}{<var>LEAF</var>}&amp;</span>
 						\vphantom{\Large{0}} \\
 					</span>
 					\end{matrix}
@@ -124,8 +124,9 @@
 				<span data-if="TYPE === 'how-many'">exactly</span>
 				<span data-if="TYPE === 'less-than'">fewer than</span>
 				<span data-if="TYPE === 'greater-than'">more than</span>
-				<var>plural( AMOUNT, ITEM )</var>?</p>
+				<var>plural( AMOUNT, ITEM )</var>?
 			</span>
+			</p>
 			<p data-if="SOLUTION > 0">
 				<code>\qquad</code><var>toSentenceTex( RAW_DATA, "and", IS_SOLUTION, "hint_pink" )</var>
 			</p>
