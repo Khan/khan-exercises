@@ -3,6 +3,13 @@
 TODO show-guess support from khan-exercises needs to be added in
 TODO problems that use the same data but over multiple questions
 TODO use _.has when checking for properties to retain in scoped eval since console is not being saved
+
+Requires:
+  jQuery 1.7+
+  jQuery UI 1.8.16+
+  backbone .9+
+  underscore 1.3.1+
+
 */
 
 jQuery(document).ready(function(){
@@ -232,11 +239,10 @@ jQuery(document).ready(function(){
 
   })
 
-
-  // map across all vars and assign them views
-  _( $( "span[data-name]", $( ".meatglue" ) ) ).each( function(elt, idx){
+  var bindMeat = function (elt, idx){
     var bundle = {el: $(elt), model: binder};
-    var type = $(elt).data("type");
+    var type = $(elt).data("type").toLowerCase();
+
     if (type === "editable"){
       var inst = new EditableVar( bundle );
     }
@@ -253,7 +259,13 @@ jQuery(document).ready(function(){
     else{
       var inst = new VarView( bundle );
     }
-    inst.render()
-  });
+    inst.render();
+  }
+
+
+  jQuery.fn[ "meatglueLoad" ] = function(){
+    // map across all vars and assign them views
+    _( $( "span[data-name]", $( ".meatglue" ) ) ).each( bindMeat );
+  }
 
 });
