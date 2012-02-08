@@ -45,14 +45,26 @@
 		</div>
 		<div class="question">
 			<div class="graphie">
-				init({
-					range: [ [-1, 12 ], [ -10, 2.5 ] ]
-				})
+
 				TR_A.rotate( randRange( 0, 360 ) );
+				TR_B.rotate( randRange( 0, 360 ) );
+				
+				var aBounding = TR_A.boundingRange(1);
+				var bBounding = TR_B.boundingRange(1);
+				
+				var minX = Math.min(aBounding[0][0], bBounding[0][0]);
+				var maxX = Math.max(aBounding[0][1], bBounding[0][1]);
+				
+				var minY = Math.min(aBounding[1][0], bBounding[1][0]);
+				var maxY = Math.max(aBounding[1][1], bBounding[1][1]);				
+
+				init({
+					range: [ [minX, maxX ], [ minY, maxY ] ]
+				})
+				
 				TR_A.draw();
 				TR_A.drawLabels();
 
-				TR_B.rotate( randRange( 0, 360 ) );
 				TR_B.draw();
 				TR_B.drawLabels();
 			</div>
