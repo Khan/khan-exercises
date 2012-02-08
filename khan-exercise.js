@@ -2025,22 +2025,30 @@ var Khan = (function() {
 
 		});
 
+		jQuery( "[name=issue-type] ").click( function( e ) {
+			console.log(this);
+			jQuery("[data-forlabel]").hide();
+			jQuery("[data-for=" + jQuery(this).attr("id") + "]").show();
+		});
+
 		// Submit an issue.
 		jQuery( "#issue form input:submit" ).click( function( e ) {
 
 			e.preventDefault();
 
+			var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text().replace(/ \|.*/, '');
+
 			var dataObj = {
 				page: pretitle,
 				ureport: jQuery( "#issue-body" ).val(),
 				ucontact: jQuery( "#issue-email" ).val(),
-				utype: jQuery( "input[name=issue-type]:checked" ).data("text")
+				utype: jQuery( "input[name=issue-type]:checked" ).data("text"),
+				ustamp: new Date().getTime(),
+				udate: new Date().toUTCString()
 			};
 
 			// don't do anything if the user clicked a second time quickly
 			if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
-
-			var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text().replace(/ \|.*/, '');
 
 			var formElements = jQuery( "#issue input" ).add( "#issue textarea" );
 
