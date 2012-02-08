@@ -262,3 +262,83 @@ function Scratchpad( elem ){
 		shapes.remove();
 	}
 }
+
+jQuery.extend (Khan, {scratchpad: (function() {
+	var disabled = false, visible = false, wasVisible, pad;
+
+	var actions = {
+		disable: function() {
+			wasVisible = visible;
+			actions.hide();
+
+			jQuery( "#scratchpad-show" ).hide();
+			jQuery( "#scratchpad-not-available" ).show();
+			disabled = true;
+		},
+
+		enable: function() {
+			if ( wasVisible ) {
+				actions.show();
+				wasVisible = false;
+			}
+
+			jQuery( "#scratchpad-show" ).show();
+			jQuery( "#scratchpad-not-available" ).hide();
+			disabled = false;
+		},
+
+		isVisible: function() {
+			return visible;
+		},
+
+		show: function() {
+			if ( visible ) {
+				return;
+			}
+
+			var makeVisible = function() {
+				jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
+				jQuery( "#scratchpad" ).show();
+				jQuery( "#scratchpad-show" ).text( "Hide scratchpad" );
+				visible = true;
+			};
+
+			if ( !pad ) {
+				makeVisible();
+				pad || ( pad = new Scratchpad( jQuery( "#scratchpad div" )[0] ) );
+			} else {
+				makeVisible();
+			}
+		},
+
+		hide: function() {
+			if ( !visible ) {
+				return;
+			}
+
+			jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
+			jQuery( "#scratchpad" ).hide();
+			jQuery( "#scratchpad-show" ).text( "Show scratchpad" );
+			visible = false;
+		},
+
+		toggle: function() {
+			visible ? actions.hide() : actions.show();
+		},
+
+		clear: function() {
+			if ( pad ) {
+				pad.clear();
+			}
+		},
+
+		resize: function() {
+			if ( pad ) {
+				pad.resize();
+			}
+		}
+	};
+
+	return actions;
+})()
+});
