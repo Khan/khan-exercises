@@ -51,7 +51,7 @@ jQuery.extend( Khan.answerTypes, {
 	graphic: function( solutionarea, solution, fallback ) {
 			var verifier = function( correct, guess ){
 					return Math.abs( correct - guess ) < 0.3;
-				}
+				};
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
@@ -311,15 +311,12 @@ jQuery.extend( Khan.answerTypes, {
 							// Remove space after +, -
 							.replace( /([+-])\s+/g, "$1" )
 
-							// Remove commas
-							.replace( /,\s*/g, "" )
-
 							// Extract integer, numerator and denominator
-							// This matches [+-]?\.; will f
-							.match( /^([+-]?(?:\d+\.?|\d*\.\d+))$/ );
+							// If commas or spaces are used, they must be in the "correct" places
+							.match( /^([+-]?(?:\d{1,3}(?:[, ]?\d{3})*\.?|\d{0,3}(?:[, ]?\d{3})*\.(?:\d{3}[, ]?)*\d{1,3}))$/ );
 
 						if ( match ) {
-							var x = parseFloat( match[1] );
+							var x = parseFloat( match[1].replace( /[, ]/g, "" ) );
 
 							if ( options.inexact === undefined ) {
 								var factor = Math.pow( 10, 10 );
