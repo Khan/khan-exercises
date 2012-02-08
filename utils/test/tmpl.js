@@ -5,7 +5,7 @@ Khan.error = function( msg ) {
 };
 
 function initVars() {
-	jQuery("#qunit-fixture").tmplLoad( null, { testMode: true } );
+	jQuery("#qunit-fixture").tmplLoad( null, { localMode: true } );
 	jQuery("#qunit-fixture").append(
 		"<var id='A'>1</var><var id='B'>2</var><var id='A'>3</var>" +
 		"<var id='C'>true</var><var id='D'>'test'</var><var id='E'>B === 2 ? 1 : 0</var>" +

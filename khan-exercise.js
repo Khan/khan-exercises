@@ -124,12 +124,12 @@ var Khan = (function() {
 	// Get the userExercise object from the global scope
 	userExercise = window.userExercise,
 
-	// Check to see if we're in test mode
-	testMode = typeof userExercise === "undefined",
+	// Check to see if we're in local mode
+	localMode = typeof userExercise === "undefined",
 
 	// The main server we're connecting to for saving data
 	server = typeof apiServer !== "undefined" ? apiServer :
-		testMode ? "http://localhost:8080" : "",
+		localMode ? "http://localhost:8080" : "",
 
 	// The name of the exercise
 	exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]),
@@ -204,7 +204,7 @@ var Khan = (function() {
 	},
 
 	urlBase = typeof urlBaseOverride !== "undefined" ? urlBaseOverride :
-		testMode ? "../" : "/khan-exercises/",
+		localMode ? "../" : "/khan-exercises/",
 
 	lastFocusedSolutionInput = null,
 
@@ -237,7 +237,7 @@ var Khan = (function() {
 	}
 
 	// Add in the site stylesheets
-	if (testMode) {
+	if (localMode) {
 		(function(){
 			var link = document.createElement("link");
 			link.rel = "stylesheet";
@@ -312,7 +312,7 @@ var Khan = (function() {
 
 				if ( typeof mod === "string" ) {
 					var cachebust = "";
-					if ( testMode && Khan.query.nocache != null ) {
+					if ( localMode && Khan.query.nocache != null ) {
 						cachebust = "?" + Math.random();
 					}
 					src = urlBase + "utils/" + mod + ".js" + cachebust;
@@ -362,7 +362,7 @@ var Khan = (function() {
 
 			for ( var i = 0; i < loading; i++ ) { (function( mod ) {
 
-				if ( !testMode && mod.src.indexOf("/khan-exercises/") === 0 && mod.src.indexOf("/MathJax/") === -1 ) {
+				if ( !localMode && mod.src.indexOf("/khan-exercises/") === 0 && mod.src.indexOf("/MathJax/") === -1 ) {
 					// Don't bother loading khan-exercises content in production
 					// mode, this content is already packaged up and available
 					// (*unless* it's MathJax, which is silly still needs to be loaded)
@@ -672,7 +672,7 @@ var Khan = (function() {
 	}
 
 	// Seed the random number generator with the user's hash
-	randomSeed = testMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
+	randomSeed = localMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
 
 
 	// Load in jQuery
@@ -681,7 +681,7 @@ var Khan = (function() {
 	// Actually load the scripts. This is getting evaluated when the file is loaded.
 	Khan.loadScripts( scripts, function() {
 
-		if ( testMode ) {
+		if ( localMode ) {
 			Khan.require( [ "../jquery-ui" ] );
 		}
 
@@ -736,7 +736,7 @@ var Khan = (function() {
 				type = type || "";
 
 				var info = {
-					testMode: testMode
+					localMode: localMode
 				};
 
 				return this.each(function( i, elem ) {
@@ -792,7 +792,7 @@ var Khan = (function() {
 	function makeProblemBag( problems, n ) {
 		var bag = [], totalWeight = 0;
 
-		if ( testMode && Khan.query.test != null ) {
+		if ( localMode && Khan.query.test != null ) {
 			// Just do each problem 10 times
 			jQuery.each( problems, function( i, elem ) {
 				elem = jQuery( elem );
@@ -1006,7 +1006,7 @@ var Khan = (function() {
 			problemSeed = seed;
 
 		// In either of these testing situations,
-		} else if ( (testMode && Khan.query.test != null) || user == null ) {
+		} else if ( (localMode && Khan.query.test != null) || user == null ) {
 			problemSeed = randomSeed;
 		}
 
@@ -1014,7 +1014,7 @@ var Khan = (function() {
 		randomSeed = problemSeed;
 
 		// Check to see if we want to test a specific problem
-		if ( testMode ) {
+		if ( localMode ) {
 			id = typeof id !== "undefined" ? id : Khan.query.problem;
 		}
 
@@ -1230,12 +1230,12 @@ var Khan = (function() {
 		}
 
 		// Hook out for exercise test runner
-		if ( testMode && parent !== window && typeof parent.jQuery !== "undefined" ) {
+		if ( localMode && parent !== window && typeof parent.jQuery !== "undefined" ) {
 			parent.jQuery( parent.document ).trigger( "problemLoaded", [ makeProblem, validator.solution ] );
 		}
 
 		// Save problem info in dump data for testers
-		if ( testMode && Khan.query.test != null ) {
+		if ( localMode && Khan.query.test != null ) {
 			var testerInfo = jQuery( "#tester-info" );
 
 			// Deep clone the elements to avoid some straaaange bugs
@@ -1656,7 +1656,7 @@ var Khan = (function() {
 
 
 		// Show the debug info
-		if ( testMode && Khan.query.debug != null ) {
+		if ( localMode && Khan.query.debug != null ) {
 			jQuery( document ).keypress( function( e ) {
 				if ( e.charCode === 104 ) {
 					jQuery("#hint").click();
@@ -1972,7 +1972,7 @@ var Khan = (function() {
 			if ( pass === true ) {
 				// Correct answer, so show the next question button.
 				jQuery( "#check-answer-button" ).hide();
-				if ( !testMode || Khan.query.test == null ) {
+				if ( !localMode || Khan.query.test == null ) {
 					jQuery( "#next-question-button" )
 						.removeAttr( "disabled" )
 						.removeClass( "buttonDisabled" )
@@ -2059,7 +2059,7 @@ var Khan = (function() {
 				transitionExerciseTitle();
 			}
 
-			if ( testMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount ) {
+			if ( localMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount ) {
 				// Show the dump data
 				jQuery( "#problemarea" ).append(
 					"<p>Thanks! You're all done testing this exercise.</p>" +
@@ -2146,7 +2146,7 @@ var Khan = (function() {
 				}
 			}
 
-			var fProdReadOnly = !testMode && userExercise.read_only;
+			var fProdReadOnly = !localMode && userExercise.read_only;
 			var fAnsweredCorrectly = jQuery( "#next-question-button" ).is( ":visible" );
 			if ( !fProdReadOnly && !fAnsweredCorrectly ) {
 				// Resets the streak and logs history for exercise viewer
@@ -2306,13 +2306,13 @@ var Khan = (function() {
 			// to fall back to jsonp.
 			jQuery.ajax({
 
-				url: ( testMode ? "http://www.khanacademy.org/" : "/" ) + "githubpost",
-				type: testMode ? "GET" : "POST",
-				data: testMode
+				url: ( localMode ? "http://www.khanacademy.org/" : "/" ) + "githubpost",
+				type: localMode ? "GET" : "POST",
+				data: localMode
 					? { json: JSON.stringify( dataObj ) }
 					: JSON.stringify( dataObj ),
-				contentType: testMode ? "application/x-www-form-urlencoded" : "application/json",
-				dataType: testMode ? "jsonp" : "json",
+				contentType: localMode ? "application/x-www-form-urlencoded" : "application/json",
+				dataType: localMode ? "jsonp" : "json",
 				success: function( json ) {
 
 					data = json.data || json;
@@ -2428,7 +2428,7 @@ var Khan = (function() {
 		} );
 
 		// Prepare for the tester info if requested
-		if ( testMode && Khan.query.test != null ) {
+		if ( localMode && Khan.query.test != null ) {
 			jQuery( "#answer_area" ).prepend(
 				'<div id="tester-info" class="info-box">' +
 					'<span class="info-box-header">Testing Mode</span>' +
@@ -2552,7 +2552,7 @@ var Khan = (function() {
 		}
 
 		// Prepare for the debug info if requested
-		if ( testMode && Khan.query.debug != null ) {
+		if ( localMode && Khan.query.debug != null ) {
 			jQuery( '<div id="debug"></div>' ).appendTo( "#answer_area" );
 		}
 
@@ -2673,7 +2673,7 @@ var Khan = (function() {
 	}
 
 	function request( method, data, fn, fnError, queue ) {
-		if ( testMode ) {
+		if ( localMode ) {
 			// Pretend we have success
 			if ( jQuery.isFunction( fn ) ) {
 				fn();
@@ -2972,7 +2972,7 @@ var Khan = (function() {
 			prepareSite();
 
 			// Prepare the "random" problems
-			if ( !testMode || !Khan.query.problem ) {
+			if ( !localMode || !Khan.query.problem ) {
 				var problems = exercises.children( ".problems" ).children();
 
 				weighExercises( problems );

@@ -258,7 +258,7 @@ jQuery.fn.tmplLoad = function( problem, info ) {
 	jQuery.tmpl.DATA_ENSURE_LOOPS = 0;
 
 	// Check to see if we're in test mode
-	if ( info.testMode ) {
+	if ( info.localMode ) {
 		// Expose the variables if we're in test mode
 		jQuery.tmpl.VARS = VARS;
 	}
