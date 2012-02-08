@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
+<head>
+	<title>Converting fractions and mixed numbers to percents</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+
+		<div class="vars">
+			<var id="WHOLE">randRange( 1, 9 )</var>
+			<var id="DENOMINATOR">randFromArray([ 2, 4, 5, 10 ])</var>
+			<var id="SMALL_NUMERATOR" data-ensure="SMALL_NUMERATOR &lt; DENOMINATOR">randRange( 1, 9 )</var>	
+			<var id="LARGE_NUMERATOR">(( WHOLE * DENOMINATOR ) + SMALL_NUMERATOR )</var>
+			<var id="SMALL_DIVIDEND">SMALL_NUMERATOR * 100</var>
+			<var id="LARGE_DIVIDEND">LARGE_NUMERATOR * 100</var>
+			<var id="LARGE_DECIMAL">( LARGE_NUMERATOR / DENOMINATOR )</var>
+			<var id="SMALL_DECIMAL">SMALL_NUMERATOR / DENOMINATOR</var>
+			<var id="LARGE_PERCENT">roundTo( 2, LARGE_DECIMAL * 100 )</var> 
+			<var id="SMALL_PERCENT">( SMALL_DECIMAL * 100 )</var>
+			<var id="DIVISOR_DECIMAL">0</var>
+			<var id="DIVIDEND_DECIMAL">2</var>
+			<var id="DUMMY">[]</var>
+		</div>	
+
+		<div class="problems">
+			<div id="improper-fraction">
+				<p class="question">Write <code>\dfrac{<var>LARGE_NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> as a percent.</p>
+				<p class="solution" data-forms="percent"><var>LARGE_PERCENT</var></p> 
+				<div class="hints">
+					<p>First, express the fraction as a decimal by dividing <code><var>LARGE_NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
+
+					<div class="graphie" id="numbers">
+						graph.divider = new Divider( DENOMINATOR, LARGE_DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL );
+						graph.divider.show();
+						DUMMY = Array( graph.divider.getNumHints() );
+					</div>
+
+					<div class="graphie" data-update="numbers">
+						graph.divider.shiftDecimals();
+					</div>
+
+					<div class="graphie" data-update="numbers" data-each="Divider.numHintsFor( DENOMINATOR, LARGE_DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL ) times">
+						graph.divider.showHint();
+					</div>
+					<div>
+						<p>So, <code>\dfrac{<var>LARGE_NUMERATOR</var>}{<var>DENOMINATOR</var>}</code><code>=<var>LARGE_DECIMAL</var></code></p>
+					</div>
+					<div>
+						<p>Rewrite the decimal as a fraction with a denominator of 100.</p>
+						<p><code><var>LARGE_DECIMAL</var> = \dfrac{<var>LARGE_PERCENT</var>}{100}</code></code>
+					</div>
+					<div>
+						<p><code>\hphantom{<var>LARGE_DECIMAL</var>} = <var>LARGE_PERCENT</var>\%</code></p>
+						<p><code><var>LARGE_PERCENT</var></code> per hundred = <code><var>LARGE_PERCENT</var></code> per cent = <code><var>LARGE_PERCENT</var></code> percent.</p>
+					</div>
+					
+				</div>
+			</div>
+
+			<div id="fraction">
+				<p class="question">Write <code>\dfrac{<var>SMALL_NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> as a percent.</p>
+				
+				<p class="solution" data-forms="percent"><var>SMALL_PERCENT</var></p>
+
+				<div class="hints">
+					<p>First, express the fraction as a decimal by dividing <code><var>SMALL_NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
+
+					<div class="graphie" id="numbers">
+						graph.divider = new Divider( DENOMINATOR, SMALL_DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL );
+						graph.divider.show();
+						DUMMY = Array( graph.divider.getNumHints() );
+					</div>
+
+					<div class="graphie" data-update="numbers">
+						graph.divider.shiftDecimals();
+					</div>
+
+					<div class="graphie" data-update="numbers" data-each="Divider.numHintsFor( DENOMINATOR, SMALL_DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL ) times">
+						graph.divider.showHint();
+					</div>
+					<div>
+						<p>So, <code>\dfrac{<var>SMALL_NUMERATOR</var>}{<var>DENOMINATOR</var>}</code><code>=<var>SMALL_DECIMAL</var></code></p>
+					</div>
+					<div>
+						<p>Rewrite the decimal as a fraction with a denominator of 100.</p>
+						<p><code><var>SMALL_DECIMAL</var> = \dfrac{<var>SMALL_PERCENT</var>}{100}</code></code>
+					</div>
+					<div>
+						<p><code>\hphantom{<var>SMALL_DECIMAL</var>} = <var>SMALL_PERCENT</var>\%</code></p>
+						<p><code><var>SMALL_PERCENT</var></code> per hundred = <code><var>SMALL_PERCENT</var></code> per cent = <code><var>SMALL_PERCENT</var></code> percent.</p>
+					</div>
+	
+				</div>
+			</div>
+
+			<div id="mixed-number">			
+				<p class="question">Write <code><var>WHOLE</var>\ <var>fraction( SMALL_NUMERATOR, DENOMINATOR, false, true )</var></code> as a percent.</p>
+				<p class="solution" data-forms="percent"><var>LARGE_PERCENT</var></p>
+
+				<div class="hints">
+					<p>First, convert the mixed number to a decimal. This mixed number is equivalent to <code>\color{#FFA500}{<var>WHOLE</var>} + \color{#6495ED}{<var>fraction( SMALL_NUMERATOR, DENOMINATOR, false, true )</var>}</code>.</p>
+					<p>Divide <code>\color{#6495ED}{<var>SMALL_NUMERATOR</var>}</code> by <code>\color{#6495ED}{<var>DENOMINATOR</var>}</code> and add to <code>\color{#FFA500}{<var>WHOLE</var>}</code> .</p>
+	
+					<div class="graphie" id="numbers">
+						graph.divider = new Divider( DENOMINATOR, SMALL_DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL );
+						graph.divider.show();
+						DUMMY = Array( graph.divider.getNumHints() );
+					</div>
+
+					<div class="graphie" data-update="numbers">
+						graph.divider.shiftDecimals();
+					</div>
+
+					<div class="graphie" data-update="numbers" data-each="Divider.numHintsFor( DENOMINATOR, SMALL_DIVIDEND , DIVISOR_DECIMAL, DIVIDEND_DECIMAL ) times">
+						graph.divider.showHint();
+					</div>
+
+					<div>
+						<p><code><var>WHOLE</var>\ <var>fraction( SMALL_NUMERATOR, DENOMINATOR, false, true )</var> = <var>LARGE_DECIMAL</var></code></p>
+					</div>
+					
+					<div>
+						<p>Rewrite the decimal as a fraction with a denominator of 100.</p>
+						<p><code><var>LARGE_DECIMAL</var> = \dfrac{<var>LARGE_PERCENT</var>}{100}</code></code>
+					</div>
+					
+					<div>
+						<p><code>\hphantom{<var>LARGE_DECIMAL</var>} = <var>LARGE_PERCENT</var>\%</code></p>
+						<p><code><var>LARGE_PERCENT</var></code> per hundred = <code><var>LARGE_PERCENT</var></code> per cent = <code><var>LARGE_PERCENT</var></code> percent.</p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
