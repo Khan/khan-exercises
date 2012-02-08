@@ -311,6 +311,15 @@ jQuery.extend (Khan, {scratchpad: (function() {
 			}
 		},
 
+		clickButton: function( e ) {
+			e.preventDefault();
+			actions.toggle();
+			console.log('heeheehee')
+			if ( Khan.user ) {
+				window.localStorage[ "scratchpad:" + Khan.user ] = actions.isVisible();
+			}
+		},
+
 		hide: function() {
 			if ( !visible ) {
 				return;

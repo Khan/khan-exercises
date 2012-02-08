@@ -257,6 +257,7 @@ var Khan = (function() {
 
 		// expose reviewMode to other extensions
 		reviewMode: reviewMode,
+		user: user,
 
 		// So modules can use file paths properly
 		urlBase: urlBase,
@@ -1837,8 +1838,7 @@ var Khan = (function() {
 				});
 		}
 
-		// Watch for when the next button is clicked
-		jQuery("#next-question-button").click(function(ev) {
+		var clickNextButton = function( ev ) {
 			jQuery("#happy").hide();
 			if( !jQuery( "#examples-show" ).data( "show" ) ){ jQuery( "#examples-show" ).click(); }
 
@@ -1894,10 +1894,9 @@ var Khan = (function() {
 				// This needs to run after makeProblem to get the updated problem state.
 				maybeEnqueueReviewProblems();
 			}
-		});
+		};
 
-		// Watch for when the "Get a Hint" button is clicked
-		jQuery( "#hint" ).click(function() {
+		var clickHintButton = function() {
 
 			if ( user && attempts === 0 ) {
 				var hintApproved = window.localStorage[ "hintApproved:" + user ];
@@ -1964,15 +1963,9 @@ var Khan = (function() {
 				gae_bingo.bingo( "hints_free_hint" );
 				gae_bingo.bingo( "hints_free_hint_binary" );
 			}
-		});
+		};
 
-		// On an exercise page, replace the "Report a Problem" link with a button
-		// to be more clear that it won't replace the current page.
-		jQuery( "<a>Report a Problem</a>" )
-			.attr( "id", "report" ).addClass( "simple-button action-gradient green" )
-			.replaceAll( jQuery( ".footer-links #report" ) );
-
-		jQuery( "#report" ).click( function( e ) {
+		var reportProblem = function( e ) {
 
 			e.preventDefault();
 
@@ -1990,21 +1983,18 @@ var Khan = (function() {
 					jQuery( "#issue-title" ).focus();
 				} );
 			}
-		});
+		};
 
-
-		// Hide issue form.
-		jQuery( "#issue-cancel" ).click( function( e ) {
+		var hideIssueForm = function( e ) {
 
 			e.preventDefault();
 
 			jQuery( "#issue" ).hide( 500 );
 			jQuery( "#issue-title, #issue-email, #issue-body" ).val( "" );
 
-		});
+		}
 
-		// Submit an issue.
-		jQuery( "#issue form input:submit" ).click( function( e ) {
+		var submitIssue = function( e ) {
 
 			e.preventDefault();
 
@@ -2149,60 +2139,84 @@ var Khan = (function() {
 
 				}
 			});
-		});
+		};
 
-		jQuery( "#print-ten" ).data( "show", true )
-			.click( function( e ) {
-				e.preventDefault();
+		var printTen = function( e ) {
+			e.preventDefault();
 
-				var link = jQuery( this ),
-					show = link.data( "show" );
+			var link = jQuery( this ),
+				show = link.data( "show" );
 
-				// Reset answer fields, etc. and clear work and hints area
-				jQuery("#next-question-button").click();
+			// Reset answer fields, etc. and clear work and hints area
+			jQuery("#next-question-button").click();
 
-				if ( show ) {
-					link.text( "Try current problem" );
-					jQuery( "#answerform" ).hide();
+			if ( show ) {
+				link.text( "Try current problem" );
+				jQuery( "#answerform" ).hide();
 
-					for ( var i = 0; i < 9; i++ ) {
-						jQuery( "#workarea" ).append( "<hr>" );
-						nextProblem( 1 );
-						makeProblem();
-					}
-
-					// Rewind so next time we make a problem we'll be back at the beginning
-					prevProblem( 9 );
-				} else {
-					link.text( "Show next 10 problems" );
-					jQuery( "#answerform" ).show();
+				for ( var i = 0; i < 9; i++ ) {
+					jQuery( "#workarea" ).append( "<hr>" );
+					nextProblem( 1 );
+					makeProblem();
 				}
 
-				jQuery( "#answerform input[type='button']" ).attr( "disabled", show );
+				// Rewind so next time we make a problem we'll be back at the beginning
+				prevProblem( 9 );
+			} else {
+				link.text( "Show next 10 problems" );
+				jQuery( "#answerform" ).show();
+			}
 
-				link.data( "show", !show );
-			});
+			jQuery( "#answerform input[type='button']" ).attr( "disabled", show );
+
+			link.data( "show", !show );
+		}
+
+		var showExampleFormats = function(evt) {
+			if ( evt ) { evt.preventDefault(); }
+
+			var exampleLink = jQuery(this);
+			var examples = jQuery( "#examples" );
+			var show = exampleLink.data( "show" );
+
+			if ( exampleLink.data( "show" ) ){
+				exampleLink.text( "Hide acceptable answer formats" );
+			} else {
+				exampleLink.text( "Show acceptable answer formats" );
+			}
+
+			examples.slideToggle( 190, function() {
+				// Update dimensions for sticky box
+				jQuery( "#answer_area" ).adhere();
+			} );
+			exampleLink.data( "show", !show );
+		}
+
+		// Watch for when the next button is clicked
+		jQuery( "#next-question-button" ).click( clickNextButton );
+		// Watch for when the "Get a Hint" button is clicked
+		jQuery( "#hint" ).click( clickHintButton );
+
+		// On an exercise page, replace the "Report a Problem" link with a button
+		// to be more clear that it won't replace the current page.
+		jQuery( "<a>Report a Problem</a>" )
+			.attr( "id", "report" ).addClass( "simple-button action-gradient green" )
+			.replaceAll( jQuery( ".footer-links #report" ) );
+
+		jQuery( "#report" ).click( reportProblem );
+
+		// Hide issue form.
+		jQuery( "#issue-cancel" ).click( hideIssueForm );
+
+		// Submit an issue.
+		jQuery( "#issue form input:submit" ).click( submitIssue );
+
+		// Print ten exercises
+		jQuery( "#print-ten" ).data( "show", true )
+			.click( printTen );
 
 		jQuery( "#examples-show" ).data( "show", true )
-			.click(function(evt){
-				if ( evt ) { evt.preventDefault(); }
-
-				var exampleLink = jQuery(this);
-				var examples = jQuery( "#examples" );
-				var show = exampleLink.data( "show" );
-
-				if ( exampleLink.data( "show" ) ){
-					exampleLink.text( "Hide acceptable answer formats" );
-				} else {
-					exampleLink.text( "Show acceptable answer formats" );
-				}
-
-				examples.slideToggle( 190, function() {
-					// Update dimensions for sticky box
-					jQuery( "#answer_area" ).adhere();
-				} );
-				exampleLink.data( "show", !show );
-			}).trigger( "click" );
+			.click( showExampleFormats ).trigger( "click" );
 
 		jQuery( "#warning-bar-close a").click( function( e ) {
 			e.preventDefault();
@@ -2210,14 +2224,7 @@ var Khan = (function() {
 		});
 
 		jQuery( "#scratchpad-show" )
-			.click( function( e ) {
-				e.preventDefault();
-				Khan.scratchpad.toggle();
-
-				if ( user ) {
-					window.localStorage[ "scratchpad:" + user ] = Khan.scratchpad.isVisible();
-				}
-			});
+			.click( Khan.scratchpad.clickButton );
 
 		jQuery( "#answer_area" ).delegate( "input.button, select", "keydown", function( e ) {
 			// Don't want to go back to exercise dashboard; just do nothing on backspace
@@ -2226,8 +2233,7 @@ var Khan = (function() {
 			}
 		} );
 
-		// Prepare for the tester info if requested
-		if ( testMode && Khan.query.test != null ) {
+		var prepareTesterReport = function(){
 			jQuery( "#answer_area" ).prepend(
 				'<div id="tester-info" class="info-box">' +
 					'<span class="info-box-header">Testing Mode</span>' +
@@ -2348,6 +2354,12 @@ var Khan = (function() {
 					jQuery( "#tester-info .fail" ).click();
 				}
 			});
+
+		}
+
+		// Prepare for the tester info if requested
+		if ( testMode && Khan.query.test != null ) {
+			prepareTesterReport();
 		}
 
 		// Prepare for the debug info if requested
