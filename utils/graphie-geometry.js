@@ -331,6 +331,8 @@ function Triangle( center, angles, scale, labels, points ){
 	this.y = center[ 1 ];
 	this.rotation = 0;
 
+	//Given the scale(which represensts the area of the triangle) and angles we want to find the side lengths.
+	//http://en.wikipedia.org/wiki/Triangle#Using_trigonometry. Using the ASA equation in the link, we find the length of one side.
 	var a = Math.sqrt( ( 2 * this.scale * this.sines[ 1 ] ) / ( this.sines[ 0 ] * this.sines[ 2 ])  ) ;
 	var b = a * this.sines[ 2 ] / this.sines[ 1 ];
 	if( ! fromPoints ){
