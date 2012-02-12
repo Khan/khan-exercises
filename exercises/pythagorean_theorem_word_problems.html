@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Pythagorean theorem word problems</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+		function betterTriangle(width, height, A, B, C, a, b, c) {
+			var scale = 5 / Math.sqrt(width * width + height * height);
+			width *= scale;
+			height *= scale;
+
+			with ( KhanUtil.currentGraph ) {
+				// Leave some space for the labels
+				init({ range: [[-1.5, width + 1], [-1, height + 1]] });
+
+				path([ [0, 0], [width, 0], [0, height], true ]);
+
+				label( [0, height], A, "above left" );
+				label( [0, 0], C, "below left" );
+				label( [width, 0], B, "below right" );
+
+				label( [0, height/2], b, "left" );
+				label( [width/2, 0], a, "below" );
+				label( [width/2, height/2], c, "above right", {
+					labelDistance: 3
+				} );
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="HEIGHT">randRange(6, 30)</var>
+		<var id="WIDTH">randRange(1, 10)</var>
+		<var id="LAD_LEN2">HEIGHT * HEIGHT + WIDTH * WIDTH</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>A cat is stuck in a tree <var>HEIGHT</var> feet tall and surrounded by bushes for <var>WIDTH</var> feet around the tree. How long does a ladder need to be for a fireman to reach the cat while being outside the bushes?</p>
+			</div>
+			<div class="solution" data-type="radical"><var>LAD_LEN2</var></div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<div class="graphie">
+			betterTriangle( WIDTH, HEIGHT, "cat", "fireman", "tree", WIDTH, HEIGHT, "?" );
+		</div>
+		<p>The distances between the fireman and the tree base, the cat and the tree base, and the fireman and the cat form a triangle. Using Pythagorean's theorem, we know that <code>a^2 + b^2 = c^2</code>.</p>
+		<p>We want to find the length of the ladder, <code>c</code>, with depth of the bushes, <code>a = <var>WIDTH</var></code> and height of the tree, <code>b = <var>HEIGHT</var></code>.</p>
+		<p><code>c^2 = <var>WIDTH</var>^2 + <var>HEIGHT</var>^2 = <var>LAD_LEN2</var></code>.</p>
+		<p><code>c = \sqrt{<var>LAD_LEN2</var>}</code>.</p>
+		<p data-if="squareRootCanSimplify(LAD_LEN2)">Simplifying the radical gives <code>c = <var>formattedSquareRootOf(LAD_LEN2)</var>.</code></p>
+	</div>
+	</div>
+</body>
+</html>
