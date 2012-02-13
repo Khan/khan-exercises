@@ -16,12 +16,10 @@
 		defaults = {foo : 23};
 		update = function(){
 			this.set("bar", this.get("foo") * 4)
-			console.log("calling update!")
-			
 		}
 		init = function(){
-			this.update();
-			console.log("init time!")
+			// TODO please save these on actual init, not here
+			this.set("exercise_vars", KhanUtil.tmpl.getVARS() );
 		}
 	</script>
 

@@ -923,7 +923,6 @@ var Khan = (function() {
 
 		var _getVARS = _getVARS ? _getVARS : KhanUtil.tmpl.getVARS;
 		KhanUtil.tmpl.getVARS = function(){};
-		console.log("every day i'm hustlin", _getVARS())
 		// remove access to VARS
 
 		// Store the solution to the problem
