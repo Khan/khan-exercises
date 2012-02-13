@@ -11,7 +11,7 @@
 		}
 		#reminder {
 			font-size: .9em;
-			font-style:italic;
+			font-style: italic;
 		}
 	</style>
 </head>
@@ -21,27 +21,27 @@
 
 		<div class="problems">
 
-			<div id="standard_type">
+			<div id="normal_type">
 				<div class="vars">
 					<var id="SIZE_OF_SET">randRange( 1, 4 )</var>
+					<!-- # of els will be 2-5 -->
 					<var id="ARRAY_OF_NUMS">(function() {
 					arr = [];
 					for( i = 0; i <= SIZE_OF_SET; i++ ) {
 					arr[i] = randRange( 2, 10 )
 					}
 					return arr;
-					})()</var> <!-- # of elements will be 2-5 -->
-					<var id="PRODUCT">(function() {
+					})()</var>
+					<var id="PROD">(function() {
 					var prod = 1;
-
 					jQuery.each( ARRAY_OF_NUMS, function( i, el ) {
 					prod *= el;
 						} );
 					return prod;
 					})()</var>
 					<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var> 
-					<!-- Gets the GeoMean and rounds -->
-					<var id="SOLUTION">Math.round( Math.pow( PRODUCT, 1/ARRAY_LENGTH )*10 )/10</var>
+					<!-- Gets the Geomean and rounds -->
+					<var id="SOL">Math.round( Math.pow( PROD, 1/ARRAY_LENGTH )*10 )/10</var>
 				</div>
 
 				<p class="problem">
@@ -50,8 +50,8 @@
 					<p id="reminder">Round to the nearest tenth.</p>
 				</p>
 
-				<p class="solution" data-type="decimal">
-					<var>SOLUTION</var>
+				<p class="sol" data-type="decimal">
+					<var>SOL</var>
 				</p>
 
 				<div class="hints">
@@ -61,16 +61,16 @@
 						<p>Also in the formula, <code>Product</code> stands for the number achieved when all
 						elements are multiplied.</p>
 					</div>
-					<p>Find the product of all of the numbers listed. <code><var>PRODUCT</var></code></p>
+					<p>Find the product of all of the numbers listed. <code><var>PROD</var></code></p>
 					<p>After counting the number of elements in the set, you'll then find there are </br>
 						<code><var>ARRAY_LENGTH</var></code> elements.</p>
 					<p>Take the appropriate root to the product, based on the number of elements.<br/>
-					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PRODUCT</var>}</code></p>
-					<p>Once rounded, the result is <code><var>SOLUTION</var></code></p>
+					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PROD</var>}</code></p>
+					<p>Once rounded, the result is <code><var>SOL</var></code></p>
 				</div>
 			</div>
 
-			<div id="bacteria_type">
+			<div id="big_num_type">
 				<div class="vars">
 					<var id="WATER_SOURCE">
 					(function() {
@@ -88,19 +88,18 @@
 					return type;
 					})()</var>
 					<var id="SIZE_OF_SET">randRange( 2, 4 )</var>
-					<!-- A higher number is included in the array to showcase the Geo-mean's ability to dilute
-					higher number's weight, when compared to the arithmetic mean; # of elements will be 3-5 -->
+					<!-- Large# included in array to show Geomean's resistance to distant #s; # of els will be 3-5 -->
 					<var id="ARRAY_OF_NUMS">(function() {
 					arr = [];
 					for( i = 0; i <= SIZE_OF_SET; i++ ) {
 					arr[i] = randRange( 15, 600 )
 					}
 					num = randRange(0,2)
-					arr.splice( num, 1, randRange( 1200 , 2200 ) ) // Replaces element wtih large num
+					arr.splice( num, 1, randRange( 1200 , 2200 ) ) // Replaces el wtih large num
 
 					return arr;
 					})()</var>
-					<var id="PRODUCT">(function() {
+					<var id="PROD">(function() {
 					var prod = 1;
 
 					jQuery.each( ARRAY_OF_NUMS, function( i, el ) {
@@ -108,9 +107,8 @@
 						} );
 					return prod;
 					})()</var>
-					<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var> 
-					<!-- Gets the GeoMean and rounds -->
-					<var id="SOLUTION">Math.round( Math.pow( PRODUCT, 1/ARRAY_LENGTH ))</var>
+					<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var>
+					<var id="SOL">Math.round( Math.pow( PROD, 1/ARRAY_LENGTH ))</var>
 				</div>
 
 				<p class="problem">
@@ -122,8 +120,8 @@
 					Each number represents a different measurement of bacteria.</p>
 				</p>
 
-				<p class="solution" data-type="decimal">
-					<var>SOLUTION</var>
+				<p class="sol" data-type="decimal">
+					<var>SOL</var>
 				</p>
 
 				<div class="hints">
@@ -133,18 +131,17 @@
 						<p>Also in the formula, <code>Product</code> stands for the number achieved when all
 						elements are multiplied.</p>
 					</div>
-					<p>Find the product of all of the bacteria listed. <code><var>PRODUCT</var></code></p>
+					<p>Find the product of all of the bacteria listed. <code><var>PROD</var></code></p>
 					<p>After counting the number of measurements in the set, you'll then find there are </br>
 					<code><var>ARRAY_LENGTH</var></code> elements.</p>
 					<p>Take the appropriate root to the product, based on the number of measurements.<br/>
-					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PRODUCT</var>}</code></p>
-					<p>Once rounded, the result is <code><var>SOLUTION</var></code></p>
+					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PROD</var>}</code></p>
+					<p>Once rounded, the result is <code><var>SOL</var></code></p>
 				</div>
 			</div>
 
-			<div id="financial_return_type">
+			<div id="financial_type">
 				<div class="vars">
-					<!-- # of elements will be 2-5 -->
 					<var id="SIZE_OF_SET">randRange( 1, 4 )</var>
 					<var id="ARRAY_OF_VALS">(function() {
 					arr = [];
@@ -154,7 +151,7 @@
 					return arr;
 					})()</var>
 					<var id="ARRAY_LENGTH">ARRAY_OF_VALS.length</var> 
-					<!-- ARRAY_OF_VALS with a percentage symbol slapped on -->
+					<!-- ARRAY_OF_VALS + % symbol -->
 					<var id="ARRAY_W_PERCENT">(function() {
 					arr = [];
 					for( i = 0; i <= SIZE_OF_SET; i++ ) {
@@ -162,7 +159,7 @@
 					}
 					return arr;
 					})()</var>
-					<!-- Takes percentages to their decimal multiplier equivalents -->
+					<!-- Takes %s to their decimal multiplier equivalents -->
 					<var id="ARR_W_PER_TO_NUM">(function() {
 					arr = [];
 					for( i = 0; i <= SIZE_OF_SET; i++ ) {
@@ -170,15 +167,7 @@
 					}
 					return arr;
 					})()</var>
-					<!-- Provides an array that is used in the hints -->
-					<var id="HINT_1">(function() {
-					arr = [];
-					for( i = 0; i <= SIZE_OF_SET; i++ ) {
-					arr[i] = ARRAY_W_PERCENT[i] +"\=" +ARR_W_PER_TO_NUM[i]
-					}
-					return arr;
-					})()</var>
-					<var id="PRODUCT">(function() {
+					<var id="PROD">(function() {
 					var prod = 1;
 
 					jQuery.each( ARR_W_PER_TO_NUM, function( i, el ) {
@@ -186,10 +175,18 @@
 						} );
 					return prod;
 					})()</var>
-					<!-- Gets the GeoMean -->
-					<var id="GEO_MEAN">Math.pow( PRODUCT , 1/ARRAY_LENGTH )</var>
+					<!-- Gets the Geomean -->
+					<var id="GEO_MEAN">Math.pow( PROD , 1/ARRAY_LENGTH )</var>
 					<!-- Converts GEO_MEAN to a percentage, and rounds -->
-					<var id="SOLUTION">Math.round(( GEO_MEAN - 1 ) *100 ) +"\\%"</var>
+					<var id="SOL">Math.round(( GEO_MEAN - 1 ) *100 ) +"\\%"</var>
+					<!-- Provides an arr for hint -->
+					<var id="HINT_1">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = ARRAY_W_PERCENT[i] +"\=" +ARR_W_PER_TO_NUM[i]
+					}
+					return arr;
+					})()</var>
 				</div>
 
 				<p class="problem">
@@ -200,8 +197,8 @@
 					Each percentage represents the investment return value for each year.</p>
 				</p>
 
-				<div class="solution" data-type="multiple">
-					<p><span class="sol" data-type="decimal"><var>SOLUTION</var></span><code>\%</code></p>
+				<div class="sol" data-type="multiple">
+					<p><span class="sol" data-type="decimal"><var>SOL</var></span><code>\%</code></p>
 				</div>
 
 				<div class="hints">
@@ -213,14 +210,14 @@
 					</div>
 					<p>To find the geometric mean of percentages, convert the percentages to 
 					their decimal multiplier equivalents.</br><code><var>HINT_1</var></code></p>
-					<p>Find the product of the decimal multiplier equivalents. <code><var>PRODUCT</var></code></p>
-					<p>After counting the number of elements in the set, you'll then find there are </br>
+					<p>Find the product of the decimal multiplier equivalents. <code><var>PROD</var></code></p>
+					<p>After counting the number of elements in the set, you will then find there are </br>
 					<code><var>ARRAY_LENGTH</var></code> elements.</p>
 					<p>Take the appropriate root to the product, based on the number of elements.<br/>
-					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PRODUCT</var>}</code></p>
+					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PROD</var>}</code></p>
 					<p>The result should be <code><var>GEO_MEAN</var></code>, or close to it.</p>
 					<p>Convert the decimal multiplier equivalent result to its according percent.</p>
-					<p>Once rounded, the rate of the investment returns are <code><var>SOLUTION</var></code></p>
+					<p>Once rounded, the rate of the investment returns are <code><var>SOL</var></code></p>
 				</div>
 			</div>
 		</div>
