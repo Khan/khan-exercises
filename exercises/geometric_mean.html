@@ -5,13 +5,13 @@
 	<script src="../khan-exercise.js"></script>
 
 	<style type="text/css">
-		#number_set {
+		#number_set_or_formula {
 			font-size: 1.6em;
 			text-align: center
 		}
 		#reminder {
 			font-size: .9em;
-			font-style: italic;
+			font-style: italic
 		}
 	</style>
 </head>
@@ -40,13 +40,13 @@
 					return prod;
 					})()</var>
 					<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var> 
-					<!-- Gets the Geomean and rounds -->
-					<var id="SOL">Math.round( Math.pow( PROD, 1/ARRAY_LENGTH )*10 )/10</var>
+					<var id="SOL_UNROUNDED">Math.pow( PROD, 1/ARRAY_LENGTH )</var>
+					<var id="SOL">Math.round(( SOL_UNROUNDED )*10 )/10</var>
 				</div>
 
 				<p class="problem">
 					<p>What is the geometric mean of the following numbers?</p>
-					<p id="number_set"><code><var>ARRAY_OF_NUMS</var></code></p>
+					<p id="number_set_or_formula"><code><var>ARRAY_OF_NUMS</var></code></p>
 					<p id="reminder">Round to the nearest tenth.</p>
 				</p>
 
@@ -55,18 +55,33 @@
 				</p>
 
 				<div class="hints">
-					<p>Remember that the geometric mean can be found with this formula: <code>\sqrt[n]{Product}</code></p>
+					<p>Central tendency of a number set can be found with the geometric mean.<br/>
 					<div>
-						<p>In the formula, <code>n</code> stands for the number of elements being multiplied.</p>
-						<p>Also in the formula, <code>Product</code> stands for the number achieved when all
-						elements are multiplied.</p>
+						<p>Geometric means, or geometric averages, can be achieved with this formula:</p>
+						<p id="number_set_or_formula"><code>\sqrt[n]{ Product\ of\ Number\ Set }</code></p>
+						<p> In the formula, <code>Product\ of\ Number\ Set</code> represents the value when all
+						numbers of the number set are multiplied by each other.</p>
 					</div>
-					<p>Find the product of all of the numbers listed. <code><var>PROD</var></code></p>
-					<p>After counting the number of elements in the set, you'll then find there are </br>
-						<code><var>ARRAY_LENGTH</var></code> elements.</p>
-					<p>Take the appropriate root to the product, based on the number of elements.<br/>
-					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PROD</var>}</code></p>
-					<p>Once rounded, the result is <code><var>SOL</var></code></p>
+					<p>Also in the formula, <code>n</code> stands for the amount of numbers in the number set; 
+					<code>n</code> can be found by basic counting.<br/>
+					<code>n</code>, when applied to this formula, changes the type of the radical.<br/><br/>
+					Understand <code>n</code>'s affect of the formula in this way:
+					if <code>n</code> becomes greater, there must be more roots of <code>Product\ of\ Number\ Set</code> taken.<br/>
+					(For example, if there are six numbers in a number set, <code>n</code> = 6. When taking the geometric mean 
+					in this example, there would have to be six roots taken of the number set's product.)</p>
+					<p>Begin finding the geometric mean through computing <code>Product\ of\ Number\ Set</code>.<br/>
+					The necessary action is multiply these numbers: <var>ARRAY_OF_NUMS</var>.</p>
+					<p>The value of <code>Product\ of\ Number\ Set</code> produced is <code><var>PROD</var></code>.</p>
+					<p>Shifting attention, deduce <code>n</code>'s value by counting the amount of 
+					numbers in the given number set.<br/>
+					There are <var>ARRAY_LENGTH</var> elements, making <code>n</code> = <var>ARRAY_LENGTH</var>.</p>
+					<p>Both necessary facets of the formula have been found. Plug in <code>n</code> and 
+					<code>Product\ of\ Number\ Set</code> using the formula above.</p>
+					<p>After inserting the values, this should be the expression:<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PROD</var>}</code>.</p>
+					<p>Now evaluate the expression.</p>
+					<p>After evaluating the expression, you should have a result similar to this: <var>SOL_UNROUNDED</var>.</p>
+					<p>Before answering in haste, recognise the additional rule for this problem; the result must be rounded to the nearest tenth.<p>
+					<p>Once rounded, the result is <code><var>SOL</var></code>.</p>
 				</div>
 			</div>
 
@@ -111,10 +126,10 @@
 
 				<p class="problem">
 					<p><var>person( 1 )</var> measures the amount of bacteria in different parts of a 
-					<var>WATER_SOURCE</var>.</br>
+					<var>WATER_SOURCE</var>.<br/>
 					What is the geometric mean of the bacteria amounts?</p>
-					<p id="number_set"><code><var>ARRAY_OF_NUMS</var></code></p>
-					<p id="reminder">Round to the nearest positive integer.</br>
+					<p id="number_set_or_formula"><code><var>ARRAY_OF_NUMS</var></code></p>
+					<p id="reminder">Round to the nearest positive integer.<br/>
 					Each number represents a different measurement of bacteria.</p>
 				</p>
 
@@ -130,7 +145,7 @@
 						elements are multiplied.</p>
 					</div>
 					<p>Find the product of all of the bacteria listed. <code><var>PROD</var></code></p>
-					<p>After counting the number of measurements in the set, you'll then find there are </br>
+					<p>After counting the number of measurements in the set, you'll then find there are <br/>
 					<code><var>ARRAY_LENGTH</var></code> elements.</p>
 					<p>Take the appropriate root to the product, based on the number of measurements.<br/>
 					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PROD</var>}</code></p>
@@ -189,9 +204,9 @@
 
 				<p class="problem">
 					<p><var>person( 1 )</var> invests money in a company; each year the investment return value changes.
-					</br>Of the years, find the overall rate of the investment returns.</p>
-					<p id="number_set"><code><var>ARRAY_W_PERCENT</var></code></p>
-					<p id="reminder">Round the percentage to the nearest integer.</br>
+					<br/>Of the years, find the overall rate of the investment returns.</p>
+					<p id="number_set_or_formula"><code><var>ARRAY_W_PERCENT</var></code></p>
+					<p id="reminder">Round the percentage to the nearest integer.<br/>
 					Each percentage represents the investment return value for each year.</p>
 				</p>
 
@@ -207,9 +222,9 @@
 						elements are multiplied.</p>
 					</div>
 					<p>To find the geometric mean of percentages, convert the percentages to 
-					their decimal multiplier equivalents.</br><code><var>HINT_1</var></code></p>
+					their decimal multiplier equivalents.<br/><code><var>HINT_1</var></code></p>
 					<p>Find the product of the decimal multiplier equivalents. <code><var>PROD</var></code></p>
-					<p>After counting the number of elements in the set, you will then find there are </br>
+					<p>After counting the number of elements in the set, you will then find there are <br/>
 					<code><var>ARRAY_LENGTH</var></code> elements.</p>
 					<p>Take the appropriate root to the product, based on the number of elements.<br/>
 					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PROD</var>}</code></p>
