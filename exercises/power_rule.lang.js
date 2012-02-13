@@ -1,5 +1,5 @@
 ({
 	"nl" : {
-		"hint1"		: "Let's find the derivative of each term and then add them together."
+		"hint1"		: "Bepaal de afgeleide van elke term en tel deze dan bij elkaar op."
 		}
 })

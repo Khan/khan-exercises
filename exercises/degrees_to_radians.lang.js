@@ -1,10 +1,9 @@
 ({
 	"nl" : {
-		"question1"	: 'Convert the angle <var>COMMON_DEGREES</var>&deg; into radians.',
-		"question2"	: 'Convert the angle <var>NUM_DEGREES</var>&deg; into radians. (Round to the nearest hundredth of a radian.)',
+		"question1"	: 'Reken de hoek <var>COMMON_DEGREES</var>&deg; om in radialen.',
+		"question2"	: 'Reken de hoek <var>NUM_DEGREES</var>&deg; om in radialen. (Rond af op honderdste radiaal nauwkeurig.)',
 
 		
-		"hint1"		: 'To convert from degrees to radians, you multiply by <code>\pi</code> and then divide by <code>180^{\circ}</code>.',
-		"hint2"		: 'To convert from degrees to radians, you multiply by <code>\pi</code> and then divide by <code>180^{\circ}</code>.'
+		"hint1"		: 'Om van graden naar radialen om te rekenen, vermenigvuldig je met <code>\\pi</code> en vervolgens deel je door <code>180^{\\circ}</code>.'
 		}
 })

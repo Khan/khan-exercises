@@ -34,99 +34,64 @@
 
 */
 
-var tokenreplace = {
+var Translate = new function(){
 
-	// Default language when untranslatable
-	lang : "en",
+	this.langdefault = "en";
+	this.lang = "nl";
+	this.table = {};
+	this.current = window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1).split('.')[0];
+	this.production = ( typeof(userExercise) !== "undefined" );
+	this.exercisefile = ( this.production ? "/khan-exercises/exercises/" : "" ) + this.current + ".lang.js";
+	this.globalfile = ( this.production ? "/khan-exercises/exercises/" : "" ) +"lang.js";
 
-	//switchLang(["en":object1, "nl":object2]) with tokenreplace.lang = "nl" returns object2
-	//(defaults to "en" or entry [0])
-	switchLang : function(langobjectmap){
-		if(langobjectmap[tokenreplace.lang]){
-			return langobjectmap[tokenreplace.lang]
-		}
-		else if(langobjectmap["en"]){
-			return langobjectmap["en"]
+	this.switchLang = function(map){
+		if(map[this.lang]){
+			return map[this.lang];
 		}
 		else{
-			return langobjectmap[0]
+			return map[this.langdefault];
 		}
-	},
-	
-	loaded : false
-
-}
-
-function initTokenreplace(){
-
-	if(tokenreplace.loaded)
-		return
-	else
-		tokenreplace.loaded = true
-
-	// Default language when translatable
-	tokenreplace.lang = "nl"
-
-	langfile = $('title').html().toLowerCase().replace(new RegExp(" ", "g"), "_")
-	globallangfile = "lang.js"
-	// If not in production
-	var production = ( typeof(userExercise) !== "undefined" )
-	if(production){
-		langfile = "/khan-exercises/exercises/"+langfile.substring(0, langfile.indexOf('|')-1)+".lang.js"
-		globallangfile = "/khan-exercises/exercises/"+globallangfile
-	}
-	else{
-		langfile = langfile+".lang.js";
 	}
 
-	// Load exercise translation file
-	$.ajax({
-		type: "GET",
-		url: langfile,
-		async:false,
-		success: function(data){
-			table = eval(data)
-			if(table[tokenreplace.lang]){
-				$('[data-tt]').each(function(){
-					token = $(this).attr('data-tt')
-					if(table[tokenreplace.lang][token]){
-						$(this).html(table[tokenreplace.lang][token])
-					}
-				})
+	this.getTranslation = function(url, name){
+		//TODO: Implement caching on client side
+		$.ajax({
+			type: "GET",
+			url: url,
+			async:false,
+			success: function(data){
+				Translate.table[name] = eval(data);
 			}
+		})
+		return this.table[name];
+	}
+
+	this.load = function(){
+
+		Khan.Util.tokenreplace = Translate;
+		Khan.Util.translate = Translate;
+
+		var globals = this.getTranslation(this.globalfile, "globals");
+		$('.exercise-title').each(function(){
+			var title = $('title').html().substring(0, $('title').html().indexOf('|')-1)
+			if(Translate.table["globals"]["titles"][Translate.lang][title]){
+				$(this).html(Translate.table["globals"]["titles"][Translate.lang][title])
+			}
+		});
+
+		var exercisedata = this.getTranslation(this.exercisefile, this.current);
+		if(exercisedata && exercisedata[this.lang]){
+			$('[data-tt]').each(function(){
+				token = $(this).attr('data-tt');
+				if(Translate.table[Translate.current][Translate.lang][token]){
+					$(this).html(Translate.table[Translate.current][Translate.lang][token]);
+				}
+			});
 		}
-	})
 
-	// Load global translation file
-	$.ajax({
-		type: "GET",
-		url: globallangfile,
-		async:false,
-		success: function(data){
-			table = eval(data)
-			if(table["titles"][tokenreplace.lang]){
-				$('.exercise-title').each(function(){
-					token = $('title').html().substring(0, $('title').html().indexOf('|')-1)
-					if(table["titles"][tokenreplace.lang][token]){
-						$(this).html(table["titles"][tokenreplace.lang][token])
-					}
-				})
-			}
-			if(table["globals"][tokenreplace.lang]){
-				$('[data-tg]').each(function(){
-					token = $(this).attr('data-tg')
-					if(table["globals"][tokenreplace.lang][token]){
-						$(this).html(table["globals"][tokenreplace.lang][token])
-					}
-				})
-			}
-		}
-	})
+	}
 
-	Khan.tokenreplace = tokenreplace
-
-
-}
+};
 
 var Khan = (function() {
 	function warn( message, showClose ) {
@@ -279,7 +244,7 @@ var Khan = (function() {
 
 	issueError = "Communication with GitHub isn't working. Please file "
 		+ "the issue manually at <a href=\""
-		+ "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
+		+ "http://github.com/PerceptumNL/khan-exercises/issues/new\">GitHub</a>. "
 		+ "Please reference exercise: " + exerciseName + ".",
 	issueSuccess = function( url, title, suggestion ) {
 		return ["Thank you for your feedback! Your issue has been created and can be ",
@@ -808,7 +773,7 @@ var Khan = (function() {
 		jQuery( "#check-answer-button" )
 			.removeAttr( "disabled" )
 			.removeClass( "buttonDisabled" )
-			.val('Check Answer');
+			.val(Translate.switchLang({'en':'Check Answer', 'nl':'Check Antwoord'}))
 	}
 
 	function disableCheckAnswer() {
@@ -1731,12 +1696,13 @@ var Khan = (function() {
 
 	function prepareSite() {
 
-	initTokenreplace();
 		// Set exercise title
 		if(jQuery(".exercise-title").text().length == 0){
 			jQuery(".exercise-title").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
 				userExercise.exercise_model.display_name : document.title );
 		}
+
+		Translate.load();
 
 		exercises = jQuery( ".exercise" ).detach();
 
@@ -2059,88 +2025,30 @@ var Khan = (function() {
 
 		});
 
+		jQuery( "[name=issue-type] ").click( function( e ) {
+			console.log(this);
+			jQuery("[data-forlabel]").hide();
+			jQuery("[data-for=" + jQuery(this).attr("id") + "]").show();
+		});
+
 		// Submit an issue.
 		jQuery( "#issue form input:submit" ).click( function( e ) {
 
 			e.preventDefault();
 
+			var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text().replace(/ \|.*/, '');
+
+			var dataObj = {
+				page: pretitle,
+				ureport: jQuery( "#issue-body" ).val(),
+				ucontact: jQuery( "#issue-email" ).val(),
+				utype: jQuery( "input[name=issue-type]:checked" ).data("text"),
+				ustamp: new Date().getTime(),
+				udate: new Date().toUTCString()
+			};
+
 			// don't do anything if the user clicked a second time quickly
 			if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
-
-			var pretitle = jQuery( ".exercise-title" ).text() || jQuery( "title" ).text().replace(/ \|.*/, ''),
-				type = jQuery( "input[name=issue-type]:checked" ).prop( "id" ),
-				title = jQuery( "#issue-title" ).val(),
-				email = jQuery( "#issue-email" ).val(),
-				path = exerciseName + ".html"
-					+ "?seed=" + problemSeed
-					+ "&problem=" + problemID,
-				pathlink = "[" + path + ( exercise.data( "name" ) != null && exercise.data( "name" ) !== exerciseName ? " (" + exercise.data( "name" ) + ")" : "" ) + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
-				historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent( JSON.stringify( userActivityLog ) ).replace( ")", "\\)" ) + ")",
-				agent = navigator.userAgent,
-				mathjaxInfo = "MathJax is " + ( typeof MathJax === "undefined" ? "NOT loaded" :
-					( "loaded, " + ( MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length ) ),
-				localStorageInfo = ( typeof localStorage === "undefined" || typeof localStorage.getItem === "undefined" ? "localStorage NOT enabled" : null ),
-				warningInfo = jQuery( "#warning-bar-content" ).text(),
-				parts = [ email ? "Reporter: " + email : null, jQuery( "#issue-body" ).val() || null, pathlink, historyLink, "    " + JSON.stringify( guessLog ), agent, localStorageInfo, mathjaxInfo, warningInfo ],
-				body = jQuery.grep( parts, function( e ) { return e != null; } ).join( "\n\n" );
-
-			var mathjaxLoadFailures = jQuery.map( MathJax.Ajax.loading, function( info, script ) {
-				if ( info.status === -1 ) {
-					return [ script + ": error" ];
-				} else {
-					return [];
-				}
-			} ).join( "\n" );
-			if ( mathjaxLoadFailures.length > 0 ) {
-				body += "\n\n" + mathjaxLoadFailures;
-			}
-
-			// flagging of browsers/os for issue labels. very primitive, but
-			// hopefully sufficient.
-			var agent_contains = function( sub ) { return agent.indexOf( sub ) !== -1; },
-				flags = {
-					ie8: agent_contains( "MSIE 8.0" ),
-					ie9: agent_contains( "Trident/5.0" ),
-					chrome: agent_contains( "Chrome/" ),
-					safari: !agent_contains( "Chrome/" ) && agent_contains( "Safari/" ),
-					firefox: agent_contains( "Firefox/" ),
-					win7: agent_contains( "Windows NT 6.1" ),
-					vista: agent_contains( "Windows NT 6.0" ),
-					xp: agent_contains( "Windows NT 5.1" ),
-					leopard: agent_contains( "OS X 10_5" ) || agent_contains( "OS X 10.5" ),
-					snowleo: agent_contains( "OS X 10_6" ) || agent_contains( "OS X 10.6" ),
-					lion: agent_contains( "OS X 10_7" ) || agent_contains( "OS X 10.7" ),
-					scratchpad: ( /scratch\s*pad/i ).test( body ),
-					ipad: agent_contains( "iPad" )
-				},
-				labels = [];
-			jQuery.each( flags, function( k, v ) {
-				if ( v ) labels.push( k );
-			});
-
-			if ( !type ) {
-				jQuery( "#issue-status" ).addClass( "error" )
-					.html( "Please specify the issue type." ).show();
-				return;
-			} else {
-				labels.push( type.slice( "issue-".length ) );
-
-				var hintOrVideoMsg = "Please click the hint button above to see our solution, or watch a video for additional help.";
-				var refreshOrBrowserMsg = "Please try a hard refresh (press Ctrl + Shift + R)" +
-						" or use Khan Academy from a different browser (such as Chrome or Firefox).";
-				var suggestion = {
-					"issue-wrong-or-unclear": hintOrVideoMsg,
-					"issue-hard": hintOrVideoMsg,
-					"issue-not-showing": refreshOrBrowserMsg,
-					"issue-other": ""
-				}[ type ];
-			}
-
-			if ( title === "" ) {
-				jQuery( "#issue-status" ).addClass( "error" )
-					.html( "Please provide a valid title for the issue." ).show();
-				return;
-			}
 
 			var formElements = jQuery( "#issue input" ).add( "#issue textarea" );
 
@@ -2150,34 +2058,23 @@ var Khan = (function() {
 			jQuery( "#issue-cancel" ).hide();
 			jQuery( "#issue-throbber" ).show();
 
-			var dataObj = {
-				title: pretitle + " - " + title,
-				body: body,
-				labels: labels
-			};
 
 			// we try to post ot github without a cross-domain request, but if we're
 			// just running the exercises locally, then we can't help it and need
 			// to fall back to jsonp.
 			jQuery.ajax({
 
-				url: ( testMode ? "http://www.khanacademy.org/" : "/" ) + "githubpost",
-				type: testMode ? "GET" : "POST",
-				data: testMode
-					? { json: JSON.stringify( dataObj ) }
-					: JSON.stringify( dataObj ),
-				contentType: testMode ? "application/x-www-form-urlencoded" : "application/json",
-				dataType: testMode ? "jsonp" : "json",
+				url: "/nl_report",
+				type: "POST",
+				data: dataObj,
 				success: function( json ) {
-
-					data = json.data || json;
 
 					// hide the form
 					jQuery( "#issue form" ).hide();
 
 					// show status message
 					jQuery( "#issue-status" ).removeClass( "error" )
-						.html( issueSuccess( data.html_url, data.title, suggestion ) )
+						.html( Translate.switchLang({"nl":"Bedankt voor je feedback!", "en":"Thanks for your feedback!"}) )
 						.show();
 
 					// reset the form elements
@@ -2194,7 +2091,10 @@ var Khan = (function() {
 
 					// show status message
 					jQuery( "#issue-status" ).addClass( "error" )
-						.html( issueError ).show();
+						.html( Translate.switchLang({
+							"nl":"Het melden is mislukt, probeer het later nog een keer.",
+							"en":"Reporting the problem failed, try again later."
+						}) ).show();
 
 					// enable the inputs
 					formElements.attr( "disabled", false );
@@ -2248,9 +2148,9 @@ var Khan = (function() {
 				var show = exampleLink.data( "show" );
 
 				if ( exampleLink.data( "show" ) ){
-					exampleLink.text( "Hide acceptable answer formats" );
+					exampleLink.text( Translate.switchLang({"nl":"Verstop geaccepteerde antwoordformaten.", "en":"Hide acceptable answer formats"}) );
 				} else {
-					exampleLink.text( "Show acceptable answer formats" );
+					exampleLink.text( Translate.switchLang({"nl":"Laat geaccepteerde antwoordformaten zien.", "en":"Show acceptable answer formats"}) );
 				}
 
 				examples.slideToggle( 190 );
@@ -2363,7 +2263,7 @@ var Khan = (function() {
 				};
 
 				jQuery.ajax({
-					url: "https://api.github.com/repos/Khan/khan-exercises/issues?labels=tester%20bugs",
+					url: "https://api.github.com/repos/PerceptumNL/khan-exercises/issues?labels=tester%20bugs",
 					dataType: "jsonp",
 					error: function( json ) {
 						err( dataDump.problems, dump, description );
@@ -2631,43 +2531,30 @@ var Khan = (function() {
 	}
 
 	function displayRelatedVideos( videos ) {
-		var relatedVideoAnchorElement = function(video, needComma) {
-			return jQuery("#related-video-link-tmpl").tmplPlugin({
-				href: Khan.relatedVideoHref(video),
-				video: video,
-				separator: needComma
-			}).data('video', video);
-		};
 
 		var displayRelatedVideoInHeader = function(i, video) {
 			var needComma = i < videos.length - 1;
-			var li = jQuery( "<li>" ).append( relatedVideoAnchorElement(video, needComma) );
+			var li = jQuery( "<li>" ).append("<a href='"+Khan.relatedVideoHref(video)+"'><img src='http://img.youtube.com/vi/"+video.youtube_id+"/hqdefault.jpg' width='' height='' alt='"+video.title+"'/></a>");
 			jQuery( ".related-content > .related-video-list" ).append( li ).show();
+			jQuery( "#related-video-list,#related-video-list>*,#related-video-list>ul>li>a" ).show();
 		};
 
 		var displayRelatedVideoInSidebar = function(i, video) {
-			var thumbnailDiv = jQuery("#thumbnail-tmpl").tmplPlugin({
+			var thumbnailDiv = jQuery("#thumbnail-tmpl").tmpl({
 				href: Khan.relatedVideoHref(video),
 				video: video
 			}).find('a.related-video').data('video', video).end();
 
-			var inlineLink = relatedVideoAnchorElement(video)
-				.addClass("related-video-inline");
+			var inlineLink = jQuery("<a href='"+Khan.relatedVideoHref(video)+"' alt='"+video.title+"'><img src='http://img.youtube.com/vi/"+video.youtube_id+"/hqdefault.jpg' width='120px' height='60px'/></a>");
 
 			var sideBarLi = jQuery( "<li>" )
 				.append( inlineLink )
 				.append( thumbnailDiv );
 
-			if ( i > 0 ) {
-				thumbnailDiv.hide();
-			}
-			else {
-				inlineLink.hide();
-			}
 			jQuery( "#related-video-list .related-video-list" ).append( sideBarLi );
 		};
 
-		if ( jQuery.fn.tmplPlugin ) {
+		if ( jQuery.tmpl ) {
 			jQuery.each(videos, displayRelatedVideoInHeader);
 			jQuery.each(videos, displayRelatedVideoInSidebar);
 			jQuery( ".related-content, .related-video-box" ).show();
@@ -2755,6 +2642,19 @@ var Khan = (function() {
 
 			// Maybe the exercise we just loaded loads some others
 			newContents.find( ".exercise[data-name]" ).each( loadExercise );
+
+			//Tokenreplace
+
+			var langfile = ( Translate.production ? "/khan-exercises/exercises/" : "" ) + name + ".lang.js";
+			var translation = Translate.getTranslation(langfile, name);
+			if(translation && translation[Translate.lang]){
+				newContents.find('[data-tt]').each(function(){
+					token = $(this).attr('data-tt');
+					if(translation[Translate.lang][token]){
+						$(this).html(translation[Translate.lang][token]);
+					}
+				})
+			}
 
 			// Save the filename and weights
 			newContents.filter( ".exercise" ).data( "name", name );
@@ -2854,8 +2754,3 @@ var Khan = (function() {
 
 // Make this publicly accessible
 var KhanUtil = Khan.Util;
-
-/*
- * Tokenreplace
- */
-var tokenreplace

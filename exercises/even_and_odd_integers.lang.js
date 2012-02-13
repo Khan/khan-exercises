@@ -1,7 +1,7 @@
 ({
 	"nl" : {
-		"question1"	: 'Is <code><var>expr( EXPR )</var></code> even or odd?',
+		"question1"	: 'Is <code><var>expr( EXPR )</var></code> even of oneven?',
 		"question2"	: 'Even',
-		"question3"	: 'Odd'
+		"question3"	: 'Oneven'
 		}
 })
