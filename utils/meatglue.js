@@ -19,11 +19,15 @@ Requires:
 		vars: [],
 
 		initialize: function(){
-			if(this.init){ this.init(); }
+			if(this.init){ 
+				try{ this.init(); }
+				catch(e){ console.error("[meatglue] error in init script (maybe you called a method that wasn't sandboxed): ", e) }
+			}
 		},
 
 		reveal: function( section ){
-			$(".meatglue[data-section=" + section + "]:hidden").show()
+			var hiddenSection = $(this.problem).find("[data-section=" + section + "]:hidden")
+			hiddenSection.show("slow");
 		}
 
 	}
@@ -36,8 +40,9 @@ Requires:
 	// TODO document propWhitelist behavior, usage...
 	var scopedEval = function( src, propWhitelist, callback){
 		var scope = {};
+		var importedProperties = ["console", "KhanUtil", "_", "jQuery", "$"]
 		for (prop in this){
-			if (prop !== "console" && prop !== "KhanUtil") {
+			if ( _(importedProperties).indexOf(prop) === -1 ) {
 				scope[prop] = undefined;
 			}
 		}
@@ -81,6 +86,9 @@ Requires:
 			}
 		}
 
+		// be able to access the problem area
+		$.extend( trapper, {problem: problem} );
+
 		var TrapperKeeper = Backbone.Model.extend(trapper);
 
 		return new TrapperKeeper;
@@ -88,6 +96,7 @@ Requires:
 	}
 
 	var VarView = Backbone.View.extend({
+		// VarViews are rendered once and when the model is altered they are rendered again
 
 		initialize: function(){
 			if(this.model.update){
@@ -175,11 +184,14 @@ Requires:
 
 	var DroppableVar = VarView.extend({
 		initialize: function(){
+			// TODO don't call update here in render, but here?
+			// return VarView.prototype.initialize.call(this)
 		},
 		render: function(){
 			var name = this.$el.data("name");
 			this.$el.text(name);
 			var that = this;
+
 			var dropAction = function(e,u){
 				// dropping a var onto the droppable causes the target to 
 				// inherit the value of the droppable 
@@ -190,11 +202,17 @@ Requires:
 				that.model.set(targetName, droppedVal);
 				if(that.model.update) { that.model.update(); }
 			};
+
 			this.$el.droppable({drop: dropAction});
 		}
 	})
 
 	var SelectableVar = VarView.extend({
+		// SelectableVars allow you to create a series of checkbox controls and then let you pick n
+		// of those values. Use case:
+		// pick the values you'd need to solve this equation
+		// pick out all variables which are prime
+		// it will save, on each click, the value
 		events: {
 			"change": "render",
 		},
@@ -214,21 +232,23 @@ Requires:
 				form.append(sp)
 			})
 			this.$el.html( form )
-			console.log("init", opts, name)
 		},
+
 		doublecheck: function( evt ){
 			var selected = this.$el.find("form input:checkbox:checked").length;
-			console.log(evt, "wuh woh", selected)
 			if( this.$el.data("max") ){
 				return ( selected <= this.$el.data("max") )
 			}
 		},
+
 		render: function(){
 			var name = this.$el.data("name");
 			var opts = this.$el.data("options").split(",");
 			var namey = function( elt ){ return $(elt).val(); };
 			var checked = _.map(this.$el.find("form input:checkbox:checked"), namey);
-			console.log(name, checked)
+			this.model.set(name, checked)
+			if(this.model.update) { this.model.update(); }
+			return this;
 		}
 	})
 

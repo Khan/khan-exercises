@@ -4,6 +4,43 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Triangle Shadows</title>
 	<script src="../khan-exercise.js"></script>
+	<style type="text/css" media="screen">
+		#sidesAvailable span{
+			margin-right:1em;
+		}
+		/*[data-section]{ display:none; }*/
+		
+		.invalid input, .invalid textarea { background-color: #f0dddd; }
+
+		[data-type=editable], [data-type=slidable]{
+		  border-bottom: 1px dotted #369;
+		}
+		[data-type=editable] input{
+		  width:75px;
+		  border-width:0;
+		  border-bottom:1px solid #369;
+		}
+		.sliding, [data-type=slidable]{
+		  cursor: EW-resize;
+		}
+		[data-type=draggable], [data-type=target]{
+		  background-color:rgb(207, 232, 236);
+		  color:rgb(93, 146, 163);
+		  padding: 3px 6px;
+		  font-style:normal;
+		  font-weight:bold;
+		  cursor:move;
+		  -webkit-border-radius: 4px;
+		  -webkit-box-shadow:-2px 2px 1px #aaa;
+		}
+		[data-type=target]{
+		  color:transparent;
+		  border:2px dotted rgb(93, 146, 163);
+		  background-color: rgb(235,245,255);
+		  display:inline-block;
+		  -webkit-box-shadow:0px 0px 1px #aaa;
+		}
+	</style>
 </head>
 <body>
 	<div class="exercise">
@@ -22,7 +59,14 @@
 		defaults = {foo : 23};
 		update = function(){
 			this.set("bar", this.get("foo") * 4)
-			console.log(this.get("pickThree"))
+			var sides = this.get("pickThree")
+			if(sides.length === 3){
+				this.reveal("ratio")
+				for(var i=0; i<sides.length; i+=1){
+					var elt = $(this.problem).find("[data-section='ratio'] span:eq("+i+")")
+					console.log(elt)
+				}
+			}
 		}
 		init = function(){
 			// TODO please save these on actual init, not here
@@ -37,7 +81,13 @@
 				<p>Alex is standing so that <var>his(1)</var> shadow, <code>d</code> feet long, is perfectly matched to the top of the tree's shadow (which is <code>d + e</code> feet long).</p>
 				<p>Alex is lucky and has a friend measure all the distances listed (and two others, <code>ab</code> and <code>de</code>).</p>
 				<p>Which three of the following variables are needed to find x?</p>
-				<p><span data-name="pickThree" data-type="selectable" data-options="a,b,c,d,e,ab,de" data-max="3"></span>
+				<p><span id="sidesAvailable" data-name="pickThree" data-type="selectable" data-options="a,b,c,d,e,ab,de" data-max="3"></span>
+				<div data-section="ratio">
+					<p>Construct a ratio to find x</p>
+					<span data-type="draggable" data-name="a"></span>
+					<span data-type="draggable" data-name="b"></span>
+					<span data-type="draggable" data-name="c"></span>
+				</div>
 			</div>
 			<div class="solution" data-forms="integer">
 				<var>x</var>
