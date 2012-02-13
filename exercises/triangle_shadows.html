@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic word-problems backbone meatglue">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Triangle Shadows</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="d">randRange( 1, 10 )</var>
+		<var id="c">randRange( 1, 10 )</var>
+		<var id="e">randRange( 2, 4 )</var>
+		<var id="a">Math.sqrt( d*d + c*c )</var>
+		<var id="de">d + e</var>		
+		<var id="x">( de * c ) / d</var>
+		<var id="b">Math.sqrt( e*e + (x-c)*(x-c)) </var>
+		<var id="ab">a + b</var>
+	</div>
+
+	<script type="text/meatglue">
+		defaults = {foo : 23};
+		update = function(){
+			this.set("bar", this.get("foo") * 4)
+			console.log(this.get("pickThree"))
+		}
+		init = function(){
+			// TODO please save these on actual init, not here
+			this.set("exercise_vars", KhanUtil.tmpl.getVARS() );
+		}
+	</script>
+
+	<div class="problems ">
+		<div class="treeee">
+			<div class="question meatglue">
+				<p><img src="treeshadow.jpg"></p>
+				<p>Alex is standing so that <var>his(1)</var> shadow, <code>d</code> feet long, is perfectly matched to the top of the tree's shadow (which is <code>d + e</code> feet long).</p>
+				<p>Alex is lucky and has a friend measure all the distances listed (and two others, <code>ab</code> and <code>de</code>).</p>
+				<p>Which three of the following variables are needed to find x?</p>
+				<p><span data-name="pickThree" data-type="selectable" data-options="a,b,c,d,e,ab,de" data-max="3"></span>
+			</div>
+			<div class="solution" data-forms="integer">
+				<var>x</var>
+			</div>
+			<div class="hints">
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
