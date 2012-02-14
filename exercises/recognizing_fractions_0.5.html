@@ -35,11 +35,12 @@
 			</div>
 
 			<div id="rectangle-area">
-			<div class="question">
-				<p>What fraction of the bar is shaded red?</p>
-				<div class="graphie">
-					init({ range: [ [0, 1], [0, 1] ], scale: [250, 25] });
-					rectchart( [NUM_1, DEN_1-NUM_1], ["#e00", "#999"] );
+				<div class="question">
+					<p>What fraction of the bar is shaded red?</p>
+					<div class="graphie">
+						init({ range: [ [0, 1], [0, 1] ], scale: [250, 25] });
+						rectchart( [NUM_1, DEN_1-NUM_1], ["#e00", "#999"] );
+					</div>
 				</div>
 				<p class="solution" data-simplify="optional"><code><var>NUM_1 / DEN_1</var></code></p>
 
@@ -50,7 +51,6 @@
 						<p>There are <var>DEN_1</var> blocks total.</p>
 						<p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#666}{\text{<var>DEN_1</var>}}}</code>.</p>
 				</div>
-			</div>
 			</div>
 		</div>
 	</div>
