@@ -60,11 +60,11 @@
 		update = function(){
 			this.set("bar", this.get("foo") * 4)
 			var sides = this.get("pickThree")
-			if(sides.length === 3){
+			if(sides.length <= 3){
 				this.reveal("ratio")
+				this.createVars(sides, "draggable", "#draggablehome")
 			}
 			console.log(sides)
-			this.createVars(sides, "draggable", "#draggablehome")
 		}
 		init = function(){
 			// TODO please save these on actual init, not here
@@ -83,6 +83,8 @@
 				<div data-section="ratio">
 					<p>Construct a ratio to find x</p>
 					<div id="draggablehome"></div>
+					<div id="targets">
+					</div>
 				</div>
 			</div>
 			<div class="solution" data-forms="integer">

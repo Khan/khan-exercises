@@ -247,6 +247,7 @@ Requires:
 		doublecheck: function( evt ){
 			var selected = this.$el.find("form input:checkbox:checked").length;
 			if( this.$el.data("max") ){
+				// TODO this is still allowing the max+1th item to be selected
 				return ( selected <= this.$el.data("max") )
 			}
 		},
