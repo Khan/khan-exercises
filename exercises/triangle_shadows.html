@@ -62,11 +62,9 @@
 			var sides = this.get("pickThree")
 			if(sides.length === 3){
 				this.reveal("ratio")
-				for(var i=0; i<sides.length; i+=1){
-					var elt = $(this.problem).find("[data-section='ratio'] span:eq("+i+")")
-					console.log(elt)
-				}
 			}
+			console.log(sides)
+			this.createVars(sides, "draggable", "#draggablehome")
 		}
 		init = function(){
 			// TODO please save these on actual init, not here
@@ -74,19 +72,17 @@
 		}
 	</script>
 
-	<div class="problems ">
-		<div class="treeee">
+	<div class="problems">
+		<div>
 			<div class="question meatglue">
-				<p><img src="treeshadow.jpg"></p>
+				<p><img src="../../khan-exercises/exercises/treeshadow.jpg"></p>
 				<p>Alex is standing so that <var>his(1)</var> shadow, <code>d</code> feet long, is perfectly matched to the top of the tree's shadow (which is <code>d + e</code> feet long).</p>
 				<p>Alex is lucky and has a friend measure all the distances listed (and two others, <code>ab</code> and <code>de</code>).</p>
 				<p>Which three of the following variables are needed to find x?</p>
 				<p><span id="sidesAvailable" data-name="pickThree" data-type="selectable" data-options="a,b,c,d,e,ab,de" data-max="3"></span>
 				<div data-section="ratio">
 					<p>Construct a ratio to find x</p>
-					<span data-type="draggable" data-name="a"></span>
-					<span data-type="draggable" data-name="b"></span>
-					<span data-type="draggable" data-name="c"></span>
+					<div id="draggablehome"></div>
 				</div>
 			</div>
 			<div class="solution" data-forms="integer">
@@ -96,6 +92,7 @@
 			</div>
 
 		</div>
+	</div>
 	</div>
 </body>
 </html>

@@ -28,6 +28,16 @@ Requires:
 		reveal: function( section ){
 			var hiddenSection = $(this.problem).find("[data-section=" + section + "]:hidden")
 			hiddenSection.show("slow");
+		},
+
+		createVars: function( varNames, varType, where){
+			$(where).empty()
+			for (var i=0, len = varNames.length; i<len; i+=1){
+				var elt = jQuery("<span>")
+					.attr({"data-type": varType, "data-name":varNames[i]})
+					.appendTo(where)
+				bindMeat(elt, null, this);
+			}
 		}
 
 	}
