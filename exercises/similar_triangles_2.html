@@ -34,6 +34,7 @@
 			
 			return [sides[0] * scale, sides[1] * scale, sides[2] * scale];
 		}
+		
 	</script>
 </head>
 <body>
@@ -53,6 +54,13 @@
 			<var id="DEF_ANGLES"> ANSWER === "DEF" || ANSWER === "Both" ? ABC_ANGLES : triangleAngles(DEF_SIDES)</var>		
 			<var id="GHI_SIDES">ANSWER === "GHI" || ANSWER === "Both" ? scaleSides(ABC_SIDES, SCALE_GHI) : randomSides(SCALE_DEF)</var>
 			<var id="GHI_ANGLES"> ANSWER === "GHI" || ANSWER === "Both" ? ABC_ANGLES : triangleAngles(GHI_SIDES)</var>
+			
+			<var id="DEF_COMP_1">"\\neq"</var>			
+			<var id="DEF_COMP_1">ABC_SIDES[2] / DEF_SIDES[2] === ABC_SIDES[0] / DEF_SIDES[0] ? "=" : "\\neq"</var>
+			<var id="DEF_COMP_2">ABC_SIDES[0] / DEF_SIDES[0] === ABC_SIDES[1] / DEF_SIDES[1] ? "=" : "\\neq"</var>
+			
+			<var id="GHI_COMP_1">ABC_SIDES[2] / GHI_SIDES[2] === ABC_SIDES[0] / GHI_SIDES[0] ? "=" : "\\neq"</var>
+			<var id="GHI_COMP_2">ABC_SIDES[0] / GHI_SIDES[0] === ABC_SIDES[1] / GHI_SIDES[1] ? "=" : "\\neq"</var>
 			
 			<var id="TR">
 				function(){
@@ -138,9 +146,9 @@
 				</div>	
 				<div>
 					<p>Substitute in the proper values for each side.</p>
-					<p><code>\dfrac{<var>ABC_SIDES[2]</var>}{\color{blue}{<var>DEF_SIDES[2]</var>}} = \dfrac{<var>ABC_SIDES[0]</var>}{\color{blue}{<var>DEF_SIDES[0]</var>}} = \dfrac{<var>ABC_SIDES[1]</var>}{\color{blue}{<var>DEF_SIDES[1]</var>}}</code></p>					
+					<p><code>\dfrac{<var>ABC_SIDES[2]</var>}{\color{blue}{<var>DEF_SIDES[2]</var>}} <var>DEF_COMP_1</var> \dfrac{<var>ABC_SIDES[0]</var>}{\color{blue}{<var>DEF_SIDES[0]</var>}} <var>DEF_COMP_2</var> \dfrac{<var>ABC_SIDES[1]</var>}{\color{blue}{<var>DEF_SIDES[1]</var>}}</code></p>					
 				</div>
-				<p>Since the proportions <span data-if="ANSWER === 'DEF' || ANSWER === 'Both'">hold, <code>ABC</code> is similar to <code>DEF</code></span><span data-else>are not all equal, <code>ABC</code> is not similar to <code>DEF</code></span>.</p>
+				<p>Since <span data-if="ANSWER === 'GHI' || ANSWER === 'None'">not</span> all the proportions are equal, <code>ABC</code> is <span data-if="ANSWER === 'GHI' || ANSWER === 'None'">not</span> similar to <code>DEF</code></span>.</p>
 				
 				<p>Next, let's determine whether <code>ABC</code> and <code>GHI</code> are similar.</p>			
 				<div>
@@ -153,9 +161,9 @@
 				</div>	
 				<div>
 					<p>Substitute in the proper values for each side.</p>
-					<p><code>\dfrac{<var>ABC_SIDES[2]</var>}{\color{red}{<var>GHI_SIDES[2]</var>}} = \dfrac{<var>ABC_SIDES[0]</var>}{\color{red}{<var>GHI_SIDES[0]</var>}} = \dfrac{<var>ABC_SIDES[1]</var>}{\color{red}{<var>GHI_SIDES[1]</var>}}</code></p>					
+					<p><code>\dfrac{<var>ABC_SIDES[2]</var>}{\color{red}{<var>GHI_SIDES[2]</var>}} <var>GHI_COMP_1</var> \dfrac{<var>ABC_SIDES[0]</var>}{\color{red}{<var>GHI_SIDES[0]</var>}} <var>GHI_COMP_2</var> \dfrac{<var>ABC_SIDES[1]</var>}{\color{red}{<var>GHI_SIDES[1]</var>}}</code></p>					
 				</div>
-				<p>Since the proportions <span data-if="ANSWER === 'GHI' || ANSWER === 'Both'">hold, <code>ABC</code> is similar to <code>GHI</code></span><span data-else>are not all equal, <code>ABC</code> is not similar to <code>GHI</code></span>.</p>
+				<p>Since <span data-if="ANSWER === 'DEF' || ANSWER === 'None'">not</span> all the proportions are equal, <code>ABC</code> is <span data-if="ANSWER === 'DEF' || ANSWER === 'None'">not</span> similar to <code>GHI</code></span>.</p>
 				
 				<div class="final_answer">
 					<p data-if="ANSWER === 'DEF'"><code>DEF</code> is similar to <code>ABC</code></p>
