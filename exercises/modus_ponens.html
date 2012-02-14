@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html data-require="math">
+  <head>
+      <title>Modus ponens</title>
+      <script src="../khan-exercise.js"></script>
+  </head>
+  <body>
+      <div class="exercise">
+          <div class="vars">
+              <div data-ensure="S1 !== S2">
+                  <var id="S1">["A","B","P","Q","Y","Z"][randRange(0,2)]</var>
+                  <var id="S2">["A","B","P","Q","Y","Z"][randRange(0,2)]</var>
+              </div>
+              <var id="MAJOR"><code><var>S1</var> \to <var>S2</var></code></var>
+              <var id="MINOR"><code><var>S1</var></code></var>
+          </div>
+
+          <div class="problems">
+              <div id="problem-type-or-description">
+                  <p class="problem">
+                      <ol>
+                          <li><var>MAJOR</var></li>
+                          <li><var>MINOR</var></li>
+                      </ol>
+                  </p>
+                  <p class="question"><code>\therefore</code> ?</p>
+                  <p class="solution" data-type="text"><var>S2</var></p>
+              </div>
+          </div>
+
+          <div class="hints">
+              <ol>
+                  <li>If <em>I am happy</em>, then <em>I will eat
+                      pie</em>.</li>
+                  <li><em>I am happy</em>.</li>
+                  <li>Therefore, <em>I will eat pie</em>.</li>
+              </ol>
+          </div>
+      </div>
+  </body>
+</html>
