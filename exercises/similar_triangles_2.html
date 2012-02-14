@@ -49,6 +49,12 @@
 			<var id="ABC_ANGLES"> triangleAngles( ABC_SIDES )</var>
 			
 			<var id="ANSWERS">[ "DEF", "GHI", "Both", "None" ]</var>
+			<var id="ANSWER_DISPLAY">{
+				"DEF": "&lt;code&gt;DEF&lt;/code&gt;",
+				"GHI": "&lt;code&gt;GHI&lt;/code&gt;",
+				"Both": "Both",
+				"None": "None"
+			}</var>
 			<var id="ANSWER">ANSWERS[randRange(0, 3)]</var>
 			
 			<var id="SCALE_DEF">randRange(1, 3)/2</var>
@@ -127,10 +133,10 @@
 					TR_B.drawLabels();
 				</div>
 			</div>
-			<div class="solution"><var>ANSWER</var></div>
+			<div class="solution"><var>ANSWER_DISPLAY[ ANSWER ]</var></div>
 			<ul class="choices" data-category="true">
-				<li>DEF</li>
-				<li>GHI</li>
+				<li><code>DEF</code></li>
+				<li><code>GHI</code></li>
 				<li>Both</li>
 				<li>None</li>
 			</ul>
