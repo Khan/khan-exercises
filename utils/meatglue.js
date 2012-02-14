@@ -38,6 +38,12 @@ Requires:
 					.appendTo(where)
 				bindMeat(elt, null, this);
 			}
+		},
+
+		inheritExerciseVars: function(){
+			// absorb the exercise's variables
+			var ev = KhanUtil.tmpl.getVARS();
+			for (k in ev){ this.set(k, ev[k]); }
 		}
 
 	}
@@ -84,9 +90,14 @@ Requires:
 		// evaluate all the trapper scripts in a protected context
 		var defaultSrc = problem.find("script[type='text/meatglue']");
 
+		var whitelisted = _.map(problem.find("[data-onchange]"), function( elt ){
+			return $(elt).data("onchange");
+		})
+		var whitelist = _.union( ["defaults", "update", "init"], whitelisted );
+
 		if (defaultSrc){
 			try {
-				var scopey = scopedEval(defaultSrc.text(), ["defaults", "update", "init"]);
+				var scopey = scopedEval(defaultSrc.text(), whitelist);
 				if(scopey.defaults){
 					$.extend(trapper, scopey)
 				}
@@ -106,8 +117,8 @@ Requires:
 	}
 
 	var VarView = Backbone.View.extend({
-		// VarViews are rendered once and when the model is altered they are rendered again
 
+		// VarViews are rendered once and when the model is altered they are rendered again
 		initialize: function(){
 			if(this.model.update){
 				this.model.bind("change", this.render, this)
@@ -117,7 +128,7 @@ Requires:
 		render: function(){
 			var name = this.$el.data("name");
 			var value = this.model.get(name);
-			this.$el.text(value)
+			this.$el.text(value || "")
 			return this;
 		}
 	});
@@ -203,17 +214,25 @@ Requires:
 			var that = this;
 
 			var dropAction = function(e,u){
-				// dropping a var onto the droppable causes the target to 
-				// inherit the value of the droppable 
+				// dropping a var onto the droppable causes the target to
+				// inherit the value of the droppable
 				// TODO remove redundant elements (i.e. dropping a second elements should clear out the first)
 				var droppedVar = $(u.draggable).data("name");
 				var droppedVal = that.model.get(droppedVar);
 				var targetName = $(this).data("name");
-				that.model.set(targetName, droppedVal);
+				that.model.set(targetName, droppedVar);
+				console.log("hi!", targetName, droppedVar, droppedVal)
 				if(that.model.update) { that.model.update(); }
 			};
 
-			this.$el.droppable({drop: dropAction});
+			var outAction = function(e,u){
+				var targetName = $(this).data("name");
+				that.model.set(targetName, undefined);
+				console.log(that.model)
+				if(that.model.update) { that.model.update(); }
+			}
+
+			this.$el.droppable({drop: dropAction, out: outAction});
 		}
 	})
 
@@ -239,16 +258,24 @@ Requires:
 				var button = $("<input />", {type:'checkbox', id:pfx, name:elt, value:elt});
 				button.on("click", validator)
 				sp.append(label).append(button);
-				form.append(sp)
+				form.append(sp);
 			})
+
+			// attach a change handler to the selectable var via the data-onchange
+			var changeHandler = this.$el.data("onchange")
+			if( changeHandler && this.model[changeHandler] ){
+				// make sure the handler runs in the model context
+				var onchange = _.bind( this.model[changeHandler], this.model);
+				this.$el.on( "postchange", onchange);
+			}
+
 			this.$el.html( form )
 		},
 
 		doublecheck: function( evt ){
-			var selected = this.$el.find("form input:checkbox:checked").length;
+			var selected = this.$el.find("form input:checkbox:checked");
 			if( this.$el.data("max") ){
-				// TODO this is still allowing the max+1th item to be selected
-				return ( selected <= this.$el.data("max") )
+				return ( selected.length <= this.$el.data("max") )
 			}
 		},
 
@@ -258,6 +285,7 @@ Requires:
 			var namey = function( elt ){ return $(elt).val(); };
 			var checked = _.map(this.$el.find("form input:checkbox:checked"), namey);
 			this.model.set(name, checked)
+			this.$el.trigger( "postchange" ) // fire the
 			if(this.model.update) { this.model.update(); }
 			return this;
 		}
@@ -338,6 +366,7 @@ Requires:
 	jQuery.fn[ "meatglueLoad" ] = function(prob, info){
 		// map across all vars and assign them views
 		var binder = init(prob);
+		window.tk = binder; // TODO remove this later
 		var bindIt = function(e, i, m) { bindMeat(e, i, binder); }
 		_( $( "span[data-name]", $( ".meatglue" ) ) ).each( bindIt );
 	}

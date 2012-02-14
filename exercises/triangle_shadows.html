@@ -23,7 +23,7 @@
 		.sliding, [data-type=slidable]{
 		  cursor: EW-resize;
 		}
-		[data-type=draggable], [data-type=target]{
+		[data-type=draggable], [data-type=droppable]{
 		  background-color:rgb(207, 232, 236);
 		  color:rgb(93, 146, 163);
 		  padding: 3px 6px;
@@ -33,7 +33,7 @@
 		  -webkit-border-radius: 4px;
 		  -webkit-box-shadow:-2px 2px 1px #aaa;
 		}
-		[data-type=target]{
+		[data-type=droppable]{
 		  color:transparent;
 		  border:2px dotted rgb(93, 146, 163);
 		  background-color: rgb(235,245,255);
@@ -57,19 +57,29 @@
 
 	<script type="text/meatglue">
 		defaults = {foo : 23};
+
+		init = function(){
+			// TODO please save these on actual init, not here
+			// this.inheritExerciseVars();
+			this.set("exercise_vars", KhanUtil.tmpl.getVARS() );
+		}
+
 		update = function(){
 			this.set("bar", this.get("foo") * 4)
 			var sides = this.get("pickThree")
 			if(sides.length <= 3){
-				this.reveal("ratio")
-				this.createVars(sides, "draggable", "#draggablehome")
+				this.reveal("ratio");
 			}
-			console.log(sides)
+			$("#targets [data-type='droppable']")
 		}
-		init = function(){
-			// TODO please save these on actual init, not here
-			this.set("exercise_vars", KhanUtil.tmpl.getVARS() );
+
+		createButtons = function(){
+			var sides = this.get("pickThree");
+			if( sides.length <=3 ){
+				this.createVars(sides, "draggable", "#draggablehome");
+			}
 		}
+
 	</script>
 
 	<div class="problems">
@@ -77,13 +87,20 @@
 			<div class="question meatglue">
 				<p><img src="../../khan-exercises/exercises/treeshadow.jpg"></p>
 				<p>Alex is standing so that <var>his(1)</var> shadow, <code>d</code> feet long, is perfectly matched to the top of the tree's shadow (which is <code>d + e</code> feet long).</p>
-				<p>Alex is lucky and has a friend measure all the distances listed (and two others, <code>ab</code> and <code>de</code>).</p>
+				<p>Alex is lucky and has a friend measure all the distances listed (and two others, <code>ab = a + b</code> and <code>de = d + e</code>).</p>
 				<p>Which three of the following variables are needed to find x?</p>
-				<p><span id="sidesAvailable" data-name="pickThree" data-type="selectable" data-options="a,b,c,d,e,ab,de" data-max="3"></span>
+				<p><span id="sidesAvailable" data-name="pickThree" data-onchange="createButtons" data-type="selectable" data-options="a,b,c,d,e,ab,de" data-max="3"></span>
 				<div data-section="ratio">
-					<p>Construct a ratio to find x</p>
+					<p>Construct a ratio to find <span data-name="x"data-type="draggable"></span></p>
 					<div id="draggablehome"></div>
 					<div id="targets">
+						<table>
+							<tr><td><span data-name="lnum" data-type="droppable"></span></td><td></td><td><span data-name="rnum" data-type="droppable"></span></td></tr>
+							<tr><td><hr/></td><td>=</td><td><hr/></td></tr>
+							<tr><td><span data-name="ldenom" data-type="droppable"></span></td><td></td><td><span data-name="rdenom" data-type="droppable"></span></td></tr>
+						</table>
+
+						<span data-name="lnum"></span>
 					</div>
 				</div>
 			</div>
