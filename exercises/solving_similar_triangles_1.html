@@ -63,8 +63,10 @@
 			<var id="POINT_LABELS">randRangeUnique(0, 4, 2)</var>
 			<var id="A_NAME, A_POINTS, B_NAME, B_POINTS">pickLabels(POINT_LABELS)</var>
 			
-			<var id="SCALE_A">randRange(1, 5)/2</var>
-			<var id="SCALE_B">randRange(1, 5)/2</var>
+			<div data-ensure="SCALE_A !== SCALE_B">
+				<var id="SCALE_A">randRange(1, 5)/2</var>
+				<var id="SCALE_B">randRange(1, 5)/2</var>
+			</div>	
 			
 			<var id="BASE_SIDES">randomSides()</var>
 			
