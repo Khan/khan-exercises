@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic word-problems backbone meatglue">
+<html data-require="math graphie graphie-helpers-arithmetic word-problems meatglue">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Triangle Shadows</title>
@@ -40,6 +40,13 @@
 		  cursor:move;
 		  -webkit-border-radius: 4px;
 		  -webkit-box-shadow:-2px 2px 1px #aaa;
+		  -moz-border-radius: 4px;
+		  -moz-box-shadow:-2px 2px 1px #aaa;
+		  -o-border-radius: 4px;
+		  -o-box-shadow:-2px 2px 1px #aaa;
+		  border-radius: 4px;
+		  box-shadow:-2px 2px 1px #aaa;
+		  margin-right:3px;
 		}
 		[data-type=droppable]{
 		  color:transparent;
@@ -47,6 +54,9 @@
 		  background-color: rgb(235,245,255);
 		  display:inline-block;
 		  -webkit-box-shadow:0px 0px 1px #aaa;
+		  -moz-box-shadow:0px 0px 1px #aaa;
+		  -o-box-shadow:0px 0px 1px #aaa;
+		  box-shadow:0px 0px 1px #aaa;
 		}
 	</style>
 </head>
@@ -73,7 +83,7 @@
 		}
 
 		update = function(){
-			console.log("hi from update!", +(new Date) )
+			// console.log("hi from update!", +(new Date) )
 			var that = this;
 			var ev = this.get("exercise_vars");
 			this.set("bar", this.get("foo") * 4);
