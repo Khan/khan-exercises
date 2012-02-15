@@ -12,6 +12,10 @@
 		
 		.invalid input, .invalid textarea { background-color: #f0dddd; }
 
+		.lfrac, .rfrac, .mfrac{ display:table-cell; vertical-align:middle; padding:5px; }
+		.lfrac span, .rfrac span{display:block; margin:6px; }
+		.lfrac hr, .rfrac hr { border-top: 2px solid #666; margin:3px; height:0; width:90%; }
+
 		[data-type=editable], [data-type=slidable]{
 		  border-bottom: 1px dotted #369;
 		}
@@ -138,34 +142,22 @@
 				<div data-section="ratio">
 					
 					<div class="col1 forty-sixty">
-						<p>Construct a ratio to find <span data-name="x"data-type="draggable"></span></p>
-						<div id="draggablehome"></div>
+						<p>Drag the <code>x</code> and the other variables you selected to the right to set up the ratio you think is right.</p>
+						<p><span data-name="x"data-type="draggable"></span><span id="draggablehome"></span>
 					</div>
 					<div class="col2 forty-sixty">
 						<div id="targets">
-							<!-- <div class="lfrac">
+							<div class="lfrac">
+								<span data-name="lnum" data-type="droppable" data-opposite="ldenom"></span>
+								<hr>
+								<span data-name="ldenom" data-type="droppable" data-opposite="lnum"></span>
 							</div>
-							<div class="mid">
-							</div>
+							<div class="mfrac"><code>=</code></div>
 							<div class="rfrac">
-							</div> -->
-							<table>
-								<tr>
-									<td><span data-name="lnum" data-type="droppable" data-opposite="ldenom"></span></td>
-									<td>&nbsp;</td>
-									<td><span data-name="rnum" data-type="droppable" data-opposite="rdenom"></span></td>
-								</tr>
-								<tr>
-									<td><hr/></td>
-									<td>=</td>
-									<td><hr/></td>
-								</tr>
-								<tr>
-									<td><span data-name="ldenom" data-type="droppable" data-opposite="lnum"></span></td>
-									<td>&nbsp;</td>
-									<td><span data-name="rdenom" data-type="droppable" data-opposite="rnum"></span></td>
-								</tr>
-							</table>
+								<span data-name="rnum" data-type="droppable" data-opposite="rdenom"></span>
+								<hr>
+								<span data-name="rdenom" data-type="droppable" data-opposite="rnum"></span>
+							</div>
 						</div>
 					</div>
 					
