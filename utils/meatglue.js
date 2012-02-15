@@ -19,9 +19,13 @@ Requires:
 		vars: [],
 
 		initialize: function(){
-			if(this.init){ 
+			if(this.init){
 				try{ this.init(); }
-				catch(e){ console.error("[meatglue] error in init script (maybe you called a method that wasn't sandboxed): ", e) }
+				catch(e){
+					if (window.console){
+						console.log(this.init)
+						console.error("[meatglue] error in init script (maybe you called a method that wasn't sandboxed): ", e) }
+					}
 			}
 		},
 
@@ -90,10 +94,12 @@ Requires:
 		// evaluate all the trapper scripts in a protected context
 		var defaultSrc = problem.find("script[type='text/meatglue']");
 
-		var whitelisted = _.map(problem.find("[data-onchange]"), function( elt ){
+		var whitelisted = _.map( problem.find("[data-onchange]"), function( elt ){
 			return $(elt).data("onchange");
 		})
 		var whitelist = _.union( ["defaults", "update", "init"], whitelisted );
+
+		console.log(whitelist)
 
 		if (defaultSrc){
 			try {
@@ -103,7 +109,7 @@ Requires:
 				}
 			}
 			catch(e) {
-				console.error("omg wtf problem with trapper script:", e);
+				if(window.console) {console.error("omg wtf problem with trapper script:", e);}
 			}
 		}
 
@@ -120,7 +126,7 @@ Requires:
 
 		// VarViews are rendered once and when the model is altered they are rendered again
 		initialize: function(){
-			if(this.model.update){
+			if( _.isFunction(this.model.update) ){
 				this.model.bind("change", this.render, this)
 			}
 		},
@@ -164,7 +170,7 @@ Requires:
 				tosave[name] = val;
 
 				this.model.set(tosave);
-				if(this.model.update){ this.model.update(); }
+				if( _.isFunction(this.model.update)){ this.model.update(); }
 				this.render()
 			}
 		},
@@ -248,6 +254,7 @@ Requires:
 			"change": "render",
 		},
 		initialize: function(){
+			// console.log("binding validator")
 			var validator = _.bind( this.doublecheck, this );
 			var name = this.$el.data("name")
 			var opts = this.$el.data("options").split(",")
@@ -265,8 +272,9 @@ Requires:
 
 			// attach a change handler to the selectable var via the data-onchange
 			var changeHandler = this.$el.data("onchange")
-			if( changeHandler && this.model[changeHandler] ){
+			if( changeHandler && _.isFunction(this.model[changeHandler]) ){
 				// make sure the handler runs in the model context
+				// console.log("binding change handler")
 				var onchange = _.bind( this.model[changeHandler], this.model);
 				this.$el.on( "postchange", onchange);
 			}
@@ -274,7 +282,7 @@ Requires:
 			this.$el.html( form )
 		},
 
-		doublecheck: function( evt ){
+		doublecheck: function dc( evt ){
 			var selected = this.$el.find("form input:checkbox:checked");
 			if( this.$el.data("max") ){
 				return ( selected.length <= this.$el.data("max") )
@@ -288,7 +296,7 @@ Requires:
 			var checked = _.map(this.$el.find("form input:checkbox:checked"), namey);
 			this.model.set(name, checked)
 			this.$el.trigger( "postchange" ) // fire the
-			if( this.model.update ) { this.model.update(); }
+			if( _.isFunction(this.model.update) ) { this.model.update(); }
 			return this;
 		}
 	})
