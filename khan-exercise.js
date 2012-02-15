@@ -921,9 +921,9 @@ var Khan = (function() {
 		problem.runModules( problem, "Load" );
 		problem.runModules( problem );
 
-		var _getVARS = _getVARS ? _getVARS : KhanUtil.tmpl.getVARS;
-		KhanUtil.tmpl.getVARS = function(){};
-		// remove access to VARS
+		// var _getVARS = _getVARS ? _getVARS : KhanUtil.tmpl.getVARS;
+		// KhanUtil.tmpl.getVARS = function(){};
+		// // remove access to VARS
 
 		// Store the solution to the problem
 		var solution = problem.find(".solution"),
