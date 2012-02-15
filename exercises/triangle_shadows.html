@@ -8,7 +8,7 @@
 		#sidesAvailable span{
 			margin-right:1em;
 		}
-		/*[data-section]{ display:none; }*/
+		[data-section]{ display:none; }
 		
 		.invalid input, .invalid textarea { background-color: #f0dddd; }
 
@@ -16,6 +16,10 @@
 		.lfrac span, .rfrac span{display:block; margin:6px; }
 		.lfrac hr, .rfrac hr { border-top: 2px solid #666; margin:3px; height:0; width:90%; }
 
+		.fake_row span, .fake_header span{
+			width:30%;
+		}
+		/*meatglue styles*/
 		[data-type=editable], [data-type=slidable]{
 		  border-bottom: 1px dotted #369;
 		}
@@ -64,17 +68,31 @@
 
 		init = function(){
 			// TODO please save these on actual init, not here
-			// this.inheritExerciseVars();
 			this.set("exercise_vars", KhanUtil.tmpl.getVARS() );
+			this.reveal("intro")
 		}
 
 		update = function(){
+			console.log("hi from update!", +(new Date) )
 			var that = this;
 			var ev = this.get("exercise_vars");
 			this.set("bar", this.get("foo") * 4);
 			var sides = this.get("pickThree");
-			if(sides.length <= 3){
+			if(sides.length >= 2){
 				this.reveal("ratio");
+			}
+
+			if(sides.length === 3){
+				// clear out the table and populate it
+				$(".tablevals .fake_row").remove();
+				for(var i=0; i<sides.length; i+=1){
+					var varName = sides[i];
+					var varVal = KhanUtil.roundTo(3, ev[varName]);
+					var row = $("<div>",{class:"fake_row reading"})
+						.append($("<span>").text(varName))
+						.append($("<span>").text(varVal))
+						.appendTo($(".tablevals"))
+				}
 			}
 			var walker = function(elt){ 
 				var v = $(elt).data("name")
@@ -87,11 +105,23 @@
 			var lr = KhanUtil.roundTo(4, ev[this.get("lnum")] / ev[this.get("ldenom")])
 			var rr = KhanUtil.roundTo(4, ev[this.get("rnum")] / ev[this.get("rdenom")])
 
+			// check if four items were picked (probably not necessary since this is a weird ui)
 			if(_.uniq(dv).length === 4){
 				// check if ratio on left matches ratio on right
 				this.set( "ratio_eq", (lr === rr) )
-				console.log(lr, rr)
+				var ratdiff = _([lr, rr]).map(function(elt){ return _.isNaN(elt) ? 0 : elt; });
+				ratdiff = ratdiff[0] - ratdiff[1];
+				if (ratdiff < 0){
+					$(".mfrac").text("<")
+				}else if (ratdiff > 0){
+					$(".mfrac").text(">")
+				}else{
+					$(".mfrac").text("=")
+					var correct = true;
+				}
+
 			}
+
 			if(this.get("ratio_eq")){
 				var pos = fraction.filter( function(elt){ 
 					var n = $(elt).data("name");
@@ -99,26 +129,22 @@
 				})
 
 				var opposite = ev[ this.get($(pos[0]).data("opposite")) ]
-				console.log("opposite:", opposite)
 
 				var inNumerator = this.get("lnum") === "x" || this.get("rnum") === "x";
 				var x = KhanUtil.roundTo(3, ev["x"]);
 				if( inNumerator ){
 					// multiply by opposite
-					console.log("num:", KhanUtil.roundTo(3, lr * opposite), KhanUtil.roundTo(3, rr * opposite), x)
 					var correct = KhanUtil.roundTo(3, lr * opposite) === x || 
 						KhanUtil.roundTo(3, rr * opposite) === x
 				}else{
 					// divide by opposite
-					console.log("denom:", KhanUtil.roundTo(3, opposite / lr ), KhanUtil.roundTo(3, opposite / rr), x)
 					var correct = KhanUtil.roundTo(3, opposite / lr) === x || 
 						KhanUtil.roundTo(3, opposite / rr) === x
 				}
-				
-				if( correct ){
-					
-				}
-				
+			}
+			if( correct ){
+				$(".mfrac").text("=");
+				this.reveal("fill-in");
 			}
 		}
 
@@ -135,10 +161,20 @@
 		<div>
 			<div class="question meatglue">
 				<p><img src="../../khan-exercises/exercises/treeshadow.jpg"></p>
-				<p>Alex is standing so that <var>his(1)</var> shadow, <code>d</code> feet long, is perfectly matched to the top of the tree's shadow (which is <code>d + e</code> feet long).</p>
-				<p>Alex is lucky and has a friend measure all the distances listed (and two others, <code>ab = a + b</code> and <code>de = d + e</code>).</p>
-				<p>Which three of the following variables are needed to find x?</p>
-				<p><span id="sidesAvailable" data-name="pickThree" data-onchange="createButtons" data-type="selectable" data-options="a,b,c,d,e,ab,de" data-max="3"></span>
+
+				<div data-section="intro">
+					<div class="col1 forty-sixty">
+						<p>Alex is standing so that <var>his(1)</var> shadow, <code>d</code> feet long, is perfectly matched to the top of the tree's shadow (which is <code>d + e</code> feet long).</p>
+						<p>Alex is lucky and has a friend measure all the distances listed (and two others, <code>ab = a + b</code> and <code>de = d + e</code>).</p>
+					</div>
+					<div class="col2 forty-sixty">
+						<p>Which three of the following variables are needed to find x?</p>
+						<p><span id="sidesAvailable" data-name="pickThree" data-onchange="createButtons" data-type="selectable" data-options="a,b,c,d,e,ab,de" data-max="3"></span>
+					</div>
+				</div>
+
+				<div style="clear:both;"></div>
+
 				<div data-section="ratio">
 					
 					<div class="col1 forty-sixty">
@@ -152,7 +188,7 @@
 								<hr>
 								<span data-name="ldenom" data-type="droppable" data-opposite="lnum"></span>
 							</div>
-							<div class="mfrac"><code>=</code></div>
+							<div class="mfrac">?=</div>
 							<div class="rfrac">
 								<span data-name="rnum" data-type="droppable" data-opposite="rdenom"></span>
 								<hr>
@@ -162,10 +198,24 @@
 					</div>
 					
 				</div>
+
+				<div style="clear:both;"></div>
+				<div data-section="fill-in">
+					<div class="col1 forty-sixty">
+						Here's a table with the values, in feet, for each distance you picked:
+						<div class="tablevals">
+							<div class="fake_header reading">
+								<span>Variable</span>
+								<span>Value</span>
+							</div>
+						</div>
+					</div>
+					<div class="col2 forty-sixty">
+						Using these values, and the ratio you set up above, what is x?
+					</div>
+				</div>
 			</div>
-			<div class="solution" data-forms="integer">
-				<var>x</var>
-			</div>
+			<div class="solution" data-type="rational"> <var>( de * c ) / d</var> </div>
 			<div class="hints">
 			</div>
 

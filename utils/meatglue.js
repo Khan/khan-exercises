@@ -221,15 +221,17 @@ Requires:
 				var droppedVal = that.model.get(droppedVar);
 				var targetName = $(this).data("name");
 				that.model.set(targetName, droppedVar);
-				console.log("hi!", targetName, droppedVar, droppedVal)
 				if(that.model.update) { that.model.update(); }
 			};
 
 			var outAction = function(e,u){
 				var targetName = $(this).data("name");
-				that.model.set(targetName, undefined);
-				console.log(that.model)
-				if(that.model.update) { that.model.update(); }
+				var droppableName = $(u.draggable).data("name");
+				// ignore other droppables leaving this target
+				if( droppableName === that.model.get(targetName) ){
+					that.model.set(targetName, undefined);
+					if(that.model.update) { that.model.update(); }
+				}
 			}
 
 			this.$el.droppable({drop: dropAction, out: outAction});
@@ -286,7 +288,7 @@ Requires:
 			var checked = _.map(this.$el.find("form input:checkbox:checked"), namey);
 			this.model.set(name, checked)
 			this.$el.trigger( "postchange" ) // fire the
-			if(this.model.update) { this.model.update(); }
+			if( this.model.update ) { this.model.update(); }
 			return this;
 		}
 	})
