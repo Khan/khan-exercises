@@ -65,12 +65,57 @@
 		}
 
 		update = function(){
-			this.set("bar", this.get("foo") * 4)
-			var sides = this.get("pickThree")
+			var that = this;
+			var ev = this.get("exercise_vars");
+			this.set("bar", this.get("foo") * 4);
+			var sides = this.get("pickThree");
 			if(sides.length <= 3){
 				this.reveal("ratio");
 			}
-			$("#targets [data-type='droppable']")
+			var walker = function(elt){ 
+				var v = $(elt).data("name")
+				return that.get( v )
+			}
+			var fraction = _($("#targets [data-type='droppable']"));
+			var dv = fraction.map(walker)
+
+			// dealing with fractions
+			var lr = KhanUtil.roundTo(4, ev[this.get("lnum")] / ev[this.get("ldenom")])
+			var rr = KhanUtil.roundTo(4, ev[this.get("rnum")] / ev[this.get("rdenom")])
+
+			if(_.uniq(dv).length === 4){
+				// check if ratio on left matches ratio on right
+				this.set( "ratio_eq", (lr === rr) )
+				console.log(lr, rr)
+			}
+			if(this.get("ratio_eq")){
+				var pos = fraction.filter( function(elt){ 
+					var n = $(elt).data("name");
+					return that.get(n) === "x"
+				})
+
+				var opposite = ev[ this.get($(pos[0]).data("opposite")) ]
+				console.log("opposite:", opposite)
+
+				var inNumerator = this.get("lnum") === "x" || this.get("rnum") === "x";
+				var x = KhanUtil.roundTo(3, ev["x"]);
+				if( inNumerator ){
+					// multiply by opposite
+					console.log("num:", KhanUtil.roundTo(3, lr * opposite), KhanUtil.roundTo(3, rr * opposite), x)
+					var correct = KhanUtil.roundTo(3, lr * opposite) === x || 
+						KhanUtil.roundTo(3, rr * opposite) === x
+				}else{
+					// divide by opposite
+					console.log("denom:", KhanUtil.roundTo(3, opposite / lr ), KhanUtil.roundTo(3, opposite / rr), x)
+					var correct = KhanUtil.roundTo(3, opposite / lr) === x || 
+						KhanUtil.roundTo(3, opposite / rr) === x
+				}
+				
+				if( correct ){
+					
+				}
+				
+			}
 		}
 
 		createButtons = function(){
@@ -91,17 +136,39 @@
 				<p>Which three of the following variables are needed to find x?</p>
 				<p><span id="sidesAvailable" data-name="pickThree" data-onchange="createButtons" data-type="selectable" data-options="a,b,c,d,e,ab,de" data-max="3"></span>
 				<div data-section="ratio">
-					<p>Construct a ratio to find <span data-name="x"data-type="draggable"></span></p>
-					<div id="draggablehome"></div>
-					<div id="targets">
-						<table>
-							<tr><td><span data-name="lnum" data-type="droppable"></span></td><td></td><td><span data-name="rnum" data-type="droppable"></span></td></tr>
-							<tr><td><hr/></td><td>=</td><td><hr/></td></tr>
-							<tr><td><span data-name="ldenom" data-type="droppable"></span></td><td></td><td><span data-name="rdenom" data-type="droppable"></span></td></tr>
-						</table>
-
-						<span data-name="lnum"></span>
+					
+					<div class="col1 forty-sixty">
+						<p>Construct a ratio to find <span data-name="x"data-type="draggable"></span></p>
+						<div id="draggablehome"></div>
 					</div>
+					<div class="col2 forty-sixty">
+						<div id="targets">
+							<!-- <div class="lfrac">
+							</div>
+							<div class="mid">
+							</div>
+							<div class="rfrac">
+							</div> -->
+							<table>
+								<tr>
+									<td><span data-name="lnum" data-type="droppable" data-opposite="ldenom"></span></td>
+									<td>&nbsp;</td>
+									<td><span data-name="rnum" data-type="droppable" data-opposite="rdenom"></span></td>
+								</tr>
+								<tr>
+									<td><hr/></td>
+									<td>=</td>
+									<td><hr/></td>
+								</tr>
+								<tr>
+									<td><span data-name="ldenom" data-type="droppable" data-opposite="lnum"></span></td>
+									<td>&nbsp;</td>
+									<td><span data-name="rdenom" data-type="droppable" data-opposite="rnum"></span></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					
 				</div>
 			</div>
 			<div class="solution" data-forms="integer">
