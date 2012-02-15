@@ -2004,6 +2004,7 @@ var Khan = (function() {
 			if ( report && form ) {
 				jQuery( "#issue" ).hide();
 			} else if ( !report || !form ) {
+				jQuery( "#issue-email" ).val(userEmail);
 				jQuery( "#issue-status" ).removeClass( "error" ).html( issueIntro );
 				jQuery( "#issue, #issue form" ).show();
 				jQuery( "html, body" ).animate({
@@ -2148,7 +2149,7 @@ var Khan = (function() {
 				var show = exampleLink.data( "show" );
 
 				if ( exampleLink.data( "show" ) ){
-					exampleLink.text( Translate.switchLang({"nl":"Verstop geaccepteerde antwoordformaten.", "en":"Hide acceptable answer formats"}) );
+					exampleLink.text( Translate.switchLang({"nl":"Verberg geaccepteerde antwoordformaten.", "en":"Hide acceptable answer formats"}) );
 				} else {
 					exampleLink.text( Translate.switchLang({"nl":"Laat geaccepteerde antwoordformaten zien.", "en":"Show acceptable answer formats"}) );
 				}

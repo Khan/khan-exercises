@@ -115,17 +115,17 @@
 							<br/><label style="display:none;font-style:italic;" data-forlabel data-for="issue-not-showing">Als het kan beschrijf dan welke stappen je moet ondernemen om de website te laten vastlopen.</label>
 						</li>
 						<li>
-							<input type="radio" name="issue-type" id="issue-other" data-text="Anders, namelijk..">
-							<label for="issue-other">Anders, namelijk.. (hieronder beschrijven)</label>
-						</li>
-						<li>
 							<input type="radio" name="issue-type" id="issue-translate" data-text="Ik heb een vertalingsfout of spelfout gevonden.">
 							<label for="issue-translate">Ik heb een vertalingsfout of spelfout gevonden.</label>
 							<br/><label style="display:none;font-style:italic;" data-forlabel data-for="issue-translate">Vergeet niet de foute vertaling in je omschrijving te zetten.</label>
 						</li>
+						<li>
+							<input type="radio" name="issue-type" id="issue-other" data-text="Anders, namelijk..">
+							<label for="issue-other">Anders, namelijk.. (hieronder beschrijven)</label>
+						</li>
 					</ul>
 				</fieldset>
-				<label for="issue-email">Email (optional):<br/><input type="text" name="issue-email" id="issue-email" /></label><br/>
+				<div style="display:none;"><label for="issue-email">Email (optional):<br/><input type="text" name="issue-email" id="issue-email" /></label><br/></div>
 				<label for="issue-body">Omschrijving van het probleem:<br/><textarea name="issue-body" id="issue-body"></textarea></label><br/>
 				<input type="submit" class="simple-button action-gradient orange" value="Submit Issue">
 				<a href="/#" id="issue-cancel">Annuleren</a>
