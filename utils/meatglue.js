@@ -53,34 +53,20 @@ Requires:
 	// TODO document propWhitelist behavior, usage...
 	var scopedEval = function( src, propWhitelist, callback){
 		var scope = {};
-		var importedProperties = ["console", "KhanUtil", "_", "jQuery", "$"]
-
-		// capture whitelisted properties in scope if defined
-		if(propWhitelist !== undefined){
-			for (var i=0; i<propWhitelist.length; i+=1){ scope[propWhitelist[i]] = true; }
-		}
 
 		// eval in scope
 		(new Function( "with(this) { "+ src +"};" )).call(scope);
 
-		if(propWhitelist !== undefined){
-			// cleanse any global vars made in the scope not in the whitelist
-			var callbackScope = {};
-			for(var i=0; i<propWhitelist.length; i+=1){
-				callbackScope[propWhitelist[i]] = scope[propWhitelist[i]];
-			}
-		}
-		else{
-			var callbackScope = $.extend({}, scope)
-		}
+		var callbackScope = $.extend({}, scope)
 		// either return the restricted scope the code ran in or it fed through a callback
 		return (callback !== undefined) ? callback(callbackScope) : callbackScope;
 	}
 
 	// set up the default environment on startup and return the created model
-	var init = function(problem){
+	var initialize = function(problem){
 		// evaluate all the trapper scripts in a protected context
-		var defaultSrc = problem.find("script[type='text/meatglue']");
+		// var defaultSrc = problem.find("script[type='text/meatglue']");
+		var defaultSrc = document.getElementById("huh");
 
 		var whitelisted = _.map( problem.find("[data-onchange]"), function( elt ){
 			return $(elt).data("onchange");
@@ -88,7 +74,7 @@ Requires:
 		var whitelist = _.union( ["defaults", "update", "init"], whitelisted );
 
 		if (defaultSrc){
-				var scopey = scopedEval(defaultSrc.text(), whitelist);
+				var scopey = scopedEval(defaultSrc.text, whitelist);
 				if(scopey.defaults){ $.extend(trapper, scopey) }
 		}
 
@@ -233,7 +219,6 @@ Requires:
 			"change": "render",
 		},
 		initialize: function(){
-			// console.log("binding validator")
 			var validator = _.bind( this.doublecheck, this );
 			var name = this.$el.data("name")
 			var opts = this.$el.data("options").split(",")
@@ -253,7 +238,6 @@ Requires:
 			var changeHandler = this.$el.data("onchange")
 			if( changeHandler && _.isFunction( this.model[changeHandler] ) ){
 				// make sure the handler runs in the model context
-				// console.log("binding change handler")
 				var onchange = _.bind( this.model[changeHandler], this.model);
 				this.$el.on( "postchange", onchange);
 			}
@@ -354,7 +338,7 @@ Requires:
 
 	jQuery.fn[ "meatglueLoad" ] = function(prob, info){
 		// map across all vars and assign them views
-		var binder = init(prob);
+		var binder = initialize(prob);
 		window.tk = binder; // TODO remove this later
 		var bindIt = function(e, i, m) { bindMeat(e, i, binder); }
 		_( $( "span[data-name]", $( ".meatglue" ) ) ).each( bindIt );
