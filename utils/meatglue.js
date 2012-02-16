@@ -19,14 +19,7 @@ Requires:
 		vars: [],
 
 		initialize: function(){
-			if(this.init){
-				try{ this.init(); }
-				catch(e){
-					if (window.console){
-						console.log(this.init)
-						console.error("[meatglue] error in init script (maybe you called a method that wasn't sandboxed): ", e) }
-					}
-			}
+			if( _.isFunction(this.init) ){ this.init(); }
 		},
 
 		reveal: function( section ){
@@ -61,11 +54,6 @@ Requires:
 	var scopedEval = function( src, propWhitelist, callback){
 		var scope = {};
 		var importedProperties = ["console", "KhanUtil", "_", "jQuery", "$"]
-		for (prop in this){
-			if ( _(importedProperties).indexOf(prop) === -1 ) {
-				scope[prop] = undefined;
-			}
-		}
 
 		// capture whitelisted properties in scope if defined
 		if(propWhitelist !== undefined){
@@ -99,18 +87,9 @@ Requires:
 		})
 		var whitelist = _.union( ["defaults", "update", "init"], whitelisted );
 
-		console.log(whitelist)
-
 		if (defaultSrc){
-			try {
 				var scopey = scopedEval(defaultSrc.text(), whitelist);
-				if(scopey.defaults){
-					$.extend(trapper, scopey)
-				}
-			}
-			catch(e) {
-				if(window.console) {console.error("omg wtf problem with trapper script:", e);}
-			}
+				if(scopey.defaults){ $.extend(trapper, scopey) }
 		}
 
 		// be able to access the problem area
@@ -272,7 +251,7 @@ Requires:
 
 			// attach a change handler to the selectable var via the data-onchange
 			var changeHandler = this.$el.data("onchange")
-			if( changeHandler && _.isFunction(this.model[changeHandler]) ){
+			if( changeHandler && _.isFunction( this.model[changeHandler] ) ){
 				// make sure the handler runs in the model context
 				// console.log("binding change handler")
 				var onchange = _.bind( this.model[changeHandler], this.model);
