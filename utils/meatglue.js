@@ -63,8 +63,7 @@ Requires:
 	// set up the default environment on startup and return the created model
 	var initialize = function(problem){
 		// evaluate all the trapper scripts in a protected context
-		// var defaultSrc = problem.find("script[type='text/meatglue']");
-		var defaultSrc = document.getElementById("huh");
+		var defaultSrc = problem.find("script[type='text/meatglue']");
 
 		if (defaultSrc){
 				var scopey = scopedEval(defaultSrc.text);
