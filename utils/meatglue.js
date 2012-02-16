@@ -16,8 +16,6 @@ Requires:
 
 	var trapper = {
 
-		vars: [],
-
 		initialize: function(){
 			if( _.isFunction(this.init) ){ this.init(); }
 		},
@@ -51,7 +49,7 @@ Requires:
 	// http://www.yuiblog.com/blog/2006/04/11/with-statement-considered-harmful/
 	// evaluates some text in the context of an empty scope var
 	// TODO document propWhitelist behavior, usage...
-	var scopedEval = function( src, propWhitelist, callback){
+	var scopedEval = function( src, callback){
 		var scope = {};
 
 		// eval in scope
@@ -68,22 +66,17 @@ Requires:
 		// var defaultSrc = problem.find("script[type='text/meatglue']");
 		var defaultSrc = document.getElementById("huh");
 
-		var whitelisted = _.map( problem.find("[data-onchange]"), function( elt ){
-			return $(elt).data("onchange");
-		})
-		var whitelist = _.union( ["defaults", "update", "init"], whitelisted );
-
 		if (defaultSrc){
-				var scopey = scopedEval(defaultSrc.text, whitelist);
-				if(scopey.defaults){ $.extend(trapper, scopey) }
+				var scopey = scopedEval(defaultSrc.text);
+				$.extend(trapper, scopey)
 		}
 
 		// be able to access the problem area
 		$.extend( trapper, {problem: problem} );
 
-		var TrapperKeeper = Backbone.Model.extend(trapper);
+		var MeatBinder = Backbone.Model.extend(trapper);
 
-		return new TrapperKeeper;
+		return new MeatBinder;
 
 	}
 
