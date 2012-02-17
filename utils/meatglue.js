@@ -76,9 +76,6 @@ Requires:
 		})
 		var whitelist = _.union( ["defaults", "update", "init"], whitelisted );
 
-		if(window.console) { console.log(defaultSrc.html()); }
-
-
 		if (defaultSrc){
 			try { var scope = scopedEval(defaultSrc.html(), whitelist); }
 			catch(e){ if(window.console){ console.log("yarrr....", e); } }
@@ -88,8 +85,6 @@ Requires:
 
 		// be able to access the problem area
 		$.extend( trapper, {problem: problem} );
-
-		if(window.console) { console.log(trapper); }
 
 		var MeatBinder = Backbone.Model.extend(trapper);
 		return new MeatBinder;
