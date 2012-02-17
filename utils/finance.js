@@ -25,9 +25,7 @@ jQuery.extend(KhanUtil, {
 	
 	// For the present value multiple choice exercise, return the correct choice wording
 	presentValueCorrect: function( singlePayment, twoPayments ) {
-		//return (singlePayment > twoPayments) ? "Single Payment Now" : "Two Separate Payments";
-		if (singlePayment > twoPayments) return "Single Payment Now";
-		else return "Two Separate Payments";
+		return (singlePayment > twoPayments) ? "Single Payment Now" : "Two Separate Payments";
 	},
 	
 });
