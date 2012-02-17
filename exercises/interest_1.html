@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
+<html data-require="math math-format word-problems finance">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Interest 1</title>
@@ -11,13 +11,13 @@
 			<var id="PRINCIPAL">randRange( 1, 10 ) * 1000</var>
 			<var id="INTEREST_RATE">randRange( 1, 10 )</var>
 			<var id="PERIOD">1</var>
-			<var id="FUTURE_VALUE">Math.round((PRINCIPAL * Math.pow(1 + INTEREST_RATE/100, PERIOD)) * 100)/100</var>
+			<var id="FUTURE_VALUE">futureValueSingleAmount(PRINCIPAL, INTEREST_RATE, PERIOD)</var>
 		</div>
 
 		<div class="problems">
 			<div>
 				<div class="question">
-					<p><var>person(1)</var> borrows $<var>PRINCIPAL</var> today and must repay $<var>FUTURE_VALUE</var> exactly 1 year from now. What is the rate of interest <var>person(1)</var> will have to pay on the loan?</p>
+					<p><var>person(1)</var> borrows <code>$<var>commafy(PRINCIPAL)</var></code> today and must repay <code>$<var>commafy(FUTURE_VALUE)</var></code> exactly 1 year from now. What is the rate of interest <var>person(1)</var> will have to pay on the loan?</p>
 				</div>
 
 				<p class="solution" data-forms="percent"><var>INTEREST_RATE</var></p>
@@ -31,7 +31,7 @@
 					</div>
 					<div>
 						Substituting our values: <br>
-						<code>r = (<var>FUTURE_VALUE</var> - <var>PRINCIPAL</var>) / <var>PRINCIPAL</var> * 100\%</code>
+						<code>r = ((<var>FUTURE_VALUE</var> - <var>PRINCIPAL</var>) / <var>PRINCIPAL</var>) * 100\%</code>
 					</div>
 					<div>
 						<code>r = <var>INTEREST_RATE</var>\%</code>
@@ -41,7 +41,7 @@
 			
 			<div>
 				<div class="question">
-					<p><var>person(1)</var> would like to put aside some money in a bank to buy a new car 1 year from now. The car costs $<var>FUTURE_VALUE</var>. If the bank will pay <var>person(1)</var> an interest rate of <var>INTEREST_RATE</var>% per year on his money, how much money does <var>he(1)</var> need to put down today in order to have enough to purchase the car in 1 year?</p>
+					<p><var>person(1)</var> would like to put aside some money in a bank to buy a new car 1 year from now. The car costs <code>$<var>commafy(FUTURE_VALUE)</var></code>. If the bank will pay <var>person(1)</var> an interest rate of <code><var>INTEREST_RATE</var>%</code> per year on his money, how much money does <var>he(1)</var> need to put down today in order to have enough to purchase the car in 1 year?</p>
 				</div>
 
 				<p class="solution" data-forms="dollar"><var>PRINCIPAL</var></p>
@@ -60,7 +60,7 @@
 						<code><var>FUTURE_VALUE</var> = x + x * <var> INTEREST_RATE/100 </var></code>
 					</div>
 					<div>
-						<code>x = <var>PRINCIPAL</var></code>
+						<code>x = $<var>commafy(PRINCIPAL)</var></code>
 					</div>
 				</div>
 			</div>
