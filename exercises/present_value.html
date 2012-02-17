@@ -12,6 +12,12 @@
 			<var id="INTEREST_RATE">randRange( 1, 10 )</var>
 			<var id="PERIOD">randRange( 1, 15 )</var>
 			<var id="PRESENT_VALUE">presentValueSingleAmount(FUTURE_VALUE, INTEREST_RATE, PERIOD) </var>
+			
+			<var id="PAYMENT1">randRange(1, 10) * 1000</var>
+			<var id="PAYMENT2">randRange(1, 10) * 1000</var>
+			<var id="SECOND_PAYMENT_PERIOD">randRange(5, 10)</var>
+			<var id="PRESENT_VALUE_TWO_PAYMENTS">PAYMENT1 + presentValueSingleAmount(PAYMENT2, INTEREST_RATE, SECOND_PAYMENT_PERIOD)</var>
+			<var id="FULL_PAYMENT">roundTo(-3, PRESENT_VALUE_TWO_PAYMENTS)</var>
 		</div>
 
 		<div class="problems">
@@ -34,6 +40,34 @@
 					</div>
 					<div>
 						<code>PresentValue = $<var>commafy(PRESENT_VALUE)</var></code>
+					</div>
+				</div>
+			</div>
+			
+			<div>
+				<div class="question">
+					<p><var>person(1)</var> has just signed a deal to publish a book <var>he(1)</var> is writing. <var>His(1)</var> publisher has given <var>him(1)</var> a choice of receiving a single sum of <code>$<var>commafy(FULL_PAYMENT)</var></code> right now, or take <code>$<var>commafy(PAYMENT1)</var></code> now and another <code>$<var>commafy(PAYMENT2)</var></code> in <code><var>SECOND_PAYMENT_PERIOD</var></code> year<var>plural(SECOND_PAYMENT_PERIOD)</var>. If <var>person(1)</var> can get a <code><var>INTEREST_RATE</var>\%</code> interest rate on <var>his(1)</var> investments, which option should <var>he(1)</var> take? </p>
+				</div>
+				
+				<div class="solution"><var>presentValueCorrect(FULL_PAYMENT, PRESENT_VALUE_TWO_PAYMENTS)</var></div>
+				<ul class="choices" data-category="true">
+					<li>Single Payment Now</li>
+					<li>Two Separate Payments</li>
+				</ul>
+				
+				<div class="hints">
+					<p>To make a choice, <var>person(1)</var> needs to know what the value of the two options are at the same point in time. <var>He(1)</var> knows that the present value of the single payment is <code>$<var>commafy(FULL_PAYMENT)</var></code>, so he needs to determine what the present value of the two payment option is.</p>
+					<p>The present value of the second payment is the value of the first instalment, which <var>he(1)</var> receives right away, plus the <em>discounted</em> value of the second instalment.</p>
+					<div>To figure out the discounted value of the second instalment, we can use the formula: <br>
+						<code>Present Value = Future Value * \frac{1}{(1 + r)^n}</code>
+						<br><br>
+					</div>
+					<div>Substituting our values, we get: <br>
+						<code>Present Value = <var>PAYMENT2</var> * \frac{1}{(1 + <var>INTEREST_RATE</var>) ^<var>SECOND_PAYMENT_PERIOD</var>} = <var>presentValueSingleAmount(PAYMENT2, INTEREST_RATE, SECOND_PAYMENT_PERIOD)</var></code>
+						<br><br>
+					</div>
+					<div> As a final step, to get the present value of the two instalment option, we simply add the value of the first instalment to the present value of the second: <br>
+						<code><var>PAYMENT1</var> + <var>presentValueSingleAmount(PAYMENT2, INTEREST_RATE, SECOND_PAYMENT_PERIOD)</var> = $<var>commafy(PRESENT_VALUE_TWO_PAYMENTS)</var></code>
 					</div>
 				</div>
 			</div>

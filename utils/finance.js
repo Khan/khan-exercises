@@ -23,4 +23,11 @@ jQuery.extend(KhanUtil, {
 		return KhanUtil.roundToCurrency(futureValue * (1/(Math.pow(1 + interest/100, numPeriods))));
 	},
 	
+	// For the present value multiple choice exercise, return the correct choice wording
+	presentValueCorrect: function( singlePayment, twoPayments ) {
+		//return (singlePayment > twoPayments) ? "Single Payment Now" : "Two Separate Payments";
+		if (singlePayment > twoPayments) return "Single Payment Now";
+		else return "Two Separate Payments";
+	},
+	
 });
