@@ -62,18 +62,7 @@
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars">
-		<var id="d">randRange( 1, 10 )</var>
-		<var id="c">randRange( 1, 10 )</var>
-		<var id="e">randRange( 2, 4 )</var>
-		<var id="a">Math.sqrt( d*d + c*c )</var>
-		<var id="de">d + e</var>		
-		<var id="x">( de * c ) / d</var>
-		<var id="b">Math.sqrt( e*e + (x-c)*(x-c)) </var>
-		<var id="ab">a + b</var>
-	</div>
-
-	<script type="text/meatglue" id="huh">
+	<script type="text/meatglue">
 		defaults = {foo : 23};
 
 		init = function(){
@@ -165,6 +154,17 @@
 		}
 
 	</script>
+	
+	<div class="vars">
+		<var id="d">randRange( 1, 10 )</var>
+		<var id="c">randRange( 1, 10 )</var>
+		<var id="e">randRange( 2, 4 )</var>
+		<var id="a">Math.sqrt( d*d + c*c )</var>
+		<var id="de">d + e</var>		
+		<var id="x">( de * c ) / d</var>
+		<var id="b">Math.sqrt( e*e + (x-c)*(x-c)) </var>
+		<var id="ab">a + b</var>
+	</div>
 
 	<div class="problems">
 		<div>

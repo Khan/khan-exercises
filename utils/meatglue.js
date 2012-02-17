@@ -2,7 +2,6 @@
 
 TODO show-guess support from khan-exercises needs to be added in
 TODO problems that use the same data but over multiple questions
-TODO use _.has when checking for properties to retain in scoped eval since console is not being saved
 
 Requires:
 	jQuery 1.7+
@@ -49,8 +48,15 @@ Requires:
 	// http://www.yuiblog.com/blog/2006/04/11/with-statement-considered-harmful/
 	// evaluates some text in the context of an empty scope var
 	// TODO document propWhitelist behavior, usage...
-	var scopedEval = function( src, callback){
+	var scopedEval = function( src, propWhitelist, callback){
 		var scope = {};
+
+		// if you normally eval some code in a scope as is done below variables created
+		// are not kept at the end of execution. This prepopulates them so that they can
+		// live outside of their eval'd scope.
+		if( _.isArray( propWhitelist ) ){
+			for (var i=0; i<propWhitelist.length; i+=1){ scope[propWhitelist[i]] = true; }
+		}
 
 		// eval in scope
 		(new Function( "with(this) { "+ src +"};" )).call(scope);
@@ -65,16 +71,27 @@ Requires:
 		// evaluate all the trapper scripts in a protected context
 		var defaultSrc = problem.find("script[type='text/meatglue']");
 
+		var whitelisted = _.map( problem.find("[data-onchange]"), function( elt ){
+			return $(elt).data("onchange");
+		})
+		var whitelist = _.union( ["defaults", "update", "init"], whitelisted );
+
+		if(window.console) { console.log(defaultSrc.html()); }
+
+
 		if (defaultSrc){
-				var scopey = scopedEval(defaultSrc.text);
-				$.extend(trapper, scopey)
+			try { var scope = scopedEval(defaultSrc.html(), whitelist); }
+			catch(e){ if(window.console){ console.log("yarrr....", e); } }
+			var scope = scopedEval(defaultSrc.html(), whitelist);
+			$.extend(trapper, scope)
 		}
 
 		// be able to access the problem area
 		$.extend( trapper, {problem: problem} );
 
-		var MeatBinder = Backbone.Model.extend(trapper);
+		if(window.console) { console.log(trapper); }
 
+		var MeatBinder = Backbone.Model.extend(trapper);
 		return new MeatBinder;
 
 	}
