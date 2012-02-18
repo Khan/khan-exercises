@@ -32,6 +32,21 @@
 					return [ obscured, obscuredSpot, LIABILITIES_LABELS[obscuredSpot] ,answer ];
 				})()
 			</var>
+			
+			<!-- Returns the two tables for the two different question types -->
+			<var id="TABLE_1, TABLE_2">
+				(function() {
+					var table1 = [];
+					var table2 = [];
+					
+					for (var i = 0; i &lt; ASSETS.length; i++){
+						table1[i] = [ASSETS_LABELS[i], ASSETS[i], LIABILITIES_LABELS[i], LIABILITIES[i]];
+						table2[i] = [ASSETS_LABELS[i], ASSETS[i], LIABILITIES_LABELS[i], LIABILITIES_OBSCURED[i]];
+					}
+					
+					return [table1, table2];
+				})()
+			</var>
 		</div>
 		
 		<div class="problems">
@@ -44,29 +59,11 @@
 						<span>Liabilities</span>
 						<span>$</span>
 					</div>
-					<div class="fake_row reading">
-						<span>Cash</span>
-						<span><var>ASSETS[0]</var></span>
-						<span>Payables</span>
-						<span><var>LIABILITIES[0]</var></span>
-					</div>
-					<div class="fake_row reading">
-						<span>Receivables</span>
-						<span><var>ASSETS[1]</var></span>
-						<span>Taxes</span>
-						<span><var>LIABILITIES[1]</var></span>
-					</div>
-					<div class="fake_row reading">
-						<span>Inventory</span>
-						<span><var>ASSETS[2]</var></span>
-						<span>Interest</span>
-						<span><var>LIABILITIES[2]</var></span>
-					</div>
-					<div class="fake_row reading">
-						<span>Equipment</span>
-						<span><var>ASSETS[3]</var></span>
-						<span>Debt</span>
-						<span><var>LIABILITIES[3]</var></span>
+					<div class="fake_row reading" data-each="TABLE_1 as i, row">
+						<span><var>row[0]</var></span>
+						<span class="assets"><var>row[1]</var></span>
+						<span><var>row[2]</var></span>
+						<span class="liabilities"><var>row[3]</var></span>
 					</div>
 					<div class="fake_header reading">
 						<span>Total:</span>
@@ -100,29 +97,11 @@
 						<span>Liabilities</span>
 						<span>$</span>
 					</div>
-					<div class="fake_row reading">
-						<span><var>ASSETS_LABELS[0]</var></span>
-						<span class="assets"><var>ASSETS[0]</var></span>
-						<span><var>LIABILITIES_LABELS[0]</var></span>
-						<span class="liabilities"><var>LIABILITIES_OBSCURED[0]</var></span>
-					</div>
-					<div class="fake_row reading">
-						<span><var>ASSETS_LABELS[1]</var></span>
-						<span class="assets"><var>ASSETS[1]</var></span>
-						<span><var>LIABILITIES_LABELS[1]</var></span>
-						<span class="liabilities"><var>LIABILITIES_OBSCURED[1]</var></span>
-					</div>
-					<div class="fake_row reading">
-						<span><var>ASSETS_LABELS[2]</var></span>
-						<span class="assets"><var>ASSETS[2]</var></span>
-						<span><var>LIABILITIES_LABELS[2]</var></span>
-						<span class="liabilities"><var>LIABILITIES_OBSCURED[2]</var></span>
-					</div>
-					<div class="fake_row reading">
-						<span><var>ASSETS_LABELS[3]</var></span>
-						<span class="assets"><var>ASSETS[3]</var></span>
-						<span><var>LIABILITIES_LABELS[3]</var></span>
-						<span class="liabilities"><var>LIABILITIES_OBSCURED[3]</var></span>
+					<div class="fake_row reading" data-each="TABLE_2 as i, row">
+						<span><var>row[0]</var></span>
+						<span class="assets"><var>row[1]</var></span>
+						<span><var>row[2]</var></span>
+						<span class="liabilities"><var>row[3]</var></span>
 					</div>
 					<div class="fake_header reading">
 						<span>Total:</span>
