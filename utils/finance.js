@@ -37,4 +37,10 @@ jQuery.extend(KhanUtil, {
 	  return total;
 	},
 	
+	//Returns a string representation of a dollar amount
+	toDollarString: function(amount){
+	  if (amount >= 0) return "$" + amount;
+	  else return "($" + Math.abs(amount) + ")";
+	},
+	
 });
