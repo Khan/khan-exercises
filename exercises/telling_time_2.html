@@ -29,8 +29,7 @@
 						init({ range: [ [-4, 4 ], [ -4, 4 ] ], scale: 45 });
 
 						var clockRadius = 3.75;
-						var minuteSnapPoints = 12;
-						var hourSnapPoints = 12 * 60 / MINUTE_INCREMENT;
+						var snapPoints = 12 * 60 / MINUTE_INCREMENT;
 
 						var outerPointRadius = clockRadius * 1.01;
 						var minuteRadius = clockRadius * 0.6;
@@ -39,10 +38,9 @@
 						minuteStartAngle = 90;
 						hourStartAngle = 60;
 
-						minuteSnapDegrees = 360 / minuteSnapPoints;
-						hourSnapDegrees = 360 / hourSnapPoints;
+						snapDegrees = 360 / snapPoints;
 
-						var clock = addAnalogClock( { radius: clockRadius, minuteTicks: hourSnapPoints } );
+						var clock = addAnalogClock( { radius: clockRadius, minuteTicks: snapPoints } );
 						clock.draw();
 
 						addMouseLayer();
@@ -76,7 +74,7 @@
 								fixedDistance: {
 									dist: minuteRadius,
 									point: [ 0, 0 ],
-									snapPoints: 12
+									snapPoints: snapPoints
 								}
 							},
 							onMove: function( x, y ) {
@@ -98,7 +96,7 @@
 								fixedDistance: {
 									dist: outerPointRadius,
 									point: [ 0, 0 ],
-									snapPoints: 12
+									snapPoints: snapPoints
 								}
 							},
 							onMove: function( x, y ) {
@@ -120,7 +118,7 @@
 								fixedDistance: {
 									dist: hourRadius,
 									point: [ 0, 0 ],
-									snapPoints: hourSnapPoints
+									snapPoints: snapPoints
 								}
 							},
 							onMove: function( x, y ) {
@@ -142,7 +140,7 @@
 								fixedDistance: {
 									dist: outerPointRadius,
 									point: [ 0, 0 ],
-									snapPoints: hourSnapPoints
+									snapPoints: snapPoints
 								}
 							},
 							onMove: function( x, y ) {
@@ -192,9 +190,11 @@
 
 						correctMinuteAngle = timeToDegrees( MINUTE );
 						correctHourAngle = timeToDegrees( 5 * (HOUR + MINUTE/60) );
+						fullHourAngle = timeToDegrees( 5 * HOUR );
 
-						correctMinuteAngle = roundToNearest( minuteSnapDegrees, correctMinuteAngle );
-						correctHourAngle = roundToNearest( hourSnapDegrees, correctHourAngle );
+						correctMinuteAngle = roundToNearest( snapDegrees, correctMinuteAngle );
+						correctHourAngle = roundToNearest( snapDegrees, correctHourAngle );
+						fullHourAngle = roundToNearest( snapDegrees, fullHourAngle );
 					</div>
 				</div>
 
@@ -210,15 +210,35 @@
 						var minuteAngle = cartToPolar( guess[0] )[1];
 						var hourAngle = cartToPolar( guess[1] )[1];
 
-						minuteAngle = roundToNearest( minuteSnapDegrees, minuteAngle );
-						hourAngle = roundToNearest( hourSnapDegrees, hourAngle );
+						minuteAngle = roundToNearest( snapDegrees, minuteAngle );
+						hourAngle = roundToNearest( snapDegrees, hourAngle );
 
 						// if hands have not been moved, return `""`
 						if ( minuteAngle === minuteStartAngle &amp;&amp; hourAngle === hourStartAngle) {
 							return "";
 						}
+						
+						if ( (minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle === correctHourAngle) ) {
+							return true;
+						}
+						
+						handsMixedUpMsg = "you confused the minute hand with the hour hand.";
+						
+						fullHourMsg = "you set the hour hand to the full hour, instead of " + MINUTE.toString() + " minutes after the full hour. Remember that the hour hand moves during the hour.";
+						
+						if ( (minuteAngle === correctHourAngle) &amp;&amp; (hourAngle === correctMinuteAngle) ) {
+							return "Your answer is almost correct, but " + handsMixedUpMsg;
+						}
+						
+						if ( (minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle === fullHourAngle) ) {
+							return "Your answer is almost correct, but " + fullHourMsg;
+						}
+						
+						if ( (minuteAngle === fullHourAngle) &amp;&amp; (hourAngle === correctMinuteAngle) ) {
+							return "Your answer is almost correct, but " + handsMixedUpMsg + " Also, " + fullHourMsg;
+						}
 
-						return (minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle === correctHourAngle);
+						return false;
 
 					</div>
 					<div class="show-guess">
