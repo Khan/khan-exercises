@@ -67,9 +67,9 @@
 					</div>
 					<div class="fake_header reading">
 						<span>Total:</span>
-						<span><var>sumArray(ASSETS)</var></span>
+						<span id="assetsTotal"><var>sumArray(ASSETS)</var></span>
 						<span>Total:</span>
-						<span><var>sumArray(LIABILITIES)</var></span>
+						<span id="liabilitiesTotal"><var>sumArray(LIABILITIES)</var></span>
 					</div>
 				</div>
 				
@@ -77,10 +77,18 @@
 				
 				<div class="hints">
 					<div><br>Owner's Equity is the difference between Assets and Liabilities. It can be expressed as:<br>
-						<code>Equity = Assets - Liabilities</code>
+						<code>Equity = \color{purple}{Assets} - \color{orange}{Liabilities}</code>
+						<div class="graphie">
+							jQuery('.liabilities').css('color', 'orange');
+							jQuery('.assets').css('color', 'purple');
+						</div>
 					</div>
 					<div>
-						<code>Equity = <var>sumArray(ASSETS)</var> - <var>sumArray(LIABILITIES)</var></code>
+						<code>Equity = \color{green}{<var>sumArray(ASSETS)</var>} - \color{red}{<var>sumArray(LIABILITIES)</var>}</code>
+						<div class="graphie">
+							jQuery('#liabilitiesTotal').css('color', 'red');
+							jQuery('#assetsTotal').css('color', 'green');
+						</div>
 					</div>
 					<div>
 						<code>Equity = <var>EQUITY</var> = <var>toDollarString(EQUITY)</var></code>
@@ -147,7 +155,7 @@
 						</div>
 					</div>
 					<div>
-						<code><var>LABEL_OBSCURED</var>= \color{green}{<var>ANSWER</var>}</code>
+						<code><var>LABEL_OBSCURED</var>= \color{green}{$<var>ANSWER</var>}</code>
 						<div class="graphie">
 							jQuery('.liabilities').eq(OBSCURED_INDEX).html(ANSWER).css('color', 'green');
 						</div>
