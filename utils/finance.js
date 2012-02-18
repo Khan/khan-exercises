@@ -28,4 +28,13 @@ jQuery.extend(KhanUtil, {
 		return (singlePayment > twoPayments) ? "Single Payment Now" : "Two Separate Payments";
 	},
 	
+	//Sums the elements of an array
+	sumArray: function(array){
+	  var total = 0;
+	  for (var i=0; i<array.length; i++){
+	    total += array[i];
+	  }
+	  return total;
+	},
+	
 });
