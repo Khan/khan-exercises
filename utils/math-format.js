@@ -227,81 +227,137 @@ jQuery.extend(KhanUtil, {
 	squareRootCanSimplify: function(n) {
 		return KhanUtil.formattedSquareRootOf(n) !== ("\\sqrt{" + n + "}");
 	},
-
-	// Ported from https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L285
+	/* Returns the cardinal for an integer or floating point number
+	cardinal(99.99) returns "ninety-nine and ninety-nine hundredths"
+	cardinal(1234)	returns "one thousand two hundred thirty-four"
+	cardinal(-1) returns "negative one"
+	cardinal(.1) returns "one tenth"
+	cardinal(333.90909091) returns "three hundred thirty-three and ninety million nine hundred nine thousand ninety-one hundred-millionths"
+	*/
 	cardinal: function( n ) {
-		var cardinalScales = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"];
-		var cardinalUnits = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
-		var cardinalTens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
-		// For formatting numbers less than 1000
-		var smallNumberWords = function( n ) {
-			var hundredDigit = Math.floor( n / 100 );
-			var rest = n % 100;
-			var str = "";
+		"use strict";
+		var decimalCardinal,
+			numberBeforeDecimal,
+			sign = "";
 
-			if ( hundredDigit ) {
-				str += cardinalUnits[ hundredDigit ] + " hundred";
-			}
-
-			if ( hundredDigit && rest ) {
-				str += " ";
-			}
-
-			if ( rest ) {
-				if ( rest < 20 ) {
-					str += cardinalUnits [ rest ];
-				} else {
-					var tenDigit = Math.floor( rest / 10 );
-					var unitDigit = rest % 10;
-
-					if ( tenDigit ) {
-						str += cardinalTens [ tenDigit ];
-					}
-
-					if ( tenDigit && unitDigit ) {
-						str += "-";
-					}
-
-					if ( unitDigit ) {
-						str += cardinalUnits [ unitDigit ];
-					}
-				}
-			}
-
-			return str;
-		};
-
-		if ( n === 0 ) {
-			return "zero";
-		} else {
-			var neg = false;
+		if ( isNaN( n ) || ( typeof n === "string" ) ) {
+			return "undefined";
+		}
+		if ( KhanUtil.isInt( n ) ) {
+			return  integerCardinal( n );
+		}
+		// if it has reached this point, it must be a decimal
+		numberBeforeDecimal = parseInt( ( n ).toString().split(".")[0], 10 );
+		if ( numberBeforeDecimal === 0 ) {
 			if ( n < 0 ) {
-				neg = true;
-				n = Math.abs( n );
+				sign = "negative ";
 			}
+			decimalCardinal = sign + cardinalAfterDecimal( n );
+		} else {
+			decimalCardinal = integerCardinal( numberBeforeDecimal ) + " and " + cardinalAfterDecimal( n );
+		}
 
-			var words = [];
-			var scale = 0;
-			while ( n > 0 ) {
-				var end = n % 1000;
+		return decimalCardinal;
 
-				if ( end > 0 ) {
-					if ( scale > 0 ) {
-						words.unshift( cardinalScales[ scale ] );
-					}
+		// ******************** Internal Utility Methods ***************************************
+		/* Ported from https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L285
+			integerCardinal(645) returns "six hundred and forty-five"
+			works only for integers
+		*/
+		function integerCardinal( n ){
+			var cardinalScales = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"];
+			var cardinalUnits = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+			var cardinalTens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+			// For formatting numbers less than 1000
+			var smallNumberWords = function( n ) {
+				var hundredDigit = Math.floor( n / 100 );
+				var rest = n % 100;
+				var str = "";
 
-					words.unshift( smallNumberWords( end ) );
+				if ( hundredDigit ) {
+					str += cardinalUnits[ hundredDigit ] + " hundred";
 				}
 
-				n = Math.floor( n / 1000 );
-				scale += 1;
-			}
+				if ( hundredDigit && rest ) {
+					str += " ";
+				}
 
-			if ( neg ) {
-				words.unshift( "negative" );
-			}
+				if ( rest ) {
+					if ( rest < 20 ) {
+						str += cardinalUnits [ rest ];
+					} else {
+						var tenDigit = Math.floor( rest / 10 );
+						var unitDigit = rest % 10;
 
-			return words.join( " " );
+						if ( tenDigit ) {
+							str += cardinalTens [ tenDigit ];
+						}
+
+						if ( tenDigit && unitDigit ) {
+							str += "-";
+						}
+
+						if ( unitDigit ) {
+							str += cardinalUnits [ unitDigit ];
+						}
+					}
+				}
+
+				return str;
+			};
+			
+			if ( n === 0 ) {
+				return "zero";
+			} else {
+				var neg = false;
+				if ( n < 0 ) {
+					neg = true;
+					n = Math.abs( n );
+				}
+
+				var words = [];
+				var scale = 0;
+				while ( n > 0 ) {
+					var end = n % 1000;
+
+					if ( end > 0 ) {
+						if ( scale > 0 ) {
+							words.unshift( cardinalScales[ scale ] );
+						}
+
+						words.unshift( smallNumberWords( end ) );
+					}
+
+					n = Math.floor( n / 1000 );
+					scale += 1;
+				}
+
+				if ( neg ) {
+					words.unshift( "negative" );
+				}
+
+				return words.join( " " );
+			}
+		}
+		/* Returns the cardinal for the digits after the decimal point
+			cardinalAfterDecimal(54.343) returns "three hundred forty-three"
+		*/
+		function cardinalAfterDecimal(decimal){
+			"use strict";
+			var numberAfterDecimal,
+				decimalScale,
+				afterDecimalCardinal,
+				DECIMAL_CARDINAL_SCALE;
+
+			DECIMAL_CARDINAL_SCALE = ["tenth","hundredth", "thousandth","ten-thousandth","hundred-thousandth","millionth", "ten-millionth", "hundred-millionth", "billionth", "ten-billionth","hundred-billionth","trillionth","ten-trillionth", "hundred-trillionth","quadrillionth", "ten-quadrillionth"];
+
+			numberAfterDecimal = parseInt(( decimal ).toString().split(".")[1], 10 );
+			decimalScale = (decimal).toString().split(".")[1].length;
+			afterDecimalCardinal = integerCardinal( numberAfterDecimal ) + " " + DECIMAL_CARDINAL_SCALE[ decimalScale - 1];
+			if( numberAfterDecimal > 1 ){
+				afterDecimalCardinal += "s";
+			}
+			return afterDecimalCardinal;
 		}
 	},
 
