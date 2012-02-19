@@ -8,21 +8,33 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-
+			<var id="YEARLY_DEPOSIT">randRange(1,5) * 1000</var>
+			<var id="INTEREST">randRange(4, 9)</var>
+			<var id="PERIOD">randRange(4, 8)</var>
 		</div>
 
 		<div class="problems">
 			
 			<div>
 				<div class="question">
+					<div><var>person(1)</var> would like to start putting away some money for a rainy day. <var>He(1)</var> can afford to put away $<var>commafy(YEARLY_DEPOSIT)</var> from his salary into a savings account that pays <var>INTEREST</var>% in interest annually, compounded once a year. How much money will <var>person(1)</var> have saved <var>PERIOD</var> years from now? A cash flow diagram for <var>person(1)</var>'s investment strategy is illustrated below:
+						<br><br>
+					</div>
 					<div class="graphie">
 						init({
 							scale: [ 80, 80 ],
 							range: [ [-0.2, 22], [-1, 1] ]
 						});
-						var periods = 5;
 						var originX = 0;
-						cashFlow( periods, {'0':'-3000', '5':'10000' } );
+						
+						yearlyAmounts = {};
+						for (var i=1; i &lt; PERIOD + 1; i++){
+							yearlyAmounts[i] = 0 - YEARLY_DEPOSIT;
+						}
+						yearlyAmounts[PERIOD] = futureValueUniformDeposits(YEARLY_DEPOSIT, INTEREST, PERIOD);
+						//hiddenPeriods = [PERIOD];
+						
+						cashFlow( PERIOD, yearlyAmounts );
 						
 					</div>
 				</div>
