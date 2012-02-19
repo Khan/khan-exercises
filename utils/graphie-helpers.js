@@ -36,6 +36,58 @@ function numberLine( start, end, step, x, y, denominator ) {
 	return set;
 }
 
+function cashFlow( numPeriods, flowsInOut ) {
+	step = 1;
+	x = 0;
+	y = 0;
+	start = 0;
+	end = numPeriods;
+	var decPlaces = (step + "").length - (step + "").indexOf(".")-1;
+	if(	 (step + "").indexOf(".") < 0){
+		decPlaces = 0;
+	}
+	var graph = KhanUtil.currentGraph;
+	var set = graph.raphael.set();
+	set.push( graph.line( [x, y], [x + end - start, y] ) );
+	
+	//Find the largest cash flow, and scale all other cash amounts to that,
+	//so we get a nicely scaled diagram.
+	var scale = 1.00;
+	for (var i in flowsInOut){
+	  if ( ( 1 / Math.abs( flowsInOut[ i ] ) ) < scale ){
+	    scale = 1 / Math.abs( flowsInOut[ i ] );
+	  } 
+	}
+	
+	for ( var time in flowsInOut ){
+	  //Draw the money arrow
+	  var arrowLength = flowsInOut[time] * scale;
+	  set.push( graph.line( [ time, y ], [ time, arrowLength ], { arrows: "->" } ) );
+	  
+	  //We need to place the label based on whether the cash arrow is pointing up or down.
+	  var labelPlacement = flowsInOut[ time ] <= 0 ? "below" : "above";
+	  
+	  var labelText = '$' + KhanUtil.commafy( Math.abs( flowsInOut[ time ] ));
+	  graph.label( [time, y + arrowLength], ( labelText ), labelPlacement, { labelDistance: 2 } );
+	}
+	
+	//Draw the number line labels for the periods
+	for( var i = 0; i <= end - start; i += step ) {
+	  
+	  //If there is a cash line next to the number, we need to offset the label
+	  //so it doesn't get drawn on top of the cash line.
+	  var labelOffset = 0;
+	  if (flowsInOut[i] != undefined) labelOffset = - 0.15; 
+	  
+		set.push( graph.line( [x + i, y - 0.07], [x + i, y + 0.07] ) );
+
+		graph.label( [x + i - labelOffset, y + 0.1], (start + i).toFixed(decPlaces), 
+		            "above", { labelDistance: 2 } );		
+	}
+	
+	return set;
+}
+
 function piechart( divisions, colors, radius ) {
 	var graph = KhanUtil.currentGraph;
 	var set = graph.raphael.set();
