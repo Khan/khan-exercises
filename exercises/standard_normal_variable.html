@@ -90,8 +90,8 @@
 				</div>
 
 				<div class="question">
-					<p><b>Move the points to estimate the probability that <code>x</code> is between <code><var>Z1</var></code> 
-					and <code><var>Z2</var></code>.</b></p>
+					<p><b>Move the points to estimate the probability that <code>x</code> is between <code><var>MEAN + Z1 * STDDEV</var></code> 
+					and <code><var>MEAN + Z2 * STDDEV</var></code>.</b></p>
 
 					<div class="graphie" id="normaldist">
 							init({
@@ -161,8 +161,8 @@
 								roundTo( 2, ( EMPIRICAL[1] - EMPIRICAL[0] ) ) + "\\%", "above", { color: GREEN } );
 
 							addMouseLayer();
-							this.movablePoint = addMovablePoint({ coord: [MEAN, graph.pdf( MEAN )], constraints: { constrainY: true }, snapX: 1, });
-							this.movablePoint2 = addMovablePoint({ coord: [MEAN + STDDEV, graph.pdf( MEAN + STDDEV )], constraints: { constrainY: true }, snapX: 1, });
+							this.movablePoint = addMovablePoint({ coord: [MEAN, graph.pdf( MEAN )], constraints: { constrainY: true }, snapX: STDDEV, });
+							this.movablePoint2 = addMovablePoint({ coord: [MEAN + STDDEV, graph.pdf( MEAN + STDDEV )], constraints: { constrainY: true }, snapX: STDDEV, });
 							movablePoint.onMove = function( x, y ) {
 
 								if ( x &gt;= movablePoint2.coord[0] || x &lt; MEAN - STDDEV * 3 || MEAN + STDDEV * 3 &lt; x ) {
@@ -170,9 +170,9 @@
 								}
 
 							else {
-								updateShape( x, movablePoint2.coord[0], MEAN, STDDEV );
-								updateArrow( x, movablePoint2.coord[0], EMPIRICAL[movablePoint2.coord[0]] - EMPIRICAL[x], MEAN, STDDEV );
-								updateLine( movablePoint.coord[0], x );
+								updateShape( roundTo( 0, ( x - MEAN ) / STDDEV ), roundTo( 0, ( movablePoint2.coord[0] - MEAN ) / STDDEV ), MEAN, STDDEV );
+								updateArrow( roundTo( 0, ( x - MEAN ) / STDDEV ), roundTo( 0, ( movablePoint2.coord[0] - MEAN ) / STDDEV ), EMPIRICAL[( movablePoint2.coord[0] - MEAN )] - EMPIRICAL[( x - MEAN )], MEAN, STDDEV );
+								updateLine( roundTo( 0, ( movablePoint.coord[0] - MEAN ) / STDDEV ), roundTo( 0, ( x - MEAN ) / STDDEV ) );
 								return [x, graph.pdf( x )];
 							}
 
@@ -183,10 +183,10 @@
 									return false; // don't allow the point to move past the bounds
 								}
 							else {
-								updateShape( movablePoint.coord[0], x, MEAN, STDDEV );
-								updateArrow( movablePoint.coord[0], x, EMPIRICAL[x] - EMPIRICAL[movablePoint.coord[0]], MEAN, STDDEV );
-								updateLine( movablePoint2.coord[0], x );
-								return [x, graph.pdf( x )]; 
+								updateShape( roundTo( 0, ( movablePoint.coord[0] - MEAN ) / STDDEV ), roundTo( 0, ( x - MEAN ) / STDDEV ), MEAN, STDDEV );
+								updateArrow( roundTo( 0, ( movablePoint.coord[0] - MEAN ) / STDDEV ), roundTo( 0, ( x - MEAN ) / STDDEV ), EMPIRICAL[( x - MEAN )] - EMPIRICAL[( movablePoint.coord[0] - MEAN )], MEAN, STDDEV );
+								updateLine( roundTo( 0, ( movablePoint2.coord[0] - MEAN ) / STDDEV ), roundTo( 0, ( x - MEAN ) / STDDEV ) );
+								return [x, graph.pdf( x )];
 							}
 
 						};
@@ -203,21 +203,21 @@
 							graph.zLabel[ movablePoint.coord[0] ].css({ color: "#bbb" });
 							graph.zLine[ movablePoint2.coord[0] ].attr({ stroke: "#bbb" });
 							graph.zLabel[ movablePoint2.coord[0] ].css({ color: "#bbb" });
-							if( Z1 &lt; movablePoint2.coord[0] ) {
-								movablePoint.moveTo( Z1, graph.pdf( Z1 ) );
-								movablePoint2.moveTo( Z2, graph.pdf( Z2 ) );
+							if( ( MEAN + STDDEV * Z1 ) &lt; movablePoint2.coord[0] ) {
+								movablePoint.moveTo( MEAN + STDDEV * Z1, graph.pdf( MEAN + STDDEV * Z1 ) );
+								movablePoint2.moveTo( MEAN + STDDEV * Z2, graph.pdf( MEAN + STDDEV * Z2 ) );
 							}
 							else {
-								movablePoint2.moveTo( Z2, graph.pdf( Z2 ) );
-								movablePoint.moveTo( Z1, graph.pdf( Z1 ) );
+								movablePoint2.moveTo( MEAN + STDDEV * Z2, graph.pdf( MEAN + STDDEV * Z2 ) );
+								movablePoint.moveTo( MEAN + STDDEV * Z1, graph.pdf( MEAN + STDDEV * Z1 ) );
 							}
 						</div>
-						<p>Move the orange dots to the points labeled <code><var>Z1</var></code> and <code><var>Z2</var></code> on the graph.</p>
+						<p>Move the orange dots to the points labeled <code><var>MEAN + STDDEV * Z1</var></code> and <code><var>MEAN + STDDEV * Z2</var></code> on the graph.</p>
 					</div>
 
 					<p>The green arrow indicates that the shaded area represents <code><var>roundTo( 2, EMPIRICAL[Z2] - EMPIRICAL[Z1] )</var>\%</code> 
-					of the total area under the curve. Therefore, the probability that <code>x</code> is between <code><var>Z1</var></code> 
-					and <code><var>Z2</var></code> is <code><var>roundTo( 2, EMPIRICAL[Z2] - EMPIRICAL[Z1] )</var>\%</code>.</p>
+					of the total area under the curve. Therefore, the probability that <code>x</code> is between <code><var>MEAN + STDDEV * Z1</var></code> 
+					and <code><var>MEAN + STDDEV * Z2</var></code> is <code><var>roundTo( 2, EMPIRICAL[Z2] - EMPIRICAL[Z1] )</var>\%</code>.</p>
 				</div>
 			</div>
 		</div>
