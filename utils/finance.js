@@ -29,11 +29,6 @@ jQuery.extend(KhanUtil, {
 	  return KhanUtil.roundToCurrency(deposit * ((Math.pow(1 + interest/100, period) - 1)/(interest/100)));
 	},
 	
-	/* For the present value multiple choice exercise, return the correct choice wording */
-	presentValueCorrect: function( singlePayment, twoPayments ) {
-		return (singlePayment > twoPayments) ? "Single Payment Now" : "Two Separate Payments";
-	},
-	
 	/*Sums the elements of an array */
 	sumArray: function(array){
 	  var total = 0;
