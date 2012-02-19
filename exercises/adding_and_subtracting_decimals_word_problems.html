@@ -8,7 +8,7 @@
 <body>
 	<div class="exercise">
 	<div class="problems">
-		<div>
+		<div id="produceCost">
 
 			<div class="vars">
 				<var id="A">randRange(5,9)*100</var>
@@ -19,7 +19,7 @@
 				<var id="fruit_1">truncate_to_max(fruit_1_integer*pow(10,-fruit_1_decimal), 2)</var>
 				<var id="D">randRange(3,9)*100</var>
 				<var id="E">randRange(1,9)*10</var>
-				<var id="F" data-ensure="F+C"!=="10">randRange(1,9)*1</var>
+				<var id="F" data-ensure="F+C !== 10">randRange(1,9)*1</var>
 				<var id="fruit_2_integer">D+E+F</var>
 				<var id="fruit_2_decimal">(2)</var>
 				<var id="fruit_2">truncate_to_max(fruit_2_integer*pow(10,-fruit_2_decimal), 2)</var>
@@ -39,26 +39,26 @@
 				<p>To find the total amount <var>person(1)</var> needs to pay, we need to add the price of the <var>plural(fruit(1))</var> and the price of the <var>plural(fruit(2))</var>.</p>
 				<p>Price of <var>plural(fruit(1))</var> + price of <var>plural(fruit(2))</var> = total price.</p>
 				<div class="graphie" id="numbers">
-				graph.adder = new DecimalAdder( fruit_1_integer, fruit_1_decimal, fruit_2_integer, fruit_2_decimal );
-				graph.adder.show();
-				graph.adder.showDecimals();
+					graph.adder = new DecimalAdder( fruit_1_integer, fruit_1_decimal, fruit_2_integer, fruit_2_decimal );
+					graph.adder.show();
+					graph.adder.showDecimals();
 				</div>
 				<div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( fruit_1_integer, fruit_1_decimal, fruit_2_integer, fruit_2_decimal ) times">
-				graph.adder.showHint();
+					graph.adder.showHint();
 				</div>
 
-				<p class="solution"><var>person(1)</var> needs to pay $<var>solution</var>.</p>
+				<p class="final_answer"><var>person(1)</var> needs to pay $<var>solution</var>.</p>
 			</div>
-			</div>
+		</div>
 
-			<div>
+		<div id="racers">
 
-				<div class="vars">
+			<div class="vars">
 				<var id="meters">randRange(1, 3)*100</var>
 				<var id="time_1_integer">randRange(2000,9999)</var>
 				<var id="time_1_decimal">(2)</var>
 				<var id="time_1">truncate_to_max(time_1_integer*pow(10,-time_1_decimal), 2)</var>
-				<var id="time_2_integer" data-ensure="time_2_integer<time_1_integer">randRange(2000,9999)</var>
+				<var id="time_2_integer" data-ensure="time_2_integer &lt; time_1_integer">randRange(2000,9999)</var>
 				<var id="time_2_decimal">(2)</var>
 				<var id="time_2">truncate_to_max(time_2_integer*pow(10,-time_2_decimal), 2)</var>
 				<var id="time_3_integer">randRange(100,999)</var>
@@ -68,32 +68,32 @@
 				<var id="solution">truncate_to_max((time_1-time_2),2)</var>
 			</div>
 
-		<div class="question spin">
-			<p>{On Monday|Last week}, <var>person(1)</var> and <var>person(2)</var> decided to see how fast they could sprint <var>meters</var> meters. They asked their friend <var>person(3)</var> to time them with a stopwatch.</p>
-			<p>{After <var>time_3</var> minutes, <var>person(3)</var> agreed to time the runners</var>.|} <var>person(1)</var> sprinted first and ran <var>meters</var> meters in <var>time_1</var> seconds. When it was <var>person(2)</var>'s turn, <var>he(2)</var> sped off and completed the run in <var>time_2</var> seconds.</p>
-			<p class="question">How much faster was <var>person(2)</var> than <var>person(1)</var>?</p>
+			<div class="question spin">
+				<p>{On Monday|Last week}, <var>person(1)</var> and <var>person(2)</var> decided to see how fast they could sprint <var>meters</var> meters. They asked their friend <var>person(3)</var> to time them with a stopwatch.</p>
+				<p>{After <var>time_3</var> minutes, <var>person(3)</var> agreed to time the runners.|} <var>person(1)</var> sprinted first and ran <var>meters</var> meters in <var>time_1</var> seconds. When it was <var>person(2)</var>'s turn, <var>he(2)</var> sped off and completed the run in <var>time_2</var> seconds.</p>
+				<p class="question">How much faster was <var>person(2)</var> than <var>person(1)</var>?</p>
 			</div>
-			<div class="solution"><var>time_1-time_2</var></div>
-
+			<div class="solution" data-type="multiple">
+				<p> <span class="sol"><var>time_1-time_2 </var></span> seconds</p>
+			</div>
 			<div class="hints">
 				<p>To find how much faster <var>person(2)</var> was than <var>person(1)</var>, we need to find the difference between their times.
 				<p><var>person(1)</var>'s time - <var>person(2)</var>'s time = difference in times.
 				<div class="graphie" id="numbers">
-				graph.subtractor = new DecimalSubtractor( time_1_integer, time_1_decimal, time_2_integer, time_2_decimal );
-				graph.subtractor.show();
-				graph.subtractor.showDecimals();
+					graph.subtractor = new DecimalSubtractor( time_1_integer, time_1_decimal, time_2_integer, time_2_decimal );
+					graph.subtractor.show();
+					graph.subtractor.showDecimals();
 				</div>
 				<div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( time_1_integer, time_1_decimal, time_2_integer, time_2_decimal ) times">
-				graph.subtractor.showHint();
+					graph.subtractor.showHint();
 				</div>
-				<p class="solution"><var>person(2)</var> was <var>solution</var> seconds faster than <var>person(1)</var>.</p>
+				<p class="final_answer"><var>person(2)</var> was <var>solution</var> seconds faster than <var>person(1)</var>.</p>
 			</div>
 		</div>
 
-		<div>
+		<div id="twinWeight">
 
-
-				<div class="vars">
+			<div class="vars">
 				<var id="G">randRange(2,6)*100</var>
 				<var id="H">randRange(1,9)*10</var>
 				<var id="I">randRange(1,9)*1</var>
@@ -118,40 +118,41 @@
 
 			</div>
 
-			<div class="solution"><var>weight_1+weight_2</var></div>
+			<div class="solution" data-type="multiple">
+					<p><span class="sol"><var> weight_1+weight_2 </var></span> pounds</p>
+			</div>
 
 			<div class="hints">
 				<p>To find the weights of the 2 babies, we need to add their weights together.
 				<p><var>person(2)</var>'s weight + <var>person(3)</var>'s weight = total weight.</p>
 				<div class="graphie" id="numbers">
-				graph.adder = new DecimalAdder( weight_1_integer, weight_1_decimal, weight_2_integer, weight_2_decimal );
-				graph.adder.show();
-				graph.adder.showDecimals();
+					graph.adder = new DecimalAdder( weight_1_integer, weight_1_decimal, weight_2_integer, weight_2_decimal );
+					graph.adder.show();
+					graph.adder.showDecimals();
 				</div>
 				<div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( weight_1_integer, weight_1_decimal, weight_2_integer, weight_2_decimal ) times">
-				graph.adder.showHint();
+					graph.adder.showHint();
 				</div>
 
-		<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
-			graph.adder.showHint();</div>
-				<p class="solution">Together, the babies weigh <var>solution</var> pounds.</p>
+				<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+					graph.adder.showHint();
+				</div>
+				<p class="final_answer">Together, the babies weigh <var>solution</var> pounds.</p>
 			</div>
-			</div>
+		</div>
 
+		<div id="change">
 
-			<div>
-
-
-				<div class="vars">
-				<var id="M">randRange(1,9)*100</var>
-				<var id="N">randRange(1,9)*10</var>
-				<var id="O">randRange(2,9)*1</var>
-				<var id="amount_paid_integer">M+N+O</var>
+			<div class="vars">
+				<var id="M">randRange(1,9)</var>
+				<var id="N">randRange(1,9)</var>
+				<var id="O">randRange(2,9)</var>
+				<var id="amount_paid_integer">M*100+N*10+O</var>
 				<var id="amount_paid_decimal">(2)</var>
 				<var id="amount_paid">truncate_to_max(amount_paid_integer*pow(10,-amount_paid_decimal), 2)</var>
-				<var id="P" data-ensure="P<=M">randRange(1,9)*100</var>
-				<var id="Q" data-ensure="Q<=N">randRange(1,9)*10</var>
-				<var id="R" data-ensure="R<O">randRange(1,8)*1</var>
+				<var id="P">randRange(1,M)*100</var>
+				<var id="Q">randRange(1,N)*10</var>
+				<var id="R">randRange(1,O)*1</var>
 				<var id="price_1_integer">P+Q+R</var>
 				<var id="price_1_decimal">(2)</var>
 				<var id="price_1">truncate_to_max(price_1_integer*pow(10,-price_1_decimal), 2)</var>
@@ -163,68 +164,68 @@
 			<div class="question spin">
 				<p>{On Tuesday,|Last Thursday,|} <var>person(1)</var> walked to <var>an(store(1))</var> store {<var>timeofday(1)</var>|} and{, after browsing for <var>time_1</var> minutes,|} decided to buy a <var>storeItem(1,1)</var> for $<var>price_1</var>. <var>person(1)</var> handed the salesperson $<var>amount_paid</var> for <var>his(1)</var> purchase.</p>
 				<p class="question">How much change did <var>person(1)</var> receive?</p>
-					</div>
+			</div>
 			<div class="solution" data-forms="dollar"><var>amount_paid-price_1</var></div>
 
 			<div class="hints">
 				<p>To find out how much change <var>person(1)</var> received, we can subtract the price of the <var>storeItem(1,1)</var> from the amount of money <var>he(1)</var> paid.
 				<p>The amount <var>person(1)</var> paid - the price of the <var>storeItem(1,1)</var> = the amount of change <var>person(1)</var> received.</p>
 				<div class="graphie" id="numbers">
-				graph.subtractor = new DecimalSubtractor( amount_paid_integer, amount_paid_decimal, price_1_integer, price_1_decimal );
-				graph.subtractor.show();
-				graph.subtractor.showDecimals();
+					graph.subtractor = new DecimalSubtractor( amount_paid_integer, amount_paid_decimal, price_1_integer, price_1_decimal );
+					graph.subtractor.show();
+					graph.subtractor.showDecimals();
 				</div>
 				<div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( amount_paid_integer, amount_paid_decimal, price_1_integer, price_1_decimal ) times">
-				graph.subtractor.showHint();
+					graph.subtractor.showHint();
 				</div>
-				<p class="solution"><var>person(1)</var> received $<var>solution</var> in change.</p>
+				<p class="final_answer"><var>person(1)</var> received $<var>solution</var> in change.</p>
 			</div>
-			</div>
+		</div>
 
-		<div>
+		<div id="rainfall">
 
-
-				<div class="vars">
+			<div class="vars">
 				<var id="rain_1_integer">randRange(101,999)</var>
 				<var id="rain_1_decimal">(2)</var>
 				<var id="rain_1">truncate_to_max(rain_1_integer*pow(10,-rain_1_decimal), 2)</var>
-				<var id="rain_2_integer" data-ensure="rain_2_integer>rain_1_integer">randRange(200,999)</var>
+				<var id="rain_2_integer">randRange(rain_1_integer+1,999)</var>
 				<var id="rain_2_decimal">(2)</var>
 				<var id="rain_2">truncate_to_max(rain_2_integer*pow(10,-rain_2_decimal), 2)</var>
 				<var id="snow_1">randRange(2.1,15.89)</var>
 				<var id="DUMMY">[]</var>
 				<var id="solution">truncate_to_max((rain_2-rain_1),2)</var>
-				</div>
+			</div>
 
 			<div class="question spin">
 				<p>During a recent rainstorm, <var>rain_1</var> inches of rain fell in <var>person(1)</var>'s hometown, and <var>rain_2</var> inches of rain fell in <var>person(2)</var>'s hometown. {During the same storm, <var>snow_1</var> inches of snow fell in <var>person(3)</var>'s hometown.|}</p>
 				<p class="question">How much more rain fell in <var>person(2)</var>'s town than in <var>person(1)</var>'s town?</p>
-					</div>
-			<div class="solution"><var>rain_2-rain_1</var></div>
+			</div>
 
+			<div class="solution" data-type="multiple">
+				<p> <span class="sol"><var>rain_2-rain_1 </var></span> inches</p>
+			</div>
 			<div class="hints">
 				<p>To find the difference in rainfall, we can subtract the amount of rain in <var>person(1)</var>'s town from the amount of rain in <var>person(2)</var>'s town.
 				<p>Rain in <var>person(2)</var>'s town - rain in <var>person(1)</var>'s town = the difference in rain between the two towns.</p>
 				<div class="graphie" id="numbers">
-				graph.subtractor = new DecimalSubtractor( rain_2_integer, rain_2_decimal, rain_1_integer, rain_1_decimal );
-				graph.subtractor.show();
-				graph.subtractor.showDecimals();
+					graph.subtractor = new DecimalSubtractor( rain_2_integer, rain_2_decimal, rain_1_integer, rain_1_decimal );
+					graph.subtractor.show();
+					graph.subtractor.showDecimals();
 				</div>
 				<div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( rain_2_integer, rain_2_decimal, rain_1_integer, rain_1_decimal ) times">
-				graph.subtractor.showHint();
+					graph.subtractor.showHint();
 				</div>
-				<p class="solution"><var>person(2)</var>'s town received <var>solution</var> inches more rain than <var>person(1)</var>'s town.</p>
+				<p class="final_answer"><var>person(2)</var>'s town received <var>solution</var> inches more rain than <var>person(1)</var>'s town.</p>
 			</div>
-			</div>
+		</div>
 
+		<div id="travel">
 
-			<div>
-
-		<div class="vars">
+			<div class="vars">
 				<var id="distance_1_integer">randRange(100,2000)</var>
 				<var id="distance_1_decimal">(2)</var>
 				<var id="distance_1">truncate_to_max(distance_1_integer*pow(10,-distance_1_decimal), 2)</var>
-				<var id="distance_2_integer" data-ensure="distance_1_integer>distance_2_integer">randRange(100,2000)</var>
+				<var id="distance_2_integer">randRange(100,distance_1_integer-1)</var>
 				<var id="distance_2_decimal">(2)</var>
 				<var id="distance_2">truncate_to_max(distance_2_integer*pow(10,-distance_2_decimal), 2)</var>
 				<var id="solution">truncate_to_max((distance_1+distance_2),2)</var>
@@ -235,31 +236,31 @@
 			<div class="question spin">
 				<p>{To get to school each morning|To get to work each morning|To visit <var>his(1)</var> grandmother}, <var>person(1)</var> takes <var>an(vehicle(1))</var> <var>distance_1</var> <var>plural(distance(1))</var> and <var>an(vehicle(2))</var> <var>distance_2</var> <var>plural(distance(1))</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p>
 				<p class="question">How many <var>plural(distance(1))</var> is <var>person(1)</var>'s journey in total?</p>
-				</div>
-			<div class="solution"><var>distance_1+distance_2</var></div>
+			</div>
 
+			<div class="solution" data-type="multiple">
+				<p> <span class="sol"><var>distance_1+distance_2</var></span> <var>plural(distance(1))</var></p>
+			</div>
 			<div class="hints">
 				<p>To find the total distance <var>person(1)</var> travels, we need to add the two distances together.
 				<p>Distance on <var>vehicle(1)</var> + distance on <var>vehicle(2)</var> = total distance.</p>
 				<div class="graphie" id="numbers">
-				graph.adder = new DecimalAdder( distance_1_integer, distance_1_decimal, distance_2_integer, distance_2_decimal );
-				graph.adder.show();
-				graph.adder.showDecimals();
+					graph.adder = new DecimalAdder( distance_1_integer, distance_1_decimal, distance_2_integer, distance_2_decimal );
+					graph.adder.show();
+					graph.adder.showDecimals();
 				</div>
 				<div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( distance_1_integer, distance_1_decimal, distance_2_integer, distance_2_decimal ) times">
-				graph.adder.showHint();
+					graph.adder.showHint();
 				</div>
 
-		<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
-			graph.adder.showHint();</div>
-				<p class="solution"><var>person(1)</var> travels <var>solution</var> <var>plural(distance(1))</var> in total.</p>
+				<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+					graph.adder.showHint();
+				</div>
+				<p class="final_answer"><var>person(1)</var> travels <var>solution</var> <var>plural(distance(1))</var> in total.</p>
 			</div>
-			</div>
-			</div>
+		</div>
+	</div>
+	</div>
 
-
-
-
-		</body>
-
+</body>
 </html>
