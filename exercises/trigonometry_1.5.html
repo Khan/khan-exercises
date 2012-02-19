@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- TODO: Improve hints -->
 <html data-require="math graphie math-format">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -84,8 +85,7 @@
 			<var id="AC, BC">shuffle(randFromArray([[3,4], [6,8], [5,12], [7, 24], [8, 15], [10, 24], [12,16]]))</var>
 			<var id="CB">BC</var>
 			<var id="CB">BC</var>
-			<var id="AB">AC * AC + BC * BC</var>
-			<var id="AB_STRING">formattedSquareRootOf(AC * AC + BC * BC)</var>
+			<var id="AB">sqrt(AC * AC + BC * BC)</var>
 			<var id="ANGLE">randFromArray([
 				"ABC",
 				"BAC"
@@ -102,12 +102,12 @@
 					else if( OPPOSITE_NAME === "BC" ){
 						return CB;
 					}
-					return AB_STRING;
+					return AB;
 				})()
 			</var>
 
 			<var id="HYPOTENUSE_NAME">"AB"</var>
-			<var id="HYPOTENUSE_VALUE">AB_STRING</var>
+			<var id="HYPOTENUSE_VALUE">AB</var>
 
 			<var id="ADJACENT_NAME">ANGLE.substring(1)</var>
 			<var id="ADJACENT_VALUE">
@@ -119,26 +119,16 @@
 						return BC;
 					}
 
-					return AB_STRING;
+					return AB;
 				})()
 			</var>
-			<var id="SIMPLE_TAN">
-				fraction( OPPOSITE_VALUE, ADJACENT_VALUE, false, false, false, false)
-			</var>
-			<var id="TAN">
-				fractionReduce( OPPOSITE_VALUE, ADJACENT_VALUE, false, false)
-			</var>
-			<var id="SIMPLE_SIN">
-				"\\frac{" +  OPPOSITE_VALUE + "}{" + formattedSquareRootOf(AB) + "}"
-			</var>
-			<var id="SIN">
-				fractionSQRoot( OPPOSITE_VALUE , AB )
-			</var>
-			<var id="SIMPLE_COS">
-				"\\frac{" +  ADJACENT_VALUE + "}{" + formattedSquareRootOf(AB) + "}"
-			</var>
-			<var id="COS">
-				fractionSQRoot( ADJACENT_VALUE , AB )
+			<var id="SIMPLE_TAN">fraction( OPPOSITE_VALUE, ADJACENT_VALUE, false, false, false, false)</var>
+			<var id="TAN">OPPOSITE_VALUE / ADJACENT_VALUE</var>
+			<var id="SIMPLE_SIN">fraction(OPPOSITE_VALUE, AB)</var>
+			<var id="SIN">OPPOSITE_VALUE / AB</var>
+			<var id="SIMPLE_COS">fraction(ADJACENT_VALUE, AB)</var>
+			<var id="COS">ADJACENT_VALUE / AB</var>
+
 			</var>
 		</div>
 
@@ -146,7 +136,7 @@
 
 			<div id="sin">
 				<div class="problem">
-					<p><code>\overline{AB}</code> = <code><var>AB_STRING</var></code></p>
+					<p><code>\overline{AB}</code> = <code><var>AB</var></code></p>
 				</div>
 				<div class="question">
 					<p><code>\overline{<var>OPPOSITE_NAME</var>} = {?}</code></p>
@@ -154,22 +144,22 @@
 					<div class="graphie">
 						var options = {};
 						options[ OPPOSITE_NAME ] = "?";
-						options[ "AB" ] = AB_STRING;
+						options[ "AB" ] = AB;
 						bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
 						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
-					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
+					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIMPLE_SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>SIMPLE_COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>SIMPLE_TAN</var></code></p>
 				</div>
 
-				<div class="solution" data-type="rational"><code><var>OPPOSITE_VALUE</var></code></div>
+				<p class="solution" data-type="rational" data-simplify="optional"><code><var>OPPOSITE_VALUE</var></code></p>
 
 				<div class="hints" data-apply="appendContents">
 					<p><code>\overline{AB}</code> is the <b>hypotenuse</b></p>
 					<p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
 					<p>SOH CAH TOA</p>
 					<p>We know the hypotenuse and need to solve for the opposite side so we can use the sine function (SOH)</p>
-					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = \frac{\text{opposite}}{\text{hypotenuse}} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{AB}}= \frac{\overline{<var>OPPOSITE_NAME</var>}}{<var>AB_STRING</var>} </code></p>
-					<p><code>\displaystyle \overline{<var>OPPOSITE_NAME</var>}=<var>AB_STRING</var> \cdot \sin( \angle <var>ANGLE</var> ) = <var>AB_STRING</var> \cdot  <var>SIN</var> = <var>OPPOSITE_VALUE</var></code></p>
+					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = \frac{\text{opposite}}{\text{hypotenuse}} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{AB}}= \frac{\overline{<var>OPPOSITE_NAME</var>}}{<var>AB</var>} </code></p>
+					<p><code>\displaystyle \overline{<var>OPPOSITE_NAME</var>}=<var>AB</var> \cdot \sin( \angle <var>ANGLE</var> ) = <var>AB</var> \cdot  <var>SIN</var> = <var>OPPOSITE_VALUE</var></code></p>
 				</div>
 			</div>
 
@@ -187,10 +177,10 @@
 						bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
 						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
-					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
+					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIMPLE_SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>SIMPLE_COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>SIMPLE_TAN</var></code></p>
 				</div>
 
-				<div class="solution" data-type="rational"><code><var>AB_STRING</var></code></div>
+				<div class="solution" data-type="rational" data-simplify="optional"><code><var>AB</var></code></div>
 
 				<div class="hints" data-apply="appendContents">
 					<p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is the <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
@@ -198,14 +188,14 @@
 					<p>SOH CAH TOA</p>
 					<p>We know the opposite side and need to solve for the hypotenuse so we can use the sin function (SOH)</p>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = \frac{\text{opposite}}{\text{hypotenuse}} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{AB}} = \frac{<var>OPPOSITE_VALUE</var>}{\overline{AB}} </code></p>
-					<p><code>\displaystyle \overline{AB}=\frac{<var>OPPOSITE_VALUE</var>}{\sin( \angle <var>ANGLE</var> )} = \frac{<var>OPPOSITE_VALUE</var>}{<var>SIN</var>} = <var>AB_STRING</var></code></p>
+					<p><code>\displaystyle \overline{AB}=\frac{<var>OPPOSITE_VALUE</var>}{\sin( \angle <var>ANGLE</var> )} = \frac{<var>OPPOSITE_VALUE</var>}{<var>SIN</var>} = <var>AB</var></code></p>
 				</div>
 			</div>
 
 
 			<div id="cos">
 				<div class="problem">
-					<p><code>\overline{AB} = <var>AB_STRING</var></code></p>
+					<p><code>\overline{AB} = <var>AB</var></code></p>
 				</div>
 				<div class="question">
 					<p><code>\overline{<var>ADJACENT_NAME</var>} = {?}</code></p>
@@ -213,22 +203,22 @@
 					<div class="graphie">
 						var options = {};
 						options[ ADJACENT_NAME ] = "?";
-						options[ "AB" ] = AB_STRING;
+						options[ "AB" ] = AB;
 						bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
 						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
-					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
+					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIMPLE_SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>SIMPLE_COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>SIMPLE_TAN</var></code></p>
 				</div>
 
-				<div class="solution" data-type="rational"><code><var>ADJACENT_VALUE</var></code></div>
+				<div class="solution" data-type="rational" data-simplify="optional"><code><var>ADJACENT_VALUE</var></code></div>
 
 				<div class="hints" data-apply="appendContents">
 					<p><code>\overline{AB}</code> is the <b>hypotenuse</b></p>
 					<p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
 					<p>SOH CAH TOA</p>
 					<p>We know the hypotenuse and need to solve for the adjacent side so we can use the cos function (CAH)</p>
-					<p><code>\displaystyle \cos( \angle <var>ANGLE</var> ) = \frac{\text{adjacent}}{\text{hypotenuse}} = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{AB}}= \frac{\overline{<var>ADJACENT_NAME</var>}}{<var>AB_STRING</var>} </code></p>
-					<p><code>\displaystyle \overline{<var>ADJACENT_NAME</var>}=<var>AB_STRING</var> \cdot \cos( \angle <var>ANGLE</var> ) = <var>AB_STRING</var> \cdot  <var>COS</var> = <var>ADJACENT_VALUE</var></code></p>
+					<p><code>\displaystyle \cos( \angle <var>ANGLE</var> ) = \frac{\text{adjacent}}{\text{hypotenuse}} = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{AB}}= \frac{\overline{<var>ADJACENT_NAME</var>}}{<var>AB</var>} </code></p>
+					<p><code>\displaystyle \overline{<var>ADJACENT_NAME</var>}=<var>AB</var> \cdot \cos( \angle <var>ANGLE</var> ) = <var>AB</var> \cdot  <var>COS</var> = <var>ADJACENT_VALUE</var></code></p>
 				</div>
 			</div>
 
@@ -246,10 +236,10 @@
 						bestTriangle( BC, AC, "A", "B", "C", "", "","", ANGLE, options );
 						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
-					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
+					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIMPLE_SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>SIMPLE_COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>SIMPLE_TAN</var></code></p>
 				</div>
 
-				<div class="solution" data-type="rational"><code><var>AB_STRING</var></code></div>
+				<div class="solution" data-type="rational" data-simplify="optional"><code><var>AB</var></code></div>
 
 				<div class="hints" data-apply="appendContents">
 					<p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
@@ -257,7 +247,7 @@
 					<p>SOH CAH TOA</p>
 					<p>We know the adjacent side and need to solve for the hypotenuse so we can use the cos function (CAH)</p>
 					<p><code>\displaystyle \cos( \angle <var>ANGLE</var> ) = \frac{\text{adjacent}}{\text{hypotenuse}} = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{AB}} = \frac{<var>ADJACENT_VALUE</var>}{\overline{AB}} </code></p>
-					<p><code>\displaystyle \overline{AB}=\frac{<var>ADJACENT_VALUE</var>}{\cos( \angle <var>ANGLE</var> )} = \frac{<var>ADJACENT_VALUE</var>}{<var>COS</var>} = <var>AB_STRING</var></code></p>
+					<p><code>\displaystyle \overline{AB}=\frac{<var>ADJACENT_VALUE</var>}{\cos( \angle <var>ANGLE</var> )} = \frac{<var>ADJACENT_VALUE</var>}{<var>COS</var>} = <var>AB</var></code></p>
 				</div>
 			</div>
 
@@ -276,10 +266,10 @@
 						bestTriangle( BC, AC, "A", "B", "C", "", "", "" , ANGLE, options );
 						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
-					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
+					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIMPLE_SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>SIMPLE_COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>SIMPLE_TAN</var></code></p>
 				</div>
 
-				<div class="solution" data-type="rational"><code><var>ADJACENT_VALUE</var></code></div>
+				<div class="solution" data-type="rational" data-simplify="optional"><code><var>ADJACENT_VALUE</var></code></div>
 
 				<div class="hints" data-apply="appendContents">
 					<p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is the <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
@@ -306,10 +296,10 @@
 						bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
 						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
-					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
+					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIMPLE_SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>SIMPLE_COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>SIMPLE_TAN</var></code></p>
 				</div>
 
-				<div class="solution" data-type="rational"><code><var>OPPOSITE_VALUE</var></code></div>
+				<div class="solution" data-type="rational" data-simplify="optional"><code><var>OPPOSITE_VALUE</var></code></div>
 
 				<div class="hints" data-apply="appendContents">
 					<p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is the <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
