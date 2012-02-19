@@ -39,17 +39,15 @@ function numberLine( start, end, step, x, y, denominator ) {
 /* Constructs a cash flow diagram, useful for finance and accounting exercises
  numPeriods - how many periods (months, years, etc...) is the diagram long
  flowsInOut - a cash sum for each period that cash is flowing in/out. This
-            is represented as a JSON object in the form { periodNum: cashAmount, ...}
- hiddenPeriods - an array which holds the period numbers for which the cashAmount should
-            not be displayed. For example, [1, 4] means the numbers for year 1 and 4 will
-            be hidden  */
-function cashFlow( numPeriods, flowsInOut, hiddenPeriods ) {
+            is represented as a JSON object in the form 
+            { 0: [{amount:1000, hidden: false }, {amount: -4500, hidden: true }], 
+              1: [{amount:3000, hidden: false }, {amount: 3500, hidden: true }]...} */
+function cashFlow( numPeriods, flowsInOut ) {
 	step = 1;
 	x = 0;
 	y = 0;
 	start = 0;
 	end = numPeriods;
-	hiddenPeriods = hiddenPeriods || [];
 	
 	var decPlaces = (step + "").length - (step + "").indexOf(".")-1;
 	if(	 (step + "").indexOf(".") < 0){
@@ -63,26 +61,31 @@ function cashFlow( numPeriods, flowsInOut, hiddenPeriods ) {
 	so we get a nicely scaled diagram. */
 	var scale = 1.00;
 	for (var i in flowsInOut){
-	  if ( ( 1 / Math.abs( flowsInOut[ i ] ) ) < scale ){
-	    scale = 1 / Math.abs( flowsInOut[ i ] );
-	  } 
+	  for (var j = 0; j < flowsInOut[ i ].length; j++){
+	    if ( ( 1 / Math.abs( flowsInOut[ i ][ j ].amount ) ) < scale ){
+  	    scale = 1 / Math.abs( flowsInOut[ i ][ j ].amount );
+  	  }
+	  }
 	}
 	
 	for ( var time in flowsInOut ){
-	  //Draw the money arrow
-	  var arrowLength = flowsInOut[time] * scale;
-	  if (Math.abs(arrowLength) < 0.3) arrowLength = arrowLength < 0 ? (-0.3) : 0.3;
-	  set.push( graph.line( [ time, y ], [ time, arrowLength ], { arrows: "->" } ) );
-	  
-	  //We need to place the label based on whether the cash arrow is pointing up or down.
-	  var labelPlacement = flowsInOut[ time ] <= 0 ? "below" : "above";
-	  
-	  //Put a '?' instead of the cash amount for hidden cash amounts
-	  var labelText = '';
-	  if ( hiddenPeriods.indexOf( parseInt(time) ) != -1) labelText = '?';
-	  else labelText = '$' + KhanUtil.commafy( Math.abs( flowsInOut[ time ] ));
-	  
-	  graph.label( [time, y + arrowLength], ( labelText ), labelPlacement, { labelDistance: 2 } );
+	  for (var k = 0; k < flowsInOut[ time ].length; k++){
+	    
+	    //Draw the money arrow. If it's too small when scaled, make it a minumum height instead
+  	  var arrowLength = flowsInOut[ time ][ k ].amount * scale;
+  	  if (Math.abs(arrowLength) < 0.3) arrowLength = arrowLength < 0 ? (-0.3) : 0.3;
+  	  set.push( graph.line( [ time, y ], [ time, arrowLength ], { arrows: "->" } ) );
+
+  	  //We need to place the label based on whether the cash arrow is pointing up or down.
+  	  var labelPlacement = flowsInOut[ time ][ k ].amount <= 0 ? "below" : "above";
+
+  	  //Put a '?' instead of the cash amount for hidden cash amounts
+  	  var labelText = '';
+  	  if (flowsInOut[ time ][ k ].hidden) labelText = '?';
+  	  else labelText = '$' + KhanUtil.commafy( Math.abs( flowsInOut[ time ][ k ].amount ));
+
+  	  graph.label( [time, y + arrowLength], ( labelText ), labelPlacement, { labelDistance: 2 } );
+	  }
 	}
 	
 	//Draw the number line labels for the periods

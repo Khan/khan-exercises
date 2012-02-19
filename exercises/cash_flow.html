@@ -11,13 +11,26 @@
 			<var id="YEARLY_DEPOSIT">randRange(1,5) * 1000</var>
 			<var id="INTEREST">randRange(4, 9)</var>
 			<var id="PERIOD">randRange(4, 8)</var>
+			<var id="ANSWER">futureValueUniformDeposits(YEARLY_DEPOSIT, INTEREST, PERIOD)</var>
+			<var id="DISCRETE_FUTURE_VALUES">
+				(function() {
+					var values = [];
+					
+					for (var i = 1; i &lt; PERIOD + 1; i++){
+						values[i-1] = futureValueSingleAmount(YEARLY_DEPOSIT, INTEREST, PERIOD - i);
+					}
+					
+					console.log(values);
+					return values;
+				})()
+			</var>
 		</div>
 
 		<div class="problems">
 			
 			<div>
 				<div class="question">
-					<div><var>person(1)</var> would like to start putting away some money for a rainy day. <var>He(1)</var> can afford to put away $<var>commafy(YEARLY_DEPOSIT)</var> from his salary into a savings account that pays <var>INTEREST</var>% in interest annually, compounded once a year. How much money will <var>person(1)</var> have saved <var>PERIOD</var> years from now? A cash flow diagram for <var>person(1)</var>'s investment strategy is illustrated below:
+					<div><var>person(1)</var> would like to start putting away some money for a rainy day. Starting at the end of the year, <var>he(1)</var> can afford to put away $<var>commafy(YEARLY_DEPOSIT)</var> from <var>his(1)</var> salary into a savings account that pays <var>INTEREST</var>% in interest annually, compounded once a year. How much money will <var>person(1)</var> have saved <var>PERIOD</var> years from now? A cash flow diagram for <var>person(1)</var>'s investment strategy is illustrated below:
 						<br><br>
 					</div>
 					<div class="graphie">
@@ -29,20 +42,35 @@
 						
 						yearlyAmounts = {};
 						for (var i=1; i &lt; PERIOD + 1; i++){
-							yearlyAmounts[i] = 0 - YEARLY_DEPOSIT;
+							yearlyAmounts[i] = [{amount: (0 - YEARLY_DEPOSIT)}];
 						}
-						yearlyAmounts[PERIOD] = futureValueUniformDeposits(YEARLY_DEPOSIT, INTEREST, PERIOD);
-						//hiddenPeriods = [PERIOD];
+						yearlyAmounts[PERIOD].push({amount: ANSWER, hidden: true});
 						
 						cashFlow( PERIOD, yearlyAmounts );
 						
 					</div>
 				</div>
 
-				<div class="solution" data-forms="percent"></div>
+				<div class="solution" data-forms="dollar"><var>ANSWER</var></div>
 				
 				<div class="hints">
-					
+					<div>There are two ways to do this question. Since <var>person(1)</var> is making the same deposit each year for n years, we can recognize that this is a uniform series, which we can calculate using the derived formula:<br>
+						<code>Future Value = Deposit * \frac{(1 + r)^t - 1}{rate}</code>
+					</div>
+					<div><br>Substituting our values:<br>
+						<code>Future Value = <var>YEARLY_DEPOSIT</var> * \frac{(1 + <var>INTEREST/100</var>)^<var>PERIOD</var> - 1}{<var>INTEREST/100</var>} = $<var>commafy(ANSWER)</var></code>
+					</div>
+					<div><br>Another way to do this is to calculate it the long way. Each time <var>person(1)</var> makes a deposit, that deposit will accumulate interest from that point in time until <var>person(1)</var> withdraws <var>his(1)</var> money <var>PERIOD</var> years from now. In other words, the deposit in year 1 will compound for <var>PERIOD - 1</var> years, deposit in year 2 will compound for <var>PERIOD - 2</var> years, and so on.
+					</div>
+					<div><br>The future value of each deposit from the time the deposit is made until <var>person(1)</var> withdraws the money is:<br>
+						<code>Future Value(deposit, t) = Deposit * (1 + r)^t</code>, where t is the time the deposit will be in the bank.
+					</div>
+					<div><br>Summing all the future values, we get the total future value for the series.
+						<code>Total Value = FutureValue(deposit, time1) + FutureValue(deposit, time2)...</code>
+					</div>
+					<div>
+						<code>Total Value = <var>DISCRETE_FUTURE_VALUES.join(' + ')</var> = $<var>commafy(ANSWER)</var></code>
+					</div>
 				</div>
 			</div>
 			
