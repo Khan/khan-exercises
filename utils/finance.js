@@ -29,6 +29,12 @@ jQuery.extend(KhanUtil, {
 	  return KhanUtil.roundToCurrency(deposit * ((Math.pow(1 + interest/100, period) - 1)/(interest/100)));
 	},
 	
+	/* Given uniform, equally spaced withdrawals of money, the principal of which earns a
+	compound interest, what is the present value of the principal initially invested? */
+	presentValueUniformWithdrawals: function(withdrawal, interest, period){
+	  return KhanUtil.roundToCurrency(withdrawal * ((Math.pow(1 + interest/100, period) - 1)/(interest/100 * Math.pow(1 + interest/100, period))));
+	},
+	
 	/*Sums the elements of an array */
 	sumArray: function(array){
 	  var total = 0;

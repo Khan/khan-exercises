@@ -91,15 +91,17 @@ function cashFlow( numPeriods, flowsInOut ) {
 	//Draw the number line labels for the periods
 	for( var i = 0; i <= end - start; i += step ) {
 	  
-	  //If there is a cash line next to the number, we need to offset the label
+	  //If there is a cash flow at the number, we need to offset the label
 	  //so it doesn't get drawn on top of the cash line.
 	  var labelOffset = 0;
-	  if (flowsInOut[i] != undefined) labelOffset = - 0.15; 
+	  if ( flowsInOut[ i ] != undefined ) labelOffset = - 0.15; 
+	  var labelPlacement = 'above';
+	  if ( flowsInOut[ i ] != undefined && flowsInOut[ i ][ 0 ].amount > 0) labelPlacement = 'below'; 
 	  
 		set.push( graph.line( [x + i, y - 0.07], [x + i, y + 0.07] ) );
 
-		graph.label( [x + i - labelOffset, y + 0.1], (start + i).toFixed(decPlaces), 
-		            "above", { labelDistance: 2 } );		
+		graph.label( [x + i - labelOffset, y], (start + i).toFixed(decPlaces), 
+		            labelPlacement, { labelDistance: 2 } );		
 	}
 	
 	return set;
