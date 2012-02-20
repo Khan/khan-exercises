@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html data-require="math graphie stat interactive">
+<head>
+	<meta charset="UTF-8" />
+	<title>Z-scores 1</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+	function updateArrow( x, y, z ) {
+		var graph = KhanUtil.currentGraph;
+		graph.graph.leftArrow.remove();
+		graph.graph.rightArrow.remove();
+		graph.graph.meanLabel.remove();
+
+		graph.style({ arrows: "-&gt;", stroke: KhanUtil.GREEN }, function() {
+			graph.graph.leftArrow = graph.path([
+			[ ( x + y ) / 2, -1.25 ],
+			[ x, -1.25 ]
+			]);
+			graph.graph.rightArrow = graph.path([
+			[ ( x + y ) / 2, -1.25 ],
+			[ y, -1.25 ]
+			]);
+		});
+
+		graph.graph.meanLabel = graph.label( [ ( x + y ) / 2, -1.33 ],
+		KhanUtil.roundTo( 2, z * 100 ) + "\\%", "above", { color: KhanUtil.GREEN } );
+
+	}
+	</script>
+	<script type="text/javascript">
+	function updateLine(x, y, mean, stddev) {
+		var graph = KhanUtil.currentGraph;
+
+		graph.graph.zLine[ y ].remove();
+		graph.graph.zLabel[ y ].remove();
+
+		graph.style({ stroke: KhanUtil.PINK }, function() {
+			graph.graph.zLine[ y ] = graph.line( [ x, 0 ], [ x, graph.graph.pdf( x ) ] ).toBack();
+			graph.graph.zLabel[ y ] = graph.label( [ x, 0 ], KhanUtil.roundTo( 1, mean + stddev * x ), "below", { color: KhanUtil.PINK } );
+		});
+	}
+	</script>
+	<script type="text/javascript">
+	function updateShape(x, y, mean, stddev) {
+		var graph = KhanUtil.currentGraph;
+		var step = 1 / 50;
+		blueShape = [];
+		graph.graph.blueShape.remove();
+
+		blueShape.push([ x, 0 ]);
+
+		for ( var i = x; i <= y; i += step ) {
+			blueShape.push([ i, graph.graph.pdf( i ) ]);
+		}
+
+		blueShape.push([ y, graph.graph.pdf( y ) ]);
+		blueShape.push([ y, 0 ]);
+		blueShape.push([ x, 0 ]);
+
+		graph.style({ stroke: null, fill: KhanUtil.BLUE, opacity: 0.3 }, function() {
+			graph.graph.blueShape = graph.path( blueShape );
+		});
+	}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div id="original">
+				<div class="vars">
+					<var id="MEAN">roundTo( 1, ( randRange( -9, 9 ) * 10 + randRangeWeighted( -9, 9, 0, 0.6 ) ) / 10 )</var>
+					<var id="STDDEV">randRangeWeighted( 1, 4, 1, 0.6 )</var>
+					<var id="Z1">roundTo( 1, randRange( -30, 25 ) / 10 )</var>
+					<var id="Z2">roundTo( 1, randRange( Z1 * 10 + 5, 30 ) / 10 )</var>
+					<var id="ZSCORES">
+						{ 
+							"-30": 0.0014, "-29": 0.0019, "-28": 0.0026, "-27": 0.0035, "-26": 0.0047, "-25": 0.0062, "-24": 0.0082, "-23": 0.0107,
+							"-22": 0.0139, "-21": 0.0179, "-20": 0.0227, "-19": 0.0287, "-18": 0.0359, "-17": 0.0446, "-16": 0.0548, "-15": 0.0668,
+							"-14": 0.0808, "-13": 0.0968, "-12": 0.1151, "-11": 0.1357, "-10": 0.1587, "-9": 0.1841, "-8": 0.2119, "-7": 0.242,
+							"-6": 0.2743, "-5": 0.3085, "-4": 0.3446, "-3": 0.3821, "-2": 0.4207, "-1": 0.4602, "0": 0.5, "1": 0.5398,
+							"2": 0.5793, "3": 0.6179, "4": 0.6554, "5": 0.6915, "6": 0.7257, "7": 0.7580, "8": 0.7881, "9": 0.8159,
+							"10": 0.8413, "11": 0.8643, "12": 0.8849, "13": 0.9032, "14": 0.9192, "15": 0.9332, "16": 0.9452, "17": 0.9554,
+							"18": 0.9641, "19": 0.9713, "20": 0.9773, "21": 0.9821, "22": 0.9861, "23": 0.9893, "24": 0.9918, "25": 0.9938,
+							"26": 0.9953, "27": 0.9965, "28": 0.9974, "29": 0.9981, "30": 0.9986
+						}
+					</var>
+				</div>
+
+				<div class="problem">
+					A random variable <code>x</code> is normally distributed with a mean of <code><var>MEAN</var></code> and a standard deviation 
+					of <code><var>STDDEV</var></code>. Its probability distribution is shown below.
+				</div>
+
+				<div class="question">
+					<p><b>Move the points to estimate the probability that <code>x</code> is between <code><var>roundTo( 1, MEAN + Z1 * STDDEV )</var></code> 
+					and <code><var>roundTo( 1, MEAN + Z2 * STDDEV )</var></code>.</b></p>
+
+					<div class="graphie" id="normaldist">
+							init({
+								range: [ [ -3.5, 3.5 ], [ -1.5, 4.7 ] ],
+								scale: [ 600 / 7, 40 ]
+							});
+
+							style({ stroke: "#bbb" }, function() {
+								line( [ -4, 0 ], [ 4, 0 ] );
+							});
+
+							graph.pdf = function( x ) {
+								return gaussianPDF( 0, 1, x ) * 4 / gaussianPDF( 0, 1, 0 ) + 0.2;
+							};
+
+							style({ stroke: BLUE }, function() {
+								plot( graph.pdf, [ -3.5, 3.5 ]);
+							});
+
+							graph.zLine = [];
+							graph.zLabel = [];
+
+							style({ stroke: PINK }, function() {
+								graph.zLine[ 0 ] = line( [ 0, 0 ], [ 0, graph.pdf( 0 ) ] ).toBack();
+								graph.zLabel[ 0 ] = label( [ 0, 0 ], roundTo( 1, MEAN ), "below", { color: PINK } );
+								graph.zLine[ 1 ] = line( [ 1, 0 ], [ 1, graph.pdf( 1 ) ] ).toBack();
+								graph.zLabel[ 1 ] = label( [ 1, 0 ], roundTo( 1, MEAN + STDDEV ), "below", { color: PINK } );
+							});
+
+							style({ stroke: "#bbb" }, function() {
+								graph.zLine[ 2 ] = line( [ -3, 0 ], [ -3, graph.pdf( -3 ) ] ).toBack();
+								graph.zLine[ 3 ] = line( [ 3, 0 ], [ 3, graph.pdf( 3 ) ] ).toBack();
+							});
+
+							graph.shape = [];
+							graph.shape.push([ 0, 0 ]);
+
+							var step = 1 / 50;
+							for ( var x = 0; x &lt;= 1; x += step ) {
+								graph.shape.push([ x, graph.pdf( x ) ]);
+							}
+
+							graph.shape.push([ 1, graph.pdf( 1 ) ]);
+							graph.shape.push([ 1, 0 ]);
+							graph.shape.push([ 0, 0 ]);
+
+							style({ stroke: null, fill: BLUE, opacity: 0.3 }, function() {
+								graph.blueShape = path( graph.shape );
+							});
+
+							style({ arrows: "-&gt;", stroke: GREEN }, function() {
+								graph.leftArrow = path([
+									[ 0.5, -1.25 ],
+									[ 0, -1.25 ]
+								]);
+								graph.rightArrow = path([
+									[ 0.5, -1.25 ],
+									[ 1, -1.25 ]
+								]);
+							});
+
+							graph.meanLabel = label( [ 0.5, -1.33 ],
+								roundTo( 2, ( ZSCORES[10] - ZSCORES[0] ) * 100 ) + "\\%", "above", { color: GREEN } );
+
+							addMouseLayer();
+							this.movablePoint = addMovablePoint({ coord: [0, graph.pdf( 0 )], constraints: { constrainY: true }, snapX: 0.1, });
+							this.movablePoint2 = addMovablePoint({ coord: [1, graph.pdf( 1 )], constraints: { constrainY: true }, snapX: 0.1, });
+							movablePoint.onMove = function( x, y ) {
+
+								if ( ( x + 0.5 ) &gt; movablePoint2.coord[0] || x &lt; -3 || 3 &lt; x ) {
+									return false; // don't allow the point to move past the bounds
+								}
+
+							else {
+								updateShape( x, movablePoint2.coord[0], MEAN, STDDEV );
+								updateLine( x, 0, MEAN, STDDEV );
+								updateArrow( x, movablePoint2.coord[0], ZSCORES[roundTo( 0, movablePoint2.coord[0] * 10 )] - ZSCORES[roundTo( 0, x * 10 )] );
+								return [x, graph.pdf( x )];
+							}
+
+						};
+							movablePoint2.onMove = function( x, y ) {
+
+							if ( ( x - 0.5 ) &lt; movablePoint.coord[0] || x &lt; -3 || 3 &lt; x ) {
+									return false; // don't allow the point to move past the bounds
+								}
+							else {
+								updateShape( movablePoint.coord[0], x, MEAN, STDDEV );
+								updateLine( x, 1, MEAN, STDDEV );
+								updateArrow( movablePoint.coord[0], x, ZSCORES[roundTo( 0, x * 10 )] - ZSCORES[roundTo( 0, movablePoint.coord[0] * 10 )] );
+								return [x, graph.pdf( x )];
+							}
+
+						};
+
+					</div>
+				</div>
+
+				<div class="solution" data-forms="percent"><var>roundTo( 2, ( ZSCORES[roundTo( 0, Z2 * 10 )] - ZSCORES[roundTo( 0, Z1 * 10 )] ) * 100 )</var></div>
+
+				<div class="hints">
+					<div>
+						<div class="graphie" data-update="normaldist">
+							if( ( Z1 ) &lt;= ( movablePoint2.coord[0] - 0.5 ) ) {
+								movablePoint.moveTo( Z1, graph.pdf( Z1 ) );
+								movablePoint2.moveTo( Z2, graph.pdf( Z2 ) );
+							}
+							else {
+								movablePoint2.moveTo( Z2, graph.pdf( Z2 ) );
+								movablePoint.moveTo( Z1, graph.pdf( Z1 ) );
+							}
+						</div>
+						<p>Move the orange dots to the points labeled <code><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and <code><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> on the graph.</p>
+					</div>
+					<p>The green arrow indicates that the shaded area represents <code><var>roundTo( 2, ( ZSCORES[roundTo( 0, Z2 * 10 )] - ZSCORES[roundTo( 0, Z1 * 10 )] ) * 100 )</var>\%</code>
+					of the total area under the curve. Therefore, the probability that <code>x</code> is between <code><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and 
+					<code><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> is <code><var>roundTo( 2, ( ZSCORES[roundTo( 0, Z2 * 10 )] - ZSCORES[roundTo( 0, Z1 * 10 )] ) * 100 )</var>\%</code>.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
