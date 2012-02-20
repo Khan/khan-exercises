@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html data-require="math">
+    <head>
+        <title>Simple Interest Calculation</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                    <var id="P">randRange( 100,1000 )</var>
+                    <var id="R">randRange( 1, 5 )</var>
+                    <var id="T">randRange( 1, 3)</var>
+
+                    <var id="I">P * R * T / 100</var>
+            </div>
+
+            <div class="problems">
+                <div id="problem-type-or-description">
+                    <p class="problem"></p>
+                    <p class="question"><p>What is the simple interest for </p>
+                    Principal = $<var>P</var><br/>
+                    Rate = <var>R</var>%<br/>
+                    Time = <var>T</var> years<br/>
+                    <p class="solution">$<var>I</var></p>
+                </div>
+            </div>
+
+            <div class="hints">
+                <p>The simple interest over an investment can be calculated by using:<br/>
+                    P X R X T <code>\div</code> 100 <br/>
+                    where P is Principal (in $), R is Rate (in %) and T is Time (in years).
+                </p>
+                <div>
+                  <p>So, let's substitute the values in the formula and try it out!</p>
+                </div>
+                <div>
+                  <p>We know P = $<var>P</var> , R = <var>R</var>% and T = <var>T</var> years.
+                  Let's try calculating <var>P</var> X <var>R</var> X <var>T</var> <code>\div</code> 100
+                  </p>
+                </div>
+                <div>
+                  <p>Still struggling? Check out the <a href="http://www.khanacademy.org/exercise/multiplication_4">Multiplication exercise</a>
+                  </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
