@@ -53,7 +53,8 @@ def sandcastle(request, number=None, branch=None):
 	os.chdir(os.path.join(settings.PROJECT_DIR, 'media/castles'))
 	if os.path.isdir(name):
 		os.chdir(name)
-		call(["git", "pull", "origin", branch])
+		call(["git", "fetch", "origin", branch])
+		call(["git", "reset", "--hard", "FETCH_HEAD"])
 	else:
 		call(["git", "clone", "--branch=%s" % branch, "git://github.com/%s/%s.git" % (user, settings.SANDCASTLE_REPO), name])
 
