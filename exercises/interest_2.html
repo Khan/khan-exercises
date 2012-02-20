@@ -21,7 +21,7 @@
 					<p><var>person(1)</var> borrowed <code>$<var>commafy(PRINCIPAL)</var></code> from the Bank today, and must repay the loan in one payment, <var>PERIOD</var> year<var>plural(PERIOD)</var> from now. The loan carries a compound interest rate of <code><var>INTEREST_RATE</var></code>% per year, compounded annually. How much money does <var>person(1)</var> need to repay? </p>
 				</div>
 
-				<p class="solution" data-forms="dollar"><var>FUTURE_VALUE</var></p>
+				<p class="solution" data-forms="dollar" data-inexact data-max-error="0.1" ><var>FUTURE_VALUE</var></p>
 				
 				<div class="hints">
 					<p>The amount <var>person(1)</var> needs to pay is calculated by taking the principal amount <var>person(1)</var> borrowed, and compounding it by the interest rate <code>r</code> each year for the duration of the loan, <code>n</code>.</p>
@@ -51,7 +51,7 @@
 					<p><var>person(1)</var> borrowed <code>$<var>PRINCIPAL</var></code> from the Bank today, and must repay the loan in one payment, <var>PERIOD</var> year<var>plural(PERIOD)</var> from now. It is a simple interest loan with a rate of <code><var>INTEREST_RATE</var>\%</code> per year. How much money will <var>person(1)</var> need to repay? </p>
 				</div>
 
-				<p class="solution" data-forms="dollar"><var>FUTURE_VALUE_SIMPLE_INTEREST</var></p>
+				<p class="solution" data-forms="dollar" data-inexact data-max-error="0.1" ><var>FUTURE_VALUE_SIMPLE_INTEREST</var></p>
 				
 				<div class="hints">
 					<p><var>person(1)</var> needs to repay the principal amount <var>he(1)</var> borrowed, as well as a fixed percentage of the principal amount for each year that <var>he(1)</var> borrowed the money.
