@@ -74,48 +74,6 @@
 				<p><code>x \approx <var>YEAR_LAST</var></code></p>
 			</div>
 		</div>
-		<div id="tip">
-			<div class="vars">
-				<var id="BILL">randRange( 20, 50 )</var>
-				<var id="BILL_FORMAT">parseFloat( BILL ).toFixed( 2 )</var>
-				<var id="TIP_PERCENT">randRange( 1, 4 ) * 5</var>
-				<var id="TIP_AMOUNT">BILL * ( TIP_PERCENT / 100 )</var>
-				<var id="TIP_AMOUNT_FORMAT">parseFloat( TIP_AMOUNT ).toFixed( 2 )</var>
-				<var id="TIP_TEN_PERCENT">parseFloat( BILL * 0.1 ).toFixed( 2 )</var>
-				<var id="TIP_FIVE_PERCENT">parseFloat( BILL * 0.05 ).toFixed( 2 )</var>
-				<var id="TOTAL">BILL + TIP_AMOUNT</var>
-				<var id="TOTAL_FORMAT">parseFloat( TOTAL ).toFixed( 2 )</var>
-			</div>
-			<div class="question">
-				<p class="spin"><b><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of <var>his(1)</var> meal is $<var>BILL_FORMAT</var>. <var>He(1)</var> would like to leave a <var>TIP_PERCENT</var>% tip. What is <var>his(1)</var> total bill including tip?</b></p>
-			</div>
-			<p class="solution" data-forms="dollar"><var>TOTAL</var></p>
-			<div class="hints">
-				<div>
-					<p>The tip amount is equal to <code><var>TIP_PERCENT</var>\% \times \$<var>BILL_FORMAT</var></code>.</p>
-					<p data-if="TIP_PERCENT !== 10">We can find the tip by first calculating a <code>10\%</code> tip <span data-if="TIP_PERCENT === 5"> and then dividing that number by two.</span><span data-else-if="TIP_PERCENT === 20"> and then multiplying that number by two.</span><span data-else> and a <code>5\%</code> tip, and then adding those two numbers together.</span></p>
-				</div>
-				<div>
-					<p>To calculate a <code>10\%</code> tip, move the decimal point in <code>\$<var>BILL_FORMAT</var></code> one place to the left.</p>
-					<p><code>10\% \times \$<var>BILL_FORMAT</var> = \$<var>TIP_TEN_PERCENT</var></code></p>
-				</div>
-				<div data-if="TIP_PERCENT !== 10">
-					<div data-if="TIP_PERCENT % 10 === 5">
-						<p>To calculate a <code>5\%</code> tip, divide the <code>10\%</code> tip amount in half.</p>
-						<p><code>5\% \times \$<var>BILL_FORMAT</var> = \$<var>TIP_TEN_PERCENT</var> \div 2 = \$<var>TIP_FIVE_PERCENT</var></code>.</p>
-					</div>
-					<div data-else>
-						<p>To calculate a <code>20\%</code> tip, multiply the <code>10\%</code> tip amount by two.</p>
-						<p><code>20\% \times \$<var>BILL_FORMAT</var> = \$<var>TIP_TEN_PERCENT</var> \times 2 = \$<var>TIP_AMOUNT_FORMAT</var></code>.</p>
-					</div>
-				</div>
-				<div data-if="TIP_PERCENT === 15">
-					<p>Adding the two amounts together gives us <code>\$<var>TIP_TEN_PERCENT</var> + \$<var>TIP_FIVE_PERCENT</var> = \$<var>TIP_AMOUNT_FORMAT</var></code>.</p>
-				</div>
-				<p>The cost of the meal plus the amount of the tip will equal the total bill amount.</p>
-				<p><code>\$<var>BILL_FORMAT</var> + \$<var>TIP_AMOUNT_FORMAT</var> = \$<var>TOTAL_FORMAT</var></code>.</p>
-				<p>The total cost of the bill is <code>\$<var>TOTAL_FORMAT</var></code>.</p>
-			</div>
 		</div>
 	</div>
 	</div>
