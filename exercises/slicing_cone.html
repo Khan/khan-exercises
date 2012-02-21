@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html data-require="math graphie conics3d">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Conic sections</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		var graph = null;
+		var conicsUI = null;
+		var conicPlot = null;
+		// this applies to hyperbola only
+		// and is used to determine if a hyperbola
+		// displays as a parabola
+		var visibleCurveCount = 0;
+		var intsec = null;
+		var XRANGE = 10;
+		var YRANGE = 15;
+
+		function initConics() {
+			//init graph
+			graph = KhanUtil.currentGraph;
+			graph.graphInit({
+				range: [XRANGE, YRANGE],
+				scale: 10,
+				axisArrows: "&lt;-&gt;",
+				tickStep: 1,
+				gridOpacity: 0.05,
+				axisOpacity: 0.2,
+				tickOpacity: 0.4,
+				labelOpacity: 0.5
+			});
+
+			graph.label( [ 0, YRANGE ], "y", "above" );
+			graph.label( [ XRANGE, 0 ], "x", "right" );
+
+			// init conics user interface
+			conicsUI = new ConicsUI(
+				$("#plane_controls"),
+				$("#conics3d"),
+				{ maxConeRadius: XRANGE,
+					updateRealtime: true,
+					yaw: Math.PI / 8,
+					pitch: Math.PI / 8,
+					planeY: -1,
+					onPlaneUpdate: onPlaneUpdate,
+					drawOptions: {
+						curveLineSegments: 48,
+						plane: {
+							"stroke": "#FF00FF",
+							"stroke-width": 2 },
+						intersection: {
+							stroke: "#FF00FF",
+							"stroke-width": 2 },
+						coneEndings: {
+							"stroke": "#555555",
+							"fill-opacity": "0.6",
+							"fill": "#EFEFEF",
+							"stroke-width": 1 },
+						coneLines: {
+							"stroke": "#555555",
+							"stroke-width": 1 }
+					}
+				}
+			);
+		}
+
+		function plotIntersection(graph, intsec) {
+			function outOfBounds(p) {
+				return p.x > XRANGE || p.x < -XRANGE ||
+							p.y > YRANGE || p.y < -YRANGE;
+			}
+
+			switch(intsec.type) {
+				case ConicType.ELLIPSE:
+				case ConicType.CIRCLE: {
+					var points = [];
+					ConicsUtil.drawEllipse(
+						intsec.cx, intsec.cy,
+						intsec.rx, intsec.ry, 48,
+						function(p1, p2) {
+							points.push([p1.x, p1.y], [p2.x, p2.y]);
+						}
+					);
+					return graph.path(points);
+				}
+				case ConicType.PARABOLA: {
+					var points = [];
+					ConicsUtil.drawParabola(
+						intsec.cx, intsec.cy,
+						intsec.rx, -XRANGE, XRANGE, 48,
+						function(p1, p2) {
+							points.push([p1.x, p1.y], [p2.x, p2.y]);
+						}
+					);
+					return graph.path(points);
+				}
+				case ConicType.HYPERBOLA: {
+					rtn = graph.raphael.set();
+					var l1Visible = false;
+					var l2Visible = false;
+
+					ConicsUtil.drawHyperbola(
+						intsec.cx, intsec.cy,
+						intsec.rx, intsec.ry,
+						-XRANGE, XRANGE, 32,
+						function(p1, p2) {
+							if (!outOfBounds(p1) || !outOfBounds(p2)) {
+								l1Visible = true;
+								rtn.push(
+									graph.line([p1.x, p1.y], [p2.x, p2.y])
+								);
+							}
+						},
+						function(p1, p2) {
+							if (!outOfBounds(p1) || !outOfBounds(p2)) {
+								l2Visible = true;
+								rtn.push(
+									graph.line([p1.x, p1.y], [p2.x, p2.y])
+								);
+							}
+						}
+					);
+
+					visibleCurveCount = l1Visible + l2Visible;
+
+					return rtn;
+				}
+			}
+			return null;
+		}
+
+		function onPlaneUpdate() {
+			if (graph & conicsUI == null)
+				return;
+
+			// clear screen
+			if (conicPlot != null)
+				conicPlot.remove();
+
+			// plot new intersection
+			intsec = conicsUI.conics.getIntersection();
+	 		conicPlot = plotIntersection(graph, intsec);
+			if (conicPlot != null)
+				conicPlot.attr("stroke", "#FF00FF");
+		}
+
+		function getCurrentConicType() {
+			if (intsec == null)
+				return ConicType.CIRCLE;
+			if (intsec.type == ConicType.HYPERBOLA) {
+				// a hyperbola of which only one curve is visible
+				// counts as a parabola..
+				return visibleCurveCount > 1 ?
+								ConicType.HYPERBOLA :
+								ConicType.PARABOLA;
+			}
+			else
+				return intsec.type;
+		}
+
+		function conicTypeToString(conicType) {
+			switch(conicType) {
+				case ConicType.CIRCLE: return "a circle";
+				case ConicType.ELLIPSE: return "an ellipse";
+				case ConicType.PARABOLA: return "a parabola";
+				case ConicType.HYPERBOLA: return "a hyperbola";
+			}
+			return "";
+		}
+
+
+	</script>
+
+	<style type="text/css">
+		.conics3d {
+			width: 480px;
+			height: 300px;
+			cursor: move;
+		}
+
+		.conics3d-ui table, .conics3d-ui table td {
+	 		border: none;
+			margin: 0;
+			padding: 5px 5px 5px;
+		}
+
+		.conics3d-ui td {
+			margin: 0;
+			width: 25px;
+		}
+
+		.conics3d-ui  h1 {
+			font-size: 1.1em;
+		}
+
+		.conics3d-ui  h1 {
+			font-size: 1.1em;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+
+		<div id="conics-recreate">
+			<div class="vars">
+				<var id="CONIC_TYPE">randRange(ConicType.CIRCLE, ConicType.HYPERBOLA)</var>
+				<var id="CONIC_TYPE_NAME">conicTypeToString(CONIC_TYPE)</var>
+			</div>
+
+			<div class="question">
+				<p>Slice the cone with the plane so that its intersection forms <strong><var>CONIC_TYPE_NAME</var></strong>.</p>
+			</div>
+
+			<div class="solution" data-type="custom">
+		    <div class="instruction">
+					Use the plane controls below to manipulate the plane in order to
+					get <var>CONIC_TYPE_NAME</var>.
+					<div id="plane_controls"></div>
+		    </div>
+				<div class="guess">{
+					conicType: getCurrentConicType()
+				}</div>
+		    <div class="validator-function">
+					if (guess.conicType == CONIC_TYPE)
+						return true;
+					else
+						return "That is "+ conicTypeToString(guess.conicType) +".";
+		    </div>
+			</div>
+
+			<div class="problem">
+				<table>
+					<tr>
+						<td>
+							<div id="graph" class="graphie">
+								initConics();
+							</div>
+						</td>
+						<td>
+								<div id="conics3d"></div>
+								<p align="center">Click and drag to rotate the camera</p>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+		</div>
+
+	</div>
+</body>
+</html>
