@@ -42,26 +42,26 @@
 			
 		<div id="simple-tax">
 			<div class="vars">
-				<var id="TAX">randRange(3.1,13.9)</var>
+				<var id="TAX">roundTo( 1, randRange(31,139) / 10 )</var>
 				<var id="PRICE">randRange(3, 200).toFixed(2)</var>
 				<var id="TOTAL_TAX">((TAX/100)*PRICE).toFixed(2)</var>
 			</div>
 			<div class="question spin">
-					<p>If the sales tax in your city is <var>TAX</var>%, how much tax would you pay for an item that costs $<var>PRICE</var>?</p>
+					<p>If the sales tax in your city is <var>TAX</var>%, how much tax would you pay for an item that costs $<var>PRICE</var>? Round to the nearest cent.</p>
 			</div>
 			<p class="solution" data-forms="dollar"><var>TOTAL_TAX</var></p>
 			<div class="hints">
 				<div>
-					<p>In order to find the amount of sales tax you would pay, multiply the sales tax by the original price of the of the item.</p>
+					<p>In order to find the amount of sales tax you would pay, multiply the sales tax by the original price of the item.</p>
 					<p><code class="hint_blue"><var>TAX</var>\%</code> <code>\times</code> <code class="hint_green">$<var>PRICE</var></code><code> =</code></p>
 				</div>			
 				<div>
 					<p>Percent means "out of one hundred," so <code class="hint_blue"><var>TAX</var>\%</code> is equivalent to <code class="hint_blue"><var>TAX</var> \div 100</code>.</p>
-					<p><code class="hint_blue"><var>TAX</var> \div 100 = <var>(TAX/100).toFixed(2)</var></code>
+					<p><code class="hint_blue"><var>TAX</var> \div 100 = <var>(TAX/100).toFixed(3)</var></code>
 				</div>	
 				<div>
-					<p>Multiply the sales tax you just converted into a decimal by the original price to find the amount of sales tax that must be paid.</p>
-					<p><code class="hint_blue"><var>(TAX/100).toFixed(2)</var></code> <code>\times</code> <code class="hint_green">$<var>PRICE</var></code> = <code class="hint_orange">$<var>TOTAL_TAX</var></code>
+					<p>Multiply the sales tax you just converted into a decimal by the original price to find the amount of sales tax that must be paid. Round to the nearest cent.</p>
+					<p><code class="hint_blue"><var>(TAX/100).toFixed(3)</var></code> <code>\times</code> <code class="hint_green">$<var>PRICE</var></code> = <code class="hint_orange">$<var>TOTAL_TAX</var></code>
 					<p class="final_answer">You would pay <code class="hint_orange">$<var>TOTAL_TAX</var></code> in sales tax.</p>
 				</div>
 			</div>
