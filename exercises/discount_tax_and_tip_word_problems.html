@@ -44,7 +44,7 @@
 			<div class="vars">
 				<var id="TAX">roundTo( 1, randRange(31,139) / 10 )</var>
 				<var id="PRICE">randRange(3, 200).toFixed(2)</var>
-				<var id="TOTAL_TAX">((TAX/100)*PRICE).toFixed(2)</var>
+				<var id="TOTAL_TAX">roundTo( 2, (TAX/100)*PRICE ).toFixed(2)</var>
 			</div>
 			<div class="question spin">
 					<p>If the sales tax in your city is <var>TAX</var>%, how much tax would you pay for an item that costs $<var>PRICE</var>? Round to the nearest cent.</p>
