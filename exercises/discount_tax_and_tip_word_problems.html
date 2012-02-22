@@ -13,7 +13,7 @@
 			<div class="vars">
 				<var id="DOLLARS">randRange(4,25).toFixed(2)</var>
 				<var id="SALES_TAX">randRange(3,19)</var>
-				<var id="TOTAL_PRICE">((1+(SALES_TAX/100))*DOLLARS).toFixed(2)</var>
+				<var id="TOTAL_PRICE">roundTo(2, (1+(SALES_TAX/100))*DOLLARS).toFixed(2)</var>
 			</div>
 			<div class="question spin">
 				<p><var>person(1)</var> buys a basket of <var>plural(fruit(1))</var> on sale for $<var>DOLLARS</var>.  The sales tax is <var>SALES_TAX</var>%.  What is the total price <var>person(1)</var> pays for the basket of <var>plural(fruit(1))</var>?  (Round to the nearest hundredth or cent.)</p>
@@ -42,9 +42,9 @@
 			
 		<div id="simple-tax">
 			<div class="vars">
-				<var id="TAX">roundTo( 1, randRange(31,139) / 10 )</var>
-				<var id="PRICE">randRange(3, 200).toFixed(2)</var>
-				<var id="TOTAL_TAX">((TAX/100)*PRICE).toFixed(2)</var>
+				<var id="TAX">roundTo(1, randRange(31,139) / 10 )</var>
+				<var id="PRICE">randRange(3,200).toFixed(2)</var>
+				<var id="TOTAL_TAX">roundTo(2, (TAX / 100) * PRICE).toFixed(2)</var>
 			</div>
 			<div class="question spin">
 					<p>If the sales tax in your city is <var>TAX</var>%, how much tax would you pay for an item that costs $<var>PRICE</var>? Round to the nearest cent.</p>
@@ -71,7 +71,7 @@
 			<div class="vars">
 				<var id="PRICE">(randRange(8,85)).toFixed(2)</var>
 				<var id="DISCOUNT">randRange(1,11)*5</var>
-				<var id="DISCOUNT_PRICE">(PRICE-(DISCOUNT/100*PRICE)).toFixed(2)</var>
+				<var id="DISCOUNT_PRICE">roundTo(2, PRICE - ( (DISCOUNT/100) * PRICE)).toFixed(2)</var>
 			</div>
 			<div class="question spin">
 					<p><var>person(1)</var> bought a new <var>clothing( 1 )</var> at the store when they were having a <var>DISCOUNT</var>% off sale. If the regular price of the <var>clothing( 1 )</var> was $<var>PRICE</var>, how much did <var>person(1)</var> pay with the discount?</p>
@@ -102,10 +102,10 @@
 			<div class="vars">
 				<var id="DISCOUNT">randRange(1,11)*5</var>
 				<var id="PRICE">randRange(6,20)</var>
-				<var id="TOTAL_DISCOUNT">(DISCOUNT/100*PRICE).toFixed(2)</var>
+				<var id="TOTAL_DISCOUNT">roundTo(2, (DISCOUNT / 100) * PRICE).toFixed(2)</var>
 			</div>
 			<div class="question spin">
-					<p>The <var>pizza(1)</var> store is having a <var>DISCOUNT</var>% sale on all of its <var>plural(pizza(1))</var>. If the <var>pizza(1)</var> you want regularly costs $<var>PRICE</var>, how much would you save with the discount?</p>
+					<p>The <var>pizza(1)</var> store is having a <var>DISCOUNT</var>% off sale on all of its <var>plural(pizza(1))</var>. If the <var>pizza(1)</var> you want regularly costs $<var>PRICE</var>, how much would you save with the discount?</p>
 			</div>
 			<p class="solution" data-forms="dollar"><var>TOTAL_DISCOUNT</var></p>
 			<div class="hints">
@@ -126,15 +126,15 @@
 			</div>		
 		<div id="tip">
 			<div class="vars">
-				<var id="BILL">randRange( 20, 50 )</var>
-				<var id="BILL_FORMAT">parseFloat( BILL ).toFixed( 2 )</var>
-				<var id="TIP_PERCENT">randRange( 1, 4 ) * 5</var>
-				<var id="TIP_AMOUNT">BILL * ( TIP_PERCENT / 100 )</var>
-				<var id="TIP_AMOUNT_FORMAT">parseFloat( TIP_AMOUNT ).toFixed( 2 )</var>
-				<var id="TIP_TEN_PERCENT">parseFloat( BILL * 0.1 ).toFixed( 2 )</var>
-				<var id="TIP_FIVE_PERCENT">parseFloat( BILL * 0.05 ).toFixed( 2 )</var>
+				<var id="BILL">randRange(20,50)</var>
+				<var id="BILL_FORMAT">parseFloat(BILL).toFixed(2)</var>
+				<var id="TIP_PERCENT">randRange(1, 4) * 5</var>
+				<var id="TIP_AMOUNT">BILL * (TIP_PERCENT / 100)</var>
+				<var id="TIP_AMOUNT_FORMAT">parseFloat(TIP_AMOUNT).toFixed(2)</var>
+				<var id="TIP_TEN_PERCENT">parseFloat(BILL * 0.1).toFixed(2)</var>
+				<var id="TIP_FIVE_PERCENT">parseFloat(BILL * 0.05).toFixed(2)</var>
 				<var id="TOTAL">BILL + TIP_AMOUNT</var>
-				<var id="TOTAL_FORMAT">parseFloat( TOTAL ).toFixed( 2 )</var>
+				<var id="TOTAL_FORMAT">roundTo(2, parseFloat(TOTAL)).toFixed(2)</var>
 			</div>
 			<div class="question">
 				<p class="spin"><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of <var>his(1)</var> meal is $<var>BILL_FORMAT</var>. <var>He(1)</var> would like to leave a <var>TIP_PERCENT</var>% tip. What is <var>his(1)</var> total bill including tip?</p>
