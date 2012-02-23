@@ -409,14 +409,15 @@ jQuery.extend ( KhanUtil, {
 					var prevTerm;
 					text = "";
 					jQuery.each(n.args, function (index, term) {
+						var opIndex = index - 1;
 						if (term.args && (term.args.length >= 2)) {
 							if (term.op===OpStr.ADD || term.op===OpStr.SUB) {
 								args[index] = "(" + args[index] + ")";
 							}
-							if (index !== 0) {
-								text += getAlignment(n, (index - 1) * 2, hphantom);
-								text += addOpColor(OpToLaTeX[n.op], n.opsColors, index, true, true);
-								text += getAlignment(n, (index - 1) * 2 + 1, hphantom);
+							if (opIndex > 0) {
+								text += getAlignment(n, opIndex * 2, hphantom);
+								text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true);
+								text += getAlignment(n, opIndex * 2 + 1, hphantom);
 							}
 							text += args[index];
 						}
@@ -429,8 +430,8 @@ jQuery.extend ( KhanUtil, {
 							text += args[index];
 						}
 						else {
-							if (index !== 0) {
-								text += addOpColor(OpToLaTeX[n.op], n.opsColors, index, true, true) + " ";
+							if (opIndex > 0) {
+								text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true) + " ";
 							}
 							text += args[index];
 						}
@@ -440,13 +441,14 @@ jQuery.extend ( KhanUtil, {
 				case OpStr.ADD:
 				case OpStr.COMMA:
 					jQuery.each(args, function (index, value) {
-						if (index===0) {
+						var opIndex = index - 1;
+						if (index === 0) {
 							text = value;
 						}
 						else {
-							text += getAlignment(n, (index - 1) * 2, hphantom);
-							text += addOpColor(OpToLaTeX[n.op], n.opsColors, index, true, true);
-							text += getAlignment(n, (index - 1) * 2 + 1, hphantom);
+							text += getAlignment(n, opIndex * 2, hphantom);
+							text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true);
+							text += getAlignment(n, opIndex * 2 + 1, hphantom);
 							text += value;
 						}
 					});
