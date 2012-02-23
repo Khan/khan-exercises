@@ -5,7 +5,7 @@
 	<title>Factoring polynomials 1</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
-	function signOp(value) { /*return value &lt; 0 ? "-":"+";*/ return "+"; };
+	function signOp(value) { return (value < 0 ? "-":"+"); };
 	</script>
 </head>
 <body>
@@ -15,7 +15,7 @@
 			<div class="vars">
 				<var id="MATH">MathModel.init()</var>
 				<div data-ensure="A !== B && A !== -B">
-					<var id="A">randRangeNonZero( -10, 10 )</var>fa
+					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
 				</div>
 				<var id="SQUARE">1</var>
