@@ -244,11 +244,20 @@ jQuery.extend ( KhanUtil, {
 			return childColors;
 		}
 
-		function addOpColor(text, colors, index) {
+		function addOpColor(text, colors, index, spacingBefore, spacingAfter) {
 			if ((colors === undefined) || (colors[index] === undefined)) {
 				return text + " ";
 			}
-			return "\\color{"+colors[index]+"}{\\;\\,"+text+" \\;\\,}";
+			var str = "\\color{"+colors[index]+"}{";
+			if (spacingBefore) {
+				str += "\\;";
+			}
+			str += text + " ";
+			if (spacingAfter) {
+				str += "\\;";
+			}
+			str += "}";
+			return str;
 		}
 
 		function addColor(text, color) {
@@ -323,13 +332,13 @@ jQuery.extend ( KhanUtil, {
 				case OpStr.SUB:
 					if (n.args.length===1) {
 						text = getAlignment(n, 0, hphantom);
-						text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0) + args[0];
+						text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, false) + args[0];
 						text += getAlignment(n, 1, hphantom);
 					}
 					else {
 						text = args[0];
 						text += getAlignment(n, 0, hphantom);
-						text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0);
+						text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, true);
 						text += getAlignment(n, 1, hphantom);
 						text += args[1];
 					}
@@ -344,7 +353,7 @@ jQuery.extend ( KhanUtil, {
 				case OpStr.NEQ:
 					text = args[0];
 					text += getAlignment(n, 0, hphantom);
-					text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0) + " ";
+					text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, true) + " ";
 					text += getAlignment(n, 1, hphantom);
 					text += args[1];
 					break;
@@ -406,7 +415,7 @@ jQuery.extend ( KhanUtil, {
 							}
 							if (index !== 0) {
 								text += getAlignment(n, (index - 1) * 2, hphantom);
-								text += addOpColor(OpToLaTeX[n.op], n.opsColors, index);
+								text += addOpColor(OpToLaTeX[n.op], n.opsColors, index, true, true);
 								text += getAlignment(n, (index - 1) * 2 + 1, hphantom);
 							}
 							text += args[index];
@@ -421,7 +430,7 @@ jQuery.extend ( KhanUtil, {
 						}
 						else {
 							if (index !== 0) {
-								text += addOpColor(OpToLaTeX[n.op], n.opsColors, index) + " ";
+								text += addOpColor(OpToLaTeX[n.op], n.opsColors, index, true, true) + " ";
 							}
 							text += args[index];
 						}
@@ -436,17 +445,19 @@ jQuery.extend ( KhanUtil, {
 						}
 						else {
 							text += getAlignment(n, (index - 1) * 2, hphantom);
-							text += addOpColor(OpToLaTeX[n.op], n.opsColors, index);
+							text += addOpColor(OpToLaTeX[n.op], n.opsColors, index, true, true);
 							text += getAlignment(n, (index - 1) * 2 + 1, hphantom);
 							text += value;
 						}
 					});
 					break;
 				case OpStr.PAREN:
-					text = "(" + args[0] + ")";
+					text = addOpColor("(", n.opsColors, 0, false, false) + args[0] +
+						addOpColor(")", n.opsColors, 1, false, false);
 					break;
 				case OpStr.ABS:
-					text = "|" + args[0] + "|";
+					text = addOpColor("|", n.opsColors, 0, false, false) + args[0] +
+						addOpColor("|", n.OpsColors, 1, false, false);
 					break;
 				default:
 					KhanUtil.assert(false, "unimplemented eval operator");
@@ -860,15 +871,15 @@ jQuery.extend ( KhanUtil, {
 
 		function surroundedExpr(leftTk, rightTk, op) {
 			eat(leftTk);
-			var idColorLeft = scan.color();
+			var idColorLeft = scan.lastColor();
 			var e = commaExpr();
 			eat(rightTk);
-			var idColorRight = scan.color();
+			var idColorRight = scan.lastColor();
 			var expr = {op:op, args:[e]};
 			if (idColorLeft === idColorRight) {
 				expr.color = colors[idColorLeft];
 			} else {
-				expr.opsColors = [idColorLeft, idColorRight];
+				expr.opsColors = [colors[idColorLeft], colors[idColorRight]];
 			}
 			return expr;
 		}
@@ -1117,11 +1128,11 @@ jQuery.extend ( KhanUtil, {
 				var c;
 				lexeme = "";
 				alignment = [0, 0];
+				lastColor = color();
 				while (popColors > 0) {
-					openedColors.pop();;
+					openedColors.pop();
 					popColors--;
 				}
-				lastColor = color();
 				while (curIndex < src.length) {
 					switch ((c = src.charCodeAt(curIndex++))) {
 					case TK_SPACE:  // space
