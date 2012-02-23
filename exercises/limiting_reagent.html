@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Limiting Reagent</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+				<var id="reagent_a">randRange( 1, 9 )</var>
+				<var id="reagent_b">randRange( 1, 9 )</var>
+				<var id="mass_a">randRange( 1, 100 )</var>
+    			<var id="mass_b">randRange( 1, 100 )</var>
+                <var id="atomic_mass_a">randRange( 1, 50 )</var>
+    			<var id="atomic_mass_b">randRange( 1, 50 )</var>
+                <var id="moles_of_a">mass_a / atomic_mass_a</var>
+                <var id="moles_of_b">mass_b / atomic_mass_b</var>
+                <var id="a">moles_of_a / reagent_a</var>
+    			<var id="b">moles_of_b / reagent_b</var>
+
+                <var id="limiting_reagent">a > b ? 'B' : ((a === b) ? 'None' : 'A')</var>
+		</div>
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>Find the limiting reagent in the following chemical reaction, if <var>mass_a</var> grams of A and <var>mass_b</var> grams of B are present in the reaction vessel before the initiation of the reaction and the atomic masses of A and B are <var>atomic_mass_a</var> g/mol and <var>atomic_mass_b</var> g/mol respectively.</p>
+                 	<p><var>reagent_a</var>A + <var>reagent_b</var>B => A<code data-if="reagent_a > 1">_<var>reagent_a</var></code>B<code data-if="reagent_b > 1">_<var>reagent_b</code></p>
+				</div>
+				<p class="solution"><var>limiting_reagent</var></p>
+                <ul class="choices" data-show="3" data-none="true">
+                    <li>A</li>
+                    <li>B</li>
+                    <li>Both reactants are consumed</li>
+                </ul>
+            </div>
+		</div>
+
+		<div class="hints">
+			<p>The limiting reagent is the substance that is totally consumed when the reaction is complete.</p>
+
+			<div>
+                <p><b>Step 1:</b> Calculate the number of moles of the reactants.</p>
+                <p>Number of Moles of A in the reaction vessel is <var>moles_of_a</var></p>
+                <p>Number of Moles of B in the reaction vessel is <var>moles_of_b</var></p>
+            </div>
+
+            <div>
+                <p><b>Step 2:</b> Divide moles of each reagent by its stoichiometric coefficient.</p>
+                <p><b>A</b> : <var>moles_of_a</var>/<var>reagent_a</var> = <var>moles_of_a/reagent_a</var></p>
+                <p><b>B</b> : <var>moles_of_b</var>/<var>reagent_b</var> = <var>moles_of_b/reagent_b</var></p>
+            </div>
+
+            <div>
+                <p><b>Step 3:</b> Identify the limiting reagent.</p>
+                <p data-if="limiting_reagent === 'None'">As both the values are equal, we can conclude that both the reagents are consumed fully.</p>
+                <p data-else>The limiting reagent is the smallest number i.e <var>limiting_reagent</var></p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
