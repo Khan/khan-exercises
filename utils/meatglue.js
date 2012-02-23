@@ -13,7 +13,7 @@ Requires:
 
 (function(){
 
-	var trapper = {
+	var defaultBinder = {
 
 		initialize: function(){
 			if( _.isFunction(this.init) ){ this.init(); }
@@ -68,25 +68,29 @@ Requires:
 
 	// set up the default environment on startup and return the created model
 	var initialize = function(problem){
-		// evaluate all the trapper scripts in a protected context
+		// evaluate all the meatglue scripts in a protected context
 		var defaultSrc = problem.find("script[type='text/meatglue']");
 
+		// protect all data-onchange function names attached to vars
 		var whitelisted = _.map( problem.find("[data-onchange]"), function( elt ){
 			return $(elt).data("onchange");
 		})
 		var whitelist = _.union( ["defaults", "update", "init"], whitelisted );
 
 		if (defaultSrc){
+			// TODO (marcos) this will be better if we don't eval and instead make each script a stored callback
+			// i.e. <script type='text/meatglue'>meatglue.load( {...} )</script> which is cloned and then reinserted
+			// as type=text/javascript causing it to be finally evaluated after the problem is setup
 			try { var scope = scopedEval(defaultSrc.html(), whitelist); }
-			catch(e){ if(window.console){ console.log("yarrr....", e); } }
+			catch(e){ if(window.console){ console.log("There was a problem with the meatglue script:", e); } }
 			var scope = scopedEval(defaultSrc.html(), whitelist);
-			$.extend(trapper, scope)
+			$.extend(defaultBinder, scope)
 		}
 
 		// be able to access the problem area
-		$.extend( trapper, {problem: problem} );
+		$.extend( defaultBinder, {problem: problem} );
 
-		var MeatBinder = Backbone.Model.extend(trapper);
+		var MeatBinder = Backbone.Model.extend(defaultBinder);
 		return new MeatBinder;
 
 	}
@@ -341,9 +345,11 @@ Requires:
 
 
 	jQuery.fn[ "meatglueLoad" ] = function(prob, info){
-		// map across all vars and assign them views
+		// eval the meatglue script in the prob elt and extend the default obj with it
 		var binder = initialize(prob);
-		window.tk = binder; // TODO remove this later
+		window.TK = binder; // TODO (marcos) this external reference is mostly for testing
+
+		// map across all vars and assign them views
 		var bindIt = function(e, i, m) { bindMeat(e, i, binder); }
 		_( $( "span[data-name]", $( ".meatglue" ) ) ).each( bindIt );
 	}
