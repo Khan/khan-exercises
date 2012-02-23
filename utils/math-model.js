@@ -915,11 +915,7 @@ jQuery.extend ( KhanUtil, {
 				next();
 				var arg = unaryExpr();
 				expr = {op:"-", args:[arg]};
-				if (scan.color() === opIdColor) {
-					expr.color = colors[opIdColor];
-				} else {
-					expr.opsColors = [colors[opIdColor]];
-				}
+				addColors(expr, opIdColor, scan.lastColor(), opIdColor);
 	                        expr.align = align;
 				break;
 			default:
@@ -939,11 +935,17 @@ jQuery.extend ( KhanUtil, {
 				expr2 = braceOptionalExpr();
 				var endIdColor = scan.color();
 				expr = {op: tokenToOp[t], args: [expr, expr2]};
-				if (startIdColor === endIdColor) {
-					expr.color = colors[startIdColor];
-				}
+				addColors(expr, startIdColor, endIdColor);
 			}
 			return expr;
+		}
+
+		function addColors(expr, startIdColor, endIdColor, opIdColor) {
+			if ((startIdColor !== undefined) && (startIdColor === endIdColor)) {
+				expr.color = colors[startIdColor];
+			} else if (opIdColor !== undefined) {
+				expr.opsColors = [colors[opIdColor]];
+			}
 		}
 
 		function multiplicativeExpr() {
@@ -956,11 +958,7 @@ jQuery.extend ( KhanUtil, {
 				var expr2 = exponentialExpr();
 				var endIdColor = scan.lastColor();
 				expr = {op: OpStr.MUL, args: [expr, expr2]};
-				if ((startIdColor !== undefined) && (startIdColor === endIdColor)) {
-					expr.color = colors[startIdColor];
-				} else if (opIdColor !== undefined) {
-					expr.opsColors = [colors[opIdColor]];
-				}
+				addColors(expr, startIdColor, endIdColor, opIdColor);
 	                        expr.align = alignment;
 			}
 
@@ -971,11 +969,7 @@ jQuery.extend ( KhanUtil, {
 				var expr2 = exponentialExpr();
 				var endIdColor = scan.lastColor();
 				expr = {op: tokenToOp[t], args: [expr, expr2]};
-				if ((startIdColor !== undefined) && (startIdColor === endIdColor)) {
-					expr.color = colors[startIdColor];
-				} else if (opIdColor !== undefined) {
-					expr.opsColors = [colors[opIdColor]];
-				}
+				addColors(expr, startIdColor, endIdColor, opIdColor);
 	                        expr.align = alignment;
 			}
 			return expr;
@@ -1013,13 +1007,17 @@ jQuery.extend ( KhanUtil, {
 		}
 
 		function additiveExpr() {
+			var startIdColor = scan.color();
 			var expr = multiplicativeExpr();
 			var t;
 			while (isAdditive(t = hd())) {
+				var opIdColor = scan.color();
                                 var align = alignment();
 				next();
 				var expr2 = multiplicativeExpr();
+				var endIdColor = scan.lastColor();
 				expr = {op: tokenToOp[t], args: [expr, expr2]};
+				addColors(expr, startIdColor, endIdColor, opIdColor);
 	                        expr.align = align;
 			}
 			return expr;
@@ -1050,11 +1048,7 @@ jQuery.extend ( KhanUtil, {
 				var endIdColor = scan.color();
 				expr = {op: op, args: [expr, expr2]};
 	                        expr.align = align;
-				if ((startIdColor !== undefined) && (startIdColor === endIdColor)) {
-					expr.color = colors[startIdColor];
-				} else {
-					expr.opsColors = [colors[opIdColor]];
-				}
+				addColors(expr, startIdColor, endIdColor, opIdColor);
 				t = hd();
 			}
 			return expr;

@@ -26,7 +26,7 @@
 				<var id="GROUP1">[
 				MATH.parse("(x + a)(x + b) &=& xx &+& xb + ax &+& ab"),
 				MATH.parse("&=& x^2 &+& #{(a+b)}x &+& #{ab}", [GREEN, BLUE]),
-				MATH.parse("&=& x^2 &+& #" + SIMPLELINEAR + "x &+& #" + SIMPLECONSTANT, [GREEN, BLUE]), 
+				MATH.parse("&=& x^2 &+& #{" + SIMPLELINEAR + "}x &+& #{" + SIMPLECONSTANT + "}", [GREEN, BLUE]), 
 				]
 				</var>
 			</div>
@@ -63,22 +63,22 @@
 					that satisfy both conditions. If you're stuck and can't think of any, you can also rewrite the conditions as a system of equations and
 					try solving for <code class="hint_pink">a</code> and <code class="hint_pink">b</code>:</p>
 
-					<p><code>\qquad <var>MATH.parseFormat("#a+#b=#"+ SIMPLELINEAR, [PINK, PINK, GREEN])</var></code></p>
-					<p><code>\qquad <var>MATH.parseFormat("#a \\times #b = #" + SIMPLECONSTANT, [PINK, PINK, BLUE])</var></code></p>
+					<p><code>\qquad <var>MATH.parseFormat("#a+#b=#{"+ SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var></code></p>
+					<p><code>\qquad <var>MATH.parseFormat("#a \\times #b = #{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var></code></p>
 				</div>
 
 				<div>
 					<p>The two numbers <code class="hint_pink"><var>-A</var></code> and <code class="hint_pink"><var>-B</var></code> satisfy both conditions:</p>
 					<p><code>
-						\qquad <var>MATH.parseFormat("#" + (-A) + "+#" + (-B) + "=#" + SIMPLELINEAR, [PINK, PINK, GREEN])</var>
+						\qquad <var>MATH.parseFormat("#" + (-A) + "+#" + (-B) + "=#{" + SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var>
 					</code></p>
 					<p><code>
-						\qquad <var>MATH.parseFormat("#" + (-A) + "\\times #" + (-B) + "=#" + SIMPLECONSTANT, [PINK, PINK, BLUE])</var>
+						\qquad <var>MATH.parseFormat("#" + (-A) + "\\times #" + (-B) + "=#{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var>
 					</code></p>
 				</div>
 				<div>
 				<p><b>
-					So we can factor the expression as: <code><var>MATH.parseFormat("(x " + signOp(-A) + "#" + abs(A) + ")(x " + signOp(-B) + "#" + abs(B) + ")", [PINK, PINK])</var></code></b></p>
+					So we can factor the expression as: <code><var>MATH.parseFormat("(x " + signOp(-A) + "#{" + abs(A) + "})(x " + signOp(-B) + "#{" + abs(B) + "})", [PINK, PINK])</var></code></b></p>
 				</div>
 			</div>
 		</div>
