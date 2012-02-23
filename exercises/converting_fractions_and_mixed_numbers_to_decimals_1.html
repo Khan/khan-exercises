@@ -13,6 +13,7 @@
 			<var id="DIVISOR">DENOMINATOR</var>
 			<var id="NUMERATOR" data-ensure="NUMERATOR &lt; DENOMINATOR">randRange( 1, 9 )</var>
 			<var id="IMPROPER_NUMERATOR">( ( WHOLE * DENOMINATOR ) + NUMERATOR )</var>
+			<var id="DECIMAL">roundTo( 2, ( IMPROPER_NUMERATOR / DENOMINATOR ) )</var>
 			<var id="DIVIDEND">IMPROPER_NUMERATOR*100</var>
 			<var id="DIVISOR_DECIMAL">0</var>
 			<var id="DIVIDEND_DECIMAL">2</var>
@@ -21,56 +22,125 @@
 
 		<div class="problems">
 			<div id="improper-fraction">
-				<p>Express the fraction as a decimal.</p>
+				<p>Express the improper fraction as a decimal:</p>
+
 				<p class="question"><code>\dfrac{<var>IMPROPER_NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
 
 				<p class="solution" data-type="decimal"><var>IMPROPER_NUMERATOR  / DENOMINATOR</var></p>
 
 				<div class="hints">
-				 	<p>To convert this fraction to a decimal, divide <code><var>IMPROPER_NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
 
-				 	<div class="graphie" id="numbers">
-						graph.divider = new Divider( DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL );
-						graph.divider.show();
-						DUMMY = Array( graph.divider.getNumHints() );
+					<div>
+						<p>
+							An <em>improper fraction</em> in which the <span class="hint_green">numerator</span> is larger 
+							than the <span class="hint_blue">denominator</span>.
+						</p>
+
+						<p>
+							<code>\frac{\color{<var>GREEN</var>}{<var>IMPROPER_NUMERATOR</var>}}{\color{<var>BLUE</var>}{<var>DENOMINATOR</var>}}</code>
+							is an improper fraction because the numerator,  <code class="hint_green"><var>IMPROPER_NUMERATOR</var></code>, 
+							is larger than the denominator, <code class="hint_blue"><var>DENOMINATOR</var></code>.
+						</p>
 					</div>
 
-					<div class="graphie" data-update="numbers">
-						graph.divider.shiftDecimals();
+					<div>
+						<p>
+							The fraction 
+							<code>\frac{\color{<var>GREEN</var>}{<var>IMPROPER_NUMERATOR</var>}}{\color{<var>BLUE</var>}{<var>DENOMINATOR</var>}}</code>
+							 is equivalent to dividing the <span class="hint_green">numerator</span> by the <span class="hint_blue">denominator</span>.
+						</p>
+
+						<p><code>
+							\begin{eqnarray}
+								\dfrac{\color{<var>GREEN</var>}{<var>IMPROPER_NUMERATOR</var>}}{\color{<var>BLUE</var>}{<var>DENOMINATOR</var>}}
+								&amp; \qquad = \qquad &amp;
+								\color{<var>GREEN</var>}{<var>IMPROPER_NUMERATOR</var>} \div \color{<var>BLUE</var>}{<var>DENOMINATOR</var>}
+							\end{eqnarray}
+						</code></p>
 					</div>
 
-					<div class="graphie" data-update="numbers" data-each="Divider.numHintsFor( DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL ) times">
-						graph.divider.showHint();
+					<div>
+						<p>
+							To convert this fraction to a decimal, divide <code><var>IMPROPER_NUMERATOR</var></code> by 
+							<code><var>DENOMINATOR</var></code>.
+							If you need help with division, see  Sal's video, 
+							<a class="related-video" href="/video/converting-fractions-to-decimals-example?topic=fractions" data-youtube-id="Y1V5mZaMfTk">
+							Converting Fractions to Decimals</a>.
+						</p>
 					</div>
+
+					<div>
+						<p>
+							Dividing <code class="hint_green"><var>IMPROPER_NUMERATOR</var></code> by <code class="hint_blue"><var>DENOMINATOR</var></code> 
+							we see that <code>\dfrac{\color{<var>GREEN</var>}{<var>IMPROPER_NUMERATOR</var>}}{\color{<var>BLUE</var>}{<var>DENOMINATOR</var>}}</code>
+							<code>=</code>
+							<code>\color{<var>ORANGE</var>}{<var>DECIMAL</var>}</code>. Whenever the <span class="hint_green">numerator</span> is larger than the <span class="hint_blue">denominator</span>, 
+							(that is, whenever you have an <em>improper fraction</em>) the decimal will be larger than <code>1</code>.
+							 In this case, the decimal is larger than <code>\color{<var>ORANGE</var>}{<var>parseInt( ( DECIMAL ), 10)</var>}</code>.
+						</p>
+					</div>
+
+					<div class="final_answer">
+						<p>
+							 <code>\color{<var>ORANGE</var>}{<var>DECIMAL</var>}</code> is the value of our fraction as expressed as a <em>decimal,</em> 
+							  also known as a <em>decimal fraction</em>.
+						</p>
+					</div>
+
 				</div>
 			</div>
 
 			<div id="mixed-number">
-				<p class="question">Convert <code><var>WHOLE</var>\ <var>fraction( NUMERATOR, DENOMINATOR, false, true )</var></code> to a decimal.</p>
+				<p class="question">Convert <code><var>WHOLE</var></code><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> to a decimal.</p>
 
 				<p class="solution" data-type="decimal"><var>IMPROPER_NUMERATOR  / DENOMINATOR</var></p>
 
 				<div class="hints">
-					<p>This mixed number is equivalent to <code>\color{#FFA500}{<var>WHOLE</var>} + \color{#6495ED}{<var>fraction( NUMERATOR, DENOMINATOR, false, true )</var>}</code>.</p>
 
-					<p>To convert the mixed number to a decimal, divide <code>\color{#6495ED}{<var>NUMERATOR</var>}</code> by <code>\color{#6495ED}{<var>DENOMINATOR</var>}</code> and add  it to the <code>\color{#FFA500}{<var>WHOLE</var>}</code> .</p>
-	
-					<div class="graphie" id="numbers">
-						graph.divider = new Divider( DIVISOR, NUMERATOR * 100 , DIVISOR_DECIMAL, DIVIDEND_DECIMAL );
-						graph.divider.show();
-						DUMMY = Array( graph.divider.getNumHints() );
-					</div>
+					<div>
+						<p>
+							<code class="hint_orange"><var>WHOLE</var></code><code class="hint_blue">\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> is a <em>mixed number</em>, 
+							the sum of a whole number, <code class="hint_orange"><var>WHOLE</var></code>,
+							and a fraction, <code class="hint_blue">\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>.
+						</p>
 
-					<div class="graphie" data-update="numbers">
-						graph.divider.shiftDecimals();
-					</div>
+						<p>	
+							<code>
+								\begin{eqnarray}
+									\color{<var>ORANGE</var>}{<var>WHOLE</var>}\color{<var>BLUE</var>}{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}}
+									&amp; \qquad = \qquad &amp;
+									\color{<var>ORANGE</var>}{<var>WHOLE</var>}+
+									\color{<var>BLUE</var>}{\frac{<var> NUMERATOR</var>}{<var>DENOMINATOR</var>}}
+								\end{eqnarray}
+							</code>
+						</p>
 
-					<div class="graphie" data-update="numbers" data-each="Divider.numHintsFor( DIVISOR, NUMERATOR * 100 , DIVISOR_DECIMAL, DIVIDEND_DECIMAL ) times">
-						graph.divider.showHint();
 					</div>
 
 					<div>
-						<code><var>WHOLE</var>\ <var>fraction( NUMERATOR, DENOMINATOR, false, true )</var></code> is equal to <code><var>IMPROPER_NUMERATOR / DENOMINATOR</var></code>
+						<p>
+							To convert the mixed number to a decimal, divide <code class="hint_blue"><var>NUMERATOR</var></code> by <code class="hint_blue"><var>DENOMINATOR</var></code> 
+							and add  it to the <code class="hint_orange"><var>WHOLE</var></code>.
+							If you need help with division, see  Sal's video, <a class="related-video" href="/video/converting-fractions-to-decimals-example?topic=fractions" data-youtube-id="Y1V5mZaMfTk">
+							Converting Fractions to Decimals</a>.
+						</p>
+					</div>
+	
+					<div>
+						<p>
+							<code><var>WHOLE</var>\dfrac {<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> is equal to the decimal <code><var>DECIMAL</var></code>.
+							In the decimal (also known as a <em>decimal fraction</em>) the whole number appears to the left of the decimal separator, and the fractional part appears to the right.
+						</p>
+
+						<p>
+							<code>
+							\begin{eqnarray}
+								\color{<var>ORANGE</var>}{<var>WHOLE</var>}\color{<var>BLUE</var>}{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}}
+								&amp; \qquad = \qquad &amp;
+								\color{<var>ORANGE</var>}{<var>DECIMAL</var>}
+							\end{eqnarray}
+							</code>
+ 						</p>
 					</div>
 				</div>
 			</div>
