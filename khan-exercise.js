@@ -39,8 +39,8 @@ var Translate = new function(){
 	this.langdefault = "en";
 	this.lang = "nl";
 	this.table = {};
-	this.current = window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1).split('.')[0];
 	this.production = ( typeof(userExercise) !== "undefined" );
+	this.current = ( this.production ? userExercise.exercise : window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1).split('.')[0] );
 	this.exercisefile = ( this.production ? "/khan-exercises/exercises/" : "" ) + this.current + ".lang.js";
 	this.globalfile = ( this.production ? "/khan-exercises/exercises/" : "" ) +"lang.js";
 
