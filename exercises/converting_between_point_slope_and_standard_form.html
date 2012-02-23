@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <title>Converting between point-slope and standard form</title>
   <script src="../khan-exercise.js"></script>
+  <style type="text/css">
+    #answer_area input[type=text] {
+      width: 30px;
+    }
+  </style>
 </head>
 <body>
   <div class="exercise">
@@ -26,9 +31,7 @@
       <!-- Custom validation is used to allow for x to be any value.  If we allowed a finite range for x, then we could have a set of solutions.-->
       <div class="solution" data-type="custom">
         <div class="instruction">
-          <p><code>x = </code> <input id="solution_x" type="text"></input></p>
-          <p><code>y = </code> <input id="solution_y" type="text"></input></p>
-          <p><code>m = </code> <input id="solution_m" type="text"></input></p>
+          <p><code>(y - \space</code><input id="solution_y" type="text"></input><code>) = \space</code><input id="solution_m" type="text"></input><code>(x - \space</code><input id="solution_x" type="text"></input><code>)</code></p>
         </div>
         <div class="guess">
           [$('#solution_x').val(), $('#solution_y').val(), $('#solution_m').val()]
