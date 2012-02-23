@@ -6,7 +6,7 @@
 </head>
 
 <!--
-Convert fraction such as 0.3763 to a fraction,  convert fraction such as 12.16 into mixed number (12 4/25), reduce to simplest terms
+Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals such as 12.16 into mixed number (12 4/25), reduce to simplest terms
  -->
 
 <body>
@@ -17,9 +17,10 @@ Convert fraction such as 0.3763 to a fraction,  convert fraction such as 12.16 i
 			<div class="vars">
 				<var id="NUMERATOR">randRange( 0, 1 ) ? randRange( 100, 999 ) : randRange( 1000, 9999 )</var>
 				<var id="D">( NUMERATOR / 10000 ).toFixed( 4 )</var>
+				<var id="GCD">getGCD( round( D * 10000 ) , 10000 )</var>
 			</div>
-			<p class="question">Express <code><var>D</var></code> as a fraction.</p>
-			<p class="solution" data-type="rational" data-simplify="optional"><var>D</var></p>
+			<p class="question">Express <code><var>D</var></code> as a fraction. Reduce to lowest terms.</p>
+			<p class="solution" data-type="rational"><var>D</var></p>
 			<div class="hints">
 				<div>
 					<p><code><var>D</var></code> can be represented as follows.</p>
@@ -29,6 +30,10 @@ Convert fraction such as 0.3763 to a fraction,  convert fraction such as 12.16 i
 				<div>
 					<p>You can also skip a few steps by making a fraction with <code><var>NUMERATOR</var></code> as the numerator and <code>10000</code> (because the decimal extends to the ten thousandths place) as the denominator.</p>
 					<p><code><var>fraction( NUMERATOR, 10000 )</var></code></p>
+				</div>
+				<div data-if="GCD > 1">
+					<p>Then, reduce the fractional part by dividing the numerator and denominator by <code><var>GCD</var></code>.</p>
+					<p><code>=<var>fractionReduce( round( D * 10000 ) , 10000 )</var></code></p>
 				</div>
 			</div>
 		</div>

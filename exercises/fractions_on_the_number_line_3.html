@@ -69,10 +69,10 @@
 
 			<div class="hints">
 				<p> Because <code>\color{orange}{<var>NUMBER</var>}</code> is <span data-if="SOLUTION > 0">positive</span><span data-else>negative</span> the orange dot will be to the <span data-if="SOLUTION > 0">right</span><span data-else>left</span> of 0.</p>
-				<span data-if="IS_MIXED < 1 && abs(SOLUTION) > 1">
+				<div data-if="IS_MIXED < 1 && abs(SOLUTION) > 1">
 				    <p>Let's convert the improper fraction <code>\color{orange}{<var>NUMBER</var>}</code> to a mixed number:</p>
 				    <p><code>\color{orange}{<var>NUMBER</var>}</code> = <code>\color{blue}{<var>M_NUMBER</var>}</code></p>
-			    </span>
+			    </div>
 				<div>
 				    <p>Therefore, we know <code>\color{blue}{<var>M_NUMBER</var>}</code> lies between <code>\color{green}{<var>M_WHOLE</var>}</code> and <code>\color{green}{<var>M_WHOLE + (SOLUTION > 1 ? 1 : -1)</var>}</code> on the number line.</p>
 				    <div class="graphie" data-update="number-line">

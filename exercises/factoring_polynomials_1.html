@@ -25,8 +25,8 @@
 			<p class="question"><code><var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
 
 			<div class="solution" data-type="set">
-				<div class="set-sol" data-type="regex">\s*\(\s*[xX]\s*<var>A &lt; 0 ? "\\+" : "-"</var>\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "-"</var>\s*<var>abs( B )</var>\s*\)\s*</div>
-				<div class="set-sol" data-type="regex">\s*\(\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "-"</var>\s*<var>abs( B )</var>\s*\)\s*\(\s*[xX]\s*<var>A &lt; 0 ? "\\+" : "-"</var>\s*<var>abs( A )</var>\s*\)\s*</div>
+				<div class="set-sol" data-type="regex">^\s*\(\s*[xX]\s*<var>A &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*\)\s*$</div>
+				<div class="set-sol" data-type="regex">^\s*\(\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*\)\s*\(\s*[xX]\s*<var>A &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*\)\s*$</div>
 				<div class="input-format"><span class="entry"></span></div>
 				<div class="example">a factored expression, like <b>(x+1)(x+2)</b></div>
 			</div>
@@ -89,5 +89,7 @@
 
 			</div>
 		</div>
+	</div>
+	</div>
 </body>
 </html>

@@ -24,8 +24,8 @@
 				</div>
 
 				<div class="solution" data-type="set">
-					<div class="set-sol" data-type="regex">\s*\(\s*[xX]\s*\+\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*-\s*<var>abs( A )</var>\s*\)\s*</div>
-					<div class="set-sol" data-type="regex">\s*\(\s*[xX]\s*-\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*\+\s*<var>abs( A )</var>\s*\)\s*</div>
+					<div class="set-sol" data-type="regex">^\s*\(\s*[xX]\s*\+\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*[-\u2212]\s*<var>abs( A )</var>\s*\)\s*$</div>
+					<div class="set-sol" data-type="regex">^\s*\(\s*[xX]\s*[-\u2212]\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*\+\s*<var>abs( A )</var>\s*\)\s*$</div>
 					<div class="input-format"><span class="entry"></span></div>
 					<div class="example">a factored expression, like <b>(x+1)(x+2)</b></div>
 				</div>

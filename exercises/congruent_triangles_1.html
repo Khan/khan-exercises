@@ -45,20 +45,32 @@
 		</div>
 		<div class="question">
 			<div class="graphie">
-				init({
-					range: [ [-1, 12 ], [ -10, 2.5 ] ]
-				})
+
 				TR_A.rotate( randRange( 0, 360 ) );
+				TR_B.rotate( randRange( 0, 360 ) );
+				
+				var aBounding = TR_A.boundingRange(1);
+				var bBounding = TR_B.boundingRange(1);
+				
+				var minX = Math.min(aBounding[0][0], bBounding[0][0]);
+				var maxX = Math.max(aBounding[0][1], bBounding[0][1]);
+				
+				var minY = Math.min(aBounding[1][0], bBounding[1][0]);
+				var maxY = Math.max(aBounding[1][1], bBounding[1][1]);				
+
+				init({
+					range: [ [minX, maxX ], [ minY, maxY ] ]
+				})
+				
 				TR_A.draw();
 				TR_A.drawLabels();
 
-				TR_B.rotate( randRange( 0, 360 ) );
 				TR_B.draw();
 				TR_B.drawLabels();
 			</div>
 		</div>
 		<div class="solution"><var>ANSWER</var></div>
-		<ul class="choices" data-category="true">¬
+		<ul class="choices" data-category="true">
 			<li>Yes</li>
 			<li>No</li>
 			<li>There is not enough information to say</li>
@@ -69,7 +81,6 @@
 				<div class="vars">
 					<var id="A_ANGLES">[]</var>
 					<var id="A_SIDES">[ 0, 1, 2 ]</var>
-				</var>
 				</div>
 				<div class="hints" data-apply="appendContents">
 					<p>In this problem we are given the sides of the triangles, so we can compare them easily.</p>
@@ -113,6 +124,7 @@
 					<p data-else>Because the angles and the side do not match, triangle A is not congruent with triangle B.</p>
 				</div>
 			</div>
+
 			<div id="AAA">
 				<div class="vars">
 					<var id="A_ANGLES">[ 0, 1, 2 ]</var>
@@ -125,6 +137,7 @@
 					<p data-else>Because the angles do not match, triangle A is not congruent with triangle B.</p>
 				</div>
 			</div>
+		</div>
 	</div>
 </body>
 </html>

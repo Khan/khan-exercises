@@ -50,12 +50,12 @@
 			<p class="question">Represent the following data using a box-and-whiskers plot. Exclude the median when computing the quartiles:</p>
 
 			<div class="problem">
+				<ul id="sortable">
+					<li data-each="DATA as NUM">
+						<code><var>NUM</var></code>
+					</li>
+				</ul>
 				<p>
-					<ul id="sortable">
-						<li data-each="DATA as NUM">
-							<code><var>NUM</var></code>
-						</li>
-					</ul>
 					If it helps, you may drag the numbers to put them in a different order. The order isn't checked with your answer.
 					<var>SORTER.init( "sortable" )</var>
 				</p>

@@ -69,7 +69,7 @@
 					<p><code>x^2 <span data-if="B !== 0"><span data-if="abs( B ) !== 1"> + <var>decimalFraction( B, 1, 1 )</var></span><span data-else><var>B_SIGN</var></span>x</span> = <var>decimalFraction( C * -1, 1, 1 )</var></code></p>
 				</div>
 				<div data-if="B !== 0">
-					<p>We complete the square by taking half of the coefficient of our <code>x</code> term, squaring it, and adding it to both sides of the equation. The coefficient of our <code>x</code> term is <code><var>decimalFraction( B, 1, 1 )</code></var>, so half of it would be <code><var>decimalFraction( B / 2, 1, 1 )</var></code>, and squaring it gives us <code>\color{blue}{<var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>}</code>.</p>
+					<p>We complete the square by taking half of the coefficient of our <code>x</code> term, squaring it, and adding it to both sides of the equation. The coefficient of our <code>x</code> term is <code><var>decimalFraction( B, 1, 1 )</var></code>, so half of it would be <code><var>decimalFraction( B / 2, 1, 1 )</var></code>, and squaring it gives us <code>\color{blue}{<var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>}</code>.</p>
 					<p><code>x^2 <span data-if="abs( B ) !== 1"> + <var>decimalFraction( B, 1, 1 )</var></span><span data-else><var>B_SIGN</var></span>x \color{blue}{ + <var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>} = <var>decimalFraction( C * -1, 1, 1 )</var> \color{blue}{ + <var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>}</code></p>
 				</div>
 				<div data-if="B !== 0">
@@ -78,7 +78,7 @@
 				</div>
 			</div>
 			<div data-else data-unwrap>
-				<p>Note that the left side of the equation is already a perfect square trinomial. The coefficient of our <code>x</code> term is <code><var>decimalFraction( B, 1, 1 )</code></var>, half of it is <code><var>decimalFraction( B / 2, 1, 1 )</var></code>, and squaring it gives us <code>\color{blue}{<var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>}</code>, our constant term.</p>
+				<p>Note that the left side of the equation is already a perfect square trinomial. The coefficient of our <code>x</code> term is <code><var>decimalFraction( B, 1, 1 )</var></code>, half of it is <code><var>decimalFraction( B / 2, 1, 1 )</var></code>, and squaring it gives us <code>\color{blue}{<var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>}</code>, our constant term.</p>
 				<div>
 					<p>Thus, we can rewrite the left side of the equation as a squared term.</p>
 					<p><code>( x + <var>decimalFraction( B / 2, 1, 1 )</var> )^2 = <var>decimalFraction( C * -1 + pow( B / 2, 2 ), 1, 1 )</var></code></p>
