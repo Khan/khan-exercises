@@ -403,7 +403,7 @@ jQuery.extend(KhanUtil, {
 			str[1] = str[1].replace( /(\d{3})(?=\d)/g, '$1\\;' );
 		}
 
-		return str.join( "." );
+		return str.join( "," );
 	},
 
 	// Formats strings like "Axy + By + Cz + D" where A, B, and C are variables

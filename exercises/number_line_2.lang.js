@@ -1,6 +1,6 @@
 ({
 	"nl" : {
-		"exercise"	: "Welk getal hoort bij de oranje stip?",
+		"exercise"	: "Welk getal hoort bij de oranje stip? De afstand tussen twee streepjes is 1.",
 		"hint1"	: 	"We weten waar de 0 is, want daar staat het getal 0 bij.",
 		"hint2"	:	"Getallen aan de linkerkant van de 0 zijn kleiner, en getallen aan de rechterkant zijn groter dan 0",
 		"hint3"	:	"Getallen kleiner dan 0 zijn negatief, getallen groter dan 0 zijn positief.",
