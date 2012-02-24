@@ -24,7 +24,7 @@
 				<var id="LINEAR">SQUARE*(-A-B)</var>
 				<var id="SIMPLELINEAR">-A-B</var>
 				<var id="GROUP1">[
-				MATH.parse("(x + a)(x + b) &=& xx &+& xb + ax &+& ab"),
+				MATH.parse("(x + a)(x + b)&=&xx &+& xb + ax &+& ab"),
 				MATH.parse("&=& x^2 &+& #{(a+b)}x &+& #{ab}", [GREEN, BLUE]),
 				MATH.parse("&=& x^2 &" + signOp(SIMPLELINEAR) + "& #{" + SIMPLELINEAR + "}x &" + signOp(SIMPLECONSTANT) + "& #{" + SIMPLECONSTANT + "}", [GREEN, BLUE]), 
 				]

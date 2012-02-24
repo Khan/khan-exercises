@@ -213,17 +213,20 @@ jQuery.extend ( KhanUtil, {
 			return KhanUtil.parse(str, colors).expr();
 		}
 
-                function getAlignment(expr, index, hphantom) {
+                function getAlignment(expr, index, hphantom, addSpacing) {
                         if ((expr.align === undefined) || (expr.align[index] === undefined)) {
 				return "";
                         }
 			var str = "";
 			for (var cur = 0; cur < expr.align[index]; cur++) {
 				if (hphantom) {
-					str += "} & \\hphantom{\\; ";
+					str += "} & \\hphantom{ ";
 				} else {
-					str += "&\\; ";
+					str += "& ";
 				}
+			}
+			if ((expr.align[index] > 0) && addSpacing) {
+				str += "\\; ";
 			}
 			return str;
                 }
@@ -294,6 +297,13 @@ jQuery.extend ( KhanUtil, {
 			return str;
 		}
 
+		function exprIsNumber(expr) {
+			if (expr === undefined) {
+				return false;
+			}
+			return ((typeof expr === "number") || (expr.op === OpStr.NUM));
+		}
+
 		// format an AST
 		function format(n, textSize, hphantom) {
 
@@ -331,15 +341,15 @@ jQuery.extend ( KhanUtil, {
 					break;
 				case OpStr.SUB:
 					if (n.args.length===1) {
-						text = getAlignment(n, 0, hphantom);
+						text = getAlignment(n, 0, hphantom, true);
 						text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, false) + args[0];
 						text += getAlignment(n, 1, hphantom);
 					}
 					else {
 						text = args[0];
-						text += getAlignment(n, 0, hphantom);
+						text += getAlignment(n, 0, hphantom, true);
 						text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, true);
-						text += getAlignment(n, 1, hphantom);
+						text += getAlignment(n, 1, hphantom, true);
 						text += args[1];
 					}
 					break;
@@ -352,9 +362,9 @@ jQuery.extend ( KhanUtil, {
 				case OpStr.GEQ:
 				case OpStr.NEQ:
 					text = args[0];
-					text += getAlignment(n, 0, hphantom);
+					text += getAlignment(n, 0, hphantom, true);
 					text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, true) + " ";
-					text += getAlignment(n, 1, hphantom);
+					text += getAlignment(n, 1, hphantom, true);
 					text += args[1];
 					break;
 				case OpStr.POW:
@@ -414,10 +424,10 @@ jQuery.extend ( KhanUtil, {
 							if (term.op===OpStr.ADD || term.op===OpStr.SUB) {
 								args[index] = "(" + args[index] + ")";
 							}
-							if (opIndex > 0) {
-								text += getAlignment(n, opIndex * 2, hphantom);
+							if (opIndex >= 0) {
+								text += getAlignment(n, opIndex * 2, hphantom, true);
 								text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true);
-								text += getAlignment(n, opIndex * 2 + 1, hphantom);
+								text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
 							}
 							text += args[index];
 						}
@@ -426,11 +436,12 @@ jQuery.extend ( KhanUtil, {
 						else if ((n.op === OpStr.MUL) && (term.op === OpStr.PAREN ||
 								 term.op===OpStr.VAR ||
 								 term.op===OpStr.CST ||
-								 (jQuery.type(prevTerm)==="number" && jQuery.type(term)!=="number"))) {
+								 (exprIsNumber(prevTerm) && !exprIsNumber(term))
+							)) {
 							text += args[index];
 						}
 						else {
-							if (opIndex > 0) {
+							if (opIndex >= 0) {
 								text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true) + " ";
 							}
 							text += args[index];
@@ -446,16 +457,21 @@ jQuery.extend ( KhanUtil, {
 							text = value;
 						}
 						else {
-							text += getAlignment(n, opIndex * 2, hphantom);
+							text += getAlignment(n, opIndex * 2, hphantom, true);
 							text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true);
-							text += getAlignment(n, opIndex * 2 + 1, hphantom);
+							text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
 							text += value;
 						}
 					});
 					break;
 				case OpStr.PAREN:
-					text = addOpColor("(", n.opsColors, 0, false, false) + args[0] +
-						addOpColor(")", n.opsColors, 1, false, false);
+					text = getAlignment(n, 0, hphantom);
+					text += addOpColor("(", n.opsColors, 0, false, false);
+					text += getAlignment(n, 1, hphantom);
+					text += args[0];
+					text += getAlignment(n, 2, hphantom);
+					text += addOpColor(")", n.opsColors, 1, false, false);
+					text += getAlignment(n, 3, hphantom);
 					break;
 				case OpStr.ABS:
 					text = addOpColor("|", n.opsColors, 0, false, false) + args[0] +
@@ -588,6 +604,9 @@ jQuery.extend ( KhanUtil, {
 		function isNeg(n) {
 			if (jQuery.type(n)==="number") {
 				return n < 0;
+			}
+			else if (n.op === OpSTR.NUM) {
+				return n.args[0] < 0
 			}
 			else if (n.args.length===1) {
 				return n.op===OpStr.SUB && n.args[0] > 0;  // is unary minus
@@ -872,9 +891,11 @@ jQuery.extend ( KhanUtil, {
 		}
 
 		function surroundedExpr(leftTk, rightTk, op) {
+			var leftAlign = alignment();
 			eat(leftTk);
 			var idColorLeft = scan.lastColor();
 			var e = commaExpr();
+			var rightAlign = alignment();
 			eat(rightTk);
 			var idColorRight = scan.lastColor();
 			var expr = {op:op, args:[e]};
@@ -883,6 +904,7 @@ jQuery.extend ( KhanUtil, {
 			} else {
 				expr.opsColors = [colors[idColorLeft], colors[idColorRight]];
 			}
+			expr.align = leftAlign.concat(rightAlign);
 			return expr;
 		}
 
@@ -983,7 +1005,7 @@ jQuery.extend ( KhanUtil, {
 				var endIdColor = scan.lastColor();
 				expr = {op: tokenToOp[t], args: [expr, expr2]};
 				addColors(expr, startIdColor, endIdColor, opIdColor);
-	                        expr.align = alignment;
+	                        expr.align = align;
 			}
 			return expr;
 
@@ -1163,9 +1185,13 @@ jQuery.extend ( KhanUtil, {
 					case TK_CARET:
 					case TK_ABS:
 						lexeme += String.fromCharCode(c);
-						while (src.charCodeAt(curIndex) === TK_AMP) {
+						var nc = src.charCodeAt(curIndex);
+						while ((nc === TK_AMP) || (nc === TK_SPACE)) {
 							curIndex++;
-							alignment[1]++;
+							if (nc === TK_AMP) {
+								alignment[1]++;
+							}
+							nc = src.charCodeAt(curIndex)
 						}
 						return c; // char code is the token id
 					case TK_SHARP:
