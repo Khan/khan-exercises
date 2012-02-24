@@ -69,10 +69,10 @@
 				
 				<div class="hints">
 					<div>There are two ways to do this question. Since <var>person(1)</var> is making the same deposit each year for n years, we can recognize that this is a uniform series, which we can calculate using the derived formula:<br>
-						<code>Future Value = Deposit * \frac{(1 + r)^t - 1}{rate}</code>
+						<code>Future Value = Deposit * \dfrac{(1 + r)^t - 1}{rate}</code>
 					</div>
 					<div><br>Substituting our values:<br>
-						<code>Future Value = <var>YEARLY_DEPOSIT</var> * \frac{(1 + <var>INTEREST/100</var>)^<var>PERIOD</var> - 1}{<var>INTEREST/100</var>} = $<var>commafy(ANSWER)</var></code>
+						<code>Future Value = <var>YEARLY_DEPOSIT</var> * \dfrac{(1 + <var>INTEREST/100</var>)^<var>PERIOD</var> - 1}{<var>INTEREST/100</var>} = $<var>commafy(ANSWER)</var></code>
 					</div>
 					<div><br>Another way to do this is to calculate it the long way. Each time <var>person(1)</var> makes a deposit, that deposit will accumulate interest from that point in time until <var>person(1)</var> withdraws <var>his(1)</var> money <var>PERIOD</var> years from now. In other words, the deposit in year 1 will compound for <var>PERIOD - 1</var> years, deposit in year 2 will compound for <var>PERIOD - 2</var> years, and so on.
 					</div>
@@ -112,15 +112,15 @@
 				<div class="solution" data-forms="dollar" data-inexact data-max-error="0.1" ><var>ANSWER2</var></div>
 				<div class="hints">
 					<div><br>There are two ways to solve this question. <var>person(1)</var> is making a series of evenly spaced, uniform withdrawals. We need to find the Present Value of this series of payments. We can do this with the derived formula:
-						<code>Present Value = Yearly Withdrawal * \frac{(1 + rate)^t - 1}{rate(1 + rate)^t}</code>
+						<code>Present Value = Yearly Withdrawal * \dfrac{(1 + rate)^t - 1}{rate(1 + rate)^t}</code>
 					</div>
 					<div><br>Substituting our values: <br>
-						<code>Present Value = <var>YEARLY_WITHDRAWAL</var> * \frac{(1 + <var>INTEREST/100</var>)^<var>PERIOD</var> - 1}{<var>INTEREST/100</var> * (1 + <var>INTEREST/100</var>)^<var>PERIOD</var>} = $<var>commafy(ANSWER2)</var></code>
+						<code>Present Value = <var>YEARLY_WITHDRAWAL</var> * \dfrac{(1 + <var>INTEREST/100</var>)^<var>PERIOD</var> - 1}{<var>INTEREST/100</var> * (1 + <var>INTEREST/100</var>)^<var>PERIOD</var>} = $<var>commafy(ANSWER2)</var></code>
 					</div>
 					<div><br>Another way to think of this is to calculate the <a href="http://www.khanacademy.org/video/present-value-2">Present Value</a> of each of the future yearly withdrawals and sum all of those values up. 
 					</div>
 					<div><br>The Present Value of each of the withdrawals can be calculated as:<br>
-						<code>Present Value(withdrawal, t) = Withdrawal * \frac{1}{(1 + rate)^t}</code>, where t is the time in the future when that particular withdrawal is to be made.
+						<code>Present Value(withdrawal, t) = Withdrawal * \dfrac{1}{(1 + rate)^t}</code>, where t is the time in the future when that particular withdrawal is to be made.
 					</div>
 					<div><br>Using this method, we can find the present value of all the withdrawals and then sum them up:<br>
 						<code>TotalValue = PresentValue(withdrawal, t1) + PresentValue(withdrawal, t2)...</code>

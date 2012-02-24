@@ -31,11 +31,11 @@
 				<div class="hints">
 					<p>To find the answer, we need to discount the cost of the tuition (future value) into the present. (See the <a href="http://www.khanacademy.org/video/present-value-2">Present Value</a> videos for an explanation)</p>
 					<div>This can be expressed as: <br>
-						<code>PresentValue = FutureValue * \frac{1}{(1 + r)^n}</code>
+						<code>PresentValue = FutureValue * \dfrac{1}{(1 + r)^n}</code>
 						<br><br>
 					</div>
 					<div>Substituting our values into the equation: <br>
-						<code>PresentValue = <var>FUTURE_VALUE</var> * \frac{1}{(1 + <var>INTEREST_RATE/100</var>) ^<var>PERIOD</var>}</code>
+						<code>PresentValue = <var>FUTURE_VALUE</var> * \dfrac{1}{(1 + <var>INTEREST_RATE/100</var>) ^<var>PERIOD</var>}</code>
 						<br><br>
 					</div>
 					<div>
@@ -59,11 +59,11 @@
 					<p>To make a choice, <var>person(1)</var> needs to know what the value of the two options are at the same point in time. <var>He(1)</var> knows that the present value of the single payment is <code>$<var>commafy(FULL_PAYMENT)</var></code>, so he needs to determine what the present value of the two payment option is. (See the <a href="http://www.khanacademy.org/video/present-value-2">Present Value</a> videos for an explanation)</p>
 					<p>The present value of the second payment is the value of the first instalment, which <var>he(1)</var> receives right away, plus the <em>discounted</em> value of the second instalment.</p>
 					<div>To figure out the discounted value of the second instalment, we can use the formula: <br>
-						<code>Present Value = Future Value * \frac{1}{(1 + r) ^n}</code>
+						<code>Present Value = Future Value * \dfrac{1}{(1 + r) ^n}</code>
 						<br><br>
 					</div>
 					<div>Substituting our values, we get: <br>
-						<code>Present Value = <var>PAYMENT2</var> * \frac{1}{(1 + <var>INTEREST_RATE</var>) ^<var>SECOND_PAYMENT_PERIOD</var>} = <var>presentValueSingleAmount(PAYMENT2, INTEREST_RATE, SECOND_PAYMENT_PERIOD)</var></code>
+						<code>Present Value = <var>PAYMENT2</var> * \dfrac{1}{(1 + <var>INTEREST_RATE</var>) ^<var>SECOND_PAYMENT_PERIOD</var>} = <var>presentValueSingleAmount(PAYMENT2, INTEREST_RATE, SECOND_PAYMENT_PERIOD)</var></code>
 						<br><br>
 					</div>
 					<div> As a final step, to get the present value of the two instalment option, we simply add the value of the first instalment to the present value of the second: <br>
