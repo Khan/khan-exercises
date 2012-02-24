@@ -5,7 +5,7 @@
 	<title>Factoring polynomials 1</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
-	function signOp(value) { return (value < 0 ? "-":"+"); };
+	function signOp(value) { return (value < 0 ? " ":"+"); };
 	</script>
 </head>
 <body>
@@ -26,7 +26,7 @@
 				<var id="GROUP1">[
 				MATH.parse("(x + a)(x + b) &=& xx &+& xb + ax &+& ab"),
 				MATH.parse("&=& x^2 &+& #{(a+b)}x &+& #{ab}", [GREEN, BLUE]),
-				MATH.parse("&=& x^2 &+& #{" + SIMPLELINEAR + "}x &+& #{" + SIMPLECONSTANT + "}", [GREEN, BLUE]), 
+				MATH.parse("&=& x^2 &" + signOp(SIMPLELINEAR) + "& #{" + SIMPLELINEAR + "}x &" + signOp(SIMPLECONSTANT) + "& #{" + SIMPLECONSTANT + "}", [GREEN, BLUE]), 
 				]
 				</var>
 			</div>
@@ -78,7 +78,7 @@
 				</div>
 				<div>
 				<p><b>
-					So we can factor the expression as: <code><var>MATH.parseFormat("(x " + signOp(-A) + "#{" + abs(A) + "})(x " + signOp(-B) + "#{" + abs(B) + "})", [PINK, PINK])</var></code></b></p>
+					So we can factor the expression as: <code><var>MATH.parseFormat("(x " + signOp(-A) + "#{" + (-A) + "})(x " + signOp(-B) + "#{" + (-B) + "})", [PINK, PINK])</var></code></b></p>
 				</div>
 			</div>
 		</div>
