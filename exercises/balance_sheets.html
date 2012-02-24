@@ -22,16 +22,18 @@
 			<var id="LIABILITIES">randRange(50, 300, 4)</var>
 			<var id="LIABILITIES_LABELS">["Payables", "Taxes", "Interest", "Debt"]</var>
 			<var id="EQUITY">sumArray(ASSETS) - sumArray(LIABILITIES)</var>
-			<var id="LIABILITIES_OBSCURED, OBSCURED_INDEX, LABEL_OBSCURED, ANSWER">
+			
+			<!-- Hide one of the liabilities so the student may solve for it -->
+			<var id="OBSCURED_INDEX">randRange(0, LIABILITIES.length-1)</var>
+			<var id="LIABILITIES_OBSCURED, LABEL_OBSCURED">
 				(function() {
-					var obscuredSpot = randRange(0, LIABILITIES.length-1);
-					var answer = LIABILITIES[obscuredSpot];
 					var obscured = LIABILITIES.slice(0);
-					obscured[obscuredSpot] = "&nbsp;";
+					obscured[OBSCURED_INDEX] = "&nbsp;";
 					
-					return [ obscured, obscuredSpot, LIABILITIES_LABELS[obscuredSpot] ,answer ];
+					return [ obscured, LIABILITIES_LABELS[OBSCURED_INDEX] ];
 				})()
 			</var>
+			<var id="ANSWER">LIABILITIES[OBSCURED_INDEX]</var>
 			
 			<!-- Returns the two tables for the two different question types -->
 			<var id="TABLE_1, TABLE_2">
