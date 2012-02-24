@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems stat">
+<head>
+	<meta charset="UTF-8" />
+	<title>Alternate Formula for Variance</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		#answer_area .short input[type=text] {
+			width: 40px;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="DATA_POINTS">randRange( 4, 6 )</var>
+			<var id="POPULATION">randRange( 20, 50 )</var>
+			<var id="TGT_MEAN">animalAvgLifespan( 1 )</var>
+			<var id="TGT_STDDEV">animalStddevLifespan( 1 )</var>
+			<var id="DATA">jQuery.map( randGaussian( TGT_MEAN, TGT_STDDEV, DATA_POINTS ), function( lifespan ) {
+				lifespan = lifespan &lt; 1 ? 1 : round( lifespan );
+				return randRange( 1, lifespan );
+			} )</var>
+			<var id="MEAN">roundTo( 1, mean( DATA ) )</var>
+			<var id="SQR_DEV">jQuery.map( DATA, function( x ) { return roundTo( 2, ( x - MEAN ) * ( x - MEAN ) ); })</var>
+			<var id="VARIANCE_POP">roundTo( 2, sum( SQR_DEV ) /  DATA_POINTS )</var>
+            <var id="RM">DATA.shift()</var>
+            <var id="RM2">RM*RM</var>
+            <var id="NMEAN">roundTo( 3,DATA_POINTS*MEAN)</var>
+            <var id="NM1">roundTo(1,DATA_POINTS-1)</var>
+            <var id="NMEANMRM">roundTo(3,NMEAN-RM)</var>
+            <var id="NEW_MEAN3">roundTo( 3, ( DATA_POINTS*MEAN - RM )/ NM1)</var>
+            <var id="NM2PV_POP">roundTo( 3, DATA_POINTS*( MEAN*MEAN + VARIANCE_POP ))</var>
+            <var id="NEW_SUMX">roundTo(3, NM2PV_POP-RM2)</var>
+            <var id="NEW_VARIANCE_POP">roundTo(3,(DATA_POINTS*( MEAN*MEAN + VARIANCE_POP ) - RM*RM)/NM1 - NEW_MEAN3*NEW_MEAN3)</var>
+            <var id="NEW_MEAN">roundTo(1,NEW_MEAN3)</var>
+		</div> <!-- vars -->
+
+		<div class="problems">
+ 			<div id="population">
+				<div class="problem" >
+                   <p>
+                     In this exercise, you need to use the alternative formula for variance. 
+                     For population variance, the alternative formula is :
+                   </p>
+                   <p>
+                    <code>
+                     \color{red}{\sigma^2} \quad = \quad \dfrac{\sum\limits_{i=1}^{\color{<var>GREEN</var>}{N}} {x_i}^2}
+                     {\color{<var>GREEN</var>}{N}} \quad - \quad \color{<var>BLUE</var>}{\mu^2}. 
+                     </code>
+                   </p>
+                 
+					<p>You have  <var>plural( DATA_POINTS, animal( 1 ) )</var> at your local zoo.  Their average age in
+                    years is <var>MEAN</var> and the variance is <var>VARIANCE_POP</var>.  One of the
+                    <var>plural( DATA_POINTS, animal( 1 ) )</var> is removed from the zoo.  Its age is <var>RM</var></p>.					
+				</div>
+
+				<p class="question">
+					What is the new average age of the <var>plural( animal( 1 ) )</var> at your zoo? What is the new variance?
+					You may round your answers to the nearest tenth.
+				</p>
+
+				<div class="solution" data-type="multiple">
+					<p>
+						New average age:
+						<span class="sol short" data-type="decimal" data-inexact data-max-error="0.15"><var>NEW_MEAN</var></span> years old
+					</p>
+					<p>
+						New variance:
+						<span class="sol short" data-type="decimal" data-inexact data-max-error="0.15"><var>NEW_VARIANCE_POP</var></span> years<code>^2</code>
+					</p>
+					<div class="example">decimals, like <code>7.5</code></div>
+					<div class="example">answers within <code>\pm 0.15</code> are accepted to allow for rounding part-way through</div>
+				</div> <!-- solution -->
+
+				<div class="hints">
+                  <div>  
+						<p>
+							To find the <span class="hint_blue">population mean</span>, add up the values of all <code class="hint_green"><var>DATA_POINTS</var></code>
+							ages and divide by <code class="hint_green"><var>DATA_POINTS</var></code>.
+						</p>
+ 						<p>
+							<code>
+								\color{<var>BLUE</var>}{\mu} \quad = \quad
+								\dfrac{\sum\limits_{i=1}^{\color{<var>GREEN</var>}{N}} x_i}{\color{<var>GREEN</var>}{N}} \quad = \quad
+								\dfrac{\sum\limits_{i=1}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}}
+							\quad  </code>
+                        Suppose <code>x_1</code> is removed.  <code>x_1=<var>RM</var></code>.  
+                        Although we don't know the other <code>x_i's</code>, we know
+                            <code> \color{<var>BLUE</var>}{\mu = <var>MEAN</var>}</code>.
+                            We should be able to calculate 
+                        </p>
+                        <p>
+							<code>
+								\color{darkblue}{\mu_{new}} \quad = \quad
+								\dfrac{\sum\limits_{i=2}^{\color{<var>GREEN</var>}{N}} x_i}{\color{<var>GREEN</var>}{N-1}} \quad = \quad
+								\dfrac{\sum\limits_{i=2}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i}{\color{<var>GREEN</var>}{<var>NM1</var>}}
+							\quad </code>                        
+                        by solving for 
+                        <code>
+                        \sum\limits_{i=2}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i
+                        </code> from the expression for <code> \color{<var>BLUE</var>}{\mu}</code>.
+                        </p>
+                        
+                    </div>
+                    <div>
+                       <p>
+                       Multiply both sides of the expression for <code> \color{<var>BLUE</var>}{\mu}</code> by <code>\color{<var>GREEN</var>}{<var>DATA_POINTS</var>} </code>:
+                       <code>
+                        \sum\limits_{i=1}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i =\color{<var>GREEN</var>}{<var>DATA_POINTS</var>} 
+                        \times \color{<var>BLUE</var>}{<var>MEAN</var>} = <var>NMEAN</var> 
+                        =x_1 + \sum\limits_{i=2}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i
+                        =<var>RM</var> + \sum\limits_{i=2}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i  
+                       </code>.
+                      </p> 
+                    </div>
+                    <div>
+                      <code>
+                      \sum\limits_{i=2}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i = <var>NMEAN</var> - <var>RM</var> = <var>NMEANMRM</var>, 
+                     \quad
+                     </code>
+                     <code>
+                     \color{darkblue}{\mu_{new}} = \dfrac{<var>NMEANMRM</var>}{\color{<var>GREEN</var>}{<var>NM1</var>}}=
+                     \color{darkblue}{<var>NEW_MEAN</var>}.
+                     </code>                     
+                    </div>
+                    <div>
+                    <p>
+                    We know <code> \color{darkred}{\sigma^2 = <var>VARIANCE_POP</var>}</code>.  Use the alternative formula for
+                    <code> \color{red}{\sigma^2}</code> to solve for <code>\sum\limits_{i=2}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i^2 </code>.
+                    </p>
+                    <p>
+                    Express the new variance with the alternative formula:
+                     <code>
+                        \color{darkred}{\sigma_{new}^2} = \dfrac{\sum\limits_{i=2}^{\color{<var>GREEN</var>}{N}} x_i^2}{\color{<var>GREEN</var>}{N-1}}
+                       - \color{darkblue}{\mu_{new}^2}
+                    </code>
+                    </p>
+                   </div>
+                   <div>
+                   <code>\sum\limits_{i=1}^{\color{<var>GREEN</var>}{N}} x_i^2
+                   = \color{<var>GREEN</var>}{N} \times ( \color{red}{\sigma^2} + \color{<var>BLUE</var>}{\mu^2})
+                   = \color{<var>GREEN</var>}{<var>DATA_POINTS</var>}\times ( \color{red}{ <var>VARIANCE_POP</var>} 
+                   + \color{<var>BLUE</var>}{<var>MEAN</var>^2})
+                   = <var>NM2PV_POP</var>
+                   = x_1^2 + \sum\limits_{i=2}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i^2
+                   = <var>RM2</var> + \sum\limits_{i=2}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i^2
+                   </code>
+                   </div>
+                   <div>
+                   <code>\sum\limits_{i=2}^{\color{<var>GREEN</var>}{N}} x_i^2 = <var>NM2PV_POP</var> - <var>RM2</var>
+                   = <var>NEW_SUMX</var>, \quad 
+                   \color{darkred}{\sigma_{new}^2} = \dfrac{<var>NEW_SUMX</var>}{<var>NM1</var>}-<var>NEW_MEAN</var>^2
+                    
+                   =\color{darkred}{<var>NEW_VARIANCE_POP</var>}
+                   </code>
+                   </div>                 
+				</div> <!-- hints -->
+			</div> <!-- population -->
+
+			
+
+		</div> <!-- problems -->
+	</div> <!-- exercise -->
+</body>
+</html>
