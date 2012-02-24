@@ -1817,7 +1817,7 @@ var Khan = (function() {
 		} );
 
 		// Change form target to the current page so errors do not kick us
-		// back to the dashboard
+		// to the dashboard
 		jQuery( "#answerform" ).attr( "action", window.location.href );
 
 		// Watch for a solution submission
