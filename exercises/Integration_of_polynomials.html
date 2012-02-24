@@ -36,7 +36,7 @@
 			<!--(m=0) Assigns D0 to the greatest common divisor of A(the leading coeff) and the exponent-->
 			<var id="Div"> m===0? getGCD(A,exp) : getGCD((A*B),(B+N))</var>
 			<!--(m=0)Assigns NumLC0 to be the numerator of the simplified fraction that is the leading coefficient of the solution. If the exponent is negative, the numerator assigned to be negative-->
-			<var id="NumLC0"> (m===0 && exp &gt 0)? A/Div : (m===0 && exp &lt 0)? -A/Div : (m===1 && exp &lt 0)? -A : A </var>
+			<var id="NumLC0"> (m===0 && exp &gt; 0)? A/Div : (m===0 && exp &lt; 0)? -A/Div : (m===1 && exp &lt; 0)? -A : A </var>
 			<!--(m=0) Assigns DenLC0 to be the absolute value of the denominator of the simplified fraction that is the leading coefficient after integration -->
 			<var id="DenLC0">m===0? abs(exp/Div) : exp  </var>
 			<!--Assigsn NumLC1 and DenLC1 to be the numerator and denominator of the leading coefficient of the solution-->
@@ -48,10 +48,11 @@
 			<var id="Denexp">B/Dex</var>
 			
 			<!--Regular Expression Solutions for the various types of problems. When m=0 or m=1 or if denominators of coefficients are equal to 1-->
-			<var id="ans0">"^\\(?" + NumLC0 + "[\\/]" + DenLC0 + "\\)?" + v + "[\\^]" + exp + "\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*[cC]\\s*$"</var>
-			<var id="ans0LC">"^" + v + "[\\^]" + exp + \\s*[\\+]\\s*" +D + v + "\\s*[\\+]\\s*[cC]\\s*$"</var>
+			<var id="ans0">"^(\\(" + NumLC0 + "[\\/]" + DenLC0 + "\\))|(" + NumLC0 + "[\\/]" + DenLC0+ ")" + v + "[\\^]" + exp + "\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*[cC]\\s*$"</var>
+			<var id="ans0LC">"^\\s*" + v + "[\\^]" + exp + "\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*[cC]\\s*$"</var>
+			<var id="ans0negLC">"^\\s*" + "\\-" + v + "[\\^]" + exp + "\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*[cC]\\s*$"</var>
 			<var id="ans0den1">NumLC0 + v + "[\\^]" + exp + "\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*[cC]\\s*$"</var>
-			<var id="ans1">"^\\(?" + NumLC1 + "[\\/]" + DenLC1 + "\\)?" + v + "[\\^]\\(?" + Numexp + "[\\/]" + Denexp + "\\)?\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*[cC]\\s*$"</var>
+			<var id="ans1">"^(\\(" + NumLC1 + "[\\/]" + DenLC1 + "\\))|(" + NumLC1 + "[\\/]" + DenLC1 +")" + v + "[\\^]\\(?" + Numexp + "[\\/]" + Denexp + "\\)?\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*[cC]\\s*$"</var>
 			<var id="ans1den1">NumLC1 + v + "[\\^]" + Numexp + "[\\/]" + Denexp + "\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*[cC]\\s*$"</var>
 			<var id="ans1den1Denexp1">NumLC1 + v + "[\\^]" + Numexp + "\\s*[\\+]\\s*" + D + v +"\\s*[\\+]\\s*[cC]\\s*$"</var>
 			<var id="ans1Denexp1">"^\\(?" + NumLC1 + "[\\/]" + DenLC1 + "\\)?" + v + "[\\^]" + Numexp + "\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*[cC]\\s*$"</var>
@@ -62,8 +63,10 @@
 			<var id="RegAns">( function() {
 			        if( m===0 && abs(DenLC0)!==1 && A!==exp) {
 				        return ans0;
-				} else if ( m===0 && abs(DenLC0)!==1 && A===exp) {
+				} else if ( m===0 && A===exp) {
 				        return ans0LC;
+				} else if ( m===0 && A===-exp) {
+				        return ans0negLC;
 				} else if ( m===0 && abs(DenLC0)===1 ){
 			                return ans0den1;
 				} else if ( m===1 && abs(DenLC1)!==1 ){
@@ -86,7 +89,7 @@
 				<div class="problem"> Indefinite Integrals of Binomial polynomials </div>
 				
 				<p class="question">Evaluate the following indefinite integral: </p>
-				<div><code>\displaystyle{\int{<var> A </var> <var>v</var>^ {<var>n</var>}+ {<var> D </var>}}}\, {\mathrm{ d}<var>v</var>}</code></div>
+				<div><code>\displaystyle{\int{<var> A </var> <var>v</var>^ {<var>n</var>} + {<var> D </var>}}}\, {\mathrm{ d}<var>v</var>}</code></div>
 				<!--<p class="solution" data-type="regex"><var>nest</var></p>-->
 				<div class="solution" data-type="set">
 				<div class="set-sol" data-type="regex"><var>RegAns</var></div>
@@ -98,17 +101,14 @@
 		</div>
 		
 		<div class="hints">
-			<div class="vars">
-				<var id="solutionConstant">fractionReduce(A,n+1)</var>
+			<div>
+				<p>Recall that the anti-derivative of a function of the form : <code>f(x)=Cx^n</code>      is <code>\dfrac{C}{n+1}x^{n+1}</code>. </p>
 			</div>
 			<div>
 				<p>When taking the antiderivative of polynomial functions, you add one to the exponent <code>(n+1)</code> and divide the coefficient by <code>(n+1)</code>. </p>
-				<p><code>\frac{<var>A</var>}{(<var>n</var>+1)}<var>v</var>^{<var>n</var>+1} + \frac{<var>D</var>}{(0+1)}<var>v</var>^{0+1}</code>+ Constant</p>
+				<p><code>\dfrac{<var>A</var>}{(<var>n</var>+1)}<var>v</var>^{<var>n</var>+1} + \dfrac{<var>D</var>}{(0+1)}<var>v</var>^{0+1}</code>+ Constant</p>
 			</div>
-			<div>
-				<p>After simplifing the solution:</p>
-				<p><code><var>solutionConstant</var><var>v</var>^{<var>(n+1)</var>}+<var>D</var><var>v</var></code>+ C</p>
-			</div>
+			
 		</div>
 	</div>
 </body>
