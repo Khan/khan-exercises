@@ -2040,6 +2040,19 @@ var Khan = (function() {
 
 		// Watch for when the next button is clicked
 		jQuery("#next-question-button").click(function(ev) {
+
+			if ($(Khan).triggerHandler("problemDone") !== false) {
+
+				// If nobody returns false from problemDone indicating
+				// that they'll take care of triggering nextProblem,
+				// automatically trigger nextProblem.
+				$(Khan).trigger("renderNextProblem");
+
+			}
+
+		});
+
+		jQuery(Khan).bind("renderNextProblem", function(ev) {
 			jQuery("#happy").hide();
 			if( !jQuery( "#examples-show" ).data( "show" ) ){ jQuery( "#examples-show" ).click(); }
 
