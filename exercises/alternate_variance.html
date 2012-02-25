@@ -32,8 +32,9 @@
             <var id="NEW_MEAN3">roundTo( 3, ( DATA_POINTS*MEAN - RM )/ NM1)</var>
             <var id="NM2PV_POP">roundTo( 3, DATA_POINTS*( MEAN*MEAN + VARIANCE_POP ))</var>
             <var id="NEW_SUMX">roundTo(3, NM2PV_POP-RM2)</var>
-            <var id="NEW_VARIANCE_POP">roundTo(3,(DATA_POINTS*( MEAN*MEAN + VARIANCE_POP ) - RM*RM)/NM1 - NEW_MEAN3*NEW_MEAN3)</var>
             <var id="NEW_MEAN">roundTo(1,NEW_MEAN3)</var>
+            <var id="NEW_VARIANCE_POP">roundTo(3,(DATA_POINTS*( MEAN*MEAN + VARIANCE_POP ) - RM*RM)/NM1 - NEW_MEAN*NEW_MEAN)</var>
+
 		</div> <!-- vars -->
 
 		<div class="problems">
