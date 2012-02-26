@@ -1963,11 +1963,6 @@ var Khan = (function() {
 				// Correct answer, so show the next question button.
 				jQuery( "#check-answer-button" ).hide();
 				if ( !testMode || Khan.query.test == null ) {
-
-					// Problem has been completed -- now waiting on user to
-					// move to next problem.
-					$(Khan).trigger("problemDone");
-
 					jQuery( "#next-question-button" )
 						.removeAttr( "disabled" )
 						.removeClass( "buttonDisabled" )
@@ -1987,6 +1982,12 @@ var Khan = (function() {
 			lastAction = curTime;
 
 			jQuery(Khan).trigger( "checkAnswer", pass );
+
+			if ( pass === true ) {
+				// Problem has been completed -- now waiting on user to
+				// move to next problem.
+				$(Khan).trigger("problemDone");
+			}
 
 			return false;
 		}
