@@ -80,6 +80,7 @@ jQuery.extend ( KhanUtil, {
 		OpToLaTeX[OpStr.LN] = "\\ln";
 		OpToLaTeX[OpStr.COMMA] = ",";
 		OpToLaTeX[OpStr.NEQ] = "\\not=";
+		OpToLaTeX[OpStr.SQRT] = "\\sqrt";
 
 		return this;  // end initialization
 
@@ -393,11 +394,11 @@ jQuery.extend ( KhanUtil, {
 				case OpStr.COT:
 				case OpStr.CSC:
 				case OpStr.LN:
-					text = OpToLaTeX[n.op] + "{" + args[0] + "}";
+					text = addOpColor(OpToLaTeX[n.op], n.opsColors, 0, false, true) + "{" + args[0] + "}";
 					break;
 				case OpStr.FRAC:
 				case OpStr.DFRAC:
-					text = OpToLaTeX[n.op] + "{" + args[0] + "}{" + args[1] + "}";
+					text = addOpColor(OpToLaTeX[n.op], n.opsColors, 0, false, false) + "{" + args[0] + "}{" + args[1] + "}";
 					break;
                                 case OpStr.DERIV:
                                         text = "\\dfrac{d" + args[0] + "}{d" + args[1] + "}";
@@ -405,10 +406,10 @@ jQuery.extend ( KhanUtil, {
 				case OpStr.SQRT:
 					switch (args.length) {
 					case 1:
-						text = "\\sqrt{" + args[0] + "}";
+						text = addOpColor(OpToLaTeX[n.op], n.opsColors, 0) + "{" + args[0] + "}";
 						break;
 					case 2:
-						text = "\\sqrt[" + args[0] + "]{" + args[1] + "}";
+						text = addOpColor(OpToLaTeX[n.op] + "[" + args[0] + "]", n.opsColors, 0) + "{" + args[0] + "}";
 						break;
 					}
 					break;
@@ -818,11 +819,16 @@ jQuery.extend ( KhanUtil, {
 			case TK_FRAC:
 			case TK_DFRAC:
                                 var align = alignment();
+				var idColorLeft = scan.color();
+                                var align = alignment();
 				next();
 				e = {op: tokenToOp[t], args: [braceExpr(), braceExpr()], align:align};
+				var idColorRight = scan.lastColor();
+				addColors(e, idColorLeft, idColorRight, idColorLeft);
 				break;
 			case TK_SQRT:
                                 var align = alignment();
+				var idColorLeft = scan.color();
 				next();
 				switch(hd()) {
 				case TK_LEFTBRACKET:
@@ -832,6 +838,8 @@ jQuery.extend ( KhanUtil, {
 					e = {op: tokenToOp[TK_SQRT], args: [braceOptionalExpr()], align:align};
 					break;
 				}
+				var idColorRight = scan.lastColor();
+				addColors(e, idColorLeft, idColorRight, idColorLeft);
 				break;
 			case TK_SIN:
 			case TK_COS:
@@ -841,6 +849,7 @@ jQuery.extend ( KhanUtil, {
 			case TK_CSC:
 			case TK_LN:
                                 var align = alignment();
+				var idColorLeft = scan.color();
 				next();
 				if ( hd() === TK_CARET) {
 					eat(TK_CARET);
@@ -850,6 +859,8 @@ jQuery.extend ( KhanUtil, {
 				} else {
 					e = {op: tokenToOp[t], args: [unaryExpr()], align:align};
 				}
+				var idColorRight = scan.lastColor();
+				addColors(e, idColorLeft, idColorRight, idColorLeft);
 				break;
 			default:
 				e = void 0;
@@ -912,21 +923,6 @@ jQuery.extend ( KhanUtil, {
 			var t;
 			var expr;
 			switch (t = hd()) {
-/*
-			case TK_SHARP:
-				if ((colors === undefined) || (colors[curColor] === undefined)) {
-					alert("Invalid use of # with no corresponding color");
-				}
-				var color = colors[curColor];
-				curColor++;
-				next();
-				expr = braceOptionalExpr();
-				if (typeof expr === "number") {
-					expr = {op:"num", args:[expr]};
-				}
-				expr.color = color;
-				break;
-*/
 			case TK_COLOR:
 				next();
 				var color = "";
@@ -987,7 +983,7 @@ jQuery.extend ( KhanUtil, {
 			var startIdColor = scan.color();
 			var expr = exponentialExpr();
 			var t;
-
+			/*
 			while((t=hd())===TK_VAR || t===TK_LEFTPAREN) {
 				var opIdColor = scan.color();
 				var expr2 = exponentialExpr();
@@ -995,17 +991,25 @@ jQuery.extend ( KhanUtil, {
 				expr = {op: OpStr.MUL, args: [expr, expr2]};
 				addColors(expr, startIdColor, endIdColor, opIdColor);
 	                        expr.align = alignment;
-			}
-
-			while (isMultiplicative(t = hd())) {
+			}*/
+			t = hd();
+			while (isMultiplicative(t) || (t === TK_VAR) || (t === TK_LEFTPAREN)) {
 				var opIdColor = scan.color();
-				var align = alignment();
-				next();
+				var align = undefined;
+				if (isMultiplicative(t)) {
+					var align = alignment();
+					next();
+				}
 				var expr2 = exponentialExpr();
 				var endIdColor = scan.lastColor();
-				expr = {op: tokenToOp[t], args: [expr, expr2]};
+				if ((t === TK_VAR) || (t === TK_LEFTPAREN)) {
+					expr = {op: OpStr.MUL, args: [expr, expr2]};
+				} else {
+					expr = {op: tokenToOp[t], args: [expr, expr2]};
+				}
 				addColors(expr, startIdColor, endIdColor, opIdColor);
 	                        expr.align = align;
+				t = hd();
 			}
 			return expr;
 

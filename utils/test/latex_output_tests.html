@@ -80,7 +80,7 @@
 		} else {
 			var group = [];
 			for (var iExpr = 0; iExpr < srcExprStr.length; iExpr++) {
-				group.push(MATH.parse(srcExprStr[iExpr]));
+				group.push(MATH.parse(srcExprStr[iExpr], colors));
 			}
 			genLatex = "";
 			for (var iGroup = 0; iGroup < groupsDisplayed.length; iGroup++) {
@@ -134,7 +134,7 @@
 		{src:"a*b", ref:"ab"},
 		{src:"a \\times b", ref:"a\\times  b"},
 		{src:"a \\cdot b", ref:"a\\cdot  b"},
-		{src:"a/b", ref:"\\frac{a}{b}"},
+		{src:"a/b", ref:"\\frac {a}{b}"},
 		{src:"a^b", ref:"a^{b}"},
 		{src:"a^{23}", ref:"a^{23}"},
 		{src:"x \\pm 1", ref:"x\\pm  1"},
@@ -146,24 +146,24 @@
 		{src:"a \\leq b", ref:"a\\leq  b"},
 
 		{title:"Trigonometry"},
-		{src:"\\sin x", ref:"\\sin{x}"},
-		{src:"\\sin(x)", ref:"\\sin{( x) }"},
-		{src:"\\cos(x)", ref:"\\cos{( x) }"},
-		{src:"\\tan(x)", ref:"\\tan{( x) }"},
-		{src:"\\cot(x)", ref:"\\cot{( x) }"},
-		{src:"\\sec(x)", ref:"\\sec{( x) }"},
-		{src:"\\csc(x)", ref:"\\csc{( x) }"},
+		{src:"\\sin x", ref:"\\sin {x}"},
+		{src:"\\sin(x)", ref:"\\sin {( x) }"},
+		{src:"\\cos(x)", ref:"\\cos {( x) }"},
+		{src:"\\tan(x)", ref:"\\tan {( x) }"},
+		{src:"\\cot(x)", ref:"\\cot {( x) }"},
+		{src:"\\sec(x)", ref:"\\sec {( x) }"},
+		{src:"\\csc(x)", ref:"\\csc {( x) }"},
 		{src:"\\sin^{-1} x", ref:"\\sin^{- 1}x"},
 		{src:"\\sin(x)^2", ref:"\\sin^{2}( x) "},
 
 		{title:"Misc"},
-		{src:"\\sqrt{x}", ref:"\\sqrt{x}"},
-		{src:"\\sqrt[3]{x}", ref:"\\sqrt[3]{x}"},
-		{src:"\\frac{a}{b}", ref:"\\frac{a}{b}"},
-		{src:"\\dfrac{a}{b}", ref:"\\dfrac{a}{b}"},
+		{src:"\\sqrt{x}", ref:"\\sqrt {x}"},
+		{src:"\\sqrt[3]{x}", ref:"\\sqrt[3] {3}"},
+		{src:"\\frac{a}{b}", ref:"\\frac {a}{b}"},
+		{src:"\\dfrac{a}{b}", ref:"\\dfrac {a}{b}"},
 		{src:"|x|", ref:"| x| "},
-		{src:"\\ln x", ref:"\\ln{x}"},
-		{src:"\\ln(x)", ref:"\\ln{( x) }"},
+		{src:"\\ln x", ref:"\\ln {x}"},
+		{src:"\\ln(x)", ref:"\\ln {( x) }"},
 
 
 		{title:"Parenthesis"},
@@ -174,15 +174,15 @@
 		{src:"a+b+c", ref:"a+ b+ c"},
 		{src:"a-b-c", ref:"a- b- c"},
 		{src:"a\\times b\\times c", ref:"a\\times  b\\times  c"},
-
+		{src:"abc\\times def", ref:"abc\\times  def"},
 		{title:"Mixed expressions"},
 		{src:"--a", ref:"- - a"},
 		{src:"a+-b", ref:"a+ - b"},
 		{src:"a-+b", ref:"a- b"},
-		{src:"(a+b)/(c+d)", ref:"\\frac{( a+ b) }{( c+ d) }"},
-		{src:"\\frac{a+b}{c \\times d}", ref:"\\frac{a+ b}{c\\times  d}"},
+		{src:"(a+b)/(c+d)", ref:"\\frac {( a+ b) }{( c+ d) }"},
+		{src:"\\frac{a+b}{c \\times d}", ref:"\\frac {a+ b}{c\\times  d}"},
 		{src:"(a+(b)+(c+(d)))", ref:"( a+ ( b) + ( c+ ( d) ) ) "},
-		{src:"\\sqrt{x+2}", ref:"\\sqrt{x+ 2}"},
+		{src:"\\sqrt{x+2}", ref:"\\sqrt {x+ 2}"},
 		{src:"x^{2+3}", ref:"x^{2+ 3}"},
 		{src:"x^{y^{z}}", ref:"x^{y^{z}}"},
 		{src:"1+2-3+4", ref:"1+ 2- 3+ 4"},
@@ -216,14 +216,14 @@
 
 		{title:"Colors: full expression, various operators"},
 		{src:"#{a+b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}+ \\color{#FF00AF}{b}}"},
-		{src:"#{+a}", ref:"\\color{#FF00AF}{a}"},
-		{src:"#{-a}", ref:"\\color{#FF00AF}{-a}"},
+		{src:"#{+a}", colors:[PINK], ref:"\\color{#FF00AF}{a}"},
+		{src:"#{-a}", colors:[PINK], ref:"\\color{#FF00AF}{- \\color{#FF00AF}{a}}"},
 		{src:"#{a+b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}+ \\color{#FF00AF}{b}}"},
 		{src:"#{a-b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}- \\color{#FF00AF}{b}}"},
 		{src:"#{a*b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}\\color{#FF00AF}{b}}"},
 		{src:"#{a \\times b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}\\times  \\color{#FF00AF}{b}}"},
 		{src:"#{a \\cdot b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}\\cdot  \\color{#FF00AF}{b}}"},
-		{src:"#{a/b}", colors:[PINK], ref:"\\color{#FF00AF}{\\frac{\\color{#FF00AF}{a}}{\\color{#FF00AF}{b}}}"},
+		{src:"#{a/b}", colors:[PINK], ref:"\\color{#FF00AF}{\\frac {\\color{#FF00AF}{a}}{\\color{#FF00AF}{b}}}"},
 		{src:"#{a^b}", colors:[PINK], ref:"\\color{#FF00AF}{a}^{\\color{#FF00AF}{b}}"},
 		{src:"#{a^{23}}", colors:[PINK], ref:"\\color{#FF00AF}{a}^{\\color{#FF00AF}{23}}"},
 		{src:"#{x \\pm 1}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{x}\\pm  \\color{#FF00AF}{1}}"},
@@ -232,15 +232,15 @@
 		{src:"#{a \\not= b}", colors:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;\\not= \\;} \\color{#FF00AF}{b}"},
 		{src:"#{a \\geq b}", colors:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;\\geq \\;} \\color{#FF00AF}{b}"},
 
-		{src:"#{\\sin x}", colors:[PINK], ref:""},
-		{src:"#{\\sin(x)}", colors:[PINK], ref:""},
-		{src:"#{\\sqrt{x}}", colors:[PINK], ref:""},
-		{src:"#{\\sqrt[3]{x}}", colors:[PINK], ref:""},
-		{src:"#{\\frac{a}{b}}", colors:[PINK], ref:""},
-		{src:"#{\\dfrac{a}{b}}", colors:[PINK], ref:""},
+		{src:"#{\\sin x}", colors:[PINK], ref:"\\color{#FF00AF}{\\sin {\\color{#FF00AF}{x}}}"},
+		{src:"#{\\sin(x)}", colors:[PINK], ref:"\\color{#FF00AF}{\\sin {\\color{#FF00AF}{( \\color{#FF00AF}{x}) }}}"},
+		{src:"#{\\sqrt{x}}", colors:[PINK], ref:"\\color{#FF00AF}{\\sqrt {\\color{#FF00AF}{x}}}"},
+		{src:"#{\\sqrt[3]{x}}", colors:[PINK], ref:"\\color{#FF00AF}{\\sqrt[\\color{#FF00AF}{3}] {\\color{#FF00AF}{3}}}"},
+		{src:"#{\\frac{a}{b}}", colors:[PINK], ref:"\\color{#FF00AF}{\\frac {\\color{#FF00AF}{a}}{\\color{#FF00AF}{b}}}"},
+		{src:"#{\\dfrac{a}{b}}", colors:[PINK], ref:"\\color{#FF00AF}{\\dfrac {\\color{#FF00AF}{a}}{\\color{#FF00AF}{b}}}"},
 		{src:"#{|x|}", colors:[PINK], ref:"\\color{#FF00AF}{| \\color{#FF00AF}{x}| }"},
-		{src:"#{\\ln x}", colors:[PINK], ref:""},
-		{src:"#{\\ln(x)}", colors:[PINK], ref:""},
+		{src:"#{\\ln x}", colors:[PINK], ref:"\\color{#FF00AF}{\\ln {\\color{#FF00AF}{x}}}"},
+		{src:"#{\\ln(x)}", colors:[PINK], ref:"\\color{#FF00AF}{\\ln {\\color{#FF00AF}{( \\color{#FF00AF}{x}) }}}"},
 		{src:"#{(a)}", colors:[PINK], ref:"\\color{#FF00AF}{( \\color{#FF00AF}{a}) }"},
 		{src:"#{a+b+c}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{\\color{#FF00AF}{a}+ \\color{#FF00AF}{b}}+ \\color{#FF00AF}{c}}"},
 		{src:"#{a-b-c}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{\\color{#FF00AF}{a}- \\color{#FF00AF}{b}}- \\color{#FF00AF}{c}}"},
@@ -262,8 +262,12 @@
 
 		{src:"(a#{+b)*(c+}d)", colors:[PINK], ref:"( a\\color{#FF00AF}{\\;+ \\;}\\color{#FF00AF}{b}\\color{#FF00AF}{) }\\color{#FF00AF}{( }\\color{#FF00AF}{c}\\color{#FF00AF}{\\;+ \\;}d) "},
 
-		{src:"#{a+\\sqrt{x}}+2", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}+ \\sqrt{\\color{#FF00AF}{x}}}+ 2"},
-		{src:"#{a-\\sin(x+}2)", colors:[PINK], ref:""},
+		{src:"#{a+\\sqrt{x}}+2", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}+ \\color{#FF00AF}{\\sqrt {\\color{#FF00AF}{x}}}}+ 2"},
+		{src:"#{\\sin} x", colors:[PINK], ref:"\\color{#FF00AF}{\\sin \\;}{x}"},
+		{src:"#{\\sin}(x)", colors:[PINK], ref:"\\color{#FF00AF}{\\sin \\;}{( x) }"},
+		{src:"#{\\sin(}x)", colors:[PINK], ref:"\\color{#FF00AF}{\\sin \\;}{\\color{#FF00AF}{( }x) }"},
+		{src:"#{\\sin(x})", colors:[PINK], ref:"\\color{#FF00AF}{\\sin \\;}{\\color{#FF00AF}{( }\\color{#FF00AF}{x}) }"},
+		{src:"#{a-\\sin(x+}2)", colors:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;- \\;}\\color{#FF00AF}{\\sin \\;}{\\color{#FF00AF}{( }\\color{#FF00AF}{x}\\color{#FF00AF}{\\;+ \\;}2) }"},
 
 		{title:"Colors: multiple/nested colors"},
 
@@ -284,13 +288,24 @@
 		{src:["a&\\not=&b", "aaa&\\not=&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\not=  b \\\\\\\\aaa& \\; \\not=  bbb \\\\\\end{alignat}"},
 		{src:["a+&(&b)", "aaa+&(&bbb)"], groups:[[0,1]], ref:"\\begin{alignat}{5}a+ & \\; ( & b)  \\\\\\\\aaa+ & \\; ( & bbb)  \\\\\\end{alignat}"},
 		{src:["a+(b&)&", "aaa+(bbb&)&"], groups:[[0,1]], ref:"\\begin{alignat}{5}a+ ( b& ) &  \\\\\\\\aaa+ ( bbb& ) &  \\\\\\end{alignat}"},
+
+
 		{title:"Alignment: multiple ops"},
 		{src:["a&+&b&+&c", "aaa&+&bbb&+&ccc"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b& \\; + & \\; c \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+		{src:["a&+&b&+&c", "aaa&+&&&ccc"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b& \\; + & \\; c \\\\\\\\aaa& \\; + & & & \\; ccc \\\\\\end{alignat}"},
 		{src:["&(&a&+&b&&)&", "&(&aaaa&+&bbb&&)&"], groups:[[0,1]], ref:"\\begin{alignat}{5}& ( & a& \\; + & \\; b& & ) &  \\\\\\\\& ( & aaaa& \\; + & \\; bbb& & ) &  \\\\\\end{alignat}"},
+
+		{title:"Alignment: various spacings"},
+		{src:["a & + & b &+& c", "aaa&+&bbb&+&ccc"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b& \\; + & \\; c \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+		{src:["a& + &b  &+&  c", "aaa&+&bbb&+&ccc"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b& \\; + & \\; c \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+
 		{title:"Alignment: multiple groups"},
 		{src:["a&+&b&+&c", "aaa&+&bbb&+&ccc"], groups:[[0],[1]], ref:"\\begin{alignat}{5}\\hphantom{aaa} & \\hphantom{ \\; + } & \\hphantom{ \\; bbb} & \\hphantom{ \\; + } & \\hphantom{ \\; ccc} \\\\a& \\; + & \\; b& \\; + & \\; c \\\\\\end{alignat}$<br/>$\\begin{alignat}{5}\\hphantom{a} & \\hphantom{ \\; + } & \\hphantom{ \\; b} & \\hphantom{ \\; + } & \\hphantom{ \\; c} \\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
 
 		{title:"Alignment: mixed with colors"},
+		{src:["#a&+&#b&+&#{c}", "aaa&+&bbb&+&ccc"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}\\color{#FF00AF}{a}& \\; + & \\; \\color{#6495ED}{b}& \\; + & \\; \\color{#28AE7B}{c} \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+		{src:["a&#+&#b&#{+&c}", "aaa&+&bbb&+&ccc"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\color{#FF00AF}{\\;+ \\;}& \\; \\color{#6495ED}{b}& \\; \\color{#28AE7B}{\\;+ \\;}& \\; \\color{#28AE7B}{c} \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+		{src:["&#(&a&#+&#b&&)&", "&(&aaaa&+&bbb&&)&"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}& \\color{#FF00AF}{( }& a& \\; \\color{#6495ED}{\\;+ \\;}& \\; \\color{#28AE7B}{b}& & ) &  \\\\\\\\& ( & aaaa& \\; + & \\; bbb& & ) &  \\\\\\end{alignat}"},
 	];
 /*
 $("body").append("<pre id='tests2'></pre>");
