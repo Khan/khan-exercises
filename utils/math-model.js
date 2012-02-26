@@ -316,7 +316,7 @@ jQuery.extend ( KhanUtil, {
 			var text;
 
 			if (jQuery.type(n)==="number") {
-				text = n;
+				text = "" + n;
 			}
 			else if (jQuery.type(n)==="object") {
 
