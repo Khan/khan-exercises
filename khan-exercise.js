@@ -1976,11 +1976,11 @@ var Khan = (function() {
 				}
 				nextProblem( 1 );
 			} else {
-				// Wrong answer. Enable all the input elements, but wait until
-				// until server acknowledges before enabling the check answer
-				// button.
-				jQuery( "#answercontent input" ).not( "#check-answer-button, #hint" )
+				// Wrong answer. Enable all the input elements
+				jQuery( "#answercontent input" ).not( "#hint" )
 					.removeAttr( "disabled" );
+
+				enableCheckAnswer();
 			}
 
 			// Remember when the last action was
