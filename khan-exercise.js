@@ -1203,12 +1203,6 @@ var Khan = (function() {
 		jQuery( "#answercontent input" ).not( '#check-answer-button' )
 			.removeAttr( "disabled" );
 
-		// Only enable the check answer button if we are not still waiting for
-		// server acknowledgement of the previous problem.
-		if ( !jQuery("#throbber").is(':visible') ) {
-			enableCheckAnswer();
-		}
-
 		if ( validator.examples && validator.examples.length > 0 ) {
 			jQuery( "#examples-show" ).show();
 			jQuery( "#examples" ).empty();
@@ -1797,7 +1791,7 @@ var Khan = (function() {
 		// Setup appropriate img URLs
 		jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
 		jQuery( "#happy" ).attr( "src", urlBase + "css/images/face-smiley.gif" );
-		jQuery( "#throbber, #issue-throbber" )
+		jQuery( "#issue-throbber" )
 			.attr( "src", urlBase + "css/images/throbber.gif" );
 
 		if (typeof userExercise !== "undefined" && userExercise.read_only) {
@@ -1817,7 +1811,7 @@ var Khan = (function() {
 		} );
 
 		// Change form target to the current page so errors do not kick us
-		// back to the dashboard
+		// to the dashboard
 		jQuery( "#answerform" ).attr( "action", window.location.href );
 
 		// Watch for a solution submission
@@ -1887,7 +1881,6 @@ var Khan = (function() {
 				return false;
 			}
 
-			jQuery( "#throbber" ).show();
 			disableCheckAnswer();
 			jQuery( "#answercontent input" ).not("#check-answer-button, #hint")
 				.attr( "disabled", "disabled" );
@@ -1943,9 +1936,6 @@ var Khan = (function() {
 
 				// TODO: Save locally if offline
 				jQuery(Khan).trigger( "answerSaved" );
-
-				jQuery( "#throbber" ).hide();
-				enableCheckAnswer();
 
 				// If in review mode, the server may decide the user needs to practice
 				// this exercise again -- provide quick feedback if so.
@@ -2040,6 +2030,22 @@ var Khan = (function() {
 
 		// Watch for when the next button is clicked
 		jQuery("#next-question-button").click(function(ev) {
+
+			if ($(Khan).triggerHandler("problemDone") !== false) {
+
+				// If nobody returns false from problemDone indicating
+				// that they'll take care of triggering nextProblem,
+				// automatically trigger nextProblem.
+				$(Khan).trigger("renderNextProblem");
+
+			}
+
+		});
+
+		jQuery(Khan).bind("renderNextProblem", function(ev) {
+
+			enableCheckAnswer();
+
 			jQuery("#happy").hide();
 			if( !jQuery( "#examples-show" ).data( "show" ) ){ jQuery( "#examples-show" ).click(); }
 
@@ -2125,6 +2131,7 @@ var Khan = (function() {
 			jQuery( "#answer_area" ).adhere();
 
 			if ( hint ) {
+				$(Khan).trigger("hintUsed");
 
 				hintsUsed += 1;
 
@@ -2141,6 +2148,8 @@ var Khan = (function() {
 
 				// Disable the get hint button
 				if ( hints.length === 0 ) {
+					$(Khan).trigger("allHintsUsed");
+
 					jQuery( this ).attr( "disabled", true );
 					jQuery( "#hint-remainder" ).fadeOut( 500 );
 				}
