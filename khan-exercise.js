@@ -2131,6 +2131,7 @@ var Khan = (function() {
 			jQuery( "#answer_area" ).adhere();
 
 			if ( hint ) {
+				$(Khan).trigger("hintUsed");
 
 				hintsUsed += 1;
 
@@ -2147,6 +2148,8 @@ var Khan = (function() {
 
 				// Disable the get hint button
 				if ( hints.length === 0 ) {
+					$(Khan).trigger("allHintsUsed");
+
 					jQuery( this ).attr( "disabled", true );
 					jQuery( "#hint-remainder" ).fadeOut( 500 );
 				}
