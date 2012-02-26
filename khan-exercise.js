@@ -1963,6 +1963,11 @@ var Khan = (function() {
 				// Correct answer, so show the next question button.
 				jQuery( "#check-answer-button" ).hide();
 				if ( !testMode || Khan.query.test == null ) {
+
+					// Problem has been completed -- now waiting on user to
+					// move to next problem.
+					$(Khan).trigger("problemDone");
+
 					jQuery( "#next-question-button" )
 						.removeAttr( "disabled" )
 						.removeClass( "buttonDisabled" )
@@ -2031,7 +2036,7 @@ var Khan = (function() {
 		// Watch for when the next button is clicked
 		jQuery("#next-question-button").click(function(ev) {
 
-			if ($(Khan).triggerHandler("problemDone") !== false) {
+			if ($(Khan).triggerHandler("gotoNextProblem") !== false) {
 
 				// If nobody returns false from problemDone indicating
 				// that they'll take care of triggering nextProblem,
