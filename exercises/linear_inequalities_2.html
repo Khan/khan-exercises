@@ -8,70 +8,113 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="A" data-ensure="(A != 1)&&(A != -1)">randRangeNonZero( -20, 20)</var>
-			<var id="B" data-ensure="(B != 1)&&(B != -1)">randRangeNonZero( -20, 20 )</var>
+			<var id="A">randRangeExclude( -20, 20, [-1, 0, 1] )</var>
+			<var id="B">randRangeExclude( -20, 20, [-1, 0, 1] )</var>
 			<var id="C">randRangeNonZero( -20, 20 )</var>
 			<var id="D">randRangeNonZero( -20, 20 )</var>
-			<var id="E" data-ensure="(E != 1)&&(E != -1)">randRangeNonZero( -20, 20 )</var>
-			<var id="F" data-ensure="(F != 1)&&(F != -1)">randRangeNonZero( -20, 20 )</var>
+			<var id="E">randRangeExclude( -20, 20,  [-1, 0, 1] )</var>
+			<var id="F">randRangeExclude( -20, 20, [-1, 0, 1] )</var>
 			<var id="G">randRangeNonZero( -20, 20 )</var>
-			<var id="SOLUTION">fractionReduce( F*G - A*C + D, A*B - E + F)</var>
+			<var id="SOLUTION1">fractionReduce( F - A*C, A*B)</var>
+			<var id="SOLUTION2">fractionReduce( F*G - A*C + D, A*B - E + F)</var>
 			<var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
 			<var id="FREL">{ "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ REL ]</var>
 		</div>
 		<div class="problems">
-			<div>
+			<div id="linear-equations-simpler">
 				<p class="question">Solve for <code>x</code>:</p>
-				<div><code><var>A</var>(<var>B</var>x + <var>C</var>) - (<var>D</var> + <var>E</var>x) <var>REL</var> <var>F</var>(<var>G</var> - x)</code></div>
+					<div><code><var>A</var>(<var>B</var>x + <var>C</var>) <var>REL</var><var>F</var></code></div>
+				<p class="solution" data-type="multiple">
+					<code>x</code>
+					<span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;']">
+						<var>A*B > 0 ? REL : FREL</var>
+					</span>
+					<span class="sol"><var>(F - A*C) / (A*B)</var></span></p>					
+   				<div class="hints">
+					<div>
+					  <p>Remove the parentheses on the left side:</p>
+						<p><code><var>A*B</var>x + <var>A*C</var><var>REL</var><var>F</var></code></p>
+					</div>
+					<div>
+					  <p>Group all terms without x on the right side:</p>
+					  <p><code><var>A*B</var>x + <var>A*C</var> - <var>A*C</var> <var>REL</var><var>F</var> - <var>A*C</var></code></p>
+					  <p><code><var>A*B</var>x <var>REL</var><var>F - A*C</var></code></p>
+					</div>
+					<div data-if="A*B > 0">
+						<div>
+							<p>Divide both sides by <code><var>A*B</var></code>. Because <code><var>A*B</var></code> is positive, the inequality sign <code><var>REL</var></code> should not be flipped.</p>
+							<p><code>\dfrac{<var>A*B</var>x}{<var>A*B</var>} <var>REL</var> \dfrac{<var>F - A*C</var>}{<var>A*B</var>}</code></p>
+						</div>
+						<div>
+							<p>Simplify.</p>
+							<p><code>x <var>REL</var> <var>SOLUTION1</var></code></p>
+						</div>
+					</div>
+					<div data-else>
+						<div>
+							<p>Divide both sides by <code><var>A*B - E + F</var></code>. Because <code><var>A*B - E + F</var></code> is negative, the inequality sign <code><var>REL</var></code> must be flipped to <code><var>FREL</var></code>.</p>
+							<p><code>\dfrac{<var>A*B - E + F</var>x}{<var>A*B - E + F</var>} <var>FREL</var> \dfrac{<var>F*G - A*C + D</var>}{<var>A*B - E + F</var>}</code></p>
+						</div>
+						<div>
+							<p>Simplify.</p>
+							<p><code>x <var>FREL</var><var>SOLUTION1</var></code></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="linear-equations-harder">
+				<p class="question">Solve for <code>x</code>:</p>
+				<div><code><var>A</var>(<var>B</var>x + <var>C</var>) - (<var>D</var> + <var>E</var>x) 
+					<var>REL</var> <var>F</var>(<var>G</var> - x)</code></div>
 				<p class="solution" data-type="multiple">
 					<code>x</code>
 					<span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;']">
 						<var>A*B + F - E > 0 ? REL : FREL</var>
 					</span>
 					<span class="sol"><var>(F*G - A*C + D) / (A*B - E + F)</var></span></p>					
-			</div>
-		</div>
-		<div class="hints">
-			<div>
-			  <p>Remove the parentheses on the left side:</p>
-				<p><code><var>A*B</var>x + <var>A*C</var> - <var>D</var> - <var>E</var>x <var>REL</var> <var>F</var> (<var>G</var> - x)</code></p>
-			</div>
-			<div>
-			  <p>Rearrange the left side:</p>
-			        <p><code><var>A*B - E</var>x + <var>A*C - D</var> <var>REL</var> <var>F</var> (<var>G</var> - x)</code></p>
-			</div>
-			<div>
-			  <p>Remove the parentheses on the right side:</p>
-			        <p><code><var>A*B - E</var>x + <var>A*C - D</var> <var>REL</var> <var>F*G</var> - <var>F</var>x</code></p>
-			</div>
-			<div>
-			  <p>Group all terms with x on the left side:</p>
-			       <p><code><var>A*B - E</var>x + <var>A*C - D</var> + <var>F</var>x <var>REL</var> <var>F*G</var> - <var>F</var>x + <var>F</var>x</code></p>
-			       <p><code><var>A*B - E + F</var>x + <var>A*C - D</var> <var>REL</var> <var>F*G</var></code></p>
-			</div>
-			<div>
-			  <p>Group all other terms on the right side:</p>
-			  <p><code><var>A*B - E + F</var>x + <var>A*C - D</var> - <var>A*C - D</var> <var>REL</var> <var>F*G</var> - <var>A*C - D</var></code></p>
-			  <p><code><var>A*B - E + F</var>x <var>REL</var> <var>F*G - A*C + D</var></code></p>
-			</div>
-			<div data-if="A*B - E + F > 0">
-				<div>
-					<p>Divide both sides by <code><var>A*B - E + F</var></code>. Because <code><var>A*B - E + F</var></code> is positive, the inequality sign <code><var>REL</var></code> should not be flipped.</p>
-					<p><code>\dfrac{<var>A*B - E + F</var>x}{<var>A*B - E + F</var>} <var>REL</var> \dfrac{<var>F*G - A*C + D</var>}{<var>A*B - E + F</var>}</code></p>
-				</div>
-				<div>
-					<p>Simplify.</p>
-					<p><code>x <var>REL</var> <var>SOLUTION</var></code></p>
-				</div>
-			</div>
-			<div data-else>
-				<div>
-					<p>Divide both sides by <code><var>A*B - E + F</var></code>. Because <code><var>A*B - E + F</var></code> is negative, the inequality sign <code><var>REL</var></code> must be flipped to <code><var>FREL</var></code>.</p>
-					<p><code>\dfrac{<var>A*B - E + F</var>x}{<var>A*B - E + F</var>} <var>FREL</var> \dfrac{<var>F*G - A*C + D</var>}{<var>A*B - E + F</var>}</code></p>
-				</div>
-				<div>
-					<p>Simplify.</p>
-					<p><code>x <var>FREL</var> <var>SOLUTION</var></code></p>
+							<div class="hints">
+					<div>
+					  <p>Remove the parentheses on the left side:</p>
+						<p><code><var>A*B</var>x + <var>A*C</var> - <var>D</var> - <var>E</var>x <var>REL</var> <var>F</var> (<var>G</var> - x)</code></p>
+					</div>
+					<div>
+					  <p>Rearrange the left side:</p>
+					        <p><code><var>A*B - E</var>x + <var>A*C - D</var> <var>REL</var> <var>F</var> (<var>G</var> - x)</code></p>
+					</div>
+					<div>
+					  <p>Remove the parentheses on the right side:</p>
+					        <p><code><var>A*B - E</var>x + <var>A*C - D</var> <var>REL</var> <var>F*G</var> - <var>F</var>x</code></p>
+					</div>
+					<div>
+					  <p>Group all terms with x on the left side:</p>
+					       <p><code><var>A*B - E</var>x + <var>A*C - D</var> + <var>F</var>x <var>REL</var> <var>F*G</var> - <var>F</var>x + <var>F</var>x</code></p>
+					       <p><code><var>A*B - E + F</var>x + <var>A*C - D</var> <var>REL</var> <var>F*G</var></code></p>
+					</div>
+					<div>
+					  <p>Group all other terms on the right side:</p>
+					  <p><code><var>A*B - E + F</var>x + <var>A*C - D</var> - <var>A*C - D</var> <var>REL</var> <var>F*G</var> - <var>A*C - D</var></code></p>
+					  <p><code><var>A*B - E + F</var>x <var>REL</var> <var>F*G - A*C + D</var></code></p>
+					</div>
+					<div data-if="A*B - E + F > 0">
+						<div>
+							<p>Divide both sides by <code><var>A*B - E + F</var></code>. Because <code><var>A*B - E + F</var></code> is positive, the inequality sign <code><var>REL</var></code> should not be flipped.</p>
+							<p><code>\dfrac{<var>A*B - E + F</var>x}{<var>A*B - E + F</var>} <var>REL</var> \dfrac{<var>F*G - A*C + D</var>}{<var>A*B - E + F</var>}</code></p>
+						</div>
+						<div>
+							<p>Simplify.</p>
+							<p><code>x <var>REL</var> <var>SOLUTION2</var></code></p>
+						</div>
+					</div>
+					<div data-else>
+						<div>
+							<p>Divide both sides by <code><var>A*B - E + F</var></code>. Because <code><var>A*B - E + F</var></code> is negative, the inequality sign <code><var>REL</var></code> must be flipped to <code><var>FREL</var></code>.</p>
+							<p><code>\dfrac{<var>A*B - E + F</var>x}{<var>A*B - E + F</var>} <var>FREL</var> \dfrac{<var>F*G - A*C + D</var>}{<var>A*B - E + F</var>}</code></p>
+						</div>
+						<div>
+							<p>Simplify.</p>
+							<p><code>x <var>FREL</var> <var>SOLUTION2</var></code></p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
