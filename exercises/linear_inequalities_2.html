@@ -15,13 +15,13 @@
 			<var id="E">randRangeExclude( -20, 20,  [-1, 0, 1] )</var>
 			<var id="F">randRangeExclude( -20, 20, [-1, 0, 1] )</var>
 			<var id="G">randRangeNonZero( -20, 20 )</var>
-			<var id="SOLUTION1">fractionReduce( F - A*C, A*B)</var>
-			<var id="SOLUTION2">fractionReduce( F*G - A*C + D, A*B - E + F)</var>
-			<var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+			<var id="SOLUTION_EASIER">fractionReduce( F - A*C, A*B )</var>
+			<var id="SOLUTION_HARDER">fractionReduce( F*G - A*C + D, A*B - E + F )</var>
+			<var id="REL">randFromArray( [ "&lt;", "&gt;", "&le;", "&ge;" ] )</var>
 			<var id="FREL">{ "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ REL ]</var>
 		</div>
 		<div class="problems">
-			<div id="linear-equations-simpler">
+			<div id="linear-equations-easier">
 				<p class="question">Solve for <code>x</code>:</p>
 					<div><code><var>A</var>(<var>B</var>x + <var>C</var>) <var>REL</var><var>F</var></code></div>
 				<p class="solution" data-type="multiple">
@@ -35,7 +35,7 @@
 						<p><code><var>A*B</var>x + <var>A*C</var><var>REL</var><var>F</var></code></p>
 					</div>
 					<div>
-						<p>Group all terms without x on the right side:</p>
+						<p>Group all terms without <code>x</code> on the right side:</p>
 						<p><code><var>A*B</var>x + <var>A*C</var> - <var>A*C</var> <var>REL</var><var>F</var> - <var>A*C</var></code></p>
 						<p><code><var>A*B</var>x <var>REL</var><var>F - A*C</var></code></p>
 					</div>
@@ -46,17 +46,17 @@
 						</div>
 						<div>
 							<p>Simplify.</p>
-							<p><code>x <var>REL</var> <var>SOLUTION1</var></code></p>
+							<p><code>x<var>REL</var><var>SOLUTION_EASIER</var></code></p>
 						</div>
 					</div>
 					<div data-else>
 						<div>
 							<p>Divide both sides by <code><var>A*B - E + F</var></code>. Because <code><var>A*B - E + F</var></code> is negative, the inequality sign <code><var>REL</var></code> must be flipped to <code><var>FREL</var></code>.</p>
-							<p><code>\dfrac{<var>A*B - E + F</var>x}{<var>A*B - E + F</var>}<var>FREL</var> \dfrac{<var>F*G - A*C + D</var>}{<var>A*B - E + F</var>}</code></p>
+							<p><code>\dfrac{<var>A*B</var>x}{<var>A*B</var>} <var>FREL</var>\dfrac{<var>F - A*C</var>}{<var>A*B</var>}</code></p>
 						</div>
 						<div>
 							<p>Simplify.</p>
-							<p><code>x <var>FREL</var><var>SOLUTION1</var></code></p>
+							<p><code>x<var>FREL</var><var>SOLUTION_EASIER</var></code></p>
 						</div>
 					</div>
 				</div>
@@ -84,7 +84,7 @@
 					    	<p><code><var>A*B - E</var>x + <var>A*C - D</var> <var>REL</var><var>F*G</var> - <var>F</var>x</code></p>
 					</div>
 					<div>
-						<p>Group all terms with x on the left side:</p>
+						<p>Group all terms with <code>x</code> on the left side:</p>
 					    	<p><code><var>A*B - E</var>x + <var>A*C - D</var> + <var>F</var>x<var>REL</var> <var>F*G</var> - <var>F</var>x + <var>F</var>x</code></p>
 					    	<p><code><var>A*B - E + F</var>x + <var>A*C - D</var> <var>REL</var><var>F*G</var></code></p>
 					</div>
@@ -100,7 +100,7 @@
 						</div>
 						<div>
 							<p>Simplify.</p>
-							<p><code>x <var>REL</var> <var>SOLUTION2</var></code></p>
+							<p><code>x<var>REL</var><var>SOLUTION_HARDER</var></code></p>
 						</div>
 					</div>
 					<div data-else>
@@ -110,7 +110,7 @@
 						</div>
 						<div>
 							<p>Simplify.</p>
-							<p><code>x <var>FREL</var> <var>SOLUTION2</var></code></p>
+							<p><code>x<var>FREL</var><var>SOLUTION_HARDER</var></code></p>
 						</div>
 					</div>
 				</div>
