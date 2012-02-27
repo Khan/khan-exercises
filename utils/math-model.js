@@ -421,7 +421,12 @@ jQuery.extend ( KhanUtil, {
 					text = "";
 					jQuery.each(n.args, function (index, term) {
 						var opIndex = index - 1;
-						if (term.args && (term.args.length >= 2)) {
+						if ((term.args && (term.args.length >= 2)) ||
+							!((n.op === OpStr.MUL) && (term.op === OpStr.PAREN ||
+								 term.op===OpStr.VAR ||
+								 term.op===OpStr.CST ||
+								 (exprIsNumber(prevTerm) && !exprIsNumber(term))
+							))) {
 							if (term.op===OpStr.ADD || term.op===OpStr.SUB) {
 								args[index] = "(" + args[index] + ")";
 							}
@@ -434,17 +439,7 @@ jQuery.extend ( KhanUtil, {
 						}
 						// elide the times symbol if rhs is parenthesized or a var, or lhs is a number
 						// and rhs is not a number
-						else if ((n.op === OpStr.MUL) && (term.op === OpStr.PAREN ||
-								 term.op===OpStr.VAR ||
-								 term.op===OpStr.CST ||
-								 (exprIsNumber(prevTerm) && !exprIsNumber(term))
-							)) {
-							text += args[index];
-						}
 						else {
-							if (opIndex >= 0) {
-								text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true) + " ";
-							}
 							text += args[index];
 						}
 						prevTerm = term;
@@ -997,7 +992,7 @@ jQuery.extend ( KhanUtil, {
 				var opIdColor = scan.color();
 				var align = undefined;
 				if (isMultiplicative(t)) {
-					var align = alignment();
+					align = alignment();
 					next();
 				}
 				var expr2 = exponentialExpr();
@@ -1170,7 +1165,18 @@ jQuery.extend ( KhanUtil, {
 						continue;
 					case TK_BACKSLASH:  // backslash
 						lexeme += String.fromCharCode(c);
-						return latex();
+						var token = latex();
+						if (token === TK_TIMES) {
+							var nc = src.charCodeAt(curIndex)
+							while ((nc === TK_AMP) || (nc === TK_SPACE)) {
+								curIndex++;
+								if (nc === TK_AMP) {
+									alignment[1]++;
+								}
+								nc = src.charCodeAt(curIndex)
+							}
+						}
+						return token;
                                         case TK_AMP:  // &
 						alignment[0]++;
 						continue;                                                

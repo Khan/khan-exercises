@@ -37,15 +37,17 @@
    border:solid gray 1px;
 }
 </style>
+
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});
 </script>
 <script type="text/javascript"
-  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  src="http://cdn.mathjax.org/mathjax/1.1-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
-<!--
-	<script src="../MathJax/1.1a/MathJax.js?config=KAthJax-77111459c7d82564a705f9c5480e2c88"></script>
--->
+<!--	<script src="../MathJax/1.1a/MathJax.js?config=KAthJax-77111459c7d82564a705f9c5480e2c88"></script>-->
+
+
+
 	<script src="../../khan-exercise.js"></script>
 	<script src="../ast.js"></script>
 	<script src="../math-model.js"></script>
@@ -132,8 +134,8 @@
 		{src:"a+b", ref:"a+ b"},
 		{src:"a-b", ref:"a- b"},
 		{src:"a*b", ref:"ab"},
-		{src:"a \\times b", ref:"a\\times  b"},
-		{src:"a \\cdot b", ref:"a\\cdot  b"},
+		{src:"a \\times b", ref:"a\\times b"},
+		{src:"a \\cdot b", ref:"a\\cdot b"},
 		{src:"a/b", ref:"\\frac {a}{b}"},
 		{src:"a^b", ref:"a^{b}"},
 		{src:"a^{23}", ref:"a^{23}"},
@@ -173,14 +175,14 @@
 		{title:"N-ary operators"},
 		{src:"a+b+c", ref:"a+ b+ c"},
 		{src:"a-b-c", ref:"a- b- c"},
-		{src:"a\\times b\\times c", ref:"a\\times  b\\times  c"},
-		{src:"abc\\times def", ref:"abc\\times  def"},
+		{src:"a\\times b\\times c", ref:"a\\times b\\times c"},
+		{src:"abc\\times def", ref:"abc\\times def"},
 		{title:"Mixed expressions"},
 		{src:"--a", ref:"- - a"},
 		{src:"a+-b", ref:"a+ - b"},
 		{src:"a-+b", ref:"a- b"},
 		{src:"(a+b)/(c+d)", ref:"\\frac {( a+ b) }{( c+ d) }"},
-		{src:"\\frac{a+b}{c \\times d}", ref:"\\frac {a+ b}{c\\times  d}"},
+		{src:"\\frac{a+b}{c \\times d}", ref:"\\frac {a+ b}{c\\times d}"},
 		{src:"(a+(b)+(c+(d)))", ref:"( a+ ( b) + ( c+ ( d) ) ) "},
 		{src:"\\sqrt{x+2}", ref:"\\sqrt {x+ 2}"},
 		{src:"x^{2+3}", ref:"x^{2+ 3}"},
@@ -192,8 +194,8 @@
 		{src:"#a+b", colors:[PINK], ref:"\\color{#FF00AF}{a}+ b"},
 		{src:"a#+b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;+ \\;}b"},
 		{src:"a#-b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;- \\;}b"},
-		{src:"a#\\times b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;\\times \\;} b"},
-		{src:"a#\\cdot b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;\\cdot \\;} b"},
+		{src:"a#\\times b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;\\times \\;}b"},
+		{src:"a#\\cdot b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;\\cdot \\;}b"},
 		{src:"#(a+b)", colors:[PINK], ref:"\\color{#FF00AF}{( }a+ b) "},
 		{src:"(a+b#)", colors:[PINK], ref:"( a+ b\\color{#FF00AF}{) }"},
 		{src:"#a^b", colors:[PINK], ref:"\\color{#FF00AF}{a}^{b}"},
@@ -205,8 +207,8 @@
 		{src:"#{a}+b", colors:[PINK], ref:"\\color{#FF00AF}{a}+ b"},
 		{src:"a#{+}b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;+ \\;}b"},
 		{src:"a#{-}b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;- \\;}b"},
-		{src:"a#{\\times} b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;\\times \\;} b"},
-		{src:"a#{\\cdot} b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;\\cdot \\;} b"},
+		{src:"a#{\\times} b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;\\times \\;}b"},
+		{src:"a#{\\cdot} b", colors:[PINK], ref:"a\\color{#FF00AF}{\\;\\cdot \\;}b"},
 		{src:"#{(}a+b)", colors:[PINK], ref:"\\color{#FF00AF}{( }a+ b) "},
 		{src:"(a+b#{)}", colors:[PINK], ref:"( a+ b\\color{#FF00AF}{) }"},
 		{src:"#{a}^b", colors:[PINK], ref:"\\color{#FF00AF}{a}^{b}"},
@@ -221,8 +223,8 @@
 		{src:"#{a+b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}+ \\color{#FF00AF}{b}}"},
 		{src:"#{a-b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}- \\color{#FF00AF}{b}}"},
 		{src:"#{a*b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}\\color{#FF00AF}{b}}"},
-		{src:"#{a \\times b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}\\times  \\color{#FF00AF}{b}}"},
-		{src:"#{a \\cdot b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}\\cdot  \\color{#FF00AF}{b}}"},
+		{src:"#{a \\times b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}\\times \\color{#FF00AF}{b}}"},
+		{src:"#{a \\cdot b}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{a}\\cdot \\color{#FF00AF}{b}}"},
 		{src:"#{a/b}", colors:[PINK], ref:"\\color{#FF00AF}{\\frac {\\color{#FF00AF}{a}}{\\color{#FF00AF}{b}}}"},
 		{src:"#{a^b}", colors:[PINK], ref:"\\color{#FF00AF}{a}^{\\color{#FF00AF}{b}}"},
 		{src:"#{a^{23}}", colors:[PINK], ref:"\\color{#FF00AF}{a}^{\\color{#FF00AF}{23}}"},
@@ -244,7 +246,7 @@
 		{src:"#{(a)}", colors:[PINK], ref:"\\color{#FF00AF}{( \\color{#FF00AF}{a}) }"},
 		{src:"#{a+b+c}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{\\color{#FF00AF}{a}+ \\color{#FF00AF}{b}}+ \\color{#FF00AF}{c}}"},
 		{src:"#{a-b-c}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{\\color{#FF00AF}{a}- \\color{#FF00AF}{b}}- \\color{#FF00AF}{c}}"},
-		{src:"#{a\\times b\\times c}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{\\color{#FF00AF}{a}\\times  \\color{#FF00AF}{b}}\\times  \\color{#FF00AF}{c}}"},
+		{src:"#{a\\times b\\times c}", colors:[PINK], ref:"\\color{#FF00AF}{\\color{#FF00AF}{\\color{#FF00AF}{a}\\times \\color{#FF00AF}{b}}\\times \\color{#FF00AF}{c}}"},
 
 		{title:"Colors: arbitrary parts"},
 		{src:"#{2}=3", colors:[BLUE], ref:"\\color{#6495ED}{2}=  3"},
@@ -252,13 +254,13 @@
 		{src:"2#{=}3", colors:[BLUE], ref:"2\\color{#6495ED}{\\;= \\;} 3"},
 		{src:"2#{=3}", colors:[BLUE], ref:"2\\color{#6495ED}{\\;= \\;} \\color{#6495ED}{3}"},
 		{src:"2=#{3}", colors:[BLUE], ref:"2=  \\color{#6495ED}{3}"},
-		{src:"#{(a}+b)(c \\times d)", colors:[PINK], ref:"\\color{#FF00AF}{( }\\color{#FF00AF}{a}+ b) ( c\\times  d) "},
-		{src:"(#{a+}b)(c \\times d)", colors:[PINK], ref:"( \\color{#FF00AF}{a}\\color{#FF00AF}{\\;+ \\;}b) ( c\\times  d) "},
-		{src:"(a+#{b)}(c \\times d)", colors:[PINK], ref:"( a+ \\color{#FF00AF}{b}\\color{#FF00AF}{) }( c\\times  d) "},
-		{src:"(a+b#{)(}c \\times d)", colors:[PINK], ref:"( a+ b\\color{#FF00AF}{) }\\color{#FF00AF}{( }c\\times  d) "},
-		{src:"(a+b)#{(c} \\times d)", colors:[PINK], ref:"( a+ b) \\color{#FF00AF}{( }\\color{#FF00AF}{c}\\times  d) "},
-		{src:"(a+#{b)(c} \\times d)", colors:[PINK], ref:"( a+ \\color{#FF00AF}{b}\\color{#FF00AF}{) }\\color{#FF00AF}{( }\\color{#FF00AF}{c}\\times  d) "},
-		{src:"(a#{+b)*(c \\times }d)", colors:[PINK], ref:"( a\\color{#FF00AF}{\\;+ \\;}\\color{#FF00AF}{b}\\color{#FF00AF}{) }\\color{#FF00AF}{( }\\color{#FF00AF}{c}\\color{#FF00AF}{\\;\\times \\;} d) "},
+		{src:"#{(a}+b)(c \\times d)", colors:[PINK], ref:"\\color{#FF00AF}{( }\\color{#FF00AF}{a}+ b) ( c\\times d) "},
+		{src:"(#{a+}b)(c \\times d)", colors:[PINK], ref:"( \\color{#FF00AF}{a}\\color{#FF00AF}{\\;+ \\;}b) ( c\\times d) "},
+		{src:"(a+#{b)}(c \\times d)", colors:[PINK], ref:"( a+ \\color{#FF00AF}{b}\\color{#FF00AF}{) }( c\\times d) "},
+		{src:"(a+b#{)(}c \\times d)", colors:[PINK], ref:"( a+ b\\color{#FF00AF}{) }\\color{#FF00AF}{( }c\\times d) "},
+		{src:"(a+b)#{(c} \\times d)", colors:[PINK], ref:"( a+ b) \\color{#FF00AF}{( }\\color{#FF00AF}{c}\\times d) "},
+		{src:"(a+#{b)(c} \\times d)", colors:[PINK], ref:"( a+ \\color{#FF00AF}{b}\\color{#FF00AF}{) }\\color{#FF00AF}{( }\\color{#FF00AF}{c}\\times d) "},
+		{src:"(a#{+b)*(c \\times }d)", colors:[PINK], ref:"( a\\color{#FF00AF}{\\;+ \\;}\\color{#FF00AF}{b}\\color{#FF00AF}{) }\\color{#FF00AF}{( }\\color{#FF00AF}{c}\\color{#FF00AF}{\\;\\times \\;}d) "},
 
 		{src:"(a#{+b)*(c+}d)", colors:[PINK], ref:"( a\\color{#FF00AF}{\\;+ \\;}\\color{#FF00AF}{b}\\color{#FF00AF}{) }\\color{#FF00AF}{( }\\color{#FF00AF}{c}\\color{#FF00AF}{\\;+ \\;}d) "},
 
@@ -281,8 +283,8 @@
 		{src:["a&+&b", "aaa&+&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b \\\\\\\\aaa& \\; + & \\; bbb \\\\\\end{alignat}"},
 		{src:["a&=&b", "aaa&=&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; =  & \\; b \\\\\\\\aaa& \\; =  & \\; bbb \\\\\\end{alignat}"},
 		{src:["a&=&b", "aaa&=&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; =  & \\; b \\\\\\\\aaa& \\; =  & \\; bbb \\\\\\end{alignat}"},
-		{src:["a&\\times&b", "aaa&\\times&bbb"], groups:[[0,1]], ref:""},
-		{src:["a&\\cdot&b", "aaa&\\cdot&bbb"], groups:[[0,1]], ref:""},
+		{src:["a&\\times&b", "aaa&\\times&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\times & \\; b \\\\\\\\aaa& \\; \\times & \\; bbb \\\\\\end{alignat}"},
+		{src:["a&\\cdot&b", "aaa&\\cdot&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\cdot b \\\\\\\\aaa& \\; \\cdot bbb \\\\\\end{alignat}"},
 		{src:["a&<&b", "aaa&<&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; <  & \\; b \\\\\\\\aaa& \\; <  & \\; bbb \\\\\\end{alignat}"},
 		{src:["a&\\leq&b", "aaa&\\leq&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\leq  b \\\\\\\\aaa& \\; \\leq  bbb \\\\\\end{alignat}"},
 		{src:["a&\\not=&b", "aaa&\\not=&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\not=  b \\\\\\\\aaa& \\; \\not=  bbb \\\\\\end{alignat}"},
