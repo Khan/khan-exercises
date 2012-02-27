@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html">
+<html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Utility Test Suite: LaTeX</title>
 	<!-- Include dependencies -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/javascript" src="../../jquery.js"></script>
+	<script type="text/javascript" src="../MathJax/1.1a/MathJax.js?config=KAthJax-77111459c7d82564a705f9c5480e2c88"></script>
+	<script src="../../khan-exercise.js"></script>
+	<script type="text/javascript" src="../tmpl.js"></script>
+	<script src="../ast.js"></script>
+	<script src="../math-model.js"></script>
+	<script src="../math.js"></script>
 <style>
 .ok {
    color:white;
@@ -37,22 +43,8 @@
    border:solid gray 1px;
 }
 </style>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});
-</script>
-<script type="text/javascript"
-  src="http://cdn.mathjax.org/mathjax/1.1-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!--	<script src="../MathJax/1.1a/MathJax.js?config=KAthJax-77111459c7d82564a705f9c5480e2c88"></script>-->
-
-
-
-	<script src="../../khan-exercise.js"></script>
-	<script src="../ast.js"></script>
-	<script src="../math-model.js"></script>
-	<script src="../math.js"></script>
 	<script>
+    jQuery( document ).ready( function() {
 	var turn = 1;
 	var timer;
 	var blink = function() {
@@ -87,7 +79,7 @@
 			genLatex = "";
 			for (var iGroup = 0; iGroup < groupsDisplayed.length; iGroup++) {
 				if (iGroup != 0) {
-					genLatex += "$<br/>$";
+					genLatex += "</code><br/><code>";
 				}
 				genLatex += MATH.formatGroup(group, groupsDisplayed[iGroup]);
 			}
@@ -99,10 +91,10 @@
 			result = "<span class='no'>NO</span>";
 		}
 		var js = "onmouseover='showRender(" + id + ")'";
-		$("#tests").append("<tr><td><code>" + srcExprStr + "<code></td>" + 
+		$("#tests").append("<tr><td>" + srcExprStr + "</td>" + 
 					"<td>" + result + "</td>" +
-					"<td><span id='gen_" + id + "' " + js + ">$" + genLatex + "$</span></td>" +
-					"<td><span id='exp_" + id + "'>$" + refLatex + "$</span></td>" +
+					"<td><span id='gen_" + id + "' " + js + "><code>" + genLatex + "</code></span></td>" +
+					"<td><span id='exp_" + id + "'><code>" + refLatex + "</code></span></td>" +
 					"<td><textarea>" + genLatexStr + "</textarea></td>" +
 					"<td><textarea>" + refLatexStr + "</textarea></td></tr>");
 	}
@@ -303,7 +295,7 @@
 		{src:["a& + &b  &+&  c", "aaa&+&bbb&+&ccc"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b& \\; + & \\; c \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
 
 		{title:"Alignment: multiple groups"},
-		{src:["a&+&b&+&c", "aaa&+&bbb&+&ccc"], groups:[[0],[1]], ref:"\\begin{alignat}{5}\\hphantom{aaa} & \\hphantom{ \\; + } & \\hphantom{ \\; bbb} & \\hphantom{ \\; + } & \\hphantom{ \\; ccc} \\\\a& \\; + & \\; b& \\; + & \\; c \\\\\\end{alignat}$<br/>$\\begin{alignat}{5}\\hphantom{a} & \\hphantom{ \\; + } & \\hphantom{ \\; b} & \\hphantom{ \\; + } & \\hphantom{ \\; c} \\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+		{src:["a&+&b&+&c", "aaa&+&bbb&+&ccc"], groups:[[0],[1]], ref:"\\begin{alignat}{5}\\hphantom{aaa} & \\hphantom{ \\; + } & \\hphantom{ \\; bbb} & \\hphantom{ \\; + } & \\hphantom{ \\; ccc} \\\\a& \\; + & \\; b& \\; + & \\; c \\\\\\end{alignat}</code><br/><code>\\begin{alignat}{5}\\hphantom{a} & \\hphantom{ \\; + } & \\hphantom{ \\; b} & \\hphantom{ \\; + } & \\hphantom{ \\; c} \\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
 
 		{title:"Alignment: mixed with colors"},
 		{src:["#a&+&#b&+&#{c}", "aaa&+&bbb&+&ccc"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}\\color{#FF00AF}{a}& \\; + & \\; \\color{#6495ED}{b}& \\; + & \\; \\color{#28AE7B}{c} \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
@@ -327,6 +319,8 @@ for (var iTest = 0; iTest < testsRender.length; iTest++) {
 			testCase(test.src, test.colors, test.groups, test.ref, "", iTest);
 		}
 	}
+	jQuery( document ).tmpl();
+    });
 </script>
 
 </head>

@@ -271,9 +271,9 @@ jQuery.extend ( KhanUtil, {
 			return "\\color{"+color+"}{"+text+"}";
 		}
 
-		function parseFormat(text, colors, hphantom) {
+		function parseFormat(text, colors, hphantom, textSize) {
 			var expr = parse(text, colors);
-			var str = format(expr, undefined, hphantom);
+			var str = format(expr, textSize, hphantom);
 			if (hphantom) {
 				str = "\\hphantom{" + str + "}";
 			}
