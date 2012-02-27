@@ -427,7 +427,7 @@ jQuery.extend ( KhanUtil, {
 								 term.op===OpStr.CST ||
 								 (exprIsNumber(prevTerm) && !exprIsNumber(term))
 							))) {
-							if (term.op===OpStr.ADD || term.op===OpStr.SUB) {
+							if (((term.op===OpStr.ADD) || (term.op===OpStr.SUB)) && (term.args.length > 1)) {
 								args[index] = "(" + args[index] + ")";
 							}
 							if (opIndex >= 0) {
@@ -978,15 +978,6 @@ jQuery.extend ( KhanUtil, {
 			var startIdColor = scan.color();
 			var expr = exponentialExpr();
 			var t;
-			/*
-			while((t=hd())===TK_VAR || t===TK_LEFTPAREN) {
-				var opIdColor = scan.color();
-				var expr2 = exponentialExpr();
-				var endIdColor = scan.lastColor();
-				expr = {op: OpStr.MUL, args: [expr, expr2]};
-				addColors(expr, startIdColor, endIdColor, opIdColor);
-	                        expr.align = alignment;
-			}*/
 			t = hd();
 			while (isMultiplicative(t) || (t === TK_VAR) || (t === TK_LEFTPAREN)) {
 				var opIdColor = scan.color();
