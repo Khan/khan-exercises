@@ -421,8 +421,9 @@ jQuery.extend ( KhanUtil, {
 					text = "";
 					jQuery.each(n.args, function (index, term) {
 						var opIndex = index - 1;
-						if ((term.args && (term.args.length >= 2)) ||
+						if ((term.args && (term.args.length >= 2) && (term.op !== OpStr.POW)) ||
 							!((n.op === OpStr.MUL) && (term.op === OpStr.PAREN ||
+								 term.op===OpStr.POW ||
 								 term.op===OpStr.VAR ||
 								 term.op===OpStr.CST ||
 								 (exprIsNumber(prevTerm) && !exprIsNumber(term))
