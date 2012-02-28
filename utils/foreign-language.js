@@ -97,7 +97,7 @@ jQuery.fn[ "foreign-languageLoad" ] = function() {
 					}
 				}
 			}
-			var wanted = KhanUtil.shuffle(deVerbs);
+			var wanted = KhanUtil.shuffle(deNewVerbs);
 			return wanted[i - 1];
 		},
 		dePronoun: function ( i ) {
