@@ -2112,23 +2112,6 @@ var Khan = (function() {
 		// Watch for when the "Get a Hint" button is clicked
 		jQuery( "#hint" ).click(function() {
 
-			if ( user && attempts === 0 ) {
-				var hintApproved = window.localStorage[ "hintApproved:" + user ];
-
-				if ( !(typeof hintApproved !== "undefined" && JSON.parse(hintApproved)) ) {
-					if ( !(typeof userExercise !== "undefined" && userExercise.read_only) ) {
-						if ( confirm("One-time warning: Using a hint will set back your progress.\nAre you sure you want to continue?"))  {
-							// Hint consequences approved
-							window.localStorage[ "hintApproved:" + user ] = true;
-
-						} else {
-							// User doesn't want to have progress set back
-							return;
-						}
-					}
-				}
-			}
-
 			var hint = hints.shift();
 			jQuery( "#hint-remainder" ).text( hints.length + " remaining" )
 				.fadeIn( 500 );
