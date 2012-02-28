@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html data-require="math">
+  <head>
+      <title>Modus ponens</title>
+      <script src="../khan-exercise.js"></script>
+  </head>
+  <body>
+      <div class="exercise">
+          <div class="vars">
+              <div data-ensure="S1 !== S2">
+                  <var id="S1, S2">shuffle(["A","B","P","Q","Y","Z"], 2)</var>
+              </div>
+              <var id="MAJOR"><code><var>S1</var> \to <var>S2</var></code></var>
+              <var id="MINOR"><code><var>S2</var></code></var>
+          </div>
+
+          <div class="problems">
+              <div id="problem-type-or-description">
+                  <div class="question">
+                      <ol>
+                          <li><var>MAJOR</var></li>
+                          <li>not <var>MINOR</var></li>
+                      </ol>
+                      <code>\therefore</code> ?
+                  </div>
+                  <p class="solution" data-type="regex">^[nN][oO][tT] <var>S1</var>$</p>
+              </div>
+          </div>
+
+          <div class="hints">
+              <div>
+                  <p>
+                      When thinking about abstract logical statements it often helps to
+                  think about what is being said in plain English:
+                    <ul>
+                        <li>If <code><var>S1</var></code> then
+                        <code><var>S2</var></code></li>
+                        <li>not <code><var>S2</var></code></li>
+                        <li>Therefore&hellip;?</li>
+                    </ul>
+                  </p>
+              </div>
+              <div>
+                  <p>
+                      It also helps to replace the logical variables with
+                      example statements, for example:
+                      <ul>
+                          <li><code><var>S1</var>=</code> the dog smells a squirrel</li>
+                          <li><code><var>S2</var>=</code> the dog will bark</li>
+                      </ul>
+                  </p>
+              </div>
+              <div>
+                  <p>
+                    So if you substitute the example statements for the logical
+                    variables you get:
+                    <ol>
+                        <li>If <strong>the dog smells a squirrel</strong>, then
+                        <strong>the dog will bark</strong>.</li>
+                        <li><strong>The dog did not bark</strong></li>
+                        <li>Therefore&hellip;?</li>
+                    </ol>
+                    </p>
+              </div>
+              <div>
+                  <p>
+                    What can you say is true if <strong>the dog did not
+                        bark</strong> and <strong>if the dog smells a squirrel,
+                    the dog will bark?</strong>?
+                  </p>
+              </div>
+              <div>
+                  <p>Answer: the dog did not smell a squirrel, or
+                  <strong>not <code><var>S1</var></code></strong></p>
+              </div>
+          </div>
+      </div>
+  </body>
+</html>
