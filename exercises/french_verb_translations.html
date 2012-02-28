@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html data-require="math spin foreign-language">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>French Verb Translations</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id= "DICT">frVerb('all',1)</var>
+			<var id= "INFINITIVE">DICT[0]</var>
+			<var id= "TRANSLATION">DICT[1]</var>
+			<var id= "WRONG1">frVerb('all',2)[1]</var>
+			<var id="WRONG2">frVerb('all',3)[1]</var> 
+			<var id="WRONG3">frVerb('all',4)[1]</var>
+		</div>
+			
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>What is the closest translation of the verb <b><var>INFINITIVE</var></b>?</p>
+				</div>
+
+				<p class="solution"><var>TRANSLATION</var></p>
+				<ul class="choices">
+					<li><var>WRONG1</var></li>
+					<li><var>WRONG2</var></li>
+					<li><var>WRONG3</var></li>
+				</ul>
+
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>Some French verbs are cognates, meaning they look similar to the English meaning.</p>
+			<p>There is usually a lesser-used word in English that is almost identitical to a French word.</p>
+			<p>If not, try to eliminate choices you know are incorrect.</p>
+			<p>The correct translation for <b><var>INFINITIVE</var></b> is <u><var>TRANSLATION</var></u>.</p>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html data-require="math spin foreign-language">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Regular German Verbs in the Present</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<!--<var id="CHANCE">spin( "{regular|irregular}" )</var> For mixed verb practice. maybe-->
+			<var id= "DICT">deVerb("regular",1)</var>
+			<var id= "INFINITIVE">DICT[0]</var>
+			<var id= "TRANSLATION">DICT[1]</var>
+			<var id= "SUBJECT">dePronoun(1)</var>
+			<var id= "CONJUGATION">deConjugate("presIndic",SUBJECT,"regular",INFINITIVE)</var>
+			<var id="NOACCENT">usFriendly(CONJUGATION,"de")</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>What is the present tense congujation of <b><var>INFINITIVE</var></b>, the verb "<var>TRANSLATION</var>", for the subject <u><var>SUBJECT</var></u>? </p>
+					<p class "extra-info">The present indicative conjugation of the verb is wanted. If the sie is lower case, then you will be told which subject is meant.</p>
+				
+				</div>
+
+				<div class="solution" data-type = "set">
+					<div class ="set-sol" data-type ="text"><var>CONJUGATION</var></div>
+					<div class ="set-sol" data-type ="text"><var>NOACCENT</var></div>
+					<div class="input-format">
+						<p><var>SUBJECT</var> <span class="entry"></span></p>
+					</div>
+					<p class="example">A conjugated verb. In English, this is something like "jump" or "swims"</p>
+					<p class="example">An umlaut (those two dots) over a vowel can be replaced with that vowel and an 'e' (eg. <b>ö</b> can be written as <b>oe</b>)</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p><b><var>INFINITIVE</var></b> is a regular verb. That means it follows a regular pattern.</p>
+			<p>First, take the "en" off of the verb <b><var>INFINITIVE</var></b> to get the stem.</p>
+			<p>Then all you need is the appropriate ending.</p>
+			<table border="1">
+				<tr>
+					<th><b>Subject</b></th>
+					<th><b>Ending</b></th>
+				</tr>
+				<tr>
+					<td>ich</td>
+					<td>e</td>
+				</tr>
+				<tr>
+					<td>du</td>
+					<td>st</td>
+				</tr>
+				<tr>
+					<td>er/sie/es/man</td>
+					<td>t</td>
+				</tr>
+				<tr>
+					<td>wir</td>
+					<td>en</td>
+				</tr>
+				<tr>
+					<td>ihr</td>
+					<td>t</td>
+				</tr>
+				<tr>
+					<td>sie (they)/Sie</td>
+					<td>en</td>
+				</tr>
+			</table>
+			<p>The subject in this case is <u><var>SUBJECT</var></u>.</p>
+			<p>So, the answer is <b><var>CONJUGATION</var></b>.</p>
+		</div>
+	</div>
+</body>
+</html>
