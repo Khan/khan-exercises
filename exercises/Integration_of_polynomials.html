@@ -47,7 +47,9 @@
 			<var id="Numexp">(N+B)/Dex</var>
 			<var id="Denexp">B/Dex</var>
 			
-			<!--Regular Expression Solutions for the various types of problems. When m=0 or m=1 or if denominators of coefficients are equal to 1-->
+			<!--Regular Expression Solutions for the various types of problems. When m=0 or m=1 or if denominators of coefficients are equal to 1
+			 ans0= solution when m=0, LC=leading coeffiecient equal to 1, den= denominator  den1= case when denominator is equal to 1, exp= exponent .....
+			 ans1den1Denexp1= the solution when m=1 (the exponent of the question is a fraction) the leading coeffiencent of the solution has a denominator equal to 1 and the denominator in the exponent of the solution is also equal to 1.-->
 			<var id="ans0">"^(\\(" + NumLC0 + "[\\/]" + DenLC0 + "\\))|(" + NumLC0 + "[\\/]" + DenLC0+ ")" + v + "[\\^]" + exp + "\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*([cC]||[cC]onstant)\\s*$"</var>
 			<var id="ans0LC">"^\\s*" + v + "[\\^]" + exp + "\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*([cC]||[cC]onstant)\\s*$"</var>
 			<var id="ans0negLC">"^\\s*" + "\\-" + v + "[\\^]" + exp + "\\s*[\\+]\\s*" + D + v + "\\s*[\\+]\\s*([cC]||[cC]onstant)\\s*$"</var>
@@ -95,7 +97,7 @@
 				<div class="solution" data-type="set">
 				<div class="set-sol" data-type="regex"><var>RegAns</var></div>
 				<div class="input-format"><span class="entry"></span></div>
-				<div class="example">An equation of the form 10/3x^(3/2)+4x+C  Exact answers only.</div>
+				<div class="example">An equation of the form 10/3x^(3/2)+4x+C  Coeffiecients must be integers or fractions (no rounded decimal coefficients).</div>
 				
 				</div>
 			</div>
@@ -107,9 +109,19 @@
 			</div>
 
 			<div>
-				<p>When taking the antiderivative of polynomial functions, you add one to the exponent <code>(n+1)</code> and divide the coefficient by <code>(n+1)</code>. You will do this to each term in the function that is of the form <code>f(x)=Cx^n</code>.
-				For this exercise we are evaluating indefinite integrals. When doing so you must add a constant of integration at the end of the expression. Recall that the derivative of a constant term is 0.</p>
-				<p><code>\dfrac{<var>A</var>}{(<var>n</var>+1)}<var>v</var>^{<var>n</var>+1} + \dfrac{<var>D</var>}{(0+1)}<var>v</var>^{0+1}</code>+ Constant</p>
+				<p>When taking the antiderivative of polynomial functions, you add one to the exponent <code>(n+1)</code> and divide the coefficient by <code>(n+1)</code>. You will do this to each term in the function that is of the form <code>f(x)=Cx^n</code>.</p>
+			</div>
+			<div>
+				<p>For this exercise we are evaluating indefinite integrals. When doing so you must add a constant of integration at the end of the expression. Recall that the derivative of a constant term is 0.</p>
+				<p>Example: <code>{\displaystyle{\int{x}\,{\mathrm{d}x}}\,=\,\dfrac{1}{2}x^2\,+\,Constant}</code></p>
+			</div>
+			<div>
+				<p>Following the given hints for this problem we get:</p>
+					<div data-if="m===0 || (m===1 && Denexp===1)"><code>\dfrac{<var>A</var>}{(<var>n</var>+1)}<var>v</var>^{<var>n</var>+1} + \dfrac{<var>D</var>}{(0+1)}<var>v</var>^{0+1}</code>+ Constant</div>
+					<div data-else><code>\dfrac{<var>A</var>}{({\small<var>n</var>}+1)}<var>v</var>^{{\small<var>n</var>}+1} + \dfrac{<var>D</var>}{(0+1)}<var>v</var>^{0+1}</code>+ Constant</div>
+			</div>
+			<div>
+				<p>..and finally simplify your final solution.</p>
 			</div>
 			
 		</div>
