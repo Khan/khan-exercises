@@ -1981,7 +1981,7 @@ var Khan = (function() {
 			// Remember when the last action was
 			lastAction = curTime;
 
-			jQuery(Khan).trigger( "checkAnswer", pass );
+			jQuery(Khan).trigger( "checkAnswer", { pass: pass, timeTaken: data.time_taken } );
 
 			if ( pass === true ) {
 				// Problem has been completed -- now waiting on user to
