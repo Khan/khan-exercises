@@ -17,7 +17,8 @@ jQuery( Khan ).bind( "checkAnswer", function() {
 jQuery( Khan ).bind( "newProblem", function() {
 	// Restore the hint button
 	jQuery( "#hint" )
-		.switchClass( "green", "orange" )
+		.removeClass("green")
+		.addClass("orange")
 		.val( "I'd like a hint" )
 		.data( "buttonText", false )
 		.stop( true /* clear */, true /* jump */ )
