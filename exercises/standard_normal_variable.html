@@ -86,7 +86,8 @@
 
 				<div class="problem">
 					A random variable <code>x</code> is normally distributed with a mean of <code><var>MEAN</var></code> and a standard deviation 
-					of <code><var>STDDEV</var></code>. This is known as the standard normal variable. Its probability distribution is shown below.
+					of <code><var>STDDEV</var></code>. This is known as the standard normal variable and its probability distribution is shown below. 
+					The labeled percentage is derived using the empirical rule.
 				</div>
 
 				<div class="question">
@@ -95,7 +96,7 @@
 
 					<div class="graphie" id="normaldist">
 							init({
-								range: [ [ MEAN - STDDEV * 3.5, MEAN + STDDEV * 3.5 ], [ -2.5, 4.7 ] ],
+								range: [ [ MEAN - STDDEV * 3.5, MEAN + STDDEV * 3.5 ], [ -1.5, 4.7 ] ],
 								scale: [ 600 / ( STDDEV * 7 ), 40 ]
 							});
 
@@ -215,9 +216,9 @@
 						<p>Move the orange dots to the points labeled <code><var>MEAN + STDDEV * Z1</var></code> and <code><var>MEAN + STDDEV * Z2</var></code> on the graph.</p>
 					</div>
 
-					<p>The green arrow indicates that the shaded area represents <code><var>roundTo( 2, EMPIRICAL[Z2] - EMPIRICAL[Z1] )</var>\%</code> 
-					of the total area under the curve. Therefore, the probability that <code>x</code> is between <code><var>MEAN + STDDEV * Z1</var></code> 
-					and <code><var>MEAN + STDDEV * Z2</var></code> is <code><var>roundTo( 2, EMPIRICAL[Z2] - EMPIRICAL[Z1] )</var>\%</code>.</p>
+					<p>The green arrow indicates that the shaded area represents approximately <code><var>roundTo( 2, EMPIRICAL[Z2] - EMPIRICAL[Z1] )</var>\%</code> 
+					of the total area under the curve (using percentages from the empirical rule). Therefore, the probability that <code>x</code> is between 
+					<code><var>MEAN + STDDEV * Z1</var></code> and <code><var>MEAN + STDDEV * Z2</var></code> is <code>\approx \color{<var>GREEN</var>}{<var>roundTo( 2, EMPIRICAL[Z2] - EMPIRICAL[Z1] )</var>\%}</code>.</p>
 				</div>
 			</div>
 		</div>
