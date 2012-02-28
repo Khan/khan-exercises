@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive ast math-model">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Graphing parabolas 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars" data-ensure="A * H * H + K !== 0">
+		<var id="MATH">MathModel.init()</var>
+		<var id="A">randRangeNonZero( -5, 5 )</var>
+		<var id="H">randRangeNonZero( -5, 5 )</var>
+		<var id="K">randRangeNonZero( -5, 5 )</var>
+		<var id="A_DISP">A === 1 ? "" : A === -1 ? "-" : A</var>
+	</div>
+
+	<p class="question">Graph the following equation:</p>
+
+	<div class="problem">
+		<div class="graphie" id="grid">
+			graphInit({
+				range: 11,
+				scale: 20,
+				axisArrows: "&lt;-&gt;",
+				tickStep: 1,
+				labelStep: 1,
+				gridOpacity: 0.05,
+				axisOpacity: 0.2,
+				tickOpacity: 0.4,
+				labelOpacity: 0.5
+			});
+
+			label( [ 0, 11 ], "y", "above" );
+			label( [ 11, 0 ], "x", "right" );
+
+			addMouseLayer();
+			graph.pointA = addMovablePoint({
+				coord: [ 5, 5 ],
+				snapX: 0.5,
+				snapY: 0.5,
+				normalStyle: {
+					stroke: KhanUtil.BLUE,
+					fill: KhanUtil.BLUE
+				}
+			});
+			graph.pointB = addMovablePoint({
+				coord: [ -5, 5 ],
+				snapX: 0.5,
+				snapY: 0.5,
+				normalStyle: {
+					stroke: KhanUtil.BLUE,
+					fill: KhanUtil.BLUE
+				}
+			});
+			graph.pointC = addMovablePoint({
+				coord: [ 0, 5 ],
+				snapX: 0.5,
+				snapY: 0.5,
+				normalStyle: {
+					stroke: KhanUtil.BLUE,
+					fill: KhanUtil.BLUE
+				}
+			});
+
+			// returns true if the three points don't form a parabola (that opens vertically)
+			graph.invalid = function( p1, p2, p3 ) {
+				return ( ( p1[ 0 ] - p2[ 0 ] ) * ( p1[ 0 ] - p3[ 0 ] ) * ( p2[ 0 ] - p3[ 0 ] ) === 0 );
+			};
+
+			// Fits a parabola to 3 points
+			graph.fitParabola = function( p1, p2, p3 ) {
+				var denom = (p1[0] - p2[0]) * (p1[0] - p3[0]) * (p2[0] - p3[0]);
+				if ( denom !== 0 ) {
+					var A = (p3[0] * (p2[1] - p1[1]) + p2[0] * (p1[1] - p3[1]) + p1[0] * (p3[1] - p2[1])) / denom;
+					var B = ((p3[0] * p3[0]) * (p1[1] - p2[1]) + (p2[0] * p2[0]) * (p3[1] - p1[1]) + (p1[0] * p1[0]) * (p2[1] - p3[1])) / denom;
+					var C = (p2[0] * p3[0] * (p2[0] - p3[0]) * p1[1] + p3[0] * p1[0] * (p3[0] - p1[0]) * p2[1] + p1[0] * p2[0] * (p1[0] - p2[0]) * p3[1]) / denom;
+					return [ A, B, C ];
+				} else {
+					return [ 0, 0, 0 ];
+				}
+			};
+
+			// A and B can't be in the same place
+			graph.pointA.onMove = function( x, y ) {
+				if ( graph.invalid( [ x, y ], graph.pointB.coord, graph.pointC.coord ) ) {
+					return false;
+				}
+				graph.pointA.coord = [ x, y ];
+				graph.drawParabola();
+			};
+			graph.pointB.onMove = function( x, y ) {
+				if ( graph.invalid( graph.pointA.coord, [ x, y ], graph.pointC.coord ) ) {
+					return false;
+				}
+				graph.pointB.coord = [ x, y ];
+				graph.drawParabola();
+			};
+			graph.pointC.onMove = function( x, y ) {
+				if ( graph.invalid( graph.pointA.coord, graph.pointB.coord, [ x, y ] ) ) {
+					return false;
+				}
+				graph.pointC.coord = [ x, y ];
+				graph.drawParabola();
+			};
+
+			graph.parabola = bogusShape;
+
+			graph.drawParabola = function() {
+				graph.parabola.remove();
+				var coeffs = graph.fitParabola( graph.pointA.coord, graph.pointB.coord, graph.pointC.coord );
+				style({
+					stroke: KhanUtil.BLUE
+				}, function() {
+					graph.parabola = plot( function( x ) {
+						return coeffs[0] * x * x + coeffs[1] * x + coeffs[2];
+					}, [ -11, 11 ] );
+					graph.parabola.toBack();
+				});
+			};
+
+			graph.drawParabola();
+		</div>
+	</div>
+
+	<div class="solution" data-type="custom">
+		<div class="instruction">
+			Drag the three points to graph the equation.
+		</div>
+		<div class="guess">[ graph.pointA.coord, graph.pointB.coord, graph.pointC.coord ]</div>
+		<div class="validator-function">
+			var coeffs = graph.fitParabola( graph.pointA.coord, graph.pointB.coord, graph.pointC.coord );
+			if ( coeffs[0] === 0 &amp;&amp; coeffs[1] === 0 &amp;&amp; coeffs[2] === 5 ) {
+				return "";
+			}
+			return abs( A - coeffs[0] ) &lt; 0.001 &amp;&amp; abs( (-2 * A * H) - coeffs[1] ) &lt; 0.001 &amp;&amp; abs( (A * H * H + K) - coeffs[2] ) &lt; 0.001;
+		</div>
+		<div class="show-guess">
+			graph.pointA.setCoord( guess[0] );
+			graph.pointB.setCoord( guess[1] );
+			graph.pointC.setCoord( guess[2] );
+			graph.drawParabola();
+		</div>
+	</div>
+
+	<div class="problems">
+		<div id="vertex-form">
+			<div class="vars" data-apply="appendVars">
+				<var id="X1">H + 1</var>
+				<var id="Y1">A * ( X1 - H ) * ( X1 - H ) + K</var>
+				<var id="X2">H - 1</var>
+				<var id="Y2">A * ( X2 - H ) * ( X2 - H ) + K</var>
+				<var id="GROUP1">[
+					MATH.parse( "y &amp;=&amp; a&amp;(&amp; x &amp;-&amp; #{h})^2 &amp;+&amp; #{k}", [ GREEN, GREEN ] ),
+					MATH.parse( "y &amp;=&amp; " + A + "&amp;(&amp; x &amp;-&amp; #{" + H + "})^2 &amp;+&amp; #{" + K + "}", [ GREEN, GREEN ] )
+				]</var>
+				<var id="GROUP2">[
+					MATH.parse( A + "( #{x} + " + H + ")^2 + " + K + " &amp;=&amp; y", [ PINK ] ),
+					MATH.parse( A + "( #{" + X1 + "} + " + H + ")^2 + " + K + " &amp;=&amp; #{" + Y1 + "}", [ PINK, PINK ] )
+				]</var>
+			</div>
+			<div class="problem" data-apply="prependContents">
+				<p class="hint_blue">
+					<code>y = <var>A_DISP</var>(x - <var>H</var>)^2 + <var>K</var></code>
+				</p>
+			</div>
+			<div class="hints">
+				<p>The equation is in vertex form, so we can use the vertex as one of the points.</p>
+
+				<div>
+					<p>When the equation is written in vertex form like this, the vertex is the point <code class="hint_green">(h, k)</code>:
+					<p><code>\qquad <var>MATH.formatGroup( GROUP1, [ 0 ] )</var></code></p>
+				</div>
+
+				<div>
+					<p><code>\qquad <var>MATH.formatGroup( GROUP1, [ 1 ] )</var></code></p>
+					<p>Examining our equation, we can see the vertex of the parabola is at <code class="hint_green">(<var>H</var>, <var>K</var>)</code>.</p>
+					<div class="graphie" data-update="grid">
+						style({
+							stroke: GREEN,
+							strokeWidth: 3
+						}, function() {
+							line( [ H - 0.3, K - 0.3 ], [ H + 0.3, K + 0.3 ] ).toBack();
+							line( [ H - 0.3, K + 0.3 ], [ H + 0.3, K - 0.3 ] ).toBack();
+						});
+					</div>
+				</div>
+
+				<p>To find another point on the parabola, we can try plugging an <code>x</code> value into the equation.</p>
+
+				<div>
+					<p>
+						Since the vertex is at <code class="hint_green">x = <var>H</code></code>, let's try one unit to the right and evaluate
+						the equation at <code class="hint_pink">x = <var>X1</var></code>.
+					</p>
+					<p><code>\qquad <var>MATH.formatGroup( GROUP2, [ 0, 1 ] )</var></code></p>
+					<p>Another point on the parabola is <code class="hint_pink">(<var>X1</var>, <var>Y1</var>)</code>
+					<div class="graphie" data-update="grid">
+						style({
+							stroke: PINK,
+							strokeWidth: 3
+						}, function() {
+							line( [ X1 - 0.3, Y1 - 0.3 ], [ X1 + 0.3, Y1 + 0.3 ] ).toBack();
+							line( [ X1 - 0.3, Y1 + 0.3 ], [ X1 + 0.3, Y1 - 0.3 ] ).toBack();
+						});
+					</div>
+				</div>
+
+				<div>
+					<p>Symmetry, blah, blah, another point is <code class="hint_pink">(<var>X2</var>, <var>Y2</var>)</code>
+					<div class="graphie" data-update="grid">
+						style({
+							stroke: PINK,
+							strokeWidth: 3
+						}, function() {
+							line( [ X2 - 0.3, Y2 - 0.3 ], [ X2 + 0.3, Y2 + 0.3 ] ).toBack();
+							line( [ X2 - 0.3, Y2 + 0.3 ], [ X2 + 0.3, Y2 - 0.3 ] ).toBack();
+						});
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!--
+		<div id="standard-form">
+			<div class="problem" data-apply="prependContents">
+				<p class="hint_blue">
+					<code><var>A_DISP</var>x^2 + <var>-2 * A * H</var>x + <var>A * H * H + K</var></code>
+				</p>
+			</div>
+			<div class="hints">
+			</div>
+		</div>
+		-->
+	</div>
+
+</div>
+</body>
+</html>
