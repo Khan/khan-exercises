@@ -1,19 +1,15 @@
 <!DOCTYPE html>
-<html data-require="math math-format ast math-model">
+<html data-require="math math-format">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Factoring polynomials 1</title>
 	<script src="../khan-exercise.js"></script>
-	<script>
-	function signOp(value) { return (value < 0 ? " ":"+"); };
-	</script>
 </head>
 <body>
 	<div class="exercise">
 	<div class="problems">
 		<div>
 			<div class="vars">
-				<var id="MATH">MathModel.init()</var>
 				<div data-ensure="A !== B && A !== -B">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
@@ -23,12 +19,6 @@
 				<var id="SIMPLECONSTANT">A*B</var>
 				<var id="LINEAR">SQUARE*(-A-B)</var>
 				<var id="SIMPLELINEAR">-A-B</var>
-				<var id="GROUP1">[
-				MATH.parse("(x + a)(x + b)&=&xx &+& xb + ax &+& ab"),
-				MATH.parse("&=& x^2 &+& #{(a+b)}x &+& #{ab}", [GREEN, BLUE]),
-				MATH.parse("&=& x^2 &" + signOp(SIMPLELINEAR) + "& #{" + SIMPLELINEAR + "}x &" + signOp(SIMPLECONSTANT) + "& #{" + SIMPLECONSTANT + "}", [GREEN, BLUE]), 
-				]
-				</var>
 			</div>
 
 			<p class="problem">Factor the following expression:</p>
@@ -45,11 +35,25 @@
 
 				<div>
 					<p>When we factor a polynomial, we are basically reversing this process of multiplying linear expressions together:</p>
-					<p><code>\qquad <var>MATH.formatGroup(GROUP1, [0, 1])</var></code></p>
+					<p><code>
+						\qquad \begin{eqnarray}
+							(x + a)(x + b) \quad&amp;=&amp;\quad xx &amp;+&amp; xb + ax &amp;+&amp; ab \\ \\
+							&amp;=&amp;\quad x^2 &amp;+&amp; \color{<var>GREEN</var>}{(a + b)}x &amp;+&amp; \color{<var>BLUE</var>}{ab}
+						\end{eqnarray}
+					</code></p>
 				</div>
 
 				<div>
-					<p><code>\qquad <var>MATH.formatGroup(GROUP1, [2])</var></code></p>
+					<p><code>
+						\qquad \begin{eqnarray}
+							\hphantom{(x + a)(x + b) \quad}&amp;\hphantom{=}&amp;\hphantom{\quad xx }&amp;\hphantom{+}&amp;\hphantom{ (a + b)x }&amp;\hphantom{+}&amp; \\
+							&amp;=&amp;\quad x^2 &amp;
+							<var>SIMPLELINEAR &gt;= 0 ? "+" : ""</var>&amp;
+							<var>plus( "\\color{" + GREEN + "}{" + SIMPLELINEAR + "}x" )</var>&amp;
+							<var>SIMPLECONSTANT &gt;= 0 ? "+" : ""</var>&amp;
+							<var>plus( "\\color{" + BLUE + "}{" + SIMPLECONSTANT + "}" )</var>
+						\end{eqnarray}
+					</code></p>
 					<p>
 						The coefficient on the <code>x</code> term is <code class="hint_green"><var>SIMPLELINEAR</var></code>
 						and the constant term is <code class="hint_blue"><var>SIMPLECONSTANT</var></code>, so to reverse the steps above, we need to find two numbers
@@ -62,24 +66,27 @@
 					<p>You can try out different factors of <code class="hint_blue"><var>SIMPLECONSTANT</var></code> to see if you can find two
 					that satisfy both conditions. If you're stuck and can't think of any, you can also rewrite the conditions as a system of equations and
 					try solving for <code class="hint_pink">a</code> and <code class="hint_pink">b</code>:</p>
-
-					<p><code>\qquad <var>MATH.parseFormat("#a+#b=#{"+ SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var></code></p>
-					<p><code>\qquad <var>MATH.parseFormat("#a \\times #b = #{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var></code></p>
+					<p><code>\qquad \color{<var>PINK</var>}{a} + \color{<var>PINK</var>}{b} = \color{<var>GREEN</var>}{<var>SIMPLELINEAR</var>}</code></p>
+					<p><code>\qquad \color{<var>PINK</var>}{a} \times \color{<var>PINK</var>}{b} = \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}</code></p>
 				</div>
 
 				<div>
 					<p>The two numbers <code class="hint_pink"><var>-A</var></code> and <code class="hint_pink"><var>-B</var></code> satisfy both conditions:</p>
 					<p><code>
-						\qquad <var>MATH.parseFormat("#{" + (-A) + "}+#{" + (-B) + "}=#{" + SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var>
+						\qquad \color{<var>PINK</var>}{<var>-A</var>} + \color{<var>PINK</var>}{<var>-B</var>} =
+						\color{<var>GREEN</var>}{<var>SIMPLELINEAR</var>}
 					</code></p>
 					<p><code>
-						\qquad <var>MATH.parseFormat("#{" + (-A) + "}\\times #{" + (-B) + "}=#{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var>
+						\qquad \color{<var>PINK</var>}{<var>-A</var>} \times \color{<var>PINK</var>}{<var>-B</var>} =
+						\color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}
 					</code></p>
 				</div>
-				<div>
+
 				<p><b>
-					So we can factor the expression as: <code><var>MATH.parseFormat("(x " + signOp(-A) + "#{" + (-A) + "})(x " + signOp(-B) + "#{" + (-B) + "})", [PINK, PINK])</var></code></b></p>
-				</div>
+					So we can factor the expression as: <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
+					(x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})</code>
+				</b></p>
+
 			</div>
 		</div>
 	</div>
