@@ -2,11 +2,11 @@
 	"nl" : {
 		"question1"	: 'Hoe groot is het volume van een kubus met zijden van <code><var>s</var></code>?',
 		"question2"	: 'Hoe groot is de opppervlakte van een kubus met zijden van  <code><var>s</var></code>?',
-		"question3"	: 'Hoe groot is het volume van een cilinder met base radius <code><var>r</var></code> en hoogte <code><var>h</var></code>?',
-		"question4"	: 'Hoe groot is de oppervlakte van een cilinder met base radius <code><var>r</var></code> en hoogte <code><var>h</var></code>?',
+		"question3"	: 'Hoe groot is het volume van een cilinder met een grondvlak met een straal van <code><var>r</var></code> en hoogte <code><var>h</var></code>?',
+		"question4"	: 'Hoe groot is de oppervlakte van een cilinder met een grondvlak met een straal <code><var>r</var></code> en hoogte <code><var>h</var></code>?',
 		"question5"	: 'Hoe groot is het volume van een rechthoekige balk met breedte <code><var>w</var></code>, hoogte <code><var>h</var></code>, en diepte <code><var>d</var></code>?',
 		"question6"	: 'Hoe groot is de oppervlakte van een rechthoekige balk met breedte <code><var>w</var></code>, hoogte <code><var>h</var></code>, en diepte <code><var>d</var></code>?',
-		"question7"	: 'Hoe groot is het volume van een triangular prism met diepte <code><var>d</var></code> whose base has breedte <code><var>w</var></code> en hoogte <code><var>h</var></code>?',
+		"question7"	: 'Hoe groot is het volume van een driehoekig prisma met diepte <code><var>d</var></code> whose base has breedte <code><var>w</var></code> en hoogte <code><var>h</var></code>?',
 		
 		"hint1"		: 'The volume of a kubus met side lengte <code>s</code> is <code>V = s^3</code>.',
 		"hint2"		: 'De oppervlakte van elk vlak is de simpelweg de oppervlakte van een vierkant: <code><var>s</var>^2 = <var>s * s</var></code>.',
