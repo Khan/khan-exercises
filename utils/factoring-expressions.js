@@ -21,6 +21,9 @@
            args.unshift(numFactors);
        }
        var expr;
+       if (args.length === 0) {
+          return 1;
+       }
        if (args.length === 1) {
           expr = args[0];
        } else {
@@ -89,7 +92,7 @@
           }
           var remainingTerms = {op:"+", args:genAllTerms(factors, termOccFactors)};
           var sharedPart = genTerm(factors, foundOccFactors);
-          curExpr = {op:"times", args:[sharedPart, remainingTerms]};
+          curExpr = {op:"*", args:[sharedPart, remainingTerms]};
           hints.push("<p>Here is one factor: <code>" + strFactor + "</code>. The expression is now :<code>" + MATH.format(curExpr) + "</code>");
           if (iSharedFactor >= nbSharedFactors - 2) {
               choices.push(curExpr);
@@ -102,7 +105,7 @@
           termOccFactors[badTerm][iFactor]++;
           var remainingTerms = {op:"+", args:genAllTerms(factors, termOccFactors)};
           var sharedPart = genTerm(factors, foundOccFactors);
-          var badExpr = {op:"times", args:[sharedPart, remainingTerms]};
+          var badExpr = {op:"*", args:[sharedPart, remainingTerms]};
           choices.push(badExpr);
           termOccFactors[badTerm][iFactor]--;
        }
