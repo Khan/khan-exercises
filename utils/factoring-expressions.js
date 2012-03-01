@@ -80,7 +80,7 @@
           var iChosen;
           do {
              iChosen = KhanUtil.randRange(0, factors.length - 1);
-          } while ((typeof factors[iChosen] === "number") && (numTotal * factors[iChosen] > 80));
+          } while ((typeof factors[iChosen] === "number") && (numTotal * factors[iChosen] > 50));
           if (typeof factors[iChosen] === "number") {
              numTotal *= factors[iChosen];
           }
@@ -101,6 +101,8 @@
           excludedFromTerm[iFactor] = KhanUtil.randRange(0, nbTerms - 1);
        }
        var hasNonNumFactor = false;
+       var minNumFactor = undefined;
+       var maxNumFactor = undefined;
        do {
           var terms = [];
           var termOccFactors = [];
@@ -135,17 +137,19 @@
                 } while ((typeof factors[iChosen] === "number") && (termNumTotal * factors[iChosen] > 100));
                 if (typeof factors[iChosen] === "number") {
                    termNumTotal *= factors[iChosen];
+                   minNumFactor = Math.min(factors[iChosen], minNumFactor);
+                   maxNumFactor = Math.min(factors[iChosen], maxNumFactor);
                 } else {
                    hasNonNumFactor = true;
                 }
                 termOccFactors[iTerm][iChosen]++;
              }
           }
-       } while (!hasNonNumFactor);
+       } while ((!hasNonNumFactor) || (minNumFactor === maxNumFactor));
        var expr = {op:"+", args:genAllTerms(factors, termOccFactors)};
        var choices = [];
 
-       var hints = ["<p>To factor this expression, we will need to look at the different terms of the sum, and find all of their common factors. We can then rewrite the expression as a product between these common factors, and what's left of the different terms once we remove these factors.</p>"];
+       var hints = ["<p>To factor this expression, we will look at the different terms of the sum, and find all of their common factors. We can then rewrite the expression as a product between these common factors, and what's left of the different terms once we remove these factors.</p>"];
        var curExpr = expr;
        var foundOccFactors = initArray(factors.length);
        for (var iSharedFactor = 0; iSharedFactor < sharedFactors.length; iSharedFactor++) {
