@@ -712,7 +712,7 @@ var Khan = (function() {
 		}
 
 		jQuery(function() {
-			var remoteExercises = jQuery( ".exercise[data-name]" );
+			var remoteExercises = jQuery( "div.exercise[data-name]" );
 
 			if ( remoteExercises.length ) {
 				isSummative = true;
@@ -720,7 +720,7 @@ var Khan = (function() {
 				remoteExercises.each( loadExercise );
 
 			// Only run loadModules if exercises are in the page
-			} else if ( jQuery( ".exercise" ).length ) {
+			} else if ( jQuery( "div.exercise" ).length ) {
 				loadModules();
 			}
 		});
@@ -772,7 +772,7 @@ var Khan = (function() {
 			jQuery.map( problems, function( elem ) {
 				elem = jQuery( elem );
 
-				var exercise = elem.parents( ".exercise" ).eq( 0 );
+				var exercise = elem.parents( "div.exercise" ).eq( 0 );
 
 				var exerciseTotal = exercise.data( "weight-sum" );
 				exerciseTotal = exerciseTotal !== undefined ? exerciseTotal : 0;
@@ -810,7 +810,7 @@ var Khan = (function() {
 			var weights = jQuery.map( problems, function( elem, i ) {
 				elem = jQuery( elem );
 
-				var exercise = elem.parents( ".exercise" ).eq( 0 );
+				var exercise = elem.parents( "div.exercise" ).eq( 0 );
 				var exerciseWeight = exercise.data( "weight" );
 				exerciseWeight = exerciseWeight !== undefined ? exerciseWeight : 1;
 				var exerciseTotal = exercise.data( "weight-sum" );
@@ -967,6 +967,52 @@ var Khan = (function() {
 			.val('Please wait...');
 	}
 
+	function loadAndRenderExercise( exercise ) {
+		exerciseName = exercise.name;
+
+		// TODO(kamens): setProblemNum( userExercise.total_done + 1 );
+		setProblemNum(1);
+
+		function finishRender() {
+
+			// Get all problems of this exercise type...
+			var problems = exercises.filter(function() {
+				return jQuery.data( this, "rootName" ) === exercise.name;
+			}).children( ".problems" ).children();
+
+			// ...and create a new problem bag with problems of our new exercise type.
+			problemBag = makeProblemBag( problems, 10 );
+
+			// TODO(kamens): Update document title
+
+			// Update related videos
+			Khan.relatedVideos.setVideos( exercise.relatedVideos );
+
+			// Generate a new problem
+			makeProblem();
+
+		}
+
+		// TODO(kamens): clean this up, it's copied from review code...
+		// Was this exercise's data and HTML loaded by loadExercise already?
+		var isLoaded = exercises.filter(function() {
+			return jQuery.data( this, "rootName" ) === exercise.name;
+		}).length;
+
+		// Load all non-loadExercise loaded exercises
+		if ( !isLoaded ) {
+			var exerciseElem = jQuery( "<div>" )
+				.data( "name", exercise.name )
+				.data( "rootName", exercise.name );
+			loadExercise.call( exerciseElem, finishRender );
+		} else {
+			finishRender();
+		}
+
+	}
+
+	// TODO(kamens): this should be going away and replaced w/
+	// a more complete loadAndRenderExercise above
 	function switchToExercise( exid ) {
 		exerciseName = exid;
 
@@ -1043,7 +1089,7 @@ var Khan = (function() {
 		problemID = id;
 
 		// Find which exercise this problem is from
-		exercise = problem.parents( ".exercise" ).eq( 0 );
+		exercise = problem.parents( "div.exercise" ).eq( 0 );
 
 		// Work with a clone to avoid modifying the original
 		problem = problem.clone();
@@ -1786,7 +1832,7 @@ var Khan = (function() {
 			userExercise.exercise_model.display_name : document.title );
 
 		// TODO(david): Don't add homepage elements with "exercise" class
-		exercises = exercises.add( jQuery( ".exercise" ).detach() );
+		exercises = exercises.add( jQuery( "div.exercise" ).detach() );
 
 		// Setup appropriate img URLs
 		jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
@@ -1990,7 +2036,7 @@ var Khan = (function() {
 			if ( pass === true ) {
 				// Problem has been completed -- now waiting on user to
 				// move to next problem.
-				$(Khan).trigger("problemDone");
+				jQuery( Khan ).trigger("problemDone");
 			}
 
 			return false;
@@ -2041,19 +2087,18 @@ var Khan = (function() {
 		// Watch for when the next button is clicked
 		jQuery("#next-question-button").click(function(ev) {
 
-			if ($(Khan).triggerHandler("gotoNextProblem") !== false) {
+			if (jQuery( Khan ).triggerHandler("gotoNextProblem") !== false) {
 
 				// If nobody returns false from problemDone indicating
 				// that they'll take care of triggering nextProblem,
 				// automatically trigger nextProblem.
-				$(Khan).trigger("renderNextProblem");
+				jQuery( Khan ).trigger("renderNextProblem");
 
 			}
 
 		});
 
-		jQuery(Khan).bind("renderNextProblem", function(ev) {
-
+		jQuery(Khan).bind("renderNextProblem", function(ev, nextExercise) {
 			enableCheckAnswer();
 
 			jQuery("#happy").hide();
@@ -2071,6 +2116,7 @@ var Khan = (function() {
 			Khan.scratchpad.clear();
 
 			// Change the title of the exercise, if necessary
+			// TODO(kamens): going away
 			if ( reviewMode && reviewQueue.length ) {
 				transitionExerciseTitle();
 			}
@@ -2097,6 +2143,7 @@ var Khan = (function() {
 			} else {
 
 				// Switch exercises if there's a different queued up exercise in review mode
+				// TODO(kamens): going away
 				if ( reviewMode ) {
 					var nextExerciseName = reviewQueue.shift();
 					if ( nextExerciseName && nextExerciseName !== exerciseName ) {
@@ -2104,9 +2151,14 @@ var Khan = (function() {
 					}
 				}
 
-				// Generate a new problem
-				makeProblem();
+				if ( testMode ) {
+					// Just generate a new problem from existing exercise
+					makeProblem();
+				} else {
+					loadAndRenderExercise( nextExercise );
+				}
 
+				// TODO(kamens): probably going away
 				// Kick off a request to queue up more exercises if we're running low.
 				// This needs to run after makeProblem to get the updated problem state.
 				maybeEnqueueReviewProblems();
@@ -2124,7 +2176,7 @@ var Khan = (function() {
 			jQuery( "#answer_area" ).adhere();
 
 			if ( hint ) {
-				$(Khan).trigger("hintUsed");
+				jQuery( Khan ).trigger("hintUsed");
 
 				hintsUsed += 1;
 
@@ -2141,7 +2193,7 @@ var Khan = (function() {
 
 				// Disable the get hint button
 				if ( hints.length === 0 ) {
-					$(Khan).trigger("allHintsUsed");
+					jQuery( Khan ).trigger("allHintsUsed");
 
 					jQuery( this ).attr( "disabled", true );
 					jQuery( "#hint-remainder" ).fadeOut( 500 );
@@ -2593,6 +2645,12 @@ var Khan = (function() {
 		}
 	}
 
+	if ( !testMode ) {
+		// testMode automatically prepares itself, gets jQuery loaded, etc.
+		// Integrated mode listens and waits to prepare.
+		jQuery( Khan ).bind( "prepare", prepareSite );
+	}
+
 	function setProblemNum( num ) {
 		problemNum = num;
 		problemSeed = (seedOffset + jumpNum * (problemNum - 1)) % bins;
@@ -2859,7 +2917,7 @@ var Khan = (function() {
 		}
 	}
 
-	function loadExercise() {
+	function loadExercise( callback ) {
 		var self = jQuery( this ).detach();
 		var name = self.data( "name" );
 		var weight = self.data( "weight" );
@@ -2926,12 +2984,17 @@ var Khan = (function() {
 
 			remoteCount--;
 			if ( remoteCount === 0 && !modulesLoaded ) {
-				loadModules();
+				loadModules( callback );
+			} else if ( callback ) {
+				callback();
 			}
+
 		});
+
 	}
 
-	function loadModules() {
+	function loadModules( callback ) {
+
 		modulesLoaded = true;
 
 		// Load module dependencies
@@ -2953,6 +3016,9 @@ var Khan = (function() {
 								success: function( htmlExercise ) {
 
 									handleInject( html, htmlExercise );
+									if ( callback ) {
+										callback();
+									}
 
 								}
 							});
@@ -2960,7 +3026,9 @@ var Khan = (function() {
 						}
 					});
 				} else {
-					postInject();
+					if ( callback ) {
+						callback();
+					}
 				}
 			});
 		});
@@ -2970,6 +3038,8 @@ var Khan = (function() {
 			postInject();
 		}
 
+		// TODO(kamens): can postInject gonna go away? Now only used for
+		// testMode
 		function postInject() {
 			prepareSite();
 
@@ -2981,16 +3051,15 @@ var Khan = (function() {
 				problemBag = makeProblemBag( problems, 10 );
 			}
 
-			// Exercise framework is now ready to roll
-			$(Khan).trigger("khanExercisesInitialized");
-
 			if ( testMode ) {
 				// Generate the initial problem when dependencies are done being loaded
 				var answerType = makeProblem();
 			}
 
+			// TODO(kamens): remove
 			maybeEnqueueReviewProblems();
 		}
+
 	}
 
 	if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
