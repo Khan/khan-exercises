@@ -122,32 +122,41 @@
 			graph.drawParabola();
 
 			graph.showSolution = function() {
-				var coords = {
-					x1: graph.pointA.coord[0],
-					y1: graph.pointA.coord[1],
-					x2: graph.pointB.coord[0],
-					y2: graph.pointB.coord[1],
-					x3: graph.pointC.coord[0],
-					y3: graph.pointC.coord[1]
-				};
-				jQuery( coords ).animate({
-					x1: X1,
-					y1: Y1,
-					x2: X2,
-					y2: Y2,
-					x3: H,
-					y3: K
+				jQuery( "html, body" ).animate({
+					scrollTop: jQuery( ".question" ).offset().top
 				}, {
 					duration: 500,
-					easing: "linear",
-					step: function( now, fx ) {
-						coords[ fx.prop ] = now;
-						graph.pointA.setCoord([ coords.x1, coords.y1 ]);
-						graph.pointB.setCoord([ coords.x2, coords.y2 ]);
-						graph.pointC.setCoord([ coords.x3, coords.y3 ]);
-						graph.drawParabola();
+					easing: "swing",
+					complete: function() {
+						var coords = {
+							x1: graph.pointA.coord[0],
+							y1: graph.pointA.coord[1],
+							x2: graph.pointB.coord[0],
+							y2: graph.pointB.coord[1],
+							x3: graph.pointC.coord[0],
+							y3: graph.pointC.coord[1]
+						};
+						jQuery( coords ).delay( 100 ).animate({
+							x1: X1,
+							y1: Y1,
+							x2: X2,
+							y2: Y2,
+							x3: H,
+							y3: K
+						}, {
+							duration: 500,
+							easing: "linear",
+							step: function( now, fx ) {
+								coords[ fx.prop ] = now;
+								graph.pointA.setCoord([ coords.x1, coords.y1 ]);
+								graph.pointB.setCoord([ coords.x2, coords.y2 ]);
+								graph.pointC.setCoord([ coords.x3, coords.y3 ]);
+								graph.drawParabola();
+							}
+						});
 					}
 				});
+
 			};
 
 		</div>
