@@ -166,7 +166,7 @@
           }
           curExpr = genFullExpr(factors, foundOccFactors, termOccFactors);
        }
-       hints.push("<p>There are no more common factors, the solution is: <code>" + MATH.format(curExpr) + "</code>");
+       hints.push("<p>There are no more common factors, so the answer is: <code>" + MATH.format(curExpr) + "</code></p><p>It might be possible to factor this expression even more, but not with this technique.");
        // Generate wrong choices where one of the shared factors has been left in one of the terms
        for (var iBadFactor = 0; iBadFactor < sharedFactors.length; iBadFactor++) {
           var iFactor = sharedFactors[iBadFactor];
