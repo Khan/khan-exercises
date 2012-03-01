@@ -66,6 +66,7 @@
 		$("#generated").html($("#gen_" + id).html());
 		$("#expected").html($("#exp_" + id).html());
 	}
+        window.showRender = showRender;
 
 	var testCase = function(srcExprStr, colors, groupsDisplayed, refLatex, imgName, id) {
 		var genLatex;
@@ -303,7 +304,7 @@
 		{title:"Alignment: mixed with colors"},
 		{src:["#a&+&#b&+&#{c}", "aaa&+&bbb&+&ccc"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}\\color{#FF00AF}{a}& \\; + & \\; \\color{#6495ED}{b}& \\; + & \\; \\color{#28AE7B}{c} \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
 		{src:["a&#+&#b&#{+&c}", "aaa&+&bbb&+&ccc"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\color{#FF00AF}{\\;+ \\;}& \\; \\color{#6495ED}{b}& \\; \\color{#28AE7B}{\\;+ \\;}& \\; \\color{#28AE7B}{c} \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
-		{src:["&#(&a&#+&#b&&)&", "&(&aaaa&+&bbb&&)&"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}& \\color{#FF00AF}{( }& a& \\; \\color{#6495ED}{\\;+ \\;}& \\; \\color{#28AE7B}{b}& & ) &  \\\\\\\\& ( & aaaa& \\; + & \\; bbb& & ) &  \\\\\\end{alignat}"},
+		{src:["&#(&a&#+&#b&&)&", "&(&aaaa&+&bbb&&)&"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}& \\color{#FF00AF}{( }& a& \\; \\color{#6495ED}{\\;+ \\;}& \\; \\color{#28AE7B}{b}& & ) &  \\\\\\\\& ( & aaaa& \\; + & \\; bbb& & ) &  \\\\\\end{alignat}"}
 	];
 /*
 $("body").append("<pre id='tests2'></pre>");
@@ -313,7 +314,7 @@ for (var iTest = 0; iTest < testsRender.length; iTest++) {
 */
 	$("body").append("<table id='tests' cellspacing=0></table>");
 	$("#tests").append("<tr><td>Expression</td><td>Status&nbsp;&nbsp;&nbsp;</td>" +
-		"<td>Generated</td><td>Expected</td>><td>Generated LaTeX</td><td>Expected LaTeX</td></tr>");
+		"<td>Generated</td><td>Expected</td><td>Generated LaTeX</td><td>Expected LaTeX</td></tr>");
 	for (var iTest = 0; iTest < testsRender.length; iTest++) {
 		var test = testsRender[iTest];
 		if (test.title !== undefined) {
