@@ -422,6 +422,10 @@ jQuery.extend ( KhanUtil, {
 					text = "";
 					jQuery.each(n.args, function (index, term) {
 						var opIndex = index - 1;
+						if (((term.op===OpStr.ADD) || (term.op===OpStr.SUB)) && (term.args.length > 1)) {
+							args[index] = "(" + args[index] + ")";
+							term = {op:"()", args:[term]};
+						}
 						if ((term.args && (term.args.length >= 2) && (term.op !== OpStr.POW)) ||
 							!((n.op === OpStr.MUL) && (term.op === OpStr.PAREN ||
 								 term.op===OpStr.POW ||
@@ -429,9 +433,6 @@ jQuery.extend ( KhanUtil, {
 								 term.op===OpStr.CST ||
 								 (exprIsNumber(prevTerm) && !exprIsNumber(term))
 							))) {
-							if (((term.op===OpStr.ADD) || (term.op===OpStr.SUB)) && (term.args.length > 1)) {
-								args[index] = "(" + args[index] + ")";
-							}
 							if (opIndex >= 0) {
 								text += getAlignment(n, opIndex * 2, hphantom, true);
 								text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true);
@@ -442,7 +443,9 @@ jQuery.extend ( KhanUtil, {
 						// elide the times symbol if rhs is parenthesized or a var, or lhs is a number
 						// and rhs is not a number
 						else {
+							text += getAlignment(n, opIndex * 2, hphantom, true);
 							text += args[index];
+							text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
 						}
 						prevTerm = term;
 					});
