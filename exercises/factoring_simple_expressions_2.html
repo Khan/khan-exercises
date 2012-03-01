@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie ast math-model factoring-expressions">
+<html data-require="math graphie ast math-model factoring-expressions expr-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>Factoring simple expressions</title>
@@ -9,10 +9,11 @@
 	<div class="exercise">
 		<div class="vars">
 			<var id="MATH">MathModel.init()</var>
+			<var id="W">{op:"var", args:["w"]}</var>
 			<var id="X">{op:"var", args:["x"]}</var>
 			<var id="Y">{op:"var", args:["y"]}</var>
 			<var id="Z">{op:"var", args:["z"]}</var>
-			<var id="PROBLEM">genFactoringExercise(MATH, [2, 3, 5, 7, X, Y, Z], 2, 3)</var>
+			<var id="PROBLEM">genFactoringExercise(MATH, [2, 3, 5, 7, W, X, Y, Z], 3, 4)</var>
 		</div>
 		<div class="problems">
 			<div>
@@ -20,7 +21,7 @@
 			<p class="question"><code><var>MATH.format(PROBLEM.question)</var></code></p>
 			<p class="solution"><code><var>MATH.format(PROBLEM.solution)</var></code></p>
 
-			<ul class="choices" data-none="true" data-show="4">
+			<ul class="choices" data-none="true" data-show="5">
 				<li data-each="PROBLEM.choices as key, value"><code><var>MATH.format(value)</var></code></li>
                         </ul>
 			</div>

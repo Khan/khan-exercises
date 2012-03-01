@@ -33,7 +33,7 @@ jQuery.extend ( KhanUtil, {
 		HIGHLIGHT: "hi",
 		DERIV: "deriv",
 		NEQ: "!=",
-		NUM: "num",
+		NUM: "num"
 	},
 
 	MathModel : function (name) {
@@ -196,13 +196,14 @@ jQuery.extend ( KhanUtil, {
 				var lhs = rhs;
 			}
 			else {
+/*
 				// normal case
 				if (lhs.op===rhs.op && jQuery.type(lhs.args)==="array") {
 					lhs.args.push(rhs);
 				}
-				else {
+				else {*/
 					lhs = {op: "+", args: [lhs, rhs]}
-				}
+				//}
 			}
 
 			// recurse until no more coefficients
