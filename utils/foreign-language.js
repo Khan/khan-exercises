@@ -2,7 +2,7 @@ jQuery.fn[ "foreign-languageLoad" ] = function() {
 	
 	var deVerbs = [//  [de infinitive,en translation,present indicative]
 		["singen","to sing","regular"],
-		["laufen","to run","regular"],
+		["laufen","to run","a\xE4stem"],
 		["schwimmen","to swim","regular"],
 		["spielen","to play","regular"],
 		["fragen","to ask","regular"],
@@ -39,7 +39,7 @@ jQuery.fn[ "foreign-languageLoad" ] = function() {
 		["beber","to drink","erRegular"],
 		["caminar","to walk","arRegular"],
 		["aceptar","to accept","arRegular"],
-		["recibir","to recieve","irRegular"],
+		["recibir","to receive","irRegular"],
 		["escribir","to write","irRegular"]];
 	var esRawPronouns=[
 		["yo","I","first","singular"],
@@ -59,7 +59,7 @@ jQuery.fn[ "foreign-languageLoad" ] = function() {
 		["descendre","to descend","reRegular"],
 		["perdre","to lose","reRegular"],
 		["vendre","to sell","reRegular"],
-		["choisir","to chose","irRegular"],
+		["choisir","to choose","irRegular"],
 		["finir","to finish","irRegular"],
 		["maigrir","to lose weight","irRegular"],
 		["parler","to speak","erRegular"],
