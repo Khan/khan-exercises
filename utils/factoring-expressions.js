@@ -8,7 +8,7 @@
           return expr;
     };
 
-    var genTerm = function(factors, occFactors, iMarkedFactor) {
+    var genTerm = function(factors, occFactors, iMarkedFactor, nbOccFactor) {
        var args = [];
        var numFactors = 1;
        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
@@ -36,11 +36,15 @@
           expr = {op:"*", args:args};
        }
        if (iMarkedFactor !== undefined) {
-          var marked = setColor(factors[iMarkedFactor], KhanUtil.BLUE);
+          var markedFactor = factors[iMarkedFactor];
+          if (nbOccFactor > 1) {
+             markedFactor = {op:"^", args:[markedFactor, nbOccFactor]};
+          }
+          markedFactor = setColor(markedFactor, KhanUtil.BLUE);
           if (args.length === 0) {
-             expr = marked;
+             expr = markedFactor;
           } else {
-             expr = {op:"times", args:[marked, expr]};
+             expr = {op:"times", args:[markedFactor, expr]};
           }
        } else if (args.length === 0) {
           expr = 1;
@@ -48,17 +52,17 @@
        return expr;
     };
 
-    var genAllTerms = function(factors, termsOccFactors, iMarkedFactor) {
+    var genAllTerms = function(factors, termsOccFactors, iMarkedFactor, nbOccFactor) {
        var terms = [];
        for (var iTerm = 0; iTerm < termsOccFactors.length; iTerm++) {
-          terms.push(genTerm(factors, termsOccFactors[iTerm], iMarkedFactor));
+          terms.push(genTerm(factors, termsOccFactors[iTerm], iMarkedFactor, nbOccFactor));
        }
        return terms;
     };
 
-    var genFullExpr = function(factors, foundOccFactors, termOccFactors, iMarkedFactor, iNewFactor) {
-       var remainingTerms = {op:"+", args:genAllTerms(factors, termOccFactors, iMarkedFactor)};
-       var sharedPart = genTerm(factors, foundOccFactors, iNewFactor);
+    var genFullExpr = function(factors, foundOccFactors, termOccFactors, iMarkedFactor, iNewFactor, nbOccFactor) {
+       var remainingTerms = {op:"+", args:genAllTerms(factors, termOccFactors, iMarkedFactor, nbOccFactor)};
+       var sharedPart = genTerm(factors, foundOccFactors, iNewFactor, nbOccFactor);
        if (sharedPart === 1) {
           return remainingTerms;
        }
@@ -80,7 +84,7 @@
           var iChosen;
           do {
              iChosen = KhanUtil.randRange(0, factors.length - 1);
-          } while ((typeof factors[iChosen] === "number") && (numTotal * factors[iChosen] > 50));
+          } while ((typeof factors[iChosen] === "number") && (numTotal * factors[iChosen] > 40));
           if (typeof factors[iChosen] === "number") {
              numTotal *= factors[iChosen];
           }
@@ -128,17 +132,17 @@
                 nbNonShared = KhanUtil.randRange(1, factorsPerTerm);
              }
              for (var iNonShared = 0; iNonShared < nbNonShared; iNonShared++) {
-                if (smallestFactorNum * termNumTotal > 100) {
+                if (smallestFactorNum * termNumTotal > 80) {
                    break;
                 }
                 var iChosen;
                 do {
                    iChosen = KhanUtil.randFromArray(availableFactors);
-                } while ((typeof factors[iChosen] === "number") && (termNumTotal * factors[iChosen] > 100));
+                } while ((typeof factors[iChosen] === "number") && (termNumTotal * factors[iChosen] > 80));
                 if (typeof factors[iChosen] === "number") {
                    termNumTotal *= factors[iChosen];
                    minNumFactor = Math.min(factors[iChosen], minNumFactor);
-                   maxNumFactor = Math.min(factors[iChosen], maxNumFactor);
+                   maxNumFactor = Math.max(factors[iChosen], maxNumFactor);
                 } else {
                    hasNonNumFactor = true;
                 }
@@ -155,13 +159,23 @@
        for (var iSharedFactor = 0; iSharedFactor < sharedFactors.length; iSharedFactor++) {
           prevExpr = curExpr;
           var iFactor = sharedFactors[iSharedFactor];
-          for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
-             termOccFactors[iTerm][iFactor]--;
+          var nbOccFactor = occFactors[iFactor];
+          if (typeof factors[iFactor] === "number") {
+             nbOccFactor = 1;
           }
-          var markedExpr = genFullExpr(factors, foundOccFactors, termOccFactors, iFactor);
-          curExpr = genFullExpr(factors, foundOccFactors, termOccFactors, undefined, iFactor);
-          foundOccFactors[iFactor]++;
-          hints.push("<p>We can see that all terms of the sum have <code>" + MATH.format(factors[iFactor]) + "</code>" +
+          for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
+             termOccFactors[iTerm][iFactor] -= nbOccFactor;
+          }
+          var markedExpr = genFullExpr(factors, foundOccFactors, termOccFactors, iFactor, undefined, nbOccFactor);
+          curExpr = genFullExpr(factors, foundOccFactors, termOccFactors, undefined, iFactor, nbOccFactor);
+          var commonFactor;
+          if (nbOccFactor === 1) {
+             commonFactor = factors[iFactor];
+          } else {
+             commonFactor = {op:"^", args:[factors[iFactor], nbOccFactor]};
+          }
+          foundOccFactors[iFactor] += nbOccFactor;
+          hints.push("<p>We can see that all terms of the sum have <code>" + MATH.format(commonFactor) + "</code>" +
               " as a factor:</p><p><code>" + MATH.format({op:"=", args:[prevExpr, markedExpr]}) + "</code></p>" +
               "<p>So we can rewrite the expression as: <code>" + MATH.format(curExpr) + "</code>. Are there other common factors?</p>");
           // We keep as wrong choices, expressions where not all common factors have been detected
