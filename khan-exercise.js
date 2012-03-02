@@ -121,8 +121,7 @@ var Khan = (function() {
 		return Math.abs( crc ^ (-1) );
 	},
 
-	// Get the userExercise object from the global scope
-	userExercise = window.userExercise,
+	userExercise = undefined,
 
 	// Check to see if we're in test mode
 	testMode = typeof Exercises === "undefined",
@@ -661,24 +660,6 @@ var Khan = (function() {
 		// Initialize to an empty jQuery set
 		exercises = jQuery();
 
-		if ( typeof userExercise !== "undefined" ) {
-			prepareUserExercise( userExercise );
-
-		} else {
-			// Load in the exercise data from the server
-			jQuery.ajax({
-				// Do a request to the server API
-				url: server + "/api/v1/user/exercises/" + exerciseName,
-				type: "GET",
-				dataType: "json",
-
-				// Make sure cookies are passed along
-				xhrFields: { withCredentials: true },
-
-				success: prepareUserExercise
-			});
-		}
-
 		jQuery(function() {
 			var remoteExercises = jQuery( "div.exercise[data-name]" );
 
@@ -937,16 +918,16 @@ var Khan = (function() {
 
 	function loadAndRenderExercise( userExercise ) {
 
-		exercise = userExercise.exerciseModel;
-		exerciseName = exercise.name;
+		userExercise = userExercise;
+		exerciseName = userExercise.exerciseModel.name;
 
-		setProblemNum( userExercise.totalDone + 1 );
+		prepareUserExercise( userExercise );
 
 		function finishRender() {
 
 			// Get all problems of this exercise type...
 			var problems = exercises.filter(function() {
-				return jQuery.data( this, "rootName" ) === exercise.name;
+				return jQuery.data( this, "rootName" ) === exerciseName;
 			}).children( ".problems" ).children();
 
 			// ...and create a new problem bag with problems of our new exercise type.
@@ -955,7 +936,7 @@ var Khan = (function() {
 			// TODO(kamens): Update document title
 
 			// Update related videos
-			Khan.relatedVideos.setVideos( exercise );
+			Khan.relatedVideos.setVideos( userExercise.exerciseModel );
 
 			// Generate a new problem
 			makeProblem();
@@ -965,14 +946,14 @@ var Khan = (function() {
 		// TODO(kamens): clean this up, it's copied from review code...
 		// Was this exercise's data and HTML loaded by loadExercise already?
 		var isLoaded = exercises.filter(function() {
-			return jQuery.data( this, "rootName" ) === exercise.name;
+			return jQuery.data( this, "rootName" ) === exerciseName;
 		}).length;
 
 		// Load all non-loadExercise loaded exercises
 		if ( !isLoaded ) {
 			var exerciseElem = jQuery( "<div>" )
-				.data( "name", exercise.name )
-				.data( "rootName", exercise.name );
+				.data( "name", exerciseName )
+				.data( "rootName", exerciseName );
 			loadExercise.call( exerciseElem, finishRender );
 		} else {
 			finishRender();
