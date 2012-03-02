@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Identifying Dimensions and Elements of Matricies </title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="a11">randRange(-9,9)</var>
+			<var id="a12">randRange(-9,9)</var>
+			<var id="a13">randRange(-9,9)</var>
+			<var id="a14">randRange(-9,9)</var>
+			<var id="a21">randRange(-9,9)</var>
+			<var id="a22">randRange(-9,9)</var>
+			<var id="a23">randRange(-9,9)</var>
+			<var id="a24">randRange(-9,9)</var>
+			<var id="a31">randRange(-9,9)</var>
+			<var id="a32">randRange(-9,9)</var>
+			<var id="a33">randRange(-9,9)</var>
+			<var id="a34">randRange(-9,9)</var>
+			<var id="a41">randRange(-9,9)</var>
+			<var id="a42">randRange(-9,9)</var>
+			<var id="a43">randRange(-9,9)</var>
+			<var id="a44">randRange(-9,9)</var>
+			<var id="b11">randRange(-9,9)</var>
+			<var id="b12">randRange(-9,9)</var>
+			<var id="b13">randRange(-9,9)</var>
+			<var id="b14">randRange(-9,9)</var>
+			<var id="b21">randRange(-9,9)</var>
+			<var id="b22">randRange(-9,9)</var>
+			<var id="b23">randRange(-9,9)</var>
+			<var id="b24">randRange(-9,9)</var>
+			<var id="b31">randRange(-9,9)</var>
+			<var id="b32">randRange(-9,9)</var>
+			<var id="b33">randRange(-9,9)</var>
+			<var id="b34">randRange(-9,9)</var>
+			<var id="b41">randRange(-9,9)</var>
+			<var id="b42">randRange(-9,9)</var>
+			<var id="b43">randRange(-9,9)</var>
+			<var id="b44">randRange(-9,9)</var>
+			
+			
+			
+		</div>
+		
+		<div class="problems">
+			<div>
+				<p class="question">Find the dimension and requested elements of the matrix [A] shown below: </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var> \\ <var>a21</var> & <var>a22</var> \end{bmatrix}}</code></div>
+				
+				<div class="solution" data-type="multiple">
+					<p><code>Dimensions:</code><span class="sol" data-type="regex"><var>^2\s*[xX]\s*2</var></span></p>
+					<p><code>a_{12}</code>= <span class="sol" data-type="rational"><var>a12</var></span></p>
+					<p><code>a_{22}</code>= <span class="sol" data-type="rational"><var>a22</var></span></p>
+
+				<p class="example">Dimension: 5 x 2 or 5x2</p>
+				<p class="example"><code>a_{ij}</code>=Integer</p>
+				</div>
+				
+			</div>
+			
+			<div>
+				<p class="question">Find the dimension and requested elements of the matrix [A] shown below: </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var> & <var>a13</var> \\ <var>a21</var> & <var>a22</var> & <var>a23</var>\end{bmatrix}}</code></div>
+				
+				<div class="solution" data-type="multiple">
+					<p><code>Dimensions:</code><span class="sol" data-type="regex"><var>^2\s*[xX]\s*3</var></span></p>
+					<p><code>a_{13}</code>= <span class="sol" data-type="rational"><var>a13</var></span></p>
+					<p><code>a_{21}</code>= <span class="sol" data-type="rational"><var>a21</var></span></p>
+					
+				<p class="example">Dimension: 5 x 2 or 5x2</p>
+				<p class="example"><code>a_{ij}</code>=Integer</p>
+				</div>
+			</div>
+			
+			<div>
+				<p class="question">Find the dimension and requested elements of the matrix [A] shown below: </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var> \\ <var>a21</var> & <var>a22</var> \\ <var>a31</var> & <var>a32</var> \end{bmatrix}}</code></div>
+				
+				<div class="solution" data-type="multiple">
+					<p><code>Dimensions:</code><span class="sol" data-type="regex"><var>^3\s*[xX]\s*2</var></span></p>
+					<p><code>a_{22}</code>= <span class="sol" data-type="rational"><var>a22</var></span></p>
+					<p><code>a_{31}</code>= <span class="sol" data-type="rational"><var>a31</var></span></p>
+
+				<p class="example">Dimension: 5 x 2 or 5x2</p>
+				<p class="example"><code>a_{ij}</code>=Integer</p>
+				</div>
+			</div>
+			<div>
+				<p class="question">Find the dimension and requested elements of the matrix [A] shown below:  </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var> & <var>a13</var> \\ <var>a21</var> & <var>a22</var> & <var>a23</var> \\ <var>a31</var> & <var>a32</var> & <var>a33</var> \end{bmatrix}}</code></div>
+				
+				<div class="solution" data-type="multiple">
+					<p><code>Dimensions:</code><span class="sol" data-type="regex"><var>^3\s*[xX]\s*3</var></span></p>
+					<p><code>a_{13}</code>= <span class="sol" data-type="rational"><var>a13</var></span></p>
+					<p><code>a_{31}</code>= <span class="sol" data-type="rational"><var>a31</var></span></p>
+					
+				<p class="example">Dimension: 5 x 2 or 5x2</p>
+				<p class="example"><code>a_{ij}</code>=Integer</p>
+				</div>
+			</div>
+			
+			<div>
+				<p class="question">Find the dimension and requested elements of the matrix [A] shown below:  </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var>  \\ <var>a21</var> \\ <var>a31</var> \end{bmatrix}}</code></div>
+				
+				<div class="solution" data-type="multiple">
+					<p><code>Dimensions:</code><span class="sol" data-type="regex"><var>^3\s*[xX]\s*1</var></span></p>
+					<p><code>a_{11}</code>= <span class="sol" data-type="rational"><var>a13</var></span></p>
+					<p><code>a_{31}</code>= <span class="sol" data-type="rational"><var>a31</var></span></p>
+					
+				<p class="example">Dimension: 5 x 2 or 5x2</p>
+				<p class="example"><code>a_{ij}</code>=Integer</p>
+				</div>
+			</div>
+			
+			<div>
+				<p class="question">Find the dimension and requested elements of the matrix [A] shown below:  </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var> & <var>a13</var> & <var>a14</var>\\ <var>a21</var> & <var>a22</var> & <var>a23</var> & <var>a24</var>\\ <var>a31</var> & <var>a32</var> & <var>a33</var> & <var>a44</var>\end{bmatrix}}</code></div>
+				
+				<div class="solution" data-type="multiple">
+					<p><code>Dimensions:</code><span class="sol" data-type="regex"><var>^3\s*[xX]\s*4</var></span></p>
+					<p><code>a_{24}</code>= <span class="sol" data-type="rational"><var>a24</var></span></p>
+					<p><code>a_{33}</code>= <span class="sol" data-type="rational"><var>a33</var></span></p>
+					
+				<p class="example">Dimension: 5 x 2 or 5x2</p>
+				<p class="example"><code>a_{ij}</code>=Integer</p>
+				</div>
+			</div>
+			
+			<div>
+				<p class="question">Find the dimension and requested elements of the matrix [A] shown below:  </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var> & <var>a13</var> & <var>a14</var> \end{bmatrix}}</code></div>
+				
+				<div class="solution" data-type="multiple">
+					<p><code>Dimensions:</code><span class="sol" data-type="regex"><var>^1\s*[xX]\s*4</var></span></p>
+					<p><code>a_{14}</code>= <span class="sol" data-type="rational"><var>a14</var></span></p>
+					<p><code>a_{13}</code>= <span class="sol" data-type="rational"><var>a13</var></span></p>
+					
+				<p class="example">Dimension: 5 x 2 or 5x2</p>
+				<p class="example"><code>a_{ij}</code>=Integer</p>
+				</div>
+			</div>
+			
+			<div>
+				<p class="question">Find the dimension and requested elements of the matrix [A] shown below:  </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var>  \\ <var>a21</var> \\ <var>a31</var> \\ <var>a41</var> \end{bmatrix}}</code></div>
+				
+				<div class="solution" data-type="multiple">
+					<p><code>Dimensions:</code><span class="sol" data-type="regex"><var>^4\s*[xX]\s*1</var></span></p>
+					<p><code>a_{41}</code>= <span class="sol" data-type="rational"><var>a41</var></span></p>
+					<p><code>a_{11}</code>= <span class="sol" data-type="rational"><var>a22</var></span></p>
+					
+				<p class="example">Dimension: 5 x 2 or 5x2</p>
+				<p class="example"><code>a_{ij}</code>=Integer</p>
+				</div>
+			</div>
+			
+			<div>
+				<p class="question">Find the dimension and requested elements of the matrix [A] shown below:  </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var>  \\ <var>a21</var> & <var>a22</var>  \\ <var>a31</var> & <var>a32</var> \\ <var>a41</var> & <var>a42</var> \end{bmatrix}}</code></div>
+				
+				<div class="solution" data-type="multiple">
+					<p><code>Dimensions:</code><span class="sol" data-type="regex"><var>^4\s*[xX]\s*2</var></span></p>
+					<p><code>a_{41}</code>= <span class="sol" data-type="rational"><var>a41</var></span></p>
+					<p><code>a_{22}</code>= <span class="sol" data-type="rational"><var>a22</var></span></p>
+					
+				<p class="example">Dimension: 5 x 2 or 5x2</p>
+				<p class="example"><code>a_{ij}</code>=Integer</p>
+				</div>
+			</div>
+			
+			<div>
+				<p class="question">Find the dimension and requested elements of the matrix [A] shown below: </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var>  & <var>a13</var> & <var>a14</var> \\ <var>a21</var> & <var>a22</var> & <var>a23</var> & <var>a24</var> \end{bmatrix}}</code></div>
+				
+				<div class="solution" data-type="multiple">
+					<p><code>Dimensions:</code><span class="sol" data-type="regex"><var>^2\s*[xX]\s*4</var></span></p>
+					<p><code>a_{41}</code>= <span class="sol" data-type="rational"><var>a41</var></span></p>
+					<p><code>a_{22}</code>= <span class="sol" data-type="rational"><var>a22</var></span></p>
+					
+				<p class="example">Dimension: 5 x 2 or 5x2</p>
+				<p class="example"><code>a_{ij}</code>=Integer</p>
+				</div>
+			</div>
+		
+		</div>
+		
+		<div class="hints">
+			<div>
+				<p>The dimensions of a matrix are defined as the number of rows in the matrix by the number of columns.</p>
+				<p>The index of a matrix are labeled as <code>a_{row\,column}</code></p>
+			</div>
+			<div>
+				<p> For example: If a matrix has 3 rows and 4 columns the dimensions of the matrix is 3 x 4</p>
+				<p> <code>a_{13}</code> is the value found in the first row, and column three of the matrix.</p>
+			</div>
+	</div>
+</body>
+			
+			
