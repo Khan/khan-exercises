@@ -1790,10 +1790,6 @@ var Khan = (function() {
 		jQuery( "#issue-throbber" )
 			.attr( "src", urlBase + "css/images/throbber.gif" );
 
-		if (typeof userExercise !== "undefined" && userExercise.read_only) {
-			jQuery( "#extras" ).css("visibility", "hidden");
-		}
-
 		if ( reviewMode ) {
 			enterReviewMode();
 		} else {
