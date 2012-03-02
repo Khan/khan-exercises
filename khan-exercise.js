@@ -71,7 +71,7 @@ var Khan = (function() {
 		return;
 	}
 
-	// Clear out userExercise objects from localStorage in case we are over
+	// Clear out old userExercise objects from localStorage in case we are over
 	// quota. They are now stored in sessionStorage when needed anyway.
 	(function() {
 		var i = 0;
