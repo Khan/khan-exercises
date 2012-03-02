@@ -304,7 +304,7 @@
        hints.push( genHintListFactors(MATH, factors, sharedOccFactors));
 
        hints.push("<p>We can rewrite the expression as: <code>" + MATH.format({op:"+", args:genAllTermsMarkShared(factors, sharedOccFactors, termOccFactors, colors)}) + "</code>.</p>");
-       hints.push("<p>We now rewrite the epression as a product to get the answer: <code>" + MATH.format(genFullExpr(factors, sharedOccFactors, termOccFactors)) + "</code>.</p>");
+       hints.push("<p>We now rewrite the epression as a product to get the answer: <code>" + MATH.format(genFullExpr(factors, sharedOccFactors, termOccFactors)) + "</code>.</p><p>It might be possible to factor this expression even more, but not with this technique.");
        return hints;
     };
 
