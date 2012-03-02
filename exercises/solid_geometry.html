@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Solid geometry</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -27,7 +27,9 @@
 				</div>
 			</div>
 
-			<p class="solution"><var>s * s * s</var></p>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-type="text"><var>s * s * s</var></span> Cubic Units</p>
+			</div>
 
 			<div class="hints">
 				<p>The volume of a cube with side length <code>s</code> is <code>V = s^3</code>.</p>
@@ -56,7 +58,9 @@
 				</div>
 			</div>
 
-			<p class="solution"><var>6 * s * s</var></p>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-type="text"><var>6 * s * s</var></span> Square Units</p>
+			</div>
 
 			<div class="hints">
 				<p>The area of each face is simply the area of a square: <code><var>s</var>^2 = <var>s * s</var></code>.</p>
@@ -93,7 +97,9 @@
 				</div>
 			</div>
 
-			<div class="solution" data-forms="pi"><var>Math.PI * r * r * h</var></div>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-forms="pi"><var>Math.PI * r * r * h</var></span> Cubic Units</p>
+			</div>
 
 			<div class="hints">
 				<p>The area of the base is simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
@@ -130,7 +136,9 @@
 				</div>
 			</div>
 
-			<div class="solution" data-forms="pi"><var>Math.PI * 2 * r * ( r + h )</var></div>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-forms="pi"><var>Math.PI * 2 * r * ( r + h )</var></span> Square Units</p>
+			</div>
 
 			<div class="hints">
 				<p>The areas of the top and the base are simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
@@ -170,7 +178,9 @@
 				</div>
 			</div>
 
-			<p class="solution"><var>w * h * d</var></p>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-type="text"><var>w * h * d</var></span> Cubic Units</p>
+			</div>
 
 			<div class="hints">
 				<p>The volume of a right rectangular prism with width <code>w</code>, height <code>h</code>, and depth <code>d</code> is <code>V = whd</code>.</p>
@@ -207,7 +217,9 @@
 				</div>
 			</div>
 
-			<p class="solution"><var>2 * ( w * h + w * d + h * d )</var></p>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-type="text"><var>2 * ( w * h + w * d + h * d )</var></span> Square Units</p>
+			</div>
 
 			<div class="hints">
 				<p>The surface area of a right rectangular prism with width <code>w</code>, height <code>h</code>, and depth <code>d</code> is <code>T = 2wh + 2wd + 2hd</code>.</p>
@@ -251,7 +263,9 @@
 				</div>
 			</div>
 
-			<p class="solution"><var>w * h * d / 2</var></p>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-type="text"><var>w * h * d / 2</var></span> Cubic Units</p>
+			</div>
 
 			<div class="hints">
 				<p>The area of the triangular base is <code>\frac12 w h = \frac12 (<var>w</var> \cdot <var>h</var>) = <var>w * h / 2</var></code>.</p>

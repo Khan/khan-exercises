@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Rounding numbers</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -29,7 +29,7 @@
 				<p data-if="DIGITS[ 5 + PLACE ] >= 5">Because it is <span data-if="DIGITS[ 5 + PLACE ] > 5">more than</span><span data-else>equal to</span> <code>5</code>, we round up, giving <code><var>ROUNDED</var></code>.</p>
 				<p data-else>Because it is less than <code>5</code>, we round down, giving <code><var>commafy( ROUNDED )</var></code>.</p>
 				<p>2nd way:  Consider which end of the number line is closer to <var>NUM</var> - this end is circled in blue.</p>
-				<div class="graphie"> 
+				<div class="graphie">
 					init({
 						range: [ [ -0.06 * pow( 10, -PLACE ) , 1.3 * pow( 10, -PLACE ) ], [-1, 1] ],
 						scale: [ 600 * pow( 10, PLACE ), 40 ]
@@ -68,11 +68,11 @@
 				<p data-if="DIGITS[ 2 + PLACE ] >= 5">Because it is <span data-if="DIGITS[ 2 + PLACE ] > 5">more than</span><span data-else>equal to</span> <code>5</code>, we round up, giving <code><var>ROUNDED</var></code>.</p>
 				<p data-else>Because it is less than <code>5</code>, we round down, giving <code><var>commafy( ROUNDED )</var></code>.</p>
 				<p>2nd way:  Consider which end of the number line is closer to <var>NUM</var> - this end is circled in blue.</p>
-				<div class="graphie"> 
+				<div class="graphie">
 					init({
 						range: [ [ -0.06 * pow( 10, -PLACE ) , 10.3 * pow( 10, -PLACE ) ], [-1, 1] ],
 						scale: [ 600 * pow( 10, PLACE ), 40 ]
-					});	
+					});
 					numberLine( floorTo( PLACE , NUM   ), ceilTo( PLACE , NUM ) +  pow( 10,- (PLACE+2 ))  , pow( 10,- (PLACE+1) ) );
 					style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
 					ellipse( [  10 * pow(10,- (PLACE+1)) * (NUM -  floorTo( PLACE , NUM   ))/pow(10,- (PLACE) ), 0 ], [pow(10, -PLACE) / 100, 0.15]);

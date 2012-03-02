@@ -1,4 +1,5 @@
 jQuery.extend(KhanUtil, {
+	
 	// Simplify formulas before display
 	cleanMath: function( expr ) {
 		return typeof expr === "string" ?
@@ -67,7 +68,7 @@ jQuery.extend(KhanUtil, {
 			return KhanUtil.placesLeftOfDecimal[ power ];
 		}
 	},
-	
+
 
 	//Adds 0.001 because of floating points uncertainty so it errs on the side of going further away from 0
 	roundTowardsZero: function( x ){
@@ -75,8 +76,6 @@ jQuery.extend(KhanUtil, {
 			return Math.ceil( x - 0.001 );
 		}
 		return Math.floor( x + 0.001 );
-		
-
 	},
 
 	getGCD: function( a, b ) {
@@ -123,15 +122,19 @@ jQuery.extend(KhanUtil, {
 				return Math.abs(p - n) <= 0.5;
 			}).length;
 		} else {
-			/* maybe do something faster, like Miller-Rabin */
-			for(var i = 2; i * i <= n; i++) {
-				if ( n % i <= 0.5 ) {
-					return false;
+			if (n <= 1 || n > 2 && n % 2 === 0) {
+				return false;
+			} else {
+				for(var i = 3, sqrt = Math.sqrt(n); i <= sqrt; i += 2) {
+					if ( n % i === 0 ) {
+						return false;
+					}
 				}
 			}
-
+			
 			return true;
 		}
+
 	},
 
 	isOdd: function( n ) {
@@ -256,14 +259,19 @@ jQuery.extend(KhanUtil, {
 		return [coefficient, radical];
 	},
 
-	// Get a random integer between min and max, inclusive
-	// If a count is passed, it gives an array of random numbers in the range
-	randRange: function( min, max, count ) {
-		if ( count == null ) {
+	// randRange( min, max ) - Get a random integer between min and max, inclusive
+	// randRange( min, max, count ) - Get count random integers
+	// randRange( min, max, rows, cols ) - Get a rows x cols matrix of random integers
+	// randRange( min, max, x, y, z ) - You get the point...
+	randRange: function( min, max ) {
+		var dimensions = [].slice.call( arguments, 2 );
+
+		if ( dimensions.length === 0 ) {
 			return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
 		} else {
-			return jQuery.map(new Array(count), function() {
-				return KhanUtil.randRange( min, max );
+			var args = [ min, max ].concat( dimensions.slice( 1 ) );
+			return jQuery.map(new Array( dimensions[ 0 ] ), function() {
+				return [ KhanUtil.randRange.apply( null, args ) ];
 			});
 		}
 	},
@@ -277,13 +285,13 @@ jQuery.extend(KhanUtil, {
 			for ( var i = min; i < max; i++ ){
 				toReturn.push( i );
 			}
-			
+
 			return KhanUtil.shuffle( toReturn, count );
 		}
 	},
 
 	// Get an array of unique random numbers between min and max,
-	// that ensures that none of the integers in the array are 0.  
+	// that ensures that none of the integers in the array are 0.
 	randRangeUniqueNonZero: function( min, max, count ) {
 		if ( count == null ) {
 			return KhanUtil.randRangeNonZero( min, max );
@@ -295,7 +303,7 @@ jQuery.extend(KhanUtil, {
 				}
 				toReturn.push( i );
 			}
-			
+
 			return KhanUtil.shuffle( toReturn, count );
 		}
 	},
@@ -327,7 +335,7 @@ jQuery.extend(KhanUtil, {
 	// It never returns any of the values in the excludes array.
 	randRangeWeightedExclude: function( min, max, target, perc, excludes ) {
 		var result;
-								
+
 		do {
 			result = KhanUtil.randRangeWeighted( min, max, target, perc );
 		} while ( _(excludes).indexOf(result) !== -1 );
@@ -364,6 +372,12 @@ jQuery.extend(KhanUtil, {
 		return KhanUtil.randFromArray( cleanArr );
 	},
 
+	// Round a number to the nearest increment
+	// E.g., if increment = 30 and num = 40, return 30. if increment = 30 and num = 45, return 60.
+	roundToNearest: function( increment, num ) {
+		return Math.round( num / increment ) * increment;
+	},
+
 	// Round a number to a certain number of decimal places
 	roundTo: function( precision, num ) {
 		var factor = Math.pow( 10, precision ).toFixed(5);
@@ -397,7 +411,7 @@ jQuery.extend(KhanUtil, {
 			var nd = KhanUtil.toFraction( fract, tolerance );
 			nd[0] += Math.round( decimal - fract ) * nd[1];
 			return nd;
-		} else if ( Math.abs( Math.round( decimal ) - decimal ) <= tolerance ) {
+		} else if ( Math.abs( Math.round( Number( decimal ) ) - decimal ) <= tolerance ) {
 			return [ Math.round( decimal ), 1 ];
 		} else {
 			var loN = 0, loD = 1, hiN = 1, hiD = 1, midN = 1, midD = 2;

@@ -108,11 +108,11 @@
 			function createVertTable( numerator, denominator, id, className ) {
 
 				var table = jQuery( "<table/>" );
-				if ( id != null ) {
+				if ( id !== null ) {
 					table.attr( "id", id );
 				}
 
-				if( className != null ) {
+				if( className !== null ) {
 					table.addClass( className );
 				} else {
 					table.addClass( "hint_diagram_table_small" );
@@ -145,18 +145,18 @@
 			function createHorizTable( numerator, denominator, id, className, boxClass ) {
 
 				var table = jQuery( "<table/>" );
-				if ( id != null ) {
+				if ( id !== null ) {
 					table.attr( "id", id );
 				}
 
-				if ( className != null ) {
+				if ( className !== null ) {
 					table.addClass( className );
 				} else {
 					table.addClass( "hint_diagram_table_small" );
 				}
 
 				var useBoxClass = "hint_box2_cell";
-				if ( boxClass != null ) {
+				if ( boxClass !== null ) {
 					useBoxClass = boxClass;
 				}
 
@@ -242,7 +242,7 @@
 				var tablesSrc = "";
 				for ( var i = 0; i < number; i++ ) {
 					var idToUse = null;
-					if( idPrefix != null ) {
+					if( idPrefix !== null ) {
 						idToUse = idPrefix + "-" + i;
 					}
 
@@ -261,7 +261,7 @@
 				var tablesSrc = "";
 				for ( var i = 0; i < number; i++ ) {
 					var idToUse = null;
-					if( idPrefix != null ) {
+					if( idPrefix !== null ) {
 						idToUse = idPrefix + "-" + i;
 					}
 
@@ -279,7 +279,7 @@
 				var tablesSrc = "";
 				for ( var i = 0; i < number; i++ ) {
 					var idToUse = null;
-					if( idPrefix != null ) {
+					if( idPrefix !== null ) {
 						idToUse = idPrefix + "-" + i;
 					}
 
@@ -358,14 +358,11 @@
 	<body>
 		<div class="exercise">
 			<div class="vars">
-				<!-- Detect MS Internet explorer.  So we can avoid serving CSS
-					 animations, and serve alternate text hints. -->
-				<var id="IE">(navigator.userAgent.indexOf('MSIE') !=-1)</var>
 			</div>
 			<div class="problems">
 
 				<div id="fraction-with-fraction">
-					<div class="vars" data-ensure="D1 != D2">
+					<div class="vars" data-ensure="D1 !== D2">
 						<div data-ensure="D1 !== D2">
 							<var id="N1">randRange(1, 4)</var>
 							<var id="D1">N1 + randRange(1, 4)</var>
@@ -415,17 +412,6 @@
 									<var>TABLE_1_HINT</var>
 									<var>TABLE_2_HINT</var>
 							</div>
-							<!-- FIXME: animation -->
-							<!-- <script type="text/javascript" data-if="!IE"> -->
-							<!-- 	jQuery(document).ready(function(){ -->
-							<!-- 		// Scroll the hint into view. -->
-							<!-- 		scrollIntoView( "#problem1-hint2-div"); -->
-
-							<!-- 		// animate the right box overlaying over the left one. -->
-							<!-- 		jQuery("#box2").css("left", 300); -->
-							<!-- 		jQuery("#box2").animate({left: "0"}, 50000); -->
-							<!-- 	}); -->
-							<!-- </script> -->
 						</div>
 
 						<div>
@@ -466,7 +452,7 @@
 						<var id="B">randRange( 2, 5 )</var>
 						<var id="BOXES">( function() {
 							var a = [];
-							for ( var i = 1; i <= B; i++ ) { a.push( i ); }
+							for ( var i = 1; i &lt;= B; i++ ) { a.push( i ); }
 							return a;
 						} )()</var>
 					</div>

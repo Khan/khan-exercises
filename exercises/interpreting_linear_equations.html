@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie word-problems">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Interpreting linear equations</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -46,7 +46,7 @@
 							strokeWidth: 0.9,
 							arrows: "->"
 						});
-					
+
 						label( [ 0, 9.2 ], "\\text{" + Y_AXIS_LABEL + "}", "right");
 						label( [ 8.5, 0], "\\text{" + X_AXIS_LABEL + "}", "below");
 
@@ -55,7 +55,7 @@
 							strokeWidth: 2,
 							arrows: "->"
 						});
-					
+
 						plot( function( x ) {
 							return ( M ) * x + B;
 						}, [0, 10]);
@@ -112,6 +112,118 @@
 					<p>Looking at the graph, we see that as <code>x</code> increases, there is no change in <code>y</code>.</p>
 					<p>We can say that the slope of the line is zero, or that the variables have no correlation.</p>
 					<p>Thus, as <var>X_AXIS_QUESTION</var> increases, <var>Y_AXIS_QUESTION</var> <b>stays the same</b>.</p>
+				</div>
+			</div>
+
+			<div data-weight="7" id="identifypoint">
+				<!-- Ensure the X and Y deltas of the beginning and end of the line are at least
+				     five. -->
+				<div class="vars" data-ensure="abs( LINESTART[ 0 ] - LINEEND[ 0 ] ) >= 5 && abs( LINESTART[ 1 ] - LINEEND[ 1 ] ) >= 5">
+					<!-- When X is the solution ensure that Y isn't 0 and vice versa so that the line
+					     added by the first hint doesn't cover up an axis. -->
+					<div data-ensure="POINTX === SOLUTION ? POINTY !== 0 : POINTX !== 0">
+						<var id="POINTX, POINTY">randRange( -9, 9, 2 )</var>
+						<var id="SOLUTION">randFromArray([ POINTX, POINTY ])</var>
+					</div>
+
+					<var id="LINESTART">
+						(function() {
+							var lineStartX,
+							    lineStartY;
+
+							if (randFromArray([ false, true ])) {
+								lineStartX = randFromArray([ -10, 10 ]);
+								lineStartY = randRange( -10, 10 );
+							} else {
+								lineStartX = randRange( -10, 10 );
+								lineStartY = randFromArray([ -10, 10 ]);
+							}
+
+							return [ lineStartX, lineStartY ];
+						})()
+					</var>
+					<var id="LINEEND">
+						(function() {
+							var lineEndX = POINTX,
+									lineEndY = POINTY,
+									newXDelta,
+									newYDelta,
+									xDelta = -( LINESTART[ 0 ] - POINTX ),
+									yDelta = -( LINESTART[ 1 ] - POINTY );
+
+
+							// Reduce xDelta and yDelta until their absolute values are less than or equal
+							// to one.
+							if ( Math.abs( xDelta ) > Math.abs( yDelta ) ) {
+								newXDelta = xDelta > 0 ? 1 : -1;
+								newYDelta = yDelta * newXDelta / xDelta;
+							} else {
+								newYDelta = yDelta > 0 ? 1 : -1;
+								newXDelta = xDelta * newYDelta / yDelta;
+							}
+
+							xDelta = newXDelta;
+							yDelta = newYDelta;
+
+
+							while ( Math.abs( lineEndX ) &lt; 10 && Math.abs( lineEndY ) &lt; 10 ) {
+								lineEndX += xDelta;
+								lineEndY += yDelta;
+							}
+
+							return [ lineEndX, lineEndY ];
+						})()
+					</var>
+				</div>
+
+				<div class="question">
+					<p data-if="POINTX === SOLUTION">What is <code>x</code> when <code>y</code> is <code><var>POINTY</var></code>?</p>
+					<p data-else>What is <code>y</code> when <code>x</code> is <code><var>POINTX</var></code>?</p>
+
+					<div class="graphie" id="graph">
+						graphInit({
+							axisArrows:  '&lt;->',
+							labelStep:   1,
+							scale:       20,
+							labelFormat: function( s ) { return '\\small{' + s + '}'; },
+							tickStep:    2,
+							unityLabels: true
+						});
+
+						style({ stroke: '#6495ed' });
+						line( LINESTART, LINEEND );
+					</div>
+				</div>
+
+				<div class="hints">
+					<div>
+						<div class="graphie" data-update="graph">
+							var lineStart, lineEnd;
+
+							if ( POINTX === SOLUTION ) {
+								lineStart = [ -10, POINTY ];
+								lineEnd = [ 10, POINTY ];
+							} else {
+								lineStart = [ POINTX, -10 ];
+								lineEnd = [ POINTX, 10 ];
+							}
+
+							line( lineStart, lineEnd, {
+								stroke:          '#28ae7b',
+								strokeDasharray: '- '
+							});
+						</div>
+
+						<p data-if="POINTX === SOLUTION">The dashed <span style="color: #28ae7b;">green</span> line shows where <code>y</code> is <code><var>POINTY</var></code>.</p>
+						<p data-else>The dashed <span style="color: #28ae7b;">green</span> line shows where <code>x</code> is <code><var>POINTX</var></code>.</p>
+					</div>
+
+					<p>The <span style="color: #6495ed;">blue</span> and dashed <span style="color: #28ae7b;">green</span> lines meet at <code>(<var>POINTX</var>, <var>POINTY</var>)</code>.</p>
+					<p>Therefore <code><var>POINTX === SOLUTION ? 'x' : 'y'</var></code> is <code><var>SOLUTION</var></code>.</p>
+				</div>
+
+				<div class="solution" data-forms="integer" data-type="multiple">
+					<p><code><var>POINTX === SOLUTION ? 'x' : 'y'</var> =</code> <span class="sol" data-forms="integer"><var>SOLUTION</var></span></p>
 				</div>
 			</div>
 		</div>

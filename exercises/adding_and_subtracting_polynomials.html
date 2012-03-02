@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html data-require="math math-format polynomials functional">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Adding and subtracting polynomials</title>
 	<script src="../khan-exercise.js"></script>
 	<script type="text/javascript">
 		function getFakeAnswers( solution ) {
 			var answers = [];
 			for ( var i = 0; i < solution.getNumberOfTerms(); i++ ) {
-				var coefs = []; 
+				var coefs = [];
 
 				for ( var j = 0; j < solution.getNumberOfTerms(); j++ ) {
 					var term = solution.getCoefAndDegreeForTerm( j );
@@ -16,15 +16,15 @@
 					if ( i === j ) {
 						coefs[ term.degree ] = KhanUtil.randRangeNonZero( -7, 7 );
 					} else {
-						coefs[ term.degree ] = term.coef; 
+						coefs[ term.degree ] = term.coef;
 					}
 				}
-				
+
 				for ( var j = 0; j < coefs.length; j++ ) {
 					if ( coefs[ j ] === undefined ) {
 						coefs[ j ] = 0;
 					}
-				} 
+				}
 
 				answers.push( new KhanUtil.Polynomial(0, solution.maxDegree, coefs, solution.variable) );
 			}
@@ -42,13 +42,13 @@
 			<var id="NON_ZERO_INDICES">randRangeUniqueNonZero( 0, MAX_DEGREE, randRange(2, 3) ).sort().reverse()</var>
 			<var id="POL_1, POL_2" data-ensure="POL_1.add( POL_2 ).getNumberOfTerms() >= 1 && POL_1.subtract( POL_2 ).getNumberOfTerms() >= 1">tabulate( function() {
 				var coefs = [];
-				for ( var i = 0; i <= MAX_DEGREE; i++ ) {
+				for ( var i = 0; i &lt;= MAX_DEGREE; i++ ) {
 					var value = 0;
-					for ( var j = 0; j < NON_ZERO_INDICES.length; j++ ) {
+					for ( var j = 0; j &lt; NON_ZERO_INDICES.length; j++ ) {
 						if ( i === NON_ZERO_INDICES[ j ] ) {
 							value = randRangeNonZero( -7, 7 );
 							break;
-						} 
+						}
 					}
 					coefs[ i ] = value;
 				}
@@ -61,7 +61,7 @@
 			<div id="add">
 				<div class="vars">
 					<var id="SIGN">"+"</var>
-					<var id="SOLUTION">POL_1.add( POL_2 )</var>	
+					<var id="SOLUTION">POL_1.add( POL_2 )</var>
 					<var id="FAKE_ANSWERS">getFakeAnswers( SOLUTION )</var>
 				</div>
 
@@ -103,14 +103,13 @@
 			</div>
 			<div>
 				<p>Identify like terms.</p>
-				<p><code><span data-each="[ POL_1, POL_2 ] as POL"><span data-each="NON_ZERO_INDICES as n, index" data-unwrap><var>( POL.coefs[ index ] < 0 ) ? "-" : ( n === 0 && POL === POL_1 ) ? "" : "+"</var>\color{<var>COLORS[ n ]</var>}{<var>abs( POL.coefs[ index ] ) === 1 ? "" : abs( POL.coefs[ index ] )</var><var>X</var>^<var>index</var>}</span></span></code></p>
+				<p><code><span data-each="[ POL_1, POL_2 ] as POL"><span data-each="NON_ZERO_INDICES as n, index" data-unwrap><var>( POL.coefs[ index ] &lt; 0 ) ? "-" : ( n === 0 && POL === POL_1 ) ? "" : "+"</var>\color{<var>COLORS[ n ]</var>}{<var>abs( POL.coefs[ index ] ) === 1 ? "" : abs( POL.coefs[ index ] )</var><var>X</var>^<var>index</var>}</span></span></code></p>
 
 			</div>
 			<div>
 				<p>Combine like terms.</p>
 				<p><code><span data-each="NON_ZERO_INDICES as n, index"><span data-if="n !== 0">+</span>\color{<var>COLORS[ n ]</var>}{(<var>POL_1.coefs[ index ]</var> + <var>POL_2.coefs[ index ]</var>)<var>X</var>^<var>index</var>}</span></code></p>
 			</div>
-			<div>
 			<div>
 				<p>Add the coefficients.</p>
 				<p><code><var>POL_1.add(POL_2).text()</var></code></p>

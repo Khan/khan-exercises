@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions ast math-model">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Multiplying expressions 0.5</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function signOp(value) { return (value < 0 ? " ":"+"); };
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="MATH">MathModel.init()</var>
+
+			<!-- 1/4 of questions will be squares -->
+			<var id="SQUARE">random() &lt; 0.25</var>
+
+			<var id="A">1</var>
+			<var id="B">randRangeNonZero( -10, 10 )</var>
+			<var id="C">1</var>
+			<var id="D">SQUARE ? B : randRangeNonZero( -10, 10 )</var>
+
+			<var id="X">"x"</var>
+			<var id="XX">"x^2"</var>
+
+			<var id="LEFT">"\\left(" + plus( A+X, B ) + "\\right)"</var>
+			<var id="RIGHT">"\\left(" + plus( C+X, D ) + "\\right)"</var>
+
+		</div>
+
+		<div class="problems">
+			<div>
+
+				<p class="question"><code><var>LEFT + ( SQUARE ? "^2" : RIGHT )</var> = \ ?</code></p>
+
+				<p class="solution"><code><var>plus( (A*C)+XX, (A*D+B*C)+X, B*D )</var></code></p>
+				<ul class="choices" data-show="4" data-none="true">
+					<li><code><var>plus( XX, B*D )</var></code></li>
+					<li><code><var>plus( XX, B*D )</var></code></li>
+					<li><code><var>plus( (A+C)+XX, (A*D+B*C)+X, B*D )</var></code></li>
+					<li><code><var>plus( (A*C)+XX, (A*D+B*C)+X, B+D )</var></code></li>
+					<li><code><var>plus( (A+C)+XX, (A*D+B*C)+X, B+D )</var></code></li>
+					<li><code><var>plus( (A+C)+XX, (A*D-B*C)+X, B*D )</var></code></li>
+					<li><code><var>plus( (A*C)+XX, (A*D-B*C)+X, B+D )</var></code></li>
+					<li><code><var>plus( (A+C)+XX, (A*D-B*C)+X, B+D )</var></code></li>
+					<li><code><var>plus( (A+C)+XX, (A*B+C*D)+X, B*D )</var></code></li>
+					<li><code><var>plus( (A*C)+XX, (A*B+C*D)+X, B+D )</var></code></li>
+					<li><code><var>plus( (A+C)+XX, (A*B+C*D)+X, B+D )</var></code></li>
+					<li><code><var>plus( (A+C)+XX, (A*B-C*D)+X, B*D )</var></code></li>
+					<li><code><var>plus( (A*C)+XX, (A*B-C*D)+X, B+D )</var></code></li>
+					<li><code><var>plus( (A+C)+XX, (A*B-C*D)+X, B+D )</var></code></li>
+				</ul>
+
+			</div>
+		</div>
+
+		<div class="hints">
+
+			<p data-if="SQUARE"><code>= <var>LEFT + RIGHT</var></code></p>
+
+			<div>
+				<p>Start by distributing the <code><var>MATH.parseFormat( "( #{x} " + signOp( B ) + "#{" + B + "})", [ BLUE, BLUE ] )</var></code>:</p>
+				<p><code>\qquad = \quad <var>MATH.parseFormat( "( #{x} " + signOp( B ) + "#{" + B + "})( #{x} " + signOp( D ) + "#{" + D + "})", [ BLUE, BLUE, PINK, PINK ] )</var></code></p>
+				<p><code>\qquad = \quad <var>MATH.parseFormat( "#{x} ( #{x} " + signOp( D ) + "#{" + D + "})" + signOp( B ) + "#{" + B + "}( #{x} " + signOp( D ) + "#{" + D + "})", [ BLUE, PINK, PINK, BLUE, PINK, PINK ] )</var></code></p>
+			</div>
+
+			<div>
+				<p>Next, distribute the <code class="hint_blue">x</code> and the <code class="hint_blue"><var>B</var></code>:</p>
+				<p><code>\qquad = \quad <var>MATH.parseFormat( "(#{x} \\cdot  #{x}) + (#{x} \\cdot #{" + D + "}) + (#{" + B + "} \\cdot #{x}) + (#{" + B + "} \\cdot #{" + D + "})", [ BLUE, PINK, BLUE, PINK, BLUE, PINK, BLUE, PINK ] )</var></code></p>
+				<p>Notice that by distributing you're really just multiplying each term in the first expression by each term in the second expression.</p>
+			</div>
+
+			<div>
+				<p>Simplify:</p>
+				<p><code>\qquad = \quad <var>MATH.parseFormat( plus( "x^2", D + "x", B + "x", ( B * D ) ) )</var></code></p>
+			</div>
+
+			<div>
+				<p class="final_answer">Keep simplifying to get the final answer:</p>
+				<p><code>\qquad = \quad <var>MATH.parseFormat( plus( "x^2", ( D + B ) + "x", ( B * D ) ) )</var></code></p>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

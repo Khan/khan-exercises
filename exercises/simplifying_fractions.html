@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math word-problems">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Simplifying fractions</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -20,7 +20,7 @@
 					var hint = "\\dfrac{" + NUM + "}{" + DENOM + "}";
 					jQuery.each( GCD_FACTORS, function( index, value) {
 						factorValue *= value;
-						var dot = index == 0 ? "" : "\\cdot ";
+						var dot = index === 0 ? "" : "\\cdot ";
 						factorDisplay += dot + value;
 						hint += "= \\dfrac{" + factorDisplay + "\\cdot" + NUM / factorValue + "}{" + factorDisplay + "\\cdot" + DENOM / factorValue + "}";
 					});
@@ -47,7 +47,7 @@
 			<p><code><var>NUM</var>   = <var>getPrimeFactorization( NUM   ).join( "\\cdot" )</var></code><br />
 			   <code><var>DENOM</var> = <var>getPrimeFactorization( DENOM ).join( "\\cdot" )</var></code></p>
 
-			<p><code>\mbox{GCD}(<var>NUM</var>, <var>DENOM</var>) = <var>GCD_FACTORS.join( "\\cdot" )</var> = <var>GCD</var></code></p>
+			<p><code>\mbox{GCD}(<var>NUM</var>, <var>DENOM</var>)<span data-if="!isPrime(GCD)"> = <var>GCD_FACTORS.join( "\\cdot" )</var></span> = <var>GCD</var></code></p>
 
 			<p>
 				<code>\dfrac{<var>NUM</var>}{<var>DENOM</var>}

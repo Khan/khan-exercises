@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format stat graphie graphie-helpers">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Mean median and mode</title>
 	<script src="../khan-exercise.js"></script>
 
@@ -166,7 +166,7 @@
 							});
 
 							for ( var num in freq ) {
-								for ( var i = 0, l = freq[ num ]; i < l; i++ ) {
+								for ( var i = 0, l = freq[ num ]; i &lt; l; i++ ) {
 									circle( [num, ( i + 1.5 ) / 2], 5/40, { stroke: "none", fill: "#6495ed" } );
 								}
 							}

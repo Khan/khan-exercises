@@ -12,7 +12,7 @@ jQuery.extend( Khan.answerTypes, {
 		if ( !input ) {
 			input = jQuery('<input type="text">');
 		}
-		
+
 		jQuery( solutionarea ).append( input );
 
 		var correct = typeof solution === "object" ? jQuery( solution ).text() : solution;
@@ -51,7 +51,7 @@ jQuery.extend( Khan.answerTypes, {
 	graphic: function( solutionarea, solution, fallback ) {
 			var verifier = function( correct, guess ){
 					return Math.abs( correct - guess ) < 0.3;
-				}
+				};
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
@@ -200,7 +200,7 @@ jQuery.extend( Khan.answerTypes, {
 
 					// 5 pi / 6
 					} else if ( match = text.match( /^([+-]?\d+)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
-						possibilities = fractionTransformer( match[1] + match[2] );
+						possibilities = fractionTransformer( match[1] + "/" + match[2] );
 
 					// - pi / 4
 					} else if ( match = text.match( /^([+-]?)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i ) ) {
@@ -230,8 +230,9 @@ jQuery.extend( Khan.answerTypes, {
 
 					// Replace unicode minus sign with hyphen
 					text = text.replace( /\u2212/, "-" );
+					text = text.replace( /[ \(\)]/g, "");
 
-					if ( match = text.match( /^log\(\s*(\S+)\s*\)$/i ) ) {
+					if ( match = text.match( /^log\s*(\S+)\s*$/i ) ) {
 						possibilities = forms.decimal.transformer( match[1] );
 					} else if ( text === "0") {
 						possibilities = [ { value: 0, exact: true } ];
@@ -262,7 +263,7 @@ jQuery.extend( Khan.answerTypes, {
 
 			dollar: {
 				transformer: function( text ) {
-					text = jQuery.trim( text ).replace( '$', '' );
+					text = jQuery.trim( text.replace( '$', '' ) );
 
 					return forms.decimal.transformer( text );
 				},
@@ -310,15 +311,12 @@ jQuery.extend( Khan.answerTypes, {
 							// Remove space after +, -
 							.replace( /([+-])\s+/g, "$1" )
 
-							// Remove commas
-							.replace( /,\s*/g, "" )
-
 							// Extract integer, numerator and denominator
-							// This matches [+-]?\.; will f
-							.match( /^([+-]?(?:\d+\.?|\d*\.\d+))$/ );
+							// If commas or spaces are used, they must be in the "correct" places
+							.match( /^([+-]?(?:\d{1,3}(?:[, ]?\d{3})*\.?|\d{0,3}(?:[, ]?\d{3})*\.(?:\d{3}[, ]?)*\d{1,3}))$/ );
 
 						if ( match ) {
-							var x = parseFloat( match[1] );
+							var x = parseFloat( match[1].replace( /[, ]/g, "" ) );
 
 							if ( options.inexact === undefined ) {
 								var factor = Math.pow( 10, 10 );
@@ -391,9 +389,9 @@ jQuery.extend( Khan.answerTypes, {
 				verifier.examples.push( forms[ form ].example );
 			}
 		});
-		
+
 		var input;
-		
+
 		if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
 			input = jQuery("<input type='number'/>");
 		}
@@ -554,10 +552,16 @@ jQuery.extend( Khan.answerTypes, {
 			});
 		};
 
-		ret.examples = solutionarea.find( ".example" ).remove()
-			.map(function(i, el) {
-				return jQuery( el ).html();
-			});
+		// If there's only a single sol in the multiple and there aren't any examples defined,
+		// use the examples from the single sol element.
+		if ( solutionarea.find( ".sol" ).length === 1 && solutionarea.find( ".example" ).length === 0 ) {
+			ret.examples = solutionarea.find( ".sol" ).first().data( "validator" ).examples;
+		} else {
+			ret.examples = solutionarea.find( ".example" ).remove()
+				.map(function(i, el) {
+					return jQuery( el ).html();
+				});
+		}
 		ret.solution = solutionArray;
 
 		return ret;
@@ -675,7 +679,7 @@ jQuery.extend( Khan.answerTypes, {
 				var guess = jQuery( this ).is( ":checked" ),
 					answer = jQuery( this ).data( "solution" ),
 					label_text = jQuery( this ).closest( "label" ).text();
-				if (label_text == "") {
+				if (label_text === "") {
 					label_text = "checked";
 				}
 				// un-checked boxes are recorded as "" to prevent the question from
@@ -845,10 +849,14 @@ jQuery.extend( Khan.answerTypes, {
 			shownChoices.push( none );
 		}
 
+		var correctIndex = -1;
+
 		jQuery.each(shownChoices, function( i, choice ) {
-			var correct = choice.data( "correct" );
+			if ( choice.data( "correct" ) ) {
+				correctIndex = i + "";
+			}
 			choice.contents().wrapAll( '<li><label><span class="value"></span></label></li>' )
-				.parent().before( '<input type="radio" name="solution" value="' + (correct ? 1 : 0) + '">' )
+				.parent().before( '<input type="radio" name="solution" value="' + i + '">' )
 				.parent().parent()
 				.appendTo(list);
 		});
@@ -856,7 +864,7 @@ jQuery.extend( Khan.answerTypes, {
 		var ret = function() {
 			var choice = list.find("input:checked");
 
-			if ( noneIsCorrect && choice.val() === "1") {
+			if ( noneIsCorrect && choice.val() === correctIndex ) {
 				choice.next()
 					.fadeOut( "fast", function() {
 						jQuery( this ).replaceWith( list.data( "real-answer" ) )
@@ -866,8 +874,9 @@ jQuery.extend( Khan.answerTypes, {
 
 			ret.guess = jQuery.trim( extractRawCode(choice.closest("li")) );
 
-			return choice.val() === "1";
+			return choice.val() === correctIndex;
 		};
+
 		ret.solution = jQuery.trim( solutionText );
 		ret.showGuess = function( guess ) {
 			list.find( 'input:checked' ).prop( 'checked', false);
@@ -928,6 +937,133 @@ jQuery.extend( Khan.answerTypes, {
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
 
+	// The user is asked to enter the separate parts of a complex number in 2 textboxes.
+	// Expected solution: [ real part, imaginary part ]
+	complexNumberSeparate: function ( solutionarea, solution ) {
+		solutionarea = jQuery( solutionarea );
+
+		var json = typeof solution === "object" ? jQuery( solution ).text() : solution;
+		var correct = eval( json );
+
+		var solutionArray = [];
+
+		var realArea = jQuery( '<p />' ).html('Real part: ');
+		var realControl = jQuery( '<span data-inexact data-max-error="0.01" />' ).html( correct[0] );
+		var realValidator = Khan.answerTypes["number"]( realArea, realControl, 0 );
+
+		var imagArea = jQuery( '<p />' ).html('Imaginary part: ');
+		var imagControl = jQuery( '<span data-inexact data-max-error="0.01" />' ).html( correct[1] );
+		var imagValidator = Khan.answerTypes["number"]( imagArea, imagControl, 0 );
+
+		var area = jQuery( '<div />' );
+		area.append( realArea ).append( imagArea ).tmpl();
+		solutionarea.append( area );
+
+		var ret = function() {
+			var valid = true;
+			var guess = [];
+			if ( realValidator != null ) {
+				valid = realValidator() && valid;
+				guess.push( realValidator.guess );
+			}
+			if ( imagValidator != null ) {
+				valid = imagValidator() && valid;
+				guess.push( imagValidator.guess );
+			}
+			ret.guess = guess;
+			return valid;
+		};
+
+		ret.showGuess = function( guess ) {
+			realValidator.showGuess( guess[0] );
+			imagValidator.showGuess( guess[1] );
+		};
+
+		ret.examples = [
+			"the separate parts of a complex number (<code>5.3 - 3i</code> has real part 5.3 and imaginary part -3)"
+		];
+
+		ret.solution = [ realValidator.solution, imagValidator.solution ];
+
+		return ret;
+	},
+
+	// To be used with ComplexPolarForm in graphie-helpers.js
+	// (see The complex plane for an example)
+	// The solution argument is expected to be [ angle, magnitude ]
+	complexNumberPolarForm: function ( solutionarea, solution ) {
+		var isTimeline = !( solutionarea.attr( "id" ) === "solutionarea" || solutionarea.parent().attr( "id" ) === "solutionarea" );
+		solutionarea = jQuery( solutionarea );
+
+		var json = typeof solution === "object" ? jQuery( solution ).text() : solution;
+		var correct = eval( json );
+		var table = jQuery( '<table />' );
+		var row = jQuery( '<tr />' );
+		row.append( '<td style="width: 100px">\n'+
+			'Radius: <span id="current-radius"><code>1</code></span>\n'+
+			'</td>' )
+			.append( '<td>\n'+
+			'<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />\n'+
+			'<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />\n' +
+			'</td>' ).tmpl();
+		table.append(row);
+
+		row = jQuery( '<tr />' );
+		row.append( '<td style="width: 100px">\n'+
+			'Angle: <span id="current-angle"><code>0</code></span>\n'+
+			'</td>' )
+			.append( '<td>\n'+
+			'<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />\n'+
+			'<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />\n' +
+			'</td>' ).tmpl();
+		table.append(row);
+
+		var numberLabel = jQuery( '<p id="number-label" style="margin: 8px 0 2px 0" />' );
+		var guessCorrect = false;
+
+		var validator = function( guess ) {
+			return ( guess[0] === correct[0] ) && ( guess[1] === correct[1] );
+		};
+
+		solutionarea.append(table, numberLabel);
+		redrawComplexPolarForm();
+
+		var ret = function() {
+			var cplx = KhanUtil.currentGraph.graph.currComplexPolar;
+			ret.guess = [ cplx.getAngleNumerator(), cplx.getRadius() ];
+
+			if ( isTimeline ) {
+				return guessCorrect;
+			} else {
+				return validator( ret.guess );
+			}
+		};
+
+		ret.showGuess = function( guess ) {
+			if ( typeof guess === "undefined" ) {
+				guess = [ 0, 1 ]; // magic: default complex polar form value
+			}
+			if ( isTimeline ) {
+				guessCorrect = validator( guess );
+				jQuery( solutionarea ).empty();
+				jQuery( solutionarea ).append( guessCorrect === true ? "Answer correct" : "Answer incorrect" );
+			} else {
+				redrawComplexPolarForm( guess[0], guess[1] );
+			}
+		};
+
+		ret.showCustomGuess = function( guess ) {
+			var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" +
+				"graph.currComplexPolar.update( guess[0], guess[1] );" +
+				"})()";
+			KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
+		};
+
+		ret.solution = solution;
+
+		return ret;
+	},
+
 	custom: function( solutionarea, solution ) {
 		var isTimeline = !( solutionarea.attr( "id" ) === "solutionarea" || solutionarea.parent().attr( "id" ) === "solutionarea" );
 		var guessCorrect = false;
@@ -957,19 +1093,23 @@ jQuery.extend( Khan.answerTypes, {
 			return jQuery( el ).html();
 		});
 		ret.solution = "custom";
+		var showGuessSolutionCode = jQuery( solution ).find( ".show-guess-solutionarea" ).text() || "";
 		ret.showGuess = function( guess ) {
 			if ( isTimeline ) {
 				guessCorrect = validator( guess );
 				jQuery( solutionarea ).empty();
-				jQuery( solutionarea ).append( guessCorrect ? "Answer correct" : "Answer incorrect" );
+				jQuery( solutionarea ).append( guessCorrect === true ? "Answer correct" : "Answer incorrect" );
+			} else {
+				var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" + showGuessSolutionCode + "})()";
+				KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
 			}
-		}
+		};
 
 		var showGuessCode = jQuery( solution ).find( ".show-guess" ).text();
 		ret.showCustomGuess = function( guess ) {
 			var code = "(function() { var guess = " + JSON.stringify( guess ) + ";" + showGuessCode + "})()";
 			KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
-		}
+		};
 
 		return ret;
 	}

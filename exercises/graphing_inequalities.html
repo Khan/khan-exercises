@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions graphie interactive">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Graphing inequalities</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -21,8 +21,8 @@
 				<var id="STD_FORM">randFromArray([ true, false ])</var>
 				<var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
 				<var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ COMP ] : COMP</var>
-				<var id="LESS_THAN">COMP == "&lt;" || COMP == "&le;"</var>
-				<var id="INCLUSIVE">COMP == "&ge;" || COMP == "&le;"</var>
+				<var id="LESS_THAN">COMP === "&lt;" || COMP === "&le;"</var>
+				<var id="INCLUSIVE">COMP === "&ge;" || COMP === "&le;"</var>
 
 			</div>
 
@@ -104,7 +104,7 @@
 							style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: graph.dasharray }, function() {
 								graph.line1 = line( [ -11, -11 * slope + yint ], [ 11, 11 * slope + yint ] ).toBack();
 							});
-							style({ fill: BLUE, stroke: null, opacity: 0.1 }, function() {
+							style({ fill: BLUE, stroke: null, opacity: KhanUtil.FILL_OPACITY }, function() {
 								graph.shading = path([ [ 11, shadeEdge ], [ 11, 11 * slope + yint ], [ -11, -11 * slope + yint ], [ -11, shadeEdge ] ]);
 							});
 
@@ -115,7 +115,7 @@
 							style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: graph.dasharray }, function() {
 								graph.line1 = line( [ x, -11 ], [ x, 11 ] ).toBack();
 							});
-							style({ fill: BLUE, stroke: null, opacity: 0.1 }, function() {
+							style({ fill: BLUE, stroke: null, opacity: KhanUtil.FILL_OPACITY }, function() {
 								graph.shading = path([ [ x, -11 ], [ x, 11 ], [ shadeEdge, 11 ], [ shadeEdge, -11 ] ]);
 							});
 						}

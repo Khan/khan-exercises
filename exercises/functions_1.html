@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Functions 1</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -10,20 +10,20 @@
 		<div class="vars">
 			<var id="FUNCTION_PATH">
 				(function() {
-					var functionPath = new Array();
+					var functionPath = [];
 
 					functionPath.push([ -11, randRange( -5, 5 ) ]);
-					for( var i = -10; i < 11; i++ ) {
-						if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] < 8 ) {
+					for( var i = -10; i &lt; 11; i++ ) {
+						if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && functionPath[i+10][1] &lt; 8 ) {
 							functionPath.push([i, functionPath[i+10][1]+1]);
 
-						} else if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] > -8 ) {
+						} else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && functionPath[i+10][1] > -8 ) {
 							functionPath.push([i, functionPath[i+10][1]-1]);
 
-						} else if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && functionPath[i+10][1] < 7 ) {
+						} else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && functionPath[i+10][1] &lt; 7 ) {
 							functionPath.push([i, functionPath[i+10][1]+2]);
 
-						} else if ( abs( randRangeNonZero( -10, 10 ) < 3 ) && functionPath[i+10][1] > -7 ) {
+						} else if ( abs( randRangeNonZero( -10, 10 ) &lt; 3 ) && functionPath[i+10][1] > -7 ) {
 							functionPath.push([i, functionPath[i+10][1]-2]);
 
 						} else {
@@ -55,8 +55,10 @@
 
 					path( FUNCTION_PATH, { stroke: "#6495ed" } );
 				</div>
-
-				<p class="solution"><var>CORRECT_Y</var></p>
+				<div class="solution" data-type="multiple">
+					<p><code>f(<var>CORRECT_X</var>)=</code> <span class="sol"><var>CORRECT_Y</var></span></p>
+				</div>
+				
 			</div>
 		</div>
 

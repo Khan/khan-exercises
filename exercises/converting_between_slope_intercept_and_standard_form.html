@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions graphie">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Converting between slope intercept and standard form</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -67,12 +67,27 @@
 			</div>
 			<p class="question">Convert the following equation from slope intercept form to standard form.</p>
 			<p>In other words, if the equation is rewritten to look like <code>Ax + By = C</code>, what are the values of <code>A</code>, <code>B</code>, and <code>C</code>?</p>
-			<p>Assume <code>A</code> is positive.</p>
+			<p data-if="SLOPE !==0">Assume <code>A</code> is positive.</p>
 			<p><code>y = <var>expr([ "+", [ "*", SLOPE, "x" ], Y_INTERCEPT ])</var></code></p>
-			<div class="solution" data-type="multiple">
-				<p><code>A</code> = <span class="sol"><var>A</var></span></p>
-				<p><code>B</code> = <span class="sol"><var>B</var></span></p>
-				<p><code>C</code> = <span class="sol"><var>C</var></span></p>
+			<div class="solution" data-type="set">
+				<div class="set-sol" data-type="multiple">
+					<span class="sol"><var>A</var></span>
+					<span class="sol"><var>B</var></span>
+					<span class="sol"><var>C</var></span>
+				</div>
+				<div data-if="A === 0" class="set-sol" data-type="multiple">
+					<span class="sol"><var>A</var></span>
+					<span class="sol"><var>-B</var></span>
+					<span class="sol"><var>-C</var></span>
+				</div>
+				
+				<div class="input-format">
+					<div class="entry" data-type="multiple">
+						<p><code>A</code> = <span class="sol"></span></p>
+						<p><code>B</code> = <span class="sol"></span></p>
+						<p><code>C</code> = <span class="sol"></span></p>
+					</div>
+				</div>
 			</div>
 			<div class="hints">
 				<div data-if="SLOPE !== 0">

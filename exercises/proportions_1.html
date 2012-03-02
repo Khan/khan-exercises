@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script src="../khan-exercise.js"></script>
+	<title>Proportions 1</title>
+
+	<style>
+		.arrow {
+			text-align:right;
+			font-size: 200%;
+		}
+
+		.lfrac { text-align:right; width:130px; display:inline-block;}
+		.rfrac { text-align:left; width:auto; display:inline-block; }
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="denominator1, denominator2, numerator1, numerator2">
+				(function() {
+					var numbers = randRangeUnique( 5, 12, 3 );
+					numbers.splice( randRange( 0, 3 ), 0, "x" );
+					return numbers;
+				})()
+			</var>
+
+			<var id="solutionNumerator, solutionDenominator">
+				(function() {
+					if ( numerator1 === "x" ) {
+						return [ numerator2 * denominator1, denominator2 ];
+					} else if ( numerator2 === "x" ) {
+						return [ numerator1 * denominator2, denominator1 ];
+					} else if ( denominator1 === "x" ) {
+						return [ numerator1 * denominator2, numerator2 ];
+					} else {
+						return [ numerator2 * denominator1, numerator1 ];
+					}
+				})()
+			</var>
+
+			<var id="hint1Multiplier">
+				(function() {
+					if ( numerator1 === "x" ) {
+						return denominator1;
+					} else if ( numerator2 === "x" ) {
+						return denominator2;
+					} else {
+						return "x";
+					}
+				})()
+			</var>
+
+			<var id="hint1Product1, hint1Product2">
+				(function() {
+					var hint1Product = function( numerator, denominator ) {
+						if ( denominator === hint1Multiplier ) {
+							return numerator;
+						} else if ( hint1Multiplier === "x" ) {
+							return "\\dfrac{" + numerator + "}{" + denominator + "}x";
+						} else {
+							return "\\dfrac{" + hint1Multiplier * numerator + "}{" + denominator + "}";
+						}
+					}
+
+					return [
+						hint1Product( numerator1, denominator1 ),
+						hint1Product( numerator2, denominator2 )
+					];
+				})()
+			</var>
+
+			<var id="hint2Multiplier">
+				(function() {
+					if ( denominator1 === "x" ) {
+						return "\\dfrac{" + denominator2 + "}{" + numerator2 + "}";
+					} else {
+						return "\\dfrac{" + denominator1 + "}{" + numerator1 + "}";
+					}
+				})()
+			</var>
+
+			<var id="hint2Product1, hint2Product2">
+				(function() {
+					if ( denominator1 === "x" ) {
+						return [ "\\dfrac{" + solutionNumerator + "}{" + solutionDenominator + "}", "x" ];
+					} else {
+						return [ "x", "\\dfrac{" + solutionNumerator + "}{" + solutionDenominator + "}" ];
+					}
+				})()
+			</var>
+		</div>
+
+		<div class="hints">
+			<div style="margin-left:-20px;" class="spinealign">
+				<div class="col1 forty-sixty">
+					<p>Multiply both sides by <code><var>hint1Multiplier</var></code>
+				</div>
+
+				<div class="col2 forty-sixty">
+					<p>
+					<span class="lfrac">
+						<code>
+							\color{red}{ <var>hint1Multiplier</var> \times }
+							\dfrac{<var>numerator1</var>}{<var>denominator1</var>}
+							=
+						</code>
+					</span>
+					<span class="rfrac">
+						<code>
+							\dfrac{<var>numerator2</var>}{<var>denominator2</var>}
+							\color{red}{ \times <var>hint1Multiplier</var> }
+						</code>
+					</span>
+
+					<br>
+					<span class="lfrac arrow">&darr;</span>
+					<br>
+
+					<span class="lfrac">
+						<code><var>hint1Product1</var> = </code>
+					</span>
+					<span class="rfrac">
+						<code><var>hint1Product2</var></code>
+					</span>
+				</div>
+			</div>
+
+			<div data-if="denominator1 === 'x' || denominator2 === 'x'"  style="margin-left:-20px;" class="spinealign">
+				<div class="col1 forty-sixty">
+					<p>Multiply both sides by <code><var>hint2Multiplier</var></code>
+				</div>
+				<div class="col2 forty-sixty">
+					<p>
+						<span class="lfrac">
+							<code>
+								\color{red}{ <var>hint2Multiplier</var> \times }
+								<var>hint1Product1</var> =
+							</code>
+						</span>
+						<span class="rfrac">
+							<code>
+							<var>hint1Product2</var>
+							\color{red}{ \times <var>hint2Multiplier</var> }
+							</code>
+						</span>
+
+						<br><span class="lfrac arrow">&darr;</span>
+						<br>
+
+						<span class="lfrac">
+							<code><var>hint2Product1</var> = </code>
+						</span>
+						<span class="rfrac">
+							<code><var>hint2Product2</var></code>
+						</span>
+					</p>
+				</div>
+			</div>
+
+			<div style="margin-left:-20px;" class="spinealign">
+				<div class="col1 forty-sixty">
+					<p><code>x</code> is
+				</div>
+				<div class="col2 forty-sixty">
+					<p><span class="lfrac"><code>=</code></span>
+					<span class="rfrac">
+						<code>\dfrac{<var>solutionNumerator</var>}{<var>solutionDenominator</var>}</code>.
+					</span></p>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="problems">
+			<div class="spinealign">
+				<div class="col1 forty-sixty">
+					<p>Solve for <code>x</code>.</p>
+				</div>
+				<div class="col2 forty-sixty">
+					<p>
+						<span class="lfrac"><code>\dfrac{<var>numerator1</var>}{<var>denominator1</var>} = </code></span>
+						<span class="rfrac"><code>\dfrac{<var>numerator2</var>}{<var>denominator2</var>}</code></span></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="solution" data-type="multiple">
+			<p>
+				<code>x =</code>
+				<span class="sol" data-simplify="optional"><var>solutionNumerator / solutionDenominator</var></span>
+			</p>
+		</div>
+	</div>
+</body>
+</html>

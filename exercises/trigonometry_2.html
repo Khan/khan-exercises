@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+<!-- TODO: Improve hints -->
 <html data-require="math graphie math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Trigonometry 2</title>
 	<script src="../khan-exercise.js"></script>
 	<script>
@@ -10,7 +11,7 @@
 			var underRoot =  KhanUtil.splitRadical(root)[1];
 			var d = KhanUtil.reduce(natRoot*underRoot, b)[0];
 			var n = KhanUtil.reduce(natRoot*underRoot,b)[1];
-			if ( d == 1 ){
+			if ( d === 1 ){
 				if(n != 1){
 					return   n + "\\sqrt{" + underRoot +"}";
 				}
@@ -52,7 +53,7 @@
 				else if ( whichAngle === "CAB" || whichAngle === "BAC" ){
 					arc( [0, height], 0.5, 270, -ang );
 				}
-			
+
 				label( [0, height], A, "above left" );
 				label( [0, 0], C, "below left" );
 				label( [width, 0], B, "below right" );
@@ -67,7 +68,7 @@
 				if ( "CA" in keyValues ){
 					label( [0, height/2],keyValues.CA , "left" );
 				}
-					
+
 				if ( "BC" in keyValues ){
 					label( [width/2, 0], keyValues.BC, "below" );
 				}
@@ -96,10 +97,10 @@
 			<var id="OPPOSITE_NAME">(ANGLE.substring(0,1)+ANGLE.substring(2))</var>
 			<var id="OPPOSITE_VALUE">
 				(function(){
-					if( OPPOSITE_NAME == "AC" ){
+					if( OPPOSITE_NAME === "AC" ){
 						return AC;
 					}
-					else if( OPPOSITE_NAME == "BC" ){
+					else if( OPPOSITE_NAME === "BC" ){
 						return CB;
 					}
 					return AB_STRING;
@@ -112,10 +113,10 @@
 			<var id="ADJACENT_NAME">ANGLE.substring(1)</var>
 			<var id="ADJACENT_VALUE">
 				(function(){
-					if( ADJACENT_NAME=="AC" ){
+					if( ADJACENT_NAME === "AC" ){
 						return AC;
 					}
-					else if( ADJACENT_NAME=="BC" ){
+					else if( ADJACENT_NAME === "BC" ){
 						return BC;
 					}
 
@@ -156,6 +157,7 @@
 						options[ OPPOSITE_NAME ] = "?";
 						options[ "AB" ] = AB_STRING;
 						bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
+						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
@@ -190,6 +192,7 @@
 						options[ OPPOSITE_NAME ] = OPPOSITE_VALUE;
 						options[ "AB" ] = "?";
 						bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
+						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
@@ -225,6 +228,7 @@
 						options[ ADJACENT_NAME ] = "?";
 						options[ "AB" ] = AB_STRING;
 						bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
+						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
@@ -259,6 +263,7 @@
 						options[ ADJACENT_NAME ] = ADJACENT_VALUE;
 						options[ "AB" ] = "?";
 						bestTriangle( BC, AC, "A", "B", "C", "", "","", ANGLE, options );
+						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
@@ -294,6 +299,7 @@
 						options[ ADJACENT_NAME ] = "?";
 						options[ OPPOSITE_NAME ] = OPPOSITE_VALUE;
 						bestTriangle( BC, AC, "A", "B", "C", "", "", "" , ANGLE, options );
+						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>
@@ -327,7 +333,8 @@
 						var options = {};
 						options[ OPPOSITE_NAME ] = "?";
 						options[ ADJACENT_NAME ] = ADJACENT_VALUE;
-						bestTriangle( BC, AC, "A", "B", "C", "", "", "", "", options );
+						bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
+						path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
 					</div>
 					<p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = <var>SIN</var> , \cos( \angle <var>ANGLE</var> ) = <var>COS</var> ,  \tan( \angle <var>ANGLE</var> ) = <var>TAN</var></code></p>
 				</div>

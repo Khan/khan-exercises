@@ -17,7 +17,7 @@ jQuery.extend( KhanUtil, {
 
 		KhanUtil.pieces += ( increase ) ? 1 : -1;
 
-		jQuery( "#pieces" ).text( KhanUtil.plural(KhanUtil.pieces, "piece") ); 
+		jQuery( "#pieces" ).text( KhanUtil.plural(KhanUtil.pieces, "piece") );
 
 		KhanUtil.currentGraph = jQuery( "#problemarea" ).find( "#parent_block" ).data( "graphie" );
 		rectchart( [ 1, KhanUtil.pieces - 1 ], ["#e00", "#999" ] );
@@ -44,6 +44,7 @@ jQuery.extend( KhanUtil, {
 		for ( var id in KhanUtil.times ) {
 			times = KhanUtil.times[ id ];
 			KhanUtil.currentGraph = jQuery( "#problemarea" ).find( "#" + id ).data( "graphie" );
+			KhanUtil.currentGraph.raphael.clear();
 			KhanUtil.currentGraph.init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600 / pieces * times, 25 ] });
 			rectchart( [ times, 0 ], ["#e00", "#999" ] );
 			jQuery( "#" + id + "_answer input" ).val( KhanUtil.roundTo(3, times / pieces) );

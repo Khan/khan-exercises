@@ -1,0 +1,159 @@
+\documentclass{article}
+\usepackage{fullpage}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\newcommand{\var}[1]{\emph{#1}}
+
+\title{Abstract Syntax Trees\\ for Khan Exercises}
+\begin{document}
+\maketitle
+\begin{verbatim}
+Authors: Jeff Dyer <jeffdyer@acm.org>
+         Mathias Hiron <mathias@khanacademy.org>
+
+History: 04-Jan-2012, second draft, reviewed by Mathias
+         03-Jan-2012, first draft, unreviewed
+\end{verbatim}
+
+\section{Overview}
+
+In this note we define an abstract syntax tree (AST) form for encoding information used in Khan 
+exercises. We also define a mapping from ASTs to LaTeX formatted strings. ASTs and LaTeX have wide 
+applicability in the Khan exercise framework, and so by defining and implementing a core library 
+for handling them we avoid duplication of effort and gain the benefits normally associated by 
+software reuse.
+
+\section{Abstract Syntax Trees}
+
+We use trees to represent expressions, equations, and other structured data that underlies Khan 
+exercises. The trees consist of nodes containing an operator string and zero or more child nodes.
+
+The nodes are encoded as JavaScript objects of the form:
+
+\begin{quote}
+\verb'{'{\bf op}{\tt :} {\em opstr}{\tt ,} {\bf args}{\tt :} {\tt [}$nd1${\tt ,}\dots $ndN${\tt ]}$\verb'}'$
+\end{quote}
+
+where $opstr$ is an \emph{operator string} and $nd1, \dots ndN$ is a sequence of child nodes.
+
+An \emph{operator string} is a string value that, along with the number of arguments, distinguishes 
+one node kind from another. AST nodes get their meaning from the parsing, formatting and evaluating 
+procedures that construct and interpret them, and otherwise have no special meaning within the AST
+definition and implementation.
+
+Primitive (non-object) JavaScript values are used to represent literal numbers and strings 
+in the AST. Variables are encoded as nodes with the unary ``var'' operator with a literal string
+operand.
+
+We define a core set of operators here, but this set is not fixed. As new exercises require new 
+operators, additional strings to be contrived to represent those operators, and interpreters can be 
+defined to format and evaluate nodes with those operators.
+
+\section{Predefined Operators}
+
+The following set of operators are implemented by the AST module (see below). Additional operators
+may be added to this core set over time, and others may be added by problem specific utility 
+modules.
+
+\vspace{20pt}
+
+\begin{tabular}{ | l | l | p{10cm} |}
+\hline
+{\bf Operator}& {\bf Sample}   & {\bf Comment} \\ \hline
+\verb'+'      & $x+y$          & addition, unary plus\\ \hline
+\verb'-'      & $x-y$          & subtraction, unary minus\\ \hline
+\verb'times'  & $x \times y$   & multiplication\\ \hline
+\verb'div'    & $x \div y$     & division\\ \hline
+\verb'frac'   & $\frac{x}{y}$  & fraction\\ \hline
+\verb'^'      & $x^y$          & exponent\\ \hline
+\verb'sqrt'   & $\sqrt{x}$     & unary square root\\ \hline
+\verb'sqrt'   & $\sqrt[n]{x}$  & binary square root\\ \hline
+\verb'pm'     & $x \pm y$      & plus or minus, unary plus or minus\\ \hline
+\verb'sin'    & $\sin{\theta}$ & sine\\ \hline
+\verb'cos'    & $\cos{\theta}$ & cosine\\ \hline
+\verb'tan'    & $\tan{\theta}$ & tangent\\ \hline
+\verb'sec'    & $\sec{\theta}$ & secant\\ \hline
+\verb'ln'     & $\ln{x}$       & natural logarithm\\ \hline
+\verb'()'     & $(expr)$       & parenthesis\\ \hline
+\verb'var'    & $\var{x}$      & variable (unknown)\\ \hline
+\end{tabular}
+
+
+\pagebreak
+
+\section{LaTeX Translation}
+
+In addition to the internal AST form, we define a mapping from ASTs to LaTeX. The following table 
+shows the mapping between the AST nodes and LaTeX.
+
+\vspace{20pt}
+
+\begin{tabular}{ | l | l |}
+\hline
+{\bf AST}                           & {\bf LaTeX} \\ \hline
+\verb'{op: "+", args: [1, 2]}'      & \verb'1+2' \\ \hline
+\verb'{op: "-", args: [1, 2]}'      & \verb'1-2' \\ \hline
+\verb'{op: "times", args: [1, 2]}'  & \verb'1 \times 2' \\ \hline
+\verb'{op: "div", args: [1, 2]}'    & \verb'1 \div 2' \\ \hline
+\verb'{op: "frac", args: [1, 2]}'   & \verb'\frac{1}{2}' \\ \hline
+\verb'{op: "^", args: [1, 2]}'      & \verb'1^2' \\ \hline
+\verb'{op: "sqrt", args: [9]}'      & \verb'\sqrt{9}' \\ \hline
+\verb'{op: "sqrt", args: [3, 8]}'   & \verb'\sqrt[3]{8}' \\ \hline
+\verb'{op: "pm", args: [2, 1]}'     & \verb'2 \pm 1' \\ \hline
+\verb'{op: "sin", args: [0]}'       & \verb'\sin{0}' \\ \hline
+\verb'{op: "cos", args: [0]}'       & \verb'\cos{0}' \\ \hline
+\verb'{op: "tan", args: [0]}'       & \verb'\tan{0}' \\ \hline
+\verb'{op: "sec", args: [0]}'       & \verb'\sec{0}' \\ \hline
+\verb'{op: "ln", args: [1]}'        & \verb'\ln{1}' \\ \hline
+\verb'{op: "()", args: [10]}'       & \verb'(10)' \\ \hline
+\verb'{op: "var", args: ["x"]}'     & \verb'\var{x}' \\ \hline
+\end{tabular}
+
+
+\vspace{20pt}
+
+The AST library provides functions for translating between ASTs and LaTeX formatted strings. 
+These formatting and parsing algorithms conform to common practice including:
+
+\begin{itemize}
+\item Insert \verb'\left' and \verb'\right' to auto size brackets.
+\item Rewrite addition of a negative number as subtraction.
+\item Elide \verb'\times' when it occurs before a non-numeric symbol during formatting, and construct 
+      a \verb'\times' node when a non-numeric symbol occurs after a non-operator symbol.
+\item Insert parenthesis when formatting a binary expression of lower precedence that occurs in an 
+      expression of higher precedence.
+\item (more here)
+\end{itemize}
+
+\pagebreak
+\section{AST API}
+
+%We provide an API for constructing, formatting, evaluating, and interning ASTs. Some of these
+%functions take a optional \emph{model} object which interprets the meaning of operators that are not 
+%defined by the AST library, or which override those that are. When the \emph{model} parameter is 
+%given, the AST function delegates the call to that object, which may call back to the AST function 
+%to handle operators it does not distinguish.
+
+The AST API is implemented as a module that can be loaded into an exercise. All functions are 
+instance methods of the {\bf ast} property added to {\bf KhanUtil}, and therefore are called through 
+that property (e.g. {\bf KhanUtil.ast.fromLaTeX}(``1+2''), or {\bf ast.fromLaTeX}(``1+2'') when 
+called from exercise HTML that loads the AST module).
+
+Below is the list of API methods implemented by {\tt ast.js}.
+
+\begin{tabular}{ | l | p{10cm} |}
+\hline
+{\bf Name} & {\bf Description} \\ \hline
+{\bf fromLaTeX}(\emph{str}) & Return an AST node constructed from a LaTeX formatted string \\ \hline
+{\bf toLaTeX}(\emph{node})  & Return the LaTeX formatted string correponding to an AST node \\ \hline
+{\bf eval}(\emph{node})     & Return the result of evaluating an AST \\ \hline
+{\bf intern}(\emph{node})   & Add an AST node and its child nodes to the node pool and return the root node id (nid) \\ \hline
+{\bf node}(\emph{nid})      & Reconstitute an AST from its node id \\ \hline
+\end{tabular}
+
+
+\end{document}

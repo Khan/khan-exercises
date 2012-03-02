@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers word-problems">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Comparing fractions 1</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -21,7 +21,7 @@
 					<var id="DEN_2">randRange( NUM_2 + 1, 15 )</var>
 
 					<var id="SOLUTION">(function() {
-						if ( DEN_1 < DEN_2 ) {
+						if ( DEN_1 &lt; DEN_2 ) {
 							return "&gt;";
 						} else {
 							return "&lt;";
@@ -75,13 +75,13 @@
 					<var id="NUM_2">randRange( 1, DEN_2 - 1 )</var>
 
 					<var id="SOLUTION">(function() {
-						if ( NUM_1 < NUM_2 ) {
+						if ( NUM_1 &lt; NUM_2 ) {
 							return "&lt;";
 						} else {
 							return "&gt;";
 						}
 					})()</var>
-					<var id="LESS">NUM_1 < NUM_2 ? "less" : "more"</var>
+					<var id="LESS">NUM_1 &lt; NUM_2 ? "less" : "more"</var>
 				</div>
 
 				<div class="problem">

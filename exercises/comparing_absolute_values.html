@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Comparing absolute values</title>
 	<script src="../khan-exercise.js"></script>
-	<script type="text/javascript"> 
+	<script type="text/javascript">
 		function drawNumberLine( NUM ) {
 			var graph = KhanUtil.currentGraph;
-	
+
 			graph.init({
 				range: [ [-1, 11], [-1, 1] ],
 			});
@@ -38,7 +38,7 @@
 		<div class="problems">
 			<div>
 				<div class="vars">
-					<var id="ABS_1, ABS_2">randFromArray([[ "|", "|", ], [ "|", "", ], [ "", "|", ]])</var>
+					<var id="ABS_1, ABS_2">randFromArray([[ "|", "|" ], [ "|", "" ], [ "", "|" ]])</var>
 					<var id="NUM_1">randRange(-10, 10)</var>
 					<var id="NUM_2">( NUM_1 &lt; 0 ) ? randRange(0, 10) : randRange(-10, -1)</var>
 					<var id="NUM_1_VALUE">ABS_1 ? abs( NUM_1 ) : NUM_1</var>

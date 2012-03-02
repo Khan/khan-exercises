@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Fractions on the number line</title>
 	<script src="../khan-exercise.js"></script>
 
@@ -29,29 +29,29 @@
 					setTimeout("unBlock()",300);
 				}
 		}
-		
-		
+
+
 		function follow(){
 			$(".graphie").mousemove(function(e){
     			  $('.follow').css('top', e.clientY).css('left', e.clientX);
 			});
-	
+
 			$(".graphie").click(function(e){
-				realFollow();	
+				realFollow();
 			});
-	
+
 			$(".follow").click(function(e){
 				realFollow();
 			});
 		}
 
 		function locate(){
-				$( "#fakePos input" ).val( ( (  $('.follow').position().left - $('.graphie').position().left)  / 80  - 3.5 ) ) 	
+				$( "#fakePos input" ).val( ( (  $('.follow').position().left - $('.graphie').position().left)  / 80  - 3.5 ) )
 		}
 
 		function unFollow(){
 			$(".graphie").unbind( "mousemove" );
-		}	
+		}
 	</script>
 
 
@@ -61,7 +61,7 @@
 	<div class="exercise">
 	<div class="vars" >
 		<var id="FOLLOW">follow()</var>
-		<div data-ensure="NOMINATOR/DENOMINATOR < 3 && NOMINATOR/DENOMINATOR != round( NOMINATOR/DENOMINATOR )">
+		<div data-ensure="NOMINATOR/DENOMINATOR < 3 && NOMINATOR/DENOMINATOR !== round( NOMINATOR/DENOMINATOR )">
 			<var id="NOMINATOR">randRange( 0 , 15 )</var>
 			<var id="DENOMINATOR">randRange( 1 , 15 )</var>
 		</div>
@@ -99,7 +99,7 @@
 	<div class="hints">
 		<p data-if="reduces( NOMINATOR, DENOMINATOR )"><code><var>NICE_NUMBER</var></code> is equal to <code><var>REDUCED_NUMBER</var></code> </p>
 		<p> Because <code><var>REDUCED_NUMBER</var></code> is <span data-if="NUMBER > 0">positive</span><span data-else>negative</span> we go <span data-if="NUMBER > 0">right</span><span data-else>left</span> from 0</p>
-		 <p><code><var>REDUCED_NUMBER</var></code> is <code><var>fraction( parseInt( SIGN + ( NOMINATOR - ( DENOMINATOR * floor( abs( NUMBER) ) )  ) ) , DENOMINATOR, true, true )</var></code> away from <var>floor( abs( NUMBER ) ) * NUMBER/abs( NUMBER )</var></p>
+		 <p><code><var>REDUCED_NUMBER</var></code> is <code><var>fraction( parseInt( SIGN + ( NOMINATOR - ( DENOMINATOR * floor( abs( NUMBER) ) )  ), 10 ) , DENOMINATOR, true, true )</var></code> away from <var>floor( abs( NUMBER ) ) * NUMBER/abs( NUMBER )</var></p>
 		<p>Therefore <code><var>REDUCED_NUMBER</var></code> is between <var>floor( NUMBER )</var> and <var>ceil( NUMBER )</var></p>
 		<div>
 		If we zoom in to that portion of the number line:
@@ -117,7 +117,7 @@
 				style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
 				var already = [];
 				for( i = 0; i !=  WRONGS.length; i++ ){
-						if( WRONGS[ i ] >= start && WRONGS[ i ] <= end ){
+						if( WRONGS[ i ] >= start && WRONGS[ i ] &lt;= end ){
 							ellipse(  [ WRONGS[ i ] - start, 0 ], [ 0.01, 0.12 ] );
 							label( [WRONGS[ i ] - start, 0 ], POSS_ANSWER[ i ] , "above", { labelDistance: 5 } );
 						}

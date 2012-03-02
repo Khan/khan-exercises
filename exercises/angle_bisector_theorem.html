@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers graphie-geometry math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Angle Bisector Theorem</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="ANGLES" data-ensure="ANGLES[ 0 ] % 2 == 0">randomTriangleAngles.triangle()</var>
+			<var id="ANGLES" data-ensure="ANGLES[ 0 ] % 2 === 0">randomTriangleAngles.triangle()</var>
 				<var id="SIDES_B">[ [ 0, 1 ], [] ]</var>
 				<var id="SIDES_C">[ [ 1 ], [ 2]  ]</var>
 				<var id="TR_A">
 					function(){
-						var trA = new Triangle( [ 5, -8 ], ANGLES , 14 , {} ); 
+						var trA = new Triangle( [ 5, -8 ], ANGLES , 14 , {} );
 						trA.boxOut( [ [ [ 0, -10 ], [ 0, 10 ] ] ], [ 0.4 , 0  ] );
 						trA.boxOut( [ [ [ 11 , -10 ], [ 11, 10 ] ] ], [ -0.4 , 0  ] );
 						return trA;
 					}()
-				</var>		
+				</var>
 				<var id="POINT_D">
 					function(){
-						var pointD = findIntersection( bisectAngle( TR_A.sides[ 0 ], reverseLine( TR_A.sides[ 2 ] ), 1 ), TR_A.sides[ 1 ] );	
+						var pointD = findIntersection( bisectAngle( TR_A.sides[ 0 ], reverseLine( TR_A.sides[ 2 ] ), 1 ), TR_A.sides[ 1 ] );
 						return pointD;
 					}()
 				</var>
@@ -49,16 +49,16 @@
 				<var id="AC">TR_C.niceSideLengths[ 2 ]</var>
 		</div>
 		<div class="problem">
-			What is the length of the side AC? 
+			What is the length of the side AC?
 		</div>
 		<div class="question">
 			<div class="graphie">
 				init({
-					range: [ [-1, 12 ], [ -9, 2.5 ] ]
+					range: TR_A.boundingRange(1.5)
 				})
-				TR_B.draw();	
+				TR_B.draw();
 				TR_B.drawLabels();
-				TR_C.draw();	
+				TR_C.draw();
 				TR_C.drawLabels();
 			</div>
 		</div>
@@ -74,16 +74,16 @@
 			<div id="AC">
 				<div class="vars">
 					<var id="AC">( TEMP_AB * TEMP_CD / TEMP_BD ).toFixed( 1 )</var>
-				</div>	
+				</div>
 			<div class="problem">
-					What is the length of the side AC? (Round to 1 decimal place). 
+					What is the length of the side AC? (Round to 1 decimal place).
 				</div>
 				<div class="solution"><var>AC</var></div>
 				<div class="hints"  data-apply="appendContents">
 					<p><code>\dfrac{ <var>AB</var> }{ <var>BD</var> }	= \dfrac{ AC }{ <var>CD</var> }</code></p>
-					<p><code>AC = \dfrac{<var>AB</var> \cdot <var>CD</var> }{ <var>BD</var> }</code></p>  
-					<p><code>AC = <var>AC </var></code></p>  
-				</div>	
+					<p><code>AC = \dfrac{<var>AB</var> \cdot <var>CD</var> }{ <var>BD</var> }</code></p>
+					<p><code>AC = <var>AC </var></code></p>
+				</div>
 			</div>
 			<div id="AB">
 				<div class="vars">
@@ -92,14 +92,14 @@
 						<var id="SIDES_C">[ [ 1,2 ], [ ]  ]</var>
 				</div>
 				<div class="problem">
-					What is the length of the side AB? (Round to 1 decimal place). 
+					What is the length of the side AB? (Round to 1 decimal place).
 				</div>
 				<div class="solution"><var>AB</var></div>
 				<div class="hints"  data-apply="appendContents">
 					<p><code>\dfrac{ AB }{ <var>BD</var> }	= \dfrac{ <var>AC</var> }{ <var>CD</var> }</code></p>
-					<p><code>AB = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>CD</var> }</code></p>  
-					<p><code>AB = <var>AB </var></code></p>  
-				</div>	
+					<p><code>AB = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>CD</var> }</code></p>
+					<p><code>AB = <var>AB </var></code></p>
+				</div>
 			</div>
 			<div id="CD">
 				<div class="vars">
@@ -113,10 +113,10 @@
 				<div class="solution"><var>CD</var></div>
 				<div class="hints"  data-apply="appendContents">
 					<p><code>\dfrac{ <var> AB</var> }{ <var>BD</var> }	= \dfrac{ <var>AC</var> }{ CD }</code></p>
-					<p><code>CD = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>AB</var> }</code></p>  
-					<p><code>CD = <var>CD </var></code></p>  
+					<p><code>CD = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>AB</var> }</code></p>
+					<p><code>CD = <var>CD </var></code></p>
 				</div>
-			</div>	
+			</div>
 			<div id="BD">
 				<div class="vars">
 						<var id="BD">( TEMP_AB * TEMP_CD / TEMP_AC ).toFixed( 1 )</var>
@@ -129,10 +129,10 @@
 				<div class="solution"><var>BD</var></div>
 				<div class="hints"  data-apply="appendContents">
 					<p><code>\dfrac{ <var> AB</var> }{ BD }	= \dfrac{ <var>AC</var> }{ <var>CD</var> }</code></p>
-					<p><code>BD = \dfrac{ <var>AB</var> \cdot <var>CD</var> }{ <var>AC</var> }</code></p>  
-					<p><code>BD = <var>BD</var></code></p>  
+					<p><code>BD = \dfrac{ <var>AB</var> \cdot <var>CD</var> }{ <var>AC</var> }</code></p>
+					<p><code>BD = <var>BD</var></code></p>
 				</div>
-			</div>	
+			</div>
 		</div>
 	</div>
 </body>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format word-problems">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Rate problems 2</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -13,15 +13,13 @@
 				<var id="DISTANCE">randRange( 2, 6 )</var>
 				<var id="FACTORS">shuffle( getPrimeFactorization( 60 ).concat( getPrimeFactorization( DISTANCE ) ) )</var>
 				<var id="MULTIPLY">
-					(function() {
-						return function( factors ) {
-							var product = 1;
-							for ( var i = 0; i &lt; factors.length; i++ ) {
-								product *= factors[ i ];
-							}
-							return product;
+					function( factors ) {
+						var product = 1;
+						for ( var i = 0; i &lt; factors.length; i++ ) {
+							product *= factors[ i ];
 						}
-					})()
+						return product;
+					}
 				</var>
 				<var id="SPLIT">randRange( 3, FACTORS.length - 2 )</var>
 				<var id="TIME_UP">MULTIPLY( FACTORS.slice( 0, SPLIT ) )</var>
@@ -43,7 +41,7 @@
 			<p class="question">What is <var>his( 1 )</var> average speed for the entire trip from home to the <var>store( 1 )</var> store and back?</p>
 
 			<div class="solution" data-type="multiple">
-				<span class="sol"><var>RATE_AVG</var></span> mph
+				<span class="sol" style="padding-right: 5px"><var>RATE_AVG</var></span> mph
 			</div>
 
 			<div class="hints">
@@ -93,9 +91,9 @@
 			</div>
 			<p class="problem">It takes <var>TIME_INIT</var> minutes for <var>PEOPLE_INIT</var> people to paint <var>WALL_INIT</var> walls.</p>
 			<p class="question">How many minutes does it take <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls?</p>
-			
+
 			<div class="solution" data-type="multiple">
-				<span class="sol"><var>TIME_FINAL</var></span> minutes
+				<span class="sol" style="padding-right: 5px"><var>TIME_FINAL</var></span> minutes
 			</div>
 			<div class="hints">
 				<p>Imagine that each person is assigned one wall, and all <var>PEOPLE_INIT</var> people begin painting at the same time.</p>
@@ -117,7 +115,7 @@
 			<p class="problem"><var>PEOPLE_INIT</var> people can paint <var>WALL_INIT</var> walls in <var>TIME_INIT</var> minutes.</p>
 			<p class="question">How many minutes will it take for <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls? Round to the nearest minute.</p>
 			<div class="solution" data-type="multiple">
-				<span class="sol"><var>TIME_FINAL</var></span> minutes
+				<span class="sol" style="padding-right: 5px" data-forms="integer"><var>TIME_FINAL</var></span> minutes
 				<p class="example">the number of minutes, rounded to the nearest minute</p>
 			</div>
 			<div class="hints">

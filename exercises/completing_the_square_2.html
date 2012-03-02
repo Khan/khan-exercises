@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math polynomials expressions math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Completing the square 2</title>
 	<script src="../khan-exercise.js"></script>
 	<style type="text/css">
@@ -30,8 +30,12 @@
 					<div class="set-sol"><var>X1</var></div>
 					<div class="set-sol"><var>X2</var></div>
 					<div class="input-format">
-						<p><code>x = \quad</code><span class="entry short"></span><code>\quad \text{or} \quad x = \quad</code><span class="entry short"></span></p>
+						<p><code>x = {}</code><span class="entry short"></span><code>\quad \text{or} \quad x = {}</code><span class="entry short"></span></p>
 					</div>
+                    <p class="example">integers, like <code>6</code></p>
+					<p class="example"><em>simplified proper</em> fractions, like <code>3/5</code></p>
+					<p class="example"><em>simplified improper</em> fractions, like <code>7/4</code></p>
+					<p class="example">and/or <em>exact</em> decimals, like <code>0.75</code></p>
 				</div>
 			</div>
 			<div id="one-root" data-type="original" data-weight="1">
@@ -40,7 +44,11 @@
 					<var id="X2">X1</var>
 				</div>
 				<div class="solution" data-type="multiple">
-					<p><code>x = \quad</code><span class="sol"><var>X1</var></span></p>
+					<p><code>x = {}</code><span class="sol"><var>X1</var></span></p>
+                    <p class="example">integers, like <code>6</code></p>
+					<p class="example"><em>simplified proper</em> fractions, like <code>3/5</code></p>
+					<p class="example"><em>simplified improper</em> fractions, like <code>7/4</code></p>
+					<p class="example">and/or <em>exact</em> decimals, like <code>0.75</code></p>
 				</div>
 			</div>
 			<div id="odds" data-type="original" data-weight="2">
@@ -61,7 +69,7 @@
 					<p><code>x^2 <span data-if="B !== 0"><span data-if="abs( B ) !== 1"> + <var>decimalFraction( B, 1, 1 )</var></span><span data-else><var>B_SIGN</var></span>x</span> = <var>decimalFraction( C * -1, 1, 1 )</var></code></p>
 				</div>
 				<div data-if="B !== 0">
-					<p>We complete the square by taking half of the coefficient of our <code>x</code> term, squaring it, and adding it to both sides of the equation. The coefficient of our <code>x</code> term is <code><var>decimalFraction( B, 1, 1 )</code></var>, so half of it would be <code><var>decimalFraction( B / 2, 1, 1 )</var></code>, and squaring it gives us <code>\color{blue}{<var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>}</code>.</p>
+					<p>We complete the square by taking half of the coefficient of our <code>x</code> term, squaring it, and adding it to both sides of the equation. The coefficient of our <code>x</code> term is <code><var>decimalFraction( B, 1, 1 )</var></code>, so half of it would be <code><var>decimalFraction( B / 2, 1, 1 )</var></code>, and squaring it gives us <code>\color{blue}{<var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>}</code>.</p>
 					<p><code>x^2 <span data-if="abs( B ) !== 1"> + <var>decimalFraction( B, 1, 1 )</var></span><span data-else><var>B_SIGN</var></span>x \color{blue}{ + <var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>} = <var>decimalFraction( C * -1, 1, 1 )</var> \color{blue}{ + <var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>}</code></p>
 				</div>
 				<div data-if="B !== 0">
@@ -70,7 +78,7 @@
 				</div>
 			</div>
 			<div data-else data-unwrap>
-				<p>Note that the left side of the equation is already a perfect square trinomial. The coefficient of our <code>x</code> term is <code><var>decimalFraction( B, 1, 1 )</code></var>, half of it is <code><var>decimalFraction( B / 2, 1, 1 )</var></code>, and squaring it gives us <code>\color{blue}{<var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>}</code>, our constant term.</p>
+				<p>Note that the left side of the equation is already a perfect square trinomial. The coefficient of our <code>x</code> term is <code><var>decimalFraction( B, 1, 1 )</var></code>, half of it is <code><var>decimalFraction( B / 2, 1, 1 )</var></code>, and squaring it gives us <code>\color{blue}{<var>decimalFraction( pow( B / 2, 2 ), 1, 1 )</var>}</code>, our constant term.</p>
 				<div>
 					<p>Thus, we can rewrite the left side of the equation as a squared term.</p>
 					<p><code>( x + <var>decimalFraction( B / 2, 1, 1 )</var> )^2 = <var>decimalFraction( C * -1 + pow( B / 2, 2 ), 1, 1 )</var></code></p>

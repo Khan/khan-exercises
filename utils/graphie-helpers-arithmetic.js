@@ -501,11 +501,13 @@ function Multiplier( a, b, digitsA, digitsB, deciA, deciB ) {
 
 	this.showDecimals = function() {
 		graph.style({
-				fill: "#000"
-			}, function() {
+			fill: "#000"
+		}, function() {
+			if ( deciA > 0 )
 				graph.ellipse( [ -deciA + 0.5, 1.8 ], [ 0.09, 0.06 ] );
+			if ( deciB > 0 )
 				graph.ellipse( [ -deciB + 0.5, 0.8 ], [ 0.09, 0.06 ] );
-			});
+		});
 	};
 
 	this.showDecimalsInProduct = function() {
@@ -641,7 +643,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 	}
 
 	this.getNumHints = function() {
-		return 1 + ( digitsDividend.length + ( deciDiff > 0 ? deciDiff : 0 ) ) * 2;
+		return Divider.numHintsFor( divisor, dividend, deciDivisor, deciDividend );
 	};
 
 	this.removeHighlights = function() {
@@ -684,6 +686,12 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 		}
 	};
 }
+
+Divider.numHintsFor = function( divisor, dividend, deciDivisor, deciDividend ) {
+	var digitsDividend = KhanUtil.integerToDigits( dividend );
+	return 1 + ( digitsDividend.length + Math.max( deciDivisor - deciDividend, 0 ) ) * 2;
+};
+
 function squareFractions( nom, den, perLine, spacing, size ){
 	spacing = spacing || 2.5;
 	perLine = perLine || 10;
@@ -714,4 +722,3 @@ function squareFractions( nom, den, perLine, spacing, size ){
 
 	return arr;
 }
-

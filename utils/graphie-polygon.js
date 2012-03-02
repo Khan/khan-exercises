@@ -149,7 +149,7 @@ jQuery.extend( KhanUtil, {
 			});
 			points.pop();
 		}
-		
+
 		function getColor( i ) {
 			switch( i % 4 ) {
 				case 0: return KhanUtil.BLUE;

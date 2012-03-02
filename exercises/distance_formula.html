@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Distance formula</title>
 	<script src="../khan-exercise.js"></script>
 	<style>
@@ -64,7 +64,7 @@
 					= <span style="color: #679B00"><var>X_DIST</var></span>
 				</p>
 
-				<div data-if=" X2 - X1 != 0" class="graphie" data-update="graph">
+				<div data-if="X2 - X1 !== 0" class="graphie" data-update="graph">
 					style({
 						color: "#679b00",
 						stroke: "#679b00"
@@ -86,8 +86,8 @@
 					</span>
 					= <span style="color: #A66000"><var>Y_DIST</var></span>
 				</p>
-	
-				<div data-if="Y2-Y1 != 0" class="graphie" data-update="graph">
+
+				<div data-if="Y2-Y1 !== 0" class="graphie" data-update="graph">
 					style({
 						color: "#a66000",
 						stroke: "#a66000"
@@ -98,7 +98,7 @@
 				</div>
 			</div>
 
-			<div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0 " >
+			<div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0">
 				<p>The distance is the <span style="color: #FF4900">length of the hypotenuse</span> of this right triangle.</p>
 
 				<div class="graphie" data-update="graph">

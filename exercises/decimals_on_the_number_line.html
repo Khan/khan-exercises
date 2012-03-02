@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Decimals on the number line</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -10,25 +10,25 @@
 	<div class="exercise">
 	<div class="vars" >
 		<var id="NUMBER">( randRange( -300, 300 ) / 100 )</var>
-		<var id="WRONGS">( function() { 
+		<var id="WRONGS">( function() {
 					var pos = rand( 5 );
-					while( NUMBER - (0.47 * pos) < -3 ){
+					while( NUMBER - (0.47 * pos) &lt; -3 ){
 						pos--;
-					} 
+					}
 					while( NUMBER + 0.47 * (5 - pos) > 3 ){
 						pos++;
 					}
 
 					arr = [];
-					for ( i = 0; i < pos; i++){
-						arr.push( NUMBER - ((pos - i) * 0.47))
+					for ( i = 0; i &lt; pos; i++){
+						arr.push( NUMBER - ((pos - i) * 0.47));
 					}
 					arr.push( NUMBER );
-					for ( i = pos + 1; i < 5; i++ ){
-						arr.push( NUMBER + (( i - pos) * 0.47))
+					for ( i = pos + 1; i &lt; 5; i++ ){
+						arr.push( NUMBER + (( i - pos) * 0.47));
 					}
 					return arr;
-				 })()</var>
+				})()</var>
 		<var id="POSS_ANSWER">[ "A", "B", "C", "D", "E" ]</var>
 		<var id="ANSWER" >POSS_ANSWER[  WRONGS.indexOf( NUMBER ) ] </var>
 	</div>
@@ -67,7 +67,7 @@
 
 	<div class="hints">
 		<p><var>NUMBER</var> is between <var>floor( NUMBER )</var> and <var>ceil( NUMBER )</var>.</p>
-		
+
 		<p><var>NUMBER</var> is closest to <var>round( NUMBER )</var></p>
 		<p>It is <var>ANSWER</var>.</p>
 	</div>

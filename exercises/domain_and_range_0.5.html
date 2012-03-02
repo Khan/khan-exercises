@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie interactive">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Domain and range of a function 0.5</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -12,27 +12,27 @@
 			<var id="DOMAIN">[ randRange( -9, -1 ), randRange( 1, 9 ) ]</var>
 			<var id="FUNCTION_PATH">
 				(function() {
-					var functionPath = new Array();
+					var functionPath = [];
 					var prev;
 
 					var push = function( val ) {
 						prev = val;
 						functionPath.push( prev );
-					}
+					};
 
 					push([ DOMAIN[0], randRange( -5, 5 ) ]);
 
 					for( var i = DOMAIN[0]+1; i &lt;= DOMAIN[1]; i++ ) {
-						if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && prev[1] < 8 ) {
+						if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && prev[1] &lt; 8 ) {
 							push([i, prev[1]+1]);
 
-						} else if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && prev[1] > -8 ) {
+						} else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && prev[1] > -8 ) {
 							push([i, prev[1]-1]);
 
-						} else if ( abs( randRangeNonZero( -10, 10 ) < 2 ) && prev[1] < 7 ) {
+						} else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && prev[1] &lt; 7 ) {
 							push([i, prev[1]+2]);
 
-						} else if ( abs( randRangeNonZero( -10, 10 ) < 3 ) && prev[1] > -7 ) {
+						} else if ( abs( randRangeNonZero( -10, 10 ) &lt; 3 ) && prev[1] > -7 ) {
 							push([i, prev[1]-2]);
 
 						} else {

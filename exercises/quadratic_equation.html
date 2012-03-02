@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math polynomials expressions math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Quadratic equation</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -13,7 +13,7 @@
 			<var id="C">randRangeNonZero(-10, 10)</var>
 
 			<var id="OUT_REDUCE">splitRadical(B*B - 4*A*C)[0]</var>
-			<var id="UNDER_ROOT">splitRadical(B*B - 4*A*C)[1]</var>				
+			<var id="UNDER_ROOT">splitRadical(B*B - 4*A*C)[1]</var>
 
 			<var id="F">new Polynomial( 0, 2, [C, B, A], "x" )</var>
 			<var id="F_TEXT">F.text()</var>
@@ -24,7 +24,7 @@
 			<var id="WRONGS">
 				(function() {
 					var wrongs = [];
-					for ( var i = 0; i < 5; i++ ) {
+					for ( var i = 0; i &lt; 5; i++ ) {
 						var bad_a = randRangeNonZero(-10, 10);
 						var bad_b = randRangeNonZero(-10, 10);
 						var bad_c = randRangeNonZero(-10, 10);
@@ -32,11 +32,11 @@
 						var good_gcd = getGCD( A, B, C );
 						var bad_gcd = getGCD( bad_a, bad_b, bad_c );
 
-						while ((	abs(A*bad_gcd) == abs(bad_a*good_gcd) &&
-									abs(B*bad_gcd)== abs(bad_b*good_gcd) &&
-									abs(C*bad_gcd)== abs(bad_c*good_gcd) ) ||
+						while ((	abs(A*bad_gcd) === abs(bad_a*good_gcd) &&
+									abs(B*bad_gcd) === abs(bad_b*good_gcd) &&
+									abs(C*bad_gcd) === abs(bad_c*good_gcd) ) ||
 
-									(( (bad_b * bad_b) - (4 * bad_a * bad_c) ) < 0))
+									(( (bad_b * bad_b) - (4 * bad_a * bad_c) ) &lt; 0))
 						{
 							bad_a = randRangeNonZero(-10, 10);
 							bad_b = randRangeNonZero(-10, 10);
@@ -83,7 +83,7 @@
 			<p><code> x = \frac{-<var>B</var> \pm \sqrt{<var>B</var>^2 - 4 \cdot <var>A</var> \cdot <var>C</var>}}{2 \cdot <var>A</var>}</code></p>
 
 			<p><code> x = \frac{<var>-1*B</var> \pm \sqrt{<var>B*B - 4*A*C</var>}}{<var>2*A</var>}</code></p>
-			
+
 			<p><code> x = \frac{<var>-1*B</var> \pm <var>formattedSquareRootOf(B*B-4*A*C)</var>}{<var>2*A</var>}</code></p>
 			<p><code><var>quadraticRoots(A, B, C)</var></code></p>
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format polynomials functional">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Multiplying polynomials</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -16,58 +16,58 @@
 			}, 2 )</var>
 			<var id="POL_1, POL_2">tabulate( function(n) {
 				var coefs = [];
-				for ( var i = 0; i <= MAX_DEGREE; i++ ) {
+				for ( var i = 0; i &lt;= MAX_DEGREE; i++ ) {
 					var value = 0;
-					for ( var j = 0; j < NON_ZERO_INDICES[ n ].length; j++ ) {
+					for ( var j = 0; j &lt; NON_ZERO_INDICES[ n ].length; j++ ) {
 						if ( i === NON_ZERO_INDICES[ n ][ j ] ) {
 							value = randRangeNonZero( -7, 7 );
 							break;
-						} 
+						}
 					}
 					coefs[ i ] = value;
 				}
 
-				return new Polynomial( 0, MAX_DEGREE, coefs, X )
+				return new Polynomial( 0, MAX_DEGREE, coefs, X );
 			}, 2 )</var>
 			<var id="LIKE_TERMS">function() {
 				var likeTerms = [];
 				var counter = 0;
 				var areLikeTerms = false;
-				
-				for ( var i = POL_1.minDegree; i <= POL_1.maxDegree; i++ ) {
+
+				for ( var i = POL_1.minDegree; i &lt;= POL_1.maxDegree; i++ ) {
 					if ( POL_1.coefs[ i ] === 0 ) {
 						continue;
 					}
-					for ( var j = POL_2.minDegree; j <= POL_2.maxDegree; j++ ) {
+					for ( var j = POL_2.minDegree; j &lt;= POL_2.maxDegree; j++ ) {
 						if ( POL_2.coefs[ j ] === 0 ) {
-							continue; 
+							continue;
 						}
-						
+
 						if ( likeTerms[ i + j ] === undefined ) {
 							likeTerms[ i + j ] = "";
 						} else if ( likeTerms[ i + j ] === "" ) {
-							likeTerms[ i + j ] = COLORS[ counter++ ]; 
+							likeTerms[ i + j ] = COLORS[ counter++ ];
 							areLikeTerms = true;
 						}
-					}	  
-				}	   
+					}
+				}
 
 				return areLikeTerms ? likeTerms : false;
-			}()</var> 
+			}()</var>
 			<var id="SOLUTION">POL_1.multiply( POL_2 )</var>
 			<var id="FAKE_SOLUTION_1, FAKE_SOLUTION_2">tabulate( function(n) {
 				var counter = 0;
 				var coefs = [];
 
-				for ( var i = 0; i < SOLUTION.coefs.length; i++ )
+				for ( var i = 0; i &lt; SOLUTION.coefs.length; i++ )
 				{
 					if ( SOLUTION.coefs[ i ] === 0 ) {
 						continue;
 					}
-					
-					coefs[ i ] = SOLUTION.coefs[ i ] * ( n + counter++ % 2 === 0  ? 1 : -1 );					
+
+					coefs[ i ] = SOLUTION.coefs[ i ] * ( n + counter++ % 2 === 0  ? 1 : -1 );
 				}
-			
+
 				return new Polynomial( SOLUTION.minDegree, SOLUTION.maxDegree, coefs, SOLUTION.variable );
 			}, 2 )</var>
 		</div>
@@ -88,11 +88,11 @@
 		<div class="hints">
 			<div>
 				<p>First use the distributive property.</p>
-				<code><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2"><var>( POL_1.coefs[ index1 ] < 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] ) === 1 ? "" : abs( POL_1.coefs[ index1 ] )</var><var>X</var>^<var>index1</var>(<var>( POL_2.coefs[ index2 ] === 1 ) ? "" : ( POL_2.coefs[ index2 ] === -1 ) ? "-" : POL_2.coefs[ index2 ]</var><var>X</var>^<var>index2</var>)</span></span></code>
+				<code><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2"><var>( POL_1.coefs[ index1 ] &lt; 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] ) === 1 ? "" : abs( POL_1.coefs[ index1 ] )</var><var>X</var>^<var>index1</var>(<var>( POL_2.coefs[ index2 ] === 1 ) ? "" : ( POL_2.coefs[ index2 ] === -1 ) ? "-" : POL_2.coefs[ index2 ]</var><var>X</var>^<var>index2</var>)</span></span></code>
 			</div>
 			<div>
 				<p>Simplify.</p>
-				<code data-if="LIKE_TERMS"><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2"><var>( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] < 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] )</var><var>X</var>^{<var>index1 + index2</var>}</span></span></code>
+				<code data-if="LIKE_TERMS"><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2"><var>( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] &lt; 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] )</var><var>X</var>^{<var>index1 + index2</var>}</span></span></code>
 				<div data-else>
 					<code><var>SOLUTION</var></code>
 					<p>You're done!</p>
@@ -101,11 +101,11 @@
 			<div data-if="LIKE_TERMS">
 				<div>
 					<p>Identify like terms.</p>
-					<code><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2">\color{<var>LIKE_TERMS[ index1 + index2 ]</var>}{<var>( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] < 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] )</var><var>X</var>^{<var>index1 + index2</var>}}</span></span></code>
+					<code><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2">\color{<var>LIKE_TERMS[ index1 + index2 ]</var>}{<var>( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] &lt; 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] )</var><var>X</var>^{<var>index1 + index2</var>}}</span></span></code>
 				</div>
 				<div>
 					<p>Add the coefficients.</p>
-					<p><code><span data-each="new Array( SOLUTION.getNumberOfTerms() ) as n, index">\color{<var>LIKE_TERMS[ SOLUTION.getCoefAndDegreeForTerm( n ).degree ]</var>}{<var>( SOLUTION.getCoefAndDegreeForTerm( n ).coef < 0 || n === 0 ) ? "" : "+"</var><var>expr( SOLUTION.expr()[ n + 1 ] )</var>}</span></code></p>
+					<p><code><span data-each="new Array( SOLUTION.getNumberOfTerms() ) as n, index">\color{<var>LIKE_TERMS[ SOLUTION.getCoefAndDegreeForTerm( n ).degree ]</var>}{<var>( SOLUTION.getCoefAndDegreeForTerm( n ).coef &lt; 0 || n === 0 ) ? "" : "+"</var><var>expr( SOLUTION.expr()[ n + 1 ] )</var>}</span></code></p>
 					<p>You're done!</p>
 				</div>
 			</div>

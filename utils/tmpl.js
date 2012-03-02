@@ -4,6 +4,8 @@
 var VARS = {};
 
 jQuery.tmpl = {
+	DATA_ENSURE_LOOPS: 0,
+
 	// Processors that act based on element attributes
 	attr: {
 		"data-ensure": function( elem, ensure ) {
@@ -11,7 +13,11 @@ jQuery.tmpl = {
 			return function( elem ) {
 				// Return a boolean corresponding to the ensure's value
 				// False means all templating will be run again, so new values will be chosen
-				return !!(ensure && jQuery.tmpl.getVAR( ensure ));
+				var result = !!(ensure && jQuery.tmpl.getVAR( ensure ));
+				if ( !result ) {
+					++jQuery.tmpl.DATA_ENSURE_LOOPS;
+				}
+				return result;
 			};
 		},
 
@@ -70,7 +76,7 @@ jQuery.tmpl = {
 					items: jQuery.map( new Array( times ), function ( e, i ) { return i; } ),
 					value: match[2],
 					oldValue: VARS[ match[2] ]
-				}
+				};
 
 			// Extract the 1, 2, or 3 parts of the data-each attribute, which could be
 			//   - items
@@ -238,7 +244,7 @@ jQuery.tmpl = {
 
 	// Make sure any HTML formatting is stripped
 	cleanHTML: function( text ) {
-		return text.replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&");
+		return ("" + text).replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&");
 	}
 };
 
@@ -249,6 +255,7 @@ if ( typeof KhanUtil !== "undefined" ) {
 // Reinitialize VARS for each problem
 jQuery.fn.tmplLoad = function( problem, info ) {
 	VARS = {};
+	jQuery.tmpl.DATA_ENSURE_LOOPS = 0;
 
 	// Check to see if we're in test mode
 	if ( info.testMode ) {

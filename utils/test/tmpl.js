@@ -127,6 +127,8 @@ test("If/Else/Else-if Statement", 4, function() {
 });
 
 test("Ensure", function() {
+	initVars();
+
 	jQuery("#qunit-fixture").append(
 		"<var id='A'>1</var><div data-ensure='B > 3'><var id='B'>A++</var></div>" +
 		"<var id='C'>1</var><var id='D' data-ensure='D > 3'>C++</var>"
@@ -142,6 +144,8 @@ test("Ensure", function() {
 });
 
 test("Unwrap", function() {
+	initVars();
+
 	jQuery("#qunit-fixture").append(
 		"<div data-unwrap><b>bold!</b></div>" +
 		"<div data-if='1' data-unwrap><i>italic!</i></div>" +
@@ -156,6 +160,8 @@ test("Unwrap", function() {
 });
 
 test("Looping", 23, function() {
+	initVars();
+
 	jQuery("#qunit-fixture").append(
 		"<var id='items'>['a','b','c']</var>" +
 		"<var id='obj'>{a:0,b:1,c:2}</var>" +
@@ -167,7 +173,7 @@ test("Looping", 23, function() {
 		"<var id='items2'>[]</var><var data-each='items as key, value'>items2.push( key )</var>" +
 		"<div class='d' data-if='false' data-each='doesntexist'></div>" +
 		"<ul class='e'><li data-each='obj as key, value'><var>key</var>: <var>value</var></li></ul>" +
-		"<ul class='f'><li data-each='[]'></li></ul>"
+		"<ul class='f'><li data-each='[] as key'></li></ul>"
 	);
 
 	jQuery("#qunit-fixture").tmpl();

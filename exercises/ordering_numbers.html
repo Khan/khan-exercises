@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html data-require="math math-format interactive">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Ordering numbers</title>
 	<script src="../khan-exercise.js"></script>
-
-	<style type="text/css">
-		.number-list {
-			font-size: 1.7em;
-			text-align: center
-		}
-	</style>
 </head>
 <body>
 	<div class="exercise">
@@ -21,11 +14,11 @@
 				var used = {};
 
 				while ( array.length &lt; 5 ) {
-					var type = types[ array.length ];
+					var type = types[ array.length ], n, ns;
 					switch ( type ) {
 						case 1: // decimal
-							var n = randRange( 100, 999 ) / 1000;
-							var ns = n.toFixed( 3 );
+							n = randRange( 100, 999 ) / 1000;
+							ns = n.toFixed( 3 );
 
 							if ( !used[ ns ] ) {
 								array.push([ type, n, ns, "= " + ns ]);
@@ -35,8 +28,8 @@
 							break;
 
 						case 2: // percentage
-							var n = randRange( 100, 999 ) / 1000;
-							var ns = n.toFixed( 3 );
+							n = randRange( 100, 999 ) / 1000;
+							ns = n.toFixed( 3 );
 
 							if ( !used[ ns ] ) {
 								array.push([ type, n, (100 * n).toFixed( 1 ) + "\\%", "= " + ns ]);
@@ -47,8 +40,8 @@
 
 						case 3: // fraction
 							var d = 4 * randRange( 5, 15 );
-							var n = randRange( 1, d - 1 );
-							var ns = ( n / d ).toFixed( 3 );
+							n = randRange( 1, d - 1 );
+							ns = ( n / d ).toFixed( 3 );
 
 							if ( !used[ ns ] ) {
 								var gcd = KhanUtil.getGCD( n, d );
@@ -84,14 +77,12 @@
 			<div>
 				<div class="question">
 					<p>Order the following numbers from least to greatest:</p>
-					<p>
-						<ul id="sortable">
-							<li data-each="NUMS as NUM">
-								<code><var>NUM[2]</var></code>
-							</li>
-						</ul>
-						<var>SORTER.init( "sortable" )</var>
-					</p>
+					<ul id="sortable">
+						<li data-each="NUMS as NUM">
+							<code><var>NUM[2]</var></code>
+						</li>
+					</ul>
+					<p><var>SORTER.init( "sortable" )</var></p>
 
 				</div>
 

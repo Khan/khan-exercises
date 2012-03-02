@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie expressions">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Inverse trig functions</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -12,10 +12,10 @@
 		<div class="vars">
 
 			<!-- whether we present the question as arcsin(x) = ? or sin^-1(x) = ? -->
-			<var id="ARC">random() < 0.5</var>
+			<var id="ARC">random() &lt; 0.5</var>
 
 			<!-- whether we expect the answer in terms of degrees or radians -->
-			<var id="DEG">random() < 0.5</var>
+			<var id="DEG">random() &lt; 0.5</var>
 
 			<var id="FN">randFromArray([ "sin", "cos", "tan" ])</var>
 			<var id="FN_INV">"\\" + FN + "^{-1}"</var>
@@ -27,7 +27,7 @@
 			<var id="SIN_RANGE">[ 0, 1/2, sqrt(2)/2, sqrt(3)/2 ]</var>
 			<var id="TAN_RANGE">[ 0, sqrt(3)/3, 1, sqrt(3) ]</var>
 
-			<var id="X">( random() < 0.5 ? -1 : 1 ) * {
+			<var id="X">( random() &lt; 0.5 ? -1 : 1 ) * {
 				sin: randFromArray( SIN_RANGE ),
 				cos: randFromArray( SIN_RANGE ),
 				tan: randFromArray( TAN_RANGE )
@@ -47,7 +47,7 @@
 
 			<var id="PRETTY">function( n ) {
 
-				var sign = n < 0 ? "-" : "";
+				var sign = n &lt; 0 ? "-" : "";
 				n = abs( n );
 
 				var o = {};
@@ -86,8 +86,7 @@
 			<p>If <code><var>FN_TEX( PRETTY( X ), false )</var> = \theta</code>, then...</p>
 			<p><code><var>"\\" + FN</var>\left( \theta \right) = <var>PRETTY( X )</var></code></p>
 			<p>The range of <code><var>FN_TEX( "x" )</var></code> is <code>[ <var>DOMAIN[0]</var>, <var>DOMAIN[1]</var> ]</code>, so we know <code><var>DOMAIN[0]</var> \leq \theta \leq <var>DOMAIN[1]</var></code>.</p>
-			<p><code><var>"\\" + FN</var> \left( <var>fractionReduce( Y_RADIANS[0], Y_RADIANS[1], true )</var>\pi \right) = <var>PRETTY( X )</var></code></p>
-			<p data-if="DEG"><code><var>fractionReduce( Y_RADIANS[0], Y_RADIANS[1], true )</var>\pi\mbox{ (radians) }=<var>Y_DEGREES</var> &deg;</code></p>
+			<p><code><var>"\\" + FN</var> \left( <var>( DEG ? Y_DEGREES + "&deg;" : fractionReduce( Y_RADIANS[0], Y_RADIANS[1], true ) + "\\pi" )</var> \right) = <var>PRETTY( X )</var></code></p>
 			<p>So <code><var>FN_TEX( PRETTY( X ) )</var> = <var>DEG ? Y_DEGREES + "&deg;" : fractionReduce( Y_RADIANS[0], Y_RADIANS[1], true ) + "\\pi"</var></code>.</p>
 		</div>
 	</div>

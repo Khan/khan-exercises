@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers graphie-geometry math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Heron's formula</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -28,17 +28,17 @@
 						init({
 							range: [ [-1, 12 ], [ -7, 2.5 ] ]
 						})
-						var trA = new Triangle( [ 3, -3 ], ANGLES ,AREA, {} ); 
+						var trA = new Triangle( [ 3, -3 ], ANGLES ,AREA, {} );
 						trA.boxOut( [ [ [ -10,  2.3 ], [ 10, 2.3 ] ] ] , [ 0, -0.7 ] );
 						trA.boxOut( [ [ [  -1,  -10 ], [ -1, 10 ] ] ] , [ 0.7, 0 ] );
 						trA.boxOut( [ [ [  11.5,  -10 ], [ 11.5, 10 ] ] ] , [ -0.7, 0 ] );
 						trA.draw();
 						trA.labels = { "sides" : trA.niceSideLengths };
 						trA.drawLabels();
-						SIDES = trA.niceSideLengths;	
+						SIDES = trA.niceSideLengths;
 						S = ( ( SIDES[ 0 ] + SIDES[ 1 ] + SIDES[ 2 ] ) / 2 ).toFixed( 2 );
 						ANS = sqrt(S *( S -SIDES[ 0 ] ) * ( S - SIDES[ 1 ] ) * ( S - SIDES[ 2 ] ) ).toFixed( 2 );
-						jQuery( "#ans" ).html( ANS ) ;	
+						jQuery( "#ans" ).html( ANS ) ;
 					</div>
 				</div>
 				<div class="solution"><div id="ans"></div></div>
@@ -51,7 +51,7 @@
 					<p><code>s =  <var>S</var></code></p>
 					<p><code>A = \sqrt{ <var>S</var> \cdot ( <var>S</var> - <var>SIDES[ 0 ]</var> )  \cdot ( <var>S</var> - <var>SIDES[ 1 ]</var> ) \cdot ( <var>S</var> - <var>SIDES[ 2 ]</var> ) }</code></p>
 					<p><code>A = \sqrt{ <var>S</var> \cdot  <var>( S - SIDES[ 0 ] ).toFixed( 2 )</var>   \cdot <var>( S - SIDES[ 1 ] ).toFixed( 2 )</var> \cdot <var>( S - SIDES[ 2 ] ).toFixed( 2 )</var>  }</code></p>
- 					<p><code>A = <var>ANS</var></code></p>	 
+ 					<p><code>A = <var>ANS</var></code></p>
 				</div>
 			</div>
 		</div>

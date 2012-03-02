@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Number properties terminology 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+
+	<div class="vars">
+		<var id="A,B,C,D">randRangeUnique( 2, 10, 4 )</var>
+		<var id="PROPERTIES">[ "Associative", "Commutative", "Distributive" ]</var>
+		<var id="EQUATIONS">shuffle( [ "a+b=b+a", "a+b(c+d)=a+bc+bd", "a+(b+c)=(a+b)+c" ] )</var>
+		<var id="ASSOCIATIVE_RESULT">A+B+C</var>
+		<var id="COMMUTATIVE_RESULT">A+B</var>
+		<var id="DISTRIBUTIVE_RESULT">A+B*C+B*D</var>
+	</div>
+
+
+		<div class="problems">
+
+			<div id="associative">
+				<p class="question"><code>a+(b+c)=(a+b)+c</code> represents which one of the following properties:</p>
+				<p class="solution">Associative</p>
+				<ul class="choices" data-category="true">
+					<li data-each="PROPERTIES as place"><var>place</var></li>
+				</ul>
+				<div class="hints">
+					<p>Notice that on the left side of the equation the parentheses indicate to add the <code>b</code> and the <code>c</code> before you add the <code>a</code>.</p>
+					<p>On the right side of the equation, we first add <code>a</code> and <code>b</code> before adding <code>c</code>.</p>
+					<p>The order of the variables has not changed but the groupings (what's inside the parentheses) have.</p>
+					<p>The groups have changed, and another word for a group is <em>association</em>.The above equation demonstrates the Associative Property of addition.</p>
+				</div>
+			</div>
+
+			<div id="associate-values">
+				<p class="question"><code><var>A</var>+(<var>B</var>+<var>C</var>)=(<var>A</var>+<var>B</var>)+<var>C</var></code> represents which one of the following properties:</p>
+				<p class="solution">Associative</p>
+				<ul class="choices" data-category="true">
+					<li data-each="PROPERTIES as place"><var>place</var></li>
+				</ul>
+				<div class="hints">
+					<p>On the left side of the equation, the parentheses indicate to add the <var>B</var> and the <var>C</var> before you add the <var>A</var>. On the right side of the equation, we first add the <var>A</var> and the <var>B</var> before adding the <var>C</var>.</p>
+					<p>Notice that the order of the numbers inside the parentheses has not changed but the groupings (what's inside the parentheses) have.</p>
+					<div>
+						<p>Evaluating the left side:</p>
+						<p><code><var>A</var>+(<var>B</var>+<var>C</var>)=<var>ASSOCIATIVE_RESULT</var></code></p>
+						<p>Evaluating the right side, the result is the same:</p>
+						<p><code>(<var>A</var>+<var>B</var>)+<var>C</var>=<var>ASSOCIATIVE_RESULT</var></code></p>
+					</div>
+					<p>The groups have changed, and another word for a group is <em>association</em>. The equation demonstrates the Associative Property.</p>
+				</div>
+			</div>
+
+			<div id="associative-variable">
+				<p class="question">Which one of the equations on the right represents the Associative Property of addition?</p>
+				<p class="solution"><code>a+(b+c)=(a+b)+c</code></p>
+				<ul class="choices" data-category="true">
+					<li data-each="EQUATIONS as value"><code><var>value</var></code></li>
+				</ul>
+				<div class="hints">
+					<p>The Associative Property should not be confused with the Commutative Property, in which the sequence or order of numbers is changed.</p>
+					<p>In contrast to the Commutative Property, the Associative Property justifies rearranging our parentheses. For example, adding <code>(4+2)+3</code> is equivalent to adding <code>4+(2+3)</code> and represents the Associative Property.</p>
+					<p><code>a+(b+c)=(a+b)+c</code> demonstrates the Associative Property.</p>
+				</div>
+			</div>
+
+			<div id="commutative">
+				<p class="question"><code>a+b=b+a</code> represents which one of the following properties:</p>
+				<p class="solution">Commutative</p>
+				<ul class="choices" data-category="true">
+					<li data-each="PROPERTIES as value"><var>value</var></li>
+				</ul>
+				<div class="hints">
+					<p>As this equation implies, changing the order of <code>a</code> and <code>b</code> will not change the end result.</p>
+					<p>This property should not be confused with the Associative Property, in which groupings (what's inside the parentheses) are changed.</p>
+					<p>This equation demonstrates the Commutative Property. The following sentence may help you to remember this property: The <em>commuting</em> distance is the same in either direction, from school to home or home to school.</p>
+				</div>
+			</div>
+
+			<div id="commutative-values">
+				<p class="question"><code><var>A</var>+<var>B</var>=<var>B</var>+<var>A</var></code> represents which one of the following properties:</p>
+				<p class="solution">Commutative</p>
+				<ul class="choices" data-category="true">
+					<li data-each="PROPERTIES as value"><var>value</var></li>
+				</ul>
+				<div class="hints">
+					<p>This property should not be confused with the Associative Property, in which the order of operations is changed.</p>
+					<p>As this equation implies, changing the order of <var>A</var> and <var>B</var> doesn't change the end result.</p>
+					<div>
+						<p>Evaluating the left side:</p>
+						<p><code><var>A</var>+<var>B</var>=<var>COMMUTATIVE_RESULT</var></code></p>
+					</div>
+					<div>
+						<p>Evaluating the right side, the result is the same:</p>
+						<p><code><var>B</var>+<var>A</var>=<var>COMMUTATIVE_RESULT</var></code></p>
+					</div>
+					<p>This equation demonstrates the Commutative Property. The following sentence may help you to remember this property: The <em>commuting</em> distance is the same in either direction, from school to home or home to school.</p>
+				</div>
+			</div>
+
+			<div id="commutative-variable">
+				<p class="question">Which one of the equations on the right represents the Commutative Property of addition?</p>
+				<p class="solution"><code>a+b=b+a</code></p>
+				<ul class="choices" data-category="true">
+					<li data-each="EQUATIONS as value"><code><var>value</var></code></li>
+				</ul>
+				<div class="hints">
+					<p>According to the Commutative Property, the order of the numbers doesn't matter.</p>
+					<p>The Commutative Property should not be confused with the Associative Property, in which you change the groupings (what is contained inside the parentheses).</p>
+					<p>The following sentence may help you to remember the Commutative Property: &quot;The <em>commuting</em> distance is the same in either direction, from school to home or home to school.&quot;</p>
+					<p><code>a+b=b+a</code> demonstrates the Commutative Property.</p>
+				</div>
+			</div>
+
+			<div id="distributive">
+				<p class="problem"></p>
+				<p class="question"><code>a+b(c+d)=a+bc+bd</code> represents which one of the following properties:</p>
+				<p class="solution">Distributive</p>
+				<ul class="choices" data-category="true">
+					<li data-each="PROPERTIES as value"><var>value</var></li>
+				</ul>
+				<div class="hints">
+					<p>On the left side of the equation, <code>b</code> is multiplied by the sum of <code>c</code> and <code>d</code>.</p>
+					<p>On the right side of the equation, we first multiply <code>b</code> by <code>c</code> and <code>d</code> individually and then add their products.</p>
+					<p>We say that multiplication <em>distributes</em> <code>b</code> over addition of <code>c</code> and <code>d</code>, and this equation demonstrates the Distributive Property.</p>
+				</div>
+			</div>
+
+			<div id="distributive-values">
+				<p class="question"><code><var>A</var>+<var>B</var>(<var>C</var>+<var>D</var>)=<var>A</var>+(<var>B</var>)(<var>C</var>)+(<var>B</var>)(<var>D</var>)</code> represents which one of the following properties:</p>
+				<p class="solution">Distributive</p>
+				<ul class="choices" data-category="true">
+					<li data-each="PROPERTIES as value"><var>value</var></li>
+				</ul>
+				<div class="hints">
+					<p>On the left side of the equation, <code><var>B</var> </code> is multiplied by the sum of <code><var>C</var></code> and <code><var>D</var></code>. On the right side of the equation, we first multiply <code><var>B</var></code> by <code><var>C</var></code> and  <code><var>D</var></code> individually and then add their products.</p>
+					<div>
+						<p>Evaluating the left side:</p>
+						<p><code><var>A</var>+<var>B</var>(<var>C</var>+<var>D</var>)=<var>DISTRIBUTIVE_RESULT</var></code></p>
+					</div>
+					<div>
+						<p>Evaluating the right side, the result is the same:</p>
+						<p><code><var>A</var>+(<var>B</var>)(<var>C</var>)+(<var>B</var>)(<var>D</var>)=<var>DISTRIBUTIVE_RESULT</var></code></p>
+					</div>
+					<p>We say that multiplication <em>distributes</em> <code><var>B</var></code> over addition of <code><var>C</var></code> and <code><var>D</var></code> and so this is called the Distributive Property.</p>
+				</div>
+			</div>
+
+			<div id="distributive-variable">
+				<p class="question">Which one of the equations on the right represents the Distributive Property of addition?</p>
+				<p class="solution"><code>a+b(c+d)=a+bc+bd</code></p>
+				<ul class="choices" data-category="true">
+					<li data-each="EQUATIONS as value"><code><var>value</var></code></li>
+				</ul>
+				<div class="hints">
+					<p>In the correct answer, on the left side the equation <code>b</code> is multiplied by the sum of <code>c</code> and <code>d</code>.</p>
+					<p>On the right side of this equation, we first multiply <code>b</code> by <code>c</code> and <code>d</code> individually and then add their products.</p>
+					<p>In this equation, <code>b</code> gets <em>distributed</em> to <code>c</code> and  <code>d</code>, and so we call this the Distributive Property.</p>
+					<p><code>a+b(c+d)=a+bc+bd</code> represents the Distributive Property.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

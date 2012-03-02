@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers graphie-geometry math-format">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Circumradius</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -13,9 +13,9 @@
 		<div class="problems">
 			<div id="equi">
 				<div class="vars">
-					<var id="ANGLES" data-ensure="ANGLES[ 0 ] % 2 == 0">randomTriangleAngles.triangle()</var>
+					<var id="ANGLES" data-ensure="ANGLES[ 0 ] % 2 === 0">randomTriangleAngles.triangle()</var>
 					<var id="CIRCUMLENGTH"></var>
-					<var id="BD"</var>
+					<var id="BD"></var>
 					<var id="AC"></var>
 					<var id="CD"></var>
 				</div>
@@ -27,8 +27,8 @@
 						init({
 							range: [ [-1, 12 ], [ -7, 2.5 ] ]
 						})
-						var trA = new Triangle( [ 3, -4 ], [ 60, 60, 60 ] , 16 , {} ); 
-						var pointD = findIntersection( bisectAngle( trA.sides[ 0 ], reverseLine( trA.sides[ 2 ] ), 1 ), trA.sides[ 1 ] );	
+						var trA = new Triangle( [ 3, -4 ], [ 60, 60, 60 ] , 16 , {} );
+						var pointD = findIntersection( bisectAngle( trA.sides[ 0 ], reverseLine( trA.sides[ 2 ] ), 1 ), trA.sides[ 1 ] );
 						trA.draw()
 						trA.labels = { "sides" : trA.niceSideLengths,  "points": [ "A", "B", "C" ] };
 						trA.drawLabels();
@@ -43,8 +43,7 @@
 				<div class="hints">
  					<p>Because side <code>DAB</code> and <code>DAC</code> are equal.</p>
  					<p>ThatAngles <code>DAB</code> and <code>DAC</code> are equal.</p>
-				</div>	
-		</div>
+				</div>
 			</div>
 		</div>
 	</div>

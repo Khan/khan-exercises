@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html data-require="math stat graphie interactive">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Creating box and whisker plots</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		.sortable {
+			background: #fff;
+			border: 0;
+			border-bottom: 0;
+			box-shadow: 0 0 0;
+			-moz-box-shadow: 0 0 0;
+			-webkit-box-shadow: 0 0 0;
+		}
+		.sortable > ul > li {
+			width: 32px;
+			height: 32px;
+			font-size: 1em;
+			border: 1px solid #ddd;
+		}
+		.sortable > ul > li .MathJax {
+			line-height: 32px;
+		}
+	</style>
+</head>
+<body>
+<div class="exercise">
+	<div class="problems">
+		<div>
+			<div class="vars" data-ensure="0 <= MIN && MAX <= 15
+					&& MIN !== Q1
+					&& Q1 !== MEDIAN
+					&& MEDIAN !== Q3
+					&& Q3 !== MAX">
+				<var id="TGT_MEAN">randRange( 5, 10 )</var>
+				<var id="TGT_VARIANCE">randRange( 2, 20 )</var>
+				<var id="DATA">jQuery.map( _.range(15), function() {
+					return round( randGaussian() * sqrt( TGT_VARIANCE ) + TGT_MEAN );
+				})</var>
+				<var id="SORTED_DATA">DATA.slice().sort(function(a, b) { return a - b; })</var>
+				<var id="MIN">SORTED_DATA[0]</var>
+				<var id="Q1">SORTED_DATA[3]</var>
+				<var id="MEDIAN">SORTED_DATA[7]</var>
+				<var id="Q3">SORTED_DATA[11]</var>
+				<var id="MAX">SORTED_DATA[14]</var>
+				<var id="SORTER">createSorter()</var>
+			</div>
+
+			<p class="question">Represent the following data using a box-and-whiskers plot. Exclude the median when computing the quartiles:</p>
+
+			<div class="problem">
+				<ul id="sortable">
+					<li data-each="DATA as NUM">
+						<code><var>NUM</var></code>
+					</li>
+				</ul>
+				<p>
+					If it helps, you may drag the numbers to put them in a different order. The order isn't checked with your answer.
+					<var>SORTER.init( "sortable" )</var>
+				</p>
+
+
+				<div class="graphie" id="boxplot">
+					init({ range: [[ -2, 18 ], [ -6, 2 ]], scale: [ 30, 30 ] });
+
+					addMouseLayer();
+					line( [ 0, -2 ], [ 15, -2 ] );
+					for ( tick = 0; tick &lt;= 15; tick += 1 ) {
+						line( [ tick, -1.75 ], [ tick, -2.25 ] );
+						label( [ tick, -2 ], tick, "below" );
+					}
+
+					graph.q1 = addMovablePoint({ coord: [ 3.5, 0 ], snapX: 0.5, constraints: { constrainY: true }, normalStyle: { fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE } });
+					graph.q2top = addMovablePoint({ coord: [ 5.5, 1 ], visible: false });
+					graph.q2mid = addMovablePoint({ coord: [ 5.5, 0 ], visible: false });
+					graph.q2bot = addMovablePoint({ coord: [ 5.5, -1 ], visible: false });
+					graph.mtop = addMovablePoint({ coord: [ 7.5, 1 ], visible: false });
+					graph.mbot = addMovablePoint({ coord: [ 7.5, -1 ], visible: false });
+					graph.q3top = addMovablePoint({ coord: [ 9.5, 1 ], visible: false });
+					graph.q3mid = addMovablePoint({ coord: [ 9.5, 0 ], visible: false });
+					graph.q3bot = addMovablePoint({ coord: [ 9.5, -1 ], visible: false });
+					graph.q4 = addMovablePoint({ coord: [ 11.5, 0 ], snapX: 0.5, constraints: { constrainY: true }, normalStyle: { fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE } });
+
+					graph.leftLine = addMovableLineSegment({ pointA: graph.q1, pointZ: graph.q2mid, fixed: true });
+					graph.topLine = addMovableLineSegment({ pointA: graph.q2top, pointZ: graph.q3top, fixed: true });
+					graph.botLine = addMovableLineSegment({ pointA: graph.q2bot, pointZ: graph.q3bot, fixed: true });
+					graph.rightLine = addMovableLineSegment({ pointA: graph.q3mid, pointZ: graph.q4, fixed: true });
+
+					graph.q2Line = addMovableLineSegment({ pointA: graph.q2bot, pointZ: graph.q2top, snapX: 0.5, constraints: { constrainY: true }, });
+					graph.medianLine = addMovableLineSegment({ pointA: graph.mbot, pointZ: graph.mtop, snapX: 0.5, constraints: { constrainY: true }, });
+					graph.q3Line = addMovableLineSegment({ pointA: graph.q3bot, pointZ: graph.q3top, snapX: 0.5, constraints: { constrainY: true }, });
+
+					graph.q1.onMove = function( x, y ) {
+						return x &lt; graph.q2mid.coord[0] &amp;&amp; x &gt;= 0;
+					};
+
+					graph.q4.onMove = function( x, y ) {
+						return x &gt; graph.q3mid.coord[0] &amp;&amp; x &lt;= 15;
+					};
+
+					graph.q2Line.onMove = function( dX, dY ) {
+						if ( this.coordA[0] &lt;= graph.q1.coord[0] || this.coordA[0] &gt;= graph.mtop.coord[0] ) {
+							this.coordA[0] -= dX;
+							this.coordZ[0] -= dX;
+						}
+						graph.q2top.setCoord([ this.coordA[0], graph.q2top.coord[1] ]);
+						graph.q2mid.setCoord([ this.coordA[0], graph.q2mid.coord[1] ]);
+						graph.q2bot.setCoord([ this.coordA[0], graph.q2bot.coord[1] ]);
+						graph.q2top.updateLineEnds();
+						graph.q2mid.updateLineEnds();
+						graph.q2bot.updateLineEnds();
+					};
+
+					graph.medianLine.onMove = function( dX, dY ) {
+						if ( this.coordA[0] &lt;= graph.q2mid.coord[0] || this.coordA[0] &gt;= graph.q3mid.coord[0] ) {
+							this.coordA[0] -= dX;
+							this.coordZ[0] -= dX;
+						}
+						graph.mtop.setCoord([ this.coordA[0], graph.mtop.coord[1] ]);
+						graph.mbot.setCoord([ this.coordA[0], graph.mbot.coord[1] ]);
+						graph.mtop.updateLineEnds();
+						graph.mbot.updateLineEnds();
+					};
+
+					graph.q3Line.onMove = function( dX, dY ) {
+						if ( this.coordA[0] &lt;= graph.mtop.coord[0] || this.coordA[0] &gt;= graph.q4.coord[0] ) {
+							this.coordA[0] -= dX;
+							this.coordZ[0] -= dX;
+						}
+						graph.q3top.setCoord([ this.coordA[0], graph.q3top.coord[1] ]);
+						graph.q3mid.setCoord([ this.coordA[0], graph.q3mid.coord[1] ]);
+						graph.q3bot.setCoord([ this.coordA[0], graph.q3bot.coord[1] ]);
+						graph.q3top.updateLineEnds();
+						graph.q3mid.updateLineEnds();
+						graph.q3bot.updateLineEnds();
+					};
+
+				</div>
+			</div>
+			<div class="solution" data-type="custom">
+				<div class="instruction">
+					Drag each part of the box-and-whiskers plot left and right so it correctly represents the data.
+				</div>
+				<div class="guess">[
+					graph.q1.coord[0],
+					graph.q2Line.coordA[0],
+					graph.medianLine.coordA[0],
+					graph.q3Line.coordA[0],
+					graph.q4.coord[0]
+				]</div>
+				<div class="validator-function">
+					if ( _.isEqual( guess, [ 3.5, 5.5, 7.5, 9.5, 11.5 ] ) ) {
+						return "";
+					}
+					return _.isEqual( guess, [ abs( MIN ), Q1, MEDIAN, Q3, MAX ] );
+				</div>
+				<div class="show-guess">
+					graph.q1.setCoord([ guess[ 0 ], graph.q1.coord[ 1 ] ]);
+					graph.q2top.setCoord([ guess[ 1 ], graph.q2top.coord[ 1 ] ]);
+					graph.q2mid.setCoord([ guess[ 1 ], graph.q2mid.coord[ 1 ] ]);
+					graph.q2bot.setCoord([ guess[ 1 ], graph.q2bot.coord[ 1 ] ]);
+					graph.mtop.setCoord([ guess[ 2 ], graph.mtop.coord[ 1 ] ]);
+					graph.mbot.setCoord([ guess[ 2 ], graph.mbot.coord[ 1 ] ]);
+					graph.q3top.setCoord([ guess[ 3 ], graph.q3top.coord[ 1 ] ]);
+					graph.q3mid.setCoord([ guess[ 3 ], graph.q3mid.coord[ 1 ] ]);
+					graph.q3bot.setCoord([ guess[ 3 ], graph.q3bot.coord[ 1 ] ]);
+					graph.q4.setCoord([ guess[ 4 ], graph.q4.coord[ 1 ] ]);
+					jQuery.each([ graph.q1, graph.q2top, graph.q2mid, graph.q2bot, graph.mtop, graph.mbot, graph.q3top, graph.q3mid, graph.q3bot, graph.q4 ], function() {
+						this.updateLineEnds();
+					});
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<div>
+			<p>Begin by putting the data in order:</p>
+			<p><code>\qquad \large{<var>SORTED_DATA.join( ", " )</var>}</code></p>
+		</div>
+
+		<div>
+			<p>Plot the sample minimum (smallest number):<p>
+			<p><code>\qquad \large{\color{<var>PINK</var>}{<var>MIN</var>}, <var>SORTED_DATA.slice( 1 ).join( ", " )</var>}</code></p>
+			<div class="graphie" data-update="boxplot">
+				style({ stroke: PINK, fill: PINK }, function() {
+					circle( [ MIN, -4.5 ], 0.13 );
+				});
+			</div>
+		</div>
+
+		<div>
+			<p>Plot the sample maximum (largest number):</p>
+			<p><code>\qquad \large{<var>SORTED_DATA.slice( 0, -1 ).join( ", " )</var>, \color{<var>PINK</var>}{<var>MAX</var>}}</code></p>
+			<div class="graphie" data-update="boxplot">
+				style({ stroke: PINK, fill: PINK }, function() {
+					circle( [ MAX, -4.5 ], 0.13 );
+				});
+			</div>
+		</div>
+
+		<div>
+			<p>Plot the median (middle number):</p>
+			<p><code>
+				\qquad \large{<var>SORTED_DATA.slice( 0, 7 ).join( ", " )</var>,
+				\color{<var>PINK</var>}{<var>MEDIAN</var>},
+				<var>SORTED_DATA.slice( 8 ).join( ", " )</var>}
+			</code></p>
+			<div class="graphie" data-update="boxplot">
+				style({ stroke: PINK, strokeWidth: 2 }, function() {
+					line( [ MEDIAN, -5.5 ], [ MEDIAN, -3.5 ] );
+				});
+			</div>
+		</div>
+
+		<div>
+			<p>Plot the first quartile (halfway between the smallest number and the middle number):</p>
+			<p><code>
+				\qquad \large{<var>SORTED_DATA.slice( 0, 3 ).join( ", " )</var>,
+				\color{<var>PINK</var>}{<var>SORTED_DATA[3]</var>},
+				<var>SORTED_DATA.slice( 4 ).join( ", " )</var>}
+			</code></p>
+			<div class="graphie" data-update="boxplot">
+				style({ stroke: PINK, strokeWidth: 2 }, function() {
+					line( [ Q1, -5.5 ], [ Q1, -3.5 ] );
+				});
+			</div>
+		</div>
+
+		<div>
+			<p>Plot the third quartile (halfway between the middle number and the largest number):</p>
+			<p><code>
+				\qquad \large{<var>SORTED_DATA.slice( 0, 11 ).join( ", " )</var>,
+				\color{<var>PINK</var>}{<var>SORTED_DATA[11]</var>},
+				<var>SORTED_DATA.slice( 12 ).join( ", " )</var>}
+			</code></p>
+			<div class="graphie" data-update="boxplot">
+				style({ stroke: PINK, strokeWidth: 2 }, function() {
+					line( [ Q3, -5.5 ], [ Q3, -3.5 ] );
+				});
+			</div>
+		</div>
+
+		<div>
+			<p>Your box-and-whisker plot should look like the example below the number line.</p>
+			<div class="graphie" data-update="boxplot">
+				style({ stroke: PINK, strokeWidth: 2 }, function() {
+					line( [ MIN, -4.5 ], [ Q1, -4.5 ] );
+					line( [ Q1, -5.5 ], [ Q3, -5.5 ] );
+					line( [ Q1, -3.5 ], [ Q3, -3.5 ] );
+					line( [ Q3, -4.5 ], [ MAX, -4.5 ] );
+				});
+			</div>
+		</div>
+
+	</div>
+
+</div>
+</body>
+</html>

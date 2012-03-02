@@ -37,33 +37,80 @@ jQuery.extend( KhanUtil, {
 		graph.graph.median = median;
 	},
 
-
-	calculateAverages: function() {
+	updateMeanAndMedian: function() {
 		var points = KhanUtil.currentGraph.graph.points;
-		var mean = 0;
-		var median = 0;
-		var values = [];
-		jQuery.each( points, function() {
-			mean += this.coord[0];
-			values.push( this.coord[0] );
-		});
+		var mean = KhanUtil.mean( jQuery.map( points, function( el ) { return el.coord[0]; } ) );
+		var median = KhanUtil.median( jQuery.map( points, function( el ) { return el.coord[0]; } ) );
 
-		mean /= points.length;
+		KhanUtil.updateMean( KhanUtil.roundTo( 2, mean ) );
+		KhanUtil.updateMedian( KhanUtil.roundTo( 2, median ) );
+	},
 
-		values = KhanUtil.sortNumbers( values );
-		if ( values.length % 2 !== 0 ) {
-			median = values[ Math.round( values.length / 2 ) - 1 ];
+	updateMeanAndStddev: function() {
+		var graph = KhanUtil.currentGraph;
+		var points = KhanUtil.currentGraph.graph.points;
+		var mean = KhanUtil.mean( jQuery.map( points, function( el ) { return el.coord[0]; } ) );
+		var stddev = KhanUtil.stdDev( jQuery.map( points, function( el ) { return el.coord[0]; } ) );
+
+		mean = KhanUtil.roundTo( 1, mean );
+		stddev = KhanUtil.roundTo( 1, stddev );
+
+		graph.graph.stddevLeft.translate( ((mean) * graph.scale[0]) - graph.graph.stddevLeft.attr("translation").x, 0 );
+		graph.graph.stddevRight.translate( ((mean + stddev) * graph.scale[0]) - graph.graph.stddevRight.attr("translation").x, 0 );
+		graph.graph.stddevLine.translate( ((mean) * graph.scale[0]) - graph.graph.stddevLine.attr("translation").x, 0 );
+		graph.graph.stddevLine.scale( stddev, 1, graph.graph.stddevLine.attr( "path" )[0][1], graph.graph.stddevLine.attr( "path" )[0][2] );
+
+		graph.graph.stddevValueLabel.remove();
+		graph.graph.stddevValueLabel = graph.label( [ stddev / 2 + mean, -1.3 ], "s \\approx " + stddev, "below", { color: KhanUtil.GREEN });
+
+		if ( stddev > 0 ) {
+
+			graph.style({ strokeWidth: 2, stroke: "#bbb", fill: null, "plot-points": 100 }, function() {
+				graph.graph.pdf.remove();
+				graph.graph.pdf = graph.plot( function( x ) {
+					return KhanUtil.gaussianPDF( mean, stddev, x ) * 5 - 0.2;
+				}, [ -7, 7 ]).toBack();
+			});
+
+			graph.style({ strokeWidth: 2, stroke: KhanUtil.BLUE, fill: null }, function() {
+				graph.graph.meanLine.remove();
+				graph.graph.meanLine = graph.line( [ mean, -0.2 ], [ mean, KhanUtil.gaussianPDF( mean, stddev, mean ) * 5 - 0.2 ] ).toBack();
+			});
+
+			graph.graph.meanValueLabel.remove();
+			graph.graph.meanValueLabel = graph.label(
+				[ mean, KhanUtil.gaussianPDF( mean, stddev, mean ) * 5 - 0.2 ],
+				"\\bar{x} \\approx " + mean, "above", { color: KhanUtil.BLUE }
+			);
+
+			var points = [];
+
+			points.push([ mean - stddev, -0.2 ]);
+			points.push([ mean - stddev, KhanUtil.gaussianPDF( mean, stddev, mean - stddev ) * 5 - 0.2 ]);
+			var step = stddev / 50;
+			for ( var x = mean - stddev; x <= mean + stddev; x += step ) {
+				points.push([ x, KhanUtil.gaussianPDF( mean, stddev, x ) * 5 - 0.2 ]);
+			}
+			points.push([ mean + stddev, KhanUtil.gaussianPDF( mean, stddev, mean + stddev ) * 5 - 0.2 ]);
+			points.push([ mean + stddev, -0.2 ]);
+
+			graph.style({ strokeWidth: 0, stroke: null, fill: KhanUtil.GREEN, opacity: 0.3 }, function() {
+				graph.graph.stddevArea.remove();
+				graph.graph.stddevArea = graph.path( points ).toBack();
+			});
+
 		} else {
-			median = values[ values.length / 2 - 1 ] + values[ values.length / 2 ];
-			median /= 2;
+			graph.graph.pdf.remove();
+			graph.graph.pdf = KhanUtil.bogusShape;
 		}
 
-		KhanUtil.updateMean( mean );
-		KhanUtil.updateMedian( median );
+
+		graph.graph.mean = mean;
+		graph.graph.stddev = stddev;
 	},
 
 
-	onMovePoint: function( point, x, y, animate ) {
+	onMovePoint: function( point, x, y, updateFunction ) {
 		var points = KhanUtil.currentGraph.graph.points;
 
 		// Don't do anything unless the point actually moved
@@ -91,15 +138,15 @@ jQuery.extend( KhanUtil, {
 				}
 			});
 
-			if (!animate) {
-				KhanUtil.calculateAverages();
+			if ( jQuery.isFunction( updateFunction ) ) {
+				updateFunction();
 			}
 
 			// Adjust the y-value of each point in case points are stacked
 			jQuery.each( positions, function( value, points ) {
 				points = points.sort (function(a, b){ return a.coord[1]-b.coord[1]; });
 				jQuery.each( points, function( i, point ) {
-					if (!animate) {
+					if ( updateFunction !== undefined ) {
 						point.moveTo(point.coord[0], 0.3 * i);
 					} else {
 						point.setCoord([ point.coord[0], 0.3 * i ]);
@@ -151,7 +198,7 @@ jQuery.extend( KhanUtil, {
 			jQuery({ 0: oldValue }).animate({ 0: newValues[i] }, {
 				duration: 500,
 				step: function( now, fx ) {
-					KhanUtil.onMovePoint( sortedPoints[ i ], now, 0, true );
+					KhanUtil.onMovePoint( sortedPoints[ i ], now, 0 );
 				}
 			});
 		});
@@ -183,6 +230,7 @@ jQuery.extend( KhanUtil, {
 		var newValues = KhanUtil.arrangePointsAroundMedian();
 
 		KhanUtil.animatePoints( oldValues, newValues, targetMedian, targetMedian );
+		KhanUtil.currentGraph.graph.moved = true;
 	},
 
 
@@ -197,7 +245,7 @@ jQuery.extend( KhanUtil, {
 			});
 			mean /= values.length;
 			return mean;
-		}
+		};
 
 		var sortedPoints = points.sort (function(a, b){ return a.coord[0]-b.coord[0]; });
 		var oldValues = [];
@@ -244,44 +292,53 @@ jQuery.extend( KhanUtil, {
 		}
 
 		KhanUtil.animatePoints( oldValues, newValues, graph.graph.targetMedian, graph.graph.targetMean );
-	}
+		KhanUtil.currentGraph.graph.moved = true;
+	},
 
-});
+	showStddevExample: function() {
+		var points = KhanUtil.currentGraph.graph.points;
+		var targetStddev = KhanUtil.currentGraph.graph.targetStddev;
+		var sortedPoints = points.sort( function( a, b ) { return a.coord[0]-b.coord[0]; });
+		var oldValues = [];
+		jQuery.each( sortedPoints, function( i, point ) {
+			oldValues.push( point.coord[0] );
+		});
+		var newValues = new Array( points.length );
 
-
-jQuery.extend( Khan.answerTypes, {
-	exploringMeanMedian: function( solutionarea, solution, fallback, verifier, input ) {
-		jQuery( solutionarea ).append( jQuery( solution ).clone().contents().tmpl() );
-
-		ret = function() {
-			var graph = KhanUtil.currentGraph;
-			var points = graph.graph.points;
-
-			ret.guess = [];
-			jQuery.each( points, function( i, point ) {
-				ret.guess.push( point.coord[0] );
+		// brute force answer finder :(
+		var loopCount = 0;
+		do {
+			newValues = jQuery.map( newValues , function() {
+				return KhanUtil.roundToNearest( 0.5, KhanUtil.randGaussian() * targetStddev );
 			});
+			newValues = KhanUtil.sortNumbers( newValues );
+			++loopCount;
+		} while ( loopCount < 1000 && (
+			KhanUtil.roundTo( 1, KhanUtil.mean( newValues ) !== 0 ) ||
+			KhanUtil.roundTo( 1, KhanUtil.stdDev( newValues ) ) !== targetStddev ||
+			_.isEqual( oldValues, newValues )
+		));
+		if ( loopCount === 1000 ) {
+			// better this than an infinte loop
+			newValues = oldValues.slice();
+		}
 
-			if ( graph.graph.mean === 0 && graph.graph.median === 0 ) {
-				// no guess, don't grade answer
-				ret.guess = "";
-				return false;
-			} else if (
-					graph.graph.mean !== graph.graph.targetMean ||
-					graph.graph.median !== graph.graph.targetMedian ) {
-				return false;
-			} else {
-				return true;
+
+		jQuery.each( oldValues, function( i, oldValue ) {
+			jQuery({ 0: oldValue }).animate({ 0: newValues[i] }, {
+				duration: 500,
+				step: function( now, fx ) {
+					KhanUtil.onMovePoint( sortedPoints[ i ], now, 0 );
+				}
+			});
+		});
+		jQuery({ 0: 0 }).animate({ 0: 1 }, {
+			duration: 600,
+			step: function( now, fx ) {
+				KhanUtil.updateMeanAndStddev();
 			}
-		};
-		ret.examples = [ "any arrangement of the orange dots so that the mean and median are correct" ];
-		ret.solution = [ KhanUtil.currentGraph.graph.targetMean, KhanUtil.currentGraph.graph.targetMedian ];
-
-		ret.showGuess = function( guess ) {
-			jQuery.each( points, function( i, point ) {
-				KhanUtil.onMovePoint( point, guess[i], 0 );
-			});
-		};
-		return ret;
+		});
+		KhanUtil.currentGraph.graph.moved = true;
 	}
+
 });

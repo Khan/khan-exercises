@@ -105,13 +105,13 @@ function sameSide( p1, p2, l ){
 //Very useful for labels, for example, clearArray( [ "x", "x", "x" ], [ ANGLE ] ), where ANGLE is 1, will give you [ "", "x", "" ], which you can use to label angles in a Triangle such that the second angle is labeled x
 
 function clearArray( arr, i ){
-	return jQuery.map( arr, function( el, index ) { 
+	return jQuery.map( arr, function( el, index ) {
 		if( jQuery.inArray( index, i ) !== -1 ){
 			return  el;
 		}
 		else{
 			return  "";
-	   } 
+	   }
 	} );
 }
 
@@ -157,7 +157,7 @@ function areIntersecting( pol1, pol2 ){
 		for( k = 0; k < pol2.length; k++ ){
 			if( findIntersection( pol1[ i ], pol2[ k ] )[ 2 ] ){
 				return true;
-			}	
+			}
 		}
 	}
 	return false;
@@ -233,7 +233,7 @@ function lineEquation( line ){
 
 	var m = ( line[ 1 ][ 1 ] - line[ 0 ][ 1 ] ) / ( line[ 1 ][ 0 ] - line[ 0 ][ 0 ] );
 	var k = line[ 0 ][ 1 ] - m * line[ 0 ][ 0 ];
-	
+
 	return  [ m, k ];
 
 }
@@ -241,10 +241,10 @@ function lineEquation( line ){
 //Given a line, returns a segment of that line of length amount starting at start
 function lineSegmentFromLine( start, line, amount ){
 
-	var eq = lineEquation( line );	
+	var eq = lineEquation( line );
 	var m = eq[ 0 ];
-	var angle = Math.atan( m );	
-	return [ start, [ start[ 0 ] +  Math.cos( angle ) * amount, start[ 1 ] + Math.sin( angle ) * amount ] ]; 
+	var angle = Math.atan( m );
+	return [ start, [ start[ 0 ] +  Math.cos( angle ) * amount, start[ 1 ] + Math.sin( angle ) * amount ] ];
 
 }
 
@@ -252,7 +252,7 @@ function lineSegmentFromLine( start, line, amount ){
 function parallelLine( line, point ){
 
 	var dif = [ point[ 0 ] - line[ 0 ][ 0 ], point[ 1 ] - line[ 0 ][ 1 ] ];
-	return [ point, [ line[ 1 ][ 0 ] + dif[ 0 ],  line[ 1 ][ 1 ] + dif[ 1 ] ] ]; 
+	return [ point, [ line[ 1 ][ 0 ] + dif[ 0 ],  line[ 1 ][ 1 ] + dif[ 1 ] ] ];
 
 }
 
@@ -269,24 +269,24 @@ function bisectAngle( line1, line2, scale ){
 	var l2 = [];
 
 	if( ( line1[ 1 ][ 0 ] - line1[ 0 ][ 0 ] ) >= 0  ){
-		l1 = lineSegmentFromLine( intPoint, line1, scale );	
+		l1 = lineSegmentFromLine( intPoint, line1, scale );
 	}
 	else{
-		l1 = lineSegmentFromLine( intPoint, line1, -scale );	
+		l1 = lineSegmentFromLine( intPoint, line1, -scale );
 	}
 	if( ( line2[ 1 ][ 0 ] - line2[ 0 ][ 0 ] ) >= 0  ){
 		l2 = lineSegmentFromLine( intPoint, line2, scale );
 	}
 	else{
-		l2 = lineSegmentFromLine( intPoint, line2, -scale );	
+		l2 = lineSegmentFromLine( intPoint, line2, -scale );
 	}
 	return [ intPoint, parallelLine( l1, l2[ 1 ] )[ 1 ] ];
 
 }
 
-//Midpoint of a line 
+//Midpoint of a line
 function lineMidpoint( line ){
-	return  [ ( line[ 0 ][ 0 ] + line[ 1 ][ 0 ] ) / 2, ( line[ 0 ][ 1 ] + line[ 1 ][ 1 ] ) / 2 ] 
+	return  [ ( line[ 0 ][ 0 ] + line[ 1 ][ 0 ] ) / 2, ( line[ 0 ][ 1 ] + line[ 1 ][ 1 ] ) / 2 ]
 }
 
 function vectorProduct( line1, line2 ){
@@ -297,7 +297,7 @@ function vectorProduct( line1, line2 ){
 	return  x1 * y2  - x2 * y1;
 }
 
-//For [ a, b ] returns [b , a] 
+//For [ a, b ] returns [b , a]
 function reverseLine( line ){
 	return [ line[ 1 ], line[ 0 ] ];
 }
@@ -319,34 +319,36 @@ function Triangle( center, angles, scale, labels, points ){
 	else{
 		this.angles = angles;
 	}
-	
+
 	this.radAngles = $.map( angles, degToRad );
 	this.scale = ( scale || 3 );
-	
+
 	this.cosines = $.map( this.radAngles, Math.cos );
 	this.sines = $.map( this.radAngles, Math.sin );
 
 
 	this.x = center[ 0 ];
-	this.y = center[ 1 ];	
+	this.y = center[ 1 ];
 	this.rotation = 0;
 
+	//Given the scale(which represensts the area of the triangle) and angles we want to find the side lengths.
+	//http://en.wikipedia.org/wiki/Triangle#Using_trigonometry. Using the ASA equation in the link, we find the length of one side.
 	var a = Math.sqrt( ( 2 * this.scale * this.sines[ 1 ] ) / ( this.sines[ 0 ] * this.sines[ 2 ])  ) ;
 	var b = a * this.sines[ 2 ] / this.sines[ 1 ];
 	if( ! fromPoints ){
 		this.points = [ [ this.x, this.y ], [  b  + this.x, this.y ], [ this.cosines[ 0 ] * a + this.x, this.sines[ 0 ] * a  + this.y  ] ];
 	}
 	this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
-	
+
 	this.sideLengths =  jQuery.map( this.sides, lineLength );
-	
+
 	this.niceSideLengths = jQuery.map( this.sideLengths, function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
-	
+
 	this.set = "";
 	this.niceAngles = jQuery.map( this.angles, function( x ){ return x + "^{\\circ}"; } );
 	this.labelObjects = { "sides": [] , "angles" : [], "points" : [], "name" : [] };
 
-	
+
 	this.angleScale = function ( ang ){
 		if( ang > 90 ){
 			return 0.5;
@@ -381,7 +383,15 @@ function Triangle( center, angles, scale, labels, points ){
 		}
 		if( shouldMove ){
 			this.translate( amount );
-		} 
+		}
+	}
+
+	this.boundingRange = function( margin ) {
+		margin = margin || 0;
+		var X = jQuery.map(this.points, function( p ){ return p[0]; });
+		var Y = jQuery.map(this.points, function( p ){ return p[1]; });
+		return [ [ _.min(X) - margin, _.max(X) + margin ],
+			 [ _.min(Y) - margin, _.max(Y) + margin ] ];
 	}
 
 	this.findCenterPoints = function(){
@@ -397,10 +407,10 @@ function Triangle( center, angles, scale, labels, points ){
 		var c = lineLength( this.sides[ 2 ] );
 		var P = a + b + c;
 		var x1 = ( a * Ax + b * Bx + c * Cx ) / P;
-		var y1 = ( a * Ay + b * By + c * Cy ) / P;	
-		var x = (( Ay * Ay + Ax * Ax ) * ( By - Cy ) + ( By * By + Bx * Bx ) * ( Cy - Ay ) + ( Cy * Cy  + Cx * Cx) * ( Ay - By )) / D; 
+		var y1 = ( a * Ay + b * By + c * Cy ) / P;
+		var x = (( Ay * Ay + Ax * Ax ) * ( By - Cy ) + ( By * By + Bx * Bx ) * ( Cy - Ay ) + ( Cy * Cy  + Cx * Cx) * ( Ay - By )) / D;
 		var y = (( Ay * Ay + Ax * Ax ) * ( Cx - Bx ) + ( By * By + Bx * Bx ) * ( Ax- Cx ) + ( Cy * Cy + Cx * Cx ) * ( Bx - Ax ))/D;
-		this.circumCenter = [ x, y ];  
+		this.circumCenter = [ x, y ];
 		this.centroid =  [ 1/3 * ( Ax + Bx + Cx ), 1/3 * ( Ay + By + Cy ) ];
 		this.inCenter = [ x1, y1 ];
 	}
@@ -408,7 +418,7 @@ function Triangle( center, angles, scale, labels, points ){
 	this.findCenterPoints();
 
 	this.rotationCenter = this.centroid;
-	
+
 	this.rotate = function( amount ){
 		amount = amount * Math.PI / 180;
 		var tr = this;
@@ -449,7 +459,7 @@ function Triangle( center, angles, scale, labels, points ){
 			}
 		}
 
-		if ( "angles" in this.labels ){	
+		if ( "angles" in this.labels ){
 			for( i = this.angles.length - 1; i >= 0; i-- ){
 				this.labelObjects.angles.push( this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % this.angles.length ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ ( i + 1 ) % this.angles.length ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % this.angles.length ] ) );
 			}
@@ -462,11 +472,11 @@ function Triangle( center, angles, scale, labels, points ){
 				var t =lineLength( [ this.sides[ i ][ 1 ],  midPoint ] );
 				var d = 0.5;
 				var x3 = midPoint[ 0 ] + ( this.sides[ i ][ 1 ][ 1 ] - midPoint[ 1 ] )/ t * d ;
-				var y3 = midPoint[ 1 ] - ( this.sides[ i ][ 1 ][ 0 ]- midPoint[ 0 ]) / t * d ;	
+				var y3 = midPoint[ 1 ] - ( this.sides[ i ][ 1 ][ 0 ]- midPoint[ 0 ]) / t * d ;
 				this.labelObjects.sides.push( this.createLabel( [ x3, y3 ], this.labels.sides[  i  ] ) );
 			}
 		}
-	
+
 		if ( "name" in this.labels ){
 				this.labelObjects[ "name" ] =  this.createLabel( bisectAngle( reverseLine( this.sides[ 2  ] ), this.sides[ 1 ], 0.3 )[ 1 ], this.labels.name );
 		}
@@ -482,7 +492,7 @@ function Triangle( center, angles, scale, labels, points ){
 		if ( "b" in this.labels ){
 			this.createLabel( [ ( this.points[ 0 ][ 0 ] + this.points[ 2 ][ 0 ] ) / 2 - 0.4, ( this.points[ 0 ][ 1 ] + this.points[ 2 ][ 1 ] ) / 2 ] , labels.b );
 		}
-	
+
 
 		return this.set;
 	}
@@ -532,7 +542,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 			}
 		}
 	}
-	
+
 	this.isCrossed = function(){
 		return ( vectorProduct( [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) > 0 ) || ( vectorProduct( [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) < 0 );
 	}
@@ -546,9 +556,9 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	var area = 0.5 *  vectorProduct( [ this.points[ 0 ], this.points[ 2 ] ], [ this.points[ 3 ], this.points[ 1 ] ] );
 	this.scale = this.scale *  Math.sqrt( this.size / area );
 	this.generatePoints();
-	
+
 	area = 0.5 *  vectorProduct( [ this.points[ 0 ], this.points[ 2 ] ], [ this.points[ 3 ], this.points[ 1 ] ] );
-	
+
 }
 
 
@@ -570,7 +580,7 @@ function anglesFromSides( sides ){
 var randomTriangleAngles = {
 
 		triangle: function(){
-			var a, b, c; 
+			var a, b, c;
 			a = KhanUtil.randRange( 35, 150 );
 			b = KhanUtil.randRange( 35, 180 - a );
 			if ( a + b > 160 ){
@@ -582,7 +592,7 @@ var randomTriangleAngles = {
 		},
 
 		scalene: function(){
-			var a, b, c; 
+			var a, b, c;
 			do {
 				a = KhanUtil.randRange( 25, 150 );
 				b = KhanUtil.randRange( 25, 180 - a );
@@ -611,7 +621,7 @@ var randomQuadAngles = {
 		square: function(){
 			return [ 90, 90, 90, 90 ];
 		},
-		
+
 		rectangle: function(){
 			return [ 90, 90, 90, 90 ];
 		},
@@ -697,4 +707,3 @@ function newKite( center ) {
 	var angC = 360 - angB - 2 * angA;
 	return  new Quadrilateral( center, randomQuadAngles.kite(), 1 , "", 2 );
 }
-

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions">
 <head>
-	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Equation of a parabola</title>
 	<script src="../khan-exercise.js"></script>
 	<style type="text/css">
@@ -12,11 +12,11 @@
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars" data-ensure="( A != 0 ) && -10 < C && C < 10 && B != 0 ">
+	<div class="vars" data-ensure="( A !== 0 ) && -10 < C && C < 10 && B !== 0 ">
 		<var id="A"> randRange( -5, 5 ) </var>
 		<var id="H"> randRange( -5, 5 )</var>
 		<var id="K"> randRange( -5, 5 )</var>
-		// y = A*(x-H)^2 + K = A(x^2-2Hx+H^2) + K = Ax^2 -2AHx + A*H^2+K
+		<!-- y = A*(x-H)^2 + K = A(x^2-2Hx+H^2) + K = Ax^2 -2AHx + A*H^2+K -->
 		<var id="B">-2 * A * H</var>
 		<var id="C">A * H * H + K</var>
 	</div>
