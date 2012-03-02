@@ -8,6 +8,14 @@
           return expr;
     };
 
+    var initArray = function(length) {
+       var arr = [];
+       for (var pos = 0; pos < length; pos++) {
+          arr.push(0);
+       }
+       return arr;
+    };
+
     var genTerm = function(factors, occFactors) {
        var args = [];
        var numFactors = 1;
@@ -38,6 +46,60 @@
           expr = {op:"*", args:args};
        }
        return expr;
+    };
+
+    var genTermsFactors = function(factors, occFactors, nbTerms, factorsPerTerm, numTotal) {
+       var hasNonNumFactor = false;
+       var minNumFactor = undefined;
+       var maxNumFactor = undefined;
+       var excludedFromTerm = [];
+       for (var iFactor = 0; iFactor < factors.length; iFactor++) {
+          excludedFromTerm[iFactor] = KhanUtil.randRange(0, nbTerms - 1);
+       }
+       do {
+          var terms = [];
+          var termOccFactors = [];
+          for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
+             var termNumTotal = numTotal;
+             termOccFactors[iTerm] = initArray(factors.length);
+             var availableFactors = [];
+             var smallestFactorNum = 1000;
+             for (var iFactor = 0; iFactor < factors.length; iFactor++) { // TODO : fill that earlier, to avoid extra loop
+                 if (excludedFromTerm[iFactor] !== iTerm) {
+                     availableFactors.push(iFactor);
+                     if (typeof factors[iFactor] !== "number") {
+                        smallestFactorNum = 0;
+                     } else {
+                        smallestFactorNum = Math.min(smallestFactorNum, factors[iFactor]);
+                     }
+                 }
+             }
+             var nbNonShared;
+             if (availableFactors.length === 0) {
+                nbNonShared = 0;
+             } else {
+                nbNonShared = KhanUtil.randRange(1, factorsPerTerm);
+             }
+             for (var iNonShared = 0; iNonShared < nbNonShared; iNonShared++) {
+                if (smallestFactorNum * termNumTotal > 80) {
+                   break;
+                }
+                var iChosen;
+                do {
+                   iChosen = KhanUtil.randFromArray(availableFactors);
+                } while ((typeof factors[iChosen] === "number") && (termNumTotal * factors[iChosen] > 80));
+                if (typeof factors[iChosen] === "number") {
+                   termNumTotal *= factors[iChosen];
+                   minNumFactor = Math.min(factors[iChosen], minNumFactor);
+                   maxNumFactor = Math.max(factors[iChosen], maxNumFactor);
+                } else {
+                   hasNonNumFactor = true;
+                }
+                termOccFactors[iTerm][iChosen]++;
+             }
+          }
+       } while ((!hasNonNumFactor) || (minNumFactor === maxNumFactor));
+       return termOccFactors;
     };
 
     var genAllTermsMarkShared = function(factors, sharedOccFactors, termsOccFactors, colors) {
@@ -90,14 +152,6 @@
        return {op:"*", args:[sharedPart, remainingTerms]};
     };
 
-    var initArray = function(length) {
-       var arr = [];
-       for (var pos = 0; pos < length; pos++) {
-          arr.push(0);
-       }
-       return arr;
-    };
-
     var genSharedFactors = function(factors, sharedFactors, occFactors, factorsPerTerm) {
        var nbSharedFactors = KhanUtil.randRange(1, factorsPerTerm);
        var numTotal = 1;
@@ -115,16 +169,6 @@
        return numTotal;
     };
 
-    var genListFactors = function(factors, occFactors) {
-       var listFactors = [];
-       for (var iFactor = 0; iFactor < factors.length; iFactor++) {
-           for (var iOcc = 0; iOcc < occFactors[iFactor]; iOcc++) {
-               listFactors.push(factors[iFactor]);
-           }
-       }
-       return listFactors;
-    }
- 
     var genCdotFactors = function(factors, occFactors) {
        var args = genListFactors(factors, occFactors);
        var expr;
@@ -139,26 +183,6 @@
        var exprLeft = genTerm(factors, occFactors);
        var exprRight = genCdotFactors(factors, occFactors);
        return {op:"=", args:[exprLeft, exprRight]};
-    };
-
-    var genHintListFactors = function(MATH, factors, occFactors) {
-       var listFactors = genListFactors(factors, occFactors);
-       var strListFactors = "";
-       for (var iListedFactor = 0; iListedFactor < listFactors.length; iListedFactor++) {
-           if (iListedFactor !== 0) {
-              if (iListedFactor === listFactors.length - 1) {
-                 strListFactors += " and ";
-              } else {
-                 strListFactors += ", ";
-              }
-           }
-           strListFactors += "<code>" + MATH.format(setColor(listFactors[iListedFactor], KhanUtil.BLUE)) + "</code>";
-       }
-       if (listFactors.length === 1) {
-          return "<p>The terms have one common factor: " + strListFactors + ".</p>";
-       } else {
-          return "<p>The terms have these common factors: " + strListFactors + ".</p>";
-       }
     };
 
     // Generate wrong choices where we put in common a factor that is not shared by all terms
@@ -232,58 +256,35 @@
        return choices;
     };
 
-    var genTermsFactors = function(factors, occFactors, nbTerms, factorsPerTerm, numTotal) {
-       var hasNonNumFactor = false;
-       var minNumFactor = undefined;
-       var maxNumFactor = undefined;
-       var excludedFromTerm = [];
+    var genListFactors = function(factors, occFactors) {
+       var listFactors = [];
        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
-          excludedFromTerm[iFactor] = KhanUtil.randRange(0, nbTerms - 1);
+           for (var iOcc = 0; iOcc < occFactors[iFactor]; iOcc++) {
+               listFactors.push(factors[iFactor]);
+           }
        }
-       do {
-          var terms = [];
-          var termOccFactors = [];
-          for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
-             var termNumTotal = numTotal;
-             termOccFactors[iTerm] = initArray(factors.length);
-             var availableFactors = [];
-             var smallestFactorNum = 1000;
-             for (var iFactor = 0; iFactor < factors.length; iFactor++) { // TODO : fill that earlier, to avoid extra loop
-                 if (excludedFromTerm[iFactor] !== iTerm) {
-                     availableFactors.push(iFactor);
-                     if (typeof factors[iFactor] !== "number") {
-                        smallestFactorNum = 0;
-                     } else {
-                        smallestFactorNum = Math.min(smallestFactorNum, factors[iFactor]);
-                     }
-                 }
-             }
-             var nbNonShared;
-             if (availableFactors.length === 0) {
-                nbNonShared = 0;
-             } else {
-                nbNonShared = KhanUtil.randRange(1, factorsPerTerm);
-             }
-             for (var iNonShared = 0; iNonShared < nbNonShared; iNonShared++) {
-                if (smallestFactorNum * termNumTotal > 80) {
-                   break;
-                }
-                var iChosen;
-                do {
-                   iChosen = KhanUtil.randFromArray(availableFactors);
-                } while ((typeof factors[iChosen] === "number") && (termNumTotal * factors[iChosen] > 80));
-                if (typeof factors[iChosen] === "number") {
-                   termNumTotal *= factors[iChosen];
-                   minNumFactor = Math.min(factors[iChosen], minNumFactor);
-                   maxNumFactor = Math.max(factors[iChosen], maxNumFactor);
-                } else {
-                   hasNonNumFactor = true;
-                }
-                termOccFactors[iTerm][iChosen]++;
-             }
-          }
-       } while ((!hasNonNumFactor) || (minNumFactor === maxNumFactor));
-       return termOccFactors;
+       return listFactors;
+    }
+ 
+    var genHintListFactors = function(MATH, factors, occFactors) {
+       var listFactors = genListFactors(factors, occFactors);
+       var strListFactors = "";
+       for (var iListedFactor = 0; iListedFactor < listFactors.length; iListedFactor++) {
+           if (iListedFactor !== 0) {
+              if (iListedFactor === listFactors.length - 1) {
+                 strListFactors += " and ";
+              } else {
+                 strListFactors += ", ";
+              }
+           }
+           strListFactors += "<code>" + MATH.format(setColor(listFactors[iListedFactor], KhanUtil.BLUE)) + "</code>";
+       }
+       if (listFactors.length === 1) {
+          return "<p>The terms have one common factor: " + strListFactors + ".</p>";
+       } else {
+          var gcf = MATH.format(setColor(genTerm(factors, occFactors), KhanUtil.BLUE));
+          return "<p>The terms have these common factors: " + strListFactors + ", so the greatest common factor is <code>" + gcf + "</code>.</p>";
+       }
     };
 
     var genHintsDecomposeAllFactors = function(MATH, factors, sharedOccFactors, termOccFactors) {
