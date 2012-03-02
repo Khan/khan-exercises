@@ -1839,7 +1839,7 @@ var Khan = (function() {
 
 				// A hash representing the exercise
 				// TODO: Populate this from somewhere
-				sha1: typeof userExercise !== "undefined" ? userExercise.exercise_model.sha1 : exerciseName,
+				sha1: typeof userExercise !== "undefined" ? userExercise.exerciseModel.sha1 : exerciseName,
 
 				// The seed that was used for generating the problem
 				seed: problemSeed,
@@ -1976,7 +1976,7 @@ var Khan = (function() {
 			jQuery(Khan).trigger( "checkAnswer", {
 				pass: pass,
 				// Determine if this attempt qualifies as fast completion
-				fast: ( typeof userExercise !== "undefined" && userExercise.seconds_per_fast_problem >= data.time_taken )
+				fast: ( typeof userExercise !== "undefined" && userExercise.secondsPerFastProblem >= data.time_taken )
 			});
 
 			if ( pass === true ) {
@@ -2608,6 +2608,9 @@ var Khan = (function() {
 	}
 
 	function prepareUserExercise( data ) {
+
+		userExercise = data;
+
 		// Update the local data store
 		updateData( data );
 
@@ -2623,7 +2626,7 @@ var Khan = (function() {
 			seedOffset = userCRC32 % bins;
 
 			// Advance to the current problem seed
-			setProblemNum( getData().total_done + 1 );
+			setProblemNum( getData().totalDone + 1 );
 		}
 	}
 
@@ -2699,6 +2702,8 @@ var Khan = (function() {
 		}
 	}
 
+	// TODO(kamens): vast majority of updateData is going away
+	//
 	// updateData is used to update some user interface elements as the result of
 	// a page load or after a post / problem attempt. updateData doesn't know if an
 	// attempt was successful or not, it's simply reacting to the state of the data
