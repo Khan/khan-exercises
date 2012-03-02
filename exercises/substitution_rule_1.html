@@ -11,23 +11,22 @@
             <var id="CALCULUS">new Calculus()</var>
             <var id="FORMATTER">CALCULUS.EquationFormatter</var>
             <var id="VARIABLE">"x"</var>
-            <var id="P1">CALCULUS.generateSimple()</var>
-            <var id="P">FORMATTER.derivative( P1.equation(), VARIABLE )</var>
-            <var id="S">FORMATTER.format( P1.solution(), VARIABLE )</var>
+            <var id="P1">CALCULUS.generateIntegralSubsitutionRule( VARIABLE )</var>
+            <var id="P">FORMATTER.integral( P1.equation, VARIABLE )</var>
+            <var id="S">FORMATTER.format( P1.integral )</var>
         </div>
         <div class="problems">
             <div>
                 <div class="question">
-                    <p>What is the integral of <code><var>P</var></code>?</p>
+                    <p>Use the substitution rule to integrate <code><var>P</var></code>?</p>
                 </div>
                 <p class="solution"><code><var>S</var></code></p>
                 
-                <ul class="choices" date-show="5" data-none="true">
-                    <li>1</li>
+                <ul class="choices" date-show="4" data-none="true">
+                    <li><code><var>P1.wrongs[ 0 ]</var></code></li>
                     <li>2</li>
                     <li>9</li>
                     <li>5</li>
-                    <li>3</li>
                 </ul>
             </div>
         </div>

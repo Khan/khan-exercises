@@ -117,15 +117,15 @@ jQuery.extend(KhanUtil, {
             }
             
             this.isFraction = function() {
-                return ! _.isUndefined( _denom );
+                return ( ! _.isUndefined( _denom ) && _denom != 1 );
             }
             
             this.getCoef = function() {
+                var coef = _num;
                 if( this.isFraction() ) {
-                    return KhanUtil.fraction( _num, denom );
-                } else {
-                    return _num;
+                    coef = KhanUtil.fraction( _num, denom, false, false, true );
                 }
+                return coef;
             }
 
             this.getNum = function() {
@@ -146,7 +146,7 @@ jQuery.extend(KhanUtil, {
             
             this.getSign = function() {
                 var numSign = ( _num < 0 ) ? "-" : "+";
-                if( isFraction() ) {
+                if( this.isFraction() ) {
                     var denomSign = ( _denom < 0 ) ? "-" : "+";
                     return ( numSign == denomSign ) ? "+" : "-";
                 } else {
@@ -176,16 +176,21 @@ jQuery.extend(KhanUtil, {
                 }
                 
                 if( degree != 1 ) {
-                    text +=  "^{" + degree + "}"; 
+                    if( degree.isFraction() ) {
+                        text +=  "^{" + KhanUtil.fraction( degree.getNum(), degree.getDenom(), false, false, true ) + "}"; 
+                    } else {
+                        text +=  "^{" + degree + "}"; 
+                    }                        
                 }
                 return text;
             }
             
             var _type = Types.power
-            
-            var _degree = degree;
-            var _expr = expr;
-            var _coef = ( coef != 0 ) ? coef : 1;
+
+            var _expr = expr;            
+            var _degree = _.isNumber( degree ) ? new Constant( degree ) : degree;
+            var _coef = coef != 0 ? coef : new Constant( 1 );
+            var _coef =  _.isNumber( _coef ) ? new Constant( _coef ) : _coef; 
                         
             var _text = format( _expr, _degree, _coef );
             
@@ -237,8 +242,9 @@ jQuery.extend(KhanUtil, {
             
             var _type = Types.ln;
             var _expr = expr;
-            var _coef = ( coef != 0 ) ? coef : 1;
-            var _text = format( expr, coef );
+            var _coef = coef != 0 ? coef : new Constant( 1 );
+            var _coef =  _.isNumber( _coef ) ? new Constant( _coef ) : _coef; 
+            var _text = format( expr, _coef );
 
             this.getType = function() {
                 return _type;
@@ -280,8 +286,9 @@ jQuery.extend(KhanUtil, {
             }
                         
             var _expr = expr;
-            var _coef = ( coef != 0 ) ? coef : 1;
-            var _text = format( expr, coef );
+            var _coef = coef != 0 ? coef : new Constant( 1 );
+            var _coef =  _.isNumber( _coef ) ? new Constant( _coef ) : _coef; 
+            var _text = format( expr, _coef );
             
             this.getType = function() {
                 return _type;
@@ -327,16 +334,25 @@ jQuery.extend(KhanUtil, {
                     text = coef;
                 }
                 text += "\\" + func;
-                text += ( power != 1 ) ? "^" + power : ""; 
+                
+                if( power != 1 ) {
+                    if( power.isFraction() ) {
+                        text +=  "^{" + KhanUtil.fraction( power.getNum(), power.getDenom(), false, false, true ) + "}"; 
+                    } else {
+                        text +=  "^{" + power + "}"; 
+                    }                        
+                }
+                
                 text += "(" + expr  + ")";
                 return text;
             }
             
             var _func = ( verifyType( func ) ) ? func : "";
             var _expr = expr;
-            var _coef = ( coef != 0 ) ? coef : 1;
-            var _power = power;
-            var _text = format( func, expr, coef, power );
+            var _power = _.isNumber( power ) ? new Constant( power ) : power;
+            var _coef = coef != 0 ? coef : new Constant( 1 );
+            var _coef =  _.isNumber( _coef ) ? new Constant( _coef ) : _coef; 
+            var _text = format( func, expr, _coef, _power );
             
             this.getType = function() {
                 return _type;
@@ -368,24 +384,33 @@ jQuery.extend(KhanUtil, {
             }            
         }
         
-        var Equation = function( isSub ) {
+        var Equation = function() {
 
             var _type = "expr";
-            var _isSub = _.isUndefined( isSub ) ? false : isSub;
             var _parts = [];
             
             var iterPos = -1;
 
+            var format = function () {
+                var numParts = _parts.length;
+                var equation = "";
+                for( var i = 0; i < numParts; i++ ) {
+                    if( _parts[i].getType() == Types.expr ) {
+                        equation +=  "(" + _parts[i].toString() + ")";                       
+                    } else if( ( i != numParts - 1 || _parts[i].getType() != Types.operator ) && ! _.isUndefined( _parts[i] ) ) {
+                        
+                        equation += _parts[i].toString();
+                    }
+                }
+                return equation;
+            }
+            
             this.getType = function() {
                 return _type;
             }
             
-            this.getIsSub = function () {
-                return _isSub;
-            }
-            
             this.count = function() {
-            
+
                 var count = _parts.length;
                 if( count == 2 && _parts[1].getType() == Types.operator ) {
                     count = 1;
@@ -395,20 +420,11 @@ jQuery.extend(KhanUtil, {
             
             this.append = function( expr ){
                 _parts.push( expr );
+                return this;
             }
             
             this.toString = function() {
-                var numParts = _parts.length;
-                var equation = "";
-                for( var i = 0; i < numParts; i++ ) {
-                    if( isSub && _parts[i].getType() == Types.expr ) {
-                        equation +=  "(" + _parts[i].toString() + ")";                       
-                    } else if( ( i != numParts - 1 || _parts[i].getType() != Types.operator ) && ! _.isUndefined( _parts[i] ) ) {
-                        
-                        equation += _parts[i].toString();
-                    }
-                }
-                return equation;
+                return format();
             }
             
             this.hasNext = function() {
@@ -421,6 +437,7 @@ jQuery.extend(KhanUtil, {
             
             this.reset = function() {
                 iterPos = -1;
+                return this;
             }
             
             this.current = function() {
@@ -439,6 +456,7 @@ jQuery.extend(KhanUtil, {
  
             this.rewind = function() {
                 --iterPos;
+                return this;
             } 
         }
         
@@ -466,13 +484,25 @@ jQuery.extend(KhanUtil, {
         var DerivativePower = function( exponent ) {
             
             var solve = function( exponent ) {
-            
-                var derivative = new Exponent( _exponent.getDegree() - 1, _exponent.getExpr(), _exponent.getCoef() * _exponent.getDegree() );
+                
+                var derivative;
+                
+                var degree = exponent.getDegree();
+                var coef = exponent.getCoef();
+                
+                var newDegree = new Constant( degree.getNum() - degree.getDenom(), degree.getDenom() );
+                var newCoef = new Constant( coef.getNum() *  degree.getNum(), coef.getDenom() * degree.getDenom() );
+                
+                if( newDegree == 0 ) {
+                    derivative = new Constant( newCoef );
+                } else {
+                    derivative = new Exponent( newDegree, _exponent.getExpr(), newCoef );
+                }
                 
                 if( _exponent.getExpr().getType() == Types.variable ) {
                     return derivative;
                 } else {
-                    var equation = new Equation(true);
+                    var equation = new Equation();
                     equation.append( derivative );
                     var innerDerivative = new Derivative( _exponent.getExpr() );
                     equation.append( innerDerivative.solution() );
@@ -521,7 +551,7 @@ jQuery.extend(KhanUtil, {
                 if( e.getExpr().getType() == Types.variable ) {
                     return derivative;
                 } else { 
-                    var equation = new Equation(true);
+                    var equation = new Equation();
                     equation.append( derivative );
                     var innerDerivative = new Derivative( e.getExpr() );
                     equation.append( innerDerivative.solution() );
@@ -552,7 +582,7 @@ jQuery.extend(KhanUtil, {
                if( ln.getExpr().getType() == Types.variable ) {
                     return derivative;
                 } else {
-                    var equation = new Equation(true);
+                    var equation = new Equation();
                     equation.append( derivative );
                     var innerDerivative = new Derivative( ln.getExpr() );
                     equation.append( innerDerivative.solution() );
@@ -610,7 +640,7 @@ jQuery.extend(KhanUtil, {
                 if( trigFunc.getExpr().getType() == Types.variable ) {
                     return derivative;
                 } else {
-                    var equation = new Equation(true);
+                    var equation = new Equation();
                     equation.append( derivative );
                     var innerDerivative = new Derivative( trigFunc.getExpr() );
                     equation.append( innerDerivative.solution() );
@@ -675,8 +705,15 @@ jQuery.extend(KhanUtil, {
             var _exponent = exponent;
             var _integral;
             if( _exponent.getDegree() != -1 ) {
-                _integral = new Exponent( _exponent.getDegree() + 1, _exponent.getExpr(),
-                    new Constant( _exponent.getCoef(), _exponent.getDegree() + 1 ) );
+
+                var degree = exponent.getDegree();
+                var coef = exponent.getCoef();
+                
+                var newDegree = new Constant( degree.getNum() + degree.getDenom(), degree.getDenom() );
+                var newCoef = new Constant( newDegree.getDenom(), newDegree.getNum() );
+                
+                _integral = new Exponent( newDegree, _exponent.getExpr(), newCoef );
+                
             } else {
                 _integral = new NaturalLog( _exponent.getExpr(), _exponent.getCoef() );
             }
@@ -808,7 +845,7 @@ jQuery.extend(KhanUtil, {
                         var d1 = solveExpr( expr );
                         var d2 = solveExpr( expr2 );
                         
-                        var numerator = new Equation(true);                        
+                        var numerator = new Equation();                        
                         numerator.append( d1 );
                         numerator.append( expr2 );
                         numerator.append( new Operator().subtract() );
@@ -839,6 +876,14 @@ jQuery.extend(KhanUtil, {
                         }                        
                     }
                 }
+                
+                if( solution.count() == 1 ) {
+                    var expr = solution.next();
+                    if( expr.getType() == Types.expr ) {
+                        return expr;
+                    }
+                    solution.reset();
+                }
                 return solution;
             }
             
@@ -860,7 +905,7 @@ jQuery.extend(KhanUtil, {
         
         var IndefiniteIntegral = function( equation ) {
             
-            var solveSubstition = function( inner, outer ) {
+            var solveSubstitution = function( inner, outer ) {
 
                 var innerD = new Derivative( inner );
                 var innerSolution = innerD.solution();
@@ -872,8 +917,10 @@ jQuery.extend(KhanUtil, {
                     innerExpr = innerSolution;
                 }
 
-                if( ( innerExpr.getType() == Types.power && outer.getType() == Types.power && innerExpr.getDegree() == outer.getDegree() ) ||
-                    ( innerExpr.getType() == Types.power && innerExpr.getDegree() == 0 && outer.getType() == Types.constant ) ) {
+                if( ( innerExpr.getType() == Types.power && outer.getType() == Types.power && innerExpr.getDegree().toString()== outer.getDegree().toString() ) || 
+                    ( innerExpr.getType() == Types.power && innerExpr.getDegree() == 0 && outer.getType() == Types.constant ) || 
+                    ( innerExpr.getType() == Types.trig && outer.getType() == Types.trig && innerExpr.getFunc().toString() == outer.getFunc().toString() ) || 
+                    ( innerExpr.getType() == Types.e && outer.getType() == Types.e ) ) {
                     return new Constant( outer.getCoef(), innerExpr.getCoef() );                  
                 }
             }
@@ -924,7 +971,7 @@ jQuery.extend(KhanUtil, {
                                 
                                 if( innerExpr.getType() != Types.variable ) {
                                     var outer = new Constant( expr.getCoef() );
-                                    var sub = solveSubstition( innerExpr, outer );
+                                    var sub = solveSubstitution( innerExpr, outer );
                                     solution.append( sub );
                                 }
                             }
@@ -939,15 +986,15 @@ jQuery.extend(KhanUtil, {
                     
                         innerExpr1 = expr.getExpr();
                         innerExpr2 = next.getExpr();
-                        
+
                         if( innerExpr1.getType() == Types.variable ) {
                             var i = solveExpr( next );
-                            var sub = solveSubstition( innerExpr2, expr );
+                            var sub = solveSubstitution( innerExpr2, expr );
                             solution.append( sub );
                             solution.append( i );                            
                         } else if( innerExpr2.getType() == Types.variable ) {
                             var i = solveExpr( expr );
-                            var sub = solveSubstition( innerExpr1, next );
+                            var sub = solveSubstitution( innerExpr1, next );
                             solution.append( i );
                             solution.append( sub );                            
                         }
@@ -959,7 +1006,16 @@ jQuery.extend(KhanUtil, {
                         }   
                     }
                 }    
-                                    
+
+                if( solution.count() == 1 ) {
+                    var expr = solution.next();
+                    if( expr.getType() == Types.expr ) {
+                        solution = expr;
+                    } else {
+                        solution.reset();
+                    }
+                }
+                
                 solution.append( new Operator().add() );
                 solution.append( new Constant( 'C' ) );
                     
@@ -983,9 +1039,9 @@ jQuery.extend(KhanUtil, {
         }
         
         this.Formatter = function( equation ) {
-            
+
             var updateCoef = function( expr, newCoef ) {
-                
+
                 switch( expr.getType() ) {
                     case Types.power : 
                        return new Exponent( expr.getDegree(), expr.getExpr(), newCoef );
@@ -996,137 +1052,154 @@ jQuery.extend(KhanUtil, {
                     break;
 
                     case Types.trig :
-                        return new TrigFunc( expr.getFunc(), expr.getExpr(), expr.getDegree(), newCoef );
+                        return new TrigFunction( expr.getFunc(), expr.getExpr(), expr.getPower(), newCoef );
                     break;
                     
                     case Types.constant :
-                        return new IntegralConstant( newCoef.getNum(), newCoef.getCoef() );
+                        return new Constant( newCoef.getNum(), newCoef.getCoef() );
                     break;
                     case Types.ln :
-                        return NaturalLog( expr.getCoef(), newCoef );                      
+                        return new NaturalLog( expr.getExpr(), newCoef );                      
                     break;
                 }
                 return expr;
             }
             
+            var getConstantCoef = function( expr ) {
+                return ( expr.getType() == Types.constant ) ? expr : expr.getCoef();
+            }
+            
+            var formatExpr = function( expr ) {
+                var newExpr = format( expr );
+                return "(" + newExpr + ")";    
+            }
+
+            var formatAsRadical = function( equation ) {
+
+                if( ! _.isNumber( equation ) && equation.getType() == Types.power ) {
+                    var degree = equation.getDegree();
+                    if( degree.isFraction() && degree.getNum() == 1 && degree.getDenom() && 2 ) {
+                        var coef = ( equation.getCoef() != 1 ) ?  equation.getCoef() : "";
+                        return   coef + "\\sqrt{" + equation.getExpr() + "}";
+                    }         
+                }
+                return equation;
+            }
+                        
+            var formatMultipleExprAsFraction = function( numExpressions, denomExpressions ) { 
+                
+                var numerator = "";
+                var denominator = "";
+                
+                for( var i = 0; i < numExpressions.length; i++ ) {
+                    if( numExpressions[i] != 1 ) {  
+                        numerator += formatAsRadical( numExpressions[i].toString() );
+                    }
+                }
+
+                for( var i = 0; i < denomExpressions.length; i++ ) {
+                    if( denomExpressions[i] != 1 ) { 
+                        denominator += formatAsRadical( denomExpressions[i].toString() );
+                    }
+                }
+                
+                if( denominator == "" ) {
+                    return numerator;
+                }
+                
+                if( numerator == "" ) {
+                    numerator == "1";
+                }
+                
+                return "\\frac {" + numerator + "}{" + denominator + "}";        
+            }
+
+            var formatNegativePowerAsFraction = function( expr ) {
+                var newExpr = new Exponent( expr.getDegree() * -1, expr.getExpr(), 1 );               
+                var coef = getConstantCoef( expr );
+                var frac = KhanUtil.reduce( coef.getNum(), coef.getDenom() );
+                return formatMultipleExprAsFraction( [ frac[0] ], [ frac[1], newExpr ] );            
+            }
+                        
+            var formatSingularExpr = function( expr ) {
+            
+                if( expr.getType() == Types.expr ) {
+                    return formatExpr( expr );
+                } else if( expr.getType() == Types.power && expr.getDegree() < 0 ) {
+                    return formatNegativePowerAsFraction( expr );
+                }  else {
+                    return expr.toString();  
+                }                
+            }
+            
             var format = function( equation ) {
             
                 var newEquation = "";
-                
+
                 while( equation.hasNext() ) {
-                    
+  
                     var expr = equation.next();
                     var next = equation.next();
-                    
-                    if( _.isUndefined( next ) ) {
-                        
-                        if( expr.getType() == Types.expr ) {
-                            var newExpr = format( expr );
-                              if(expr.getIsSub()){
-                                    newEquation += "(" + newExpr + ")";
-                                } else {
-                                    newEquation += newExpr;                                
-                                }
-                        } else if( expr.getType() == Types.power && expr.getDegree() < 0 ) {
-                            var newExpr = new Exponent( expr.getDegree() * -1, expr.getExpr(), expr.getCoef() );
-                            newEquation += "\\frac {1}{" + newExpr.toString() + "}";
-                        }  else {
-                             newEquation += expr.toString();  
-                        }
-                    } else if( ( next.getType() == Types.operator && (  next.isAdd() || next.isSubtract() ) ) ) {    
+                    if( _.isUndefined( expr ) ) {
+                        expr = next;
+                        next = equation.next();
+                    }
 
-                        if( expr.getType() == Types.expr ) {
-                            var newExpr = format( expr );
-                            newEquation += "(" + newExpr + ")";
-                        } else if( expr.getType() == Types.power && expr.getDegree() < 0 ) {
-                            var newExpr = new Exponent( expr.getDegree() * -1, expr.getExpr(), expr.getCoef() );
-                            newEquation += "\\frac {1}{" + newExpr.toString() + "}";
-                        } else {
-                             newEquation += expr.toString();  
-                        }
+                    if( _.isUndefined( next ) || ( next.getType() == Types.operator && ( next.isAdd() || next.isSubtract() ) ) ) {
                         
-                        newEquation += next.toString();
+                        newEquation += formatSingularExpr( expr );
+
+                        if( ! _.isUndefined( next ) ) {
+                            newEquation += next.toString();
+                        }
                         
                     } else if( next.getType() == Types.operator && ( next.isDivide() ) ) {
-                    
+        
                     } else {
-                        
+
                         if( expr.getType() == Types.expr || next.getType() == Types.expr  ) {
-
-                            if( expr.getType() == Types.expr ) {
-                                var newExpr = format( expr );
-                                
-                                if(expr.getIsSub()){
-                                    newEquation += "(" + newExpr + ")";
-                                } else {
-                                    newEquation += newExpr;                                
-                                }
-                                
-                            } else if( expr.getType() == Types.power && expr.getDegree() < 0 ) {
-                                var newExpr = new Exponent( expr.getDegree() * -1, expr.getExpr(), expr.getCoef() );
-                                newEquation += "\\frac {1}{" + newExpr.toString() + "}";
-                            } else {
-                                 newEquation += expr.toString();  
-                            }                           
-
-                            if( next.getType() == Types.expr ) {  
-                                var newExpr = format( next ); 
-                                 if(next.getIsSub()){
-                                    newEquation += "(" + newExpr + ")";
-                                } else {
-                                    newEquation += newExpr;                                
-                                }
-                            } else if( next.getType() == Types.power && next.getDegree() < 0 ) {
-                                var newExpr = new Exponent( next.getDegree() * -1, next.getExpr(), next.getCoef() );
-                                newEquation += "\\frac {1}{" + newExpr.toString() + "}";
-                            } else {                            
-                                 newEquation += next.toString();  
-                            }   
+                            
+                            newEquation += formatSingularExpr( expr );
+                            newEquation += formatSingularExpr( next );
                             
                         } else { 
-                            var exprCoef;
-                            var nextCoef;
-
-                            if( expr.getType() == Types.constant ) {
-                                exprCoef = expr;
-                            } else {
-                                exprCoef = expr.getCoef();
-     
-                                if( typeof exprCoef != "object" ) {
-                                    exprCoef = new Constant( exprCoef );
-                                }
-                            }
                             
-                            if( next.getType() == Types.constant ) {
-                                nextCoef = next;
-                            } else {
-                                nextCoef = next.getCoef();
-                                if( typeof nextCoef != "object" ) {
-                                    nextCoef = new Constant( nextCoef );
-                                }
-                            }
-
+                            var exprCoef = getConstantCoef( expr );
+                            var nextCoef = getConstantCoef( next );
+                            
                             var newNum = exprCoef.getNum() * nextCoef.getNum();
                             var newDenom = exprCoef.getDenom() * nextCoef.getDenom();
                             var newfrac = KhanUtil.reduce( newNum, newDenom );
                             
-                            var newExpr = updateCoef( expr, 1 );
-                            var newNext = updateCoef( next, 1 );
+                            var newExpr = updateCoef( expr, new Constant( 1 ) );
+                            var newNext = updateCoef( next, new Constant( 1 ) );
                             
-                            if( newExpr.getType() == Types.power && newExpr.getDegree() < 0  && newNext.getType() == Types.power && newNext.getDegree() < 0 ) {
+                            var numExpressions = [ newfrac[0] ];
+                            var denomExpressions = [ newfrac[1] ];
+                            
+                            if( newExpr.getType() == Types.power && newExpr.getDegree() < 0 ) {
                                 newExpr = new Exponent( newExpr.getDegree() * -1, newExpr.getExpr(), newExpr.getCoef() );
-                                newNext = new Exponent( newNext.getDegree() * -1, newNext.getExpr(), newNext.getCoef() );
-                                newEquation += "\\frac {" + newfrac[0] + "}{" + newfrac[1] + newExpr.toString() + newNext.toString() + "}";
-                            } else if( newExpr.getType() == Types.power && newExpr.getDegree() < 0 ) {
-                                newExpr = new Exponent( newExpr.getDegree() * -1, newExpr.getExpr(), newExpr.getCoef() );
-                                newEquation += "\\frac {" + newfrac[0] + newNext.toString() + "}{" + newfrac[1] + newExpr.toString() + "}";
-                            } else if( newNext.getType() == Types.power && newNext.getDegree() < 0 ) {
-                                newNext = new Exponent( newNext.getDegree() * -1, newNext.getExpr(), newNext.getCoef() );
-                                newEquation += "\\frac {" + newfrac[0] + newExpr.toString() + "}{" + newfrac[1] + newNext.toString() + "}";
+                                denomExpressions.push( newExpr );
                             } else {
-                                newEquation += KhanUtil.reduce( newNum, newDenom );
-                                newEquation += newExpr.toString();                         
-                                newEquation += newNext.toString();
+                                numExpressions.push( newExpr );
+                            }
+                            
+                            if( newNext.getType() == Types.power && newNext.getDegree() < 0 ) {
+                                newNext = new Exponent( newNext.getDegree() * -1, newNext.getExpr(), newNext.getCoef() );
+                                denomExpressions.push( newNext );                                
+                            } else {
+                                numExpressions.push( newNext );
+                            }                            
+                            
+                            if(denomExpressions.length > 1 ) {
+                                newEquation += formatMultipleExprAsFraction( numExpressions, denomExpressions );
+                            } else {
+                                frac = KhanUtil.fractionReduce( newfrac[0], newfrac[1], true );
+                                if( frac != 1 ) { 
+                                    newEquation += frac;
+                                }                                
+                                newEquation += newExpr.toString() != 1 ? formatAsRadical( newExpr ) : "";
+                                newEquation += newNext.toString() != 1 ? formatAsRadical( newNext ) : "";
                             }
                         }
                         
@@ -1134,9 +1207,10 @@ jQuery.extend(KhanUtil, {
                         
                         if( ! _.isUndefined( nextNext ) ) {
                            newEquation += nextNext.toString();
-                        }                           
+                        }                                        
                     }
                 }
+                
                 return newEquation;
             }
 
@@ -1150,32 +1224,177 @@ jQuery.extend(KhanUtil, {
         
         this.EquationFormatter = {
             derivative : function ( equation, variable ) {
-                return "\\frac{d}{d" + variable + "} " + equation.toString(); 
+                var calc = new KhanUtil.Calculus();
+                var formatter = calc.Formatter( equation );
+                return "\\frac{d}{d" + variable + "} " + formatter.toString(); 
             },
             integral : function( equation, variable ) {
-                return "\\int " + equation.toString() + " d" + variable;
+                var calc = new KhanUtil.Calculus();
+                var formatter = calc.Formatter( equation );
+                return "\\int " + formatter.toString() + " d" + variable;
             },
-            format : function( equation, variable ) {
+            format : function( equation ) {
                 var calc = new KhanUtil.Calculus();
                 var formatter = calc.Formatter( equation );
                 return formatter.toString();
             }
         }
         
-        this.generateSimple = function(){
-            return testChainRulePower();     
-        };
+        var generateWrongSubstitutionRuleIntegrals = function( equation ) {
+            return null;/*
+            var wrongs = [];
+            var inner = equationParts[ 0 ];
+            var outer1 = equationParts[ 1 ];
+            var outer2 = equationParts[ 2 ];
+            
+            var wrongOuter1Eq = new Equation();
+            wrongOuter1Eq.append( outer1 );
+            var wrongOuter1 = new Derivative( wrongOuter1Eq );
 
-        var testChainRulePower = function() {
-            var variable = new Variable("x");
-            var inner = new Equation(true);
-            inner.append( new Exponent( 2, variable, 5 ) );
-            inner.append( new Operator().add() );
-            inner.append( new NaturalE( variable, 2 ) );            
-            var outer = new Equation();
-            outer.append( new Exponent( 3, inner, 1 ) );           
-            var d = new Derivative( outer );
-            return d;
+            var wrongOuter2Eq = new Equation();
+            wrongOuter2Eq.append( outer2 );
+            var wrongOuter2 = new IndefiniteIntegral( wrongOuter2Eq ); 
+
+            var equation = new Equation();               
+            equation.append( wrongOuter1.solution() );
+            equation.append( wrongOuter2.solution() );
+            
+            wrongs.push( equation );
+            
+            return wrongs;*/
+        }
+        
+        var SubsitutionRuleIntegral = function( variableName ) {
+            
+            var randNum = function() {
+                return KhanUtil.randRange( 1, 9 );
+            }
+            
+            var randCoefNotFactorable = function( coef ) {
+                
+                var newCoef;
+                switch( coef ) {                   
+                    case 2:
+                    case 4:
+                    case 6:
+                    case 8:               
+                        newCoef = KhanUtil.randFromArray( [ 1, 3, 5, 7, 9 ] );
+                    break;
+                    case 3:
+                    case -3:
+                    case 9:
+                    case -9:                    
+                        newCoef = KhanUtil.randRangeExclude( 1, 8, [ 0, 3, 6 ] );
+                    break;
+                    default:
+                        newCoef = KhanUtil.randRangeExclude( 1, 9, [ coef, coef * -1 ] ); 
+                }
+                
+                return ( KhanUtil.rand(10) > 2 ) ? newCoef : newCoef * -1; 
+            }
+            
+            var randPower = function() {
+                if( KhanUtil.rand(9) < 1 ) {
+                    return new Constant( 1, 2 );
+                } else {
+                    var num = KhanUtil.randRange( 2, 9 );
+                    return ( KhanUtil.rand(10) > 2 ) ? num : num * -1; 
+                }
+            }
+            
+            var innerDerivative = [
+                function( variable ) { 
+                    var inner = new Equation();
+                    return [ 
+                        inner.append( new NaturalE( variable, randNum() ) ),
+                        new NaturalE( variable, randNum() )
+                    ];
+                },
+                function( variable ) {
+                    var inner = new Equation();
+                    return [
+                        inner.append( new NaturalLog( variable, 1 ) ),
+                        new Exponent( -1, variable, randNum() ) ];
+                },
+                function( variable ) {
+                    var inner = new Equation();
+                    var degree = randNum();
+                    var degree2 = degree - 1;
+                    var coef = randNum();
+                    operator = ( KhanUtil.rand( 2 ) == 1 ) ? new Operator().add() : new Operator().subtract();
+                    return [
+                        inner.append( new Exponent( degree, variable, coef ) ).append( operator ).append( new Constant( randCoefNotFactorable( coef ) ) ), 
+                        new Exponent( degree2, variable, randNum() ) ];
+                },
+                function( variable ) {
+                    var inner = new Equation();                
+                    var trigFuncs = [ 
+                        [ 'cos', 'sin', 1 ],
+                        [ 'sin', 'cos', 1 ],
+                        [ 'tan', 'sec', 2 ] ];
+
+                    var trigExpr = KhanUtil.randFromArray( trigFuncs );
+                    return [
+                        inner.append( new TrigFunction( trigExpr[0], variable, 1, randNum() ) ),
+                        new TrigFunction( trigExpr[1], variable, trigExpr[2], randNum() ) ];   
+                }
+            ];
+            
+            var outerIntegral = [
+                function( inner ) {
+                    return new NaturalE( inner, 1 );
+                },
+                function( inner ) {
+                    return new Exponent( -1, inner, 1 );
+                },
+                function( inner ) {
+                    return new Exponent( randPower(), inner, 1 );
+                },
+                function( inner ) {
+                    var trigFuncs = [ 
+                        [ 'cos', 1 ],
+                        [ 'sin', 1 ],
+                        [ 'sec', 2 ] ];
+                    var trigExpr = KhanUtil.randFromArray( trigFuncs );
+                    return new TrigFunction( trigExpr[ 0 ], inner, trigExpr[ 1 ], 1 );
+                }
+            ];
+
+            var variable = new Variable( variableName );
+            
+            var inner = innerDerivative[ KhanUtil.rand( innerDerivative.length ) ]( variable );
+            
+            var equation = new Equation();
+            var outer = outerIntegral[ KhanUtil.rand( outerIntegral.length ) ]( inner[ 0 ] );
+            equation.append( inner[ 1 ] );
+            equation.append( outer );
+            
+            var integral = new IndefiniteIntegral( equation );
+ 
+            this.getEquationParts = function() {
+                return [ inner[0], inner[1], outer ];
+            }
+            
+            this.getEquation = function() {
+                return equation;
+            }
+            
+            this.getIntegral = function() {
+                return integral;
+            }
+            
+            return this;    
+        }
+        
+        
+        this.generateIntegralSubsitutionRule = function( variable ) {
+            var integral = new SubsitutionRuleIntegral( variable );
+            //var wrongAnswers = generateWrongSubstitutionRuleIntegrals( integral );
+            return {
+                equation : integral.getEquation(),
+                integral : integral.getIntegral().solution(),
+                wrongs : [ 2 ]
+            }
         }
         
         return this;
