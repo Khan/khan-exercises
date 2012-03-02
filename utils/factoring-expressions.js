@@ -56,8 +56,11 @@
        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
           excludedFromTerm[iFactor] = KhanUtil.randRange(0, nbTerms - 1);
        }
+       var collidingHashes;
        do {
           var terms = [];
+          var termsHashes = {};
+          var collidingHashes = false;
           var termOccFactors = [];
           for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
              var termNumTotal = numTotal;
@@ -80,6 +83,7 @@
              } else {
                 nbNonShared = KhanUtil.randRange(1, factorsPerTerm);
              }
+             var termHash = 0;
              for (var iNonShared = 0; iNonShared < nbNonShared; iNonShared++) {
                 if (smallestFactorNum * termNumTotal > 80) {
                    break;
@@ -88,6 +92,7 @@
                 do {
                    iChosen = KhanUtil.randFromArray(availableFactors);
                 } while ((typeof factors[iChosen] === "number") && (termNumTotal * factors[iChosen] > 80));
+                termHash = termHash * factors.length + iChosen;
                 if (typeof factors[iChosen] === "number") {
                    termNumTotal *= factors[iChosen];
                    minNumFactor = Math.min(factors[iChosen], minNumFactor);
@@ -97,8 +102,13 @@
                 }
                 termOccFactors[iTerm][iChosen]++;
              }
+             if (termsHashes[termHash] !== undefined) {
+                collidingHashes = true;
+                break;
+             }
+             termsHashes[termHash] = true;
           }
-       } while ((!hasNonNumFactor) || (minNumFactor === maxNumFactor));
+       } while ((!hasNonNumFactor) || (minNumFactor === maxNumFactor) || collidingHashes);
        return termOccFactors;
     };
 
