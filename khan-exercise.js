@@ -1317,6 +1317,7 @@ var Khan = (function() {
 			} );
 		}
 
+		// TODO(kamens): timeline is going to be completely broken.
 		if (typeof userExercise !== "undefined" && userExercise.read_only) {
 			if (!userExercise.current) {
 				warn("This exercise may have changed since it was completed", true);
@@ -1831,10 +1832,6 @@ var Khan = (function() {
 	}
 
 	function prepareSite() {
-		// Set exercise title
-		jQuery("#current-exercise").text( typeof userExercise !== "undefined" && userExercise.exercise_model ?
-			userExercise.exercise_model.display_name : document.title );
-
 		// TODO(david): Don't add homepage elements with "exercise" class
 		exercises = exercises.add( jQuery( "div.exercise" ).detach() );
 
@@ -2046,48 +2043,6 @@ var Khan = (function() {
 			return false;
 		}
 
-		function transitionExerciseTitle() {
-			var currentExercise = jQuery( "#current-exercise" ),
-					nextExercises = jQuery( "#next-exercises" ),
-					clearQueue = true,
-					jumpToEnd = true,
-					animationOptions = {
-						duration: 400,
-						easing: "easeInOutCubic"
-					};
-
-			// Fade the current title away to the right, then replace it with the
-			// new exercise"s title and revert the animation.
-			currentExercise.stop( clearQueue, jumpToEnd ).animate({
-				left: 400,
-				opacity: 0,
-				fontSize: "-=4"
-			}, animationOptions ).queue(function() {
-				jQuery( this )
-					.text( getDisplayNameFromId(exerciseName) )
-					.removeAttr( "style" );
-			});
-
-			// Slide up the next set of exercises, then revert the animation.
-			nextExercises.stop( clearQueue, jumpToEnd ).animate({
-				top: 0,
-				height: nextExercises.height() + nextExercises.position().top
-			}, animationOptions ).queue(function() {
-				jQuery( this ).removeAttr( "style" );
-			});
-
-			// Make the next exercise title transition to match the appearance of the
-			// current exercise title, then remove it from the set of next exercises.
-			jQuery( "#next-exercises > p:first-child" )
-				.stop( clearQueue, jumpToEnd ).animate({
-					color: currentExercise.css( "color" ),
-					fontSize: currentExercise.css( "fontSize" ),
-					reviewGlow: 1
-				}, animationOptions ).queue(function() {
-					jQuery( this ).remove();
-				});
-		}
-
 		// Watch for when the next button is clicked
 		jQuery("#next-question-button").click(function(ev) {
 
@@ -2118,12 +2073,6 @@ var Khan = (function() {
 			jQuery("#hint").attr( "disabled", false );
 
 			Khan.scratchpad.clear();
-
-			// Change the title of the exercise, if necessary
-			// TODO(kamens): going away
-			if ( reviewMode && reviewQueue.length ) {
-				transitionExerciseTitle();
-			}
 
 			if ( testMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount ) {
 				// Show the dump data
@@ -2270,7 +2219,7 @@ var Khan = (function() {
 			// don't do anything if the user clicked a second time quickly
 			if ( jQuery( "#issue form" ).css( "display" ) === "none" ) return;
 
-			var pretitle = jQuery( "#current-exercise" ).text() || jQuery( "title" ).text().replace(/ \|.*/, ''),
+			var pretitle = jQuery( "title" ).text().replace(/ \|.*/, ''),
 				type = jQuery( "input[name=issue-type]:checked" ).prop( "id" ),
 				title = jQuery( "#issue-title" ).val(),
 				email = jQuery( "#issue-email" ).val(),
