@@ -968,7 +968,7 @@ var Khan = (function() {
 
 		var newUserExercise = getData();
 
-		setProblemNum( newUserExercise.total_done + 1 );
+		setProblemNum( newUserExercise.totalDone + 1 );
 
 		// Get all problems of this exercise type...
 		var problems = exercises.filter(function() {
@@ -986,7 +986,7 @@ var Khan = (function() {
 			title.slice( title.indexOf("|") );
 
 		// update related videos
-		Khan.relatedVideos.setVideos(newUserExercise.exercise_model.related_videos);
+		Khan.relatedVideos.setVideos(newUserExercise.exerciseModel.related_videos);
 	}
 
 	function makeProblem( id, seed ) {
@@ -1267,7 +1267,7 @@ var Khan = (function() {
 		}
 
 		// TODO(kamens): timeline is going to be completely broken.
-		if (typeof userExercise !== "undefined" && userExercise.read_only) {
+		if (typeof userExercise !== "undefined" && userExercise.readOnly) {
 			if (!userExercise.current) {
 				warn("This exercise may have changed since it was completed", true);
 			}
@@ -1299,7 +1299,7 @@ var Khan = (function() {
 				return this;
 			}
 
-			if (getData().total_done === 0) {
+			if (getData().totalDone === 0) {
 				jQuery( '#previous-problem' ).disable();
 			}
 
@@ -2098,7 +2098,7 @@ var Khan = (function() {
 				}
 			}
 
-			var fProdReadOnly = !testMode && userExercise.read_only;
+			var fProdReadOnly = !testMode && userExercise.readOnly;
 			var fAnsweredCorrectly = jQuery( "#next-question-button" ).is( ":visible" );
 			if ( !fProdReadOnly && !fAnsweredCorrectly ) {
 				// Resets the streak and logs history for exercise viewer
@@ -2791,7 +2791,7 @@ var Khan = (function() {
 	// Grab the cached UserExercise data from local storage
 	function getData() {
 		// If we're viewing a problem, ignore local storage and return the userExercise blob
-		if ( typeof userExercise !== "undefined" && userExercise.read_only ) {
+		if ( typeof userExercise !== "undefined" && userExercise.readOnly ) {
 			return userExercise;
 
 		} else {
