@@ -54,6 +54,76 @@ jQuery.extend( Khan.answerTypes, {
 				};
 		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
 	},
+	
+	algebraicexpression: function( solutionarea, solution, fallback ) {
+	
+			function algoccurrences(string, substring){
+				var n=0;
+				var pos=0;
+				while(true){
+					pos=string.indexOf(substring,pos);
+					if(pos!=-1){ n++; pos+=substring.length;}
+					else{break;}
+				}
+				return(n);
+			}
+
+			
+			var verifier = function( correct, guess ){
+				var is_algebraic_correct = true;
+				if(correct.indexOf("quadfactor:")>-1){
+					var xcount = algoccurrences(guess,"x");
+					var hatcount = algoccurrences(guess,"^");
+					if(xcount+hatcount>2){
+						is_algebraic_correct=false;
+					}
+				}
+				var newGuess = guess
+						.replace( /\u2212/g, "-" )
+						.replace( /(\d)([a-z])/g, "$1 * $2" )
+						.replace( /([a-z])(\d)/g, "$1 * $2" )
+						.replace( /(\d)(\()/g, "$1 * $2" )
+						.replace( /(\))(\()/g, "$1 * $2" )
+						.replace(/ +?/g, '');
+				var newCorrect = correct
+						.replace( /(\d)([a-z])/g, "$1 * $2" )
+						.replace( /([a-z])(\d)/g, "$1 * $2" )
+						.replace( /(\d)(\()/g, "$1 * $2" )
+						.replace( /-\s?-/, "")
+						.replace( /(\))(\()/g, "$1 * $2" )
+						.replace("quadfactor:", "")
+						.replace(/ +?/g, '');
+				var exp_correct = new Expression("");
+				var exp_guess = new Expression("");
+				var evaluation_point_array = new Array();
+				evaluation_point_array[0]=0.80238048;
+				evaluation_point_array[1]=-0.3784928;
+				evaluation_point_array[2]=1.383092384;
+				var exp_correct_val = 100;
+				var exp_correct_guess = 100;
+				var i=0;
+				for (i=0;i<=2;i++)
+				{ 
+					exp_correct.AddVariable("x", evaluation_point_array[i]);
+					exp_guess.AddVariable("x", evaluation_point_array[i]);
+					exp_correct.Expression(newCorrect);
+					exp_guess.Expression(newGuess);
+					exp_correct_val = exp_correct.Evaluate();
+					exp_correct_guess = exp_guess.Evaluate();
+					if(Math.abs(exp_correct_val-exp_correct_guess)>.02*Math.abs(exp_correct_guess)){
+						is_algebraic_correct = false;
+					}
+					if(isNaN(exp_correct_guess) || isNaN(exp_correct_val)){
+						is_algebraic_correct = false;
+					}
+					exp_correct.Reset();
+					exp_guess.Reset();
+				}
+				return is_algebraic_correct;
+			};
+		verifier.examples = new Array("An algebraic expression, like x^2+2x+3 or (cos(x)+7)/2");
+		return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
+	},
 
 	line: function( solutionarea, solution, fallback ) {
 
