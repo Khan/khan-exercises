@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Determinant of a Square Matrix (2x2) and (3x3)</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="a11">randRange(-9,9)</var>
+			<var id="a12">randRange(-9,9)</var>
+			<var id="a13">randRange(-9,9)</var>
+			<var id="a14">randRange(-9,9)</var>
+			<var id="a21">randRange(-9,9)</var>
+			<var id="a22">randRange(-9,9)</var>
+			<var id="a23">randRange(-9,9)</var>
+			<var id="a24">randRange(-9,9)</var>
+			<var id="a31">randRange(-9,9)</var>
+			<var id="a32">randRange(-9,9)</var>
+			<var id="a33">randRange(-9,9)</var>
+			<var id="a34">randRange(-9,9)</var>
+			<var id="a41">randRange(-9,9)</var>
+			<var id="a42">randRange(-9,9)</var>
+			<var id="a43">randRange(-9,9)</var>
+			<var id="a44">randRange(-9,9)</var>
+			
+			
+			
+			
+		</div>
+		
+		<div class="problems">
+			<div>
+				<p class="question">Find the determinant of the square matrix [A] shown below: </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var> \\ <var>a21</var> & <var>a22</var> \end{bmatrix}}</code></div>
+				<div class="vars">
+					<var id="Answer">a11*a22 - a12*a21</var>
+				</div>
+				<p class="solution" data-type="rational"><var>Answer</var></p>
+				
+				<div class="hints">
+					<div>
+						<p>The determinant of a square 2x2 matrix can be calculated by multiplying the diagonal elements a11*a22 and subtracting the left diagonal elements a21*a12.</p>
+						<p>det[A] = a11*a22 - a21*a12 </p>
+					</div>
+					<div>
+						<p>det[A] = (<var>a11</var>*<var>a22</var>)  -  (<var>a21</var>*<var>a12</var>)</p>
+					</div>
+					<div>
+						<p>det[A] = <var>a11*a22 - a21*a12 </p>
+					</div>
+				</div>
+			</div>
+			
+			<div>
+				<p class="question">Find the determinant of the square matrix [A] shown below: </p>
+				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var> & <var>a13</var> \\ <var>a21</var> & <var>a22</var> & <var>a23</var>\\<var>a31</var> & <var>a32</var> & <var>a33</var> \end{bmatrix}}</code></div>
+				<div class="vars">
+					<var id="Answer">a11*(a22*a33-a23*a32) - a12*(a21*a33-a23*a31) + a13*(a21*a32-a22*a31)</var>
+				</div>
+				<p class="solution" data-type="rational"><var>Answer</var></p>
+				
+				<div class="hints">
+					<div>
+						<p>The determinant of a square 3X3 matrix can be calculated by multiplying the first element a11 by the determinant of the  2x2 matrix left over when row and column where a11 exists are eliminated (Eliminate rows 1 and column 1).</p>
+						<p>You then add that result to -a12*determinate of 2x2 matrix left over when row one 1 column 2 are eliminated.</p>
+						<p>Finally that result is added to a13*determinate of 2x2 matrix left over when row 1 and column 3 are eliminated.</p>
+					</div>
+					<div>
+						<p>det[A]= a11*[ (a22*a33)  -  (a23*a32)] - a12*[ (a21*a33)   -   (a23*a31)] + a13*[ (a21*a32)   -    (a22*a31)] </p>
+					</div>
+					<div>
+						<p>det[A]= <var>a11</var>*[(<var>a22</var>*<var>a33</var>)  -  (<var>a23</var>*<var>a32</var>)]  -  <var>a12</var>*[(<var>a21</var><var>a33</var>)  -  (<var>a23</var><var>a31</var>)]  +   <var>a13</var>*[(<var>a21</var>*<var>a32</var>)  -  (<var>a22</var>*<var>a31</var>)] </p>
+					<div>
+						<p>det[A]= <var>a11*(a22*a33-a23*a32)-a12*(a21*a33-a23*a31)+a13*(a21*a32-a22*a31)</var></p>
+					</div>
+					
+				</div>
+				
+				
+			</div>
+			
+		</div>
+	</div>
+</body>
+			
+			
