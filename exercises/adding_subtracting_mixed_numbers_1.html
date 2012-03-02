@@ -128,12 +128,12 @@
 				</div>
 
                 <div>
+                    <p>There are two ways to do this. Way 1: </p>
                     <p>Convert <code><var>W1</var><var>fraction( SIMP_N1 * LCM / SIMP_D1, LCM)</var></code> to <code><var> W1-1</var> + <var>fraction( LCM, LCM)</var> + <var>fraction( SIMP_N1 * LCM / SIMP_D1, LCM)</var></code>.</p>
                 </div>
 
                 <div>
-                    <p>
-                    So the problem becomes: </p>
+                    <p>So the problem becomes: </p>
                     <p><code><var>W1-1</var><var>fraction( LCM + SIMP_N1 * LCM / SIMP_D1, LCM)</var><var>SIGN</var><var>abs( W2 )</var><var>fraction( SIMP_N2 * LCM / SIMP_D2, LCM)</var></code></p>  
                 </div>
 
@@ -166,6 +166,33 @@
 					<p>Simplify to lowest terms:</p>
 					<p><code>= <var>W1 - 1 + W2 + fractionReduce( (LCM + SIMP_N1 * LCM / SIMP_D1) + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
 				</div>
+                
+                <div>
+                    <p>Way 2: </p>
+                    <p>Convert <code><var>W1</var><var>fraction( SIMP_N1 * LCM / SIMP_D1, LCM)</var> to <var>fraction( LCM * W1 + SIMP_N1 * LCM / SIMP_D1 , LCM)</var> and <var>W2</var><var>fraction( SIMP_N2 * LCM / SIMP_D2, LCM)</var> to <var>SIGN</var><var>fraction( LCM * abs(W2) + SIMP_N2 * LCM / SIMP_D2 , LCM)</var></code>.</p>
+                </div>
+
+                <div>
+                    <p>So the problem becomes: </p>
+                    <p><code><var>fraction( LCM * W1 + SIMP_N1 * LCM / SIMP_D1 , LCM)</var><var>SIGN</var><var>fraction( LCM * abs(W2) + SIMP_N2 * LCM / SIMP_D2 , LCM)</var></code></p>  
+                </div>
+
+                <div>
+                    <p>Subtract the fractions: </p>
+                    <p><code><var>fraction( (LCM * W1 + SIMP_N1 * LCM / SIMP_D1) - (LCM * abs(W2) + SIMP_N2 * LCM / SIMP_D2), LCM)</var></code></p>  
+                </div>
+
+				<div>
+					<p>Convert back to a mixed number: </p>
+					<p><code>= <var>W1 - 1 + W2 + fraction( (LCM + SIMP_N1 * LCM / SIMP_D1) + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
+				</div>
+
+				<div data-if="GCD > 1">
+					<p>Simplify to lowest terms:</p>
+					<p><code>= <var>W1 - 1 + W2 + fractionReduce( (LCM + SIMP_N1 * LCM / SIMP_D1) + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
+				</div>
+
+
 			</div>
 		</div>
 	</div>
