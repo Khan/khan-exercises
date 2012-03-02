@@ -40,11 +40,14 @@
        return expr;
     };
 
-    var genAllTermsMarkShared = function(factors, sharedOccFactors, termsOccFactors) {
+    var genAllTermsMarkShared = function(factors, sharedOccFactors, termsOccFactors, colors) {
        var terms = [];
        for (var iTerm = 0; iTerm < termsOccFactors.length; iTerm++) {
           var term = genTerm(factors, termsOccFactors[iTerm]);
           var sharedTerm = genTerm(factors, sharedOccFactors);
+          if (colors !== undefined) {
+              term = setColor(term, colors[iTerm]);
+          }
           if (sharedTerm !== 1) {
              term = {op:"times", args:[setColor(sharedTerm, KhanUtil.BLUE), term]};
           }
@@ -149,7 +152,7 @@
                  strListFactors += ", ";
               }
            }
-           strListFactors += "<code>" + MATH.format(listFactors[iListedFactor]) + "</code>";
+           strListFactors += "<code>" + MATH.format(setColor(listFactors[iListedFactor], KhanUtil.BLUE)) + "</code>";
        }
        if (listFactors.length === 1) {
           return "<p>The terms have one common factor: " + strListFactors + ".</p>";
@@ -284,16 +287,23 @@
     };
 
     var genHintsDecomposeAllFactors = function(MATH, factors, sharedOccFactors, termOccFactors) {
+       var colors = [KhanUtil.PINK, KhanUtil.ORANGE, KhanUtil.GREEN];
        var nbTerms = termOccFactors.length;
        var hints = [];
-       hints.push("<p>We start by decomposing each term into a product of its most simple factors.</p>");
+       var expr = {op:"+", args:genAllTerms(factors, sharedOccFactors, termOccFactors)};
+       for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
+          expr.args[iTerm].color = colors[iTerm];
+       }
+       hints.push("<p><code>" + MATH.format(expr) + "</code></p><p>We start by decomposing each term into a product of its most simple factors.</p>");
+
        for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
            var mergedOccFactors = mergeOccFactors(sharedOccFactors, termOccFactors[iTerm]);
-           hints.push("<p><code>" + MATH.format(genDecomposition(factors, mergedOccFactors)) + "</code></p>");
+           hints.push("<p><code>" + MATH.format(setColor(genDecomposition(factors, mergedOccFactors), colors[iTerm])) + "</code></p>");
        }
        hints.push( genHintListFactors(MATH, factors, sharedOccFactors));
 
-       hints.push("<p>So we can rewrite the expression as: <code>" + MATH.format({op:"+", args:genAllTermsMarkShared(factors, sharedOccFactors, termOccFactors)}) + "</code> or <code>" + MATH.format(genFullExpr(factors, sharedOccFactors, termOccFactors)) + "</code>.</p>");
+       hints.push("<p>We can rewrite the expression as: <code>" + MATH.format({op:"+", args:genAllTermsMarkShared(factors, sharedOccFactors, termOccFactors, colors)}) + "</code>.</p>");
+       hints.push("<p>We now rewrite the epression as a product to get the answer: <code>" + MATH.format(genFullExpr(factors, sharedOccFactors, termOccFactors)) + "</code>.</p>");
        return hints;
     };
 
