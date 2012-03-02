@@ -967,11 +967,12 @@ var Khan = (function() {
 			.val('Please wait...');
 	}
 
-	function loadAndRenderExercise( exercise ) {
+	function loadAndRenderExercise( userExercise ) {
+
+		exercise = userExercise.exerciseModel;
 		exerciseName = exercise.name;
 
-		// TODO(kamens): setProblemNum( userExercise.total_done + 1 );
-		setProblemNum(1);
+		setProblemNum( userExercise.totalDone + 1 );
 
 		function finishRender() {
 
@@ -1040,7 +1041,10 @@ var Khan = (function() {
 	}
 
 	function makeProblem( id, seed ) {
+
 		if ( typeof Badges !== "undefined" ) {
+			// TODO: this should be moved to badges code by listening to Khan
+			// events
 			Badges.hide();
 		}
 
@@ -2098,7 +2102,7 @@ var Khan = (function() {
 
 		});
 
-		jQuery(Khan).bind("renderNextProblem", function(ev, nextExercise) {
+		jQuery(Khan).bind("renderNextProblem", function(ev, nextUserExercise) {
 			enableCheckAnswer();
 
 			jQuery("#happy").hide();
@@ -2155,7 +2159,7 @@ var Khan = (function() {
 					// Just generate a new problem from existing exercise
 					makeProblem();
 				} else {
-					loadAndRenderExercise( nextExercise );
+					loadAndRenderExercise( nextUserExercise );
 				}
 
 				// TODO(kamens): probably going away
