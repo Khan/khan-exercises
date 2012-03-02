@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Derivative (Chain Rule)</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="F1 !== F2">
+			<var id="F1">randRange( 2, 9 )</var>
+			<var id="F2">randRange( 2, 9 )</var>
+			<var id="SUM">F1+F2</var>
+			<var id="PROD">F1*F2</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>Factor the expression <code>x^2 + <var>SUM</var>x + <var>PROD</var></code>.</p>
+				</div>
+				<div class="solution" data-type="algebraicexpression">quadfactor:x^2+<var>SUM</var>x+<var>PROD</var></div>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>To factor this quadratic function, we must find two numbers such that their product is <var>PROD</var> and their sum is <var>SUM</var>.</p>
+			<div><p>Observe that <code><var>F1</var> + <var>F2</var> = <var>SUM</var></code> and <code><var>F1</var> \times <var>F2</var> = <var>PROD</var></code>.</p></div>
+			<div><p>Therefore, the fully factored expression is <code>(x + <var>F1</var>)(x + <var>F2</var>)</code>.</p></div>
+		</div>
+	</div>
+</body>
+</html>

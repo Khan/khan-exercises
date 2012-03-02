@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Derivative (Chain Rule)</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="OUTER">randRange( 2, 9 )</var>
+			<var id="INNER">randRange( 2, 9 )</var>
+			<var id="POWER">randRange( 3, 9 )</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>What is the derivative of <code><var>OUTER</var>\sin(<var>INNER</var>x^<var>POWER</var>)</code>?</p>
+				</div>
+				<div class="solution" data-type="algebraicexpression"><var>OUTER*INNER*POWER</var>*x^<var>POWER-1</var>*cos(<var>INNER</var>x^<var>POWER</var>)</div>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>Recall the chain rule: the derivative of <code>f(g(x))</code> is <code>f '(g(x))g'(x)</code>.</p>
+			<div><p>Take <code>f(x) = <var>OUTER</var>\sin(x)</code> and <code>g(x) = <var>INNER</var>x^<var>POWER</var></code>.</p></div>
+			<div><p>Take <code>f '(x) = <var>OUTER</var>\cos(x)</code> (rules for derivatives of trig functions) and <code>g'(x) = <var>INNER*POWER</var>x^<var>POWER-1</var></code> (power rule and constant multiple rule).</p></div>
+			<div><p>Therefore, <code>f '(g(x))g'(x)</code> is <code><var>OUTER</var>\cos(<var>INNER</var>x^<var>POWER</var>)\times<var>INNER*POWER</var>x^<var>POWER-1</var> = <var>OUTER*INNER*POWER</var>x^<var>POWER-1</var>\cos(<var>INNER</var>x^<var>POWER</var>)</code></p></div>
+		</div>
+	</div>
+</body>
+</html>

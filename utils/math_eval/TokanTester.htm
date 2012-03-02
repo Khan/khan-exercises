@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1250">
+<meta name="generator" content="PSPad editor, www.pspad.com">
+<title>Tokanizer Tester</title>
+<script language="javascript" type="text/javascript" src="Tokanizer.js"></script>
+<script language="javascript">
+<!--//
+function getTokens()
+{
+    var intCntr;
+    var form = document.frmMain;
+    var arrTokens = Tokanize(form.txtExp.value);
+    var strTemp = "";
+    var strTmp = "";
+    if (arrTokens.length > 0)
+    {
+        for (intCntr = 0; intCntr < arrTokens.length; intCntr++)
+        {
+            strTemp += arrTokens[intCntr];
+            strTmp += "Token " + intCntr + " : " + arrTokens[intCntr] + "\r\n";
+        }
+        form.txtResult.value = strTemp + "\r\n" + strTmp     ;
+    }
+    else
+        alert ("No Tokens");
+}
+//-->
+</script>
+</head>
+<body>
+    <form name="frmMain" id="frmMain" method="POST">
+        <table>
+        <tbody>
+            <tr>
+                <td>Enter an Expression : </td>
+                <td><input type="text" size="60" name="txtExp" id="txtExp"></input></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <textarea name="txtResult" id="txtResult" cols="60" rows="10"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button name="btnTokanize" id="btnTokanize" onClick="javascript:getTokens();">Tokanize</button>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    </form>
+</body>
+</html>

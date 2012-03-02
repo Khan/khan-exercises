@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1250">
+<meta name="generator" content="PSPad editor, www.pspad.com">
+<style>
+body {font-family: Verdana,Tahoma; font-size: 9pt; font-weight: normal;}
+table {font-family: Verdana,Tahoma; font-size: 9pt; font-weight: normal;}
+input {font-family: Verdana,Tahoma; font-size: 10pt; font-weight: normal; border: 1px solid;}
+textarea {font-family: Verdana,Tahoma; font-size: 10pt; font-weight: normal; border: 1px solid;}
+button {font-family: Verdana,Tahoma; font-size: 8pt; font-weight: bold; width: 125px; height: 24px;}
+</style>
+<title>VB Eval</title>
+<script language="vbscript">
+Sub Calculate()
+    Dim frm
+    Dim strExp
+    Dim strResult
+
+    Set frm = document.frmMain
+    strExp = frm.txtExp.Value
+    strResult = Eval(strExp)
+    frm.txtResult.Value = strResult
+End Sub
+</script>
+</head>
+<body>
+    <form name="frmMain" id="frmMain" method="POST">
+        <table>
+            <tr>
+                <td>Expression : </td>
+                <td><input type="text" size="50" name="txtExp" id="txtExp" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <textarea name="txtResult" id="txtResult" cols="61" rows="5"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align ="center">
+                    <button name="btnCalc" id="btnCalc" onClick="vbscript:Calculate()">Calculate</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
