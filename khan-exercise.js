@@ -125,14 +125,14 @@ var Khan = (function() {
 	userExercise = window.userExercise,
 
 	// Check to see if we're in test mode
-	testMode = typeof userExercise === "undefined",
+	testMode = typeof Exercises === "undefined",
 
 	// The main server we're connecting to for saving data
 	server = typeof apiServer !== "undefined" ? apiServer :
 		testMode ? "http://localhost:8080" : "",
 
-	// The name of the exercise
-	exerciseName = typeof userExercise !== "undefined" ? userExercise.exercise : ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]),
+	// The name of the exercise -- this will only be set here in testMode
+	exerciseName = ((/([^\/.]+)(?:\.html)?$/.exec( window.location.pathname ) || [])[1]),
 
 	// Bin users into a certain number of realms so that
 	// there is some level of reproducability in their questions
@@ -223,18 +223,6 @@ var Khan = (function() {
 	modulesLoaded = false,
 
 	gae_bingo = window.gae_bingo || { bingo: function() {} };
-
-	// Nuke the global userExercise object to make
-	// it significantly harder to cheat
-	try {
-		delete window.userExercise;
-	}
-	catch(e) {} // swallow exception from IE
-	finally {
-		if (window.userExercise) {
-			window.userExercise = undefined;
-		}
-	}
 
 	// Add in the site stylesheets
 	if (testMode) {
@@ -527,9 +515,11 @@ var Khan = (function() {
 
 		relatedVideos: {
 			videos: [],
+			exercise: null,
 
-			setVideos: function(videos) {
-				this.videos = videos || [];
+			setVideos: function( exercise ) {
+				this.exercise = exercise;
+				this.videos = exercise.relatedVideos || [];
 				this.render();
 			},
 
@@ -549,13 +539,8 @@ var Khan = (function() {
 			},
 
 			// make a link to a related video, appending exercise ID.
-			makeHref: function(video, data) {
-				var exid = '';
-				data = data || userExercise;
-				if ( data ) {
-					exid = "?exid=" + data.exercise_model.name;
-				}
-				return video.relative_url + exid;
+			makeHref: function(video) {
+				return video.relative_url + "?exid=" + this.exercise.name;
 			},
 
 			anchorElement: function( video, needComma ) {
@@ -565,19 +550,6 @@ var Khan = (function() {
 					video: video,
 					separator: needComma
 				})).data('video', video);
-			},
-
-			renderInHeader: function() {
-				var container = jQuery(".related-content");
-				var jel = container.find(".related-video-list");
-				jel.empty();
-
-				_.each(this.videos, function(video, i) {
-					this.anchorElement(video, i < this.videos.length - 1)
-						.wrap("<li>").parent().appendTo(jel);
-				}, this);
-
-				container.toggle(this.videos.length > 0);
 			},
 
 			renderInSidebar: function() {
@@ -646,10 +618,6 @@ var Khan = (function() {
 				if (!window.Templates) return;
 
 				this.renderInSidebar();
-				// Review queue overlaps with the content here
-				if ( !reviewMode ) {
-					this.renderInHeader();
-				}
 			}
 		},
 
@@ -987,7 +955,7 @@ var Khan = (function() {
 			// TODO(kamens): Update document title
 
 			// Update related videos
-			Khan.relatedVideos.setVideos( exercise.relatedVideos );
+			Khan.relatedVideos.setVideos( exercise );
 
 			// Generate a new problem
 			makeProblem();
@@ -2589,9 +2557,6 @@ var Khan = (function() {
 		}
 
 		Khan.relatedVideos.hookup();
-		if (userExercise) {
-			Khan.relatedVideos.setVideos(userExercise.exercise_model.related_videos);
-		}
 
 		if (window.ModalVideo) {
 			ModalVideo.hookup();
