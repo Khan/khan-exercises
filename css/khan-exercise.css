@@ -12,6 +12,23 @@ var { font-style: normal; }
 
 .final_answer{ font-weight:bold; }
 
+div.subhint {
+    border: 1px solid #aaaaaa;
+    background: #f9f9f9;
+    display: none;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 10px;
+}
+
+a.show-subhint {
+    font-size: 12px;
+    font-style: italic;
+}
+
 #workarea { margin-left: 30px; }
 #hintsarea { margin-left: 50px; }
 #answer_area ul { list-style: none; }
