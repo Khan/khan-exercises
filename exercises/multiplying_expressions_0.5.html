@@ -68,17 +68,17 @@
 			<div>
 				<p>Next, distribute the <code class="hint_blue">x</code> and the <code class="hint_blue"><var>B</var></code>:</p>
 				<p><code>\qquad = \quad <var>MATH.parseFormat( "(#{x} \\cdot  #{x}) + (#{x} \\cdot #{" + D + "}) + (#{" + B + "} \\cdot #{x}) + (#{" + B + "} \\cdot #{" + D + "})", [ BLUE, PINK, BLUE, PINK, BLUE, PINK, BLUE, PINK ] )</var></code></p>
-				<p>Notice that by distributing you're really just multiplying every term in the first expression by every term in the second expression.</p>
+				<p>Notice that by distributing you're really just multiplying each term in the first expression by each term in the second expression.</p>
 			</div>
 
 			<div>
 				<p>Simplify:</p>
-				<p><code>\qquad = \quad <var>MATH.parseFormat( "x^2 " + signOp( D ) + D + "x" + signOp( B ) + B + "x" + signOp( B * D ) + ( B * D ) )</var></code></p>
+				<p><code>\qquad = \quad <var>MATH.parseFormat( plus( "x^2", D + "x", B + "x", ( B * D ) ) )</var></code></p>
 			</div>
 
 			<div>
 				<p class="final_answer">Keep simplifying to get the final answer:</p>
-				<p><code>\qquad = \quad <var>MATH.parseFormat( "x^2 " + signOp( B + D ) + ( D + B ) + "x" + signOp( B * D ) + ( B * D ) )</var></code></p>
+				<p><code>\qquad = \quad <var>MATH.parseFormat( plus( "x^2", ( D + B ) + "x", ( B * D ) ) )</var></code></p>
 			</div>
 
 		</div>
