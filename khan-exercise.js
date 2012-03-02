@@ -2980,11 +2980,6 @@ var Khan = (function() {
 
 	}
 
-	if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
-		Khan.loadExercise = loadExercise;
-		Khan.prepareUserExercise = prepareUserExercise;
-	}
-
 	return Khan;
 
 })();
