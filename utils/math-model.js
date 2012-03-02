@@ -1,74 +1,73 @@
-/*
-  Math model for Khan exercises
-
-  This is an exercise model, a kind of object model that reflects the 
-  semantics that are specific to creating math based exercises. Currently this 
-  model supports enough math to construct and format polynomials, but it can 
-  be extended as necessary.
-
-  The general usage is as follows:
-
-  var math = MathModel.init();
-  var problem = math.parse("x^2+"+B+"x+"+C); // B and C are variable containing integer values
-  var text = math.format(problem);		   // returning the latex for the problem
-  var val = math.eval(problem, {x: 10});	 // evaluate with x=10
-
-  @author: Jeff Dyer
-*/
-
-
 jQuery.extend ( KhanUtil, {
+
+	OpStr : {
+		ADD: "+",
+		SUB: "-",
+		MUL: "*",
+		TIMES: "times",
+		CDOT: "cdot",
+		DIV: "div",
+		FRAC: "frac",
+		DFRAC: "dfrac",
+		EQL: "=",
+		GT: ">",
+		LT: "<",
+		GEQ: ">=",
+		LEQ: "<=",
+		ATAN2: "atan2",
+		SQRT: "sqrt",
+		PM: "pm",
+		SIN: "sin",
+		COS: "cos",
+		TAN: "tan",
+		SEC: "sec",
+		COT: "cot",
+		CSC: "csc",
+		LN: "ln",
+		VAR: "var",
+		CST: "cst",
+		COMMA: ",",
+		POW: "^",
+		ABS: "abs",
+		PAREN: "()",
+		HIGHLIGHT: "hi",
+		DERIV: "deriv",
+		NEQ: "!=",
+		NUM: "num",
+	},
 
 	MathModel : function (name) {
 
 		// Model interface
 		
 		jQuery.extend ( this, {
+			parseFormat: parseFormat,
 			parse: parse,
 			format: format,
+			formatGroup: formatGroup,
 			polynomial: polynomial,
 			graph: graph,
-			eval: eval,
+			evalExpr: evalExpr,
 			isEqual: isEqual,
 		} );
 
 		// initialize the model here
-
-		var util = KhanUtil;
-		var ast  = util.ast;
-		var solution;
-		var mainLabel;
-
-		var OpStr = {
-			ADD: "+",
-			SUB: "-",
-			MUL: "times",
-			DIV: "div",
-			FRAC: "frac",
-			EQL: "=",
-			ATAN2: "atan2",
-			SQRT: "sqrt",
-			PM: "pm",
-			SIN: "sin",
-			COS: "cos",
-			TAN: "tan",
-			SEC: "sec",
-			LN: "ln",
-			VAR: "var",
-			COMMA: ",",
-			POW: "^",
-			ABS: "abs",
-			PAREN: "()",
-			HIGHLIGHT: "hi",
-		};
+		var OpStr = KhanUtil.OpStr;
 		
 		var OpToLaTeX = { }
 		OpToLaTeX[OpStr.ADD] = "+";
 		OpToLaTeX[OpStr.SUB] = "-";
 		OpToLaTeX[OpStr.MUL] = "\\times";
+		OpToLaTeX[OpStr.TIMES] = "\\times";
+		OpToLaTeX[OpStr.CDOT] = "\\cdot";
 		OpToLaTeX[OpStr.DIV] = "\\div";
 		OpToLaTeX[OpStr.FRAC] = "\\frac";
+		OpToLaTeX[OpStr.DFRAC] = "\\dfrac";
 		OpToLaTeX[OpStr.EQL] = "=";
+		OpToLaTeX[OpStr.LT] = "<";
+		OpToLaTeX[OpStr.GT] = ">";
+		OpToLaTeX[OpStr.LEQ] = "\\leq";
+		OpToLaTeX[OpStr.GEQ] = "\\geq";
 		OpToLaTeX[OpStr.ATAN2] = "\\atan2";
 		OpToLaTeX[OpStr.POW] = "^";
 		OpToLaTeX[OpStr.PM] = "\\pm";
@@ -76,7 +75,12 @@ jQuery.extend ( KhanUtil, {
 		OpToLaTeX[OpStr.COS] = "\\cos";
 		OpToLaTeX[OpStr.TAN] = "\\tan";
 		OpToLaTeX[OpStr.SEC] = "\\sec";
+		OpToLaTeX[OpStr.COT] = "\\cot";
+		OpToLaTeX[OpStr.CSC] = "\\csc";
 		OpToLaTeX[OpStr.LN] = "\\ln";
+		OpToLaTeX[OpStr.COMMA] = ",";
+		OpToLaTeX[OpStr.NEQ] = "\\not=";
+		OpToLaTeX[OpStr.SQRT] = "\\sqrt";
 
 		return this;  // end initialization
 
@@ -88,7 +92,7 @@ jQuery.extend ( KhanUtil, {
 			function g(x) {
 				// set up the lexical environment for evaluating ast n
 				var env = {x: x};
-				var val = eval(n, env);
+				var val = evalExpr(n, env);
 				return val;
 			}
 
@@ -188,194 +192,304 @@ jQuery.extend ( KhanUtil, {
 				// zero coefficient, erase term by not updating lhs
 			}
 			else if (lhs === void 0) {
-				// first term, no lhs to contribute
+				// first term, no lhs to contribute, so rhs is lhs
 				var lhs = rhs;
 			}
 			else {
 				// normal case
-				var lhs = {op: "+", args: [lhs, rhs]}
+				if (lhs.op===rhs.op && jQuery.type(lhs.args)==="array") {
+					lhs.args.push(rhs);
+				}
+				else {
+					lhs = {op: "+", args: [lhs, rhs]}
+				}
 			}
 
 			// recurse until no more coefficients
 			return polynomial(coeffs.slice(1), ident, lhs);
 		}
 
-		function parse(str) {
+		function parse(str, colors) {
 			// call the parser defined below
-			return KhanUtil.parse(str).expr();
+			return KhanUtil.parse(str, colors).expr();
 		}
 
-		function format(n, textSize, color) {
+                function getAlignment(expr, index, hphantom, addSpacing) {
+                        if ((expr.align === undefined) || (expr.align[index] === undefined)) {
+				return "";
+                        }
+			var str = "";
+			for (var cur = 0; cur < expr.align[index]; cur++) {
+				if (hphantom) {
+					str += "} & \\hphantom{ ";
+				} else {
+					str += "& ";
+				}
+			}
+			if ((expr.align[index] > 0) && addSpacing) {
+				str += "\\; ";
+			}
+			return str;
+                }
+
+		function isTrigOrLog(op) {
+			return ((op === OpStr.SIN) || (op === OpStr.COS) || (op === OpStr.TAN) || 
+				(op === OpStr.SEC) || (op === OpStr.COT) || (op === OpStr.CSC) || 
+				(op === OpStr.LN));
+		}
+
+		function getChildColors(colors, iChild) {
+			var childColors;
+			if (colors instanceof Array) {
+				childColors = colors[iChild];
+			} else if (colors.children !== undefined) {
+				childColors = colors.children[iChild];
+			}
+			return childColors;
+		}
+
+		function addOpColor(text, colors, index, spacingBefore, spacingAfter) {
+			if ((colors === undefined) || (colors[index] === undefined)) {
+				return text + " ";
+			}
+			var str = "\\color{"+colors[index]+"}{";
+			if (spacingBefore) {
+				str += "\\;";
+			}
+			str += text + " ";
+			if (spacingAfter) {
+				str += "\\;";
+			}
+			str += "}";
+			return str;
+		}
+
+		function addColor(text, color) {
+			if (color === undefined) {
+				return text;
+			}
+			return "\\color{"+color+"}{"+text+"}";
+		}
+
+		function parseFormat(text, colors, hphantom, textSize) {
+			var expr = parse(text, colors);
+			var str = format(expr, textSize, hphantom);
+			if (hphantom) {
+				str = "\\hphantom{" + str + "}";
+			}
+			return str;
+		}
+
+		function formatGroup(group, selection) {
+			var str = "\\begin{alignat}{5}";
+			for (var iExpr = 0; iExpr < group.length; iExpr++) {
+				if ($.inArray(iExpr, selection) === -1) {
+					var expr = group[iExpr];
+					str += "\\hphantom{" + format(expr, undefined, true) + "} \\\\";
+				}
+			}
+			for (var iSel = 0; iSel < selection.length; iSel++) {
+				str += format(group[selection[iSel]]) + " \\\\";
+				if (iSel != selection.length - 1) {
+					str += "\\\\";
+				}
+			}
+			str += "\\end{alignat}";
+			return str;
+		}
+
+		function exprIsNumber(expr) {
+			if (expr === undefined) {
+				return false;
+			}
+			return ((typeof expr === "number") || (expr.op === OpStr.NUM));
+		}
+
+		// format an AST
+		function format(n, textSize, hphantom) {
 
 			if (textSize===void 0) {
 				textSize = "normalsize";
 			}
-
-			if (color===void 0) {
-				color = void 0;  // just use black for now
+			if (n === undefined) {
+				return "";
 			}
-
-			if (jQuery.type(n)==="string") {
-				n = parse(n);
-			}
-
-			var ast = KhanUtil.ast;
 			var text;
-			if (jQuery.type(n)==="object") {
+
+			if (jQuery.type(n)==="number") {
+				text = "" + n;
+			}
+			else if (jQuery.type(n)==="object") {
+
+				// format sub-expressions
+				if ((n.op !== "var") && (n.op !== "cst")) {
+					var args = [];
+					for (var i = 0; i < n.args.length; i++) {
+						args[i] = format(n.args[i], textSize, hphantom);
+					}
+				}
+
+				// format operator
 				switch (n.op) {
+				case OpStr.NUM:
+					text = n.args[0];
+					break;
 				case OpStr.VAR:
-					text = "\\color{"+color+"}{"+n.args[0]+"}";
+				case OpStr.CST:
+					text = getAlignment(n, 0, hphantom);
+					text += n.args[0];
+					text += getAlignment(n, 1, hphantom);
 					break;
 				case OpStr.SUB:
 					if (n.args.length===1) {
-						text = "\\"+textSize+"{\\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
-							format(n.args[0], textSize, color)+"}}";
+						text = getAlignment(n, 0, hphantom, true);
+						text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, false) + args[0];
+						text += getAlignment(n, 1, hphantom);
 					}
 					else {
-						text = "\\"+textSize+"{\\color{"+color+"}{"+
-							format(n.args[0], textSize, color)+"} \\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
-							format(n.args[1], textSize, color)+"}}";
+						text = args[0];
+						text += getAlignment(n, 0, hphantom, true);
+						text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, true);
+						text += getAlignment(n, 1, hphantom, true);
+						text += args[1];
 					}
 					break;
 				case OpStr.DIV:
 				case OpStr.PM:
 				case OpStr.EQL:
-					text = "\\"+textSize+"{\\color{"+color+"}{"+
-						format(n.args[0], textSize, color)+"} \\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
-						format(n.args[1], textSize, color)+"}}";
+				case OpStr.LT:
+				case OpStr.GT:
+				case OpStr.LEQ:
+				case OpStr.GEQ:
+				case OpStr.NEQ:
+					text = args[0];
+					text += getAlignment(n, 0, hphantom, true);
+					text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, true) + " ";
+					text += getAlignment(n, 1, hphantom, true);
+					text += args[1];
 					break;
 				case OpStr.POW:
+					// if subexpr is lower precedence, wrap in parens
 					var lhs = n.args[0];
 					var rhs = n.args[1];
-					var lhsText = format(lhs, textSize, color);
-					var rhsText = format(rhs, textSize, color);
-					// if subexpr is lower precedence, wrap in parens
-					if (lhs.op===OpStr.ADD || lhs.op===OpStr.SUB || 
-						lhs.op===OpStr.MUL || lhs.op===OpStr.DIV || 
-						lhs.op===OpStr.SQRT) {
-						lhsText = "\\"+textSize+"{\\color{#000}{(}}\\color{"+color+"}{"+lhsText+"}\\color{#000}{)}";
+					if ((typeof lhs === "object") && isTrigOrLog(lhs.op)) {
+						text = OpToLaTeX[lhs.op] + getAlignment(n, 0, hphantom) + "^" + getAlignment(n,1, hphantom);
+						text += "{" + args[1] + "}";
+						text += format(lhs.args[0], textSize, hphantom);
+						break;
 					}
-					if (rhs===1) {
-						text = lhsText;
+					if ((lhs.args && lhs.args.length===2) || (rhs.args && rhs.args.length===2)) {
+						if (lhs.op===OpStr.ADD || lhs.op===OpStr.SUB ||
+							lhs.op===OpStr.MUL || lhs.op===OpStr.DIV ||
+							lhs.op===OpStr.SQRT) {
+							args[0] = "(" + args[0] + ")";
+						}
 					}
-					else {
-						text = lhsText + "^{" +	rhsText + "}";
-					}
+					text = args[0] + getAlignment(n, 0, hphantom) + "^" + getAlignment(n, 1, hphantom) + "{" + args[1] + "}";
 					break;
 				case OpStr.SIN:
 				case OpStr.COS:
 				case OpStr.TAN:
 				case OpStr.SEC:
+				case OpStr.COT:
+				case OpStr.CSC:
 				case OpStr.LN:
-					text = "\\"+textSize+"{\\color{"+"#000"+"}{"+
-						OpToLaTeX[n.op]+"{"+format(n.args[0], textSize, color)+"}}}";
+					text = addOpColor(OpToLaTeX[n.op], n.opsColors, 0, false, true) + "{" + args[0] + "}";
 					break;
 				case OpStr.FRAC:
-					text = "\\"+textSize+"{\\color{"+"#000"+"}{"+
-						"\\dfrac{"+format(n.args[0], textSize, color)+
-						"}{" +format(n.args[1], textSize, color)+"}}}";
+				case OpStr.DFRAC:
+					text = addOpColor(OpToLaTeX[n.op], n.opsColors, 0, false, false) + "{" + args[0] + "}{" + args[1] + "}";
 					break;
+                                case OpStr.DERIV:
+                                        text = "\\dfrac{d" + args[0] + "}{d" + args[1] + "}";
+                                        break; 
 				case OpStr.SQRT:
-					switch (n.args.length) {
+					switch (args.length) {
 					case 1:
-						text = "\\"+textSize+"{\\color{"+"#000"+"}{"+
-							"\\sqrt{"+format(n.args[0], textSize, color)+"}}}";
+						text = addOpColor(OpToLaTeX[n.op], n.opsColors, 0) + "{" + args[0] + "}";
 						break;
 					case 2:
-						text = "\\"+textSize+"{\\color{"+"#000"+"}{"+
-							"\\sqrt["+format(n.args[0], textSize, color)+
-							"]{" +format(n.args[1], textSize, color)+"}}}";
+						text = addOpColor(OpToLaTeX[n.op] + "[" + args[0] + "]", n.opsColors, 0) + "{" + args[0] + "}";
 						break;
 					}
 					break;
-				case OpStr.COMMA:
-					text = "\\" + textSize + "{\\color{"+color + "}{" +
-						format(n.args[0], textSize, color) + "} \\ \\ \\color{" +
-						color + "}{" + format(n.args[1], textSize, color) + "}}";
-					break;
 				case OpStr.MUL:
-					var lhs = n.args[0];
-					var rhs = n.args[1];
-					if (jQuery.type(lhs)==="number" && (lhs===1 || lhs===-1)) {
-						//if (lhs === 0) {
-						//	// elide term if multiplied by 0.
-						//	text = "";
-						//}
-						//else 
-						if (lhs === 1) {
-							// elide coefficient when it is 1.
-							text = format(rhs, textSize, color);
+				case OpStr.CDOT:
+				case OpStr.TIMES:
+					// if subexpr is lower precedence, wrap in parens
+					var prevTerm;
+					text = "";
+					jQuery.each(n.args, function (index, term) {
+						var opIndex = index - 1;
+						if ((term.args && (term.args.length >= 2) && (term.op !== OpStr.POW)) ||
+							!((n.op === OpStr.MUL) && (term.op === OpStr.PAREN ||
+								 term.op===OpStr.POW ||
+								 term.op===OpStr.VAR ||
+								 term.op===OpStr.CST ||
+								 (exprIsNumber(prevTerm) && !exprIsNumber(term))
+							))) {
+							if (((term.op===OpStr.ADD) || (term.op===OpStr.SUB)) && (term.args.length > 1)) {
+								args[index] = "(" + args[index] + ")";
+							}
+							if (opIndex >= 0) {
+								text += getAlignment(n, opIndex * 2, hphantom, true);
+								text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true);
+								text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
+							}
+							text += args[index];
 						}
-						else if (lhs===-1) {
-							// elide coefficient when it is 1.
-							text = "\\color{#000}{-}"+format(rhs, textSize, color);
+						// elide the times symbol if rhs is parenthesized or a var, or lhs is a number
+						// and rhs is not a number
+						else {
+							text += args[index];
 						}
-					}
-					else if ((lhs.args && lhs.args.length===2) || (rhs.args && rhs.args.length===2)) {
-						var lhsText = format(lhs, textSize, color);
-						var rhsText = format(rhs, textSize, color);
-						// if subexpr is lower precedence, wrap in parens
-						if (lhs.op===OpStr.ADD || lhs.op===OpStr.SUB) {
-							lhsText = "\\"+textSize+"{\\color{#000}{(}}\\color{"+color+"}{"+lhsText+"}\\color{#000}{)}";
-						}
-						if (rhs.op===OpStr.ADD || rhs.op===OpStr.SUB) {
-							rhsText = "\\"+textSize+"{\\color{#000}{(}}\\color{"+color+"}{"+rhsText+"}\\color{#000}{)}";
-						}
-						text = lhsText + rhsText;
-					}
-					else if (rhs.op===OpStr.PAREN || jQuery.type(lhs==="number")) {
-						// elide the times symbol if rhs is parenthesized or lhs is a coef
-						text = "\\"+textSize+"{\\color{"+color+"}{"+
-							format(lhs, textSize, color)+"} \\color{"+color+"}{"+
-							format(rhs, textSize, color)+"}}";
-					}
-					else if (rhs.op===OpStr.PAREN || jQuery.type(rhs)==="string") {
-						// elide the times symbol if rhs is parenthesized or a var
-						text = "\\"+textSize+"{\\color{"+color+"}{"+
-							format(lhs, textSize, color)+"} \\color{"+color+"}{"+
-							format(rhs, textSize, color)+"}}";
-					}
-					else {
-						text = "\\"+textSize+"{\\color{"+color+"}{"+
-							format(lhs, textSize, color)+"} \\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
-							format(rhs, textSize, color)+"}}";
-					}
+						prevTerm = term;
+					});
 					break;
 				case OpStr.ADD:
-					var lhs = n.args[0];
-					var rhs = n.args[1];
-					if (isNeg(rhs)) {
-						// replace plus with minus and negate operand.
-						text = "\\"+textSize+"{\\color{"+color+"}{"+
-							format(lhs, textSize, color)+"} \\color{#000}{-}\\color{"+color+"}{"+
-							format(negate(rhs), textSize, color)+"}}";
-					}
-					else if (isZero(rhs)) {
-						// elide the operator and rhs.
-						text = format(lhs, textSize, color);
-					}
-					else {
-						text = "\\"+textSize+"{\\color{"+color+"}{"+
-							format(lhs, textSize, color)+"} \\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
-							format(rhs, textSize, color)+"}}";
-					}
+				case OpStr.COMMA:
+					jQuery.each(args, function (index, value) {
+						var opIndex = index - 1;
+						if (index === 0) {
+							text = value;
+						}
+						else {
+							text += getAlignment(n, opIndex * 2, hphantom, true);
+							text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true);
+							text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
+							text += value;
+						}
+					});
+					break;
+				case OpStr.PAREN:
+					text = getAlignment(n, 0, hphantom);
+					text += addOpColor("(", n.opsColors, 0, false, false);
+					text += getAlignment(n, 1, hphantom);
+					text += args[0];
+					text += getAlignment(n, 2, hphantom);
+					text += addOpColor(")", n.opsColors, 1, false, false);
+					text += getAlignment(n, 3, hphantom);
+					break;
+				case OpStr.ABS:
+					text = addOpColor("|", n.opsColors, 0, false, false) + args[0] +
+						addOpColor("|", n.OpsColors, 1, false, false);
 					break;
 				default:
-					text = "\\"+textSize+"{\\color{"+color+"}{"+
-						format(n.args[0], textSize, color)+"} \\color{#000}{"+ OpToLaTeX[n.op] +"}\\color{"+color+"}{"+
-						format(n.args[1], textSize, color)+"}}";
+					KhanUtil.assert(false, "unimplemented eval operator");
 					break;
 				}
 			}
 			else {
-				text = "\\color{"+color+"}{"+n+"}";
+				KhanUtil.assert(false, "invalid expression type");
 			}
+			text = addColor(text, n.color);
 			return text;
 		}
-
-		function eval(n, env) {
+		
+		function evalExpr(n, env) {
 
 			var ast = KhanUtil.ast;
+			var assert = KhanUtil.assert;
 
 			var val;
 
@@ -391,10 +505,16 @@ jQuery.extend ( KhanUtil, {
 					}
 					
 					switch (n.op) {
+					case OpStr.NUM:
+						val = args[0];
+						break;
 					case OpStr.VAR:
+					case OpStr.CST:
+						assert(args.length===1, "wrong number of arguments to var or cst");
 						val = env[args[0]];
 						break;
 					case OpStr.SUB:
+						assert(args.length===2, "wrong number of arguments to subtract");
 						switch (args.length) {
 						case 1:
 							val = -args[0];
@@ -406,41 +526,65 @@ jQuery.extend ( KhanUtil, {
 						break;
 					case OpStr.DIV:
 					case OpStr.FRAC:
+					case OpStr.DFRAC:
+						assert(args.length===2, "wrong number of arguments to div/frac");
 						val = args[0] / args[1];
 						break;
 					case OpStr.POW:
+						assert(args.length===2, "wrong number of arguments to pow");
 						val = Math.pow(args[0], args[1]);
 						break;
 					case OpStr.SIN:
+						assert(args.length===1, "wrong number of arguments to sin");
 						val = Math.sin(args[0]);
 						break;
 					case OpStr.COS:
+						assert(args.length===1, "wrong number of arguments to cos");
 						val = Math.cos(args[0]);
 						break;
 					case OpStr.TAN:
+						assert(args.length===1, "wrong number of arguments to tan");
 						val = Math.tan(args[0]);
 						break;
 					case OpStr.SQRT:
+						assert(args.length < 3, "wrong number of arguments to sqrt");
 						switch (args.length) {
 						case 1:
 							val = Math.sqrt(args[0]);
 							break;
 						case 2:
-						default:
-							KhanUtil.assert(false, "unimplemented eval operator");
+							val = Math.pow(args[0], 1/args[1]);
 							break;
 						}
 						break;
 					case OpStr.MUL:
-						val = args[0] * args[1];
+					case OpStr.CDOT:
+					case OpStr.TIMES:
+						var val = 1;
+						jQuery.each(args, function (index, value) {
+							val *= value;
+						});
 						break;
 					case OpStr.ADD:
-						val = args[0] + args[1];
+						var val = 0;
+						jQuery.each(args, function (index, value) {
+							val += value;
+						});
+						break;
+					case OpStr.PAREN:
+						var val = args[0];
 						break;
 					case OpStr.SEC:
+					case OpStr.COT:
+					case OpStr.CSC:
 					case OpStr.LN:
 					case OpStr.PM:
 					case OpStr.EQL:
+					case OpStr.NEQ:
+					case OpStr.LT:
+					case OpStr.GT:
+					case OpStr.LEQ:
+					case OpStr.GEQ:
 					case OpStr.COMMA:
 					default:
 						KhanUtil.assert(false, "unimplemented eval operator");
@@ -457,6 +601,9 @@ jQuery.extend ( KhanUtil, {
 		function isNeg(n) {
 			if (jQuery.type(n)==="number") {
 				return n < 0;
+			}
+			else if (n.op === OpSTR.NUM) {
+				return n.args[0] < 0
 			}
 			else if (n.args.length===1) {
 				return n.op===OpStr.SUB && n.args[0] > 0;  // is unary minus
@@ -501,81 +648,84 @@ KhanUtil.MathModel.init = function() {
 
 jQuery.extend ( KhanUtil, {
 
-	parse: function (src) {
-
-		var TK_NONE		 = 0;
-		var TK_ADD		  = '+'.charCodeAt(0);
+	parse: function (src, colors) {
+		if (colors === undefined) {
+			colors = [];
+		}
+		var TK_NONE		= 0;
+		var TK_ADD		= '+'.charCodeAt(0);
 		var TK_CARET		= '^'.charCodeAt(0);
-		var TK_COS		  = 0x105;
-		var TK_DIV		  = '/'.charCodeAt(0);
-		var TK_EQL		  = '='.charCodeAt(0);
-		var TK_FRAC		 = 0x100;
-		var TK_LN		   = 0x107;
+		var TK_DIV		= '/'.charCodeAt(0);
+		var TK_EQL		= '='.charCodeAt(0);
+		var TK_LT		= '<'.charCodeAt(0);
+		var TK_GT		= '>'.charCodeAt(0);
 		var TK_LEFTBRACE	= '{'.charCodeAt(0);
-		var TK_LEFTBRACKET  = '['.charCodeAt(0);
+		var TK_LEFTBRACKET	= '['.charCodeAt(0);
 		var TK_LEFTPAREN	= '('.charCodeAt(0);
-		var TK_MUL		  = '*'.charCodeAt(0);
-		var TK_NUM		  = '0'.charCodeAt(0);
-		var TK_PM		   = 0x102;
-		var TK_RIGHTBRACE   = '}'.charCodeAt(0);
-		var TK_RIGHTBRACKET = ']'.charCodeAt(0);
-		var TK_RIGHTPAREN   = ')'.charCodeAt(0);
-		var TK_SEC		  = 0x106;
-		var TK_SIN		  = 0x103;
-		var TK_SQRT		 = 0x101;
-		var TK_SUB		  = '-'.charCodeAt(0);
-		var TK_TAN		  = 0x104;
-		var TK_VAR		  = 'a'.charCodeAt(0);
+		var TK_MUL		= '*'.charCodeAt(0);
+		var TK_NUM		= '0'.charCodeAt(0);
+		var TK_RIGHTBRACE 	= '}'.charCodeAt(0);
+		var TK_RIGHTBRACKET	= ']'.charCodeAt(0);
+		var TK_RIGHTPAREN	= ')'.charCodeAt(0);
+		var TK_SUB		= '-'.charCodeAt(0);
+		var TK_VAR		= 'a'.charCodeAt(0);
 		var TK_COEFF		= 'A'.charCodeAt(0);
-		var TK_VAR		  = 'a'.charCodeAt(0);
-		var TK_NEXT		 = 0x108;
+		var TK_VAR		= 'a'.charCodeAt(0);
+		var TK_ABS		= '|'.charCodeAt(0);
+		var TK_COMMA		= ','.charCodeAt(0);
+		var TK_SPACE		= ' '.charCodeAt(0);
+		var TK_BACKSLASH	= '\\'.charCodeAt(0);
+		var TK_AMP		= '&'.charCodeAt(0);
+		var TK_SHARP		= '#'.charCodeAt(0);
+		var TK_CDOT		= 0x100;
+		var TK_TIMES		= 0x101;
+		var TK_PM		= 0x102;
+		var TK_FRAC		= 0x103;
+		var TK_DFRAC		= 0x104;
+		var TK_LN		= 0x105;
+		var TK_COS		= 0x106;
+		var TK_SIN		= 0x107;
+		var TK_TAN		= 0x108;
+		var TK_SEC		= 0x109;
+		var TK_COT		= 0x110;
+		var TK_CSC		= 0x111;
+		var TK_SQRT		= 0x112;
+		var TK_LEQ		= 0x113;
+		var TK_GEQ		= 0x114;
+		var TK_NOT		= 0x115;
+		var TK_NEXT		= 0x116;
+		var TK_COLOR		= 0x117;
 
-		var OpStr = {
-			ADD: "+",
-			SUB: "-",
-			MUL: "times",
-			DIV: "div",
-			FRAC: "frac",
-			EQL: "=",
-			ATAN2: "atan2",
-			SQRT: "sqrt",
-			PM: "pm",
-			SIN: "sin",
-			COS: "cos",
-			TAN: "tan",
-			SEC: "sec",
-			LN: "ln",
-			VAR: "var",
-			COMMA: ",",
-			POW: "^",
-			ABS: "abs",
-			PAREN: "()",
-			HIGHLIGHT: "hi",
-			EQL: "=",
-		};
-		
-
-
-		var util = KhanUtil;
-		var ast = util.ast;
-		var tokenToOperator = [ ];
+		var OpStr = KhanUtil.OpStr;
+		var curColor = 0;
 
 		var T0=TK_NONE, T1=TK_NONE;
 
-		tokenToOperator[TK_FRAC]  = OpStr.FRAC;
-		tokenToOperator[TK_SQRT]  = OpStr.SQRT;
-		tokenToOperator[TK_ADD]   = OpStr.ADD;
-		tokenToOperator[TK_SUB]   = OpStr.SUB;
-		tokenToOperator[TK_PM]	= OpStr.PM;
-		tokenToOperator[TK_CARET] = OpStr.POW;
-		tokenToOperator[TK_MUL]   = OpStr.MUL;
-		tokenToOperator[TK_DIV]   = OpStr.FRAC;
-		tokenToOperator[TK_SIN]   = OpStr.SIN;
-		tokenToOperator[TK_COS]   = OpStr.COS;
-		tokenToOperator[TK_TAN]   = OpStr.TAN;
-		tokenToOperator[TK_SEC]   = OpStr.SEC;
-		tokenToOperator[TK_LN]	= OpStr.LN;
-		tokenToOperator[TK_EQL]   = OpStr.EQL;
+		var tokenToOp = [ ];
+		tokenToOp[TK_FRAC]  = OpStr.FRAC;
+		tokenToOp[TK_DFRAC] = OpStr.DFRAC;
+		tokenToOp[TK_SQRT]  = OpStr.SQRT;
+		tokenToOp[TK_ADD]   = OpStr.ADD;
+		tokenToOp[TK_SUB]   = OpStr.SUB;
+		tokenToOp[TK_PM]    = OpStr.PM;
+		tokenToOp[TK_CARET] = OpStr.POW;
+		tokenToOp[TK_MUL]   = OpStr.MUL;
+		tokenToOp[TK_TIMES] = OpStr.TIMES;
+		tokenToOp[TK_CDOT]  = OpStr.CDOT;
+		tokenToOp[TK_DIV]   = OpStr.FRAC;
+		tokenToOp[TK_SIN]   = OpStr.SIN;
+		tokenToOp[TK_COS]   = OpStr.COS;
+		tokenToOp[TK_TAN]   = OpStr.TAN;
+		tokenToOp[TK_SEC]   = OpStr.SEC;
+		tokenToOp[TK_COT]   = OpStr.COT;
+		tokenToOp[TK_CSC]   = OpStr.CSC;
+		tokenToOp[TK_LN]    = OpStr.LN;
+		tokenToOp[TK_EQL]   = OpStr.EQL;
+		tokenToOp[TK_LT]   = OpStr.LT;
+		tokenToOp[TK_GT]   = OpStr.GT;
+		tokenToOp[TK_GEQ]   = OpStr.GEQ;
+		tokenToOp[TK_LEQ]   = OpStr.LEQ;
+		tokenToOp[TK_ABS]   = OpStr.ABS;
 
 		var scan = scanner(src);
 
@@ -593,6 +743,10 @@ jQuery.extend ( KhanUtil, {
 			//KhanUtil.assert(T0!==0, "hd() T0===0");
 			return T0;
 		}
+
+                function alignment() {
+			return scan.alignment();
+                }
 
 		function lexeme () {
 			return scan.lexeme();
@@ -640,45 +794,69 @@ jQuery.extend ( KhanUtil, {
 			var op;
 			switch ((t=hd())) {
 			case 'A'.charCodeAt(0):
-				e = {op: "var", args: [lexeme()]};
-				next();
-				break;
 			case 'a'.charCodeAt(0):
-				e = {op: "var", args: [lexeme()]};
+				e = {op: "var", args: [lexeme()], color:colors[scan.color()]};
 				next();
 				break;
 			case TK_NUM:
 				e = Number(lexeme());
+				var idColor = scan.color();
+				if (idColor !== undefined) {
+					e = {op:"num", args:[e], color:colors[idColor]};
+				}
 				next();
 				break;
 			case TK_LEFTPAREN:
 				e = parenExpr();
 				break;
+			case TK_ABS:
+				e = absExpr();
+				break;
 			case TK_FRAC:
+			case TK_DFRAC:
+                                var align = alignment();
+				var idColorLeft = scan.color();
+                                var align = alignment();
 				next();
-				e = {op: tokenToOperator[TK_FRAC], args: [braceExpr(), braceExpr()]};
+				e = {op: tokenToOp[t], args: [braceExpr(), braceExpr()], align:align};
+				var idColorRight = scan.lastColor();
+				addColors(e, idColorLeft, idColorRight, idColorLeft);
 				break;
 			case TK_SQRT:
+                                var align = alignment();
+				var idColorLeft = scan.color();
 				next();
 				switch(hd()) {
 				case TK_LEFTBRACKET:
-					e = {op: tokenToOperator[TK_SQRT], args: [bracketExpr(), braceExpr()]};
-					break;
-				case TK_LEFTBRACE:
-					e = {op: tokenToOperator[TK_SQRT], args: [braceExpr()]};
+					e = {op: tokenToOp[TK_SQRT], args: [bracketExpr(), braceOptionalExpr()], align:alignment};
 					break;
 				default:
-					assert(false);
+					e = {op: tokenToOp[TK_SQRT], args: [braceOptionalExpr()], align:align};
 					break;
 				}
+				var idColorRight = scan.lastColor();
+				addColors(e, idColorLeft, idColorRight, idColorLeft);
 				break;
 			case TK_SIN:
 			case TK_COS:
 			case TK_TAN:
 			case TK_SEC:
+			case TK_COT:
+			case TK_CSC:
 			case TK_LN:
+                                var align = alignment();
+				var idColorLeft = scan.color();
 				next();
-				e = {op: tokenToOperator[t], args: [braceExpr()]};
+				if ( hd() === TK_CARET) {
+					eat(TK_CARET);
+					var expr2 = braceOptionalExpr();
+					e = {op: tokenToOp[t], args: [unaryExpr()], align:align};
+					e = {op: OpStr.POW, args: [e, expr2]};					
+				} else {
+					e = {op: tokenToOp[t], args: [unaryExpr()], align:align};
+				}
+				var idColorRight = scan.lastColor();
+				addColors(e, idColorLeft, idColorRight, idColorLeft);
 				break;
 			default:
 				e = void 0;
@@ -694,6 +872,16 @@ jQuery.extend ( KhanUtil, {
 			return e;
 		}
 
+		function braceOptionalExpr() {
+			if (hd() === TK_LEFTBRACE) {
+				eat(TK_LEFTBRACE);
+				var e = commaExpr();
+				eat(TK_RIGHTBRACE);
+				return e;
+			}
+			return unaryExpr();
+		}
+
 		function bracketExpr() {
 			eat(TK_LEFTBRACKET);
 			var e = commaExpr();
@@ -702,23 +890,60 @@ jQuery.extend ( KhanUtil, {
 		}
 
 		function parenExpr() {
-			eat(TK_LEFTPAREN);
+			return surroundedExpr(TK_LEFTPAREN, TK_RIGHTPAREN, OpStr.PAREN);
+		}
+
+		function absExpr() {
+			return surroundedExpr(TK_ABS, TK_ABS, OpStr.ABS);
+		}
+
+		function surroundedExpr(leftTk, rightTk, op) {
+			var leftAlign = alignment();
+			eat(leftTk);
+			var idColorLeft = scan.lastColor();
 			var e = commaExpr();
-			eat(TK_RIGHTPAREN);
-			return e;
+			var rightAlign = alignment();
+			eat(rightTk);
+			var idColorRight = scan.lastColor();
+			var expr = {op:op, args:[e]};
+			if (idColorLeft === idColorRight) {
+				expr.color = colors[idColorLeft];
+			} else {
+				expr.opsColors = [colors[idColorLeft], colors[idColorRight]];
+			}
+			expr.align = leftAlign.concat(rightAlign);
+			return expr;
 		}
 
 		function unaryExpr() {
 			var t;
 			var expr;
 			switch (t = hd()) {
+			case TK_COLOR:
+				next();
+				var color = "";
+				while ((c = scan.readChar()) !== '}') {
+					color += c;
+				}
+				next();
+				expr = braceExpr();
+				if (typeof expr === "number") {
+					expr = {op:"num", args:[expr]};
+				}
+				expr.color = color;
+				break;
 			case TK_ADD:
 				next();
 				expr = unaryExpr();
 				break;
 			case TK_SUB:
+				var align = alignment();
+				var opIdColor = scan.color();
 				next();
-				expr = negate(unaryExpr());
+				var arg = unaryExpr();
+				expr = {op:"-", args:[arg]};
+				addColors(expr, opIdColor, scan.lastColor(), opIdColor);
+	                        expr.align = align;
 				break;
 			default:
 				expr = primaryExpr();
@@ -731,56 +956,52 @@ jQuery.extend ( KhanUtil, {
 			var expr = unaryExpr();
 			var t;
 			while ((t=hd())===TK_CARET) {
+				var startIdColor = scan.color();
 				next();
-				var expr2 = unaryExpr();
-				if (expr2===1) {
-					expr = expr;
-				}
-				else if (expr2===0) {
-					expr = 1;
-				}
-				else {
-					expr = {op: tokenToOperator[t], args: [expr, expr2]};
-				}
+				var expr2;
+				expr2 = braceOptionalExpr();
+				var endIdColor = scan.color();
+				expr = {op: tokenToOp[t], args: [expr, expr2]};
+				addColors(expr, startIdColor, endIdColor);
 			}
-
 			return expr;
 		}
 
+		function addColors(expr, startIdColor, endIdColor, opIdColor) {
+			if ((startIdColor !== undefined) && (startIdColor === endIdColor)) {
+				expr.color = colors[startIdColor];
+			} else if (opIdColor !== undefined) {
+				expr.opsColors = [colors[opIdColor]];
+			}
+		}
+
 		function multiplicativeExpr() {
+			var startIdColor = scan.color();
 			var expr = exponentialExpr();
 			var t;
-
-			while((t=hd())===TK_VAR || t===TK_LEFTPAREN) {
+			t = hd();
+			while (isMultiplicative(t) || (t === TK_VAR) || (t === TK_LEFTPAREN)) {
+				var opIdColor = scan.color();
+				var align = undefined;
+				if (isMultiplicative(t)) {
+					align = alignment();
+					next();
+				}
 				var expr2 = exponentialExpr();
-				if (expr2 === 1) {
-					expr = expr;
-				}
-				else if (expr === 1) {
-					expr = expr2;
-				}
-				else {
+				var endIdColor = scan.lastColor();
+				if ((t === TK_VAR) || (t === TK_LEFTPAREN)) {
 					expr = {op: OpStr.MUL, args: [expr, expr2]};
+				} else {
+					expr = {op: tokenToOp[t], args: [expr, expr2]};
 				}
-			}
-
-			while (isMultiplicative(t = hd())) {
-				next();
-				var expr2 = exponentialExpr();
-				if (expr2===1) {
-					expr = expr;
-				}
-				else if (t===TK_MUL && expr===1) {
-					expr = expr2;
-				}
-				else {
-					expr = {op: tokenToOperator[t], args: [expr, expr2]};
-				}
+				addColors(expr, startIdColor, endIdColor, opIdColor);
+	                        expr.align = align;
+				t = hd();
 			}
 			return expr;
 
 			function isMultiplicative(t) {
-				return t===TK_MUL || t===TK_DIV;
+				return t===TK_MUL || t===TK_DIV || t===TK_TIMES || t===TK_CDOT;
 			}
 		}
 
@@ -812,16 +1033,18 @@ jQuery.extend ( KhanUtil, {
 		}
 
 		function additiveExpr() {
+			var startIdColor = scan.color();
 			var expr = multiplicativeExpr();
 			var t;
 			while (isAdditive(t = hd())) {
+				var opIdColor = scan.color();
+                                var align = alignment();
 				next();
 				var expr2 = multiplicativeExpr();
-				if (t===TK_ADD && isNeg(expr2)) {
-					t = TK_SUB;
-					expr2 = negate(expr2);
-				}
-				expr = {op: tokenToOperator[t], args: [expr, expr2]};
+				var endIdColor = scan.lastColor();
+				expr = {op: tokenToOp[t], args: [expr, expr2]};
+				addColors(expr, startIdColor, endIdColor, opIdColor);
+	                        expr.align = align;
 			}
 			return expr;
 
@@ -830,20 +1053,36 @@ jQuery.extend ( KhanUtil, {
 			}
 		}
 
-		function equalExpr() {
+		function compareExpr() {
+			var startIdColor = scan.color();
 			var expr = additiveExpr();
-			var t;
-			while ((t = hd())===TK_EQL) {
+			var t = hd();
+			while ((t ===TK_EQL) || (t === TK_LT) || (t === TK_GT) || (t === TK_LEQ) || (t === TK_GEQ) || (t === TK_NOT)) {
+	                        var align = alignment();
+				opIdColor = scan.color();
 				next();
+				var op = tokenToOp[t];
+				if (t === TK_NOT) {
+					t = hd();
+					if (t !== TK_EQL) {
+						alert("\\not can only be followed by = in this version");
+					}
+					next();
+					op = OpStr.NEQ;
+				}
 				var expr2 = additiveExpr();
-				expr = {op: tokenToOperator[t], args: [expr, expr2]};
+				var endIdColor = scan.color();
+				expr = {op: op, args: [expr, expr2]};
+	                        expr.align = align;
+				addColors(expr, startIdColor, endIdColor, opIdColor);
+				t = hd();
 			}
 			return expr;
 
 		}
 
 		function commaExpr ( ) {
-			var n = equalExpr();
+			var n = compareExpr();
 			return n;
 		}
 
@@ -856,56 +1095,130 @@ jQuery.extend ( KhanUtil, {
 		function scanner(src) {
 
 			var curIndex = 0;
+			var curColor = 0;
 			var lexeme = "";
+                        var alignment = [0, 0];
+			var popColors = 0;
+			var lastColor = undefined;
 
-			var lexemeToToken = [ ];
+			var lexemeToToken = [];
+			var braceIsForColor = [];
+			var openedColors = [];
 
-			lexemeToToken["\\times"] = TK_MUL;
+			lexemeToToken["\\times"] = TK_TIMES;
+			lexemeToToken["\\cdot"] = TK_CDOT;
 			lexemeToToken["\\div"]   = TK_DIV;
 			lexemeToToken["\\frac"]  = TK_FRAC;
+			lexemeToToken["\\dfrac"]  = TK_DFRAC;
 			lexemeToToken["\\sqrt"]  = TK_SQRT;
 			lexemeToToken["\\pm"]	 = TK_PM;
 			lexemeToToken["\\sin"]   = TK_SIN;
 			lexemeToToken["\\cos"]   = TK_COS;
 			lexemeToToken["\\tan"]   = TK_TAN;
 			lexemeToToken["\\sec"]   = TK_SEC;
+			lexemeToToken["\\cot"]   = TK_COT;
+			lexemeToToken["\\csc"]   = TK_CSC;
 			lexemeToToken["\\ln"]	 = TK_LN;
+			lexemeToToken["\\leq"]	 = TK_LEQ;
+			lexemeToToken["\\geq"]	 = TK_GEQ;
+			lexemeToToken["\\not"]	 = TK_NOT;
+			lexemeToToken["\\color"] = TK_COLOR;
 
 			return {
 				start : start ,
 				lexeme : function () { return lexeme } ,
+				readChar: readChar ,
+                                alignment : function () { return alignment } ,
+				color: color,
+				lastColor: function() { return lastColor },
 			}
 
 			// begin private functions
 
+			function color() {
+				return openedColors[openedColors.length - 1];
+			}
+
 			function start () {
 				var c;
 				lexeme = "";
+				alignment = [0, 0];
+				lastColor = color();
+				while (popColors > 0) {
+					openedColors.pop();
+					popColors--;
+				}
 				while (curIndex < src.length) {
 					switch ((c = src.charCodeAt(curIndex++))) {
-					case 32:  // space
+					case TK_SPACE:  // space
 					case 9:   // tab
 					case 10:  // new line
 					case 13:  // carriage return
 						continue;
-					case 92:  // backslash
+					case TK_BACKSLASH:  // backslash
 						lexeme += String.fromCharCode(c);
-						return latex();
-					case 40:  // left paren
-					case 41:  // right paren
-					case 42:  // asterisk
-					case 43:  // plus
-					case 44:  // comma
-					case 45:  // dash
-					case 47:  // slash
-					case 61:  // equal
-					case 91:  // left bracket
-					case 93:  // right bracket
-					case 94:  // caret
-					case 123: // left brace
-					case 125: // right brace
+						var token = latex();
+						if (token === TK_TIMES) {
+							var nc = src.charCodeAt(curIndex)
+							while ((nc === TK_AMP) || (nc === TK_SPACE)) {
+								curIndex++;
+								if (nc === TK_AMP) {
+									alignment[1]++;
+								}
+								nc = src.charCodeAt(curIndex)
+							}
+						}
+						return token;
+                                        case TK_AMP:  // &
+						alignment[0]++;
+						continue;                                                
+					case TK_LEFTPAREN:
+					case TK_RIGHTPAREN:
+					case TK_MUL:
+					case TK_ADD:
+					case TK_COMMA:  // comma
+					case TK_SUB:
+					case TK_DIV:
+					case TK_EQL:
+					case TK_LT:
+					case TK_GT:
+					case TK_LEFTBRACKET:
+					case TK_RIGHTBRACKET:
+					case TK_CARET:
+					case TK_ABS:
 						lexeme += String.fromCharCode(c);
+						var nc = src.charCodeAt(curIndex);
+						while ((nc === TK_AMP) || (nc === TK_SPACE)) {
+							curIndex++;
+							if (nc === TK_AMP) {
+								alignment[1]++;
+							}
+							nc = src.charCodeAt(curIndex)
+						}
 						return c; // char code is the token id
+					case TK_SHARP:
+						c = src.charCodeAt(curIndex);
+						if (c === TK_LEFTBRACE) {
+							curIndex++;
+							braceIsForColor.push(true);
+						} else {
+							popColors++;
+						}
+						openedColors.push(curColor);
+						curColor++;
+						continue;
+					case TK_LEFTBRACE:
+						braceIsForColor.push(false);
+						lexeme += String.fromCharCode(c);
+						return c;						
+					case TK_RIGHTBRACE:
+						if (braceIsForColor.pop()) {
+							lastColor = openedColors.pop();
+							//popColors++;
+							continue;
+						}
+						lexeme += String.fromCharCode(c);
+						return c;						
 					default:
 						if (c >= 'A'.charCodeAt(0) && c <= 'Z'.charCodeAt(0)) {
 							lexeme += String.fromCharCode(c);
@@ -953,6 +1266,10 @@ jQuery.extend ( KhanUtil, {
 					tk = TK_VAR;   // e.g. \\theta
 				}
 				return tk;
+			}
+
+			function readChar() {
+				return src.charAt(curIndex++);
 			}
 
 		}
