@@ -190,12 +190,12 @@
 				<var id="X2">H - 1</var>
 				<var id="Y2">A * ( X2 - H ) * ( X2 - H ) + K</var>
 				<var id="GROUP1">[
-					MATH.parse( "y &amp;=&amp; a&amp;(&amp; x &amp;-&amp; #{h})^2 &amp;+&amp; #{k}", [ GREEN, GREEN ] ),
-					MATH.parse( "y &amp;=&amp; " + A + "&amp;(&amp; x &amp;-&amp; #{" + H + "})^2 &amp;+&amp; #{" + K + "}", [ GREEN, GREEN ] )
+					MATH.parse( "y &amp;= a( x - #{h})^2 + #{k}", [ GREEN, GREEN ] ),
+					MATH.parse( "y &amp;= " + A_DISP + "( x - #{" + H + "})^2 + #{" + K + "}", [ GREEN, GREEN ] )
 				]</var>
 				<var id="GROUP2">[
-					MATH.parse( A + "( #{x} - " + H + ")^2 + " + K + " &amp;=&amp; y", [ PINK ] ),
-					MATH.parse( A + "( #{" + X1 + "} - " + H + ")^2 + " + K + " &amp;=&amp; #{" + Y1 + "}", [ PINK, PINK ] )
+					MATH.parse( A_DISP + "( #{x} - " + H + ")^2 + " + K + " &amp;= y", [ PINK ] ),
+					MATH.parse( A_DISP + "( #{" + X1 + "} - " + H + ")^2 + " + K + " &amp;= #{" + Y1 + "}", [ PINK, PINK ] )
 				]</var>
 			</div>
 			<div class="problem" data-apply="prependContents">
@@ -285,17 +285,6 @@
 			</div>
 		</div>
 
-		<!--
-		<div id="standard-form">
-			<div class="problem" data-apply="prependContents">
-				<p class="hint_blue">
-					<code><var>A_DISP</var>x^2 + <var>-2 * A * H</var>x + <var>A * H * H + K</var></code>
-				</p>
-			</div>
-			<div class="hints">
-			</div>
-		</div>
-		-->
 	</div>
 
 </div>

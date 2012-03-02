@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive ast math-model subhints">
+<html data-require="math math-format graphie interactive ast math-model subhints">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Graphing parabolas 2</title>
@@ -189,30 +189,30 @@
 				<var id="X2">H - 1</var>
 				<var id="Y2">A * ( X2 - H ) * ( X2 - H ) + K</var>
 				<var id="GROUP1">[
-					MATH.parse( "y &amp;=&amp; a&amp;(&amp; x &amp;-&amp; #{h})^2 &amp;+&amp; #{k}", [ GREEN, GREEN ] ),
-					MATH.parse( "y &amp;=&amp; " + A + "&amp;(&amp; x &amp;-&amp; #{" + H + "})^2 &amp;+&amp; #{" + K + "}", [ GREEN, GREEN ] )
+					MATH.parse( "y &amp;= a( x - #{h})^2 + #{k}", [ GREEN, GREEN ] ),
+					MATH.parse( "y &amp;= " + A_DISP + "( x - #{" + H + "})^2 + #{" + K + "}", [ GREEN, GREEN ] )
 				]</var>
 				<var id="GROUP2">[
-					MATH.parse( A + "( #{x} - " + H + ")^2 + " + K + " &amp;=&amp; y", [ PINK ] ),
-					MATH.parse( A + "( #{" + X1 + "} - " + H + ")^2 + " + K + " &amp;=&amp; #{" + Y1 + "}", [ PINK, PINK ] )
+					MATH.parse( A_DISP + "( #{x} - " + H + ")^2 + " + K + " &amp;=&amp; y", [ PINK ] ),
+					MATH.parse( A_DISP + "( #{" + X1 + "} - " + H + ")^2 + " + K + " &amp;=&amp; #{" + Y1 + "}", [ PINK, PINK ] )
 				]</var>
 				<var id="COMP_SQR1">[
-					MATH.parse( "y &amp;= " + A + "x^2 + " + ( -2 * A * H ) + "x + " + ( A * H * H + K ) ),
-					MATH.parse( "y + " + ( -A * H * H - K ) + " &amp;= " + A + "x^2 + " + ( -2 * A * H ) + "x" ),
+					MATH.parse( "y &amp;= " + plus( A + "x^2", ( -2 * A * H ) + "x", ( A * H * H + K ) ) ),
+					MATH.parse( "y + " + ( -A * H * H - K ) + " &amp;= " + plus( A + "x^2", ( -2 * A * H ) + "x" ) ),
 				]</var>
 				<var id="COMP_SQR2">[
-					MATH.parse( "y + " + ( -A * H * H - K ) + " = " + A + "(x^2 + " + ( -2 * H ) + "x)" ),
+					MATH.parse( plus( "y", ( -A * H * H - K ) ) + " = " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x" ) + ")" ),
 				]</var>
 				<var id="COMP_SQR3">[
-					MATH.parse( "y + " + ( -A * H * H - K ) + " &amp;= " + A + "(x^2 + " + ( -2 * H ) + "x)" ),
-					MATH.parse( "y + " + ( -A * H * H - K ) + " + #{" + ( A * H * H ) + "} &amp;= " + A + "(x^2 + " + ( -2 * H ) + "x + #{" + ( H * H ) + "})", [ BLUE, BLUE ] ),
-					MATH.parse( "y + " + ( ( -A * H * H - K ) + ( A * H * H ) ) + " &amp;= " + A + "(x^2 + " + ( -2 * H ) + "x + " + ( H * H ) + ")" ),
+					MATH.parse( plus( "y", ( -A * H * H - K ) ) + " &amp;= " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x" ) + ")" ),
+					MATH.parse( plus( "y", ( -A * H * H - K ) ) + " + #{" + ( A * H * H ) + "} &amp;= " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x" ) + " + #{" + ( H * H ) + "})", [ BLUE, BLUE ] ),
+					MATH.parse( plus( "y", ( ( -A * H * H - K ) + ( A * H * H ) ) ) + " &amp;= " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x", ( H * H ) ) + ")" ),
 				]</var>
 				<var id="COMP_SQR4">[
-					MATH.parse( "y + " + ( -K ) + " = " + A + "(x - " + H + ")^2" ),
+					MATH.parse( plus( "y", -K ) + " = " + A_DISP + "(" + plus( "x", -H ) + ")^2" ),
 				]</var>
 				<var id="COMP_SQR5">[
-					MATH.parse( "y = " + A + "(x - " + H + ")^2 + " + K )
+					MATH.parse( "y = " + A_DISP + "(x - " + H + ")^2 + " + K )
 				]</var>
 			</div>
 			<div class="problem" data-apply="prependContents">
