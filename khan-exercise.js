@@ -2541,8 +2541,12 @@ var Khan = (function() {
 	}
 
 	if ( !testMode ) {
-		// testMode automatically prepares itself, gets jQuery loaded, etc.
-		// Integrated mode listens and waits to prepare.
+		// testMode automatically prepares itself in loadModules,
+		// where it loads jQuery and the rest of its dependencies
+		// dynamically.
+		//
+		// Integrated mode already has jQuery, so we listen
+		// and wait for the signal to prepare.
 		jQuery( Khan ).bind( "prepare", prepareSite );
 	}
 
