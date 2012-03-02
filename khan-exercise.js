@@ -1990,16 +1990,7 @@ var Khan = (function() {
 
 		// Watch for when the next button is clicked
 		jQuery("#next-question-button").click(function(ev) {
-
-			if (jQuery( Khan ).triggerHandler("gotoNextProblem") !== false) {
-
-				// If nobody returns false from problemDone indicating
-				// that they'll take care of triggering nextProblem,
-				// automatically trigger nextProblem.
-				jQuery( Khan ).trigger("renderNextProblem");
-
-			}
-
+			jQuery( Khan ).trigger("gotoNextProblem");
 		});
 
 		jQuery(Khan).bind("renderNextProblem", function(ev, nextUserExercise) {
@@ -2523,6 +2514,17 @@ var Khan = (function() {
 					}
 				}
 			);
+		}
+
+		// Register testMode-specific event handlers
+		if ( testMode ) {
+
+			// testMode automatically advances to the next problem --
+			// integrated mode just listens and waits for renderNextProblem
+			jQuery( Khan ).bind("gotoNextProblem", function() {
+				jQuery( Khan ).trigger("renderNextProblem");
+			});
+
 		}
 
 		// Make scratchpad persistent per-user
