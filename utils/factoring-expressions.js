@@ -8,7 +8,7 @@
           return expr;
     };
 
-    var genTerm = function(factors, occFactors, iMarkedFactor, nbOccFactor) {
+    var genTerm = function(factors, occFactors) {
        var args = [];
        var numFactors = 1;
        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
@@ -30,42 +30,60 @@
            args.unshift(numFactors);
        }
        var expr;
-       if (args.length === 1) {
+       if (args.length === 0) {
+          expr = 1;
+       } else if (args.length === 1) {
           expr = args[0];
        } else {
           expr = {op:"*", args:args};
        }
-       if (iMarkedFactor !== undefined) {
-          var markedFactor = factors[iMarkedFactor];
-          if (nbOccFactor > 1) {
-             markedFactor = {op:"^", args:[markedFactor, nbOccFactor]};
-          }
-          markedFactor = setColor(markedFactor, KhanUtil.BLUE);
-          if (args.length === 0) {
-             expr = markedFactor;
-          } else {
-             expr = {op:"times", args:[markedFactor, expr]};
-          }
-       } else if (args.length === 0) {
-          expr = 1;
-       }
        return expr;
     };
 
-    var genAllTerms = function(factors, termsOccFactors, iMarkedFactor, nbOccFactor) {
+    var genAllTermsMarkShared = function(factors, sharedOccFactors, termsOccFactors) {
        var terms = [];
        for (var iTerm = 0; iTerm < termsOccFactors.length; iTerm++) {
-          terms.push(genTerm(factors, termsOccFactors[iTerm], iMarkedFactor, nbOccFactor));
+          var term = genTerm(factors, termsOccFactors[iTerm]);
+          var sharedTerm = genTerm(factors, sharedOccFactors);
+          if (sharedTerm !== 1) {
+             term = {op:"times", args:[setColor(sharedTerm, KhanUtil.BLUE), term]};
+          }
+          terms.push(term);
+       }
+       return terms;
+    }
+
+    var genAllTerms = function(factors, sharedOccFactors, termsOccFactors) {
+       var terms = [];
+       for (var iTerm = 0; iTerm < termsOccFactors.length; iTerm++) {
+          var mergedOccFactors = mergeOccFactors(sharedOccFactors, termsOccFactors[iTerm]);
+          terms.push(genTerm(factors, mergedOccFactors));
        }
        return terms;
     };
 
-    var genFullExpr = function(factors, foundOccFactors, termOccFactors, iMarkedFactor, iNewFactor, nbOccFactor) {
-       var remainingTerms = {op:"+", args:genAllTerms(factors, termOccFactors, iMarkedFactor, nbOccFactor)};
-       var sharedPart = genTerm(factors, foundOccFactors, iNewFactor, nbOccFactor);
+    var genFullExpr = function(factors, foundOccFactors, termOccFactors) {
+       var remainingTerms = {op:"+", args:genAllTerms(factors, initArray(factors.length), termOccFactors)};
+       var sharedPart = genTerm(factors, foundOccFactors);
        if (sharedPart === 1) {
           return remainingTerms;
        }
+       return {op:"*", args:[sharedPart, remainingTerms]};
+    };
+
+
+    var genFullExprMarkShared = function(factors, foundOccFactors, termOccFactors, markedFoundOccFactors, markedTermOccFactors) {
+       var remainingTerms = {op:"+", args:genAllTermsMarkShared(factors, markedTermOccFactors, termOccFactors)};
+       var sharedPart = genTerm(factors, foundOccFactors);
+       var markedPart = genTerm(factors, markedFoundOccFactors);
+       if ((sharedPart === 1) && (markedPart === 1)) {
+          return remainingTerms;
+       }
+       if (sharedPart === 1) {
+          sharedPart = setColor(markedPart, KhanUtil.BLUE);
+       } else if (markedPart !== 1) {
+          sharedPart = {op:"times", args:[setColor(markedPart, KhanUtil.BLUE), sharedPart]};
+       } 
        return {op:"*", args:[sharedPart, remainingTerms]};
     };
 
@@ -94,25 +112,137 @@
        return numTotal;
     };
 
+    var genListFactors = function(factors, occFactors) {
+       var listFactors = [];
+       for (var iFactor = 0; iFactor < factors.length; iFactor++) {
+           for (var iOcc = 0; iOcc < occFactors[iFactor]; iOcc++) {
+               listFactors.push(factors[iFactor]);
+           }
+       }
+       return listFactors;
+    }
+ 
+    var genCdotFactors = function(factors, occFactors) {
+       var args = genListFactors(factors, occFactors);
+       var expr;
+       if (args.length === 1) {
+          return args[0];
+       } else {
+          return {op:"cdot", args:args};
+       }
+    }
 
-    var genFactoringExercise = function(MATH, factors, nbTerms, factorsPerTerm) {
-       var sharedFactors = [];
-       var occFactors = initArray(factors.length);
-       var numTotal = genSharedFactors(factors, sharedFactors, occFactors, factorsPerTerm);
-       
+    var genDecomposition = function(factors, occFactors) {
+       var exprLeft = genTerm(factors, occFactors);
+       var exprRight = genCdotFactors(factors, occFactors);
+       return {op:"=", args:[exprLeft, exprRight]};
+    };
+
+    var genHintListFactors = function(MATH, factors, occFactors) {
+       var listFactors = genListFactors(factors, occFactors);
+       var strListFactors = "";
+       for (var iListedFactor = 0; iListedFactor < listFactors.length; iListedFactor++) {
+           if (iListedFactor !== 0) {
+              if (iListedFactor === listFactors.length - 1) {
+                 strListFactors += " and ";
+              } else {
+                 strListFactors += ", ";
+              }
+           }
+           strListFactors += "<code>" + MATH.format(listFactors[iListedFactor]) + "</code>";
+       }
+       if (listFactors.length === 1) {
+          return "<p>The terms have one common factor: " + strListFactors + ".</p>";
+       } else {
+          return "<p>The terms have these common factors: " + strListFactors + ".</p>";
+       }
+    };
+
+    // Generate wrong choices where we put in common a factor that is not shared by all terms
+    var genChoicesWithWrongSharedFactor = function(factors, sharedOccFactors, termOccFactors) {
+       var choices = [];
+       var nbTerms = termOccFactors.length;
+       var sumNonSharedFactors = initArray(factors.length);
+       var bestIFactors = [0, 1];
+       for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
+          for (var iFactor = 0; iFactor < factors.length; iFactor++) {
+             sumNonSharedFactors[iFactor] += termOccFactors[iTerm][iFactor];
+             var curSum = sumNonSharedFactors[iFactor];
+             if (curSum > sumNonSharedFactors[bestIFactors[0]]) {
+                 bestIFactors[1] = bestIFactors[0];
+                 bestIFactors[0] = iFactor;
+             } else if (curSum > sumNonSharedFactors[bestIFactors[1]]) {
+                 bestIFactors[1] = iFactor;
+             }
+          }
+       }
+       for (var iBest = 0; iBest < 2; iBest++) {
+          var iFactor = bestIFactors[iBest];
+          for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
+             termOccFactors[iTerm][iFactor]--;
+          }
+          sharedOccFactors[iFactor]++;
+          choices.push(genFullExpr(factors, sharedOccFactors, termOccFactors));
+          for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
+             termOccFactors[iTerm][iFactor]++;
+          }
+          sharedOccFactors[iFactor]--;
+       }
+       return choices;
+    };
+
+    var genChoicesWithMissingSharedFactor = function(factors, sharedOccFactors, termOccFactors) {
+       var choices = [];
+       var nbTerms = termOccFactors.length;
+       for (var iFactor = 0; iFactor < factors.length; iFactor++) {
+          if (sharedOccFactors[iFactor] <= 0) {
+              continue;
+          }
+          for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
+             termOccFactors[iTerm][iFactor]++;
+          }
+          sharedOccFactors[iFactor]--;
+          badExpr = genFullExpr(factors, sharedOccFactors, termOccFactors);
+          choices.push(badExpr);
+          for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
+             termOccFactors[iTerm][iFactor]--;
+          }
+          sharedOccFactors[iFactor]++;
+       }
+       return choices;
+    };
+
+    // Generate wrong choices where one of the shared factors has been left in one of the terms
+    var genChoicesWithExtraFactorInTerm = function(factors, sharedOccFactors, termOccFactors) {
+       var choices = [];
+       var nbTerms = termOccFactors.length;
+       for (var iFactor = 0; iFactor < factors.length; iFactor++) {
+          if (sharedOccFactors[iFactor] <= 0) {
+              continue;
+          }
+          var badTerm = KhanUtil.randRange(0, nbTerms - 1);
+          termOccFactors[badTerm][iFactor]++;
+          badExpr = genFullExpr(factors, sharedOccFactors, termOccFactors);
+          choices.push(badExpr);
+          termOccFactors[badTerm][iFactor]--;
+       }
+       return choices;
+    };
+
+    var genTermsFactors = function(factors, occFactors, nbTerms, factorsPerTerm, numTotal) {
+       var hasNonNumFactor = false;
+       var minNumFactor = undefined;
+       var maxNumFactor = undefined;
        var excludedFromTerm = [];
        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
           excludedFromTerm[iFactor] = KhanUtil.randRange(0, nbTerms - 1);
        }
-       var hasNonNumFactor = false;
-       var minNumFactor = undefined;
-       var maxNumFactor = undefined;
        do {
           var terms = [];
           var termOccFactors = [];
           for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
              var termNumTotal = numTotal;
-             termOccFactors[iTerm] = occFactors.slice(0);
+             termOccFactors[iTerm] = initArray(factors.length);
              var availableFactors = [];
              var smallestFactorNum = 1000;
              for (var iFactor = 0; iFactor < factors.length; iFactor++) { // TODO : fill that earlier, to avoid extra loop
@@ -150,24 +280,49 @@
              }
           }
        } while ((!hasNonNumFactor) || (minNumFactor === maxNumFactor));
-       var expr = {op:"+", args:genAllTerms(factors, termOccFactors)};
-       var choices = [];
+       return termOccFactors;
+    };
 
-       var hints = ["<p>To factor this expression, we will look at the different terms of the sum, and find all of their common factors. We can then rewrite the expression as a product between these common factors, and what's left of the different terms once we remove these factors.</p>"];
-       var curExpr = expr;
+    var genHintsDecomposeAllFactors = function(MATH, factors, sharedOccFactors, termOccFactors) {
+       var nbTerms = termOccFactors.length;
+       var hints = [];
+       hints.push("<p>We start by decomposing each term into a product of its most simple factors.</p>");
+       for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
+           var mergedOccFactors = mergeOccFactors(sharedOccFactors, termOccFactors[iTerm]);
+           hints.push("<p><code>" + MATH.format(genDecomposition(factors, mergedOccFactors)) + "</code></p>");
+       }
+       hints.push( genHintListFactors(MATH, factors, sharedOccFactors));
+
+       hints.push("<p>So we can rewrite the expression as: <code>" + MATH.format({op:"+", args:genAllTermsMarkShared(factors, sharedOccFactors, termOccFactors)}) + "</code> or <code>" + MATH.format(genFullExpr(factors, sharedOccFactors, termOccFactors)) + "</code>.</p>");
+       return hints;
+    };
+
+    var genHintsFindFactorsOneByOne = function(MATH, factors, sharedOccFactors, termOccFactors, sharedFactors) {
+       var nbTerms = termOccFactors.length;
+       var hints = [];
+       var curExpr = {op:"+", args:genAllTerms(factors, sharedOccFactors, termOccFactors)};
        var foundOccFactors = initArray(factors.length);
+       var emptyOccFactors = initArray(factors.length);
+       var remainingSharedOccFactors = sharedOccFactors.slice(0);
        for (var iSharedFactor = 0; iSharedFactor < sharedFactors.length; iSharedFactor++) {
           prevExpr = curExpr;
           var iFactor = sharedFactors[iSharedFactor];
-          var nbOccFactor = occFactors[iFactor];
+          var nbOccFactor = remainingSharedOccFactors[iFactor];
+          if (nbOccFactor === 0) {
+             continue;
+          }
           if (typeof factors[iFactor] === "number") {
              nbOccFactor = 1;
           }
+          remainingSharedOccFactors[iFactor] -= nbOccFactor;
+          var markedOccFactors = initArray(factors.length);
+          markedOccFactors[iFactor] = nbOccFactor;
+          var termPlusRemainingOccFactors = [];
           for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
-             termOccFactors[iTerm][iFactor] -= nbOccFactor;
+              termPlusRemainingOccFactors[iTerm] = mergeOccFactors(termOccFactors[iTerm], remainingSharedOccFactors);
           }
-          var markedExpr = genFullExpr(factors, foundOccFactors, termOccFactors, iFactor, undefined, nbOccFactor);
-          curExpr = genFullExpr(factors, foundOccFactors, termOccFactors, undefined, iFactor, nbOccFactor);
+          var markedExpr = genFullExprMarkShared(factors, foundOccFactors, termPlusRemainingOccFactors, emptyOccFactors, markedOccFactors);
+          curExpr = genFullExprMarkShared(factors, foundOccFactors, termPlusRemainingOccFactors, markedOccFactors, emptyOccFactors);
           var commonFactor;
           if (nbOccFactor === 1) {
              commonFactor = factors[iFactor];
@@ -175,53 +330,58 @@
              commonFactor = {op:"^", args:[factors[iFactor], nbOccFactor]};
           }
           foundOccFactors[iFactor] += nbOccFactor;
+
           hints.push("<p>We can see that all terms of the sum have <code>" + MATH.format(commonFactor) + "</code>" +
               " as a factor:</p><p><code>" + MATH.format({op:"=", args:[prevExpr, markedExpr]}) + "</code></p>" +
               "<p>So we can rewrite the expression as: <code>" + MATH.format(curExpr) + "</code>. Are there other common factors?</p>");
-          // We keep as wrong choices, expressions where not all common factors have been detected
-          if (iSharedFactor >= sharedFactors.length - 2) {
-              choices.push(genFullExpr(factors, foundOccFactors, termOccFactors));
-          }
+          
           curExpr = genFullExpr(factors, foundOccFactors, termOccFactors);
        }
+
+
        hints.push("<p>There are no more common factors, so the answer is: <code>" + MATH.format(curExpr) + "</code></p><p>It might be possible to factor this expression even more, but not with this technique.");
-       // Generate wrong choices where one of the shared factors has been left in one of the terms
-       for (var iBadFactor = 0; iBadFactor < sharedFactors.length; iBadFactor++) {
-          var iFactor = sharedFactors[iBadFactor];
-          var badTerm = KhanUtil.randRange(0, nbTerms - 1);
-          termOccFactors[badTerm][iFactor]++;
-          badExpr = genFullExpr(factors, foundOccFactors, termOccFactors);
-          choices.push(badExpr);
-          termOccFactors[badTerm][iFactor]--;
+       return hints;
+    };
+
+    var mergeOccFactors = function(occFactors1, occFactors2) {
+       var mergedOccFactors = initArray(occFactors1.length);
+       for (var iFactor = 0; iFactor < occFactors1.length; iFactor++) {
+          mergedOccFactors[iFactor] = occFactors1[iFactor] + occFactors2[iFactor];
        }
-       // Generate wrong choices where we put in common a factor that is not shared by all terms
-       var sumNonSharedFactors = initArray(factors.length);
-       var bestIFactors = [0, 1];
+       return mergedOccFactors;
+    }
+
+    var removeSharedFactors = function(sharedOccFactors, termOccFactors) {
+       var nbTerms = termOccFactors.length;
        for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
-          for (var iFactor = 0; iFactor < factors.length; iFactor++) {
-             sumNonSharedFactors[iFactor] += termOccFactors[iTerm][iFactor];
-             var curSum = sumNonSharedFactors[iFactor];
-             if (curSum > sumNonSharedFactors[bestIFactors[0]]) {
-                 bestIFactors[1] = bestIFactors[0];
-                 bestIFactors[0] = iFactor;
-             } else if (curSum > sumNonSharedFactors[bestIFactors[1]]) {
-                 bestIFactors[1] = iFactor;
-             }
+          for (var iFactor = 0; iFactor < sharedOccFactors.length; iFactor++) {
+              termOccFactors[iTerm][iFactor] -= sharedOccFactors[iFactor];
           }
        }
-       for (var iBest = 0; iBest < 2; iBest++) {
-          var iFactor = bestIFactors[iBest];
-          for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
-             termOccFactors[iTerm][iFactor]--;
-          }
-          foundOccFactors[iFactor]++;
-          choices.push(genFullExpr(factors, foundOccFactors, termOccFactors));
-          for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
-             termOccFactors[iTerm][iFactor]--;
-          }
-          foundOccFactors[iFactor]--;
-       }
-       return {question:expr, hints:hints, choices:choices, solution:curExpr};
+    };
+
+    var genFactoringExercise = function(MATH, factors, nbTerms, factorsPerTerm) {
+       var sharedFactors = [];
+       var sharedOccFactors = initArray(factors.length);
+       var numTotal = genSharedFactors(factors, sharedFactors, sharedOccFactors, factorsPerTerm);
+       var termOccFactors = genTermsFactors(factors, sharedOccFactors, nbTerms, factorsPerTerm, numTotal);
+
+       var expr = {op:"+", args:genAllTerms(factors, sharedOccFactors, termOccFactors)};
+
+
+       var hints = ["<p>To factor this expression, we will look at the different terms of the sum, and find all of their common factors. We can then rewrite the expression as a product between these common factors, and what's left of the different terms once we remove these factors.</p>"];
+
+       //hints = hints.concat(genHintsFindFactorsOneByOne(MATH, factors, sharedOccFactors, termOccFactors, sharedFactors));
+       hints = hints.concat(genHintsDecomposeAllFactors(MATH, factors, sharedOccFactors, termOccFactors));
+
+
+       var choices = [];
+       choices = choices.concat(genChoicesWithMissingSharedFactor(factors, sharedOccFactors, termOccFactors));
+       choices = choices.concat(genChoicesWithExtraFactorInTerm(factors, sharedOccFactors, termOccFactors));
+       choices = choices.concat(genChoicesWithWrongSharedFactor(factors, sharedOccFactors, termOccFactors));
+
+       var solution = genFullExpr(factors, sharedOccFactors, termOccFactors);
+       return {question:expr, hints:hints, choices:choices, solution:solution};
     }
 
     $.extend(KhanUtil, {
