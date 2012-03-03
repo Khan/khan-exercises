@@ -44,27 +44,6 @@ var Khan = (function() {
 		});
 	}
 
-	// Adapted from a comment on http://mathiasbynens.be/notes/localstorage-pattern
-	var sessionStorageEnabled = function() {
-		var enabled, uid = +new Date;
-		try {
-			sessionStorage[ uid ] = uid;
-			enabled = ( sessionStorage[ uid ] == uid );
-			sessionStorage.removeItem( uid );
-			return enabled;
-		}
-		catch( e ) {
-			return false;
-		}
-	}();
-
-	if ( !sessionStorageEnabled ) {
-		if ( typeof jQuery !== "undefined" ) {
-			warn( "You must enable DOM storage in your browser; see <a href='https://sites.google.com/a/khanacademy.org/forge/for-developers/how-to-enable-dom-storage'>here</a> for instructions.", false );
-		}
-		return;
-	}
-
 	// Prime numbers used for jumping through exercises
 	var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	47, 53, 59, 61, 67, 71, 73, 79, 83],
