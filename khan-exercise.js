@@ -30,9 +30,6 @@
 
 	Catalog of events fired on the Khan object by khan-exercises:
 
-	* renderNextProblem -- when khan-exercises has been instructed by the user
-	  to move to the next problem, this is fired before render
-
 	* newProblem -- when a new problem has completely finished rendering
 
 	* hintUsed -- when a hint has been used by the user
@@ -1770,6 +1767,67 @@ var Khan = (function() {
 		return answerType;
 	}
 
+	function renderNextProblem( nextUserExercise ) {
+		enableCheckAnswer();
+
+		jQuery("#happy").hide();
+		if( !jQuery( "#examples-show" ).data( "show" ) ){ jQuery( "#examples-show" ).click(); }
+
+		// Toggle the navigation buttons
+		jQuery("#check-answer-button").show();
+		jQuery("#next-question-button").blur().hide();
+
+		// Wipe out any previous problem
+		jQuery("#workarea").hide();
+		jQuery("#workarea, #hintsarea").runModules( problem, "Cleanup" ).empty();
+		jQuery("#hint").attr( "disabled", false );
+
+		Khan.scratchpad.clear();
+
+		if ( testMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount ) {
+			// Show the dump data
+			jQuery( "#problemarea" ).append(
+				"<p>Thanks! You're all done testing this exercise.</p>" +
+				"<p>Please copy the text below and send it to us.</p>"
+			);
+
+			jQuery( "<textarea>" )
+				.val( "Khan.testExercise(" + JSON.stringify( dataDump ) + ");" )
+				.css({ width: "60%", height: "200px" })
+				.prop( "readonly", true )
+				.click( function() {
+					this.focus();
+					this.select();
+				} )
+				.appendTo( "#problemarea" );
+
+			jQuery( "#sidebar" ).hide();
+
+		} else {
+
+			// Switch exercises if there's a different queued up exercise in review mode
+			// TODO(kamens): going away
+			if ( reviewMode ) {
+				var nextExerciseName = reviewQueue.shift();
+				if ( nextExerciseName && nextExerciseName !== exerciseName ) {
+					switchToExercise( nextExerciseName );
+				}
+			}
+
+			if ( testMode ) {
+				// Just generate a new problem from existing exercise
+				makeProblem();
+			} else {
+				loadAndRenderExercise( nextUserExercise );
+			}
+
+			// TODO(kamens): probably going away
+			// Kick off a request to queue up more exercises if we're running low.
+			// This needs to run after makeProblem to get the updated problem state.
+			maybeEnqueueReviewProblems();
+		}
+	}
+
 	function injectSite( html, htmlExercise ) {
 		jQuery("body").prepend( html );
 		jQuery("#container").html( htmlExercise );
@@ -1988,67 +2046,6 @@ var Khan = (function() {
 		// Watch for when the next button is clicked
 		jQuery("#next-question-button").click(function(ev) {
 			jQuery( Khan ).trigger("gotoNextProblem");
-		});
-
-		jQuery(Khan).bind("renderNextProblem", function(ev, nextUserExercise) {
-			enableCheckAnswer();
-
-			jQuery("#happy").hide();
-			if( !jQuery( "#examples-show" ).data( "show" ) ){ jQuery( "#examples-show" ).click(); }
-
-			// Toggle the navigation buttons
-			jQuery("#check-answer-button").show();
-			jQuery("#next-question-button").blur().hide();
-
-			// Wipe out any previous problem
-			jQuery("#workarea").hide();
-			jQuery("#workarea, #hintsarea").runModules( problem, "Cleanup" ).empty();
-			jQuery("#hint").attr( "disabled", false );
-
-			Khan.scratchpad.clear();
-
-			if ( testMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount ) {
-				// Show the dump data
-				jQuery( "#problemarea" ).append(
-					"<p>Thanks! You're all done testing this exercise.</p>" +
-					"<p>Please copy the text below and send it to us.</p>"
-				);
-
-				jQuery( "<textarea>" )
-					.val( "Khan.testExercise(" + JSON.stringify( dataDump ) + ");" )
-					.css({ width: "60%", height: "200px" })
-					.prop( "readonly", true )
-					.click( function() {
-						this.focus();
-						this.select();
-					} )
-					.appendTo( "#problemarea" );
-
-				jQuery( "#sidebar" ).hide();
-
-			} else {
-
-				// Switch exercises if there's a different queued up exercise in review mode
-				// TODO(kamens): going away
-				if ( reviewMode ) {
-					var nextExerciseName = reviewQueue.shift();
-					if ( nextExerciseName && nextExerciseName !== exerciseName ) {
-						switchToExercise( nextExerciseName );
-					}
-				}
-
-				if ( testMode ) {
-					// Just generate a new problem from existing exercise
-					makeProblem();
-				} else {
-					loadAndRenderExercise( nextUserExercise );
-				}
-
-				// TODO(kamens): probably going away
-				// Kick off a request to queue up more exercises if we're running low.
-				// This needs to run after makeProblem to get the updated problem state.
-				maybeEnqueueReviewProblems();
-			}
 		});
 
 		// Watch for when the "Get a Hint" button is clicked
@@ -2521,12 +2518,6 @@ var Khan = (function() {
 					userCRC32 = user != null ? crc32( user ) : null;
 					randomSeed = userCRC32 || randomSeed;
 				}
-			})
-			.bind("upcomingExercise", function( ev, exerciseName ) {
-				startLoadingExercise(exerciseName);
-			})
-			.bind("warning", function( ev, warning, showClose ) {
-				warn(warning, showClose);
 			});
 
 		// Register testMode-specific event handlers
@@ -2535,7 +2526,7 @@ var Khan = (function() {
 			// testMode automatically advances to the next problem --
 			// integrated mode just listens and waits for renderNextProblem
 			jQuery( Khan ).bind("gotoNextProblem", function() {
-				jQuery( Khan ).trigger("renderNextProblem");
+				renderNextProblem();
 			});
 
 		}
@@ -2562,7 +2553,17 @@ var Khan = (function() {
 		//
 		// Integrated mode already has jQuery, so we listen
 		// and wait for the signal to prepare.
-		jQuery( Khan ).bind( "prepare", prepareSite );
+		jQuery( Exercises )
+			.bind( "problemTemplateRendered", prepareSite )
+			.bind( "readyForNextProblem", function(ev, userExercise) {
+				renderNextProblem(userExercise);
+			})
+			.bind("warning", function( ev, warning, showClose ) {
+				warn(warning, showClose);
+			})
+			.bind("upcomingExercise", function( ev, exerciseName ) {
+				startLoadingExercise(exerciseName);
+			});
 	}
 
 	function setProblemNum( num ) {
