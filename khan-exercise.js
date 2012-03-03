@@ -65,21 +65,6 @@ var Khan = (function() {
 		return;
 	}
 
-	// Clear out old userExercise objects from localStorage in case we are over
-	// quota. They are now stored in sessionStorage when needed anyway.
-	(function() {
-		var i = 0;
-		while (i < localStorage.length) {
-			var key = localStorage.key(i);
-			if (key.indexOf('exercise:') === 0) {
-				delete localStorage[key];
-			}
-			else {
-				i++;
-			}
-		}
-	})();
-
 	// Prime numbers used for jumping through exercises
 	var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 	47, 53, 59, 61, 67, 71, 73, 79, 83],
