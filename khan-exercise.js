@@ -6,10 +6,7 @@
 	When this loadScripts is called, it loads in many of the pre-reqs and then
 	calls, one way or another, setUserExercise concurrently with loadModules.
 
-	setUserExercise calls updateData and advances the problem counter
-	via setProblemNum. updateData refreshes the page ui based on this current
-	problem (among other things). setProblemNum updates some instance vars
-	that get looked at by other functions.
+	setProblemNum updates some instance vars that get looked at by other functions.
 
 	loadModules takes care of loading an individual exercise's prereqs (i.e.
 	word problems, etc). It _also_ loads in the khan academy site skin and
@@ -181,7 +178,6 @@ var Khan = (function() {
 	hintsUsed,
 	lastAction,
 	attempts,
-	once = true,
 
 	guessLog,
 	userActivityLog,
@@ -638,7 +634,6 @@ var Khan = (function() {
 	// Seed the random number generator with the user's hash
 	randomSeed = testMode && parseFloat( Khan.query.seed ) || userCRC32 || ( new Date().getTime() & 0xffffffff );
 
-
 	// Load in jQuery
 	var scripts = (typeof jQuery !== "undefined") ? [] : [ { src: "../jquery.js" } ];
 
@@ -802,18 +797,6 @@ var Khan = (function() {
 		return bag;
 	}
 
-	function cacheUserExerciseDataLocally( exerciseName, data ) {
-		if ( user == null ) return;
-
-		var key = "exercise:" + user + ":" + exerciseName;
-		var oldVal = window.sessionStorage[ key ];
-
-		// We sometimes patch UserExercise.exercise_model with related_videos and
-		// sometimes don't, so extend existing objects to avoid erasing old values.
-		window.sessionStorage[ key ] = JSON.stringify( typeof oldVal === "string" ?
-				jQuery.extend( /* deep */ true, JSON.parse(oldVal), data ) : data );
-	}
-
 	// TODO(david): Would be preferable to use the exercise model's display_name
 	//     property instead of duplicating that code here on the client.
 	function getDisplayNameFromId( id ) {
@@ -822,6 +805,7 @@ var Khan = (function() {
 
 	// This function is a closure returned from an immediately-called function so
 	// we can have private static variables (requestPending).
+	// TODO(kamens): going away
 	var maybeEnqueueReviewProblems = (function() {
 
 		var requestPending = false;
@@ -1753,11 +1737,6 @@ var Khan = (function() {
 		jQuery( "#hint" ).val( "I'd like a hint" );
 		jQuery( "#hint-remainder" ).hide();
 
-		if ( once || reviewMode ) {
-			updateData( /* data */ null, /* isFirstUpdate */ once );
-			once = false;
-		}
-
 		// Update dimensions for sticky box
 		jQuery( "#answer_area" ).adhere();
 
@@ -1846,7 +1825,10 @@ var Khan = (function() {
 				non_summative: exercise.data( "name" ),
 
 				// Whether we are currently in review mode
-				review_mode: reviewMode ? 1 : 0
+				review_mode: reviewMode ? 1 : 0,
+
+				// Request camelCasing in returned response
+				casing: "camel"
 			};
 		}
 
@@ -2511,6 +2493,15 @@ var Khan = (function() {
 			);
 		}
 
+		jQuery( Khan ).bind("updateUserExercise", function( ev, data ) {
+			// Any time we update userExercise, check if we're setting/switching usernames
+			if ( data ) {
+				user = data.user || user;
+				userCRC32 = user != null ? crc32( user ) : null;
+				randomSeed = userCRC32 || randomSeed;
+			}
+		});
+
 		// Register testMode-specific event handlers
 		if ( testMode ) {
 
@@ -2523,7 +2514,7 @@ var Khan = (function() {
 		}
 
 		// Make scratchpad persistent per-user
-		if (user) {
+		if ( user ) {
 			var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
 			if ( typeof lastScratchpad !== "undefined" && JSON.parse( lastScratchpad ) ) {
 				Khan.scratchpad.show();
@@ -2594,12 +2585,11 @@ var Khan = (function() {
 
 		userExercise = data;
 
-		// Update the local data store
-		updateData( data );
-
 		if ( data && data.exercise ) {
 			exerciseName = data.exercise;
 		}
+
+		jQuery( Khan ).trigger("updateUserExercise", userExercise);
 
 		if ( user != null ) {
 			// How far to jump through the problems
@@ -2609,7 +2599,7 @@ var Khan = (function() {
 			seedOffset = userCRC32 % bins;
 
 			// Advance to the current problem seed
-			setProblemNum( getData().totalDone + 1 );
+			setProblemNum( userExercise.totalDone + 1 );
 		}
 	}
 
@@ -2640,8 +2630,10 @@ var Khan = (function() {
 
 			// Backup the response locally, for later use
 			success: function( data ) {
-				// Update the visual representation of the points/streak
-				updateData( data );
+
+				// Tell any listeners that khan-exercises has new 
+				// userExercise data
+				jQuery( Khan ).trigger("updateUserExercise", data);
 
 				if ( jQuery.isFunction( fn ) ) {
 					fn( data );
@@ -2682,76 +2674,6 @@ var Khan = (function() {
 			});
 		} else {
 			sendRequest();
-		}
-	}
-
-	// TODO(kamens): vast majority of updateData is going away
-	//
-	// updateData is used to update some user interface elements as the result of
-	// a page load or after a post / problem attempt. updateData doesn't know if an
-	// attempt was successful or not, it's simply reacting to the state of the data
-	// object returned by the server (or window.sessionStorage for phantom users)
-	//
-	// It gets called a few times
-	// * by setUserExercise when it's setting up the exercise state
-	// * and then by makeProblem, when a problem is being initialized
-	// * when a post to the /api/v1/user/exercises/<exercisename>/attempt succeeds
-	//   which just means there was no 500 error on the server
-	function updateData( data, isFirstUpdate ) {
-
-		// Check if we're setting/switching usernames
-		if ( data ) {
-			user = data.user || user;
-			userCRC32 = user != null ? crc32( user ) : null;
-			randomSeed = userCRC32 || randomSeed;
-		}
-
-		// Make sure we have current data
-		var oldData = getData();
-
-		// Change users or exercises, if needed
-		if ( data && (data.total_done >= oldData.total_done ||
-				data.user !== oldData.user || data.exercise !== oldData.exercise) ) {
-			cacheUserExerciseDataLocally( exerciseName, data );
-
-			// Don't update the UI with data from a different exercise
-			if ( data.exercise !== exerciseName ) {
-				return;
-			}
-
-		// If no data is provided then we're just updating the UI
-		} else {
-			data = oldData;
-		}
-
-	}
-
-	// Grab the cached UserExercise data from local storage
-	function getData() {
-		// If we're viewing a problem, ignore local storage and return the userExercise blob
-		if ( typeof userExercise !== "undefined" && userExercise.readOnly ) {
-			return userExercise;
-
-		} else {
-			var data = window.sessionStorage[ "exercise:" + user + ":" + exerciseName ];
-
-			// Parse the JSON if it exists
-			if ( data ) {
-				return JSON.parse( data );
-
-			// Otherwise we contact the server
-			} else {
-				return {
-					total_done: 0,
-					total_correct: 0,
-					streak: 0,
-					longest_streak: 0,
-					next_points: 225,
-					exercise_model: {
-						summative: isSummative
-					}
-				};
-			}
 		}
 	}
 
