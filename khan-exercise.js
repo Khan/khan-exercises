@@ -185,15 +185,17 @@ var Khan = (function() {
 	// A map of jQuery queues for serially sending and receiving AJAX requests.
 	requestQueue = {},
 
-	// For loading remote exercises
-	remoteCount = 0,
-
 	// Debug data dump
 	dataDump = {
 		"exercise": exerciseName,
 		"problems": [],
 		"issues": 0
 	},
+
+	// Dict of exercise names that are loading.
+	// Values are number of remote exercises that are currently
+	// pending in the middle of a load.
+	loadingExercises = {},
 
 	urlBase = typeof urlBaseOverride !== "undefined" ? urlBaseOverride :
 		testMode ? "../" : "/khan-exercises/",
@@ -897,6 +899,39 @@ var Khan = (function() {
 			.val('Please wait...');
 	}
 
+	function isExerciseLoaded(exerciseName) {
+		return _.any( exercises, function( exercise ) {
+			return jQuery.data( exercise, "rootName" ) === exerciseName;
+		});
+	}
+
+	function startLoadingExercise(exerciseName) {
+
+		if ( typeof loadingExercises[exerciseName] !== "undefined" ) {
+			// Already started loading this exercise.
+			return;
+		}
+
+		if ( isExerciseLoaded( exerciseName ) ) {
+			return;
+		}
+
+		var exerciseElem = jQuery( "<div>" )
+			.data( "name", exerciseName )
+			.data( "rootName", exerciseName );
+
+		// Queue up an exercise load
+		loadExercise.call( exerciseElem, function() {
+
+			// Trigger load completion event for this exercise
+			jQuery( Khan ).trigger("exerciseLoaded:" + exerciseName);
+
+			delete loadingExercises[exerciseName];
+
+		});
+
+	}
+
 	function loadAndRenderExercise( nextUserExercise ) {
 
 		setUserExercise( nextUserExercise );
@@ -922,20 +957,16 @@ var Khan = (function() {
 
 		}
 
-		// TODO(kamens): clean this up, it's copied from review code...
-		// Was this exercise's data and HTML loaded by loadExercise already?
-		var isLoaded = exercises.filter(function() {
-			return jQuery.data( this, "rootName" ) === exerciseName;
-		}).length;
-
-		// Load all non-loadExercise loaded exercises
-		if ( !isLoaded ) {
-			var exerciseElem = jQuery( "<div>" )
-				.data( "name", exerciseName )
-				.data( "rootName", exerciseName );
-			loadExercise.call( exerciseElem, finishRender );
-		} else {
+		if (isExerciseLoaded(exerciseName)) {
 			finishRender();
+		} else {
+			startLoadingExercise(exerciseName);
+
+			jQuery( Khan )
+				.unbind("exerciseLoaded:" + exerciseName)
+				.bind("exerciseLoaded:" + exerciseName, function() {
+					finishRender();
+				});
 		}
 
 	}
@@ -2493,14 +2524,18 @@ var Khan = (function() {
 			);
 		}
 
-		jQuery( Khan ).bind("updateUserExercise", function( ev, data ) {
-			// Any time we update userExercise, check if we're setting/switching usernames
-			if ( data ) {
-				user = data.user || user;
-				userCRC32 = user != null ? crc32( user ) : null;
-				randomSeed = userCRC32 || randomSeed;
-			}
-		});
+		jQuery( Khan )
+			.bind("updateUserExercise", function( ev, data ) {
+				// Any time we update userExercise, check if we're setting/switching usernames
+				if ( data ) {
+					user = data.user || user;
+					userCRC32 = user != null ? crc32( user ) : null;
+					randomSeed = userCRC32 || randomSeed;
+				}
+			})
+			.bind("upcomingExercise", function( ev, exerciseName ) {
+				startLoadingExercise(exerciseName);
+			});
 
 		// Register testMode-specific event handlers
 		if ( testMode ) {
@@ -2683,7 +2718,11 @@ var Khan = (function() {
 		var weight = self.data( "weight" );
 		var rootName = self.data( "rootName" );
 
-		remoteCount++;
+		if ( !loadingExercises[name] ) {
+			loadingExercises[name] = 0;
+		}
+
+		loadingExercises[name]++;
 
 		// Packing occurs on the server but at the same "exercises/" URL
 		jQuery.get( urlBase + "exercises/" + name + ".html", function( data, status, xhr ) {
@@ -2701,7 +2740,7 @@ var Khan = (function() {
 			newContents.data( "rootName", rootName );
 
 			// Maybe the exercise we just loaded loads some others
-			newContents.filter( "[data-name]" ).each( loadExercise );
+			newContents.filter( "[data-name]" ).each( function() { loadExercise.call( this, callback ); } );
 
 			// Throw out divs that just load other exercises
 			newContents = newContents.not( "[data-name]" );
@@ -2742,11 +2781,16 @@ var Khan = (function() {
 				newContents.data( tag, result );
 			});
 
-			remoteCount--;
-			if ( remoteCount === 0 && !modulesLoaded ) {
-				loadModules( callback );
-			} else if ( callback ) {
-				callback();
+			loadingExercises[name]--;
+
+			if ( loadingExercises[name] === 0) {
+
+				if ( !modulesLoaded ) {
+					loadModules( callback );
+				} else if ( callback ) {
+					callback();
+				}
+
 			}
 
 		});
