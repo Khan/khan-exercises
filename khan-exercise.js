@@ -2535,6 +2535,9 @@ var Khan = (function() {
 			})
 			.bind("upcomingExercise", function( ev, exerciseName ) {
 				startLoadingExercise(exerciseName);
+			})
+			.bind("warning", function( ev, warning, showClose ) {
+				warn(warning, showClose);
 			});
 
 		// Register testMode-specific event handlers
