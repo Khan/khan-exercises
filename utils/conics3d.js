@@ -13,10 +13,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 (function () {
 
-var ConicsTexts_en_US = {
-	UPDATE_PLANE_REAL_TIME: "Update plane real time: "
-};
-
 /*------------------------------------------------
 --------------- ConicsUtil -----------------------
 -------------------------------------------------*/
@@ -691,8 +687,6 @@ var DRAG_CONIC_UI = "dragging_conic_ui";
 	*   - disableCameraDragging: set to true to disable camera dragging
 	*   - updateRealtime set to true to see every changes redrawn in realtime
 	* 	- drawOptions: see Conics.draw() @ options
-	*   - locale: a language locale
-	*   	(an instance of ConicsTexts_<locale> will be used)
 	*   - onPlaneUpdate: event handler for plane updates (called on draw events)
 	*   - onDraw: event handler to extend drawing
 **/
@@ -709,24 +703,12 @@ function ConicsUI(planeControls, conicsContainer, options) {
 	if (!options) options = {};
 	setOptDefault("updateRealtime", true);
 	setOptDefault("maxConeRadius", 10);
-	setOptDefault("locale", "en_US");
 	setOptDefault("yaw", Math.PI/ 8);
 	setOptDefault("pitch", Math.PI / 8);
 	this.options = options;
 
-	// init text object
-	this.txt = window["ConicsTexts_" + options.locale];
-	if (this.txt == null) {
-		alert("Locale "+ options.locale +" not found.\n"+
-			"Did you register it as a global variable?\n"+
-			"Does the name of the variable start with 'ConicsText_'?");
-		this.txt = ConicsTexts_en_US;
-	}
-
 	// init conic
-	this.conicsContainer = conicsContainer;
-	this.conicsEl = $("<div class=\"conics3d\"></div>");
-	this.conicsContainer.append(this.conicsEl);
+	this.conicsEl = conicsContainer;
 	this.conics = new Conics(
 		options.maxConeRadius,
 		this.conicsEl.get(0),
@@ -746,8 +728,6 @@ function ConicsUI(planeControls, conicsContainer, options) {
 		this.initCameraDrag();
 
 	this.initDrawLoop();
-
-	this.initPlaneControls();
 
 	// first time update
 	this.onPlaneUpdate();
@@ -831,95 +811,94 @@ ConicsUI.prototype = {
 		})();
 	},
 
-	initPlaneControls: function() {
-		this.planeControls.addClass("conics3d-ui");
-
-		var c = "<td></td>";
-		var r = "<tr>"+ c + c + c + c +"</tr>";
-		var table = $("<table>"+ r + r + r +"</table>");
-		var cells = table.find("td");
-
-		// create sliders
+	_createSlider: function(s) {
 		var self = this;
+		var slider = $("<div></div>");
+		slider.slider(s.sliderOpts);
 
-		function newSlider(s) {
-			var slider = $("<div></div>");
-			s.sliderOpts.orientation = "vertical";
-			slider.slider(s.sliderOpts);
+		slider.bind("slide slidechange", function(event, ui) {
+			if (
+				(event.type == "slide" && self.options.updateRealtime) ||
+				(event.type == "slidechange")) {
+					s.setValue(ui.value);
+					s.valueContainer.html(s.getValue());
+			 }
+		});
 
-			slider.bind("slide slidechange", function(event, ui) {
-				if (
-					(event.type == "slide" && self.options.updateRealtime) ||
-					(event.type == "slidechange")) {
-						s.setValue(ui.value);
-						s.valueContainer.html(s.getValue());
-				 }
-			});
+		s.valueContainer.html(s.getValue());
 
-			s.captionContainer.html(s.caption);
-			s.valueContainer.html(s.getValue());
+		s.sliderContainer.append(slider);
 
-			s.sliderContainer.append(slider);
+		return s;
+	},
 
-			return s;
-		}
-
-		this.xSlider 		=	newSlider({
-			sliderContainer: cells.eq(0),
+	createXSlider: function(sliderEl, valueEl, opts) {
+		var self = this;
+		if (!opts) opts = {};
+		this._createSlider({
+			sliderContainer: sliderEl,
 			setValue: function(v) { self.setPlaneX(v); },
-			captionContainer: cells.eq(4),
-			caption: "X",
-			valueContainer: cells.eq(8),
+			valueContainer: valueEl,
 			getValue: function() { return self.getPlaneX().toFixed(1); },
 			sliderOpts: {
 				value: self.getPlaneX(),
 				min: -this.options.maxConeRadius,
 				max: this.options.maxConeRadius,
-				step: 0.5
+				step: 0.5,
+				orientation: opts.vertical ? "vertical" : "horizontal"
 			}
 		});
-		this.ySlider 		=	newSlider({
-			sliderContainer: cells.eq(1),
+	},
+
+	createYSlider: function(sliderEl, valueEl, opts) {
+		var self = this;
+		if (!opts) opts = {};
+		this._createSlider({
+			sliderContainer: sliderEl,
 			setValue: function(v) { self.setPlaneY(v); },
-			captionContainer: cells.eq(5),
-			caption: "Y",
-			valueContainer: cells.eq(9),
+			valueContainer: valueEl,
 			getValue: function() { return self.getPlaneY().toFixed(1); },
 			sliderOpts: {
 				value: self.getPlaneY(),
 				min: -this.options.maxConeRadius,
 				max: this.options.maxConeRadius,
-				step: 0.5
+				step: 0.5,
+				orientation: opts.vertical ? "vertical" : "horizontal"
 			}
 		});
-		this.zSlider 		=	newSlider({
-			sliderContainer: cells.eq(2),
+	},
+
+	createZSlider: function(sliderEl, valueEl, opts) {
+		var self = this;
+		if (!opts) opts = {};
+		this._createSlider({
+			sliderContainer: sliderEl,
 			setValue: function(v) { self.setPlaneZ(v); },
-			captionContainer: cells.eq(6),
-			caption: "Z",
-			valueContainer: cells.eq(10),
+			valueContainer: valueEl,
 			getValue: function() { return self.getPlaneZ().toFixed(1); },
 			sliderOpts: {
 				value: self.getPlaneZ(),
 				min: -this.options.maxConeRadius,
 				max: this.options.maxConeRadius,
-				step: 0.5
+				step: 0.5,
+				orientation: opts.vertical ? "vertical" : "horizontal"
 			}
 		});
+	},
 
+	createRotSlider: function(sliderEl, valueEl, opts) {
+		var self = this;
+		if (!opts) opts = {};
 		var TO_RAD = (Math.PI * 0.5 / 90);
 		var TO_DEG = (360 / (Math.PI * 2));
-		this.rotSlider	=	newSlider({
-			sliderContainer: cells.eq(3),
+		this._createSlider({
+			sliderContainer: sliderEl,
 			setValue: function(v) {
 					self.setPlaneRot(
 						v * TO_RAD
 					);
 				},
-			captionContainer: cells.eq(7),
-			caption: "&theta;",
-			valueContainer: cells.eq(11),
-		 	// show in degrees
+			valueContainer: valueEl,
 			getValue: function() {
 					var deg = self.getPlaneRot() * TO_DEG;
 					return deg.toFixed(0) + "&deg;";
@@ -927,23 +906,26 @@ ConicsUI.prototype = {
 			sliderOpts: {
 				value: self.getPlaneRot() * TO_DEG,
 				min: -90,
-				max: 90
+				max: 90,
+				orientation: opts.vertical ? "vertical" : "horizontal"
 			}
 		});
+	},
 
-
-		// create update realtime checkbox
-		var realtimeCbox = $("<input type=\"checkbox\" checked=\"checked\" />");
+	createRealtimeCheckbox:  function(containerEl, enabler) {
+		var self = this;
+		var checked = '';
+		if (this.options.updateRealtime && enabler)
+			checked = ' checked="checked" ';
+		var realtimeCbox = $('<input type="checkbox"'+ checked +'/>');
 		var form = $("<form></form>");
-		var updateRealtimeTxt = $("<span>"+ this.txt.UPDATE_PLANE_REAL_TIME +"</span>");
-		form.append(updateRealtimeTxt, realtimeCbox);
+		form.append(realtimeCbox);
 		realtimeCbox.click(function() {
-			self.options.updateRealtime = $(this).is(':checked');
+			var c = $(this).is(':checked');
+			if (!enabler) c = !c;
+			self.options.updateRealtime = c;
 		});
-
-		// add all elements
-		this.planeControls.append(table);
-		this.planeControls.append(form);
+		containerEl.append(form);
 	},
 
 	onPlaneUpdate: function () {
@@ -991,6 +973,5 @@ ConicsUI.prototype = {
 window.Conics = Conics;
 window.ConicsUtil = ConicsUtil;
 window.ConicsUI = ConicsUI;
-window.ConicsTexts_en_US = ConicsTexts_en_US;
 window.ConicType = ConicType;
 })();

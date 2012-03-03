@@ -5,6 +5,7 @@
 	<title>Conic sections</title>
 	<script src="../khan-exercise.js"></script>
 	<script type="text/javascript">
+		// globals
 		var graph = null;
 		var conicsUI = null;
 		var conicPlot = null;
@@ -30,8 +31,10 @@
 				labelOpacity: 0.5
 			});
 
+			/* show axis labels
 			graph.label( [ 0, YRANGE ], "y", "above" );
 			graph.label( [ XRANGE, 0 ], "x", "right" );
+			*/
 
 			// init conics user interface
 			conicsUI = new ConicsUI(
@@ -41,7 +44,8 @@
 					updateRealtime: true,
 					yaw: Math.PI / 8,
 					pitch: Math.PI / 8,
-					planeY: -1,
+					planeX: 1.5,
+					planeY: 0,
 					onPlaneUpdate: onPlaneUpdate,
 					drawOptions: {
 						curveLineSegments: 48,
@@ -62,6 +66,12 @@
 					}
 				}
 			);
+
+			with(conicsUI) {
+				createYSlider($("#ySlider"), $("#yValue"));
+				createRotSlider($("#rotSlider"), $("#rotValue"));
+				createRealtimeCheckbox($("#updateRealtime"), false);
+			}
 		}
 
 		function plotIntersection(graph, intsec) {
@@ -168,33 +178,58 @@
 			return "";
 		}
 
+		function getGuess() {
+			return {
+				conicType:			getCurrentConicType(),
+				planeHeight:		conicsUI.getPlaneY(),
+				planeRotation: 	conicsUI.getPlaneRot()
+			};
+		}
+
+		function showGuess(guess) {
+			conicsUI.setPlaneY(		guess.planeHeight		);
+			conicsUI.setPlaneRot(	guess.planeRotation	);
+		}
+
+		function validateGuess(guess, correctType) {
+			if (guess.conicType == correctType)
+					return true;
+			else if (guess.planeHeight == 0 && guess.planeRotation == 0)
+				return ""; // not an answer
+			else
+				// false answer
+				return "That is "+ conicTypeToString(guess.conicType) +".";
+		}
 
 	</script>
 
 	<style type="text/css">
-		.conics3d {
-			width: 480px;
+		#graph {
+			position: relative;
+			display: inline;
+			float: left;
+			width: 200px;
+			height: 300px;
+		}
+		#conics3d {
+			position: relative;
+			display: inline;
+			float: right;
+			width: 400px;
 			height: 300px;
 			cursor: move;
 		}
-
-		.conics3d-ui table, .conics3d-ui table td {
-	 		border: none;
-			margin: 0;
-			padding: 5px 5px 5px;
+		#rotValue {
+			width: 20px;
 		}
-
-		.conics3d-ui td {
-			margin: 0;
-			width: 25px;
+		#yValue {
+			width: 20px;
 		}
-
-		.conics3d-ui  h1 {
-			font-size: 1.1em;
+		#ySlider {
+			width: 100px;
 		}
-
-		.conics3d-ui  h1 {
-			font-size: 1.1em;
+		#rotSlider {
+			width: 100px;
 		}
 	</style>
 </head>
@@ -204,45 +239,61 @@
 
 		<div id="conics-recreate">
 			<div class="vars">
-				<var id="CONIC_TYPE">randRange(ConicType.CIRCLE, ConicType.HYPERBOLA)</var>
-				<var id="CONIC_TYPE_NAME">conicTypeToString(CONIC_TYPE)</var>
+				<var id="CONIC_TYPE">
+					randRange(ConicType.CIRCLE, ConicType.HYPERBOLA)
+				</var>
+				<var id="CONIC_TYPE_NAME">
+					conicTypeToString(CONIC_TYPE)
+				</var>
 			</div>
 
 			<div class="question">
-				<p>Slice the cone with the plane so that its intersection forms <strong><var>CONIC_TYPE_NAME</var></strong>.</p>
+				<p>
+					Slice the cone with the plane so that it's intersection forms
+					<strong><var>CONIC_TYPE_NAME</var></strong>.
+				</p>
 			</div>
 
 			<div class="solution" data-type="custom">
 		    <div class="instruction">
 					Use the plane controls below to manipulate the plane in order to
 					get <var>CONIC_TYPE_NAME</var>.
-					<div id="plane_controls"></div>
+		 			<table>
+					 	<tr>
+						 	<td>Plane height</td>
+							<td id="yValue"> </td>
+							<td id="ySlider"></div></td>
+						</tr>
+					 	<tr>
+						 	<td>Plane rotation</td>
+							<td id="rotValue"> </td>
+							<td id="rotSlider"></td>
+						</tr>
+					 	<tr>
+						 	<td>Disable real time</td>
+							<td colspan="2">
+								<span id="updateRealtime"></span>
+								(slow computers)
+							</td>
+						</tr>
+					</table>
 		    </div>
-				<div class="guess">{
-					conicType: getCurrentConicType()
-				}</div>
+
+				<div class="guess">getGuess()</div>
+				<div class="show-guess">showGuess(guess)</div>
 		    <div class="validator-function">
-					if (guess.conicType == CONIC_TYPE)
-						return true;
-					else
-						return "That is "+ conicTypeToString(guess.conicType) +".";
-		    </div>
+					return validateGuess(guess, CONIC_TYPE)
+				</div>
 			</div>
 
 			<div class="problem">
-				<table>
-					<tr>
-						<td>
-							<div id="graph" class="graphie">
-								initConics();
-							</div>
-						</td>
-						<td>
-								<div id="conics3d"></div>
-								<p align="center">Click and drag to rotate the camera</p>
-						</td>
-					</tr>
-				</table>
+					<div id="graph" class="graphie">
+						initConics();
+					</div>
+					<div id="conics3d"></div>
+					<p align="center">
+					(click and drag cone to change the camera angle)
+					</p>
 			</div>
 
 		</div>
