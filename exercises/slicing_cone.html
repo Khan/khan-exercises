@@ -192,10 +192,10 @@
 		}
 
 		function validateGuess(guess, correctType) {
-			if (guess.conicType == correctType)
-					return true;
-			else if (guess.planeHeight == 0 && guess.planeRotation == 0)
+			if (guess.planeHeight == 0 && guess.planeRotation == 0)
 				return ""; // not an answer
+			else if (guess.conicType == correctType)
+					return true;
 			else
 				// false answer
 				return "That is "+ conicTypeToString(guess.conicType) +".";
