@@ -26,6 +26,36 @@
 	At the end of evaluation, the inner Khan object is returned/exposed as well
 	as the inner Util object.
 
+
+
+	Catalog of events fired on the Khan object by khan-exercises:
+
+	* renderNextProblem -- when khan-exercises has been instructed by the user
+	  to move to the next problem, this is fired before render
+
+	* newProblem -- when a new problem has completely finished rendering
+
+	* hintUsed -- when a hint has been used by the user
+	
+	* allHintsUsed -- when all possible hints have been used by the user
+	
+	* checkAnswer -- when the user attempts to check an answer, incorrect or
+	  correct
+
+	* problemDone -- when the user has completed a problem which, in this case,
+	  usually means supplying the correct answer
+
+	* attemptSaved -- when an attempt has been recorded successfully via the
+	  API
+
+	* attemptError -- when an error occurs during an API attempt
+
+	* exercise-loaded:[exercise-name] -- when an exercise and all of its
+	  dependencies are loaded and ready to render
+
+	* updateUserExercise -- when an updated userExercise has been received 
+	  and is being used by khan-exercises, either via the result of an API
+	  call or initialization
 */
 
 var Khan = (function() {
@@ -1899,7 +1929,7 @@ var Khan = (function() {
 			request( "problems/" + problemNum + "/attempt", data, function() {
 
 				// TODO: Save locally if offline
-				jQuery(Khan).trigger( "answerSaved" );
+				jQuery(Khan).trigger( "attemptSaved" );
 
 				// If in review mode, the server may decide the user needs to practice
 				// this exercise again -- provide quick feedback if so.
