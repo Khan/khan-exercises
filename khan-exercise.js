@@ -4,9 +4,9 @@
 	as Khan.loadScripts and then evaluated around line 500.
 
 	When this loadScripts is called, it loads in many of the pre-reqs and then
-	calls, one way or another, prepareUserExercise concurrently with loadModules.
+	calls, one way or another, setUserExercise concurrently with loadModules.
 
-	prepareUserExercise calls updateData and advances the problem counter
+	setUserExercise calls updateData and advances the problem counter
 	via setProblemNum. updateData refreshes the page ui based on this current
 	problem (among other things). setProblemNum updates some instance vars
 	that get looked at by other functions.
@@ -25,9 +25,6 @@
 
 	If you are trying to do something each time a problem loads, you probably
 	want to look at makeProblem.
-
-	For obvious reasons window.userExercise is removed but it remains available
-	to you from within the Khan object
 
 	At the end of evaluation, the inner Khan object is returned/exposed as well
 	as the inner Util object.
@@ -916,12 +913,10 @@ var Khan = (function() {
 			.val('Please wait...');
 	}
 
-	function loadAndRenderExercise( userExercise ) {
+	function loadAndRenderExercise( nextUserExercise ) {
 
-		userExercise = userExercise;
+		setUserExercise( nextUserExercise );
 		exerciseName = userExercise.exerciseModel.name;
-
-		prepareUserExercise( userExercise );
 
 		function finishRender() {
 
@@ -2566,25 +2561,7 @@ var Khan = (function() {
 		nextProblem( -num );
 	}
 
-	function drawExerciseState( data ) {
-		// drawExerciseState changes the #exercise-icon-container's status to
-		// reflect the current state of the
-		var icon = jQuery("#exercise-icon-container");
-		var exerciseStates = data && data.exercise_states;
-		if ( exerciseStates ){
-			var sPrefix = exerciseStates.summative ? "node-challenge" : "node";
-			var src = exerciseStates.reviewing ? "/images/node-review.png" :
-					exerciseStates.suggested ? "/images/" + sPrefix + "-suggested.png" :
-						exerciseStates.proficient ? "/images/" + sPrefix + "-complete.png" :
-							"/images/" + sPrefix + "-not-started.png";
-			jQuery("#exercise-icon-container img").attr("src", src);
-
-			icon.addClass("hint" )
-				.click(function(){jQuery(this).toggleClass("hint");});
-
-		}
-	};
-
+	// TODO(kamens): much of this could be going away
 	function enterReviewMode() {
 		// Hide the "Show next 10 problems" link button
 		jQuery( "#print-ten" ).parent().hide();
@@ -2613,7 +2590,7 @@ var Khan = (function() {
 		jQuery( "#exercise-icon-container img" ).attr( "src", src );
 	}
 
-	function prepareUserExercise( data ) {
+	function setUserExercise( data ) {
 
 		userExercise = data;
 
@@ -2716,21 +2693,11 @@ var Khan = (function() {
 	// object returned by the server (or window.sessionStorage for phantom users)
 	//
 	// It gets called a few times
-	// * by prepareUserExercise when it's setting up the exercise state
+	// * by setUserExercise when it's setting up the exercise state
 	// * and then by makeProblem, when a problem is being initialized
 	// * when a post to the /api/v1/user/exercises/<exercisename>/attempt succeeds
 	//   which just means there was no 500 error on the server
 	function updateData( data, isFirstUpdate ) {
-
-		// easeInOutCubic easing from
-		// jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
-		// (c) 2008 George McGinley Smith, (c) 2001 Robert Penner - Open source under the BSD License.
-		jQuery.extend( jQuery.easing, {
-			easeInOutCubic: function (x, t, b, c, d) {
-				if ((t/=d/2) < 1) return c/2*t*t*t + b;
-				return c/2*((t-=2)*t*t + 2) + b;
-			}
-		});
 
 		// Check if we're setting/switching usernames
 		if ( data ) {
@@ -2757,41 +2724,6 @@ var Khan = (function() {
 			data = oldData;
 		}
 
-		// Update the streaks/point bar
-		var streakMaxWidth = jQuery(".streak-bar").width(),
-
-			// Streak and longest streak pixel widths
-			streakWidth = Math.min(Math.ceil(streakMaxWidth * data.progress), streakMaxWidth);
-
-		if ( data.summative ) {
-			jQuery( ".summative-help ")
-				.find( ".summative-required-streaks" ).text( data.num_milestones ).end()
-				.show();
-
-			if ( jQuery( ".level-label" ).length === 0 ) {
-
-				// Split summative streak bar into levels
-				var levels = [];
-				var levelCount = data.num_milestones;
-				for ( var i = 1; i < levelCount; i++ ) {
-
-					// Individual level pixels
-					levels[ levels.length ] = Math.ceil(i * ( streakMaxWidth / levelCount ));
-
-				}
-
-				jQuery.each(levels, function( index, val ) {
-					jQuery( ".best-label" ).after( jQuery("<li class='level-label' ></li>").css({ "left":val }) );
-				});
-
-			}
-		}
-
-		jQuery(".current-rating").animate({"width":( streakWidth ) }, 365, "easeInOutCubic");
-		jQuery(".streak-icon").css({width:"100%"});
-		jQuery(".streak-bar").toggleClass("proficient", data.progress >= 1.0);
-
-		drawExerciseState( data );
 	}
 
 	// Grab the cached UserExercise data from local storage
