@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie word-problems">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Average Speed</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id ="RANDOM">randRange( 1, 10 )</var>
+			<var id ="SPEED_A">(random() > 0.5 ? 3 : 4)*RANDOM</var>
+			<var id ="SPEED_B">(SPEED_A == 3 ? 5 : 6)*RANDOM</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>A car travels a path with average speed equals to <b><var>SPEED_A</var></b> m/s.</p>
+					<p>It goes back through the same path with average speed equals to <b><var>SPEED_B</var></b> m/s.</p>
+					<p>What is the total average speed of the car?</p>
+				</div>
+				<div class="solution" data-forms="decimal"><var>2/( 1/SPEED_A + 1/SPEED_B )</var></div>
+			</div>
+		</div>
+		
+		<div class="hints">
+			<p>Remember that average speed is equals to distance over time, i.e. <b><code> r= \dfrac{d}{t}</code></b>.</p>
+			<p>The distance traveled by the car is the same in both directions.</p>
+			<p>Let <b><code>r_{total}</code></b> be the total average speed, <b>d</b> the distance that the car transversing the path, and <b><code>t_1</code></b> and <b><code>t_2</code></b> the time that it takes to go and come back through this path, respectively. Then <b><code>r_{total} = \dfrac{2d}{t_1 + t_2}</code></b>.</p>
+			<p>The average speed of the car when it is going is equal to <var>SPEED_A</var> <code>=\dfrac{d}{t_1}</code>. Thus, the time that it takes to transverse the path going is equal to <code>t_1 = \dfrac{d}{<var>SPEED_A</var>} </code>.</p>
+			<p>Analogously, the time that the car takes when it is coming back is equal to <code>t_2 = \dfrac{d}{<var>SPEED_B</var>}</code>. Therefore <code>r_{total} = \dfrac{2d}{ \dfrac{d}{ <var>SPEED_A</var>} + \dfrac{d}{<var>SPEED_B</var> } } \Leftrightarrow r_{total} = \dfrac{2}{ \dfrac{1}{<var>SPEED_A</var>} + \dfrac{1}{<var>SPEED_B</var>} }</code>. <code>r_{total} = <var>roundTo( 1 , 2/(1/SPEED_A + 1/SPEED_B) )</var></code>.</p>
+		</div>
+	</div>
+</body>
+</html>
