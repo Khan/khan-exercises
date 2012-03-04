@@ -47,7 +47,7 @@
 
 	* attemptError -- when an error occurs during an API attempt
 
-	* exercise-loaded:[exercise-name] -- when an exercise and all of its
+	* exerciseLoaded:[exercise-name] -- when an exercise and all of its
 	  dependencies are loaded and ready to render
 
 	* updateUserExercise -- when an updated userExercise has been received 
