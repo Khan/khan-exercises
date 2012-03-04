@@ -196,23 +196,23 @@ function polygonWindingNumber(polygon, point) {
     //how many sides of the polygon intersect an in what direction.
     for (var i = 0; i < polygon.length - 1; ++i ) {
         var pp1 = polygon[i];
-	var pp2 = polygon[i + 1];
+        var pp2 = polygon[i + 1];
 
-	if ( pp1[1] <= point[1] ) {
-	    //above to below, positive crossing
-	    if ( pp2[1] > point[1]) {
-		if ( isLeft(pp1, pp2, point) > 0 ) {
-		    winding += 1;
-	}
-	    }
-	} else {
-	    //below to above, negative crossing.
-	    if ( pp2[1] <= point[1] ) {
-	        if ( isLeft(pp1, pp2, point) < 0) {
-		    winding -= 1;
-		}
-	    }
-	}
+        if ( pp1[1] <= point[1] ) {
+            //above to below, positive crossing
+            if ( pp2[1] > point[1]) {
+                if ( isLeft(pp1, pp2, point) > 0 ) {
+                    winding += 1;
+                }
+            }
+        } else {
+            //below to above, negative crossing.
+            if ( pp2[1] <= point[1] ) {
+                if ( isLeft(pp1, pp2, point) < 0) {
+                    winding -= 1;
+                }
+            }
+        }
     }
 
     return winding;
@@ -225,7 +225,7 @@ function polygonWindingNumber(polygon, point) {
  */
 function boundingBox(obj) {
     return [[obj.offset().left, obj.offset().top], [obj.offset().left + obj.outerWidth(), obj.offset().top],
-	    [obj.offset().left + obj.outerWidth(), obj.offset().top + obj.outerHeight()], [obj.offset().left, obj.offset().top + obj.outerHeight()]];
+           [obj.offset().left + obj.outerWidth(), obj.offset().top + obj.outerHeight()], [obj.offset().left, obj.offset().top + obj.outerHeight()]];
 }
 
 
@@ -448,57 +448,57 @@ function Triangle( center, angles, scale, labels, points ){
 		return obj;
 	}
 
-	this.createAngleLabel = function( line1, line2, angle, text, putOutside) {
-            var obj;
+    this.createAngleLabel = function( line1, line2, angle, text, putOutside) {
+        var obj;
 
-	    if(!putOutside) {
-	        obj = KhanUtil.currentGraph.label(bisectAngle( line2, reverseLine( line1 ), this.angleScale( angle ))[ 1 ], text, "center", { color: this.color } );
-	    } else {
-	        var bisector = bisectAngle( line2, reverseLine( line1 ), 1.0);
-		var vertex = bisector[0];
-		var label_point = bisector[1];
+        if(!putOutside) {
+            obj = KhanUtil.currentGraph.label(bisectAngle( line2, reverseLine( line1 ), this.angleScale( angle ))[ 1 ], text, "center", { color: this.color } );
+        } else {
+            var bisector = bisectAngle( line2, reverseLine( line1 ), 1.0);
+            var vertex = bisector[0];
+            var label_point = bisector[1];
 
-		var angle = Math.atan2(label_point[1] - vertex[1], label_point[0] - vertex[0]);
-		if ( angle < 0 ) {
-		    angle += 2 * Math.PI;
-		}
+            var angle = Math.atan2(label_point[1] - vertex[1], label_point[0] - vertex[0]);
+            if ( angle < 0 ) {
+                angle += 2 * Math.PI;
+            }
 
-		var direction;
-		if ( angle < Math.PI / 8 ) {
-		    direction = "right";
+            var direction;
+            if ( angle < Math.PI / 8 ) {
+                direction = "right";
 
-		} else if ( angle < 3 * Math.PI / 8 ) {
-		    direction = "above right";
+            } else if ( angle < 3 * Math.PI / 8 ) {
+                direction = "above right";
 
-		} else if ( angle < 5 * Math.PI / 8 ) {
-		    direction = "above";
+            } else if ( angle < 5 * Math.PI / 8 ) {
+                direction = "above";
 
-		} else if ( angle < 7 * Math.PI / 8 ) {
-        	    direction = "above left";
+            } else if ( angle < 7 * Math.PI / 8 ) {
+                direction = "above left";
 
-		} else if ( angle < 9 * Math.PI / 8 ) {
-		    direction = "left";
+            } else if ( angle < 9 * Math.PI / 8 ) {
+                direction = "left";
 
-		} else if ( angle < 11 * Math.PI / 8 ) {
-        	    direction = "below left";
+            } else if ( angle < 11 * Math.PI / 8 ) {
+                direction = "below left";
 
-		} else if ( angle < 13 * Math.PI / 8 ) {
-		    direction = "below";
+            } else if ( angle < 13 * Math.PI / 8 ) {
+                direction = "below";
 
-		} else if ( angle < 15 * Math.PI / 8 ) {
-		    direction = "below right";
+            } else if ( angle < 15 * Math.PI / 8 ) {
+                direction = "below right";
 
-		} else {
-		    direction = "right";
-		}
+            } else {
+                direction = "right";
+            }
 
-	        obj = KhanUtil.currentGraph.label( vertex, text, direction, { color: this.color } );
-	    }
+            obj = KhanUtil.currentGraph.label( vertex, text, direction, { color: this.color } );
+        }
 
-	    this.set.push(obj);
+        this.set.push(obj);
 
-	    return obj;
-	}
+        return obj;
+    }
 
 	this.boxOut = function( pol, amount, type ){
 		var type = type || "simple";
@@ -579,48 +579,48 @@ function Triangle( center, angles, scale, labels, points ){
 	/* Draws the labels for angles in this.angles. After creating the labels the first time this function checks to see if
          * any labels overlap. Any overlapping labels found are then redrawn outside the triangle rather than inside.
 	 */
-	this.drawAngleLabels = function() {
-	    if ( "angles" in this.labels && this.angles){
-		for( var i = this.angles.length - 1; i >= 0; i-- ) {
-		    if ( this.labels.angles[ ( i + 1 ) % this.angles.length ] != "" ) {
-			this.labelObjects.angles.push( this.createAngleLabel( this.sides[ i ], this.sides[ ( i + 1 ) % this.angles.length ], this.angles[ ( i + 1 ) % this.angles.length ], this.labels.angles[ ( i + 1 ) % this.angles.length ], false  ) );
-		    }
-		}
+    this.drawAngleLabels = function() {
+        if ( "angles" in this.labels && this.angles){
+            for( var i = this.angles.length - 1; i >= 0; i-- ) {
+                if ( this.labels.angles[ ( i + 1 ) % this.angles.length ] != "" ) {
+                    this.labelObjects.angles.push( this.createAngleLabel( this.sides[ i ], this.sides[ ( i + 1 ) % this.angles.length ], this.angles[ ( i + 1 ) % this.angles.length ], this.labels.angles[ ( i + 1 ) % this.angles.length ], false  ) );
+                }
+            }
 
-                //check if they overlap
-                var redraw = false;
-		for ( i = 0; i < this.labelObjects.angles.length && !redraw; ++i ) {
-		    var l1 = this.labelObjects.angles[i];
+            //check if they overlap
+            var redraw = false;
+            for ( i = 0; i < this.labelObjects.angles.length && !redraw; ++i ) {
+                var l1 = this.labelObjects.angles[i];
 
-		    var bbox1 = boundingBox(l1);
+                var bbox1 = boundingBox(l1);
 
-		    for ( var j = i + 1; j < this.labelObjects.angles.length && !redraw; ++j ) {
-			var l2 = this.labelObjects.angles[j];
+                for ( var j = i + 1; j < this.labelObjects.angles.length && !redraw; ++j ) {
+                    var l2 = this.labelObjects.angles[j];
 
-			redraw = polygonWindingNumber(bbox1, [l2.offset().left, l2.offset().top]) != 0 ||
-			    polygonWindingNumber(bbox1, [l2.offset().left, l2.offset().top + l2.outerWidth()]) != 0 ||
-			    polygonWindingNumber(bbox1, [l2.offset().left + l2.outerWidth(), l2.offset().top + l2.outerHeight()]) != 0 ||
-			    polygonWindingNumber(bbox1, [l2.offset().left, l2.offset().top + l2.outerHeight()]) != 0;
+                    redraw = polygonWindingNumber(bbox1, [l2.offset().left, l2.offset().top]) != 0 ||
+                        polygonWindingNumber(bbox1, [l2.offset().left, l2.offset().top + l2.outerWidth()]) != 0 ||
+                        polygonWindingNumber(bbox1, [l2.offset().left + l2.outerWidth(), l2.offset().top + l2.outerHeight()]) != 0 ||
+                        polygonWindingNumber(bbox1, [l2.offset().left, l2.offset().top + l2.outerHeight()]) != 0;
 
-		    }
-		}
+                }
+            }
 
-		if(redraw) {
-		    //They overlap remove the old ones
-		    for ( i = 0; i < this.labelObjects.angles.length; ++i ) {
-		        this.labelObjects.angles[i].remove();
-		    }
-		    this.labelObjects.angles = [];
+            if(redraw) {
+                //They overlap remove the old ones
+                for ( i = 0; i < this.labelObjects.angles.length; ++i ) {
+                    this.labelObjects.angles[i].remove();
+                }
+                this.labelObjects.angles = [];
 
-                    //and redraw them outside!
-		    for( i = this.angles.length - 1; i >= 0; i-- ) {
-			if ( this.labels.angles[ ( i + 1 ) % this.angles.length ] != "" ) {
-			    this.labelObjects.angles.push( this.createAngleLabel( this.sides[ ( i + 1 ) % this.angles.length ], this.sides[ i ], this.angles[ ( i + 1 ) % this.angles.length ], this.labels.angles[ ( i + 1 ) % this.angles.length ], true ) );
-			}
-		    }
-		}
-	    }
-	}
+                //and redraw them outside!
+                for( i = this.angles.length - 1; i >= 0; i-- ) {
+                    if ( this.labels.angles[ ( i + 1 ) % this.angles.length ] != "" ) {
+                        this.labelObjects.angles.push( this.createAngleLabel( this.sides[ ( i + 1 ) % this.angles.length ], this.sides[ i ], this.angles[ ( i + 1 ) % this.angles.length ], this.labels.angles[ ( i + 1 ) % this.angles.length ], true ) );
+                    }
+                }
+            }
+        }
+    }
 
 	this.drawLabels = function(){
 		var i = 0;
