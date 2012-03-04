@@ -47,6 +47,10 @@
 
 	* attemptError -- when an error occurs during an API attempt
 
+	* apiRequestStarted / apiRequestEnded -- when an API request is sent
+	  outbound or completed, respectively. Listeners can keep track of whether
+	  or not khan-exercises is still waiting on API responses.
+
 	* exerciseLoaded:[exercise-name] -- when an exercise and all of its
 	  dependencies are loaded and ready to render
 
@@ -2668,6 +2672,10 @@ var Khan = (function() {
 				}
 			},
 
+			complete: function() {
+				jQuery( Khan ).trigger("apiRequestEnded");
+			},
+
 			// Handle error edge case
 			error: fnError
 		};
@@ -2703,6 +2711,11 @@ var Khan = (function() {
 		} else {
 			sendRequest();
 		}
+
+		// Trigger an apiRequestStarted event here, and not in the inner sendRequest()
+		// function, because listeners should know an API request is waiting as
+		// soon as it gets queued up.
+		jQuery( Khan ).trigger("apiRequestStarted");
 	}
 
 	function loadExercise( callback ) {
