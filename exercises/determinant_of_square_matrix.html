@@ -32,30 +32,61 @@
 		
 		<div class="problems">
 			<div>
-				<p class="question">Find the determinant of the square matrix [A] shown below: </p>
-				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var> \\ <var>a21</var> & <var>a22</var> \end{bmatrix}}</code></div>
+				<p class="question">Find the determinant of the square matrix <code>{\bf A}</code> shown below: </p>
+				<div><code>{\Large A =\begin{bmatrix} <var>a11</var> & <var>a12</var> \\ <var>a21</var> & <var>a22</var> \end{bmatrix}}</code></div>
 				<div class="vars">
-					<var id="Answer">a11*a22 - a12*a21</var>
+					<var id="Answer">a_{11}*a_{22} - a_{12}*a_{21}</var>
 				</div>
 				<p class="solution" data-type="rational"><var>Answer</var></p>
 				
 				<div class="hints">
 					<div>
-						<p>The determinant of a square 2x2 matrix can be calculated by multiplying the diagonal elements a11*a22 and subtracting the left diagonal elements a21*a12.</p>
-						<p>det[A] = a11*a22 - a21*a12 </p>
+						<p>The determinant of a square 2x2 matrix can be calculated by multiplying the diagonal elements <code>a_{11}*a_{22}</code> and subtracting the left diagonal elements <code>a_{21}*a_{12}</code>.</p>
+						<p>det(A) = <code>a_{11}*a_{22} - a_{21}*a_{12}</code> </p>
 					</div>
 					<div>
-						<p>det[A] = (<var>a11</var>*<var>a22</var>)  -  (<var>a21</var>*<var>a12</var>)</p>
+						<p>det(A) = (<var>a11</var>*<var>a22</var>)  -  (<var>a21</var>*<var>a12</var>)</p>
 					</div>
 					<div>
-						<p>det[A] = <var>a11*a22 - a21*a12 </p>
+						<p>det(A) = <var>a11*a22 - a21*a12 </var></p>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div class="vars">
+					<var id="a">fractionReduce(a11,3)</var>
+					<var id="b">fractionReduce(a12,4)</var>
+					<var id="c">fractionReduce(a21,5)</var>
+					<var id="d">fractionReduce(a22,2)</var>
+				</div>
+				<p class="question">Find the determinant of the square matrix <code>{\bf A}</code> shown below: </p>
+				<div><code>{\Large A =\begin{bmatrix} <var>a</var> & <var>b</var> \\ <var>c</var> & <var>d</var> \end{bmatrix}}</code></div>
+				<div class="vars">
+					<var id="Answer">(a11*a22)/6 - (a12*a21)/20</var>
+				</div>
+				<p class="solution" data-type="rational"><var>Answer</var></p>
+				
+				<div class="hints">
+					<div class="vars">
+						<var id="ans">fractionReduce((a11*a22*20+a12*a21*6),120)</var>
+					</div>
+					<div>
+						<p>The determinant of a square 2x2 matrix can be calculated by multiplying the diagonal elements <code>a_{11}*a_{22}</code> and subtracting the left diagonal elements <code>a_{21}*a_{12}</code>.</p>
+						<p>det(A) = <code>a_{11}*a_{22} - a_{21}*a_{12}</code></p>
+					</div>
+					<div>
+						<p>det(A) = <code><var>a</var>(<var>d</var>) -  <var>b</var>(<var>c</var>)</code></p>
+					</div>
+					<div>
+						<p>det(A) = <code><var>ans</var></code></p>
 					</div>
 				</div>
 			</div>
 			
+			
 			<div>
-				<p class="question">Find the determinant of the square matrix [A] shown below: </p>
-				<div><code>{\Large\begin{bmatrix}A\end{bmatrix}=\begin{bmatrix} <var>a11</var> & <var>a12</var> & <var>a13</var> \\ <var>a21</var> & <var>a22</var> & <var>a23</var>\\<var>a31</var> & <var>a32</var> & <var>a33</var> \end{bmatrix}}</code></div>
+				<p class="question">Find the determinant of the square matrix <code>{\bf A}</code> shown below: </p>
+				<div><code>{\Large A =\begin{bmatrix} <var>a11</var> & <var>a12</var> & <var>a13</var> \\ <var>a21</var> & <var>a22</var> & <var>a23</var>\\<var>a31</var> & <var>a32</var> & <var>a33</var> \end{bmatrix}}</code></div>
 				<div class="vars">
 					<var id="Answer">a11*(a22*a33-a23*a32) - a12*(a21*a33-a23*a31) + a13*(a21*a32-a22*a31)</var>
 				</div>
@@ -63,17 +94,17 @@
 				
 				<div class="hints">
 					<div>
-						<p>The determinant of a square 3X3 matrix can be calculated by multiplying the first element a11 by the determinant of the  2x2 matrix left over when row and column where a11 exists are eliminated (Eliminate rows 1 and column 1).</p>
-						<p>You then add that result to -a12*determinate of 2x2 matrix left over when row one 1 column 2 are eliminated.</p>
-						<p>Finally that result is added to a13*determinate of 2x2 matrix left over when row 1 and column 3 are eliminated.</p>
+						<p>The determinant of a square 3X3 matrix can be calculated by multiplying the first element a11 by the determinant of the  2x2 matrix left over when row and column where <code>a_{11}</code> exists are eliminated (Eliminate rows 1 and column 1).</p>
+						<p>You then add that result to <code>-a_{12}</code>*determinate of 2x2 matrix left over when row one 1 column 2 are eliminated.</p>
+						<p>Finally that result is added to <code>a_{13}</code>*determinate of 2x2 matrix left over when row 1 and column 3 are eliminated.</p>
 					</div>
 					<div>
-						<p>det[A]= a11*[ (a22*a33)  -  (a23*a32)] - a12*[ (a21*a33)   -   (a23*a31)] + a13*[ (a21*a32)   -    (a22*a31)] </p>
+						<p>det(A)= <code>a_{11}*[ (a_{22}*a_{33})  -  (a_{23}*a_{32})] - a_{12}*[ (a_{21}*a_{33})   -   (a_{23}*a_{31})] + a_{13}*[ (a_{21}*a_{32})   -    (a_{22}*a_{31})] </code></p>
 					</div>
 					<div>
-						<p>det[A]= <var>a11</var>*[(<var>a22</var>*<var>a33</var>)  -  (<var>a23</var>*<var>a32</var>)]  -  <var>a12</var>*[(<var>a21</var><var>a33</var>)  -  (<var>a23</var><var>a31</var>)]  +   <var>a13</var>*[(<var>a21</var>*<var>a32</var>)  -  (<var>a22</var>*<var>a31</var>)] </p>
+						<p>det(A)= <var>a11</var>*[(<var>a22</var>*<var>a33</var>)  -  (<var>a23</var>*<var>a32</var>)]  -  <var>a12</var>*[(<var>a21</var>*<var>a33</var>)  -  (<var>a23</var>*<var>a31</var>)]  +   <var>a13</var>*[(<var>a21</var>*<var>a32</var>)  -  (<var>a22</var>*<var>a31</var>)] </p>
 					<div>
-						<p>det[A]= <var>a11*(a22*a33-a23*a32)-a12*(a21*a33-a23*a31)+a13*(a21*a32-a22*a31)</var></p>
+						<p>det(A)= <var>a11*(a22*a33-a23*a32)-a12*(a21*a33-a23*a31)+a13*(a21*a32-a22*a31)</var></p>
 					</div>
 					
 				</div>
