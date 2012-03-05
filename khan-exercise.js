@@ -1912,6 +1912,8 @@ var Khan = (function() {
 				non_summative: exercise.data( "name" ),
 
 				// Whether we are currently in review mode
+				// TODO(kamens): find a way to fix this and still pass it back
+				// to server
 				review_mode: reviewMode ? 1 : 0,
 
 				// Request camelCasing in returned response
