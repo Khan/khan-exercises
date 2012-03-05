@@ -115,9 +115,6 @@
 								}, function() {
 									line( [ 0, 0 ], [ POINT[0], 0 ]).toBack();
 								});
-								//label( [ 0, YINT + SLOPE_FRAC[0] / 2 ], abs( SLOPE_FRAC[0] ) + " \\text{ " + ( SLOPE_FRAC[0] &lt; 0 ? "down" : "up" ) + "} \\quad", "left", { color: "purple" } );
-								//label( [ 0, YINT + SLOPE_FRAC[0] ], SLOPE_FRAC[1] + " \\text{ right}", ( SLOPE_FRAC[0] &lt; 0 ? "below right" : "above right" ), { color: "purple" } );
-								//graph.yint.toBack();
 							</div>
 						</div>
 						
@@ -131,9 +128,6 @@
 								}, function() {
 									line( [ POINT[0], 0 ], POINT ).toBack();
 								});
-								//label( [ 0, YINT + SLOPE_FRAC[0] / 2 ], abs( SLOPE_FRAC[0] ) + " \\text{ " + ( SLOPE_FRAC[0] &lt; 0 ? "down" : "up" ) + "} \\quad", "left", { color: "purple" } );
-								//label( [ 0, YINT + SLOPE_FRAC[0] ], SLOPE_FRAC[1] + " \\text{ right}", ( SLOPE_FRAC[0] &lt; 0 ? "below right" : "above right" ), { color: "purple" } );
-								//graph.yint.toBack();
 								circle( POINT, 0.15, { stroke: "purple", fill: "purple"} ).toBack();
 							</div>
 						</div>
@@ -149,7 +143,7 @@
 							</div>
 						</div>
 						<!-- had to hack the last span because data-else didn't work for QII -->
-						<p>Since our point is in the <span data-if="POINT[1] &gt; 0">upper</span><span data-else>lower</span> <span data-if="POINT[0] &gt; 0">right</span><span data-if="POINT[0] &lt; 0">left</span> portion of the graph, the quadrant is <var>QUADRANT</var>.
+						<p>Since our point is in the <span data-if="POINT[1] &gt; 0">upper</span><span data-else>lower</span> <span data-if="POINT[0] &gt; 0">right</span><span data-if="POINT[0] &lt; 0">left</span> portion of the graph, the quadrant is <var>QUADRANT</var>.</p>
 						<div class="final_answer">
 							Move the point to <code>( \color{blue}{<var>POINT[0]</var>}, \color{green}{<var>POINT[1]</var>} )</code> at the marked point above and select <var>QUADRANT</var>.
 
