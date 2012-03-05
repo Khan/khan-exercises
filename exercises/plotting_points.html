@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html data-require="math interactive graphie">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Plotting points</title>
+		<script src="../khan-exercise.js"></script>
+		<script>
+			var correctQuadrant = function( point ){
+				if (point[0] > 0){
+					if (point[1] > 0){
+						return "QI"
+					}
+					else { return "QIV";}
+				}
+				else {
+					if (point[1] > 0){
+						return "QII"
+					}
+					else { return "QIII";}
+				}}
+		</script>
+	</head>
+		
+	<body>
+		<div class="summary">Plotting points on a coordinate plane and tell quadrant.  
+			Common Core State Standard: 6.NS.6c
+			Related Videos: Quadrants of Coordinate Plane, The Coordinate Plane
+			Prerequisite: Number line, (coming soon) Plotting points 0.5
+			Required/helpful For: Graphing linear equations, (coming soon) Graphing using x and y intercepts
+		</div>
+		<div class="exercise">
+			<div class="vars">
+				<var id="POINT"> [randRangeNonZero( -10, 10), randRangeNonZero(-10, 10)]</var>
+				<var id="QUADRANT">correctQuadrant(POINT)</var>
+			</div>
+			<div class="problems">
+				<div class="problem">
+					<p>Plot <code>(<var>POINT</var>)</code> and tell which quadrant the point is in.</p>
+				
+					<div class="question">
+						<div class="graphie" id="grid">
+							graphInit({
+								range: 11,
+								scale: 20,
+								axisArrows: "&lt;-&gt;",
+								tickStep: 1,
+								labelStep: 1,
+								gridOpacity: 0.05,
+								axisOpacity: 0.2,
+								tickOpacity: 0.4,
+								labelOpacity: 0.5
+							});
+							
+							label( [ 0, 11 ], "y", "above" );
+							label( [ 11, 0 ], "x", "right" );
+							
+							addMouseLayer();
+							graph.movablePoint = addMovablePoint({coord: [0,0], snapY: 1, snapX: 1 });
+							
+							graph.movablePoint.onMove = function( x, y ) {
+								if (x &lt; -10 || 10 &lt; x || y &lt; -10 || 10 &lt; y) {
+								return false; // don't allow the point to move past the bounds
+								}
+							};
+						</div>
+
+					</div>
+					<div class="solution" data-type="multiple">
+
+						<div class="sol" data-type="custom">
+							<div class="instruction">	
+								Graph the point and select the quadrant that contains the point.
+								<ul>
+									<li><input type="radio" name="sol" id="r1" value="QI" /><span class="value">QI</span></li>
+									<li><input type="radio" name="sol" id="r2" value="QII" /><span class="value">QII</span></li>
+									<li><input type="radio" name="sol" id="r3" value="QIII" /><span class="value">QIII</span></li>
+									<li><input type="radio" name="sol" id="r4" value="QIV" /><span class="value">QIV</span></li>
+								</ul>
+
+							Your graph is also part of your answer.
+							</div>
+							<div class="guess">
+								[ graph.movablePoint.coord,
+								jQuery( "#solutionarea" ).find( "input:checked" ).val()]
+							</div>
+							<div class="validator-function">
+								return ( guess[0][0] === POINT[0] && guess[0][1] === POINT[1] && guess[1]=== QUADRANT );
+							</div>
+							<div class="show-guess">
+								jQuery( "#solutionarea" ).find( "input:checked" ).prop( 'checked', false );
+								if ( guess[1] != null ) {
+									jQuery( "#solutionarea" ).find( "input[value=" + guess[1] + "]" ).prop( 'checked', true );
+								};
+								graph.movablePoint.setCoord( guess[0] );
+							</div>
+						</div>
+						
+						<div class="example">a point graphed and quadrant selected</div>
+					</div>
+
+					<div class="hints">
+						<p>Coordinates are listed as <code>(\color{blue}{x},\color{green}{y})</code>. </p>
+					
+						<p>So, for <code>( \color{blue}{<var>POINT[0]</var>}, \color{green}{<var>POINT[1]</var>} )</code> our <code>\color{blue}{x}</code>-coordinate is <code>\color{blue}{<var>POINT[0]</var>}</code> and our <code>\color{green}{y}</code>-coordinate is <code>\color{green}{<var>POINT[1]</var>}</code>.						
+						
+						<p>The <code>\color{blue}{x}</code>-coordinate tells how far we move left or right from the origin and the <code>\color{green}{y}</code>-coordinate tells us how far we move up or down from the origin.</p>
+						
+						<div>
+							<p>Since our <code>\color{blue}{x}</code>-coordinate is <span data-if="POINT[0] &gt; 0">positive</span> <span data-else> negative</span>, we move <code>\color{blue}{<var>abs(POINT[0])</var>}</code> to the <span data-if="POINT[0] &gt; 0">right</span> <span data-else> left</span>.</p>
+							<div class="graphie" data-update="grid">
+								style({
+									stroke: "blue",
+									strokeWidth: 2,
+									arrows: "-&gt;"
+								}, function() {
+									line( [ 0, 0 ], [ POINT[0], 0 ]).toBack();
+								});
+								//label( [ 0, YINT + SLOPE_FRAC[0] / 2 ], abs( SLOPE_FRAC[0] ) + " \\text{ " + ( SLOPE_FRAC[0] &lt; 0 ? "down" : "up" ) + "} \\quad", "left", { color: "purple" } );
+								//label( [ 0, YINT + SLOPE_FRAC[0] ], SLOPE_FRAC[1] + " \\text{ right}", ( SLOPE_FRAC[0] &lt; 0 ? "below right" : "above right" ), { color: "purple" } );
+								//graph.yint.toBack();
+							</div>
+						</div>
+						
+						<div>
+							<p>Since our <code>\color{green}{y}</code>-coordinate is <span data-if="POINT[1] &gt; 0">positive</span><span data-else> negative</span>, we move <code>\color{green}{<var>abs(POINT[1])</var>}</code> <span data-if="POINT[1] &gt; 0">up</span><span data-else> down</span>.</p>
+							<div class="graphie" data-update="grid">
+								style({
+									stroke: "green",
+									strokeWidth: 2,
+									arrows: "-&gt;"
+								}, function() {
+									line( [ POINT[0], 0 ], POINT ).toBack();
+								});
+								//label( [ 0, YINT + SLOPE_FRAC[0] / 2 ], abs( SLOPE_FRAC[0] ) + " \\text{ " + ( SLOPE_FRAC[0] &lt; 0 ? "down" : "up" ) + "} \\quad", "left", { color: "purple" } );
+								//label( [ 0, YINT + SLOPE_FRAC[0] ], SLOPE_FRAC[1] + " \\text{ right}", ( SLOPE_FRAC[0] &lt; 0 ? "below right" : "above right" ), { color: "purple" } );
+								//graph.yint.toBack();
+								circle( POINT, 0.15, { stroke: "purple", fill: "purple"} ).toBack();
+							</div>
+						</div>
+					
+						<p>Now that we have our point plotted, we can figure out the quadrant.</p>
+						<div>
+							<p>By convention, quadrants are named with a capital Q and a roman numeral, starting in the upper left quadrant as QI and rotating counter-clockwise.</p>
+							<div class="graphie" data-update="grid">
+								label( [ 5, 5] , " \\text{ QI }", "center", { color: "purple" } );
+								label( [ -5, 5] , " \\text{ QII }", "center", { color: "purple" } );
+								label( [ -5, -5] , " \\text{ QIII }", "center", { color: "purple" } );
+								label( [ 5, -5] , " \\text{ QIV }", "center", { color: "purple" } );
+							</div>
+						</div>
+						<!-- had to hack the last span because data-else didn't work for QII -->
+						<p>Since our point is in the <span data-if="POINT[1] &gt; 0">upper</span><span data-else>lower</span> <span data-if="POINT[0] &gt; 0">right</span><span data-if="POINT[0] &lt; 0">left</span> portion of the graph, the quadrant is <var>QUADRANT</var>.
+						<div class="final_answer">
+							Move the point to <code>( \color{blue}{<var>POINT[0]</var>}, \color{green}{<var>POINT[1]</var>} )</code> at the marked point above and select <var>QUADRANT</var>.
+
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>	
+	</body>
+</html>
