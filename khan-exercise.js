@@ -2561,14 +2561,14 @@ var Khan = (function() {
 		// and wait for the signal to prepare.
 		jQuery( Exercises )
 			.bind( "problemTemplateRendered", prepareSite )
-			.bind( "readyForNextProblem", function(ev, userExercise) {
-				renderNextProblem(userExercise);
+			.bind( "readyForNextProblem", function(ev, data) {
+				renderNextProblem(data.userExercise);
 			})
-			.bind("warning", function( ev, warning, showClose ) {
-				warn(warning, showClose);
+			.bind("warning", function( ev, data ) {
+				warn(data.text, data.showClose);
 			})
-			.bind("upcomingExercise", function( ev, exerciseName ) {
-				startLoadingExercise(exerciseName);
+			.bind("upcomingExercise", function( ev, data ) {
+				startLoadingExercise(data.exerciseName);
 			});
 	}
 
