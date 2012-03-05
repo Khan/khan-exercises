@@ -2,7 +2,7 @@
 <html data-require="math calculus-1 polynomials expressions math-format">
 <head>
     <meta charset="UTF-8" />
-    <title>The Substitution Rule</title>
+    <title>U-Substitution</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -14,23 +14,33 @@
             <var id="P1">new CALCULUS.SubstitutionRuleProblem( VARIABLE )</var>
             <var id="P">FORMATTER.integral( P1.getEquation(), VARIABLE )</var>
             <var id="S">FORMATTER.format( P1.getIntegral() )</var>
+            <var id="WRONG1">FORMATTER.format( P1.getWrongAnswers( 0 ) )</var>
+            <var id="WRONG2">FORMATTER.format( P1.getWrongAnswers( 1 ) )</var>
+            <var id="WRONG3">FORMATTER.format( P1.getWrongAnswers( 2 ) )</var>
+            <var id="WRONG4">FORMATTER.format( P1.getWrongAnswers( 3 ) )</var>                                     
         </div>
         <div class="problems">
             <div>
                 <div class="question">
-                    <p>Use the substitution rule to integrate <code><var>P</var></code>?</p>
+                    <p>Use u-substitution to integrate <code><var>P</var></code>?</p>
                 </div>
                 <p class="solution"><code><var>S</var></code></p>
                 
                 <ul class="choices" date-show="4" data-none="true">
-                    <li>6</li>
-                    <li>2</li>
-                    <li>9</li>
-                    <li>5</li>
+                    <li><code><var>WRONG1</var></code></li>
+                    <li><code><var>WRONG2</var></code></li>
+                    <li><code><var>WRONG3</var></code></li>
+                    <li><code><var>WRONG4</var></code></li>                    
                 </ul>
             </div>
         </div>
         <div class="hints">
+            <p>
+                <code>\int f(g(x))g'(x)dx = \int f(u)du</code>, where <code>u = g(x)</code>
+            </p>
+            <div>
+                <p>Hints not implemented yet. Sorry!</p>
+            </div>
         </div>
     </div>
 </body>

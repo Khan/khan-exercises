@@ -571,5 +571,21 @@ module('calculus-1');
 
         var formatter = Calculus.EquationFormatter;    
         equals( formatter.integral( e, v ), '\\int 6e^{x}(\\frac {1}{(2e^{x})^{7}}) dx' );                                                
-    });                                                                                                                                                                               
+    }); 
+    
+    test( 'Test Formatter \\int 6e^{x}(2e^{x})^{-7}', function(){        
+        
+        var v = new Calculus.Variable("x");
+        var inner = new Calculus.Equation();
+        inner.append( new Calculus.NaturalE( v, 2 ) );
+        
+        var outer = new Calculus.Equation();
+        outer.append( new Calculus.Exponent( -7, inner, 1 ) )
+        var e = new Calculus.Equation();
+        e.append( new Calculus.NaturalE( v, 6 ) );
+        e.append( outer )
+
+        var formatter = Calculus.EquationFormatter;    
+        equals( formatter.integral( e, v ), '\\int 6e^{x}(\\frac {1}{(2e^{x})^{7}}) dx' );                                                
+    });                                                                                                                                                                                  
 })();

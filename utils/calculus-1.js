@@ -1547,7 +1547,7 @@ jQuery.extend(KhanUtil, {
          * @param varName Variable 
          * 
          * @todo Sometimes generates equations that can be simplified
-         * @todo Refactor out of monster class
+         * @todo Refactor monster class
          */
         var SubstitutionRuleProblem = function( varName ) {
             
@@ -1742,7 +1742,108 @@ jQuery.extend(KhanUtil, {
                     }
                 }
             ];               
-               
+
+            var metaWrong1 = {
+                
+                e: function( meta ) {
+                    meta.inner.sub.c = meta.inner.inner.c * meta.inner.sub.c;
+                    return meta;
+                },
+                               
+                ln: function( meta ) {
+                    meta.inner.sub.c = meta.inner.inner.c; 
+                    return meta;
+                },
+                 
+                power: function( meta ) {
+                    meta.inner.sub.c = meta.inner.inner.c * meta.inner.sub.c;
+                    meta.inner.sub.d = meta.inner.inner.d + 1;
+                    return meta;
+                },
+                               
+                trig: function( meta ) {
+                    meta.inner.sub.c = meta.inner.inner.c * meta.inner.sub.c;                  
+                    return meta; 
+                }
+            };
+
+            var metaWrong2 = {
+                
+                e: function( meta ) {
+                    var temp = meta.inner.sub.c
+                    meta.inner.sub.c = meta.inner.inner.c;
+                    meta.inner.sub.c = temp;
+                    return meta;
+                },
+                           
+                ln: function( meta ) {
+                    meta.inner.sub.c = meta.inner.sub.c * -1; 
+                    return meta;
+                },
+                  
+                power: function( meta ) {
+                    meta.inner.sub.d = meta.inner.inner.d - 1;
+                    return meta;
+                },
+                               
+                trig: function( meta ) {
+                    var temp = meta.inner.sub.c
+                    meta.inner.sub.c = meta.inner.sub.c;
+                    meta.inner.inner.c = temp;                  
+                    return meta; 
+                }
+            };
+            
+            var metaWrong3 = {
+                
+                e: function( meta ) {
+                    return meta;
+                },
+                               
+                ln: function( meta ) {
+                    meta.inner.type = Types.power;
+                    meta.inner.inner.d = -1
+                    meta.inner.inner.c = 1;
+                    meta.inner.sub.c = 1; 
+                    return meta;
+                },
+                  
+                power: function( meta ) {
+                    meta.inner.sub.d = meta.inner.inner.d - 1;
+                    return meta;
+                },
+                                
+                trig: function( meta ) {
+                    var temp = meta.inner.sub.c
+                    meta.inner.sub.c = meta.inner.sub.c;
+                    meta.inner.inner.c = temp;                  
+                    return meta; 
+                }
+            };
+            
+            var metaWrong4 = {
+                
+                e: function( meta ) {
+                    meta.outer.c = randNum();
+                    return meta;
+                },
+                               
+                ln: function( meta ) {
+                    meta.outer.c = randNum();
+                    return meta;
+                },
+                  
+                power: function( meta ) {
+                    meta.outer.d = meta.outer.d + 1;
+                    return meta;
+                },
+                                
+                trig: function( meta ) {
+                    meta.outer.c = randNum();            
+                    return meta; 
+                }
+            };
+                                                               
             /**
              * Generates the inner equation based on selected array index
              */
@@ -1777,11 +1878,11 @@ jQuery.extend(KhanUtil, {
                         var sub = new Exponent( meta.sub.d, meta.v, meta.sub.c );
                     }
                     
-                    return [
-                        inner.append( new Exponent( meta.inner.d, meta.v, meta.inner.c ) )
-                            .append( meta.inner.op )
-                            .append( new Constant( meta.inner.c2 ) ), 
-                        sub];
+                    inner.append( new Exponent( meta.inner.d, meta.v, meta.inner.c ) )
+                    if( !_.isUndefined( meta.inner.op ) ) {
+                        inner.append( meta.inner.op ).append( new Constant( meta.inner.c2 ) )
+                    }                     
+                    return [inner, sub];
                 },
                 
                 /**
@@ -1829,7 +1930,20 @@ jQuery.extend(KhanUtil, {
                 }
             };
             
-            
+            /**
+             * Builds equation
+             */
+            var buildEquation = function( meta ){
+
+                var inner = innerExpr[meta.inner.type]( meta.inner );
+                var outer = outerExpr[meta.outer.type]( meta.outer, inner[ 0 ] );
+    
+                var equation = new Equation();            
+                equation.append( inner[ 1 ] );
+                equation.append( outer );
+                
+                return equation;            
+            }
             
             /**
              * Begin: Generating Random Integral
@@ -1865,36 +1979,65 @@ jQuery.extend(KhanUtil, {
             }
             meta.outer = outerMeta[ index ]();
             
-            /**
-             * Create equations from meta
-             */
-            var inner = innerExpr[meta.inner.type]( meta.inner );
-            var outer = outerExpr[meta.outer.type]( meta.outer, inner[0] );
-
-            /**
-             * Creates equation
-             */
-            var equation = new Equation();            
-            equation.append( inner[ 1 ] );
-            equation.append( outer );
-            
-            /**
-             * Solution
-             */
+            var equation = buildEquation( meta )            
             var integral = new IndefiniteIntegral( equation );
-            
             
             /**
              * End: Generating Random Integral
              */            
             
             
+            /**
+             * Begin: Generating Wrong Answers
+             */
+            var wrongAnswers = [];
+            
+            var meta1 = jQuery.extend( true, {}, meta );
+            meta1 = metaWrong1[ meta1.inner.type ]( meta1 );
+            var wrong1 = buildEquation( meta1 );
+            wrong1.append( new Operator().add() )
+            wrong1.append( new Constant( 'C' ) )
+            wrongAnswers.push( wrong1 );        
+            
+            var meta2 = jQuery.extend( true, {}, meta );
+            meta2 = metaWrong2[ meta2.inner.type ]( meta2 );
+            var wrong2 = buildEquation( meta2 );
+            var wrong2Integral = new IndefiniteIntegral( wrong2 );
+            wrongAnswers.push( wrong2Integral.solution() );
+
+            var meta3 = jQuery.extend( true, {}, meta );
+            meta3 = metaWrong3[ meta3.inner.type ]( meta3 );
+            var wrong3 = buildEquation( meta3 );
+            var wrong3Integral = new IndefiniteIntegral( wrong3 );
+            wrongAnswers.push( wrong3Integral.solution() );
+                        
+            var meta4 = jQuery.extend (true, {}, meta );
+            meta4 = metaWrong4[ meta4.outer.type ]( meta4 );
+            var wrong4 = buildEquation( meta4 );
+            wrong4.append( new Operator().add() )
+            wrong4.append( new Constant( 'C' ) )            
+            wrongAnswers.push( wrong4 );              
+                       
+            /**
+             * End: Generating Wrong Answers
+             */    
+             
+             
             this.getEquation = function() {
                 return equation;
             }
             
             this.getIntegral = function() {
                 return integral.solution();
+            }
+            
+            /**
+             * Returns wrong answer based on index
+             * 
+             * @return Equation
+             */
+            this.getWrongAnswers = function(index){
+                return wrongAnswers[index];
             }
         }
                                                                                                                 
