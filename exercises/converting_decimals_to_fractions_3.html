@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems expressions">
+<head>
+	<title>Changing decimals to fractions 3</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<!--
+Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals such as 12.16 into mixed number (12 4/25), reduce to simplest terms
+ -->
+
+<body>
+<div class="exercise">
+
+	<div class="problems">
+		<div id="into-fraction">
+			<div class="vars">
+				<var id="WHOLE">randRange( 0, 1 ) ? 0 : randRange( 1, 19 )</var>
+				<var id="D">((randRange(1001,9999) / 10000 ).toFixed( randRange( 1, 4 )))/1</var>		
+				<var id="NUMDECIMALS">D.toString().length-D.toString().indexOf( "." )-1</var>
+				<var id="POWER">pow( 10, NUMDECIMALS )</var>
+				<var id="NUMERATOR">( D * POWER ).toFixed( 0 )</var>
+				<var id="GCD">getGCD( round( NUMERATOR ) , POWER )</var>
+				<var id="WHOLE_NUM">( WHOLE+D ).toFixed( NUMDECIMALS )</var>
+			</div>
+
+			<div class="question">
+				<p data-if="WHOLE > 0">Express <code><var>WHOLE_NUM</var></code> as a mixed number.  Reduce to lowest terms.</p>
+				<p data-else>Express <code><var>D</var></code> as a fraction.  Reduce to lowest terms.</p>
+			</div>
+			<p class="solution" data-type="rational"><var>WHOLE_NUM</var></p>
+
+			<div class="hints">				
+
+				<div data-if="WHOLE > 0">
+					<p>We can rewrite <code><var>WHOLE_NUM</var></code> as <code><var>WHOLE</var> + <var>D</var></code></p>
+				</div>
+				<div>
+					<p>We can rewrite any decimal as a fraction over 1 without changing its value.  This is known as the identity property of division.</p>
+					<p><code><var>D</var> = <var>fraction( D, 1 )</var></code> 
+					<p data-if="WHOLE > 0">This means we can rewrite <code><var>WHOLE_NUM</var></code> as <code><var>WHOLE</var> + <var>fraction( D, 1 )</var></code></p>
+					<p>We now need to rewrite the fraction so that the numerator (number on top) is a whole number.</p>
+				</div>
+				<div>
+					<p>Multiplying a fraction by 1 does not change its value. This is called the multiplicative identity.  Use this hint and the equation below help rewrite your fraction so that the numerator is a whole number.</p>
+					<p><code><var>fraction( POWER, POWER )</var> = 1</code></p>
+				</div>
+				<div>
+					<p><code><var>fraction( D, 1 )</var> \times <var>fraction( POWER, POWER )</var> = <var>fraction( NUMERATOR, POWER )</var></code></p>
+					<p data-if="WHOLE > 0">We now have <code><var>WHOLE</var> + <var>fraction( NUMERATOR, POWER )</var> = <var>WHOLE</var><var>fraction( NUMERATOR, POWER )</var></code></p>								
+					<p data-if="GCD > 1">The numerator is a whole number but we still need to reduce the fraction to simplest terms.</p>
+				</div>
+				<div data-if="GCD > 1">
+					<p>We can reduce the fraction by dividing both the numerator, <var>NUMERATOR</var>, and denominator, <var>POWER</var>, by their greatest common divisor.
+					The greatest common divisor is the largest number that is a factor (or divisor) of both <var>NUMERATOR</var> and <var>POWER</var>.</p>
+				</div>
+				<div data-if="GCD > 1">
+					<p>The factors (divisors) of <var>NUMERATOR</var> are <var>toSentence( getFactors( NUMERATOR ) )</var>.</p>
+					<p>The factors (divisors) of <var>POWER</var> are <var>toSentence( getFactors( POWER ) )</var>.</p>
+				</div>
+				<div data-if="GCD > 1">
+					<p>The greatest common divisor of <var>NUMERATOR</var> and <var>POWER</var> is <var>GCD</var></code>.</p>
+					<p data-if="WHOLE > 0"><code><var>WHOLE</var>+<var>\dfrac{<var>NUMERATOR</var> \div <var>GCD</var>}{<var>POWER</var> \div <var>GCD</var>}</var>=<var>WHOLE</var>+<var>fractionReduce( NUMERATOR , POWER )</var>=<var>WHOLE</var><var>fractionReduce( NUMERATOR, POWER )</var></code></p>
+					<p data-else><code><var>\dfrac{<var>NUMERATOR</var> \div <var>GCD</var>}{<var>POWER</var> \div <var>GCD</var>}</var>=<var>fractionReduce( NUMERATOR , POWER )</var></code></p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>
