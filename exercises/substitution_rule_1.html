@@ -8,10 +8,10 @@
 <body>
     <div class="exercise">
         <div class="vars">   
-            <var id="CALCULUS">new Calculus()</var>
+            <var id="CALCULUS">Calculus()</var>
             <var id="FORMATTER">CALCULUS.EquationFormatter</var>
             <var id="VARIABLE">"x"</var>
-            <var id="P1">CALCULUS.generateIntegralSubsitutionRule( VARIABLE )</var>
+            <var id="P1">CALCULUS.SubstitutionRuleProblem( VARIABLE )</var>
             <var id="P">FORMATTER.integral( P1.equation, VARIABLE )</var>
             <var id="S">FORMATTER.format( P1.integral )</var>
         </div>
@@ -23,7 +23,7 @@
                 <p class="solution"><code><var>S</var></code></p>
                 
                 <ul class="choices" date-show="4" data-none="true">
-                    <li><code><var>P1.wrongs[ 0 ]</var></code></li>
+                    <li>6</li>
                     <li>2</li>
                     <li>9</li>
                     <li>5</li>

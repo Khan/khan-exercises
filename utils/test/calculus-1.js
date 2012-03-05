@@ -533,5 +533,43 @@ module('calculus-1');
                 
         equals( i.equation(), outer.toString() );
         equals( i.solution().toString(), '-\\frac{1}{2}e^{-x^{2}}+C' );                                                 
-    });                                                                                                                                                         
+    });
+    
+    test( 'Test Equation Formatter Derivative', function(){        
+        
+        var v = new Calculus.Variable("x");
+        var e = new Calculus.Equation();
+        e.append( new Calculus.Exponent( 2, v, 3 ) );
+        e.append( new Calculus.NaturalE( v, 4 ) );
+        
+        var formatter = Calculus.EquationFormatter;    
+        equals( formatter.derivative( e, v ), '\\frac{d}{dx} 12x^{2}e^{x}' );                                                
+    });
+    
+    test( 'Test Equation Formatter Integral', function(){        
+        
+        var v = new Calculus.Variable("x");
+        var e = new Calculus.Equation();
+        e.append( new Calculus.Exponent( 2, v, new Calculus.Constant( 3,5 ) ) );
+        e.append( new Calculus.NaturalE( v, 4 ) );
+        
+        var formatter = Calculus.EquationFormatter;    
+        equals( formatter.integral( e, v ), '\\int \\frac{12}{5}x^{2}e^{x} dx' );                                                
+    });
+    
+    test( 'Test Formatter \\int 6e^{x}(2e^{x})^{-7}', function(){        
+        
+        var v = new Calculus.Variable("x");
+        var inner = new Calculus.Equation();
+        inner.append( new Calculus.NaturalE( v, 2 ) );
+        
+        var outer = new Calculus.Equation();
+        outer.append( new Calculus.Exponent( -7, inner, 1 ) )
+        var e = new Calculus.Equation();
+        e.append( new Calculus.NaturalE( v, 6 ) );
+        e.append( outer )
+
+        var formatter = Calculus.EquationFormatter;    
+        equals( formatter.integral( e, v ), '\\int 6e^{x}(\\frac {1}{(2e^{x})^{7}}) dx' );                                                
+    });                                                                                                                                                                               
 })();
