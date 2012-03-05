@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html data-require="math interactive graphie">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Plotting points 0.5</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+		
+	<body>
+		<div class="summary">Plotting points in QI.  
+			Common Core State Standard: 5.G.1
+			Related Videos: Quadrants of Coordinate Plane, The Coordinate Plane
+			Prerequisite: Number line (sort of, or coming soon Number line 0.5 which handles only positive points)
+			Required/helpful For: Plotting points, Graphing linear equations, (coming soon) Graphing using x and y intercepts
+		</div>
+		<div class="exercise">
+			<div class="vars">
+				<div data-ensure="X !== 0 || Y !== 0">
+					<var id="X">randRange(0,10)</var>
+					<var id="Y">randRange(0,10)</var>
+				</div>
+				<var id="POINT"> [X, Y]</var>
+			</div>
+			<div class="problems">
+				<div class="problem">
+					<p>Plot <code>(<var>POINT</var>)</code>.</p>
+				
+					<div class="question">
+						<div class="graphie" id="grid">
+							graphInit({
+								range: [ [-1, 11], [-1, 11] ],
+								scale: 30,
+								axisArrows: "&lt;-&gt;",
+								tickStep: 1,
+								labelStep: 1,
+								gridOpacity: 0.05,
+								axisOpacity: 0.2,
+								tickOpacity: 0.4,
+								labelOpacity: 0.5
+							});
+							
+							label( [ 0, 11 ], "y", "above" );
+							label( [ 11, 0 ], "x", "right" );
+							
+							addMouseLayer();
+							graph.movablePoint = addMovablePoint({coord: [0,0], snapY: 1, snapX: 1 });
+							
+							graph.movablePoint.onMove = function( x, y ) {
+								if (x &lt; 0 || 10 &lt; x || y &lt; 0 || 10 &lt; y) {
+								return false; // don't allow the point to move past the bounds
+								}
+							};
+						</div>
+					</div>
+					<div class="solution" data-type="custom">
+						<div class="instruction">	
+							Graph the point. 
+						</div>
+						<div class="example">a point graphed</div>
+						<div class="guess">
+							[ graph.movablePoint.coord ]
+						</div>
+						<div class="validator-function">
+							return ( guess[0][0] === POINT[0] && guess[0][1] === POINT[1] );
+						</div>
+						<div class="show-guess">
+							graph.movablePoint.setCoord( guess[0] );
+						</div>
+					</div>
+						
+
+
+					<div class="hints">
+						<p>Coordinates are listed as <code>(\color{blue}{x},\color{green}{y})</code>. </p>
+					
+						<p>So, for <code>( \color{blue}{<var>POINT[0]</var>}, \color{green}{<var>POINT[1]</var>} )</code> our <code>\color{blue}{x}</code>-coordinate is <code>\color{blue}{<var>POINT[0]</var>}</code> and our <code>\color{green}{y}</code>-coordinate is <code>\color{green}{<var>POINT[1]</var>}</code>.						
+						
+						<p>The <code>\color{blue}{x}</code>-coordinate tells how far we move to the right from the origin and the <code>\color{green}{y}</code>-coordinate tells us how far we move up from the origin.</p>
+						
+						<div>
+							<div data-if="POINT[0] === 0">
+								Since our <code>\color{blue}{x}</code>-coordinate is equal to <code>\color{blue}{<var>POINT[0]</var>}</code>, we don't need to move to the right.
+							</div>
+							<div data-else>
+								<p>Since our <code>\color{blue}{x}</code>-coordinate is equal to <code>\color{blue}{<var>POINT[0]</var>}</code>, we move <code>\color{blue}{<var>POINT[0]</var>}</code> to the right.</p>
+								<div class="graphie" data-update="grid">
+									style({
+										stroke: "blue",
+										strokeWidth: 2,
+										arrows: "-&gt;"
+									}, function() {
+										line( [ 0, 0 ], [ POINT[0], 0 ]).toBack();
+									});
+								</div>
+							</div>
+						</div>
+						
+						<div>
+							<div data-if="POINT[1] === 0">
+								Since our <code>\color{green}{y}</code>-coordinate is <code>\color{green}{<var>POINT[1]</var>}</code>, we don't need to move up.
+							</div>
+							<div data-else>
+								<p>Since our <code>\color{green}{y}</code>-coordinate is <code>\color{green}{<var>POINT[1]</var>}</code>, we move up <code>\color{green}{<var>POINT[1]</var>}</code>.</p>
+								<div class="graphie" data-update="grid">
+									style({
+										stroke: "green",
+										strokeWidth: 2,
+										arrows: "-&gt;"
+									}, function() {
+										line( [ POINT[0], 0 ], POINT ).toBack();
+									});
+								</div>
+							</div>
+							<div class="graphie" data-update="grid">
+								circle( POINT, 0.15, { stroke: "purple", fill: "purple"} ).toBack();
+							</div>
+						</div>
+					
+						<div class="final_answer">
+							Move the point to <code>( \color{blue}{<var>POINT[0]</var>}, \color{green}{<var>POINT[1]</var>} )</code> at the marked point above. 
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</body>
+</html>
