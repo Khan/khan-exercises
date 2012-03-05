@@ -13,11 +13,16 @@
 							"played some street basketball",
 							"had a really bad hair day",
 							"realized how much better Macs were than PCs",
-							"had an extremely large boat",
+							"bought an extremely large boat",
 							"ate some fresh spaghetti and meatballs",
 							"watched 30 videos on Khan Academy",
 							"delivered an Academy Award-winning performance",
-							"slept through every class"
+							"slept through every class",
+							"threw an alley-oop to " + person(4),
+							"kissed a killer whale",
+							"found a great deal on an HDMI cable",
+							"switched from QWERTY to Dvorak",
+							"went boogie-boarding with " + person(5),
 							]
 			</var>
 			
@@ -50,8 +55,8 @@
 		<div class="problems">
 			
 			<div id="original">
-				<p class="problem">Is the sentence below considered a simple, compound, complex, or compound-complex sentence?</p>
-				<p class="question"><var>person(1)</var> <var>clauses[randRange(0,8)]</var>.</p>
+				<p class="problem">Is the seemingly random sentence below considered a simple, compound, complex, or compound-complex sentence?</p>
+				<p class="question"><var id="clause1"><var>person(1)</var> <var>clauses[randRange(0,13)]</var></var>.</p>
 				<p class="solution" data-type="radio" ><var>(function() {
 						var clauses = ' Simple';
 						return clauses;
@@ -62,24 +67,89 @@
 					<li> Complex</li>
 					<li> Compound-complex</li>
 				</ul>
+				<div class="hints">
+					<div>
+						<p>Remember that each sentence is classified by the combination of <a href="http://writingcenter.gmu.edu/handout-independent-and-dependent-clauses.php" target="_blank">dependent and independent  clauses</a> it contains. 
+						</p>
+						<ul class="hint_gray">
+							<li>One independent clause means a simple sentence.</li>
+							<li>More than one independent clause means a compound sentence.</li> 
+							<li>One dependent clause and one independent clause means a complex sentence.</li> 
+							<li>One dependent clause and more than one independent clause means a compound-complex sentence.</li> 
+						</ul>
+						<p>Further hints will show you which types of clauses make up the above sentence.</p>
+					</div>
+      				<p class="hint_blue">"<var>clause1</var>" is an independent clause.</p>
+      				<p class="hint_red">This is a simple sentence.</p>
+  				</div>
 			</div>
 			
 			<div id="compound" data-type="original">
-				<p class="question"><var>person(1)</var> <var>clauses[randRange(0,8)]</var>, <var>conj[randRange(0,3)]</var> <var>person(2)</var> <var>clauses[randRange(0,8)]</var>.</p>
+				<p class="question"><var id="clause1"><var>person(1)</var> <var>clauses[randRange(0,4)]</var></var>, <var>conj[randRange(0,3)]</var> <var id="clause2"><var>person(2)</var> <var>clauses[randRange(5,13)]</var></var>.
+				</p>
 				<p class="solution" data-type="radio" ><var>" Compound"</var></p>
-				</ul>
+				<div class="hints">
+					<div>
+						<p>Remember that each sentence is classified by the combination of <a href="http://writingcenter.gmu.edu/handout-independent-and-dependent-clauses.php" target="_blank">dependent and independent  clauses</a> it contains. 
+						</p>
+						<ul class="hint_gray">
+							<li>One independent clause means a simple sentence.</li>
+							<li>More than one independent clause means a compound sentence.</li> 
+							<li>One dependent clause and one independent clause means a complex sentence.</li> 
+							<li>One dependent clause and more than one independent clause means a compound-complex sentence.</li> 
+						</ul>
+						<p>Further hints will show you which types of clauses make up the above sentence.</p>
+					</div>
+      				<p class="hint_blue">"<var>clause1</var>" is an independent clause.</p>
+      				<p class="hint_green">"<var>clause2</var>" is an independent clause.</p>
+      				<p class="hint_red">This is a compound sentence.</p>
+  				</div>
 			</div>
 		
 			<div id="complex" data-type="original">
-				<p class="question"><var>deps[randRange(0,3)]</var> <var>person(1)</var> <var>clauses[randRange(0,8)]</var>,  <var>person(2)</var> <var>clauses[randRange(0,8)]</var>.</p>
+				<p class="question"><var id="clause1"><var>deps[randRange(0,3)]</var> <var>person(1)</var> <var>clauses[randRange(9,13)]</var></var>, <var id="clause2"><var>person(2)</var> <var>clauses[randRange(0,8)]</var></var>.
+				</p>
 				<p class="solution" data-type="radio" ><var>" Complex"</var></p>
-				</ul>
+				<div class="hints">
+					<div>
+						<p>Remember that each sentence is classified by the combination of <a href="http://writingcenter.gmu.edu/handout-independent-and-dependent-clauses.php" target="_blank">dependent and independent  clauses</a> it contains. 
+						</p>
+						<ul class="hint_gray">
+							<li>One independent clause means a simple sentence.</li>
+							<li>More than one independent clause means a compound sentence.</li> 
+							<li>One dependent clause and one independent clause means a complex sentence.</li> 
+							<li>One dependent clause and more than one independent clause means a compound-complex sentence.</li> 
+						</ul>
+						<p>Further hints will show you which types of clauses make up the above sentence.</p>
+					</div>
+      				<p class="hint_blue">"<var>clause1</var>" is a dependent clause.</p>
+      				<p class="hint_green">"<var>clause2</var>" is an independent clause.</p>
+      				<p class="hint_red">This is a complex sentence.</p>
+  				</div>
 			</div>
 		
 			<div id="c-c" data-type="original">
-				<p class="question"><var>deps[randRange(0,3)]</var> <var>person(1)</var> <var>clauses[randRange(0,8)]</var>,  <var>person(2)</var> <var>clauses[randRange(0,8)]</var>, <var>conj[randRange(0,3)]</var> <var>person(3)</var> <var>clauses[randRange(0,8)]</var>.</p>
+				<p class="question"><var id="clause1"><var>deps[randRange(0,3)]</var> <var>person(1)</var> <var>clauses[randRange(8,13)]</var></var>, <var id="clause2"><var>person(2)</var> <var>clauses[randRange(4,7)]</var></var>, <var>conj[randRange(0,3)]</var> 
+				<var id="clause3"><var>person(3)</var> <var>clauses[randRange(0,3)]</var></var>.
+				</p>
 				<p class="solution" data-type="radio" ><var>" Compound-complex"</var></p>
-				</ul>
+				<div class="hints">
+					<div>
+						<p>Remember that each sentence is classified by the combination of <a href="http://writingcenter.gmu.edu/handout-independent-and-dependent-clauses.php" target="_blank">dependent and independent  clauses</a> it contains. 
+						</p>
+						<ul class="hint_gray">
+							<li>One independent clause means a simple sentence.</li>
+							<li>More than one independent clause means a compound sentence.</li> 
+							<li>One dependent clause and one independent clause means a complex sentence.</li> 
+							<li>One dependent clause and more than one independent clause means a compound-complex sentence.</li> 
+						</ul>
+						<p>Further hints will show you which types of clauses make up the above sentence.</p>
+					</div>
+      				<p class="hint_blue">"<var>clause1</var>" is a dependent clause.</p>
+      				<p class="hint_green">"<var>clause2</var>" is an independent clause.</p>
+      				<p class="hint_orange">"<var>clause3</var>" is an independent clause.</p>
+      				<p class="hint_red">This is a simple sentence.</p>
+  				</div>
 			</div>
 		
 		
