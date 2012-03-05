@@ -33,7 +33,7 @@ jQuery.extend ( KhanUtil, {
 		HIGHLIGHT: "hi",
 		DERIV: "deriv",
 		NEQ: "!=",
-		NUM: "num",
+		NUM: "num"
 	},
 
 	MathModel : function (name) {
@@ -196,13 +196,7 @@ jQuery.extend ( KhanUtil, {
 				var lhs = rhs;
 			}
 			else {
-				// normal case
-				if (lhs.op===rhs.op && jQuery.type(lhs.args)==="array") {
-					lhs.args.push(rhs);
-				}
-				else {
-					lhs = {op: "+", args: [lhs, rhs]}
-				}
+				lhs = {op: "+", args: [lhs, rhs]}
 			}
 
 			// recurse until no more coefficients
@@ -421,6 +415,10 @@ jQuery.extend ( KhanUtil, {
 					text = "";
 					jQuery.each(n.args, function (index, term) {
 						var opIndex = index - 1;
+						if (((term.op===OpStr.ADD) || (term.op===OpStr.SUB)) && (term.args.length > 1)) {
+							args[index] = "(" + args[index] + ")";
+							term = {op:"()", args:[term]};
+						}
 						if ((term.args && (term.args.length >= 2) && (term.op !== OpStr.POW)) ||
 							!((n.op === OpStr.MUL) && (term.op === OpStr.PAREN ||
 								 term.op===OpStr.POW ||
@@ -428,9 +426,6 @@ jQuery.extend ( KhanUtil, {
 								 term.op===OpStr.CST ||
 								 (exprIsNumber(prevTerm) && !exprIsNumber(term))
 							))) {
-							if (((term.op===OpStr.ADD) || (term.op===OpStr.SUB)) && (term.args.length > 1)) {
-								args[index] = "(" + args[index] + ")";
-							}
 							if (opIndex >= 0) {
 								text += getAlignment(n, opIndex * 2, hphantom, true);
 								text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true);
@@ -441,7 +436,9 @@ jQuery.extend ( KhanUtil, {
 						// elide the times symbol if rhs is parenthesized or a var, or lhs is a number
 						// and rhs is not a number
 						else {
+							text += getAlignment(n, opIndex * 2, hphantom, true);
 							text += args[index];
+							text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
 						}
 						prevTerm = term;
 					});
@@ -596,47 +593,7 @@ jQuery.extend ( KhanUtil, {
 			}
 			
 			return val;
-		}
-		
-		function isNeg(n) {
-			if (jQuery.type(n)==="number") {
-				return n < 0;
-			}
-			else if (n.op === OpSTR.NUM) {
-				return n.args[0] < 0
-			}
-			else if (n.args.length===1) {
-				return n.op===OpStr.SUB && n.args[0] > 0;  // is unary minus
-			}
-			else if (n.args.length===2) {
-				return n.op===OpStr.MUL && isNeg(n.args[0]);  // leading term is neg
-			}
-		}
-
-		function negate(n) {
-			if (jQuery.type(n)==="number") {
-				return -n;
-			}
-			else if (n.args.length===1 && n.op===OpStr.SUB) {
-				return n.args[0];  // strip the unary minus
-			}
-			else if (n.args.length===2 && n.op===OpStr.MUL && isNeg(n.args[0])) {
-				return {op: n.op, args: [negate(n.args[0]), n.args[1]]};
-			}
-			assert(false);
-			return n;
-			
-		}
-
-		function isZero(n) {
-			if (jQuery.type(n)==="number") {
-				return n === 0;
-			}
-			else {
-				return n.args.length===1 &&	n.op===OpStr.SUB && n.args[0] === 0;  // is unary minus
-			}
-		}
-		
+		}		
 	} , // MathModel
 
 } );
@@ -1003,33 +960,6 @@ jQuery.extend ( KhanUtil, {
 			function isMultiplicative(t) {
 				return t===TK_MUL || t===TK_DIV || t===TK_TIMES || t===TK_CDOT;
 			}
-		}
-
-		function isNeg(n) {
-			if (jQuery.type(n)==="number") {
-				return n < 0;
-			}
-			else if (n.args.length===1) {
-				return n.op===OpStr.SUB && n.args[0] > 0;  // is unary minus
-			}
-			else if (n.args.length===2) {
-				return n.op===OpStr.MUL && isNeg(n.args[0]);  // leading term is neg
-			}
-		}
-
-		function negate(n) {
-			if (jQuery.type(n)==="number") {
-				return -n;
-			}
-			else if (n.args.length===1 && n.op===OpStr.SUB) {
-				return n.args[0];  // strip the unary minus
-			}
-			else if (n.args.length===2 && n.op===OpStr.MUL && isNeg(n.args[0])) {
-				return {op: n.op, args: [negate(n.args[0]), n.args[1]]};
-			}
-			assert(false);
-			return n;
-			
 		}
 
 		function additiveExpr() {

@@ -11,6 +11,7 @@
 	<script src="../ast.js"></script>
 	<script src="../math-model.js"></script>
 	<script src="../math.js"></script>
+	<script src="../expr-helpers.js"></script>
 <style>
 .ok {
    color:white;
@@ -66,11 +67,17 @@
 		$("#generated").html($("#gen_" + id).html());
 		$("#expected").html($("#exp_" + id).html());
 	}
+        window.showRender = showRender;
 
-	var testCase = function(srcExprStr, colors, groupsDisplayed, refLatex, imgName, id) {
+	var testCase = function(srcExprStr, srcExpr, colors, groupsDisplayed, refLatex, imgName, id) {
 		var genLatex;
 		if (groupsDisplayed === undefined) {
-			genLatex = MATH.parseFormat(srcExprStr, colors);
+                        if (srcExprStr) {
+				genLatex = MATH.parseFormat(srcExprStr, colors);
+			} else {
+				genLatex = MATH.format(srcExpr);
+				srcExprStr = "<textarea>" + KhanUtil.exprToStrExpr(srcExpr) + "</textarea>";
+			}
 		} else {
 			var group = [];
 			for (var iExpr = 0; iExpr < srcExprStr.length; iExpr++) {
@@ -151,7 +158,7 @@
 		{src:"\\sin(x)^2", ref:"\\sin^{2}( x) "},
 
 		{title:"Misc"},
-		{src:"a(b+c)",ref:"a(b+c)"},
+		{src:"a(b+c)",ref:"a( b+ c) "},
 		{src:"-2\\times -3", ref:"- 2\\times - 3"},
 		{src:"\\sqrt{x}", ref:"\\sqrt {x}"},
 		{src:"\\sqrt[3]{x}", ref:"\\sqrt[3] {3}"},
@@ -171,6 +178,19 @@
 		{src:"a-b-c", ref:"a- b- c"},
 		{src:"a\\times b\\times c", ref:"a\\times b\\times c"},
 		{src:"abc\\times def", ref:"abc\\times def"},
+
+		{title:"Times or no times"},
+		{src:"a*b", ref:"ab"},
+		{src:"a*2", ref:"a\\times 2"},
+		{src:"2*a", ref:"2a"},
+		{src:"(a)*(b)", ref:"( a) ( b) "},
+		{src:"(a)*b", ref:"( a) b"},
+		{src:"(a)*2", ref:"( a) \\times 2"},
+		{src:"a*(b)", ref:"a( b) "},
+		{src:"2*(b)", ref:"2( b) "},
+		{src:"2*a*(b)", ref:"2a( b) "},
+		{srcExpr:{op:"*", args:[2,{op:"+", args:[2, 3]}]}, ref:"2(2+ 3)"},
+		{srcExpr:{op:"*", args:[2,{op:"()", args:[{op:"+", args:[2, 3]}]}]}, ref:"2( 2+ 3) "},
 
 		{title:"Mixed expressions"},
 		{src:"--a", ref:"- - a"},
@@ -303,7 +323,7 @@
 		{title:"Alignment: mixed with colors"},
 		{src:["#a&+&#b&+&#{c}", "aaa&+&bbb&+&ccc"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}\\color{#FF00AF}{a}& \\; + & \\; \\color{#6495ED}{b}& \\; + & \\; \\color{#28AE7B}{c} \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
 		{src:["a&#+&#b&#{+&c}", "aaa&+&bbb&+&ccc"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\color{#FF00AF}{\\;+ \\;}& \\; \\color{#6495ED}{b}& \\; \\color{#28AE7B}{\\;+ \\;}& \\; \\color{#28AE7B}{c} \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
-		{src:["&#(&a&#+&#b&&)&", "&(&aaaa&+&bbb&&)&"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}& \\color{#FF00AF}{( }& a& \\; \\color{#6495ED}{\\;+ \\;}& \\; \\color{#28AE7B}{b}& & ) &  \\\\\\\\& ( & aaaa& \\; + & \\; bbb& & ) &  \\\\\\end{alignat}"},
+		{src:["&#(&a&#+&#b&&)&", "&(&aaaa&+&bbb&&)&"], colors:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}& \\color{#FF00AF}{( }& a& \\; \\color{#6495ED}{\\;+ \\;}& \\; \\color{#28AE7B}{b}& & ) &  \\\\\\\\& ( & aaaa& \\; + & \\; bbb& & ) &  \\\\\\end{alignat}"}
 	];
 /*
 $("body").append("<pre id='tests2'></pre>");
@@ -313,13 +333,13 @@ for (var iTest = 0; iTest < testsRender.length; iTest++) {
 */
 	$("body").append("<table id='tests' cellspacing=0></table>");
 	$("#tests").append("<tr><td>Expression</td><td>Status&nbsp;&nbsp;&nbsp;</td>" +
-		"<td>Generated</td><td>Expected</td>><td>Generated LaTeX</td><td>Expected LaTeX</td></tr>");
+		"<td>Generated</td><td>Expected</td><td>Generated LaTeX</td><td>Expected LaTeX</td></tr>");
 	for (var iTest = 0; iTest < testsRender.length; iTest++) {
 		var test = testsRender[iTest];
 		if (test.title !== undefined) {
 			$("#tests").append("<tr><td colspan=6 style='background:yellow'>" + test.title + "</td></tr>");
 		} else {
-			testCase(test.src, test.colors, test.groups, test.ref, "", iTest);
+			testCase(test.src, test.srcExpr, test.colors, test.groups, test.ref, "", iTest);
 		}
 	}
 	jQuery( document ).tmpl();
