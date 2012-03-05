@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Simple, Compound, and Complex Sentences</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="clauses">[
+							"had a poisoned apple",
+							"played some street basketball",
+							"had a really bad hair day",
+							"realized how much better Macs were than PCs",
+							"had an extremely large boat",
+							"ate some fresh spaghetti and meatballs",
+							"watched 30 videos on Khan Academy",
+							"delivered an Academy Award-winning performance",
+							"slept through every class"
+							]
+			</var>
+			
+			<var id="conj">[
+							"but",
+							"and",
+							"so",
+							"yet"
+							]
+			</var>	
+			
+			<var id="deps">[
+							"Though",
+							"While",
+							"After",
+							"When"
+							]
+			</var>	
+			
+			<var id="depsL">[
+							"though",
+							"while",
+							"after",
+							"when"
+							]
+			</var>	
+			
+		</div>
+
+		<div class="problems">
+			
+			<div id="original">
+				<p class="problem">Is the sentence below considered a simple, compound, complex, or compound-complex sentence?</p>
+				<p class="question"><var>person(1)</var> <var>clauses[randRange(0,8)]</var>.</p>
+				<p class="solution" data-type="radio" ><var>(function() {
+						var clauses = ' Simple';
+						return clauses;
+					})()</var></p>
+				<ul class="choices" data-category="true">
+					<li> Simple</li>
+					<li> Compound</li>
+					<li> Complex</li>
+					<li> Compound-complex</li>
+				</ul>
+			</div>
+			
+			<div id="compound" data-type="original">
+				<p class="question"><var>person(1)</var> <var>clauses[randRange(0,8)]</var>, <var>conj[randRange(0,3)]</var> <var>person(2)</var> <var>clauses[randRange(0,8)]</var>.</p>
+				<p class="solution" data-type="radio" ><var>" Compound"</var></p>
+				</ul>
+			</div>
+		
+			<div id="complex" data-type="original">
+				<p class="question"><var>deps[randRange(0,3)]</var> <var>person(1)</var> <var>clauses[randRange(0,8)]</var>,  <var>person(2)</var> <var>clauses[randRange(0,8)]</var>.</p>
+				<p class="solution" data-type="radio" ><var>" Complex"</var></p>
+				</ul>
+			</div>
+		
+			<div id="c-c" data-type="original">
+				<p class="question"><var>deps[randRange(0,3)]</var> <var>person(1)</var> <var>clauses[randRange(0,8)]</var>,  <var>person(2)</var> <var>clauses[randRange(0,8)]</var>, <var>conj[randRange(0,3)]</var> <var>person(3)</var> <var>clauses[randRange(0,8)]</var>.</p>
+				<p class="solution" data-type="radio" ><var>" Compound-complex"</var></p>
+				</ul>
+			</div>
+		
+		
+		</div>
+		<div class="hints">
+			<div class="graphie" data-update="numbers">
+				graph.divider.shiftDecimals();
+			</div>
+			<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+				graph.divider.showHint();
+			</div>
+		</div>
+	</div>
+</body>
+</html>
