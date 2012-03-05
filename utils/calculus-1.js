@@ -1,6 +1,14 @@
 jQuery.extend(KhanUtil, {
-    Calculus: function() {
     
+    /**
+     * Calculus module that generates and solves 
+     * simple derivatives and integrals
+     */
+    Calculus: function() {
+
+        /**
+         * Recognized equation types
+         */
         var Types = {
             operator : 'operator',
             expr : 'expr',
@@ -11,7 +19,12 @@ jQuery.extend(KhanUtil, {
             variable : 'variable',
             ln : 'ln'
         }
-        
+          
+        /**
+         * Basic operators needed for equations (+, -, *, /)
+         * 
+         * @return self
+         */  
         var Operator = function() {
         
             var _type = Types.operator;
@@ -29,10 +42,18 @@ jQuery.extend(KhanUtil, {
                 return _type;
             }
             
+            /**
+             * Checks if a variable is valid
+             * 
+             * Does not check if the currently set operator is valid.
+             * Only checks input. So acts more like a helper method.
+             * 
+             * @param type String of operator
+             */
             this.isValidOperator = function( type ) {
             
                 for( op in _validOperators ) {
-                    if( op == type ) {
+                    if( _validOperators[op] == type ) {
                         return true;
                     }
                 }
@@ -81,7 +102,12 @@ jQuery.extend(KhanUtil, {
             
             return this;
         }
-        
+     
+        /**
+         * Letter variable for unknown value
+         * 
+         * @param name Name of variable. Should be single letter
+         */
         var Variable = function( name ) {
 
             var _type = Types.variable;
@@ -105,6 +131,12 @@ jQuery.extend(KhanUtil, {
             }
         }
         
+        /**
+         * Constant value that can be represented as a fraction
+         * 
+         * @param num Numerator
+         * @param denom Denominator (optional)
+         */ 
         var Constant = function( num, denom ) {
 
             var _type = Types.constant;
@@ -159,6 +191,13 @@ jQuery.extend(KhanUtil, {
             }
         }
         
+        /**
+         * Exponent
+         * 
+         * @param degree Can be any of the valid types
+         * @param expr Can be any of the valid types
+         * @param coef Constant or integer (optional)
+         */
         var Exponent = function( degree, expr, coef ) {
 
             var format = function( expr, degree, coef ) {
@@ -190,7 +229,7 @@ jQuery.extend(KhanUtil, {
             var _expr = expr;            
             var _degree = _.isNumber( degree ) ? new Constant( degree ) : degree;
             var _coef = coef != 0 ? coef : new Constant( 1 );
-            var _coef =  _.isNumber( _coef ) ? new Constant( _coef ) : _coef; 
+            _coef =  _.isNumber( _coef ) ? new Constant( _coef ) : _coef; 
                         
             var _text = format( _expr, _degree, _coef );
             
@@ -220,6 +259,12 @@ jQuery.extend(KhanUtil, {
             }            
         }
         
+        /**
+         * Nautral Log
+         * 
+         * @param expr Equation or Variable
+         * @param coef Constant or integer (optional)
+         */
         var NaturalLog = function( expr, coef ) {
  
             var format = function( expr, coef ) {
@@ -265,10 +310,15 @@ jQuery.extend(KhanUtil, {
             this.getSign = function() {
                 var sign = ( coef < 0 ) ? "-" : "+";
                 return sign;
-            }
-            
+            }           
         }
         
+        /**
+         * E
+         * 
+         * @param expr Equation or Variable
+         * @param coef Constant or integer (optional)
+         */      
         var NaturalE = function( expr, coef ) {
         
             var _type = Types.e;
@@ -313,6 +363,15 @@ jQuery.extend(KhanUtil, {
             
         }
         
+        
+        /**
+         * Basic trig functions
+         * 
+         * @param func Trig function type (sin, cos, tan, sec, csc, cot)
+         * @param expr Equation or variable
+         * @param power Exponent as Constant or integer (optional)
+         * @param coef Constant or integer (optional)
+         */            
         var TrigFunction = function( func, expr, power, coef ) {
         
             var _type = Types.trig;
@@ -351,7 +410,7 @@ jQuery.extend(KhanUtil, {
             var _expr = expr;
             var _power = _.isNumber( power ) ? new Constant( power ) : power;
             var _coef = coef != 0 ? coef : new Constant( 1 );
-            var _coef =  _.isNumber( _coef ) ? new Constant( _coef ) : _coef; 
+            _coef =  _.isNumber( _coef ) ? new Constant( _coef ) : _coef; 
             var _text = format( func, expr, _coef, _power );
             
             this.getType = function() {
@@ -384,6 +443,14 @@ jQuery.extend(KhanUtil, {
             }            
         }
         
+        /**
+         * Equation
+         * 
+         * Represents a mathematical equation or part of one.
+         * Can take any of the basic types including other equations.
+         * 
+         * @todo Poor implementation with nested equations
+         */
         var Equation = function() {
 
             var _type = "expr";
@@ -409,6 +476,16 @@ jQuery.extend(KhanUtil, {
                 return _type;
             }
             
+            /**
+             * Counts the parts in the equation.
+             * 
+             * If there are two parts and the second is an operator, this 
+             * is counted as one part.
+             * 
+             * Does not count the parts in sub equations separately.
+             * 
+             * @return count
+             */
             this.count = function() {
 
                 var count = _parts.length;
@@ -418,6 +495,15 @@ jQuery.extend(KhanUtil, {
                 return count;
             }
             
+            /**
+             * Appends to the equation
+             * 
+             * Does not check if the values appended are valid.
+             * 
+             * @param expr Any of the basic types (Equation, Operator, etc)
+             * 
+             * @return self
+             */
             this.append = function( expr ){
                 _parts.push( expr );
                 return this;
@@ -435,6 +521,11 @@ jQuery.extend(KhanUtil, {
                 return ( iterPos > 0 ) ? true : false;
             }
             
+            /**
+             * Resets iterator
+             * 
+             * @return self
+             */
             this.reset = function() {
                 iterPos = -1;
                 return this;
@@ -449,29 +540,61 @@ jQuery.extend(KhanUtil, {
                 return _parts[ iterPos  ];
             }
             
+            /**
+             * Gets the previous part
+             * 
+             * Iterator is set one part back
+             * 
+             * @return mixed
+             */
             this.prev = function() {
                 iterPos--;
                 return _parts[ --iterPos ];
             }
- 
+            
+            /**
+             * Step back one part in the equation
+             * 
+             * @return self
+             */
             this.rewind = function() {
                 --iterPos;
                 return this;
             } 
         }
         
+        /**
+         * Finds derivative of constant
+         * 
+         * @param constant Constant
+         */
         var DerivativeConstant = function( constant ) {
         
             var _constant = constant;
             
+            /**
+             * Returns string value of constant
+             * 
+             * @return string
+             */
             this.equation = function() {
                 return _constant.toString();
             }
-            
+
+            /**
+             * Returns derivate of constant
+             * 
+             * @return null
+             */            
             this.solution = function() {
                 return null;
             } 
- 
+
+            /**
+             * Returns derivate of constant as string
+             * 
+             * @return string
+             */     
             this.toString = function() {
                 return "";
             } 
@@ -480,7 +603,12 @@ jQuery.extend(KhanUtil, {
                 return _constant;
             }           
         }
-                
+        
+        /**
+         * Finds derivative of exponent using power rule
+         * 
+         * @param exponent Exponent
+         */ 
         var DerivativePower = function( exponent ) {
             
             var solve = function( exponent ) {
@@ -514,10 +642,20 @@ jQuery.extend(KhanUtil, {
             
             var _derivative = solve( exponent );
 
+            /**
+             * Returns string value of exponent
+             * 
+             * @return string
+             */
             this.equation = function() {
                 return _exponent.toString(); 
             }
             
+            /**
+             * Returns value of derivative
+             * 
+             * @return mixed Can be Constant, Exponent, or Equation
+             */            
             this.solution = function() {
                 return _derivative;
             } 
@@ -534,15 +672,30 @@ jQuery.extend(KhanUtil, {
                 return _exponent.getDegree();
             }
 
+            /**
+             * Gets coefficient of derivative
+             * 
+             * @return Constant
+             */
             this.getDCoef = function() {
                 return _derivative.getCoef();
             }
             
+            /**
+             * Gets power of derivative
+             * 
+             * @return Constant
+             */            
             this.getDPower = function() {
                 return _derivative.getDegree();
             }            
         }
         
+        /**
+         * Finds derivative of e
+         * 
+         * @param e NaturalE
+         */
         var DerivativeE = function( e ) {
 
             var solve = function( e ) {
@@ -575,6 +728,15 @@ jQuery.extend(KhanUtil, {
             } 
         }
 
+        /**
+         * Finds derivative of natural log
+         * 
+         * The returned derivative is in the general form x^{-1}
+         * instead of \\frac{1}{x}. A formatter class can be used, but 
+         * it does not work that well yet.
+         * 
+         * @param ln Natural Log
+         */
         var DerivativeLn = function( ln ) {
 
             var solve = function( ln ) {
@@ -606,6 +768,14 @@ jQuery.extend(KhanUtil, {
             } 
         }
         
+        /**
+         * Finds derivative of simple trig functions
+         * 
+         * Does not solve all trig derivatives.
+         * Currently only solves for sin, cos, tan.
+         * 
+         * @param trigFunc TrigFunction
+         */
         var DerivativeTrig = function( trigFunc ) {
 
             var _derivatives =  {
@@ -665,127 +835,17 @@ jQuery.extend(KhanUtil, {
             }             
         }
         
-        var IntegralConstant = function( constant, variable ) {
-            
-            var _constant = constant;
-            var _integral =  new Exponent( 1, variable, _constant.getCoef() );
-            
-            this.equation = function() {
-                return _constant;
-            }
-            
-            this.solution = function() {
-                return _integral;
-            }
-
-            this.toString = function() {
-                return _integral.toString();
-            }            
-        }
-        
-        var IntegralE = function( exponent ) {
-            
-            var _exponent = exponent;
-            
-            this.equation = function() {
-                return _exponent.toString();
-            }
-            
-            this.solution = function() {
-                return _exponent
-            }
-
-            this.toString = function() {
-                return _exponent.toString();
-            }            
-        }
-        
-        var IntegralPower = function( exponent ) {
-
-            var _exponent = exponent;
-            var _integral;
-            if( _exponent.getDegree() != -1 ) {
-
-                var degree = exponent.getDegree();
-                var coef = exponent.getCoef();
-                
-                var newDegree = new Constant( degree.getNum() + degree.getDenom(), degree.getDenom() );
-                var newCoef = new Constant( newDegree.getDenom(), newDegree.getNum() );
-                
-                _integral = new Exponent( newDegree, _exponent.getExpr(), newCoef );
-                
-            } else {
-                _integral = new NaturalLog( _exponent.getExpr(), _exponent.getCoef() );
-            }
-            
-            this.equation = function() {
-                return _exponent.toString(); 
-            }
-            
-            this.solution = function() {
-                return _integral;
-            } 
- 
-            this.toString = function() {
-                return _integral.toString();
-            } 
-            
-            this.getCoef = function() {
-                return _exponent.getCoef();
-            }
-            
-            this.getPower = function() {
-                return _exponent.getDegree();
-            }
-
-            this.getDCoef = function() {
-                return _integral.getCoef();
-            }
-            
-            this.getDPower = function() {
-                return _integral.getDegree();
-            }             
-            
-        }
-
-        var IntegralTrig = function( trigFunc ) {
-
-            var _integrals =  {
-                "sin": function() {
-                    var integral = new TrigFunction( "cos", _trigFunc.getExpr(), _trigFunc.getPower(), _trigFunc.getCoef() * -1 );
-                    return integral;
-                },
-                "cos": function() {
-                    var integral = new TrigFunction( "sin",  _trigFunc.getExpr(),  _trigFunc.getPower(), _trigFunc.getCoef() );
-                    return integral;
-                },
-                "sec": function() {
-                    var integral = new TrigFunction( "tan", _trigFunc.getExpr(), 1, _trigFunc.getCoef() );  
-                    return integral;
-                }
-            }
-            
-            var solve = function( trigFunc ) {
-
-                return _integrals[ trigFunc.getFunc() ]();  
-            }            
-            
-            var _trigFunc = trigFunc;
-            var _integral = solve( _trigFunc );
-
-            this.equation = function() {
-                return _trigFunc.toString();
-            }
-            
-            this.solution = function() {
-                return _integral;
-            }
-
-            this.toString = function() {
-                return _integral.toString();
-            }             
-        }
-        
+        /**
+         * Solves derivative equations
+         * 
+         * Limited to simple equations.
+         * Can solve some equations using Sum Rule,
+         * Product Rule, Quotient Rule, and Chain Rule.
+         * Currently does not simplify equations. A formatter
+         * class is used, but it is inadequate.
+         *  
+         * @param equation
+         */
         var Derivative = function( equation ) {
             
             var solveExpr = function( expr ) {
@@ -903,6 +963,167 @@ jQuery.extend(KhanUtil, {
             }       
         }
         
+        
+        /**
+         * Finds the integral of a Constant
+         * 
+         * The variable is needed since the integral of a constant will be
+         * an exponent, such 3x or 3x^{2}
+         * 
+         * @param constant Constant
+         * @param variable Variable
+         */
+        var IntegralConstant = function( constant, variable ) {
+            
+            var _constant = constant;
+            var _integral =  new Exponent( 1, variable, _constant.getCoef() );
+            
+            this.equation = function() {
+                return _constant;
+            }
+            
+            this.solution = function() {
+                return _integral;
+            }
+
+            this.toString = function() {
+                return _integral.toString();
+            }            
+        }
+        
+        /**
+         * Finds the integral of E
+         * 
+         * @param exponent Exponent
+         */       
+        var IntegralE = function( exponent ) {
+            
+            var _exponent = exponent;
+            
+            this.equation = function() {
+                return _exponent.toString();
+            }
+            
+            this.solution = function() {
+                return _exponent
+            }
+
+            this.toString = function() {
+                return _exponent.toString();
+            }            
+        }
+        
+        /**
+         * Finds the integral of an exponent
+         * 
+         * Currently does not return the correct result 
+         * for an exponent with power of -1. It returns ln
+         * with no absolute value.
+         * 
+         * @param exponent Exponent
+         */          
+        var IntegralPower = function( exponent ) {
+
+            var _exponent = exponent;
+            var _integral;
+            if( _exponent.getDegree() != -1 ) {
+
+                var degree = exponent.getDegree();
+                var coef = exponent.getCoef();
+                
+                var newDegree = new Constant( degree.getNum() + degree.getDenom(), degree.getDenom() );
+                var newCoef = new Constant( coef, newDegree.getNum() );
+                
+                _integral = new Exponent( newDegree, _exponent.getExpr(), newCoef );
+                
+            } else {
+                _integral = new NaturalLog( _exponent.getExpr(), _exponent.getCoef() );
+            }
+            
+            this.equation = function() {
+                return _exponent.toString(); 
+            }
+            
+            this.solution = function() {
+                return _integral;
+            } 
+ 
+            this.toString = function() {
+                return _integral.toString();
+            } 
+            
+            this.getCoef = function() {
+                return _exponent.getCoef();
+            }
+            
+            this.getPower = function() {
+                return _exponent.getDegree();
+            }
+
+            this.getDCoef = function() {
+                return _integral.getCoef();
+            }
+            
+            this.getDPower = function() {
+                return _integral.getDegree();
+            }             
+            
+        }
+
+        /**
+         * Finds the integral of a trig function
+         * 
+         * Limited to three of the basic forms -sin, cos, sec^{2}(x)
+         * 
+         * @param trigFunc TrigFunction
+         */ 
+        var IntegralTrig = function( trigFunc ) {
+
+            var _integrals =  {
+                "sin": function() {
+                    var integral = new TrigFunction( "cos", _trigFunc.getExpr(), _trigFunc.getPower(), _trigFunc.getCoef() * -1 );
+                    return integral;
+                },
+                "cos": function() {
+                    var integral = new TrigFunction( "sin",  _trigFunc.getExpr(),  _trigFunc.getPower(), _trigFunc.getCoef() );
+                    return integral;
+                },
+                "sec": function() {
+                    var integral = new TrigFunction( "tan", _trigFunc.getExpr(), 1, _trigFunc.getCoef() );  
+                    return integral;
+                }
+            }
+            
+            var solve = function( trigFunc ) {
+
+                return _integrals[ trigFunc.getFunc() ]();  
+            }            
+            
+            var _trigFunc = trigFunc;
+            var _integral = solve( _trigFunc );
+
+            this.equation = function() {
+                return _trigFunc.toString();
+            }
+            
+            this.solution = function() {
+                return _integral;
+            }
+
+            this.toString = function() {
+                return _integral.toString();
+            }             
+        }
+        
+        /**
+         * Solves indefinite integrals
+         * 
+         * Can solve simple indefinite integrals
+         * including some simple uses of substitution rule
+         * or reverse chain rule.
+         * 
+         * @param equation Equation
+         */
         var IndefiniteIntegral = function( equation ) {
             
             var solveSubstitution = function( inner, outer ) {
@@ -1037,366 +1258,28 @@ jQuery.extend(KhanUtil, {
                 return _solution.toString();
             } 
         }
-        
-        this.Formatter = function( equation ) {
-
-            var updateCoef = function( expr, newCoef ) {
-
-                switch( expr.getType() ) {
-                    case Types.power : 
-                       return new Exponent( expr.getDegree(), expr.getExpr(), newCoef );
-                    break;
-                    
-                    case Types.e : 
-                        return new NaturalE( expr.getExpr(), newCoef );
-                    break;
-
-                    case Types.trig :
-                        return new TrigFunction( expr.getFunc(), expr.getExpr(), expr.getPower(), newCoef );
-                    break;
-                    
-                    case Types.constant :
-                        return new Constant( newCoef.getNum(), newCoef.getCoef() );
-                    break;
-                    case Types.ln :
-                        return new NaturalLog( expr.getExpr(), newCoef );                      
-                    break;
-                }
-                return expr;
-            }
-            
-            var getConstantCoef = function( expr ) {
-                return ( expr.getType() == Types.constant ) ? expr : expr.getCoef();
-            }
-            
-            var formatExpr = function( expr ) {
-                var newExpr = format( expr );
-                return "(" + newExpr + ")";    
-            }
-
-            var formatAsRadical = function( equation ) {
-
-                if( ! _.isNumber( equation ) && equation.getType() == Types.power ) {
-                    var degree = equation.getDegree();
-                    if( degree.isFraction() && degree.getNum() == 1 && degree.getDenom() && 2 ) {
-                        var coef = ( equation.getCoef() != 1 ) ?  equation.getCoef() : "";
-                        return   coef + "\\sqrt{" + equation.getExpr() + "}";
-                    }         
-                }
-                return equation;
-            }
-                        
-            var formatMultipleExprAsFraction = function( numExpressions, denomExpressions ) { 
-                
-                var numerator = "";
-                var denominator = "";
-                
-                for( var i = 0; i < numExpressions.length; i++ ) {
-                    if( numExpressions[i] != 1 ) {  
-                        numerator += formatAsRadical( numExpressions[i].toString() );
-                    }
-                }
-
-                for( var i = 0; i < denomExpressions.length; i++ ) {
-                    if( denomExpressions[i] != 1 ) { 
-                        denominator += formatAsRadical( denomExpressions[i].toString() );
-                    }
-                }
-                
-                if( denominator == "" ) {
-                    return numerator;
-                }
-                
-                if( numerator == "" ) {
-                    numerator == "1";
-                }
-                
-                return "\\frac {" + numerator + "}{" + denominator + "}";        
-            }
-
-            var formatNegativePowerAsFraction = function( expr ) {
-                var newExpr = new Exponent( expr.getDegree() * -1, expr.getExpr(), 1 );               
-                var coef = getConstantCoef( expr );
-                var frac = KhanUtil.reduce( coef.getNum(), coef.getDenom() );
-                return formatMultipleExprAsFraction( [ frac[0] ], [ frac[1], newExpr ] );            
-            }
-                        
-            var formatSingularExpr = function( expr ) {
-            
-                if( expr.getType() == Types.expr ) {
-                    return formatExpr( expr );
-                } else if( expr.getType() == Types.power && expr.getDegree() < 0 ) {
-                    return formatNegativePowerAsFraction( expr );
-                }  else {
-                    return expr.toString();  
-                }                
-            }
-            
-            var format = function( equation ) {
-            
-                var newEquation = "";
-
-                while( equation.hasNext() ) {
-  
-                    var expr = equation.next();
-                    var next = equation.next();
-                    if( _.isUndefined( expr ) ) {
-                        expr = next;
-                        next = equation.next();
-                    }
-
-                    if( _.isUndefined( next ) || ( next.getType() == Types.operator && ( next.isAdd() || next.isSubtract() ) ) ) {
-                        
-                        newEquation += formatSingularExpr( expr );
-
-                        if( ! _.isUndefined( next ) ) {
-                            newEquation += next.toString();
-                        }
-                        
-                    } else if( next.getType() == Types.operator && ( next.isDivide() ) ) {
-        
-                    } else {
-
-                        if( expr.getType() == Types.expr || next.getType() == Types.expr  ) {
-                            
-                            newEquation += formatSingularExpr( expr );
-                            newEquation += formatSingularExpr( next );
-                            
-                        } else { 
-                            
-                            var exprCoef = getConstantCoef( expr );
-                            var nextCoef = getConstantCoef( next );
-                            
-                            var newNum = exprCoef.getNum() * nextCoef.getNum();
-                            var newDenom = exprCoef.getDenom() * nextCoef.getDenom();
-                            var newfrac = KhanUtil.reduce( newNum, newDenom );
-                            
-                            var newExpr = updateCoef( expr, new Constant( 1 ) );
-                            var newNext = updateCoef( next, new Constant( 1 ) );
-                            
-                            var numExpressions = [ newfrac[0] ];
-                            var denomExpressions = [ newfrac[1] ];
-                            
-                            if( newExpr.getType() == Types.power && newExpr.getDegree() < 0 ) {
-                                newExpr = new Exponent( newExpr.getDegree() * -1, newExpr.getExpr(), newExpr.getCoef() );
-                                denomExpressions.push( newExpr );
-                            } else {
-                                numExpressions.push( newExpr );
-                            }
-                            
-                            if( newNext.getType() == Types.power && newNext.getDegree() < 0 ) {
-                                newNext = new Exponent( newNext.getDegree() * -1, newNext.getExpr(), newNext.getCoef() );
-                                denomExpressions.push( newNext );                                
-                            } else {
-                                numExpressions.push( newNext );
-                            }                            
-                            
-                            if(denomExpressions.length > 1 ) {
-                                newEquation += formatMultipleExprAsFraction( numExpressions, denomExpressions );
-                            } else {
-                                frac = KhanUtil.fractionReduce( newfrac[0], newfrac[1], true );
-                                if( frac != 1 ) { 
-                                    newEquation += frac;
-                                }                                
-                                newEquation += newExpr.toString() != 1 ? formatAsRadical( newExpr ) : "";
-                                newEquation += newNext.toString() != 1 ? formatAsRadical( newNext ) : "";
-                            }
-                        }
-                        
-                        var nextNext = equation.next();
-                        
-                        if( ! _.isUndefined( nextNext ) ) {
-                           newEquation += nextNext.toString();
-                        }                                        
-                    }
-                }
-                
-                return newEquation;
-            }
-
-            var _formattedEquation = format( equation );
-            
-            this.toString = function() {
-                return _formattedEquation.toString();
-            }
-            return this;
-        }
-        
-        this.EquationFormatter = {
-            derivative : function ( equation, variable ) {
-                var calc = new KhanUtil.Calculus();
-                var formatter = calc.Formatter( equation );
-                return "\\frac{d}{d" + variable + "} " + formatter.toString(); 
-            },
-            integral : function( equation, variable ) {
-                var calc = new KhanUtil.Calculus();
-                var formatter = calc.Formatter( equation );
-                return "\\int " + formatter.toString() + " d" + variable;
-            },
-            format : function( equation ) {
-                var calc = new KhanUtil.Calculus();
-                var formatter = calc.Formatter( equation );
-                return formatter.toString();
-            }
-        }
-        
-        var generateWrongSubstitutionRuleIntegrals = function( equation ) {
-            return null;/*
-            var wrongs = [];
-            var inner = equationParts[ 0 ];
-            var outer1 = equationParts[ 1 ];
-            var outer2 = equationParts[ 2 ];
-            
-            var wrongOuter1Eq = new Equation();
-            wrongOuter1Eq.append( outer1 );
-            var wrongOuter1 = new Derivative( wrongOuter1Eq );
-
-            var wrongOuter2Eq = new Equation();
-            wrongOuter2Eq.append( outer2 );
-            var wrongOuter2 = new IndefiniteIntegral( wrongOuter2Eq ); 
-
-            var equation = new Equation();               
-            equation.append( wrongOuter1.solution() );
-            equation.append( wrongOuter2.solution() );
-            
-            wrongs.push( equation );
-            
-            return wrongs;*/
-        }
-        
-        var SubsitutionRuleIntegral = function( variableName ) {
-            
-            var randNum = function() {
-                return KhanUtil.randRange( 1, 9 );
-            }
-            
-            var randCoefNotFactorable = function( coef ) {
-                
-                var newCoef;
-                switch( coef ) {                   
-                    case 2:
-                    case 4:
-                    case 6:
-                    case 8:               
-                        newCoef = KhanUtil.randFromArray( [ 1, 3, 5, 7, 9 ] );
-                    break;
-                    case 3:
-                    case -3:
-                    case 9:
-                    case -9:                    
-                        newCoef = KhanUtil.randRangeExclude( 1, 8, [ 0, 3, 6 ] );
-                    break;
-                    default:
-                        newCoef = KhanUtil.randRangeExclude( 1, 9, [ coef, coef * -1 ] ); 
-                }
-                
-                return ( KhanUtil.rand(10) > 2 ) ? newCoef : newCoef * -1; 
-            }
-            
-            var randPower = function() {
-                if( KhanUtil.rand(9) < 1 ) {
-                    return new Constant( 1, 2 );
-                } else {
-                    var num = KhanUtil.randRange( 2, 9 );
-                    return ( KhanUtil.rand(10) > 2 ) ? num : num * -1; 
-                }
-            }
-            
-            var innerDerivative = [
-                function( variable ) { 
-                    var inner = new Equation();
-                    return [ 
-                        inner.append( new NaturalE( variable, randNum() ) ),
-                        new NaturalE( variable, randNum() )
-                    ];
-                },
-                function( variable ) {
-                    var inner = new Equation();
-                    return [
-                        inner.append( new NaturalLog( variable, 1 ) ),
-                        new Exponent( -1, variable, randNum() ) ];
-                },
-                function( variable ) {
-                    var inner = new Equation();
-                    var degree = randNum();
-                    var degree2 = degree - 1;
-                    var coef = randNum();
-                    operator = ( KhanUtil.rand( 2 ) == 1 ) ? new Operator().add() : new Operator().subtract();
-                    return [
-                        inner.append( new Exponent( degree, variable, coef ) ).append( operator ).append( new Constant( randCoefNotFactorable( coef ) ) ), 
-                        new Exponent( degree2, variable, randNum() ) ];
-                },
-                function( variable ) {
-                    var inner = new Equation();                
-                    var trigFuncs = [ 
-                        [ 'cos', 'sin', 1 ],
-                        [ 'sin', 'cos', 1 ],
-                        [ 'tan', 'sec', 2 ] ];
-
-                    var trigExpr = KhanUtil.randFromArray( trigFuncs );
-                    return [
-                        inner.append( new TrigFunction( trigExpr[0], variable, 1, randNum() ) ),
-                        new TrigFunction( trigExpr[1], variable, trigExpr[2], randNum() ) ];   
-                }
-            ];
-            
-            var outerIntegral = [
-                function( inner ) {
-                    return new NaturalE( inner, 1 );
-                },
-                function( inner ) {
-                    return new Exponent( -1, inner, 1 );
-                },
-                function( inner ) {
-                    return new Exponent( randPower(), inner, 1 );
-                },
-                function( inner ) {
-                    var trigFuncs = [ 
-                        [ 'cos', 1 ],
-                        [ 'sin', 1 ],
-                        [ 'sec', 2 ] ];
-                    var trigExpr = KhanUtil.randFromArray( trigFuncs );
-                    return new TrigFunction( trigExpr[ 0 ], inner, trigExpr[ 1 ], 1 );
-                }
-            ];
-
-            var variable = new Variable( variableName );
-            
-            var inner = innerDerivative[ KhanUtil.rand( innerDerivative.length ) ]( variable );
-            
-            var equation = new Equation();
-            var outer = outerIntegral[ KhanUtil.rand( outerIntegral.length ) ]( inner[ 0 ] );
-            equation.append( inner[ 1 ] );
-            equation.append( outer );
-            
-            var integral = new IndefiniteIntegral( equation );
- 
-            this.getEquationParts = function() {
-                return [ inner[0], inner[1], outer ];
-            }
-            
-            this.getEquation = function() {
-                return equation;
-            }
-            
-            this.getIntegral = function() {
-                return integral;
-            }
-            
-            return this;    
-        }
-        
-        
-        this.generateIntegralSubsitutionRule = function( variable ) {
-            var integral = new SubsitutionRuleIntegral( variable );
-            //var wrongAnswers = generateWrongSubstitutionRuleIntegrals( integral );
-            return {
-                equation : integral.getEquation(),
-                integral : integral.getIntegral().solution(),
-                wrongs : [ 2 ]
-            }
-        }
-        
-        return this;
+                                                                                        
+        return {
+            Types: Types,
+            Operator: Operator,
+            Variable: Variable,
+            Constant: Constant,
+            Exponent: Exponent,
+            NaturalLog: NaturalLog,
+            NaturalE: NaturalE,
+            TrigFunction: TrigFunction,
+            Equation: Equation,
+            DerivativeConstant: DerivativeConstant,
+            DerivativePower: DerivativePower,
+            DerivativeE: DerivativeE,
+            DerivativeLn: DerivativeLn,
+            DerivativeTrig: DerivativeTrig,
+            Derivative: Derivative,
+            IntegralConstant: IntegralConstant,
+            IntegralE: IntegralE,
+            IntegralPower: IntegralPower,
+            IntegralTrig: IntegralTrig,
+            IndefiniteIntegral: IndefiniteIntegral
+        }                                           
     }
 });
