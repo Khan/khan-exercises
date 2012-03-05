@@ -11,9 +11,9 @@
             <var id="CALCULUS">Calculus()</var>
             <var id="FORMATTER">CALCULUS.EquationFormatter</var>
             <var id="VARIABLE">"x"</var>
-            <var id="P1">CALCULUS.SubstitutionRuleProblem( VARIABLE )</var>
-            <var id="P">FORMATTER.integral( P1.equation, VARIABLE )</var>
-            <var id="S">FORMATTER.format( P1.integral )</var>
+            <var id="P1">new CALCULUS.SubstitutionRuleProblem( VARIABLE )</var>
+            <var id="P">FORMATTER.integral( P1.getEquation(), VARIABLE )</var>
+            <var id="S">FORMATTER.format( P1.getIntegral() )</var>
         </div>
         <div class="problems">
             <div>

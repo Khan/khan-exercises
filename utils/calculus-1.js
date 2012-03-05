@@ -226,7 +226,8 @@ jQuery.extend(KhanUtil, {
             
             var _type = Types.power
 
-            var _expr = expr;            
+            var _expr = expr;   
+    
             var _degree = _.isNumber( degree ) ? new Constant( degree ) : degree;
             var _coef = coef != 0 ? coef : new Constant( 1 );
             _coef =  _.isNumber( _coef ) ? new Constant( _coef ) : _coef; 
@@ -1535,6 +1536,7 @@ jQuery.extend(KhanUtil, {
             }
         }
         
+               
         /**
          * Generates indefinite integrals that can be solved using 
          * the subsitution rule or reverse chain rule.
@@ -1542,9 +1544,12 @@ jQuery.extend(KhanUtil, {
          * Tries to generate simple integrals and also masks
          * some of the limitations of the integral solver
          * 
-         * @variableName Variable 
+         * @param varName Variable 
+         * 
+         * @todo Sometimes generates equations that can be simplified
+         * @todo Refactor out of monster class
          */
-        var SubsitutionRuleIntegral = function( variableName ) {
+        var SubstitutionRuleProblem = function( varName ) {
             
             /**
              * Generates random number between 1, 9
@@ -1594,132 +1599,278 @@ jQuery.extend(KhanUtil, {
                 }
             }
             
+
             /**
-             * Generates the inner derivative based on selected array index
+             * Generates the inner meta based on selected array index
              */
-            var innerDerivative = [
+            var innerMeta = [
                 
                 /**
                  * Generates E expression
-                 * 
-                 * @returns array [Equation, Derivative]
                  */
-                function( variable ) { 
+                function( v ) { 
                     var inner = new Equation();
-                    return [ 
-                        inner.append( new NaturalE( variable, randNum() ) ),
-                        new NaturalE( variable, randNum() )
-                    ];
+                    return{
+                        type: Types.e,
+                        v: v,
+                        inner: {
+                            c: randNum()
+                        },
+                        sub: {
+                            c: randNum()    
+                        }
+                    };
                 },
                 
                 /**
                  * Generates LN expression
-                 * 
-                 * @returns array [Equation, Derivative]
                  */                
-                function( variable ) {
+                function( v ) {
                     var inner = new Equation();
-                    return [
-                        inner.append( new NaturalLog( variable, 1 ) ),
-                        new Exponent( -1, variable, randNum() ) ];
+                    return {
+                        type: Types.ln,
+                        v: v,
+                        inner: {
+                            c: 1
+                        },
+                        sub: {
+                            d: -1,
+                            c: randNum()    
+                        }
+                    }
                 },
 
                 /**
                  * Generates Power expression
-                 * 
-                 * @returns array [Equation, Derivative]
                  */                   
-                function( variable ) {
+                function( v ) {
                     var inner = new Equation();
-                    var degree = randNum();
-                    var degree2 = degree - 1;
-                    var coef = randNum();
-                    operator = ( KhanUtil.rand( 2 ) == 1 ) ? new Operator().add() : new Operator().subtract();
                     
-                    if(degree2 == 0) {
-                       var derivative = new Constant( randNum() ); 
-                    } else {
-                        var derivative = new Exponent( degree2, variable, randNum() );
+                    var meta = {
+                        type: Types.power,
+                        v: v,
+                        inner: {
+                            d: randNum(),
+                            c: randNum(),
+                            op: ( KhanUtil.rand( 2 ) == 1 ) ? new Operator().add() : new Operator().subtract(),
+
+                        },
+                        sub: {
+                            c: randNum()    
+                        }
                     }
+                    meta.inner.c2 = randCoefNotFactorable( meta.inner.c );
+                    meta.sub.d = meta.inner.d - 1;
                     
-                    return [
-                        inner.append( new Exponent( degree, variable, coef ) ).append( operator ).append( new Constant( randCoefNotFactorable( coef ) ) ), 
-                        derivative ];
+                    return meta;
                 },
                 
                 /**
                  * Generates Trig expression
-                 * 
-                 * @returns array [Equation, Derivative]
                  */                 
-                function( variable ) {
-                    var inner = new Equation();                
+                function( v ) {
+                    var inner = new Equation();
+                                                    
                     var trigFuncs = [ 
                         [ 'cos', 'sin', 1 ],
                         [ 'sin', 'cos', 1 ],
                         [ 'tan', 'sec', 2 ] ];
-
-                    var trigExpr = KhanUtil.randFromArray( trigFuncs );
-                    return [
-                        inner.append( new TrigFunction( trigExpr[0], variable, 1, randNum() ) ),
-                        new TrigFunction( trigExpr[1], variable, trigExpr[2], randNum() ) ];   
+                                            
+                    return {
+                        type: Types.trig,
+                        v: v,
+                        t: KhanUtil.randFromArray( trigFuncs ),                        
+                        inner: {
+                            c: randNum()
+                        },
+                        sub: {
+                            c: randNum()    
+                        }
+                    }  
                 }
             ];
             
             /**
-             * Generates Outer Integral
+             * Generates Outer meta
              */
-            var outerIntegral = [
+            var outerMeta = [
                 
                 /**
                  * E
                  */            
-                function( inner ) {
-                    return new NaturalE( inner, 1 );
+                function() {
+                    return {
+                        type: Types.e,
+                        c: 1
+                    }
                 },
                 
                 /**
                  * Ln
                  */
-                function( inner ) {
-                    return new Exponent( -1, inner, 1 );
+                function() {
+                    return {
+                        type: Types.ln,
+                        c: 1,
+                        d: -1
+                    }
                 },
                 
                 /**
                  * Power
                  */                
-                function( inner ) {
-                    return new Exponent( randPower(), inner, 1 );
+                function() {
+                    return {
+                        type: Types.power,
+                        c: 1,
+                        d: randPower()
+                    }
                 },
                 
                 /**
                  * Trig
                  */
-                function( inner ) {
+                function() {
                     var trigFuncs = [ 
                         [ 'cos', 1 ],
                         [ 'sin', 1 ],
                         [ 'sec', 2 ] ];
-                    var trigExpr = KhanUtil.randFromArray( trigFuncs );
-                    return new TrigFunction( trigExpr[ 0 ], inner, trigExpr[ 1 ], 1 );
+                    return {
+                        type: Types.trig,
+                        c: 1,
+                        t: KhanUtil.randFromArray( trigFuncs )
+                    }
                 }
-            ];
+            ];               
+               
+            /**
+             * Generates the inner equation based on selected array index
+             */
+            var innerExpr = {
+                
+                /**
+                 * Generates E expression
+                 */
+                e: function( meta ) {
+                    var inner = new Equation();
+                    return [ inner.append( new NaturalE( meta.v, meta.inner.c ) ),
+                        new NaturalE( meta.v, meta.sub.c ) ];
+                },
+                
+                /**
+                 * Generates LN expression
+                 */                
+                ln: function( meta ) {
+                    var inner = new Equation();                
+                    return [ inner.append( new NaturalLog( meta.v, meta.inner.c ) ),
+                        new Exponent( meta.sub.d, meta.v, meta.sub.c ) ];
+                },
 
+                /**
+                 * Generates Power expression
+                 */                   
+                power: function( meta ) {
+                    var inner = new Equation();
+                    if( meta.sub.d == 0 ) {
+                       var sub = new Constant( meta.sub.c ); 
+                    } else {
+                        var sub = new Exponent( meta.sub.d, meta.v, meta.sub.c );
+                    }
+                    
+                    return [
+                        inner.append( new Exponent( meta.inner.d, meta.v, meta.inner.c ) )
+                            .append( meta.inner.op )
+                            .append( new Constant( meta.inner.c2 ) ), 
+                        sub];
+                },
+                
+                /**
+                 * Generates Trig expression
+                 */                 
+                trig: function( meta ) {
+                    var inner = new Equation();
+                    return [
+                        inner.append( new TrigFunction( meta.t[0], meta.v, 1, meta.inner.c ) ),
+                        new TrigFunction( meta.t[1], meta.v, meta.t[2], meta.sub.c ) ];   
+                }
+            };
+            
+            /**
+             * Generates Outer Expression
+             */
+            var outerExpr = {
+                
+                /**
+                 * E
+                 */            
+                e: function( meta, inner ) {
+                    return new NaturalE( inner, meta.c );
+                },
+                
+                /**
+                 * Ln
+                 */
+                ln: function( meta, inner ) {                 
+                    return new Exponent( meta.d, inner, meta.c );
+                },
+                
+                /**
+                 * Power
+                 */                
+                power: function( meta, inner ) {                     
+                    return new Exponent( meta.d, inner, meta.c );
+                },
+                
+                /**
+                 * Trig
+                 */
+                trig: function( meta, inner ) {                       
+                    return new TrigFunction( meta.t[ 0 ], inner, meta.t[ 1 ], meta.c );
+                }
+            };
+            
+            
+            
+            /**
+             * Begin: Generating Random Integral
+             */
+            
+            
             /**
              * Variable
              */
-            var variable = new Variable( variableName );
+            var v = new Variable( varName );
             
             /**
-             * Gets random inner equation
+             * Gets random inner meta
              */
-            var inner = innerDerivative[ KhanUtil.rand( innerDerivative.length ) ]( variable );
+            var meta = {};
+            meta.inner = innerMeta[ KhanUtil.rand( innerMeta.length ) ]( v );
             
             /**
-             * Gets random outer equation
+             * Gets random outer meta
+             * 
+             * Makes sure that e or ln are not selected for both inner and outer equations
+             * Also makes sure that trig functions are not selected for both
+             * @todo Fix this
              */
-            var outer = outerIntegral[ KhanUtil.rand( outerIntegral.length ) ]( inner[ 0 ] );
+            var index = 0;
+            while( true ){
+                index = KhanUtil.rand( outerMeta.length )
+                if( !( meta.inner.type == Types.e && ( index == 0 || index == 1 ) ) &&
+                    !( meta.inner.type == Types.ln && ( index == 0 || index == 1 ) ) &&
+                    !( meta.inner.type == Types.trig && ( index == 3 ) ) ) {
+                    break;
+                }
+            }
+            meta.outer = outerMeta[ index ]();
             
+            /**
+             * Create equations from meta
+             */
+            var inner = innerExpr[meta.inner.type]( meta.inner );
+            var outer = outerExpr[meta.outer.type]( meta.outer, inner[0] );
+
             /**
              * Creates equation
              */
@@ -1731,40 +1882,20 @@ jQuery.extend(KhanUtil, {
              * Solution
              */
             var integral = new IndefiniteIntegral( equation );
- 
+            
+            
             /**
-             * Returns the parts of the equation
-             * 
-             * @return [innerEquation, innerDerivative, outEquation]
-             */
-            this.getEquationParts = function() {
-                return [ inner[0], inner[1], outer ];
-            }
+             * End: Generating Random Integral
+             */            
+            
             
             this.getEquation = function() {
                 return equation;
             }
             
             this.getIntegral = function() {
-                return integral;
+                return integral.solution();
             }
-        }
-        
-                
-        /**
-         * Substition Rule Problem with equation, answer, and invalid answers
-         * 
-         * @param variable
-         */
-        var SubstitutionRuleProblem = function( variable ) {
-            var integral = new SubsitutionRuleIntegral( variable );
-            var wrongs = WrongSubstitutionRuleIntegral( integral.getEquation() );
-            
-            return {
-                equation : integral.getEquation(),
-                integral : integral.getIntegral().solution(),
-                wrongs: wrongs 
-            }            
         }
                                                                                                                 
         return {
@@ -1789,8 +1920,6 @@ jQuery.extend(KhanUtil, {
             IntegralTrig: IntegralTrig,
             IndefiniteIntegral: IndefiniteIntegral,
             EquationFormatter: EquationFormatter,
-            SubsitutionRuleIntegral: SubsitutionRuleIntegral,
-            WrongSubstitutionRuleIntegral: WrongSubstitutionRuleIntegral,
             SubstitutionRuleProblem: SubstitutionRuleProblem
         }                                           
     }
