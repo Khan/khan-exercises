@@ -10,7 +10,8 @@
 		<div class="vars" data-ensure="getGCD( NUMERATOR, DENOMINATOR ) === 1">
 			<var id="NUMERATOR">randRange( 1, 30 )</var>
 			<var id="DENOMINATOR">randRange( NUMERATOR + 1, 30 )</var>
-			<var id="DECIMAL_4">Math.floor( NUMERATOR / DENOMINATOR * 10000 ) / 10000</var>
+			<var id="DECIMAL_4">( Math.floor( NUMERATOR / DENOMINATOR * 10000 ) / 10000 ).toFixed( 4 )</var>
+			<var id="PERCENT_2">( DECIMAL_4 * 100 ).toFixed( 2 )</var>
 			<var id="DECIMAL">roundTo( 3, NUMERATOR / DENOMINATOR )</var>
 		</div>
 		<div class="problems">
@@ -19,11 +20,13 @@
 					<p>Express the fraction as a percent, rounded to the tenths.</p>
 					<p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
 				</p>
-				<p class="solution" data-type="text"><var>DECIMAL*100</var>%</p>
+				<p class="solution" data-type="custom">
+					<var>DECIMAL * 100</var>%
+					<!-- let them do either with percent or without, and validate like decimal -->
+				</p>
 				<div class="hints">
-					<p>This fraction represents the result of dividing <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
-					<p>In order to convert to percent, first convert the fraction to a decimal.</p>
-
+					<p>In order to convert the fraction to a percent, first convert it to a decimal.</p>
+					<p>To convert to a decimal, divide <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
 					<div class="graphie" id="nmbrs">
 						graph.divider = new Divider( DENOMINATOR, NUMERATOR * 10000, 0, 4 );
 						graph.divider.show();
@@ -38,9 +41,11 @@
 						graph.divider.showHint();
 					</div>
 
-					<p>To convert <code><var>DECIMAL_4</var></code> to a fraction multiply by 100.</p>
+					<p>Now to convert <code><var>DECIMAL_4</var></code> to a percent, multiply by <code>100</code>.</p>
 
-					<p>Rounding <code><var>DECIMAL_4*100</var></code> to the tenths place gives <code><var>DECIMAL*100</var></code></p>
+					<p><code><var>DECIMAL_4</var> \times 100 = <var>PERCENT_2</var></code></p>
+
+					<p>Rounding <code><var>PERCENT_2</var></code> to the tenths place gives <code><var>( DECIMAL * 100 ).toFixed( 1 )</var></code>%</p>
 
 				</div>
 			</div>
