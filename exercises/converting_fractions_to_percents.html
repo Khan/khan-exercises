@@ -16,14 +16,11 @@
 		</div>
 		<div class="problems">
 			<div>
-				<p class="question">
+				<div class="question">
 					<p>Express the fraction as a percent, rounded to the tenths.</p>
 					<p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
-				</p>
-				<p class="solution" data-type="custom">
-					<var>DECIMAL * 100</var>%
-					<!-- let them do either with percent or without, and validate like decimal -->
-				</p>
+				</div>
+				<p class="solution" data-forms="percent"><var>DECIMAL * 100</var></p>
 				<div class="hints">
 					<p>In order to convert the fraction to a percent, first convert it to a decimal.</p>
 					<p>To convert to a decimal, divide <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
@@ -41,11 +38,11 @@
 						graph.divider.showHint();
 					</div>
 
-					<p>Now to convert <code><var>DECIMAL_4</var></code> to a percent, multiply by <code>100</code>.</p>
+					<p>Now to convert <code><var>DECIMAL_4</var></code> to a percent, multiply by <code>100</code> (or move the decimal two places to the right).</p>
 
 					<p><code><var>DECIMAL_4</var> \times 100 = <var>PERCENT_2</var></code></p>
 
-					<p>Rounding <code><var>PERCENT_2</var></code> to the tenths place gives <code><var>( DECIMAL * 100 ).toFixed( 1 )</var></code>%</p>
+					<p>Rounding <code><var>PERCENT_2</var></code> to the tenths place and adding a percent sign gives <code><var>( DECIMAL * 100 ).toFixed( 1 )</var></code>%</p>
 
 				</div>
 			</div>
