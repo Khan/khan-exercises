@@ -459,8 +459,10 @@ jQuery.extend(KhanUtil, {
             var iterPos = -1;
 
             var format = function () {
+
                 var numParts = _parts.length;
                 var equation = "";
+
                 for( var i = 0; i < numParts; i++ ) {
                     if( _parts[i].getType() == Types.expr ) {
                         equation +=  "(" + _parts[i].toString() + ")";                       
@@ -1131,7 +1133,7 @@ jQuery.extend(KhanUtil, {
                 var innerD = new Derivative( inner );
                 var innerSolution = innerD.solution();
                 var innerExpr;
-                
+
                 if( innerSolution.getType() == Types.expr && innerSolution.count() == 1 ) {
                     innerExpr = innerSolution.next();
                 } else {
@@ -1141,7 +1143,8 @@ jQuery.extend(KhanUtil, {
                 if( ( innerExpr.getType() == Types.power && outer.getType() == Types.power && innerExpr.getDegree().toString()== outer.getDegree().toString() ) || 
                     ( innerExpr.getType() == Types.power && innerExpr.getDegree() == 0 && outer.getType() == Types.constant ) || 
                     ( innerExpr.getType() == Types.trig && outer.getType() == Types.trig && innerExpr.getFunc().toString() == outer.getFunc().toString() ) || 
-                    ( innerExpr.getType() == Types.e && outer.getType() == Types.e ) ) {
+                    ( innerExpr.getType() == Types.e && outer.getType() == Types.e ) || 
+                    ( innerExpr.getType() == Types.constant ) ) {
                     return new Constant( outer.getCoef(), innerExpr.getCoef() );                  
                 }
             }

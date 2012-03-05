@@ -486,7 +486,7 @@ module('calculus-1');
         var i = new Calculus.IndefiniteIntegral( outer );     
                 
         equals( i.equation(), outer.toString() );
-        equals( i.solution().toString(), '4\\tan(x)-5e^{x}+C' );                                                 
+        equals( i.solution().toString(), '-\\frac{1}{3}\\ln(-3x+5)+C' );                                                 
     }); 
         
     test( 'Test Substitution Rule E', function(){        
@@ -500,7 +500,7 @@ module('calculus-1');
         var i = new Calculus.IndefiniteIntegral( outer );     
                 
         equals( i.equation(), outer.toString() );
-        equals( i.solution().toString(), '4\\tan(x)-5e^{x}+C' );                                                 
+        equals( i.solution().toString(), '\\frac{1}{5}e^{5x}+C' );                                                 
     });   
 
     test( 'Test Substitution Rule Trig', function(){        
