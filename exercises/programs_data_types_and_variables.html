@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math spin">
+<html data-require="math spin word-problems">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Programs Data Types and Variables</title>
@@ -8,14 +8,41 @@
 <body>
 	<div class="exercise">
 
+	<div class="vars">
+		<var id="AA">randRange( 1, 10 )</var>
+		<var id="AB">randRange( 1, 10 )</var>
+		<var id="A">AA+AB</var>
+		<var id="B">randRange( 1, 10 )</var>
+		<var id="C">randRange( 1, 10 )</var>
+	</div>
+
 	<div class="problems">
+		<div id="write_the_next_line">
+			<div class="question">
+				<p class="spin"><var>person( 1 )</var> {began|started} a Python program with the {code that follows|following code}:</p>
+				<pre>
+a = <var>A</var>
+b = <var>B</var>
+c = <var>C</var>
+				</pre>
+				<p class="spin">{Now|Next} <var>he( 1 )</var> {wants to|would like to} set variable d to equal the sum of the variables a, b, and c. What should <var>his( 1 )</var> next line {be|look like}?</p>
+			</div>
+
+			<div class="solution" data-type="set">
+				<p class="set-sol" data-type="regex">d\s*=\s*a\s*\+\s*b\s*\+\s*c</p>
+				<p class="set-sol" data-type="regex">d\s*=\s*a\s*\+\s*c\s*\+\s*b</p>
+				<p class="set-sol" data-type="regex">d\s*=\s*b\s*\+\s*c\s*\+\s*a</p>
+				<p class="set-sol" data-type="regex">d\s*=\s*b\s*\+\s*a\s*\+\s*c</p>
+				<p class="set-sol" data-type="regex">d\s*=\s*c\s*\+\s*a\s*\+\s*b</p>
+				<p class="set-sol" data-type="regex">d\s*=\s*c\s*\+\s*b\s*\+\s*a</p>
+				<div class="input-format">
+					<p class="entry"></p>
+				</div>
+			</div>
+		</div>
+
 		<div id="output_of_simple_math_with_conditional">
 			<div class="vars">
-				<var id="AA">randRange( 1, 10 )</var>
-				<var id="AB">randRange( 1, 10 )</var>
-				<var id="A">AA+AB</var>
-				<var id="B">randRange( 1, 10 )</var>
-				<var id="C">randRange( 1, 10 )</var>
 				<var id="SOLUTION">A &lt; 10 ? A+B : A-C</var>
 			</div>
 			<div class="question">
