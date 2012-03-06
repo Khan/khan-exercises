@@ -75,6 +75,7 @@
         });
         return expr.hash;
     };
+
     var exprContains = function(expr, term) {
         if (typeof expr !== "object") {
             return expr === term;
@@ -158,6 +159,26 @@
        str += "]}";
        return str;
     };
+
+    var exprIsNumber = function(expr) {
+        return ((typeof expr === "number") || ((typeof expr === "object") && (expr.op === "num")));
+    };
+
+    var exprNumValue = function(expr) {
+       if (!exprIsNumber(expr)) {
+          return undefined;
+       }
+       if (typeof expr === "number") {
+          return expr;
+       }
+       return expr.args[0];
+    };
+
+    var opIsMultiplication = function(op) {
+       return ((op === "times") || (op === "cdot") || (op === "*"));
+    }
+
+
     $.extend(KhanUtil, {
         hasConstants: hasConstants,
         hasVariables: hasVariables,
@@ -169,5 +190,8 @@
         exprClone: exprClone,
         exprToText: exprToText,
         exprToStrExpr: exprToStrExpr,
+        exprIsNumber: exprIsNumber,
+        exprNumValue: exprNumValue,
+        opIsMultiplication: opIsMultiplication
     });
 })();
