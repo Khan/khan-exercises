@@ -1763,7 +1763,7 @@ var Khan = (function() {
 				non_summative: exercise.data( "name" ),
 
 				// Whether we are currently in review mode
-				review_mode: Exercises.reviewMode ? 1 : 0,
+				review_mode: (!testMode && Exercises.reviewMode) ? 1 : 0,
 
 				// Request camelCasing in returned response
 				casing: "camel"
