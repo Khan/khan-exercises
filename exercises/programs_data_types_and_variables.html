@@ -34,7 +34,26 @@ else:
 			</div>
 			<div class="solution" data-forms="integer"><var>SOLUTION</var></div>
 			<div class="hints">
-
+				<div>
+					<div data-if="A < 10"><code>a</code> is less than 10</div>
+					<div data-else><code>a</code> is not less than 10</div>
+				</div>
+				<div>
+					Therefore, this line does not get executed:
+					<span data-if="A < 10">print(a - c)</span>
+					<span data-else>print(a + b)</span>
+				</div>
+				<div>
+					And, this line is executed:
+					<span data-if="A < 10">print(a + b)</span>
+					<span data-else>print(a - c)</span>
+				</div>
+				<div>
+					Which is evaluated to
+					<span data-if="A < 10">print(<var>A</var> + <var>B</var>)</span>
+					<span data-else>print(<var>A</var> - <var>C</var>)</span>
+				</div>
+				<div>This program prints <var>SOLUTION</var></div>
 			</div>
 		</div>
 	</div>
