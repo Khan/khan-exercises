@@ -187,18 +187,19 @@ jQuery.extend( KhanUtil, {
 		]
 	},
 
-	shuffle: function(l) {
-		list = l.slice();
-		var i, j, t;
-		for (i = 1; i < list.length; i++){
-			j = Math.floor(Math.random()*(1+i));
-			if (j != i){
-				t = list[i];
-				list[i] = list[j];
-				list[j] = t;
-			}
+	shuffle: function( array, count ) {
+		array = [].slice.call( array, 0 );
+		var beginning = typeof count === "undefined" || count > array.length ? 0 : array.length - count;
+
+		for ( var top = array.length; top > beginning; top-- ) {
+			var newEnd = Math.floor(KhanUtil.random() * top),
+				tmp = array[newEnd];
+
+			array[newEnd] = array[top - 1];
+			array[top - 1] = tmp;
 		}
-		return list
+
+		return array.slice(beginning);
 	}
 
 });
