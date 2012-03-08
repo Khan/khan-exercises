@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers graphie-helpers-arithmetic graphie-linalg">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Row Reduced Echelon Form</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars" data-ensure="( A * E - B * D ) !== 0">
+		<var id="A">randRange( 1, 5 )</var>
+		<var id="B">randRange( -5, 0 )</var>
+		<var id="D">randRange( -5, 0 )</var>
+		<var id="E">randRange( 1, 5 )</var>
+		<var id="X1">randRange( 0, 5 )</var>
+		<var id="X2">randRange( 0, 5 )</var>
+		<var id="C">( A * X1 ) + ( B * X2 )</var>
+		<var id="F">( D * X1 ) + ( E * X2 )</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>Solve the system of equations represented by the coefficient matrix <code>\begin{bmatrix} \begin{array} {cc|c}
+					<var>A</var> & <var>B</var> & <var>C</var> \\
+					<var>D</var> & <var>E</var> & <var>F</var>
+				\end{array} \end{bmatrix}</code></p>
+
+				<p>You can try to simplify the matrix with row reduction below: </p>
+				<div class="graphie" id="matrix">
+					matrix = new Matrix( [ [1,2,3], [4,5,6] ], $('#matrix') );
+					matrix.show();
+				</div>
+			</div>
+			<div class="solution" data-type="multiple">
+				<p><code>x_1</code> = <span class="sol" data-type="rational"><var>X1</var></span></p>
+				<p><code>x_2</code> = <span class="sol" data-type="rational"><var>X2</var></span></p>
+			</div>
+		</div>
+	</div>
+	<div class="hints">
+		<div>The system of equations represented is
+			<p><code>(<var>A</var>)\color{red}x_1+(<var>B</var>)\color{blue}x_2=<var>C</var></code><br>
+			<code>(<var>D</var>)\color{red}x_1+(<var>E</var>)\color{blue}x_2=<var>F</var></code></p>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>
