@@ -240,7 +240,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	var stores = KhanUtil.shuffle([
 		{
 			name: "office supply",
-			items: KhanUtil.shuffle( ["pen", "book", "paper", "folder". "staple", "rubber band", "calender", "planner", "cabinet", "copier", "printer", "fax machine", "tape dispenser", "pencil", "notebook"] )
+			items: KhanUtil.shuffle( ["pen", "book", "paper", "folder", "staple", "rubber band", "calender", "planner", "cabinet", "copier", "printer", "fax machine", "tape dispenser", "pencil", "notebook"] )
 		},
 		{
 			name: "hardware",
