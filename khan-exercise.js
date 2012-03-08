@@ -846,8 +846,6 @@ var Khan = (function() {
 			// ...and create a new problem bag with problems of our new exercise type.
 			problemBag = makeProblemBag( problems, 10 );
 
-			// TODO(kamens): Update document title
-
 			// Update related videos
 			Khan.relatedVideos.setVideos( userExercise.exerciseModel );
 
