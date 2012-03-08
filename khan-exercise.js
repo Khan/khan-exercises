@@ -252,7 +252,7 @@ var Khan = (function() {
 			"<p><a id=\"issue-link\" href=\"", url, "\">", title, "</a>",
 			"<p>", suggestion, "</p>"].join('');
 	},
-	issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!";
+	issueIntro = "Ga eerst door alle hints en vul het antwoord uit de hints in, gebruik report a problem bij vragen waarvan je denkt dat ze het niet doen alleen als je echt zeker weet dat de vraag niet werkt of niet goed is. Als de vraag fout is kopieer de vraag dan in je omschrijving, dat helpt enorm, bedankt voor het helpen!";
 
 	// Nuke the global userExercise object to make
 	// it significantly harder to cheat
