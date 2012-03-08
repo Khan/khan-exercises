@@ -408,7 +408,6 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"cell phone",
 		"printer",
 		"copier"
-		"  
 	]);
 	
 	var clothes = KhanUtil.shuffle([
