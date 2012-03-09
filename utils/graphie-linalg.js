@@ -23,18 +23,30 @@ function Matrix( matrix, element ) {
 		//draw numbers in matrix
 		for ( i = 0; i < rows; i++ ) {
 			for ( j = 0; j < cols; j++ ) {
-				graph.label( [ j, -i + 2 ], Math.round( self.matrix[i][j] * Math.pow( 10, 1 ) ) / Math.pow( 10, 1 ) );
+				graph.label([ j, -i + 2 ], Math.round( self.matrix[i][j] * Math.pow( 10, 1 ) ) / Math.pow( 10, 1 ));
 			}
 		}
 
-		//draw the matrix
+		//draw the matrix and labels
+		for ( i = 0; i < rows; i++ ) {
+			graph.label([ -1.6, -i + 2 ], "Row " + ( i + 1 ));
+		}
 		graph.path([[ -.3, -matrixHeight ],[ -.5, -matrixHeight],[ -.5, 2.8 ], [ -.3, 2.8 ]]);
 		graph.path([[ matrixWidth, -matrixHeight ],[ matrixWidth + .2, -matrixHeight ],[ matrixWidth + .2, 2.8 ], [ matrixWidth, 2.8 ]]);
 		graph.path([[ matrixWidth - .8, -matrixHeight + .1 ],[ matrixWidth - .8, 2.6 ]]);
 	};
 
+	this.validateEntry = function( row ) {
+		for (i in row) {
+			if ((row[i] > rows) || !( /^\d+$/.test(row[i]) )) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	this.switchRows = function( row1, row2 ) {
-		if (( Math.abs( row1 ) <= rows ) && ( Math.abs( row2 ) <= rows )) {
+		if ( self.validateEntry([ row1, row2 ]) ) {
 			var temp = self.matrix[ row1 - 1 ];
 			self.matrix[ row1 - 1 ] = self.matrix[ row2 - 1 ];
 			self.matrix[ row2 - 1 ] = temp;
@@ -43,7 +55,7 @@ function Matrix( matrix, element ) {
 	};
 
 	this.multiply = function( row, factor ) {
-		if ( Math.abs( row ) <= rows ) {
+		if ( self.validateEntry([ row ]) ) {
 			for (i in self.matrix[ row - 1 ]) {
 				self.matrix[ row - 1 ][ i ] *= eval(factor);
 			}
@@ -52,7 +64,7 @@ function Matrix( matrix, element ) {
 	};
 
 	this.add = function( row, addRow, factor ) {
-		if (( Math.abs( row ) <= rows ) && ( Math.abs( addRow ) <= rows )) {
+		if ( self.validateEntry([ row, addRow ]) ) {
 			for (i in self.matrix[ row - 1 ]) {
 				self.matrix[ row - 1 ][ i ] += ( self.matrix[ addRow - 1 ][ i ] * eval(factor) );
 			}
