@@ -246,7 +246,7 @@ jQuery.extend ( KhanUtil, {
                         if ((expr.opHidden !== undefined) && (expr.opHidden[index] === true)) {
 				return "";
                         }
-                        var colors = expr.opColor;
+                        var colors = expr.opsColors;
 			if ((colors === undefined) || (colors[index] === undefined)) {
 				return text + " ";
 			}
@@ -354,7 +354,6 @@ jQuery.extend ( KhanUtil, {
 					break;
 				case OpStr.DIV:
 				case OpStr.PM:
-				case OpStr.EQL:
 				case OpStr.LT:
 				case OpStr.GT:
 				case OpStr.LEQ:
@@ -449,6 +448,7 @@ jQuery.extend ( KhanUtil, {
 					break;
 				case OpStr.ADD:
 				case OpStr.COMMA:
+				case OpStr.EQL:
 					jQuery.each(args, function (index, value) {
 						var opIndex = index - 1;
 						if (index === 0) {
