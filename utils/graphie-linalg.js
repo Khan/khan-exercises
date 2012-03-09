@@ -11,56 +11,19 @@ function Matrix( matrix, element ) {
 		self.element.children('span').remove();
 		graph.raphael.clear();
 
-		var drawMatrix = [];
-		var drawRows = 0;
-		var drawCols = 0;
-
-		//digits and negative signs split and delimited
-		//should be optimized better
-		for ( i = 0; i < rows; i++ ) {
-			var innerMatrix = [];
-			var testCols = 0;
-			for ( j = 0; j < cols; j++ ) {
-				var testElement = String(self.matrix[i][j]);
-				while (testElement.charAt(1)) {
-					innerMatrix.push(testElement.charAt(0));
-					testCols++;
-					testElement = testElement.substr(1);
-				}
-				innerMatrix.push(testElement.charAt(0));
-				innerMatrix.push(";");
-				testCols++;
-			}
-			if (testCols > drawCols) {
-				drawCols = testCols;
-			}
-			drawMatrix.push(innerMatrix);
-			drawRows++;
-		}
-
 		//height estimation is not very accurate for bigger matrices
-		var matrixHeight = .25 * drawRows;
-		var matrixWidth = drawCols - .7;
+		var matrixHeight = .5 * rows - 1;
+		var matrixWidth = cols - .7;
 
 		graph.init({
-			range: [[ -1, drawCols ], [ -drawRows, drawRows ]],
-			scale: [ 40, 32 ]
+			range: [[ -cols, cols ], [ -rows, rows ]],
+			scale: [ 40, 30 ]
 		});
 
 		//draw numbers in matrix
-		for ( i = 0; i < drawRows; i++ ) {
-			var col = 0;
-			for ( j = 0; j < drawCols; j++ ) {
-				if (drawMatrix[i][col] === ";") {
-					col++;
-				}
-				if (drawMatrix[i][col] === "-") {
-					graph.label([ j + .4, -i + 2 ], "\\huge{-}")
-				}
-				else {
-					drawDigits( KhanUtil.integerToDigits( parseInt(drawMatrix[i][col],10) ), j, -i + 2 );
-				}
-				col++;
+		for ( i = 0; i < rows; i++ ) {
+			for ( j = 0; j < cols; j++ ) {
+				graph.label( [ j, -i + 2 ], Math.round( self.matrix[i][j] * Math.pow( 10, 1 ) ) / Math.pow( 10, 1 ) );
 			}
 		}
 
