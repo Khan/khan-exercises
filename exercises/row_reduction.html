@@ -7,42 +7,84 @@
 </head>
 <body>
 <div class="exercise">
-	<div class="vars" data-ensure="( A * E - B * D ) !== 0">
+	<div class="vars" data-ensure="((( A * ( F * K - J * G ) ) - ( B * ( E * K - I * G ) ) + ( C * ( E * J - I * F ))) !== 0 )">
 		<var id="A">randRange( 1, 5 )</var>
 		<var id="B">randRange( -5, 0 )</var>
-		<var id="D">randRange( -5, 0 )</var>
-		<var id="E">randRange( 1, 5 )</var>
+		<var id="C">randRange( 1, 5 )</var>
+		<var id="E">randRange( -5, 0 )</var>
+		<var id="F">randRange( 1, 5 )</var>
+		<var id="G">randRange( -5, 0 )</var>
+		<var id="I">randRange( 1, 5 )</var>
+		<var id="J">randRange( -5, 0 )</var>
+		<var id="K">randRange( 1, 5 )</var>
 		<var id="X1">randRange( 0, 5 )</var>
 		<var id="X2">randRange( 0, 5 )</var>
-		<var id="C">( A * X1 ) + ( B * X2 )</var>
-		<var id="F">( D * X1 ) + ( E * X2 )</var>
+		<var id="X3">randRange( 0, 5 )</var>
+		<var id="D">( A * X1 ) + ( B * X2 ) + ( C * X3 )</var>
+		<var id="H">( E * X1 ) + ( F * X2 ) + ( G * X3 )</var>
+		<var id="L">( I * X1 ) + ( J * X2 ) + ( K * X3 )</var>
 	</div>
 
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>Solve the system of equations represented by the coefficient matrix <code>\begin{bmatrix} \begin{array} {cc|c}
-					<var>A</var> & <var>B</var> & <var>C</var> \\
-					<var>D</var> & <var>E</var> & <var>F</var>
+				<p>Solve the system of equations represented by the augmented matrix <code>\begin{bmatrix} \begin{array} {ccc|c}
+					<var>A</var> & <var>B</var> & <var>C</var> & <var>D</var> \\
+					<var>E</var> & <var>F</var> & <var>G</var> & <var>H</var> \\
+					<var>I</var> & <var>J</var> & <var>K</var> & <var>L</var>
 				\end{array} \end{bmatrix}</code></p>
 
 				<p>You can try to simplify the matrix with row reduction below: </p>
 				<div class="graphie" id="matrix">
-					matrix = new Matrix( [ [1,2,3], [4,5,6] ], $('#matrix') );
+					matrix = new Matrix( [ [A,B,C,D], [E,F,G,H], [I,J,K,L] ], $('#matrix') );
 					matrix.show();
+				</div>
+				<div style="margin-bottom: 10px; margin-top: -30px">
+						<input type="button" value="Switch" class="simple-button action-gradient" onclick="matrix.switchRows( $('#switch1').val(), $('#switch2').val() )"> row
+						<input type="text" value="1" id="switch1" size="1"> with row 
+						<input type="text" value="2" id="switch2" size="1">
+				</div>
+				<div style="margin-bottom: 10px;">
+						<input type="button" value="Multiply" class="simple-button action-gradient" onclick="matrix.multiply( $('#mult-row').val(), $('#mult-factor').val() )"> row 
+						<input type="text" value="1" id="mult-row" size="1"> by
+						<input type="text" value="2" id="mult-factor" size="2">
+				</div>
+				<div style="margin-bottom: 30px;">
+						<input type="button" value="Add" class="simple-button action-gradient" onclick="matrix.add( $('#add-row1').val(), $('#add-row2').val(), $('#add-factor').val() )"> <input type="text" value="2" id="add-factor" size="2"> times row
+						<input type="text" value="1" id="add-row2" size="1"> onto row  
+						<input type="text" value="2" id="add-row1" size="1">
 				</div>
 			</div>
 			<div class="solution" data-type="multiple">
 				<p><code>x_1</code> = <span class="sol" data-type="rational"><var>X1</var></span></p>
 				<p><code>x_2</code> = <span class="sol" data-type="rational"><var>X2</var></span></p>
+				<p><code>x_3</code> = <span class="sol" data-type="rational"><var>X3</var></span></p>
 			</div>
 		</div>
 	</div>
 	<div class="hints">
 		<div>The system of equations represented is
-			<p><code>(<var>A</var>)\color{red}x_1+(<var>B</var>)\color{blue}x_2=<var>C</var></code><br>
-			<code>(<var>D</var>)\color{red}x_1+(<var>E</var>)\color{blue}x_2=<var>F</var></code></p>
+			<p><code>(<var>A</var>)\color{red}x_1+(<var>B</var>)\color{blue}x_2+(<var>C</var>)\color{purple}x_3=<var>D</var></code><br>
+			<code>(<var>E</var>)\color{red}x_1+(<var>F</var>)\color{blue}x_2+(<var>G</var>)\color{purple}x_3=<var>H</var></code><br>
+			<code>(<var>I</var>)\color{red}x_1+(<var>J</var>)\color{blue}x_2+(<var>K</var>)\color{purple}x_3=<var>L</var></code></p>
 		</div>
+
+		<div>The row reduced echelon form of the matrix is when: 
+			<ul style="list-style-type: circle; margin-left: 30px;">
+				<li>All nonzero rows have leading entries of 1.</li>
+				<li>The leading 1 of each nonzero row occur to the right of the leading 1 of the previous row</li>
+				<li>all other entries aside from the leading 1s are zero</li>
+			</ul>
+		</div>
+
+		<div>In row reduced echelon form, the matrix essentially represents the answer to the system of equations:
+			<p><code>(1)\color{red}x_1+(0)\color{blue}x_2+(0)\color{purple}x_3= ?</code><br>
+			<code>(0)\color{red}x_1+(1)\color{blue}x_2+(0)\color{purple}x_3= ?</code><br>
+			<code>(0)\color{red}x_1+(0)\color{blue}x_2+(1)\color{purple}x_3= ?</code></p>
+		The first row is the answer to <code>x_1</code>, the second is <code>x_2</code>, and the third is <code>x_3</code>.
+		</div>
+
+		<p><a class="related-video" href="/video/reduced-row-echelon-form-1" data-youtube-id="L0CmbneYETs">Watch this video</a> for more information.</p>
 
 	</div>
 </div>
