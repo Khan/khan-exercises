@@ -1834,17 +1834,20 @@ var Khan = (function() {
 				jQuery(Khan).trigger( "attemptSaved" );
 
 			}, function() {
-				// Error during submit. Cheat, for now, and reload the page in
-				// an attempt to get updated data.
+				// Error during submit. Disable the page and ask users to
+				// reload in an attempt to get updated data.
 
 				// Alert any listeners of the error before reload
 				jQuery( Khan ).trigger("attemptError", userExercise);
 
-				if ( typeof userExercise === "undefined" || !userExercise.tablet ) {
-					window.location.reload();
-				} else {
-					// TODO: Implement alternative error handling
-				}
+				// Hide the page so users don't continue
+				jQuery( "#problem-and-answer" ).css("visibility", "hidden");
+
+				warn(
+					"This page is out of date. You need to <a href='" + window.location.href + 
+					"'>reload this page</a>, but don't worry, you haven't lost any progress."
+				);
+
 			}, "attempt_hint_queue" );
 
 			if ( pass === true ) {
