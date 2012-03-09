@@ -1697,9 +1697,6 @@ var Khan = (function() {
 		jQuery( "#issue-throbber" )
 			.attr( "src", urlBase + "css/images/throbber.gif" );
 
-		// TODO(kamens): streak bar removal
-		jQuery( "#streak-bar-container" ).show();
-
 		jQuery( "#answer_area" ).adhere( {
 			container: jQuery( "#answer_area_wrap" ).parent(),
 			topMargin: 10,
