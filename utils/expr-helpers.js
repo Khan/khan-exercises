@@ -116,7 +116,7 @@
        var newArgs = $.map(expr.args, function(arg) {
             return exprClone(arg);
        });
-       return {op:expr.op, args:newArgs};
+       return {op:expr.op, args:newArgs, color:expr.color, opColors:expr.opColors};
     };
     var exprToText = function(expr) {
        if (typeof expr !== "object") {
@@ -178,6 +178,14 @@
        return ((op === "times") || (op === "cdot") || (op === "*"));
     }
 
+    var exprSetColor = function(expr, color) {
+          var expr = KhanUtil.exprClone(expr);
+          if (typeof expr === "number") {
+              expr = {op:"num", args:[expr]};
+          }
+          expr.color = color;
+          return expr;
+    };
 
     $.extend(KhanUtil, {
         hasConstants: hasConstants,
@@ -192,6 +200,7 @@
         exprToStrExpr: exprToStrExpr,
         exprIsNumber: exprIsNumber,
         exprNumValue: exprNumValue,
-        opIsMultiplication: opIsMultiplication
+        opIsMultiplication: opIsMultiplication,
+        exprSetColor: exprSetColor
     });
 })();

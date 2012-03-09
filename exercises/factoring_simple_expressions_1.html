@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie ast math-model factoring-expressions expr-helpers expr-normal-form">
+<html data-require="math graphie ast math-model factoring-expressions expr-helpers expr-normal-form simplify steps-helpers">
 <head>
 	<meta charset="UTF-8" />
 	<title>Factoring simple expressions 1</title>
@@ -13,12 +13,13 @@
 			<var id="Y">{op:"var", args:["y"]}</var>
 			<var id="Z">{op:"var", args:["z"]}</var>
 			<var id="PROBLEM">genFactoringExercise(MATH, [2, 3, 5, 7, X, Y, Z], 2, 3)</var>
+                        <var id="SOLUTION">solveFactoringExercise(MATH, PROBLEM.question)</var>
 		</div>
 		<div class="problems">
 			<div>
 			<p class="problem">Factor the following expression by finding the common factors of its terms:</p>
 			<p class="question"><code><var>MATH.format(PROBLEM.question)</var></code></p>
-			<p class="solution"><code><var>MATH.format(PROBLEM.solution)</var></code></p>
+			<p class="solution"><code><var>MATH.format(SOLUTION.solution)</var></code></p>
 
 			<ul class="choices" data-none="true" data-show="5">
 				<li data-each="PROBLEM.choices as key, value"><code><var>MATH.format(value)</var></code></li>
@@ -26,7 +27,7 @@
 			</div>
 		</div>
 		<div class="hints">
-			<div data-each="PROBLEM.hints as key, value"><var>value</var></div>
+			<div data-each="SOLUTION.hints as key, value"><var>value</var></div>
 		</div>
 	</div>
 </body>
