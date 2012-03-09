@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html data-require="math ast math-model factoring-expressions expr-helpers expr-normal-form simplify steps-helpers subhints">
+<head>
+	<meta charset="UTF-8" />
+	<title>Factoring difference of squares 3</title>
+	<script src="../khan-exercise.js"></script>
+	<style type="text/css">
+	#answer_area input[type=text] {
+	width: 20px;
+	}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div>
+				<div class="vars" data-ensure="getGCD( A, B ) === 1">
+					<var id="MATH">MathModel.init()</var>
+					<var id="F">randFromArray([2,3,5])</var>
+					<var id="A">randRange( 2, 6 )</var>
+					<var id="B">randRange( 1, 6 )</var>
+					<var id="SQUARE">F * A * A</var>
+					<var id="CONSTANT">F * -B * B</var>
+                                        <var id="PROBLEM">MATH.parse(SQUARE + "x^2" + CONSTANT)</var>
+		                        <var id="SOLUTION">solveFactoringExercise(MATH, PROBLEM, true)</var>
+				</div>
+				<div>
+					<p class="question">
+						Factor the following expression:
+					</p>
+					<p>
+						<code><var>MATH.format(PROBLEM)</var></code>
+					</p>
+				</div>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol"><var>F</var></span>(<span class="sol"><var>A</var></span><code>x</code>-<span class="sol"><var>B</var></span>)(<span class="sol"><var>A</var></span><code>x</code>+<span class="sol"><var>B</var></span>)</p>
+					<p class="example">enter a (possibly negative) integer for each input area.</p>
+				</div>
+			</div>
+		</div>
+		<div class="hints">
+			<div data-each="SOLUTION.hints as key, value"><var>value</var></div>
+		</div>
+	</div>
+</body>
+</html>

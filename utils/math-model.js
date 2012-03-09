@@ -242,7 +242,11 @@ jQuery.extend ( KhanUtil, {
 			return childColors;
 		}
 
-		function addOpColor(text, colors, index, spacingBefore, spacingAfter) {
+		function addOpStyle(text, expr, index, spacingBefore, spacingAfter) {
+                        if ((expr.opHidden !== undefined) && (expr.opHidden[index] === true)) {
+				return "";
+                        }
+                        var colors = expr.opColor;
 			if ((colors === undefined) || (colors[index] === undefined)) {
 				return text + " ";
 			}
@@ -337,13 +341,13 @@ jQuery.extend ( KhanUtil, {
 				case OpStr.SUB:
 					if (n.args.length===1) {
 						text = getAlignment(n, 0, hphantom, true);
-						text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, false) + args[0];
+						text += addOpStyle(OpToLaTeX[n.op], n, 0, true, false) + args[0];
 						text += getAlignment(n, 1, hphantom);
 					}
 					else {
 						text = args[0];
 						text += getAlignment(n, 0, hphantom, true);
-						text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, true);
+						text += addOpStyle(OpToLaTeX[n.op], n, 0, true, true);
 						text += getAlignment(n, 1, hphantom, true);
 						text += args[1];
 					}
@@ -358,7 +362,7 @@ jQuery.extend ( KhanUtil, {
 				case OpStr.NEQ:
 					text = args[0];
 					text += getAlignment(n, 0, hphantom, true);
-					text += addOpColor(OpToLaTeX[n.op], n.opsColors, 0, true, true) + " ";
+					text += addOpStyle(OpToLaTeX[n.op], n, 0, true, true) + " ";
 					text += getAlignment(n, 1, hphantom, true);
 					text += args[1];
 					break;
@@ -388,11 +392,11 @@ jQuery.extend ( KhanUtil, {
 				case OpStr.COT:
 				case OpStr.CSC:
 				case OpStr.LN:
-					text = addOpColor(OpToLaTeX[n.op], n.opsColors, 0, false, true) + "{" + args[0] + "}";
+					text = addOpStyle(OpToLaTeX[n.op], n, 0, false, true) + "{" + args[0] + "}";
 					break;
 				case OpStr.FRAC:
 				case OpStr.DFRAC:
-					text = addOpColor(OpToLaTeX[n.op], n.opsColors, 0, false, false) + "{" + args[0] + "}{" + args[1] + "}";
+					text = addOpStyle(OpToLaTeX[n.op], n, 0, false, false) + "{" + args[0] + "}{" + args[1] + "}";
 					break;
                                 case OpStr.DERIV:
                                         text = "\\dfrac{d" + args[0] + "}{d" + args[1] + "}";
@@ -400,10 +404,10 @@ jQuery.extend ( KhanUtil, {
 				case OpStr.SQRT:
 					switch (args.length) {
 					case 1:
-						text = addOpColor(OpToLaTeX[n.op], n.opsColors, 0) + "{" + args[0] + "}";
+						text = addOpStyle(OpToLaTeX[n.op], n, 0) + "{" + args[0] + "}";
 						break;
 					case 2:
-						text = addOpColor(OpToLaTeX[n.op] + "[" + args[0] + "]", n.opsColors, 0) + "{" + args[0] + "}";
+						text = addOpStyle(OpToLaTeX[n.op] + "[" + args[0] + "]", n, 0) + "{" + args[0] + "}";
 						break;
 					}
 					break;
@@ -428,7 +432,7 @@ jQuery.extend ( KhanUtil, {
 							))) {
 							if (opIndex >= 0) {
 								text += getAlignment(n, opIndex * 2, hphantom, true);
-								text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true);
+								text += addOpStyle(OpToLaTeX[n.op], n, opIndex, true, true);
 								text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
 							}
 							text += args[index];
@@ -452,7 +456,7 @@ jQuery.extend ( KhanUtil, {
 						}
 						else {
 							text += getAlignment(n, opIndex * 2, hphantom, true);
-							text += addOpColor(OpToLaTeX[n.op], n.opsColors, opIndex, true, true);
+							text += addOpStyle(OpToLaTeX[n.op], n, opIndex, true, true);
 							text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
 							text += value;
 						}
@@ -460,16 +464,16 @@ jQuery.extend ( KhanUtil, {
 					break;
 				case OpStr.PAREN:
 					text = getAlignment(n, 0, hphantom);
-					text += addOpColor("(", n.opsColors, 0, false, false);
+					text += addOpStyle("(", n, 0, false, false);
 					text += getAlignment(n, 1, hphantom);
 					text += args[0];
 					text += getAlignment(n, 2, hphantom);
-					text += addOpColor(")", n.opsColors, 1, false, false);
+					text += addOpStyle(")", n, 1, false, false);
 					text += getAlignment(n, 3, hphantom);
 					break;
 				case OpStr.ABS:
-					text = addOpColor("|", n.opsColors, 0, false, false) + args[0] +
-						addOpColor("|", n.OpsColors, 1, false, false);
+					text = addOpStyle("|", n, 0, false, false) + args[0] +
+						addOpStyle("|", n, 1, false, false);
 					break;
 				default:
 					KhanUtil.assert(false, "unimplemented eval operator");
