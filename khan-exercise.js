@@ -2421,16 +2421,6 @@ var Khan = (function() {
 		nextProblem( -num );
 	}
 
-	function updateExerciseIcon( exerciseStates ) {
-		var sPrefix = "/images/" + (
-				exerciseStates.summative ? "node-challenge" : "node" );
-		var src = exerciseStates.reviewing ? "/images/node-review.png" :
-					exerciseStates.suggested ? sPrefix + "-suggested.png" :
-						exerciseStates.proficient ? sPrefix + "-complete.png" :
-							sPrefix + "-not-started.png";
-		jQuery( "#exercise-icon-container img" ).attr( "src", src );
-	}
-
 	function setUserExercise( data ) {
 
 		userExercise = data;
