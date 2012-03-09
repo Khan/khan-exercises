@@ -870,12 +870,6 @@ var Khan = (function() {
 
 	function makeProblem( id, seed ) {
 
-		if ( typeof Badges !== "undefined" ) {
-			// TODO: this should be moved to badges code by listening to Khan
-			// events
-			Badges.hide();
-		}
-
 		// Enable scratchpad (unless the exercise explicitly disables it later)
 		Khan.scratchpad.enable();
 
