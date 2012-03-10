@@ -496,7 +496,7 @@ jQuery.extend(KhanUtil, {
 		}
 		if ( real != 0 ) {
 			ret += KhanUtil.fraction( real, realDenominator, false, true );
-		} 
+		}
 		if ( imag != 0 ) {
 			if ( imag / imagDenominator > 0 ) {
 				if ( real != 0 ) {

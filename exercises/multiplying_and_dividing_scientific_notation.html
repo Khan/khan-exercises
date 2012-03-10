@@ -2,14 +2,14 @@
 <html data-require="math math-format">
 <head>
 	<meta charset="UTF-8" />
-	<title>Multiplying and Dividing Scientific Notation</title>
+	<title>Multiplying and dividing scientific notation</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
 	<div class="exercise">
 		<div class="vars">
 			<var id="DENOMINATOR">randRange( 1,  9 ) * Math.pow( 10, randRange( -5, 5 ) )</var>
-			<var id="QUOTIENT">   randRange( 1, 99 ) * Math.pow( 10, randRange( -5, 5 ) )</var>
+			<var id="QUOTIENT">randRange( 1, 99 ) * Math.pow( 10, randRange( -5, 5 ) )</var>
 			<var id="NUMERATOR">DENOMINATOR * QUOTIENT</var>
 		</div>
 
@@ -18,7 +18,8 @@
 				<p class="question">
 					Express this quotient in scientific notation:
 					<code>\Large{\frac{<var>scientific( 3, NUMERATOR )</var>}
-							   {<var>scientific( 1, DENOMINATOR )</var>}}</code></p>
+					{<var>scientific( 1, DENOMINATOR )</var>}}</code>
+				</p>
 
 				<div class="solution" data-type="multiple">
 					<span class="sol base"><var>scientificMantissa( 2, QUOTIENT )</var></span>
@@ -28,15 +29,21 @@
 
 				<div class="hints">
 					<p>Start by collecting like terms together.</p>
-					<p><code>\Large{\frac{<var>scientificMantissa( 3, NUMERATOR   )</var>}
-								  {<var>scientificMantissa( 1, DENOMINATOR )</var>}}
-				       \times\Large{\frac{10^{<var>scientificExponent( NUMERATOR   )</var>}}
-								  {10^{<var>scientificExponent( DENOMINATOR )</var>}}}</code></p>
+					<p>
+						<code>\Large{\frac{<var>scientificMantissa( 3, NUMERATOR   )</var>}
+						{<var>scientificMantissa( 1, DENOMINATOR )</var>}}
+						\times\Large{\frac{10^{<var>scientificExponent( NUMERATOR   )</var>}}
+						{10^{<var>scientificExponent( DENOMINATOR )</var>}}}</code>
+					</p>
 					<p>Then divide each term seperately. When dividing exponents with the same base, subtract their powers.</p>
-					<p><code><var>( scientificMantissa( 3, NUMERATOR ) / scientificMantissa( 1, DENOMINATOR ) ).toFixed( 2 )</var>
-						   \times 10^{<var>scientificExponent( NUMERATOR )</var>\,-\,<var>scientificExponent( DENOMINATOR )</var>}</code></p>
-					<p><code><var>( scientificMantissa( 3, NUMERATOR ) / scientificMantissa( 1, DENOMINATOR ) ).toFixed( 2 )</var>
-						   \times 10^{<var>scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )</var>}</code></p>
+					<p>
+						<code><var>( scientificMantissa( 3, NUMERATOR ) / scientificMantissa( 1, DENOMINATOR ) ).toFixed( 2 )</var>
+						\times 10^{<var>scientificExponent( NUMERATOR )</var>\,-\,<var>scientificExponent( DENOMINATOR )</var>}</code>
+					</p>
+					<p>
+						<code><var>( scientificMantissa( 3, NUMERATOR ) / scientificMantissa( 1, DENOMINATOR ) ).toFixed( 2 )</var>
+						\times 10^{<var>scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )</var>}</code>
+					</p>
 					<div data-if="scientificExponent( QUOTIENT ) != scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )" data-unwrap>
 						<p> To write the answer correctly in scientific notation, the first number needs to be between 1 and 10. In this case, we need to multiply <var>current mantissa</var> by 10. </p>
 						<p> We split up the power of ten from the second term. </p>
@@ -58,13 +65,19 @@
 
 				<div class="hints">
 					<p>Start by collecting like terms together.</p>
-					<p><code>(<var>scientificMantissa( 2, QUOTIENT )</var>\times <var>scientificMantissa( 1, DENOMINATOR )</var>)
-					  \times (10^{<var>scientificExponent( QUOTIENT )</var>}\times 10^{<var>scientificExponent( DENOMINATOR )</var>})</code></p>
+					<p>
+						<code>(<var>scientificMantissa( 2, QUOTIENT )</var>\times <var>scientificMantissa( 1, DENOMINATOR )</var>)
+						\times (10^{<var>scientificExponent( QUOTIENT )</var>}\times 10^{<var>scientificExponent( DENOMINATOR )</var>})</code>
+					</p>
 					<p>When multiplying exponents with the same base, add the powers together.</p>
-					<p><code><var>(scientificMantissa( 2, QUOTIENT ) * scientificMantissa( 1, DENOMINATOR ) ).toFixed( 1 )</var>
-					  \times 10^{<var>scientificExponent( QUOTIENT )</var>\,+\,<var>scientificExponent( DENOMINATOR )</var>}</code></p>
-					<p><code><var>(scientificMantissa( 2, QUOTIENT ) * scientificMantissa( 1, DENOMINATOR ) ).toFixed( 1 )</var>
-                      \times 10^{<var>scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )</var>}</code></p>
+					<p>
+						<code><var>(scientificMantissa( 2, QUOTIENT ) * scientificMantissa( 1, DENOMINATOR ) ).toFixed( 1 )</var>
+						\times 10^{<var>scientificExponent( QUOTIENT )</var>\,+\,<var>scientificExponent( DENOMINATOR )</var>}</code>
+					</p>
+					<p>
+						<code><var>(scientificMantissa( 2, QUOTIENT ) * scientificMantissa( 1, DENOMINATOR ) ).toFixed( 1 )</var>
+						\times 10^{<var>scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )</var>}</code>
+					</p>
 					<div data-if="scientificExponent( NUMERATOR ) != scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )" data-unwrap>
 						<p> To write the answer correctly in scientific notation, the first number needs to be between 1 and 10. In this case, we need to multiply <var>current mantissa</var> by 10. </p>
 						<p> We split up the power of ten from the second term. </p>
