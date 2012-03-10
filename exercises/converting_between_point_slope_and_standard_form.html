@@ -81,7 +81,8 @@
 				<div>
 					<p class="final_answer">Thus, the equation can be written in point-slope form as:</p>
 					<p><code>\qquad y - \color{<var>BLUE</var>}{(<var>HINT_Y1</var>)} = \color{<var>PINK</var>}{<var>SLOPE</var>}(x - \color{<var>BLUE</var>}{(<var>HINT_X1</var>)})</code></p>
-					<p><code>\qquad <var>plus( "y", -HINT_Y1 )</var> = <var>expr([ '*', SLOPE, plus( 'x', -HINT_X1 ) ])</var></code></p>
+					<p><code>\qquad <var>plus( "y", -HINT_Y1 )</var> = <span data-if="SLOPE < 0">-</span><span data-if="abs( SLOPE ) !== 1">
+					<var>abs( SLOPE )</var></span>( <var>plus( "x", -HINT_X1 )</var> )</code></p>
 				</div>
 				<div>
 					<p>Behold the magic of math! The given point <code>(<var>HINT_X1</var>,<var>HINT_Y1</var>)</code> is on the line with slope <code><var>SLOPE</var></code>!</p>
