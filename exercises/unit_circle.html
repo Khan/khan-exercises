@@ -27,7 +27,7 @@
 				</p>
 
 				<div class="solution" data-type="multiple">
-					<div class="sol" data-type="decimal" data-inexact data-max-error="0.001"><var>SOLUTION</var></div>
+					<div class="sol" data-type="decimal" data-inexact data-max-error="0.001" required><var>SOLUTION</var></div>
 
 					<div class="sol" data-type="custom">
 						<div class="instruction"></div>
@@ -41,6 +41,11 @@
 							// Convert answer to an angle between 0 and 2*PI
 							revolutions = floor(ANGLE_RADIANS / (2 * PI));
 							var modified_angle = ANGLE_RADIANS - revolutions*2*PI;
+
+							// If the angle is at zero, assume that it was not set.
+							// If the student knows the answer be memory, don't require
+							// them to set the angle.
+							if (abs(guess) &lt; 0.001) return true;
 
 							// Verify that the angles match
 							return abs( modified_angle - modified_guess ) &lt; 0.001;
