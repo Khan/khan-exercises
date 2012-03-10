@@ -28,17 +28,7 @@ c = <var>C</var>
 				<p class="spin">{Now|Next} <var>he( 1 )</var> {wants to|would like to} set a new variable d to equal the sum of the variables a, b, and c. What should <var>his( 1 )</var> next line {be|look like}?</p>
 			</div>
 
-			<div class="solution" data-type="set">
-				<p class="set-sol" data-type="regex">d\s*=\s*a\s*\+\s*b\s*\+\s*c</p>
-				<p class="set-sol" data-type="regex">d\s*=\s*a\s*\+\s*c\s*\+\s*b</p>
-				<p class="set-sol" data-type="regex">d\s*=\s*b\s*\+\s*c\s*\+\s*a</p>
-				<p class="set-sol" data-type="regex">d\s*=\s*b\s*\+\s*a\s*\+\s*c</p>
-				<p class="set-sol" data-type="regex">d\s*=\s*c\s*\+\s*a\s*\+\s*b</p>
-				<p class="set-sol" data-type="regex">d\s*=\s*c\s*\+\s*b\s*\+\s*a</p>
-				<div class="input-format">
-					<p class="entry"></p>
-				</div>
-			</div>
+			<p class="solution" data-type="regex">d\s*=\s*([abc])(\s*\+\s*)(?!\1)([abc])\2(?!\3)[abc]</p>
 
 			<div class="hints">
 				<div>
