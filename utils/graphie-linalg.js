@@ -37,8 +37,8 @@ function Matrix( matrix, element ) {
 	};
 
 	this.validateEntry = function( row ) {
-		for (i in row) {
-			if ((row[i] > rows) || !( /^\d+$/.test(row[i]) )) {
+		for (i in arguments) {
+			if ((arguments[i] > rows) || !( /^\d+$/.test(arguments[i]) )) {
 				return false;
 			}
 		}
@@ -46,7 +46,7 @@ function Matrix( matrix, element ) {
 	}
 
 	this.switchRows = function( row1, row2 ) {
-		if ( self.validateEntry([ row1, row2 ]) ) {
+		if ( self.validateEntry( row1, row2 ) ) {
 			var temp = self.matrix[ row1 - 1 ];
 			self.matrix[ row1 - 1 ] = self.matrix[ row2 - 1 ];
 			self.matrix[ row2 - 1 ] = temp;
@@ -55,7 +55,7 @@ function Matrix( matrix, element ) {
 	};
 
 	this.multiply = function( row, factor ) {
-		if ( self.validateEntry([ row ]) ) {
+		if ( self.validateEntry( row ) ) {
 			for (i in self.matrix[ row - 1 ]) {
 				self.matrix[ row - 1 ][ i ] *= eval(factor);
 			}
@@ -64,7 +64,7 @@ function Matrix( matrix, element ) {
 	};
 
 	this.add = function( row, addRow, factor ) {
-		if ( self.validateEntry([ row, addRow ]) ) {
+		if ( self.validateEntry( row, addRow ) ) {
 			for (i in self.matrix[ row - 1 ]) {
 				self.matrix[ row - 1 ][ i ] += ( self.matrix[ addRow - 1 ][ i ] * eval(factor) );
 			}
