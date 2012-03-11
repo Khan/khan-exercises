@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie interactive">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Graphing linear equations using intercepts</title>
+	<script src="../khan-exercise.js"></script>
+		<style type="text/css">
+		.hint_blue { color: blue; }
+		.hint_green { color: green; }
+
+		#answer_area .short input[type=text] {
+			width: 50px;
+		}
+		p.indent {margin-left:2cm;}
+		.step-indent {margin-left:1cm;}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		
+		<div class="problems">
+			
+			<div id="basic">
+				<div class="vars">
+					<var id="YINT">randRangeNonZero( -10, 10 )</var>
+					<var id="XINT">randRangeNonZero( -10, 10 )</var>
+					<var id="MULT">randRangeNonZero( -3, 3 )</var>	
+	
+					<var id="SLOPE">-YINT / XINT</var>
+					<var id="PRETTY_SLOPE">SLOPE === 1 ? "" : ( SLOPE === -1 ? "-" : fraction( -YINT, XINT, true, true ) )</var>
+					<var id="PRETTY_RECIPRICOL">SLOPE === 1 ? "" : ( SLOPE === -1 ? "-" : fraction( -XINT, YINT, true, true ) )</var>
+					<var id="randX">randRange( -10, 10 )</var>
+					<var id="randY">fraction((XINT*YINT - YINT*randX), XINT, true, true)</var>
+					<var id="A">XINT*YINT * MULT</var>
+					<var id="B">XINT*XINT * MULT</var>
+					<var id="C">XINT*XINT * YINT * MULT</var>
+					
+					<var id="TYPE">0</var>
+					<var id="EQUATION"><code>y = <var>PRETTY_SLOPE</var> x + <var>YINT</var></code></var>
+
+				</div>
+
+				<p class="question">Graph the following equation:</p>
+
+				<div class="problem">
+					<p><var>EQUATION</var></p>
+					<div class="graphie" id="grid">
+						graphInit({
+							range: 11,
+							scale: 20,
+							axisArrows: "&lt;-&gt;",
+							tickStep: 1,
+							labelStep: 1,
+							gridOpacity: 0.05,
+							axisOpacity: 0.2,
+							tickOpacity: 0.4,
+							labelOpacity: 0.5
+						});
+
+						label( [ 0, 11 ], "y", "above" );
+						label( [ 11, 0 ], "x", "right" );
+
+						addMouseLayer();
+						graph.pointA = addMovablePoint({
+							coord: [ -5, 5 ],
+							snapX: 0.5,
+							snapY: 0.5,
+								normalStyle: {
+								stroke: KhanUtil.BLUE,
+								fill: KhanUtil.BLUE
+							}
+						});
+						graph.pointB = addMovablePoint({
+							coord: [ 5, 5 ],
+							snapX: 0.5,
+							snapY: 0.5,
+							normalStyle: {
+								stroke: KhanUtil.BLUE,
+								fill: KhanUtil.BLUE
+							}
+						});
+						graph.line1 = addMovableLineSegment({
+							pointA: graph.pointA,
+							pointZ: graph.pointB,
+							fixed: true,
+							extendLine: true
+						});
+
+						// A and B can't be in the same place
+						graph.pointA.onMove = function( x, y ) {
+							return ( x != graph.pointB.coord[0] || y != graph.pointB.coord[1] );
+						}
+						graph.pointB.onMove = function( x, y ) {
+							return ( x != graph.pointA.coord[0] || y != graph.pointA.coord[1] );
+						}
+
+						graph.pointA.toFront();
+						graph.pointB.toFront();
+
+					</div>
+				</div>
+				<div class="solution" data-type="multiple">
+					<div class="instruction">
+						Both the graph and points are required<p/>
+					</div>
+					<div><code>x</code>-intercept <code>=\quad</code> <span class="sol short"><var>XINT</var></span></div>
+					<div><code>y</code>-intercept <code>=\quad</code> <span class="sol short" ><var>YINT</var></span></div><p/>
+					<div class="sol" data-type="custom">
+					
+						<div class="guess"> [ graph.pointA.coord, graph.pointB.coord ] </div>
+						<div class="validator-function">
+							return (
+								(( guess[0][0] === XINT && guess[0][1] === 0)
+								&& (guess[1][0] === 0 && guess[1][1] === YINT)) ||
+								(( guess[1][0] === XINT && guess[1][1] === 0)
+								&& (guess[0][0] === 0 && guess[0][1] === YINT)) );							;
+						</div>
+						<div class="show-guess">
+							graph.pointA.setCoord( guess[0] );
+							graph.pointB.setCoord( guess[1] );
+							graph.line1.transform( true );
+						</div>
+					</div>
+				
+				</div>
+			</div>
+			<!-- bit of a misnomer since this doesn't require integer coefficients nor relatively prime -->
+			<div id="std_form" data-type="basic" data-apply="basic" data-weight="2">
+				<div class="vars">
+					<var id="TYPE">1</var>
+					<var id="EQUATION"><code><var data-if="A !== 1">A</var>x + <var data-if="B !== 1">B</var>y =<var>C</var></code></var>
+				</div>
+			</div>
+			<div id="point_slope_form" data-type="basic" data-apply="basic">
+				<div class="vars">
+					<var id="TYPE">2</var>
+					<var id="EQUATION"><code><span data-if="randY !== 0">(y - <var>randY</var> )</span><span data-else>y</span> = <var>PRETTY_SLOPE</var><span data-if="randX !== 0">(x - <var>randX</var> )</span><span data-else>x</span></code></var>
+				</div>
+			</div>
+		</div>
+		
+		<div class="hints">
+			<div>
+				<p>The first thing we need to do here is solve <code class="hint_purple"><var>EQUATION</var></code> for the intercepts. </p>
+				<p>Let's start by solving for the <code class="hint_green">y</code>-intercept.</p>
+			</div>
+			<p class="step-indent">The <code class="hint_green">y</code>-intercept of a line is the point where the line <strong><em>intercepts</em></strong> or crosses the <code class="hint_green">y</code> axis.</p>
+			<p class="step-indent">When a point is on the <code class="hint_green">y</code> axis the <code class="hint_blue">x</code> coordinate is <code class="hint_blue">0</code>.</p>
+			<div data-if="TYPE === 0" data-unwrap>
+				<div>
+					<p class="step-indent">So, we put <code class="hint_blue">0</code> in for <code class="hint_blue">x</code>:</p>
+					<p class="indent"><code>\color{green}{y} = <var>PRETTY_SLOPE</var> \color{blue}{x} + <var>YINT</var></code>
+					<p class="indent"><code>\color{green}{y} = <var>PRETTY_SLOPE</var>(\color{blue}{0}) + <var>YINT</var></code></p>
+				</div>
+				<p class="indent"><code>\color{green}{y}= <var>YINT</var></code></p>
+				<p class="step-indent">Or, in this case we could have read the <code class="hint_green">y</code>-intercept straight from the equation since it is in slope-intercept form or <code>\color{green}{y}=m\color{blue}{x}+\color{purple}{b}</code> where <code>\color{purple}{b}</code> is our <code class="hint_green">y</code>-intercept.</p>	
+			</div>
+			<div data-else-if="TYPE === 1" data-unwrap>
+				<div>
+					<p class="step-indent">So, we put <code class="hint_blue">0</code> in for <code class="hint_blue">x</code>:</p>
+					<p class="indent"><code><var data-if="A !== 1">A</var>\color{blue}{x} + <var data-if="B !== 1">B</var>\color{green}{y} =<var>C</var></code></p>
+					<p class="indent"><code><var data-if="A !== 1">A</var>(\color{blue}{0}) + <var data-if="B !== 1">B</var>\color{green}{y} =<var>C</var></code></p>
+					<p class="indent"><code><var data-if="B !== 1">B</var>\color{green}{y} = <var>C</var></code></p>
+				</div>
+				<div data-if="B !== 1">
+					<p class="step-indent">Now we multiply both sides of the equation by the reciprocal of <var>B</var></p>
+					
+					<p class="indent"><code>\color{green}{y}=<var>C</var>\cdot(<var>fraction( 1, XINT*XINT * MULT, true, true )</var>)</code></p>
+				</div>
+			</div>
+			<div data-else data-unwrap>
+				<div>
+					<p class="step-indent">So, we put <code class="hint_blue">0</code> in for <code class="hint_blue">x</code>:</p>
+					<p class="indent"><code><span data-if="randY !== 0">(\color{green}{y} - <var>randY</var> )</span><span data-else>\color{green}{y}</span> = <var>PRETTY_SLOPE</var><span data-if="randX !== 0">(\color{blue}{x} - <var>randX</var> )</span><span data-else>\color{blue}{x}</span></code></p>
+					<div data-if="randX !== 0 && randY !==0">
+						<p class="indent"><code>(\color{green}{y} - <var>randY</var> ) = <var>PRETTY_SLOPE</var>(\color{blue}{0} - <var>randX</var> )</code></p>
+						<div data-if="SLOPE !== 1">
+							<p class="indent"><code>(\color{green}{y} - <var>randY</var> ) = <var>PRETTY_SLOPE</var>\cdot( <var>-randX</var> )</code></p>	
+							<p class="indent"><code>(\color{green}{y} - <var>randY</var>) = <var> fraction(YINT*randX,XINT,true,true)</var></code></p>
+						</div>
+						<div data-else>
+							<p class="indent"><code>(\color{green}{y} - <var>randY</var>) = <var> - randX</var></code></p>
+						</div>
+					</div>
+					<div data-else-if="randX === 0">
+						<p class="indent"><code>(\color{green}{y} - <var>randY</var> ) = <var>PRETTY_SLOPE</var>( \color{blue}{0} )</code></p>
+						<p class="indent"><code>(\color{green}{y} - <var>randY</var>) = 0</code></p>
+					</div>
+					<div data-else>
+						<p class="indent"><code>\color{green}{y} = <var>PRETTY_SLOPE</var>(\color{blue}{x} - <var>randX</var> )</code></p>
+						<p class="indent"><code>\color{green}{y} = <var>PRETTY_SLOPE</var>(\color{blue}{0} - <var>randX</var> )</code></p>
+						<p class="indent"><code>\color{green}{y} = <var>- PRETTY_SLOPE *randX</var> )</code></p>
+					</div>
+				</div>
+				<div data-if="randY !== 0">
+					<p class="step-indent">Now we add <code><var>randY</var></code> to both sides of the equation.</p>
+					<div data-if="randX !== 0">
+						<div data-if="SLOPE !== 1">
+							<p class="indent"><code>\color{green}{y} = <var>fraction(YINT*randX,XINT,true,true)</var> + <var>randY</var></code></p>
+						</div>
+						<div data-else>
+							<p class="indent"><code>\color{green}{y} = <var>-randX</var> + <var>randY</var></code></p>						
+						</div>
+					</div>
+					<div data-else>
+						<p class="indent"><code>\color{green}{y} = 0 + <var>randY</var></code></p>
+					</div>	
+				</div>	
+			</div>
+			<p>So our <code class="hint_green">y</code>-intercept is <code class="hint_green"><var>YINT</var></code>.</p>
+			<p>Now we need to solve for the <code class="hint_blue">x</code>-intercept</p>
+			<p class="step-indent">The <code class="hint_blue">x</code>-intercept of a line is the point where the line <strong><em>intercepts</em></strong> or crosses the <code class="hint_blue">x</code> axis.</p>
+			<p class="step-indent">When a point is on the <code class="hint_blue">x</code> axis the <code class="hint_green">y</code> coordinate is <code class="hint_green">0</code>.</p>
+			<div class="indent" data-if="TYPE === 0" data-unwrap>
+				<div>
+					<p class="step-indent">So, we put <code class="hint_green">0</code> in for <code class="hint_green">y</code>:</p>
+					<p class="indent"><code>\color{green}{y} = <var>PRETTY_SLOPE</var>\color{blue}{x} + <var>YINT</var></code></p>
+					<p class="indent"><code>\color{green}{0} = <var>PRETTY_SLOPE</var>\color{blue}{x} + <var>YINT</var></code></p>
+				</div>
+				<div>
+					<p class="step-indent">We add <code>-<var> YINT</var></code> to both sides of the equation:</p>
+					<p class="indent"><code><var>-YINT</var>= <var>PRETTY_SLOPE</var>\color{blue}{x}</code></p>
+				</div>
+				<div data-if="SLOPE !== 1">
+					<p class="step-indent">Now we multiply both sides of the equation by the reciprocal of  <code><var>PRETTY_SLOPE</var></code>.</p>
+					<p class="indent"><code><var>PRETTY_RECIPRICOL</var>\cdot<var>-YINT</var>= \color{blue}{x}</code> </p>
+				</div>
+			</div>
+			<div data-else-if="TYPE === 1" data-unwrap>
+				<div>
+					<p class="step-indent">So, we put <code>0</code> in for <code class="hint_green">y</code>:</p>
+					<p class="indent"><code><var data-if="A !== 1">A</var>\color{blue}{x} + <var data-if="B !== 1">B</var>\color{green}{y} =<var>C</var></code></p>			
+					<p class="indent"><code><var data-if="A !== 1">A</var>\color{blue}{x} + <var data-if="B !== 1">B</var>(\color{green}{0}) =<var>C</var></code></p>
+					<p class="indent"><code><var data-if="A !== 1">A</var>\color{blue}{x} = <var>C</var></code></p>
+				</div>
+				
+				<div data-if="A !== 1">
+					<p class="step-indent">Now we multiply both sides of the equation by the reciprocal of <var data-if="A !== 1">A</var></p>
+					<p class="indent"><code>\color{blue}{x}=<var>C</var>\cdot(<var>fraction( 1, XINT*YINT * MULT, true, true )</var>)</code></p>
+				</div>
+			</div>
+			<div data-else data-unwrap>
+				<div>
+					<p class="step-indent">So, we put <code class="hint_green">0</code> in for <code class="hint_green">y</code>:</p>
+					<p class="indent"><code><span data-if="randY !== 0">(\color{green}{y} - <var>randY</var> )</span><span data-else>\color{green}{y}</span> = <var>PRETTY_SLOPE</var><span data-if="randX !== 0">(\color{blue}{x} - <var>randX</var> )</span><span data-else>\color{blue}{x}</span></code></p>
+					<div data-if="randX !== 0 && randY !==0">
+						<p class="indent"><code>(\color{green}{0} - <var>randY</var> ) = <var>PRETTY_SLOPE</var>(\color{blue}{x} - <var>randX</var> )</code></p>
+						<p class="indent"><code>-<var>randY</var> = <var>PRETTY_SLOPE</var>(\color{blue}{x} - <var>randX</var> )</code></p>
+					</div>
+					<div data-else-if="randX === 0">
+						<p class="indent"><code>(\color{green}{0} - <var>randY</var> ) = <var>PRETTY_SLOPE</var> \color{blue}{x} </code></p>
+						<p class="indent"><code><var>-randY</var> = <var>PRETTY_SLOPE</var>\color{blue}{x} </code></p>
+					</div>
+					<div data-else>
+						<p class="indent"><code>\color{green}{y} = <var>PRETTY_SLOPE</var>(\color{blue}{x} - <var>randX</var> )</code></p>
+						<p class="indent"><code>\color{green}{0} = <var>PRETTY_SLOPE</var>(\color{blue}{x} - <var>randX</var> ) </code></p>
+					</div>
+				</div>
+				<div data-if="SLOPE !== 1">
+					<p class="step-indent">Now we multiply both sides of the equation by the reciprocal of <code><var>PRETTY_SLOPE</var></code>.</p>
+					<div data-if="randX !== 0">
+						<p class="indent"><code><var>PRETTY_RECIPRICOL</var>\cdot -<var>randY</var>= \color{blue}{x} - <var>randX</var> </code> </p>
+						<p class="indent"><code><var>XINT - randX</var>= \color{blue}{x} - <var>randX</var> </code> </p>
+					</div>
+					<div data-else>
+						<p class="indent"><code><var>PRETTY_RECIPRICOL</var>\cdot<var>-randY</var>= \color{blue}{x} </code> </p>
+					</div>
+				</div>
+				<div data-if="randX !== 0">
+					<p class="step-indent">Finally, we add <var>randX</var> to both sides of the equation.</p>
+					<div data-if="SLOPE !== 1">
+						<p class="indent"><code><var>XINT - randX</var> + <var>randX</var>= \color{blue}{x} </code> </p>
+					</div>
+					<div data-else>
+						<p class="indent"><code><var>-randY</var> + <var>randX</var>= \color{blue}{x} </code> </p>						
+					</div>
+				</div>
+			</div>				
+			<div>So our <code class="hint_blue">x</code>-intercept is <code class="hint_blue"><var>XINT</var></code>.</div>	
+		
+			<p>Now that we have found our <code class="hint_blue">x</code>- and <code class="hint_green">y</code>-intercepts, we just need to plot those two points and connect the dots.</p>
+			<div>
+				<p class="step-indent">
+					Since, the <code class="hint_green">y</code>-intercept is <code class="hint_green"><var>YINT</var></code>, the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
+				</p>
+				<div class="graphie" data-update="grid">
+					style({ stroke: GREEN, fill: GREEN }, function() {
+						graph.yint = circle( [ 0, YINT ], 0.2 ).toBack();
+					});
+				</div>
+			</div>
+			<div>
+				<p class="step-indent">
+					Since, the <code class="hint_blue">x</code>-intercept is <code class="hint_blue"><var>XINT</var></code>, the line must pass through the point <code class="hint_blue">( <var>XINT</var>, 0)</code>.
+				</p>
+				<div class="graphie" data-update="grid">
+					style({ stroke: BLUE, fill: BLUE }, function() {
+						graph.yint = circle( [ XINT, 0 ], 0.2 ).toBack();
+					});
+				</div>
+			</div>
+			<div>
+				<p class="step-indent">
+					Now we connect the dots.
+				</p>
+				<div class="graphie" data-update="grid">
+					style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: "." }, function() {
+						plot( function( x ) {
+							return x * SLOPE + YINT;
+						}, [ -11, 11 ] ).toBack();
+					});
+				</div>
+			</div>
+			<p class="final_answer">To complete this problem enter <code class="hint_blue"><var>XINT</var></code> for the <code class="hint_blue">x</code>-intercept, <code class="hint_green"><var>YINT</var></code> for the <code class="hint_green">y</code>-intercept, and move the two points to match the marked points above.</p>
+		</div>
+<!--		
+			
+		
+	</div> -->
+
+<!--
+	<div class="hints">
+		<div  data-unwrap>
+			<p>
+				Convert <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> = <var>C</var></code>
+				to slope-intercept form by solving for <code>y</code>.
+			</p>
+			<div>
+				<p>
+					<var>A &lt; 0 ? "Add" : "Subtract"</var> <code><var>abs( A )</var>x</code> <var>A &lt; 0 ? "to" : "from"</var> both sides:
+				</p><p>
+					<code>\qquad <var>expr( [ "*", B, "y" ] )</var> = <var>expr([ "+", [ "*", -A, "x" ], C ])</var></code>
+				</p>
+			</div>
+			<div data-if="B !== 1">
+				<p>
+					Divide both sides by <code><var>B</var></code>:
+				</p><p>
+					<code>\qquad y = <var>expr([ "+", "\\dfrac{" + expr([ "*", -A, "x" ]) + "}{" + B + "}", "\\dfrac{" + C + "}{" + B + "}" ])</var></code>
+				</p>
+			</div>
+		</div>
+		<div>
+			<p>
+				<code>\qquad y = \color{purple}{<var>PRETTY_SLOPE</var>} x \color{<var>GREEN</var>}{+ <var>YINT</var>}</code>
+			</p><p>
+				The y-intercept is <code class="hint_green"><var>YINT</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>.
+			</p>
+		</div>
+		<div>
+			<p>
+				The y-intercept is <code class="hint_green"><var>YINT</var></code>, so the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
+			</p>
+			<div class="graphie" data-update="grid">
+				style({ stroke: GREEN, fill: GREEN }, function() {
+					graph.yint = circle( [ 0, YINT ], 0.2 ).toBack();
+				});
+			</div>
+		</div>
+		<div>
+			<p>
+				The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that
+				the slope tells you rise over run. So in this case for every
+				<code><var>abs( SLOPE_FRAC[0] )</var></code>
+				<var>"position" + ( abs( SLOPE_FRAC[0] ) !== 1 ? "s" : "" )</var>
+				you move
+				<span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
+				<span data-else>up</span>
+				you must also move
+				<code><var>SLOPE_FRAC[1]</var></code>
+				<var>"position" + ( abs( SLOPE_FRAC[1] ) !== 1 ? "s" : "" )</var>
+				to the right.
+			</p>
+			<div class="graphie" data-update="grid">
+				style({
+					stroke: "purple",
+					strokeWidth: 2,
+					arrows: "-&gt;"
+				}, function() {
+					path([ [ 0, YINT ], [ 0, YINT + SLOPE_FRAC[0] ] ]).toBack();
+					path([ [ 0, YINT + SLOPE_FRAC[0] ], [ SLOPE_FRAC[1], YINT + SLOPE_FRAC[0] ] ]).toBack();
+				});
+				label( [ 0, YINT + SLOPE_FRAC[0] / 2 ], abs( SLOPE_FRAC[0] ) + " \\text{ " + ( SLOPE_FRAC[0] &lt; 0 ? "down" : "up" ) + "} \\quad", "left", { color: "purple" } );
+				label( [ 0, YINT + SLOPE_FRAC[0] ], SLOPE_FRAC[1] + " \\text{ right}", ( SLOPE_FRAC[0] &lt; 0 ? "below right" : "above right" ), { color: "purple" } );
+				graph.yint.toBack();
+			</div>
+		</div>
+		<div>
+			<p>So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC[1]</var>, <var>YINT + SLOPE_FRAC[0]</var>)</code></p>
+			<div class="graphie" data-update="grid">
+				style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: "." }, function() {
+					plot( function( x ) {
+						return x * SLOPE + YINT;
+					}, [ -11, 11 ] ).toBack();
+				});
+			</div>
+		</div>
+	</div> -->
+
+</div>
+</body>
+</html>
