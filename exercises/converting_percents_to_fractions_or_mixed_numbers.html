@@ -1,56 +1,40 @@
 <!DOCTYPE html>
 <html data-require="math">
   <head>
-    <title>Converting percents to fractions or mixed numbers</title>
+    <title>Converting percents to fractions or mixed numbers </title>
     <script src="../khan-exercise.js"></script>
   </head>
-  
   <body>
     <div class="exercise">
       <div class="problems">
-	<div>
-	  <div class="vars">
-	    <var id="PERCENT">
-	      (function(){
-	      var seed = randRange(1, 3);
-	      if (seed < 3) {
-			 return randRange(1,100);
-			 } else {
-			 return randRange(1,1500);
-			 }
-			 })()
-			 </var>
-	    <var id="RATIONAL">PERCENT/100</var>
-	    <var id="WHOLE">Math.floor(PERCENT/100)</var>
-	    <var id="NUMERATOR">PERCENT % 100</var>
-	    <var id="NUM_SIMP">(PERCENT % 100)/getGCD(PERCENT % 100,100)</var>
-	    <var id="DENOMINATOR">100/getGCD(PERCENT,100)</var>
-	  </div>
-	  <p>Express the percent as a fraction or mixed number. </p>
-	  <p class="question"><code><var>PERCENT</var></code>%</p>
-	  <p class="solution" data-type="rational"><var>PERCENT/100</var></p>
-	  <div class="hints">
-	    <p>Rewrite the percent as a fraction with a denominator of 100.</p>
-	    <p>
-	      <code><var>PERCENT</var>\% = \dfrac{<var>PERCENT</var>}{100}</code>
-	    </p>
-	    <p data-if="PERCENT>100">Since <code><var>PERCENT</var></code> is greater than 100, we have an improper fraction. Divide <code><var>PERCENT</var></code> by 100 to obtain a mixed number</p>
-
-	    <p data-if="PERCENT>100">
-	      <code><var>PERCENT</var> \div 100 = <var>WHOLE</var> \text{ r } <var>NUMERATOR</var></code><br /><br />
-
-	      <code>\hphantom{<var>PERCENT</var>} = <var>WHOLE</var> \dfrac{<var>NUMERATOR</var>}{100}</code>
-	    </p>
-
-	    <p data-if="getGCD(NUMERATOR,100) != 1">Simplify <code><var>\dfrac{NUMERATOR}{100}</var></code> to obtain the solution <br /><br />
-
-	      <code><var data-if="PERCENT>100">WHOLE</var>\dfrac{<var>NUMERATOR</var> \div <var>getGCD(NUMERATOR,100)</var>}{100 \div <var>getGCD(NUMERATOR,100)</var>} = <var data-if="PERCENT>100">WHOLE</var>\dfrac{<var>NUM_SIMP</var>}{<var>DENOMINATOR</var>}</code>
-	    </p>
-	    <p data-else>Since the greatest common factor of <var>NUMERATOR</var> and 100 is 1, the fraction is in simplest form, so the solution is <br /><br />
-
-	      <code><var data-if="WHOLE != 0">WHOLE</var>\dfrac{<var>NUM_SIMP</var>}{<var>DENOMINATOR</var>}</code>
-	    </p>
-	  </div>
+	<div class="vars">
+	  <var id="PERCENT">(function(){ 
+	    var seed = randRange(1, 3);
+	    if (seed < 3) { 
+		       return randRange(1,100);
+		       } else {
+		       return
+		       randRange(1,1500); } })()
+		       </var> 
+	  <var id="RATIONAL">PERCENT/100</var> 
+	  <var id="WHOLE">Math.floor(PERCENT/100)</var> 
+	  <var id="NUMERATOR">PERCENT % 100</var> 
+	  <var id="NUM_SIMP">(PERCENT % 100)/getGCD(PERCENT % 100,100)</var> 
+	  <var id="DENOMINATOR">100/getGCD(PERCENT,100)</var>
+	</div>
+	<p>Express the percent as a fraction or mixed number.</p>
+	<p class="question"><code><var>PERCENT</var></code>%</p>
+	<p class="solution" data-type="rational"><var>PERCENT/100</var></p>
+	<div class="hints">
+	  <p>Rewrite the percent as a fraction with a denominator of 100.</p>
+	  <p><code><var>PERCENT</var>\% = \dfrac{<var>PERCENT</var>}{100}</code></p>
+	  <p data-if="PERCENT>100">Since <code><var>PERCENT</var></code> is greater than 100, we have an improper fraction. Divide <code><var>PERCENT</var></code> by 100 to obtain a mixed number</p>
+	  <p data-if="PERCENT>100"><code><var>PERCENT</var> \div 100 = <var>WHOLE</var> \text{ r }<var>NUMERATOR</var></code><br><br>
+	    <code>\hphantom{<var>PERCENT</var>} = <var>WHOLE</var>\dfrac{<var>NUMERATOR</var>}{100}</code></p>
+	  <p data-if="getGCD(NUMERATOR,100) != 1">Simplify <code><var>\dfrac{NUMERATOR}{100}</var></code> to obtain the solution<br><br>
+	    <code><var data-if="PERCENT>100">WHOLE</var>\dfrac{<var>NUMERATOR</var> \div<var>getGCD(NUMERATOR,100)</var>}{100 \div<var>getGCD(NUMERATOR,100)</var>} = <var data-if="PERCENT>100">WHOLE</var>\dfrac{<var>NUM_SIMP</var>}{<var>DENOMINATOR</var>}</code></p>
+	  <p data-else="">Since the greatest common factor of <var>NUMERATOR</var> and 100 is 1, the fraction is in simplest form, so the solution is<br><br>
+	    <code><var data-if="WHOLE != 0">WHOLE</var>\dfrac{<var>NUM_SIMP</var>}{<var>DENOMINATOR</var>}</code></p>
 	</div>
       </div>
     </div>
