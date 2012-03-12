@@ -4,6 +4,7 @@
 	<meta charset="UTF-8" />
 	<title>Alternate Formula for Variance</title>
 	<script src="../khan-exercise.js"></script>
+    <script src="xcalcHide.js"></script>
 	<style>
 		#answer_area .short input[type=text] {
 			width: 40px;
@@ -32,35 +33,52 @@
             <var id="NEW_MEAN3">roundTo( 3, ( DATA_POINTS*MEAN - RM )/ NM1)</var>
             <var id="NM2PV_POP">roundTo( 3, DATA_POINTS*( MEAN*MEAN + VARIANCE_POP ))</var>
             <var id="NEW_SUMX">roundTo(3, NM2PV_POP-RM2)</var>
-            <var id="NEW_MEAN">roundTo(1,NEW_MEAN3)</var>
-            <var id="NEW_VARIANCE_POP">roundTo(3,(DATA_POINTS*( MEAN*MEAN + VARIANCE_POP ) - RM*RM)/NM1 - NEW_MEAN*NEW_MEAN)</var>
-
+            <var id="NEW_MEAN">roundTo(2,NEW_MEAN3)</var>
+            <var id="NEW_VARIANCE_POP">roundTo(2,(DATA_POINTS*( MEAN*MEAN + VARIANCE_POP ) - RM*RM)/NM1 - NEW_MEAN*NEW_MEAN)</var>
+            
+      <!-- check alternate formula 
+            <var id="NEWSQR_DEV">jQuery.map( DATA, function( x ) { return roundTo( 2, ( x - NEW_MEAN ) * ( x - NEW_MEAN ) ); })</var>
+            <var id="NEW_VAR_SQD">roundTo( 2, sum( NEWSQR_DEV ) /  NM1 )</var> 
+     -->
 		</div> <!-- vars -->
 
 		<div class="problems">
  			<div id="population">
 				<div class="problem" >
                    <p>
-                     In this exercise, you need to use the alternative formula for variance. 
-                     For population variance, the alternative formula is :
+                     In this exercise, you need to use the 
+                     <a class="related-vedio" href="http://www.khanacademy.org/video/statistics--alternate-variance-formulas?topic=statistics">alternate variance formula.</a> 
+                     For population variance, the alternate formula is :
                    </p>
                    <p>
                     <code>
                      \color{red}{\sigma^2} \quad = \quad \dfrac{\sum\limits_{i=1}^{\color{<var>GREEN</var>}{N}} {x_i}^2}
                      {\color{<var>GREEN</var>}{N}} \quad - \quad \color{<var>BLUE</var>}{\mu^2}. 
                      </code>
-                   </p>
-                 
+                   
 					<p>You have  <var>plural( DATA_POINTS, animal( 1 ) )</var> at your local zoo.  Their average age in
                     years is <var>MEAN</var> and the variance is <var>VARIANCE_POP</var>.  One of the
-                    <var>plural( DATA_POINTS, animal( 1 ) )</var> is removed from the zoo.  Its age is <var>RM</var></p>.					
+                    <var>plural( DATA_POINTS, animal( 1 ) )</var> is removed from the zoo.  Its age is <var>RM</var>.</p>
 				</div>
-
 				<p class="question">
 					What is the new average age of the <var>plural( animal( 1 ) )</var> at your zoo? What is the new variance?
-					You may round your answers to the nearest tenth.
+					Round your answers to the nearest hundredth. Use the rounded answer of the new average age to calculate the new variance.
 				</p>
 
+<!-- Start of Calculator -->
+<a href="simple_stat_calculator.html" target="_blank">Practice Using Calculator ..........</a>
+<INPUT TYPE="button" VALUE="Calulator On/Off" onClick="xcalcHide();">
+ <div id="xcalc" name="xcalc" style="visibility:hidden">
+   <p> Use + to add, - to subtract, * to multiply, / to divide.
+    Use sq(x) for <code>x^2</code>, sqrt(x) for <code>\sqrt{x}</code>, pow(y,x) for <code>y^x</code>, 
+       exp(x) for <code>e^x</code>, log(x) for  <code>\log(x)</code>, for fact(x) for <code>x!</code>.
+       Click the Calculate button to calculate.
+   The answer is stored in Ans.  You can use Ans on your next calculation.</p>
+<iframe src="simple_stat_calculator.html/#calculator" width="600" height="100" frameborder="1" scrolling="no" ></iframe><br>					
+</div>
+<!-- End of Calculator -->
+
+               
 				<div class="solution" data-type="multiple">
 					<p>
 						New average age:
@@ -68,7 +86,7 @@
 					</p>
 					<p>
 						New variance:
-						<span class="sol short" data-type="decimal" data-inexact data-max-error="0.15"><var>NEW_VARIANCE_POP</var></span> years<code>^2</code>
+						<span class="sol short" data-type="decimal" data-inexact data-max-error="0.75"><var>NEW_VARIANCE_POP</var></span> years<code>^2</code>
 					</p>
 					<div class="example">decimals, like <code>7.5</code></div>
 					<div class="example">answers within <code>\pm 0.15</code> are accepted to allow for rounding part-way through</div>
@@ -127,11 +145,11 @@
                     </div>
                     <div>
                     <p>
-                    We know <code> \color{darkred}{\sigma^2 = <var>VARIANCE_POP</var>}</code>.  Use the alternative formula for
+                    We know <code> \color{darkred}{\sigma^2 = <var>VARIANCE_POP</var>}</code>.  Use the alternate variance formula 
                     <code> \color{red}{\sigma^2}</code> to solve for <code>\sum\limits_{i=2}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i^2 </code>.
                     </p>
                     <p>
-                    Express the new variance with the alternative formula:
+                    Express the new variance with the alternate variance formula:
                      <code>
                         \color{darkred}{\sigma_{new}^2} = \dfrac{\sum\limits_{i=2}^{\color{<var>GREEN</var>}{N}} x_i^2}{\color{<var>GREEN</var>}{N-1}}
                        - \color{darkblue}{\mu_{new}^2}
@@ -158,9 +176,6 @@
                    </div>                 
 				</div> <!-- hints -->
 			</div> <!-- population -->
-
-			
-
 		</div> <!-- problems -->
 	</div> <!-- exercise -->
 </body>
