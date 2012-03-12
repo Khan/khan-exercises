@@ -14,17 +14,18 @@
 			<var id="DIVIDEND">DIVISOR * QUOTIENT + FINAL_REMAINDER</var>
 			<var id="DIVIDEND_DIGITS">integerToDigits( DIVIDEND )</var>
 		</div>
-
 		<div class="problems">
 			<div>
 				<p>If the answer is a quotient of 5 and a remainder of 3, it should be typed in the form "5 R 3".</p>
-
 				<div class="graphie" id="numbers">
 					graph.divider = new Divider( DIVISOR, DIVIDEND );
 					graph.divider.show();
 					DUMMY = Array( graph.divider.getNumHints() );
 				</div>
-				<div class="solution" data-type="regex">^<var>QUOTIENT</var>\s*[rR]\s*<var>FINAL_REMAINDER</var>$</div>
+				<div class="solution" data-type="multiple">
+					<span class="sol" data-type="regex">^<var>QUOTIENT</var>\s*[rR]\s*<var>FINAL_REMAINDER</var>$</span>
+					<p class="example">a quotient and remainder, like <code>5 \text{ R } 3</code></p>
+				</div>
 			</div>
 		</div>
 		<div class="hints">
