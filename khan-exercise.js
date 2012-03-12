@@ -618,9 +618,9 @@ var Khan = (function() {
 
 	if ( Khan.query.activity !== undefined ) {
 		userExercise = {
-			exercise_model: {},
-			read_only: true,
-			user_activity: JSON.parse( Khan.query.activity )
+			exerciseModel: {},
+			readOnly: true,
+			userActivity: JSON.parse( Khan.query.activity )
 		};
 	}
 
