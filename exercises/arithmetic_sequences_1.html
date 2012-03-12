@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie word-problems">
+<head>
+	<title>Arithmetic sequences 1</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		#answer_area .short input[type=text] {
+			width: 20px;
+		}
+	</style>
+</head>
+
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="INIT">randRange( -30, 30 )</var>
+		<var id="ADD">randRangeExclude( -13 , 13 , [ -1, 0, 1 ] )</var>
+		<var id="SEQ">(function() {
+				arr = [];
+				while( arr.length < 7 ) {
+				arr.push( INIT + ADD * arr.length );
+				}
+				return arr;
+				})()</var>
+		<var id="DIFF_TREE">function(){
+			var g = KhanUtil.currentGraph;
+			g.init({
+			range: [ [0, SEQ.length + 1], [ -3, 1] ],
+			scale: [30, 30]});						
+			for ( var i = 0; i < 4; i++ ) { g.label( [1 + 2 * i, 0], SEQ[ i ] ); }
+			for ( var i = 0; i < 3; i++ ) {
+			g.path( [ [2 * i + 1.2, -0.5], [2 * i + 1.8, -1.5] ] );
+			g.path( [ [2 * i + 2.2, -1.5], [2 * i + 2.8, -0.5] ] );
+			g.label( [2 + 2 * i, -2], ADD, {color: "BlueViolet"} );
+			}}</var>
+	</div>
+
+	<div class="problems">
+
+		<div id="find-num-terms">
+			<div class="vars">
+				<var id="TERM_N">randRange( 15, 40 )</var>
+				<var id="LAST">INIT + ADD * ( TERM_N - 1 )</var>
+			</div>
+			<p class="problem">Find the number of terms in the following sequence:</p>
+			<p class="question"><code><var>SEQ.slice( 0 , 4 ).join ( ", " )</var>, ..., <var>LAST</var></code></p>
+			<div class="solution" data-type="text"><var>TERM_N</var></div>
+
+			<div class="hints">
+				<p>An arithmetic sequence, also called an arithmetic progression, is made by adding or subtracting a constant amount each time.</p>
+				<div>
+					<p>This arithmetic sequence is made by adding <code>\color{BlueViolet}{<var>ADD</var>}</code> each time.<br />
+					This change of <code>\color{BlueViolet}{<var>ADD</var>}</code> is called the common difference, or <code>\color{BlueViolet}{d}</code>.
+					<br /><span class="hint_gray">(To find the common difference, take two adjacent values and subtract the left value from the right; 
+					viz., <code><var>SEQ[1]</var> - <var>negParens( SEQ[0] )</var> = <var>ADD</var></code>.)</span><br />
+					Here is a visualization of each term and the common difference.</p>
+						<div class="graphie">DIFF_TREE()</div> <!--() runs the function-->
+				</div>
+				<p>The first term is <code>\color{OrangeRed}{<var>INIT</var>}</code>, which is called <code>\color{OrangeRed}{a_1}</code>.<br />
+				<code>\color{RoyalBlue}{<var>LAST</var>}</code> is the last term; this we will call <code>\color{RoyalBlue}{a_n}</code>.</p>
+				<p>To find the number of terms in the sequence, we need to find what the <code>n</code> in <code>\color{RoyalBlue}{a_n}</code> is equal to.</p>
+				<p>Finding <code>n</code> can be achieved by constructing an equation based off of a pattern in the sequence. Look at the sequence for a pattern.</p>
+				<div>
+					<p>For the first term, <code>\color{OrangeRed}{a_1}</code>, we have only the original value (<code>\color{OrangeRed}{<var>INIT</var>}</code>).
+					<br />This gives <code>\color{OrangeRed}{a_1} = \color{OrangeRed}{<var>INIT</var>}</code>, or its equivalent: 
+					<code>\color{OrangeRed}{a_1} = \color{OrangeRed}{a_1} + 0\color{BlueViolet}{d}</code>.</p>
+					<p>For this second term, <code>a_2</code>, we have the original value added to one common difference (<code>\color{BlueViolet}{<var>ADD</var>}</code>).
+					<br />This gives <code>a_2 = \color{OrangeRed}{<var>INIT</var>}+ \color{BlueViolet}{<var>ADD</var>}</code>, or its equivalent: 
+					<code>a_2 = \color{OrangeRed}{a_1} + 1\color{BlueViolet}{d}</code>.</p>
+					<p>This third term, <code>a_3</code>, we have the original value added to two common differences.<br />
+					This gives <code>a_3 = \color{OrangeRed}{<var>INIT</var>}+\color{BlueViolet}{<var>ADD</var>} + 
+					\color{BlueViolet}{<var>ADD</var>}</code>, or its equivalent: <code>a_3 = \color{OrangeRed}{a_1} + 2\color{BlueViolet}{d}</code>.</p>
+					<p>On the fourth term, <code>a_4</code>, we have the original value added to three common differences.<br />
+					This gives <code>a_4 = \color{OrangeRed}{<var>INIT</var>}+\color{BlueViolet}{<var>ADD</var>} + \color{BlueViolet}{<var>ADD</var>} + 
+					\color{BlueViolet}{<var>ADD</var>}</code>, or its equivalent: <code>a_4 = \color{OrangeRed}{a_1} + 3\color{BlueViolet}{d}</code>.<br />
+					<span class="hint_gray">(Notice the number of common differences in these given terms is one less than the subscripted number. 
+					For example, <code>a_{\textbf{4}}</code> has <code>\textbf{4}-1</code>, or three, common differences.)</span></p>
+				</div>
+				<p>A pattern can be noticed: any value in the sequence will have <code>\color{OrangeRed}{a_1}</code> added to 
+				the common difference(<code>\color{BlueViolet}{d}</code>) multiplied by one less than the subscripted number of <code>a</code>.</p>
+				<p>With these principles, this equation is derived: <code>\color{RoyalBlue}{a_n} = \color{OrangeRed}{a_1} + ( n~–~1 ) \color{BlueViolet}{d}</code>.<br />
+				Thus, if we know <code>\color{RoyalBlue}{a_n}</code>, <code>\color{OrangeRed}{a_1}</code> and <code>\color{BlueViolet}{d}</code>, 
+				we can calculate the number of terms in this sequence (<code>n</code>).</p>
+				<p>Begin finding <code>n</code> by substituting the known values with the variables in the given equation.</p>
+				<p>After plugging in the known values, you should have <code>\color{RoyalBlue}{<var>LAST</var>}
+				= \color{OrangeRed}{<var>INIT</var>} + ( n~–~1 ) (\color{BlueViolet}{<var>ADD</var>})</code>.</p>
+				<div>
+					<p>Rearranging the equation for <code>n</code> will give number of terms in the problem's sequence.</p>
+					<p><code>n = \dfrac{  \color{RoyalBlue}{<var>LAST</var>} + \color{OrangeRed}{<var>-INIT</var>}}{ \color{BlueViolet}{<var>ADD</var>}} + 1</code></p>
+				</div>
+				<p><code>n~=~ \color{green}{<var>TERM_N</var>}</code></p>
+			</div>
+		</div>
+
+		<div id="find-term">
+			<div class="vars">
+				<var id="TERM_N">randRange( 10, 20 )</var>
+			</div>
+			<p class="problem">Find <code>a_{<var>TERM_N</var>}</code> for the following sequence:</p>
+			<p class="question"><code><var>SEQ.slice( 0 , 4 ).join ( ", " )</var>, ...</code></p>
+			<div class="solution" data-type="text"><var>INIT + ADD * ( TERM_N - 1 )</var></div>
+
+			<div class="hints">
+				<p>An arithmetic sequence, also called an arithmetic progression, is made by adding or subtracting a constant amount each time.</p>
+				<div>
+					<p>This arithmetic sequence is made by adding <code>\color{BlueViolet}{<var>ADD</var>}</code> each time.<br />
+					This change of <code>\color{BlueViolet}{<var>ADD</var>}</code> is called the common difference, or <code>\color{BlueViolet}{d}</code>.
+					<br /><span class="hint_gray">(To find the common difference, take two adjacent values and subtract the left value from the right; 
+					viz., <code><var>SEQ[1]</var> - <var>negParens( SEQ[0] )</var> = <var>ADD</var></code>.)</span><br />
+					Here is a visualization of each term and the common difference.</p>	
+						<div class="graphie">DIFF_TREE()</div> <!--() runs the function-->
+				</div>	
+				<p>The first term is <code>\color{OrangeRed}{<var>INIT</var>}</code>, which is called <code>\color{OrangeRed}{a_1}</code>.</p>
+				<p>Finding <code>\color{RoyalBlue}{a_{<var>TERM_N</var>}}</code> can be achieved by constructing an equation based off of 
+				a pattern in the sequence. Look at the sequence for a pattern.</p>
+				<div>
+					<p>For the first term, <code>\color{OrangeRed}{a_1}</code>, we have only the original value 
+					(<code>\color{OrangeRed}{<var>INIT</var>}</code>).<br />
+					This gives <code>\color{OrangeRed}{a_1} = \color{OrangeRed}{<var>INIT</var>}</code>, or its equivalent: 
+					<code>\color{OrangeRed}{a_1} = \color{OrangeRed}{a_1} + 0\color{BlueViolet}{d}</code>.</p>
+					<p>For this second term, <code>a_2</code>, we have the original value added to one common difference (<code>\color{BlueViolet}{<var>ADD</var>}</code>).
+					<br />This gives <code>a_2 = \color{OrangeRed}{<var>INIT</var>}+ \color{BlueViolet}{<var>ADD</var>}</code>, or its equivalent: 
+					<code>a_2 = \color{OrangeRed}{a_1} + 1\color{BlueViolet}{d}</code>.</p>
+					<p>This third term, <code>a_3</code>, we have the original value added to two common differences.<br />
+					This gives <code>a_3 = \color{OrangeRed}{<var>INIT</var>}+\color{BlueViolet}{<var>ADD</var>} + \color{BlueViolet}{<var>ADD</var>}</code>,
+					or its equivalent: <code>a_3 = \color{OrangeRed}{a_1} + 2\color{BlueViolet}{d}</code>.</p>
+					<p>On the fourth term, <code>a_4</code>, we have the original value added to three common differences.<br />
+					This gives <code>a_4 = \color{OrangeRed}{<var>INIT</var>}+\color{BlueViolet}{<var>ADD</var>} + \color{BlueViolet}{<var>ADD</var>} + 
+					\color{BlueViolet}{<var>ADD</var>}</code>, or its equivalent: <code>a_4 = \color{OrangeRed}{a_1} + 3\color{BlueViolet}{d}</code>.<br />
+					<span class="hint_gray">(Notice the number of common differences in these given terms is one less than the subscripted number. 
+					For example, <code>a_{\textbf{4}}</code> has <code>\textbf{4}-1</code>, or three, common differences.)</span></p>
+				</div>
+				<p>A pattern can be noticed: any value in the sequence will have <code>\color{OrangeRed}{a_1}</code> 
+				added to the common difference(<code>\color{BlueViolet}{d}</code>) multiplied by one less than the subscripted number of <code>a</code>.</p>
+				<p>With these principles, this equation is derived: <code>\color{RoyalBlue}{a_n} = \color{OrangeRed}{a_1}+( n~–~1 )\color{BlueViolet}{d}</code>.
+				<p><code>\color{RoyalBlue}{a_{<var>TERM_N</var>}}</code> can be found with this equation.<br />
+				Substituting, we get <code>\color{RoyalBlue}{a_{<var>TERM_N</var>}} = \color{OrangeRed}{<var>INIT</var>}
+				+ (<var>TERM_N</var> – 1)(\color{BlueViolet}{<var>ADD</var>})</code>.</p>
+				<p><code>\color{RoyalBlue}{a_{<var>TERM_N</var>}} = \color{green}{<var>INIT + ADD * ( TERM_N - 1 )</var>}</code>.</p>
+			</div>
+		</div>
+
+		<div id="find-eqn">
+			<p class="problem">Find a formula for the following sequence:</p>
+			<p class="question"><code><var>SEQ.slice( 0 , 4 ).join ( ", " )</var>, ...</code></p>
+			<div class="solution" data-type="multiple">
+				<p class="short"><code>a_n =</code><span class="sol"><var>ADD</var></span><code>n +</code>
+				<span class="sol"><var>( -1 )*ADD + INIT</var></span></p>
+			</div>
+			<div class="hints">
+				<p>An arithmetic sequence, also called an arithmetic progression, is made by adding or subtracting a constant amount each time.</p>
+				<div>
+					<p>This arithmetic sequence is made by adding <code>\color{BlueViolet}{<var>ADD</var>}</code> each time.<br />
+					This change of <code>\color{BlueViolet}{<var>ADD</var>}</code> is called the common difference, or <code>\color{BlueViolet}{d}</code>.
+					<br /><span class="hint_gray">(To find the common difference, take two adjacent values and subtract the left value from the right; 
+					viz., <code><var>SEQ[1]</var> - <var>negParens(SEQ[0])</var> = <var>ADD</var></code>.)</span><br />
+					Here is a visualization of each term and the common difference.</p>	
+						<div class="graphie">DIFF_TREE()</div> <!--() runs the function-->
+				</div>	
+				<p>The first term is <code>\color{OrangeRed}{<var>INIT</var>}</code>, which is called <code>\color{OrangeRed}{a_1}</code>.</p>
+				<p>Look at the sequence for a pattern; from the pattern an equation can be derived.</p>
+				<div>
+					<p>For the first term, <code>\color{OrangeRed}{a_1}</code>, we have only the original value (<code>\color{OrangeRed}{<var>INIT</var>}</code>).
+					<br />This gives <code>\color{OrangeRed}{a_1} = \color{OrangeRed}{<var>INIT</var>}</code>, or its equivalent: 
+					<code>\color{OrangeRed}{a_1} = \color{OrangeRed}{a_1} + 0\color{BlueViolet}{d}</code>.</p>
+					<p>For this second term, <code>a_2</code>, we have the original value added to one common difference (<code>\color{BlueViolet}{<var>ADD</var>}</code>).
+					<br />This gives <code>a_2 = \color{OrangeRed}{<var>INIT</var>}+ \color{BlueViolet}{<var>ADD</var>}</code>, or its equivalent: 
+					<code>a_2 = \color{OrangeRed}{a_1} + 1\color{BlueViolet}{d}</code>.</p>
+					<p>This third term, <code>a_3</code>, we have the original value added to two common differences.<br />
+					This gives <code>a_3 = \color{OrangeRed}{<var>INIT</var>}+\color{BlueViolet}{<var>ADD</var>} + \color{BlueViolet}{<var>ADD</var>}</code>
+					, or its equivalent: <code>a_3 = \color{OrangeRed}{a_1} + 2\color{BlueViolet}{d}</code>.</p>
+					<p>On the fourth term, <code>a_4</code>, we have the original value added to three common differences.<br />
+					This gives <code>a_4 = \color{OrangeRed}{<var>INIT</var>}+\color{BlueViolet}{<var>ADD</var>} + \color{BlueViolet}{<var>ADD</var>} 
+					+ \color{BlueViolet}{<var>ADD</var>}</code>, or its equivalent: <code>a_4 = \color{OrangeRed}{a_1} + 3\color{BlueViolet}{d}</code>.<br />
+					<span class="hint_gray">(Notice the number of common differences in these given terms is one less than the subscripted number. 
+					For example, <code>a_{\textbf{4}}</code> has <code>\textbf{4}-1</code>, or three, common differences.)</span></p>
+				</div>
+				<p>A pattern can be noticed: any value in the sequence will have <code>\color{OrangeRed}{a_1}</code> added 
+				to the common difference(<code>\color{BlueViolet}{d}</code>) multiplied by one less than the subscripted number of <code>a</code>.</p>
+				<p>With these principles, this equation is derived: <code>\color{RoyalBlue}{a_n} = \color{OrangeRed}{a_1} + ( n~–~1 ) \color{BlueViolet}{d}</code>.
+				<br />Substituting, we get <code>\color{RoyalBlue}{a_n} = \color{OrangeRed}{<var>INIT</var>} + ( n – 1 )(\color{BlueViolet}{<var>ADD</var>})</code>.</p>
+				<p>Simplified, <code>\color{green}{a_n = <var>ADD</var>n + <var>negParens( ( -1 )*ADD + INIT )</var>}</code>.
+			</div>
+		</div>
+
+		<div id="find-x">
+			<div class="vars">
+				<var id="TERM_X">randRange( 2, 4 )</var>
+				<var id="SOLN">SEQ[ TERM_X ]</var>
+				<var id="S_STR">SEQ.slice( 0 , TERM_X ).concat( "x" , SEQ.slice( TERM_X + 1 , 7 )).join( ", " )</var>
+			</div>
+			<p class="problem"><code>x</code> replaced a value in the arithmetic sequence that follows.<br /><code><var>S_STR</var></code></p>
+			<p class="question">What is the value of <code>x</code>?</p>
+			<div class="solution" data-type="text"><var>SOLN</var></div>
+
+			<div class="hints">
+				<p>Arithmetic sequences are made by adding or subtracting a constant amount each time.</p>
+				<p>To find <code>x</code>, the value each term changes by first must be found.<br />
+				<p>To find the common difference, take two adjacent values and subtract the left value from the right; 
+					viz., <code><var>SEQ[1]</var> - <var>negParens( SEQ[0] )</var> = <var>ADD</var></code>.<br />
+				This value is called the common difference, represented as <code>\color{BlueViolet}{d}</code>.</p>
+				<div>
+					<p>Here is a visualization of each term and the common difference.</p>
+					<div class="graphie" id="differences-tree">
+						init({
+							range: [ [-1, 2 * SEQ.length], [ -3, 1] ],
+							scale: [30, 30]
+						});
+
+						for ( var i = 0; i < 7; i++ ) {
+							if (i === TERM_X) {
+								label( [1 + 2 * i, 0], "x" );
+								circle( [1 + 2 * i, 0], 0.5);
+							} else {label( [1 + 2 * i, 0], SEQ[ i ] );}
+						}
+						for ( var i = 0; i < 6; i++ ) {
+							path( [ [2 * i + 1.2, -0.5], [2 * i + 1.8, -1.5] ] );
+							path( [ [2 * i + 2.2, -1.5], [2 * i + 2.8, -0.5] ] );
+
+							if ( i === TERM_X - 1 || i === TERM_X ) {
+								label( [2 + 2 * i, -2], "?", {color: "OrangeRed"} );
+							} else {label( [2 + 2 * i, -2], ADD, {color: "BlueViolet"} );}
+						}
+					</div>
+				</div>
+				<p>Since this is an arithmetic sequence, each term changes by the common difference.<br />The <code>\color{OrangeRed}{?}</code> 
+				in the visualization must be <code>\color{BlueViolet}{<var>ADD</var>}</code>, since the change is always the same.<br />
+				Therefore, <code>x</code> changes adding the common difference to the term before it.</p>
+				<p><code><var>SEQ[TERM_X - 1]</var> + \color{BlueViolet}{<var>ADD</var>} = x</code>; so <code>x = \color{green}{<var>SOLN</var>}</code>.</p>
+				
+			</div>
+		</div>
+	</div>
+</div>	
+</body>
+</html>
