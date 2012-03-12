@@ -350,7 +350,10 @@ function Triangle( center, angles, scale, labels, points ){
 
 
 	this.angleScale = function ( ang ){
-		if( ang > 90 ){
+	  if( ang >= 100 ){
+		  return 0.6;
+		}
+		else if( ang > 90 ){
 			return 0.5;
 		}
 		else if ( ang > 40 ){
