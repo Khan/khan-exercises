@@ -1139,7 +1139,6 @@ var Khan = (function() {
 			} );
 		}
 
-		// TODO(kamens): timeline is going to be completely broken.
 		if (typeof userExercise !== "undefined" && userExercise.readOnly) {
 			if (!userExercise.current) {
 				warn("This exercise may have changed since it was completed", true);
@@ -1152,7 +1151,7 @@ var Khan = (function() {
 							<div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
 							<div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\
 							</div>" )
-				.insertBefore( "#extras" );
+				.insertBefore( "#problem-and-answer" );
 
 			jQuery.fn.disable = function() {
 				this.addClass( 'disabled' )
@@ -1172,7 +1171,7 @@ var Khan = (function() {
 				return this;
 			}
 
-			if (getData().totalDone === 0) {
+			if (userExercise.totalDone === 0) {
 				jQuery( '#previous-problem' ).disable();
 			}
 
@@ -1196,7 +1195,7 @@ var Khan = (function() {
 			 * value[1]: guess
 			 * value[2]: time taken since last guess
 			 */
-			jQuery.each(userExercise.user_activity, function(index, value) {
+			jQuery.each(userExercise.userActivity, function(index, value) {
 				var guess = value[1] === "Activity Unavailable" ? value[1] : JSON.parse( value[1] ),
 					thissolutionarea;
 
@@ -1224,7 +1223,7 @@ var Khan = (function() {
 								"<p class='solution'>" + guess + "</p>" ).tmpl()
 							);
 
-							if (index === userExercise.user_activity.length - 1) {
+							if (index === userExercise.userActivity.length - 1) {
 								thissolutionarea
 									.removeClass( 'incorrect-activity' )
 									.addClass( 'correct-activity' );
@@ -1502,12 +1501,12 @@ var Khan = (function() {
 			});
 
 			jQuery( '#next-problem' ).click(function(event) {
-				window.location.href = userExercise.next_problem_url;
+				window.location.href = userExercise.nextProblemUrl;
 			});
 
 			jQuery( '#previous-problem' ).click(function(event) {
 				if (!jQuery( this ).data( 'disabled' )) {
-					window.location.href = userExercise.previous_problem_url;
+					window.location.href = userExercise.previousProblemUrl;
 				}
 			});
 
