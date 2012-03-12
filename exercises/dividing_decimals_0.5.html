@@ -11,9 +11,9 @@
 			<div id="decimal">
 				<div class="vars" data-ensure="QUOTIENT != round(QUOTIENT)">
 					<var id="BOOST">randFromArray([2, 5, 10])</var>
-					<var id="DIVISOR">randRange(2, 9) * BOOST</var>
-					<var id="QUOTIENT">randRange(2, 9) / BOOST</var>
-					<var id="DIVIDEND">DIVISOR * QUOTIENT</var>
+					<var id="DIVISOR">round( randRange(2, 9) * BOOST )</var>
+					<var id="QUOTIENT">roundTo( 1, randRange(2, 9) / BOOST )</var>
+					<var id="DIVIDEND">round( DIVISOR * QUOTIENT )</var>
 				</div>
 				<p>Please give answer in decimal form.</p>
 
