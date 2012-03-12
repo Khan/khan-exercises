@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems stat probability">
+<head>
+	<meta charset="UTF-8" />
+	<title>Poisson Distribution</title>
+	<script src="../khan-exercise.js"></script>
+    <script src="xcalcHide.js"></script>
+    <script text="text/javascript">
+    function poisson_dist(L,n){  
+      var d = new Array(n+1);
+      d[0] = KhanUtil.roundTo(5,Math.exp(-L))
+      for (var k=1;k < n+1; k++){
+         var tmp = (L/k)*d[k-1]
+         d[k]=KhanUtil.roundTo(5,tmp);
+       }
+      return d;
+    }
+    </script>
+	<style>
+		#answer_area .short input[type=text] {
+			width: 40px;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="L">randRange( 3, 6 )</var>
+            <var id="K">randRange( 1, 3 ) </var>)
+			<var id="PD">poisson_dist(L,K)</var>
+              <var id="SUMPD">roundTo( 3, sum(PD) )</var>
+           
+        
+        </div> <!-- vars -->
+
+		<div class="problems">
+
+			<div id="defect goods">
+				<div class="problem">
+                  <p>On the average, <var>person(1)</var>'s <var>store(1)</var> store finds <var>L</var> defective  
+                     <var><var>storeItem(1,1)</var>s a week.
+
+                   </p>
+				</div>
+
+				<p class="question">
+                    What is the probability that  <var>person(1)</var>'s <var>store(1)</var> store finds at most
+                     <var>K</var> defective <var>storeItem(1,1)</var>s a week?
+                    Round your answer to 3 decimal places.
+				</p>
+
+<!-- Start of Calculator -->
+<a href="simple_stat_calculator.html" target="_blank">Practice Using Calculator ..........</a>
+<INPUT TYPE="button" VALUE="Calulator On/Off" onClick="xcalcHide();">
+ <div id="xcalc" name="xcalc" style="visibility:hidden">
+   <p> Use + to add, - to subtract, * to multiply, / to divide.
+    Use sq(x) for <code>x^2</code>, sqrt(x) for <code>\sqrt{x}</code>, pow(y,x) for <code>y^x</code>, 
+       exp(x) for <code>e^x</code>, log(x) for  <code>\log(x)</code>, for fact(x) for <code>x!</code>.
+       Click the Calculate button to calculate.
+   The answer is stored in Ans.  You can use Ans on your next calculation.</p>
+<iframe src="simple_stat_calculator.html/#calculator" width="600" height="100" frameborder="1" scrolling="no" ></iframe><br>					
+</div>
+<!-- End of Calculator -->
+				<div class="solution" data-type="multiple">
+					<p>
+						P(at most <var>K</var> defects)
+						<span class="sol short" data-type="decimal" data-inexact data-max-error="0.15"><var>SUMPD</var></span> 
+					</p>
+
+					<div class="example">decimals, like <code>7.5</code></div>
+					<div class="example">answers within <code>\pm 0.15</code> are accepted to allow for rounding part-way through</div>
+				</div> <!-- solution -->
+
+
+
+				<div class="hints">
+                   <div>  
+						<p>
+                        We use the Poisson distribution.
+						<code>\lambda</code> is the expected value of an occurance of a rare event in a fixed interval of time.  
+                        The probability that exactly <code>k</code> events occur in the time inverval is
+                        <code>\dfrac{\lambda^k \times e^{-\lambda}}{k!}</code>.
+                    </div>
+                 <div>
+                   <p> <code>\lambda=<var>L</var></code> </p>
+  						<div class="fake_header">
+                            <span style="width: 100px;">
+                            Defects<br/>
+							<code>k</code>
+							</span><span style="width: 150px;">
+								<span class="hint_purple">Probability</span>
+								<code>(\lambda^k \times e^{-\lambda})/k!</code>
+							</span>
+							
+						</div>
+						<div class="fake_row" data-each="PD as i, POINT">
+							<span style="width: 100px;">
+								<code><var>i</var></code> 
+							</span><span style="width: 150px;" class="hint_purple">
+								<code><var>POINT </var></code>
+							</span>
+						</div>
+                        <p>
+                        
+                        The sum of all the probabilities of the table rounded to 3 decimal places, 
+                        <code><var>plus.apply( KhanUtil, jQuery.map( PD, function( x ) { return "\\color{purple}{" + x + "}"; }) )</var>
+                         = <var>SUMPD</var></code>, is the probability that <var>person(1)</var>'s <var>store(1)</var> store finds 
+                        at most <var>K</var> defective <var>storeItem(1,1)</var>s.
+                         </p>
+					</div>
+
+		           
+                    
+                  
+				</div> <!-- hints -->
+			</div> <!--2 Sports Teams -->
+
+
+
+		</div> <!-- problems -->
+	</div> <!-- exercise -->
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems stat">
+<head>
+	<meta charset="UTF-8" />
+	<title>Simple Calculator for Statistics Exercises</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		#answer_area .short input[type=text] {
+			width: 4px;
+		}
+	</style>
+
+<SCRIPT LANGUAGE="JavaScript">
+function sq(x){
+    return x*x;}
+function sqrt(x){
+  return Math.sqrt(x);}
+function pow(y,x){    
+    return Math.pow(y,x);}
+function exp(x){
+    return Math.exp(x);}
+function log(x){
+    return Math.log(x);}
+function fact(x){
+   if (x == 0  || x == 1)
+       return 1;
+   var ans = x*fact(x-1);
+   return ans;}
+function Results (form) {
+    var TestVar = form.inputbox.value;
+    Ans=eval(TestVar);
+    form.inputbox.value=(TestVar + " = " + Ans);
+    return Ans;}
+function Klear (form){
+    form.inputbox.value=("");}
+</SCRIPT>
+
+</head>
+<body>
+
+  <div class="exercise">
+
+ 
+   <div class="vars">
+      <var id="N">randRange(6,8)</var>
+      <var id="K">randRange(2,4)</var>
+      <var id="P0">randRange(30,70)</var>
+      <var id="P">roundTo(1,P0/100)</var>
+      <var id="NK">N-K</var>
+      <var id="P1">roundTo(1,1-P)</var>
+      <var id="A">(fact(N)*pow(P,K)*pow(P1,NK))/(fact(K)*fact(NK))</var>
+      <var id="T">((N*41 - K*22)/(P0 + K*33))</var>
+      <var id="ANSF">roundTo(2,T)</var>
+      <var id="ANSB">roundTo(2,A)</var>
+
+   </div>
+   <p>We provide a simple calculator with which you can see the expression you 
+      are entering and catch your mistakes before you press the 'Calculate' 
+      button. For example, to calculate 
+   </p>
+   <p>
+   <code> \dfrac{\sqrt{ (3.14^2 + 1.41^2) }}{ 2.2 + 1.3 }</code>
+   </p>
+   <p> Type sqrt( ( sq(3.14) + sq(1.41) ) ) / (2.2 + 1.3), make sure your parentheses match, and click the Calculate button.  
+   The answer rounded to 2 decimal places should be 0.98. </p>
+   <p> Use + to add, - to subtract, * to multiply, / to divide.
+    Use sq(x) for <code>x^2</code>, sqrt(x) for <code>\sqrt{x}</code>, pow(y,x) for <code>y^x</code>, 
+       exp(x) for <code>e^x</code>, log(x) for  <code>\log(x)</code>, for fact(x) for <code>x!</code>.
+       Click the Calculate button to calculate.
+   The answer is stored in Ans.  You can use Ans on your next calculation.</p>
+  <a name="calculator"></a>
+  <FORM NAME="myform" ACTION="" METHOD="GET" >Enter an expression in the box: <BR>
+   <INPUT TYPE="text" NAME="inputbox" VALUE="" size="90"><P>
+   <INPUT TYPE="button" NAME="button" VALUE="Calculate" onClick="Results(this.form)">
+   <INPUT TYPE="button" NAME="button" VALUE="Clear" onClick="Klear(this.form)">
+  </FORM>
+   <div class="problems">
+       <div id ="Fraction">
+		     <div class="problem" >
+             </div>
+                 <p class="question"> Use the calculator to calculate 
+                     <code>\dfrac{<var>N*41</var> - <var>K*22</var>}{<var>P0</var> + <var>K*33</var>}</code>
+                      Round your answer to the neareast hundredth.
+                 </p>
+      <div class="solution" data-type="multiple">
+          <p> Calculator answer round to 2 decimal places:
+          <span class="sol" data-type="decimal" data-inexact data-max-error="0.015"><var>ANSF</var></span></p>      
+		 <div class="example">decimals, like <code>7.52</code></div>
+		 <div class="example">answers within <code>\pm 0.015</code> are accepted to allow for rounding part-way through</div>      
+      </div> <!-- solution -->
+	  <div class="hints">
+        <div>  
+
+        <p> Enter into the calculator: (Make sure your parentheses match)</p>
+           <p>
+               (<var>N*41</var> - <var>K*22</var>)/ ( <var>P0</var> + <var>K*33</var> )
+           </P>
+           <p> You can also do this problem in two stages: first enter </p>
+                <p><var>N*41</var> - <var>K*22</var>.</p> 
+           <p>Click the Calculate button.</p> 
+           <p> Then clear the window and enter :</p>
+           <p> Ans / ( <var>P0</var> + <var>K*33</var> ) </p>
+                  <p>Click the Calculate button again to get the answer.</p>
+        </div>   
+       </div> <!-- hints -->
+       </div> <!-- Fraction -->          
+       <div id="Binomial">
+		     <div class="problem" >
+             </div>
+   
+                 <p class="question"> Use the calculator to calculate 
+                 
+                     <code>\dfrac{<var>N</var>! \times 
+                                  <var>P</var>^{<var>K</var>} \times
+                                  <var>(P1)</var>^{<var>NK</var>}}
+                                 {<var>K</var>! \times <var>N-K</var>!}.
+                     \quad </code>
+                 
+                          
+                   Round your answer to the neareast hundredth.
+                </p>
+
+    
+      <div class="solution" data-type="multiple">
+          <p> Calculator answer round to 2 decimal places:
+          <span class="sol" data-type="decimal" data-inexact data-max-error="0.015"><var>ANSB</var></span></p>      
+		 <div class="example">decimals, like <code>7.52</code></div>
+		 <div class="example">answers within <code>\pm 0.015</code> are accepted to allow for rounding part-way through</div>      
+      </div> <!-- solution -->
+
+	  <div class="hints">
+        <div>  
+
+        <p> The expression you enter should be: (Make sure your parentheses match)</p>
+           <p>
+            (fact(<var>N</var>)*pow(<var>P</var>,<var>K</var>)*pow(<var>P1</var>,<var>NK</var>))/
+            (fact(<var>K</var>)*fact(<var>NK</var>)) 
+           </p>
+           <p> You can also to this calculation in two stages: first enter </p>
+                  <p>fact(<var>N</var>) / (fact(<var>K</var>)*fact(<var>NK</var>))</p>
+
+                  <p>Click the Calculate button.</p>
+           <p> Then clear the window and enter :</p>
+                  <p> Ans * pow(<var>P</var>,<var>K</var>) * pow(<var>P1</var>,<var>NK</var>)</p>
+                  <p>Click the Calculate button again to get the answer.</p>
+        </div>   
+      </div><!---hints --->
+   </div><!-- Binomial --> 
+         
+    </div> <!-- problems -->
+  </div> <!-- exercise -->
+</body>
+</html>

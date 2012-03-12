@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems stat probability">
+<head>
+	<meta charset="UTF-8" />
+	<title>Binomial Distribution</title>
+	<script src="../khan-exercise.js"></script>
+    <script src="xcalcHide.js"></script>
+    <script text="text/javascript">
+    function binom_dist(n,p,q){  
+      var d = new Array(n+1);
+      for (var k=0;k < n+1; k++){
+         var tmp = KhanUtil.choose( n,k )*Math.pow(p,k)*Math.pow(q,n-k);
+         d[k]=KhanUtil.roundTo(3,tmp);
+       }
+      return d;
+    }
+    </script>
+	<style>
+		#answer_area .short input[type=text] {
+			width: 40px;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="SPORT">randFromArray(["basket ball", "base ball", "tennis", "foot ball"])</var>
+			<var id="N">randRange( 1,3 )</var>
+            <var id="N1">N+1</var>
+            <var id="NGAMES">2*N+1</var>
+            <var id="P0">randRange( 30,70 )</var>
+			<var id="PWIN">roundTo(2,P0/100)</var>
+			<var id="QWIN">roundTo(2,1-PWIN)</var>
+			<var id="BD">binom_dist(NGAMES,PWIN,QWIN)</var>
+            <var id="MEAN">roundTo(2,NGAMES*PWIN)</var>
+            <var id="PWINALL">roundTo(2,BD[NGAMES])</var>
+            <var id="BDL">BD.slice(N+1)</var>           
+            <var id="PWINSER">roundTo(2, sum(BDL)) </var>
+           
+        
+        </div> <!-- vars -->
+
+		<div class="problems">
+
+			<div id="2 Sports Teams">
+				<div class="problem">
+                  <p>The <var>SPORT</var> teams of <var>school(1)</var> and <var>school(2)</var> 
+                      will be playing  a <var>NGAMES</var> game series.  The team that wins
+                      at least <var>N1</var> games wins the series.  All <var>NGAMES</var> games
+                      will be played.  For each game, the 
+                      probability that <var>school(1)</var> wins against <var>school(2)</var>
+                      is <var>PWIN</var>.
+                   </p>
+				</div>
+
+				<p class="question">
+                    What is the probability that <var>school(1)</var> wins all  <var>NGAMES</var> games?
+                    What is the probability that <var>school(1)</var> wins the series?
+                    Round your answer to 2 decimal places.
+				</p>
+
+<!-- Start of Calculator -->
+<a href="simple_stat_calculator.html" target="_blank">Practice Using Calculator ..........</a>
+<INPUT TYPE="button" VALUE="Calulator On/Off" onClick="xcalcHide();">
+ <div id="xcalc" name="xcalc" style="visibility:hidden">
+   <p> Use + to add, - to subtract, * to multiply, / to divide.
+    Use sq(x) for <code>x^2</code>, sqrt(x) for <code>\sqrt{x}</code>, pow(y,x) for <code>y^x</code>, 
+       exp(x) for <code>e^x</code>, log(x) for  <code>\log(x)</code>, for fact(x) for <code>x!</code>.
+       Click the Calculate button to calculate.
+   The answer is stored in Ans.  You can use Ans on your next calculation.</p>
+<iframe src="simple_stat_calculator.html/#calculator" width="600" height="100" frameborder="1" scrolling="no" ></iframe><br>					
+</div>
+<!-- End of Calculator -->
+				<div class="solution" data-type="multiple">
+					<p>
+						P(Wins All):
+						<span class="sol short" data-type="decimal" data-inexact data-max-error="0.15"><var>PWINALL</var></span> 
+					</p>
+					<p>
+						P(Wins Series):
+						<span class="sol short" data-type="decimal" data-inexact data-max-error="0.15"><var>PWINSER</var></span> 
+					</p>
+
+					<div class="example">decimals, like <code>7.5</code></div>
+					<div class="example">answers within <code>\pm 0.15</code> are accepted to allow for rounding part-way through</div>
+				</div> <!-- solution -->
+
+
+
+				<div class="hints">
+                   <div>  
+						<p>
+						<code>n</code> games will be played.  <code>p</code> is the probability that
+                        <var>school(1)</var> will win one game.  
+						</p>
+                        <p> The probability that <var>school(1)</var> will win <code>k</code> games,
+                            <code>0 \le k \le n</code> is </p>
+                       
+                        <p> <code>\binom{n}{k} \times p^k \times (1-p)^{n-k}</code>. </p>
+
+                    </div>
+                    <div>
+                       <p> <code>n = <var>NGAMES</var>, p = <var>PWIN</var></code>.  Substitute these values into the formulae of the
+                            previous hint</p>
+                    <div>
+  						<div class="fake_header">
+                            <span style="width: 100px;">
+                            Wins<br/>
+							<code>k</code>
+							</span><span style="width: 150px;">
+								<span class="hint_purple">Probability</span>
+								<code>\binom{n}{k} \times p^k \times (1-p)^{n-k}</code>
+							</span>
+							
+						</div>
+						<div class="fake_row" data-each="BDL as i, POINT">
+							<span style="width: 100px;">
+								<code><var>i+N1</var></code> 
+							</span><span style="width: 150px;" class="hint_purple">
+								<code><var>POINT </var></code>
+							</span>
+						</div>
+                        <p>
+                        The probability of the last row rounded to 2 decimal places,<code>\color{purple}{<var>PWINALL</var>}</code>,  is the probability 
+                        for <var>school(1)</var> to win all <var>NGAMES</var> games.
+                        The sum of all the probabilities of the table rounded to 2 decimal places, 
+                        <code><var>plus.apply( KhanUtil, jQuery.map( BDL, function( x ) { return "\\color{purple}{" + x + "}"; }) )</var>
+                         = <var>PWINSER</var></code>, is the probability for <var>school(1)</var> to win the series.</p>
+					</div>
+
+		           
+                    
+                  
+				</div> <!-- hints -->
+			</div> <!--2 Sports Teams -->
+
+
+
+		</div> <!-- problems -->
+	</div> <!-- exercise -->
+</body>
+</html>
