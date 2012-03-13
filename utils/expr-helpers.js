@@ -116,7 +116,7 @@
        var newArgs = $.map(expr.args, function(arg) {
             return exprClone(arg);
        });
-       return {op:expr.op, args:newArgs, color:expr.color, opColors:expr.opColors};
+       return {op:expr.op, args:newArgs, style:expr.style, opStyles:expr.opStyles};
     };
     var exprToText = function(expr) {
        if (typeof expr !== "object") {
@@ -178,14 +178,65 @@
        return ((op === "times") || (op === "cdot") || (op === "*"));
     }
 
-    var exprSetColor = function(expr, color) {
+    var exprSetStyle = function(expr, style) {
           var expr = KhanUtil.exprClone(expr);
           if (typeof expr === "number") {
               expr = {op:"num", args:[expr]};
           }
-          expr.color = color;
+          expr.style = style;
           return expr;
     };
+
+    var exprInList = function(list, term) {
+        for (var iItem = 0; iItem < list.length; iItem++) {
+           if (exprIdentical(term, list[iItem])) {
+               return true;
+           }
+        }
+        return false;
+    };
+
+    var initOccArray = function(length) {
+       var arr = [];
+       for (var pos = 0; pos < length; pos++) {
+          arr.push(0);
+       }
+       return arr;
+    };
+
+    var genExprFromOccFactors = function(factors, occFactors) {
+       var args = [];
+       var numFactors = 1;
+       for (var iFactor = 0; iFactor < factors.length; iFactor++) {
+          var factor = factors[iFactor];
+          if (occFactors[iFactor] <= 0) {
+             continue;
+          }
+          if (typeof factor === "number") {
+             numFactors *= Math.pow(factor, occFactors[iFactor]);
+             continue;
+          }
+          if (occFactors[iFactor] === 1) {
+             args.push(factor);
+          } else {
+             args.push({op:"^", args:[factor, occFactors[iFactor]]});
+          }
+       }
+       if (numFactors !== 1) {
+           args.unshift(numFactors);
+       }
+       var expr;
+       if (args.length === 0) {
+          expr = 1;
+       } else if (args.length === 1) {
+          expr = args[0];
+       } else {
+          expr = {op:"*", args:args};
+       }
+       return exprClone(expr);
+    };
+
+
 
     $.extend(KhanUtil, {
         hasConstants: hasConstants,
@@ -201,6 +252,9 @@
         exprIsNumber: exprIsNumber,
         exprNumValue: exprNumValue,
         opIsMultiplication: opIsMultiplication,
-        exprSetColor: exprSetColor
+        exprSetStyle: exprSetStyle,
+        exprInList: exprInList,
+        initOccArray: initOccArray,
+        genExprFromOccFactors: genExprFromOccFactors
     });
 })();
