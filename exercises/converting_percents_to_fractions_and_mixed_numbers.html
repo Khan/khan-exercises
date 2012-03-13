@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<title>Converting percents to fractions and mixed numbers</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="to_fraction_no_decimal">
+			<div class="vars">
+				<var id="PERCENT">randRange( 1, 100 )</var>
+			</div>
+			<p class="question">Express <code><var>PERCENT</var>\%</code> as a fraction.</p>
+			<p class="solution" data-type="rational"><var>PERCENT / 100</var></p>
+			<div class="hints">
+				<div>
+					<p><code><var>PERCENT</var></code> percent = <code><var>PERCENT</var></code> per cent = <code><var>PERCENT</var></code> per hundred</p>
+				</div>
+				<div>
+					<p><code>\dfrac{?}{100}</code></p>
+				</div>
+				<div>
+				  <p>
+					  "Percent" literally means "out of a hundred," so to turn a percentage into a fraction, simply take whatever is to the left of the percent sign, 
+				    put it over 100, simplify it, and remove the percent sign.
+					</p> 
+				</div>
+			</div>
+		</div>
+		<div id="to_fraction_decimal">
+			<div class="vars">
+			  <var id="DEC_PLACES">randFromArray( [10,100] )</var>
+				<var id="ROUND_TO">Math.log(DEC_PLACES) / Math.log(10)</var>
+				<var id="PERCENT">roundTo(ROUND_TO, randRange( 0, 100 * DEC_PLACES ) / DEC_PLACES)</var>
+			</div>
+			<p class="question">Express <code><var>PERCENT</var>\%</code> as a fraction.</p>
+			<p class="solution" data-type="rational"><var>PERCENT / 100</var></p>
+			<div class="hints">
+				<div>
+				  <p>First, convert the percent to a fraction without worrying about the decimal.</p>
+					<p><code><var>PERCENT</var></code> percent = <code><var>PERCENT</var></code> per cent = <code><var>PERCENT</var></code> per hundred</p>
+					<p>But, the numerator cannot remain as a decimal.</p>
+				</div>
+				<div>
+				  <p>
+					  To eliminate the decimal, multiply the <span class="hint_green">numerator</span> by a sufficient multiple of ten, in this case 
+					  <span style="color: orange;"><code><var>DEC_PLACES</var></code></span>.
+					</p>
+					<p><code>\dfrac{\color{#28AE7B}{<var>PERCENT</var>} \times \color{orange}{<var>DEC_PLACES</var>} }{100}</code></p>
+					<p>
+					  But, this changes the value of the fraction, so the <span class="hint_purple">denominator</span> must also be multiplied by 
+					  <span class="hint_orange"><code><var>DEC_PLACES</var></code></span>.
+					</p>
+					<p><code>\dfrac{\color{#28AE7B}{<var>PERCENT</var>} \times \color{orange}{<var>DEC_PLACES</var>} }{\color{purple}{100} \times \color{orange}{<var>DEC_PLACES</var>}}</code></p>
+					<p>Note that this is equivalent to multiplying by <code class="hint_orange">1</code>.</p>
+					<p><code>= \dfrac{\color{#28AE7B}{<var>PERCENT</var>}}{\color{purple}{100}} \times \color{orange}{\dfrac{<var>DEC_PLACES</var>}{<var>DEC_PLACES</var>}}</code></p>
+				</div>
+				<div>
+				  <p><code>= \dfrac{<var>roundTo(0, PERCENT * DEC_PLACES)</var>}{<var>100 * DEC_PLACES</var>}</code></p>
+					<p>Now you have a proper fraction; remember to simplify it.</p>
+				</div>
+			</div>
+		</div>
+		<div id="to_mixed">
+			<div class="vars">
+				<var id="PERCENT">randRange( 100, 1500 )</var>
+				<var id="WHOLE">Math.floor(PERCENT / 100)</var>
+				<var id="RMDR">PERCENT - WHOLE * 100</var>
+			</div>
+			<p class="question">Express <code><var>PERCENT</var>\%</code> as a mixed number.</p>
+			<p class="solution" data-type="mixed"><var>PERCENT / 100</var></p>
+			<div class="hints">
+			  <div>
+				  <p>Convert the percent to an improper fraction.</p>
+				  <p><code><var>PERCENT</var></code> percent = <code><var>PERCENT</var></code> per cent = <code><var>PERCENT</var></code> per hundred</p>
+				</div>
+				<div>
+				  <p>Convert the improper fraction to a mixed number.  First, divide <code><var>PERCENT</var></code> by <code>100</code>.</p>
+				  <p><code><var>PERCENT</var> \div <var>100</var> = \color{#28AE7B}{<var>WHOLE</var>} \text{ R } \color{purple}{<var>RMDR</var>}</code></p>
+				</div>
+				<div>
+				  <p>This means there <span data-if="WHOLE > 1">are</span><span data-else>is</span> <code>\color{#28AE7B}{<var>WHOLE</var>}</code> <em>complete</em> 
+					<span data-if="WHOLE > 1">groups</span><span data-else>group</span> of <code>100</code> and <code>\color{purple}{<var>RMDR</var>}</code> 
+					<em>leftover <span data-if="WHOLE > 1">parts</span><span data-else>part</span></em> of <code>100</code>.</p>
+				</div>
+				<div>
+				  <p>The integer part (i.e. whole part) of the mixed number is <code>\color{#28AE7B}{<var>WHOLE</var>}</code>.  The fraction part is the remainder over <code>100</code>,
+					or <code>\dfrac{\color{purple}{<var>RMDR</var>}}{100}</code>. Remember that the fraction should be simplified.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
