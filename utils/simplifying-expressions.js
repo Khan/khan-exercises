@@ -167,8 +167,14 @@
             if (KhanUtil.exprIsNumber(factor)) {
                curMaxPower = Math.min(curMaxPower, 2);
             }
-            var topPower = KhanUtil.randRange(0, maxPower);
-            var downPower = KhanUtil.randRange(Math.max(0, 1 - topPower), maxPower);
+            var forbiddenSide = KhanUtil.randRange(0, 2);
+            var topPower = KhanUtil.randRange(1, maxPower);
+            var downPower = KhanUtil.randRange(1, maxPower);
+            if (forbiddenSide === 0) {
+                topPower = 0;
+            } else if (forbiddenSide === 1) {
+                downPower = 0;
+            }
             if (KhanUtil.exprIsNumber(factor)) {
                 while (Math.abs(topNum * Math.pow(factor, topPower) > 80)) {
                     topPower--;
