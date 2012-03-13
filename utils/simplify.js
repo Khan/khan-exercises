@@ -161,7 +161,7 @@
                 return sExpanded;
             }
         }
-        return KhanUtil.exprSetColor(newExpr, expr.color);
+        return KhanUtil.exprSetStyle(newExpr, expr.style);
     };
 
     var hidePlusBeforeNeg = function(expr) {
@@ -238,10 +238,10 @@
                if (KhanUtil.exprIsNumber(arg)) {
                    var value = KhanUtil.exprNumValue(arg);
                    if (options.cancelNegOfNeg || (value > 0)) {
-                      return {op:"num", args:[-value], color:expr.color};
+                      return {op:"num", args:[-value], style:expr.style};
                    } else {
-                      if (arg.color === undefined) {
-                         arg = KhanUtil.exprSetColor(arg, expr.color);
+                      if (arg.style === undefined) {
+                         arg = KhanUtil.exprSetStyle(arg, expr.style);
                       }
                       return arg;
                    }
@@ -293,7 +293,7 @@
                }
                return {op:term.op, args:newArgs};
             }
-            return {op:"^", args:[term, pow], color:expr.color};
+            return {op:"^", args:[term, pow], style:expr.style};
         },
         "frac": function(expr, options, steps) {
             var numer = expr.args[0];

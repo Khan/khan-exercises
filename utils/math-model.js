@@ -203,9 +203,9 @@ jQuery.extend ( KhanUtil, {
 			return polynomial(coeffs.slice(1), ident, lhs);
 		}
 
-		function parse(str, colors) {
+		function parse(str, styles) {
 			// call the parser defined below
-			return KhanUtil.parse(str, colors).expr();
+			return KhanUtil.parse(str, styles).expr();
 		}
 
                 function getAlignment(expr, index, hphantom, addSpacing) {
@@ -232,45 +232,65 @@ jQuery.extend ( KhanUtil, {
 				(op === OpStr.LN));
 		}
 
-		function getChildColors(colors, iChild) {
-			var childColors;
-			if (colors instanceof Array) {
-				childColors = colors[iChild];
-			} else if (colors.children !== undefined) {
-				childColors = colors.children[iChild];
-			}
-			return childColors;
-		}
-
 		function addOpStyle(text, expr, index, spacingBefore, spacingAfter) {
                         if ((expr.opHidden !== undefined) && (expr.opHidden[index] === true)) {
 				return "";
                         }
-                        var colors = expr.opsColors;
-			if ((colors === undefined) || (colors[index] === undefined)) {
+                        var styles = expr.opsStyles;
+			if ((styles === undefined) || (styles[index] === undefined)) {
 				return text + " ";
 			}
-			var str = "\\color{"+colors[index]+"}{";
-			if (spacingBefore) {
-				str += "\\;";
+			var style = styles[index];
+			if (typeof style === "string") {
+				style = {color:style};
 			}
-			str += text + " ";
-			if (spacingAfter) {
-				str += "\\;";
+			if (style.color !== undefined) {
+				var str = "\\color{" + style.color + "}{";
+				if (spacingBefore) {
+					str += "\\;";
+				}
+				str += text + " ";
+				if (spacingAfter) {
+					str += "\\;";
+				}
+				str += "}";
+				text = str;
 			}
-			str += "}";
-			return str;
+			if (style.cancel) {
+				text = "\\cancel{" + text + "}";
+				if (typeof style.cancel === "string") {
+					text = "\\color{" + style.cancel + "}{" + text + "}";
+				}
+			}
+			return text;
 		}
 
-		function addColor(text, color) {
-			if (color === undefined) {
+		function addStyle(text, expr) {
+			if ((expr.parent !== undefined) &&
+				(expr.parent.idStyle === expr.idStyle) &&
+				(expr.idStyle !== undefined)) {
+				return text;
+                        }
+			if (expr.style === undefined) {
 				return text;
 			}
-			return "\\color{"+color+"}{"+text+"}";
+			if (typeof expr.style === "string") {
+				expr.style = {color:expr.style};
+			}
+			if (expr.style.color !== undefined) {
+				text = "\\color{" + expr.style.color + "}{" + text + "}";				
+			}
+			if (expr.style.cancel) {
+				text = "\\cancel{" + text + "}";
+				if (typeof expr.style.cancel === "string") {
+					text = "\\color{" + expr.style.cancel + "}{" + text + "}";
+				}
+			}
+			return text;
 		}
 
-		function parseFormat(text, colors, hphantom, textSize) {
-			var expr = parse(text, colors);
+		function parseFormat(text, styles, hphantom, textSize) {
+			var expr = parse(text, styles);
 			var str = format(expr, textSize, hphantom);
 			if (hphantom) {
 				str = "\\hphantom{" + str + "}";
@@ -304,7 +324,7 @@ jQuery.extend ( KhanUtil, {
 		}
 
 		// format an AST
-		function format(n, textSize, hphantom) {
+		function format(n, textSize, hphantom, parent) {
 
 			if (textSize===void 0) {
 				textSize = "normalsize";
@@ -323,6 +343,7 @@ jQuery.extend ( KhanUtil, {
 				if ((n.op !== "var") && (n.op !== "cst")) {
 					var args = [];
 					for (var i = 0; i < n.args.length; i++) {
+                                                n.args[i].parent = n;
 						args[i] = format(n.args[i], textSize, hphantom);
 					}
 				}
@@ -483,7 +504,7 @@ jQuery.extend ( KhanUtil, {
 			else {
 				KhanUtil.assert(false, "invalid expression type");
 			}
-			text = addColor(text, n.color);
+			text = addStyle(text, n);
 			return text;
 		}
 		
@@ -609,9 +630,9 @@ KhanUtil.MathModel.init = function() {
 
 jQuery.extend ( KhanUtil, {
 
-	parse: function (src, colors) {
-		if (colors === undefined) {
-			colors = [];
+	parse: function (src, styles) {
+		if (styles === undefined) {
+			styles = [];
 		}
 		var TK_NONE		= 0;
 		var TK_ADD		= '+'.charCodeAt(0);
@@ -658,7 +679,7 @@ jQuery.extend ( KhanUtil, {
 		var TK_COLOR		= 0x117;
 
 		var OpStr = KhanUtil.OpStr;
-		var curColor = 0;
+		var curStyle = 0;
 
 		var T0=TK_NONE, T1=TK_NONE;
 
@@ -749,6 +770,15 @@ jQuery.extend ( KhanUtil, {
 			return true;
 		}
 
+		function setStyle(e, styles, idStyle) {
+			if (typeof e === "number") {
+				e = {op:"num", args:[e]};
+			}
+			e.idStyle = idStyle;
+			e.style = styles[idStyle];
+			return e;
+		}
+
 		function primaryExpr () {
 			var e;
 			var t;
@@ -756,14 +786,15 @@ jQuery.extend ( KhanUtil, {
 			switch ((t=hd())) {
 			case 'A'.charCodeAt(0):
 			case 'a'.charCodeAt(0):
-				e = {op: "var", args: [lexeme()], color:colors[scan.color()]};
+				e = {op: "var", args: [lexeme()]};
+				e = setStyle(e, styles, scan.style());
 				next();
 				break;
 			case TK_NUM:
 				e = Number(lexeme());
-				var idColor = scan.color();
-				if (idColor !== undefined) {
-					e = {op:"num", args:[e], color:colors[idColor]};
+				var idStyle = scan.style();
+				if (idStyle !== undefined) {
+					e = setStyle(e, styles, idStyle);
 				}
 				next();
 				break;
@@ -776,16 +807,16 @@ jQuery.extend ( KhanUtil, {
 			case TK_FRAC:
 			case TK_DFRAC:
                                 var align = alignment();
-				var idColorLeft = scan.color();
+				var idStyleLeft = scan.style();
                                 var align = alignment();
 				next();
 				e = {op: tokenToOp[t], args: [braceExpr(), braceExpr()], align:align};
-				var idColorRight = scan.lastColor();
-				addColors(e, idColorLeft, idColorRight, idColorLeft);
+				var idStyleRight = scan.lastStyle();
+				addStyles(e, idStyleLeft, idStyleRight, idStyleLeft);
 				break;
 			case TK_SQRT:
                                 var align = alignment();
-				var idColorLeft = scan.color();
+				var idStyleLeft = scan.style();
 				next();
 				switch(hd()) {
 				case TK_LEFTBRACKET:
@@ -795,8 +826,8 @@ jQuery.extend ( KhanUtil, {
 					e = {op: tokenToOp[TK_SQRT], args: [braceOptionalExpr()], align:align};
 					break;
 				}
-				var idColorRight = scan.lastColor();
-				addColors(e, idColorLeft, idColorRight, idColorLeft);
+				var idStyleRight = scan.lastStyle();
+				addStyles(e, idStyleLeft, idStyleRight, idStyleLeft);
 				break;
 			case TK_SIN:
 			case TK_COS:
@@ -806,7 +837,7 @@ jQuery.extend ( KhanUtil, {
 			case TK_CSC:
 			case TK_LN:
                                 var align = alignment();
-				var idColorLeft = scan.color();
+				var idStyleLeft = scan.style();
 				next();
 				if ( hd() === TK_CARET) {
 					eat(TK_CARET);
@@ -816,8 +847,8 @@ jQuery.extend ( KhanUtil, {
 				} else {
 					e = {op: tokenToOp[t], args: [unaryExpr()], align:align};
 				}
-				var idColorRight = scan.lastColor();
-				addColors(e, idColorLeft, idColorRight, idColorLeft);
+				var idStyleRight = scan.lastStyle();
+				addStyles(e, idStyleLeft, idStyleRight, idStyleLeft);
 				break;
 			default:
 				e = void 0;
@@ -861,16 +892,17 @@ jQuery.extend ( KhanUtil, {
 		function surroundedExpr(leftTk, rightTk, op) {
 			var leftAlign = alignment();
 			eat(leftTk);
-			var idColorLeft = scan.lastColor();
+			var idStyleLeft = scan.lastStyle();
 			var e = commaExpr();
 			var rightAlign = alignment();
 			eat(rightTk);
-			var idColorRight = scan.lastColor();
+			var idStyleRight = scan.lastStyle();
 			var expr = {op:op, args:[e]};
-			if (idColorLeft === idColorRight) {
-				expr.color = colors[idColorLeft];
+			if (idStyleLeft === idStyleRight) {
+                                expr = setStyle(expr, styles, idStyleLeft);
 			} else {
-				expr.opsColors = [colors[idColorLeft], colors[idColorRight]];
+				expr.opsIdStyles = [idStyleLeft, idStyleRight];
+				expr.opsStyles = [styles[idStyleLeft], styles[idStyleRight]];
 			}
 			expr.align = leftAlign.concat(rightAlign);
 			return expr;
@@ -891,7 +923,7 @@ jQuery.extend ( KhanUtil, {
 				if (typeof expr === "number") {
 					expr = {op:"num", args:[expr]};
 				}
-				expr.color = color;
+				expr.style = color;
 				break;
 			case TK_ADD:
 				next();
@@ -899,11 +931,11 @@ jQuery.extend ( KhanUtil, {
 				break;
 			case TK_SUB:
 				var align = alignment();
-				var opIdColor = scan.color();
+				var opIdStyle = scan.style();
 				next();
 				var arg = unaryExpr();
 				expr = {op:"-", args:[arg]};
-				addColors(expr, opIdColor, scan.lastColor(), opIdColor);
+				addStyles(expr, opIdStyle, scan.lastStyle(), opIdStyle);
 	                        expr.align = align;
 				break;
 			default:
@@ -917,45 +949,47 @@ jQuery.extend ( KhanUtil, {
 			var expr = unaryExpr();
 			var t;
 			while ((t=hd())===TK_CARET) {
-				var startIdColor = scan.color();
+				var startIdStyle = scan.style();
 				next();
 				var expr2;
 				expr2 = braceOptionalExpr();
-				var endIdColor = scan.color();
+				var endIdStyle = scan.style();
 				expr = {op: tokenToOp[t], args: [expr, expr2]};
-				addColors(expr, startIdColor, endIdColor);
+				addStyles(expr, startIdStyle, endIdStyle);
 			}
 			return expr;
 		}
 
-		function addColors(expr, startIdColor, endIdColor, opIdColor) {
-			if ((startIdColor !== undefined) && (startIdColor === endIdColor)) {
-				expr.color = colors[startIdColor];
-			} else if (opIdColor !== undefined) {
-				expr.opsColors = [colors[opIdColor]];
+		function addStyles(expr, startIdStyle, endIdStyle, opIdStyle) {
+			if ((startIdStyle !== undefined) && (startIdStyle === endIdStyle)) {
+				expr.idStyle = startIdStyle;
+				expr.style = styles[startIdStyle];
+			} else if (opIdStyle !== undefined) {
+				expr.opsIdStyles = [opIdStyle];
+				expr.opsStyles = [styles[opIdStyle]];
 			}
 		}
 
 		function multiplicativeExpr() {
-			var startIdColor = scan.color();
+			var startIdStyle = scan.style();
 			var expr = exponentialExpr();
 			var t;
 			t = hd();
 			while (isMultiplicative(t) || (t === TK_VAR) || (t === TK_LEFTPAREN)) {
-				var opIdColor = scan.color();
+				var opIdStyle = scan.style();
 				var align = undefined;
 				if (isMultiplicative(t)) {
 					align = alignment();
 					next();
 				}
 				var expr2 = exponentialExpr();
-				var endIdColor = scan.lastColor();
+				var endIdStyle = scan.lastStyle();
 				if ((t === TK_VAR) || (t === TK_LEFTPAREN)) {
 					expr = {op: OpStr.MUL, args: [expr, expr2]};
 				} else {
 					expr = {op: tokenToOp[t], args: [expr, expr2]};
 				}
-				addColors(expr, startIdColor, endIdColor, opIdColor);
+				addStyles(expr, startIdStyle, endIdStyle, opIdStyle);
 	                        expr.align = align;
 				t = hd();
 			}
@@ -967,17 +1001,17 @@ jQuery.extend ( KhanUtil, {
 		}
 
 		function additiveExpr() {
-			var startIdColor = scan.color();
+			var startIdStyle = scan.style();
 			var expr = multiplicativeExpr();
 			var t;
 			while (isAdditive(t = hd())) {
-				var opIdColor = scan.color();
+				var opIdStyle = scan.style();
                                 var align = alignment();
 				next();
 				var expr2 = multiplicativeExpr();
-				var endIdColor = scan.lastColor();
+				var endIdStyle = scan.lastStyle();
 				expr = {op: tokenToOp[t], args: [expr, expr2]};
-				addColors(expr, startIdColor, endIdColor, opIdColor);
+				addStyles(expr, startIdStyle, endIdStyle, opIdStyle);
 	                        expr.align = align;
 			}
 			return expr;
@@ -988,12 +1022,12 @@ jQuery.extend ( KhanUtil, {
 		}
 
 		function compareExpr() {
-			var startIdColor = scan.color();
+			var startIdStyle = scan.style();
 			var expr = additiveExpr();
 			var t = hd();
 			while ((t ===TK_EQL) || (t === TK_LT) || (t === TK_GT) || (t === TK_LEQ) || (t === TK_GEQ) || (t === TK_NOT)) {
 	                        var align = alignment();
-				opIdColor = scan.color();
+				opIdStyle = scan.style();
 				next();
 				var op = tokenToOp[t];
 				if (t === TK_NOT) {
@@ -1005,10 +1039,10 @@ jQuery.extend ( KhanUtil, {
 					op = OpStr.NEQ;
 				}
 				var expr2 = additiveExpr();
-				var endIdColor = scan.color();
+				var endIdStyle = scan.style();
 				expr = {op: op, args: [expr, expr2]};
 	                        expr.align = align;
-				addColors(expr, startIdColor, endIdColor, opIdColor);
+				addStyles(expr, startIdStyle, endIdStyle, opIdStyle);
 				t = hd();
 			}
 			return expr;
@@ -1029,15 +1063,15 @@ jQuery.extend ( KhanUtil, {
 		function scanner(src) {
 
 			var curIndex = 0;
-			var curColor = 0;
+			var curStyle = 0;
 			var lexeme = "";
                         var alignment = [0, 0];
-			var popColors = 0;
-			var lastColor = undefined;
+			var popStyles = 0;
+			var lastStyle = undefined;
 
 			var lexemeToToken = [];
-			var braceIsForColor = [];
-			var openedColors = [];
+			var braceIsForStyle = [];
+			var openedStyles = [];
 
 			lexemeToToken["\\times"] = TK_TIMES;
 			lexemeToToken["\\cdot"] = TK_CDOT;
@@ -1063,24 +1097,24 @@ jQuery.extend ( KhanUtil, {
 				lexeme : function () { return lexeme } ,
 				readChar: readChar ,
                                 alignment : function () { return alignment } ,
-				color: color,
-				lastColor: function() { return lastColor },
+				style: style,
+				lastStyle: function() { return lastStyle },
 			}
 
 			// begin private functions
 
-			function color() {
-				return openedColors[openedColors.length - 1];
+			function style() {
+				return openedStyles[openedStyles.length - 1];
 			}
 
 			function start () {
 				var c;
 				lexeme = "";
 				alignment = [0, 0];
-				lastColor = color();
-				while (popColors > 0) {
-					openedColors.pop();
-					popColors--;
+				lastStyle = style();
+				while (popStyles > 0) {
+					openedStyles.pop();
+					popStyles--;
 				}
 				while (curIndex < src.length) {
 					switch ((c = src.charCodeAt(curIndex++))) {
@@ -1134,21 +1168,21 @@ jQuery.extend ( KhanUtil, {
 						c = src.charCodeAt(curIndex);
 						if (c === TK_LEFTBRACE) {
 							curIndex++;
-							braceIsForColor.push(true);
+							braceIsForStyle.push(true);
 						} else {
-							popColors++;
+							popStyles++;
 						}
-						openedColors.push(curColor);
-						curColor++;
+						openedStyles.push(curStyle);
+						curStyle++;
 						continue;
 					case TK_LEFTBRACE:
-						braceIsForColor.push(false);
+						braceIsForStyle.push(false);
 						lexeme += String.fromCharCode(c);
 						return c;						
 					case TK_RIGHTBRACE:
-						if (braceIsForColor.pop()) {
-							lastColor = openedColors.pop();
-							//popColors++;
+						if (braceIsForStyle.pop()) {
+							lastStyle = openedStyles.pop();
+							//popStyles++;
 							continue;
 						}
 						lexeme += String.fromCharCode(c);
