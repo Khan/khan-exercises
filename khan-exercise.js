@@ -155,9 +155,6 @@ var Khan = (function() {
 	// The exercise elements
 	exercises,
 
-	// If we're dealing with a summative exercise
-	isSummative = false,
-
 	// Where we are in the shuffled list of problem types
 	problemBag,
 	problemBagIndex = 0,
@@ -649,7 +646,6 @@ var Khan = (function() {
 			var remoteExercises = jQuery( "div.exercise[data-name]" );
 
 			if ( remoteExercises.length ) {
-				isSummative = true;
 
 				remoteExercises.each( loadExercise );
 
@@ -1746,9 +1742,6 @@ var Khan = (function() {
 
 				// The seed that was used for generating the problem
 				problem_type: problemID,
-
-				// The non-summative exercise that the current problem belongs to
-				non_summative: exercise.data( "name" ),
 
 				// Whether we are currently in review mode
 				review_mode: (!testMode && Exercises.reviewMode) ? 1 : 0,
