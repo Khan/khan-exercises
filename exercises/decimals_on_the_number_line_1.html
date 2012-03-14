@@ -49,18 +49,24 @@
 					label( [ UPPER_BOUND, -0.53 ],  UPPER_VALUE, "center", { color: BLUE });
 
 					addMouseLayer();
-					this.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
-					movablePoint.onMove = function( x, y ) {
+					graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
+					graph.movablePoint.onMove = function( x, y ) {
 						if (x &lt; LOWER_BOUND || UPPER_BOUND &lt; x) {
 							return false; // don't allow the point to move past the bounds
 						}
-						jQuery("#solutionarea input").val( x );
 					};
 				</div>
 			</div>
-				<div class="solution" data-type="multiple">
-				<span>Move the orange dot to select your answer.</span>
-				<div class="sol" data-type="decimal" style="display:none"><var>TICK_MARK_SOLUTION</var></div>
+
+			<div class="solution" data-type="custom">
+				<span class="instruction"> Move the orange dot to select your answer. </span>
+				<div class="guess"> graph.movablePoint.coord[0] </div>
+				<div class="validator-function">
+					return abs( TICK_MARK_SOLUTION - guess ) &lt; 0.001;
+				</div>
+				<div class="show-guess">
+					graph.movablePoint.setCoord( [ guess, 0 ] );
+				</div>
 			</div>
 
 			<div class="hints">
@@ -70,25 +76,28 @@
 				    <p><code>\color{green}{\text{piece of line}}</code> = <code>\color{red}{<var>MARK_INCREMENT</var>}</code>
 				</div>
 
-				<p><code>\color{orange}{<var>SOLUTION</var>}</code> = <code>\color{red}{<var>MARK_INCREMENT</var>}</code> * <code>\color{blue}{<var>TICK_MARK_SOLUTION</var>}</code></p>
-				<p>Therefore, moving the <code>\color{orange}{\text{orange dot}}</code> <code>\color{blue}{<var>TICK_MARK_SOLUTION</var>}</code> place<var>plural(TICK_MARK_SOLUTION)</var> will put it at the position <code>\color{orange}{<var>SOLUTION</var>}</code>.</p>
+				<p><code>\color{orange}{<var>SOLUTION</var>}</code> = 
+				<code>\color{red}{<var>MARK_INCREMENT</var>}</code> * <code>\color{blue}{<var>TICK_MARK_SOLUTION</var>}</code></p>
+				<p>Therefore, moving the <code>\color{orange}{\text{orange dot}}</code>
+				<code>\color{blue}{<var>TICK_MARK_SOLUTION</var>}</code> place<var>plural(TICK_MARK_SOLUTION)</var> will put it at the position
+				<code>\color{orange}{<var>SOLUTION</var>}</code>.</p>
 
 				<div>
 					<div class="graphie" data-update="number-line">
-    					for ( var x = LOWER_BOUND + 1; x &lt; UPPER_BOUND; x++ ) {
-    					    label( [ LOWER_BOUND + x, -0.53 ], x / UPPER_BOUND, "center");
-    					}
-                    </div>
+							for ( var x = LOWER_BOUND + 1; x &lt; UPPER_BOUND; x++ ) {
+								label( [ LOWER_BOUND + x, -0.53 ], x / UPPER_BOUND, "center");
+							}
+					</div>
 				</div>
 
 				<div>
 					<div class="graphie" data-update="number-line">
 						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
 						line( [ 0, 0 ], [ TICK_MARK_SOLUTION, 0 ] );
-						movablePoint.visibleShape.toFront();
+						graph.movablePoint.visibleShape.toFront();
 
 						label( [ TICK_MARK_SOLUTION, -0.53 ], SOLUTION, "center", { color: "orange" });
-						movablePoint.moveTo( TICK_MARK_SOLUTION, 0 );
+						graph.movablePoint.moveTo( TICK_MARK_SOLUTION, 0 );
 					</div>
 					<p>The orange number shows where <code>\color{orange}{<var>SOLUTION</var>}</code> is on the number line.</p>
 				</div>
