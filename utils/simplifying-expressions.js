@@ -122,11 +122,25 @@
         var exampleExprInit = getFractionFromOccFactors(exampleFactors, exampleOldOccs);
         var exampleExprStep = getFractionFromOccFactors(exampleFactors, exampleNewOccs, exampleOldOccs);
         var exampleExprEnd = getFractionFromOccFactors(exampleFactors, exampleNewOccs);
+        var exampleGroup = [MATH.parse("#{\\dfrac{a^2}{a}} &= #{a^2 \\cdot a^-1}", [KhanUtil.BLUE, KhanUtil.BLUE]),
+                            MATH.parse("&= #{a^{2-1}}", [KhanUtil.BLUE]),
+                            MATH.parse("&= #{a^1}", [KhanUtil.BLUE]),
+                            MATH.parse("&= #{a}", [KhanUtil.BLUE])];
         hints = [];
         hints.push("<p>To simplify this type of expression, we need to look for factors that are shared by both the numerator and the denominator.</p>For each such factor, if it is present with the same exponent both at the numerator and the denominator, then we can remove that factor completely. If the exponent is different, then we remove the one with the lowest exponent, and substract it from the one with the higher exponent.</p>");
-        hints.push("<p>For example, if we had this expression: <code>" + MATH.format(exampleExprInit) + "</code>, we would see that the factor <code>" + MATH.format(aExpr) + "</code> is present in both the numerator and the denominator. We would then simplify it like this: <code>" + MATH.format(exampleExprStep) + "</code> and obtain: <code>" + MATH.format(exampleExprEnd) + "</code></p><p>Can you apply this technique to this exercise?</p>");
-        hints.push("<p>Here is what this approach gives in this case:</p><p><code>" + MATH.format(hintExpr) + "</code></p>");
-        hints.push("<p>We obtain the following expression:</p><p><code>" + MATH.format(solExpr) + "</code></p>");
+        var subHints = ["<p>Why can we simplify an expression this way? Let's look at the detailed steps that we imply when we write <code>" + MATH.format(exampleExprStep) + "</code> :</p><p><code>" + MATH.format(exampleExprInit) + "</code> can be rewritten as <code>" +
+            MATH.parseFormat("\\dfrac{3}{5} \\cdot #{\\dfrac{a^2}{a}} \\cdot b \\cdot \\dfrac{1}{c}", [KhanUtil.BLUE]) + "</code></p><p><code>" +
+            MATH.formatGroup(exampleGroup) + "</code></p><p>So we get <code>" +
+            MATH.parseFormat("\\dfrac{3}{5} \\cdot #{a} \\cdot b \\cdot \\dfrac{1}{c}", [KhanUtil.BLUE]) + "</code>, or <code>" +
+            MATH.parseFormat("\\dfrac{3ab}{5c}") + "</code>"];
+        hints.push("<p>For example, if we had this expression: <code>" + MATH.format(exampleExprInit) + "</code>, we would see that the factor <code>" + MATH.format(aExpr) + "</code> is present in both the numerator and the denominator.</p><p>We would then simplify it like this: <code>" + MATH.format(exampleExprStep) + "</code> and obtain: <code>" + MATH.format(exampleExprEnd) + "</code> " +  KhanUtil.getSubHints("factoring", "Show explanation", subHints) + "</p><p>Can you apply this technique to this exercise?</p>");
+
+        if (KhanUtil.exprIdentical(expr, solExpr)) {
+           hints.push("<p>There are no factors that can be simplified in this expression, so the answer is: <code>" + MATH.format(solExpr) + "</code>");
+        } else {
+            hints.push("<p>Here is what this approach gives in this case:</p><p><code>" + MATH.format(hintExpr) + "</code></p>");
+            hints.push("<p>We obtain the following expression:</p><p><code>" + MATH.format(solExpr) + "</code></p>");
+        }
         return {solution:solExpr, hints:hints, choices:choices};
     };
 

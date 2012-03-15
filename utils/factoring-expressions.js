@@ -368,30 +368,6 @@
        }
     };
 
-    var testHint = function() {
-       return "<p>Any time we have a negative exponent, we can change it to a positive exponent if we flip the numerator and denominator:" +
-       "[<a href=\"#\" class=\"show-subhint\" data-subhint=\"neg-exponent\">Why is that?</a>]" +
-       "</p><div class=\"subhint\" id=\"neg-exponent\">" +
-       "<p>" +
-       "Test subHint" +
-       "</p>" +
-       "<p>" +
-       "For more, check out the" +
-       "<a class=\"related-video\" href=\"/video/negative-exponent-intuition\" data-youtube-id=\"Tqpcku0hrPU\">negative exponent intuition</a> video." +
-       "</p>" +
-       "</div>";
-    }
-
-    var getSubHints = function(id, title, subHints) {
-        var str = "[<a href='#' class='show-subhint' data-subhint='" + id + "'>" + title + "</a>]</p>";
-        str += "<div class='subhint' id='" + id + "'>";
-        for (var iHint = 0; iHint < subHints.length; iHint++) {
-           str += "<p>" + subHints[iHint] + "</p>";
-        }
-        str += "</div>";
-        return str;
-    }
-
     var solveDiffOfSquaresExercise = function(MATH, expr) {
        if (KhanUtil.exprIsNumber(expr) || (expr.args.length != 2)) {
            return undefined;
@@ -416,7 +392,7 @@
        var solution = genFullExpr(factors, sharedOccFactors, termsOccFactors);
 
        if (factorDiffOfSquares) {
-          var hint = "<p>We obtain the following expression: " + getSubHints("common-factors", "Show explanation", detailedHints);
+          var hint = "<p>We obtain the following expression: " + KhanUtil.getSubHints("common-factors", "Show explanation", detailedHints);
           hint += "<p><code>" + MATH.format(solution) + "</code></p>";
           hints.push(hint);
           hints.push("<p>Can we factor this expression even more?</p>");
@@ -427,7 +403,7 @@
                  continue;
              }
              hints.push("<p>This part of the expression can be factored: <code>" + MATH.format(arg) + "</code></p>");
-             var hint = "<p>We recognize and factor a difference of squares, and obtain the following expression: " + getSubHints("diff-squares-" + iArg, "Show explanation", solvedArg.hints);
+             var hint = "<p>We recognize and factor a difference of squares, and obtain the following expression: " + KhanUtil.getSubHints("diff-squares-" + iArg, "Show explanation", solvedArg.hints);
              solution.args[iArg] = solvedArg.solution;
              hint += "<p><code>" + MATH.format(solution);
              hints.push(hint);
