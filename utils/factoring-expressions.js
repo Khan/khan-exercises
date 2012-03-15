@@ -21,7 +21,7 @@
         return 1;
     };
 
-    var factorDiffOfSquares = function(MATH, expr) {
+    var factorDiffOfSquares = function(MATH, expr, options) {
       var terms = [];
       for (var iArg = 0; iArg < 2; iArg++) {
           var term = {factors:[], occFactors:[]};
@@ -49,31 +49,40 @@
       var exprDiff = {op:"-", args:[termA.sqrt, termB.sqrt]};
       var exprSum = {op:"+", args:[termA.sqrt, termB.sqrt]};
       var solution = {op:"*", args:[exprDiff, exprSum]};
-
       var hints = [];
-      var coloredExpr = {op:"-", args:[KhanUtil.exprSetStyle(termA.initial, KhanUtil.PINK),
-          KhanUtil.exprSetStyle(termB.initial, KhanUtil.BLUE)]};
-      var initialForm = MATH.parseFormat("#{a^2} + #{b^2}", [KhanUtil.PINK, KhanUtil.BLUE]);
-      var factoredForm = MATH.parseFormat("(#a + #b)(#a - #b)", [KhanUtil.PINK, KhanUtil.BLUE, KhanUtil.PINK, KhanUtil.BLUE]);
-      hints.push("<p><code>" + MATH.format(coloredExpr) + "</code></p><p>The expression is of the form <code>" + initialForm +
-          "</code> which is a difference of two squares so we can factor it as <code>" + factoredForm + "</code></p>");
-      var strA = MATH.parseFormat("#a", [KhanUtil.PINK]);
-      var strB = MATH.parseFormat("#b", [KhanUtil.BLUE]);
-      hints.push("<p>What are the values of <code>" + strA + "</code> and <code>" + strB + "</code>?</p>");
-      var varA = {op:"var", args:["a"]};
-      var varB = {op:"var", args:["a"]};
-      var exprA = {op:"=", args:[varA, {op:"sqrt", args:[termA.initial]}, termA.sqrt], color:KhanUtil.PINK};
-      var exprB = {op:"=", args:[varB, {op:"sqrt", args:[termB.initial]}, termB.sqrt], color:KhanUtil.BLUE};
-      hints.push("<p><code>" + MATH.format(exprA) + "</code><p><code>" + MATH.format(exprB) + "</code></p>");
-      hints.push("<p>Use the values we found for <code>" + strA + "</code> and <code>" + strB + "</code> to complete the factored expression, <code>" + factoredForm + "</code></p>");
-      var coloredFactored = KhanUtil.exprClone(solution);
-      for (var iArg1 = 0; iArg1 < 2; iArg1++) {
-         var colors = [KhanUtil.PINK, KhanUtil.BLUE];
-         for (var iArg2 = 0; iArg2 < 2; iArg2++) {
-            coloredFactored.args[iArg1].args[iArg2] = KhanUtil.exprSetStyle(coloredFactored.args[iArg1].args[iArg2], colors[iArg2]);
-         }
+      if (options.factorDiffOfSquares === "a^2-b^2=(a-b)^2") {
+          solution = {op:"^", args:[exprDiff, 2]};
+      } else if (options.factorDiffOfSquares === "a^2-b^2=(a-b)(b-a)") {
+          solution = {op:"*", args:[exprDiff, {op:"-", args:[termB.sqrt, termA.sqrt]}]};
+      } else if (options.factorDiffOfSquares === "a^2-b^2 = (a^2-b^2)(a^2+b^2)") {
+          exprDiff = {op:"-", args:[termA.initial, termB.initial]};
+          exprSum = {op:"+", args:[termA.initial, termB.initial]};
+          solution = {op:"*", args:[exprDiff, exprSum]};
+      } else {
+          var coloredExpr = {op:"-", args:[KhanUtil.exprSetStyle(termA.initial, KhanUtil.PINK),
+              KhanUtil.exprSetStyle(termB.initial, KhanUtil.BLUE)]};
+          var initialForm = MATH.parseFormat("#{a^2} + #{b^2}", [KhanUtil.PINK, KhanUtil.BLUE]);
+          var factoredForm = MATH.parseFormat("(#a + #b)(#a - #b)", [KhanUtil.PINK, KhanUtil.BLUE, KhanUtil.PINK, KhanUtil.BLUE]);
+          hints.push("<p><code>" + MATH.format(coloredExpr) + "</code></p><p>The expression is of the form <code>" + initialForm +
+              "</code> which is a difference of two squares so we can factor it as <code>" + factoredForm + "</code></p>");
+          var strA = MATH.parseFormat("#a", [KhanUtil.PINK]);
+          var strB = MATH.parseFormat("#b", [KhanUtil.BLUE]);
+          hints.push("<p>What are the values of <code>" + strA + "</code> and <code>" + strB + "</code>?</p>");
+          var varA = {op:"var", args:["a"]};
+          var varB = {op:"var", args:["a"]};
+          var exprA = {op:"=", args:[varA, {op:"sqrt", args:[termA.initial]}, termA.sqrt], color:KhanUtil.PINK};
+          var exprB = {op:"=", args:[varB, {op:"sqrt", args:[termB.initial]}, termB.sqrt], color:KhanUtil.BLUE};
+          hints.push("<p><code>" + MATH.format(exprA) + "</code><p><code>" + MATH.format(exprB) + "</code></p>");
+          hints.push("<p>Use the values we found for <code>" + strA + "</code> and <code>" + strB + "</code> to complete the factored expression, <code>" + factoredForm + "</code></p>");
+          var coloredFactored = KhanUtil.exprClone(solution);
+          for (var iArg1 = 0; iArg1 < 2; iArg1++) {
+             var colors = [KhanUtil.PINK, KhanUtil.BLUE];
+             for (var iArg2 = 0; iArg2 < 2; iArg2++) {
+                coloredFactored.args[iArg1].args[iArg2] = KhanUtil.exprSetStyle(coloredFactored.args[iArg1].args[iArg2], colors[iArg2]);
+             }
+          }
+          hints.push("<p><b>So we can factor the expression as:</b><code>" + MATH.format(coloredFactored) + "</code>");
       }
-      hints.push("<p><b>So we can factor the expression as:</b><code>" + MATH.format(coloredFactored) + "</code>");
       return {solution:solution, hints:hints};
     };
 
@@ -368,18 +377,21 @@
        }
     };
 
-    var solveDiffOfSquaresExercise = function(MATH, expr) {
+    var solveDiffOfSquaresExercise = function(MATH, expr, options) {
        if (KhanUtil.exprIsNumber(expr) || (expr.args.length != 2)) {
            return undefined;
        }
        if (expr.op === "-") {
            var sumExpr = {op:"+", args:[expr.args[0], {op:"-", args:[expr.args[1]]}]};
-           return solveDiffOfSquaresExercise(MATH, sumExpr);
+           return solveDiffOfSquaresExercise(MATH, sumExpr, options);
        }
-       return factorDiffOfSquares(MATH, expr);
+       return factorDiffOfSquares(MATH, expr, options);
     };
 
-    var solveFactoringExercise = function(MATH, expr, factorDiffOfSquares) {
+    var solveFactoringExercise = function(MATH, expr, options) {
+       if (options === undefined) {
+           options = {};
+       }
        expr = KhanUtil.simplify(expr);
        var exprFactors = factorSum(expr);
        var factors = exprFactors.factors;
@@ -391,14 +403,14 @@
        var detailedHints = genHintsDecomposeAllFactors(MATH, factors, sharedOccFactors, termsOccFactors);
        var solution = genFullExpr(factors, sharedOccFactors, termsOccFactors);
 
-       if (factorDiffOfSquares) {
+       if (options.factorDiffOfSquares) {
           var hint = "<p>We obtain the following expression: " + KhanUtil.getSubHints("common-factors", "Show explanation", detailedHints);
           hint += "<p><code>" + MATH.format(solution) + "</code></p>";
           hints.push(hint);
           hints.push("<p>Can we factor this expression even more?</p>");
           for (var iArg = 0; iArg < solution.args.length; iArg++) {
              var arg = solution.args[iArg];
-             var solvedArg = solveDiffOfSquaresExercise(MATH, arg);
+             var solvedArg = solveDiffOfSquaresExercise(MATH, arg, options);
              if (solvedArg === undefined) {
                  continue;
              }
@@ -410,6 +422,15 @@
           }
        } else {
           hints = hints.concat(detailedHints);
+       }
+       if (options.factorWithDiffOfSquares === "a(b^2-c^2)=(ab-ac)(a+c))") {
+          var exprDiff = solution.args[1].args[0];
+          var factor = solution.args[0];
+          for (var iArg = 0; iArg < 2; iArg++) {
+             exprDiff.args[iArg] =  KhanUtil.simplify({op:"*", args:[KhanUtil.exprClone(factor), exprDiff.args[iArg]]},
+                 {evalBasicNumOps:true});
+          }
+          solution = solution.args[1];
        }
 
        hints.push("<p>There is nothing left to factor using this approach. The answer is : <code>" + MATH.format(solution) + "</code></p>");
