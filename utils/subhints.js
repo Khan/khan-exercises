@@ -1,4 +1,13 @@
 (function() {
+	var getSubHints = function(id, title, subHints) {
+		var str = "[<a href='#' class='show-subhint' data-subhint='" + id + "'>" + title + "</a>]</p>";
+		str += "<div class='subhint' id='" + id + "'>";
+		for (var iHint = 0; iHint < subHints.length; iHint++) {
+			str += "<p>" + subHints[iHint] + "</p>";
+		}
+		str += "</div>";
+		return str;
+	};
 
 	jQuery( "a.show-subhint" ).live( "click", function( event ) {
 		var subhint = jQuery( "#" + jQuery( this ).data( "subhint" ) );
@@ -15,4 +24,7 @@
 		return false;
 	});
 
+	$.extend(KhanUtil, {
+		getSubHints:getSubHints,
+	});
 })();

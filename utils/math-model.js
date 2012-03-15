@@ -299,6 +299,12 @@ jQuery.extend ( KhanUtil, {
 		}
 
 		function formatGroup(group, selection) {
+                        if (selection === undefined) {
+                           selection = [];
+                           for (var iExpr = 0; iExpr < group.length; iExpr++) {
+                               selection.push(iExpr);
+                           }
+                        }
 			var str = "\\begin{alignat}{5}";
 			for (var iExpr = 0; iExpr < group.length; iExpr++) {
 				if ($.inArray(iExpr, selection) === -1) {
@@ -343,8 +349,12 @@ jQuery.extend ( KhanUtil, {
 				if ((n.op !== "var") && (n.op !== "cst")) {
 					var args = [];
 					for (var i = 0; i < n.args.length; i++) {
-                                                n.args[i].parent = n;
-						args[i] = format(n.args[i], textSize, hphantom);
+						if (n.args[i] === undefined) {
+						   args[i] = "";
+						} else {
+	                                                n.args[i].parent = n;
+							args[i] = format(n.args[i], textSize, hphantom);
+						}
 					}
 				}
 
