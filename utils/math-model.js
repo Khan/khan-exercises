@@ -454,7 +454,9 @@ jQuery.extend ( KhanUtil, {
 							term = {op:"()", args:[term]};
 						}
 						if ((term.args && (term.args.length >= 2) &&
-							(term.op !== OpStr.POW) && (term.op !== OpStr.MUL)) ||
+							(term.op !== OpStr.POW) &&
+                                                        (!((term.op !== OpStr.MUL) && (KhanUtil.exprIsNumber(term.args[0]))))
+                                                    ) ||
 							!((n.op === OpStr.MUL) && (term.op === OpStr.PAREN ||
 								 term.op===OpStr.POW ||
 								 term.op===OpStr.VAR ||
