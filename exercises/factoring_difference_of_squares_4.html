@@ -23,7 +23,14 @@
 					<var id="SQUARE">F * A * A</var>
 					<var id="CONSTANT">F * -B * B</var>
                                         <var id="PROBLEM">MATH.parse(SQUARE + "x^" + (2*P) + CONSTANT)</var>
-		                        <var id="SOLUTION">solveFactoringExercise(MATH, PROBLEM, true)</var>
+		                        <var id="SOLUTION">solveFactoringExercise(MATH, PROBLEM, {factorDiffOfSquares:true})</var>
+			<var id="ERRORS">[
+			MATH.format(solveFactoringExercise(MATH, PROBLEM, {factorDiffOfSquares:false}).solution),
+			MATH.format(solveFactoringExercise(MATH, PROBLEM, {factorDiffOfSquares:"a^2-b^2=(a-b)^2"}).solution),
+			MATH.format(solveFactoringExercise(MATH, PROBLEM, {factorDiffOfSquares:"a^2-b^2=(a-b)(b-a)"}).solution),
+			MATH.format(solveFactoringExercise(MATH, PROBLEM, {factorDiffOfSquares:"a^2-b^2 = (a^2-b^2)(a^2+b^2)"}).solution),
+			MATH.format(solveFactoringExercise(MATH, PROBLEM, {factorWithDiffOfSquares:"a(b^2-c^2)=(ab-ac)(a+c))"}).solution),
+					]</var>
 				</div>
 				<div>
 					<p class="question">
@@ -33,10 +40,17 @@
 						<code><var>MATH.format(PROBLEM)</var></code>
 					</p>
 				</div>
+				<p class="solution"><code><var>MATH.format(SOLUTION.solution)</var></code></p>
+<!--
 				<div class="solution" data-type="multiple">
 					<p><span class="sol"><var>F</var></span>(<span class="sol"><var>A</var></span><code>x</code><span class="sol exp"><var>P</var></span> - <span class="sol"><var>B</var></span>)(<span class="sol"><var>A</var></span><code>x</code><span class="sol exp"><var>P</var></span> + <span class="sol"><var>B</var></span>)</p>
 					<p class="example">enter a (possibly negative) integer for each input area.</p>
 				</div>
+-->
+				<ul class="choices" data-none="true" data-show="5">
+					<li data-each="ERRORS as key, value"><code><var>value</var></code></li>
+                                </ul>
+
 			</div>
 		</div>
 		<div class="hints">

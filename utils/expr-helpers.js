@@ -236,6 +236,34 @@
        return exprClone(expr);
     };
 
+    var exprToString = function(expr) {
+        var ast = new KhanUtil.MathModel();
+        return ast.format(expr);
+    };
+    var exprToCode = function(expr, isResult) {
+        var strExpr = "<code>" + KhanUtil.exprToString(expr) + "</code>";
+        if (isResult) {
+            strExpr = "<span class='result'>" + strExpr + "</span>"; 
+        } else {
+            strExpr = "<span class='mathTest'>" + strExpr + "</span>"; 
+        }
+        return strExpr;
+    };
+    var exprToCodeOr = function(expr1, expr2, isResult) {
+        var strExpr1 = KhanUtil.exprToString(expr1);
+        var strExpr2 = KhanUtil.exprToString(expr2);
+        if (strExpr1 !== strExpr2) {
+            return KhanUtil.exprToCode(expr1) + " or " + KhanUtil.exprToCode(expr2, isResult);
+        }
+        return KhanUtil.exprToCode(expr2, isResult);
+    };
+    var exprType = function( expr ) {
+        if ( typeof expr === "object" ) {
+            return expr.op;
+        } else {
+            return typeof(expr);
+        }
+    };
 
 
     $.extend(KhanUtil, {
@@ -255,6 +283,9 @@
         exprSetStyle: exprSetStyle,
         exprInList: exprInList,
         initOccArray: initOccArray,
-        genExprFromOccFactors: genExprFromOccFactors
+        genExprFromOccFactors: genExprFromOccFactors,
+        exprToCodeOr: exprToCodeOr,
+        exprToCode: exprToCode,
+        exprToString: exprToString
     });
 })();
