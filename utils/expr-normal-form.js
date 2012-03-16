@@ -11,24 +11,48 @@
             nArgs.push(normalForm(expr.args[iArg], steps));
         });
         if ((expr.op === "+") || (expr.op === "times")|| (expr.op === "*")|| (expr.op === "cdot")) {
-            nArgs = moveSameOpsUp(expr.op, nArgs);
-            nArgs = nArgs.sort(compareNormalForms);
-            return {op:expr.op, args:nArgs};
+            expr = moveSameOpsUp({op:expr.op, args:nArgs});
+            expr.args = expr.args.sort(compareNormalForms);
+            return expr;
         }
         return {op:expr.op, args:nArgs};
     };
 
-    var moveSameOpsUp = function (mainOp, terms) {
-        var newTerms = [];
-        $.each(terms, function(iTerm, term) {
-            if ((typeof term === "object") && (term.op === mainOp)) {
-                newTerms = newTerms.concat(moveSameOpsUp(mainOp, term.args));
+    var moveSameOpsUp = function (expr) {
+        var newArgs = [];
+        var opsStyles = [];
+        var opsIdStyles = [];
+        var align = [];
+        for (var iArg = 0; iArg < expr.args.length; iArg++) {
+            var arg = expr.args[iArg];
+            if ((typeof arg === "object") && (arg.op === expr.op)) {
+                newArg = moveSameOpsUp(arg);
+                newArgs = newArgs.concat(newArg.args);
+                opsStyles = opsStyles.concat(newArg.opsStyles);
+                opsIdStyles = opsIdStyles.concat(newArg.opsIdStyles);
+                align = align.concat(newArg.align);
             }
             else {
-                newTerms.push(term);
+                newArgs.push(arg);
+                var iOp = iArg - 1;
+                if (iOp >= 0) {
+                    if (expr.opsStyles !== undefined) {
+                        opsStyles.push(expr.opsStyles[iOp]);
+                        if (expr.opsIdStyles !== undefined) {
+                            opsIdStyles.push(expr.opsIdStyles[iOp]);
+                        }
+                    } else if (expr.style !== undefined) {
+                        opsStyles.push(expr.style);
+                        opsIdStyles.push(expr.idStyle);
+                    }
+                    if (expr.align !== undefined) {
+                        align.push(expr.align[iOp * 2]);
+                        align.push(expr.align[iOp * 2 + 1]);
+                    }
+                }
             }
-        });
-        return newTerms;
+        }
+        return KhanUtil.copyStyleIfNone(expr, {op:expr.op, args:newArgs, opsStyles:opsStyles, opsIdStyles:opsIdStyles, align:align});
     };
 
     var compareNormalFormsAs = function(op, expr1, expr2, ignoreConstants) {
