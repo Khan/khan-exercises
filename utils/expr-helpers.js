@@ -116,8 +116,27 @@
        var newArgs = $.map(expr.args, function(arg) {
             return exprClone(arg);
        });
-       return {op:expr.op, args:newArgs, style:expr.style, opStyles:expr.opStyles};
+       return copyStyleIfNone(expr, {op:expr.op, args:newArgs});
     };
+
+    var copyStyleIfNone = function(srcExpr, dstExpr) {
+       if (typeof expr === "number") {
+          expr = {op:"num", args:[expr]};
+       }
+       if (dstExpr.style === undefined) {
+           dstExpr.style = srcExpr.style;
+           dstExpr.idStyle = srcExpr.idStyle;
+       }
+       if (dstExpr.opsStyles === undefined) {
+           dstExpr.opsStyles = srcExpr.opsStyles;
+           dstExpr.opsIdStyles = srcExpr.opsIdStyles;
+       }
+       if (dstExpr.align === undefined) {
+           dstExpr.align = srcExpr.align;
+       }
+       return dstExpr;
+    };
+
     var exprToText = function(expr) {
        if (typeof expr !== "object") {
           return expr;
@@ -286,6 +305,7 @@
         genExprFromOccFactors: genExprFromOccFactors,
         exprToCodeOr: exprToCodeOr,
         exprToCode: exprToCode,
-        exprToString: exprToString
+        exprToString: exprToString,
+        copyStyleIfNone: copyStyleIfNone
     });
 })();

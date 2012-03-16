@@ -122,9 +122,8 @@
         var exampleExprInit = getFractionFromOccFactors(exampleFactors, exampleOldOccs);
         var exampleExprStep = getFractionFromOccFactors(exampleFactors, exampleNewOccs, exampleOldOccs);
         var exampleExprEnd = getFractionFromOccFactors(exampleFactors, exampleNewOccs);
-        var exampleGroup = [MATH.parse("#{\\dfrac{a^2}{a}} &= #{a^2 \\cdot a^-1}", [KhanUtil.BLUE, KhanUtil.BLUE]),
-                            MATH.parse("&= #{a^{2-1}}", [KhanUtil.BLUE]),
-                            MATH.parse("&= #{a^1}", [KhanUtil.BLUE]),
+        var exampleGroup = [MATH.parse("#{\\dfrac{a^2}{a}} &= #{\\dfrac{#{a} \\cdot a}{#{a}}}", [KhanUtil.BLUE, KhanUtil.BLUE, {cancel:true}, {cancel:true}]),
+                            MATH.parse("&= #{\\dfrac{a}{1}}", [KhanUtil.BLUE]),
                             MATH.parse("&= #{a}", [KhanUtil.BLUE])];
         hints = [];
         hints.push("<p>To simplify this type of expression, we need to look for factors that are shared by both the numerator and the denominator.</p>For each such factor, if it is present with the same exponent both at the numerator and the denominator, then we can remove that factor completely. If the exponent is different, then we remove the one with the lowest exponent, and substract it from the one with the higher exponent.</p>");
@@ -144,7 +143,26 @@
         return {solution:solExpr, hints:hints, choices:choices};
     };
 
-    var genSimplifyingExpressionsExercise = function(MATH, nbTerms, maxPower, numFactors, variables, types) {
+    var getNonNumNonVarIFactors = function(factors, occFactors) {
+        var listIFactors = [];
+        var lastNumOrVarIFactor;
+        for (var iFactor = 0; iFactor < occFactors.length; iFactor++) {
+            for (var iOcc = 0; iOcc < occFactors[iFactor]; iOcc++) {
+                var factor = factors[iFactor];
+                if ((!KhanUtil.exprIsNumber(factor)) && (factor.op !== "var")) {
+                    listIFactors.push(iFactor);
+                } else {
+                   lastNumOrVarIFactor = iFactor;
+                }
+            }
+        }
+        if (listIFactors.length === 0) {
+            listIFactors.push(lastNumOrVarIFactor);
+        }
+        return listIFactors;
+    };
+
+    var genSimplifyingExpressionsExercise = function(MATH, nbTerms, maxPower, numFactors, variables, types, withInnerFactor) {
         var factors = [];
         for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
             var term;
@@ -171,8 +189,12 @@
             }  while (KhanUtil.exprInList(factors, term));
             factors.push(term);
         }
-        var topOccFactors = KhanUtil.initOccArray(factors.length);
-        var downOccFactors = KhanUtil.initOccArray(factors.length);
+        var sidesOccFactors = [KhanUtil.initOccArray(factors.length), KhanUtil.initOccArray(factors.length)];
+        var sidesIFactors = [[], []];
+        var extraCommonNum = 1;
+        if (withInnerFactor) {
+            extraCommonNum = KhanUtil.randFromArray(numFactors);
+        }
         var topNum = 1;
         var downNum = 1;
         for (var iFactor = 0; iFactor < factors.length; iFactor++) {
@@ -190,21 +212,38 @@
                 downPower = 0;
             }
             if (KhanUtil.exprIsNumber(factor)) {
-                while (Math.abs(topNum * Math.pow(factor, topPower) > 80)) {
+                while (Math.abs(extraCommonNum * topNum * Math.pow(factor, topPower) > 80)) {
                     topPower--;
                 }
-                while (Math.abs(downNum * Math.pow(factor, downPower) > 80)) {
+                while (Math.abs(extraCommonNum * downNum * Math.pow(factor, downPower) > 80)) {
                     downPower--;
                 }
                 topNum *= Math.pow(factor, topPower);
                 downNum *= Math.pow(factor, downPower);
             }
-            topOccFactors[iFactor] = topPower;
-            downOccFactors[iFactor] = downPower;
+            sidesOccFactors[0][iFactor] = topPower;
+            sidesOccFactors[1][iFactor] = downPower;
         }
-        var exprTop = KhanUtil.genExprFromOccFactors(factors, topOccFactors);
-        var exprDown = KhanUtil.genExprFromOccFactors(factors, downOccFactors);
-        return {op:"dfrac", args:[exprTop, exprDown]};
+        if (extraCommonNum !== 1) {
+            var sidesIFactors = [];
+            for (var iSide = 0; iSide < 2; iSide++) {
+                sidesIFactors.push(getNonNumNonVarIFactors(factors, sidesOccFactors[iSide]));
+            }
+            for (var iSide = 0; iSide < 2; iSide++) {
+                var pickedFactor = KhanUtil.randFromArray(sidesIFactors[iSide]);
+                sidesOccFactors[iSide][pickedFactor]--;
+                var factor = {op:"*", args:[extraCommonNum, KhanUtil.exprClone(factors[pickedFactor])]};
+                factor = KhanUtil.simplify(factor, {evalBasicNumOps:true, simplifyMode:"expand"});
+                factors.push(factor);
+                sidesOccFactors[iSide].push(1);
+                sidesOccFactors[1 - iSide].push(0);
+            }
+        }
+        var exprArgs = [];
+        for (var iSide = 0; iSide < 2; iSide++) {
+            exprArgs.push(KhanUtil.genExprFromOccFactors(factors, sidesOccFactors[iSide]));
+        }
+        return {op:"dfrac", args:exprArgs};
     };
 
     $.extend(KhanUtil, {
