@@ -69,9 +69,9 @@
           var strB = MATH.parseFormat("#b", [KhanUtil.BLUE]);
           hints.push("<p>What are the values of <code>" + strA + "</code> and <code>" + strB + "</code>?</p>");
           var varA = {op:"var", args:["a"]};
-          var varB = {op:"var", args:["a"]};
-          var exprA = {op:"=", args:[varA, {op:"sqrt", args:[termA.initial]}, termA.sqrt], color:KhanUtil.PINK};
-          var exprB = {op:"=", args:[varB, {op:"sqrt", args:[termB.initial]}, termB.sqrt], color:KhanUtil.BLUE};
+          var varB = {op:"var", args:["b"]};
+          var exprA = {op:"=", args:[varA, {op:"sqrt", args:[termA.initial]}, termA.sqrt], style:KhanUtil.PINK};
+          var exprB = {op:"=", args:[varB, {op:"sqrt", args:[termB.initial]}, termB.sqrt], style:KhanUtil.BLUE};
           hints.push("<p><code>" + MATH.format(exprA) + "</code><p><code>" + MATH.format(exprB) + "</code></p>");
           hints.push("<p>Use the values we found for <code>" + strA + "</code> and <code>" + strB + "</code> to complete the factored expression, <code>" + factoredForm + "</code></p>");
           var coloredFactored = KhanUtil.exprClone(solution);
@@ -116,6 +116,14 @@
             }
         } else if ((expr.op === "^") && (KhanUtil.exprIsNumber(expr.args[1]))) {
             findExprFactors(expr.args[0], allFactors, ownOccFactors, KhanUtil.exprNumValue(expr.args[1]) * nbOcc);
+        } else if ((expr.op === "-") || (expr.op === "+")) {
+           var factoredSum = factorSum(expr);
+           var newExpr = genFullExpr(factoredSum.factors, factoredSum.sharedOccFactors, factoredSum.termsOccFactors);
+           if (KhanUtil.exprIdentical(expr, newExpr)) {
+               addToFactors(KhanUtil.normalForm(expr), allFactors, ownOccFactors, nbOcc);
+           } else {
+               findExprFactors(newExpr, allFactors, ownOccFactors, nbOcc);
+           }
         } else {
             addToFactors(KhanUtil.normalForm(expr), allFactors, ownOccFactors, nbOcc);
         }
@@ -431,6 +439,7 @@
                  {evalBasicNumOps:true});
           }
           solution = solution.args[1];
+       } else if (options.factorWithDiffOfSquares === "(ab^2-cd^2)=a(b - d)(b + d)") {
        }
 
        hints.push("<p>There is nothing left to factor using this approach. The answer is : <code>" + MATH.format(solution) + "</code></p>");

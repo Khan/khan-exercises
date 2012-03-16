@@ -10,8 +10,11 @@
 	<script type="text/javascript" src="../tmpl.js"></script>
 	<script src="../ast.js"></script>
 	<script src="../math-model.js"></script>
-	<script src="../math.js"></script>
+	<script src="../simplify.js"></script>
+	<script src="../expr-normal-form.js"></script>
 	<script src="../expr-helpers.js"></script>
+	<script src="../steps-helpers.js"></script>
+	<script src="../math.js"></script>
 <style>
 .ok {
    color:white;
@@ -130,6 +133,7 @@
 		{src:"-a", ref:"- a"},
 
 		{title:"Binary operators"},
+		{src:"2*3", ref:"2\\times 3"},
 		{src:"a+b", ref:"a+ b"},
 		{src:"a-b", ref:"a- b"},
 		{src:"a*b", ref:"ab"},
@@ -154,12 +158,12 @@
 		{src:"\\cot(x)", ref:"\\cot {( x) }"},
 		{src:"\\sec(x)", ref:"\\sec {( x) }"},
 		{src:"\\csc(x)", ref:"\\csc {( x) }"},
-		{src:"\\sin^{-1} x", ref:"\\sin^{- 1}x"},
+		{src:"\\sin^{-1} x", ref:"\\sin^{-1}x"},
 		{src:"\\sin(x)^2", ref:"\\sin^{2}( x) "},
 
 		{title:"Misc"},
 		{src:"a(b+c)",ref:"a( b+ c) "},
-		{src:"-2\\times -3", ref:"- 2\\times - 3"},
+		{src:"-2\\times -3", ref:"-2\\times -3"},
 		{src:"\\sqrt{x}", ref:"\\sqrt {x}"},
 		{src:"\\sqrt[3]{x}", ref:"\\sqrt[3] {3}"},
 		{src:"\\frac{a}{b}", ref:"\\frac {a}{b}"},
@@ -192,7 +196,8 @@
 		{src:"2*a*(b)", ref:"2a( b) "},
 		{srcExpr:{op:"*", args:[2,{op:"+", args:[2, 3]}]}, ref:"2(2+ 3)"},
 		{srcExpr:{op:"*", args:[2,{op:"()", args:[{op:"+", args:[2, 3]}]}]}, ref:"2( 2+ 3) "},
-
+		{srcExpr:{op:"*", args:[2,{op:"*", args:[3, 4]}]}, ref:"2\\times 3\\times 4"},
+		{srcExpr:{op:"*", args:[2,{op:"*", args:[{op:"var", args:["x"]}, {op:"var", args:["y"]}]}]}, ref:"2xy"},
 		{title:"Mixed expressions"},
 		{src:"--a", ref:"- - a"},
 		{src:"a+-b", ref:"a+ - b"},
@@ -284,8 +289,7 @@
 		{src:"(a#{+b)*(c \\times }d)", styles:[PINK], ref:"( a\\color{#FF00AF}{\\;+ \\;}\\color{#FF00AF}{b}\\color{#FF00AF}{) }\\color{#FF00AF}{( }\\color{#FF00AF}{c}\\color{#FF00AF}{\\;\\times \\;}d) "},
 
 		{src:"(a#{+b)*(c+}d)", styles:[PINK], ref:"( a\\color{#FF00AF}{\\;+ \\;}\\color{#FF00AF}{b}\\color{#FF00AF}{) }\\color{#FF00AF}{( }\\color{#FF00AF}{c}\\color{#FF00AF}{\\;+ \\;}d) "},
-
-		{src:"#{a+\\sqrt{x}}+2", styles:[PINK], ref:"\\color{#FF00AF}{a+ \\sqrt {x}}+ 2"},
+		{src:"#{a+\\sqrt{x}}+2", styles:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;+ \\;}\\color{#FF00AF}{\\sqrt {x}}+ 2"},
 		{src:"#{\\sin} x", styles:[PINK], ref:"\\color{#FF00AF}{\\sin \\;}{x}"},
 		{src:"#{\\sin}(x)", styles:[PINK], ref:"\\color{#FF00AF}{\\sin \\;}{( x) }"},
 		{src:"#{\\sin(}x)", styles:[PINK], ref:"\\color{#FF00AF}{\\sin \\;}{\\color{#FF00AF}{( }x) }"},
@@ -294,7 +298,7 @@
 
 		{title:"Colors: multiple/nested colors"},
 
-		{src:"#a+#b=#{-3}", styles:[BLUE, PINK, GREEN], ref:"\\color{#6495ED}{a}+ \\color{#FF00AF}{b}= \\color{#28AE7B}{- 3}"},
+		{src:"#a+#b=#{-3}", styles:[BLUE, PINK, GREEN], ref:"\\color{#6495ED}{a}+ \\color{#FF00AF}{b}= \\color{#28AE7B}{-3}"},
 		{src:"#{(a+#{(b+#{|d|})})=3}", styles:[BLUE, PINK, GREEN], ref:"\\color{#6495ED}{( \\color{#6495ED}{a}\\color{#6495ED}{\\;+ \\;}\\color{#FF00AF}{( \\color{#FF00AF}{b}\\color{#FF00AF}{\\;+ \\;}\\color{#28AE7B}{| d| }) }) }\\color{#6495ED}{\\;= \\;}\\color{#6495ED}{3}"},
 
 		{title:"Colors: \\color command"},

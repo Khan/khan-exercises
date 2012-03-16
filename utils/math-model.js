@@ -33,7 +33,8 @@ jQuery.extend ( KhanUtil, {
 		HIGHLIGHT: "hi",
 		DERIV: "deriv",
 		NEQ: "!=",
-		NUM: "num"
+		NUM: "num",
+		EMP: "empty",
 	},
 
 	MathModel : function (name) {
@@ -237,7 +238,8 @@ jQuery.extend ( KhanUtil, {
 				return "";
                         }
                         var styles = expr.opsStyles;
-			if ((styles === undefined) || (styles[index] === undefined)) {
+			if ((styles === undefined) || (styles[index] === undefined) ||
+                            ((expr.opsIdStyles !== undefined) && (expr.opsIdStyles[index] === expr.idStyle))) {
 				return text + " ";
 			}
 			var style = styles[index];
@@ -330,7 +332,18 @@ jQuery.extend ( KhanUtil, {
 		}
 
 		// format an AST
-		function format(n, textSize, hphantom, parent) {
+		function format(expr, textSize, hphantom) {
+			if (expr === undefined) {
+				return "";
+			}
+			if (KhanUtil.simplify !== undefined) {
+				expr = KhanUtil.simplify(expr, KhanUtil.simplifyOptions.minimal);
+			}
+			return formatRec(expr, textSize, hphantom);
+		}
+
+		// format an AST
+		function formatRec(n, textSize, hphantom, parent) {
 
 			if (textSize===void 0) {
 				textSize = "normalsize";
@@ -353,7 +366,7 @@ jQuery.extend ( KhanUtil, {
 						   args[i] = "";
 						} else {
 	                                                n.args[i].parent = n;
-							args[i] = format(n.args[i], textSize, hphantom);
+							args[i] = formatRec(n.args[i], textSize, hphantom);
 						}
 					}
 				}
@@ -383,6 +396,8 @@ jQuery.extend ( KhanUtil, {
 						text += args[1];
 					}
 					break;
+				case OpStr.EMP:
+					break;
 				case OpStr.DIV:
 				case OpStr.PM:
 				case OpStr.LT:
@@ -403,7 +418,7 @@ jQuery.extend ( KhanUtil, {
 					if ((typeof lhs === "object") && isTrigOrLog(lhs.op)) {
 						text = OpToLaTeX[lhs.op] + getAlignment(n, 0, hphantom) + "^" + getAlignment(n,1, hphantom);
 						text += "{" + args[1] + "}";
-						text += format(lhs.args[0], textSize, hphantom);
+						text += formatRec(lhs.args[0], textSize, hphantom);
 						break;
 					}
 					if ((lhs.args && lhs.args.length===2) || (rhs.args && rhs.args.length===2)) {
@@ -449,14 +464,11 @@ jQuery.extend ( KhanUtil, {
 					text = "";
 					jQuery.each(n.args, function (index, term) {
 						var opIndex = index - 1;
-						if (((term.op===OpStr.ADD) || (term.op===OpStr.SUB)) && (term.args.length > 1)) {
+						if (((term.op === OpStr.ADD) || (term.op === OpStr.SUB)) && (term.args.length > 1)) {
 							args[index] = "(" + args[index] + ")";
 							term = {op:"()", args:[term]};
 						}
-						if ((term.args && (term.args.length >= 2) &&
-							(term.op !== OpStr.POW) &&
-                                                        (!((term.op !== OpStr.MUL) && (KhanUtil.exprIsNumber(term.args[0]))))
-                                                    ) ||
+						if ((term.args && (term.args.length >= 2) && (term.op !== OpStr.POW)) ||
 							!((n.op === OpStr.MUL) && (term.op === OpStr.PAREN ||
 								 term.op===OpStr.POW ||
 								 term.op===OpStr.VAR ||
@@ -1037,6 +1049,9 @@ jQuery.extend ( KhanUtil, {
 		function compareExpr() {
 			var startIdStyle = scan.style();
 			var expr = additiveExpr();
+			if (expr === undefined) {
+				expr = {op:"empty", args:[]};
+			}
 			var t = hd();
 			while ((t ===TK_EQL) || (t === TK_LT) || (t === TK_GT) || (t === TK_LEQ) || (t === TK_GEQ) || (t === TK_NOT)) {
 	                        var align = alignment();
