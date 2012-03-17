@@ -40,7 +40,7 @@
       <div class="hints">
 	<p>The area of a triangle is calculated by the formula <code>A = \dfrac{bh}{2}</code></p>
 	<p><code class="hint_blue">A</code> stands for <strong class="hint_blue">Area</strong>, <code class="hint_orange">b</code> stands for <strong class="hint_orange">base</strong>, and <code class="hint_red">h</code> stands for <strong class="hint_red">height</strong>.</p>
-	<p>Find the length of the <span class="hint_orange">base</span> by counting the units of length along the bottom edge of the triangle.</p>
+	<p>Find the length of the <span class="hint_orange">base</span> by counting the units of length along an edge on the grid.</p>
 
 	<div class="graphie" data-update="grid">
 	  if (ALIGN % 2 == 0) {
@@ -67,7 +67,7 @@
 	</div>
 
 	<p>So the <span class="hint_orange">base</span> of the triangle is <span class="hint_orange"><var>A</var></span> units.</p>
-	<p>Next, we must find the <span class="hint_red">height</span> of the triangle. Count the distance from the base to the opposite point ("vertex").</p>
+	<p>Next, we must find the <span class="hint_red">height</span> of the triangle. Count from the <span class="hint_orange">base</span> <span data-if="ALIGN%2 == 0">up</span><span data-if="ALIGN%2 != 0">over</span> to the opposite point.</p>
 
 	<div class="graphie" data-update="grid">
 	  if (ALIGN % 2 == 0) {
