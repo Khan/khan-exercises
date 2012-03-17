@@ -61,7 +61,7 @@
       } else {
           var coloredExpr = {op:"-", args:[KhanUtil.exprSetStyle(termA.initial, KhanUtil.PINK),
               KhanUtil.exprSetStyle(termB.initial, KhanUtil.BLUE)]};
-          var initialForm = MATH.parseFormat("#{a^2} + #{b^2}", [KhanUtil.PINK, KhanUtil.BLUE]);
+          var initialForm = MATH.parseFormat("#{a^2} - #{b^2}", [KhanUtil.PINK, KhanUtil.BLUE]);
           var factoredForm = MATH.parseFormat("(#a + #b)(#a - #b)", [KhanUtil.PINK, KhanUtil.BLUE, KhanUtil.PINK, KhanUtil.BLUE]);
           hints.push("<p><code>" + MATH.format(coloredExpr) + "</code></p><p>The expression is of the form <code>" + initialForm +
               "</code> which is a difference of two squares so we can factor it as <code>" + factoredForm + "</code></p>");
