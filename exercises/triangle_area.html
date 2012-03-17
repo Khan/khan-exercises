@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-geometry math-format">
+  <head>
+    <title>Triangle area 1</title>
+    <script src="../khan-exercise.js"></script>
+  </head>
+  <body>
+    <div class="exercise">
+      <div class="vars">
+	<var id="A">randRange(3,10)</var>
+	<var id="B">randRange(3,10)</var>
+	<var id="C">randRange(3,10)</var>
+      </div>
+      
+      <div class="problems">
+        <div id="problem-type-or-description">
+          <p class="question">What is the area of the triangle?</p>
+	  <div class="graphie" id="grid">
+	    graphInit({
+	        range: [ [ -1, max(A,B)+1 ] , [ -1, C+1 ] ],
+	        tickLen: 0,
+	        axisOpacity: 0.01
+	    });
+	    
+	    path([ [ 0, 0 ], [ A, 0 ], [ B, C ], [ 0, 0 ] ]);
+	  </div>
+          <p class="solution" data-type="rational"><var>A * C / 2</var></p>
+        </div>
+      </div>
+      <div class="hints">
+	<p>The area of a triangle is calculated by the formula <code>A = \dfrac{bh}{2}</code></p>
+	<p><code class="hint_blue">A</code> stands for <strong class="hint_blue">Area</strong>, <code class="hint_orange">b</code> stands for <strong class="hint_orange">base</strong>, and <code class="hint_red">h</code> stands for <strong class="hint_red">height</strong>.</p>
+	<p>Find the length of the <span class="hint_orange">base</span> by counting the units of length along the bottom edge of the triangle.</p>
+
+	<div class="graphie" data-update="grid">
+	  style({
+  	      stroke: "orange",
+	      strokeWidth: 3
+	  }, function() {
+	      path([ [ 0, 0 ], [ A, 0 ] ]);
+	  });
+	  label( [ A / 2 , -.5 ], A, "below", {
+	      color: "orange"
+	  });
+	</div>
+
+	<p>So the <span class="hint_orange">base</span> of the triangle is <span class="hint_orange"><var>A</var></span> units.</p>
+	<p>Next, we must find the <span class="hint_red">height</span> of the triangle. Count the <i>perpendicular</i> distance from the base to the opposite vertex.</p>
+
+	<div class="graphie" data-update="grid">
+	  style({
+	      stroke: "red",
+	      strokeWidth: 3
+	  }, function() {
+	      path([ [ B, 0 ], [ B, C ] ]);
+	  });
+	  label( [ B + .5 , C / 2 ] , C, "right", {
+	      color: "red"
+	  });
+	</div>
+
+	<p>So, the <span class="hint_red">height</span> of the triangle is <span class="hint_red"><var>C</var></span>.</p>
+
+	<p>Substitute these values into the formula and solve<br><br>
+
+	  <code>A = \dfrac{(\color{orange}{<var>A</var>})(\color{red}{<var>C</var>})}{2}</code>
+	</p>
+	
+	<p>Multiply, <code>\color{orange}{<var>A</var>} \cdot \color{red}{<var>C</var>} = \color{green}{<var>A * C</var>}</code><br><br>
+	    <code>A = \dfrac{\color{green}{<var>A*C</var>}}{2}</code></p>
+
+	<p>Divide, <code>\color{green}{<var>A*C</var>} \div 2 = \color{blue}{<var>fraction(A*C,2,true,true)</var>}</code><br><br>
+	  <code class="final-solution">\color{blue}{A} = \color{blue}{<var>fraction(A*C,2,true,true)</var>}</code></p>
+
+	<p data-if="getGCD(A*C,2)==1" class="final-solution">Answer with an improper fraction <code><var>fraction(A*C,2,true,true)</var></code> or the mixed number <code><var>Math.floor(A*C/2)</var>\dfrac{1}{2}</code>.</p>
+      </div>
+    </div>
+  </body>
+</html>
