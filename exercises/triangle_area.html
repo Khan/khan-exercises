@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-geometry math-format">
   <head>
-    <title>Triangle area 1</title>
+    <title>Triangle area</title>
     <script src="../khan-exercise.js"></script>
   </head>
   <body>
@@ -10,19 +10,29 @@
 	<var id="A">randRange(3,10)</var>
 	<var id="B">randRange(3,10)</var>
 	<var id="C">randRange(3,10)</var>
+	<var id="ALIGN">randRange(1,10)</var>
       </div>
       
       <div class="problems">
-        <div id="problem-type-or-description">
+        <div id="horizontal-base">
           <p class="question">What is the area of the triangle?</p>
 	  <div class="graphie" id="grid">
-	    graphInit({
-	        range: [ [ -1, max(A,B)+1 ] , [ -1, C+1 ] ],
-	        tickLen: 0,
-	        axisOpacity: 0.01
-	    });
-	    
-	    path([ [ 0, 0 ], [ A, 0 ], [ B, C ], [ 0, 0 ] ]);
+	    if (ALIGN % 2 == 0){
+	        graphInit({
+	            range: [ [ -1, max(A,B)+1 ] , [ -1, C+1 ] ],
+		    tickLen: 0,
+		    axisOpacity: 0.01
+		}); 
+		path([ [ 0, 0 ], [ A, 0 ], [ B, C ], [ 0, 0 ] ]);
+	    } else {
+	        graphInit({
+	            range: [ [ -1, C+1 ] , [ -1, max(A,B)+1 ] ],
+		    tickLen: 0,
+		    axisOpacity: 0.01
+		}); 
+		path([ [ 0, 0 ], [ 0, A ], [ C, B ], [ 0, 0 ] ]);
+	    }
+
 	  </div>
           <p class="solution" data-type="rational"><var>A * C / 2</var></p>
         </div>
@@ -33,30 +43,54 @@
 	<p>Find the length of the <span class="hint_orange">base</span> by counting the units of length along the bottom edge of the triangle.</p>
 
 	<div class="graphie" data-update="grid">
-	  style({
-  	      stroke: "orange",
-	      strokeWidth: 3
-	  }, function() {
-	      path([ [ 0, 0 ], [ A, 0 ] ]);
-	  });
-	  label( [ A / 2 , -.5 ], A, "below", {
-	      color: "orange"
-	  });
+	  if (ALIGN % 2 == 0) {
+	      style({
+  	          stroke: "orange",
+		  strokeWidth: 3
+	      }, function() {
+	          path([ [ 0, 0 ], [ A, 0 ] ]);
+	      });
+	      label( [ A / 2 , -.5 ], A, "below", {
+	          color: "orange"
+	      });
+	  } else {
+	      style({
+  	          stroke: "orange",
+		  strokeWidth: 3
+	      }, function() {
+	          path([ [ 0, 0 ], [ 0, A ] ]);
+	      });
+	      label( [ -.2, A / 2 ], A, "left", {
+	          color: "orange"
+	      });
+	  }
 	</div>
 
 	<p>So the <span class="hint_orange">base</span> of the triangle is <span class="hint_orange"><var>A</var></span> units.</p>
 	<p>Next, we must find the <span class="hint_red">height</span> of the triangle. Count the <i>perpendicular</i> distance from the base to the opposite vertex.</p>
 
 	<div class="graphie" data-update="grid">
-	  style({
-	      stroke: "red",
-	      strokeWidth: 3
-	  }, function() {
-	      path([ [ B, 0 ], [ B, C ] ]);
-	  });
-	  label( [ B + .5 , C / 2 ] , C, "right", {
-	      color: "red"
-	  });
+	  if (ALIGN % 2 == 0) {
+   	      style({
+	          stroke: "red",
+		  strokeWidth: 3
+	      }, function() {
+	          path([ [ B, 0 ], [ B, C ] ]);
+	      });
+	      label( [ B + .5 , C / 2 ] , C, "right", {
+	          color: "red"
+	      });
+	  } else {
+	      style({
+	          stroke: "red",
+		  strokeWidth: 3
+	      }, function() {
+	          path([ [ 0, B ], [ C, B ] ]);
+	      });
+	      label( [ C/2, B ] , C, "below", {
+	          color: "red"
+	      });
+	  }
 	</div>
 
 	<p>So, the <span class="hint_red">height</span> of the triangle is <span class="hint_red"><var>C</var></span> units.</p>
