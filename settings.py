@@ -1,9 +1,10 @@
 # Django settings for sandcastle project.
+from os import path
+
 # Look at local_settings.py.template for an example local_settings.py
 from local_settings import *
 
-import os.path
-PROJECT_DIR = os.path.dirname(__file__)
+PROJECT_DIR = path.dirname(__file__)
 
 ADMINS = (
     ('Julian Pulgarin', 'jp@julianpulgarin.com'),
@@ -24,8 +25,8 @@ USE_I18N = False
 USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
-MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media/')
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static/')
+MEDIA_ROOT = path.join(PROJECT_DIR, 'media/')
+STATIC_ROOT = path.join(PROJECT_DIR, 'static/')
 
 MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
@@ -54,7 +55,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_DIR, 'templates'),
+    path.join(PROJECT_DIR, 'templates'),
 )
 
 INSTALLED_APPS = (
