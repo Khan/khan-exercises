@@ -65,7 +65,7 @@
        var newArgs = [];
        for (var iArg = 0; iArg < 2; iArg++) {
           if (oldTermsOccFactors === undefined) {
-              newArgs.push(KhanUtil.genExprFromOccFactors(factors, newTermsOccFactors[iArg]));
+              newArgs.push(KhanUtil.genExprFromExpFactors(factors, newTermsOccFactors[iArg]));
           } else {
               newArgs.push(genExprFromOldAndNewOccFactors(factors, newTermsOccFactors[iArg], oldTermsOccFactors[iArg]));
           }
@@ -106,9 +106,11 @@
            if (argsOccFactors[0][iFactor] < argsOccFactors[0][iFactor]) {
               sideMax = 1;
            }
-           newOccFactors[sideMax][iFactor]--;
-           choices.push(KhanUtil.exprClone(getFractionFromOccFactors(factors, newOccFactors)));
-           newOccFactors[sideMax][iFactor]++;
+           if (newOccFactors[sideMax][iFactor] > 0) {
+               newOccFactors[sideMax][iFactor]--;
+               choices.push(KhanUtil.exprClone(getFractionFromOccFactors(factors, newOccFactors)));
+               newOccFactors[sideMax][iFactor]++;
+           }
            newOccFactors[1 - sideMax][iFactor]++;
            choices.push(KhanUtil.exprClone(getFractionFromOccFactors(factors, newOccFactors)));
            newOccFactors[1 - sideMax][iFactor]--;
@@ -241,7 +243,7 @@
         }
         var exprArgs = [];
         for (var iSide = 0; iSide < 2; iSide++) {
-            exprArgs.push(KhanUtil.genExprFromOccFactors(factors, sidesOccFactors[iSide]));
+            exprArgs.push(KhanUtil.genExprFromExpFactors(factors, sidesOccFactors[iSide]));
         }
         return {op:"dfrac", args:exprArgs};
     };

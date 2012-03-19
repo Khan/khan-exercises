@@ -134,6 +134,9 @@
        if (dstExpr.align === undefined) {
            dstExpr.align = srcExpr.align;
        }
+       if (dstExpr.opHidden === undefined) {
+           dstExpr.opHidden = srcExpr.opHidden;
+       }
        return dstExpr;
     };
 
@@ -223,23 +226,28 @@
        return arr;
     };
 
-    var genExprFromOccFactors = function(factors, occFactors) {
+    var genExprFromExpFactors = function(factors, expFactors) {
        var args = [];
        var numFactors = 1;
        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
           var factor = factors[iFactor];
-          if (occFactors[iFactor] <= 0) {
-             continue;
+          if (KhanUtil.exprIsNumber(expFactors[iFactor])) {
+              var numExpFactor = KhanUtil.exprNumValue(expFactors[iFactor]);
+              if (numExpFactor === 0) {
+                 continue;
+              }
+              // TODO: should not be done here, simplify() should do that.
+              if (KhanUtil.exprIsNumber(factor)) {
+                 numFactors *= Math.pow(KhanUtil.exprNumValue(factor), numExpFactor);
+                 continue;
+              }
+              // TODO: should not be done here either
+              if (numExpFactor === 1) {
+                 args.push(factor);
+                 continue;
+              }
           }
-          if (typeof factor === "number") {
-             numFactors *= Math.pow(factor, occFactors[iFactor]);
-             continue;
-          }
-          if (occFactors[iFactor] === 1) {
-             args.push(factor);
-          } else {
-             args.push({op:"^", args:[factor, occFactors[iFactor]]});
-          }
+          args.push({op:"^", args:[factor, expFactors[iFactor]]});
        }
        if (numFactors !== 1) {
            args.unshift(numFactors);
@@ -302,7 +310,7 @@
         exprSetStyle: exprSetStyle,
         exprInList: exprInList,
         initOccArray: initOccArray,
-        genExprFromOccFactors: genExprFromOccFactors,
+        genExprFromExpFactors: genExprFromExpFactors,
         exprToCodeOr: exprToCodeOr,
         exprToCode: exprToCode,
         exprToString: exprToString,

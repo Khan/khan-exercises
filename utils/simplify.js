@@ -122,6 +122,51 @@
         return newExpr;
     };
 
+    var addToFactorsExps = function(expr, options, factors, factorsExp, curExponent) {
+       for (var iFactor = 0; iFactor < factors.length; iFactor++) {
+          if (KhanUtil.isEqual(expr, factors[iFactor])) {
+              if (factorsExp[iFactor] === undefined) {
+                  factorsExp[iFactor] = curExponent;
+              } else {
+                  factorsExp[iFactor] = simplify({op:"*", args:[factorsExp[iFactor], curExponent]}, options);
+                  
+              }
+              return;
+          }
+       }
+       factorsExp[factors.length] = nbOcc;
+       factors.push(expr);
+    };
+
+    // Based on findExprFactors (that it should eventually replace)
+    var findExprFactorsExps = function(expr, options, factors, factorsExp, curExponent) {
+        if (KhanUtil.exprIsNumber(expr)) {
+            var value = KhanUtil.exprNumValue(expr);
+            var numFactors = KhanUtil.getPrimeFactorization(Math.abs(value));
+            if (value < 0) {
+                numFactors.push(-1);
+            }
+            for (var iFactor = 0; iFactor < numFactors.length; iFactor++) {
+                addToFactorsExps(numFactors[iFactor], factors, factorsExp, curExponent);
+            }
+        } else if (KhanUtil.opIsMultiplication(expr.op)) {
+            for (var iArg = 0; iArg < expr.args.length; iArg++) {
+                findExprFactorsExps(expr.args[iArg], options, factors, factorsExp, curExponent);
+            }
+        } else if (expr.op === "^") {
+            findExprFactorsExps(expr.args[0], options, factors, factorsExp, {op:"*", args:[curExponent, expr.args[1]]});
+        } else {
+            addToFactorsExps(KhanUtil.normalForm(expr), options, factors, factorsExp, curExponent);
+        }
+    };
+
+    var simplifyByFactoring = function(expr, options, steps) {
+        var factors = [];
+        var factorsExp = [];
+        var factored = findExprFactorsExps(expr, options, factors, factorsExp, 1);
+        return KhanUtil.genExprFromOccFactors(term.factors, term.occFactors);
+    }
+
     var simplifyTimesOp = function(expr, options, steps) {
         var sExpr = simplifyEachArg(expr, options, steps);
         var nfExpr = KhanUtil.normalForm(sExpr, steps);
