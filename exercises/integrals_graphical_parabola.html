@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers interactive">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Integrals - Max Value</title>
+	<script src="../khan-exercise.js"></script>
+	<style type="text/css">
+		#answer_area input[type=text] {
+			width: 30px;
+		}
+	</style>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars" data-ensure="A + 1 < B">
+        <var id="A">randRange(-8,8)</var>
+        <var id="B">randRange(-8,8)</var>
+        
+    </div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>
+				 	Find the interval <code>[a,b]</code> over which the integral <code>\int_a^b (<var>-A*B</var> + <var>(A+B)</var>x - x^2)dx </code> is at a maximum.
+		
+				</p>
+		
+			</div>		
+				
+			
+			<div class="solution" data-type="multiple">
+				<p>
+					<code>[a,b] = [</code> <span class="sol"><var>A</var></span> , <span class="sol"><var>B</var></span><code>]</code>
+				</p>
+				
+			</div>	 
+		</div>
+	</div>
+
+	<div class="hints">
+		
+		<p>
+			Begin by graphing <code>y = <var>-A*B</var> + <var>(A+B)</var>x - x^2 </code>.  
+		</p>
+		
+		<div class="graphie" id="graph">
+			graphInit({
+				range: 10,
+				scale: 20,
+				tickStep: 1,
+				axisArrows: "<->"
+			});
+
+			// Plot the orange parabola
+			style({
+				stroke: GREEN,
+				fill: "none",
+				clipRect:[ [-10, -10], [20, 20] ],
+				arrows: null
+			});
+
+			plot( new Parabola( -1, (A+B)/2, (A*A - 2*A*B + B*B)/4 ).graphieFunction, [-10, 10]);
+
+		</div>
+		
+		<p>
+			By accumulating area between what two values <code>a</code> and <code>b</code> does the integral attain its max?
+		</p>	
+		
+		<div class="graphie" data-update="graph">
+			var fillPoints = [];
+  			fillPoints[0] = [A,0];
+  				
+  			for (var i = 1; i &lt; 500; i++) {
+  				fillPoints[i] = [A+(B-A)*i/500, (-(B-A)*i/500)*(A+(B-A)*i/500-B)];
+  			}
+  		
+  			fillPoints[500] = [B,0];
+  					
+  			style({
+         		stroke: "none",
+         		fill: GREEN,
+  				opacity: FILL_OPACITY
+         		}, function() {
+         			path(fillPoints);
+         		}
+			);
+		</div>
+		
+	</div>
+</div>
+</body>
+</html>

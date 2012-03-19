@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers interactive">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Integrals - Area Under a Line</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars" data-ensure="A + 5 < B">
+        <var id="MX">randRange(-3,3)</var>
+        <var id="NY">randRangeNonZero(-3,3)</var>
+        <var id="C">randRange(-6,6)</var>
+        <var id="A">randRange(-5,5)</var>
+        <var id="B">randRange(-5,5)</var>
+        
+        <var id="SLOPE">-MX/NY</var>
+        <var id="YINTERCEPT">C/NY</var>
+        <var id="ANS">(C / NY)*(B - A) - (MX / (2*NY))*(B*B - A*A)</var>
+    </div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				 <p>Graph the equation <code><var>MX</var> x + <var>NY</var> y = <var>C</var> </code> and then evaluate the integral of the corresponding function over the interval <code>[<var>A</var> ,  <var>B</var> ]</code> without using the FTC (i.e. do not compute an antiderivative).</p>
+			</div>
+			
+			<div class="graphie" id="line">
+					graphInit({
+						range: 11,
+						scale: 20,
+						axisArrows: "&lt;-&gt;",
+						tickStep: 1,
+						labelStep: 1,
+						gridOpacity: 0.05,
+						axisOpacity: 0.2,
+						tickOpacity: 0.4,
+						labelOpacity: 0.5
+					});
+
+					label( [ 0, -11 ], "y", "below" );
+					label( [ 11, 0 ], "x", "right" );
+
+					addMouseLayer();
+					graph.pointA = addMovablePoint({
+						coord: [ -5, 5 ],
+						snapX: 0.5,
+						snapY: 0.5,						
+						normalStyle: {
+							stroke: KhanUtil.BLUE,
+							fill: KhanUtil.BLUE
+						}
+					});
+					graph.pointB = addMovablePoint({
+						coord: [ 5, 5 ],
+						snapX: 0.5,
+						snapY: 0.5,
+						normalStyle: {
+							stroke: KhanUtil.BLUE,
+							fill: KhanUtil.BLUE
+						}
+					});
+					graph.set = raphael.set();	
+					
+					var drawAres = false;
+
+					graph.update = function() {
+						graph.set.remove();
+						if ( abs( graph.pointB.coord[0] - graph.pointA.coord[0] ) &gt; 0.001 ) {
+							var slope = ( graph.pointB.coord[1] - graph.pointA.coord[1] ) / ( graph.pointB.coord[0] - graph.pointA.coord[0] );
+							var yint = slope * ( 0 - graph.pointA.coord[0] ) + graph.pointA.coord[1];
+							
+							style({ 
+								stroke: BLUE, 
+								strokeWidth: 2, 
+							}, function() {
+								graph.set.push( line( [ -11, -11 * slope + yint ], [ 11, 11 * slope + yint ] ) );
+							});
+							
+							if (drawArea === true) {
+    							style({ 
+                    				stroke: "#88dd88", 
+                    				strokeWidth: 2, 
+                    			}, function() {
+                    				graph.set.push( line( [ A, 0 ], [ A, slope*A + yint ] ) );
+                    				graph.set.push( line( [ B, 0 ], [ B, slope*B + yint ] ) );
+                    			});
+    							
+    							
+       							style({ 
+                       				stroke: null,
+       								fill: "#aaffaa", 
+                       			}, function() {
+                       				graph.set.push(path([[A, 0], [A, slope*A + yint ], [ B, slope*B + yint ], [B,0]] ) );
+                       			});
+							}
+			
+						} else {
+							// vertical line
+							var x = graph.pointA.coord[0];
+							
+							style({ 
+								stroke: BLUE, 
+								strokeWidth: 2, 
+							}, function() {
+								graph.set.push( line( [ x, -11 ], [ x, 11 ] ) );
+							});
+							
+						}
+
+						graph.set.toBack();
+					};
+
+					// A and B can't be in the same place
+					graph.pointA.onMove = function( x, y ) {
+						if ( x != graph.pointB.coord[0] || y != graph.pointB.coord[1] ) {
+							graph.pointA.setCoord([ x, y ]);
+							graph.update();
+							return true;
+						} else {
+							return false;
+						}
+					}
+					graph.pointB.onMove = function( x, y ) {
+						if ( x != graph.pointA.coord[0] || y != graph.pointA.coord[1] ) {
+							graph.pointB.setCoord([ x, y, ]);
+							graph.update();
+							return true;
+						} else {
+							return false;
+						}
+					}		
+
+
+					graph.update();
+					graph.pointA.toFront();
+					graph.pointB.toFront();
+
+			</div>
+			
+			
+			<div class="solution" data-type="multiple">
+				 <div class="sol"><var>ANS</var></div>
+				 
+				 <div class="sol" data-type="custom">
+					<div class="instruction">
+						Provide your answer for the integral in the box above and also drag the points on the graph to move the line into the correct position.
+					</div>
+					<div class="guess">[ graph.pointA.coord, graph.pointB.coord ]
+					</div>
+					<div class="validator-function">
+						var slope1 = ( guess[1][1] - guess[0][1] ) / ( guess[1][0] - guess[0][0] );
+						var yint1 = slope1 * ( 0 - guess[0][0] ) + guess[0][1];
+		
+						return abs( SLOPE - slope1 ) &lt; 0.001
+							&amp;&amp; abs( YINTERCEPT - yint1 ) &lt; 0.001
+							
+					</div>
+					
+				 </div>
+			</div>	 
+		</div>
+	</div>
+
+	<div class="hints">
+		<div class="graphie" data-update="line">
+			drawArea = true;
+			graph.update();
+		</div>
+		
+		<p>The equation <code><var>MX</var> x + <var>NY</var> y = <var>C</var> </code> is a line so, geometrically speaking, the area under it can be divided into right triangles and possibly rectangles.  All you need to do is find the dimensions of those shapes and compute their areas.</p>
+		
+		<p>Don't forget: Area under the <code>x</code>-axis counts as negative.</p>
+		
+	</div>
+</div>
+</body>
+</html> 
