@@ -20,61 +20,79 @@
 		<var id="LOWER_SCALED">LOWER_BOUND * DENOMINATOR</var>
 		<var id="UPPER_SCALED">UPPER_BOUND * DENOMINATOR</var>
 
-		<var id="SOLUTION">NUMERATOR</var>
+		<var id="SOLUTION">NUMERATOR / DENOMINATOR</var>
+		<var id="SCALE">4.5</var>
 	</div>
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p>Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to   <strong><code>\color{orange}{<var>fraction(NUMERATOR, DENOMINATOR)</var>}</code></strong> on the number line.</p>
+				<p>Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to 
+				<strong><code>\color{orange}{<var>fraction(NUMERATOR, DENOMINATOR)</var>}</code></strong> on the number line.</p>
+
 				<div class="graphie" id="number-line">
 					init({
-						range: [ [LOWER_SCALED - 1, UPPER_SCALED + 1], [-1, 1] ],
-						scale: [80, 40]
+						range: [ [LOWER_BOUND - 0.3, UPPER_BOUND + 0.4], [-1, 1] ],
+						scale: [80*SCALE, 40]
 					});
 
-                    style({arrows: "&gt;"});
-					line( [ LOWER_SCALED, 0 ], [ UPPER_SCALED + 0.25, 0 ] );
+					// Draw Number Line
+					style({arrows: "&gt;"});
+					line( [ LOWER_BOUND, 0 ], [ UPPER_BOUND + 0.25 / SCALE, 0 ] );
 					style({arrows: ""});
-					for ( var x = LOWER_SCALED; x &lt;= UPPER_SCALED; x++ ) {
+
+					// Draw Number Line Tick marks
+					for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += 1 / DENOMINATOR ) {
 						line( [ x, -0.2 ], [ x, 0.2 ] );
 					}
 
+					// 0 and 1 tick marks
 					style({ stroke: BLUE, strokeWidth: 3.5 });
-					line( [ LOWER_SCALED, -0.2], [LOWER_SCALED, 0.2]);
-					label( [ LOWER_SCALED, -0.53 ],  LOWER_BOUND, "center", { color: BLUE });
-					line( [ UPPER_SCALED, -0.2], [UPPER_SCALED, 0.2]);
-					label( [ UPPER_SCALED, -0.53 ],  UPPER_BOUND, "center", { color: BLUE });
+					line( [ LOWER_BOUND, -0.2], [LOWER_BOUND, 0.2]);
+					label( [ LOWER_BOUND, -0.53 ],  LOWER_BOUND, "center", { color: BLUE });
+					line( [ UPPER_BOUND, -0.2], [UPPER_BOUND, 0.2]);
+					label( [ UPPER_BOUND, -0.53 ],  UPPER_BOUND, "center", { color: BLUE });
 
 					addMouseLayer();
-					this.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
-					movablePoint.onMove = function( x, y ) {
-						if (x &lt; LOWER_SCALED || UPPER_SCALED &lt; x) {
+					graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 / DENOMINATOR });
+					graph.movablePoint.onMove = function( x, y ) {
+						if (x &lt; LOWER_BOUND || UPPER_BOUND &lt; x) {
 							return false; // don't allow the point to move past the bounds
 						}
-						jQuery("#solutionarea input").val( x );
 					};
 				</div>
 			</div>
-				<div class="solution" data-type="multiple">
-				<span>Move the orange dot to select your answer.</span>
-				<div class="sol" data-type="decimal" style="display:none"><var>SOLUTION</var></div>
+
+			<div class="solution" data-type="custom">
+				<span class="instruction"> Move the orange dot to select your answer. </span>
+				<div class="guess"> graph.movablePoint.coord[0] </div>
+				<div class="validator-function">
+					return abs( SOLUTION - guess ) &lt; 0.001;
+				</div>
+				<div class="show-guess">
+					graph.movablePoint.setCoord( [ guess, 0 ] );
+				</div>
 			</div>
 
 			<div class="hints">
 				<p>Above we've drawn the number line from 0 to 1, divided into equal pieces.</p>
-				<p>The number line is divided into <code><var>DENOMINATOR</var></code> equal pieces, so each piece represents <code><var>fraction(1, DENOMINATOR)</var></code>.</p>
+				<p>The number line is divided into <code><var>DENOMINATOR</var></code> equal pieces, so each piece represents
+				<code><var>fraction(1, DENOMINATOR)</var></code>.</p>
+
 				<div>
 					<div class="graphie" data-update="number-line">
 						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
-						line( [ 0, 0 ], [ NUMERATOR, 0 ] );
-						movablePoint.visibleShape.toFront();
+						line( [ 0, 0 ], [ SOLUTION, 0 ] );
+						graph.movablePoint.visibleShape.toFront();
 					</div>
-					<p>The orange dot should be shifted <span class="hint_blue"><code><strong><var>NUMERATOR</var></strong></code></span> segment<var>plural(NUMERATOR)</var> over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code></p>
+					<p>The orange dot should be shifted <span class="hint_blue"><code><strong><var>NUMERATOR</var></strong></code></span>
+					segment<var>plural(NUMERATOR)</var> over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = 
+					<var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code></p>
 				</div>
+
 				<div>
 					<div class="graphie" data-update="number-line">
-						label( [ NUMERATOR, -0.83 ],  fraction(NUMERATOR, DENOMINATOR), "center", { color: "#FFA500" });
-						movablePoint.moveTo( NUMERATOR, 0 );
+						label( [ SOLUTION, -0.83 ],  fraction(NUMERATOR, DENOMINATOR), "center", { color: "#FFA500" });
+						graph.movablePoint.moveTo( SOLUTION, 0 );
 					</div>
 					<p>The orange number shows where <code>\color{orange}{<var>fraction(NUMERATOR, DENOMINATOR)</var>}</code> is on the number line.</p>
 				</div>

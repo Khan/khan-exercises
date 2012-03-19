@@ -30,18 +30,24 @@
 					label( [ 0, -0.53 ],  "0", "center", { color: "#6495ED" });
 
 					addMouseLayer();
-					this.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
-					movablePoint.onMove = function( x, y ) {
+					graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
+					graph.movablePoint.onMove = function( x, y ) {
 						if (x &lt; LOWER_BOUND || UPPER_BOUND &lt; x) {
 							return false; // don't allow the point to move past the bounds
 						}
-						jQuery("#solutionarea input").val( x );
 					};
 				</div>
 			</div>
-				<div class="solution" data-type="multiple">
-				<span>Move the orange dot to select your answer.</span>
-				<div class="sol" data-type="decimal" style="display:none"><var>NUMBER</var></div>
+
+			<div class="solution" data-type="custom">
+				<span class="instruction"> Move the orange dot to select your answer. </span>
+				<div class="guess"> graph.movablePoint.coord[0] </div>
+				<div class="validator-function">
+					return abs( NUMBER - guess ) &lt; 0.001;
+				</div>
+				<div class="show-guess">
+					graph.movablePoint.setCoord( [ guess, 0 ] );
+				</div>
 			</div>
 
 			<div class="hints">
@@ -52,14 +58,14 @@
 					<div class="graphie" data-update="number-line">
 						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
 						line( [ 0, 0 ], [ NUMBER, 0 ] );
-						movablePoint.visibleShape.toFront();
+						graph.movablePoint.visibleShape.toFront();
 					</div>
 					<p>The orange dot should be <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER &lt; 0">left</span><span data-else>right</span> of 0.</p>
 				</div>
 				<div>
 					<div class="graphie" data-update="number-line">
 						label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
-						movablePoint.moveTo( NUMBER, 0 );
+						graph.movablePoint.moveTo( NUMBER, 0 );
 					</div>
 					<p>The orange number shows where <var>NUMBER</var> is on the number line.</p>
 				</div>
