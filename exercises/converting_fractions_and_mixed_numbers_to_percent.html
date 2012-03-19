@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie-helpers graphie graphie-helpers-arithmetic word-problems">
+<head>
+		<title>Converting fractions and mixed numbers to percent</title>
+		<script src="../khan-exercise.js"></script>
+		<script type="text/javascript">
+			function decimalLength( n ) {
+				return ( ( n + "" ).split( "." )[1] || "" ).length;
+			}
+		</script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="problems">
+				<div id="mixed-to-percent">
+					<div class="vars" data-ensure="M_NUM &lt; M_DENOM && decimalLength( 100 / I_DENOM ) <= 4">
+						<var id="M_DENOM">randRange( 1, 30 )</var>
+						<var id="WHOLE">randRange( 1, 10 )</var>
+						<var id="M_NUM">randRange( 1, 30 )</var>
+						<var id="M_REDUCED_NUM">M_NUM / getGCD( M_NUM, M_DENOM )</var>
+						<var id="M_REDUCED_DENOM">M_DENOM / getGCD( M_NUM, M_DENOM )</var>
+						<var id="I_NUM">WHOLE * M_REDUCED_DENOM + M_REDUCED_NUM</var>
+						<var id="I_DENOM">M_REDUCED_DENOM</var>
+					</div>
+					<p class="question">Convert <code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code> to a percent.</p>
+					<div class="solution" data-type="multiple">
+						<span class="sol" data-type="decimal"><var>((WHOLE*M_DENOM+M_NUM)/M_DENOM)*100</var></span> %
+					</div>
+					
+
+					<div class="hints">
+						<p><code>\color{#FFA500}{<var>WHOLE</var>}\ \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code></p>
+						<p>This mixed number is equivalent to <code>\color{#FFA500}{<var>WHOLE</var>} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>.</p>
+						<div>
+							<p>First, convert the <span class="hint_orange">whole part</span> of the mixed number to a fraction with the same denominator <code><var>M_REDUCED_DENOM</var></code> as the <span class="hint_blue">fractional part</span>.</p>
+							<p><code>\color{#FFA500}{<var>WHOLE</var>} \times \dfrac{<var>M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>} = \color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}}</code></p>
+							<div class="graphie">
+								init({ range: [ [0, 1], [0, WHOLE] ], scale: [250, 25] });
+
+								for ( var y = 0; y &lt; WHOLE; y++ ) {
+									rectchart( [M_REDUCED_DENOM, 0], ["#FFA500", "#999"], y );
+								}
+							</div>
+						</div>
+						<div>
+							<p>So now we have our number in the form <code>\color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>.</p>
+							<div class="graphie">
+								init({ range: [ [0, 1], [0, WHOLE + 1] ], scale: [250, 25] });
+
+								for ( var y = 1; y &lt;= WHOLE; y++ ) {
+									rectchart( [M_REDUCED_DENOM, 0], ["#FFA500", "#999"], y );
+								}
+
+								rectchart( [M_REDUCED_NUM, M_REDUCED_DENOM - M_REDUCED_NUM], ["#6495ED", "#999"] );
+							</div>
+							<p>Now, just add the two fractions and simplify!</p>
+						</div>
+						<p><code>\color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>} = <var>fraction( I_NUM, I_DENOM, true, true )</var></code></p>
+						
+						<p>To turn a fraction into a percent, turn the fraction into a decimal and then multiply the decimal by 100.</p>
+						<p data-if="I_DENOM === 10">Denominators of 10 are an easy case: The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator - in this case 1 place.</p>
+						<p data-else>To turn <code><var>fraction( I_NUM, I_DENOM )</var></code> into a decimal, perform long division, dividing <code><var>I_DENOM</var></code> into <code><var>I_NUM</var></code> (if you need help with this, try practicing some Division exercises or watching some related videos).</p>
+						<p><code><var>I_NUM</var> \div <var>I_DENOM</var> = <var>I_NUM / I_DENOM</var></code></p>
+						<p>To convert this decimal into a percent, we need to multiply it by 100.</p>
+						<p><code><var>I_NUM / I_DENOM</var> = (100 \cdot <var>I_NUM / I_DENOM</var>) \% = <var>roundTo( 2, 100 * I_NUM / I_DENOM )</var>\%</code></p>
+					</div>
+				</div>
+				<div id="fractions-to-percent">
+					<div class="vars">
+						<div data-ensure="decimalLength( DEC ) <= 4">
+							<var id="_D">randFromArray([ 4, 5, 8, 10, 16, 20, 25, 40, 50, 100 ])</var>
+							<var id="_N">randRange( 1, _D - 1 )</var>
+							<var id="DEC">_N / _D</var>
+						</div>
+
+						<var id="GCD">getGCD( _N, _D )</var>
+						<var id="N">round( _N / GCD )</var>
+						<var id="D">round( _D / GCD )</var>
+
+					</div>
+
+					<p class="question">Express <code><var>fraction( _N, _D )</var></code> as a percent.</p>
+
+					<div class="solution" data-type="multiple">
+						<span class="sol" data-type="decimal"><var>100 * DEC</var></span> %
+					</div>
+
+					<div class="hints">
+						<div data-if="_D === 100" data-unwrap>
+							<p>When the denominator is 100, you can simply take the numerator and apply the % sign:</p>
+							<p><code><var>fraction( _N, _D )</var></code> = <var>100 * DEC</var>%</p>
+						</div>
+						<div data-else data-unwrap>
+							<p data-if="GCD > 1"><code><var>fraction( _N, _D )</var></code> reduces to <code><var>fraction( N, D )</var></code>.</p>
+							<p>To turn a fraction into a percent, turn the fraction into a decimal and then multiply the decimal by 100.</p>
+							<p data-if="D === 10">Denominators of 10 are an easy case: The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator - in this case 1 place.</p>
+							<p data-else>To turn <code><var>fraction( N, D )</var></code> into a decimal, perform long division, dividing <code><var>D</var></code> into <code><var>N</var></code> (if you need help with this, try practicing some Division exercises or watching some related videos).</p>
+							<p><code><var>N</var> \div <var>D</var> = <var>DEC</var></code></p>
+							<p>To convert this decimal into a percent, we need to multiply it by 100.</p>
+							<p><code><var>DEC</var> = (100 \cdot <var>DEC</var>) \% = <var>roundTo( 2, 100 * DEC )</var>\%</code></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
