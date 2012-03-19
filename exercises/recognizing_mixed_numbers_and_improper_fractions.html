@@ -6,17 +6,11 @@
 	</head>
 	<body>
 		<div class="exercise">
-			<div class="vars" data-ensure="M_NUM &lt; M_DENOM && EX_NUM &lt; EX_DENOM && EX_NUM !== M_NUM && EX_DENOM !== M_DENOM && EX_WHOLE != WHOLE">
-				<var id="WHOLE">randRange( 1, 10 )</var>
+			<div class="vars">
+				<var id="WHOLE">randRange( 1, 5 )</var>
 
-				<var id="M_NUM">randRange( 1, 30 )</var>
-				<var id="M_DENOM">randRange( 1, 30 )</var>
-
-                <!-- separate example number used in hints -->
-				<var id="EX_WHOLE">randRange( 1, 10 )</var>
-
-				<var id="EX_NUM">randRange( 1, 30 )</var>
-				<var id="EX_DENOM">randRange( 1, 30 )</var>
+				<var id="M_DENOM">randRange( 2, 15 )</var>
+				<var id="M_NUM">randRange( 1, M_DENOM - 1 )</var>
 
 				<var id="M_REDUCED_NUM">M_NUM / getGCD( M_NUM, M_DENOM )</var>
 				<var id="M_REDUCED_DENOM">M_DENOM / getGCD( M_NUM, M_DENOM )</var>
@@ -30,38 +24,34 @@
 
 			<div class="problems">
 				<div id="identify-whole-number">
-                    <p class="question">Given <code><var>WHOLE</var><var>fraction( M_NUM, M_DENOM, false, false )</var></code>, what is the whole number component?</p>
+                    <p class="question">Given <code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code>, what is the whole number component?</p>
 					<p class="solution" data-forms="integer"><var>WHOLE</var></p>
 					<div class="hints">
 						<div>
-							<p><code><var>WHOLE</var><var>fraction( M_NUM, M_DENOM, false, false )</var></code> is a mixed number, which means it has a whole number component, and a fraction component.</p>
+							<p><code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code> is a <span class="hint_green">mixed number</span>, which means it gets its value from adding together its <span class="hint_green">whole number</span> component, and its <span class="hint_green">fraction</span> component.</p>
 						</div>
 						<div>
-                            <p><em>Example:</em> In the number <code><var>EX_WHOLE</var><var>fraction( EX_NUM, EX_DENOM, false, false )</var></code>, the fraction component is <code><var>fraction( EX_NUM, EX_DENOM, false, false )</var></code></p>
+                            <p>A <span class="hint_green">whole number</span> is either 0, or a counting number. It does not need to be represented as a <span class="hint_green">fraction</span> or with a decimal point. If you want to have a whole number of a certain item, you don't need to break any of the items into pieces.</p>
 						</div>
 						<div>
-                            <p><em>Example:</em> In the number <code><var>EX_WHOLE</var><var>fraction( EX_NUM, EX_DENOM, false, false )</var></code>, the whole number component is <code><var>EX_WHOLE</var></code></p>
+                            <p>In the number <code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code>, the <span class="hint_green">fraction</span> component is <code><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code></p>
 						</div>
 						<div>
-                            <p>In the number <code><var>WHOLE</var><var>fraction( M_NUM, M_DENOM, false, false )</var></code>, the fraction component is <code><var>fraction( EX_NUM, EX_DENOM, false, false )</var></code></p>
+                            <p>In the number <code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code>, the <span class="hint_green">whole number</span> component is <code><var>WHOLE</var></code></p>
 						</div>
-						<div>
-                            <p>In the number <code><var>WHOLE</var><var>fraction( M_NUM, M_DENOM, false, false )</var></code>, the whole number component is <code><var>WHOLE</var></code></p>
-						</div>
-
 					</div>
 				</div>
                 
 				<div id="identify-fraction-type">
 					<p class="question">What type of fraction is
                         <span data-if="FRACTION_TYPE==='Mixed Number'">
-                            <code><var>WHOLE</var><var>fraction( M_NUM, M_DENOM, false, false )</var></code>
+                            <code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code>
                         </span>
                         <span data-if="FRACTION_TYPE==='Improper Fraction'">
                             <code><var>fraction( I_NUM, I_DENOM, false, false )</var></code>
                         </span>
                         <span data-if="FRACTION_TYPE==='Proper Fraction'">
-                            <code><var>fraction( M_NUM, M_DENOM, false, false )</var></code>
+                            <code><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code>
                         </span>
                         ?
                     </p>
@@ -74,17 +64,24 @@
 					<div class="hints">
 						<div>
                             <ul>
-                                <li>A proper fraction is a fraction where the numerator is smaller than the denominator.</li>
-                                <li>An improper fraction is a fraction where the numerator is greater than or equal to the denominator.</li>
-                                <li>A mixed number is a whole number with a proper fraction added to it.</li>
+                                <li>A <span class="hint_orange">Proper Fraction</span> is a fraction where the numerator is smaller than the denominator.</li>
+                                <li>An <span class="hint_orange">Improper Fraction</span> is a fraction where the numerator is greater than or equal to the denominator.</li>
+                                <li>A <span class="hint_orange">Mixed Number</span> is a <span class="hint_green">whole number</span> with a proper fraction added to it.</li>
                             </ul>
 						</div>
 						<div>
-                            <ul>
-                                <p><code><var>fraction( EX_NUM, EX_DENOM, false, false )</var></code>is an example of a proper fraction.</p>
-                                <p><code><var>fraction( I_NUM, I_DENOM, false, false )</var></code>is an example of an improper fraction.</p>
-                                <p><code><var>WHOLE</var><var>fraction( M_NUM, M_DENOM, false, false )</var></code>is an example of a mixed number</p>
-                            </ul>
+                            <p>A <span class="hint_green">whole number</span> is either 0, or a counting number. It does not need to be represented as a <span class="hint_green">fraction</span> or with a decimal point. If you want to have a whole number of a certain item, you don't need to break any of the items into pieces. A <span class="hint_green">fraction</span>, on the other hand, has a numerator and a denominator. The value of a fraction may be between two whole numbers, so if you want a fractional amount of something you usually have to break an item into pieces.</p>
+						</div>
+						<div>
+                            <span data-if="FRACTION_TYPE==='Mixed Number'">
+                                <code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code> is a mixed number.
+                            </span>
+                            <span data-if="FRACTION_TYPE==='Improper Fraction'">
+                                <code><var>fraction( I_NUM, I_DENOM, false, false )</var></code> is an improper fraction.
+                            </span>
+                            <span data-if="FRACTION_TYPE==='Proper Fraction'">
+                                <code><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code> is a proper fraction.
+                            </span>
 						</div>
                     </div>
                 </div>
