@@ -13,7 +13,7 @@
 		<div class="exercise">
 			<div class="problems">
 				<div id="mixed-to-percent">
-					<div class="vars" data-ensure="M_NUM &lt; M_DENOM && decimalLength( 100 / I_DENOM ) <= 4">
+					<div class="vars" data-ensure="M_NUM &lt; M_DENOM && decimalLength( 100 / I_DENOM ) &lt;= 4">
 						<var id="M_DENOM">randRange( 1, 30 )</var>
 						<var id="WHOLE">randRange( 1, 10 )</var>
 						<var id="M_NUM">randRange( 1, 30 )</var>
@@ -59,7 +59,7 @@
 						
 						<p>To turn a fraction into a percent, turn the fraction into a decimal and then multiply the decimal by 100.</p>
 						<p data-if="I_DENOM === 10">Denominators of 10 are an easy case: The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator - in this case 1 place.</p>
-						<p data-else>To turn <code><var>fraction( I_NUM, I_DENOM )</var></code> into a decimal, perform long division, dividing <code><var>I_DENOM</var></code> into <code><var>I_NUM</var></code> (if you need help with this, try practicing some Division exercises or watching some related videos).</p>
+						<p data-else>To turn <code><var>fraction( I_NUM, I_DENOM )</var></code> into a decimal, perform long division, dividing <code><var>I_DENOM</var></code> into <code><var>I_NUM</var></code></p>
 						<p><code><var>I_NUM</var> \div <var>I_DENOM</var> = <var>I_NUM / I_DENOM</var></code></p>
 						<p>To convert this decimal into a percent, we need to multiply it by 100.</p>
 						<p><code><var>I_NUM / I_DENOM</var> = (100 \cdot <var>I_NUM / I_DENOM</var>) \% = <var>roundTo( 2, 100 * I_NUM / I_DENOM )</var>\%</code></p>
@@ -67,7 +67,7 @@
 				</div>
 				<div id="fractions-to-percent">
 					<div class="vars">
-						<div data-ensure="decimalLength( DEC ) <= 4">
+						<div data-ensure="decimalLength( DEC ) &lt;= 4">
 							<var id="_D">randFromArray([ 4, 5, 8, 10, 16, 20, 25, 40, 50, 100 ])</var>
 							<var id="_N">randRange( 1, _D - 1 )</var>
 							<var id="DEC">_N / _D</var>
@@ -94,7 +94,7 @@
 							<p data-if="GCD > 1"><code><var>fraction( _N, _D )</var></code> reduces to <code><var>fraction( N, D )</var></code>.</p>
 							<p>To turn a fraction into a percent, turn the fraction into a decimal and then multiply the decimal by 100.</p>
 							<p data-if="D === 10">Denominators of 10 are an easy case: The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator - in this case 1 place.</p>
-							<p data-else>To turn <code><var>fraction( N, D )</var></code> into a decimal, perform long division, dividing <code><var>D</var></code> into <code><var>N</var></code> (if you need help with this, try practicing some Division exercises or watching some related videos).</p>
+							<p data-else>To turn <code><var>fraction( N, D )</var></code> into a decimal, perform long division, dividing <code><var>D</var></code> into <code><var>N</var></code></p>
 							<p><code><var>N</var> \div <var>D</var> = <var>DEC</var></code></p>
 							<p>To convert this decimal into a percent, we need to multiply it by 100.</p>
 							<p><code><var>DEC</var> = (100 \cdot <var>DEC</var>) \% = <var>roundTo( 2, 100 * DEC )</var>\%</code></p>
