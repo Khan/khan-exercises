@@ -1,115 +1,118 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-geometry math-format">
-  <head>
-    <title>Triangle area</title>
-    <script src="../khan-exercise.js"></script>
-  </head>
-  <body>
-    <div class="exercise">
-      <div class="vars">
-	<var id="A">randRange(3,10)</var>
-	<var id="B">randRange(3,10)</var>
-	<var id="C">randRange(3,10)</var>
-	<var id="ALIGN">randRange(1,10)</var>
-      </div>
-      
-      <div class="problems">
-        <div id="triangle-area">
-          <p class="question">What is the area of the triangle?</p>
-	  <div class="graphie" id="grid">
-	    if (ALIGN % 2 == 0){
-	        graphInit({
-	            range: [ [ -1, max(A,B)+1 ] , [ -1, C+1 ] ],
-		    tickLen: 0,
-		    axisOpacity: 0.01
-		}); 
-		path([ [ 0, 0 ], [ A, 0 ], [ B, C ], [ 0, 0 ] ]);
-	    } else {
-	        graphInit({
-	            range: [ [ -1, C+1 ] , [ -1, max(A,B)+1 ] ],
-		    tickLen: 0,
-		    axisOpacity: 0.01
-		}); 
-		path([ [ 0, 0 ], [ 0, A ], [ C, B ], [ 0, 0 ] ]);
-	    }
+<head>
+	<title>Triangle area</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="A">randRange(3,10)</var>
+			<var id="B">randRange(3,10)</var>
+			<var id="C">randRange(3,10)</var>
+			<var id="ALIGN">randRange(1,10)</var>
+		</div>
 
-	  </div>
-          <p class="solution" data-type="rational"><var>A * C / 2</var></p>
-        </div>
-      </div>
-      <div class="hints">
-	<p>The area of a triangle is calculated by the formula <code>A = \dfrac{1}{2}\color{orange}{b}\color{red}{h}</code></p>
-	<p><code class="hint_blue">A</code> stands for <strong class="hint_blue">Area</strong>, <code class="hint_orange">b</code> stands for <strong class="hint_orange">base</strong>, and <code class="hint_red">h</code> stands for <strong class="hint_red">height</strong>.</p>
+		<div class="problems">
+			<div id="triangle-area">
+				<p class="question">What is the area of the triangle?</p>
+				<div class="graphie" id="grid">
+					if (ALIGN % 2 == 0){
+					graphInit({
+					    range: [ [ -1, max(A,B)+1 ] , [ -1, C+1 ] ],
+					    tickLen: 0,
+					    axisOpacity: 0.01
+					}); 
+					path([ [ 0, 0 ], [ A, 0 ], [ B, C ], [ 0, 0 ] ]);
+					} else {
+					graphInit({
+					    range: [ [ -1, C+1 ] , [ -1, max(A,B)+1 ] ],
+					    tickLen: 0,
+					    axisOpacity: 0.01
+					}); 
+					path([ [ 0, 0 ], [ 0, A ], [ C, B ], [ 0, 0 ] ]);
+					}
 
-	<div>
-	<p>Find the length of the <span class="hint_orange">base</span> by counting the units of length along an edge on the grid.</p>
+				</div>
+				<div class="solution" data-type="multiple">
+					<span class="sol" style="padding-right: 5px"><var>A * C / 2</var></span> square units
+				</div>
+			</div>
+		</div>
 
-	<div class="graphie" data-update="grid">
-	  if (ALIGN % 2 == 0) {
-	      style({
-  	          stroke: "orange",
-		  strokeWidth: 3
-	      }, function() {
-	          path([ [ 0, 0 ], [ A, 0 ] ]);
-	      });
-	      label( [ A / 2 , -.1 ], A, "below", {
-	          color: "orange"
-	      });
-	  } else {
-	      style({
-  	          stroke: "orange",
-		  strokeWidth: 3
-	      }, function() {
-	          path([ [ 0, 0 ], [ 0, A ] ]);
-	      });
-	      label( [ -.1, A / 2 ], A, "left", {
-	          color: "orange"
-	      });
-	  }
+		<div class="hints">
+			<p>The area of a triangle is calculated by the formula <code>A = \dfrac{1}{2}\color{orange}{b}\color{red}{h}</code></p>
+			<p><code class="hint_blue">A</code> stands for <strong class="hint_blue">Area</strong>, <code class="hint_orange">b</code> stands for <strong class="hint_orange">base</strong>, and <code class="hint_red">h</code> stands for <strong class="hint_red">height</strong>.</p>
+
+			<div>
+				<p>Find the length of the <span class="hint_orange">base</span> by counting the units of length along an edge on the grid.</p>
+
+				<div class="graphie" data-update="grid">
+					if (ALIGN % 2 == 0) {
+						style({
+							stroke: "orange",
+							strokeWidth: 3
+						}, function() {
+							path([ [ 0, 0 ], [ A, 0 ] ]);
+						});
+						label( [ A / 2 , -.1 ], A, "below", {
+						color: "orange"
+						});
+					} else {
+						style({
+							stroke: "orange",
+							strokeWidth: 3
+						}, function() {
+							path([ [ 0, 0 ], [ 0, A ] ]);
+						});
+						label( [ -.1, A / 2 ], A, "left", {
+						color: "orange"
+						});
+					}
+				</div>
+			</div>
+
+			<p>So the <span class="hint_orange">base</span> of the triangle is <span class="hint_orange"><var>A</var></span> units.</p>
+			<div>
+				<p>Next, we must find the <span class="hint_red">height</span> of the triangle. Count from the <span class="hint_orange">base</span> <span data-if="ALIGN%2 == 0">up</span><span data-if="ALIGN%2 != 0">over</span> to the opposite point. <strong>Note</strong> the <span class="hint_red">height</span> is perpendicular to the <span class="hint_orange">base</span>.</p>
+
+				<div class="graphie" data-update="grid">
+					if (ALIGN % 2 == 0) {
+						style({
+							stroke: "red",
+							strokeWidth: 3
+						}, function() {
+							path([ [ B, 0 ], [ B, C ] ]);
+						});
+						label( [ B + .1 , C / 2 ] , C, "right", {
+						color: "red"
+						});
+					} else {
+						style({
+							stroke: "red",
+							strokeWidth: 3
+						}, function() {
+							path([ [ 0, B ], [ C, B ] ]);
+						});
+						label( [ C/2, B - .1 ] , C, "below", {
+							color: "red"
+						});
+					}
+				</div>
+			</div>
+
+			<p>So, the <span class="hint_red">height</span> of the triangle is <span class="hint_red"><var>C</var></span> units.</p>
+
+			<p>Substitute these values into the formula and solve<br><br>
+
+			<code>A = \dfrac{1}{2}(\color{orange}{<var>A</var>})(\color{red}{<var>C</var>})</code>
+			</p>
+
+			<p>Multiply, <code>\color{orange}{<var>A</var>} \cdot \color{red}{<var>C</var>} = \color{green}{<var>A * C</var>}</code> and <code>\dfrac{1}{2} \cdot \color{green}{<var>A*C</var>} = <var>fraction(A*C,2,true,true)</var></code><br><br>
+			<code class="final-answer">\color{blue}{A} = \color{blue}{<var>fraction(A*C,2,true,true)</var>}</code></p>
+
+			<p data-if="getGCD(A*C,2)==1" class="final-answer">Answer with an improper fraction <code><var>fraction(A*C,2,true,true)</var></code> or the mixed number <code><var>Math.floor(A*C/2)</var>\dfrac{1}{2}</code>.</p>
+		</div>
 	</div>
-	</div>
-
-	<p>So the <span class="hint_orange">base</span> of the triangle is <span class="hint_orange"><var>A</var></span> units.</p>
-	<div>
-	  <p>Next, we must find the <span class="hint_red">height</span> of the triangle. Count from the <span class="hint_orange">base</span> <span data-if="ALIGN%2 == 0">up</span><span data-if="ALIGN%2 != 0">over</span> to the opposite point. <strong>Note</strong> the <span class="hint_red">height</span> is perpendicular to the <span class="hint_orange">base</span>.</p>
-
-	<div class="graphie" data-update="grid">
-	  if (ALIGN % 2 == 0) {
-   	      style({
-	          stroke: "red",
-		  strokeWidth: 3
-	      }, function() {
-	          path([ [ B, 0 ], [ B, C ] ]);
-	      });
-	      label( [ B + .1 , C / 2 ] , C, "right", {
-	          color: "red"
-	      });
-	  } else {
-	      style({
-	          stroke: "red",
-		  strokeWidth: 3
-	      }, function() {
-	          path([ [ 0, B ], [ C, B ] ]);
-	      });
-	      label( [ C/2, B - .1 ] , C, "below", {
-	          color: "red"
-	      });
-	  }
-	</div>
-	</div>
-
-	<p>So, the <span class="hint_red">height</span> of the triangle is <span class="hint_red"><var>C</var></span> units.</p>
-
-	<p>Substitute these values into the formula and solve<br><br>
-
-	  <code>A = \dfrac{1}{2}(\color{orange}{<var>A</var>})(\color{red}{<var>C</var>})</code>
-	</p>
-	
-	<p>Multiply, <code>\color{orange}{<var>A</var>} \cdot \color{red}{<var>C</var>} = \color{green}{<var>A * C</var>}</code> and <code>\dfrac{1}{2} \cdot \color{green}{<var>A*C</var>} = <var>fraction(A*C,2,true,true)</var></code><br><br>
-	  <code class="final-solution">\color{blue}{A} = \color{blue}{<var>fraction(A*C,2,true,true)</var>}</code></p>
-
-	<p data-if="getGCD(A*C,2)==1" class="final-solution">Answer with an improper fraction <code><var>fraction(A*C,2,true,true)</var></code> or the mixed number <code><var>Math.floor(A*C/2)</var>\dfrac{1}{2}</code>.</p>
-      </div>
-    </div>
-  </body>
+</body>
 </html>
