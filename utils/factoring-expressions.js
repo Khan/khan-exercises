@@ -7,7 +7,7 @@
             }
             sqrtOccFactors[iFactor] = occFactors[iFactor] / 2;
         }
-        return KhanUtil.genExprFromOccFactors(factors, sqrtOccFactors);
+        return KhanUtil.genExprFromExpFactors(factors, sqrtOccFactors);
         //return {op:"^", args:[sqrtExpr, 2]};
     };
 
@@ -27,7 +27,7 @@
           var term = {factors:[], occFactors:[]};
           findExprFactors(expr.args[iArg], term.factors, term.occFactors, 1);
           term.prevSign = extractNegativeFactor(term.factors, term.occFactors);
-          term.initial = KhanUtil.genExprFromOccFactors(term.factors, term.occFactors);
+          term.initial = KhanUtil.genExprFromExpFactors(term.factors, term.occFactors);
           term.sqrt = exprWholeSqrt(term.factors, term.occFactors);
           if (term.sqrt === undefined) {
              return undefined;
@@ -116,16 +116,19 @@
             }
         } else if ((expr.op === "^") && (KhanUtil.exprIsNumber(expr.args[1]))) {
             findExprFactors(expr.args[0], allFactors, ownOccFactors, KhanUtil.exprNumValue(expr.args[1]) * nbOcc);
-        } else if ((expr.op === "-") || (expr.op === "+")) {
+        } else if (((expr.op === "-") && (expr.args.length === 2)) || (expr.op === "+")) {
+           if (expr.op === "-") {
+               expr = {op:"+", args:[expr.args[0], {op:"-", args:[expr.args[1]]}]};
+           }
            var factoredSum = factorSum(expr);
            var newExpr = genFullExpr(factoredSum.factors, factoredSum.sharedOccFactors, factoredSum.termsOccFactors);
-           if (KhanUtil.exprIdentical(expr, newExpr)) {
-               addToFactors(KhanUtil.normalForm(expr), allFactors, ownOccFactors, nbOcc);
+           if (KhanUtil.isEqual(expr, newExpr)) {
+               addToFactors(expr, allFactors, ownOccFactors, nbOcc);
            } else {
                findExprFactors(newExpr, allFactors, ownOccFactors, nbOcc);
            }
         } else {
-            addToFactors(KhanUtil.normalForm(expr), allFactors, ownOccFactors, nbOcc);
+            addToFactors(expr, allFactors, ownOccFactors, nbOcc);
         }
     };
 
@@ -234,8 +237,8 @@
     var genAllTermsMarkShared = function(factors, sharedOccFactors, termsOccFactors, colors) {
        var terms = [];
        for (var iTerm = 0; iTerm < termsOccFactors.length; iTerm++) {
-          var term = KhanUtil.genExprFromOccFactors(factors, termsOccFactors[iTerm]);
-          var sharedTerm = KhanUtil.genExprFromOccFactors(factors, sharedOccFactors);
+          var term = KhanUtil.genExprFromExpFactors(factors, termsOccFactors[iTerm]);
+          var sharedTerm = KhanUtil.genExprFromExpFactors(factors, sharedOccFactors);
           if (colors !== undefined) {
               term = KhanUtil.exprSetStyle(term, colors[iTerm]);
           }
@@ -251,14 +254,14 @@
        var terms = [];
        for (var iTerm = 0; iTerm < termsOccFactors.length; iTerm++) {
           var mergedOccFactors = mergeOccFactors(sharedOccFactors, termsOccFactors[iTerm]);
-          terms.push(KhanUtil.genExprFromOccFactors(factors, mergedOccFactors));
+          terms.push(KhanUtil.genExprFromExpFactors(factors, mergedOccFactors));
        }
        return terms;
     };
 
     var genFullExpr = function(factors, foundOccFactors, termsOccFactors) {
        var remainingTerms = {op:"+", args:genAllTerms(factors, KhanUtil.initOccArray(factors.length), termsOccFactors)};
-       var sharedPart = KhanUtil.genExprFromOccFactors(factors, foundOccFactors);
+       var sharedPart = KhanUtil.genExprFromExpFactors(factors, foundOccFactors);
        if (sharedPart === 1) {
           return remainingTerms;
        }
@@ -268,8 +271,8 @@
 
     var genFullExprMarkShared = function(factors, foundOccFactors, termsOccFactors, markedFoundOccFactors, markedtermsOccFactors) {
        var remainingTerms = {op:"+", args:genAllTermsMarkShared(factors, markedtermsOccFactors, termsOccFactors)};
-       var sharedPart = KhanUtil.genExprFromOccFactors(factors, foundOccFactors);
-       var markedPart = KhanUtil.genExprFromOccFactors(factors, markedFoundOccFactors);
+       var sharedPart = KhanUtil.genExprFromExpFactors(factors, foundOccFactors);
+       var markedPart = KhanUtil.genExprFromExpFactors(factors, markedFoundOccFactors);
        if ((sharedPart === 1) && (markedPart === 1)) {
           return remainingTerms;
        }
@@ -309,7 +312,7 @@
     }
 
     var genDecomposition = function(factors, occFactors) {
-       var exprLeft = KhanUtil.genExprFromOccFactors(factors, occFactors);
+       var exprLeft = KhanUtil.genExprFromExpFactors(factors, occFactors);
        var exprRight = genCdotFactors(factors, occFactors);
        return {op:"=", args:[exprLeft, exprRight]};
     };
@@ -340,7 +343,7 @@
        if (listFactors.length === 1) {
           return "<p>The terms have one common factor: " + strListFactors + ".</p>";
        } else {
-          var gcf = MATH.format(KhanUtil.exprSetStyle(KhanUtil.genExprFromOccFactors(factors, occFactors), KhanUtil.BLUE));
+          var gcf = MATH.format(KhanUtil.exprSetStyle(KhanUtil.genExprFromExpFactors(factors, occFactors), KhanUtil.BLUE));
           return "<p>The terms have these common factors: " + strListFactors + ", so the greatest common factor is <code>" + gcf + "</code>.</p>";
        }
     };
@@ -466,13 +469,15 @@
        }
        for (var iBest = 0; iBest < 2; iBest++) {
           var iFactor = bestIFactors[iBest];
+          var savedOccs = [];
           for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
-             termsOccFactors[iTerm][iFactor]--;
+             savedOccs.push(termsOccFactors[iTerm][iFactor]);
+             termsOccFactors[iTerm][iFactor] = Math.max(0, termsOccFactors[iTerm][iFactor] - 1);
           }
           sharedOccFactors[iFactor]++;
           choices.push(genFullExpr(factors, sharedOccFactors, termsOccFactors));
           for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
-             termsOccFactors[iTerm][iFactor]++;
+              termsOccFactors[iTerm][iFactor] = savedOccs[iTerm];
           }
           sharedOccFactors[iFactor]--;
        }

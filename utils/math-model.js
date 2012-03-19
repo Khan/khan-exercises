@@ -397,6 +397,7 @@ jQuery.extend ( KhanUtil, {
 					}
 					break;
 				case OpStr.EMP:
+                                        text = "";
 					break;
 				case OpStr.DIV:
 				case OpStr.PM:
@@ -1050,7 +1051,7 @@ jQuery.extend ( KhanUtil, {
 			var startIdStyle = scan.style();
 			var expr = additiveExpr();
 			if (expr === undefined) {
-				expr = {op:"empty", args:[]};
+				expr = {op:OpStr.EMP, args:[]};
 			}
 			var t = hd();
 			while ((t ===TK_EQL) || (t === TK_LT) || (t === TK_GT) || (t === TK_LEQ) || (t === TK_GEQ) || (t === TK_NOT)) {
