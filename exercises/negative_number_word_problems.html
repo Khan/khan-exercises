@@ -103,19 +103,30 @@
 					<var id="N">randRange( 10, 50 )</var><!-- # of campers -->
 					<var id="COST">randRange( 100, 500 )</var><!-- Cost per camper -->
 					<var id="Y">N * COST</var><!-- Amount earned from campers -->
-					<var id="Z">X - Y</var><!-- Money owed -->
+					<var id="Z">Y - X</var><!-- Resulting bank balance -->
 				</div>
 
-				<p class="problem spin"><var>person( 1 )</var> received a loan of $<var>commafy( X )</var> from the bank to start a baseball camp. <var>person( 1 )</var> used the loan to buy baseball bats, mitts, baseballs, and water bottles and to pay the coaches’ salaries. Over the course of the summer, <var>N</var> campers attended <var>person( 1 )</var>’s baseball camp, and each camper paid a fee of $<var>COST</var> to attend. <var>person( 1 )</var> used all of the money from the campers’ fees to start paying back the loan.</p>
-				<p class="question">At the end of the summer what was <var>person( 1 )</var>'s net worth?</p>
+				<p class="problem spin">
+					<var>person(1)</var> runs a baseball camp every summer.
 
-				<div class="solution" data-forms="dollar"><var>-1 * Z</var></div>
+					This summer, <var>person(1)</var> took out a loan of $<var>commafy(X)</var> to buy baseball bats, mitts,
+					baseballs, and water bottles, and to pay the coaches’ salaries.
+
+					<var>N</var> campers attended <var>person(1)</var>’s baseball camp,
+					and each camper paid a fee of $<var>commafy(COST)</var> to attend.
+				</p>
+
+				<p class="question">
+					After using his earnings to pay the bank towards his loan, what is <var>person(1)</var>'s balance?
+				</p>
+
+				<div class="solution" data-forms="dollar"><var>Z</var></div>
 
 				<div class="hints">
 					<p><var>person( 1 )</var> started out the summer with <code>$<var>commafy( X )</var></code> of debt, which can be represented as a negative number, <code>-$<var>commafy( X )</var></code>.</p>
 					<p>Amount of money <var>person( 1 )</var> earned from campers = <code><var>N</var> \times $<var>COST</var>=$<var>commafy(  Y )</var></code></p>
 					<p>debt + earnings = <var>person( 1 )</var>'s account balance</p>
-					<p><code>-$<var>commafy( X )</var> + $<var>commafy( Y )</var> = -$<var>commafy( Z )</var></code></p>
+					<p><code>-$<var>commafy( X )</var> + $<var>commafy( Y )</var> = $<var>commafy( Z )</var></code></p>
 				</div>
 			</div>
 		</div>
