@@ -341,7 +341,7 @@ div.timeline-total {
 }
 
 #warning-bar.error {
-  background-color: red;
+  background-color: #D61914;
   color: #eee;
 }
 
