@@ -314,11 +314,14 @@ div.timeline-total {
 }
 
 #warning-bar {
-    width: 100%;
-    height: 35px;
-    text-align: center;
-    font-size: 15px;
+	width: 100%;
+	height: 35px;
+	text-align: center;
+	font-size: 15px;
 	display: none;
+	padding: 6px 0;
+	position: relative;
+	z-index: 2;
 }
 
 #warning-bar span {
@@ -338,7 +341,7 @@ div.timeline-total {
 }
 
 #warning-bar.error {
-  background-color: red;
+  background-color: #D61914;
   color: #eee;
 }
 

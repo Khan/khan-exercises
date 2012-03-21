@@ -155,13 +155,6 @@ var Khan = (function() {
 	// The exercise elements
 	exercises,
 
-	// If we're dealing with a summative exercise
-	isSummative = false,
-
-	// If we're in review mode: present a mix of different exercises
-	reviewMode = typeof initialReviewsLeftCount === "number",
-	reviewQueue = [],
-
 	// Where we are in the shuffled list of problem types
 	problemBag,
 	problemBagIndex = 0,
@@ -622,9 +615,9 @@ var Khan = (function() {
 
 	if ( Khan.query.activity !== undefined ) {
 		userExercise = {
-			exercise_model: {},
-			read_only: true,
-			user_activity: JSON.parse( Khan.query.activity )
+			exerciseModel: {},
+			readOnly: true,
+			userActivity: JSON.parse( Khan.query.activity )
 		};
 	}
 
@@ -653,7 +646,6 @@ var Khan = (function() {
 			var remoteExercises = jQuery( "div.exercise[data-name]" );
 
 			if ( remoteExercises.length ) {
-				isSummative = true;
 
 				remoteExercises.each( loadExercise );
 
@@ -690,12 +682,6 @@ var Khan = (function() {
 				});
 			}
 		});
-
-		// An animation that fades in then out a text shadow
-		jQuery.fx.step.reviewGlow = function( fx ) {
-			var val = -4 * Math.pow( fx.now - 0.5, 2 ) + 1;
-			jQuery( fx.elem ).css( 'textShadow', 'rgba(227, 93, 4, ' + val + ') 0 0 12px');
-		};
 
 		// See if an element is detached
 		jQuery.expr[":"].attached = function( elem ) {
@@ -794,92 +780,6 @@ var Khan = (function() {
 		return bag;
 	}
 
-	// TODO(david): Would be preferable to use the exercise model's display_name
-	//     property instead of duplicating that code here on the client.
-	function getDisplayNameFromId( id ) {
-		return id.charAt( 0 ).toUpperCase() + id.slice( 1 ).replace( /_/g, ' ' );
-	}
-
-	// This function is a closure returned from an immediately-called function so
-	// we can have private static variables (requestPending).
-	// TODO(kamens): going away
-	var maybeEnqueueReviewProblems = (function() {
-
-		var requestPending = false;
-
-		// Handle successful retrieval of review exercises from the server
-		function enqueueReviewExercises( reviewExercises ) {
-			// Only process and keep the first few exercises returned so we don't send
-			// off a huge stream of AJAX requests.
-			reviewExercises = reviewExercises.slice( 0, 3 );
-
-			reviewQueue = reviewQueue.concat( reviewExercises );
-
-			// Use an empty jQuery object to use as a sliding animations queue holder
-			var slideQueue = jQuery( {} );
-
-			jQuery.each( reviewExercises, function( i, exid ) {
-
-				// Slide up the exercise into the upcoming exercises queue, one-by-one
-				slideQueue.queue(function( next ) {
-					jQuery( "<p>" + getDisplayNameFromId( exid ) + "</p>" )
-						.css( "marginTop", Math.max(38 - i * 15, 10) )
-						.appendTo( jQuery("#next-exercises") )
-						.animate( { marginTop: 0 }, /* duration */ 365, next );
-				});
-
-				// Was this exercise's data and HTML loaded by loadExercise already?
-				var isLoaded = exercises.filter(function() {
-					return jQuery.data( this, "rootName" ) === exid;
-				}).length;
-
-				// Load all non-loadExercise loaded exercises
-				if ( !isLoaded ) {
-					var exerciseElem = jQuery( "<div>" )
-						.data( "name", exid )
-						.data( "rootName", exid );
-					loadExercise.call( exerciseElem );
-
-					// Update the cached UserExercise model for this exercise. One reason
-					// we do this is to update the states (for correct icon display),
-					// which may have changed since the user last did the exercise.
-					jQuery.ajax({
-						url: server + "/api/v1/user/exercises/" + exid,
-						type: "GET",
-						dataType: "json",
-						xhrFields: { withCredentials: true },
-						success: _.bind( cacheUserExerciseDataLocally, null, exid )
-					});
-				}
-			});
-
-			requestPending = false;
-		}
-
-		return function() {
-			if ( !reviewMode || reviewQueue.length >= 3 || requestPending ) return;
-
-			// Indicates to the server which reviews are already queued up, including
-			// the current exercise if it has not been attempted yet.
-			var reviewsToAttempt = ( attempts == 0 && hintsUsed == 0 ?
-					reviewQueue.concat( exerciseName ) : reviewQueue );
-
-			// Send the request to fetch the next set of review exercises
-			jQuery.ajax({
-				url: "/api/v1/user/exercises/review_problems",
-				type: "GET",
-				dataType: "json",
-				xhrFields: { withCredentials: true },
-				data: {
-					queued: reviewsToAttempt.join( "," )
-				},
-				success: enqueueReviewExercises
-			});
-
-			requestPending = true;
-		};
-	})();
-
 	function enableCheckAnswer() {
 		jQuery( "#check-answer-button" )
 			.removeAttr( "disabled" )
@@ -942,10 +842,16 @@ var Khan = (function() {
 			// ...and create a new problem bag with problems of our new exercise type.
 			problemBag = makeProblemBag( problems, 10 );
 
-			// TODO(kamens): Update document title
-
 			// Update related videos
 			Khan.relatedVideos.setVideos( userExercise.exerciseModel );
+
+			// Make scratchpad persistent per-user
+			if ( user ) {
+				var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
+				if ( typeof lastScratchpad !== "undefined" && JSON.parse( lastScratchpad ) ) {
+					Khan.scratchpad.show();
+				}
+			}
 
 			// Generate a new problem
 			makeProblem();
@@ -966,41 +872,7 @@ var Khan = (function() {
 
 	}
 
-	// TODO(kamens): this should be going away and replaced w/
-	// a more complete loadAndRenderExercise above
-	function switchToExercise( exid ) {
-		exerciseName = exid;
-
-		var newUserExercise = getData();
-
-		setProblemNum( newUserExercise.totalDone + 1 );
-
-		// Get all problems of this exercise type...
-		var problems = exercises.filter(function() {
-			return jQuery.data( this, "rootName" ) === exid;
-		}).children( ".problems" ).children();
-
-		// ...and create a new problem bag with problems of our new exercise type.
-		// TODO(david): Possibly save this in hash map, so we don't have to
-		//     recompute it?
-		problemBag = makeProblemBag( problems, 10 );
-
-		// Update the document title
-		var title = document.title;
-		document.title = getDisplayNameFromId( exid ) + " " +
-			title.slice( title.indexOf("|") );
-
-		// update related videos
-		Khan.relatedVideos.setVideos(newUserExercise.exerciseModel.related_videos);
-	}
-
 	function makeProblem( id, seed ) {
-
-		if ( typeof Badges !== "undefined" ) {
-			// TODO: this should be moved to badges code by listening to Khan
-			// events
-			Badges.hide();
-		}
 
 		// Enable scratchpad (unless the exercise explicitly disables it later)
 		Khan.scratchpad.enable();
@@ -1271,7 +1143,6 @@ var Khan = (function() {
 			} );
 		}
 
-		// TODO(kamens): timeline is going to be completely broken.
 		if (typeof userExercise !== "undefined" && userExercise.readOnly) {
 			if (!userExercise.current) {
 				warn("This exercise may have changed since it was completed", true);
@@ -1284,7 +1155,7 @@ var Khan = (function() {
 							<div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
 							<div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\
 							</div>" )
-				.insertBefore( "#extras" );
+				.insertBefore( "#problem-and-answer" );
 
 			jQuery.fn.disable = function() {
 				this.addClass( 'disabled' )
@@ -1304,7 +1175,7 @@ var Khan = (function() {
 				return this;
 			}
 
-			if (getData().totalDone === 0) {
+			if (userExercise.totalDone === 0) {
 				jQuery( '#previous-problem' ).disable();
 			}
 
@@ -1328,7 +1199,7 @@ var Khan = (function() {
 			 * value[1]: guess
 			 * value[2]: time taken since last guess
 			 */
-			jQuery.each(userExercise.user_activity, function(index, value) {
+			jQuery.each(userExercise.userActivity, function(index, value) {
 				var guess = value[1] === "Activity Unavailable" ? value[1] : JSON.parse( value[1] ),
 					thissolutionarea;
 
@@ -1356,7 +1227,7 @@ var Khan = (function() {
 								"<p class='solution'>" + guess + "</p>" ).tmpl()
 							);
 
-							if (index === userExercise.user_activity.length - 1) {
+							if (index === userExercise.userActivity.length - 1) {
 								thissolutionarea
 									.removeClass( 'incorrect-activity' )
 									.addClass( 'correct-activity' );
@@ -1634,12 +1505,12 @@ var Khan = (function() {
 			});
 
 			jQuery( '#next-problem' ).click(function(event) {
-				window.location.href = userExercise.next_problem_url;
+				window.location.href = userExercise.nextProblemUrl;
 			});
 
 			jQuery( '#previous-problem' ).click(function(event) {
 				if (!jQuery( this ).data( 'disabled' )) {
-					window.location.href = userExercise.previous_problem_url;
+					window.location.href = userExercise.previousProblemUrl;
 				}
 			});
 
@@ -1809,15 +1680,6 @@ var Khan = (function() {
 
 		} else {
 
-			// Switch exercises if there's a different queued up exercise in review mode
-			// TODO(kamens): going away
-			if ( reviewMode ) {
-				var nextExerciseName = reviewQueue.shift();
-				if ( nextExerciseName && nextExerciseName !== exerciseName ) {
-					switchToExercise( nextExerciseName );
-				}
-			}
-
 			if ( testMode ) {
 				// Just generate a new problem from existing exercise
 				makeProblem();
@@ -1825,19 +1687,6 @@ var Khan = (function() {
 				loadAndRenderExercise( nextUserExercise );
 			}
 
-			// TODO(kamens): probably going away
-			// Kick off a request to queue up more exercises if we're running low.
-			// This needs to run after makeProblem to get the updated problem state.
-			maybeEnqueueReviewProblems();
-		}
-	}
-
-	function injectSite( html, htmlExercise ) {
-		jQuery("body").prepend( html );
-		jQuery("#container").html( htmlExercise );
-
-		if ( Khan.query.layout === "lite" ) {
-			jQuery("html").addClass( "lite" );
 		}
 	}
 
@@ -1850,12 +1699,6 @@ var Khan = (function() {
 		jQuery( "#happy" ).attr( "src", urlBase + "css/images/face-smiley.gif" );
 		jQuery( "#issue-throbber" )
 			.attr( "src", urlBase + "css/images/throbber.gif" );
-
-		if ( reviewMode ) {
-			enterReviewMode();
-		} else {
-			jQuery( "#streak-bar-container" ).show();
-		}
 
 		jQuery( "#answer_area" ).adhere( {
 			container: jQuery( "#answer_area_wrap" ).parent(),
@@ -1908,13 +1751,11 @@ var Khan = (function() {
 				// The seed that was used for generating the problem
 				problem_type: problemID,
 
-				// The non-summative exercise that the current problem belongs to
-				non_summative: exercise.data( "name" ),
-
 				// Whether we are currently in review mode
-				// TODO(kamens): find a way to fix this and still pass it back
-				// to server
-				review_mode: reviewMode ? 1 : 0,
+				review_mode: (!testMode && Exercises.reviewMode) ? 1 : 0,
+
+				// Whether we are currently in topic mode
+				topic_mode: (!testMode && !Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
 
 				// Request camelCasing in returned response
 				casing: "camel"
@@ -1995,21 +1836,21 @@ var Khan = (function() {
 				// TODO: Save locally if offline
 				jQuery(Khan).trigger( "attemptSaved" );
 
-				// If in review mode, the server may decide the user needs to practice
-				// this exercise again -- provide quick feedback if so.
-				maybeEnqueueReviewProblems();
 			}, function() {
-				// Error during submit. Cheat, for now, and reload the page in
-				// an attempt to get updated data.
+				// Error during submit. Disable the page and ask users to
+				// reload in an attempt to get updated data.
 
 				// Alert any listeners of the error before reload
 				jQuery( Khan ).trigger("attemptError", userExercise);
 
-				if ( typeof userExercise === "undefined" || !userExercise.tablet ) {
-					window.location.reload();
-				} else {
-					// TODO: Implement alternative error handling
-				}
+				// Hide the page so users don't continue
+				jQuery( "#problem-and-answer" ).css("visibility", "hidden");
+
+				warn(
+					"This page is out of date. You need to <a href='" + window.location.href + 
+					"'>reload this page</a>, but don't worry, you haven't lost any progress."
+				);
+
 			}, "attempt_hint_queue" );
 
 			if ( pass === true ) {
@@ -2537,14 +2378,6 @@ var Khan = (function() {
 
 		}
 
-		// Make scratchpad persistent per-user
-		if ( user ) {
-			var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
-			if ( typeof lastScratchpad !== "undefined" && JSON.parse( lastScratchpad ) ) {
-				Khan.scratchpad.show();
-			}
-		}
-
 		Khan.relatedVideos.hookup();
 
 		if (window.ModalVideo) {
@@ -2584,35 +2417,6 @@ var Khan = (function() {
 
 	function prevProblem( num ) {
 		nextProblem( -num );
-	}
-
-	// TODO(kamens): much of this could be going away
-	function enterReviewMode() {
-		// Hide the "Show next 10 problems" link button
-		jQuery( "#print-ten" ).parent().hide();
-
-		// Replace the proficiency progress bar with "REVIEW MODE" title
-		jQuery( "#streak-bar-container" ).hide();
-		jQuery( "#review-mode-title" ).show();
-
-		jQuery( ".gradient-overlay" ).show();
-
-		if ( typeof Review !== "undefined" &&
-				typeof initialReviewsLeftCount !== "undefined" ) {
-			Review.initCounter();
-			setTimeout( _.bind(
-					Review.updateCounter, null, initialReviewsLeftCount), 500 );
-		}
-	}
-
-	function updateExerciseIcon( exerciseStates ) {
-		var sPrefix = "/images/" + (
-				exerciseStates.summative ? "node-challenge" : "node" );
-		var src = exerciseStates.reviewing ? "/images/node-review.png" :
-					exerciseStates.suggested ? sPrefix + "-suggested.png" :
-						exerciseStates.proficient ? sPrefix + "-complete.png" :
-							sPrefix + "-not-started.png";
-		jQuery( "#exercise-icon-container img" ).attr( "src", src );
 	}
 
 	function setUserExercise( data ) {
@@ -2827,7 +2631,7 @@ var Khan = (function() {
 								dataType: "text",
 								success: function( htmlExercise ) {
 
-									handleInject( html, htmlExercise );
+									injectTestModeSite( html, htmlExercise );
 									if ( callback ) {
 										callback();
 									}
@@ -2845,31 +2649,23 @@ var Khan = (function() {
 			});
 		});
 
-		function handleInject( html, htmlExercise ) {
-			injectSite( html, htmlExercise );
-			postInject();
-		}
+		function injectTestModeSite( html, htmlExercise ) {
+			jQuery("body").prepend( html );
+			jQuery("#container").html( htmlExercise );
 
-		// TODO(kamens): can postInject gonna go away? Now only used for
-		// testMode
-		function postInject() {
+			if ( Khan.query.layout === "lite" ) {
+				jQuery("html").addClass( "lite" );
+			}
+
 			prepareSite();
 
-			// Prepare the "random" problems
-			if ( !testMode || !Khan.query.problem ) {
-				var problems = exercises.children( ".problems" ).children();
+			var problems = exercises.children( ".problems" ).children();
 
-				weighExercises( problems );
-				problemBag = makeProblemBag( problems, 10 );
-			}
+			weighExercises( problems );
+			problemBag = makeProblemBag( problems, 10 );
 
-			if ( testMode ) {
-				// Generate the initial problem when dependencies are done being loaded
-				var answerType = makeProblem();
-			}
-
-			// TODO(kamens): remove
-			maybeEnqueueReviewProblems();
+			// Generate the initial problem when dependencies are done being loaded
+			var answerType = makeProblem();
 		}
 
 	}
