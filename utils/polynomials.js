@@ -11,6 +11,8 @@ jQuery.extend(KhanUtil, {
 				return coef;
 			} else if ( degree === 1 ) {
 				return [ "*", coef, vari ];
+			} else if ( coef === -1 && degree % 2 === 0 && typeof vari === "number" ) {
+				return [ "*", coef * -1, [ "^", vari * -1, degree ] ];
 			} else {
 				return [ "*", coef, [ "^", vari, degree ] ];
 			}
