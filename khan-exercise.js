@@ -1746,6 +1746,9 @@ var Khan = (function() {
 				// Whether we are currently in review mode
 				review_mode: (!testMode && Exercises.reviewMode) ? 1 : 0,
 
+				// Whether we are currently in topic mode
+				topic_mode: (!testMode && !Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
+
 				// Request camelCasing in returned response
 				casing: "camel"
 			};
