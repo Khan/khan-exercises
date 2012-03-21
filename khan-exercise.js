@@ -845,6 +845,14 @@ var Khan = (function() {
 			// Update related videos
 			Khan.relatedVideos.setVideos( userExercise.exerciseModel );
 
+			// Make scratchpad persistent per-user
+			if ( user ) {
+				var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
+				if ( typeof lastScratchpad !== "undefined" && JSON.parse( lastScratchpad ) ) {
+					Khan.scratchpad.show();
+				}
+			}
+
 			// Generate a new problem
 			makeProblem();
 
@@ -2368,14 +2376,6 @@ var Khan = (function() {
 				renderNextProblem();
 			});
 
-		}
-
-		// Make scratchpad persistent per-user
-		if ( user ) {
-			var lastScratchpad = window.localStorage[ "scratchpad:" + user ];
-			if ( typeof lastScratchpad !== "undefined" && JSON.parse( lastScratchpad ) ) {
-				Khan.scratchpad.show();
-			}
 		}
 
 		Khan.relatedVideos.hookup();
