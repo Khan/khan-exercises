@@ -18,22 +18,33 @@
         return {op:expr.op, args:nArgs};
     };
 
+    var isSameOp = function(op1, op2) {
+       if (op1 === op2) {
+           return true;
+       }
+       return (KhanUtil.opIsMultiplication(op1) && KhanUtil.opIsMultiplication(op2));
+    };
+
     var moveSameOpsUp = function (expr) {
+        if (!(KhanUtil.opIsMultiplication(expr.op) || (expr.op === "+"))) {
+            return expr;
+        }
         var newArgs = [];
         var opsStyles = [];
         var opsIdStyles = [];
         var align = [];
         for (var iArg = 0; iArg < expr.args.length; iArg++) {
             var arg = expr.args[iArg];
-            if ((typeof arg === "object") && (arg.op === expr.op)) {
-                newArg = moveSameOpsUp(arg);
+            var newArg = moveSameOpsUp(arg);
+            if ((typeof newArg === "object") && isSameOp(newArg.op, expr.op)) {
+                KhanUtil.exprPropagateStyle(newArg);
                 newArgs = newArgs.concat(newArg.args);
                 opsStyles = opsStyles.concat(newArg.opsStyles);
                 opsIdStyles = opsIdStyles.concat(newArg.opsIdStyles);
                 align = align.concat(newArg.align);
             }
             else {
-                newArgs.push(arg);
+                newArgs.push(newArg);
                 var iOp = iArg - 1;
                 if (iOp >= 0) {
                     if (expr.opsStyles !== undefined) {
@@ -226,8 +237,8 @@
        var steps = new KhanUtil.StepsProblem([], expr1, "nf");
        expr1.strExpr = KhanUtil.exprToStrExpr(expr1);
        expr2.strExpr = KhanUtil.exprToStrExpr(expr2);
-       var nfExpr1 = normalForm(KhanUtil.simplify(expr1, {}, steps));
-       var nfExpr2 = normalForm(KhanUtil.simplify(expr2, {}, steps));
+       var nfExpr1 = normalForm(expr1);
+       var nfExpr2 = normalForm(expr2);
        nfExpr1.strExpr = KhanUtil.exprToStrExpr(nfExpr1);
        nfExpr2.strExpr = KhanUtil.exprToStrExpr(nfExpr2);
        return (compareNormalForms(nfExpr1, nfExpr2) === 0);

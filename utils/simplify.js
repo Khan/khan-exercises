@@ -1,18 +1,4 @@
 (function() {
-    var mergeExponents = function(expr1, expr2, options, steps) {
-        var expr1WithExp = KhanUtil.addExpIfNone(expr1);
-        var expr2WithExp = KhanUtil.addExpIfNone(expr2);
-        var expSum = {op:"+", args:[expr1WithExp.args[1], expr2WithExp.args[1]]};
-        var subSteps1 = new KhanUtil.StepsProblem([], expSum, "simplify", true);
-        expSum = simplify(expSum, options, subSteps1); // temporary until operator ^ is handled
-        //steps.add(subSteps1);
-        var mergedExp = {op:"^", args:[expr1WithExp.args[0], expSum]};
-        var subSteps2 = new KhanUtil.StepsProblem([], mergedExp, "simplify", true);
-        mergedExp = simplify(mergedExp, options, subSteps2);
-        //steps.add(subSteps2);
-        return mergedExp;
-    };
-
     var mergeCstFactors = function(expr1, expr2, options, steps) {
         var splitExpr1 = KhanUtil.splitNumCstVar(expr1);
         var splitExpr2 = KhanUtil.splitNumCstVar(expr2);
@@ -32,7 +18,9 @@
                 prodExpr = KhanUtil.moveSameOpsUp({op:"*", args:newArgs});
             }
             var subSteps = new KhanUtil.StepsProblem([], prodExpr, "simplify", true);
-            //prodExpr = simplify(prodExpr, options, subSteps);
+            options.mergeCstFactors = false;
+            prodExpr = simplify(prodExpr, options, subSteps);
+            options.mergeCstFactors = true;
             //steps.add(subSteps);
             return prodExpr;
         }
@@ -122,19 +110,138 @@
         return newExpr;
     };
 
+    var getVariables = function(expr, variables) {
+        if (!KhanUtil.hasVariables(expr)) {
+            return;
+        }
+        if (expr.op === "var") {
+            var varName = expr.args[0];
+            if ($.inArray(varName, variables) === -1) {
+                variables.push(varName);
+            }
+            return;
+        }
+        for (var iArg = 0; iArg < expr.args.length; iArg++) {
+            getVariables(expr.args[iArg], variables);
+        }
+    };
+
+    var getPolynomialTermCoeff = function(expr) {
+        if (!KhanUtil.hasVariables(expr)) {
+            return {coeff:expr, exp:0};
+        }
+        if (expr.op === "var") {
+            return {coeff:1, exp:1};
+        } else if ((expr.op === "-") && (expr.args.length === 1)) {
+            var coeff = getPolynomialTermCoeff(expr.args[0]);
+            if (coeff === undefined) {
+                return undefined;
+            }
+            return {coeff:{op:"-", args:[coeff.coeff]}, exp:coeff.exp};
+        } else if (expr.op === "^") {
+            if (!KhanUtil.exprIsNumber(expr.args[1])) {
+                return undefined;
+            }
+            var argCoeff = getPolynomialTermCoeff(expr.args[0]);
+            if (argCoeff === undefined) {
+                return undefined;
+            }
+            var numExp = KhanUtil.exprNumValue(expr.args[1]) * argCoeff.exp;
+            if (argCoeff.coeff === 1) {
+               return {coeff:1, exp:numExp};
+            }
+            return {coeff:{op:"^", args:[argCoeff.coeff, numExp]}, exp:numExp};
+        } else if (KhanUtil.opIsMultiplication(expr.op)) {
+            var coeff = 1;
+            var exp = 0;
+            for (var iArg = 0; iArg < expr.args.length; iArg++) {
+               var argCoeff = getPolynomialTermCoeff(expr.args[iArg]);
+               if (argCoeff === undefined) {
+                   return undefined;
+               }
+               if (coeff === 1) {
+                   coeff = argCoeff.coeff;
+               } else {
+                   coeff = {op:"*", args:[coeff, argCoeff.coeff]};
+               }
+               exp += argCoeff.exp;
+            }
+            return {coeff:coeff, exp:exp};            
+        }
+        return undefined;
+    };
+
+    var getPolynomialCoeffs = function(expr) {
+       var coeffs = [];
+       if (expr.op !== "+") {
+           var termCoeff = getPolynomialTermCoeff(expr, coeffs);
+           if (termCoeff === undefined) {
+               return undefined;
+           }
+           coeffs[termCoeff.exp] = termCoeff.coeff;
+       } else {
+           for (var iArg = 0; iArg < expr.args.length; iArg++) {
+               var argCoeff = getPolynomialTermCoeff(expr.args[iArg]);
+               if (argCoeff === undefined) {
+                    return undefined;
+               }
+               if (coeffs[argCoeff.exp] === undefined) {
+                    coeffs[argCoeff.exp] = argCoeff.coeff;
+               } else {
+                    coeffs[argCoeff.exp] = {op:"+", args:[coeffs[argCoeff.exp], argCoeff.coeff]};
+               }
+           }
+       }
+       for (var iCoeff = 0; iCoeff < coeffs.length; iCoeff++) {
+           if (coeffs[iCoeff] === undefined) {
+               coeffs[iCoeff] = 0;
+           }
+           coeffs[iCoeff] = simplify(coeffs[iCoeff]);
+       }
+       return coeffs;
+    };
+
+    var factorAsPolynomial = function(expr, options) {
+       var variables = [];
+       getVariables(expr, variables);
+       if (variables.length > 1) {
+           return undefined;
+       }
+       var coeffs = getPolynomialCoeffs(expr);
+       if ((coeffs === undefined) || (coeffs.length !== 3)) {
+           return expr;
+       }
+       for (var iCoeff = 0; iCoeff < 3; iCoeff++) {
+           if (!KhanUtil.exprIsNumber(coeffs[iCoeff])) {
+               return expr;
+           }
+           coeffs[iCoeff] = KhanUtil.exprNumValue(coeffs[iCoeff]);
+       }
+       var a = coeffs[2];
+       var b = coeffs[1];
+       var c = coeffs[0];
+       var disc = b*b - 4*a*c;
+       if (disc < 0) {
+           return expr;
+       }
+       var negSol1 = (b - Math.sqrt(disc)) / 2*a;
+       var negSol2 = (b + Math.sqrt(disc) ) / 2*a;
+       var v = {op:"var", args:[variables[0]]};
+       return {op:"*", args:[{op:"+", args:[v, negSol1]}, {op:"+", args:[v, negSol2]}]};
+    };
+
     var addToFactorsExps = function(expr, options, factors, factorsExp, curExponent) {
        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
           if (KhanUtil.isEqual(expr, factors[iFactor])) {
               if (factorsExp[iFactor] === undefined) {
                   factorsExp[iFactor] = curExponent;
               } else {
-                  factorsExp[iFactor] = simplify({op:"*", args:[factorsExp[iFactor], curExponent]}, options);
-                  
+                  factorsExp[iFactor] = simplify({op:"+", args:[factorsExp[iFactor], curExponent]}, options);
               }
               return;
           }
        }
-       factorsExp[factors.length] = nbOcc;
+       factorsExp[factors.length] = curExponent;
        factors.push(expr);
     };
 
@@ -143,62 +250,83 @@
         if (KhanUtil.exprIsNumber(expr)) {
             var value = KhanUtil.exprNumValue(expr);
             var numFactors = KhanUtil.getPrimeFactorization(Math.abs(value));
+            if (numFactors === undefined) {
+                numFactors = [Math.abs(value)];
+            }
             if (value < 0) {
                 numFactors.push(-1);
             }
             for (var iFactor = 0; iFactor < numFactors.length; iFactor++) {
-                addToFactorsExps(numFactors[iFactor], factors, factorsExp, curExponent);
+                addToFactorsExps(numFactors[iFactor], options, factors, factorsExp, curExponent);
             }
         } else if (KhanUtil.opIsMultiplication(expr.op)) {
             for (var iArg = 0; iArg < expr.args.length; iArg++) {
                 findExprFactorsExps(expr.args[iArg], options, factors, factorsExp, curExponent);
             }
         } else if (expr.op === "^") {
-            findExprFactorsExps(expr.args[0], options, factors, factorsExp, {op:"*", args:[curExponent, expr.args[1]]});
+            var newExponent = KhanUtil.simplify({op:"*", args:[curExponent, expr.args[1]]}, options);
+            findExprFactorsExps(expr.args[0], options, factors, factorsExp, newExponent);
         } else {
-            addToFactorsExps(KhanUtil.normalForm(expr), options, factors, factorsExp, curExponent);
+            addToFactorsExps(expr, options, factors, factorsExp, curExponent);
         }
     };
+
+    var factorSumFull = function(expr) {
+       var exprFactors = KhanUtil.factorSum(expr);
+       return KhanUtil.genFullExpr(exprFactors.factors, exprFactors.sharedOccFactors, exprFactors.termsOccFactors);
+    }
 
     var simplifyByFactoring = function(expr, options, steps) {
         var factors = [];
         var factorsExp = [];
-        var factored = findExprFactorsExps(expr, options, factors, factorsExp, 1);
-        return KhanUtil.genExprFromOccFactors(term.factors, term.occFactors);
+        findExprFactorsExps(expr, options, factors, factorsExp, 1);
+        return KhanUtil.genExprFromExpFactors(factors, factorsExp, options);
     }
 
     var simplifyTimesOp = function(expr, options, steps) {
-        var sExpr = simplifyEachArg(expr, options, steps);
-        var nfExpr = KhanUtil.normalForm(sExpr, steps);
+        var sExpr = KhanUtil.moveSameOpsUp(expr);
+        sExpr = simplifyEachArg(sExpr, options, steps);
+        sExpr = KhanUtil.moveSameOpsUp(sExpr);
         var newArgs = [];
         var numArg = 1;
         if (!options.simplifyProducts) {
             return sExpr;
         }
-        // TODO: replace with the approach used in findExprFactors, to keep the order of existing factors,
-        // and their initial form.
-        $.each(nfExpr.args, function(iArg, curArg) {
-            if (KhanUtil.exprIsNumber(curArg)) {
-                numArg *= KhanUtil.exprNumValue(curArg);
-                return;
-            } else if (newArgs.length > 0) {
-                var prevArg = newArgs[newArgs.length - 1];
-                if (KhanUtil.compareNormalForms(curArg, prevArg, true) === 0) {
-                    newArgs[newArgs.length - 1] = mergeExponents(prevArg, curArg, options, steps);
-                    return;
+        var newExpr;
+        if (options.simplifyMode === "factor") {
+            newExpr = simplifyByFactoring(sExpr, options, steps);
+        } else {
+            var newArgs = [];
+            var numValue = 1;
+            for (var iArg = 0; iArg < sExpr.args.length; iArg++) {
+                var arg = sExpr.args[iArg];
+                if (KhanUtil.exprIsNumber(arg)) {
+                    var value = KhanUtil.exprNumValue(arg);
+                    if ((value === 0) && (options.del0Factors)) {
+                        return 0;
+                    }
+                    if ((value === 1) && (options.del1Factors)) {
+                        continue;
+                    }
+                    if (options.evalBasicNumOps) {
+                        numValue *= value;
+                        continue;
+                    }
                 }
+                newArgs.push(arg);
             }
-            newArgs.push(curArg);
-        });
-        if ((numArg === 0) && (options.del0Factors)) {
-            return 0;
-        } else if (!((numArg === 1) && (options.del1Factors))) {
-            newArgs.unshift(numArg);
+            if (options.evalBasicNumOps && (numValue != 1)) {
+                newArgs.unshift(numValue);
+            }
+            if (newArgs.length === 0) {
+                return 1;
+            }
+            if (newArgs.length === 1) {
+                return newArgs[0];
+            }
+            newExpr = {op:"*", args:newArgs};
+            newExpr = KhanUtil.copyStyleIfNone(expr, newExpr);
         }
-        if (newArgs.length === 1) {
-            return newArgs[0];
-        }
-        var newExpr = {op:expr.op, args:newArgs};
         if (options.simplifyMode === "expand") {
             var subSteps1 = new KhanUtil.StepsProblem([], newExpr, "expandProduct", true);
             var expanded = expandProduct(newExpr, subSteps1);
@@ -227,8 +355,9 @@
 
     var simplificationOps = {
         "+": function(expr, options, steps) {
+            var sExpr = KhanUtil.moveSameOpsUp(expr);
             var subSteps = new KhanUtil.StepsProblem([], expr, "simplify");
-            var sExpr = simplifyEachArg(expr, options, steps);
+            var sExpr = simplifyEachArg(sExpr, options, steps);
             steps.add(sExpr);
             sExpr = KhanUtil.moveSameOpsUp(sExpr);
             var newArgs2 = [];
@@ -252,39 +381,79 @@
             if (!options.evalBasicNumOps) {
                return newExpr;
             }
-            var nfExpr = KhanUtil.normalForm(newExpr, steps);
-            newArgs = [];
+            var newArgs = [];
             var numArg = 0;
-            $.each(nfExpr.args, function(iArg, curArg) {
+            var iArgFirstNum;
+            for (var iArg = 0; iArg < newExpr.args.length; iArg++) {
+                var curArg = newExpr.args[iArg];
                 if (KhanUtil.exprIsNumber(curArg)) {
                     numArg += KhanUtil.exprNumValue(curArg);
-                    return;
+                    if (iArgFirstNum === undefined) {
+                        iArgFirstNum = newArgs.length;
+                        newArgs.push(curArg);
+                    }
+                    continue;
                 }
                 if ((newArgs.length > 0) && (options.mergeCstFactors)) {
-                    var prevArg = newArgs[newArgs.length - 1];
-                    if (KhanUtil.compareNormalForms(curArg, prevArg, false, false, true) === 0) {
-                        newArgs[newArgs.length - 1] = mergeCstFactors(prevArg, curArg, options, steps);
-                        return;
+                    var found = false;
+                    for (var iPrevArg = 0; iPrevArg < newArgs.length; iPrevArg++) {
+                        var prevArg = newArgs[iPrevArg];
+                        if (KhanUtil.compareNormalForms(KhanUtil.normalForm(curArg),
+                                                        KhanUtil.normalForm(prevArg), false, false, true) === 0) {
+                            found = true;
+                            var mergedCstFactors = mergeCstFactors(prevArg, curArg, options, steps);
+                            newArgs[iPrevArg] = mergedCstFactors;
+                            break;
+                        }
+                    }
+                    if (found) {
+                        continue;
                     }
                 }
                 newArgs.push(curArg);
-            });
-            if (!((numArg === 0) && (options.del0TermInSum))) {
-                newArgs.unshift(numArg);
+            }
+            if (iArgFirstNum !== undefined) {
+               if ((numArg === 0) && (options.del0TermInSum)) {
+                   newArgs.splice(iArgFirsNum, iArgFirstNum)
+               } else {
+                   if (typeof newArgs[iArgFirstNum] === "number") {
+                       newArgs[iArgFirstNum] = numArg;
+                   } else {
+                       newArgs[iArgFirstNum].args[0] = numArg;
+                   }
+               }
             }
             if (newArgs.length === 0) {
                 return 0;
             } else if (newArgs.length === 1) {
                 return newArgs[0];
             }
-            // TODO: if options.simplifyMode == "factor", apply various factorisation techniques
-            expr = KhanUtil.copyStyleIfNone(expr, {op:"+", args:newArgs});
+            newExpr = {op:"+", args:newArgs};
+            if (options.simplifyMode === "factor") {
+               newExpr = factorSumFull(newExpr);
+               if (newExpr.op === "+") {
+                   options.simplifyMode = "expand";
+                   var expandedExpr = simplify(newExpr, options);
+                   options.simplifyMode = "factor";
+                   var factoredExpr = factorAsPolynomial(expandedExpr);
+                   if (factoredExpr !== undefined) {
+                       newExpr = factoredExpr;
+                   }
+               } else {
+                  steps.add("<p>The expression " + KhanUtil.exprToCode(expr) + " can be factored as " +
+                     KhanUtil.exprToCode(newExpr) + "</p>");
+               }
+            }
+            expr = KhanUtil.copyStyleIfNone(expr, newExpr);
             if (options.hidePlusBeforeNeg) {
                 hidePlusBeforeNeg(expr);
             }
             return expr;
         },
         "-": function(expr, options, steps) {
+            if ((expr.args.length === 2) && (options.changeSubIntoPlusNeg) ){
+               return {op:"+", args:[expr.args[0], {op:"-", args:[expr.args[1]]}]};
+            }       
             var subSteps = new KhanUtil.StepsProblem([], expr, "simplify");
             var sExpr = simplifyEachArg(expr, options, steps);
             if (expr.args.length === 1) {
@@ -302,9 +471,7 @@
                    return arg.args[0];
                }
                return sExpr;
-            } else if ((sExpr.args.length === 2) && (options.changeSubIntoPlusNeg) ){
-               return simplify({op:"+", args:[sExpr.args[0], {op:"-", args:[sExpr.args[1]]}]}, options, steps);
-            }        
+            } 
             return sExpr;
         },
         "*": simplifyTimesOp,
@@ -389,6 +556,13 @@
            options.derivTerm = oldDerivTerm;
            return expr;
         },
+        "()": function(expr, options, steps) {
+            if (options.removeUselessParenthesis) {
+                return simplify(expr.args[0], options, steps);
+            } else {
+                return simplifySingleArg(expr, options, steps);
+            }
+        },
         "=": simplifyEachArg,
         "sin": simplifySingleArg,
         "cos": simplifySingleArg,
@@ -415,6 +589,7 @@
               mergePowerOfPower: true,
               cancelLnExp: true,
               fracIntoPowNeg: true,
+              removeUselessParenthesis: true,
               errors: {}
           };
        for (var optionName in defaultValues) {
@@ -440,6 +615,7 @@
               mergePowerOfPower: false,
               cancelLnExp: false,
               fracIntoPowNeg: false,
+              removeUselessParenthesis: false,
         }
     };
 
@@ -477,6 +653,7 @@
         simplify:simplify,
         simplifyWithHints:simplifyWithHints,
         simplifyOptions:simplifyOptions,
+        findExprFactorsExps:findExprFactorsExps
     });
 })();
 

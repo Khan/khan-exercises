@@ -40,6 +40,12 @@
         return hash;
     };
     var exprIdentical = function(expr1, expr2) {
+        if ((typeof expr1 === "object") && (expr1.op === "num")) {
+            return exprIdentical(expr1.args[0], expr2);
+        }
+        if ((typeof expr2 === "object") && (expr2.op === "num")) {
+            return exprIdentical(expr1, expr2.args[0]);
+        }
         if (typeof expr1 !== typeof expr2) {
             return false;
         }
@@ -65,6 +71,9 @@
         }
         if (typeof expr === "string") {
             return stringHash(expr);
+        }
+        if (expr.op === "num") {
+            return exprHash(expr.args[0]);
         }
         if (expr.hash !== undefined) {
             return expr.hash;
@@ -200,6 +209,24 @@
        return ((op === "times") || (op === "cdot") || (op === "*"));
     }
 
+    var exprPropagateStyle = function(expr) {
+       if (expr.style === undefined) {
+           return;
+       }
+       if (expr.opsStyles === undefined) {
+          expr.opsStyles = [];
+          expr.opsIdStyles = [];
+       }
+       for (var iArg = 0; iArg < expr.args.length; iArg++) {
+           if (iArg != 0) {
+               expr.opsStyles[iArg - 1] = expr.style;
+               expr.opsIdStyles[iArg - 1] = expr.idStyle;
+           }
+           expr.args[iArg] = exprSetStyle(expr.args[iArg], expr.style);
+           expr.args[iArg].idStyle = expr.idStyle;
+       }
+    };
+
     var exprSetStyle = function(expr, style) {
           var expr = KhanUtil.exprClone(expr);
           if (typeof expr === "number") {
@@ -226,7 +253,13 @@
        return arr;
     };
 
-    var genExprFromExpFactors = function(factors, expFactors) {
+    var genExprFromExpFactors = function(factors, expFactors, options) {
+       if (options === undefined) {
+           options = {
+              del0Factors: true,
+              del1Factors:true
+           };
+       }
        var args = [];
        var numFactors = 1;
        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
@@ -248,6 +281,9 @@
               }
           }
           args.push({op:"^", args:[factor, expFactors[iFactor]]});
+       }
+       if (options.del0Factors && (numFactors === 0)) {
+           return 0;
        }
        if (numFactors !== 1) {
            args.unshift(numFactors);
@@ -314,6 +350,7 @@
         exprToCodeOr: exprToCodeOr,
         exprToCode: exprToCode,
         exprToString: exprToString,
-        copyStyleIfNone: copyStyleIfNone
+        copyStyleIfNone: copyStyleIfNone,
+        exprPropagateStyle: exprPropagateStyle
     });
 })();

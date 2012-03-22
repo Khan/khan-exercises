@@ -79,11 +79,71 @@
        return {op:"dfrac", args:newArgs};
     };
 
+    var addInitialSteps = function(MATH, steps) {
+        var aExpr = {op:"var", args:["a"]};
+        var exampleFactors = [3, 5, aExpr, {op:"var", args:["b"]}, {op:"var", args:["c"]}];
+        var exampleOldOccs = [[1, 0, 2, 1, 0], [0, 1, 1, 0, 1]];
+        var exampleNewOccs = [[1, 0, 1, 1, 0], [0, 1, 0, 0, 1]];
+        var exampleExprInit = getFractionFromOccFactors(exampleFactors, exampleOldOccs);
+        var exampleExprStep = getFractionFromOccFactors(exampleFactors, exampleNewOccs, exampleOldOccs);
+        var exampleExprEnd = getFractionFromOccFactors(exampleFactors, exampleNewOccs);
+        var exampleGroup = [MATH.parse("#{\\dfrac{a^2}{a}} &= #{\\dfrac{#{a} \\cdot a}{#{a}}}", [KhanUtil.BLUE, KhanUtil.BLUE, {cancel:true}, {cancel:true}]),
+                            MATH.parse("&= #{\\dfrac{a}{1}}", [KhanUtil.BLUE]),
+                            MATH.parse("&= #{a}", [KhanUtil.BLUE])];
+        steps.add("<p>To simplify this type of expression, we need to look for factors that are shared by both the numerator and the denominator.</p>For each such factor, if it is present with the same exponent both at the numerator and the denominator, then we can remove that factor completely. If the exponent is different, then we remove the one with the lowest exponent, and substract it from the one with the higher exponent.</p>");
+        var subHints = ["<p>Why can we simplify an expression this way? Let's look at the detailed steps that we imply when we write <code>" + MATH.format(exampleExprStep) + "</code> :</p><p><code>" + MATH.format(exampleExprInit) + "</code> can be rewritten as <code>" +
+            MATH.parseFormat("\\dfrac{3}{5} \\cdot #{\\dfrac{a^2}{a}} \\cdot b \\cdot \\dfrac{1}{c}", [KhanUtil.BLUE]) + "</code></p><p><code>" +
+            MATH.formatGroup(exampleGroup) + "</code></p><p>So we get <code>" +
+            MATH.parseFormat("\\dfrac{3}{5} \\cdot #{a} \\cdot b \\cdot \\dfrac{1}{c}", [KhanUtil.BLUE]) + "</code>, or <code>" +
+            MATH.parseFormat("\\dfrac{3ab}{5c}") + "</code>"];
+        steps.add("<p>For example, if we had this expression: <code>" + MATH.format(exampleExprInit) + "</code>, we would see that the factor <code>" + MATH.format(aExpr) + "</code> is present in both the numerator and the denominator.</p><p>We would then simplify it like this: <code>" + MATH.format(exampleExprStep) + "</code> and obtain: <code>" + MATH.format(exampleExprEnd) + "</code> " +  KhanUtil.getSubHints("factoring", "Show explanation", subHints) + "</p><p>Can you apply this technique to this exercise?</p>");
+    };
+
+    var factorNumeratorDenominator = function(expr, options, steps) {
+        var newArgs = [];
+        var wasSimplified = false;
+        for (var iArg = 0; iArg < 2; iArg++) {
+            var subSteps = new KhanUtil.StepsProblem([0], expr.args[iArg], "simplify by factoring");
+            var newArg = KhanUtil.simplify(expr.args[iArg], options, subSteps); // Récupérer les indices
+
+            var termName;
+            if (iArg === 0) {
+                termName = "numerator";
+            } else {
+                termName = "denominator";
+            }
+            if (KhanUtil.stepIsUsed(subSteps)) {
+                if (!wasSimplified) {
+                    steps.add("<p>" + KhanUtil.exprToCode(expr) + "</p>");
+                }
+                steps.add("<p>We can see that the " + termName + " can be factored some more : " + KhanUtil.exprToCode(expr.args[iArg]) + "<p>");
+                steps.add(subSteps);
+                steps.add("<p>So the " + termName + " becomes : " + KhanUtil.exprToCode(newArg) + "</p>");
+                wasSimplified = true;
+            }
+            newArgs.push(newArg);
+        }
+        var newExpr = {op:expr.op, args:newArgs};
+        if (wasSimplified) {
+            steps.add("<p>We obtain the following expression :</p><p>" + KhanUtil.exprToCode(newExpr));
+        }
+        return newExpr;
+    };
     var solveSimplifyingExpressionsExercise = function(MATH, expr) {
+        var steps = new KhanUtil.StepsProblem([], expr, "simplify by factoring");
+        addInitialSteps(MATH, steps);
+        var subSteps = new KhanUtil.StepsProblem([], expr, "factor numerator and denominator");
+        var options = {evalBasicNumOps:true, simplifyMode:"factor"};
+        var newExpr = factorNumeratorDenominator(expr, options, subSteps);
+        if (KhanUtil.stepIsUsed(subSteps)) {
+            steps.add("The first step is to factor the numerator and denominator, if possible : " + 
+               KhanUtil.getSubHints("factoring-num-denom", "Show explanation", [KhanUtil.genOneHint(subSteps)]) + "</p>" +
+               "<p>We obtain : " + KhanUtil.exprToCode(newExpr) + "</p>");
+        }
         var factors = [];
         var argsOccFactors = [[], []];
         for (var iArg = 0; iArg < 2; iArg++) {
-           KhanUtil.findExprFactors(expr.args[iArg], factors, argsOccFactors[iArg], 1);
+            KhanUtil.findExprFactorsExps(newExpr.args[iArg], options, factors, argsOccFactors[iArg], 1);
         }
         for (var iArg = 0; iArg < 2; iArg++) {
             KhanUtil.fillMissingOccFactors(factors, argsOccFactors[iArg]);           
@@ -117,31 +177,13 @@
         }
 
         var hintExpr = getFractionFromOccFactors(factors, newOccFactors, argsOccFactors);
-        var aExpr = {op:"var", args:["a"]};
-        var exampleFactors = [3, 5, aExpr, {op:"var", args:["b"]}, {op:"var", args:["c"]}];
-        var exampleOldOccs = [[1, 0, 2, 1, 0], [0, 1, 1, 0, 1]];
-        var exampleNewOccs = [[1, 0, 1, 1, 0], [0, 1, 0, 0, 1]];
-        var exampleExprInit = getFractionFromOccFactors(exampleFactors, exampleOldOccs);
-        var exampleExprStep = getFractionFromOccFactors(exampleFactors, exampleNewOccs, exampleOldOccs);
-        var exampleExprEnd = getFractionFromOccFactors(exampleFactors, exampleNewOccs);
-        var exampleGroup = [MATH.parse("#{\\dfrac{a^2}{a}} &= #{\\dfrac{#{a} \\cdot a}{#{a}}}", [KhanUtil.BLUE, KhanUtil.BLUE, {cancel:true}, {cancel:true}]),
-                            MATH.parse("&= #{\\dfrac{a}{1}}", [KhanUtil.BLUE]),
-                            MATH.parse("&= #{a}", [KhanUtil.BLUE])];
-        hints = [];
-        hints.push("<p>To simplify this type of expression, we need to look for factors that are shared by both the numerator and the denominator.</p>For each such factor, if it is present with the same exponent both at the numerator and the denominator, then we can remove that factor completely. If the exponent is different, then we remove the one with the lowest exponent, and substract it from the one with the higher exponent.</p>");
-        var subHints = ["<p>Why can we simplify an expression this way? Let's look at the detailed steps that we imply when we write <code>" + MATH.format(exampleExprStep) + "</code> :</p><p><code>" + MATH.format(exampleExprInit) + "</code> can be rewritten as <code>" +
-            MATH.parseFormat("\\dfrac{3}{5} \\cdot #{\\dfrac{a^2}{a}} \\cdot b \\cdot \\dfrac{1}{c}", [KhanUtil.BLUE]) + "</code></p><p><code>" +
-            MATH.formatGroup(exampleGroup) + "</code></p><p>So we get <code>" +
-            MATH.parseFormat("\\dfrac{3}{5} \\cdot #{a} \\cdot b \\cdot \\dfrac{1}{c}", [KhanUtil.BLUE]) + "</code>, or <code>" +
-            MATH.parseFormat("\\dfrac{3ab}{5c}") + "</code>"];
-        hints.push("<p>For example, if we had this expression: <code>" + MATH.format(exampleExprInit) + "</code>, we would see that the factor <code>" + MATH.format(aExpr) + "</code> is present in both the numerator and the denominator.</p><p>We would then simplify it like this: <code>" + MATH.format(exampleExprStep) + "</code> and obtain: <code>" + MATH.format(exampleExprEnd) + "</code> " +  KhanUtil.getSubHints("factoring", "Show explanation", subHints) + "</p><p>Can you apply this technique to this exercise?</p>");
-
-        if (KhanUtil.exprIdentical(expr, solExpr)) {
-           hints.push("<p>There are no factors that can be simplified in this expression, so the answer is: <code>" + MATH.format(solExpr) + "</code>");
+        if (KhanUtil.exprIdentical(newExpr, solExpr)) {
+            steps.add("<p>There are no factors that can be simplified in this expression, so the answer is: <code>" + MATH.format(solExpr) + "</code>");
         } else {
-            hints.push("<p>Here is what this approach gives in this case:</p><p><code>" + MATH.format(hintExpr) + "</code></p>");
-            hints.push("<p>We obtain the following expression:</p><p><code>" + MATH.format(solExpr) + "</code></p>");
+            steps.add("<p>Applying the approach described above gives in this case:</p><p><code>" + MATH.format(hintExpr) + "</code></p>");
+            steps.add("<p>We obtain the following expression:</p><p><code>" + MATH.format(solExpr) + "</code></p>");
         }
+        var hints = KhanUtil.genHints(steps);
         return {solution:solExpr, hints:hints, choices:choices};
     };
 

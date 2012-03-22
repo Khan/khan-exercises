@@ -7,6 +7,7 @@
         var inContext = true;
         var neverInContext = nvInContext;
         var items = [];
+        var used;
         var add = function(step) {
             if ((typeof step === "object") && (step instanceof KhanUtil.StepsProblem)) {
                if ((step.startExpr !== undefined) && (step.endExpr !== undefined) &&
@@ -29,6 +30,7 @@
             action: action,
             inContext: inContext,
             neverInContext: neverInContext,
+            used: used
         } );
     };
     var linkPopupDefinition = function(id, title, content, link) {
@@ -49,6 +51,27 @@
               "<a class='btn' data-controls-modal='" + id + "' data-backdrop='' style='color:red'>[?]</a>";
           return html;
     };
+
+    var stepIsUsed = function(steps) {
+        if (typeof steps === "string") {
+            return true;
+        }
+        if (typeof steps !== "object") {
+            return false;
+        }
+        if (steps.used !== undefined) {
+            return steps.used;
+        }
+        if (steps.op !== undefined) {
+            return false;
+        }
+        steps.used = false;
+        for (var iStep = 0; iStep < steps.items.length; iStep++) {
+            steps.used |= stepIsUsed(steps.items[iStep]);
+        }
+        return steps.used;
+    };
+
     var cleanSteps = function(steps) {
        if (typeof steps === "string") {
            return steps;
@@ -269,6 +292,9 @@
         // si stocké qu'on met en contexte, mets en contexte.
     };
     var genHintsRec = function(steps, subProblem, pbIndex, prefix, suffix, insVSpaceBefore, insVSpaceAfter) {
+        if (!KhanUtil.stepIsUsed(steps) && (steps.op !== undefined)) {
+            return [];
+        }
         if (subProblem === undefined) {
            subProblem = "";
            pbIndex = 1;
@@ -279,7 +305,11 @@
         var extraPrefix = "<div class='sub " + subProblemClass + " borderLeft' style='margin-left:10px; padding-left:5px'>";
         var extraSuffix = "</div>";
         if ((typeof steps === "number") || ((typeof steps === "object") && (steps.op !== undefined))) {
-           steps = KhanUtil.exprToCode(steps);
+           if (typeof steps === "object") {
+               steps = KhanUtil.exprToCode(steps);// + "_" + steps.hash + "_" + KhanUtil.exprToStrExpr(steps);
+           } else {
+               steps = KhanUtil.exprToCode(steps);
+           }
         }
         if (typeof steps === "string") {
             var strHint = prefix;
@@ -316,6 +346,14 @@
         });
         return arrSteps;
     };
+    var genOneHint = function(steps) {
+       var hints = genHints(steps);
+       var strHint = "";
+       for (var iHint = 0; iHint < hints.length; iHint++) {
+           strHint += "<p>" + hints[iHint] + "</p>";
+       }
+       return strHint;
+    }
     var genHints = function(steps) {
        steps = removeDuplicateSteps(steps);
        var inContext = putInContext(steps);
@@ -336,5 +374,7 @@
         genHints: genHints,
         linkPopupDefinition: linkPopupDefinition,
         StepsProblem: StepsProblem,
+        stepIsUsed:stepIsUsed,
+        genOneHint:genOneHint,
     });
 })();
