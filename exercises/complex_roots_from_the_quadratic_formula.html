@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie polynomials">
+<head>
+    <meta charset="UTF-8" />
+    <title>Complex Roots from the Quadratic Formula</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="X1">[[1, 2], 0, ]</var>
+            <var id="Y1">[[3, 2], 1, ]</var>
+            <var id="X2">[[1, 2], 0, ]</var>
+            <var id="Y2">[[3, 2], 1, ]</var>
+        </div>
+        
+        <div class="problems">
+            <div id="problem-type-or-description-one">
+                <p class="problem">What are the two complex roots of the following quadratic equation?</p>
+                <p class="question"><code>x^2 = x - 1</code></p>
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol"><var>X1[0][0]</var></span>
+                        <span class="sol"><var>X1[0][1]</var></span>
+                        <span class="sol"><var>Y1[0][0]</var></span>
+                        <span class="sol"><var>Y1[0][1]</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol"><var>X2[0][0]</var></span>
+                        <span class="sol"><var>X2[0][1]</var></span>
+                        <span class="sol"><var>Y2[0][0]</var></span>
+                        <span class="sol"><var>Y2[0][1]</var></span>
+                    </div>
+                    <div class="input-format">
+                        <p class="entry" data-type="multiple">
+                            <code>x = \quad</code><span class="sol"></span><code>/</code><span class="sol"></span>
+                            <br/>
+                            <code>+ \sqrt{}</code><span class="sol"></span><code>i/</code><span class="sol"></span>
+                        </p>
+                        <p class="entry" data-type="multiple">
+                            <code>x = \quad</code><span class="sol"></span><code>/</code><span class="sol"></span>
+                            <br/>
+                            <code>- \sqrt{}</code><span class="sol"></span><code>i/</code><span class="sol"></span>
+                        </p>
+                    </div>
+                    <p class="example">two fractions like <code>1/3</code> or <code>-2/3</code>
+                </div>
+            </div>
+            
+            <div id="problem-type-or-description-two">
+                <p class="problem">What are the two complex roots of the following quadratic equation?</p>
+                <p class="question"><code>x^2 = -1</code></p>
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol"><var>X1[1]</var></span>
+                        <span class="sol"><var>Y1[1]</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol"><var>X2[1]</var></span>
+                        <span class="sol"><var>Y2[1]</var></span>
+                    </div>
+                    <div class="input-format">
+                        <p class="entry" data-type="multiple">
+                            <code>x = \quad</code><span class="sol"></span>
+                            <code>+ \; </code><span class="sol"></span><code>i</code>
+                        </p>
+                        <p class="entry" data-type="multiple">
+                            <code>x = \quad</code><span class="sol"></span>
+                            <code>- \; </code><span class="sol"></span><code>i</code>
+                        </p>
+                    </div>
+                    <p class="example">two integers like <code>6</code> or <code>-6</code>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hints">
+            <p>You may want to first convert the quadratic equation to its standard form
+            <code>ax^2 + bx + c = 0</code>. This makes it easier to apply a formula to
+            find the roots.</p>
+            <p>Remember that the roots of a quadratic equation in its standard form is
+            <code>x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</code>.
+            If you are unsure of how to use this formula, you may find it helpful to watch
+            <a class="related-video" href="/video/associative-law-of-multiplication"
+            data-youtube-id="dnjK4DPqh0k">this video</a>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
