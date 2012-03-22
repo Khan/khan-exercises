@@ -25,7 +25,7 @@
       var terms = [];
       for (var iArg = 0; iArg < 2; iArg++) {
           var term = {factors:[], occFactors:[]};
-          findExprFactors(expr.args[iArg], term.factors, term.occFactors, 1);
+          KhanUtil.findExprFactorsExps(expr.args[iArg], {evalBasicNumOps:true}, term.factors, term.occFactors, 1);
           term.prevSign = extractNegativeFactor(term.factors, term.occFactors);
           term.initial = KhanUtil.genExprFromExpFactors(term.factors, term.occFactors);
           term.sqrt = exprWholeSqrt(term.factors, term.occFactors);
@@ -86,52 +86,6 @@
       return {solution:solution, hints:hints};
     };
 
-    var addToFactors = function(expr, allFactors, ownOccFactors, nbOcc) {
-       for (var iFactor = 0; iFactor < allFactors.length; iFactor++) {
-          if (KhanUtil.exprIdentical(expr, allFactors[iFactor])) {
-              if (ownOccFactors[iFactor] === undefined) {
-                  ownOccFactors[iFactor] = 0;
-              }
-              ownOccFactors[iFactor] += nbOcc;
-              return;
-          }
-       }
-       ownOccFactors[allFactors.length] = nbOcc;
-       allFactors.push(expr);
-    };
-
-    var findExprFactors = function(expr, allFactors, ownOccFactors, nbOcc) {
-        if (KhanUtil.exprIsNumber(expr)) {
-            var value = KhanUtil.exprNumValue(expr);
-            var numFactors = KhanUtil.getPrimeFactorization(Math.abs(value));
-            if (value < 0) {
-                numFactors.push(-1);
-            }
-            for (var iFactor = 0; iFactor < numFactors.length; iFactor++) {
-                addToFactors(numFactors[iFactor], allFactors, ownOccFactors, nbOcc);
-            }
-        } else if (KhanUtil.opIsMultiplication(expr.op)) {
-            for (var iArg = 0; iArg < expr.args.length; iArg++) {
-                findExprFactors(expr.args[iArg], allFactors, ownOccFactors, nbOcc);
-            }
-        } else if ((expr.op === "^") && (KhanUtil.exprIsNumber(expr.args[1]))) {
-            findExprFactors(expr.args[0], allFactors, ownOccFactors, KhanUtil.exprNumValue(expr.args[1]) * nbOcc);
-        } else if (((expr.op === "-") && (expr.args.length === 2)) || (expr.op === "+")) {
-           if (expr.op === "-") {
-               expr = {op:"+", args:[expr.args[0], {op:"-", args:[expr.args[1]]}]};
-           }
-           var factoredSum = factorSum(expr);
-           var newExpr = genFullExpr(factoredSum.factors, factoredSum.sharedOccFactors, factoredSum.termsOccFactors);
-           if (KhanUtil.isEqual(expr, newExpr)) {
-               addToFactors(expr, allFactors, ownOccFactors, nbOcc);
-           } else {
-               findExprFactors(newExpr, allFactors, ownOccFactors, nbOcc);
-           }
-        } else {
-            addToFactors(expr, allFactors, ownOccFactors, nbOcc);
-        }
-    };
-
     var fillMissingOccFactors = function(factors, occFactors) {
         for (var iFactor = 0; iFactor < factors.length; iFactor++) {
             if (occFactors[iFactor] === undefined) {
@@ -146,7 +100,7 @@
         for (var iArg = 0; iArg < expr.args.length; iArg++) {
             termsOccFactors.push([]);
             var arg = expr.args[iArg];
-            findExprFactors(arg, factors, termsOccFactors[iArg], 1);
+            KhanUtil.findExprFactorsExps(arg, {evalBasicNumOps:true}, factors, termsOccFactors[iArg], 1);
         }
         for (var iArg = 0; iArg < expr.args.length; iArg++) {
             fillMissingOccFactors(factors, termsOccFactors[iArg]);
@@ -541,8 +495,9 @@
     $.extend(KhanUtil, {
         genFactoringExercise:genFactoringExercise,
         solveFactoringExercise:solveFactoringExercise,
-        findExprFactors:findExprFactors,
-        fillMissingOccFactors:fillMissingOccFactors
+        fillMissingOccFactors:fillMissingOccFactors,
+        factorSum:factorSum,
+        genFullExpr:genFullExpr
     });
 })();
 

@@ -15,6 +15,7 @@
 	<script src="../steps-helpers.js"></script>
 	<script src="../expr-normal-form.js"></script>
 	<script src="../simplify.js"></script>
+	<script src="../factoring-expressions.js"></script>
 <style>
 .ok {
    color:white;
@@ -87,37 +88,56 @@
 
         var testsSimplify = [
             {title:"Check simplification results"},
-            {expr:"1--x", options:{cancelNegOfNeg:true}, expected:"1+x"},
-            {expr:"1--x", options:{cancelNegOfNeg:false}, expected:"1--x"},
+            {expr:"1--x", options:{cancelNegOfNeg:true}, expected:"1+ x"},
+            {expr:"1--x", options:{cancelNegOfNeg:false}, expected:"1-(-x)"},
             {expr:"1*x", options:{del1Factors:true}, expected:"x"},
-            {expr:"1*x", options:{del1Factors:false}, expected:"1*x"},
+            {expr:"1*x", options:{del1Factors:false}, expected:"1x"},
             {expr:"0*x", options:{del0Factors:true}, expected:"0"},
-            {expr:"0*x", options:{del0Factors:false}, expected:"0*x"},
+            {expr:"0*x", options:{del0Factors:false}, expected:"0x"},
             {expr:"0+x", options:{del0TermInSum:true}, expected:"x"},
-            {expr:"0+x", options:{del0TermInSum:false}, expected:"0+x"},
+            {expr:"0+x", options:{del0TermInSum:false}, expected:"0+ x"},
             {expr:"0*x + 2", options:{del0Factors:true, del0TermInSum:true}, expected:"2"},
-            {expr:"0*x + 2", options:{del0Factors:false, del0TermInSum:false}, expected:"0x + 2"},
-            {expr:"x^0 + x^1 + x^2", options:{del01Exponents:true}, expected:"1+x+x^2"},
-            {expr:"x^0 + x^1 + x^2", options:{del01Exponents:false}, expected:"x^0+x^1+x^2"},
-            {expr:"x+-y", options:{unneededUnaryOps:true}, expected:"x-y"},
-            {expr:"x+-y", options:{unneededUnaryOps:false}, expected:"x+-y"},
+            {expr:"0*x + 2", options:{del0Factors:false, del0TermInSum:false}, expected:"0x+ 2"},
+            {expr:"x^0 + x^1 + x^2", options:{del01Exponents:true}, expected:"1+ x+ x^{2}"},
+            {expr:"x^0 + x^1 + x^2", options:{del01Exponents:false}, expected:"x^{0}+ x^{1}+ x^{2}"},
+            {expr:"x+-y", options:{unneededUnaryOps:true}, expected:"x- y"},
+            {expr:"x+-y", options:{unneededUnaryOps:false}, expected:"x+(-y)"},
             {expr:"2+3", options:{evalBasicNumOps:true}, expected:"5"},
-            {expr:"2+3", options:{evalBasicNumOps:false}, expected:"2+3"},
+            {expr:"2+3", options:{evalBasicNumOps:false}, expected:"2+ 3"},
+            {expr:"x+2+3", options:{evalBasicNumOps:true}, expected:"x+ 5"},
+            {expr:"2+x+3", options:{evalBasicNumOps:true}, expected:"5+ x"},
+            {title:"Simplifying by factoring"},
             {expr:"x+x", options:{evalBasicNumOps:true, mergeCstFactors:true, del0TermInSum:true}, expected:"2x"},
-            {expr:"x+x", options:{evalBasicNumOps:false, mergeCstFactors:false, del0TermInSum:true}, expected:"x+x"},
-            {title:"Simplifying colored expressions: colored terms"},
-            {expr:"#{x}^#{y}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"xy"},
-            {expr:"#{x}*#{y}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"xy"},
-            {expr:"#{2}+#{3}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"2+3"},
-            {expr:"#{2}+#{-3}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"2-3"},
-            {title:"Simplifying colored expressions: colored expr"},
-            {expr:"#{3+x}", colors:[KhanUtil.PINK], options:{}, expected:""},
-            {expr:"#{3-x}", colors:[KhanUtil.PINK], options:{}, expected:""},
-            {expr:"#{3*x}", colors:[KhanUtil.PINK], options:{}, expected:""},
-            {expr:"#{x^2}", colors:[KhanUtil.PINK], options:{}, expected:""},
-            {expr:"#{3x^2}-#{3}", colors:[KhanUtil.PINK, KhanUtil.BLUE], options:{}, expected:""},
-            {expr:"#{75*x^2}+#{-3}", colors:[KhanUtil.PINK, KhanUtil.BLUE], options:{}, expected:""},
+            {expr:"x+x", options:{evalBasicNumOps:false, mergeCstFactors:false, del0TermInSum:true}, expected:"x+ x"},
+            {expr:"(x+1)*(x+1)", options:{evalBasicNumOps:true, simplifyMode:"factor"}, expected:"(x+ 1)^{2}"},
+            {expr:"5*(x+1)*(2+x)^2*(1+x)*6*(x+2)^3", options:{evalBasicNumOps:true, simplifyMode:"factor"}, expected:"30(x+ 1)^{2}(2+ x)^{5}"},
+            {expr:"(1+x)*(x+1)^x*(1+x)^x", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(1+ x)^{1+ 2x}"},
+            {expr:"(x-1)*(-1+x)", options:{evalBasicNumOps:true, simplifyMode:"factor"}, expected:"(x-1)^{2}"},
+            {expr:"2x+xy+zxy", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"x(2+ y+ yz)"},
+            {expr:"(x+1)(2x+2)", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"2(x+ 1)^{2}"},
 
+            {title:"Factoring polynomials"},
+            {expr:"x^2+2x+1", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(x+ 1)^{2}"},
+            {expr:"x^2+4x+2", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(x+ 0.5857864376269049)(x+ 3.414213562373095)"},
+            {expr:"1+x+x^2+9x+8", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(x+ 1)(x+ 9)"},
+            {expr:"x^2+x-30", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(x-5)(x+ 6)"},
+            {expr:"x^2-x-12", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(x-4)(x+ 3)"},
+            {expr:"x^2+x+2+2x+3x^2", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"4x^{2}+ 3x+ 2"},
+            {expr:"x+1+y+2+2x+3y", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"3x+ 3+ 4y"},
+            {expr:"(1+x)*(x+1)^x*(1+x)^x", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(1+ x)^{1+ 2x}"},
+
+            {title:"Simplifying colored expressions: colored terms"},
+            {expr:"#{x}^#{y}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{x}^{\\color{#28AE7B}{y}}"},
+            {expr:"#{x}*#{y}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{x}\\color{#28AE7B}{y}"},
+            {expr:"#{2}+#{3}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{2}+ \\color{#28AE7B}{3}"},
+            {expr:"#{2}+#{-3}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{2}\\color{#28AE7B}{-3}"},
+            {title:"Simplifying colored expressions: colored expr"},
+            {expr:"#{3+x}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{3+ x}"},
+            {expr:"#{3-x}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{3- x}"},
+            {expr:"#{3*x}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{3x}"},
+            {expr:"#{x^2}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{x}^{\\color{#FF00AF}{2}}"},
+            {expr:"#{3x^2}-#{3}", colors:[KhanUtil.PINK, KhanUtil.BLUE], options:{}, expected:"\\color{#FF00AF}{75\\color{#FF00AF}{x}^{\\color{#FF00AF}{2}}}\\color{#6495ED}{-3}"},
+            {expr:"#{75*x^2}+#{-3}", colors:[KhanUtil.PINK, KhanUtil.BLUE], options:{}, expected:"\\color{#FF00AF}{75\\color{#FF00AF}{x}^{\\color{#FF00AF}{2}}} + \\color{#6495ED}{-3}"},
 	]; 
 //{op:"+", args:[{op:"*", args:[32, {op:"^", args:[{op:"var", args:["x"]}, 2]}]}, {op:"num", args:[-2]}]}
 	var testSimplifications = function(strExpr, colors, options, strExpected) {
@@ -127,18 +147,25 @@
                   strOptions += iOpt + "\r\n";
                }
             }
-            options.simplifyMode = "";
+            if (options.simplifyMode === undefined) {
+               options.simplifyMode = "";
+            }
             var expr = MATH.parse(strExpr, colors);
-            var expected = MATH.parse(strExpected);
             var simpExpr = KhanUtil.simplify(expr, options);
-            var str = "<tr><td></td>";
+            var result = "<span class='ok'>OK</span>";
+            var genLatex = MATH.format(simpExpr);
+            if (genLatex !== strExpected) {
+                result = "<span class='no'>NO</span>";
+            }
+            genLatex = ("" + genLatex).replace(/\\/g, "\\\\");
+            var str = "<tr><td>" + result + "</td>";
             str += "<td>" + strExpr + "</td>";
             str += "<td><code>" + MATH.format(expr) + "</code></td>";
             str += "<td><textarea>" + strOptions + "</textarea></td>";
             str += "<td><code>" + MATH.format(simpExpr) + "</code></td>";
-            str += "<td><code>" + MATH.format(expected) + "</code></td>";
+            str += "<td><code>" + strExpected + "</code></td>";
+            str += "<td><textarea>" + genLatex + "</textarea></td>";
             str += "<td><textarea>" + KhanUtil.exprToStrExpr(simpExpr) + "</textarea></td>";
-            str += "<td><textarea>" + KhanUtil.exprToStrExpr(expected) + "</textarea></td>";
             str += "</tr>";
             $("#tests2").append(str);
         }
@@ -159,8 +186,8 @@
 */
 	$("body").append("<table id='tests2' cellspacing=0></table>");
 	$("#tests2").append("<tr><td>Status&nbsp;&nbsp;&nbsp;</td><td>strExpr</td>" +
-		"<td>Expr</td><td>Options</td><td>Simplified</td><td>Expected</td>" +
-		"<td>Simplified AST</td><td>Expected AST</td>></tr>");
+		"<td>Expr</td><td>Options</td><td>Simplified</td><td>Expected</td><td>LaTeX</td>" +
+		"<td>Simplified AST</td></tr>");
 	for (var iTest = 0; iTest < testsSimplify.length; iTest++) {
 		var test = testsSimplify[iTest];
 		if (test.title !== undefined) {
