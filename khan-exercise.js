@@ -1282,7 +1282,6 @@ var Khan = (function() {
 				totalHints = timeline.find( '.hint-activity:last' )
 					.index( '.hint-activity' ),
 				hintButton = jQuery( '#hint' ),
-				hintRemainder = jQuery( '#hint-remainder' ),
 				timelineMiddle = timeline.width() / 2,
 				realHintsArea = jQuery( '#hintsarea' ),
 				realWorkArea = jQuery( '#workarea' ),
@@ -1415,11 +1414,7 @@ var Khan = (function() {
 							hintRemainder.fadeOut( fadeTime );
 						}
 					} else {
-						hintButton.val( "I'd like another hint" );
-
-						hintRemainder
-							.text( (totalHints - thisState.hintNum) + " remaining" )
-							.fadeIn( fadeTime );
+						hintButton.val( "I'd like another hint (" + (totalHints - thisState.hintNum) + " remaining)" );
 					}
 
 					jQuery( '#workarea' ).remove();
@@ -1632,7 +1627,6 @@ var Khan = (function() {
 		lastAction = (new Date).getTime();
 
 		jQuery( "#hint" ).val( "I'd like a hint" );
-		jQuery( "#hint-remainder" ).hide();
 
 		// Update dimensions for sticky box
 		jQuery( "#answer_area" ).adhere();
@@ -1780,18 +1774,21 @@ var Khan = (function() {
 				return false;
 			}
 
-			disableCheckAnswer();
 			jQuery( "#answercontent input" ).not("#check-answer-button, #hint")
 				.attr( "disabled", "disabled" );
 			jQuery( "#check-answer-results p" ).hide();
 
+			var examples = jQuery( "#examples" ),
+				examplesLink = jQuery( "#examples-show" ),
+				checkAnswerButton = jQuery( "#check-answer-button" );
+
 			// Figure out if the response was correct
 			if ( pass === true ) {
-				jQuery("#happy").show();
-				jQuery("#sad").hide();
+				examplesLink.qtip("hide");
 			} else {
-				jQuery("#happy").hide();
-				jQuery("#sad").show();
+				checkAnswerButton
+					.effect("shake", {times:3, distance: 5}, 80)
+					.val("Try Again");
 
 				// Is this a message to be shown?
 				if ( typeof pass === "string" ) {
@@ -1801,13 +1798,13 @@ var Khan = (function() {
 				// Show the examples (acceptable answer formats) if available -- we get
 				// a lot of issues due to incorrect formats (eg. "3.14159" instead of
 				// "3pi", "log(2^5)" instead of "log(32)").
-				var examples = jQuery( "#examples" ),
-					examplesLink = jQuery( "#examples-show" );
 				if ( examplesLink.is( ":visible" ) ) {
 					if ( !examples.is( ":visible" ) ) {
-						examplesLink.click();
+						examplesLink.qtip("show");
+						setTimeout(function() {
+							examplesLink.qtip("hide");
+						}, 3000);
 					}
-					examples.effect( "pulsate", { times: 1 }, "slow" );
 				}
 
 				// Refocus text field so user can type a new answer
@@ -1868,8 +1865,6 @@ var Khan = (function() {
 				// Wrong answer. Enable all the input elements
 				jQuery( "#answercontent input" ).not( "#hint" )
 					.removeAttr( "disabled" );
-
-				enableCheckAnswer();
 			}
 
 			// Remember when the last action was
@@ -1899,8 +1894,6 @@ var Khan = (function() {
 		jQuery( "#hint" ).click(function() {
 
 			var hint = hints.shift();
-			jQuery( "#hint-remainder" ).text( hints.length + " remaining" )
-				.fadeIn( 500 );
 
 			// Update dimensions for sticky box
 			jQuery( "#answer_area" ).adhere();
@@ -1911,7 +1904,7 @@ var Khan = (function() {
 				hintsUsed += 1;
 
 				jQuery( this )
-					.val( jQuery( this ).data( "buttonText" ) || "I'd like another hint" );
+					.val( jQuery( this ).data( "buttonText" ) || "I'd like another hint (" + hints.length + " remaining)" );
 
 				var problem = jQuery( hint ).parent();
 
@@ -1926,7 +1919,6 @@ var Khan = (function() {
 					jQuery( Khan ).trigger("allHintsUsed");
 
 					jQuery( this ).attr( "disabled", true );
-					jQuery( "#hint-remainder" ).fadeOut( 500 );
 				}
 			}
 
@@ -2167,27 +2159,6 @@ var Khan = (function() {
 
 				link.data( "show", !show );
 			});
-
-		jQuery( "#examples-show" ).data( "show", true )
-			.click(function(evt){
-				if ( evt ) { evt.preventDefault(); }
-
-				var exampleLink = jQuery(this);
-				var examples = jQuery( "#examples" );
-				var show = exampleLink.data( "show" );
-
-				if ( exampleLink.data( "show" ) ){
-					exampleLink.text( "Hide acceptable answer formats" );
-				} else {
-					exampleLink.text( "Show acceptable answer formats" );
-				}
-
-				examples.slideToggle( 190, function() {
-					// Update dimensions for sticky box
-					jQuery( "#answer_area" ).adhere();
-				} );
-				exampleLink.data( "show", !show );
-			}).trigger( "click" );
 
 		jQuery( "#warning-bar-close a").click( function( e ) {
 			e.preventDefault();
