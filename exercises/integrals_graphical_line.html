@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="exercise">
-	<div class="vars" data-ensure="A + 5 < B">
+	<div class="vars" data-ensure="A + 7 < B">
         <var id="MX">randRange(-3,3)</var>
         <var id="NY">randRangeNonZero(-3,3)</var>
         <var id="C">randRange(-6,6)</var>
@@ -16,6 +16,8 @@
         
         <var id="SLOPE">-MX/NY</var>
         <var id="YINTERCEPT">C/NY</var>
+		<var id="FA">SLOPE*A + YINTERCEPT</var>
+		<var id="FB">SLOPE*B + YINTERCEPT</var>
         <var id="ANS">(C / NY)*(B - A) - (MX / (2*NY))*(B*B - A*A)</var>
     </div>
 
@@ -24,7 +26,7 @@
 			<div class="question">
 				 <p>Graph the equation <code><var>MX</var> x + <var>NY</var> y = <var>C</var> </code> and then evaluate the integral of the corresponding function over the interval <code>[<var>A</var> ,  <var>B</var> ]</code> without using the FTC (i.e. do not compute an antiderivative).</p>
 			</div>
-			
+						
 			<div class="graphie" id="line">
 					graphInit({
 						range: 11,
@@ -86,13 +88,92 @@
                     				graph.set.push( line( [ B, 0 ], [ B, slope*B + yint ] ) );
                     			});
     							
-    							
+    							/*
        							style({ 
                        				stroke: null,
        								fill: "#aaffaa", 
                        			}, function() {
                        				graph.set.push(path([[A, 0], [A, slope*A + yint ], [ B, slope*B + yint ], [B,0]] ) );
                        			});
+								*/
+								
+								var fa = slope*A + yint;
+								var fb = slope*B + yint;
+								
+								
+								if ( (fa &lt; 0) &amp;&amp; (fb &lt; 0) ) {
+									
+									if (fa &lt; fb) {
+										style({ 
+    	            	       				stroke: null,
+       										fill: "#ffccbb", 
+            	           				}, function() {
+                	       					graph.set.push(path([[A, 0], [A, fb ], [ B, fb ], [B,0]] ) );
+    	                   				});
+										
+										style({ 
+    	            	       				stroke: null,
+       										fill: "#bbffbb", 
+            	           				}, function() {
+                	       					graph.set.push(path([[A, fb], [A, fa ], [ B, fb ]] ) );
+    	                   				});
+										
+									} else {
+										style({ 
+    	            	       				stroke: null,
+       										fill: "#ffccbb", 
+            	           				}, function() {
+                	       					graph.set.push(path([[A, 0], [A, fa ], [ B, fa ], [B,0]] ) );
+    	                   				});
+										
+										style({ 
+    	            	       				stroke: null,
+       										fill: "#bbffbb", 
+            	           				}, function() {
+                	       					graph.set.push(path([[A, fa], [B, fa ], [ B, fb ]] ) );
+    	                   				});
+									}
+								} else if ((fa &gt; 0) &amp;&amp; (fb &gt; 0)) {
+								
+									if (fa &lt; fb) {
+										style({ 
+    	            	       				stroke: null,
+       										fill: "#ffccbb", 
+            	           				}, function() {
+                	       					graph.set.push(path([[A, 0], [A, fa ], [ B, fa ], [B,0]] ) );
+    	                   				});
+										
+										style({ 
+    	            	       				stroke: null,
+       										fill: "#bbffbb", 
+            	           				}, function() {
+                	       					graph.set.push(path([[A, fa], [B, fa ], [ B, fb ]] ) );
+    	                   				});
+										
+									} else {
+										style({ 
+    	            	       				stroke: null,
+       										fill: "#ffccbb", 
+            	           				}, function() {
+                	       					graph.set.push(path([[A, 0], [A, fb ], [ B, fb ], [B,0]] ) );
+    	                   				});
+										
+										style({ 
+    	            	       				stroke: null,
+       										fill: "#bbffbb", 
+            	           				}, function() {
+                	       					graph.set.push(path([[A, fb], [A, fa ], [ B, fb ]] ) );
+    	                   				});
+									}
+								} else {
+									style({ 
+                       					stroke: null,
+       									fill: "#bbffbb", 
+                    	   			}, function() {
+                       					graph.set.push(path([[A, 0], [A, slope*A + yint ], [ B, slope*B + yint ], [B,0]] ) );
+                       				});
+								}
+								
 							}
 			
 						} else {
@@ -163,14 +244,33 @@
 	</div>
 
 	<div class="hints">
+		
+		<p>
+			The equation <code><var>MX</var> x + <var>NY</var> y = <var>C</var> </code> is a line so, geometrically speaking, the area under it can be divided into right triangles and possibly a rectangle.  
+		</p>
+		
 		<div class="graphie" data-update="line">
 			drawArea = true;
 			graph.update();
 		</div>
 		
-		<p>The equation <code><var>MX</var> x + <var>NY</var> y = <var>C</var> </code> is a line so, geometrically speaking, the area under it can be divided into right triangles and possibly rectangles.  All you need to do is find the dimensions of those shapes and compute their areas.</p>
+		<p>
+			The integral we want represents the area under the curve, so all we need to do to find the areas of these shapes.
+		</p>
+		
+		<p>
+			To find the dimensions of the shapes, begin by solving for <code>y</code>:  <code>y = f(x) = <var>SLOPE</var>x + <var>YINTERCEPT</var></code>. 
+		</p>
+		
+		<p>
+			The widths of our shapes can be determined from the bounds of the integral <code>a = <var>A</var></code> and <code>b = <var>B</var></code> (and possibly the <code>x</code>-intercept if the line crosses the <code>x</code>-axis within these bounds).  The heighs are determined by the values of <code>f(a) = <var>FA</var></code> and <code>f(b) = <var>FB</var></code>.  You can now calculate the area under the curve.
+		</p>
 		
 		<p>Don't forget: Area under the <code>x</code>-axis counts as negative.</p>
+		
+		<p>
+			In conclusion, <code>\int_{<var>A</var>}^{<var>B</var>}f(x)dx = <var>ANS</var>.
+		</p>
 		
 	</div>
 </div>

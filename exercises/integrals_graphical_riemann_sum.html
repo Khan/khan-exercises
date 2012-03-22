@@ -15,9 +15,9 @@
 		<var id="DX1">(B-A)/5</var>
 		<var id="DX2">(B-A)/10</var>
 		
-		<var id="R1">randRange(-8,-3)</var>
-		<var id="R2">randRange(-5,5)</var>
-		<var id="R3">randRange(3,8)</var>
+		<var id="R1">randRangeNonZero(-8,-3)</var>
+		<var id="R2">randRangeNonZero(-5,5)</var>
+		<var id="R3">randRangeNonZero(3,8)</var>
 		<var id="C">randFromArray([-4,-3,-2,2,3,4])</var>
 		<var id="SIGN">randFromArray([-1,1])</var>
 		
@@ -318,6 +318,20 @@
 		
 		<p>
 			The finer the subintervals, the better the approximaiton.  Presumably, your estimates should be close to the value of the integral, with the <code>n</code> = 10 approximation slightly closer than the one for <code>n</code>=5.  If your approximations are not close to the value for the integral you computed, then it is likely you made a mistake somewhere in that computation.
+		</p>
+		
+		<p>
+			To compute the integral, we can begin by bringing out the constant factor <code>\frac{1}{100}</code>:
+			<br />
+			<code>\int_{<var>A</var>}^{<var>B</var>} \frac{1}{100}(<var>POLYDISPLAY</var>)dx = \frac{1}{100}\int_{<var>A</var>}^{<var>B</var>}(<var>POLYDISPLAY</var>)dx</code>
+		</p>
+		
+		<p>
+			<code>= \frac{1}{100}\left(\frac{<var>SIGN</var>}{4}x^4 + \frac{<var>C2</var>}{3}x^3 + \frac{<var>C1</var>}{2}x^2 + <var>C0</var>x)\right)\left.\right|_{<var>A</var>}^{<var>B</var>}</code>
+		</p>
+		
+		<p>
+			Plugging in values yields <code>\int_{<var>A</var>}^{<var>B</var>} \frac{1}{100}(<var>POLYDISPLAY</var>)dx = <var>INT</var></code>.
 		</p>
 		
 	</div>

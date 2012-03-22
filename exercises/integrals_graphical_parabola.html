@@ -12,9 +12,9 @@
 </head>
 <body>
 <div class="exercise">
-	<div class="vars" data-ensure="A + 1 < B">
-        <var id="A">randRange(-7,7)</var>
-        <var id="B">randRange(-7,7)</var>
+	<div class="vars" data-ensure="(A + 1 < B) && (B - A) < 8">
+        <var id="A">randRange(-9,9)</var>
+        <var id="B">randRange(-9,9)</var>
 		<var id="YSCALE">-A*B + (A+B)*(A+(B-A)/2) - (A+ (B-A)/2)*(A+(B-A)/2) + 1</var>
         
     </div>
