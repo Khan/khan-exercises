@@ -43,11 +43,15 @@
 		<p>
 			Try drawing a graph of <code>f(x) = \lfloor x \rfloor</code> to get an idea of what the area under it looks like.
 		</p>
+		
+		<p>
+			For any value <code>3 \leq x < 4</code>, we have <code>\lfloor x \rfloor = 3</code>.  Therefore, the graph of <code>f(x) = \lfloor x \rfloor</code> between <code>x=3</code> and <code>x=4</code> looks like a horizontal line segment at <code>y=3</code>. 
+		</p>
 			
     	<div class="graphie" id="floor">
     		graphInit({
     			range: 6,
-    			scale: 20,
+    			scale: 30,
     			axisArrows: "&lt;-&gt;",
    				tickStep: 1,
    				labelStep: 1,
@@ -71,10 +75,11 @@
     				graph.set.push( line( [ i, i ], [ i+1, i ] ) );
     			}
     		});
- 			
-    			
-    
     	</div>
+		
+		<p>
+			<code>\int_{<var>A</var>}^{<var>B</var>} \lfloor x \rfloor dx</code> is the area under <code>\lfloor x \rfloor</code> between <code>x = <var>A</var></code> and <code>x=<var>B</var></code>.
+		</p>
 		
 		<div class="graphie" data-update="floor">
 			style({ 
@@ -88,6 +93,13 @@
 			});
 		</div>
 		
+		<p>
+			Since the area is made up of rectangles, each of width 1, we can determine the integral simply by adding up the areas of these boxes.  Remember that area below the <code>x</code>-axis counts as negative.
+		</p>
+		
+		<p class="final_answer">
+			So, <code>\int_{<var>A</var>}^{<var>B</var>} \lfloor x \rfloor dx = <var>ANS</var></code>.
+		</p>
 			
 		</div>
 		

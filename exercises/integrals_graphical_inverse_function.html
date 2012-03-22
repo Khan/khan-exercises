@@ -12,17 +12,16 @@
 		<var id="DENOM">randFromArray([2, 4, 5, 8, 10])</var>
 		<var id="B">randRange(1,10)</var>
 		<var id="INT">B*B/DENOM</var>
+		<var id="SQ">B*B</var>
 		<var id="ANS">B*B - B*B/DENOM</var>
-		<var id="POLYNOMIAL">new Polynomial( 3, 3 )</var>
-		<var id="FNXTEXT">POLYNOMIAL.text()</var>
-		<var id="FNX">function(x) { return POLYNOMIAL.evalOf(x); }</var>        
+        
     </div>
 
 	<div class="problems">
 		<div>
 			<div class="question">
 				<p>
-				 	Suppose <code>f</code> is continuous, <code>f(0) = 0</code>, <code>f(<var>B</var>) = <var>B</var></code> and <code>f'(x) > 0</code> for <code> x \in [0, <var>B</var>]</code>.  Further, suppose that <code>\int_0^{<var>B</var>} f(x)dx = <var>INT</var></code>.  Find the value of <code>\int_0^{<var>B</var>} f^{-1}(y)dy</code>.
+				 	Suppose <code>f</code> is continuous, <code>f(0) = 0</code>, <code>f(<var>B</var>) = <var>B</var></code> and <code>f'(x) > 0</code> for <code> x \in [0, <var>B</var>]</code>.  Further, suppose that <code>\int_0^{<var>B</var>} f(x)dx = <var>INT</var></code>.  Find the value of <code>\int_0^{<var>B</var>} f^{-1}(x)dx</code>.
 		
 				</p>
 			</div>		
@@ -57,10 +56,16 @@
 						return Math.pow(x,3);
 					}, [0,1] );
 					label([0.3, 0.1],"f", {color: GREEN});
+					label([1,-0.05],B);
+					label([-0.05,1],B);
  	 			}
  	 		);			
   
   		</div>
+		
+		<p>
+			The graph of <code>f^{-1}</code> is found by reflecting the graph of <code>f</code> about the line <code>y = x</code>.
+		</p>
 		
 		<div class="graphie" data-update="graph">
 			style({
@@ -76,6 +81,10 @@
 			);
 		
 		</div>
+		
+		<p>
+			The integral <code>\int_0^{<var>B</var>} f(x)dx = <var>INT</var></code> represents the area of the region <code>R</code> under <code>f</code>.
+		</p>
 			
 		<div class="graphie" data-update="graph">
   			var fillPoints = [];
@@ -90,15 +99,29 @@
   					
   			style({
          		stroke: "none",
-         		fill: "#ffddaa",
+         		fill: "#eeddaa",
   				opacity: FILL_OPACITY
          		}, function() {
          			path(fillPoints);
+					label([0.75,0.22], "R", {color: "#550000"});
+					label([0.75,0.12], "Area =" + INT, {color: "#550000"});
          	});
+		
+		</div>
+		
+		<p>
+			Notice that the region above <code>f^{-1}</code> and below <code>y= <var>B</var></code> is the region <code>R</code> reflected about <code>y=x</code> and so also has area equal to <code><var>INT</var></code>.
+		</p>
+		
+		<div class="graphie" data-update="graph">	
+			var fillPoints = [];
+  			fillPoints[0] = [0,0];
 			
 			for (var i = 1; i &lt; 500; i++) {
   				fillPoints[i] = [i/500, Math.pow(i/500,1/3)];
   			}
+			
+			fillPoints[500] = [1,1];
 			fillPoints[501] = [0,1];
 			
 			style({
@@ -107,23 +130,45 @@
   				opacity: FILL_OPACITY
          		}, function() {
          			path(fillPoints);
+					label([0.3,0.88], "Area =" + INT, {color: "#550000"});
          	});
+		</div>
+		
+		<p>
+			The integral of <code>f^{-1}</code> over <code>[0,<var>B</var>]</code> represents the area of the region below <code>f^{-1}</code>. 
+		</p>
+		
+		<div class="graphie" data-update="graph">	
+			var fillPoints = [];
+  			fillPoints[0] = [0,0];
 			
 			for (var i = 1; i &lt; 500; i++) {
-  				fillPoints[500+i] = [1-i/500, Math.pow(1-i/500,3)];
+  				fillPoints[i] = [i/500, Math.pow(i/500,1/3)];
   			}
+			
+			fillPoints[500] = [1,1];
+			fillPoints[501] = [1,0];
+			
+			
 			
 			style({
          		stroke: "none",
-         		fill: "#cccccc",
+         		fill: BLUE,
   				opacity: FILL_OPACITY
          		}, function() {
          			path(fillPoints);
-					label([0.15,0.88], "A =" + INT, {color: "#bb4422"});
-					label([0.85,0.12], "A =" + INT, {color: "#664422"});
-         	});
-						
+		
+         	});		
 		</div>	
+		
+		<p>
+			So, <code>\int_0^{<var>B</var>} f^{-1}(x)dx</code> = (area of <code><var>B</var> \times <var>B</var> </code> square) - (Area of region <code>R) = <var>SQ</var> - <var>INT</var> = <var>ANS</var></code>.
+		
+		</p>
+		
+		<p>
+			Another way to approach this problem is to notice that the graph of <code>x = f^{-1}(y)</code> (i.e. the graph of <code>f^{-1}</code> when plotted as a function of <code>y</code>) coencides with the graph of <code>y = f(x)</code>.  So, <code>\int_0^{<var>B</var>} f^{-1}(y)dy</code> represents the area between <code>y = f(x)</code> and the <code>y</code>-axis and we once again have <code>\int_0^{<var>B</var>} f^{-1}(y)dy = </code> (area of <code><var>B</var> \times <var>B</var> </code> square) - (Area of region <code>R).  		
+		</p>
 		
 	</div>
 </div>
