@@ -119,34 +119,37 @@
         return isContained;
     };
     var exprClone = function(expr) {
-       if (typeof expr !== "object") {
-          return expr;
-       }
-       var newArgs = $.map(expr.args, function(arg) {
+        if (typeof expr !== "object") {
+            return expr;
+        }
+        var newArgs = $.map(expr.args, function(arg) {
             return exprClone(arg);
-       });
-       return copyStyleIfNone(expr, {op:expr.op, args:newArgs});
+        });
+        var newExpr = {op:expr.op, args:newArgs};
+        newExpr.strExpr = KhanUtil.exprToStrExpr(newExpr);
+        newExpr.text = KhanUtil.exprToText(newExpr);
+        return copyStyleIfNone(expr, newExpr);
     };
 
     var copyStyleIfNone = function(srcExpr, dstExpr) {
-       if (typeof expr === "number") {
-          expr = {op:"num", args:[expr]};
-       }
-       if (dstExpr.style === undefined) {
-           dstExpr.style = srcExpr.style;
-           dstExpr.idStyle = srcExpr.idStyle;
-       }
-       if (dstExpr.opsStyles === undefined) {
-           dstExpr.opsStyles = srcExpr.opsStyles;
-           dstExpr.opsIdStyles = srcExpr.opsIdStyles;
-       }
-       if (dstExpr.align === undefined) {
-           dstExpr.align = srcExpr.align;
-       }
-       if (dstExpr.opHidden === undefined) {
-           dstExpr.opHidden = srcExpr.opHidden;
-       }
-       return dstExpr;
+        if (typeof expr === "number") {
+            expr = {op:"num", args:[expr]};
+        }
+        if (dstExpr.style === undefined) {
+            dstExpr.style = srcExpr.style;
+            dstExpr.idStyle = srcExpr.idStyle;
+        }
+        if (dstExpr.opsStyles === undefined) {
+            dstExpr.opsStyles = srcExpr.opsStyles;
+            dstExpr.opsIdStyles = srcExpr.opsIdStyles;
+        }
+        if (dstExpr.align === undefined) {
+            dstExpr.align = srcExpr.align;
+        }
+        if (dstExpr.opHidden === undefined) {
+            dstExpr.opHidden = srcExpr.opHidden;
+        }
+        return dstExpr;
     };
 
     var exprToText = function(expr) {

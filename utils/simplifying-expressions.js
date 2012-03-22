@@ -277,7 +277,7 @@
                 var pickedFactor = KhanUtil.randFromArray(sidesIFactors[iSide]);
                 sidesOccFactors[iSide][pickedFactor]--;
                 var factor = {op:"*", args:[extraCommonNum, KhanUtil.exprClone(factors[pickedFactor])]};
-                factor = KhanUtil.simplify(factor, {evalBasicNumOps:true, simplifyMode:"expand"});
+                factor = KhanUtil.simplify(factor, {evalBasicNumOps:true, expandProducts:true});
                 factors.push(factor);
                 sidesOccFactors[iSide].push(1);
                 sidesOccFactors[1 - iSide].push(0);

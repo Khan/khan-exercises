@@ -44,7 +44,7 @@
     };
 
     var expandProduct = function(expr, steps) {
-       if (expr.args.length < 2) {
+       if ((!KhanUtil.opIsMultiplication(expr.op)) || (expr.args.length < 2)) {
            return expr;
        }
        var iLastAdditiveTerm = lastAdditiveTerm(expr);
@@ -196,7 +196,7 @@
            if (coeffs[iCoeff] === undefined) {
                coeffs[iCoeff] = 0;
            }
-           coeffs[iCoeff] = simplify(coeffs[iCoeff]);
+           coeffs[iCoeff] = simplify(coeffs[iCoeff], simplifyOptions.basic);
        }
        return coeffs;
     };
@@ -224,10 +224,10 @@
        if (disc < 0) {
            return expr;
        }
-       var negSol1 = (b - Math.sqrt(disc)) / 2*a;
-       var negSol2 = (b + Math.sqrt(disc) ) / 2*a;
+       var negSol1 = (b - Math.sqrt(disc)) / (2*a);
+       var negSol2 = (b + Math.sqrt(disc) ) / (2*a);
        var v = {op:"var", args:[variables[0]]};
-       return {op:"*", args:[{op:"+", args:[v, negSol1]}, {op:"+", args:[v, negSol2]}]};
+       return {op:"*", args:[a, {op:"+", args:[v, negSol1]}, {op:"+", args:[v, negSol2]}]};
     };
 
     var addToFactorsExps = function(expr, options, factors, factorsExp, curExponent) {
@@ -293,7 +293,7 @@
             return sExpr;
         }
         var newExpr;
-        if (options.simplifyMode === "factor") {
+        if (options.simplifyProducts) {
             newExpr = simplifyByFactoring(sExpr, options, steps);
         } else {
             var newArgs = [];
@@ -327,7 +327,7 @@
             newExpr = {op:"*", args:newArgs};
             newExpr = KhanUtil.copyStyleIfNone(expr, newExpr);
         }
-        if (options.simplifyMode === "expand") {
+        if (options.expandProducts) {
             var subSteps1 = new KhanUtil.StepsProblem([], newExpr, "expandProduct", true);
             var expanded = expandProduct(newExpr, subSteps1);
             steps.add(subSteps1);
@@ -355,9 +355,9 @@
 
     var simplificationOps = {
         "+": function(expr, options, steps) {
-            var sExpr = KhanUtil.moveSameOpsUp(expr);
-            var subSteps = new KhanUtil.StepsProblem([], expr, "simplify");
-            var sExpr = simplifyEachArg(sExpr, options, steps);
+            var sExpr1 = KhanUtil.moveSameOpsUp(expr);
+            var subSteps = new KhanUtil.StepsProblem([], sExpr1, "simplify");
+            var sExpr = simplifyEachArg(sExpr1, options, steps);
             steps.add(sExpr);
             sExpr = KhanUtil.moveSameOpsUp(sExpr);
             var newArgs2 = [];
@@ -429,12 +429,14 @@
                 return newArgs[0];
             }
             newExpr = {op:"+", args:newArgs};
-            if (options.simplifyMode === "factor") {
-               newExpr = factorSumFull(newExpr);
+            if (options.factorSums) {
+               options.factorSums = false;
+               options.expandProducts = true;
+               var expandedExpr = simplify(newExpr, options);
+               options.factorSums = true;
+               options.expandProducts = false;
+               newExpr = factorSumFull(expandedExpr);
                if (newExpr.op === "+") {
-                   options.simplifyMode = "expand";
-                   var expandedExpr = simplify(newExpr, options);
-                   options.simplifyMode = "factor";
                    var factoredExpr = factorAsPolynomial(expandedExpr);
                    if (factoredExpr !== undefined) {
                        newExpr = factoredExpr;
@@ -509,7 +511,7 @@
                 (typeof pow === "object") && (pow.op === "ln")) {
                return pow.args[0];
             }
-            if ((options.simplifyMode === "expand") && (typeof term === "object") && (KhanUtil.opIsMultiplication(term.op))) {
+            if ((options.expandProducts) && (typeof term === "object") && (KhanUtil.opIsMultiplication(term.op))) {
                var newArgs = [];
                for (var iArg = 0; iArg < term.args.length; iArg++) {
                    var arg = term.args[iArg];
@@ -574,7 +576,7 @@
 
     var setDefaultOptions = function(options) {
        var defaultValues = {
-              simplifyMode: "expand",
+              expandProducts: false,
               cancelNegOfNeg: true,
               del1Factors: true,
               del0Factors: true,
@@ -590,6 +592,7 @@
               cancelLnExp: true,
               fracIntoPowNeg: true,
               removeUselessParenthesis: true,
+              factorSums:false,
               errors: {}
           };
        for (var optionName in defaultValues) {
@@ -616,7 +619,64 @@
               cancelLnExp: false,
               fracIntoPowNeg: false,
               removeUselessParenthesis: false,
+              factorSums:false
+        },
+        basic: {
+              cancelNegOfNeg: true,
+              del1Factors: true,
+              del0Factors: true,
+              del0TermInSum: true,
+              del01Exponents: true,
+              unneededUnaryOps: true,
+              evalBasicNumOps: true,
+              mergeCstFactors: false,
+              hidePlusBeforeNeg: true,
+              changeSubIntoPlusNeg: true,
+              simplifyProducts: true,
+              mergePowerOfPower: true,
+              cancelLnExp: true,
+              fracIntoPowNeg: false,
+              removeUselessParenthesis: true,
+              factorSums:false
+        },
+        factor: {
+              cancelNegOfNeg: true,
+              del1Factors: true,
+              del0Factors: true,
+              del0TermInSum: true,
+              del01Exponents: true,
+              unneededUnaryOps: true,
+              evalBasicNumOps: true,
+              mergeCstFactors: true,
+              hidePlusBeforeNeg: true,
+              changeSubIntoPlusNeg: true,
+              simplifyProducts: true,
+              mergePowerOfPower: true,
+              cancelLnExp: true,
+              fracIntoPowNeg: false,
+              removeUselessParenthesis: true,
+              factorSums:true
+        },
+        expand: {
+              cancelNegOfNeg: true,
+              del1Factors: true,
+              del0Factors: true,
+              del0TermInSum: true,
+              del01Exponents: true,
+              unneededUnaryOps: true,
+              evalBasicNumOps: true,
+              mergeCstFactors: false,
+              hidePlusBeforeNeg: true,
+              changeSubIntoPlusNeg: true,
+              simplifyProducts: true,
+              mergePowerOfPower: true,
+              cancelLnExp: true,
+              fracIntoPowNeg: false,
+              removeUselessParenthesis: true,
+              expandProducts: true,
+              factorSums:false
         }
+
     };
 
     var simplify = function(expr, options, steps) {
@@ -633,11 +693,16 @@
             expr = simplificationOps[expr.op](expr, options, steps);
         }
         steps.add(expr);
+        expr.strExpr = KhanUtil.exprToStrExpr(expr);
+        expr.text = KhanUtil.exprToText(expr);
+
         if (!KhanUtil.exprIdentical(expr, steps.startExpr)) {
             var subSteps = new KhanUtil.StepsProblem([], expr, "simplify");
             expr = KhanUtil.simplify(expr, options, subSteps);
             steps.add(subSteps);
         }
+        expr.strExpr = KhanUtil.exprToStrExpr(expr);
+        expr.text = KhanUtil.exprToText(expr);
         steps.endExpr = expr;
         return expr;
     };

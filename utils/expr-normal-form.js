@@ -63,7 +63,10 @@
                 }
             }
         }
-        return KhanUtil.copyStyleIfNone(expr, {op:expr.op, args:newArgs, opsStyles:opsStyles, opsIdStyles:opsIdStyles, align:align});
+        var newExpr = {op:expr.op, args:newArgs, opsStyles:opsStyles, opsIdStyles:opsIdStyles, align:align};
+        newExpr.strExpr = KhanUtil.exprToStrExpr(newExpr);
+        newExpr.text = KhanUtil.exprToText(newExpr);
+        return KhanUtil.copyStyleIfNone(expr, newExpr);
     };
 
     var compareNormalFormsAs = function(op, expr1, expr2, ignoreConstants) {
