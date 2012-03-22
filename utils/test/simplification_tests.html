@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Utility Test Suite: LaTeX</title>
-	<!-- Include dependencies -->
-	<script type="text/javascript" src="../../jquery.js"></script>
-	<script type="text/javascript" src="../MathJax/1.1a/MathJax.js?config=KAthJax-77111459c7d82564a705f9c5480e2c88"></script>
-	<script src="../../khan-exercise.js"></script>
-	<script type="text/javascript" src="../tmpl.js"></script>
-	<script src="../ast.js"></script>
-	<script src="../math-model.js"></script>
-	<script src="../math.js"></script>
-	<script src="../expr-helpers.js"></script>
-	<script src="../steps-helpers.js"></script>
-	<script src="../expr-normal-form.js"></script>
-	<script src="../simplify.js"></script>
-	<script src="../factoring-expressions.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Utility Test Suite: LaTeX</title>
+    <!-- Include dependencies -->
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../MathJax/1.1a/MathJax.js?config=KAthJax-77111459c7d82564a705f9c5480e2c88"></script>
+    <script src="../../khan-exercise.js"></script>
+    <script type="text/javascript" src="../tmpl.js"></script>
+    <script src="../ast.js"></script>
+    <script src="../math-model.js"></script>
+    <script src="../math.js"></script>
+    <script src="../expr-helpers.js"></script>
+    <script src="../steps-helpers.js"></script>
+    <script src="../expr-normal-form.js"></script>
+    <script src="../simplify.js"></script>
+    <script src="../factoring-expressions.js"></script>
 <style>
 .ok {
    color:white;
@@ -31,173 +31,176 @@
    border:solid gray 1px;
 }
 </style>
-	<script>
+    <script>
     jQuery( document ).ready( function() {
-	var PINK = KhanUtil.PINK;
-	var GREEN = KhanUtil.GREEN;
-	var ORANGE = KhanUtil.ORANGE;
-	var BLUE = KhanUtil.BLUE;
+    var PINK = KhanUtil.PINK;
+    var GREEN = KhanUtil.GREEN;
+    var ORANGE = KhanUtil.ORANGE;
+    var BLUE = KhanUtil.BLUE;
 
-	var MATH = KhanUtil.MathModel.init();
-        var testsEqualExpr = [
-	    {expr1:"2-3", expr2:"2+-3", isEqual:true},
-            {title:"Check equality when changing terms orders"},
-	    {expr1:"2+3", expr2:"2+3", isEqual:true},
-	    {expr1:"3+2", expr2:"2+3", isEqual:true},
-	    {expr1:"3+2", expr2:"2+3", isEqual:true},
-            {expr1:"a+b", expr2:"a+b", isEqual:true},
-            {expr1:"a+b", expr2:"b+a", isEqual:true},
-            {expr1:"(x+1)(x-2)", expr2:"(x+1)(x-2)", isEqual:true},
-            {expr1:"(x+1)(x-2)", expr2:"(x-2)(x+1)", isEqual:true},
-            {expr1:"(x+1)(y+1)", expr2:"(y+1)(x+1)", isEqual:true},
-            {expr1:"-2+-3", expr2:"-3+-2", isEqual:true},
-            {expr1:"-2+-3", expr2:"-3+-2", isEqual:true},
-	    {expr1:"(2+3)", expr2:"2+3", isEqual:true},
-	    {expr1:"3+3", expr2:"2+3", isEqual:false},
-	    {expr1:"2+-3", expr2:"2-3", isEqual:false},
-            {expr1:"(x+1)(x-2)", expr2:"(x+1)(x+1)", isEqual:false},
-            {expr1:"(x+1)(y+1)", expr2:"(y+1)(y+1)", isEqual:false}
-	]; 
+    var MATH = KhanUtil.MathModel.init();
+    var testsEqualExpr = [
+        {expr1:"2-3", expr2:"2+-3", isEqual:true},
+        {title:"Check equality when changing terms orders"},
+        {expr1:"2+3", expr2:"2+3", isEqual:true},
+        {expr1:"3+2", expr2:"2+3", isEqual:true},
+        {expr1:"3+2", expr2:"2+3", isEqual:true},
+        {expr1:"a+b", expr2:"a+b", isEqual:true},
+        {expr1:"a+b", expr2:"b+a", isEqual:true},
+        {expr1:"(x+1)(x-2)", expr2:"(x+1)(x-2)", isEqual:true},
+        {expr1:"(x+1)(x-2)", expr2:"(x-2)(x+1)", isEqual:true},
+        {expr1:"(x+1)(y+1)", expr2:"(y+1)(x+1)", isEqual:true},
+        {expr1:"-2+-3", expr2:"-3+-2", isEqual:true},
+        {expr1:"-2+-3", expr2:"-3+-2", isEqual:true},
+        {expr1:"(2+3)", expr2:"2+3", isEqual:true},
+        {expr1:"3+3", expr2:"2+3", isEqual:false},
+        {expr1:"2+-3", expr2:"2-3", isEqual:false},
+        {expr1:"(x+1)(x-2)", expr2:"(x+1)(x+1)", isEqual:false},
+        {expr1:"(x+1)(y+1)", expr2:"(y+1)(y+1)", isEqual:false}
+    ]; 
 
-	var testEquality = function(strExpr1, strExpr2, shouldBeEqual) {
-            var expr1 = MATH.parse(strExpr1);
-            var expr2 = MATH.parse(strExpr2);
-            var eql = KhanUtil.isEqual(expr1, expr2);
-            var result = "";
-            if (eql) {
-                result = "equal";
-            } else {
-                result = "different";
-            }
-            var str = "<tr><td>";
-            if (eql === shouldBeEqual) {
-                str += "<span class='ok'>OK</span>";
-            } else {
-                str += "<span class='no'>NO</span>";
-            }
-            var steps = new KhanUtil.StepsProblem([], expr1, "nf");
-            str += "</td><td>" + strExpr1 + "</td><td>" + strExpr2 + "</td>";
-            str += "<td>" + result + "</td>";
-            str += "<td>" + MATH.format(KhanUtil.normalForm(KhanUtil.simplify(expr1, {}, steps))) + "</td>";
-            str += "<td>" + MATH.format(KhanUtil.normalForm(KhanUtil.simplify(expr2, {}, steps))) + "</td>";
-            str += "<td><textarea>" + KhanUtil.exprToStrExpr(expr1) + "</textarea></td>";
-            str += "<td><textarea>" + KhanUtil.exprToStrExpr(expr2) + "</textarea></td>";
-            str += "</tr>";
-            $("#tests").append(str);
+    var testEquality = function(strExpr1, strExpr2, shouldBeEqual) {
+        var expr1 = MATH.parse(strExpr1);
+        var expr2 = MATH.parse(strExpr2);
+        var eql = KhanUtil.isEqual(expr1, expr2);
+        var result = "";
+        if (eql) {
+            result = "equal";
+        } else {
+            result = "different";
         }
+        var str = "<tr><td>";
+        if (eql === shouldBeEqual) {
+            str += "<span class='ok'>OK</span>";
+        } else {
+            str += "<span class='no'>NO</span>";
+        }
+        var steps = new KhanUtil.StepsProblem([], expr1, "nf");
+        str += "</td><td>" + strExpr1 + "</td><td>" + strExpr2 + "</td>";
+        str += "<td>" + result + "</td>";
+        str += "<td>" + MATH.format(KhanUtil.normalForm(KhanUtil.simplify(expr1, {}, steps))) + "</td>";
+        str += "<td>" + MATH.format(KhanUtil.normalForm(KhanUtil.simplify(expr2, {}, steps))) + "</td>";
+        str += "<td><textarea>" + KhanUtil.exprToStrExpr(expr1) + "</textarea></td>";
+        str += "<td><textarea>" + KhanUtil.exprToStrExpr(expr2) + "</textarea></td>";
+        str += "</tr>";
+        $("#tests").append(str);
+    }
 
-        var testsSimplify = [
-            {title:"Check simplification results"},
-            {expr:"1--x", options:{cancelNegOfNeg:true}, expected:"1+ x"},
-            {expr:"1--x", options:{cancelNegOfNeg:false}, expected:"1-(-x)"},
-            {expr:"1*x", options:{del1Factors:true}, expected:"x"},
-            {expr:"1*x", options:{del1Factors:false}, expected:"1x"},
-            {expr:"0*x", options:{del0Factors:true}, expected:"0"},
-            {expr:"0*x", options:{del0Factors:false}, expected:"0x"},
-            {expr:"0+x", options:{del0TermInSum:true}, expected:"x"},
-            {expr:"0+x", options:{del0TermInSum:false}, expected:"0+ x"},
-            {expr:"0*x + 2", options:{del0Factors:true, del0TermInSum:true}, expected:"2"},
-            {expr:"0*x + 2", options:{del0Factors:false, del0TermInSum:false}, expected:"0x+ 2"},
-            {expr:"x^0 + x^1 + x^2", options:{del01Exponents:true}, expected:"1+ x+ x^{2}"},
-            {expr:"x^0 + x^1 + x^2", options:{del01Exponents:false}, expected:"x^{0}+ x^{1}+ x^{2}"},
-            {expr:"x+-y", options:{unneededUnaryOps:true}, expected:"x- y"},
-            {expr:"x+-y", options:{unneededUnaryOps:false}, expected:"x+(-y)"},
-            {expr:"2+3", options:{evalBasicNumOps:true}, expected:"5"},
-            {expr:"2+3", options:{evalBasicNumOps:false}, expected:"2+ 3"},
-            {expr:"x+2+3", options:{evalBasicNumOps:true}, expected:"x+ 5"},
-            {expr:"2+x+3", options:{evalBasicNumOps:true}, expected:"5+ x"},
-            {title:"Simplifying by factoring"},
-            {expr:"x+x", options:{evalBasicNumOps:true, mergeCstFactors:true, del0TermInSum:true}, expected:"2x"},
-            {expr:"x+x", options:{evalBasicNumOps:false, mergeCstFactors:false, del0TermInSum:true}, expected:"x+ x"},
-            {expr:"(x+1)*(x+1)", options:{evalBasicNumOps:true, simplifyMode:"factor"}, expected:"(x+ 1)^{2}"},
-            {expr:"5*(x+1)*(2+x)^2*(1+x)*6*(x+2)^3", options:{evalBasicNumOps:true, simplifyMode:"factor"}, expected:"30(x+ 1)^{2}(2+ x)^{5}"},
-            {expr:"(1+x)*(x+1)^x*(1+x)^x", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(1+ x)^{1+ 2x}"},
-            {expr:"(x-1)*(-1+x)", options:{evalBasicNumOps:true, simplifyMode:"factor"}, expected:"(x-1)^{2}"},
-            {expr:"2x+xy+zxy", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"x(2+ y+ yz)"},
-            {expr:"(x+1)(2x+2)", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"2(x+ 1)^{2}"},
+    var testsSimplify = [
+        {title:"Check simplification results"},
+        {expr:"1--x", options:{cancelNegOfNeg:true}, expected:"1+ x"},
+        {expr:"1--x", options:{cancelNegOfNeg:false}, expected:"1-(-x)"},
+        {expr:"1*x", options:{del1Factors:true}, expected:"x"},
+        {expr:"1*x", options:{del1Factors:false, simplifyProducts:false}, expected:"1x"},
+        {expr:"0*x", options:{del0Factors:true}, expected:"0"},
+        {expr:"0*x", options:{del0Factors:false}, expected:"0x"},
+        {expr:"0+x", options:{del0TermInSum:true}, expected:"x"},
+        {expr:"0+x", options:{del0TermInSum:false}, expected:"0+ x"},
+        {expr:"0*x + 2", options:{del0Factors:true, del0TermInSum:true}, expected:"2"},
+        {expr:"0*x + 2", options:{del0Factors:false, del0TermInSum:false}, expected:"0x+ 2"},
+        {expr:"x^0 + x^1 + x^2", options:{del01Exponents:true}, expected:"1+ x+ x^{2}"},
+        {expr:"x^0 + x^1 + x^2", options:{del01Exponents:false}, expected:"x^{0}+ x^{1}+ x^{2}"},
+        {expr:"x+-y", options:{unneededUnaryOps:true}, expected:"x- y"},
+        {expr:"x+-y", options:{unneededUnaryOps:false}, expected:"x+(-y)"},
+        {expr:"2+3", options:{evalBasicNumOps:true}, expected:"5"},
+        {expr:"2+3", options:{evalBasicNumOps:false}, expected:"2+ 3"},
+        {expr:"x+2+3", options:{evalBasicNumOps:true}, expected:"x+ 5"},
+        {expr:"2+x+3", options:{evalBasicNumOps:true}, expected:"5+ x"},
 
-            {title:"Factoring polynomials"},
-            {expr:"x^2+2x+1", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(x+ 1)^{2}"},
-            {expr:"x^2+4x+2", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(x+ 0.5857864376269049)(x+ 3.414213562373095)"},
-            {expr:"1+x+x^2+9x+8", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(x+ 1)(x+ 9)"},
-            {expr:"x^2+x-30", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(x-5)(x+ 6)"},
-            {expr:"x^2-x-12", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(x-4)(x+ 3)"},
-            {expr:"x^2+x+2+2x+3x^2", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"4x^{2}+ 3x+ 2"},
-            {expr:"x+1+y+2+2x+3y", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"3x+ 3+ 4y"},
-            {expr:"(1+x)*(x+1)^x*(1+x)^x", options:{evalBasicNumOps:true, simplifyMode:"factor", mergeCstFactors:true}, expected:"(1+ x)^{1+ 2x}"},
+        {title:"Simplifying by factoring"},
+        {expr:"x+x", options:{evalBasicNumOps:true, mergeCstFactors:true, del0TermInSum:true}, expected:"2x"},
+        {expr:"x+x", options:{evalBasicNumOps:false, mergeCstFactors:false, del0TermInSum:true}, expected:"x+ x"},
+        {expr:"(x+1)*(x+1)", options:{evalBasicNumOps:true, simplifyProducts:true}, expected:"(x+ 1)^{2}"},
+        {expr:"5*(x+1)*(2+x)^2*(1+x)*6*(x+2)^3", options:{evalBasicNumOps:true, simplifyProducts:true}, expected:"30(x+ 1)^{2}(2+ x)^{5}"},
+        {expr:"(1+x)*(x+1)^x*(1+x)^x", options:{evalBasicNumOps:true, simplifyProducts:true, mergeCstFactors:true}, expected:"(1+ x)^{1+ 2x}"},
+        {expr:"(x-1)*(-1+x)", options:{evalBasicNumOps:true, simplifyProducts:true}, expected:"(x-1)^{2}"},
+        {expr:"2x+xy+zxy", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"x(2+ y+ yz)"},
+        {expr:"(x+1)(2x+2)", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"2(x+ 1)^{2}"},
 
-            {title:"Simplifying colored expressions: colored terms"},
-            {expr:"#{x}^#{y}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{x}^{\\color{#28AE7B}{y}}"},
-            {expr:"#{x}*#{y}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{x}\\color{#28AE7B}{y}"},
-            {expr:"#{2}+#{3}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{2}+ \\color{#28AE7B}{3}"},
-            {expr:"#{2}+#{-3}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{2}\\color{#28AE7B}{-3}"},
-            {title:"Simplifying colored expressions: colored expr"},
-            {expr:"#{3+x}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{3+ x}"},
-            {expr:"#{3-x}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{3- x}"},
-            {expr:"#{3*x}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{3x}"},
-            {expr:"#{x^2}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{x}^{\\color{#FF00AF}{2}}"},
-            {expr:"#{3x^2}-#{3}", colors:[KhanUtil.PINK, KhanUtil.BLUE], options:{}, expected:"\\color{#FF00AF}{75\\color{#FF00AF}{x}^{\\color{#FF00AF}{2}}}\\color{#6495ED}{-3}"},
-            {expr:"#{75*x^2}+#{-3}", colors:[KhanUtil.PINK, KhanUtil.BLUE], options:{}, expected:"\\color{#FF00AF}{75\\color{#FF00AF}{x}^{\\color{#FF00AF}{2}}} + \\color{#6495ED}{-3}"},
-	]; 
+        {title:"Factoring polynomials"},
+        {expr:"x^2+2x+1", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x+ 1)^{2}"},
+        {expr:"x^2+4x+2", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x+ 0.5857864376269049)(x+ 3.414213562373095)"},
+        {expr:"1+x+x^2+9x+8", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x+ 1)(x+ 9)"},
+        {expr:"x^2+x-30", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x-5)(x+ 6)"},
+        {expr:"x^2-x-12", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x-4)(x+ 3)"},
+        {expr:"x^2+x+2+2x+3x^2", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"4x^{2}+ 3x+ 2"},
+        {expr:"x+1+y+2+2x+3y", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"3x+ 3+ 4y"},
+        {expr:"(1+x)*(x+1)^x*(1+x)^x", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(1+ x)^{1+ 2x}"},
+        {expr:"x^2+4x-12", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x-2)(x+ 6)"},
+        {expr:"-3x^2-12x+36", options:KhanUtil.simplifyOptions.factor, expected:"-3(x+ 6)(x-2)"},
+
+        {title:"Simplifying colored expressions: colored terms"},
+        {expr:"#{x}^#{y}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{x}^{\\color{#28AE7B}{y}}"},
+        {expr:"#{x}*#{y}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{x}\\color{#28AE7B}{y}"},
+        {expr:"#{2}+#{3}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{2}+ \\color{#28AE7B}{3}"},
+        {expr:"#{2}+#{-3}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{2}\\color{#28AE7B}{-3}"},
+
+        {title:"Simplifying colored expressions: colored expr"},
+        {expr:"#{3+x}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{3+ x}"},
+        {expr:"#{3-x}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{3- x}"},
+        {expr:"#{3*x}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{3x}"},
+        {expr:"#{x^2}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{x}^{\\color{#FF00AF}{2}}"},
+        {expr:"#{3x^2}-#{3}", colors:[KhanUtil.PINK, KhanUtil.BLUE], options:{}, expected:"\\color{#FF00AF}{75\\color{#FF00AF}{x}^{\\color{#FF00AF}{2}}}\\color{#6495ED}{-3}"},
+        {expr:"#{75*x^2}+#{-3}", colors:[KhanUtil.PINK, KhanUtil.BLUE], options:{}, expected:"\\color{#FF00AF}{75\\color{#FF00AF}{x}^{\\color{#FF00AF}{2}}} + \\color{#6495ED}{-3}"},
+    ]; 
 //{op:"+", args:[{op:"*", args:[32, {op:"^", args:[{op:"var", args:["x"]}, 2]}]}, {op:"num", args:[-2]}]}
-	var testSimplifications = function(strExpr, colors, options, strExpected) {
-            var strOptions = "";
-            for (iOpt in options) {
-               if (options[iOpt]) {
-                  strOptions += iOpt + "\r\n";
-               }
+    var testSimplifications = function(strExpr, colors, options, strExpected) {
+        var strOptions = "";
+        for (iOpt in options) {
+            if (options[iOpt]) {
+                strOptions += iOpt + "\r\n";
             }
-            if (options.simplifyMode === undefined) {
-               options.simplifyMode = "";
-            }
-            var expr = MATH.parse(strExpr, colors);
-            var simpExpr = KhanUtil.simplify(expr, options);
-            var result = "<span class='ok'>OK</span>";
-            var genLatex = MATH.format(simpExpr);
-            if (genLatex !== strExpected) {
-                result = "<span class='no'>NO</span>";
-            }
-            genLatex = ("" + genLatex).replace(/\\/g, "\\\\");
-            var str = "<tr><td>" + result + "</td>";
-            str += "<td>" + strExpr + "</td>";
-            str += "<td><code>" + MATH.format(expr) + "</code></td>";
-            str += "<td><textarea>" + strOptions + "</textarea></td>";
-            str += "<td><code>" + MATH.format(simpExpr) + "</code></td>";
-            str += "<td><code>" + strExpected + "</code></td>";
-            str += "<td><textarea>" + genLatex + "</textarea></td>";
-            str += "<td><textarea>" + KhanUtil.exprToStrExpr(simpExpr) + "</textarea></td>";
-            str += "</tr>";
-            $("#tests2").append(str);
         }
+        if (options.simplifyMode === undefined) {
+            options.simplifyMode = "";
+        }
+        var expr = MATH.parse(strExpr, colors);
+        var simpExpr = KhanUtil.simplify(expr, options);
+        var result = "<span class='ok'>OK</span>";
+        var genLatex = MATH.format(simpExpr);
+        if (genLatex !== strExpected) {
+             result = "<span class='no'>NO</span>";
+        }
+        genLatex = ("" + genLatex).replace(/\\/g, "\\\\");
+        var str = "<tr><td>" + result + "</td>";
+        str += "<td>" + strExpr + "</td>";
+        str += "<td><code>" + MATH.format(expr) + "</code></td>";
+        str += "<td><textarea>" + strOptions + "</textarea></td>";
+        str += "<td><code>" + MATH.format(simpExpr) + "</code></td>";
+        str += "<td><code>" + strExpected + "</code></td>";
+        str += "<td><textarea>" + genLatex + "</textarea></td>";
+        str += "<td><textarea>" + KhanUtil.exprToStrExpr(simpExpr) + "</textarea></td>";
+        str += "</tr>";
+        $("#tests2").append(str);
+    }
 /*
-
-	$("body").append("<table id='tests' cellspacing=0></table>");
-	$("#tests").append("<tr><td>Status&nbsp;&nbsp;&nbsp;</td><td>Expr1</td>" +
-		"<td>Expr2</td><td>Compared</td><td>Normal form 1</td>" +
-		"<td>Normal form 2</td><td>Internal 1</td>><td>Internal 2</td></tr>");
-	for (var iTest = 0; iTest < testsEqualExpr.length; iTest++) {
-		var test = testsEqualExpr[iTest];
-		if (test.title !== undefined) {
-			$("#tests").append("<tr><td colspan=6 style='background:yellow'>" + test.title + "</td></tr>");
-		} else {
-			testEquality(test.expr1, test.expr2, test.isEqual);
-		}
-	}
+    $("body").append("<table id='tests' cellspacing=0></table>");
+    $("#tests").append("<tr><td>Status&nbsp;&nbsp;&nbsp;</td><td>Expr1</td>" +
+        "<td>Expr2</td><td>Compared</td><td>Normal form 1</td>" +
+        "<td>Normal form 2</td><td>Internal 1</td>><td>Internal 2</td></tr>");
+    for (var iTest = 0; iTest < testsEqualExpr.length; iTest++) {
+        var test = testsEqualExpr[iTest];
+        if (test.title !== undefined) {
+            $("#tests").append("<tr><td colspan=6 style='background:yellow'>" + test.title + "</td></tr>");
+        } else {
+            testEquality(test.expr1, test.expr2, test.isEqual);
+        }
+    }
 */
-	$("body").append("<table id='tests2' cellspacing=0></table>");
-	$("#tests2").append("<tr><td>Status&nbsp;&nbsp;&nbsp;</td><td>strExpr</td>" +
-		"<td>Expr</td><td>Options</td><td>Simplified</td><td>Expected</td><td>LaTeX</td>" +
-		"<td>Simplified AST</td></tr>");
-	for (var iTest = 0; iTest < testsSimplify.length; iTest++) {
-		var test = testsSimplify[iTest];
-		if (test.title !== undefined) {
-			$("#tests2").append("<tr><td colspan=8 style='background:yellow'>" + test.title + "</td></tr>");
-		} else {
-			testSimplifications(test.expr, test.colors, test.options, test.expected);
-		}
-	}
+    $("body").append("<table id='tests2' cellspacing=0></table>");
+    $("#tests2").append("<tr><td>Status&nbsp;&nbsp;&nbsp;</td><td>strExpr</td>" +
+        "<td>Expr</td><td>Options</td><td>Simplified</td><td>Expected</td><td>LaTeX</td>" +
+        "<td>Simplified AST</td></tr>");
+    for (var iTest = 0; iTest < testsSimplify.length; iTest++) {
+        var test = testsSimplify[iTest];
+        if (test.title !== undefined) {
+            $("#tests2").append("<tr><td colspan=8 style='background:yellow'>" + test.title + "</td></tr>");
+        } else {
+            testSimplifications(test.expr, test.colors, test.options, test.expected);
+        }
+    }
 
-	jQuery( document ).tmpl();
+    jQuery( document ).tmpl();
     });
 
 /*
@@ -260,7 +263,7 @@
         $.each(testExprs, function(iExpr, expr) {
             //if (iExpr != 11) return;
             var steps = new KhanUtil.StepsProblem([0], expr, "simplify-expand-nf");
-            var sExpr = KhanUtil.normalForm(simplify(expr, {simplifyMode:"expand"}, steps), steps);
+            var sExpr = KhanUtil.normalForm(simplify(expr, {expandProducts:true}, steps), steps);
             str += "<tr><td style='border:solid 1px black'><code>" + KhanUtil.exprToString(expr) + "</code></td>";
             str += "<td style='border:solid 1px black'><code>" + KhanUtil.exprToString(sExpr) + "</code></td>";
             if (sExpr.op === "=") {
