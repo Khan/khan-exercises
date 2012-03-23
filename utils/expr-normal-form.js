@@ -15,6 +15,18 @@
             expr.args = expr.args.sort(compareNormalForms);
             return expr;
         }
+        if ((expr.op === "-") && (nArgs.length === 1)) {
+            var arg = nArgs[0];
+            if (KhanUtil.exprIsNumber(arg)) {
+               arg = -KhanUtil.exprNumValue(arg);
+            } else if (KhanUtil.opIsMultiplication(arg.op) || arg.op == "()") {
+               arg.args[0] = {op:"-", args:[arg.args[0]]};
+            }
+            return normalForm(arg, steps);
+        } else if ((expr.op === "-") && (nArgs.length === 2)) {
+           var newExpr = {op:"+", args:[nArgs[0], {op:"-", args:[nArgs[1]]}]};
+           return normalForm(newExpr, steps);
+        }
         return {op:expr.op, args:nArgs};
     };
 
