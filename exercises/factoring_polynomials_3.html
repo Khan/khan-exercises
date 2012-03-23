@@ -1,94 +1,100 @@
 <!DOCTYPE html>
-<html data-require="math math-format ast math-model factoring-expressions expr-helpers expr-normal-form simplify steps-helpers subhints">
+<html data-require="math graphie ast math-model expr-helpers expr-normal-form steps-helpers simplify">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8" />
 	<title>Factoring polynomials 3</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
 	<div class="exercise">
-	<div class="problems">
-		<div>
-			<div class="vars">
-			<var id="MATH">MathModel.init()</var>
-				<div data-ensure="A !== B && A !== -B">
-					<var id="A">randRangeNonZero( -10, 10 )</var>
-					<var id="B">randRangeNonZero( -10, 10 )</var>
-				</div>
-				<var id="SQUARE">1</var>
-				<var id="CONSTANT">SQUARE*A*B</var>
-				<var id="SIMPLECONSTANT">A*B</var>
-				<var id="LINEAR">SQUARE*(-A-B)</var>
-				<var id="SIMPLELINEAR">-A-B</var>
-				<var id="GROUP1">[
-				MATH.parse("(x + ay)(x + by)&=&xx &+& xby + ayx &+& ayby"),
-				MATH.parse("&=& x^2 &+& #{(a+b)}xy &+& #{ab}y^2", [GREEN, BLUE]),
-				simplify(MATH.parse("&=& x^2 &+& #{" + SIMPLELINEAR + "}xy &+& #{" + SIMPLECONSTANT + "}y^2", [GREEN, BLUE]), simplifyOptions.checkInput), 
-				]
-				</var>
-				<var id="QUESTION">simplify(MATH.parse(SQUARE + "x^{2}+" + LINEAR + "xy+" + CONSTANT + "y^{2}"), simplifyOptions.basic)</var>
-                <var id="SOLUTION">simplify(MATH.parse("(x + #{" + (-A) + "}y)(x + #{" + (-B) + "}y)", [PINK, PINK]), simplifyOptions.checkInput)</var>
-			</div>
+		<div class="problems">
+			<div>
+				<div class="vars">
+					<var id="MATH">MathModel.init()</var>
+					<var id="a">randRange( 2, 9 )</var>
+					<var id="b_sign">randFromArray([ -1, 1 ])</var>
+					<var id="b_abs">randFromArrayExclude( [ 3, 5, 7, 9 ], [ a ] )</var>
+					<var id="b">b_sign*b_abs</var>
+					<var id="A">randFromArrayExclude( getFactors( a * b_abs ), [ 1 ] )</var>
+					<var id="B">a + b</var>
+					<var id="C">a * b / A</var>
+					<var id="F1">getGCD( A, a )</var>
+					<var id="F2">b_sign * getGCD( b_abs, C )</var>
+					<var id="PROBLEM">simplify(MATH.polynomial([A, B, C], "x"), simplifyOptions.basic)</var>
+					<!-- use parse so that the ast matches the parsed user input -->
+					<var id="SOLUTION">MATH.parse( "#{(" + F1 + "x+" + F2 + ")(" + A / F1 + "x+" + a / F1 + ")}", [ORANGE] )</var>
+					<var id="HINT1">MATH.parse("#{" + F1 + "x(" + A / F1 + "x+" + a / F1 + ")+" + F2 + "(" + b / F2 + "x+" + C / F2 + ")}", [BLUE] )</var>
+					<var id="GROUP1">[MATH.parse("ab &=& A*C &=& " + (A*C) + "", [BLUE]), MATH.parse("a+b &=& B &=& " + B + "", [BLUE])]</var>
 
-			<p class="problem">Factor the following expression:</var></code></p>
-			<p class="question"><code><var>MATH.format(QUESTION)</var></code></p>
-
-			<div class="solution" data-type="custom">
-				<div class="instruction">
-					<input name="response" type="text">
 				</div>
-				<div class="guess">jQuery( "div.instruction input" ).val()</div>
-				<div class="validator-function">
-					return isEqual( simplify(MATH.parse(guess), simplifyOptions.checkInput), SOLUTION );
-				</div>
-				<div class="show-guess">
-				</div>
-				<div class="show-guess-solutionarea">
-					jQuery( "div.instruction input" ).val( guess );
-				</div>
-				<div class="example">a factored expression, like <b>(x+2y)(x+3y)</b></div>
-			</div>
-
-			<div class="hints">
 				<div>
-					<p>When we factor a polynomial of this form, we are basically reversing this process of multiplying linear expressions together:</p>
-					<p><code>\qquad <var>MATH.formatGroup(GROUP1, [0, 1])</var></code></p>
-				</div>
-
-				<div>
-					<p><code>\qquad <var>MATH.formatGroup(GROUP1, [2])</var></code></p>
+					<p class="question">
+						Factor the following expression:
+					</p>
 					<p>
-						The coefficient on the <code>xy</code> term is <code class="hint_green"><var>SIMPLELINEAR</var></code>
-						and the coefficient on the <code>y^2</code> term is <code class="hint_blue"><var>SIMPLECONSTANT</var></code>, so to reverse the steps above, we need to find two numbers
-						that <span class="hint_green">add up to <code><var>SIMPLELINEAR</var></code></span> and <span class="hint_blue">multiply to
-						<code><var>SIMPLECONSTANT</var></code></span>.
+						<code><var>MATH.format( PROBLEM, "large" )</var></code>
 					</p>
 				</div>
-
-				<div>
-					<p>You can try out different factors of <code class="hint_blue"><var>SIMPLECONSTANT</var></code> to see if you can find two
-					that satisfy both conditions. If you're stuck and can't think of any, you can also rewrite the conditions as a system of equations and
-					try solving for <code class="hint_pink">a</code> and <code class="hint_pink">b</code>:</p>
-
-					<p><code>\qquad <var>MATH.parseFormat("#a+#b=#{"+ SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var></code></p>
-					<p><code>\qquad <var>MATH.parseFormat("#a \\times #b = #{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var></code></p>
+				<div class="solution" data-type="custom">
+					<div class="instruction">
+						<input name="response" type="text">
+					</div>
+					<div class="guess">jQuery( "div.instruction input" ).val()</div>
+					<div class="validator-function">
+						return isEqual( MATH.parse( guess ), SOLUTION );
+					</div>
+					<div class="show-guess">
+					</div>
+					<div class="show-guess-solutionarea">
+						jQuery( "div.instruction input" ).val( guess );
+					</div>
+					<div class="example">a factored expression, like <b>(x+1)(x+2)</b></div>
 				</div>
-
-				<div>
-					<p>The two numbers <code class="hint_pink"><var>-A</var></code> and <code class="hint_pink"><var>-B</var></code> satisfy both conditions:</p>
-					<p><code>
-						\qquad <var>MATH.parseFormat("#{" + (-A) + "}+#{" + (-B) + "}=#{" + SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var>
-					</code></p>
-					<p><code>
-						\qquad <var>MATH.parseFormat("#{" + (-A) + "}\\times #{" + (-B) + "}=#{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var>
-					</code></p>
-				</div>
-				<div>
-					<p><b>So we can factor the polynomial as: <code><var>MATH.format(SOLUTION)</var></code></b></p>
+				<div class="hints">
+					<p>
+						The expression is of the form
+						<code><var>MATH.parseFormat("#{Ax^2+Bx+C}", [BLUE], false, "normalsize")</var></code>.
+						You can factor this trinomial by grouping.
+					</p>
+					<div>
+						<p>To do this, the first step is to find two values
+						<code><var>MATH.parseFormat("#a", [BLUE])</var></code> and
+						<code><var>MATH.parseFormat("#b", [BLUE])</var></code>, such that
+						<code><var>MATH.parseFormat("#{ab = A*C}", [BLUE])</var></code>, and
+						<code><var>MATH.parseFormat("#{a+b = B}", [BLUE])</var></code>. The next step is to rewrite the
+						expression as <code><var>MATH.parseFormat("Ax^2 + ax + bx + C"#{a+b = B}", [BLUE])</var></code> or 
+						<code><var>MATH.parseFormat("(Ax^2 + ax) + (bx + C)")</var></code>, and factor each term, to
+						find a common factor.
+					</div>
+					<div>
+						<p>To apply the first step, you need to find 
+						<code><var>MATH.parseFormat("#a", [BLUE])</var></code> and
+						<code><var>MATH.parseFormat("#b", [BLUE])</var></code> such that:</p>
+						<p><code><var>MATH.formatGroup(GROUP1, [0,1])</var></code></p>
+					</div>
+					<div>
+						<p>The following values can be used:</p>
+						<p><code><var>MATH.parseFormat("#{a="+a+"}", [BLUE])</var></code><br>
+						<code><var>MATH.parseFormat("#{b="+b+"}", [BLUE])</var></code></p>
+					</div>
+					<div>
+						<p>For the second step, rewrite the expression as:</p>
+						<p><code><var>MATH.parseFormat("#{" + A + "x^2+" + a + "x+" + b + "x+" + C + "}", [BLUE], false, "normalsize")</var></code></p>
+						<p>or</p><p><code><var>MATH.parseFormat("#{(" + A + "x^2+" + a + "x)+(" + b + "x+" + C + ")}", [BLUE], false, "normalsize")</var></code></p>
+						<p>The next step is to factor both terms of the above expression</p>
+					</div>
+					<p>
+						<code><var>simplify(MATH.format(HINT1, false, "normalsize"), simplifyOptions.basic)</var></code>
+					</p>
+					<p>
+						Redistribute the common term to get the answer.
+					</p>
+					<p>
+						<code><var>MATH.format(SOLUTION, false, "large")</var></code>
+					</p>
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 </body>
 </html>
