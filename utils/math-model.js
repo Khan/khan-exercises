@@ -657,6 +657,7 @@ KhanUtil.MathModel.init = function() {
 jQuery.extend ( KhanUtil, {
 
 	parse: function (src, styles) {
+		src = src.replace( /\u2212/g, "-");
 		if (styles === undefined) {
 			styles = [];
 		}
@@ -783,7 +784,9 @@ jQuery.extend ( KhanUtil, {
 		function eat (tc) {
 			var tk = hd();
 			if (tk !== tc) {
-				alert("Expecting " + tc + " found " + tk);
+				if (typeof console !== "undefined") {
+					console.log("Expecting " + tc + " found " + tk);
+				}
 			}
 			next();
 		}
