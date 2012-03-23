@@ -10,12 +10,12 @@
     [PC] Represents improper fractions (/whole numbers) using circles and bars.
 
     When it asks about whole numbers, it actually draws the whole units as whole (without divisions) to emphasize the distance.
-    The value chosen is always between 1 and 5 (but always has a fractional part).
+    The value chosen is always between 1 and 5.
 -->
 	<div class="exercise">
 		<div class="vars">
 			<var id="DENOMINATOR">randRange( 3, 7 )</var>
-            <var id="NUMERATOR">randRange( DENOMINATOR + 1, DENOMINATOR * randRange( 2, 5 ) - 1 )</var> <!-- The numerator is always greater than the denominator but less than 2.0 -->
+            <var id="NUMERATOR">randRange( DENOMINATOR + 1, DENOMINATOR * randRange( 2, 5 ) - 1 )</var> <!-- The numerator is always greater than the denominator -->
             <var id="WHOLE_UNITS">Math.floor( NUMERATOR / DENOMINATOR )</var>
             <var id="TOTAL_UNITS">Math.ceil( NUMERATOR / DENOMINATOR )</var>
             <var id="REMAINING_PIECES">NUMERATOR % DENOMINATOR</var>
@@ -25,14 +25,14 @@
             <!-- Draws several pie charts representing the improper fraction. -->
 			<div id="pie-chart-improper">
 				<div class="question">
-                    <p>What fraction of these circles is shaded <span style="color: #00e"><b>blue</b></span>?</p>
+                    <p>What fraction of these circles is shaded <span style="color: blue"><b>blue</b></span>?</p>
 
                         <div class="graphie">
                             init({ range: [ [-3, 5 * TOTAL_UNITS - 2], [-3, 3] ], scale: 25 });
                             drawFractionAsCircles( NUMERATOR, DENOMINATOR, false );
                         </div>
 				</div>
-				<p class="solution" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
+				<p class="solution" data-type="improper" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
 				<div class="hints">
                     <p>Because more than one circle is shaded blue, your <b>numerator</b> will be bigger than your <b>denominator</b>.</p>
                     <p>The denominator is always the number of slices in <b>one</b> circle.</p>
@@ -54,7 +54,7 @@
                         drawFractionAsCircles( NUMERATOR, DENOMINATOR, true );
                     </div>
                 </div>
-                <p class="solution" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
+                <p class="solution" data-type="mixed" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
                 <div class="hints">
                     <p>To write a mixed number, you first write number of <b>whole</b> objects, and then the <b>remaining</b> pieces as a fraction.</p>
                     <p>There <var>plural( "is", WHOLE_UNITS )</var> <var>plural( WHOLE_UNITS, "whole circle" )</var>. So the first part of the mixed number is <b><var>WHOLE_UNITS</var></b>.</p>
@@ -74,7 +74,7 @@
                         drawFractionAsRectangles( NUMERATOR, DENOMINATOR, false );
 					</div>
 				</div>
-				<p class="solution" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
+				<p class="solution" data-type="improper" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
 
 				<div class="hints">
                     <p>Because more than one bar is shaded blue, your <b>numerator</b> will be bigger than your <b>denominator</b>.</p>
@@ -97,7 +97,7 @@
                         drawFractionAsRectangles( NUMERATOR, DENOMINATOR, true );
                     </div>
                 </div>
-                <p class="solution" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
+                <p class="solution" data-type="mixed" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
 
                 <div class="hints">
                     <p>To write a mixed number, you first write number of <b>whole</b> objects, and then the <b>remaining</b> pieces as a fraction.</p>
