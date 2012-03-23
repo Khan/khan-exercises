@@ -36,7 +36,12 @@ function numberLine( start, end, step, x, y, denominator ) {
 	return set;
 }
 
-function piechart( divisions, colors, radius ) {
+function piechart( divisions, colors, radius, originX, originY ) {
+
+    // [PC] Set default origin to (0,0) if not specified.
+    originX = originX || 0;
+    originY = originY || 0;
+
 	var graph = KhanUtil.currentGraph;
 	var set = graph.raphael.set();
 
@@ -47,7 +52,7 @@ function piechart( divisions, colors, radius ) {
 
 	var partial = 0;
 	jQuery.each( divisions, function( i, slice ) {
-		set.push( graph.arc( [0, 0], radius, partial * 360 / sum, ( partial + slice ) * 360 / sum, true, {
+		set.push( graph.arc( [originX, originY], radius, partial * 360 / sum, ( partial + slice ) * 360 / sum, true, {
 			stroke: colors[2] || "none",
 			fill: colors[i]
 		} ) );
@@ -55,7 +60,9 @@ function piechart( divisions, colors, radius ) {
 	} );
 
 	for ( var i = 0; i < sum; i++ ) {
-		set.push( graph.line( [0, 0], graph.polar( radius, i * 360 / sum ), { stroke: colors[2] || "#fff" } ) );
+        var outerPoint = graph.polar( radius, i * 360 / sum );
+        outerPoint = [outerPoint[0] + originX, outerPoint[1] + originY]; // [PC] Translate the line over by (originX, originY)
+        set.push( graph.line( [originX, originY], outerPoint, { stroke: colors[2] || "#fff" } ));
 	}
 
 	return set;
