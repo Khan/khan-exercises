@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems">
+<html data-require="math graphie graphie-helpers word-problems fractions">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Recognizing improper fractions and mixed numbers</title>
@@ -29,11 +29,7 @@
 
                         <div class="graphie">
                             init({ range: [ [-3, 5 * TOTAL_UNITS - 2], [-3, 3] ], scale: 25 });
-                            for ( var i = 0; i &lt; WHOLE_UNITS; i++ )
-                                piechart( [DENOMINATOR - 1, 1], ["#00e", "#00e"], 2, i * 5, 0 ); <!-- [PC] Hack because piechart() does not support a chart showing 100% in one division. So paint both sides blue.  -->
-
-                            if ( TOTAL_UNITS > WHOLE_UNITS )
-                                piechart( [REMAINING_PIECES, DENOMINATOR - ( NUMERATOR % DENOMINATOR )], ["#00e", "#999"], 2, WHOLE_UNITS * 5, 0 );
+                            drawFractionAsCircles( NUMERATOR, DENOMINATOR, false );
                         </div>
 				</div>
 				<p class="solution" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
@@ -55,14 +51,7 @@
 
                     <div class="graphie">
                         init({ range: [ [-3, 5 * TOTAL_UNITS - 2], [-3, 3] ], scale: 25 });
-
-                        <!-- Exactly the same as above, just use circle() instead of piechart() for the whole parts. -->
-                        style({ stroke: "#00e", fill: "#00e" });
-                        for ( var i = 0; i &lt; WHOLE_UNITS; i++ )
-                            circle( [ i * 5, 0 ], 2 );
-
-                        if ( TOTAL_UNITS > WHOLE_UNITS )
-                            piechart( [REMAINING_PIECES, DENOMINATOR - ( NUMERATOR % DENOMINATOR )], ["#00e", "#999"], 2, WHOLE_UNITS * 5, 0 );
+                        drawFractionAsCircles( NUMERATOR, DENOMINATOR, true );
                     </div>
                 </div>
                 <p class="solution" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
@@ -82,12 +71,7 @@
 					<p>What fraction of these bars is shaded <span style="color: #00e"><b>blue</b></span>?</p>
 					<div class="graphie">
 						init({ range: [ [0, 1], [0, 2 * TOTAL_UNITS - 1] ], scale: [250, 25] });
-
-                        for ( var i = 0; i &lt; WHOLE_UNITS; i++ )
-                            rectchart( [DENOMINATOR], ["#00e"], 2 * ( WHOLE_UNITS - i ) );
-
-                        if ( TOTAL_UNITS > WHOLE_UNITS )
-                            rectchart( [REMAINING_PIECES, DENOMINATOR - ( NUMERATOR % DENOMINATOR )], ["#00e", "#999"], 0 );
+                        drawFractionAsRectangles( NUMERATOR, DENOMINATOR, false );
 					</div>
 				</div>
 				<p class="solution" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
@@ -110,14 +94,7 @@
 
                     <div class="graphie">
                         init({ range: [ [0, 1], [0, 2 * TOTAL_UNITS - 1] ], scale: [250, 25] });
-
-                        <!-- Exactly the same as above, just use rectangle() instead of rectchart() for the whole parts. -->
-                        style({ stroke: "#00e", fill: "#00e" });
-                        for ( var i = 0; i &lt; WHOLE_UNITS; i++ )
-                            rectangle( 0, 2 * ( WHOLE_UNITS - i ), DENOMINATOR, 1 );
-
-                        if ( TOTAL_UNITS > WHOLE_UNITS )
-                            rectchart( [REMAINING_PIECES, DENOMINATOR - ( NUMERATOR % DENOMINATOR )], ["#00e", "#999"], 0 );
+                        drawFractionAsRectangles( NUMERATOR, DENOMINATOR, true );
                     </div>
                 </div>
                 <p class="solution" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
