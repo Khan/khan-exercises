@@ -6,23 +6,31 @@
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<!--
-		Compares fractions that have the same numerator or have the same denominator.
-		TODO: would like to draw overlapping circles or rectangle slices for hints.
-	-->
+<!--
+    [PC] Represents improper fractions using two pie charts.
+    The improper fraction is always greater than 1.0 but less than 2.0.
+-->
 	<div class="exercise">
 		<div class="vars">
-			<var id="NUM_1">randRange( 1, 8 )</var>
-			<var id="DEN_1">randRange( NUM_1 + 1, 9 )</var>
+			<var id="DEN_1">randRange( 3, 7 )</var>
+            <var id="NUM_1">randRange( DEN_1 + 1, DEN_1 * 2 - 1 )</var> <!-- The numerator is always greater than the denominator but less than 2.0 -->
 		</div>
 		<div class="problems">
 			<div id="pie-chart">
 				<div class="question">
-						<p>What fraction of this circle is shaded red?</p>
-						<div class="graphie">
-							init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-							piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
-						</div>
+						<p>What fraction of these circles are shaded blue?</p>
+
+                        <div>
+                            <div class="graphie" style="float: left;">
+                                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                                piechart( [DEN_1 - 1, 1], ["#00e", "#00e"], 2 ); <!-- [PC] Hack because piechart() does not support a chart showing 100% in one division. So paint both sides blue.  -->
+                            </div>
+
+                            <div class="graphie" style="margin-left: 160px;">
+                                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                                piechart( [NUM_1 - DEN_1, DEN_1 - (NUM_1 - DEN_1)], ["#00e", "#999"], 2 );
+                            </div>
+                        </div>
 				</div>
 				<p class="solution" data-simplify="optional"><code><var>NUM_1 / DEN_1</var></code></p>
 				<div class="hints">
