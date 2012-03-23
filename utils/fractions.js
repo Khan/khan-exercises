@@ -54,9 +54,9 @@ jQuery.extend(KhanUtil, {
             // Draw a solid rectangle for the whole units, if requested, or a split pie chart.
             // Implementation note: we start at y = MAX and draw down to y = 0. This achieves the top-down ordering of bars.
             if (fillWholeUnits)
-                rectangle(0, 2 * ( data.wholeUnits - i ), denominator, 1);
+                rectangle(0, 2 * ( data.totalUnits - i - 1), denominator, 1);
             else
-                rectchart([data.denominator], ["#00e"], 2 * ( data.wholeUnits - i ));
+                rectchart([data.denominator], ["#00e"], 2 * ( data.totalUnits - i - 1));
         }
 
         if (data.totalUnits > data.wholeUnits)
