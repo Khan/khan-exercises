@@ -621,6 +621,24 @@
               removeUselessParenthesis: false,
               factorSums:false
         },
+        checkInput: {
+              cancelNegOfNeg: true,
+              del1Factors: true,
+              del0Factors: true,//
+              del0TermInSum: true,
+              del01Exponents: false,
+              unneededUnaryOps: true,
+              evalBasicNumOps: false,
+              mergeCstFactors: false,
+              hidePlusBeforeNeg: true,
+              changeSubIntoPlusNeg: true,
+              simplifyProducts: false,
+              mergePowerOfPower: false,
+              cancelLnExp: false,
+              fracIntoPowNeg: false,
+              removeUselessParenthesis: true,
+              factorSums:false
+        },
         basic: {
               cancelNegOfNeg: true,
               del1Factors: true,
