@@ -24,7 +24,7 @@
 					<!-- use parse so that the ast matches the parsed user input -->
 					<var id="SOLUTION">MATH.parse( "#{(" + F1 + "x+" + F2 + ")(" + A / F1 + "x+" + a / F1 + ")}", [ORANGE] )</var>
 					<var id="HINT1">MATH.parse("#{" + F1 + "x(" + A / F1 + "x+" + a / F1 + ")+" + F2 + "(" + b / F2 + "x+" + C / F2 + ")}", [BLUE] )</var>
-					<var id="GROUP1">[MATH.parse("ab &=& A*C &=& " + (A*C) + "", [BLUE]), MATH.parse("a+b &=& B &=& " + B + "", [BLUE])]</var>
+					<var id="GROUP1">[MATH.parse("#{ab &=& A*C}#{ &=& " + (A*C) + "}", [BLUE,BLUE]), MATH.parse("#{a+b &=& B}#{ &=& " + B + "}", [BLUE, BLUE])]</var>
 
 				</div>
 				<div>
@@ -62,9 +62,9 @@
 						<code><var>MATH.parseFormat("#b", [BLUE])</var></code>, such that
 						<code><var>MATH.parseFormat("#{ab = A*C}", [BLUE])</var></code>, and
 						<code><var>MATH.parseFormat("#{a+b = B}", [BLUE])</var></code>. The next step is to rewrite the
-						expression as <code><var>MATH.parseFormat("Ax^2 + ax + bx + C"#{a+b = B}", [BLUE])</var></code> or 
+						expression as <code><var>MATH.parseFormat("Ax^2 + ax + bx + C", [BLUE])</var></code> or 
 						<code><var>MATH.parseFormat("(Ax^2 + ax) + (bx + C)")</var></code>, and factor each term, to
-						find a common factor.
+						find a common factor.</p>
 					</div>
 					<div>
 						<p>To apply the first step, you need to find 
@@ -84,13 +84,13 @@
 						<p>The next step is to factor both terms of the above expression</p>
 					</div>
 					<p>
-						<code><var>simplify(MATH.format(HINT1, false, "normalsize"), simplifyOptions.basic)</var></code>
+						<code><var>MATH.format(simplify(HINT1, {del1factors:true, evalBasicNumOps:true}))</var></code>
 					</p>
 					<p>
 						Redistribute the common term to get the answer.
 					</p>
 					<p>
-						<code><var>MATH.format(SOLUTION, false, "large")</var></code>
+						<code><var>MATH.format(simplify(SOLUTION, simplifyOptions.basic), false, "large")</var></code>
 					</p>
 				</div>
 			</div>
