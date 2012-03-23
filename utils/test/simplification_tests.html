@@ -40,7 +40,6 @@
 
     var MATH = KhanUtil.MathModel.init();
     var testsEqualExpr = [
-        {expr1:"2-3", expr2:"2+-3", isEqual:true},
         {title:"Check equality when changing terms orders"},
         {expr1:"2+3", expr2:"2+3", isEqual:true},
         {expr1:"3+2", expr2:"2+3", isEqual:true},
@@ -54,9 +53,10 @@
         {expr1:"-2+-3", expr2:"-3+-2", isEqual:true},
         {expr1:"(2+3)", expr2:"2+3", isEqual:true},
         {expr1:"3+3", expr2:"2+3", isEqual:false},
-        {expr1:"2+-3", expr2:"2-3", isEqual:false},
+        {expr1:"2+-3", expr2:"2-3", isEqual:true},
         {expr1:"(x+1)(x-2)", expr2:"(x+1)(x+1)", isEqual:false},
-        {expr1:"(x+1)(y+1)", expr2:"(y+1)(y+1)", isEqual:false}
+        {expr1:"(x+1)(y+1)", expr2:"(y+1)(y+1)", isEqual:false},
+        {expr1:"x+-2y", expr2:"x-2y", isEqual:true},
     ]; 
 
     var testEquality = function(strExpr1, strExpr2, shouldBeEqual) {
@@ -134,6 +134,7 @@
         {expr:"#{x}*#{y}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{x}\\color{#28AE7B}{y}"},
         {expr:"#{2}+#{3}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{2}+ \\color{#28AE7B}{3}"},
         {expr:"#{2}+#{-3}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{2}\\color{#28AE7B}{-3}"},
+        {expr:"#{2}+#{-3x}", colors:[KhanUtil.PINK, KhanUtil.GREEN], options:{}, expected:"\\color{#FF00AF}{2}\\color{#28AE7B}{-3x}"},
 
         {title:"Simplifying colored expressions: colored expr"},
         {expr:"#{3+x}", colors:[KhanUtil.PINK], options:{}, expected:"\\color{#FF00AF}{3+ x}"},
@@ -173,7 +174,7 @@
         str += "</tr>";
         $("#tests2").append(str);
     }
-/*
+
     $("body").append("<table id='tests' cellspacing=0></table>");
     $("#tests").append("<tr><td>Status&nbsp;&nbsp;&nbsp;</td><td>Expr1</td>" +
         "<td>Expr2</td><td>Compared</td><td>Normal form 1</td>" +
@@ -186,7 +187,7 @@
             testEquality(test.expr1, test.expr2, test.isEqual);
         }
     }
-*/
+
     $("body").append("<table id='tests2' cellspacing=0></table>");
     $("#tests2").append("<tr><td>Status&nbsp;&nbsp;&nbsp;</td><td>strExpr</td>" +
         "<td>Expr</td><td>Options</td><td>Simplified</td><td>Expected</td><td>LaTeX</td>" +

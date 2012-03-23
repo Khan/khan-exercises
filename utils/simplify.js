@@ -341,15 +341,27 @@
         return KhanUtil.copyStyleIfNone(expr, newExpr);
     };
 
+    var isNegative = function(expr) {
+        if (KhanUtil.exprIsNumber(expr)) {
+            return (KhanUtil.exprNumValue(expr) < 0);
+        }
+        if (expr.op === "-") {
+            return true;
+        }
+        if (KhanUtil.opIsMultiplication(expr.op) || (expr.op === "+")) {
+            return isNegative(expr.args[0]);
+        }
+    }
+
     var hidePlusBeforeNeg = function(expr) {
        if (expr.opHidden === undefined) {
-          expr.opHidden = [];
+           expr.opHidden = [];
        }
        for (var iArg = 1; iArg < expr.args.length; iArg++) {
-          var arg = expr.args[iArg];
-          if ((KhanUtil.exprIsNumber(arg) && (KhanUtil.exprNumValue(arg) < 0)) || (arg.op === "-")) {
+           var arg = expr.args[iArg];
+           if (isNegative(arg)) {
                expr.opHidden[iArg - 1] = true;
-          }
+           }
        }
     }
 
@@ -736,7 +748,8 @@
         simplify:simplify,
         simplifyWithHints:simplifyWithHints,
         simplifyOptions:simplifyOptions,
-        findExprFactorsExps:findExprFactorsExps
+        findExprFactorsExps:findExprFactorsExps,
+        hidePlusBeforeNeg:hidePlusBeforeNeg
     });
 })();
 
