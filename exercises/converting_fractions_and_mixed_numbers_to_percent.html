@@ -31,37 +31,14 @@
 					<div class="hints">
 						<p><code>\color{#FFA500}{<var>WHOLE</var>}\ \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code></p>
 						<p>This mixed number is equivalent to <code>\color{#FFA500}{<var>WHOLE</var>} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>.</p>
-						<div>
-							<p>First, convert the <span class="hint_orange">whole part</span> of the mixed number to a fraction with the same denominator <code><var>M_REDUCED_DENOM</var></code> as the <span class="hint_blue">fractional part</span>.</p>
-							<p><code>\color{#FFA500}{<var>WHOLE</var>} \times \dfrac{<var>M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>} = \color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}}</code></p>
-							<div class="graphie">
-								init({ range: [ [0, 1], [0, WHOLE] ], scale: [250, 25] });
-
-								for ( var y = 0; y &lt; WHOLE; y++ ) {
-									rectchart( [M_REDUCED_DENOM, 0], ["#FFA500", "#999"], y );
-								}
-							</div>
-						</div>
-						<div>
-							<p>So now we have our number in the form <code>\color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>.</p>
-							<div class="graphie">
-								init({ range: [ [0, 1], [0, WHOLE + 1] ], scale: [250, 25] });
-
-								for ( var y = 1; y &lt;= WHOLE; y++ ) {
-									rectchart( [M_REDUCED_DENOM, 0], ["#FFA500", "#999"], y );
-								}
-
-								rectchart( [M_REDUCED_NUM, M_REDUCED_DENOM - M_REDUCED_NUM], ["#6495ED", "#999"] );
-							</div>
-							<p>Now, just add the two fractions and simplify!</p>
-						</div>
-						<p><code>\color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>} = <var>fraction( I_NUM, I_DENOM, true, true )</var></code></p>
-						
-						<p>To turn a fraction into a percent, turn the fraction into a decimal and then multiply the decimal by 100.</p>
-						<p data-if="I_DENOM === 10">Denominators of 10 are an easy case: The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator - in this case 1 place.</p>
-						<p data-else>To turn <code><var>fraction( I_NUM, I_DENOM )</var></code> into a decimal, perform long division, dividing <code><var>I_DENOM</var></code> into <code><var>I_NUM</var></code></p>
-						<p><code><var>I_NUM</var> \div <var>I_DENOM</var> = <var>I_NUM / I_DENOM</var></code></p>
-						<p>To convert this decimal into a percent, we need to multiply it by 100.</p>
+						<p>First, convert the mixed number to decimal form by converting the <span class="hint_blue">fractional part</span> to dicmal with long divsion and then adding the result to the <span class="hint_orange">whole part</span>.				
+						<p data-if="M_REDUCED_DENOM === 10 || M_REDUCED_DENOM === 100" data-unwrap>Denominators like 10 and 100 are easy to convert: The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator - in this case <var>M_REDUCED_DENOM / 10</var> place.</p>
+						<p data-else>To turn <span class="hint_blue"><code><var>fraction( M_NUM, M_DENOM, false, true )</var></code></span> into a decimal, perform long division, dividing <span class="hint_blue"><code><var>M_REDUCED_DENOM</var></code></span> into <span class="hint_blue"><code><var>M_REDUCED_NUM</var></code></span>.</p>
+						<p><span class="hint_blue"><code><var>M_REDUCED_NUM</var> \div <var>M_REDUCED_DENOM</var></code></span><code> = </code><span class="hint_blue"><code><var>M_NUM / M_DENOM</var></code></span></p>
+						<p>To finish converting the mixed number to decimal form, add <span class="hint_blue"><code><var>M_NUM / M_DENOM</var></code></span> to the <span class="hint_orange">whole part</span> of the mixed number.	
+						<p><span class="hint_orange"><code><var>WHOLE</var> </code></span><code> + </code><span class="hint_blue"><code><var>M_NUM / M_DENOM</var></code></span><code> = <var>(M_NUM / M_DENOM)+WHOLE</var></code>
+						<p>
+						<p>To convert this decimal form into a percent, we can multiply it by 100.</p>
 						<p><code><var>I_NUM / I_DENOM</var> = (100 \cdot <var>I_NUM / I_DENOM</var>) \% = <var>roundTo( 2, 100 * I_NUM / I_DENOM )</var>\%</code></p>
 					</div>
 				</div>
@@ -88,12 +65,12 @@
 					<div class="hints">
 						<div data-if="_D === 100" data-unwrap>
 							<p>When the denominator is 100, you can simply take the numerator and apply the % sign:</p>
-							<p><code><var>fraction( _N, _D )</var></code> = <var>100 * DEC</var>%</p>
+							<p><code><var>fraction( _N, _D )</var></code> = <var>_N</var>%</p>
 						</div>
 						<div data-else data-unwrap>
 							<p data-if="GCD > 1"><code><var>fraction( _N, _D )</var></code> reduces to <code><var>fraction( N, D )</var></code>.</p>
 							<p>To turn a fraction into a percent, turn the fraction into a decimal and then multiply the decimal by 100.</p>
-							<p data-if="D === 10">Denominators of 10 are an easy case: The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator - in this case 1 place.</p>
+							<p data-if="_D === 10 " data-unwrap>Denominators like 10 and 100 are easy to convert: The decimal form is just the numerator with the decimal place moved left by the number of 0s in the denominator - in this case <var>M_REDUCED_DENOM / 10</var> place.</p>
 							<p data-else>To turn <code><var>fraction( N, D )</var></code> into a decimal, perform long division, dividing <code><var>D</var></code> into <code><var>N</var></code></p>
 							<p><code><var>N</var> \div <var>D</var> = <var>DEC</var></code></p>
 							<p>To convert this decimal into a percent, we need to multiply it by 100.</p>
