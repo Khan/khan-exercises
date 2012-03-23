@@ -97,6 +97,15 @@ function rectchart( divisions, colors, y ) {
 	return set;
 }
 
+// [PC] Draws a rectangle with the given coordinates.
+function rectangle( x, y, width, height ) {
+	var graph = KhanUtil.currentGraph;
+	var set = graph.raphael.set();
+
+    set.push( graph.path([ [x, y], [x + width, y], [x + width, y + height], [x, y + height] ] ));
+	return set;
+}
+
 // for line graph intuition
 function updateEquation() {
 	var graph = KhanUtil.currentGraph;
