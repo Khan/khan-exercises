@@ -12,8 +12,8 @@
 -->
 	<div class="exercise">
 		<div class="vars">
-			<var id="DEN_1">randRange( 3, 7 )</var>
-            <var id="NUM_1">randRange( DEN_1 + 1, DEN_1 * 2 - 1 )</var> <!-- The numerator is always greater than the denominator but less than 2.0 -->
+			<var id="DENOMINATOR">randRange( 3, 7 )</var>
+            <var id="NUMERATOR">randRange( DENOMINATOR + 1, DENOMINATOR * 2 - 1 )</var> <!-- The numerator is always greater than the denominator but less than 2.0 -->
 		</div>
 		<div class="problems">
 			<div id="pie-chart">
@@ -23,24 +23,24 @@
                     <div>
                         <div class="graphie" style="float: left;">
                             init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-                            piechart( [DEN_1 - 1, 1], ["#00e", "#00e"], 2 ); <!-- [PC] Hack because piechart() does not support a chart showing 100% in one division. So paint both sides blue.  -->
+                            piechart( [DENOMINATOR - 1, 1], ["#00e", "#00e"], 2 ); <!-- [PC] Hack because piechart() does not support a chart showing 100% in one division. So paint both sides blue.  -->
                         </div>
 
                         <div class="graphie" style="margin-left: 160px;">
                             init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-                            piechart( [NUM_1 - DEN_1, 2 * DEN_1 - NUM_1], ["#00e", "#999"], 2 );
+                            piechart( [NUMERATOR - DENOMINATOR, 2 * DENOMINATOR - NUMERATOR], ["#00e", "#999"], 2 );
                         </div>
                     </div>
 				</div>
-				<p class="solution" data-simplify="optional"><code><var>NUM_1 / DEN_1</var></code></p>
+				<p class="solution" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
 				<div class="hints">
                     <p>Because more than one circle is shaded blue, your <b>numerator</b> will be bigger than your <b>denominator</b>.</p>
                     <p>The denominator is always the number of slices in <b>one</b> circle.</p>
-                    <p>In this example, the denominator is <b><var>DEN_1</var></b>, because each circle has <var>DEN_1</var> parts.</p>
+                    <p>In this example, the denominator is <b><var>DENOMINATOR</var></b>, because each circle has <var>DENOMINATOR</var> parts.</p>
 					<p>The numerator, however, is the <b>total</b> number of blue slices.</p>
-                    <p>There <var>plural( "is", NUM_1 )</var> <var>plural( NUM_1, "blue slice")</var>.</p>
-                    <p>So, the numerator is <b><var>NUM_1</var></b>.</p>
-                    <p>Put the two together; the answer is <code>\dfrac{\color{#00e}{<var>NUM_1</var>}}{\color{#333}{\text{<var>DEN_1</var>}}}</code>.</p>
+                    <p>There <var>plural( "is", NUMERATOR )</var> <var>plural( NUMERATOR, "blue slice")</var>.</p>
+                    <p>So, the numerator is <b><var>NUMERATOR</var></b>.</p>
+                    <p>Put the two together; the answer is <code>\dfrac{\color{#00e}{<var>NUMERATOR</var>}}{\color{#333}{\text{<var>DENOMINATOR</var>}}}</code>.</p>
 				</div>
 			</div>
 
@@ -49,23 +49,23 @@
 					<p>What fraction of these bars is shaded <span style="color: #00e"><b>blue</b></span>?</p>
 					<div class="graphie" style="float: left;">
 						init({ range: [ [0, 1], [0, 1] ], scale: [250, 25] });
-						rectchart( [DEN_1], ["#00e"] );
+						rectchart( [DENOMINATOR], ["#00e"] );
 					</div>
                     <div class="graphie" style="margin-left: 270px">
                         init({ range: [ [0, 1], [0, 1] ], scale: [250, 25] });
-                        rectchart( [NUM_1 - DEN_1, 2 * DEN_1 - NUM_1], ["#00e", "#999"] );
+                        rectchart( [NUMERATOR - DENOMINATOR, 2 * DENOMINATOR - NUMERATOR], ["#00e", "#999"] );
                     </div>
 				</div>
-				<p class="solution" data-simplify="optional"><code><var>NUM_1 / DEN_1</var></code></p>
+				<p class="solution" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
 
 				<div class="hints">
                     <p>Because more than one bar is shaded blue, your <b>numerator</b> will be bigger than your <b>denominator</b>.</p>
                     <p>The denominator is always the number of blocks in <b>one</b> bar.</p>
-                    <p>In this example, the denominator is <b><var>DEN_1</var></b>, because each bar has <var>DEN_1</var> parts.</p>
+                    <p>In this example, the denominator is <b><var>DENOMINATOR</var></b>, because each bar has <var>DENOMINATOR</var> parts.</p>
                     <p>The numerator, however, is the <b>total</b> number of blue blocks.</p>
-                    <p>There <var>plural( "is", NUM_1 )</var> <var>plural( NUM_1, "blue block")</var>.</p>
-                    <p>So, the numerator is <b><var>NUM_1</var></b>.</p>
-                    <p>Put the two together; the answer is <code>\dfrac{\color{#00e}{<var>NUM_1</var>}}{\color{#333}{\text{<var>DEN_1</var>}}}</code>.</p>
+                    <p>There <var>plural( "is", NUMERATOR )</var> <var>plural( NUMERATOR, "blue block")</var>.</p>
+                    <p>So, the numerator is <b><var>NUMERATOR</var></b>.</p>
+                    <p>Put the two together; the answer is <code>\dfrac{\color{#00e}{<var>NUMERATOR</var>}}{\color{#333}{\text{<var>DENOMINATOR</var>}}}</code>.</p>
 				</div>
 			</div>
 		</div>
