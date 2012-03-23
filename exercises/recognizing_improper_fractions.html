@@ -16,7 +16,9 @@
             <var id="NUMERATOR">randRange( DENOMINATOR + 1, DENOMINATOR * 2 - 1 )</var> <!-- The numerator is always greater than the denominator but less than 2.0 -->
 		</div>
 		<div class="problems">
-			<div id="pie-chart">
+
+            <!-- Draws two pie charts representing the improper fraction. -->
+			<div id="pie-chart-improper">
 				<div class="question">
                     <p>What fraction of these circles is shaded <span style="color: #00e"><b>blue</b></span>?</p>
 
@@ -44,6 +46,36 @@
 				</div>
 			</div>
 
+            <!-- Draws a solid blue circle and a fractional pie chart to represent the fraction as a mixed number. -->
+            <div id="pie-chart-mixed">
+                <div class="question">
+                    <p>What fraction of these circles is shaded <span style="color: #00e"><b>blue</b></span>? Write the answer as a mixed number.</p>
+
+                    <div>
+                        <div class="graphie" style="float: left;">
+                            init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                            style({ stroke: "#00e", fill: "#00e" });
+                            circle( [ 0, 0 ], 2 );
+                        </div>
+
+                        <div class="graphie" style="margin-left: 160px;">
+                            init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                            piechart( [NUMERATOR - DENOMINATOR, 2 * DENOMINATOR - NUMERATOR], ["#00e", "#999"], 2 );
+                        </div>
+                    </div>
+                </div>
+                <p class="solution" data-simplify="optional"><code><var>NUMERATOR / DENOMINATOR</var></code></p>
+                <div class="hints">
+                    <p>To write a mixed number, you first write number of <b>whole</b> objects, and then the <b>remaining</b> pieces as a fraction.</p>
+                    <p>There is one whole circle. So the first part of the mixed number is <b>1</b>.</p>
+                    <p>Next, you write the fraction. What part of the last circle is shaded?</p>
+                    <p>In the last circle, <b><var>NUMERATOR - DENOMINATOR</var></b> parts of <b><var>DENOMINATOR</var></b> are shaded.</p>
+                    <p>So the fractional part is <code>\dfrac{\color{#00e}{<var>NUMERATOR - DENOMINATOR</var>}}{\color{#333}{\text{<var>DENOMINATOR</var>}}}</code>.</p>
+                    <p>Put the two together; the answer is <code>1 \dfrac{\color{#00e}{<var>NUMERATOR - DENOMINATOR</var>}}{\color{#333}{\text{<var>DENOMINATOR</var>}}}</code>.</p>
+                </div>
+            </div>
+
+            <!-- Draws two shaded rectangles representing the improper fraction. -->
 			<div id="rectangle-area">
 				<div class="question">
 					<p>What fraction of these bars is shaded <span style="color: #00e"><b>blue</b></span>?</p>
