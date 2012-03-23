@@ -21,22 +21,22 @@ jQuery.extend(KhanUtil, {
      *
      * @param fillWholeUnits controls whether the whole units should be completely solid.
      */
-    drawFractionAsCircles:function (numerator, denominator, fillWholeUnits) {
+    drawFractionAsCircles:function (numerator, denominator, color, fillWholeUnits) {
 
         var data = KhanUtil.getMixedNumberData(numerator, denominator);
 
-        KhanUtil.currentGraph.style({ stroke:"#00e", fill:"#00e" });
+        KhanUtil.currentGraph.style({ stroke:color, fill:color });
         for (var i = 0; i < data.wholeUnits; i++) {
 
             // Draw a solid circle for the whole units, if requested, or a split pie chart.
             if (fillWholeUnits)
                 KhanUtil.currentGraph.circle([ i * 5, 0 ], 2);
             else
-                piechart([denominator - 1, 1], ["#00e", "#00e"], 2, i * 5, 0); // [PC] Hack because piechart() does not support a chart showing 100% in one division. So paint both sides blue.
+                piechart([denominator - 1, 1], [color, color], 2, i * 5, 0); // [PC] Hack because piechart() does not support a chart showing 100% in one division. So color both sides.
         }
 
         if (data.totalUnits > data.wholeUnits)
-            piechart([data.remainingPieces, denominator - data.remainingPieces], ["#00e", "#999"], 2, data.wholeUnits * 5, 0);
+            piechart([data.remainingPieces, denominator - data.remainingPieces], [color, "#999"], 2, data.wholeUnits * 5, 0);
     },
 
     /**
@@ -44,11 +44,11 @@ jQuery.extend(KhanUtil, {
      *
      * @param fillWholeUnits controls whether the whole units should be completely solid.
      */
-    drawFractionAsRectangles:function (numerator, denominator, fillWholeUnits) {
+    drawFractionAsRectangles:function (numerator, denominator, color, fillWholeUnits) {
 
         var data = KhanUtil.getMixedNumberData(numerator, denominator);
 
-        KhanUtil.currentGraph.style({ stroke:"#00e", fill:"#00e" });
+        KhanUtil.currentGraph.style({ stroke:color, fill:color });
         for (var i = 0; i < data.wholeUnits; i++) {
 
             // Draw a solid rectangle for the whole units, if requested, or a split pie chart.
@@ -56,10 +56,10 @@ jQuery.extend(KhanUtil, {
             if (fillWholeUnits)
                 rectangle(0, 2 * ( data.totalUnits - i - 1), denominator, 1);
             else
-                rectchart([data.denominator], ["#00e"], 2 * ( data.totalUnits - i - 1));
+                rectchart([data.denominator], [color], 2 * ( data.totalUnits - i - 1));
         }
 
         if (data.totalUnits > data.wholeUnits)
-            rectchart([data.remainingPieces, denominator - data.remainingPieces], ["#00e", "#999"], 0);
+            rectchart([data.remainingPieces, denominator - data.remainingPieces], [color, "#999"], 0);
     }
 });
