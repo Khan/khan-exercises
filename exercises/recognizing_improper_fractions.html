@@ -7,7 +7,7 @@
 </head>
 <body>
 <!--
-    [PC] Represents improper fractions using two pie charts.
+    [PC] Represents improper fractions using two pie (or bar) charts.
     The improper fraction is always greater than 1.0 but less than 2.0.
 -->
 	<div class="exercise">
@@ -18,46 +18,54 @@
 		<div class="problems">
 			<div id="pie-chart">
 				<div class="question">
-						<p>What fraction of these circles are shaded blue?</p>
+                    <p>What fraction of these circles is shaded <span style="color: #00e"><b>blue</b></span>?</p>
 
-                        <div>
-                            <div class="graphie" style="float: left;">
-                                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-                                piechart( [DEN_1 - 1, 1], ["#00e", "#00e"], 2 ); <!-- [PC] Hack because piechart() does not support a chart showing 100% in one division. So paint both sides blue.  -->
-                            </div>
-
-                            <div class="graphie" style="margin-left: 160px;">
-                                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-                                piechart( [NUM_1 - DEN_1, DEN_1 - (NUM_1 - DEN_1)], ["#00e", "#999"], 2 );
-                            </div>
+                    <div>
+                        <div class="graphie" style="float: left;">
+                            init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                            piechart( [DEN_1 - 1, 1], ["#00e", "#00e"], 2 ); <!-- [PC] Hack because piechart() does not support a chart showing 100% in one division. So paint both sides blue.  -->
                         </div>
+
+                        <div class="graphie" style="margin-left: 160px;">
+                            init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                            piechart( [NUM_1 - DEN_1, 2 * DEN_1 - NUM_1], ["#00e", "#999"], 2 );
+                        </div>
+                    </div>
 				</div>
 				<p class="solution" data-simplify="optional"><code><var>NUM_1 / DEN_1</var></code></p>
 				<div class="hints">
-					<p>Count the red slices for the numerator.</p>
-					<p>There <var>plural( "is", NUM_1 )</var> <var>plural( NUM_1, "red slice")</var>.</p>
-					<p>Count the total slices (<code>\color{#e00}{\text{Red Slices}}</code> + <code>\color{#999}{\text{Gray Slices}}</code>) for the denominator.</p>
-					<p>There are <var>DEN_1</var> slices total.</p>
-					<p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#666}{\text{<var>DEN_1</var>}}}</code>.</p>
+                    <p>Because more than one circle is shaded blue, your <b>numerator</b> will be bigger than your <b>denominator</b>.</p>
+                    <p>The denominator is always the number of slices in <b>one</b> circle.</p>
+                    <p>In this example, the denominator is <b><var>DEN_1</var></b>, because each circle has <var>DEN_1</var> parts.</p>
+					<p>The numerator, however, is the <b>total</b> number of blue slices.</p>
+                    <p>There <var>plural( "is", NUM_1 )</var> <var>plural( NUM_1, "blue slice")</var>.</p>
+                    <p>So, the numerator is <b><var>NUM_1</var></b>.</p>
+                    <p>Put the two together; the answer is <code>\dfrac{\color{#00e}{<var>NUM_1</var>}}{\color{#333}{\text{<var>DEN_1</var>}}}</code>.</p>
 				</div>
 			</div>
 
 			<div id="rectangle-area">
 				<div class="question">
-					<p>What fraction of the bar is shaded red?</p>
-					<div class="graphie">
+					<p>What fraction of these bars is shaded <span style="color: #00e"><b>blue</b></span>?</p>
+					<div class="graphie" style="float: left;">
 						init({ range: [ [0, 1], [0, 1] ], scale: [250, 25] });
-						rectchart( [NUM_1, DEN_1-NUM_1], ["#e00", "#999"] );
+						rectchart( [DEN_1], ["#00e"] );
 					</div>
+                    <div class="graphie" style="margin-left: 270px">
+                        init({ range: [ [0, 1], [0, 1] ], scale: [250, 25] });
+                        rectchart( [NUM_1 - DEN_1, 2 * DEN_1 - NUM_1], ["#00e", "#999"] );
+                    </div>
 				</div>
 				<p class="solution" data-simplify="optional"><code><var>NUM_1 / DEN_1</var></code></p>
 
 				<div class="hints">
-						<p>Count the red blocks for the numerator.</p>
-						<p>There <var>plural( "is", NUM_1 )</var> <var>plural( NUM_1, "red block")</var>.</p>
-						<p>Count the total blocks (<code>\color{#e00}{\text{Red Blocks}}</code> + <code>\color{#999}{\text{Gray Blocks}}</code>) for the denominator.</p>
-						<p>There are <var>DEN_1</var> blocks total.</p>
-						<p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#666}{\text{<var>DEN_1</var>}}}</code>.</p>
+                    <p>Because more than one bar is shaded blue, your <b>numerator</b> will be bigger than your <b>denominator</b>.</p>
+                    <p>The denominator is always the number of blocks in <b>one</b> bar.</p>
+                    <p>In this example, the denominator is <b><var>DEN_1</var></b>, because each bar has <var>DEN_1</var> parts.</p>
+                    <p>The numerator, however, is the <b>total</b> number of blue blocks.</p>
+                    <p>There <var>plural( "is", NUM_1 )</var> <var>plural( NUM_1, "blue block")</var>.</p>
+                    <p>So, the numerator is <b><var>NUM_1</var></b>.</p>
+                    <p>Put the two together; the answer is <code>\dfrac{\color{#00e}{<var>NUM_1</var>}}{\color{#333}{\text{<var>DEN_1</var>}}}</code>.</p>
 				</div>
 			</div>
 		</div>
