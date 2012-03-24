@@ -41,7 +41,7 @@
 		</div>
 
 		<div class="hints">
-			<p>The area of a triangle is calculated by the formula <code>A = \dfrac{1}{2}\color{orange}{b}\color{red}{h}</code></p>
+			<p>The area of a triangle is calculated by the formula <code>\color{blue}{A} = \dfrac{1}{2}\color{orange}{b}\color{red}{h}</code></p>
 			<p>
 				<code class="hint_blue">A</code> stands for <strong class="hint_blue">Area</strong>, <code class="hint_orange">b</code> stands for <strong class="hint_orange">base</strong>, and <code class="hint_red">h</code> stands for <strong class="hint_red">height</strong>.
 			</p>
@@ -76,7 +76,7 @@
 
 			<p>So the <span class="hint_orange">base</span> of the triangle is <span class="hint_orange"><var>A</var></span> units.</p>
 			<div>
-				<p>Next, we must find the <span class="hint_red">height</span> of the triangle. Count from the <span class="hint_orange">base</span> <span data-if="ALIGN%2 == 0">up</span><span data-if="ALIGN%2 != 0">over</span> to the opposite point. <strong>Note</strong> the <span class="hint_red">height</span> is perpendicular to the <span class="hint_orange">base</span>.</p>
+				<p>Next, we must find the <span class="hint_red">height</span> of the triangle. Count from the <span class="hint_orange">base</span> <span data-if="ALIGN%2 == 0">up</span><span data-if="ALIGN%2 != 0">over</span> to the opposite point. <strong>Note</strong> the <span class="hint_red">height</span> is always perpendicular to the <span class="hint_orange">base</span>.</p>
 
 				<div class="graphie" data-update="grid">
 					if (ALIGN % 2 == 0) {
@@ -106,10 +106,10 @@
 			<p>So, the <span class="hint_red">height</span> of the triangle is <span class="hint_red"><var>C</var></span> units.</p>
 
 			<p>Substitute these values into the formula and solve<br><br>
-				<code>A = \dfrac{1}{2}(\color{orange}{<var>A</var>})(\color{red}{<var>C</var>})</code>
+				<code>\color{blue}{A} = \dfrac{1}{2}(\color{orange}{<var>A</var>})(\color{red}{<var>C</var>})</code>
 			</p>
 
-			<p>Multiply, <code>\color{orange}{<var>A</var>} \cdot \color{red}{<var>C</var>} = \color{green}{<var>A * C</var>}</code> and <code>\dfrac{1}{2} \cdot \color{green}{<var>A*C</var>} = <var>fraction(A*C,2,true,true)</var></code><br><br>
+			<p>Multiply, <code>\color{orange}{<var>A</var>} \cdot \color{red}{<var>C</var>} = \color{green}{<var>A * C</var>}</code> and <code>\dfrac{1}{2} \cdot \color{green}{<var>A*C</var>} = \color{blue}{<var>fraction(A*C,2,true,true)</var>}</code><br><br>
 				<code class="final-answer">\color{blue}{A} = \color{blue}{<var>fraction(A*C,2,true,true)</var>}</code>
 			</p>
 			<p data-if="getGCD(A*C,2)==1" class="final-answer">Answer with an improper fraction <code><var>fraction(A*C,2,true,true)</var></code> or the mixed number <code><var>Math.floor(A*C/2)</var>\dfrac{1}{2}</code>.</p>
