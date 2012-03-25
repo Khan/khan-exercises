@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie word-problems">
+<html data-require="math math-format graphie">
 <head>
-	<title>Arithmetic sequences 1</title>
+	<title>Arithmetic sequences</title>
 	<script src="../khan-exercise.js"></script>
 	<style>
-		#answer_area .short input[ type=text ] {
+		#answer_area .short input[type=text] {
 			width: 20px;
 		}
 	</style>
@@ -63,10 +63,9 @@
 			<div class="hints">
 				<p>An arithmetic sequence, also called an arithmetic progression, is made by adding or subtracting a constant amount each time.</p>
 				<div>
-					<p>This arithmetic sequence is made by adding <code>\color{BlueViolet}{<var>ADD</var>}</code> each time.<br />
-					This change of <code>\color{BlueViolet}{<var>ADD</var>}</code> is called the common difference, or <code>\color{BlueViolet}{d}</code>.
-					<br /><span class="hint_gray">(To find the common difference, take two adjacent values and subtract the left value from the right; 
-					viz., <code><var>SEQ[ 1 ]</var> - <var>negParens( SEQ[ 0 ] )</var> = <var>ADD</var></code>.)</span><br />
+					<p>First, let's find this amount, known as the common difference or <code>\color{BlueViolet}{d}</code>, 
+					by taking two adjacent values and subtracting the first value from the second.<br />
+					<code>\color{BlueViolet}{d} = <var>SEQ[ 1 ]</var> - <var>negParens( SEQ[ 0 ] )</var>=\color{BlueViolet}{<var>ADD</var>}</code>.<br />
 					Here is a visualization of each term and the common difference.</p>
 						<div class="graphie">DIFF_TREE()</div> <!--() runs the function-->
 				</div>
@@ -95,7 +94,7 @@
 				<p>With these principles, this equation is derived: <code>\color{RoyalBlue}{a_n} = \color{OrangeRed}{a_1} + ( n~–~1 ) \color{BlueViolet}{d}</code>.<br />
 				Thus, if we know <code>\color{RoyalBlue}{a_n}</code>, <code>\color{OrangeRed}{a_1}</code> and <code>\color{BlueViolet}{d}</code>, 
 				we can calculate the number of terms in this sequence (<code>n</code>).</p>
-				<p>Begin finding <code>n</code> by substituting the known values with the variables in the given equation.</p>
+				<p>Begin finding <code>n</code> by substituting the known values for the variables in the given equation.</p>
 				<p>After plugging in the known values, you should have <code>\color{RoyalBlue}{<var>LAST</var>}
 				= \color{OrangeRed}{<var>INIT</var>} + ( n~–~1 ) (\color{BlueViolet}{<var>ADD</var>})</code>.</p>
 				<div>
@@ -119,11 +118,10 @@
 			<div class="hints">
 				<p>An arithmetic sequence, also called an arithmetic progression, is made by adding or subtracting a constant amount each time.</p>
 				<div>
-					<p>This arithmetic sequence is made by adding <code>\color{BlueViolet}{<var>ADD</var>}</code> each time.<br />
-					This change of <code>\color{BlueViolet}{<var>ADD</var>}</code> is called the common difference, or <code>\color{BlueViolet}{d}</code>.
-					<br /><span class="hint_gray">(To find the common difference, take two adjacent values and subtract the left value from the right; 
-					viz., <code><var>SEQ[ 1 ]</var> - <var>negParens( SEQ[ 0 ] )</var> = <var>ADD</var></code>.)</span><br />
-					Here is a visualization of each term and the common difference.</p>	
+					<p>First, let's find this amount, known as the common difference or <code>\color{BlueViolet}{d}</code>, 
+					by taking two adjacent values and subtracting the first value from the second.<br />
+					<code>\color{BlueViolet}{d} = <var>SEQ[ 1 ]</var> - <var>negParens( SEQ[ 0 ] )</var>=\color{BlueViolet}{<var>ADD</var>}</code>.<br />
+					Here is a visualization of each term and the common difference.</p>
 						<div class="graphie">DIFF_TREE()</div> <!--() runs the function-->
 				</div>
 				<p>The first term is <code>\color{OrangeRed}{<var>INIT</var>}</code>, which is called <code>\color{OrangeRed}{a_1}</code>.</p>
@@ -168,11 +166,10 @@
 			<div class="hints">
 				<p>An arithmetic sequence, also called an arithmetic progression, is made by adding or subtracting a constant amount each time.</p>
 				<div>
-					<p>This arithmetic sequence is made by adding <code>\color{BlueViolet}{<var>ADD</var>}</code> each time.<br />
-					This change of <code>\color{BlueViolet}{<var>ADD</var>}</code> is called the common difference, or <code>\color{BlueViolet}{d}</code>.
-					<br /><span class="hint_gray">(To find the common difference, take two adjacent values and subtract the left value from the right; 
-					viz., <code><var>SEQ[ 1 ]</var> - <var>negParens( SEQ[ 0 ] )</var> = <var>ADD</var></code>.)</span><br />
-					Here is a visualization of each term and the common difference.</p>	
+					<p>First, let's find this amount, known as the common difference or <code>\color{BlueViolet}{d}</code>, 
+					by taking two adjacent values and subtracting the first value from the second.<br />
+					<code>\color{BlueViolet}{d} = <var>SEQ[ 1 ]</var> - <var>negParens( SEQ[ 0 ] )</var>=\color{BlueViolet}{<var>ADD</var>}</code>.<br />
+					Here is a visualization of each term and the common difference.</p>
 						<div class="graphie">DIFF_TREE()</div> <!--() runs the function-->
 				</div>
 				<p>The first term is <code>\color{OrangeRed}{<var>INIT</var>}</code>, which is called <code>\color{OrangeRed}{a_1}</code>.</p>
@@ -207,18 +204,18 @@
 			<div class="vars">
 				<var id="TERM_X">randRange( 2, 4 )</var>
 				<var id="SOLN">SEQ[ TERM_X ]</var>
-				<var id="S_STR">SEQ.slice( 0 , TERM_X ).concat( "x" , SEQ.slice( TERM_X + 1 , 7 )).join( ", " )</var>
+				<var id="SEQ_STR">SEQ.slice( 0 , TERM_X ).concat( "x" , SEQ.slice( TERM_X + 1 , 7 )).join( ", " )</var>
 			</div>
-			<p class="problem"><code>x</code> replaced a value in the arithmetic sequence that follows.<br /><code><var>S_STR</var></code></p>
-			<p class="question">What is the value of <code>x</code>?</p>
+			<p class="problem">What is the value of <code>x</code> in the following arithmetic sequence?</p>
+			<p class="question"><code><var>SEQ_STR</var></code></p>
 			<div class="solution" data-type="text"><var>SOLN</var></div>
 
 			<div class="hints">
 				<p>Arithmetic sequences are made by adding or subtracting a constant amount each time.</p>
 				<p>To find <code>x</code>, the value each term changes by first must be found.<br />
-				<p>To find the common difference, take two adjacent values and subtract the left value from the right; 
-					viz., <code><var>SEQ[ 1 ]</var> - <var>negParens( SEQ[ 0 ] )</var> = \color{BlueViolet}{<var>ADD</var>}</code>.<br />
-				This value is called the common difference, represented as <code>\color{BlueViolet}{d}</code>.</p>
+					<p>Let's find this amount, known as the common difference or <code>\color{BlueViolet}{d}</code>, 
+					by taking two adjacent values and subtracting the first value from the second.<br />
+					<code>\color{BlueViolet}{d} = <var>SEQ[ 1 ]</var> - <var>negParens( SEQ[ 0 ] )</var>=\color{BlueViolet}{<var>ADD</var>}</code>.</p>
 				<div>
 					<p>Here is a visualization of each term and the common difference.</p>
 					<div class="graphie" id="differences-tree">
@@ -244,10 +241,9 @@
 						}
 					</div>
 				</div>
-				<p>Since this is an arithmetic sequence, each term changes by the common difference.<br />The <code>\color{OrangeRed}{?}</code> 
-				in the visualization must be <code>\color{BlueViolet}{<var>ADD</var>}</code>, since the change is always the same.<br />
-				Therefore, <code>x</code> changes adding the common difference to the term before it.</p>
-				<p class="final_answer"><code><var>SEQ[ TERM_X - 1 ]</var> + \color{BlueViolet}{<var>ADD</var>} = x</code>; so <code>x = \color{green}{<var>SOLN</var>}</code>.</p>
+				<p>The <code>\color{OrangeRed}{?}</code> in the visualization must be <code>\color{BlueViolet}{<var>ADD</var>}</code>, since the change is always the same.<br />
+				Therefore, <code>x</code> is the term before it plus <code>\color{BlueViolet}{<var>ADD</var>}</code>.</p>
+				<p class="final_answer"><code>x=<var>SEQ[ TERM_X - 1 ]</var> + \color{BlueViolet}{<var>ADD</var>}</code>; so <code>x = \color{green}{<var>SOLN</var>}</code>.</p>
 			</div>
 
 		</div>
