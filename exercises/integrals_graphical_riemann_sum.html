@@ -8,17 +8,15 @@
 </head>
 <body>
 <div class="exercise">
-	<div class="vars" data-ensure="A + 9 < B">
+	<div class="vars" data-ensure="A + 8 < B">
         
-        <var id="A">randRange(-9,9)</var>
-        <var id="B">randRange(-9,9)</var>
-		<var id="DX1">(B-A)/5</var>
-		<var id="DX2">(B-A)/10</var>
+        <var id="A">randRange(-7,2)</var>
+        <var id="B">randRange(-2,7)</var>
 		
 		<var id="R1">randRangeNonZero(-8,-3)</var>
 		<var id="R2">randRangeNonZero(-5,5)</var>
 		<var id="R3">randRangeNonZero(3,8)</var>
-		<var id="C">randFromArray([-4,-3,-2,2,3,4])</var>
+		<var id="C">randFromArray([3,4,5])</var>
 		<var id="SIGN">randFromArray([-1,1])</var>
 		
 		<!-- Want polynomial f(x) = +-(x-R1)(x-R2)(x-R3)/100 + C -->
@@ -30,11 +28,163 @@
 		<var id="POLYEVAL">new Polynomial(0,3,[C0/100,C1/100,C2/100,SIGN/100],"x")</var>
 		<var id="FNX">function(x) {return POLYEVAL.evalOf(x);}</var>
 		
-		<var id="EST1">DX1*(FNX(A+(0.5)*DX1)+FNX(A+(1.5)*DX1)+FNX(A+(2.5)*DX1)+FNX(A+(3.5)*DX1)+ FNX(A+(4.5)*DX1))</var>
-		
-		<var id="EST2">DX2*(FNX(A+(0.5)*DX2)+FNX(A+(1.5)*DX2)+FNX(A+(2.5)*DX2)+FNX(A+(3.5)*DX2)+ FNX(A+(4.5)*DX2) + FNX(A+(5.5)*DX2) + FNX(A+(6.5)*DX2)+ FNX(A+(7.5)*DX2)+ FNX(A+(8.5)*DX2)+ FNX(A+(9.5)*DX2) )</var>
+		<var id="APPROX">
+			function(n) {
+				var deltax = (B-A)/n;
+				var approx = 0;
+				for (var i = 0; i &lt; n; i++) {
+					approx += deltax*FNX(A+(i+0.5)*deltax);
+				}
+				return approx;
+			}		
+		</var>
 		
 		<var id="INT">(1/100)*(SIGN*(B*B*B*B - A*A*A*A)/4 + C2*(B*B*B-A*A*A)/3 + C1*(B*B-A*A)/2 + C0*(B-A))</var>
+		
+		<var id="GRAPH">
+			function() {
+				
+				//draw the curve and shaded area
+				
+				var g = KhanUtil.currentGraph;
+				
+				g.graphInit({
+            		range: 10,
+            		scale: 30,
+            		axisArrows: "&lt;-&gt;",
+            		tickStep: 1,
+            		labelStep: 2,
+            		gridOpacity: 0.05,
+            		axisOpacity: 0.2,
+            		tickOpacity: 0.4,
+            		labelOpacity: 0.5,
+            	});
+				
+				g.label( [ 0, 10 ], "y", "right" );
+            	g.label( [ 10, 0 ], "x", "right" );
+            	
+            	g.style({ 
+            		stroke: BLUE, 
+            		strokeWidth: 3, 
+            	}, function() {
+            		g.plot( function(x) {
+            			return FNX(x); 
+            		}, [-11,11]);
+            	});
+            	
+				g.style({ 
+            		stroke: "#aa0000", 
+            		strokeWidth: 1, 
+            	}, function() {
+            		g.line([A,0],[A,FNX(A)]);
+					g.line([B,0],[B,FNX(B)]);
+            	});
+				
+				fillPoints = [];
+				fillPoints[0] = [A,0];
+				for (var i = 1; i &lt; 500; i++) {
+					fillPoints[i] = [A+(B-A)*i/500, FNX(A+(B-A)*i/500)];
+				}
+				
+				fillPoints[500] = [B,0];
+				
+				g.style({ 
+            		stroke: "none", 
+            		strokeWidth: 1,
+					fill: "#aa99ff",
+					fillOpacity: 0.2, 
+            	}, function() {
+					g.path(fillPoints);
+            	}); 
+				
+            	addMouseLayer();
+            
+				//draw the dragpoints and rectangles
+			drawGraph = function(n) {	
+				
+            	var deltax = (B-A)/n;
+            		
+            	dragPoints = [];
+            	
+            	for (var i = 0; i &lt; n; i++) {
+            				
+            		dragPoints[i] = addMovablePoint({
+            			coord: [A + (i+0.5)*deltax , 0],
+            			constraints: {constrainX: true},									
+            			normalStyle: {
+            				stroke: KhanUtil.GREEN,
+            				fill: KhanUtil.GREEN
+            			}
+            		});
+					
+            	}
+				
+            	boxes = g.raphael.set();
+            	labels = g.raphael.set();
+            
+            	
+            	update = function() {
+            		boxes.remove();
+            		labels.remove();
+           			
+					var area = 0;
+					 
+            		for (var i = 0; i &lt; n; i++) {
+            			var x = dragPoints[i].coord[0];
+            			var y = dragPoints[i].coord[1];
+            			
+						area += Math.round(1000*deltax*y)/1000;
+						
+            			g.style({
+            				stroke: GREEN,
+            				strokeWidth: 1,
+            				fill: "#ccffcc"
+            			}, function() {
+            				boxes.push(g.path([[x-deltax/2,0],[x-deltax/2,y],[x+deltax/2,y],[x+deltax/2,0]]));
+            				labels.push(g.raphael.text((x+10)*30,300-30*y/2,Math.round(1000*deltax*y)/1000));				
+            			});
+            		}
+            	
+					$("#area1").html(Math.round(area*1000)/1000);
+					
+            		labels.toBack();
+            		boxes.toBack();
+            	}
+            	
+            	for (var i = 0; i &lt; n; i++) {
+            		dragPoints[i].onMove = function( x, y ) {
+            			update();
+            			return true;
+            		}
+            	}
+			}
+			
+			var n = $("#numintervals").val();
+			drawGraph(n);
+			
+			/*
+				Handle change in n from drop list.  I couldn't find how to remove a dragpoint from the graph.  Putting them
+				in a set didn't work.  So, on a change in n, it just moves the old dragpoints way off to the side (off the
+				screen unless being viewed in an absurdly wide broweser window) and draws new ones for the new value of n.
+				Not an elegant solution - it looks fine but it accumulates dragpoints.  Should be changed   
+			*/
+			
+			$("#numintervals").change(function() {
+				for (var i = 0; i &lt; n; i++) {
+					dragPoints[i].setCoord([-100,0]);
+				}
+				
+				boxes.remove();
+				labels.remove();
+				n = $("#numintervals").val();
+				drawGraph(n);
+				var dx = (B-A)/n;
+				$("#dx").html(dx);
+				$("#area1").html(0);
+			});
+								
+			}
+		</var>		
 				
     </div>
 
@@ -42,267 +192,74 @@
 		<div>
 			<div class="question">
 				<p>
-					Let <code>f(x) = \frac{1}{100}(<var>POLYDISPLAY</var>)</code>.  Using the graphs below, approximate <code>\int_{<var>A</var>}^{<var>B</var>}f(x)dx</code> by taking a Riemann sum, first dividing <code>[<var>A</var>,<var>B</var>]</code> into 5 subintervals and next using 10 (choosing the <code>x_i</code> to be the midpoints).  Drag the <span class="hint_green">green</span> points in order to form rectangles.  
+					Let <code>f(x) = \frac{1}{100}(<var>POLYDISPLAY</var>)</code>.  
+				
+				<p>
+					Approximate the integral <code>\int_{<var>A</var>}^{<var>B</var>}f(x)dx</code> by taking Riemann sums, dividing <code>[<var>A</var>, <var>B</var>]</code> into <code>n</code> subintervals for <code>n = </code> 2, 4, 6, and 8 (and choosing the <code>x_i</code> to be the midpoints).  
+				</p>
+					
+				<p>
+					As <code>n</code> increases, the value of the Riemann sum approaches the value of the integral <code>\int_{<var>A</var>}^{<var>B</var>}f(x)dx</code>.  Confirm this by computing <code>\int_{<var>A</var>}^{<var>B</var>}f(x)dx</code>.
 				</p>
 				
 				<p>
-					Check the quality of your approximations by computing the integral.
+					To compute the Riemann sums, use the graph below.  To form rectangles, drag the <span class="hint_green">green points</span>, the <code>x_i</code>, to their corresponding points on the graph.  The total accumulated area is shown above the graph.  Change the value of <code>n</code> by selecting from the list above the graph.  Be sure to record your results before changing <code>n</code>, as the total will be reset to zero. Round all answers to the nearest 1000th.  
 				</p>
 				
 			</div>
 			
 			<p>
 				<span class="hint_green">
-					<code>n</code> = 5 subintervals: <code>\Delta x</code> = <var>DX1</var>, Total Area = <span id="area1">0</span> 	
+					<code>n</code> = 
+					<select id="numintervals">
+						<option>2</option>
+						<option>4</option>
+						<option>6</option>
+						<option>8</option>	
+					</select> 
+					subintervals, <code>\Delta x = </code> <span id="dx"></span>, Total Area = <span id="area1">0</span> 	
 				</span>.
+				
 			</p>
 			
-			<div class="graphie" id="riemann1">
-	       		graphInit({
-            		range: 10,
-            		scale: 30,
-            		axisArrows: "&lt;-&gt;",
-            		tickStep: 1,
-            		labelStep: 2,
-            		gridOpacity: 0.05,
-            		axisOpacity: 0.2,
-            		tickOpacity: 0.4,
-            		labelOpacity: 0.5,
-            	});
-            
-            	label( [ 0, 10 ], "y", "right" );
-            	label( [ 10, 0 ], "x", "right" );
-            	
-            	style({ 
-            		stroke: BLUE, 
-            		strokeWidth: 3, 
-            	}, function() {
-            		plot( function(x) {
-            			return FNX(x); 
-            		}, [-11,11]);
-            	});
-            	
-				style({ 
-            		stroke: "#aa0000", 
-            		strokeWidth: 1, 
-            	}, function() {
-            		line([A,0],[A,FNX(A)]);
-					line([B,0],[B,FNX(B)]);
-            	});
-				
-				fillPoints = [];
-				fillPoints[0] = [A,0];
-				for (var i = 1; i &lt; 500; i++) {
-					fillPoints[i] = [A+(B-A)*i/500, FNX(A+(B-A)*i/500)];
-				}
-				fillPoints[500] = [B,0];
-				
-				style({ 
-            		stroke: "none", 
-            		strokeWidth: 1,
-					fill: "#ccccff",
-					fillOpacity: 0.2, 
-            	}, function() {
-					path(fillPoints);
-            	}); 
-				
-            	addMouseLayer();
-            	
-            	var n = 5;
-            	var deltax = (B-A)/n;
-            	
-            	
-            	graph.dragPoints = [];
-            	
-            	for (var i = 0; i &lt; n; i++) {
-            	
-            		graph.dragPoints[i] = addMovablePoint({
-            			coord: [A + (i+0.5)*deltax , 0],
-            			constraints: {constrainX: true},									
-            			normalStyle: {
-            				stroke: KhanUtil.GREEN,
-            				fill: KhanUtil.GREEN
-            			}
-            		});
-            	}
-            
-            	graph.boxes = raphael.set();
-            	graph.labels = raphael.set();
-            
-            	
-            	graph.update = function() {
-            		graph.boxes.remove();
-            		graph.labels.remove();
-           			
-					var area = 0;
-					 
-            		for (var i = 0; i &lt; n; i++) {
-            			var x = graph.dragPoints[i].coord[0];
-            			var y = graph.dragPoints[i].coord[1];
-            			
-						area += Math.round(1000*deltax*y)/1000;
-						
-            			style({
-            				stroke: GREEN,
-            				strokeWidth: 1,
-            				fill: "#ccffcc"
-            			}, function() {
-            				graph.boxes.push(path([[x-deltax/2,0],[x-deltax/2,y],[x+deltax/2,y],[x+deltax/2,0]]));
-            				graph.labels.push(raphael.text((x+10)*30,300-30*y/2,Math.round(1000*deltax*y)/1000));				
-            			});
-            		}
-            	
-					$("#area1").html(Math.round(area*1000)/1000);
-					
-            		graph.labels.toBack();
-            		graph.boxes.toBack();
-            	}
-            	
-            	for (var i = 0; i &lt; n; i++) {
-            		graph.dragPoints[i].onMove = function( x, y ) {
-            			graph.update();
-            			return true;
-            		}
-            	}
-
+			
+			<div id="holder">
+			<div class="graphie" id="riemann">
+				var dx = (B-A)/$("#numintervals").val();
+				$("#dx").html(dx);
+	       		GRAPH()
 			</div>
-			
-			<p>
-				<span class="hint_green">
-					<code>n</code> = 10 subintervals: <code>\Delta x</code> = <var>DX2</var>, Total Area = <span id="area2">0</span> 	
-				</span>.
-			</p>
-			
-			<div class="graphie" id="riemann2">
-	       		graphInit({
-            		range: 10,
-            		scale: 30,
-            		axisArrows: "&lt;-&gt;",
-            		tickStep: 1,
-            		labelStep: 2,
-            		gridOpacity: 0.05,
-            		axisOpacity: 0.2,
-            		tickOpacity: 0.4,
-            		labelOpacity: 0.5,
-            	});
-            
-            	label( [ 0, 10 ], "y", "right" );
-            	label( [ 10, 0 ], "x", "right" );
-            	
-            	style({ 
-            		stroke: BLUE, 
-            		strokeWidth: 3, 
-            	}, function() {
-            		plot( function(x) {
-            			return FNX(x); 
-            		}, [-11,11]);
-            	});
-            	
-				style({ 
-            		stroke: "#aa0000", 
-            		strokeWidth: 1, 
-            	}, function() {
-            		line([A,0],[A,FNX(A)]);
-					line([B,0],[B,FNX(B)]);
-            	});
-				
-				fillPoints = [];
-				fillPoints[0] = [A,0];
-				for (var i = 1; i &lt; 500; i++) {
-					fillPoints[i] = [A+(B-A)*i/500, FNX(A+(B-A)*i/500)];
-				}
-				fillPoints[500] = [B,0];
-				
-				style({ 
-            		stroke: "none", 
-            		strokeWidth: 1,
-					fill: "#ccccff",
-					fillOpacity: 0.2, 
-            	}, function() {
-					path(fillPoints);
-            	}); 
-				
-            	addMouseLayer();
-            	
-            	var n=10;
-            	var deltax = (B-A)/n;
-            	
-            	
-            	graph.dragPoints = [];
-            	
-            	for (var i = 0; i &lt; n; i++) {
-            	
-            		graph.dragPoints[i] = addMovablePoint({
-            			coord: [A + (i+0.5)*deltax , 0],
-            			constraints: {constrainX: true},									
-            			normalStyle: {
-            				stroke: KhanUtil.GREEN,
-            				fill: KhanUtil.GREEN
-            			}
-            		});
-            	}
-            
-            	graph.boxes = raphael.set();
-            	graph.labels = raphael.set();
-            
-            	
-            	graph.update = function() {
-            		graph.boxes.remove();
-            		graph.labels.remove();
-					
-					var area = 0;
-            
-            		for (var i = 0; i &lt; n; i++) {
-            			var x = graph.dragPoints[i].coord[0];
-            			var y = graph.dragPoints[i].coord[1];
-            			
-						area += Math.round(1000*deltax*y)/1000;
-						
-            			style({
-            				stroke: GREEN,
-            				strokeWidth: 1,
-            				fill: "#ccffcc"
-            			}, function() {
-            				graph.boxes.push(path([[x-deltax/2,0],[x-deltax/2,y],[x+deltax/2,y],[x+deltax/2,0]]));
-            				//graph.labels.push(label([x,y/2],Math.round(10*deltax*y)/10,{color: GREEN}));
-            				graph.labels.push(raphael.text((x+10)*30,300-30*y/2,Math.round(1000*deltax*y)/1000));				
-            			});
-            		}
-            		
-					$("#area2").text(Math.round(1000*area)/1000);
-					
-            		graph.labels.toBack();
-            		graph.boxes.toBack();
-            	}
-            	
-            	for (var i = 0; i &lt; n; i++) {
-            		graph.dragPoints[i].onMove = function( x, y ) {
-            			graph.update();
-            			return true;
-            		}
-            	}
-
 			</div>
-			
-			
-						
+									
 			<div class="solution" data-type="multiple">
 				
 				<p>
-					<code>n = 5</code> Approximation: 
+					Approximations:
+					<br />
+					<code>n = 2:</code> 
+					<span class="sol" data-type="decimal" data-inexact data-max-error="1">
+						<var>APPROX(2)</var>
+					</span>
+					<br />
+					<code>n = 4:</code> 
 					<span class="sol" data-type="decimal" data-inexact data-max-error="0.75">
-						<var>EST1</var>
+						<var>APPROX(4)</var>
+					</span>
+					<br />
+					<code>n = 6:</code> 
+					<span class="sol" data-type="decimal" data-inexact data-max-error="0.6">
+						<var>APPROX(6)</var>
+					</span>
+					<br />
+					<code>n = 8:</code> 
+					<span class="sol" data-type="decimal" data-inexact data-max-error="0.5">
+						<var>APPROX(8)</var>
 					</span>
 				</p>
 				
 				<p>
-					<code>n = 10</code> Approximation: 
-					<span class="sol" data-type="decimal" data-inexact data-max-error="0.4">
-						<var>EST2</var>
-					</span>
-				</p>
-				
-				<p>
+					Integral:
+					<br />
 					<code>\int_{<var>A</var>}^{<var>B</var>}f(x)dx = </code> 
 					<span class="sol" data-type="decimal" data-inexact data-max-error="0.01">
 						<var>INT</var>
@@ -317,12 +274,12 @@
 	<div class="hints">
 		
 		<p>
-			The finer the subintervals, the better the approximaiton.  Presumably, your estimates should be close to the value of the integral, with the <code>n</code> = 10 approximation slightly closer than the one for <code>n</code>=5.  If your approximations are not close to the value for the integral you computed, then it is likely you made a mistake somewhere in that computation.
+			Your answer for the integral should be close to your approximations.  If it is not, it is likely you made a mistake somewhere in the computation of <code>\int_{<var>A</var>}^{<var>B</var>}f(x)dx</code>. 
 		</p>
 		
 		<p>
-			To compute the integral, we can begin by bringing out the constant factor <code>\frac{1}{100}</code>:
-			<br />
+			To compute the integral, begin by bringing out the constant factor <code>\frac{1}{100}</code>:
+			<br /><br />
 			<code>\int_{<var>A</var>}^{<var>B</var>} \frac{1}{100}(<var>POLYDISPLAY</var>)dx = \frac{1}{100}\int_{<var>A</var>}^{<var>B</var>}(<var>POLYDISPLAY</var>)dx</code>
 		</p>
 		
