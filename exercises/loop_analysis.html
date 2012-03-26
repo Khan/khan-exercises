@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers code-analysis">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Loop Analysis</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" >
+			<var id="COUNT_UP">(random() > 0.5 ? true : false)</var>
+			<var id="START_OF_LOOP">(random() > 0.5 ? true : false)</var>
+			<var id="SUM_BEFORE_COUNTER">(random() > 0.5 ? true : false)</var>
+			<var id="COUNTER_START">(COUNT_UP ? randRange( 0, 3 ) : randRange( 5, 10 ))</var>
+			<var id="COUNTER_END">(COUNT_UP ? randRange( 5, 10 ) : randRange( 0, 3 ))</var>
+			<var id="SUM_START">randRange( 0, 5)</var>
+			<var id="INCREMENT">randRange( 1, 3 )</var>
+			<var id="COMPARISON_OPERATOR">
+				(function(){
+					if ( COUNT_UP ) {
+						var rand = random() * 5;
+						if ( rand < 2 ) {
+							return "lt";
+						} else if ( rand < 4 ) {
+							return "lte";
+						} else {
+							return "!=";
+						}
+					} else {
+						var rand = random() * 5;
+						if ( rand < 2 ) {
+							return "gt";
+						} else if ( rand < 4 ) {
+							return "gte";
+						} else {
+							return "!=";
+						}
+					}
+				})()
+			</var>
+			<var id="LOOP_DATA">loopAnalysis( COUNT_UP, COUNTER_START, COUNTER_END, START_OF_LOOP, SUM_BEFORE_COUNTER, SUM_START, INCREMENT, COMPARISON_OPERATOR )</var>
+			<var id="ANS_ITERATION">randRange(1, LOOP_DATA.length - 1)</var>
+			<var id="SUM">LOOP_DATA[ANS_ITERATION][2]</var>
+			<var id="COUNTER">LOOP_DATA[ANS_ITERATION][1]</var>
+		</div>
+		
+
+		<div class="problems">
+			<div>
+				<div class="problem">
+					<p>					
+						What is the sum at the end of iteration #<var>ANS_ITERATION</var>?
+						<br>
+						<br>
+						counter = <var>COUNTER_START</var>
+						<br>
+						sum = <var>SUM_START</var>
+						<br>
+						while counter
+						<span data-if="COMPARISON_OPERATOR === 'gt'" style="display:inline">&gt;</span>
+						<span data-else-if="COMPARISON_OPERATOR === 'gte'" style="display:inline">&gt;=</span>
+						<span data-else-if="COMPARISON_OPERATOR === 'lt'" style="display:inline">&lt;</span>
+						<span data-else-if="COMPARISON_OPERATOR === 'lte'" style="display:inline">&lt;=</span>
+						<span data-else>!=</span> <var>COUNTER_END</var>:
+						<div data-if="SUM_BEFORE_COUNTER">
+							&nbsp; &nbsp; &nbsp; &nbsp; sum = sum + counter
+							<br>
+							&nbsp; &nbsp; &nbsp; &nbsp; counter = counter <var>( COUNT_UP ? "+" : "-" )</var> <var>INCREMENT</var></span>
+						</div>
+						<div data-else>
+							&nbsp; &nbsp; &nbsp; &nbsp; counter = counter <var>( COUNT_UP ? "+" : "-" )</var> <var>INCREMENT</var></span>
+							<br>
+							&nbsp; &nbsp; &nbsp; &nbsp; sum = sum + counter
+						</div>
+						<br>
+						
+					</p>
+				</div>
+				<p class="solution" data-forms="integer"><var>SUM</var></p>
+			</div>
+		</div>
+
+		<div class="hints">
+			<div data-each="LOOP_DATA as iteration">
+				<var>iteration[0]</var> || <var>iteration[1]</var> || <var>iteration[2]</var>  
+			</div>
+		</div>
+	</div>
+</body>
+</html>
