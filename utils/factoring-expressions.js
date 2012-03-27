@@ -110,7 +110,13 @@
         for (var iFactor = 0; iFactor < factors.length; iFactor++) {
             var minOcc = Number.MAX_VALUE;
             for (var iTerm = 0; iTerm < termsOccFactors.length; iTerm++) {
-               minOcc = Math.min(minOcc, termsOccFactors[iTerm][iFactor]);
+               var curOcc = termsOccFactors[iTerm][iFactor];
+               if (!KhanUtil.exprIsNumber(curOcc)) {
+                   alert("Error: not a number");
+               }
+               curOcc = KhanUtil.exprNumValue(curOcc);
+               termsOccFactors[iTerm][iFactor] = curOcc;
+               minOcc = Math.min(minOcc, curOcc);
             }
             if (minOcc > 0) {
                sharedFactors.push(iFactor);
@@ -194,10 +200,10 @@
           var term = KhanUtil.genExprFromExpFactors(factors, termsOccFactors[iTerm]);
           var sharedTerm = KhanUtil.genExprFromExpFactors(factors, sharedOccFactors);
           if (colors !== undefined) {
-              term = KhanUtil.exprSetStyle(term, colors[iTerm]);
+              term = KhanUtil.exprSetStyle(term, {color:colors[iTerm]});
           }
           if (sharedTerm !== 1) {
-             term = {op:"times", args:[KhanUtil.exprSetStyle(sharedTerm, KhanUtil.BLUE), term]};
+             term = {op:"*", args:[KhanUtil.exprSetStyle(sharedTerm, {color:KhanUtil.BLUE}), term], opsStyles:{symbol:"times"}};
           }
           terms.push(term);
        }
@@ -233,7 +239,7 @@
        if (sharedPart === 1) {
           sharedPart = KhanUtil.exprSetStyle(markedPart, KhanUtil.BLUE);
        } else if (markedPart !== 1) {
-          sharedPart = {op:"times", args:[KhanUtil.exprSetStyle(markedPart, KhanUtil.BLUE), sharedPart]};
+          sharedPart = {op:"*", args:[KhanUtil.exprSetStyle(markedPart, KhanUtil.BLUE), sharedPart], opsStyles:{symbol:"times"}};
        } 
        return {op:"*", args:[sharedPart, remainingTerms]};
     };
@@ -261,7 +267,11 @@
        if (args.length === 1) {
           return args[0];
        } else {
-          return {op:"cdot", args:args};
+          var opsStyles = [];
+          for (var iOp = 0; iOp < args.length - 1; iOp++) {
+              opsStyles.push({symbol:"cdot"});
+          }
+          return {op:"*", args:args, opsStyles:opsStyles};
        }
     }
 
@@ -310,13 +320,13 @@
        for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
           expr.args[iTerm] = KhanUtil.exprSetStyle(expr.args[iTerm], colors[iTerm]);
        }
-       expr = KhanUtil.simplify(expr);
+       expr = KhanUtil.simplify(expr, KhanUtil.simplifyOptions.checkInput);
        
        hints.push("<p><code>" + MATH.format(expr) + "</code></p><p>We start by decomposing each term into a product of its most simple factors.</p>");
 
        for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
            var mergedOccFactors = mergeOccFactors(sharedOccFactors, termsOccFactors[iTerm]);
-           hints.push("<p><code>" + MATH.format(KhanUtil.exprSetStyle(genDecomposition(factors, mergedOccFactors), colors[iTerm])) + "</code></p>");
+           hints.push("<p><code>" + MATH.format(KhanUtil.exprSetStyle(genDecomposition(factors, mergedOccFactors), {color:colors[iTerm]})) + "</code></p>");
        }
        hints.push( genHintListFactors(MATH, factors, sharedOccFactors));
 

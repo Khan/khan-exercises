@@ -21,6 +21,8 @@
                arg = -KhanUtil.exprNumValue(arg);
             } else if (KhanUtil.opIsMultiplication(arg.op) || arg.op == "()") {
                arg.args[0] = {op:"-", args:[arg.args[0]]};
+            } else {
+               return {op:"-", args:[normalForm(arg, steps)]};
             }
             return normalForm(arg, steps);
         } else if ((expr.op === "-") && (nArgs.length === 2)) {
@@ -43,8 +45,6 @@
         }
         var newArgs = [];
         var opsStyles = [];
-        var opsIdStyles = [];
-        var align = [];
         for (var iArg = 0; iArg < expr.args.length; iArg++) {
             var arg = expr.args[iArg];
             var newArg = moveSameOpsUp(arg);
@@ -52,8 +52,6 @@
                 KhanUtil.exprPropagateStyle(newArg);
                 newArgs = newArgs.concat(newArg.args);
                 opsStyles = opsStyles.concat(newArg.opsStyles);
-                opsIdStyles = opsIdStyles.concat(newArg.opsIdStyles);
-                align = align.concat(newArg.align);
             }
             else {
                 newArgs.push(newArg);
@@ -61,24 +59,16 @@
                 if (iOp >= 0) {
                     if (expr.opsStyles !== undefined) {
                         opsStyles.push(expr.opsStyles[iOp]);
-                        if (expr.opsIdStyles !== undefined) {
-                            opsIdStyles.push(expr.opsIdStyles[iOp]);
-                        }
                     } else if (expr.style !== undefined) {
-                        opsStyles.push(expr.style);
-                        opsIdStyles.push(expr.idStyle);
-                    }
-                    if (expr.align !== undefined) {
-                        align.push(expr.align[iOp * 2]);
-                        align.push(expr.align[iOp * 2 + 1]);
+                        opsStyles.push({style:expr.style});
                     }
                 }
             }
         }
-        var newExpr = {op:expr.op, args:newArgs, opsStyles:opsStyles, opsIdStyles:opsIdStyles, align:align};
+        var newExpr = {op:expr.op, args:newArgs, opsStyles:opsStyles};
         newExpr.strExpr = KhanUtil.exprToStrExpr(newExpr);
         newExpr.text = KhanUtil.exprToText(newExpr);
-        return KhanUtil.copyStyleIfNone(expr, newExpr);
+        return KhanUtil.exprCopyMissingStyle(expr, newExpr, ["color", "cancel", "idStyle"]);
     };
 
     var compareNormalFormsAs = function(op, expr1, expr2, ignoreConstants) {
