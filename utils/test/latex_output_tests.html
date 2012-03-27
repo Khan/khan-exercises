@@ -122,6 +122,12 @@
 	var BLUE = KhanUtil.BLUE;
 
 	var testsRender = [
+//		{src:"#{a\\times b\\times c}", styles:[PINK], ref:"\\color{#FF00AF}{a\\color{#FF00AF}{\\;\\times \\;}b\\times c}"},
+//		{src:"a \\times b", ref:"a\\times b"},
+//		{src:["a&+&b", "aaa&+&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b \\\\\\\\aaa& \\; + & \\; bbb \\\\\\end{alignat}"},
+//		{src:["#{a &=& b &=& c}"], styles:[BLUE,BLUE], groups:[[0]], ref:""},
+//		{src:"ab \\times c", ref:"abc\\times def"},
+//		{src:"abc\\times def", ref:"abc\\times def"},
 		{title:"Single terms"},
 		{src:"a", ref:"a"},
 		{src:"A", ref:"A"},
@@ -255,7 +261,7 @@
 		{src:"#{a/b}", styles:[PINK], ref:"\\color{#FF00AF}{\\frac {a}{b}}"},
 		{src:"#{a^b}", styles:[PINK], ref:"\\color{#FF00AF}{a}^{\\color{#FF00AF}{b}}"},
 		{src:"#{a^{23}}", styles:[PINK], ref:"\\color{#FF00AF}{a}^{\\color{#FF00AF}{23}}"},
-		{src:"#{x \\pm 1}", styles:[PINK], ref:"\\color{#FF00AF}{x\\pm  1}"},
+		{src:"#{x \\pm 1}", styles:[PINK], ref:"\\color{#FF00AF}{x\\pm 1}"},
 		{src:"#{a = b}", styles:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;= \\;}\\color{#FF00AF}{b}"},
 		{src:"#{a < b}", styles:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;< \\;} \\color{#FF00AF}{b}"},
 		{src:"#{a \\not= b}", styles:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;\\not= \\;} \\color{#FF00AF}{b}"},
@@ -263,17 +269,17 @@
 
 		{src:"#{\\sin x}", styles:[PINK], ref:"\\color{#FF00AF}{\\sin {x}}"},
 		{src:"#{\\sin(x)}", styles:[PINK], ref:"\\color{#FF00AF}{\\sin {( x) }}"},
-		{src:"#{\\sqrt{x}}", styles:[PINK], ref:"\\color{#FF00AF}{\\sqrt {x}}"},
-		{src:"#{\\sqrt[3]{x}}", styles:[PINK], ref:"\\color{#FF00AF}{\\sqrt[3] {3}}"},
+		{src:"#{\\sqrt{x}}", styles:[PINK], ref:"\\color{#FF00AF}{\\sqrt{x}}"},
+		{src:"#{\\sqrt[3]{x}}", styles:[PINK], ref:"\\color{#FF00AF}{\\sqrt[3]{3}}"},
 		{src:"#{\\frac{a}{b}}", styles:[PINK], ref:"\\color{#FF00AF}{\\frac {a}{b}}"},
-		{src:"#{\\dfrac{a}{b}}", styles:[PINK], ref:"\\color{#FF00AF}{\\dfrac {a}{b}}"},
+		{src:"#{\\dfrac{a}{b}}", styles:[PINK], ref:"\\color{#FF00AF}{\\dfrac{a}{b}}"},
 		{src:"#{|x|}", styles:[PINK], ref:"\\color{#FF00AF}{| x| }"},
-		{src:"#{\\ln x}", styles:[PINK], ref:"\\color{#FF00AF}{\\ln {x}}"},
-		{src:"#{\\ln(x)}", styles:[PINK], ref:"\\color{#FF00AF}{\\ln {( x) }}"},
+		{src:"#{\\ln x}", styles:[PINK], ref:"\\color{#FF00AF}{\\ln{x}}"},
+		{src:"#{\\ln(x)}", styles:[PINK], ref:"\\color{#FF00AF}{\\ln{( x) }}"},
 		{src:"#{(a)}", styles:[PINK], ref:"\\color{#FF00AF}{( a) }"},
-		{src:"#{a+b+c}", styles:[PINK], ref:"\\color{#FF00AF}{a+ b+ c}"},
+		{src:"#{a+b+c}", styles:[PINK], ref:"\\color{#FF00AF}{a\\color{#FF00AF}{\\;+ \\;}b+ c}"},
 		{src:"#{a-b-c}", styles:[PINK], ref:"\\color{#FF00AF}{a- b- c}"},
-		{src:"#{a\\times b\\times c}", styles:[PINK], ref:"\\color{#FF00AF}{a\\times b\\times c}"},
+		{src:"#{a\\times b\\times c}", styles:[PINK], ref:"\\color{#FF00AF}{a\\color{#FF00AF}{\\;\\times \\;}b\\times c}"},
 
 		{title:"Colors: arbitrary parts"},
 		{src:"#{2}=3", styles:[BLUE], ref:"\\color{#6495ED}{2}= 3"},
@@ -310,7 +316,7 @@
 		{src:["a&=&b", "aaa&=&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; = & \\; b \\\\\\\\aaa& \\; = & \\; bbb \\\\\\end{alignat}"},
 		{src:["a&=&b", "aaa&=&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; = & \\; b \\\\\\\\aaa& \\; = & \\; bbb \\\\\\end{alignat}"},
 		{src:["a&\\times&b", "aaa&\\times&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\times & \\; b \\\\\\\\aaa& \\; \\times & \\; bbb \\\\\\end{alignat}"},
-		{src:["a&\\cdot&b", "aaa&\\cdot&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\cdot b \\\\\\\\aaa& \\; \\cdot bbb \\\\\\end{alignat}"},
+		{src:["a&\\cdot&b", "aaa&\\cdot&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\cdot & \\; b \\\\\\\\aaa& \\; \\cdot & \\; bbb \\\\\\end{alignat}"},
 		{src:["a&<&b", "aaa&<&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; <  & \\; b \\\\\\\\aaa& \\; <  & \\; bbb \\\\\\end{alignat}"},
 		{src:["a&\\leq&b", "aaa&\\leq&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\leq  b \\\\\\\\aaa& \\; \\leq  bbb \\\\\\end{alignat}"},
 		{src:["a&\\not=&b", "aaa&\\not=&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\not=  b \\\\\\\\aaa& \\; \\not=  bbb \\\\\\end{alignat}"},
@@ -359,6 +365,7 @@ for (var iTest = 0; iTest < testsRender.length; iTest++) {
 </head>
 <body>
 <div style="height:60px"></div>
+<!--<p><code>\begin{alignat}{5}\color{#6495ED}{a &=& b} \\\end{alignat}</code></p>-->
 <p>Move your mouse pointer over the generated expression, to see it compared to the expected version.</p>
 <div class='generated' id="generated"></div>
 <div class='expected' id="expected"></div>

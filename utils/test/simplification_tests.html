@@ -41,6 +41,7 @@
     var MATH = KhanUtil.MathModel.init();
     var testsEqualExpr = [
         {title:"Check equality when changing terms orders"},
+        {expr1:"x", expr2:"-x", isEqual:false},
         {expr1:"2+3", expr2:"2+3", isEqual:true},
         {expr1:"3+2", expr2:"2+3", isEqual:true},
         {expr1:"3+2", expr2:"2+3", isEqual:true},
@@ -91,6 +92,7 @@
         {expr:"1--x", options:{cancelNegOfNeg:true}, expected:"1+ x"},
         {expr:"1--x", options:{cancelNegOfNeg:false}, expected:"1-(-x)"},
         {expr:"1*x", options:{del1Factors:true}, expected:"x"},
+        {expr:"1x^2 + 1x + 0", options:KhanUtil.simplifyOptions.basic, expected:"x^2+x"},
         {expr:"1*x", options:{del1Factors:false, simplifyProducts:false}, expected:"1x"},
         {expr:"0*x", options:{del0Factors:true}, expected:"0"},
         {expr:"0*x", options:{del0Factors:false}, expected:"0x"},

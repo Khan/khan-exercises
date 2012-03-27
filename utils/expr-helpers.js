@@ -128,26 +128,47 @@
         var newExpr = {op:expr.op, args:newArgs};
         newExpr.strExpr = KhanUtil.exprToStrExpr(newExpr);
         newExpr.text = KhanUtil.exprToText(newExpr);
-        return copyStyleIfNone(expr, newExpr);
+        return exprCopyMissingStyle(expr, newExpr);
     };
 
-    var copyStyleIfNone = function(srcExpr, dstExpr) {
-        if (typeof expr === "number") {
-            expr = {op:"num", args:[expr]};
+    var copyMissingStyleAttrs = function(srcStyle, dstStyle, copiedAttrs) {
+       if (srcStyle === undefined) {
+           return dstStyle;
+       }
+       if (dstStyle === undefined) {
+           dstStyle = {};
+       }
+       if (copiedAttrs === undefined) {
+          copiedAttrs = ["color", "cancel", "idStyle", "hidden", "symbol", "align"];
+       }
+       for (var iAttr = 0; iAttr < copiedAttrs.length; iAttr++) {
+           var attr = copiedAttrs[iAttr];
+           if (attr === "align") {
+               if ((srcStyle.align !== undefined) && (dstStyle.align === undefined)) {
+                   dstStyle.align = srcStyle.align.slice();
+               }
+           }
+           if ((srcStyle[attr] !== undefined) && (dstStyle[attr] === undefined)) {
+              dstStyle[attr] = srcStyle[attr];
+           }
+       }
+       return dstStyle;
+    };
+
+    var cloneStyle = copyMissingStyleAttrs;
+
+    var exprCopyMissingStyle = function(srcExpr, dstExpr, copiedAttrs) {
+        if (typeof dstExpr === "number") {
+            dstExpr = {op:"num", args:[dstExpr]};
         }
-        if (dstExpr.style === undefined) {
-            dstExpr.style = srcExpr.style;
-            dstExpr.idStyle = srcExpr.idStyle;
-        }
-        if (dstExpr.opsStyles === undefined) {
-            dstExpr.opsStyles = srcExpr.opsStyles;
-            dstExpr.opsIdStyles = srcExpr.opsIdStyles;
-        }
-        if (dstExpr.align === undefined) {
-            dstExpr.align = srcExpr.align;
-        }
-        if (dstExpr.opHidden === undefined) {
-            dstExpr.opHidden = srcExpr.opHidden;
+        dstExpr.style = copyMissingStyleAttrs(srcExpr.style, dstExpr.style, copiedAttrs);
+        if (srcExpr.opsStyles !== undefined) {
+            if (dstExpr.opsStyles === undefined) {
+                dstExpr.opsStyles = [];
+            }
+            for (var iOp = 0; iOp < srcExpr.opsStyles.length; iOp++) {
+                dstExpr.opsStyles[iOp] = copyMissingStyleAttrs(srcExpr.opsStyles[iOp], dstExpr.opsStyles[iOp], copiedAttrs);
+            }
         }
         return dstExpr;
     };
@@ -210,7 +231,28 @@
 
     var opIsMultiplication = function(op) {
        return ((op === "times") || (op === "cdot") || (op === "*"));
-    }
+    };
+
+    var exprHasAlign = function(expr) {
+        if (typeof expr !== "object") {
+            return false;
+        }
+        if (expr.hasAlign !== undefined) {
+            return expr.hasAlign;
+        }
+        expr.hasAlign = false;
+        if (expr.opsStyles !== undefined) {
+            for (var iOp = 0; iOp < expr.opsStyles.length; iOp++) {
+                for (var iSide = 0; iSide < 2; iSide++) {
+                    expr.hasAlign |= (expr.opsStyles[iOp].align[iSide] !== 0);
+                }
+            }
+        }
+        for (var iArg = 0; iArg < expr.args.length; iArg++) {
+            expr.hasAlign |= exprHasAlign(expr.args[iArg]);
+        }
+        return expr.hasAlign;
+    };
 
     var exprPropagateStyle = function(expr) {
        if (expr.style === undefined) {
@@ -218,15 +260,12 @@
        }
        if (expr.opsStyles === undefined) {
           expr.opsStyles = [];
-          expr.opsIdStyles = [];
        }
        for (var iArg = 0; iArg < expr.args.length; iArg++) {
            if (iArg != 0) {
-               expr.opsStyles[iArg - 1] = expr.style;
-               expr.opsIdStyles[iArg - 1] = expr.idStyle;
+               expr.opsStyles[iArg - 1] = copyMissingStyleAttrs(expr.style, expr.opsStyles[iArg - 1]);
            }
            expr.args[iArg] = exprSetStyle(expr.args[iArg], expr.style);
-           expr.args[iArg].idStyle = expr.idStyle;
        }
     };
 
@@ -235,7 +274,7 @@
           if (typeof expr === "number") {
               expr = {op:"num", args:[expr]};
           }
-          expr.style = style;
+          expr.style = cloneStyle(style);
           return expr;
     };
 
@@ -353,7 +392,9 @@
         exprToCodeOr: exprToCodeOr,
         exprToCode: exprToCode,
         exprToString: exprToString,
-        copyStyleIfNone: copyStyleIfNone,
-        exprPropagateStyle: exprPropagateStyle
+        exprCopyMissingStyle: exprCopyMissingStyle,
+        copyMissingStyleAttrs: copyMissingStyleAttrs,
+        exprPropagateStyle: exprPropagateStyle,
+        cloneStyle: cloneStyle
     });
 })();
