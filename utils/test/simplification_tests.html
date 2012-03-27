@@ -92,7 +92,7 @@
         {expr:"1--x", options:{cancelNegOfNeg:true}, expected:"1+ x"},
         {expr:"1--x", options:{cancelNegOfNeg:false}, expected:"1-(-x)"},
         {expr:"1*x", options:{del1Factors:true}, expected:"x"},
-        {expr:"1x^2 + 1x + 0", options:KhanUtil.simplifyOptions.basic, expected:"x^2+x"},
+        {expr:"1x^2 + 1x + 0", options:KhanUtil.simplifyOptions.basic, expected:"x^{2}+ x"},
         {expr:"1*x", options:{del1Factors:false, simplifyProducts:false}, expected:"1x"},
         {expr:"0*x", options:{del0Factors:true}, expected:"0"},
         {expr:"0*x", options:{del0Factors:false}, expected:"0x"},
@@ -108,7 +108,8 @@
         {expr:"2+3", options:{evalBasicNumOps:false}, expected:"2+ 3"},
         {expr:"x+2+3", options:{evalBasicNumOps:true}, expected:"x+ 5"},
         {expr:"2+x+3", options:{evalBasicNumOps:true}, expected:"5+ x"},
-        {expr:"x+#{-y}", options:{hidePlusBeforeNeg:true}, colors:[BLUE], expected:""},
+        {expr:"x+#{-y}", options:{hidePlusBeforeNeg:true}, colors:[BLUE], expected:"x\\color{#6495ED}{- y}"},
+		{expr:"y+-1*x", options:KhanUtil.simplifyOptions.basic, expected:"y-x"},
 
         {title:"Simplifying by factoring"},
         {expr:"x+x", options:{evalBasicNumOps:true, mergeCstFactors:true, del0TermInSum:true}, expected:"2x"},
