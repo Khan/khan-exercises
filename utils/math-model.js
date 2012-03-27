@@ -775,7 +775,8 @@ jQuery.extend ( KhanUtil, {
 		function eat (tc) {
 			var tk = hd();
 			if (tk !== tc) {
-				alert("Expecting " + tc + " found " + tk);
+				KhanUtil.assert(false, "Expecting " + tc + " found " + tk);
+				jQuery.error("syntax error");
 			}
 			next();
 		}
