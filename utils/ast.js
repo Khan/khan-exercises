@@ -51,7 +51,7 @@ jQuery.extend ( KhanUtil, {
 			intern: intern,
 			node: node,
 			dump: dump,
-			dumpAll: dumpAll,
+			dumpAll: dumpAll
 		} );
 
 		return this;  // end control flow
