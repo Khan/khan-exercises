@@ -1024,7 +1024,7 @@ jQuery.extend ( KhanUtil, {
                 expr.idStyle = startIdStyle;
                 expr.style = styles[startIdStyle];
             } else if (opIdStyle !== undefined) {
-                expr.opsStyles[0] = KhanUtil.copyMissingStyleAttrs(styles[opIdStyle], expr.opsStyles[0]);
+                expr.opsStyles[0] = styles[opIdStyle];
             }
         }
 
