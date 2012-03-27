@@ -77,12 +77,18 @@
 				</div>
 
 				<div>
-					<p>You can try out different factors of <code class="hint_blue"><var>SIMPLECONSTANT</var></code> to see if you can find two
-					that satisfy both conditions. If you're stuck and can't think of any, you can also rewrite the conditions as a system of equations and
-					try solving for <code class="hint_pink">a</code> and <code class="hint_pink">b</code>:</p>
+					<p>You can start by trying to guess which factors of <code class="hint_blue"><var>SIMPLECONSTANT</var></code> add up to
+					<span class="hint_green"><code><var>SIMPLELINEAR</var></code></span>. In other words, you need to find the values for <code class="hint_pink">a</code> and
+					<code class="hint_pink">b</code> that meet the following conditions:</p>
 
 					<p><code>\qquad <var>MATH.parseFormat("#a+#b=#{"+ SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var></code></p>
+
 					<p><code>\qquad <var>MATH.parseFormat("#a \\times #b = #{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var></code></p>
+
+					If you're stuck, try listing out every single factor of <code class="hint_blue"><var>SIMPLECONSTANT</var></code> as
+					<code class="hint_pink">a</code> in these equations, and see if it gives a value for <code class="hint_pink">b</code>
+					that validates both conditions.</p>
+
 				</div>
 
 				<div>
