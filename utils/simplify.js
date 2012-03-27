@@ -373,13 +373,16 @@
     }
 
     var hidePlusBeforeNeg = function(expr) {
-       if (expr.opHidden === undefined) {
-           expr.opHidden = [];
+       if (expr.opsStyles === undefined) {
+           expr.opsStyles = [];
        }
        for (var iArg = 1; iArg < expr.args.length; iArg++) {
            var arg = expr.args[iArg];
            if (isNegative(arg)) {
-               expr.opHidden[iArg - 1] = true;
+               if (expr.opsStyles[iArg - 1] === undefined) {
+                   expr.opsStyles[iArg - 1] = {};
+               }
+               expr.opsStyles[iArg - 1].hidden = true;
            }
        }
     }

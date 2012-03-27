@@ -108,6 +108,7 @@
         {expr:"2+3", options:{evalBasicNumOps:false}, expected:"2+ 3"},
         {expr:"x+2+3", options:{evalBasicNumOps:true}, expected:"x+ 5"},
         {expr:"2+x+3", options:{evalBasicNumOps:true}, expected:"5+ x"},
+        {expr:"x+#{-y}", options:{hidePlusBeforeNeg:true}, colors:[BLUE], expected:""},
 
         {title:"Simplifying by factoring"},
         {expr:"x+x", options:{evalBasicNumOps:true, mergeCstFactors:true, del0TermInSum:true}, expected:"2x"},
