@@ -314,9 +314,12 @@
         var newExpr;
         if (options.simplifyProducts) {
             newExpr = simplifyByFactoring(sExpr, options, steps);
-        } else {
+            sExpr = newExpr;
+        }        
+        if (sExpr.op === "*") {
             var newArgs = [];
             var numValue = 1;
+            var sign = 1;
             for (var iArg = 0; iArg < sExpr.args.length; iArg++) {
                 var arg = sExpr.args[iArg];
                 if (KhanUtil.exprIsNumber(arg)) {
@@ -324,6 +327,11 @@
                     if ((value === 0) && (options.del0Factors)) {
                         return 0;
                     }
+                    if (((value < 0) && options.evalBasicNumOps) ||
+                        ((value === -1) && options.del1Factors)) {
+						value = -value;
+						sign = -sign;
+					}
                     if ((value === 1) && (options.del1Factors)) {
                         continue;
                     }
@@ -335,16 +343,21 @@
                 newArgs.push(arg);
             }
             if (options.evalBasicNumOps && (numValue != 1)) {
+                numValue *= sign;
+                sign = 1;
                 newArgs.unshift(numValue);
             }
             if (newArgs.length === 0) {
                 return 1;
             }
+            var newExpr;
+            if (sign < 0) {
+               newArgs[0] = {op:"-", args:[newArgs[0]]};
+            }
             if (newArgs.length === 1) {
                 return newArgs[0];
             }
             newExpr = {op:"*", args:newArgs};
-            newExpr = KhanUtil.exprCopyMissingStyle(expr, newExpr);
         }
         if (options.expandProducts) {
             var subSteps1 = new KhanUtil.StepsProblem([], newExpr, "expandProduct", true);
