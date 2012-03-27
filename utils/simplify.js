@@ -65,7 +65,7 @@
         var subSteps = new KhanUtil.StepsProblem([0], expr.args[0], "simplify");
         var sArg = simplify(expr.args[0], options, subSteps);
         steps.add(subSteps);
-        return KhanUtil.copyStyleIfNone(expr, {op:expr.op, args:[sArg]});
+        return KhanUtil.exprCopyMissingStyle(expr, {op:expr.op, args:[sArg]});
     };
 
     var simplifyEachArg = function(expr, options, steps) {
@@ -197,6 +197,11 @@
                coeffs[iCoeff] = 0;
            }
            coeffs[iCoeff] = simplify(coeffs[iCoeff], simplifyOptions.basic);
+           if (!KhanUtil.exprIsNumber(coeffs[iCoeff])) {
+               alert("not a number");
+           } else {
+               coeffs[iCoeff] = KhanUtil.exprNumValue(coeffs[iCoeff]);
+           }
        }
        return coeffs;
     };
@@ -230,19 +235,30 @@
        return {op:"*", args:[a, {op:"+", args:[v, negSol1]}, {op:"+", args:[v, negSol2]}]};
     };
 
+    var addToFactorExp = function(factorsExp, iFactor, curExponent) {
+        if (KhanUtil.exprIsNumber(curExponent)) {
+            curExponent = KhanUtil.exprNumValue(curExponent);
+        }
+        if (factorsExp[iFactor] === undefined) {
+            factorsExp[iFactor] = curExponent;
+            return;
+        }
+        if (KhanUtil.exprIsNumber(curExponent) && KhanUtil.exprIsNumber(factorsExp[iFactor])) {
+            factorsExp[iFactor] = KhanUtil.exprNumValue(factorsExp[iFactor]) + KhanUtil.exprNumValue(curExponent);
+        } else {
+            factorsExp[iFactor] = simplify({op:"+", args:[factorsExp[iFactor], curExponent]}, simplifyOptions.basic);
+        }
+    }
+
     var addToFactorsExps = function(expr, options, factors, factorsExp, curExponent) {
        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
           if (KhanUtil.isEqual(expr, factors[iFactor])) {
-              if (factorsExp[iFactor] === undefined) {
-                  factorsExp[iFactor] = curExponent;
-              } else {
-                  factorsExp[iFactor] = simplify({op:"+", args:[factorsExp[iFactor], curExponent]}, options);
-              }
+              addToFactorExp(factorsExp, iFactor, curExponent);
               return;
           }
        }
-       factorsExp[factors.length] = curExponent;
        factors.push(expr);
+       addToFactorExp(factorsExp, factors.length - 1, curExponent);
     };
 
     // Based on findExprFactors (that it should eventually replace)
@@ -266,6 +282,9 @@
         } else if (expr.op === "^") {
             var newExponent = KhanUtil.simplify({op:"*", args:[curExponent, expr.args[1]]}, options);
             findExprFactorsExps(expr.args[0], options, factors, factorsExp, newExponent);
+        } else if ((expr.op === "-") && (expr.args.length === 1)) {
+            addToFactorsExps(-1, options, factors, factorsExp, curExponent);
+            findExprFactorsExps(expr.args[0], options, factors, factorsExp, curExponent);
         } else {
             addToFactorsExps(expr, options, factors, factorsExp, curExponent);
         }
@@ -325,7 +344,7 @@
                 return newArgs[0];
             }
             newExpr = {op:"*", args:newArgs};
-            newExpr = KhanUtil.copyStyleIfNone(expr, newExpr);
+            newExpr = KhanUtil.exprCopyMissingStyle(expr, newExpr);
         }
         if (options.expandProducts) {
             var subSteps1 = new KhanUtil.StepsProblem([], newExpr, "expandProduct", true);
@@ -338,7 +357,7 @@
                 return sExpanded;
             }
         }
-        return KhanUtil.copyStyleIfNone(expr, newExpr);
+        return KhanUtil.exprCopyMissingStyle(expr, newExpr);
     };
 
     var isNegative = function(expr) {
@@ -458,7 +477,7 @@
                      KhanUtil.exprToCode(newExpr) + "</p>");
                }
             }
-            expr = KhanUtil.copyStyleIfNone(expr, newExpr);
+            expr = KhanUtil.exprCopyMissingStyle(expr, newExpr);
             if (options.hidePlusBeforeNeg) {
                 hidePlusBeforeNeg(expr);
             }
@@ -475,13 +494,13 @@
                if (KhanUtil.exprIsNumber(arg)) {
                    var value = KhanUtil.exprNumValue(arg);
                    if (options.cancelNegOfNeg || (value > 0)) {
-                      return KhanUtil.copyStyleIfNone(expr, {op:"num", args:[-value]});
+                      return KhanUtil.exprCopyMissingStyle(expr, {op:"num", args:[-value]});
                    } else {
-                      KhanUtil.copyStyleIfNone(expr, arg);
+                      KhanUtil.exprCopyMissingStyle(expr, arg);
                       return arg;
                    }
                } else if ((arg.op === "-") && options.cancelNegOfNeg) {
-                   KhanUtil.copyStyleIfNone(expr, arg.args[0]);
+                   KhanUtil.exprCopyMissingStyle(expr, arg.args[0]);
                    return arg.args[0];
                }
                return sExpr;
@@ -531,7 +550,7 @@
                }
                return {op:term.op, args:newArgs};
             }
-            return KhanUtil.copyStyleIfNone(expr, {op:"^", args:[term, pow]});
+            return KhanUtil.exprCopyMissingStyle(expr, {op:"^", args:[term, pow]});
         },
         "frac": function(expr, options, steps) {
             var sExpr = simplifyEachArg(expr, options, steps);
