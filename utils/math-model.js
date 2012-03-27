@@ -946,8 +946,8 @@ jQuery.extend ( KhanUtil, {
             if (idStyleLeft === idStyleRight) {
                 expr = setStyle(expr, styles[idStyleLeft]);
             } else {
-                expr.opsStyles[0] = KhanUtil.copyMissingStyleAttrs(styles[idStyleLeft], expr.opsStyles[0]);
-                expr.opsStyles[1] = KhanUtil.copyMissingStyleAttrs(styles[idStyleRight], expr.opsStyles[1]);
+                expr.opsStyles[0] = styles[idStyleLeft];
+                expr.opsStyles[1] = styles[idStyleRight];
             }
             setOpStyle(expr, 0, "align", leftAlign);
             setOpStyle(expr, 1, "align", rightAlign);
