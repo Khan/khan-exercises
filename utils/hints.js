@@ -37,29 +37,34 @@ jQuery( Khan ).bind( "newProblem", function() {
 		.find( ".info-box-header" )
 			.show();
 
-	// Tooltip-ify the example answer formats
-	jQuery( "#examples-show" ).qtip({
-		content: {
-			text: jQuery( "#examples" ).remove(),
-			prerender: true
-		},
-		style: {
-			classes: "ui-tooltip-light leaf-tooltip"
-		},
-		position: {
-			my: "bottom center",
-			at: "top center"
-		},
-		show: {
-			delay: 0,
-			effect: {
-				length: 0
+	var examples = jQuery( "#examples" );
+	if ( examples.length) {
+
+		// Tooltip-ify the example answer formats
+		jQuery( "#examples-show" ).qtip({
+			content: {
+				text: examples.remove(),
+				prerender: true
+			},
+			style: {
+				classes: "ui-tooltip-light leaf-tooltip"
+			},
+			position: {
+				my: "bottom center",
+				at: "top center"
+			},
+			show: {
+				delay: 0,
+				effect: {
+					length: 0
+				}
+			},
+			hide: {
+				delay: 0,
+				fixed: true
 			}
-		},
-		hide: {
-			delay: 0,
-			fixed: true
-		}
-	});
+		});
+
+	}
 
 });
