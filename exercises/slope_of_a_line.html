@@ -16,7 +16,7 @@
 	<div class="exercise">
 	<div class="problems">
 		<div id="give-two-points" data-weight="3">
-			<div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2 && (X2 - X1) != (Y2 - Y1) && (X2 - X1) != (Y1 - Y2)">
+			<div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2 && Math.abs(M) !== 1">
 				<var id="X1">randRange(-9, 9)</var>
 				<var id="Y1">randRange(-9, 9)</var>
 
