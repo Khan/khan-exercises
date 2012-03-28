@@ -28,6 +28,7 @@
 				</var>
 				<var id="QUESTION">simplify(MATH.parse(SQUARE + "x^{2}+" + LINEAR + "xy+" + CONSTANT + "y^{2}"), simplifyOptions.basic)</var>
                 <var id="SOLUTION">simplify(MATH.parse("(x + #{" + (-A) + "}y)(x + #{" + (-B) + "}y)", [PINK, PINK]), simplifyOptions.checkInput)</var>
+                <var id="SOLUTION2">simplify(MATH.parse("(-x + #{" + (A) + "}y)(-x + #{" + (B) + "}y)", [PINK, PINK]), simplifyOptions.checkInput)</var>
 			</div>
 
 			<p class="problem">Factor the following expression:</var></code></p>
@@ -39,7 +40,8 @@
 				</div>
 				<div class="guess">jQuery( "div.instruction input" ).val()</div>
 				<div class="validator-function">
-					return isEqual( simplify(MATH.parse(guess), simplifyOptions.checkInput), SOLUTION );
+					return (isEqual( simplify(MATH.parse(guess), simplifyOptions.checkInput), simplify(SOLUTION, simplifyOptions.checkInput)) ||
+							isEqual( simplify(MATH.parse(guess), simplifyOptions.checkInput), simplify(SOLUTION2, simplifyOptions.checkInput)))
 				</div>
 				<div class="show-guess">
 				</div>
