@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Division 3</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div id="decimal">
+				<div class="vars" data-ensure="QUOTIENT != round(QUOTIENT)">
+					<var id="BOOST">randFromArray([2, 5, 10])</var>
+					<var id="DIVISOR">round( randRange(2, 9) * BOOST )</var>
+					<var id="QUOTIENT">roundTo( 1, randRange(2, 9) / BOOST )</var>
+					<var id="DIVIDEND">round( DIVISOR * QUOTIENT )</var>
+				</div>
+				<p>Please give answer in decimal form.</p>
+
+				<div class="graphie" id="numbers">
+					graph.divider = new Divider( DIVISOR, DIVIDEND );
+					graph.divider.show();
+					DUMMY = Array( graph.divider.getNumHints() );
+				</div>
+				<div class="solution" data-type="decimal"><var>QUOTIENT</var></div>
+				<div class="hints">
+					<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+						graph.divider.showHint();
+					</div>
+					<div class="graphie" data-update="numbers">
+						graph.divider.addDecimalRemainder();
+					</div>
+					<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+						graph.divider.showHint();
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

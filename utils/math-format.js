@@ -496,7 +496,7 @@ jQuery.extend(KhanUtil, {
 		}
 		if ( real != 0 ) {
 			ret += KhanUtil.fraction( real, realDenominator, false, true );
-		} 
+		}
 		if ( imag != 0 ) {
 			if ( imag / imagDenominator > 0 ) {
 				if ( real != 0 ) {
@@ -511,5 +511,23 @@ jQuery.extend(KhanUtil, {
 			}
 		}
 		return ret;
+	},
+
+	scientificExponent: function( num ) {
+		return Math.floor(Math.log(Math.abs(num)) / Math.log(10))
+	},
+
+	scientificMantissa: function( precision, num ) {
+		var exponent = KhanUtil.scientificExponent( num );
+		var factor = Math.pow(10, exponent)
+		precision -= 1 // To account for the 1s digit
+		var mantissa = KhanUtil.roundTo(precision, num / factor).toFixed(precision)
+		return mantissa
+	},
+
+	scientific: function( precision, num ) {
+		var exponent = KhanUtil.scientificExponent( num )
+		var mantissa = KhanUtil.scientificMantissa( precision, num )
+		return "" + mantissa + "\\times 10^{"+exponent+"}"
 	}
 });

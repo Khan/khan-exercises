@@ -22,34 +22,24 @@
 		<div class="problems">
 			<div id="radians-to-degrees">
 				<p class="question">Convert the angle <code><var>COMMON_RADIANS</var></code> radians into degrees.</p>
-				<p class="solution"><var>COMMON_DEGREES</var>&deg;</p>
+				<p class="solution" data-type="multiple"><span class="sol" data-forms="integer"><var>COMMON_DEGREES</var></span><code>\Large{^\circ}</code></p>
 
 				<div class="hints">
 					<p>To convert from radians to degrees, you multiply by <code>180^{\circ}</code> and then divide by <code>\pi</code>.</p>
-					<p><code><var>COMMON_RADIANS</var> \times \frac{180^{\circ}}{\pi} = <var>COMMON_DEGREES</var>^{\circ}</code></p>
+					<p><code><var>COMMON_RADIANS</var> \times \frac{180^{\circ}}{\pi}</code></p>
+					<p><code><var>COMMON_DEGREES</var>^{\circ}</code></p>
 				</div>
-
-				<ul class="choices" data-show="4" data-none="true">
-					<li><var>wrongCommonAngle( COMMON_INDEX, 1 ).deg</var>&deg;</li>
-					<li><var>wrongCommonAngle( COMMON_INDEX, 2 ).deg</var>&deg;</li>
-					<li><var>wrongCommonAngle( COMMON_INDEX, 3 ).deg</var>&deg;</li>
-				</ul>
 			</div>
 
 			<div data-type="radians-to-degrees">
 				<p class="question">Convert the angle <var>NUM_RADIANS</var> radians into degrees. (Round to the nearest degree.)</p>
-				<p class="solution"><var>round(NUM_DEGREES)</var>&deg;</p>
+				<p class="solution" data-type="multiple"><span class="sol" data-forms="integer"><var>NUM_DEGREES</var></span><code>\Large{^\circ}</code></p>
 
 				<div class="hints">
 					<p>To convert from radians to degrees, you multiply by <code>180^{\circ}</code> and then divide by <code>\pi</code>.</p>
-					<p><code><var>NUM_RADIANS</var> \times \frac{180^{\circ}}{\pi} = <var>NUM_DEGREES</var>^{\circ}</code></p>
+					<p><code><var>NUM_RADIANS</var> \times \frac{180^{\circ}}{\pi}</code></p>
+					<p><code><var>NUM_DEGREES</var>^{\circ}</code> (round to nearest integer here)</p>
 				</div>
-
-				<ul class="choices" data-show="4" data-none="true">
-					<li><var>wrongDegrees( NUM_DEGREES )</var>&deg;</li>
-					<li><var>wrongDegrees( NUM_DEGREES )</var>&deg;</li>
-					<li><var>wrongDegrees( NUM_DEGREES )</var>&deg;</li>
-				</ul>
 			</div>
 		</div>
 	</div>
