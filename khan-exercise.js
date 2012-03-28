@@ -1689,8 +1689,6 @@ var Khan = (function() {
 		exercises = exercises.add( jQuery( "div.exercise" ).detach() );
 
 		// Setup appropriate img URLs
-		jQuery( "#sad" ).attr( "src", urlBase + "css/images/face-sad.gif" );
-		jQuery( "#happy" ).attr( "src", urlBase + "css/images/face-smiley.gif" );
 		jQuery( "#issue-throbber" )
 			.attr( "src", urlBase + "css/images/throbber.gif" );
 
