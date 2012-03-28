@@ -23,7 +23,7 @@
 				<var id="LINEAR">SQUARE*(-A-B)</var>
 				<var id="SIMPLELINEAR">-A-B</var>
                 <var id="COMMON_FACTOR">simplify(MATH.parse(COMMON_CST + "*x^{" + COMMON_POWER + "}"), simplifyOptions.basic)</var>
-                <var id="COMMON_FACTOR_LATEX">MATH.format(COMMON_FACTOR)</var>S
+                <var id="COMMON_FACTOR_LATEX">MATH.format(COMMON_FACTOR)</var>
 				<var id="POLY_NO_FACTOR">simplify(MATH.parse(SQUARE + "x^{2}+" + LINEAR + "x+" + CONSTANT), simplifyOptions.basic)</var>
                 <var id="POLY_AND_FACTOR">{op:"*", args:[COMMON_FACTOR, POLY_NO_FACTOR]}</var>
 				<var id="GROUP1">[
@@ -34,6 +34,10 @@
 				</var>
                 <var id="QUESTION">simplify(POLY_AND_FACTOR, simplifyOptions.expand)</var>
                 <var id="SOLUTION">simplify(QUESTION, simplifyOptions.factor)</var>
+				<var id="SOL1">simplify(MATH.parse("" + COMMON_FACTOR_LATEX + "(x + " + (-A) + ")(x + " + (-B) + ")"), simplifyOptions.checkInput)</var>
+				<var id="SOL2">simplify(MATH.parse("" + COMMON_FACTOR_LATEX + "(-x + " + A + ")(-x + " + B + ")"), simplifyOptions.checkInput)</var>
+				<var id="SOL3">simplify(MATH.parse("-" + COMMON_FACTOR_LATEX + "(-x + " + A + ")(x + " + (-B) + ")"), simplifyOptions.checkInput)</var>
+				<var id="SOL4">simplify(MATH.parse("-" + COMMON_FACTOR_LATEX + "(x + " + (-A) + ")(-x + " + B + ")"), simplifyOptions.checkInput)</var>
 			</div>
 
 			<p class="problem">Factor the following expression:</var></code></p>
@@ -45,7 +49,8 @@
 				</div>
 				<div class="guess">jQuery( "div.instruction input" ).val()</div>
 				<div class="validator-function">
-					return isEqual( simplify(MATH.parse(guess), simplifyOptions.checkInput), SOLUTION );
+					var exprGuess = simplify(MATH.parse(guess), simplifyOptions.checkInput);
+					return (isEqual(exprGuess, SOL1) ||	isEqual(exprGuess, SOL2) ||	isEqual(exprGuess, SOL3) ||	isEqual(exprGuess, SOL4));
 				</div>
 				<div class="show-guess">
 				</div>

@@ -58,11 +58,13 @@
         {expr1:"(x+1)(x-2)", expr2:"(x+1)(x+1)", isEqual:false},
         {expr1:"(x+1)(y+1)", expr2:"(y+1)(y+1)", isEqual:false},
         {expr1:"x+-2y", expr2:"x-2y", isEqual:true},
+        {expr1:"x-1y", expr2:"x-y", isEqual:true, options:KhanUtil.simplifyOptions.checkInput},
+        {expr1:"-2(x-1)", expr2:"2(1-x)", isEqual:true, options:KhanUtil.simplifyOptions.checkInput},
     ]; 
 
-    var testEquality = function(strExpr1, strExpr2, shouldBeEqual) {
-        var expr1 = MATH.parse(strExpr1);
-        var expr2 = MATH.parse(strExpr2);
+    var testEquality = function(strExpr1, strExpr2, shouldBeEqual, options) {
+        var expr1 = KhanUtil.simplify(MATH.parse(strExpr1), options);
+        var expr2 = KhanUtil.simplify(MATH.parse(strExpr2), options);
         var eql = KhanUtil.isEqual(expr1, expr2);
         var result = "";
         if (eql) {
@@ -83,6 +85,7 @@
         str += "<td>" + MATH.format(KhanUtil.normalForm(KhanUtil.simplify(expr2, {}, steps))) + "</td>";
         str += "<td><textarea>" + KhanUtil.exprToStrExpr(expr1) + "</textarea></td>";
         str += "<td><textarea>" + KhanUtil.exprToStrExpr(expr2) + "</textarea></td>";
+        str += "<td><textarea>" + getStrOptions(options) + "</textarea></td>";
         str += "</tr>";
         $("#tests").append(str);
     }
@@ -149,13 +152,19 @@
         {expr:"#{75*x^2}+#{-3}", colors:[KhanUtil.PINK, KhanUtil.BLUE], options:{}, expected:"\\color{#FF00AF}{75\\color{#FF00AF}{x}^{\\color{#FF00AF}{2}}} + \\color{#6495ED}{-3}"},
     ]; 
 //{op:"+", args:[{op:"*", args:[32, {op:"^", args:[{op:"var", args:["x"]}, 2]}]}, {op:"num", args:[-2]}]}
-    var testSimplifications = function(strExpr, colors, options, strExpected) {
+
+    var getStrOptions = function(options) {
         var strOptions = "";
         for (iOpt in options) {
             if (options[iOpt]) {
                 strOptions += iOpt + "\r\n";
             }
         }
+        return strOptions;
+    }
+
+    var testSimplifications = function(strExpr, colors, options, strExpected) {
+        var strOptions = getStrOptions(options);
         if (options.simplifyMode === undefined) {
             options.simplifyMode = "";
         }
@@ -182,13 +191,13 @@
     $("body").append("<table id='tests' cellspacing=0></table>");
     $("#tests").append("<tr><td>Status&nbsp;&nbsp;&nbsp;</td><td>Expr1</td>" +
         "<td>Expr2</td><td>Compared</td><td>Normal form 1</td>" +
-        "<td>Normal form 2</td><td>Internal 1</td>><td>Internal 2</td></tr>");
+        "<td>Normal form 2</td><td>Internal 1</td>><td>Internal 2</td><td>Options</td></tr>");
     for (var iTest = 0; iTest < testsEqualExpr.length; iTest++) {
         var test = testsEqualExpr[iTest];
         if (test.title !== undefined) {
             $("#tests").append("<tr><td colspan=6 style='background:yellow'>" + test.title + "</td></tr>");
         } else {
-            testEquality(test.expr1, test.expr2, test.isEqual);
+            testEquality(test.expr1, test.expr2, test.isEqual, test.options);
         }
     }
 
