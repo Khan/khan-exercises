@@ -1458,16 +1458,7 @@ ul.ui-autocomplete .ui-menu-item a span.playlist {
         top: 6px;
     }
 
-    .exercise-goal-wrapper {
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        width: 80px;
-    }
     .exercise-goal-icon {
-        position: absolute;
-        right: 2px;
-        top: 2px;
         width: 12px;
         height: 12px;
     }
