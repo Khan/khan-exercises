@@ -2314,6 +2314,8 @@ var Khan = (function() {
 		// Register API ajax callbacks for updating UI
 		if ( typeof APIActionResults !== "undefined" ) {
 			// Display Messages like "You're Proficient" or "You Seem To Be Struggling"
+			// TODO: this functionality is currently hidden from power-mode. Restore it.
+			// https://trello.com/card/restore-you-re-ready-to-move-on-and-struggling-in-action-messages/4f3f43cd45533a1b3a065a1d/34
 			APIActionResults.register("exercise_state",
 				function(userState) {
 					var jel = jQuery("#exercise-message-container");
