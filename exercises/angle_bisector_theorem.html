@@ -73,7 +73,7 @@
 		<div class="problems">
 			<div id="AC">
 				<div class="vars">
-					<var id="AC">( TEMP_AB * TEMP_CD / TEMP_BD ).toFixed( 1 )</var>
+					<var id="AC">roundTo( 1, TEMP_AB * TEMP_CD / TEMP_BD )</var>
 				</div>
 			<div class="problem">
 					What is the length of the side AC? (Round to 1 decimal place).
@@ -87,7 +87,7 @@
 			</div>
 			<div id="AB">
 				<div class="vars">
-						<var id="AB">( TEMP_AC * TEMP_BD / TEMP_CD ).toFixed( 1 )</var>
+						<var id="AB">roundTo( 1, TEMP_AC * TEMP_BD / TEMP_CD )</var>
 						<var id="SIDES_B">[ [ 1 ], [0] ]</var>
 						<var id="SIDES_C">[ [ 1,2 ], [ ]  ]</var>
 				</div>
@@ -103,7 +103,7 @@
 			</div>
 			<div id="CD">
 				<div class="vars">
-						<var id="CD">( TEMP_AC * TEMP_BD / TEMP_AB ).toFixed( 1 )</var>
+						<var id="CD">roundTo( 1, TEMP_AC * TEMP_BD / TEMP_AB )</var>
 						<var id="SIDES_B">[ [ 1, 0 ], [] ]</var>
 						<var id="SIDES_C">[ [ 2 ], [1 ]  ]</var>
 				</div>
@@ -119,7 +119,7 @@
 			</div>
 			<div id="BD">
 				<div class="vars">
-						<var id="BD">( TEMP_AB * TEMP_CD / TEMP_AC ).toFixed( 1 )</var>
+						<var id="BD">roundTo( 1, TEMP_AB * TEMP_CD / TEMP_AC )</var>
 						<var id="SIDES_B">[ [  0 ],  [ 1 ] ]</var>
 						<var id="SIDES_C">[ [ 1, 2 ], [ ]  ]</var>
 				</div>

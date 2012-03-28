@@ -308,7 +308,24 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"Santa Rita",
 		"Oak"
 	]);
-
+	
+	var furnitureStore = KhanUtil.shuffle([
+		"chair",
+		"table",
+		"bed frame",
+		"sofa",
+		"couch",
+		"desk",
+		"book shelf"
+	]);
+	
+	var electronicStore = KhanUtil.shuffle([
+		"television",
+		"computer",
+		"laptop",
+		"camera",
+	]);
+	
 	var clothes = KhanUtil.shuffle([
 		"hat",
 		"pair of pants",
@@ -538,7 +555,14 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		shirtStyle: function( i ) {
 			return shirtStyles[i - 1];
 		},
-
+		
+		furniture: function( i ) {
+			return furnitureStore[i - 1];
+		},
+		
+		electronic: function( i ) {
+			return electronicStore[i - 1];
+		},
 		animal: function( i ) {
 			return animals[i - 1][0];
 		},
