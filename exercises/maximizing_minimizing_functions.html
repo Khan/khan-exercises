@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html data-require="math expressions">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Maximizing & Minimizing Functions</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="problems">
+		<div id="cubic">
+			<div class="vars">
+				<div data-ensure="DER_B%2 == 0 && X_1 <= X_2">
+					<var id="A">randRangeNonZero( -4, 4 )</var>
+					<var id="B">randRangeNonZero( -4, 4 )</var>
+					<var id="C">( A > 0 ? -1 : 1 ) * randRange( 3, 8 )</var>
+					<var id="H">randFromArray([ "\\Delta x", "h" ])</var>
+					
+					/* Zeros of the derivative of the function*/
+					<var id="X_1">randRangeNonZero( -4, 4 )</var>
+					<var id="X_2">randRangeNonZero( -4, 4 )</var>
+					
+					/* Coefficients of derivative of the function (Ax^2 + Bx + C) */
+					<var id="DER_A">randRangeNonZero( -2, 2 )*3</var>
+					<var id="DER_B">-DER_A * X_1 - DER_A * X_2</var>
+					<var id="DER_C">DER_A * X_1 * X_2</var>
+					
+					/* Coefficients of the function (Ax^3 + Bx^2 + Cx + D)*/
+					<var id="FUNC_A">DER_A / 3 </var>
+					<var id="FUNC_B">DER_B / 2 </var>
+					<var id="FUNC_C">DER_C </var>
+					<var id="FUNC_D">randRangeNonZero(-9 , 9)</var>
+					
+					/* Possible Extreme Values */
+					<var id="EXT_1">FUNC_A * pow(X_1,3) + FUNC_B * pow(X_1,2) + FUNC_C * X_1 + FUNC_D</var>
+					<var id="EXT_2">FUNC_A * pow(X_2,3) + FUNC_B * pow(X_2,2) + FUNC_C * X_2 + FUNC_D</var>
+					<var id="EXT_3">FUNC_A * pow(-5,3) + FUNC_B * pow(-5,2) + FUNC_C * (-5) + FUNC_D</var>
+					<var id="EXT_4">FUNC_A * pow(5,3) + FUNC_B * pow(5,2) + FUNC_C * 5 + FUNC_D</var>
+					<var id="MAX">max(EXT_1,EXT_2,EXT_3,EXT_4)</var>
+					<var id="MIN">min(EXT_1,EXT_2,EXT_3,EXT_4)</var>
+				</div>
+				<var id="X" data-ensure="abs( ( A * X + B ) * X + C ) < 7">randRange( -6, 6 )</var>
+			</div>
+			<div class="question">
+				<p>What are the maximum and minimum values of the function <code>f(x) = <var>expr(["+", ["*", FUNC_A, ["^", "x", 3]],["*", FUNC_B, ["^", "x", 2]], ["*", FUNC_C, "x"], FUNC_D])</var></code> on the interval <code>[-5,5]</code></p>
+				</div>
+			<div class="solution" data-type="multiple">
+			<p class="short">Maximum Value: <span class="sol"><var>MAX</var></span></p>
+			<p>Minimum Value: <span class="sol"><var>MIN</var></span></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="hints">
+			<p>We find where the critical points (possible locations of local maxima or minima) of a function <code>f(x)</code> are by setting the derivative <code>f'(x)</code> equal to zero.</p>
+			<p>The derivative of <code>f(x)</code> is <code>f'(x) = <var>expr(["+", ["*", DER_A, ["^", "x", 2]], ["*", DER_B, "x"], DER_C])</var></code>.</p>
+			<p>We solve <code>f'(x) = <var>expr(["+", ["*", DER_A, ["^", "x", 2]], ["*", DER_B, "x"], DER_C])</var> = 0</code> to find the values of <code>x</code> where there are critical points.</p>
+			<div>
+				<p data-if="X_1 === X_2">Using the quadratic equation we find that there is only one critical point, <code>x = <var>X_1</var></code>.</p>
+				<p data-else>Using the quadratic equation we find two critical points <code>x = <var>X_1</var></code> and <code>x = <var>X_2</var></code>.</p>
+			</div>
+			<p>We evaluate <code>f(x)</code> at the critical point(s) and the end points of the interval</p>
+			<div>
+				<p data-if="X_1 === X_2">We evaluate <code>f(<var>X_1</var>) = <var>EXT_1</var></code>, <code>f(-5) = <var>EXT_3</var></code>, and <code>f(5) = <var>EXT_4</var></code>.</p>
+				<p data-else>We evaluate <code>f(<var>X_1</var>) = <var>EXT_1</var></code>, <code>f(<var>X_2</var>) = <var>EXT_2</var></code>, <code>f(-5) = <var>EXT_3</var></code>, and <code>f(5) = <var>EXT_4</var></code>.</p>
+			</div>
+			<p>On the interval <code>[-5,5]</code> the maximum of <code>f(x)</code> is <var>MAX</var> and the minimum is <var>MIN</var>.</p>
+		</div>
+	</div>
+</body>
+</html>
