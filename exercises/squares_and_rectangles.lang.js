@@ -25,9 +25,9 @@
 		"hint14"	: 'Vervangen in <code>P = \\color{<var>P_COLOR</var>}{<var>4 * S</var>}</code> gives <code>s = \\color{<var>P_COLOR</var>}{<var>4 * S</var>}/4 = \\color{<var>S_COLOR</var>}{<var>S</var>}</code>.',
 		"hint15"	: 'Bereken de oppervlakte met <code>K = s \\cdot s = s^2</code>.',
 		"hint16"	: 'Vervangen in <code>s = \\color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>K = \\color{<var>S_COLOR</var>}{<var>S</var>}^2 = \\color{<var>K_COLOR</var>}{<var>S * S</var>}</code>.',
-		"hint17"	: 'De oppervlakte of een rechthoek is <code>K = lw</code>.',
-		"hint18"	: 'Vervangen in <code>l = \\color{<var>L_COLOR</var>}{<var>L</var>}</code> en <code>w = \\color{<var>W_COLOR</var>}{<var>W</var>}</code> geeft <code>K = \\color{<var>L_COLOR</var>}{<var>L</var>} \\cdot \\color{<var>W_COLOR</var>}{<var>W</var>} = \\color{<var>K_COLOR</var>}{<var>L * W</var>}</code>.',
-		"hint19"	: 'De oppervlakte of een rechthoek is <code>P = l + w + l + w = 2(l + w)</code>.',
-		"hint20"	: 'Vervangen in <code>l = \\color{<var>L_COLOR</var>}{<var>L</var>}</code> en <code>w = \\color{<var>W_COLOR</var>}{<var>W</var>}</code> geeft <code>P = 2 (\\color{<var>L_COLOR</var>}{<var>L</var>} + \\color{<var>W_COLOR</var>}{<var>W</var>}) = \\color{<var>P_COLOR</var>}{<var>2 * L + 2 * W</var>}</code>.'
+		"hint17"	: 'De oppervlakte of een rechthoek is <code>K = lb</code>.',
+		"hint18"	: 'Vervangen in <code>l = \\color{<var>L_COLOR</var>}{<var>L</var>}</code> en <code>b = \\color{<var>W_COLOR</var>}{<var>W</var>}</code> geeft <code>K = \\color{<var>L_COLOR</var>}{<var>L</var>} \\cdot \\color{<var>W_COLOR</var>}{<var>W</var>} = \\color{<var>K_COLOR</var>}{<var>L * W</var>}</code>.',
+		"hint19"	: 'De oppervlakte of een rechthoek is <code>P = l + b + l + b = 2(l + b)</code>.',
+		"hint20"	: 'Vervangen in <code>l = \\color{<var>L_COLOR</var>}{<var>L</var>}</code> en <code>b = \\color{<var>W_COLOR</var>}{<var>W</var>}</code> geeft <code>P = 2 (\\color{<var>L_COLOR</var>}{<var>L</var>} + \\color{<var>W_COLOR</var>}{<var>W</var>}) = \\color{<var>P_COLOR</var>}{<var>2 * L + 2 * W</var>}</code>.'
 		}
 })
