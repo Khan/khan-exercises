@@ -80,7 +80,10 @@ body.debug .graphie { outline: 1px dashed red; }
 .summary { display: none; }
 #browserwarning { background: white; margin: 0 1px; padding: 18px; font-size: 120%; text-align: center; }
 
-#answer_area input.simple-button { width: 100%; }
+#answer_area .answer-buttons input.simple-button,
+#answer_area input.simple-button.full-width { 
+  width: 100%; 
+}
 #answer_area #answercontent { position: relative; z-index: 2; }
 #answer_area .hint-box { position: relative; z-index: 1;}
 #answer_area #examples-show { 
