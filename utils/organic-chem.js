@@ -4,12 +4,12 @@ var isCyclic = false;
 var numberOfCarbons;
 
 jQuery.extend( KhanUtil, {
-	generateRandomHydrocarbon: (function() {
-		return function() {
+  generateRandomHydrocarbon: (function() {
+    return function() {
       isHydrogenModel = false;
       isCyclic = false;
       
-			if(Math.random() < 0.4){isCyclic = true;}
+      if(Math.random() < 0.4){isCyclic = true;}
       if(isCyclic){   // limited to cyclopropane(3) through cyclohexane(6)
         numberOfCarbons = Math.floor(Math.random()*4) + 3;        
       }else{
@@ -20,44 +20,44 @@ jQuery.extend( KhanUtil, {
         }
       }
       return numberOfCarbons;
-		};
-	})()  
+    };
+  })()  
 });
 
 jQuery.extend( KhanUtil, {
-	getIsCyclic: (function() {
-		return function() {
-			return isCyclic;
-		};
-	})()  
+  getIsCyclic: (function() {
+    return function() {
+      return isCyclic;
+    };
+  })()  
 });
 
 jQuery.extend( KhanUtil, {
-	getIsHydrogenModel: (function() {
-		return function() {
-			return isHydrogenModel;
-		};
-	})()  
+  getIsHydrogenModel: (function() {
+    return function() {
+      return isHydrogenModel;
+    };
+  })()  
 });
 
 jQuery.extend( KhanUtil, {
-	hydrocarbon: (function() {
-		return function(value, cyclic) {
-			if ( typeof value === "number" ) {
-				
+  hydrocarbon: (function() {
+    return function(value, cyclic) {
+      if ( typeof value === "number" ) {
+        
         if(cyclic == 1){
           return "cyclo"+getHydrocarbonPrefix(value)+"ane";
         }
         return getHydrocarbonPrefix(value) + "ane";
-			}
-		};
-	})()  
+      }
+    };
+  })()  
 });  
 
 jQuery.extend( KhanUtil, {
-	hydrocarbonFakeAnswer: (function() {
-		return function(value, cyclic) {    
-			if ( typeof value === "number" ) {
+  hydrocarbonFakeAnswer: (function() {
+    return function(value, cyclic) {    
+      if ( typeof value === "number" ) {
         var fakeValue;
         if(cyclic == 1){
           do{
@@ -70,7 +70,7 @@ jQuery.extend( KhanUtil, {
             }while(fakeValue < 1 || fakeValue > 20);
           }else{
             do{
-              fakeValue = value+Math.floor(Math.random()*7) - 3; // fake = within 2 of the correct answer.
+              fakeValue = value+Math.floor(Math.random()*7) - 3; // fake = within 3 of the correct answer.
             }while(fakeValue < 1 || fakeValue > 20); // make sure the fake is something we have in the list of names.
           }
         }        
@@ -78,24 +78,24 @@ jQuery.extend( KhanUtil, {
           return "cyclo"+getHydrocarbonPrefix(fakeValue)+"ane";
         }
         return getHydrocarbonPrefix(fakeValue) + "ane";
-			}
-		};
-	})()  
+      }
+    };
+  })()  
 });  
 
 jQuery.extend( KhanUtil, {
-	hydrocarbonPrefix: (function() {
+  hydrocarbonPrefix: (function() {
   
-		return function(len) {
-			if ( typeof len === "number" ) {
-				return getHydrocarbonPrefix(len);
-			}
-		};
-	})()  
+    return function(len) {
+      if ( typeof len === "number" ) {
+        return getHydrocarbonPrefix(len);
+      }
+    };
+  })()  
 });  
 
 function getHydrocarbonPrefix(len){
-  		var prefixes = {
+    var prefixes = {
       1: 'meth',
       2: 'eth',
       3: 'prop',
@@ -116,20 +116,20 @@ function getHydrocarbonPrefix(len){
       18: 'octadec',
       19: 'nonadec',
       20: 'icos'
-		};
+    };
     
     return prefixes[len];
 }
 
 function OrganicMoleculeRenderer( parentHC, cyclic ) {
-	this.draw = function() {
+  this.draw = function() {
     if(isHydrogenModel){
       drawWithHydrogens();
     }
     else{      
       drawSimpleLineDiagram();
     }
-	};
+  };
   
   this.hint = function() {
     if(isHydrogenModel){
@@ -173,7 +173,7 @@ function OrganicMoleculeRenderer( parentHC, cyclic ) {
   
   drawSimpleLineDiagram = function() {
     var lineColor = "#6495ed";
-  	var graph = KhanUtil.currentGraph;
+    var graph = KhanUtil.currentGraph;
     
     if(cyclic == 1){
       // hand coded simple polygons for later reuse/rewriting so that branchpoints are predictable
@@ -225,7 +225,6 @@ function OrganicMoleculeRenderer( parentHC, cyclic ) {
   hintWithHydrogens = function() {
     // first pass at a simple Lewis Structure renderer
     var labelColor = "#FFAF00";
-    
     var graph = KhanUtil.currentGraph;
     
     // draw carbons 
@@ -236,7 +235,7 @@ function OrganicMoleculeRenderer( parentHC, cyclic ) {
   
   hintSimpleLineDiagram = function() {
     var labelColor = "#FFAF00";
-  	var graph = KhanUtil.currentGraph;
+    var graph = KhanUtil.currentGraph;
     
     if(cyclic == 1){
       // hand coded polygon labels for later reuse/rewriting so that branchpoints are predictable
@@ -247,53 +246,35 @@ function OrganicMoleculeRenderer( parentHC, cyclic ) {
       case 3:
         //cyclopropane
         var x = 1;
-        //graph.line( [0, 0], [1, 1.3], { stroke: lineColor } );
         graph.label( [-0.2, -0.4], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [1, 1.3], [2, 0], { stroke: lineColor } );      
         graph.label( [1, 1.7], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [0, 0], [2, 0], { stroke: lineColor } );  
         graph.label( [2.2, -0.4], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );        
         break;
       case 4:
         //cyclobutane
         var x = 1;
-        //graph.line( [0, 0], [0, 1.41], { stroke: lineColor } );      
         graph.label( [-0.4, -0.4], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [0, 1.41], [1.41, 1.41], { stroke: lineColor } );      
         graph.label( [-0.4, 1.81], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [1.41, 1.41], [1.41, 0], { stroke: lineColor } );              
         graph.label( [1.81, 1.81], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [0, 0], [1.41, 0], { stroke: lineColor } );              
         graph.label( [1.81, -0.4], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
         break;      
       case 5:
         //cyclopentane
         var x = 1;
-        //graph.line( [.2, 0], [-.2, 1.2], { stroke: lineColor } );      
         graph.label( [-0.0, -0.4], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [-0.2,1.2], [1, 2.2], { stroke: lineColor } );      
         graph.label( [-0.6, 1.2], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [1, 2.2], [2.2, 1.2], { stroke: lineColor } );              
         graph.label( [1, 2.6], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [2.2, 1.2], [1.8, 0], { stroke: lineColor } );              
         graph.label( [2.6, 1.2], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [1.8, 0], [.2, 0], { stroke: lineColor } );              
         graph.label( [2.0, -0.4], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
         break;            
       case 6:
         //cyclohexane
         var x = 1;
-        //graph.line( [0.2, 0], [1, 1], { stroke: lineColor } );      
         graph.label( [-0.2, 0], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [1, 1], [2.3, 1], { stroke: lineColor } );      
         graph.label( [0.8, 1.4], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [2.3, 1], [3.1, 0], { stroke: lineColor } );              
         graph.label( [2.5, 1.4], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [3.1, 0], [2.3, -1], { stroke: lineColor } );              
         graph.label( [3.5, 0], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [2.3, -1], [1, -1], { stroke: lineColor } );              
         graph.label( [2.5, -1.4], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
-        //graph.line( [1, -1], [0.2, 0], { stroke: lineColor } );              
         graph.label( [0.8, -1.4], "<span style='color:"+labelColor+"'><b>"+(x++)+"</b></span>", "center", false  );
         break;      
       }
