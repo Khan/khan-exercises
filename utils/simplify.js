@@ -312,7 +312,7 @@
             return sExpr;
         }
         var newExpr;
-        if (options.simplifyProducts) {
+        if (options.simplifyByFactoring) {
             newExpr = simplifyByFactoring(sExpr, options, steps);
             sExpr = newExpr;
         }        
@@ -666,7 +666,9 @@
               cancelLnExp: false,
               fracIntoPowNeg: false,
               removeUselessParenthesis: false,
-              factorSums:false
+              expandProducts: false,
+              factorSums:false,
+              simplifyByFactoring:false
         },
         checkInput: {
               cancelNegOfNeg: true,
@@ -679,12 +681,14 @@
               mergeCstFactors: false,
               hidePlusBeforeNeg: true,
               changeSubIntoPlusNeg: true,
-              simplifyProducts: false,
+              simplifyProducts: true,
               mergePowerOfPower: false,
               cancelLnExp: false,
               fracIntoPowNeg: false,
               removeUselessParenthesis: true,
-              factorSums:false
+              expandProducts: false,
+              factorSums:false,
+              simplifyByFactoring:false
         },
         basic: {
               cancelNegOfNeg: true,
@@ -702,7 +706,9 @@
               cancelLnExp: true,
               fracIntoPowNeg: false,
               removeUselessParenthesis: true,
-              factorSums:false
+              expandProducts: false,
+              factorSums:false,
+              simplifyByFactoring:false
         },
         factor: {
               cancelNegOfNeg: true,
@@ -720,7 +726,9 @@
               cancelLnExp: true,
               fracIntoPowNeg: false,
               removeUselessParenthesis: true,
-              factorSums:true
+              expandProducts: false,
+              factorSums:true,
+              simplifyByFactoring:true
         },
         expand: {
               cancelNegOfNeg: true,
@@ -739,7 +747,8 @@
               fracIntoPowNeg: false,
               removeUselessParenthesis: true,
               expandProducts: true,
-              factorSums:false
+              factorSums:false,
+              simplifyByFactoring:true
         }
 
     };
