@@ -64,18 +64,18 @@ jQuery.extend( KhanUtil, {
         var fakeValue;
         if( cyclic === true ){
           do{
-            fakeValue = value+Math.floor( KhanUtil.random()*6 ) - 2; // fake is within 3 of the correct answer. 
+            fakeValue = value+Math.floor( KhanUtil.random() * 6 ) - 2; // fake is within 3 of the correct answer. 
           }while( fakeValue < 3 || fakeValue > 11 );  // make sure it's a reasonable molecule
         }else{
-          if(KhanUtil.random() < 0.14){
+          if( KhanUtil.random() < 0.14 ){
             do{               
               // toss in some answers with +/- 10 from the correct answer.
-              fakeValue = value+((Math.floor(KhanUtil.random()*3) - 1) * 10);
-            }while(fakeValue < 1 || fakeValue > 20);
+              fakeValue = value+( ( Math.floor( KhanUtil.random()*3 ) - 1 ) * 10 );
+            }while( fakeValue < 1 || fakeValue > 20 );
           }else{
             do{
-              fakeValue = value+Math.floor(KhanUtil.random()*7) - 3; // fake = within 3 of the correct answer.
-            }while(fakeValue < 1 || fakeValue > 20); // make sure the fake is something we have in the list of names.
+              fakeValue = value+Math.floor( KhanUtil.random()*7 ) - 3; // fake = within 3 of the correct answer.
+            }while( fakeValue < 1 || fakeValue > 20 ); // make sure the fake is something we have in the list of names.
           }
         }        
         if( cyclic === true ){
