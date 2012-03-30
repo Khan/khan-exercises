@@ -64,7 +64,7 @@ jQuery.extend( KhanUtil, {
         var fakeValue;
         if( cyclic === true ){
           do{
-            fakeValue = value+Math.floor( KhanUtil.random()*5 ) - 1; // fake is within 3 of the correct answer. 
+            fakeValue = value+Math.floor( KhanUtil.random()*6 ) - 2; // fake is within 3 of the correct answer. 
           }while( fakeValue < 3 || fakeValue > 11 );  // make sure it's a reasonable molecule
         }else{
           if(KhanUtil.random() < 0.14){
