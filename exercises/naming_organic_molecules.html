@@ -12,24 +12,25 @@
 </head>
 <body>
   <div class="exercise">
+  
     <div class="vars">
-      <var id="HYDROCARBON">generateRandomHydrocarbon()</var>     
+      <var id="HYDROCARBON">generateRandomHydrocarbon()</var> 
       <var id="CYCLIC">getIsCyclic()</var> 
-      <var id="DRAWHYDROS">getIsHydrogenModel()</var>
-      <var id="PREFIX">hydrocarbonPrefix( HYDROCARBON )</var>      
-      <var id="ANSA">hydrocarbon( HYDROCARBON, CYCLIC )</var>
-      <var id="ANSB">hydrocarbonFakeAnswer( HYDROCARBON, CYCLIC )</var>
-      <var id="ANSC">hydrocarbonFakeAnswer( HYDROCARBON, CYCLIC )</var>
-      <var id="ANSD">hydrocarbonFakeAnswer( HYDROCARBON, CYCLIC )</var>      
+      <var id="DRAWHYDROS">getIsHydrogenModel()</var> 
+      <var id="PREFIX">hydrocarbonPrefix( HYDROCARBON )</var> 
+      <var id="ANSA">hydrocarbon( HYDROCARBON, CYCLIC )</var> 
+      <var id="ANSB">hydrocarbonFakeAnswer( HYDROCARBON, CYCLIC )</var> 
+      <var id="ANSC">hydrocarbonFakeAnswer( HYDROCARBON, CYCLIC )</var> 
+      <var id="ANSD">hydrocarbonFakeAnswer( HYDROCARBON, CYCLIC )</var> 
     </div>
 
     <div class="problems">
       <div>
+      
         <p class="question">What is the name of this molecule?</p>
         <p class="solution"><span class="molFormat"><var>ANSA</var></span></p>
         
-        <ul class="choices" data-show="4">
-          
+        <ul class="choices" data-show="4">          
           <li><span class="molFormat"><var>ANSB</var></span></li>
           <li><span class="molFormat"><var>ANSC</var></span></li>
           <li><span class="molFormat"><var>ANSD</var></span></li>          
@@ -44,13 +45,16 @@
           graph.pl = new OrganicMoleculeRenderer( HYDROCARBON, CYCLIC );
           graph.pl.draw();
         </div>
+        
       </div>
     </div>
 
     <div class="hints">
-      <div>
+    
+      <div>      
         <p style="margin-bottom: 2px;">Here are the names of prefixes for hydrocarbons with 1 to 20 carbons.</p>
         <div class="molFormat">
+        
         <table style="margin-bottom: 20px;">
           <tr>
             <td style="font-size:1.0em;width:100px;">
@@ -83,6 +87,7 @@
             </td>
           </tr>
         </table>
+        
         </div>
       </div>
       
@@ -109,6 +114,7 @@
       </div>
       
     </div>
+    
   </div>
 </body>
 </html>
