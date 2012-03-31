@@ -50,6 +50,15 @@ jQuery.extend( KhanUtil, {
 			return "(" + perm.join() + ")";
 		});
 		return KhanUtil.toSentence(stringperms);
-	}
+	},
+
+	n_pick_m: function(n, m) {
+		return KhanUtil.factorial(n) / KhanUtil.factorial(n - m);
+	},
+
+	n_choose_m: function(n, m) {
+		//alert(KhanUtil.factorial(n), KhanUtil.factorial(m), KhanUtil.factorial(n - m));
+                return KhanUtil.factorial(n) / (KhanUtil.factorial(m) * KhanUtil.factorial(n - m));
+        }
 
 });
