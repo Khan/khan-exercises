@@ -33,9 +33,9 @@
 	* newProblem -- when a new problem has completely finished rendering
 
 	* hintUsed -- when a hint has been used by the user
-	
+
 	* allHintsUsed -- when all possible hints have been used by the user
-	
+
 	* checkAnswer -- when the user attempts to check an answer, incorrect or
 	  correct
 
@@ -54,7 +54,7 @@
 	* exerciseLoaded:[exercise-name] -- when an exercise and all of its
 	  dependencies are loaded and ready to render
 
-	* updateUserExercise -- when an updated userExercise has been received 
+	* updateUserExercise -- when an updated userExercise has been received
 	  and is being used by khan-exercises, either via the result of an API
 	  call or initialization
 */
@@ -1842,7 +1842,7 @@ var Khan = (function() {
 				jQuery( "#problem-and-answer" ).css("visibility", "hidden");
 
 				warn(
-					"This page is out of date. You need to <a href='" + window.location.href + 
+					"This page is out of date. You need to <a href='" + window.location.href +
 					"'>reload this page</a>, but don't worry, you haven't lost any progress."
 				);
 
@@ -2440,7 +2440,7 @@ var Khan = (function() {
 			// Backup the response locally, for later use
 			success: function( data ) {
 
-				// Tell any listeners that khan-exercises has new 
+				// Tell any listeners that khan-exercises has new
 				// userExercise data
 				jQuery( Khan ).trigger("updateUserExercise", data);
 
@@ -2501,11 +2501,11 @@ var Khan = (function() {
 		var weight = self.data( "weight" );
 		var rootName = self.data( "rootName" );
 
-		if ( !loadingExercises[name] ) {
-			loadingExercises[name] = 0;
+		if ( !loadingExercises[rootName] ) {
+			loadingExercises[rootName] = 0;
 		}
 
-		loadingExercises[name]++;
+		loadingExercises[rootName]++;
 
 		// Packing occurs on the server but at the same "exercises/" URL
 		jQuery.get( urlBase + "exercises/" + name + ".html", function( data, status, xhr ) {
@@ -2564,9 +2564,9 @@ var Khan = (function() {
 				newContents.data( tag, result );
 			});
 
-			loadingExercises[name]--;
+			loadingExercises[rootName]--;
 
-			if ( loadingExercises[name] === 0) {
+			if ( loadingExercises[rootName] === 0) {
 
 				if ( !modulesLoaded ) {
 					loadModules( callback );
