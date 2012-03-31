@@ -105,7 +105,7 @@ body.debug .graphie { outline: 1px dashed red; }
 }
 #solutionarea {
     min-height: 35px;
-    padding: 0 10px;
+    padding: 10px;
     margin: 0 -10px;
     border-bottom: 1px solid #c3c3c3;
 }
