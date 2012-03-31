@@ -8,25 +8,26 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="N">randRange( 2, 6 )</var>
-			<var id="PERMUTATIONS">factorial( N )</var>
+			<var id="available">randRange( 2, 6 )</var>
+			<var id="choose">randRange( 1, available )</var>
+			<var id="permutations">factorial( available ) / factorial (available - choose)</var>
 		</div>
 
 		<div class="problems">
 			<div>
 				<div class="question">
-					<p>How many permutations are there of <var>N</var> distinct objects?</p>
+					<p>Playing a game with <var>available</var> pegs, all of them unique, you can put <var>choose</var> of them in the order of your choice. How many permutations are available to you?</p>
 				</div>
-				<p class="solution" data-forms="integer"><var>PERMUTATIONS</var></p>
+				<p class="solution" data-forms="integer"><var>permutations</var></p>
 			</div>
 		</div>
 
 		<div class="hints">
-			<p>The number of permutations of N distinct objects is N factorial.</p>
-			<div> If you have three letters, XYZ, they can be arranged as XYZ, XZY, YXZ, YZX, ZXY, or ZYX.</p></div>
+			<p>The number of permutations of <var>available</var>, choosing <var>choose</var>, when order matters, is a function of the factorial of both numbers.</p>
+			<div> If you have an orange, blue, and green peg, OBG, they can be arranged as OBG, OGB, BOG, BGO, GOB, or GBO.</p></div>
 			<div>
-				<p>Thus, the number of permutations of <var>N</var> distinct objects is <var>PERMUTATIONS</var>.</p>
-				<p><code><var>N</var>! = <var>PERMUTATIONS</var></code></p>
+				<p>The number of permutations of <var>N</var> distinct objects, choosing <var>choose</var>, is <var>PERMUTATIONS</var> when order matters.</p>
+				<p><code><var>available</var>!/(<var>available</var> - <var>choose</var>)! = <var>permutations</var></code></p>
 			</div>
 		</div>
 	</div>
