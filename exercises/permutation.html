@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
+<html data-require="math word-problems combinatorics">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Permutation</title>
@@ -8,26 +8,33 @@
 <body>
 	<div class="exercise">
 		<div class="vars">
-			<var id="available">randRange( 2, 6 )</var>
-			<var id="choose">randRange( 1, available )</var>
-			<var id="permutations">factorial( available ) / factorial (available - choose)</var>
+			<var id="avail">randRange(2, 6)</var>
+			<var id="pick">randRange(1, avail)</var>
+			<var id="nperm">factorial(avail) / factorial (avail - pick)</var>
+
+			<var id="all_colors">KhanUtil.shuffle(["red", "green", "blue", "orange", "yellow", "purple"])</var>
+			<var id="avail_colors">all_colors.slice(0, avail)</var>
+			<var id="peg_colors">avail_colors.slice(0, pick)</var>
+
+			<var id="maxperms">24</var> <!--Keep the display from becoming overwhelming-->
+			<var id="perms">permute(peg_colors)</var>
 		</div>
 
 		<div class="problems">
 			<div>
 				<div class="question">
-					<p>Playing a game with <var>available</var> pegs, all of them unique, you can put <var>choose</var> of them in the order of your choice. How many permutations are available to you?</p>
+					<p>Playing a game with <var>avail</var> pegs (<var>toSentence(all_colors, 'and')</var>), you can put <var>pick</var> of them in the order of your choice. How many permutations are available to you?</p>
 				</div>
-				<p class="solution" data-forms="integer"><var>permutations</var></p>
+				<p class="solution" data-forms="integer"><var>nperm</var></p>
 			</div>
 		</div>
 
 		<div class="hints">
-			<p>The number of permutations of <var>available</var>, choosing <var>choose</var>, when order matters, is a function of the factorial of both numbers.</p>
-			<div> If you have an orange, blue, and green peg, OBG, and can choose two of them, they can be arranged as OB, OG, OB, BG, GB, or GO.</p></div>
+			<p>Select <var>pick</var> pegs, for instance <var>toSentence(peg_colors, 'and')</var>.</p>
+			<div> If you have an orange, blue, and green peg, OBG, and can pick two of them, they can be arranged as OB, OG, OB, BG, GB, or GO.</p></div>
 			<div>
-				<p>The number of permutations of <var>N</var> distinct objects, choosing <var>choose</var>, is <var>PERMUTATIONS</var> when order matters.</p>
-				<p><code>\dfrac{<var>available</var>!}{(<var>available</var> - <var>choose</var>)!} = <var>permutations</var></code></p>
+				<p>The number of permutations of <var>avail</var> distinct pegs, choosing <var>pick</var>, is <var>nperms</var> when order matters.</p>
+				<p><code>\dfrac{<var>avail</var>!}{(<var>avail</var> - <var>pick</var>)!} = <var>nperms</var></code></p>
 			</div>
 		</div>
 	</div>
