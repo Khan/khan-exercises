@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html data-require="math graphie  interactive"> 
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Simple Harmonic Motion</title>
+	<script src="../khan-exercise.js"></script>
+	<style type="text/css">
+		#answer_area input[type=text] {
+			width: 30px;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+
+			<var id="CYCLES">randRange(1 , 3)</var>
+			<var id="PERIOD">( CYCLES === 1 ? randRange(6 , 8) / 10 : (CYCLES === 2 ? randRange(8 , 12) / 10 : randRange( 12,24 ) / 10 ) ) * Math.PI </var>
+			<var id="ANGFREQUENCY"> round(2 * Math.PI / PERIOD * 10) / 10 </var>
+			<var id="AMP">0</var>   <!-- initial amplitude -->
+	
+			<var id="SLENGTH">3.5</var>			<!-- Spring length -->
+
+			<var id="PLOTRANGE">Math.floor( 8.3 * ANGFREQUENCY / ( 2 * Math.PI ) ) * 2 * Math.PI / ANGFREQUENCY </var>  	<!-- time axix is from 0 to 8.3, plot range is set to show integral number of oscillations -->
+			<var id="TIME">rand( PLOTRANGE * 10 ) / 10 </var>						<!-- time is randomly selected from the plot rante -->
+			<var id="AMPLITUDE">randRange(-14, 14) / 100</var>					<!-- amplitude values are selected form -0.14m to 0.14m-->
+			<var id="ANS">round( AMPLITUDE * Math.cos( ANGFREQUENCY * TIME ) * 100 ) / 100</var>
+			
+			
+			
+		</div>
+
+		<div class="problems">
+			<div id="Simple Harmonic Motion - position over time">
+				<p class="question">
+					In the following setup, what is the position <code>x(t)</code> of a bob attached to 
+					a spring at time <code>t=<var>TIME</var>\,\text{sec}</code> when the bob is released at position 
+					<code>x(0)=<var>AMPLITUDE</var>\,\text{m}</code>? You may confirm the answer using equation 
+					<code>x(t) = A \cos(\omega t) = <var>AMPLITUDE</var>\cos(<var> ANGFREQUENCY</var> t)</code> for this setup.
+				</p>
+
+			 
+				<div class="problem">
+					<div>	Move the <code class="hint_orange">\text{orange point}</code> (bob attached to the spring) up or down to 
+					set the amplitude (position of the bob at time zero).
+					Move the <code class="hint_blue">\text{blue point}</code> under the plot to the right or left to see the 
+					position at different times. Click  
+					<input type="button" class="simple-button action-gradient" value="release bob" id = "btn1" /> 
+					to see <code><var>round(PLOTRANGE/PERIOD)</var></code> complete <span data-if="PLOTRANGE/PERIOD &gt; 1.5">oscillations</span><span data-else>oscillation</span>
+					of the harmonic motion.
+					Point of interest: notice that the time its takes for one complete oscillation is independent of the amplitude!
+					<!-- extra information  Specifically, the following setup shows results for the case when the mass of bob is 50g and the spring constant is 30 N/m. -->  
+					</div>
+					
+
+
+					<div id="graph" class="graphie">
+
+						init({
+							range: [ [ -3, 15 ], [-3.5, 3.7] ],
+							scale: [ 40, 40 ],
+						});
+						addMouseLayer();
+						graph.flaganimation = 0;   	// set to one, when running small animation steps
+						graph.time =0;  			//current time of interaction/animation
+						graph.flaganimationfull=0;
+	
+
+						//axes and labels for time and position
+						label( [ 8, 0 ],  "\\text{Time}", "below", { color: BLUE });
+						label( [ 0, 3 ],  "\\text{Position}", "left", { color: GREEN});
+						style( { stroke: KhanUtil.BLUE }, function () {
+							path( [ [ 0, 0 ], [ 8.3, 0 ], [ 8.2, 0.1 ], [ 8.3, 0 ], [ 8.2, -0.1] ] );
+						});
+						style( { stroke: KhanUtil.GREEN }, function () {
+							path( [ [ 0, 0 ], [ 0, 3 ], [ -0.1, 2.9 ], [ 0, 3 ], [ 0.1 , 2.9 ]  ] );
+						});
+
+						//reference point for origin of spring - origin of axes is at usual [0,0]
+						SPRINGORIGIN = [ 10, SLENGTH ];
+						//support from which the spring is hanging
+						path( [ [ SPRINGORIGIN[0] - 1, SPRINGORIGIN[1] ], [ SPRINGORIGIN[0] + 1, SPRINGORIGIN[1] ] ] );
+						for ( var ctr = 1; ctr &lt; 10; ctr++ ) {
+							path( [ [ SPRINGORIGIN[0] - 0.9 + 2 * ctr / 10, SPRINGORIGIN[1] ], [ SPRINGORIGIN[0] - 1 + 2 * ctr / 10, SPRINGORIGIN[1] + 0.15 ] ] );
+						}
+
+						// used for interaction
+						graph.bobHidden = addMovablePoint( { coord: [ SPRINGORIGIN[0], SPRINGORIGIN[1] - SLENGTH ], normalStyle: { stroke: "none", fill: "none" }, } );
+						graph.bobHidden.constraints.constrainX = true;
+						graph.timeScrollHidden = addMovablePoint( { coord: [ 0, -2 ], normalStyle: { stroke: "none", fill: "none", }  } );
+						graph.timeScrollHidden.constraints.constrainY = true;
+
+						// objects that are redrawn are assigned a bogusShape [see unit-circle.js] to avoid typeof conflicts
+						graph.bobVisible = bogusShape;
+						graph.bobShadow = bogusShape;
+						graph.timeScrollVisible = bogusShape;
+						graph.bobShadowLine = bogusShape;
+						graph.wave = bogusShape;
+						graph.spring = bogusShape;
+						graph.timeBar = bogusShape;
+						graph.positionLabel = bogusShape;
+						graph.positionValueLabel = bogusShape;
+						graph.timeLabel = bogusShape;
+						graph.timeValueLabel = bogusShape;
+						
+						graph.drawBobVisible = function(x,y) {
+							graph.bobVisible.remove();
+							style({ stroke: KhanUtil.ORANGE, fill: KhanUtil.ORANGE, "stroke-width": 2, opacity: 1 }, function () {
+								graph.bobVisible = circle([ x, y ],0.15); 
+							})
+						};
+						graph.drawBobShadow = function(x,y) {
+							graph.bobShadow.remove();
+							style({ stroke: KhanUtil.ORANGE, fill: KhanUtil.ORANGE, "stroke-width": 2, opacity: 0.3 }, function () {
+								graph.bobShadow = circle([ x, y ],0.15); 
+							})
+						};
+						graph.drawTimeScrollVisible = function(x,y) {
+							graph.timeScrollVisible.remove();
+							style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, "stroke-width": 2, opacity: 1 }, function () {
+								graph.timeScrollVisible = circle([ x, y ],0.15); 
+							})
+						};
+						graph.drawBobShadowLine = function(x,y) {
+							graph.bobShadowLine.remove();
+							style({ stroke: KhanUtil.ORANGE, "stroke-width": 1, "stroke-dasharray": "-", opacity:0.4 }, function() {
+								graph.bobShadowLine	= path([ [ x, y ], [ SPRINGORIGIN[0], y ]   ]);
+							});
+						};
+						graph.drawWave = function() {
+							graph.wave.remove();
+							style({ stroke: KhanUtil.ORANGE, fill: "none", "stroke-width": 2, "stroke-dasharray": "", opacity:1 }, function() {
+								graph.wave = plot( function( x ) { return AMP * cos( x * ANGFREQUENCY ); }, [0, PLOTRANGE ]  );
+							});
+						};
+						graph.drawSpring = function() {
+							graph.spring.remove(); // The spring orginates at coordiantes SPRINGORIGIN, is of total points = PTS+1, length = SLENGTH, width = SWIDTH
+							var SWIDTH = 0.30;
+							var PTS = 11;
+							var SPACE = SLENGTH / ( PTS - 1 );   
+							style({ stroke: "#bbb", "stroke-width":2, fill: "none", opacity: 1.0 }, function() {
+								graph.spring = path([ 
+									[ SPRINGORIGIN[0]    , SPRINGORIGIN[1]                    ],
+									[SPRINGORIGIN[0] + SWIDTH, SPRINGORIGIN[1] - SPACE * ( 1 - 0.5 )],
+									[SPRINGORIGIN[0] - SWIDTH, SPRINGORIGIN[1] - SPACE * ( 2 - 0.5 )],
+									[SPRINGORIGIN[0] + SWIDTH, SPRINGORIGIN[1] - SPACE * ( 3 - 0.5 )],
+									[SPRINGORIGIN[0] - SWIDTH, SPRINGORIGIN[1] - SPACE * ( 4 - 0.5 )],
+									[SPRINGORIGIN[0] + SWIDTH, SPRINGORIGIN[1] - SPACE * ( 5 - 0.5 )],
+									[SPRINGORIGIN[0] - SWIDTH, SPRINGORIGIN[1] - SPACE * ( 6 - 0.5 )],
+									[SPRINGORIGIN[0] + SWIDTH, SPRINGORIGIN[1] - SPACE * ( 7 - 0.5 )],
+									[SPRINGORIGIN[0] - SWIDTH, SPRINGORIGIN[1] - SPACE * ( 8 - 0.5 )],
+									[SPRINGORIGIN[0] + SWIDTH, SPRINGORIGIN[1] - SPACE * ( 9 - 0.5 )],
+									[SPRINGORIGIN[0] - SWIDTH, SPRINGORIGIN[1] - SPACE * ( 10 - 0.5 )],
+									[SPRINGORIGIN[0]     , SPRINGORIGIN[1] - SLENGTH               ],
+								]);
+							});
+						};
+						graph.drawTimeBar = function() {
+							graph.timeBar.remove();
+							style({ stroke: "none", fill: KhanUtil.BLUE, opacity: 1.0 }, function() {
+								graph.timeBar = path([ [ 0, -2.1 ], [ 0, -1.9 ], [ 0.01, -1.9 ], [ 0.01, -2.1 ] ]);
+							});
+						};
+						graph.drawLabels = function( x, y, xValue, yValue ) {
+							graph.positionLabel.remove();
+							graph.positionValueLabel.remove();
+							graph.timeLabel.remove();
+							graph.timeValueLabel.remove();
+							graph.positionLabel = label( [ 0, y+0.25 ], "\\text{position}", "left", { color: GREEN });
+							graph.positionValueLabel = label( [ 0, y-0.25 ], ( "x=" + yValue + "\\text{m}" ), "left",{ color: GREEN } );
+							graph.timeLabel = label( [ x, -2 ],  "\\text{time}", "below", { color: BLUE });
+							graph.timeValueLabel = label( [ x, -2.5 ], ( "t=" + xValue + "\\text{sec}" ), "below", { color: BLUE } );
+						};
+
+						
+						graph.drawBobVisible( SPRINGORIGIN[0],SPRINGORIGIN[1]-SLENGTH );
+						graph.drawBobShadow( 0, 0 );
+						graph.drawTimeScrollVisible ( 0, -2 );
+						graph.drawWave();
+						graph.drawSpring();
+						graph.drawTimeBar();
+						graph.drawLabels( 0, 0, 0, 0 );
+						graph.drawBobShadowLine( 0, 0 );
+						
+
+							
+						// user interaction moves the bob	
+						graph.bobHidden.onMove = function( x, y ) {
+							if ( graph.flaganimation===0 ) {
+								if (y &gt; SLENGTH - 1.7 || y &lt; -( SLENGTH - 1.7 )) {
+									return false;
+								} else
+								{
+									AMP = y;
+									graph.drawWave();
+									graph.setTime(0.01,1);
+								}
+							}
+						};
+
+						//user interaction moves the timeScroll
+						graph.timeScrollHidden.onMove = function( x, y ) {
+							if ( graph.flaganimation===0 ) {
+								if (x &gt; PLOTRANGE+0.04 || x &lt; -0.04 ) {
+									return false;
+								} else
+								{
+									graph.setTime(x,2);
+								}
+							}
+						};
+
+						graph.goToTime = function( time ) {
+							var duration = 1000 * Math.abs( time-graph.time );
+							graph.flaganimationfull=1;
+							jQuery( graph ).animate({
+							time: time
+							}, {
+								duration: duration,
+								easing: "linear",
+								complete: function() {
+									graph.flaganimationfull=0;
+								},
+								step: function( now, fx ) {
+									graph.setTime(now,0);
+								}
+							});
+							
+							};
+
+						graph.setTime = function ( time,flag ) {
+							graph.flaganimation=1;
+							var position = AMP * Math.cos( ANGFREQUENCY * time );
+							graph.drawTimeScrollVisible ( time, -2 );
+							if (flag!=2) {
+								graph.timeScrollHidden.moveTo( time, -2, false );
+							}
+							if (flag!=1) {
+								graph.bobHidden.moveTo(SPRINGORIGIN[0],position,false);
+							}
+							graph.bobHidden.moveTo(SPRINGORIGIN[0],position,false);
+							graph.drawBobVisible( SPRINGORIGIN[0], position );
+							graph.drawBobShadow(time, position );
+							graph.drawBobShadowLine( time ,position );
+							graph.drawLabels( time, position, Math.round(time*10)/10, Math.round(position*10)/100 );
+							graph.timeBar.scale( time/0.01 , 1 , scalePoint( 0 )[0], scalePoint( 0 )[1] );
+							graph.spring.scale( 1 , -position / SLENGTH + 1 , scalePoint( 0 )[0], scalePoint( SLENGTH )[1] );
+							graph.time = time;
+							graph.flaganimation=0;
+						};
+						
+						jQuery( "#btn1" ).click( function() {
+							if ( graph.flaganimationfull === 0 ) {
+								KhanUtil.currentGraph.graph.time=0;
+								KhanUtil.currentGraph.graph.goToTime(PLOTRANGE);
+							}
+						});
+						
+					</div>
+				</div>
+	
+				<div class="solution" data-type="multiple">
+					<p><code>x(<var>TIME</var>)=</code><span class="sol" data-inexact data-max-error="0.02" data-type="decimal"><var>ANS</var></span> m</p>
+				</div>
+	
+				
+
+
+			</div>
+		</div>
+
+		<div class="hints">
+			<div>
+				<p data-if="AMPLITUDE &gt; 0">Move the <code class="hint_orange">\text{orange point}</code> up to compress the spring 
+				and select an initial position <code>x=<var>AMPLITUDE</var>\,\text{m}</code>.</p>
+				<p data-else-if="AMPLITUDE &lt; 0" >Move the <code class="hint_orange">\text{orange point}</code> down to strech the spring and select an initial position <code>x=<var>AMPLITUDE</var>\,\text{m}</code>.</p>
+				<p data-else >Move the <code class="hint_orange">\text{orange point}</code> to the mean position and select an initial position <code>x=<var>AMPLITUDE</var>\,\text{m}</code>.</p>
+			</div>
+			<div>
+				<p > Drag the <code class="hint_blue">\text{blue point}</code> along time axis to select 
+				the time <code>t=<var>TIME</var>\,\text{sec}</code>.</p>
+			</div>
+			<div>
+				<p>
+					The correct initial position is selected.
+				</p>
+				<div class="graphie" data-update="graph">
+							graph.bobHidden.moveTo(SPRINGORIGIN[0],AMPLITUDE*10,false);
+				</div>
+			</div>
+			<div>
+				<p>
+					The correct time is selected. The position at time <code>t=<var>TIME</var>\,\text{sec}</code> is <code>x=<var>ANS</var>\,\text{m}</code>. 
+				</p>
+				<div class="graphie" data-update="graph">
+						graph.goToTime(TIME);
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
