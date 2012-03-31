@@ -195,6 +195,9 @@
 
 						correctMinuteAngle = roundToNearest( minuteSnapDegrees, correctMinuteAngle );
 						correctHourAngle = roundToNearest( hourSnapDegrees, correctHourAngle );
+
+						almostCorrectHourAngle = timeToDegrees( 5 * HOUR ) 
+						almostCorrectHourAngle = roundToNearest( 360 / 12,  almostCorrectHourAngle )
 					</div>
 				</div>
 
@@ -218,6 +221,10 @@
 							return "";
 						}
 
+						if (minuteAngle === correctMinuteAngle &amp;&amp; hourAngle !== correctHourAngle &amp;&amp; hourAngle === almostCorrectHourAngle) {
+							return "Almost correct, but the hour hand shouldn't be exactly on the hour.";
+						}
+						
 						return (minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle === correctHourAngle);
 
 					</div>
