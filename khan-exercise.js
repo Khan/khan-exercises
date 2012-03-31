@@ -522,7 +522,7 @@ var Khan = (function() {
 
 			// make a link to a related video, appending exercise ID.
 			makeHref: function(video) {
-				return video.relative_url + "?exid=" + this.exercise.name;
+				return video.relativeUrl + "?exid=" + this.exercise.name;
 			},
 
 			anchorElement: function( video, needComma ) {
