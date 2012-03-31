@@ -36,9 +36,9 @@
 			<div>
 				<p>You only multiply by numbers you have slots for. You can see this as having <var>avail</var>!, and dividing by the <code>(<var>avail</var>-<var>pick</var>)!</code> that you don't have room for.</p>
 			</div>
-			<div>
-				<p>Here's another way to see it. Select <var>pick</var> pegs, for instance <var>toSentence(peg_colors, 'and')</var>. For example, if you choose the colors <var>toSentence(peg_colors, 'and')</var>, they can be permuted in <var>perms.length</var> ways, <var>describe_permutations(perms)</var>.</p>
-				<p>You can choose <var>choose_colors</var> different <var>plural("combination", choose_colors)</var> of colors.</p>
+			<div data-if="pick !== 1">
+				<p>Here's another way to see it. Select <var>pick</var> pegs, for instance <var>toSentence(peg_colors, 'and')</var>. For example, if you choose the colors <var>toSentence(peg_colors, 'and')</var>, they can be permuted in <var>perms.length</var> ways: <var>describe_permutations(perms)</var>.</p>
+				<p>You can choose <var>choose_colors</var> <var>plural("combination", choose_colors)</var> of colors.</p>
 				<p><code><var>perms.length</var>*<var>choose_colors</var> = <var>nperm</var></code>.</p>
 			</div>
 			<div>
