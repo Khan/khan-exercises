@@ -9,14 +9,13 @@
 	<div class="exercise">
 	<div class="vars">
 		<var id="MIDPOINT">randRange( -15, 15 )</var>
-		<var id="DISTANCE">randRange( -2, 2 )</var>
+		<var id="DISTANCE">randRangeExclude( -2, 2,[0] )</var>
 		<var id="NUMBER">randRangeExclude( max(MIDPOINT-5, MIDPOINT-5-DISTANCE),min(MIDPOINT+5, MIDPOINT+5-DISTANCE), [ 0, MIDPOINT - DISTANCE ] )</var>
 	</div>
 	<div class="problems">
 		<div>
 			<div class="question">
-				<p data-if="DISTANCE !== 0">What number is <strong><var>plural( abs( DISTANCE ), "position")</var> to the <span data-if="DISTANCE < 1">left</span><span data-else>right</span> of the orange dot</strong>? The distance between adjacent tick marks is 1.</p>
-				<p data-else>What number does the orange dot represent? The distance between adjacent tick marks is 1.</p>
+				<p data-if="DISTANCE !== 0">What number is <strong><var>plural( abs( DISTANCE ), "position")</var></strong> to the <strong><span data-if="DISTANCE < 1">left</span><span data-else>right</span></strong> of the <strong>orange dot</strong>? The distance between adjacent tick marks is 1.</p>
 				<div class="graphie" id="number-line">
 					init({
 						range: [ [ MIDPOINT-6, MIDPOINT+6 ], [ -1, 1 ] ]
