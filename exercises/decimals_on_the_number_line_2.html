@@ -49,7 +49,7 @@
 					line( [ UPPER_BOUND, -0.2], [UPPER_BOUND, 0.2]);
 					label( [ UPPER_BOUND, -0.53 ],  UPPER_BOUND, "center", { color: GREEN });
 
-                    line( [ 0, -0.2], [0, 0.2]);
+					line( [ 0, -0.2], [0, 0.2]);
 					label( [ 0, -0.53 ],  "0", "center", { color: GREEN });
 
 					addMouseLayer();
@@ -80,13 +80,13 @@
 
 				<div data-if="abs(SOLUTION) > 1">
 					<p>Separate the decimal from the whole number:</p>
-					<p><code>\color{orange}{<var>SOLUTION</var>}</code> = 
+					<p><code>\color{orange}{<var>SOLUTION</var>}</code> =
 					<code>\color{blue}{<var>SOLUTION_WHOLE</var>}</code> + <code>\color{blue}{<var>SOLUTION_DECIMAL</var>}</code>
 				</div>
 
 				<div>
-					<p>Therefore, we know <code>\color{orange}{<var>SOLUTION</var>}</code> lies between 
-					<code>\color{orange}{<var>SOLUTION_WHOLE</var>}</code> and 
+					<p>Therefore, we know <code>\color{orange}{<var>SOLUTION</var>}</code> lies between
+					<code>\color{orange}{<var>SOLUTION_WHOLE</var>}</code> and
 					<code>\color{orange}{<var>SOLUTION_WHOLE + (SOLUTION > 0 ? 1 : -1)</var>}</code> on the number line.</p>
 					<div class="graphie" data-update="number-line">
 						style({ stroke: "#FFA500", strokeWidth: 3.5 });
