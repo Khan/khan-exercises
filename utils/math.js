@@ -475,9 +475,9 @@ jQuery.extend(KhanUtil, {
 		return parseFloat( num ) === parseInt( num, 10 ) && !isNaN( num );
 	},
 
-	// Compute the factor of an integer which is >= 0. 
+	// Compute the factorial of an integer >= 0. 
 	factorial: function ( num ) {
-		accumulated = 1;
+		var accumulated = 1;
 		while (num > 0) {
 			accumulated *= num;
 			num -= 1;
