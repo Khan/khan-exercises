@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Permutation</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="N">randRange( 1, 6 )</var>
+			<var id="PERMUTATIONS">factorial( N )</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>How many permutations are there of <var>N</var> distinct objects?</p>
+				</div>
+				<p class="solution" data-forms="integer"><var>PERMUTATIONS</var></p>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>The number of permutations of N distinct objects is N factorial.</p>
+			<div>
+				<p>Thus, the number of permutations of <var>N</var> distinct objects is <var>PERMUTATIONS</var>.</p>
+				<p><code><var>N</var>! = <var>PERMUTATIONS</var></code></p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
