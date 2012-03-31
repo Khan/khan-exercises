@@ -54,7 +54,7 @@ jQuery( Khan ).bind( "newProblem", function() {
 				at: "top center"
 			},
 			show: {
-				delay: 0,
+				delay: 200,
 				effect: {
 					length: 0
 				}
