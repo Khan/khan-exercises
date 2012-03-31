@@ -1072,7 +1072,6 @@ var Khan = (function() {
 		choices.remove();
 
 		// Add the problem into the page
-		jQuery( "#workarea" ).toggle( workAreaWasVisible ).fadeIn();
 		Khan.scratchpad.resize();
 
 		// Enable the all answer input elements except the check answer button.
