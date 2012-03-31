@@ -66,6 +66,9 @@
 				<span class="instruction"> Move the orange dot to select your answer. </span>
 				<div class="guess"> graph.movablePoint.coord[0] </div>
 				<div class="validator-function">
+					if ( guess === 0 ) {
+						return "";
+					}
 					return abs( SOLUTION - guess ) &lt; 0.001;
 				</div>
 				<div class="show-guess">
