@@ -204,7 +204,10 @@ var Khan = (function() {
 
 	modulesLoaded = false,
 
-	gae_bingo = window.gae_bingo || { bingo: function() {} };
+	gae_bingo = window.gae_bingo || { bingo: function() {} },
+
+	// The ul#examples (keep in a global because we need to modify it even when it's out of the DOM)
+	examples;
 
 	// Add in the site stylesheets
 	if (testMode) {
@@ -1776,8 +1779,11 @@ var Khan = (function() {
 				.attr( "disabled", "disabled" );
 			jQuery( "#check-answer-results p" ).hide();
 
-			var examples = jQuery( "#examples" ),
-				examplesLink = jQuery( "#examples-show" ),
+			if (examples == null) {
+				examples = jQuery( "#examples" );
+			}
+
+			var examplesLink = jQuery( "#examples-show" ),
 				checkAnswerButton = jQuery( "#check-answer-button" );
 
 			// Figure out if the response was correct
