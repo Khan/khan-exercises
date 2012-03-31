@@ -45,4 +45,11 @@ jQuery.extend( KhanUtil, {
 		return permutations;
 	},
 
+	describe_permutations: function(permutations) {
+		var stringperms =  jQuery.map(permutations, function( perm, i ) {
+			return "(" + perm.join() + ")";
+		});
+		return KhanUtil.toSentence(stringperms);
+	}
+
 });
