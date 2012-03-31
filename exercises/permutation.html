@@ -12,6 +12,7 @@
 			<var id="pick">randRange(1, avail)</var>
 			<var id="nperm">factorial(avail) / factorial (avail - pick)</var>
 
+			<var id="item">KhanUtil.shuffle(["peg", "marble", "plastic grasshopper"])[0]</var>
 			<var id="all_colors">KhanUtil.shuffle(["red", "green", "blue", "orange", "yellow", "purple"])</var>
 			<var id="avail_colors">all_colors.slice(0, avail)</var>
 			<var id="peg_colors">avail_colors.slice(0, pick)</var>
@@ -24,7 +25,7 @@
 		<div class="problems">
 			<div>
 				<div class="question">
-					<p>Playing a game with <var>avail</var> pegs (<var>toSentence(avail_colors, 'and')</var>), you can put <var>pick</var> of them into slots the order of your choice. How many permutations are available to you?</p>
+					<p>Playing a game with <var>avail</var> <var>plural(item, avail)</var> (<var>toSentence(avail_colors, 'and')</var>), you can put <var>pick</var> of them into slots the order of your choice. How many permutations are available to you?</p>
 				</div>
 				<p class="solution" data-forms="integer"><var>nperm</var></p>
 			</div>
@@ -34,15 +35,16 @@
 			<p data-if="pick === 1">You can choose any of the <var>avail</var> colors to fill the only slot available.</p>
 			<p data-else>You can choose any of the <var>avail</var> colors to fill the first slot. Since you cannot use the color again, you only have <var>avail - 1</var> choices available for the second slot, and so forth. You need to multiply together <var>avail</var>, <var>avail - 1</var>, etc, until you run out of slots.</p>
 			<div>
-				<p>You only multiply by numbers you have slots for. You can see this as having <var>avail</var>!, and dividing by the <code>(<var>avail</var>-<var>pick</var>)!</code> that you don't have room for.</p>
+				<p>You only multiply by numbers you have slots for. If you had <avail> slots, you would have <var>avail</var>! possibilities. Then, you divide by the <code>(<var>avail</var>-<var>pick</var>)!</code> that you don't have room for.</p>
+				<p data-if="avail === pick">Note that 0! is 1, and that in this example you do not run out of slots because you have <var>avail</var> slots to fill with <var>pick</var> <var>plural(item, avail)</var>.</p>
 			</div>
 			<div data-if="pick !== 1">
-				<p>Here's another way to see it. Select <var>pick</var> pegs, for instance <var>toSentence(peg_colors, 'and')</var>. For example, if you choose the colors <var>toSentence(peg_colors, 'and')</var>, they can be permuted in <var>perms.length</var> ways: <var>describe_permutations(perms)</var>.</p>
-				<p>You can choose <var>choose_colors</var> <var>plural("combination", choose_colors)</var> of colors.</p>
+				<p>Here's another way to see it. Select <var>pick</var> <var>plural(item, avail)</var>, for instance <var>toSentence(peg_colors, 'and')</var>. For example, if you choose the colors <var>toSentence(peg_colors, 'and')</var>, they can be permuted in <code><var>avail</var>! = <var>perms.length</var></code> ways: <var>describe_permutations(perms)</var>.</p>
+				<p>You can choose <code>\dfrac{<var>avail</var>!}{(<var>avail</var> - <var>pick</var>)! * <var>pick</var>!} = <var>choose_colors</var></code> <var>plural("combination", choose_colors)</var> of colors.</p>
 				<p><code><var>perms.length</var>*<var>choose_colors</var> = <var>nperm</var></code>.</p>
 			</div>
 			<div>
-				<p>The number of permutations of <var>avail</var> distinct pegs, choosing <var>pick</var>, is <var>nperm</var> when order matters.</p>
+				<p>The number of permutations of <var>avail</var> distinct <var>plural(item, avail)</var>, choosing <var>pick</var>, is <var>nperm</var> when order matters.</p>
 				<p><code>\dfrac{<var>avail</var>!}{(<var>avail</var> - <var>pick</var>)!} = <var>nperm</var></code></p>
 			</div>
 		</div>
