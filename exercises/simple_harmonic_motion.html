@@ -182,12 +182,17 @@
 						graph.drawLabels( 0, 0, 0, 0 );
 						graph.drawBobShadowLine( 0, 0 );
 						
+								
 
 							
 						// user interaction moves the bob	
 						graph.bobHidden.onMove = function( x, y ) {
 							if ( graph.flaganimation===0 ) {
-								if (y &gt; SLENGTH - 1.7 || y &lt; -( SLENGTH - 1.7 )) {
+								if (y &gt; SLENGTH - 1.7) {
+									graph.bobHidden.moveTo( SPRINGORIGIN[0], SLENGTH - 1.7, false);
+									return false;
+								} else if (y &lt; -( SLENGTH - 1.7 )) {
+									graph.bobHidden.moveTo( SPRINGORIGIN[0], -( SLENGTH - 1.7 ), false)
 									return false;
 								} else
 								{
@@ -201,10 +206,14 @@
 						//user interaction moves the timeScroll
 						graph.timeScrollHidden.onMove = function( x, y ) {
 							if ( graph.flaganimation===0 ) {
-								if (x &gt; PLOTRANGE+0.04 || x &lt; -0.04 ) {
+								if (x &gt; PLOTRANGE ) {
+									graph.timeScrollHidden.moveTo( PLOTRANGE, -2, false );
 									return false;
-								} else
-								{
+								} else if (x &lt; 0) {
+									graph.timeScrollHidden.moveTo( 0.01, -2, false );
+									graph.timeBar.scale( 1 , 1 , scalePoint( 0 )[0], scalePoint( 0 )[1] );
+									return false;
+								} else {								
 									graph.setTime(x,2);
 								}
 							}
@@ -271,29 +280,32 @@
 
 		<div class="hints">
 			<div>
-				<p data-if="AMPLITUDE &gt; 0">Move the <code class="hint_orange">\text{orange point}</code> up to compress the spring 
+				<p data-if="AMPLITUDE &gt; 0">Drag the <code class="hint_orange">\text{orange point}</code> up to compress the spring 
 				and select an initial position <code>x=<var>AMPLITUDE</var>\,\text{m}</code>.</p>
 				<p data-else-if="AMPLITUDE &lt; 0" >Move the <code class="hint_orange">\text{orange point}</code> down to strech the spring and select an initial position <code>x=<var>AMPLITUDE</var>\,\text{m}</code>.</p>
 				<p data-else >Move the <code class="hint_orange">\text{orange point}</code> to the mean position and select an initial position <code>x=<var>AMPLITUDE</var>\,\text{m}</code>.</p>
 			</div>
+			<div>
+				<p>
+					Notice that the correct initial position <code>x=<var>AMPLITUDE</var>\,\text{m}</code> has now been selected.
+				</p>
+				<div class="graphie" data-update="graph">
+							graph.bobHidden.moveTo(SPRINGORIGIN[0],AMPLITUDE*10,false);
+				</div>
+			</div>
+
+
 			<div>
 				<p > Drag the <code class="hint_blue">\text{blue point}</code> along time axis to select 
 				the time <code>t=<var>TIME</var>\,\text{sec}</code>.</p>
 			</div>
 			<div>
 				<p>
-					The correct initial position is selected.
+					Notice that the correct time <code>t=<var>TIME</var>\,\text{sec}</code> is now selected. The position at this time is <code>x=<var>ANS</var>\,\text{m}</code>, which is the correct answer. 
 				</p>
 				<div class="graphie" data-update="graph">
 							graph.bobHidden.moveTo(SPRINGORIGIN[0],AMPLITUDE*10,false);
-				</div>
-			</div>
-			<div>
-				<p>
-					The correct time is selected. The position at time <code>t=<var>TIME</var>\,\text{sec}</code> is <code>x=<var>ANS</var>\,\text{m}</code>. 
-				</p>
-				<div class="graphie" data-update="graph">
-						graph.goToTime(TIME);
+							graph.goToTime(TIME);
 				</div>
 			</div>
 		</div>
