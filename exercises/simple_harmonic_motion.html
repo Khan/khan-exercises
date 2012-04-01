@@ -187,13 +187,13 @@
 						// user interaction moves the bob	
 						graph.bobHidden.onMove = function( x, y ) {
 							if ( graph.flaganimation === 0 ) {
-								if (y &gt; SLENGTH - 1.7) {
-									AMP = SLENGTH - 1.7;
+								if (y &gt; SLENGTH - 1.9) {
+									AMP = SLENGTH - 1.9;
 									graph.drawWave();
 									graph.setTime(0.01);  
 									return false;
-								} else if (y &lt; -( SLENGTH - 1.7 )) {
-									AMP = -( SLENGTH - 1.7 );
+								} else if (y &lt; -( SLENGTH - 1.9 )) {
+									AMP = -( SLENGTH - 1.9 );
 									graph.drawWave();
 									graph.setTime(0.01); 
 									return false;
