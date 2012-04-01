@@ -61,9 +61,8 @@
 							scale: [ 40, 40 ],
 						});
 						addMouseLayer();
-						graph.flaganimation = 0;   	// set to one, when running small animation steps
+						graph.flaganimation = 0;   	// set to one, when running small animation, used to disable user interaction
 						graph.time =0;  			//current time of interaction/animation
-						graph.flaganimationfull=0;
 	
 
 						//axes and labels for time and position
@@ -187,67 +186,64 @@
 							
 						// user interaction moves the bob	
 						graph.bobHidden.onMove = function( x, y ) {
-							if ( graph.flaganimation===0 ) {
+							if ( graph.flaganimation === 0 ) {
 								if (y &gt; SLENGTH - 1.7) {
-									graph.bobHidden.moveTo( SPRINGORIGIN[0], SLENGTH - 1.7, false);
+									AMP = SLENGTH - 1.7;
+									graph.drawWave();
+									graph.setTime(0.01);  
 									return false;
 								} else if (y &lt; -( SLENGTH - 1.7 )) {
-									graph.bobHidden.moveTo( SPRINGORIGIN[0], -( SLENGTH - 1.7 ), false)
+									AMP = -( SLENGTH - 1.7 );
+									graph.drawWave();
+									graph.setTime(0.01); 
 									return false;
-								} else
-								{
+								} else {
 									AMP = y;
 									graph.drawWave();
-									graph.setTime(0.01,1);
+									graph.setTime(0.01);
 								}
 							}
 						};
 
 						//user interaction moves the timeScroll
 						graph.timeScrollHidden.onMove = function( x, y ) {
-							if ( graph.flaganimation===0 ) {
+							if ( graph.flaganimation === 0 ) {
 								if (x &gt; PLOTRANGE ) {
-									graph.timeScrollHidden.moveTo( PLOTRANGE, -2, false );
+									graph.setTime(PLOTRANGE);
 									return false;
 								} else if (x &lt; 0) {
-									graph.timeScrollHidden.moveTo( 0.01, -2, false );
-									graph.timeBar.scale( 1 , 1 , scalePoint( 0 )[0], scalePoint( 0 )[1] );
+									graph.setTime(0.01);
 									return false;
 								} else {								
-									graph.setTime(x,2);
+									graph.setTime(x);
 								}
 							}
 						};
 
+						//animation for oscillations
 						graph.goToTime = function( time ) {
 							var duration = 1000 * Math.abs( time-graph.time );
-							graph.flaganimationfull=1;
+							graph.flaganimation=1;
 							jQuery( graph ).animate({
 							time: time
 							}, {
 								duration: duration,
 								easing: "linear",
 								complete: function() {
-									graph.flaganimationfull=0;
+									graph.flaganimation=0;
 								},
 								step: function( now, fx ) {
-									graph.setTime(now,0);
+									graph.setTime(now);
 								}
 							});
 							
-							};
+						};
 
-						graph.setTime = function ( time,flag ) {
-							graph.flaganimation=1;
+						graph.setTime = function ( time ) {
 							var position = AMP * Math.cos( ANGFREQUENCY * time );
 							graph.drawTimeScrollVisible ( time, -2 );
-							if (flag!=2) {
-								graph.timeScrollHidden.moveTo( time, -2, false );
-							}
-							if (flag!=1) {
-								graph.bobHidden.moveTo(SPRINGORIGIN[0],position,false);
-							}
-							graph.bobHidden.moveTo(SPRINGORIGIN[0],position,false);
+							graph.timeScrollHidden.setCoord( [time, -2]);
+							graph.bobHidden.setCoord( [SPRINGORIGIN[0],position]); //moveTo(SPRINGORIGIN[0],position,false);
 							graph.drawBobVisible( SPRINGORIGIN[0], position );
 							graph.drawBobShadow(time, position );
 							graph.drawBobShadowLine( time ,position );
@@ -255,11 +251,10 @@
 							graph.timeBar.scale( time/0.01 , 1 , scalePoint( 0 )[0], scalePoint( 0 )[1] );
 							graph.spring.scale( 1 , -position / SLENGTH + 1 , scalePoint( 0 )[0], scalePoint( SLENGTH )[1] );
 							graph.time = time;
-							graph.flaganimation=0;
 						};
 						
 						jQuery( "#btn1" ).click( function() {
-							if ( graph.flaganimationfull === 0 ) {
+							if ( graph.flaganimation === 0 ) {
 								KhanUtil.currentGraph.graph.time=0;
 								KhanUtil.currentGraph.graph.goToTime(PLOTRANGE);
 							}
@@ -290,7 +285,8 @@
 					Notice that the correct initial position <code>x=<var>AMPLITUDE</var>\,\text{m}</code> has now been selected.
 				</p>
 				<div class="graphie" data-update="graph">
-							graph.bobHidden.moveTo(SPRINGORIGIN[0],AMPLITUDE*10,false);
+					graph.flaganimation=0;
+					graph.bobHidden.moveTo(SPRINGORIGIN[0],AMPLITUDE*10,false);
 				</div>
 			</div>
 
@@ -304,8 +300,9 @@
 					Notice that the correct time <code>t=<var>TIME</var>\,\text{sec}</code> is now selected. The position at this time is <code>x=<var>ANS</var>\,\text{m}</code>, which is the correct answer. 
 				</p>
 				<div class="graphie" data-update="graph">
-							graph.bobHidden.moveTo(SPRINGORIGIN[0],AMPLITUDE*10,false);
-							graph.goToTime(TIME);
+					AMP = AMPLITUDE*10;
+					graph.drawWave();
+					graph.goToTime(TIME);
 				</div>
 			</div>
 		</div>
