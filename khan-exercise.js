@@ -928,8 +928,7 @@ var Khan = (function() {
 		problem = problem.clone();
 
 		// problem has to be child of visible #workarea for MathJax metrics to all work right
-		var workAreaWasVisible = jQuery( "#workarea" ).is( ":visible" );
-		jQuery( "#workarea" ).append( problem ).show();
+		jQuery( "#workarea" ).append( problem );
 
 		// If there's an original problem, add inherited elements
 		var parentType = problem.data( "type" );
@@ -1649,7 +1648,6 @@ var Khan = (function() {
 		jQuery("#next-question-button").blur().hide();
 
 		// Wipe out any previous problem
-		jQuery("#workarea").hide();
 		jQuery("#workarea, #hintsarea").runModules( problem, "Cleanup" ).empty();
 		jQuery("#hint").attr( "disabled", false );
 
