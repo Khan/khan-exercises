@@ -48,9 +48,7 @@
 					addMouseLayer();
 					graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.025 });
 					graph.movablePoint.onMove = function( x, y ) {
-						if (x &lt; LOWER_BOUND || UPPER_BOUND &lt; x) {
-							return false; // don't allow the point to move past the bounds
-						}
+						return [ min( max( LOWER_BOUND, x ), UPPER_BOUND ), y ];
 					};
 				</div>
 			</div>
