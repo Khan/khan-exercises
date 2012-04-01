@@ -32,7 +32,8 @@ a.show-subhint {
 #workarea { margin-left: 30px; }
 #hintsarea { margin-left: 50px; }
 #answer_area ul { list-style: none; }
-#answer_area li { margin: 14px 0; }
+#answer_area li { padding: 7px 0; }
+#answer_area li label { display: block; }
 
 #extras li { display: inline; }
 #extras li:before { content: "| "; }
@@ -81,12 +82,12 @@ body.debug .graphie { outline: 1px dashed red; }
 #browserwarning { background: white; margin: 0 1px; padding: 18px; font-size: 120%; text-align: center; }
 
 #answer_area .answer-buttons input.simple-button,
-#answer_area input.simple-button.full-width { 
-  width: 100%; 
+#answer_area input.simple-button.full-width {
+  width: 100%;
 }
 #answer_area #answercontent { position: relative; z-index: 2; }
 #answer_area .hint-box { position: relative; z-index: 1;}
-#answer_area #examples-show { 
+#answer_area #examples-show {
   float: right;
   margin-top: -2px;
   background: #F7F7F7;
