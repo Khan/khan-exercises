@@ -117,9 +117,7 @@ jQuery.extend( KhanUtil, {
 		if ( point.coord[0] !== x ) {
 
 			// don't allow the point to move past the bounds
-			if ( x < -7 || x > 7 ) {
-				return false;
-			}
+			x = Math.min( Math.max( -7, x ), 7 );
 
 			point.coord = [ x, 0 ];
 
