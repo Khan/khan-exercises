@@ -96,7 +96,6 @@ body.debug .graphie { outline: 1px dashed red; }
   border-radius: 50px;
   border: 1px solid #DDD;
   color: #777;
-  position: relative;
   cursor: default;
 }
 #answer_area #examples-show:hover,
