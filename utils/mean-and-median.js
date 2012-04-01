@@ -113,11 +113,11 @@ jQuery.extend( KhanUtil, {
 	onMovePoint: function( point, x, y, updateFunction ) {
 		var points = KhanUtil.currentGraph.graph.points;
 
+		// don't allow the point to move past the bounds
+		x = Math.min( Math.max( -7, x ), 7 );
+
 		// Don't do anything unless the point actually moved
 		if ( point.coord[0] !== x ) {
-
-			// don't allow the point to move past the bounds
-			x = Math.min( Math.max( -7, x ), 7 );
 
 			point.coord = [ x, 0 ];
 
