@@ -335,7 +335,35 @@ var Khan = (function() {
 
 			for ( var i = 0; i < loading; i++ ) { (function( mod ) {
 
-				if ( !testMode && mod.src.indexOf("/khan-exercises/") === 0 && mod.src.indexOf("/MathJax/") === -1 ) {
+				var isMathJax = mod.src.indexOf("/MathJax/") !== -1,
+					onScriptLoad = function() {
+
+						// When a script is finished loading, bump up the count
+						// of loaded scripts...
+						if ( isMathJax ) {
+
+							// ...unless it's MathJax, and then only bump up
+							// the count once MathJax is fully ready.
+							if ( typeof MathJax === "undefined" || !MathJax.isReady ) {
+
+								// Give MathJax some time to load its
+								// dependencies
+								setTimeout(onScriptLoad, 250);
+								return;
+
+							}
+
+						}
+
+						// Bump up count of scripts loaded
+						loaded++;
+
+						// Run callback in case we're finished loading all
+						// modules
+						runCallback();
+					};
+
+				if ( !testMode && mod.src.indexOf("/khan-exercises/") === 0 && !isMathJax) {
 					// Don't bother loading khan-exercises content in production
 					// mode, this content is already packaged up and available
 					// (*unless* it's MathJax, which is silly still needs to be loaded)
@@ -370,20 +398,16 @@ var Khan = (function() {
 						// Dereference the script
 						script = undefined;
 
-						runCallback();
+						onScriptLoad();
 					}
 				};
 
 				head.appendChild(script);
 			})( urls[i] ); }
 
-			runCallback( true );
+			runCallback();
 
-			function runCallback( check ) {
-				if ( check !== true ) {
-					loaded++;
-				}
-
+			function runCallback() {
 				if ( callback && loading === loaded ) {
 					callback();
 				}
