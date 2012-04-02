@@ -1,128 +1,156 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions">
-<head>
+<html data-require="math interactive graphie">
+	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Graphing points 2</title>
-	<script src="../khan-exercise.js"></script>
-</head>
-<body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="M">randRangeNonZero( -3, 3 )</var>
-			<var id="B">randRangeNonZero( -2, 2)</var>
-			<var id="CORRECT">randRange( 0, 4 )</var>
-			<var id="POINTS">
-				(function() {
-					var points = [];
-
-					for ( var x = -2, i = 0; x &lt;= 2; x++, i++ ) {
-						var y = x * M + B,
-							jitter = randRangeNonZero( -2, 2 );
-
-						if ( i === CORRECT ) {
-							jitter = 0;
-						}
-
-						points.push( [ x, y + jitter ] );
+		<script src="../khan-exercise.js"></script>
+		<script>
+			var correctQuadrant = function( point ){
+				if (point[0] > 0){
+					if (point[1] > 0){
+						return "QI"
 					}
-					return points;
-				})()
-			</var>
+					else { return "QIV";}
+				}
+				else {
+					if (point[1] > 0){
+						return "QII"
+					}
+					else { return "QIII";}
+				}}
+		</script>
+	</head>
 
-			<var id="PAIR">function( arr ) {
-				return "(" + arr.join( ", " ) + ")";
-			}</var>
+	<body>
+		<div class="summary">Plotting points on a coordinate plane and tell quadrant.
+			Common Core State Standard: 6.NS.6c
+			Related Videos: Quadrants of Coordinate Plane, The Coordinate Plane
+			Prerequisite: Number line, (coming soon) Plotting points 0.5
+			Required/helpful For: Graphing linear equations, (coming soon) Graphing using x and y intercepts
 		</div>
+		<div class="exercise">
+			<div class="vars">
+				<var id="POINT"> [randRangeNonZero( -10, 10), randRangeNonZero(-10, 10)]</var>
+				<var id="QUADRANT">correctQuadrant(POINT)</var>
+			</div>
+			<div class="problems">
+				<div class="problem">
+					<p>Plot <code>(<var>POINT</var>)</code> and tell which quadrant the point is in.</p>
 
-		<div class="problems">
-			<div id="equation">
-				<p class="question">Which of the following ordered pairs represents a solution to the equation below?</p>
-				<p><code><var>jQuery.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
-				<p><code>y = <var>expr(["+", ["*", M, "x"], B])</var></code></p>
-				<p class="solution"><code><var>PAIR( POINTS[CORRECT] )</var></code></p>
-				<ul class="choices" data-category="true">
-					<li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
-				</ul>
-				<div class="hints">
-					<p>We can try plugging in the x-value of each ordered pair into the equation.</p>
-					<p>If we evaluate and get the y-value of the ordered pair, then that ordered pair is a solution!</p>
-					<div data-each="POINTS as i, point" data-unwrap>
-						<div>
-							<p>Let's consider <code><var>PAIR( point )</var></code>.</p>
-							<p>If we plug in <code><var>point[ 0 ]</var></code> for <code>x</code> and evaluate, do we get <code><var>point[ 1 ]</var></code>?</p>
-						</div>
-						<p><code>y = <span data-if="M !== 1">(<var>M</var>)</span>(<var>point[ 0 ]</var>) + <var>B</var> = <span data-if="M !== 1"><var>M * point[ 0 ]</var> + <var>B</var> = </span><var>M * point[ 0 ] + B</var></code></p>
-					</div>
-					<p>Thus the only ordered pair that is a solution to the equation is <code><var>PAIR( POINTS[ CORRECT ] )</var></code>.</p>
-					<div>
-						<p>We come to the same answer by plotting the points and the equation.</p>
+					<div class="question">
 						<div class="graphie" id="grid">
 							graphInit({
-								range: 10,
+								range: 11,
 								scale: 20,
-								axisArrows: "<->",
+								axisArrows: "&lt;-&gt;",
 								tickStep: 1,
-								labelStep: 2
+								labelStep: 1,
+								gridOpacity: 0.05,
+								axisOpacity: 0.2,
+								tickOpacity: 0.4,
+								labelOpacity: 0.5
 							});
 
-							style({ stroke: BLUE, fill: BLUE });
+							label( [ 0, 11 ], "y", "above" );
+							label( [ 11, 0 ], "x", "right" );
 
-							plot(function( x ) {
-								return x * M + B;
-							}, [ -10, 10 ]);
+							addMouseLayer();
+							graph.movablePoint = addMovablePoint({coord: [0,0], snapY: 1, snapX: 1 });
 
-							jQuery.each( POINTS, function( i, point ) {
-								if ( i === CORRECT ) {
-									style({ stroke: ORANGE, fill: ORANGE }, function() {
-										circle( point, 0.3 );
-									});
-								} else {
-									circle( point, 0.15 );
+							graph.movablePoint.onMove = function( x, y ) {
+								if (x &lt; -10 || 10 &lt; x || y &lt; -10 || 10 &lt; y) {
+								return false; // don't allow the point to move past the bounds
 								}
-							});
+							};
 						</div>
+
 					</div>
-				</div>
-			</div>
+					<div class="solution" data-type="multiple">
 
-			<div id="graphed">
-				<p class="question">Which of the following ordered pairs represents a solution to the equation graphed below?</p>
-				<p><code><var>jQuery.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
+						<div class="sol" data-type="custom">
+							<div class="instruction">
+								Graph the point and select the quadrant that contains the point.
+								<ul>
+									<li><input type="radio" name="sol" id="r1" value="QI" /><label for="r1">QI</label></li>
+									<li><input type="radio" name="sol" id="r2" value="QII" /><label for="r2">QII</label></li>
+									<li><input type="radio" name="sol" id="r3" value="QIII" /><label for="r3">QIII</label></li>
+									<li><input type="radio" name="sol" id="r4" value="QIV" /><label for="r4">QIV</label></li>
+								</ul>
 
-				<div class="graphie" id="grid">
-					graphInit({
-						range: 10,
-						scale: 20,
-						axisArrows: "<->",
-						tickStep: 1,
-						labelStep: 2
-					});
+							Your graph is also part of your answer.
+							</div>
+							<div class="guess">
+								[ graph.movablePoint.coord,
+								jQuery( "#solutionarea" ).find( "input:checked" ).val()]
+							</div>
+							<div class="validator-function">
+								return ( guess[0][0] === POINT[0] && guess[0][1] === POINT[1] && guess[1]=== QUADRANT );
+							</div>
+							<div class="show-guess">
+								jQuery( "#solutionarea" ).find( "input:checked" ).prop( 'checked', false );
+								if ( guess[1] != null ) {
+									jQuery( "#solutionarea" ).find( "input[value=" + guess[1] + "]" ).prop( 'checked', true );
+								};
+								graph.movablePoint.setCoord( guess[0] );
+							</div>
+						</div>
 
-					style({ stroke: BLUE, fill: BLUE });
-
-					plot(function( x ) {
-						return x * M + B;
-					}, [ -10, 10 ]);
-				</div>
-				<p class="solution"><code><var>PAIR( POINTS[CORRECT] )</var></code></p>
-				<ul class="choices" data-category="true">
-					<li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
-				</ul>
-				<div class="hints">
-					<p>Let's try graphing each of the points.</p>
-					<div class="graphie" data-update="grid" data-each="POINTS as i, point">
-						circle( point, 0.15 );
+						<div class="example">a point graphed and quadrant selected</div>
 					</div>
-					<div>
-						<p>The only point that falls on the line is <code><var>PAIR( POINTS[ CORRECT ] )</var></code>.</p>
-						<div class="graphie" data-update="grid">
-							style({ stroke: ORANGE, fill: ORANGE });
-							circle( POINTS[ CORRECT ], 0.3);
+
+					<div class="hints">
+						<p>Coordinates are listed as <code>(\color{blue}{x},\color{green}{y})</code>. </p>
+
+						<p>So, for <code>( \color{blue}{<var>POINT[0]</var>}, \color{green}{<var>POINT[1]</var>} )</code> our <code>\color{blue}{x}</code>-coordinate is <code>\color{blue}{<var>POINT[0]</var>}</code> and our <code>\color{green}{y}</code>-coordinate is <code>\color{green}{<var>POINT[1]</var>}</code>.
+
+						<p>The <code>\color{blue}{x}</code>-coordinate tells how far we move left or right from the origin and the <code>\color{green}{y}</code>-coordinate tells us how far we move up or down from the origin.</p>
+
+						<div>
+							<p>Since our <code>\color{blue}{x}</code>-coordinate is <span data-if="POINT[0] &gt; 0">positive</span> <span data-else> negative</span>, we move <code>\color{blue}{<var>abs(POINT[0])</var>}</code> to the <span data-if="POINT[0] &gt; 0">right</span> <span data-else> left</span>.</p>
+							<div class="graphie" data-update="grid">
+								style({
+									stroke: "blue",
+									strokeWidth: 2,
+									arrows: "-&gt;"
+								}, function() {
+									line( [ 0, 0 ], [ POINT[0], 0 ]).toBack();
+								});
+							</div>
+						</div>
+
+						<div>
+							<p>Since our <code>\color{green}{y}</code>-coordinate is <span data-if="POINT[1] &gt; 0">positive</span><span data-else> negative</span>, we move <code>\color{green}{<var>abs(POINT[1])</var>}</code> <span data-if="POINT[1] &gt; 0">up</span><span data-else> down</span>.</p>
+							<div class="graphie" data-update="grid">
+								style({
+									stroke: "green",
+									strokeWidth: 2,
+									arrows: "-&gt;"
+								}, function() {
+									line( [ POINT[0], 0 ], POINT ).toBack();
+								});
+								circle( POINT, 0.15, { stroke: "purple", fill: "purple"} ).toBack();
+							</div>
+						</div>
+
+						<p>Now that we have our point plotted, we can figure out the quadrant.</p>
+						<div>
+							<p>By convention, quadrants are named with a capital Q and a roman numeral, starting in the upper left quadrant as QI and rotating counter-clockwise.</p>
+							<div class="graphie" data-update="grid">
+								label( [ 5, 5] , " \\text{ QI }", "center", { color: "purple" } );
+								label( [ -5, 5] , " \\text{ QII }", "center", { color: "purple" } );
+								label( [ -5, -5] , " \\text{ QIII }", "center", { color: "purple" } );
+								label( [ 5, -5] , " \\text{ QIV }", "center", { color: "purple" } );
+							</div>
+						</div>
+						<!-- had to hack the last span because data-else didn't work for QII -->
+						<p>Since our point is in the <span data-if="POINT[1] &gt; 0">upper</span><span data-else>lower</span> <span data-if="POINT[0] &gt; 0">right</span><span data-if="POINT[0] &lt; 0">left</span> portion of the graph, the quadrant is <var>QUADRANT</var>.</p>
+						<div class="final_answer">
+							Move the point to <code>( \color{blue}{<var>POINT[0]</var>}, \color{green}{<var>POINT[1]</var>} )</code> at the marked point above and select <var>QUADRANT</var>.
+
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</body>
 </html>
