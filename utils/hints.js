@@ -60,8 +60,7 @@ jQuery( Khan ).bind( "newProblem", function() {
 				}
 			},
 			hide: {
-				delay: 0,
-				fixed: true
+				delay: 0
 			}
 		});
 
