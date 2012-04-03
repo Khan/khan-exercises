@@ -16,24 +16,19 @@
     <div class="vars">
       <var id="HYDROCARBON">generateRandomHydrocarbon()</var> 
       <var id="CYCLIC">getIsCyclic()</var> 
-      <var id="DRAWHYDROS">getIsHydrogenModel()</var> 
-      <var id="PREFIX">hydrocarbonPrefix( HYDROCARBON )</var> 
-      <var id="ANSA">hydrocarbon( HYDROCARBON, CYCLIC )</var> 
-      <var id="ANSB">hydrocarbonFakeAnswer( HYDROCARBON, CYCLIC )</var> 
-      <var id="ANSC">hydrocarbonFakeAnswer( HYDROCARBON, CYCLIC )</var> 
-      <var id="ANSD">hydrocarbonFakeAnswer( HYDROCARBON, CYCLIC )</var> 
+      <var id="RENDER_METHOD">getRenderMethod()</var> 
+      <var id="PREFIX">getParentHydrocarbonPrefix()</var>       
+      <var id="WRONG_CHOICES">getWrongAnswers()</var> 
     </div>
 
     <div class="problems">
       <div>
       
         <p class="question">What is the name of this molecule?</p>
-        <p class="solution"><span class="molFormat"><var>ANSA</var></span></p>
+        <p class="solution"><span class="molFormat"><var>HYDROCARBON</var></span></p>
         
         <ul class="choices" data-show="4">          
-          <li><span class="molFormat"><var>ANSB</var></span></li>
-          <li><span class="molFormat"><var>ANSC</var></span></li>
-          <li><span class="molFormat"><var>ANSD</var></span></li>          
+          <li data-each="WRONG_CHOICES as choice"><span class="molFormat"><var>choice</var></span></li>       
         </ul>             
         
         <div class="graphie" id="molecule">
@@ -42,7 +37,7 @@
             scale: 20
           });
           
-          graph.pl = new OrganicMoleculeRenderer( HYDROCARBON, CYCLIC );
+          graph.pl = parentHydrocarbon;
           graph.pl.draw();
         </div>
         
@@ -91,14 +86,14 @@
         </div>
       </div>
       
-      <div data-if="DRAWHYDROS === true">   
-        <p>Count the carbons, the (C)'s.</p>
+      <div data-if="RENDER_METHOD === 0"><!-- Draw each atom as its atomic abbr. with lines between them -->
+        <p>Count the carbons, the (<span class="molFormat" style="color: #6495ed;"> C </span>)'s.</p>
         <div class="graphie" data-update="molecule">          
           graph.pl.hint();
         </div>        
       </div>
       
-      <div data-if="DRAWHYDROS === false">      
+      <div data-if="RENDER_METHOD === 1"><!-- Draw carbons as squiggly lines with inferred hydrogens -->
         <p>Count the carbons starting at one end by numbering the points at the end of each line and line intersection.</p>
         <div class="graphie" data-update="molecule">          
           graph.pl.hint();
