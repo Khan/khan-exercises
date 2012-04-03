@@ -2148,38 +2148,6 @@ var Khan = (function() {
 			});
 		});
 
-		jQuery( "#print-ten" ).data( "show", true )
-			.click( function( e ) {
-				e.preventDefault();
-
-				var link = jQuery( this ),
-					show = link.data( "show" );
-
-				// Reset answer fields, etc. and clear work and hints area
-				jQuery("#next-question-button").click();
-
-				if ( show ) {
-					link.text( "Try current problem" );
-					jQuery( "#answerform" ).hide();
-
-					for ( var i = 0; i < 9; i++ ) {
-						jQuery( "#workarea" ).append( "<hr>" );
-						nextProblem( 1 );
-						makeProblem();
-					}
-
-					// Rewind so next time we make a problem we'll be back at the beginning
-					prevProblem( 9 );
-				} else {
-					link.text( "Show next 10 problems" );
-					jQuery( "#answerform" ).show();
-				}
-
-				jQuery( "#answerform input[type='button']" ).attr( "disabled", show );
-
-				link.data( "show", !show );
-			});
-
 		jQuery( "#warning-bar-close a").click( function( e ) {
 			e.preventDefault();
 			jQuery( "#warning-bar" ).fadeOut( "slow" );
