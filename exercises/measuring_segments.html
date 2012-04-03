@@ -229,7 +229,7 @@
 				<var id="SEG_1">POINTS[ 0 ] + POINTS[ 1 ]</var>
 				<var id="SEG_2">POINTS[ 1 ] + POINTS[ 2 ]</var>
 				<var id="SEG_TOTAL">POINTS[ 0 ] + POINTS[ 2 ]</var>
-				<div data-ensure="( COEF_1 !== COEF_2 || CONST_1 !== CONST_2 ) && ( TOTAL > 0 )">
+				<div data-ensure="( COEF_1 !== COEF_2 || CONST_1 !== CONST_2 ) && ( TOTAL > 0 ) && ( CONST_2 !== 0 )">
 					<var id="X">randRange( 1, 9 )</var>
 					<var id="COEF_1">randRangeNonZero( 2, 9 )</var>
 					<var id="CONST_1">randRangeNonZero( -9, 9 )</var>
