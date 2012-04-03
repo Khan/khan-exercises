@@ -13,7 +13,14 @@ MathJax.Hub.Config({
 			"boldsymbol.js"
 		],
 		Macros: {
-			RR: "\\mathbb{R}"
+			RR: "\\mathbb{R}",
+			blue: "\\color{#6495ED}",
+			orange: "\\color{#FFA500}",
+			pink: "\\color{#FF00AF}",
+			red: "\\color{red}",
+			green: "\\color{#28AE7B}",
+			gray: "\\color{gray}",
+			purple: "\\color{purple}"
 		},
 		Augment: {
 			Definitions: {
