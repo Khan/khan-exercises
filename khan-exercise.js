@@ -1721,6 +1721,7 @@ var Khan = (function() {
 
 		jQuery( "#answer_area" ).adhere( {
 			container: jQuery( "#answer_area_wrap" ).parent(),
+			scrollTopOffset: parseInt(jQuery( "#answer_area_wrap" ).css("margin-top")) || 0,
 			topMargin: 10,
 			bottomMargin: 10
 		} );
