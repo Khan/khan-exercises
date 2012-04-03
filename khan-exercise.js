@@ -1810,10 +1810,8 @@ var Khan = (function() {
 			var examplesLink = jQuery( "#examples-show" ),
 				checkAnswerButton = jQuery( "#check-answer-button" );
 
-			// Figure out if the response was correct
-			if ( pass === true ) {
-				examplesLink.qtip("hide");
-			} else {
+			// If incorrect, warn the user and help them in any way we can
+			if ( pass !== true ) {
 				checkAnswerButton
 					.effect("shake", {times:3, distance: 5}, 80)
 					.val("Try Again");
@@ -1821,18 +1819,6 @@ var Khan = (function() {
 				// Is this a message to be shown?
 				if ( typeof pass === "string" ) {
 					jQuery( "#check-answer-results .check-answer-message" ).html( pass ).tmpl().show();
-				}
-
-				// Show the examples (acceptable answer formats) if available -- we get
-				// a lot of issues due to incorrect formats (eg. "3.14159" instead of
-				// "3pi", "log(2^5)" instead of "log(32)").
-				if ( examplesLink.is( ":visible" ) ) {
-					if ( !examples.is( ":visible" ) ) {
-						examplesLink.qtip("show");
-						setTimeout(function() {
-							examplesLink.qtip("hide");
-						}, 3000);
-					}
 				}
 
 				// Refocus text field so user can type a new answer
@@ -1850,8 +1836,6 @@ var Khan = (function() {
 					}, 1 );
 				}
 			}
-
-			// The user checked to see if an answer was valid
 
 			// Save the problem results to the server
 			var curTime = new Date().getTime();
