@@ -338,24 +338,6 @@ var Khan = (function() {
 
 				var isMathJax = mod.src.indexOf("/MathJax/") !== -1,
 					onScriptLoad = function() {
-
-						// When a script is finished loading, bump up the count
-						// of loaded scripts...
-						if ( isMathJax ) {
-
-							// ...unless it's MathJax, and then only bump up
-							// the count once MathJax is fully ready.
-							if ( typeof MathJax === "undefined" || !MathJax.isReady ) {
-
-								// Give MathJax some time to load its
-								// dependencies
-								setTimeout(onScriptLoad, 250);
-								return;
-
-							}
-
-						}
-
 						// Bump up count of scripts loaded
 						loaded++;
 
@@ -399,7 +381,14 @@ var Khan = (function() {
 						// Dereference the script
 						script = undefined;
 
-						onScriptLoad();
+						if ( isMathJax ) {
+							// If we're loading MathJax, don't bump up the
+							// count of loaded scripts until MathJax is done
+							// loading all of its dependencies.
+							MathJax.Hub.Queue(onScriptLoad);
+						} else {
+							onScriptLoad();
+						}
 					}
 				};
 
