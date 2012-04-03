@@ -203,6 +203,7 @@ var Khan = (function() {
 	issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!",
 
 	modulesLoaded = false,
+	modulesDeferred = null,
 
 	gae_bingo = window.gae_bingo || { bingo: function() {} },
 
@@ -2596,9 +2597,12 @@ var Khan = (function() {
 			if ( loadingExercises[rootName] === 0) {
 
 				if ( !modulesLoaded ) {
-					loadModules( callback );
-				} else if ( callback ) {
-					callback();
+					modulesDeferred = jQuery.Deferred();
+					loadModules();
+				}
+
+				if ( callback ) {
+					modulesDeferred.done(callback);
 				}
 
 			}
@@ -2607,7 +2611,7 @@ var Khan = (function() {
 
 	}
 
-	function loadModules( callback ) {
+	function loadModules() {
 
 		modulesLoaded = true;
 
@@ -2630,9 +2634,6 @@ var Khan = (function() {
 								success: function( htmlExercise ) {
 
 									injectTestModeSite( html, htmlExercise );
-									if ( callback ) {
-										callback();
-									}
 
 								}
 							});
@@ -2640,8 +2641,8 @@ var Khan = (function() {
 						}
 					});
 				} else {
-					if ( callback ) {
-						callback();
+					if ( modulesDeferred ) {
+						modulesDeferred.resolve();
 					}
 				}
 			});
