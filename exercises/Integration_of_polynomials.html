@@ -105,24 +105,28 @@
 		
 		<div class="hints">
 			<div>
-				<p>Recall that the anti-derivative of a function of the form : <code>f(x)=Cx^n</code>  is <code>\dfrac{C}{n+1}x^{n+1}</code>. </p>
+				<p>Recall that the anti-derivative of a function of the form : <code>\color{blue} {f(x)=Cx^n}</code>  is <code>\color{green} {\dfrac {C}{n+1}x^{n+1}}</code>. </p>
+				
+				<p>For example, the anti derivative of  <code>\color{blue} {f(x)=\dfrac {5}{3} x^4} </code>  is <code>\color{green} {\dfrac {5}{3(4+1)}x^{4+1}}</code> or <code>\color{green} {\dfrac {1}{3}x^5}</code> after simplifying. </p>
 			</div>
 
 			<div>
-				<p>When taking the antiderivative of polynomial functions, you add one to the exponent <code>(n+1)</code> and divide the coefficient by <code>(n+1)</code>. You will do this to each term in the function that is of the form <code>f(x)=Cx^n</code>.</p>
+				<p>When taking the antiderivative of polynomial functions, you add <code>\color{purple}{one}</code> to the exponent <code>\color{purple} {(n+1)}</code> and divide the coefficient by <code>\color{purple}{(n+1)}</code>. You will do this to each term in the function that is of the form <code>\color{purple}{f(x)=Cx^n}</code>.</p>
 			</div>
 			<div>
-				<p>For this exercise we are evaluating indefinite integrals. When doing so you must add a constant of integration at the end of the expression. Recall that the derivative of a constant term is 0.</p>
-				<p>Example: <code>{\displaystyle{\int{x}\,{\mathrm{d}x}}\,=\,\dfrac{1}{2}x^2\,+\,Constant}</code></p>
+				<p>For this exercise we are evaluating <code>\color{red} {indefinite} </code> integrals. Recall that the derivative of a constant term is <code>\color{red} 0</code>, so we must add a constant term to the solution. </p>
+				<p>Example: <code>\color{blue} { {\displaystyle{\int{3x^4}\,{\mathrm{d}x}} }\,=\,\color{green} { \dfrac{3}{5}x^5\,+\,Constant} } </code></p>
 			</div>
 			<div>
 				<p>Following the given hints for this problem we get:</p>
-					<div data-if="m===0 || (m===1 && Denexp===1)"><code>\dfrac{<var>A</var>}{(<var>n</var>+1)}<var>v</var>^{<var>n</var>+1} + \dfrac{<var>D</var>}{(0+1)}<var>v</var>^{0+1}</code>+ Constant</div>
-					<div data-else><code>\dfrac{<var>A</var>}{({\small<var>n</var>}+1)}<var>v</var>^{{\small<var>n</var>}+1} + \dfrac{<var>D</var>}{(0+1)}<var>v</var>^{0+1}</code>+ Constant</div>
+					<div data-if="m===0 || (m===1 && Denexp===1)"><code>\color{teal} { \dfrac{<var>A</var>}{(<var>n</var>+1)}<var>v</var>^{<var>n</var>+1} + \dfrac{<var>D</var>}{(0+1)}<var>v</var>^{0+1} + C }</code> </div>
+					<div data-else><code>\color{teal} {\dfrac{<var>A</var>}{({\small<var>n</var>}+1)}<var>v</var>^{{\small<var>n</var>}+1} + \dfrac{<var>D</var>}{(0+1)}<var>v</var>^{0+1} + C} </code> </div>
 			</div>
 			<div>
-				<p>..and finally simplify your final solution.</p>
+				<p>..and finally simplify and <code>\textbf{check your answer} </code> by taking the derivative <code>\dfrac{d}{d<var>v</var>}</code> of your solution. </p>
+				<p>If the derivative of your final solution is the same as the integrand (the function being integrated) then your solution is correct!</p>
 			</div>
+			
 			
 		</div>
 	</div>
