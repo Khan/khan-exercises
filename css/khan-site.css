@@ -88,14 +88,14 @@ body {
 
 
 #outer-wrapper {
-    background: url(images/light-page-bg.png) repeat-x;
+    background: url(http://www.khanacademy.org/images/light-page-bg.png) repeat-x;
     min-height: 100%;
     height: auto !important;
     height: 100%;
     margin: 0 0 -77px;
 }
 #page-container, #page-container-inner {
-    background: transparent url(images/content-border.1.png) no-repeat right 85px; /*! data-uri(/images/content-border.1.png) */
+    background: transparent url(http://www.khanacademy.org/images/content-border.1.png) no-repeat right 85px; /*! data-uri(/images/content-border.1.png) */
 }
 #page-container {
     background-position: 0 85px;
@@ -419,7 +419,7 @@ header, footer {
 footer {
     height: 208px;
     clear: both;
-    background: url(images/footer-bg.png) repeat-x 0 0; /*! data-uri(/images/footer-bg.png) */
+    background: url(http://www.khanacademy.org/images/footer-bg.png) repeat-x 0 0; /*! data-uri(/images/footer-bg.png) */
     min-width: 970px;
     position: relative;
 }
@@ -428,12 +428,12 @@ footer {
     }
     footer.short {
         color: #555;
-        background: url(images/light-page-bg.png) repeat-x 0 -30px;
+        background: url(http://www.khanacademy.org/images/light-page-bg.png) repeat-x 0 -30px;
         border-top: 1px solid #C6D1AD;
         z-index: 10;
     }
     footer #leaves {
-        background-image: url(images/non-repeating-sprites.4.png);
+        background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
         background-position: 319px -908px;
         height: 188px;
     }
@@ -471,7 +471,7 @@ footer {
         padding: 8px 10px 0 0;
     }
     footer #creative-commons-link {
-        background-image: url(images/non-repeating-sprites.4.png);
+        background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
         background-position: -143px -67px;
         display: inline-block;
         height: 15px;
@@ -501,15 +501,15 @@ footer {
         position: static;
     }
     footer.short .small-social-links .youtube {
-        background-image: url(images/non-repeating-sprites.4.png);
+        background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
         background-position: -10px -67px;
     }
     footer.short .small-social-links .twitter {
-        background-image: url(images/non-repeating-sprites.4.png);
+        background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
         background-position: -10px -111px;
     }
     footer.short .small-social-links .facebook {
-        background-image: url(images/non-repeating-sprites.4.png);
+        background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
         background-position: -10px -155px;
     }
     footer.short .inner {
@@ -532,7 +532,7 @@ footer {
 #top-header #logo {
     height: 100px;
     position: relative;
-    background-image: url(images/non-repeating-sprites.4.png);
+    background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
     background-position: -10px -261px;
     width: 317px;
 }
@@ -545,11 +545,11 @@ footer {
     #top-header #logo #logo-image {
         width: 280px;
         height: 65px;
-        background-image: url(images/non-repeating-sprites.4.png);
+        background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
         background-position: -10px -465px;
     }
         .dark #top-header #logo #logo-image {
-            background-image: url(images/non-repeating-sprites.4.png);
+            background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
             background-position: -320px -465px;
         }
 
@@ -870,7 +870,7 @@ footer {
         color: #e45c02;
     }
     #top-header #top-header-links #page_auth .css-menu > ul > li:after {
-        background-image: url(images/pulldown-green.png); /*! data-uri(/images/pulldown-green.png) */
+        background-image: url(http://www.khanacademy.org/images/pulldown-green.png); /*! data-uri(/images/pulldown-green.png) */
     }
 
     #top-header #top-header-links span.badge_count_container { vertical-align:baseline; }
@@ -971,7 +971,7 @@ footer {
         font-style: italic;
     }
     .simple-input.search-input {
-        background-image: url(images/non-repeating-sprites.4.png);
+        background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
         background-position: -5px -867px;
         padding-left: 25px;
     }
@@ -1164,7 +1164,7 @@ div.video ol {
     display: inline;
     background: #eee;
     background-break: continuous; /* CSS3 */
-    background-image: url(images/798white_798grey.png); /*! data-uri(/images/798white_798grey.png) */
+    background-image: url(http://www.khanacademy.org/images/798white_798grey.png); /*! data-uri(/images/798white_798grey.png) */
 }
 
 div.video p#keywords {
@@ -1228,7 +1228,7 @@ a:link.google-analytics-link-track
 		width:390px;
 		padding: 2px 2px 2px 18px;
 		font-size:12px;
-        background-image: url(images/non-repeating-sprites.4.png);
+        background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
         background-position: -5px -867px;
 		border: 1px solid #ddd;
 	}
@@ -1652,7 +1652,7 @@ ul.ui-autocomplete .ui-menu-item a span.playlist {
 
     .streak-bar {
         /* the dashboard streak bar doesn't use a generated gradient*/
-        background-image: url(images/non-repeating-sprites.4.png);
+        background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
         background-position: -10px -730px;
         width: 100%;
         height: 30px;
@@ -1672,7 +1672,7 @@ ul.ui-autocomplete .ui-menu-item a span.playlist {
         height: 30px;
     }
     .streak-bar-challenge {
-        background: url(images/streak-meter-empty-challenge.png) no-repeat;
+        background: url(http://www.khanacademy.org/images/streak-meter-empty-challenge.png) no-repeat;
     }
 
 .achievement-badge-counts {
@@ -2009,7 +2009,7 @@ ul.ui-autocomplete .ui-menu-item a span.playlist {
     padding-left: 10px;
 }
 #back-to-dashboard.single-exercise a#dashboard-breadcrumb {
-    background-image: url(images/non-repeating-sprites.4.png);
+    background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
     background-position: -1px -598px;
     color: #333;
     display: block;
@@ -2017,7 +2017,7 @@ ul.ui-autocomplete .ui-menu-item a span.playlist {
     padding: 48px 0 0 4px;
 }
 #back-to-dashboard.single-exercise a#dashboard-breadcrumb:hover {
-    background-image: url(images/non-repeating-sprites.4.png);
+    background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
     background-position: -81px -598px;
     color: #E35D04;
 }
@@ -2515,15 +2515,15 @@ ul.ui-autocomplete .ui-menu-item a span.playlist {
             text-decoration: underline;
         }
         #the-team .team-card .card-info .contact-email, .general-contact .contact-email {
-            background: url(images/contact-email.png) no-repeat left center;
+            background: url(http://www.khanacademy.org/images/contact-email.png) no-repeat left center;
             /*! data-uri(/images/contact-email.png) */
         }
         #the-team .team-card .card-info .contact-twitter {
-            background: url(images/contact-twitter.png) no-repeat left center;
+            background: url(http://www.khanacademy.org/images/contact-twitter.png) no-repeat left center;
             /*! data-uri(/images/contact-twitter.png) */
         }
         #the-team .team-card .card-info .contact-blog {
-            background: url(images/contact-blog.png) no-repeat left center;
+            background: url(http://www.khanacademy.org/images/contact-blog.png) no-repeat left center;
             /*! data-uri(/images/contact-blog.png) */
         }
 /* end of team styles */
@@ -3238,7 +3238,7 @@ a.nodeLabel:hover {
 
 input.button, a.button {
     display: inline-block;
-	background-image: url(images/x-repeating-sprites.png);
+	background-image: url(http://www.khanacademy.org/images/x-repeating-sprites.png);
     background-position: 0px -72px;
 	padding:5px 10px 6px 10px;
 	font-weight:bold;
@@ -3318,7 +3318,7 @@ div.clearFloat { overflow:hidden; height:1px; clear:both; }
 }
 
 .notification-bar {
-    background: #005987 url(images/candy-stripe.png) repeat-x; /*! data-uri(/images/candy-stripe.png) */
+    background: #005987 url(http://www.khanacademy.org/images/candy-stripe.png) repeat-x; /*! data-uri(/images/candy-stripe.png) */
     width:100%;
     height:35px;
     text-align:center;
@@ -3491,7 +3491,7 @@ div.clearFloat { overflow:hidden; height:1px; clear:both; }
 }
 
 .images-email {
-  background-image: url(images/email.png); /*! data-uri(/images/email.png) */
+  background-image: url(http://www.khanacademy.org/images/email.png); /*! data-uri(/images/email.png) */
   width: 16px;
   height: 11px;
 }
@@ -3502,7 +3502,7 @@ div.clearFloat { overflow:hidden; height:1px; clear:both; }
 }
 
 .images-email-gray {
-  background-image: url(images/email.png); /*! data-uri(/images/email.png) */
+  background-image: url(http://www.khanacademy.org/images/email.png); /*! data-uri(/images/email.png) */
   width: 16px;
   height: 11px;
 }
@@ -3539,14 +3539,14 @@ div.clearFloat { overflow:hidden; height:1px; clear:both; }
     margin: 0;
 }
 .twitterShare {
-    background: url(images/twitter.png);
+    background: url(http://www.khanacademy.org/images/twitter.png);
 }
 .facebookShare {
-    background: url(images/facebook.png);
+    background: url(http://www.khanacademy.org/images/facebook.png);
 }
 .emailShare {
     text-indent: -9999px;
-    background: url(images/email-button-24.png) no-repeat;
+    background: url(http://www.khanacademy.org/images/email-button-24.png) no-repeat;
 }
 
 #search-playlists span.highlighted {
@@ -3700,7 +3700,7 @@ div.clearFloat { overflow:hidden; height:1px; clear:both; }
 .unit-rating a.r10-unit:hover{width: 200px;}
 
 .unit-rating li.current-rating {
-	background-image: url(images/non-repeating-sprites.4.png);
+	background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
   background-position: -300px -780px;
 	height: 30px;
 	z-index: 1;
@@ -3733,13 +3733,13 @@ div.clearFloat { overflow:hidden; height:1px; clear:both; }
   z-index: 3;
   opacity: 0.2;
   filter:alpha(opacity=20);
-  background-image: url(images/non-repeating-sprites.4.png);
+  background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
   background-position: -300px -820px;
   z-index: 3;
 }
 
 .single-exercise .unit-rating li.current-rating{
-  background-image: url(images/non-repeating-sprites.4.png);
+  background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
   background-position: -300px -820px;
   height: 30px;
   z-index: 3;
@@ -3766,7 +3766,7 @@ div.clearFloat { overflow:hidden; height:1px; clear:both; }
     }
 
 .unit-rating li.streak-icon {
-  background-image: url(images/non-repeating-sprites.4.png);
+  background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
   background-position: -10px -820px;
   z-index: 2;
   top: 6px;
@@ -4293,7 +4293,7 @@ div.topimg form
     content: "";
     width: 13px;
     height: 12px;
-    background-image: url(images/non-repeating-sprites.4.png);
+    background-image: url(http://www.khanacademy.org/images/non-repeating-sprites.4.png);
     background-position: -72px -67px;
     display: inline-block;
     position: relative;
@@ -4559,7 +4559,7 @@ div.topimg form
     padding: 5px 5px 7px 1px;
     width: 280px;
 
-    background: transparent url(images/profile-header-bg.png) no-repeat 0px 100%;
+    background: transparent url(http://www.khanacademy.org/images/profile-header-bg.png) no-repeat 0px 100%;
 
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -5092,26 +5092,26 @@ div.graph-notification {
 .ui-widget { font-size: 100%; }
 .ui-widget .ui-widget { font-size: 100%; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: 100%; }
-.ui-widget-content { border: 1px solid #aaaaaa; background: #ffffff url(images/ui-bg_glass_75_ffffff_1x400.png) 50% 50% repeat-x; color: #222222; }
+.ui-widget-content { border: 1px solid #aaaaaa; background: #ffffff url(http://www.khanacademy.org/images/ui-bg_glass_75_ffffff_1x400.png) 50% 50% repeat-x; color: #222222; }
 /* .ui-widget-content a { color: #222222; } */
-.ui-widget-header { border: 1px solid #aaaaaa; background: #cccccc url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x; color: #222222; font-weight: bold; }
+.ui-widget-header { border: 1px solid #aaaaaa; background: #cccccc url(http://www.khanacademy.org/images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x; color: #222222; font-weight: bold; }
 .ui-widget-header a { color: #222222; }
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #d3d3d3; background: #e6e6e6 url(images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; }
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #d3d3d3; background: #e6e6e6 url(http://www.khanacademy.org/images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; }
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #555555; text-decoration: none; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #999999; background: #dadada url(images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #999999; background: #dadada url(http://www.khanacademy.org/images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
 .ui-state-hover a, .ui-state-hover a:hover { color: #212121; text-decoration: none; }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff url(images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff url(http://www.khanacademy.org/images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #212121; text-decoration: none; }
 .ui-widget :active { outline: none; }
 
 /* Interaction Cues
 ----------------------------------*/
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {border: 1px solid #fcefa1; background: #fbf9ee url(images/ui-bg_glass_55_fbf9ee_1x400.png) 50% 50% repeat-x; color: #363636; }
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {border: 1px solid #fcefa1; background: #fbf9ee url(http://www.khanacademy.org/images/ui-bg_glass_55_fbf9ee_1x400.png) 50% 50% repeat-x; color: #363636; }
 .ui-state-highlight a, .ui-widget-content .ui-state-highlight a,.ui-widget-header .ui-state-highlight a { color: #363636; }
-.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {border: 1px solid #cd0a0a; background: #fef1ec url(images/ui-bg_inset-soft_95_fef1ec_1x100.png) 50% bottom repeat-x; color: #cd0a0a; }
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {border: 1px solid #cd0a0a; background: #fef1ec url(http://www.khanacademy.org/images/ui-bg_inset-soft_95_fef1ec_1x100.png) 50% bottom repeat-x; color: #cd0a0a; }
 .ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a { color: #cd0a0a; }
 .ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text { color: #cd0a0a; }
 .ui-priority-primary, .ui-widget-content .ui-priority-primary, .ui-widget-header .ui-priority-primary { font-weight: bold; }
@@ -5122,14 +5122,14 @@ div.graph-notification {
 ----------------------------------*/
 
 /* states and images */
-.ui-icon { width: 16px; height: 16px; background-image: url(images/ui-icons_222222_256x240.png); }
-.ui-widget-content .ui-icon {background-image: url(images/ui-icons_222222_256x240.png); }
-.ui-widget-header .ui-icon {background-image: url(images/ui-icons_222222_256x240.png); }
-.ui-state-default .ui-icon { background-image: url(images/ui-icons_888888_256x240.png); }
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url(images/ui-icons_454545_256x240.png); }
-.ui-state-active .ui-icon {background-image: url(images/ui-icons_454545_256x240.png); }
-.ui-state-highlight .ui-icon {background-image: url(images/ui-icons_2e83ff_256x240.png); }
-.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url(images/ui-icons_cd0a0a_256x240.png); }
+.ui-icon { width: 16px; height: 16px; background-image: url(http://www.khanacademy.org/images/ui-icons_222222_256x240.png); }
+.ui-widget-content .ui-icon {background-image: url(http://www.khanacademy.org/images/ui-icons_222222_256x240.png); }
+.ui-widget-header .ui-icon {background-image: url(http://www.khanacademy.org/images/ui-icons_222222_256x240.png); }
+.ui-state-default .ui-icon { background-image: url(http://www.khanacademy.org/images/ui-icons_888888_256x240.png); }
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url(http://www.khanacademy.org/images/ui-icons_454545_256x240.png); }
+.ui-state-active .ui-icon {background-image: url(http://www.khanacademy.org/images/ui-icons_454545_256x240.png); }
+.ui-state-highlight .ui-icon {background-image: url(http://www.khanacademy.org/images/ui-icons_2e83ff_256x240.png); }
+.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url(http://www.khanacademy.org/images/ui-icons_cd0a0a_256x240.png); }
 
 /* positioning */
 .ui-icon-carat-1-n { background-position: 0 0; }
@@ -5324,8 +5324,8 @@ div.graph-notification {
 .ui-corner-all { -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
 
 /* Overlays */
-.ui-widget-overlay { background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); }
-.ui-widget-shadow { margin: -8px 0 0 -8px; padding: 8px; background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); -moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px; }/*
+.ui-widget-overlay { background: #aaaaaa url(http://www.khanacademy.org/images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); }
+.ui-widget-shadow { margin: -8px 0 0 -8px; padding: 8px; background: #aaaaaa url(http://www.khanacademy.org/images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); -moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px; }/*
  * jQuery UI Resizable @VERSION
  *
  * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
@@ -5769,7 +5769,7 @@ ul.inline-list, ul.inline-list li {
 
 #create-goal-view .goal a.objective.exercise:hover:before,
 #create-goal-view .goal a.objective.video:hover:before {
-    background: #3A4759 url(images/delete-icon-inset-small.png) no-repeat 50% 50%; /*! data-uri(/images/delete-icon-inset-small.png) */
+    background: #3A4759 url(http://www.khanacademy.org/images/delete-icon-inset-small.png) no-repeat 50% 50%; /*! data-uri(/images/delete-icon-inset-small.png) */
 }
 
 .goal a.objective.video:before,
@@ -5792,13 +5792,13 @@ ul.inline-list, ul.inline-list li {
 .goal a.objective.exercise:before,
 .goal a.objective.GoalObjectiveExerciseProficiency:before,
 .goal a.objective.GoalObjectiveAnyExerciseProficiency:before {
-    background: #3A4759 url(images/generic-exercise-icon-inset-small.png) no-repeat 4px 4px; /*! data-uri(/images/generic-exercise-icon-inset-small.png) */
+    background: #3A4759 url(http://www.khanacademy.org/images/generic-exercise-icon-inset-small.png) no-repeat 4px 4px; /*! data-uri(/images/generic-exercise-icon-inset-small.png) */
 }
 
 .goal a.objective.video:before,
 .goal a.objective.GoalObjectiveWatchVideo:before,
 .goal a.objective.GoalObjectiveAnyVideo:before {
-    background: #3A4759 url(images/video-camera-icon-inset-small.png) no-repeat 50% 50%; /*! data-uri(/images/video-camera-icon-inset-small.png) */
+    background: #3A4759 url(http://www.khanacademy.org/images/video-camera-icon-inset-small.png) no-repeat 50% 50%; /*! data-uri(/images/video-camera-icon-inset-small.png) */
 }
 
 .ie .goal a.objective.video:before,
@@ -5850,7 +5850,7 @@ ul.inline-list, ul.inline-list li {
     content: " ";
     width: 20px;
     height: 20px;
-    background: transparent url(images/video-camera-icon-full-small.png) no-repeat 0 1px; /*! data-uri(/images/video-camera-icon-full-small.png) */
+    background: transparent url(http://www.khanacademy.org/images/video-camera-icon-full-small.png) no-repeat 0 1px; /*! data-uri(/images/video-camera-icon-full-small.png) */
     position: absolute;
     left: -5px;
     top: 0;
@@ -5869,7 +5869,7 @@ ul.inline-list, ul.inline-list li {
     content: " ";
     width: 20px;
     height: 20px;
-    background: transparent url(images/generic-exercise-icon-full-small.png) no-repeat 0 0px; /*! data-uri(/images/generic-exercise-icon-full-small.png) */
+    background: transparent url(http://www.khanacademy.org/images/generic-exercise-icon-full-small.png) no-repeat 0 0px; /*! data-uri(/images/generic-exercise-icon-full-small.png) */
     position: absolute;
     left: -6px;
     top: 0;
@@ -5890,7 +5890,7 @@ ul.inline-list, ul.inline-list li {
     content: " ";
     width: 30px;
     height: 30px;
-    background: #C7E5F7 url(images/objective-complete-tick.png) no-repeat 50% 50%; /*! data-uri(/images/objective-complete-tick.png) */
+    background: #C7E5F7 url(http://www.khanacademy.org/images/objective-complete-tick.png) no-repeat 50% 50%; /*! data-uri(/images/objective-complete-tick.png) */
     position: absolute;
     left: -12px;
     top: -5px;
