@@ -1,92 +1,145 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-require="math interactive graphie">
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Graphing points</title>
 		<script src="../khan-exercise.js"></script>
 	</head>
+
 	<body>
+		<div class="summary">Plotting points in QI.
+			Common Core State Standard: 5.G.1
+			Related Videos: Quadrants of Coordinate Plane, The Coordinate Plane
+			Prerequisite: Number line (sort of, or coming soon Number line 0.5 which handles only positive points)
+			Required/helpful For: Plotting points, Graphing linear equations, (coming soon) Graphing using x and y intercepts
+		</div>
 		<div class="exercise">
-			<div class="vars">
-				<var id="POINTS">
-					(function() {
-						var points = [];
-
-						while( points.length &lt; 5 ) {
-							var point = [ randRange( -9, 9 ), randRangeExclude( -9, 9, [-1] ) ];
-							var isUnique = true;
-							jQuery.each( points, function( index, pt ) {
-								if ( point[0] === pt[0] && point[1] === pt[1] ) {
-									isUnique = false;
-									return false;
-								}
-							});
-							if ( isUnique ) {
-								points.unshift( point );
-							}
-						}
-						return points;
-					})()
-				</var>
-
-				<var id="FORGOTTEN">randRange( 0, POINTS.length - 1 )</var>
-
-				<var id="PAIR">function( arr ) {
-					return "(" + arr.join( ", " ) + ")";
-				}</var>
+			<div class="vars" data-ensure="X !== 0 || Y !== 0">
+				<var id="X">randRange( 0, 10 )</var>
+				<var id="Y">randRange( 0, 10 )</var>
 			</div>
-
 			<div class="problems">
 				<div>
+					<p class="question">
+						Plot <code>(<var>X</var>, <var>Y</var>)</code>
+					</p>
 					<div class="problem">
-						<p>Consider the following coordinate pairs:</p>
-						<p><code><var>jQuery.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
-					</div>
-
-					<div class="question">
-						<p>Which of those pairs is not graphed below?</p>
+						<br />
 						<div class="graphie" id="grid">
 							graphInit({
-								range: 10,
-								scale: 20,
-								axisArrows: "<->",
+								range: [ [-1, 11], [-1, 11] ],
+								scale: 30,
+								axisArrows: "&lt;-&gt;",
 								tickStep: 1,
-								labelStep: 2
-							})
-
-							jQuery.each( POINTS, function( index, point ) {
-								if ( index === FORGOTTEN ) {
-									return;
-								}
-								style({
-									stroke: "#6495ED",
-									fill: "#6495ED"
-								}, function() {
-									circle( point, 0.15 );
-								});
-
+								labelStep: 1,
+								gridOpacity: 0.05,
+								axisOpacity: 0.2,
+								tickOpacity: 0.4,
+								labelOpacity: 0.5
 							});
+
+							label( [ 0, 11 ], "y", "above" );
+							label( [ 11, 0 ], "x", "right" );
+
+							addMouseLayer();
+							graph.movablePoint = addMovablePoint({coord: [0,0], snapY: 1, snapX: 1 });
+
+							graph.movablePoint.onMove = function( x, y ) {
+								return [ max( 0, min( x, 10 ) ), max( 0, min( y, 10 ) ) ];
+							};
+						</div>
+					</div>
+					<div class="solution" data-type="custom">
+						<div class="instruction">
+							Drag the orange dot to graph the point.
+						</div>
+						<div class="guess">graph.movablePoint.coord</div>
+						<div class="validator-function">
+							if ( guess[0] === 0 &amp;&amp; guess[1] === 0 ) {
+								return "";
+							}
+							return ( guess[0] === X &amp;&amp; guess[1] === Y );
+						</div>
+						<div class="show-guess">
+							graph.movablePoint.setCoord( guess );
 						</div>
 					</div>
 
-					<p class="solution"><code><var>PAIR( POINTS[FORGOTTEN] )</var></code></p>
-					<ul class="choices" data-category="true">
-						<li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
-					</ul>
-				</div>
-			</div>
 
-			<div class="hints">
-				<div data-each="POINTS as i, point" data-unwrap>
-					<div data-if="FORGOTTEN !== i" class="graphie" data-update="grid">
-						label( point, PAIR( point ), "above right" );
+
+					<div class="hints">
+						<p>Coordinates are listed as <code>(\blue{x},\green{y})</code>. </p>
+						<p>
+							So, for <code>( \blue{<var>X</var>}, \green{<var>Y</var>} )</code> our
+							<span class="hint_blue"><code>x</code>-coordinate</span> is <code class="hint_blue"><var>X</var></code> and our
+							<span class="hint_green"><code>y</code>-coordinate</span> is <code class="hint_green"><var>Y</var></code>.</p>
+
+						<p>
+							The <span class="hint_blue"><code>x</code>-coordinate</span> tells how far we move to the right from the origin and the
+							<span class="hint_green"><code>y</code>-coordinate</span> tells us how far we move up from the origin.
+						</p>
+
+						<div>
+							<div data-if="X === 0">
+								Since our <span class="hint_blue"><code>x</code>-coordinate</span> is equal to <code class="hint_blue">0</code>, we don't need to move to the right of the origin.
+							</div>
+							<div data-else>
+								<p>
+									Since our <span class="hint_blue"><code>x</code>-coordinate</span> is equal to <code class="hint_blue"><var>X</var></code>,
+									we move <code class="hint_blue"><var>X</var></code> to the right of the origin.
+								</p>
+								<div class="graphie" data-update="grid">
+									style({
+										stroke: BLUE,
+										strokeWidth: 3,
+										arrows: "-&gt;"
+									}, function() {
+										line( [ 0, 0 ], [ X, 0 ]);
+									});
+									graph.movablePoint.toFront();
+								</div>
+							</div>
+						</div>
+
+						<div>
+							<div data-if="Y === 0">
+								Since our <span class="hint_green"><code>y</code>-coordinate</span> is equal to <code class="hint_green">0</code>, we don't need to move up from the origin.
+							</div>
+							<div data-else>
+								<p>
+									Since our <span class="hint_green"><code>y</code>-coordinate</span> is equal to <code class="hint_green"><var>Y</var></code>,
+									we move up <code class="hint_green"><var>Y</var></code> from the origin.
+								</p>
+								<div class="graphie" data-update="grid">
+									style({
+										stroke: GREEN,
+										strokeWidth: 3,
+										arrows: "-&gt;"
+									}, function() {
+										line( [ X, 0 ], [ X, Y ] );
+									});
+									graph.movablePoint.toFront();
+								</div>
+							</div>
+						</div>
+
+						<div>
+							<p class="final_answer">
+								Move the point to <code>( \blue{<var>X</var>}, \green{<var>Y</var>} )</code> at the marked point above.
+								<input type="button" value="Show me" onClick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );" />
+							</p>
+							<div class="graphie" data-update="grid">
+								style({
+									stroke: PINK,
+									strokeWidth: 3
+								}, function() {
+									line( [ X - 0.25, Y - 0.25 ], [ X + 0.25, Y + 0.25 ] );
+									line( [ X + 0.25, Y - 0.25 ], [ X - 0.25, Y + 0.25 ] );
+								});
+								graph.movablePoint.toFront();
+							</div>
+						</div>
 					</div>
-				</div>
-
-				<div class="graphie" data-update="grid">
-					var point = POINTS[FORGOTTEN];
-					label( point, PAIR( point ) + "\\text{ was not graphed.}", "above right" );
-					circle( point, 0.15, { stroke: "red", fill: "red"} );
 				</div>
 			</div>
 		</div>

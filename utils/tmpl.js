@@ -266,7 +266,10 @@ jQuery.fn.tmplLoad = function( problem, info ) {
 
 jQuery.fn.tmplCleanup = function() {
 	this.find( "code" ).each( function() {
-		MathJax.Hub.getJaxFor( this ).Remove();
+		var jax = MathJax.Hub.getJaxFor( this );
+		if ( jax ) {
+			jax.Remove();
+		}
 	} );
 };
 
