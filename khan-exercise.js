@@ -518,12 +518,20 @@ var Khan = (function() {
 		})(),
 
 		relatedVideos: {
-			videos: [],
 			exercise: null,
+			cache: {},
 
 			setVideos: function( exercise ) {
+
+				if ( !this.cache[exercise.name] ) {
+					this.cache[exercise.name] = [];
+				}
+
+				if ( exercise.relatedVideos ) {
+					this.cache[exercise.name] = exercise.relatedVideos;
+				}
+
 				this.exercise = exercise;
-				this.videos = exercise.relatedVideos || [];
 				this.render();
 			},
 
@@ -562,7 +570,7 @@ var Khan = (function() {
 				jel.empty();
 
 				var template = Templates.get('video.thumbnail');
-				_.each(this.videos, function(video, i) {
+				_.each(this.cache[this.exercise.name], function(video, i) {
 					var thumbnailDiv = jQuery(template({
 						href: this.makeHref(video),
 						video: video
@@ -583,7 +591,7 @@ var Khan = (function() {
 					jel.append( sideBarLi );
 				}, this);
 
-				container.toggle(this.videos.length > 0);
+				container.toggle(this.cache[this.exercise.name].length > 0);
 			},
 
 			hookup: function() {
