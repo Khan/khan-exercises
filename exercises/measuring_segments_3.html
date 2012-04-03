@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html data-require="math graphie expressions">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Measuring segments 3</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+	<div class="problems">
+		<div>
+			<div class="vars">
+				<var id="POINTS">randFromArray([ [ "A", "B", "C" ], [ "J", "K", "L" ], [ "C", "J", "T" ] ])</var>
+				<var id="SEG_1">POINTS[ 0 ] + POINTS[ 1 ]</var>
+				<var id="SEG_2">POINTS[ 1 ] + POINTS[ 2 ]</var>
+				<var id="SEG_TOTAL">POINTS[ 0 ] + POINTS[ 2 ]</var>
+				<var id="COEF_1">randRangeNonZero( 2, 9 )</var>
+				<var id="CONST_1">randRangeNonZero( 2, 9 )</var>
+				<var id="COEF_2">randRangeNonZero( 2, 9 )</var>
+				<var id="CONST_2">randRangeNonZero( 2, 9 )</var>
+				<var id="X">randRange( 1, 9 )</var>
+				<var id="TOTAL">( COEF_1 * X + CONST_1 ) + ( COEF_2 * X + CONST_2 )</var>
+				<var id="GIVEN">shuffle([
+					[ BLUE, SEG_1 + " = " + COEF_1 + "x + " + CONST_1 ],
+					[ GREEN, SEG_2 + " = " + COEF_2 + "x + " + CONST_2 ],
+					[ "purple", SEG_TOTAL + " = " + TOTAL ]
+				])</var>
+			</div>
+			<div class="problem">
+				<div class="graphie" id="number-line">
+					init({
+						range: [ [ -1, 11 ], [ -1, 1 ] ]
+					});
+					line( [ 0, 0 ], [ 10, 0 ] );
+					style({ stroke: "#000", fill: "#000" });
+					graph.points = raphael.set();
+					graph.points.push( circle( [ 0, 0 ], 0.10 ) );
+					graph.points.push( circle( [ 10 * ( COEF_1 * X + CONST_1 ) / TOTAL, 0 ], 0.10 ) );
+					graph.points.push( circle( [ 10, 0 ], 0.10 ) );
+					label( [ 0, 0 ], POINTS[ 0 ], "below" );
+					label( [ 10 * ( COEF_1 * X + CONST_1 ) / TOTAL, 0 ], POINTS[ 1 ], "below" );
+					label( [ 10, 0 ], POINTS[ 2 ], "below" );
+				</div>
+				<p>
+					If:<br />
+					<span id="given0"><code>\qquad <var>GIVEN[ 0 ][ 1 ]</var></code></span>,<br />
+					<span id="given1"><code>\qquad <var>GIVEN[ 1 ][ 1 ]</var></code></span>, and<br />
+					<span id="given2"><code>\qquad <var>GIVEN[ 2 ][ 1 ]</var></code></span>,
+				</p>
+			</div>
+			<p class="question">Find <code><var>SEG_2</var></code>.</p>
+			<div class="solution" data-forms="integer"><var>COEF_2 * X + CONST_2</var></div>
+			<div class="hints">
+				<div>
+					<div class="graphie" data-update="number-line">
+						style({ stroke: BLUE, strokeWidth: 3 });
+						line( [ 0, 0 ], [ 10 * ( COEF_1 * X + CONST_1 ) / TOTAL, 0 ] );
+						style({ stroke: GREEN, strokeWidth: 3 });
+						line( [ 10 * ( COEF_1 * X + CONST_1 ) / TOTAL, 0 ], [ 10, 0 ] );
+						graph.points.toFront();
+						jQuery( "#given0" ).css({ "color": GIVEN[ 0 ][ 0 ] });
+						jQuery( "#given1" ).css({ "color": GIVEN[ 1 ][ 0 ] });
+						jQuery( "#given2" ).css({ "color": GIVEN[ 2 ][ 0 ] });
+					</div>
+					<p>From the diagram, we can see that the total length of <code>\purple{<var>SEG_TOTAL</var>}</code> is the sum of <code>\blue{<var>SEG_1</var>}</code> and <code>\green{<var>SEG_2</var>}</code>:</p>
+					<p><code>\qquad \blue{<var>SEG_1</var>} + \green{<var>SEG_2</var>} = \purple{<var>SEG_TOTAL</var>}</code></p>
+				</div>
+				<div>
+					<p>Substitute in the expressions that were given for each length:</p>
+					<p><code>\qquad \blue{<var>COEF_1</var>x + <var>CONST_1</var>} + \green{<var>COEF_2</var>x + <var>CONST_2</var>} = \purple{<var>TOTAL</var>}</code></p>
+				</div>
+				<div>
+					<p>Combine like terms:</p>
+					<p><code>\qquad<var>COEF_1 + COEF_2</var>x + <var>CONST_1 + CONST_2</var> = \purple{<var>TOTAL</var>}</code></p>
+				</div>
+				<div>
+					<p>Subtract <code><var>CONST_1 + CONST_2</var></code> from both sides:</p>
+					<p><code>\qquad<var>COEF_1 + COEF_2</var>x  = <var>TOTAL - CONST_1 - CONST_2</var></code></p>
+				</div>
+				<div>
+					<p>Divide both sides by <code><var>COEF_1 + COEF_2</var></code> to find <code class="hint_pink">x</code>:</p>
+					<p><code class="hint_pink">\qquad x  = <var>X</var></code></p>
+				</div>
+				<div>
+					<p>Substitute <code class="hint_pink"><var>X</var></code> for <code class="hint_pink">x</code> in the expression that was given for <code><var>SEG_2</var></code>:
+					<p><code class="hint_green">\qquad <var>SEG_2</var> = <var>COEF_2</var>(\pink{<var>X</var>}) + <var>CONST_2</var></code></p>
+				</div>
+				<div>
+					<p>Simplify:</p>
+					<p><code>\qquad \green{<var>SEG_2</var> = <var>COEF_2 * X</var> + <var>CONST_2</var>}</code></p>
+				</div>
+				<div>
+					<p class="final_answer">Simplify to find <code>\green{<var>SEG_2</var>}</code>:</p>
+					<p><code>\qquad \green{<var>SEG_2</var> = <var>COEF_2 * X + CONST_2</var>}</code></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
