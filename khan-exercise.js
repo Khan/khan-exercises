@@ -202,7 +202,12 @@ var Khan = (function() {
 	},
 	issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!",
 
+	// True once we've sent a request to load all modules
 	modulesLoaded = false,
+
+	// jQuery.Deferred object that registers
+	// callbacks to be run when all modules are done
+	// loading.
 	modulesDeferred = null,
 
 	gae_bingo = window.gae_bingo || { bingo: function() {} },
