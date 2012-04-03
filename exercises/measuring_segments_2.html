@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html data-require="math graphie expressions">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Measuring segments 2</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		.lcol { text-align:left; width:200px; display:inline-block; }
+		.rcol { text-align:left; width:auto; display:inline-block; }
+	</style>
+</head>
+<body>
+<div class="exercise">
+	<div class="problems">
+		<div>
+			<div class="vars">
+				<var id="SOLUTION">random() < 0.5 ? "Yes" : "No"</var>
+				<div data-ensure="( SOLUTION === 'Yes' && POINTS[ 1 ] - POINTS[ 0 ] === POINTS[ 3 ] - POINTS[ 2 ] ) || ( SOLUTION === 'No' && POINTS[ 1 ] - POINTS[ 0 ] !== POINTS[ 3 ] - POINTS[ 2 ] )">
+					<var id="POINTS">sortNumbers( randRangeUnique( -5, 5, 4 ) )</var>
+				</div>
+				<var id="COLORS">[ BLUE, GREEN, PINK, ORANGE ]</var>
+			</div>
+			<p class="question">Are <code>\overline{AB}</code> and <code>\overline{CD}</code> congruent?</p>
+			<div class="problem">
+				<div class="graphie" id="number-line">
+					init({
+						range: [ [ -6, 6 ], [ -1, 1 ] ]
+					});
+					style({ stroke: "#999" });
+					line( [ -5, 0 ], [ 5, 0 ] );
+					for ( var x = -5; x &lt;= 5; x++ ) {
+						line( [ x, -0.2 ], [ x, 0.2 ] );
+						label( [ x, -0.53 ],  String( x ).replace( /-(\d)/g, "\\llap{-}$1" ), "center", { color: "#999" } );
+					}
+					style({ strokeWidth: 3.5 });
+					line( [ 0, -0.2], [0, 0.2]);
+
+					style({ stroke: COLORS[ 0 ], fill: COLORS[ 0 ] });
+					circle( [ POINTS[ 0 ], 0 ], 0.10 );
+					style({ stroke: COLORS[ 1 ], fill: COLORS[ 1 ] });
+					circle( [ POINTS[ 1 ], 0 ], 0.10 );
+					style({ stroke: COLORS[ 2 ], fill: COLORS[ 2 ] });
+					circle( [ POINTS[ 2 ], 0 ], 0.10 );
+					style({ stroke: COLORS[ 3 ], fill: COLORS[ 3 ] });
+					circle( [ POINTS[ 3 ], 0 ], 0.10 );
+					label( [ POINTS[ 0 ], 0 ], "A", "above", { color: COLORS[ 0 ] } );
+					label( [ POINTS[ 1 ], 0 ], "B", "above", { color: COLORS[ 1 ] } );
+					label( [ POINTS[ 2 ], 0 ], "C", "above", { color: COLORS[ 2 ] } );
+					label( [ POINTS[ 3 ], 0 ], "D", "above", { color: COLORS[ 3 ] } );
+				</div>
+			</div>
+			<div class="solution"><var>SOLUTION</var></div>
+			<ul class="choices" data-category="true">
+				<li>Yes</li>
+				<li>No</li>
+			</ul>
+
+			<div class="hints">
+				<p>Congruent segments have equal lengths.</p>
+				<div>
+					<p>Find the lengths of <code>\overline{AB}</code> and <code>\overline{CD}</code>:</p>
+					<p>
+					<span class="lcol"><code>AB = |\color{<var>COLORS[ 0 ]</var>}{<var>POINTS[ 0 ]</var>} - \color{<var>COLORS[ 1 ]</var>}{<var>POINTS[ 1 ]</var>}|</code></span>
+					<span class="rcol"><code>CD = |\color{<var>COLORS[ 2 ]</var>}{<var>POINTS[ 2 ]</var>} - \color{<var>COLORS[ 3 ]</var>}{<var>POINTS[ 3 ]</var>}|</code></span>
+					</p>
+				</div>
+				<p>
+					<span class="lcol"><code>AB = |<var>POINTS[ 0 ] - POINTS[ 1 ]</var>|</code></span>
+					<span class="rcol"><code>CD = |<var>POINTS[ 2 ] - POINTS[ 3 ]</var>|</code></span>
+				</p>
+				<p>
+					<span class="lcol"><code>AB = <var>POINTS[ 1 ] - POINTS[ 0 ]</var></code></span>
+					<span class="rcol"><code>CD = <var>POINTS[ 3 ] - POINTS[ 2 ]</var></code></span>
+				</p>
+				<div data-if="SOLUTION === 'Yes'" data-unwrap>
+					<p><code>AB = CD</code></p>
+					<p class="final_answer">Yes, <code>\overline{AB}</code> and <code>\overline{CD}</code> are congruent.</p>
+				</div>
+				<div data-else data-unwrap>
+					<p><code>AB \neq CD</code></p>
+					<p class="final_answer">No, <code>\overline{AB}</code> and <code>\overline{CD}</code> are not congruent.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
