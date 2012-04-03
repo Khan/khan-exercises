@@ -521,11 +521,11 @@ var Khan = (function() {
 			exercise: null,
 			cache: {},
 
-			setVideos: function( exercise ) {
+			getVideos: function() {
+				return this.cache[this.exercise.name] || [];
+			},
 
-				if ( !this.cache[exercise.name] ) {
-					this.cache[exercise.name] = [];
-				}
+			setVideos: function( exercise ) {
 
 				if ( exercise.relatedVideos ) {
 					this.cache[exercise.name] = exercise.relatedVideos;
@@ -570,7 +570,7 @@ var Khan = (function() {
 				jel.empty();
 
 				var template = Templates.get('video.thumbnail');
-				_.each(this.cache[this.exercise.name], function(video, i) {
+				_.each(this.getVideos(), function(video, i) {
 					var thumbnailDiv = jQuery(template({
 						href: this.makeHref(video),
 						video: video
@@ -591,7 +591,7 @@ var Khan = (function() {
 					jel.append( sideBarLi );
 				}, this);
 
-				container.toggle(this.cache[this.exercise.name].length > 0);
+				container.toggle(this.getVideos().length > 0);
 			},
 
 			hookup: function() {
