@@ -1656,9 +1656,6 @@ var Khan = (function() {
 
 		jQuery( "#hint" ).val( "I'd like a hint" );
 
-		// Update dimensions for sticky box
-		jQuery( "#answer_area" ).adhere();
-
 		jQuery(Khan).trigger( "newProblem" );
 
 		return answerType;
@@ -1718,12 +1715,6 @@ var Khan = (function() {
 		// Setup appropriate img URLs
 		jQuery( "#issue-throbber" )
 			.attr( "src", urlBase + "css/images/throbber.gif" );
-
-		jQuery( "#answer_area" ).adhere( {
-			container: jQuery( "#answer_area_wrap" ).parent(),
-			topMargin: 10,
-			bottomMargin: 10
-		} );
 
 		// Change form target to the current page so errors do not kick us
 		// to the dashboard
@@ -1906,9 +1897,6 @@ var Khan = (function() {
 		jQuery( "#hint" ).click(function() {
 
 			var hint = hints.shift();
-
-			// Update dimensions for sticky box
-			jQuery( "#answer_area" ).adhere();
 
 			if ( hint ) {
 				jQuery( Khan ).trigger("hintUsed");
