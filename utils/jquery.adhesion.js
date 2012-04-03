@@ -2,7 +2,6 @@
 	jQuery.fn.adhere = function( options ) {
 		options = jQuery.extend( {
 			container: null,
-			scrollTopOffset: 0,
 			topMargin: 0,
 			bottomMargin: 0
 		}, options );
@@ -96,7 +95,7 @@
 				var containerHeight = container.outerHeight();
 				height = el.outerHeight( true );
 
-				var containerScrolledTop = containerOffset.top + options.scrollTopOffset - scrollTop;
+				var containerScrolledTop = containerOffset.top - scrollTop;
 				var containerScrolledBottom = containerScrolledTop + containerHeight;
 
 				var elFixedBottom = height + options.topMargin + options.bottomMargin;
