@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html data-require="math graphie organic-chem">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Alkanes, Alkenes and Alkynes</title>
+  <script src="../khan-exercise.js"></script>
+  <style>
+    .molFormat{
+      font-size:1.2em;font-style:italic;font-family:'Georgia', Georgia, serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="exercise">
+  
+    <div class="vars">
+      <var id="HYDROCARBON">generateRandomHydrocarbon2()</var>
+      <var id="CYCLIC">getIsCyclic()</var>      
+      <var id="RENDER_METHOD">getRenderMethod()</var>
+      <var id="SETTING">setTestForAlkenes(true)</var>
+      <var id="PREFIX">getParentHydrocarbonPrefix()</var>
+      <var id="SUFFIX">getParentHydrocarbonSuffix()</var>
+      <var id="HAS_ENE">getHasEne()</var>
+      <var id="HAS_YNE">getHasYne()</var>
+      <var id="ENE_NUMBERS">getEneNumbers()</var>
+      <var id="YNE_NUMBERS">getYneNumbers()</var>
+      <var id="WRONG_CHOICES">getWrongAnswers()</var>
+    </div>
+
+    <div class="problems">
+      <div>
+        <p class="question">What is the name of this molecule?</p>
+        <p class="solution"><span class="molFormat"><var>HYDROCARBON</var></span></p>
+        
+        <ul class="choices" data-show="4">          
+          <li data-each="WRONG_CHOICES as choice"><span class="molFormat"><var>choice</var></span></li>    
+        </ul>
+        
+        <div class="graphie" id="molecule">
+          init({
+            range: [ [-5, 31], [-2, 3] ],
+            scale: 20
+          });
+          
+          graph.pl = parentHydrocarbon;
+          graph.pl.draw();
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="hints">
+    
+      <div>      
+        <p style="margin-bottom: 2px;">Here are the names of prefixes for hydrocarbons with 1 to 20 carbons. And prefixes for polyenes and poly-ynes for hydrocarbons
+          with 2-5 enes or ynes.</p>
+        <div class="molFormat">        
+          <table style="margin-bottom: 20px;">
+            <tr>
+              <td style="font-size:1.0em;width:100px;">
+                <span style="color: #FFAF00;">1:</span> <span style="color: #00AFFF;">meth</span><br/>
+                <span style="color: #FFAF00;">2:</span> <span style="color: #00AFFF;">eth</span><br/>
+                <span style="color: #FFAF00;">3:</span> <span style="color: #00AFFF;">prop</span><br/>
+                <span style="color: #FFAF00;">4:</span> <span style="color: #00AFFF;">but</span><br/>
+                <span style="color: #FFAF00;">5:</span> <span style="color: #00AFFF;">pent</span><br/>
+              </td>
+              <td style="font-size:1.0em;width:100px;">
+                <span style="color: #FFAF00;">6:</span> <span style="color: #00AFFF;">hex</span><br/>
+                <span style="color: #FFAF00;">7:</span> <span style="color: #00AFFF;">hept</span><br/>
+                <span style="color: #FFAF00;">8:</span> <span style="color: #00AFFF;">oct</span><br/>
+                <span style="color: #FFAF00;">9:</span> <span style="color: #00AFFF;">non</span><br/>
+                <span style="color: #FFAF00;">10:</span> <span style="color: #00AFFF;">dec</span><br/>
+              </td>
+              <td style="font-size:1.0em;width:100px;">
+                <span style="color: #FFAF00;">11:</span> <span style="color: #00AFFF;">undec</span><br/>
+                <span style="color: #FFAF00;">12:</span> <span style="color: #00AFFF;">dodec</span><br/>
+                <span style="color: #FFAF00;">13:</span> <span style="color: #00AFFF;">tridec</span><br/>
+                <span style="color: #FFAF00;">14:</span> <span style="color: #00AFFF;">tetradec</span><br/>
+                <span style="color: #FFAF00;">15:</span> <span style="color: #00AFFF;">pentadec</span><br/>
+              </td>
+              <td style="font-size:1.0em;width:150px;">
+                <span style="color: #FFAF00;">16:</span> <span style="color: #00AFFF;">hexadec</span><br/>
+                <span style="color: #FFAF00;">17:</span> <span style="color: #00AFFF;">heptadec</span><br/>
+                <span style="color: #FFAF00;">18:</span> <span style="color: #00AFFF;">octadec</span><br/>
+                <span style="color: #FFAF00;">19:</span> <span style="color: #00AFFF;">nonadec</span><br/>
+                <span style="color: #FFAF00;">20:</span> <span style="color: #00AFFF;">icos</span><br/>
+              </td>
+              <td style="font-size:1.0em;width:100px;">
+                <span style="color: #FFAF00;">1:</span> <span style="color: #AF00FF;">(none)</span><br/>
+                <span style="color: #FFAF00;">2:</span> <span style="color: #AF00FF;">di</span><br/>
+                <span style="color: #FFAF00;">3:</span> <span style="color: #AF00FF;">tri</span><br/>
+                <span style="color: #FFAF00;">4:</span> <span style="color: #AF00FF;">tetra</span><br/>
+                <span style="color: #FFAF00;">5+:</span> <span style="color: #AF00FF;">poly</span><br/>
+              </td>
+            </tr>
+          </table>        
+        </div>
+      </div>
+           
+      <div data-if="SUFFIX === 'ane'"><!-- Draw carbons as squiggly lines with inferred hydrogens -->
+        <p>Count the carbons starting at one end by numbering the points at the end of each line and line intersection.</p>
+        <div class="graphie" data-update="molecule">          
+          graph.pl.hint();
+        </div>
+      </div>
+
+      <div data-if="SUFFIX !== 'ane'"><!-- Draw carbons as squiggly lines with inferred hydrogens -->
+        <p>Count the carbons starting at the end with the nearest functional group (double or triple bond). If it's a tie, continue counting until you get to 
+          the next functional group and so on. If everything is still equal, use the end with the first <span class="molFormat" style="color: #009900;">ene</span> group (double bond). </p>
+        <div class="graphie" data-update="molecule">          
+          graph.pl.hint();
+        </div>
+      </div>
+
+      <div data-if="HAS_ENE === true || HAS_YNE === true" >
+        <p>Count and number the <span class="molFormat" style="color: #009900;">ene</span> groups (double bonds) from the correct end of the hydrocarbon, the number of 
+          the first carbon involved in the Pi bond is the index used for that <span class="molFormat" style="color: #009900;">ene</span> group. Do the same for the 
+        <span class="molFormat" style="color: #886633;">yne</span> groups (triple bonds).
+        </p>
+      </div>
+
+      <div data-if="SUFFIX === 'ene'">
+        <p>This is an alk<span class="molFormat" style="color: #009900;">ene</span> since it has at least 1 double bond and no triple bonds. We know now that the 
+          name will end with <span class="molFormat" style="color: #009900;">ene</span>.</p>
+      </div>
+
+      <div data-if="SUFFIX === 'yne'">
+        <p> This is an alk<span class="molFormat" style="color: #886633;">yne</span> since it has at least 1 triple bond. We know now that the name will end with
+        <span class="molFormat" style="color: #886633;">yne</span>.</p>
+      </div>
+
+      <div data-if="HAS_ENE === true && HAS_YNE === true" >
+        <p> This molecule has <span class="molFormat" style="color: #009900;">ene</span> group(s) at <span class="molFormat" style="color: #009900;"><var>ENE_NUMBERS</span> 
+          and <span class="molFormat" style="color: #886633;">yne</span> group(s) at <span class="molFormat" style="color: #886633;"><var>YNE_NUMBERS</var></span>. </p>
+      </div>
+
+      <div data-if="HAS_ENE === true && HAS_YNE === false" >
+        <p> This molecule has <span class="molFormat" style="color: #009900;">ene</span> group(s) at 
+          <span class="molFormat" style="color: #009900;"><var>ENE_NUMBERS</span>. </p>
+      </div>
+
+      <div data-if="HAS_ENE === false && HAS_YNE === true" >
+        <p> This molecule has <span class="molFormat" style="color: #886633;">yne</span> group(s) at 
+          <span class="molFormat" style="color: #886633;"><var>YNE_NUMBERS</var></span>.</p>
+      </div>
+            
+      <div data-if="SUFFIX === 'ane'">
+        <p>Since there are no double bonds and no triple bonds, this is an alkane. End the word with <span class="molFormat" style="color: #0000FF;">ane</span>. </p>
+      </div>
+      
+    </div>
+    
+  </div>
+</body>
+</html>
