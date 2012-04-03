@@ -77,10 +77,11 @@
 				<var id="CONST_2">randRangeNonZero( 2, 9 )</var>
 				<var id="X">randRange( 1, 9 )</var>
 				<var id="TOTAL">( COEF_1 * X + CONST_1 ) + ( COEF_2 * X + CONST_2 )</var>
-				<code>\def\blue{\color{<var>BLUE</var>}}</code>
-				<code>\def\green{\color{<var>GREEN</var>}}</code>
-				<code>\def\purple{\color{purple}}</code>
-				<code>\def\pink{\color{<var>PINK</var>}}</code>
+				<var id="GIVEN">shuffle([
+					[ BLUE, SEG_1 + " = " + COEF_1 + "x + " + CONST_1 ],
+					[ GREEN, SEG_2 + " = " + COEF_2 + "x + " + CONST_2 ],
+					[ "purple", SEG_TOTAL + " = " + TOTAL ]
+				])</var>
 			</div>
 			<div class="problem">
 				<div class="graphie" id="number-line">
@@ -99,9 +100,9 @@
 				</div>
 				<p>
 					If:<br />
-					<span id="given1"><code>\qquad <var>SEG_1</var> = <var>COEF_1</var>x + <var>CONST_1</var></code></span>,<br />
-					<span id="given2"><code>\qquad <var>SEG_2</var> = <var>COEF_2</var>x + <var>CONST_2</var></code></span>, and<br />
-					<span id="given3"><code>\qquad <var>SEG_TOTAL</var> = <var>TOTAL</var></code></span>,
+					<span id="given0"><code>\qquad <var>GIVEN[ 0 ][ 1 ]</var></code></span>,<br />
+					<span id="given1"><code>\qquad <var>GIVEN[ 1 ][ 1 ]</var></code></span>, and<br />
+					<span id="given2"><code>\qquad <var>GIVEN[ 2 ][ 1 ]</var></code></span>,
 				</p>
 			</div>
 			<p class="question">Find <code><var>SEG_2</var></code>.</p>
@@ -114,9 +115,9 @@
 						style({ stroke: GREEN, strokeWidth: 3 });
 						line( [ 10 * ( COEF_1 * X + CONST_1 ) / TOTAL, 0 ], [ 10, 0 ] );
 						graph.points.toFront();
-						jQuery( "#given1" ).css({ "color": BLUE });
-						jQuery( "#given2" ).css({ "color": GREEN });
-						jQuery( "#given3" ).css({ "color": "purple" });
+						jQuery( "#given0" ).css({ "color": GIVEN[ 0 ][ 0 ] });
+						jQuery( "#given1" ).css({ "color": GIVEN[ 1 ][ 0 ] });
+						jQuery( "#given2" ).css({ "color": GIVEN[ 2 ][ 0 ] });
 					</div>
 					<p>From the diagram, we can see that the total length of <code>\purple{<var>SEG_TOTAL</var>}</code> is the sum of <code>\blue{<var>SEG_1</var>}</code> and <code>\green{<var>SEG_2</var>}</code>:</p>
 					<p><code>\qquad \blue{<var>SEG_1</var>} + \green{<var>SEG_2</var>} = \purple{<var>SEG_TOTAL</var>}</code></p>
@@ -237,10 +238,6 @@
 					<var id="CONST_2">COEF_1 * X + CONST_1 - COEF_2 * X</var>
 					<var id="TOTAL">( COEF_1 * X + CONST_1 ) + ( COEF_2 * X + CONST_2 )</var>
 				</div>
-				<code>\def\blue{\color{<var>BLUE</var>}}</code>
-				<code>\def\green{\color{<var>GREEN</var>}}</code>
-				<code>\def\purple{\color{purple}}</code>
-				<code>\def\pink{\color{<var>PINK</var>}}</code>
 			</div>
 			<div class="problem">
 				<p><code><var>POINTS[ 1 ]</var></code> is the midpoint of <code>\overline{<var>SEG_TOTAL</var>}</code></p>
