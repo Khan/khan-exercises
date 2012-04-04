@@ -48,10 +48,13 @@
 		</div>
 
 		<div class="hints">
+			<p>A number is divisible by another number (a divisor) if its prime factorization contains the prime factorization of the divisor.</p>
 			<p>The prime factorization of <code><var>A</var></code> is <code><var>getPrimeFactorization( A ).join( "\\times" )</var></code>.</p>
 			<p>The prime factorization of <code><var>B</var></code> is <code><var>getPrimeFactorization( B ).join( "\\times" )</var></code>.</p>
 			<p>So, any number divisible by both must have <code><var>LCM_FACTORIZATION.join( "\\times" )</var></code> as part of its prime factorization.</p>
-			<p>Such a number is divisible by <code><var>ANSWER</var></code>, since the prime factorization of <code><var>ANSWER</var></code> is <code><var>getPrimeFactorization( ANSWER ).join( "\\times" )</var></code>.</p>
+			<p>All numbers which divide such a number will have a factorization which is part of <code><var>LCM_FACTORIZATION.join( "\\times" )</var></code>.</p>
+			<p>The prime factorization of <code><var>ANSWER</var></code> is <code><var>getPrimeFactorization( ANSWER ).join( "\\times" )</var></code>.</p>
+			<p class="final_answer">Since <code><var>getPrimeFactorization( ANSWER ).join( "\\times" )</var></code> is part of <code><var>LCM_FACTORIZATION.join( "\\times" )</var></code>, all numbers which are divisible by <code><var>A</var></code> and <code><var>B</var></code> are also divisible by <code><var>ANSWER</var></code>, </p>
 		</div>
 	</div>
 </body>
