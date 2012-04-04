@@ -148,16 +148,268 @@
 				<div class="solution"><var>AC</var></div>
 				<div class="hints"  data-apply="appendContents">
 					<div>
-						<p>There aren't any similar triangles in the problem figure, but if we draw a line from <code>B</code> parallel to <code>\color{red}{AC}</code>, 
-							and extend <code>AD</code> out to meet it at a new point <code>E</code>, we can make a very useful triangle 
-							<span style="color:orange"><code>\triangle BDE</code></span> which is similar to <code>\triangle ACD</code>.</p>
+						<p>There aren't any similar triangles in the problem figure, but we can make a new traingle with a few lines.<br/>
+						 <span style="padding-left:10px;">1. Draw a line parallel to the line <code>\color{red}{AC}</code>, through the point <code>B</code>.</span><br/>
+					     <span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span><br/><br/>
+						Now we have a very useful triangle <span style="color:purple"><code>\triangle BDE</code></span> which is similar to <code>\triangle ACD</code>.</p>
+						<div class="graphie" data-update="similar_triangles">
+
+							style({
+								stroke: "purple",
+							});
+							TR_D.draw();
+							TR_D.drawLabels();
+						</div>
+					</div>
+					<div>
+						<p>Since <code>\color{red}{AC}</code> and <code>BE</code> are parallel, we know that <span style="color:green"><code>\angle CAE</code></span>
+							 is equal to <span style="color:green"><code>\angle AEB</code></span>.</p>
+						<div class="graphie" data-update="similar_triangles">
+							var graph = KhanUtil.currentGraph;
+							style({
+								stroke: "green",
+							});
+							var angle_mod_d = ((180 - TR_D.angles[2]) / 135) + 0.2; // draw the arc demonstrating congruent angles farther out if the angle is small
+
+							graph.arc( TR_D.points[2], angle_mod_d, 180 + TR_D.angles[2], 180 + TR_D.angles[2]*2 );
+						</div>
+					</div>
+
+					<div>
+						<p>It's now clear that <span style="color:green"><code>\angle BAE</code></span> is equal to <span style="color:green"><code>\angle AEB</code></span>.
+							Meaning <code>\triangle ABE</code> is isosceles, and we know the length of <code>\color{blue}{BE}</code>.
+						</p>
+						<div class="graphie" data-update="similar_triangles">
+							var graph = KhanUtil.currentGraph;
+
+							graph.line( TR_A.points[0], TR_A.points[1], {stroke: "blue"} );
+							graph.line( TR_A.points[1], POINT_E, {stroke: "blue"} );
+
+							TR_D.labels = { "sides": [ "", AB, "" ] };
+							TR_D.drawLabels();
+
+						</div>
+					</div>
+
+					<div><p><code>\dfrac{ <var>AB</var> }{ <var>BD</var> }	= \dfrac{ \color{red}{AC} }{ <var>CD</var> }</code></p></div>
+					<div><p><code>\color{red}{AC} = \dfrac{<var>AB</var> \cdot <var>CD</var> }{ <var>BD</var> }</code></p></div>
+					<div><p><code>\color{red}{AC} = <var>AC </var></code></p></div>
+				</div>
+			</div>
+			<div id="AB">
+				<div class="vars">
+					<var id="AB">roundTo( 1, TEMP_AC * TEMP_BD / TEMP_CD )</var>
+					<var id="SIDES_B">[ [ 1 ], [0] ]</var>
+					<var id="SIDES_C">[ [ 1,2 ], [ ]  ]</var>
+					<var id="QUESTION_POINT_Q">TR_A.points[0]</var>
+					<var id="QUESTION_POINT_R">TR_A.points[1]</var>
+						
+					<var id="POINT_E">
+						function(){					
+							var pA = TR_A.points[0];
+							var pD = POINT_D;
+
+							var pointE = [ ( pD[0] + (pD[0] - pA[0]) * (CD / BD) ), ( pD[1] + (pD[1] - pA[1]) * (CD / BD) ) ];
+							return pointE;
+						}()
+					</var>
+
+					<var id="TR_D">
+						function(){
+							var trD = new Triangle( [0,0], [], 3, {}, [ POINT_D, TR_A.points[ 2 ], POINT_E ] );
+							trD.labels = { "points": [ "", "", "E" ] };							
+							return trD;
+						}()
+					</var>
+
+				</div>
+				<div class="problem">
+					What is the length of the side AB? (Round to 1 decimal place).
+				</div>
+				<div class="solution"><var>AB</var></div>
+				<div class="hints"  data-apply="appendContents">
+					<div>
+						<p>There aren't any similar triangles in the problem figure, but we can make a new traingle with a few lines.<br/>
+						 <span style="padding-left:10px;">1. Draw a line parallel to the line <code>\color{red}{AB}</code>, through the point <code>C</code>.</span><br/>
+					     <span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span><br/><br/>
+						Now we have a very useful triangle <span style="color:purple"><code>\triangle CDE</code></span> which is similar to <code>\triangle ABD</code>.</p>
 						<div class="graphie" data-update="similar_triangles">
 							style({
-								stroke: "orange",
+								stroke: "purple",
 							});
 							TR_D.draw();
 
 							TR_D.drawLabels();
+						</div>
+					</div>
+					<div>
+						<p>Since <code>\color{red}{AB}</code> and <code>CE</code> are parallel, we know that <span style="color:green"><code>\angle BAE</code></span>
+							 is equal to <span style="color:green"><code>\angle AEB</code></span>.</p>
+						<div class="graphie" data-update="similar_triangles">
+							var graph = KhanUtil.currentGraph;
+							style({
+								stroke: "green",
+							});
+							var angle_mod_d = ((180 - TR_D.angles[2]) / 135) + 0.2; // draw the arc demonstrating congruent angles farther out if the angle is small
+
+							graph.arc( TR_D.points[2], angle_mod_d, 180, 180 + TR_D.angles[2] );
+						</div>
+					</div>
+
+					<div>
+						<p>It's now clear that <span style="color:green"><code>\angle CAE</code></span> is equal to <span style="color:green"><code>\angle AEC</code></span>.
+							Meaning <code>\triangle ACE</code> is isosceles, and we know the length of <code>\color{blue}{CE}</code>.
+						</p>
+						<div class="graphie" data-update="similar_triangles">
+							var graph = KhanUtil.currentGraph;
+
+							graph.line( TR_A.points[0], TR_A.points[2], {stroke: "blue"} );
+							graph.line( TR_A.points[2], POINT_E, {stroke: "blue"} );
+
+							TR_D.labels = { "sides": [ "", "", AC ] };
+							TR_D.drawLabels();
+
+						</div>
+					</div>
+
+					<div><p><code>\dfrac{ \color{red}{AB} }{ <var>BD</var> }	= \dfrac{ <var>AC</var> }{ <var>CD</var> }</code></p></div>
+					<div><p><code>\color{red}{AB} = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>CD</var> }</code></p></div>
+					<div><p><code>\color{red}{AB} = <var>AB </var></code></p></div>
+				</div>
+			</div>
+			<div id="CD">
+				<div class="vars">
+					<var id="CD">roundTo( 1, TEMP_AC * TEMP_BD / TEMP_AB )</var>
+					<var id="SIDES_B">[ [ 1, 0 ], [] ]</var>
+					<var id="SIDES_C">[ [ 2 ], [1 ]  ]</var>
+					<var id="QUESTION_POINT_Q">TR_A.points[2]</var>
+					<var id="QUESTION_POINT_R">POINT_D</var>
+					<var id="POINT_E">
+						function(){					
+							var pA = TR_A.points[0];
+							var pD = POINT_D;
+
+							var pointE = [ ( pD[0] + (pD[0] - pA[0]) * (CD / BD) ), ( pD[1] + (pD[1] - pA[1]) * (CD / BD) ) ];
+							return pointE;
+						}()
+					</var>
+
+					<var id="TR_D">
+						function(){
+							var trD = new Triangle( [0,0], [], 3, {}, [ POINT_D, TR_A.points[ 2 ], POINT_E ] );
+							trD.labels = { "points": [ "", "", "E" ] };
+							return trD;
+						}()
+					</var>
+
+						
+				</div>
+				<div class="problem">
+					What is the length of the side CD?  (Round to 1 decimal place).
+				</div>
+				<div class="solution"><var>CD</var></div>
+				<div class="hints"  data-apply="appendContents">
+					<div>
+						<p>There aren't any similar triangles in the problem figure, but we can make a new traingle with a few lines.<br/>
+						 <span style="padding-left:10px;">1. Draw a line parallel to the line <code>AB</code>, through the point <code>C</code>.</span><br/>
+					     <span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span><br/><br/>
+						Now we have a very useful triangle <span style="color:purple"><code>\triangle CDE</code></span> which is similar to <code>\triangle ABD</code>.</p>
+						<div class="graphie" data-update="similar_triangles">
+							var graph = KhanUtil.currentGraph;
+							style({
+								stroke: "purple",
+							});
+							TR_D.draw();
+
+							TR_D.drawLabels();
+
+							// redraw the red line for the problem
+							graph.line( QUESTION_POINT_Q, QUESTION_POINT_R, { stroke: "red" } );
+
+						</div>
+					</div>
+					<div>
+						<p>Since <code>AB</code> and <code>CE</code> are parallel, we know that <span style="color:green"><code>\angle BAE</code></span>
+							 is equal to <span style="color:green"><code>\angle AEC</code></span>.</p>
+						<div class="graphie" data-update="similar_triangles">
+							var graph = KhanUtil.currentGraph;
+							style({
+								stroke: "green",
+							});
+							var angle_mod_d = ((180 - TR_D.angles[2]) / 135) + 0.2; // draw the arc demonstrating congruent angles farther out if the angle is small
+
+							graph.arc( TR_D.points[2], angle_mod_d, 180, 180 + TR_D.angles[2] );
+						</div>
+					</div>
+
+					<div>
+						<p>It's now clear that <span style="color:green"><code>\angle CAE</code></span> is equal to <span style="color:green"><code>\angle AEC</code></span>.
+							Meaning <code>\triangle ACE</code> is isosceles, and we know the length of <code>\color{blue}{CE}</code>.
+						</p>
+						<div class="graphie" data-update="similar_triangles">
+							var graph = KhanUtil.currentGraph;
+
+							graph.line( TR_A.points[0], TR_A.points[2], {stroke: "blue"} );
+							graph.line( TR_A.points[2], POINT_E, {stroke: "blue"} );
+
+							TR_D.labels = { "sides": [ "", AC, "" ] };
+							TR_D.drawLabels();
+
+						</div>
+					</div>					
+					<div><p><code>\dfrac{ <var> AB</var> }{ <var>BD</var> }	= \dfrac{ <var>AC</var> }{ \color{red}{CD} }</code></p></div>
+					<div><p><code>\color{red}{CD} = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>AB</var> }</code></p></div>
+					<div><p><code>\color{red}{CD} = <var>CD </var></code></p></div>
+				</div>
+			</div>
+			<div id="BD">
+				<div class="vars">
+					<var id="BD">roundTo( 1, TEMP_AB * TEMP_CD / TEMP_AC )</var>
+					<var id="SIDES_B">[ [  0 ],  [ 1 ] ]</var>
+					<var id="SIDES_C">[ [ 1, 2 ], [ ]  ]</var>
+					<var id="QUESTION_POINT_Q">TR_A.points[1]</var>
+					<var id="QUESTION_POINT_R">POINT_D</var>
+					<var id="POINT_E">
+						function(){					
+							var pA = TR_A.points[0];
+							var pD = POINT_D;
+
+							var pointE = [ ( pD[0] + (pD[0] - pA[0]) * (BD / CD) ), ( pD[1] + (pD[1] - pA[1]) * (BD / CD) ) ];
+							return pointE;
+						}()
+					</var>
+
+					<var id="TR_D">
+						function(){
+							var trD = new Triangle( [0,0], [], 3, {}, [ POINT_D, TR_A.points[ 1 ], POINT_E ] );
+							trD.labels = { "points": [ "", "", "E" ] };							
+							return trD;
+						}()
+					</var>
+
+						
+				</div>
+				<div class="problem">
+					What is the length of the side BD?  (Round to 1 decimal place).
+				</div>
+				<div class="solution"><var>BD</var></div>
+				<div class="hints"  data-apply="appendContents">
+					<div>
+						<p>There aren't any similar triangles in the problem figure, but we can make a new traingle with a few lines.<br/>
+						 <span style="padding-left:10px;">1. Draw a line parallel to the line <code>AC</code>, through the point <code>B</code>.</span><br/>
+					     <span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span><br/><br/>
+						Now we have a very useful triangle <span style="color:purple"><code>\triangle BDE</code></span> which is similar to <code>\triangle ACD</code>.</p>
+						<div class="graphie" data-update="similar_triangles">
+							var graph = KhanUtil.currentGraph;
+							style({
+								stroke: "purple",
+							});
+							TR_D.draw();
+							TR_D.drawLabels();
+
+							// redraw the red line for the problem
+							graph.line( QUESTION_POINT_Q, QUESTION_POINT_R, { stroke: "red" } );
+
 						</div>
 					</div>
 					<div>
@@ -190,117 +442,9 @@
 						</div>
 					</div>
 
-					<p><code>\dfrac{ <var>AB</var> }{ <var>BD</var> }	= \dfrac{ \color{red}{AC} }{ <var>CD</var> }</code></p>					
-					<p><code>\color{red}{AC} = \dfrac{<var>AB</var> \cdot <var>CD</var> }{ <var>BD</var> }</code></p>
-					<p><code>\color{red}{AC} = <var>AC </var></code></p>
-				</div>
-			</div>
-			<div id="AB">
-				<div class="vars">
-					<var id="AB">roundTo( 1, TEMP_AC * TEMP_BD / TEMP_CD )</var>
-					<var id="SIDES_B">[ [ 1 ], [0] ]</var>
-					<var id="SIDES_C">[ [ 1,2 ], [ ]  ]</var>
-					<var id="QUESTION_POINT_Q">TR_A.points[0]</var>
-					<var id="QUESTION_POINT_R">TR_A.points[1]</var>
-						
-					<var id="POINT_E">
-						function(){					
-							var pA = TR_A.points[0];
-							var pD = POINT_D;
-
-							var pointE = [ ( pD[0] + (pD[0] - pA[0]) * (CD / BD) ), ( pD[1] + (pD[1] - pA[1]) * (CD / BD) ) ];
-							return pointE;
-						}()
-					</var>
-
-					<var id="TR_D">
-						function(){
-							var trD = new Triangle( [0,0], [], 3, {}, [ POINT_D, TR_A.points[ 2 ], POINT_E ] );
-							return trD;
-						}()
-					</var>
-
-				</div>
-				<div class="problem">
-					What is the length of the side AB? (Round to 1 decimal place).
-				</div>
-				<div class="solution"><var>AB</var></div>
-				<div class="hints"  data-apply="appendContents">
-					<p><code>\dfrac{ AB }{ <var>BD</var> }	= \dfrac{ <var>AC</var> }{ <var>CD</var> }</code></p>
-					<p><code>AB = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>CD</var> }</code></p>
-					<p><code>AB = <var>AB </var></code></p>
-				</div>
-			</div>
-			<div id="CD">
-				<div class="vars">
-					<var id="CD">roundTo( 1, TEMP_AC * TEMP_BD / TEMP_AB )</var>
-					<var id="SIDES_B">[ [ 1, 0 ], [] ]</var>
-					<var id="SIDES_C">[ [ 2 ], [1 ]  ]</var>
-					<var id="QUESTION_POINT_Q">TR_A.points[2]</var>
-					<var id="QUESTION_POINT_R">POINT_D</var>
-					<var id="POINT_E">
-						function(){					
-							var pA = TR_A.points[0];
-							var pD = POINT_D;
-
-							var pointE = [ ( pD[0] + (pD[0] - pA[0]) * (CD / BD) ), ( pD[1] + (pD[1] - pA[1]) * (CD / BD) ) ];
-							return pointE;
-						}()
-					</var>
-
-					<var id="TR_D">
-						function(){
-							var trD = new Triangle( [0,0], [], 3, {}, [ POINT_D, TR_A.points[ 2 ], POINT_E ] );
-							return trD;
-						}()
-					</var>
-
-						
-				</div>
-				<div class="problem">
-					What is the length of the side CD?  (Round to 1 decimal place).
-				</div>
-				<div class="solution"><var>CD</var></div>
-				<div class="hints"  data-apply="appendContents">
-					<p><code>\dfrac{ <var> AB</var> }{ <var>BD</var> }	= \dfrac{ <var>AC</var> }{ CD }</code></p>
-					<p><code>CD = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>AB</var> }</code></p>
-					<p><code>CD = <var>CD </var></code></p>
-				</div>
-			</div>
-			<div id="BD">
-				<div class="vars">
-					<var id="BD">roundTo( 1, TEMP_AB * TEMP_CD / TEMP_AC )</var>
-					<var id="SIDES_B">[ [  0 ],  [ 1 ] ]</var>
-					<var id="SIDES_C">[ [ 1, 2 ], [ ]  ]</var>
-					<var id="QUESTION_POINT_Q">TR_A.points[1]</var>
-					<var id="QUESTION_POINT_R">POINT_D</var>
-					<var id="POINT_E">
-						function(){					
-							var pA = TR_A.points[0];
-							var pD = POINT_D;
-
-							var pointE = [ ( pD[0] + (pD[0] - pA[0]) * (BD / CD) ), ( pD[1] + (pD[1] - pA[1]) * (BD / CD) ) ];
-							return pointE;
-						}()
-					</var>
-
-					<var id="TR_D">
-						function(){
-							var trD = new Triangle( [0,0], [], 3, {}, [ POINT_D, TR_A.points[ 1 ], POINT_E ] );
-							return trD;
-						}()
-					</var>
-
-						
-				</div>
-				<div class="problem">
-					What is the length of the side BD?  (Round to 1 decimal place).
-				</div>
-				<div class="solution"><var>BD</var></div>
-				<div class="hints"  data-apply="appendContents">
-					<p><code>\dfrac{ <var> AB</var> }{ BD }	= \dfrac{ <var>AC</var> }{ <var>CD</var> }</code></p>
-					<p><code>BD = \dfrac{ <var>AB</var> \cdot <var>CD</var> }{ <var>AC</var> }</code></p>
-					<p><code>BD = <var>BD</var></code></p>
+					<div><p><code>\dfrac{ <var> AB</var> }{ \color{red}{BD} }	= \dfrac{ <var>AC</var> }{ <var>CD</var> }</code></p></div>
+					<div><p><code>\color{red}{BD} = \dfrac{ <var>AB</var> \cdot <var>CD</var> }{ <var>AC</var> }</code></p></div>
+					<div><p><code>\color{red}{BD} = <var>BD</var></code></p></div>
 				</div>
 			</div>
 		</div>
