@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html data-require="math word-problems probability">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Bayes' Theorem</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+
+    <div class="problems">
+        <div id="disease-testing">
+            <div class="vars" data-ensure="DISEASE_SENSITIVITY !== DISEASE_SPECIFICITY">
+                <var id="DISEASE_INFECTION_RATE">randRange( 1, 9 ) / 1000</var>
+                <var id="DISEASE_SENSITIVITY">randRange( 80, 99 ) / 100</var>
+                <var id="DISEASE_SPECIFICITY">randRange( 95, 99 ) / 100</var>
+                <var id="DISEASE_FALSE_POSITIVE">roundTo( 2, 1 - DISEASE_SPECIFICITY )</var>
+                <var id="DIVISOR">DISEASE_INFECTION_RATE * DISEASE_SENSITIVITY + ( 1 - DISEASE_INFECTION_RATE ) * DISEASE_FALSE_POSITIVE</var>
+                <var id="Bayes'_RESULT">DISEASE_INFECTION_RATE * DISEASE_SENSITIVITY / DIVISOR</var> 
+                <var id="ANSWER">roundTo( 2, Bayes'_RESULT )</var>
+            </div>
+            <div class="problem">
+                <p>A new disease has a <code><var>roundTo( 2, DISEASE_INFECTION_RATE * 100)</var>\%</code> infection rate in the general population. A test for it is developed which is reported to have a <code><var>DISEASE_SENSITIVITY * 100</var>\%</code> detection rate and a <code><var>DISEASE_FALSE_POSITIVE * 100</var>\%</code> false positive rate.</p>
+
+                <p>That is, if someone with the disease takes the test there's a <code><var>DISEASE_SENSITIVITY * 100</var>\%</code> chance of them getting a positive result, and if someone without the disease takes the test there's a <code><var>roundTo( 2, DISEASE_SPECIFICITY * 100 )</var>\%</code> chance of them getting a negative result.</p>
+            </div>
+            <div class="question">
+                <p><b>If <var>person( 1 )</var> takes the test and has a positive result, what's the probability that <var>he( 1 )</var> actually has the disease?</b>
+                <br />
+                Please enter your answer as a decimal rounded to the nearest tenth.</p>
+            </div>
+            <div class="solution" data-forms="decimal">
+                <var>ANSWER</var>
+            </div>
+            <div class="hints">
+                <div>One way of rewriting the data in the problem is:
+                    <br><br>
+                    <code>P(\text{Disease}) = \dfrac{<var>roundTo( 2, DISEASE_INFECTION_RATE * 100)</var>}{100}</code>
+                    <br><br>
+                    <code>P(+\text{ Test}\mid \text{Disease}) = \dfrac{<var>DISEASE_SENSITIVITY * 100</var>}{100}</code>
+                    <br><br>
+                    <code>P(+\text{ Test}\mid \text{No disease}) = \dfrac{<var>DISEASE_FALSE_POSITIVE * 100</var>}{100}</code> or <code>P(-\text{ Test}\mid \text{No disease}) = \dfrac{<var>roundTo( 2, DISEASE_SPECIFICITY * 100 )</var>}{100}</code>
+                    <br><br>
+                </div>
+                <div>
+                    Bayes' Theorem states that:
+                    <code>P(A\mid B) = \dfrac{ P(B\mid A) \times P( A ) }{ P( B ) }</code>
+                    <br />
+                    What are the events A and B in this scenario?
+                </div>
+                <div>
+                    <p>A is the probability of <em>having the disease</em> and B is the probability of <em>a positive test</em>, so Bayes' Theorem can be rewritten as:<br/>
+                    <code>P(\text{Disease}\mid \text{+ Test}) = \dfrac{ P(+\text{ Test}\mid \text{Disease}) \times P(\text{Disease} ) }{ P(+\text{ Test} ) }</code>
+                    <br />
+                    How can we find the only unknown, <code>P(\text{ + Test})</code>?</p>
+                </div>
+                <div>
+                    <p><code>P(\text{ + Test})</code> is the combined probability of the different ways you can get a positive test. There are two ways to do so: You either have the disease and get a positive test, or you don't have the disease and get a positive test.</p>
+                    <code>P(\text{ + Test}) = P(+\text{ Test}\mid \text{Disease}) \times P( \text{Disease} ) + P(+\text{ Test}\mid \text{No disease})</code>
+                    <code>P(\text{ + Test}) = \frac{<var>DISEASE_SENSITIVITY * 100</var>}{100} \times \frac{<var>roundTo( 2, DISEASE_INFECTION_RATE * 100)</var>}{100} + \frac{<var>DISEASE_FALSE_POSITIVE * 100</var>}{100} \times \frac{<var>roundTo( 2, ( 1-DISEASE_INFECTION_RATE ) * 100)</var>}{100}</code>
+                </div>
+                <div>
+                    <p>Now that we have all the required calculations for Bayes' Theorem, we can simply plug the numbers in to the equation.</p>
+                    <code>P(\text{Disease}\mid \text{+ Test}) = \dfrac{ P(+\text{ Test}\mid \text{Disease}) \times P(\text{Disease} ) }{ P(+\text{ Test} ) }</code>
+                    <code>= \dfrac{ \frac{<var>DISEASE_SENSITIVITY * 100</var>}{100} \times \frac{<var>roundTo( 2, DISEASE_INFECTION_RATE * 100)</var>}{100} }{ \frac{<var>DISEASE_SENSITIVITY * 100</var>}{100} \times \frac{<var>roundTo( 2, DISEASE_INFECTION_RATE * 100)</var>}{100} + \frac{<var>DISEASE_FALSE_POSITIVE * 100</var>}{100} \times \frac{<var>roundTo( 2, ( 1-DISEASE_INFECTION_RATE ) * 100)</var>}{100} }</code>
+                    <code>= <var>ANSWER</var></code>
+                </div>
+            </div>
+        </div>
+        <div id="car-defect">
+            <div class="vars" data-ensure="SUVS_PORTION > 0">
+                <var id="AMERICANAUTO_PORTION">randRange( 1, 8 ) * 10</var>
+                <var id="FASTCARS_PORTION">randRange( AMERICANAUTO_PORTION / 10, 7 ) * 10</var>
+                <var id="SUVS_PORTION">100 - ( AMERICANAUTO_PORTION + FASTCARS_PORTION )</var>
+                <var id="AMERICANAUTO_DEFECT">randRange( 2, 15 ) / 10</var>
+                <var id="FASTCARS_DEFECT">randRange( 2, 15 ) / 10</var>
+                <var id="SUVS_DEFECT">randRange( 2, 15 ) / 10</var>
+                <var id="PROB_OBJ">{ 'American Auto': AMERICANAUTO_PORTION / 100, 'Fastcars AG': FASTCARS_PORTION / 100, 'SUVs and More': SUVS_PORTION / 100 }</var>
+                <var id="DEFECT_OBJ">{ 'American Auto': AMERICANAUTO_DEFECT / 100, 'Fastcars AG': FASTCARS_DEFECT / 100, 'SUVs and More': SUVS_DEFECT / 100 }</var>
+                <var id="COMPANY_LIST">shuffle( [ "American Auto", "Fastcars AG", "SUVs and More" ] )</var>
+                <var id="QUESTION_COMPANY">COMPANY_LIST[ 0 ]</var>
+                <var id="PROB_COMPANY">PROB_OBJ[ QUESTION_COMPANY ]</var>
+                <var id="PROB_DEFECT_COMPANY">DEFECT_OBJ[ QUESTION_COMPANY ]</var>
+                <var id="PROB_DEFECT_TOTAL">PROB_COMPANY * PROB_DEFECT_COMPANY + PROB_OBJ[ COMPANY_LIST[1] ] * DEFECT_OBJ[ COMPANY_LIST[1] ] + PROB_OBJ[ COMPANY_LIST[2] ] * DEFECT_OBJ[ COMPANY_LIST[2] ]</var>
+                <var id="Bayes'_RESULT"> PROB_COMPANY * PROB_DEFECT_COMPANY / PROB_DEFECT_TOTAL</var>
+                <var id="ANSWER">roundTo( 2, Bayes'_RESULT )</var>
+            </div>  
+            <div class="problem">
+                An automobile dealer sells cars from three different companies.<br>
+                He knows that his current inventory consists of:
+                <ul>
+                <li><code><var>AMERICANAUTO_PORTION</var>\%</code> from American Auto</li>
+                <li><code><var>FASTCARS_PORTION</var>\%</code> from Fastcars AG</li>
+                <li><code><var>SUVS_PORTION</var>\%</code> from SUVs and More</li>
+                </ul>
+                <br>
+                The manufacturers self-reported defect rates as follows:
+                <ul>
+                <li><code><var>AMERICANAUTO_DEFECT</var>\%</code> from American Auto</li>
+                <li><code><var>FASTCARS_DEFECT</var>\%</code> from Fastcars AG</li>
+                <li><code><var>SUVS_DEFECT</var>\%</code> from SUVs and More</li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <p><b>If <var>person ( 1 )</var> buys a car from the dealer and finds that it's defective, what's the probability that the car is from <var>QUESTION_COMPANY</var>?</b>
+                <br />
+                Please enter your answer as a decimal rounded to the nearest tenth.</p>
+            </div>
+
+            <div class="solution" data-forms="decimal"><var>ANSWER</var></div>
+
+            <div class="hints">
+                <div>
+                    We're interested in finding <code>P(\text{<var>QUESTION_COMPANY</var>}\mid \text{Defective})</code>.<br>
+                    Keeping in mind that Bayes' Theorem states:<br>
+                    <code>P(A\mid B) = \dfrac{ P(B\mid A) \times P( A ) }{ P( B ) }</code>
+                    <br>
+                    What are A and B in this situation?
+                </div>
+                <div>
+                    <br>
+                    <div style="float: left;">
+                        One way of writing the data stated in the problem is:
+                        <br><br>
+                        <code>P(\text{American Auto}) = \dfrac{<var>roundTo( 2, AMERICANAUTO_PORTION)</var>}{100}</code>
+                        <br><br>
+                        <code>P(\text{Fastcars AG}) = \dfrac{<var>FASTCARS_PORTION</var>}{100}</code>
+                        <br><br>
+                        <code>P(\text{SUVs and More}) = \dfrac{<var>SUVS_PORTION</var>}{100}</code>
+                        <br><br>
+                    </div>
+                    <div style="float: left;">
+                        <br><br>
+                        <code>P(\text{Defective}\mid \text{American Auto}) = \dfrac{<var>AMERICANAUTO_DEFECT</var>}{100}</code>
+                        <br><br>
+                        <code>P(\text{Defective}\mid \text{Fastcars AG}) = \dfrac{<var>FASTCARS_DEFECT</var>}{100}</code>
+                        <br><br>
+                        <code>P(\text{Defective}\mid \text{SUVs and More}) = \dfrac{<var>SUVS_DEFECT</var>}{100}</code>
+                        <br><br>
+                    </div>
+                </div>
+                <div style="float: left;">
+                    If <code>P(\text{A})</code> is <code>P(\text{<var>QUESTION_COMPANY</var>})</code> and <code>P(\text{B})</code> is <code>P(\text{Defective})</code>, we can rewrite Bayes' Theorem as follows:
+                    <br><br>
+                    <code>P(\text{<var>QUESTION_COMPANY</var>}\mid \text{Defective}) = \dfrac{ P(\text{Defective}\mid \text{<var>QUESTION_COMPANY</var>}) \times P( \text{<var>QUESTION_COMPANY</var>} ) }{ P( \text{Defective} ) }</code>
+                    <br>
+                    What is <code>P( \text{Defective})</code>?
+                    <br><br>
+                </div>
+                <div>
+                    <p><code>P( \text{Defective})</code> is the probability that any randomly chosen car is defective. There are three different brands of cars we can pick and each has its own defect rate, so to get the probability that a randomly chosen car is defective we add the probability of picking a car from each brand multiplied by that brand's defect rate.</p>
+                    
+                    That is, <code>P( \text{Defective})</code> is the sum of:<br>
+                    <code>P(\text{American Auto}) * P(\text{Defective}\mid \text{American Auto})</code>
+                    <br>
+                    <code>+ P(\text{Fastcars AG}) * P(\text{Defective}\mid \text{Fastcars AG})</code>
+                    <br>
+                    <code>+ P(\text{SUVs and More}) * P(\text{Defective}\mid \text{SUVs and More})</code>
+                    <br>So:<br>
+                    <code>P( \text{Defective}) = \frac{<var>roundTo( 2, AMERICANAUTO_PORTION)</var>}{100} \times \frac{<var>AMERICANAUTO_DEFECT</var>}{100} + \frac{<var>FASTCARS_PORTION</var>}{100} \times \frac{<var>FASTCARS_DEFECT</var>}{100} + \frac{<var>SUVS_PORTION</var>}{100} \times \frac{<var>SUVS_DEFECT</var>}{100} = <var>roundTo( 4, PROB_DEFECT_TOTAL )</var></code>
+                </div>
+                <div>
+                    <p>Putting it all together, we get:</p>
+                    <code>P(\text{<var>QUESTION_COMPANY</var>}\mid \text{Defective}) = \dfrac{\frac{<var>roundTo(2, PROB_COMPANY * 100)</var>}{100} \times \frac{<var>roundTo( 2, PROB_DEFECT_COMPANY * 100 )</var>}{100}}{\frac{<var>roundTo( 2, AMERICANAUTO_PORTION)</var>}{100} \times \frac{<var>AMERICANAUTO_DEFECT</var>}{100} + \frac{<var>FASTCARS_PORTION</var>}{100} \times \frac{<var>FASTCARS_DEFECT</var>}{100} + \frac{<var>SUVS_PORTION</var>}{100} \times \frac{<var>SUVS_DEFECT</var>}{100}} = \dfrac{<var>roundTo(4, PROB_COMPANY * PROB_DEFECT_COMPANY )</var>}{<var>roundTo(4, PROB_DEFECT_TOTAL )</var>} = <var>ANSWER</var></code>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
