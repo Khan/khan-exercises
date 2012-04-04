@@ -150,8 +150,7 @@
 					<div>
 						<p>There aren't any similar triangles in the problem figure, but we can make a new traingle with a few lines.<br/>
 						 <span style="padding-left:10px;">1. Draw a line parallel to the line <code>\color{red}{AC}</code>, through the point <code>B</code>.</span><br/>
-					     <span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span><br/><br/>
-						Now we have a very useful triangle <span style="color:purple"><code>\triangle BDE</code></span> which is similar to <code>\triangle ACD</code>.</p>
+					     <span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span></p>
 						<div class="graphie" data-update="similar_triangles">
 
 							style({
@@ -162,6 +161,9 @@
 						</div>
 					</div>
 					<div>
+						<p>Now we have a very useful triangle <span style="color:purple"><code>\triangle BDE</code></span> which is similar to <code>\triangle ACD</code>.</p>
+					</div>
+					<div>
 						<p>Since <code>\color{red}{AC}</code> and <code>BE</code> are parallel, we know that <span style="color:green"><code>\angle CAE</code></span>
 							 is equal to <span style="color:green"><code>\angle AEB</code></span>.</p>
 						<div class="graphie" data-update="similar_triangles">
@@ -169,7 +171,7 @@
 							style({
 								stroke: "green",
 							});
-							var angle_mod_d = ((180 - TR_D.angles[2]) / 135) + 0.2; // draw the arc demonstrating congruent angles farther out if the angle is small
+							var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2; // draw the arc demonstrating congruent angles farther out if the angle is small
 
 							graph.arc( TR_D.points[2], angle_mod_d, 180 + TR_D.angles[2], 180 + TR_D.angles[2]*2 );
 						</div>
@@ -230,9 +232,9 @@
 				<div class="hints"  data-apply="appendContents">
 					<div>
 						<p>There aren't any similar triangles in the problem figure, but we can make a new traingle with a few lines.<br/>
-						 <span style="padding-left:10px;">1. Draw a line parallel to the line <code>\color{red}{AB}</code>, through the point <code>C</code>.</span><br/>
-					     <span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span><br/><br/>
-						Now we have a very useful triangle <span style="color:purple"><code>\triangle CDE</code></span> which is similar to <code>\triangle ABD</code>.</p>
+							<span style="padding-left:10px;">1. Draw a line parallel to the line <code>\color{red}{AB}</code>, through the point <code>C</code>.</span><br/>
+					    	<span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span>
+					    </p>
 						<div class="graphie" data-update="similar_triangles">
 							style({
 								stroke: "purple",
@@ -243,6 +245,9 @@
 						</div>
 					</div>
 					<div>
+						<p>Now we have a very useful triangle <span style="color:purple"><code>\triangle CDE</code></span> which is similar to <code>\triangle ABD</code>.</p>	
+					</div>
+					<div>
 						<p>Since <code>\color{red}{AB}</code> and <code>CE</code> are parallel, we know that <span style="color:green"><code>\angle BAE</code></span>
 							 is equal to <span style="color:green"><code>\angle AEB</code></span>.</p>
 						<div class="graphie" data-update="similar_triangles">
@@ -250,7 +255,7 @@
 							style({
 								stroke: "green",
 							});
-							var angle_mod_d = ((180 - TR_D.angles[2]) / 135) + 0.2; // draw the arc demonstrating congruent angles farther out if the angle is small
+							var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2; // draw the arc demonstrating congruent angles farther out if the angle is small
 
 							graph.arc( TR_D.points[2], angle_mod_d, 180, 180 + TR_D.angles[2] );
 						</div>
@@ -312,8 +317,8 @@
 					<div>
 						<p>There aren't any similar triangles in the problem figure, but we can make a new traingle with a few lines.<br/>
 						 <span style="padding-left:10px;">1. Draw a line parallel to the line <code>AB</code>, through the point <code>C</code>.</span><br/>
-					     <span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span><br/><br/>
-						Now we have a very useful triangle <span style="color:purple"><code>\triangle CDE</code></span> which is similar to <code>\triangle ABD</code>.</p>
+					     <span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span></p>
+						
 						<div class="graphie" data-update="similar_triangles">
 							var graph = KhanUtil.currentGraph;
 							style({
@@ -329,6 +334,9 @@
 						</div>
 					</div>
 					<div>
+						<p>Now we have a very useful triangle <span style="color:purple"><code>\triangle CDE</code></span> which is similar to <code>\triangle ABD</code>.</p>
+					</div>
+					<div>
 						<p>Since <code>AB</code> and <code>CE</code> are parallel, we know that <span style="color:green"><code>\angle BAE</code></span>
 							 is equal to <span style="color:green"><code>\angle AEC</code></span>.</p>
 						<div class="graphie" data-update="similar_triangles">
@@ -336,7 +344,7 @@
 							style({
 								stroke: "green",
 							});
-							var angle_mod_d = ((180 - TR_D.angles[2]) / 135) + 0.2; // draw the arc demonstrating congruent angles farther out if the angle is small
+							var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2; // draw the arc demonstrating congruent angles farther out if the angle is small
 
 							graph.arc( TR_D.points[2], angle_mod_d, 180, 180 + TR_D.angles[2] );
 						</div>
@@ -397,8 +405,8 @@
 					<div>
 						<p>There aren't any similar triangles in the problem figure, but we can make a new traingle with a few lines.<br/>
 						 <span style="padding-left:10px;">1. Draw a line parallel to the line <code>AC</code>, through the point <code>B</code>.</span><br/>
-					     <span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span><br/><br/>
-						Now we have a very useful triangle <span style="color:purple"><code>\triangle BDE</code></span> which is similar to <code>\triangle ACD</code>.</p>
+					     <span style="padding-left:10px;">2. Extend the line <code>AD</code> out to meet it at a new point <code>E</code>.</span></p>
+						
 						<div class="graphie" data-update="similar_triangles">
 							var graph = KhanUtil.currentGraph;
 							style({
@@ -413,6 +421,9 @@
 						</div>
 					</div>
 					<div>
+						<p>Now we have a very useful triangle <span style="color:purple"><code>\triangle BDE</code></span> which is similar to <code>\triangle ACD</code>.</p>
+					</div>
+					<div>
 						<p>Since <code>AC</code> and <code>BE</code> are parallel, we know that <span style="color:green"><code>\angle CAE</code></span>
 							 is equal to <span style="color:green"><code>\angle AEB</code></span>.</p>
 						<div class="graphie" data-update="similar_triangles">
@@ -420,7 +431,7 @@
 							style({
 								stroke: "green",
 							});
-							var angle_mod_d = ((180 - TR_D.angles[2]) / 135) + 0.2; // draw the arc demonstrating congruent angles farther out if the angle is small
+							var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2; // draw the arc demonstrating congruent angles farther out if the angle is small
 
 							graph.arc( TR_D.points[2], angle_mod_d, 180 + TR_D.angles[2], 180 + TR_D.angles[2]*2 );
 						</div>
