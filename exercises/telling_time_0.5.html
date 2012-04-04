@@ -16,7 +16,7 @@
 		<var id="HOUR">randRange( 1, 12 )</var>
 		<var id="MINUTE">randRange( 0, 3 ) * 15 </var>
 		<var id="NICE_MINUTE"> MINUTE &gt; 5 ? MINUTE : "0" + "" + MINUTE</var>
-		<var id="AM_PM">randFromArray([ "a.m.", "p.m." ])</var>
+		<var id="AM_PM">HOUR >= 7 ? "a.m" : "p.m."</var>
 	</div>
 
 	<div class="problems">
