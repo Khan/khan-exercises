@@ -686,7 +686,7 @@ var Khan = (function() {
 		}
 
 		// Base modules required for every problem
-		Khan.require( [ "answer-types", "tmpl", "underscore", "jquery.adhesion" ] );
+		Khan.require( [ "answer-types", "tmpl", "underscore", "jquery.adhesion" , "Date", "Stack", "Evaluator", "JsHashMap","Tokanizer" ] );
 
 		Khan.require( document.documentElement.getAttribute("data-require") );
 

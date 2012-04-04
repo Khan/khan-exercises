@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Derivative (Power Rule)</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="COEF1">randRange( 2, 9 )</var>
+			<var id="COEF2">randRange( 2, 9 )</var>
+			<var id="COEF3">randRange( 2, 9 )</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>What is the derivative of <code><var>COEF1</var>x^2 + <var>COEF2</var>x + <var>COEF3</var></code>?</p>
+				</div>
+				<div class="solution" data-type="algebraicexpression"><var>2*COEF1</var>*x+<var>COEF2</var></div>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>The derivative of a sum of terms is the sum of the derivative of each term. (This is called the sum rule.)</p>
+			<div><p>By the power rule and the constant multiple rule, the derivative of <code><var>COEF1</var>x^2</code> is <code>2\times<var>COEF1</var>x^{1} = <var>2*COEF1</var>x</code>.</p></div>
+			<div><p>By the power rule and the constant multiple rule, the derivative of <code><var>COEF2</var>x = <var>COEF2</var>x^{1}</code> is <code>1\times<var>COEF2</var>x^0 = <var>COEF2</var></code>.</p></div>
+			<div><p>By the constant function rule, the derivative of <code><var>COEF3</var></code> is <code>0</code>.</p></div>
+			<div><p>Therefore, the derivative of the entire expression is the sum of the individual derivatives, or <code><var>2*COEF1</var>x+<var>COEF2</var></code>.</p></div>
+		</div>
+	</div>
+</body>
+</html>

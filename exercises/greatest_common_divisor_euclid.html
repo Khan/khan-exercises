@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Greatest common divisor (Euclidean Algorithm)</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="GCD1===1 && NAN7===true">
+			<var id="F1">randRange( 2, 20 )</var>
+			<var id="F2">F1+randRange( 1, 20 )</var>
+			<var id="GCD1">getGCD( F1, F2 )</var>
+			<var id="ANS">randRange( 5, 15 )</var>
+			<var id="A">F1 * ANS</var>
+			<var id="B">F2 * ANS</var>
+			<var id="MOD1">B % A</var>
+			<var id="MOD2">A % MOD1</var>
+			<var id="MOD3">MOD1 % MOD2</var>
+			<var id="MOD4">MOD2 % MOD3</var>
+			<var id="MOD5">MOD3 % MOD4</var>
+			<var id="MOD6">MOD4 % MOD5</var>
+			<var id="MOD7">MOD5 % MOD6</var>
+			<var id="DIV1">(B-MOD1)/A</var>
+			<var id="DIV2">(A-MOD2)/MOD1</var>
+			<var id="DIV3">(MOD1-MOD3)/MOD2</var>
+			<var id="DIV4">(MOD2-MOD4)/MOD3</var>
+			<var id="DIV5">(MOD3-MOD5)/MOD4</var>
+			<var id="DIV6">(MOD4-MOD6)/MOD5</var>
+			<var id="NAN1">isNaN(MOD1)</var>
+			<var id="NAN2">isNaN(MOD2)</var>
+			<var id="NAN3">isNaN(MOD3)</var>
+			<var id="NAN4">isNaN(MOD4)</var>
+			<var id="NAN5">isNaN(MOD5)</var>
+			<var id="NAN6">isNaN(MOD6)</var>
+			<var id="NAN7">isNaN(MOD7)</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>Use the Euclidean Algorithm to find the greatest common divisor of <var>A</var> and <var>B</var>.</p>
+				</div>
+
+				<p class="solution" data-forms="integer"><var>ANS</var></p>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>Take the larger number, <code><var>B</var></code> and divide by the smaller, <code><var>A</var></code> and get <code><var>DIV1</var></code> with a remainder of <code><var>MOD1</var></code>.</p>
+			<p data-if="NAN2 === false">Since the remainder is not zero, take <code><var>A</var></code> and divide it by the remainder from the previous step, <code><var>MOD1</var></code>, to get <code><var>DIV2</var></code> with a remainder of <code><var>MOD2</var></code>.</p>
+			<p data-if="NAN3 === false">Since the remainder is not zero, take <code><var>MOD1</var></code> and divide it by the remainder from the previous step, <code><var>MOD2</var></code>, to get <code><var>DIV3</var></code> with a remainder of <code><var>MOD3</var></code>.</p>
+			<p data-if="NAN4 === false">Since the remainder is not zero, take <code><var>MOD2</var></code> and divide it by the remainder from the previous step, <code><var>MOD3</var></code>, to get <code><var>DIV3</var></code> with a remainder of <code><var>MOD4</var></code>.</p>
+			<p data-if="NAN5 === false">Since the remainder is not zero, take <code><var>MOD3</var></code> and divide it by the remainder from the previous step, <code><var>MOD4</var></code>, to get <code><var>DIV3</var></code> with a remainder of <code><var>MOD5</var></code>.</p>
+			<p data-if="NAN6 === false">Since the remainder is not zero, take <code><var>MOD4</var></code> and divide it by the remainder from the previous step, <code><var>MOD5</var></code>, to get <code><var>DIV3</var></code> with a remainder of <code><var>MOD6</var></code>.</p>
+			<p>Now that we have a remainder of <code>0</code>, take the last non-zero remainder, <code><var>ANS</var></code>	 and that is the GCD. That is, <code>GCD(<var>A</var>, <var>B</var>) = <var>ANS</var></code>.</p>
+		</div>
+	</div>
+</body>
+</html>

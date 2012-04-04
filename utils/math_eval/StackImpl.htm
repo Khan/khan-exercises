@@ -1,0 +1,108 @@
+<HTML>
+<HEAD>
+<TITLE>Simple Stack Object Example</TITLE>
+<SCRIPT LANGUAGE="JavaScript">
+<!-
+// This is the constructor for our stack object
+// If the "length" instance variable is 0, the stack is empty
+function oStack() {
+	this.top = null;
+	this.length = 0;
+	this.isEmpty = oStackIsEmpty;
+	this.push = oStackPush;
+	this.pop = oStackPop;
+	}
+
+// This method tells us if this oStack object is empty
+function oStackIsEmpty() {
+	if (this.length == 0)
+		return true;
+	else
+		return false;
+	}
+
+// This method pushes a new element onto the top of the stack
+function oStackPush( newData) {
+	// Create the new element
+	var newElement = new oStackElement();
+	// Add the data to it
+	newElement.setData( newData);
+	// Put the current top in our next field
+	newElement.setNext( this.top);
+	// Assign our new element to the top
+	this.top = newElement;
+	this.length++;
+	}
+	
+// This method pops the top element off of the stack
+function oStackPop() {
+	// Put old top away for safe keeping
+	var oldTop = this.top;
+	// Get the new top
+	this.top = this.top.getNext();
+	this.length-;
+	return oldTop;
+	}
+
+// This is the constructor for an element in our stack object
+// The "data" variable holds our actual data (whatever it may be)
+// and the "next" variable holds the oStackElement object that is
+// 'underneath' this oStackElement object.
+function oStackElement() {
+	this.data = 0;
+	this.next = null;
+	this.setData = oStackElementSetData;
+	this.getData = oStackElementGetData;
+	this.setNext = oStackElementSetNext;
+	this.getNext = oStackElementGetNext;
+	}
+
+// This method sets the data field of this oStackElement
+function oStackElementSetData( newData) {
+	this.data = newData;
+	}
+
+// This method returns the data field of this oStackElement
+function oStackElementGetData() {
+	return this.data;
+	}
+
+// This method sets the next field of this oStackElement
+function oStackElementSetNext( newNext) {
+	this.next = newNext;
+	}
+
+// This method returns the next field of this oStackElement
+function oStackElementGetNext() {
+	return this.next;
+	}
+
+// create a new oStack object
+var stack1 = new oStack();
+
+// Fill it with something interesting
+// In this case, the names of my cats
+stack1.push( "Puddin' Head")
+stack1.push( "Sunshine")
+stack1.push( "Shadow")
+stack1.push( "Sassy")
+stack1.push( "Toby")
+stack1.push( "Sandy")
+stack1.push( "Pixie")
+stack1.push( "Edi")
+stack1.push( "Gizmo")
+
+// Get the number of items in the stack
+var numElements = stack1.length;
+
+// Print out the contents of the stack
+for (var i = 0; i < numElements; i++)
+	document.write( stack1.length + " - " + stack1.pop().getData() 
++ "<br>");
+//->
+</SCRIPT>
+</HEAD>
+<BODY>
+</BODY>
+</HTML>
+

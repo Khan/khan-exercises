@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1250">
+<meta name="generator" content="PSPad editor, www.pspad.com">
+<title>Stack Tester</title>
+<script language="javascript" type="text/javascript" src="Stack.js"></script>
+<style>
+body {font-family: Verdana, Tahoma; font-size: 8pt; font-weight: normal}
+button {font-family: Verdana, Tahoma; font-size: 8pt; font-weight: bold; width: 100px; height: 24px;}
+textarea {font-family: Verdana, Tahoma; font-size: 8pt; font-weight: normal; border: 1px solid;}
+input {font-family: Verdana, Tahoma; font-size: 8pt; font-weight: normal; border: 1px solid;}
+</style>
+<script language="javascript">
+var myStack = new Stack();
+
+function pushValue()
+{
+    var objFrm;
+    var strVal;
+
+    objFrm = document.frmMain;
+    if (objFrm) strVal = objFrm.txtValue.value;
+    if (strVal) myStack.Push(strVal);
+    objFrm.txtValue.value = "";
+}
+
+function popValue()
+{
+    var objFrm;
+    var strVal;
+
+    objFrm = document.frmMain;
+    if (!myStack.IsEmpty())
+    {
+        strVal = myStack.Pop();
+        objFrm.txtValue.value = strVal;
+    }
+}
+
+function getValue()
+{
+    var objFrm;
+    var strVal;
+    var intIndex = NaN;
+
+    objFrm = document.frmMain;
+    if (objFrm) intIndex = parseInt(objFrm.txtIndex.value);
+    if (!isNaN(intIndex))
+    {
+        strVal = myStack.Get(intIndex);
+        objFrm.txtValue.value = strVal;
+    }
+}
+
+function showStack()
+{
+    var objFrm;
+    var strVal, strTemp;
+    var intCntr = 0;
+
+    if (myStack.IsEmpty())
+    {
+        alert ("No values stored on stack!");
+        return;
+    }
+
+    strTemp = "";
+    objFrm = document.frmMain;
+    for (intCntr = 0; intCntr < myStack.Size(); intCntr++)
+    {
+        strVal = myStack.Get(intCntr);
+        if (intCntr == 0)
+            strTemp += "Stack[Top] = " + strVal + "\r\n";
+        else
+            strTemp += "Stack[Top + " + intCntr + "] = " + strVal + "\r\n";
+        strVal = "";
+    }
+    objFrm.txtStack.value = strTemp;
+}
+</script>
+</head>
+<body>
+    <form name="frmMain" id="frmMain" method="POST">
+        <table>
+            <tr>
+                <td valign="top">
+                    <table>
+                        <tr>
+                            <td>Value : </td>
+                            <td><input type="text" name="txtValue" id="txtValue" size="20" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button id="btnPush" name="btnPush" onClick="javascript:pushValue()">Push</button>
+                                <button id="btnPop" name="btnPop" onClick="javascript:popValue()">Pop</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button id="btnGet" name="btnGet" onClick="getValue()">Get</button>
+                                @&nbsp;<input type="text" size="2" maxlength="2" id="txtIndex" name="txtIndex" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button name="btnWalk" id="btnWalk" onClick="javascript:showStack()">Walk</button>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <textarea id="txtStack" name="txtStack" cols="30" rows="10"></textarea>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
