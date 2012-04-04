@@ -16,8 +16,8 @@
                 <var id="DISEASE_SPECIFICITY">randRange( 95, 99 ) / 100</var>
                 <var id="DISEASE_FALSE_POSITIVE">roundTo( 2, 1 - DISEASE_SPECIFICITY )</var>
                 <var id="DIVISOR">DISEASE_INFECTION_RATE * DISEASE_SENSITIVITY + ( 1 - DISEASE_INFECTION_RATE ) * DISEASE_FALSE_POSITIVE</var>
-                <var id="Bayes'_RESULT">DISEASE_INFECTION_RATE * DISEASE_SENSITIVITY / DIVISOR</var> 
-                <var id="ANSWER">roundTo( 2, Bayes'_RESULT )</var>
+                <var id="BAYES_RESULT">DISEASE_INFECTION_RATE * DISEASE_SENSITIVITY / DIVISOR</var> 
+                <var id="ANSWER">roundTo( 2, BAYES_RESULT )</var>
             </div>
             <div class="problem">
                 <p>A new disease has a <code><var>roundTo( 2, DISEASE_INFECTION_RATE * 100)</var>\%</code> infection rate in the general population. A test for it is developed which is reported to have a <code><var>DISEASE_SENSITIVITY * 100</var>\%</code> detection rate and a <code><var>DISEASE_FALSE_POSITIVE * 100</var>\%</code> false positive rate.</p>
@@ -82,8 +82,8 @@
                 <var id="PROB_COMPANY">PROB_OBJ[ QUESTION_COMPANY ]</var>
                 <var id="PROB_DEFECT_COMPANY">DEFECT_OBJ[ QUESTION_COMPANY ]</var>
                 <var id="PROB_DEFECT_TOTAL">PROB_COMPANY * PROB_DEFECT_COMPANY + PROB_OBJ[ COMPANY_LIST[1] ] * DEFECT_OBJ[ COMPANY_LIST[1] ] + PROB_OBJ[ COMPANY_LIST[2] ] * DEFECT_OBJ[ COMPANY_LIST[2] ]</var>
-                <var id="Bayes'_RESULT"> PROB_COMPANY * PROB_DEFECT_COMPANY / PROB_DEFECT_TOTAL</var>
-                <var id="ANSWER">roundTo( 2, Bayes'_RESULT )</var>
+                <var id="BAYES_RESULT"> PROB_COMPANY * PROB_DEFECT_COMPANY / PROB_DEFECT_TOTAL</var>
+                <var id="ANSWER">roundTo( 2, BAYES_RESULT )</var>
             </div>  
             <div class="problem">
                 An automobile dealer sells cars from three different companies.<br>
