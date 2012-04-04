@@ -764,7 +764,7 @@ function CyclicHydrocarbon( length, renderMethod ) {
   switch(this.length) {
       case 3: //cyclopropane
         points.push( [ 0, 0 ] );
-        labels.push( [ 0, -0.4 ]);
+        labels.push( [ 0, -0.4 ] );
 
         points.push( [ 1.2, 1.6 ] );
         labels.push( [ 1.2, 2.0 ] );

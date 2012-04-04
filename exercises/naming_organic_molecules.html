@@ -50,44 +50,44 @@
         <p style="margin-bottom: 2px;">Here are the names of prefixes for hydrocarbons with 1 to 20 carbons.</p>
         <div class="molFormat">
         
-        <table style="margin-bottom: 20px;">
-          <tr>
-            <td style="font-size:1.0em;width:100px;">
-              <span style="color: #FFAF00;">1:</span> <span style="color: #00AFFF;">meth</span><br/>
-              <span style="color: #FFAF00;">2:</span> <span style="color: #00AFFF;">eth</span><br/>
-              <span style="color: #FFAF00;">3:</span> <span style="color: #00AFFF;">prop</span><br/>
-              <span style="color: #FFAF00;">4:</span> <span style="color: #00AFFF;">but</span><br/>
-              <span style="color: #FFAF00;">5:</span> <span style="color: #00AFFF;">pent</span><br/>
-            </td>
-            <td style="font-size:1.0em;width:100px;">        
-              <span style="color: #FFAF00;">6:</span> <span style="color: #00AFFF;">hex</span><br/>
-              <span style="color: #FFAF00;">7:</span> <span style="color: #00AFFF;">hept</span><br/>
-              <span style="color: #FFAF00;">8:</span> <span style="color: #00AFFF;">oct</span><br/>
-              <span style="color: #FFAF00;">9:</span> <span style="color: #00AFFF;">non</span><br/>
-              <span style="color: #FFAF00;">10:</span> <span style="color: #00AFFF;">dec</span><br/>
-            </td>
-            <td style="font-size:1.0em;width:100px;">
-              <span style="color: #FFAF00;">11:</span> <span style="color: #00AFFF;">undec</span><br/>
-              <span style="color: #FFAF00;">12:</span> <span style="color: #00AFFF;">dodec</span><br/>
-              <span style="color: #FFAF00;">13:</span> <span style="color: #00AFFF;">tridec</span><br/>
-              <span style="color: #FFAF00;">14:</span> <span style="color: #00AFFF;">tetradec</span><br/>
-              <span style="color: #FFAF00;">15:</span> <span style="color: #00AFFF;">pentadec</span><br/>
-            </td>
-            <td style="font-size:1.0em;width:100px;">
-              <span style="color: #FFAF00;">16:</span> <span style="color: #00AFFF;">hexadec</span><br/>
-              <span style="color: #FFAF00;">17:</span> <span style="color: #00AFFF;">heptadec</span><br/>
-              <span style="color: #FFAF00;">18:</span> <span style="color: #00AFFF;">octadec</span><br/>
-              <span style="color: #FFAF00;">19:</span> <span style="color: #00AFFF;">nonadec</span><br/>
-              <span style="color: #FFAF00;">20:</span> <span style="color: #00AFFF;">icos</span><br/>
-            </td>
-          </tr>
-        </table>
+          <table style="margin-bottom: 20px;">
+            <tr>
+              <td style="font-size:1.0em;width:100px;">
+                <span class="hint_orange">1:</span> <span class="hint_blue">meth</span><br/>
+                <span class="hint_orange">2:</span> <span class="hint_blue">eth</span><br/>
+                <span class="hint_orange">3:</span> <span class="hint_blue">prop</span><br/>
+                <span class="hint_orange">4:</span> <span class="hint_blue">but</span><br/>
+                <span class="hint_orange">5:</span> <span class="hint_blue">pent</span><br/>
+              </td>
+              <td style="font-size:1.0em;width:100px;">        
+                <span class="hint_orange">6:</span> <span class="hint_blue">hex</span><br/>
+                <span class="hint_orange">7:</span> <span class="hint_blue">hept</span><br/>
+                <span class="hint_orange">8:</span> <span class="hint_blue">oct</span><br/>
+                <span class="hint_orange">9:</span> <span class="hint_blue">non</span><br/>
+                <span class="hint_orange">10:</span> <span class="hint_blue">dec</span><br/>
+              </td>
+              <td style="font-size:1.0em;width:100px;">
+                <span class="hint_orange">11:</span> <span class="hint_blue">undec</span><br/>
+                <span class="hint_orange">12:</span> <span class="hint_blue">dodec</span><br/>
+                <span class="hint_orange">13:</span> <span class="hint_blue">tridec</span><br/>
+                <span class="hint_orange">14:</span> <span class="hint_blue">tetradec</span><br/>
+                <span class="hint_orange">15:</span> <span class="hint_blue">pentadec</span><br/>
+              </td>
+              <td style="font-size:1.0em;width:100px;">
+                <span class="hint_orange">16:</span> <span class="hint_blue">hexadec</span><br/>
+                <span class="hint_orange">17:</span> <span class="hint_blue">heptadec</span><br/>
+                <span class="hint_orange">18:</span> <span class="hint_blue">octadec</span><br/>
+                <span class="hint_orange">19:</span> <span class="hint_blue">nonadec</span><br/>
+                <span class="hint_orange">20:</span> <span class="hint_blue">icos</span><br/>
+              </td>
+            </tr>
+          </table>
         
         </div>
       </div>
       
       <div data-if="RENDER_METHOD === 0"><!-- Draw each atom as its atomic abbr. with lines between them -->
-        <p>Count the carbons, the (<span class="molFormat" style="color: #6495ed;"> C </span>)'s.</p>
+        <p>Count the carbons, the (<span class="molFormat"><span class="hint_blue"> C </span></span>)'s.</p>
         <div class="graphie" data-update="molecule">          
           graph.pl.hint();
         </div>        
@@ -101,11 +101,15 @@
       </div>
       
       <div data-if="CYCLIC === true">
-        <p>If the carbons form a ring, add <span class="molFormat" style="color: #FF00AF;">cyclo</span> to the beginning of the name of the parent hydrocarbon.</p>    
+        <p>If the carbons form a ring, add <span class="molFormat"><span class="hint_pink">cyclo</span></span> to the beginning of the name of the parent hydrocarbon.</p>    
       </div>
       
       <div>
-        <p>Since there are no double bonds, this is an alkane. End the word with <span class="molFormat" style="color: #0000FF;">ane</span>. <br/><span data-if="CYCLIC === true" class="molFormat" style="color:#FF00AF;">cyclo</span><span class="molFormat" style="color: #00AFFF;"><var>PREFIX</var></span><span class="molFormat" style="color: #0000FF;">ane</span></p>
+        <p>Since there are no double bonds, this is an alkane. End the word with <span class="molFormat"><span class="hint_grey">ane</span></span>.</p>
+      </div>
+      <div>
+        <p>
+          <span data-if="CYCLIC === true" class="molFormat"><span class="hint_pink">cyclo</span></span><span class="molFormat"><span class="hint_blue"><var>PREFIX</var></span></span><span class="molFormat"><span class="hint_grey">ane</span></span></p>
       </div>
       
     </div>
