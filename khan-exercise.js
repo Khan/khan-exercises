@@ -213,7 +213,7 @@ var Khan = (function() {
 	gae_bingo = window.gae_bingo || { bingo: function() {} },
 
 	// The ul#examples (keep in a global because we need to modify it even when it's out of the DOM)
-	examples;
+	examples = null;
 
 	// Add in the site stylesheets
 	if (testMode) {
@@ -1107,15 +1107,15 @@ var Khan = (function() {
 		jQuery( "#answercontent input" ).not( '#check-answer-button' )
 			.removeAttr( "disabled" );
 
-		if ( validator.examples && validator.examples.length > 0 ) {
+		if ( examples !== null && validator.examples && validator.examples.length > 0 ) {
 			jQuery( "#examples-show" ).show();
-			jQuery( "#examples" ).empty();
+			examples.empty();
 
 			jQuery.each( validator.examples, function( i, example ) {
-				jQuery( "#examples" ).append( '<li>' + example + '</li>' );
+				examples.append( '<li>' + example + '</li>' );
 			});
 
-			jQuery( "#examples" ).children().tmpl();
+			examples.children().tmpl();
 		} else {
 			jQuery( "#examples-show" ).hide();
 		}
@@ -1724,6 +1724,9 @@ var Khan = (function() {
 		jQuery("#check-answer-button").click( handleSubmit );
 		jQuery("#answerform").submit( handleSubmit );
 
+		// Grab example answer format container
+		examples = jQuery( "#examples" );
+
 		// Build the data to pass to the server
 		function buildAttemptData(pass, attemptNum, attemptContent, curTime) {
 			var timeTaken = Math.round((curTime - lastAction) / 1000);
@@ -1794,12 +1797,7 @@ var Khan = (function() {
 				.attr( "disabled", "disabled" );
 			jQuery( "#check-answer-results p" ).hide();
 
-			if (examples == null) {
-				examples = jQuery( "#examples" );
-			}
-
-			var examplesLink = jQuery( "#examples-show" ),
-				checkAnswerButton = jQuery( "#check-answer-button" );
+			var checkAnswerButton = jQuery( "#check-answer-button" );
 
 			// If incorrect, warn the user and help them in any way we can
 			if ( pass !== true ) {
