@@ -1673,10 +1673,7 @@ var Khan = (function() {
 		// Toggle the navigation buttons
 		jQuery("#check-answer-button").show();
 		jQuery("#next-question-button").blur().hide();
-		jQuery("#positive-reinforcement").hide().click( function() { 
-			jQuery("#next-question-button").click(); 
-		});
-
+		jQuery("#positive-reinforcement").hide();
 
 		// Wipe out any previous problem
 		jQuery("#workarea, #hintsarea").runModules( problem, "Cleanup" ).empty();
@@ -1897,6 +1894,11 @@ var Khan = (function() {
 		// Watch for when the next button is clicked
 		jQuery("#next-question-button").click(function(ev) {
 			jQuery( Khan ).trigger("gotoNextProblem");
+		});
+
+		// If happy face is clicked, pass click on through.
+		jQuery("#positive-reinforcement").click( function() { 
+			jQuery("#next-question-button").click(); 
 		});
 
 		// Watch for when the "Get a Hint" button is clicked
