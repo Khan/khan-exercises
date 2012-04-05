@@ -437,11 +437,11 @@ var Khan = (function() {
 		},
 
 		scratchpad: (function() {
-			var disabled = false, visible = false, wasVisible, pad;
+			var disabled = false, wasVisible, pad;
 
 			var actions = {
 				disable: function() {
-					wasVisible = visible;
+					wasVisible = actions.isVisible();
 					actions.hide();
 
 					jQuery( "#scratchpad-show" ).hide();
@@ -461,11 +461,12 @@ var Khan = (function() {
 				},
 
 				isVisible: function() {
-					return visible;
+					return $( "#scratchpad" ).is( ":visible" );
 				},
 
 				show: function() {
-					if ( visible ) {
+
+					if ( actions.isVisible() ) {
 						return;
 					}
 
@@ -473,32 +474,34 @@ var Khan = (function() {
 						jQuery( "#workarea, #hintsarea" ).css( "padding-left", 60 );
 						jQuery( "#scratchpad" ).show();
 						jQuery( "#scratchpad-show" ).text( "Hide scratchpad" );
-						visible = true;
+
+						// If pad has never been created or if it's empty
+						// because it was removed from the DOM, recreate a new
+						// scratchpad.
+						if ( !pad || !jQuery( "#scratchpad div" ).children().length ) {
+							pad = new Scratchpad( jQuery( "#scratchpad div" )[0] );
+						}
 					};
 
 					if ( !pad ) {
-						Khan.loadScripts( [ { src: urlBase + "utils/scratchpad.js" } ], function() {
-							makeVisible();
-							pad || ( pad = new Scratchpad( jQuery( "#scratchpad div" )[0] ) );
-						} );
+						Khan.loadScripts( [ { src: urlBase + "utils/scratchpad.js" } ], makeVisible );
 					} else {
 						makeVisible();
 					}
 				},
 
 				hide: function() {
-					if ( !visible ) {
+					if ( !actions.isVisible() ) {
 						return;
 					}
 
 					jQuery( "#workarea, #hintsarea" ).css( "padding-left", 0 );
 					jQuery( "#scratchpad" ).hide();
 					jQuery( "#scratchpad-show" ).text( "Show scratchpad" );
-					visible = false;
 				},
 
 				toggle: function() {
-					visible ? actions.hide() : actions.show();
+					actions.isVisible() ? actions.hide() : actions.show();
 				},
 
 				clear: function() {
