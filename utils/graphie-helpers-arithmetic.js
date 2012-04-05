@@ -596,7 +596,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 			var totalDigits = KhanUtil.integerToDigits( total );
 			highlights = highlights.concat( drawDigits( totalDigits , index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE ) );
 
-			graph.label( [ digitsDividend.length + 1, -2 * index ],
+			graph.label( [ digitsDividend.length + 0.5, -2 * index ],
 				"\\text{How many times does }"
 				+ divisor
 				+ "\\text{ go into }"
@@ -626,7 +626,7 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 			graph.label( [ index - product.length, -2 * index - 1 ] ,"-\\vphantom{0}" );
 			graph.path( [ [ index - product.length - 0.25, -2 * index - 1.5 ], [ index + 0.5, -2 * index - 1.5 ] ] );
 
-			graph.label( [ digitsDividend.length + 1, -2 * index - 1 ],
+			graph.label( [ digitsDividend.length + 0.5, -2 * index - 1 ],
 				"\\color{#6495ED}{" + value + "}"
 				+ "\\div"
 				+ divisor + "="
@@ -687,8 +687,10 @@ function Divider( divisor, dividend, deciDivisor, deciDividend ) {
 				graph.ellipse( [ -1, -0.2 ], [ 0.09, 0.06 ] );
 			});
 		} else {
-			graph.label( [ digitsDividend.length + 1, 1 ],
-				"\\text{Bring the decimal up into the answer (the quotient).}", "right" );
+			graph.label( [ digitsDividend.length + 0.5, 1.2 ],
+				"\\text{Bring the decimal up into the}", "right" );
+			graph.label( [ digitsDividend.length + 0.5, 0.8 ],
+				"\\text{answer (the quotient).}", "right" );
 		}
 
 		this.addDecimal();
