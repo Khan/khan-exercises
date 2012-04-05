@@ -1670,6 +1670,10 @@ var Khan = (function() {
 		// Toggle the navigation buttons
 		jQuery("#check-answer-button").show();
 		jQuery("#next-question-button").blur().hide();
+		jQuery("#positive-reinforcement").hide().click( function() { 
+			jQuery("#next-question-button").click(); 
+		});
+
 
 		// Wipe out any previous problem
 		jQuery("#workarea, #hintsarea").runModules( problem, "Cleanup" ).empty();
@@ -1860,6 +1864,7 @@ var Khan = (function() {
 						.removeClass( "buttonDisabled" )
 						.show()
 						.focus();
+					jQuery( "#positive-reinforcement" ).show();
 				}
 				nextProblem( 1 );
 			} else {
