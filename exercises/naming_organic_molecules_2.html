@@ -14,7 +14,36 @@
   <div class="exercise">
   
     <div class="vars">
-      <var id="HYDROCARBON">generateRandomHydrocarbon2()</var>
+      <var id="HYDROCARBON">
+        function() {
+          parentHydrocarbon = new StraightChainHydrocarbon( Math.floor( KhanUtil.random() * 9 ) + 2 , 1 );
+          
+          // A chance of adding a double or triple bond      
+          if( KhanUtil.random() < 0.5 ){
+            parentHydrocarbon.addRandomDoubleBond();
+          }else if( KhanUtil.random() < 0.75 ){
+            parentHydrocarbon.addRandomTripleBond();
+          }
+          
+          if( parentHydrocarbon.length >= 3){
+            // another chance of adding a double or triple bond
+            if( KhanUtil.random() < 0.33 ){
+              parentHydrocarbon.addRandomDoubleBond();
+            } else if( KhanUtil.random() < 0.5 ){
+              parentHydrocarbon.addRandomTripleBond();
+            }
+
+            if( parentHydrocarbon.length >= 5){
+              // another chance of adding a double or triple bond
+              if( KhanUtil.random() < 0.33 ){
+                parentHydrocarbon.addRandomDoubleBond();
+              }
+            }
+          }
+
+          return parentHydrocarbon.getName();
+      }()
+      </var>
       <var id="RENDER_METHOD">getRenderMethod()</var>
       <var id="SETTING">setTestForAlkenes(true)</var>
       <var id="PREFIX">getParentHydrocarbonPrefix()</var>
@@ -51,8 +80,7 @@
     <div class="hints">
     
       <div>      
-        <p style="margin-bottom: 2px;">Here are the names of prefixes for hydrocarbons with 1 to 20 carbons. And prefixes for polyenes and poly-ynes for hydrocarbons
-          with 2-5 enes or ynes.</p>
+        <p style="margin-bottom: 2px;">Here are the names of prefixes for hydrocarbons with 1 to 20 carbons, and prefixes for multiples of functional groups (eg: <ul>di</ul>ene).</p>
         <div class="molFormat">        
           <table style="margin-bottom: 20px;">
             <tr>

@@ -14,7 +14,17 @@
   <div class="exercise">
   
     <div class="vars">
-      <var id="HYDROCARBON">generateRandomHydrocarbon()</var> 
+      <var id="HYDROCARBON">
+        function() {
+               
+          if( KhanUtil.random() < 0.3 ){
+            parentHydrocarbon = new CyclicHydrocarbon();
+          } else {
+            parentHydrocarbon = new StraightChainHydrocarbon();
+          }
+          return parentHydrocarbon.getName();
+        }()
+      </var> 
       <var id="CYCLIC">getIsCyclic()</var> 
       <var id="RENDER_METHOD">getRenderMethod()</var> 
       <var id="PREFIX">getParentHydrocarbonPrefix()</var>       
