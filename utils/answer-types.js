@@ -763,6 +763,9 @@ jQuery.extend( Khan.answerTypes, {
 		var solutionText = extractRawCode( solution );
 
 		var list = jQuery("<ul></ul>");
+		list.on("click", "input:radio", function() {
+			jQuery( this ).focus();
+		});
 		jQuery( solutionarea ).append(list);
 
 		// Get all of the wrong choices
