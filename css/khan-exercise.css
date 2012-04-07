@@ -33,6 +33,8 @@ a.show-subhint {
 #hintsarea { margin-left: 50px; }
 #answer_area ul { list-style: none; }
 #answer_area li { margin: 14px 0; }
+#answer_area li input[type=radio] { float: left; margin-top: 4px; }
+#answer_area li .value { display: block; min-height: 22px; margin-left: 18px; }
 
 #extras li { display: inline; }
 #extras li:before { content: "| "; }
