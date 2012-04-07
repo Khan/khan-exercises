@@ -34,6 +34,8 @@ a.show-subhint {
 #answer_area ul { list-style: none; }
 #answer_area li { padding: 7px 0; }
 #answer_area li label { display: block; }
+#answer_area li input[type=radio] { float: left; margin-top: 4px; }
+#answer_area li .value { display: block; min-height: 22px; margin-left: 18px; }
 
 #extras li { display: inline; }
 #extras li:before { content: "| "; }
