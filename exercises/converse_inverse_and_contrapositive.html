@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<title>Converse, inverse, and contrapositive</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="TYPE">randFromArray([ 'converse', 'inverse', 'contrapositive' ])</var>
+		</div>
+
+		<div class="problems">
+
+			<div id="rain-and-soccer-practice">
+				<div class="vars">
+					<var id="CHOICES">{ 
+						"converse" : "If soccer practice will be canceled today, then it will rain.",
+						"inverse" : "If it does not rain today, soccer practice will not be canceled.",
+						"contrapositive" : "If soccer practice is not canceled today, then it is not raining.",
+						"other1" : "If I don't like soccer, then I won't go to soccer practice.",
+						"other2" : "When it rains I don't want to go to soccer practice." }
+					</var>
+				</div>
+				
+				<p class="problem">Identify the <strong><var>TYPE</var></strong> of the given conditional statement.</p>
+				
+				<p class="question">"If it rains today, soccer pratice will be canceled."</p>
+				
+				<p class="solution"><var>CHOICES[TYPE]</var></p>
+				<ul class="choices" data-show="4" data-none="true">
+					<span data-each="['converse', 'inverse', 'contrapositive', 'other1', 'other2'] as key"><li><var>CHOICES[key]</var></li></span>
+				</ul>
+			</div>
+			
+			<div id="sun-and-hat" data-type="rain-and-soccer-practice">
+				<div class="vars">
+					<var id="CHOICES">{ 
+						"converse" : "If I need to wear a hat today, then the sun is bright outside.",
+						"inverse" : "The sun is not bright outside, so I do not need to wear a hat.",
+						"contrapositive" : "If I am not wearing a hat today, then the sun is not bright outside.",
+						"other1" : "I only wear hats when it rains.",
+						"other2" : "If I do not wear a hat today, then I could get sunburned." }
+					</var>
+				</div>
+				
+				<p class="question">"The sun is bright outside today, so I need to wear a hat."</p>
+			</div>
+			
+			<div id="dessert-and-pie" data-type="rain-and-soccer-practice">
+				<div class="vars">
+					<var id="CHOICES">{ 
+						"converse" : "If I eat apple pie, then we will have dessert tonight.",
+						"inverse" : "If we do not have dessert tonight, then I will not eat apple pie.",
+						"contrapositive" : "If I did not eat apple pie, then we did not have dessert tonight.",
+						"other1" : "If we do not have dessert tonight, I will be upset.",
+						"other2" : "I do not like applie pie, so I will not eat dessert tonight." }
+					</var>
+				</div>
+				
+				<p class="question">"If we have dessert tonight, I will eat apple pie."</p>
+			</div>
+			
+			<div id="vertical-and-congruent-angles" data-type="rain-and-soccer-practice">
+				<div class="vars">
+					<var id="CHOICES">{ 
+						"converse" : "All pairs of congruent angles are vertical angles.",
+						"inverse" : "All pairs of angles that are not vertical angle are not congruent angles.",
+						"contrapositive" : "All pairs of angles that are not congruent are not vertical angles.",
+						"other1" : "Vertical angles are always congruent.",
+						"other2" : "Congruent angles can be vertical angles but they don't have to be." }
+					</var>
+				</div>
+				
+				<p class="question">"All pairs of vertical angles are congruent angles."</p>
+			</div>
+			
+			<div id="elephants-and-peanuts" data-type="rain-and-soccer-practice">
+				<div class="vars">
+					<var id="CHOICES">{ 
+						"converse" : "If an animal eats peanuts, then it is an elephant.",
+						"inverse" : "If an animal is not an elephant, then it does not eat peanuts.",
+						"contrapositive" : "If an animal does not eat peanuts, then it is not an elephant.",
+						"other1" : "Elephants also eat hay.",
+						"other2" : "Animals that eat peanuts may also like peanut butter." }
+					</var>
+				</div>
+				
+				<p class="question">"Elephants eat peanuts."</p>
+			</div>
+			
+			<div id="elephants-and-peanuts" data-type="rain-and-soccer-practice">
+				<div class="vars">
+					<var id="CHOICES">{ 
+						"converse" : "If <code>x=2</code>, then <code>3x+1=7</code>",
+						"inverse" : "If <code>3x+1≠7</code>, then <code>x≠2</code>",
+						"contrapositive" : "If <code>x≠2</code>, then <code>3x+1≠7</code>",
+						"other1" : "If <code>x=4</code>, then <code>3x+1=13</code>",
+						"other2" : "If <code>3x+1=10</code>, then <code>x=3</code>" }
+					</var>
+				</div>
+				
+				<p class="question">"If <code>3x+1=7</code>, then <code>x=2</code>."</p>
+			</div>
+		</div>
+		
+		<div class="hints">
+			<p>Identify the hypothesis and the conclusion of the given statement.</p>
+			<p data-if="TYPE === 'converse'">The converse of the statement is a new statement in which the hypothesis and conclusion are reversed.</p>
+			<p data-if="TYPE === 'inverse'">The inverse of the statement is a new statement that leaves the hypothesis and conclusion in the same order, but negates both of them. In other words, it is the "not" hypothesis and the "not" conclusion.</p>
+			<p data-if="TYPE === 'contrapositive'">The contrapositive of the statement is a new statement that reverses the order and negates the hypothesis and conclusion. In other words, switch them and "not" them.</p>
+			<p data-if="TYPE === 'contrapositive'">If you really think about it, the contrapositive is the inverse of the converse.</p>
+			<p>Do not add any new opinions or any other new information to your statement.</p>
+		</div>
+
+		
+	</div>
+</body>
+</html>
