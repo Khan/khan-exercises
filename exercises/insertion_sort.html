@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!-- 
+Insertion Sort module by Charles Offenbacher, Julian Ceipek, and Cory Dolphin from Olin College
+-->
+<html data-require="math graphie graphie-helpers-arithmetic word-problems spin insertion-sort arbitraryjs">
+<head>
+  <meta charset="UTF-8" />
+  <title>Insertion Sort</title>
+  <script src="../khan-exercise.js"></script>
+  <style type="text/css">
+    .card {
+      /* According to Wikipedia, playing card dimensions are 2.5in x 3.5in */
+      width: 94px;
+      height: 130px;
+      border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-style: solid;
+      border-width: 1px;
+      border-color: black;
+      float: left;
+      margin: 5px;
+      cursor: pointer;
+	  -webkit-user-select: none;
+	  -khtml-user-select: none;
+	  -moz-user-select: none;
+	  -o-user-select: none;
+	  user-select: none;
+    }
+
+    .content {
+      margin: 13px;
+      width: 68px;
+      height: 104px;
+      font-size: 24pt;
+      border-style: solid;
+      border-width: 1px;
+      text-align: center;
+      top: 50px;
+      line-height: 100px;
+    }
+
+    .card-bg {
+      background-image: url("../images/card-bg.png");
+      margin: 13px;
+      width: 68px;
+      height: 104px;
+      text-align: center;
+      top: 50px;
+    }
+
+    .hidden {
+      display: none;
+      cursor: default;
+    }  
+    
+    .selected-card {
+      border-color: blue;
+      border-width: 5px;
+    }
+
+    .correct-card {
+      border-color: green;
+      border-width: 3px;
+    }
+
+    .simple-button {
+      text-align: center;
+    }
+
+    div#deck {
+      min-width: 720px;
+    }
+
+    div#counter {
+      font-weight: bold;                      
+    }
+
+    #start-over {
+      width: 80px;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+  <div class="exercise">
+  <div class="vars">
+    <var id="A" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="B" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="C" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="D" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="E" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="F" class="cardnumber">randRange( 1, 100 )</var>
+    <var id="collection">[A, B, C, D, E, F]</var>
+  </div>
+
+  <div class="problems">
+    <div>
+      <div class="question">
+        <div id="instructions">
+		<p class="spin">{How many {swaps|rearrangements}
+		  do|What is the {minimum|smallest} number of {swaps|rearrangements}} 
+		  you need to {sort|arrange} these cards in {increasing|ascending} order using the Insertion Sort Algorithm? 
+		  {Perform a swap by clicking on two cards | Click on two cards to {perform a swap|swap them}}.</p>  
+        </div>
+        <div id='counter'>
+          Swaps so far: <div id="count" style="display: inline">0</div>
+        </div>
+        <div id='deck'>
+          <div class="card">
+            <div class="content"><var>A</var></div>
+          </div>
+          <div class="card"> 
+            <div class="content"><var>B</var></div>
+          </div>
+          <div class="card"> 
+            <div class="card-bg"></div> 
+            <div class="content hidden"><var>C</var></div>
+          </div>
+          <div class="card"> 
+            <div class="card-bg"></div> 
+            <div class="content hidden"><var>D</var></div>
+          </div>
+          <div class="card">
+            <div class="card-bg"></div> 
+            <div class="content hidden"><var>E</var></div>
+          </div>
+          <div class="card">
+            <div class="card-bg"></div> 
+            <div class="content hidden"><var>F</var></div>
+          </div>
+        </div>
+	<div id="start-over" class="simple-button action-gradient">
+	  Start Over	
+	</div>
+      </div>
+      <div class="solution" data-forms="integer"><var>KhanUtil.calculateInsertionSortAnswer(collection)</var></div>
+      <div class="hints">
+        <p>The smallest cards go on the left.</p>
+        <p>At any point in time, only one visible card is out of order.</p>
+        <p>When moving the out-of-place card into the correct position, 
+        keep swapping it with its left neighbor.</p>
+      </div>
+	<div class="arbitraryjs">
+		jQuery(Khan).one( "newProblem" , function(){
+			KhanUtil.initInsertionSort();
+			KhanUtil.showCards();
+		});
+	</div>
+    </div>
+  </div>
+  </div>
+</body>
+</html>

@@ -985,7 +985,7 @@ var Khan = (function() {
 
 			// We also look at the main blocks within the problem itself to override,
 			// ignoring graphie and spin blocks
-			.children( "[class][class!='graphie'][class!='spin']" ).tmplApply( { attribute: "class" } );
+			.children( "[class][class!='graphie'][class!='arbitrary'][class!='spin']" ).tmplApply( { attribute: "class" } );
 
 		// Finally we do any inheritance to the individual child blocks (such as problem, question, etc.)
 		children.each(function () {

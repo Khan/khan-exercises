@@ -367,6 +367,11 @@ jQuery.fn.tmpl = function() {
 					jQuery( this ).text( declarations + code );
 				});
 
+				jQuery( clone ).find( ".arbitrary" ).andSelf().filter( ".arbitrary" ).each(function() {
+					var code = jQuery( this ).text();
+					jQuery( this ).text( declarations + code );
+				});
+
 				// Insert in the proper place (depends on whether the loops is the last of its siblings)
 				if ( origNext ) {
 					origParent.insertBefore( clone, origNext );
