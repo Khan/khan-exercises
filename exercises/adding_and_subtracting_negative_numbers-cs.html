@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html data-script-lang="cs" data-require="math graphie graphie-helpers">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Adding and subtracting negative numbers</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="A">randRange( -10, 10 )</var>
+			<var id="B">randRange( -10, -1 )</var>
+		</div>
+
+		<div class="problems">
+			<div id="PLUS">
+				<div class="vars">
+					<var id="ANSWER">A + B</var>
+					<var id="PADDING">ceil( ( 10 - ANSWER + A ) / 2)</var>
+					<var id="START">A - PADDING</var>
+					<var id="END">ANSWER + PADDING</var>
+					<var id="REMOVE">[]</var>
+				</div>
+				<div class="question">
+					<div class="graphie" id="numbers">
+						init({
+							range: [[0, 13], [-3, 1]]
+						})
+
+						label(
+							[0, 0],
+							"\\Huge{\\color{#6495ED}{#{A}} + \\color{#28AE7B}{(#{B})} = {?}}",
+							"right"
+						)
+					</div>
+				</div>
+				<div class="solution"><var>ANSWER</var></div>
+				<div class="hints">
+					<div class="graphie" data-update="numbers">
+						REMOVE.push(label(
+							[0, -1],
+							"\\Huge{\\color{#6495ED}{#{A}} \\color{#28AE7B}{#{B}} = {?}}",
+							"right"
+						))
+					</div>
+					<div class="graphie" data-update="numbers">
+						numberLine(START, END, 1, 1, -2)
+						circle([1 + A - START, -2], 5/40, {stroke: "none", fill: "#6495ed"})
+					</div>
+					<div class="graphie" data-update="numbers">
+						style(arrows: true, stroke: "#28AE7B", ->
+							path([[1 + A - START, -2], [1 + ANSWER - START, -2]])
+						)
+					</div>
+					<div class="graphie" data-update="numbers">
+						circle([1 + ANSWER - START, -2], 5/40, {stroke: "none", fill: "#FF00AF"})
+					</div>
+					<div class="graphie" data-update="numbers">
+						REMOVE[0].remove()
+
+						label(
+							[0, -1],
+							"\\Huge{\\color{#6495ED}{#{A}} \\color{#28AE7B}{#{B}} = \\color{#FF00AF}{#{ANSWER}}}",
+							"right"
+						)
+					</div>
+				</div>
+			</div>
+			<div id="MINUS">
+				<div class="vars">
+					<var id="ANSWER">A - B</var>
+					<var id="PADDING">ceil((10 - ANSWER + A) / 2)</var>
+					<var id="START">A - PADDING</var>
+					<var id="END">ANSWER + PADDING</var>
+					<var id="REMOVE">[]</var>
+				</div>
+				<div class="question">
+					<div class="graphie" id="numbers">
+						init({
+							range: [[0, 13], [-3, 1]]
+						})
+
+						label(
+							[0, 0],
+							"\\Huge{\\color{#6495ED}{#{A}} - \\color{#28AE7B}{(#{B})} = {?}}",
+							"right"
+						)
+					</div>
+				</div>
+				<div class="solution"><var>ANSWER</var></div>
+				<div class="hints">
+					<div class="graphie" data-update="numbers">
+						REMOVE.push(label(
+							[0, -1],
+							"\\Huge{\\color{#6495ED}{#{A}} \\color{#28AE7B}{+#{abs(B)}} = {?}}",
+							"right"
+						))
+					</div>
+					<div class="graphie" data-update="numbers">
+						numberLine(START, END, 1, 1, -2)
+						circle([1 + A - START, -2], 5/40, {stroke: "none", fill: "#6495ed"})
+					</div>
+					<div class="graphie" data-update="numbers">
+						style(arrows: yes, stroke: "#28AE7B", ->
+							path([[1 + A - START, -2], [1 + ANSWER - START, -2]])
+						)
+					</div>
+					<div class="graphie" data-update="numbers">
+						circle([1 + ANSWER - START, -2], 5/40, {stroke: "none", fill: "#FF00AF"})
+					</div>
+					<div class="graphie" data-update="numbers">
+						REMOVE[0].remove()
+
+						label(
+							[0, -1],
+							"\\Huge{\\color{#6495ED}{#{A}} \\color{#28AE7B}{ +#{abs(B)}} = \\color{#FF00AF}{#{ANSWER}}}",
+							"right"
+						)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

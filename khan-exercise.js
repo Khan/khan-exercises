@@ -215,10 +215,12 @@ var Khan = (function() {
 	// The ul#examples (keep in a global because we need to modify it even when it's out of the DOM)
 	examples = null;
 
-	// Add in the site stylesheets
+	// Add in the CoffeeScript compiler and site stylesheets
 	if (testMode) {
 		(function(){
-			var link = document.createElement("link");
+			var link, script;
+
+			link = document.createElement("link");
 			link.rel = "stylesheet";
 			link.href = urlBase + "css/khan-site.css";
 			document.getElementsByTagName('head')[0].appendChild(link);
@@ -227,6 +229,11 @@ var Khan = (function() {
 			link.rel = "stylesheet";
 			link.href = urlBase + "css/khan-exercise.css";
 			document.getElementsByTagName('head')[0].appendChild(link);
+
+			script = document.createElement("script");
+			script.src = urlBase + "coffee-script.js";
+			script.type = "text/javascript";
+			document.getElementsByTagName('head')[0].appendChild(script);
 		})();
 	}
 

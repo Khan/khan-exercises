@@ -199,6 +199,11 @@ jQuery.tmpl = {
 
 	// Eval a string in the context of Math, KhanUtil, VARS, and optionally another passed context
 	getVAR: function( elem, ctx ) {
+		var scriptLang, testMode;
+
+		scriptLang = jQuery( "html" ).attr( "data-script-lang" ) || "js";
+		testMode   = typeof CoffeeScript === "object";
+
 		// We need to compute the value
 		var code = elem.nodeName ? jQuery(elem).text() : elem;
 
@@ -211,6 +216,31 @@ jQuery.tmpl = {
 		}
 
 		try {
+			if ( testMode && scriptLang === "cs" ) {
+				// Compile the CoffeeScript.
+				var end, prefix, start, suffix;
+
+				if ( code.indexOf( "/* Code */" ) !== -1 ) {
+					end   = code.indexOf( "/* /Code */" );
+					start = code.indexOf( "/* Code */" ) + 10;
+
+					prefix = code.slice( 0, start );
+					suffix = code.slice( end );
+
+					code = code.slice( start, end );
+				}
+
+				code = CoffeeScript.compile( code, { bare: true } );
+				// Remove the leading and trailing whitespace and trailing semicolon added by
+				// the CoffeeScript compiler.
+				code = jQuery.trim( code );
+				code = code.slice( 0, -1 );
+
+				if ( prefix ) {
+					code = prefix + code + suffix;
+				}
+			}
+
 			// Use the methods from JavaScript's built-in Math methods
 			with ( Math ) {
 				// And the methods provided by the library
@@ -356,7 +386,7 @@ jQuery.fn.tmpl = function() {
 					var conditional = conditionals[i];
 					jQuery( clone ).find( "[" + conditional + "]" ).each(function() {
 						var code = jQuery( this ).attr( conditional );
-						code = "(function() {  " + declarations + " return " + code + " })()";
+						code = "(function() {  " + declarations + " return /* Code */" + code + "/* /Code */ })()";
 						jQuery( this ).attr( conditional, code );
 					});
 				}

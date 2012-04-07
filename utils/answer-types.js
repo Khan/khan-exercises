@@ -1075,7 +1075,7 @@ jQuery.extend( Khan.answerTypes, {
 
 		var validatorCode = solution.find( ".validator-function" ).text();
 		var validator = function( guess ) {
-			var code = "(function() { var guess = " + JSON.stringify( guess ) + ";" + validatorCode + "})()";
+			var code = "(function() { var guess = " + JSON.stringify( guess ) + ";/* Code */" + validatorCode + "/* /Code */})()";
 			return KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
 		};
 
@@ -1103,14 +1103,14 @@ jQuery.extend( Khan.answerTypes, {
 				jQuery( solutionarea ).empty();
 				jQuery( solutionarea ).append( guessCorrect === true ? "Answer correct" : "Answer incorrect" );
 			} else {
-				var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" + showGuessSolutionCode + "})()";
+				var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";/* Code */" + showGuessSolutionCode + "/* /Code */})()";
 				KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
 			}
 		};
 
 		var showGuessCode = jQuery( solution ).find( ".show-guess" ).text();
 		ret.showCustomGuess = function( guess ) {
-			var code = "(function() { var guess = " + JSON.stringify( guess ) + ";" + showGuessCode + "})()";
+			var code = "(function() { var guess = " + JSON.stringify( guess ) + ";/* Code */" + showGuessCode + "/* /Code */})()";
 			KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
 		};
 
