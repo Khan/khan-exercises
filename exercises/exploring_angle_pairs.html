@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format graphie-geometry">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Exploring Angle Pairs</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	
+	<div class="vars">
+					
+				<var id="TILT">(1/300)*randRange(-100, 100)</var>
+				<var id="TILT2">(1/350)*randRange(-100, 100)</var>	
+				<var id="TILT3">(1/400)*randRange(-100, 100)</var>		
+				
+				<var id="Line1_endPt1">[6 + (0 - 6)* cos(TILT) - (2 - 2)* sin(TILT), 2 + ( 0 - 6 ) * sin(TILT) + ( 2 - 2 ) * cos(TILT)]</var>
+				<var id="Line1_endPt2">[6 + (12 - 6)* cos(TILT) - (2 - 2)* sin(TILT), 2 + ( 12 - 6 ) * sin(TILT) + ( 2 - 2 ) * cos(TILT)]</var>
+				
+				<var id="Line2_endPt1">[6 + (6 - 6)* cos(TILT+TILT2) - (8 - 2)* sin(TILT+TILT2), 2 + ( 6 - 6 ) * sin(TILT+TILT2) + ( 8 - 2 ) * cos(TILT+TILT2)]</var>
+				<var id="Line2_endPt2">[6 + (6 - 6)* cos(TILT+TILT2) - (-4 - 2)* sin(TILT+TILT2), 2 + ( 6 - 6 ) * sin(TILT+TILT2) + ( -4 - 2 ) * cos(TILT+TILT2)]</var>
+
+				<var id="Line3_endPt1">[6 + (6*sqrt(2)/2 + 6 - 6)* cos(TILT+TILT2+TILT3) - (6*sqrt(2)/2 + 2 - 2)* sin(TILT+TILT2+TILT3), 2 + (6*sqrt(2)/2 + 6 - 6 ) * sin(TILT+TILT2+TILT3) + ( 6*sqrt(2)/2 + 2 - 2 ) * cos(TILT+TILT2+TILT3)]</var>
+				<var id="Line3_endPt2">[6 + (-6*sqrt(2)/2 + 6 - 6)* cos(TILT+TILT2+TILT3) - (-6*sqrt(2)/2 + 2 - 2)* sin(TILT+TILT2+TILT3), 2 + (-6*sqrt(2)/2 + 6 - 6 ) * sin(TILT+TILT2+TILT3) + ( -6*sqrt(2)/2 + 2 - 2 ) * cos(TILT+TILT2+TILT3)]</var>
+				
+				<var id="A">[6 + (2 - 6)* cos(TILT) - (2 - 2)* sin(TILT), 2 + ( 2 - 6 ) * sin(TILT) + ( 2 - 2 ) * cos(TILT)]</var>
+				<var id="D">[6 + (10 - 6)* cos(TILT) - (2 - 2)* sin(TILT), 2 + ( 10 - 6 ) * sin(TILT) + ( 2 - 2 ) * cos(TILT)]</var>
+				
+				<var id="B">[6 + (6 - 6)* cos(TILT+TILT2) - (6 - 2)* sin(TILT+TILT2), 2 + ( 6 - 6 ) * sin(TILT+TILT2) + ( 6 - 2 ) * cos(TILT+TILT2)]</var>
+				<var id="E">[6 + (6 - 6)* cos(TILT+TILT2) - (-2 - 2)* sin(TILT+TILT2), 2 + ( 6 - 6 ) * sin(TILT+TILT2) + ( -2 - 2 ) * cos(TILT+TILT2)]</var>
+
+				<var id="C">[6 + (0.67*6*sqrt(2)/2 + 6 - 6)* cos(TILT+TILT2+TILT3) - (0.67*6*sqrt(2)/2 + 2 - 2)* sin(TILT+TILT2+TILT3), 2 + (0.67*6*sqrt(2)/2 + 6 - 6 ) * sin(TILT+TILT2+TILT3) + ( 0.67*6*sqrt(2)/2 + 2 - 2 ) * cos(TILT+TILT2+TILT3)]</var>
+				<var id="F">[6 + (-0.67*6*sqrt(2)/2 + 6 - 6)* cos(TILT+TILT2+TILT3) - (-0.67*6*sqrt(2)/2 + 2 - 2)* sin(TILT+TILT2+TILT3), 2 + (-0.67*6*sqrt(2)/2 + 6 - 6 ) * sin(TILT+TILT2+TILT3) + ( -0.67*6*sqrt(2)/2 + 2 - 2 ) * cos(TILT+TILT2+TILT3)]</var>	
+				
+				<var id="G">[6, 2]</var>
+				
+				<var id="A_ATTRS">{ r: 0.1, fill: "red", stroke: "none" }</var>
+				<var id="B_ATTRS">{ r: 0.1, fill: "orange", stroke: "none" }</var>
+				<var id="C_ATTRS">{ r: 0.1, fill: "yellow", stroke: "none" }</var>
+				<var id="D_ATTRS">{ r: 0.1, fill: "green", stroke: "none" }</var>
+				<var id="E_ATTRS">{ r: 0.1, fill: "blue", stroke: "none" }</var>
+				<var id="F_ATTRS">{ r: 0.1, fill: "purple", stroke: "none" }</var>
+				<var id="G_ATTRS">{ r: 0.1, fill: "gray", stroke: "none" }</var>
+				
+				<!--To vary the letters used in the diagram-->
+				<var id="a">randFromArray( [ "A", "H", "T" ] )</var>
+				<var id="b">randFromArray( [ "B", "I", "U" ] )</var>
+				<var id="c">randFromArray( [ "C", "J", "V" ] )</var>
+				<var id="d">randFromArray( [ "D", "K", "W" ] )</var>
+				<var id="e">randFromArray( [ "E", "L", "X" ] )</var>
+				<var id="f">randFromArray( [ "F", "M", "Y" ] )</var>
+				<var id="g">randFromArray( [ "G", "N", "Z" ] )</var>
+				
+
+				<!--For the problem and solution-->
+				<var id="array">[b, c, d, e, f, a]</var>
+				
+				<var id="index1">randRange(0, 5)</var>
+				<var id="index2">index1 + randRange(1, 2)</var>				
+				<var id="opposite_index1"> index1 + 3</var>
+				<var id="opposite_index2"> index2 + 3</var>		
+		
+				<!--Now to get the letters for the points-->
+				<var id="angle1_pt1">array[index1%6]</var>
+				<var id="angle1_pt2">array[index2%6]</var>
+				<var id="VertAngle_pt1">array[opposite_index1%6]</var>
+				<var id="VertAngle_pt2">array[opposite_index2%6]</var>	
+
+				<!--For all possible adjacent angles-->
+				<var id="adj_index1a"> 6 + index1 - 1</var>
+				<var id="adj_index1b"> 6 + index1 - 2</var>
+				<var id="adj_index2a"> index2 + 1</var>				
+				<var id="adj_index2b"> index2 + 2</var>	
+				
+				<var id="AdjAngle_pt1a">array[adj_index1a%6]</var>
+				<var id="AdjAngle_pt2a">array[adj_index2a%6]</var>
+				
+				<var id="AdjAngle_pt1b">array[adj_index1b%6]</var>
+				<var id="AdjAngle_pt2b">array[adj_index2b%6]</var>	
+			
+				<!--For the adjacent angle actually used in the problem-->
+				<var id="AdjAngle_pts_array">[ [AdjAngle_pt1a, angle1_pt1], [AdjAngle_pt1b, angle1_pt1], [AdjAngle_pt2a, angle1_pt2], [AdjAngle_pt2b, angle1_pt2]]</var>
+				
+				<!--To make sure that adjacent angles don't also happen to be linear pairs (For Problem 3)-->
+				<var id="AdjAngle_NonLinPair_array">(function() {
+													var solutions = new Array();
+													var i=0;
+													for (i=0; i<=3; i++)
+													{
+													if ((AdjAngle_pts_array[i][0] !== VertAngle_pt1 || AdjAngle_pts_array[i][1] !== angle1_pt2) && (AdjAngle_pts_array[i][0] !== VertAngle_pt2 || AdjAngle_pts_array[i][1] !== angle1_pt1))
+														{
+														solutions.push(AdjAngle_pts_array[i]);
+														};
+													}
+													return solutions;
+													})()
+				</var>
+				
+				<var id="AdjAngle_pts">AdjAngle_NonLinPair_array[randRange(0, 1)]</var>
+				
+				<var id="AdjAngle_pt1">AdjAngle_pts[0]</var>
+				<var id="AdjAngle_pt2">AdjAngle_pts[1]</var>
+				
+			
+				<!--For linear pair angle points-->
+				<var id="LinPair_pts"> randRange( 0, 1 ) ? [VertAngle_pt1, angle1_pt2] : [VertAngle_pt2, angle1_pt1]</var>				
+				<var id="LinPair_pt1">LinPair_pts[0]</var>
+				<var id="LinPair_pt2">LinPair_pts[1]</var>
+								
+		</div>
+
+			
+	<div class="problems">
+		<div id="Problem_1a">	
+			
+			<div class="question">
+				<p class> Name an angle vertical to <code>\angle <var>angle1_pt1</var><var>g</var><var>angle1_pt2</var></code>.</p>
+
+				<div id = "original" class="graphie">
+					<!--Draw the plane and the lines-->
+					init({
+						range: [ [-1, 15], [-5, 8] ]
+					});					
+					line( Line1_endPt1, Line1_endPt2, { arrows: "->" } );
+					line( Line1_endPt2, Line1_endPt1, { arrows: "->" } );
+					line( Line2_endPt1, Line2_endPt2, {arrows: "->"});
+					line( Line2_endPt2, Line2_endPt1, {arrows: "->"});
+					line( Line3_endPt1, Line3_endPt2, {arrows: "->"});
+					line( Line3_endPt2, Line3_endPt1, {arrows: "->"});
+					
+				
+					<!--Draw the points-->
+					circle( A, A_ATTRS );
+					circle( B, B_ATTRS );
+					circle( C, C_ATTRS );
+					circle( D, D_ATTRS );
+					circle( E, E_ATTRS );
+					circle( F, F_ATTRS );
+					circle( G, G_ATTRS );
+					
+					<!--Label the points-->
+					label(A, "<var>a</var>", "above" );
+					label(D, "<var>d</var>", "above" );
+					label(B, "<var>b</var>", "left" );
+					label(E, "<var>e</var>", "left" );	
+					label(C, "<var>c</var>", "above left" );
+					label(F, "<var>f</var>", "above left" );	
+					label([6.1, 2], "<var>g</var>", "below right");
+					
+				</div>
+			</div>
+
+			
+			<div class="solution" data-type="set">
+				<div class="set-sol" data-type = "text">	<var>VertAngle_pt1</var><var>g</var><var>VertAngle_pt2</var>	</div>
+				<div class="set-sol" data-type = "text">	<var>VertAngle_pt2</var><var>g</var><var>VertAngle_pt1</var>	</div>
+
+				<div class="input-format">
+				<p><code>\angle </code> <span class="entry"></span></p>
+       			</div>
+			</div>
+				
+				<div class="hints">
+				<p>Vertical angles form two intersecting straight lines.</p>
+				<p>Name an angle that will form a big X with <code>\angle <var>angle1_pt1</var><var>g</var><var>angle1_pt2</var></code>.</p>
+				<p><code>\angle <var>VertAngle_pt1</var><var>g</var><var>VertAngle_pt2</var></code></p>
+			</div>
+		</div>
+		
+		
+			
+	<div id="Problem_1b">
+
+		
+			<div class="question">
+				<p class> Name an angle adjacent to <code>\angle <var>angle1_pt1</var><var>g</var><var>angle1_pt2</var></code>.</p>
+
+				<div id = "original" class="graphie">
+					<!--Draw the plane and the lines-->
+					init({
+						range: [ [-1, 15], [-5, 8] ]
+					});					
+					line( Line1_endPt1, Line1_endPt2, { arrows: "->" } );
+					line( Line1_endPt2, Line1_endPt1, { arrows: "->" } );
+					line( Line2_endPt1, Line2_endPt2, {arrows: "->"});
+					line( Line2_endPt2, Line2_endPt1, {arrows: "->"});
+					line( Line3_endPt1, Line3_endPt2, {arrows: "->"});
+					line( Line3_endPt2, Line3_endPt1, {arrows: "->"});
+					
+				
+					<!--Draw the points-->
+					circle( A, A_ATTRS );
+					circle( B, B_ATTRS );
+					circle( C, C_ATTRS );
+					circle( D, D_ATTRS );
+					circle( E, E_ATTRS );
+					circle( F, F_ATTRS );
+					circle( G, G_ATTRS );
+					
+					<!--Label the points-->
+					label(A, "<var>a</var>", "above" );
+					label(D, "<var>d</var>", "above" );
+					label(B, "<var>b</var>", "left" );
+					label(E, "<var>e</var>", "left" );	
+					label(C, "<var>c</var>", "above" );
+					label(F, "<var>f</var>", "above" );	
+					label([6.1, 2], "<var>g</var>", "below right");
+					
+				</div>
+			</div>
+
+			
+			<div class="solution" data-type="set">
+			<!--Have to consider symmetry, ie. if AGC is a solution, then CGA is too.-->
+			<!--Allow angles that would form a linear pair with the given angle as well.-->
+
+				<div class="set-sol" data-type = "text">	<var>AdjAngle_pt1a</var><var>g</var><var>angle1_pt1</var>	</div>
+				<div class="set-sol" data-type = "text">	<var>AdjAngle_pt1b</var><var>g</var><var>angle1_pt1</var>	</div>
+				<div class="set-sol" data-type = "text">	<var>AdjAngle_pt2a</var><var>g</var><var>angle1_pt2</var>	</div>
+				<div class="set-sol" data-type = "text">	<var>AdjAngle_pt2b</var><var>g</var><var>angle1_pt2</var>	</div>
+
+				<div class="set-sol" data-type = "text">	<var>angle1_pt1</var><var>g</var><var>AdjAngle_pt1a</var>	</div>
+				<div class="set-sol" data-type = "text">	<var>angle1_pt1</var><var>g</var><var>AdjAngle_pt1b</var>	</div>
+				<div class="set-sol" data-type = "text">	<var>angle1_pt2</var><var>g</var><var>AdjAngle_pt2a</var>	</div>
+				<div class="set-sol" data-type = "text">	<var>angle1_pt2</var><var>g</var><var>AdjAngle_pt2b</var>	</div>
+				
+				<div class="input-format">
+				<p><code>\angle </code> <span class="entry"></span></p>
+       			</div>
+			</div>
+				
+				<div class="hints">
+				<p> Adjacent angles share a ray, have a common vertex, and don't overlap.</p>
+				<p>Name an angle that is next to <code>\angle <var>angle1_pt1</var><var>g</var><var>angle1_pt2</var></code>.</p>
+				<!--Have to make sure these don't spit back linear pairs as well as adjacent angles.-->
+				<p> <code>\angle <var>AdjAngle_pt1a</var><var>g</var><var>angle1_pt1</var></code>, <code>\angle <var>AdjAngle_pt1b</var><var>g</var><var>angle1_pt1</var></code>, <code>\angle <var>AdjAngle_pt2a</var><var>g</var><var>angle1_pt2</var></code>, or <code>\angle <var>AdjAngle_pt2b</var><var>g</var><var>angle1_pt2</var></code>.</p>
+			</div>
+		</div>
+		
+
+		<div id="Problem_2">	
+			
+			<div class="question">
+				<p class> Name an angle that forms a linear pair with <code>\angle <var>angle1_pt1</var><var>g</var><var>angle1_pt2</var></code>. </p>
+
+				<div id = "original" class="graphie">
+					<!--Draw the plane and the lines-->
+					init({
+						range: [ [-1, 15], [-5, 8] ]
+					});					
+					line( Line1_endPt1, Line1_endPt2, {arrows: "->"});
+					line( Line1_endPt2, Line1_endPt1, {arrows: "->"});
+					line( Line2_endPt1, Line2_endPt2, {arrows: "->"});
+					line( Line2_endPt2, Line2_endPt1, {arrows: "->"});
+					line( Line3_endPt1, Line3_endPt2, {arrows: "->"});
+					line( Line3_endPt2, Line3_endPt1, {arrows: "->"});
+					
+				
+					<!--Draw the points-->
+					circle( A, A_ATTRS );
+					circle( B, B_ATTRS );
+					circle( C, C_ATTRS );
+					circle( D, D_ATTRS );
+					circle( E, E_ATTRS );
+					circle( F, F_ATTRS );
+					circle( G, G_ATTRS );
+					
+					<!--Label the points-->
+					label(A, "<var>a</var>", "above" );
+					label(D, "<var>d</var>", "above" );
+					label(B, "<var>b</var>", "left" );
+					label(E, "<var>e</var>", "left" );	
+					label(C, "<var>c</var>", "above" );
+					label(F, "<var>f</var>", "above" );	
+					label([6.1, 2], "<var>g</var>", "below right");
+					
+				</div>
+			</div>
+
+			
+			<div class="solution" data-type="set">
+				<div class="set-sol" data-type = "text">	<var>VertAngle_pt1</var><var>g</var><var>angle1_pt2</var>	</div>
+				<div class="set-sol" data-type = "text">	<var>VertAngle_pt2</var><var>g</var><var>angle1_pt1</var>	</div>
+				
+				<div class="set-sol" data-type = "text">	<var>angle1_pt2</var><var>g</var><var>VertAngle_pt1</var>	</div>
+				<div class="set-sol" data-type = "text">	<var>angle1_pt1</var><var>g</var><var>VertAngle_pt2</var>	</div>
+				
+				<div class="input-format">
+				<p><code>\angle </code> <span class="entry"></span></p>
+       			</div>
+			</div>
+				
+				<div class="hints">
+				<p>A linear pair is two adjacent angles that form a straight angle.</p>
+				
+				<p>It must be an angle that shares a ray with <code>\angle <var>angle1_pt1</var><var>g</var><var>angle1_pt2</var></code> and will add up to <code>180^{\circ}</code>.</p>
+				
+				<p><code>\angle <var>VertAngle_pt1</var><var>g</var><var>angle1_pt2</var></code> or <code>\angle <var>VertAngle_pt2</var><var>g</var><var>angle1_pt1</var></code>.</p>
+			</div>
+		</div>
+
+
+		<div id="Problem_3">	
+
+			<div class = "vars">
+				<!--For the none of the above choice-->
+				<var id="None_index1"> 6 + index1 - 2</var>
+				<var id="None_index2"> index2 + 1</var>
+				<var id="None_pt1">array[None_index1%6]</var>
+				<var id="None_pt2">array[None_index2%6]</var>
+
+				<var id="NoneOfTheAbove_pts_array">[ [None_pt1, None_pt2], [None_pt2, None_pt1] ]</var>
+				<var id="NoneOfTheAbove_pts">NoneOfTheAbove_pts_array[randRange(0, 1)]</var>
+
+				<var id="NoneOfTheAbove_pt1">NoneOfTheAbove_pts[0]</var>
+				<var id="NoneOfTheAbove_pt2">NoneOfTheAbove_pts[1]</var>
+				
+				<!--To generate the multiple choice solutions and choose the solution-->
+				<var id="solution_array"> [ "vertical angles", "adjacent angles", "a linear pair", "none of the above"] </var>
+				
+				<var id="angle2_pt1_array">[VertAngle_pt1, AdjAngle_pt1, LinPair_pt1, NoneOfTheAbove_pt1]</var>
+				<var id="angle2_pt2_array">[VertAngle_pt2, AdjAngle_pt2, LinPair_pt2, NoneOfTheAbove_pt2]</var>
+				
+				<var id="index"> randRange(0, 3) </var>
+				
+				<var id="SOLUTION">solution_array[index]</var>
+				<var id="angle2_pt1">angle2_pt1_array[index]</var>
+				<var id="angle2_pt2">angle2_pt2_array[index]</var>				
+
+				<!--For hint 4, highlighting the angles-->
+				<var id="location_array">[Line2_endPt1, Line3_endPt1, Line1_endPt2, Line2_endPt2, Line3_endPt2, Line1_endPt1]</var>
+				<var id="points_array">[b, c, d, e, f, a]</var>
+				
+				<script type = "text/javascript">		
+				Array.prototype.findIndex = function(value){
+				var ctr = "";
+				for (var i=0; i < this.length; i++) {
+				if (this[i] == value) {
+				return i;
+				}
+				}
+				return ctr;
+				};
+				</script>
+
+				<var id = "angle2_pt1_index">points_array.findIndex(angle2_pt1)</var>
+				<var id = "angle2_pt2_index">points_array.findIndex(angle2_pt2)</var>
+				
+			</div>
+			
+			<div class="question">
+				<p> Identify the angle pairs as vertical, adjacent, a linear pair, or none. <BR>
+				<code>\angle <var>angle1_pt1</var><var>g</var><var>angle1_pt2</var></code> and <code>\angle <var>angle2_pt1</var><var>g</var><var>angle2_pt2</var></code>?</p>
+				
+				<div id = "original" class="graphie">
+					<!--Draw the plane and the lines-->
+					init({
+						range: [ [-1, 15], [-5, 8] ]
+					});					
+					line( Line1_endPt1, Line1_endPt2, { arrows: "->" } );
+					line( Line1_endPt2, Line1_endPt1, { arrows: "->" } );
+					line( Line2_endPt1, Line2_endPt2, {arrows: "->"});
+					line( Line2_endPt2, Line2_endPt1, {arrows: "->"});
+					line( Line3_endPt1, Line3_endPt2, {arrows: "->"});
+					line( Line3_endPt2, Line3_endPt1, {arrows: "->"});
+					
+				
+					<!--Draw the points-->
+					circle( A, A_ATTRS );
+					circle( B, B_ATTRS );
+					circle( C, C_ATTRS );
+					circle( D, D_ATTRS );
+					circle( E, E_ATTRS );
+					circle( F, F_ATTRS );
+					circle( G, G_ATTRS );
+					
+					<!--Label the points-->
+					label(A, "<var>a</var>", "above" );
+					label(D, "<var>d</var>", "above" );
+					label(B, "<var>b</var>", "left" );
+					label(E, "<var>e</var>", "left" );	
+					label(C, "<var>c</var>", "above left" );
+					label(F, "<var>f</var>", "above left" );	
+					label([6.1, 2], "<var>g</var>", "below right");
+					
+				</div>
+			</div>
+
+			
+			<div class "solution">
+			<p class="solution"><var>SOLUTION</var> </p>
+
+		<ul class="choices">
+    <li><var>solution_array[(index+1)%4]</var></li>
+	<li><var>solution_array[(index+2)%4]</var></li>
+	<li><var>solution_array[(index+3)%4]</var></li>
+ 		</ul>
+			</div>
+				
+				<div class="hints">
+				<p> If the two angles are formed by two intersecting lines and they are across from each other, then they are vertical angles.</p>
+				<!--Modified this second hint a bit to include the part where adjacent angles have no common interior points.-->
+				<p> If the two angles share a ray, do not overlap each other, and <u>do not</u> form a straight line, then they are adjacent angles.</p>
+				<p> If the two angles share a common ray and the other two rays are opposite rays (form a straight angle), then they form a linear pair. </p>
+				
+				<div class="graphie" data-update="original">
+				style({ stroke: "Cyan", strokeWidth:8}, function() {
+					path([ [ location_array[index1%6][0], location_array[index1%6][1] ], [ 6, 2 ]]).toBack();
+				});
+				style({ stroke: "Cyan", strokeWidth:8}, function() {
+					path([ [ location_array[index2%6][0], location_array[index2%6][1] ], [ 6, 2 ]]).toBack();
+				});		
+
+				style({ stroke: "Pink", strokeWidth:12}, function() {
+					path([ [ (7/6)*(location_array[angle2_pt1_index%6][0] - 6) + 6,  (7/6)*(location_array[angle2_pt1_index%6][1] - 2) + 2], [ 6, 2 ]]).toBack();
+				});
+				style({ stroke: "Pink", strokeWidth:12}, function() {
+					path([ [ (7/6)*(location_array[angle2_pt2_index%6][0] - 6) + 6,  (7/6)*(location_array[angle2_pt2_index%6][1] - 2) + 2], [ 6, 2 ]]).toBack();
+				});										
+				</div>
+			
+				<p> Answer: <var>SOLUTION</var>.</p>
+			</div>
+		</div>
+
+		
+		</div>
+	</div>
+
+</body>
+</html>
