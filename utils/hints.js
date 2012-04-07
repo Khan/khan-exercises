@@ -38,7 +38,7 @@ jQuery( Khan ).bind( "newProblem", function() {
 			.show();
 
 	var examples = jQuery( "#examples" );
-	if ( examples.length ) {
+	if ( examples.length && jQuery.prototype.qtip != null ) {
 
 		// Tooltip-ify the example answer formats
 		jQuery( "#examples-show" ).qtip({
