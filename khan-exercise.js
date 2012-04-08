@@ -2141,7 +2141,7 @@ var Khan = (function() {
                 dataType: testMode ? "jsonp" : "json",
                 success: function(json) {
 
-                    data = json.data || json;
+                    var data = json.data || json;
 
                     // hide the form
                     $("#issue form").hide();
