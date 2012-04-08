@@ -21,11 +21,15 @@
 						"other1" : "If I don't like soccer, then I won't go to soccer practice.",
 						"other2" : "When it rains I don't want to go to soccer practice." }
 					</var>
+					<var id="HYPOTHESIS">"it rains today"</var>
+					<var id="NEG_HYPOTHESIS">"it does not rain today"</var>
+					<var id="CONCLUSION">"soccer pratice will be canceled"</var>
+					<var id="NEG_CONCLUSION">"soccer pratice will not be canceled"</var>
 				</div>
 				
 				<p class="problem">Identify the <strong><var>TYPE</var></strong> of the given conditional statement.</p>
 				
-				<p class="question">"If it rains today, soccer pratice will be canceled."</p>
+				<p class="question">"If it rains today, soccer practice will be canceled."</p>
 				
 				<p class="solution"><var>CHOICES[TYPE]</var></p>
 				<ul class="choices" data-show="4" data-none="true">
@@ -42,9 +46,13 @@
 						"other1" : "I only wear hats when it rains.",
 						"other2" : "If I do not wear a hat today, then I could get sunburned." }
 					</var>
+					<var id="HYPOTHESIS">"the sun is bright outside today"</var>
+					<var id="NEG_HYPOTHESIS">"the sun is not bright outside today"</var>
+					<var id="CONCLUSION">"I will wear a hat"</var>
+					<var id="NEG_CONCLUSION">"I will not wear a hat"</var>
 				</div>
-				
-				<p class="question">"The sun is bright outside today, so I need to wear a hat."</p>
+
+				<p class="question">"The sun is bright outside today, so I will wear a hat."</p>
 			</div>
 			
 			<div id="dessert-and-pie" data-type="rain-and-soccer-practice">
@@ -55,9 +63,12 @@
 						"contrapositive" : "If I did not eat apple pie, then we did not have dessert tonight.",
 						"other1" : "If we do not have dessert tonight, I will be upset.",
 						"other2" : "I do not like apple pie, so I will not eat dessert tonight." }
-					</var>
+					<var id="HYPOTHESIS">"we have dessert tonight"</var>
+					<var id="NEG_HYPOTHESIS">"we do not have dessert tonight"</var>
+					<var id="CONCLUSION">"I will eat apple pie"</var>
+					<var id="NEG_CONCLUSION">"I will not eat apple pie"</var>
 				</div>
-				
+
 				<p class="question">"If we have dessert tonight, I will eat apple pie."</p>
 			</div>
 			
@@ -65,11 +76,14 @@
 				<div class="vars">
 					<var id="CHOICES">{ 
 						"converse" : "All pairs of congruent angles are vertical angles.",
-						"inverse" : "All pairs of angles that are not vertical angle are not congruent angles.",
+						"inverse" : "All pairs of angles that are not vertical angles are not congruent angles.",
 						"contrapositive" : "All pairs of angles that are not congruent are not vertical angles.",
 						"other1" : "Vertical angles are always congruent.",
 						"other2" : "Congruent angles can be vertical angles but they don't have to be." }
-					</var>
+					<var id="HYPOTHESIS">"a pair of angles are vertical angles"</var>
+					<var id="NEG_HYPOTHESIS">"a pair of angles are not vertical angles"</var>
+					<var id="CONCLUSION">"the two angles are congruent"</var>
+					<var id="NEG_CONCLUSION">"the two angles are not congruent"</var>
 				</div>
 				
 				<p class="question">"All pairs of vertical angles are congruent angles."</p>
@@ -83,7 +97,10 @@
 						"contrapositive" : "If an animal does not eat peanuts, then it is not an elephant.",
 						"other1" : "Elephants also eat hay.",
 						"other2" : "Animals that eat peanuts may also like peanut butter." }
-					</var>
+					<var id="HYPOTHESIS">"an animal is an elephant"</var>
+					<var id="NEG_HYPOTHESIS">"an animal is not an elephant"</var>
+					<var id="CONCLUSION">"the animal eats peanuts"</var>
+					<var id="NEG_CONCLUSION">"the animal does not eat peanuts"</var>
 				</div>
 				
 				<p class="question">"Elephants eat peanuts."</p>
@@ -104,18 +121,48 @@
 					<li>If <code>x=4</code>, then <code>3x+1=13</code>.</li>
 					<li>If <code>3x+1=10</code>, then <code>x=3</code>.</li>
 				</ul>
+				
+				<div class="hints">
+					<p>
+						In this statement, the hypothesis is <strong><span class="hint_orange"><code>3x+1=7</code></span></strong> and the conclusion is <strong><span class="hint_blue"><code>x=2</code></span></strong>
+					</p>
+					<p data-if="TYPE === 'converse'">
+						Thus, when we take the converse, the hypothesis becomes <strong><span class="hint_blue"><code>x=2</code></span></strong> and the conclusion becomes <strong><span class="hint_orange"><code>3x+1=7</code></span></strong>.
+					</p>
+					<p data-if="TYPE === 'inverse'">
+						Thus, when we take the inverse, the hypothesis becomes <strong><span class="hint_orange"><code>3x+1\not=7</code></span></strong> and the conclusion becomes <strong><span class="hint_blue"><code>x\not=2</code></span></strong>.
+					</p>
+					<p data-if="TYPE === 'contrapositive'">
+						Thus, when we take the contrapositive, the hypothesis becomes <strong><span class="hint_blue"><code>x\not=2</code></span></strong> and the conclusion becomes <strong><span class="hint_orange"><code>3x+1\not=7</code></span></strong>.
+					</p>
+					<p>
+						Bringing the hypothesis and conclusion together, we find the <var>TYPE</var> of the original statement to be, <strong>
+							<span data-if="TYPE === 'converse'">"If <code>x=2</code>, then <code>3x+1=7</code>."</span>
+							<span data-if="TYPE === 'inverse'">"If <code>3x+1\not=7</code>, then <code>x\not=2</code>."</span>
+							<span data-if="TYPE === 'contrapositive'">"If <code>x\not=2</code>, then <code>3x+1\not=7</code>."</span>
+						</strong>
+					</p>
+				</div>
 			</div>
 		</div>
-		
-		<div class="hints">
-			<p>Identify the hypothesis and the conclusion of the given statement.</p>
-			<p data-if="TYPE === 'converse'">The converse of the statement is a new statement in which the hypothesis and conclusion are reversed.</p>
-			<p data-if="TYPE === 'inverse'">The inverse of the statement is a new statement that leaves the hypothesis and conclusion in the same order, but negates both of them. In other words, it is the "not" hypothesis and the "not" conclusion.</p>
-			<p data-if="TYPE === 'contrapositive'">The contrapositive of the statement is a new statement that reverses the order and negates the hypothesis and conclusion. In other words, switch them and "not" them.</p>
-			<p data-if="TYPE === 'contrapositive'">If you really think about it, the contrapositive is the inverse of the converse.</p>
-			<p>Do not add any new opinions or any other new information to your statement.</p>
-		</div>
 
+		<div class="hints">
+			<p>
+				In this statement, the hypothesis is <strong>"<span class="hint_orange"><var>HYPOTHESIS</var></span>"</strong> and the conclusion is <strong>"<span class="hint_blue"><var>CONCLUSION</var></span>"</strong>
+			</p>
+			<p data-if="TYPE === 'converse'">
+				Thus, when we take the converse, the hypothesis becomes <strong>"<span class="hint_blue"><var>CONCLUSION</var></span>"</strong> and the conclusion becomes <strong>"<span class="hint_orange"><var>HYPOTHESIS</var></span>"</strong>.
+			</p>
+			<p data-if="TYPE === 'inverse'">
+				Thus, when we take the inverse, the hypothesis becomes <strong>"<span class="hint_orange"><var>NEG_HYPOTHESIS</var></span>"</strong> and the conclusion becomes <strong>"<span class="hint_blue"><var>NEG_CONCLUSION</var></span>"</strong>.
+			</p>
+			<p data-if="TYPE === 'contrapositive'">
+				Thus, when we take the contrapositive, the hypothesis becomes <strong>"<span class="hint_blue"><var>NEG_CONCLUSION</var></span>"</strong> and the conclusion becomes <strong>"<span class="hint_orange"><var>NEG_HYPOTHESIS</var></span>"</strong>.
+			</p>
+			<p>
+				Bringing the hypothesis and conclusion together, we find the <var>TYPE</var> of the original statement to be, <strong>"<var>CHOICES[TYPE]</var>"</strong>
+			</p>
+		</div>
 		
 	</div>
 </body>
