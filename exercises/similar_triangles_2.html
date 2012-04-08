@@ -24,10 +24,15 @@
 			var b = KhanUtil.randRange(3, 10);
 			var c = KhanUtil.randRange(Math.max(a, b), a + b - 2);
 
-			if (scale && abc_sides[0] / a === abc_sides[1] / b && abc_sides[1] / b === abc_sides[2] / c) {
-				if (scale === 0.5) a = a * 2;
-				if (scale === 1.5) a = a* 2/3;
-				else a = a / 2;
+			if (scale) {
+				var a_max = Math.max( abc_sides[0], abc_sides[1] );
+				var a_min = Math.min( abc_sides[0], abc_sides[1] );
+				var b_max = Math.max( a, b );
+				var b_min = Math.min( a, b );
+				
+				if ( a_max / b_max === a_min / b_min && a_min / b_min === abc_sides[2] / c ) {
+					a = a + 1;
+				}
 			}
 
 			if (scale) return [scale*a, scale*b, scale*c];
