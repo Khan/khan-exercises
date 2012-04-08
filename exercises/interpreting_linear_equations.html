@@ -182,13 +182,15 @@
 
 					<div class="graphie" id="graph">
 						graphInit({
-							axisArrows:  '&lt;->',
-							labelStep:   1,
-							scale:       20,
-							labelFormat: function( s ) { return '\\small{' + s + '}'; },
-							tickStep:    2,
-							unityLabels: true
+							range: 10,
+							scale: 20,
+							axisArrows: "&lt;-&gt;",
+							tickStep: 2,
+							labelStep: 1,
 						});
+
+						label( [ 0, 10], "y", "below right");
+						label( [ 10, 0], "x", "above left");
 
 						style({ stroke: '#6495ed' });
 						line( LINESTART, LINEEND );
