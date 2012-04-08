@@ -74,7 +74,7 @@
 				
 				<div id="angleGraph" class="graphie" style="float:left;">
 					init({
-						range: [ [(Math.min( polar(6, largeAngle)[0], -1)), 5.5], [-1, (Math.min( Math.max( polar(5.5,largeAngle)[1], polar(5.5, subAngle2)[1]), 5.5))] ],
+						range: [ [(Math.min( polar(5.5, largeAngle)[0], -.5)-.5), 5.5], [-1, (Math.min( Math.max( polar(5.5,largeAngle)[1], polar(5.5, subAngle2)[1])+.5, 5.5))] ],
 						scale: 40
 					});
 					dotAttr={ r: 0.1, fill: "black", stroke: "none" };
