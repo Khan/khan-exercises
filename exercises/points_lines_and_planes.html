@@ -135,7 +135,7 @@
 				<div class="hints">
 				<p>Planes can be named with three <u>non-collinear</u> points. <BR>
 				Non-collinear points are points not on the same line.</p>
-				<p>Find three points in <code>\mathcal{<var>R</var>}</code> Not on the same line. List them in any order.</p>
+				<p>Find three points in <code>\mathcal{<var>R</var>}</code> not on the same line. List them in any order.</p>
 				<p>For example, we can write <code>\mathcal{<var>R</var>}</code> as plane <var>a</var><var>b</var><var>e</var> or plane <var>a</var><var>c</var><var>e</var> or plane <var>b</var><var>e</var><var>c</var>.</p>
 			</div>
 		</div>
@@ -309,7 +309,6 @@
 				
 			<var id="pts">points[ IDX ]</var>	
 			<var id="solution">sol[ IDX ]</var>	
-			<var id="wrong">sol[ oppositeIDX ]</var>
 			
 			</div>
 					
@@ -356,8 +355,9 @@
 			<div class "solution">
 			<p class="solution"> <var>solution</var> </p>
 
-		<ul class="choices">
-    <li><var>wrong</var></li>
+		<ul class="choices" data-category="true">
+		<li><var>sol[0]</var></li>
+		<li><var>sol[11]</var></li>
  		</ul>
 			</div>
 			
@@ -366,7 +366,7 @@
 			
 				<div class="hints">
 				<p> Collinear means that they lie on the same line.</p>
-				<p> Are the points named all on the same line? </p>
+				<p> Are the named points all on the same line? </p>
 				</div>
 		</div>		
 		
@@ -445,10 +445,10 @@
 			<div class "solution">
 			<p class="solution"> <var>solution</var> </p>
 
-			<ul class="choices">
-				<li><var>wrong</var></li>
-			</ul>
-			
+		<ul class="choices" data-category="true">
+		<li><var>solution</var></li>
+		<li><var>wrong</var></li>
+ 		</ul>
 			</div>
 			
 						
@@ -508,7 +508,6 @@
 				
 			<var id="pts">points[ IDX ]</var>	
 			<var id="solution">sol[ IDX ]</var>	
-			<var id="wrong">sol[ oppositeIDX ]</var>
 			
 			</div>
 					
@@ -555,10 +554,11 @@
 			<div class "solution">
 			<p class="solution"> <var>solution</var> </p>
 
-		<ul class="choices">
-    <li><var>wrong</var></li>
+		<ul class="choices" data-category="true">
+		<li><var>sol[0]</var></li>
+		<li><var>sol[11]</var></li>
  		</ul>
-			</div>			
+			</div>		
 
 			
 				<div class="hints">
