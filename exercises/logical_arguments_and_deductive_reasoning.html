@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Logical Arguments and Deductive Reasoning</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+<div class="problems">
+	<div id="law-of-detachment">
+		<div class="vars">
+			<var id="DAY">randFromArray(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])</var>
+			<var id="PROBLEMS">
+				[
+					[ 	<!-- [ AB, [A, notA], [B, notB] ] -->
+						( "If " + person(1) + " misses the bus, then " + he(1) + " will be late for school." ), <!-- AB -->
+						[ person(1) + " missed the bus.", 			person(1) + " did not miss the bus." ], 	<!-- [A, notA] -->
+						[ person(1) + " is late for school.",		person(1) + " is not late for school." ] 	<!-- [B, notB] -->
+					],
+					[ 
+						( "If it is " + DAY + ", I will have " + an( fruit( 1 ) ) + " for lunch." ),
+						[ "It is " + DAY + ".", 								"It is not " + DAY + "."],
+						[ "I will have " + an( fruit( 1 ) ) + " for lunch.",	"I did not have " + an( fruit(1) ) + " for lunch today."]
+					],
+					[ 
+						( "If wiggles walk, then tiggles talk." ),
+						[ "Wiggles are walking.",	"Wiggles are not walking." ],
+						[ "Tiggles are talking.", 	"Tiggles are not talking." ]
+					],
+					[ 
+						( "If I go to practice today, I will play in the game tomorrow." ),
+						[ "I went to practice today.", 			"I did not go to practice today." ],
+						[ "I will play in the game tomorrow.",	"I will not play in the game tomorrow." ]
+					],
+					[ 
+						( "If two angles form a linear pair, then they are supplementary." ),
+						[ "Angles ABC and BCD form a linear pair.",	 	"Angles ABC and XYZ do not form a linear pair."],
+						[ "Angles ABC and XYZ are supplementary.",		"Angles ABC and BCD are not supplementary." ]
+					],
+					[ 
+						( "If I go to the zoo, I will see " + an ( animal (1) ) + "." ),
+						[ "I am going to the zoo",	 					"I am not going to the zoo."],
+						[ "I will see " + an ( animal (1) ) + ".",		"I will not see " + an ( animal (1) ) + "." ]
+					]
+				]
+			</var>
+			<var id="PROBLEM"> randRange(0, PROBLEMS.length - 1) </var>
+			<!-- case2 is converse, case3 is inverse, case4 is contrapositive -->
+			<var id="CASE"> randRange(1, 4) </var>
+			<var id="NO_CONCLUSION">"No logical conclusion possible."</var>
+			<var id="ANS"> (function(){
+				switch ( CASE ) {
+					case 1: return PROBLEMS[PROBLEM][2][0]; <!-- B -->
+					case 2: return NO_CONCLUSION;
+					case 3: return NO_CONCLUSION;
+					case 4: return PROBLEMS[PROBLEM][1][1]; <!-- notA -->
+				}
+				})()</var>
+			<var id="SECOND_STATEMENT"> (function(){
+				switch ( CASE ) {
+					case 1: return PROBLEMS[PROBLEM][1][0]; <!-- A -->
+					case 2: return PROBLEMS[PROBLEM][2][0]; <!-- B -->
+					case 3: return PROBLEMS[PROBLEM][1][1]; <!-- notA -->
+					case 4: return PROBLEMS[PROBLEM][2][1]; <!-- notB -->
+				}
+				})()</var>
+			<var id="PRIMARY_OPTION"> (function(){
+				switch ( CASE ) {
+					case 1: return PROBLEMS[PROBLEM][2][0]; <!-- B -->
+					case 2: return PROBLEMS[PROBLEM][1][0]; <!-- A -->
+					case 3: return PROBLEMS[PROBLEM][2][1]; <!-- notB -->
+					case 4: return PROBLEMS[PROBLEM][1][1]; <!-- notA -->
+				}
+				})()</var>
+			<var id="EXTRA_OPTION"> (function(){
+				switch ( CASE ) {
+					case 1: return PROBLEMS[PROBLEM][2][1]; <!-- notB -->
+					case 2: return PROBLEMS[PROBLEM][1][1]; <!-- notA -->
+					case 3: return PROBLEMS[PROBLEM][2][0]; <!-- B -->
+					case 4: return PROBLEMS[PROBLEM][1][0]; <!-- A -->
+				}
+				})()</var>
+			<var id="OPTIONS">
+				(function(){
+					var opArray = shuffle ( [ PRIMARY_OPTION, EXTRA_OPTION ] );
+					opArray.push ( NO_CONCLUSION );
+					return opArray;
+				})()
+			</var>
+			<var id="HINT_OPTIONS">[ "", " first sentence", " converse of the first sentence", " inverse of the first sentence", " contrapositive of the first sentence"]</var>
+		</div>
+		<p class="problem"> Given: <br> <var> PROBLEMS[PROBLEM][0] </var> <br> <var> SECOND_STATEMENT </var> </p>
+		<p class="question"> Use the given information to make a logical conclusion. If a logical conclusion is not possible, choose "<var>NO_CONCLUSION</var>" </p>
+		<p class="solution"><var>ANS</var></p>
+		<ul class="choices" data-category="true">
+			<li data-each="OPTIONS as option"> <var> option </var> </li>
+		</ul>
+		<div class="hints">
+			<p>Identify the hypothesis and conclusion of the first sentence.</p>
+			<p>Ask yourself, "Is the second sentence implying the beginning of the first sentence, or its converse, or its inverse, or its contrapositive?"</p>
+			<p>If the second sentence is implying the beginning of the first sentence or its contrapositive, you can make a logical conclusion.</p>
+			<p>If the second sentence is implying the beginning of the converse or inverse of the first sentence, you <strong><em>cannot</em></strong> make a logical conclusion.</p>
+			<p>In this problem, the second sentence is implying the beginning of the <var>HINT_OPTIONS[CASE]</var>, so the answer is "<var>ANS</var>" </p>
+		</div>
+	</div>
+	<div id="law-of-syllogism">
+		<div class="vars">
+			<var id="NO_CONCLUSION">"No logical conclusion possible."</var>
+			<var id="PROBLEMS">
+				[
+					[ <!-- dl.dropbox.com/u/35759231/images/law_of_syllogism.PNG a diagram explaining these problems and how this array is organized -->
+						"If a figure is a square, then it is also a rectangle.", <!-- P->Q -->
+						"If a figure is a rectangle, then it has four right angles.", <!-- Q->R -->
+						"If a figure is a square, then it has four right angles.", <!-- P->R -->
+						"If a figure has four right angles, then it is a square.", <!-- R->P -->
+						"If a figure has four right angles, then it is a rectangle.", <!-- R->Q -->
+						"If a figure is a rectangle, then it is also a square.", <!-- Q->P -->
+						"If a figure has four right angles, then its sides must all be of equal length.", <!-- Nonsensical Conclusion (invalid inference) -->
+					],
+					[
+						"If it is Saturday, you do not have to go to school.",
+						"If you do not have to go to school, then you can play in the park.",
+						"If it is Saturday, then you can play in the park.",
+						"If you can play in the park, then it is Saturday.",
+						"If you can play in the park, then you do not have to go to school.",
+						"If you do not have to go to school, then it is Saturday.",
+						"If it is the weekend, you can play in the park instead of going to school."
+					],
+					[
+						"If you live on planet Pepper, then you live in the Veggie planetary system.",
+						"If you live in the Veggie planetary system, then you cannot see planet Earth.",
+						"If you live on planet Pepper, then you cannot see planet Earth.",
+						"If you cannot see planet Earth, then you live on planet Pepper.",
+						"If you cannot see planet Earth, then you live in the Veggie planetary system.",
+						"If you live in the Veggie planetary system, then you live on planet Pepper.",
+						"If you cannot see planet Earth, then you are too far away from it."
+					],
+					[
+						"If a ray bisects an angle, then it creates two congruent angles.",
+						"If you have two congruent angles, then you have two angles with the same measure.",
+						"If a ray bisects an angle, then you have two angles with the same measure.",
+						"If you have two angles with the same measure, then they are the result of a ray bisecting an angle.",
+						"If you have two angles with the same measure, then you have two congruent angles.",
+						"If you have two congruent angles, then they are the result of a ray bisecting an angle.",
+						"If two angles are the same, then they were probably the result of an angle bisection."
+					],
+					[
+						"If a figure is a pentagon, then it has five sides.",
+						"If a figure has five sides, then it has five angles.",
+						"If a figure is a pentagon, then it has five angles.",
+						"If a figure has five angles, then it is a pentagon.",
+						"If a figure has five angles, then it has five sides.",
+						"If a figure has five sides, then it is a pentagon.",
+						"If a figure is a pentagon, then it has both five sides and five angles."
+					],
+					[
+						"If a student is in 12th grade, then he or she is in high school.",
+						"If a student is in high school, then he or she is not in college.",
+						"If a student is in 12th grade, then he or she is not in college.",
+						"If a student is not in college, then he or she is in the 12th grade.",
+						"If a student is not in college, then he or she is in high school.",
+						"If a student is in high school, then he or she is in the 12th grade.",
+						"If a student is not in college yet, then he or she is likely still in high school."
+					],
+					[
+						"If the weather is nice, then you will have a picnic.",
+						"If you have a picnic, then you will see ants.",
+						"If the weather is nice, then you will see ants.",
+						"If you see ants, then the weather is nice.",
+						"If you see ants, then you are having a picnic.",
+						"If you are having a picnic, then the weather is nice.",
+						"If the weather is not nice, then you shouldn't have a picnic."
+					],
+					[
+						"If a midpoint divides a segment, then the result is two congruent segments.", <!-- the format of this one is different too -->
+						"If there are two congruent segments, then the segments have the same length.",
+						"If a midpoint divides a segment, then the result is two segments that have the same length.",
+						"If there are two segments with the same length, then they were the result of dividing a larger segment with a midpoint.",
+						"If there are two segments with the same length, then they are congruent segments.",
+						"If there are two congruent segments, then they were the result of dividing a larger segment with a midpoint.",
+						"If you have equal segments, they were probably divided by a midpoint."
+					]
+				]
+			</var>
+			<var id="CASE"> randRange( 0, 3 ) </var>
+			<var id="PROBLEM"> randRange( 0, PROBLEMS.length - 1 ) </var>
+			<var id="ANS"> CASE === 0 || CASE === 1 ? PROBLEMS[PROBLEM][2] : NO_CONCLUSION </var>
+			<var id="PRIMARY_OPTION"> (function(){
+				switch ( CASE ) {
+					case 0:
+					case 1:
+						return PROBLEMS[PROBLEM][2];
+					case 2:
+						return PROBLEMS[PROBLEM][ randFromArray( [ 0, 5 ] ) ];
+					case 3:
+						return PROBLEMS[PROBLEM][ randFromArray( [ 1, 4 ] ) ];
+				}
+				})()</var>
+			<var id="EXTRA_OPTION"> (function(){
+				switch ( CASE ) {
+					case 0:
+					case 1:
+						return PROBLEMS[PROBLEM][ randRange(3, 6) ];
+					case 2:
+						return PROBLEMS[PROBLEM][ randFromArray( [ 3, 4, 6 ] ) ];
+					case 3:
+						return PROBLEMS[PROBLEM][ randFromArray( [ 3, 5, 6 ] ) ];;
+				}
+				})()</var>
+			<var id="OPTIONS">
+				(function(){
+					var opArray = shuffle ( [ PRIMARY_OPTION, EXTRA_OPTION ] );
+					opArray.push ( NO_CONCLUSION );
+					return opArray;
+				})()
+			</var>
+		</div>
+		<p class="problem"> Given: <br> 
+			<span data-if="CASE === 0"><var> PROBLEMS[PROBLEM][0] </var> <br> <var> PROBLEMS[PROBLEM][1] </var></span>
+			<span data-else-if="CASE === 1"><var> PROBLEMS[PROBLEM][1] </var> <br> <var> PROBLEMS[PROBLEM][0] </var></span>
+			<span data-else-if="CASE === 2"><var> PROBLEMS[PROBLEM][1] </var> <br> <var> PROBLEMS[PROBLEM][2] </var></span>
+			<span data-else><var> PROBLEMS[PROBLEM][0] </var> <br> <var> PROBLEMS[PROBLEM][2] </var></span>
+		</p>
+		<p class="question"> Use the given information to make a logical conclusion. If a logical conclusion is not possible, choose "<var>NO_CONCLUSION</var>" </p>
+		<p class="solution"><var>ANS</var></p>
+		<ul class="choices" data-category="true">
+			<li data-each="OPTIONS as option"> <var> option </var> </li>
+		</ul>
+		<div class="hints">
+			<p>Do the two statements follow the pattern, "If P, then Q. If Q, then R?" If so, you can make a conclusion, "If P, then R."</p>
+			<p>Does the conclusion of one sentence match the hypothesis of the other sentence? If so, you can make a conclusion.</p>
+			<div data-if="CASE === 0" data-unwrap>
+				<p>In this case, the first given sentence follows the pattern "If P, then Q."</p>
+				<p>The second sentence follows the pattern "If Q, then R."</p>
+				<p>Therefore, it is logical to conclude "If P, then R."</p>
+				<p>Saying it another way, since the conclusion of the first sentence matches the hypothesis of the second sentence, you may conclude the following: <em>"<var>PROBLEMS[PROBLEM][2]</var>"</em></p>
+			</div>
+			<div data-else-if="CASE === 1"  data-unwrap>
+				<p>In this case, the <em>second</em> given sentence follows the pattern "If P, then Q."</p>
+				<p>The <em>first</em> sentence follows the pattern "If Q, then R."</p>
+				<p>Therefore, it is logical to conclude "If P, then R."</p>
+				<p>Saying it another way, since the conclusion of the second sentence matches the hypothesis of the first sentence, you may conclude the following: <em>"<var>PROBLEMS[PROBLEM][2]</var>"</em></p>
+			</div>
+			<div data-else-if="CASE === 2"  data-unwrap>
+				<p>In this case, neither sentence's conclusion matches the hypothesis of the other. To see this easily, notice that both sentences share the same conclusion.</p>
+				<p>Thinking about it another way, you can see that the two given statements do not follow the pattern "If P, then Q. If Q, then R." Instead, they follow a different pattern: "If P then Q. If R then Q."</p>
+				<p>Therefore, it is impossible to draw a logical conclusion based purely on the given information.</p>
+			</div>
+			<div data-else-if="CASE === 3"  data-unwrap>
+				<p>In this case, neither sentence's conclusion matches the hypothesis of the other. To see this easily, notice that both sentences share the same hypothesis.</p>
+				<p>Thinking about it another way, you can see that the two given statements do not follow the pattern "If P, then Q. If Q, then R." Instead, they follow a different pattern: "If P then Q. If P then R."</p>
+				<p>Therefore, it is impossible to draw a logical conclusion based purely on the given information.</p>
+			</div>
+		</div>
+	</div>
+</div>	
+</div>
+</body>
+</html>
