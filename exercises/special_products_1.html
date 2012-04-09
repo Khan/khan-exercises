@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Special products 1</title>
+	<script src="../khan-exercise.js"></script>
+	<style type="text/css">
+	#answer_area input[type=text] {
+	width: 30px;
+	}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div id="square-binomial">
+				<div class="vars">
+					<var id="x">randVar( )</var>
+					<var id="lc">randRangeNonZero( -10, 10 )</var>
+					<var id="ct">randRangeNonZero( -10, 10 )</var>
+					
+					<var id="a">lc * lc</var>
+					<var id="b">2 * lc * ct</var>
+					<var id="c">ct * ct</var>
+					
+					<var id="lt">[ "*", lc, x]</var>
+					<var id="monom">[ "+", lt, ct ]</var>
+					<var id="prob">[ "^", monom, 2]</var>
+					<var id="hint1">["*", ["color", "red", monom ], ["color", "blue", monom ] ]</var>
+					<var id="hint2">[ "+", ["*", [ "color", "red", lt], ["color", "blue", monom ] ], ["*", [ "color", "red", ct], ["color", "blue", monom ] ] ]</var>
+					<var id="hint3">[ "+", [ "*", [ "color", "red", lt ], [ "color", "blue", lt ] ], [ "*", [ "color", "red", lt ], [ "color", "blue", ct ] ], [ "*", [ "color", "red", ct ], [ "color", "blue", lt ] ], [ "times", [ "color", "red", ct ], [ "color", "blue", ct ] ] ]
+				</div>
+				
+				<p class="question">Find the product:</p>
+				
+				<p><code>(<var>lc</var><var>x</var> + <var>ct</var>)^2</code></p>
+				
+				<div class="solution" data-type="multiple">
+					<p><span class="sol"><var>a</var></span><code><var>x</var>^2+</code><span class="sol"><var>b</var></span><code><var>x</var>+</code><span class="sol"><var>c</var></span></p>
+					<p class="example">Enter the coefficients of the product.</p>
+				</div>
+				
+				<div class="hints">
+					<p>Remember, <code>(<var>lc</var><var>x</var> + <var>ct</var>)^2</code> means <code>\color{red}{(<var>lc</var><var>x</var> + <var>ct</var>)}\color{blue}{(<var>lc</var><var>x</var> + <var>ct</var>)}</code>.</p>
+					
+					<p>By the distributive property, this is <code><var>expr( hint2 )</var></code>.</p>
+					
+					<p>Applying the distributive property again, this is <code><var>expr( hint3 )</var></code>.</p>
+					
+				</div>
+			</div> <!-- square-binomial -->
+
+		</div> <!-- problems -->
+	</div> <!-- exercise -->
+</body>
+</html>
