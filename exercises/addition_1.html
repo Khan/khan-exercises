@@ -23,9 +23,24 @@
 					label( [0, 0],
 						"\\Huge{\\color{#6495ED}{" + A + "} + \\color{#28AE7B}{" + B + "} = {?}}",
 						"right" );
+					var collection = [5, 2, 7, 4]; 
+					var swaps = 0; 
+					for(var j = 1; j < collection.length; j++) {
+						var key = collection[j];
+						var i = j - 1;
+					 
+						while(i >= 0 && collection[i] > key) {
+							collection[i+1] = collection[i];
+							i = i - 1;     
+							swaps += 1;
+						}            
+					 
+						collection[i+1] = key;
+					}
+					console.log(swaps);
 				</div>
 			</div>
-			<div class="solution" data-forms="integer"><var>A + B</var></div>
+			<div class="solution" data-forms="integer"><var>43</var></div>
 			<div class="hints">
 				<div class="graphie" style="float: left;">
 					drawCircles( A, "#6495ED" );
