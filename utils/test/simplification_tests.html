@@ -5,7 +5,7 @@
     <title>Utility Test Suite: LaTeX</title>
     <!-- Include dependencies -->
     <script type="text/javascript" src="../../jquery.js"></script>
-    <script type="text/javascript" src="../MathJax/1.1a/MathJax.js?config=KAthJax-77111459c7d82564a705f9c5480e2c88"></script>
+    <script type="text/javascript" src="../MathJax/1.1a/MathJax.js?config=KAthJax-a5c67e8a5046db2ff8dfc2229a228836"></script>
     <script src="../../khan-exercise.js"></script>
     <script type="text/javascript" src="../tmpl.js"></script>
     <script src="../ast.js"></script>
@@ -115,25 +115,25 @@
 		{expr:"y+-1*x", options:KhanUtil.simplifyOptions.basic, expected:"y- x"},
 
         {title:"Simplifying by factoring"},
-        {expr:"x+x", options:{evalBasicNumOps:true, mergeCstFactors:true, del0TermInSum:true}, expected:"2x"},
-        {expr:"x+x", options:{evalBasicNumOps:false, mergeCstFactors:false, del0TermInSum:true}, expected:"x+ x"},
-        {expr:"(x+1)*(x+1)", options:{evalBasicNumOps:true, simplifyProducts:true}, expected:"(x+ 1)^{2}"},
-        {expr:"5*(x+1)*(2+x)^2*(1+x)*6*(x+2)^3", options:{evalBasicNumOps:true, simplifyProducts:true}, expected:"30(x+ 1)^{2}(2+ x)^{5}"},
-        {expr:"(1+x)*(x+1)^x*(1+x)^x", options:{evalBasicNumOps:true, simplifyProducts:true, mergeCstFactors:true}, expected:"(1+ x)^{1+ 2x}"},
-        {expr:"(x-1)*(-1+x)", options:{evalBasicNumOps:true, simplifyProducts:true}, expected:"(x-1)^{2}"},
-        {expr:"2x+xy+zxy", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"x(2+ y+ yz)"},
-        {expr:"(x+1)(2x+2)", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"2(x+ 1)^{2}"},
+        {expr:"x+x", options:KhanUtil.simplifyOptions.factor, expected:"2x"},
+        {expr:"x+x", options:{}, expected:"x+ x"},
+        {expr:"(x+1)*(x+1)", options:KhanUtil.simplifyOptions.factor, expected:"(x+ 1)^{2}"},
+        {expr:"5*(x+1)*(2+x)^2*(1+x)*6*(x+2)^3", options:KhanUtil.simplifyOptions.factor, expected:"30(x+ 1)^{2}(2+ x)^{5}"},
+        {expr:"(1+x)*(x+1)^x*(1+x)^x", options:KhanUtil.simplifyOptions.factor, expected:"(1+ x)^{1+ 2x}"},
+        {expr:"(x-1)*(-1+x)", options:KhanUtil.simplifyOptions.factor, expected:"(x-1)^{2}"},
+        {expr:"2x+xy+zxy", options:KhanUtil.simplifyOptions.factor, expected:"x(2+ y+ yz)"},
+        {expr:"(x+1)(2x+2)", options:KhanUtil.simplifyOptions.factor, expected:"2(x+ 1)^{2}"},
 
         {title:"Factoring polynomials"},
-        {expr:"x^2+2x+1", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x+ 1)^{2}"},
-        {expr:"x^2+4x+2", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x+ 0.5857864376269049)(x+ 3.414213562373095)"},
-        {expr:"1+x+x^2+9x+8", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x+ 1)(x+ 9)"},
-        {expr:"x^2+x-30", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x-5)(x+ 6)"},
-        {expr:"x^2-x-12", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x-4)(x+ 3)"},
-        {expr:"x^2+x+2+2x+3x^2", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"4x^{2}+ 3x+ 2"},
-        {expr:"x+1+y+2+2x+3y", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"3x+ 3+ 4y"},
-        {expr:"(1+x)*(x+1)^x*(1+x)^x", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(1+ x)^{1+ 2x}"},
-        {expr:"x^2+4x-12", options:{evalBasicNumOps:true, simplifyProducts:true, factorSums:true, mergeCstFactors:true}, expected:"(x-2)(x+ 6)"},
+        {expr:"x^2+2x+1", options:KhanUtil.simplifyOptions.factor, expected:"(x+ 1)^{2}"},
+        {expr:"x^2+4x+2", options:KhanUtil.simplifyOptions.factor, expected:"(x+ 0.5857864376269049)(x+ 3.414213562373095)"},
+        {expr:"1+x+x^2+9x+8", options:KhanUtil.simplifyOptions.factor, expected:"(x+ 1)(x+ 9)"},
+        {expr:"x^2+x-30", options:KhanUtil.simplifyOptions.factor, expected:"(x-5)(x+ 6)"},
+        {expr:"x^2-x-12", options:KhanUtil.simplifyOptions.factor, expected:"(x-4)(x+ 3)"},
+        {expr:"x^2+x+2+2x+3x^2", options:KhanUtil.simplifyOptions.factor, expected:"4x^{2}+ 3x+ 2"},
+        {expr:"x+1+y+2+2x+3y", options:KhanUtil.simplifyOptions.factor, expected:"3x+ 3+ 4y"},
+        {expr:"(1+x)*(x+1)^x*(1+x)^x", options:KhanUtil.simplifyOptions.factor, expected:"(1+ x)^{1+ 2x}"},
+        {expr:"x^2+4x-12", options:KhanUtil.simplifyOptions.factor, expected:"(x-2)(x+ 6)"},
         {expr:"-3x^2-12x+36", options:KhanUtil.simplifyOptions.factor, expected:"-3(x+ 6)(x-2)"},
 
         {title:"Simplifying colored expressions: colored terms"},
