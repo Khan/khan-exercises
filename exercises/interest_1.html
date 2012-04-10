@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems finance">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Interest 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="PRINCIPAL">randRange( 1, 10 ) * 1000</var>
+			<var id="INTEREST_RATE">randRange( 1, 10 )</var>
+			<var id="PERIOD">1</var>
+			<var id="FUTURE_VALUE">futureValueSingleAmount(PRINCIPAL, INTEREST_RATE, PERIOD)</var>
+			
+			<var id="DOUBLING_ESTIMATE">72/INTEREST_RATE</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p><var>person(1)</var> borrows <code>$<var>commafy(PRINCIPAL)</var></code> today and must repay <code>$<var>commafy(FUTURE_VALUE)</var></code> exactly 1 year from now. What is the rate of interest <var>person(1)</var> will have to pay on the loan?</p>
+				</div>
+
+				<p class="solution" data-forms="percent"><var>INTEREST_RATE</var></p>
+				
+				<div class="hints">
+					<p>The interest rate paid on the loan can be determined by dividing the amount of interest paid on the loan by the original amount that <var>person(1)</var> borrowed. </p>
+					<div>
+						Expressed as a formula, this is: <br>
+						<code>r = (Total Interest Paid / Principal Amount) * 100\%</code>
+						<br><br>
+					</div>
+					<div>
+						Substituting our values: <br>
+						<code>r = ((<var>FUTURE_VALUE</var> - <var>PRINCIPAL</var>) / <var>PRINCIPAL</var>) * 100\%</code>
+					</div>
+					<div>
+						<code>r = <var>INTEREST_RATE</var>\%</code>
+					</div>
+				</div>
+			</div>
+			
+			<div>
+				<div class="question">
+					<p><var>person(1)</var> would like to put aside some money in a bank to buy a new car 1 year from now. The car costs <code>$<var>commafy(FUTURE_VALUE)</var></code>. If the bank will pay <var>person(1)</var> an interest rate of <code><var>INTEREST_RATE</var>\%</code> per year on <var>his(1)</var> money, how much money does <var>he(1)</var> need to put down today in order to have enough to purchase the car in 1 year?</p>
+				</div>
+
+				<p class="solution" data-forms="dollar" data-inexact data-max-error="0.1" ><var>PRINCIPAL</var></p>
+				
+				<div class="hints">
+					<p>The final amount is the sum of the principal amount <var>person(1)</var> invested and the interest that the bank paid to <var>him(1)</var>. </p>
+					<div>Mathematically we can express this as: <br>
+						<code>Final Amount = Principal + Principal * r</code>
+						<br><br>
+					</div>
+					<div>Substituting our values:
+						<code><var>FUTURE_VALUE</var> = Principal + Principal * <var> INTEREST_RATE/100 </var></code>
+						<br><br>
+					</div>
+					<div>Substituting x for Principal, we have an equation with one unknown: <br>
+						<code><var>FUTURE_VALUE</var> = x + x * <var> INTEREST_RATE/100 </var></code>
+					</div>
+					<div>
+						<code>x = $<var>commafy(PRINCIPAL)</var></code>
+					</div>
+				</div>
+			</div>
+			
+			<div>
+				<div class="question">
+					<p><var>person(1)</var> wants to put <code>$<var>commafy(PRINCIPAL)</var></code> into a savings account, which pays a compound annual interest of <code><var>INTEREST_RATE </var>\%</code> How long will it approximately take for <var>person(1)</var> to double <var>his(1)</var> money?</p>
+				</div>
+
+				<p class="solution" data-forms="integer, decimal"><var>DOUBLING_ESTIMATE</var></p>
+				
+				<div class="hints">
+					<p>We can use the <a class="related-video" href="http://www.khanacademy.org/video/the-rule-of-72-for-compound-interest?topic=core-finance" data-youtube-id="5RzDVNob0-0">Rule of 72</a> as a handy estimate for how long it will take <var>person(1)</var> to double <var>his(1)</var> money.</p>
+					<div>
+						<code>Doubling Time = \dfrac{72}{r}</code>
+						<br><br>
+					</div>
+					<div>
+						<code>Doubling Time = \dfrac{72}{<var>INTEREST_RATE</var>} = <var>DOUBLING_ESTIMATE</var> years</code>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
+	</div>
+</body>
+</html>

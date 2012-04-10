@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems finance">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Interest 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="PRINCIPAL">randRange( 1000, 5000 )</var>
+			<var id="INTEREST_RATE">randRange( 1, 10 )</var>
+			<var id="PERIOD">randRange( 1, 5 )</var>
+			<var id="FUTURE_VALUE">futureValueSingleAmount(PRINCIPAL, INTEREST_RATE, PERIOD)</var>
+			<var id="FUTURE_VALUE_SIMPLE_INTEREST">futureValueSingleAmountSimpleInterest(PRINCIPAL, INTEREST_RATE, PERIOD)</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p><var>person(1)</var> borrowed <code>$<var>commafy(PRINCIPAL)</var></code> from the Bank today, and must repay the loan in one payment, <var>PERIOD</var> year<var>plural(PERIOD)</var> from now. The loan carries a compound interest rate of <code><var>INTEREST_RATE</var></code>% per year, compounded annually. How much money does <var>person(1)</var> need to repay? </p>
+				</div>
+
+				<p class="solution" data-forms="dollar" data-inexact data-max-error="0.1" ><var>FUTURE_VALUE</var></p>
+				
+				<div class="hints">
+					<p>The amount <var>person(1)</var> needs to pay is calculated by taking the principal amount <var>person(1)</var> borrowed, and compounding it by the interest rate <code>r</code> each year for the duration of the loan, <code>n</code>.</p>
+					<div>We can calculate the amount for each year by multiplying the amount for that year with the loan's interest rate: <br>
+						<code>Future Value (year 1) = Principal * (1 + rate)</code>
+					</div>
+					<div>
+						<code>Future Value (year 2) = Future Value(year 1) * (1 + rate)</code>
+					</div>
+					<div>
+						and so on...<br><br>
+					</div>
+					<div>This is more easily expressed by the formula:<br>
+						<code>Future Value = Present Value * (1 + r)^n</code>
+					</div>
+					<div><br> Substituting our values,
+						<code>Future Value = <var>PRINCIPAL</var> * (1 + <var> INTEREST_RATE/100 </var>)^<var> PERIOD </var></code>
+					</div>
+					<div><br>
+						<code>Future Value = $<var>commafy(FUTURE_VALUE)</var> </code>
+					</div>
+				</div>
+			</div>
+			
+			<div>
+				<div class="question">
+					<p><var>person(1)</var> borrowed <code>$<var>PRINCIPAL</var></code> from the Bank today, and must repay the loan in one payment, <var>PERIOD</var> year<var>plural(PERIOD)</var> from now. It is a simple interest loan with a rate of <code><var>INTEREST_RATE</var>\%</code> per year. How much money will <var>person(1)</var> need to repay? </p>
+				</div>
+
+				<p class="solution" data-forms="dollar" data-inexact data-max-error="0.1" ><var>FUTURE_VALUE_SIMPLE_INTEREST</var></p>
+				
+				<div class="hints">
+					<p><var>person(1)</var> needs to repay the principal amount <var>he(1)</var> borrowed, as well as a fixed percentage of the principal amount for each year that <var>he(1)</var> borrowed the money.
+					</p>
+					<p>The percentage <var>person(1)</var> needs to repay for each year the loan is held is the interest rate <code>r</code> multiplied by the principal amount <var>person(1)</var> borrowed. Adding up all the yearly interest payments to the principal gives us the amount <var>he(1)</var> needs to repay.
+					</p>
+					<div>This means that each yearly interest is:<br>
+						<code>Yearly Interest = Principal * rate = <var>PRINCIPAL</var>*<var>INTEREST_RATE/100</var> = <var>PRINCIPAL * (INTEREST_RATE/100)</var></code>
+						<br><br>
+					</div>
+					<div>So, the total amount to pay back is the principal plus <var>PERIOD</var> yearly payments: <br>
+						<code>Future Value = Principal + t * YearlyPayment = <var>PRINCIPAL</var> + <var>PERIOD</var> * <var>PRINCIPAL * (INTEREST_RATE/100)</var> = <var>FUTURE_VALUE_SIMPLE_INTEREST</var></code>
+						<br><br>
+					</div>
+					<div>Another way to do this is to use this simplified formula: <br>
+						<code>Future Value = Principal * (1 + t*r)</code>
+					</div>
+					<div><br> Substituting our values,
+						<code>Future Value = <var>PRINCIPAL</var> * (1 + <var>PERIOD</var> * <var> INTEREST_RATE/100 </var>)</code>
+					</div>
+					<div><br>
+						<code>Future Value = $<var>commafy(FUTURE_VALUE_SIMPLE_INTEREST)</var> </code>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

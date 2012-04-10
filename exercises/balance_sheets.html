@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format word-problems finance">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Balance Sheets</title>
+	<script src="../khan-exercise.js"></script>
+	<style>
+		.reading span {
+			width: 80px;
+		}
+		.reading span:first-child {
+			width: 100px;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		
+		<div class="vars">
+			<var id="ASSETS">randRange(50, 300, 4)</var>
+			<var id="ASSETS_LABELS">["Cash", "Receivables", "Inventory", "Equipment"]</var>
+			<var id="LIABILITIES">randRange(50, 300, 4)</var>
+			<var id="LIABILITIES_LABELS">["Payables", "Taxes", "Interest", "Debt"]</var>
+			<var id="EQUITY">sumArray(ASSETS) - sumArray(LIABILITIES)</var>
+			
+			<!-- Hide one of the liabilities so the student may solve for it -->
+			<var id="OBSCURED_INDEX">randRange(0, LIABILITIES.length-1)</var>
+			<var id="LIABILITIES_OBSCURED, LABEL_OBSCURED">
+				(function() {
+					var obscured = LIABILITIES.slice(0);
+					obscured[OBSCURED_INDEX] = "&nbsp;";
+					
+					return [ obscured, LIABILITIES_LABELS[OBSCURED_INDEX] ];
+				})()
+			</var>
+			<var id="ANSWER">LIABILITIES[OBSCURED_INDEX]</var>
+			
+			<!-- Returns the two tables for the two different question types -->
+			<var id="TABLE_1, TABLE_2">
+				(function() {
+					var table1 = [];
+					var table2 = [];
+					
+					for (var i = 0; i &lt; ASSETS.length; i++){
+						table1[i] = [ASSETS_LABELS[i], ASSETS[i], LIABILITIES_LABELS[i], LIABILITIES[i]];
+						table2[i] = [ASSETS_LABELS[i], ASSETS[i], LIABILITIES_LABELS[i], LIABILITIES_OBSCURED[i]];
+					}
+					
+					return [table1, table2];
+				})()
+			</var>
+		</div>
+		
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p><var>person(1)</var> is the owner of a <var>store(1)</var> shop and is doing some monthly accounting. The balance sheet is presented below. What is the total Equity for <var>person(1)</var>'s <var>store(1)</var> shop? </p>
+					<div class="fake_header reading">
+						<span>Assets</span>
+						<span>$</span>
+						<span>Liabilities</span>
+						<span>$</span>
+					</div>
+					<div class="fake_row reading" data-each="TABLE_1 as i, row">
+						<span><var>row[0]</var></span>
+						<span class="assets"><var>row[1]</var></span>
+						<span><var>row[2]</var></span>
+						<span class="liabilities"><var>row[3]</var></span>
+					</div>
+					<div class="fake_header reading">
+						<span>Total:</span>
+						<span id="assetsTotal"><var>sumArray(ASSETS)</var></span>
+						<span>Total:</span>
+						<span id="liabilitiesTotal"><var>sumArray(LIABILITIES)</var></span>
+					</div>
+				</div>
+				
+				<p class="solution" data-forms="dollar"><var>EQUITY</var></p>
+				
+				<div class="hints">
+					<div><br>Owner's Equity is the difference between Assets and Liabilities (see <a href="http://www.khanacademy.org/video/introduction-to-balance-sheets">Balance Sheets</a>). It can be expressed as:<br>
+						<code>Equity = \color{purple}{Assets} - \color{orange}{Liabilities}</code>
+						<div class="graphie">
+							jQuery('.liabilities').css('color', 'orange');
+							jQuery('.assets').css('color', 'purple');
+						</div>
+					</div>
+					<div>
+						<code>Equity = \color{green}{<var>sumArray(ASSETS)</var>} - \color{red}{<var>sumArray(LIABILITIES)</var>}</code>
+						<div class="graphie">
+							jQuery('#liabilitiesTotal').css('color', 'red');
+							jQuery('#assetsTotal').css('color', 'green');
+						</div>
+					</div>
+					<div>
+						<code>Equity = <var>EQUITY</var> = <var>toDollarString(EQUITY)</var></code>
+					</div>
+				</div>
+			</div>
+			
+			<div>
+				<div class="question">
+					<p>The balance sheet of a small business is presented. If we know that the total Owner's Equity for the shop is <var>toDollarString(EQUITY)</var>, what is the total amount of <var>LABEL_OBSCURED</var>?</p>
+					<div class="fake_header reading">
+						<span>Assets</span>
+						<span>$</span>
+						<span>Liabilities</span>
+						<span>$</span>
+					</div>
+					<div class="fake_row reading" data-each="TABLE_2 as i, row">
+						<span><var>row[0]</var></span>
+						<span class="assets"><var>row[1]</var></span>
+						<span><var>row[2]</var></span>
+						<span class="liabilities"><var>row[3]</var></span>
+					</div>
+					<div class="fake_header reading">
+						<span>Total:</span>
+						<span id="assetsTotal">&nbsp;</span>
+						<span>Total:</span>
+						<span id="liabilitiesTotal">&nbsp;</span>
+					</div>
+				</div>
+				
+				<p class="solution" data-forms="dollar"><var>ANSWER</var></p>
+				
+				<div class="hints">
+					<div>All the Liabilities together must sum to the total Liability amount. If we knew the total amount of Liabilities, we could calculate <var>LABEL_OBSCURED</var> by subtracting all the other Liabilities from the total (see <a href="http://www.khanacademy.org/video/introduction-to-balance-sheets">Balance Sheets</a>).
+					</div>
+					<div><br>We know that Assets are the sum of Liabilities and Owners Equity:<br>
+						<code>Assets = Liabilities + Equity</code>
+					</div>
+					<div>We know that Equity is <var>EQUITY</var>, so we can sub it into the equation:<br>
+						<code>Assets = Liabilities + <var>EQUITY</var></code>
+					</div>
+					<div>We can also calculate the total assets by adding up all of the individual items in the Assets column:<br>
+						<code>Assets = \color{purple}{<var>ASSETS.join(' + ')</var>}</code>
+						<div class="graphie">
+							jQuery('.assets').css('color', 'purple');
+						</div>
+					</div>
+					<div>
+						<code>Assets = \color{blue}{<var>sumArray(ASSETS)</var>}</code>
+						<div class="graphie">
+							jQuery('#assetsTotal').html(sumArray(ASSETS)).css('color', 'blue');
+						</div>
+					</div>
+					<div>Now that we know both Assets and Equity, we can calculate the total Liabilities:<br>
+						<code>Liabilities = Assets - Equity = <var>sumArray(ASSETS)</var> - <var>EQUITY</var> = \color{red}{<var>sumArray(LIABILITIES)</var>}</code>
+						<div class="graphie">
+							jQuery('#liabilitiesTotal').html(sumArray(LIABILITIES)).css('color', 'red');
+						</div>
+					</div>
+					<div>And now we can calculate the <var>LABEL_OBSCURED</var> by subtracting all the other liabilities from this total: <br>
+						<code><var>LABEL_OBSCURED</var> = <var>sumArray(LIABILITIES)</var> - ( \color{orange}{<var>LIABILITIES.slice(0, OBSCURED_INDEX).concat(LIABILITIES.slice(OBSCURED_INDEX + 1)).join(' + ')</var>})</code>
+						<div class="graphie">
+							jQuery('.liabilities').css('color', 'orange');
+						</div>
+					</div>
+					<div>
+						<code><var>LABEL_OBSCURED</var>= \color{green}{$<var>ANSWER</var>}</code>
+						<div class="graphie">
+							jQuery('.liabilities').eq(OBSCURED_INDEX).html(ANSWER).css('color', 'green');
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+	</div>
+</body>
+</html>

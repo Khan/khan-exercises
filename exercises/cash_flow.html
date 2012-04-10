@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems finance graphie graphie-helpers">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Cash Flow Analysis</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="YEARLY_DEPOSIT">randRange(1,5) * 1000</var>
+			<var id="INTEREST">randRange(4, 9)</var>
+			<var id="PERIOD">randRange(4, 8)</var>
+			<var id="ANSWER">futureValueUniformDeposits(YEARLY_DEPOSIT, INTEREST, PERIOD)</var>
+			<var id="DISCRETE_FUTURE_VALUES">
+				(function() {
+					var values = [];
+					
+					for (var i = 1; i &lt; PERIOD + 1; i++){
+						values[i-1] = futureValueSingleAmount(YEARLY_DEPOSIT, INTEREST, PERIOD - i);
+					}
+					
+					return values;
+				})()
+			</var>
+			
+			<var id="YEARLY_WITHDRAWAL">randRange(1,3) * 10000</var>
+			<var id="ANSWER2">presentValueUniformWithdrawals(YEARLY_WITHDRAWAL, INTEREST, PERIOD)</var>
+			<var id="DISCRETE_FUTURE_VALUES2">
+				(function() {
+					var values = [];
+					
+					for (var i = 1; i &lt; PERIOD + 1; i++){
+						values[i-1] = presentValueSingleAmount(YEARLY_WITHDRAWAL, INTEREST, i);
+					}
+					
+					return values;
+				})()
+			</var>
+			
+		</div>
+
+		<div class="problems">
+			
+			<div>
+				<div class="question">
+					<div><var>person(1)</var> would like to start putting away some money for a rainy day. Starting at the end of the year, <var>he(1)</var> can afford to put away $<var>commafy(YEARLY_DEPOSIT)</var> from <var>his(1)</var> salary into a savings account that pays <var>INTEREST</var>% in interest annually, compounded once a year. How much money will <var>person(1)</var> have saved <var>PERIOD</var> years from now? A cash flow diagram for <var>person(1)</var>'s investment strategy is illustrated below:
+						<br><br>
+					</div>
+					<div class="graphie">
+						init({
+							scale: [ 80, 80 ],
+							range: [ [-0.2, 22], [-1, 1] ]
+						});
+						var originX = 0;
+						
+						yearlyAmounts = {};
+						for (var i=1; i &lt; PERIOD + 1; i++){
+							yearlyAmounts[i] = [{amount: (0 - YEARLY_DEPOSIT)}];
+						}
+						yearlyAmounts[PERIOD].push({amount: ANSWER, hidden: true});
+						
+						cashFlow( PERIOD, yearlyAmounts );
+						
+					</div>
+				</div>
+
+				<div class="solution" data-forms="dollar" data-inexact data-max-error="0.1" ><var>ANSWER</var></div>
+				
+				<div class="hints">
+					<div>There are two ways to do this question. Since <var>person(1)</var> is making the same deposit each year for n years, we can recognize that this is a uniform series, which we can calculate using the derived formula:<br>
+						<code>Future Value = Deposit * \dfrac{(1 + r)^t - 1}{rate}</code>
+					</div>
+					<div><br>Substituting our values:<br>
+						<code>Future Value = <var>YEARLY_DEPOSIT</var> * \dfrac{(1 + <var>INTEREST/100</var>)^<var>PERIOD</var> - 1}{<var>INTEREST/100</var>} = $<var>commafy(ANSWER)</var></code>
+					</div>
+					<div><br>Another way to do this is to calculate it the long way. Each time <var>person(1)</var> makes a deposit, that deposit will accumulate interest from that point in time until <var>person(1)</var> withdraws <var>his(1)</var> money <var>PERIOD</var> years from now. In other words, the deposit in year 1 will compound for <var>PERIOD - 1</var> years, deposit in year 2 will compound for <var>PERIOD - 2</var> years, and so on.
+					</div>
+					<div><br>The future value of each deposit from the time the deposit is made until <var>person(1)</var> withdraws the money is:<br>
+						<code>Future Value(deposit, t) = Deposit * (1 + r)^t</code>, where t is the time the deposit will be in the bank.
+					</div>
+					<div><br>Summing all the future values, we get the total future value for the series.
+						<code>Total Value = FutureValue(deposit, time1) + FutureValue(deposit, time2)...</code>
+					</div>
+					<div>
+						<code>Total Value = <var>DISCRETE_FUTURE_VALUES.join(' + ')</var> = $<var>commafy(ANSWER)</var></code>
+					</div>
+				</div>
+			</div>
+			
+			<div>
+				<div class="question">
+					<div><var>person(1)</var> just won the state lottery. Instead of spending it all right away, <var>he(1)</var> would like to set aside a portion of it into a savings account, so that each year <var>he(1)</var> could withdraw $<code><var>commafy(YEARLY_WITHDRAWAL)</var></code>, for the next <var>PERIOD</var> years. If <var>person(1)</var> can get an annual rate of interest of <var>INTEREST</var>%, how much money does <var>he(1)</var> need to put aside? <var>person(1)</var>'s investment strategy is illustrated below: <br><br>
+					</div>
+					<div class="graphie">
+						init({
+							scale: [ 80, 80 ],
+							range: [ [-0.2, 22], [-1, 1] ]
+						});
+						var originX = 0;
+						
+						yearlyAmounts = {};
+						for (var i=1; i &lt; PERIOD + 1; i++){
+							yearlyAmounts[i] = [{amount: YEARLY_WITHDRAWAL}];
+						}
+						yearlyAmounts[0] = [{amount:(0 - ANSWER2), hidden: true}];
+						
+						cashFlow( PERIOD, yearlyAmounts );
+						
+					</div>
+				</div>
+				<div class="solution" data-forms="dollar" data-inexact data-max-error="0.1" ><var>ANSWER2</var></div>
+				<div class="hints">
+					<div><br>There are two ways to solve this question. <var>person(1)</var> is making a series of evenly spaced, uniform withdrawals. We need to find the Present Value of this series of payments. We can do this with the derived formula:
+						<code>Present Value = Yearly Withdrawal * \dfrac{(1 + rate)^t - 1}{rate(1 + rate)^t}</code>
+					</div>
+					<div><br>Substituting our values: <br>
+						<code>Present Value = <var>YEARLY_WITHDRAWAL</var> * \dfrac{(1 + <var>INTEREST/100</var>)^<var>PERIOD</var> - 1}{<var>INTEREST/100</var> * (1 + <var>INTEREST/100</var>)^<var>PERIOD</var>} = $<var>commafy(ANSWER2)</var></code>
+					</div>
+					<div><br>Another way to think of this is to calculate the <a href="http://www.khanacademy.org/video/present-value-2">Present Value</a> of each of the future yearly withdrawals and sum all of those values up. 
+					</div>
+					<div><br>The Present Value of each of the withdrawals can be calculated as:<br>
+						<code>Present Value(withdrawal, t) = Withdrawal * \dfrac{1}{(1 + rate)^t}</code>, where t is the time in the future when that particular withdrawal is to be made.
+					</div>
+					<div><br>Using this method, we can find the present value of all the withdrawals and then sum them up:<br>
+						<code>TotalValue = PresentValue(withdrawal, t1) + PresentValue(withdrawal, t2)...</code>
+					</div>
+					<div>
+						<code>TotalValue = <var>DISCRETE_FUTURE_VALUES2.join(' + ')</var> = $<var>commafy(ANSWER2)</var></code>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
