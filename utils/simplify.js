@@ -166,7 +166,7 @@
                }
                exp += argCoeff.exp;
             }
-            return {coeff:coeff, exp:exp};            
+            return {coeff:coeff, exp:exp};
         }
         return undefined;
     };
@@ -230,7 +230,7 @@
            return expr;
        }
        var negSol1 = (b - Math.sqrt(disc)) / (2*a);
-       var negSol2 = (b + Math.sqrt(disc) ) / (2*a);
+       var negSol2 = (b + Math.sqrt(disc)) / (2*a);
        var v = {op:"var", args:[variables[0]]};
        return {op:"*", args:[a, {op:"+", args:[v, negSol1]}, {op:"+", args:[v, negSol2]}]};
     };
@@ -315,7 +315,7 @@
         if (options.simplifyByFactoring) {
             newExpr = simplifyByFactoring(sExpr, options, steps);
             sExpr = newExpr;
-        }        
+        }
         if (sExpr.op === "*") {
             var newArgs = [];
             var numValue = 1;
@@ -329,9 +329,9 @@
                     }
                     if (((value < 0) && options.evalBasicNumOps) ||
                         ((value === -1) && options.del1Factors)) {
-						value = -value;
-						sign = -sign;
-					}
+                        value = -value;
+                        sign = -sign;
+                    }
                     if ((value === 1) && (options.del1Factors)) {
                         continue;
                     }
@@ -500,9 +500,9 @@
             return expr;
         },
         "-": function(expr, options, steps) {
-            if ((expr.args.length === 2) && (options.changeSubIntoPlusNeg) ){
+            if ((expr.args.length === 2) && (options.changeSubIntoPlusNeg)){
                return {op:"+", args:[expr.args[0], {op:"-", args:[expr.args[1]]}]};
-            }       
+            }
             var subSteps = new KhanUtil.StepsProblem([], expr, "simplify");
             var sExpr = simplifyEachArg(expr, options, steps);
             if (expr.args.length === 1) {
@@ -520,12 +520,12 @@
                    return arg.args[0];
                }
                return sExpr;
-            } 
+            }
             return sExpr;
         },
         "*": simplifyTimesOp,
         "cdot": simplifyTimesOp,
-        "times": simplifyTimesOp, 
+        "times": simplifyTimesOp,
         "^": function(expr, options, steps) {
             var subSteps1 = new KhanUtil.StepsProblem([0], expr.args[0], "simplify");
             var term = simplify(expr.args[0], options, subSteps1);

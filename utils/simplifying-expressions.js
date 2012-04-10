@@ -20,25 +20,25 @@
               if (newOccFactors[iFactor] === 1) {
                  args.push(factor);
               } else {
-                 args.push({op:"^", args:[factor, newOccFactors[iFactor]]});
+                 args.push({op: "^", args: [factor, newOccFactors[iFactor]]});
               }
           } else {
               var newArg = factor;
               if (newOccFactors[iFactor] === 0) {
                  if (oldOccFactors[iFactor] > 1) {
-                    newArg = {op:"^", args:[newArg, oldOccFactors[iFactor]]};
+                    newArg = {op: "^", args: [newArg, oldOccFactors[iFactor]]};
                  }
-                 newArg = KhanUtil.exprSetStyle(newArg, {cancel:colors[iColor]});
+                 newArg = KhanUtil.exprSetStyle(newArg, {cancel: colors[iColor]});
                  iColor++;
               } else {
                  var power;
                  if (newOccFactors[iFactor] > 1) {
-                     power = KhanUtil.exprSetStyle(newOccFactors[iFactor], {cancelExpr:oldOccFactors[iFactor]});
+                     power = KhanUtil.exprSetStyle(newOccFactors[iFactor], {cancelExpr: oldOccFactors[iFactor]});
                  } else {
-                     power = KhanUtil.exprSetStyle(oldOccFactors[iFactor], {cancel:colors[iColor]});
+                     power = KhanUtil.exprSetStyle(oldOccFactors[iFactor], {cancel: colors[iColor]});
                      iColor++;
                  }
-                 newArg = {op:"^", args:[newArg, power]};
+                 newArg = {op: "^", args: [newArg, power]};
               }
               args.push(newArg);
           }
@@ -48,7 +48,7 @@
        }
        var removedFactors = oldNumFactors / newNumFactors;
        if (removedFactors !== 1) {
-           args.unshift(KhanUtil.exprSetStyle(removedFactors, {cancel:colors[iColor]}));
+           args.unshift(KhanUtil.exprSetStyle(removedFactors, {cancel: colors[iColor]}));
        }
        var expr;
        if (args.length === 0) {
@@ -56,7 +56,7 @@
        } else if (args.length === 1) {
           expr = args[0];
        } else {
-          expr = {op:"*", args:args};
+          expr = {op: "*", args: args};
        }
        return expr;
     };
@@ -76,18 +76,18 @@
        if (KhanUtil.exprIdentical(newArgs[1], 1)) {
           return newArgs[0];
        }
-       return {op:"dfrac", args:newArgs};
+       return {op: "dfrac", args: newArgs};
     };
 
     var addInitialSteps = function(MATH, steps) {
-        var aExpr = {op:"var", args:["a"]};
-        var exampleFactors = [3, 5, aExpr, {op:"var", args:["b"]}, {op:"var", args:["c"]}];
+        var aExpr = {op: "var", args: ["a"]};
+        var exampleFactors = [3, 5, aExpr, {op: "var", args: ["b"]}, {op: "var", args: ["c"]}];
         var exampleOldOccs = [[1, 0, 2, 1, 0], [0, 1, 1, 0, 1]];
         var exampleNewOccs = [[1, 0, 1, 1, 0], [0, 1, 0, 0, 1]];
         var exampleExprInit = getFractionFromOccFactors(exampleFactors, exampleOldOccs);
         var exampleExprStep = getFractionFromOccFactors(exampleFactors, exampleNewOccs, exampleOldOccs);
         var exampleExprEnd = getFractionFromOccFactors(exampleFactors, exampleNewOccs);
-        var exampleGroup = [MATH.parse("#{\\dfrac{a^2}{a}} &= #{\\dfrac{#{a} \\cdot a}{#{a}}}", [KhanUtil.BLUE, KhanUtil.BLUE, {cancel:true}, {cancel:true}]),
+        var exampleGroup = [MATH.parse("#{\\dfrac{a^2}{a}} &= #{\\dfrac{#{a} \\cdot a}{#{a}}}", [KhanUtil.BLUE, KhanUtil.BLUE, {cancel: true}, {cancel: true}]),
                             MATH.parse("&= #{\\dfrac{a}{1}}", [KhanUtil.BLUE]),
                             MATH.parse("&= #{a}", [KhanUtil.BLUE])];
         steps.add("<p>To simplify this type of expression, we need to look for factors that are shared by both the numerator and the denominator.</p>For each such factor, if it is present with the same exponent both at the numerator and the denominator, then we can remove that factor completely. If the exponent is different, then we remove the one with the lowest exponent, and substract it from the one with the higher exponent.</p>");
@@ -96,7 +96,7 @@
             MATH.formatGroup(exampleGroup) + "</code></p><p>So we get <code>" +
             MATH.parseFormat("\\dfrac{3}{5} \\cdot #{a} \\cdot b \\cdot \\dfrac{1}{c}", [KhanUtil.BLUE]) + "</code>, or <code>" +
             MATH.parseFormat("\\dfrac{3ab}{5c}") + "</code>"];
-        steps.add("<p>For example, if we had this expression: <code>" + MATH.format(exampleExprInit) + "</code>, we would see that the factor <code>" + MATH.format(aExpr) + "</code> is present in both the numerator and the denominator.</p><p>We would then simplify it like this: <code>" + MATH.format(exampleExprStep) + "</code> and obtain: <code>" + MATH.format(exampleExprEnd) + "</code> " +  KhanUtil.getSubHints("factoring", "Show explanation", subHints) + "</p><p>Can you apply this technique to this exercise?</p>");
+        steps.add("<p>For example, if we had this expression: <code>" + MATH.format(exampleExprInit) + "</code>, we would see that the factor <code>" + MATH.format(aExpr) + "</code> is present in both the numerator and the denominator.</p><p>We would then simplify it like this: <code>" + MATH.format(exampleExprStep) + "</code> and obtain: <code>" + MATH.format(exampleExprEnd) + "</code> " + KhanUtil.getSubHints("factoring", "Show explanation", subHints) + "</p><p>Can you apply this technique to this exercise?</p>");
     };
 
     var factorNumeratorDenominator = function(expr, options, steps) {
@@ -123,7 +123,7 @@
             }
             newArgs.push(newArg);
         }
-        var newExpr = {op:expr.op, args:newArgs};
+        var newExpr = {op: expr.op, args: newArgs};
         if (wasSimplified) {
             steps.add("<p>We obtain the following expression :</p><p>" + KhanUtil.exprToCode(newExpr));
         }
@@ -133,10 +133,10 @@
         var steps = new KhanUtil.StepsProblem([], expr, "simplify by factoring");
         addInitialSteps(MATH, steps);
         var subSteps = new KhanUtil.StepsProblem([], expr, "factor numerator and denominator");
-        var options = {evalBasicNumOps:true, simplifyMode:"factor"};
+        var options = {evalBasicNumOps: true, simplifyMode: "factor"};
         var newExpr = factorNumeratorDenominator(expr, options, subSteps);
         if (KhanUtil.stepIsUsed(subSteps)) {
-            steps.add("The first step is to factor the numerator and denominator, if possible : " + 
+            steps.add("The first step is to factor the numerator and denominator, if possible : " +
                KhanUtil.getSubHints("factoring-num-denom", "Show explanation", [KhanUtil.genOneHint(subSteps)]) + "</p>" +
                "<p>We obtain : " + KhanUtil.exprToCode(newExpr) + "</p>");
         }
@@ -146,7 +146,7 @@
             KhanUtil.findExprFactorsExps(newExpr.args[iArg], options, factors, argsOccFactors[iArg], 1);
         }
         for (var iArg = 0; iArg < 2; iArg++) {
-            KhanUtil.fillMissingOccFactors(factors, argsOccFactors[iArg]);           
+            KhanUtil.fillMissingOccFactors(factors, argsOccFactors[iArg]);
         }
         var newOccFactors = [[], []];
         for (var iFactor = 0; iFactor < factors.length; iFactor++) {
@@ -184,7 +184,7 @@
             steps.add("<p>We obtain the following expression:</p><p><code>" + MATH.format(solExpr) + "</code></p>");
         }
         var hints = KhanUtil.genHints(steps);
-        return {solution:solExpr, hints:hints, choices:choices};
+        return {solution: solExpr, hints: hints, choices: choices};
     };
 
     var getNonNumNonVarIFactors = function(factors, occFactors) {
@@ -212,25 +212,25 @@
             var term;
             do {
                 var type = KhanUtil.randFromArray(types);
-                switch(type) {
+                switch (type) {
                     case 0:
                         term = KhanUtil.randFromArray(variables);
                         break;
                     case 1:
                         var variable = KhanUtil.randFromArray(variables);
                         var cst = KhanUtil.randRange(1, 5);
-                        term = {op:"+", args:[variable, cst]};
+                        term = {op: "+", args: [variable, cst]};
                         break;
                     case 2:
                         var variable = KhanUtil.randFromArray(variables);
                         var cst = KhanUtil.randRange(1, 5);
-                        term = {op:"-", args:[variable, cst]};
+                        term = {op: "-", args: [variable, cst]};
                         break;
                     case 3:
                         term = KhanUtil.randFromArray(numFactors);
                         break;
                 }
-            }  while (KhanUtil.exprInList(factors, term));
+            } while (KhanUtil.exprInList(factors, term));
             factors.push(term);
         }
         var sidesOccFactors = [KhanUtil.initOccArray(factors.length), KhanUtil.initOccArray(factors.length)];
@@ -276,8 +276,8 @@
             for (var iSide = 0; iSide < 2; iSide++) {
                 var pickedFactor = KhanUtil.randFromArray(sidesIFactors[iSide]);
                 sidesOccFactors[iSide][pickedFactor]--;
-                var factor = {op:"*", args:[extraCommonNum, KhanUtil.exprClone(factors[pickedFactor])]};
-                factor = KhanUtil.simplify(factor, {evalBasicNumOps:true, expandProducts:true});
+                var factor = {op: "*", args: [extraCommonNum, KhanUtil.exprClone(factors[pickedFactor])]};
+                factor = KhanUtil.simplify(factor, {evalBasicNumOps: true, expandProducts: true});
                 factors.push(factor);
                 sidesOccFactors[iSide].push(1);
                 sidesOccFactors[1 - iSide].push(0);
@@ -287,12 +287,12 @@
         for (var iSide = 0; iSide < 2; iSide++) {
             exprArgs.push(KhanUtil.genExprFromExpFactors(factors, sidesOccFactors[iSide]));
         }
-        return {op:"dfrac", args:exprArgs};
+        return {op: "dfrac", args: exprArgs};
     };
 
     $.extend(KhanUtil, {
-        genSimplifyingExpressionsExercise:genSimplifyingExpressionsExercise,
-        solveSimplifyingExpressionsExercise:solveSimplifyingExpressionsExercise
+        genSimplifyingExpressionsExercise: genSimplifyingExpressionsExercise,
+        solveSimplifyingExpressionsExercise: solveSimplifyingExpressionsExercise
     });
 })();
 

@@ -16,35 +16,35 @@
 
 */
 
-$.extend ( KhanUtil, {
+$.extend(KhanUtil, {
 
 
     ASSERT: false,
 
-    assert: function (val, str) {
-        if ( !this.ASSERT ) {
+    assert: function(val, str) {
+        if (!this.ASSERT) {
             return;
         }
-        if ( str === void 0 ) {
+        if (str === void 0) {
             str = "failed!";
         }
-        if ( !val ) {
+        if (!val) {
             alert("assert: " + str);
         }
     },
 
-    ast: new function () {
+    ast: new function() {
 
-        var nodePool = [ "unused" ];    // nodePool[0] is reserved
+        var nodePool = ["unused"];    // nodePool[0] is reserved
 
         // maps for fast lookup of nodes
-        var numberMap = { };
-        var stringMap = { };
-        var nodeMap = { };
+        var numberMap = {};
+        var stringMap = {};
+        var nodeMap = {};
 
         // KhanUtil.ast public interface
 
-        $.extend ( this, {
+        $.extend(this, {
             fromLaTeX: fromLaTeX,
             toLaTeX: toLaTeX,
             eval: eval,
@@ -52,21 +52,21 @@ $.extend ( KhanUtil, {
             node: node,
             dump: dump,
             dumpAll: dumpAll
-        } );
+        });
 
         return this;  // end control flow
 
         // private implementation
 
         function fromLaTeX(str, model) {
-            if (model===void 0) {
+            if (model === void 0) {
                 model = KhanUtil.MathModel.init();   // default model
             }
             return model.parse(str);
         }
 
         function toLaTeX(n, model) {
-            if (model===void 0) {
+            if (model === void 0) {
                 model = KhanUtil.MathModel.init();   // default model
             }
             return model.format(n, "large", KhanUtil.BLUE);
@@ -82,7 +82,7 @@ $.extend ( KhanUtil, {
             if ($.type(n) === "number") {
                 var nid = numberMap[n];
                 if (nid === void 0) {
-                    nodePool.push({op:"num", args: [n]});
+                    nodePool.push({op: "num", args: [n]});
                     nid = nodePool.length - 1;
                     numberMap[n] = nid;
                 }
@@ -90,7 +90,7 @@ $.extend ( KhanUtil, {
             else if ($.type(n) === "string") {
                 var nid = stringMap[n];
                 if (nid === void 0) {
-                    nodePool.push({op:"str", args: [n]});
+                    nodePool.push({op: "str", args: [n]});
                     nid = nodePool.length - 1;
                     stringMap[n] = nid;
                 }
@@ -99,18 +99,18 @@ $.extend ( KhanUtil, {
                 var op = n.op;
                 var count = n.args.length;
                 var args = "";
-                var args_nids = [ ];
-                for (var i=0; i < count; i++) {
+                var args_nids = [];
+                for (var i = 0; i < count; i++) {
                     args += args_nids[i] = intern(n.args[i]);
                 }
-                var key = op+count+args;
+                var key = op + count + args;
                 var nid = nodeMap[key];
                 if (nid === void 0) {
                     nodePool.push({
                         op: op,
-                        args: args_nids,
+                        args: args_nids
                     });
-                    nid = nodePool.length - 1 ;
+                    nid = nodePool.length - 1;
                     nodeMap[key] = nid;
                 }
             }
@@ -126,7 +126,7 @@ $.extend ( KhanUtil, {
                 n = n.args[0];
                 break;
             default:
-                for (var i=0; i < n.args.length; i++) {
+                for (var i = 0; i < n.args.length; i++) {
                     n.args[i] = node(n.args[i]);
                 }
                 break;
@@ -136,9 +136,9 @@ $.extend ( KhanUtil, {
 
         function dumpAll() {
             var s = "";
-            for (var i=1; i < nodePool.length; i++) {
+            for (var i = 1; i < nodePool.length; i++) {
                 var n = nodePool[i];
-                s = s + "<p>" + i+": "+dump(n) + "</p>";
+                s = s + "<p>" + i + ": " + dump(n) + "</p>";
             }
             return s;
         }
@@ -151,22 +151,22 @@ $.extend ( KhanUtil, {
                     var s = n.args[0];
                     break;
                 case "str":
-                    var s = "\""+n.args[0]+"\"";
+                    var s = "\"" + n.args[0] + "\"";
                     break;
                 default:
-                    var s = "{ op: \"" + n.op + "\", args: [ ";
-                    for (var i=0; i < n.args.length; i++) {
+                    var s = "{op: \"" + n.op + "\", args: [";
+                    for (var i = 0; i < n.args.length; i++) {
                         if (i > 0) {
                             s += " , ";
                         }
                         s += dump(n.args[i]);
                     }
-                    s += " ] }";
+                    s += "]}";
                     break;
                 }
             }
-            else if ($.type(n)==="string") {
-                var s = "\""+n+"\"";
+            else if ($.type(n) === "string") {
+                var s = "\"" + n + "\"";
             }
             else {
                 var s = n;
@@ -174,5 +174,5 @@ $.extend ( KhanUtil, {
             return s;
         }
 
-    } (),
+    } ()
 });

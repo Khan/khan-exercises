@@ -6,31 +6,31 @@
 // Note that initials (-Var) are guaranteed to be unique in each category,
 // but not across them.
 
-$.extend( KhanUtil, {
-    toSentence: function( array, conjunction ) {
-        if ( conjunction == null ) {
+$.extend(KhanUtil, {
+    toSentence: function(array, conjunction) {
+        if (conjunction == null) {
             conjunction = "and";
         }
 
-        if ( array.length === 0 ) {
+        if (array.length === 0) {
             return "";
-        } else if ( array.length === 1 ) {
+        } else if (array.length === 1) {
             return array[0];
-        } else if ( array.length === 2 ) {
+        } else if (array.length === 2) {
             return array[0] + " " + conjunction + " " + array[1];
         } else {
-            return array.slice(0, -1).join(", ") + ", " + conjunction + " " + array[ array.length - 1 ];
+            return array.slice(0, -1).join(", ") + ", " + conjunction + " " + array[array.length - 1];
         }
     },
 
-    toSentenceTex: function( array, conjunction, highlight, highlightClass ) {
-        var wrapped = $.map( array, function( elem ) {
-            if ( ( $.isFunction( highlight ) && highlight( elem ) ) || ( highlight !== undefined && elem === highlight ) ) {
+    toSentenceTex: function(array, conjunction, highlight, highlightClass) {
+        var wrapped = $.map(array, function(elem) {
+            if (($.isFunction(highlight) && highlight(elem)) || (highlight !== undefined && elem === highlight)) {
                 return "<code class='" + highlightClass + "'>" + elem + "</code>";
             }
             return "<code>" + elem + "</code>";
         });
-        return KhanUtil.toSentence( wrapped, conjunction );
+        return KhanUtil.toSentence(wrapped, conjunction);
     },
 
     // pluralization helper.  There are five signatures
@@ -47,21 +47,21 @@ $.extend( KhanUtil, {
     //        - return "word"
     plural: (function() {
         var oneOffs = {
-            'quiz': 'quizzes',
-            'shelf': 'shelves',
-            'loaf': 'loaves',
-            'potato': 'potatoes',
-            'person': 'people',
-            'is': 'are',
-            'was': 'were',
-            'square foot': 'square feet',
-            'tomato': 'tomatoes'
+            "quiz": "quizzes",
+            "shelf": "shelves",
+            "loaf": "loaves",
+            "potato": "potatoes",
+            "person": "people",
+            "is": "are",
+            "was": "were",
+            "square foot": "square feet",
+            "tomato": "tomatoes"
         };
 
         var pluralizeWord = function(word) {
 
             // noone really needs extra spaces at the edges, do they?
-            word = $.trim( word );
+            word = $.trim(word);
 
             // determine if our word is all caps.  If so, we'll need to
             // re-capitalize at the end
@@ -71,22 +71,22 @@ $.extend( KhanUtil, {
 
             // first handle simple one-offs
             // ({}).watch is a function in Firefox, blargh
-            if ( typeof oneOff === "string" ) {
+            if (typeof oneOff === "string") {
                 return oneOff;
             }
 
             // multiple words
-            else if ( words.length > 1 ) {
+            else if (words.length > 1) {
                 // for 3-word phrases where the middle word is 'in' or 'of',
                 // pluralize the first word
-                if ( words.length === 3 && /\b(in|of)\b/i.test(words[1]) ) {
-                    words[0] = KhanUtil.plural( words[0] );
+                if (words.length === 3 && /\b(in|of)\b/i.test(words[1])) {
+                    words[0] = KhanUtil.plural(words[0]);
                 }
 
                 // otherwise, just pluraize the last word
                 else {
-                    words[ words.length-1 ] =
-                        KhanUtil.plural( words[ words.length-1 ] );
+                    words[words.length - 1] =
+                        KhanUtil.plural(words[words.length - 1]);
                 }
 
                 return words.join(" ");
@@ -95,12 +95,12 @@ $.extend( KhanUtil, {
             // single words
             else {
                 // "-y" => "-ies"
-                if ( /[^aeiou]y$/i.test( word ) ) {
+                if (/[^aeiou]y$/i.test(word)) {
                     word = word.replace(/y$/i, "ies");
                 }
 
                 // add "es"; things like "fish" => "fishes"
-                else if ( /[sxz]$/i.test( word ) || /[bcfhjlmnqsvwxyz]h$/.test( word ) ) {
+                else if (/[sxz]$/i.test(word) || /[bcfhjlmnqsvwxyz]h$/.test(word)) {
                     word += "es";
                 }
 
@@ -109,7 +109,7 @@ $.extend( KhanUtil, {
                     word += "s";
                 }
 
-                if ( isUpperCase ) {
+                if (isUpperCase) {
                     word = word.toUpperCase();
                 }
                 return word;
@@ -117,22 +117,22 @@ $.extend( KhanUtil, {
         };
 
         return function(value, arg1, arg2) {
-            if ( typeof value === "number" ) {
+            if (typeof value === "number") {
                 var usePlural = (value !== 1);
 
                 // if no extra args, just add "s" (if plural)
-                if ( arguments.length === 1 ) {
+                if (arguments.length === 1) {
                     return usePlural ? "s" : "";
                 }
 
-                if ( usePlural ) {
+                if (usePlural) {
                     arg1 = arg2 || pluralizeWord(arg1);
                 }
 
                 return value + " " + arg1;
-            } else if ( typeof value === "string" ) {
+            } else if (typeof value === "string") {
                 var plural = pluralizeWord(value);
-                if ( typeof arg1 === "string" && arguments.length === 3 ) {
+                if (typeof arg1 === "string" && arguments.length === 3) {
                     plural = arg1;
                     arg1 = arg2;
                 }
@@ -143,7 +143,7 @@ $.extend( KhanUtil, {
     })()
 });
 
-$.fn[ "word-problemsLoad" ] = function() {
+$.fn["word-problemsLoad"] = function() {
     var people = KhanUtil.shuffle([
         ["Ashley", "f"],
         ["Brandon", "m"],
@@ -218,23 +218,23 @@ $.fn[ "word-problemsLoad" ] = function() {
     var stores = KhanUtil.shuffle([
         {
             name: "office supply",
-            items: KhanUtil.shuffle( ["pen", "pencil", "notebook"] )
+            items: KhanUtil.shuffle(["pen", "pencil", "notebook"])
         },
         {
             name: "hardware",
-            items: KhanUtil.shuffle( ["hammer", "nail", "saw"] )
+            items: KhanUtil.shuffle(["hammer", "nail", "saw"])
         },
         {
             name: "grocery",
-            items: KhanUtil.shuffle( ["banana", "loaf of bread", "gallon of milk", "potato"] )
+            items: KhanUtil.shuffle(["banana", "loaf of bread", "gallon of milk", "potato"])
         },
         {
             name: "gift",
-            items: KhanUtil.shuffle( ["toy", "game", "souvenir"] )
+            items: KhanUtil.shuffle(["toy", "game", "souvenir"])
         },
         {
             name: "toy",
-            items: KhanUtil.shuffle( ["stuffed animal", "video game", "race car", "doll"] )
+            items: KhanUtil.shuffle(["stuffed animal", "video game", "race car", "doll"])
         }
     ]);
 
@@ -323,7 +323,7 @@ $.fn[ "word-problemsLoad" ] = function() {
         "television",
         "computer",
         "laptop",
-        "camera",
+        "camera"
     ]);
 
     var clothes = KhanUtil.shuffle([
@@ -357,26 +357,26 @@ $.fn[ "word-problemsLoad" ] = function() {
     // animal, avg-lifespan, stddev-lifespan
     // (data is from cursory google searches and wild guessing)
     var animals = KhanUtil.shuffle([
-        [ "alligator", 68, 20 ],
-        [ "anteater", 15, 10 ],
-        [ "bear", 40, 20],
-        [ "elephant", 60, 10 ],
-        [ "gorilla", 20, 5 ],
-        [ "lion", 12, 5 ],
-        [ "lizard", 3, 1 ],
-        [ "meerkat", 13, 5 ],
-        [ "porcupine", 20, 5 ],
-        [ "seal", 15, 10 ],
-        [ "sloth", 16, 5 ],
-        [ "snake", 25, 10 ],
-        [ "tiger", 22, 5 ],
-        [ "turtle", 100, 20 ],
-        [ "zebra", 25, 10 ]
+        ["alligator", 68, 20],
+        ["anteater", 15, 10],
+        ["bear", 40, 20],
+        ["elephant", 60, 10],
+        ["gorilla", 20, 5],
+        ["lion", 12, 5],
+        ["lizard", 3, 1],
+        ["meerkat", 13, 5],
+        ["porcupine", 20, 5],
+        ["seal", 15, 10],
+        ["sloth", 16, 5],
+        ["snake", 25, 10],
+        ["tiger", 22, 5],
+        ["turtle", 100, 20],
+        ["zebra", 25, 10]
     ]);
 
     var farmers = KhanUtil.shuffle([
-        {farmer:"farmer", crops:KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk"]), field:"field"},
-        {farmer:"gardener", crops:KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily"]), field:"garden"}
+        {farmer: "farmer", crops: KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk"]), field: "field"},
+        {farmer: "gardener", crops: KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily"]), field: "garden"}
     ]);
 
     var distances = KhanUtil.shuffle([
@@ -385,46 +385,46 @@ $.fn[ "word-problemsLoad" ] = function() {
     ]);
 
     var distanceActivities = KhanUtil.shuffle([
-        {present:"ride", past:"rode", noun:"bike", done:"biked", continuous:"biking"},
-        {present:"row", past:"rowed", noun:"boat", done:"rowed", continuous:"rowing"},
-        {present:"drive", past:"drove", noun:"car", done:"driven", continuous:"driving"},
-        {present:"walk", past:"walked", noun:"dog", done:"walked", continuous:"walking"}
+        {present: "ride", past: "rode", noun: "bike", done: "biked", continuous: "biking"},
+        {present: "row", past: "rowed", noun: "boat", done: "rowed", continuous: "rowing"},
+        {present: "drive", past: "drove", noun: "car", done: "driven", continuous: "driving"},
+        {present: "walk", past: "walked", noun: "dog", done: "walked", continuous: "walking"}
     ]);
 
     var indefiniteArticle = function(word) {
-        var vowels = ['a', 'e', 'i', 'o', 'u'];
-        if ( _(vowels).indexOf( word[0].toLowerCase() ) > -1 ) {
-            return 'An ' + word;
+        var vowels = ["a", "e", "i", "o", "u"];
+        if (_(vowels).indexOf(word[0].toLowerCase()) > -1) {
+            return "An " + word;
         }
-        return 'A ' + word;
+        return "A " + word;
     };
 
-    $.extend( KhanUtil, {
-        person: function( i ) {
+    $.extend(KhanUtil, {
+        person: function(i) {
             return people[i - 1][0];
         },
 
-        personVar: function( i ) {
+        personVar: function(i) {
             return people[i - 1][0].charAt(0).toLowerCase();
         },
 
-        he: function( i ) {
+        he: function(i) {
             return people[i - 1][1] === "m" ? "he" : "she";
         },
 
-        He: function( i ) {
+        He: function(i) {
             return people[i - 1][1] === "m" ? "He" : "She";
         },
 
-        him: function( i ) {
+        him: function(i) {
             return people[i - 1][1] === "m" ? "him" : "her";
         },
 
-        his: function( i ) {
+        his: function(i) {
             return people[i - 1][1] === "m" ? "his" : "her";
         },
 
-        His: function( i ) {
+        His: function(i) {
             return people[i - 1][1] === "m" ? "His" : "Her";
         },
 
@@ -436,142 +436,142 @@ $.fn[ "word-problemsLoad" ] = function() {
             return indefiniteArticle(word).toLowerCase();
         },
 
-        vehicle: function( i ) {
+        vehicle: function(i) {
             return vehicles[i - 1];
         },
 
-        vehicleVar: function( i ) {
+        vehicleVar: function(i) {
             return vehicles[i - 1].charAt(0);
         },
 
-        course: function( i ) {
+        course: function(i) {
             return courses[i - 1];
         },
 
-        courseVar: function( i ) {
+        courseVar: function(i) {
             return courses[i - 1].charAt(0).toLowerCase();
         },
 
-        exam: function( i ) {
+        exam: function(i) {
             return exams[i - 1];
         },
 
-        binop: function( i ) {
+        binop: function(i) {
             return binops[i - 1];
         },
 
-        item: function( i ) {
+        item: function(i) {
             return collections[i - 1][0];
         },
 
-        group: function( i ) {
+        group: function(i) {
                 return collections[i - 1][1];
         },
 
-        groupVerb: function( i ) {
+        groupVerb: function(i) {
             return collections[i - 1][2];
         },
 
-        store: function( i ) {
+        store: function(i) {
             return stores[i].name;
         },
 
-        storeItem: function( i, j ) {
+        storeItem: function(i, j) {
             return stores[i].items[j];
         },
 
-        pizza: function( i ) {
+        pizza: function(i) {
             return pizzas[i];
         },
 
-        exercise: function( i ) {
+        exercise: function(i) {
             return exercises[i - 1];
         },
 
-        timeofday: function( i ) {
+        timeofday: function(i) {
             return timesofday[i - 1];
         },
 
-        school: function( i ) {
+        school: function(i) {
             return schools[i - 1];
         },
 
-        clothing: function( i ) {
+        clothing: function(i) {
             return clothes[i - 1];
         },
 
-        color: function( i ) {
+        color: function(i) {
             return colors[i - 1];
         },
 
-        fruit: function( i ) {
+        fruit: function(i) {
             return fruits[i];
         },
 
-        deskItem: function( i ) {
+        deskItem: function(i) {
             return deskItems[i];
         },
 
-        distance: function( i ) {
+        distance: function(i) {
             return distances[i - 1];
         },
 
-        rode: function( i ) {
+        rode: function(i) {
             return distanceActivities[i - 1].past;
         },
 
-        ride: function( i ) {
+        ride: function(i) {
             return distanceActivities[i - 1].present;
         },
 
-        bike: function( i ) {
+        bike: function(i) {
             return distanceActivities[i - 1].noun;
         },
 
-        biked: function( i ) {
+        biked: function(i) {
             return distanceActivities[i - 1].done;
         },
 
-        biking: function( i ) {
+        biking: function(i) {
             return distanceActivities[i - 1].continuous;
         },
 
-        farmer: function( i ) {
+        farmer: function(i) {
             return farmers[i - 1].farmer;
         },
 
-        crop: function( i ) {
+        crop: function(i) {
             return farmers[i - 1].crops[0];
         },
 
-        field: function( i ) {
+        field: function(i) {
             return farmers[i - 1].field;
         },
 
-        side: function( i ) {
+        side: function(i) {
             return sides[i - 1];
         },
 
-        shirtStyle: function( i ) {
+        shirtStyle: function(i) {
             return shirtStyles[i - 1];
         },
 
-        furniture: function( i ) {
+        furniture: function(i) {
             return furnitureStore[i - 1];
         },
 
-        electronic: function( i ) {
+        electronic: function(i) {
             return electronicStore[i - 1];
         },
-        animal: function( i ) {
+        animal: function(i) {
             return animals[i - 1][0];
         },
 
-        animalAvgLifespan: function( i ) {
+        animalAvgLifespan: function(i) {
             return animals[i - 1][1];
         },
 
-        animalStddevLifespan: function( i ) {
+        animalStddevLifespan: function(i) {
             return animals[i - 1][2];
         }
     });

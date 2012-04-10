@@ -236,7 +236,7 @@ var Khan = (function() {
         return ["Thank you for your feedback! Your issue has been created and can be ",
             "found at the following link:",
             "<p><a id=\"issue-link\" href=\"", url, "\">", title, "</a>",
-            "<p>", suggestion, "</p>"].join('');
+            "<p>", suggestion, "</p>"].join("");
     },
     issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!",
 
@@ -255,16 +255,16 @@ var Khan = (function() {
 
     // Add in the site stylesheets
     if (testMode) {
-        (function(){
+        (function() {
             var link = document.createElement("link");
             link.rel = "stylesheet";
             link.href = urlBase + "css/khan-site.css";
-            document.getElementsByTagName('head')[0].appendChild(link);
+            document.getElementsByTagName("head")[0].appendChild(link);
 
             link = document.createElement("link");
             link.rel = "stylesheet";
             link.href = urlBase + "css/khan-exercise.css";
-            document.getElementsByTagName('head')[0].appendChild(link);
+            document.getElementsByTagName("head")[0].appendChild(link);
         })();
     }
 
@@ -300,7 +300,7 @@ var Khan = (function() {
         },
 
         warnTimeout: function() {
-            warn('Your internet might be too slow to see an exercise. Refresh the page '
+            warn("Your internet might be too slow to see an exercise. Refresh the page "
                 + 'or <a href="" id="warn-report">report a problem</a>.', false);
             $("#warn-report").click(function(e) {
                 e.preventDefault();
@@ -314,7 +314,7 @@ var Khan = (function() {
                 enableFontDownload = '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/"  target="_blank">enable font download</a>';
             }
 
-            warn('You should ' + enableFontDownload + ' to improve the appearance of math expressions.', true);
+            warn("You should " + enableFontDownload + " to improve the appearance of math expressions.", true);
         },
 
         require: function(mods) {
@@ -375,7 +375,7 @@ var Khan = (function() {
         loadScripts: function(urls, callback) {
             var loaded = 0,
                 loading = urls.length,
-                head = document.getElementsByTagName('head')[0];
+                head = document.getElementsByTagName("head")[0];
 
             callback || (callback = function() {});
 
@@ -457,7 +457,7 @@ var Khan = (function() {
                 e,
                 a = /\+/g,  // Regex for replacing addition symbol with a space
                 r = /([^&=]+)=?([^&]*)/g,
-                d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                d = function(s) { return decodeURIComponent(s.replace(a, " ")); },
                 q = window.location.search.substring(1);
 
             while ((e = r.exec(q))) {
@@ -506,7 +506,7 @@ var Khan = (function() {
 
                 show: function() {
 
-                    if ( actions.isVisible() ) {
+                    if (actions.isVisible()) {
                         return;
                     }
 
@@ -582,13 +582,13 @@ var Khan = (function() {
                 $("#related-video-list .related-video-list li").each(function(i, el) {
                     if (i === index) {
                         $(el)
-                            .find('a.related-video-inline').hide().end()
-                            .find('.thumbnail').show();
+                            .find("a.related-video-inline").hide().end()
+                            .find(".thumbnail").show();
                     }
                     else {
                         $(el)
-                            .find('a.related-video-inline').show().end()
-                            .find('.thumbnail').hide();
+                            .find("a.related-video-inline").show().end()
+                            .find(".thumbnail").hide();
                     }
                 });
             },
@@ -604,7 +604,7 @@ var Khan = (function() {
                     href: this.makeHref(video),
                     video: video,
                     separator: needComma
-                })).data('video', video);
+                })).data("video", video);
             },
 
             renderInSidebar: function() {
@@ -612,12 +612,12 @@ var Khan = (function() {
                 var jel = container.find(".related-video-list");
                 jel.empty();
 
-                var template = Templates.get('video.thumbnail');
+                var template = Templates.get("video.thumbnail");
                 _.each(this.getVideos(), function(video, i) {
                     var thumbnailDiv = $(template({
                         href: this.makeHref(video),
                         video: video
-                    })).find('a.related-video').data('video', video).end();
+                    })).find("a.related-video").data("video", video).end();
 
                     var inlineLink = this.anchorElement(video)
                         .addClass("related-video-inline");
@@ -743,12 +743,12 @@ var Khan = (function() {
                 };
 
                 return this.each(function(i, elem) {
-                    elem = $( elem );
+                    elem = $(elem);
 
                     // Run the main method of any modules
                     $.each(Khan.modules, function(src, mod) {
                         var name = mod.name;
-                        if ( $.fn[name + type]) {
+                        if ($.fn[name + type]) {
                             elem[name + type](problem, info);
                         }
                     });
@@ -793,7 +793,7 @@ var Khan = (function() {
             // Just do each problem 10 times
             $.each(problems, function(i, elem) {
                 elem = $(elem);
-                elem.data("id", elem.attr( "id" ) || "" + i);
+                elem.data("id", elem.attr("id") || "" + i);
 
                 for (var j = 0; j < 10; j++) {
                     bag.push(problems.eq(i));
@@ -857,14 +857,14 @@ var Khan = (function() {
         $("#check-answer-button")
             .removeAttr("disabled")
             .removeClass("buttonDisabled")
-            .val('Check Answer');
+            .val("Check Answer");
     }
 
     function disableCheckAnswer() {
         $("#check-answer-button")
             .attr("disabled", "disabled")
             .addClass("buttonDisabled")
-            .val('Please wait...');
+            .val("Please wait...");
     }
 
     function isExerciseLoaded(exerciseName) {
@@ -936,7 +936,7 @@ var Khan = (function() {
         } else {
             startLoadingExercise(exerciseName);
 
-            $( Khan )
+            $(Khan)
                 .unbind("exerciseLoaded:" + exerciseName)
                 .bind("exerciseLoaded:" + exerciseName, function() {
                     finishRender();
@@ -1013,7 +1013,7 @@ var Khan = (function() {
         }
 
         // Add any global exercise defined elements
-        problem.prepend(exercise.children(':not(.problems)').clone().data("inherited", true));
+        problem.prepend(exercise.children(":not(.problems)").clone().data("inherited", true));
 
         // Apply templating
         var children = problem
@@ -1028,7 +1028,7 @@ var Khan = (function() {
             .children("[class][class!='graphie'][class!='spin']").tmplApply({attribute: "class"});
 
         // Finally we do any inheritance to the individual child blocks (such as problem, question, etc.)
-        children.each(function () {
+        children.each(function() {
             // Apply while adding problem.children() to include
             // template definitions within problem scope
             $(this).find("[id]").add(children).tmplApply();
@@ -1118,20 +1118,20 @@ var Khan = (function() {
             // Focus the first input
             // Use .select() and on a delay to make IE happy
             var firstInput = solutionarea.find(":input").first();
-            setTimeout( function() {
+            setTimeout(function() {
                 if (!firstInput.is(":disabled")) {
                     firstInput.focus();
                     if (firstInput.is("input:text")) {
                         firstInput.select();
                     }
                 }
-            }, 1 );
+            }, 1);
 
             lastFocusedSolutionInput = firstInput;
-            solutionarea.find(":input").focus( function() {
+            solutionarea.find(":input").focus(function() {
                 // Save which input is focused so we can refocus it after the user hits Check Answer
                 lastFocusedSolutionInput = this;
-            } );
+            });
         } else {
             // Making the problem failed, let's try again
             problem.remove();
@@ -1147,7 +1147,7 @@ var Khan = (function() {
         Khan.scratchpad.resize();
 
         // Enable the all answer input elements except the check answer button.
-        $("#answercontent input").not('#check-answer-button')
+        $("#answercontent input").not("#check-answer-button")
             .removeAttr("disabled");
 
         if (examples !== null && validator.examples && validator.examples.length > 0) {
@@ -1155,7 +1155,7 @@ var Khan = (function() {
             examples.empty();
 
             $.each(validator.examples, function(i, example) {
-                examples.append('<li>' + example + '</li>');
+                examples.append("<li>" + example + "</li>");
             });
 
             examples.children().tmpl();
@@ -1211,7 +1211,7 @@ var Khan = (function() {
                 } else {
                     $("<span>").text(el).addClass("box").appendTo(answer);
                 }
-            } );
+            });
         }
 
         if (typeof userExercise !== "undefined" && userExercise.readOnly) {
@@ -1229,25 +1229,25 @@ var Khan = (function() {
                 .insertBefore("#problem-and-answer");
 
             $.fn.disable = function() {
-                this.addClass('disabled')
+                this.addClass("disabled")
                     .css({
-                        cursor: 'default !important'
+                        cursor: "default !important"
                     })
-                    .data('disabled', true);
+                    .data("disabled", true);
                 return this;
             }
 
             $.fn.enable = function() {
-                this.removeClass('disabled')
+                this.removeClass("disabled")
                     .css({
-                        cursor: 'pointer'
+                        cursor: "pointer"
                     })
-                    .data('disabled', false);
+                    .data("disabled", false);
                 return this;
             }
 
             if (userExercise.totalDone === 0) {
-                $('#previous-problem').disable();
+                $("#previous-problem").disable();
             }
 
             timeline = $("<div id='timeline'>").appendTo(timelinecontainer);
@@ -1260,7 +1260,7 @@ var Khan = (function() {
                         </div>");
 
             $("<div class='user-activity correct-activity'>Started</div>")
-                .data('hint', false)
+                .data("hint", false)
                 .appendTo(timelineEvents);
 
             var hintNumber = 0,
@@ -1282,17 +1282,17 @@ var Khan = (function() {
                     .appendTo(timelineEvents);
 
                 if (value[0] === "hint-activity") {
-                    thissolutionarea.attr('title', 'Hint used');
+                    thissolutionarea.attr("title", "Hint used");
                     thissolutionarea
-                        .data('hint', hintNumber )
+                        .data("hint", hintNumber)
                         .prepend("Hint #" + (hintNumber + 1));
                     hintNumber += 1;
                 } else { // This panel is a solution (or the first panel)
-                    thissolutionarea.data('hint', false);
+                    thissolutionarea.data("hint", false);
                     if (guess === "Activity Unavailable") {
                         thissolutionarea.text(guess);
                     } else {
-                        if (answerType === 'radio') {
+                        if (answerType === "radio") {
                             // radio is the only answer type that can't display its own guesses
                             thissolutionarea.append($(
                                 "<p class='solution'>" + guess + "</p>").tmpl()
@@ -1300,12 +1300,12 @@ var Khan = (function() {
 
                             if (index === userExercise.userActivity.length - 1) {
                                 thissolutionarea
-                                    .removeClass('incorrect-activity')
-                                    .addClass('correct-activity');
+                                    .removeClass("incorrect-activity")
+                                    .addClass("correct-activity");
 
-                                thissolutionarea.attr('title', 'Correct Answer');
+                                thissolutionarea.attr("title", "Correct Answer");
                             } else {
-                                thissolutionarea.attr('title', 'Incorrect Answer');
+                                thissolutionarea.attr("title", "Incorrect Answer");
                             }
                         } else {
                             var thisValidator = Khan.answerTypes[answerType](thissolutionarea, solution);
@@ -1316,25 +1316,25 @@ var Khan = (function() {
                                 // If the user didn't get the problem right on the first try, all
                                 // answers are labelled incorrect by default
                                 thissolutionarea
-                                    .removeClass('incorrect-activity')
-                                    .addClass('correct-activity');
+                                    .removeClass("incorrect-activity")
+                                    .addClass("correct-activity");
 
-                                thissolutionarea.attr('title', 'Correct Answer');
+                                thissolutionarea.attr("title", "Correct Answer");
                             } else {
                                 thissolutionarea
-                                    .removeClass('correct-activity')
-                                    .addClass('incorrect-activity');
-                                thissolutionarea.attr('title', 'Incorrect Answer');
+                                    .removeClass("correct-activity")
+                                    .addClass("incorrect-activity");
+                                thissolutionarea.attr("title", "Incorrect Answer");
                             }
                         }
 
                         thissolutionarea
-                            .data('guess', guess)
-                                .find('input')
-                                .attr('disabled', true)
+                            .data("guess", guess)
+                                .find("input")
+                                .attr("disabled", true)
                             .end()
-                                .find('select')
-                                .attr('disabled', true);
+                                .find("select")
+                                .attr("disabled", true);
                     }
                 }
             });
@@ -1346,48 +1346,48 @@ var Khan = (function() {
             var states = timelineEvents.children(".user-activity"),
                 currentSlide = states.length - 1,
                 numSlides = states.length,
-                firstHintIndex = timeline.find('.hint-activity:first')
-                    .index('.user-activity'),
-                lastHintIndex = timeline.find('.hint-activity:last')
-                    .index('.user-activity'),
-                totalHints = timeline.find( '.hint-activity:last' )
-                    .index('.hint-activity'),
-                hintButton = $('#hint'),
+                firstHintIndex = timeline.find(".hint-activity:first")
+                    .index(".user-activity"),
+                lastHintIndex = timeline.find(".hint-activity:last")
+                    .index(".user-activity"),
+                totalHints = timeline.find(".hint-activity:last")
+                    .index(".hint-activity"),
+                hintButton = $("#hint"),
                 timelineMiddle = timeline.width() / 2,
-                realHintsArea = $('#hintsarea'),
-                realWorkArea = $('#workarea'),
+                realHintsArea = $("#hintsarea"),
+                realWorkArea = $("#workarea"),
                 statelist = [],
                 previousHintNum = 100000;
 
             // So highlighting doesn't fade to white
-            $('#solutionarea').css('background-color', $('#answercontent').css('background-color'));
+            $("#solutionarea").css("background-color", $("#answercontent").css("background-color"));
 
             $.fn.scrubber = function() {
                 // create triangular scrubbers above and below current selection
-                var timeline = $('#timeline'),
-                    scrubber1 = $('#scrubber1'),
-                    scrubber2 = $('#scrubber2'),
+                var timeline = $("#timeline"),
+                    scrubber1 = $("#scrubber1"),
+                    scrubber2 = $("#scrubber2"),
                     scrubberCss = {
-                        display: 'block',
-                        width: '0',
-                        height: '0',
-                        'border-left': '6px solid transparent',
-                        'border-right': '6px solid transparent',
-                        position: 'absolute',
-                        left: (timeline.scrollLeft() + this.position().left + this.outerWidth() / 2 + 2) + 'px'
+                        display: "block",
+                        width: "0",
+                        height: "0",
+                        "border-left": "6px solid transparent",
+                        "border-right": "6px solid transparent",
+                        position: "absolute",
+                        left: (timeline.scrollLeft() + this.position().left + this.outerWidth() / 2 + 2) + "px"
                     };
 
                 scrubber1 = scrubber1.length ? scrubber1 : $("<div id='scrubber1'>").appendTo(timeline);
                 scrubber2 = scrubber2.length ? scrubber2 : $("<div id='scrubber2'>").appendTo(timeline);
 
                 scrubber1.css($.extend({}, scrubberCss, {
-                    'border-bottom': '6px solid #888',
-                    bottom: '0'
+                    "border-bottom": "6px solid #888",
+                    bottom: "0"
                 }));
 
                 scrubber2.css($.extend({}, scrubberCss, {
-                    'border-top': '6px solid #888',
-                    top: '0'
+                    "border-top": "6px solid #888",
+                    top: "0"
                 }));
 
                 return this;
@@ -1410,8 +1410,8 @@ var Khan = (function() {
                 var thisSlide = states.eq(i);
 
                 var thisHintArea, thisProblem,
-                    hintNum = $('#timeline-events .user-activity:lt(' + (i + 1) + ')')
-                            .filter('.hint-activity').length - 1,
+                    hintNum = $("#timeline-events .user-activity:lt(" + (i + 1) + ")")
+                            .filter(".hint-activity").length - 1,
                     // Bring the currently focused panel as close to the middle as possible
                     itemOffset = thisSlide.position().left,
                     itemMiddle = itemOffset + thisSlide.width() / 2,
@@ -1481,43 +1481,43 @@ var Khan = (function() {
                         hintRemainder.fadeOut(fadeTime);
                         hintButton.val("I'd like a hint");
                     } else if (slideNum >= lastHintIndex) {
-                        if (states.eq( lastHintIndex ).data('hint') < hints.length) {
+                        if (states.eq(lastHintIndex).data("hint") < hints.length) {
                             hintRemainder.fadeOut(fadeTime);
                         }
                     } else {
                         hintButton.val("I'd like another hint (" + (totalHints - thisState.hintNum) + " remaining)");
                     }
 
-                    $('#workarea').remove();
-                    $('#hintsarea').remove();
-                    $('#problemarea').append(thisState.problem).append(thisState.hintArea);
+                    $("#workarea").remove();
+                    $("#hintsarea").remove();
+                    $("#problemarea").append(thisState.problem).append(thisState.hintArea);
 
-                    if (thisSlide.data('guess')) {
-                        solutionarea.effect('highlight', {}, fadeTime);
+                    if (thisSlide.data("guess")) {
+                        solutionarea.effect("highlight", {}, fadeTime);
 
                         // If there is a guess we show it as if it was filled in by the user
-                        validator.showGuess(thisSlide.data('guess'));
+                        validator.showGuess(thisSlide.data("guess"));
                     } else {
                         validator.showGuess();
                     }
 
                     // TODO: still highlight even if hint modifies problem (and highlight following hints)
-                    if (slideNum > 0 && (thisState.hintNum > statelist[slideNum-1].hintNum)) {
-                        $('#hintsarea').children().each(function(index, elem) {
+                    if (slideNum > 0 && (thisState.hintNum > statelist[slideNum - 1].hintNum)) {
+                        $("#hintsarea").children().each(function(index, elem) {
                             if (index > previousHintNum) {
-                                $(elem).effect( 'highlight', {}, fadeTime);
+                                $(elem).effect("highlight", {}, fadeTime);
                             }
-                        } );
+                        });
 
                         previousHintNum = thisState.hintNum;
                     }
 
-                    $('#previous-step, #next-step').enable();
+                    $("#previous-step, #next-step").enable();
                     if (slideNum === 0) {
                         previousHintNum = -1;
-                        $('#previous-step').disable();
+                        $("#previous-step").disable();
                     } else if (slideNum === numSlides - 1) {
-                        $('#next-step').disable();
+                        $("#next-step").disable();
                     }
                 }
             };
@@ -1537,7 +1537,7 @@ var Khan = (function() {
                 currentSlide = Math.min(currentSlide, numSlides - 1);
                 currentSlide = Math.max(currentSlide, 0);
 
-                activate( currentSlide );
+                activate(currentSlide);
 
                 return false;
             });
@@ -1552,7 +1552,7 @@ var Khan = (function() {
                 return false;
             });
 
-            $('#previous-step').click(function(event) {
+            $("#previous-step").click(function(event) {
                 if (currentSlide > 0) {
                     currentSlide -= 1;
                     activate(currentSlide);
@@ -1561,7 +1561,7 @@ var Khan = (function() {
                 return false;
             });
 
-            $('#next-step').click(function(event) {
+            $("#next-step").click(function(event) {
                 if (currentSlide < numSlides - 1) {
                     currentSlide += 1;
                     activate(currentSlide);
@@ -1570,24 +1570,24 @@ var Khan = (function() {
                 return false;
             });
 
-            $('#next-problem').click(function(event) {
+            $("#next-problem").click(function(event) {
                 window.location.href = userExercise.nextProblemUrl;
             });
 
-            $('#previous-problem').click(function(event) {
-                if (!$(this).data('disabled')) {
+            $("#previous-problem").click(function(event) {
+                if (!$(this).data("disabled")) {
                     window.location.href = userExercise.previousProblemUrl;
                 }
             });
 
             // Some exercises use custom css
             $("#timeline input[type='text']").css("width",
-                $("#answer_area input[type='text']").css('width')
+                $("#answer_area input[type='text']").css("width")
             );
 
-            $('#hint').attr('disabled', true);
-            $('#answercontent input').attr('disabled', true);
-            $('#answercontent select').attr('disabled', true);
+            $("#hint").attr("disabled", true);
+            $("#answercontent input").attr("disabled", true);
+            $("#answercontent select").attr("disabled", true);
         }
 
 
@@ -1681,7 +1681,7 @@ var Khan = (function() {
 
                     varInfo.append($("<b>").text(name));
                     varInfo.append(": ");
-                    varInfo.append($( "<var>").text(str));
+                    varInfo.append($("<var>").text(str));
                     varInfo.append("<br>");
                 });
 
@@ -1828,7 +1828,7 @@ var Khan = (function() {
             // If multiple-answer, join all responses and check if that's empty
             // Remove commas left by joining nested arrays in case multiple-answer is nested
             if ($.trim(validator.guess) === "" ||
-                 (validator.guess instanceof Array && $.trim(validator.guess.join("").replace(/,/g, '')) === "")) {
+                 (validator.guess instanceof Array && $.trim(validator.guess.join("").replace(/,/g, "")) === "")) {
                 return false;
             } else {
                 guessLog.push(validator.guess);
@@ -1848,7 +1848,7 @@ var Khan = (function() {
             // If incorrect, warn the user and help them in any way we can
             if (pass !== true) {
                 checkAnswerButton
-                    .effect("shake", {times:3, distance: 5}, 80)
+                    .effect("shake", {times: 3, distance: 5}, 80)
                     .val("Try Again");
 
                 // Is this a message to be shown?
@@ -1939,7 +1939,7 @@ var Khan = (function() {
         });
 
         // If happy face is clicked, pass click on through.
-        $("#positive-reinforcement").click( function() {
+        $("#positive-reinforcement").click(function() {
             $("#next-question-button").click();
         });
 
@@ -1988,8 +1988,8 @@ var Khan = (function() {
 
             // The first hint is free iff the user has already attempted the question
             if (hintsUsed === 1 && attempts > 0) {
-                gae_bingo.bingo( "hints_free_hint" );
-                gae_bingo.bingo( "hints_free_hint_binary" );
+                gae_bingo.bingo("hints_free_hint");
+                gae_bingo.bingo("hints_free_hint_binary");
             }
         });
 
@@ -2015,7 +2015,7 @@ var Khan = (function() {
                     scrollTop: $("#issue").offset().top
                 }, 500, function() {
                     $("#issue-title").focus();
-                } );
+                });
             }
         });
 
@@ -2038,14 +2038,14 @@ var Khan = (function() {
             // don't do anything if the user clicked a second time quickly
             if ($("#issue form").css("display") === "none") return;
 
-            var pretitle = $("title").text().replace(/ \|.*/, ''),
+            var pretitle = $("title").text().replace(/ \|.*/, ""),
                 type = $("input[name=issue-type]:checked").prop("id"),
                 title = $("#issue-title").val(),
                 email = $("#issue-email").val(),
                 path = exerciseName + ".html"
                     + "?seed=" + problemSeed
                     + "&problem=" + problemID,
-                pathlink = "[" + path + (exercise.data("name") != null && exercise.data("name") !== exerciseName ? " (" + exercise.data("name") + ")" : "" ) + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
+                pathlink = "[" + path + (exercise.data("name") != null && exercise.data("name") !== exerciseName ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
                 historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(userActivityLog)).replace(/\)/g, "\\)") + ")",
                 agent = navigator.userAgent,
                 mathjaxInfo = "MathJax is " + (typeof MathJax === "undefined" ? "NOT loaded" :
@@ -2180,13 +2180,13 @@ var Khan = (function() {
             });
         });
 
-        $("#warning-bar-close a").click( function(e) {
+        $("#warning-bar-close a").click(function(e) {
             e.preventDefault();
             $("#warning-bar").fadeOut("slow");
         });
 
         $("#scratchpad-show")
-            .click( function(e) {
+            .click(function(e) {
                 e.preventDefault();
                 Khan.scratchpad.toggle();
 
@@ -2209,11 +2209,11 @@ var Khan = (function() {
                     '<span class="info-box-header">Testing Mode</span>' +
                     '<p><strong>Problem No.</strong> <span class="problem-no"></span></p>' +
                     '<p><strong>Answer:</strong> <span class="answer"></span></p>' +
-                    '<p>' +
+                    "<p>" +
                         '<input type="button" class="pass button green" value="This problem was generated correctly.">' +
                         '<input type="button" class="fail button orange" value="There is an error in this problem.">' +
-                    '</p>' +
-                '</div>'
+                    "</p>" +
+                "</div>"
             );
 
             $("#tester-info .pass").click(function() {
@@ -2297,7 +2297,7 @@ var Khan = (function() {
                         // see if an automatically generated issue for this file
                         // already exists
                         $.each(json.data, function(i, issue) {
-                            if ( encodeURIComponent(issue.title) === title) {
+                            if (encodeURIComponent(issue.title) === title) {
                                 copy = issue.number;
                             }
                         });
@@ -2311,7 +2311,7 @@ var Khan = (function() {
                 });
 
                 $("#next-question-button").trigger("click");
-            } );
+            });
 
             $(document).keyup(function(e) {
                 if (e.keyCode === "H".charCodeAt(0)) {
@@ -2501,7 +2501,7 @@ var Khan = (function() {
         // on the server by running the hint and attempt requests in transactions.
         if (queue != null) {
             // Create an empty jQuery object to use as a queue holder, if needed.
-            requestQueue[queue] = requestQueue[queue] || jQuery( {} );
+            requestQueue[queue] = requestQueue[queue] || jQuery({});
 
             // Queue up sending the request to run when old requests have completed.
             requestQueue[queue].queue(function(next) {
@@ -2543,7 +2543,7 @@ var Khan = (function() {
             // into a jQuery object. IE8 will attempt to fetch these external
             // scripts otherwise.
             // See https://github.com/Khan/khan-exercises/issues/10957
-            data = data.replace( /<script\ssrc=([^<])*<\/script>/, "" );
+            data = data.replace(/<script\ssrc=([^<])*<\/script>/, "");
 
             newContents = $(data);
 
@@ -2551,7 +2551,7 @@ var Khan = (function() {
             newContents.data("rootName", rootName);
 
             // Maybe the exercise we just loaded loads some others
-            newContents.filter("[data-name]" ).each( function() {
+            newContents.filter("[data-name]").each(function() {
                 loadExercise.call(this, callback);
             });
 
@@ -2596,7 +2596,7 @@ var Khan = (function() {
 
             loadingExercises[rootName]--;
 
-            if ( loadingExercises[rootName] === 0) {
+            if (loadingExercises[rootName] === 0) {
 
                 if (!modulesLoaded) {
                     modulesDeferred = $.Deferred();

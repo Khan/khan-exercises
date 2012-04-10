@@ -1,20 +1,20 @@
 $.extend(KhanUtil, {
 
-    expr: function( expr, compute ) {
-        if ( typeof expr === "object" ) {
+    expr: function(expr, compute) {
+        if (typeof expr === "object") {
             var op = expr[0],
                 args = expr.slice(1),
                 table = compute ? KhanUtil.computeOperators : KhanUtil.formatOperators;
 
-            return table[op].apply( this, args );
+            return table[op].apply(this, args);
         } else {
             return compute ? expr : expr.toString();
         }
     },
 
-    exprType: function( expr ) {
+    exprType: function(expr) {
 
-        if ( typeof expr === "object" ) {
+        if (typeof expr === "object") {
 
             return expr[0];
 
@@ -26,8 +26,8 @@ $.extend(KhanUtil, {
     },
 
     // Do I start with a minus sign?
-    exprIsNegated: function( expr ) {
-        switch( KhanUtil.exprType(expr) ) {
+    exprIsNegated: function(expr) {
+        switch (KhanUtil.exprType(expr)) {
             case "color":
             return KhanUtil.exprIsNegated(expr[2]);
 
@@ -51,8 +51,8 @@ $.extend(KhanUtil, {
     },
 
     // Mostly, is it okay to add a coefficient to me without adding parens?
-    exprIsShort: function( expr ) {
-        switch( KhanUtil.exprType(expr) ) {
+    exprIsShort: function(expr) {
+        switch (KhanUtil.exprType(expr)) {
             case "color":
             return KhanUtil.exprIsShort(expr[2]);
 
@@ -75,28 +75,28 @@ $.extend(KhanUtil, {
         }
     },
 
-    exprParenthesize: function( expr ) {
+    exprParenthesize: function(expr) {
         return KhanUtil.exprIsShort(expr) ?
             KhanUtil.expr(expr) :
             "(" + KhanUtil.expr(expr) + ")";
     },
 
     formatOperators: {
-        "color": function( color, arg ) {
+        "color": function(color, arg) {
 
-            // Arguments should look like [ "blue", [ ... ] ]
-            return "\\color{" + color + "}{" + KhanUtil.expr( arg ) + "}";
+            // Arguments should look like ["blue", [... ]]
+            return "\\color{" + color + "}{" + KhanUtil.expr(arg) + "}";
         },
 
         "+": function() {
-            var args = [].slice.call( arguments, 0 );
-            var terms = $.grep( args, function( term, i ) {
+            var args = [].slice.call(arguments, 0);
+            var terms = $.grep(args, function(term, i) {
                 return term != null;
-            } );
+            });
 
-            terms = $.map(terms, function( term, i ) {
+            terms = $.map(terms, function(term, i) {
                 var parenthesize;
-                switch ( KhanUtil.exprType(term) ) {
+                switch (KhanUtil.exprType(term)) {
                     case "+":
                     parenthesize = true;
                     break;
@@ -112,13 +112,13 @@ $.extend(KhanUtil, {
                     parenthesize = false;
                 }
 
-                term = KhanUtil.expr( term );
+                term = KhanUtil.expr(term);
 
-                if ( parenthesize ) {
+                if (parenthesize) {
                     term = "(" + term + ")";
                 }
 
-                if ( term.charAt(0) !== "-" || parenthesize ) {
+                if (term.charAt(0) !== "-" || parenthesize) {
                     term = "+" + term;
                 }
 
@@ -127,7 +127,7 @@ $.extend(KhanUtil, {
 
             var joined = terms.join("");
 
-            if(joined.charAt(0) === "+") {
+            if (joined.charAt(0) === "+") {
                 return joined.slice(1);
             } else {
                 return joined;
@@ -135,14 +135,14 @@ $.extend(KhanUtil, {
         },
 
         "-": function() {
-            if ( arguments.length === 1 ) {
-                return KhanUtil.expr( ["*", -1, arguments[0]] );
+            if (arguments.length === 1) {
+                return KhanUtil.expr(["*", -1, arguments[0]]);
             } else {
-                var args = [].slice.call( arguments, 0 );
-                var terms = $.map( args, function( term, i ) {
-                    var negate = KhanUtil.exprIsNegated( term );
+                var args = [].slice.call(arguments, 0);
+                var terms = $.map(args, function(term, i) {
+                    var negate = KhanUtil.exprIsNegated(term);
                     var parenthesize;
-                    switch ( KhanUtil.exprType(term) ) {
+                    switch (KhanUtil.exprType(term)) {
                         case "+":
                         case "-":
                         parenthesize = true;
@@ -155,14 +155,14 @@ $.extend(KhanUtil, {
                         parenthesize = false;
                     }
 
-                    term = KhanUtil.expr( term );
+                    term = KhanUtil.expr(term);
 
-                    if ( ( negate && i > 0 ) || parenthesize ) {
+                    if ((negate && i > 0) || parenthesize) {
                         term = "(" + term + ")";
                     }
 
                     return term;
-                } );
+                });
 
                 var joined = terms.join("-");
 
@@ -174,46 +174,46 @@ $.extend(KhanUtil, {
             var rest = Array.prototype.slice.call(arguments, 1);
             rest.unshift("*");
 
-            // If we're multiplying by 1, ignore it, unless we have [ "*", 1 ] and
+            // If we're multiplying by 1, ignore it, unless we have ["*", 1] and
             // should return 1
-            if ( arguments[0] === 1 && rest.length > 1 ) {
+            if (arguments[0] === 1 && rest.length > 1) {
                 return KhanUtil.expr(rest);
-            } else if ( arguments[0] === -1 && rest.length > 1 ) {
+            } else if (arguments[0] === -1 && rest.length > 1) {
                 var form = KhanUtil.expr(rest);
-                if( KhanUtil.exprIsNegated(rest[1]) ) {
+                if (KhanUtil.exprIsNegated(rest[1])) {
                     return "-(" + form + ")";
                 } else {
                     return "-" + form;
                 }
             }
 
-            if ( arguments.length > 1 ) {
-                var args = [].slice.call( arguments, 0 );
+            if (arguments.length > 1) {
+                var args = [].slice.call(arguments, 0);
                 var parenthesizeRest = KhanUtil.exprType(arguments[0]) === "number"
                     && KhanUtil.exprType(arguments[1]) === "number";
-                var factors = $.map( args, function( factor, i ) {
+                var factors = $.map(args, function(factor, i) {
                     var parenthesize;
-                    switch ( KhanUtil.exprType( factor ) ) {
+                    switch (KhanUtil.exprType(factor)) {
                         case "number":
-                        if ( i > 0 ) {
+                        if (i > 0) {
                             parenthesize = true;
                         }
                         break;
 
                         default:
-                        parenthesize = !KhanUtil.exprIsShort( factor );
+                        parenthesize = !KhanUtil.exprIsShort(factor);
                         break;
                     }
 
-                    parenthesizeRest || ( parenthesizeRest = parenthesize );
-                    factor = KhanUtil.expr( factor );
+                    parenthesizeRest || (parenthesizeRest = parenthesize);
+                    factor = KhanUtil.expr(factor);
 
-                    if ( parenthesizeRest ) {
+                    if (parenthesizeRest) {
                         factor = "(" + factor + ")";
                     }
 
                     return factor;
-                } );
+                });
 
                 return factors.join("");
             } else {
@@ -221,12 +221,12 @@ $.extend(KhanUtil, {
             }
         },
 
-        "times": function( left, right ) {
+        "times": function(left, right) {
             var parenthesizeLeft = !KhanUtil.exprIsShort(left);
             var parenthesizeRight = !KhanUtil.exprIsShort(right);
 
-            left = KhanUtil.expr( left );
-            right = KhanUtil.expr( right );
+            left = KhanUtil.expr(left);
+            right = KhanUtil.expr(right);
 
             left = parenthesizeLeft ? "(" + left + ")" : left;
             right = parenthesizeRight ? "(" + right + ")" : right;
@@ -234,12 +234,12 @@ $.extend(KhanUtil, {
             return left + " \\times " + right;
         },
 
-        "/": function( num, den ) {
+        "/": function(num, den) {
             var parenthesizeNum = !KhanUtil.exprIsShort(num);
             var parenthesizeDen = !KhanUtil.exprIsShort(den);
 
-            num = KhanUtil.expr( num );
-            den = KhanUtil.expr( den );
+            num = KhanUtil.expr(num);
+            den = KhanUtil.expr(den);
 
             num = parenthesizeNum ? "(" + num + ")" : num;
             den = parenthesizeDen ? "(" + den + ")" : den;
@@ -247,14 +247,14 @@ $.extend(KhanUtil, {
             return num + "/" + den;
         },
 
-        "frac": function( num, den ) {
-            return "\\frac{" + KhanUtil.expr( num ) + "}{" +
-                KhanUtil.expr( den ) + "}";
+        "frac": function(num, den) {
+            return "\\frac{" + KhanUtil.expr(num) + "}{" +
+                KhanUtil.expr(den) + "}";
         },
 
-        "^": function( base, pow ) {
+        "^": function(base, pow) {
             var parenthesizeBase, trigFunction;
-            switch ( KhanUtil.exprType(base) ) {
+            switch (KhanUtil.exprType(base)) {
                 case "+":
                 case "-":
                 case "*":
@@ -283,126 +283,126 @@ $.extend(KhanUtil, {
                 trigFunction = false;
             }
 
-            base = KhanUtil.expr( base );
-            if ( parenthesizeBase ) {
+            base = KhanUtil.expr(base);
+            if (parenthesizeBase) {
                 base = "(" + base + ")";
             }
 
-            pow = KhanUtil.expr( pow );
+            pow = KhanUtil.expr(pow);
 
-            if ( trigFunction ) {
-                return base.replace( /\\(\S+?)\{/, function( match, word ) {
+            if (trigFunction) {
+                return base.replace(/\\(\S+?)\{/, function(match, word) {
                     return "\\" + word + "^{" + pow + "} {";
-                } );
+                });
             } else {
                 return base + "^{" + pow + "}";
             }
         },
 
-        "sqrt": function( arg ) {
-            return "\\sqrt{" + KhanUtil.exprParenthesize( arg ) + "}";
+        "sqrt": function(arg) {
+            return "\\sqrt{" + KhanUtil.exprParenthesize(arg) + "}";
         },
 
-        "sin": function( arg ) {
-            return "\\sin{" + KhanUtil.exprParenthesize( arg ) + "}";
+        "sin": function(arg) {
+            return "\\sin{" + KhanUtil.exprParenthesize(arg) + "}";
         },
 
-        "cos": function( arg ) {
-            return "\\cos{" + KhanUtil.exprParenthesize( arg ) + "}";
+        "cos": function(arg) {
+            return "\\cos{" + KhanUtil.exprParenthesize(arg) + "}";
         },
 
-        "tan": function( arg ) {
-            return "\\tan{" + KhanUtil.exprParenthesize( arg ) + "}";
+        "tan": function(arg) {
+            return "\\tan{" + KhanUtil.exprParenthesize(arg) + "}";
         },
 
-        "sec": function( arg ) {
-            return "\\sec{" + KhanUtil.exprParenthesize( arg ) + "}";
+        "sec": function(arg) {
+            return "\\sec{" + KhanUtil.exprParenthesize(arg) + "}";
         },
 
-        "csc": function( arg ) {
-            return "\\sec{" + KhanUtil.exprParenthesize( arg ) + "}";
+        "csc": function(arg) {
+            return "\\sec{" + KhanUtil.exprParenthesize(arg) + "}";
         },
 
-        "cot": function( arg ) {
-            return "\\sec{" + KhanUtil.exprParenthesize( arg ) + "}";
+        "cot": function(arg) {
+            return "\\sec{" + KhanUtil.exprParenthesize(arg) + "}";
         },
 
-        "ln": function( arg ) {
-            return "\\ln{" + KhanUtil.exprParenthesize( arg ) + "}";
+        "ln": function(arg) {
+            return "\\ln{" + KhanUtil.exprParenthesize(arg) + "}";
         },
 
         "+-": function() {
-            if ( arguments.length === 1 ) {
+            if (arguments.length === 1) {
                 return "\\pm " + KhanUtil.exprParenthesize(arguments[0]);
             } else {
-                var args = [].slice.call( arguments, 0 );
-                return $.map( args, function( term, i ) {
+                var args = [].slice.call(arguments, 0);
+                return $.map(args, function(term, i) {
                     return KhanUtil.expr(term);
-                } ).join(" \\pm ");
+                }).join(" \\pm ");
             }
         }
     },
 
     computeOperators: {
-        "color": function( color, arg ) {
-            return KhanUtil.expr( arg, true );
+        "color": function(color, arg) {
+            return KhanUtil.expr(arg, true);
         },
 
         "+": function() {
-            var args = [].slice.call( arguments, 0 );
+            var args = [].slice.call(arguments, 0);
             var sum = 0;
 
-            $.each( args, function( i, term ) {
-                sum += KhanUtil.expr( term, true );
-            } );
+            $.each(args, function(i, term) {
+                sum += KhanUtil.expr(term, true);
+            });
 
             return sum;
         },
 
         "-": function() {
-            if ( arguments.length === 1 ) {
-                return -KhanUtil.expr( arguments[0], true );
+            if (arguments.length === 1) {
+                return -KhanUtil.expr(arguments[0], true);
             } else {
-                var args = [].slice.call( arguments, 0 );
+                var args = [].slice.call(arguments, 0);
                 var sum = 0;
 
-                $.each( args, function( i, term ) {
-                    sum += ( i === 0 ? 1 : -1 ) * KhanUtil.expr( term, true );
-                } );
+                $.each(args, function(i, term) {
+                    sum += (i === 0 ? 1 : -1) * KhanUtil.expr(term, true);
+                });
 
                 return sum;
             }
         },
 
         "*": function() {
-            var args = [].slice.call( arguments, 0 );
+            var args = [].slice.call(arguments, 0);
             var prod = 1;
 
-            $.each( args, function( i, term ) {
-                prod *= KhanUtil.expr( term, true );
-            } );
+            $.each(args, function(i, term) {
+                prod *= KhanUtil.expr(term, true);
+            });
 
             return prod;
         },
 
         "/": function() {
-            var args = [].slice.call( arguments, 0 );
+            var args = [].slice.call(arguments, 0);
             var prod = 1;
 
-            $.each( args, function( i, term ) {
-                var e = KhanUtil.expr( term, true );
-                prod *= ( i === 0 ? e : 1 / e );
-            } );
+            $.each(args, function(i, term) {
+                var e = KhanUtil.expr(term, true);
+                prod *= (i === 0 ? e : 1 / e);
+            });
 
             return prod;
         },
 
-        "^": function( base, pow ) {
-            return Math.pow( KhanUtil.expr( base, true ), KhanUtil.expr( pow, true));
+        "^": function(base, pow) {
+            return Math.pow(KhanUtil.expr(base, true), KhanUtil.expr(pow, true));
         },
 
-        "sqrt": function( arg ) {
-            return Math.sqrt( KhanUtil.expr( arg, true ));
+        "sqrt": function(arg) {
+            return Math.sqrt(KhanUtil.expr(arg, true));
         },
 
         "+-": function() {
@@ -410,43 +410,43 @@ $.extend(KhanUtil, {
         }
     },
 
-    // Remove [ "color", ...] tags from an expression
-    exprStripColor: function( expr ) {
-        if ( typeof expr !== "object" ) {
+    // Remove ["color", ...] tags from an expression
+    exprStripColor: function(expr) {
+        if (typeof expr !== "object") {
             return expr;
-        } else if ( expr[0] === "color" ) {
-            return KhanUtil.exprStripColor( expr[2] );
+        } else if (expr[0] === "color") {
+            return KhanUtil.exprStripColor(expr[2]);
         } else {
-            return $.map(expr, function( el, i ) {
+            return $.map(expr, function(el, i) {
 
                 // Wrap in an array because $.map flattens the result by one level
-                return [ (i === 0) ? el : KhanUtil.exprStripColor( el ) ];
+                return [(i === 0) ? el : KhanUtil.exprStripColor(el)];
             });
         }
     },
 
     // simplify an expression by collapsing all the associative
     // operations.  e.g. ["+", ["+", 1, 2], 3] -> ["+", 1, 2, 3]
-    exprSimplifyAssociative : function (expr) {
-        if ( typeof expr !== "object" ){
+    exprSimplifyAssociative: function(expr) {
+        if (typeof expr !== "object") {
             return expr;
         }
 
-        var simplified = $.map( expr.slice(1), function(x){
+        var simplified = $.map(expr.slice(1), function(x) {
             //encapsulate in a list so $.map unpacks it correctly
             return [KhanUtil.exprSimplifyAssociative(x)];
         });
 
-        var flattenOneLevel = function (e) {
-            switch( expr[0] ){
+        var flattenOneLevel = function(e) {
+            switch (expr[0]) {
                 case "+":
-                if ( e[0] === "+" ) {
+                if (e[0] === "+") {
                     return e.slice(1);
                 }
                 break;
 
                 case "*":
-                if ( e[0] === "*" ) {
+                if (e[0] === "*") {
                     return e.slice(1);
                 }
                 break;
@@ -459,8 +459,8 @@ $.extend(KhanUtil, {
         //here we actually want the $ behavior of
         //having any lists that flattenOneLevel returns merged into
         //the result
-        var ret = $.map( simplified, flattenOneLevel );
-        ret.unshift( expr[0] );
+        var ret = $.map(simplified, flattenOneLevel);
+        ret.unshift(expr[0]);
 
         return ret;
     }

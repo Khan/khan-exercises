@@ -33,10 +33,10 @@
         DERIV: "deriv",
         NEQ: "!=",
         NUM: "num",
-        EMP: "empty",
+        EMP: "empty"
     };
 
-    var OpToLaTeX = { }
+    var OpToLaTeX = {};
     OpToLaTeX[OpStr.ADD] = "+";
     OpToLaTeX[OpStr.SUB] = "-";
     OpToLaTeX[OpStr.MUL] = "\\times";
@@ -89,15 +89,15 @@
                 stroke: color,
                 strokeWidth: 3,
                 fill: "none",
-                clipRect:[ [-range, -range], [2*range, 2*range] ],
+                clipRect: [[-range, -range], [2 * range, 2 * range]],
                 arrows: null
             });
 
-            graph.last = graph.plot( g, [-10, 10] );
+            graph.last = graph.plot(g, [-10, 10]);
         }
         else {
             graph.graphInit({
-                range: range+1,
+                range: range + 1,
                 scale: 20,
                 axisArrows: "&lt;-&gt;",
                 tickStep: 1,
@@ -107,12 +107,12 @@
                 stroke: color,
                 strokeWidth: 3,
                 fill: "none",
-                clipRect:[ [-range, -range], [2*range, 2*range] ],
+                clipRect: [[-range, -range], [2 * range, 2 * range]],
                 arrows: null
             });
 
-            graph.plot( g, [-range, range] );
-            graph.last = graph.plot( g, [-range, range] );
+            graph.plot(g, [-range, range]);
+            graph.last = graph.plot(g, [-range, range]);
         }
     };
 
@@ -126,17 +126,17 @@
         var nid1 = ast.intern(n1);
         var nid2 = ast.intern(n2);
 
-        if (nid1===nid2) {
+        if (nid1 === nid2) {
             return true;
         }
 
-        if (n1.op===n2.op && n1.args.length===n2.args.length) {
-            if (n1.args.length===2) {
+        if (n1.op === n2.op && n1.args.length === n2.args.length) {
+            if (n1.args.length === 2) {
                 var n1arg0 = ast.intern(n1.args[0]);
                 var n1arg1 = ast.intern(n1.args[1]);
                 var n2arg0 = ast.intern(n2.args[0]);
                 var n2arg1 = ast.intern(n2.args[1]);
-                if (n1arg0===n2arg1 && n1arg1===n2arg0) {
+                if (n1arg0 === n2arg1 && n1arg1 === n2arg0) {
                     return true;
                 }
             }
@@ -160,11 +160,11 @@
 
         if (coeffs.length === 1) {
             // degree zero
-            var rhs = coeffs[0]
+            var rhs = coeffs[0];
         }
         else {
             // construct a term of degree given by the size of coeffs
-            var rhs = {op: "*", args: [coeffs[0], {op: "^", args: [{op: "var", args: [ident]}, coeffs.length-1]}]};
+            var rhs = {op: "*", args: [coeffs[0], {op: "^", args: [{op: "var", args: [ident]}, coeffs.length - 1]}]};
         }
 
         if (coeffs[0] === 0) {
@@ -175,7 +175,7 @@
             var lhs = rhs;
         }
         else {
-            lhs = {op: "+", args: [lhs, rhs]}
+            lhs = {op: "+", args: [lhs, rhs]};
         }
 
         // recurse until no more coefficients
@@ -201,7 +201,7 @@
         var str = "";
         for (var cur = 0; cur < align[index % 2]; cur++) {
             if (hphantom) {
-                str += "} & \\hphantom{ ";
+                str += "} & \\hphantom{";
             } else {
                 str += "& ";
             }
@@ -216,9 +216,9 @@
         return getOpStyleAttr(expr, iOp, "symbol", expr.op);
     };
 
-    var getOpStyleAttr = function (expr, iOp, attrName, defaultValue) {
+    var getOpStyleAttr = function(expr, iOp, attrName, defaultValue) {
         var attr = defaultValue;
-        if ((expr.opsStyles !== undefined) && (expr.opsStyles[iOp] !== undefined)  && (expr.opsStyles[iOp][attrName] !== undefined)) {
+        if ((expr.opsStyles !== undefined) && (expr.opsStyles[iOp] !== undefined) && (expr.opsStyles[iOp][attrName] !== undefined)) {
             attr = expr.opsStyles[iOp][attrName];
         }
         return attr;
@@ -335,7 +335,7 @@
 
     // format an AST
     var formatRec = function(n, textSize, hphantom, parent) {
-        if (textSize===void 0) {
+        if (textSize === void 0) {
             textSize = "normalsize";
         }
         if (n === undefined) {
@@ -343,10 +343,10 @@
         }
         var text;
 
-        if ($.type(n)==="number") {
+        if ($.type(n) === "number") {
             text = "" + n;
         }
-        else if ($.type(n)==="object") {
+        else if ($.type(n) === "object") {
             // format sub-expressions
             if ((n.op !== "var") && (n.op !== "cst")) {
                 var args = [];
@@ -368,7 +368,7 @@
                 text += getAlignment(n, 1, hphantom);
                 break;
             case OpStr.SUB:
-                if (n.args.length===1) {
+                if (n.args.length === 1) {
                     text = getAlignment(n, 0, hphantom, true);
                     text += addOpStyle(OpToLaTeX[n.op], n, 0, true, false) + args[0];
                     text += getAlignment(n, 1, hphantom);
@@ -402,15 +402,15 @@
                 var lhs = n.args[0];
                 var rhs = n.args[1];
                 if ((typeof lhs === "object") && isTrigOrLog(lhs.op)) {
-                    text = OpToLaTeX[lhs.op] + getAlignment(n, 0, hphantom) + "^" + getAlignment(n,1, hphantom);
+                    text = OpToLaTeX[lhs.op] + getAlignment(n, 0, hphantom) + "^" + getAlignment(n, 1, hphantom);
                     text += "{" + args[1] + "}";
                     text += formatRec(lhs.args[0], textSize, hphantom);
                     break;
                 }
-                if ((lhs.args && lhs.args.length===2) || (rhs.args && rhs.args.length===2)) {
-                    if (lhs.op===OpStr.ADD || lhs.op===OpStr.SUB ||
-                        lhs.op===OpStr.MUL || lhs.op===OpStr.DIV ||
-                        lhs.op===OpStr.SQRT) {
+                if ((lhs.args && lhs.args.length === 2) || (rhs.args && rhs.args.length === 2)) {
+                    if (lhs.op === OpStr.ADD || lhs.op === OpStr.SUB ||
+                        lhs.op === OpStr.MUL || lhs.op === OpStr.DIV ||
+                        lhs.op === OpStr.SQRT) {
                         args[0] = "(" + args[0] + ")";
                     }
                 }
@@ -431,7 +431,7 @@
                 break;
             case OpStr.DERIV:
                 text = "\\dfrac{d" + args[0] + "}{d" + args[1] + "}";
-                break; 
+                break;
             case OpStr.SQRT:
                 switch (args.length) {
                 case 1:
@@ -446,18 +446,18 @@
                 // if subexpr is lower precedence, wrap in parens
                 var prevTerm;
                 text = "";
-                $.each(n.args, function (index, term) {
+                $.each(n.args, function(index, term) {
                     var opIndex = index - 1;
                     var symbol = getOpSymbol(n, opIndex);
                     if (((term.op === OpStr.ADD) || (term.op === OpStr.SUB)) && (term.args.length > 1)) {
                         args[index] = "(" + args[index] + ")";
-                        term = {op:"()", args:[term]};
+                        term = {op: "()", args: [term]};
                     }
                     if ((term.args && (term.args.length >= 2) && (term.op !== OpStr.POW)) ||
                         !((symbol === OpStr.MUL) && (term.op === OpStr.PAREN ||
-                             term.op===OpStr.POW ||
-                             term.op===OpStr.VAR ||
-                             term.op===OpStr.CST ||
+                             term.op === OpStr.POW ||
+                             term.op === OpStr.VAR ||
+                             term.op === OpStr.CST ||
                              (exprIsNumber(prevTerm) && !exprIsNumber(term))
                         ))) {
                         if (opIndex >= 0) {
@@ -478,7 +478,7 @@
             case OpStr.ADD:
             case OpStr.COMMA:
             case OpStr.EQL:
-                $.each(args, function (index, value) {
+                $.each(args, function(index, value) {
                     var opIndex = index - 1;
                     if (index === 0) {
                         text = value;
@@ -523,10 +523,10 @@
 
         var val;
 
-        if ($.type(n)==="string" ||
-            $.type(n)==="number") {
+        if ($.type(n) === "string" ||
+            $.type(n) === "number") {
             val = n;
-        } else if ($.type(n)==="object") {
+        } else if ($.type(n) === "object") {
             var args = [];
             for (var i = 0; i < n.args.length; i++) {
                 args[i] = eval(n.args[i], env);
@@ -538,11 +538,11 @@
                 break;
             case OpStr.VAR:
             case OpStr.CST:
-                assert(args.length===1, "wrong number of arguments to var or cst");
+                assert(args.length === 1, "wrong number of arguments to var or cst");
                 val = env[args[0]];
                 break;
             case OpStr.SUB:
-                assert(args.length===2, "wrong number of arguments to subtract");
+                assert(args.length === 2, "wrong number of arguments to subtract");
                 switch (args.length) {
                 case 1:
                     val = -args[0];
@@ -555,23 +555,23 @@
             case OpStr.DIV:
             case OpStr.FRAC:
             case OpStr.DFRAC:
-                assert(args.length===2, "wrong number of arguments to div/frac");
+                assert(args.length === 2, "wrong number of arguments to div/frac");
                 val = args[0] / args[1];
                 break;
             case OpStr.POW:
-                assert(args.length===2, "wrong number of arguments to pow");
+                assert(args.length === 2, "wrong number of arguments to pow");
                 val = Math.pow(args[0], args[1]);
                 break;
             case OpStr.SIN:
-                assert(args.length===1, "wrong number of arguments to sin");
+                assert(args.length === 1, "wrong number of arguments to sin");
                 val = Math.sin(args[0]);
                 break;
             case OpStr.COS:
-                assert(args.length===1, "wrong number of arguments to cos");
+                assert(args.length === 1, "wrong number of arguments to cos");
                 val = Math.cos(args[0]);
                 break;
             case OpStr.TAN:
-                assert(args.length===1, "wrong number of arguments to tan");
+                assert(args.length === 1, "wrong number of arguments to tan");
                 val = Math.tan(args[0]);
                 break;
             case OpStr.SQRT:
@@ -581,7 +581,7 @@
                     val = Math.sqrt(args[0]);
                     break;
                 case 2:
-                    val = Math.pow(args[0], 1/args[1]);
+                    val = Math.pow(args[0], 1 / args[1]);
                     break;
                 }
                 break;
@@ -589,13 +589,13 @@
             case OpStr.CDOT:
             case OpStr.TIMES:
                 var val = 1;
-                $.each(args, function (index, value) {
+                $.each(args, function(index, value) {
                     val *= value;
                 });
                 break;
             case OpStr.ADD:
                 var val = 0;
-                $.each(args, function (index, value) {
+                $.each(args, function(index, value) {
                     val += value;
                 });
                 break;
@@ -626,7 +626,7 @@
 
 // TODO : separte into math-parse.js
 
-    var parse = function (src, styles) {
+    var parse = function(src, styles) {
         var start = function() {
             T0 = scan.start();
         }
@@ -684,7 +684,7 @@
 
         var setStyle = function(e, style) {
             if (typeof e === "number") {
-                e = {op:"num", args:[e]};
+                e = {op: "num", args: [e]};
             }
             e.style = style;
             return e;
@@ -694,9 +694,9 @@
             var e;
             var t;
             var op;
-            switch ((t=hd())) {
-            case 'A'.charCodeAt(0):
-            case 'a'.charCodeAt(0):
+            switch ((t = hd())) {
+            case "A".charCodeAt(0):
+            case "a".charCodeAt(0):
                 e = {op: "var", args: [lexeme()]};
                 e = setStyle(e, styles[scan.idStyle()]);
                 next();
@@ -730,7 +730,7 @@
                 var align = alignment();
                 var idStyleLeft = scan.idStyle();
                 next();
-                switch(hd()) {
+                switch (hd()) {
                 case TK_LEFTBRACKET:
                     e = {op: tokenToOp[TK_SQRT], args: [bracketExpr(), braceOptionalExpr()]};
                     setOpStyle(e, 0, "align", align);
@@ -753,7 +753,7 @@
                 var align = alignment();
                 var idStyleLeft = scan.idStyle();
                 next();
-                if ( hd() === TK_CARET) {
+                if (hd() === TK_CARET) {
                     eat(TK_CARET);
                     var expr2 = braceOptionalExpr();
                     e = {op: tokenToOp[t], args: [unaryExpr()]};
@@ -812,7 +812,7 @@
             var rightAlign = alignment();
             eat(rightTk);
             var idStyleRight = scan.lastIdStyle();
-            var expr = {op:op, args:[e], opsStyles:[{},{}]};
+            var expr = {op: op, args: [e], opsStyles: [{},{}]};
             if (idStyleLeft === idStyleRight) {
                 expr = setStyle(expr, styles[idStyleLeft]);
             } else {
@@ -831,15 +831,15 @@
             case TK_COLOR:
                 next();
                 var color = "";
-                while ((c = scan.readChar()) !== '}') {
+                while ((c = scan.readChar()) !== "}") {
                     color += c;
                 }
                 next();
                 expr = braceExpr();
                 if (typeof expr === "number") {
-                    expr = {op:"num", args:[expr]};
+                    expr = {op: "num", args: [expr]};
                 }
-                expr.style = {color:color};
+                expr.style = {color: color};
                 break;
             case TK_ADD:
                 next();
@@ -850,7 +850,7 @@
                 var opIdStyle = scan.idStyle();
                 next();
                 var arg = unaryExpr();
-                expr = {op:"-", args:[arg]};
+                expr = {op: "-", args: [arg]};
                 addStyles(expr, opIdStyle, scan.lastIdStyle(), opIdStyle);
                 setOpStyle(expr, 0, "align", align);
                 break;
@@ -864,7 +864,7 @@
         var exponentialExpr = function() {
             var expr = unaryExpr();
             var t;
-            while ((t=hd())===TK_CARET) {
+            while ((t = hd()) === TK_CARET) {
                 var startIdStyle = scan.idStyle();
                 next();
                 var expr2;
@@ -926,7 +926,7 @@
             return expr;
 
             function isMultiplicative(t) {
-                return t===TK_MUL || t===TK_DIV || t===TK_TIMES || t===TK_CDOT;
+                return t === TK_MUL || t === TK_DIV || t === TK_TIMES || t === TK_CDOT;
             }
         }
 
@@ -947,7 +947,7 @@
             return expr;
 
             function isAdditive(t) {
-                return t===TK_ADD || t===TK_SUB || t===TK_PM;
+                return t === TK_ADD || t === TK_SUB || t === TK_PM;
             }
         }
 
@@ -955,10 +955,10 @@
             var startIdStyle = scan.idStyle();
             var expr = additiveExpr();
             if (expr === undefined) {
-                expr = {op:OpStr.EMP, args:[]};
+                expr = {op: OpStr.EMP, args: []};
             }
             var t = hd();
-            while ((t ===TK_EQL) || (t === TK_LT) || (t === TK_GT) || (t === TK_LEQ) || (t === TK_GEQ) || (t === TK_NOT)) {
+            while ((t === TK_EQL) || (t === TK_LT) || (t === TK_GT) || (t === TK_LEQ) || (t === TK_GEQ) || (t === TK_NOT)) {
                 var align = alignment();
                 opIdStyle = scan.idStyle();
                 next();
@@ -1018,13 +1018,13 @@
                         lexeme += String.fromCharCode(c);
                         var token = latex();
                         if ((token === TK_TIMES) || (token === TK_CDOT)) {
-                            var nc = src.charCodeAt(curIndex)
+                            var nc = src.charCodeAt(curIndex);
                             while ((nc === TK_AMP) || (nc === TK_SPACE)) {
                                 curIndex++;
                                 if (nc === TK_AMP) {
                                     alignment[1]++;
                                 }
-                                nc = src.charCodeAt(curIndex)
+                                nc = src.charCodeAt(curIndex);
                             }
                         }
                         return token;
@@ -1052,7 +1052,7 @@
                             if (nc === TK_AMP) {
                                 alignment[1]++;
                             }
-                            nc = src.charCodeAt(curIndex)
+                            nc = src.charCodeAt(curIndex);
                         }
                         return c; // char code is the token id
                     case TK_SHARP:
@@ -1079,22 +1079,22 @@
                         lexeme += String.fromCharCode(c);
                         return c;
                     default:
-                        if (c >= 'A'.charCodeAt(0) && c <= 'Z'.charCodeAt(0)) {
+                        if (c >= "A".charCodeAt(0) && c <= "Z".charCodeAt(0)) {
                             lexeme += String.fromCharCode(c);
                             return TK_COEFF;
                         }
-                        else if (c >= 'a'.charCodeAt(0) && c <= 'z'.charCodeAt(0)) {
+                        else if (c >= "a".charCodeAt(0) && c <= "z".charCodeAt(0)) {
                             lexeme += String.fromCharCode(c);
                             return TK_VAR;
                         }
-                        else if (c >= '0'.charCodeAt(0) && c <= '9'.charCodeAt(0)) {
+                        else if (c >= "0".charCodeAt(0) && c <= "9".charCodeAt(0)) {
                             //lexeme += String.fromCharCode(c);
                             //c = src.charCodeAt(curIndex++);
                             //return TK_NUM;
                             return number(c);
                         }
                         else {
-                            KhanUtil.assert( false, "scan.start(): c="+c);
+                            KhanUtil.assert(false, "scan.start(): c=" + c);
                             return 0;
                         }
                     }
@@ -1103,7 +1103,7 @@
             }
 
             var number = function(c) {
-                while (c >= '0'.charCodeAt(0) && c <= '9'.charCodeAt(0)) {
+                while (c >= "0".charCodeAt(0) && c <= "9".charCodeAt(0)) {
                     lexeme += String.fromCharCode(c);
                     c = src.charCodeAt(curIndex++);
                 }
@@ -1114,14 +1114,14 @@
 
             var latex = function() {
                 var c = src.charCodeAt(curIndex++);
-                while (c >= 'a'.charCodeAt(0) && c <= 'z'.charCodeAt(0)) {
+                while (c >= "a".charCodeAt(0) && c <= "z".charCodeAt(0)) {
                     lexeme += String.fromCharCode(c);
                     c = src.charCodeAt(curIndex++);
                 }
                 curIndex--;
 
                 var tk = lexemeToToken[lexeme];
-                if (tk===void 0) {
+                if (tk === void 0) {
                     tk = TK_VAR;   // e.g. \\theta
                 }
                 return tk;
@@ -1143,131 +1143,131 @@
             var openedStyles = [];
 
             lexemeToToken["\\times"] = TK_TIMES;
-            lexemeToToken["\\cdot"]  = TK_CDOT;
-            lexemeToToken["\\div"]   = TK_DIV;
-            lexemeToToken["\\frac"]  = TK_FRAC;
+            lexemeToToken["\\cdot"] = TK_CDOT;
+            lexemeToToken["\\div"] = TK_DIV;
+            lexemeToToken["\\frac"] = TK_FRAC;
             lexemeToToken["\\dfrac"] = TK_DFRAC;
-            lexemeToToken["\\sqrt"]  = TK_SQRT;
-            lexemeToToken["\\pm"]    = TK_PM;
-            lexemeToToken["\\sin"]   = TK_SIN;
-            lexemeToToken["\\cos"]   = TK_COS;
-            lexemeToToken["\\tan"]   = TK_TAN;
-            lexemeToToken["\\sec"]   = TK_SEC;
-            lexemeToToken["\\cot"]   = TK_COT;
-            lexemeToToken["\\csc"]   = TK_CSC;
-            lexemeToToken["\\ln"]    = TK_LN;
-            lexemeToToken["\\leq"]   = TK_LEQ;
-            lexemeToToken["\\geq"]   = TK_GEQ;
-            lexemeToToken["\\not"]   = TK_NOT;
+            lexemeToToken["\\sqrt"] = TK_SQRT;
+            lexemeToToken["\\pm"] = TK_PM;
+            lexemeToToken["\\sin"] = TK_SIN;
+            lexemeToToken["\\cos"] = TK_COS;
+            lexemeToToken["\\tan"] = TK_TAN;
+            lexemeToToken["\\sec"] = TK_SEC;
+            lexemeToToken["\\cot"] = TK_COT;
+            lexemeToToken["\\csc"] = TK_CSC;
+            lexemeToToken["\\ln"] = TK_LN;
+            lexemeToToken["\\leq"] = TK_LEQ;
+            lexemeToToken["\\geq"] = TK_GEQ;
+            lexemeToToken["\\not"] = TK_NOT;
             lexemeToToken["\\color"] = TK_COLOR;
 
             return {
-                start : start,
-                lexeme : function () { return lexeme },
+                start: start,
+                lexeme: function() {return lexeme},
                 readChar: readChar,
-                alignment : function () { return alignment },
+                alignment: function() {return alignment},
                 idStyle: idStyle,
-                lastIdStyle: function() { return lastIdStyle },
-            }
+                lastIdStyle: function() {return lastIdStyle}
+            };
         }
 
-        src = src.replace( /\u2212/g, "-");
+        src = src.replace(/\u2212/g, "-");
         if (styles === undefined) {
             styles = [];
         } else {
             for (var iStyle = 0; iStyle < styles.length; iStyle++) {
                var style = styles[iStyle];
                if (typeof style === "string") {
-                  style = {color:style};
+                  style = {color: style};
                }
                style.idStyle = iStyle;
                styles[iStyle] = style;
             }
         }
-        var TK_NONE        = 0;
-        var TK_ADD        = '+'.charCodeAt(0);
-        var TK_CARET        = '^'.charCodeAt(0);
-        var TK_DIV        = '/'.charCodeAt(0);
-        var TK_EQL        = '='.charCodeAt(0);
-        var TK_LT        = '<'.charCodeAt(0);
-        var TK_GT        = '>'.charCodeAt(0);
-        var TK_LEFTBRACE    = '{'.charCodeAt(0);
-        var TK_LEFTBRACKET    = '['.charCodeAt(0);
-        var TK_LEFTPAREN    = '('.charCodeAt(0);
-        var TK_MUL        = '*'.charCodeAt(0);
-        var TK_NUM        = '0'.charCodeAt(0);
-        var TK_RIGHTBRACE     = '}'.charCodeAt(0);
-        var TK_RIGHTBRACKET    = ']'.charCodeAt(0);
-        var TK_RIGHTPAREN    = ')'.charCodeAt(0);
-        var TK_SUB        = '-'.charCodeAt(0);
-        var TK_VAR        = 'a'.charCodeAt(0);
-        var TK_COEFF        = 'A'.charCodeAt(0);
-        var TK_VAR        = 'a'.charCodeAt(0);
-        var TK_ABS        = '|'.charCodeAt(0);
-        var TK_COMMA        = ','.charCodeAt(0);
-        var TK_SPACE        = ' '.charCodeAt(0);
-        var TK_BACKSLASH    = '\\'.charCodeAt(0);
-        var TK_AMP        = '&'.charCodeAt(0);
-        var TK_SHARP        = '#'.charCodeAt(0);
-        var TK_CDOT        = 0x100;
-        var TK_TIMES        = 0x101;
-        var TK_PM        = 0x102;
-        var TK_FRAC        = 0x103;
-        var TK_DFRAC        = 0x104;
-        var TK_LN        = 0x105;
-        var TK_COS        = 0x106;
-        var TK_SIN        = 0x107;
-        var TK_TAN        = 0x108;
-        var TK_SEC        = 0x109;
-        var TK_COT        = 0x110;
-        var TK_CSC        = 0x111;
-        var TK_SQRT        = 0x112;
-        var TK_LEQ        = 0x113;
-        var TK_GEQ        = 0x114;
-        var TK_NOT        = 0x115;
-        var TK_NEXT        = 0x116;
-        var TK_COLOR        = 0x117;
+        var TK_NONE = 0;
+        var TK_ADD = "+".charCodeAt(0);
+        var TK_CARET = "^".charCodeAt(0);
+        var TK_DIV = "/".charCodeAt(0);
+        var TK_EQL = "=".charCodeAt(0);
+        var TK_LT = "<".charCodeAt(0);
+        var TK_GT = ">".charCodeAt(0);
+        var TK_LEFTBRACE = "{".charCodeAt(0);
+        var TK_LEFTBRACKET = "[".charCodeAt(0);
+        var TK_LEFTPAREN = "(".charCodeAt(0);
+        var TK_MUL = "*".charCodeAt(0);
+        var TK_NUM = "0".charCodeAt(0);
+        var TK_RIGHTBRACE = "}".charCodeAt(0);
+        var TK_RIGHTBRACKET = "]".charCodeAt(0);
+        var TK_RIGHTPAREN = ")".charCodeAt(0);
+        var TK_SUB = "-".charCodeAt(0);
+        var TK_VAR = "a".charCodeAt(0);
+        var TK_COEFF = "A".charCodeAt(0);
+        var TK_VAR = "a".charCodeAt(0);
+        var TK_ABS = "|".charCodeAt(0);
+        var TK_COMMA = ",".charCodeAt(0);
+        var TK_SPACE = " ".charCodeAt(0);
+        var TK_BACKSLASH = "\\".charCodeAt(0);
+        var TK_AMP = "&".charCodeAt(0);
+        var TK_SHARP = "#".charCodeAt(0);
+        var TK_CDOT = 0x100;
+        var TK_TIMES = 0x101;
+        var TK_PM = 0x102;
+        var TK_FRAC = 0x103;
+        var TK_DFRAC = 0x104;
+        var TK_LN = 0x105;
+        var TK_COS = 0x106;
+        var TK_SIN = 0x107;
+        var TK_TAN = 0x108;
+        var TK_SEC = 0x109;
+        var TK_COT = 0x110;
+        var TK_CSC = 0x111;
+        var TK_SQRT = 0x112;
+        var TK_LEQ = 0x113;
+        var TK_GEQ = 0x114;
+        var TK_NOT = 0x115;
+        var TK_NEXT = 0x116;
+        var TK_COLOR = 0x117;
 
         var curIdStyle = 0;
 
-        var T0=TK_NONE, T1=TK_NONE;
+        var T0 = TK_NONE, T1 = TK_NONE;
 
-        var tokenToOp = [ ];
-        tokenToOp[TK_FRAC]  = OpStr.FRAC;
+        var tokenToOp = [];
+        tokenToOp[TK_FRAC] = OpStr.FRAC;
         tokenToOp[TK_DFRAC] = OpStr.DFRAC;
-        tokenToOp[TK_SQRT]  = OpStr.SQRT;
-        tokenToOp[TK_ADD]   = OpStr.ADD;
-        tokenToOp[TK_SUB]   = OpStr.SUB;
-        tokenToOp[TK_PM]    = OpStr.PM;
+        tokenToOp[TK_SQRT] = OpStr.SQRT;
+        tokenToOp[TK_ADD] = OpStr.ADD;
+        tokenToOp[TK_SUB] = OpStr.SUB;
+        tokenToOp[TK_PM] = OpStr.PM;
         tokenToOp[TK_CARET] = OpStr.POW;
-        tokenToOp[TK_MUL]   = OpStr.MUL;
+        tokenToOp[TK_MUL] = OpStr.MUL;
         tokenToOp[TK_TIMES] = OpStr.TIMES;
-        tokenToOp[TK_CDOT]  = OpStr.CDOT;
-        tokenToOp[TK_DIV]   = OpStr.FRAC;
-        tokenToOp[TK_SIN]   = OpStr.SIN;
-        tokenToOp[TK_COS]   = OpStr.COS;
-        tokenToOp[TK_TAN]   = OpStr.TAN;
-        tokenToOp[TK_SEC]   = OpStr.SEC;
-        tokenToOp[TK_COT]   = OpStr.COT;
-        tokenToOp[TK_CSC]   = OpStr.CSC;
-        tokenToOp[TK_LN]    = OpStr.LN;
-        tokenToOp[TK_EQL]   = OpStr.EQL;
-        tokenToOp[TK_LT]   = OpStr.LT;
-        tokenToOp[TK_GT]   = OpStr.GT;
-        tokenToOp[TK_GEQ]   = OpStr.GEQ;
-        tokenToOp[TK_LEQ]   = OpStr.LEQ;
-        tokenToOp[TK_ABS]   = OpStr.ABS;
+        tokenToOp[TK_CDOT] = OpStr.CDOT;
+        tokenToOp[TK_DIV] = OpStr.FRAC;
+        tokenToOp[TK_SIN] = OpStr.SIN;
+        tokenToOp[TK_COS] = OpStr.COS;
+        tokenToOp[TK_TAN] = OpStr.TAN;
+        tokenToOp[TK_SEC] = OpStr.SEC;
+        tokenToOp[TK_COT] = OpStr.COT;
+        tokenToOp[TK_CSC] = OpStr.CSC;
+        tokenToOp[TK_LN] = OpStr.LN;
+        tokenToOp[TK_EQL] = OpStr.EQL;
+        tokenToOp[TK_LT] = OpStr.LT;
+        tokenToOp[TK_GT] = OpStr.GT;
+        tokenToOp[TK_GEQ] = OpStr.GEQ;
+        tokenToOp[TK_LEQ] = OpStr.LEQ;
+        tokenToOp[TK_ABS] = OpStr.ABS;
 
         var scan = scanner(src);
 
         return expr();
     };
 
-    $.extend ( KhanUtil, {
+    $.extend(KhanUtil, {
         parseFormat: parseFormat,
         parse: parse,
         format: format,
         formatGroup: formatGroup,
-        polynomial: polynomial,
+        polynomial: polynomial
     });
 })();
