@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html data-require="math chemistry">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Common elements</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars" data-ensure="!ELEMENT.violatesMadelung">
+		<var id="ELEMENT">KhanUtil.randBasicCommonElement()</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<p class="question">
+				What is the symbol of <strong class="hint_orange"><var>ELEMENT.name</var></strong>?
+			</p>
+			<div class="solution" data-type="text">
+				<var>ELEMENT.symbol</var>
+			</div>
+			<div class="hints">
+				<p>
+					The symbol of <strong class="hint_orange"><var>ELEMENT.name</var></strong> is
+					<strong><var>ELEMENT.symbol</var></strong>.
+				</p>
+			</div>
+		</div>
+		<div>
+			<p class="question">
+				What element has the symbol of <strong class="hint_orange"><var>ELEMENT.symbol</var></strong>?
+			</p>
+			<!-- Would use regex, but it doesn't seem to allow case-insensitive matching... -->
+			<div class="solution" data-type="custom">
+				<div class="instruction">
+					<input type="text" id="answer" />
+				</div>
+				<div class="guess">
+					$( "#answer" ).val()
+				</div>
+				<div class="validator-function">
+					return guess.trim().toLowerCase() === ELEMENT.name.toLowerCase();
+				</div>
+				<div class="show-guess">
+					$( "#configuration" ).val( guess );
+				</div>
+				<div class="example">
+					An element name (like "antimony")
+				</div>
+			</div>
+			<div class="hints">
+				<p>
+					The symbol <strong class="hint_orange"><var>ELEMENT.symbol</var></strong> belongs to <strong><var>ELEMENT.name</var></strong>.
+				</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

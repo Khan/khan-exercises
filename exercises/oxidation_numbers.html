@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html data-require="math math-format chemistry">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Oxidation numbers</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars" data-ensure="OMITTED.length === 1">
+		<var id="COMPOUND">omitOxidationNumber( randSimpleCompound() )</var>
+		<var id="COMPOUND_QUESTION">formatCompoundFormula( COMPOUND, { show: true, markOmittedParts: ORANGE } )</var>
+		<var id="COMPOUND_FILLED">formatCompoundFormula( COMPOUND, { show: true, showAll: true, markOmittedParts: ORANGE } )</var>
+		<var id="HAS_OXYGEN">COMPOUND.containsElement( new Element("O") )</var>
+		<var id="COMPOUND_TRIVIAL_SHOWN">formatCompoundFormula( COMPOUND, { show: true, showTrivial: true, markOmittedParts: ORANGE } )</var>
+		<var id="OMITTED">COMPOUND.findOmittedOxidationNumbers()</var>
+		<var id="OMITTED_ELEMENT">OMITTED[0].thing</var>
+		<var id="SOLUTION">OMITTED[0].oxidationNumber</var>
+		<var id="OXIDATION_NUMBER_EQUATION">(function() {
+			var result = "";
+
+			var recurse = function ( part ) {
+				var result = "";
+				$.each( part.content, function ( i, el ) {
+					if ( result !== "" ) {
+						result += " + ";
+					}
+					if ( el.count > 1 ) {
+						result += el.count + " \\cdot ";
+					}
+
+					if ( el.omitOxidationNumber ) {
+						result += "x";
+					} else {
+						if ( el.thing instanceof Element ) {
+							result += KhanUtil.negParens( el.oxidationNumber );
+						} else {
+							result += "(" +
+								recurse( el.content ) +
+								")";
+						}
+					}
+				} );
+				return result + " = 0";
+			};
+
+			return recurse( COMPOUND.content );
+		})()</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<p class="question">
+				What oxidation number does <strong class="hint_orange"><var>OMITTED_ELEMENT.name</var></strong> in the following compound?</p>
+			</p>
+
+			<code>
+				\Large {<var>COMPOUND_QUESTION</var>}
+			</code>
+
+			<div class="solution" data-type="custom">
+				<div class="instruction">
+					<input type="text" id="solution" />
+				</div>
+				<div class="guess">
+					$( "#solution" ).val()
+				</div>
+				<div class="validator-function">
+					var value = $( "#solution" ).val().trim();
+					return value == SOLUTION || value == romanNumeral( SOLUTION );
+				</div>
+				<div class="show-guess">
+					$( "#solution" ).val( guess );
+				</div>
+				<div class="example">
+					A number (4) or a Roman numeral (IV)
+				</div>
+			</div>
+
+			<div class="hints">
+				<p data-if="HAS_OXYGEN">
+					Oxygen always has an oxidation number of <code>\mathrm{<var>romanNumeral(-2)</var>}</code>.
+				</p>
+				<code>
+					\Large {<var>COMPOUND_TRIVIAL_SHOWN</var>}
+				</code>
+				<p>
+					Chemical compounds have a total oxidation number of <code>0</code>.
+				</p>
+				<div>
+					<p>
+						The total oxidation number of a compound is the sum of oxidation numbers of all
+						elements contained within. If we label the unknown oxidation number as <code>x</code>, we get
+						the following equation:
+					</p>
+					<code>
+						<var>OXIDATION_NUMBER_EQUATION</var>
+					</code>
+				</div>
+				<!-- TODO: elaborate on solving the equation? -->
+				<div>
+					<p>
+						Solving for <code>x</code>, we get:
+					</p>
+					<code>
+						x = <var>SOLUTION</var>
+					</code>
+				</div>
+				<div>
+					<p>
+						Oxidation numbers are commonly written in roman numerals, so one would write:
+					</p>
+					<code>
+						\Large {<var>COMPOUND_FILLED</var>}
+					</code>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
