@@ -306,16 +306,16 @@ jQuery.extend ( KhanUtil, {
             return text;
         }
 
-        function parseFormat(text, styles, hphantom, textSize) {
+        function parseFormat(text, styles, simplifyOptions, hphantom, textSize) {
             var expr = parse(text, styles);
-            var str = format(expr, textSize, hphantom);
+            var str = format(expr, simplifyOptions, textSize, hphantom);
             if (hphantom) {
                 str = "\\hphantom{" + str + "}";
             }
             return str;
         }
 
-        function formatGroup(group, selection) {
+        function formatGroup(group, selection, simplifyOptions) {
             if (selection === undefined) {
                 selection = [];
                 for (var iExpr = 0; iExpr < group.length; iExpr++) {
@@ -326,11 +326,11 @@ jQuery.extend ( KhanUtil, {
             for (var iExpr = 0; iExpr < group.length; iExpr++) {
                 if ($.inArray(iExpr, selection) === -1) {
                     var expr = group[iExpr];
-                    str += "\\hphantom{" + format(expr, undefined, true) + "} \\\\";
+                    str += "\\hphantom{" + format(expr, simplifyOptions, undefined, true) + "} \\\\";
                 }
             }
             for (var iSel = 0; iSel < selection.length; iSel++) {
-                str += format(group[selection[iSel]]) + " \\\\";
+                str += format(group[selection[iSel]], simplifyOptions) + " \\\\";
                 if (iSel != selection.length - 1) {
                     str += "\\\\";
                 }
@@ -347,12 +347,15 @@ jQuery.extend ( KhanUtil, {
         }
 
         // format an AST
-        function format(expr, textSize, hphantom) {
+        function format(expr, simplifyOptions, textSize, hphantom) {
             if (expr === undefined) {
                 return "";
             }
             if (KhanUtil.simplify !== undefined) {
-                expr = KhanUtil.simplify(expr, KhanUtil.simplifyOptions.minimal);
+                if (simplifyOptions === undefined) {
+                    simplifyOptions = KhanUtil.simplifyOptions.minimal;
+                }
+                expr = KhanUtil.simplify(expr, simplifyOptions);
             }
             return formatRec(expr, textSize, hphantom);
         }

@@ -63,7 +63,7 @@
 			<div class="hints">
 				<div>
 					<p>We first notice that all terms have a common factor. We can rewrite the expression as:</p>
-					<p><code><var>simplify(MATH.format(POLY_AND_FACTOR), simplifyOptions.basic)</var></code></p>
+					<p><code><var>MATH.format(POLY_AND_FACTOR)</var></code></p>
                     <p>We can now focus on factoring the polynomial: <code><var>MATH.format(POLY_NO_FACTOR)</var></code></p>
 				</div>
 				<div>
@@ -106,7 +106,7 @@
 					</code></p>
 				</div>
 				<div>
-					<p>So we can factor the polynomial as: <code><var>MATH.format(simplify(MATH.parse("(x + #{" + (-A) + "})(x + #{" + (-B) + "})", [PINK, PINK])), simplifyOptions.checkInput)</var></code></p>
+					<p>So we can factor the polynomial as: <code><var>MATH.parseFormat("(x + #{" + (-A) + "})(x + #{" + (-B) + "})", [PINK, PINK], simplifyOptions.checkInput)</var></code></p>
 					<p><b>The fully factored expression is: <code><var>MATH.format(SOLUTION)</var></code></b></p>
 				</div>
 			</div>
