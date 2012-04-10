@@ -374,6 +374,22 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		[ "zebra", 25, 10 ]
 	]);
 
+    var citiesStates = KhanUtil.shuffle([
+        [ "Chicago", "Illinois" ],
+        [ "Los Angeles", "California" ],
+        [ "Honolulu", "Hawaii" ],
+        [ "Miami", "Florida" ],
+        [ "Philidelphia", "Pennsylvania" ],
+        [ "Dallas", "Texas" ],
+        [ "Buffalo", "New York" ],
+    ]);
+
+    var lineProperties = KhanUtil.shuffle([
+        [ "parallel", "do not intersect" ],
+        [ "perpendicular", "form right angles" ],
+        [ "skew", "do not lie in the same plane" ],
+    ]);
+
 	var farmers = KhanUtil.shuffle([
 		{farmer:"farmer", crops:KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk"]), field:"field"},
 		{farmer:"gardener", crops:KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily"]), field:"garden"}
@@ -398,6 +414,15 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		}
 		return 'A ' + word;
 	};
+
+    var sports = KhanUtil.shuffle([
+        "soccer",
+        "baseball",
+        "basketball",
+        "volleyball",
+        "softball",
+        "hockey",
+    ]);
 
 	jQuery.extend( KhanUtil, {
 		person: function( i ) {
@@ -563,6 +588,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		electronic: function( i ) {
 			return electronicStore[i - 1];
 		},
+
 		animal: function( i ) {
 			return animals[i - 1][0];
 		},
@@ -573,6 +599,26 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 		animalStddevLifespan: function( i ) {
 			return animals[i - 1][2];
-		}
+		},
+
+        city: function( i ) {
+            return citiesStates[i - 1][0];
+        },
+
+        state: function( i ) {
+            return citiesStates[i - 1][1];
+        },
+
+        lineType: function( i ) {
+            return lineProperties[i - 1][0];
+        },
+
+        lineProperty: function( i ) {
+            return lineProperties[i - 1][1];
+        },
+
+        sport: function( i ) {
+            return sports[i - 1];
+        },
 	});
 };
