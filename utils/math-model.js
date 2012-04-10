@@ -1,6 +1,5 @@
-jQuery.extend ( KhanUtil, {
-
-    OpStr : {
+(function() {
+    var OpStr = {
         ADD: "+",
         SUB: "-",
         MUL: "*",
@@ -35,746 +34,617 @@ jQuery.extend ( KhanUtil, {
         NEQ: "!=",
         NUM: "num",
         EMP: "empty",
-    },
+    };
 
-    MathModel : function (name) {
+    var OpToLaTeX = { }
+    OpToLaTeX[OpStr.ADD] = "+";
+    OpToLaTeX[OpStr.SUB] = "-";
+    OpToLaTeX[OpStr.MUL] = "\\times";
+    OpToLaTeX[OpStr.TIMES] = "\\times";
+    OpToLaTeX[OpStr.CDOT] = "\\cdot";
+    OpToLaTeX[OpStr.DIV] = "\\div";
+    OpToLaTeX[OpStr.FRAC] = "\\frac";
+    OpToLaTeX[OpStr.DFRAC] = "\\dfrac";
+    OpToLaTeX[OpStr.EQL] = "=";
+    OpToLaTeX[OpStr.LT] = "<";
+    OpToLaTeX[OpStr.GT] = ">";
+    OpToLaTeX[OpStr.LEQ] = "\\leq";
+    OpToLaTeX[OpStr.GEQ] = "\\geq";
+    OpToLaTeX[OpStr.ATAN2] = "\\atan2";
+    OpToLaTeX[OpStr.POW] = "^";
+    OpToLaTeX[OpStr.PM] = "\\pm";
+    OpToLaTeX[OpStr.SIN] = "\\sin";
+    OpToLaTeX[OpStr.COS] = "\\cos";
+    OpToLaTeX[OpStr.TAN] = "\\tan";
+    OpToLaTeX[OpStr.SEC] = "\\sec";
+    OpToLaTeX[OpStr.COT] = "\\cot";
+    OpToLaTeX[OpStr.CSC] = "\\csc";
+    OpToLaTeX[OpStr.LN] = "\\ln";
+    OpToLaTeX[OpStr.COMMA] = ",";
+    OpToLaTeX[OpStr.NEQ] = "\\not=";
+    OpToLaTeX[OpStr.SQRT] = "\\sqrt";
 
-        // Model interface
-        
-        jQuery.extend ( this, {
-            parseFormat: parseFormat,
-            parse: parse,
-            format: format,
-            formatGroup: formatGroup,
-            polynomial: polynomial,
-            graph: graph,
-            evalExpr: evalExpr,
-            isEqual: isEqual,
-        } );
+    // private implementation
 
-        // initialize the model here
-        var OpStr = KhanUtil.OpStr;
-        
-        var OpToLaTeX = { }
-        OpToLaTeX[OpStr.ADD] = "+";
-        OpToLaTeX[OpStr.SUB] = "-";
-        OpToLaTeX[OpStr.MUL] = "\\times";
-        OpToLaTeX[OpStr.TIMES] = "\\times";
-        OpToLaTeX[OpStr.CDOT] = "\\cdot";
-        OpToLaTeX[OpStr.DIV] = "\\div";
-        OpToLaTeX[OpStr.FRAC] = "\\frac";
-        OpToLaTeX[OpStr.DFRAC] = "\\dfrac";
-        OpToLaTeX[OpStr.EQL] = "=";
-        OpToLaTeX[OpStr.LT] = "<";
-        OpToLaTeX[OpStr.GT] = ">";
-        OpToLaTeX[OpStr.LEQ] = "\\leq";
-        OpToLaTeX[OpStr.GEQ] = "\\geq";
-        OpToLaTeX[OpStr.ATAN2] = "\\atan2";
-        OpToLaTeX[OpStr.POW] = "^";
-        OpToLaTeX[OpStr.PM] = "\\pm";
-        OpToLaTeX[OpStr.SIN] = "\\sin";
-        OpToLaTeX[OpStr.COS] = "\\cos";
-        OpToLaTeX[OpStr.TAN] = "\\tan";
-        OpToLaTeX[OpStr.SEC] = "\\sec";
-        OpToLaTeX[OpStr.COT] = "\\cot";
-        OpToLaTeX[OpStr.CSC] = "\\csc";
-        OpToLaTeX[OpStr.LN] = "\\ln";
-        OpToLaTeX[OpStr.COMMA] = ",";
-        OpToLaTeX[OpStr.NEQ] = "\\not=";
-        OpToLaTeX[OpStr.SQRT] = "\\sqrt";
+    var graphAST = function(n, color, range) {
+        var graph = KhanUtil.currentGraph;
 
-        return this;  // end initialization
-
-        // private implementation
-
-        function graph(n, color, range) {
-            var graph = KhanUtil.currentGraph;
-
-            function g(x) {
-                // set up the lexical environment for evaluating ast n
-                var env = {x: x};
-                var val = evalExpr(n, env);
-                return val;
-            }
-
-            if (!range) {
-                range = 10;
-            }
-
-
-            if (graph.last) {
-                jQuery(graph).remove();
-                graph.last.remove();
-
-                graph.style({
-                    stroke: color,
-                    strokeWidth: 3,
-                    fill: "none",
-                    clipRect:[ [-range, -range], [2*range, 2*range] ],
-                    arrows: null
-                });
-                
-                graph.last = graph.plot( g, [-10, 10] );
-            }
-            else {
-                graph.graphInit({
-                    range: range+1,
-                    scale: 20,
-                    axisArrows: "&lt;-&gt;",
-                    tickStep: 1,
-                    labelStep: 1
-                });
-                graph.style({
-                    stroke: color,
-                    strokeWidth: 3,
-                    fill: "none",
-                    clipRect:[ [-range, -range], [2*range, 2*range] ],
-                    arrows: null
-                });
-                
-                graph.plot( g, [-range, range] );
-                graph.last = graph.plot( g, [-range, range] );
-            }
-            
+        var g = function(x) {
+            // set up the lexical environment for evaluating ast n
+            var env = {x: x};
+            var val = evalExpr(n, env);
+            return val;
         }
 
-        function isValidAST(n) {
-            return n.kind() !== void 0;
+        if (!range) {
+            range = 10;
         }
 
-        function isEqual(n1, n2) {
-            var ast = KhanUtil.ast;
 
-            var nid1 = ast.intern(n1);
-            var nid2 = ast.intern(n2);
+        if (graph.last) {
+            $(graph).remove();
+            graph.last.remove();
 
-            if (nid1===nid2) {
-                return true;
-            }
+            graph.style({
+                stroke: color,
+                strokeWidth: 3,
+                fill: "none",
+                clipRect:[ [-range, -range], [2*range, 2*range] ],
+                arrows: null
+            });
 
-            if (n1.op===n2.op && n1.args.length===n2.args.length) {
-                if (n1.args.length===2) {
-                    var n1arg0 = ast.intern(n1.args[0]);
-                    var n1arg1 = ast.intern(n1.args[1]);
-                    var n2arg0 = ast.intern(n2.args[0]);
-                    var n2arg1 = ast.intern(n2.args[1]);
-                    if (n1arg0===n2arg1 && n1arg1===n2arg0) {
-                        return true;
-                    }
+            graph.last = graph.plot( g, [-10, 10] );
+        }
+        else {
+            graph.graphInit({
+                range: range+1,
+                scale: 20,
+                axisArrows: "&lt;-&gt;",
+                tickStep: 1,
+                labelStep: 1
+            });
+            graph.style({
+                stroke: color,
+                strokeWidth: 3,
+                fill: "none",
+                clipRect:[ [-range, -range], [2*range, 2*range] ],
+                arrows: null
+            });
+
+            graph.plot( g, [-range, range] );
+            graph.last = graph.plot( g, [-range, range] );
+        }
+    };
+
+    var isValidAST = function(n) {
+        return n.kind() !== void 0;
+    }
+
+    var isEqualAST = function(n1, n2) {
+        var ast = KhanUtil.ast;
+
+        var nid1 = ast.intern(n1);
+        var nid2 = ast.intern(n2);
+
+        if (nid1===nid2) {
+            return true;
+        }
+
+        if (n1.op===n2.op && n1.args.length===n2.args.length) {
+            if (n1.args.length===2) {
+                var n1arg0 = ast.intern(n1.args[0]);
+                var n1arg1 = ast.intern(n1.args[1]);
+                var n2arg0 = ast.intern(n2.args[0]);
+                var n2arg1 = ast.intern(n2.args[1]);
+                if (n1arg0===n2arg1 && n1arg1===n2arg0) {
+                    return true;
                 }
             }
+        }
+        return false;
+    }
+
+    var polynomial = function(coeffs, ident, lhs) {
+        // construct a polynomial expression
+        // build left recursive ast
+
+        if (coeffs.length === 0) {
+            // we're done
+            return lhs;
+        }
+
+        if (ident === void 0) {
+            // default identifier
+            ident = "x";
+        }
+
+        if (coeffs.length === 1) {
+            // degree zero
+            var rhs = coeffs[0]
+        }
+        else {
+            // construct a term of degree given by the size of coeffs
+            var rhs = {op: "*", args: [coeffs[0], {op: "^", args: [{op: "var", args: [ident]}, coeffs.length-1]}]};
+        }
+
+        if (coeffs[0] === 0) {
+            // zero coefficient, erase term by not updating lhs
+        }
+        else if (lhs === void 0) {
+            // first term, no lhs to contribute, so rhs is lhs
+            var lhs = rhs;
+        }
+        else {
+            lhs = {op: "+", args: [lhs, rhs]}
+        }
+
+        // recurse until no more coefficients
+        return polynomial(coeffs.slice(1), ident, lhs);
+    };
+
+    var isTrigOrLog = function(op) {
+        return ((op === OpStr.SIN) || (op === OpStr.COS) || (op === OpStr.TAN) ||
+            (op === OpStr.SEC) || (op === OpStr.COT) || (op === OpStr.CSC) ||
+            (op === OpStr.LN));
+    };
+
+    var getAlignment = function(expr, index, hphantom, addSpacing) {
+        var iOp = Math.floor(index / 2);
+        if ((expr.opsStyles === undefined) || (expr.opsStyles[iOp] === undefined) ||
+            (expr.opsStyles[iOp].align === undefined)) {
+            return "";
+        }
+        var align = expr.opsStyles[iOp].align;
+        if (align[index % 2] === undefined) {
+            return "";
+        }
+        var str = "";
+        for (var cur = 0; cur < align[index % 2]; cur++) {
+            if (hphantom) {
+                str += "} & \\hphantom{ ";
+            } else {
+                str += "& ";
+            }
+        }
+        if ((align[index % 2] > 0) && addSpacing) {
+            str += "\\; ";
+        }
+        return str;
+    }
+
+    var getOpSymbol = function(expr, iOp) {
+        return getOpStyleAttr(expr, iOp, "symbol", expr.op);
+    };
+
+    var getOpStyleAttr = function (expr, iOp, attrName, defaultValue) {
+        var attr = defaultValue;
+        if ((expr.opsStyles !== undefined) && (expr.opsStyles[iOp] !== undefined)  && (expr.opsStyles[iOp][attrName] !== undefined)) {
+            attr = expr.opsStyles[iOp][attrName];
+        }
+        return attr;
+    };
+
+    var addOpStyle = function(text, expr, index, spacingBefore, spacingAfter) {
+        if ((expr.opsStyles === undefined) || (expr.opsStyles[index] === undefined)) {
+            return text + " ";
+        }
+        var opStyle = expr.opsStyles[index];
+        if (opStyle.hidden === true) {
+            return "";
+        }
+        if (opStyle.idStyle === expr.idStyle) {
+            return text + " ";
+        }
+        if (opStyle.color !== undefined) {
+            var str = "\\color{" + opStyle.color + "}{";
+            if (spacingBefore) {
+                str += "\\;";
+            }
+            str += text + " ";
+            if (spacingAfter) {
+                str += "\\;";
+            }
+            str += "}";
+            text = str;
+        }
+        if (opStyle.cancel) {
+            text = "\\cancel{" + text + "}";
+            if (typeof opStyle.cancel === "string") {
+                text = "\\color{" + opStyle.cancel + "}{" + text + "}";
+            }
+        }
+        return text;
+    }
+
+    var addStyle = function(text, expr) {
+        if ((expr.parent !== undefined) &&
+            (expr.parent.style !== undefined) &&
+            (expr.style != undefined) &&
+            (expr.style.idStyle !== undefined) &&
+            (expr.parent.style.idStyle === expr.style.idStyle)) {
+            return text;
+                    }
+        if (expr.style === undefined) {
+            return text;
+        }
+        if (expr.style.color !== undefined) {
+            text = "\\color{" + expr.style.color + "}{" + text + "}";
+        }
+        if (expr.style.cancel) {
+            text = "\\cancel{" + text + "}";
+            if (typeof expr.style.cancel === "string") {
+                text = "\\color{" + expr.style.cancel + "}{" + text + "}";
+            }
+        }
+        return text;
+    };
+
+    var parseFormat = function(text, styles, simplifyOptions, hphantom, textSize) {
+        var expr = parse(text, styles);
+        var str = format(expr, simplifyOptions, textSize, hphantom);
+        if (hphantom) {
+            str = "\\hphantom{" + str + "}";
+        }
+        return str;
+    };
+
+    var formatGroup = function(group, selection, simplifyOptions) {
+        if (selection === undefined) {
+            selection = [];
+            for (var iExpr = 0; iExpr < group.length; iExpr++) {
+                selection.push(iExpr);
+            }
+        }
+        var str = "\\begin{alignat}{5}";
+        for (var iExpr = 0; iExpr < group.length; iExpr++) {
+            if ($.inArray(iExpr, selection) === -1) {
+                var expr = group[iExpr];
+                str += "\\hphantom{" + format(expr, simplifyOptions, undefined, true) + "} \\\\";
+            }
+        }
+        for (var iSel = 0; iSel < selection.length; iSel++) {
+            str += format(group[selection[iSel]], simplifyOptions) + " \\\\";
+            if (iSel != selection.length - 1) {
+                str += "\\\\";
+            }
+        }
+        str += "\\end{alignat}";
+        return str;
+    }
+
+    var exprIsNumber = function(expr) {
+        if (expr === undefined) {
             return false;
         }
+        return ((typeof expr === "number") || (expr.op === OpStr.NUM));
+    }
 
-        function polynomial(coeffs, ident, lhs) {
-            // construct a polynomial expression
-            // build left recursive ast
-
-            if (coeffs.length === 0) {
-                // we're done
-                return lhs;
-            }
-
-            if (ident === void 0) {
-                // default identifier
-                ident = "x";
-            }
-
-            if (coeffs.length === 1) {
-                // degree zero
-                var rhs = coeffs[0]
-            }
-            else {
-                // construct a term of degree given by the size of coeffs
-                var rhs = {op: "times", args: [coeffs[0], {op: "^", args: [{op: "var", args: [ident]}, coeffs.length-1]}]};
-            }
-
-            if (coeffs[0] === 0) {
-                // zero coefficient, erase term by not updating lhs
-            }
-            else if (lhs === void 0) {
-                // first term, no lhs to contribute, so rhs is lhs
-                var lhs = rhs;
-            }
-            else {
-                lhs = {op: "+", args: [lhs, rhs]}
-            }
-
-            // recurse until no more coefficients
-            return polynomial(coeffs.slice(1), ident, lhs);
+    // format an AST
+    var format = function(expr, simplifyOptions, textSize, hphantom) {
+        if (expr === undefined) {
+            return "";
         }
-
-        function parse(str, styles) {
-            // call the parser defined below
-            return KhanUtil.parse(str, styles).expr();
-        }
-
-        function isTrigOrLog(op) {
-            return ((op === OpStr.SIN) || (op === OpStr.COS) || (op === OpStr.TAN) || 
-                (op === OpStr.SEC) || (op === OpStr.COT) || (op === OpStr.CSC) || 
-                (op === OpStr.LN));
-        }
-
-        function getAlignment(expr, index, hphantom, addSpacing) {
-            var iOp = Math.floor(index / 2);
-            if ((expr.opsStyles === undefined) || (expr.opsStyles[iOp] === undefined) ||
-                (expr.opsStyles[iOp].align === undefined)) {
-                return "";
+        if (KhanUtil.simplify !== undefined) {
+            if (simplifyOptions === undefined) {
+                simplifyOptions = KhanUtil.simplifyOptions.minimal;
             }
-            var align = expr.opsStyles[iOp].align;
-            if (align[index % 2] === undefined) {
-                return "";
-            }
-            var str = "";
-            for (var cur = 0; cur < align[index % 2]; cur++) {
-                if (hphantom) {
-                    str += "} & \\hphantom{ ";
-                } else {
-                    str += "& ";
+            expr = KhanUtil.simplify(expr, simplifyOptions);
+        }
+        return formatRec(expr, textSize, hphantom);
+    }
+
+    // format an AST
+    var formatRec = function(n, textSize, hphantom, parent) {
+        if (textSize===void 0) {
+            textSize = "normalsize";
+        }
+        if (n === undefined) {
+            return "";
+        }
+        var text;
+
+        if ($.type(n)==="number") {
+            text = "" + n;
+        }
+        else if ($.type(n)==="object") {
+            // format sub-expressions
+            if ((n.op !== "var") && (n.op !== "cst")) {
+                var args = [];
+                for (var i = 0; i < n.args.length; i++) {
+                    n.args[i].parent = n;
+                    args[i] = formatRec(n.args[i], textSize, hphantom);
                 }
             }
-            if ((align[index % 2] > 0) && addSpacing) {
-                str += "\\; ";
-            }
-            return str;
-        }
 
-        function getOpSymbol(expr, iOp) {
-            return getOpStyleAttr(expr, iOp, "symbol", expr.op);
-        }
-
-        function getOpStyleAttr(expr, iOp, attrName, defaultValue) {
-            var attr = defaultValue;
-            if ((expr.opsStyles !== undefined) && (expr.opsStyles[iOp] !== undefined)  && (expr.opsStyles[iOp][attrName] !== undefined)) {
-                attr = expr.opsStyles[iOp][attrName];
-            }
-            return attr;
-        }
-
-        function addOpStyle(text, expr, index, spacingBefore, spacingAfter) {
-            if ((expr.opsStyles === undefined) || (expr.opsStyles[index] === undefined)) {
-                return text + " ";
-            }
-            var opStyle = expr.opsStyles[index];
-            if (opStyle.hidden === true) {
-                return "";
-            }
-            if (opStyle.idStyle === expr.idStyle) {
-                return text + " ";
-            }
-            if (opStyle.color !== undefined) {
-                var str = "\\color{" + opStyle.color + "}{";
-                if (spacingBefore) {
-                    str += "\\;";
-                }
-                str += text + " ";
-                if (spacingAfter) {
-                    str += "\\;";
-                }
-                str += "}";
-                text = str;
-            }
-            if (opStyle.cancel) {
-                text = "\\cancel{" + text + "}";
-                if (typeof opStyle.cancel === "string") {
-                    text = "\\color{" + opStyle.cancel + "}{" + text + "}";
-                }
-            }
-            return text;
-        }
-
-        function addStyle(text, expr) {
-            if ((expr.parent !== undefined) &&
-                (expr.parent.style !== undefined) &&
-                (expr.style != undefined) &&
-                (expr.style.idStyle !== undefined) &&
-                (expr.parent.style.idStyle === expr.style.idStyle)) {
-                return text;
-                        }
-            if (expr.style === undefined) {
-                return text;
-            }
-            if (expr.style.color !== undefined) {
-                text = "\\color{" + expr.style.color + "}{" + text + "}";                
-            }
-            if (expr.style.cancel) {
-                text = "\\cancel{" + text + "}";
-                if (typeof expr.style.cancel === "string") {
-                    text = "\\color{" + expr.style.cancel + "}{" + text + "}";
-                }
-            }
-            return text;
-        }
-
-        function parseFormat(text, styles, hphantom, textSize) {
-            var expr = parse(text, styles);
-            var str = format(expr, textSize, hphantom);
-            if (hphantom) {
-                str = "\\hphantom{" + str + "}";
-            }
-            return str;
-        }
-
-        function formatGroup(group, selection) {
-            if (selection === undefined) {
-                selection = [];
-                for (var iExpr = 0; iExpr < group.length; iExpr++) {
-                    selection.push(iExpr);
-                }
-            }
-            var str = "\\begin{alignat}{5}";
-            for (var iExpr = 0; iExpr < group.length; iExpr++) {
-                if ($.inArray(iExpr, selection) === -1) {
-                    var expr = group[iExpr];
-                    str += "\\hphantom{" + format(expr, undefined, true) + "} \\\\";
-                }
-            }
-            for (var iSel = 0; iSel < selection.length; iSel++) {
-                str += format(group[selection[iSel]]) + " \\\\";
-                if (iSel != selection.length - 1) {
-                    str += "\\\\";
-                }
-            }
-            str += "\\end{alignat}";
-            return str;
-        }
-
-        function exprIsNumber(expr) {
-            if (expr === undefined) {
-                return false;
-            }
-            return ((typeof expr === "number") || (expr.op === OpStr.NUM));
-        }
-
-        // format an AST
-        function format(expr, textSize, hphantom) {
-            if (expr === undefined) {
-                return "";
-            }
-            if (KhanUtil.simplify !== undefined) {
-                expr = KhanUtil.simplify(expr, KhanUtil.simplifyOptions.minimal);
-            }
-            return formatRec(expr, textSize, hphantom);
-        }
-
-        // format an AST
-        function formatRec(n, textSize, hphantom, parent) {
-            if (textSize===void 0) {
-                textSize = "normalsize";
-            }
-            if (n === undefined) {
-                return "";
-            }
-            var text;
-
-            if (jQuery.type(n)==="number") {
-                text = "" + n;
-            }
-            else if (jQuery.type(n)==="object") {
-                // format sub-expressions
-                if ((n.op !== "var") && (n.op !== "cst")) {
-                    var args = [];
-                    for (var i = 0; i < n.args.length; i++) {
-                        n.args[i].parent = n;
-                        args[i] = formatRec(n.args[i], textSize, hphantom);
-                    }
-                }
-
-                // format operator
-                switch (n.op) {
-                case OpStr.NUM:
-                    text = n.args[0];
-                    break;
-                case OpStr.VAR:
-                case OpStr.CST:
-                    text = getAlignment(n, 0, hphantom);
-                    text += n.args[0];
+            // format operator
+            switch (n.op) {
+            case OpStr.NUM:
+                text = n.args[0];
+                break;
+            case OpStr.VAR:
+            case OpStr.CST:
+                text = getAlignment(n, 0, hphantom);
+                text += n.args[0];
+                text += getAlignment(n, 1, hphantom);
+                break;
+            case OpStr.SUB:
+                if (n.args.length===1) {
+                    text = getAlignment(n, 0, hphantom, true);
+                    text += addOpStyle(OpToLaTeX[n.op], n, 0, true, false) + args[0];
                     text += getAlignment(n, 1, hphantom);
-                    break;
-                case OpStr.SUB:
-                    if (n.args.length===1) {
-                        text = getAlignment(n, 0, hphantom, true);
-                        text += addOpStyle(OpToLaTeX[n.op], n, 0, true, false) + args[0];
-                        text += getAlignment(n, 1, hphantom);
-                    }
-                    else {
-                        text = args[0];
-                        text += getAlignment(n, 0, hphantom, true);
-                        text += addOpStyle(OpToLaTeX[n.op], n, 0, true, true);
-                        text += getAlignment(n, 1, hphantom, true);
-                        text += args[1];
-                    }
-                    break;
-                case OpStr.EMP:
-                    text = "";
-                    break;
-                case OpStr.DIV:
-                case OpStr.PM:
-                case OpStr.LT:
-                case OpStr.GT:
-                case OpStr.LEQ:
-                case OpStr.GEQ:
-                case OpStr.NEQ:
+                }
+                else {
                     text = args[0];
                     text += getAlignment(n, 0, hphantom, true);
-                    text += addOpStyle(OpToLaTeX[n.op], n, 0, true, true) + " ";
+                    text += addOpStyle(OpToLaTeX[n.op], n, 0, true, true);
                     text += getAlignment(n, 1, hphantom, true);
                     text += args[1];
-                    break;
-                case OpStr.POW:
-                    // if subexpr is lower precedence, wrap in parens
-                    var lhs = n.args[0];
-                    var rhs = n.args[1];
-                    if ((typeof lhs === "object") && isTrigOrLog(lhs.op)) {
-                        text = OpToLaTeX[lhs.op] + getAlignment(n, 0, hphantom) + "^" + getAlignment(n,1, hphantom);
-                        text += "{" + args[1] + "}";
-                        text += formatRec(lhs.args[0], textSize, hphantom);
-                        break;
-                    }
-                    if ((lhs.args && lhs.args.length===2) || (rhs.args && rhs.args.length===2)) {
-                        if (lhs.op===OpStr.ADD || lhs.op===OpStr.SUB ||
-                            lhs.op===OpStr.MUL || lhs.op===OpStr.DIV ||
-                            lhs.op===OpStr.SQRT) {
-                            args[0] = "(" + args[0] + ")";
-                        }
-                    }
-                    text = args[0] + getAlignment(n, 0, hphantom) + "^" + getAlignment(n, 1, hphantom) + "{" + args[1] + "}";
-                    break;
-                case OpStr.SIN:
-                case OpStr.COS:
-                case OpStr.TAN:
-                case OpStr.SEC:
-                case OpStr.COT:
-                case OpStr.CSC:
-                case OpStr.LN:
-                    text = addOpStyle(OpToLaTeX[n.op], n, 0, false, true) + "{" + args[0] + "}";
-                    break;
-                case OpStr.FRAC:
-                case OpStr.DFRAC:
-                    text = addOpStyle(OpToLaTeX[n.op], n, 0, false, false) + "{" + args[0] + "}{" + args[1] + "}";
-                    break;
-                case OpStr.DERIV:
-                    text = "\\dfrac{d" + args[0] + "}{d" + args[1] + "}";
-                    break; 
-                case OpStr.SQRT:
-                    switch (args.length) {
-                    case 1:
-                        text = addOpStyle(OpToLaTeX[n.op], n, 0) + "{" + args[0] + "}";
-                        break;
-                    case 2:
-                        text = addOpStyle(OpToLaTeX[n.op] + "[" + args[0] + "]", n, 0) + "{" + args[0] + "}";
-                        break;
-                    }
-                    break;
-                case OpStr.MUL:
-                    // if subexpr is lower precedence, wrap in parens
-                    var prevTerm;
-                    text = "";
-                    jQuery.each(n.args, function (index, term) {
-                        var opIndex = index - 1;
-                        var symbol = getOpSymbol(n, opIndex);
-                        if (((term.op === OpStr.ADD) || (term.op === OpStr.SUB)) && (term.args.length > 1)) {
-                            args[index] = "(" + args[index] + ")";
-                            term = {op:"()", args:[term]};
-                        }
-                        if ((term.args && (term.args.length >= 2) && (term.op !== OpStr.POW)) ||
-                            !((symbol === OpStr.MUL) && (term.op === OpStr.PAREN ||
-                                 term.op===OpStr.POW ||
-                                 term.op===OpStr.VAR ||
-                                 term.op===OpStr.CST ||
-                                 (exprIsNumber(prevTerm) && !exprIsNumber(term))
-                            ))) {
-                            if (opIndex >= 0) {
-                                text += getAlignment(n, opIndex * 2, hphantom, true);
-                                text += addOpStyle(OpToLaTeX[symbol], n, opIndex, true, true);
-                                text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
-                            }
-                            text += args[index];
-                        }
-                        else {
-                            text += getAlignment(n, opIndex * 2, hphantom, true);
-                            text += args[index];
-                            text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
-                        }
-                        prevTerm = term;
-                    });
-                    break;
-                case OpStr.ADD:
-                case OpStr.COMMA:
-                case OpStr.EQL:
-                    jQuery.each(args, function (index, value) {
-                        var opIndex = index - 1;
-                        if (index === 0) {
-                            text = value;
-                        }
-                        else {
-                            text += getAlignment(n, opIndex * 2, hphantom, true);
-                            text += addOpStyle(OpToLaTeX[n.op], n, opIndex, true, true);
-                            text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
-                            text += value;
-                        }
-                    });
-                    break;
-                case OpStr.PAREN:
-                    text = getAlignment(n, 0, hphantom);
-                    text += addOpStyle("(", n, 0, false, false);
-                    text += getAlignment(n, 1, hphantom);
-                    text += args[0];
-                    text += getAlignment(n, 2, hphantom);
-                    text += addOpStyle(")", n, 1, false, false);
-                    text += getAlignment(n, 3, hphantom);
-                    break;
-                case OpStr.ABS:
-                    text = addOpStyle("|", n, 0, false, false) + args[0] +
-                        addOpStyle("|", n, 1, false, false);
-                    break;
-                default:
-                    KhanUtil.assert(false, "unimplemented eval operator");
+                }
+                break;
+            case OpStr.EMP:
+                text = "";
+                break;
+            case OpStr.DIV:
+            case OpStr.PM:
+            case OpStr.LT:
+            case OpStr.GT:
+            case OpStr.LEQ:
+            case OpStr.GEQ:
+            case OpStr.NEQ:
+                text = args[0];
+                text += getAlignment(n, 0, hphantom, true);
+                text += addOpStyle(OpToLaTeX[n.op], n, 0, true, true) + " ";
+                text += getAlignment(n, 1, hphantom, true);
+                text += args[1];
+                break;
+            case OpStr.POW:
+                // if subexpr is lower precedence, wrap in parens
+                var lhs = n.args[0];
+                var rhs = n.args[1];
+                if ((typeof lhs === "object") && isTrigOrLog(lhs.op)) {
+                    text = OpToLaTeX[lhs.op] + getAlignment(n, 0, hphantom) + "^" + getAlignment(n,1, hphantom);
+                    text += "{" + args[1] + "}";
+                    text += formatRec(lhs.args[0], textSize, hphantom);
                     break;
                 }
+                if ((lhs.args && lhs.args.length===2) || (rhs.args && rhs.args.length===2)) {
+                    if (lhs.op===OpStr.ADD || lhs.op===OpStr.SUB ||
+                        lhs.op===OpStr.MUL || lhs.op===OpStr.DIV ||
+                        lhs.op===OpStr.SQRT) {
+                        args[0] = "(" + args[0] + ")";
+                    }
+                }
+                text = args[0] + getAlignment(n, 0, hphantom) + "^" + getAlignment(n, 1, hphantom) + "{" + args[1] + "}";
+                break;
+            case OpStr.SIN:
+            case OpStr.COS:
+            case OpStr.TAN:
+            case OpStr.SEC:
+            case OpStr.COT:
+            case OpStr.CSC:
+            case OpStr.LN:
+                text = addOpStyle(OpToLaTeX[n.op], n, 0, false, true) + "{" + args[0] + "}";
+                break;
+            case OpStr.FRAC:
+            case OpStr.DFRAC:
+                text = addOpStyle(OpToLaTeX[n.op], n, 0, false, false) + "{" + args[0] + "}{" + args[1] + "}";
+                break;
+            case OpStr.DERIV:
+                text = "\\dfrac{d" + args[0] + "}{d" + args[1] + "}";
+                break; 
+            case OpStr.SQRT:
+                switch (args.length) {
+                case 1:
+                    text = addOpStyle(OpToLaTeX[n.op], n, 0) + "{" + args[0] + "}";
+                    break;
+                case 2:
+                    text = addOpStyle(OpToLaTeX[n.op] + "[" + args[0] + "]", n, 0) + "{" + args[0] + "}";
+                    break;
+                }
+                break;
+            case OpStr.MUL:
+                // if subexpr is lower precedence, wrap in parens
+                var prevTerm;
+                text = "";
+                $.each(n.args, function (index, term) {
+                    var opIndex = index - 1;
+                    var symbol = getOpSymbol(n, opIndex);
+                    if (((term.op === OpStr.ADD) || (term.op === OpStr.SUB)) && (term.args.length > 1)) {
+                        args[index] = "(" + args[index] + ")";
+                        term = {op:"()", args:[term]};
+                    }
+                    if ((term.args && (term.args.length >= 2) && (term.op !== OpStr.POW)) ||
+                        !((symbol === OpStr.MUL) && (term.op === OpStr.PAREN ||
+                             term.op===OpStr.POW ||
+                             term.op===OpStr.VAR ||
+                             term.op===OpStr.CST ||
+                             (exprIsNumber(prevTerm) && !exprIsNumber(term))
+                        ))) {
+                        if (opIndex >= 0) {
+                            text += getAlignment(n, opIndex * 2, hphantom, true);
+                            text += addOpStyle(OpToLaTeX[symbol], n, opIndex, true, true);
+                            text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
+                        }
+                        text += args[index];
+                    }
+                    else {
+                        text += getAlignment(n, opIndex * 2, hphantom, true);
+                        text += args[index];
+                        text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
+                    }
+                    prevTerm = term;
+                });
+                break;
+            case OpStr.ADD:
+            case OpStr.COMMA:
+            case OpStr.EQL:
+                $.each(args, function (index, value) {
+                    var opIndex = index - 1;
+                    if (index === 0) {
+                        text = value;
+                    }
+                    else {
+                        text += getAlignment(n, opIndex * 2, hphantom, true);
+                        text += addOpStyle(OpToLaTeX[n.op], n, opIndex, true, true);
+                        text += getAlignment(n, opIndex * 2 + 1, hphantom, true);
+                        text += value;
+                    }
+                });
+                break;
+            case OpStr.PAREN:
+                text = getAlignment(n, 0, hphantom);
+                text += addOpStyle("(", n, 0, false, false);
+                text += getAlignment(n, 1, hphantom);
+                text += args[0];
+                text += getAlignment(n, 2, hphantom);
+                text += addOpStyle(")", n, 1, false, false);
+                text += getAlignment(n, 3, hphantom);
+                break;
+            case OpStr.ABS:
+                text = addOpStyle("|", n, 0, false, false) + args[0] +
+                    addOpStyle("|", n, 1, false, false);
+                break;
+            default:
+                KhanUtil.assert(false, "unimplemented eval operator");
+                break;
             }
-            else {
-                KhanUtil.assert(false, "invalid expression type");
-            }
-            text = addStyle(text, n);
-            return text;
         }
-        
-        function evalExpr(n, env) {
+        else {
+            KhanUtil.assert(false, "invalid expression type");
+        }
+        text = addStyle(text, n);
+        return text;
+    };
 
-            var ast = KhanUtil.ast;
-            var assert = KhanUtil.assert;
+    var evalExpr = function(n, env) {
 
-            var val;
+        var ast = KhanUtil.ast;
+        var assert = KhanUtil.assert;
 
-            if (jQuery.type(n)==="string" ||
-                jQuery.type(n)==="number") {
-                val = n;
+        var val;
+
+        if ($.type(n)==="string" ||
+            $.type(n)==="number") {
+            val = n;
+        } else if ($.type(n)==="object") {
+            var args = [];
+            for (var i = 0; i < n.args.length; i++) {
+                args[i] = eval(n.args[i], env);
             }
-            else
-                if (jQuery.type(n)==="object") {
-                    var args = [];
-                    for (var i = 0; i < n.args.length; i++) {
-                        args[i] = eval(n.args[i], env);
-                    }
-                    
-                    switch (n.op) {
-                    case OpStr.NUM:
-                        val = args[0];
-                        break;
-                    case OpStr.VAR:
-                    case OpStr.CST:
-                        assert(args.length===1, "wrong number of arguments to var or cst");
-                        val = env[args[0]];
-                        break;
-                    case OpStr.SUB:
-                        assert(args.length===2, "wrong number of arguments to subtract");
-                        switch (args.length) {
-                        case 1:
-                            val = -args[0];
-                            break;
-                        case 2:
-                            val = args[0] - args[1];
-                            break;
-                        }
-                        break;
-                    case OpStr.DIV:
-                    case OpStr.FRAC:
-                    case OpStr.DFRAC:
-                        assert(args.length===2, "wrong number of arguments to div/frac");
-                        val = args[0] / args[1];
-                        break;
-                    case OpStr.POW:
-                        assert(args.length===2, "wrong number of arguments to pow");
-                        val = Math.pow(args[0], args[1]);
-                        break;
-                    case OpStr.SIN:
-                        assert(args.length===1, "wrong number of arguments to sin");
-                        val = Math.sin(args[0]);
-                        break;
-                    case OpStr.COS:
-                        assert(args.length===1, "wrong number of arguments to cos");
-                        val = Math.cos(args[0]);
-                        break;
-                    case OpStr.TAN:
-                        assert(args.length===1, "wrong number of arguments to tan");
-                        val = Math.tan(args[0]);
-                        break;
-                    case OpStr.SQRT:
-                        assert(args.length < 3, "wrong number of arguments to sqrt");
-                        switch (args.length) {
-                        case 1:
-                            val = Math.sqrt(args[0]);
-                            break;
-                        case 2:
-                            val = Math.pow(args[0], 1/args[1]);
-                            break;
-                        }
-                        break;
-                    case OpStr.MUL:
-                    case OpStr.CDOT:
-                    case OpStr.TIMES:
-                        var val = 1;
-                        jQuery.each(args, function (index, value) {
-                            val *= value;
-                        });
-                        break;
-                    case OpStr.ADD:
-                        var val = 0;
-                        jQuery.each(args, function (index, value) {
-                            val += value;
-                        });
-                        break;
-                    case OpStr.PAREN:
-                        var val = args[0];
-                        break;
-                    case OpStr.SEC:
-                    case OpStr.COT:
-                    case OpStr.CSC:
-                    case OpStr.LN:
-                    case OpStr.PM:
-                    case OpStr.EQL:
-                    case OpStr.NEQ:
-                    case OpStr.LT:
-                    case OpStr.GT:
-                    case OpStr.LEQ:
-                    case OpStr.GEQ:
-                    case OpStr.COMMA:
-                    default:
-                        KhanUtil.assert(false, "unimplemented eval operator");
-                        break;
-                    }
-            } else {
-                KhanUtil.assert(false, "invalid expression type");
+
+            switch (n.op) {
+            case OpStr.NUM:
+                val = args[0];
+                break;
+            case OpStr.VAR:
+            case OpStr.CST:
+                assert(args.length===1, "wrong number of arguments to var or cst");
+                val = env[args[0]];
+                break;
+            case OpStr.SUB:
+                assert(args.length===2, "wrong number of arguments to subtract");
+                switch (args.length) {
+                case 1:
+                    val = -args[0];
+                    break;
+                case 2:
+                    val = args[0] - args[1];
+                    break;
+                }
+                break;
+            case OpStr.DIV:
+            case OpStr.FRAC:
+            case OpStr.DFRAC:
+                assert(args.length===2, "wrong number of arguments to div/frac");
+                val = args[0] / args[1];
+                break;
+            case OpStr.POW:
+                assert(args.length===2, "wrong number of arguments to pow");
+                val = Math.pow(args[0], args[1]);
+                break;
+            case OpStr.SIN:
+                assert(args.length===1, "wrong number of arguments to sin");
+                val = Math.sin(args[0]);
+                break;
+            case OpStr.COS:
+                assert(args.length===1, "wrong number of arguments to cos");
+                val = Math.cos(args[0]);
+                break;
+            case OpStr.TAN:
+                assert(args.length===1, "wrong number of arguments to tan");
+                val = Math.tan(args[0]);
+                break;
+            case OpStr.SQRT:
+                assert(args.length < 3, "wrong number of arguments to sqrt");
+                switch (args.length) {
+                case 1:
+                    val = Math.sqrt(args[0]);
+                    break;
+                case 2:
+                    val = Math.pow(args[0], 1/args[1]);
+                    break;
+                }
+                break;
+            case OpStr.MUL:
+            case OpStr.CDOT:
+            case OpStr.TIMES:
+                var val = 1;
+                $.each(args, function (index, value) {
+                    val *= value;
+                });
+                break;
+            case OpStr.ADD:
+                var val = 0;
+                $.each(args, function (index, value) {
+                    val += value;
+                });
+                break;
+            case OpStr.PAREN:
+                var val = args[0];
+                break;
+            case OpStr.SEC:
+            case OpStr.COT:
+            case OpStr.CSC:
+            case OpStr.LN:
+            case OpStr.PM:
+            case OpStr.EQL:
+            case OpStr.NEQ:
+            case OpStr.LT:
+            case OpStr.GT:
+            case OpStr.LEQ:
+            case OpStr.GEQ:
+            case OpStr.COMMA:
+            default:
+                KhanUtil.assert(false, "unimplemented eval operator");
+                break;
             }
-            return val;
-        }        
-    }, // MathModel
-
-});
-
-KhanUtil.MathModel.init = function() {
-    // this is the entry point for the model
-    return new KhanUtil.MathModel();
-};
-
-jQuery.extend ( KhanUtil, {
-
-    parse: function (src, styles) {
-        src = src.replace( /\u2212/g, "-");
-        if (styles === undefined) {
-            styles = [];
         } else {
-            for (var iStyle = 0; iStyle < styles.length; iStyle++) {
-               var style = styles[iStyle];
-               if (typeof style === "string") {
-                  style = {color:style};
-               }
-               style.idStyle = iStyle;
-               styles[iStyle] = style;
-            }
+            KhanUtil.assert(false, "invalid expression type");
         }
-        var TK_NONE        = 0;
-        var TK_ADD        = '+'.charCodeAt(0);
-        var TK_CARET        = '^'.charCodeAt(0);
-        var TK_DIV        = '/'.charCodeAt(0);
-        var TK_EQL        = '='.charCodeAt(0);
-        var TK_LT        = '<'.charCodeAt(0);
-        var TK_GT        = '>'.charCodeAt(0);
-        var TK_LEFTBRACE    = '{'.charCodeAt(0);
-        var TK_LEFTBRACKET    = '['.charCodeAt(0);
-        var TK_LEFTPAREN    = '('.charCodeAt(0);
-        var TK_MUL        = '*'.charCodeAt(0);
-        var TK_NUM        = '0'.charCodeAt(0);
-        var TK_RIGHTBRACE     = '}'.charCodeAt(0);
-        var TK_RIGHTBRACKET    = ']'.charCodeAt(0);
-        var TK_RIGHTPAREN    = ')'.charCodeAt(0);
-        var TK_SUB        = '-'.charCodeAt(0);
-        var TK_VAR        = 'a'.charCodeAt(0);
-        var TK_COEFF        = 'A'.charCodeAt(0);
-        var TK_VAR        = 'a'.charCodeAt(0);
-        var TK_ABS        = '|'.charCodeAt(0);
-        var TK_COMMA        = ','.charCodeAt(0);
-        var TK_SPACE        = ' '.charCodeAt(0);
-        var TK_BACKSLASH    = '\\'.charCodeAt(0);
-        var TK_AMP        = '&'.charCodeAt(0);
-        var TK_SHARP        = '#'.charCodeAt(0);
-        var TK_CDOT        = 0x100;
-        var TK_TIMES        = 0x101;
-        var TK_PM        = 0x102;
-        var TK_FRAC        = 0x103;
-        var TK_DFRAC        = 0x104;
-        var TK_LN        = 0x105;
-        var TK_COS        = 0x106;
-        var TK_SIN        = 0x107;
-        var TK_TAN        = 0x108;
-        var TK_SEC        = 0x109;
-        var TK_COT        = 0x110;
-        var TK_CSC        = 0x111;
-        var TK_SQRT        = 0x112;
-        var TK_LEQ        = 0x113;
-        var TK_GEQ        = 0x114;
-        var TK_NOT        = 0x115;
-        var TK_NEXT        = 0x116;
-        var TK_COLOR        = 0x117;
+        return val;
+    };
 
-        var OpStr = KhanUtil.OpStr;
-        var curIdStyle = 0;
+// TODO : separte into math-parse.js
 
-        var T0=TK_NONE, T1=TK_NONE;
-
-        var tokenToOp = [ ];
-        tokenToOp[TK_FRAC]  = OpStr.FRAC;
-        tokenToOp[TK_DFRAC] = OpStr.DFRAC;
-        tokenToOp[TK_SQRT]  = OpStr.SQRT;
-        tokenToOp[TK_ADD]   = OpStr.ADD;
-        tokenToOp[TK_SUB]   = OpStr.SUB;
-        tokenToOp[TK_PM]    = OpStr.PM;
-        tokenToOp[TK_CARET] = OpStr.POW;
-        tokenToOp[TK_MUL]   = OpStr.MUL;
-        tokenToOp[TK_TIMES] = OpStr.TIMES;
-        tokenToOp[TK_CDOT]  = OpStr.CDOT;
-        tokenToOp[TK_DIV]   = OpStr.FRAC;
-        tokenToOp[TK_SIN]   = OpStr.SIN;
-        tokenToOp[TK_COS]   = OpStr.COS;
-        tokenToOp[TK_TAN]   = OpStr.TAN;
-        tokenToOp[TK_SEC]   = OpStr.SEC;
-        tokenToOp[TK_COT]   = OpStr.COT;
-        tokenToOp[TK_CSC]   = OpStr.CSC;
-        tokenToOp[TK_LN]    = OpStr.LN;
-        tokenToOp[TK_EQL]   = OpStr.EQL;
-        tokenToOp[TK_LT]   = OpStr.LT;
-        tokenToOp[TK_GT]   = OpStr.GT;
-        tokenToOp[TK_GEQ]   = OpStr.GEQ;
-        tokenToOp[TK_LEQ]   = OpStr.LEQ;
-        tokenToOp[TK_ABS]   = OpStr.ABS;
-
-        var scan = scanner(src);
-
-        return {
-            expr : expr ,
-        };
-
-        // begin private functions
-
-        function start() {
+    var parse = function (src, styles) {
+        var start = function() {
             T0 = scan.start();
         }
 
-        function hd () {
+        var hd = function() {
             //KhanUtil.assert(T0!==0, "hd() T0===0");
             return T0;
         }
 
-        function alignment() {
+        var alignment = function() {
             return scan.alignment();
         }
 
-        function lexeme () {
+        var lexeme = function() {
             return scan.lexeme();
         }
 
-        function matchToken (t) {
+        var matchToken = function(t) {
             if (T0 == t) {
                 next();
                 return true;
@@ -782,19 +652,19 @@ jQuery.extend ( KhanUtil, {
             return false;
         }
 
-        function next () {
+        var next = function() {
             T0 = T1;
             T1 = TK_NONE;
             if (T0 === TK_NONE) {
                 T0 = scan.start();
             }
         }
-        
-        function replace (t) {
+
+        var replace = function(t) {
             T0 = t;
         }
 
-        function eat (tc) {
+        var eat = function(tc) {
             var tk = hd();
             if (tk !== tc) {
                 if (typeof console !== "undefined") {
@@ -803,8 +673,8 @@ jQuery.extend ( KhanUtil, {
             }
             next();
         }
-        
-        function match (tc) {
+
+        var match = function(tc) {
             var tk = hd();
             if (tk !== tc)
                 return false;
@@ -812,7 +682,7 @@ jQuery.extend ( KhanUtil, {
             return true;
         }
 
-        function setStyle(e, style) {
+        var setStyle = function(e, style) {
             if (typeof e === "number") {
                 e = {op:"num", args:[e]};
             }
@@ -820,7 +690,7 @@ jQuery.extend ( KhanUtil, {
             return e;
         }
 
-        function primaryExpr () {
+        var primaryExpr = function() {
             var e;
             var t;
             var op;
@@ -887,7 +757,7 @@ jQuery.extend ( KhanUtil, {
                     eat(TK_CARET);
                     var expr2 = braceOptionalExpr();
                     e = {op: tokenToOp[t], args: [unaryExpr()]};
-                    e = {op: OpStr.POW, args: [e, expr2]};                    
+                    e = {op: OpStr.POW, args: [e, expr2]};
                 } else {
                     e = {op: tokenToOp[t], args: [unaryExpr()]};
                 }
@@ -902,14 +772,14 @@ jQuery.extend ( KhanUtil, {
             return e;
         }
 
-        function braceExpr() {
+        var braceExpr = function() {
             eat(TK_LEFTBRACE);
             var e = commaExpr();
             eat(TK_RIGHTBRACE);
             return e;
         }
 
-        function braceOptionalExpr() {
+        var braceOptionalExpr = function() {
             if (hd() === TK_LEFTBRACE) {
                 eat(TK_LEFTBRACE);
                 var e = commaExpr();
@@ -919,22 +789,22 @@ jQuery.extend ( KhanUtil, {
             return unaryExpr();
         }
 
-        function bracketExpr() {
+        var bracketExpr = function() {
             eat(TK_LEFTBRACKET);
             var e = commaExpr();
             eat(TK_RIGHTBRACKET);
             return e;
         }
 
-        function parenExpr() {
+        var parenExpr = function() {
             return surroundedExpr(TK_LEFTPAREN, TK_RIGHTPAREN, OpStr.PAREN);
         }
 
-        function absExpr() {
+        var absExpr = function() {
             return surroundedExpr(TK_ABS, TK_ABS, OpStr.ABS);
         }
 
-        function surroundedExpr(leftTk, rightTk, op) {
+        var surroundedExpr = function(leftTk, rightTk, op) {
             var leftAlign = alignment();
             eat(leftTk);
             var idStyleLeft = scan.lastIdStyle();
@@ -954,7 +824,7 @@ jQuery.extend ( KhanUtil, {
             return expr;
         }
 
-        function unaryExpr() {
+        var unaryExpr = function() {
             var t;
             var expr;
             switch (t = hd()) {
@@ -991,7 +861,7 @@ jQuery.extend ( KhanUtil, {
             return expr;
         }
 
-        function exponentialExpr() {
+        var exponentialExpr = function() {
             var expr = unaryExpr();
             var t;
             while ((t=hd())===TK_CARET) {
@@ -1006,7 +876,7 @@ jQuery.extend ( KhanUtil, {
             return expr;
         }
 
-        function setOpStyle(expr, index, styleName, value) {
+        var setOpStyle = function(expr, index, styleName, value) {
             if (expr.opsStyles === undefined) {
                 expr.opsStyles = [];
             }
@@ -1016,7 +886,7 @@ jQuery.extend ( KhanUtil, {
             expr.opsStyles[index][styleName] = value;
         }
 
-        function addStyles(expr, startIdStyle, endIdStyle, opIdStyle) {
+        var addStyles = function(expr, startIdStyle, endIdStyle, opIdStyle) {
             if (expr.opsStyles === undefined) {
                  expr.opsStyles = [{}];
             }
@@ -1028,7 +898,7 @@ jQuery.extend ( KhanUtil, {
             }
         }
 
-        function multiplicativeExpr() {
+        var multiplicativeExpr = function() {
             var startIdStyle = scan.idStyle();
             var expr = exponentialExpr();
             var t;
@@ -1060,7 +930,7 @@ jQuery.extend ( KhanUtil, {
             }
         }
 
-        function additiveExpr() {
+        var additiveExpr = function() {
             var startIdStyle = scan.idStyle();
             var expr = multiplicativeExpr();
             var t;
@@ -1081,7 +951,7 @@ jQuery.extend ( KhanUtil, {
             }
         }
 
-        function compareExpr() {
+        var compareExpr = function() {
             var startIdStyle = scan.idStyle();
             var expr = additiveExpr();
             if (expr === undefined) {
@@ -1112,65 +982,23 @@ jQuery.extend ( KhanUtil, {
 
         }
 
-        function commaExpr ( ) {
+        var commaExpr = function() {
             var n = compareExpr();
             return n;
         }
 
-        function expr ( ) {
+        var expr = function() {
             start();
             var n = commaExpr();
             return n;
         }
 
-        function scanner(src) {
-
-            var curIndex = 0;
-            var curIdStyle = 0;
-            var lexeme = "";
-            var alignment = [0, 0];
-            var popStyles = 0;
-            var lastIdStyle = undefined;
-
-            var lexemeToToken = [];
-            var braceIsForStyle = [];
-            var openedStyles = [];
-
-            lexemeToToken["\\times"] = TK_TIMES;
-            lexemeToToken["\\cdot"]  = TK_CDOT;
-            lexemeToToken["\\div"]   = TK_DIV;
-            lexemeToToken["\\frac"]  = TK_FRAC;
-            lexemeToToken["\\dfrac"] = TK_DFRAC;
-            lexemeToToken["\\sqrt"]  = TK_SQRT;
-            lexemeToToken["\\pm"]    = TK_PM;
-            lexemeToToken["\\sin"]   = TK_SIN;
-            lexemeToToken["\\cos"]   = TK_COS;
-            lexemeToToken["\\tan"]   = TK_TAN;
-            lexemeToToken["\\sec"]   = TK_SEC;
-            lexemeToToken["\\cot"]   = TK_COT;
-            lexemeToToken["\\csc"]   = TK_CSC;
-            lexemeToToken["\\ln"]    = TK_LN;
-            lexemeToToken["\\leq"]   = TK_LEQ;
-            lexemeToToken["\\geq"]   = TK_GEQ;
-            lexemeToToken["\\not"]   = TK_NOT;
-            lexemeToToken["\\color"] = TK_COLOR;
-
-            return {
-                start : start ,
-                lexeme : function () { return lexeme } ,
-                readChar: readChar ,
-                alignment : function () { return alignment } ,
-                idStyle: idStyle,
-                lastIdStyle: function() { return lastIdStyle },
-            }
-
-            // begin private functions
-
-            function idStyle() {
+        var scanner = function(src) {
+            var idStyle = function() {
                 return openedStyles[openedStyles.length - 1];
             }
 
-            function start () {
+            var start = function() {
                 var c;
                 lexeme = "";
                 alignment = [0, 0];
@@ -1202,7 +1030,7 @@ jQuery.extend ( KhanUtil, {
                         return token;
                     case TK_AMP:  // &
                         alignment[0]++;
-                        continue;                                                
+                        continue;
                     case TK_LEFTPAREN:
                     case TK_RIGHTPAREN:
                     case TK_MUL:
@@ -1241,7 +1069,7 @@ jQuery.extend ( KhanUtil, {
                     case TK_LEFTBRACE:
                         braceIsForStyle.push(false);
                         lexeme += String.fromCharCode(c);
-                        return c;                        
+                        return c;
                     case TK_RIGHTBRACE:
                         if (braceIsForStyle.pop()) {
                             lastIdStyle = openedStyles.pop();
@@ -1249,7 +1077,7 @@ jQuery.extend ( KhanUtil, {
                             continue;
                         }
                         lexeme += String.fromCharCode(c);
-                        return c;                        
+                        return c;
                     default:
                         if (c >= 'A'.charCodeAt(0) && c <= 'Z'.charCodeAt(0)) {
                             lexeme += String.fromCharCode(c);
@@ -1274,17 +1102,17 @@ jQuery.extend ( KhanUtil, {
                 return 0;
             }
 
-            function number(c) {
+            var number = function(c) {
                 while (c >= '0'.charCodeAt(0) && c <= '9'.charCodeAt(0)) {
                     lexeme += String.fromCharCode(c);
                     c = src.charCodeAt(curIndex++);
                 }
                 curIndex--;
-                
+
                 return TK_NUM;
             }
 
-            function latex() {
+            var latex = function() {
                 var c = src.charCodeAt(curIndex++);
                 while (c >= 'a'.charCodeAt(0) && c <= 'z'.charCodeAt(0)) {
                     lexeme += String.fromCharCode(c);
@@ -1299,10 +1127,147 @@ jQuery.extend ( KhanUtil, {
                 return tk;
             }
 
-            function readChar() {
+            var readChar = function() {
                 return src.charAt(curIndex++);
             }
 
+            var curIndex = 0;
+            var curIdStyle = 0;
+            var lexeme = "";
+            var alignment = [0, 0];
+            var popStyles = 0;
+            var lastIdStyle = undefined;
+
+            var lexemeToToken = [];
+            var braceIsForStyle = [];
+            var openedStyles = [];
+
+            lexemeToToken["\\times"] = TK_TIMES;
+            lexemeToToken["\\cdot"]  = TK_CDOT;
+            lexemeToToken["\\div"]   = TK_DIV;
+            lexemeToToken["\\frac"]  = TK_FRAC;
+            lexemeToToken["\\dfrac"] = TK_DFRAC;
+            lexemeToToken["\\sqrt"]  = TK_SQRT;
+            lexemeToToken["\\pm"]    = TK_PM;
+            lexemeToToken["\\sin"]   = TK_SIN;
+            lexemeToToken["\\cos"]   = TK_COS;
+            lexemeToToken["\\tan"]   = TK_TAN;
+            lexemeToToken["\\sec"]   = TK_SEC;
+            lexemeToToken["\\cot"]   = TK_COT;
+            lexemeToToken["\\csc"]   = TK_CSC;
+            lexemeToToken["\\ln"]    = TK_LN;
+            lexemeToToken["\\leq"]   = TK_LEQ;
+            lexemeToToken["\\geq"]   = TK_GEQ;
+            lexemeToToken["\\not"]   = TK_NOT;
+            lexemeToToken["\\color"] = TK_COLOR;
+
+            return {
+                start : start,
+                lexeme : function () { return lexeme },
+                readChar: readChar,
+                alignment : function () { return alignment },
+                idStyle: idStyle,
+                lastIdStyle: function() { return lastIdStyle },
+            }
         }
-    },
-});
+
+        src = src.replace( /\u2212/g, "-");
+        if (styles === undefined) {
+            styles = [];
+        } else {
+            for (var iStyle = 0; iStyle < styles.length; iStyle++) {
+               var style = styles[iStyle];
+               if (typeof style === "string") {
+                  style = {color:style};
+               }
+               style.idStyle = iStyle;
+               styles[iStyle] = style;
+            }
+        }
+        var TK_NONE        = 0;
+        var TK_ADD        = '+'.charCodeAt(0);
+        var TK_CARET        = '^'.charCodeAt(0);
+        var TK_DIV        = '/'.charCodeAt(0);
+        var TK_EQL        = '='.charCodeAt(0);
+        var TK_LT        = '<'.charCodeAt(0);
+        var TK_GT        = '>'.charCodeAt(0);
+        var TK_LEFTBRACE    = '{'.charCodeAt(0);
+        var TK_LEFTBRACKET    = '['.charCodeAt(0);
+        var TK_LEFTPAREN    = '('.charCodeAt(0);
+        var TK_MUL        = '*'.charCodeAt(0);
+        var TK_NUM        = '0'.charCodeAt(0);
+        var TK_RIGHTBRACE     = '}'.charCodeAt(0);
+        var TK_RIGHTBRACKET    = ']'.charCodeAt(0);
+        var TK_RIGHTPAREN    = ')'.charCodeAt(0);
+        var TK_SUB        = '-'.charCodeAt(0);
+        var TK_VAR        = 'a'.charCodeAt(0);
+        var TK_COEFF        = 'A'.charCodeAt(0);
+        var TK_VAR        = 'a'.charCodeAt(0);
+        var TK_ABS        = '|'.charCodeAt(0);
+        var TK_COMMA        = ','.charCodeAt(0);
+        var TK_SPACE        = ' '.charCodeAt(0);
+        var TK_BACKSLASH    = '\\'.charCodeAt(0);
+        var TK_AMP        = '&'.charCodeAt(0);
+        var TK_SHARP        = '#'.charCodeAt(0);
+        var TK_CDOT        = 0x100;
+        var TK_TIMES        = 0x101;
+        var TK_PM        = 0x102;
+        var TK_FRAC        = 0x103;
+        var TK_DFRAC        = 0x104;
+        var TK_LN        = 0x105;
+        var TK_COS        = 0x106;
+        var TK_SIN        = 0x107;
+        var TK_TAN        = 0x108;
+        var TK_SEC        = 0x109;
+        var TK_COT        = 0x110;
+        var TK_CSC        = 0x111;
+        var TK_SQRT        = 0x112;
+        var TK_LEQ        = 0x113;
+        var TK_GEQ        = 0x114;
+        var TK_NOT        = 0x115;
+        var TK_NEXT        = 0x116;
+        var TK_COLOR        = 0x117;
+
+        var curIdStyle = 0;
+
+        var T0=TK_NONE, T1=TK_NONE;
+
+        var tokenToOp = [ ];
+        tokenToOp[TK_FRAC]  = OpStr.FRAC;
+        tokenToOp[TK_DFRAC] = OpStr.DFRAC;
+        tokenToOp[TK_SQRT]  = OpStr.SQRT;
+        tokenToOp[TK_ADD]   = OpStr.ADD;
+        tokenToOp[TK_SUB]   = OpStr.SUB;
+        tokenToOp[TK_PM]    = OpStr.PM;
+        tokenToOp[TK_CARET] = OpStr.POW;
+        tokenToOp[TK_MUL]   = OpStr.MUL;
+        tokenToOp[TK_TIMES] = OpStr.TIMES;
+        tokenToOp[TK_CDOT]  = OpStr.CDOT;
+        tokenToOp[TK_DIV]   = OpStr.FRAC;
+        tokenToOp[TK_SIN]   = OpStr.SIN;
+        tokenToOp[TK_COS]   = OpStr.COS;
+        tokenToOp[TK_TAN]   = OpStr.TAN;
+        tokenToOp[TK_SEC]   = OpStr.SEC;
+        tokenToOp[TK_COT]   = OpStr.COT;
+        tokenToOp[TK_CSC]   = OpStr.CSC;
+        tokenToOp[TK_LN]    = OpStr.LN;
+        tokenToOp[TK_EQL]   = OpStr.EQL;
+        tokenToOp[TK_LT]   = OpStr.LT;
+        tokenToOp[TK_GT]   = OpStr.GT;
+        tokenToOp[TK_GEQ]   = OpStr.GEQ;
+        tokenToOp[TK_LEQ]   = OpStr.LEQ;
+        tokenToOp[TK_ABS]   = OpStr.ABS;
+
+        var scan = scanner(src);
+
+        return expr();
+    };
+
+    $.extend ( KhanUtil, {
+        parseFormat: parseFormat,
+        parse: parse,
+        format: format,
+        formatGroup: formatGroup,
+        polynomial: polynomial,
+    });
+})();

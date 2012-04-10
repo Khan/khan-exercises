@@ -20,7 +20,7 @@
         var merge = function(steps) {
             this.items = this.items.concat(steps.items);
         };
-        jQuery.extend ( this, {
+        $.extend ( this, {
             add: add,
             items: items,
             merge: merge,
@@ -133,7 +133,7 @@
     };
 
     var exprWeight = function(expr) {
-        return KhanUtil.exprToString(expr).length; // TODO: better metric!
+        return KhanUtil.format(expr).length; // TODO: better metric!
     }
 
     var putExprInContext = function(parentExpr, path, childExpr) {
