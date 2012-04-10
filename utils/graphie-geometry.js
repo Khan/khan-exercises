@@ -348,20 +348,6 @@ function Triangle( center, angles, scale, labels, points ){
 	this.niceAngles = jQuery.map( this.angles, function( x ){ return x + "^{\\circ}"; } );
 	this.labelObjects = { "sides": [] , "angles" : [], "points" : [], "name" : [] };
 
-
-	this.angleScale = function ( ang ){
-		if( ang > 90 ){
-			return 0.5;
-		}
-		else if ( ang > 40 ){
-			return 0.6;
-		}
-		else if ( ang < 25 ){
-			return 0.7;
-		}
-		return 0.8;
-	}
-
 	this.draw = function(){
 		this.set = KhanUtil.currentGraph.raphael.set();
 		this.set.push( KhanUtil.currentGraph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
@@ -370,8 +356,9 @@ function Triangle( center, angles, scale, labels, points ){
 
 	this.color = "black";
 	this.createLabel = function( p, v ){
-
-		this.set.push( KhanUtil.currentGraph.label( p , v, "center",{ color: this.color } ) );
+		var label = KhanUtil.currentGraph.label( p , v, "center",{ color: this.color } );
+		this.set.push( label );
+		return label;
 	}
 
 	this.boxOut = function( pol, amount, type ){
@@ -460,9 +447,50 @@ function Triangle( center, angles, scale, labels, points ){
 		}
 
 		if ( "angles" in this.labels ){
+			// Create the label at a naive distance of 1 out from the vertex.
 			for( i = this.angles.length - 1; i >= 0; i-- ){
-				this.labelObjects.angles.push( this.createLabel( bisectAngle( this.sides[ ( i + 1 ) % this.angles.length ], reverseLine( this.sides[ i ] ), this.angleScale( this.angles[ ( i + 1 ) % this.angles.length ] ) )[ 1 ], this.labels.angles[ ( i + 1 ) % this.angles.length ] ) );
+				var label = this.createLabel(
+					bisectAngle(
+						this.sides[ ( i + 1 ) % this.angles.length ],
+						reverseLine( this.sides[ i ] ),
+						1
+					)[ 1 ],
+					this.labels.angles[ ( i + 1 ) % this.angles.length ] 
+				);
+
+				this.labelObjects.angles.unshift(label);
 			}
+
+			// Once the labels are rendered and we know their size, set the distance
+			// more intelligently.
+			var tr = this;
+			MathJax.Hub.Queue(function() {
+				for ( i = tr.angles.length - 1; i >= 0; i-- ){
+					var label = tr.labelObjects.angles[i];
+
+					// Find the radius of a circle which bounds the label.
+					var dimensions = KhanUtil.currentGraph.unScaleVector( [ label.width(), label.height() ] );
+					var boundingRadius = Math.sqrt(
+						Math.pow( dimensions[0], 2 ) + Math.pow( dimensions[1], 2)
+					) / 2;
+
+					// Find the distance out from the point which means the bounding circle
+					// just touched the sides of the traingle.
+					var distanceFromPoint = boundingRadius / Math.sin( degToRad( tr.angles[ ( i + 1 ) % tr.angles.length ] ) );
+
+					// Manually readjust the label position.
+					var line = bisectAngle(
+						tr.sides[ ( i + 1 ) % tr.angles.length ],
+						reverseLine( tr.sides[ i ] ),
+						distanceFromPoint
+					);
+					var point = KhanUtil.currentGraph.scalePoint(line[1]);
+					label.css({
+						top  : point[1],
+						left : point[0]
+					});
+				}
+			});
 		}
 
 		if ( "sides" in this.labels ){
