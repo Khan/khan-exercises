@@ -147,22 +147,33 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	var people = KhanUtil.shuffle([
 		["Ashley", "f"],
 		["Brandon", "m"],
+		["Bridget", "f"],
 		["Christopher", "m"],
+		["Carol", "f"],
 		["Daniel", "m"],
+		["Doug", "m"],
 		["Emily", "f"],
+		["Erica", "f"],
 		["Gabriela", "f"],
 		["Ishaan", "m"],
 		["Jessica", "f"],
 		["Kevin", "m"],
 		["Luis", "m"],
+		["Larry", "m"] 
 		["Michael", "m"],
+		["Mark", "m"],
 		["Nadia", "f"],
 		["Omar", "m"],
 		["Stephanie", "f"],
+		["Sheila", "f"],
+		["Susan", "f"],
+		["Steven", "m"],
+		["Seth", "m"],
 		["Tiffany", "f"],
 		["Umaima", "f"],
 		["Vanessa", "f"],
-		["William", "m"]
+		["William", "m"],
+		["Zach", "m"]
 	]);
 
 	var vehicles = KhanUtil.shuffle([
@@ -176,10 +187,21 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 	var courses = KhanUtil.shuffle([
 		"algebra",
+		"business",
+		"biology",
+		"circuits",
 		"chemistry",
+		"computer science",
+		"civics",
+		"engineering",
 		"geometry",
+		"German",
 		"history",
+		"health",
+		"Italian",
+		"Japanese",
 		"physics",
+		"small engines",
 		"Spanish"
 	]);
 
@@ -218,23 +240,23 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	var stores = KhanUtil.shuffle([
 		{
 			name: "office supply",
-			items: KhanUtil.shuffle( ["pen", "pencil", "notebook"] )
+			items: KhanUtil.shuffle( ["pen", "book", "paper", "folder", "staple", "rubber band", "calender", "planner", "cabinet", "copier", "printer", "fax machine", "tape dispenser", "pencil", "notebook"] )
 		},
 		{
 			name: "hardware",
-			items: KhanUtil.shuffle( ["hammer", "nail", "saw"] )
+			items: KhanUtil.shuffle( ["hammer", "screwdriver", "cable", "wrench", "pipe", "bolt", "nut", "screw", "plaster", "tape", "nail", "saw"] )
 		},
 		{
 			name: "grocery",
-			items: KhanUtil.shuffle( ["banana", "loaf of bread", "gallon of milk", "potato"] )
+			items: KhanUtil.shuffle( ["banana", "lettuce", "tomato", "bag of flower", "loaf of bread", "gallon of milk", "potato" , "apple", "apricot", "avocado", "banana", "bilberry", "blackberry", "blueberry", "cherry", "cantaloupe", "coconut", "date", "dragonfruit", "durian", "eggplant", "elderberry", "gooseberry", "huckleberry", "honeydew", "jackfruit", "kiwi", "legume", "lemon", "lychee", "mango", "mandarine", "melon", "nectarine", "orange", "pomegranate", "plum", "pomegranate", "raisin", "rock melon", "star fruit", "strawberry", "watermelon" ] )
 		},
 		{
 			name: "gift",
-			items: KhanUtil.shuffle( ["toy", "game", "souvenir"] )
+			items: KhanUtil.shuffle( ["toy", "pencil case", "puzzle", "game", "souvenir"] )
 		},
 		{
 			name: "toy",
-			items: KhanUtil.shuffle( ["stuffed animal", "video game", "race car", "doll"] )
+			items: KhanUtil.shuffle( ["stuffed animal", "ball", "block", "video game", "race car", "doll"] )
 		}
 	]);
 
@@ -253,6 +275,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 	var exercises = KhanUtil.shuffle([
 		"push-up",
+		"pull-up",
 		"sit-up",
 		"squat",
 		"jumping jack"
@@ -260,20 +283,51 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 
 	var fruits = KhanUtil.shuffle([
 		"apple",
+		"apricot",
+		"avocado",
 		"banana",
+		"bilberry",
+		"blackberry",
+		"blueberry",
+		"cherry",
+		"cantaloupe",
 		"coconut",
+		"date",
+		"dragonfruit",
+		"durian",
 		"eggplant",
+		"elderberry"
+		"gooseberry",
+		"huckleberry",
+		"honeydew",
+		"jackfruit",
 		"kiwi",
+		"legume",
 		"lemon",
+		"lychee",
 		"mango",
+		"mandarine",
+		"melon",
 		"nectarine",
 		"orange",
 		"pomegranate",
+		"pear",
+		"plum",
+		"pomegranate",
+		"raisin",
+		"rock melon",
+		"star fruit",
+		"strawberry",
 		"watermelon"
 	]);
 
 	var deskItems = KhanUtil.shuffle([
 		"binder",
+		"stapler",
+		"calendar",
+		"colored pencil",
+		"dictionary",
+		"thesaurus",
 		"crayon",
 		"eraser",
 		"folder",
@@ -285,18 +339,45 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var colors = KhanUtil.shuffle([
-		"red",
-		"orange",
-		"yellow",
-		"green",
-		"blue",
-		"purple",
-		"white",
+		"amber",
+		"aquamarine",
+		"beige",
 		"black",
+		"blue",
 		"brown",
-		"silver",
+		"bronze",
+		"cerulean",
+		"copper",
+		"crimson",
+		"cyan",
 		"gold",
-		"pink"
+		"grey",
+		"green",
+		"indigo",
+		"ivory",
+		"jade",
+		"lavender",
+		"lilac",
+		"lime",
+		"magenta",
+		"maroon",
+		"olive",
+		"orange",
+		"peach",
+		"pink",
+		"plum",
+		"purple",
+		"raspberry",
+		"red",
+		"rose",
+		"salmon",
+		"scarlet",
+		"silver",
+		"tan",
+		"teal",
+		"turquoise",
+		"violet",
+		"white"
 	]);
 
 	var schools = KhanUtil.shuffle([
@@ -324,6 +405,9 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		"computer",
 		"laptop",
 		"camera",
+		"cell phone",
+		"printer",
+		"copier"
 	]);
 	
 	var clothes = KhanUtil.shuffle([
@@ -375,8 +459,8 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 	]);
 
 	var farmers = KhanUtil.shuffle([
-		{farmer:"farmer", crops:KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk"]), field:"field"},
-		{farmer:"gardener", crops:KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily"]), field:"garden"}
+		{farmer:"farmer", crops:KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk", "apple", "apricot", "avocado", "bilberry", "blackberry", "blueberry", "cherry", "eggplant", "elderberry", "gooseberry", "huckleberry", "honeydew", "jackfruit", "kiwi", "lemon", "lychee", "mango", "mandarine", "melon", "nectarine", "orange", "pomegranate", "pear", "plum", "pomegranate", "raisin", "rock melon", "star fruit", "strawberry", "watermelon"]), field:"field"},
+		{farmer:"gardener", crops:KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily", "sunflower", "chrysanthemum", "daisie", "geranium", "violet", "pansie", "petunia" ]), field:"garden"}
 	]);
 
 	var distances = KhanUtil.shuffle([
@@ -388,7 +472,8 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
 		{present:"ride", past:"rode", noun:"bike", done:"biked", continuous:"biking"},
 		{present:"row", past:"rowed", noun:"boat", done:"rowed", continuous:"rowing"},
 		{present:"drive", past:"drove", noun:"car", done:"driven", continuous:"driving"},
-		{present:"walk", past:"walked", noun:"dog", done:"walked", continuous:"walking"}
+		{present:"walk", past:"walked", noun:"dog", done:"walked", continuous:"walking"},
+		{present:"ride", past:"rode", noun:"train", done:"ridden", continuous:"riding"}
 	]);
 
 	var indefiniteArticle = function(word) {
