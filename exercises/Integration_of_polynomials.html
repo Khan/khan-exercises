@@ -92,12 +92,12 @@
 				
 				<p class="question">Evaluate the following indefinite integral: </p>
 				<div data-if="m===0 || (m===1 && Denexp===1)"><code>\Large{\displaystyle{\int{<var> A </var> <var>v</var>^ {<var>n</var>} + {<var> D </var>}}}\,\, {\mathrm{d}<var>v</var>}}</code></div>
-				<div data-else><code>\Large{\displaystyle{\int{<var> A </var> <var>v</var>^ {\small{<var>n</var>}} + {<var> D </var>}}}\,\, {\mathrm{d}<var>v</var>}}</code></div>
+				<div data-else><code>\Large{\displaystyle{\int{<var> A </var> <var>v</var>^ {\bf{\small{<var>n</var>}}} + {<var> D </var>}}}\,\, {\mathrm{d}<var>v</var>}}</code></div>
 				<!--<p class="solution" data-type="regex"><var>nest</var></p>-->
 				<div class="solution" data-type="set">
 				<div class="set-sol" data-type="regex"><var>RegAns</var></div>
 				<div class="input-format"><span class="entry"></span></div>
-				<div class="example">An equation of the form 10/3x^(3/2)+4x+C  Coeffiecients must be integers or fractions (no rounded decimal coefficients).</div>
+				<div class="example">An equation of the form (10/3) x^(3/2)+4x+C  Coeffiecients must be integers or fractions (no rounded decimal coefficients).</div>
 				
 				</div>
 			</div>
@@ -106,6 +106,8 @@
 		<div class="hints">
 			<div>
 				<p>Recall that the antiderivative of a function of the form : <code>\color{blue} {f(x)=Cx^n}</code>  is <code>\color{green} {\dfrac {C}{n+1}x^{n+1}}</code>. </p>
+			</div>
+			<div>
 				
 				
 				<p>For example, the antiderivative of  the function <code>\color{blue} {f(x)=\dfrac {5}{3} x^4 + 3x } </code>  is <code>\color{green} {\dfrac {5}{3(4+1)}x^{4+1} + \dfrac{3}{1+1}x^{1+1} + C }</code>, where C is an arbitrary constant or <code>\color{green} {\dfrac {1}{3}x^5 +\dfrac{3}{2}x^2 + C }</code> after simplifying. </p>
@@ -115,7 +117,7 @@
 				<p>When taking the antiderivative of polynomial functions, you add <code>\color{purple}{one}</code> to the exponent <code>\color{purple} {(n+1)}</code> and divide the coefficient by <code>\color{purple}{(n+1)}</code>. You will do this to each term in the function that is of the form <code>\color{purple}{f(x)=Cx^n}</code>.</p>
 			</div>
 			<div>
-				<p>For this exercise we are evaluating <code>\color{red} {indefinite} </code> integrals. Recall that the derivative of a constant term is <code>\color{red} 0</code>, so we must add a constant term to the solution. </p>
+				<p>For this exercise we are evaluating <code>\textbg{indefinite }</code> integrals. Recall that the derivative of a constant term is <code>\color{red} 0</code>, so we must add a constant term to the solution. </p>
 				<p>Example: <code>\color{blue} { {\displaystyle{\int{3x^4}\,{\mathrm{d}x}} }\,=\,\color{green} { \dfrac{3}{5}x^5\,+\,Constant} } </code></p>
 			</div>
 			<div>
