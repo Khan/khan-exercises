@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Division 2</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Division 2</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="DIVISOR">randRange( 2, 9 )</var>
-			<var id="QUOTIENT">randRange( 10, 99 )</var>
-			<var id="DIVIDEND">DIVISOR * QUOTIENT</var>
-			<var id="DUMMY">[]</var>
-		</div>
+    <div class="exercise">
+        <div class="vars">
+            <var id="DIVISOR">randRange( 2, 9 )</var>
+            <var id="QUOTIENT">randRange( 10, 99 )</var>
+            <var id="DIVIDEND">DIVISOR * QUOTIENT</var>
+            <var id="DUMMY">[]</var>
+        </div>
 
-		<div class="problems">
-			<div>
-				<div class="graphie" id="numbers">
-					graph.divider = new Divider( DIVISOR, DIVIDEND );
-					graph.divider.show();
-					DUMMY = Array( graph.divider.getNumHints() );
-				</div>
-				<div class="solution" data-forms="integer"><var>QUOTIENT</var></div>
-			</div>
-		</div>
-		<div class="hints">
-			<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
-				graph.divider.showHint();
-			</div>
-		</div>
-	</div>
+        <div class="problems">
+            <div>
+                <div class="graphie" id="numbers">
+                    graph.divider = new Divider( DIVISOR, DIVIDEND );
+                    graph.divider.show();
+                    DUMMY = Array( graph.divider.getNumHints() );
+                </div>
+                <div class="solution" data-forms="integer"><var>QUOTIENT</var></div>
+            </div>
+        </div>
+        <div class="hints">
+            <div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+                graph.divider.showHint();
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,86 +1,86 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Line graph intuition</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Line graph intuition</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars" data-ensure="X1 !== X2 && !(M === 1 && B === 0) && abs(M) < 10 && abs(B) < 10">
-			<var id="X1">randRange( -8, 8 )</var>
-			<var id="X2">randRange( -8, 8 )</var>
-			<var id="Y1">randRange( -8, 8 )</var>
-			<var id="Y2">randRange( -8, 8 )</var>
-			<var id="RISE">Y1 - Y2</var>
-			<var id="RUN">X1 - X2</var>
-			<var id="M">RISE / RUN</var>
-			<var id="B">Y1 - X1 * M</var>
-			<var id="INCR">abs( RUN ) / getGCD( abs( RISE), abs( RUN ) )</var>
-		</div>
+    <div class="exercise">
+        <div class="vars" data-ensure="X1 !== X2 && !(M === 1 && B === 0) && abs(M) < 10 && abs(B) < 10">
+            <var id="X1">randRange( -8, 8 )</var>
+            <var id="X2">randRange( -8, 8 )</var>
+            <var id="Y1">randRange( -8, 8 )</var>
+            <var id="Y2">randRange( -8, 8 )</var>
+            <var id="RISE">Y1 - Y2</var>
+            <var id="RUN">X1 - X2</var>
+            <var id="M">RISE / RUN</var>
+            <var id="B">Y1 - X1 * M</var>
+            <var id="INCR">abs( RUN ) / getGCD( abs( RISE), abs( RUN ) )</var>
+        </div>
 
-		<div class="problems">
-			<div>
-				<div class="question">
-					Adjust the slope and y-intercept until it connects the two points. How do the slope and y-intercept values affect the line?
-				</div>
+        <div class="problems">
+            <div>
+                <div class="question">
+                    Adjust the slope and y-intercept until it connects the two points. How do the slope and y-intercept values affect the line?
+                </div>
 
-				<div class="graphie" id="grid">
-					init({
-						range: [[-10, 10], [-10, 12]],
-						scale: [30, 30]
-					});
+                <div class="graphie" id="grid">
+                    init({
+                        range: [[-10, 10], [-10, 12]],
+                        scale: [30, 30]
+                    });
 
-					grid( [-10, 10], [-10, 10], {
-						stroke: "#ccc"
-					});
+                    grid( [-10, 10], [-10, 10], {
+                        stroke: "#ccc"
+                    });
 
-					style({
-						stroke: "#888",
-						strokeWidth: 2,
-						arrows: "->"
-					});
-					path( [ [-10, 0], [10, 0] ] );
-					path( [ [0, -10], [0, 10] ] );
+                    style({
+                        stroke: "#888",
+                        strokeWidth: 2,
+                        arrows: "->"
+                    });
+                    path( [ [-10, 0], [10, 0] ] );
+                    path( [ [0, -10], [0, 10] ] );
 
-					style({
-						stroke: "#6495ED",
-						fill: "#6495ED",
-						arrows: null
-					});
+                    style({
+                        stroke: "#6495ED",
+                        fill: "#6495ED",
+                        arrows: null
+                    });
 
-					circle( [X1, Y1], 0.15 );
-					circle( [X2, Y2], 0.15 );
-					var graph = KhanUtil.currentGraph;
-					style({
-						clipRect:[ [-10, -10], [20, 20] ]
-					}, function() {
-						var ell = function( x ) {
-							return x;
-						};
-						graph.plot = line( [ -10, ell( -10 ) ], [ 10, ell( 10 ) ] );
-					});
+                    circle( [X1, Y1], 0.15 );
+                    circle( [X2, Y2], 0.15 );
+                    var graph = KhanUtil.currentGraph;
+                    style({
+                        clipRect:[ [-10, -10], [20, 20] ]
+                    }, function() {
+                        var ell = function( x ) {
+                            return x;
+                        };
+                        graph.plot = line( [ -10, ell( -10 ) ], [ 10, ell( 10 ) ] );
+                    });
 
-					graph.labelHolder = label( [1, 11], "y = " + KhanUtil.fractionReduce( 1, 1 ) + "x +" + KhanUtil.fractionReduce( 1, 1 ));
-					graph.MN = 1;
-					graph.MD = 1;
-					graph.BN = 1;
-					graph.BD = 1;
-					graph.INCR = INCR;
-					updateEquation();
-				</div>
-				<div class="solution" data-type="multiple">
-					<div id="equationAnswer" style="height: 45px"><code>y = x + 1</code></div>
-					<div><input type="button" value="Increase slope" onclick="changeSlope(1)"></div>
-					<div><input type="button" value="Decrease slope" onclick="changeSlope(-1)"></div>
-					<div><input type="button" value="Increase y-intercept" onclick="changeIntercept(1)"></div>
-					<div style="padding: 0px 0px 10px 0px"><input type="button" value="Decrease y-intercept" onclick="changeIntercept(-1)"></div>
+                    graph.labelHolder = label( [1, 11], "y = " + KhanUtil.fractionReduce( 1, 1 ) + "x +" + KhanUtil.fractionReduce( 1, 1 ));
+                    graph.MN = 1;
+                    graph.MD = 1;
+                    graph.BN = 1;
+                    graph.BD = 1;
+                    graph.INCR = INCR;
+                    updateEquation();
+                </div>
+                <div class="solution" data-type="multiple">
+                    <div id="equationAnswer" style="height: 45px"><code>y = x + 1</code></div>
+                    <div><input type="button" value="Increase slope" onclick="changeSlope(1)"></div>
+                    <div><input type="button" value="Decrease slope" onclick="changeSlope(-1)"></div>
+                    <div><input type="button" value="Increase y-intercept" onclick="changeIntercept(1)"></div>
+                    <div style="padding: 0px 0px 10px 0px"><input type="button" value="Decrease y-intercept" onclick="changeIntercept(-1)"></div>
 
-					<span class="sol" data-type="decimal" data-inexact style="display: none" id="slope-sol"><var>M</var></span>
-					<span class="sol" data-type="decimal" data-inexact style="display: none" id="intercept-sol"><var>B</var></span>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <span class="sol" data-type="decimal" data-inexact style="display: none" id="slope-sol"><var>M</var></span>
+                    <span class="sol" data-type="decimal" data-inexact style="display: none" id="intercept-sol"><var>B</var></span>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,65 +1,65 @@
 <!DOCTYPE html>
 <html data-require="math graphie expressions">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Measuring segments</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Measuring segments</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
-	<div class="problems">
-		<div>
-			<div class="vars">
-				<var id="POINTS">sortNumbers( randRangeUnique( -5, 5, 4 ) )</var>
-				<var id="COLORS">[ BLUE, GREEN, PINK, ORANGE ]</var>
-				<var id="IDX_1,IDX_2">randRangeUnique( 0, 4, 2 )</var>
-				<var id="POINT_1">[ "A", "B", "C", "D" ][ IDX_1 ]</var>
-				<var id="POINT_2">[ "A", "B", "C", "D" ][ IDX_2 ]</var>
-				<var id="SEGMENT">POINT_1 + POINT_2</var>
-				<var id="SOLUTION">abs( POINTS[ IDX_1 ] - POINTS[ IDX_2 ] )</var>
-			</div>
-			<p class="question">What is <code><var>SEGMENT</var></code>?</p>
-			<div class="problem">
-				<div class="graphie" id="number-line">
-					init({
-						range: [ [ -6, 6 ], [ -1, 1 ] ]
-					});
-					style({ stroke: "#999" });
-					line( [ -5, 0 ], [ 5, 0 ] );
-					for ( var x = -5; x &lt;= 5; x++ ) {
-						line( [ x, -0.2 ], [ x, 0.2 ] );
-						label( [ x, -0.53 ],  String( x ).replace( /-(\d)/g, "\\llap{-}$1" ), "center", { color: "#999" } );
-					}
-					style({ strokeWidth: 3.5 });
-					line( [ 0, -0.2], [0, 0.2]);
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="POINTS">sortNumbers( randRangeUnique( -5, 5, 4 ) )</var>
+                <var id="COLORS">[ BLUE, GREEN, PINK, ORANGE ]</var>
+                <var id="IDX_1,IDX_2">randRangeUnique( 0, 4, 2 )</var>
+                <var id="POINT_1">[ "A", "B", "C", "D" ][ IDX_1 ]</var>
+                <var id="POINT_2">[ "A", "B", "C", "D" ][ IDX_2 ]</var>
+                <var id="SEGMENT">POINT_1 + POINT_2</var>
+                <var id="SOLUTION">abs( POINTS[ IDX_1 ] - POINTS[ IDX_2 ] )</var>
+            </div>
+            <p class="question">What is <code><var>SEGMENT</var></code>?</p>
+            <div class="problem">
+                <div class="graphie" id="number-line">
+                    init({
+                        range: [ [ -6, 6 ], [ -1, 1 ] ]
+                    });
+                    style({ stroke: "#999" });
+                    line( [ -5, 0 ], [ 5, 0 ] );
+                    for ( var x = -5; x &lt;= 5; x++ ) {
+                        line( [ x, -0.2 ], [ x, 0.2 ] );
+                        label( [ x, -0.53 ],  String( x ).replace( /-(\d)/g, "\\llap{-}$1" ), "center", { color: "#999" } );
+                    }
+                    style({ strokeWidth: 3.5 });
+                    line( [ 0, -0.2], [0, 0.2]);
 
-					style({ stroke: COLORS[ 0 ], fill: COLORS[ 0 ] });
-					circle( [ POINTS[ 0 ], 0 ], 0.10 );
-					style({ stroke: COLORS[ 1 ], fill: COLORS[ 1 ] });
-					circle( [ POINTS[ 1 ], 0 ], 0.10 );
-					style({ stroke: COLORS[ 2 ], fill: COLORS[ 2 ] });
-					circle( [ POINTS[ 2 ], 0 ], 0.10 );
-					style({ stroke: COLORS[ 3 ], fill: COLORS[ 3 ] });
-					circle( [ POINTS[ 3 ], 0 ], 0.10 );
-					label( [ POINTS[ 0 ], 0 ], "A", "above", { color: COLORS[ 0 ] } );
-					label( [ POINTS[ 1 ], 0 ], "B", "above", { color: COLORS[ 1 ] } );
-					label( [ POINTS[ 2 ], 0 ], "C", "above", { color: COLORS[ 2 ] } );
-					label( [ POINTS[ 3 ], 0 ], "D", "above", { color: COLORS[ 3 ] } );
-				</div>
-			</div>
-			<div class="solution" data-forms="integer"><var>SOLUTION</var></div>
+                    style({ stroke: COLORS[ 0 ], fill: COLORS[ 0 ] });
+                    circle( [ POINTS[ 0 ], 0 ], 0.10 );
+                    style({ stroke: COLORS[ 1 ], fill: COLORS[ 1 ] });
+                    circle( [ POINTS[ 1 ], 0 ], 0.10 );
+                    style({ stroke: COLORS[ 2 ], fill: COLORS[ 2 ] });
+                    circle( [ POINTS[ 2 ], 0 ], 0.10 );
+                    style({ stroke: COLORS[ 3 ], fill: COLORS[ 3 ] });
+                    circle( [ POINTS[ 3 ], 0 ], 0.10 );
+                    label( [ POINTS[ 0 ], 0 ], "A", "above", { color: COLORS[ 0 ] } );
+                    label( [ POINTS[ 1 ], 0 ], "B", "above", { color: COLORS[ 1 ] } );
+                    label( [ POINTS[ 2 ], 0 ], "C", "above", { color: COLORS[ 2 ] } );
+                    label( [ POINTS[ 3 ], 0 ], "D", "above", { color: COLORS[ 3 ] } );
+                </div>
+            </div>
+            <div class="solution" data-forms="integer"><var>SOLUTION</var></div>
 
-			<div class="hints">
-				<p>
-					<code><var>SEGMENT</var></code> means the distance from <code>\color{<var>COLORS[ IDX_1 ]</var>}{<var>POINT_1</var>}</code> to
-					<code>\color{<var>COLORS[ IDX_2 ]</var>}{<var>POINT_2</var>}</code>.
-				</p>
-				<p><code><var>SEGMENT</var> = |\color{<var>COLORS[ IDX_1 ]</var>}{<var>POINTS[ IDX_1 ]</var>} - \color{<var>COLORS[ IDX_2 ]</var>}{<var>POINTS[ IDX_2 ]</var>}|</code></p>
-				<p><code><var>SEGMENT</var> = |<var>POINTS[ IDX_1 ] - POINTS[ IDX_2 ]</var>|</code></p>
-				<p><code><var>SEGMENT</var> = <var>SOLUTION</var></code></p>
-			</div>
-		</div>
-	</div>
+            <div class="hints">
+                <p>
+                    <code><var>SEGMENT</var></code> means the distance from <code>\color{<var>COLORS[ IDX_1 ]</var>}{<var>POINT_1</var>}</code> to
+                    <code>\color{<var>COLORS[ IDX_2 ]</var>}{<var>POINT_2</var>}</code>.
+                </p>
+                <p><code><var>SEGMENT</var> = |\color{<var>COLORS[ IDX_1 ]</var>}{<var>POINTS[ IDX_1 ]</var>} - \color{<var>COLORS[ IDX_2 ]</var>}{<var>POINTS[ IDX_2 ]</var>}|</code></p>
+                <p><code><var>SEGMENT</var> = |<var>POINTS[ IDX_1 ] - POINTS[ IDX_2 ]</var>|</code></p>
+                <p><code><var>SEGMENT</var> = <var>SOLUTION</var></code></p>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

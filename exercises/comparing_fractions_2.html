@@ -1,89 +1,89 @@
 <!DOCTYPE html>
 <html data-require="math">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Comparing fractions 2</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Comparing fractions 2</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<!--
-			Compares fractions with different denominators and numerators.
-			Hints find the smallest common denominator.
-		-->
-		<div class="problems">
-			<div id="original">
-				<div class="vars" data-ensure="NUM_1 !== NUM_2 && DEN_1 !== DEN_2" data-weight="2">
-					<var id="FACTOR">randRange( 2, 3 )</var>
-					<var id="NUM_1">randRange( 1, 14 )</var>
-					<var id="NUM_2">randRange( 1, 14 )</var>
+    <div class="exercise">
+        <!--
+            Compares fractions with different denominators and numerators.
+            Hints find the smallest common denominator.
+        -->
+        <div class="problems">
+            <div id="original">
+                <div class="vars" data-ensure="NUM_1 !== NUM_2 && DEN_1 !== DEN_2" data-weight="2">
+                    <var id="FACTOR">randRange( 2, 3 )</var>
+                    <var id="NUM_1">randRange( 1, 14 )</var>
+                    <var id="NUM_2">randRange( 1, 14 )</var>
 
-					<var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
-					<var id="DEN_2">randRange( NUM_2 + 1, 15 )</var>
+                    <var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
+                    <var id="DEN_2">randRange( NUM_2 + 1, 15 )</var>
 
-					<var id="LCM">getLCM( DEN_1, DEN_2 )</var>
-					<var id="F1">LCM / DEN_1</var>
-					<var id="BECOMES_1">F1 === 1 ? "remains as" : "becomes"</var>
-					<var id="F2">LCM / DEN_2</var>
-					<var id="BECOMES_2">F2 === 1 ? "remains as" : "becomes"</var>
+                    <var id="LCM">getLCM( DEN_1, DEN_2 )</var>
+                    <var id="F1">LCM / DEN_1</var>
+                    <var id="BECOMES_1">F1 === 1 ? "remains as" : "becomes"</var>
+                    <var id="F2">LCM / DEN_2</var>
+                    <var id="BECOMES_2">F2 === 1 ? "remains as" : "becomes"</var>
 
-					<var id="SOLUTION">(function() {
-						var f1 = NUM_1 / DEN_1;
-						var f2 = NUM_2 / DEN_2;
-						if ( f1 &lt; f2 ) {
-							return "&lt;";
-						} else if ( f1 > f2 ) {
-							return "&gt;";
-						} else {
-							return "=";
-						}
-					})()</var>
+                    <var id="SOLUTION">(function() {
+                        var f1 = NUM_1 / DEN_1;
+                        var f2 = NUM_2 / DEN_2;
+                        if ( f1 &lt; f2 ) {
+                            return "&lt;";
+                        } else if ( f1 > f2 ) {
+                            return "&gt;";
+                        } else {
+                            return "=";
+                        }
+                    })()</var>
 
-				</div>
-				<div class="problem">
-					<p>Fill in the blank.</p>
-					<p>
-						<code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>}</code>
-						____ <code>\dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>
-					</p>
-				</div>
-				<p class="solution"><code><var>SOLUTION</var></code></p>
-				<ul class="choices" data-category="true">
-					<li><code>&lt;</code></li>
-					<li><code>&gt;</code></li>
-					<li><code>=</code></li>
-				</ul>
+                </div>
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p>
+                        <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>}</code>
+                        ____ <code>\dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>
+                    </p>
+                </div>
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                    <li><code>=</code></li>
+                </ul>
 
-				<div class="hints">
-					<p>It is easier to compare these two fractions when they have the same denominator.</p>
-					<p>Their smallest common denominator is the LCM of <var>DEN_1</var> and <var>DEN_2</var>.</p>
-					<p><code>\lcm(<var>DEN_1</var>, <var>DEN_2</var>) = <var>LCM</var></code></p>
-					<div>
-						<p>The first fraction <var>BECOMES_1</var> <code>\dfrac{<var>NUM_1 * F1</var>}{<var>LCM</var>}</code>.</p>
-						<p>The second fraction <var>BECOMES_2</var> <code>\dfrac{<var>NUM_2 * F2</var>}{<var>LCM</var>}</code>.</p>
-					</div>
-					<p>We see that <code>\dfrac{<var>NUM_1 * F1</var>}{<var>LCM</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2 * F2</var>}{<var>LCM</var>}</code>.</p>
-				</div>
-			</div>
+                <div class="hints">
+                    <p>It is easier to compare these two fractions when they have the same denominator.</p>
+                    <p>Their smallest common denominator is the LCM of <var>DEN_1</var> and <var>DEN_2</var>.</p>
+                    <p><code>\lcm(<var>DEN_1</var>, <var>DEN_2</var>) = <var>LCM</var></code></p>
+                    <div>
+                        <p>The first fraction <var>BECOMES_1</var> <code>\dfrac{<var>NUM_1 * F1</var>}{<var>LCM</var>}</code>.</p>
+                        <p>The second fraction <var>BECOMES_2</var> <code>\dfrac{<var>NUM_2 * F2</var>}{<var>LCM</var>}</code>.</p>
+                    </div>
+                    <p>We see that <code>\dfrac{<var>NUM_1 * F1</var>}{<var>LCM</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2 * F2</var>}{<var>LCM</var>}</code>.</p>
+                </div>
+            </div>
 
-			<div id="multiple" data-type="original">
-				<div class="vars">
-					<var id="NUM_1">randRange( 1, 4 )</var>
-					<var id="NUM_2">NUM_1 * FACTOR</var>
+            <div id="multiple" data-type="original">
+                <div class="vars">
+                    <var id="NUM_1">randRange( 1, 4 )</var>
+                    <var id="NUM_2">NUM_1 * FACTOR</var>
 
-					<var id="DEN_1">randRange( NUM_1 + 1, 5 )</var>
-					<var id="DEN_2">DEN_1 * FACTOR</var>
+                    <var id="DEN_1">randRange( NUM_1 + 1, 5 )</var>
+                    <var id="DEN_2">DEN_1 * FACTOR</var>
 
-					<div data-if="randRange( 0, 1 )">
-						<var id="NUM_1, NUM_2">[ NUM_2, NUM_1 ]</var>
-						<var id="DEN_1, DEN_2">[ DEN_2, DEN_1 ]</var>
-						<var id="F1, F2">[ F2, F1 ]</var>
-						<var id="BECOMES_1, BECOMES_2">[ BECOMES_2, BECOMES_1 ]</var>
-					</div>
-				</div>
-			</div>
+                    <div data-if="randRange( 0, 1 )">
+                        <var id="NUM_1, NUM_2">[ NUM_2, NUM_1 ]</var>
+                        <var id="DEN_1, DEN_2">[ DEN_2, DEN_1 ]</var>
+                        <var id="F1, F2">[ F2, F1 ]</var>
+                        <var id="BECOMES_1, BECOMES_2">[ BECOMES_2, BECOMES_1 ]</var>
+                    </div>
+                </div>
+            </div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 </body>
 </html>

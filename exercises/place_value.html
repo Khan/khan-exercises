@@ -1,118 +1,118 @@
 <!DOCTYPE html>
 <html data-require="math word-problems math-format expressions">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Place value</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Place value</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
+    <div class="exercise">
 
-		<div class="problems">
-			<div>
-				<div class="vars">
-					<var id="DIGITS">shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]).slice( 0, 4 )</var>
-					<var id="NUMBER">digitsToInteger( DIGITS )</var>
-					<var id="POWER">randRange( 0, 3 )</var>
-					<var id="DIGIT">DIGITS[POWER]</var>
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="DIGITS">shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]).slice( 0, 4 )</var>
+                    <var id="NUMBER">digitsToInteger( DIGITS )</var>
+                    <var id="POWER">randRange( 0, 3 )</var>
+                    <var id="DIGIT">DIGITS[POWER]</var>
 
-					<var id="HINT_IN_NUMBERS">
-						(function() {
-							var maxPower = DIGITS.length - 1;
-							var products = jQuery.map( DIGITS, function( digit, index ){
-								return expr([ "*", digit, pow( 10, maxPower - index ) ]);
-							});
-							return products.join( "+" );
-						})()
-					</var>
+                    <var id="HINT_IN_NUMBERS">
+                        (function() {
+                            var maxPower = DIGITS.length - 1;
+                            var products = $.map( DIGITS, function( digit, index ){
+                                return expr([ "*", digit, pow( 10, maxPower - index ) ]);
+                            });
+                            return products.join( "+" );
+                        })()
+                    </var>
 
-					<var id="HINT_IN_WORDS">
-						(function() {
-							var maxPower = DIGITS.length - 1;
-							var words = jQuery.map( DIGITS, function( digit, index ) {
-								return plural( digit, powerToPlace( maxPower - index ) );
-							});
-							return words.join( " + " );
-						})()
-					</var>
+                    <var id="HINT_IN_WORDS">
+                        (function() {
+                            var maxPower = DIGITS.length - 1;
+                            var words = $.map( DIGITS, function( digit, index ) {
+                                return plural( digit, powerToPlace( maxPower - index ) );
+                            });
+                            return words.join( " + " );
+                        })()
+                    </var>
 
-					<var id="PLACES">
-						(function() {
-							var places = placesLeftOfDecimal.slice( 0, 4 );
-							return jQuery.map( places, function( place, i ) {
-								return place + "s";
-							});
-						})()
-					</var>
-					<var id="SOLUTION">PLACES[ DIGITS.length - 1 - POWER ]</var>
-				</div>
+                    <var id="PLACES">
+                        (function() {
+                            var places = placesLeftOfDecimal.slice( 0, 4 );
+                            return $.map( places, function( place, i ) {
+                                return place + "s";
+                            });
+                        })()
+                    </var>
+                    <var id="SOLUTION">PLACES[ DIGITS.length - 1 - POWER ]</var>
+                </div>
 
-				<p class="question">What is the place value of <var>DIGIT</var> in <var>NUMBER</var>?</p>
-				<p class="solution"><var>SOLUTION</var></p>
-				<ul class="choices" data-category="true">
-					<li data-each="PLACES as place"><var>place</var></li>
-				</ul>
+                <p class="question">What is the place value of <var>DIGIT</var> in <var>NUMBER</var>?</p>
+                <p class="solution"><var>SOLUTION</var></p>
+                <ul class="choices" data-category="true">
+                    <li data-each="PLACES as place"><var>place</var></li>
+                </ul>
 
-				<div class="hints">
-					<div>
-						<p><var>NUMBER</var> can be represented as follows.</p>
-						<p><code>= <var>HINT_IN_NUMBERS</var></code></p>
-					</div>
-					<p><code>= </code> <var>HINT_IN_WORDS</var></p>
-					<p class="final_hint">Thus, <var>DIGIT</var> is in the <var>SOLUTION</var> place.</p>
-				</div>
-			</div>
+                <div class="hints">
+                    <div>
+                        <p><var>NUMBER</var> can be represented as follows.</p>
+                        <p><code>= <var>HINT_IN_NUMBERS</var></code></p>
+                    </div>
+                    <p><code>= </code> <var>HINT_IN_WORDS</var></p>
+                    <p class="final_hint">Thus, <var>DIGIT</var> is in the <var>SOLUTION</var> place.</p>
+                </div>
+            </div>
 
-			<div>
-				<div class="vars" data-ensure="NUMBER > 99">
-					<var id="DIGITS">randRange( 0, 9, 4 )</var>
-					<var id="NUMBER">digitsToInteger( DIGITS )</var>
-					<var id="ADDENDS">[ ]</var>
-					<var id="HINT">
-						(function() {
-							var maxPower = DIGITS.length - 1;
-							return jQuery.map(DIGITS, function(digit, index) {
-								if ( digit === 0 ) {
-									return null;
-								}
+            <div>
+                <div class="vars" data-ensure="NUMBER > 99">
+                    <var id="DIGITS">randRange( 0, 9, 4 )</var>
+                    <var id="NUMBER">digitsToInteger( DIGITS )</var>
+                    <var id="ADDENDS">[ ]</var>
+                    <var id="HINT">
+                        (function() {
+                            var maxPower = DIGITS.length - 1;
+                            return $.map(DIGITS, function(digit, index) {
+                                if ( digit === 0 ) {
+                                    return null;
+                                }
 
-								var addend;
-								if ( index === DIGITS.length - 1 ) {
-									if ( DIGITS[ index - 1] === 0 ) {
-										ADDENDS.push( digit );
-										return cardinal( digit ) + " is the same as " + digit;
-									}
-								} else if ( index === DIGITS.length - 2 ) {
-									addend = digit * 10 + DIGITS[ DIGITS.length - 1 ];
-									ADDENDS.push( addend );
-									return cardinal( addend ) + " is the same as " + addend;
-								} else {
-									var words = cardinal( digit ) + " " + powerToPlace(maxPower - index);
-									var input = [ "*", digit, pow(10, maxPower - index) ];
-									var ex = expr( input );
-									addend = expr( input, true );
+                                var addend;
+                                if ( index === DIGITS.length - 1 ) {
+                                    if ( DIGITS[ index - 1] === 0 ) {
+                                        ADDENDS.push( digit );
+                                        return cardinal( digit ) + " is the same as " + digit;
+                                    }
+                                } else if ( index === DIGITS.length - 2 ) {
+                                    addend = digit * 10 + DIGITS[ DIGITS.length - 1 ];
+                                    ADDENDS.push( addend );
+                                    return cardinal( addend ) + " is the same as " + addend;
+                                } else {
+                                    var words = cardinal( digit ) + " " + powerToPlace(maxPower - index);
+                                    var input = [ "*", digit, pow(10, maxPower - index) ];
+                                    var ex = expr( input );
+                                    addend = expr( input, true );
 
-									ADDENDS.push( addend );
-									return words + " is the same as " + ex + " = " + addend;
-								}
-							});
-						})()
-					</var>
-				</div>
+                                    ADDENDS.push( addend );
+                                    return words + " is the same as " + ex + " = " + addend;
+                                }
+                            });
+                        })()
+                    </var>
+                </div>
 
-				<p class="question">What is <var>cardinal( NUMBER )</var> in standard form?</p>
-				<p class="solution"><var>NUMBER</var></p>
-				<div class="hints">
-					<p data-each="HINT as hint"><var>hint</var></p>
-					<div>
-						<p>Add all these parts up:</p>
-						<p><var>ADDENDS.join( " + " )</var></p>
-					</div>
-					<p>= <var>NUMBER</var></p>
-				</div>
+                <p class="question">What is <var>cardinal( NUMBER )</var> in standard form?</p>
+                <p class="solution"><var>NUMBER</var></p>
+                <div class="hints">
+                    <p data-each="HINT as hint"><var>hint</var></p>
+                    <div>
+                        <p>Add all these parts up:</p>
+                        <p><var>ADDENDS.join( " + " )</var></p>
+                    </div>
+                    <p>= <var>NUMBER</var></p>
+                </div>
 
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

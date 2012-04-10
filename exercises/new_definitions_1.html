@@ -1,62 +1,62 @@
 <!DOCTYPE html>
 <html data-require="math word-problems expressions">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>New definitions 1</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>New definitions 1</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars">
-		<var id="C">randRange(3, 8)</var>
-		<var id="D">randRange(2, 4)</var>
-		<var id="FUN">randFromArray([
-			function(x, y) { return ["+", ["*", C, x], y]; },
-			function(x, y) { return ["-", ["*", C, x], y]; },
-			function(x, y) { return ["+", x, ["*", C, y]]; },
-			function(x, y) { return ["-", x, ["*", C, y]]; },
-			function(x, y) { return ["-", ["*", C, x], ["*", D, y]]; },
-			function(x, y) { return ["-", ["*", D, x], ["*", C, y]]; },
-			function(x, y) { return ["*", x, ["-", y, C]]; },
-			function(x, y) { return ["*", ["-", C, x], y]; },
-			function(x, y) { return ["+", ["^", x, 2], ["*", D, ["^", y, 2]]]; },
-			function(x, y) { return ["+", ["*", D, ["^", x, 2]], ["^", y, 2]]; },
-			function(x, y) { return ["-", ["^", x, 2], ["*", D, ["^", y, 2]]]; },
-			function(x, y) { return ["-", ["*", D, ["^", x, 2]], ["^", y, 2]]; },
-			function(x, y) { return ["-", ["*", D, x], C]; },
-			function(x, y) { return ["+", ["*", C, y], D]; },
-			function(x, y) { return ["+", ["*", x, y], ["*", D, x], ["-", y]]; }
-		])</var>
+    <div class="exercise">
+    <div class="vars">
+        <var id="C">randRange(3, 8)</var>
+        <var id="D">randRange(2, 4)</var>
+        <var id="FUN">randFromArray([
+            function(x, y) { return ["+", ["*", C, x], y]; },
+            function(x, y) { return ["-", ["*", C, x], y]; },
+            function(x, y) { return ["+", x, ["*", C, y]]; },
+            function(x, y) { return ["-", x, ["*", C, y]]; },
+            function(x, y) { return ["-", ["*", C, x], ["*", D, y]]; },
+            function(x, y) { return ["-", ["*", D, x], ["*", C, y]]; },
+            function(x, y) { return ["*", x, ["-", y, C]]; },
+            function(x, y) { return ["*", ["-", C, x], y]; },
+            function(x, y) { return ["+", ["^", x, 2], ["*", D, ["^", y, 2]]]; },
+            function(x, y) { return ["+", ["*", D, ["^", x, 2]], ["^", y, 2]]; },
+            function(x, y) { return ["-", ["^", x, 2], ["*", D, ["^", y, 2]]]; },
+            function(x, y) { return ["-", ["*", D, ["^", x, 2]], ["^", y, 2]]; },
+            function(x, y) { return ["-", ["*", D, x], C]; },
+            function(x, y) { return ["+", ["*", C, y], D]; },
+            function(x, y) { return ["+", ["*", x, y], ["*", D, x], ["-", y]]; }
+        ])</var>
 
-		<var id="X">randRange(-6, 6)</var>
-		<var id="Y">randRange(-6, 6)</var>
+        <var id="X">randRange(-6, 6)</var>
+        <var id="Y">randRange(-6, 6)</var>
 
-		<var id="TEXT">expr(FUN("x", "y"))</var>
-		<var id="SUBS">expr(FUN(X, Y))</var>
-		<var id="VALU">expr(FUN(X, Y), true)</var>
+        <var id="TEXT">expr(FUN("x", "y"))</var>
+        <var id="SUBS">expr(FUN(X, Y))</var>
+        <var id="VALU">expr(FUN(X, Y), true)</var>
 
-		<var id="XONLY">!isNaN(expr(FUN(0, NaN), true))</var>
-		<var id="YONLY">!isNaN(expr(FUN(NaN, 0), true))</var>
-	</div>
+        <var id="XONLY">!isNaN(expr(FUN(0, NaN), true))</var>
+        <var id="YONLY">!isNaN(expr(FUN(NaN, 0), true))</var>
+    </div>
 
-	<div class="problems">
-		<div>
-			<div class="question">
-				<p>If <code>x <var>binop(1)</var> y = <var>TEXT</var></code>, find <code><var>X</var> <var>binop(1)</var> <var>Y</var></code>.</p>
-			</div>
-			<div class="solution"><var>VALU</var></div>
-		</div>
-	</div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>If <code>x <var>binop(1)</var> y = <var>TEXT</var></code>, find <code><var>X</var> <var>binop(1)</var> <var>Y</var></code>.</p>
+            </div>
+            <div class="solution"><var>VALU</var></div>
+        </div>
+    </div>
 
-	<div class="hints">
-		<p>Substitute in
-			<span data-if="XONLY"><code>x = <var>X</var></code></span>
-			<span data-else data-if="YONLY"><code>y = <var>Y</var></code></span>
-			<span data-else><code>x = <var>X</var></code> and <code>y = <var>Y</var></code></span>
-		to get <code><var>SUBS</var></code>.</p>
+    <div class="hints">
+        <p>Substitute in
+            <span data-if="XONLY"><code>x = <var>X</var></code></span>
+            <span data-else data-if="YONLY"><code>y = <var>Y</var></code></span>
+            <span data-else><code>x = <var>X</var></code> and <code>y = <var>Y</var></code></span>
+        to get <code><var>SUBS</var></code>.</p>
 
-		<p>Simplify the expression to get <code><var>VALU</var></code>.</p>
-	</div>
-	</div>
+        <p>Simplify the expression to get <code><var>VALU</var></code>.</p>
+    </div>
+    </div>
 </body>
 </html>
