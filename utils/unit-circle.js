@@ -201,23 +201,23 @@ $.extend(KhanUtil, {
 
     highlightAngle: function() {
         var graph = KhanUtil.currentGraph;
-        graph.dragPoint.animate({scale: 2}, 50);
-        graph.angleLines.animate({stroke: KhanUtil.ORANGE}, 100);
-        graph.spiral.animate({stroke: KhanUtil.ORANGE}, 100);
-        graph.arrow.animate({fill: KhanUtil.ORANGE}, 100);
-        $(graph.angleLabel).animate({color: KhanUtil.ORANGE}, 100);
-        //$(graph.angleLabel).css({color: KhanUtil.ORANGE});
+        graph.dragPoint.animate({ scale: 2 }, 50);
+        graph.angleLines.animate({ stroke: KhanUtil.ORANGE }, 100);
+        graph.spiral.animate({ stroke: KhanUtil.ORANGE }, 100);
+        graph.arrow.animate({ fill: KhanUtil.ORANGE }, 100);
+        $(graph.angleLabel).animate({ color: KhanUtil.ORANGE }, 100);
+        //$(graph.angleLabel).css({ color: KhanUtil.ORANGE });
     },
 
 
     unhighlightAngle: function() {
         var graph = KhanUtil.currentGraph;
-        graph.dragPoint.animate({scale: 1}, 50);
-        graph.angleLines.animate({stroke: KhanUtil.BLUE}, 100);
-        graph.spiral.animate({stroke: KhanUtil.BLUE}, 100);
-        graph.arrow.animate({fill: KhanUtil.BLUE}, 100);
-        $(graph.angleLabel).animate({color: KhanUtil.BLUE}, 100);
-        //$(graph.angleLabel).css({color: KhanUtil.BLUE});
+        graph.dragPoint.animate({ scale: 1 }, 50);
+        graph.angleLines.animate({ stroke: KhanUtil.BLUE }, 100);
+        graph.spiral.animate({ stroke: KhanUtil.BLUE }, 100);
+        graph.arrow.animate({ fill: KhanUtil.BLUE }, 100);
+        $(graph.angleLabel).animate({ color: KhanUtil.BLUE }, 100);
+        //$(graph.angleLabel).css({ color: KhanUtil.BLUE });
     },
 
 
@@ -247,11 +247,11 @@ $.extend(KhanUtil, {
         }
 
         // Draw the bold angle lines
-        graph.style({stroke: highlightColor, strokeWidth: 3});
+        graph.style({ stroke: highlightColor, strokeWidth: 3 });
         graph.angleLines = graph.path([[1, 0], [0, 0], [Math.cos(angle), Math.sin(angle)]]);
 
 
-        graph.style({stroke: KhanUtil.BLUE, strokeWidth: 1});
+        graph.style({ stroke: KhanUtil.BLUE, strokeWidth: 1 });
         graph.triangle = graph.path([[0, 0], [Math.cos(angle), 0], [Math.cos(angle), Math.sin(angle)], [0, 0]]);
 
         var cosText = KhanUtil.roundTo(3, Math.cos(angle));
@@ -303,14 +303,14 @@ $.extend(KhanUtil, {
             points.push([Math.cos(i * angle / 50) * (0.1 + ((i * Math.abs(angle) / 50 / Math.PI) * 0.02)),
                           Math.sin(i * angle / 50) * (0.1 + ((i * Math.abs(angle) / 50 / Math.PI) * 0.02))]);
         }
-        graph.style({strokeWidth: 2, stroke: highlightColor});
+        graph.style({ strokeWidth: 2, stroke: highlightColor });
 
         graph.spiral = graph.path(points);
 
         // Draw an arrow at the end of the spiral angle indicator
         var spiralEndX = points[50][0];
         var spiralEndY = points[50][1];
-        graph.style({stroke: false, fill: highlightColor}, function() {
+        graph.style({ stroke: false, fill: highlightColor }, function() {
             if (angle > Math.PI / 12) {
                 // positive angles big enough to need an arrow
                 graph.arrow = graph.path([[spiralEndX, spiralEndY - 0.005],

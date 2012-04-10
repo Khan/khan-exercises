@@ -45,7 +45,7 @@ $.extend(KhanUtil, {
             times = KhanUtil.times[id];
             KhanUtil.currentGraph = $("#problemarea").find("#" + id).data("graphie");
             KhanUtil.currentGraph.raphael.clear();
-            KhanUtil.currentGraph.init({range: [[0, 1], [0, 1]], scale: [600 / pieces * times, 25]});
+            KhanUtil.currentGraph.init({ range: [[0, 1], [0, 1]], scale: [600 / pieces * times, 25] });
             rectchart([times, 0], ["#e00", "#999"]);
             $("#" + id + "_answer input").val(KhanUtil.roundTo(3, times / pieces));
         }

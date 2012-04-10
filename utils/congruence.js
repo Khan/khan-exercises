@@ -38,7 +38,7 @@ $.extend(KhanUtil, {
             var triangle = KhanUtil.addInteractiveTriangle(options);
 
             // Point 0 is a fixed distance from point 1
-            triangle.points[0].constraints.fixedDistance = {dist: options.sides[0], point: triangle.points[1]};
+            triangle.points[0].constraints.fixedDistance = { dist: options.sides[0], point: triangle.points[1] };
 
             // Point 1 can be used to rotate the shape
             triangle.setRotationPoint(1);
@@ -47,7 +47,7 @@ $.extend(KhanUtil, {
             triangle.setRotationPoint(2);
 
             // Point 3 is a fixed distance from point 2
-            triangle.points[3].constraints.fixedDistance = {dist: options.sides[2], point: triangle.points[2]};
+            triangle.points[3].constraints.fixedDistance = { dist: options.sides[2], point: triangle.points[2] };
 
             // When point 0 moves, check if it's close enough to point 3 to make a triangle
             triangle.points[0].onMove = function(coordX, coordY) {
@@ -103,16 +103,16 @@ $.extend(KhanUtil, {
             var triangle = KhanUtil.addInteractiveTriangle(options);
 
             // Point 0 is a fixed distance from point 1
-            triangle.points[0].constraints.fixedDistance = {dist: options.sides[0], point: triangle.points[1]};
+            triangle.points[0].constraints.fixedDistance = { dist: options.sides[0], point: triangle.points[1] };
 
             // Point 1 can be used to rotate the shape
             triangle.setRotationPoint(1);
 
             // Point 2 is a fixed distance from point 1
-            triangle.points[2].constraints.fixedDistance = {dist: options.sides[1], point: triangle.points[1]};
+            triangle.points[2].constraints.fixedDistance = { dist: options.sides[1], point: triangle.points[1] };
 
             // Point 3 is a fixed angle from points 1 and 2
-            triangle.points[3].constraints.fixedAngle = {angle: options.angles[2] * (triangle.reflected ? 1 : -1), vertex: triangle.points[2], ref: triangle.points[1]};
+            triangle.points[3].constraints.fixedAngle = { angle: options.angles[2] * (triangle.reflected ? 1 : -1), vertex: triangle.points[2], ref: triangle.points[1] };
 
             // When point 0 moves, check if it's close enough to point 3 to make a triangle
             triangle.points[0].onMove = function(coordX, coordY) {
@@ -188,7 +188,7 @@ $.extend(KhanUtil, {
             triangle.setRotationPoint(0);
 
             // Point 1 is a fixed distance from point 2
-            triangle.points[1].constraints.fixedDistance = {dist: options.sides[1], point: triangle.points[2]};
+            triangle.points[1].constraints.fixedDistance = { dist: options.sides[1], point: triangle.points[2] };
 
             // Point 2 can be used to rotate the shape
             triangle.setRotationPoint(2);
@@ -247,13 +247,13 @@ $.extend(KhanUtil, {
             triangle.setRotationPoint(0);
 
             // Point 1 is a fixed angle from points 3 and 2
-            triangle.points[1].constraints.fixedAngle = {angle: options.angles[2] * (triangle.reflected ? -1 : 1), vertex: triangle.points[2], ref: triangle.points[3]};
+            triangle.points[1].constraints.fixedAngle = { angle: options.angles[2] * (triangle.reflected ? -1 : 1), vertex: triangle.points[2], ref: triangle.points[3] };
 
             // Point 2 can be used to rotate the shape
             triangle.setRotationPoint(2);
 
             // Point 3 is a fixed angle from points 1 and 2
-            triangle.points[3].constraints.fixedAngle = {angle: options.angles[2] * (triangle.reflected ? 1 : -1), vertex: triangle.points[2], ref: triangle.points[1]};
+            triangle.points[3].constraints.fixedAngle = { angle: options.angles[2] * (triangle.reflected ? 1 : -1), vertex: triangle.points[2], ref: triangle.points[1] };
 
             // When point 1 moves, point 0 moves along with it
             triangle.points[1].onMove = function(coordX, coordY) {
@@ -326,7 +326,7 @@ $.extend(KhanUtil, {
             var triangle = KhanUtil.addInteractiveTriangle(options);
 
             // Point 0 is a fixed angle from points 2 and 1
-            triangle.points[0].constraints.fixedAngle = {angle: options.angles[1] * (triangle.reflected ? -1 : 1), vertex: triangle.points[1], ref: triangle.points[2]};
+            triangle.points[0].constraints.fixedAngle = { angle: options.angles[1] * (triangle.reflected ? -1 : 1), vertex: triangle.points[1], ref: triangle.points[2] };
 
             // Point 1 can be used to rotate the shape
             triangle.setRotationPoint(1);
@@ -335,7 +335,7 @@ $.extend(KhanUtil, {
             triangle.setRotationPoint(2);
 
             // Point 3 is a fixed angle from points 1 and 2
-            triangle.points[3].constraints.fixedAngle = {angle: options.angles[2] * (triangle.reflected ? 1 : -1), vertex: triangle.points[2], ref: triangle.points[1]};
+            triangle.points[3].constraints.fixedAngle = { angle: options.angles[2] * (triangle.reflected ? 1 : -1), vertex: triangle.points[2], ref: triangle.points[1] };
 
             // When point 0 moves, check if it's close enough to point 3 to make a triangle
             triangle.points[0].onMove = function(coordX, coordY) {
@@ -497,18 +497,18 @@ $.extend(KhanUtil, {
                 for (var point = 0; point < 4; ++point) {
                     triangle.radii[point] = KhanUtil.getDistance(triangle.points[point].coord, triangle.rotationPoint.coord);
                     if (triangle.points[point].isRotationPoint) {
-                        triangle.points[point].constraints.fixedDistance = {dist: triangle.radii[point], point: triangle.rotationPoint};
+                        triangle.points[point].constraints.fixedDistance = { dist: triangle.radii[point], point: triangle.rotationPoint };
                     }
                 }
             }
 
-            KhanUtil.currentGraph.style({stroke: KhanUtil.BLUE, opacity: 1.0, "stroke-width": 2});
+            KhanUtil.currentGraph.style({ stroke: KhanUtil.BLUE, opacity: 1.0, "stroke-width": 2 });
             for (var angle = 0; angle < 2; ++angle) {
-                $(triangle.arcs[angle]).each(function() {this.remove();});
+                $(triangle.arcs[angle]).each(function() { this.remove(); });
                 triangle.arcs[angle] = KhanUtil.drawArcs(triangle.points[angle].coord, triangle.points[angle + 1].coord, triangle.points[angle + 2].coord, options.numArcs[angle]);
             }
             if (options.numArcs[2]) {
-                $(triangle.arcs[2]).each(function() {this.remove();});
+                $(triangle.arcs[2]).each(function() { this.remove(); });
                 triangle.arcs[angle] = KhanUtil.drawArcs(triangle.points[2].coord, triangle.points[3].coord, triangle.points[1].coord, options.numArcs[2]);
             }
 
@@ -516,16 +516,16 @@ $.extend(KhanUtil, {
                 this.transform(true);
                 this.toFront();
             });
-            $(triangle.points).each(function() {this.toFront();});
+            $(triangle.points).each(function() { this.toFront(); });
         };
 
         // Call to set one of the points to rotate the entire shape
         triangle.setRotationPoint = function(point) {
             triangle.points[point].isRotationPoint = true;
-            triangle.points[point].normalStyle = {fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE, scale: 1};
-            triangle.points[point].highlightStyle = {fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE, scale: 1.5};
+            triangle.points[point].normalStyle = { fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE, scale: 1 };
+            triangle.points[point].highlightStyle = { fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE, scale: 1.5 };
             triangle.points[point].visibleShape.attr(triangle.points[point].normalStyle);
-            triangle.points[point].constraints.fixedDistance = {dist: triangle.radii[point], point: triangle.rotationPoint};
+            triangle.points[point].constraints.fixedDistance = { dist: triangle.radii[point], point: triangle.rotationPoint };
 
             triangle.points[point].onMove = function(coordX, coordY) {
                 var dAngle = KhanUtil.findAngle([coordX, coordY], triangle.points[point].coord, triangle.rotationPoint.coord) * Math.PI / 180;
@@ -547,11 +547,11 @@ $.extend(KhanUtil, {
             this.blur();
             if (!triangle.animating) {
                 triangle.animating = true;
-                var startPoints = $.map(triangle.points, function(pt) {return [pt.coord.slice()];});
-                var xMin = Math.min.apply(Math, $.map(startPoints, function(x) {return x[0];}));
-                var xMax = Math.max.apply(Math, $.map(startPoints, function(x) {return x[0];}));
+                var startPoints = $.map(triangle.points, function(pt) { return [pt.coord.slice()]; });
+                var xMin = Math.min.apply(Math, $.map(startPoints, function(x) { return x[0]; }));
+                var xMax = Math.max.apply(Math, $.map(startPoints, function(x) { return x[0]; }));
                 var xMid = (xMin + xMax) / 2;
-                var endPoints = $.map(triangle.points, function(pt) {return [[xMid - pt.coord[0] + xMid, pt.coord[1]]];});
+                var endPoints = $.map(triangle.points, function(pt) { return [[xMid - pt.coord[0] + xMid, pt.coord[1]]]; });
 
                 // flip the angles around
                 $(triangle.points).each(function(n, point) {
@@ -562,20 +562,20 @@ $.extend(KhanUtil, {
                 triangle.reflected = !triangle.reflected;
 
                 // remove the angle arc decorations since (without some effort) they look funny during the animation
-                $(triangle.arcs[0]).each(function() {this.remove();});
-                $(triangle.arcs[1]).each(function() {this.remove();});
-                $(triangle.arcs[2]).each(function() {this.remove();});
+                $(triangle.arcs[0]).each(function() { this.remove(); });
+                $(triangle.arcs[1]).each(function() { this.remove(); });
+                $(triangle.arcs[2]).each(function() { this.remove(); });
 
-                var xCoords = {0: startPoints[0][0], 1: startPoints[1][0], 2: startPoints[2][0], 3: startPoints[3][0]};
-                $(xCoords).animate({0: endPoints[0][0], 1: endPoints[1][0], 2: endPoints[2][0], 3: endPoints[3][0]}, {
+                var xCoords = { 0: startPoints[0][0], 1: startPoints[1][0], 2: startPoints[2][0], 3: startPoints[3][0] };
+                $(xCoords).animate({ 0: endPoints[0][0], 1: endPoints[1][0], 2: endPoints[2][0], 3: endPoints[3][0] }, {
                     duration: 500,
                     easing: "linear",
                     step: function(now, fx) {
-                        $(triangle.points).each(function(n) {this.setCoord([xCoords[n], endPoints[n][1]]);});
-                        $(triangle.lines).each(function() {this.transform(true);});
+                        $(triangle.points).each(function(n) { this.setCoord([xCoords[n], endPoints[n][1]]); });
+                        $(triangle.lines).each(function() { this.transform(true); });
                     },
                     complete: function() {
-                        $(triangle.points).each(function(n) {this.setCoord(endPoints[n]);});
+                        $(triangle.points).each(function(n) { this.setCoord(endPoints[n]); });
                         triangle.update();
                         triangle.animating = false;
                     }
@@ -594,35 +594,35 @@ $.extend(KhanUtil, {
 
         // Start at 0,0 and build the shape, logo-style
         var coord = [0, 0];
-        triangle.points.push(KhanUtil.addMovablePoint({coord: coord}));
+        triangle.points.push(KhanUtil.addMovablePoint({ coord: coord }));
 
         coord[0] += options.sides[0] * Math.cos(angles[0] * Math.PI / 180);
         coord[1] += options.sides[0] * Math.sin(angles[0] * Math.PI / 180);
-        triangle.points.push(KhanUtil.addMovablePoint({coord: coord}));
+        triangle.points.push(KhanUtil.addMovablePoint({ coord: coord }));
 
         coord[0] += options.sides[1] * Math.cos(-(180 - angles[1] - angles[0]) * Math.PI / 180);
         coord[1] += options.sides[1] * Math.sin(-(180 - angles[1] - angles[0]) * Math.PI / 180);
-        triangle.points.push(KhanUtil.addMovablePoint({coord: coord}));
+        triangle.points.push(KhanUtil.addMovablePoint({ coord: coord }));
 
         coord[0] += options.sides[2] * Math.cos((angles[2] + angles[1] + angles[0]) * Math.PI / 180);
         coord[1] += options.sides[2] * Math.sin((angles[2] + angles[1] + angles[0]) * Math.PI / 180);
-        triangle.points.push(KhanUtil.addMovablePoint({coord: coord}));
+        triangle.points.push(KhanUtil.addMovablePoint({ coord: coord }));
 
-        triangle.lines.push(KhanUtil.addMovableLineSegment({pointA: triangle.points[0], pointZ: triangle.points[1], ticks: options.ticks[0], highlightStyle: {"stroke": KhanUtil.BLUE, "stroke-width": 4 }}));
-        triangle.lines.push(KhanUtil.addMovableLineSegment({pointA: triangle.points[1], pointZ: triangle.points[2], ticks: options.ticks[1], highlightStyle: {"stroke": KhanUtil.BLUE, "stroke-width": 4 }}));
-        triangle.lines.push(KhanUtil.addMovableLineSegment({pointA: triangle.points[2], pointZ: triangle.points[3], ticks: options.ticks[2], highlightStyle: {"stroke": KhanUtil.BLUE, "stroke-width": 4 }}));
+        triangle.lines.push(KhanUtil.addMovableLineSegment({ pointA: triangle.points[0], pointZ: triangle.points[1], ticks: options.ticks[0], highlightStyle: { "stroke": KhanUtil.BLUE, "stroke-width": 4 } }));
+        triangle.lines.push(KhanUtil.addMovableLineSegment({ pointA: triangle.points[1], pointZ: triangle.points[2], ticks: options.ticks[1], highlightStyle: { "stroke": KhanUtil.BLUE, "stroke-width": 4 } }));
+        triangle.lines.push(KhanUtil.addMovableLineSegment({ pointA: triangle.points[2], pointZ: triangle.points[3], ticks: options.ticks[2], highlightStyle: { "stroke": KhanUtil.BLUE, "stroke-width": 4 } }));
 
-        triangle.rotationPoint = KhanUtil.addMovablePoint({visible: false});
+        triangle.rotationPoint = KhanUtil.addMovablePoint({ visible: false });
 
         // Translate the triangle so its all visible
         var xlateX = 4 - Math.max(triangle.points[0].coord[0], triangle.points[1].coord[0], triangle.points[2].coord[0], triangle.points[3].coord[0]);
         var xlateY = 4 - Math.max(triangle.points[0].coord[1], triangle.points[1].coord[1], triangle.points[2].coord[1], triangle.points[3].coord[1]);
-        $(triangle.points).each(function() {this.setCoord([this.coord[0] + xlateX, this.coord[1] + xlateY]);});
+        $(triangle.points).each(function() { this.setCoord([this.coord[0] + xlateX, this.coord[1] + xlateY]); });
 
         // Dragging the lines translates the entire shape
         for (var line = 0; line < 3; ++line) {
             triangle.lines[line].onMove = function(dX, dY) {
-                $(triangle.points).each(function() {this.setCoord([this.coord[0] + dX, this.coord[1] + dY]);});
+                $(triangle.points).each(function() { this.setCoord([this.coord[0] + dX, this.coord[1] + dY]); });
                 triangle.update();
             };
             triangle.lines[line].onMoveEnd = function() {
@@ -664,13 +664,13 @@ $.extend(KhanUtil, {
             arcs = [1, 2, 3];
         }
 
-        KhanUtil.addMovableLineSegment({coordA: triangle.points[0], coordZ: triangle.points[1], fixed: true, ticks: ticks[0], normalStyle: {stroke: "#b1c9f5", "stroke-width": 2 }});
-        KhanUtil.addMovableLineSegment({coordA: triangle.points[1], coordZ: triangle.points[2], fixed: true, ticks: ticks[1], normalStyle: {stroke: "#b1c9f5", "stroke-width": 2 }});
-        KhanUtil.addMovableLineSegment({coordA: triangle.points[2], coordZ: triangle.points[0], fixed: true, ticks: ticks[2], normalStyle: {stroke: "#b1c9f5", "stroke-width": 2 }});
+        KhanUtil.addMovableLineSegment({ coordA: triangle.points[0], coordZ: triangle.points[1], fixed: true, ticks: ticks[0], normalStyle: { stroke: "#b1c9f5", "stroke-width": 2 } });
+        KhanUtil.addMovableLineSegment({ coordA: triangle.points[1], coordZ: triangle.points[2], fixed: true, ticks: ticks[1], normalStyle: { stroke: "#b1c9f5", "stroke-width": 2 } });
+        KhanUtil.addMovableLineSegment({ coordA: triangle.points[2], coordZ: triangle.points[0], fixed: true, ticks: ticks[2], normalStyle: { stroke: "#b1c9f5", "stroke-width": 2 } });
         KhanUtil.drawArcs(triangle.points[2], triangle.points[0], triangle.points[1], arcs[0]);
         KhanUtil.drawArcs(triangle.points[0], triangle.points[1], triangle.points[2], arcs[1]);
         KhanUtil.drawArcs(triangle.points[1], triangle.points[2], triangle.points[0], arcs[2]);
-        $(triangle.set).each(function() {this.toBack();});
+        $(triangle.set).each(function() { this.toBack(); });
     }
 
 });

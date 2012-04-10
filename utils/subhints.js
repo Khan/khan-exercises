@@ -13,7 +13,7 @@
         var subhint = $("#" + $(this).data("subhint"));
         var visibleText = $(this).data("visible-text") || $(this).text();
         var hiddenText = $(this).data("hidden-text") || "Hide explanation";
-        $(this).data({"visible-text": visibleText, "hidden-text": hiddenText});
+        $(this).data({ "visible-text": visibleText, "hidden-text": hiddenText });
 
         if (subhint.is(":visible")) {
             $(this).text(visibleText);

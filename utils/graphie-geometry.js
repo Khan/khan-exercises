@@ -42,7 +42,7 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
     this.drawLineOfSymmetry = function(i, color) {
         var coords = getSymmetryCoordinates(i);
         color = color || KhanUtil.BLUE;
-        return graph.line.apply(graph, $.merge(coords, [{stroke: color}]));
+        return graph.line.apply(graph, $.merge(coords, [{ stroke: color }]));
     }
 
     this.drawFakeLineOfSymmetry = function(i, color) {
@@ -50,7 +50,7 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
         var coords = getSymmetryCoordinates(i),
             angle = 360 / numSides / 2,
             fudge = KhanUtil.randRange(10, angle - 10) * KhanUtil.randFromArray([-1, 1]);
-        return graph.line(rotatePoint(coords[0], fudge), rotatePoint(coords[1], fudge), {stroke: color});
+        return graph.line(rotatePoint(coords[0], fudge), rotatePoint(coords[1], fudge), { stroke: color });
     }
 
     // Does not currently work with 2 points on one side
@@ -75,7 +75,7 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
         }
         currPath.push(this.path[i]);
         paths.push(currPath);
-        return graph.path(paths[1], {stroke: KhanUtil.ORANGE, "stroke-width": 5});
+        return graph.path(paths[1], { stroke: KhanUtil.ORANGE, "stroke-width": 5 });
     }
 
     this.path = this.draw();
@@ -102,7 +102,7 @@ function sameSide(p1, p2, l) {
     return (dotProduct(cp1, cp2) >= 0);
 }
 //Takes an array and an array of positions, all elements whose index is not in the positions array gets replaced by ""
-//Very useful for labels, for example, clearArray(["x", "x", "x" ], [ANGLE ]), where ANGLE is 1, will give you ["", "x", ""], which you can use to label angles in a Triangle such that the second angle is labeled x
+//Very useful for labels, for example, clearArray(["x", "x", "x"], [ANGLE]), where ANGLE is 1, will give you ["", "x", ""], which you can use to label angles in a Triangle such that the second angle is labeled x
 
 function clearArray(arr, i) {
     return $.map(arr, function(el, index) {
@@ -115,7 +115,7 @@ function clearArray(arr, i) {
     });
 }
 
-//Used together with clearArray, for example mergeArray(clearArray(["x", "x", "x" ], [ANGLE ] ), ["a","b","c" ]), where ANGLE is 1, gives labels for a triangle ["a", "x", "c"]
+//Used together with clearArray, for example mergeArray(clearArray(["x", "x", "x"], [ANGLE]), ["a","b","c"]), where ANGLE is 1, gives labels for a triangle ["a", "x", "c"]
 //need to be same length
 function mergeArray(ar1, ar2) {
     var i = 0;
@@ -225,7 +225,7 @@ function degToRad(deg) {
     return deg * Math.PI / 180;
 }
 
-//Returns [m, k] of y = mx + k
+//Returns [ m, k ] of y = mx + k
 //Vulnerable to division by 0
 function lineEquation(line) {
     var x = [line[0][0], line[1][0]];
@@ -342,11 +342,11 @@ function Triangle(center, angles, scale, labels, points) {
 
     this.sideLengths = $.map(this.sides, lineLength);
 
-    this.niceSideLengths = $.map(this.sideLengths, function(x) {return parseFloat(x.toFixed(1));});
+    this.niceSideLengths = $.map(this.sideLengths, function(x) { return parseFloat(x.toFixed(1)); });
 
     this.set = "";
-    this.niceAngles = $.map(this.angles, function(x) {return x + "^{\\circ}";});
-    this.labelObjects = {"sides": [] , "angles" : [], "points" : [], "name" : []};
+    this.niceAngles = $.map(this.angles, function(x) { return x + "^{\\circ}"; });
+    this.labelObjects = { "sides": [] , "angles" : [], "points" : [], "name" : [] };
 
 
     this.angleScale = function(ang) {
@@ -371,7 +371,7 @@ function Triangle(center, angles, scale, labels, points) {
     this.color = "black";
     this.createLabel = function(p, v) {
 
-        this.set.push(KhanUtil.currentGraph.label(p, v, "center", {color: this.color}));
+        this.set.push(KhanUtil.currentGraph.label(p, v, "center", { color: this.color }));
     }
 
     this.boxOut = function(pol, amount, type) {
@@ -388,8 +388,8 @@ function Triangle(center, angles, scale, labels, points) {
 
     this.boundingRange = function(margin) {
         margin = margin || 0;
-        var X = $.map(this.points, function(p) {return p[0];});
-        var Y = $.map(this.points, function(p) {return p[1];});
+        var X = $.map(this.points, function(p) { return p[0]; });
+        var Y = $.map(this.points, function(p) { return p[1]; });
         return [[_.min(X) - margin, _.max(X) + margin],
              [_.min(Y) - margin, _.max(Y) + margin]];
     }
@@ -531,7 +531,7 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
 
             this.sides = [[this.points[0], this.points[3]], [this.points[3], this.points[2]], [this.points[2], this.points[1]], [this.points[1], this.points[0]]];
             this.sideLengths = $.map(this.sides, lineLength);
-            this.niceSideLengths = $.map(this.sideLengths, function(x) {return parseFloat(x.toFixed(1));});
+            this.niceSideLengths = $.map(this.sideLengths, function(x) { return parseFloat(x.toFixed(1)); });
 
             if (vectorProduct([this.points[0], this.points[1]], [this.points[0], this.points[2]]) > 0 || this.sideLengths[2] < 0.09) {
                 this.sideRatio -= 0.3;

@@ -23,7 +23,7 @@ $.extend(KhanUtil, {
         // Creates a convex n-gon by choosing n-2 angles,
         // where each of the n vertices will fall somewhere
         // on these diagonals, or rays from the origin.
-        // (see http://gyazo.com/625bd5662ac07707c86fd83d9d8531a1)
+        // ( see http://gyazo.com/625bd5662ac07707c86fd83d9d8531a1 )
         // Choose the first two diagonal-lengths willy-nilly,
         // but each subsequent vertex must be closer to the origin
         // than the intersection of the corresponding diagonal
@@ -65,7 +65,7 @@ $.extend(KhanUtil, {
 
         this.draw = function() {
             var graph = KhanUtil.currentGraph;
-            graph.style({stroke: KhanUtil.BLUE});
+            graph.style({stroke: KhanUtil.BLUE });
             points.push([0, 0]);
             graph.path(points);
             points.pop();
@@ -119,7 +119,7 @@ $.extend(KhanUtil, {
             var graph = KhanUtil.currentGraph,
                 prevTheta = 0,
                 prevPoint;
-            graph.style({"stroke-dasharray": "-"});
+            graph.style({ "stroke-dasharray": "-"});
             points.push([0, 0]);
             $.each(points, function(index, point) {
                 if (index != 0) {
@@ -169,7 +169,7 @@ $.extend(KhanUtil, {
                     point = points[i],
                     coord = graph.scalePoint(point),
                     clone = gAngle.attr("stroke", getColor(i)).clone();
-                clone.animate({translation: [origin[0] - coord[0], origin[1] - coord[1]]}, 1000);
+                clone.animate({ translation: [origin[0] - coord[0], origin[1] - coord[1]] }, 1000);
             }
             points.pop();
             gExteriorAngles.shift();
@@ -202,7 +202,7 @@ $.extend(KhanUtil, {
 
         this.drawCenter = function() {
             var graph = KhanUtil.currentGraph;
-            graph.style({fill: KhanUtil.BLUE}, function() {
+            graph.style({ fill: KhanUtil.BLUE }, function() {
                 graph.circle(center, pointRadius);
             });
         }
@@ -243,14 +243,14 @@ $.extend(KhanUtil, {
             return angle;
         }
 
-        this.drawMovablePoint = function(theta, min, max) {
+        this.drawMovablePoint = function(theta, min, max ) {
             var graph = KhanUtil.currentGraph,
                 point = graph.polar(radius, theta);
                 min = min || 0,
                 max = max || 360,
-                graph.graph.movable = {vertex: KhanUtil.bogusShape, arc: KhanUtil.bogusShape, chords: [KhanUtil.bogusShape, KhanUtil.bogusShape]};
+                graph.graph.movable = { vertex: KhanUtil.bogusShape, arc: KhanUtil.bogusShape, chords: [KhanUtil.bogusShape, KhanUtil.bogusShape] };
 
-            graph.graph.inscribedPoint = KhanUtil.addMovablePoint({coordX: point[0], coordY: point[1]});
+            graph.graph.inscribedPoint = KhanUtil.addMovablePoint({coordX: point[0], coordY: point[1] });
 
             graph.graph.inscribedPoint.onMove = function(x, y) {
                 var theta = getThetaFromXY(x, y);
@@ -278,7 +278,7 @@ $.extend(KhanUtil, {
         }
 
         this.drawCentralAngle = function(start, end, arcRadius) {
-            var result = {radii: []};
+            var result = { radii: [] };
             result.radii.push(this.drawRadius(start));
             result.radii.push(this.drawRadius(end));
             result.arc = this.drawCentralArc(start, end, arcRadius);
@@ -294,7 +294,7 @@ $.extend(KhanUtil, {
                 theta2 = getThetaFromXY(point2[0] - vertex[0], point2[1] - vertex[1]),
                 arcRadius = arcRadius || 0.5,
                 arc;
-            graph.style({fill: ""}, function() {
+            graph.style({ fill: "" }, function() {
                 arc = graph.arc(vertex, arcRadius, theta1, theta2);
             });
             return arc;
@@ -305,7 +305,7 @@ $.extend(KhanUtil, {
                 chords = [this.drawChord(inscribed, start), this.drawChord(inscribed, end)],
                 vertex = this.drawPoint(inscribed),
                 arc = this.drawInscribedArc(inscribed, start, end, arcRadius);
-            return {chords: chords, vertex: vertex, arc: arc};
+            return { chords: chords, vertex: vertex, arc: arc };
         }
     }
 });

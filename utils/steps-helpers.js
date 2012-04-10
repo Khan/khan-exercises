@@ -227,7 +227,7 @@
         var doPutInContext = [[], []];
         var bestCost = 1000000;
         var iBestTrav = 0;
-        for (var iTrav = 0; iTrav < 1; iTrav++) {// TODO : add a marker indicating whether we can reverse the order
+        for (var iTrav = 0; iTrav < 1; iTrav++) { // TODO : add a marker indicating whether we can reverse the order
            var expr = KhanUtil.exprClone(steps.startExpr);
            var trav = travs[iTrav];
            var travCost = 0;
@@ -324,7 +324,7 @@
             return strHint;
         }
         var allowVSpace = false;
-        if (!steps.inContext) {// Note: comment the condition to show the sub-problem tree
+        if (!steps.inContext) { // Note: comment the condition to show the sub-problem tree
             allowVSpace = true;
             prefix += extraPrefix;
             suffix += extraSuffix;

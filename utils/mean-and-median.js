@@ -10,11 +10,11 @@ $.extend(KhanUtil, {
         graph.graph.meanValueLabel = graph.label([mean, 0.8],
             (mean + "").replace(/-(\d)/g, "\\llap{-}$1"),
             "above",
-            {color: KhanUtil.BLUE}
+            { color: KhanUtil.BLUE }
         );
 
         graph.graph.meanLabel.remove();
-        graph.graph.meanLabel = graph.label([mean, 1.3], "\\text{mean}", "above", {color: KhanUtil.BLUE});
+        graph.graph.meanLabel = graph.label([mean, 1.3], "\\text{mean}", "above", { color: KhanUtil.BLUE });
 
         graph.graph.mean = mean;
     },
@@ -28,19 +28,19 @@ $.extend(KhanUtil, {
         graph.graph.medianValueLabel = graph.label([median, -1.2],
             (median + "").replace(/-(\d)/g, "\\llap{-}$1"),
             "below",
-            {color: KhanUtil.GREEN}
+            { color: KhanUtil.GREEN }
         );
 
         graph.graph.medianLabel.remove();
-        graph.graph.medianLabel = graph.label([median, -1.7], "\\text{median}", "below", {color: KhanUtil.GREEN});
+        graph.graph.medianLabel = graph.label([median, -1.7], "\\text{median}", "below", { color: KhanUtil.GREEN });
 
         graph.graph.median = median;
     },
 
     updateMeanAndMedian: function() {
         var points = KhanUtil.currentGraph.graph.points;
-        var mean = KhanUtil.mean($.map(points, function(el) {return el.coord[0];}));
-        var median = KhanUtil.median($.map(points, function(el) {return el.coord[0];}));
+        var mean = KhanUtil.mean($.map(points, function(el) { return el.coord[0]; }));
+        var median = KhanUtil.median($.map(points, function(el) { return el.coord[0]; }));
 
         KhanUtil.updateMean(KhanUtil.roundTo(2, mean));
         KhanUtil.updateMedian(KhanUtil.roundTo(2, median));
@@ -49,8 +49,8 @@ $.extend(KhanUtil, {
     updateMeanAndStddev: function() {
         var graph = KhanUtil.currentGraph;
         var points = KhanUtil.currentGraph.graph.points;
-        var mean = KhanUtil.mean($.map(points, function(el) {return el.coord[0];}));
-        var stddev = KhanUtil.stdDev($.map(points, function(el) {return el.coord[0];}));
+        var mean = KhanUtil.mean($.map(points, function(el) { return el.coord[0]; }));
+        var stddev = KhanUtil.stdDev($.map(points, function(el) { return el.coord[0]; }));
 
         mean = KhanUtil.roundTo(1, mean);
         stddev = KhanUtil.roundTo(1, stddev);
@@ -61,18 +61,18 @@ $.extend(KhanUtil, {
         graph.graph.stddevLine.scale(stddev, 1, graph.graph.stddevLine.attr("path")[0][1], graph.graph.stddevLine.attr("path")[0][2]);
 
         graph.graph.stddevValueLabel.remove();
-        graph.graph.stddevValueLabel = graph.label([stddev / 2 + mean, -1.3], "s \\approx " + stddev, "below", {color: KhanUtil.GREEN});
+        graph.graph.stddevValueLabel = graph.label([stddev / 2 + mean, -1.3], "s \\approx " + stddev, "below", { color: KhanUtil.GREEN });
 
         if (stddev > 0) {
 
-            graph.style({strokeWidth: 2, stroke: "#bbb", fill: null, "plot-points": 100}, function() {
+            graph.style({ strokeWidth: 2, stroke: "#bbb", fill: null, "plot-points": 100 }, function() {
                 graph.graph.pdf.remove();
                 graph.graph.pdf = graph.plot(function(x) {
                     return KhanUtil.gaussianPDF(mean, stddev, x) * 5 - 0.2;
                 }, [-7, 7]).toBack();
             });
 
-            graph.style({strokeWidth: 2, stroke: KhanUtil.BLUE, fill: null}, function() {
+            graph.style({ strokeWidth: 2, stroke: KhanUtil.BLUE, fill: null }, function() {
                 graph.graph.meanLine.remove();
                 graph.graph.meanLine = graph.line([mean, -0.2], [mean, KhanUtil.gaussianPDF(mean, stddev, mean) * 5 - 0.2]).toBack();
             });
@@ -80,7 +80,7 @@ $.extend(KhanUtil, {
             graph.graph.meanValueLabel.remove();
             graph.graph.meanValueLabel = graph.label(
                 [mean, KhanUtil.gaussianPDF(mean, stddev, mean) * 5 - 0.2],
-                "\\bar{x} \\approx " + mean, "above", {color: KhanUtil.BLUE}
+                "\\bar{x} \\approx " + mean, "above", { color: KhanUtil.BLUE }
             );
 
             var points = [];
@@ -94,7 +94,7 @@ $.extend(KhanUtil, {
             points.push([mean + stddev, KhanUtil.gaussianPDF(mean, stddev, mean + stddev) * 5 - 0.2]);
             points.push([mean + stddev, -0.2]);
 
-            graph.style({strokeWidth: 0, stroke: null, fill: KhanUtil.GREEN, opacity: 0.3}, function() {
+            graph.style({ strokeWidth: 0, stroke: null, fill: KhanUtil.GREEN, opacity: 0.3 }, function() {
                 graph.graph.stddevArea.remove();
                 graph.graph.stddevArea = graph.path(points).toBack();
             });
@@ -142,7 +142,7 @@ $.extend(KhanUtil, {
 
             // Adjust the y-value of each point in case points are stacked
             $.each(positions, function(value, points) {
-                points = points.sort(function(a, b) {return a.coord[1] - b.coord[1];});
+                points = points.sort(function(a, b) { return a.coord[1] - b.coord[1]; });
                 $.each(points, function(i, point) {
                     if (updateFunction !== undefined) {
                         point.moveTo(point.coord[0], 0.3 * i);
@@ -190,10 +190,10 @@ $.extend(KhanUtil, {
     animatePoints: function(oldValues, newValues, newMedian, newMean) {
         var graph = KhanUtil.currentGraph;
         var points = graph.graph.points;
-        var sortedPoints = points.sort(function(a, b) {return a.coord[0] - b.coord[0];});
+        var sortedPoints = points.sort(function(a, b) { return a.coord[0] - b.coord[0]; });
 
         $.each(oldValues, function(i, oldValue) {
-            $({0: oldValue }).animate({0: newValues[i]}, {
+            $({ 0: oldValue }).animate({ 0: newValues[i] }, {
                 duration: 500,
                 step: function(now, fx) {
                     KhanUtil.onMovePoint(sortedPoints[i], now, 0);
@@ -201,7 +201,7 @@ $.extend(KhanUtil, {
             });
         });
 
-        $({median: graph.graph.median, mean: graph.graph.mean}).animate({
+        $({ median: graph.graph.median, mean: graph.graph.mean }).animate({
             median: newMedian, mean: newMean
         }, {
             duration: 500,
@@ -220,7 +220,7 @@ $.extend(KhanUtil, {
         var points = KhanUtil.currentGraph.graph.points;
         var targetMedian = KhanUtil.currentGraph.graph.targetMedian;
         var maxWidth = Math.min(Math.abs(-7 - targetMedian), Math.abs(7 - targetMedian));
-        var sortedPoints = points.sort(function(a, b) {return a.coord[0] - b.coord[0];});
+        var sortedPoints = points.sort(function(a, b) { return a.coord[0] - b.coord[0]; });
         var oldValues = [];
         $.each(sortedPoints, function(i, point) {
             oldValues.push(point.coord[0]);
@@ -245,7 +245,7 @@ $.extend(KhanUtil, {
             return mean;
         };
 
-        var sortedPoints = points.sort(function(a, b) {return a.coord[0] - b.coord[0];});
+        var sortedPoints = points.sort(function(a, b) { return a.coord[0] - b.coord[0]; });
         var oldValues = [];
         var newValues = [];
         $.each(sortedPoints, function(i, point) {
@@ -296,7 +296,7 @@ $.extend(KhanUtil, {
     showStddevExample: function() {
         var points = KhanUtil.currentGraph.graph.points;
         var targetStddev = KhanUtil.currentGraph.graph.targetStddev;
-        var sortedPoints = points.sort(function(a, b) {return a.coord[0] - b.coord[0];});
+        var sortedPoints = points.sort(function(a, b) { return a.coord[0] - b.coord[0]; });
         var oldValues = [];
         $.each(sortedPoints, function(i, point) {
             oldValues.push(point.coord[0]);
@@ -323,14 +323,14 @@ $.extend(KhanUtil, {
 
 
         $.each(oldValues, function(i, oldValue) {
-            $({0: oldValue }).animate({0: newValues[i]}, {
+            $({ 0: oldValue }).animate({ 0: newValues[i] }, {
                 duration: 500,
                 step: function(now, fx) {
                     KhanUtil.onMovePoint(sortedPoints[i], now, 0);
                 }
             });
         });
-        $({0: 0 }).animate({0: 1}, {
+        $({ 0: 0 }).animate({ 0: 1 }, {
             duration: 600,
             step: function(now, fx) {
                 KhanUtil.updateMeanAndStddev();

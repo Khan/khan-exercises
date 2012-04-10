@@ -73,7 +73,7 @@ $.tmpl = {
                 var times = $.tmpl.getVAR(match[1]);
 
                 return {
-                    items: $.map(new Array(times), function(e, i) {return i;}),
+                    items: $.map(new Array(times), function(e, i) { return i; }),
                     value: match[2],
                     oldValue: VARS[match[2]]
                 };
@@ -82,7 +82,7 @@ $.tmpl = {
             //   - items
             //   - items as value
             //   - items as pos, value
-            } else if ((match = /^(.*?)(?: as (?:(\w+),)?(\w+))?$/.exec(value))) {
+            } else if ((match = /^(.*?)(?: as (?:(\w+), )?(\w+))?$/.exec(value))) {
                 // See "if (ret.items)" in traverse() for the other half of the data-each code
                 return {
                     // The collection which we'll iterate through
@@ -219,7 +219,7 @@ $.tmpl = {
                     with (ctx) {
                         // And all the computed variables
                         with (VARS) {
-                            return eval("(function() {return (" + code + ");})()");
+                            return eval("(function() { return (" + code + "); })()");
                         }
                     }
                 }
@@ -320,7 +320,7 @@ $.fn.tmpl = function() {
 
             return null;
 
-        // If {items: ...}, this is a data-each loop
+        // If { items: ... }, this is a data-each loop
         } else if (ret.items) {
             // We need these references to insert the elements in the appropriate places
             var origParent = elem.parentNode,
@@ -356,7 +356,7 @@ $.fn.tmpl = function() {
                     var conditional = conditionals[i];
                     $(clone).find("[" + conditional + "]").each(function() {
                         var code = $(this).attr(conditional);
-                        code = "(function() { " + declarations + " return " + code + "})()";
+                        code = "(function() { " + declarations + " return " + code + " })()";
                         $(this).attr(conditional, code);
                     });
                 }

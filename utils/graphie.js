@@ -72,24 +72,24 @@
                     var point = pair[0], size = pair[1];
                     point[1] += size[1]; // because our coordinates are flipped
 
-                    return {"clip-rect": scalePoint(point).concat(scaleVector(size)).join(" ")};
+                    return { "clip-rect": scalePoint(point).concat(scaleVector(size)).join(" ") };
                 },
 
                 strokeWidth: function(val) {
-                    return {"stroke-width": parseFloat(val)};
+                    return { "stroke-width": parseFloat(val) };
                 },
 
                 rx: function(val) {
-                    return {rx: scaleVector([val, 0])[0]};
+                    return { rx: scaleVector([val, 0])[0] };
                 },
 
                 ry: function(val) {
-                    return {ry: scaleVector([0, val])[1]};
+                    return { ry: scaleVector([0, val])[1] };
                 },
 
                 r: function(val) {
                     var scaled = scaleVector([val, val]);
-                    return {rx: scaled[0], ry: scaled[1]};
+                    return { rx: scaled[0], ry: scaled[1] };
                 }
             };
 
@@ -163,7 +163,7 @@
 
                         head.rotate(angle, 0.75, 0).scale(s, s, 0.75, 0)
                             .translate(almostTheEnd.x, almostTheEnd.y).attr(attrs)
-                            .attr({"stroke-linejoin": "round", "stroke-linecap": "round"});
+                            .attr({ "stroke-linejoin": "round", "stroke-linecap": "round" });
                         head.arrowheadsDrawn = true;
                         set.push(subpath);
                         set.push(head);
@@ -443,7 +443,7 @@
         // Initializes graphie settings for a graph and draws the basic graph
         // features (axes, grid, tick marks, and axis labels)
         // Options expected are:
-        // - range: [[a, b], [c, d] ] or [a, b]
+        // - range: [[a, b], [c, d]] or [a, b]
         // - scale: [a, b] or number
         // - gridOpacity: number (0 - 1)
         // - gridStep: [a, b] or number (relative to units)
@@ -469,7 +469,7 @@
                 // allow symmetric ranges to be specified by the absolute values
                 if (prop === "range") {
                     if (val.constructor === Array) {
-                        if (val[0].constructor !== Array) { // but don't mandate symmetric ranges
+                        if (val[0].constructor !== Array) {  // but don't mandate symmetric ranges
                             options[prop] = [[-val[0], val[0]], [-val[1], val[1]]];
                         }
                     } else if (typeof val === "number") {
@@ -495,16 +495,16 @@
                 labelStep = options.labelStep || [1, 1],
                 labelOpacity = options.labelOpacity || 1.0,
                 unityLabels = options.unityLabels || false,
-                labelFormat = options.labelFormat || function(a) {return a;},
+                labelFormat = options.labelFormat || function(a) { return a; },
                 xLabelFormat = options.xLabelFormat || labelFormat,
                 yLabelFormat = options.yLabelFormat || labelFormat,
                 smartLabelPositioning = options.smartLabelPositioning != null ?
                     options.smartLabelPositioning : true;
 
             if (smartLabelPositioning) {
-                var minusIgnorer = function(lf) {return function(a) {
+                var minusIgnorer = function(lf) { return function(a) {
                     return (lf(a) + "").replace(/-(\d)/g, "\\llap{-}$1");
-                };};
+                }; };
 
                 xLabelFormat = minusIgnorer(xLabelFormat);
                 yLabelFormat = minusIgnorer(yLabelFormat);
