@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+    <head>
+        <title>Punnett Squares</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <!-- 0 = Genotype, 1 = Phenotype-->
+                <var id="quesType">randRange(0,1)</var>
+                <var id="quesTypeText">quesType===0 ? "genotype" : "phenotype"</var>
+            	<!-- 0 = Homo Dom, 1 = Hetero, 2 = Homo Rec-->
+				<var id="momtype">randRange(0,2)</var>
+				<var id="dadtype">randRange(0,2)</var>
+				<var id="traitTypes">["homozygous dominant","heterozygous","homozygous recessive"]</var>
+				<var id="scenarios">["A couple is planning to have a baby and wants more information about the probabily that their baby will have brown or blue eyes.  The dominant allele (B) is brown eyes and recessive allele (b) is blue eyes.", "Two pea plants are crossed and the color of the offsprings' seeds is studied.  The dominant trait (Y) is yellow seeds and the recessive trait (y) is green seeds.","Two corn plants are crossed and their offsprings' height is studied.  The dominant trait (T) is tall and the recessive trait (t) is short.","Two guinea pigs are crossed and the length of their offsprings' fur is studied.  The dominant trait (R) is long hair and the recessive trait (r) is short hair."]</var>
+				<var id="scenarioNum">randRange(0,scenarios.length-1)</var>
+				<var id="probText">scenarios[scenarioNum]</var>
+				
+				<!--Set up genotype problem variables-->
+				<var id="allelesText">["BB","Bb","bb","YY","Yy","yy","TT","Tt","tt","RR","Rr","rr"]</var>
+				<var id="homoDomAlleles">allelesText[scenarioNum*3]</var>
+				<var id="heteroAlleles">allelesText[(scenarioNum*3)+1]</var>
+				<var id="homoRecAlleles">allelesText[(scenarioNum*3)+2]</var>				
+				<var id="quesTextGeno">The mother is <var>traitTypes[momtype]</var> and the father is <var>traitTypes[dadtype]</var>.  What is the probability of the offspring having each possible genotype?</var>
+            	<var id="combos">[100,0,0,50,50,0,0,100,0,50,50,0,25,50,25,0,50,50,0,100,0,0,50,50,0,0,100]</var>
+            	<var id="answerStart">(momtype * 3 + dadtype)*3</var>
+            	<var id="answerHomoDom">combos[answerStart]</var>
+            	<var id="answerHetero">combos[answerStart + 1]</var>
+            	<var id="answerHomoRec">combos[answerStart + 2]</var>
+            	
+            	<!--Set up phenotype problem variables-->
+				<var id="quesTextPheno">The mother is <var>traitTypes[momtype]</var> and the father is <var>traitTypes[dadtype]</var>.  What is the probability of the offspring having each possible phenotype?</var>
+            	<var id="phenosText">["Brown eyes", "Blue eyes", "Yellow seeds", "Green seeds", "Tall", "Short", "Long hair", "Short hair"]</var>
+     			<var id="domPhenosText">phenosText[scenarioNum*2]</var>
+     			<var id="recPhenosText">phenosText[scenarioNum*2 + 1]</var>
+            	<var id="phenoCombos">[100,0,100,0,100,0,100,0,75,25,50,50,100,0,50,50,0,100]</var>
+            	<var id="phenoAnswerStart">(momtype * 3 + dadtype)*2</var>
+            	<var id="answerDomPheno">phenoCombos[phenoAnswerStart]</var>
+            	<var id="answerRecPheno">phenoCombos[phenoAnswerStart+1]</var>
+            	
+            	<!--Hint text set up--->
+            	<var id="genoHintText1"> ["are","is","are","are","are"]</var>
+            	<var id="genoHintText2"> ["s","","s","s","s"]</var>
+            	
+            </div>
+            <div class="problems">
+                <div id="genotype-problems">
+                    <p class="problem"><var>probText</var></p>
+                    <p class="question"><var>quesTextGeno</var></p>
+					<div class="graphie">
+						init({
+							range: [ [ -5, 5 ], [ -5, 5 ] ]
+						});
+						line([-4,-4],[-4,4]);
+						line([0,-4],[0,4]);
+						line([4,-4],[4,4]);
+						line([-4,4],[4,4]);
+						line([-4,0],[4,0]);
+						line([-4,-4],[4,-4]);
+						
+						var label1 = allelesText[scenarioNum*3+momtype][0];
+						var label2 = allelesText[scenarioNum*3+momtype][1];
+						var label3 = allelesText[scenarioNum*3+dadtype][0];
+						var label4 = allelesText[scenarioNum*3+dadtype][1];
+						
+						label( [-2,5], label1, "center");
+						label( [2,5], label2, "center");
+						label( [-5,2], label3,"center");
+						label( [-5,-2], label4, "center");
+												
+						console.log(momtype);
+						console.log(dadtype);
+						console.log(combos);
+						console.log(answerStart);
+						console.log(<var>answerHomoDom</var>);
+						console.log(<var>answerHetero</var>);
+						console.log(<var>answerHomoRec</var>);
+					</div>
+					<div class="solution" data-type="multiple">
+						<p><var>homoDomAlleles</var> = <span class="sol" data-type="rational"><var>answerHomoDom</var></span>%</p>
+						<p><var>heteroAlleles</var> = <span class="sol" data-type="rational"><var>answerHetero</var></span>%</p>
+						<p><var>homoRecAlleles</var> = <span class="sol" data-type="rational"><var>answerHomoRec</var></span>%</p>
+					</div>
+					<div class="hints">
+            			<p>Copy the mother's first allele (<span class="hint_blue"><var>allelesText[scenarioNum*3+momtype][0]</var></span>) into the two <span class="hint_red">left</span> boxes directly below and the mother's second allele (<span class="hint_blue"><var>allelesText[scenarioNum*3+momtype][1]</var></span>) into the two <span class="hint_red">right</span> boxes directly below.</p>
+            			<p>Copy the father's first allele (<span class="hint_blue"><var>allelesText[scenarioNum*3+dadtype][0]</var></span>) into the two <span class="hint_red">top</span> boxes directly to the right and the father's second allele (<span class="hint_blue"><var>allelesText[scenarioNum*3+dadtype][1]</var></span>) into the two <span class="hint_red">bottom</span> boxes directly to the right.</p>
+						<p>Count the number of homozygous dominant allele combinations (<var>homoDomAlleles</var>) and enter the percent (that number/4) in the corresponding answer box.</p>
+						<p>There <var>genoHintText1[answerHomoDom/25]</var> <span class="hint_blue"><var>answerHomoDom/25</var></span> <var>homoDomAlleles</var> combination<var>genoHintText2[answerHomoDom/25]</var>.  That represents <span class="hint_red"><var>answerHomoDom</var></span>%</p>
+						<p>Count the number of heterozygous allele combinations (<var>heteroAlleles</var>) and enter the percent (that number/4) in the corresponding answer box.</p>
+						<p>There <var>genoHintText1[answerHetero/25]</var> <span class="hint_blue"><var>answerHetero/25</var></span> <var>heteroAlleles</var> combination<var>genoHintText2[answerHetero/25]</var>.  That represents <span class="hint_red"><var>answerHetero</var></span>%</p>
+						<p>Count the number of homozygous recessive allele combinations (<var>homoRecAlleles</var>) and enter the percent (that number/4) in the corresponding answer box.</p>
+						<p>There <var>genoHintText1[answerHomoRec/25]</var> <span class="hint_blue"><var>answerHomoRec/25</var></span> <var>homoRecAlleles</var> combination<var>genoHintText2[answerHomoRec/25]</var>.  That represents <span class="hint_red"><var>answerHomoRec</var></span>%</p>
+					</div>
+                </div>
+                
+                <div id="phenotype-problems">
+                	<p class="problem"><var>probText</var></p>
+                    <p class="question"><var>quesTextPheno</var></p>
+                    <div class="graphie">
+						init({
+							range: [ [ -5, 5 ], [ -5, 5 ] ]
+						});
+						line([-4,-4],[-4,4]);
+						line([0,-4],[0,4]);
+						line([4,-4],[4,4]);
+						line([-4,4],[4,4]);
+						line([-4,0],[4,0]);
+						line([-4,-4],[4,-4]);
+						
+						var label1 = allelesText[scenarioNum*3+momtype][0];
+						var label2 = allelesText[scenarioNum*3+momtype][1];
+						var label3 = allelesText[scenarioNum*3+dadtype][0];
+						var label4 = allelesText[scenarioNum*3+dadtype][1];
+						
+						label( [-2,5], label1, "center");
+						label( [2,5], label2, "center");
+						label( [-5,2], label3,"center");
+						label( [-5,-2], label4, "center");
+												
+						console.log(momtype);
+						console.log(dadtype);
+						console.log(phenoAnswerStart);
+						console.log(<var>answerDomPheno</var>);
+						console.log(<var>answerRecPheno</var>);
+					</div>
+					<div class="solution" data-type="multiple">
+						<p><var>domPhenosText</var> = <span class="sol" data-type="rational"><var>answerDomPheno</var></span>%</p>
+						<p><var>recPhenosText</var> = <span class="sol" data-type="rational"><var>answerRecPheno</var></span>%</p>
+					</div>
+					<div class="hints">
+            			<p>Copy the mother's first allele (<span class="hint_blue"><var>allelesText[scenarioNum*3+momtype][0]</var></span>) into the two <span class="hint_red">left</span> boxes directly below and the mother's second allele (<span class="hint_blue"><var>allelesText[scenarioNum*3+momtype][1]</var></span>) into the two <span class="hint_red">right</span> boxes directly below.</p>
+            			<p>Copy the father's first allele (<span class="hint_blue"><var>allelesText[scenarioNum*3+dadtype][0]</var></span>) into the two <span class="hint_red">top</span> boxes directly to the right and the father's second allele (<span class="hint_blue"><var>allelesText[scenarioNum*3+dadtype][1]</var></span>) into the two <span class="hint_red">bottom</span> boxes directly to the right.</p>
+						<p>Remember that <span class="hint_orange">phenotype means the actual trait that shows up</span>.  For the dominant trait to show up, only one dominant allele is necessary. Count the number of combinations that contain the dominant allele (<span class="hint_blue"><var>allelesText[(scenarioNum*3)+1][0]</var></span>) and enter the percent (that number/4) in the corresponding answer box.</p>
+						<p>There <var>genoHintText1[answerDomPheno/25]</var> <span class="hint_blue"><var>answerDomPheno/25</var></span> combination<var>genoHintText2[answerHomoDom/25]</var> that contain the dominant (<var>domPhenosText</var>) allele.  That represents <span class="hint_red"><var>answerDomPheno</var></span>%</p>
+						<p>For the recessive trait to show up, both alleles must be recessive. Count the number of combinations that contain only the recessive allele (<span class="hint_blue"><var>allelesText[(scenarioNum*3)+1][1]</var></span>) and enter the percent (that number/4) in the corresponding answer box.</p>
+						<p>There <var>genoHintText1[answerRecPheno/25]</var> <span class="hint_blue"><var>answerRecPheno/25</var></span> combination<var>genoHintText2[answerHetero/25]</var> that contain both recessive (<var>recPhenosText</var>) alleles.  That represents <span class="hint_red"><var>answerRecPheno</var></span>%</p>
+					</div>
+                </div>
+            </div>
+
+            
+        </div>
+    </body>
+</html>
