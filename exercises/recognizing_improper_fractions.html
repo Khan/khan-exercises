@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers word-problems fractions">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Recognizing improper fractions and mixed numbers</title>
+	<script src="../khan-exercise.js"></script>
+    <script>
+
+        // Some parts of the text are colored like the puzzle elements. Do that here since we can't insert <var>s into inline CSS.
+        function setColors(color) {
+            $(".colorMe").css('color', color);
+            $(".colorMe").css('font-weight', 'bold');
+        }
+
+    </script>
+</head>
+<body>
+<!--
+    [PC] Represents improper fractions (/whole numbers) using circles and bars.
+
+    When it asks about whole numbers, it actually draws the whole units as whole (without divisions) to emphasize the distance.
+    The value chosen is always between 1 and 5.
+-->
+	<div class="exercise">
+		<div class="vars">
+			<var id="DENOMINATOR">randRange( 3, 7 )</var>
+            <var id="NUMERATOR">randRange( DENOMINATOR + 1, DENOMINATOR * randRange( 2, 5 ) - 1 )</var> <!-- The numerator is always greater than the denominator -->
+            <var id="WHOLE_UNITS">Math.floor( NUMERATOR / DENOMINATOR )</var>
+            <var id="TOTAL_UNITS">Math.ceil( NUMERATOR / DENOMINATOR )</var>
+            <var id="REMAINING_PIECES">NUMERATOR % DENOMINATOR</var>
+            <var id="COLORS">[ "blue", "red", "green", "orange", "purple" ]</var>
+            <var id="COLOR">COLORS[ randRange( 0, COLORS.length - 1) ]</var>
+            <var id="SETUP">setColors(COLOR)</var>
+		</div>
+		<div class="problems">
+
+            <!-- Draws several pie charts representing the improper fraction. -->
+			<div id="pie-chart-improper">
+				<div class="question">
+                    <p>What fraction of these circles is shaded <span class="colorMe"><var>COLOR</var></span>?</p>
+
+                        <div class="graphie">
+                            init({ range: [ [-3, 5 * TOTAL_UNITS - 2], [-3, 3] ], scale: 25 });
+                            drawFractionAsCircles( NUMERATOR, DENOMINATOR, COLOR, false );
+                        </div>
+				</div>
+				<p class="solution" data-forms="improper" data-simplify="optional"><var>NUMERATOR / DENOMINATOR</var></p>
+				<div class="hints">
+                    <p>Because more than one circle is shaded <var>COLOR</var>, your <b>numerator</b> will be bigger than your <b>denominator</b>.</p>
+                    <p>The denominator is always the number of slices in <b>one</b> circle.</p>
+                    <p>In this example, the denominator is <b><var>DENOMINATOR</var></b>, because each circle has <var>DENOMINATOR</var> parts.</p>
+					<p>The numerator, however, is the <b>total</b> number of <var>COLOR</var> slices.</p>
+                    <p>There <var>plural( "is", NUMERATOR )</var> <var>plural( NUMERATOR, COLOR + " slice")</var>.</p>
+                    <p>So, the numerator is <b><var>NUMERATOR</var></b>.</p>
+                    <p>Put the two together; the answer is <code>\dfrac{\color{<var>COLOR</var>}{<var>NUMERATOR</var>}}{\color{#333}{\text{<var>DENOMINATOR</var>}}}</code>.</p>
+				</div>
+			</div>
+
+            <!-- Draws several solid circles and a fractional pie chart to represent the fraction as a mixed number. -->
+            <div id="pie-chart-mixed">
+                <div class="question">
+                    <p>How many of these circles are shaded <span class="colorMe"><var>COLOR</var></span>? Write the answer as a mixed number.</p>
+
+                    <div class="graphie">
+                        init({ range: [ [-3, 5 * TOTAL_UNITS - 2], [-3, 3] ], scale: 25 });
+                        drawFractionAsCircles( NUMERATOR, DENOMINATOR, COLOR, true );
+                    </div>
+                </div>
+                <p class="solution" data-forms="mixed" data-simplify="optional"><var>NUMERATOR / DENOMINATOR</var></p>
+                <div class="hints">
+                    <p>To write a mixed number, you first write number of <b>whole</b> objects, and then the <b>remaining</b> pieces as a fraction.</p>
+                    <p>There <var>plural( "is", WHOLE_UNITS )</var> <var>plural( WHOLE_UNITS, "whole circle" )</var>. So the first part of the mixed number is <b><var>WHOLE_UNITS</var></b>.</p>
+                    <p>Next, you write the fraction. What part of the last circle is shaded <var>COLOR</var>?</p>
+                    <p>In the last circle, <b><var>plural( REMAINING_PIECES, "part" )</var></b> out of <b><var>DENOMINATOR</var></b> <var>plural( "is", REMAINING_PIECES )</var> shaded.</p>
+                    <p>So the fractional part is <code>\dfrac{\color{<var>COLOR</var>}{<var>REMAINING_PIECES</var>}}{\color{#333}{\text{<var>DENOMINATOR</var>}}}</code>.</p>
+                    <p>Put the two together; the answer is <code><var>WHOLE_UNITS</var> \dfrac{\color{<var>COLOR</var>}{<var>REMAINING_PIECES</var>}}{\color{#333}{\text{<var>DENOMINATOR</var>}}}</code>.</p>
+                </div>
+            </div>
+
+            <!-- Draws several shaded rectangle graphs representing the improper fraction. -->
+			<div id="rectangle-area-improper">
+				<div class="question">
+					<p>What fraction of these bars is shaded <span class="colorMe"><var>COLOR</var></span>?</p>
+					<div class="graphie">
+						init({ range: [ [0, 1], [0, 2 * TOTAL_UNITS - 1] ], scale: [250, 25] });
+                        drawFractionAsRectangles( NUMERATOR, DENOMINATOR, COLOR, false );
+					</div>
+				</div>
+				<p class="solution" data-forms="improper" data-simplify="optional"><var>NUMERATOR / DENOMINATOR</var></p>
+
+				<div class="hints">
+                    <p>Because more than one bar is shaded <var>COLOR</var>, your <b>numerator</b> will be bigger than your <b>denominator</b>.</p>
+                    <p>The denominator is always the number of blocks in <b>one</b> bar.</p>
+                    <p>In this example, the denominator is <b><var>DENOMINATOR</var></b>, because each bar has <var>DENOMINATOR</var> parts.</p>
+                    <p>The numerator, however, is the <b>total</b> number of <var>COLOR</var> blocks.</p>
+                    <p>There <var>plural( "is", NUMERATOR )</var> <var>plural( NUMERATOR, COLOR + " block")</var>.</p>
+                    <p>So, the numerator is <b><var>NUMERATOR</var></b>.</p>
+                    <p>Put the two together; the answer is <code>\dfrac{\color{<var>COLOR</var>}{<var>NUMERATOR</var>}}{\color{#333}{\text{<var>DENOMINATOR</var>}}}</code>.</p>
+				</div>
+			</div>
+
+            <!-- Draws several solid rectangles and one fractional rectangle, representing the mixed number. -->
+            <div id="rectangle-area-mixed">
+                <div class="question">
+                    <p>How many of these bars are shaded <span class="colorMe"><var>COLOR</var></span>? Write the answer as a mixed number.</p>
+
+                    <div class="graphie">
+                        init({ range: [ [0, 1], [0, 2 * TOTAL_UNITS - 1] ], scale: [250, 25] });
+                        drawFractionAsRectangles( NUMERATOR, DENOMINATOR, COLOR, true );
+                    </div>
+                </div>
+                <p class="solution" data-forms="mixed" data-simplify="optional"><var>NUMERATOR / DENOMINATOR</var></p>
+
+                <div class="hints">
+                    <p>To write a mixed number, you first write number of <b>whole</b> objects, and then the <b>remaining</b> pieces as a fraction.</p>
+                    <p>There <var>plural( "is", WHOLE_UNITS )</var> <var>plural( WHOLE_UNITS, "whole bar" )</var>. So the first part of the mixed number is <b><var>WHOLE_UNITS</var></b>.</p>
+                    <p>Next, you write the fraction. What part of the last bar is shaded <var>COLOR</var>?</p>
+                    <p>In the last bar, <b><var>plural( REMAINING_PIECES, "part" )</var></b> out of <b><var>DENOMINATOR</var></b> <var>plural( "is", REMAINING_PIECES )</var> shaded.</p>
+                    <p>So the fractional part is <code>\dfrac{\color{<var>COLOR</var>}{<var>REMAINING_PIECES</var>}}{\color{#333}{\text{<var>DENOMINATOR</var>}}}</code>.</p>
+                    <p>Put the two together; the answer is <code><var>WHOLE_UNITS</var> \dfrac{\color{<var>COLOR</var>}{<var>REMAINING_PIECES</var>}}{\color{#333}{\text{<var>DENOMINATOR</var>}}}</code>.</p>
+                </div>
+            </div>
+		</div>
+	</div>
+</body>
+</html>
