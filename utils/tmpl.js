@@ -203,7 +203,9 @@ jQuery.tmpl = {
 		var code = elem.nodeName ? jQuery(elem).text() : elem;
 
 		// Make sure any HTML formatting is stripped
-		code = jQuery.trim( jQuery.tmpl.cleanHTML( code ) );
+	    if (jQuery.type(code)==="string") {  // guard against other primitive values that can appear here
+			code = jQuery.trim( jQuery.tmpl.cleanHTML( code ) );
+	    }
 
 		// If no extra context was passed, use an empty object
 		if ( ctx == null ) {
@@ -219,7 +221,13 @@ jQuery.tmpl = {
 					with ( ctx ) {
 						// And all the computed variables
 						with ( VARS ) {
-							return eval( "(function() { return (" + code + "); })()" );
+							if (code==="") {
+								// empty parens, in the next case, is a syntax error
+								return [];
+							}
+							else {
+								return eval( "(function() { return (" + code + "); })()" );
+							}
 						}
 					}
 				}
@@ -297,7 +305,7 @@ jQuery.fn.tmpl = function() {
 			return traverse( elem );
 
 		// If undefined, do nothing
-		} else if ( ret === undefined ) {
+		} else if ( typeof ret === "undefined" ) {
 			;
 
 		// If a (possibly-empty) array of nodes, replace this one with those
@@ -429,7 +437,7 @@ jQuery.fn.tmpl = function() {
 				value = $elem.attr( attr );
 			}
 
-			if ( value !== undefined ) {
+			if ( typeof value !== "undefined" ) {
 				ret = jQuery.tmpl.attr[ attr ]( elem, value );
 
 				// If a function, run after all of the other templating
@@ -437,7 +445,7 @@ jQuery.fn.tmpl = function() {
 					post.push( ret );
 
 				// Return anything else (boolean, array of nodes for replacement, object for data-each)
-				} else if ( ret !== undefined ) {
+				} else if ( typeof ret !== "undefined" ) {
 					return ret;
 				}
 			}

@@ -194,13 +194,26 @@ jQuery.extend(KhanUtil, {
 				var factors = jQuery.map( args, function( factor, i ) {
 					var parenthesize;
 					switch ( KhanUtil.exprType( factor ) ) {
-						case "number":
+					case "number":
 						if ( i > 0 ) {
 							parenthesize = true;
 						}
+						else {
+							parenthesize = false;
+						}
 						break;
-
-						default:
+					case "color":
+						if ( KhanUtil.exprType( factor[2] ) === "number" ) {
+							if ( i > 0 ) {
+								parenthesize = true;
+							}
+							else {
+								parenthesize = false;
+							}
+							break;
+						}
+						// else, not a number so do what you normally do to non-numbers
+					default:
 						parenthesize = !KhanUtil.exprIsShort( factor );
 						break;
 					}

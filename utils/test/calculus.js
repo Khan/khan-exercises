@@ -39,14 +39,14 @@ test("PowerRule - helper object for polynomial differentiation", function(){
 test ( "Hints for PowerRule", function(){
 	var powerRule = new KhanUtil.PowerRule ( -1, 2, neg_coefs, "x", KhanUtil.funcNotation ( "x", 1 ) ); //-2x^{2}+6x+4-x^{-1}
 	equals ( powerRule.hints.length, 4 );
-	equals ( powerRule.hints[0], "f'(-2x^{2}) = 2 \\cdot -2x^{2-1} = -4x" );
-	equals ( powerRule.hints[1], "f'(6x) = 1 \\cdot 6x^{1-1} = 6" );
-	equals ( powerRule.hints[2], "f'(4) = 0 \\cdot 4x^{0-1} = 0" );
-	equals ( powerRule.hints[3], "f'(-x^{-1}) = -1 \\cdot -1x^{-1-1} = x^{-2}");
+	equals ( powerRule.hints[0], "\\dfrac{d (-2x^{2})}{dx} \\implies 2 \\cdot -2x^{2-1} = -4x" );
+	equals ( powerRule.hints[1], "\\dfrac{d (6x)}{dx} \\implies 1 \\cdot 6x^{1-1} = 6" );
+	equals ( powerRule.hints[2], "\\dfrac{d (4)}{dx} \\implies 0 \\cdot 4x^{0-1} = 0" );
+	equals ( powerRule.hints[3], "\\dfrac{d (-x^{-1})}{dx} \\implies -1 \\cdot -1x^{-1-1} = x^{-2}");
 
 	powerRule = new KhanUtil.PowerRule ( -1, 2, neg_coefs, "x", KhanUtil.funcNotation ( "x", 4 ) ); //-2x^{2}+6x+4-x^{-1}
 	equals ( powerRule.hints.length, 4 );
-	equals ( powerRule.hints[0], "f(x)=-2x^{2} \\implies \\frac{d}{dx}f(x) = 2 \\cdot -2x^{2-1} = -4x" );
+	equals ( powerRule.hints[0], "\\dfrac{d (-2x^{2})}{dx} \\implies 2 \\cdot -2x^{2-1} = -4x" );
 });
 
 test("funcNotation - helper for randomly choosing a notation for the function", function(){
