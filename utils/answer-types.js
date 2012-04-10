@@ -2,7 +2,8 @@
 
 var inexactMessages = {
 	unsimplified: "Your answer is almost correct, but it needs to be simplified.",
-	missingPercentSign: "Your answer is almost correct, but it is missing a <code>\\%</code> at the end."
+	missingPercentSign: "Your answer is almost correct, but it is missing a <code>\\%</code> at the end.",
+	wrongSign: "Your answer is almost correct, but have you checked the sign?"
 };
 
 Khan.answerTypes = Khan.answerTypes || {};
@@ -365,7 +366,7 @@ jQuery.extend( Khan.answerTypes, {
 							correct.toLowerCase() === val.toLowerCase() ) {
 						ret = true;
 						return false; // break;
-					} if ( typeof val === "number" &&
+					} else if ( typeof val === "number" &&
 							Math.abs( correctFloat - val ) < options.maxError ) {
 						if ( exact || options.simplify === "optional" ) {
 							ret = true;
@@ -376,6 +377,8 @@ jQuery.extend( Khan.answerTypes, {
 						}
 
 						return false; // break;
+					} else if ( typeof val === "number" && Math.abs( correctFloat + val ) < options.maxError ) {
+						ret = inexactMessages.wrongSign;
 					}
 				}
 			} );
