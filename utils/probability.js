@@ -1,3 +1,6 @@
+/* 	Function List:
+	coinFlips, choose, factorial, countPermutations	*/  
+
 jQuery.extend(KhanUtil, {
 	/* coinFlips( 2 ) returns
 	 * [["HH", 2], ["HT", 1], ["TH", 1], ["TT", 0]] */
@@ -43,6 +46,39 @@ jQuery.extend(KhanUtil, {
 				sum += KhanUtil.choose( n, elem );
 			});
 			return sum;
+		}
+	},
+	
+	/* given an integer: num > 0, return num! otherwise return 1 
+	 * 			example: factorial(5) = 5*4*3*2*1 */  
+	factorial: function(num){
+		
+		if( typeof num === "number"){
+			
+			//return 1 for 0 or negative values
+			if(num <= 1)
+				return 1;
+				
+			//calculate num!
+			else
+				return(num*KhanUtil.factorial(num-1));
+			
+		}
+	},
+	
+	/* given 2 positive integers: return count of permutations for k distinct elements in n total elements
+	 * 					 example: countPermutations(5,3) = 5!/(5-3)! */ 
+	countPermutations: function(n, k){
+		if(typeof k === "number" && typeof n === "number"){
+			
+			//return 0 if input is negative or if you are asking to count more elements than in total elements 
+			if(n < 1 || k < 0 || (k>n))
+				return 0;
+			
+			else{
+				var permutations = KhanUtil.factorial(n)/KhanUtil.factorial(n-k);
+				return(permutations);
+			}
 		}
 	}
 });

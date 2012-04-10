@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html data-require="math probability">
+<head>
+	<meta charset="UTF-8" />
+	<title>Counting 3</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="GRYFF">randRange( 2, 5)</var>
+		<var id="SLYTH">randRange(1, 3)</var>
+		<var id="HUFFLE">randRange(1, 3)</var>
+		<var id="RAVEN">randRange(1, 3)</var>
+		<var id="APPLICANTS">GRYFF+SLYTH+HUFFLE+RAVEN</var>
+		<var id="NUM_GROUPS">choose(APPLICANTS,4)</var>
+		<var id="NUM_STUDENTS">randRange(3,9)</var>
+		<var id="SEATING_ARRANGEMENTS">factorial(NUM_STUDENTS)</var>
+	</div>
+
+	<div class="problems">
+		<div id ="permutation_simple">
+			<div class="question">
+				<p>There are <var>NUM_STUDENTS</var> students to be seated in a row. How many different seating arrangements is possible? </p>
+				
+			</div>
+			<div class="solution"><var>SEATING_ARRANGEMENTS</var></div>
+			<div class="hints">
+				
+				<div>
+					<strong>Hint #1: Have you seen the <a class="related-video" href="/video/permutations?playlist=Precalculus" data-youtube-id="XqQTXW7XfYA">Permutations</a> video?</strong><br>
+					In the video, Sal reviews an example where you seat 7 students in 3 chairs. 
+				</div>
+				<div>
+					<p><strong>Hint #2: How many chairs do we have?</strong><br>
+					In this problem we need to seat all <var> NUM_STUDENTS </var> students. To seat all the students we must have <var> NUM_STUDENTS </var> chairs. <br> <br>
+				</div>
+				<div>
+					<p><strong>Hint #3: How many students can sit in the first chair?</strong><br>
+					In the first chair, we have <var> NUM_STUDENTS </var> students.
+					In the second chair, we have <var> NUM_STUDENTS </var> - 1 students remaining to sit in the chair. <br>
+					If we say there are N students in total, our formula for solving the number of seating arrangements for the first two chairs is: <br> <br>
+					
+					N*(N-1)
+				</div>
+				<div>
+					<p><strong>Hint #4: To calculate all possible seating arrangements, use the factorial formula.</strong><br>
+					There are <var> NUM_STUDENTS </var> factorial seating arrangements. <var> NUM_STUDENTS </var>! is  <var>SEATING_ARRANGEMENTS</var>.
+				</div>
+			</div>
+		</div>
+		
+		<div id = "combination_simple">
+			<div class="question">
+				<p>You've been transported to the world of Harry Potter. You are leading a magical expedition with a group of 4 students from Hogwarts.</p>
+				<p>There are <var>APPLICANTS</var> students applying. Any of the applicants can be chosen in your group.</p>	
+				<p>How many different groups can be formed?</p>
+			</div>
+			<div class="solution"><var>NUM_GROUPS</var></div>
+			<div class="hints">
+				<div>
+					<p><strong>Hint #1: When you count the different groups, Order does NOT matter! This is a combination problem</strong><br>
+					The combination formula will calculate the different ways of selecting a group of items when order does not matter. The formula for a combination is:<br><br> 
+					<strong><code>\dbinom{N}{R} =  _NC_R = \dfrac{N!}{R!*(N-R)!}</code></strong><br><br>  			
+				</div>
+				<div>
+					<p><strong>Hint #2: What is the N in this problem? What is the R in this problem?</strong><br>
+					N is equal to <var> APPLICANTS</var> student applicants. <br>
+					R is equal to the 4 people you are choosing. Calculate: <br><br>
+					<code>\dbinom{<var>APPLICANTS</var>}{4} = \dfrac{<var>APPLICANTS</var>!}{4!*(<var>APPLICANTS</var>-4)!}</code>
+				</div>
+				<div>
+					<p><strong>Hint #3: The answer is <var>NUM_GROUPS</var> different groups.</strong><br>
+				</div>
+			</div>
+		</div>
+		
+		<div id = "combination_group">
+			<div class="question">
+				<p>You've been transported to the world of Harry Potter. You are leading a magical expedition with a group of 4 students from Hogwarts.</p>
+				<p><var>GRYFF</var> students from the house of Gryffindor, <var>SLYTH</var> from Slytherin, <var>HUFFLE</var> from Hufflepuff, and <var>RAVEN</var> from Ravenclaw applied to join your team. Any of the applicants can be chosen in your group.</p>	
+				<p>How many different groups can be formed?</p>
+			</div>
+			<div class="solution"><var>NUM_GROUPS</var></div>
+			<div class="hints">
+				<div>
+					<p><strong>Hint #1: When you count the different groups, Order does NOT matter!</strong><br> <br>
+					As an example, let&#39;s change the problem to make it more simple. 
+					You are leading  a group of <strong>2 students</strong> from Hogwarts. Pretend Harry, Hermoine, and Draco are applying. How many different groups can be formed? Write out all the possible groups. <br>
+						<ul>
+						<li>Harry and Hermoine</li>
+						<li>Harry and Draco</li>
+						<li>Hermoine and Draco</li>
+						</ul><br>
+					There are 3 different groups you can form. <br><br>
+					<strong>Notice how we did not count both </strong><br>
+						<ul>
+						<li>Harry and Hermione </li>
+						<li>and </li> 
+						<li>Hermione and Harry</li> <br>
+						</ul>
+						<strong>Is there a technique that can help you count the different groups when you don&#39;t care about order?</strong>
+					</p>
+				</div>
+				<div>
+					<strong>Hint #2: This is a combination problem</strong><br><br>
+					The combination formula will calculate the different ways of selecting a group of items when order does not matter. The formula for a combination is:<br><br>
+					 
+					<strong><code>\dbinom{N}{R} =  _NC_R = \dfrac{N!}{R!*(N-R)!}</code></strong><br><br> 			
+					
+					In our simple problem from Hint #1, the N is 3 and the R is 2. There are 3 people applying and you want 2 people as part of your group.<br> 
+					
+				</div>
+				<div>
+					<p><strong>Hint #3: What is the N and R for the original problem? </strong><br>
+					We need to count the total number of students applying to be our N.<br>
+					The N is <var>GRYFF</var> + <var>SLYTH</var> + <var>HUFFLE</var> + <var>RAVEN</var>. <br>
+					There are <var>APPLICANTS</var> students applying and you want 4 students so the answer is 
+					<code>\dbinom{<var>APPLICANTS</var>}{4} = \dfrac{<var>APPLICANTS</var>!}{4!*(<var>APPLICANTS</var>-4)!}</code></p>
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+
+</body>
+</html>
