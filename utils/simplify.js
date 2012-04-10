@@ -622,26 +622,7 @@
     };
 
     var setDefaultOptions = function(options) {
-       var defaultValues = {
-              expandProducts: false,
-              cancelNegOfNeg: true,
-              del1Factors: true,
-              del0Factors: true,
-              del0TermInSum: true,
-              del01Exponents: true,
-              unneededUnaryOps: true,
-              evalBasicNumOps: false,
-              mergeCstFactors: false,
-              hidePlusBeforeNeg: true,
-              changeSubIntoPlusNeg: true,
-              simplifyProducts: true,
-              mergePowerOfPower: true,
-              cancelLnExp: true,
-              fracIntoPowNeg: true,
-              removeUselessParenthesis: true,
-              factorSums:false,
-              errors: {}
-          };
+       var defaultValues = simplifyOptions.default;
        for (var optionName in defaultValues) {
           if (options[optionName] === undefined) {
              options[optionName] = defaultValues[optionName];
@@ -668,7 +649,28 @@
               removeUselessParenthesis: false,
               expandProducts: false,
               factorSums:false,
-              simplifyByFactoring:false
+              simplifyByFactoring:false,
+              errors: {}
+        },
+        default: {
+              expandProducts: false,
+              cancelNegOfNeg: true,
+              del1Factors: true,
+              del0Factors: true,
+              del0TermInSum: true,
+              del01Exponents: true,
+              unneededUnaryOps: true,
+              evalBasicNumOps: false,
+              mergeCstFactors: false,
+              hidePlusBeforeNeg: true,
+              changeSubIntoPlusNeg: true,
+              simplifyProducts: true,
+              mergePowerOfPower: true,
+              cancelLnExp: true,
+              fracIntoPowNeg: true,
+              removeUselessParenthesis: true,
+              factorSums:false,
+              errors: {}
         },
         checkInput: {
               cancelNegOfNeg: true,
