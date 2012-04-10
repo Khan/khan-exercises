@@ -190,7 +190,7 @@
         var varTerms = [];
         var allTerms = [expr];
         if (expr.op === "times" || (expr.op === "*")|| (expr.op === "cdot")) {
-            allTerms = expr.args;      
+            allTerms = expr.args;
         }
         $.each(allTerms, function(iTerm, term) {
             if (KhanUtil.hasVariables(term)) {
@@ -217,7 +217,7 @@
         if ((cmpNoExp !== 0) || ignoreExp) {
             return cmpNoExp;
         }
-        return compareNormalForms(expr1WithExp.args[1], expr2WithExp.args[1]);     
+        return compareNormalForms(expr1WithExp.args[1], expr2WithExp.args[1]);
     };
 
     // We first compare the terms while ignoring any constant factors
@@ -252,7 +252,7 @@
     $.extend(KhanUtil, {
         normalForm:normalForm,
         moveSameOpsUp:moveSameOpsUp,
-	compareNormalForms:compareNormalForms,
+        compareNormalForms:compareNormalForms,
         isEqual:isEqual,
         splitNumCstVar:splitNumCstVar,
     });

@@ -5,7 +5,7 @@
         } else if (expr.hasConstants !== undefined) {
             return expr.hasConstants;
         }
-        expr.hasConstants = (expr.op === "cst");  
+        expr.hasConstants = (expr.op === "cst");
         $.each(expr.args, function(iArg, arg) {
             expr.hasConstants |= hasConstants(arg);
         });
@@ -344,9 +344,9 @@
     var exprToCode = function(expr, isResult) {
         var strExpr = "<code>" + KhanUtil.format(expr) + "</code>";
         if (isResult) {
-            strExpr = "<span class='result'>" + strExpr + "</span>"; 
+            strExpr = "<span class='result'>" + strExpr + "</span>";
         } else {
-            strExpr = "<span class='mathTest'>" + strExpr + "</span>"; 
+            strExpr = "<span class='mathTest'>" + strExpr + "</span>";
         }
         return strExpr;
     };

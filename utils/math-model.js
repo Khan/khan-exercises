@@ -92,7 +92,7 @@
                 clipRect:[ [-range, -range], [2*range, 2*range] ],
                 arrows: null
             });
-            
+
             graph.last = graph.plot( g, [-10, 10] );
         }
         else {
@@ -110,10 +110,10 @@
                 clipRect:[ [-range, -range], [2*range, 2*range] ],
                 arrows: null
             });
-            
+
             graph.plot( g, [-range, range] );
             graph.last = graph.plot( g, [-range, range] );
-        }        
+        }
     };
 
     var isValidAST = function(n) {
@@ -183,8 +183,8 @@
     };
 
     var isTrigOrLog = function(op) {
-        return ((op === OpStr.SIN) || (op === OpStr.COS) || (op === OpStr.TAN) || 
-            (op === OpStr.SEC) || (op === OpStr.COT) || (op === OpStr.CSC) || 
+        return ((op === OpStr.SIN) || (op === OpStr.COS) || (op === OpStr.TAN) ||
+            (op === OpStr.SEC) || (op === OpStr.COT) || (op === OpStr.CSC) ||
             (op === OpStr.LN));
     };
 
@@ -268,7 +268,7 @@
             return text;
         }
         if (expr.style.color !== undefined) {
-            text = "\\color{" + expr.style.color + "}{" + text + "}";                
+            text = "\\color{" + expr.style.color + "}{" + text + "}";
         }
         if (expr.style.cancel) {
             text = "\\cancel{" + text + "}";
@@ -515,7 +515,7 @@
         text = addStyle(text, n);
         return text;
     };
-    
+
     var evalExpr = function(n, env) {
 
         var ast = KhanUtil.ast;
@@ -531,7 +531,7 @@
             for (var i = 0; i < n.args.length; i++) {
                 args[i] = eval(n.args[i], env);
             }
-            
+
             switch (n.op) {
             case OpStr.NUM:
                 val = args[0];
@@ -659,7 +659,7 @@
                 T0 = scan.start();
             }
         }
-        
+
         var replace = function(t) {
             T0 = t;
         }
@@ -673,7 +673,7 @@
             }
             next();
         }
-        
+
         var match = function(tc) {
             var tk = hd();
             if (tk !== tc)
@@ -757,7 +757,7 @@
                     eat(TK_CARET);
                     var expr2 = braceOptionalExpr();
                     e = {op: tokenToOp[t], args: [unaryExpr()]};
-                    e = {op: OpStr.POW, args: [e, expr2]};                    
+                    e = {op: OpStr.POW, args: [e, expr2]};
                 } else {
                     e = {op: tokenToOp[t], args: [unaryExpr()]};
                 }
@@ -1030,7 +1030,7 @@
                         return token;
                     case TK_AMP:  // &
                         alignment[0]++;
-                        continue;                                                
+                        continue;
                     case TK_LEFTPAREN:
                     case TK_RIGHTPAREN:
                     case TK_MUL:
@@ -1069,7 +1069,7 @@
                     case TK_LEFTBRACE:
                         braceIsForStyle.push(false);
                         lexeme += String.fromCharCode(c);
-                        return c;                        
+                        return c;
                     case TK_RIGHTBRACE:
                         if (braceIsForStyle.pop()) {
                             lastIdStyle = openedStyles.pop();
@@ -1077,7 +1077,7 @@
                             continue;
                         }
                         lexeme += String.fromCharCode(c);
-                        return c;                        
+                        return c;
                     default:
                         if (c >= 'A'.charCodeAt(0) && c <= 'Z'.charCodeAt(0)) {
                             lexeme += String.fromCharCode(c);
@@ -1108,7 +1108,7 @@
                     c = src.charCodeAt(curIndex++);
                 }
                 curIndex--;
-                
+
                 return TK_NUM;
             }
 
@@ -1271,4 +1271,3 @@
         polynomial: polynomial,
     });
 })();
-

@@ -240,7 +240,7 @@
           sharedPart = KhanUtil.exprSetStyle(markedPart, KhanUtil.BLUE);
        } else if (markedPart !== 1) {
           sharedPart = {op:"*", args:[KhanUtil.exprSetStyle(markedPart, KhanUtil.BLUE), sharedPart], opsStyles:{symbol:"times"}};
-       } 
+       }
        return {op:"*", args:[sharedPart, remainingTerms]};
     };
 
@@ -290,7 +290,7 @@
        }
        return listFactors;
     }
- 
+
     var genHintListFactors = function(MATH, factors, occFactors) {
        var listFactors = genListFactors(factors, occFactors);
        var strListFactors = "";
@@ -321,7 +321,7 @@
           expr.args[iTerm] = KhanUtil.exprSetStyle(expr.args[iTerm], colors[iTerm]);
        }
        expr = KhanUtil.simplify(expr, KhanUtil.simplifyOptions.checkInput);
-       
+
        hints.push("<p><code>" + MATH.format(expr) + "</code></p><p>We start by decomposing each term into a product of its most simple factors.</p>");
 
        for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
