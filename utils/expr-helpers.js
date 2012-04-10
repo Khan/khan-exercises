@@ -341,12 +341,8 @@
        return exprClone(expr);
     };
 
-    var exprToString = function(expr) {
-        var ast = new KhanUtil.MathModel();
-        return ast.format(expr);
-    };
     var exprToCode = function(expr, isResult) {
-        var strExpr = "<code>" + KhanUtil.exprToString(expr) + "</code>";
+        var strExpr = "<code>" + KhanUtil.format(expr) + "</code>";
         if (isResult) {
             strExpr = "<span class='result'>" + strExpr + "</span>"; 
         } else {
@@ -355,8 +351,8 @@
         return strExpr;
     };
     var exprToCodeOr = function(expr1, expr2, isResult) {
-        var strExpr1 = KhanUtil.exprToString(expr1);
-        var strExpr2 = KhanUtil.exprToString(expr2);
+        var strExpr1 = KhanUtil.format(expr1);
+        var strExpr2 = KhanUtil.format(expr2);
         if (strExpr1 !== strExpr2) {
             return KhanUtil.exprToCode(expr1) + " or " + KhanUtil.exprToCode(expr2, isResult);
         }
@@ -391,7 +387,6 @@
         genExprFromExpFactors: genExprFromExpFactors,
         exprToCodeOr: exprToCodeOr,
         exprToCode: exprToCode,
-        exprToString: exprToString,
         exprCopyMissingStyle: exprCopyMissingStyle,
         copyMissingStyleAttrs: copyMissingStyleAttrs,
         exprPropagateStyle: exprPropagateStyle,
