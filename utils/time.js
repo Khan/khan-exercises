@@ -1,8 +1,8 @@
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
 
     addAnalogClock: function( options ) {
 
-        var analogClock = jQuery.extend(true, {
+        var analogClock = $.extend(true, {
             graph: KhanUtil.currentGraph,
             set: KhanUtil.currentGraph.raphael.set(),
             radius: 3.5,

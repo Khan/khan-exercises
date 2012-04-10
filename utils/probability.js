@@ -1,4 +1,4 @@
-jQuery.extend(KhanUtil, {
+$.extend(KhanUtil, {
     /* coinFlips( 2 ) returns
      * [["HH", 2], ["HT", 1], ["TH", 1], ["TT", 0]] */
     coinFlips: function( n ) {
@@ -7,13 +7,13 @@ jQuery.extend(KhanUtil, {
         } else {
             var preceding = KhanUtil.coinFlips( n - 1 );
 
-            var andAHead = jQuery.map(preceding, function(_arg, i) {
+            var andAHead = $.map(preceding, function(_arg, i) {
                 var seq = _arg[0];
                 var h = _arg[1];
                 return [["H" + seq, h + 1]];
             });
 
-            var andATail = jQuery.map(preceding, function(_arg, i) {
+            var andATail = $.map(preceding, function(_arg, i) {
                 var seq = _arg[0];
                 var h = _arg[1];
                 return [["T" + seq, h]];
@@ -39,7 +39,7 @@ jQuery.extend(KhanUtil, {
             }
         } else {
             var sum = 0;
-            jQuery.each(k, function( ind, elem ) {
+            $.each(k, function( ind, elem ) {
                 sum += KhanUtil.choose( n, elem );
             });
             return sum;

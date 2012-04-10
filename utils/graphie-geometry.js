@@ -42,7 +42,7 @@ function RegularPolygon( center, numSides, radius, rotation, fillColor ){
     this.drawLineOfSymmetry = function( i, color ) {
         var coords = getSymmetryCoordinates( i );
         color = color || KhanUtil.BLUE;
-        return graph.line.apply( graph, jQuery.merge( coords, [{ stroke: color }]) );
+        return graph.line.apply( graph, $.merge( coords, [{ stroke: color }]) );
     }
 
     this.drawFakeLineOfSymmetry = function( i, color ) {
@@ -105,8 +105,8 @@ function sameSide( p1, p2, l ){
 //Very useful for labels, for example, clearArray( [ "x", "x", "x" ], [ ANGLE ] ), where ANGLE is 1, will give you [ "", "x", "" ], which you can use to label angles in a Triangle such that the second angle is labeled x
 
 function clearArray( arr, i ){
-    return jQuery.map( arr, function( el, index ) {
-        if( jQuery.inArray( index, i ) !== -1 ){
+    return $.map( arr, function( el, index ) {
+        if( $.inArray( index, i ) !== -1 ){
             return  el;
         }
         else{
@@ -313,7 +313,7 @@ function Triangle( center, angles, scale, labels, points ){
     if( fromPoints ){
         this.points = points;
         this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
-        this.sideLengths =  jQuery.map( this.sides, lineLength );
+        this.sideLengths =  $.map( this.sides, lineLength );
         this.angles = anglesFromSides( this.sideLengths );
     }
     else{
@@ -340,12 +340,12 @@ function Triangle( center, angles, scale, labels, points ){
     }
     this.sides = [ [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 2 ] ] , [ this.points[ 2 ], this.points[ 0 ] ] ];
 
-    this.sideLengths =  jQuery.map( this.sides, lineLength );
+    this.sideLengths =  $.map( this.sides, lineLength );
 
-    this.niceSideLengths = jQuery.map( this.sideLengths, function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
+    this.niceSideLengths = $.map( this.sideLengths, function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
 
     this.set = "";
-    this.niceAngles = jQuery.map( this.angles, function( x ){ return x + "^{\\circ}"; } );
+    this.niceAngles = $.map( this.angles, function( x ){ return x + "^{\\circ}"; } );
     this.labelObjects = { "sides": [] , "angles" : [], "points" : [], "name" : [] };
 
 
@@ -388,8 +388,8 @@ function Triangle( center, angles, scale, labels, points ){
 
     this.boundingRange = function( margin ) {
         margin = margin || 0;
-        var X = jQuery.map(this.points, function( p ){ return p[0]; });
-        var Y = jQuery.map(this.points, function( p ){ return p[1]; });
+        var X = $.map(this.points, function( p ){ return p[0]; });
+        var Y = $.map(this.points, function( p ){ return p[1]; });
         return [ [ _.min(X) - margin, _.max(X) + margin ],
              [ _.min(Y) - margin, _.max(Y) + margin ] ];
     }
@@ -422,7 +422,7 @@ function Triangle( center, angles, scale, labels, points ){
     this.rotate = function( amount ){
         amount = amount * Math.PI / 180;
         var tr = this;
-        this.points = jQuery.map( this.points, function( el, i ){
+        this.points = $.map( this.points, function( el, i ){
                 return     [ tr.rotatePoint( el, amount ) ]
         });
         this.genSides();
@@ -438,7 +438,7 @@ function Triangle( center, angles, scale, labels, points ){
     }
 
     this.translate = function( amount ){
-        this.points = jQuery.map( this.points, function( el, i ){
+        this.points = $.map( this.points, function( el, i ){
                 return     [ movePoint( el, amount ) ]
         });
         this.genSides();
@@ -530,8 +530,8 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
             this.points = [ [ this.x, this.y ], [ this.x + this.scale * this.sideRatio * this.cosines[ 0 ], this.y + this.scale * this.sideRatio * this.sines[ 0 ] ], [ this.x + tX[ 1 ] + ua * ( tX[ 2 ] - tX[ 1 ] ), this.y + tY[ 1 ] + ua * ( tY[ 2 ] - tY[ 1 ] ) ], [ this.x +  this.scale, this.y ] ];
 
             this.sides = [ [ this.points[ 0 ], this.points[ 3 ] ], [ this.points[ 3 ], this.points[ 2 ] ], [ this.points[ 2 ], this.points[ 1 ] ], [ this.points[ 1 ], this.points[ 0 ] ] ];
-            this.sideLengths =  jQuery.map( this.sides, lineLength );
-            this.niceSideLengths = jQuery.map( this.sideLengths, function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
+            this.sideLengths =  $.map( this.sides, lineLength );
+            this.niceSideLengths = $.map( this.sideLengths, function( x ){ return parseFloat( x.toFixed( 1 ) ); } );
 
             if( vectorProduct( [ this.points[ 0 ], this.points[ 1 ] ], [ this.points[ 0 ], this.points[ 2 ] ] ) > 0  || this.sideLengths[ 2 ] < 0.09 ){
                 this.sideRatio -= 0.3;

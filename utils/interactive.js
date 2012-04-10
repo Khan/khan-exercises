@@ -1,4 +1,4 @@
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
 
     // Fill opacity for inequality shading
     FILL_OPACITY: 0.3,
@@ -8,7 +8,7 @@ jQuery.extend( KhanUtil, {
     // Wrap graphInit to create a fixed-size graph automatically scaled to the given range
     initAutoscaledGraph: function( range, options ) {
         var graph = KhanUtil.currentGraph;
-        options = jQuery.extend({
+        options = $.extend({
             xpixels: 500,
             ypixels: 500,
             xdivisions: 20,
@@ -60,7 +60,7 @@ jQuery.extend( KhanUtil, {
         graph.range = [ [ xmin, xmax ], [ ymin, ymax ] ];
 
         graph.mouselayer = Raphael( graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels );
-        jQuery( graph.mouselayer.canvas ).css( "z-index", 1 );
+        $( graph.mouselayer.canvas ).css( "z-index", 1 );
         Khan.scratchpad.disable();
     },
 
@@ -157,7 +157,7 @@ jQuery.extend( KhanUtil, {
     //
     addMovablePoint: function( options ) {
         // The state object that gets returned
-        var movablePoint = jQuery.extend(true, {
+        var movablePoint = $.extend(true, {
             graph: KhanUtil.currentGraph,
             coord: [ 0, 0 ],
             snapX: 0,
@@ -209,7 +209,7 @@ jQuery.extend( KhanUtil, {
             // use the configured constraints for the point plus any passed-in constraints; use only passed-in constraints if override is set
             var constraints = {};
             if ( override ) {
-                jQuery.extend( constraints, {
+                $.extend( constraints, {
                     fixed: false,
                     constrainX: false,
                     constrainY: false,
@@ -217,7 +217,7 @@ jQuery.extend( KhanUtil, {
                     fixedDistance: {}
                 }, extraConstraints );
             } else {
-                jQuery.extend( constraints, this.constraints, extraConstraints );
+                $.extend( constraints, this.constraints, extraConstraints );
             }
 
             // constrain to vertical movement
@@ -277,8 +277,8 @@ jQuery.extend( KhanUtil, {
             movablePoint.mouseTarget = graph.mouselayer.circle( graph.scalePoint( movablePoint.coord )[0], graph.scalePoint( movablePoint.coord )[1], 15 );
             movablePoint.mouseTarget.attr({fill: "#000", "opacity": 0.0});
 
-            jQuery( movablePoint.mouseTarget[0] ).css( "cursor", "move" );
-            jQuery( movablePoint.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
+            $( movablePoint.mouseTarget[0] ).css( "cursor", "move" );
+            $( movablePoint.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
                 if ( event.type === "vmouseover" ) {
                     movablePoint.highlight = true;
                     if ( !KhanUtil.dragging ) {
@@ -294,14 +294,14 @@ jQuery.extend( KhanUtil, {
                 } else if ( event.type === "vmousedown" && (event.which === 1 || event.which === 0) ) {
                     event.preventDefault();
 
-                    jQuery( document ).bind("vmousemove vmouseup", function( event ) {
+                    $( document ).bind("vmousemove vmouseup", function( event ) {
                         event.preventDefault();
                         movablePoint.dragging = true;
                         KhanUtil.dragging = true;
 
                         // mouse{X|Y} are in pixels relative to the SVG
-                        var mouseX = event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left;
-                        var mouseY = event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top;
+                        var mouseX = event.pageX - $( graph.raphael.canvas.parentNode ).offset().left;
+                        var mouseY = event.pageY - $( graph.raphael.canvas.parentNode ).offset().top;
                         // can't go beyond 10 pixels from the edge
                         mouseX = Math.max(10, Math.min(graph.xpixels-10, mouseX));
                         mouseY = Math.max(10, Math.min(graph.ypixels-10, mouseY));
@@ -379,12 +379,12 @@ jQuery.extend( KhanUtil, {
                             // By returning false from onMove(), the move can be vetoed,
                             // providing custom constraints on where the point can be moved.
                             // By returning array [x, y], the move can be overridden
-                            if ( jQuery.isFunction( movablePoint.onMove ) ) {
+                            if ( $.isFunction( movablePoint.onMove ) ) {
                                 var result = movablePoint.onMove( coordX, coordY );
                                 if (result === false) {
                                     doMove = false;
                                 }
-                                if ( jQuery.isArray( result ) ) {
+                                if ( $.isArray( result ) ) {
                                     coordX = result[0];
                                     coordY = result[1];
                                 }
@@ -404,12 +404,12 @@ jQuery.extend( KhanUtil, {
 
 
                         } else if ( event.type === "vmouseup" ) {
-                            jQuery( document ).unbind( "vmousemove vmouseup" );
+                            $( document ).unbind( "vmousemove vmouseup" );
                             movablePoint.dragging = false;
                             KhanUtil.dragging = false;
-                            if ( jQuery.isFunction( movablePoint.onMoveEnd ) ) {
+                            if ( $.isFunction( movablePoint.onMoveEnd ) ) {
                                 var result = movablePoint.onMoveEnd( coordX, coordY );
-                                if ( jQuery.isArray( result ) ) {
+                                if ( $.isArray( result ) ) {
                                     coordX = result[0];
                                     coordY = result[1];
                                     mouseX = (coordX - graph.range[0][0]) * graph.scale[0];
@@ -447,7 +447,7 @@ jQuery.extend( KhanUtil, {
                     cx: this.visibleShape.attr("cx"),
                     cy: this.visibleShape.attr("cy")
                 };
-                jQuery( start ).animate( end, {
+                $( start ).animate( end, {
                     duration: time,
                     easing: "linear",
                     step: function( now, fx ) {
@@ -467,7 +467,7 @@ jQuery.extend( KhanUtil, {
                 this.mouseTarget.animate( end, time );
             }
             this.coord = [ coordX, coordY ];
-            if ( jQuery.isFunction( this.onMove ) ) {
+            if ( $.isFunction( this.onMove ) ) {
                 this.onMove( coordX, coordY );
             }
         };
@@ -475,11 +475,11 @@ jQuery.extend( KhanUtil, {
 
         // After moving the point, call this to update all line segments terminating at the point
         movablePoint.updateLineEnds = function() {
-            jQuery( this.lineStarts ).each( function() {
+            $( this.lineStarts ).each( function() {
                 this.coordA = movablePoint.coord;
                 this.transform();
             });
-            jQuery( this.lineEnds ).each( function() {
+            $( this.lineEnds ).each( function() {
                 this.coordZ = movablePoint.coord;
                 this.transform();
             });
@@ -538,7 +538,7 @@ jQuery.extend( KhanUtil, {
     //   the line to a specific location
     //
     addMovableLine: function( options ) {
-        options = jQuery.extend({
+        options = $.extend({
             graph: KhanUtil.currentGraph,
             coord: 0,
             snap: 0,
@@ -572,8 +572,8 @@ jQuery.extend( KhanUtil, {
         }
         movableLine.mouseTarget.attr({fill: "#000", "opacity": 0.0});
 
-        jQuery( movableLine.mouseTarget[0] ).css( "cursor", "move" );
-        jQuery( movableLine.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
+        $( movableLine.mouseTarget[0] ).css( "cursor", "move" );
+        $( movableLine.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
             if ( event.type === "vmouseover" ) {
                 if ( !KhanUtil.dragging ) {
                     movableLine.highlight = true;
@@ -589,14 +589,14 @@ jQuery.extend( KhanUtil, {
             } else if ( event.type === "vmousedown" && (event.which === 1 || event.which === 0) ) {
                 event.preventDefault();
 
-                jQuery( document ).bind("vmousemove vmouseup", function( event ) {
+                $( document ).bind("vmousemove vmouseup", function( event ) {
                     event.preventDefault();
                     movableLine.dragging = true;
                     KhanUtil.dragging = true;
 
                     // mouse{X|Y} are in pixels relative to the SVG
-                    var mouseX = event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left;
-                    var mouseY = event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top;
+                    var mouseX = event.pageX - $( graph.raphael.canvas.parentNode ).offset().left;
+                    var mouseY = event.pageY - $( graph.raphael.canvas.parentNode ).offset().top;
                     // can't go beyond 10 pixels from the edge
                     mouseX = Math.max(10, Math.min(graph.xpixels-10, mouseX));
                     mouseY = Math.max(10, Math.min(graph.ypixels-10, mouseY));
@@ -617,7 +617,7 @@ jQuery.extend( KhanUtil, {
 
                             // The caller has the option of adding an onMove() method to the
                             // movablePoint object we return as a sort of event handler
-                            if ( jQuery.isFunction( movableLine.onMove ) ) {
+                            if ( $.isFunction( movableLine.onMove ) ) {
                                 movableLine.onMove(coordX);
                             }
                         } else {
@@ -627,13 +627,13 @@ jQuery.extend( KhanUtil, {
 
                             // The caller has the option of adding an onMove() method to the
                             // movablePoint object we return as a sort of event handler
-                            if ( jQuery.isFunction( movableLine.onMove ) ) {
+                            if ( $.isFunction( movableLine.onMove ) ) {
                                 movableLine.onMove(coordY);
                             }
                         }
 
                     } else if ( event.type === "vmouseup" ) {
-                        jQuery( document ).unbind( "vmousemove vmouseup" );
+                        $( document ).unbind( "vmousemove vmouseup" );
                         movableLine.dragging = false;
                         KhanUtil.dragging = false;
                         if (!movableLine.highlight) {
@@ -668,7 +668,7 @@ jQuery.extend( KhanUtil, {
             }
 
             this.coord = coord;
-            if ( jQuery.isFunction( this.onMove ) ) {
+            if ( $.isFunction( this.onMove ) ) {
                 movableLine.onMove(coord);
             }
         };
@@ -678,7 +678,7 @@ jQuery.extend( KhanUtil, {
 
 
     svgPath: function( points ) {
-        return jQuery.map(points, function( point, i ) {
+        return $.map(points, function( point, i ) {
             if ( point === true ) {
                 return "z";
             }
@@ -702,7 +702,7 @@ jQuery.extend( KhanUtil, {
     //   event handler that gets called when the mouse moves away from the function.
     //
     addInteractiveFn: function( fn, options ) {
-        options = jQuery.extend({
+        options = $.extend({
             graph: KhanUtil.currentGraph,
             snap: 0,
             range: [ KhanUtil.currentGraph.range[0][0], KhanUtil.currentGraph.range[0][1] ]
@@ -781,10 +781,10 @@ jQuery.extend( KhanUtil, {
         interactiveFn.mouseTarget.attr({ fill: "#000", "opacity": 0.0 });
 
         // Add mouse handlers to the polygon
-        jQuery( interactiveFn.mouseTarget[0] ).bind("vmouseover vmouseout vmousemove", function( event ) {
+        $( interactiveFn.mouseTarget[0] ).bind("vmouseover vmouseout vmousemove", function( event ) {
             event.preventDefault();
-            var mouseX = event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left;
-            var mouseY = event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top;
+            var mouseX = event.pageX - $( graph.raphael.canvas.parentNode ).offset().left;
+            var mouseY = event.pageY - $( graph.raphael.canvas.parentNode ).offset().top;
             // can't go beyond 10 pixels from the edge
             mouseX = Math.max(10, Math.min(graph.xpixels-10, mouseX));
             mouseY = Math.max(10, Math.min(graph.ypixels-10, mouseY));
@@ -813,7 +813,7 @@ jQuery.extend( KhanUtil, {
             coordY = fn(closestX);
 
             // If the caller wants to be notified when the user points to the function
-            if ( jQuery.isFunction( interactiveFn.onMove ) ) {
+            if ( $.isFunction( interactiveFn.onMove ) ) {
                 interactiveFn.onMove(coordX, coordY);
             }
 
@@ -825,7 +825,7 @@ jQuery.extend( KhanUtil, {
                 interactiveFn.highlight = false;
                 interactiveFn.cursorPoint.animate({ opacity: 0.0 }, 50 );
                 // If the caller wants to be notified when the user stops pointing to the function
-                if ( jQuery.isFunction( interactiveFn.onLeave ) ) {
+                if ( $.isFunction( interactiveFn.onLeave ) ) {
                     interactiveFn.onLeave(coordX, coordY);
                 }
             }
@@ -872,7 +872,7 @@ jQuery.extend( KhanUtil, {
     //         smartPoints
     //
     addMovableLineSegment: function( options ) {
-        var lineSegment = jQuery.extend({
+        var lineSegment = $.extend({
             graph: KhanUtil.currentGraph,
             coordA: [ 0, 0 ],
             coordZ: [ 1, 1 ],
@@ -1005,8 +1005,8 @@ jQuery.extend( KhanUtil, {
         };
 
         if ( !lineSegment.fixed && !lineSegment.constraints.fixed ) {
-            jQuery( lineSegment.mouseTarget[0] ).css( "cursor", "move" );
-            jQuery( lineSegment.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
+            $( lineSegment.mouseTarget[0] ).css( "cursor", "move" );
+            $( lineSegment.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
                 if ( event.type === "vmouseover" ) {
                     if ( !KhanUtil.dragging ) {
                         lineSegment.highlight = true;
@@ -1022,8 +1022,8 @@ jQuery.extend( KhanUtil, {
                 } else if ( event.type === "vmousedown" && (event.which === 1 || event.which === 0) ) {
                     event.preventDefault();
                     // coord{X|Y} are the scaled coordinate values of the mouse position
-                    var coordX = (event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left) / graph.scale[0] + graph.range[0][0];
-                    var coordY = graph.range[1][1] - (event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top) / graph.scale[1];
+                    var coordX = (event.pageX - $( graph.raphael.canvas.parentNode ).offset().left) / graph.scale[0] + graph.range[0][0];
+                    var coordY = graph.range[1][1] - (event.pageY - $( graph.raphael.canvas.parentNode ).offset().top) / graph.scale[1];
                     if ( lineSegment.snapX > 0 ) {
                         coordX = Math.round( coordX / lineSegment.snapX ) * lineSegment.snapX;
                     }
@@ -1040,14 +1040,14 @@ jQuery.extend( KhanUtil, {
                     var offsetTop = Math.max( graph.scaleVector(mouseOffsetA)[1], graph.scaleVector(mouseOffsetZ)[1] );
                     var offsetBottom = -Math.min( graph.scaleVector(mouseOffsetA)[1], graph.scaleVector(mouseOffsetZ)[1] );
 
-                    jQuery( document ).bind("vmousemove vmouseup", function( event ) {
+                    $( document ).bind("vmousemove vmouseup", function( event ) {
                         event.preventDefault();
                         lineSegment.dragging = true;
                         KhanUtil.dragging = true;
 
                         // mouse{X|Y} are in pixels relative to the SVG
-                        var mouseX = event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left;
-                        var mouseY = event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top;
+                        var mouseX = event.pageX - $( graph.raphael.canvas.parentNode ).offset().left;
+                        var mouseY = event.pageY - $( graph.raphael.canvas.parentNode ).offset().top;
                         // no part of the line segment can go beyond 10 pixels from the edge
                         mouseX = Math.max(offsetLeft + 10, Math.min(graph.xpixels-10-offsetRight, mouseX));
                         mouseY = Math.max(offsetTop + 10, Math.min(graph.ypixels-10-offsetBottom, mouseY));
@@ -1074,18 +1074,18 @@ jQuery.extend( KhanUtil, {
                             lineSegment.coordA = [coordX + mouseOffsetA[0], coordY + mouseOffsetA[1]];
                             lineSegment.coordZ = [coordX + mouseOffsetZ[0], coordY + mouseOffsetZ[1]];
                             lineSegment.transform();
-                            if ( jQuery.isFunction( lineSegment.onMove ) ) {
+                            if ( $.isFunction( lineSegment.onMove ) ) {
                                 lineSegment.onMove( dX, dY );
                             }
 
                         } else if ( event.type === "vmouseup" ) {
-                            jQuery( document ).unbind( "vmousemove vmouseup" );
+                            $( document ).unbind( "vmousemove vmouseup" );
                             lineSegment.dragging = false;
                             KhanUtil.dragging = false;
                             if (!lineSegment.highlight) {
                                 lineSegment.visibleLine.animate( lineSegment.normalStyle, 50 );
                             }
-                            if ( jQuery.isFunction( lineSegment.onMoveEnd ) ) {
+                            if ( $.isFunction( lineSegment.onMoveEnd ) ) {
                                 lineSegment.onMoveEnd();
                             }
 
@@ -1112,36 +1112,36 @@ jQuery.extend( KhanUtil, {
         var list;
 
         sorter.init = function( element ) {
-            list = jQuery( "[id=" + element + "]" ).last();
+            list = $( "[id=" + element + "]" ).last();
             var container = list.wrap( "<div>" ).parent();
-            var placeholder = jQuery( "<li>" );
+            var placeholder = $( "<li>" );
             placeholder.addClass( "placeholder" );
             container.addClass( "sortable ui-helper-clearfix" );
             var tileWidth = list.find( "li" ).outerWidth( true );
             var numTiles = list.find( "li" ).length;
 
             list.find( "li" ).each(function( tileNum, tile ) {
-                jQuery( tile ).bind( "vmousedown", function( event ) {
+                $( tile ).bind( "vmousedown", function( event ) {
                     if ( event.type === "vmousedown" && (event.which === 1 || event.which === 0) ) {
                         event.preventDefault();
-                        jQuery( tile ).addClass( "dragging" );
-                        var tileIndex = jQuery( this ).index();
+                        $( tile ).addClass( "dragging" );
+                        var tileIndex = $( this ).index();
                         placeholder.insertAfter( tile );
-                        jQuery( this ).css( "z-index", 100 );
-                        var offset = jQuery( this ).offset();
+                        $( this ).css( "z-index", 100 );
+                        var offset = $( this ).offset();
                         var click = {
                             left: event.pageX - offset.left - 3,
                             top: event.pageY - offset.top - 3
                         };
-                        jQuery( tile ).css({ position: "absolute" });
-                        jQuery( tile ).offset({
+                        $( tile ).css({ position: "absolute" });
+                        $( tile ).offset({
                             left: offset.left,
                             top: offset.top
                         });
-                        jQuery( document ).bind( "vmousemove vmouseup", function( event ) {
+                        $( document ).bind( "vmousemove vmouseup", function( event ) {
                             event.preventDefault();
                             if ( event.type === "vmousemove" ) {
-                                jQuery( tile ).offset({
+                                $( tile ).offset({
                                     left: event.pageX - click.left,
                                     top: event.pageY - click.top
                                 });
@@ -1151,30 +1151,30 @@ jQuery.extend( KhanUtil, {
                                     tileIndex = index;
                                     if ( index === 0 ) {
                                         placeholder.prependTo( list );
-                                        jQuery( tile ).prependTo( list );
+                                        $( tile ).prependTo( list );
                                     } else {
                                         placeholder.detach();
-                                        jQuery( tile ).detach();
+                                        $( tile ).detach();
                                         var preceeding = list.find( "li" )[index - 1];
                                         placeholder.insertAfter( preceeding );
-                                        jQuery( tile ).insertAfter( preceeding );
+                                        $( tile ).insertAfter( preceeding );
                                     }
                                     offset.left = leftEdge + tileWidth * index;
                                 }
                             } else if ( event.type === "vmouseup" ) {
-                                jQuery( document ).unbind( "vmousemove vmouseup" );
-                                var position = jQuery( tile ).offset();
-                                jQuery( position ).animate( offset, {
+                                $( document ).unbind( "vmousemove vmouseup" );
+                                var position = $( tile ).offset();
+                                $( position ).animate( offset, {
                                     duration: 150,
                                     step: function( now, fx ) {
                                         position[ fx.prop ] = now;
-                                        jQuery( tile ).offset( position );
+                                        $( tile ).offset( position );
                                     },
                                     complete: function() {
-                                        jQuery( tile ).css( "z-index", 0 );
+                                        $( tile ).css( "z-index", 0 );
                                         placeholder.detach();
-                                        jQuery( tile ).css({ position: "static" });
-                                        jQuery( tile ).removeClass( "dragging" );
+                                        $( tile ).css({ position: "static" });
+                                        $( tile ).removeClass( "dragging" );
                                     }
                                 });
                             }
@@ -1187,14 +1187,14 @@ jQuery.extend( KhanUtil, {
         sorter.getContent = function() {
             content = [];
             list.find( "li" ).each(function( tileNum, tile ) {
-                content.push( jQuery.trim( jQuery( tile ).find( "code" ).text() ) );
+                content.push( $.trim( $( tile ).find( "code" ).text() ) );
             });
             return content;
         };
 
         sorter.setContent = function( content ) {
             list.find( "li" ).each(function( tileNum, tile ) {
-                jQuery( tile ).find( "code" ).text( content[ tileNum ] );
+                $( tile ).find( "code" ).text( content[ tileNum ] );
                 MathJax.Hub.Queue([ "Reprocess", MathJax.Hub, tile ]);
             });
         };
@@ -1279,27 +1279,27 @@ function Protractor( center ) {
     this.rotateHandle.mouseTarget.attr({ scale: 2.0 });
 
     // Make the arrow-thing grow and shrink with mouseover/out
-    jQuery( this.rotateHandle.mouseTarget[0] ).bind( "vmouseover", function( event ) {
+    $( this.rotateHandle.mouseTarget[0] ).bind( "vmouseover", function( event ) {
         arrow.animate({ scale: 1.5 }, 50 );
     });
-    jQuery( this.rotateHandle.mouseTarget[0] ).bind( "vmouseout", function( event ) {
+    $( this.rotateHandle.mouseTarget[0] ).bind( "vmouseout", function( event ) {
         arrow.animate({ scale: 1.0 }, 50 );
     });
 
 
-    var setNodes = jQuery.map( this.set, function( el ) { return el.node; } );
+    var setNodes = $.map( this.set, function( el ) { return el.node; } );
     this.makeTranslatable = function makeTranslatable() {
-        jQuery( setNodes ).css( "cursor", "move" );
+        $( setNodes ).css( "cursor", "move" );
 
-        jQuery( setNodes ).bind( "vmousedown", function( event ) {
+        $( setNodes ).bind( "vmousedown", function( event ) {
             event.preventDefault();
-            var startx = event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left;
-            var starty = event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top;
+            var startx = event.pageX - $( graph.raphael.canvas.parentNode ).offset().left;
+            var starty = event.pageY - $( graph.raphael.canvas.parentNode ).offset().top;
 
-            jQuery( document ).bind ( "vmousemove", function( event ) {
+            $( document ).bind ( "vmousemove", function( event ) {
                 // mouse{X|Y} are in pixels relative to the SVG
-                var mouseX = event.pageX - jQuery( graph.raphael.canvas.parentNode ).offset().left;
-                var mouseY = event.pageY - jQuery( graph.raphael.canvas.parentNode ).offset().top;
+                var mouseX = event.pageX - $( graph.raphael.canvas.parentNode ).offset().left;
+                var mouseY = event.pageY - $( graph.raphael.canvas.parentNode ).offset().top;
                 // can't go beyond 10 pixels from the edge
                 mouseX = Math.max( 10, Math.min( graph.xpixels - 10, mouseX ) );
                 mouseY = Math.max( 10, Math.min( graph.ypixels - 10, mouseY ) );
@@ -1307,7 +1307,7 @@ function Protractor( center ) {
                 var dx = mouseX - startx;
                 var dy = mouseY - starty;
 
-                jQuery.each( pro.set.items, function() {
+                $.each( pro.set.items, function() {
                     this.translate( dx, dy );
                 });
                 pro.centerPoint.setCoord([ pro.centerPoint.coord[0] + dx / graph.scale[0], pro.centerPoint.coord[1] - dy / graph.scale[1] ]);
@@ -1316,8 +1316,8 @@ function Protractor( center ) {
                 starty = mouseY;
             });
 
-            jQuery( document ).one( "vmouseup", function( event ) {
-                jQuery( document ).unbind( "vmousemove" );
+            $( document ).one( "vmouseup", function( event ) {
+                $( document ).unbind( "vmousemove" );
             });
         });
     };
@@ -1344,7 +1344,7 @@ function Protractor( center ) {
         var end = graph.scalePoint([ x, y ]);
         var time = KhanUtil.getDistance( start, end ) * 2;  // 2ms per pixel
 
-        jQuery({ x: start[0], y: start[1] }).animate({ x: end[0], y: end[1] }, {
+        $({ x: start[0], y: start[1] }).animate({ x: end[0], y: end[1] }, {
             duration: time,
             step: function( now, fx ) {
                 var dx = 0;
@@ -1354,7 +1354,7 @@ function Protractor( center ) {
                 } else if ( fx.prop === "y") {
                     dy = now - graph.scalePoint( pro.centerPoint.coord )[1];
                 }
-                jQuery.each( pro.set.items, function() {
+                $.each( pro.set.items, function() {
                     this.translate( dx, dy );
                 });
                 pro.centerPoint.setCoord([ pro.centerPoint.coord[0] + dx / graph.scale[0], pro.centerPoint.coord[1] - dy / graph.scale[1] ]);
@@ -1368,7 +1368,7 @@ function Protractor( center ) {
             this.rotation += 360;
         }
         var time = Math.abs( this.rotation - angle ) * 5;  // 5ms per deg
-        jQuery({ 0: this.rotation }).animate({ 0: angle }, {
+        $({ 0: this.rotation }).animate({ 0: angle }, {
             duration: time,
             step: function( now, fx ) {
                 pro.rotate( now, true );

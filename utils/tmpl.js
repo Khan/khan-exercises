@@ -3,7 +3,7 @@
 // Keep the template variables private, to prevent external access
 var VARS = {};
 
-jQuery.tmpl = {
+$.tmpl = {
     DATA_ENSURE_LOOPS: 0,
 
     // Processors that act based on element attributes
@@ -13,18 +13,18 @@ jQuery.tmpl = {
             return function( elem ) {
                 // Return a boolean corresponding to the ensure's value
                 // False means all templating will be run again, so new values will be chosen
-                var result = !!(ensure && jQuery.tmpl.getVAR( ensure ));
+                var result = !!(ensure && $.tmpl.getVAR( ensure ));
                 if ( !result ) {
-                    ++jQuery.tmpl.DATA_ENSURE_LOOPS;
+                    ++$.tmpl.DATA_ENSURE_LOOPS;
                 }
                 return result;
             };
         },
 
         "data-if": function( elem, value ) {
-            var $elem = jQuery( elem );
+            var $elem = $( elem );
 
-            value = value && jQuery.tmpl.getVAR( value );
+            value = value && $.tmpl.getVAR( value );
 
             // Save the result of this data-if in the next sibling for data-else-if and data-else
             $elem.next().data( "lastCond", value );
@@ -36,12 +36,12 @@ jQuery.tmpl = {
         },
 
         "data-else-if": function( elem, value ) {
-            var $elem = jQuery( elem );
+            var $elem = $( elem );
 
             var lastCond = $elem.data( "lastCond" );
 
             // Show this element iff the preceding element was hidden AND this data-if returns truthily
-            value = !lastCond && value && jQuery.tmpl.getVAR( value );
+            value = !lastCond && value && $.tmpl.getVAR( value );
 
             // Succeeding elements care about the visibility of both me and my preceding siblings
             $elem.next().data( "lastCond", lastCond || value );
@@ -53,7 +53,7 @@ jQuery.tmpl = {
         },
 
         "data-else": function( elem ) {
-            var $elem = jQuery( elem );
+            var $elem = $( elem );
 
             if ( $elem.data( "lastCond" ) ) {
                 // Delete the element if the data-if of the preceding element was true
@@ -65,15 +65,15 @@ jQuery.tmpl = {
             var match;
 
             // Remove the data-each attribute so it doesn't end up in the generated elements
-            jQuery( elem ).removeAttr( "data-each" );
+            $( elem ).removeAttr( "data-each" );
 
             // HINT_COUNT times
             // HINT_COUNT times as INDEX
             if ( (match = /^(.+) times(?: as (\w+))?$/.exec( value )) ) {
-                var times = jQuery.tmpl.getVAR( match[1] );
+                var times = $.tmpl.getVAR( match[1] );
 
                 return {
-                    items: jQuery.map( new Array( times ), function ( e, i ) { return i; } ),
+                    items: $.map( new Array( times ), function ( e, i ) { return i; } ),
                     value: match[2],
                     oldValue: VARS[ match[2] ]
                 };
@@ -86,7 +86,7 @@ jQuery.tmpl = {
                 // See "if ( ret.items )" in traverse() for the other half of the data-each code
                 return {
                     // The collection which we'll iterate through
-                    items: jQuery.tmpl.getVAR( match[1] ),
+                    items: $.tmpl.getVAR( match[1] ),
 
                     // "value" and "pos" as strings
                     value: match[3],
@@ -100,7 +100,7 @@ jQuery.tmpl = {
         },
 
         "data-unwrap": function( elem ) {
-            return jQuery( elem ).contents();
+            return $( elem ).contents();
         }
     },
 
@@ -110,15 +110,15 @@ jQuery.tmpl = {
             // When called by process(), value is undefined
 
             // If the <var> has any child elements, run later with the innerHTML
-            // Use jQuery instead of getElementsByTagName to exclude comment nodes in IE
-            if ( !value && jQuery( elem ).children().length > 0 ) {
+            // Use $ instead of getElementsByTagName to exclude comment nodes in IE
+            if ( !value && $( elem ).children().length > 0 ) {
                 return function( elem ) {
-                    return jQuery.tmpl.type["var"]( elem, elem.innerHTML );
+                    return $.tmpl.type["var"]( elem, elem.innerHTML );
                 };
             }
 
             // Evaluate the contents of the <var> as a JS string
-            value = value || jQuery.tmpl.getVAR( elem );
+            value = value || $.tmpl.getVAR( elem );
 
             // If an ID was specified then we're going to save the value
             var name = elem.id;
@@ -138,7 +138,7 @@ jQuery.tmpl = {
                     // Nested arrays are not supported
                     var parts = name.split(/\s*,\s*/);
 
-                    jQuery.each( parts, function( i, part ) {
+                    $.each( parts, function( i, part ) {
                         // Ignore empty parts
                         if ( part.length > 0 ) {
                             setVAR( part, value[i] );
@@ -158,7 +158,7 @@ jQuery.tmpl = {
                 } else {
                     // Convert the value to a string and replace with those elements and text nodes
                     // Add a space so that it can end with a "<" in Safari
-                    var div = jQuery( "<div>" );
+                    var div = $( "<div>" );
                     var html = div.append( value + " " ).html();
                     return div.html( html.slice( 0, -1 ) ).contents();
                 }
@@ -169,7 +169,7 @@ jQuery.tmpl = {
             // Returns a function in order to run after other templating and var assignment
             return function( elem ) {
                 if ( typeof elem.MathJax === "undefined" ) {
-                    var $elem = jQuery( elem );
+                    var $elem = $( elem );
 
                     // Maintain the classes from the original element
                     if ( elem.className ) {
@@ -200,10 +200,10 @@ jQuery.tmpl = {
     // Eval a string in the context of Math, KhanUtil, VARS, and optionally another passed context
     getVAR: function( elem, ctx ) {
         // We need to compute the value
-        var code = elem.nodeName ? jQuery(elem).text() : elem;
+        var code = elem.nodeName ? $(elem).text() : elem;
 
         // Make sure any HTML formatting is stripped
-        code = jQuery.trim( jQuery.tmpl.cleanHTML( code ) );
+        code = $.trim( $.tmpl.cleanHTML( code ) );
 
         // If no extra context was passed, use an empty object
         if ( ctx == null ) {
@@ -249,22 +249,22 @@ jQuery.tmpl = {
 };
 
 if ( typeof KhanUtil !== "undefined" ) {
-    KhanUtil.tmpl = jQuery.tmpl;
+    KhanUtil.tmpl = $.tmpl;
 }
 
 // Reinitialize VARS for each problem
-jQuery.fn.tmplLoad = function( problem, info ) {
+$.fn.tmplLoad = function( problem, info ) {
     VARS = {};
-    jQuery.tmpl.DATA_ENSURE_LOOPS = 0;
+    $.tmpl.DATA_ENSURE_LOOPS = 0;
 
     // Check to see if we're in test mode
     if ( info.testMode ) {
         // Expose the variables if we're in test mode
-        jQuery.tmpl.VARS = VARS;
+        $.tmpl.VARS = VARS;
     }
 };
 
-jQuery.fn.tmplCleanup = function() {
+$.fn.tmplCleanup = function() {
     this.find( "code" ).each( function() {
         var jax = MathJax.Hub.getJaxFor( this );
         if ( jax ) {
@@ -273,8 +273,8 @@ jQuery.fn.tmplCleanup = function() {
     } );
 };
 
-jQuery.fn.tmpl = function() {
-    // Call traverse() for each element in the jQuery object
+$.fn.tmpl = function() {
+    // Call traverse() for each element in the $ object
     for ( var i = 0, l = this.length; i < l; i++ ) {
         traverse( this[i] );
     }
@@ -305,13 +305,13 @@ jQuery.fn.tmpl = function() {
         } else if ( typeof ret === "object" && typeof ret.length !== "undefined" ) {
             if ( elem.parentNode ) {
                 // All nodes must be inserted before any are traversed
-                jQuery.each( ret, function( i, rep ) {
+                $.each( ret, function( i, rep ) {
                     if ( rep.nodeType ) {
                         elem.parentNode.insertBefore( rep, elem );
                     }
                 } );
 
-                jQuery.each( ret, function( i, rep ) {
+                $.each( ret, function( i, rep ) {
                     traverse( rep );
                 } );
 
@@ -327,7 +327,7 @@ jQuery.fn.tmpl = function() {
                 origNext = elem.nextSibling;
 
             // Loop though the given array
-            jQuery.each( ret.items, function( pos, value ) {
+            $.each( ret.items, function( pos, value ) {
                 // Set the value if appropriate
                 if ( ret.value ) {
                     VARS[ ret.value ] = value;
@@ -339,7 +339,7 @@ jQuery.fn.tmpl = function() {
                 }
 
                 // Do a deep clone (including event handlers and data) of the element
-                var clone = jQuery( elem ).clone( true )
+                var clone = $( elem ).clone( true )
                     .removeAttr( "data-each" ).removeData( "each" )[0];
 
                 // Prepend all conditional statements with a declaration of ret.value
@@ -354,17 +354,17 @@ jQuery.fn.tmpl = function() {
 
                 for ( var i = 0; i < conditionals.length; i++ ) {
                     var conditional = conditionals[i];
-                    jQuery( clone ).find( "[" + conditional + "]" ).each(function() {
-                        var code = jQuery( this ).attr( conditional );
+                    $( clone ).find( "[" + conditional + "]" ).each(function() {
+                        var code = $( this ).attr( conditional );
                         code = "(function() {  " + declarations + " return " + code + " })()";
-                        jQuery( this ).attr( conditional, code );
+                        $( this ).attr( conditional, code );
                     });
                 }
 
                 // Do the same for graphie code
-                jQuery( clone ).find( ".graphie" ).andSelf().filter( ".graphie" ).each(function() {
-                    var code = jQuery( this ).text();
-                    jQuery( this ).text( declarations + code );
+                $( clone ).find( ".graphie" ).andSelf().filter( ".graphie" ).each(function() {
+                    var code = $( this ).text();
+                    $( this ).text( declarations + code );
                 });
 
                 // Insert in the proper place (depends on whether the loops is the last of its siblings)
@@ -389,7 +389,7 @@ jQuery.fn.tmpl = function() {
             }
 
             // Remove the loop element and its handlers now that we've processed it
-            jQuery( elem ).remove();
+            $( elem ).remove();
 
             // Say that the element was removed so that child traversal doesn't skip anything
             return null;
@@ -417,10 +417,10 @@ jQuery.fn.tmpl = function() {
     // Run through the attr and type processors, return as soon as one of them is decisive about a plan of action
     function process( elem, post ) {
         var ret, newElem,
-            $elem = jQuery( elem );
+            $elem = $( elem );
 
         // Look through each of the attr processors, see if our element has the matching attribute
-        for ( var attr in jQuery.tmpl.attr ) {
+        for ( var attr in $.tmpl.attr ) {
             var value;
 
             if ( ( /^data-/ ).test( attr ) ) {
@@ -430,7 +430,7 @@ jQuery.fn.tmpl = function() {
             }
 
             if ( value !== undefined ) {
-                ret = jQuery.tmpl.attr[ attr ]( elem, value );
+                ret = $.tmpl.attr[ attr ]( elem, value );
 
                 // If a function, run after all of the other templating
                 if ( typeof ret === "function" ) {
@@ -445,8 +445,8 @@ jQuery.fn.tmpl = function() {
 
         // Look up the processor based on the tag name
         var type = elem.nodeName.toLowerCase();
-        if ( jQuery.tmpl.type[ type ] != null ) {
-            ret = jQuery.tmpl.type[ type ]( elem );
+        if ( $.tmpl.type[ type ] != null ) {
+            ret = $.tmpl.type[ type ]( elem );
 
             // If a function, run after all of the other templating
             if ( typeof ret === "function" ) {
@@ -458,13 +458,13 @@ jQuery.fn.tmpl = function() {
     }
 };
 
-jQuery.extend( jQuery.expr[":"], {
+$.extend( $.expr[":"], {
     inherited: function(el) {
-        return jQuery( el ).data( "inherited" );
+        return $( el ).data( "inherited" );
     }
 } );
 
-jQuery.fn.extend({
+$.fn.extend({
     tmplApply: function( options ) {
         options = options || {};
 
@@ -479,7 +479,7 @@ jQuery.fn.extend({
             parent = {};
 
         return this.each(function() {
-            var $this = jQuery( this ),
+            var $this = $( this ),
                 name = $this.attr( attribute ),
                 hint = $this.data( "apply" ) && !$this.data( "apply" ).indexOf( "hint" );
 
@@ -491,7 +491,7 @@ jQuery.fn.extend({
                 if ( name in parent && !hint ) {
                     // Get the method through which we'll be doing the application
                     // You can specify an application style directly on the sub-element
-                    parent[ name ] = jQuery.tmplApplyMethods[ $this.data( "apply" ) || defaultApply ]
+                    parent[ name ] = $.tmplApplyMethods[ $this.data( "apply" ) || defaultApply ]
 
                         // Call it with the context of the parent and the sub-element itself
                         .call( parent[ name ], this );
@@ -509,19 +509,19 @@ jQuery.fn.extend({
     }
 });
 
-jQuery.extend({
+$.extend({
     // These methods should be called with context being the parent
     // and first argument being the child.
     tmplApplyMethods: {
         // Removes both the parent and the child
         remove: function( elem ) {
-            jQuery( this ).remove();
-            jQuery( elem ).remove();
+            $( this ).remove();
+            $( elem ).remove();
         },
 
         // Replaces the parent with the child
         replace: function( elem ) {
-            jQuery( this ).replaceWith( elem );
+            $( this ).replaceWith( elem );
             return elem;
         },
 
@@ -529,69 +529,69 @@ jQuery.extend({
         // needed to replace an element without introducing additional
         // wrappers.
         splice: function( elem ) {
-            jQuery( this ).replaceWith( jQuery( elem ).contents() );
+            $( this ).replaceWith( $( elem ).contents() );
         },
 
         // Appends the child element to the parent element
         append: function( elem ) {
-            jQuery( this ).append( elem );
+            $( this ).append( elem );
             return this;
         },
 
         // Appends the child element's contents to the parent element.
         appendContents: function( elem ) {
-            jQuery( this ).append( jQuery( elem ).contents() );
-            jQuery( elem ).remove();
+            $( this ).append( $( elem ).contents() );
+            $( elem ).remove();
             return this;
         },
 
         // Prepends the child element to the parent.
         prepend: function( elem ) {
-            jQuery( this ).prepend( elem );
+            $( this ).prepend( elem );
             return this;
         },
 
         // Prepends the child element's contents to the parent element.
         prependContents: function( elem ) {
-            jQuery( this ).prepend( jQuery( elem ).contents() );
-            jQuery( elem ).remove();
+            $( this ).prepend( $( elem ).contents() );
+            $( elem ).remove();
             return this;
         },
 
         // Insert child before the parent.
         before: function( elem ) {
-            jQuery( this ).before( elem );
+            $( this ).before( elem );
             return this;
         },
 
         // Insert child's contents before the parent.
         beforeContents: function( elem ) {
-            jQuery( this ).before( jQuery( elem ).contents() );
-            jQuery( elem ).remove();
+            $( this ).before( $( elem ).contents() );
+            $( elem ).remove();
             return this;
         },
 
         // Insert child after the parent.
         after: function( elem ) {
-            jQuery( this ).after( elem );
+            $( this ).after( elem );
             return this;
         },
 
         // Insert child's contents after the parent.
         afterContents: function( elem ) {
-            jQuery( this ).after( jQuery( elem ).contents() );
-            jQuery( elem ).remove();
+            $( this ).after( $( elem ).contents() );
+            $( elem ).remove();
             return this;
         },
 
         // Like appendContents but also merges the data-ensures
         appendVars: function( elem ) {
-            var parentEnsure = jQuery( this ).data("ensure") || "1";
-            var childEnsure = jQuery( elem ).data("ensure") || "1";
-            jQuery( this ).data("ensure",
+            var parentEnsure = $( this ).data("ensure") || "1";
+            var childEnsure = $( elem ).data("ensure") || "1";
+            $( this ).data("ensure",
                 "(" + parentEnsure + ") && (" + childEnsure + ")");
 
-            return jQuery.tmplApplyMethods.appendContents.call( this, elem );
+            return $.tmplApplyMethods.appendContents.call( this, elem );
         }
     }
 });

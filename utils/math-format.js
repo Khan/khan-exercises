@@ -1,4 +1,4 @@
-jQuery.extend(KhanUtil, {
+$.extend(KhanUtil, {
     /* Wraps a number in paretheses if it's negative. */
     negParens: function( n ) {
         return n < 0 ? "(" + n + ")" : n;

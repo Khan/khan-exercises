@@ -2,11 +2,11 @@
     var createGraph = function( el ) {
         var xScale = 40, yScale = 40, xRange, yRange;
 
-        jQuery( el ).css( "position", "relative" );
+        $( el ).css( "position", "relative" );
         var raphael = Raphael( el );
 
         // For a sometimes-reproducible IE8 bug; doesn't affect SVG browsers at all
-        jQuery( el ).children( "div" ).css( "position", "absolute" );
+        $( el ).children( "div" ).css( "position", "absolute" );
 
         // Set up some reasonable defaults
         var currentStyle = {
@@ -44,7 +44,7 @@
                 }
             }
 
-            return jQuery.map(points, function( point, i ) {
+            return $.map(points, function( point, i ) {
                 if ( point === true ) {
                     return "z";
                 } else {
@@ -94,11 +94,11 @@
             };
 
             var processed = {};
-            jQuery.each(attrs || {}, function( key, value ) {
+            $.each(attrs || {}, function( key, value ) {
                 var transformer = transformers[ key ];
 
                 if ( typeof transformer === "function" ) {
-                    jQuery.extend( processed, transformer( value ) );
+                    $.extend( processed, transformer( value ) );
                 } else {
                     var dasherized = key.replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
                         .replace(/([a-z\d])([A-Z])/g, '$1-$2')
@@ -257,14 +257,14 @@
                 var span;
 
                 if ( latex ) {
-                    var code = jQuery( "<code>" ).text( text );
-                    span = jQuery( "<span>" ).append( code )
+                    var code = $( "<code>" ).text( text );
+                    span = $( "<span>" ).append( code )
                     // Add to the MathJax queue
                     if ( typeof MathJax !== "undefined") {
-                        jQuery.tmpl.type.code()( code[0] );
+                        $.tmpl.type.code()( code[0] );
                     }
                 } else {
-                    span = jQuery( "<span>" ).html( text );
+                    span = $( "<span>" ).html( text );
                 }
 
                 var pad = currentStyle["label-distance"];
@@ -375,7 +375,7 @@
 
                 var w = ( xRange[1] - xRange[0] ) * xScale, h = ( yRange[1] - yRange[0] ) * yScale;
                 raphael.setSize( w, h );
-                jQuery( el ).css({
+                $( el ).css({
                     "width": w,
                     "height": h
                 });
@@ -388,11 +388,11 @@
 
                 if ( typeof fn === "function" ) {
                     var oldStyle = currentStyle;
-                    currentStyle = jQuery.extend( {}, currentStyle, processed );
+                    currentStyle = $.extend( {}, currentStyle, processed );
                     fn.call( graphie );
                     currentStyle = oldStyle;
                 } else {
-                    jQuery.extend( currentStyle, processed );
+                    $.extend( currentStyle, processed );
                 }
             },
 
@@ -404,20 +404,20 @@
 
         };
 
-        jQuery.each( drawingTools, function( name ) {
+        $.each( drawingTools, function( name ) {
             graphie[ name ] = function() {
                 var last = arguments[ arguments.length - 1 ];
                 var oldStyle = currentStyle;
                 var result;
 
                 // The last argument is probably trying to change the style
-                if ( typeof last === "object" && !jQuery.isArray( last ) ) {
-                    currentStyle = jQuery.extend( {}, currentStyle, processAttributes( last ) );
+                if ( typeof last === "object" && !$.isArray( last ) ) {
+                    currentStyle = $.extend( {}, currentStyle, processAttributes( last ) );
 
                     var rest = [].slice.call( arguments, 0, arguments.length - 1 );
                     result = drawingTools[ name ].apply( drawingTools, rest );
                 } else {
-                    currentStyle = jQuery.extend( {}, currentStyle );
+                    currentStyle = $.extend( {}, currentStyle );
 
                     result = drawingTools[ name ].apply( drawingTools, arguments );
                 }
@@ -430,7 +430,7 @@
                     if ( currentStyle.arrows ) {
                         result = addArrowheads( result );
                     }
-                } else if ( result instanceof jQuery ) {
+                } else if ( result instanceof $ ) {
                     result.css( currentStyle );
                 }
 
@@ -457,7 +457,7 @@
 
             options = options || {};
 
-            jQuery.each( options, function( prop, val ) {
+            $.each( options, function( prop, val ) {
 
                 // allow options to be specified by a single number for shorthand if
                 // the horizontal and vertical components are the same
@@ -657,10 +657,10 @@
         return graphie;
     };
 
-    jQuery.fn.graphie = function( problem ) {
+    $.fn.graphie = function( problem ) {
         return this.find( ".graphie" ).andSelf().filter( ".graphie" ).each(function() {
             // Grab code for later execution
-            var code = jQuery( this ).text(), graphie;
+            var code = $( this ).text(), graphie;
 
             // Ignore code that isn't really code ;)
             if (code.match(/Created with Rapha\xebl/)) {
@@ -668,19 +668,19 @@
             }
 
             // Remove any of the code that's in there
-            jQuery( this ).empty();
+            $( this ).empty();
 
             // Initialize the graph
-            if ( jQuery( this ).data( "update" ) ) {
-                var id = jQuery( this ).data( "update" );
-                jQuery( this ).remove();
+            if ( $( this ).data( "update" ) ) {
+                var id = $( this ).data( "update" );
+                $( this ).remove();
 
                 // Graph could be in either of these
-                var area = jQuery( "#problemarea" ).add(problem);
+                var area = $( "#problemarea" ).add(problem);
                 graphie = area.find( "#" + id ).data( "graphie" );
             } else {
                 graphie = createGraph( this );
-                jQuery( this ).data( "graphie", graphie );
+                $( this ).data( "graphie", graphie );
             }
 
             // So we can write graph.bwahahaha = 17 to save stuff between updates
@@ -692,7 +692,7 @@
 
             // Execute the graph-specific code
             KhanUtil.currentGraph = graphie;
-            jQuery.tmpl.getVAR( code, graphie );
+            $.tmpl.getVAR( code, graphie );
             // delete KhanUtil.currentGraph;
         }).end();
     };

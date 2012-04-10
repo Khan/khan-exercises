@@ -1,9 +1,9 @@
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
 
     updateMean: function( mean ) {
         var graph = KhanUtil.currentGraph;
 
-        jQuery( graph.graph.meanValueLabel ).html( mean ).tmpl();
+        $( graph.graph.meanValueLabel ).html( mean ).tmpl();
 
         graph.graph.meanArrow.translate( (mean * graph.scale[0]) - graph.graph.meanArrow.attr("translation").x, 0 );
         graph.graph.meanValueLabel.remove();
@@ -39,8 +39,8 @@ jQuery.extend( KhanUtil, {
 
     updateMeanAndMedian: function() {
         var points = KhanUtil.currentGraph.graph.points;
-        var mean = KhanUtil.mean( jQuery.map( points, function( el ) { return el.coord[0]; } ) );
-        var median = KhanUtil.median( jQuery.map( points, function( el ) { return el.coord[0]; } ) );
+        var mean = KhanUtil.mean( $.map( points, function( el ) { return el.coord[0]; } ) );
+        var median = KhanUtil.median( $.map( points, function( el ) { return el.coord[0]; } ) );
 
         KhanUtil.updateMean( KhanUtil.roundTo( 2, mean ) );
         KhanUtil.updateMedian( KhanUtil.roundTo( 2, median ) );
@@ -49,8 +49,8 @@ jQuery.extend( KhanUtil, {
     updateMeanAndStddev: function() {
         var graph = KhanUtil.currentGraph;
         var points = KhanUtil.currentGraph.graph.points;
-        var mean = KhanUtil.mean( jQuery.map( points, function( el ) { return el.coord[0]; } ) );
-        var stddev = KhanUtil.stdDev( jQuery.map( points, function( el ) { return el.coord[0]; } ) );
+        var mean = KhanUtil.mean( $.map( points, function( el ) { return el.coord[0]; } ) );
+        var stddev = KhanUtil.stdDev( $.map( points, function( el ) { return el.coord[0]; } ) );
 
         mean = KhanUtil.roundTo( 1, mean );
         stddev = KhanUtil.roundTo( 1, stddev );
@@ -126,24 +126,24 @@ jQuery.extend( KhanUtil, {
             // The point being dragged is always at the bottom of the pile
             positions[ Math.round(x * 2) / 2 ] = [ point ];
 
-            jQuery.each( points, function() {
+            $.each( points, function() {
                 if ( this !== point ) {
                     var pos = Math.round( this.coord[0] * 2 ) / 2;
-                    if (!jQuery.isArray( positions[ pos ] )) {
+                    if (!$.isArray( positions[ pos ] )) {
                         positions[ pos ] = [];
                     }
                     positions[ pos ].push( this );
                 }
             });
 
-            if ( jQuery.isFunction( updateFunction ) ) {
+            if ( $.isFunction( updateFunction ) ) {
                 updateFunction();
             }
 
             // Adjust the y-value of each point in case points are stacked
-            jQuery.each( positions, function( value, points ) {
+            $.each( positions, function( value, points ) {
                 points = points.sort (function(a, b){ return a.coord[1]-b.coord[1]; });
-                jQuery.each( points, function( i, point ) {
+                $.each( points, function( i, point ) {
                     if ( updateFunction !== undefined ) {
                         point.moveTo(point.coord[0], 0.3 * i);
                     } else {
@@ -192,8 +192,8 @@ jQuery.extend( KhanUtil, {
         var points = graph.graph.points;
         var sortedPoints = points.sort (function(a, b){ return a.coord[0]-b.coord[0]; });
 
-        jQuery.each( oldValues, function( i, oldValue ) {
-            jQuery({ 0: oldValue }).animate({ 0: newValues[i] }, {
+        $.each( oldValues, function( i, oldValue ) {
+            $({ 0: oldValue }).animate({ 0: newValues[i] }, {
                 duration: 500,
                 step: function( now, fx ) {
                     KhanUtil.onMovePoint( sortedPoints[ i ], now, 0 );
@@ -201,7 +201,7 @@ jQuery.extend( KhanUtil, {
             });
         });
 
-        jQuery({ median: graph.graph.median, mean: graph.graph.mean }).animate({
+        $({ median: graph.graph.median, mean: graph.graph.mean }).animate({
             median: newMedian, mean: newMean
         }, {
             duration: 500,
@@ -222,7 +222,7 @@ jQuery.extend( KhanUtil, {
         var maxWidth = Math.min( Math.abs( -7 - targetMedian ), Math.abs( 7 - targetMedian ) );
         var sortedPoints = points.sort( function( a, b ) { return a.coord[0]-b.coord[0]; });
         var oldValues = [];
-        jQuery.each( sortedPoints, function( i, point ) {
+        $.each( sortedPoints, function( i, point ) {
             oldValues.push( point.coord[0] );
         });
         var newValues = KhanUtil.arrangePointsAroundMedian();
@@ -238,7 +238,7 @@ jQuery.extend( KhanUtil, {
 
         var calculateMean = function( values ) {
             var mean = 0;
-            jQuery.each( values, function() {
+            $.each( values, function() {
                 mean += this;
             });
             mean /= values.length;
@@ -248,7 +248,7 @@ jQuery.extend( KhanUtil, {
         var sortedPoints = points.sort (function(a, b){ return a.coord[0]-b.coord[0]; });
         var oldValues = [];
         var newValues = [];
-        jQuery.each( sortedPoints, function( i, point ) {
+        $.each( sortedPoints, function( i, point ) {
             oldValues.push( point.coord[0] );
         });
 
@@ -298,7 +298,7 @@ jQuery.extend( KhanUtil, {
         var targetStddev = KhanUtil.currentGraph.graph.targetStddev;
         var sortedPoints = points.sort( function( a, b ) { return a.coord[0]-b.coord[0]; });
         var oldValues = [];
-        jQuery.each( sortedPoints, function( i, point ) {
+        $.each( sortedPoints, function( i, point ) {
             oldValues.push( point.coord[0] );
         });
         var newValues = new Array( points.length );
@@ -306,7 +306,7 @@ jQuery.extend( KhanUtil, {
         // brute force answer finder :(
         var loopCount = 0;
         do {
-            newValues = jQuery.map( newValues , function() {
+            newValues = $.map( newValues , function() {
                 return KhanUtil.roundToNearest( 0.5, KhanUtil.randGaussian() * targetStddev );
             });
             newValues = KhanUtil.sortNumbers( newValues );
@@ -322,15 +322,15 @@ jQuery.extend( KhanUtil, {
         }
 
 
-        jQuery.each( oldValues, function( i, oldValue ) {
-            jQuery({ 0: oldValue }).animate({ 0: newValues[i] }, {
+        $.each( oldValues, function( i, oldValue ) {
+            $({ 0: oldValue }).animate({ 0: newValues[i] }, {
                 duration: 500,
                 step: function( now, fx ) {
                     KhanUtil.onMovePoint( sortedPoints[ i ], now, 0 );
                 }
             });
         });
-        jQuery({ 0: 0 }).animate({ 0: 1 }, {
+        $({ 0: 0 }).animate({ 0: 1 }, {
             duration: 600,
             step: function( now, fx ) {
                 KhanUtil.updateMeanAndStddev();

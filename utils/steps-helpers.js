@@ -20,7 +20,7 @@
         var merge = function(steps) {
             this.items = this.items.concat(steps.items);
         };
-        jQuery.extend ( this, {
+        $.extend ( this, {
             add: add,
             items: items,
             merge: merge,

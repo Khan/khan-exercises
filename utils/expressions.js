@@ -1,4 +1,4 @@
-jQuery.extend(KhanUtil, {
+$.extend(KhanUtil, {
 
     expr: function( expr, compute ) {
         if ( typeof expr === "object" ) {
@@ -90,11 +90,11 @@ jQuery.extend(KhanUtil, {
 
         "+": function() {
             var args = [].slice.call( arguments, 0 );
-            var terms = jQuery.grep( args, function( term, i ) {
+            var terms = $.grep( args, function( term, i ) {
                 return term != null;
             } );
 
-            terms = jQuery.map(terms, function( term, i ) {
+            terms = $.map(terms, function( term, i ) {
                 var parenthesize;
                 switch ( KhanUtil.exprType(term) ) {
                     case "+":
@@ -139,7 +139,7 @@ jQuery.extend(KhanUtil, {
                 return KhanUtil.expr( ["*", -1, arguments[0]] );
             } else {
                 var args = [].slice.call( arguments, 0 );
-                var terms = jQuery.map( args, function( term, i ) {
+                var terms = $.map( args, function( term, i ) {
                     var negate = KhanUtil.exprIsNegated( term );
                     var parenthesize;
                     switch ( KhanUtil.exprType(term) ) {
@@ -191,7 +191,7 @@ jQuery.extend(KhanUtil, {
                 var args = [].slice.call( arguments, 0 );
                 var parenthesizeRest = KhanUtil.exprType(arguments[0]) === "number"
                     && KhanUtil.exprType(arguments[1]) === "number";
-                var factors = jQuery.map( args, function( factor, i ) {
+                var factors = $.map( args, function( factor, i ) {
                     var parenthesize;
                     switch ( KhanUtil.exprType( factor ) ) {
                         case "number":
@@ -336,7 +336,7 @@ jQuery.extend(KhanUtil, {
                 return "\\pm " + KhanUtil.exprParenthesize(arguments[0]);
             } else {
                 var args = [].slice.call( arguments, 0 );
-                return jQuery.map( args, function( term, i ) {
+                return $.map( args, function( term, i ) {
                     return KhanUtil.expr(term);
                 } ).join(" \\pm ");
             }
@@ -352,7 +352,7 @@ jQuery.extend(KhanUtil, {
             var args = [].slice.call( arguments, 0 );
             var sum = 0;
 
-            jQuery.each( args, function( i, term ) {
+            $.each( args, function( i, term ) {
                 sum += KhanUtil.expr( term, true );
             } );
 
@@ -366,7 +366,7 @@ jQuery.extend(KhanUtil, {
                 var args = [].slice.call( arguments, 0 );
                 var sum = 0;
 
-                jQuery.each( args, function( i, term ) {
+                $.each( args, function( i, term ) {
                     sum += ( i === 0 ? 1 : -1 ) * KhanUtil.expr( term, true );
                 } );
 
@@ -378,7 +378,7 @@ jQuery.extend(KhanUtil, {
             var args = [].slice.call( arguments, 0 );
             var prod = 1;
 
-            jQuery.each( args, function( i, term ) {
+            $.each( args, function( i, term ) {
                 prod *= KhanUtil.expr( term, true );
             } );
 
@@ -389,7 +389,7 @@ jQuery.extend(KhanUtil, {
             var args = [].slice.call( arguments, 0 );
             var prod = 1;
 
-            jQuery.each( args, function( i, term ) {
+            $.each( args, function( i, term ) {
                 var e = KhanUtil.expr( term, true );
                 prod *= ( i === 0 ? e : 1 / e );
             } );
@@ -417,9 +417,9 @@ jQuery.extend(KhanUtil, {
         } else if ( expr[0] === "color" ) {
             return KhanUtil.exprStripColor( expr[2] );
         } else {
-            return jQuery.map(expr, function( el, i ) {
+            return $.map(expr, function( el, i ) {
 
-                // Wrap in an array because jQuery.map flattens the result by one level
+                // Wrap in an array because $.map flattens the result by one level
                 return [ (i === 0) ? el : KhanUtil.exprStripColor( el ) ];
             });
         }
@@ -432,8 +432,8 @@ jQuery.extend(KhanUtil, {
             return expr;
         }
 
-        var simplified = jQuery.map( expr.slice(1), function(x){
-            //encapsulate in a list so jQuery.map unpacks it correctly
+        var simplified = $.map( expr.slice(1), function(x){
+            //encapsulate in a list so $.map unpacks it correctly
             return [KhanUtil.exprSimplifyAssociative(x)];
         });
 
@@ -451,15 +451,15 @@ jQuery.extend(KhanUtil, {
                 }
                 break;
             }
-            //make sure that we encapsulate e in an array so jQuery's map
+            //make sure that we encapsulate e in an array so $'s map
             //does't accidently unpacks e itself.
             return [e];
         };
 
-        //here we actually want the jQuery behavior of
+        //here we actually want the $ behavior of
         //having any lists that flattenOneLevel returns merged into
         //the result
-        var ret = jQuery.map( simplified, flattenOneLevel );
+        var ret = $.map( simplified, flattenOneLevel );
         ret.unshift( expr[0] );
 
         return ret;

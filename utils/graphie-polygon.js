@@ -1,4 +1,4 @@
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
     Polygon: function( numSides ) {
         // This should be renamed...
         // these are the angles between diagonals
@@ -46,7 +46,7 @@ jQuery.extend( KhanUtil, {
             while( points.length !== angles.length + 2 ){
                 curr = 0;
                 points = [ [ 0, 0 ], graph.polar( KhanUtil.randRange( min, max ), curr ) ];
-                jQuery.each( angles, function( index, angle ) {
+                $.each( angles, function( index, angle ) {
                     curr += angle;
                     if ( index == 0 ){
                         length = KhanUtil.randRange( min, max );
@@ -88,7 +88,7 @@ jQuery.extend( KhanUtil, {
         this.drawDiagonals = function( start ) {
             var graph = KhanUtil.currentGraph,
                 p1 = points[ start % points.length ];
-            jQuery.each( points, function( i, p2 ) {
+            $.each( points, function( i, p2 ) {
                 if ( start !== i ) {
                     graph.line( p1, p2 );
                 }
@@ -101,14 +101,14 @@ jQuery.extend( KhanUtil, {
                 cx = 0,
                 cy = 0;
 
-            jQuery.each( points, function( index, point ) {
+            $.each( points, function( index, point ) {
                 cx += point[ 0 ];
                 cy += point[ 1 ];
             });
             cx /= points.length;
             cy /= points.length;
             graph.style({stroke: KhanUtil.ORANGE}, function() {
-                jQuery.each( points, function( index, point ) {
+                $.each( points, function( index, point ) {
                     graph.line( [ cx, cy ], point );
                 });
             });
@@ -121,7 +121,7 @@ jQuery.extend( KhanUtil, {
                 prevPoint;
             graph.style({ "stroke-dasharray": "-"});
             points.push( [ 0, 0 ] );
-            jQuery.each( points, function( index, point ) {
+            $.each( points, function( index, point ) {
                 if ( index != 0 ) {
                     var distance = getDistance( prevPoint, point ),
                         dx = point[ 0 ] - prevPoint[ 0 ],
@@ -176,7 +176,7 @@ jQuery.extend( KhanUtil, {
         }
 
         this.clone = function() {
-            return jQuery.extend( true, {}, this );
+            return $.extend( true, {}, this );
         }
 
         this.ex = function() {

@@ -1,4 +1,4 @@
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
 
     doParabolaInteraction: function( func, vertex, directrix ) {
         var graph = KhanUtil.currentGraph;

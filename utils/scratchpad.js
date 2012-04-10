@@ -6,7 +6,7 @@ function Scratchpad( elem ){
     var accept = "M2.379,14.729 5.208,11.899 12.958,19.648 25.877,6.733 28.707,9.561 12.958,25.308";
 
     var mobilesafari = /AppleWebKit.*Mobile/.test(navigator.userAgent);
-    var container = jQuery( elem );
+    var container = $( elem );
 
     var pad = Raphael( container[0], container.width(), container.height() );
 
@@ -228,12 +228,12 @@ function Scratchpad( elem ){
     }
 
     container.mousemove(function(e){
-        var offset = jQuery( container ).offset();
+        var offset = $( container ).offset();
         mousemove( e.pageX - offset.left, e.pageY - offset.top );
         e.preventDefault();
     });
     container.mousedown(function(e){
-        var offset = jQuery( container ).offset();
+        var offset = $( container ).offset();
         mousedown(e.pageX - offset.left, e.pageY - offset.top, e);
         e.preventDefault();
 
@@ -244,12 +244,12 @@ function Scratchpad( elem ){
     });
 
     container.bind('touchstart', function(e){
-        var offset = jQuery( container ).offset();
+        var offset = $( container ).offset();
         mousedown(e.originalEvent.touches[0].pageX - offset.left, e.originalEvent.touches[0].pageY - offset.top, e.originalEvent);
         e.preventDefault();
     });
     container.bind('touchmove', function(e){
-        var offset = jQuery( container ).offset();
+        var offset = $( container ).offset();
         mousemove(e.originalEvent.touches[0].pageX - offset.left, e.originalEvent.touches[0].pageY - offset.top)
         e.preventDefault();
     });

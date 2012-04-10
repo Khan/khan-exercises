@@ -1,4 +1,4 @@
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
     initUnitCircle: function( degrees ) {
         var graph = KhanUtil.currentGraph;
 
@@ -81,7 +81,7 @@ jQuery.extend( KhanUtil, {
         // Another SVG element on top of everything else where we can add
         // invisible shapes with mouse handlers wherever we want.
         graph.mouselayer = Raphael( "unitcircle", graph.xpixels, graph.ypixels );
-        jQuery( graph.mouselayer.canvas ).css( "z-index", 1 );
+        $( graph.mouselayer.canvas ).css( "z-index", 1 );
         Khan.scratchpad.disable();
 
         // Visible orange point that gets dragged
@@ -98,8 +98,8 @@ jQuery.extend( KhanUtil, {
                 (graph.range[1][1] - 0) * graph.scale[1], 15 );
         graph.mouseTarget.attr({fill: "#000", "opacity": 0.0});
 
-        jQuery( graph.mouseTarget[0] ).css( "cursor", "move" );
-        jQuery( graph.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
+        $( graph.mouseTarget[0] ).css( "cursor", "move" );
+        $( graph.mouseTarget[0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
             var graph = KhanUtil.currentGraph;
             if ( event.type === "vmouseover" ) {
                 graph.highlight = true;
@@ -115,13 +115,13 @@ jQuery.extend( KhanUtil, {
 
             } else if ( event.type === "vmousedown" && (event.which === 1 || event.which === 0) ) {
                 event.preventDefault();
-                jQuery( document ).bind("vmousemove vmouseup", function( event ) {
+                $( document ).bind("vmousemove vmouseup", function( event ) {
                     event.preventDefault();
                     graph.dragging = true;
 
                     // mouseY is in pixels relative to the SVG; coordY is the scaled y-coordinate value
-                    var mouseY = event.pageY - jQuery( "#unitcircle" ).offset().top;
-                    var mouseX = event.pageX - jQuery( "#unitcircle" ).offset().left;
+                    var mouseY = event.pageY - $( "#unitcircle" ).offset().top;
+                    var mouseX = event.pageX - $( "#unitcircle" ).offset().left;
                     var coordX = (mouseX / graph.scale[0]) + graph.range[0][0];
                     var coordY = graph.range[1][1] - mouseY / graph.scale[1];
 
@@ -186,7 +186,7 @@ jQuery.extend( KhanUtil, {
                         }
 
                     } else if ( event.type === "vmouseup" ) {
-                        jQuery( document ).unbind( "vmousemove vmouseup" );
+                        $( document ).unbind( "vmousemove vmouseup" );
                         graph.dragging = false;
                         if (!graph.highlight) {
                             KhanUtil.unhighlightAngle();
@@ -205,8 +205,8 @@ jQuery.extend( KhanUtil, {
         graph.angleLines.animate( { stroke: KhanUtil.ORANGE }, 100 );
         graph.spiral.animate({ stroke: KhanUtil.ORANGE }, 100 );
         graph.arrow.animate({ fill: KhanUtil.ORANGE }, 100 );
-        jQuery( graph.angleLabel ).animate({ color: KhanUtil.ORANGE }, 100 );
-        //jQuery( graph.angleLabel ).css({ color: KhanUtil.ORANGE });
+        $( graph.angleLabel ).animate({ color: KhanUtil.ORANGE }, 100 );
+        //$( graph.angleLabel ).css({ color: KhanUtil.ORANGE });
     },
 
 
@@ -216,8 +216,8 @@ jQuery.extend( KhanUtil, {
         graph.angleLines.animate( { stroke: KhanUtil.BLUE }, 100 );
         graph.spiral.animate({ stroke: KhanUtil.BLUE }, 100 );
         graph.arrow.animate({ fill: KhanUtil.BLUE }, 100 );
-        jQuery( graph.angleLabel ).animate({ color: KhanUtil.BLUE }, 100 );
-        //jQuery( graph.angleLabel ).css({ color: KhanUtil.BLUE });
+        $( graph.angleLabel ).animate({ color: KhanUtil.BLUE }, 100 );
+        //$( graph.angleLabel ).css({ color: KhanUtil.BLUE });
     },
 
 
@@ -355,7 +355,7 @@ jQuery.extend( KhanUtil, {
         } else {
             graph.angleLabel = graph.label( [-0.2, -0.2], angleText, "center");
         }
-        jQuery( graph.angleLabel ).css("color", highlightColor );
+        $( graph.angleLabel ).css("color", highlightColor );
 
 
         // Reposition the mouse target and indicator
@@ -374,7 +374,7 @@ jQuery.extend( KhanUtil, {
             angle *= (Math.PI/180);
         }
         var duration = 1000 * Math.abs(angle - graph.angle) / Math.PI;
-        jQuery( graph ).animate({
+        $( graph ).animate({
             angle: angle
         }, {
             duration: duration,

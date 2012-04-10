@@ -7,20 +7,20 @@ var inexactMessages = {
 
 Khan.answerTypes = Khan.answerTypes || {};
 
-jQuery.extend( Khan.answerTypes, {
+$.extend( Khan.answerTypes, {
     text: function( solutionarea, solution, fallback, verifier, input ) {
         if ( !input ) {
-            input = jQuery('<input type="text">');
+            input = $('<input type="text">');
         }
 
-        jQuery( solutionarea ).append( input );
+        $( solutionarea ).append( input );
 
-        var correct = typeof solution === "object" ? jQuery( solution ).text() : solution;
+        var correct = typeof solution === "object" ? $( solution ).text() : solution;
 
         if ( verifier == null ) {
             verifier = function( correct, guess ) {
-                correct = jQuery.trim( correct );
-                guess = jQuery.trim( guess );
+                correct = $.trim( correct );
+                guess = $.trim( guess );
                 return correct === guess;
             };
         }
@@ -39,7 +39,7 @@ jQuery.extend( Khan.answerTypes, {
 
             return verifier( correct, val );
         };
-        ret.solution = jQuery.trim( correct );
+        ret.solution = $.trim( correct );
         ret.examples = verifier.examples || [];
         ret.showGuess = function( guess ) {
             input.val( guess );
@@ -86,12 +86,12 @@ jQuery.extend( Khan.answerTypes, {
 
 
     number: function( solutionarea, solution, fallback, accForms ) {
-        var options = jQuery.extend({
+        var options = $.extend({
             simplify: "required",
             ratio: false,
             maxError: Math.pow( 2, -42 ),
             forms: "literal, integer, proper, improper, mixed, decimal"
-        }, jQuery( solution ).data());
+        }, $( solution ).data());
         var acceptableForms = ( accForms || options.forms ).split(/\s*,\s*/);
 
         var fractionTransformer = function( text ) {
@@ -147,7 +147,7 @@ jQuery.extend( Khan.answerTypes, {
 
             proper: {
                 transformer: function( text ) {
-                    return jQuery.map( fractionTransformer( text ), function( o ) {
+                    return $.map( fractionTransformer( text ), function( o ) {
                         if ( Math.abs(o.value) < 1 ) {
                             return [o];
                         } else {
@@ -166,7 +166,7 @@ jQuery.extend( Khan.answerTypes, {
 
             improper: {
                 transformer: function( text ) {
-                    return jQuery.map( fractionTransformer( text ), function( o ) {
+                    return $.map( fractionTransformer( text ), function( o ) {
                         if ( Math.abs(o.value) >= 1 ) {
                             return [o];
                         } else {
@@ -215,7 +215,7 @@ jQuery.extend( Khan.answerTypes, {
                         possibilities = forms.decimal.transformer( match[1] );
                     }
 
-                    jQuery.each( possibilities, function( ix, possibility ) {
+                    $.each( possibilities, function( ix, possibility ) {
                         possibility.value *= Math.PI;
                     } );
                     return possibilities;
@@ -244,16 +244,16 @@ jQuery.extend( Khan.answerTypes, {
 
             percent: {
                 transformer: function( text ) {
-                    text = jQuery.trim( text );
+                    text = $.trim( text );
                     var hasPercentSign = false;
 
                     if ( text.indexOf( "%" ) === ( text.length - 1 ) ) {
-                        text = jQuery.trim( text.substring( 0, text.length - 1) );
+                        text = $.trim( text.substring( 0, text.length - 1) );
                         hasPercentSign = true;
                     }
 
                     var transformed = forms.decimal.transformer( text );
-                    jQuery.each( transformed, function( ix, t ) {
+                    $.each( transformed, function( ix, t ) {
                         t.exact = hasPercentSign;
                     });
                     return transformed;
@@ -263,7 +263,7 @@ jQuery.extend( Khan.answerTypes, {
 
             dollar: {
                 transformer: function( text ) {
-                    text = jQuery.trim( text.replace( '$', '' ) );
+                    text = $.trim( text.replace( '$', '' ) );
 
                     return forms.decimal.transformer( text );
                 },
@@ -348,14 +348,14 @@ jQuery.extend( Khan.answerTypes, {
         };
 
         var verifier = function( correct, guess ) {
-            correct = jQuery.trim( correct );
-            guess = jQuery.trim( guess );
+            correct = $.trim( correct );
+            guess = $.trim( guess );
 
             var correctFloat = parseFloat( correct );
             var ret = false;
 
-            jQuery.each( acceptableForms, function( i, form ) {
-                var transformed = forms[ form ].transformer( jQuery.trim( guess ) );
+            $.each( acceptableForms, function( i, form ) {
+                var transformed = forms[ form ].transformer( $.trim( guess ) );
 
                 for ( var j = 0, l = transformed.length; j < l; j++ ) {
                     var val = transformed[ j ].value;
@@ -384,7 +384,7 @@ jQuery.extend( Khan.answerTypes, {
         };
 
         verifier.examples = [];
-        jQuery.each( acceptableForms, function( i, form ) {
+        $.each( acceptableForms, function( i, form ) {
             if ( forms[ form ] != null && forms[ form ].example != null ) {
                 verifier.examples.push( forms[ form ].example );
             }
@@ -393,7 +393,7 @@ jQuery.extend( Khan.answerTypes, {
         var input;
 
         if ( typeof userExercise !== "undefined" && userExercise.tablet ) {
-            input = jQuery("<input type='number'/>");
+            input = $("<input type='number'/>");
         }
 
         return Khan.answerTypes.text( solutionarea, solution, fallback, verifier, input );
@@ -401,7 +401,7 @@ jQuery.extend( Khan.answerTypes, {
 
     regex: function( solutionarea, solution, fallback ) {
         var verifier = function( correct, guess ) {
-            return jQuery.trim( guess ).match( correct ) != null;
+            return $.trim( guess ).match( correct ) != null;
         };
 
         return Khan.answerTypes.text( solutionarea, solution, fallback, verifier );
@@ -425,13 +425,13 @@ jQuery.extend( Khan.answerTypes, {
     },
 
     radical: function( solutionarea, solution ) {
-        var options = jQuery.extend({
+        var options = $.extend({
             simplify: "required"
-        }, jQuery( solution ).data());
-        var ansSquared = parseFloat( jQuery( solution ).text() );
+        }, $( solution ).data());
+        var ansSquared = parseFloat( $( solution ).text() );
         var ans = KhanUtil.splitRadical( ansSquared );
 
-        var inte = jQuery( "<span>" ), inteGuess, rad = jQuery( "<span>" ), radGuess;
+        var inte = $( "<span>" ), inteGuess, rad = $( "<span>" ), radGuess;
 
         var inteValid = Khan.answerTypes.text( inte, null, "1", function( correct, guess ) { inteGuess = guess; } );
         var radValid = Khan.answerTypes.text( rad, null, "1", function( correct, guess ) { radGuess = guess; } );
@@ -478,23 +478,23 @@ jQuery.extend( Khan.answerTypes, {
     },
 
     multiple: function( solutionarea, solution ) {
-        solutionarea = jQuery( solutionarea );
+        solutionarea = $( solutionarea );
         // here be dragons
-        solutionarea.append( jQuery( solution ).clone().contents().tmpl() );
+        solutionarea.append( $( solution ).clone().contents().tmpl() );
 
         var solutionArray = [];
 
         solutionarea.find( ".sol" ).each(function() {
-            var type = jQuery( this ).data( "type" );
+            var type = $( this ).data( "type" );
             type = type != null ? type : "number";
 
-            var sol = jQuery( this ).clone(),
-                solarea = jQuery( this ).empty();
+            var sol = $( this ).clone(),
+                solarea = $( this ).empty();
 
             var fallback = sol.data( "fallback" ),
                 validator = Khan.answerTypes[type]( solarea, sol, fallback );
 
-            jQuery( this ).data( "validator", validator );
+            $( this ).data( "validator", validator );
             solutionArray.unshift( validator.solution );
         });
 
@@ -503,7 +503,7 @@ jQuery.extend( Khan.answerTypes, {
                 guess = [];
 
             solutionarea.find( ".sol" ).each(function() {
-                var validator = jQuery( this ).data( "validator", validator );
+                var validator = $( this ).data( "validator", validator );
 
                 if ( validator != null ) {
                     // Don't short-circuit so we can record all guesses
@@ -519,10 +519,10 @@ jQuery.extend( Khan.answerTypes, {
         };
 
         ret.showGuess = function( guess ) {
-            guess = jQuery.extend( true, [], guess );
+            guess = $.extend( true, [], guess );
 
             solutionarea.find( ".sol" ).each(function() {
-                var validator = jQuery( this ).data( "validator", validator );
+                var validator = $( this ).data( "validator", validator );
 
                 if ( validator != null ) {
                     // Shift regardless of whether we can show the guess
@@ -536,16 +536,16 @@ jQuery.extend( Khan.answerTypes, {
         };
 
         ret.showCustomGuess = function( guess ) {
-            guess = jQuery.extend( true, [], guess );
+            guess = $.extend( true, [], guess );
 
             solutionarea.find( ".sol" ).each(function() {
-                var validator = jQuery( this ).data( "validator", validator );
+                var validator = $( this ).data( "validator", validator );
 
                 if ( validator != null ) {
                     // Shift regardless of whether we can show the interactive guess
                     var next = guess.shift();
 
-                    if ( jQuery.isFunction( validator.showCustomGuess ) ) {
+                    if ( $.isFunction( validator.showCustomGuess ) ) {
                         validator.showCustomGuess( next );
                     }
                 }
@@ -559,7 +559,7 @@ jQuery.extend( Khan.answerTypes, {
         } else {
             ret.examples = solutionarea.find( ".example" ).remove()
                 .map(function(i, el) {
-                    return jQuery( el ).html();
+                    return $( el ).html();
                 });
         }
         ret.solution = solutionArray;
@@ -568,9 +568,9 @@ jQuery.extend( Khan.answerTypes, {
     },
 
     set: function( solutionarea, solution ) {
-        var solutionarea = jQuery( solutionarea ),
-            showUnused = (jQuery( solution ).data( "showUnused" ) === true);
-        solutionarea.append(jQuery(solution).find(".input-format").clone().contents().tmpl());
+        var solutionarea = $( solutionarea ),
+            showUnused = ($( solution ).data( "showUnused" ) === true);
+        solutionarea.append($(solution).find(".input-format").clone().contents().tmpl());
 
         var validatorArray = [],
             solutionArray = [],
@@ -578,8 +578,8 @@ jQuery.extend( Khan.answerTypes, {
             checkboxArray = [];
 
         // Fill validatorArray[] with validators for each acceptable answer
-        jQuery(solution).find(".set-sol").clone().each(function() {
-            var type = jQuery( this ).data( "type" );
+        $(solution).find(".set-sol").clone().each(function() {
+            var type = $( this ).data( "type" );
             type = type != null ? type : "number";
             // We don't want the validators to build the solutionarea. The point
             // here is to decouple the UI from the validator. Passing null
@@ -587,9 +587,9 @@ jQuery.extend( Khan.answerTypes, {
             var solarea = null;
             if (type == "multiple") {
                 // Multiple is special. It has dragons that don't like null. This distracts them.
-                solarea = jQuery( this ).clone().empty();
+                solarea = $( this ).clone().empty();
             }
-            var sol = jQuery( this ).clone(),
+            var sol = $( this ).clone(),
                 fallback = sol.data( "fallback" ),
                 validator = Khan.answerTypes[type]( solarea, sol, fallback );
 
@@ -601,23 +601,23 @@ jQuery.extend( Khan.answerTypes, {
         // Create throwaway validators for each "entry" on the answer form
         // and store the resulting UI fragments in inputArray[]
         solutionarea.find( ".entry" ).each(function() {
-            var input = jQuery( this ),
-                type = jQuery( this ).data( "type" );
+            var input = $( this ),
+                type = $( this ).data( "type" );
             type = type != null ? type : "number";
 
             // We're just using this validator to paint the UI, so we pass it a bogus solution.
-            Khan.answerTypes[type]( input, jQuery(this).clone().empty(), null );
-            inputArray.push(jQuery(input).find(":input"));
+            Khan.answerTypes[type]( input, $(this).clone().empty(), null );
+            inputArray.push($(input).find(":input"));
         });
 
         // Also keep track of any checkboxes
         solutionarea.find( ".checkbox" ).each(function() {
-            var sol = jQuery( this ).clone();
-            var solarea = jQuery( this ).empty(),
-                input = jQuery( '<input type="checkbox"/>' );
+            var sol = $( this ).clone();
+            var solarea = $( this ).empty(),
+                input = $( '<input type="checkbox"/>' );
             solarea.append( input );
             var solution = KhanUtil.tmpl.getVAR( sol.text() );
-            jQuery( input ).data( "solution", solution );
+            $( input ).data( "solution", solution );
             checkboxArray.push( input );
             solutionArray.push( solution );
         });
@@ -629,14 +629,14 @@ jQuery.extend( Khan.answerTypes, {
                 allguesses = [];
 
             // iterate over each input area
-            jQuery( inputArray ).each( function() {
+            $( inputArray ).each( function() {
                 var guess = [],
                     correct = false,
                     validatorIdx = 0;
 
                 // Scrape the raw inputs out of the UI elements
-                jQuery( this ).each( function() {
-                    guess.push( jQuery( this ).val() );
+                $( this ).each( function() {
+                    guess.push( $( this ).val() );
                 });
 
                 if (guess.length == 1) {
@@ -657,7 +657,7 @@ jQuery.extend( Khan.answerTypes, {
                 if (correct) {
                     // remove the matching validator from the list so duplicate inputs don't match
                     unusedValidators.splice(validatorIdx-1, 1);
-                } else if (jQuery.trim( guess.join( "" ) ) !== "") {
+                } else if ($.trim( guess.join( "" ) ) !== "") {
                     // Not correct and not empty; the entire answer is wrong :(
                     valid = false;
                 }
@@ -675,10 +675,10 @@ jQuery.extend( Khan.answerTypes, {
             }
 
             // now check that all the checkboxes are selected appropriately
-            jQuery( checkboxArray ).each( function() {
-                var guess = jQuery( this ).is( ":checked" ),
-                    answer = jQuery( this ).data( "solution" ),
-                    label_text = jQuery( this ).closest( "label" ).text();
+            $( checkboxArray ).each( function() {
+                var guess = $( this ).is( ":checked" ),
+                    answer = $( this ).data( "solution" ),
+                    label_text = $( this ).closest( "label" ).text();
                 if (label_text === "") {
                     label_text = "checked";
                 }
@@ -698,27 +698,27 @@ jQuery.extend( Khan.answerTypes, {
             // TODO: Ideally this should be shown below the green button so the button doesn't jump around.
             //       perhaps reuse the check-answer-message area
             if (showUnused && valid && unusedValidators.length) {
-                var otherSolutions = jQuery( "<p>" ).appendTo(solutionarea);
-                jQuery( unusedValidators ).each( function( i, el ) {
+                var otherSolutions = $( "<p>" ).appendTo(solutionarea);
+                $( unusedValidators ).each( function( i, el ) {
                     other_solution = el.solution;
                     if (i > 0) {
-                        jQuery( "<span>" ).text(" and ").appendTo( otherSolutions );
+                        $( "<span>" ).text(" and ").appendTo( otherSolutions );
                     }
-                    jQuery.each( other_solution, function( i, el ) {
-                        if (jQuery.isArray( el )) {
-                            var subAnswer = jQuery( "<span>" ).appendTo( otherSolutions );
-                            jQuery.each( el, function( i, el ) {
-                                jQuery( "<span>" ).text( el + " " ).appendTo( subAnswer );
+                    $.each( other_solution, function( i, el ) {
+                        if ($.isArray( el )) {
+                            var subAnswer = $( "<span>" ).appendTo( otherSolutions );
+                            $.each( el, function( i, el ) {
+                                $( "<span>" ).text( el + " " ).appendTo( subAnswer );
                             } );
                         } else {
-                            jQuery( "<span> " ).text( el + " " ).appendTo( otherSolutions );
+                            $( "<span> " ).text( el + " " ).appendTo( otherSolutions );
                         }
                     } );
                 });
                 if (unusedValidators.length == 1) {
-                    jQuery( "<span>" ).text(" is also correct").appendTo( otherSolutions );
+                    $( "<span>" ).text(" is also correct").appendTo( otherSolutions );
                 } else {
-                    jQuery( "<span>" ).text(" are also correct").appendTo( otherSolutions );
+                    $( "<span>" ).text(" are also correct").appendTo( otherSolutions );
                 }
             }
 
@@ -726,12 +726,12 @@ jQuery.extend( Khan.answerTypes, {
         };
 
         ret.showGuess = function( guess ) {
-            guess = jQuery.extend( true, [], guess );
-            jQuery( inputArray ).each(function() {
+            guess = $.extend( true, [], guess );
+            $( inputArray ).each(function() {
                 var item = guess.shift();
                 if ( item instanceof Array ) {
-                    jQuery( this ).each( function() {
-                        jQuery(this).val( item.shift() );
+                    $( this ).each( function() {
+                        $(this).val( item.shift() );
                     });
                 } else {
                     this.val( item );
@@ -739,13 +739,13 @@ jQuery.extend( Khan.answerTypes, {
             });
             solutionarea.find( ".checkbox input:checkbox" ).each(function() {
                 var ans = guess.shift();
-                jQuery( this ).attr('checked', ans !== undefined && ans !== "");
+                $( this ).attr('checked', ans !== undefined && ans !== "");
             });
         };
 
         ret.examples = solution.find( ".example" ).remove()
             .map(function(i, el) {
-                return jQuery( el ).html();
+                return $( el ).html();
             });
         ret.solution = solutionArray;
 
@@ -754,7 +754,7 @@ jQuery.extend( Khan.answerTypes, {
 
     radio: function( solutionarea, solution ) {
         var extractRawCode = function( solution ) {
-            return jQuery( solution ).find('.value').clone()
+            return $( solution ).find('.value').clone()
                 .find( ".MathJax" ).remove().end()
                 .find( "code" ).removeAttr( "id" ).end()
                 .html();
@@ -762,14 +762,14 @@ jQuery.extend( Khan.answerTypes, {
         // Without this we get numbers twice and things sometimes
         var solutionText = extractRawCode( solution );
 
-        var list = jQuery("<ul></ul>");
+        var list = $("<ul></ul>");
         list.on("click", "input:radio", function() {
-            jQuery( this ).focus();
+            $( this ).focus();
         });
-        jQuery( solutionarea ).append(list);
+        $( solutionarea ).append(list);
 
         // Get all of the wrong choices
-        var choices = jQuery( solution ).siblings( ".choices" );
+        var choices = $( solution ).siblings( ".choices" );
 
         // Set number of choices equal to all wrong plus one correct
         var numChoices = choices.children().length + 1;
@@ -798,7 +798,7 @@ jQuery.extend( Khan.answerTypes, {
 
         // Add the correct answer
         if( !noneIsCorrect && !isCategory) {
-            jQuery( solution ).data( "correct", true );
+            $( solution ).data( "correct", true );
         }
 
         // Insert correct answer as first of possibleChoices
@@ -810,7 +810,7 @@ jQuery.extend( Khan.answerTypes, {
         var shownChoices = [];
         var solutionTextSquish = solution.text().replace(/\s+/g, "");
         for ( var i = 0; i < possibleChoices.length && shownChoices.length < numChoices; i++ ) {
-            var choice = jQuery( possibleChoices[i] );
+            var choice = $( possibleChoices[i] );
             choice.runModules();
             var choiceTextSquish = choice.text().replace(/\s+/g, "");
 
@@ -837,13 +837,13 @@ jQuery.extend( Khan.answerTypes, {
         }
 
         if( showNone ) {
-            var none = jQuery( "<span>None of the above.</span>" );
+            var none = $( "<span>None of the above.</span>" );
 
             if( noneIsCorrect ) {
                 none.data( "correct", true );
                 solutionText = none.text();
                 list.data( "real-answer",
-                        jQuery( solution ).runModules()
+                        $( solution ).runModules()
                             .contents()
                             .wrapAll( '<span class="value""></span>' )
                             .parent() );
@@ -854,7 +854,7 @@ jQuery.extend( Khan.answerTypes, {
 
         var correctIndex = -1;
 
-        jQuery.each(shownChoices, function( i, choice ) {
+        $.each(shownChoices, function( i, choice ) {
             if ( choice.data( "correct" ) ) {
                 correctIndex = i + "";
             }
@@ -870,22 +870,22 @@ jQuery.extend( Khan.answerTypes, {
             if ( noneIsCorrect && choice.val() === correctIndex ) {
                 choice.next()
                     .fadeOut( "fast", function() {
-                        jQuery( this ).replaceWith( list.data( "real-answer" ) )
+                        $( this ).replaceWith( list.data( "real-answer" ) )
                             .fadeIn( "fast" );
                     });
             }
 
-            ret.guess = jQuery.trim( extractRawCode(choice.closest("li")) );
+            ret.guess = $.trim( extractRawCode(choice.closest("li")) );
 
             return choice.val() === correctIndex;
         };
 
-        ret.solution = jQuery.trim( solutionText );
+        ret.solution = $.trim( solutionText );
         ret.showGuess = function( guess ) {
             list.find( 'input:checked' ).prop( 'checked', false);
 
             var li = list.children().filter( function() {
-                return jQuery.trim( extractRawCode(this) ) === guess;
+                return $.trim( extractRawCode(this) ) === guess;
             } );
             li.find( "input[name=solution]" ).prop( "checked", true );
         };
@@ -893,21 +893,21 @@ jQuery.extend( Khan.answerTypes, {
     },
 
     list: function( solutionarea, solution ) {
-        var input = jQuery("<select></select>");
-        jQuery( solutionarea ).append( input );
+        var input = $("<select></select>");
+        $( solutionarea ).append( input );
 
-        var choices = jQuery.tmpl.getVAR( jQuery( solution ).data("choices") );
+        var choices = $.tmpl.getVAR( $( solution ).data("choices") );
 
-        jQuery.each( choices, function(index, value) {
+        $.each( choices, function(index, value) {
             input.append('<option value="' + value + '">'
                 + value + '</option>');
         });
 
-        var correct = jQuery( solution ).text();
+        var correct = $( solution ).text();
 
         var verifier = function( correct, guess ) {
-            correct = jQuery.trim( correct );
-            guess = jQuery.trim( guess );
+            correct = $.trim( correct );
+            guess = $.trim( guess );
             return correct === guess;
         };
 
@@ -917,7 +917,7 @@ jQuery.extend( Khan.answerTypes, {
             return verifier( correct, ret.guess );
         };
 
-        ret.solution = jQuery.trim( correct );
+        ret.solution = $.trim( correct );
 
         ret.showGuess = function( guess ) {
             input.val( guess );
@@ -943,22 +943,22 @@ jQuery.extend( Khan.answerTypes, {
     // The user is asked to enter the separate parts of a complex number in 2 textboxes.
     // Expected solution: [ real part, imaginary part ]
     complexNumberSeparate: function ( solutionarea, solution ) {
-        solutionarea = jQuery( solutionarea );
+        solutionarea = $( solutionarea );
 
-        var json = typeof solution === "object" ? jQuery( solution ).text() : solution;
+        var json = typeof solution === "object" ? $( solution ).text() : solution;
         var correct = eval( json );
 
         var solutionArray = [];
 
-        var realArea = jQuery( '<p />' ).html('Real part: ');
-        var realControl = jQuery( '<span data-inexact data-max-error="0.01" />' ).html( correct[0] );
+        var realArea = $( '<p />' ).html('Real part: ');
+        var realControl = $( '<span data-inexact data-max-error="0.01" />' ).html( correct[0] );
         var realValidator = Khan.answerTypes["number"]( realArea, realControl, 0 );
 
-        var imagArea = jQuery( '<p />' ).html('Imaginary part: ');
-        var imagControl = jQuery( '<span data-inexact data-max-error="0.01" />' ).html( correct[1] );
+        var imagArea = $( '<p />' ).html('Imaginary part: ');
+        var imagControl = $( '<span data-inexact data-max-error="0.01" />' ).html( correct[1] );
         var imagValidator = Khan.answerTypes["number"]( imagArea, imagControl, 0 );
 
-        var area = jQuery( '<div />' );
+        var area = $( '<div />' );
         area.append( realArea ).append( imagArea ).tmpl();
         solutionarea.append( area );
 
@@ -996,12 +996,12 @@ jQuery.extend( Khan.answerTypes, {
     // The solution argument is expected to be [ angle, magnitude ]
     complexNumberPolarForm: function ( solutionarea, solution ) {
         var isTimeline = !( solutionarea.attr( "id" ) === "solutionarea" || solutionarea.parent().attr( "id" ) === "solutionarea" );
-        solutionarea = jQuery( solutionarea );
+        solutionarea = $( solutionarea );
 
-        var json = typeof solution === "object" ? jQuery( solution ).text() : solution;
+        var json = typeof solution === "object" ? $( solution ).text() : solution;
         var correct = eval( json );
-        var table = jQuery( '<table />' );
-        var row = jQuery( '<tr />' );
+        var table = $( '<table />' );
+        var row = $( '<tr />' );
         row.append( '<td style="width: 100px">\n'+
             'Radius: <span id="current-radius"><code>1</code></span>\n'+
             '</td>' )
@@ -1011,7 +1011,7 @@ jQuery.extend( Khan.answerTypes, {
             '</td>' ).tmpl();
         table.append(row);
 
-        row = jQuery( '<tr />' );
+        row = $( '<tr />' );
         row.append( '<td style="width: 100px">\n'+
             'Angle: <span id="current-angle"><code>0</code></span>\n'+
             '</td>' )
@@ -1021,7 +1021,7 @@ jQuery.extend( Khan.answerTypes, {
             '</td>' ).tmpl();
         table.append(row);
 
-        var numberLabel = jQuery( '<p id="number-label" style="margin: 8px 0 2px 0" />' );
+        var numberLabel = $( '<p id="number-label" style="margin: 8px 0 2px 0" />' );
         var guessCorrect = false;
 
         var validator = function( guess ) {
@@ -1048,8 +1048,8 @@ jQuery.extend( Khan.answerTypes, {
             }
             if ( isTimeline ) {
                 guessCorrect = validator( guess );
-                jQuery( solutionarea ).empty();
-                jQuery( solutionarea ).append( guessCorrect === true ? "Answer correct" : "Answer incorrect" );
+                $( solutionarea ).empty();
+                $( solutionarea ).append( guessCorrect === true ? "Answer correct" : "Answer incorrect" );
             } else {
                 redrawComplexPolarForm( guess[0], guess[1] );
             }
@@ -1093,22 +1093,22 @@ jQuery.extend( Khan.answerTypes, {
         };
 
         ret.examples = solution.find( ".example" ).map(function(i, el) {
-            return jQuery( el ).html();
+            return $( el ).html();
         });
         ret.solution = "custom";
-        var showGuessSolutionCode = jQuery( solution ).find( ".show-guess-solutionarea" ).text() || "";
+        var showGuessSolutionCode = $( solution ).find( ".show-guess-solutionarea" ).text() || "";
         ret.showGuess = function( guess ) {
             if ( isTimeline ) {
                 guessCorrect = validator( guess );
-                jQuery( solutionarea ).empty();
-                jQuery( solutionarea ).append( guessCorrect === true ? "Answer correct" : "Answer incorrect" );
+                $( solutionarea ).empty();
+                $( solutionarea ).append( guessCorrect === true ? "Answer correct" : "Answer incorrect" );
             } else {
                 var code = "(function() { var guess = " + ( JSON.stringify( guess ) || "[]" ) + ";" + showGuessSolutionCode + "})()";
                 KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );
             }
         };
 
-        var showGuessCode = jQuery( solution ).find( ".show-guess" ).text();
+        var showGuessCode = $( solution ).find( ".show-guess" ).text();
         ret.showCustomGuess = function( guess ) {
             var code = "(function() { var guess = " + JSON.stringify( guess ) + ";" + showGuessCode + "})()";
             KhanUtil.tmpl.getVAR( code, KhanUtil.currentGraph );

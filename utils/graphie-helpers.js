@@ -41,12 +41,12 @@ function piechart( divisions, colors, radius ) {
     var set = graph.raphael.set();
 
     var sum = 0;
-    jQuery.each( divisions, function( i, slice ) {
+    $.each( divisions, function( i, slice ) {
         sum += slice;
     } );
 
     var partial = 0;
-    jQuery.each( divisions, function( i, slice ) {
+    $.each( divisions, function( i, slice ) {
         set.push( graph.arc( [0, 0], radius, partial * 360 / sum, ( partial + slice ) * 360 / sum, true, {
             stroke: colors[2] || "none",
             fill: colors[i]
@@ -68,12 +68,12 @@ function rectchart( divisions, colors, y ) {
     y = y || 0;
 
     var sum = 0;
-    jQuery.each( divisions, function( i, slice ) {
+    $.each( divisions, function( i, slice ) {
         sum += slice;
     } );
 
     var partial = 0;
-    jQuery.each( divisions, function( i, slice ) {
+    $.each( divisions, function( i, slice ) {
         var x = partial / sum, w = slice / sum;
         set.push( graph.path([ [x, y], [x + w, y], [x + w, y + 1], [x, y + 1] ], {
             stroke: "#fff",
@@ -105,9 +105,9 @@ function updateEquation() {
 
     graph.labelHolder.remove();
 
-    jQuery( "#equationAnswer").html( "<code>y =" + KhanUtil.fractionReduce( graph.MN, graph.MD ) + "x +" + KhanUtil.fractionReduce( graph.BN, graph.BD )+"</code>" ).tmpl();
-    jQuery( "#slope-sol input" ).val( ( graph.MN / graph.MD ) + "" );
-    jQuery( "#intercept-sol input" ).val( ( graph.BN / graph.BD ) + "" );
+    $( "#equationAnswer").html( "<code>y =" + KhanUtil.fractionReduce( graph.MN, graph.MD ) + "x +" + KhanUtil.fractionReduce( graph.BN, graph.BD )+"</code>" ).tmpl();
+    $( "#slope-sol input" ).val( ( graph.MN / graph.MD ) + "" );
+    $( "#intercept-sol input" ).val( ( graph.BN / graph.BD ) + "" );
 }
 
 // for line graph intuition
@@ -157,7 +157,7 @@ function Parabola( lc, x, y ) {
     };
 
     this.redraw = function( fShowFocusDirectrix ) {
-        jQuery.each( raphaelObjects, function( i, el ) {
+        $.each( raphaelObjects, function( i, el ) {
             el.remove();
         });
         raphaelObjects = [];
@@ -224,17 +224,17 @@ function redrawParabola( fShowFocusDirectrix ) {
     var vertexY = currParabola.getVertexY();
 
     if ( fShowFocusDirectrix ) {
-        jQuery( "#focus-x-label" ).html( "<code>" + currParabola.getFocusX() + "</code>" ).tmpl();
-        jQuery( "#focus-y-label" ).html( "<code>" + currParabola.getFocusY().toFixed( 2 ) + "</code>" ).tmpl();
-        jQuery( "#directrix-label" ).html( "<code>" + "y = " + currParabola.getDirectrixK().toFixed( 2 ) + "</code>" ).tmpl();
+        $( "#focus-x-label" ).html( "<code>" + currParabola.getFocusX() + "</code>" ).tmpl();
+        $( "#focus-y-label" ).html( "<code>" + currParabola.getFocusY().toFixed( 2 ) + "</code>" ).tmpl();
+        $( "#directrix-label" ).html( "<code>" + "y = " + currParabola.getDirectrixK().toFixed( 2 ) + "</code>" ).tmpl();
     } else {
         var equation = "y - " + vertexY + "=" + leadingCoefficient + "(x - " + vertexX + ")^{2}";
         equation = KhanUtil.cleanMath( equation );
-        jQuery( "#equation-label" ).html( "<code>" + equation + "</code>").tmpl();
+        $( "#equation-label" ).html( "<code>" + equation + "</code>").tmpl();
     }
-    jQuery( "#leading-coefficient input" ).val( leadingCoefficient );
-    jQuery( "#vertex-x input" ).val( vertexX );
-    jQuery( "#vertex-y input" ).val( vertexY );
+    $( "#leading-coefficient input" ).val( leadingCoefficient );
+    $( "#vertex-x input" ).val( vertexX );
+    $( "#vertex-y input" ).val( vertexY );
 }
 
 function updateParabola( deltaA, deltaX, deltaY, fShowFocusDirectrix ) {
@@ -253,7 +253,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
     var anchorAngle;
 
     function stretch( coordArr, dy ) {
-        return jQuery.map( coordArr, function( coord, index ){
+        return $.map( coordArr, function( coord, index ){
             if ( index === 0 ) {
                 var dx = dy / Math.tan( KhanUtil.toRadians( anchorAngle ) );
                 coord += dx;
@@ -276,7 +276,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
             radius /= Math.sin( KhanUtil.toRadians ( measure ) );
         }
 
-        var coords = jQuery.map( coordArr, function( coord, index ) {
+        var coords = $.map( coordArr, function( coord, index ) {
             if ( index === 0 ) { // x-coordinate
                 return coord + radius * Math.cos( KhanUtil.toRadians( bisect ) );
             } else { // y-coordinate
@@ -337,7 +337,7 @@ function ParallelLines( x1, y1, x2, y2, distance ) {
                 labelPlacement = "right";
                 break;
         }
-        jQuery.merge( args, angles );
+        $.merge( args, angles );
 
         graph.style({ stroke: color}, function() {
             graph.arc.apply( graph, args );
@@ -577,7 +577,7 @@ function redrawComplexPolarForm( angle, radius ) {
 
     var equation = KhanUtil.polarForm( radius, angle, point.getUseEulerForm() );
 
-    jQuery( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
-    jQuery( "#current-radius" ).html( "<code>" + radius + "</code>" ).tmpl();
-    jQuery( "#current-angle" ).html( "<code>" + KhanUtil.piFraction( angle, true ) + "</code>" ).tmpl();
+    $( "#number-label" ).html( "<code>" + equation + "</code>" ).tmpl();
+    $( "#current-radius" ).html( "<code>" + radius + "</code>" ).tmpl();
+    $( "#current-angle" ).html( "<code>" + KhanUtil.piFraction( angle, true ) + "</code>" ).tmpl();
 }

@@ -1,4 +1,4 @@
-jQuery.extend(KhanUtil, {
+$.extend(KhanUtil, {
     Polynomial: function( minDegree, maxDegree, coefs, variable, name ) {
         var term = function( coef, vari, degree ) {
 
@@ -24,10 +24,10 @@ jQuery.extend(KhanUtil, {
             if ( typeof expr === "number" ){
                 coef = expr;
                 degree = 0;
-            } else if (jQuery.isArray( expr ) && !jQuery.isArray( expr[2] )){
+            } else if ($.isArray( expr ) && !$.isArray( expr[2] )){
                 coef = expr[1];
                 degree = 1;
-            } else if (jQuery.isArray( expr ) && jQuery.isArray( expr[2] )){
+            } else if ($.isArray( expr ) && $.isArray( expr[2] )){
                 coef = expr[1];
                 degree = expr[2][2];
             }
@@ -226,7 +226,7 @@ jQuery.extend(KhanUtil, {
         var base = new KhanUtil.Polynomial(
             minDegree, maxDegree, coefs, variable, name );
 
-        jQuery.extend(this, base);
+        $.extend(this, base);
 
         if ( !composedCoef ) {
             composedCoef = KhanUtil.randRangeNonZero( -5, 5 );
@@ -234,7 +234,7 @@ jQuery.extend(KhanUtil, {
         var composedFunc = composed.name+"("+this.variable+")";
 
         var tackOn = function( expr, tack ) {
-            expr = jQuery.merge( [], expr );
+            expr = $.merge( [], expr );
 
             if ( expr[0] === "+" ) {
                 expr.push( tack );

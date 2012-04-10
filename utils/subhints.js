@@ -9,18 +9,18 @@
         return str;
     };
 
-    jQuery( "a.show-subhint" ).live( "click", function( event ) {
-        var subhint = jQuery( "#" + jQuery( this ).data( "subhint" ) );
-        var visibleText = jQuery( this ).data( "visible-text" ) || jQuery( this ).text();
-        var hiddenText = jQuery( this ).data( "hidden-text" ) || "Hide explanation";
-        jQuery( this ).data({ "visible-text": visibleText, "hidden-text": hiddenText });
+    $( "a.show-subhint" ).live( "click", function( event ) {
+        var subhint = $( "#" + $( this ).data( "subhint" ) );
+        var visibleText = $( this ).data( "visible-text" ) || $( this ).text();
+        var hiddenText = $( this ).data( "hidden-text" ) || "Hide explanation";
+        $( this ).data({ "visible-text": visibleText, "hidden-text": hiddenText });
 
         if ( subhint.is( ":visible" ) ) {
-            jQuery( this ).text( visibleText );
+            $( this ).text( visibleText );
         } else {
-            jQuery( this ).text( hiddenText );
+            $( this ).text( hiddenText );
         }
-        jQuery( "#" + jQuery( this ).data( "subhint" ) ).toggle( 200 );
+        $( "#" + $( this ).data( "subhint" ) ).toggle( 200 );
         return false;
     });
 

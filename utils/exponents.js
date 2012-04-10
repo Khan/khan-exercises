@@ -1,4 +1,4 @@
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
 
     /* fraction math-format function called with defraction enabled, which is always
      * what is used in the exponent exercises. */

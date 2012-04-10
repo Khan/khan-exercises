@@ -1,15 +1,15 @@
 (function() {
-    jQuery.fn.adhere = function( options ) {
-        options = jQuery.extend( {
+    $.fn.adhere = function( options ) {
+        options = $.extend( {
             container: null,
             topMargin: 0,
             bottomMargin: 0
         }, options );
 
-        var container = jQuery( options.container ).eq( 0 );
+        var container = $( options.container ).eq( 0 );
 
-        jQuery( this ).each( function() {
-            var el = jQuery( this );
+        $( this ).each( function() {
+            var el = $( this );
             var data = el.data( "adhesion" );
             var updateDimensions = ( data != null );
 
@@ -18,7 +18,7 @@
                 el.data( "adhesion", data );
             }
 
-            var shim = data.shim != null ? data.shim : jQuery( "<div>" );
+            var shim = data.shim != null ? data.shim : $( "<div>" );
 
             shim.css( {
                 margin: 0,
@@ -89,8 +89,8 @@
             };
 
             var scrollHandler = function( update ) {
-                var scrollTop = jQuery( window ).scrollTop();
-                var windowHeight = jQuery( window ).height();
+                var scrollTop = $( window ).scrollTop();
+                var windowHeight = $( window ).height();
                 var containerOffset = container.offset();
                 var containerHeight = container.outerHeight();
                 height = el.outerHeight( true );
@@ -101,7 +101,7 @@
                 var elFixedBottom = height + options.topMargin + options.bottomMargin;
                 var shimRight = shim.offset().left + shim.outerWidth();
 
-                if ( elFixedBottom < windowHeight && containerScrolledTop - options.topMargin < 0 && shimRight <= jQuery( window ).width() ) {
+                if ( elFixedBottom < windowHeight && containerScrolledTop - options.topMargin < 0 && shimRight <= $( window ).width() ) {
                     if ( elFixedBottom < containerScrolledBottom ) {
                         stick( update );
                     } else {
@@ -118,8 +118,8 @@
 
             data.scrollHandler = scrollHandler;
 
-            jQuery( window ).scroll( scrollHandler );
-            jQuery( window ).resize( resizeHandler );
+            $( window ).scroll( scrollHandler );
+            $( window ).resize( resizeHandler );
         } );
     };
 })();

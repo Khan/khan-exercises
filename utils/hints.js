@@ -1,8 +1,8 @@
-jQuery( Khan ).bind( "checkAnswer", function() {
+$( Khan ).bind( "checkAnswer", function() {
 
-    if ( !jQuery( ".hint-box" ).data("free") ) {
+    if ( !$( ".hint-box" ).data("free") ) {
 
-        jQuery( ".hint-box" )
+        $( ".hint-box" )
             .data( "free", true )
             .css( "position", "relative" )
             .animate( {top: -10}, 250 )
@@ -20,10 +20,10 @@ jQuery( Khan ).bind( "checkAnswer", function() {
 
 });
 
-jQuery( Khan ).bind( "newProblem", function() {
+$( Khan ).bind( "newProblem", function() {
 
     // Restore the hint button
-    jQuery( "#hint" )
+    $( "#hint" )
         .removeClass( "green" )
         .addClass( "orange" )
         .val( "I'd like a hint" )
@@ -31,17 +31,17 @@ jQuery( Khan ).bind( "newProblem", function() {
         .stop( true /* clear */, true /* jump */ )
         .appendTo( "#get-hint-button-container" );
 
-    jQuery( ".hint-box" )
+    $( ".hint-box" )
         .data( "free", false )
         .css( "top", "0" )
         .find( ".info-box-header" )
             .show();
 
-    var examples = jQuery( "#examples" );
-    if ( examples.length && jQuery.prototype.qtip != null ) {
+    var examples = $( "#examples" );
+    if ( examples.length && $.prototype.qtip != null ) {
 
         // Tooltip-ify the example answer formats
-        jQuery( "#examples-show" ).qtip({
+        $( "#examples-show" ).qtip({
             content: {
                 text: examples.remove(),
                 prerender: true

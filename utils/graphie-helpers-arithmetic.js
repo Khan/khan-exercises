@@ -378,7 +378,7 @@ function crossOutCircles( numCircles, numCrossed, color ) {
 function drawDigits( digits, startX, startY, color ) {
     var graph = KhanUtil.currentGraph;
     var set = [];
-    jQuery.each( digits, function( index, digit ) {
+    $.each( digits, function( index, digit ) {
         var str = "\\Huge{" + digit + "}";
         set.push( graph.label( [ startX + index, startY ], str, { color: color } ) );
     });

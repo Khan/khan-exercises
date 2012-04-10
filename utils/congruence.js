@@ -1,7 +1,7 @@
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
 
     initCongruence: function( options ) {
-        options = jQuery.extend({
+        options = $.extend({
             ticks: [],
             numArcs: [ 0, 0, 0 ],
             reflected: false
@@ -462,7 +462,7 @@ jQuery.extend( KhanUtil, {
 
 
     addInteractiveTriangle: function( options ) {
-        var triangle = jQuery.extend({
+        var triangle = $.extend({
             points: [],
             lines: [],
             numArcs: options.numArcs,
@@ -504,19 +504,19 @@ jQuery.extend( KhanUtil, {
 
             KhanUtil.currentGraph.style({ stroke: KhanUtil.BLUE, opacity: 1.0, "stroke-width": 2 });
             for ( var angle = 0; angle < 2; ++angle ) {
-                jQuery( triangle.arcs[angle] ).each( function() { this.remove(); });
+                $( triangle.arcs[angle] ).each( function() { this.remove(); });
                 triangle.arcs[angle] = KhanUtil.drawArcs( triangle.points[angle].coord, triangle.points[angle + 1].coord, triangle.points[angle + 2].coord, options.numArcs[angle] );
             }
             if (options.numArcs[2]) {
-                jQuery( triangle.arcs[2] ).each( function() { this.remove(); });
+                $( triangle.arcs[2] ).each( function() { this.remove(); });
                 triangle.arcs[angle] = KhanUtil.drawArcs( triangle.points[2].coord, triangle.points[3].coord, triangle.points[1].coord, options.numArcs[2] );
             }
 
-            jQuery( triangle.lines ).each( function() {
+            $( triangle.lines ).each( function() {
                 this.transform(true);
                 this.toFront();
             });
-            jQuery( triangle.points ).each( function() { this.toFront(); });
+            $( triangle.points ).each( function() { this.toFront(); });
         };
 
         // Call to set one of the points to rotate the entire shape
@@ -542,19 +542,19 @@ jQuery.extend( KhanUtil, {
             };
         };
 
-        jQuery(".question").prepend("<button id=\"reflect\">Reflect shape</button>");
-        jQuery("button#reflect").bind("click", function( event ) {
+        $(".question").prepend("<button id=\"reflect\">Reflect shape</button>");
+        $("button#reflect").bind("click", function( event ) {
             this.blur();
             if ( !triangle.animating ) {
                 triangle.animating = true;
-                var startPoints = jQuery.map( triangle.points, function( pt ) { return [ pt.coord.slice() ]; } );
-                var xMin = Math.min.apply(Math, jQuery.map( startPoints, function(x) { return x[0]; }));
-                var xMax = Math.max.apply(Math, jQuery.map( startPoints, function(x) { return x[0]; }));
+                var startPoints = $.map( triangle.points, function( pt ) { return [ pt.coord.slice() ]; } );
+                var xMin = Math.min.apply(Math, $.map( startPoints, function(x) { return x[0]; }));
+                var xMax = Math.max.apply(Math, $.map( startPoints, function(x) { return x[0]; }));
                 var xMid = (xMin + xMax) / 2;
-                var endPoints = jQuery.map( triangle.points, function( pt ) { return [[ xMid - pt.coord[0] + xMid, pt.coord[1] ]]; });
+                var endPoints = $.map( triangle.points, function( pt ) { return [[ xMid - pt.coord[0] + xMid, pt.coord[1] ]]; });
 
                 // flip the angles around
-                jQuery( triangle.points ).each( function( n, point ) {
+                $( triangle.points ).each( function( n, point ) {
                     if ( typeof point.constraints.fixedAngle.angle === "number" ) {
                         point.constraints.fixedAngle.angle *= -1;
                     }
@@ -562,20 +562,20 @@ jQuery.extend( KhanUtil, {
                 triangle.reflected = !triangle.reflected;
 
                 // remove the angle arc decorations since (without some effort) they look funny during the animation
-                jQuery( triangle.arcs[0] ).each( function() { this.remove(); });
-                jQuery( triangle.arcs[1] ).each( function() { this.remove(); });
-                jQuery( triangle.arcs[2] ).each( function() { this.remove(); });
+                $( triangle.arcs[0] ).each( function() { this.remove(); });
+                $( triangle.arcs[1] ).each( function() { this.remove(); });
+                $( triangle.arcs[2] ).each( function() { this.remove(); });
 
                 var xCoords = { 0: startPoints[0][0], 1: startPoints[1][0], 2: startPoints[2][0], 3: startPoints[3][0] };
-                jQuery( xCoords ).animate({ 0: endPoints[0][0], 1: endPoints[1][0], 2: endPoints[2][0], 3: endPoints[3][0] }, {
+                $( xCoords ).animate({ 0: endPoints[0][0], 1: endPoints[1][0], 2: endPoints[2][0], 3: endPoints[3][0] }, {
                     duration: 500,
                     easing: "linear",
                     step: function( now, fx ) {
-                        jQuery( triangle.points ).each(function( n ) { this.setCoord([ xCoords[n], endPoints[n][1] ]); });
-                        jQuery( triangle.lines ).each(function() { this.transform(true); });
+                        $( triangle.points ).each(function( n ) { this.setCoord([ xCoords[n], endPoints[n][1] ]); });
+                        $( triangle.lines ).each(function() { this.transform(true); });
                     },
                     complete: function() {
-                        jQuery( triangle.points ).each(function( n ) { this.setCoord( endPoints[n] ); });
+                        $( triangle.points ).each(function( n ) { this.setCoord( endPoints[n] ); });
                         triangle.update();
                         triangle.animating = false;
                     }
@@ -587,7 +587,7 @@ jQuery.extend( KhanUtil, {
         var angles = options.angles.slice();
 
         if (!options.reflected) {
-            jQuery( angles ).each( function( n ) {
+            $( angles ).each( function( n ) {
                 angles[n] *= -1;
             });
         }
@@ -617,12 +617,12 @@ jQuery.extend( KhanUtil, {
         // Translate the triangle so its all visible
         var xlateX = 4 - Math.max(triangle.points[0].coord[0], triangle.points[1].coord[0], triangle.points[2].coord[0], triangle.points[3].coord[0]);
         var xlateY = 4 - Math.max(triangle.points[0].coord[1], triangle.points[1].coord[1], triangle.points[2].coord[1], triangle.points[3].coord[1]);
-        jQuery( triangle.points ).each(function() { this.setCoord([ this.coord[0] + xlateX, this.coord[1] + xlateY ]); });
+        $( triangle.points ).each(function() { this.setCoord([ this.coord[0] + xlateX, this.coord[1] + xlateY ]); });
 
         // Dragging the lines translates the entire shape
         for (var line = 0; line < 3; ++line) {
             triangle.lines[line].onMove = function( dX, dY ) {
-                jQuery( triangle.points ).each(function() { this.setCoord([ this.coord[0] + dX, this.coord[1] + dY ]); });
+                $( triangle.points ).each(function() { this.setCoord([ this.coord[0] + dX, this.coord[1] + dY ]); });
                 triangle.update();
             };
             triangle.lines[line].onMoveEnd = function() {
@@ -670,7 +670,7 @@ jQuery.extend( KhanUtil, {
         KhanUtil.drawArcs( triangle.points[2], triangle.points[0], triangle.points[1], arcs[0] );
         KhanUtil.drawArcs( triangle.points[0], triangle.points[1], triangle.points[2], arcs[1] );
         KhanUtil.drawArcs( triangle.points[1], triangle.points[2], triangle.points[0], arcs[2] );
-        jQuery( triangle.set ).each( function() { this.toBack(); });
+        $( triangle.set ).each( function() { this.toBack(); });
     }
 
 });

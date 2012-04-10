@@ -6,7 +6,7 @@
 // Note that initials (-Var) are guaranteed to be unique in each category,
 // but not across them.
 
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
     toSentence: function( array, conjunction ) {
         if ( conjunction == null ) {
             conjunction = "and";
@@ -24,8 +24,8 @@ jQuery.extend( KhanUtil, {
     },
 
     toSentenceTex: function( array, conjunction, highlight, highlightClass ) {
-        var wrapped = jQuery.map( array, function( elem ) {
-            if ( ( jQuery.isFunction( highlight ) && highlight( elem ) ) || ( highlight !== undefined && elem === highlight ) ) {
+        var wrapped = $.map( array, function( elem ) {
+            if ( ( $.isFunction( highlight ) && highlight( elem ) ) || ( highlight !== undefined && elem === highlight ) ) {
                 return "<code class='" + highlightClass + "'>" + elem + "</code>";
             }
             return "<code>" + elem + "</code>";
@@ -61,7 +61,7 @@ jQuery.extend( KhanUtil, {
         var pluralizeWord = function(word) {
 
             // noone really needs extra spaces at the edges, do they?
-            word = jQuery.trim( word );
+            word = $.trim( word );
 
             // determine if our word is all caps.  If so, we'll need to
             // re-capitalize at the end
@@ -143,7 +143,7 @@ jQuery.extend( KhanUtil, {
     })()
 });
 
-jQuery.fn[ "word-problemsLoad" ] = function() {
+$.fn[ "word-problemsLoad" ] = function() {
     var people = KhanUtil.shuffle([
         ["Ashley", "f"],
         ["Brandon", "m"],
@@ -399,7 +399,7 @@ jQuery.fn[ "word-problemsLoad" ] = function() {
         return 'A ' + word;
     };
 
-    jQuery.extend( KhanUtil, {
+    $.extend( KhanUtil, {
         person: function( i ) {
             return people[i - 1][0];
         },

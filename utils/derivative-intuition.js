@@ -1,4 +1,4 @@
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
     FN_COLOR: "#6495ED",
     DDX_COLOR: "#FFA500",
     TANGENT_COLOR: "#AAA",
@@ -9,7 +9,7 @@ jQuery.extend( KhanUtil, {
     // Wrap graphInit to create a 600x600px graph properly scaled to the given range
     initAutoscaledGraph: function( range, options ) {
         var graph = KhanUtil.currentGraph;
-        options = jQuery.extend({
+        options = $.extend({
             xpixels: 600,
             ypixels: 600,
             xdivisions: 20,
@@ -56,14 +56,14 @@ jQuery.extend( KhanUtil, {
         // of everything else where we can add invisible shapes with mouse
         // handlers wherever we want. Is there a better way?
         graph.mouselayer = Raphael( "ddxplot", graph.xpixels, graph.ypixels );
-        jQuery( graph.mouselayer.canvas ).css( "z-index", 1 );
+        $( graph.mouselayer.canvas ).css( "z-index", 1 );
 
         // plot all the tangent lines first so they're underneath the tangent/slope points
-        jQuery( points ).each( function ( index, xval ) {
+        $( points ).each( function ( index, xval ) {
             KhanUtil.plotTangentLine( index );
         });
 
-        jQuery( points ).each( function ( index, xval ) {
+        $( points ).each( function ( index, xval ) {
             // blue points
             KhanUtil.plotTangentPoint( index );
             // orange points and mouse magic
@@ -74,8 +74,8 @@ jQuery.extend( KhanUtil, {
         // slopes to 0. This replicates the action of the user placing each point
         // at zero and applies the same "close enough" test so very small slopes
         // aren't graded wrong even if they look almost right.
-        jQuery(Khan).one( "newProblem", function() {
-            jQuery( points ).each( function ( index, xval ) {
+        $(Khan).one( "newProblem", function() {
+            $( points ).each( function ( index, xval ) {
                 KhanUtil.setSlope( index, 0 );
             });
         });
@@ -172,8 +172,8 @@ jQuery.extend( KhanUtil, {
                 (graph.range[1][1] - 0) * graph.scale[1], 15 );
         graph.mouseTargets[index].attr({fill: "#000", "opacity": 0.0});
 
-        jQuery( graph.mouseTargets[index][0] ).css( "cursor", "move" );
-        jQuery( graph.mouseTargets[index][0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
+        $( graph.mouseTargets[index][0] ).css( "cursor", "move" );
+        $( graph.mouseTargets[index][0] ).bind("vmousedown vmouseover vmouseout", function( event ) {
             event.preventDefault();
             var graph = KhanUtil.currentGraph;
             if ( event.type === "vmouseover" ) {
@@ -198,23 +198,23 @@ jQuery.extend( KhanUtil, {
                 graph.tangentLines[index].animate( { scale: KhanUtil.TANGENT_GROWTH_FACTOR }, 200 );
                 KhanUtil.dragging = true;
 
-                jQuery( document ).bind("vmousemove vmouseup", function( event ) {
+                $( document ).bind("vmousemove vmouseup", function( event ) {
                     event.preventDefault();
 
                     // mouseY is in pixels relative to the SVG; coordY is the scaled y-coordinate value
-                    var mouseY = event.pageY - jQuery( "#ddxplot" ).offset().top;
+                    var mouseY = event.pageY - $( "#ddxplot" ).offset().top;
                     mouseY = Math.max(10, Math.min(graph.ypixels-10, mouseY));
                     var coordY = graph.range[1][1] - mouseY / graph.scale[1];
 
                     if ( event.type === "vmousemove" ) {
-                        jQuery( jQuery( "div#solutionarea :text" )[index]).val( KhanUtil.roundTo(2, coordY) );
-                        jQuery( jQuery( "div#solutionarea .answer-label" )[index]).text( KhanUtil.roundTo(2, coordY) );
+                        $( $( "div#solutionarea :text" )[index]).val( KhanUtil.roundTo(2, coordY) );
+                        $( $( "div#solutionarea .answer-label" )[index]).text( KhanUtil.roundTo(2, coordY) );
                         graph.tangentLines[index].rotate(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI), true);
                         graph.slopePoints[index].attr( "cy", mouseY );
                         graph.mouseTargets[index].attr( "cy", mouseY );
 
                     } else if ( event.type === "vmouseup" ) {
-                        jQuery( document ).unbind( "vmousemove vmouseup" );
+                        $( document ).unbind( "vmousemove vmouseup" );
 
                         KhanUtil.setSlope( index, coordY );
 
@@ -227,10 +227,10 @@ jQuery.extend( KhanUtil, {
                         }
 
                         // If all the points are in the right place, reveal the derivative function
-                        var answers = jQuery.map(jQuery( "div#solutionarea .answer-label" ), function(x) {
-                            return parseFloat(jQuery(x).text());
+                        var answers = $.map($( "div#solutionarea .answer-label" ), function(x) {
+                            return parseFloat($(x).text());
                         });
-                        var correct = jQuery.map(KhanUtil.points, function(x) {
+                        var correct = $.map(KhanUtil.points, function(x) {
                             return KhanUtil.roundTo(2, KhanUtil.ddx(x));
                         });
                         if (answers.join() === correct.join()) {
@@ -256,8 +256,8 @@ jQuery.extend( KhanUtil, {
             coordY = answer;
         }
 
-        jQuery( jQuery( "div#solutionarea :text" )[index]).val( KhanUtil.roundTo(2, coordY) );
-        jQuery( jQuery( "div#solutionarea .answer-label" )[index]).text( KhanUtil.roundTo(2, coordY) );
+        $( $( "div#solutionarea :text" )[index]).val( KhanUtil.roundTo(2, coordY) );
+        $( $( "div#solutionarea .answer-label" )[index]).text( KhanUtil.roundTo(2, coordY) );
         graph.tangentLines[index].rotate(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI), true);
         graph.slopePoints[index].attr( "cy", (graph.range[1][1] - coordY) * graph.scale[1] );
         graph.mouseTargets[index].attr( "cy", (graph.range[1][1] - coordY) * graph.scale[1] );
@@ -281,8 +281,8 @@ jQuery.extend( KhanUtil, {
                 }, KhanUtil.tmpl.getVAR( "XRANGE" ) );
             });
 
-            jQuery( "span#ddxspan" ).show();  // for IE
-            jQuery( "span#ddxspan" ).fadeTo(duration, 1);
+            $( "span#ddxspan" ).show();  // for IE
+            $( "span#ddxspan" ).fadeTo(duration, 1);
 
             ddxplot.animate( { opacity: 1 }, duration );
             KhanUtil.ddxShown = true;

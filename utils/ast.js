@@ -16,7 +16,7 @@
 
 */
 
-jQuery.extend ( KhanUtil, {
+$.extend ( KhanUtil, {
 
 
     ASSERT: false,
@@ -44,7 +44,7 @@ jQuery.extend ( KhanUtil, {
 
         // KhanUtil.ast public interface
 
-        jQuery.extend ( this, {
+        $.extend ( this, {
             fromLaTeX: fromLaTeX,
             toLaTeX: toLaTeX,
             eval: eval,
@@ -79,7 +79,7 @@ jQuery.extend ( KhanUtil, {
 
         function intern(n) {
             // nodify number and string literals
-            if (jQuery.type(n) === "number") {
+            if ($.type(n) === "number") {
                 var nid = numberMap[n];
                 if (nid === void 0) {
                     nodePool.push({op:"num", args: [n]});
@@ -87,7 +87,7 @@ jQuery.extend ( KhanUtil, {
                     numberMap[n] = nid;
                 }
             }
-            else if (jQuery.type(n) === "string") {
+            else if ($.type(n) === "string") {
                 var nid = stringMap[n];
                 if (nid === void 0) {
                     nodePool.push({op:"str", args: [n]});
@@ -118,7 +118,7 @@ jQuery.extend ( KhanUtil, {
         }
 
         function node(nid) {
-            var n = jQuery.extend(true, {}, nodePool[nid]);
+            var n = $.extend(true, {}, nodePool[nid]);
             // if literal, then unwrap.
             switch (n.op) {
             case "NUM":
@@ -145,7 +145,7 @@ jQuery.extend ( KhanUtil, {
 
         function dump(n) {
 
-            if (jQuery.type(n) === "object") {
+            if ($.type(n) === "object") {
                 switch (n.op) {
                 case "num":
                     var s = n.args[0];
@@ -165,7 +165,7 @@ jQuery.extend ( KhanUtil, {
                     break;
                 }
             }
-            else if (jQuery.type(n)==="string") {
+            else if ($.type(n)==="string") {
                 var s = "\""+n+"\"";
             }
             else {

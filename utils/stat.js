@@ -1,4 +1,4 @@
-jQuery.extend(KhanUtil, {
+$.extend(KhanUtil, {
     sum: function( values ) {
         var sum = 0;
 
@@ -59,7 +59,7 @@ jQuery.extend(KhanUtil, {
         var n = values.length;
 
         var sum = 0;
-        jQuery.each( values, function( i, x_i ) {
+        $.each( values, function( i, x_i ) {
             sum += ( x_i - xbar ) * ( x_i - xbar );
         });
         return sum / ( n - 1 );
@@ -70,7 +70,7 @@ jQuery.extend(KhanUtil, {
         var N = values.length;
 
         var sum = 0;
-        jQuery.each( values, function( i, x_i ) {
+        $.each( values, function( i, x_i ) {
             sum += ( x_i - xbar ) * ( x_i - xbar );
         });
         return sum / N;
@@ -101,7 +101,7 @@ jQuery.extend(KhanUtil, {
 
             return x1 * c * ( tgtStdDev || 1 ) + ( tgtMean || 0 );
         } else {
-            return jQuery.map( new Array( count ), function() {
+            return $.map( new Array( count ), function() {
                 return KhanUtil.randGaussian( tgtMean, tgtStdDev );
             });
         }

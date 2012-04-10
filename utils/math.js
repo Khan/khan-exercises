@@ -1,4 +1,4 @@
-jQuery.extend(KhanUtil, {
+$.extend(KhanUtil, {
 
     // Simplify formulas before display
     cleanMath: function( expr ) {
@@ -42,7 +42,7 @@ jQuery.extend(KhanUtil, {
         var place = Math.floor( Math.pow( 10, digits.length - 1 ) );
         var number = 0;
 
-        jQuery.each( digits, function(index, digit) {
+        $.each( digits, function(index, digit) {
             number += digit * place;
             place /= 10;
         });
@@ -118,7 +118,7 @@ jQuery.extend(KhanUtil, {
         if (n <= 1) {
             return false;
         } else if (n < 101) {
-            return !!jQuery.grep(KhanUtil.primes, function(p, i) {
+            return !!$.grep(KhanUtil.primes, function(p, i) {
                 return Math.abs(p - n) <= 0.5;
             }).length;
         } else {
@@ -203,7 +203,7 @@ jQuery.extend(KhanUtil, {
         var maxf = Math.sqrt( number );
         for (var f = 2; f <= maxf; f++) {
             if ( number % f === 0 ) {
-                return jQuery.merge(KhanUtil.getPrimeFactorization( f ), KhanUtil.getPrimeFactorization( number / f ));
+                return $.merge(KhanUtil.getPrimeFactorization( f ), KhanUtil.getPrimeFactorization( number / f ));
             }
         }
     },
@@ -270,7 +270,7 @@ jQuery.extend(KhanUtil, {
             return Math.floor( KhanUtil.rand( max - min + 1 ) ) + min;
         } else {
             var args = [ min, max ].concat( dimensions.slice( 1 ) );
-            return jQuery.map(new Array( dimensions[ 0 ] ), function() {
+            return $.map(new Array( dimensions[ 0 ] ), function() {
                 return [ KhanUtil.randRange.apply( null, args ) ];
             });
         }
@@ -354,7 +354,7 @@ jQuery.extend(KhanUtil, {
         if ( count == null ) {
             return arr[ KhanUtil.rand( arr.length ) ];
         } else {
-            return jQuery.map( new Array(count), function() {
+            return $.map( new Array(count), function() {
                 return KhanUtil.randFromArray( arr );
             });
         }

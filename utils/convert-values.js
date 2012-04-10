@@ -1,4 +1,4 @@
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
     trigFunc: {
         csc: {name: "csc", print: function( angle ){
             return KhanUtil.trigFunc.sec.print( 90-angle);
@@ -174,7 +174,7 @@ convertTo: function( type, angle ){
 }
 }});
 
-jQuery.extend( KhanUtil, {
+$.extend( KhanUtil, {
     trigTypes: [KhanUtil.trigFunc.sin,KhanUtil.trigFunc.cos,KhanUtil.trigFunc.tan,KhanUtil.trigFunc.csc,KhanUtil.trigFunc.sec],
 
     findSteps: function( start, end, value){

@@ -1,4 +1,4 @@
-jQuery.extend(KhanUtil, {
+$.extend(KhanUtil, {
     trigFuncs: ["sin", "cos", "tan"],
     ddxTrigFuncs: {
         "sin": function( expr ) {
@@ -179,7 +179,7 @@ jQuery.extend(KhanUtil, {
             ];
 
             // Remove empty choices, if any
-            this.wrongs = jQuery.map( this.wrongs, function( value, index ) {
+            this.wrongs = $.map( this.wrongs, function( value, index ) {
                 if ( value.length > 1 ) {
                     return [ value ];
                 } else {
@@ -187,7 +187,7 @@ jQuery.extend(KhanUtil, {
                 }
             } );
 
-            this.wrongsText = jQuery.map(this.wrongs, function( value, index ) {
+            this.wrongsText = $.map(this.wrongs, function( value, index ) {
                 return KhanUtil.expr( value );
             });
 
@@ -223,7 +223,7 @@ jQuery.extend(KhanUtil, {
             this.fText = KhanUtil.expr( this.f );
             this.ddxFText = KhanUtil.expr( this.ddxF );
 
-            this.wrongsText = jQuery.map(this.wrongs, function( value, index ) {
+            this.wrongsText = $.map(this.wrongs, function( value, index ) {
                 return KhanUtil.expr( value );
             });
 
@@ -253,7 +253,7 @@ jQuery.extend(KhanUtil, {
             ];
 
             // Remove empty choices, if any
-            this.wrongs = jQuery.map( this.wrongs, function( value, index ) {
+            this.wrongs = $.map( this.wrongs, function( value, index ) {
                 if ( value.length > 1 ) {
                     return [ value ];
                 } else {
@@ -264,7 +264,7 @@ jQuery.extend(KhanUtil, {
             this.fText = KhanUtil.expr( this.f );
             this.ddxFText = KhanUtil.expr( this.ddxF );
 
-            this.wrongsText = jQuery.map(this.wrongs, function( value, index ) {
+            this.wrongsText = $.map(this.wrongs, function( value, index ) {
                 return KhanUtil.expr( value );
             });
 
@@ -300,7 +300,7 @@ jQuery.extend(KhanUtil, {
             this.fText = KhanUtil.expr( this.f );
             this.ddxFText = KhanUtil.expr( this.ddxF );
 
-            this.wrongsText = jQuery.map(this.wrongs, function( value, index ) {
+            this.wrongsText = $.map(this.wrongs, function( value, index ) {
                 return KhanUtil.expr( value );
             });
 

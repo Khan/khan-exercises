@@ -82,7 +82,7 @@
 
 
         if (graph.last) {
-            jQuery(graph).remove();
+            $(graph).remove();
             graph.last.remove();
 
             graph.style({
@@ -343,10 +343,10 @@
         }
         var text;
 
-        if (jQuery.type(n)==="number") {
+        if ($.type(n)==="number") {
             text = "" + n;
         }
-        else if (jQuery.type(n)==="object") {
+        else if ($.type(n)==="object") {
             // format sub-expressions
             if ((n.op !== "var") && (n.op !== "cst")) {
                 var args = [];
@@ -446,7 +446,7 @@
                 // if subexpr is lower precedence, wrap in parens
                 var prevTerm;
                 text = "";
-                jQuery.each(n.args, function (index, term) {
+                $.each(n.args, function (index, term) {
                     var opIndex = index - 1;
                     var symbol = getOpSymbol(n, opIndex);
                     if (((term.op === OpStr.ADD) || (term.op === OpStr.SUB)) && (term.args.length > 1)) {
@@ -478,7 +478,7 @@
             case OpStr.ADD:
             case OpStr.COMMA:
             case OpStr.EQL:
-                jQuery.each(args, function (index, value) {
+                $.each(args, function (index, value) {
                     var opIndex = index - 1;
                     if (index === 0) {
                         text = value;
@@ -523,10 +523,10 @@
 
         var val;
 
-        if (jQuery.type(n)==="string" ||
-            jQuery.type(n)==="number") {
+        if ($.type(n)==="string" ||
+            $.type(n)==="number") {
             val = n;
-        } else if (jQuery.type(n)==="object") {
+        } else if ($.type(n)==="object") {
             var args = [];
             for (var i = 0; i < n.args.length; i++) {
                 args[i] = eval(n.args[i], env);
@@ -589,13 +589,13 @@
             case OpStr.CDOT:
             case OpStr.TIMES:
                 var val = 1;
-                jQuery.each(args, function (index, value) {
+                $.each(args, function (index, value) {
                     val *= value;
                 });
                 break;
             case OpStr.ADD:
                 var val = 0;
-                jQuery.each(args, function (index, value) {
+                $.each(args, function (index, value) {
                     val += value;
                 });
                 break;
@@ -1263,7 +1263,7 @@
         return expr();
     };
 
-    jQuery.extend ( KhanUtil, {
+    $.extend ( KhanUtil, {
         parseFormat: parseFormat,
         parse: parse,
         format: format,
