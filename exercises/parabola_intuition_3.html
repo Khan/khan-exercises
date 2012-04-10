@@ -36,34 +36,34 @@
 					initAutoscaledGraph( [ [ -2.5, 2.5 ], [ -2.5, 2.5 ] ], {} );
 					addMouseLayer();
 
-					this.directrix = addMovableLine({
+					graph.directrix = addMovableLine({
 						coord: -1,
 						snap: 0.125,
 						vertical: false,
 					});
-					this.directrix.onMove = function( coord ) {
+					graph.directrix.onMove = function( coord ) {
 						jQuery("#directrix-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coord, 0.001)) + "&lt;/code&gt;" ).tmpl();
 						jQuery("#directrix input").val(coord);
 					};
 
-					this.vertex = addMovablePoint({
+					graph.vertex = addMovablePoint({
 						coordX: 0,
 						coordY: 1,
 						snapX: 0.125,
 						snapY: 0.125,
 					});
-					this.vertex.onMove = function( coordX, coordY ) {
+					graph.vertex.onMove = function( coordX, coordY ) {
 						jQuery("#focus-x-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordX, 0.001)) + "&lt;/code&gt;" ).tmpl();
 						jQuery("#focus-y-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordY, 0.001)) + "&lt;/code&gt;" ).tmpl();
 						jQuery("#focus-x input").val(coordX);
 						jQuery("#focus-y input").val(coordY);
 					};
 
-					this.func = addInteractiveFn( function(x) {
+					graph.func = addInteractiveFn( function(x) {
 						return ( A * ( x - X1 ) * ( x - X1 ) ) + Y1;
 					}, {});
 
-					doParabolaInteraction( this.func, this.vertex, this.directrix );
+					doParabolaInteraction( graph.func, graph.vertex, graph.directrix );
 				</div>
 				<p>
 					The <span class="hint_green">two green line segments</span> you see when you point to the parabola are always the same
@@ -71,13 +71,24 @@
 				</p>
 
 				<div class="solution" data-type="multiple">
+					<div class="sol" data-type="custom">
+						<div class="guess"> [ graph.vertex.coord, graph.directrix.coord ] </div>
+						<div class="validator-function">
+							return true;
+						</div>
+						<div class="show-guess">
+							graph.vertex.setCoord( guess[0] );
+							graph.directrix.setCoord( guess[1] );
+						</div>
+					</div>
+
 					<p><span>Focus: </span><code>(</code><span id="focus-x-label"><code>0</code></span><code>\text{, }</code><span id="focus-y-label"><code>1</code></span><code>)</code></p>
 					<p>Directrix: <code>y = </code><span id="directrix-label"><code>-1</code></span></p>
 					<p>
 						Equation of the parabola:<br />
-						<code>y - </code><span class="sol" data-fallback="0"><var>Y1</var></span>
-						<code> = </code><span class="sol" data-fallback="1"><var>A</var></span>
-						<code>(x - </code><span class="sol" data-fallback="0"><var>X1</var></span>
+						<code>y - </code><span class="sol" data-fallback="0" required><var>Y1</var></span>
+						<code> = </code><span class="sol" data-fallback="1" required><var>A</var></span>
+						<code>(x - </code><span class="sol" data-fallback="0" required><var>X1</var></span>
 						<code>)^2</code>
 					</p>
 					<span class="sol" id="focus-x" style="display: none"><var>X1</var></span>
@@ -94,8 +105,9 @@
 					All points on a parabola are equidistant from the focus and directrix. There is only one place to put the orange focus point
 					and directrix line where this is true.
 					<button onClick="javascript:
-						vertex.moveTo(KhanUtil.tmpl.getVAR('X1'), KhanUtil.tmpl.getVAR('Y1') + 1/(4*KhanUtil.tmpl.getVAR('A')));
-						directrix.moveTo(KhanUtil.tmpl.getVAR('Y1') - 1/(4*KhanUtil.tmpl.getVAR('A')));
+						graph = KhanUtil.currentGraph.graph;
+						graph.vertex.moveTo(KhanUtil.tmpl.getVAR('X1'), KhanUtil.tmpl.getVAR('Y1') + 1/(4*KhanUtil.tmpl.getVAR('A')));
+						graph.directrix.moveTo(KhanUtil.tmpl.getVAR('Y1') - 1/(4*KhanUtil.tmpl.getVAR('A')));
 					">Show me</button>
 				</p>
 				<p>
