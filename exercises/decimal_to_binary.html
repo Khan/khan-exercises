@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!-- Converting decimal to binary Exercise - Eliot Van Uytfanghe -->
+<html data-require="math binary graphie word-problems">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Converting decimal to binary</title>
+		<script src="../khan-exercise.js"></script>
+		<script>
+			function powersOfTwoUntil( x ) {
+				var result = [];
+				for ( var i = 1; i <= x; i <<= 1 ) {
+					result.push( i );	
+				}
+				return result;
+			}
+
+			function firstLine( remains, power, n, index ) {
+				var digit = remains >= power ? 1 : 0;
+				var codeA;
+				if ( remains === n ) {
+					codeA = '<code class="hint_orange">' + remains + '</code>';
+				} else {
+					codeA = '<code>' + remains + '</code>';
+				}
+				var codePower = '<code>' + power + '</code>';
+				return "\n" +
+					codePower + " " + ( digit ? "fits" : "doesn't fit" ) + " into " + codeA + ". " +
+					"There will be a <code class=\"hint_blue\">" + digit + "</code> in the " + codePower + " place in the resulting binary." +
+					"\n";
+			}
+
+			function secondLine( remains, power, index ) {
+				var result = "";
+				var after = remains >= power ? ( remains - power ) : remains;
+
+				if ( after ) {
+					var code = ( remains >= power ) ?
+						( remains + " - " + power + " = " + ( remains - power ) ) :
+						( remains );
+					result = "We have <code>" + code + "</code> to convert left.";
+				} else if ( power > 1 ) {
+					result += "We have nothing left to convert, as <code>0</code> remains. We can fill the remaining binary digits with zeroes.";
+				}
+
+				return result;
+			}
+
+			function binaryDigit( index, n ) {
+				return '<span class="graphie" data-update="hint">' +
+					'label( [ ' + (index + 2 + 0.375) + ', 0.25 ], "' + n + '", "center", { '+
+					'	color: BLUE' +
+					'} );' +
+					'</span>';
+			}
+
+			function generateDigits( n, remains, power, i ) {
+				var digits = binaryDigit( i, remains >= power ? 1 : 0 );
+				if ( remains % power === 0 ) {
+					power >>= 1;
+					while ( power ) {
+						digits += binaryDigit( ++i, 0 );
+						power >>= 1;
+					}
+				}
+				return digits;
+			}
+
+			function generateHints( n, remains, power, i ) {
+				var hints = "";
+				hints += "<p>";
+				hints += generateDigits( n, remains, power, i );
+				hints += firstLine( remains, power, n, i ); 
+				hints += secondLine( remains, power, i );
+				hints += "</p>";
+				if ( remains % power ) {
+					hints += generateHints( n, remains % power, power >> 1, i + 1 );
+				}
+				return hints;
+			}
+		</script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="problems">
+				<div id="decimal-to-binary">
+					<div class="vars">
+						<var id="N">generateBinary( 8 )</var>
+						<var id="POWERS_OF_TWO">powersOfTwoUntil( N )</var>
+						<!-- work around old KhanUtil without KhanUtil.COLORs -->
+						<var id="ORANGE">"#ffa500"</var>
+						<var id="BLUE">"#a3a3ff"</var>
+					</div>
+
+					<div class="question">
+						Convert <code class="hint_orange"><var>N</var></code> from decimal to binary.
+					</div>
+					<div class="solution" data-forms="binary">
+						<var>N</var>
+					</div>
+					<div class="hints">
+						<div data-if="N > 0" data-unwrap>
+							<div>
+								<p>
+									The powers of <code>2</code> that fit into <code class="hint_orange"><var>N</var></code> are:
+									<code>
+										<var>POWERS_OF_TWO.join(", ")</var>
+									</code>.
+								</p>
+							</div>
+							<div class="graphie" id="hint">
+								// Draw some lines to show the binary places, and draw their weights underneath.
+								init( {
+									range: [ [ 0, 10 ], [ -0.75, 0.75 ] ]
+								} );
+
+								for ( var i = 0; i &lt; POWERS_OF_TWO.length; i++ ) {
+									var power = POWERS_OF_TWO[ POWERS_OF_TWO.length - i - 1 ];
+									line( [ i + 2, 0 ], [ i + 2 + 0.75, 0 ] );
+									label( [ i + 2 + 0.375, -0.25 ], power, "center" );
+								}
+							</div>
+							<var>
+								generateHints( N, N, POWERS_OF_TWO[POWERS_OF_TWO.length - 1], 0 )
+							</var>
+						</div>
+						<p data-else>
+							<code class="hint_orange">0</code> is <code class="hint_blue">0</code> in any base.
+						</p>
+						<p>
+							<code>
+								\color{<var>ORANGE</var>}{<var>N</var>}
+							</code>
+							in decimal
+							<code> =
+								\color{<var>BLUE</var>}{<var>formatBinary( N, 0 )</var>}
+							</code>
+							in binary.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

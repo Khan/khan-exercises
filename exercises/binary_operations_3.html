@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html data-require="math binary expressions">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Binary operations 3</title>
+		<script src="../khan-exercise.js"></script>
+		<script>
+			var blue = "#a3a3ff", orange = "#ffa500"; // TODO: change this to KhanUtil.BLUE when merging
+
+			function colorAndFindParens( expr ) {
+				var evaluateThis;
+				var colored = false;
+				var recurse = function ( e ) {
+					if ( typeof e !== "object" ) {
+						return;
+					} else if ( !colored && ( typeof e[1] === "number" && ( typeof e[2] === "number" || typeof e[2] === "undefined" ) ) ) {
+						e.color = blue;
+						evaluateThis = e;
+						colored = true;
+					} else {
+						recurse( e[1] );
+						recurse( e[2] );
+					}
+				};
+				recurse( expr );
+
+				return evaluateThis;
+			}
+
+			function trimColored( expr ) {
+				var recurse = function ( e ) {
+					if ( typeof e !== "object" ) {
+						return e;
+					}
+					if ( e.color ) {
+						return KhanUtil.evaluateBinaryExpression( e );
+					}
+					return [ e[0], recurse( e[1] ), recurse( e[2] ) ];
+				};
+				return recurse( expr );
+			}
+
+			function createHints( startExpr ) {
+				var expr = startExpr;
+				var hints = "";
+
+				do {
+					var evaluateThis = colorAndFindParens( expr );
+					var value = KhanUtil.evaluateBinaryExpression( evaluateThis );
+					var simplifiedExpr = trimColored( expr );
+
+					hints += "<p><code>" + KhanUtil.formatBinaryExpression( expr ) + "</code></p>";
+					hints += "<p><code>\\color{" + blue + "}{" + KhanUtil.formatBinaryExpression( evaluateThis ) + "} = " +
+						"\\color{" + orange + "}{"+ KhanUtil.formatBinary( value ) + "}</code></p>";
+
+					expr = simplifiedExpr;
+				} while ( typeof expr !== "number" );
+
+				hints += '<p>Our final result is <code class="hint_orange">' + KhanUtil.formatBinaryExpression( expr ) + "</code></p>";
+
+				return hints;
+			}
+		</script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars" data-ensure="countBinaryExpressionOperators( EXPRESSION ) <= 5">
+				<var id="EXPRESSION">randBinaryExpression( 8 )</var>
+				<var id="RESULT">evaluateBinaryExpression( EXPRESSION )</var>
+			</div>
+					
+			<div class="problems">
+				<div>
+					<p class="question">
+						What is the result of the following binary expression?
+					</p>
+					<code>
+						<var>formatBinaryExpression( EXPRESSION )</var>
+					</code>
+					<div class="solution" data-forms="binary">
+						<var>RESULT</var>
+					</div>
+					
+					<div class="hints">
+						<p>
+							Evaluate innermost parentheses first.
+						</p>
+						<var>createHints( EXPRESSION )</var>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

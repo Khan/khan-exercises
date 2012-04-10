@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!-- Binary 2 Exercise - Eliot Van Uytfanghe -->
+<html data-require="math binary expressions">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Binary operations 2</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="A">generateBinary( 8 )</var>
+				<var id="B">generateBinary( 8 )</var>
+				<var id="A_BIN">formatBinary( A )</var>
+				<var id="B_BIN">formatBinary( B )</var>
+				<var id="C">generateBinary( 3 )</var> <!-- a small number, for bitwise shifts -->
+			</div>
+					
+			<!-- TODO: elaborate on the operations: show them bit by bit -->
+			<div class="problems">
+				<div id="AND">
+					<div class="vars">
+						<var id="SOLUTION">A & B</var>
+						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
+					</div>
+
+					<p class="question">
+						What is the result of the following binary expression?
+					</p>
+					<code>
+						<var>A_BIN</var> \wedge <var>B_BIN</var>
+					</code>
+					<div class="solution" data-forms="binary">
+						<var>SOLUTION</var>
+					</div>
+					
+					<div class="hints">
+						<p>
+							<code>\wedge</code> is the symbol of logical conjunction, or the "<strong>and</strong>" operation.
+						</p>
+						<p>
+							To determine the logical conjunction of two binary numbers, proceed bit by bit and write 
+							<code>1</code> if the first bit <strong>and</strong> the second bit are both <code>1</code>, and <code>0</code> otherwise.
+						</p>
+						<p>
+							<code>
+								<var>A_BIN</var> \wedge <var>B_BIN</var> = <var>SOLUTION_BIN</var>
+							</code>
+						</p>
+					</div>
+				</div>
+				
+				<div id="OR">
+					<div class="vars">
+						<var id="SOLUTION">A | B</var>
+						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
+					</div>
+				  
+					<p class="question">
+						What is the result of the following binary expression?
+					</p>
+					<code>
+						<var>A_BIN</var> \vee <var>B_BIN</var>
+					</code>
+					<div class="solution" data-forms="binary">
+						<var>SOLUTION</var>
+					</div>
+					
+					<div class="hints">
+						<p>
+							<code>\vee</code> is the symbol of logical disjunction, or the "<strong>or</strong>" operation.
+						</p>
+						<p>
+							To determine the logical disjunction of two binary numbers, proceed bit by bit and write
+							<code>1</code> if the first one <strong>or</strong> the second one (<strong>or</strong> both of them)
+							are <code>1</code>, and <code>0</code> otherwise.
+						</p>
+						<p>
+							<code>
+								<var>A_BIN</var> \wedge <var>B_BIN</var> = <var>SOLUTION_BIN</var>
+							</code>
+						</p>
+					</div>
+				</div>
+				
+				<div id="XOR">
+					<div class="vars">
+						<var id="SOLUTION">A ^ B</var>
+						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
+					</div>
+				  
+					<p class="question">
+						What is the result of the following binary expression?
+					</p>
+					<code>
+						<var>A_BIN</var> \oplus <var>B_BIN</var>
+					</code>
+					<div class="solution" data-forms="binary">
+						<var>SOLUTION</var>
+					</div>
+					
+					<div class="hints">
+						<p>
+							<code>\oplus</code> is the symbol of exclusive disjunction, or the "XOR" operation, also known as <strong>nonequivalence</strong>.
+						</p>
+						<p>
+							To determine the XOR of two binary numbers, proceed bit by bit and write the XOR of
+							corresponding bits of the two numbers to the result.
+						</p>
+						<p>
+							The XOR of bits is <code>1</code> if they <strong>aren't equal</strong> and <code>0</code> otherwise.
+						</p>
+						<p>
+							<code>
+								<var>A_BIN</var> \oplus <var>B_BIN</var> = <var>SOLUTION_BIN</var>
+							</code>
+						</p>
+					</div>
+				</div>
+				
+				<!--
+					Bitwise negation applies not to binary numbers, but to binary numbers with a width.
+					This might be useful in CS, through.
+				-->
+				<!--
+				<div id="NOT">
+					<div class="vars">
+						<var id="SOLUTION">255 - A</var>
+						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
+					</div>
+					<p class="question">
+						What is the result of the following binary expression?
+					</p>
+					<code>
+						\sim <var>A_BIN</var>
+					</code>
+					<div class="solution" data-forms="binary">
+						<var>SOLUTION</var>
+					</div>
+					<div class="hints">
+						<p>
+							<code>\sim</code> is the symbol of bitwise negation of a binary number.
+						</p>
+						<p>
+							To determine the bitwise negation of a binary number, flip every bit (<code>1</code> becomes <code>0</code>,
+							<code>0</code> becomes <code>1</code>).
+						</p>
+						<p>
+							<code>
+								\sim <var>A_BIN</var> = <var>SOLUTION_BIN</var>
+							</code>
+						</p>
+					</div>
+				</div>
+				-->
+				
+				<!-- TODO: once again, binary number !== bytes; shouldn't we strip the 8th bytes and beyond? -->
+				<div id="LSH">
+					<div class="vars">
+						<var id="SOLUTION">A &lt;&lt; C</var>
+						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
+					</div>
+				  
+					<p class="question">
+						What is the result of the following binary expression?
+					</p>
+					<code>
+						<var>A_BIN</var> \ll <var>C</var>
+					</code>
+					<div class="solution" data-forms="binary">
+						<var>SOLUTION</var>
+					</div>
+					
+					<div class="hints">
+						<p>
+							<code>\ll</code> is the symbol of left bitwise shift.
+						</p>
+						<p>
+							To shift a binary number to the left by <code>X</code> digits, add <code>X</code> zeroes behind it.
+						</p>
+						<p>
+							<code><var>A_BIN</var> \ll <var>C</var> = <var>SOLUTION_BIN</var></code>
+						</p>
+					</div>
+				</div>
+				
+				<div id="RSH">
+					<div class="vars">
+						<var id="SOLUTION">A >> C</var>
+						<var id="SOLUTION_BIN">formatBinary( SOLUTION )</var>
+					</div>
+				  
+					<p class="question">
+						What is the result of the following binary expression?
+					</p>
+					<code>
+						<var>A_BIN</var> \gg <var>C</var>
+					</code>
+					<div class="solution" data-forms="binary">
+						<var>SOLUTION</var>
+					</div>
+					
+					<div class="hints">
+						<p>
+							<code>\gg</code> is the symbol of right bitwise shift.
+						</p>
+						<p>
+							To shift a binary number to the right by <code>X</code> digits, discard the last <code>X</code> numbers.
+						</p>
+						<p>
+							<code><var>A_BIN</var> \gg <var>C</var> = <var>SOLUTION_BIN</var></code>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

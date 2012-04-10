@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!-- Converting binary to decimal Exercise - Eliot Van Uytfanghe -->
+<html data-require="math binary graphie">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Converting binary to decimal</title>
+		<script src="../khan-exercise.js"></script>
+		<script>
+			function powersOfTwoUntil( x ) {
+				var result = [];
+				for ( var i = 1; i <= x; i <<= 1 ) {
+					result.push( i );	
+				}
+				return result;
+			}
+		</script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="problems">
+				<div id="binary-to-decimal">
+					<div class="vars">
+						<var id="A">generateBinary( 8 )</var>
+						<var id="A_BIN">formatBinary( A, 0 )</var>
+						<var id="POWERS_OF_TWO">powersOfTwoUntil( A )</var>
+						<!-- work around old KhanUtil without KhanUtil.COLORs -->
+						<var id="ORANGE">"#ffa500"</var>
+						<var id="BLUE">"#a3a3ff"</var>
+						<var id="EXPRESSION_STEP_1">(function() {
+							var result = [];
+							for ( var i = 0; i &lt; A_BIN.length; i++ ) {
+								result.push( "( \\color{" + BLUE + "}{" + A_BIN[i] + "} \\cdot " + POWERS_OF_TWO[A_BIN.length - i - 1] + ")" );	
+							}
+							return result;
+						})()</var>
+						<var id="EXPRESSION_STEP_2">(function() {
+							var result = [];
+							for ( var i = 0; i &lt; A_BIN.length; i++ ) {
+								if ( A_BIN[i] === '1' ) {
+									result.push( POWERS_OF_TWO[A_BIN.length - i - 1] );	
+								}
+							}
+							return result;
+						})()
+						</var>
+					</div>
+
+					<div class="question">
+						Convert <code class="hint_blue"><var>A_BIN</var></code> from binary to decimal.
+					</div>
+					<div class="solution" data-forms="integer"><var>A</var></div>
+
+					<div class="hints">
+						<p>
+							Let's write the weights of individual binary digits first.
+						</p>
+						<div class="graphie"> 
+							// Draw some lines to show the binary places, and draw their weights underneath.
+							init( {
+								range: [ [ 0, 10 ], [ -0.75, 0.75 ] ]
+							} );
+
+							for ( var i = 0; i &lt; POWERS_OF_TWO.length; i++ ) {
+								var power = POWERS_OF_TWO[ POWERS_OF_TWO.length - i - 1 ];
+								line( [ i + 2, 0 ], [ i + 2 + 0.75, 0 ] );
+								label( [ i + 2 + 0.375, -0.25 ], power, "center" );
+								label( [ i + 2 + 0.375, 0.25 ], A_BIN[i], "center", {
+									color: BLUE
+								} );
+							}
+						</div>
+						<div>
+							<p>
+								The number we are looking for is:
+							</p>
+							<code>
+								\qquad <var>EXPRESSION_STEP_1.join("+")</var>
+							</code>
+						</div>
+						<div>
+							<p>
+								When we remove the <code>0</code> terms, we get:
+							</p>
+							<code>
+								\qquad <var>EXPRESSION_STEP_2.join("+")</var>
+							</code>
+						</div>
+						<p data-if="EXPRESSION_STEP_2.length > 1">
+							Adding those together, we get <code class="hint_orange"><var>A</var></code>.
+						</p>
+						<p>
+							<code>
+								\color{<var>BLUE</var>}{<var>A_BIN</var>}
+							</code>
+							in binary
+							<code> =
+								\color{<var>ORANGE</var>}{<var>A</var>}
+							</code>
+							in decimal.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -344,6 +344,36 @@ jQuery.extend( Khan.answerTypes, {
 						return "a decimal, like <code>0.75</code>";
 					}
 				})()
+			},
+
+			binary: {
+				transformer: function( text ) {
+					text = text.replace( /\s/, "" ); // strip spaces
+					var result = 0;
+					var notEmpty = false;
+					// Binary-to-decimal conversions are also in binary.js, but
+					// I don't want to make answer-types.js dependent on that...
+					for ( var i in text ) {
+						var c = text[i];
+						result <<= 1;
+						if ( c === '1' ) {
+							notEmpty = true;
+							result ++;
+						} else if ( c === '0' ) {
+							notEmpty = true;
+						} else {
+							// some unexpected character here, that's not a binary number...
+							return [];
+						}
+					}
+					if ( notEmpty ) {
+						return [
+							{ value: result, exact: true }
+						];
+					}
+					return [];
+				},
+				example: "a binary number, like <code>1001011</code>"
 			}
 		};
 
@@ -422,6 +452,10 @@ jQuery.extend( Khan.answerTypes, {
 
 	mixed: function( solutionarea, solution, fallback ) {
 		return Khan.answerTypes.number( solutionarea, solution, fallback, "integer, proper, mixed" );
+	},
+
+	binary: function( solutionarea, solution, fallback ) {
+		return Khan.answerTypes.number( solutionarea, solution, fallback, "binary" );
 	},
 
 	radical: function( solutionarea, solution ) {

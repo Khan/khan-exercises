@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html data-require="math binary expressions">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Binary operations 1</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="A">generateBinary( 1 )</var>
+				<var id="B">generateBinary( 1 )</var>
+				<var id="A_BIN">formatBinary( A, 1 )</var>
+				<var id="B_BIN">formatBinary( B, 1 )</var>
+			</div>
+					
+			<!-- TODO: Much repetitious code... Factor something out. -->
+			<div class="problems">
+				<div id="AND">
+					<div class="vars">
+						<var id="SOLUTION">A & B</var>
+						<var id="SOLUTION_BIN">formatBinary( SOLUTION, 1 )</var>
+					</div>
+
+					<p class="question">
+						What is <code><var>A_BIN</var> \wedge <var>B_BIN</var></code>? 
+					</p>
+					<div class="solution" data-forms="binary">
+						<var>SOLUTION</var>
+					</div>
+					
+					<div class="hints">
+						<p>
+							<code>\wedge</code> is the symbol of logical conjunction, or the "and" operation.
+						</p>
+						<p>
+							"<strong>Anding</strong>" two bits gives <code>1</code> if both the first bit <strong>and</strong> the second bit are <code>1</code>.
+							Otherwise, it gives <code>0</code>.
+						</p>
+						<p>
+							The first bit is <code><var>A_BIN</var></code> and the second bit is <code><var>B_BIN</var></code>.
+							<span data-if="SOLUTION">
+								They are both <code>1</code>.
+							</span>
+							<span data-else>
+								They are not both <code>1</code>.
+							</span>
+						</p>
+						<p>
+							<code>
+								<var>A_BIN</var> \wedge <var>B_BIN</var> = <var>SOLUTION_BIN</var>
+							</code>
+						</p>
+					</div>
+				</div>
+				
+				<div id="OR">
+					<div class="vars">
+						<var id="SOLUTION">A | B</var>
+						<var id="SOLUTION_BIN">formatBinary( SOLUTION, 1 )</var>
+					</div>
+				  
+					<p class="question">
+						What is <code><var>A_BIN</var> \vee <var>B_BIN</var></code>?
+					</p>
+					<div class="solution" data-forms="binary">
+						<var>SOLUTION</var>
+					</div>
+					
+					<div class="hints">
+						<p>
+							<code>\vee</code> is the symbol of logical disjunction, or the "or" operation.
+						</p>
+						<p>
+							"<strong>Oring</strong>" two bits gives <code>1</code> the first one <strong>or</strong> the second one (<strong>or</strong> both of them)
+							are <code>1</code>, and <code>0</code> otherwise.
+						</p>
+						<p>
+							The first bit is <code><var>A_BIN</var></code> and the second bit is <code><var>B_BIN</var></code>.
+							<span data-if="SOLUTION">
+								There is at least one <code>1</code> amongst them.
+							</span>
+							<span data-else>
+								They are both <code>0</code>.
+							</span>
+						</p>
+						<p>
+							<code>
+								<var>A_BIN</var> \vee <var>B_BIN</var> = <var>SOLUTION_BIN</var>
+							</code>
+						</p>
+					</div>
+				</div>
+				
+				<div id="XOR">
+					<div class="vars">
+						<var id="SOLUTION">A ^ B</var>
+						<var id="SOLUTION_BIN">formatBinary( SOLUTION, 1 )</var>
+					</div>
+				  
+					<p class="question">
+						What is <code><var>A_BIN</var> \oplus <var>B_BIN</var></code>?
+					</p>
+					<div class="solution" data-forms="binary">
+						<var>SOLUTION</var>
+					</div>
+					
+					<div class="hints">
+						<p>
+							<code>\oplus</code> is the symbol of exclusive disjunction, or the "XOR" operation (also called <strong>nonequivalence</strong>).
+						</p>
+						<p>
+							The XOR of two bits is <code>1</code> if the bits are <strong>not equal</strong>,
+							and <code>0</code> otherwise.	
+						</p>
+						<p>
+							The first bit is <code><var>A_BIN</var></code> and the second bit is <code><var>B_BIN</var></code>.	
+							<span data-if="SOLUTION">
+								They are not equal.
+							</span>
+							<span data-else>
+								They are equal.
+							</span>
+						</p>
+						<p>
+							<code>
+								<var>A_BIN</var> \oplus <var>B_BIN</var> = <var>SOLUTION_BIN</var>
+							</code>
+						</p>
+					</div>
+				</div>
+				
+				<div id="NOT">
+					<div class="vars">
+						<var id="SOLUTION">A ? 0 : 1</var>
+						<var id="SOLUTION_BIN">formatBinary( SOLUTION, 1 )</var>
+					</div>
+					<p class="question">
+						What is <code>\sim <var>A_BIN</var></code>?
+					</p>
+					<div class="solution" data-forms="binary">
+						<var>SOLUTION</var>
+					</div>
+					<div class="hints">
+						<p>
+							<code>\sim</code> is the symbol of binary negation, or the "not" operation.
+						</p>
+						<p>
+							Binary negation flips a bit, so a <code>0</code> turns to a <code>1</code>
+							and a <code>1</code> turns to a <code>0</code>.
+						</p>
+						<p>
+							<code>
+								\sim <var>A_BIN</var> = <var>SOLUTION_BIN</var>
+							</code>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
