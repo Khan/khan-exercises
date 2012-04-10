@@ -2537,6 +2537,12 @@ var Khan = (function() {
                 return;
             }
 
+            // Get rid of any external scripts in data before we shove data
+            // into a jQuery object. IE8 will attempt to fetch these external
+            // scripts otherwise.
+            // See https://github.com/Khan/khan-exercises/issues/10957
+            data = data.replace( /<script\ssrc=([^<])*<\/script>/, "" );
+
             newContents = $(data);
 
             // Name of the top-most ancestor exercise
