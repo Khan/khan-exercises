@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<title>Template Title</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="A">randRange( 1, 99 )</var>
+		<var id="FUNC">(function() {
+			var d = A * 100;
+			return d;
+		})()</var>
+		<var id="SOLN">A * 100</var>
+	</div>
+
+	<div class="problems">
+		<div id="original">
+			<div class="problem">
+				<p>Return: <code><var>5 + "z"</var></code>: <code><var>plus( 0 + "x^{3}" , 5 + "z" )</var></code></p>
+				<p><code>\color{blue}{0xy} = <var>plus("\\color{blue}{0xy}")</var></code></p>
+				<p><code>\color{blue}{-1} = <var>plus("\\color{blue}{-1}")</var></code></p>
+				<p>Lots of vars: <code>= <var>plus( "\\color{blue}{1}\\color{red}{xy}" , "\\color{blue}{0}\\color{red}{xy}" , "\\color{blue}{" + A + "}\\color{red}{xy}" , "\\color{blue}{0xy}" , "\\color{blue}{1xy}")</var></code></p>
+				<p><b>Good below this line</b></p>
+				<p>Plus vars: <code><var>plus( 3 + "x" , 0 + "x^{3}" , 1 + "x^{5}" , "\\color{blue}{1xy}" )</var></code></p>
+				<p><code>\color{blue}{1xy} = <var>plus("\\color{blue}{1xy}")</var></code></p>
+				<p>Number: <code><var>plus(1)</var></code></p>
+				<p>String: <code><var>plus("A")</var></code></p>
+				<p>NumberString: <code><var>plus("3")</var></code></p>
+				<p>Zero: <code><var>plus(0)</var></code></p>
+				<p>Exponent: <code><var>plus("x^{4}")</var></code></p>
+				<p>Square Root: <code><var>plus("\\sqrt{x}")</var></code></p>
+				<p>Sin: <code><var>plus("\\sin{x}")</var></code></p>
+			</div>
+			<p class="question">Question.</p>
+			<div class="solution"><var>SOLN</var></div>
+
+			<div class="hints">
+				<p>hint1</p>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -387,14 +387,14 @@ jQuery.extend(KhanUtil, {
 
 		if ( typeof s === "string" && isNaN( s ) ) {
 
-			// extract color, so we can handle stripping the 1 out of \color{blue}{1xy}
-			if ( s.indexOf( "{" ) !== -1 ) {
+			// extract color, so we can handle stripping the 1 from or zero out the 0 of \color{blue}{1xy} or {0xy}
+			if ( s.indexOf( "color{" ) !== -1 ) {
 
 				// we're expecting something like "\color{blue}{-1}..."
 				var l, r;
 				l = s.indexOf( "{", s.indexOf( "{" ) + 1 ) + 1;
 				r = s.indexOf( "}", s.indexOf( "}" ) + 1 );
-
+				
 				// if we've encountered \color{blue}{1}\color{xy} somehow
 				if ( l !== s.lastIndexOf( "{" ) + 1 && +KhanUtil._plusTrim( s.slice( l, r ) ) === 1 ) {
 					if ( s.indexOf( "\\" ) !== -1 ) {
@@ -402,6 +402,8 @@ jQuery.extend(KhanUtil, {
 					} else {
 						return s.slice( r + 1 );
 					}
+				} else if ( +KhanUtil._plusTrim( s.slice( l, r ) ) === 0 ) {
+					return "";
 				}
 
 				return s.slice( 0, l ) + KhanUtil._plusTrim( s.slice( l, r ) ) + s.slice( r );
