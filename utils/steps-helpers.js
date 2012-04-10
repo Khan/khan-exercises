@@ -133,7 +133,7 @@
     };
 
     var exprWeight = function(expr) {
-        return KhanUtil.exprToString(expr).length; // TODO: better metric!
+        return KhanUtil.format(expr).length; // TODO: better metric!
     }
 
     var putExprInContext = function(parentExpr, path, childExpr) {

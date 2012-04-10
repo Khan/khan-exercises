@@ -38,7 +38,6 @@
     var ORANGE = KhanUtil.ORANGE;
     var BLUE = KhanUtil.BLUE;
 
-    var MATH = KhanUtil.MathModel.init();
     var testsEqualExpr = [
         {title:"Check equality when changing terms orders"},
         {expr1:"x", expr2:"-x", isEqual:false},
@@ -63,8 +62,8 @@
     ]; 
 
     var testEquality = function(strExpr1, strExpr2, shouldBeEqual, options) {
-        var expr1 = KhanUtil.simplify(MATH.parse(strExpr1), options);
-        var expr2 = KhanUtil.simplify(MATH.parse(strExpr2), options);
+        var expr1 = KhanUtil.simplify(KhanUtil.parse(strExpr1), options);
+        var expr2 = KhanUtil.simplify(KhanUtil.parse(strExpr2), options);
         var eql = KhanUtil.isEqual(expr1, expr2);
         var result = "";
         if (eql) {
@@ -81,8 +80,8 @@
         var steps = new KhanUtil.StepsProblem([], expr1, "nf");
         str += "</td><td>" + strExpr1 + "</td><td>" + strExpr2 + "</td>";
         str += "<td>" + result + "</td>";
-        str += "<td>" + MATH.format(KhanUtil.normalForm(KhanUtil.simplify(expr1, {}, steps))) + "</td>";
-        str += "<td>" + MATH.format(KhanUtil.normalForm(KhanUtil.simplify(expr2, {}, steps))) + "</td>";
+        str += "<td>" + KhanUtil.format(KhanUtil.normalForm(KhanUtil.simplify(expr1, {}, steps))) + "</td>";
+        str += "<td>" + KhanUtil.format(KhanUtil.normalForm(KhanUtil.simplify(expr2, {}, steps))) + "</td>";
         str += "<td><textarea>" + KhanUtil.exprToStrExpr(expr1) + "</textarea></td>";
         str += "<td><textarea>" + KhanUtil.exprToStrExpr(expr2) + "</textarea></td>";
         str += "<td><textarea>" + getStrOptions(options) + "</textarea></td>";
@@ -168,19 +167,19 @@
         if (options.simplifyMode === undefined) {
             options.simplifyMode = "";
         }
-        var expr = MATH.parse(strExpr, colors);
+        var expr = KhanUtil.parse(strExpr, colors);
         var simpExpr = KhanUtil.simplify(expr, options);
         var result = "<span class='ok'>OK</span>";
-        var genLatex = MATH.format(simpExpr);
+        var genLatex = KhanUtil.format(simpExpr);
         if (genLatex !== strExpected) {
              result = "<span class='no'>NO</span>";
         }
         genLatex = ("" + genLatex).replace(/\\/g, "\\\\");
         var str = "<tr><td>" + result + "</td>";
         str += "<td>" + strExpr + "</td>";
-        str += "<td><code>" + MATH.format(expr) + "</code></td>";
+        str += "<td><code>" + KhanUtil.format(expr) + "</code></td>";
         str += "<td><textarea>" + strOptions + "</textarea></td>";
-        str += "<td><code>" + MATH.format(simpExpr) + "</code></td>";
+        str += "<td><code>" + KhanUtil.format(simpExpr) + "</code></td>";
         str += "<td><code>" + strExpected + "</code></td>";
         str += "<td><textarea>" + genLatex + "</textarea></td>";
         str += "<td><textarea>" + KhanUtil.exprToStrExpr(simpExpr) + "</textarea></td>";

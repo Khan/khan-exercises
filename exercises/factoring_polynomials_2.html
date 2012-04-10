@@ -10,7 +10,6 @@
 	<div class="problems">
 		<div>
 			<div class="vars">
-				<var id="MATH">MathModel.init()</var>
 				<div data-ensure="A !== B && A !== -B">
 					<var id="A">randRangeNonZero( -10, 10 )</var>
 					<var id="B">randRangeNonZero( -10, 10 )</var>
@@ -22,26 +21,26 @@
 				<var id="SIMPLECONSTANT">A*B</var>
 				<var id="LINEAR">SQUARE*(-A-B)</var>
 				<var id="SIMPLELINEAR">-A-B</var>
-                <var id="COMMON_FACTOR">simplify(MATH.parse(COMMON_CST + "*x^{" + COMMON_POWER + "}"), simplifyOptions.basic)</var>
-                <var id="COMMON_FACTOR_LATEX">MATH.format(COMMON_FACTOR)</var>
-				<var id="POLY_NO_FACTOR">simplify(MATH.parse(SQUARE + "x^{2}+" + LINEAR + "x+" + CONSTANT), simplifyOptions.basic)</var>
+                <var id="COMMON_FACTOR">simplify(parse(COMMON_CST + "*x^{" + COMMON_POWER + "}"), simplifyOptions.basic)</var>
+                <var id="COMMON_FACTOR_LATEX">format(COMMON_FACTOR)</var>
+				<var id="POLY_NO_FACTOR">simplify(parse(SQUARE + "x^{2}+" + LINEAR + "x+" + CONSTANT), simplifyOptions.basic)</var>
                 <var id="POLY_AND_FACTOR">{op:"*", args:[COMMON_FACTOR, POLY_NO_FACTOR]}</var>
 				<var id="GROUP1">[
-				MATH.parse("(x + a)(x + b)&=&xx &+& xb + ax &+& ab"),
-				MATH.parse("&=& x^2 &+& #{(a+b)}x &+& #{ab}", [GREEN, BLUE]),
-				simplify(MATH.parse("&=& x^2 &+& #{" + SIMPLELINEAR + "}x &+& #{" + SIMPLECONSTANT + "}", [GREEN, BLUE]), simplifyOptions.checkInput), 
+				parse("(x + a)(x + b)&=&xx &+& xb + ax &+& ab"),
+				parse("&=& x^2 &+& #{(a+b)}x &+& #{ab}", [GREEN, BLUE]),
+				simplify(parse("&=& x^2 &+& #{" + SIMPLELINEAR + "}x &+& #{" + SIMPLECONSTANT + "}", [GREEN, BLUE]), simplifyOptions.checkInput), 
 				]
 				</var>
                 <var id="QUESTION">simplify(POLY_AND_FACTOR, simplifyOptions.expand)</var>
                 <var id="SOLUTION">simplify(QUESTION, simplifyOptions.factor)</var>
-				<var id="SOL1">simplify(MATH.parse("" + COMMON_FACTOR_LATEX + "(x + " + (-A) + ")(x + " + (-B) + ")"), simplifyOptions.checkInput)</var>
-				<var id="SOL2">simplify(MATH.parse("" + COMMON_FACTOR_LATEX + "(-x + " + A + ")(-x + " + B + ")"), simplifyOptions.checkInput)</var>
-				<var id="SOL3">simplify(MATH.parse("-" + COMMON_FACTOR_LATEX + "(-x + " + A + ")(x + " + (-B) + ")"), simplifyOptions.checkInput)</var>
-				<var id="SOL4">simplify(MATH.parse("-" + COMMON_FACTOR_LATEX + "(x + " + (-A) + ")(-x + " + B + ")"), simplifyOptions.checkInput)</var>
+				<var id="SOL1">simplify(parse("" + COMMON_FACTOR_LATEX + "(x + " + (-A) + ")(x + " + (-B) + ")"), simplifyOptions.checkInput)</var>
+				<var id="SOL2">simplify(parse("" + COMMON_FACTOR_LATEX + "(-x + " + A + ")(-x + " + B + ")"), simplifyOptions.checkInput)</var>
+				<var id="SOL3">simplify(parse("-" + COMMON_FACTOR_LATEX + "(-x + " + A + ")(x + " + (-B) + ")"), simplifyOptions.checkInput)</var>
+				<var id="SOL4">simplify(parse("-" + COMMON_FACTOR_LATEX + "(x + " + (-A) + ")(-x + " + B + ")"), simplifyOptions.checkInput)</var>
 			</div>
 
 			<p class="problem">Factor the following expression:</var></code></p>
-			<p class="question"><code><var>MATH.format(QUESTION)</var></code></p>
+			<p class="question"><code><var>format(QUESTION)</var></code></p>
 
 			<div class="solution" data-type="custom">
 				<div class="instruction">
@@ -49,7 +48,7 @@
 				</div>
 				<div class="guess">jQuery( "div.instruction input" ).val()</div>
 				<div class="validator-function">
-					var exprGuess = simplify(MATH.parse(guess), simplifyOptions.checkInput);
+					var exprGuess = simplify(parse(guess), simplifyOptions.checkInput);
 					return (isEqual(exprGuess, SOL1) ||	isEqual(exprGuess, SOL2) ||	isEqual(exprGuess, SOL3) ||	isEqual(exprGuess, SOL4));
 				</div>
 				<div class="show-guess">
@@ -63,16 +62,16 @@
 			<div class="hints">
 				<div>
 					<p>We first notice that all terms have a common factor. We can rewrite the expression as:</p>
-					<p><code><var>MATH.format(POLY_AND_FACTOR)</var></code></p>
-                    <p>We can now focus on factoring the polynomial: <code><var>MATH.format(POLY_NO_FACTOR)</var></code></p>
+					<p><code><var>format(POLY_AND_FACTOR)</var></code></p>
+                    <p>We can now focus on factoring the polynomial: <code><var>format(POLY_NO_FACTOR)</var></code></p>
 				</div>
 				<div>
 					<p>When we factor a polynomial, we are basically reversing this process of multiplying linear expressions together:</p>
-					<p><code>\qquad <var>MATH.formatGroup(GROUP1, [0, 1])</var></code></p>
+					<p><code>\qquad <var>formatGroup(GROUP1, [0, 1])</var></code></p>
 				</div>
 
 				<div>
-					<p><code>\qquad <var>MATH.formatGroup(GROUP1, [2])</var></code></p>
+					<p><code>\qquad <var>formatGroup(GROUP1, [2])</var></code></p>
 					<p>
 						The coefficient on the <code>x</code> term is <code class="hint_green"><var>SIMPLELINEAR</var></code>
 						and the constant term is <code class="hint_blue"><var>SIMPLECONSTANT</var></code>, so to reverse the steps above, we need to find two numbers
@@ -86,9 +85,9 @@
 					<span class="hint_green"><code><var>SIMPLELINEAR</var></code></span>. In other words, you need to find the values for <code class="hint_pink">a</code> and
 					<code class="hint_pink">b</code> that meet the following conditions:</p>
 
-					<p><code>\qquad <var>MATH.parseFormat("#a+#b=#{"+ SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var></code></p>
+					<p><code>\qquad <var>parseFormat("#a+#b=#{"+ SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var></code></p>
 
-					<p><code>\qquad <var>MATH.parseFormat("#a \\times #b = #{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var></code></p>
+					<p><code>\qquad <var>parseFormat("#a \\times #b = #{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var></code></p>
 
 					<p>If you're stuck, try listing out every single factor of <code class="hint_blue"><var>SIMPLECONSTANT</var></code> and its opposite as
 					<code class="hint_pink">a</code> in these equations, and see if it gives a value for <code class="hint_pink">b</code>
@@ -99,15 +98,15 @@
 				<div>
 					<p>The two numbers <code class="hint_pink"><var>-A</var></code> and <code class="hint_pink"><var>-B</var></code> satisfy both conditions:</p>
 					<p><code>
-						\qquad <var>MATH.parseFormat("#{" + (-A) + "}+#{" + (-B) + "}=#{" + SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var>
+						\qquad <var>parseFormat("#{" + (-A) + "}+#{" + (-B) + "}=#{" + SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var>
 					</code></p>
 					<p><code>
-						\qquad <var>MATH.parseFormat("#{" + (-A) + "}\\times #{" + (-B) + "}=#{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var>
+						\qquad <var>parseFormat("#{" + (-A) + "}\\times #{" + (-B) + "}=#{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var>
 					</code></p>
 				</div>
 				<div>
-					<p>So we can factor the polynomial as: <code><var>MATH.parseFormat("(x + #{" + (-A) + "})(x + #{" + (-B) + "})", [PINK, PINK], simplifyOptions.checkInput)</var></code></p>
-					<p><b>The fully factored expression is: <code><var>MATH.format(SOLUTION)</var></code></b></p>
+					<p>So we can factor the polynomial as: <code><var>parseFormat("(x + #{" + (-A) + "})(x + #{" + (-B) + "})", [PINK, PINK], simplifyOptions.checkInput)</var></code></p>
+					<p><b>The fully factored expression is: <code><var>format(SOLUTION)</var></code></b></p>
 				</div>
 			</div>
 		</div>

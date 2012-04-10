@@ -8,7 +8,6 @@
 <body>
 <div class="exercise">
 	<div class="vars" data-ensure="A * H * H + K !== 0">
-		<var id="MATH">MathModel.init()</var>
 		<var id="A">randRangeNonZero( -5, 5 )</var>
 		<var id="H">randRangeNonZero( -5, 5 )</var>
 		<var id="K">randRangeNonZero( -5, 5 )</var>
@@ -190,12 +189,12 @@
 				<var id="X2">H - 1</var>
 				<var id="Y2">A * ( X2 - H ) * ( X2 - H ) + K</var>
 				<var id="GROUP1">[
-					MATH.parse( "y &amp;= a( x - #{h})^2 + #{k}", [ GREEN, GREEN ] ),
-					MATH.parse( "y &amp;= " + A_DISP + "( x - #{" + H + "})^2 + #{" + K + "}", [ GREEN, GREEN ] )
+					parse( "y &amp;= a( x - #{h})^2 + #{k}", [ GREEN, GREEN ] ),
+					parse( "y &amp;= " + A_DISP + "( x - #{" + H + "})^2 + #{" + K + "}", [ GREEN, GREEN ] )
 				]</var>
 				<var id="GROUP2">[
-					MATH.parse( A_DISP + "( #{x} - " + H + ")^2 + " + K + " &amp;= y", [ PINK ] ),
-					MATH.parse( A_DISP + "( #{" + X1 + "} - " + H + ")^2 + " + K + " &amp;= #{" + Y1 + "}", [ PINK, PINK ] )
+					parse( A_DISP + "( #{x} - " + H + ")^2 + " + K + " &amp;= y", [ PINK ] ),
+					parse( A_DISP + "( #{" + X1 + "} - " + H + ")^2 + " + K + " &amp;= #{" + Y1 + "}", [ PINK, PINK ] )
 				]</var>
 			</div>
 			<div class="problem" data-apply="prependContents">
@@ -208,11 +207,11 @@
 
 				<div>
 					<p>When the equation is written in vertex form like this, the vertex is the point <code class="hint_green">(h, k)</code>:
-					<p><code>\qquad <var>MATH.formatGroup( GROUP1, [ 0 ] )</var></code></p>
+					<p><code>\qquad <var>formatGroup( GROUP1, [ 0 ] )</var></code></p>
 				</div>
 
 				<div>
-					<p><code>\qquad <var>MATH.formatGroup( GROUP1, [ 1 ] )</var></code></p>
+					<p><code>\qquad <var>formatGroup( GROUP1, [ 1 ] )</var></code></p>
 					<p>Examining our equation, we can see the vertex of the parabola is at <code class="hint_green">(<var>H</var>, <var>K</var>)</code>.</p>
 					<div class="graphie" data-update="grid">
 						style({
@@ -232,7 +231,7 @@
 						Since the vertex is at <code class="hint_green">x = <var>H</code></code>, let's try one unit to the right and evaluate
 						the equation at <code class="hint_pink">x = <var>X1</var></code>.
 					</p>
-					<p><code>\qquad <var>MATH.formatGroup( GROUP2, [ 0, 1 ] )</var></code></p>
+					<p><code>\qquad <var>formatGroup( GROUP2, [ 0, 1 ] )</var></code></p>
 					<p>Another point on the parabola is <code class="hint_pink">(<var>X1</var>, <var>Y1</var>)</code>
 					<div class="graphie" data-update="grid">
 						style({

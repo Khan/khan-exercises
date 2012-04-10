@@ -64,7 +64,6 @@
 	window.onload=function() {
 		timer = setInterval(blink, 500);
 	}
-	var MATH = KhanUtil.MathModel.init();
 
 	var showRender = function(id) {
 		$("#generated").html($("#gen_" + id).html());
@@ -76,22 +75,22 @@
 		var genLatex;
 		if (groupsDisplayed === undefined) {
                         if (srcExprStr) {
-				genLatex = MATH.parseFormat(srcExprStr, styles);
+				genLatex = KhanUtil.parseFormat(srcExprStr, styles);
 			} else {
-				genLatex = MATH.format(srcExpr);
+				genLatex = KhanUtil.format(srcExpr);
 				srcExprStr = "<textarea>" + KhanUtil.exprToStrExpr(srcExpr) + "</textarea>";
 			}
 		} else {
 			var group = [];
 			for (var iExpr = 0; iExpr < srcExprStr.length; iExpr++) {
-				group.push(MATH.parse(srcExprStr[iExpr], styles));
+				group.push(KhanUtil.parse(srcExprStr[iExpr], styles));
 			}
 			genLatex = "";
 			for (var iGroup = 0; iGroup < groupsDisplayed.length; iGroup++) {
 				if (iGroup != 0) {
 					genLatex += "</code><br/><code>";
 				}
-				genLatex += MATH.formatGroup(group, groupsDisplayed[iGroup]);
+				genLatex += KhanUtil.formatGroup(group, groupsDisplayed[iGroup]);
 			}
 		}
 		var genLatexStr = ("" + genLatex).replace(/\\/g, "\\\\");
@@ -110,7 +109,7 @@
 	}
 
 	var genCaseCode = function(srcExprStr, styles, refLatex, imgName) {
-		var genLatex = MATH.parseFormat(srcExprStr, styles);
+		var genLatex = KhanUtil.parseFormat(srcExprStr, styles);
 		srcExprStr = srcExprStr.replace(/\\/g, "\\\\");
 		genLatex = genLatex.replace(/\\/g, "\\\\");
 		$("#tests2").append("{src:\"" + srcExprStr + "\", ref:\"" + genLatex + "\"},<br>");
