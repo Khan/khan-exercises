@@ -1,5 +1,5 @@
 (function() {
-    $.fn.adhere = function(options) {
+    jQuery.fn.adhere = function(options) {
         options = $.extend({
             container: null,
             topMargin: 0,
