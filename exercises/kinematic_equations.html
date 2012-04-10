@@ -65,7 +65,7 @@
 					<p>Make sure you select the proper units. You may do arithmetic with a calculator. If there is more than one correct solution, you may enter either one.</p>
 				</div>
 
-				<div class="solution" data-type="set" data-show-unused="true">
+				<div class="solution" data-type="set" data-show-unused="false">
 					<div class="set-sol" data-type="multiple" data-if="!QUADRATIC_TWO_SOLUTION">
 						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
 							<var data-if="UNKNOWN === 'd'">roundTo(1, DISP)</var>
@@ -85,27 +85,88 @@
 
 					<div class="set-sol" data-type="multiple" data-if="PLUS_OR_MINUS_SOLUTION">
 						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
-							<var data-if="UNKNOWN === 'v_i'">roundTo(1, -V_INIT)</var>
-							<var data-if="UNKNOWN === 'v_f'">roundTo(1, -V_FINAL)</var>
+							<var data-if="UNKNOWN === 'v_i' && (0 &lt; DISP*ACCEL)">roundTo(1, V_INIT)</var>
 						</span>
 						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">m/s</span>
 					</div>
 
-					<div class="set-sol" data-type="multiple" data-if="QUADRATIC_TWO_SOLUTION">
+					<div class="set-sol" data-type="multiple" data-if="PLUS_OR_MINUS_SOLUTION">
+						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
+							<var data-if="UNKNOWN === 'v_i' && (0 &lt; DISP*ACCEL)">roundTo(1, -V_INIT)</var>
+						</span>
+						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">m/s</span>
+					</div>
+					
+					<div class="set-sol" data-type="multiple" data-if="PLUS_OR_MINUS_SOLUTION">
+						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
+							<var data-if="UNKNOWN === 'v_i' && DISP*ACCEL &lt;= 0">roundTo(1, V_INIT)</var>
+						</span>
+						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">m/s</span>
+					</div>
+					
+					<div class="set-sol" data-type="multiple" data-if="PLUS_OR_MINUS_SOLUTION">
+						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
+							<var data-if="UNKNOWN === 'v_f' && ACCEL*DISP &lt; 0">roundTo(1, V_FINAL)</var>
+						</span>
+						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">m/s</span>
+					</div>
+					
+					<div class="set-sol" data-type="multiple" data-if="PLUS_OR_MINUS_SOLUTION">
+						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
+							<var data-if="UNKNOWN === 'v_f' && ACCEL*DISP &lt; 0">roundTo(1, -V_FINAL)</var>
+						</span>
+						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">m/s</span>
+					</div>
+					
+					<div class="set-sol" data-type="multiple" data-if="PLUS_OR_MINUS_SOLUTION">
+						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
+							<var data-if="UNKNOWN === 'v_f' && 0 &lt;= ACCEL*DISP">roundTo(1, V_FINAL)</var>
+						</span>
+						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">m/s</span>
+					</div>
+					
+					<div class="set-sol" data-type="multiple" data-if="QUADRATIC_TWO_SOLUTION && 0 &lt; (DISP*ACCEL)">
 						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
 							<var data-if="UNKNOWN === 't' && OMITTED === 'v_i'">roundTo(1, ((-V_FINAL) + sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var>
-							<var data-if="UNKNOWN === 't' && OMITTED === 'v_f'">roundTo(1, ((-V_INIT) + sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var>
 						</span>
 						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">s</span>
 					</div>
-					<div class="set-sol" data-type="multiple" data-if="QUADRATIC_TWO_SOLUTION">
+					
+					<div class="set-sol" data-type="multiple" data-if="QUADRATIC_TWO_SOLUTION && 0 &lt; (DISP*ACCEL)">
 						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
 							<var data-if="UNKNOWN === 't' && OMITTED === 'v_i'">roundTo(1, ((-V_FINAL) - sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var>
-							<var data-if="UNKNOWN === 't' && OMITTED === 'v_f'">roundTo(1, ((-V_INIT) - sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var>
 						</span>
 						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">s</span>
 					</div>
 
+					<div class="set-sol" data-type="multiple" data-if="QUADRATIC_TWO_SOLUTION && (DISP*ACCEL) &lt; 0">
+						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
+							<var data-if="UNKNOWN === 't' && OMITTED === 'v_i'">roundTo(1, TIME)</var>
+						</span>
+						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">s</span>
+					</div>
+
+					<div class="set-sol" data-type="multiple" data-if="QUADRATIC_TWO_SOLUTION && 0 &lt; DISP*ACCEL">
+						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
+							<var data-if="UNKNOWN === 't' && OMITTED === 'v_f'">roundTo(1, TIME)</var>
+						</span>
+						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">s</span>
+					</div>
+
+					<div class="set-sol" data-type="multiple" data-if="QUADRATIC_TWO_SOLUTION && (DISP*ACCEL) &lt; 0">
+						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
+							<var data-if="UNKNOWN === 't' && OMITTED === 'v_f'">roundTo(1, ((-V_INIT) + sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var>
+						</span>
+						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">s</span>
+					</div>
+					
+					<div class="set-sol" data-type="multiple" data-if="QUADRATIC_TWO_SOLUTION && (DISP*ACCEL) &lt; 0">
+						<span class="sol" data-type="decimal" data-inexact data-max-error="0.1">
+							<var data-if="UNKNOWN === 't' && OMITTED === 'v_f'">roundTo(1, ((-V_INIT) - sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var>
+						</span>
+						<span class="sol" data-type="list" data-choices="['', 'm', 'm/s', 'm/s&sup2;', 's']">s</span>
+					</div>
+					
 					<p class="input-format">
 						<span class="entry" data-type="multiple">
 							<code><var>UNKNOWN</var> = </code>
@@ -199,17 +260,32 @@
 						<p><code>t = \dfrac{ -v_f \pm \sqrt{ v_f^2 - 2ad } }{-a}</code></p>
 					</div>
 					<p><code>t = \dfrac{-(<var>V_FINAL</var> \frac{\text{m}}{\text{s}}) \pm \sqrt{(<var>V_FINAL</var> \frac{\text{m}}{\text{s}})^2 - 2(<var>ACCEL</var> \frac{\text{m}}{\text{s}^2})(<var>DISP</var> \text{m})}}{-(<var>ACCEL</var> \frac{\text{m}}{\text{s}^2})}</code></p>
-					<p data-if="QUADRATIC_TWO_SOLUTION">
+					<p data-if="QUADRATIC_TWO_SOLUTION && (DISP*ACCEL) &lt; 0">
+						The quadratic has two solutions, yet only one is correct- 
+						one solution is negative, and the change in time cannot be negative. 
+						It is meaningless to us since we cannot (as of yet) reverse the direction of time.
+					</p>
+					<p data-else-if="QUADRATIC_TWO_SOLUTION && 0 &lt; (DISP*ACCEL)">
 						The quadratic has two solutions. Without making any assumptions about the direction of <code>v_i</code>,
 						either one could be correct. Intuitively, you can imagine throwing an object upward or downward in such a way
 						that they will both have the same downward velocity at the same point in space, but the one thrown downward
 						will get there sooner.
 					</p>
-					<p data-if="QUADRATIC_TWO_SOLUTION">
+					<p data-else><code>t = <var>TIME</var> \text{s}</code></p>
+					<p data-if="QUADRATIC_TWO_SOLUTION && 0 &lt; ((-V_FINAL) + sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL) && ((-V_FINAL) - sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL) &lt; 0">
+						<code>t = <var>roundTo(1, ((-V_FINAL) + sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var> \text{s}
+						 \text{ or } \cancel{<var>roundTo(1, ((-V_FINAL) - sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var>} \text{s}</code><br />
+						 <code>t = <var>roundTo(1, ((-V_FINAL) + sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var> \text{s}</code>
+					</p>
+					<p data-if="QUADRATIC_TWO_SOLUTION && ((-V_FINAL) + sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL) &lt; 0 && 0 &lt; ((-V_FINAL) - sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL)">
+						<code>t = \cancel{<var>roundTo(1, ((-V_FINAL) + sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var>} \text{s}
+						 \text{ or } <var>roundTo(1, ((-V_FINAL) - sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var> \text{s}</code><br />
+						 <code>t = <var>roundTo(1, ((-V_FINAL) - sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var> \text{s}</code>
+					</p>
+					<p data-if="QUADRATIC_TWO_SOLUTION && 0 &lt; (DISP*ACCEL)">
 						<code>t = <var>roundTo(1, ((-V_FINAL) + sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var> \text{s}
 						 \text{ or } <var>roundTo(1, ((-V_FINAL) - sqrt(V_FINAL * V_FINAL - 2 * ACCEL * DISP))/(-ACCEL))</var> \text{s}</code>
 					</p>
-					<p data-if="!QUADRATIC_TWO_SOLUTION"><code>t = <var>TIME</var> \text{s}</code></p>
 				</div>
 			</div>
 
@@ -240,16 +316,33 @@
 						<p><code>t = \dfrac{ -v_i \pm \sqrt{v_i^2 + 2ad} }{a}</code></p>
 					</div>
 					<p><code>t = \dfrac{-(<var>V_INIT</var> \frac{\text{m}}{\text{s}}) \pm \sqrt{(<var>V_INIT</var> \frac{\text{m}}{\text{s}})^2 + 2(<var>ACCEL</var> \frac{\text{m}}{\text{s}^2})(<var>DISP</var> \text{m})}}{<var>ACCEL</var> \frac{\text{m}}{\text{s}^2}}</code></p>
-					<p data-if="QUADRATIC_TWO_SOLUTION">
-						The quadratic has two solutions. Without making any assumptions about the direction of <code>v_f</code>,
-						either one could be correct. Intuitively, this is because an object moving upward at velocity <code>v</code>
-						at one point in time will eventually be falling at the same speed (<code>-v</code>) at a different point in time.
-					</p>
-					<p data-if="QUADRATIC_TWO_SOLUTION">
-						<code>t = <var>roundTo(1, ((-V_INIT) + sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var> \text{s}
-						 \text{ or } <var>roundTo(1, ((-V_INIT) - sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var> \text{s}</code>
-					</p>
 					<p data-if="!QUADRATIC_TWO_SOLUTION"><code>t = <var>TIME</var> \text{s}</code></p>
+					<p data-if="QUADRATIC_TWO_SOLUTION && (DISP*ACCEL) &lt; 0">
+						The quadratic has two correct solutions. 
+						The object described here is going in one direction while slowing down, then stops, then goes in the other direction while speeding up. 
+						So the object has the same displacement twice at different times. 
+						<code>v_f</code> could be either positive or negative (going in one direction or the opposite direction).
+						</p>
+					<p data-if="QUADRATIC_TWO_SOLUTION && 0 &lt; (DISP*ACCEL)">
+						The quadratic has two solutions, yet only one is correct- 
+						one solution is negative, and the change in time cannot be negative. 
+						It is meaningless to us since we cannot (as of yet) reverse the direction of time.
+						</p>
+					<p data-if="QUADRATIC_TWO_SOLUTION && (DISP*ACCEL) &lt; 0">
+					<code>t = <var>roundTo(1, ((-V_INIT) + sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var> \text{s}
+						 \text{ or } <var>roundTo(1, ((-V_INIT) - sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var> \text{s}</code><br />
+					</p>					
+					<p data-if="QUADRATIC_TWO_SOLUTION && 0 &lt; (((-V_INIT) + sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL) && (((-V_INIT) - sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL) &lt; 0">
+					<code>t = <var>roundTo(1, ((-V_INIT) + sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var> \text{s}
+						 \text{ or } \cancel{<var>roundTo(1, ((-V_INIT) - sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var>} \text{s}</code><br />
+						 <code>t = <var>roundTo(1, ((-V_INIT) + sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var> \text{s}</code>
+					</p>
+					
+					<p data-if="QUADRATIC_TWO_SOLUTION && (((-V_INIT) + sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL) &lt; 0 && 0 &lt; (((-V_INIT) - sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)">
+					<code>t = \cancel{<var>roundTo(1, ((-V_INIT) + sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var>} \text{s}
+						 \text{ or } <var>roundTo(1, ((-V_INIT) - sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var> \text{s}</code><br />
+						 <code>t = <var>roundTo(1, ((-V_INIT) - sqrt(V_INIT * V_INIT + 2 * ACCEL * DISP))/ACCEL)</var> \text{s}</code>
+					</p>						 
 				</div>
 			</div>
 
@@ -285,20 +378,27 @@
 
 				<div data-if="UNKNOWN === 'd'" data-unwrap>
 					<p><code>\dfrac{v_f^2 - v_i^2}{2a} = d</code></p>
-					<p><code>\dfrac{(<var>V_FINAL</var>  \frac{\text{m}}{\text{s}} )^2 - (<var>V_INIT</var>  \frac{\text{m}}{\text{s}} )^2}{2(<var>ACCEL</var> \text{s})} = d</code></p>
+					<p><code>\dfrac{(<var>V_FINAL</var>  \frac{\text{m}}{\text{s}} )^2 - (<var>V_INIT</var>  \frac{\text{m}}{\text{s}} )^2}{2(<var>ACCEL</var> \frac{\text{m}}{\text{s}^2})} = d</code></p>
 					<p><code><var>roundTo(1, DISP)</var> \text{m} = d</code></p>
 				</div>
 
 				<div data-if="UNKNOWN === 'v_i'" data-unwrap>
 					<p><code>\pm\sqrt{v_f^2 - 2ad} = v_i</code></p>
 					<p><code>\pm\sqrt{(<var>V_FINAL</var> \frac{\text{m}}{\text{s}})^2 - 2(<var>ACCEL</var> \frac{\text{m}}{\text{s}^2})(<var>DISP</var> \text{m})} = v_i</code></p>
-					<p data-if="ACCEL !== 0">
+					<p data-if="PLUS_OR_MINUS_SOLUTION && V_INIT === 0"><code>v_i = <var>roundTo(1, V_INIT)</var> \frac{\text{m}}{\text{s}}</code></p>
+					<p data-if="0 &lt; DISP*ACCEL">
 						Without making any assumptions about <code>t</code>, either direction for <code>v_i</code> could be correct.
 						Imagine throwing an object upward at velocity <code>v</code> compared to throwing it downward at the same
 						speed (<code>-v</code>). In both cases it will reach the same final velocity <code>v_f</code> at the same
 						point in space; it will just take different amounts of time to get there.
 					</p>
-					<p><code>v_i = <var>roundTo(1, V_INIT)</var> \frac{\text{m}}{\text{s}} \text{ or } <var>roundTo(1, -V_INIT)</var> \frac{\text{m}}{\text{s}}</code></p>
+					<p data-if="DISP*ACCEL &lt; 0">
+						However, we also know that the displacement is in the opposite direction to the acceleration. That means the initial velocity would also have to be in the opposite direction to the acceleration 
+						(imagine an object being thrown on earth- if we know its position is higher than where it was thrown from, it had to have been thrown upward).
+					</p>
+					<p data-if="0 &lt; DISP*ACCEL"><code>v_i = <var>roundTo(1, V_INIT)</var> \frac{\text{m}}{\text{s}} \text{ or } <var>roundTo(1, -V_INIT)</var> \frac{\text{m}}{\text{s}}</code></p>
+					<p data-if="DISP*ACCEL &lt; 0"><code>v_i = <var>roundTo(1, V_INIT)</var> \frac{\text{m}}{\text{s}} \text{ or } \cancel{<var>roundTo(1, -V_INIT)</var>} \frac{\text{m}}{\text{s}}</code><br /><br />
+					<code>v_i = <var>roundTo(1, V_INIT)</var> \frac{\text{m}}{\text{s}}</code></p>
 					<p data-if="ACCEL === 0">However, we also know <code>a = 0 \frac{\text{m}}{\text{s}^2}</code></p>
 					<p data-if="ACCEL === 0">We know intuitively that with zero acceleration <code>v_i</code> must equal <code>v_f</code>, so <code>v_i = <var>roundTo(1, V_INIT)</var> \frac{\text{m}}{\text{s}}</code></p>
 				</div>
@@ -306,13 +406,19 @@
 				<div data-if="UNKNOWN === 'v_f'" data-unwrap>
 					<p><code>v_f = \pm\sqrt{v_i^2 + 2ad}</code></p>
 					<p><code>v_f = \pm\sqrt{(<var>V_INIT</var> \frac{\text{m}}{\text{s}})^2 + 2(<var>ACCEL</var> \frac{\text{m}}{\text{s}^2})(<var>DISP</var> \text{m})}</code></p>
-					<p data-if="ACCEL !== 0">
+					<p data-if="ACCEL*DISP &lt; 0">
 						Without making any assumptions about <code>t</code>, either direction for <code>v_f</code> could be correct.
-						Imagine an object traveling upward at velocity <code>v_i</code>. It will reach a particular velocity
+						Imagine throwing an object on earth upward at velocity <code>v_i</code>. It will reach a particular velocity
 						<code>v</code> on the way up, then reach the same speed in the opposite direction (<code>-v</code>) on the
 						way down at the same point in space; it will just take a different amount of time to get there.
 					</p>
-					<p><code>v_f = <var>roundTo(1, V_FINAL)</var> \frac{\text{m}}{\text{s}} \text{ or } <var>roundTo(1, -V_FINAL)</var> \frac{\text{m}}{\text{s}}</code></p>
+					<p data-if="0 &lt; ACCEL*DISP">
+                        However, we also know that the displacement is in the direction of the acceleration. That means the final velocity would also have to be in the direction of the acceleration
+						(imagine an object being thrown on earth-  if we know its position is lower than where it was thrown form, its velocity would have to be towards the earth's center).
+					</p>
+					<p data-if="ACCEL*DISP &lt; 0"><code>v_f = <var>roundTo(1, V_FINAL)</var> \frac{\text{m}}{\text{s}} \text{ or } <var>-roundTo(1, V_FINAL)</var> \frac{\text{m}}{\text{s}}</code></p>
+					<p data-if="0 &lt; ACCEL*DISP"><code>v_f = <var>roundTo(1, V_FINAL)</var> \frac{\text{m}}{\text{s}} \text{ or } \cancel{<var>roundTo(1, -V_FINAL)</var>} \frac{\text{m}}{\text{s}}</code><br /><br />
+					<code>v_f = <var>roundTo(1, V_FINAL)</var> \frac{\text{m}}{\text{s}}</code></p>
 					<p data-if="ACCEL === 0">However, we also know <code>a = 0 \frac{\text{m}}{\text{s}^2}</code></p>
 					<p data-if="ACCEL === 0">We know intuitively that with zero acceleration <code>v_f</code> must equal <code>v_i</code>, so <code>v_f = <var>roundTo(1, V_FINAL)</var> \frac{\text{m}}{\text{s}}</code></p>
 				</div>
