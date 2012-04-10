@@ -2,7 +2,7 @@
 <html data-require="math polynomials expressions">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Functions 3</title>
+	<title>Functions 4</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -11,9 +11,9 @@
 			<var id="FUNC_NAMES">shuffle(["f", "g", "h"])</var>
 			<var id="FUNC_VARIABLES">["x", "n", "t"]</var>
 
-			<var id="INNER">new Polynomial( randRange(0, 2), randRangeWeighted(1, 2, 3, 0.2), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[0] )</var>
+			<var id="INNER">new Polynomial( randRange(0, 2), randRangeWeighted(1, 3, 3, 0.2), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[0] )</var>
 
-			<var id="OUTER">new Polynomial( randRange(0, 2), randRangeWeighted(1, 2, 3, 0.2), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[1] )</var>
+			<var id="OUTER">new CompositePolynomial( randRange(0, 2), randRangeWeighted(1, 3, 3, 0.2), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[1], INNER )</var>
 		</div>
 
 		<div class="problems">
@@ -33,6 +33,35 @@
 					<ul>
 						<li><code><var>FUNCTIONS[0].name</var>(<var>FUNCTIONS[0].variable</var>) = <var>FUNCTIONS[0].text()</var></code></li>
 						<li><code><var>FUNCTIONS[1].name</var>(<var>FUNCTIONS[1].variable</var>) = <var>FUNCTIONS[1].text()</var></code></li>
+					</ul>
+				</div>
+
+				<p class="question"><code>
+					<var>SOLVE_FOR[0].name</var>(<var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)) = {?}
+				</code></p>
+				<p class="solution"><var>OUTER_VALUE</var></p>
+			</div>
+
+			<div>
+				<div class="vars" data-ensure="OUTER2.name !== INNER.name && OUTER2.name !== OUTER.name && OUTER2.minDegree <= OUTER2.maxDegree">
+					<var id="OUTER2">new CompositePolynomial( randRange(0, 2), randRange(1, 3), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[2], randFromArray([INNER, OUTER]) )</var>
+
+					<var id="FUNCTIONS">shuffle([INNER, OUTER, OUTER2])</var>
+
+					<var id="SOLVE_FOR">shuffle([INNER, OUTER, OUTER2])</var>
+
+					<var id="VALUE">randRange(-10, 10)</var>
+					<var id="INNER_VALUE">SOLVE_FOR[1].evalOf(VALUE)</var>
+
+					<!-- Solution -->
+					<var id="OUTER_VALUE">SOLVE_FOR[0].evalOf(INNER_VALUE)</var>
+				</div>
+
+				<div class="problem">
+					<ul>
+						<li><code><var>FUNCTIONS[0].name</var>(<var>FUNCTIONS[0].variable</var>) = <var>FUNCTIONS[0].text()</var></code></li>
+						<li><code><var>FUNCTIONS[1].name</var>(<var>FUNCTIONS[1].variable</var>) = <var>FUNCTIONS[1].text()</var></code></li>
+						<li><code><var>FUNCTIONS[2].name</var>(<var>FUNCTIONS[2].variable</var>) = <var>FUNCTIONS[2].text()</var></code></li>
 					</ul>
 				</div>
 
