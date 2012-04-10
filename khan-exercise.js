@@ -294,7 +294,9 @@ var Khan = (function() {
             "derivative-intuition": ["jquery.mobile.vmouse"],
             "unit-circle": ["jquery.mobile.vmouse"],
             "interactive": ["jquery.mobile.vmouse"],
-            "mean-and-median": ["stat"]
+            "mean-and-median": ["stat"],
+            "math-model": ["ast"],
+            "simplify": ["math-model", "ast", "expr-helpers", "expr-normal-form", "steps-helpers"]
         },
 
         warnTimeout: function() {
