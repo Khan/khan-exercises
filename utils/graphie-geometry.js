@@ -365,7 +365,8 @@ function Triangle( center, angles, scale, labels, points ){
 	this.draw = function(){
 		this.set = KhanUtil.currentGraph.raphael.set();
 		this.set.push( KhanUtil.currentGraph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
-		return this.set;
+			
+		return this.set;		
 	}
 
 	this.color = "black";
@@ -498,7 +499,7 @@ function Triangle( center, angles, scale, labels, points ){
 	}
 
 }
-function Quadrilateral( center, angles, sideRatio, labels, size ){
+function Quadrilateral( center, angles, sideRatio, labels, size, parallelSides ){
 
 	this.sideRatio = sideRatio;
 	this.angles = angles;
@@ -514,6 +515,7 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 	this.sines = $.map( this.radAngles, Math.sin );
 	this.labels = labels || {};
 	this.sides = [];
+	this.parallelSides = parallelSides || [];
 
 	this.generatePoints = function(){
 		var once = false;
@@ -559,6 +561,31 @@ function Quadrilateral( center, angles, sideRatio, labels, size ){
 
 	area = 0.5 *  vectorProduct( [ this.points[ 0 ], this.points[ 2 ] ], [ this.points[ 3 ], this.points[ 1 ] ] );
 
+	this.draw = function(){
+		this.set = KhanUtil.currentGraph.raphael.set();
+		this.set.push( KhanUtil.currentGraph.path( this.points.concat( [ this.points[ 0 ] ] ) ) );
+	
+		// This currently only works properly for sides close to vertical or horizontal.
+		// Could be expanded to correctly rotate the marks for any line orientation
+		// Also only supports a single set of parallel lines
+		var numParallelSides = this.parallelSides.length;
+		for (var i=0; i < numParallelSides; i++)
+		{
+			var line = this.sides[this.parallelSides[i]];		
+			var gradient = (line[ 0 ][ 1 ] - line[ 1 ][ 1 ]) / (line[ 0 ][ 0 ] - line[ 1 ][ 0 ]);
+			if (gradient < 0.5 && gradient > -0.5) // Horizontal
+			{
+				var midPoint = lineMidpoint(line);
+				this.set.push(KhanUtil.currentGraph.path([ [ midPoint[ 0 ]-0.1,midPoint[ 1 ]-0.15 ], midPoint, [midPoint[ 0 ]-0.1,midPoint[ 1 ]+0.15 ] ] ));				
+			}
+			else // Vertical
+			{
+				var midPoint = lineMidpoint(line);
+				this.set.push(KhanUtil.currentGraph.path([ [ midPoint[ 0 ]-0.15,midPoint[ 1 ]-0.1 ], midPoint, [midPoint[ 0 ]+0.15,midPoint[ 1 ]-0.1 ] ] ));				
+			}
+		}		
+		return this.set;		
+	}
 }
 
 
@@ -697,7 +724,7 @@ function newParallelogram( center ){
 
 function newTrapezoid( center ){
 	var center = center || [ 0, 0 ];
-	return  new Quadrilateral( center, randomQuadAngles.trapezoid(),  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
+	return new Quadrilateral( center, randomQuadAngles.trapezoid(),  KhanUtil.randFromArray( [ 0.2, 0.5, 0.7, 1.5 ] ) , "", 3 );
 }
 
 function newKite( center ) {

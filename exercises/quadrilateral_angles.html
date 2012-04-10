@@ -26,14 +26,14 @@
 					</var>
 				</div>
 				<div class="problem">
-					What is the value of the angle marked with "x" ?
+					<p>What is the value of the angle marked with <code>x</code> ?</p>
 				</div>
 				<div class="question">
 					<div class="graphie">
 						init({
 							range: [ [-1, 12 ], [ -8, -1 ] ]
 						})
-						var q = new Quadrilateral( [ 3.5, -7 ],  ANGLES, randRange(0, 1 ) + 0.5, "", 3 );
+						var q = new Quadrilateral( [ 3.5, -7 ],  ANGLES, randRange(0, 1 ) + 0.5, "", 3, [ 0, 2 ] );
 						q.boxOut( [ [ [ 0, -10 ], [ 0, 10 ] ] ], [ 0.7, 0 ] );
 						q.boxOut( [ [ [ 11, -10 ], [ 11, 10 ] ] ], [ -0.7, 0 ] );
 
@@ -46,7 +46,8 @@
 					<span class="sol"><var>ANGLES[ ANSWER_POS ]</var></span><code>\Large{^\circ}</code>
 				</div>
 				<div class="hints">
-					<p>This figure is a trapezoid.</p>
+					<p>The top and bottom sides are parallel.</p>				
+					<p>Therefore this figure is a trapezoid.</p>
 					<p>The angles of a trapezoid side are supplementary.</p>
 					<p><code><var>ANGLES[ SHOWN_POS ]</var> + x = 180</code></p>
 					<p><code>x = 180 - <var>ANGLES[ SHOWN_POS ]</var></code></p>
@@ -56,7 +57,7 @@
 			<div id="isoscelesTrap1" data-type="trapezoid">
 				<div class="vars">
 					<var id="ANGLES">randomQuadAngles.isoscelesTrapezoid()</var>
-				</div>
+				</div>		
 			</div>
 			<div id="isoscelesTrap2" data-type="trapezoid">
 				<div class="vars">
@@ -65,30 +66,49 @@
 				</div>
 
 				<div class="hints">
-					<p>This figure is an isosceles trapezoid.</p>
+					<p>The top and bottom sides are parallel.</p>
+					<p>The sides that are not parallel have equal length.</p>
+					<p>Therefore this figure is an isosceles trapezoid.</p>
 					<p>The angles of bases of an isosceles trapezoid are equal.</p>
-					<p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+					<p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
 				</div>
 			</div>
-			<div id="parallelogram1" data-type="trapezoid">
+			<div id="parallelogram1" data-type="trapezoid">		
 				<div class="vars">
 					<var id="ANGLES">randomQuadAngles.parallelogram()</var>
 					<var id="SHOWN_POS">( ANSWER_POS + 2 ) % 4</var>
 				</div>
+				<div class="question">				
+					<div class="graphie">
+						<!-- This is just a copy of the Trapezoid question but with the explicitly shown parallel lines removed -->
+						init({
+							range: [ [-1, 12 ], [ -8, -1 ] ]
+						})
+						var q = new Quadrilateral( [ 3.5, -7 ],  ANGLES, randRange(0, 1 ) + 0.5, "", 3);
+						q.boxOut( [ [ [ 0, -10 ], [ 0, 10 ] ] ], [ 0.7, 0 ] );
+						q.boxOut( [ [ [ 11, -10 ], [ 11, 10 ] ] ], [ -0.7, 0 ] );
+
+						q.draw();
+						q.labels = { "angles" : ANG_LABELS, "sides" : jQuery.map( jQuery.map( q.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } ) };
+						q.drawLabels();
+					</div>		
+				</div>
 				<div class="hints">
-					<p>This quadrilateral is a parallelogram.</p>
+					<p>Each pair of opposite sides have equal length.</p>
+					<p>Therefore this figure is a parallelogram.</p>
 					<p>Opposite angles of a parallelogram are equal.</p>
-					<p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+					<p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
 				</div>
 			</div>
-			<div id="parallelogram2" data-type="trapezoid">
+			<div id="parallelogram2" data-type="parallelogram1">
 				<div class="vars">
 					<var id="ANGLES">randomQuadAngles.parallelogram()</var>
 					<var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
 				</div>
 				<div class="hints">
-					<p>This quadrilateral is a parallelogram.</p>
-					<p>Adjacent angles of a parallelogram are supplementary.</p>
+					<p>Each pair of opposite sides have equal length.</p>
+					<p>Therefore this figure is a parallelogram.</p>
+					<p>Consecutive angles of a parallelogram are supplementary.</p>
 					<p><code><var>ANGLES[ SHOWN_POS ]</var> + x = 180</code></p>
 					<p><code>x = 180 - <var>ANGLES[ SHOWN_POS ]</var></code></p>
 					<p><code>x =  <var>ANGLES[ ANSWER_POS ]</var></code></p>
@@ -113,9 +133,10 @@
 					</div>
 				</div>
 				<div class="hints">
-					<p>This quadrilateral is a rhombus, because it has all sides equal.</p>
+					<p>All the sides have equal length.</p>
+					<p>Therefore this figure is a rhombus.</p>
 					<p>Opposite angles of a rhombus are equal.</p>
-					<p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+					<p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
 				</div>
 			</div>
 			<div id="rhombus2" data-type="rhombus1">
@@ -124,8 +145,9 @@
 					<var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
 				</div>
 				<div class="hints">
-					<p>This quadrilateral is a rhombus, because it has all sides equal.</p>
-					<p>Adjacent angles of a rhombus are supplementary.</p>
+					<p>All the sides have equal length.</p>
+					<p>Therefore this figure is a rhombus.</p>
+					<p>Consecutive angles of a rhombus are supplementary.</p>
 					<p><code><var>ANGLES[ SHOWN_POS ]</var> + x = 180</code></p>
 					<p><code>x = 180 - <var>ANGLES[ SHOWN_POS ]</var></code></p>
 					<p><code>x =  <var>ANGLES[ ANSWER_POS ]</var></code></p>
@@ -138,9 +160,10 @@
 					<var id="SHOWN_POS">( ANSWER_POS + 2 ) % 4</var>
 				</div>
 				<div class="hints">
-					<p>This quadrilateral is a kite, because it has two pairs of adjacent sides equal.</p>
+					<p>This quadrilateral has two pairs of adjacent sides of equal length.</p>
+					<p>Therefore this figure is a kite.</p>
 					<p>Angles between the non-equal sides of a kite are equal.</p>
-					<p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+					<p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
 				</div>
 			</div>
 		</div>
