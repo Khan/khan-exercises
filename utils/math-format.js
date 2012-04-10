@@ -346,6 +346,17 @@ jQuery.extend(KhanUtil, {
 		return rootString;
 	},
 
+  // Used to ensure "-" precedes "$" for negative dollar values
+  formatDollars: function(num) {
+    var sign = "";
+
+    if (num < 0) {
+      sign = "-";
+    }
+
+    return sign + "$" + KhanUtil.commafy(Math.abs(num));
+  },
+
 	// Thanks to Ghostoy on http://stackoverflow.com/questions/6784894/commafy/6786040#6786040
 	commafy: function( num ) {
 		var str = num.toString().split( "." );
