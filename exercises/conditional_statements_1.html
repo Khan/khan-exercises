@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Conditional statements 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+        <var id="EVEN_ODD">randFromArray([["2", "even"], ["3", "odd"]])</var>
+        <var id="PROBLEM_DATA">
+            { "cityStates" :
+               { "statements" : [
+                      "If you live in " + city( 1 ) + " then you live in " + state( 1 ) + ".",
+                      "You live in " + state( 1 ) + " if you live in " + city( 1 ) + "."
+                      ],
+                  "choices" : [
+                      "If you live in " + city( 1 ),
+                      "You live in " + city( 1 ),
+                      "Then you live in " + state( 1 ),
+                      "You live in " + state( 1 ),
+                      ],
+                  "hypothesis" : "You live in " + city( 1 ),
+                  "conclusion" : "You live in " + state( 1 ),
+                },
+              "lineTypes" :
+                { "statements" : [
+                      "If two lines are " + lineType( 1 ) + " then they " + lineProperty( 1 ) + ".",
+                      "Two lines " + lineProperty( 1 ) + " if two lines are " + lineType( 1 ) + "."
+                      ],
+                  "choices" : [
+                      "If two lines are " + lineType( 1 ),
+                      "Two lines are " + lineType( 1 ),
+                      "Then they " + lineProperty( 1 ),
+                      "They " + lineProperty( 1 ),
+                      ],
+                  "hypothesis" : "Two lines are " + lineType( 1 ),
+                  "conclusion" : "They " + lineProperty( 1 ),
+                },
+              "evenOdd" :
+               { "statements" : [
+                     "A number divisible by " + EVEN_ODD[0] + " is " + EVEN_ODD[1] + ".",
+                     "A number is " + EVEN_ODD[1] + " if it is divisible by " + EVEN_ODD[0] + "."
+                     ],
+                 "choices" : [
+                     "If a number is divisible by " + EVEN_ODD[0],
+                     "A number divisible by " + EVEN_ODD[0],
+                     "Then the number is " + EVEN_ODD[1],
+                     "The number is " + EVEN_ODD[1],
+                     ],
+                 "hypothesis" : "A number divisible by " + EVEN_ODD[0],
+                 "conclusion" : "The number is " + EVEN_ODD[1],
+               },
+             "exercises" :
+               { "statements" : [
+                     "If you do " + plural(exercise( 1 )) + " for ten minutes, then you will raise your heart rate.",
+                     "You will raise your heart rate if you do " + plural(exercise( 1 )) + " for ten minutes.",
+                     ],
+                 "choices" : [
+                     "If you do " + plural(exercise( 1 )) + " for ten minutes",
+                     "You do " + plural(exercise( 1 )) + " for ten minutes",
+                     "Then you will raise your heart rate",
+                     "You will raise your heart rate",
+                     ],
+                 "hypothesis" : "You do " + plural(exercise( 1 )) + " for ten minutes",
+                 "conclusion" : "You will raise your heart rate",
+               },
+             "sportingEvents" :
+               { "statements" : [
+                     "If we have a good practice, we will be ready for the " + sport( 1 ) + " game.",
+                     "We will be ready for the " + sport( 1 ) + " game if we have a good practice.",
+                     ],
+                 "choices" : [
+                     "If we have a good practice",
+                     "We have a good practice",
+                     "Then we will be ready for the " + sport( 1 ) + " game",
+                     "We will be ready for the " + sport( 1 ) + " game",
+                     ],
+                 "hypothesis" : "We have a good practice",
+                 "conclusion" : "We will be ready for the " + sport( 1 ) + " game",
+              },
+            }
+        </var>
+        <var id="PROBLEM_TYPE">randFromArray(["cityStates", "lineTypes", "evenOdd", "exercises", "sportingEvents"])</var>
+        <var id="STATEMENT">randFromArray(PROBLEM_DATA[PROBLEM_TYPE]["statements"])</var>
+        <var id="CHOICES">shuffle(PROBLEM_DATA[PROBLEM_TYPE]["choices"])</var>
+        <var id="SOLUTION_TYPE">randFromArray([ "hypothesis", "conclusion" ])</var>
+        <var id="SOLUTION">CHOICES[jQuery.inArray( PROBLEM_DATA[PROBLEM_TYPE][SOLUTION_TYPE], CHOICES)]</var>
+	</div>
+
+	<div class="problems">
+		<div>
+            <p class="problem"><var>STATEMENT</var></p>
+            <p class="question">Identify the <var>SOLUTION_TYPE</var> in the conditional statement above.</p>
+			<p class="solution"><var>SOLUTION</var></p>
+            <ul class="choices" data-category="true">
+                <li data-each="CHOICES as choice"><var>choice</var></li>
+            </ul>
+		</div>
+	</div>
+
+	<div class="hints">
+        <p>The hypothesis is the phrase that follows the "if" and the conclusion is the phrase that follows the "then".</p>
+        <p>"If" implies the condition, it is not part of the condition itself.  "Then" implies the conclusion, it is not part of the conclusion itself.</p>
+        <p>Sometimes "if-then" statements are written in the reverse order with the conclusion written first.</p>
+	</div>
+	</div>
+</body>
+</html>
