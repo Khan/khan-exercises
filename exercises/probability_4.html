@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html data-require="math math-format probability word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Probability 4</title>
+    <style>
+    .distribution tr td {
+        border: solid black 1px;
+        padding: 5px;
+        text-align: center;
+    }
+    </style>
+    <script src="../khan-exercise.js"></script>
+    <script>
+    var getHorseRace = function() {
+        var nbHorses = KhanUtil.randRange(5, 7);
+        var sickHorse = KhanUtil.randRange(1, nbHorses);
+        var questionHorse = KhanUtil.randRange(1, nbHorses - 1);
+        if (questionHorse === sickHorse) {
+            questionHorse = nbHorses;
+        }
+        var probas = KhanUtil.genProbabilityDistribution(nbHorses, 100);
+        var row1 = "<tr><td><b>Horse number</b></td>";
+        var row2 = "<tr><td><b>Chance of winning the race</b></td>";
+        for (var iHorse = 1; iHorse <= nbHorses; iHorse++) {
+            row1 += "<td>" + iHorse + "</td>";
+            row2 += "<td>" + probas[iHorse - 1] + "%</td>";
+        }
+        var solution = Math.floor(100 * probas[questionHorse - 1] / (100 - probas[sickHorse - 1]));
+        return {
+            statement: KhanUtil.person(1) + " is about to make a bet on the winner of a horse race involving " + nbHorses + " horses. " +
+                KhanUtil.He(1) + " studied each horse in detail, and determined the probability that each horse will win the race. Here are " +
+                KhanUtil.his(1) + " results:</p><p><table class='distribution'>" + row1 + row2 + "</table></p>" +
+                "<p>Unfotunately, it was just announced that horse number " + sickHorse + " is sick and will not participate in the race.</p>" + 
+                "<p>Knowing this, <b>what is the new probability that horse " + questionHorse + " will win the race?</b>" +
+                " Write your answer as an integer percentage, rounded down.</p>",
+            solution: solution,
+            hints: [
+                "<p>The probability of an event can be expressed as the percentage of " +
+                "all equally likely outcomes that meet the condition for that event.</p>",
+                "<p>If horse " + sickHorse + " doesn't participate in the race, then " +
+                "<code>\\color{" + KhanUtil.BLUE + "}{" + probas[sickHorse - 1] + "}</code>% " +
+                "of the original outcomes are not possible anymore.</p>",
+                "<p>The sum of the probabilities of all the possible outcomes must be equal to 1, so that means " +
+                "the other probabilities will change.</p>",
+                "<p>Horse " + questionHorse + " was estimated to be the winner for " +
+                "<code>\\color{" + KhanUtil.ORANGE + "}{" + probas[questionHorse - 1] + "}</code>" +
+                " out of every 100 outcomes. Now that horse " + sickHorse + " is out, " +
+                "<code>\\color{" + KhanUtil.BLUE + "}{" + probas[sickHorse - 1] + "}</code>" +
+                " of the outcomes where he would have lost are not possible outcomes anymore.</p>",
+                "<p>This means horse " + questionHorse + " can be estimated to be the winner of " +
+                "<code>\\dfrac{\\color{" + KhanUtil.ORANGE + "}{" + probas[questionHorse - 1] + "}}" + 
+                "{100 -  \\color{" + KhanUtil.BLUE + "}{" + probas[sickHorse - 1] + "}}</code> or " +
+                "<code>\\dfrac{\\color{" + KhanUtil.ORANGE + "}{" + probas[questionHorse - 1] + "}}{" +
+                (100 -  probas[sickHorse - 1]) + "}</code> of the races, or " + solution + "%.</p>"
+            ],
+        };
+    }
+
+    var probasAsPercents = function(probas) {
+        var percents = [];
+        for (var iProba = 0; iProba < probas.length; iProba++) {
+            percents[iProba] = "" + probas[iProba] + "\\%";
+        }
+        return percents;
+    }
+
+    var getBallsPartial = function() {
+        var nbColors = KhanUtil.randRange(4, 6);
+        var nbKnown = KhanUtil.randFromArray([nbColors - 1, KhanUtil.randRange(2, nbColors - 2)]);
+        var probas = KhanUtil.genProbabilityDistribution(nbColors, 100);
+        var row1 = "<tr><td><b>Color</b></td>";
+        var row2 = "<tr><td><b>Probability of being pulled</b></td>";
+        var sumProbaUnknown = 0;
+        for (var iColor = 0; iColor < nbColors; iColor++) {
+            row1 += "<td>" + KhanUtil.color(iColor + 1) + "</td>";
+            if (iColor < nbKnown) {
+                row2 += "<td>" + probas[iColor] + "%</td>";
+            } else {
+                row2 += "<td><i>no information</i></td>";
+            }
+            if (iColor >= nbKnown) {
+                sumProbaUnknown += probas[iColor];
+            }
+        }
+        var solution;
+        var hints;
+        if (nbKnown === nbColors - 1) {
+            var iQuestionColor = nbKnown;
+            solution = probas[iQuestionColor];
+            question = "pulling a ball that is " + KhanUtil.color(iQuestionColor + 1);
+            otherProbas = probasAsPercents(probas).slice(0);
+            otherProbas.splice(iQuestionColor);
+            otherProbas = otherProbas.join(" + ");
+            hints = [
+                "<p>The sum of the probabilities of all possible outcomes is equal to 1.</p>",
+                "<p>So the probability of " + question + " is equal to 1 - the sum of the probabilities of all other outcomes.</p>",
+                "<p><code>P(\\text{" + question + "}) = 1 - (" + otherProbas + ") = " + probas[iQuestionColor] + "\\%</code></p>"
+            ];
+        } else {
+            var iQuestionColor = KhanUtil.randRange(0, nbKnown - 1);
+            solution = 100 - probas[iQuestionColor];
+            question = "pulling a ball that is not " + KhanUtil.color(iQuestionColor + 1);
+            hints = ["<p>The probability that an even does <b>not</b> occur is equal to 1 - the probability that this event occurs:</p>" +
+                "<p><code>P(\\text{not A}) = 1 - P(A)</code></p>",
+                "<p><code>P(\\text{ball is not " + KhanUtil.color(iQuestionColor + 1) + "}) = " +
+                "1 - P(\\text{ball is " + KhanUtil.color(iQuestionColor + 1) + "})" +
+                " = 1 - " + probas[iQuestionColor] + "\\% = " + solution + "\\%</code>.</p>"
+            ];
+        }
+        return {
+            statement: "<p>A bag contains balls of up to " + nbColors + " different colors. " +
+                "You have a precise knowledge of the probability that a ball pulled out of this bag will be of certain colors, " +
+                " but you have no information about the other colors.</p>" +
+                "<p>Here is a summary of the information you already have :</p><p><table class='distribution'>" + row1 + row2 + "</table></p>" +
+                "<p>Given the information you have, what is the probability of " + question + "? " +
+                "Give your answer as a percentage.</p>",
+            solution: solution,
+            hints: hints
+        };
+    }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="PROBLEM">randFromArray([getHorseRace, getBallsPartial])()</var>
+            </div>
+
+            <div class="question">
+                <var>PROBLEM.statement</var>
+            </div>
+
+            <div class="solution" data-forms="percent"><var>PROBLEM.solution</var></div>
+
+    		<div class="hints">
+    			<div data-each="PROBLEM.hints as key, value"><var>value</var></div>
+    		</div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

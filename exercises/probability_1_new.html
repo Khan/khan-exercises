@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html data-require="math math-format probability word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Probability 1</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+
+    function genRollDie() {
+        var nbSides = KhanUtil.randRange(5, 12);
+        var questionsParams = [];
+        for (var iSide = 1; iSide <= nbSides; iSide++) {
+            questionsParams.push(["a " + iSide, [iSide]]);
+            if ((iSide > 1) && (iSide < nbSides - 1)) {
+                var listOutcomes = [];
+                for (var iOutcome = iSide + 1; iOutcome <= nbSides; iOutcome++) {
+                    listOutcomes.push(iOutcome);
+                }
+                questionsParams.push(["more than " + iSide, listOutcomes]);
+            }
+            if ((iSide > 2) && (iSide < nbSides)) {
+                var listOutcomes = [];
+                for (var iOutcome = 1; iOutcome < iSide; iOutcome++) {
+                    listOutcomes.push(iOutcome);
+                }
+                questionsParams.push(["less than " + iSide, listOutcomes]);                
+            }  
+        }
+        var outcomes = KhanUtil.randFromArray(questionsParams);
+        var validOutcomes = KhanUtil.joinCommaAnd(outcomes[1]);
+        return {
+            statement: KhanUtil.person(1) + " rolls a fair " + nbSides + "-sided die.",
+            question: "What is the probability that the result is " + outcomes[0] + "?",
+            condition: "rolling a number that is " + outcomes[0],
+            nbOutcomes: nbSides,
+            nbValidOutcomes: outcomes[1].length,
+            validOutcomes: validOutcomes,
+            allOutcomes: "each number from 1 to " + nbSides + " inclusive"
+        };
+    }
+
+    function genFlipCoin() {
+        var outcome = KhanUtil.randFromArray(["heads", "tails"]);
+        return {
+            statement: KhanUtil.person(1) + " flips a fair coin once.",
+            question: "What is the probability that the result is " + outcome + "?",
+            condition: "getting " + outcome,
+            nbOutcomes: 2,
+            nbValidOutcomes: 1,
+            validOutcomes: outcome,
+            allOutcomes: "tails or heads"
+        };
+    }
+
+    function genStraw() {
+        var nbPeople = KhanUtil.randRange(3, 6);
+        var people = [];
+        for (var iPerson = 0; iPerson < nbPeople; iPerson++) {
+           people.push(KhanUtil.person(iPerson + 1));
+        }
+        var strPeople = KhanUtil.joinCommaAnd(people);
+        var nbValidOutcomes = KhanUtil.randRange(1, 2);
+        var iPeople = KhanUtil.randRange(0, nbPeople - 1);
+        var outcome = people[iPeople];
+        if (nbValidOutcomes === 2) {
+            outcome += " or " + people[(iPeople + 1) % nbPeople];
+        }
+        var condition = outcome + " getting the shortest straw";
+        return {
+            statement: strPeople + " play straw to decide who will wash the dishes.",
+            question: "What is the probability of " + condition + "?",
+            condition: condition,
+            nbOutcomes: nbPeople,
+            nbValidOutcomes: nbValidOutcomes,
+            validOutcomes: outcome,
+            allOutcomes: strPeople
+        };
+    }
+
+    function pickFlavour(iFlavour) {
+        var flavours = ["lemon", "orange", "strawberry", "raspberry", "cherry", "caramel"];
+        return flavours[iFlavour - 1];
+    }
+
+    function genItems() {
+        var container = KhanUtil.randFromArray(["bag", "box", "basket"]);
+        var itemKind = KhanUtil.randFromArray([
+            ["ball", "balls", "", KhanUtil.color],
+            ["marble", "marbles", "", KhanUtil.color],
+            ["candy", "candies", "", pickFlavour]
+        ]);
+        var kindName = itemKind[0];
+        var kindNamePlural = itemKind[1];
+        var kindSuffix = itemKind[2];
+        var typeFunction = itemKind[3];
+        var nbItemTypes = KhanUtil.randRange(3, 5);
+        var nbItems = [];
+        var nbOutcomes = 0;
+        var strItemType = [];
+        for (var iItemType = 0; iItemType < nbItemTypes; iItemType++) {
+            nbItems.push(KhanUtil.randRange(1, 5));
+            var name = kindName;
+            if (nbItems[iItemType] > 1) {
+                name = kindNamePlural;
+            }
+            strItemType[iItemType] = nbItems[iItemType] + " " + typeFunction(iItemType + 1) + kindSuffix + " " + name;
+            nbOutcomes += nbItems[iItemType];
+        }
+        var person = KhanUtil.person(1);
+        var strItemTypes = KhanUtil.joinCommaAnd(strItemType);
+        var conditionItemType = KhanUtil.randRange(0, nbItemTypes - 1);
+        var condition = person + " picking a " + typeFunction(conditionItemType + 1) + kindSuffix + " " + kindName;
+        var validOutcomes = "";
+        if (nbItems[conditionItemType] !== 1) {
+            validOutcomes = "each of ";
+        }
+        validOutcomes += "the " + strItemType[conditionItemType];
+        return {
+            statement: "A " + container + " contains " + strItemTypes + ". " + person + " randomly pulls a " +
+                kindName + " from the " + container + ".",
+            question: "What is the probability of " + condition + "?",
+            condition: condition,
+            nbOutcomes: nbOutcomes,
+            nbValidOutcomes: nbItems[conditionItemType],
+            validOutcomes: validOutcomes,
+            allOutcomes: "each of the " + strItemTypes
+        }
+    }
+
+    function genInterval() {
+        var begin = KhanUtil.randRange(1, 5) * 10;
+        var end = begin + KhanUtil.randRange(5, 10);
+        var divisor = KhanUtil.randRange(3, 5);
+        var numbers = [];
+        var validNumbers = [];
+        for (var number = begin; number <= end; number++) {
+            numbers.push("" + number);
+            if (number % divisor === 0) {
+                validNumbers.push(number);
+            }
+        }
+        var condition = "the number being divisible by " + divisor;
+        return {
+            statement: KhanUtil.person(1) + " randomly picks an integer between " + begin + " and " + end + " inclusive.",
+            question: "What is the probability of " + condition + "?",
+            condition: condition,
+            nbOutcomes: end - begin + 1,
+            nbValidOutcomes: validNumbers.length,
+            validOutcomes: KhanUtil.joinCommaAnd(validNumbers),
+            allOutcomes: KhanUtil.joinCommaAnd(numbers),
+        }
+    }
+
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="PROBLEM">KhanUtil.randFromArrayWeighted([genRollDie, genFlipCoin, genStraw, genItems, genInterval], [4, 1, 4, 4, 4])()</var>
+            </div>
+
+            <div class="question"><p><var>PROBLEM.statement</var></p><p><b><var>PROBLEM.question</var></b> Write your answer as a simplified fraction.</p>
+            </div>
+
+            <div class="solution"><var>PROBLEM.nbValidOutcomes / PROBLEM.nbOutcomes</var></div>
+
+            <div class="hints">
+                <div>
+                    <p>The probability of an event described by a condition can be expressed as:</p>
+                    <p><code>P(event) = \dfrac{\color{<var>BLUE</var>}{\text{number of outcomes that meet the condition}}}
+                            {\color{<var>ORANGE</var>}{\text{total number of equally likely outcomes}}}</code></p>
+                    <p>In other words, if all possible outcomes are equally likely, the probability of the event is the percentage of these outcomes that meet the condition.</p>
+                </div>
+                <div>
+                    <p>The condition in this problem is: <var>PROBLEM.condition</var></p>
+                </div>
+                <div>
+                    <p>There is a total of <code>\color{<var>ORANGE</var>}{<var>PROBLEM.nbOutcomes</var>}</code> equally likely outcomes:
+                        <span class="hint_orange"><var>PROBLEM.allOutcomes</var></span>.
+                    </p>
+                </div>
+                <div>
+                    <p>There
+                        <var>function() {
+                                var strNbValidOutcomes = "&lt;code>\\color{" + BLUE + "}{" + PROBLEM.nbValidOutcomes + "}&lt;/code>";
+                                if (PROBLEM.nbValidOutcomes===1) {
+                                    return "is " + strNbValidOutcomes + " outcome that meets";
+                                } else {
+                                    return "are " + strNbValidOutcomes + " outcomes that meet";
+                                }
+                            }()
+                        </var>
+                        the condition: <span class="hint_blue"><var>PROBLEM.validOutcomes</var></span>.
+                    </p>
+                </div>
+                <div>
+                    <p>Therefore, the probability of <var>PROBLEM.condition</var> is
+                        <code>\displaystyle <var>fractionSimplification(PROBLEM.nbValidOutcomes, PROBLEM.nbOutcomes)</var>.</code>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

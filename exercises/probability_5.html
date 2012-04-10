@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html data-require="math math-format probability word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Probability 5</title>
+    <style>
+    .distribution tr td {
+        border: solid black 1px;
+        padding: 5px;
+        text-align: center;
+    }
+    .bullets li {
+        list-style:disc;
+        margin-left:20px;
+    }
+    </style>
+    <script src="../khan-exercise.js"></script>
+    <script>
+    var getHints = function(itemKind, questionType, mutuallyExclusive, strEvents) {
+        var hints = [
+                "<p>Two events are mutually exclusive if they can never happen simultaneously. " +
+                "Otherwise, we say that they are non mutually exclusive</p>",
+                "<p>Can " + KhanUtil.person(1) + " " + itemKind.verb + " " + KhanUtil.an(itemKind.name) + " out of the " + itemKind.container +
+                    " that is simultaneously " + strEvents[0] + " and " + strEvents[1] + "?</p>"
+        ];
+        var justification;
+        switch(questionType) {
+            case "notInTheList":
+            case "sameCriteria":
+                justification = "<p>There is no such " + itemKind.name + " in the " + itemKind.container +
+                    ", so the two events can't happen simultaneously.</p>";
+                break;
+            case "inTheList":
+                justification = "<p>The list contains such " + KhanUtil.an(itemKind.name) + ", so the events happen simultaneously when that " +
+                    itemKind.name + " is " + itemKind.verbPast + ".</p>";
+                break;
+            case "sameCriteriaAndValue":
+                justification = "<p>The two events are identical, and there is at least one " + itemKind.name + " that corresponds in the list, so " +
+                    "both evens will happen simultaneously when that " + itemKind.name + " is " + itemKind.verbPast + ".</p>"
+                break;
+        }
+        hints.push(justification);
+        var conclusion = "<p>Therefore, <b>the two events are ";
+        if (mutuallyExclusive) {
+            conclusion += "mutually exclusive";
+        } else {
+            conclusion += "non mutually exclusive";
+        }
+        conclusion += "</b>.</p>";
+        hints.push(conclusion);
+        return hints;
+    };
+
+    var getStrListItems = function(itemKind, items, usedSets, withCount) {
+        var strItems = items.map(function(criterias) {
+            var term0 = itemKind.terms[0][criterias[0]];
+            var term1 = itemKind.terms[1][criterias[1]];
+            if (withCount) {
+                var nbOccs = usedSets[KhanUtil.criteriasKey(criterias)];
+                if (nbOccs > 1) {
+                    term0 = itemKind.termsPlurals[0][criterias[0]];
+                    term1 = itemKind.termsPlurals[1][criterias[1]];
+                }
+                term0 = nbOccs + " " + term0;
+            } else {
+                term0 = KhanUtil.an(term0);
+            }
+            return term0 + " " + itemKind.prefixes[1] + term1;
+        });
+        return "<ul class='bullets'><li>" + strItems.join("</li><li>") + "</li></ul>";
+    };
+
+    var getSetOfItems = function() {
+        var itemKind = KhanUtil.getRandomItemKind();
+        var usedSets = {};
+        var bag = [];
+        var mutuallyExclusive = KhanUtil.randFromArray([false, true]);
+        var events = [];
+        var questionType;
+        var questionEvents = KhanUtil.pickCriterias(itemKind.terms);
+        if ((!mutuallyExclusive) || KhanUtil.randFromArray([false, true, true])) {
+            usedSets[KhanUtil.criteriasKey(questionEvents)] = true;
+            questionType = "notInTheList";
+            if (!mutuallyExclusive) {
+                questionType = "inTheList";
+                bag.push(questionEvents);
+            }
+            events.push({type:0, value:questionEvents[0]});
+            events.push({type:1, value:questionEvents[1]});
+        } else {
+            questionType = "sameCriteria";
+            var type = KhanUtil.randRange(0, 1);
+            for (var iEvent = 0; iEvent < 2; iEvent++) {
+                events.push({type:type, value:KhanUtil.randRange(0, itemKind.terms[type].length - 1)});
+            }
+            if (events[0].value === events[1].value) {
+                questionType = "sameCriteriaAndValue";
+                mutuallyExclusive = false;
+                events[0].value = events[1].value = questionEvents[type];
+                usedSets[KhanUtil.criteriasKey(questionEvents)] = true;
+                bag.push(questionEvents);
+            }
+        }
+        var nbItems = KhanUtil.randRange(3, 5);
+        KhanUtil.selectRandomItems(nbItems, itemKind, usedSets, bag);
+        var strListItems = getStrListItems(itemKind, bag, usedSets);
+        var statement = KhanUtil.person(1) + " randomly " + itemKind.verb + "s one " + itemKind.name + " out of a " +
+            itemKind.container + " that contains the following " + itemKind.pluralName + ":</p><p>" + strListItems;
+
+        var listEvents = "<ul class='bullets'>";
+        var strEvents = [];
+        for (var iEvent = 0; iEvent < events.length; iEvent++) {
+            var type = events[iEvent].type;
+            listEvents += "<li>" + KhanUtil.person(1) + " " + itemKind.verb + "s ";
+            var criteriaValue = events[iEvent].value;
+            var strEvent = KhanUtil.an(itemKind.terms[type][criteriaValue]) + itemKind.suffixes[type];
+            strEvents.push(strEvent);
+            listEvents += strEvent + " out of the " + itemKind.container + "</li>";
+        }
+        listEvents += "</ul>";
+
+        return {
+            statement: statement,
+            listEvents: listEvents,
+            mutuallyExclusive: mutuallyExclusive,
+            hints: getHints(itemKind, questionType, mutuallyExclusive, strEvents)
+        };
+    }
+
+    // TODO: add a type of problem where rectangles are shown, and you need to say the events
+    // "being in rectangle A" and "being in rectangle B" are mutually exclusive
+    // => gives an intuition of the relation between exclusivity and intersection
+    // and prepares for Venn diagrams
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="PROBLEM">randFromArray([getSetOfItems])()</var>
+            </div>
+
+            <div class="question">
+                <var>PROBLEM.statement</var>
+                <p>Are the following events <b>mutually exclusive, or non mutually exclusive</b>?</p>
+                <p><var>PROBLEM.listEvents</var></p>
+            </div>
+
+					<p class="solution"><var>(PROBLEM.mutuallyExclusive ? "Mutually exclusive" : "Non mutually exclusive")</var></p>
+					<ul class="choices" data-category="true">
+						<li>Mutually exclusive</li>
+						<li>Non mutually exclusive</li>
+					</ul>
+
+    		<div class="hints">
+	    		<div data-each="PROBLEM.hints as key, value"><var>value</var></div>
+	    	</div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
