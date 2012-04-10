@@ -16,14 +16,16 @@
 				<var id="W1">randRange( 2, 19 )</var>
 				<var id="W2">( PM === 1 ? randRange( 1, 19 ) : randRange( -W1 + 1, -1 ))</var>
 
-				<div data-ensure="getLCM( D1, D2 ) < 61 && D1 === D2">
-					<var id="D1">randRange( 3, 20 )</var>
-					<var id="D2">randRange( 3, 20 )</var>
-				</div>
+				
+				<var id="D1">randRange( 3, 20 )</var>
+				<var id="D2">D1</var>
+				
+				
 				<div data-ensure="( PM === 1 ? (N1 / D1) + (N2 / D2) < 1 : (N1 / D1) + PM * (N2 / D2) > 0)">
-					<var id="N1">randRange( 1, D1 - 1 )</var>
-					<var id="N2">randRange( 1, D2 - 1 )</var>
+				<var id="N1">randRange( 1, (PM === 1 ? D1 - 2 :  D1 - 1) )</var>
+				<var id="N2">randRange( 1, (PM === 1 ? D1 - 2 :  D1 - 1) )</var>
 				</div>
+				
 
 				<var id="GCD1">getGCD( N1, D1 )</var>
 				<var id="SIMP_N1">N1 / GCD1</var>
