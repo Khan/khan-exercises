@@ -124,6 +124,12 @@ jQuery.extend(KhanUtil, {
 
 		};
 
+                this.getTermMap = function(){
+                    var polynomial = this; 
+                    return _.map(_.range(polynomial.getNumberOfTerms()),function(i){
+                                    return polynomial.getCoefAndDegreeForTerm(i);});
+                };
+
 		this.text = function() {
 			return KhanUtil.expr( this.expr( this.variable ) );
 		};
@@ -216,7 +222,7 @@ jQuery.extend(KhanUtil, {
 
 				return new KhanUtil.Polynomial( Math.min( this.minDegree, value.minDegree ), coefs.length, coefs, this.variable );
 			}
-		}
+		};
 
 		return this;
 	},
@@ -310,5 +316,25 @@ jQuery.extend(KhanUtil, {
 		}
 
 		return allZero ? randCoefs( minDegree, maxDegree ) : coefs;
-	}
+	},
+
+        integratePolynomial: function(polynomial){
+
+            var integratedTermMap= _.map(polynomial.getTermMap(), function(term){
+                var newTerm = new Object();
+                newTerm.degree =term.degree+1;
+                newTerm.coef = term.coef/newTerm.degree;
+                return newTerm;});
+
+            var degrees=_.pluck(integratedTermMap,'degree');
+            var maxDegree = _.max(degrees);
+            var minDegree = _.min(degrees);
+
+            var coefs = _.map(_.range(0,maxDegree+1),function(index){return 0;});
+
+            _.map(integratedTermMap, function(term) {
+                coefs[maxDegree-term.degree]=term.coef;});
+
+            return new this.Polynomial(0, maxDegree,coefs.reverse(),polynomial.variable);
+            }
 });
