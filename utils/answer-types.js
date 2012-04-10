@@ -297,7 +297,14 @@ jQuery.extend( Khan.answerTypes, {
 
 					return [];
 				},
-				example: "a mixed number, like <code>1\\ 3/4</code>"
+				example: (function() {
+					if ( options.simplify === "required" ) {
+						return "a <em>simplified</em> mixed number, like <code>1\\ 3/4</code>";
+					} else {
+						return "a mixed number, like <code>1\\ 6/8</code>";
+					}
+				})()
+						
 			},
 
 			decimal: {
