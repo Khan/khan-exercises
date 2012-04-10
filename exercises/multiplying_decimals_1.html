@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers-arithmetic word-problems">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Multiplying decimals 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="INTEGER_FACTOR">randRange( 10, 99 )</var>
+			<var id="DECIMAL_FACTOR">randRange( 10, 99 )</var>
+			<var id="PRODUCT">INTEGER_FACTOR * DECIMAL_FACTOR</var>
+			<div>
+				<var id="DECIMAL_FACTOR_DECIMAL">randRange( 1, 2 )</var>
+			</div>
+			<var id="INTEGER_FACTOR_DIGITS">padDigitsToNum( digits( SMALL_FACTOR ), 1 )</var>
+			<var id="DECIMAL_FACTOR_DIGITS">padDigitsToNum( digits( BIG_FACTOR ), BIG_FACTOR_DECIMAL + 1 )</var>
+			<var id="DUMMY">[]</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="graphie" id="numbers">
+					graph.multiplier = new Multiplier( DECIMAL_FACTOR, INTEGER_FACTOR, DECIMAL_FACTOR_DIGITS, INTEGER_FACTOR_DIGITS, DECIMAL_FACTOR_DECIMAL, 0 );
+					graph.multiplier.show();
+					graph.multiplier.showDecimals();
+					DUMMY = Array( graph.multiplier.getNumHints() );
+				</div>
+				<div class="solution" data-type="decimal"><var>( PRODUCT * pow( 10, -(DECIMAL_FACTOR_DECIMAL) ) ).toFixed(DECIMAL_FACTOR_DECIMAL)</var></div>
+			</div>
+		</div>
+		<div class="hints">
+			<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+				graph.multiplier.showHint();
+			</div>
+			<div class="graphie" data-update="numbers">
+				graph.multiplier.showDecimalsInProduct();
+			</div>
+		</div>
+	</div>
+</body>
+</html>
