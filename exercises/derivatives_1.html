@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html data-require="math graphie expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Derivatives 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="quadratic">
+            <div class="vars">
+                <div data-ensure="abs( C - ( B * B ) / ( 4 * A ) ) < 9">
+                    <var id="A">randRangeNonZero( -2, 2 )</var>
+                    <var id="B">randRangeNonZero( -4, 4 )</var>
+                    <var id="C">( A > 0 ? -1 : 1 ) * randRange( 3, 8 )</var>
+
+                    <var id="H">randFromArray([ "\\Delta x", "h" ])</var>
+                </div>
+                <var id="X" data-ensure="abs( ( A * X + B ) * X + C ) < 7">randRange( -6, 6 )</var>
+            </div>
+            <div class="question">
+                <p>What is the slope of the line tangent to <code>f(x) = <var>expr(["+", ["*", A, ["^", "x", 2]], ["*", B, "x"], C])</var></code> at <code>x = <var>X</var></code>?</p>
+
+                <div id="graph" class="graphie">
+                    init({
+                        range: [ [-10, 10], [-10, 10] ],
+                        scale: [20, 20]
+                    });
+
+                    grid( [-10, 10], [-10, 10], {
+                        stroke: "#e5e5e5"
+                    });
+
+                    style({
+                        stroke: "#888",
+                        strokeWidth: 2,
+                        arrows: "->"
+                    }, function() {
+                        line( [-10, 0], [10, 0] );
+                        line( [0, -10], [0, 10] );
+                    });
+
+                    plot( function( x ) {
+                        return ( A * x + B ) * x + C;
+                    }, [-10, 10], {
+                        stroke: "#6495ED"
+                    });
+
+                    circle( [ X, ( A * X + B ) * X + C ], 3 / 20, {
+                        fill: "black",
+                        stroke: "none"
+                    } );
+                </div>
+            </div>
+            <div class="solution"><var>2 * A * X + B</var></div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div>
+            <div class="graphie" data-update="graph">
+                plot( function( x ) {
+                    return ( 2 * A * X + B ) * ( x - X ) + ( A * X + B ) * X + C;
+                }, [-10, 10], {
+                    stroke: "black",
+                    strokeWidth: 1
+                });
+            </div>
+            <p>The slope of the tangent line is <code>\displaystyle \lim_{<var>H</var> \to 0} \frac{f(x + <var>H</var>) - f(x)}{<var>H</var>}</code>.</p>
+        </div>
+        <p><code>\qquad = \displaystyle \lim_{<var>H</var> \to 0} \frac{(<var>expr(
+            ["+", ["*", A, ["^", ["+", "x", H], 2]],
+                ["*", B, ["+", "x", H]],
+                C]
+        )</var>) - (<var>expr(
+            ["+", ["*", A, ["^", "x", 2]],
+                ["*", B, "x"],
+                C]
+        )</var>)}{<var>H</var>}</code></p>
+        <p><code>\qquad = \displaystyle \lim_{<var>H</var> \to 0} \frac{(<var>expr(
+            ["+", ["*", A, ["+", ["^", "x", 2],
+                                "2x " + H,
+                                ["^", H, 2]]],
+                ["*", B, ["+", "x", H]],
+                C]
+        )</var>) - (<var>expr(
+            ["+", ["*", A, ["^", "x", 2]],
+                ["*", B, "x"],
+                C]
+        )</var>)}{<var>H</var>}</code></p>
+        <p><code>\qquad = \displaystyle \lim_{<var>H</var> \to 0} \frac{<var>expr(
+            ["+", ["*", A, ["^", "x", 2]],
+                ["*", 2 * A, "x " + H],
+                ["*", A, ["^", H, 2]],
+                ["*", B, "x"],
+                ["*", B, H],
+                C,
+                ["*", -A, ["^", "x", 2]],
+                ["*", -B, "x"],
+                -C]
+        )</var>}{<var>H</var>}</code></p>
+        <p><code>\qquad = \displaystyle \lim_{<var>H</var> \to 0} \frac{<var>expr(
+            ["+", ["*", 2 * A, "x " + H],
+                ["*", A, ["^", H, 2]],
+                ["*", B, H]]
+        )</var>}{<var>H</var>}</code></p>
+        <p><code>\qquad = \displaystyle \lim_{<var>H</var> \to 0} <var>expr(
+            ["+", ["*", 2 * A, "x"],
+                ["*", A, H],
+                B]
+        )</var></code></p>
+        <p><code>\qquad = \displaystyle <var>expr(
+            ["+", ["*", 2 * A, "x"],
+                B]
+        )</var></code></p>
+        <p><code>\qquad = \displaystyle <var>expr(
+            ["+", ["*", 2 * A, X],
+                B]
+        )</var></code></p>
+        <p><code>\qquad = <var>2 * A * X + B</var></code></p>
+    </div>
+    </div>
+</body>
+</html>

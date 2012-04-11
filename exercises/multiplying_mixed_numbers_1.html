@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying mixed numbers 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+
+                <div class="vars" data-ensure="getGCD(NUM_1,DENOM_1)===1 && getGCD(NUM_2,DENOM_2)===1">
+                    <var id="WHOLE_1">randRange( 1, 5 )</var>
+                    <var id="NUM_1">randRange( 1, 4 )</var>
+                    <var id="DENOM_1">randRange( NUM_1 + 1, 5 )</var>
+
+                    <var id="WHOLE_2">randRange( 1, 5 )</var>
+                    <var id="NUM_2">randRange( 1, 4 )</var>
+                    <var id="DENOM_2">randRange( NUM_2 + 1, 5 )</var>
+
+                    <var id="I_NUM_1">WHOLE_1 * DENOM_1 + NUM_1</var>
+                    <var id="I_DENOM_1">DENOM_1</var>
+
+                    <var id="I_NUM_2">WHOLE_2 * DENOM_2 + NUM_2</var>
+                    <var id="I_DENOM_2">DENOM_2</var>
+
+                    <var id="I_NUM">I_NUM_1*I_NUM_2</var>
+                    <var id="I_DENOM">I_DENOM_1*I_DENOM_2</var>
+                    <var id="I_NUM_SIMP">(I_NUM_1*I_NUM_2)/getGCD(I_NUM, I_DENOM)</var>
+                    <var id="I_DENOM_SIMP">(I_DENOM_1*I_DENOM_2)/getGCD(I_NUM,I_DENOM)</var>
+
+                    <var id="WHOLE_3">roundTowardsZero(I_NUM/I_DENOM)</var>
+                    <var id="NUM_3_DEC">(I_NUM/I_DENOM)-WHOLE_3</var>
+                    <var id="NUM_3">roundTo(0,NUM_3_DEC*I_DENOM)</var>
+                    <var id="DENOM_3">I_DENOM</var>
+                    <var id="NUM_3_SIMP">NUM_3/getGCD(NUM_3,DENOM_3)</var>
+                    <var id="DENOM_3_SIMP">DENOM_3/getGCD(NUM_3,DENOM_3)</var>
+                </div>
+
+        <div class="problems">
+                <div class="problem">Multiply, reduce to lowest terms, and turn into a mixed number:
+                    <p class="question"><code>\displaystyle<var>WHOLE_1</var>\ <var>fraction( NUM_1, DENOM_1, false, true )</var> \times <var>WHOLE_2</var>\ <var>fraction( NUM_2, DENOM_2, false, true )</var></code></p>
+                    <div class="solution" data-type="multiple">
+                    <p><span class="sol" data-type="mixed"><var>(WHOLE_3 + (NUM_3_SIMP/DENOM_3_SIMP))</var></span></p>
+                    <p class="example">a mixed number, like <code>1</code> <code>3/4</code></p>
+                    </div>
+                </div>
+        </div>
+
+        <div class="hints">
+            <p>Turn the mixed numbers into improper fractions to make it easier to multiply them.</p>
+            <p>Let's start with the first mixed number: To find the numerator of the improper fraction, multiply the denominator (<strong><var>DENOM_1</var></strong>) by the whole number (<strong><var>WHOLE_1</var></strong>) and add the numerator (<strong><var>NUM_1</var></strong>). <strong><var>DENOM_1</var></strong>*<strong><var>WHOLE_1</var></strong>+<strong><var>NUM_1</var></strong> = <strong><code><var>I_NUM_1</var></code></strong>.</p>
+            <p>So the first mixed number can be written as <code><var>fraction( I_NUM_1, I_DENOM_1, false, true )</var></code>.</p>
+            <p>Now let's turn the second mixed number into an improper fraction: To find the numerator, multiply the denominator (<strong><var>DENOM_2</var></strong>) by the whole number (<strong><var>WHOLE_2</var></strong>) and add the numerator (<strong><var>NUM_2</var></strong>). <strong><var>DENOM_2</var></strong>*<strong><var>WHOLE_2</var></strong>+<strong><var>NUM_2</var></strong> = <strong><code><var>I_NUM_2</var></code></strong>.</p>
+            <p>So the second mixed number can be written as <code><var>fraction( I_NUM_2, I_DENOM_2, false, true )</var></code>.</p>
+            <p>Multiply the two improper fractions: <code><var>fraction( I_NUM_1, I_DENOM_1, false, true )</var></code> * <code><var>fraction(  I_NUM_2, I_DENOM_2, false, true )</var></code><code>\displaystyle {} = <var>fraction( I_NUM, I_DENOM )</var></code></p>
+            <span data-if="NUM_3===0"><code><var>mixedFractionFromImproper(I_NUM_SIMP, I_DENOM_SIMP)</var></code></span>
+            <div data-else data-unwrap>
+            <p>Turn the improper fraction into a mixed number:</p>
+                <p>First, divide the numerator by the denominator.
+                    <code><var>I_NUM</var> \div <var>I_DENOM</var> = \color{#28AE7B}{<var>WHOLE_3</var>}\ \text{ R } \color{purple}{<var>NUM_3</var>}</code></p>
+                <p>So the improper fraction has <code class="hint_green"><var>WHOLE_3</var></code> wholes in it.</p>
+                <p>This quotient <code class="hint_green"><var>WHOLE_3</var></code> is the whole number part of the mixed number.</p>
+                <p>We also have a remainder of <code class="hint_purple"><var>NUM_3</var></code>, though. That represents the <code>\dfrac{\color{purple}{<var>NUM_3</var>}}{<var>DENOM_3</var>}</code> remaining from the improper fraction; it wasn't enough to be another whole number.</p>
+                <p>The converted mixed fraction is <code>\color{#28AE7B}{<var>WHOLE_3</var>}\ \color{purple}{<var>fraction( NUM_3, DENOM_3, false, true )</var>}.</code></p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

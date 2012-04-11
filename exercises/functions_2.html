@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Functions 2</title>
+    <script src="../khan-exercise.js"></script>
+
+    <style>
+        .f {
+            color: #ffa500; /* orange */
+        }
+
+        .g {
+            color: #28ae7b; /* green */
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="FUNCTION_PATH">
+                (function() {
+                    var currentY = randRange( -5, 5 );
+
+                    var functionPath = [];
+                    functionPath.push([-11, currentY]);
+
+                    for( var i = -10; i &lt; 11; i++ ) {
+                        if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; functionPath[i+10][1] &lt; 8 ) {
+                            functionPath.push([ i, functionPath[i+10][1]+1 ]);
+
+                        } else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; functionPath[i+10][1] &gt; -8 ) {
+                            functionPath.push([ i, functionPath[i+10][1]-1 ]);
+
+                        } else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; functionPath[i+10][1] &lt; 7 ) {
+                            functionPath.push([ i, functionPath[i+10][1]+2 ]);
+
+                        } else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 3 ) &amp;&amp; functionPath[i+10][1] &gt; -7 ) {
+                            functionPath.push([ i, functionPath[i+10][1]-2 ]);
+
+                        } else {
+                            functionPath.push([ i, functionPath[i+10][1] ]);
+                        }
+                    }
+
+                    return functionPath;
+                })()
+            </var>
+
+            <var id="G_PATH">
+                (function() {
+                    var gY = randRange( 3, -7 );
+
+                    var gPath = [];
+                    gPath.push([-11, gY]);
+
+                    for( var i = -10; i &lt; 11; i++ ) {
+                        if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; gPath[i+10][1] &lt; 8 ) {
+                            gPath.push([i, gPath[i+10][1]+1]);
+
+                        } else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 3 ) &amp;&amp; gPath[i+10][1] &gt; -8 ) {
+                            gPath.push([i, gPath[i+10][1]-1]);
+
+                        } else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; gPath[i+10][1] &lt; 7 ) {
+                            gPath.push([i, gPath[i+10][1]+2]);
+
+                        } else if (Math.abs( randRangeNonZero( -10, 10 ) &lt; 3 ) &amp;&amp; gPath[i+10][1] &gt; -7 ) {
+                            gPath.push([i, gPath[i+10][1]-2]);
+
+                        } else {
+                            gPath.push([i, gPath[i+10][1]]);
+                        }
+                    }
+                    return gPath;
+                })()
+            </var>
+
+            <var id="F_COEF">randRangeExclude( -10, 10, [-1, 0, 1] )</var>
+            <var id="G_COEF">randRangeExclude( -10, 10, [-1, 0, 1] )</var>
+
+            <var id="CORRECT_X">randRange(-9, 9)</var>
+            <var id="CORRECT_Y">FUNCTION_PATH[CORRECT_X + 11][1]</var>
+
+            <var id="CORRECT_GX">randRange(-9, 9)</var>
+            <var id="CORRECT_GY">G_PATH[CORRECT_GX+11][1]</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <p class="problem">Functions <code class="f">f(x)</code> and <code class="g">g(x)</code> are graphed.
+                Find <code><var>F_COEF</var> \cdot </code><code class="f">f(<var>CORRECT_X</var>)</code><code>\space + \space<var>G_COEF</var> \cdot </code><code class="g">g(<var>CORRECT_GX</var>)</code>.
+                </p>
+
+                <div id="graph" class="graphie">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                        axisArrows: "&lt;-&gt;"
+                    });
+
+                    path( FUNCTION_PATH, { stroke: "#ffa500" } );
+                    path( G_PATH, { stroke: "#28ae7b" } );
+                </div>
+
+                <p class="solution"><var>F_COEF * CORRECT_Y + G_COEF * CORRECT_GY</var></p>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>Find <code>f(<var>CORRECT_X</var>)</code> and <code>g(<var>CORRECT_GX</var>)</code>.</p>
+            <p><code>\begin{align*}
+                f(<var>CORRECT_X</var>) &amp;= <var>CORRECT_Y</var> \\
+                g(<var>CORRECT_GX</var>) &amp;= <var>CORRECT_GY</var>
+            \end{align*}</code></p>
+            <div>
+                <p><code><var>F_COEF</var> f(<var>CORRECT_X</var>) + <var>G_COEF</var> g(<var>CORRECT_GX</var>)</code></p>
+                <p><code>= (<var>F_COEF</var>) (<var>CORRECT_Y</var>) + (<var>G_COEF</var>) (<var>CORRECT_GY</var>)</code></p>
+                <p><code>= <var>F_COEF * CORRECT_Y</var> + <var>G_COEF * CORRECT_GY</var></code></p>
+                <p><code>= <var>F_COEF * CORRECT_Y + G_COEF * CORRECT_GY</var></code></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

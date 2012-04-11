@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html data-require="math math-format interactive">
+<head>
+    <meta charset="UTF-8" />
+    <title>Ordering Mixed Numbers and Improper Fractions</title>
+    <script src="../khan-exercise.js"></script>
+
+    <style type="text/css">
+        .number-list {
+            font-size: 1.7em;
+            text-align: center
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <!--COLORS needed in hints section to explain the sorting    -->
+            <var id="COLORS">KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown" ])</var>
+            <var id="NUMS">(function() {
+                var ARRAY_LENGTH = 5;
+
+                // constants for displaying fractions and mixed numbers
+                var REDUCE = true;
+                var SMALL_TYPESET = true;
+                var DEFRACT = true;
+
+                // Create random mixture of mixed numbers and improper fractions
+                var MIXED_NUMBER = 1;
+                var IMPROPER_FRACTION = 2;
+                var TYPES = shuffle( [ MIXED_NUMBER, MIXED_NUMBER, MIXED_NUMBER, IMPROPER_FRACTION, IMPROPER_FRACTION, IMPROPER_FRACTION], ARRAY_LENGTH );
+
+                // calculate values so that they be accessed later in hints and solution
+                var array = [];
+                var used = {};
+
+                while ( array.length &lt; ARRAY_LENGTH ) {
+
+                    var denominator = randRange( 2, 3 ) * randRange( 2, 5 );
+
+                    // Since all are improper fractions, numerator is greater than denominator
+                    var numerator = randRange( denominator + 1, denominator + 15 );
+
+                    var number = ( numerator / denominator ).toFixed( 3 );
+                    var gcd = getGCD( numerator, denominator );
+
+                    switch ( TYPES[ array.length ] ) {
+                        case MIXED_NUMBER:
+                            // If number is a whole number, try again
+                            if ( numerator % denominator !== 0 ) {
+                                if ( !used[ number ] ) {
+                                    array.push( [ numerator / denominator,
+                                        ( numerator / gcd ),
+                                        ( denominator / gcd ),
+                                        fraction( numerator, denominator, !DEFRACT, REDUCE ),
+                                        COLORS[ array.length ],
+                                        mixedFractionFromImproper( numerator, denominator, DEFRACT, REDUCE, SMALL_TYPESET )
+                                    ]);
+                                    used[ number ] = true;
+                                }
+                            }
+                            break;
+
+                        case IMPROPER_FRACTION:
+                            if ( !used[ number ] ) {
+                                array.push([ numerator / denominator,
+                                    ( numerator / gcd ),
+                                    ( denominator / gcd ),
+                                    fraction( numerator, denominator, !DEFRACT, REDUCE ),
+                                    COLORS[ array.length ],
+                                    fractionReduce( numerator, denominator, SMALL_TYPESET )
+                                ]);
+                                used[ number ] = true;
+                            }
+                            break;
+                    }
+                }
+                return array;
+            })()</var>
+            <var id="DENOMS">$.map( NUMS, function( el ) {
+                return el[ 2 ];
+            })</var>
+            <var id="DENOMS_TEX_COLOR">$.map( NUMS, function( el ) {
+                return "\\color{" + el[4] + "}{" + el[2] + "}";
+            }).join( "," )</var>
+            <var id="LCD">getLCM.apply( KhanUtil, DENOMS )</var>
+            <var id="NUMS_LCD_COLOR">$.map( NUMS, function( el, idx ) {
+                var n = el[ 1 ],
+                    d = el[ 2 ],
+                    scalar = (LCD/d);
+                return "\\color{" + el[ 4 ] + "}{" + fraction( n * scalar, LCD ) + "}";
+            })</var>
+            <var id="NUMS_LCD_TEX_COLOR">NUMS_LCD_COLOR.join( "," )</var>
+            <var id="NUMS_TEX_COLOR">$.map( NUMS, function( el ) {
+                return "\\color{" + el[ 4 ] + "}{" + el[ 3 ] + "}";
+            } ).join( "," )</var>
+            <var id="NUMS_SORT">$.extend( true, [], NUMS ).sort( function( a, b) {
+                return a[0] - b[0];
+            })</var>
+            <var id="NUMS_SORT_TEX">$.map( NUMS_SORT, function( el ) {
+                return el[ 5 ];
+            }).join( "," )</var>
+            <var id="MIXED_NUMS_SORT_TEX_COLOR">$.map( NUMS_SORT, function( el ) {
+                return "\\color{" + el[ 4 ] + "}{" + el[ 5 ] + "}";
+            }).join( "," )</var>
+            <var id="NUMS_LCD_SORT_COLOR">$.map( NUMS_SORT, function( el, idx ) {
+                var n = el[ 1 ],
+                    d = el[ 2 ],
+                    scalar = ( LCD / d );
+                return "\\color{" + el[ 4 ] + "}{" + fraction( n * scalar, LCD ) + "}";
+            })</var>
+            <var id="NUMS_LCD_SORT_COLOR_TEX">NUMS_LCD_SORT_COLOR.join( "," )</var>
+            <var id="SORTER">createSorter()</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <div class="question">
+                    <p>Order the following fractions from least to greatest. </p>
+                    <ul id="sortable">
+                        <li data-each="NUMS as NUM">
+                            <code><var>NUM[ 5 ]</var></code>
+                        </li>
+                    </ul>
+                    <p><var>SORTER.init( "sortable" )</var></p>
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Drag the fractions or mixed numbers to the left or the right so they are in order from least to greatest
+                    </div>
+                    <div class="guess">SORTER.getContent()</div>
+                    <div class="validator-function">return guess.join( "," ) === NUMS_SORT_TEX;</div>
+                    <div class="show-guess">SORTER.setContent( guess );</div>
+                </div>
+
+                <div class="hints">
+                    <div>
+                        <p>It's easier to compare fractions if they are all in the same form, so convert mixed numbers and whole numbers into improper fractions.</p>
+                        <p class="number-list"><code><var>NUMS_TEX_COLOR</var></code></p>
+                    </div>
+                    <div>
+                        <p>We can compare fractions when they have the same denominator. To make these fractions have the same denominator, we have to find the least common denominator. The least common denominator is the least common multiple of all the denominators. The least common multiple of <code><var>DENOMS_TEX_COLOR</var></code> is <code><var>LCD</var></code>.</p>
+                    </div>
+                    <div>
+                        <p>We can change the denominator of fractions by multiplying by a form of <code>1</code>, such as <code>\dfrac{2}{2}</code> or <code>\dfrac{10}{10}</code>. Multiply the improper fractions above by forms of <code>1</code> so that their denominators are all equal to <code><var>LCD</var></code>.</p>
+                        <div>
+                            <p data-each="NUMS as I, NUM"><code>\color{<var>NUM[4]</var>}{<var>NUM[3]</var>}\times \dfrac {<var>LCD / NUM[2] </var>}{<var>LCD / NUM[2]</var>} = <var>NUMS_LCD_COLOR[I]</var></code></p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Now all the fractions are in a form where we can compare them by numerator.</p>
+                        <p class="number-list"><code><var>NUMS_LCD_TEX_COLOR</var></code></p>
+                    </div>
+                    <div>
+                        <p>Sort the fractions from least to greatest by their numerators.</p>
+                        <p class="number-list"><code><var>NUMS_LCD_SORT_COLOR_TEX</var></code></p>
+                    </div>
+                    <div>
+                        <p>Finally, convert the numbers back to their original form.</p>
+                        <p class="number-list"><code><var>MIXED_NUMS_SORT_TEX_COLOR</var></code></p>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

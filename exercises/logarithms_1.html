@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Logarithms 1</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+
+        /* The structure of the log problem is:
+         * log_base (number) = answer.
+         */
+
+        /* This is used for hints. Given the number you're taking a logarithim of, and
+         * a base, breaks the number into base x base x base...     x base.
+         * Returns a string. */
+        function get_power_string(number, base) {
+            var result = base;
+            for (var i=base; i<number; i*=base){
+                result += "\\times" + base;
+            }
+            return result;
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars" data-ensure="number < LARGEST_NUMBER">
+            <var id="LARGEST_NUMBER">1000</var>
+            <var id="base">randRange( 2, 16 )</var>
+            <var id="answer">randRange( 2, 5 )</var>
+            <var id="number">pow( base, answer)</var>
+
+            <var id="power_string">get_power_string(number, base)</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <p class="question"><code>\log_{<var>base</var>}<var>number</var> = {?}</code></p>
+                <p class="solution"><var>answer</var></p>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>If <code>\log_{b}x=y</code>, then <code>b^y=x</code>.</p>
+            <p>First, try to write <code><var>number</var></code>, the number we are taking the logarithm of, as a power of <code><var>base</var></code>, the base of the logarithm.</p>
+            <p><code><var>number</var></code> can be expressed as <code><var>power_string</var></code>.</p>
+            <p><code><var>number</var></code> can be expressed as <code><var>base</var>^<var>answer</var></code>.</p>
+            <p><code><var>base</var>^<var>answer</var>=<var>number</var></code>, so <code>\log_{<var>base</var>}<var>number</var>=<var>answer</var></code>.</p>
+        </div>
+    </div>
+</body>
+</html>

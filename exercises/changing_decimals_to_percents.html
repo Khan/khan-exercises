@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html data-require="math">
+    <head>
+        <title>Changing decimals to percents</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="DECIMAL">randRange( 50, 999 ) / 1000</var> <!-- between 0.05 and .999, pcts with 1 decimal place-->
+                <var id="SOLN">DECIMAL * 100</var>
+            </div>
+
+            <div class="problems">
+                <div id="original" data-weight="1">
+                    <p class="question">Express <code><var>DECIMAL</var></code> as a percent.</p>
+                    <div class="solution" data-type="multiple">
+                        <p><span class="sol"><var>SOLN</var></span> %</p>
+                    </div>
+
+                    <div class="hints">
+                        <p>To convert a decimal to a fraction, we need to multiply by 100 and add the <code>\%</code> symbol.</p>
+                        <p>To multiply by 100, we can just move the decimal point two places to the right.</p>
+                        <p><code><var>DECIMAL</var> \rightarrow <var>DECIMAL * 10 </var> \rightarrow <var>SOLN</var></code></p>
+                        <p>So <code><var>DECIMAL</var></code> = <code><var>SOLN</var>\%</code>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

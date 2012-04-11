@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Distributive property with variables</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function color( str, blue ) {
+            var pre = "";
+
+            if ( typeof str === "number" && str < 0 ) {
+                pre = "-";
+                str = Math.abs( str );
+            } else if ( typeof str === "string" && str.indexOf( "-" ) === 0 ) {
+                pre = "-";
+                str = str.slice( 1 );
+            }
+
+            return pre + "\\color{" + ( blue ? "blue" : "green" ) + "}{" + str + "}";
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+
+            <var id="LETTERS">"abcdefghijklmnpqrstuvwxyz"</var>
+            <var id="LETTER">randRange( 0, LETTERS.length - 2 )</var>
+            <var id="X">LETTERS[ LETTER + 0 ]</var>
+            <var id="Y">LETTERS[ LETTER + 1 ]</var>
+            <!-- Make it possible to use parenthetical expressions inside plus() functions -->
+            <var id="PLUSPARENS">function( a, b ) {
+                return "(" + plus( a, b ) + ")";
+            }</var>
+
+        </div>
+
+        <div class="problems">
+            <!-- A(x + y) + B -->
+            <div id="xPlusB">
+                <div class="vars">
+                    <var id="A">randRangeNonZero( -10, 10 )</var>
+                    <var id="B">randRangeNonZero( -10, 10 )</var>
+                    <var id="YSIGN">randRangeNonZero( -1, 1 )</var>
+                </div>
+
+
+                <p class="problem"><code><var>plus( A+PLUSPARENS( X, YSIGN+Y ), B )</var></code></p>
+                <p class="question">Use the distributive property to simplify the expression.</p>
+                <p class="solution"><code><var>plus( A+X, A*YSIGN+Y, B )</var></code></p>
+                <ul class="choices" data-show="4" data-none="true">
+                    <li><code><var>plus( A+X, YSIGN+Y, B )</var></code></li>
+                    <li><code><var>plus( A+X, YSIGN+Y, A*B )</var></code></li>
+                    <li><code><var>plus( A, X, YSIGN+Y, B )</var></code></li>
+                    <li><code><var>plus( A+X, A+Y, fraction( B, A, true, true ) )</var></code></li>
+                    <li><code><var>plus( fraction( 1, A, true, true )+X, fraction( YSIGN, A, true, true )+Y, B )</var></code></li>
+                    <li><code><var>plus( A+X, A*YSIGN+Y, A+B )</var></code></li>
+                    <li><code><var>plus( X, YSIGN+Y, A+B )</var></code></li>
+                    <li><code><var>plus( X, YSIGN+Y, A*B )</var></code></li>
+                </ul>
+
+                <div class="hints">
+                    <div>
+                        <p>Distribute across the parenthesis.</p>
+                        <p><code><var>plus( A+PLUSPARENS( color( X, false ), color( YSIGN+Y, false ) ), B )</var></code></p>
+                    </div>
+                    <div data-if="A === -1">
+                        <p>A negative sign before an expression is the same as -1 times that expression.</p>
+                        <p><code>\color{ blue }{ -1 }*<var>plus( PLUSPARENS( color( X, false ), color( YSIGN+Y, false ) ), B )</var></code></p>
+                    </div>
+                    <p><code><var>color( A, true )</var>*<var>color( X, false )</var> + <var>color( A*YSIGN, true )</var>*<var>color( Y, false )</var> + <var>B</var></code></p>
+
+                    <div>
+                        <p><code><var>plus( A+X, A*YSIGN+Y, B )</var></code></p>
+                        <p>You're done!</p>
+                    </div>
+
+                    <div>
+                        <p>Remember that the <em>distributive property</em> shows that multiplying an expression involving addition (or subtraction) by <code>x</code> is the same thing as multiplying each term of the expression by <code>x</code> before performing the addition.
+                        <p><code>x(y + z) = xy + xz</code></p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- A + B(x + C) + D, B is only 1 or -1 -->
+            <div id="ABXCD">
+                <div class="vars">
+                    <var id="A">randRangeNonZero( -10, 10 )</var>
+                    <var id="B">randRangeNonZero( -1, 1 )</var>
+                    <var id="C">randRangeNonZero( -10, 10 )</var>
+                    <var id="D">randRangeNonZero( -10, 10 )</var>
+                </div>
+
+                <p class="problem"><code><var>A</var> + <var>plus( B+PLUSPARENS( X, C ) )</var> + <var>D</var></code></p>
+                <p class="question">Using the distributive property, simplify the expression as much as possible.</p>
+
+                <p class="solution"><code><var>plus( B+X, A+(B*C)+D )</var></code></p>
+                <ul class="choices" data-show="4" data-none="true">
+                    <li data-if="C !== (A+D)"><code><var>X</var> - <var>A+(-1*C)+D</var></code></li>
+                    <li data-if="(A+C+D) !== 0"><code><var>plus( B+X )</var> + <var>A+C+D</var></code></li>
+                    <li data-if="C !== (A+D)"><code><var>X</var> + <var>A+(-1*C)+D</var></code></li>
+                    <li data-if="(A+C+D) !== 0"><code><var>X</var> - <var>A+C+D</var></code></li>
+                    <li data-if="(A+C+D) !== 0"><code><var>X</var> + <var>A+C+D</var></code></li>
+                    <li data-if="(C+D) !== 0"><code><var>plus( A, B+X, C+D )</var></code></li>
+                    <li data-if="C !== D"><code><var>plus( A, B+X, (-1*C)+D )</var></code></li>
+                </ul>
+
+                <div class="hints">
+                    <div>
+                        <p>The first and last numbers here can be combined to simplify the expression.</p>
+                        <p><code><var>color( A, true )</var> + <var>plus( B+PLUSPARENS( X, C ) )</var> + <var>color( D, true )</var></code></p>
+                    </div>
+                    <p><code><var>plus( B+PLUSPARENS( X, C ) )</var> + <var>color( A+D, true )</var></code></p>
+                    <div data-if="B < 0" data-unwrap>
+                        <div>
+                            <p>A negative sign before an expression is the same as -1 times that expression.</p>
+                            <p><code>\color{ blue }{ -1 }*<var>color( PLUSPARENS( X, C ), false )</var> + <var>A+D</var></code></p>
+                        </div>
+                        <p><code>\color{ blue }{ -1*<var>X</var> + -1*<var>C</var> } + <var>A+D</var></code></p>
+                        <p><code><var>plus( B+X, B*C )</var> + <var>A+D</var></code></p>
+                    </div>
+                    <p data-if="B > 0"><code><var>plus( X, C, A+D )</var></code></p>
+                    <div>
+                        <p><code><var>plus( B+X, (B*C)+A+D )</var></code></p>
+                        <p>You're done!</p>
+                    </div>
+                    <div>
+                        <p>Remember that the <em>distributive property</em> shows that multiplying an expression involving addition (or subtraction) by <code>x</code> is the same thing as multiplying each term of the expression by <code>x</code> before performing the addition.
+                        <p><code>x(y + z) = xy + xz</code></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- A(x + B) + C(D + x) -->
+            <div id="AXBCDX">
+                <div class="vars">
+                    <var id="A">randRangeNonZero( -10, 10 )</var>
+                    <var id="B">randRangeNonZero( -10, 10 )</var>
+                    <var id="C">randRangeNonZero( -10, 10 )</var>
+                    <var id="D">randRangeNonZero( -10, 10 )</var>
+                </div>
+
+                <p class="problem"><code><var>plus( A+PLUSPARENS( X, B ), C+PLUSPARENS( D, X ) )</var></code></p>
+                <p class="question">Using the distributive property, simplify the expression as much as possible.</p>
+
+                <p class="solution"><code><var>plus( (A+C)+X, (A*B)+(C*D) )</var></code></p>
+                <ul class="choices" data-show="5" data-none="true">
+                    <li><code><var>plus( (A+1)+X, B+(C*D) )</var></code></li>
+                    <li><code><var>plus( 2+X, A+B+C+D )</var></code></li>
+                    <li><code><var>plus( (B+D)+X, A+C )</var></code></li>
+                    <li><code><var>plus( A+PLUSPARENS( X, B ), C*D, C+X )</var></code></li>
+                    <li><code><var>plus( (A+C)+X, B+(C*D) )</var></code></li>
+                    <li><code><var>plus( (C+1)+X, A*B+C*D )</var></code></li>
+                    <li><code><var>plus( A+X, A*B, C+PLUSPARENS( D, X ) )</var></code></li>
+                </ul>
+
+                <div class="hints">
+                    <div>
+                        <p>Distribute across the first parenthesis.</p>
+                        <p><code><var>plus( color( A, true )+color( PLUSPARENS( X, B ), false ), C+PLUSPARENS( D, X ) )</var></code></p>
+                    </div>
+                    <div data-if="A === -1">
+                        <p>A negative sign before an expression is the same as -1 times that expression.</p>
+                        <p><code>\color{ blue }{ -1 }*<var>plus( color( PLUSPARENS( X, B ), false ), C+PLUSPARENS( D, X ) )</var></code></p>
+                    </div>
+                    <p><code><var>color( plus( A+X, A*B ), false )</var> + <var>plus( C+PLUSPARENS( D, X ) )</var></code></p>
+                    <div>
+                        <p>Distribute across the second parenthesis.</p>
+                        <p><code><var>plus( A+X, A*B )</var> + <var>plus( color( C, true )+color( PLUSPARENS( D, X ), false ) )</var></code></p>
+                    </div>
+                    <div data-if="C === -1">
+                        <p data-if="A !== -1">A negative sign before an expression is the same as -1 times that expression.</p>
+                        <p><code><var>plus( A+X, A*B )</var> + \color{ blue }{ -1 }*<var>plus( color( PLUSPARENS( D, X ), false ) )</var></code></p>
+                    </div>
+                    <p><code><var>plus( A+X, A*B )</var> + <var>color( plus( C*D, C+X ) )</var></code></p>
+                    <div>
+                        <p>Combine like terms.</p>
+                        <p><code><var>color( A+X, true )</var> + <var>color( A*B, false )</var> + <var>color( C*D, false )</var> + <var>color( C+X, true )</var></code></p>
+                    </div>
+                    <p data-if="((A*B) + (C*D)) === 0"><code><var>color( plus( (A+C)+X ), true )</var> + <var>color( (A*B)+(C*D), false )</var></code></p>
+                    <div>
+                        <p><code><var>plus( (A+C)+X, (A*B)+(C*D) )</var></code></p>
+                        <p>You're done! Make sure you simplify as much as possible.</p>
+                    </div>
+                    <div>
+                        <p>Remember that the <em>distributive property</em> shows that multiplying an expression involving addition (or subtraction) by <code>x</code> is the same thing as multiplying each term of the expression by <code>x</code> before performing the addition.
+                        <p><code>x(y + z) = xy + xz</code></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- A(x + B) + Cx -->
+            <div id="AXBCX">
+                <div class="vars">
+                    <var id="A">randRangeNonZero( -10, 10 )</var>
+                    <var id="B">randRangeNonZero( -10, 10 )</var>
+                    <var id="C">randRangeNonZero( -10, 10 )</var>
+                </div>
+
+                <p class="problem"><code><var>plus( A+PLUSPARENS( X, B ), C+X )</var></code></p>
+                <p class="question">Using the distributive property, simplify the expression as much as possible.</p>
+
+                <p class="solution"><code><var>plus( (A+C)+X, A*B )</var></code></p>
+                <ul class="choices" data-show="5" data-none="true">
+                    <li><code><var>plus( (A+1)+X, B+C )</var></code></li>
+                    <li><code><var>plus( 2+X, A+B+C )</var></code></li>
+                    <li><code><var>plus( (A+C)+X, (-1*A*B) )</var></code></li>
+                    <li><code><var>plus( ((-1*A)+C)+X, A*B )</var></code></li>
+                    <li><code><var>plus( ((-1*A)+C)+X, (-1*A*B) )</var></code></li>
+                    <li><code><var>plus( (A+C)+X, B )</var></code></li>
+                    <li><code><var>plus( (1 + C)+X, A*B )</var></code></li>
+                </ul>
+
+                <div class="hints">
+                    <div>
+                        <p>Distribute across the parenthesis.</p>
+                        <p><code>\color{ blue }{ <var>plus( A+PLUSPARENS( X, B ) )</var> } + <var>plus( C+X )</var></code></p>
+                    </div>
+                    <div data-if="A === -1">
+                        <p>A negative sign before an expression is the same as -1 times that expression.</p>
+                        <p><code>\color{ blue }{ -1 }*<var>plus( color( PLUSPARENS( X, B ), false ), plus( C+X ) )</var></code></p>
+                    </div>
+                    <p><code><var>color( plus( A+X, A*B ), false )</var> + <var>plus( C+X )</var></code></p>
+                    <div>
+                        <p>Combine like terms.</p>
+                        <p><code><var>color( A+X, true )</var> + <var>color( A*B, false )</var> + <var>color( C+X, true )</var></code></p>
+                    </div>
+                    <div>
+                        <p><code><var>plus( (A+C)+X, A*B )</var></code></p>
+                        <p>You're done!</p>
+                    </div>
+                    <div>
+                        <p>Remember that the <em>distributive property</em> shows that multiplying an expression involving addition (or subtraction) by <code>x</code> is the same thing as multiplying each term of the expression by <code>x</code> before performing the addition.
+                        <p><code>x(y + z) = xy + xz</code></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>

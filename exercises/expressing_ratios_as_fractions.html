@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Expressing ratios as fractions</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="FACTOR">randRange( 1, 5 )</var>
+        <var id="NUM">randRange( 1, 10 ) * FACTOR</var>
+        <var id="DENOM">randRange( 1, 10 ) * FACTOR</var>
+        <var id="GCD">getGCD( NUM, DENOM )</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <p class="question"><var>person(1)</var> has <var>plural( NUM, fruit( 0 ) )</var> for every <var>plural( DENOM, fruit( 1 ) )</var>. Write the ratio of <var>fruit( 0 )</var>s to <var>fruit( 1 )</var>s as a simplified fraction.</p>
+            <p class="solution" data-type="improper" data-ratio="true"><var>NUM / DENOM</var></p>
+        </div>
+    </div>
+
+    <div class="hints">
+        <p>Ratios can be written in a few different ways that mean the same thing.</p>
+        <div>
+            <p>You can express a ratio with a colon separating the two numbers.</p>
+            <p><code><var>NUM</var>:<var>DENOM</var></code></p>
+        </div>
+        <div>
+            <p>You can write it out as a phrase like this.</p>
+            <p><code><var>NUM</var> \text{ to } <var>DENOM</var></code></p>
+        </div>
+        <div>
+            <p>Or, you can express a ratio as a fraction.</p>
+            <p><code>\dfrac{<var>NUM</var>}{<var>DENOM</var>}<span data-if="GCD !== 1">=<var>fractionReduce( NUM, DENOM )</var></span></code></p>
+        </div>
+        <p>Therefore, <code><var>fractionReduce( NUM, DENOM )</var></code> is the ratio of <var>fruit( 0 )</var>s to <var>fruit( 1 )</var>s written as a simplified fraction.</p>
+    </div>
+    </div>
+</body>
+</html>

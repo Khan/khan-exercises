@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <title>Adding and subtracting mixed numbers with unlike denominators</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+<div class="exercise">
+
+    <div class="problems">
+        <div id="two-numbers">
+            <div class="vars">
+                <var id="PM">randRangeNonZero( -1, 1 )</var>
+                <var id="SIGN">( PM === 1 ? "+" : "-")</var>
+                <var id="W1">randRange( 2, 19 )</var>
+                <var id="W2">( PM === 1 ? randRange( 1, 19 ) : randRange( -W1 + 1, -1 ))</var>
+
+                <div data-ensure="getLCM( D1, D2 ) < 61 && D1 !== D2">
+                    <var id="D1">randRange( 3, 20 )</var>
+                    <var id="D2">randRange( 3, 20 )</var>
+                </div>
+                <div data-ensure="( PM === 1 ? (N1 / D1) + (N2 / D2) < 1 : (N1 / D1) + PM * (N2 / D2) > 0)">
+                    <var id="N1">randRange( 1, D1 - 1 )</var>
+                    <var id="N2">randRange( 1, D2 - 1 )</var>
+                </div>
+
+                <var id="GCD1">getGCD( N1, D1 )</var>
+                <var id="SIMP_N1">N1 / GCD1</var>
+                <var id="SIMP_D1">D1 / GCD1</var>
+
+                <var id="GCD2">getGCD( N2, D2 )</var>
+                <var id="SIMP_N2">N2 / GCD2</var>
+                <var id="SIMP_D2">D2 / GCD2</var>
+
+                <var id="LCM">getLCM( SIMP_D1, SIMP_D2 )</var>
+                <var id="GCD">getGCD( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2 , LCM )</var>
+            </div>
+
+            <p class="problem">Express your answer as a mixed number simplified to lowest terms.</p>
+            <p class="question"><code><var>expr(["+", W1 + fraction( N1, D1 ), W2 + fraction( N2, D2 )])</var> = {?}</code></p>
+            <div class="solution" data-type="mixed"><var>W1 + W2 + N1 / D1 + PM * N2 / D2</var></div>
+
+            <div class="hints">
+                <div>
+                    <p>Separate the whole numbers from the fractional parts:</p>
+                    <p><code>= \color{red}{<var>W1</var>} + \color{red}{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \color{blue}{<var>abs( W2 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D2 )</var>}</code></p>
+                </div>
+
+                <div>
+                    <p>Bring the whole numbers together and the fractions together:</p>
+                    <p><code>= \color{red}{<var>W1</var>} <var>SIGN</var> \color{blue}{<var>abs( W2 )</var>} + \color{red}{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D2 )</var>}</code></p>
+                </div>
+
+                <div>
+                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the whole numbers:</p>
+                    <p><code>=<var>W1 + W2</var> + \color{red}{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D2 )</var>}</code></p>
+                </div>
+
+                <div data-if="GCD1 !== 1 || GCD2 !== 1">
+                    <p>Simplify each fraction:</p>
+                    <p><code>= <var>W1+W2</var> + \color{red}{<var>fraction( SIMP_N1, SIMP_D1 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( SIMP_N2, SIMP_D2 )</var>}</code></p>
+                </div>
+
+                <div>
+                    <p>Find a common denominator for the fractions:</p>
+                    <p><code>= <var>expr(["+", W1 + W2, fraction( SIMP_N1 * LCM / SIMP_D1, LCM ),fraction( PM * SIMP_N2 * LCM / SIMP_D2, LCM )])</var></code></p>
+                </div>
+
+                <div>
+                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the fractions:</p>
+                    <p><code>= <var>expr(["+", W1 + W2, fraction( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )])</var></code></p>
+                </div>
+
+                <div>
+                    <p>Combine the whole and fractional parts into a mixed number:</p>
+                    <p><code>= <var>W1 + W2 + fraction( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
+                </div>
+
+                <div data-if="GCD > 1">
+                    <p>Simplify to lowest terms:</p>
+                    <p><code>= <var>W1 + W2 + fractionReduce( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

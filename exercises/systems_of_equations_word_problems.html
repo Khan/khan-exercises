@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions word-problems spin">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Systems of equations word problems</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #answer_area input[type=text] {width: 50px;}
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+        </div>
+        <div class="problems spin">
+            <div id="substitution-x">
+                <div class="vars">
+                    <var id="INDEX">randRange( 0, 2 )</var>
+                    <var id="X">[randRange( 2, 4 ), randRange( 2, 4 ), randRange( 40, 50 )][INDEX]</var>
+                    <var id="Y">[randRange( X + 2, 10 ), randRange( X + 2, 10 ), randRange( 30, 50 )][INDEX]</var>
+                    <var id="CENT_1">randRange( 0, 1 )</var>
+                    <var id="CENT_2" data-ensure="( CENT_1 + CENT_2 ) !== 0">randRange( 0, 1 )</var>
+                    <var id="A1">[roundTo( 8, randRange( 5, 8 ) + CENT_1 * 0.5 ), roundTo( 8, randRange( 5, 8 ) + CENT_1 * 0.5 ), 1][INDEX]</var>
+                    <var id="B1">[roundTo( 8, randRange( 2, 4 ) + CENT_2 * 0.5 ), roundTo( 8, randRange( 2, 4 ) + CENT_2 * 0.5 ), 1][INDEX]</var>
+                    <var id="C1">roundTo( 8, A1 * X + B1 * Y )</var>
+                    <var id="A2">1</var>
+                    <var id="B2" data-ensure="( A1 * B2 ) !== ( A2 * B1 )">[-1, -1, randRange( -4, -2 )][INDEX]</var>
+                    <var id="C2">roundTo( 8, A2 * X + B2 * Y )</var>
+                    <var id="SIGN_1">A1 * C2 &gt; 0 ? "-" : "+"</var>
+                    <var id="SIGN_2">B1 * Y &gt; 0 ? "-" : "+"</var>
+                    <var id="PROBLEM_1">["A group of adults and kids went to see a movie", "A few families took a trip to an amusement park together", ""][INDEX]</var>
+                    <var id="PROBLEM_2">["Find the number of adults and kids in the group", "Find the number of adults and kids on the trip", ""][INDEX]</var>
+                    <var id="UNIT_1">["adults", "adults", "home team fans"][INDEX]</var>
+                    <var id="UNIT_2">["kids", "kids", "away team fans"][INDEX]</var>
+                </div>
+                <div class="question">
+                    <p><span data-if="INDEX === 0 || INDEX === 1"><var>PROBLEM_1</var>. Tickets cost $<var>A1.toFixed( 2 )</var> each for adults and $<var>B1.toFixed( 2 )</var> each for kids, and the
+                    group paid $<var>C1.toFixed( 2 )</var> in total. There were <var>abs( C2 )</var> fewer adults than kids in the group.<br /><br /><var>PROBLEM_2</var>.</span><span data-else><var>C1</var> people attended
+                    a baseball game. Everyone there was a fan of either the home team or the away team. The number of home team fans was <var>abs( C2 )</var> less than <var>abs( B2 )</var> times the number of away team fans.<br /><br />How
+                    many home team and away team fans attended the game?</span></p>
+                </div>
+                <div class="solution" data-type="multiple">
+                    <p># of <var>UNIT_1</var> = <span class="sol"><var>X</var></span></p>
+                    <p># of <var>UNIT_2</var> = <span class="sol"><var>Y</var></span></p>
+                </div>
+                <div class="hints">
+                    <p>Let <code>x</code> equal the number of <var>UNIT_1</var> and <code>y</code> equal the number of <var>UNIT_2</var>.</p>
+                    <div>
+                        <p>The system of equations is then:</p>
+                        <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
+                        <code class="hint_green">x = <var>expr(["+", ["*", -B2, "y"], C2])</var></code></p>
+                        <p>Solve for <code>x</code> and <code>y</code> using substitution.
+                    </div>
+                    <div>
+                        <p>Since <code>x</code> has already been solved for, substitute <code class="hint_green"><var>expr(["+", ["*", -B2, "y"], C2])</var></code> for <code>x</code> in the first equation.</p>
+                        <p><code>\color{<var>BLUE</var>}{<span data-if="abs( A1 ) !== 1"><var>A1</var></span><span data-if="A1 === -1">-</span>}\color{<var>GREEN</var>}{(<var>expr(["+", ["*", -B2, "y"], C2])</var>)}\color{<var>BLUE</var>}{+ <var>expr(["*", B1, "y"])</var> = <var>C1</var>}</code></p>
+                    </div>
+                    <div>
+                        <p>Simplify and solve for <code>y</code>.</p>
+                        <p><code><var>expr(["+", ["*", roundTo( 8, A1 * -B2 ), "y"], roundTo( 8, A1 * C2 )])</var> + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
+                        <p><code><var>expr(["+", ["*", roundTo( 8, A1 * -B2 + B1 ), "y"], roundTo( 8, A1 * C2 )])</var> = <var>C1</var></code></p>
+                        <p><code><var>expr(["+", ["*", roundTo( 8, A1 * -B2 + B1 ), "y"], A1 * C2])</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( roundTo( 8, A1 * C2 ) )</var>} = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( roundTo( 8, A1 * C2 ) )</var>}</code></p>
+                        <p data-if="( A1 * -B2 + B1 ) !== 1"><code><var>expr(["*", roundTo( 8, A1 * -B2 + B1 ), "y"])</var> = <var>roundTo( 8, C1 - A1 * C2 )</var></code></p>
+                        <p data-if="( A1 * -B2 + B1 ) !== 1"><code>\dfrac{<var>expr(["*", roundTo( 8, A1 * -B2 + B1 ), "y"])</var>}{\color{<var>BLUE</var>}{<var>roundTo( 8, A1 * -B2 + B1 )</var>}} = \dfrac{<var>roundTo( 8, C1 - A1 * C2 )</var>}{\color{<var>BLUE</var>}{<var>roundTo( 8, A1 * -B2 + B1 )</var>}}</code></p>
+                        <p><code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code></p>
+                    </div>
+                    <div>
+                        <p>Now that you know <code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code>, plug it back into <code>\thinspace \color{<var>GREEN</var>}{x = <var>expr(["+", ["*", -B2, "y"], C2])</var>}\thinspace</code> to find <code>x</code>.</p>
+                    </div>
+                    <div>
+                        <p><code>\color{<var>GREEN</var>}{x = <span data-if="abs( B2 ) !== 1"><var>-B2</var></span><span data-if="B2 === 1">-</span>}\color{<var>ORANGE</var>}{(<var>Y</var>)}\color{<var>GREEN</var>}{ + <var>C2</var>}</code></p>
+                        <p data-if="B2 !== -1"><code>x = <var>-B2 * Y</var> + <var>C2</var></code></p>
+                        <p><code>\color{red}{x = <var>X</var>}</code></p>
+                    </div>
+                    <div>
+                        <p>You can also plug <code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code> into <code>\thinspace \color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}\thinspace</code> and get the same answer for <code>x</code>:</p>
+                        <p><code>\color{<var>BLUE</var>}{<var>expr(["*", A1, "x"])</var> + <span data-if="abs( B1 ) !== 1"><var>B1</var></span><span data-if="B1 === -1">-</span>}\color{<var>ORANGE</var>}{(<var>Y</var>)}\color{<var>BLUE</var>}{= <var>C1</var>}</code></p>
+                        <p><code>\color{red}{x = <var>X</var>}</code></p>
+                    </div>
+                    <p>There were <var>X</var> <var>UNIT_1</var> and <var>Y</var> <var>UNIT_2</var>.</p>
+                </div>
+            </div>
+            <div id="substitution-y">
+                <div class="vars">
+                    <var id="INDEX">randRange( 0, 2 )</var>
+                    <var id="X">[randRange( 2, 4 ), randRange( 2, 4 ), randRange( 40, 50 )][INDEX]</var>
+                    <var id="Y">[randRange( X + 2, 10 ), randRange( X + 2, 10 ), randRange( 30, 50 )][INDEX]</var>
+                    <var id="CENT_1">randRange( 0, 1 )</var>
+                    <var id="CENT_2" data-ensure="( CENT_1 + CENT_2 ) !== 0">randRange( 0, 1 )</var>
+                    <var id="A1">[roundTo( 8, randRange( 5, 8 ) + CENT_1 * 0.5 ), roundTo( 8, randRange( 5, 8 ) + CENT_1 * 0.5 ), 1][INDEX]</var>
+                    <var id="B1">[roundTo( 8, randRange( 2, 4 ) + CENT_2 * 0.5 ), roundTo( 8, randRange( 2, 4 ) + CENT_2 * 0.5 ), 1][INDEX]</var>
+                    <var id="C1">roundTo( 8, A1 * X + B1 * Y )</var>
+                    <var id="B2">1</var>
+                    <var id="A2" data-ensure="( A1 * B2 ) !== ( A2 * B1 )">[-1, -1, randRange( -4, -2 )][INDEX]</var>
+                    <var id="C2">roundTo( 8, A2 * X + B2 * Y )</var>
+                    <var id="SIGN_1">B1 * C2 &gt; 0 ? "-" : "+"</var>
+                    <var id="SIGN_2">A1 * X &gt; 0 ? "-" : "+"</var>
+                    <var id="PROBLEM_1">["The drama club sold bags of candy and cookies to raise money for the spring show", "A local gift shop sold bags of candy and cookies for Halloween", ""][INDEX]</var>
+                    <var id="PROBLEM_2">["Find the number of bags of candy and cookies sold by the drama club", "Find the number of bags of candy and cookies sold by the gift shop", ""][INDEX]</var>
+                    <var id="UNIT_1">["bags of candy", "bags of candy", "angle 1"][INDEX]</var>
+                    <var id="UNIT_2">["bags of cookies", "bags of cookies", "angle 2"][INDEX]</var>
+                </div>
+                <div class="question">
+                    <p><span data-if="INDEX === 0 || INDEX === 1"><var>PROBLEM_1</var>. Bags of candy cost $<var>A1.toFixed( 2 )</var>, and bags of cookies cost $<var>B1.toFixed( 2 )</var>, and sales equaled $<var>C1.toFixed( 2 )</var> in total. There were <var>C2</var> more bags of cookies than candy sold.<br /><br /><var>PROBLEM_2</var>.</span><span data-else>The sum of two angles' measures is <var>C1</var> degrees. Angle 2 is <var>abs( C2 )</var> degrees smaller than <var>abs( A2 )</var> times angle 1.<br /><br />What are the measures of the two angles in degrees?</span></p>
+                </div>
+                <div class="solution" data-type="multiple">
+                    <p><span data-if="INDEX !== 2"># of </span><var>UNIT_1</var> = <span class="sol"><var>X</var></span></p>
+                    <p><span data-if="INDEX !== 2"># of </span><var>UNIT_2</var> = <span class="sol"><var>Y</var></span></p>
+                </div>
+                <div class="hints">
+                    <p>Let <code>x</code> equal the <span data-if="INDEX !== 2">number</span><span data-else>measure</span> of <var>UNIT_1</var> and <code>y</code> equal the <span data-if="INDEX !== 2">number</span><span data-else>measure</span> of <var>UNIT_2</var>.</p>
+                    <div>
+                        <p>The system of equations is then:</p>
+                        <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
+                        <code class="hint_green">y = <var>expr(["+", ["*", -A2, "x"], C2])</var></code></p>
+                    </div>
+                    <div>
+                        <p>Since we already have solved for <code>y</code> in terms of x, we can use substitution to solve for <code>x</code> and <code>y</code>.
+                    </div>
+                    <div>
+                        <p>Substitute <code class="hint_green"><var>expr(["+", ["*", -A2, "x"], C2])</var></code> for <code>y</code> in the first equation.</p>
+                        <p><code>\color{<var>BLUE</var>}{<var>expr(["*", A1, "x"])</var> + <span data-if="abs( B1 ) !== 1"><var>B1</var></span><span data-if="B1 === -1">-</span>}\color{<var>GREEN</var>}{(<var>expr(["+", ["*", -A2, "x"], C2])</var>)}\color{<var>BLUE</var>}{= <var>C1</var>}</code></p>
+                    </div>
+                    <div>
+                        <p>Simplify and solve for <code>x</code>.</p>
+                        <p><code><var>expr(["+", ["*", A1, "x"], ["*", roundTo( 8, B1 * -A2 ), "x"]])</var> + <var>roundTo( 8, B1 * C2 )</var> = <var>C1</var></code></p>
+                        <p><code><var>expr(["+", ["*", roundTo( 8, A1 + B1 * -A2 ), "x"], roundTo( 8, B1 * C2 )])</var> = <var>C1</var></code></p>
+                        <p><code><var>expr(["+", ["*", roundTo( 8, A1 + B1 * -A2 ), "x"], roundTo( 8, B1 * C2 )])</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( roundTo( 8, B1 * C2 ) )</var>} = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( roundTo( 8, B1 * C2 ) )</var>}</code></p>
+                        <p data-if="( A1 + B1 * -A2 ) !== 1"><code><var>expr(["*", roundTo( 8, A1 + B1 * -A2 ), "x"])</var> = <var>roundTo( 8, C1 - B1 * C2 )</var></code></p>
+                        <p data-if="( A1 + B1 * -A2 ) !== 1"><code>\dfrac{<var>expr(["*", roundTo( 8, A1 + B1 * -A2 ), "x"])</var>}{\color{<var>BLUE</var>}{<var>roundTo( 8, A1 + B1 * -A2 )</var>}} = \dfrac{<var>roundTo( 8, C1 - B1 * C2 )</var>}{\color{<var>BLUE</var>}{<var>roundTo( 8, A1 + B1 * -A2 )</var>}}</code></p>
+                        <p><code>\color{red}{x = <var>X</var>}</code></p>
+                    </div>
+                    <div>
+                        <p>Now that you know <code>\color{red}{x = <var>X</var>}</code>, plug it back into <code>\thinspace \color{<var>GREEN</var>}{y = <var>expr(["+", ["*", -A2, "x"], C2])</var>}\thinspace</code> to find <code>y</code>.</p>
+                    </div>
+                    <div>
+                        <p><code>\color{<var>GREEN</var>}{y = <span data-if="abs( A2 ) !== 1"><var>-A2</var></span><span data-if="A2 === 1">-</span>}\color{red}{(<var>X</var>)}\color{<var>GREEN</var>}{ + <var>C2</var>}</code></p>
+                        <p data-if="A2 !== -1"><code>y = <var>roundTo( 8, -A2 * X )</var> + <var>C2</var></code></p>
+                        <p><code class="hint_orange">y = <var>Y</var></code></p>
+                    </div>
+                    <div>
+                        <p>You can also plug <code>\color{red}{x = <var>X</var>}</code> into <code>\thinspace \color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}\thinspace</code> and get the same answer for <code>y</code>:</p>
+                        <p><code>\color{<var>BLUE</var>}{<span data-if="abs( A1 ) !== 1"><var>A1</var></span><span data-if="A1 === -1">-</span>}\color{red}{(<var>X</var>)}\color{<var>BLUE</var>}{ + <var>expr(["*", B1, "y"])</var> = <var>C1</var>}</code></p>
+                        <p><code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code></p>
+                    </div>
+                    <p><span data-if="INDEX !== 2"><var>X</var> bags of candy and <var>Y</var> bags of cookies were sold.</span><span data-else>The measure of angle 1 is <code><var>X</var>^{\circ}</code> and the measure of angle 2 is <code><var>Y</var>^{\circ}</code>.</span></p>
+                </div>
+            </div>
+            <div id="elimination-x">
+                <div class="vars" data-ensure="abs( B1 * MULT1 + B2 * MULT2 ) > 0.0001">
+                    <var id="X">randRange( 2, 4 )</var>
+                    <var id="Y">randRange( X + 2, 10 )</var>
+                    <var id="INDEX">1</var>
+                    <var id="CENT_1">randRange( 0, 1 )</var>
+                    <var id="CENT_2" data-ensure="( CENT_1 + CENT_2 ) !== 0">randRange( 0, 1 )</var>
+                    <var id="Z1">roundTo( 8, randRange( 100, 300 ) / 100 )</var>
+                    <var id="Z2" data-ensure="abs( Z2 ) <= 6 && Z2 !== 0">INDEX === 0 ? -1 * Z1 : randRangeWeighted( -4, 4, -1, 0 ) * Z1</var>
+                    <var id="Z3">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
+                    <var id="Z4">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
+                    <var id="Z5">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
+                    <var id="Z6" data-ensure="( Z3 * Z6 ) !== ( Z4 * Z5 )">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
+                    <var id="A1">roundTo( 8, randRange( 5, 8 ) + CENT_1 * 0.5 )</var>
+                    <var id="B1">roundTo( 8, randRange( 2, 4 ) + CENT_2 * 0.5 )</var>
+                    <var id="C1">roundTo( 8, A1 * X + B1 * Y )</var>
+                    <var id="A2">A1 * randRange( 2, 4 )</var>
+                    <var id="B2">roundTo( 8, randRange( 7, 12 ) + ( CENT_1 + CENT_2 ) * 0.5 )</var>
+                    <var id="C2">roundTo( 8, A2 * X + B2 * Y )</var>
+                    <var id="MULT1">[ 1, roundTo( 8, -A2 / A1 ), 1, A2 &gt; 0 &amp;&amp; A1 &lt; 0 ? A2 : -A2 ][ INDEX ]</var>
+                    <var id="MULT2">[ 1, 1, roundTo( 8, -A1 / A2 ), A2 &gt; 0 &amp;&amp; A1 &lt; 0 ? -A1 : A1 ][ INDEX ]</var>
+                    <var id="SIGN_1">B1 * Y &gt; 0 ? "-" : "+"</var>
+                    <var id="SIGN_2">B2 * Y &gt; 0 ? "-" : "+"</var>
+                </div>
+                <div class="question spin">
+                    <p>All of the {3rd|4th|5th} grade teachers and students from <var>school(1)</var> went on a field trip to an {art|archaeology} museum. Tickets were $<var>A1.toFixed( 2 )</var> each for teachers and $<var>B1.toFixed( 2 )</var> each for students, and the
+                    group paid $<var>C1.toFixed( 2 )</var> in total.<br /><br />{A few weeks later|The next month}, the same group visited a {science|natural history} museum where the tickets cost $<var>A2.toFixed( 2 )</var> each for teachers and $<var>B2.toFixed( 2 )</var> each for students, and the
+                    group paid $<var>C2.toFixed( 2 )</var> in total.<br /><br />Find the number of teachers and students on the field trips.</p>
+                </div>
+                <div class="solution" data-type="multiple">
+                    <p># of teachers = <span class="sol"><var>X</var></span></p>
+                    <p># of students = <span class="sol"><var>Y</var></span></p>
+                </div>
+                <div class="hints">
+                    <p>Let <code>x</code> equal the number of teachers and <code>y</code> equal the number of students.</p>
+                    <div>
+                        <p>The system of equations is:</p>
+                        <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
+                        <code class="hint_green"><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> = <var>C2</var></code></p>
+                        <p>Solve for <code>x</code> and <code>y</code> using elimination.</p>
+                    </div>
+                    <div data-if="INDEX !== 0">
+                        <p>Multiply the <span data-if="INDEX === 2">bottom</span><span data-else>top</span> equation by <span data-if="INDEX === 2"><code><var>MULT2</var></code></span><span data-else><code><var>MULT1</var></code></span><span data-if="INDEX === 3"> and the bottom equation by <code><var>MULT2</var></code></span>.</p>
+                        <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1 * MULT1, "x"], ["*", B1 * MULT1, "y"]])</var> = <var>C1 * MULT1</var>}</code><br />
+                        <code class="hint_green"><var>expr(["+", ["*", A2 * MULT2, "x"], ["*", B2 * MULT2, "y"]])</var> = <var>C2 * MULT2</var></code></p>
+                    </div>
+                    <div>
+                        <p>Add the top and bottom equations together.
+                        <p data-if="( B1 * MULT1 + B2 * MULT2 ) !== 1"><code><var>expr(["*", roundTo( 8, B1 * MULT1 + B2 * MULT2 ), "y"])</var> = <var>roundTo( 8, C1 * MULT1 + C2 * MULT2 )</var></code></p>
+                        <p data-if="( B1 * MULT1 + B2 * MULT2 ) !== 1"><code>\dfrac{<var>expr(["*", roundTo( 8, B1 * MULT1 + B2 * MULT2 ), "y"])</var>}{\color{<var>BLUE</var>}{<var>roundTo( 8, B1 * MULT1 + B2 * MULT2 )</var>}} = \dfrac{<var>roundTo( 8, C1 * MULT1 + C2 * MULT2 )</var>}{\color{<var>BLUE</var>}{<var>roundTo( 8, B1 * MULT1 + B2 * MULT2 )</var>}}</code></p>
+                        <p><code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code></p>
+                    </div>
+                    <div>
+                        <p>Now that you know <code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code>, plug it back into <code>\thinspace \color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}\thinspace</code> to find <code>x</code>.</p>
+                    </div>
+                    <div>
+                        <p><code>\color{<var>BLUE</var>}{<var>expr(["*", A1, "x"])</var> + <span data-if="abs( B1 ) !== 1"><var>B1</var></span><span data-if="B1 === -1">-</span>}\color{<var>ORANGE</var>}{(<var>Y</var>)}\color{<var>BLUE</var>}{= <var>C1</var>}</code></p>
+                        <p data-if="B1 !== 1"><code><var>expr(["+", ["*", A1, "x"], B1 * Y])</var> = <var>C1</var></code></p>
+                        <p><code><var>expr(["+", ["*", A1, "x"], B1 * Y])</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( B1 * Y )</var>} = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( B1 * Y )</var>}</code></p>
+                        <p data-if="A1 !== 1"><code><var>expr(["*", A1, "x"])</var> = <var>roundTo( 8, C1 - B1 * Y )</var></code></p>
+                        <p data-if="A1 !== 1"><code>\dfrac{<var>expr(["*", A1, "x"])</var>}{\color{<var>BLUE</var>}{<var>A1</var>}} = \dfrac{<var>roundTo( 8, C1 - B1 * Y )</var>}{\color{<var>BLUE</var>}{<var>A1</var>}}</code></p>
+                        <p><code>\color{red}{x = <var>X</var>}</code></p>
+                    </div>
+                    <div>
+                        <p>You can also plug <code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code> into <code>\thinspace \color{<var>GREEN</var>}{<var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> = <var>C2</var>}\thinspace</code> and get the same answer for <code>x</code>:</p>
+                        <p><code>\color{<var>GREEN</var>}{<var>expr(["*", A2, "x"])</var> + <span data-if="abs( B2 ) !== 1"><var>B2</var></span><span data-if="B2 === -1">-</span>}\color{<var>ORANGE</var>}{(<var>Y</var>)}\color{<var>GREEN</var>}{= <var>C2</var>}</code></p>
+                        <p><code>\color{red}{x = <var>X</var>}</code></p>
+                    </div>
+                    <p>There were <var>X</var> teachers and <var>Y</var> students on the field trips.</p>
+                </div>
+            </div>
+            <div id="elimination-y">
+                <div class="vars">
+                    <var id="X">randRange( 11, 99 )</var>
+                    <var id="Y" data-ensure="X !== Y">randRange( 10, X - 1 )</var>
+                    <var id="INDEX">0</var>
+                    <var id="Z1">roundTo( 8, randRange( 100, 300 ) / 100 )</var>
+                    <var id="Z2" data-ensure="abs( Z2 ) <= 6 && Z2 !== 0">INDEX === 0 ? -1 * Z1 : randRangeWeighted( -4, 4, -1, 0 ) * Z1</var>
+                    <var id="Z3">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
+                    <var id="Z4">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
+                    <var id="Z5">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
+                    <var id="Z6" data-ensure="( Z3 * Z6 ) !== ( Z4 * Z5 )">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
+                    <var id="A1">1</var>
+                    <var id="B1">[ 1, Z1, Z2, Z5 ][ INDEX ]</var>
+                    <var id="C1">roundTo( 8, A1 * X + B1 * Y )</var>
+                    <var id="A2">1</var>
+                    <var id="B2">[ -1, Z2, Z1, Z6 ][ INDEX ]</var>
+                    <var id="C2">roundTo( 8, A2 * X + B2 * Y )</var>
+                    <var id="MULT1">[ 1, roundTo( 8, -B2 / B1 ), 1, B2 &gt; 0 &amp;&amp; B1 &lt; 0 ? B2 : -B2 ][ INDEX ]</var>
+                    <var id="MULT2">[ 1, 1, roundTo( 8, -B1 / B2 ), B2 &gt; 0 &amp;&amp; B1 &lt; 0 ? -B1 : B1 ][ INDEX ]</var>
+                    <var id="SIGN_1">A1 * X &gt; 0 ? "-" : "+"</var>
+                    <var id="SIGN_2">A2 * X &gt; 0 ? "-" : "+"</var>
+                </div>
+                <div class="question">
+                    <p>The sum of two numbers is <var>C1</var>, and their difference is <var>C2</var>. What are the two numbers?</p>
+                </div>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol"><var>X</var></div>
+                    <div class="set-sol"><var>Y</var></div>
+                    <div class="input-format">
+                    <p><code>x</code> = <span class="entry"></span></p>
+                    <p><code>y</code> = <span class="entry"></span></p>
+                </div>
+                </div>
+                <div class="hints">
+                    <div>
+                        <p>Let <code>x</code> be the first number, and let <code>y</code> be the second number.</p>
+                    </div>
+                    <div>
+                        <p>The system of equations is:</p>
+                        <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
+                        <code class="hint_green"><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> = <var>C2</var></code></p>
+                        <p>Solve for <code>x</code> and <code>y</code> using elimination.
+                    </div>
+                    <div data-if="INDEX !== 0">
+                        <p>Multiply the <span data-if="INDEX === 2">bottom</span><span data-else>top</span> equation by <span data-if="INDEX === 2"><code><var>MULT2</var></code></span><span data-else><code><var>MULT1</var></code></span><span data-if="INDEX === 3"> and the bottom equation by <code><var>MULT2</var></code></span>.</p>
+                        <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1 * MULT1, "x"], ["*", B1 * MULT1, "y"]])</var> = <var>C1 * MULT1</var>}</code><br />
+                        <code class="hint_green"><var>expr(["+", ["*", A2 * MULT2, "x"], ["*", B2 * MULT2, "y"]])</var> = <var>C2 * MULT2</var></code></p>
+                    </div>
+                    <div>
+                        <p>Add the top and bottom equations together.
+                        <p data-if="( A1 * MULT1 + A2 * MULT2 ) !== 1"><code><var>expr(["*", roundTo( 8, A1 * MULT1 + A2 * MULT2 ), "x"])</var> = <var>roundTo( 8, C1 * MULT1 + C2 * MULT2 )</var></code></p>
+                        <p data-if="( A1 * MULT1 + A2 * MULT2 ) !== 1"><code>\dfrac{<var>expr(["*", roundTo( 8, A1 * MULT1 + A2 * MULT2 ), "x"])</var>}{\color{<var>BLUE</var>}{<var>roundTo( 8, A1 * MULT1 + A2 * MULT2 )</var>}} = \dfrac{<var>roundTo( 8, C1 * MULT1 + C2 * MULT2 )</var>}{\color{<var>BLUE</var>}{<var>roundTo( 8, A1 * MULT1 + A2 * MULT2 )</var>}}</code></p>
+                        <p><code>\color{red}{x = <var>X</var>}</code></p>
+                    </div>
+                    <div>
+                        <p>Now that you know <code>\color{red}{x = <var>X</var>}</code>, plug it back into <code>\thinspace \color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}\thinspace</code> to find <code>y</code>.</p>
+                    </div>
+                    <div>
+                        <p><code>\color{<var>BLUE</var>}{<span data-if="abs( A1 ) !== 1"><var>A1</var></span><span data-if="A1 === -1">-</span>}\color{red}{(<var>X</var>)}\color{<var>BLUE</var>}{ + <var>expr(["*", B1, "y"])</var> = <var>C1</var>}</code></p>
+                        <p data-if="A1 !== 1"><code><var>expr(["+", A1 * X, ["*", B1, "y"]])</var> = <var>C1</var></code></p>
+                        <p><code><var>A1 * X</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( A1 * X )</var>} + <var>expr(["*", B1, "y"])</var> = <var>C1</var>\color{<var>BLUE</var>}{<var>SIGN_1</var><var>abs( A1 * X )</var>}</code></p>
+                        <p data-if="B1 !== 1"><code><var>expr(["*", B1, "y"])</var> = <var>roundTo( 8, C1 - A1 * X )</var></code></p>
+                        <p data-if="B1 !== 1"><code>\dfrac{<var>expr(["*", B1, "y"])</var>}{\color{<var>BLUE</var>}{<var>B1</var>}} = \dfrac{<var>roundTo( 8, C1 - A1 * X )</var>}{\color{<var>BLUE</var>}{<var>B1</var>}}</code></p>
+                        <p><code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code></p>
+                    </div>
+                    <div>
+                        <p>You can also plug <code>\color{red}{x = <var>X</var>}</code> into <code>\thinspace \color{<var>GREEN</var>}{<var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> = <var>C2</var>}\thinspace</code> and get the same answer for <code>y</code>:</p>
+                        <p><code>\color{<var>GREEN</var>}{<span data-if="abs( A2 ) !== 1"><var>A2</var></span><span data-if="A2 === -1">-</span>}\color{red}{(<var>X</var>)}\color{<var>GREEN</var>}{ + <var>expr(["*", B2, "y"])</var> = <var>C2</var>}</code></p>
+                        <p><code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

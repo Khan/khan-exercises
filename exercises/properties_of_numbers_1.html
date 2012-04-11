@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Properties of numbers 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="FIRST">randRange( 1, 10 )</var>
+        <var id="SECOND">randRangeExclude( 1, 10, [ FIRST ] )</var>
+        <var id="OP, OP_WORD, ADDENDS">randFromArray( [ [ "+", "addition", "addends" ], [ "\\times", "multiplication", "factors" ] ] )</var>
+        <var id="SYMBOL">binop( 1 )</var>
+    </div>
+
+    <div class="problems">
+        <div id="commutative-show-left">
+            <div class="vars">
+                <var id="ANSWER_INDEX">randRange( 0, 1 )</var>
+                <var id="ANSWER">ANSWER_INDEX ? SECOND : FIRST</var>
+                <var id="FAKE_FIRST">ANSWER_INDEX ? FIRST: SYMBOL</var>
+                <var id="FAKE_SECOND">ANSWER_INDEX ? SYMBOL: SECOND</var>
+                <var id="RESULT">OP === "+" ? FIRST + SECOND : FIRST * SECOND</var>
+            </div>
+            <p class="question">What number could replace <code><var>SYMBOL</var></code> below?</p>
+            <p class="problem"><code><var>FIRST</var> <var>OP</var> <var>SECOND</var> = <var>FAKE_SECOND</var> <var>OP</var> <var>FAKE_FIRST</var></code></p>
+            <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+            <div class="hints">
+                <p>With <var>OP_WORD</var>, the order of the two <var>ADDENDS</var> does not matter.</p>
+                <div>
+                    <p>Evaluating the left side:</p>
+                    <p><code><var>FIRST</var> <var>OP</var> <var>SECOND</var> = <var>RESULT</var></code></p>
+                </div>
+                <div>
+                    <p>Re-ordering the <var>ADDENDS</var> and evaluating:</p>
+                    <p><code><var>SECOND</var> <var>OP</var> <var>FIRST</var> = <var>RESULT</var></code></p>
+                </div>
+                <div>
+                    <p>We see that re-ordering the <var>ADDENDS</var> did not affect the final result:</p>
+                    <p><code><var>FIRST</var> <var>OP</var> <var>SECOND</var> = <var>SECOND</var> <var>OP</var> <var>FIRST</var></code></p>
+                </div>
+                <p>Comparing with the original equation, the symbol <code><var>SYMBOL</var></code> could be replaced with the number <code><var>ANSWER</var></code>.</p>
+                <p>This fact about <var>OP_WORD</var> is known as the commutative property.</p>
+            </div>
+        </div>
+        <div id="associative-show-left">
+            <div class="vars">
+                <var id="THIRD">randRangeExclude( 1, 10, [ FIRST, SECOND ] )</var>
+                <var id="FIRST_OPEN, FIRST_CLOSE, SECOND_OPEN, SECOND_CLOSE">randFromArray( [ [ "(", ")", "", "" ] ])</var>
+                <var id="TERMS">shuffle( [ FIRST, SECOND, THIRD ] )</var>
+                <var id="SWAP_INDEX">randRange( 0, 2 )</var>
+                <var id="FAKE_TERMS">
+                (function() {
+                    var fake = TERMS.slice( 0 );
+                    fake[ SWAP_INDEX ] = SYMBOL;
+                    return fake;
+                })()</var>
+                <var id="ANSWER">TERMS[ SWAP_INDEX ]</var>
+                <var id="FIRST_PAIR">OP === "+" ? TERMS[ 0 ] + TERMS[ 1 ] : TERMS[ 0 ] * TERMS[ 1 ]</var>
+                <var id="SECOND_PAIR">OP === "+" ? TERMS[ 1 ] + TERMS[ 2 ] : TERMS[ 1 ] * TERMS[ 2 ]</var>
+                <var id="FINAL_RESULT">OP === "+" ? TERMS[ 0 ] + TERMS[ 1 ] + TERMS[ 2 ] : TERMS[ 0 ] * TERMS[ 1 ] * TERMS[ 2 ]</var>
+            </div>
+            <p class="question">What number could replace <code><var>SYMBOL</var></code> below?</p>
+            <p class="problem">
+                <code><var>FIRST_OPEN</var><var>TERMS[ 0 ]</var>
+                <var>OP</var><var>SECOND_OPEN</var><var>TERMS[ 1 ]</var><var>FIRST_CLOSE</var>
+                <var>OP</var><var>TERMS[ 2 ]</var><var>SECOND_CLOSE</var> =
+                <var>SECOND_OPEN</var><var>FAKE_TERMS[ 0 ]</var>
+                <var>OP</var><var>FIRST_OPEN</var><var>FAKE_TERMS[ 1 ]</var><var>SECOND_CLOSE</var>
+                <var>OP</var><var>FAKE_TERMS[ 2 ]</var><var>FIRST_CLOSE</var></code>
+            </p>
+            <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+            <div class="hints">
+                <p>With <var>OP_WORD</var>, the parentheses around the <var>ADDENDS</var> do not affect the final result.</p>
+                <div>
+                    <p>Evaluating the left side:</p>
+                    <p><code><var>FIRST_OPEN</var><var>TERMS[ 0 ]</var>
+                    <var>OP</var><var>SECOND_OPEN</var><var>TERMS[ 1 ]</var><var>FIRST_CLOSE</var>
+                    <var>OP</var><var>TERMS[ 2 ]</var><var>SECOND_CLOSE</var> = <var>FIRST_OPEN === "(" ? FIRST_PAIR : TERMS[ 0 ]</var> <var>OP</var> <var>FIRST_OPEN === "(" ? TERMS[ 2 ] : SECOND_PAIR</var> = <var>FINAL_RESULT</var></code></p>
+                </div>
+                <div>
+                    <p>Changing the grouping and evaluating:</p>
+                    <p><code><var>SECOND_OPEN</var><var>TERMS[ 0 ]</var>
+                    <var>OP</var><var>FIRST_OPEN</var><var>TERMS[ 1 ]</var><var>SECOND_CLOSE</var>
+                    <var>OP</var><var>TERMS[ 2 ]</var><var>FIRST_CLOSE</var> = <var>SECOND_OPEN === "(" ? FIRST_PAIR : TERMS[ 0 ]</var> <var>OP</var> <var>SECOND_OPEN ==="(" ? TERMS[ 2 ] : SECOND_PAIR</var> = <var>FINAL_RESULT</var></code></p>
+                </div>
+                <div>
+                    <p>We see that moving the parentheses did not affect the final result:</p>
+                    <p><code><var>FIRST_OPEN</var><var>TERMS[ 0 ]</var>
+                    <var>OP</var><var>SECOND_OPEN</var><var>TERMS[ 1 ]</var><var>FIRST_CLOSE</var>
+                    <var>OP</var><var>TERMS[ 2 ]</var><var>SECOND_CLOSE</var> = <var>SECOND_OPEN</var><var>TERMS[ 0 ]</var>
+                    <var>OP</var><var>FIRST_OPEN</var><var>TERMS[ 1 ]</var><var>SECOND_CLOSE</var>
+                    <var>OP</var><var>TERMS[ 2 ]</var><var>FIRST_CLOSE</var></code></p>
+                </div>
+                <p>Comparing with the original equation, the symbol <code><var>SYMBOL</var></code> could be replaced with the number <code><var>ANSWER</var></code>.</p>
+                <p>This fact about <var>OP_WORD</var> is known as the associative property.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

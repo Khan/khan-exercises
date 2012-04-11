@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <title>Converting percents to decimals</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="PERCENT">roundTo( 1, randRange( 100, 1500 ) / 10 )</var>
+                <var id="DECIMAL">roundTo( 5, PERCENT / 100 )</var>
+            </div>
+            <p>Express the percent as a decimal.</p>
+            <p class="question"><code><var>PERCENT</var>\%</code></p>
+            <p class="solution" data-forms="decimal"><var>DECIMAL</var></p>
+            <div class="hints">
+                <div>
+                    <p><code><var>PERCENT</var></code> percent = <code><var>PERCENT</var></code> per cent = <code><var>PERCENT</var></code> per hundred</p>
+                    <p><code><var>PERCENT</var>\% = \dfrac{<var>PERCENT</var>}{100}</code></p>
+                </div>
+                <div>
+                    <p><code>\hphantom{<var>PERCENT</var>\%} = <var>DECIMAL</var></code></p>
+                </div>
+                <p>Another way to convert a percent to a decimal is to divide by <code>100</code> (or move the decimal two places to the left) and remove the percent sign.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

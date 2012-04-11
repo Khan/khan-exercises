@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Limits 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="q_lcoef">randRangeNonZero(-3, 3)</var>
+                    <var id="edge">floor(sqrt(abs(10 / q_lcoef)))</var>
+                    <var id="l_cons">randRangeNonZero(-1 * edge, edge)</var>
+                    <var id="quadratic">q_lcoef + 'x^2'</var>
+                    <var id="LINE">cleanMath('(x + ' + l_cons + ')')</var>
+                    <var id="curFunc">function(x) {
+                        return truncate_to_max(q_lcoef * Math.pow(x, 2), 4);
+                    }</var>
+                    <var id="a">-1 * l_cons</var>
+                    <var id="limtoa">curFunc(a)</var>
+                    <var id="l_limtoa">limtoa</var>
+                    <var id="r_limtoa">limtoa</var>
+                </div>
+
+                <p><code>\displaystyle\lim_{x\to<var>a</var>} \dfrac{<var>quadratic</var><var>LINE</var>}{<var>LINE</var>} = {?}</code></p>
+                <div class="graphie" id="graph">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                        axisArrows: "<->"
+                    });
+
+                    style({
+                        stroke: "#6495ed"
+                    }, function() {
+                        plot( function(x) {
+                            return q_lcoef * x * x;
+                        }, [-10, 10] );
+
+                        circle( [a, limtoa], 4 / 20, { fill: "white" } )
+                    });
+                </div>
+                <p class="solution"><code><var>limtoa</var></code></p>
+                <ul class="choices" data-show="5" data-none="true">
+                    <li><code>0</code></li>
+                    <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
+                    <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
+                    <li><code><var>q_lcoef</var></code></li>
+                    <li><code><var>l_cons</var></code></li>
+                    <li><code><var>curFunc(0)</var></code></li>
+                    <li>Does not exist.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="vars">
+                    <var id="abs_coef">randRangeNonZero(-5, 5)</var>
+                    <var id="abs_cons">randRangeNonZero(-7, 7)</var>
+                    <var id="curFunc">function(x) {
+                        return x + abs_cons > 0 ?
+                            abs_coef :
+                            abs_coef * -1;
+                    }</var>
+                    <var id="a">abs_cons * -1</var>
+                    <var id="limtoa">curFunc(a)</var>
+                    <var id="l_limtoa">abs_coef * -1</var>
+                    <var id="r_limtoa">abs_coef</var>
+                </div>
+
+                <p><code>\displaystyle \lim_{x\to<var>a</var>} \dfrac{<var>abs_coef</var>|x + <var>abs_cons</var>|}{x + <var>abs_cons</var>} = {?}</code></p>
+                <div class="graphie" id="graph">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                        axisArrows: "<->"
+                    });
+
+                    style({
+                        stroke: "#6495ed"
+                    }, function() {
+                        line( [-11, abs_coef * -1], [-abs_cons, abs_coef * -1] );
+                        line( [-abs_cons, abs_coef], [11, abs_coef] );
+
+                        circle( [-abs_cons, -abs_coef], 4 / 20, { fill: "white" } )
+                        circle( [-abs_cons, abs_coef], 4 / 20, { fill: "white" } )
+                    });
+                </div>
+                <p class="solution">Does not exist.</p>
+                <ul class="choices" data-show="5" data-none="true">
+                    <li><code>0</code></li>
+                    <li><code><var>a</var></code></li>
+                    <li><code><var>abs_cons</var></code></li>
+                    <li><code><var>abs_coef</var></code></li>
+                    <li><code><var>abs_coef * -1</var></code></li>
+                    <li><code><var>abs_coef * abs_coef</var></code></li>
+                    <li><code><var>abs_coef * abs_coef * -1</var></code></li>
+                    <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
+                    <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
+                </ul>
+                <div class="hints" data-apply="appendContents">
+                    <p id="final">The limit as we approach from the left doesn't match the limit as we approach from the right, so <code>f(x)</code> has no limit as <code>x \to <var>a</var></code>.</p>
+                </div>
+            </div>
+            <div>
+                <div class="vars" data-ensure="abs( limtoa ) < 10">
+                    <var id="l_coef">randRangeNonZero(-3, 3)</var>
+                    <var id="l_cons">randRangeNonZero(-4, 4)</var>
+                    <var id="d_cons">randRangeNonZero(-7, 7)</var>
+                    <var id="d_line">expr(["+", ["*", l_coef, "x"], l_cons])</var>
+                    <var id="curFunc">function(x) {
+                        return l_coef * x + l_cons;
+                    }</var>
+                    <var id="a0">ceil((-10 - l_cons)/l_coef)</var>
+                    <var id="a1">floor((10 - l_cons)/l_coef)</var>
+                    <var id="a" data-ensure="abs( a ) < 10">l_coef > 0 ? randRangeNonZero(a0, a1) : randRangeNonZero(a1, a0)</var>
+                    <var id="limtoa">curFunc(a)</var>
+                    <var id="l_limtoa">limtoa</var>
+                    <var id="r_limtoa">limtoa</var>
+                </div>
+
+                <p>If <code>f(x) = \begin{cases}
+                    <var>d_cons</var> & \text{if $x = <var>a</var>$} \\
+                    <var>d_line</var> & \text{otherwise}
+                \end{cases}</code>, find <code>\displaystyle \lim_{x \to <var>a</var>} f(x)</code>.</p>
+                <div class="graphie" id="graph">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                        axisArrows: "<->"
+                    });
+
+                    style({
+                        stroke: "#6495ed"
+                    }, function() {
+                        plot( function(x) {
+                            return l_coef * x + l_cons;
+                        }, [-10, 10] );
+
+                        circle( [a, limtoa], 4 / 20, { fill: "white" } )
+                        circle( [a, d_cons], 4 / 20, { fill: "#6495ed", stroke: "none" } )
+                    });
+                </div>
+                <p class="solution"><code><var>limtoa</var></code></p>
+                <ul class="choices" data-show="5" data-none="true">
+                    <li><code>0</code></li>
+                    <li><code><var>a</var></code></li>
+                    <li><code><var>d_cons</var></code></li>
+                    <li><code><var>l_coef</var></code></li>
+                    <li><code><var>fractionReduce(l_cons * -1, l_coef)</var></code></li>
+                    <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
+                    <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
+                    <li>Does not exist.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="vars" data-ensure="abs( limtoa ) < 10">
+                    <var id="q_lcoef">randRangeNonZero(-3, 3)</var>
+                    <var id="q_cons">randRangeNonZero(-3, 3)</var>
+                    <var id="edge">floor(sqrt(abs((10 - q_cons) / q_lcoef)))</var>
+                    <var id="a">randRangeNonZero(-1 * edge, edge)</var>
+                    <var id="curFunc">function(x) {
+                        return q_lcoef * Math.pow(x, 2) + q_cons;
+                    }</var>
+                    <var id="limtoa">curFunc(a)</var>
+                    <var id="l_limtoa">limtoa</var>
+                    <var id="r_limtoa">limtoa</var>
+                </div>
+
+                <p><code>\displaystyle \lim_{x\to<var>a</var>} <var>expr(["+", ["*", q_lcoef, ["^", "x", 2]], q_cons])</var> = {?}</code></p>
+                <div class="graphie" id="graph">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                        axisArrows: "<->"
+                    });
+
+                    style({
+                        stroke: "#6495ed"
+                    }, function() {
+                        plot( function(x) {
+                            return q_lcoef * x * x + q_cons;
+                        }, [-10, 10] );
+                    });
+                </div>
+                <p class="solution"><code><var>limtoa</var></code></p>
+                <ul class="choices" data-show="5" data-none="true">
+                    <li><code>0</code></li>
+                    <li><code><var>curFunc(0)</var></code></li>
+                    <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
+                    <li><code><var>q_cons</var></code></li>
+                    <li><code><var>q_cons * -1</var></code></li>
+                    <li>Does not exist.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="hints">
+            <div>
+                <p>What happens as we approach <code>x = <var>a</var></code> from the left?</p>
+                <div class="graphie" data-update="graph" data-style="stroke: orange; marker: arrow;">
+                    line( [a - 2, 0], [a, 0], {
+                        stroke: "#ff00af",
+                        arrows: "->"
+                    });
+                </div>
+            </div>
+            <div>
+                <table class="limit">
+                    <tr><th><code>x</code></th><th><var>a - 0.1</var></th><th><var>a - 0.01</var></th><th><var>a - 0.001</var></th></tr>
+                    <tr><th><code>f(x)</code></th><td><var>curFunc(a - 0.1).toFixed(4)</var></td><td><var>curFunc(a - 0.01).toFixed(4)</var></td><td><var>curFunc(a - 0.001).toFixed(4)</var></td></tr>
+                </table>
+                It looks like <code>f(x)</code> is approaching <code><var>l_limtoa</var></code> from the left.
+            </div>
+            <div>
+                <p>When we approach <code>x = <var>a</var></code> from the right, we get:</p>
+                <table class="limit">
+                    <tr><th><code>x</code></th><th><var>a + 0.1</var></th><th><var>a + 0.01</var></th><th><var>a + 0.001</var></th></tr>
+                    <tr><th><code>f(x)</code></th><td><var>curFunc(a + 0.1).toFixed(4)</var></td><td><var>curFunc(a + 0.01).toFixed(4)</var></td><td><var>curFunc(a + 0.001).toFixed(4)</var></td></tr>
+                </table>
+                It looks like <code>f(x)</code> is approaching <code><var>r_limtoa</var></code> from the right.
+                <div class="graphie" data-update="graph" data-style="stroke: orange; marker: arrow;">
+                    line( [a + 2, 0], [a, 0], {
+                        stroke: "#ff00af",
+                        arrows: "->"
+                    });
+                </div>
+            </div>
+            <p id="final">So the limit is <code><var>limtoa</var></code>.</p>
+        </div>
+    </div>
+</body>
+</html>

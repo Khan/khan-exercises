@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html data-require="math word-problems graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Reading tables 1</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        .reading span {
+            width: 80px;
+        }
+        .reading span:first-child {
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="INDEX">randRange( 0, 3 )</var>
+                <var id="ROWS">[ [ school(1), school(2), school(3), school(4) ], [ person(1), person(2), person(3), person(4) ], [ person(1), person(2), person(3), person(4) ], [ "Alabama", "Michigan", "New York", "Wyoming" ] ][ INDEX ]</var>
+                <var id="COLUMNS">[ [ "3rd grade", "4th grade", "5th grade", "Total" ], [ "January", "February", "March", "Total" ], [ "1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter", "Final" ], [ "Q1", "Q2", "Q3", "Q4", "Total" ] ][ INDEX ]</var>
+                <var id="ENROLLMENTS">
+                    (function() {
+                        var enrollments = [];
+                        var classMin = [ 60, 0, 2, 20 ][ INDEX ];
+                        var classMax = [ 80, 6, 10, 40 ][ INDEX ];
+                        for ( var i = 0; i &lt; ROWS.length; i++ ) {
+                            var enroll = randRange( classMin, classMax, COLUMNS.length - 1 );
+                            var total = 0;
+                            $.each( enroll, function( i, e ) {
+                                total += e;
+                            } );
+                            enroll.push( total );
+                            enrollments.push( enroll );
+                        }
+                        return enrollments;
+                    })()
+                </var>
+                <var id="COL_INDEX">randRange( 0, COLUMNS.length - 1 )</var>
+                <var id="ROW_INDEX">randRange( 0, ROWS.length - 1 )</var>
+                <var id="ANSWER">ENROLLMENTS[ ROW_INDEX ][ COL_INDEX ]</var>
+                <var id="PROBLEM">[ "shows the enrollment at four different elementary schools that have 3rd through 5th grade students", "shows the number of chickens sold by four friends from January to March", "indicates the points scored by four players in a charity basketball game", "shows solar panel installations by state during the last fiscal year" ][ INDEX ]</var>
+                <var id="QUESTION">(function() {
+                    if ( COL_INDEX === COLUMNS.length - 1 ) {
+                        return [ "How many students does " + ROWS[ ROW_INDEX ] + " Elementary School have in total?", "How many chickens did " + ROWS[ ROW_INDEX ] + " sell in total?", "How many points did " + ROWS[ ROW_INDEX ] + " have in total?", "How many total solar panels were installed last year in " + ROWS[ ROW_INDEX ] + "?" ][ INDEX ];
+                    } else {
+                        return [ "How many " + COLUMNS[ COL_INDEX ] + " students does " + ROWS[ ROW_INDEX ] + " Elementary School have?", "How many chickens did " + ROWS[ ROW_INDEX ] + " sell in " + COLUMNS[ COL_INDEX ] + "?", "How many points did " + ROWS[ ROW_INDEX ] + " score in the " + COLUMNS[ COL_INDEX ] + "?", "How many solar panels were installed in " + ROWS[ ROW_INDEX ] + " in " + COLUMNS[ COL_INDEX ] + "?" ][ INDEX ];
+                    }
+                })()
+                </var>
+                <var id="HEADER">[ "Schools", "Farmers", "Players", "States" ][ INDEX ]</var>
+                <var id="UNIT">[ "students", "chicken(s)", "points", "solar panels" ][ INDEX ]</var>
+                <var id="ROW_HINT">[ "the student enrollment at " + ROWS[ ROW_INDEX ] + " Elementary School", "the number of chickens sold by " + ROWS[ ROW_INDEX ], "the number of points scored by " + ROWS[ ROW_INDEX ], "the number of solar panels installed in " + ROWS [ ROW_INDEX ] ][ INDEX ]</var>
+                <var id="COL_HINT">
+                    (function() {
+                        if ( COL_INDEX === COLUMNS.length - 1 ) {
+                            return [ "the total number of students at each school", "the total number of chickens sold by each person", "the total number of points scored by each person", "the total number of solar panels installed in each state" ][ INDEX ];
+                        } else {
+                            return [ "the number of " + COLUMNS[ COL_INDEX ] + " students at each school", "the number of chickens sold in " + COLUMNS[ COL_INDEX ], "the number of points scored in the " + COLUMNS[ COL_INDEX ], "the number of solar panels installed in " + COLUMNS[ COL_INDEX ] ][ INDEX ];
+                        }
+                    })()
+                </var>
+                <var id="FINAL_HINT">
+                    [ "There are " + ANSWER + " " + COLUMNS[ COL_INDEX ].toLowerCase() + " students at " + ROWS[ ROW_INDEX ] + ".", ROWS[ ROW_INDEX ] + " sold " + ANSWER + " chicken" + ( ANSWER === 1 ? "" : "s" ) + " in " + ( COL_INDEX === COLUMNS.length - 1 ? "total" : COLUMNS[ COL_INDEX ] )  + ".", ROWS[ ROW_INDEX ] + " scored " + ANSWER + " points in " +( COL_INDEX === COLUMNS.length - 1 ? "total" : "the " + COLUMNS[ COL_INDEX ] )  + ".", "There were " + ANSWER + " solar panels installed in " + ROWS[ ROW_INDEX ] + ( COL_INDEX === COLUMNS.length - 1 ? " last year" : " in " + COLUMNS[ COL_INDEX ] ) + "."][ INDEX ]
+                </var>
+            </div>
+            <p>The table below <var>PROBLEM</var>.</p>
+            <p class="question"><var>QUESTION</var></p>
+            <div class="fake_header reading">
+                <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>column</var></span>
+            </div>
+            <div class="fake_row reading" data-each="ROWS as i, row">
+                <span><var>row</var></span><span data-each="ENROLLMENTS[i] as j, enrollment"><var>enrollment</var></span>
+            </div>
+            <div class="solution" data-type="multiple">
+                <span style="padding-right: 5px" class="sol"><var>ANSWER</var></span> <var>UNIT</var>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>The blue row shows <var>ROW_HINT</var>.</p>
+                    <div class="graphie">
+                        $( ".fake_row" ).eq( ROW_INDEX ).find( "span" )
+                            .css( "background", KhanUtil.BLUE );
+                    </div>
+                </div>
+                <div>
+                    <p>The orange column shows <var>COL_HINT</var>.</p>
+                    <div class="graphie">
+                        var nth = ":nth-child(" + ( COL_INDEX + 2 ) + ")";
+                        $( ".fake_row span" + nth )
+                            .css( "background", KhanUtil.ORANGE );
+                        $( ".fake_header span" + nth )
+                            .css( "background", KhanUtil.ORANGE );
+                        $( ".fake_row" ).eq( ROW_INDEX ).find( "span" + nth )
+                            .css( "background", "#aaa" );
+                    </div>
+                </div>
+                <p><var>FINAL_HINT</var></p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

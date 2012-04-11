@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html data-require="math stat math-format word-problems spin">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Reading stem and leaf plots</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars">
+        <var id="STEMS">randRange( 5, 7 )</var>
+        <var id="SAMPLES">randRange( 10, 20 )</var>
+        <var id="TGT_MEAN">randRange( 20, STEMS * 10 - 20 )</var>
+        <var id="TGT_STDDEV">randRange( 10, 15 )</var>
+        <var id="RAW_DATA">sortNumbers( $.map( _.range( SAMPLES ), function() {
+            var dataPoint;
+            while ( 1 ) {
+                dataPoint = round( randGaussian() * TGT_STDDEV + TGT_MEAN );
+                if ( dataPoint &gt;= 0 &amp;&amp; dataPoint &lt; STEMS * 10 ) {
+                    return dataPoint;
+                }
+            }
+        }) )</var>
+        <var id="DATA">$.map( _.range( STEMS ), function( stem ) {
+            return [ $.map( RAW_DATA, function( leaf ) {
+                if ( stem * 10 &lt;= leaf &amp;&amp; leaf &lt; ( stem + 1 ) * 10 ) {
+                    return leaf - ( stem * 10 );
+                }
+            }) ];
+        })</var>
+        <var id="LOCATION">randFromArray([ "grocery store", "department store", "zoo" ])</var>
+        <var id="ITEM">
+            {
+                "grocery store": fruit(1),
+                "department store": clothing(1),
+                "zoo": animal(1)
+            }[ LOCATION ]
+        </var>
+    </div>
+
+    <div class="problem">
+        <p data-if="LOCATION === 'grocery store'" class="spin">
+            {The buyer for|A statistician for|An executive of} a chain of supermarkets created the following stem-and-leaf plot
+            showing the number of <var>plural( ITEM )</var> at each of the stores:
+        </p>
+        <p data-if="LOCATION === 'department store'" class="spin">
+            {The buyer for|A statistician for|The regional manager of} a chain of department stores created the following stem-and-leaf plot
+            showing the number of <var>plural( ITEM )</var> at each of the stores:
+        </p>
+        <p data-if="LOCATION === 'zoo'" class="spin">
+            {The government|A conservation group|A zookeeper} {created|published} the following stem-and-leaf plot
+            showing the number of <var>plural( ITEM )</var> at each major zoo in the country:
+        </p>
+        <p>
+            <code>
+                \left| \quad \begin{matrix}
+                <span data-each="STEMS times as STEM" data-unwrap>
+                    <var>STEM</var>
+                    \vphantom{\Large{0}} \\
+                </span>
+                \end{matrix} \quad \right|
+                \quad
+                \begin{matrix}
+                <span data-each="STEMS times as STEM" data-unwrap>
+                    <span data-each="DATA[ STEM ] as LEAF" data-unwrap><var>LEAF</var>&amp;</span>
+                    \vphantom{\Large{0}} \\
+                </span>
+                \end{matrix}
+            </code>
+        </p>
+    </div>
+
+    <div class="hints">
+        <p>
+            The left column of the stem and leaf plot represents the tens place; each number on the right side
+            represents the ones place for the number of <var>plural( ITEM )</var> at a <var>LOCATION</var>.
+        </p>
+        <div>
+            <p>
+                We can combine the tens and ones places and write out the number of <var>plural( ITEM )</var> at each <var>LOCATION</var> on the right:
+            </p>
+            <p>
+                <code>
+                    \left| \quad \begin{matrix}
+                    <span data-each="STEMS times as STEM" data-unwrap>
+                        \color{<var>GREEN</var>}{<var>STEM</var>}
+                        \vphantom{\Large{0}} \\
+                    </span>
+                    \end{matrix} \quad \right|
+                    \quad
+                    \begin{matrix}
+                    <span data-each="STEMS times as STEM" data-unwrap>
+                        <span data-each="DATA[ STEM ] as LEAF" data-unwrap>\color{<var>BLUE</var>}{<var>LEAF</var>}&amp;</span>
+                        \vphantom{\Large{0}} \\
+                    </span>
+                    \end{matrix}
+                    \quad
+                    \begin{matrix}
+                    <span data-each="STEMS times as STEM" data-unwrap>
+                        \rightarrow
+                        \vphantom{\Large{0}} \\
+                    </span>
+                    \end{matrix}
+                    \quad
+                    \begin{matrix}
+                    <span data-each="STEMS times as STEM" data-unwrap>
+                        <span data-each="DATA[ STEM ] as LEAF" data-unwrap>\color{<var>GREEN</var>}{<var>STEM</var>}\color{<var>BLUE</var>}{<var>LEAF</var>}&amp;</span>
+                        \vphantom{\Large{0}} \\
+                    </span>
+                    \end{matrix}
+                </code>
+            </p>
+        </div>
+        <div>
+            <p>Now we know the number of <var>plural( ITEM )</var> at the different <var>plural( LOCATION )</var>:</p>
+            <p><code>\qquad</code><var>toSentenceTex( RAW_DATA )</var></p>
+        </div>
+        <div>
+            <p>
+            <span data-if="TYPE === 'smallest'">What was the fewest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
+            <span data-else-if="TYPE === 'largest'">What was the largest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
+            <span data-else>
+                How many <var>plural( LOCATION )</var> have
+                <span data-if="TYPE === 'how-many'">exactly</span>
+                <span data-if="TYPE === 'less-than'">fewer than</span>
+                <span data-if="TYPE === 'greater-than'">more than</span>
+                <var>plural( AMOUNT, ITEM )</var>?
+            </span>
+            </p>
+            <p data-if="SOLUTION > 0">
+                <code>\qquad</code><var>toSentenceTex( RAW_DATA, "and", IS_SOLUTION, "hint_pink" )</var>
+            </p>
+        </div>
+        <div>
+            <p>
+                <code>
+                    \qquad
+                    \left| \quad \begin{matrix}
+                    <span data-each="STEMS times as STEM" data-unwrap>
+                        <var>STEM</var>
+                        \vphantom{\Large{0}} \\
+                    </span>
+                    \end{matrix} \quad \right|
+                    \quad
+                    \begin{matrix}
+                    <span data-each="STEMS times as STEM" data-unwrap>
+                        <span data-each="DATA[ STEM ] as LEAF" data-unwrap>
+                            <span data-if="IS_SOLUTION( STEM * 10 + LEAF )" data-unwrap>
+                                \color{<var>PINK</var>}{<var>LEAF</var>}&amp;
+                            </span>
+                            <span data-else data-unwrap>
+                                <var>LEAF</var>&amp;
+                            </span>
+                        </span>
+                        \vphantom{\Large{0}} \\
+                    </span>
+                    \end{matrix}
+                </code>
+            </p>
+            <p><strong>
+                <span data-if="TYPE === 'smallest'">The <var>LOCATION</var> with the fewest <var>plural( ITEM )</var> had <var>plural( SOLUTION, ITEM )</var>.</span>
+                <span data-else-if="TYPE === 'largest'">The <var>LOCATION</var> with the most <var>plural( ITEM )</var> had <var>plural( SOLUTION, ITEM)</var>.</span>
+                <span data-else>
+                    <var>plural( SOLUTION, LOCATION )</var> <var>plural( "has", "have", SOLUTION )</var>
+                    <span data-if="TYPE === 'how-many'">exactly</span>
+                    <span data-if="TYPE === 'less-than'">fewer than</span>
+                    <span data-if="TYPE === 'greater-than'">more than</span>
+                    <var>plural( AMOUNT, ITEM )</var>.
+                </span>
+            </strong></p>
+        </div>
+    </div>
+
+    <div class="problems">
+        <div id="how-many">
+            <div class="vars">
+                <var id="TYPE">"how-many"</var>
+                <var id="AMOUNT" data-ensure="0 <= AMOUNT && AMOUNT < STEMS * 10">
+                    random() &lt; 0.7 ?
+                    randFromArray( RAW_DATA ) :
+                    round( randGaussian() * TGT_STDDEV + TGT_MEAN )
+                </var>
+                <var id="IS_SOLUTION">function( x ) { return x === AMOUNT; }</var>
+                <var id="SOLUTION">_.reduce( RAW_DATA, function( memo, num ) { return num === AMOUNT ? ++memo : memo; }, 0 )</var>
+            </div>
+
+            <p class="question">How many <var>plural( LOCATION )</var> have exactly <var>plural( AMOUNT, ITEM )</var>?</p>
+
+            <div class="solution" data-type="multiple">
+                <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+            </div>
+        </div>
+
+        <div id="less-than">
+            <div class="vars">
+                <var id="TYPE">"less-than"</var>
+                <var id="AMOUNT">randRange( 10, (STEMS - 1) * 10 )</var>
+                <var id="IS_SOLUTION">function( x ) { return x &lt; AMOUNT; }</var>
+                <var id="SOLUTION">_.reduce( RAW_DATA, function( memo, num ) { return num &lt; AMOUNT ? ++memo : memo; }, 0 )</var>
+            </div>
+
+            <p class="question">How many <var>plural( LOCATION )</var> have fewer than <var>plural( AMOUNT, ITEM )</var>?</p>
+
+            <div class="solution" data-type="multiple">
+                <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+            </div>
+        </div>
+
+        <div id="greater-than">
+            <div class="vars">
+                <var id="TYPE">"greater-than"</var>
+                <var id="AMOUNT">randRange( 10, (STEMS - 1) * 10 )</var>
+                <var id="IS_SOLUTION">function( x ) { return x &gt; AMOUNT; }</var>
+                <var id="SOLUTION">_.reduce( RAW_DATA, function( memo, num ) { return num &gt; AMOUNT ? ++memo : memo; }, 0 )</var>
+            </div>
+
+            <p class="question">How many <var>plural( LOCATION )</var> have more than <var>plural( AMOUNT, ITEM )</var>?</p>
+
+            <div class="solution" data-type="multiple">
+                <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+            </div>
+        </div>
+
+        <div id="extreme">
+            <div class="vars">
+                <var id="TYPE">randFromArray([ "smallest", "largest" ])</var>
+                <var id="AMOUNT">TYPE === "smallest" ? RAW_DATA[ 0 ] : RAW_DATA[ RAW_DATA.length - 1 ]</var>
+                <var id="IS_SOLUTION">function( x ) { return x === AMOUNT; }</var>
+                <var id="SOLUTION">AMOUNT</var>
+            </div>
+
+            <p class="question">
+                <span data-if="TYPE === 'smallest'">What was the fewest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
+                <span data-if="TYPE === 'largest'">What was the largest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
+            </p>
+
+            <div class="solution" data-type="multiple">
+                <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( ITEM )</var></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

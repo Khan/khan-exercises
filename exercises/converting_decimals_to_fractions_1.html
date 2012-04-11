@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <title>Converting decimals to fractions 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="to-the-tenth">
+            <div class="vars">
+                <var id="D">randRange( 1, 9 ) / 10</var>
+                <var id="T">floor( D * 10 )</var>
+            </div>
+            <p class="question">Express <code><var>D.toFixed( 1 )</var></code> as a fraction.</p>
+            <p class="solution" data-type="rational" data-simplify="optional"><var>D</var></p>
+            <div class="hints">
+                <p>The number <code><var>T</var></code> is in the tenths place, so we have <var>cardinal( T )</var> tenth<span data-if="T !== 1">s</span>.</p>
+                <p><var>Cardinal( T )</var> tenth<span data-if="T !== 1">s</span> can be written as <code><var>fraction( T, 10 )</var></code>.</p>
+            </div>
+        </div>
+
+        <div id="to-the-hundredth" data-type="to-the-tenth" data-weight="3">
+            <div class="vars">
+                <var id="D">randRangeExclude(1, 99, [10,20,30,40,50,60,70,80,90]) / 100</var>
+                <var id="T">floor( D * 10 )</var>
+                <var id="H">floor( ( D * 100 ) % 10 )</var>
+            </div>
+            <p class="question">Express <code><var>D.toFixed( 2 )</var></code> as a fraction.</p>
+            <p class="solution" data-type="rational" data-simplify="optional"><var>D</var></p>
+            <div class="hints">
+                <p>The number <code><var>T</var></code> is in the tenths place, so we have <var>cardinal( T )</var> tenth<span data-if="T !== 1">s</span>.</p>
+                <p><var>Cardinal( T )</var> tenth<span data-if="T !== 1">s</span> can be written as <code><var>fraction( T, 10 )</var></code>.</p>
+                <p>The number <code><var>H</var></code> is in the hundredths place, so we have <var>cardinal( H )</var> hundredth<span data-if="H !== 1">s</span>.</p>
+                <p><var>Cardinal( H )</var> hundredth<span data-if="H !== 1">s</span> can be written as <code><var>fraction( H, 100 )</var></code>.</p>
+                <div>
+                    <p>Add the two parts together.</p>
+                    <p><code><var>fraction( T, 10 )</var> + <var>fraction( H, 100 )</var></code></p>
+                </div>
+                <div>
+                    <p><code>= <var>fraction( T * 10, 100 )</var> + <var>fraction( H, 100 )</var></code></p>
+                    <p><code>= <var>fraction( T * 10 + H, 100 )</var></code></p>
+                </div>
+                <div>
+                    <p>You can also skip a few steps by making a fraction with <code><var>floor( D * 100 )</var></code> as the numerator and <code>100</code> (because the decimal extends to the hundredths place) as the denominator.</p>
+                    <p><code><var>fraction( T * 10 + H, 100 )</var></code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Recognizing fractions</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars" data-ensure="NUMERATOR < DENOMINATOR">
+            <var id="NUMERATOR">randRange( 1, 11 )</var>
+            <var id="DENOMINATOR">randRange( 2, 12 )</var>
+        </div>
+
+        <div class="problems">
+            <div id="original">
+                <p class="question">What is the numerator of the fraction <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>?</p>
+                <p class="solution" data-forms="integer"><var>NUMERATOR</var></p>
+                <div class="hints">
+                    <p>Fractions help represent parts of a whole.</p>
+                    <div>
+                        <p>The fraction <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> could represent <var>NUMERATOR</var> out of <var>DENOMINATOR</var> slices of pie. In other words, the pie has been cut into <var>DENOMINATOR</var> slices, and we are only considering <var>NUMERATOR</var> of those slices.</p>
+                        <div class="graphie">
+                            init({
+                                range: [ [-2, 10], [-2, 2] ],
+                                scale: 25
+                            });
+
+                            piechart( [NUMERATOR, DENOMINATOR - NUMERATOR], ["#6495ED", "#FFA500"], 2 );
+                            label( [2, 0], "=\\dfrac{\\color{#6495ED}{" + NUMERATOR + "}}{" + DENOMINATOR + "}"
+                                + "=\\dfrac{\\color{#6495ED}{\\text{numerator}}}{\\text{denominator}}", "right");
+                        </div>
+                    </div>
+                    <p>The numerator is the number of slices we consider, and it is written above the fraction line. The denominator is the total number of slices, and it is written below the line.</p>
+                    <p id="answer_hint">Thus, the numerator is <code><var>NUMERATOR</var></code>.</p>
+                </div>
+            </div>
+            <div data-type="original">
+                <p class="question">What is the denominator of the fraction <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>?</p>
+                <p class="solution" data-forms="integer"><var>DENOMINATOR</var></p>
+                <div class="hints" data-apply="appendContents">
+                    <p id="answer_hint">Thus, the denominator is <code><var>DENOMINATOR</var></code>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

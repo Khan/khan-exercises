@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Equation of an ellipse</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #answer_area .short input[type=text] {
+            width: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="A">randRange( 2, 9 )</var>
+        <var id="B" data-ensure="A !== B">randRange( 2, 9 )</var>
+
+        <var id="H">randRange( -9, 9 )</var>
+        <var id="K">randRange( -9, 9 )</var>
+
+        <var id="MAJ">max( A, B )</var>
+        <var id="MIN">min( A, B)</var>
+
+        <var id="X2T">H === 0 ? "\\dfrac{x^2}{" + A*A + "}" :  "\\dfrac {" +  expr(["^", ["+", "x", -H], 2]) + "}{" + A*A +"}" </var>
+        <var id="Y2T">K === 0 ? "\\dfrac{y^2}{" + B*B + "}" :  "\\dfrac {" +  expr(["^", ["+", "y", -K], 2]) + "}{" + B*B +"}" </var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>The equation of an ellipse <code>E</code> is <code><var>rand(2) === 1 ? expr(["+", Y2T, X2T]) : expr(["+", X2T, Y2T])</var> = 1</code>.</p>
+
+                <p>What are its center <code>(h, k)</code> and its  major and minor radius?</p>
+
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <p class="short"><code>(h, k) = (</code><span class="sol"><var>H</var></span><code>,</code> <span class="sol"><var>K</var></span><code>)</code></p>
+                <p>Major radius = <span class="sol"><var>MAJ</var></span></p>
+                <p>Minor radius = <span class="sol"><var>MIN</var></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <p>The equation of an ellipse with center <code>(h, k)</code> is <code> \dfrac{(x - h)^2}{a^2} + \dfrac{(y - k)^2}{b^2} = 1</code>.</p>
+        <p>We can rewrite the given equation as <code>\dfrac{(x - <var>negParens(H)</var>)^2}{<var>A*A</var>} + \dfrac{(y - <var>negParens(K)</var>)^2}{<var>B*B</var>} = 1 </code>.</p>
+        <p>Thus, the center <code>(h, k) = (<var>H</var>, <var>K</var>)</code>.</p>
+        <p><code><var>MAJ*MAJ</var></code> is bigger than <code><var>MIN*MIN</var></code> so the major radius is <code>\sqrt{<var>MAJ*MAJ</var>} = <var>MAJ</var></code> and the minor radius is <code>\sqrt{<var>MIN*MIN</var>} = <var>MIN</var></code>.</p>
+    </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!--
+    TODO: eventually, this template can replace khan-exercises/exercises/khan-exercise.html,
+    which is used in exercise test mode
+-->
+
+<div id="exercise-message-container" style="display: none;">
+    <div class="exercise_message"></div>
+</div>
+<div id="warning-bar">
+    <span id="warning-bar-content"></span>
+    <span id="warning-bar-close">(<a href="">close</a>)</span>
+</div>
+<div id="problem-and-answer">
+    <div id='problemarea'>
+        <div id='scratchpad'><div></div></div>
+        <div id='workarea'></div>
+        <div id='hintsarea'></div>
+    </div>
+    <div id="answer_area_wrap"><div id="answer_area">
+        <form id="answerform" action="/exercisedashboard" method="get" name="answerform">
+            <div id="answercontent" class="info-box fancy-scrollbar">
+                <span class="info-box-header">Answer</span>
+                <div id="solutionarea"></div>
+                <input type="submit" class="simple-button action-gradient green" id="check-answer-button" value="Check Answer"/>
+                <input type="button" class="simple-button action-gradient green" id="next-question-button" style="display:none;" name="correctnextbutton" value="Correct! Next Question..."/>
+                <span id="show-solution-button-container"></span>
+                <div id="check-answer-results">
+                    <img id="sad" style="display: none;"/>
+                    <img id="happy" style="display: none;"/>
+                    <p class="check-answer-message info-box-sub-description"></p>
+                </div>
+                <a id="examples-show" href="">Show acceptable answer formats</a>
+                <ul id="examples" style="display: none">
+                </ul>
+            </div>
+            <div id="readonly" class="info-box">
+                <span id="readonly-problem" class="info-box-header"></span>
+                <span id="readonly-title" class="info-box-subheader">You are viewing a problem.</span>
+                <span class="info-box-sub-description">To work on problems like this, <a id="readonly-start" href="">start this exercise</a>.</span>
+            </div>
+            <div class="info-box hint-box">
+                <span class="info-box-header">Need help? Get a hint.</span>
+                <div id="get-hint-button-container">
+                    <input id="hint" type="button" class="simple-button action-gradient orange" value="I'd like a hint" name="hint"/>
+                </div>
+                <span id="hint-remainder"></span>
+            </div>
+            <div class="info-box related-video-box" style="display:none;">
+                <div id="related-video-content">
+                    <span class="info-box-header">Stuck? Watch a video.</span>
+
+                    <div id="related-video-list">
+                        <span class="related-content-title">Related videos:</span>
+                        <ul class="related-video-list"></ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </form>
+        <div id="issue" class="info-box" style="display:none;">
+            <span class="info-box-header">Report a Problem</span>
+            <span id="issue-status" class="info-box-sub-description"></span>
+            <form>
+                <fieldset>
+                    <legend>Issue Type</legend>
+                    <ul>
+                        <li>
+                            <input type="radio" name="issue-type" id="issue-wrong-or-unclear">
+                            <label for="issue-wrong-or-unclear">Answer is wrong or question is unclear</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="issue-type" id="issue-hard">
+                            <label for="issue-hard">I'm frustrated (tell us why) or this is too hard</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="issue-type" id="issue-not-showing">
+                            <label for="issue-not-showing">I can't see the problem or website is stuck</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="issue-type" id="issue-other">
+                            <label for="issue-other">Other (please describe below)</label>
+                        </li>
+                    </ul>
+                </fieldset>
+                <label for="issue-title">Issue Title:<input type="text" name="issue-title" id="issue-title" /></label>
+                <label for="issue-email">Your Email (optional):<input type="text" name="issue-email" id="issue-email" /></label>
+                <label for="issue-body">Description of Issue:<textarea name="issue-body" id="issue-body"></textarea></label>
+                <input type="submit" class="simple-button action-gradient" value="Submit Issue">
+                <a href="/#" id="issue-cancel">Cancel</a>
+                <img id="issue-throbber" style="display:none;" name="issue-throbber">
+            </form>
+        </div>
+    </div></div>
+    <div style="clear: both;"></div>
+</div>
+

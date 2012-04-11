@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers d3 word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Reading bar charts 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="HOUSES"> [ "Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin" ]</var>
+        <var id="INDEX">randRange( 0, HOUSES.length - 1 )</var>
+        <var id="VALUES">shuffle( [ 1, 2, 3, 4, 5 ], 4 )</var>
+        <var id="DATA">
+            (function() {
+                var ordinals = $.map( HOUSES, function( house, i ) {
+                    return house.charAt( 0 );
+                });
+
+                return { min: 0,
+                    max: 5,
+                    tickCount: 5,
+                    values: VALUES,
+                    ordinals: ordinals };
+            })()
+        </var>
+    </div>
+    <div class="problems">
+        <div>
+            <p>At Hogwarts, there are four houses: <var>toSentence( HOUSES )</var>. The bar chart below shows the number of house points that each house received today.</p>
+            <p class="question">How many house points did <var>HOUSES[ INDEX ]</var> receive?</p>
+            <div class="graphie" id="barchart">
+                var width = 5;
+                var height = 5;
+
+                init({
+                    range: [ [ -1, width + 1 ], [ -1, height + 0.5 ] ]
+                });
+
+                var pos = { lx: 0, ly: 0, width: width, height: height};
+                graph.barchart = new BarChart( DATA, pos );
+                graph.barchart.draw();
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span style="padding-right: 5px" class="sol"><var>VALUES[ INDEX ]</var></span> house points
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>Find the bar for <var>HOUSES[ INDEX ]</var> by looking at the letter under each bar.</p>
+                    <div class="graphie" data-update="barchart">
+                        graph.barchart.highlightDataPoint( INDEX );
+                    </div>
+                </div>
+                <div>
+                    <p>Compare how tall the bar is with the numbers to the left.</p>
+                    <div class="graphie" data-update="barchart">
+                        graph.barchart.labelDataPoint( INDEX );
+                    </div>
+                </div>
+                <p><var>HOUSES[ INDEX ]</var> received <var>plural( VALUES[ INDEX ], "house point" )</var>.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

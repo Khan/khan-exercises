@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<!-- TDOO: remove <var>s in graphie data-eachs -->
+<html data-require="math expressions graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Even and odd functions</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function makeFunc( type, evens, odds ) {
+            var slice, r1, r2, r3, r4;
+
+            // Choose four even functions or four odd functions if we want a function
+            // that is even or odd respectively.
+            if ( type === "Even" || type === "Odd" ) {
+
+                slice = KhanUtil.shuffle( type === "Even" ? evens : odds ).slice( 0, 4 );
+                ensure = function( r1, r2, r3, r4 ) {
+                    return r1 !== 0 || r2 !== 0 || r3 !== 0 || r4 !== 0;
+                };
+
+            // Choose two even and two odd functions if we want a function that
+            // is neither even nor odd.
+            } else {
+
+                slice = KhanUtil.shuffle( evens ).slice( 0, 2 ).concat(
+                    KhanUtil.shuffle( odds ).slice( 0, 2 ) );
+                ensure = function( r1, r2, r3, r4 ) {
+                    return ( r1 !== 0 || r2 !== 0 ) && ( r3 !== 0 || r4 !== 0 );
+                };
+
+            }
+
+            do {
+                r1 = KhanUtil.randRange( -3, 3 );
+                r2 = KhanUtil.randRange( -3, 3 );
+                r3 = KhanUtil.randRange( -3, 3 );
+                r4 = KhanUtil.randRange( -3, 3 );
+            } while ( !ensure( r1, r2, r3, r4 ) );
+
+            return function( x ) {
+                return slice[0](x) * r1 + slice[1](x) * r2 + slice[2](x) * r3 + slice[3](x) * r4;
+            }
+        }
+
+        function substitute( func, transformer ) {
+            return function( x ) {
+                return func( transformer( x ) );
+            }
+        }
+
+        function valAt( func, val ) {
+            return func( val );
+        }
+
+        function widener( func ) {
+            var x = 0, y = 0;
+
+            do {
+                // incrementing by .1 gets better results if you want to actually
+                // scale the function into [-10,10], but I like the way the rounding
+                // error looks more natural.
+                x++;
+                y = Math.abs( func( x ) );
+            } while ( x < 10 && y < 10 );
+
+            return x / 10;
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+
+            <var id="EVENS">[
+                function( x ) { return 1; },
+                cos,
+                abs,
+                function( x ) { return x * x; },
+                function( x ) { return x * x * x * x; }
+            ]</var>
+            <var id="ODDS">[
+                sin,
+                function( x ) { return x; },
+                function( x ) { return x * x * x; },
+                function( x ) { return x * x * x * x * x; }
+            ]</var>
+
+            <!-- FIXME: replace with ul when that's fixed -->
+            <var id="SOL">randFromArray([ "Even", "Odd", "Neither" ])</var>
+
+            <var id="FUNC">makeFunc( SOL, EVENS, ODDS )</var>
+            <var id="WIDES">substitute( FUNC, (function() {
+                var w = widener( FUNC );
+                return function( x ) { return x * w; };
+            })() )</var>
+
+            <!-- these are all the x-coordinates that we will use to show the function's value in hints. we basically filter out any points where the function is offscreen or both the pos and neg values are too close to zero. -->
+            <var id="PTS">
+                $.grep( [1,2,3,4,5,6,7,8,9,10],
+                    function( i ) {
+                        return ( abs( valAt( WIDES, i ) ) > 1 || abs( valAt( WIDES, -i ) ) > 1 )
+                            && abs( valAt( WIDES, i ) ) &lt; 10
+                            && abs( valAt( WIDES, -i ) ) &lt; 10;
+                    }
+                )
+            </var>
+
+            <!-- this is the one x-coordinate we will use to show that the function is neither even nor odd. we basically filter out any coordinates that would look kind of like it was even or odd and we also filter out 10 because that makes displaying things easier. -->
+            <var id="PT" data-if="SOL === 'Neither'">
+                randFromArray(
+                    $.grep( PTS,
+                        function( i ) {
+                            return abs( abs( valAt( WIDES, i ) ) - abs( valAt( WIDES, -i ) ) ) > 0.5
+                                && abs( i ) &lt; 10;
+                        }
+                    )
+                )</var>
+
+        </div>
+
+        <div class="problems">
+            <div>
+
+                <div class="problem">
+                    <p><code>f(x)</code> is graphed below.</p>
+                    <div id="graph" class="graphie">
+                        graphInit({
+                            range: 10,
+                            scale: 20,
+                            tickStep: 1,
+                            axisArrows: "<->"
+                        });
+
+                        style({
+                            stroke: "#6495ED",
+                        });
+
+                        plot( function( x ) {
+                            return WIDES( x );
+                        }, [-10, 10]);
+
+                        style({
+                            stroke: "#05ca00"
+                        });
+                    </div>
+                </div>
+
+                <p class="question">Is <code>f(x)</code> even, odd, or neither?</p>
+                <p class="solution"><var>SOL</var></p>
+                <ul class="choices" data-category="true">
+                    <li>Even</li>
+                    <li>Odd</li>
+                    <li>Neither</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="hints">
+
+            <div data-unwrap data-if="SOL === 'Neither'">
+
+                <div class="graphie" data-update="graph">
+                    style({ strokeWidth: 2 }, function() {
+                        path([ [ PT, 0 ], [ PT, valAt( WIDES, PT ) ] ]);
+                        path([ [ -PT, 0 ], [ -PT, valAt( WIDES, -PT ) ] ]);
+                    });
+
+                    label( [ PT, 0 ], "a", "below right");
+                    label( [ -PT, 0 ], "-a", "below left");
+                </div>
+
+                <div class="graphie" data-update="graph">
+                    style({ strokeDasharray: "." }, function() {
+                        path([ [ 0, valAt( WIDES, PT ) ], [ PT, valAt( WIDES, PT ) ] ]);
+                        path([ [ 0, valAt( WIDES, -PT ) ], [ -PT, valAt( WIDES, -PT ) ] ]);
+                    });
+
+                    label( [ 0, valAt( WIDES, PT ) ], "f(a)", "left");
+                    label( [ 0, valAt( WIDES, -PT ) ], "f(-a)", "right");
+                </div>
+
+                <p>
+                    <code>f(-a)\neq f(a)</code>, so <code>f(x)</code> is not even.
+                </p>
+
+                <p>
+                    <code>f(-a)\neq -f(a)</code>, so <code>f(x)</code> is not odd.
+                </p>
+
+            </div>
+
+            <div data-unwrap data-else>
+
+                <div data-unwrap data-each="PTS as x">
+
+                    <div class="graphie" data-update="graph">
+                        style({ stroke: "#7edb00" }, function() {
+                            path([ [ x, 0 ], [ x, valAt( WIDES, x ) ] ]);
+                            path([ [ -x, 0 ], [ -x, valAt( WIDES, -x ) ] ]);
+                        });
+                    </div>
+
+                    <div class="graphie" data-update="graph">
+                        style({ strokeDasharray: "." }, function() {
+                            path([ [ 0, valAt( WIDES, x ) ], [ x, valAt( WIDES, x ) ] ]);
+                            path([ [ 0, valAt( WIDES, -x ) ], [ -x, valAt( WIDES, -x ) ] ]);
+                        });
+                    </div>
+
+                </div>
+
+                <div data-unwrap data-if="SOL === 'Odd'">
+                    <p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
+
+                    <p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">odd</span>.</p>
+                </div>
+
+                <div data-unwrap data-else>
+                    <p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
+
+                    <p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">even</span>.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Scaling vectors</title>
+    <script src="../khan-exercise.js"></script>
+
+    <script type="text/javascript">
+        // http://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect/565282#565282
+        function vectorsIntersect( px, py, rx, ry, qx, qy, sx, sy ) {
+            function cross( vx, vy, wx, wy ) {
+                return vx * wy - vy * wx;
+            }
+
+            if ( cross( rx, ry, sx, sy ) === 0 ) {
+                return cross( qx - px, qy - py, rx, ry ) === 0;
+            } else {
+                var t = cross( qx - px, qy - py, sx, sy ) / cross( rx, ry, sx, sy );
+                var u = cross( qx - px, qy - py, rx, ry ) / cross( rx, ry, sx, sy );
+                return 0 <= t && t <= 1 && 0 <= u && u <= 1;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars" data-ensure="( BX !== CX || BY !== CY ) && ( BX !== DX || BY !== DY ) && ( BX !== EX || BY !== EY ) && ( CX !== DX || CY !== DY ) && ( CX !== EX || CY !== EY ) && ( DX !== EX || DY !== EY ) && !vectorsIntersect( 0, 0, AX, AY, BOX, BOY, BX, BY ) && !vectorsIntersect( 0, 0, AX, AY, COX, COY, CX, CY ) && !vectorsIntersect( 0, 0, AX, AY, DOX, DOY, DX, DY ) && !vectorsIntersect( 0, 0, AX, AY, EOX, EOY, EX, EY ) && !vectorsIntersect( BOX, BOY, BX, BY, COX, COY, CX, CY ) && !vectorsIntersect( BOX, BOY, BX, BY, DOX, DOY, DX, DY ) && !vectorsIntersect( BOX, BOY, BX, BY, EOX, EOY, EX, EY ) && !vectorsIntersect( COX, COY, CX, CY, DOX, DOY, DX, DY ) && !vectorsIntersect( COX, COY, CX, CY, EOX, EOY, EX, EY ) && !vectorsIntersect( DOX, DOY, DX, DY, EOX, EOY, EX, EY )">
+        <var id="AX">randRangeNonZero( -3, 3 )</var>
+        <var id="AY">randRangeNonZero( -3, 3 )</var>
+        <var id="SA" data-ensure="abs( SA * AX ) &lt; 8 && abs( SA * AY ) &lt; 8">randRangeNonZero( -1, 1 ) * randRange( 2, 3 )</var>
+
+        <var id="BX">randRangeNonZero( -7, 7 )</var>
+        <var id="BY">randRangeNonZero( -7, 7 )</var>
+        <var id="CX">randRangeNonZero( -7, 7 )</var>
+        <var id="CY">randRangeNonZero( -7, 7 )</var>
+        <var id="DX">AX * SA</var>
+        <var id="DY">AY * SA</var>
+        <var id="EX">-AX * SA</var>
+        <var id="EY">-AY * SA</var>
+
+        <var id="ANS">[DX, DY]</var>
+        <var id="SHUF">shuffle([ [BX, BY], [CX, CY], ANS, [EX, EY] ])</var>
+        <var id="ANSL, ANSC">[
+            ["b", "#ff00af"],
+            ["c", "#28ae7b"],
+            ["d", "#ffa500"],
+            ["e", "#fd0000"]
+        ][ $.inArray( ANS, SHUF ) ]</var>
+
+        <var id="BX, BY">SHUF[0]</var>
+        <var id="CX, CY">SHUF[1]</var>
+        <var id="DX, DY">SHUF[2]</var>
+        <var id="EX, EY">SHUF[3]</var>
+
+        <var id="BOX" data-ensure="abs( BX + BOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="BOY" data-ensure="abs( BY + BOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="COX" data-ensure="abs( CX + COX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="COY" data-ensure="abs( CY + COY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="DOX" data-ensure="abs( DX + DOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="DOY" data-ensure="abs( DY + DOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="EOX" data-ensure="abs( EX + EOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="EOY" data-ensure="abs( EY + EOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>What is <code><var>SA</var> \vec a</code>?</p>
+
+                <div id="graph" class="graphie">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        axisArrows: "&lt;->"
+                    });
+
+                    style({
+                        stroke: "#6495ed",
+                        color: "#6495ed"
+                    }, function() {
+                        var AF = 1 + 0.8 / sqrt( AX * AX + AY * AY );
+
+                        do {
+                            var AOX = randRange( -9, 9 );
+                            var AOY = randRange( -9, 9 );
+                        } while ( 0 &lt; abs( AOX + AX ) && abs( AOX + AX ) &lt; 9 );
+
+                        line( [0, 0], [AX, AY], { arrows: "->" } );
+                        label( [AF * AX, AF * AY], "\\vec a" );
+                    });
+
+                    style({
+                        stroke: "#ff00af",
+                        color: "#ff00af"
+                    }, function() {
+                        var BF = 1 + 0.8 / sqrt( BX * BX + BY * BY );
+                        line( [BOX, BOY], [BOX + BX, BOY + BY], { arrows: "->" } );
+                        label( [BOX + BF * BX, BOY + BF * BY], "\\vec b" );
+                    });
+
+                    style({
+                        stroke: "#28ae7b",
+                        color: "#28ae7b"
+                    }, function() {
+                        var CF = 1 + 0.8 / sqrt( CX * CX + CY * CY );
+                        line( [COX, COY], [COX + CX, COY + CY], { arrows: "->" } );
+                        label( [COX + CF * CX, COY + CF * CY], "\\vec c" );
+                    });
+
+                    style({
+                        stroke: "#ffa500",
+                        color: "#ffa500"
+                    }, function() {
+                        var DF = 1 + 0.8 / sqrt( DX * DX + DY * DY );
+                        line( [DOX, DOY], [DOX + DX, DOY + DY], { arrows: "->" } );
+                        label( [DOX + DF * DX, DOY + DF * DY], "\\vec d" );
+                    });
+
+                    style({
+                        stroke: "#fd0000",
+                        color: "#fd0000"
+                    }, function() {
+                        var EF = 1 + 0.8 / sqrt( EX * EX + EY * EY );
+                        line( [EOX, EOY], [EOX + EX, EOY + EY], { arrows: "->" } );
+                        label( [EOX + EF * EX, EOY + EF * EY], "\\vec e" );
+                    });
+                </div>
+            </div>
+
+            <p class="solution"><code>\vec <var>ANSL</var></code></p>
+            <ul class="choices" data-category="true">
+                <li><code>\vec b</code></li>
+                <li><code>\vec c</code></li>
+                <li><code>\vec d</code></li>
+                <li><code>\vec e</code></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="hints">
+        <p>Reading from the graph, we see that <code>\vec a = <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath</code>.</p>
+        <p><code><var>SA</var> \vec a = <var>SA</var> \cdot (<var>AX</var> \hat\imath + <var>AY</var> \hat\jmath)</code>.</p>
+        <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA</var> \cdot <var>AX</var>) \hat\imath + (<var>SA</var> \cdot <var>AY</var>) \hat\jmath</code>.</p>
+        <p><code>\hphantom{<var>SA</var> \vec a} = <var>SA * AX</var> \hat\imath + <var>SA * AY</var> \hat\jmath</code>.</p>
+        <p>The vector that matches is <code>\vec <var>ANSL</var></code>.</p>
+    </div>
+    </div>
+</body>
+</html>

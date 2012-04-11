@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Equation of a circle 1</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #answer_area .short input[type=text] {
+            width: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="H">randRange(-9, 9)</var>
+        <var id="K">randRange(-9, 9)</var>
+        <var id="R">randRange(1, 7)</var>
+
+        <var id="X2T">H === 0 ? "x^2" : expr(["^", ["+", "x", -H], 2])</var>
+        <var id="Y2T">K === 0 ? "y^2" : expr(["^", ["+", "y", -K], 2])</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>The equation of a circle <code>C</code> is <code><var>expr(["+", X2T, Y2T])</var> = <var>R * R</var></code>.</p>
+
+                <p>What are its center <code>(h, k)</code> and its radius <code>r</code>?</p>
+
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <p class="short"><code>(h, k) = (</code><span class="sol"><var>H</var></span><code>,</code> <span class="sol"><var>K</var></span><code>)</code></p>
+                <p><code>r</code> = <span class="sol"><var>R</var></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <p>The equation of a circle with center <code>(h, k)</code> and radius <code>r</code> is <code>(x - h)^2 + (y - k)^2 = r^2</code>.</p>
+        <p>We can rewrite the given equation as <code>(x - <var>negParens(H)</var>)^2 + (y - <var>negParens(K)</var>)^2 = <var>R</var>^2</code>.</p>
+        <p>Thus, <code>(h, k) = (<var>H</var>, <var>K</var>)</code> and <code>r = <var>R</var></code>.</p>
+    </div>
+    </div>
+</body>
+</html>

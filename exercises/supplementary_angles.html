@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Supplementary angles</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="find-hypotenuse">
+            <div class="vars">
+                <var id="O, A, B, C">randFromArray([
+                    ["O", "A", "B", "C"],
+                    ["O", "L", "M", "N"],
+                    ["P", "Q", "R", "S"]
+                ])</var>
+                <var id="ANGLE">randRange(1, 179)</var>
+
+                <var id="ANGLE_BOT">"\\angle " + A + O + B</var>
+                <var id="ANGLE_TOP">"\\angle " + B + O + C</var>
+
+                <var id="ANGLE_ONE, ANGLE_TWO">shuffle([ ANGLE_BOT, ANGLE_TOP ])</var>
+            </div>
+
+            <div class="question">
+                <p>If <code>m \angle <var>A + O + C</var> = 180^\circ</code> and <code>m <var>ANGLE_ONE</var> = <var>ANGLE</var>^\circ</code>, what is <code>m <var>ANGLE_TWO</var></code>, in degrees?</p>
+
+                <div class="graphie">
+                    init({
+                        range: [ [-7, 7], [-2, 6] ],
+                        scale: 40
+                    });
+
+                    var DISP_ANGLE = Math.min( Math.max( 10, ANGLE ), 170 );
+                    if ( ANGLE_ONE !== ANGLE_BOT ) {
+                        DISP_ANGLE = 180 - DISP_ANGLE;
+                        arc( [ 0, 0 ], 1, DISP_ANGLE, 180 );
+                        DISP_ANGLE *= PI / 180;
+                        label( [ 2 * cos( DISP_ANGLE + ( PI - DISP_ANGLE) / 2 ) - .5, 2 * sin( DISP_ANGLE + ( PI - DISP_ANGLE) / 2  )], ANGLE + "^\\circ" );
+                    } else {
+                        arc( [ 0, 0 ], 1, 0, DISP_ANGLE );
+                        DISP_ANGLE *= PI / 180;
+                        label( [ 2 * cos( DISP_ANGLE / 2 ) + .5 , 2 * sin( DISP_ANGLE / 2 )], ANGLE + "^\\circ" );
+                    }
+
+                    path([ [-5, 0], [5, 0] ]);
+                    path([ [0, 0], [5 * cos( DISP_ANGLE ), 5 * sin( DISP_ANGLE )] ]);
+
+                    label( [0, 0], O, "below" );
+                    label( [5, 0], A, "right" );
+                    label( [-5, 0], C, "left" );
+                    // somewhat ick to make it look nice
+                    label( [5.35 * cos( DISP_ANGLE ), 5.35 * sin( DISP_ANGLE )], B );
+                </div>
+            </div>
+
+            <div class="solution" data-forms="integer"><var>180 - ANGLE</var></div>
+
+            <div class="hints">
+                <p>From the diagram, we see that <code><var>ANGLE_BOT</var></code> and <code><var>ANGLE_TOP</var></code> are supplementary angles.</p>
+                <p>Therefore, <code>m <var>ANGLE_BOT</var> + m <var>ANGLE_TOP</var> = 180^\circ</code>.</p>
+                <p>Thus, <code>m <var>ANGLE_TWO</var> = 180^\circ - m <var>ANGLE_ONE</var> = 180^\circ - <var>ANGLE</var>^\circ = <var>180 - ANGLE</var>^\circ</code>.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

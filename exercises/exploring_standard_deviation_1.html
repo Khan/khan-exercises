@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive mean-and-median">
+<head>
+    <meta charset="UTF-8" />
+    <title>Exploring standard deviation 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="LOWER_BOUND">-7</var>
+            <var id="UPPER_BOUND">-1 * LOWER_BOUND</var>
+            <var id="POINTS">randRange( 10, 20 )</var>
+            <var id="STDDEV">roundTo( 1, randRange( 7, 20 ) / 10 )</var>
+        </div>
+        <div class="problems">
+            <div>
+                <div class="question">
+                    <p>
+                        Arrange the <var>POINTS</var> orange sample points in this histogram so the
+                        <span class="hint_green">sample standard deviation is approximately <code><var>STDDEV</var></code></span>.
+                    </p>
+                    <div class="graphie" id="number-line">
+                        graph.targetStddev = STDDEV;
+                        graph.numPoints = POINTS;
+
+                        init({
+                            range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-2, 5] ]
+                        });
+
+                        style({ stroke: "#bbb" });
+                        line( [ LOWER_BOUND, -0.2 ], [ UPPER_BOUND, -0.2 ] );
+                        for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++ ) {
+                            line( [ x, -0.4 ], [ x, -0.2 ] );
+                        }
+                        style({ strokeWidth: 3.5 });
+                        line( [ 0, -0.4 ], [ 0, -0.2 ] );
+                        label( [ -6, -0.73 ],  "\\llap{-}6", "center", {});
+                        label( [ -4, -0.73 ],  "\\llap{-}4", "center", {});
+                        label( [ -2, -0.73 ],  "\\llap{-}2", "center", {});
+                        label( [ 0, -0.73 ],  "0", "center", {});
+                        label( [ 2, -0.73 ],  "2", "center", {});
+                        label( [ 4, -0.73 ],  "4", "center", {});
+                        label( [ 6, -0.73 ],  "6", "center", {});
+
+                        addMouseLayer();
+                        graph.points = [];
+                        for ( var x = 0; x &lt; POINTS; x++ ) {
+                            graph.points[x] = addMovablePoint({
+                                coord: [ KhanUtil.roundToNearest( 0.5, x * ( 8 / POINTS ) - 4 ), 0 ],
+                                constraints: { constrainY: true },
+                                snapX: 0.5
+                            });
+                        }
+
+                        var stddev = stdDev( $.map( graph.points, function( el ) { return el.coord[0]; } ) );
+
+                        style({ strokeWidth: 2, stroke: GREEN, fill: GREEN });
+                        graph.stddevLeft = path([
+                            [ 0, -1.1 ], [ 0.05, -1.1 ], [ 0, -1 ], [ -0.05, -1.1 ], [ 0, -1.1 ], [ 0, -1.4 ]
+                        ]);
+                        graph.stddevRight = path([
+                            [ 0, -1.1 ], [ 0.05, -1.1 ], [ 0, -1 ], [ -0.05, -1.1 ], [ 0, -1.1 ], [ 0, -1.4 ]
+                        ]);
+                        graph.stddevLine = path([
+                            [ 0, -1.4 ], [ 1, -1.4 ]
+                        ]);
+                        graph.stddevValueLabel = label( [ stddev / 2, -1.3 ], "\\bar{x} \\approx "
+                            + roundTo( 1, stddev ), "below", { color: GREEN });
+
+                        graph.pdf = bogusShape;
+                        graph.stddevArea = bogusShape;
+                        graph.meanLine = bogusShape;
+                        graph.meanValueLabel = bogusShape;
+
+                        updateMeanAndStddev();
+
+                        // track whether any points have been moved to prevent answer being submitted too early
+                        graph.moved = false;
+
+                        $.each( graph.points, function( idx, point ) {
+                            this.onMove = function( x, y ) {
+                                graph.moved = true;
+                                return onMovePoint( point, x, y, updateMeanAndStddev );
+                            };
+                        });
+                        onMovePoint( graph.points[0], graph.points[0].coord[0] + 1, graph.points[0].coord[1] );
+
+                    </div>
+                </div>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Move the orange dots to experiment with different sample distributions.
+                    </div>
+
+                    <div class="guess">$.map( graph.points, function( el ) { return el.coord[0]; } )</div>
+                    <div class="validator-function">
+                        if ( roundTo( 1, stdDev( guess ) ) === STDDEV ) {
+                            return true;
+                        } else if ( graph.moved ) {
+                            return false;
+                        } else {
+                            return "";
+                        }
+                    </div>
+                    <div class="show-guess">
+                        $.each( guess, function( i, x ) {
+                            onMovePoint( graph.points[i], x, 0 );
+                        });
+                        updateMeanAndStddev();
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <p>
+                        The standard deviation is smaller if the points are closer to the mean.
+                        The standard deviation is larger if the points are more spread out.
+                        Try moving a point closer to and further away from the
+                        <span class="hint_blue">sample mean (<code>\bar{x}</code>)</span> to see how the
+                        <span class="hint_green">sample standard deviation (<code>s</code>)</span> is affected.
+                    </p>
+                    <p>
+                        There are many ways to arrange the points so the sample standard deviation is
+                        <span class="hint_green"><code><var>STDDEV</var></code></span>.<br />
+                        <input id="example-button" type="button" value="Show me an example" onClick="javascript:
+                            KhanUtil.showStddevExample();
+                            $( 'input#example-button' ).val( 'Show me another example' );
+                        ">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

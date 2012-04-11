@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html data-require="math graphie ast math-model">
+<head>
+    <meta charset="UTF-8" />
+    <title>Factoring polynomials by grouping 2</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="MATH">MathModel.init()</var>
+                    <var id="a">randRange( 2, 9 )</var>
+                    <var id="b_sign">randFromArray([ -1, 1 ])</var>
+                    <var id="b_abs">randFromArrayExclude( [ 3, 5, 7, 9 ], [ a ] )</var>
+                    <var id="b">b_sign*b_abs</var>
+                    <var id="A">randFromArrayExclude( getFactors( a * b_abs ), [ 1 ] )</var>
+                    <var id="B">a + b</var>
+                    <var id="C">a * b / A</var>
+                    <var id="F1">getGCD( A, a )</var>
+                    <var id="F2">b_sign * getGCD( b_abs, C )</var>
+                    <var id="PROBLEM">MATH.polynomial( [ A, B, C ], "x" )</var>
+                    <!-- use parse so that the ast matches the parsed user input -->
+                    <var id="SOLUTION">MATH.parse( "(" + F1 + "x+" + F2 + ")(" + A / F1 + "x+" + a / F1 + ")" )</var>
+                    <var id="HINT1">MATH.parse( F1 + "x(" + A / F1 + "x+" + a / F1 + ")+" + F2 + "(" + b / F2 + "x+" + C / F2 + ")" )</var>
+                </div>
+                <div>
+                    <p class="question">
+                        Factor the following expression:
+                    </p>
+                    <p>
+                        <code><var>MATH.format( PROBLEM, "large" )</var></code>
+                    </p>
+                </div>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        <input name="response" type="text">
+                    </div>
+                    <div class="guess">$( "div.instruction input" ).val()</div>
+                    <div class="validator-function">
+                        return MATH.isEqual( MATH.parse( guess ), SOLUTION );
+                    </div>
+                    <div class="show-guess">
+                    </div>
+                    <div class="show-guess-solutionarea">
+                        $( "div.instruction input" ).val( guess );
+                    </div>
+                    <div class="example">a factored expression, like <b>(x+1)(x+2)</b></div>
+                </div>
+                <div class="hints">
+                    <p>
+                        Recognize that the expression is of the form
+                        <code><var>MATH.format( "Ax^2+Bx+C", "normalsize", BLUE )</var></code>
+                        , which can be factored by grouping.
+                    </p>
+                    <p>
+                        Find the factors
+                        <code><var>MATH.format( "a", "normalsize", BLUE )</var></code> and
+                        <code><var>MATH.format( "b", "normalsize", BLUE )</var></code> of the value of
+                        <code><var>MATH.format( "A*C=" + ( A * C ), "normalsize", BLUE )</var></code> whose sum is the value of
+                        <code><var>MATH.format( "B="+B, "normalsize", BLUE )</var></code>.
+                    </p>
+                    <p>
+                        <code><var>MATH.format( "a="+a, "normalsize", BLUE )</var></code><br>
+                        <code><var>MATH.format( "b="+b, "normalsize", BLUE )</var></code>
+                    </p>
+                    <p>
+                        Rewrite the middle term of the original equation using these factors to form
+                        two groups.
+                    </p>
+                    <p>
+                        <code><var>MATH.format( A + "x^2+" + a + "x+" + b + "x+" + C, "normalsize", BLUE )</var></code>
+                    </p>
+                    <p>
+                        Factor the first two terms terms and the second two terms.
+                    </p>
+                    <p>
+                        <code><var>MATH.format( HINT1, "normalsize", BLUE )</var></code>
+                    </p>
+                    <p>
+                        Redistribute the common term to get the answer.
+                    </p>
+                    <p>
+                        <code><var>MATH.format( SOLUTION, "large", ORANGE )</var></code>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

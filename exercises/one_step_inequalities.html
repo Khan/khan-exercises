@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>One-step inequalities</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <!--
+        Solving one-step inequalities with positive and negative coefficients.
+    -->
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="NUM, DEN" data-ensure="NUM > 2 || NUM < -2">reduce( randRange( -20, 20 ), rand( 3 ) &gt; 0 ? 1 : randRange( 2, 20 ) )</var>
+                    <var id="COEF">fractionReduce( NUM, DEN )</var>
+                    <var id="ONE_OVER_COEF">fractionReduce( DEN, NUM )</var>
+                    <var id="RIGHT_INT">randRangeNonZero( -20, 20 )</var>
+                    <var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+                    <var id="COMP_SOLUTION">(function() {
+                        if ( NUM &gt; 0 ) {
+                            return COMP;
+                        }
+
+                        switch ( COMP ) {
+                            case "&lt;":
+                                return "&gt;";
+                            case "&gt;":
+                                return "&lt;";
+                            case "&le;":
+                                return "&ge;";
+                            case "&ge;":
+                                return "&le;";
+                        }
+                    })()</var>
+                    <var id="SOLUTION_NOT_REDUCED">fraction( RIGHT_INT * DEN, NUM )</var>
+                    <var id="SOLUTION">fractionReduce( RIGHT_INT * DEN, NUM )</var>
+                    <var id="SOLUTION_REAL">RIGHT_INT * DEN / NUM</var>
+                </div>
+
+                <p class="question">Solve for <code>x</code>:</p>
+                <div><code><var>COEF</var>x <var>COMP</var> <var>RIGHT_INT</var></code></div>
+
+                <p class="solution" data-type="multiple">
+                    <code>x</code>
+                    <span class="sol" data-type="list" data-choices="[ '', '&lt;', '&gt;', '&le;', '&ge;' ]">
+                        <var>COMP_SOLUTION</var>
+                    </span>
+                    <span class="sol"><var>SOLUTION_REAL</var></span>
+                    <span class="example">an integer, like <code>6</code></span>
+                    <span class="example">a <em>proper</em> fraction, like <code>1/2</code> or <code>6/10</code></span>
+                    <span class="example">an <em>improper</em> fraction, like <code>10/7</code> or <code>14/8</code></span>
+                    <span class="example">a mixed number, like <code>1\ 3/4</code></span>
+                    <span class="example">an <em>exact</em> decimal, like <code>0.75</code></span>
+                </p>
+
+                <div class="hints">
+                    <p data-if ="NUM < 0">When multiplying or dividing both sides of an inequality by a negative number you have to flip the inequality. Therefore <code><var>COMP</var></code> becomes <code><var>COMP_SOLUTION</var></code>.</p>
+                    <div>
+                        <p>Multiply both sides by <code><var>ONE_OVER_COEF</var></code>.</p>
+                        <p><code>(<var>ONE_OVER_COEF</var>) \cdot (<var>COEF</var>x) <var>COMP_SOLUTION</var> (<var>ONE_OVER_COEF</var>) \cdot (<var>RIGHT_INT</var>)</code></p>
+                    </div>
+                    <div>
+                        <p>Simplify.</p>
+                        <p><code>x <var>COMP_SOLUTION</var> <var>SOLUTION_NOT_REDUCED</var></code></p>
+                    </div>
+                    <div data-if="SOLUTION_NOT_REDUCED !== SOLUTION">
+                        <p>Reduce.</p>
+                        <p><code>x <var>COMP_SOLUTION</var> <var>SOLUTION</var></code></p>
+                    </div>
+                    <div>
+                        <p>We can see that all values of <code>x <var>COMP_SOLUTION</var> <var>SOLUTION</var></code> satisfy the original inequality.</p>
+                        <div class="graphie">
+                            init({
+                                range: [ [-1, 11], [-1, 1] ],
+                            });
+                            var start = SOLUTION_REAL - 4.5;
+                            var end = SOLUTION_REAL + 4.5;
+
+                            numberLine( start, end );
+
+                            var offset;
+                            var fill;
+                            var startOffset = 0.12;
+                            switch ( COMP_SOLUTION ) {
+                                case "&gt;":
+                                    fill = null;
+                                    offset = 5;
+                                    break;
+                                case "&ge;":
+                                    fill = "#6495ED";
+                                    offset = 5;
+                                    break;
+                                case "&lt;":
+                                    fill = null;
+                                    offset = -5;
+                                    startOffset *= -1;
+                                    break;
+                                case "&le;":
+                                    fill = "#6495ED";
+                                    offset = -5;
+                                    startOffset *= -1;
+                                    break;
+                            }
+
+                            var x = SOLUTION_REAL - start;
+
+                            style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "-&gt;" });
+                            path([ [ x + startOffset, 0 ], [ x + offset, 0 ]]);
+                            style({ stroke: "#6495ED", strokeWidth: 2.0, fill: fill });
+                            circle([ x, 0 ], 0.15 );
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Angle Bisector Theorem</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="ANGLES" data-ensure="ANGLES[ 0 ] % 2 === 0">randomTriangleAngles.triangle()</var>
+                <var id="SIDES_B">[ [ 0, 1 ], [] ]</var>
+                <var id="SIDES_C">[ [ 1 ], [ 2]  ]</var>
+                <var id="TR_A">
+                    function(){
+                        var trA = new Triangle( [ 5, -8 ], ANGLES , 14 , {} );
+                        trA.boxOut( [ [ [ 0, -10 ], [ 0, 10 ] ] ], [ 0.4 , 0  ] );
+                        trA.boxOut( [ [ [ 11 , -10 ], [ 11, 10 ] ] ], [ -0.4 , 0  ] );
+                        return trA;
+                    }()
+                </var>
+                <var id="POINT_D">
+                    function(){
+                        var pointD = findIntersection( bisectAngle( TR_A.sides[ 0 ], reverseLine( TR_A.sides[ 2 ] ), 1 ), TR_A.sides[ 1 ] );
+                        return pointD;
+                    }()
+                </var>
+                <var id="TR_B">
+                    function(){
+                        var trB = new Triangle( [0,0],[], 3, {}, [ TR_A.points[ 0 ], TR_A.points[ 1 ], POINT_D ] );
+                        trB.labels = { "angles" : clearArray( trB.niceAngles, [ 0 ] ), "sides" : mergeArray( clearArray( trB.niceSideLengths, SIDES_B[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_B[ 1 ] ) ),  "points": [ "A", "B", "D" ] };
+                        return trB;
+                    }()
+                </var>
+                <var id="TR_C">
+                    function(){
+                        var trC = new Triangle( [0,0],[], 3, {}, [ TR_A.points[ 0 ], POINT_D, TR_A.points[ 2 ] ] );
+                        trC.labels = { "angles" : clearArray( trC.niceAngles, [ 0 ] ) , "sides" :  mergeArray( clearArray( trC.niceSideLengths, SIDES_C[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_C[ 1 ] ) ),  "points": [ "", "", "C" ] };
+                        return trC;
+                        }()
+                </var>
+                <var id="TEMP_BD">TR_B.niceSideLengths[ 1 ]</var>
+                <var id="TEMP_AB">TR_B.niceSideLengths[ 0 ]</var>
+                <var id="TEMP_CD">TR_C.niceSideLengths[ 1 ]</var>
+                <var id="TEMP_AC">TR_C.niceSideLengths[ 2 ]</var>
+                <var id="BD">TR_B.niceSideLengths[ 1 ]</var>
+                <var id="AB">TR_B.niceSideLengths[ 0 ]</var>
+                <var id="CD">TR_C.niceSideLengths[ 1 ]</var>
+                <var id="AC">TR_C.niceSideLengths[ 2 ]</var>
+        </div>
+        <div class="problem">
+            What is the length of the side AC?
+        </div>
+        <div class="question">
+            <div class="graphie">
+                init({
+                    range: TR_A.boundingRange(1.5)
+                })
+                TR_B.draw();
+                TR_B.drawLabels();
+                TR_C.draw();
+                TR_C.drawLabels();
+            </div>
+        </div>
+        <div class="hints">
+            <p>Angles <code>DAB</code> and <code>DAC</code> are equal.</p>
+            <p>Therefore <code>AD</code> is the bisector of <code>CAB</code></p>
+            <p>Angle Bisector Theorem states that <code>\dfrac{ AB }{ BD }    = \dfrac{ AC }{ CD }</code></p>
+        </div>
+
+
+
+        <div class="problems">
+            <div id="AC">
+                <div class="vars">
+                    <var id="AC">roundTo( 1, TEMP_AB * TEMP_CD / TEMP_BD )</var>
+                </div>
+            <div class="problem">
+                    What is the length of the side AC? (Round to 1 decimal place).
+                </div>
+                <div class="solution"><var>AC</var></div>
+                <div class="hints"  data-apply="appendContents">
+                    <p><code>\dfrac{ <var>AB</var> }{ <var>BD</var> }    = \dfrac{ AC }{ <var>CD</var> }</code></p>
+                    <p><code>AC = \dfrac{<var>AB</var> \cdot <var>CD</var> }{ <var>BD</var> }</code></p>
+                    <p><code>AC = <var>AC </var></code></p>
+                </div>
+            </div>
+            <div id="AB">
+                <div class="vars">
+                        <var id="AB">roundTo( 1, TEMP_AC * TEMP_BD / TEMP_CD )</var>
+                        <var id="SIDES_B">[ [ 1 ], [0] ]</var>
+                        <var id="SIDES_C">[ [ 1,2 ], [ ]  ]</var>
+                </div>
+                <div class="problem">
+                    What is the length of the side AB? (Round to 1 decimal place).
+                </div>
+                <div class="solution"><var>AB</var></div>
+                <div class="hints"  data-apply="appendContents">
+                    <p><code>\dfrac{ AB }{ <var>BD</var> }    = \dfrac{ <var>AC</var> }{ <var>CD</var> }</code></p>
+                    <p><code>AB = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>CD</var> }</code></p>
+                    <p><code>AB = <var>AB </var></code></p>
+                </div>
+            </div>
+            <div id="CD">
+                <div class="vars">
+                        <var id="CD">roundTo( 1, TEMP_AC * TEMP_BD / TEMP_AB )</var>
+                        <var id="SIDES_B">[ [ 1, 0 ], [] ]</var>
+                        <var id="SIDES_C">[ [ 2 ], [1 ]  ]</var>
+                </div>
+                <div class="problem">
+                    What is the length of the side CD?  (Round to 1 decimal place).
+                </div>
+                <div class="solution"><var>CD</var></div>
+                <div class="hints"  data-apply="appendContents">
+                    <p><code>\dfrac{ <var> AB</var> }{ <var>BD</var> }    = \dfrac{ <var>AC</var> }{ CD }</code></p>
+                    <p><code>CD = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>AB</var> }</code></p>
+                    <p><code>CD = <var>CD </var></code></p>
+                </div>
+            </div>
+            <div id="BD">
+                <div class="vars">
+                        <var id="BD">roundTo( 1, TEMP_AB * TEMP_CD / TEMP_AC )</var>
+                        <var id="SIDES_B">[ [  0 ],  [ 1 ] ]</var>
+                        <var id="SIDES_C">[ [ 1, 2 ], [ ]  ]</var>
+                </div>
+                <div class="problem">
+                    What is the length of the side BD?  (Round to 1 decimal place).
+                </div>
+                <div class="solution"><var>BD</var></div>
+                <div class="hints"  data-apply="appendContents">
+                    <p><code>\dfrac{ <var> AB</var> }{ BD }    = \dfrac{ <var>AC</var> }{ <var>CD</var> }</code></p>
+                    <p><code>BD = \dfrac{ <var>AB</var> \cdot <var>CD</var> }{ <var>AC</var> }</code></p>
+                    <p><code>BD = <var>BD</var></code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
