@@ -30,11 +30,11 @@ $.extend(KhanUtil, {
         var f;
         do {
             var r = KhanUtil.rand(10);
-            if (r < 2) {// 20% chance of power rule
+            if (r < 2) { // 20% chance of power rule
                 f = new KhanUtil.CalcFunctions[0](variable);
-            } else if (r < 6) {// 40% chance of trig
+            } else if (r < 6) { // 40% chance of trig
                 f = new KhanUtil.CalcFunctions[1](variable);
-            } else if (r < 10) {// 40% chance of e^x / ln x
+            } else if (r < 10) { // 40% chance of e^x / ln x
                 f = new KhanUtil.CalcFunctions[3](variable);
             }
         } while (f.f === "0");
@@ -145,7 +145,7 @@ $.extend(KhanUtil, {
     },
 
     PowerRule: function(minDegree, maxDegree, coefs, variable, funcNotation) {
-        if (this instanceof KhanUtil.PowerRule) {//avoid mistakenly calling without a new
+        if (this instanceof KhanUtil.PowerRule) { //avoid mistakenly calling without a new
             // power rule, polynomials
             var minDegree = (typeof minDegree == "number") ? minDegree : KhanUtil.randRange(-2, 2);
             var maxDegree = (typeof maxDegree == "number") ? maxDegree : KhanUtil.randRange(2, 4);

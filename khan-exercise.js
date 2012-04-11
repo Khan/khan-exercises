@@ -688,6 +688,7 @@ var Khan = (function() {
 
     if (Khan.query.activity !== undefined) {
         userExercise = {
+            current: true,
             exerciseModel: {},
             readOnly: true,
             userActivity: JSON.parse(Khan.query.activity)
@@ -1477,17 +1478,6 @@ var Khan = (function() {
                         thisState.slide.scrubber();
                     });
 
-                    if (slideNum < firstHintIndex) {
-                        hintRemainder.fadeOut(fadeTime);
-                        hintButton.val("I'd like a hint");
-                    } else if (slideNum >= lastHintIndex) {
-                        if (states.eq(lastHintIndex).data("hint") < hints.length) {
-                            hintRemainder.fadeOut(fadeTime);
-                        }
-                    } else {
-                        hintButton.val("I'd like another hint (" + (totalHints - thisState.hintNum) + " remaining)");
-                    }
-
                     $("#workarea").remove();
                     $("#hintsarea").remove();
                     $("#problemarea").append(thisState.problem).append(thisState.hintArea);
@@ -2040,7 +2030,7 @@ var Khan = (function() {
             // don't do anything if the user clicked a second time quickly
             if ($("#issue form").css("display") === "none") return;
 
-            var pretitle = $("title").text().replace(/ \|.*/, ""),
+            var pretitle = deslugify(exerciseName),
                 type = $("input[name=issue-type]:checked").prop("id"),
                 title = $("#issue-title").val(),
                 email = $("#issue-email").val(),
@@ -2055,7 +2045,7 @@ var Khan = (function() {
                 sessionStorageInfo = (typeof sessionStorage === "undefined" || typeof sessionStorage.getItem === "undefined" ? "sessionStorage NOT enabled" : null),
                 warningInfo = $("#warning-bar-content").text(),
                 parts = [email ? "Reporter: " + email : null, $("#issue-body").val() || null, pathlink, historyLink, "    " + JSON.stringify(guessLog), agent, sessionStorageInfo, mathjaxInfo, warningInfo],
-                body = $.grep(parts, function(e) {return e != null;}).join("\n\n");
+                body = $.grep(parts, function(e) { return e != null; }).join("\n\n");
 
             var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
                 if (info.status === -1) {
@@ -2400,6 +2390,11 @@ var Khan = (function() {
             });
     }
 
+    function deslugify(name) {
+        name = name.replace(/_/g, " ");
+        return name.charAt(0).toUpperCase() + name.slice(1);
+    }
+
     function setProblemNum(num) {
         problemNum = num;
         problemSeed = (seedOffset + jumpNum * (problemNum - 1)) % bins;
@@ -2664,8 +2659,13 @@ var Khan = (function() {
 
             var problems = exercises.children(".problems").children();
 
-            weighExercises(problems);
-            problemBag = makeProblemBag(problems, 10);
+            // Don't make the problem bag when a specific problem is specified
+            // because it messes up problem permalinks (because makeProblemBag
+            // calls KhanUtil.random() and changes the seed)
+            if (Khan.query.problem == null) {
+                weighExercises(problems);
+                problemBag = makeProblemBag(problems, 10);
+            }
 
             // Generate the initial problem when dependencies are done being loaded
             var answerType = makeProblem();

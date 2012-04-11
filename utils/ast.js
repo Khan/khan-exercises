@@ -154,14 +154,14 @@ $.extend(KhanUtil, {
                     var s = "\"" + n.args[0] + "\"";
                     break;
                 default:
-                    var s = "{op: \"" + n.op + "\", args: [";
+                    var s = "{ op: \"" + n.op + "\", args: [";
                     for (var i = 0; i < n.args.length; i++) {
                         if (i > 0) {
                             s += " , ";
                         }
                         s += dump(n.args[i]);
                     }
-                    s += "]}";
+                    s += "] }";
                     break;
                 }
             }

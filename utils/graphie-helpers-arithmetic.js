@@ -4,13 +4,13 @@ function Adder(a, b, digitsA, digitsB) {
     digitsB = digitsB || KhanUtil.digits(b);
     var highlights = [];
     var carry = 0;
-    var pos = {max: Math.max(digitsA.length, digitsB.length, KhanUtil.digits(a + b).length),
+    var pos = { max: Math.max(digitsA.length, digitsB.length, KhanUtil.digits(a + b).length),
         carry: 3,
         first: 2,
         second: 1,
         sum: 0,
         sideX: Math.max(digitsA.length, digitsB.length) + 2,
-        sideY: 1.5};
+        sideY: 1.5 };
 
     var index = 0;
     var numHints = Adder.numHintsFor(a, b);
@@ -111,7 +111,7 @@ function Adder(a, b, digitsA, digitsB) {
 
     this.showDecimals = function(deciA, deciB) {
         for (var i = 0; i < 3; i++) {
-            graph.style({fill: "#000"}, function() {
+            graph.style({ fill: "#000" }, function() {
                 graph.ellipse([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.2], [0.09, 0.06]);
             });
         }
@@ -131,13 +131,13 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
     var workingDigitsB = digitsB.slice(0);
     var highlights = [];
     var carry = 0;
-    var pos = {max: digitsA.length,
+    var pos = { max: digitsA.length,
         carry: 3,
         first: 2,
         second: 1,
         diff: 0,
         sideX: Math.max(digitsA.length, digitsB.length) + 2,
-        sideY: 1.5};
+        sideY: 1.5 };
 
     var index = 0;
     var numHints = Subtractor.numHintsFor(a, b);
@@ -220,7 +220,7 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
 
         highlights[index].push(graph.label([pos.max - index, pos.diff], "\\Huge{\\color{#28AE7B}{" + diff + "}}"));
         if (subStr == "") {
-            subStr = "- \\color{#6495ED}{0}";
+            subStr = "- \\color{#6495ED}{ 0 }";
         }
 
         this.showSideLabel("\\Large{"
@@ -253,7 +253,7 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
 
     this.showDecimals = function(deciA, deciB) {
         for (var i = 0; i < 3; i++) {
-            graph.style({fill: "#000"}, function() {
+            graph.style({ fill: "#000" }, function() {
                 graph.ellipse([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.2], [0.09, 0.06]);
             });
         }
@@ -380,7 +380,7 @@ function drawDigits(digits, startX, startY, color) {
     var set = [];
     $.each(digits, function(index, digit) {
         var str = "\\Huge{" + digit + "}";
-        set.push(graph.label([startX + index, startY], str, {color: color}));
+        set.push(graph.label([startX + index, startY], str, { color: color }));
     });
     return set;
 }
@@ -597,9 +597,9 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             highlights = highlights.concat(drawDigits(totalDigits, index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE));
 
             graph.label([digitsDividend.length + 0.5, -2 * index],
-                "\\text{How many times does}"
+                "\\text{How many times does }"
                 + divisor
-                + "\\text{go into}"
+                + "\\text{ go into }"
                 + "\\color{#6495ED}{" + total + "}"
                 + "\\text{?}", "right");
 
@@ -631,7 +631,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
                 + "\\div"
                 + divisor + "="
                 + "\\color{#28AE7B}{" + quotient + "}"
-                + "\\text{or}"
+                + "\\text{ or }"
                 + divisor
                 + "\\times"
                 + "\\color{#28AE7B}{" + quotient + "}"

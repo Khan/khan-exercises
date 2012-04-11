@@ -57,7 +57,7 @@ $.extend(KhanUtil, {
             toReturn.push("\\tan^2 x + 1 = \\sec^2 x");
             toReturn.push("\\tan^2 x + 1 = (" + secv + ")^2");
             toReturn.push("\\tan^2 x = (" + secv + ")^2 - 1");
-            toReturn.push("\\tan x = \\sqrt {" + secv + "  ^2 - 1}");
+            toReturn.push("\\tan x = \\sqrt { " + secv + "  ^2 - 1 }");
             toReturn.push("\\tan x = " + tanv);
             return toReturn;
         }

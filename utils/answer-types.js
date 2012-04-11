@@ -134,7 +134,7 @@ $.extend(Khan.answerTypes, {
             literal: {
                 transformer: function(text) {
                     // Prevent literal comparisons for decimal-looking-like strings
-                    return [{value: (/[^+-\u2212\d\.\s]/).test(text) ? text : null}];
+                    return [{ value: (/[^+-\u2212\d\.\s]/).test(text) ? text : null }];
                 }
             },
 
@@ -192,7 +192,7 @@ $.extend(Khan.answerTypes, {
 
                     // - pi
                     if (match = text.match(/^([+-]?)\s*(?:pi?|\u03c0)$/i)) {
-                        possibilities = [{value: parseFloat(match[1] + "1"), exact: true}];
+                        possibilities = [{ value: parseFloat(match[1] + "1"), exact: true }];
 
                     // 5 / 6 pi
                     } else if (match = text.match(/^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(?:pi?|\u03c0)$/i)) {
@@ -208,7 +208,7 @@ $.extend(Khan.answerTypes, {
 
                     // 0
                     } else if (text === "0") {
-                        possibilities = [{value: 0, exact: true}];
+                        possibilities = [{ value: 0, exact: true }];
 
                     // 0.5 pi (fallback)
                     } else if (match = text.match(/^(\S+)\s*\*?\s*(?:pi?|\u03c0)$/i)) {
@@ -230,12 +230,12 @@ $.extend(Khan.answerTypes, {
 
                     // Replace unicode minus sign with hyphen
                     text = text.replace(/\u2212/, "-");
-                    text = text.replace(/[\(\)]/g, "");
+                    text = text.replace(/[ \(\)]/g, "");
 
                     if (match = text.match(/^log\s*(\S+)\s*$/i)) {
                         possibilities = forms.decimal.transformer(match[1]);
                     } else if (text === "0") {
-                        possibilities = [{value: 0, exact: true}];
+                        possibilities = [{ value: 0, exact: true }];
                     }
                     return possibilities;
                 },
@@ -313,10 +313,10 @@ $.extend(Khan.answerTypes, {
 
                             // Extract integer, numerator and denominator
                             // If commas or spaces are used, they must be in the "correct" places
-                            .match(/^([+-]?(?:\d{1,3}(?:[, ]?\d{3})*\.?|\d{0,3}(?:[, ]?\d{3})*\.(?:\d{3}[,]?)*\d{1,3}))$/);
+                            .match(/^([+-]?(?:\d{1,3}(?:[, ]?\d{3})*\.?|\d{0,3}(?:[, ]?\d{3})*\.(?:\d{3}[, ]?)*\d{1,3}))$/);
 
                         if (match) {
-                            var x = parseFloat(match[1].replace(/[,]/g, ""));
+                            var x = parseFloat(match[1].replace(/[, ]/g, ""));
 
                             if (options.inexact === undefined) {
                                 var factor = Math.pow(10, 10);
@@ -328,13 +328,13 @@ $.extend(Khan.answerTypes, {
                     };
 
                     var commas = function(text) {
-                        text = text.replace(/([\.,])/g, function(_, c) {return (c === "." ? "," : ".");});
+                        text = text.replace(/([\.,])/g, function(_, c) { return (c === "." ? "," : "."); });
                         return normal(text);
                     };
 
                     return [
-                        {value: normal(text), exact: true},
-                        {value: commas(text), exact: true}
+                        { value: normal(text), exact: true },
+                        { value: commas(text), exact: true }
                     ];
                 },
                 example: (function() {
@@ -433,8 +433,8 @@ $.extend(Khan.answerTypes, {
 
         var inte = $("<span>"), inteGuess, rad = $("<span>"), radGuess;
 
-        var inteValid = Khan.answerTypes.text(inte, null, "1", function(correct, guess) {inteGuess = guess;});
-        var radValid = Khan.answerTypes.text(rad, null, "1", function(correct, guess) {radGuess = guess;});
+        var inteValid = Khan.answerTypes.text(inte, null, "1", function(correct, guess) { inteGuess = guess; });
+        var radValid = Khan.answerTypes.text(rad, null, "1", function(correct, guess) { radGuess = guess; });
 
         solutionarea.addClass("radical")
             .append(inte)
@@ -1006,8 +1006,8 @@ $.extend(Khan.answerTypes, {
             'Radius: <span id="current-radius"><code>1</code></span>\n' +
             "</td>")
             .append("<td>\n"+
-            '<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm(0, 1)" />\n' +
-            '<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm(0, -1)" />\n' +
+            '<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />\n' +
+            '<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />\n' +
             "</td>").tmpl();
         table.append(row);
 
@@ -1016,8 +1016,8 @@ $.extend(Khan.answerTypes, {
             'Angle: <span id="current-angle"><code>0</code></span>\n' +
             "</td>")
             .append("<td>\n"+
-            '<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm(1, 0)" />\n' +
-            '<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm(-1, 0)" />\n' +
+            '<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />\n' +
+            '<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />\n' +
             "</td>").tmpl();
         table.append(row);
 
@@ -1056,8 +1056,8 @@ $.extend(Khan.answerTypes, {
         };
 
         ret.showCustomGuess = function(guess) {
-            var code = "(function() {var guess = " + (JSON.stringify(guess) || "[]") + ";" +
-                "graph.currComplexPolar.update(guess[0], guess[1]);" +
+            var code = "(function() { var guess = " + (JSON.stringify(guess) || "[]") + ";" +
+                "graph.currComplexPolar.update( guess[0], guess[1] );" +
                 "})()";
             KhanUtil.tmpl.getVAR(code, KhanUtil.currentGraph);
         };
@@ -1075,7 +1075,7 @@ $.extend(Khan.answerTypes, {
 
         var validatorCode = solution.find(".validator-function").text();
         var validator = function(guess) {
-            var code = "(function() {var guess = " + JSON.stringify(guess) + ";" + validatorCode + "})()";
+            var code = "(function() { var guess = " + JSON.stringify(guess) + ";" + validatorCode + "})()";
             return KhanUtil.tmpl.getVAR(code, KhanUtil.currentGraph);
         };
 
@@ -1103,14 +1103,14 @@ $.extend(Khan.answerTypes, {
                 $(solutionarea).empty();
                 $(solutionarea).append(guessCorrect === true ? "Answer correct" : "Answer incorrect");
             } else {
-                var code = "(function() {var guess = " + (JSON.stringify(guess) || "[]") + ";" + showGuessSolutionCode + "})()";
+                var code = "(function() { var guess = " + (JSON.stringify(guess) || "[]") + ";" + showGuessSolutionCode + "})()";
                 KhanUtil.tmpl.getVAR(code, KhanUtil.currentGraph);
             }
         };
 
         var showGuessCode = $(solution).find(".show-guess").text();
         ret.showCustomGuess = function(guess) {
-            var code = "(function() {var guess = " + JSON.stringify(guess) + ";" + showGuessCode + "})()";
+            var code = "(function() { var guess = " + JSON.stringify(guess) + ";" + showGuessCode + "})()";
             KhanUtil.tmpl.getVAR(code, KhanUtil.currentGraph);
         };
 

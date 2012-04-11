@@ -27,10 +27,10 @@ function numberLine(start, end, step, x, y, denominator) {
                     lab = base + "\\frac{" + Math.abs(Math.round(frac * denominator)) + "}{" + denominator + "}";
                 }
             }
-            graph.label([x + i, y - 0.2], lab, "below", {labelDistance: 3});
+            graph.label([x + i, y - 0.2], lab, "below", { labelDistance: 3 });
         }
         else {
-            graph.label([x + i, y - 0.2], (start + i).toFixed(decPlaces), "below", {labelDistance: 3});
+            graph.label([x + i, y - 0.2], (start + i).toFixed(decPlaces), "below", { labelDistance: 3 });
         }
     }
     return set;
@@ -55,7 +55,7 @@ function piechart(divisions, colors, radius) {
     });
 
     for (var i = 0; i < sum; i++) {
-        set.push(graph.line([0, 0], graph.polar(radius, i * 360 / sum), {stroke: colors[2] || "#fff"}));
+        set.push(graph.line([0, 0], graph.polar(radius, i * 360 / sum), { stroke: colors[2] || "#fff" }));
     }
 
     return set;
@@ -84,7 +84,7 @@ function rectchart(divisions, colors, y) {
 
     for (var i = 0; i <= sum; i++) {
         var x = i / sum;
-        set.push(graph.line([x, y + 0], [x, y + 1], {stroke: "#fff"}));
+        set.push(graph.line([x, y + 0], [x, y + 1], { stroke: "#fff" }));
     }
 
     return set;
@@ -272,19 +272,19 @@ function ParallelLines(x1, y1, x2, y2, distance) {
 
         var radius = 0.6;
 
-        if (measure < 60) {// control for angle label getting squeezed between intersecting lines
+        if (measure < 60) { // control for angle label getting squeezed between intersecting lines
             radius /= Math.sin(KhanUtil.toRadians(measure));
         }
 
         var coords = $.map(coordArr, function(coord, index) {
-            if (index === 0) {// x-coordinate
+            if (index === 0) { // x-coordinate
                 return coord + radius * Math.cos(KhanUtil.toRadians(bisect));
-            } else {// y-coordinate
+            } else { // y-coordinate
                 return coord + radius * Math.sin(KhanUtil.toRadians(bisect));
             }
         });
 
-        graph.label(coords, label.text, label.placement, {color: color});
+        graph.label(coords, label.text, label.placement, { color: color });
     }
 
     this.draw = function() {
@@ -339,10 +339,10 @@ function ParallelLines(x1, y1, x2, y2, distance) {
         }
         $.merge(args, angles);
 
-        graph.style({stroke: color}, function() {
+        graph.style({ stroke: color}, function() {
             graph.arc.apply(graph, args);
             if (label) {
-                var labelOptions = {text: label, placement: labelPlacement};
+                var labelOptions = { text: label, placement: labelPlacement};
 
                 if (typeof label === "boolean") {
                     labelOptions.text = (angles[1] - angles[0]) + "^\\circ";
@@ -382,7 +382,7 @@ function Chart(data, pos) {
 
     this.draw = function() {
         // Draw axes
-        graph.style({stroke: "#ccc"});
+        graph.style({ stroke: "#ccc"});
         graph.line([pos.lx, pos.ly], [pos.lx + pos.width, pos.ly]);
         graph.line([pos.lx, pos.ly], [pos.lx, pos.ly + pos.height]);
 
@@ -392,7 +392,7 @@ function Chart(data, pos) {
         }
 
         // Draw ticks
-        graph.style({"stroke-width": 1});
+        graph.style({ "stroke-width": 1 });
         var ticks = this.transformY.ticks(data.tickCount);
         for (var i = 0; i < ticks.length; i++) {
             var tick = ticks[i];
@@ -410,8 +410,8 @@ function Chart(data, pos) {
         var val = data.values[index];
         var x = this.transformX(data.ordinals[index]);
         var y = this.transformY(val);
-        graph.label([x, y], "\\text{" + val + "}", "above", {color: color});
-        graph.style({"stroke-dasharray": "-", "stroke-width": 1});
+        graph.label([x, y], "\\text{" + val + "}", "above", { color: color });
+        graph.style({ "stroke-dasharray": "-", "stroke-width": 1 });
         graph.line([pos.lx, y], [x, y]);
     }
 }
@@ -424,7 +424,7 @@ function LineChart(data, pos) {
 
     this.drawDataPoint = function(index, color) {
         color = color || KhanUtil.BLUE;
-        graph.style({stroke: color, fill: color});
+        graph.style({ stroke: color, fill: color });
         var ord = data.ordinals[index];
         var x = this.transformX(ord);
         var y = this.transformY(data.values[index]);
@@ -450,7 +450,7 @@ function BarChart(data, pos) {
 
     this.drawDataPoint = function(index, color) {
         color = color || KhanUtil.BLUE;
-        graph.style({stroke: color, "stroke-width": 10});
+        graph.style({ stroke: color, "stroke-width": 10 });
         var ord = data.ordinals[index];
         var x = this.transformX(ord);
         var bottomCoord = [x, this.transformY(data.min)];
@@ -480,7 +480,7 @@ function drawComplexChart(radius, denominator) {
 
     for (var i = 0; i < denominator; i++) {
         var angle = i * 2 * Math.PI / denominator;
-        if (denominator % 4 === 0 && i % (denominator / 4) != 0) {// Don't draw over axes.
+        if (denominator % 4 === 0 && i % (denominator / 4) != 0) { // Don't draw over axes.
             graph.line([0, 0], [Math.sin(angle) * safeRadius, Math.cos(angle) * safeRadius], {
                 stroke: color
             });

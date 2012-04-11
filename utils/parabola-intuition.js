@@ -14,7 +14,7 @@ $.extend(KhanUtil, {
             vertexLine.remove();
             directrixLine.remove();
             lineEndcap.remove();
-            graph.style({strokeWidth: 1.5, stroke: KhanUtil.GREEN, opacity: 0.0});
+            graph.style({ strokeWidth: 1.5, stroke: KhanUtil.GREEN, opacity: 0.0 });
             var vertexDistance = KhanUtil.getDistance([coordX, coordY], vertex.coord);
 
             // Draw a line from the vertex to the highlighted point on the parabola
@@ -34,9 +34,9 @@ $.extend(KhanUtil, {
                 directrixLine.animate({opacity: 1.0}, 100);
                 lineEndcap.animate({opacity: 1.0}, 100);
             } else {
-                vertexLine.attr({opacity: 1.0});
-                directrixLine.attr({opacity: 1.0});
-                lineEndcap.attr({opacity: 1.0});
+                vertexLine.attr({ opacity: 1.0 });
+                directrixLine.attr({ opacity: 1.0 });
+                lineEndcap.attr({ opacity: 1.0 });
             }
             highlighted = true;
         };
@@ -46,7 +46,7 @@ $.extend(KhanUtil, {
         func.onLeave = function(coordX, coordY) {
             vertexLine.animate({opacity: 0.0}, 100);
             directrixLine.animate({opacity: 0.0}, 100);
-            lineEndcap.animate({opacity: 0.0}, 100);
+            lineEndcap.animate({ opacity: 0.0 }, 100);
             highlighted = false;
         };
 

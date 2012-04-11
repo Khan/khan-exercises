@@ -179,15 +179,15 @@ $.extend(KhanUtil, {
             if (event.type === "vmouseover") {
                 KhanUtil.highlight = true;
                 if (!KhanUtil.dragging) {
-                    graph.slopePoints[index].animate({scale: 2}, 50);
-                    graph.tangentLines[index].animate({"stroke": KhanUtil.DDX_COLOR}, 100);
+                    graph.slopePoints[index].animate({ scale: 2 }, 50);
+                    graph.tangentLines[index].animate({ "stroke": KhanUtil.DDX_COLOR }, 100);
                 }
 
             } else if (event.type === "vmouseout") {
                 KhanUtil.highlight = false;
                 if (!KhanUtil.dragging) {
-                    graph.slopePoints[index].animate({scale: 1}, 50);
-                    graph.tangentLines[index].animate({"stroke": KhanUtil.TANGENT_COLOR}, 100);
+                    graph.slopePoints[index].animate({ scale: 1 }, 50);
+                    graph.tangentLines[index].animate({ "stroke": KhanUtil.TANGENT_COLOR }, 100);
                 }
 
             } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
@@ -195,7 +195,7 @@ $.extend(KhanUtil, {
                 graph.tangentLines[index].toFront();
                 graph.tangentPoints[index].toFront();
                 graph.slopePoints[index].toFront();
-                graph.tangentLines[index].animate({scale: KhanUtil.TANGENT_GROWTH_FACTOR}, 200);
+                graph.tangentLines[index].animate({ scale: KhanUtil.TANGENT_GROWTH_FACTOR }, 200);
                 KhanUtil.dragging = true;
 
                 $(document).bind("vmousemove vmouseup", function(event) {
@@ -220,10 +220,10 @@ $.extend(KhanUtil, {
 
                         KhanUtil.dragging = false;
 
-                        graph.tangentLines[index].animate({scale: 1}, 200);
+                        graph.tangentLines[index].animate({ scale: 1 }, 200);
                         if (!KhanUtil.highlight) {
-                            graph.slopePoints[index].animate({scale: 1}, 200);
-                            graph.tangentLines[index].animate({"stroke": KhanUtil.TANGENT_COLOR}, 100);
+                            graph.slopePoints[index].animate({ scale: 1 }, 200);
+                            graph.tangentLines[index].animate({ "stroke": KhanUtil.TANGENT_COLOR }, 100);
                         }
 
                         // If all the points are in the right place, reveal the derivative function
@@ -284,7 +284,7 @@ $.extend(KhanUtil, {
             $("span#ddxspan").show();  // for IE
             $("span#ddxspan").fadeTo(duration, 1);
 
-            ddxplot.animate({opacity: 1}, duration);
+            ddxplot.animate({ opacity: 1 }, duration);
             KhanUtil.ddxShown = true;
         }
     }

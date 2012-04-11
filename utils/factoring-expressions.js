@@ -149,7 +149,7 @@
              termsOccFactors[iTerm] = KhanUtil.initOccArray(factors.length);
              var availableFactors = [];
              var smallestFactorNum = 1000;
-             for (var iFactor = 0; iFactor < factors.length; iFactor++) {// TODO : fill that earlier, to avoid extra loop
+             for (var iFactor = 0; iFactor < factors.length; iFactor++) { // TODO : fill that earlier, to avoid extra loop
                  if (excludedFromTerm[iFactor] !== iTerm) {
                      availableFactors.push(iFactor);
                      if (typeof factors[iFactor] !== "number") {

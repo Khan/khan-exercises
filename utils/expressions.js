@@ -84,7 +84,7 @@ $.extend(KhanUtil, {
     formatOperators: {
         "color": function(color, arg) {
 
-            // Arguments should look like ["blue", [... ]]
+            // Arguments should look like ["blue", [...]]
             return "\\color{" + color + "}{" + KhanUtil.expr(arg) + "}";
         },
 

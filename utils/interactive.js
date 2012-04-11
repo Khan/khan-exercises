@@ -132,7 +132,7 @@ $.extend(KhanUtil, {
     //        movablePoint.fixedDistance = {
     //           dist: 2,
     //           point: point1
-    //       }
+    //        }
     //
     //  - Constrain point to a line defined by a fixed angle between it and
     //    two other points:
@@ -140,7 +140,7 @@ $.extend(KhanUtil, {
     //           angle: 45,
     //           vertex: point1,
     //           ref: point2
-    //       }
+    //        }
     //
     //  - Confined the point to traveling in a vertical or horizontal line,
     //    respectively
@@ -441,7 +441,7 @@ $.extend(KhanUtil, {
             var time = distance * 5;
 
             var scaled = graph.scalePoint([coordX, coordY]);
-            var end = {cx: scaled[0], cy: scaled[1]};
+            var end = { cx: scaled[0], cy: scaled[1] };
             if (updateLines) {
                 var start = {
                     cx: this.visibleShape.attr("cx"),
@@ -489,10 +489,10 @@ $.extend(KhanUtil, {
         movablePoint.setCoord = function(coord) {
             if (this.visible) {
                 var scaledPoint = graph.scalePoint(coord);
-                this.visibleShape.attr({cx: scaledPoint[0]});
-                this.visibleShape.attr({cy: scaledPoint[1]});
-                this.mouseTarget.attr({cx: scaledPoint[0]});
-                this.mouseTarget.attr({cy: scaledPoint[1]});
+                this.visibleShape.attr({ cx: scaledPoint[0] });
+                this.visibleShape.attr({ cy: scaledPoint[1] });
+                this.mouseTarget.attr({ cx: scaledPoint[0] });
+                this.mouseTarget.attr({ cy: scaledPoint[1] });
             }
             this.coord = coord.slice();
         };
@@ -577,13 +577,13 @@ $.extend(KhanUtil, {
             if (event.type === "vmouseover") {
                 if (!KhanUtil.dragging) {
                     movableLine.highlight = true;
-                    movableLine.visibleShape.animate({"stroke-width": 5}, 50);
+                    movableLine.visibleShape.animate({ "stroke-width": 5 }, 50);
                 }
 
             } else if (event.type === "vmouseout") {
                 movableLine.highlight = false;
                 if (!movableLine.dragging) {
-                    movableLine.visibleShape.animate({"stroke-width": 2}, 50);
+                    movableLine.visibleShape.animate({ "stroke-width": 2 }, 50);
                 }
 
             } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
@@ -637,7 +637,7 @@ $.extend(KhanUtil, {
                         movableLine.dragging = false;
                         KhanUtil.dragging = false;
                         if (!movableLine.highlight) {
-                            movableLine.visibleShape.animate({"stroke-width": 2}, 50);
+                            movableLine.visibleShape.animate({ "stroke-width": 2 }, 50);
                         }
 
                     }
@@ -654,8 +654,8 @@ $.extend(KhanUtil, {
                 // 5ms per pixel seems good
                 var time = distance * 5;
 
-                this.visibleShape.animate({translation: [coord * graph.scale[0] - this.visibleShape.attr("translation").x, 0]}, time);
-                this.mouseTarget.animate({y: coord / graph.scale[0] + graph.range[0][0] - 10}, time);
+                this.visibleShape.animate({ translation: [coord * graph.scale[0] - this.visibleShape.attr("translation").x, 0] }, time);
+                this.mouseTarget.animate({ y: coord / graph.scale[0] + graph.range[0][0] - 10 }, time);
 
             } else {
                 // find distance in pixels to move
@@ -663,8 +663,8 @@ $.extend(KhanUtil, {
                 // 5ms per pixel seems good
                 var time = distance * 5;
 
-                this.visibleShape.animate({translation: [0, -coord * graph.scale[1] - this.visibleShape.attr("translation").y]}, time);
-                this.mouseTarget.animate({y: (graph.range[1][1] - coord) * graph.scale[1] - 10}, time);
+                this.visibleShape.animate({ translation: [0, -coord * graph.scale[1] - this.visibleShape.attr("translation").y] }, time);
+                this.mouseTarget.animate({ y: (graph.range[1][1] - coord) * graph.scale[1] - 10 }, time);
             }
 
             this.coord = coord;
@@ -778,7 +778,7 @@ $.extend(KhanUtil, {
         }
         // plot the polygon and make it invisible
         interactiveFn.mouseTarget = graph.mouselayer.path(this.svgPath(points));
-        interactiveFn.mouseTarget.attr({fill: "#000", "opacity": 0.0});
+        interactiveFn.mouseTarget.attr({ fill: "#000", "opacity": 0.0 });
 
         // Add mouse handlers to the polygon
         $(interactiveFn.mouseTarget[0]).bind("vmouseover vmouseout vmousemove", function(event) {
@@ -818,12 +818,12 @@ $.extend(KhanUtil, {
             }
 
             if (event.type === "vmouseover") {
-                interactiveFn.cursorPoint.animate({opacity: 1.0}, 50);
+                interactiveFn.cursorPoint.animate({ opacity: 1.0 }, 50);
                 interactiveFn.highlight = true;
 
             } else if (event.type === "vmouseout") {
                 interactiveFn.highlight = false;
-                interactiveFn.cursorPoint.animate({opacity: 0.0}, 50);
+                interactiveFn.cursorPoint.animate({ opacity: 0.0 }, 50);
                 // If the caller wants to be notified when the user stops pointing to the function
                 if ($.isFunction(interactiveFn.onLeave)) {
                     interactiveFn.onLeave(coordX, coordY);
@@ -852,9 +852,9 @@ $.extend(KhanUtil, {
     // manipulated individually.
     //
     // To use with smartPoints, add the smartPoints first, then:
-    //   addMovableLineSegment({pointA: smartPoint1, pointZ: smartPoint2});
+    //   addMovableLineSegment({ pointA: smartPoint1, pointZ: smartPoint2 });
     // Or just one end:
-    //   addMovableLineSegment({pointA: smartPoint, coordZ: [0, 0]});
+    //   addMovableLineSegment({ pointA: smartPoint, coordZ: [0, 0] });
     //
     // Include "fixed: true" in the options if you don't want the entire line
     // to be draggable (you can still use points to make the endpoints
@@ -1133,7 +1133,7 @@ $.extend(KhanUtil, {
                             left: event.pageX - offset.left - 3,
                             top: event.pageY - offset.top - 3
                         };
-                        $(tile).css({position: "absolute"});
+                        $(tile).css({ position: "absolute" });
                         $(tile).offset({
                             left: offset.left,
                             top: offset.top
@@ -1173,7 +1173,7 @@ $.extend(KhanUtil, {
                                     complete: function() {
                                         $(tile).css("z-index", 0);
                                         placeholder.detach();
-                                        $(tile).css({position: "static"});
+                                        $(tile).css({ position: "static" });
                                         $(tile).removeClass("dragging");
                                     }
                                 });
@@ -1276,18 +1276,18 @@ function Protractor(center) {
     // Remove the default dot added by the movablePoint since we have our double-arrow thing
     this.rotateHandle.visibleShape.remove();
     // Make the mouse target bigger to encompass the whole area around the double-arrow thing
-    this.rotateHandle.mouseTarget.attr({scale: 2.0});
+    this.rotateHandle.mouseTarget.attr({ scale: 2.0 });
 
     // Make the arrow-thing grow and shrink with mouseover/out
     $(this.rotateHandle.mouseTarget[0]).bind("vmouseover", function(event) {
-        arrow.animate({scale: 1.5}, 50);
+        arrow.animate({ scale: 1.5 }, 50);
     });
     $(this.rotateHandle.mouseTarget[0]).bind("vmouseout", function(event) {
-        arrow.animate({scale: 1.0}, 50);
+        arrow.animate({ scale: 1.0 }, 50);
     });
 
 
-    var setNodes = $.map(this.set, function(el) {return el.node;});
+    var setNodes = $.map(this.set, function(el) { return el.node; });
     this.makeTranslatable = function makeTranslatable() {
         $(setNodes).css("cursor", "move");
 
@@ -1344,7 +1344,7 @@ function Protractor(center) {
         var end = graph.scalePoint([x, y]);
         var time = KhanUtil.getDistance(start, end) * 2;  // 2ms per pixel
 
-        $({x: start[0], y: start[1] }).animate({x: end[0], y: end[1]}, {
+        $({ x: start[0], y: start[1] }).animate({ x: end[0], y: end[1] }, {
             duration: time,
             step: function(now, fx) {
                 var dx = 0;
@@ -1368,7 +1368,7 @@ function Protractor(center) {
             this.rotation += 360;
         }
         var time = Math.abs(this.rotation - angle) * 5;  // 5ms per deg
-        $({0: this.rotation }).animate({0: angle}, {
+        $({ 0: this.rotation }).animate({ 0: angle }, {
             duration: time,
             step: function(now, fx) {
                 pro.rotate(now, true);
@@ -1380,7 +1380,7 @@ function Protractor(center) {
         });
     };
 
-    this.set.attr({opacity: 0.5});
+    this.set.attr({ opacity: 0.5 });
     this.makeTranslatable();
     return this;
 }

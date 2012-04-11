@@ -201,7 +201,7 @@
         var str = "";
         for (var cur = 0; cur < align[index % 2]; cur++) {
             if (hphantom) {
-                str += "} & \\hphantom{";
+                str += "} & \\hphantom{ ";
             } else {
                 str += "& ";
             }
@@ -1163,11 +1163,11 @@
 
             return {
                 start: start,
-                lexeme: function() {return lexeme},
+                lexeme: function() { return lexeme },
                 readChar: readChar,
-                alignment: function() {return alignment},
+                alignment: function() { return alignment },
                 idStyle: idStyle,
-                lastIdStyle: function() {return lastIdStyle}
+                lastIdStyle: function() { return lastIdStyle }
             };
         }
 

@@ -500,7 +500,7 @@
             return expr;
         },
         "-": function(expr, options, steps) {
-            if ((expr.args.length === 2) && (options.changeSubIntoPlusNeg)){
+            if ((expr.args.length === 2) && (options.changeSubIntoPlusNeg)) {
                return {op:"+", args:[expr.args[0], {op:"-", args:[expr.args[1]]}]};
             }
             var subSteps = new KhanUtil.StepsProblem([], expr, "simplify");
@@ -622,7 +622,7 @@
     };
 
     var setDefaultOptions = function(options) {
-       var defaultValues = simplifyOptions.default;
+       var defaultValues = simplifyOptions["default"];
        for (var optionName in defaultValues) {
           if (options[optionName] === undefined) {
              options[optionName] = defaultValues[optionName];
@@ -652,7 +652,7 @@
               simplifyByFactoring:false,
               errors: {}
         },
-        default: {
+        "default": {
               expandProducts: false,
               cancelNegOfNeg: true,
               del1Factors: true,

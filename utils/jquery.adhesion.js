@@ -1,4 +1,4 @@
-(function() {
+(function($) {
     $.fn.adhere = function(options) {
         options = $.extend({
             container: null,
@@ -122,4 +122,4 @@
             $(window).resize(resizeHandler);
         });
     };
-})();
+})(jQuery);
