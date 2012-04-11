@@ -21,8 +21,8 @@
                       "Then you live in " + state( 1 ),
                       "You live in " + state( 1 ),
                       ],
-                  "hypothesis" : "You live in " + city( 1 ),
-                  "conclusion" : "You live in " + state( 1 ),
+                  "hypothesis" : 1,
+                  "conclusion" : 3,
                 },
               "lineTypes" :
                 { "statements" : [
@@ -35,8 +35,8 @@
                       "Then they " + lineProperty( 1 ),
                       "They " + lineProperty( 1 ),
                       ],
-                  "hypothesis" : "Two lines are " + lineType( 1 ),
-                  "conclusion" : "They " + lineProperty( 1 ),
+                  "hypothesis" : 1,
+                  "conclusion" : 3,
                 },
               "evenOdd" :
                { "statements" : [
@@ -49,8 +49,8 @@
                      "Then the number is " + EVEN_ODD[1],
                      "The number is " + EVEN_ODD[1],
                      ],
-                 "hypothesis" : "A number divisible by " + EVEN_ODD[0],
-                 "conclusion" : "The number is " + EVEN_ODD[1],
+                 "hypothesis" : 1,
+                 "conclusion" : 3,
                },
              "exercises" :
                { "statements" : [
@@ -63,8 +63,8 @@
                      "Then you will raise your heart rate",
                      "You will raise your heart rate",
                      ],
-                 "hypothesis" : "You do " + plural(exercise( 1 )) + " for ten minutes",
-                 "conclusion" : "You will raise your heart rate",
+                 "hypothesis" : 1,
+                 "conclusion" : 3,
                },
              "sportingEvents" :
                { "statements" : [
@@ -77,16 +77,17 @@
                      "Then we will be ready for the " + sport( 1 ) + " game",
                      "We will be ready for the " + sport( 1 ) + " game",
                      ],
-                 "hypothesis" : "We have a good practice",
-                 "conclusion" : "We will be ready for the " + sport( 1 ) + " game",
+                 "hypothesis" : 1,
+                 "conclusion" : 3,
               },
             }
         </var>
-        <var id="PROBLEM_TYPE">randFromArray(["cityStates", "lineTypes", "evenOdd", "exercises", "sportingEvents"])</var>
-        <var id="STATEMENT">randFromArray(PROBLEM_DATA[PROBLEM_TYPE]["statements"])</var>
-        <var id="CHOICES">shuffle(PROBLEM_DATA[PROBLEM_TYPE]["choices"])</var>
-        <var id="SOLUTION_TYPE">randFromArray([ "hypothesis", "conclusion" ])</var>
-        <var id="SOLUTION">CHOICES[jQuery.inArray( PROBLEM_DATA[PROBLEM_TYPE][SOLUTION_TYPE], CHOICES)]</var>
+        <var id="PROBLEM_TYPE">randFromArray( ["cityStates", "lineTypes", "evenOdd", "exercises", "sportingEvents"] )</var>
+        <var id="STATEMENT">randFromArray( PROBLEM_DATA[PROBLEM_TYPE]["statements"] )</var>
+        <var id="CHOICES">shuffle( PROBLEM_DATA[PROBLEM_TYPE]["choices"] )</var>
+        <var id="SOLUTION_TYPE">randFromArray( ["hypothesis", "conclusion"] )</var>
+        <var id="SOLUTION_IDX">PROBLEM_DATA[PROBLEM_TYPE][SOLUTION_TYPE]</var>
+        <var id="SOLUTION">CHOICES[jQuery.inArray( PROBLEM_DATA[PROBLEM_TYPE]["choices"][SOLUTION_IDX], CHOICES )]</var>
 	</div>
 
 	<div class="problems">
