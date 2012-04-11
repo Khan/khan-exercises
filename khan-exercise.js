@@ -2662,8 +2662,13 @@ var Khan = (function() {
 
             var problems = exercises.children(".problems").children();
 
-            weighExercises(problems);
-            problemBag = makeProblemBag(problems, 10);
+            // Don't make the problem bag when a specific problem is specified
+            // because it messes up problem permalinks (because makeProblemBag
+            // calls KhanUtil.random() and changes the seed)
+            if (Khan.query.problem == null) {
+                weighExercises(problems);
+                problemBag = makeProblemBag(problems, 10);
+            }
 
             // Generate the initial problem when dependencies are done being loaded
             var answerType = makeProblem();
