@@ -652,7 +652,7 @@
               simplifyByFactoring:false,
               errors: {}
         },
-        default: {
+        "default": {
               expandProducts: false,
               cancelNegOfNeg: true,
               del1Factors: true,
