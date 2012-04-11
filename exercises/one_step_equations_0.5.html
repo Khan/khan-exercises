@@ -1,118 +1,118 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>One-step equations 0.5</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>One-step equations 0.5</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars">
-			<var id="LETTERS">"abkmnpvxy"</var>
-			<var id="X">LETTERS.charAt( randRange( 0, LETTERS.length - 1 ) )</var>
-	</div>
-	<div class="problems">
-		<div id="add-subtract" data-weight="4">
-			<div class="vars" data-ensure="Y !== Z">
-				<var id="INDEX">randRange( 0, 1 )</var>
-				<var id="Y">randRangeNonZero( -20, 19 )</var>
-				<var id="Z">randRange( Y+1, 20 )</var>
-				<var id="Y_SIGN">Y &gt; 0 ? "-" : "+"</var>
-				<var id="LEFT">[expr( ["+", X, Y] ), Z][INDEX]</var>
-				<var id="RIGHT">[Z, expr( ["+", X, Y] )][INDEX]</var>
-			</div>
-			<p class="question">Solve for <code><var>X</var></code>.</p>
-				<p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
-			
-			<div class="solution" data-type="multiple">
-					<p><code><var>X</var>=</code> <span class="sol" data-forms="integer"><var>Z - Y</var></span></p>
-			</div>
+    <div class="exercise">
+    <div class="vars">
+            <var id="LETTERS">"abkmnpvxy"</var>
+            <var id="X">LETTERS.charAt( randRange( 0, LETTERS.length - 1 ) )</var>
+    </div>
+    <div class="problems">
+        <div id="add-subtract" data-weight="4">
+            <div class="vars" data-ensure="Y !== Z">
+                <var id="INDEX">randRange( 0, 1 )</var>
+                <var id="Y">randRangeNonZero( -20, 19 )</var>
+                <var id="Z">randRange( Y+1, 20 )</var>
+                <var id="Y_SIGN">Y &gt; 0 ? "-" : "+"</var>
+                <var id="LEFT">[expr( ["+", X, Y] ), Z][INDEX]</var>
+                <var id="RIGHT">[Z, expr( ["+", X, Y] )][INDEX]</var>
+            </div>
+            <p class="question">Solve for <code><var>X</var></code>.</p>
+                <p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
 
-			<div class="hints">
-				<p><var>Y &gt; 0 ? "Subtract" : "Add"</var> <var>abs(Y)</var> <var>Y &gt; 0 ? "from" : "to"</var> both sides.</p>
-				<div>
-					<p data-if="INDEX === 0"><code>\large{<var>LEFT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>RIGHT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
-					<p data-else><code>\large{<var>LEFT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>RIGHT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
-				</div>
-				<div>
-					<p>Simplify.</p>
-					<div data-if="INDEX === 0">
-					    <p><code>\large{<var>X</var> = <var>Z - Y</var>}</code></p>
-					</div>
-					<div data-else>
-					    <p><code>\large{<var>Z - Y</var> = <var>X</var>}</code></p>
-					</div>
-				</div>
-				<p data-if="INDEX === 1"><code>\large{<var>X</var> = <var>Z - Y</var>}</code></p>
-			</div>
-		</div>
-		<div id="multiply" data-weight="2">
-			<div class="vars">
-				<var id="INDEX">randRange( 0, 1 )</var>
-				<var id="Y">randRange( 2, 10 )</var>
-				<var id="Z">randRange( 1, 9) * Y</var>
-				<var id="LEFT">[expr( ["*", Y, X] ), Z][INDEX]</var>
-				<var id="RIGHT">[Z, expr( ["*", Y, X] )][INDEX]</var>
-			</div>
-			<p class="question">Solve for <code><var>X</var></code>.</p>
-				<p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
-			<div class="solution" data-type="multiple">
-					<p><code><var>X</var>=</code> <span class="sol" data-type="rational"><var>Z / Y</var></span></p>
-			</div>
+            <div class="solution" data-type="multiple">
+                    <p><code><var>X</var>=</code> <span class="sol" data-forms="integer"><var>Z - Y</var></span></p>
+            </div>
 
-			<div class="hints">
-				<p>Divide both sides by <var>Y</var>.</p>
-				<div>
-				    <p data-if="INDEX === 0"><code>\large{\dfrac{<var>LEFT</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}}}</code></p>
-				    <p data-else><code>\large{\dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>RIGHT</var>}{\color{blue}{<var>Y</var>}}}</code></p>
-				</div>
-				<div>
-					<p>Simplify.</p>
-					<div data-if="INDEX === 0">
-					    <p><code>\large{<var>X</var> = <var>Z / Y</var>}</code></p>
-					</div>
-					<div data-else>
-					    <p><code>\large{<var>Z / Y</var> = <var>X</var>}</code></p>
-					</div>
-				</div>
-				<p data-if="INDEX === 1"><code>\large{<var>X</var> = <var>Z / Y</var>}</code></p>
-			</div>
-		</div>
-		<div id="divide" data-weight="1">
-			<div class="vars">
-				<var id="INDEX">randRange( 0, 1 )</var>
-				<var id="Y">randRange( 2, 10 )</var>
-				<var id="Z">randRange( 2, 10)</var>
-			</div>
-			<p class="problem"><b>Solve for <code><var>X</var></code>.</b></p>
-			<p class="question"><code>\large{\dfrac{<var>X</var>}{<var>Y</var>} = <var>Z</var>}</code></p>
-			
-			<div class="solution" data-type="multiple">
-					<p><code><var>X</var>=</code> <span class="sol" data-type="rational"><var>Z * Y</var></span></p>
-			</div>
+            <div class="hints">
+                <p><var>Y &gt; 0 ? "Subtract" : "Add"</var> <var>abs(Y)</var> <var>Y &gt; 0 ? "from" : "to"</var> both sides.</p>
+                <div>
+                    <p data-if="INDEX === 0"><code>\large{<var>LEFT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>RIGHT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
+                    <p data-else><code>\large{<var>LEFT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>RIGHT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
+                </div>
+                <div>
+                    <p>Simplify.</p>
+                    <div data-if="INDEX === 0">
+                        <p><code>\large{<var>X</var> = <var>Z - Y</var>}</code></p>
+                    </div>
+                    <div data-else>
+                        <p><code>\large{<var>Z - Y</var> = <var>X</var>}</code></p>
+                    </div>
+                </div>
+                <p data-if="INDEX === 1"><code>\large{<var>X</var> = <var>Z - Y</var>}</code></p>
+            </div>
+        </div>
+        <div id="multiply" data-weight="2">
+            <div class="vars">
+                <var id="INDEX">randRange( 0, 1 )</var>
+                <var id="Y">randRange( 2, 10 )</var>
+                <var id="Z">randRange( 1, 9) * Y</var>
+                <var id="LEFT">[expr( ["*", Y, X] ), Z][INDEX]</var>
+                <var id="RIGHT">[Z, expr( ["*", Y, X] )][INDEX]</var>
+            </div>
+            <p class="question">Solve for <code><var>X</var></code>.</p>
+                <p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
+            <div class="solution" data-type="multiple">
+                    <p><code><var>X</var>=</code> <span class="sol" data-type="rational"><var>Z / Y</var></span></p>
+            </div>
 
-			<div class="hints">
-				<p>Multiply both sides by <var>Y</var>.</p>
-				<p><code>\large{\dfrac{<var>X</var>}{<var>Y</var>} \cdot {\color{blue}{<var>Y</var>}} = <var>Z</var> \cdot {\color{blue}{<var>Y</var>}}}</code></p>
-				<div>
-					<p>Simplify.</p>
-					<p><code>\large{<var>X</var> = <var>Z * Y</var>}</code></p>
-				</div>
-			</div>
-		</div>
-		<div id="divide-right" data-type="divide" data-weight="1">
-			<p class="question"><code>\large{<var>Z</var> = \dfrac{<var>X</var>}{<var>Y</var>}}</code></p>
-			<div class="hints">
-				<p>Multiply both sides by <var>Y</var>.</p>
-				<p><code>\large{<var>Z</var> \cdot {\color{blue}{<var>Y</var>}} = \dfrac{<var>X</var>}{<var>Y</var>} \cdot {\color{blue}{<var>Y</var>}}}</code></p>
-				<div>
-					<p>Simplify.</p>
-					<p><code>\large{<var>Z * Y</var> = <var>X</var>}</code></p>
-				</div>
-				<p><code>\large{<var>X</var> = <var>Z * Y</var>}</code></p>
-			</div>
-		</div>
-	</div>
-	</div>
+            <div class="hints">
+                <p>Divide both sides by <var>Y</var>.</p>
+                <div>
+                    <p data-if="INDEX === 0"><code>\large{\dfrac{<var>LEFT</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}}}</code></p>
+                    <p data-else><code>\large{\dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}} = \dfrac{<var>RIGHT</var>}{\color{blue}{<var>Y</var>}}}</code></p>
+                </div>
+                <div>
+                    <p>Simplify.</p>
+                    <div data-if="INDEX === 0">
+                        <p><code>\large{<var>X</var> = <var>Z / Y</var>}</code></p>
+                    </div>
+                    <div data-else>
+                        <p><code>\large{<var>Z / Y</var> = <var>X</var>}</code></p>
+                    </div>
+                </div>
+                <p data-if="INDEX === 1"><code>\large{<var>X</var> = <var>Z / Y</var>}</code></p>
+            </div>
+        </div>
+        <div id="divide" data-weight="1">
+            <div class="vars">
+                <var id="INDEX">randRange( 0, 1 )</var>
+                <var id="Y">randRange( 2, 10 )</var>
+                <var id="Z">randRange( 2, 10)</var>
+            </div>
+            <p class="problem"><b>Solve for <code><var>X</var></code>.</b></p>
+            <p class="question"><code>\large{\dfrac{<var>X</var>}{<var>Y</var>} = <var>Z</var>}</code></p>
+
+            <div class="solution" data-type="multiple">
+                    <p><code><var>X</var>=</code> <span class="sol" data-type="rational"><var>Z * Y</var></span></p>
+            </div>
+
+            <div class="hints">
+                <p>Multiply both sides by <var>Y</var>.</p>
+                <p><code>\large{\dfrac{<var>X</var>}{<var>Y</var>} \cdot {\color{blue}{<var>Y</var>}} = <var>Z</var> \cdot {\color{blue}{<var>Y</var>}}}</code></p>
+                <div>
+                    <p>Simplify.</p>
+                    <p><code>\large{<var>X</var> = <var>Z * Y</var>}</code></p>
+                </div>
+            </div>
+        </div>
+        <div id="divide-right" data-type="divide" data-weight="1">
+            <p class="question"><code>\large{<var>Z</var> = \dfrac{<var>X</var>}{<var>Y</var>}}</code></p>
+            <div class="hints">
+                <p>Multiply both sides by <var>Y</var>.</p>
+                <p><code>\large{<var>Z</var> \cdot {\color{blue}{<var>Y</var>}} = \dfrac{<var>X</var>}{<var>Y</var>} \cdot {\color{blue}{<var>Y</var>}}}</code></p>
+                <div>
+                    <p>Simplify.</p>
+                    <p><code>\large{<var>Z * Y</var> = <var>X</var>}</code></p>
+                </div>
+                <p><code>\large{<var>X</var> = <var>Z * Y</var>}</code></p>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

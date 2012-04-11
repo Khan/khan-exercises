@@ -5,7 +5,7 @@
         } else if (expr.hasConstants !== undefined) {
             return expr.hasConstants;
         }
-        expr.hasConstants = (expr.op === "cst");  
+        expr.hasConstants = (expr.op === "cst");
         $.each(expr.args, function(iArg, arg) {
             expr.hasConstants |= hasConstants(arg);
         });
@@ -27,7 +27,7 @@
         if ((typeof expr === "object") && (expr.op === "^")) {
             return expr;
         }
-        return {op:"^", args:[expr, 1]};
+        return {op: "^", args: [expr, 1]};
     };
     var bigPrime = 2147483647;
     var mediumPrime = 28657;
@@ -50,7 +50,7 @@
             return false;
         }
         if (typeof expr1 !== "object") {
-            return (expr1 === expr2)
+            return (expr1 === expr2);
         }
         if (exprHash(expr1) != exprHash(expr2)) {
             return false;
@@ -115,7 +115,7 @@
                 }
             }
         }
-        containedSaved.push({term:term, isContained:isContained});
+        containedSaved.push({term: term, isContained: isContained});
         return isContained;
     };
     var exprClone = function(expr) {
@@ -125,7 +125,7 @@
         var newArgs = $.map(expr.args, function(arg) {
             return exprClone(arg);
         });
-        var newExpr = {op:expr.op, args:newArgs};
+        var newExpr = {op: expr.op, args: newArgs};
         newExpr.strExpr = KhanUtil.exprToStrExpr(newExpr);
         newExpr.text = KhanUtil.exprToText(newExpr);
         return exprCopyMissingStyle(expr, newExpr);
@@ -159,7 +159,7 @@
 
     var exprCopyMissingStyle = function(srcExpr, dstExpr, copiedAttrs) {
         if (typeof dstExpr === "number") {
-            dstExpr = {op:"num", args:[dstExpr]};
+            dstExpr = {op: "num", args: [dstExpr]};
         }
         dstExpr.style = copyMissingStyleAttrs(srcExpr.style, dstExpr.style, copiedAttrs);
         if (srcExpr.opsStyles !== undefined) {
@@ -187,7 +187,7 @@
        var op = expr.op;
        if (op === "times") {
            op = "*";
-       };
+       }
        for (var iArg = 0; iArg < expr.args.length; iArg++) {
           if (iArg !== 0) {
               str += op;
@@ -272,7 +272,7 @@
     var exprSetStyle = function(expr, style) {
           var expr = KhanUtil.exprClone(expr);
           if (typeof expr === "number") {
-              expr = {op:"num", args:[expr]};
+              expr = {op: "num", args: [expr]};
           }
           expr.style = cloneStyle(style);
           return expr;
@@ -299,7 +299,7 @@
        if (options === undefined) {
            options = {
               del0Factors: true,
-              del1Factors:true
+              del1Factors: true
            };
        }
        var args = [];
@@ -322,7 +322,7 @@
                  continue;
               }
           }
-          args.push({op:"^", args:[factor, expFactors[iFactor]]});
+          args.push({op: "^", args: [factor, expFactors[iFactor]]});
        }
        if (options.del0Factors && (numFactors === 0)) {
            return 0;
@@ -336,34 +336,30 @@
        } else if (args.length === 1) {
           expr = args[0];
        } else {
-          expr = {op:"*", args:args};
+          expr = {op: "*", args: args};
        }
        return exprClone(expr);
     };
 
-    var exprToString = function(expr) {
-        var ast = new KhanUtil.MathModel();
-        return ast.format(expr);
-    };
     var exprToCode = function(expr, isResult) {
-        var strExpr = "<code>" + KhanUtil.exprToString(expr) + "</code>";
+        var strExpr = "<code>" + KhanUtil.format(expr) + "</code>";
         if (isResult) {
-            strExpr = "<span class='result'>" + strExpr + "</span>"; 
+            strExpr = "<span class='result'>" + strExpr + "</span>";
         } else {
-            strExpr = "<span class='mathTest'>" + strExpr + "</span>"; 
+            strExpr = "<span class='mathTest'>" + strExpr + "</span>";
         }
         return strExpr;
     };
     var exprToCodeOr = function(expr1, expr2, isResult) {
-        var strExpr1 = KhanUtil.exprToString(expr1);
-        var strExpr2 = KhanUtil.exprToString(expr2);
+        var strExpr1 = KhanUtil.format(expr1);
+        var strExpr2 = KhanUtil.format(expr2);
         if (strExpr1 !== strExpr2) {
             return KhanUtil.exprToCode(expr1) + " or " + KhanUtil.exprToCode(expr2, isResult);
         }
         return KhanUtil.exprToCode(expr2, isResult);
     };
-    var exprType = function( expr ) {
-        if ( typeof expr === "object" ) {
+    var exprType = function(expr) {
+        if (typeof expr === "object") {
             return expr.op;
         } else {
             return typeof(expr);
@@ -391,7 +387,6 @@
         genExprFromExpFactors: genExprFromExpFactors,
         exprToCodeOr: exprToCodeOr,
         exprToCode: exprToCode,
-        exprToString: exprToString,
         exprCopyMissingStyle: exprCopyMissingStyle,
         copyMissingStyleAttrs: copyMissingStyleAttrs,
         exprPropagateStyle: exprPropagateStyle,

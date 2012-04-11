@@ -1,97 +1,97 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers angles">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Vertical angles 2</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Vertical angles 2</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars">
-		<div data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150 && C !== A && abs( A - C ) < 6 && abs( A - C ) > 1 && A * SOLUTION + B - C * SOLUTION !== 0">
-			<var id="SOLUTION" data-ensure="abs(SOLUTION) > 5">randRangeNonZero( -20, 20 )</var>
-			<var id="A">randRange( 2, 9 )</var>
-			<var id="B">randRangeNonZero( -200, 200 )</var>
-			<var id="C">randRange( 2, 9 )</var>
-		</div>
-		<var id="D">A * SOLUTION + B - C * SOLUTION</var>
+    <div class="exercise">
+    <div class="vars">
+        <div data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150 && C !== A && abs( A - C ) < 6 && abs( A - C ) > 1 && A * SOLUTION + B - C * SOLUTION !== 0">
+            <var id="SOLUTION" data-ensure="abs(SOLUTION) > 5">randRangeNonZero( -20, 20 )</var>
+            <var id="A">randRange( 2, 9 )</var>
+            <var id="B">randRangeNonZero( -200, 200 )</var>
+            <var id="C">randRange( 2, 9 )</var>
+        </div>
+        <var id="D">A * SOLUTION + B - C * SOLUTION</var>
 
-		<var id="ANCHOR">(A*D-B*C) / (A-C)</var>
-		<var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 2, 4 ], [ 3, 1 ] ] ) )</var>
-	</div>
+        <var id="ANCHOR">(A*D-B*C) / (A-C)</var>
+        <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 2, 4 ], [ 3, 1 ] ] ) )</var>
+    </div>
 
-	<div class="problems">
-		<div>
-			<p class="question">Solve for <code>x</code>:</p>
+    <div class="problems">
+        <div>
+            <p class="question">Solve for <code>x</code>:</p>
 
-			<div class="solution" data-type="multiple">
-					<p><code>x=</code>  <span class="sol" data-type="rational"><var>SOLUTION</var></span></p>
-				</div>
-			<div class="graphie" id="lines">
+            <div class="solution" data-type="multiple">
+                    <p><code>x=</code>  <span class="sol" data-type="rational"><var>SOLUTION</var></span></p>
+                </div>
+            <div class="graphie" id="lines">
 
-				var eq1 = A + "x + " + B + "^\\circ";
-				var eq2 = C + "x + " + D + "^\\circ";
+                var eq1 = A + "x + " + B + "^\\circ";
+                var eq2 = C + "x + " + D + "^\\circ";
 
-				init({
-					range: [ [ -1, 5 ], [-1, 1] ]
-				});
-				graph.pl = new ParallelLines( 0, 0, 4, 0, 0 );
-				graph.pl.draw();
-				graph.pl.drawTransverse( ANCHOR );
-				graph.pl.drawAngle( KNOWN_INDEX, eq1 );
-				graph.pl.drawAngle( UNKNOWN_INDEX, eq2, "#FFA500" );
-			</div>
-		</div>
-	</div>
+                init({
+                    range: [ [ -1, 5 ], [-1, 1] ]
+                });
+                graph.pl = new ParallelLines( 0, 0, 4, 0, 0 );
+                graph.pl.draw();
+                graph.pl.drawTransverse( ANCHOR );
+                graph.pl.drawAngle( KNOWN_INDEX, eq1 );
+                graph.pl.drawAngle( UNKNOWN_INDEX, eq2, "#FFA500" );
+            </div>
+        </div>
+    </div>
 
-	<div class="hints">
-		<p>We learned in Vertical angles 1 that vertical angles are equal. <a class="related-video" href="/video/proof-vertical-angles-are-equal" data-youtube-id="wRBMmiNHQaE">Watch this video</a> to understand why.</p>
-		<div>
-			<p>Set the angle measures equal to one another.</p>
-			<p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
-		</div>
+    <div class="hints">
+        <p>We learned in Vertical angles 1 that vertical angles are equal. <a class="related-video" href="/video/proof-vertical-angles-are-equal" data-youtube-id="wRBMmiNHQaE">Watch this video</a> to understand why.</p>
+        <div>
+            <p>Set the angle measures equal to one another.</p>
+            <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
+        </div>
 
-		<div data-if="A > C" data-unwrap>
-			<div>
-				<p>Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides.</p>
-				<p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>C</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>C</var>x}</code></p>
-				<p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
-			</div>
-			<div>
-				<p><var>B > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> <var>B > 0 ? "from" : "to"</var> both sides.</p>
-				<p><code>(<var>A - C</var>x + <var>B</var>) \color{<var>PINK</var>}{+ <var>-B</var>} = <var>D</var> \color{<var>PINK</var>}{+ <var>-B</var>}</code></p>
-				<p><code><var>A - C</var>x = <var>D - B</var></code></p>
-			</div>
-			<div>
-				<p>Divide both sides by <code>\color{<var>PINK</var>}{<var>A - C</var>}</code>.</p>
-				<p><code>\dfrac{<var>A - C</var>x}{\color{<var>PINK</var>}{<var>A - C</var>}} = \dfrac{<var>D - B</var>}{\color{<var>PINK</var>}{<var>A - C</var>}}</code></p>
-			</div>
-			<div>
-				<p>Simplify.</p>
-				<p><code>x = <var>SOLUTION</var></code></p>
-			</div>
-		</div>
-		<div data-else data-unwrap>
-			<div>
-				<p>Subtract <code>\color{<var>PINK</var>}{<var>A</var>x}</code> from both sides.</p>
-				<p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>A</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>A</var>x}</code></p>
-				<p><code><var>B</var> = <var>C - A</var>x + <var>D</var></code></p>
-			</div>
-			<div>
-				<p><var>D > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> <var>D > 0 ? "from" : "to"</var> both sides.</p>
-				<p><code><var>B</var> \color{<var>PINK</var>}{+ <var>-D</var>} = (<var>C - A</var>x + <var>D</var>) \color{<var>PINK</var>}{+ <var>-D</var>}</code></p>
-				<p><code><var>B - D</var> = <var>C - A</var>x</code></p>
-			</div>
-			<div>
-				<p>Divide both sides by <code>\color{<var>PINK</var>}{<var>C - A</var>}</code>.</p>
-				<p><code>\dfrac{<var>B - D</var>}{\color{<var>PINK</var>}{<var>C - A</var>}} = \dfrac{<var>C - A</var>x}{\color{<var>PINK</var>}{<var>C - A</var>}}</code></p>
-			</div>
-			<div>
-				<p>Simplify.</p>
-				<p><code><var>SOLUTION</var> = x</code></p>
-			</div>
-		</div>
-	</div>
-	</div>
+        <div data-if="A > C" data-unwrap>
+            <div>
+                <p>Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides.</p>
+                <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>C</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>C</var>x}</code></p>
+                <p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
+            </div>
+            <div>
+                <p><var>B > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> <var>B > 0 ? "from" : "to"</var> both sides.</p>
+                <p><code>(<var>A - C</var>x + <var>B</var>) \color{<var>PINK</var>}{+ <var>-B</var>} = <var>D</var> \color{<var>PINK</var>}{+ <var>-B</var>}</code></p>
+                <p><code><var>A - C</var>x = <var>D - B</var></code></p>
+            </div>
+            <div>
+                <p>Divide both sides by <code>\color{<var>PINK</var>}{<var>A - C</var>}</code>.</p>
+                <p><code>\dfrac{<var>A - C</var>x}{\color{<var>PINK</var>}{<var>A - C</var>}} = \dfrac{<var>D - B</var>}{\color{<var>PINK</var>}{<var>A - C</var>}}</code></p>
+            </div>
+            <div>
+                <p>Simplify.</p>
+                <p><code>x = <var>SOLUTION</var></code></p>
+            </div>
+        </div>
+        <div data-else data-unwrap>
+            <div>
+                <p>Subtract <code>\color{<var>PINK</var>}{<var>A</var>x}</code> from both sides.</p>
+                <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>A</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>A</var>x}</code></p>
+                <p><code><var>B</var> = <var>C - A</var>x + <var>D</var></code></p>
+            </div>
+            <div>
+                <p><var>D > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> <var>D > 0 ? "from" : "to"</var> both sides.</p>
+                <p><code><var>B</var> \color{<var>PINK</var>}{+ <var>-D</var>} = (<var>C - A</var>x + <var>D</var>) \color{<var>PINK</var>}{+ <var>-D</var>}</code></p>
+                <p><code><var>B - D</var> = <var>C - A</var>x</code></p>
+            </div>
+            <div>
+                <p>Divide both sides by <code>\color{<var>PINK</var>}{<var>C - A</var>}</code>.</p>
+                <p><code>\dfrac{<var>B - D</var>}{\color{<var>PINK</var>}{<var>C - A</var>}} = \dfrac{<var>C - A</var>x}{\color{<var>PINK</var>}{<var>C - A</var>}}</code></p>
+            </div>
+            <div>
+                <p>Simplify.</p>
+                <p><code><var>SOLUTION</var> = x</code></p>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

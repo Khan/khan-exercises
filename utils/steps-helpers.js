@@ -20,7 +20,7 @@
         var merge = function(steps) {
             this.items = this.items.concat(steps.items);
         };
-        jQuery.extend ( this, {
+        $.extend(this, {
             add: add,
             items: items,
             merge: merge,
@@ -31,7 +31,7 @@
             inContext: inContext,
             neverInContext: neverInContext,
             used: used
-        } );
+        });
     };
     var linkPopupDefinition = function(id, title, content, link) {
           //id = id + "-" + KhanUtil.random();
@@ -112,7 +112,7 @@
        }
         if ((typeof steps === "number") || ((typeof steps === "object") && (steps.op !== undefined))) {
            if ((lastExpr !== undefined) && KhanUtil.exprIdentical(steps, lastExpr)) {
-               return undefined;;
+               return undefined;
            }
            lastExpr = steps;
            return steps;
@@ -133,7 +133,7 @@
     };
 
     var exprWeight = function(expr) {
-        return KhanUtil.exprToString(expr).length; // TODO: better metric!
+        return KhanUtil.format(expr).length; // TODO: better metric!
     }
 
     var putExprInContext = function(parentExpr, path, childExpr) {
@@ -150,7 +150,7 @@
        for (var iPathNode = 0; iPathNode < path.length - 1; iPathNode++) {
            subExpr = subExpr.args[path[iPathNode]];
        }
-       subExpr.args[path[path.length-1]] = childExpr;
+       subExpr.args[path[path.length - 1]] = childExpr;
        return newExpr;
     };
 
@@ -223,7 +223,7 @@
 
         var costNotInContext = 800; // TODO: tune value
         var nbSteps = steps.items.length;
-        var travs = [{start:0, end:nbSteps, inc:1}, {start:nbSteps - 1, end:-1, inc:-1}];
+        var travs = [{start: 0, end: nbSteps, inc: 1}, {start: nbSteps - 1, end: -1, inc: -1}];
         var doPutInContext = [[], []];
         var bestCost = 1000000;
         var iBestTrav = 0;
@@ -332,12 +332,12 @@
         }
         var arrSteps = [];
         if (steps.nbInContext !== undefined) {
-            //arrSteps.push("NbInContext : " + steps.nbInContext + " costInContext : " + steps.costInContext	);
+            //
         }
         var index = 1;
         $.each(steps.items, function(iStep, step) {
             var vSpaceBefore = (iStep === 0) && allowVSpace;
-            var vSpaceAfter = (iStep === steps.items.length - 1) && allowVSpace; 
+            var vSpaceAfter = (iStep === steps.items.length - 1) && allowVSpace;
             var recHints = genHintsRec(step, subProblem, index, prefix, suffix, vSpaceBefore, vSpaceAfter);
             arrSteps = arrSteps.concat(recHints);
             if (step instanceof KhanUtil.StepsProblem) {
@@ -374,7 +374,7 @@
         genHints: genHints,
         linkPopupDefinition: linkPopupDefinition,
         StepsProblem: StepsProblem,
-        stepIsUsed:stepIsUsed,
-        genOneHint:genOneHint,
+        stepIsUsed: stepIsUsed,
+        genOneHint: genOneHint
     });
 })();

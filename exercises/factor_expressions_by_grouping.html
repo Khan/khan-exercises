@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 <html data-require="math">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Factor expressions by grouping</title>
-	<script src="../khan-exercise.js"></script>
-	<style type="text/css">
-	#answer_area input[type=text] {
-	width: 30px;
-	}
-	</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Factor expressions by grouping</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+    #answer_area input[type=text] {
+    width: 30px;
+    }
+    </style>
 </head>
 <body>
-	<div class="exercise">
-		<div class="problems">
-			<div id="factor-by-grouping">
-				<div class="vars">
-					<var id="a_start">randRange( 1, 10 )</var>
-					<var id="b_start">randRangeNonZero( -10, 10 )</var>
-					<var id="c_start">randRangeNonZero( -10, 10 )</var>
-					<var id="d_start">randRangeNonZero( -10, 10 )</var>
-					
-					<var id="a">a_start / getGCD( a_start, b_start)</var>
-					<var id="b">b_start / getGCD( a_start, b_start)</var>
-					<var id="c">c_start / getGCD( c_start, d_start)</var>
-					<var id="d">d_start / getGCD( c_start, d_start)</var>
+    <div class="exercise">
+        <div class="problems">
+            <div id="factor-by-grouping">
+                <div class="vars">
+                    <var id="a_start">randRange( 1, 10 )</var>
+                    <var id="b_start">randRangeNonZero( -10, 10 )</var>
+                    <var id="c_start">randRangeNonZero( -10, 10 )</var>
+                    <var id="d_start">randRangeNonZero( -10, 10 )</var>
 
-					<var id="C11">a * c</var>
-					<var id="C10">a * d</var>
-					<var id="C01">b * c</var>
-					<var id="C00">b * d</var>
-				</div>
-				<p class="problem">Given the following polynomial, factor by grouping.  In other words, if we put the polynomial below into the form <code>\color{#b22222}{(a r - b)}\color{#4169E1}{(c s - d)}</code>, what are the values of <code>\color{#b22222}{a}</code>, <code>\color{#b22222}{b}</code>, <code>\color{#4169E1}{c}</code>, and <code>\color{#4169E1}{d}</code>?</p>
-				<p><code><var>a * c</var> r s + <var>a * d</var> r + <var>b * c</var>s + <var>b * d</var></code> </p>
-				<div class="solution" data-type="set">
-					<div class="set-sol" data-type="multiple">
-						<span class="sol"><var>a</var></span>
-						<span class="sol"><var>b</var></span>
-						<span class="sol"><var>c</var></span>
-						<span class="sol"><var>d</var></span>
-					</div>
-					<div class="set-sol" data-type="multiple">
-						<span class="sol"><var>-a</var></span>
-						<span class="sol"><var>-b</var></span>
-						<span class="sol"><var>-c</var></span>
-						<span class="sol"><var>-d</var></span>
-					</div>
+                    <var id="a">a_start / getGCD( a_start, b_start)</var>
+                    <var id="b">b_start / getGCD( a_start, b_start)</var>
+                    <var id="c">c_start / getGCD( c_start, d_start)</var>
+                    <var id="d">d_start / getGCD( c_start, d_start)</var>
 
-					<div class="input-format">
-						<p class="entry" data-type="multiple">
-							<code>(</code><span class="sol"></span><code>\space r + \space</code><span class="sol"></span><code>)(</code><span class="sol"></span><code>\space s + \space</code><span class="sol"></span><code>)</code>
-						</p>
-					</div>
-					<p class="example">enter an integer for each coefficient</p>
-					<p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
-				</div>
-				<div class="hints">
-					<p>What is the largest factor we can pull out of both <code><var>a * c</var>rs</code> and <code><var>a * d</var>r</code>?</p>
-					<p>It's <code>\color{#b22222}{<var>a</var>r}</code>.  What happens when we pull it out?</p>
-					<p>We get <code>\color{#b22222}{<var>a</var>r}\color{#4169E1}{(<var>c</var>s + <var>d</var>)} + <var>b * c</var>s + <var>b * d</var></code>.</p>
-					<p>Can we write <code><var>b * c</var>s + <var>b * d</var></code> as something times <code>\color{#4169E1}{(<var>c</var>s + <var>d</var>)}</code>?</p>
-					<p>It's <code>\color{#b22222}{<var>b</var>}</code> times <code>\color{#4169E1}{(<var>c</var>s + <var>d</var>)}</code>.</p>
-					<p>By the distributive property, <code>\color{#b22222}{<var>a</var>r}\color{#4169E1}{(<var>c</var>s + <var>d</var>)}+\color{#b22222}{<var>b</var>}\color{#4169E1}{(<var>c</var>s + <var>d</var>)}</code> = <code>\color{#b22222}{(<var>a</var>r + <var>b</var>)}\color{#4169E1}{(<var>c</var>s + <var>d</var>)}</code>.</p>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <var id="C11">a * c</var>
+                    <var id="C10">a * d</var>
+                    <var id="C01">b * c</var>
+                    <var id="C00">b * d</var>
+                </div>
+                <p class="problem">Given the following polynomial, factor by grouping.  In other words, if we put the polynomial below into the form <code>\color{#b22222}{(a r - b)}\color{#4169E1}{(c s - d)}</code>, what are the values of <code>\color{#b22222}{a}</code>, <code>\color{#b22222}{b}</code>, <code>\color{#4169E1}{c}</code>, and <code>\color{#4169E1}{d}</code>?</p>
+                <p><code><var>a * c</var> r s + <var>a * d</var> r + <var>b * c</var>s + <var>b * d</var></code> </p>
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol"><var>a</var></span>
+                        <span class="sol"><var>b</var></span>
+                        <span class="sol"><var>c</var></span>
+                        <span class="sol"><var>d</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol"><var>-a</var></span>
+                        <span class="sol"><var>-b</var></span>
+                        <span class="sol"><var>-c</var></span>
+                        <span class="sol"><var>-d</var></span>
+                    </div>
+
+                    <div class="input-format">
+                        <p class="entry" data-type="multiple">
+                            <code>(</code><span class="sol"></span><code>\space r + \space</code><span class="sol"></span><code>)(</code><span class="sol"></span><code>\space s + \space</code><span class="sol"></span><code>)</code>
+                        </p>
+                    </div>
+                    <p class="example">enter an integer for each coefficient</p>
+                    <p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
+                </div>
+                <div class="hints">
+                    <p>What is the largest factor we can pull out of both <code><var>a * c</var>rs</code> and <code><var>a * d</var>r</code>?</p>
+                    <p>It's <code>\color{#b22222}{<var>a</var>r}</code>.  What happens when we pull it out?</p>
+                    <p>We get <code>\color{#b22222}{<var>a</var>r}\color{#4169E1}{(<var>c</var>s + <var>d</var>)} + <var>b * c</var>s + <var>b * d</var></code>.</p>
+                    <p>Can we write <code><var>b * c</var>s + <var>b * d</var></code> as something times <code>\color{#4169E1}{(<var>c</var>s + <var>d</var>)}</code>?</p>
+                    <p>It's <code>\color{#b22222}{<var>b</var>}</code> times <code>\color{#4169E1}{(<var>c</var>s + <var>d</var>)}</code>.</p>
+                    <p>By the distributive property, <code>\color{#b22222}{<var>a</var>r}\color{#4169E1}{(<var>c</var>s + <var>d</var>)}+\color{#b22222}{<var>b</var>}\color{#4169E1}{(<var>c</var>s + <var>d</var>)}</code> = <code>\color{#b22222}{(<var>a</var>r + <var>b</var>)}\color{#4169E1}{(<var>c</var>s + <var>d</var>)}</code>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

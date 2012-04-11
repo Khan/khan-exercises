@@ -6387,3 +6387,10 @@ input.goal-title:focus {
     padding: 4px 10px;
     margin-left: 10px;
 }
+
+#problem-and-answer {
+    margin-left: 80px;
+    padding: 20px;
+    width: 864px;
+    background-color: #f8f8f8;
+}

@@ -10,11 +10,20 @@
     .probaGrid td {
         text-align: center;
         vertical-align: middle;
+        width: 120px;
+        height: 60px;
     }
     .probaGrid .in {
         border: solid black 3px;
-        width: 120px;
-        height: 60px;
+    }
+    .smallGrid td {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .smallGrid .in {
+        border: solid black 2px;
     }
     .bullet li {
         list-style:disc;
@@ -23,52 +32,55 @@
     </style>
     <script src="../khan-exercise.js"></script>
     <script>
-    var initSolver = function(solver, itemKind, termsPlurals, solution) {
-        var nbRows = termsPlurals[0].length;
-        var nbCols = termsPlurals[1].length;
+
+    var initSolver = function(solver, itemKind, naming, solution) {
+        var nbCols = naming.terms[0].length;
+        var nbRows = naming.terms[1].length;
         var colsVariables = [];
         var rowsVariables = [];
-        var colsSums = [];
-        var sumAll = 0;
+        var rowsVars = [];
         for (var iRow = 0; iRow < nbRows; iRow++) {
             var rowVariables = [];
-            var rowSum = 0;
             for (var iCol = 0; iCol < nbCols; iCol++) {
-                var varName = "the number of " + termsPlurals[0][iRow] + " " + itemKind.prefixes[1] + termsPlurals[1][iCol];
+                var varName = naming.getLongVarName(naming.terms[0][iCol] + " " + itemKind.prefixes[1] + naming.terms[1][iRow]);
                 var variable = new KhanUtil.Variable(varName);
-                variable.data = {sol:solution[iRow][iCol]};
+                variable.data = {sol: solution[iRow][iCol], row: iRow, col: iCol};
+                variable.shortName = naming.getShortVarName(naming.shortTerms[0][iCol] + " " + itemKind.prefixes[1] + naming.shortTerms[1][iRow]);
                 rowVariables.push(variable);
                 var sol = solution[iRow][iCol];
-                rowSum += sol;
                 if (colsVariables[iCol] === undefined) {
                     colsVariables.push([]);
-                    colsSums[iCol] = 0;
                 }
                 colsVariables[iCol].push(variable);
-                colsSums[iCol] += sol;
-                sumAll += sol;
             }
-            var varName = "the number of " + termsPlurals[0][iRow];
+            var varName = naming.getLongVarName(naming.terms[1][iRow] + naming.suffixes[1]);
             var variable = new KhanUtil.Variable(varName);
-            variable.data = {sol:rowSum};
+            variable.data = {sol: solution[iRow][nbCols], row: iRow, col: nbCols};
+            variable.shortName = naming.getShortVarName(naming.shortTerms[1][iRow] + naming.suffixes[1]);
             rowVariables.push(variable);
+            rowsVars.push(variable);
             new KhanUtil.SumConstraint(solver, rowVariables);
             rowsVariables.push(rowVariables);
         }
-        var sumAllVariables = [];
+        var columnsVars = [];
         for (var iCol = 0; iCol < nbCols; iCol++) {
-            var varName = "the number of " + termsPlurals[1][iCol];
+            var varName = naming.getLongVarName(naming.terms[0][iCol] + naming.suffixes[0]);
             var variable = new KhanUtil.Variable(varName);
-            variable.data = {sol:colsSums[iCol]};
+            variable.data = {sol: solution[nbRows][iCol], row: nbRows, col: iCol};
+            variable.shortName = naming.getShortVarName(naming.shortTerms[1][iCol]);
             colsVariables[iCol].push(variable);          
             new KhanUtil.SumConstraint(solver, colsVariables[iCol]);
-            sumAllVariables.push(variable);
+            columnsVars.push(variable);
         }
-        var sumGridVariable = new KhanUtil.Variable("the number of " + itemKind.pluralName);
-        sumGridVariable.data = {sol:sumAll};    
-        sumAllVariables.push(sumGridVariable);
-        rowsVariables.push(sumAllVariables);
-        new KhanUtil.SumConstraint(solver, sumAllVariables);
+        var sumGridVariable = new KhanUtil.Variable(naming.getLongVarName(naming.itemName));
+        sumGridVariable.shortName = naming.getShortVarName(naming.itemName);
+        sumGridVariable.data = {sol: solution[nbRows][nbCols], row: nbRows, col: nbCols};    
+        columnsVars.push(sumGridVariable);
+        rowsVars.push(sumGridVariable);
+        rowsVariables.push(columnsVars);
+        solver.data = {rowsVariables: rowsVariables};
+        new KhanUtil.SumConstraint(solver, columnsVars);
+        new KhanUtil.SumConstraint(solver, rowsVars);
 
         var listVariables = [];
         for (var iRow = 0; iRow < rowsVariables.length; iRow++) {
@@ -77,22 +89,41 @@
         return listVariables;
     };
 
-    var genSolution = function(termsPlurals) {
-        var nbRows = termsPlurals[0].length;
-        var nbCols = termsPlurals[1].length;
+    var genSolution = function(naming) {
+        var nbCols = naming.terms[0].length;
+        var nbRows = naming.terms[1].length;
 
-        var probasRows = KhanUtil.genProbabilityDistribution(nbRows, KhanUtil.randFromArray([60, 80, 100, 120]));
+        var sumRows = KhanUtil.randFromArray([60, 80, 100, 120]);
+        if (!naming.showTotal) {
+            sumRows = 100;
+        }
+        var probasRows = KhanUtil.genProbabilityDistribution(nbRows, sumRows);
         var solution = [];
+        var colsSums = [];
         for (var iRow = 0; iRow < nbRows; iRow++) {
             var probaCols = KhanUtil.genProbabilityDistribution(nbCols, probasRows[iRow]);
+            for (var iCol = 0; iCol < nbCols; iCol++) {
+                if (colsSums[iCol] === undefined) {
+                    colsSums[iCol] = 0;
+                }
+                colsSums[iCol] += probaCols[iCol];
+            }
+            probaCols.push(probasRows[iRow]);
             solution.push(probaCols);
         }
+        colsSums.push(sumRows);
+        solution.push(colsSums);
         return solution;
     }
 
-    var fillKnownVariables = function(solver, listVariables) {
+    var fillKnownVariables = function(solver, listVariables, naming) {
         var orderedVariables = listVariables.slice(0);
         var setVariables = [];
+        if (!naming.showTotal) {
+            var varToSet = orderedVariables.pop();
+            setVariables.push(varToSet);
+            varToSet.setValue(varToSet.data.sol, 0);
+        }
         orderedVariables = KhanUtil.shuffle(orderedVariables);
         while (!solver.solve()) {
             var varToSet = undefined;
@@ -100,17 +131,47 @@
                 varToSet = orderedVariables.pop();
             } while (varToSet.value !== undefined);
             setVariables.push(varToSet);
-            varToSet.setValue(varToSet.data.sol);
+            varToSet.setValue(varToSet.data.sol, 0);
         }
         return setVariables;
     };
 
-    var getListFacts = function(setVariables) {
+    var getListFacts = function(setVariables, naming) {
         var listFacts = "";
+        var nbRows = naming.terms[1].length;
+        var nbCols = naming.terms[0].length;
         for (var iVar = 0; iVar < setVariables.length; iVar++) {
-            listFacts += "<li>" + setVariables[iVar].name + " is " + setVariables[iVar].value + "</li>";
+            if (naming.showTotal || (iVar != 0)) {
+                listFacts += "<li>" + setVariables[iVar].name + " is " + setVariables[iVar].value + naming.symbol + "</li>";
+            }
         }
         return listFacts;
+    }
+
+    var getTable = function(itemKind, naming) {
+        var table = "<table class='probaGrid'>";
+        var nbRows = naming.terms[1].length;
+        var nbCols = naming.terms[0].length;
+        table += "<tr><td>";
+        if (naming.showTotal) {
+            table += "<input type='text' id='" + nbRows + "-" + nbCols + "'/>" + naming.symbol + "<br/>" +
+            naming.getTableName(naming.itemName);
+        }
+        table += "</td>";
+        for (var iCol = 0; iCol < nbCols; iCol++) {
+            table += "<td><input type='text' id='" + nbRows + "-" + iCol + "'/>" + naming.symbol + "<br/>" +
+                naming.getTableName(naming.terms[0][iCol] + naming.suffixes[0]) + "</td>";
+        }
+        for (var iRow = 0; iRow < nbRows; iRow++) {
+            table += "<tr><td><input type='text' id='" + iRow + "-" + nbCols + "'/>" + naming.symbol + "<br/>" +
+                naming.getTableName(naming.terms[1][iRow] + naming.suffixes[1]) + "</td>";
+            for (var iCol = 0; iCol < nbCols; iCol++) {
+                table += "<td class='in'><input type='text' id='" + iRow + "-" + iCol + "'/>" + naming.symbol + "<br/>" +
+                    naming.getTableName(naming.terms[0][iCol] + " " + itemKind.prefixes[1] + naming.terms[1][iRow]) + "</td>";
+            }
+        }
+        table += "</table>";
+        return table;
     }
 
     var genGridProblem = function() {
@@ -128,53 +189,125 @@
 
         var terms = [[],[]];
         var termsPlurals = [[],[]];
+        var shortTermsPlurals = [[],[]];
+        var shortTerms = [[],[]];
         for (var type = 0; type < 2; type++) {
             for (var iItem = 0; iItem < 2; iItem++) {
                 terms[type][iItem] = itemKind.terms[type][selected[type][iItem]];
                 termsPlurals[type][iItem] = itemKind.termsPlurals[type][selected[type][iItem]];
+                shortTerms[type][iItem] = itemKind.shortTerms[type][selected[type][iItem]];
+                shortTermsPlurals[type][iItem] = itemKind.shortTermsPlurals[type][selected[type][iItem]];
             }
         }
         
-        var table = "<table class='probaGrid'>" +
-                    "<tr><td></td>" +
-                    "<td><input type='text'/><br/>" + termsPlurals[0][0] + itemKind.suffixesPlurals[0] + "</td>" +
-                    "<td><input type='text'/><br/>" + termsPlurals[0][1] + itemKind.suffixesPlurals[0] + "</td></tr>" +
-                    "<tr><td><input type='text'/><br/>" + termsPlurals[1][0] + itemKind.suffixesPlurals[1] + "</td>" +
-                    "<td class='in'><input type='text'/><br/>" + termsPlurals[0][0] + " " + itemKind.prefixes[1] + termsPlurals[1][0] + "</td>" +
-                    "<td class='in'><input type='text'/><br/>" + termsPlurals[0][1] + " " + itemKind.prefixes[1] + termsPlurals[1][0] + "</td></tr>" +
-                    "<tr><td><input type='text'/><br/>" + termsPlurals[1][1] + itemKind.suffixesPlurals[1] + "</td>" +
-                    "<td class='in'><input type='text'/><br/>" + termsPlurals[0][0] + " " + itemKind.prefixes[1] + termsPlurals[1][1] + "</td>" +
-                    "<td class='in'><input type='text'/><br/>" + termsPlurals[0][1] + " " + itemKind.prefixes[1] + termsPlurals[1][1] + "</td></tr>" +
-                "</table>";
-
-        var solver = new KhanUtil.ConstraintSolver();
-        var solution = genSolution(termsPlurals);
-        var listVariables = initSolver(solver, itemKind, termsPlurals, solution);
-        var setVariables = fillKnownVariables(solver, listVariables);
-        var hints = solver.getHints();
-
-        var question = "<p>The grid on the right has two rows and two columns, where each row represents a different " + 
-                itemKind.criteriaNames[1] + ", and each column represents " + KhanUtil.an(itemKind.criteriaNames[0]) + ".</p>" +
-                "<p><b>Use the information above to fill the grid</b>: in each and every cell, give the number of items that have " +
+        var namingNumber = {
+            showTotal: true,
+            getLongVarName: function(param) {
+                return "the number of " + param;
+            },
+            getShortVarName: function(param) {
+                return "#" + param;
+            },
+            getTableName: function(param) {
+                return param;
+            },
+            terms: termsPlurals,
+            shortTerms: shortTermsPlurals,
+            itemName: itemKind.pluralName,
+            suffixes: itemKind.suffixesPlurals,
+            symbol: "",
+            latexSymbol: "",
+            introFacts: "We already know a few things about the content of the " + itemKind.container,
+            questionPart2: "<b>Use the information above to fill the grid</b>: in each and every cell, give the number of items that have " +
                 "the corresponding " + itemKind.criteriaNames[1] + " and " + itemKind.criteriaNames[0] + ". " +
                 "In front of each row and on top of each column, give the total number of items that have the corresponding " +
-                itemKind.criteriaNames[1] + " or " + itemKind.criteriaNames[0] + ".</p>";
+                itemKind.criteriaNames[1] + " or " + itemKind.criteriaNames[0] + "."
+
+        };
+
+        var namingProba = {
+            showTotal: false,
+            getLongVarName : function(param) {
+                return "the probability that " + KhanUtil.person(1) + " " + itemKind.verb + "s " + KhanUtil.an(param);
+            },
+            getShortVarName : function(param) {
+                return "P(" + param + ")";
+            },
+            getTableName: function(param) {
+                return "P(" + param + ")";
+            },
+            terms: terms,
+            shortTerms: shortTerms,
+            itemName: itemKind.name,
+            suffixes: itemKind.suffixes,
+            symbol: "%",
+            latexSymbol: "\\%",
+            introFacts: KhanUtil.person(1) + " " + itemKind.verb + "s " + KhanUtil.an(itemKind.name) + " from the " + itemKind.container +
+                ". We already know the probability of some of the possible outcomes",
+            questionPart2: "<b>Use the information above to fill the grid</b>: in each and every cell, give the probability that " +
+                KhanUtil.person(1) + " " + itemKind.verb + "s " + KhanUtil.an(itemKind.name) + " that has " +
+                "the corresponding " + itemKind.criteriaNames[1] + " and " + itemKind.criteriaNames[0] + ". " +
+                "In front of each row and on top of each column, give the probability that " +
+                KhanUtil.person(1) + " " + itemKind.verb + "s " + KhanUtil.an(itemKind.name) + " that has the corresponding " +
+                itemKind.criteriaNames[1] + " or " + itemKind.criteriaNames[0] + "."
+
+        };
+        var naming = namingNumber;
+
+        var solver = new KhanUtil.ConstraintSolver();
+        var solution = genSolution(naming);
+        var listVariables = initSolver(solver, itemKind, naming, solution);
+
+
+        var setVariables = fillKnownVariables(solver, listVariables, naming);
+        var hints = solver.getHints(naming);
+
+        var question = "<p>The grid represented above has two rows and two columns, where each row represents a different " + 
+                itemKind.criteriaNames[1] + ", and each column represents " + KhanUtil.an(itemKind.criteriaNames[0]) + ".</p>" +
+                "<p>" + naming.questionPart2 + "</p>";
 
 
         return {
-            test:[],
             statement: "A " + itemKind.container + " contains " + itemKind.pluralName + " that can be described by their " +
                 itemKind.criteriaNames[0] + " and their " + itemKind.criteriaNames[1] + ". Each " + itemKind.name + " is either " +
                 terms[0][0] + " or " + terms[0][1] + ", and each " +
-                itemKind.name + " is  either " + terms[1][0] + " or " + terms[1][1] + ". " +
-                "We already know a few things about the content of the " + itemKind.container + ":</p>",
+                itemKind.name + " is  either " + terms[1][0] + " or " + terms[1][1] + ".</p><p>" + naming.introFacts + ":</p>",
             hints: hints,
-            table: table,
+            table: getTable(itemKind, naming),
             question: question,
-            facts: getListFacts(setVariables)
+            facts: getListFacts(setVariables, naming),
+            solution: solution,
+            answer: getAnswer(solution)
         };
-    }
+    };
 
+    var getAnswer = function(solution) {
+        var listSols = [];
+        var nbRows = solution.length;
+        for (var iRow = 0; iRow < nbRows; iRow++) {
+            listSols = listSols.concat(solution[iRow]);
+        }
+        return listSols.join(",");
+    };
+
+    var getGuess = function(solution) {
+        var nbRows = solution.length;
+        var nbCols = solution[0].length;
+        var sols = [];
+        for (var iRow = 0; iRow < nbRows; iRow++) {
+            for (var iCol = 0; iCol < nbCols; iCol++) {
+                var val = $("#" + iRow + "-" + iCol).val();
+                if (val === undefined) {
+                    val = "100";
+                }
+                if (val === "") {
+                    return 0;
+                }
+                sols.push(val);                
+            }
+        }
+        return sols.join(",");
+    };
     </script>
 </head>
 <body>
@@ -186,14 +319,12 @@
             </div>
 
             <div class="question">
-                <div style="float:right">
-                <var>PROBLEM.table</var>
-                </div>
                 <var>PROBLEM.statement</var>
                 <p><ul class='bullet'>
                     <var>PROBLEM.facts</var>
                 </ul>
                 </p>
+                <p><var>PROBLEM.table</var></p>
                 <var>PROBLEM.question</var>
             </div>
 
@@ -201,12 +332,12 @@
 					<div class="instruction">
 						Fill all the input areas
 					</div>
-					<div class="guess">42</div>
+					<div class="guess">getGuess(PROBLEM.solution)</div>
 					<div class="validator-function">
 						if ( guess === 0 ) {
 							return "";
 						}
-						return guess === 42;
+						return guess === PROBLEM.answer;
 					</div>
 				</div>
 

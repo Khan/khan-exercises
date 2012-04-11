@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html data-require="math math-format">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Determinants 1</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Determinants 1</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars">
-		<var id="A">randRange(-8, 8)</var>
-		<var id="B">randRange(-8, 8)</var>
-		<var id="C">randRange(-8, 8)</var>
-		<var id="D">randRange(-8, 8)</var>
-	</div>
+    <div class="exercise">
+    <div class="vars">
+        <var id="A">randRange(-8, 8)</var>
+        <var id="B">randRange(-8, 8)</var>
+        <var id="C">randRange(-8, 8)</var>
+        <var id="D">randRange(-8, 8)</var>
+    </div>
 
-	<div class="problems">
-		<div>
-			<div class="question">
-				<p>If <code>A = \begin{bmatrix}
-					<var>A</var> & <var>B</var> \\
-					<var>C</var> & <var>D</var>
-				\end{bmatrix}</code>, find <code>\det(A)</code>.</p>
-			</div>
-			<div class="solution"><var>A * D - B * C</var></div>
-		</div>
-		<div>
-			<div class="question">
-				<p>Find <code>\begin{vmatrix}
-					<var>A</var> & <var>B</var> \\
-					<var>C</var> & <var>D</var>
-				\end{vmatrix}</code>.</p>
-			</div>
-			<div class="solution"><var>A * D - B * C</var></div>
-		</div>
-	</div>
-	<div class="hints">
-		<p><code>\begin{vmatrix}
-			\color{red}{<var>A</var>} & \color{purple}{<var>B</var>} \\
-			\color{blue}{<var>C</var>} & \color{green}{<var>D</var>}
-		\end{vmatrix} = \color{red}{<var>negParens(A)</var>} \cdot \color{green}{<var>negParens(D)</var>} - \color{blue}{<var>negParens(C)</var>} \cdot \color{purple}{<var>negParens(B)</var>}</code></p>
-		<p><code>\hphantom{\begin{vmatrix}
-			<var>A</var> & <var>B</var> \\
-			<var>C</var> & <var>D</var>
-		\end{vmatrix}} = <var>A * D</var> - <var>negParens(B * C)</var></code></p>
-		<p><code>\hphantom{\begin{vmatrix}
-			<var>A</var> & <var>B</var> \\
-			<var>C</var> & <var>D</var>
-		\end{vmatrix}} = <var>A * D - B * C</var></code></p>
-	</div>
-	</div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>If <code>A = \begin{bmatrix}
+                    <var>A</var> & <var>B</var> \\
+                    <var>C</var> & <var>D</var>
+                \end{bmatrix}</code>, find <code>\det(A)</code>.</p>
+            </div>
+            <div class="solution"><var>A * D - B * C</var></div>
+        </div>
+        <div>
+            <div class="question">
+                <p>Find <code>\begin{vmatrix}
+                    <var>A</var> & <var>B</var> \\
+                    <var>C</var> & <var>D</var>
+                \end{vmatrix}</code>.</p>
+            </div>
+            <div class="solution"><var>A * D - B * C</var></div>
+        </div>
+    </div>
+    <div class="hints">
+        <p><code>\begin{vmatrix}
+            \color{red}{<var>A</var>} & \color{purple}{<var>B</var>} \\
+            \color{blue}{<var>C</var>} & \color{green}{<var>D</var>}
+        \end{vmatrix} = \color{red}{<var>negParens(A)</var>} \cdot \color{green}{<var>negParens(D)</var>} - \color{blue}{<var>negParens(C)</var>} \cdot \color{purple}{<var>negParens(B)</var>}</code></p>
+        <p><code>\hphantom{\begin{vmatrix}
+            <var>A</var> & <var>B</var> \\
+            <var>C</var> & <var>D</var>
+        \end{vmatrix}} = <var>A * D</var> - <var>negParens(B * C)</var></code></p>
+        <p><code>\hphantom{\begin{vmatrix}
+            <var>A</var> & <var>B</var> \\
+            <var>C</var> & <var>D</var>
+        \end{vmatrix}} = <var>A * D - B * C</var></code></p>
+    </div>
+    </div>
 </body>
 </html>
