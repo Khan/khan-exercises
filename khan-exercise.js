@@ -1478,17 +1478,6 @@ var Khan = (function() {
                         thisState.slide.scrubber();
                     });
 
-                    if (slideNum < firstHintIndex) {
-                        hintRemainder.fadeOut(fadeTime);
-                        hintButton.val("I'd like a hint");
-                    } else if (slideNum >= lastHintIndex) {
-                        if (states.eq(lastHintIndex).data("hint") < hints.length) {
-                            hintRemainder.fadeOut(fadeTime);
-                        }
-                    } else {
-                        hintButton.val("I'd like another hint (" + (totalHints - thisState.hintNum) + " remaining)");
-                    }
-
                     $("#workarea").remove();
                     $("#hintsarea").remove();
                     $("#problemarea").append(thisState.problem).append(thisState.hintArea);
