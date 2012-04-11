@@ -38,9 +38,7 @@
             init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
             piechart( [ N1+N2, D - N2 - N1], ["#e00", "#999"], 2 );
         </div>
-        <div>
-            <p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = <var>fraction( N1 + N2, D )</var></code></p>
-        </div>
+        <p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = <var>fraction( N1 + N2, D )</var></code></p>
         <div data-if="getGCD( N1 + N2, D ) !== 1">
             <p>Simplify.</p>
             <div class="graphie">

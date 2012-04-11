@@ -1957,17 +1957,19 @@ var Khan = (function() {
                     .val($(this).data("buttonText") || "I'd like another hint (" + hints.length + " remaining)");
 
                 var problem = $(hint).parent();
-
-                // Append first so MathJax can sense the surrounding CSS context properly
-                $(hint).appendTo("#hintsarea").runModules(problem);
+								
+				// Append first so MathJax can sense the surrounding CSS context properly
+				$(hint).appendTo("#hintsarea").runModules(problem);
 
                 // Grow the scratchpad to cover the new hint
                 Khan.scratchpad.resize();
 
-                // Disable the get hint button
+                // Disable the get hint button & add final_answer class
                 if (hints.length === 0) {
-                    $(Khan).trigger("allHintsUsed");
+                    $(hint).addClass("final_answer");
 
+					$(Khan).trigger("allHintsUsed");
+					
                     $(this).attr("disabled", true);
                 }
             }
