@@ -2039,7 +2039,7 @@ var Khan = (function() {
             // don't do anything if the user clicked a second time quickly
             if ($("#issue form").css("display") === "none") return;
 
-            var pretitle = $("title").text().replace(/ \|.*/, ""),
+            var pretitle = deslugify(exerciseName),
                 type = $("input[name=issue-type]:checked").prop("id"),
                 title = $("#issue-title").val(),
                 email = $("#issue-email").val(),
@@ -2054,7 +2054,7 @@ var Khan = (function() {
                 sessionStorageInfo = (typeof sessionStorage === "undefined" || typeof sessionStorage.getItem === "undefined" ? "sessionStorage NOT enabled" : null),
                 warningInfo = $("#warning-bar-content").text(),
                 parts = [email ? "Reporter: " + email : null, $("#issue-body").val() || null, pathlink, historyLink, "    " + JSON.stringify(guessLog), agent, sessionStorageInfo, mathjaxInfo, warningInfo],
-                body = $.grep(parts, function(e) {return e != null;}).join("\n\n");
+                body = $.grep(parts, function(e) { return e != null; }).join("\n\n");
 
             var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
                 if (info.status === -1) {
@@ -2397,6 +2397,11 @@ var Khan = (function() {
             .bind("upcomingExercise", function(ev, data) {
                 startLoadingExercise(data.exerciseName);
             });
+    }
+
+    function deslugify(name) {
+        name = name.replace(/_/g, " ");
+        return name.charAt(0).toUpperCase() + name.slice(1);
     }
 
     function setProblemNum(num) {
