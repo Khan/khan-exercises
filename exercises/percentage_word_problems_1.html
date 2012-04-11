@@ -1,123 +1,81 @@
 <!DOCTYPE html>
 <html data-require="math expressions spin word-problems">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Percentage word problems 1</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Percentage word problems 1</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="problems">
-		<div id="simple-percentages">
-			<div class="vars">
-				<var id="A_SIMPLE">randRange( 1, 150 )</var>
-				<var id="B_SIMPLE">randRange( 2, 100 )</var>
-			</div>
-			<p class="question">
-				What is <var>A_SIMPLE</var>% of <var>B_SIMPLE</var>? (Round to nearest whole number.)
-			</p>
-			<p class="solution" data-forms="integer"><var>round((A_SIMPLE * B_SIMPLE) / 100)</var></p>
-			<div class="hints">
-				<p>
-				<code><var>A_SIMPLE / 100</var> \times <var>B_SIMPLE</var> \approx <var>round((A_SIMPLE * B_SIMPLE) / 100)</var> </code>
-				</p>
-			</div>
-		</div>
-		<div id="backward-percentages" data-type="simple-percentages">
-			<p class="question">
-				<var>B_SIMPLE</var> is <var>A_SIMPLE</var>% of what number? (Round to the hundredths place.)
-			</p>
-			<p class="solution" data-forms="decimal"><var>round(((B_SIMPLE * 100) / A_SIMPLE) * 100) / 100</var></p>
-			<div class="hints">
-				<p>Let <code>x</code> be the number that <var>B_SIMPLE</var> is <var>A_SIMPLE</var>% of.</p>
-				<p><code><var>A_SIMPLE / 100</var> \times x = <var>B_SIMPLE</var></code></p>
-				<p><code>x=<var>B_SIMPLE</var>/<var>A_SIMPLE / 100</var></code></p>
-				<p><code>x \approx<var>round((B_SIMPLE * 100/A_SIMPLE * 100))/100</var></code></p>
-			</div>
-		</div>
-		<div id="bank-percentages">
-			<div class="vars">
-				<var id="BANK_FEWER">randRange( 2, 100 )</var>
-				<var id="BANK_MORE">BANK_FEWER + randRange(5, 2 * BANK_FEWER + 10 )</var>
-			</div>
-			<p class="question">
-				<var>person(1)</var> has <var>BANK_MORE</var> dollars in the bank today. Yesterday, <var>he(1)</var> had <var>BANK_FEWER</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account increase over the past day? (Round your answer to the nearest hundredth of a percent.)</p>
-			<p class="solution" data-forms="percent"><var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_FEWER) / 100</var></p>
-			<div class="hints">
-				<p>The bank account grew by <code><var>BANK_MORE</var> - <var>BANK_FEWER</var> = <var>BANK_MORE - BANK_FEWER</var></code> dollars </p>
-				<p><code>\frac{<var>BANK_MORE - BANK_FEWER</var>}{<var>BANK_FEWER</var>} \approx <var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_FEWER) / 100</var>\%</code></p>
-			</div>
-		</div>
-		<div id="bank-percentages-loss" data-type="bank-percentages">
-			<p class="question">
-				<var>person(1)</var> has <var>BANK_FEWER</var> dollars in the bank today. Yesterday, <var>he(1)</var> had <var>BANK_MORE</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account decrease over the past day? (Round your answer to the nearest hundredth of a percent.)</p>
-			<p class="solution" data-forms="percent"><var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_MORE) / 100</var></p>
-			<div class="hints">
-				<p>The bank account decreased by <code><var>BANK_MORE</var> - <var>BANK_FEWER</var> = <var>BANK_MORE - BANK_FEWER</var></code> dollars </p>
-				<p><code>\frac{<var>BANK_MORE - BANK_FEWER</var>}{<var>BANK_MORE</var>} \approx <var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_MORE) / 100</var>\%</code></p>
-			</div>
-		</div>
-		<div id="yearly-percentages">
-			<div class="vars">
-				<var id="YEAR_PERCENT_MORE">randRange( 10, 150 )</var>
-				<var id="YEAR_THIS">randRange( 50, 999 )</var>
-				<var id="YEAR_LAST">round(YEAR_THIS * 10000 / (100 + YEAR_PERCENT_MORE)) / 100</var>
-			</div>
-			<p class="question">
-				<var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than <var>he(1)</var> did this time last year. If <var>person(1)</var> has <var>YEAR_THIS</var> dollars today, how many dollars did <var>he(1)</var> have this time last year? (Round to the nearest penny.)</p>
-			<p class="solution" data-forms="dollar"><var>YEAR_LAST</var></p>
-			<div class="hints">
-				<p>Let <code>x</code> be the amount of money that <var>he(1)</var> had last year.</p>
-				<p><code>x + <var>YEAR_PERCENT_MORE / 100</var>x = <var>YEAR_THIS</var></code></p>
-				<p><code><var>(100 + YEAR_PERCENT_MORE) / 100</var>x = <var>YEAR_THIS</var></code></p>
-				<p><code>x = \frac{<var>YEAR_THIS</var>}{<var>(100 + YEAR_PERCENT_MORE) / 100</var>}</code></p>
-				<p><code>x \approx <var>YEAR_LAST</var></code></p>
-			</div>
-		</div>
-		<div id="tip">
-			<div class="vars">
-				<var id="BILL">randRange( 20, 50 )</var>
-				<var id="BILL_FORMAT">parseFloat( BILL ).toFixed( 2 )</var>
-				<var id="TIP_PERCENT">randRange( 1, 4 ) * 5</var>
-				<var id="TIP_AMOUNT">BILL * ( TIP_PERCENT / 100 )</var>
-				<var id="TIP_AMOUNT_FORMAT">parseFloat( TIP_AMOUNT ).toFixed( 2 )</var>
-				<var id="TIP_TEN_PERCENT">parseFloat( BILL * 0.1 ).toFixed( 2 )</var>
-				<var id="TIP_FIVE_PERCENT">parseFloat( BILL * 0.05 ).toFixed( 2 )</var>
-				<var id="TOTAL">BILL + TIP_AMOUNT</var>
-				<var id="TOTAL_FORMAT">parseFloat( TOTAL ).toFixed( 2 )</var>
-			</div>
-			<div class="question">
-				<p class="spin"><b><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of <var>his(1)</var> meal is $<var>BILL_FORMAT</var>. <var>He(1)</var> would like to leave a <var>TIP_PERCENT</var>% tip. What is <var>his(1)</var> total bill including tip?</b></p>
-			</div>
-			<p class="solution" data-forms="dollar"><var>TOTAL</var></p>
-			<div class="hints">
-				<div>
-					<p>The tip amount is equal to <code><var>TIP_PERCENT</var>\% \times \$<var>BILL_FORMAT</var></code>.</p>
-					<p data-if="TIP_PERCENT !== 10">We can find the tip by first calculating a <code>10\%</code> tip <span data-if="TIP_PERCENT === 5"> and then dividing that number by two.</span><span data-else-if="TIP_PERCENT === 20"> and then multiplying that number by two.</span><span data-else> and a <code>5\%</code> tip, and then adding those two numbers together.</span></p>
-				</div>
-				<div>
-					<p>To calculate a <code>10\%</code> tip, move the decimal point in <code>\$<var>BILL_FORMAT</var></code> one place to the left.</p>
-					<p><code>10\% \times \$<var>BILL_FORMAT</var> = \$<var>TIP_TEN_PERCENT</var></code></p>
-				</div>
-				<div data-if="TIP_PERCENT !== 10">
-					<div data-if="TIP_PERCENT % 10 === 5">
-						<p>To calculate a <code>5\%</code> tip, divide the <code>10\%</code> tip amount in half.</p>
-						<p><code>5\% \times \$<var>BILL_FORMAT</var> = \$<var>TIP_TEN_PERCENT</var> \div 2 = \$<var>TIP_FIVE_PERCENT</var></code>.</p>
-					</div>
-					<div data-else>
-						<p>To calculate a <code>20\%</code> tip, multiply the <code>10\%</code> tip amount by two.</p>
-						<p><code>20\% \times \$<var>BILL_FORMAT</var> = \$<var>TIP_TEN_PERCENT</var> \times 2 = \$<var>TIP_AMOUNT_FORMAT</var></code>.</p>
-					</div>
-				</div>
-				<div data-if="TIP_PERCENT === 15">
-					<p>Adding the two amounts together gives us <code>\$<var>TIP_TEN_PERCENT</var> + \$<var>TIP_FIVE_PERCENT</var> = \$<var>TIP_AMOUNT_FORMAT</var></code>.</p>
-				</div>
-				<p>The cost of the meal plus the amount of the tip will equal the total bill amount.</p>
-				<p><code>\$<var>BILL_FORMAT</var> + \$<var>TIP_AMOUNT_FORMAT</var> = \$<var>TOTAL_FORMAT</var></code>.</p>
-				<p>The total cost of the bill is <code>\$<var>TOTAL_FORMAT</var></code>.</p>
-			</div>
-		</div>
-	</div>
-	</div>
+    <div class="exercise">
+    <div class="problems">
+        <div id="simple-percentages">
+            <div class="vars">
+                <var id="A_SIMPLE">randRange( 1, 150 )</var>
+                <var id="B_SIMPLE">randRange( 2, 100 )</var>
+            </div>
+            <p class="question">
+                What is <var>A_SIMPLE</var>% of <var>B_SIMPLE</var>? (Round to nearest whole number.)
+            </p>
+            <p class="solution" data-forms="integer"><var>round((A_SIMPLE * B_SIMPLE) / 100)</var></p>
+            <div class="hints">
+                <p>
+                <code><var>A_SIMPLE / 100</var> \times <var>B_SIMPLE</var> \approx <var>round((A_SIMPLE * B_SIMPLE) / 100)</var> </code>
+                </p>
+            </div>
+        </div>
+        <div id="backward-percentages" data-type="simple-percentages">
+            <p class="question">
+                <var>B_SIMPLE</var> is <var>A_SIMPLE</var>% of what number? (Round to the hundredths place.)
+            </p>
+            <p class="solution" data-forms="decimal"><var>round(((B_SIMPLE * 100) / A_SIMPLE) * 100) / 100</var></p>
+            <div class="hints">
+                <p>Let <code>x</code> be the number that <var>B_SIMPLE</var> is <var>A_SIMPLE</var>% of.</p>
+                <p><code><var>A_SIMPLE / 100</var> \times x = <var>B_SIMPLE</var></code></p>
+                <p><code>x=<var>B_SIMPLE</var>/<var>A_SIMPLE / 100</var></code></p>
+                <p><code>x \approx<var>round((B_SIMPLE * 100/A_SIMPLE * 100))/100</var></code></p>
+            </div>
+        </div>
+        <div id="bank-percentages">
+            <div class="vars">
+                <var id="BANK_FEWER">randRange( 2, 100 )</var>
+                <var id="BANK_MORE">BANK_FEWER + randRange(5, 2 * BANK_FEWER + 10 )</var>
+            </div>
+            <p class="question">
+                <var>person(1)</var> has <var>BANK_MORE</var> dollars in the bank today. Yesterday, <var>he(1)</var> had <var>BANK_FEWER</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account increase over the past day? (Round your answer to the nearest hundredth of a percent.)</p>
+            <p class="solution" data-forms="percent"><var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_FEWER) / 100</var></p>
+            <div class="hints">
+                <p>The bank account grew by <code><var>BANK_MORE</var> - <var>BANK_FEWER</var> = <var>BANK_MORE - BANK_FEWER</var></code> dollars </p>
+                <p><code>\frac{<var>BANK_MORE - BANK_FEWER</var>}{<var>BANK_FEWER</var>} \approx <var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_FEWER) / 100</var>\%</code></p>
+            </div>
+        </div>
+        <div id="bank-percentages-loss" data-type="bank-percentages">
+            <p class="question">
+                <var>person(1)</var> has <var>BANK_FEWER</var> dollars in the bank today. Yesterday, <var>he(1)</var> had <var>BANK_MORE</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account decrease over the past day? (Round your answer to the nearest hundredth of a percent.)</p>
+            <p class="solution" data-forms="percent"><var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_MORE) / 100</var></p>
+            <div class="hints">
+                <p>The bank account decreased by <code><var>BANK_MORE</var> - <var>BANK_FEWER</var> = <var>BANK_MORE - BANK_FEWER</var></code> dollars </p>
+                <p><code>\frac{<var>BANK_MORE - BANK_FEWER</var>}{<var>BANK_MORE</var>} \approx <var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_MORE) / 100</var>\%</code></p>
+            </div>
+        </div>
+        <div id="yearly-percentages">
+            <div class="vars">
+                <var id="YEAR_PERCENT_MORE">randRange( 10, 150 )</var>
+                <var id="YEAR_THIS">randRange( 50, 999 )</var>
+                <var id="YEAR_LAST">round(YEAR_THIS * 10000 / (100 + YEAR_PERCENT_MORE)) / 100</var>
+            </div>
+            <p class="question">
+                <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than <var>he(1)</var> did this time last year. If <var>person(1)</var> has <var>YEAR_THIS</var> dollars today, how many dollars did <var>he(1)</var> have this time last year? (Round to the nearest penny, which is 1/100 of a dollar.)</p>
+            <p class="solution" data-forms="dollar"><var>YEAR_LAST</var></p>
+            <div class="hints">
+                <p>Let <code>x</code> be the amount of money that <var>he(1)</var> had last year.</p>
+                <p><code>x + <var>YEAR_PERCENT_MORE / 100</var>x = <var>YEAR_THIS</var></code></p>
+                <p><code><var>(100 + YEAR_PERCENT_MORE) / 100</var>x = <var>YEAR_THIS</var></code></p>
+                <p><code>x = \frac{<var>YEAR_THIS</var>}{<var>(100 + YEAR_PERCENT_MORE) / 100</var>}</code></p>
+                <p><code>x \approx <var>YEAR_LAST</var></code></p>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

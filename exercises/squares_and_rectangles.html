@@ -1,313 +1,313 @@
 <!DOCTYPE html>
 <html data-require="math graphie">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Squares and rectangles</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Squares and rectangles</title>
+    <script src="../khan-exercise.js"></script>
 
-	<script type="text/javascript">
-		var L_COLOR = "orange";
-		var W_COLOR = "blue";
+    <script type="text/javascript">
+        var L_COLOR = "orange";
+        var W_COLOR = "blue";
 
-		var S_COLOR = "purple";
+        var S_COLOR = "purple";
 
-		var P_COLOR = "green";
-		var K_COLOR = "red";
+        var P_COLOR = "green";
+        var K_COLOR = "red";
 
-		function initRect( L, W ) {
-			var graph = KhanUtil.currentGraph;
+        function initRect( L, W ) {
+            var graph = KhanUtil.currentGraph;
 
-			graph.init({
-				range: [ [-1, L + 1], [-1, W + 1] ],
-				scale: 500 / (2 * L + 2 * W)
-			});
+            graph.init({
+                range: [ [-1, L + 1], [-1, W + 1] ],
+                scale: 500 / (2 * L + 2 * W)
+            });
 
-			graph.path( [ [0, 0], [L, 0] ], { "stroke": L_COLOR } );
-			graph.label( [L/2, 0], "\\color{" + L_COLOR + "}{l = " + L + "}", "below" );
+            graph.path( [ [0, 0], [L, 0] ], { "stroke": L_COLOR } );
+            graph.label( [L/2, 0], "\\color{" + L_COLOR + "}{l = " + L + "}", "below" );
 
-			graph.path( [ [L, 0], [L, W] ], { "stroke": W_COLOR } );
-			graph.label( [L, W/2], "\\color{" + W_COLOR + "}{w = " + W + "}", "right" );
+            graph.path( [ [L, 0], [L, W] ], { "stroke": W_COLOR } );
+            graph.label( [L, W/2], "\\color{" + W_COLOR + "}{w = " + W + "}", "right" );
 
-			graph.path( [ [L, W], [0, W], [0, 0] ] );
-		}
+            graph.path( [ [L, W], [0, W], [0, 0] ] );
+        }
 
-		function drawRectPerimeter( L, W ) {
-			var graph = KhanUtil.currentGraph;
+        function drawRectPerimeter( L, W ) {
+            var graph = KhanUtil.currentGraph;
 
-			graph.path( [ [0, 0], [L, 0], [L, W], [0, W], [0, 0] ], { "stroke": P_COLOR } );
-			graph.label( [L/2, W], "\\color{" + P_COLOR + "}{P = " + (2 * L + 2 * W) + "}", "above" );
-		}
+            graph.path( [ [0, 0], [L, 0], [L, W], [0, W], [0, 0] ], { "stroke": P_COLOR } );
+            graph.label( [L/2, W], "\\color{" + P_COLOR + "}{P = " + (2 * L + 2 * W) + "}", "above" );
+        }
 
-		function drawRectArea( L, W ) {
-			var graph = KhanUtil.currentGraph;
+        function drawRectArea( L, W ) {
+            var graph = KhanUtil.currentGraph;
 
-			graph.path( [ [0, 0], [L, 0], [L, W], [0, W], [0, 0] ], { "stroke-opacity": 0, "fill": "#ffcccc" } );
-			graph.label( [L/2, W/2], "\\color{" + K_COLOR + "}{K = " + L * W + "}", "center" );
-		}
+            graph.path( [ [0, 0], [L, 0], [L, W], [0, W], [0, 0] ], { "stroke-opacity": 0, "fill": "#ffcccc" } );
+            graph.label( [L/2, W/2], "\\color{" + K_COLOR + "}{K = " + L * W + "}", "center" );
+        }
 
-		function initSq( S ) {
-			var graph = KhanUtil.currentGraph;
+        function initSq( S ) {
+            var graph = KhanUtil.currentGraph;
 
-			graph.init({
-				range: [ [-1 * (S / 5), S + (S / 5)], [-1 * (S / 5), S + (S / 5)] ],
-				scale: 200 / S
-			});
+            graph.init({
+                range: [ [-1 * (S / 5), S + (S / 5)], [-1 * (S / 5), S + (S / 5)] ],
+                scale: 200 / S
+            });
 
-			graph.path( [ [0, 0], [S, 0], [S, S], [0, S], [0, 0] ] );
-		}
+            graph.path( [ [0, 0], [S, 0], [S, S], [0, S], [0, 0] ] );
+        }
 
-		function drawSqSide( S ) {
-			var graph = KhanUtil.currentGraph;
+        function drawSqSide( S ) {
+            var graph = KhanUtil.currentGraph;
 
-			graph.path( [ [S, 0], [S, S] ], { "stroke": S_COLOR } );
-			graph.label( [S, S/2], "\\color{" + S_COLOR + "}{s = " + S + "}", "right" );
-		}
+            graph.path( [ [S, 0], [S, S] ], { "stroke": S_COLOR } );
+            graph.label( [S, S/2], "\\color{" + S_COLOR + "}{s = " + S + "}", "right" );
+        }
 
-		function drawSqPerimeter( S ) {
-			var graph = KhanUtil.currentGraph;
+        function drawSqPerimeter( S ) {
+            var graph = KhanUtil.currentGraph;
 
-			graph.path( [ [0, 0], [0, S], [S, S], [S, 0], [0, 0] ], { "stroke": P_COLOR } );
-			graph.label( [S/2, S], "\\color{" + P_COLOR + "}{P = " + 4*S + "}", "above" );
-		}
+            graph.path( [ [0, 0], [0, S], [S, S], [S, 0], [0, 0] ], { "stroke": P_COLOR } );
+            graph.label( [S/2, S], "\\color{" + P_COLOR + "}{P = " + 4*S + "}", "above" );
+        }
 
-		function drawSqArea( S ) {
-			var graph = KhanUtil.currentGraph;
+        function drawSqArea( S ) {
+            var graph = KhanUtil.currentGraph;
 
-			graph.path( [ [0, 0], [S, 0], [S, S], [0, S], [0, 0] ], { "stroke-opacity": 0, "fill": "#ffcccc" } );
-			graph.label( [S/2, S/2], "\\color{" + K_COLOR + "}{K = " + S * S + "}", "center" );
-		}
-	</script>
+            graph.path( [ [0, 0], [S, 0], [S, S], [0, S], [0, 0] ], { "stroke-opacity": 0, "fill": "#ffcccc" } );
+            graph.label( [S/2, S/2], "\\color{" + K_COLOR + "}{K = " + S * S + "}", "center" );
+        }
+    </script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="problems">
-		<div id="square-s-to-K">
-			<div class="vars">
-				<var id="S">randRange(1, 8)</var>
-			</div>
+    <div class="exercise">
+    <div class="problems">
+        <div id="square-s-to-K">
+            <div class="vars">
+                <var id="S">randRange(1, 8)</var>
+            </div>
 
-			<div class="question">
-				<p>Suppose the side length of a square is <code>\color{<var>S_COLOR</var>}{<var>S</var>}</code>. What is its area?</p>
-			</div>
+            <div class="question">
+                <p>Suppose the side length of a square is <code>\color{<var>S_COLOR</var>}{<var>S</var>}</code>. What is its area?</p>
+            </div>
 
-			<div class="solution"><var>S * S</var></div>
+            <div class="solution"><var>S * S</var></div>
 
-			<div class="hints">
-				<div class="graphie" id="square">
-					initSq( S );
+            <div class="hints">
+                <div class="graphie" id="square">
+                    initSq( S );
 
-					drawSqSide( S );
-				</div>
-				<p>The area of a square is <code>K = s \cdot s = s^2</code>.</p>
-				<div>
-					<p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>K = \color{<var>S_COLOR</var>}{<var>S</var>}^2 = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code>.</p>
+                    drawSqSide( S );
+                </div>
+                <p>The area of a square is <code>K = s \cdot s = s^2</code>.</p>
+                <div>
+                    <p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>K = \color{<var>S_COLOR</var>}{<var>S</var>}^2 = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code>.</p>
 
-					<div class="graphie" data-update="square">
-						drawSqArea( S );
-					</div>
-				</div>
-			</div>
-		</div>
+                    <div class="graphie" data-update="square">
+                        drawSqArea( S );
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<div id="square-s-to-P">
-			<div class="vars">
-				<var id="S">randRange(1, 8)</var>
-			</div>
+        <div id="square-s-to-P">
+            <div class="vars">
+                <var id="S">randRange(1, 8)</var>
+            </div>
 
-			<div class="question">
-				<p>Suppose the side length of a square is <code>\color{<var>S_COLOR</var>}{<var>S</var>}</code>. What is its perimeter?</p>
-			</div>
+            <div class="question">
+                <p>Suppose the side length of a square is <code>\color{<var>S_COLOR</var>}{<var>S</var>}</code>. What is its perimeter?</p>
+            </div>
 
-			<div class="solution"><var>4 * S</var></div>
+            <div class="solution"><var>4 * S</var></div>
 
-			<div class="hints">
-				<div class="graphie" id="square">
-					initSq( S );
+            <div class="hints">
+                <div class="graphie" id="square">
+                    initSq( S );
 
-					drawSqSide( S );
-				</div>
-				<p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>.</p>
-				<div>
-					<p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>P = 4\cdot\color{<var>S_COLOR</var>}{<var>S</var>} = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>.</p>
+                    drawSqSide( S );
+                </div>
+                <p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>.</p>
+                <div>
+                    <p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>P = 4\cdot\color{<var>S_COLOR</var>}{<var>S</var>} = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>.</p>
 
-					<div class="graphie" data-update="square">
-						drawSqPerimeter( S );
-					</div>
-				</div>
-			</div>
-		</div>
+                    <div class="graphie" data-update="square">
+                        drawSqPerimeter( S );
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<div id="square-K-to-s">
-			<div class="vars">
-				<var id="S">randRange(1, 8)</var>
-			</div>
+        <div id="square-K-to-s">
+            <div class="vars">
+                <var id="S">randRange(1, 8)</var>
+            </div>
 
-			<div class="question">
-				<p>Suppose the area of a square is <code>\color{<var>K_COLOR</var>}{<var>S * S</var>}</code>. What is its side length?</p>
-			</div>
+            <div class="question">
+                <p>Suppose the area of a square is <code>\color{<var>K_COLOR</var>}{<var>S * S</var>}</code>. What is its side length?</p>
+            </div>
 
-			<div class="solution"><var>S</var></div>
+            <div class="solution"><var>S</var></div>
 
-			<div class="hints">
-				<div class="graphie" id="square">
-					initSq( S );
+            <div class="hints">
+                <div class="graphie" id="square">
+                    initSq( S );
 
-					drawSqArea( S );
-				</div>
-				<p>The area of a square is <code>K = s \cdot s = s^2</code>, so <code>s = \sqrt{K}</code>.</p>
-				<div>
-					<p>Substituting in <code>K = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code> gives <code>s = \sqrt{\color{<var>K_COLOR</var>}{<var>S * S</var>}} = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
+                    drawSqArea( S );
+                </div>
+                <p>The area of a square is <code>K = s \cdot s = s^2</code>, so <code>s = \sqrt{K}</code>.</p>
+                <div>
+                    <p>Substituting in <code>K = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code> gives <code>s = \sqrt{\color{<var>K_COLOR</var>}{<var>S * S</var>}} = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
 
-					<div class="graphie" data-update="square">
-						drawSqSide( S );
-					</div>
-				</div>
-			</div>
-		</div>
+                    <div class="graphie" data-update="square">
+                        drawSqSide( S );
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<div id="square-K-to-P">
-			<div class="vars">
-				<var id="S">randRange(1, 8)</var>
-			</div>
+        <div id="square-K-to-P">
+            <div class="vars">
+                <var id="S">randRange(1, 8)</var>
+            </div>
 
-			<div class="question">
-				<p>Suppose the area of a square is <code>\color{<var>K_COLOR</var>}{<var>S * S</var>}</code>. What is its perimeter?</p>
-			</div>
+            <div class="question">
+                <p>Suppose the area of a square is <code>\color{<var>K_COLOR</var>}{<var>S * S</var>}</code>. What is its perimeter?</p>
+            </div>
 
-			<div class="solution"><var>4 * S</var></div>
+            <div class="solution"><var>4 * S</var></div>
 
-			<div class="hints">
-				<div class="graphie" id="square">
-					initSq( S );
+            <div class="hints">
+                <div class="graphie" id="square">
+                    initSq( S );
 
-					drawSqArea( S );
-				</div>
-				<p>The area of a square is <code>K = s \cdot s = s^2</code>, so <code>s = \sqrt{K}</code>.</p>
-				<p>Substituting in <code>K = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code> gives <code>s = \sqrt{\color{<var>K_COLOR</var>}{<var>S * S</var>}} = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
-				<p>Now find the perimeter using <code>P = s + s + s + s = 4s</code>.</p>
-				<div>
-					<p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>P = 4\cdot\color{<var>S_COLOR</var>}{<var>S</var>} = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>.</p>
+                    drawSqArea( S );
+                </div>
+                <p>The area of a square is <code>K = s \cdot s = s^2</code>, so <code>s = \sqrt{K}</code>.</p>
+                <p>Substituting in <code>K = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code> gives <code>s = \sqrt{\color{<var>K_COLOR</var>}{<var>S * S</var>}} = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
+                <p>Now find the perimeter using <code>P = s + s + s + s = 4s</code>.</p>
+                <div>
+                    <p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>P = 4\cdot\color{<var>S_COLOR</var>}{<var>S</var>} = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>.</p>
 
-					<div class="graphie" data-update="square">
-						drawSqPerimeter( S );
-					</div>
-				</div>
-			</div>
-		</div>
+                    <div class="graphie" data-update="square">
+                        drawSqPerimeter( S );
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<div id="square-P-to-s">
-			<div class="vars">
-				<var id="S">randRange(1, 8)</var>
-			</div>
+        <div id="square-P-to-s">
+            <div class="vars">
+                <var id="S">randRange(1, 8)</var>
+            </div>
 
-			<div class="question">
-				<p>Suppose the perimeter of a square is <code>\color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>. What is its side length?</p>
-			</div>
+            <div class="question">
+                <p>Suppose the perimeter of a square is <code>\color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>. What is its side length?</p>
+            </div>
 
-			<div class="solution"><var>S</var></div>
+            <div class="solution"><var>S</var></div>
 
-			<div class="hints">
-				<div class="graphie" id="square">
-					initSq( S );
+            <div class="hints">
+                <div class="graphie" id="square">
+                    initSq( S );
 
-					drawSqPerimeter( S );
-				</div>
-				<p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>, so <code>s = P/4</code>.</p>
-				<div>
-					<p>Substituting in <code>P = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code> gives <code>s = \color{<var>P_COLOR</var>}{<var>4 * S</var>}/4 = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
+                    drawSqPerimeter( S );
+                </div>
+                <p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>, so <code>s = P/4</code>.</p>
+                <div>
+                    <p>Substituting in <code>P = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code> gives <code>s = \color{<var>P_COLOR</var>}{<var>4 * S</var>}/4 = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
 
-					<div class="graphie" data-update="square">
-						drawSqSide( S );
-					</div>
-				</div>
-			</div>
-		</div>
+                    <div class="graphie" data-update="square">
+                        drawSqSide( S );
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<div id="square-P-to-K">
-			<div class="vars">
-				<var id="S">randRange(1, 8)</var>
-			</div>
+        <div id="square-P-to-K">
+            <div class="vars">
+                <var id="S">randRange(1, 8)</var>
+            </div>
 
-			<div class="question">
-				<p>Suppose the perimeter of a square is <code>\color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>. What is its area?</p>
-			</div>
+            <div class="question">
+                <p>Suppose the perimeter of a square is <code>\color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>. What is its area?</p>
+            </div>
 
-			<div class="solution"><var>S * S</var></div>
+            <div class="solution"><var>S * S</var></div>
 
-			<div class="hints">
-				<div class="graphie" id="square">
-					initSq( S );
+            <div class="hints">
+                <div class="graphie" id="square">
+                    initSq( S );
 
-					drawSqPerimeter( S );
-				</div>
-				<p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>, so <code>s = P/4</code>.</p>
-				<p>Substituting in <code>P = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code> gives <code>s = \color{<var>P_COLOR</var>}{<var>4 * S</var>}/4 = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
-				<p>Now find the area using <code>K = s \cdot s = s^2</code>.</p>
-				<div>
-					<p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>K = \color{<var>S_COLOR</var>}{<var>S</var>}^2 = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code>.</p>
+                    drawSqPerimeter( S );
+                </div>
+                <p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>, so <code>s = P/4</code>.</p>
+                <p>Substituting in <code>P = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code> gives <code>s = \color{<var>P_COLOR</var>}{<var>4 * S</var>}/4 = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
+                <p>Now find the area using <code>K = s \cdot s = s^2</code>.</p>
+                <div>
+                    <p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>K = \color{<var>S_COLOR</var>}{<var>S</var>}^2 = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code>.</p>
 
-					<div class="graphie" data-update="square">
-						drawSqArea( S );
-					</div>
-				</div>
-			</div>
-		</div>
+                    <div class="graphie" data-update="square">
+                        drawSqArea( S );
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<div id="rectangle-lw-to-K" data-weight="3">
-			<div class="vars" data-ensure="L !== W">
-				<var id="L">randRange(1, 8)</var>
-				<var id="W">randRange(1, 8)</var>
-			</div>
+        <div id="rectangle-lw-to-K" data-weight="3">
+            <div class="vars" data-ensure="L !== W">
+                <var id="L">randRange(1, 8)</var>
+                <var id="W">randRange(1, 8)</var>
+            </div>
 
-			<div class="question">
-				<p>Suppose a rectangle has length <code>\color{<var>L_COLOR</var>}{<var>L</var>}</code> and width <code>\color{<var>W_COLOR</var>}{<var>W</var>}</code>. What is its area?</p>
-			</div>
+            <div class="question">
+                <p>Suppose a rectangle has length <code>\color{<var>L_COLOR</var>}{<var>L</var>}</code> and width <code>\color{<var>W_COLOR</var>}{<var>W</var>}</code>. What is its area?</p>
+            </div>
 
-			<div class="solution"><var>L * W</var></div>
+            <div class="solution"><var>L * W</var></div>
 
-			<div class="hints">
-				<div class="graphie" id="rectangle">
-					initRect( L, W );
-				</div>
-				<p>The area of a rectangle is <code>K = lw</code>.</p>
-				<div>
-					<p>Substituting in <code>l = \color{<var>L_COLOR</var>}{<var>L</var>}</code> and <code>w = \color{<var>W_COLOR</var>}{<var>W</var>}</code> gives <code>K = \color{<var>L_COLOR</var>}{<var>L</var>} \cdot \color{<var>W_COLOR</var>}{<var>W</var>} = \color{<var>K_COLOR</var>}{<var>L * W</var>}</code>.</p>
+            <div class="hints">
+                <div class="graphie" id="rectangle">
+                    initRect( L, W );
+                </div>
+                <p>The area of a rectangle is <code>K = lw</code>.</p>
+                <div>
+                    <p>Substituting in <code>l = \color{<var>L_COLOR</var>}{<var>L</var>}</code> and <code>w = \color{<var>W_COLOR</var>}{<var>W</var>}</code> gives <code>K = \color{<var>L_COLOR</var>}{<var>L</var>} \cdot \color{<var>W_COLOR</var>}{<var>W</var>} = \color{<var>K_COLOR</var>}{<var>L * W</var>}</code>.</p>
 
-					<div class="graphie" data-update="rectangle">
-						drawRectArea( L, W );
-					</div>
-				</div>
-			</div>
-		</div>
+                    <div class="graphie" data-update="rectangle">
+                        drawRectArea( L, W );
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<div id="rectangle-lw-to-P" data-weight="3">
-			<div class="vars" data-ensure="L !== W">
-				<var id="L">randRange(1, 8)</var>
-				<var id="W">randRange(1, 8)</var>
-			</div>
+        <div id="rectangle-lw-to-P" data-weight="3">
+            <div class="vars" data-ensure="L !== W">
+                <var id="L">randRange(1, 8)</var>
+                <var id="W">randRange(1, 8)</var>
+            </div>
 
-			<div class="question">
-				<p>Suppose a rectangle has length <code>\color{<var>L_COLOR</var>}{<var>L</var>}</code> and width <code>\color{<var>W_COLOR</var>}{<var>W</var>}</code>. What is its perimeter?</p>
+            <div class="question">
+                <p>Suppose a rectangle has length <code>\color{<var>L_COLOR</var>}{<var>L</var>}</code> and width <code>\color{<var>W_COLOR</var>}{<var>W</var>}</code>. What is its perimeter?</p>
 
-			</div>
+            </div>
 
-			<div class="solution"><var>2 * L + 2 * W</var></div>
+            <div class="solution"><var>2 * L + 2 * W</var></div>
 
-			<div class="hints">
-				<div class="graphie" id="rectangle">
-					initRect( L, W );
-				</div>
-				<p>The area of a rectangle is <code>P = l + w + l + w = 2(l + w)</code>.</p>
-				<div>
-					<p>Substituting in <code>l = \color{<var>L_COLOR</var>}{<var>L</var>}</code> and <code>w = \color{<var>W_COLOR</var>}{<var>W</var>}</code> gives <code>P = 2 (\color{<var>L_COLOR</var>}{<var>L</var>} + \color{<var>W_COLOR</var>}{<var>W</var>}) = \color{<var>P_COLOR</var>}{<var>2 * L + 2 * W</var>}</code>.</p>
+            <div class="hints">
+                <div class="graphie" id="rectangle">
+                    initRect( L, W );
+                </div>
+                <p>The area of a rectangle is <code>P = l + w + l + w = 2(l + w)</code>.</p>
+                <div>
+                    <p>Substituting in <code>l = \color{<var>L_COLOR</var>}{<var>L</var>}</code> and <code>w = \color{<var>W_COLOR</var>}{<var>W</var>}</code> gives <code>P = 2 (\color{<var>L_COLOR</var>}{<var>L</var>} + \color{<var>W_COLOR</var>}{<var>W</var>}) = \color{<var>P_COLOR</var>}{<var>2 * L + 2 * W</var>}</code>.</p>
 
-					<div class="graphie" data-update="rectangle">
-						drawRectPerimeter( L, W );
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	</div>
+                    <div class="graphie" data-update="rectangle">
+                        drawRectPerimeter( L, W );
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

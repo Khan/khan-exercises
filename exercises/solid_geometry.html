@@ -1,264 +1,278 @@
 <!DOCTYPE html>
 <html data-require="math graphie math-format">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Solid geometry</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Solid geometry</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="problems">
-		<div id="cube-V">
-			<div class="vars">
-				<var id="s">randRange( 1, 7 )</var>
-			</div>
+    <div class="exercise">
+    <div class="problems">
+        <div id="cube-V">
+            <div class="vars">
+                <var id="s">randRange( 1, 7 )</var>
+            </div>
 
-			<div class="question">
-				<p>What is the volume of a cube with side length <code><var>s</var></code>?</p>
+            <div class="question">
+                <p>What is the volume of a cube with side length <code><var>s</var></code>?</p>
 
-				<div class="graphie">
-					init({
-						range: [ [-1, 4], [-0.6, 3.1] ]
-					});
-					path([ [0, 0], [0, 2], [2, 2], [2, 0], true ]);
-					path([ [2, 0], [3, 1], [3, 3], [1, 3], [0, 2] ]);
-					path([ [2, 2], [3, 3] ]);
-					label( [1, 0], s, "below" );
-				</div>
-			</div>
+                <div class="graphie">
+                    init({
+                        range: [ [-1, 4], [-0.6, 3.1] ]
+                    });
+                    path([ [0, 0], [0, 2], [2, 2], [2, 0], true ]);
+                    path([ [2, 0], [3, 1], [3, 3], [1, 3], [0, 2] ]);
+                    path([ [2, 2], [3, 3] ]);
+                    label( [1, 0], s, "below" );
+                </div>
+            </div>
 
-			<p class="solution"><var>s * s * s</var></p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-type="text"><var>s * s * s</var></span> Cubic Units</p>
+            </div>
 
-			<div class="hints">
-				<p>The volume of a cube with side length <code>s</code> is <code>V = s^3</code>.</p>
-				<p><code>\qquad V = <var>s</var>^3</code></p>
-				<p><code>\qquad \hphantom{V} = <var>s</var> \cdot <var>s</var> \cdot <var>s</var></code></p>
-				<p><code>\qquad \hphantom{V} = <var>s * s * s</var></code></p>
-			</div>
-		</div>
+            <div class="hints">
+                <p>The volume of a cube with side length <code>s</code> is <code>V = s^3</code>.</p>
+                <p><code>\qquad V = <var>s</var>^3</code></p>
+                <p><code>\qquad \hphantom{V} = <var>s</var> \cdot <var>s</var> \cdot <var>s</var></code></p>
+                <p><code>\qquad \hphantom{V} = <var>s * s * s</var></code></p>
+            </div>
+        </div>
 
-		<div id="cube-T">
-			<div class="vars">
-				<var id="s">randRange( 1, 7 )</var>
-			</div>
+        <div id="cube-T">
+            <div class="vars">
+                <var id="s">randRange( 1, 7 )</var>
+            </div>
 
-			<div class="question">
-				<p>What is the surface area of a cube with side length <code><var>s</var></code>?</p>
+            <div class="question">
+                <p>What is the surface area of a cube with side length <code><var>s</var></code>?</p>
 
-				<div class="graphie">
-					init({
-						range: [ [-1, 4], [-0.6, 3.1] ]
-					});
-					path([ [0, 0], [0, 2], [2, 2], [2, 0], true ]);
-					path([ [2, 0], [3, 1], [3, 3], [1, 3], [0, 2] ]);
-					path([ [2, 2], [3, 3] ]);
-					label( [1, 0], s, "below" );
-				</div>
-			</div>
+                <div class="graphie">
+                    init({
+                        range: [ [-1, 4], [-0.6, 3.1] ]
+                    });
+                    path([ [0, 0], [0, 2], [2, 2], [2, 0], true ]);
+                    path([ [2, 0], [3, 1], [3, 3], [1, 3], [0, 2] ]);
+                    path([ [2, 2], [3, 3] ]);
+                    label( [1, 0], s, "below" );
+                </div>
+            </div>
 
-			<p class="solution"><var>6 * s * s</var></p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-type="text"><var>6 * s * s</var></span> Square Units</p>
+            </div>
 
-			<div class="hints">
-				<p>The area of each face is simply the area of a square: <code><var>s</var>^2 = <var>s * s</var></code>.</p>
-				<p>A cube has six faces so the total surface area is <code>6 \cdot <var>s * s</var> = <var>6 * s * s</var></code>.</p>
-			</div>
-		</div>
+            <div class="hints">
+                <p>The area of each face is simply the area of a square: <code><var>s</var>^2 = <var>s * s</var></code>.</p>
+                <p>A cube has six faces so the total surface area is <code>6 \cdot <var>s * s</var> = <var>6 * s * s</var></code>.</p>
+            </div>
+        </div>
 
-		<div id="cylinder-V">
-			<div class="vars">
-				<var id="r">randRange( 2, 4 )</var>
-				<var id="h">randRange( 5, 9 )</var>
-			</div>
+        <div id="cylinder-V">
+            <div class="vars">
+                <var id="r">randRange( 2, 4 )</var>
+                <var id="h">randRange( 5, 9 )</var>
+            </div>
 
-			<div class="question">
-				<p>What is the volume of a cylinder with base radius <code><var>r</var></code> and height <code><var>h</var></code>?</p>
+            <div class="question">
+                <p>What is the volume of a cylinder with base radius <code><var>r</var></code> and height <code><var>h</var></code>?</p>
 
-				<div class="graphie">
-					init({
-						range: [ [-1, 4], [-2, 4] ]
-					});
+                <div class="graphie">
+                    init({
+                        range: [ [-1, 4], [-2, 4] ]
+                    });
 
-					arc( [1.5, 3], [1.5, 0.4], 0, 48 );
-					arc( [1.5, 3], [1.5, 0.4], 70, 360 );
-					path([ [0, -1], [0, 3] ]);
-					path([ [3, -1], [3, 3] ]);
-					arc( [1.5, -1], [1.5, 0.4], 0, 180, {
-						strokeDasharray: "- "
-					} );
-					arc( [1.5, -1], [1.5, 0.4], 180, 360 );
+                    arc( [1.5, 3], [1.5, 0.4], 0, 48 );
+                    arc( [1.5, 3], [1.5, 0.4], 70, 360 );
+                    path([ [0, -1], [0, 3] ]);
+                    path([ [3, -1], [3, 3] ]);
+                    arc( [1.5, -1], [1.5, 0.4], 0, 180, {
+                        strokeDasharray: "- "
+                    } );
+                    arc( [1.5, -1], [1.5, 0.4], 180, 360 );
 
-					path([ [1.5, 3], [3, 3] ]);
-					label( [2.25, 3], r, "above" );
-					label( [3, 1], h, "right" );
-				</div>
-			</div>
+                    path([ [1.5, 3], [3, 3] ]);
+                    label( [2.25, 3], r, "above" );
+                    label( [3, 1], h, "right" );
+                </div>
+            </div>
 
-			<div class="solution" data-forms="pi"><var>Math.PI * r * r * h</var></div>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-forms="pi"><var>Math.PI * r * r * h</var></span> Cubic Units</p>
+            </div>
 
-			<div class="hints">
-				<p>The area of the base is simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
-				<p>The volume of the cylinder is the area of the base times the height: <code>B \cdot h = <var>r * r</var>\pi \cdot <var>h</var> = <var>r * r * h</var>\pi</code>.</p>
-			</div>
-		</div>
+            <div class="hints">
+                <p>The area of the base is simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
+                <p>The volume of the cylinder is the area of the base times the height: <code>B \cdot h = <var>r * r</var>\pi \cdot <var>h</var> = <var>r * r * h</var>\pi</code>.</p>
+            </div>
+        </div>
 
-		<div id="cylinder-T">
-			<div class="vars">
-				<var id="r">randRange( 2, 4 )</var>
-				<var id="h">randRange( 5, 9 )</var>
-			</div>
+        <div id="cylinder-T">
+            <div class="vars">
+                <var id="r">randRange( 2, 4 )</var>
+                <var id="h">randRange( 5, 9 )</var>
+            </div>
 
-			<div class="question">
-				<p>What is the surface area of a cylinder with base radius <code><var>r</var></code> and height <code><var>h</var></code>?</p>
+            <div class="question">
+                <p>What is the surface area of a cylinder with base radius <code><var>r</var></code> and height <code><var>h</var></code>?</p>
 
-				<div class="graphie">
-					init({
-						range: [ [-1, 4], [-2, 4] ]
-					});
+                <div class="graphie">
+                    init({
+                        range: [ [-1, 4], [-2, 4] ]
+                    });
 
-					arc( [1.5, 3], [1.5, 0.4], 0, 48 );
-					arc( [1.5, 3], [1.5, 0.4], 70, 360 );
-					path([ [0, -1], [0, 3] ]);
-					path([ [3, -1], [3, 3] ]);
-					arc( [1.5, -1], [1.5, 0.4], 0, 180, {
-						strokeDasharray: "- "
-					} );
-					arc( [1.5, -1], [1.5, 0.4], 180, 360 );
+                    arc( [1.5, 3], [1.5, 0.4], 0, 48 );
+                    arc( [1.5, 3], [1.5, 0.4], 70, 360 );
+                    path([ [0, -1], [0, 3] ]);
+                    path([ [3, -1], [3, 3] ]);
+                    arc( [1.5, -1], [1.5, 0.4], 0, 180, {
+                        strokeDasharray: "- "
+                    } );
+                    arc( [1.5, -1], [1.5, 0.4], 180, 360 );
 
-					path([ [1.5, 3], [3, 3] ]);
-					label( [2.25, 3], r, "above" );
-					label( [3, 1], h, "right" );
-				</div>
-			</div>
+                    path([ [1.5, 3], [3, 3] ]);
+                    label( [2.25, 3], r, "above" );
+                    label( [3, 1], h, "right" );
+                </div>
+            </div>
 
-			<div class="solution" data-forms="pi"><var>Math.PI * 2 * r * ( r + h )</var></div>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-forms="pi"><var>Math.PI * 2 * r * ( r + h )</var></span> Square Units</p>
+            </div>
 
-			<div class="hints">
-				<p>The areas of the top and the base are simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
-				<p>The lateral surface area is the same as the area of a rectangle with height <code><var>h</var></code> and width equal to the circumference of the base.</p>
-				<p>That circumference is <code>2 \pi r = 2\pi \cdot <var>r</var> = <var>2 * r</var>\pi</code>.</p>
-				<p>Thus, the lateral surface area is <code>wh = <var>2 * r</var> \pi \cdot <var>h</var> = <var>2 * r * h</var> \pi</code>.</p>
-				<p>The total surface area is <code><var>r * r</var> \pi + <var>r * r</var> \pi + <var>2 * r * h</var> \pi = <var>2 * r * ( r + h )</var>\pi</code>.</p>
-			</div>
-		</div>
+            <div class="hints">
+                <p>The areas of the top and the base are simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
+                <p>The lateral surface area is the same as the area of a rectangle with height <code><var>h</var></code> and width equal to the circumference of the base.</p>
+                <p>That circumference is <code>2 \pi r = 2\pi \cdot <var>r</var> = <var>2 * r</var>\pi</code>.</p>
+                <p>Thus, the lateral surface area is <code>wh = <var>2 * r</var> \pi \cdot <var>h</var> = <var>2 * r * h</var> \pi</code>.</p>
+                <p>The total surface area is <code><var>r * r</var> \pi + <var>r * r</var> \pi + <var>2 * r * h</var> \pi = <var>2 * r * ( r + h )</var>\pi</code>.</p>
+            </div>
+        </div>
 
-		<div id="box-V">
-			<div class="vars" data-ensure="d > h">
-				<var id="w">randRange( 5, 9 )</var>
-				<var id="h">randRange( 2, 4 )</var>
-				<var id="d">randRange( 2, 4 )</var>
-			</div>
+        <div id="box-V">
+            <div class="vars" data-ensure="d > h">
+                <var id="w">randRange( 5, 9 )</var>
+                <var id="h">randRange( 2, 4 )</var>
+                <var id="d">randRange( 2, 4 )</var>
+            </div>
 
-			<div class="question">
-				<p>What is the volume of a rectangular box with width <code><var>w</var></code>, height <code><var>h</var></code>, and depth <code><var>d</var></code>?</p>
+            <div class="question">
+                <p>What is the volume of a rectangular box with width <code><var>w</var></code>, height <code><var>h</var></code>, and depth <code><var>d</var></code>?</p>
 
-				<div class="graphie">
-					init({
-						range: [ [-1, 7], [-1, 3.5] ]
-					});
+                <div class="graphie">
+                    init({
+                        range: [ [-1, 7], [-1, 3.5] ]
+                    });
 
-					var wv = [ 4, 0 ];
-					var hv = [ 0, 2 ];
-					var dv = [ 2, 1 ];
+                    var wv = [ 4, 0 ];
+                    var hv = [ 0, 2 ];
+                    var dv = [ 2, 1 ];
 
-					path([ [0, 0], hv, [wv[0] + hv[0], wv[1] + hv[1]], wv, true ]);
-					path([ hv, [hv[0] + dv[0], hv[1] + dv[1]], [wv[0] + hv[0] + dv[0], wv[1] + hv[1] + dv[1]], [wv[0] + dv[0], wv[1] + dv[1]], wv ]);
-					path([ [wv[0] + hv[0], wv[1] + hv[1]], [wv[0] + hv[0] + dv[0], wv[1] + hv[1] + dv[1]] ]);
+                    path([ [0, 0], hv, [wv[0] + hv[0], wv[1] + hv[1]], wv, true ]);
+                    path([ hv, [hv[0] + dv[0], hv[1] + dv[1]], [wv[0] + hv[0] + dv[0], wv[1] + hv[1] + dv[1]], [wv[0] + dv[0], wv[1] + dv[1]], wv ]);
+                    path([ [wv[0] + hv[0], wv[1] + hv[1]], [wv[0] + hv[0] + dv[0], wv[1] + hv[1] + dv[1]] ]);
 
-					label( [0.5 * wv[0], 0.5 * wv[1]], w, "below" );
-					label( [0.5 * hv[0], 0.5 * hv[1]], h, "left" );
-					label( [wv[0] + 0.5 * dv[0], wv[1] + 0.5 * dv[1]], d, "above" );
-				</div>
-			</div>
+                    label( [0.5 * wv[0], 0.5 * wv[1]], w, "below" );
+                    label( [0.5 * hv[0], 0.5 * hv[1]], h, "left" );
+                    label( [wv[0] + 0.5 * dv[0], wv[1] + 0.5 * dv[1]], d, "above" );
+                </div>
+            </div>
 
-			<p class="solution"><var>w * h * d</var></p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-type="text"><var>w * h * d</var></span> Cubic Units</p>
+            </div>
 
-			<div class="hints">
-				<p>The volume of a right rectangular prism with width <code>w</code>, height <code>h</code>, and depth <code>d</code> is <code>V = whd</code>.</p>
-				<p>In this case, the volume is <code><var>w</var> \cdot <var>h</var> \cdot <var>d</var> = <var>w * h * d</var></code>.</p>
-			</div>
-		</div>
+            <div class="hints">
+                <p>The volume of a right rectangular prism with width <code>w</code>, height <code>h</code>, and depth <code>d</code> is <code>V = whd</code>.</p>
+                <p>In this case, the volume is <code><var>w</var> \cdot <var>h</var> \cdot <var>d</var> = <var>w * h * d</var></code>.</p>
+            </div>
+        </div>
 
-		<div id="box-T">
-			<div class="vars" data-ensure="d > h">
-				<var id="w">randRange( 5, 9 )</var>
-				<var id="h">randRange( 2, 4 )</var>
-				<var id="d">randRange( 2, 4 )</var>
-			</div>
+        <div id="box-T">
+            <div class="vars" data-ensure="d > h">
+                <var id="w">randRange( 5, 9 )</var>
+                <var id="h">randRange( 2, 4 )</var>
+                <var id="d">randRange( 2, 4 )</var>
+            </div>
 
-			<div class="question">
-				<p>What is the surface area of a rectangular box with width <code><var>w</var></code>, height <code><var>h</var></code>, and depth <code><var>d</var></code>?</p>
+            <div class="question">
+                <p>What is the surface area of a rectangular box with width <code><var>w</var></code>, height <code><var>h</var></code>, and depth <code><var>d</var></code>?</p>
 
-				<div class="graphie">
-					init({
-						range: [ [-1, 7], [-1, 3.5] ]
-					});
+                <div class="graphie">
+                    init({
+                        range: [ [-1, 7], [-1, 3.5] ]
+                    });
 
-					var wv = [ 4, 0 ];
-					var hv = [ 0, 2 ];
-					var dv = [ 2, 1 ];
+                    var wv = [ 4, 0 ];
+                    var hv = [ 0, 2 ];
+                    var dv = [ 2, 1 ];
 
-					path([ [0, 0], hv, [wv[0] + hv[0], wv[1] + hv[1]], wv, true ]);
-					path([ hv, [hv[0] + dv[0], hv[1] + dv[1]], [wv[0] + hv[0] + dv[0], wv[1] + hv[1] + dv[1]], [wv[0] + dv[0], wv[1] + dv[1]], wv ]);
-					path([ [wv[0] + hv[0], wv[1] + hv[1]], [wv[0] + hv[0] + dv[0], wv[1] + hv[1] + dv[1]] ]);
+                    path([ [0, 0], hv, [wv[0] + hv[0], wv[1] + hv[1]], wv, true ]);
+                    path([ hv, [hv[0] + dv[0], hv[1] + dv[1]], [wv[0] + hv[0] + dv[0], wv[1] + hv[1] + dv[1]], [wv[0] + dv[0], wv[1] + dv[1]], wv ]);
+                    path([ [wv[0] + hv[0], wv[1] + hv[1]], [wv[0] + hv[0] + dv[0], wv[1] + hv[1] + dv[1]] ]);
 
-					label( [0.5 * wv[0], 0.5 * wv[1]], w, "below" );
-					label( [0.5 * hv[0], 0.5 * hv[1]], h, "left" );
-					label( [wv[0] + 0.5 * dv[0], wv[1] + 0.5 * dv[1]], d, "above" );
-				</div>
-			</div>
+                    label( [0.5 * wv[0], 0.5 * wv[1]], w, "below" );
+                    label( [0.5 * hv[0], 0.5 * hv[1]], h, "left" );
+                    label( [wv[0] + 0.5 * dv[0], wv[1] + 0.5 * dv[1]], d, "above" );
+                </div>
+            </div>
 
-			<p class="solution"><var>2 * ( w * h + w * d + h * d )</var></p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-type="text"><var>2 * ( w * h + w * d + h * d )</var></span> Square Units</p>
+            </div>
 
-			<div class="hints">
-				<p>The surface area of a right rectangular prism with width <code>w</code>, height <code>h</code>, and depth <code>d</code> is <code>T = 2wh + 2wd + 2hd</code>.</p>
-				<p>In this case, the surface area is <code>2 \cdot (<var>w</var> \cdot <var>h</var>) + 2 \cdot (<var>w</var> \cdot <var>d</var>) + 2 \cdot (<var>h</var> \cdot <var>d</var>) = <var>2 * ( w * h + w * d + h * d )</var></code>.</p>
-			</div>
-		</div>
+            <div class="hints">
+                <p>The surface area of a right rectangular prism with width <code>w</code>, height <code>h</code>, and depth <code>d</code> is <code>T = 2wh + 2wd + 2hd</code>.</p>
+                <p>In this case, the surface area is <code>2 \cdot (<var>w</var> \cdot <var>h</var>) + 2 \cdot (<var>w</var> \cdot <var>d</var>) + 2 \cdot (<var>h</var> \cdot <var>d</var>) = <var>2 * ( w * h + w * d + h * d )</var></code>.</p>
+            </div>
+        </div>
 
-		<div id="tripri-V">
-			<div class="vars" data-ensure="w * h % 2 === 0 && h < w && w < d">
-				<var id="w">randRange( 4, 7 )</var>
-				<var id="h">randRange( 3, 4 )</var>
-				<var id="d">randRange( 5, 9 )</var>
-			</div>
+        <div id="tripri-V">
+            <div class="vars" data-ensure="w * h % 2 === 0 && h < w && w < d">
+                <var id="w">randRange( 4, 7 )</var>
+                <var id="h">randRange( 3, 4 )</var>
+                <var id="d">randRange( 5, 9 )</var>
+            </div>
 
-			<div class="question">
-				<p>What is the volume of a triangular prism of depth <code><var>d</var></code> whose base has width <code><var>w</var></code> and height <code><var>h</var></code>?</p>
+            <div class="question">
+                <p>What is the volume of a triangular prism of depth <code><var>d</var></code> whose base has width <code><var>w</var></code> and height <code><var>h</var></code>?</p>
 
-				<div class="graphie">
-					init({
-						range: [ [-1, 7], [-1, 3.5] ]
-					});
+                <div class="graphie">
+                    init({
+                        range: [ [-1, 7], [-1, 3.5] ]
+                    });
 
-					var wv = [ 3, 0 ];
-					var hv = [ 2, 2 ];
-					var dv = [ 3, 1 ];
+                    var wv = [ 3, 0 ];
+                    var hv = [ 2, 2 ];
+                    var dv = [ 3, 1 ];
 
-					path([ [0, 0], dv, [hv[0] + dv[0], hv[1] + dv[1]], [wv[0] + dv[0], wv[1] + dv[1]], dv ], {
-						strokeDasharray: "- ",
-						stroke: "#ddd"
-					});
+                    path([ [0, 0], dv, [hv[0] + dv[0], hv[1] + dv[1]], [wv[0] + dv[0], wv[1] + dv[1]], dv ], {
+                        strokeDasharray: "- ",
+                        stroke: "#ddd"
+                    });
 
-					path([ [0, 0], hv, wv, true ]);
-					path([ hv, [hv[0] + dv[0], hv[1] + dv[1]], [wv[0] + dv[0], wv[1] + dv[1]], wv ]);
+                    path([ [0, 0], hv, wv, true ]);
+                    path([ hv, [hv[0] + dv[0], hv[1] + dv[1]], [wv[0] + dv[0], wv[1] + dv[1]], wv ]);
 
-					// altitude
-					path([ [hv[0], 0], hv ]);
+                    // altitude
+                    path([ [hv[0], 0], hv ]);
 
-					label( [0.5 * wv[0], 0.5 * wv[1]], w, "below" );
-					label( [hv[0], 0.5 * hv[1]], h, "left" );
-					label( [wv[0] + 0.5 * dv[0], wv[1] + 0.5 * dv[1]], d, "below right" );
-				</div>
-			</div>
+                    label( [0.5 * wv[0], 0.5 * wv[1]], w, "below" );
+                    label( [hv[0], 0.5 * hv[1]], h, "left" );
+                    label( [wv[0] + 0.5 * dv[0], wv[1] + 0.5 * dv[1]], d, "below right" );
+                </div>
+            </div>
 
-			<p class="solution"><var>w * h * d / 2</var></p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-type="text"><var>w * h * d / 2</var></span> Cubic Units</p>
+            </div>
 
-			<div class="hints">
-				<p>The area of the triangular base is <code>\frac12 w h = \frac12 (<var>w</var> \cdot <var>h</var>) = <var>w * h / 2</var></code>.</p>
-				<p>The volume of the prism is the area of the base times the depth: <code>B \cdot d = <var>w * h / 2</var> \cdot <var>d</var> = <var>w * h * d / 2</var></code>.</p>
-			</div>
-		</div>
-	</div>
-	</div>
+            <div class="hints">
+                <p>The area of the triangular base is <code>\frac12 w h = \frac12 (<var>w</var> \cdot <var>h</var>) = <var>w * h / 2</var></code>.</p>
+                <p>The volume of the prism is the area of the base times the depth: <code>B \cdot d = <var>w * h / 2</var> \cdot <var>d</var> = <var>w * h * d / 2</var></code>.</p>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

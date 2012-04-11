@@ -1,130 +1,130 @@
 <!DOCTYPE html>
 <html data-require="math math-format">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Absolute value equations</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Absolute value equations</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="A">randRange( 2, 10 )</var>
-			<var id="B">randRangeNonZero( -10, 10 )</var>
-			<var id="C" data-ensure="C !== A">randRange( 2, 10 )</var>
-			<var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
-			<var id="SIMPLIFIED">fractionReduce( D - B, A - C )</var>
-			<var id="SOLUTION">
-				<!-- Am I not supposed to use this function business? -->
-			(function() {
-				if ( ( D - B ) / ( A - C) > 0 ) {
-					return "&lt;code&gt;"
-						+ "x = "
-						+ fractionReduce( -1 * abs( D - B ), abs( A - C ) )
-						+ "\\text{ or }"
-						+ "x = "
-						+ fractionReduce( abs( D - B ), abs( A - C ) )
-						+ "&lt;/code&gt;";
-				} else {
-					return "No solution";
-				}
-			})()
-			</var>
-			<var id="CHOICES">
-				(function() {
-					var choices = [];
+    <div class="exercise">
+        <div class="vars">
+            <var id="A">randRange( 2, 10 )</var>
+            <var id="B">randRangeNonZero( -10, 10 )</var>
+            <var id="C" data-ensure="C !== A">randRange( 2, 10 )</var>
+            <var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
+            <var id="SIMPLIFIED">fractionReduce( D - B, A - C )</var>
+            <var id="SOLUTION">
+                <!-- Am I not supposed to use this function business? -->
+            (function() {
+                if ( ( D - B ) / ( A - C) > 0 ) {
+                    return "&lt;code&gt;"
+                        + "x = "
+                        + fractionReduce( -1 * abs( D - B ), abs( A - C ) )
+                        + "\\text{ or }"
+                        + "x = "
+                        + fractionReduce( abs( D - B ), abs( A - C ) )
+                        + "&lt;/code&gt;";
+                } else {
+                    return "No solution";
+                }
+            })()
+            </var>
+            <var id="CHOICES">
+                (function() {
+                    var choices = [];
 
-					for ( var i = 0; i &lt; 4; i++ ) {
-						var choice = "&lt;code&gt;";
-						var nOffset = randRange( 1, 10 );
-						var dOffset = randRangeExclude( 1, 10, [ C - A ] );
-						if ( D - B + nOffset === 0 ) {
-							choice += "x = 0";
-						} else {
-							choice += "x = "
-								+ fractionReduce( -1 * abs( D - B + nOffset ), abs( A - C + dOffset ) )
-								+ "\\text{ or }"
-								+ "x = "
-								+ fractionReduce( abs( D - B + nOffset ), abs( A - C + dOffset ) );
-						}
-						choice += "&lt;/code&gt;";
-						choices.unshift( choice );
-					}
+                    for ( var i = 0; i &lt; 4; i++ ) {
+                        var choice = "&lt;code&gt;";
+                        var nOffset = randRange( 1, 10 );
+                        var dOffset = randRangeExclude( 1, 10, [ C - A ] );
+                        if ( D - B + nOffset === 0 ) {
+                            choice += "x = 0";
+                        } else {
+                            choice += "x = "
+                                + fractionReduce( -1 * abs( D - B + nOffset ), abs( A - C + dOffset ) )
+                                + "\\text{ or }"
+                                + "x = "
+                                + fractionReduce( abs( D - B + nOffset ), abs( A - C + dOffset ) );
+                        }
+                        choice += "&lt;/code&gt;";
+                        choices.unshift( choice );
+                    }
 
-					if ( ( D - B ) / ( A - C ) > 0 ) {
-						choices.shift();
-						choices.unshift( SOLUTION );
-						choices = shuffle( choices );
-						choices.push( "No solution");
-					} else {
-						choices = shuffle( choices );
-						choices.push( SOLUTION );
-					}
+                    if ( ( D - B ) / ( A - C ) > 0 ) {
+                        choices.shift();
+                        choices.unshift( SOLUTION );
+                        choices = shuffle( choices );
+                        choices.push( "No solution");
+                    } else {
+                        choices = shuffle( choices );
+                        choices.push( SOLUTION );
+                    }
 
-					return choices;
-				})()</var>
-		</div>
+                    return choices;
+                })()</var>
+        </div>
 
-		<div class="problems">
-			<div>
-				<p class="question">Solve for <code>x</code>:</p>
-				<div><code><var>A</var>|x| + <var>B</var> = <var>C</var>|x| + <var>D</var></code></div>
+        <div class="problems">
+            <div>
+                <p class="question">Solve for <code>x</code>:</p>
+                <div><code><var>A</var>|x| + <var>B</var> = <var>C</var>|x| + <var>D</var></code></div>
 
-				<p class="solution"><var>SOLUTION</var></p>
+                <p class="solution"><var>SOLUTION</var></p>
 
-				<ul class="choices" data-category="true">
-					<li data-each="CHOICES as choice"><var>choice</var></li>
-				</ul>
-			</div>
-		</div>
+                <ul class="choices" data-category="true">
+                    <li data-each="CHOICES as choice"><var>choice</var></li>
+                </ul>
+            </div>
+        </div>
 
-		<div class="hints">
-			<div data-if="A > C" data-unwrap>
-				<div>
-					<p>Subtract <code><var>C</var>|x|</code> from both sides:</p>
-					<p><code>(<var>A</var>|x| + <var>B</var>) - <var>C</var>|x| = (<var>C</var>|x| + <var>D</var>) - <var>C</var>|x|</code></p>
-					<p><code><var>A - C</var>|x| + <var>B</var> = <var>D</var></code></p>
-				</div>
-				<div>
-					<p><var>B > 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B > 0 ? "from" : "to"</var> both sides:</p>
-					<p><code>(<var>A - C</var>|x| + <var>B</var>) + <var>-B</var> = <var>D</var> + <var>-B</var></code></p>
-					<p><code><var>A - C</var>|x| = <var>D - B</var></code></p>
-				</div>
-				<div>
-					<p>Divide both sides by <code><var>A - C</var></code>.</p>
-					<p><code>\frac{<var>A - C</var>|x|}{<var>A - C</var>} = \frac{<var>D - B</var>}{<var>A - C</var>}</code></p>
-				</div>
-				<div>
-					<p>Simplify.</p>
-					<p><code>|x| = <var>SIMPLIFIED</var></code></p>
-				</div>
-			</div>
-			<div data-else data-unwrap>
-				<div>
-					<p>Subtract <code><var>A</var>|x|</code> from both sides:</p>
-					<p><code>(<var>A</var>|x| + <var>B</var>) - <var>A</var>|x| = (<var>C</var>|x| + <var>D</var>) - <var>A</var>|x|</code></p>
-					<p><code><var>B</var> = <var>C - A</var>|x| + <var>D</var></code></p>
-				</div>
-				<div>
-					<p><var>D > 0 ? "Subtract" : "Add"</var> <code><var>abs(D)</var></code> <var>D > 0 ? "from" : "to"</var> both sides:</p>
-					<p><code><var>B</var> + <var>-D</var> = (<var>C - A</var>|x| + <var>D</var>) + <var>-D</var></code></p>
-					<p><code><var>B - D</var> = <var>C - A</var>|x|</code></p>
-				</div>
-				<div>
-					<p>Divide both sides by <code><var>C - A</var></code>.</p>
-					<p><code>\frac{<var>B - D</var>}{<var>C - A</var>} = \frac{<var>C - A</var>|x|}{<var>C - A</var>}</code></p>
-				</div>
-				<div>
-					<p>Simplify.</p>
-					<p><code><var>SIMPLIFIED</var> = |x|</code></p>
-				</div>
-			</div>
-			<p data-if="( D - B ) / ( A - C ) > 0">
-				Thus, the correct answer is <code><var>SOLUTION</var></code>.
-			</p>
-			<p data-else>
-				The absolute value cannot be negative. Therefore, there is no solution.
-			</p>
-		</div>
-	</div>
+        <div class="hints">
+            <div data-if="A > C" data-unwrap>
+                <div>
+                    <p>Subtract <code><var>C</var>|x|</code> from both sides:</p>
+                    <p><code>(<var>A</var>|x| + <var>B</var>) - <var>C</var>|x| = (<var>C</var>|x| + <var>D</var>) - <var>C</var>|x|</code></p>
+                    <p><code><var>A - C</var>|x| + <var>B</var> = <var>D</var></code></p>
+                </div>
+                <div>
+                    <p><var>B > 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B > 0 ? "from" : "to"</var> both sides:</p>
+                    <p><code>(<var>A - C</var>|x| + <var>B</var>) + <var>-B</var> = <var>D</var> + <var>-B</var></code></p>
+                    <p><code><var>A - C</var>|x| = <var>D - B</var></code></p>
+                </div>
+                <div>
+                    <p>Divide both sides by <code><var>A - C</var></code>.</p>
+                    <p><code>\frac{<var>A - C</var>|x|}{<var>A - C</var>} = \frac{<var>D - B</var>}{<var>A - C</var>}</code></p>
+                </div>
+                <div>
+                    <p>Simplify.</p>
+                    <p><code>|x| = <var>SIMPLIFIED</var></code></p>
+                </div>
+            </div>
+            <div data-else data-unwrap>
+                <div>
+                    <p>Subtract <code><var>A</var>|x|</code> from both sides:</p>
+                    <p><code>(<var>A</var>|x| + <var>B</var>) - <var>A</var>|x| = (<var>C</var>|x| + <var>D</var>) - <var>A</var>|x|</code></p>
+                    <p><code><var>B</var> = <var>C - A</var>|x| + <var>D</var></code></p>
+                </div>
+                <div>
+                    <p><var>D > 0 ? "Subtract" : "Add"</var> <code><var>abs(D)</var></code> <var>D > 0 ? "from" : "to"</var> both sides:</p>
+                    <p><code><var>B</var> + <var>-D</var> = (<var>C - A</var>|x| + <var>D</var>) + <var>-D</var></code></p>
+                    <p><code><var>B - D</var> = <var>C - A</var>|x|</code></p>
+                </div>
+                <div>
+                    <p>Divide both sides by <code><var>C - A</var></code>.</p>
+                    <p><code>\frac{<var>B - D</var>}{<var>C - A</var>} = \frac{<var>C - A</var>|x|}{<var>C - A</var>}</code></p>
+                </div>
+                <div>
+                    <p>Simplify.</p>
+                    <p><code><var>SIMPLIFIED</var> = |x|</code></p>
+                </div>
+            </div>
+            <p data-if="( D - B ) / ( A - C ) > 0">
+                Thus, the correct answer is <var>SOLUTION</var>.
+            </p>
+            <p data-else>
+                The absolute value cannot be negative. Therefore, there is no solution.
+            </p>
+        </div>
+    </div>
 </body>
 </html>

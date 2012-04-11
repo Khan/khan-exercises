@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Identifying points</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="POINTS">
+                    (function() {
+                        var points = [];
+
+                        while( points.length &lt; 5 ) {
+                            var point = [ randRange( -9, 9 ), randRangeExclude( -9, 9, [-1] ) ];
+                            var isUnique = true;
+                            $.each( points, function( index, pt ) {
+                                if ( point[0] === pt[0] && point[1] === pt[1] ) {
+                                    isUnique = false;
+                                    return false;
+                                }
+                            });
+                            if ( isUnique ) {
+                                points.unshift( point );
+                            }
+                        }
+                        return points;
+                    })()
+                </var>
+
+                <var id="FORGOTTEN">randRange( 0, POINTS.length - 1 )</var>
+
+                <var id="PAIR">function( arr ) {
+                    return "(" + arr.join( ", " ) + ")";
+                }</var>
+            </div>
+
+            <div class="problems">
+                <div>
+                    <div class="problem">
+                        <p>Consider the following coordinate pairs:</p>
+                        <p><code><var>$.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
+                    </div>
+
+                    <div class="question">
+                        <p>Which of those pairs is not graphed below?</p>
+                        <div class="graphie" id="grid">
+                            graphInit({
+                                range: 10,
+                                scale: 20,
+                                axisArrows: "<->",
+                                tickStep: 1,
+                                labelStep: 2
+                            })
+
+                            $.each( POINTS, function( index, point ) {
+                                if ( index === FORGOTTEN ) {
+                                    return;
+                                }
+                                style({
+                                    stroke: "#6495ED",
+                                    fill: "#6495ED"
+                                }, function() {
+                                    circle( point, 0.15 );
+                                });
+
+                            });
+                        </div>
+                    </div>
+
+                    <p class="solution"><code><var>PAIR( POINTS[FORGOTTEN] )</var></code></p>
+                    <ul class="choices" data-category="true">
+                        <li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="hints">
+                <div data-each="POINTS as i, point" data-unwrap>
+                    <div data-if="FORGOTTEN !== i" class="graphie" data-update="grid">
+                        label( point, PAIR( point ), "above right" );
+                    </div>
+                </div>
+
+                <div class="graphie" data-update="grid">
+                    var point = POINTS[FORGOTTEN];
+                    label( point, PAIR( point ) + "\\text{ was not graphed.}", "above right" );
+                    circle( point, 0.15, { stroke: "red", fill: "red"} );
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

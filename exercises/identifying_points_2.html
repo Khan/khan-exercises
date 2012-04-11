@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html data-require="math graphie expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Identifying points 2</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="M">randRangeNonZero( -3, 3 )</var>
+            <var id="B">randRangeNonZero( -2, 2)</var>
+            <var id="CORRECT">randRange( 0, 4 )</var>
+            <var id="POINTS">
+                (function() {
+                    var points = [];
+
+                    for ( var x = -2, i = 0; x &lt;= 2; x++, i++ ) {
+                        var y = x * M + B,
+                            jitter = randRangeNonZero( -2, 2 );
+
+                        if ( i === CORRECT ) {
+                            jitter = 0;
+                        }
+
+                        points.push( [ x, y + jitter ] );
+                    }
+                    return points;
+                })()
+            </var>
+
+            <var id="PAIR">function( arr ) {
+                return "(" + arr.join( ", " ) + ")";
+            }</var>
+        </div>
+
+        <div class="problems">
+            <div id="equation">
+                <p class="question">Which of the following ordered pairs represents a solution to the equation below?</p>
+                <p><code><var>$.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
+                <p><code>y = <var>expr(["+", ["*", M, "x"], B])</var></code></p>
+                <p class="solution"><code><var>PAIR( POINTS[CORRECT] )</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
+                </ul>
+                <div class="hints">
+                    <p>We can try plugging in the x-value of each ordered pair into the equation.</p>
+                    <p>If we evaluate and get the y-value of the ordered pair, then that ordered pair is a solution!</p>
+                    <div data-each="POINTS as i, point" data-unwrap>
+                        <div>
+                            <p>Let's consider <code><var>PAIR( point )</var></code>.</p>
+                            <p>If we plug in <code><var>point[ 0 ]</var></code> for <code>x</code> and evaluate, do we get <code><var>point[ 1 ]</var></code>?</p>
+                        </div>
+                        <p><code>y = <span data-if="M !== 1">(<var>M</var>)</span>(<var>point[ 0 ]</var>) + <var>B</var> = <span data-if="M !== 1"><var>M * point[ 0 ]</var> + <var>B</var> = </span><var>M * point[ 0 ] + B</var></code></p>
+                    </div>
+                    <p>Thus the only ordered pair that is a solution to the equation is <code><var>PAIR( POINTS[ CORRECT ] )</var></code>.</p>
+                    <div>
+                        <p>We come to the same answer by plotting the points and the equation.</p>
+                        <div class="graphie" id="grid">
+                            graphInit({
+                                range: 10,
+                                scale: 20,
+                                axisArrows: "<->",
+                                tickStep: 1,
+                                labelStep: 2
+                            });
+
+                            style({ stroke: BLUE, fill: BLUE });
+
+                            plot(function( x ) {
+                                return x * M + B;
+                            }, [ -10, 10 ]);
+
+                            $.each( POINTS, function( i, point ) {
+                                if ( i === CORRECT ) {
+                                    style({ stroke: ORANGE, fill: ORANGE }, function() {
+                                        circle( point, 0.3 );
+                                    });
+                                } else {
+                                    circle( point, 0.15 );
+                                }
+                            });
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="graphed">
+                <p class="question">Which of the following ordered pairs represents a solution to the equation graphed below?</p>
+                <p><code><var>$.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
+
+                <div class="graphie" id="grid">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        axisArrows: "<->",
+                        tickStep: 1,
+                        labelStep: 2
+                    });
+
+                    style({ stroke: BLUE, fill: BLUE });
+
+                    plot(function( x ) {
+                        return x * M + B;
+                    }, [ -10, 10 ]);
+                </div>
+                <p class="solution"><code><var>PAIR( POINTS[CORRECT] )</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
+                </ul>
+                <div class="hints">
+                    <p>Let's try graphing each of the points.</p>
+                    <div class="graphie" data-update="grid" data-each="POINTS as i, point">
+                        circle( point, 0.15 );
+                    </div>
+                    <div>
+                        <p>The only point that falls on the line is <code><var>PAIR( POINTS[ CORRECT ] )</var></code>.</p>
+                        <div class="graphie" data-update="grid">
+                            style({ stroke: ORANGE, fill: ORANGE });
+                            circle( POINTS[ CORRECT ], 0.3);
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

@@ -1,214 +1,214 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Inequalities on a number line</title>
-	<script src="../khan-exercise.js"></script>
-	<script>
-		function numberLineWithArrow( start, end, step, x, y, arrowStartX, arrowEndX, inclusive ) {
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Inequalities on a number line</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        function numberLineWithArrow( start, end, step, x, y, arrowStartX, arrowEndX, inclusive ) {
 
-			// Offset arrow appropriately in case number line's point is empty
-			var arrowOffsetX = 0.15;
-			if ( arrowStartX > arrowEndX ) {
-				arrowOffsetX *= -1;
-			}
+            // Offset arrow appropriately in case number line's point is empty
+            var arrowOffsetX = 0.15;
+            if ( arrowStartX > arrowEndX ) {
+                arrowOffsetX *= -1;
+            }
 
-			numberLine( start, end, step, x, y );
+            numberLine( start, end, step, x, y );
 
-			graph = KhanUtil.currentGraph;
-			graph.style({ stroke: "#6495ED", fill: inclusive ? "#6495ED" : null });
-			graph.pt = graph.circle( [ arrowStartX, 0 ], 0.15 );
-			graph.style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->" });
-			graph.arrow = graph.path( [ [ arrowStartX + arrowOffsetX, 0 ], [ arrowEndX, 0 ] ] );
-			graph.pt.toFront();
+            graph = KhanUtil.currentGraph;
+            graph.style({ stroke: "#6495ED", fill: inclusive ? "#6495ED" : null });
+            graph.pt = graph.circle( [ arrowStartX, 0 ], 0.15 );
+            graph.style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->" });
+            graph.arrow = graph.path( [ [ arrowStartX + arrowOffsetX, 0 ], [ arrowEndX, 0 ] ] );
+            graph.pt.toFront();
 
-		}
+        }
 
-		function numberLineWithArrowAndMistakes( label, sign, i, frac, less_than, inclusive, mistakeTypes, mistakeIndex ) {
+        function numberLineWithArrowAndMistakes( label, sign, i, frac, less_than, inclusive, mistakeTypes, mistakeIndex ) {
 
-			function makeMistake( mistakeType ) {
+            function makeMistake( mistakeType ) {
 
-				// Various types of mistakes for number line possibilities
-				switch ( mistakeType.toString() ) {
+                // Various types of mistakes for number line possibilities
+                switch ( mistakeType.toString() ) {
 
-					case "direction":
-						less_than = !less_than;
-						break;
+                    case "direction":
+                        less_than = !less_than;
+                        break;
 
-					case "inclusion":
-						inclusive = !inclusive;
-						break;
+                    case "inclusion":
+                        inclusive = !inclusive;
+                        break;
 
-					case "positivity":
-						sign = sign === "-" ? "" : "-";
-						break;
+                    case "positivity":
+                        sign = sign === "-" ? "" : "-";
+                        break;
 
-					case "quantity":
-						var original = i;
+                    case "quantity":
+                        var original = i;
 
-						while (Math.abs(original) == Math.abs(i)) {
-							// The only quantity mistake we don't allow is a perfect reflection around the origin,
-							// b/c it may combine with a positivity mistake to create a correct answer.
-							i += KhanUtil.randRangeNonZero( -3, 3 )
-						}
+                        while (Math.abs(original) == Math.abs(i)) {
+                            // The only quantity mistake we don't allow is a perfect reflection around the origin,
+                            // b/c it may combine with a positivity mistake to create a correct answer.
+                            i += KhanUtil.randRangeNonZero( -3, 3 )
+                        }
 
-						break;
+                        break;
 
-				}
+                }
 
-			}
+            }
 
-			if ( mistakeTypes[mistakeIndex] !== "none" ) {
+            if ( mistakeTypes[mistakeIndex] !== "none" ) {
 
-				jQuery.each( mistakeTypes, function () {
+                $.each( mistakeTypes, function () {
 
-					// Make at least one of each mistake, and possibly more
-					if ( mistakeTypes[ mistakeIndex ] == this || KhanUtil.rand( 6 ) === 0 ) {
-						makeMistake( this );
-					}
+                    // Make at least one of each mistake, and possibly more
+                    if ( mistakeTypes[ mistakeIndex ] == this || KhanUtil.rand( 6 ) === 0 ) {
+                        makeMistake( this );
+                    }
 
-				});
+                });
 
-			}
+            }
 
-			var multiplier = sign === "-" ? -1 : 1;
+            var multiplier = sign === "-" ? -1 : 1;
 
-			// Grab some random padding for left & right of number lines
-			var start = ( i * multiplier ) - KhanUtil.randRange(2, 7);
-			var end = ( i * multiplier ) + KhanUtil.randRange(2, 7);
+            // Grab some random padding for left & right of number lines
+            var start = ( i * multiplier ) - KhanUtil.randRange(2, 7);
+            var end = ( i * multiplier ) + KhanUtil.randRange(2, 7);
 
-			graph = KhanUtil.currentGraph;
+            graph = KhanUtil.currentGraph;
 
-			graph.init({
-				range: [ [start - 1, end + 1], [-1, 1] ]
-			});
+            graph.init({
+                range: [ [start - 1, end + 1], [-1, 1] ]
+            });
 
-			// Label number line choice if necessary
-			if ( label ) {
-				graph.label( [start - 0.2, 0], "\\text{" + label + ":}", "left" );
-			}
+            // Label number line choice if necessary
+            if ( label ) {
+                graph.label( [start - 0.2, 0], "\\text{" + label + ":}", "left" );
+            }
 
-			var arrowStartX = ( i + frac ) * multiplier;
-			var arrowEndX = less_than ? start : end;
+            var arrowStartX = ( i + frac ) * multiplier;
+            var arrowEndX = less_than ? start : end;
 
-			numberLineWithArrow( start, end, null, start, null, arrowStartX, arrowEndX, inclusive );
+            numberLineWithArrow( start, end, null, start, null, arrowStartX, arrowEndX, inclusive );
 
-		}
-	</script>
+        }
+    </script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars">
+    <div class="exercise">
+    <div class="vars">
 
-		<div data-ensure="INT !== 0 || FRAC !== 0">
-			<var id="INT">rand( 6 ) > 0 ? randRange( 1, 9 ) : 0</var>
-			<var id="FRAC">rand( 3 ) > 0 ? (randRange( 1, 9 ) / 10) : 0</var>
-		</div>
+        <div data-ensure="INT !== 0 || FRAC !== 0">
+            <var id="INT">rand( 6 ) > 0 ? randRange( 1, 9 ) : 0</var>
+            <var id="FRAC">rand( 3 ) > 0 ? (randRange( 1, 9 ) / 10) : 0</var>
+        </div>
 
-		<var id="SIGN">(INT === 0 ? "" : randFromArray(["", "-"]))</var>
-		<var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
-		<var id="INCLUSIVE">REL === "&le;" || REL === "&ge;"</var>
-		<var id="LESS_THAN">REL === "&lt;" || REL === "&le;"</var>
-		<var id="VARIABLE_NAME">randVar()</var>
-		<var id="LINE_ERROR_TYPES">shuffle([ "direction", "inclusion", "positivity", "quantity", "none" ])</var>
-		<var id="CORRECT_LINE_INDEX">jQuery.inArray( "none", LINE_ERROR_TYPES )</var>
-		<var id="LINE_LABELS">[ "A", "B", "C", "D", "E" ]</var>
-		<var id="LINE_SOLUTION">LINE_LABELS[ CORRECT_LINE_INDEX ]</var>
-	</div>
+        <var id="SIGN">(INT === 0 ? "" : randFromArray(["", "-"]))</var>
+        <var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+        <var id="INCLUSIVE">REL === "&le;" || REL === "&ge;"</var>
+        <var id="LESS_THAN">REL === "&lt;" || REL === "&le;"</var>
+        <var id="VARIABLE_NAME">randVar()</var>
+        <var id="LINE_ERROR_TYPES">shuffle([ "direction", "inclusion", "positivity", "quantity", "none" ])</var>
+        <var id="CORRECT_LINE_INDEX">$.inArray( "none", LINE_ERROR_TYPES )</var>
+        <var id="LINE_LABELS">[ "A", "B", "C", "D", "E" ]</var>
+        <var id="LINE_SOLUTION">LINE_LABELS[ CORRECT_LINE_INDEX ]</var>
+    </div>
 
-	<div class="problems">
-		<div id="line_from_equation">
-			<div class="question">
-				<p>Which graph on the number line represents <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>?</p>
+    <div class="problems">
+        <div id="line_from_equation">
+            <div class="question">
+                <p>Which graph on the number line represents <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>?</p>
 
-				<div class="graphie" data-each="LINE_LABELS as index, label">
-					numberLineWithArrowAndMistakes(
-						label, SIGN, INT, FRAC, LESS_THAN, INCLUSIVE, LINE_ERROR_TYPES, index
-					);
-				</div>
+                <div class="graphie" data-each="LINE_LABELS as index, label">
+                    numberLineWithArrowAndMistakes(
+                        label, SIGN, INT, FRAC, LESS_THAN, INCLUSIVE, LINE_ERROR_TYPES, index
+                    );
+                </div>
 
-			</div>
+            </div>
 
-			<div class="solution">Graph <var>LINE_SOLUTION</var></div>
+            <div class="solution">Graph <var>LINE_SOLUTION</var></div>
 
-			<ol class="choices" data-category="true">
-				<li data-each="LINE_LABELS as label">Graph <var>label</var></li>
-			</ol>
+            <ol class="choices" data-category="true">
+                <li data-each="LINE_LABELS as label">Graph <var>label</var></li>
+            </ol>
 
-			<div class="hints">
+            <div class="hints">
 
-				<p>First, draw a number line with at least a few numbers on each side of <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
-				<div class="graphie" id="number_line_hint">
+                <p>First, draw a number line with at least a few numbers on each side of <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
+                <div class="graphie" id="number_line_hint">
 
-					// Draw number line only
-					numberLineWithArrowAndMistakes(
-						null, SIGN, INT, FRAC, LESS_THAN, INCLUSIVE, LINE_ERROR_TYPES, CORRECT_LINE_INDEX
-					);
-					arrow.hide();
-					pt.hide();
+                    // Draw number line only
+                    numberLineWithArrowAndMistakes(
+                        null, SIGN, INT, FRAC, LESS_THAN, INCLUSIVE, LINE_ERROR_TYPES, CORRECT_LINE_INDEX
+                    );
+                    arrow.hide();
+                    pt.hide();
 
-			   </div>
+               </div>
 
-			   <p data-if="INCLUSIVE">
-				   Since <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw a full circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality includes <code><var>SIGN + ( INT + FRAC )</var></code>.
-			   </p><p data-else>
-				   Since <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw an empty circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality does not include <code><var>SIGN + ( INT + FRAC )</var></code>.
-				</p>
+               <p data-if="INCLUSIVE">
+                   Since <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw a full circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality includes <code><var>SIGN + ( INT + FRAC )</var></code>.
+               </p><p data-else>
+                   Since <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw an empty circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality does not include <code><var>SIGN + ( INT + FRAC )</var></code>.
+                </p>
 
-			   <div class="graphie" data-update="number_line_hint">pt.show();</div>
+               <div class="graphie" data-update="number_line_hint">pt.show();</div>
 
-			   <p data-if="LESS_THAN">
-				   Now draw an arrow to the left of the circle to include all numbers less than <code><var>SIGN + ( INT + FRAC )</var></code>.
-			   </p><p data-else>
-				   Now draw an arrow to the right of the circle to include all numbers greater than <code><var>SIGN + ( INT + FRAC )</var></code>.
-				</p>
+               <p data-if="LESS_THAN">
+                   Now draw an arrow to the left of the circle to include all numbers less than <code><var>SIGN + ( INT + FRAC )</var></code>.
+               </p><p data-else>
+                   Now draw an arrow to the right of the circle to include all numbers greater than <code><var>SIGN + ( INT + FRAC )</var></code>.
+                </p>
 
-			   <div class="graphie" data-update="number_line_hint">arrow.show();</div>
+               <div class="graphie" data-update="number_line_hint">arrow.show();</div>
 
-			   <p>This looks like it matches the arrow and circle from Graph <var>LINE_SOLUTION</var> above.</p>
-			</div>
-		</div>
+               <p>This looks like it matches the arrow and circle from Graph <var>LINE_SOLUTION</var> above.</p>
+            </div>
+        </div>
 
-		<div id="equation_from_line">
-			<div class="question">
-				<p>Determine the inequality represented by this graph on the number line:</p>
+        <div id="equation_from_line">
+            <div class="question">
+                <p>Determine the inequality represented by this graph on the number line:</p>
 
-				<div class="graphie">
-					numberLineWithArrowAndMistakes(
-						null, SIGN, INT, 0, LESS_THAN, INCLUSIVE, LINE_ERROR_TYPES, CORRECT_LINE_INDEX
-					);
-			   </div>
+                <div class="graphie">
+                    numberLineWithArrowAndMistakes(
+                        null, SIGN, INT, 0, LESS_THAN, INCLUSIVE, LINE_ERROR_TYPES, CORRECT_LINE_INDEX
+                    );
+               </div>
 
-			</div>
+            </div>
 
-			<p class="solution" data-type="multiple">
-				<code><var>VARIABLE_NAME</var></code>
-				<span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;', '&ne;']">
-					<var>REL</var>
-				</span>
-				<span class="sol"><var>SIGN + INT</var></span>
-			</p>
+            <p class="solution" data-type="multiple">
+                <code><var>VARIABLE_NAME</var></code>
+                <span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;', '&ne;']">
+                    <var>REL</var>
+                </span>
+                <span class="sol"><var>SIGN + INT</var></span>
+            </p>
 
-			<div class="hints">
+            <div class="hints">
 
-				<p data-if="LESS_THAN">
-					The arrow is pointing to the left of <code><var>SIGN + INT</var></code>, so everything less than <code><var>SIGN + INT</var></code> is included.
-				</p><p data-else>
-					The arrow is pointing to the right of <code><var>SIGN + INT</var></code>, so everything greater than <code><var>SIGN + INT</var></code> is included.
-				</p>
+                <p data-if="LESS_THAN">
+                    The arrow is pointing to the left of <code><var>SIGN + INT</var></code>, so everything less than <code><var>SIGN + INT</var></code> is included.
+                </p><p data-else>
+                    The arrow is pointing to the right of <code><var>SIGN + INT</var></code>, so everything greater than <code><var>SIGN + INT</var></code> is included.
+                </p>
 
-				<p data-if="INCLUSIVE">
-					The circle is filled in, so <code><var>SIGN + INT</var></code> itself is also included.
-				</p><p data-else>
-					The circle is not filled in, so <code><var>SIGN + INT</var></code> itself is not included.
-				</p>
+                <p data-if="INCLUSIVE">
+                    The circle is filled in, so <code><var>SIGN + INT</var></code> itself is also included.
+                </p><p data-else>
+                    The circle is not filled in, so <code><var>SIGN + INT</var></code> itself is not included.
+                </p>
 
-				<p>
-					<code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var><var>SIGN + INT</var></code>
-				</p>
-			</div>
-		</div>
-	</div>
-	</div>
+                <p>
+                    <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var><var>SIGN + INT</var></code>
+                </p>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

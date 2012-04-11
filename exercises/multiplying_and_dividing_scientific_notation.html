@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta charset="UTF-8" />
+    <title>Multiplying and dividing scientific notation</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="DENOMINATOR">randRange( 1,  9 ) * Math.pow( 10, randRange( -5, 5 ) )</var>
+            <var id="QUOTIENT">randRange( 1, 99 ) * Math.pow( 10, randRange( -5, 5 ) )</var>
+            <var id="NUMERATOR">DENOMINATOR * QUOTIENT</var>
+        </div>
+
+        <div class="problems">
+            <div id="divide">
+                <p class="question">
+                    Express this quotient in scientific notation:
+                    <code>\Large{\frac{<var>scientific( 3, NUMERATOR )</var>}
+                    {<var>scientific( 1, DENOMINATOR )</var>}}</code>
+                </p>
+
+                <div class="solution" data-type="multiple">
+                    <span class="sol base"><var>scientificMantissa( 2, QUOTIENT )</var></span>
+                    <code> \times 10 </code>
+                    <sup class="sol exp" style="width: 20px;"><var>scientificExponent( QUOTIENT )</var></sup>
+                </div>
+
+                <div class="hints">
+                    <p>Start by collecting like terms together.</p>
+                    <p>
+                        <code>= \Large{\frac{<var>scientificMantissa( 3, NUMERATOR   )</var>}
+                        {<var>scientificMantissa( 1, DENOMINATOR )</var>}}
+                        \times\Large{\frac{10^{<var>scientificExponent( NUMERATOR   )</var>}}
+                        {10^{<var>scientificExponent( DENOMINATOR )</var>}}}</code>
+                    </p>
+                    <p>Then divide each term seperately. When dividing exponents with the same base, subtract their powers.</p>
+                    <p>
+                        <code>= <var>roundTo( 2, scientificMantissa( 3, NUMERATOR ) / scientificMantissa( 1, DENOMINATOR ) ).toFixed( 2 )</var>
+                        \times 10^{<var>scientificExponent( NUMERATOR )</var>\,-\,<var>scientificExponent( DENOMINATOR )</var>}</code>
+                    </p>
+                    <p>
+                        <code>= <var>roundTo( 2, scientificMantissa( 3, NUMERATOR ) / scientificMantissa( 1, DENOMINATOR ) ).toFixed( 2 )</var>
+                        \times 10^{<var>scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )</var>}</code>
+                    </p>
+                    <div data-if="scientificExponent( QUOTIENT ) != scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )" data-unwrap>
+                        <p>
+                            To write the answer correctly in scientific notation, the first number needs to be between <code>1</code> and <code>10</code>.
+                            In this case, we need to move the decimal one position to the right without changing the value of our answer.
+                        </p>
+                        <p>
+                            <code>\qquad</code>We can use the fact that
+                            <code><var>roundTo( 2, scientificMantissa( 3, NUMERATOR ) / scientificMantissa( 1, DENOMINATOR ) ).toFixed( 2 )</var></code> is the same as
+                            <code><var>scientificMantissa( 2, QUOTIENT )</var> \div 10</code>, or
+                            <code class="hint_blue"><var>scientificMantissa( 2, QUOTIENT )</var> \times 10^{-1}</code>.
+                        </p>
+                        <p><code>
+                            = \color{<var>BLUE</var>}{<var>scientificMantissa( 2, QUOTIENT )</var> \times 10^{-1}}
+                            \times 10^{<var>scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )</var>}
+                        </code></p>
+                        <p><code>= <var>scientific( 2, QUOTIENT )</var></code></p></div>
+                </div>
+            </div>
+
+            <div id="multiply">
+                <p class="question">
+                    Express this product in scientific notation:
+                    <code>(<var>scientific( 2, QUOTIENT )</var>)\times (<var>scientific( 2, DENOMINATOR )</var>)</code></p>
+
+                <div class="solution" data-type="multiple">
+                    <span class="sol base"><var>scientificMantissa( 3, NUMERATOR )</var></span>
+                    <code> \times 10 </code>
+                    <sup class="sol exp" style="width: 20px;"><var>scientificExponent( NUMERATOR )</var></sup>
+                </div>
+
+                <div class="hints">
+                    <p>Start by collecting like terms together.</p>
+                    <p>
+                        <code>= (<var>scientificMantissa( 2, QUOTIENT )</var>\times <var>scientificMantissa( 2, DENOMINATOR )</var>)
+                        \times (10^{<var>scientificExponent( QUOTIENT )</var>}\times 10^{<var>scientificExponent( DENOMINATOR )</var>})</code>
+                    </p>
+                    <p>When multiplying exponents with the same base, add the powers together.</p>
+                    <p>
+                        <code>= <var>roundTo( 1, scientificMantissa( 2, QUOTIENT ) * scientificMantissa( 1, DENOMINATOR ) ).toFixed( 1 )</var>
+                        \times 10^{<var>scientificExponent( QUOTIENT )</var>\,+\,<var>scientificExponent( DENOMINATOR )</var>}</code>
+                    </p>
+                    <p>
+                        <code>= <var>roundTo( 1, scientificMantissa( 2, QUOTIENT ) * scientificMantissa( 1, DENOMINATOR ) ).toFixed( 1 )</var>
+                        \times 10^{<var>scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )</var>}</code>
+                    </p>
+                    <div data-if="scientificExponent( NUMERATOR ) != scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )" data-unwrap>
+                        <p>
+                            To write the answer correctly in scientific notation, the first number needs to be between <code>1</code> and <code>10</code>.
+                            In this case, we need to move the decimal one position to the left without changing the value of our answer.
+                        </p>
+                        <p>
+                            <code>\qquad</code>We can use the fact that
+                            <code><var>roundTo( 1, scientificMantissa( 2, QUOTIENT ) * scientificMantissa( 1, DENOMINATOR ) ).toFixed( 1 )</var></code> is the same as
+                            <code class="hint_blue"><var>scientificMantissa( 3, NUMERATOR )</var> \times 10</code>.
+                        </p>
+                        <p><code>
+                            = \color{<var>BLUE</var>}{<var>scientificMantissa( 3, NUMERATOR )</var> \times 10}
+                            \times 10^{<var>scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )</var>}
+                        </code></p>
+                        <p><code>= <var>scientific( 3, NUMERATOR )</var></code></p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

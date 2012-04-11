@@ -1,88 +1,88 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Equation of a hyperbola</title>
-	<script src="../khan-exercise.js"></script>
-	<style type="text/css">
-		#answer_area input[type="text"] {
-			margin: 0 0 0 5px;
-			width: 30px;
-		}
-	</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Equation of a hyperbola</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #answer_area input[type="text"] {
+            margin: 0 0 0 5px;
+            width: 30px;
+        }
+    </style>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars">
-		<var id="A">randRange( 2, 9 )</var>
-		<var id="B" data-ensure=" A !== B" >randRange( 2, 9 )</var>
+    <div class="exercise">
+    <div class="vars">
+        <var id="A">randRange( 2, 9 )</var>
+        <var id="B" data-ensure=" A !== B" >randRange( 2, 9 )</var>
 
-		<var id="H">randRange( -9, 9 )</var>
-		<var id="K">randRange( -9, 9 )</var>
+        <var id="H">randRange( -9, 9 )</var>
+        <var id="K">randRange( -9, 9 )</var>
 
-		<var id="WHICH_NEG">rand(2)</var>
+        <var id="WHICH_NEG">rand(2)</var>
 
-		<var id="X_MINUS">WHICH_NEG === 1 ? "+" : "+"</var>
-		<var id="Y_MINUS">WHICH_NEG === 1 ? "" : "-"</var>
+        <var id="X_MINUS">WHICH_NEG === 1 ? "+" : "+"</var>
+        <var id="Y_MINUS">WHICH_NEG === 1 ? "" : "-"</var>
 
-		<var id="X">H === 0 ? "x^2" :  expr(["^", ["+", "x", -H], 2])</var>
-		<var id="Y">K === 0 ? "y^2" :  expr(["^", ["+", "y", -K], 2])</var>
-		<var id="X2T">H === 0 ? "\\dfrac{x^2}{" + A*A + "}" :  "\\dfrac {" +  expr(["^", ["+", "x", -H], 2]) + "}{" + A*A +"}" </var>
-		<var id="Y2T">K === 0 ? "\\dfrac{y^2}{" + B*B + "}" :  "\\dfrac {" +  expr(["^", ["+", "y", -K], 2]) + "}{" + B*B +"}" </var>
-	</div>
+        <var id="X">H === 0 ? "x^2" :  expr(["^", ["+", "x", -H], 2])</var>
+        <var id="Y">K === 0 ? "y^2" :  expr(["^", ["+", "y", -K], 2])</var>
+        <var id="X2T">H === 0 ? "\\dfrac{x^2}{" + A*A + "}" :  "\\dfrac {" +  expr(["^", ["+", "x", -H], 2]) + "}{" + A*A +"}" </var>
+        <var id="Y2T">K === 0 ? "\\dfrac{y^2}{" + B*B + "}" :  "\\dfrac {" +  expr(["^", ["+", "y", -K], 2]) + "}{" + B*B +"}" </var>
+    </div>
 
-	<div class="problems">
-		<div>
-			<div class="question">
-				<p>The equation of hyperbola <code>H</code> is <code><var>WHICH_NEG === 1 ? expr(["-", Y2T, X2T]) : expr(["-", X2T, Y2T])</var> = 1</code>.</p>
-				<p>What are the asymptotes?</p>
-			</div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>The equation of hyperbola <code>H</code> is <code><var>WHICH_NEG === 1 ? expr(["-", Y2T, X2T]) : expr(["-", X2T, Y2T])</var> = 1</code>.</p>
+                <p>What are the asymptotes?</p>
+            </div>
 
-			<div class="solution" data-type="multiple">
-				<p>
-					<code>y = \pm (</code><span class="sol" data-fallback="1"><var>B/A</var></span>
-					<code>)(x + </code><span class="sol" data-fallback="0"><var>-H</var></span>
-					<code>) + </code><span class="sol" data-fallback="0"><var>K</var></span>
-				</p>
+            <div class="solution" data-type="multiple">
+                <p>
+                    <code>y = \pm (</code><span class="sol" data-fallback="1"><var>B/A</var></span>
+                    <code>)(x + </code><span class="sol" data-fallback="0"><var>-H</var></span>
+                    <code>) + </code><span class="sol" data-fallback="0"><var>K</var></span>
+                </p>
 
-				<p class="example">enter integers, <em>simplified</em> fractions, or <em>exact</em> decimals for each term</p>
-				<p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
-			</div>
-		</div>
-	</div>
+                <p class="example">enter integers, <em>simplified</em> fractions, or <em>exact</em> decimals for each term</p>
+                <p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
+            </div>
+        </div>
+    </div>
 
-	<div class="hints">
-		<div>
-			<p>We want to rewrite the equation in terms of <code>y</code>, so start off by moving the <code>y</code> terms to one side:</p>
-			<p><code><var> Y2T</var> = <var>Y_MINUS</var> 1 <var>X_MINUS</var> <var>X2T</var></code></p>
-		</div>
+    <div class="hints">
+        <div>
+            <p>We want to rewrite the equation in terms of <code>y</code>, so start off by moving the <code>y</code> terms to one side:</p>
+            <p><code><var> Y2T</var> = <var>Y_MINUS</var> 1 <var>X_MINUS</var> <var>X2T</var></code></p>
+        </div>
 
-		<div>
-			<p>Multiply both sides of the equation by <code><var>B * B</var></code>.</p>
-			<p><code><var> Y</var> = { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code> </p>
-		</div>
-		<div>
-			<p>Take the square root of both sides.</p>
-			<p><code>\sqrt{<var>Y</var>} = \pm \sqrt { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
-			<p><code> <var>plus("y", -K)</var> = \pm \sqrt { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
-		</div>
-		<div>
-			<p>As <code>x</code> approaches positive or negative infinity, the constant term in the square root matters less and less, so we can just ignore it.</p>
-			<p><code><var>plus( "y", -K )</var> \approx \pm \sqrt {\dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
+        <div>
+            <p>Multiply both sides of the equation by <code><var>B * B</var></code>.</p>
+            <p><code><var> Y</var> = { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code> </p>
+        </div>
+        <div>
+            <p>Take the square root of both sides.</p>
+            <p><code>\sqrt{<var>Y</var>} = \pm \sqrt { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
+            <p><code> <var>plus("y", -K)</var> = \pm \sqrt { <var>Y_MINUS</var> <var>B*B</var> <var>X_MINUS</var> \dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
+        </div>
+        <div>
+            <p>As <code>x</code> approaches positive or negative infinity, the constant term in the square root matters less and less, so we can just ignore it.</p>
+            <p><code><var>plus( "y", -K )</var> \approx \pm \sqrt {\dfrac{ <var>X</var> \cdot <var> B*B </var> }{<var> A*A </var>}}</code></p>
 
-			<p><code><var>plus( "y", -K )</var> \approx \pm \left(\dfrac{<var>B</var> \cdot (<var>plus( "x", -H )</var>)}{<var> A </var>}\right)</code></p>
-		</div>
+            <p><code><var>plus( "y", -K )</var> \approx \pm \left(\dfrac{<var>B</var> \cdot (<var>plus( "x", -H )</var>)}{<var> A </var>}\right)</code></p>
+        </div>
 
-		<div>
-			<p>
-				<span data-if="K > 0">Add <code><var>K</var></code> to both sides and rewrite</span>
-				<span data-else-if="K < 0">Subtract <code><var>-K</var></code> from both sides and rewrite</span>
-				<span data-else>Rewrite</span>
-				as an equality in terms of <code>y</code> to get the equation of the asymptotes:
-			</p>
-			<p><code>y = \pm \dfrac{<var>reduce( A, B )[1]</var>}{<var>reduce( A, B )[0]</var>}(<var>plus( "x", -H )</var>)<var>K &gt;= 0 ? "+" : ""</var> <var>K</var></code></p>
-		</div>
-	</div>
-	</div>
+        <div>
+            <p>
+                <span data-if="K > 0">Add <code><var>K</var></code> to both sides and rewrite</span>
+                <span data-else-if="K < 0">Subtract <code><var>-K</var></code> from both sides and rewrite</span>
+                <span data-else>Rewrite</span>
+                as an equality in terms of <code>y</code> to get the equation of the asymptotes:
+            </p>
+            <p><code>y = \pm \dfrac{<var>reduce( A, B )[1]</var>}{<var>reduce( A, B )[0]</var>}(<var>plus( "x", -H )</var>)<var>K &gt;= 0 ? "+" : ""</var> <var>K</var></code></p>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

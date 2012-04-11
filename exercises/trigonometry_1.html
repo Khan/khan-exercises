@@ -1,217 +1,218 @@
 <!DOCTYPE html>
+<!-- TODO: Improve hints -->
 <html data-require="math graphie math-format">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Trigonometry 1</title>
-	<script src="../khan-exercise.js"></script>
-	<script>
-	function fractionSQRoot(b, root){
-		var natRoot = KhanUtil.splitRadical( root )[0];
-		var underRoot = KhanUtil.splitRadical( root )[1];
-		var d = KhanUtil.reduce( natRoot * underRoot, b )[0];
-		var n = KhanUtil.reduce( natRoot * underRoot, b )[1];
-		if ( d === 1 ){
-			if ( n !== 1 ) {
-				return n + "\\sqrt{" + underRoot +"}";
-			}
-			else{
-				return "\\sqrt{" + underRoot + "}";
-			}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Trigonometry 1</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+    function fractionSQRoot(b, root){
+        var natRoot = KhanUtil.splitRadical( root )[0];
+        var underRoot = KhanUtil.splitRadical( root )[1];
+        var d = KhanUtil.reduce( natRoot * underRoot, b )[0];
+        var n = KhanUtil.reduce( natRoot * underRoot, b )[1];
+        if ( d === 1 ){
+            if ( n !== 1 ) {
+                return n + "\\sqrt{" + underRoot +"}";
+            }
+            else{
+                return "\\sqrt{" + underRoot + "}";
+            }
 
-		}
-		else if ( underRoot !== 1 ) {
-			if ( n !== 1 ) {
-				return "\\dfrac{" + n + "\\sqrt{" + underRoot +"} }{"+ d + "}";
-			}
-			else {
-				return "\\dfrac{ \\sqrt{" + underRoot + "}}{" + d + "}";
-			}
-		}
-		else {
-			return "\\dfrac{" + n + "}{" + d + "}";
-		}
-	}
+        }
+        else if ( underRoot !== 1 ) {
+            if ( n !== 1 ) {
+                return "\\dfrac{" + n + "\\sqrt{" + underRoot +"} }{"+ d + "}";
+            }
+            else {
+                return "\\dfrac{ \\sqrt{" + underRoot + "}}{" + d + "}";
+            }
+        }
+        else {
+            return "\\dfrac{" + n + "}{" + d + "}";
+        }
+    }
 
-	function betterTriangle(width, height, A, B, C, a, b, c) {
-		var scale = 5 / Math.sqrt(width * width + height * height);
-		width *= scale;
-		height *= scale;
+    function betterTriangle(width, height, A, B, C, a, b, c) {
+        var scale = 5 / Math.sqrt(width * width + height * height);
+        width *= scale;
+        height *= scale;
 
-		with ( KhanUtil.currentGraph ) {
-			// Leave some space for the labels
-			init({ range: [[-1.5, width + 1], [-1, height + 1]] });
+        with ( KhanUtil.currentGraph ) {
+            // Leave some space for the labels
+            init({ range: [[-1.5, width + 1], [-1, height + 1]] });
 
-			path([ [0, 0], [width, 0], [0, height], true ]);
+            path([ [0, 0], [width, 0], [0, height], true ]);
 
-			label( [0, height], A, "above left" );
-			label( [0, 0], C, "below left" );
-			label( [width, 0], B, "below right" );
+            label( [0, height], A, "above left" );
+            label( [0, 0], C, "below left" );
+            label( [width, 0], B, "below right" );
 
-			label( [0, height/2], b, "left" );
-			label( [width/2, 0], a, "below" );
-			label( [width/2, height/2], c, "above right", {
-				labelDistance: 3
-			} );
-		}
-	}
-	</script>
+            label( [0, height/2], b, "left" );
+            label( [width/2, 0], a, "below" );
+            label( [width/2, height/2], c, "above right", {
+                labelDistance: 3
+            } );
+        }
+    }
+    </script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="AC">randRange(3, 10)</var>
-			<var id="BC">randRange(3, 10)</var>
-			<var id="CB">BC</var>
-			<var id="AB">AC * AC + BC * BC</var>
-			<var id="AB_STRING">formattedSquareRootOf(AC * AC + BC * BC)</var>
-			<var id="ANGLE">randFromArray([
-				"ABC",
-				"BAC"
-			])</var>
-			<var id="OPPOSITE_NAME">(ANGLE.substring(0,1) + ANGLE.substring(2))</var>
-			<var id="OPPOSITE_VALUE">
-			(function(){
-				if ( OPPOSITE_NAME === "AC" ){
-					return AC;
-				}
-				else if ( OPPOSITE_NAME === "BC" ){
-					return CB;
-				}
-				return AB_STRING;
-				})()
-			</var>
+    <div class="exercise">
+        <div class="vars">
+            <var id="AC">randRange(3, 10)</var>
+            <var id="BC">randRange(3, 10)</var>
+            <var id="CB">BC</var>
+            <var id="AB">AC * AC + BC * BC</var>
+            <var id="AB_STRING">formattedSquareRootOf(AC * AC + BC * BC)</var>
+            <var id="ANGLE">randFromArray([
+                "ABC",
+                "BAC"
+            ])</var>
+            <var id="OPPOSITE_NAME">(ANGLE.substring(0,1) + ANGLE.substring(2))</var>
+            <var id="OPPOSITE_VALUE">
+            (function(){
+                if ( OPPOSITE_NAME === "AC" ){
+                    return AC;
+                }
+                else if ( OPPOSITE_NAME === "BC" ){
+                    return CB;
+                }
+                return AB_STRING;
+                })()
+            </var>
 
-			<var id="HYPOTENUSE_NAME">"AB"</var>
-			<var id="HYPOTENUSE_VALUE">AB_STRING</var>
+            <var id="HYPOTENUSE_NAME">"AB"</var>
+            <var id="HYPOTENUSE_VALUE">AB_STRING</var>
 
-			<var id="ADJACENT_NAME">ANGLE.substring(1)</var>
-			<var id="ADJACENT_VALUE">
-			(function(){
-				if ( ADJACENT_NAME === "AC" ){
-					return AC;
-				}
-				else if ( ADJACENT_NAME === "BC" ){
-					return BC;
-				}
+            <var id="ADJACENT_NAME">ANGLE.substring(1)</var>
+            <var id="ADJACENT_VALUE">
+            (function(){
+                if ( ADJACENT_NAME === "AC" ){
+                    return AC;
+                }
+                else if ( ADJACENT_NAME === "BC" ){
+                    return BC;
+                }
 
-				return AB_STRING;
-				})()
-			</var>
-			<var id="SIMPLE_TAN">
-			fraction( OPPOSITE_VALUE, ADJACENT_VALUE, false, false, false, false)
-			</var>
-			<var id="TAN">
-			fractionReduce( OPPOSITE_VALUE, ADJACENT_VALUE, false, false)
-			</var>
-			<var id="SIMPLE_SIN">
-			"\\frac{" + OPPOSITE_VALUE + "}{" + formattedSquareRootOf(AB) + "}"
-			</var>
-			<var id="SIN">
-			fractionSQRoot( OPPOSITE_VALUE , AB )
-			</var>
-			<var id="SIMPLE_COS">
-			"\\frac{" + ADJACENT_VALUE + "}{" + formattedSquareRootOf(AB) + "}"
-			</var>
-			<var id="COS">
-			fractionSQRoot( ADJACENT_VALUE , AB )
-			</var>
+                return AB_STRING;
+                })()
+            </var>
+            <var id="SIMPLE_TAN">
+            fraction( OPPOSITE_VALUE, ADJACENT_VALUE, false, false, false, false)
+            </var>
+            <var id="TAN">
+            fractionReduce( OPPOSITE_VALUE, ADJACENT_VALUE, false, false)
+            </var>
+            <var id="SIMPLE_SIN">
+            "\\frac{" + OPPOSITE_VALUE + "}{" + formattedSquareRootOf(AB) + "}"
+            </var>
+            <var id="SIN">
+            fractionSQRoot( OPPOSITE_VALUE , AB )
+            </var>
+            <var id="SIMPLE_COS">
+            "\\frac{" + ADJACENT_VALUE + "}{" + formattedSquareRootOf(AB) + "}"
+            </var>
+            <var id="COS">
+            fractionSQRoot( ADJACENT_VALUE , AB )
+            </var>
 
 
-				</div>
+                </div>
 
-				<div class="problems">
-					<div id="sinTrig1">
-						<div class="problem">
-							<p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
-							<p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p>
-							<p><code>\overline{AB}</code> is <code><var>AB_STRING</var></code> units long</p>
-						</div>
-						<div class="question">
-							<p>What is <code>\sin(\angle <var>ANGLE</var>)</code> ?</p>
+                <div class="problems">
+                    <div id="sinTrig1">
+                        <div class="problem">
+                            <p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
+                            <p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p>
+                            <p><code>\overline{AB}</code> is <code><var>AB_STRING</var></code> units long</p>
+                        </div>
+                        <div class="question">
+                            <p>What is <code>\sin(\angle <var>ANGLE</var>)</code> ?</p>
 
-							<div class="graphie">
-								betterTriangle( BC, AC, "A", "B", "C", BC, AC, AB_STRING );
-								path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
-							</div>
-						</div>
+                            <div class="graphie">
+                                betterTriangle( BC, AC, "A", "B", "C", BC, AC, AB_STRING );
+                                path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
+                            </div>
+                        </div>
 
-						<div class="solution"><code><var>SIN</var></code></div>
-						<ul class="choices" data-show="4" data-none="true">
-							<li data-if="COS !== SIN"><code><var>COS</var></code></li>
-							<li><code><var>SIN</var></code></li>
-							<li><code><var>TAN</var></code></li>
-							<li><code>\dfrac{1}{<var>AB</var>}</code></li>
-							<li><code>\dfrac{1}{<var>BC</var>}</code></li>
-							<li><code>\dfrac{1}{<var>AC</var>}</code></li>
-							<li><code>\dfrac{2 \sqrt{2}}{<var>AC</var>}</code></li>
-						</ul>
+                        <div class="solution"><code><var>SIN</var></code></div>
+                        <ul class="choices" data-show="4" data-none="true">
+                            <li data-if="COS !== SIN"><code><var>COS</var></code></li>
+                            <li><code><var>SIN</var></code></li>
+                            <li><code><var>TAN</var></code></li>
+                            <li><code>\dfrac{1}{<var>AB</var>}</code></li>
+                            <li><code>\dfrac{1}{<var>BC</var>}</code></li>
+                            <li><code>\dfrac{1}{<var>AC</var>}</code></li>
+                            <li><code>\dfrac{2 \sqrt{2}}{<var>AC</var>}</code></li>
+                        </ul>
 
-						<div class="hints">
-							<p><b>SOH</b> CAH TOA</p>
-							<p><b>S</b>in = <b>O</b>pposite over <b>H</b>ypotenuse</p>
-							<p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
-							<p>hypotenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
-							<p><code>\sin(\angle <var>ANGLE</var>)=<var>SIMPLE_SIN</var></code></p>
-							<p data-if="SIN !== SIMPLE_SIN"><code>=<var>SIN</var></code></p>
-						</div>
-					</div>
+                        <div class="hints">
+                            <p><b>SOH</b> CAH TOA</p>
+                            <p><b>S</b>in = <b>O</b>pposite over <b>H</b>ypotenuse</p>
+                            <p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
+                            <p>hypotenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
+                            <p><code>\sin(\angle <var>ANGLE</var>)=<var>SIMPLE_SIN</var></code></p>
+                            <p data-if="SIN !== SIMPLE_SIN"><code>=<var>SIN</var></code></p>
+                        </div>
+                    </div>
 
-					<div id="cosTrig1" data-type="sinTrig1">
-						<div class="problem">
-							<p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
-							<p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p>
-							<p><code>\overline{AB}</code> is <code><var>AB_STRING</var></code> units long</p>
-						</div>
-						<div class="question">
-							<p>What is <code>\cos(\angle <var>ANGLE</var>)</code> ?</p>
+                    <div id="cosTrig1" data-type="sinTrig1">
+                        <div class="problem">
+                            <p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
+                            <p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p>
+                            <p><code>\overline{AB}</code> is <code><var>AB_STRING</var></code> units long</p>
+                        </div>
+                        <div class="question">
+                            <p>What is <code>\cos(\angle <var>ANGLE</var>)</code> ?</p>
 
-							<div class="graphie">
-								betterTriangle( BC, AC, "A", "B", "C", BC, AC, AB_STRING );
-								path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
-							</div>
-						</div>
+                            <div class="graphie">
+                                betterTriangle( BC, AC, "A", "B", "C", BC, AC, AB_STRING );
+                                path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
+                            </div>
+                        </div>
 
-						<div class="solution"><code><var>COS</var></code></div>
+                        <div class="solution"><code><var>COS</var></code></div>
 
-						<div class="hints">
-							<p>SOH <b>CAH</b> TOA</p>
-							<p><b>C</b>os = <b>A</b>djacent over <b>H</b>ypotenuse</p>
-							<p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
-							<p>hypotenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
-							<p><code>\cos(\angle <var>ANGLE</var> )=<var>SIMPLE_COS</var></code></p>
-							<p data-if="COS !== SIMPLE_COS"><code>=<var>COS</var></code></p>
-						</div>
-					</div>
+                        <div class="hints">
+                            <p>SOH <b>CAH</b> TOA</p>
+                            <p><b>C</b>os = <b>A</b>djacent over <b>H</b>ypotenuse</p>
+                            <p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
+                            <p>hypotenuse <code>= \overline{<var>HYPOTENUSE_NAME</var>} = <var>AB_STRING</var></code></p>
+                            <p><code>\cos(\angle <var>ANGLE</var> )=<var>SIMPLE_COS</var></code></p>
+                            <p data-if="COS !== SIMPLE_COS"><code>=<var>COS</var></code></p>
+                        </div>
+                    </div>
 
-					<div id="tanTrig1" data-type="sinTrig1">
-						<div class="problem">
-							<p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
-							<p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p>
-							<p><code>\overline{AB}</code> is <code><var>AB_STRING</var></code> units long</p>
-						</div>
-						<div class="question">
-							<p>What is <code>\tan(\angle <var>ANGLE</var>)</code> ?</p>
+                    <div id="tanTrig1" data-type="sinTrig1">
+                        <div class="problem">
+                            <p><code>\overline{AC}</code> is <code><var>AC</var></code> units long</p>
+                            <p><code>\overline{BC}</code> is <code><var>BC</var></code> units long</p>
+                            <p><code>\overline{AB}</code> is <code><var>AB_STRING</var></code> units long</p>
+                        </div>
+                        <div class="question">
+                            <p>What is <code>\tan(\angle <var>ANGLE</var>)</code> ?</p>
 
-							<div class="graphie">
-								betterTriangle( BC, AC, "A", "B", "C", BC, AC, AB_STRING );
-								path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
-							</div>
-						</div>
+                            <div class="graphie">
+                                betterTriangle( BC, AC, "A", "B", "C", BC, AC, AB_STRING );
+                                path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
+                            </div>
+                        </div>
 
-						<div class="solution"><code><var>TAN</var></code></div>
+                        <div class="solution"><code><var>TAN</var></code></div>
 
-						<div class="hints">
-							<p>SOH CAH <b>TOA</b></p>
-							<p><b>T</b>an = <b>O</b>pposite over <b>A</b>djacent</p>
-							<p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
-							<p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
-							<p><code>\tan(\angle <var>ANGLE</var>)=<var>SIMPLE_TAN</var></code></p>
-							<p data-if="TAN !== SIMPLE_TAN"><code>=<var>TAN</var></code></p>
-						</div>
-					</div>
+                        <div class="hints">
+                            <p>SOH CAH <b>TOA</b></p>
+                            <p><b>T</b>an = <b>O</b>pposite over <b>A</b>djacent</p>
+                            <p>opposite <code>= \overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
+                            <p>adjacent <code>= \overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
+                            <p><code>\tan(\angle <var>ANGLE</var>)=<var>SIMPLE_TAN</var></code></p>
+                            <p data-if="TAN !== SIMPLE_TAN"><code>=<var>TAN</var></code></p>
+                        </div>
+                    </div>
 
-				</div>
+                </div>
 
-			</div>
-		</body>
-		</html>
+            </div>
+        </body>
+        </html>

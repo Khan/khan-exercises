@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Similar Triangles 2</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        function triangleAngles( sides ){
+            var a = sides[0];
+            var b = sides[1];
+            var c = sides[2];
+
+            var A = Math.acos( (b*b + c*c - a*a) / (2*b*c) ) * 180 / Math.PI;
+
+            var B = Math.acos( (a*a + c*c - b*b) / (2*a*c) ) * 180 / Math.PI;
+            var C = 180 - A - B;
+
+            return [A, B, C];
+
+        }
+
+        function randomSides( scale, abc_sides ) {
+            var a = KhanUtil.randRange(3, 10);
+            var b = KhanUtil.randRange(3, 10);
+            var c = KhanUtil.randRange(Math.max(a, b), a + b - 2);
+
+            if (scale && abc_sides[0] / a === abc_sides[1] / b && abc_sides[1] / b === abc_sides[2] / c) {
+                if (scale === 0.5) a = a * 2;
+                if (scale === 1.5) a = a* 2/3;
+                else a = a / 2;
+            }
+
+            if (scale) return [scale*a, scale*b, scale*c];
+            else return [a, b, c];
+
+        }
+
+        function scaleSides( sides, scale ) {
+            return [sides[0] * scale, sides[1] * scale, sides[2] * scale];
+        }
+
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+
+            <var id="ABC_SIDES">randomSides()</var>
+            <var id="ABC_ANGLES"> triangleAngles( ABC_SIDES )</var>
+
+            <var id="ANSWERS">[ "DEF", "GHI", "Both", "None" ]</var>
+            <var id="ANSWER_DISPLAY">{
+                "DEF": "&lt;code&gt;DEF&lt;/code&gt;",
+                "GHI": "&lt;code&gt;GHI&lt;/code&gt;",
+                "Both": "Both",
+                "None": "None"
+            }</var>
+            <var id="ANSWER">ANSWERS[randRange(0, 3)]</var>
+
+            <var id="SCALE_DEF">randRange(1, 3)/2</var>
+            <var id="SCALE_GHI">randRange(1, 3)/2</var>
+
+            <var id="DEF_SIDES">ANSWER === "DEF" || ANSWER === "Both" ? scaleSides(ABC_SIDES, SCALE_DEF) : randomSides(SCALE_DEF, ABC_SIDES)</var>
+            <var id="DEF_ANGLES"> ANSWER === "DEF" || ANSWER === "Both" ? ABC_ANGLES : triangleAngles(DEF_SIDES)</var>
+            <var id="GHI_SIDES">ANSWER === "GHI" || ANSWER === "Both" ? scaleSides(ABC_SIDES, SCALE_GHI) : randomSides(SCALE_DEF, ABC_SIDES)</var>
+            <var id="GHI_ANGLES"> ANSWER === "GHI" || ANSWER === "Both" ? ABC_ANGLES : triangleAngles(GHI_SIDES)</var>
+
+            <var id="DEF_COMP_1">"\\neq"</var>
+            <var id="DEF_COMP_1">ABC_SIDES[2] / DEF_SIDES[2] === ABC_SIDES[0] / DEF_SIDES[0] ? "=" : "\\neq"</var>
+            <var id="DEF_COMP_2">ABC_SIDES[0] / DEF_SIDES[0] === ABC_SIDES[1] / DEF_SIDES[1] ? "=" : "\\neq"</var>
+
+            <var id="GHI_COMP_1">ABC_SIDES[2] / GHI_SIDES[2] === ABC_SIDES[0] / GHI_SIDES[0] ? "=" : "\\neq"</var>
+            <var id="GHI_COMP_2">ABC_SIDES[0] / GHI_SIDES[0] === ABC_SIDES[1] / GHI_SIDES[1] ? "=" : "\\neq"</var>
+
+            <var id="TR">
+                function(){
+                    var tr = new Triangle( [ 2, -1 ],  ABC_ANGLES, 5, {} );
+                    tr.labels = {"sides": [ABC_SIDES[2], ABC_SIDES[0], ABC_SIDES[1]], "points" : ["A", "B", "C"] };
+                    tr.rotate( randRange( 0, 360 ) );
+                    tr.boxOut( [ [ [ -4, 1.5  ], [ 10, 1.5 ] ] ], [ 0, -0.5 ] );
+                    return tr;
+                }()
+            </var>
+            <var id="TR_A">
+                function(){
+                    var trA = new Triangle( [ 1, -8 ],  DEF_ANGLES, 5*SCALE_DEF, {} );
+                    trA.labels = {"sides": [DEF_SIDES[2], DEF_SIDES[0], DEF_SIDES[1]], "points" : ["D", "E", "F"] };
+                    trA.rotate( randRange( 0, 360 ) );
+                    trA.color = "blue";
+                    trA.boxOut( [ [ [ -1, -10  ], [ -1, 20 ] ] ], [ 0.5, 0 ] );
+                    trA.boxOut( TR.sides, [ 0, -1 ] );
+                    return trA;
+                }()
+            </var>
+            <var id="TR_B">
+                function(){
+                    var trB = new Triangle( [ 8, -6.5 ],  GHI_ANGLES, 5*SCALE_GHI, {} );
+                    trB.labels = {"sides": [GHI_SIDES[2], GHI_SIDES[0], GHI_SIDES[1]], "points" : ["G", "H", "I"] };
+                    trB.rotate( randRange( 0, 360 ) );
+                    trB.color = "red";
+                    trB.boxOut( [ [ [ 13, -10  ], [ 13, 20 ] ] ], [ -0.5, 0 ] );
+                    trB.boxOut( TR.sides, [ 0, -1 ] );
+                    trB.boxOut( TR_A.sides, [ 0, -1 ] );
+                    return trB;
+                }()
+            </var>
+        </div>
+
+        <div class="problems">
+        <div id="similar">
+            <div class="problem">
+                Which triangles are similar to triangle <code>ABC</code>?
+            </div>
+            <div class="question">
+                <div class="graphie" id="triangles" >
+                    init({
+                        range: [ [-1, 13 ], [ -14, 2.5 ] ]
+                    })
+
+                    TR.draw();
+                    TR.drawLabels();
+
+                    style({
+                        stroke: "blue",
+                    });
+                    TR_A.draw();
+                    TR_A.drawLabels();
+
+                    style({
+                        stroke: "red",
+                    });
+                    TR_B.draw();
+                    TR_B.drawLabels();
+                </div>
+            </div>
+            <div class="solution"><var>ANSWER_DISPLAY[ ANSWER ]</var></div>
+            <ul class="choices" data-category="true">
+                <li><code>DEF</code></li>
+                <li><code>GHI</code></li>
+                <li>Both</li>
+                <li>None</li>
+            </ul>
+            <div class="hints">
+                <div>
+                    <p>The sides of similar triangles are always proportional. This is known as </p>
+                    <p><code>\color{orange}{Side-Side-Side (SSS) Similarity}</code>.</p>
+                </div>
+                <p>First, let's determine whether ABC and DEF are similar.</p>
+                <div>
+                    <p>In triangle <code>DEF</code>, <code>DE = <var>DEF_SIDES[2]</var>, EF = <var>DEF_SIDES[0]</var></code>, and <code>FD = <var>DEF_SIDES[1]</var></code>.</p>
+                    <p>In triangle <code>ABC</code>, <code>AB = <var>ABC_SIDES[2]</var>, BC = <var>ABC_SIDES[0]</var></code>, and <code>CA = <var>ABC_SIDES[1]</var></code>.</p>
+                </div>
+                <div>
+                    <p>In order for <code>ABC</code> and <code>DEF</code> to be similar:</p>
+                    <p><code>\dfrac{AB}{\color{blue}{DE}} = \dfrac{BC}{\color{blue}{EF}} = \dfrac{CA}{\color{blue}{FD}}</code></p>
+                </div>
+                <div>
+                    <p>Substitute in the proper values for each side.</p>
+                    <p><code>\dfrac{<var>ABC_SIDES[2]</var>}{\color{blue}{<var>DEF_SIDES[2]</var>}} <var>DEF_COMP_1</var> \dfrac{<var>ABC_SIDES[0]</var>}{\color{blue}{<var>DEF_SIDES[0]</var>}} <var>DEF_COMP_2</var> \dfrac{<var>ABC_SIDES[1]</var>}{\color{blue}{<var>DEF_SIDES[1]</var>}}</code></p>
+                </div>
+                <p>Since <span data-if="ANSWER === 'GHI' || ANSWER === 'None'">not</span> all the proportions are equal, <code>ABC</code> is <span data-if="ANSWER === 'GHI' || ANSWER === 'None'">not</span> similar to <code>DEF</code></span>.</p>
+
+                <p>Next, let's determine whether <code>ABC</code> and <code>GHI</code> are similar.</p>
+                <div>
+                    <p>In triangle <code>GHI</code>, <code>DE = <var>GHI_SIDES[2]</var>, EF = <var>GHI_SIDES[0]</var></code>, and <code>FD = <var>GHI_SIDES[1]</var></code>.</p>
+                    <p>In triangle <code>ABC</code>, <code>AB = <var>ABC_SIDES[2]</var>, BC = <var>ABC_SIDES[0]</var></code>, and <code>CA = <var>ABC_SIDES[1]</var></code>.</p>
+                </div>
+                <div>
+                    <p>For triangles <code>ABC</code> and <code>GHI</code> to be similar:</p>
+                    <p><code>\dfrac{AB}{\color{red}{GH}} = \dfrac{BC}{\color{red}{EF}} = \dfrac{CA}{\color{red}{FD}}</code></p>
+                </div>
+                <div>
+                    <p>Substitute in the proper values for each side.</p>
+                    <p><code>\dfrac{<var>ABC_SIDES[2]</var>}{\color{red}{<var>GHI_SIDES[2]</var>}} <var>GHI_COMP_1</var> \dfrac{<var>ABC_SIDES[0]</var>}{\color{red}{<var>GHI_SIDES[0]</var>}} <var>GHI_COMP_2</var> \dfrac{<var>ABC_SIDES[1]</var>}{\color{red}{<var>GHI_SIDES[1]</var>}}</code></p>
+                </div>
+                <p>Since <span data-if="ANSWER === 'DEF' || ANSWER === 'None'">not</span> all the proportions are equal, <code>ABC</code> is <span data-if="ANSWER === 'DEF' || ANSWER === 'None'">not</span> similar to <code>GHI</code></span>.</p>
+
+                <div class="final_answer">
+                    <p data-if="ANSWER === 'DEF'"><code>DEF</code> is similar to <code>ABC</code></p>
+                    <p data-if="ANSWER === 'GHI'"><code>GHI</code> is similar to <code>ABC</code></p>
+                    <p data-if="ANSWER === 'Both'"><code>DEF</code> and <code>GHI</code> are similar to <code>ABC</code></p>
+                    <p data-else>Neither <code>DEF</code> nor <code>GHI</code> are similar to <code>ABC</code></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

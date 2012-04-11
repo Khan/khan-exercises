@@ -1,57 +1,49 @@
 <!DOCTYPE html>
-<html data-require="math angles">
+<html data-require="math angles math-format">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Degrees to radians</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Degrees to radians</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<!-- Numerical degree and radian values -->
-			<var id="NUM_DEGREES">rand(360)</var>
-			<var id="NUM_RADIANS">roundTo( 2, toRadians(NUM_DEGREES) )</var>
+    <div class="exercise">
+        <div class="vars">
+            <!-- Numerical degree and radian values -->
+            <var id="NUM_DEGREES">rand(360)</var>
+            <var id="NUM_RADIANS">roundTo( 2, toRadians(NUM_DEGREES) )</var>
 
-			<!-- Common degree and radian values -->
-			<!-- (index rather than member-based selection is for wrong answer generation) -->
-			<var id="COMMON_INDEX">rand( commonAngles.length )</var>
-			<var id="COMMON_DEGREES">commonAngles[COMMON_INDEX].deg</var>
-			<var id="COMMON_RADIANS">commonAngles[COMMON_INDEX].rad</var>
-		</div>
+            <!-- Common degree and radian values -->
+            <!-- (index rather than member-based selection is for wrong answer generation) -->
+            <var id="COMMON_INDEX">rand( commonAngles.length )</var>
+            <var id="COMMON_DEGREES">commonAngles[COMMON_INDEX].deg</var>
+            <!--<var id="COMMON_RADIANS">commonAngles[COMMON_INDEX].rad</var>-->
+            <var id="COMMON_RADIANS">fractionReduce( COMMON_DEGREES, 180 )</var>
+            <var id="SOLUTION">COMMON_DEGREES / 180 * Math.PI</var>
+        </div>
 
-		<div class="problems">
-			<div id="degrees-to-radians">
-				<p class="question">Convert the angle <var>COMMON_DEGREES</var>&deg; into radians.</p>
-				<p class="solution"><code><var>COMMON_RADIANS</var></code></p>
+        <div class="problems">
+            <div id="degrees-to-radians">
+                <p class="question">Convert the angle <var>COMMON_DEGREES</var>&deg; into radians. (answer in terms of pi)</p>
+                <p class="solution" data-forms="pi"><code><var>SOLUTION</var></code></p>
 
-				<div class="hints">
-					<p>To convert from degrees to radians, you multiply by <code>\pi</code> and then divide by <code>180^{\circ}</code>.</p>
-					<p><code><var>COMMON_DEGREES</var>^{\circ} \times \frac{\pi}{(180^{\circ})} = <var>COMMON_RADIANS</var></code></p>
-				</div>
+                <div class="hints">
+                    <p>To convert from degrees to radians, you multiply by <code>\pi</code> and then divide by <code>180^{\circ}</code>.</p>
+                    <p><code><var>COMMON_DEGREES</var>^{\circ} \times \dfrac{\pi}{(180^{\circ})}</code></p>
+                    <p><code><var>COMMON_RADIANS</var>\pi</code></p>
+                </div>
+            </div>
 
-				<ul class="choices" data-show="4" data-none="true">
-					<li><code><var>wrongCommonAngle( COMMON_INDEX, 1 ).rad</var></code></li>
-					<li><code><var>wrongCommonAngle( COMMON_INDEX, 2 ).rad</var></code></li>
-					<li><code><var>wrongCommonAngle( COMMON_INDEX, 3 ).rad</var></code></li>
-				</ul>
-			</div>
+            <div id="degrees-to-radians-2">
+                <p class="question">Convert the angle <var>NUM_DEGREES</var>&deg; into radians. (Round to the nearest hundredth of a radian.)</p>
+                <p class="solution" data-type="multiple"><span class="sol" data-forms="decimal"><var>NUM_RADIANS</var></span> radians</p>
 
-			<div data-type="degrees-to-radians">
-				<p class="question">Convert the angle <var>NUM_DEGREES</var>&deg; into radians. (Round to the nearest hundredth of a radian.)</p>
-				<p class="solution"><var>NUM_RADIANS.toFixed( 2 )</var></p>
-
-				<div class="hints">
-					<p>To convert from degrees to radians, you multiply by <code>\pi</code> and then divide by <code>180^{\circ}</code>.</p>
-					<p><code><var>NUM_DEGREES</var>^{\circ} \times \frac{\pi}{180^{\circ}} = <var>NUM_RADIANS</var></code></p>
-				</div>
-
-				<ul class="choices" data-show="4" data-none="true">
-					<li><var>wrongRadians( NUM_RADIANS ).toFixed( 2 )</var></li>
-					<li><var>wrongRadians( NUM_RADIANS ).toFixed( 2 )</var></li>
-					<li><var>wrongRadians( NUM_RADIANS ).toFixed( 2 )</var></li>
-				</ul>
-			</div>
-		</div>
-	</div>
+                <div class="hints">
+                    <p>To convert from degrees to radians, you multiply by <code>\pi</code> and then divide by <code>180^{\circ}</code>.</p>
+                    <p><code><var>NUM_DEGREES</var>^{\circ} \times \dfrac{\pi}{180^{\circ}}</code></p>
+                    <p><code><var>NUM_RADIANS</var></code></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

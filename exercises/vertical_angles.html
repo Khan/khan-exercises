@@ -1,57 +1,57 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers angles">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Vertical angles</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Vertical angles</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars">
-		<var id="ANCHOR">randRange( 20, 160 )</var>
-		<var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 2, 4 ], [ 3, 5 ] ] ) )</var>
-		<var id="MEASURE">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
-	</div>
+    <div class="exercise">
+    <div class="vars">
+        <var id="ANCHOR">randRange( 20, 160 )</var>
+        <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 2, 4 ], [ 3, 5 ] ] ) )</var>
+        <var id="MEASURE">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
+    </div>
 
-	<div class="problems">
-		<div>
-			<p class="question">If we know that the <span class="hint_blue">blue angle is <var>MEASURE</var> degrees</span>, what is the <span class="hint_orange">measure of the orange angle</span>?</p>
-			<p class="solution" data-forms="integer"><var>MEASURE</var></p>
-			<div class="graphie" id="lines">
-				init({
-					range: [ [ -1, 5 ], [-1, 1] ]
-				});
-				graph.pl = new ParallelLines( 0, 0, 4, 0, 0 );
-				graph.pl.draw();
-				graph.pl.drawTransverse( ANCHOR );
-				graph.pl.drawAngle( KNOWN_INDEX, true );
-				graph.pl.drawAngle( UNKNOWN_INDEX, false, "#FFA500" );
-			</div>
-		</div>
-	</div>
+    <div class="problems">
+        <div>
+            <p class="question">If we know that the <span class="hint_blue">blue angle is <var>MEASURE</var> degrees</span>, what is the <span class="hint_orange">measure of the orange angle</span>?</p>
+            <p class="solution" data-forms="integer"><var>MEASURE</var></p>
+            <div class="graphie" id="lines">
+                init({
+                    range: [ [ -1, 5 ], [-1, 1] ]
+                });
+                graph.pl = new ParallelLines( 0, 0, 4, 0, 0 );
+                graph.pl.draw();
+                graph.pl.drawTransverse( ANCHOR );
+                graph.pl.drawAngle( KNOWN_INDEX, true );
+                graph.pl.drawAngle( UNKNOWN_INDEX, false, "#FFA500" );
+            </div>
+        </div>
+    </div>
 
-	<div class="hints">
-		<div>
-			<p>What is the measure of the pink angle?</p>
-			<div class="graphie" data-update="lines">
-				graph.pl.drawAngle( KNOWN_INDEX + 1, false, "#FF00AF" );
-			</div>
-		</div>
-		<div>
-			<p>The pink and blue angles add up to 180 because they are adjacent and form a straight line.</p>
-			<p><code>\color{#FF00AF}{\text{pink angle}}= 180^{\circ} - \color{#6495ED}{<var>MEASURE</var>^{\circ}} = \color{#FF00AF}{<var>180 - MEASURE</var>^{\circ}}</code></p>
-			<div class="graphie" data-update="lines">
-				graph.pl.drawAngle( KNOWN_INDEX + 1, true, "#FF00AF" );
-			</div>
-		</div>
-		<div>
-			<p>The pink and orange angles also add up to 180 because they are adjacent and form a straight line too.</p>
-			<p><code>\color{#FFAF00}{\text{orange angle}}= 180^{\circ} - \color{#FF00AF}{<var>180 - MEASURE</var>^{\circ}} = \color{#FFAF00}{<var>MEASURE</var>^{\circ}}</code></p>
-			<div class="graphie" data-update="lines">
-				graph.pl.drawAngle( UNKNOWN_INDEX, true, "#FFA500" );
-			</div>
-		</div>
-	</div>
-	</div>
+    <div class="hints">
+        <div>
+            <p>What is the measure of the pink angle?</p>
+            <div class="graphie" data-update="lines">
+                graph.pl.drawAngle( KNOWN_INDEX + 1, false, "#FF00AF" );
+            </div>
+        </div>
+        <div>
+            <p>The pink and blue angles add up to 180 because they are adjacent and form a straight line.</p>
+            <p><code>\color{#FF00AF}{\text{pink angle}}= 180^{\circ} - \color{#6495ED}{<var>MEASURE</var>^{\circ}} = \color{#FF00AF}{<var>180 - MEASURE</var>^{\circ}}</code></p>
+            <div class="graphie" data-update="lines">
+                graph.pl.drawAngle( KNOWN_INDEX + 1, true, "#FF00AF" );
+            </div>
+        </div>
+        <div>
+            <p>The pink and orange angles also add up to 180 because they are adjacent and form a straight line too.</p>
+            <p><code>\color{#FFAF00}{\text{orange angle}}= 180^{\circ} - \color{#FF00AF}{<var>180 - MEASURE</var>^{\circ}} = \color{#FFAF00}{<var>MEASURE</var>^{\circ}}</code></p>
+            <div class="graphie" data-update="lines">
+                graph.pl.drawAngle( UNKNOWN_INDEX, true, "#FFA500" );
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

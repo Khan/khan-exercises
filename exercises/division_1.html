@@ -1,64 +1,64 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Division 1</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Division 1</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="A">randRange( 1, 10 )</var>
-			<var id="B">randRange( 1, 10 )</var>
-			<var id="C">A * B</var>
-		</div>
+    <div class="exercise">
+        <div class="vars">
+            <var id="A">randRange( 1, 10 )</var>
+            <var id="B">randRange( 1, 10 )</var>
+            <var id="C">A * B</var>
+        </div>
 
-		<div class="problems">
-			<div>
-				<div class="graphie" id="numbers">
-					var bottomBoundary = ( B === 1 ) ? A - 1 : -1;
-					init({
-						range: [ [ -1, 10 ], [ bottomBoundary, A + 1 ] ],
-						scale: [ 50, 50 ]
-					});
+        <div class="problems">
+            <div>
+                <div class="graphie" id="numbers">
+                    var bottomBoundary = ( B === 1 ) ? A - 1 : -1;
+                    init({
+                        range: [ [ -1, 10 ], [ bottomBoundary, A + 1 ] ],
+                        scale: [ 50, 50 ]
+                    });
 
-					KhanUtil.currentGraph.labelHolder = label( [ 0, A ],
-						"\\Huge{\\color{#6495ED}{" + C + "} \\div \\color{#FFA500}{" + B + "} = {?}}", "right" );
-				</div>
-				<div class="solution" data-forms="integer"><var>A</var></div>
-			</div>
-		</div>
-		<div class="hints">
-			<div data-if="B > 1" data-unwrap>
-				<div>
-					<div class="graphie" data-update="numbers">
-						for ( var i = 0; i &lt; A; i++ ) {
-							drawRow( B, A - 1 - i, "#6495ED", B * i + 1 );
-						}
-					</div>
-					<p>Draw <var>C</var> circles, with <var>B</var> to each row.</p>
-				</div>
-				<div>
-					<div class="graphie" data-update="numbers">
-						style({
-							stroke: "#FFA500"
-						});
-						for ( var i = 1; i &lt; A; i++ ) {
-							path ( [ [ - 0.5 , i - 0.5 ], [ B - 0.5 , i - 0.5 ] ]);
-						}
-					</div>
-					<p>How many rows are there?</p>
-				</div>
-			</div>
-			<p data-else>
-				Dividing any number by 1 equals itself.
-			</p>
-			<div class="graphie" data-update="numbers">
-				KhanUtil.currentGraph.labelHolder.remove();
-				label( [ 0, A ],
-					"\\Huge{\\color{#6495ED}{" + C + "} \\div \\color{#FFA500}{" + B + "} = " + A + "}", "right" );
-			</div>
-		</div>
-	</div>
+                    KhanUtil.currentGraph.labelHolder = label( [ 0, A ],
+                        "\\Huge{\\color{#6495ED}{" + C + "} \\div \\color{#FFA500}{" + B + "} = {?}}", "right" );
+                </div>
+                <div class="solution" data-forms="integer"><var>A</var></div>
+            </div>
+        </div>
+        <div class="hints">
+            <div data-if="B > 1" data-unwrap>
+                <div>
+                    <div class="graphie" data-update="numbers">
+                        for ( var i = 0; i &lt; A; i++ ) {
+                            drawRow( B, A - 1 - i, "#6495ED", B * i + 1 );
+                        }
+                    </div>
+                    <p>Draw <var>C</var> circles, with <var>B</var> to each row.</p>
+                </div>
+                <div>
+                    <div class="graphie" data-update="numbers">
+                        style({
+                            stroke: "#FFA500"
+                        });
+                        for ( var i = 1; i &lt; A; i++ ) {
+                            path ( [ [ - 0.5 , i - 0.5 ], [ B - 0.5 , i - 0.5 ] ]);
+                        }
+                    </div>
+                    <p>How many rows are there?</p>
+                </div>
+            </div>
+            <p data-else>
+                Dividing any number by 1 equals itself.
+            </p>
+            <div class="graphie" data-update="numbers">
+                KhanUtil.currentGraph.labelHolder.remove();
+                label( [ 0, A ],
+                    "\\Huge{\\color{#6495ED}{" + C + "} \\div \\color{#FFA500}{" + B + "} = " + A + "}", "right" );
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Utility Test Suite: LaTeX</title>
+	<!-- Include dependencies -->
+	<script type="text/javascript" src="../../jquery.js"></script>
+	<script type="text/javascript" src="../MathJax/1.1a/MathJax.js?config=KAthJax-a5c67e8a5046db2ff8dfc2229a228836"></script>
+	<script src="../../khan-exercise.js"></script>
+	<script type="text/javascript" src="../tmpl.js"></script>
+	<script src="../ast.js"></script>
+	<script src="../math-model.js"></script>
+	<script src="../simplify.js"></script>
+	<script src="../expr-normal-form.js"></script>
+	<script src="../expr-helpers.js"></script>
+	<script src="../steps-helpers.js"></script>
+	<script src="../math.js"></script>
+<style>
+.ok {
+   color:white;
+   font-weight:bold;
+   background-color:green;
+}
+.no {
+   color:white;
+   font-weight:bold;
+   background-color:red;
+}
+.generated, .expected {
+   position:fixed;
+   left:0px;
+   top:0px;
+   width:500px;
+   height:50px;
+   background:white;
+   padding:5px;
+   z-index:100;
+}
+
+.generated {
+   border:solid red;
+}
+.expected {
+   border:solid black;
+}
+#tests td {
+   border:solid gray 1px;
+}
+</style>
+	<script>
+    jQuery( document ).ready( function() {
+	var turn = 1;
+	var timer;
+	var blink = function() {
+	 	if (turn %2 === 0) { 
+			$('#expected').hide();
+			$('#generated').show();
+		} else {
+			$('#expected').show();          
+			$('#generated').hide();          
+		}
+		turn++;
+	};
+	window.onload=function() {
+		timer = setInterval(blink, 500);
+	}
+
+	var showRender = function(id) {
+		$("#generated").html($("#gen_" + id).html());
+		$("#expected").html($("#exp_" + id).html());
+	}
+        window.showRender = showRender;
+
+	var testCase = function(srcExprStr, srcExpr, styles, groupsDisplayed, refLatex, imgName, id) {
+		var genLatex;
+		if (groupsDisplayed === undefined) {
+                        if (srcExprStr) {
+				genLatex = KhanUtil.parseFormat(srcExprStr, styles);
+			} else {
+				genLatex = KhanUtil.format(srcExpr);
+				srcExprStr = "<textarea>" + KhanUtil.exprToStrExpr(srcExpr) + "</textarea>";
+			}
+		} else {
+			var group = [];
+			for (var iExpr = 0; iExpr < srcExprStr.length; iExpr++) {
+				group.push(KhanUtil.parse(srcExprStr[iExpr], styles));
+			}
+			genLatex = "";
+			for (var iGroup = 0; iGroup < groupsDisplayed.length; iGroup++) {
+				if (iGroup != 0) {
+					genLatex += "</code><br/><code>";
+				}
+				genLatex += KhanUtil.formatGroup(group, groupsDisplayed[iGroup]);
+			}
+		}
+		var genLatexStr = ("" + genLatex).replace(/\\/g, "\\\\");
+		var refLatexStr = ("" + refLatex).replace(/\\/g, "\\\\");
+		var result = "<span class='ok'>OK</span>";
+		if (genLatex !== refLatex) {
+			result = "<span class='no'>NO</span>";
+		}
+		var js = "onmouseover='showRender(" + id + ")'";
+		$("#tests").append("<tr><td>" + srcExprStr + "</td>" + 
+					"<td>" + result + "</td>" +
+					"<td><span id='gen_" + id + "' " + js + "><code>" + genLatex + "</code></span></td>" +
+					"<td><span id='exp_" + id + "'><code>" + refLatex + "</code></span></td>" +
+					"<td><textarea>" + genLatexStr + "</textarea></td>" +
+					"<td><textarea>" + refLatexStr + "</textarea></td></tr>");
+	}
+
+	var genCaseCode = function(srcExprStr, styles, refLatex, imgName) {
+		var genLatex = KhanUtil.parseFormat(srcExprStr, styles);
+		srcExprStr = srcExprStr.replace(/\\/g, "\\\\");
+		genLatex = genLatex.replace(/\\/g, "\\\\");
+		$("#tests2").append("{src:\"" + srcExprStr + "\", ref:\"" + genLatex + "\"},<br>");
+	}
+
+	var PINK = KhanUtil.PINK;
+	var GREEN = KhanUtil.GREEN;
+	var ORANGE = KhanUtil.ORANGE;
+	var BLUE = KhanUtil.BLUE;
+
+	var testsRender = [
+//		{src:"#{a\\times b\\times c}", styles:[PINK], ref:"\\color{#FF00AF}{a\\color{#FF00AF}{\\;\\times \\;}b\\times c}"},
+//		{src:"a \\times b", ref:"a\\times b"},
+//		{src:["a&+&b", "aaa&+&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b \\\\\\\\aaa& \\; + & \\; bbb \\\\\\end{alignat}"},
+//		{src:["#{a &=& b &=& c}"], styles:[BLUE,BLUE], groups:[[0]], ref:""},
+//		{src:"ab \\times c", ref:"abc\\times def"},
+//		{src:"abc\\times def", ref:"abc\\times def"},
+		{title:"Single terms"},
+		{src:"a", ref:"a"},
+		{src:"A", ref:"A"},
+		{src:"3", ref:"3"},
+		{src:"42", ref:"42"},
+
+		{title:"Unary operators"},
+		{src:"+a", ref:"a"},
+		{src:"-a", ref:"- a"},
+
+		{title:"Binary operators"},
+		{src:"2*3", ref:"2\\times 3"},
+		{src:"a+b", ref:"a+ b"},
+		{src:"a-b", ref:"a- b"},
+		{src:"a*b", ref:"ab"},
+		{src:"a \\times b", ref:"a\\times b"},
+		{src:"a \\cdot b", ref:"a\\cdot b"},
+		{src:"a/b", ref:"\\frac {a}{b}"},
+		{src:"a^b", ref:"a^{b}"},
+		{src:"a^{23}", ref:"a^{23}"},
+		{src:"x \\pm 1", ref:"x\\pm  1"},
+		{src:"a = b", ref:"a= b"},
+		{src:"=4", ref:"= 4"},
+		{src:"a < b", ref:"a<  b"},
+		{src:"a > b", ref:"a>  b"},
+		{src:"a \\not= b", ref:"a\\not=  b"},
+		{src:"a \\geq b", ref:"a\\geq  b"},
+		{src:"a \\leq b", ref:"a\\leq  b"},
+
+		{title:"Trigonometry"},
+		{src:"\\sin x", ref:"\\sin {x}"},
+		{src:"\\sin(x)", ref:"\\sin {( x) }"},
+		{src:"\\cos(x)", ref:"\\cos {( x) }"},
+		{src:"\\tan(x)", ref:"\\tan {( x) }"},
+		{src:"\\cot(x)", ref:"\\cot {( x) }"},
+		{src:"\\sec(x)", ref:"\\sec {( x) }"},
+		{src:"\\csc(x)", ref:"\\csc {( x) }"},
+		{src:"\\sin^{-1} x", ref:"\\sin^{-1}x"},
+		{src:"\\sin(x)^2", ref:"\\sin^{2}( x) "},
+
+		{title:"Misc"},
+		{src:"a(b+c)",ref:"a( b+ c) "},
+		{src:"-2\\times -3", ref:"-2\\times -3"},
+		{src:"\\sqrt{x}", ref:"\\sqrt {x}"},
+		{src:"\\sqrt[3]{x}", ref:"\\sqrt[3] {3}"},
+		{src:"\\frac{a}{b}", ref:"\\frac {a}{b}"},
+		{src:"\\dfrac{a}{b}", ref:"\\dfrac {a}{b}"},
+		{src:"|x|", ref:"| x| "},
+		{src:"\\ln x", ref:"\\ln {x}"},
+		{src:"\\ln(x)", ref:"\\ln {( x) }"},
+
+
+		{title:"Parenthesis"},
+		{src:"(a)", ref:"( a) "},
+		{src:"((a))", ref:"( ( a) ) "},
+
+		{title:"N-ary operators"},
+		{src:"a+b+c", ref:"a+ b+ c"},
+		{src:"a-b-c", ref:"a- b- c"},
+		{src:"a\\times b\\times c", ref:"a\\times b\\times c"},
+		{src:"abc\\times def", ref:"abc\\times def"},
+		{src:"a=b=c", ref:"a= b= c"},
+
+		{title:"Times or no times"},
+		{src:"a*b", ref:"ab"},
+		{src:"a*2", ref:"a\\times 2"},
+		{src:"2*a", ref:"2a"},
+		{src:"(a)*(b)", ref:"( a) ( b) "},
+		{src:"(a)*b", ref:"( a) b"},
+		{src:"(a)*2", ref:"( a) \\times 2"},
+		{src:"a*(b)", ref:"a( b) "},
+		{src:"2*(b)", ref:"2( b) "},
+		{src:"2*a*(b)", ref:"2a( b) "},
+		{srcExpr:{op:"*", args:[2,{op:"+", args:[2, 3]}]}, ref:"2(2+ 3)"},
+		{srcExpr:{op:"*", args:[2,{op:"()", args:[{op:"+", args:[2, 3]}]}]}, ref:"2( 2+ 3) "},
+		{srcExpr:{op:"*", args:[2,{op:"*", args:[3, 4]}]}, ref:"2\\times 3\\times 4"},
+		{srcExpr:{op:"*", args:[2,{op:"*", args:[{op:"var", args:["x"]}, {op:"var", args:["y"]}]}]}, ref:"2xy"},
+		{title:"Mixed expressions"},
+		{src:"--a", ref:"- - a"},
+		{src:"a+-b", ref:"a+ - b"},
+		{src:"a-+b", ref:"a- b"},
+		{src:"(a+b)/(c+d)", ref:"\\frac {( a+ b) }{( c+ d) }"},
+		{src:"\\frac{a+b}{c \\times d}", ref:"\\frac {a+ b}{c\\times d}"},
+		{src:"(a+(b)+(c+(d)))", ref:"( a+ ( b) + ( c+ ( d) ) ) "},
+		{src:"\\sqrt{x+2}", ref:"\\sqrt {x+ 2}"},
+		{src:"x^{2+3}", ref:"x^{2+ 3}"},
+		{src:"x^{y^{z}}", ref:"x^{y^{z}}"},
+		{src:"1+2-3+4", ref:"1+ 2- 3+ 4"},
+		{src:"2(x+y)^2", ref:"2( x+ y) ^{2}"},
+
+		{title:"Styles: single term, no braces"},
+		{src:"#2", styles:[PINK], ref:"\\color{#FF00AF}{2}"},
+		{src:"#2", styles:[{cancel:PINK}], ref:"\\color{#FF00AF}{\\cancel{2}}"},
+		{src:"#a+b", styles:[PINK], ref:"\\color{#FF00AF}{a}+ b"},
+		{src:"#a+b", styles:[{cancel:BLUE}], ref:"\\color{#6495ED}{\\cancel{a}}+ b"},
+		{src:"a#+b", styles:[PINK], ref:"a\\color{#FF00AF}{\\;+ \\;}b"},
+		{src:"a#+b", styles:[{cancel:GREEN}], ref:"a\\color{#28AE7B}{\\cancel{+}}b"},
+		{src:"a#-b", styles:[PINK], ref:"a\\color{#FF00AF}{\\;- \\;}b"},
+		{src:"a#\\times b", styles:[PINK], ref:"a\\color{#FF00AF}{\\;\\times \\;}b"},
+		{src:"a#\\cdot b", styles:[PINK], ref:"a\\color{#FF00AF}{\\;\\cdot \\;}b"},
+		{src:"#(a+b)", styles:[PINK], ref:"\\color{#FF00AF}{( }a+ b) "},
+		{src:"(a+b#)", styles:[PINK], ref:"( a+ b\\color{#FF00AF}{) }"},
+		{src:"#a^b", styles:[PINK], ref:"\\color{#FF00AF}{a}^{b}"},
+		{src:"a^#b", styles:[PINK], ref:"a^{\\color{#FF00AF}{b}}"},
+		{src:"a^{#b}", styles:[PINK], ref:"a^{\\color{#FF00AF}{b}}"},
+
+		{title:"Styles: single term, with braces"},
+		{src:"#{23}", styles:[PINK], ref:"\\color{#FF00AF}{23}"},
+		{src:"#{a}+b", styles:[PINK], ref:"\\color{#FF00AF}{a}+ b"},
+		{src:"a#{+}b", styles:[PINK], ref:"a\\color{#FF00AF}{\\;+ \\;}b"},
+		{src:"a#{-}b", styles:[PINK], ref:"a\\color{#FF00AF}{\\;- \\;}b"},
+		{src:"a#{\\times} b", styles:[PINK], ref:"a\\color{#FF00AF}{\\;\\times \\;}b"},
+		{src:"a#{\\cdot} b", styles:[PINK], ref:"a\\color{#FF00AF}{\\;\\cdot \\;}b"},
+		{src:"#{(}a+b)", styles:[PINK], ref:"\\color{#FF00AF}{( }a+ b) "},
+		{src:"(a+b#{)}", styles:[PINK], ref:"( a+ b\\color{#FF00AF}{) }"},
+		{src:"#{a}^b", styles:[PINK], ref:"\\color{#FF00AF}{a}^{b}"},
+		{src:"a^#{b}", styles:[PINK], ref:"a^{\\color{#FF00AF}{b}}"},
+		{src:"a^{#{b}}", styles:[PINK], ref:"a^{\\color{#FF00AF}{b}}"},
+
+
+		{title:"Colors: full expression, various operators"},
+		{src:"#{+a}", styles:[PINK], ref:"\\color{#FF00AF}{a}"},
+		{src:"#{+a}", styles:[{cancel:GREEN}], ref:"\\color{#28AE7B}{\\cancel{a}}"},
+		{src:"#{-a}", styles:[PINK], ref:"\\color{#FF00AF}{- a}"},
+		{src:"#{a+b}", styles:[PINK], ref:"\\color{#FF00AF}{a+ b}"},
+		{src:"#{a+b}", styles:[{cancel:GREEN}], ref:"\\color{#28AE7B}{\\cancel{a+ b}}"},
+		{src:"#{a-b}", styles:[PINK], ref:"\\color{#FF00AF}{a- b}"},
+		{src:"#{a*b}", styles:[PINK], ref:"\\color{#FF00AF}{ab}"},
+		{src:"#{a \\times b}", styles:[PINK], ref:"\\color{#FF00AF}{a\\times b}"},
+		{src:"#{a \\cdot b}", styles:[PINK], ref:"\\color{#FF00AF}{a\\cdot b}"},
+		{src:"#{a/b}", styles:[PINK], ref:"\\color{#FF00AF}{\\frac {a}{b}}"},
+		{src:"#{a^b}", styles:[PINK], ref:"\\color{#FF00AF}{a}^{\\color{#FF00AF}{b}}"},
+		{src:"#{a^{23}}", styles:[PINK], ref:"\\color{#FF00AF}{a}^{\\color{#FF00AF}{23}}"},
+		{src:"#{x \\pm 1}", styles:[PINK], ref:"\\color{#FF00AF}{x\\pm 1}"},
+		{src:"#{a = b}", styles:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;= \\;}\\color{#FF00AF}{b}"},
+		{src:"#{a < b}", styles:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;< \\;} \\color{#FF00AF}{b}"},
+		{src:"#{a \\not= b}", styles:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;\\not= \\;} \\color{#FF00AF}{b}"},
+		{src:"#{a \\geq b}", styles:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;\\geq \\;} \\color{#FF00AF}{b}"},
+
+		{src:"#{\\sin x}", styles:[PINK], ref:"\\color{#FF00AF}{\\sin {x}}"},
+		{src:"#{\\sin(x)}", styles:[PINK], ref:"\\color{#FF00AF}{\\sin {( x) }}"},
+		{src:"#{\\sqrt{x}}", styles:[PINK], ref:"\\color{#FF00AF}{\\sqrt{x}}"},
+		{src:"#{\\sqrt[3]{x}}", styles:[PINK], ref:"\\color{#FF00AF}{\\sqrt[3]{3}}"},
+		{src:"#{\\frac{a}{b}}", styles:[PINK], ref:"\\color{#FF00AF}{\\frac {a}{b}}"},
+		{src:"#{\\dfrac{a}{b}}", styles:[PINK], ref:"\\color{#FF00AF}{\\dfrac{a}{b}}"},
+		{src:"#{|x|}", styles:[PINK], ref:"\\color{#FF00AF}{| x| }"},
+		{src:"#{\\ln x}", styles:[PINK], ref:"\\color{#FF00AF}{\\ln{x}}"},
+		{src:"#{\\ln(x)}", styles:[PINK], ref:"\\color{#FF00AF}{\\ln{( x) }}"},
+		{src:"#{(a)}", styles:[PINK], ref:"\\color{#FF00AF}{( a) }"},
+		{src:"#{a+b+c}", styles:[PINK], ref:"\\color{#FF00AF}{a\\color{#FF00AF}{\\;+ \\;}b+ c}"},
+		{src:"#{a-b-c}", styles:[PINK], ref:"\\color{#FF00AF}{a- b- c}"},
+		{src:"#{a\\times b\\times c}", styles:[PINK], ref:"\\color{#FF00AF}{a\\color{#FF00AF}{\\;\\times \\;}b\\times c}"},
+
+		{title:"Colors: arbitrary parts"},
+		{src:"#{2}=3", styles:[BLUE], ref:"\\color{#6495ED}{2}= 3"},
+		{src:"#{2=}3", styles:[BLUE], ref:"\\color{#6495ED}{2}\\color{#6495ED}{\\;= \\;}3"},
+		{src:"2#{=}3", styles:[BLUE], ref:"2\\color{#6495ED}{\\;= \\;}3"},
+		{src:"2#{=3}", styles:[BLUE], ref:"2\\color{#6495ED}{\\;= \\;}\\color{#6495ED}{3}"},
+		{src:"2=#{3}", styles:[BLUE], ref:"2= \\color{#6495ED}{3}"},
+		{src:"#{(a}+b)(c \\times d)", styles:[PINK], ref:"\\color{#FF00AF}{( }\\color{#FF00AF}{a}+ b) ( c\\times d) "},
+		{src:"(#{a+}b)(c \\times d)", styles:[PINK], ref:"( \\color{#FF00AF}{a}\\color{#FF00AF}{\\;+ \\;}b) ( c\\times d) "},
+		{src:"(a+#{b)}(c \\times d)", styles:[PINK], ref:"( a+ \\color{#FF00AF}{b}\\color{#FF00AF}{) }( c\\times d) "},
+		{src:"(a+b#{)(}c \\times d)", styles:[PINK], ref:"( a+ b\\color{#FF00AF}{) }\\color{#FF00AF}{( }c\\times d) "},
+		{src:"(a+b)#{(c} \\times d)", styles:[PINK], ref:"( a+ b) \\color{#FF00AF}{( }\\color{#FF00AF}{c}\\times d) "},
+		{src:"(a+#{b)(c} \\times d)", styles:[PINK], ref:"( a+ \\color{#FF00AF}{b}\\color{#FF00AF}{) }\\color{#FF00AF}{( }\\color{#FF00AF}{c}\\times d) "},
+		{src:"(a#{+b)*(c \\times }d)", styles:[PINK], ref:"( a\\color{#FF00AF}{\\;+ \\;}\\color{#FF00AF}{b}\\color{#FF00AF}{) }\\color{#FF00AF}{( }\\color{#FF00AF}{c}\\color{#FF00AF}{\\;\\times \\;}d) "},
+
+		{src:"(a#{+b)*(c+}d)", styles:[PINK], ref:"( a\\color{#FF00AF}{\\;+ \\;}\\color{#FF00AF}{b}\\color{#FF00AF}{) }\\color{#FF00AF}{( }\\color{#FF00AF}{c}\\color{#FF00AF}{\\;+ \\;}d) "},
+		{src:"#{a+\\sqrt{x}}+2", styles:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;+ \\;}\\color{#FF00AF}{\\sqrt {x}}+ 2"},
+		{src:"#{\\sin} x", styles:[PINK], ref:"\\color{#FF00AF}{\\sin \\;}{x}"},
+		{src:"#{\\sin}(x)", styles:[PINK], ref:"\\color{#FF00AF}{\\sin \\;}{( x) }"},
+		{src:"#{\\sin(}x)", styles:[PINK], ref:"\\color{#FF00AF}{\\sin \\;}{\\color{#FF00AF}{( }x) }"},
+		{src:"#{\\sin(x})", styles:[PINK], ref:"\\color{#FF00AF}{\\sin \\;}{\\color{#FF00AF}{( }\\color{#FF00AF}{x}) }"},
+		{src:"#{a-\\sin(x+}2)", styles:[PINK], ref:"\\color{#FF00AF}{a}\\color{#FF00AF}{\\;- \\;}\\color{#FF00AF}{\\sin \\;}{\\color{#FF00AF}{( }\\color{#FF00AF}{x}\\color{#FF00AF}{\\;+ \\;}2) }"},
+
+		{title:"Colors: multiple/nested colors"},
+
+		{src:"#a+#b=#{-3}", styles:[BLUE, PINK, GREEN], ref:"\\color{#6495ED}{a}+ \\color{#FF00AF}{b}= \\color{#28AE7B}{-3}"},
+		{src:"#{(a+#{(b+#{|d|})})=3}", styles:[BLUE, PINK, GREEN], ref:"\\color{#6495ED}{( \\color{#6495ED}{a}\\color{#6495ED}{\\;+ \\;}\\color{#FF00AF}{( \\color{#FF00AF}{b}\\color{#FF00AF}{\\;+ \\;}\\color{#28AE7B}{| d| }) }) }\\color{#6495ED}{\\;= \\;}\\color{#6495ED}{3}"},
+
+		{title:"Colors: \\color command"},
+		{src:"\\color{" + PINK + "}{a+b}", styles:[], ref:"\\color{#FF00AF}{a+ b}"},
+
+		{title:"Alignment: single op"},
+		{src:["a&+&b", "aaa&+&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b \\\\\\\\aaa& \\; + & \\; bbb \\\\\\end{alignat}"},
+		{src:["a&=&b", "aaa&=&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; = & \\; b \\\\\\\\aaa& \\; = & \\; bbb \\\\\\end{alignat}"},
+		{src:["a&=&b", "aaa&=&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; = & \\; b \\\\\\\\aaa& \\; = & \\; bbb \\\\\\end{alignat}"},
+		{src:["a&\\times&b", "aaa&\\times&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\times & \\; b \\\\\\\\aaa& \\; \\times & \\; bbb \\\\\\end{alignat}"},
+		{src:["a&\\cdot&b", "aaa&\\cdot&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\cdot & \\; b \\\\\\\\aaa& \\; \\cdot & \\; bbb \\\\\\end{alignat}"},
+		{src:["a&<&b", "aaa&<&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; <  & \\; b \\\\\\\\aaa& \\; <  & \\; bbb \\\\\\end{alignat}"},
+		{src:["a&\\leq&b", "aaa&\\leq&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\leq  b \\\\\\\\aaa& \\; \\leq  bbb \\\\\\end{alignat}"},
+		{src:["a&\\not=&b", "aaa&\\not=&bbb"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\not=  b \\\\\\\\aaa& \\; \\not=  bbb \\\\\\end{alignat}"},
+		{src:["a+&(&b)", "aaa+&(&bbb)"], groups:[[0,1]], ref:"\\begin{alignat}{5}a+ & \\; ( & b)  \\\\\\\\aaa+ & \\; ( & bbb)  \\\\\\end{alignat}"},
+		{src:["a+(b&)&", "aaa+(bbb&)&"], groups:[[0,1]], ref:"\\begin{alignat}{5}a+ ( b& ) &  \\\\\\\\aaa+ ( bbb& ) &  \\\\\\end{alignat}"},
+
+
+		{title:"Alignment: multiple ops"},
+		{src:["a&+&b&+&c", "aaa&+&bbb&+&ccc"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b& \\; + & \\; c \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+		{src:["a&+&b&+&c", "aaa&+&&&ccc"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b& \\; + & \\; c \\\\\\\\aaa& \\; + & & & \\; ccc \\\\\\end{alignat}"},
+		{src:["&(&a&+&b&&)&", "&(&aaaa&+&bbb&&)&"], groups:[[0,1]], ref:"\\begin{alignat}{5}& ( & a& \\; + & \\; b& & ) &  \\\\\\\\& ( & aaaa& \\; + & \\; bbb& & ) &  \\\\\\end{alignat}"},
+
+		{title:"Alignment: various spacings"},
+		{src:["a & + & b &+& c", "aaa&+&bbb&+&ccc"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b& \\; + & \\; c \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+		{src:["a& + &b  &+&  c", "aaa&+&bbb&+&ccc"], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; + & \\; b& \\; + & \\; c \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+
+		{title:"Alignment: multiple groups"},
+		{src:["a&+&b&+&c", "aaa&+&bbb&+&ccc"], groups:[[0],[1]], ref:"\\begin{alignat}{5}\\hphantom{aaa} & \\hphantom{ \\; + } & \\hphantom{ \\; bbb} & \\hphantom{ \\; + } & \\hphantom{ \\; ccc} \\\\a& \\; + & \\; b& \\; + & \\; c \\\\\\end{alignat}</code><br/><code>\\begin{alignat}{5}\\hphantom{a} & \\hphantom{ \\; + } & \\hphantom{ \\; b} & \\hphantom{ \\; + } & \\hphantom{ \\; c} \\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+
+		{title:"Alignment: mixed with colors"},
+		{src:["#a&+&#b&+&#{c}", "aaa&+&bbb&+&ccc"], styles:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}\\color{#FF00AF}{a}& \\; + & \\; \\color{#6495ED}{b}& \\; + & \\; \\color{#28AE7B}{c} \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+		{src:["a&#+&#b&#{+&c}", "aaa&+&bbb&+&ccc"], styles:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}a& \\; \\color{#FF00AF}{\\;+ \\;}& \\; \\color{#6495ED}{b}& \\; \\color{#28AE7B}{\\;+ \\;}& \\; \\color{#28AE7B}{c} \\\\\\\\aaa& \\; + & \\; bbb& \\; + & \\; ccc \\\\\\end{alignat}"},
+		{src:["&#(&a&#+&#b&&)&", "&(&aaaa&+&bbb&&)&"], styles:[PINK, BLUE, GREEN], groups:[[0,1]], ref:"\\begin{alignat}{5}& \\color{#FF00AF}{( }& a& \\; \\color{#6495ED}{\\;+ \\;}& \\; \\color{#28AE7B}{b}& & ) &  \\\\\\\\& ( & aaaa& \\; + & \\; bbb& & ) &  \\\\\\end{alignat}"}
+	];
+/*
+$("body").append("<pre id='tests2'></pre>");
+for (var iTest = 0; iTest < testsRender.length; iTest++) {
+	genCaseCode(testsRender[iTest].src,, testsRender[iTest].styles, testsRender[iTest].ref, "");
+}
+*/
+	$("body").append("<table id='tests' cellspacing=0></table>");
+	$("#tests").append("<tr><td>Expression</td><td>Status&nbsp;&nbsp;&nbsp;</td>" +
+		"<td>Generated</td><td>Expected</td><td>Generated LaTeX</td><td>Expected LaTeX</td></tr>");
+	for (var iTest = 0; iTest < testsRender.length; iTest++) {
+		var test = testsRender[iTest];
+		if (test.title !== undefined) {
+			$("#tests").append("<tr><td colspan=6 style='background:yellow'>" + test.title + "</td></tr>");
+		} else {
+			testCase(test.src, test.srcExpr, test.styles, test.groups, test.ref, "", iTest);
+		}
+	}
+	jQuery( document ).tmpl();
+    });
+</script>
+
+</head>
+<body>
+<div style="height:60px"></div>
+<!--<p><code>\begin{alignat}{5}\color{#6495ED}{a &=& b} \\\end{alignat}</code></p>-->
+<p>Move your mouse pointer over the generated expression, to see it compared to the expected version.</p>
+<div class='generated' id="generated"></div>
+<div class='expected' id="expected"></div>
+</body>
+</html>

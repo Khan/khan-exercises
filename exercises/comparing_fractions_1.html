@@ -1,121 +1,121 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers word-problems">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Comparing fractions 1</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Comparing fractions 1</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<!--
-		Compares fractions that have the same numerator or have the same denominator.
-		TODO: would like to draw overlapping circles or rectangle slices for hints.
-	-->
-	<div class="exercise">
-		<div class="problems">
-			<div id="same-numerator">
-				<div class="vars" data-ensure="DEN_1 !== DEN_2">
-					<var id="NUM_1">randRange( 1, 14 )</var>
-					<var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
+    <!--
+        Compares fractions that have the same numerator or have the same denominator.
+        TODO: would like to draw overlapping circles or rectangle slices for hints.
+    -->
+    <div class="exercise">
+        <div class="problems">
+            <div id="same-numerator">
+                <div class="vars" data-ensure="DEN_1 !== DEN_2">
+                    <var id="NUM_1">randRange( 1, 14 )</var>
+                    <var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
 
-					<var id="NUM_2">NUM_1</var>
-					<var id="DEN_2">randRange( NUM_2 + 1, 15 )</var>
+                    <var id="NUM_2">NUM_1</var>
+                    <var id="DEN_2">randRange( NUM_2 + 1, 15 )</var>
 
-					<var id="SOLUTION">(function() {
-						if ( DEN_1 &lt; DEN_2 ) {
-							return "&gt;";
-						} else {
-							return "&lt;";
-						}
-					})()</var>
-					<var id="MORE">DEN_1 > DEN_2 ? "more" : "fewer"</var>
-					<var id="SMALLER">DEN_1 > DEN_2 ? "smaller" : "bigger"</var>
-					<var id="LESS">DEN_1 > DEN_2 ? "less" : "more"</var>
-					<var id="BIGGER">SMALLER === "smaller" ? "bigger" : "smaller"</var>
-				</div>
+                    <var id="SOLUTION">(function() {
+                        if ( DEN_1 &lt; DEN_2 ) {
+                            return "&gt;";
+                        } else {
+                            return "&lt;";
+                        }
+                    })()</var>
+                    <var id="MORE">DEN_1 > DEN_2 ? "more" : "fewer"</var>
+                    <var id="SMALLER">DEN_1 > DEN_2 ? "smaller" : "bigger"</var>
+                    <var id="LESS">DEN_1 > DEN_2 ? "less" : "more"</var>
+                    <var id="BIGGER">SMALLER === "smaller" ? "bigger" : "smaller"</var>
+                </div>
 
-				<div class="problem">
-					<p>Fill in the blank.</p>
-					<p>
-						<code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>}</code>
-						____ <code>\dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>
-					</p>
-				</div>
-				<p class="solution"><code><var>SOLUTION</var></code></p>
-				<ul class="choices" data-category="true">
-					<li><code>&lt;</code></li>
-					<li><code>&gt;</code></li>
-				</ul>
-				<div class="hints">
-					<div>
-						<p>This is like comparing two equally sized pizzas where one is cut into <var>DEN_1</var> equal slices and the other is cut into <var>DEN_2</var> equal slices.</p>
-						<div style="height: 150px;">
-							<div class="graphie" style="float: left">
-								init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-								piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
-							</div>
-							<div class="graphie" style="float: left">
-								init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-								piechart( [NUM_2, DEN_2 - NUM_2], ["#e00", "#999"], 2 );
-							</div>
-						</div>
-					</div>
-					<p>Note that cutting a pizza into more slices will result in smaller slices.</p>
-					<p>The left fraction represents a pizza with <var>MORE</var> slices, and so each slice is <var>SMALLER</var>.</p>
-					<p><var>NUM_1</var> <var>SMALLER</var> slice<var>plural( NUM_1 )</var> is <var>LESS</var> pizza than <var>NUM_2</var> <var> BIGGER</var> slice<var>plural( NUM_2 )</var>.</p>
-					<p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.</p>
-				</div>
-			</div>
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p>
+                        <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>}</code>
+                        ____ <code>\dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>
+                    </p>
+                </div>
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                </ul>
+                <div class="hints">
+                    <div>
+                        <p>This is like comparing two equally sized pizzas where one is cut into <var>DEN_1</var> equal slices and the other is cut into <var>DEN_2</var> equal slices.</p>
+                        <div style="height: 150px;">
+                            <div class="graphie" style="float: left">
+                                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                                piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
+                            </div>
+                            <div class="graphie" style="float: left">
+                                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                                piechart( [NUM_2, DEN_2 - NUM_2], ["#e00", "#999"], 2 );
+                            </div>
+                        </div>
+                    </div>
+                    <p>Note that cutting a pizza into more slices will result in smaller slices.</p>
+                    <p>The left fraction represents a pizza with <var>MORE</var> slices, and so each slice is <var>SMALLER</var>.</p>
+                    <p><var>NUM_1</var> <var>SMALLER</var> slice<var>plural( NUM_1 )</var> is <var>LESS</var> pizza than <var>NUM_2</var> <var> BIGGER</var> slice<var>plural( NUM_2 )</var>.</p>
+                    <p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.</p>
+                </div>
+            </div>
 
-			<div id="same-denominator">
-				<div class="vars" data-ensure="NUM_1 !== NUM_2">
-					<var id="NUM_1">randRange( 1, 14 )</var>
-					<var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
+            <div id="same-denominator">
+                <div class="vars" data-ensure="NUM_1 !== NUM_2">
+                    <var id="NUM_1">randRange( 1, 14 )</var>
+                    <var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
 
-					<var id="DEN_2">DEN_1</var>
-					<var id="NUM_2">randRange( 1, DEN_2 - 1 )</var>
+                    <var id="DEN_2">DEN_1</var>
+                    <var id="NUM_2">randRange( 1, DEN_2 - 1 )</var>
 
-					<var id="SOLUTION">(function() {
-						if ( NUM_1 &lt; NUM_2 ) {
-							return "&lt;";
-						} else {
-							return "&gt;";
-						}
-					})()</var>
-					<var id="LESS">NUM_1 < NUM_2 ? "less" : "more"</var>
-				</div>
+                    <var id="SOLUTION">(function() {
+                        if ( NUM_1 &lt; NUM_2 ) {
+                            return "&lt;";
+                        } else {
+                            return "&gt;";
+                        }
+                    })()</var>
+                    <var id="LESS">NUM_1 &lt; NUM_2 ? "less" : "more"</var>
+                </div>
 
-				<div class="problem">
-					<p>Fill in the blank.</p>
-					<p>
-						<code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>}</code>
-						____ <code>\dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>
-					</p>
-				</div>
-				<p class="solution"><code><var>SOLUTION</var></code></p>
-				<ul class="choices" data-category="true">
-					<li><code>&lt;</code></li>
-					<li><code>&gt;</code></li>
-				</ul>
-				<div class="hints">
-					<div>
-						<p>This is like considering two equally sized pizzas that have been cut into <var>DEN_1</var> equal slices.</p>
-						<p>Since both pizzas have the same number of slices, all the slices are the same size.</p>
-						<div style="height: 150px;">
-							<div class="graphie" style="float: left">
-								init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-								piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
-							</div>
-							<div class="graphie" style="float: left">
-								init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-								piechart( [NUM_2, DEN_2 - NUM_2], ["#e00", "#999"], 2 );
-							</div>
-						</div>
-					</div>
-					<p><var>plural( NUM_1, "slice" )</var> is <var>LESS</var> pizza than <var>plural( NUM_2, "slice" )</var>.</p>
-					<p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.</p>
-				</div>
-			</div>
-		</div>
-	</div>
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p>
+                        <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>}</code>
+                        ____ <code>\dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>
+                    </p>
+                </div>
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                </ul>
+                <div class="hints">
+                    <div>
+                        <p>This is like considering two equally sized pizzas that have been cut into <var>DEN_1</var> equal slices.</p>
+                        <p>Since both pizzas have the same number of slices, all the slices are the same size.</p>
+                        <div style="height: 150px;">
+                            <div class="graphie" style="float: left">
+                                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                                piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
+                            </div>
+                            <div class="graphie" style="float: left">
+                                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                                piechart( [NUM_2, DEN_2 - NUM_2], ["#e00", "#999"], 2 );
+                            </div>
+                        </div>
+                    </div>
+                    <p><var>plural( NUM_1, "slice" )</var> is <var>LESS</var> pizza than <var>plural( NUM_2, "slice" )</var>.</p>
+                    <p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

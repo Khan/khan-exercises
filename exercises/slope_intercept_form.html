@@ -1,196 +1,196 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Slope intercept form</title>
-	<script src="../khan-exercise.js"></script>
-	<style>
-		.reading span {
-			width: 40px;
-		}
-		#answer_area .short input[type=text] {
-			width: 60px;
-		}
-	</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Slope intercept form</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        .reading span {
+            width: 40px;
+        }
+        #answer_area .short input[type=text] {
+            width: 60px;
+        }
+    </style>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2 && -10 <= B && B <= 10">
-		<var id="X1">randRange(-9, 9)</var>
-		<var id="Y1">randRange(-9, 9)</var>
+    <div class="exercise">
+    <div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2 && -10 <= B && B <= 10">
+        <var id="X1">randRange(-9, 9)</var>
+        <var id="Y1">randRange(-9, 9)</var>
 
-		<var id="X2">randRange(-9, 9)</var>
-		<var id="Y2">randRange(-9, 9)</var>
+        <var id="X2">randRange(-9, 9)</var>
+        <var id="Y2">randRange(-9, 9)</var>
 
-		<var id="M">(Y1 - Y2) / (X1 - X2)</var>
-		<var id="B">Y1 - M * X1</var>
-	</div>
+        <var id="M">(Y1 - Y2) / (X1 - X2)</var>
+        <var id="B">Y1 - M * X1</var>
+    </div>
 
-	<div class="problems">
-		<div id="show-table">
-			<div class="vars">
-				<var id="COORDS">
-					(function() {
-						var coords = [];
-						coords.push( [ X1, [ Y1, 1 ] ] );
-						coords.push( [ X2, [ Y2, 1 ] ] );
+    <div class="problems">
+        <div id="show-table">
+            <div class="vars">
+                <var id="COORDS">
+                    (function() {
+                        var coords = [];
+                        coords.push( [ X1, [ Y1, 1 ] ] );
+                        coords.push( [ X2, [ Y2, 1 ] ] );
 
-						var xs = randRangeUnique( -10, 10, 5 );
+                        var xs = randRangeUnique( -10, 10, 5 );
 
-						for ( var i = 0; i &lt; 5; i++ ) {
-							var x = xs[ i ];
-							if( x !== X1 && x !== X2 ) {
-								var denom = X1 - X2,
-									num = x * ( Y1 - Y2 ) + B * denom,
-									negative = ( num * denom &lt; 0 ? -1 : 1 );
+                        for ( var i = 0; i &lt; 5; i++ ) {
+                            var x = xs[ i ];
+                            if( x !== X1 && x !== X2 ) {
+                                var denom = X1 - X2,
+                                    num = x * ( Y1 - Y2 ) + B * denom,
+                                    negative = ( num * denom &lt; 0 ? -1 : 1 );
 
-								num = round( abs( num ) * negative );
-								denom = round( abs( denom ) );
-								coords.push( [ x, [ num / getGCD( num, denom ), denom / getGCD( num, denom )] ] );
-							}
-						}
+                                num = round( abs( num ) * negative );
+                                denom = round( abs( denom ) );
+                                coords.push( [ x, [ num / getGCD( num, denom ), denom / getGCD( num, denom )] ] );
+                            }
+                        }
 
-						return coords.sort( function(a, b) { return a[ 0 ] - b[ 0 ]; });
-					})()
-				</var>
-			</div>
-			<p>A line goes through the following points, and the equation of that line is written in <code>y = mx + b</code> form.</p>
-			<p class="question">What is the equation of the line?</p>
-			<div class="fake_header reading">
-				<span>x</span><span>y</span>
-			</div>
-			<div class="fake_row reading" data-each="COORDS as i, coord">
-				<span><var>coord[ 0 ]</var></span><span><var>coord[ 1 ][ 1 ] === 1 ? coord[ 1 ][ 0 ] : coord[ 1 ].join( "/" )</var></span>
-			</div>
-			<div class="solution" data-type="multiple">
-				<p class="short"><code>y =</code>  <span class="sol"><var>M</var></span><code>\enspace\cdot\enspace x + </code>
-				<span class="sol"><var>B</var></span></p>
-			</div>
-			<div class="hints">
-				<div>
-					<p>We can plot all the points and the line that connects them.</p>
-					<div class="graphie">
-						graphInit({
-							range: 10,
-							scale: 20,
-							tickStep: 1,
-							labelStep: 1,
-							unityLabels: false,
-							labelFormat: function( s ) { return "\\small{" + s + "}"; },
-							axisArrows: "<->"
-						});
+                        return coords.sort( function(a, b) { return a[ 0 ] - b[ 0 ]; });
+                    })()
+                </var>
+            </div>
+            <p>A line goes through the following points, and the equation of that line is written in <code>y = mx + b</code> form.</p>
+            <p class="question">What is the equation of the line?</p>
+            <div class="fake_header reading">
+                <span>x</span><span>y</span>
+            </div>
+            <div class="fake_row reading" data-each="COORDS as i, coord">
+                <span><var>coord[ 0 ]</var></span><span><var>coord[ 1 ][ 1 ] === 1 ? coord[ 1 ][ 0 ] : coord[ 1 ].join( "/" )</var></span>
+            </div>
+            <div class="solution" data-type="multiple">
+                <p class="short"><code>y =</code>  <span class="sol"><var>M</var></span><code>\enspace\cdot\enspace x + </code>
+                <span class="sol"><var>B</var></span></p>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>We can plot all the points and the line that connects them.</p>
+                    <div class="graphie">
+                        graphInit({
+                            range: 10,
+                            scale: 20,
+                            tickStep: 1,
+                            labelStep: 1,
+                            unityLabels: false,
+                            labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                            axisArrows: "<->"
+                        });
 
-						style({ stroke: BLUE, fill: BLUE });
-						line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M], {
-							stroke: BLUE
-						} );
+                        style({ stroke: BLUE, fill: BLUE });
+                        line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M], {
+                            stroke: BLUE
+                        } );
 
-						jQuery.each( COORDS, function( i, coord ) {
-							circle( [ coord[ 0 ], coord[ 1 ][ 0 ] / coord[ 1 ][ 1 ] ], 3 / 20 );
-						});
+                        $.each( COORDS, function( i, coord ) {
+                            circle( [ coord[ 0 ], coord[ 1 ][ 0 ] / coord[ 1 ][ 1 ] ], 3 / 20 );
+                        });
 
-					</div>
-				</div>
-				<p>We can choose any two points to determine the equation of the line.</p>
-				<p>Let's choose <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code>.</p>
-				<p>The equation for the slope is <code>m = \dfrac{y_2 - y_1}{x_2 - x_1}</code>.</p>
-				<div>
-					<p>Substitute both points.</p>
-					<p><code>m = \dfrac{<var>Y2</var> - <var>negParens(Y1)</var>}{<var>X2</var> - <var>negParens(X1)</var>} = <var>fractionReduce( Y2 - Y1, X2 - X1 )</var></code></p>
-				</div>
-				<p>
-					Writing the equation of the line, we have <code>y = <var>( M === -1 ? "-" : ( M === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + b</code>
-					<span data-if="abs( M ) === 1"> (the value of <code>m</code> is equal to <code><var>M</var></code>)</span>.
-				</p>
+                    </div>
+                </div>
+                <p>We can choose any two points to determine the equation of the line.</p>
+                <p>Let's choose <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code>.</p>
+                <p>The equation for the slope is <code>m = \dfrac{y_2 - y_1}{x_2 - x_1}</code>.</p>
+                <div>
+                    <p>Substitute both points.</p>
+                    <p><code>m = \dfrac{<var>Y2</var> - <var>negParens(Y1)</var>}{<var>X2</var> - <var>negParens(X1)</var>} = <var>fractionReduce( Y2 - Y1, X2 - X1 )</var></code></p>
+                </div>
+                <p>
+                    Writing the equation of the line, we have <code>y = <var>( M === -1 ? "-" : ( M === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + b</code>
+                    <span data-if="abs( M ) === 1"> (the value of <code>m</code> is equal to <code><var>M</var></code>)</span>.
+                </p>
 
-				<p>To find <code>b</code>, we can substitute in either of the two points into the above equation. Let's go through both cases:</p>
-				<div>
-					<p>Using the first point <code>(<var>X1</var>, <var>Y1</var>)</code>, substitute <code>y = <var>Y1</var></code> and <code>x = <var>X1</var></code>:</p>
-					<p><code><var>Y1</var> = (<var>fractionReduce( Y2 - Y1, X2 - X1 )</var>)(<var>X1</var>) + b</code></p>
-					<p><code>b = <var>Y1</var> - <var>fractionReduce( X1 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
-				</div>
-				<div>
-					<p>Using the second point <code>(<var>X2</var>, <var>Y2</var>)</code>, substitute <code>y = <var>Y2</var></code> and <code>x = <var>X2</var></code>:</p>
-					<p><code><var>Y2</var> = (<var>fractionReduce( Y2 - Y1, X2 - X1 )</var>)(<var>X2</var>) + b</code></p>
-					<p><code>b = <var>Y2</var> - <var>fractionReduce( X2 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fractionReduce( Y2 * (X2 - X1) - X2 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
-				</div>
-				<p>In both cases, the equation of the line is <code>y = <var>( M === -1 ? "-" : ( M === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code><span data-if="abs( M ) === 1"> (the value of <code>m</code> is equal to <code><var>M</var></code>)</span>.</p>
-			</div>
-		</div>
+                <p>To find <code>b</code>, we can substitute in either of the two points into the above equation. Let's go through both cases:</p>
+                <div>
+                    <p>Using the first point <code>(<var>X1</var>, <var>Y1</var>)</code>, substitute <code>y = <var>Y1</var></code> and <code>x = <var>X1</var></code>:</p>
+                    <p><code><var>Y1</var> = (<var>fractionReduce( Y2 - Y1, X2 - X1 )</var>)(<var>X1</var>) + b</code></p>
+                    <p><code>b = <var>Y1</var> - <var>fractionReduce( X1 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
+                </div>
+                <div>
+                    <p>Using the second point <code>(<var>X2</var>, <var>Y2</var>)</code>, substitute <code>y = <var>Y2</var></code> and <code>x = <var>X2</var></code>:</p>
+                    <p><code><var>Y2</var> = (<var>fractionReduce( Y2 - Y1, X2 - X1 )</var>)(<var>X2</var>) + b</code></p>
+                    <p><code>b = <var>Y2</var> - <var>fractionReduce( X2 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fractionReduce( Y2 * (X2 - X1) - X2 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
+                </div>
+                <p>In both cases, the equation of the line is <code>y = <var>( M === -1 ? "-" : ( M === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code><span data-if="abs( M ) === 1"> (the value of <code>m</code> is equal to <code><var>M</var></code>)</span>.</p>
+            </div>
+        </div>
 
-		<div id="show-points-and-or-graph">
-			<div class="vars">
-				<var id="SHOW_GRAPH">randRange( 0, 1 )</var>
-			</div>
-			<div class="question">
-				<p>The equation of the line through the points <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code> is written in the form <code>y = mx + b</code>.</p>
+        <div id="show-points-and-or-graph">
+            <div class="vars">
+                <var id="SHOW_GRAPH">randRange( 0, 1 )</var>
+            </div>
+            <div class="question">
+                <p>The equation of the line through the points <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code> is written in the form <code>y = mx + b</code>.</p>
 
-				<p>What is the equation of the line?</p>
-				<div class="graphie" data-if="SHOW_GRAPH">
-					graphInit({
-						range: 10,
-						scale: 20,
-						tickStep: 1,
-						labelStep: 1,
-						unityLabels: false,
-						labelFormat: function( s ) { return "\\small{" + s + "}"; },
-						axisArrows: "<->"
-					});
+                <p>What is the equation of the line?</p>
+                <div class="graphie" data-if="SHOW_GRAPH">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                        axisArrows: "<->"
+                    });
 
-					style({ stroke: BLUE, fill: BLUE });
-					line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M] );
-					circle( [X1, Y1], 3/20 );
-					circle( [X2, Y2], 3/20 );
-				</div>
-			</div>
+                    style({ stroke: BLUE, fill: BLUE });
+                    line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M] );
+                    circle( [X1, Y1], 3/20 );
+                    circle( [X2, Y2], 3/20 );
+                </div>
+            </div>
 
-			<div class="solution" data-type="multiple">
-				<p class="short"><code>y =</code>  <span class="sol"><var>M</var></span><code>\enspace\cdot\enspace x + </code>
-				<span class="sol"><var>B</var></span></p>
-			</div>
-			<div class="hints">
-				<div class="graphie" data-if="!SHOW_GRAPH">
-					graphInit({
-						range: 10,
-						scale: 20,
-						tickStep: 1,
-						labelStep: 1,
-						unityLabels: false,
-						labelFormat: function( s ) { return "\\small{" + s + "}"; },
-						axisArrows: "<->"
-					});
+            <div class="solution" data-type="multiple">
+                <p class="short"><code>y =</code>  <span class="sol"><var>M</var></span><code>\enspace\cdot\enspace x + </code>
+                <span class="sol"><var>B</var></span></p>
+            </div>
+            <div class="hints">
+                <div class="graphie" data-if="!SHOW_GRAPH">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                        axisArrows: "<->"
+                    });
 
-					style({ stroke: BLUE, fill: BLUE });
-					line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M] );
+                    style({ stroke: BLUE, fill: BLUE });
+                    line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M] );
 
-					circle( [X1, Y1], 3/20 );
-					circle( [X2, Y2], 3/20 );
-				</div>
-				<p>The equation for the slope is <code>m = \dfrac{y_2 - y_1}{x_2 - x_1}</code>.</p>
-				<div>
-					<p>Substitute both points.</p>
-					<p><code>m = \dfrac{<var>Y2</var> - <var>negParens(Y1)</var>}{<var>X2</var> - <var>negParens(X1)</var>} = <var>fractionReduce( Y2 - Y1, X2 - X1 )</var></code></p>
-				</div>
-				<p>
-					Writing the equation of the line, we have <code>y = <var>( M === -1 ? "-" : ( M === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + b</code>
-					<span data-if="abs( M ) === 1"> (the value of <code>m</code> is equal to <code><var>M</var></code>)</span>.
-				</p>
+                    circle( [X1, Y1], 3/20 );
+                    circle( [X2, Y2], 3/20 );
+                </div>
+                <p>The equation for the slope is <code>m = \dfrac{y_2 - y_1}{x_2 - x_1}</code>.</p>
+                <div>
+                    <p>Substitute both points.</p>
+                    <p><code>m = \dfrac{<var>Y2</var> - <var>negParens(Y1)</var>}{<var>X2</var> - <var>negParens(X1)</var>} = <var>fractionReduce( Y2 - Y1, X2 - X1 )</var></code></p>
+                </div>
+                <p>
+                    Writing the equation of the line, we have <code>y = <var>( M === -1 ? "-" : ( M === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + b</code>
+                    <span data-if="abs( M ) === 1"> (the value of <code>m</code> is equal to <code><var>M</var></code>)</span>.
+                </p>
 
-				<p>To find <code>b</code>, we can substitute in either of the two points into the above equation. Let's go through both cases:</p>
-				<div>
-					<p>Using the first point <code>(<var>X1</var>, <var>Y1</var>)</code>, substitute <code>y = <var>Y1</var></code> and <code>x = <var>X1</var></code>:</p>
-					<p><code><var>Y1</var> = (<var>fractionReduce( Y2 - Y1, X2 - X1 )</var>)(<var>X1</var>) + b</code></p>
-					<p><code>b = <var>Y1</var> - <var>fractionReduce( X1 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
-				</div>
-				<div>
-					<p>Using the second point <code>(<var>X2</var>, <var>Y2</var>)</code>, substitute <code>y = <var>Y2</var></code> and <code>x = <var>X2</var></code>:</p>
-					<p><code><var>Y2</var> = (<var>fractionReduce( Y2 - Y1, X2 - X1 )</var>)(<var>X2</var>) + b</code></p>
-					<p><code>b = <var>Y2</var> - <var>fractionReduce( X2 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fractionReduce( Y2 * (X2 - X1) - X2 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
-				</div>
-				<p>In both cases, the equation of the line is <code>y = <var>( M === -1 ? "-" : ( M === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code><span data-if="abs( M ) === 1"> (the value of <code>m</code> is equal to <code><var>M</var></code>)</span>.</p>
-			</div>
-		</div>
-	</div>
-	</div>
+                <p>To find <code>b</code>, we can substitute in either of the two points into the above equation. Let's go through both cases:</p>
+                <div>
+                    <p>Using the first point <code>(<var>X1</var>, <var>Y1</var>)</code>, substitute <code>y = <var>Y1</var></code> and <code>x = <var>X1</var></code>:</p>
+                    <p><code><var>Y1</var> = (<var>fractionReduce( Y2 - Y1, X2 - X1 )</var>)(<var>X1</var>) + b</code></p>
+                    <p><code>b = <var>Y1</var> - <var>fractionReduce( X1 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
+                </div>
+                <div>
+                    <p>Using the second point <code>(<var>X2</var>, <var>Y2</var>)</code>, substitute <code>y = <var>Y2</var></code> and <code>x = <var>X2</var></code>:</p>
+                    <p><code><var>Y2</var> = (<var>fractionReduce( Y2 - Y1, X2 - X1 )</var>)(<var>X2</var>) + b</code></p>
+                    <p><code>b = <var>Y2</var> - <var>fractionReduce( X2 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fractionReduce( Y2 * (X2 - X1) - X2 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
+                </div>
+                <p>In both cases, the equation of the line is <code>y = <var>( M === -1 ? "-" : ( M === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code><span data-if="abs( M ) === 1"> (the value of <code>m</code> is equal to <code><var>M</var></code>)</span>.</p>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>
