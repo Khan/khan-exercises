@@ -252,7 +252,7 @@
                 itemKind.criteriaNames[1] + " or " + itemKind.criteriaNames[0] + "."
 
         };
-        var naming = namingNumber;
+        var naming = KhanUtil.randFromArray([namingNumber, namingProba]);
 
         var solver = new KhanUtil.ConstraintSolver();
         var solution = genSolution(naming);
