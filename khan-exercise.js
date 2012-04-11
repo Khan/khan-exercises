@@ -688,6 +688,7 @@ var Khan = (function() {
 
     if (Khan.query.activity !== undefined) {
         userExercise = {
+            current: true,
             exerciseModel: {},
             readOnly: true,
             userActivity: JSON.parse(Khan.query.activity)
