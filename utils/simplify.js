@@ -622,7 +622,7 @@
     };
 
     var setDefaultOptions = function(options) {
-       var defaultValues = simplifyOptions.default;
+       var defaultValues = simplifyOptions["default"];
        for (var optionName in defaultValues) {
           if (options[optionName] === undefined) {
              options[optionName] = defaultValues[optionName];
