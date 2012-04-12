@@ -21,7 +21,7 @@
         return 1;
     };
 
-    var factorDiffOfSquares = function(MATH, expr, options) {
+    var factorDiffOfSquares = function(expr, options) {
       var terms = [];
       for (var iArg = 0; iArg < 2; iArg++) {
           var term = {factors: [], occFactors: []};
@@ -61,18 +61,18 @@
       } else {
           var coloredExpr = {op: "-", args: [KhanUtil.exprSetStyle(termA.initial, KhanUtil.PINK),
               KhanUtil.exprSetStyle(termB.initial, KhanUtil.BLUE)]};
-          var initialForm = MATH.parseFormat("#{a^2} - #{b^2}", [KhanUtil.PINK, KhanUtil.BLUE]);
-          var factoredForm = MATH.parseFormat("(#a + #b)(#a - #b)", [KhanUtil.PINK, KhanUtil.BLUE, KhanUtil.PINK, KhanUtil.BLUE]);
-          hints.push("<p><code>" + MATH.format(coloredExpr) + "</code></p><p>The expression is of the form <code>" + initialForm +
+          var initialForm = KhanUtil.parseFormat("#{a^2} - #{b^2}", [KhanUtil.PINK, KhanUtil.BLUE]);
+          var factoredForm = KhanUtil.parseFormat("(#a + #b)(#a - #b)", [KhanUtil.PINK, KhanUtil.BLUE, KhanUtil.PINK, KhanUtil.BLUE]);
+          hints.push("<p><code>" + KhanUtil.format(coloredExpr) + "</code></p><p>The expression is of the form <code>" + initialForm +
               "</code> which is a difference of two squares so we can factor it as <code>" + factoredForm + "</code></p>");
-          var strA = MATH.parseFormat("#a", [KhanUtil.PINK]);
-          var strB = MATH.parseFormat("#b", [KhanUtil.BLUE]);
+          var strA = KhanUtil.parseFormat("#a", [KhanUtil.PINK]);
+          var strB = KhanUtil.parseFormat("#b", [KhanUtil.BLUE]);
           hints.push("<p>What are the values of <code>" + strA + "</code> and <code>" + strB + "</code>?</p>");
           var varA = {op: "var", args: ["a"]};
           var varB = {op: "var", args: ["b"]};
           var exprA = {op: "=", args: [varA, {op: "sqrt", args: [termA.initial]}, termA.sqrt], style: KhanUtil.PINK};
           var exprB = {op: "=", args: [varB, {op: "sqrt", args: [termB.initial]}, termB.sqrt], style: KhanUtil.BLUE};
-          hints.push("<p><code>" + MATH.format(exprA) + "</code><p><code>" + MATH.format(exprB) + "</code></p>");
+          hints.push("<p><code>" + KhanUtil.format(exprA) + "</code><p><code>" + KhanUtil.format(exprB) + "</code></p>");
           hints.push("<p>Use the values we found for <code>" + strA + "</code> and <code>" + strB + "</code> to complete the factored expression, <code>" + factoredForm + "</code></p>");
           var coloredFactored = KhanUtil.exprClone(solution);
           for (var iArg1 = 0; iArg1 < 2; iArg1++) {
@@ -81,7 +81,7 @@
                 coloredFactored.args[iArg1].args[iArg2] = KhanUtil.exprSetStyle(coloredFactored.args[iArg1].args[iArg2], colors[iArg2]);
              }
           }
-          hints.push("<p><b>So we can factor the expression as:</b><code>" + MATH.format(coloredFactored) + "</code>");
+          hints.push("<p><b>So we can factor the expression as:</b><code>" + KhanUtil.format(coloredFactored) + "</code>");
       }
       return {solution: solution, hints: hints};
     };
@@ -291,7 +291,7 @@
        return listFactors;
     }
 
-    var genHintListFactors = function(MATH, factors, occFactors) {
+    var genHintListFactors = function(factors, occFactors) {
        var listFactors = genListFactors(factors, occFactors);
        var strListFactors = "";
        for (var iListedFactor = 0; iListedFactor < listFactors.length; iListedFactor++) {
@@ -302,17 +302,17 @@
                  strListFactors += ", ";
               }
            }
-           strListFactors += "<code>" + MATH.format(KhanUtil.exprSetStyle(listFactors[iListedFactor], KhanUtil.BLUE)) + "</code>";
+           strListFactors += "<code>" + KhanUtil.format(KhanUtil.exprSetStyle(listFactors[iListedFactor], KhanUtil.BLUE)) + "</code>";
        }
        if (listFactors.length === 1) {
           return "<p>The terms have one common factor: " + strListFactors + ".</p>";
        } else {
-          var gcf = MATH.format(KhanUtil.exprSetStyle(KhanUtil.genExprFromExpFactors(factors, occFactors), KhanUtil.BLUE));
+          var gcf = KhanUtil.format(KhanUtil.exprSetStyle(KhanUtil.genExprFromExpFactors(factors, occFactors), KhanUtil.BLUE));
           return "<p>The terms have these common factors: " + strListFactors + ", so the greatest common factor is <code>" + gcf + "</code>.</p>";
        }
     };
 
-    var genHintsDecomposeAllFactors = function(MATH, factors, sharedOccFactors, termsOccFactors) {
+    var genHintsDecomposeAllFactors = function(factors, sharedOccFactors, termsOccFactors) {
        var colors = [KhanUtil.PINK, KhanUtil.ORANGE, KhanUtil.GREEN];
        var nbTerms = termsOccFactors.length;
        var hints = [];
@@ -322,16 +322,16 @@
        }
        expr = KhanUtil.simplify(expr, KhanUtil.simplifyOptions.checkInput);
 
-       hints.push("<p><code>" + MATH.format(expr) + "</code></p><p>We start by decomposing each term into a product of its most simple factors.</p>");
+       hints.push("<p><code>" + KhanUtil.format(expr) + "</code></p><p>We start by decomposing each term into a product of its most simple factors.</p>");
 
        for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
            var mergedOccFactors = mergeOccFactors(sharedOccFactors, termsOccFactors[iTerm]);
-           hints.push("<p><code>" + MATH.format(KhanUtil.exprSetStyle(genDecomposition(factors, mergedOccFactors), {color: colors[iTerm]})) + "</code></p>");
+           hints.push("<p><code>" + KhanUtil.format(KhanUtil.exprSetStyle(genDecomposition(factors, mergedOccFactors), {color: colors[iTerm]})) + "</code></p>");
        }
-       hints.push(genHintListFactors(MATH, factors, sharedOccFactors));
+       hints.push(genHintListFactors(factors, sharedOccFactors));
 
-       hints.push("<p>We can rewrite the expression as: <code>" + MATH.format({op: "+", args: genAllTermsMarkShared(factors, sharedOccFactors, termsOccFactors, colors)}) + "</code>.</p>");
-       hints.push("<p>We now rewrite the expression as a product: <code>" + MATH.format(genFullExpr(factors, sharedOccFactors, termsOccFactors)) + "</code>.</p>");
+       hints.push("<p>We can rewrite the expression as: <code>" + KhanUtil.format({op: "+", args: genAllTermsMarkShared(factors, sharedOccFactors, termsOccFactors, colors)}) + "</code>.</p>");
+       hints.push("<p>We now rewrite the expression as a product: <code>" + KhanUtil.format(genFullExpr(factors, sharedOccFactors, termsOccFactors)) + "</code>.</p>");
        return hints;
     };
 
@@ -352,18 +352,18 @@
        }
     };
 
-    var solveDiffOfSquaresExercise = function(MATH, expr, options) {
+    var solveDiffOfSquaresExercise = function(expr, options) {
        if (KhanUtil.exprIsNumber(expr) || (expr.args.length != 2)) {
            return undefined;
        }
        if (expr.op === "-") {
            var sumExpr = {op: "+", args: [expr.args[0], {op: "-", args: [expr.args[1]]}]};
-           return solveDiffOfSquaresExercise(MATH, sumExpr, options);
+           return solveDiffOfSquaresExercise(sumExpr, options);
        }
-       return factorDiffOfSquares(MATH, expr, options);
+       return factorDiffOfSquares(expr, options);
     };
 
-    var solveFactoringExercise = function(MATH, expr, options) {
+    var solveFactoringExercise = function(expr, options) {
        if (options === undefined) {
            options = {};
        }
@@ -375,24 +375,24 @@
 
        var hints = ["<p>To factor this expression, we start by looking at the different terms of the sum, and find all of their common factors. We can then rewrite the expression as a product between these common factors, and what's left of the different terms once we remove these factors.</p>"];
 
-       var detailedHints = genHintsDecomposeAllFactors(MATH, factors, sharedOccFactors, termsOccFactors);
+       var detailedHints = genHintsDecomposeAllFactors(factors, sharedOccFactors, termsOccFactors);
        var solution = genFullExpr(factors, sharedOccFactors, termsOccFactors);
 
        if (options.factorDiffOfSquares) {
           var hint = "<p>We obtain the following expression: " + KhanUtil.getSubHints("common-factors", "Show explanation", detailedHints);
-          hint += "<p><code>" + MATH.format(solution) + "</code></p>";
+          hint += "<p><code>" + KhanUtil.format(solution) + "</code></p>";
           hints.push(hint);
           hints.push("<p>Can we factor this expression even more?</p>");
           for (var iArg = 0; iArg < solution.args.length; iArg++) {
              var arg = solution.args[iArg];
-             var solvedArg = solveDiffOfSquaresExercise(MATH, arg, options);
+             var solvedArg = solveDiffOfSquaresExercise(arg, options);
              if (solvedArg === undefined) {
                  continue;
              }
-             hints.push("<p>This part of the expression can be factored: <code>" + MATH.format(arg) + "</code></p>");
+             hints.push("<p>This part of the expression can be factored: <code>" + KhanUtil.format(arg) + "</code></p>");
              var hint = "<p>We recognize and factor a difference of squares, and obtain the following expression: " + KhanUtil.getSubHints("diff-squares-" + iArg, "Show explanation", solvedArg.hints);
              solution.args[iArg] = solvedArg.solution;
-             hint += "<p><code>" + MATH.format(solution);
+             hint += "<p><code>" + KhanUtil.format(solution);
              hints.push(hint);
           }
        } else {
@@ -409,7 +409,7 @@
        } else if (options.factorWithDiffOfSquares === "(ab^2-cd^2)=a(b - d)(b + d)") {
        }
 
-       hints.push("<p>There is nothing left to factor using this approach. The answer is : <code>" + MATH.format(solution) + "</code></p>");
+       hints.push("<p>There is nothing left to factor using this approach. The answer is : <code>" + KhanUtil.format(solution) + "</code></p>");
        return {hints: hints, solution: solution};
     };
 
@@ -486,7 +486,7 @@
        return choices;
     };
 
-    var genFactoringExercise = function(MATH, factors, nbTerms, factorsPerTerm) {
+    var genFactoringExercise = function(factors, nbTerms, factorsPerTerm) {
        var sharedFactors = [];
        var sharedOccFactors = KhanUtil.initOccArray(factors.length);
        var numTotal = genSharedFactors(factors, sharedFactors, sharedOccFactors, factorsPerTerm);
