@@ -71,13 +71,13 @@
             <div class="question spin">
                 <p>{On Monday|Last week}, <var>person(1)</var> and <var>person(2)</var> decided to see how fast they could sprint <var>meters</var> meters. They asked their friend <var>person(3)</var> to time them with a stopwatch.</p>
                 <p>{After <var>time_3</var> minutes, <var>person(3)</var> agreed to time the runners.|} <var>person(1)</var> sprinted first and ran <var>meters</var> meters in <var>time_1</var> seconds. When it was <var>person(2)</var>'s turn, <var>he(2)</var> sped off and completed the run in <var>time_2</var> seconds.</p>
-                <p class="question">How much faster was <var>person(2)</var> than <var>person(1)</var>?</p>
+                <p class="question">How much faster was <var>person(2)</var> than <var>person(1)</var> in seconds?</p>
             </div>
             <div class="solution" data-type="multiple">
                 <p> <span class="sol"><var>time_1-time_2 </var></span> seconds</p>
             </div>
             <div class="hints">
-                <p>To find how much faster <var>person(2)</var> was than <var>person(1)</var>, we need to find the difference between their times.
+                <p>To find how much faster <var>person(2)</var> was than <var>person(1)</var>, we need to find the difference between their times in seconds.
                 <p><var>person(1)</var>'s time - <var>person(2)</var>'s time = difference in times.
                 <div class="graphie" id="numbers">
                     graph.subtractor = new DecimalSubtractor( time_1_integer, time_1_decimal, time_2_integer, time_2_decimal );
