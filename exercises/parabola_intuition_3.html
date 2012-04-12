@@ -42,8 +42,8 @@
                         vertical: false,
                     });
                     graph.directrix.onMove = function( coord ) {
-                        jQuery("#directrix-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coord, 0.001)) + "&lt;/code&gt;" ).tmpl();
-                        jQuery("#directrix input").val(coord);
+                        $("#directrix-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coord, 0.001)) + "&lt;/code&gt;" ).tmpl();
+                        $("#directrix input").val(coord);
                     };
 
                     graph.vertex = addMovablePoint({
@@ -53,10 +53,10 @@
                         snapY: 0.125,
                     });
                     graph.vertex.onMove = function( coordX, coordY ) {
-                        jQuery("#focus-x-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordX, 0.001)) + "&lt;/code&gt;" ).tmpl();
-                        jQuery("#focus-y-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordY, 0.001)) + "&lt;/code&gt;" ).tmpl();
-                        jQuery("#focus-x input").val(coordX);
-                        jQuery("#focus-y input").val(coordY);
+                        $("#focus-x-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordX, 0.001)) + "&lt;/code&gt;" ).tmpl();
+                        $("#focus-y-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordY, 0.001)) + "&lt;/code&gt;" ).tmpl();
+                        $("#focus-x input").val(coordX);
+                        $("#focus-y input").val(coordY);
                     };
 
                     graph.func = addInteractiveFn( function(x) {
