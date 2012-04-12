@@ -1,512 +1,512 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers">
-	<head>
-		<title>Multiplying Fractions 1</title>
-		<script src="../khan-exercise.js"></script>
-		<style type="text/css">
-			.padded_span {
-				padding-top: 0px;
-				padding-left: 0px;
-				padding-bottom: 5px;
-				padding-right: 5px;
-			}
-
-			.centered_cell {
-				text-align: center;
-			}
-
-			.hint_diagram_table_small {
-				border: 0px solid black;
-				width: 100px;
-				height: 100px;
-				border-collapse: collapse;
-			}
-
-			.hint_diagram_table_big {
-				border: 0px solid black;
-				width: 200px;
-				height: 200px;
-				border-collapse: collapse;
-			}
-
-			.hint_diagram_table_overlay {
-				border: 0px solid black;
-				width: 200px;
-				height: 200px;
-				border-collapse: collapse;
-				position: absolute;
-			}
-
-			.hint_diagram_table_overlay_small {
-				border: 0px solid black;
-				width: 100px;
-				height: 100px;
-				border-collapse: collapse;
-				position: absolute;
-			}
-
-			.hint_empty_cell {
-				border: 2px solid black;
-				background: white;
-				opacity:0.5;
-				min-width: 0px;
-			}
-
-			.hint_box1_cell {
-				border: 2px solid black;
-				background: red;
-				opacity:0.5;
-				min-width: 0px;
-			}
-
-			.hint_box2_cell {
-				border: 2px solid black;
-				background: blue;
-				opacity:0.5;
-				min-width: 0px;
-			}
-
-			.hint_box3_cell {
-				border: 2px solid black;
-				background: purple;
-				min-width: 0px;
-			}
-
-			#one .hint_box1_cell {
-				background: black;
-			}
-
-			#two .hint_box1_cell {
-				background: green;
-			}
-
-			#three .hint_box1_cell {
-				background: blue;
-			}
-
-			#four .hint_box1_cell {
-				background: orange;
-			}
-
-			#five .hint_box1_cell {
-				background: purple;
-			}
-
-			#black .hint_box1_cell {
-				background: #777;
-			}
-
-		</style>
-		<script type="text/javascript">
-			/*
-			 * Generates HTML for a table displaying the fraction's visual representation.
-			 * @param numerator numerator as INT.
-			 * @param denominator as INT.
-			 * @param id ID to give this table. (optional)
-			 * @param className class name to give this table. (optional)
-			 */
-			function createVertTable( numerator, denominator, id, className ) {
-
-				var table = jQuery( "<table/>" );
-				if ( id !== null ) {
-					table.attr( "id", id );
-				}
-
-				if( className !== null ) {
-					table.addClass( className );
-				} else {
-					table.addClass( "hint_diagram_table_small" );
-				}
-
-				table.append( "<tbody/>" );
-				var tbody = table.find("tbody");
-
-				var rowHeight = table.height() / denominator;
-
-				for( i=0; i < denominator - numerator; i++ ) {
-					tbody.append( "<tr><td class=\"hint_empty_cell\" style=\"min-width:0px\"/></tr>" )
-						.height(rowHeight);
-				}
-				for( i=0; i < numerator; i++ ) {
-					tbody.append( "<tr><td class=\"hint_box1_cell\" style=\"min-width:0px\"/></tr>" )
-						.height(rowHeight);
-				}
-
-				return jQuery('<div />').append(table).html();
-			}
-
-			/*
-			 * Generates HTML for a table displaying the fraction's visual representation.
-			 * @param numerator numerator as INT
-			 * @param denominator as INT
-			 * @param id ID to give this table. (optional)
-			 * @param className class name to give this table. (optional)
-			 */
-			function createHorizTable( numerator, denominator, id, className, boxClass ) {
-
-				var table = jQuery( "<table/>" );
-				if ( id !== null ) {
-					table.attr( "id", id );
-				}
-
-				if ( className !== null ) {
-					table.addClass( className );
-				} else {
-					table.addClass( "hint_diagram_table_small" );
-				}
-
-				var useBoxClass = "hint_box2_cell";
-				if ( boxClass !== null ) {
-					useBoxClass = boxClass;
-				}
-
-				table.append( "<tbody/>" );
-				var tbody = table.find("tbody");
-				tbody.append( "<tr/>" );
-				var row = tbody.find( "tr" );
-				row.height( table.height() );
-
-				var colWidth = row.width() / denominator;
-
-				for( i=0; i < denominator - numerator; i++ ) {
-					var td = row.append("<td class=\"hint_empty_cell\"/>");
-					td.width( colWidth );
-					td.css( 'min-width', 0 );
-				}
-				for( i=0; i < numerator; i++ ) {
-					var td =  row.append("<td class=\"" + useBoxClass + "\"/>");
-					td.width( colWidth );
-					td.css( 'min-width', 0 );
-				}
-
-				return jQuery('<div />').append(table).html();
-			}
-
-			/*
-			 * Generates HTML for a table displaying the fraction's visual representation.
-			 * @param n1 y-numerator
-			 * @param d1 y-denominator
-			 * @param n2 x-numerator
-			 * @param d2 y-denominator
-			 * @param id ID to give this table. (optional)
-			 * @param className class name to give this table. (optional)
-			 */
-			function createCombinedTable( n1, d1, n2, d2, id, className, boxClass ) {
-
-				var table = jQuery( "<table/>" )
-					.addClass( className || "hint_diagram_table_small" )
-					.attr( "id", id );
-
-				boxClass = boxClass || "hint_box3_cell";
-
-				var tbody = table.append( "<tbody/>" ).find( "tbody" ),
-					colWidth = table.width() / d2,
-					rowHeight = table.height() / d1,
-					row;
-
-				for ( var i = 0; i < d1 - n1; i++ ) {
-					row = jQuery( "<tr/>" ).height( rowHeight ).appendTo( tbody );
-
-					for ( var j = 0; j < d2; j++ ) {
-						jQuery( "<td/>" ).addClass( "hint_empty_cell" )
-							.width( colWidth ).css( "min_width", 0 )
-							.appendTo( row );
-					}
-				}
-
-				for ( var i = 0; i < n1; i++ ) {
-					row = jQuery( "<tr/>" ).height( rowHeight ).appendTo( tbody );
-
-					for ( var j = 0; j < d2 - n2; j++ ) {
-						jQuery( "<td/>" ).addClass( "hint_empty_cell" )
-							.width( colWidth ).css( "min_width", 0 )
-							.appendTo( row );
-					}
-
-					for ( var j = 0; j < n2; j++ ) {
-						jQuery( "<td/>" ).addClass( boxClass )
-							.width( colWidth ).css( "min_width", 0 )
-							.appendTo( row );
-					}
-				}
-
-				return jQuery( "<div/>" ).append( table ).html();
-			}
-
-
-			/*
-			 * Creates N number of boxes.
-			 * @param number number of boxes as INT.
-			 */
-			function createNBoxes(number, idPrefix, className, boxClass) {
-				var tablesSrc = "";
-				for ( var i = 0; i < number; i++ ) {
-					var idToUse = null;
-					if( idPrefix !== null ) {
-						idToUse = idPrefix + "-" + i;
-					}
-
-					tablesSrc += "<span class=\"padded_span\">"
-						+ createHorizTable( 1, 1, idToUse, className, boxClass )
-						+ "</span>";
-				}
-				return tablesSrc;
-			}
-
-			/*
-			 * Creates N number of boxes in overlay style.
-			 * @param number number of boxes as INT.
-			 */
-			function createNBoxesOverlayHoriz(number, idPrefix, numerator, denominator) {
-				var tablesSrc = "";
-				for ( var i = 0; i < number; i++ ) {
-					var idToUse = null;
-					if( idPrefix !== null ) {
-						idToUse = idPrefix + "-" + i;
-					}
-
-					tablesSrc += createHorizTable( numerator, denominator, idToUse,
-							"hint_diagram_table_overlay_small" );
-				}
-				return tablesSrc;
-			}
-
-			/*
-			 * Creates N number of boxes in overlay style.
-			 * @param number number of boxes as INT.
-			 */
-			function createNBoxesOverlayVert(number, idPrefix, numerator, denominator) {
-				var tablesSrc = "";
-				for ( var i = 0; i < number; i++ ) {
-					var idToUse = null;
-					if( idPrefix !== null ) {
-						idToUse = idPrefix + "-" + i;
-					}
-
-					tablesSrc += createVertTable( numerator, denominator, idToUse,
-							"hint_diagram_table_overlay_small" );
-				}
-				return tablesSrc;
-			}
-
-			/*
-			 * Scrolls an element into view.
-			 * @param selector jQuery selector to use.
-			 */
-			function scrollIntoView( selector ) {
-				try {
-					var hintOffset = jQuery( selector ).offset().top - 20;
-					jQuery('html,body').animate({scrollTop: hintOffset}, 500);
-				} catch( e ) {
-					// Do nothing
-				}
-			}
-
-
-			/*
-			 * Takes a mixed number (positive) and reduces it to a simplified
-			 * mixed number stored in an object.
-			 * @return object of form {whole:x, numerator:y, denominator:z}
-			 */
-			function simplifyFraction( wholeNumber, numerator, denominator ) {
-				var wholeNum = Math.floor( numerator / denominator ) + wholeNumber;
-				var remainder = numerator % denominator;
-				var gcd = KhanUtil.getGCD( remainder, denominator );
-				var newNum = remainder / gcd;
-				var newDenom = denominator / gcd;
-
-				return {
-						whole: wholeNum,
-						numerator: ( remainder / gcd ),
-						denominator: ( denominator / gcd )
-					};
-			}
-
-			function mixedBoxes( n, d, b, col ) {
-				var boxes = Math.ceil( b * n / d ),
-					color, iBox, iBody;
-
-				var cont = jQuery( "<table/>" ),
-					contRow = jQuery( "<tbody/>" ).appendTo( cont )
-						.append( "<tr/>" ).find( "tr" ),
-					box = jQuery( "<table/>" ).addClass( "hint_diagram_table_small" ),
-					rowHeight = box.height() / d,
-					row = jQuery( "<tr/>" ).height( rowHeight ).append( "<td/>" ),
-					filled = row.clone().find( "td" ).addClass( "hint_box1_cell" ).end(),
-					empty = row.clone().find( "td" ).addClass( "hint_empty_cell" ).end();
-
-				for ( var i = 0; i < boxes; i++ ) {
-					var thisCell = jQuery( "<td/>" ).appendTo( contRow ),
-						thisBox = box.clone().appendTo( thisCell ),
-						thisBody = jQuery( "<tbody/>" ).appendTo( thisBox );
-
-					for ( var j = d - 1; j >= 0; j-- ) {
-						color = Math.floor( ( i * d + j ) / n ) + 1;
-						if ( color <= b ) {
-							filled.clone().attr( "id", col ? KhanUtil.cardinal(color) : "black" ).appendTo( thisBody );
-						} else {
-							empty.clone().appendTo( thisBody );
-						}
-					}
-				}
-
-				return jQuery( "<div/>" ).append( cont ).html();
-			}
-
-		</script>
-	</head>
-	<body>
-		<div class="exercise">
-			<div class="vars">
-			</div>
-			<div class="problems">
-
-				<div id="fraction-with-fraction">
-					<div class="vars" data-ensure="D1 !== D2">
-						<div data-ensure="D1 !== D2">
-							<var id="N1">randRange(1, 4)</var>
-							<var id="D1">N1 + randRange(1, 4)</var>
-							<var id="N2">randRange(1, 4)</var>
-							<var id="D2">N2 + randRange(1, 4)</var>
-						</div>
-
-						<var id="GCD">KhanUtil.getGCD( N1 * N2, D1 * D2 )</var>
-						<var id="TABLE_1">createVertTable( N1, D1, null, null )</var>
-						<var id="TABLE_2">createHorizTable( N2, D2, null, null )</var>
-						<var id="TABLE_1_HINT">createVertTable( N1, D1, "box1", "hint_diagram_table_overlay" )</var>
-						<var id="TABLE_2_HINT">createHorizTable( N2, D2, "box2", "hint_diagram_table_overlay" )</var>
-						<var id="COMBINED_HINT">createCombinedTable( N1, D1, N2, D2, "box3", "hint_diagram_table_overlay" )</var>
-					</div>
-
-					<div class="question">
-						<p class="question_text">What is</p>
-						<table><tbody>
-							<tr>
-								<td class="centered_cell"><code>\huge{<var>fraction( N1, D1 )</var>}</code></td>
-								<td class="centered_cell"><code>\huge{\times}</code></td>
-								<td class="centered_cell"><code>\huge{<var>fraction( N2, D2 )</var>}</code></td>
-								<td class="centered_cell"><code>\huge{ =\space ?}</code></td>
-							</tr>
-							<tr>
-								<td><var>TABLE_1</var></td>
-								<td></td>
-								<td><var>TABLE_2</var></td>
-								<td></td>
-							</tr>
-						</tbody></table>
-					</div>
-
-					<p class="solution" data-type="rational" data-simplify="optional">
-						<var>( N1 * N2 ) / ( D1 * D2 )</var>
-					</p>
-
-					<div class="hints">
-						<p>
-							Another way to word this problem is: <br />
-							What is <code><var>fraction( N1, D1 )</var></code> of <code><var>fraction( N2, D2 )</var></code>?
-						</p>
-
-						<div>
-							<p>Let's overlay the two boxes on top of each other.</p>
-							<div id="problem1-hint2-box-div" style="display: block; position: relative; height: 220px;">
-									<var>TABLE_1_HINT</var>
-									<var>TABLE_2_HINT</var>
-							</div>
-						</div>
-
-						<div>
-							<p>Notice how there are <var>cardinal( N1 * N2 )</var> boxes in the overlap, and <var>cardinal( D1 * D2 )</var> boxes total.</p>
-							<div id="problem1-hint3-box-div" style="display: block; position: relative; height: 220px;">
-								<var>COMBINED_HINT</var>
-							</div>
-							<!-- FIXME: animation. -->
-							<!-- could fade out the blue and red regions to just leave -->
-							<!-- the purple. -->
-						</div>
-
-						<div>
-							<p>So this is equivalent to having <var>cardinal( N1 * N2 )</var> out of <var>cardinal( D1 * D2 )</var> slices of pie.</p>
-							<div class="graphie">
-								init({
-									range: [ [-2, 2], [-2, 2] ],
-									scale: 50
-								});
-
-								piechart( [N1*N2, D1*D2], ["purple", "#fff", "#000"], 1.9 );
-							</div>
-						</div>
-
-						<p>Notice how there are <code><var>N1</var>\times<var>N2</var>=<var>N1*N2</var></code> out of <code><var>D1</var>\times<var>D2</var>=<var>D1*D2</var></code> slices of pie.</p>
-
-						<p>This explains why the resulting fraction is <code><var>fraction( N1 * N2, D1 * D2 )</var></code>.</p>
-
-						<p data-if="getGCD( N1*N2, D1*D2 ) > 1">Optionally, this reduces to <code><var>fractionReduce( N1*N2, D1*D2 )</var></code>.</p>
-
-					</div><!-- End of Hints -->
-				</div><!-- End of problem 1 -->
-
-				<div id="fraction-with-whole">
-					<div class="vars">
-						<var id="N">randRange( 1, 4 )</var>
-						<var id="D">N + randRange( 1, 4 )</var>
-						<var id="B">randRange( 2, 5 )</var>
-						<var id="BOXES">( function() {
-							var a = [];
-							for ( var i = 1; i &lt;= B; i++ ) { a.push( i ); }
-							return a;
-						} )()</var>
-					</div>
-
-					<div class="question">
-						<p class="question-text">What is</p>
-						<table><tbody>
-							<tr>
-								<td class="centered_cell"><code><var>fraction( N, D )</var></code></td>
-								<td class="centered-cell"><code>\huge{\times}</code></td>
-								<td class="centered-cell"><code>\huge{<var>B</var>}</code></td>
-								<td class="centered-cell"><code>\huge{ = \space ?}</code></td>
-							</tr>
-							<tr>
-								<td><span class="padded_span"><var>createVertTable( N, D )</var></span></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-						</tbody></table>
-					</div>
-
-					<p class="solution" data-type="rational" data-simplify="optional"><var>B * N / D</var></p>
-
-					<div class="hints">
-
-						<div>
-							<p>Another way to word this is:</p>
-							<p>What is <code><var>fraction( N, D )</var></code> of <code><var>B</var></code>?</p>
-						</div>
-
-						<div>
-							<p>So we have <var>cardinal( B )</var> of these partially-filled in boxes.</p>
-							<table><tbody><tr>
-								<td data-each="BOXES as i"><var>createVertTable( N, D, cardinal( i ) )</var></td>
-							</tr></tbody></table>
-						</div>
-
-						<div>
-							<p>Let's put all these pieces together.</p>
-							<div><var>mixedBoxes( N, D, B, true )</var></div>
-						</div>
-
-						<div>
-							<p>So there are <code><var>mixedFractionFromImproper( N*B, D )</var></code> boxes filled in.</p>
-							<div><var>mixedBoxes( N, D, B, false )</var></div>
-						</div>
-
-						<p>Or, since we have <code><var>N*B</var></code> pieces and <code><var>D</var></code> pieces per box, this is the same as <code><var>fraction( N*B, D )</var></code>.</p>
-
-					</div><!-- End of hints -->
-				</div><!-- End of Problem 2 -->
-
-			</div><!-- End of Problems -->
-		</div><!-- End of Exercises -->
-	</body>
+    <head>
+        <title>Multiplying Fractions 1</title>
+        <script src="../khan-exercise.js"></script>
+        <style type="text/css">
+            .padded_span {
+                padding-top: 0px;
+                padding-left: 0px;
+                padding-bottom: 5px;
+                padding-right: 5px;
+            }
+
+            .centered_cell {
+                text-align: center;
+            }
+
+            .hint_diagram_table_small {
+                border: 0px solid black;
+                width: 100px;
+                height: 100px;
+                border-collapse: collapse;
+            }
+
+            .hint_diagram_table_big {
+                border: 0px solid black;
+                width: 200px;
+                height: 200px;
+                border-collapse: collapse;
+            }
+
+            .hint_diagram_table_overlay {
+                border: 0px solid black;
+                width: 200px;
+                height: 200px;
+                border-collapse: collapse;
+                position: absolute;
+            }
+
+            .hint_diagram_table_overlay_small {
+                border: 0px solid black;
+                width: 100px;
+                height: 100px;
+                border-collapse: collapse;
+                position: absolute;
+            }
+
+            .hint_empty_cell {
+                border: 2px solid black;
+                background: white;
+                opacity:0.5;
+                min-width: 0px;
+            }
+
+            .hint_box1_cell {
+                border: 2px solid black;
+                background: red;
+                opacity:0.5;
+                min-width: 0px;
+            }
+
+            .hint_box2_cell {
+                border: 2px solid black;
+                background: blue;
+                opacity:0.5;
+                min-width: 0px;
+            }
+
+            .hint_box3_cell {
+                border: 2px solid black;
+                background: purple;
+                min-width: 0px;
+            }
+
+            #one .hint_box1_cell {
+                background: black;
+            }
+
+            #two .hint_box1_cell {
+                background: green;
+            }
+
+            #three .hint_box1_cell {
+                background: blue;
+            }
+
+            #four .hint_box1_cell {
+                background: orange;
+            }
+
+            #five .hint_box1_cell {
+                background: purple;
+            }
+
+            #black .hint_box1_cell {
+                background: #777;
+            }
+
+        </style>
+        <script type="text/javascript">
+            /*
+             * Generates HTML for a table displaying the fraction's visual representation.
+             * @param numerator numerator as INT.
+             * @param denominator as INT.
+             * @param id ID to give this table. (optional)
+             * @param className class name to give this table. (optional)
+             */
+            function createVertTable( numerator, denominator, id, className ) {
+
+                var table = $( "<table/>" );
+                if ( id !== null ) {
+                    table.attr( "id", id );
+                }
+
+                if( className !== null ) {
+                    table.addClass( className );
+                } else {
+                    table.addClass( "hint_diagram_table_small" );
+                }
+
+                table.append( "<tbody/>" );
+                var tbody = table.find("tbody");
+
+                var rowHeight = table.height() / denominator;
+
+                for( i=0; i < denominator - numerator; i++ ) {
+                    tbody.append( "<tr><td class=\"hint_empty_cell\" style=\"min-width:0px\"/></tr>" )
+                        .height(rowHeight);
+                }
+                for( i=0; i < numerator; i++ ) {
+                    tbody.append( "<tr><td class=\"hint_box1_cell\" style=\"min-width:0px\"/></tr>" )
+                        .height(rowHeight);
+                }
+
+                return $('<div />').append(table).html();
+            }
+
+            /*
+             * Generates HTML for a table displaying the fraction's visual representation.
+             * @param numerator numerator as INT
+             * @param denominator as INT
+             * @param id ID to give this table. (optional)
+             * @param className class name to give this table. (optional)
+             */
+            function createHorizTable( numerator, denominator, id, className, boxClass ) {
+
+                var table = $( "<table/>" );
+                if ( id !== null ) {
+                    table.attr( "id", id );
+                }
+
+                if ( className !== null ) {
+                    table.addClass( className );
+                } else {
+                    table.addClass( "hint_diagram_table_small" );
+                }
+
+                var useBoxClass = "hint_box2_cell";
+                if ( boxClass !== null ) {
+                    useBoxClass = boxClass;
+                }
+
+                table.append( "<tbody/>" );
+                var tbody = table.find("tbody");
+                tbody.append( "<tr/>" );
+                var row = tbody.find( "tr" );
+                row.height( table.height() );
+
+                var colWidth = row.width() / denominator;
+
+                for( i=0; i < denominator - numerator; i++ ) {
+                    var td = row.append("<td class=\"hint_empty_cell\"/>");
+                    td.width( colWidth );
+                    td.css( 'min-width', 0 );
+                }
+                for( i=0; i < numerator; i++ ) {
+                    var td =  row.append("<td class=\"" + useBoxClass + "\"/>");
+                    td.width( colWidth );
+                    td.css( 'min-width', 0 );
+                }
+
+                return $('<div />').append(table).html();
+            }
+
+            /*
+             * Generates HTML for a table displaying the fraction's visual representation.
+             * @param n1 y-numerator
+             * @param d1 y-denominator
+             * @param n2 x-numerator
+             * @param d2 y-denominator
+             * @param id ID to give this table. (optional)
+             * @param className class name to give this table. (optional)
+             */
+            function createCombinedTable( n1, d1, n2, d2, id, className, boxClass ) {
+
+                var table = $( "<table/>" )
+                    .addClass( className || "hint_diagram_table_small" )
+                    .attr( "id", id );
+
+                boxClass = boxClass || "hint_box3_cell";
+
+                var tbody = table.append( "<tbody/>" ).find( "tbody" ),
+                    colWidth = table.width() / d2,
+                    rowHeight = table.height() / d1,
+                    row;
+
+                for ( var i = 0; i < d1 - n1; i++ ) {
+                    row = $( "<tr/>" ).height( rowHeight ).appendTo( tbody );
+
+                    for ( var j = 0; j < d2; j++ ) {
+                        $( "<td/>" ).addClass( "hint_empty_cell" )
+                            .width( colWidth ).css( "min_width", 0 )
+                            .appendTo( row );
+                    }
+                }
+
+                for ( var i = 0; i < n1; i++ ) {
+                    row = $( "<tr/>" ).height( rowHeight ).appendTo( tbody );
+
+                    for ( var j = 0; j < d2 - n2; j++ ) {
+                        $( "<td/>" ).addClass( "hint_empty_cell" )
+                            .width( colWidth ).css( "min_width", 0 )
+                            .appendTo( row );
+                    }
+
+                    for ( var j = 0; j < n2; j++ ) {
+                        $( "<td/>" ).addClass( boxClass )
+                            .width( colWidth ).css( "min_width", 0 )
+                            .appendTo( row );
+                    }
+                }
+
+                return $( "<div/>" ).append( table ).html();
+            }
+
+
+            /*
+             * Creates N number of boxes.
+             * @param number number of boxes as INT.
+             */
+            function createNBoxes(number, idPrefix, className, boxClass) {
+                var tablesSrc = "";
+                for ( var i = 0; i < number; i++ ) {
+                    var idToUse = null;
+                    if( idPrefix !== null ) {
+                        idToUse = idPrefix + "-" + i;
+                    }
+
+                    tablesSrc += "<span class=\"padded_span\">"
+                        + createHorizTable( 1, 1, idToUse, className, boxClass )
+                        + "</span>";
+                }
+                return tablesSrc;
+            }
+
+            /*
+             * Creates N number of boxes in overlay style.
+             * @param number number of boxes as INT.
+             */
+            function createNBoxesOverlayHoriz(number, idPrefix, numerator, denominator) {
+                var tablesSrc = "";
+                for ( var i = 0; i < number; i++ ) {
+                    var idToUse = null;
+                    if( idPrefix !== null ) {
+                        idToUse = idPrefix + "-" + i;
+                    }
+
+                    tablesSrc += createHorizTable( numerator, denominator, idToUse,
+                            "hint_diagram_table_overlay_small" );
+                }
+                return tablesSrc;
+            }
+
+            /*
+             * Creates N number of boxes in overlay style.
+             * @param number number of boxes as INT.
+             */
+            function createNBoxesOverlayVert(number, idPrefix, numerator, denominator) {
+                var tablesSrc = "";
+                for ( var i = 0; i < number; i++ ) {
+                    var idToUse = null;
+                    if( idPrefix !== null ) {
+                        idToUse = idPrefix + "-" + i;
+                    }
+
+                    tablesSrc += createVertTable( numerator, denominator, idToUse,
+                            "hint_diagram_table_overlay_small" );
+                }
+                return tablesSrc;
+            }
+
+            /*
+             * Scrolls an element into view.
+             * @param selector $ selector to use.
+             */
+            function scrollIntoView( selector ) {
+                try {
+                    var hintOffset = $( selector ).offset().top - 20;
+                    $('html,body').animate({scrollTop: hintOffset}, 500);
+                } catch( e ) {
+                    // Do nothing
+                }
+            }
+
+
+            /*
+             * Takes a mixed number (positive) and reduces it to a simplified
+             * mixed number stored in an object.
+             * @return object of form {whole:x, numerator:y, denominator:z}
+             */
+            function simplifyFraction( wholeNumber, numerator, denominator ) {
+                var wholeNum = Math.floor( numerator / denominator ) + wholeNumber;
+                var remainder = numerator % denominator;
+                var gcd = KhanUtil.getGCD( remainder, denominator );
+                var newNum = remainder / gcd;
+                var newDenom = denominator / gcd;
+
+                return {
+                        whole: wholeNum,
+                        numerator: ( remainder / gcd ),
+                        denominator: ( denominator / gcd )
+                    };
+            }
+
+            function mixedBoxes( n, d, b, col ) {
+                var boxes = Math.ceil( b * n / d ),
+                    color, iBox, iBody;
+
+                var cont = $( "<table/>" ),
+                    contRow = $( "<tbody/>" ).appendTo( cont )
+                        .append( "<tr/>" ).find( "tr" ),
+                    box = $( "<table/>" ).addClass( "hint_diagram_table_small" ),
+                    rowHeight = box.height() / d,
+                    row = $( "<tr/>" ).height( rowHeight ).append( "<td/>" ),
+                    filled = row.clone().find( "td" ).addClass( "hint_box1_cell" ).end(),
+                    empty = row.clone().find( "td" ).addClass( "hint_empty_cell" ).end();
+
+                for ( var i = 0; i < boxes; i++ ) {
+                    var thisCell = $( "<td/>" ).appendTo( contRow ),
+                        thisBox = box.clone().appendTo( thisCell ),
+                        thisBody = $( "<tbody/>" ).appendTo( thisBox );
+
+                    for ( var j = d - 1; j >= 0; j-- ) {
+                        color = Math.floor( ( i * d + j ) / n ) + 1;
+                        if ( color <= b ) {
+                            filled.clone().attr( "id", col ? KhanUtil.cardinal(color) : "black" ).appendTo( thisBody );
+                        } else {
+                            empty.clone().appendTo( thisBody );
+                        }
+                    }
+                }
+
+                return $( "<div/>" ).append( cont ).html();
+            }
+
+        </script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+            </div>
+            <div class="problems">
+
+                <div id="fraction-with-fraction">
+                    <div class="vars" data-ensure="D1 !== D2">
+                        <div data-ensure="D1 !== D2">
+                            <var id="N1">randRange(1, 4)</var>
+                            <var id="D1">N1 + randRange(1, 4)</var>
+                            <var id="N2">randRange(1, 4)</var>
+                            <var id="D2">N2 + randRange(1, 4)</var>
+                        </div>
+
+                        <var id="GCD">KhanUtil.getGCD( N1 * N2, D1 * D2 )</var>
+                        <var id="TABLE_1">createVertTable( N1, D1, null, null )</var>
+                        <var id="TABLE_2">createHorizTable( N2, D2, null, null )</var>
+                        <var id="TABLE_1_HINT">createVertTable( N1, D1, "box1", "hint_diagram_table_overlay" )</var>
+                        <var id="TABLE_2_HINT">createHorizTable( N2, D2, "box2", "hint_diagram_table_overlay" )</var>
+                        <var id="COMBINED_HINT">createCombinedTable( N1, D1, N2, D2, "box3", "hint_diagram_table_overlay" )</var>
+                    </div>
+
+                    <div class="question">
+                        <p class="question_text">What is</p>
+                        <table><tbody>
+                            <tr>
+                                <td class="centered_cell"><code>\huge{<var>fraction( N1, D1 )</var>}</code></td>
+                                <td class="centered_cell"><code>\huge{\times}</code></td>
+                                <td class="centered_cell"><code>\huge{<var>fraction( N2, D2 )</var>}</code></td>
+                                <td class="centered_cell"><code>\huge{ =\space ?}</code></td>
+                            </tr>
+                            <tr>
+                                <td><var>TABLE_1</var></td>
+                                <td></td>
+                                <td><var>TABLE_2</var></td>
+                                <td></td>
+                            </tr>
+                        </tbody></table>
+                    </div>
+
+                    <p class="solution" data-type="rational" data-simplify="optional">
+                        <var>( N1 * N2 ) / ( D1 * D2 )</var>
+                    </p>
+
+                    <div class="hints">
+                        <p>
+                            Another way to word this problem is: <br />
+                            What is <code><var>fraction( N1, D1 )</var></code> of <code><var>fraction( N2, D2 )</var></code>?
+                        </p>
+
+                        <div>
+                            <p>Let's overlay the two boxes on top of each other.</p>
+                            <div id="problem1-hint2-box-div" style="display: block; position: relative; height: 220px;">
+                                    <var>TABLE_1_HINT</var>
+                                    <var>TABLE_2_HINT</var>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p>Notice how there are <var>cardinal( N1 * N2 )</var> boxes in the overlap, and <var>cardinal( D1 * D2 )</var> boxes total.</p>
+                            <div id="problem1-hint3-box-div" style="display: block; position: relative; height: 220px;">
+                                <var>COMBINED_HINT</var>
+                            </div>
+                            <!-- FIXME: animation. -->
+                            <!-- could fade out the blue and red regions to just leave -->
+                            <!-- the purple. -->
+                        </div>
+
+                        <div>
+                            <p>So this is equivalent to having <var>cardinal( N1 * N2 )</var> out of <var>cardinal( D1 * D2 )</var> slices of pie.</p>
+                            <div class="graphie">
+                                init({
+                                    range: [ [-2, 2], [-2, 2] ],
+                                    scale: 50
+                                });
+
+                                piechart( [N1*N2, D1*D2], ["purple", "#fff", "#000"], 1.9 );
+                            </div>
+                        </div>
+
+                        <p>Notice how there are <code><var>N1</var>\times<var>N2</var>=<var>N1*N2</var></code> out of <code><var>D1</var>\times<var>D2</var>=<var>D1*D2</var></code> slices of pie.</p>
+
+                        <p>This explains why the resulting fraction is <code><var>fraction( N1 * N2, D1 * D2 )</var></code>.</p>
+
+                        <p data-if="getGCD( N1*N2, D1*D2 ) > 1">Optionally, this reduces to <code><var>fractionReduce( N1*N2, D1*D2 )</var></code>.</p>
+
+                    </div><!-- End of Hints -->
+                </div><!-- End of problem 1 -->
+
+                <div id="fraction-with-whole">
+                    <div class="vars">
+                        <var id="N">randRange( 1, 4 )</var>
+                        <var id="D">N + randRange( 1, 4 )</var>
+                        <var id="B">randRange( 2, 5 )</var>
+                        <var id="BOXES">( function() {
+                            var a = [];
+                            for ( var i = 1; i &lt;= B; i++ ) { a.push( i ); }
+                            return a;
+                        } )()</var>
+                    </div>
+
+                    <div class="question">
+                        <p class="question-text">What is</p>
+                        <table><tbody>
+                            <tr>
+                                <td class="centered_cell"><code><var>fraction( N, D )</var></code></td>
+                                <td class="centered-cell"><code>\huge{\times}</code></td>
+                                <td class="centered-cell"><code>\huge{<var>B</var>}</code></td>
+                                <td class="centered-cell"><code>\huge{ = \space ?}</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="padded_span"><var>createVertTable( N, D )</var></span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody></table>
+                    </div>
+
+                    <p class="solution" data-type="rational" data-simplify="optional"><var>B * N / D</var></p>
+
+                    <div class="hints">
+
+                        <div>
+                            <p>Another way to word this is:</p>
+                            <p>What is <code><var>fraction( N, D )</var></code> of <code><var>B</var></code>?</p>
+                        </div>
+
+                        <div>
+                            <p>So we have <var>cardinal( B )</var> of these partially-filled in boxes.</p>
+                            <table><tbody><tr>
+                                <td data-each="BOXES as i"><var>createVertTable( N, D, cardinal( i ) )</var></td>
+                            </tr></tbody></table>
+                        </div>
+
+                        <div>
+                            <p>Let's put all these pieces together.</p>
+                            <div><var>mixedBoxes( N, D, B, true )</var></div>
+                        </div>
+
+                        <div>
+                            <p>So there are <code><var>mixedFractionFromImproper( N*B, D )</var></code> boxes filled in.</p>
+                            <div><var>mixedBoxes( N, D, B, false )</var></div>
+                        </div>
+
+                        <p>Or, since we have <code><var>N*B</var></code> pieces and <code><var>D</var></code> pieces per box, this is the same as <code><var>fraction( N*B, D )</var></code>.</p>
+
+                    </div><!-- End of hints -->
+                </div><!-- End of Problem 2 -->
+
+            </div><!-- End of Problems -->
+        </div><!-- End of Exercises -->
+    </body>
 </html>

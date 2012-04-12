@@ -1,148 +1,148 @@
 <!DOCTYPE html>
 <html data-require="math word-problems spin">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Linear equation word problems</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Linear equation word problems</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="problems">
-			<div id="homeruns_needed">
-				<div class="vars">
-					<var id="X">randRange( 5, 20 )</var><!-- # Initial runs -->
-					<var id="Q">randRange( 25, 50 )</var><!-- # Total runs -->
-					<var id="P">Q - X</var><!-- # Runs needed -->
-				</div>
+    <div class="exercise">
+        <div class="problems">
+            <div id="homeruns_needed">
+                <div class="vars">
+                    <var id="X">randRange( 5, 20 )</var><!-- # Initial runs -->
+                    <var id="Q">randRange( 25, 50 )</var><!-- # Total runs -->
+                    <var id="P">Q - X</var><!-- # Runs needed -->
+                </div>
 
-				<p class="problem spin">{<var>person( 1 )</var> hopes to one day play professional baseball. |}{During the first few months of baseball season|In the first 100 games of the baseball season}, <var>person( 1 )</var> hit <var>X</var> home runs.</p>
-				<p class="question spin">{If <var>person( 1 )</var> wants to hit a total of <var>Q</var> home runs by the end of the season, how many more runs will <var>he( 1 )</var> need to hit in the remaining games|How many more home runs will <var>he( 1 )</var> need to hit to get a total of <var>Q</var> home runs by the end of the season}?</p>
+                <p class="problem spin">{<var>person( 1 )</var> hopes to one day play professional baseball. |}{During the first few months of baseball season|In the first 100 games of the baseball season}, <var>person( 1 )</var> hit <var>X</var> home runs.</p>
+                <p class="question spin">{If <var>person( 1 )</var> wants to hit a total of <var>Q</var> home runs by the end of the season, how many more runs will <var>he( 1 )</var> need to hit in the remaining games|How many more home runs will <var>he( 1 )</var> need to hit to get a total of <var>Q</var> home runs by the end of the season}?</p>
 
-				<div class="solution" data-type="multiple">
-					<span style="padding-right: 5px" class="sol" data-forms="integer"><var>P</var></span> home runs
-				</div>
+                <div class="solution" data-type="multiple">
+                    <span style="padding-right: 5px" class="sol" data-forms="integer"><var>P</var></span> home runs
+                </div>
 
-				<div class="hints">
-					<p>Home runs already hit + Home runs <var>he( 1 )</var> needs to hit = Total home runs wanted</p>
-					<div>
-						<p>Home runs already hit = <code><var>X</var></code></p>
-						<p>Total home runs wanted = <code><var>Q</var></code></p>
-						<p>Home runs he needs to hit = <code>x</code></p>
-					</div>
-					<p><code><var>X</var> + x = <var>Q</var></code></p>
-					<p><code>x = <var>Q</var> - <var>X</var></code></p>
-					<p><code><var>P</var> = <var>Q</var> - <var>X</var></code></p>
-					<p><strong><var>person( 1 )</var> needs to hit <code><var>P</var></code> home runs in the remaining games.</strong></p>
-				</div>
-			</div>
+                <div class="hints">
+                    <p>Home runs already hit + Home runs <var>he( 1 )</var> needs to hit = Total home runs wanted</p>
+                    <div>
+                        <p>Home runs already hit = <code><var>X</var></code></p>
+                        <p>Total home runs wanted = <code><var>Q</var></code></p>
+                        <p>Home runs he needs to hit = <code>x</code></p>
+                    </div>
+                    <p><code><var>X</var> + x = <var>Q</var></code></p>
+                    <p><code>x = <var>Q</var> - <var>X</var></code></p>
+                    <p><code><var>P</var> = <var>Q</var> - <var>X</var></code></p>
+                    <p><strong><var>person( 1 )</var> needs to hit <code><var>P</var></code> home runs in the remaining games.</strong></p>
+                </div>
+            </div>
 
-			<div id="babysitting_hourly_wage">
-				<div class="vars">
-					<var id="X" data-ensure="X <= 6">randRange( 2, 6 ) + ( rand(2) > 0 ? 0.5 : 0 )</var><!-- # of hours -->
-					<var id="Q">randRange( 15, 70 )</var><!-- Total earnings -->
-					<var id="P">roundTo( 2, Q / X )</var><!-- Earnings per hour -->
-				</div>
+            <div id="babysitting_hourly_wage">
+                <div class="vars">
+                    <var id="X" data-ensure="X <= 6">randRange( 2, 6 ) + ( rand(2) > 0 ? 0.5 : 0 )</var><!-- # of hours -->
+                    <var id="Q">randRange( 15, 70 )</var><!-- Total earnings -->
+                    <var id="P">roundTo( 2, Q / X )</var><!-- Earnings per hour -->
+                </div>
 
-				<p class="problem spin"><var>person( 1 )</var> {earned $<var>Q</var> by babysitting his neighbors for <var>X</var> hours.|babysat <var>his( 1 )</var> neighbors for <var>X</var> hours and earned $<var>Q</var>.}</p>
-				<p class="question">What is <var>person( 1 )</var>’s hourly wage ?</p>
-				<p class="extra-info">(Extra Info: Round to the nearest hundredth of a dollar.)</p>
+                <p class="problem spin"><var>person( 1 )</var> {earned $<var>Q</var> by babysitting his neighbors for <var>X</var> hours.|babysat <var>his( 1 )</var> neighbors for <var>X</var> hours and earned $<var>Q</var>.}</p>
+                <p class="question">What is <var>person( 1 )</var>’s hourly wage ?</p>
+                <p class="extra-info">(Extra Info: Round to the nearest hundredth of a dollar.)</p>
 
-				<div class="solution" data-forms="dollar"><var>P</var></div>
+                <div class="solution" data-forms="dollar"><var>P</var></div>
 
-				<div class="hints">
-					<p>Number of hours <var>he( 1 )</var> babysat x Amount of money earned per hour = Total amount of money earned.</p>
-					<div>
-						<p>Number of hours <var>he( 1 )</var> babysat = <code><var>X</var></code></p>
-						<p>Total amount of money earned = <code><var>Q</var></code></p>
-						<p>Amount of money earned per hour = <code>y</code></p>
-					</div>
-					<p><code><var>X</var>y = <var>Q</var></code></p>
-					<p><code>y = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
-					<p><code><var>P</var> = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
-					<p><strong><var>person( 1 )</var> earned <code>$<var>P</var></code> per hour while babysitting.</strong></p>
-				</div>
-			</div>
+                <div class="hints">
+                    <p>Number of hours <var>he( 1 )</var> babysat x Amount of money earned per hour = Total amount of money earned.</p>
+                    <div>
+                        <p>Number of hours <var>he( 1 )</var> babysat = <code><var>X</var></code></p>
+                        <p>Total amount of money earned = <code><var>Q</var></code></p>
+                        <p>Amount of money earned per hour = <code>y</code></p>
+                    </div>
+                    <p><code><var>X</var>y = <var>Q</var></code></p>
+                    <p><code>y = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
+                    <p><code><var>P</var> = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
+                    <p><strong><var>person( 1 )</var> earned <code>$<var>P</var></code> per hour while babysitting.</strong></p>
+                </div>
+            </div>
 
-			<div id="tshirt_cost">
-				<div class="vars">
-					<var id="X">randRange( 10, 20 )</var><!-- Payment amount -->
-					<var id="Q" data-ensure="Q % 100 !== 0">randRange( 150, 499 ) / 100</var><!-- Change amount -->
-					<var id="P">roundTo( 2, X - Q )</var><!-- Tshirt cost -->
-				</div>
+            <div id="tshirt_cost">
+                <div class="vars">
+                    <var id="X">randRange( 10, 20 )</var><!-- Payment amount -->
+                    <var id="Q" data-ensure="Q % 100 !== 0">randRange( 150, 499 ) / 100</var><!-- Change amount -->
+                    <var id="P">roundTo( 2, X - Q )</var><!-- Tshirt cost -->
+                </div>
 
-				<p class="problem spin">{<var>person( 1 )</var> paid $<var>X</var> for a t-shirt and received $<var>Q</var> in change.|When buying a t-shirt at a clothing store, <var>person( 1 )</var> gave the cashier $<var>X</var> and received $<var>Q</var> in change.}</p>
-				<p class="question">How much did the t-shirt cost?</p>
+                <p class="problem spin">{<var>person( 1 )</var> paid $<var>X</var> for a t-shirt and received $<var>Q</var> in change.|When buying a t-shirt at a clothing store, <var>person( 1 )</var> gave the cashier $<var>X</var> and received $<var>Q</var> in change.}</p>
+                <p class="question">How much did the t-shirt cost?</p>
 
-				<div class="solution" data-forms="dollar"><var>P</var></div>
+                <div class="solution" data-forms="dollar"><var>P</var></div>
 
-				<div class="hints">
-					<p>Total t-shirt cost + Change received = Amount given to cashier</p>
-					<div>
-						<p>Change received = <code><var>Q</var></code></p>
-						<p>Amount given to cashier = <code><var>X</var></code></p>
-						<p>Total t-shirt cost = <code>x</code></p>
-					</div>
-					<p><code>x + <var>Q</var> = <var>X</var></code></p>
-					<p><code>x = <var>X</var> - <var>Q</var></code></p>
-					<p><code><var>P</var> = <var>X</var> - <var>Q</var></code></p>
-					<p><strong>The t-shirt cost $<code><var>P</var></code>.</strong></p>
-				</div>
-			</div>
+                <div class="hints">
+                    <p>Total t-shirt cost + Change received = Amount given to cashier</p>
+                    <div>
+                        <p>Change received = <code><var>Q</var></code></p>
+                        <p>Amount given to cashier = <code><var>X</var></code></p>
+                        <p>Total t-shirt cost = <code>x</code></p>
+                    </div>
+                    <p><code>x + <var>Q</var> = <var>X</var></code></p>
+                    <p><code>x = <var>X</var> - <var>Q</var></code></p>
+                    <p><code><var>P</var> = <var>X</var> - <var>Q</var></code></p>
+                    <p><strong>The t-shirt cost $<code><var>P</var></code>.</strong></p>
+                </div>
+            </div>
 
-			<div id="milk_gallon_cost">
-				<div class="vars">
-					<var id="X">randRange( 5, 10 )</var><!-- # of gallons -->
-					<var id="Q" data-ensure="Q % 100 !== 0">randRange( 1425, 2525 ) / 100</var><!-- Bill -->
-					<var id="P">roundTo( 2, Q / X )</var><!-- Per milk cost -->
-				</div>
+            <div id="milk_gallon_cost">
+                <div class="vars">
+                    <var id="X">randRange( 5, 10 )</var><!-- # of gallons -->
+                    <var id="Q" data-ensure="Q % 100 !== 0">randRange( 1425, 2525 ) / 100</var><!-- Bill -->
+                    <var id="P">roundTo( 2, Q / X )</var><!-- Per milk cost -->
+                </div>
 
-				<p class="problem spin"><var>person( 1 )</var> works as a cashier at the grocery store in <var>his( 1 )</var> town. {Milk is one of the fastest selling items, and right at the start of <var>his( 1 )</var> shift someone|A customer came in and} bought <var>X</var> gallons of milk for a total of $<var>Q</var>.</p>
-				<p class="question">How much did each gallon of milk cost?</p>
+                <p class="problem spin"><var>person( 1 )</var> works as a cashier at the grocery store in <var>his( 1 )</var> town. {Milk is one of the fastest selling items, and right at the start of <var>his( 1 )</var> shift someone|A customer came in and} bought <var>X</var> gallons of milk for a total of $<var>Q</var>.</p>
+                <p class="question">How much did each gallon of milk cost?</p>
 
-				<div class="solution" data-forms="dollar"><var>P</var></div>
+                <div class="solution" data-forms="dollar"><var>P</var></div>
 
-				<div class="hints">
-					<p>Gallons of milk bought x Cost per gallon of milk = Total cost</p>
-					<div>
-						<p>Gallons of milk bought = <code><var>Q</var></code></p>
-						<p>Total cost = <code><var>X</var></code></p>
-						<p>Cost per gallon of milk = <code>y</code></p>
-					</div>
-					<p><code><var>Q</var>y = <var>X</var></code></p>
-					<p><code>y = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
-					<p><code><var>P</var> = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
-					<p><strong>Each gallon of milk cost <code>$<var>P</var></code>.</strong></p>
-				</div>
-			</div>
+                <div class="hints">
+                    <p>Gallons of milk bought x Cost per gallon of milk = Total cost</p>
+                    <div>
+                        <p>Gallons of milk bought = <code><var>Q</var></code></p>
+                        <p>Total cost = <code><var>X</var></code></p>
+                        <p>Cost per gallon of milk = <code>y</code></p>
+                    </div>
+                    <p><code><var>Q</var>y = <var>X</var></code></p>
+                    <p><code>y = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
+                    <p><code><var>P</var> = \dfrac{<var>Q</var>}{<var>X</var>}</code></p>
+                    <p><strong>Each gallon of milk cost <code>$<var>P</var></code>.</strong></p>
+                </div>
+            </div>
 
-			<div id="running_distance_left">
-				<div class="vars">
-					<var id="X">0.25 * randRange( 1, 13.25 / 0.25 )</var><!-- First 3 legs -->
-					<var id="Q">randRange( 15, 20 )</var><!-- Total miles -->
-					<var id="P">Q - X</var><!-- Final leg -->
-				</div>
+            <div id="running_distance_left">
+                <div class="vars">
+                    <var id="X">0.25 * randRange( 1, 13.25 / 0.25 )</var><!-- First 3 legs -->
+                    <var id="Q">randRange( 15, 20 )</var><!-- Total miles -->
+                    <var id="P">Q - X</var><!-- Final leg -->
+                </div>
 
-				<p class="problem spin"><var>person( 1 )</var> {ran the final leg of a|was the final runner of a 3 leg} <var>Q</var>-mile relay race. {When <var>person( 1 )</var>’s teammate handed <var>him( 1 )</var> the baton|Right before starting his leg of the race}, the team had already completed <var>X</var> miles of the race.</p>
-				<p class="question">How far did <var>person( 1 )</var> run to complete the race?</p>
+                <p class="problem spin"><var>person( 1 )</var> {ran the final leg of a|was the final runner of a 3 leg} <var>Q</var>-mile relay race. {When <var>person( 1 )</var>’s teammate handed <var>him( 1 )</var> the baton|Right before starting his leg of the race}, the team had already completed <var>X</var> miles of the race.</p>
+                <p class="question">How far did <var>person( 1 )</var> run to complete the race?</p>
 
-				<div class="solution" data-type="multiple">
-					<span style="padding-right: 5px" class="sol"><var>P</var></span> miles
-				</div>
+                <div class="solution" data-type="multiple">
+                    <span style="padding-right: 5px" class="sol"><var>P</var></span> miles
+                </div>
 
-				<div class="hints">
-					<p>Miles <var>he( 1 )</var> ran + Miles already completed = Total Miles</p>
-					<div>
-						<p>Miles already completed = <code><var>X</var></code></p>
-						<p>Total miles = <code><var>Q</var></code></p>
-						<p>Miles <var>he( 1 )</var> ran = <code>x</code></p>
-					</div>
-					<p><code>x + <var>X</var> = <var>Q</var></code></p>
-					<p><code>x = <var>Q</var> - <var>X</var></code></p>
-					<p><code><var>P</var> = <var>Q</var> - <var>X</var></code></p>
-					<p><strong><var>person( 1 )</var> ran <code><var>P</var></code> miles to finish the race.</strong></p>
-				</div>
-			</div>
-		</div>
-	</div>
+                <div class="hints">
+                    <p>Miles <var>he( 1 )</var> ran + Miles already completed = Total Miles</p>
+                    <div>
+                        <p>Miles already completed = <code><var>X</var></code></p>
+                        <p>Total miles = <code><var>Q</var></code></p>
+                        <p>Miles <var>he( 1 )</var> ran = <code>x</code></p>
+                    </div>
+                    <p><code>x + <var>X</var> = <var>Q</var></code></p>
+                    <p><code>x = <var>Q</var> - <var>X</var></code></p>
+                    <p><code><var>P</var> = <var>Q</var> - <var>X</var></code></p>
+                    <p><strong><var>person( 1 )</var> ran <code><var>P</var></code> miles to finish the race.</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

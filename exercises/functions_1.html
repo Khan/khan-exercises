@@ -1,92 +1,92 @@
 <!DOCTYPE html>
 <html data-require="math graphie">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Functions 1</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Functions 1</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="FUNCTION_PATH">
-				(function() {
-					var functionPath = [];
+    <div class="exercise">
+        <div class="vars">
+            <var id="FUNCTION_PATH">
+                (function() {
+                    var functionPath = [];
 
-					functionPath.push([ -11, randRange( -5, 5 ) ]);
-					for( var i = -10; i &lt; 11; i++ ) {
-						if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && functionPath[i+10][1] &lt; 8 ) {
-							functionPath.push([i, functionPath[i+10][1]+1]);
+                    functionPath.push([ -11, randRange( -5, 5 ) ]);
+                    for( var i = -10; i &lt; 11; i++ ) {
+                        if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && functionPath[i+10][1] &lt; 8 ) {
+                            functionPath.push([i, functionPath[i+10][1]+1]);
 
-						} else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && functionPath[i+10][1] > -8 ) {
-							functionPath.push([i, functionPath[i+10][1]-1]);
+                        } else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && functionPath[i+10][1] > -8 ) {
+                            functionPath.push([i, functionPath[i+10][1]-1]);
 
-						} else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && functionPath[i+10][1] &lt; 7 ) {
-							functionPath.push([i, functionPath[i+10][1]+2]);
+                        } else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && functionPath[i+10][1] &lt; 7 ) {
+                            functionPath.push([i, functionPath[i+10][1]+2]);
 
-						} else if ( abs( randRangeNonZero( -10, 10 ) &lt; 3 ) && functionPath[i+10][1] > -7 ) {
-							functionPath.push([i, functionPath[i+10][1]-2]);
+                        } else if ( abs( randRangeNonZero( -10, 10 ) &lt; 3 ) && functionPath[i+10][1] > -7 ) {
+                            functionPath.push([i, functionPath[i+10][1]-2]);
 
-						} else {
-							functionPath.push([i, functionPath[i+10][1]]);
-						}
-					}
-					return functionPath;
-				})()
-			</var>
+                        } else {
+                            functionPath.push([i, functionPath[i+10][1]]);
+                        }
+                    }
+                    return functionPath;
+                })()
+            </var>
 
-			<var id="CORRECT_X">randRange(-9, 9)</var>
-			<var id="CORRECT_Y">FUNCTION_PATH[CORRECT_X + 11][1]</var>
-		</div>
+            <var id="CORRECT_X">randRange(-9, 9)</var>
+            <var id="CORRECT_Y">FUNCTION_PATH[CORRECT_X + 11][1]</var>
+        </div>
 
-		<div class="problems">
-			<div>
-				<p class="question">The function <code>f(x)</code> is graphed. Find <code>f(<var>CORRECT_X</var>)</code>.</p>
+        <div class="problems">
+            <div>
+                <p class="question">The function <code>f(x)</code> is graphed. Find <code>f(<var>CORRECT_X</var>)</code>.</p>
 
-				<div id="graph" class="graphie">
-					graphInit({
-						range: 10,
-						scale: 20,
-						axisArrows: "<->",
-						tickStep: 1,
-						labelStep: 1,
-						unityLabels: false,
-						labelFormat: function( s ) { return "\\small{" + s + "}"; }
-					});
+                <div id="graph" class="graphie">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        axisArrows: "<->",
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; }
+                    });
 
-					path( FUNCTION_PATH, { stroke: "#6495ed" } );
-				</div>
-				<div class="solution" data-type="multiple">
-					<p><code>f(<var>CORRECT_X</var>)=</code> <span class="sol"><var>CORRECT_Y</var></span></p>
-				</div>
-				
-			</div>
-		</div>
+                    path( FUNCTION_PATH, { stroke: "#6495ed" } );
+                </div>
+                <div class="solution" data-type="multiple">
+                    <p><code>f(<var>CORRECT_X</var>)=</code> <span class="sol"><var>CORRECT_Y</var></span></p>
+                </div>
 
-		<div class="hints">
-			<div>
-				<p>At what point does <code>f(x)</code> intersect <code>x = <var>CORRECT_X</var></code>?</p>
-				<div class="graphie" data-update="graph">
-					graph.vert = line( [CORRECT_X, -10], [CORRECT_X, 10], {
-						stroke: "#28ae7b",
-						strokeDasharray: "- "
-					} );
+            </div>
+        </div>
 
-					circle( [CORRECT_X, CORRECT_Y], 3/20, {
-						stroke: "none",
-						fill: "black"
-					} );
-				</div>
-			</div>
+        <div class="hints">
+            <div>
+                <p>At what point does <code>f(x)</code> intersect <code>x = <var>CORRECT_X</var></code>?</p>
+                <div class="graphie" data-update="graph">
+                    graph.vert = line( [CORRECT_X, -10], [CORRECT_X, 10], {
+                        stroke: "#28ae7b",
+                        strokeDasharray: "- "
+                    } );
 
-			<p>They intersect at <code>(<var>CORRECT_X</var>, <var>CORRECT_Y</var>)</code>.</p>
+                    circle( [CORRECT_X, CORRECT_Y], 3/20, {
+                        stroke: "none",
+                        fill: "black"
+                    } );
+                </div>
+            </div>
 
-			<div>
-				<p>Thus, <code>f(<var>CORRECT_X</var>) = <var>CORRECT_Y</var></code>.</p>
-				<div class="graphie" data-update="graph">
-					graph.vert.remove();
-				</div>
-			</div>
-		</div>
-	</div>
+            <p>They intersect at <code>(<var>CORRECT_X</var>, <var>CORRECT_Y</var>)</code>.</p>
+
+            <div>
+                <p>Thus, <code>f(<var>CORRECT_X</var>) = <var>CORRECT_Y</var></code>.</p>
+                <div class="graphie" data-update="graph">
+                    graph.vert.remove();
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

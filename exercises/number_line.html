@@ -1,77 +1,77 @@
 <!DOCTYPE html>
 <html data-require="math graphie word-problems interactive">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Number line</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Number line</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars">
-		<var id="LOWER_BOUND">0</var>
-		<var id="UPPER_BOUND">10</var>
-		<var id="NUMBER">randRangeNonZero( LOWER_BOUND, UPPER_BOUND )</var>
-	</div>
-	<div class="problems">
-		<div>
-			<div class="question">
-				<p>Drag the orange dot to <strong><var>NUMBER</var></strong>. The distance between adjacent tick marks is 1.</p>
-				<div class="graphie" id="number-line">
-					init({
-						range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ]
-					});
+    <div class="exercise">
+    <div class="vars">
+        <var id="LOWER_BOUND">0</var>
+        <var id="UPPER_BOUND">10</var>
+        <var id="NUMBER">randRangeNonZero( LOWER_BOUND, UPPER_BOUND )</var>
+    </div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>Drag the orange dot to <strong><var>NUMBER</var></strong>. The distance between adjacent tick marks is 1.</p>
+                <div class="graphie" id="number-line">
+                    init({
+                        range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ]
+                    });
 
-					line( [ LOWER_BOUND, 0 ], [ UPPER_BOUND, 0 ] );
-					for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++ ) {
-						line( [ x, -0.2 ], [ x, 0.2 ] );
-					}
-					style({ stroke: "#6495ED", strokeWidth: 3.5 });
-					line( [ 0, -0.2], [0, 0.2]);
-					label( [ 0, -0.53 ],  "0", "center", { color: "#6495ED" });
+                    line( [ LOWER_BOUND, 0 ], [ UPPER_BOUND, 0 ] );
+                    for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++ ) {
+                        line( [ x, -0.2 ], [ x, 0.2 ] );
+                    }
+                    style({ stroke: "#6495ED", strokeWidth: 3.5 });
+                    line( [ 0, -0.2], [0, 0.2]);
+                    label( [ 0, -0.53 ],  "0", "center", { color: "#6495ED" });
 
-					addMouseLayer();
-					graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
-					graph.movablePoint.onMove = function( x, y ) {
-						return [ min( max( LOWER_BOUND, x ), UPPER_BOUND ), y ];
-					};
-				</div>
-			</div>
+                    addMouseLayer();
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.25 });
+                    graph.movablePoint.onMove = function( x, y ) {
+                        return [ min( max( LOWER_BOUND, x ), UPPER_BOUND ), y ];
+                    };
+                </div>
+            </div>
 
-			<div class="solution" data-type="custom">
-				<span class="instruction"> Move the orange dot to select your answer. </span>
-				<div class="guess"> graph.movablePoint.coord[0] </div>
-				<div class="validator-function">
-					if ( guess === 0 ) {
-						return "";
-					}
-					return abs( NUMBER - guess ) &lt; 0.001;
-				</div>
-				<div class="show-guess">
-					graph.movablePoint.setCoord( [ guess, 0 ] );
-				</div>
-			</div>
+            <div class="solution" data-type="custom">
+                <span class="instruction"> Move the orange dot to select your answer. </span>
+                <div class="guess"> graph.movablePoint.coord[0] </div>
+                <div class="validator-function">
+                    if ( guess === 0 ) {
+                        return "";
+                    }
+                    return abs( NUMBER - guess ) &lt; 0.001;
+                </div>
+                <div class="show-guess">
+                    graph.movablePoint.setCoord( [ guess, 0 ] );
+                </div>
+            </div>
 
-			<div class="hints">
-				<p>We know where 0 is on the number line because it is labeled.</p>
-				<p>As you move to the right, the numbers get bigger.</p>
-				<div>
-					<div class="graphie" data-update="number-line">
-						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
-						line( [ 0, 0 ], [ NUMBER, 0 ] );
-						graph.movablePoint.visibleShape.toFront();
-					</div>
-					<p>The orange dot should be <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER &lt; 0">left</span><span data-else>right</span> of 0.</p>
-				</div>
-				<div>
-					<div class="graphie" data-update="number-line">
-						label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
-						graph.movablePoint.moveTo( NUMBER, 0 );
-					</div>
-					<p>The orange number shows where <var>NUMBER</var> is on the number line.</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	</div>
+            <div class="hints">
+                <p>We know where 0 is on the number line because it is labeled.</p>
+                <p>As you move to the right, the numbers get bigger.</p>
+                <div>
+                    <div class="graphie" data-update="number-line">
+                        style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
+                        line( [ 0, 0 ], [ NUMBER, 0 ] );
+                        graph.movablePoint.visibleShape.toFront();
+                    </div>
+                    <p>The orange dot should be <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER &lt; 0">left</span><span data-else>right</span> of 0.</p>
+                </div>
+                <div>
+                    <div class="graphie" data-update="number-line">
+                        label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
+                        graph.movablePoint.moveTo( NUMBER, 0 );
+                    </div>
+                    <p>The orange number shows where <var>NUMBER</var> is on the number line.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

@@ -1,187 +1,187 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions graphie interactive">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Graphing linear equations</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Graphing linear equations</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
-	<div class="problems">
-		<div>
-			<div class="vars">
-				<var id="SLOPE_FRAC">reduce( randRangeNonZero( -5, 5 ), randRange( 1, 5 ) )</var>
-				<var id="YINT">randRangeNonZero( max( -10, -10 - SLOPE_FRAC[0] ), min( 10, 10 - SLOPE_FRAC[0] ) )</var>
-				<var id="SLOPE">SLOPE_FRAC[0] / SLOPE_FRAC[1]</var>
-				<var id="PRETTY_SLOPE">SLOPE === 1 ? "" : ( SLOPE === -1 ? "-" : fraction( SLOPE_FRAC[0], SLOPE_FRAC[1], true, true ) )</var>
-				<var id="MULT">randRangeNonZero( -3, 3 )</var>
-				<var id="A">SLOPE_FRAC[0] * -MULT</var>
-				<var id="B">SLOPE_FRAC[1] * MULT</var>
-				<var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
-				<var id="STD_FORM">random() &lt; 0.3</var>
-			</div>
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="SLOPE_FRAC">reduce( randRangeNonZero( -5, 5 ), randRange( 1, 5 ) )</var>
+                <var id="YINT">randRangeNonZero( max( -10, -10 - SLOPE_FRAC[0] ), min( 10, 10 - SLOPE_FRAC[0] ) )</var>
+                <var id="SLOPE">SLOPE_FRAC[0] / SLOPE_FRAC[1]</var>
+                <var id="PRETTY_SLOPE">SLOPE === 1 ? "" : ( SLOPE === -1 ? "-" : fraction( SLOPE_FRAC[0], SLOPE_FRAC[1], true, true ) )</var>
+                <var id="MULT">randRangeNonZero( -3, 3 )</var>
+                <var id="A">SLOPE_FRAC[0] * -MULT</var>
+                <var id="B">SLOPE_FRAC[1] * MULT</var>
+                <var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
+                <var id="STD_FORM">random() &lt; 0.3</var>
+            </div>
 
-			<p class="question">Graph the following equation:</p>
+            <p class="question">Graph the following equation:</p>
 
-			<div class="problem">
-				<p class="hint_blue" data-if="STD_FORM">
-					<code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> = <var>C</var></code>
-				</p>
-				<p class="hint_blue" data-else>
-					<code>y = <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
-				</p>
+            <div class="problem">
+                <p class="hint_blue" data-if="STD_FORM">
+                    <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> = <var>C</var></code>
+                </p>
+                <p class="hint_blue" data-else>
+                    <code>y = <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
+                </p>
 
-				<div class="graphie" id="grid">
-					graphInit({
-						range: 11,
-						scale: 20,
-						axisArrows: "&lt;-&gt;",
-						tickStep: 1,
-						labelStep: 1,
-						gridOpacity: 0.05,
-						axisOpacity: 0.2,
-						tickOpacity: 0.4,
-						labelOpacity: 0.5
-					});
+                <div class="graphie" id="grid">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        axisArrows: "&lt;-&gt;",
+                        tickStep: 1,
+                        labelStep: 1,
+                        gridOpacity: 0.05,
+                        axisOpacity: 0.2,
+                        tickOpacity: 0.4,
+                        labelOpacity: 0.5
+                    });
 
-					label( [ 0, 11 ], "y", "above" );
-					label( [ 11, 0 ], "x", "right" );
+                    label( [ 0, 11 ], "y", "above" );
+                    label( [ 11, 0 ], "x", "right" );
 
-					addMouseLayer();
-					graph.pointA = addMovablePoint({
-						coord: [ -5, 5 ],
-						snapX: 0.5,
-						snapY: 0.5,
-						normalStyle: {
-							stroke: KhanUtil.BLUE,
-							fill: KhanUtil.BLUE
-						}
-					});
-					graph.pointB = addMovablePoint({
-						coord: [ 5, 5 ],
-						snapX: 0.5,
-						snapY: 0.5,
-						normalStyle: {
-							stroke: KhanUtil.BLUE,
-							fill: KhanUtil.BLUE
-						}
-					});
-					graph.line1 = addMovableLineSegment({
-						pointA: graph.pointA,
-						pointZ: graph.pointB,
-						fixed: true,
-						extendLine: true
-					});
+                    addMouseLayer();
+                    graph.pointA = addMovablePoint({
+                        coord: [ -5, 5 ],
+                        snapX: 0.5,
+                        snapY: 0.5,
+                        normalStyle: {
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                        }
+                    });
+                    graph.pointB = addMovablePoint({
+                        coord: [ 5, 5 ],
+                        snapX: 0.5,
+                        snapY: 0.5,
+                        normalStyle: {
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                        }
+                    });
+                    graph.line1 = addMovableLineSegment({
+                        pointA: graph.pointA,
+                        pointZ: graph.pointB,
+                        fixed: true,
+                        extendLine: true
+                    });
 
-					// A and B can't be in the same place
-					graph.pointA.onMove = function( x, y ) {
-						return ( x != graph.pointB.coord[0] || y != graph.pointB.coord[1] );
-					}
-					graph.pointB.onMove = function( x, y ) {
-						return ( x != graph.pointA.coord[0] || y != graph.pointA.coord[1] );
-					}
+                    // A and B can't be in the same place
+                    graph.pointA.onMove = function( x, y ) {
+                        return ( x != graph.pointB.coord[0] || y != graph.pointB.coord[1] );
+                    }
+                    graph.pointB.onMove = function( x, y ) {
+                        return ( x != graph.pointA.coord[0] || y != graph.pointA.coord[1] );
+                    }
 
-					graph.pointA.toFront();
-					graph.pointB.toFront();
+                    graph.pointA.toFront();
+                    graph.pointB.toFront();
 
-				</div>
-			</div>
-			<div class="solution" data-type="custom">
-				<div class="instruction">
-					Drag the two points to move the line into the correct position.
-				</div>
-				<div class="guess"> [ graph.pointA.coord, graph.pointB.coord ] </div>
-				<div class="validator-function">
-					var slope = ( guess[1][1] - guess[0][1] ) / ( guess[1][0] - guess[0][0] );
-					var yint = slope * ( 0 - guess[0][0] ) + guess[0][1];
-					return abs( SLOPE - slope ) &lt; 0.001 &amp;&amp; abs( YINT - yint ) &lt; 0.001;
-				</div>
-				<div class="show-guess">
-					graph.pointA.setCoord( guess[0] );
-					graph.pointB.setCoord( guess[1] );
-					graph.line1.transform( true );
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Drag the two points to move the line into the correct position.
+                </div>
+                <div class="guess"> [ graph.pointA.coord, graph.pointB.coord ] </div>
+                <div class="validator-function">
+                    var slope = ( guess[1][1] - guess[0][1] ) / ( guess[1][0] - guess[0][0] );
+                    var yint = slope * ( 0 - guess[0][0] ) + guess[0][1];
+                    return abs( SLOPE - slope ) &lt; 0.001 &amp;&amp; abs( YINT - yint ) &lt; 0.001;
+                </div>
+                <div class="show-guess">
+                    graph.pointA.setCoord( guess[0] );
+                    graph.pointB.setCoord( guess[1] );
+                    graph.line1.transform( true );
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div class="hints">
-		<div data-if="STD_FORM" data-unwrap>
-			<p>
-				Convert <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> = <var>C</var></code>
-				to slope-intercept form by solving for <code>y</code>.
-			</p>
-			<div>
-				<p>
-					<var>A &lt; 0 ? "Add" : "Subtract"</var> <code><var>abs( A )</var>x</code> <var>A &lt; 0 ? "to" : "from"</var> both sides:
-				</p><p>
-					<code>\qquad <var>expr( [ "*", B, "y" ] )</var> = <var>expr([ "+", [ "*", -A, "x" ], C ])</var></code>
-				</p>
-			</div>
-			<div data-if="B !== 1">
-				<p>
-					Divide both sides by <code><var>B</var></code>:
-				</p><p>
-					<code>\qquad y = <var>expr([ "+", "\\dfrac{" + expr([ "*", -A, "x" ]) + "}{" + B + "}", "\\dfrac{" + C + "}{" + B + "}" ])</var></code>
-				</p>
-			</div>
-		</div>
-		<div>
-			<p>
-				<code>\qquad y = \color{purple}{<var>PRETTY_SLOPE</var>} x \color{<var>GREEN</var>}{+ <var>YINT</var>}</code>
-			</p><p>
-				The y-intercept is <code class="hint_green"><var>YINT</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>.
-			</p>
-		</div>
-		<div>
-			<p>
-				The y-intercept is <code class="hint_green"><var>YINT</var></code>, so the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
-			</p>
-			<div class="graphie" data-update="grid">
-				style({ stroke: GREEN, fill: GREEN }, function() {
-					graph.yint = circle( [ 0, YINT ], 0.2 ).toBack();
-				});
-			</div>
-		</div>
-		<div>
-			<p>
-				The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that
-				the slope tells you rise over run. So in this case for every
-				<code><var>abs( SLOPE_FRAC[0] )</var></code>
-				<var>"position" + ( abs( SLOPE_FRAC[0] ) !== 1 ? "s" : "" )</var>
-				you move
-				<span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
-				<span data-else>up</span>
-				you must also move
-				<code><var>SLOPE_FRAC[1]</var></code>
-				<var>"position" + ( abs( SLOPE_FRAC[1] ) !== 1 ? "s" : "" )</var>
-				to the right.
-			</p>
-			<div class="graphie" data-update="grid">
-				style({
-					stroke: "purple",
-					strokeWidth: 2,
-					arrows: "-&gt;"
-				}, function() {
-					path([ [ 0, YINT ], [ 0, YINT + SLOPE_FRAC[0] ] ]).toBack();
-					path([ [ 0, YINT + SLOPE_FRAC[0] ], [ SLOPE_FRAC[1], YINT + SLOPE_FRAC[0] ] ]).toBack();
-				});
-				label( [ 0, YINT + SLOPE_FRAC[0] / 2 ], abs( SLOPE_FRAC[0] ) + " \\text{ " + ( SLOPE_FRAC[0] &lt; 0 ? "down" : "up" ) + "} \\quad", "left", { color: "purple" } );
-				label( [ 0, YINT + SLOPE_FRAC[0] ], SLOPE_FRAC[1] + " \\text{ right}", ( SLOPE_FRAC[0] &lt; 0 ? "below right" : "above right" ), { color: "purple" } );
-				graph.yint.toBack();
-			</div>
-		</div>
-		<div>
-			<p>So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC[1]</var>, <var>YINT + SLOPE_FRAC[0]</var>)</code></p>
-			<div class="graphie" data-update="grid">
-				style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: "." }, function() {
-					plot( function( x ) {
-						return x * SLOPE + YINT;
-					}, [ -11, 11 ] ).toBack();
-				});
-			</div>
-		</div>
-	</div>
+    <div class="hints">
+        <div data-if="STD_FORM" data-unwrap>
+            <p>
+                Convert <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> = <var>C</var></code>
+                to slope-intercept form by solving for <code>y</code>.
+            </p>
+            <div>
+                <p>
+                    <var>A &lt; 0 ? "Add" : "Subtract"</var> <code><var>abs( A )</var>x</code> <var>A &lt; 0 ? "to" : "from"</var> both sides:
+                </p><p>
+                    <code>\qquad <var>expr( [ "*", B, "y" ] )</var> = <var>expr([ "+", [ "*", -A, "x" ], C ])</var></code>
+                </p>
+            </div>
+            <div data-if="B !== 1">
+                <p>
+                    Divide both sides by <code><var>B</var></code>:
+                </p><p>
+                    <code>\qquad y = <var>expr([ "+", "\\dfrac{" + expr([ "*", -A, "x" ]) + "}{" + B + "}", "\\dfrac{" + C + "}{" + B + "}" ])</var></code>
+                </p>
+            </div>
+        </div>
+        <div>
+            <p>
+                <code>\qquad y = \color{purple}{<var>PRETTY_SLOPE</var>} x \color{<var>GREEN</var>}{+ <var>YINT</var>}</code>
+            </p><p>
+                The y-intercept is <code class="hint_green"><var>YINT</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>.
+            </p>
+        </div>
+        <div>
+            <p>
+                The y-intercept is <code class="hint_green"><var>YINT</var></code>, so the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
+            </p>
+            <div class="graphie" data-update="grid">
+                style({ stroke: GREEN, fill: GREEN }, function() {
+                    graph.yint = circle( [ 0, YINT ], 0.2 ).toBack();
+                });
+            </div>
+        </div>
+        <div>
+            <p>
+                The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that
+                the slope tells you rise over run. So in this case for every
+                <code><var>abs( SLOPE_FRAC[0] )</var></code>
+                <var>"position" + ( abs( SLOPE_FRAC[0] ) !== 1 ? "s" : "" )</var>
+                you move
+                <span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
+                <span data-else>up</span>
+                you must also move
+                <code><var>SLOPE_FRAC[1]</var></code>
+                <var>"position" + ( abs( SLOPE_FRAC[1] ) !== 1 ? "s" : "" )</var>
+                to the right.
+            </p>
+            <div class="graphie" data-update="grid">
+                style({
+                    stroke: "purple",
+                    strokeWidth: 2,
+                    arrows: "-&gt;"
+                }, function() {
+                    path([ [ 0, YINT ], [ 0, YINT + SLOPE_FRAC[0] ] ]).toBack();
+                    path([ [ 0, YINT + SLOPE_FRAC[0] ], [ SLOPE_FRAC[1], YINT + SLOPE_FRAC[0] ] ]).toBack();
+                });
+                label( [ 0, YINT + SLOPE_FRAC[0] / 2 ], abs( SLOPE_FRAC[0] ) + " \\text{ " + ( SLOPE_FRAC[0] &lt; 0 ? "down" : "up" ) + "} \\quad", "left", { color: "purple" } );
+                label( [ 0, YINT + SLOPE_FRAC[0] ], SLOPE_FRAC[1] + " \\text{ right}", ( SLOPE_FRAC[0] &lt; 0 ? "below right" : "above right" ), { color: "purple" } );
+                graph.yint.toBack();
+            </div>
+        </div>
+        <div>
+            <p>So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC[1]</var>, <var>YINT + SLOPE_FRAC[0]</var>)</code></p>
+            <div class="graphie" data-update="grid">
+                style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: "." }, function() {
+                    plot( function( x ) {
+                        return x * SLOPE + YINT;
+                    }, [ -11, 11 ] ).toBack();
+                });
+            </div>
+        </div>
+    </div>
 
 </div>
 </body>

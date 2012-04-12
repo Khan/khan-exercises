@@ -10,8 +10,8 @@
         $.each(expr.args, function(iArg, arg) {
             nArgs.push(normalForm(expr.args[iArg], steps));
         });
-        if ((expr.op === "+") || (expr.op === "times")|| (expr.op === "*")|| (expr.op === "cdot")) {
-            expr = moveSameOpsUp({op:expr.op, args:nArgs});
+        if ((expr.op === "+") || (expr.op === "times") || (expr.op === "*") || (expr.op === "cdot")) {
+            expr = moveSameOpsUp({op: expr.op, args: nArgs});
             expr.args = expr.args.sort(compareNormalForms);
             return expr;
         }
@@ -20,16 +20,16 @@
             if (KhanUtil.exprIsNumber(arg)) {
                arg = -KhanUtil.exprNumValue(arg);
             } else if (KhanUtil.opIsMultiplication(arg.op) || arg.op == "()") {
-               arg.args[0] = {op:"-", args:[arg.args[0]]};
+               arg.args[0] = {op: "-", args: [arg.args[0]]};
             } else {
-               return {op:"-", args:[normalForm(arg, steps)]};
+               return {op: "-", args: [normalForm(arg, steps)]};
             }
             return normalForm(arg, steps);
         } else if ((expr.op === "-") && (nArgs.length === 2)) {
-           var newExpr = {op:"+", args:[nArgs[0], {op:"-", args:[nArgs[1]]}]};
+           var newExpr = {op: "+", args: [nArgs[0], {op: "-", args: [nArgs[1]]}]};
            return normalForm(newExpr, steps);
         }
-        return {op:expr.op, args:nArgs};
+        return {op: expr.op, args: nArgs};
     };
 
     var isSameOp = function(op1, op2) {
@@ -39,7 +39,7 @@
        return (KhanUtil.opIsMultiplication(op1) && KhanUtil.opIsMultiplication(op2));
     };
 
-    var moveSameOpsUp = function (expr) {
+    var moveSameOpsUp = function(expr) {
         if (!(KhanUtil.opIsMultiplication(expr.op) || (expr.op === "+"))) {
             return expr;
         }
@@ -60,12 +60,12 @@
                     if (expr.opsStyles !== undefined) {
                         opsStyles.push(expr.opsStyles[iOp]);
                     } else if (expr.style !== undefined) {
-                        opsStyles.push({style:expr.style});
+                        opsStyles.push({style: expr.style});
                     }
                 }
             }
         }
-        var newExpr = {op:expr.op, args:newArgs, opsStyles:opsStyles};
+        var newExpr = {op: expr.op, args: newArgs, opsStyles: opsStyles};
         newExpr.strExpr = KhanUtil.exprToStrExpr(newExpr);
         newExpr.text = KhanUtil.exprToText(newExpr);
         return KhanUtil.exprCopyMissingStyle(expr, newExpr, ["color", "cancel", "idStyle"]);
@@ -105,7 +105,7 @@
         } else if ((pos2 >= 0) && KhanUtil.hasVariables(args2[pos2])) {
             return -1;
         }
-        return 0;     
+        return 0;
     };
 
     var compareNormalFormsNoExp = function(expr1, expr2) {
@@ -124,30 +124,30 @@
             return 1;
         } else if ((KhanUtil.hasVariables(expr2)) && (!KhanUtil.hasVariables(expr1))) {
             return -1;
-        } else if ((expr1.op === "times")|| (expr1.op === "*") || (expr1.op === "cdot") || (expr1.op === "+")) {
+        } else if ((expr1.op === "times") || (expr1.op === "*") || (expr1.op === "cdot") || (expr1.op === "+")) {
             return compareNormalFormsAs(expr1.op, expr1, expr2);
-        } else if ((expr2.op === "times")|| (expr2.op === "*")|| (expr2.op === "cdot") || (expr2.op === "+")) {
+        } else if ((expr2.op === "times") || (expr2.op === "*") || (expr2.op === "cdot") || (expr2.op === "+")) {
             return compareNormalFormsAs(expr2.op, expr1, expr2);
         } else if (expr1.op !== expr2.op) {
             var opsOrder = {
                 "cst": 0,
-                "var":1,
-                "^":2,
-                "frac":3,
-                "sqrt":4,
-                "ln":5,
-                "sin":6,
-                "cos":7,
-                "tan":8,
-                "sec":9,
-                "csc":10,
-                "cot":11,
-                "times":12,
+                "var": 1,
+                "^": 2,
+                "frac": 3,
+                "sqrt": 4,
+                "ln": 5,
+                "sin": 6,
+                "cos": 7,
+                "tan": 8,
+                "sec": 9,
+                "csc": 10,
+                "cot": 11,
+                "times": 12,
                 "cdot": 12,
                 "*": 12,
-                "+":13,
-                "-":14,
-                "deriv":15
+                "+": 13,
+                "-": 14,
+                "deriv": 15
             };
             return opsOrder[expr1.op] - opsOrder[expr2.op];
         } else if ((expr1.op === "var") || (expr1.op === "cst")) {
@@ -176,21 +176,21 @@
             return terms[0];
         }
         return {
-            op:"times",
-            args:terms
+            op: "times",
+            args: terms
         };
     }
 
     var splitNumCstVar = function(expr) {
         if (KhanUtil.exprIsNumber(expr)) {
-            return {numExpr: expr, cstExpr:1, varExpr:1};
+            return {numExpr: expr, cstExpr: 1, varExpr: 1};
         }
         var numTerms = [];
         var cstTerms = [];
         var varTerms = [];
         var allTerms = [expr];
-        if (expr.op === "times" || (expr.op === "*")|| (expr.op === "cdot")) {
-            allTerms = expr.args;      
+        if (expr.op === "times" || (expr.op === "*") || (expr.op === "cdot")) {
+            allTerms = expr.args;
         }
         $.each(allTerms, function(iTerm, term) {
             if (KhanUtil.hasVariables(term)) {
@@ -204,7 +204,7 @@
         var numExpr = termsToMultExpr(numTerms);
         var cstExpr = termsToMultExpr(cstTerms);
         var varExpr = termsToMultExpr(varTerms);
-        return {numExpr:numExpr, cstExpr:cstExpr, varExpr:varExpr};
+        return {numExpr: numExpr, cstExpr: cstExpr, varExpr: varExpr};
     };
 
     var compareNormalFormsWithExp = function(expr1, expr2, ignoreExp) {
@@ -217,7 +217,7 @@
         if ((cmpNoExp !== 0) || ignoreExp) {
             return cmpNoExp;
         }
-        return compareNormalForms(expr1WithExp.args[1], expr2WithExp.args[1]);     
+        return compareNormalForms(expr1WithExp.args[1], expr2WithExp.args[1]);
     };
 
     // We first compare the terms while ignoring any constant factors
@@ -250,11 +250,11 @@
     }
 
     $.extend(KhanUtil, {
-        normalForm:normalForm,
-        moveSameOpsUp:moveSameOpsUp,
-	compareNormalForms:compareNormalForms,
-        isEqual:isEqual,
-        splitNumCstVar:splitNumCstVar,
+        normalForm: normalForm,
+        moveSameOpsUp: moveSameOpsUp,
+        compareNormalForms: compareNormalForms,
+        isEqual: isEqual,
+        splitNumCstVar: splitNumCstVar
     });
 })();
 

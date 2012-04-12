@@ -1,104 +1,103 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie interactive ast math-model subhints">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Vertex of a parabola</title>
-	<script src="../khan-exercise.js"></script>
-	<style type="text/css">
-		#answer_area input[type=text] {
-			width: 30px;
-		}
-	</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Vertex of a parabola</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #answer_area input[type=text] {
+            width: 30px;
+        }
+    </style>
 </head>
 <body>
 <div class="exercise">
 
-	<div class="problems">
-		<div id="standard-form">
-			<div class="vars" data-ensure="A * H * H + K !== 0">
-				<var id="MATH">MathModel.init()</var>
-				<var id="A">randRangeNonZero( -5, 5 )</var>
-				<var id="H">randRangeNonZero( -5, 5 )</var>
-				<var id="K">randRangeNonZero( -5, 5 )</var>
-				<var id="A_DISP">A === 1 ? "" : A === -1 ? "-" : A</var>
-				<var id="GROUP1">[
-					MATH.parse( "y &amp;= A( x - #{h})^2 + #{k}", [ GREEN, GREEN ] ),
-					MATH.parse( "y &amp;= " + A_DISP + "( x - #{" + H + "})^2 + #{" + K + "}", [ GREEN, GREEN ] )
-				]</var>
-				<var id="COMP_SQR1">[
-					MATH.parse( "y &amp;= " + plus( A + "x^2", ( -2 * A * H ) + "x", ( A * H * H + K ) ) ),
-					MATH.parse( "y + " + ( -A * H * H - K ) + " &amp;= " + plus( A + "x^2", ( -2 * A * H ) + "x" ) ),
-				]</var>
-				<var id="COMP_SQR2">[
-					MATH.parse( plus( "y", ( -A * H * H - K ) ) + " = " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x" ) + ")" ),
-				]</var>
-				<var id="COMP_SQR3">[
-					MATH.parse( plus( "y", ( -A * H * H - K ) ) + " &amp;= " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x" ) + ")" ),
-					MATH.parse( plus( "y", ( -A * H * H - K ) ) + " + #{" + ( A * H * H ) + "} &amp;= " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x" ) + " + #{" + ( H * H ) + "})", [ BLUE, BLUE ] ),
-					MATH.parse( plus( "y", ( ( -A * H * H - K ) + ( A * H * H ) ) ) + " &amp;= " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x", ( H * H ) ) + ")" ),
-				]</var>
-				<var id="COMP_SQR4">[
-					MATH.parse( plus( "y", -K ) + " = " + A_DISP + "(" + plus( "x", -H ) + ")^2" ),
-				]</var>
-				<var id="COMP_SQR5">[
-					MATH.parse( "y = " + A_DISP + "(x - " + H + ")^2 + " + K )
-				]</var>
-			</div>
+    <div class="problems">
+        <div id="standard-form">
+            <div class="vars" data-ensure="A * H * H + K !== 0">
+                <var id="A">randRangeNonZero( -5, 5 )</var>
+                <var id="H">randRangeNonZero( -5, 5 )</var>
+                <var id="K">randRangeNonZero( -5, 5 )</var>
+                <var id="A_DISP">A === 1 ? "" : A === -1 ? "-" : A</var>
+                <var id="GROUP1">[
+                    parse( "y &amp;= A( x - #{h})^2 + #{k}", [ GREEN, GREEN ] ),
+                    parse( "y &amp;= " + A_DISP + "( x - #{" + H + "})^2 + #{" + K + "}", [ GREEN, GREEN ] )
+                ]</var>
+                <var id="COMP_SQR1">[
+                    parse( "y &amp;= " + plus( A + "x^2", ( -2 * A * H ) + "x", ( A * H * H + K ) ) ),
+                    parse( "y + " + ( -A * H * H - K ) + " &amp;= " + plus( A + "x^2", ( -2 * A * H ) + "x" ) ),
+                ]</var>
+                <var id="COMP_SQR2">[
+                    parse( plus( "y", ( -A * H * H - K ) ) + " = " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x" ) + ")" ),
+                ]</var>
+                <var id="COMP_SQR3">[
+                    parse( plus( "y", ( -A * H * H - K ) ) + " &amp;= " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x" ) + ")" ),
+                    parse( plus( "y", ( -A * H * H - K ) ) + " + #{" + ( A * H * H ) + "} &amp;= " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x" ) + " + #{" + ( H * H ) + "})", [ BLUE, BLUE ] ),
+                    parse( plus( "y", ( ( -A * H * H - K ) + ( A * H * H ) ) ) + " &amp;= " + A_DISP + "(" + plus( "x^2", ( -2 * H ) + "x", ( H * H ) ) + ")" ),
+                ]</var>
+                <var id="COMP_SQR4">[
+                    parse( plus( "y", -K ) + " = " + A_DISP + "(" + plus( "x", -H ) + ")^2" ),
+                ]</var>
+                <var id="COMP_SQR5">[
+                    parse( "y = " + A_DISP + "(x - " + H + ")^2 + " + K )
+                ]</var>
+            </div>
 
-			<div class="problem">
-				<p>Given the equation:</p>
-				<p>
-					<code>\qquad y = <var>A_DISP</var>x^2 + <var>-2 * A * H</var>x + <var>A * H * H + K</var></code>
-				</p>
-			</div>
+            <div class="problem">
+                <p>Given the equation:</p>
+                <p>
+                    <code>\qquad y = <var>A_DISP</var>x^2 + <var>-2 * A * H</var>x + <var>A * H * H + K</var></code>
+                </p>
+            </div>
 
-			<p class="question">Find the parabola's vertex.</p>
+            <p class="question">Find the parabola's vertex.</p>
 
-			<div class="solution" data-type="multiple">
-				<p><code>\large{\left(\right.}</code><span class="sol"><var>H</var></span><code>,\text{ }</code><span class="sol"><var>K</var></span><code>\large{\left.\right)}</code></p>
-				<div class="example">a point, like <code>(-1, 2)</code> </div>
-			</div>
+            <div class="solution" data-type="multiple">
+                <p><code>\large{\left(\right.}</code><span class="sol"><var>H</var></span><code>,\text{ }</code><span class="sol"><var>K</var></span><code>\large{\left.\right)}</code></p>
+                <div class="example">a point, like <code>(-1, 2)</code> </div>
+            </div>
 
-			<div class="hints">
-				<div>
-					<p>When the equation is rewritten in vertex form like this, the vertex is the point <code class="hint_green">(h, k)</code>:
-					<p><code>\qquad <var>MATH.formatGroup( GROUP1, [ 0 ] )</var></code></p>
-				</div>
-				<div>
-					<p>We can rewrite the equation in vertex form by completing the square. First, move the constant term to the left side of the equation:</p>
-					<p><code>\qquad <var>MATH.formatGroup( COMP_SQR1, [ 0, 1 ] )</var></code></p>
-				</div>
-				<div data-if="A !== 1">
-					<p>Next, we can factor out a <code><var>A</var></code> from the right side:</p>
-					<p><code>\qquad <var>MATH.formatGroup( COMP_SQR2, [ 0 ] )</var></code></p>
-				</div>
-				<p>
-					We can complete the square by taking half of the coefficient of our x term, squaring it, and adding it to both sides of the equation.
-					The coefficient of our x term is <code><var>-2 * H</var></code>, so half of it would be <code><var>-H</var></code>,
-					and squaring that gives us <code class="hint_blue"><var>H * H</var></code>. <span data-if="A !== 1">Because we're adding the <code><var>H * H</var></code>
-					inside the parentheses on the right where it's being multiplied by <code><var>A</var></code>, we need to add <code class="hint_blue"><var>A * H * H</var></code>
-					to the left side to make sure we're adding the same thing to both sides.</span>
-				</p>
-				<p><code>\qquad <var>MATH.formatGroup( COMP_SQR3, [ 0, 1, 2 ] )</var></code></p>
-				<div>
-					<p>Now we can rewrite the expression in parentheses as a squared term:</p>
-					<p><code>\qquad <var>MATH.formatGroup( COMP_SQR4, [ 0 ] )</var></code></p>
-				</div>
-				<div>
-					<p>Move the constant term to the right side of the equation. Now the equation is in vertex form:</p>
-					<p><code>\qquad <var>MATH.formatGroup( COMP_SQR5, [ 0 ] )</var></code></p>
-				</div>
-				<div>
-					<p>Now that the equation is written in vertex form, the vertex is the point <code class="hint_green">(h, k)</code>:</p>
-					<p><code>\qquad <var>MATH.formatGroup( GROUP1, [ 0 ] )</var></code></p>
-				</div>
-				<p class="final_answer">
-					The vertex is <code>(<var>H</var>, <var>K</var>)</code>. Be sure to pay attention to the signs when interpreting an equation in vertex form.
-				</p>
-			</div>
+            <div class="hints">
+                <div>
+                    <p>When the equation is rewritten in vertex form like this, the vertex is the point <code class="hint_green">(h, k)</code>:
+                    <p><code>\qquad <var>formatGroup( GROUP1, [ 0 ] )</var></code></p>
+                </div>
+                <div>
+                    <p>We can rewrite the equation in vertex form by completing the square. First, move the constant term to the left side of the equation:</p>
+                    <p><code>\qquad <var>formatGroup( COMP_SQR1, [ 0, 1 ] )</var></code></p>
+                </div>
+                <div data-if="A !== 1">
+                    <p>Next, we can factor out a <code><var>A</var></code> from the right side:</p>
+                    <p><code>\qquad <var>formatGroup( COMP_SQR2, [ 0 ] )</var></code></p>
+                </div>
+                <p>
+                    We can complete the square by taking half of the coefficient of our x term, squaring it, and adding it to both sides of the equation.
+                    The coefficient of our x term is <code><var>-2 * H</var></code>, so half of it would be <code><var>-H</var></code>,
+                    and squaring that gives us <code class="hint_blue"><var>H * H</var></code>. <span data-if="A !== 1">Because we're adding the <code><var>H * H</var></code>
+                    inside the parentheses on the right where it's being multiplied by <code><var>A</var></code>, we need to add <code class="hint_blue"><var>A * H * H</var></code>
+                    to the left side to make sure we're adding the same thing to both sides.</span>
+                </p>
+                <p><code>\qquad <var>formatGroup( COMP_SQR3, [ 0, 1, 2 ] )</var></code></p>
+                <div>
+                    <p>Now we can rewrite the expression in parentheses as a squared term:</p>
+                    <p><code>\qquad <var>formatGroup( COMP_SQR4, [ 0 ] )</var></code></p>
+                </div>
+                <div>
+                    <p>Move the constant term to the right side of the equation. Now the equation is in vertex form:</p>
+                    <p><code>\qquad <var>formatGroup( COMP_SQR5, [ 0 ] )</var></code></p>
+                </div>
+                <div>
+                    <p>Now that the equation is written in vertex form, the vertex is the point <code class="hint_green">(h, k)</code>:</p>
+                    <p><code>\qquad <var>formatGroup( GROUP1, [ 0 ] )</var></code></p>
+                </div>
+                <p class="final_answer">
+                    The vertex is <code>(<var>H</var>, <var>K</var>)</code>. Be sure to pay attention to the signs when interpreting an equation in vertex form.
+                </p>
+            </div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
