@@ -8,81 +8,115 @@
 <body>
     <div class="exercise">
 
-        <div class="problems">
-            <div id="degrees">
-                <div class="vars">
-                    <var id="DEGREES">true</var>
-                    <var id="ANGLE">randRangeNonZero( -90, 90 ) * 5</var>
-                    <var id="PRETTY_ANGLE">ANGLE + "^{\\circ}"</var>
-                    <var id="FN">randFromArray( [ "cos", "sin" ] )</var>
-                    <var id="FNNAME">{ "cos": "cosine", "sin": "sine"}[FN]</var>
-                    <var id="COORD">{ "cos": "x", "sin": "y"}[FN]</var>
-                    <var id="SOLUTION">roundTo(3, { "cos": Math.cos(ANGLE * (Math.PI/180)), "sin": Math.sin(ANGLE * (Math.PI/180)) }[FN])
-                    </var>
-                </div>
+		<div class="problems">
+			<div id="degrees">
+				<div class="vars">
+					<var id="DEGREES">true</var>
+					<var id="ANGLE">randRangeNonZero( -90, 90 ) * 5</var>
+					<var id="ANGLE_RADIANS">ANGLE*2*PI/360</var>
+					<var id="PRETTY_ANGLE">ANGLE + "^{\\circ}"</var>
+					<var id="FN">randFromArray( [ "cos", "sin" ] )</var>
+					<var id="FNNAME">{ "cos": "cosine", "sin": "sine"}[FN]</var>
+					<var id="COORD">{ "cos": "x", "sin": "y"}[FN]</var>
+					<var id="SOLUTION">roundTo(3, { "cos": Math.cos(ANGLE * (Math.PI/180)), "sin": Math.sin(ANGLE * (Math.PI/180)) }[FN])
+					</var>
+				</div>
 
                 <p class="question">
                     <code>\<var>FN</var>(<var>PRETTY_ANGLE</var>) = \text{?}</code>
                 </p>
 
-                <div class="problem">
-                    <p>
-                        Move the orange point around the unit circle and select an angle in order to find the <var>FNNAME</var> value above.
-                    </p>
-                    <div class="graphie" id="unitcircle">
-                        initUnitCircle( DEGREES );
-                    </div>
-                </div>
+				<div class="solution" data-type="multiple">
+					<div class="sol" data-type="decimal" data-inexact data-max-error="0.001" required><var>SOLUTION</var></div>
 
-                <div class="solution" data-type="decimal" data-inexact data-max-error="0.001"><var>SOLUTION</var></div>
+					<div class="sol" data-type="custom">
+						<div class="instruction"></div>
+						<div class="guess"> angle </div>
 
-                <div class="hints">
-                    <p>
-                        To find the <var>FNNAME</var> using the unit circle, first find the angle.
-                        Drag the orange point around the circle until <code><var>PRETTY_ANGLE</var></code> is selected.
-                    </p>
-                    <div>
-                        <p>
-                            The correct angle is selected. Remember, the <var>FNNAME</var> of an angle is represented by the
-                            <code><var>COORD</var></code> coordinate of a point on the unit circle.
-                        </p>
-                        <div class="graphie" data-update="unitcircle">
-                            goToAngle( ANGLE );
-                        </div>
-                    </div>
-                    <div>
-                        <p>
-                            The <code><var>COORD</var></code> coordinate of the point is <code><var>SOLUTION</var></code>,
-                            so <code>\<var>FN</var>(<var>PRETTY_ANGLE</var>) = <var>SOLUTION</var></code>.
-                        </p>
-                        <div class="graphie" data-update="unitcircle">
-                            goToAngle( ANGLE );
-                            showCoordinates( ANGLE );
-                        </div>
-                    </div>
-                </div>
-            </div>
+						<div class="validator-function">
+							// Convert guess to an angle between 0 and 2*PI for comparison
+							var revolutions = floor(guess / (2 * PI));
+							var modified_guess = guess - revolutions*2*PI;
+
+							// Convert answer to an angle between 0 and 2*PI
+							revolutions = floor(ANGLE_RADIANS / (2 * PI));
+							var modified_angle = ANGLE_RADIANS - revolutions*2*PI;
+
+							// If the angle is at zero, assume that it was not set.
+							// If the student knows the answer be memory, don't require
+							// them to set the angle.
+							if (abs(guess) &lt; 0.001) return true;
+
+							// Verify that the angles match
+							return abs( modified_angle - modified_guess ) &lt; 0.001;
+						</div>
+
+						<div class="show-guess">
+							KhanUtil.setAngle( guess );
+						</div>
+						<div class="example"></div>
+
+					</div>
+				</div>
+
+				<div class="problem">
+					<p>
+						Move the orange point around the unit circle to the angle indicated inside the <var>FNNAME</var> expression above. <br />
+						Indicate the <var>FNNAME</var> value in the answer field.
+					</p>
+					<div class="graphie" id="unitcircle">
+						initUnitCircle( DEGREES );
+					</div>
+				</div>
+
+				<div class="hints">
+					<p>
+						To find the <var>FNNAME</var> using the unit circle, first find the angle.
+						Drag the orange point around the circle until <code><var>PRETTY_ANGLE</var></code> is selected.
+					</p>
+					<div>
+						<p>
+							The correct angle is selected. Remember, the <var>FNNAME</var> of an angle is represented by the
+							<code><var>COORD</var></code> coordinate of a point on the unit circle.
+						</p>
+						<div class="graphie" data-update="unitcircle">
+							goToAngle( ANGLE );
+						</div>
+					</div>
+					<div>
+						<p>
+							The <code><var>COORD</var></code> coordinate of the point is <code><var>SOLUTION</var></code>,
+							so <code><var>FN</var>(<var>PRETTY_ANGLE</var>) = <var>SOLUTION</var></code>.
+						</p>
+						<div class="graphie" data-update="unitcircle">
+							goToAngle( ANGLE );
+							showCoordinates( ANGLE );
+						</div>
+					</div>
+				</div>
+			</div>
 
 
-            <div id="radians" data-type="degrees">
-                <div class="vars">
-                    <var id="DEGREES">false</var>
-                    <var id="ANGLE">randFromArray([
-                        -6*PI/2, -5*PI/2, -7*PI/3, -9*PI/4,
-                        -2*PI, -11*PI/6, -7*PI/4, -5*PI/3, -3*PI/2, -4*PI/3, -5*PI/4, -7*PI/6,
-                        -PI, -5*PI/6, -3*PI/4, -2*PI/3, -PI/2, -PI/3, -PI/4, -PI/6, -PI/12,
-                        PI/12, PI/6, PI/4, PI/3, PI/2, 2*PI/3, 3*PI/4, 5*PI/6, PI,
-                        7*PI/6, 5*PI/4, 4*PI/3, 3*PI/2, 5*PI/3, 7*PI/4, 11*PI/6, 2*PI,
-                        9*PI/4, 7*PI/3, 5*PI/2, 6*PI/2
-                    ])</var>
-                    <var id="PRETTY_ANGLE">piFraction(ANGLE)</var>
-                    <var id="FN">randFromArray( [ "cos", "sin" ] )</var>
-                    <var id="FNNAME">{ "cos": "cosine", "sin": "sine"}[FN]</var>
-                    <var id="COORD">{ "cos": "x", "sin": "y"}[FN]</var>
-                    <var id="SOLUTION">roundTo(3, { "cos": Math.cos(ANGLE), "sin": Math.sin(ANGLE) }[FN])
-                    </var>
-                </div>
-            </div>
+			<div id="radians" data-type="degrees">
+				<div class="vars">
+					<var id="DEGREES">false</var>
+					<var id="ANGLE">randFromArray([
+						-6*PI/2, -5*PI/2, -7*PI/3, -9*PI/4,
+						-2*PI, -11*PI/6, -7*PI/4, -5*PI/3, -3*PI/2, -4*PI/3, -5*PI/4, -7*PI/6,
+						-PI, -5*PI/6, -3*PI/4, -2*PI/3, -PI/2, -PI/3, -PI/4, -PI/6, -PI/12,
+						PI/12, PI/6, PI/4, PI/3, PI/2, 2*PI/3, 3*PI/4, 5*PI/6, PI,
+						7*PI/6, 5*PI/4, 4*PI/3, 3*PI/2, 5*PI/3, 7*PI/4, 11*PI/6, 2*PI,
+						9*PI/4, 7*PI/3, 5*PI/2, 6*PI/2
+					])</var>
+					<var id="ANGLE_RADIANS">ANGLE</var>
+					<var id="PRETTY_ANGLE">piFraction(ANGLE)</var>
+					<var id="FN">randFromArray( [ "cos", "sin" ] )</var>
+					<var id="FNNAME">{ "cos": "cosine", "sin": "sine"}[FN]</var>
+					<var id="COORD">{ "cos": "x", "sin": "y"}[FN]</var>
+					<var id="SOLUTION">roundTo(3, { "cos": Math.cos(ANGLE), "sin": Math.sin(ANGLE) }[FN])
+					</var>
+				</div>
+			</div>
 
         </div>
     </div>

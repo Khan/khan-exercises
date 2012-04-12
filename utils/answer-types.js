@@ -500,6 +500,7 @@ $.extend(Khan.answerTypes, {
 
         var ret = function() {
             var valid = true,
+				missing_required_answer = false,
                 guess = [];
 
             solutionarea.find(".sol").each(function() {
@@ -509,11 +510,24 @@ $.extend(Khan.answerTypes, {
                     // Don't short-circuit so we can record all guesses
                     valid = validator() && valid;
 
+					// If this is one of the required entries, and it is not filled in
+					// set the flag that indicates that a required entry is not filled in.
+					if ( jQuery( this ).attr( "required" ) != undefined && validator.guess === "") {
+						missing_required_answer = true;
+						// Break out of the each loop since a required item is not set.
+						return false;
+					}
                     guess.push(validator.guess);
                 }
             });
 
-            ret.guess = guess;
+			// If a required answer was not provided, return "". This keeps the problem 
+			// from being submitted.
+			if (missing_required_answer === true) {
+				ret.guess = "";
+			} else {
+				ret.guess = guess;
+			}
 
             return valid;
         };

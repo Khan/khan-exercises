@@ -645,6 +645,22 @@ $.extend(KhanUtil, {
             }
         });
 
+		// Immediately Move to the x or y coodinate that is given
+		movableLine.setCoord = function ( coord ) {
+			if (options.vertical) {
+				this.visibleShape.translate( coord * graph.scale[0] - this.visibleShape.attr("translation").x, 0 );
+				this.mouseTarget.attr( "x", coord / graph.scale[0] + graph.range[0][0] - 10 );
+			} else {
+				this.visibleShape.translate( 0, -coord * graph.scale[1] - this.visibleShape.attr("translation").y );
+				this.mouseTarget.attr( "y", (graph.range[1][1] - coord) * graph.scale[1] - 10 );
+			}
+
+			this.coord = coord;
+			if ( jQuery.isFunction( this.onMove ) ) {
+				this.onMove(coord);
+			}
+		}
+
         // Method to let the caller animate the line to a new position. Useful
         // as part of a hint to show the user the correct place to put the line.
         movableLine.moveTo = function(coord) {
