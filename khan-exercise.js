@@ -373,11 +373,10 @@ var Khan = (function() {
             load: function(module){
                 var ku = this;
                 var safeHas = Object.prototype.hasOwnProperty;
-                for (k in module){
-                    if (safeHas.call(module,k)){
-                        $.extend(ku, module[k]);
-                    }
+                if (safeHas.call(module, "NAME")){
+                  delete module.NAME;
                 }
+                $.extend(ku, module);
             }
         },
 

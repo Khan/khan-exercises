@@ -1,4 +1,5 @@
-KhanUtil.load( { "calculus": {
+KhanUtil.load({
+    NAME: "calculus",
     trigFuncs: ["sin", "cos", "tan"],
     ddxTrigFuncs: {
         "sin": function(expr) {
@@ -306,4 +307,4 @@ KhanUtil.load( { "calculus": {
 
             return this;
         }]
-}});
+});

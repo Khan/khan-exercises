@@ -5,46 +5,61 @@ var Khan = {
     load: function(module){
       var ku = this;
       // only extend KU like this for testrunning
-      $.extend(this.imports_, module);
+      if(_(module).has("NAME")){
+        var name = module.NAME;
+        delete module.NAME;
+        var mod = {};
+        mod[name] = module;
+        $.extend(this.imports_, mod);
+      }
 
       // dump all methods from this module into KhanUtil
-      for (k in module){
-        if (_.has(module,k)){
-          var importedMethods = _(module[k]).keys();
-          var collisions = _.intersection(_(ku).keys(), importedMethods);
-          if(collisions.length){
-            // log the collisions that ocurred if any
-            console.error("KhanUtil.load Collision Error:",
-              collisions.join(", "))
-          }else{
-            $.extend(ku, module[k]);
-          }
-        }
+      var importedMethods = _(module).keys();
+      var collisions = _.intersection(_(ku).keys(), importedMethods);
+      if(collisions.length){
+        // log the collisions that ocurred if any
+        console.error("KhanUtil.load Collision Error:",
+          collisions.join(", "))
+      }else{
+        $.extend(ku, module);
       }
 
       // run tests in module context
-      runTests(module)
+      if(mod){
+        runTests(mod)
+      }
     }
   }
 };
 
-tests = {"angles":{"toDegrees": function(){ return true; }}}
+// load + extend these tests in dynamically before loading all the libs
+// tests = {"angles":{"toDegrees": function(){ ok(true, "looks good!") }}}
 
-// runTests for a module by iterating over all its exported functions
-// and then looking for a test for each
+tests = {};
+
+// runTests for a module (i.e. the files in utils) by iterating over 
+// all its exported functions and then looking for a test for each.
+// lib is an object like so: {"lib": { "foo": function(){},...}}
+
 var runTests = function(lib){
+
   _(lib).chain().keys().each(function(libName){
-    console.log("+ Starting test for "+ libName)
 
     exported = lib[libName];
-    console.log("blerg!", exported)
     module(libName)
     _(exported).chain().functions().each(function(func){
       console.log(" - trying to run test for " + func)
       test(func, function(){
-        // console.log(tests, tests[libName], )
+        // do any tests exist for this method?
         testsForLib = _(tests).has(libName) && _(tests[libName]).has(func);
-        ok(testsForLib, "Tests written for '"+func+"'")
+        testMessage = testsForLib ? "Tests written for "+func :
+          "No tests written for '" + func +"' :("
+        ok(testsForLib, testMessage)
+
+        // run any tests that exist for this function
+        if(testsForLib && _(tests[libName][func]).isFunction()){
+          tests[libName][func]()
+        }
       });
     });
 
