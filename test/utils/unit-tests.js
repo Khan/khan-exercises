@@ -30,13 +30,16 @@ var Khan = {
 
 // runTests for a module by iterating over all its exported functions
 // and then looking for a test for each
-var runTests = function( module ){
-  _(module).chain().keys().each(function(k){
-    console.log("+ starting test for "+ k)
+var runTests = function(lib){
+  _(lib).chain().keys().each(function(libName){
+    console.log("+ Starting test for "+ libName)
 
-    exported = module[k];
-    _(exported).chain().functions().each(function(f){
-      console.log(" - trying to run test for " + f)
+    exported = lib[libName];
+    console.log("blerg!", exported)
+    module(libName)
+    _(exported).chain().functions().each(function(func){
+      console.log(" - trying to run test for " + func)
+      test(func, function(){});
     });
 
   });
