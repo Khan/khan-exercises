@@ -373,7 +373,7 @@
        var sharedOccFactors = exprFactors.sharedOccFactors;
        var termsOccFactors = exprFactors.termsOccFactors;
 
-       var hints = ["<p>To factor this expression, we start by looking at the different terms of the sum, and find all of their common factors. We can then rewrite the expression as a product between these common factors, and what's left of the different terms once we remove these factors.</p>"];
+       var hints = ["<p>To factor this expression, we start by looking at the different terms of the sum and find all of their common factors. We can then rewrite the expression as a product between these common factors and what's left of the different terms once we remove these factors.</p>"];
 
        var detailedHints = genHintsDecomposeAllFactors(factors, sharedOccFactors, termsOccFactors);
        var solution = genFullExpr(factors, sharedOccFactors, termsOccFactors);
