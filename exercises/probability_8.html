@@ -39,7 +39,7 @@
         var itemKind = KhanUtil.getRandomItemKind();
         var selectedItems = KhanUtil.probaGrid.select2ItemsPerType(itemKind);
         var solver = KhanUtil.getConstraintSolver();
-        var naming = KhanUtil.probaGrid.getNaming(itemKind, selectedItems);
+        var naming = KhanUtil.probaGrid.getNaming(itemKind, selectedItems, true);
         var solution = KhanUtil.probaGrid.genSolution(naming);
         var listVariables = KhanUtil.probaGrid.initSolver(solver, itemKind, naming, solution);
         var setVariables = KhanUtil.probaGrid.fillKnownVariables(solver, listVariables, naming);

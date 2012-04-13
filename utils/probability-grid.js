@@ -142,7 +142,7 @@
             return table;
         },
 
-        getNaming: function(itemKind, selectedItems) {
+        getNaming: function(itemKind, selectedItems, forceProba) {
             var terms = [[],[]];
             var termsPlurals = [[],[]];
             var shortTermsPlurals = [[],[]];
@@ -210,6 +210,9 @@
                     itemKind.criteriaNames[1] + " or " + itemKind.criteriaNames[0] + "."
 
             };
+            if (forceProba) {
+                return namingProba;
+            }
             return KhanUtil.randFromArray([namingNumber, namingProba]);
         },
 
