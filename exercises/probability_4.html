@@ -39,19 +39,19 @@
                 "<p>The probability of an event can be expressed as the percentage of " +
                 "all equally likely outcomes that meet the condition for that event.</p>",
                 "<p>If horse " + sickHorse + " doesn't participate in the race, then " +
-                "<code>\\color{" + KhanUtil.BLUE + "}{" + probas[sickHorse - 1] + "}</code>% " +
+                "<code>\\blue{" + probas[sickHorse - 1] + "}</code>% " +
                 "of the original outcomes are not possible anymore.</p>",
                 "<p>The sum of the probabilities of all the possible outcomes must be equal to 1, so that means " +
                 "the other probabilities will change.</p>",
                 "<p>Horse " + questionHorse + " was estimated to be the winner for " +
-                "<code>\\color{" + KhanUtil.ORANGE + "}{" + probas[questionHorse - 1] + "}</code>" +
+                "<code>\\orange{" + probas[questionHorse - 1] + "}</code>" +
                 " out of every 100 outcomes. Now that horse " + sickHorse + " is out, " +
-                "<code>\\color{" + KhanUtil.BLUE + "}{" + probas[sickHorse - 1] + "}</code>" +
+                "<code>\\blue{" + probas[sickHorse - 1] + "}</code>" +
                 " of the outcomes where he would have lost are not possible outcomes anymore.</p>",
                 "<p>This means horse " + questionHorse + " can be estimated to be the winner of " +
-                "<code>\\dfrac{\\color{" + KhanUtil.ORANGE + "}{" + probas[questionHorse - 1] + "}}" + 
-                "{100 -  \\color{" + KhanUtil.BLUE + "}{" + probas[sickHorse - 1] + "}}</code> or " +
-                "<code>\\dfrac{\\color{" + KhanUtil.ORANGE + "}{" + probas[questionHorse - 1] + "}}{" +
+                "<code>\\dfrac{\\orange{" + probas[questionHorse - 1] + "}}" + 
+                "{100 -  \\blue{" + probas[sickHorse - 1] + "}}</code> or " +
+                "<code>\\dfrac{\\orange{" + probas[questionHorse - 1] + "}}{" +
                 (100 -  probas[sickHorse - 1]) + "}</code> of the races, or " + solution + "%.</p>"
             ],
         };

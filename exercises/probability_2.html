@@ -15,25 +15,6 @@
 
     var problemData;
 
-    function genRates(nbOutcomes) {
-        var rates = []
-        var sumRates = 0;
-        for (var outcome = 0; outcome < nbOutcomes; outcome++) {
-            var rate = KhanUtil.randRange(0, 100);
-            rates.push(rate);
-            sumRates += rate;
-        }
-        var newSumRates = 0;
-        for (var outcome = 0; outcome < nbOutcomes; outcome++) {
-            rates[outcome] = Math.floor((rates[outcome] * 1000) / sumRates);
-            newSumRates += rates[outcome];
-        }
-        for (var iExperiment = 0; iExperiment < 1000 - newSumRates; iExperiment++) {
-            rates[KhanUtil.randRange(0, nbOutcomes - 1)]++;
-        }
-        return rates;
-    }
-
     function genRollDie() {
         var nbSides = KhanUtil.randRange(5, 8);
         var result = KhanUtil.randRange(1, nbSides);
@@ -44,7 +25,7 @@
         problemData = {
             question:KhanUtil.person(1) + " rolled an unfair " + nbSides + "-sided die, but won't tell you the result.</p>" +
                  "<p><b>Estimate the probability that " + KhanUtil.he(1) + " rolled a " + result + "</b> as precisely as possible.",
-            condition: KhanUtil.person(1) + "rolled a " + result,
+            condition: KhanUtil.person(1) + " rolled a " + result,
             experiment: "You can study the die by rolling it 1000 times and analysing the results:",
             action: "Roll the die 1000 times:",
             pastAction: "rolled the die",
@@ -53,7 +34,7 @@
             nbOutcomes: nbSides,
             indexOutcome: result - 1,
             validOutcome: result,
-            results: genRates(nbSides)
+            results: KhanUtil.genProbabilityDistribution(nbSides, 1000)
         };
         return problemData;
     }
@@ -79,7 +60,7 @@
             nbOutcomes: nbColors,
             indexOutcome: indexOutcome - 1,
             validOutcome: validOutcome,
-            results: genRates(nbColors)
+            results: KhanUtil.genProbabilityDistribution(nbColors, 1000)
         };
         return problemData;
     }

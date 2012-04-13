@@ -1,67 +1,3 @@
-/* Simple JavaScript Inheritance
- * By John Resig http://ejohn.org/
- * MIT Licensed.
- */
-// Inspired by base2 and Prototype
-(function(){
-  var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
-  // The base Class implementation (does nothing)
-  this.Class = function(){};
-  
-  // Create a new Class that inherits from this class
-  Class.extend = function(prop) {
-    var _super = this.prototype;
-    
-    // Instantiate a base class (but only create the instance,
-    // don't run the init constructor)
-    initializing = true;
-    var prototype = new this();
-    initializing = false;
-    
-    // Copy the properties over onto the new prototype
-    for (var name in prop) {
-      // Check if we're overwriting an existing function
-      prototype[name] = typeof prop[name] == "function" && 
-        typeof _super[name] == "function" && fnTest.test(prop[name]) ?
-        (function(name, fn){
-          return function() {
-            var tmp = this._super;
-            
-            // Add a new ._super() method that is the same method
-            // but on the super-class
-            this._super = _super[name];
-            
-            // The method only need to be bound temporarily, so we
-            // remove it when we're done executing
-            var ret = fn.apply(this, arguments);        
-            this._super = tmp;
-            
-            return ret;
-          };
-        })(name, prop[name]) :
-        prop[name];
-    }
-    
-    // The dummy class constructor
-    function Class() {
-      // All construction is actually done in the init method
-      if ( !initializing && this.init )
-        this.init.apply(this, arguments);
-    }
-    
-    // Populate our constructed prototype object
-    Class.prototype = prototype;
-    
-    // Enforce the constructor to be what we expect
-    Class.prototype.constructor = Class;
-
-    // And make this class extendable
-    Class.extend = arguments.callee;
-    
-    return Class;
-  };
-})();
-
 (function() {
 	/* coinFlips( 2 ) returns
 	 * [["HH", 2], ["HT", 1], ["TH", 1], ["TT", 0]] */
@@ -267,218 +203,225 @@
        return items[0];
     };
 
-    var Variable = Class.extend({
-        init: function(name, value) {
-            this.name = name;
-            this.value = value;
-            this.constraints = [];
-            this.dateSolved = undefined;
-        },
-        setValue: function(newValue, date) {
-            this.value = newValue;
-            this.dateSolved = date;
-            for (var iConstraint = 0; iConstraint < this.constraints.length; iConstraint++) {
-                this.constraints[iConstraint].variableSet();
-            }
-        },
-        addConstraint: function(constraint) {
-            this.constraints.push(constraint);
-        }
-    });
+    var getConstraintSolver = function() {
+        var ConstraintSolver =  Class.extend({
+            init: function() {
+                this.date = 1;
+                this.allConstraints = [];
+                this.constraintsToSolve = [];
+                this.solvedConstraints = [];
+                this.solvedVariables = [];
 
-    var Constraint = Class.extend({
-        init: function(solver, variables) {
-            solver.addConstraint(this);
-            this.solver = solver;
-            this.setVariables(variables);
-            this.pushedToSolve = false;
-            this.solved = false;
-            this.iSolvedVar = undefined;
-        },
-        solve: function() {
-        },
-        variableSet: function() {
-            this.nbUnknown--;
-            if (this.nbUnknown === 1) {
-                this.solver.pushToSolve(this);
-            } else if (this.nbUnknown === 0) {
-                this.solved = true;
-            }
-        },
-        setVariables: function(variables) {
-            this.nbUnknown = 0;
-            this.variables = variables;
-            for (var iVar = 0; iVar < variables.length; iVar++) {
-                var variable = variables[iVar];
-                variable.addConstraint(this);
-                if (variable.value === undefined) {
-                    this.nbUnknown++;
-                }
-            }
-            if (this.nbUnknown === 1) {
-                this.solver.pushToSolve(this);
-            } else if (this.nbUnkown === 0) {
-                this.solved = true;
-                this.solver.solvedConstraints.push(this);
-            }
-        },
-    });
-
-    var SumConstraint = Constraint.extend({
-        solve: function() {
-            var nbVariables = this.variables.length;
-            if (this.variables[nbVariables - 1].value === undefined) {
-                var sum = 0;
-                for (var iVar = 0; iVar < nbVariables - 1; iVar++) {
-                    sum += this.variables[iVar].value;
-                }
-                this.variables[nbVariables - 1].setValue(sum, this.solver.date);
-                this.iSolvedVar = nbVariables - 1;
-            } else {
-                var sum = this.variables[nbVariables - 1].value;
-                for (var iVar = 0; iVar < nbVariables - 1; iVar++) {
-                    var value = this.variables[iVar].value;
-                    if (value === undefined) {
-                        this.iSolvedVar = iVar;
-                    } else {
-                        sum -= value;
+                this.Variable = Class.extend({
+                    init: function(name, value) {
+                        this.name = name;
+                        this.value = value;
+                        this.constraints = [];
+                        this.dateSolved = undefined;
+                    },
+                    setValue: function(newValue, date) {
+                        this.value = newValue;
+                        this.dateSolved = date;
+                        for (var iConstraint = 0; iConstraint < this.constraints.length; iConstraint++) {
+                            this.constraints[iConstraint].variableSet(this);
+                        }
+                    },
+                    addConstraint: function(constraint) {
+                        this.constraints.push(constraint);
                     }
-                }
-                this.variables[this.iSolvedVar].setValue(sum, this.solver.date);
-            }
-            this.dateSolved = this.solver.date;
-            this.solver.solvedConstraints.push(this);
-        },
-        getHint: function(naming) {
-            var nbVariables = this.variables.length;
-            var allNames = [];
-            var allValues = [];
-            var coloredNames = [];
-            var coloredValues = [];
-            var colors = [KhanUtil.BLUE, KhanUtil.ORANGE, KhanUtil.GREEN];
-            for (var iVar = 0; iVar < nbVariables; iVar++) {
-                allNames.push(this.variables[iVar].shortName);
-                allValues.push("" + this.variables[iVar].value + naming.latexSymbol);
-                coloredNames.push("\\color{" + colors[iVar] + "}{\\text{" + allNames[iVar] + "}}");
-                coloredValues.push("\\color{" + colors[iVar] + "}{" + allValues[iVar] + "}");
-            }
-            var strTable = this.solver.getHintTable(this, colors, this.dateSolved, naming);
-            var lastVar = this.variables[nbVariables - 1];
-            if ((!naming.showTotal) &&
-                (lastVar.data.col === naming.terms[0].length) &&
-                (lastVar.data.row === naming.terms.length)) {
-                coloredNames[nbVariables - 1] = "\\color{" + colors[nbVariables - 1] + "}{100\\%}";
-            }
-            var hint = "<p>We know that:</p><p><code>" + coloredNames[nbVariables - 1] +
-                " = " + coloredNames.slice(0, nbVariables - 1).join(" + ") + "</code><p>" +
-                "<p><table><tr><td>" + strTable + "</td>" +
-                "<td style='font-size:14px'>So we can determine " + this.variables[this.iSolvedVar].name + ":</td>" +
-                "</tr></table></p>";
-            if (this.iSolvedVar === nbVariables - 1) {
-                hint += "<p><code>" + coloredNames[nbVariables - 1] + " = " +
-                    coloredValues.slice(0, nbVariables - 1).join(" + ") + " = " + coloredValues[nbVariables - 1] + "</p>";
-            } else {
-                hint += "<p><code>\\begin{align} " + coloredNames[this.iSolvedVar] + " &= ";
-                var remainingNames = coloredNames.slice(0, nbVariables - 1);
-                remainingNames.splice(this.iSolvedVar, 1);
-                var sumOtherNames = remainingNames.join(" + ");
-                var remainingValues = coloredValues.slice(0, nbVariables - 1);
-                remainingValues.splice(this.iSolvedVar, 1);
-                var sumOtherValues = remainingValues.join(" + ");
-                if (allNames.length > 3) {
-                    sumOtherNames = "(" + sumOtherNames + ")";
-                    sumOtherValues = "(" + sumOtherValues + ")";
-                }
-                hint += coloredNames[nbVariables - 1] + " - " + sumOtherNames + " \\\\" +
-                    " &= " + coloredValues[nbVariables - 1] + " - " + sumOtherValues + " \\\\" +
-                    " &= " + coloredValues[this.iSolvedVar] + "\\end{align}</code></p>";
-            }
-            // TODO: mark the variable as to be displayed, and add the corresponding grid.
-            return hint;
-        }
-    });
+                });
 
-    var ConstraintSolver = Class.extend({
-        init: function() {
-            this.date = 1;
-            this.allConstraints = [];
-            this.constraintsToSolve = [];
-            this.solvedConstraints = [];
-        },
-        addConstraint: function(constraint) {
-            this.allConstraints.push(constraint);
-        },
-        pushToSolve: function(constraint) {
-            if (constraint.pushedToSolve) {
-                return;
-            }
-            this.constraintsToSolve.push(constraint);
-            constraint.pushedToSolve = true;
-        },
-        solve: function() {
-            while(this.constraintsToSolve.length > 0) {
-                var constraint = this.constraintsToSolve.pop();
-                if (!constraint.solved) {
-                    constraint.solve();
-                    this.date++;
-                }
-            }
-            for (var iConstraint = 0; iConstraint < this.allConstraints.length; iConstraint++) {
-                var constraint = this.allConstraints[iConstraint];
-                if (!constraint.solved) {
-                    return false;
-                }
-            }
-            return true;
-        },
-        getHints: function(naming) {
-            var hints = [];
-            for (var iConstraint = 0; iConstraint < this.solvedConstraints.length; iConstraint++) {
-                var constraint = this.solvedConstraints[iConstraint];
-                hints.push(constraint.getHint(naming));
-            }
-            hints.push("<p>So finally, we get everything filled:<br/>" + this.getHintTable(undefined, undefined, 100000, naming) + "</p>");
-            return hints;
-        },
-        getHintTable: function(constraint, colors, date, naming) {
-            var rowsVariables = this.data.rowsVariables;
-            var nbRows = rowsVariables.length;
-            var nbCols = rowsVariables[0].length;
-            var iColor = 0;
-            var strTable = "<table class='smallGrid'>";
-            for (var iRow = 0; iRow < nbRows; iRow++) {
-                var realRow = (iRow - 1 + nbRows) % nbRows;
-                strTable += "<tr>";
-                for (var iCol = 0; iCol < nbCols; iCol++) {
-                    var realCol = (iCol - 1 + nbCols) % nbCols;
-                    var variable = rowsVariables[realRow][realCol];
-                    var strValue = "?";
-                    if (variable.dateSolved < date) {
-                        strValue = variable.value + naming.symbol;
-                    }
-                    var strColor = "";
-                    if (constraint !== undefined) {
-                        for (var iVar = 0; iVar < constraint.variables.length; iVar++) {
-                            var variable = constraint.variables[iVar];
-                            if ((variable.data.col === realCol) && (variable.data.row === realRow)) {
-                                strColor = " style='background-color:" + colors[(iColor + 2) % 3] + "'";
-                                iColor++;
-                                break;
+                this.Constraint = Class.extend({
+                    init: function(solver, variables) {
+                        solver.addConstraint(this);
+                        this.solver = solver;
+                        this.setVariables(variables);
+                        this.pushedToSolve = false;
+                        this.solved = false;
+                        this.iSolvedVar = undefined;
+                    },
+                    solve: function() {
+                    },
+                    variableSet: function(variable) {
+                        this.nbUnknown--;
+                        this.solver.solvedVariables.push(variable);
+                        if (this.nbUnknown === 1) {
+                            this.solver.pushToSolve(this);
+                        } else if (this.nbUnknown === 0) {
+                            this.solved = true;
+                        }
+                    },
+                    setVariables: function(variables) {
+                        this.nbUnknown = 0;
+                        this.variables = variables;
+                        for (var iVar = 0; iVar < variables.length; iVar++) {
+                            var variable = variables[iVar];
+                            variable.addConstraint(this);
+                            if (variable.value === undefined) {
+                                this.nbUnknown++;
                             }
                         }
+                        if (this.nbUnknown === 1) {
+                            this.solver.pushToSolve(this);
+                        } else if (this.nbUnkown === 0) {
+                            this.solved = true;
+                            this.solver.solvedConstraints.push(this);
+                        }
+                    },
+                });
+
+                this.SumConstraint = this.Constraint.extend({
+                    solve: function() {
+                        var nbVariables = this.variables.length;
+                        if (this.variables[nbVariables - 1].value === undefined) {
+                            var sum = 0;
+                            for (var iVar = 0; iVar < nbVariables - 1; iVar++) {
+                                sum += this.variables[iVar].value;
+                            }
+                            this.variables[nbVariables - 1].setValue(sum, this.solver.date);
+                            this.iSolvedVar = nbVariables - 1;
+                        } else {
+                            var sum = this.variables[nbVariables - 1].value;
+                            for (var iVar = 0; iVar < nbVariables - 1; iVar++) {
+                                var value = this.variables[iVar].value;
+                                if (value === undefined) {
+                                    this.iSolvedVar = iVar;
+                                } else {
+                                    sum -= value;
+                                }
+                            }
+                            this.variables[this.iSolvedVar].setValue(sum, this.solver.date);
+                        }
+                        this.dateSolved = this.solver.date;
+                        this.solver.solvedConstraints.push(this);
+                    },
+                    getHint: function(naming) {
+                        var nbVariables = this.variables.length;
+                        var allNames = [];
+                        var allValues = [];
+                        var coloredNames = [];
+                        var coloredValues = [];
+                        var colors = [KhanUtil.BLUE, KhanUtil.ORANGE, KhanUtil.GREEN];
+                        for (var iVar = 0; iVar < nbVariables; iVar++) {
+                            allNames.push(this.variables[iVar].shortName);
+                            allValues.push("" + this.variables[iVar].value + naming.latexSymbol);
+                            coloredNames.push("\\color{" + colors[iVar] + "}{\\text{" + allNames[iVar] + "}}");
+                            coloredValues.push("\\color{" + colors[iVar] + "}{" + allValues[iVar] + "}");
+                        }
+                        var strTable = this.solver.getHintTable(this, colors, this.dateSolved, naming);
+                        var lastVar = this.variables[nbVariables - 1];
+                        if ((!naming.showTotal) &&
+                            (lastVar.data.col === naming.terms[0].length) &&
+                            (lastVar.data.row === naming.terms.length)) {
+                            coloredNames[nbVariables - 1] = "\\color{" + colors[nbVariables - 1] + "}{100\\%}";
+                        }
+                        var hint = "<p>We know that:</p><p><code>" + coloredNames[nbVariables - 1] +
+                            " = " + coloredNames.slice(0, nbVariables - 1).join(" + ") + "</code><p>" +
+                            "<p><table><tr><td>" + strTable + "</td>" +
+                            "<td style='font-size:14px'>So we can determine " + this.variables[this.iSolvedVar].name + ":</td>" +
+                            "</tr></table></p>";
+                        if (this.iSolvedVar === nbVariables - 1) {
+                            hint += "<p><code>" + coloredNames[nbVariables - 1] + " = " +
+                                coloredValues.slice(0, nbVariables - 1).join(" + ") + " = " + coloredValues[nbVariables - 1] + "</p>";
+                        } else {
+                            hint += "<p><code>\\begin{align} " + coloredNames[this.iSolvedVar] + " &= ";
+                            var remainingNames = coloredNames.slice(0, nbVariables - 1);
+                            remainingNames.splice(this.iSolvedVar, 1);
+                            var sumOtherNames = remainingNames.join(" + ");
+                            var remainingValues = coloredValues.slice(0, nbVariables - 1);
+                            remainingValues.splice(this.iSolvedVar, 1);
+                            var sumOtherValues = remainingValues.join(" + ");
+                            if (allNames.length > 3) {
+                                sumOtherNames = "(" + sumOtherNames + ")";
+                                sumOtherValues = "(" + sumOtherValues + ")";
+                            }
+                            hint += coloredNames[nbVariables - 1] + " - " + sumOtherNames + " \\\\" +
+                                " &= " + coloredValues[nbVariables - 1] + " - " + sumOtherValues + " \\\\" +
+                                " &= " + coloredValues[this.iSolvedVar] + "\\end{align}</code></p>";
+                        }
+                        // TODO: mark the variable as to be displayed, and add the corresponding grid.
+                        return hint;
                     }
-                    var strClass = "";
-                    if ((iCol > 0) && (iRow > 0)) {
-                        strClass = " class='in'";
-                    }
-                    strTable += "<td" + strClass + strColor + ">" + strValue + "</td>";
+                });
+
+
+            },
+            addConstraint: function(constraint) {
+                this.allConstraints.push(constraint);
+            },
+            pushToSolve: function(constraint) {
+                if (constraint.pushedToSolve) {
+                    return;
                 }
-                strTable += "</tr>";
-            }
-            strTable += "</table>";
-            return strTable;
-        },
-    });
+                this.constraintsToSolve.push(constraint);
+                constraint.pushedToSolve = true;
+            },
+            solve: function() {
+                while(this.constraintsToSolve.length > 0) {
+                    var constraint = this.constraintsToSolve.pop();
+                    if (!constraint.solved) {
+                        constraint.solve();
+                        this.date++;
+                    }
+                }
+                for (var iConstraint = 0; iConstraint < this.allConstraints.length; iConstraint++) {
+                    var constraint = this.allConstraints[iConstraint];
+                    if (!constraint.solved) {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            getHints: function(naming) {
+                var hints = [];
+                for (var iConstraint = 0; iConstraint < this.solvedConstraints.length; iConstraint++) {
+                    var constraint = this.solvedConstraints[iConstraint];
+                    hints.push(constraint.getHint(naming));
+                }
+                hints.push("<p>So finally, we get everything filled:<br/>" + this.getHintTable(undefined, undefined, 100000, naming) + "</p>");
+                return hints;
+            },
+            getHintTable: function(constraint, colors, date, naming) {
+                var rowsVariables = this.data.rowsVariables;
+                var nbRows = rowsVariables.length;
+                var nbCols = rowsVariables[0].length;
+                var iColor = 0;
+                var strTable = "<table class='smallGrid'>";
+                for (var iRow = 0; iRow < nbRows; iRow++) {
+                    var realRow = (iRow - 1 + nbRows) % nbRows;
+                    strTable += "<tr>";
+                    for (var iCol = 0; iCol < nbCols; iCol++) {
+                        var realCol = (iCol - 1 + nbCols) % nbCols;
+                        var variable = rowsVariables[realRow][realCol];
+                        var strValue = "?";
+                        if (variable.dateSolved < date) {
+                            strValue = variable.value + naming.symbol;
+                        }
+                        var strColor = "";
+                        if (constraint !== undefined) {
+                            for (var iVar = 0; iVar < constraint.variables.length; iVar++) {
+                                var variable = constraint.variables[iVar];
+                                if ((variable.data.col === realCol) && (variable.data.row === realRow)) {
+                                    strColor = " style='background-color:" + colors[(iColor + 2) % 3] + "'";
+                                    iColor++;
+                                    break;
+                                }
+                            }
+                        }
+                        var strClass = "";
+                        if ((iCol > 0) && (iRow > 0)) {
+                            strClass = " class='in'";
+                        }
+                        strTable += "<td" + strClass + strColor + ">" + strValue + "</td>";
+                    }
+                    strTable += "</tr>";
+                }
+                strTable += "</table>";
+                return strTable;
+            },
+        });
+        return new ConstraintSolver();
+    }
 
 
     jQuery.extend(KhanUtil, {
@@ -491,10 +434,7 @@
         criteriasKey: criteriasKey,
         joinCommaAnd: joinCommaAnd,
         randFromArrayWeighted: randFromArrayWeighted,
-        Constraint: Constraint,
-        SumConstraint: SumConstraint,
-        Variable: Variable,
-        ConstraintSolver: ConstraintSolver
+        getConstraintSolver: getConstraintSolver
     });
 })();
 

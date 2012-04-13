@@ -87,7 +87,7 @@
         return {
             selectedColor: color,
             totalSelectedArea: totalSelectedArea,
-            textSelectedArea:  "<code>\\color{" + KhanUtil.BLUE + "}{" + strProducts.join("+") +
+            textSelectedArea:  "<code>\\blue{" + strProducts.join("+") +
                 " = " + strResults.join("+") + " = " + totalSelectedArea + "}</code>" +
                 " <span class='hint_blue'>square inches</span>",
             textDraw: "draws three " + color + " rectangles on it, of dimensions " +
@@ -114,7 +114,7 @@
         return {
             selectedColor: colors[0],
             totalSelectedArea: totalSelectedArea,
-            textSelectedArea: "<code>\\color{" + KhanUtil.BLUE + "}{(" + widthRect1 + "*" + heightRect1 + ") - (" + widthRect2 + "*" + heightRect2 + ") = " +
+            textSelectedArea: "<code>\\blue{(" + widthRect1 + "*" + heightRect1 + ") - (" + widthRect2 + "*" + heightRect2 + ") = " +
                 totalSelectedArea + "}</code> <span class='hint_blue'>square inches</span>",
             textDraw: "draws a " + colors[0] + " rectangle on it, of dimensions " + rectangleDims[0] + " inches, " +
                 "then draws a " + colors[1] + " rectangle within that " + colors[0] + " rectangle, of dimensions " + rectangleDims[1] + " inches, ",
@@ -149,8 +149,8 @@
             <div class="hints">
                 <div>
                     <p>The probability of an event described by a condition can be expressed as:</p>
-                    <p><code>P(event) = \dfrac{\color{<var>BLUE</var>}{\text{number of outcomes that meet the condition}}}
-                            {\color{<var>ORANGE</var>}{\text{total number of equally likely outcomes}}}</code></p>
+                    <p><code>P(event) = \dfrac{\blue{\text{number of outcomes that meet the condition}}}
+                            {\orange{\text{total number of equally likely outcomes}}}</code></p>
                     <p>There is another way to define the probability of an event: if all possible outcomes are equally likely,
                     the probability of the event is the percentage of these outcomes that meet the condition.</p>
                 </div>
