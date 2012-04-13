@@ -1,4 +1,4 @@
-$.extend(KhanUtil, {
+KhanUtil.load( { "angles": {
     commonAngles: [
         {deg: 15, rad: "\\frac{\\pi}{12}"},
         {deg: 30, rad: "\\frac{\\pi}{6}"},
@@ -65,4 +65,4 @@ $.extend(KhanUtil, {
 
         return wrong;
     }
-});
+}});

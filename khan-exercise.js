@@ -368,6 +368,16 @@ var Khan = (function() {
                 seed = ((seed + 0xfd7046c5) + (seed << 3)) & 0xffffffff;
                 seed = ((seed ^ 0xb55a4f09) ^ (seed >>> 16)) & 0xffffffff;
                 return (randomSeed = (seed & 0xfffffff)) / 0x10000000;
+            },
+
+            load: function(module){
+                var ku = this;
+                var safeHas = Object.prototype.hasOwnProperty;
+                for (k in module){
+                    if (safeHas.call(module,k)){
+                        $.extend(ku, module[k]);
+                    }
+                }
             }
         },
 
