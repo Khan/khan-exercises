@@ -219,13 +219,16 @@
        return terms;
     };
 
-    var genFullExpr = function(factors, foundOccFactors, termsOccFactors) {
-       var remainingTerms = {op: "+", args: genAllTerms(factors, KhanUtil.initOccArray(factors.length), termsOccFactors)};
-       var sharedPart = KhanUtil.genExprFromExpFactors(factors, foundOccFactors);
-       if (sharedPart === 1) {
-          return remainingTerms;
-       }
-       return {op: "*", args: [sharedPart, remainingTerms]};
+    var genFullExpr = function(factors, foundOccFactors, termsOccFactors, markShared) {
+        var remainingTerms = {op: "+", args: genAllTerms(factors, KhanUtil.initOccArray(factors.length), termsOccFactors)};
+        var sharedPart = KhanUtil.genExprFromExpFactors(factors, foundOccFactors);
+        if (sharedPart === 1) {
+            return remainingTerms;
+        }
+        if (markShared) {
+            sharedPart = KhanUtil.exprSetStyle(sharedPart, {color: KhanUtil.BLUE});
+        }
+        return {op: "*", args: [sharedPart, remainingTerms]};
     };
 
 
@@ -261,8 +264,8 @@
        return numTotal;
     };
 
-    var genCdotFactors = function(factors, occFactors) {
-       var args = genListFactors(factors, occFactors);
+    var genCdotFactors = function(factors, occFactors, sharedOccFactors, sharedStyle) {
+       var args = genListFactors(factors, occFactors, sharedOccFactors, sharedStyle);
        var expr;
        if (args.length === 1) {
           return args[0];
@@ -275,20 +278,24 @@
        }
     }
 
-    var genDecomposition = function(factors, occFactors) {
-       var exprLeft = KhanUtil.genExprFromExpFactors(factors, occFactors);
-       var exprRight = genCdotFactors(factors, occFactors);
-       return {op: "=", args: [exprLeft, exprRight]};
+    var genDecomposition = function(factors, occFactors, sharedOccFactors, sharedStyle) {
+        var exprLeft = KhanUtil.genExprFromExpFactors(factors, occFactors);
+        var exprRight = genCdotFactors(factors, occFactors, sharedOccFactors, sharedStyle);
+        return {op: "=", args: [exprLeft, exprRight]};
     };
 
-    var genListFactors = function(factors, occFactors) {
-       var listFactors = [];
-       for (var iFactor = 0; iFactor < factors.length; iFactor++) {
-           for (var iOcc = 0; iOcc < occFactors[iFactor]; iOcc++) {
-               listFactors.push(factors[iFactor]);
-           }
-       }
-       return listFactors;
+    var genListFactors = function(factors, occFactors, sharedOccFactors, sharedStyle) {
+        var listFactors = [];
+        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
+            for (var iOcc = 0; iOcc < occFactors[iFactor]; iOcc++) {
+                var factor = KhanUtil.exprClone(factors[iFactor]);
+                if ((sharedOccFactors !== undefined) && (iOcc < sharedOccFactors[iFactor])) {
+                    factor = KhanUtil.exprSetStyle(factor, sharedStyle);
+                }
+                listFactors.push(factor);
+            }
+        }
+        return listFactors;
     }
 
     var genHintListFactors = function(factors, occFactors) {
@@ -302,45 +309,48 @@
                  strListFactors += ", ";
               }
            }
-           strListFactors += "<code>" + KhanUtil.format(KhanUtil.exprSetStyle(listFactors[iListedFactor], KhanUtil.BLUE)) + "</code>";
+           strListFactors += "<code>" + KhanUtil.format(KhanUtil.exprSetStyle(listFactors[iListedFactor], {color: KhanUtil.BLUE})) + "</code>";
        }
+       var hint = "<span class='factoring-expressions'></span>";
        if (listFactors.length === 1) {
-          return "<p>The terms have one common factor: " + strListFactors + ".</p>";
+          return hint + "<p>The terms have one common factor: " + strListFactors + ".</p>";
        } else {
           var gcf = KhanUtil.format(KhanUtil.exprSetStyle(KhanUtil.genExprFromExpFactors(factors, occFactors), KhanUtil.BLUE));
-          return "<p>The terms have these common factors: " + strListFactors + ", so the greatest common factor is <code>" + gcf + "</code>.</p>";
+          return hint + "<p>The terms have these common factors: " + strListFactors + ", so the greatest common factor is <code>" + gcf + "</code>.</p>";
        }
     };
 
     var genHintsDecomposeAllFactors = function(factors, sharedOccFactors, termsOccFactors) {
-       var colors = [KhanUtil.PINK, KhanUtil.ORANGE, KhanUtil.GREEN];
-       var nbTerms = termsOccFactors.length;
-       var hints = [];
-       var expr = {op: "+", args: genAllTerms(factors, sharedOccFactors, termsOccFactors)};
-       for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
-          expr.args[iTerm] = KhanUtil.exprSetStyle(expr.args[iTerm], colors[iTerm]);
-       }
-       expr = KhanUtil.simplify(expr, KhanUtil.simplifyOptions.checkInput);
+        var colors = [KhanUtil.PINK, KhanUtil.ORANGE, KhanUtil.GREEN];
+        var nbTerms = termsOccFactors.length;
+        var hints = [];
+        var expr = {op: "+", args: genAllTerms(factors, sharedOccFactors, termsOccFactors)};
+        for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
+            expr.args[iTerm] = KhanUtil.exprSetStyle(expr.args[iTerm], colors[iTerm]);
+        }
+        expr = KhanUtil.simplify(expr, KhanUtil.simplifyOptions.checkInput);
 
-       hints.push("<p><code>" + KhanUtil.format(expr) + "</code></p><p>We start by decomposing each term into a product of its most simple factors.</p>");
+        hints.push("<p><code>" + KhanUtil.format(expr) + "</code></p><p>We start by decomposing each term into a product of its most simple factors.</p>");
 
-       for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
-           var mergedOccFactors = mergeOccFactors(sharedOccFactors, termsOccFactors[iTerm]);
-           hints.push("<p><code>" + KhanUtil.format(KhanUtil.exprSetStyle(genDecomposition(factors, mergedOccFactors), {color: colors[iTerm]})) + "</code></p>");
-       }
-       hints.push(genHintListFactors(factors, sharedOccFactors));
+        for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
+            var mergedOccFactors = mergeOccFactors(sharedOccFactors, termsOccFactors[iTerm]);
+            var hint = "<p class='orig-hint'><code>" + KhanUtil.format(KhanUtil.exprSetStyle(genDecomposition(factors, mergedOccFactors), {color: colors[iTerm]})) + "</code></p>";
+            hint += "<p class='new-hint' style='display:none'><code>" + KhanUtil.format(KhanUtil.exprSetStyle(genDecomposition(factors, mergedOccFactors, sharedOccFactors, {color: KhanUtil.BLUE}), {color: colors[iTerm]})) + "</code></p>";
+            hints.push(hint);
+        }
+        hints.push(genHintListFactors(factors, sharedOccFactors));
 
-       hints.push("<p>We can rewrite the expression as: <code>" + KhanUtil.format({op: "+", args: genAllTermsMarkShared(factors, sharedOccFactors, termsOccFactors, colors)}) + "</code>.</p>");
-       hints.push("<p>We now rewrite the expression as a product: <code>" + KhanUtil.format(genFullExpr(factors, sharedOccFactors, termsOccFactors)) + "</code>.</p>");
-       return hints;
+        hints.push("<p>We can rewrite the expression as: <code>" + KhanUtil.format({op: "+", args: genAllTermsMarkShared(factors, sharedOccFactors, termsOccFactors, colors)}) + "</code>.</p>");
+        hints.push("<p>We now rewrite the expression as a product: <code>" + KhanUtil.format(genFullExpr(factors, sharedOccFactors, termsOccFactors, true)) + "</code>.</p>");
+        return hints;
     };
 
     var mergeOccFactors = function(occFactors1, occFactors2) {
-       var mergedOccFactors = KhanUtil.initOccArray(occFactors1.length);
-       for (var iFactor = 0; iFactor < occFactors1.length; iFactor++) {
-          mergedOccFactors[iFactor] = occFactors1[iFactor] + occFactors2[iFactor];
-       }
-       return mergedOccFactors;
+        var mergedOccFactors = KhanUtil.initOccArray(occFactors1.length);
+        for (var iFactor = 0; iFactor < occFactors1.length; iFactor++) {
+            mergedOccFactors[iFactor] = occFactors1[iFactor] + occFactors2[iFactor];
+        }
+        return mergedOccFactors;
     };
 
     var removeSharedFactors = function(sharedOccFactors, termsOccFactors) {
@@ -409,7 +419,7 @@
        } else if (options.factorWithDiffOfSquares === "(ab^2-cd^2)=a(b - d)(b + d)") {
        }
 
-       hints.push("<p>There is nothing left to factor using this approach. The answer is : <code>" + KhanUtil.format(solution) + "</code></p>");
+       hints.push("<p class='final_answer'>There is nothing left to factor using this approach. The answer is : <code>" + KhanUtil.format(solution) + "</code></p>");
        return {hints: hints, solution: solution};
     };
 
@@ -509,5 +519,12 @@
         factorSum: factorSum,
         genFullExpr: genFullExpr
     });
+
+    $.fn["factoring-expressions"] = function(problem) {
+        return this.find(".factoring-expressions").andSelf().filter(".factoring-expressions").each(function() {
+            $(".orig-hint").hide();
+            $(".new-hint").show();
+        });
+    };
 })();
 
