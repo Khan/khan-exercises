@@ -2,7 +2,7 @@
 <html data-require="math graphie">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Squares and rectangles</title>
+    <title>Area of squares and rectangles</title>
     <script src="../khan-exercise.js"></script>
 
     <script type="text/javascript">
@@ -109,34 +109,6 @@
             </div>
         </div>
 
-        <div id="square-s-to-P">
-            <div class="vars">
-                <var id="S">randRange(1, 8)</var>
-            </div>
-
-            <div class="question">
-                <p>Suppose the side length of a square is <code>\color{<var>S_COLOR</var>}{<var>S</var>}</code>. What is its perimeter?</p>
-            </div>
-
-            <div class="solution"><var>4 * S</var></div>
-
-            <div class="hints">
-                <div class="graphie" id="square">
-                    initSq( S );
-
-                    drawSqSide( S );
-                </div>
-                <p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>.</p>
-                <div>
-                    <p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>P = 4\cdot\color{<var>S_COLOR</var>}{<var>S</var>} = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>.</p>
-
-                    <div class="graphie" data-update="square">
-                        drawSqPerimeter( S );
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div id="square-K-to-s">
             <div class="vars">
                 <var id="S">randRange(1, 8)</var>
@@ -190,34 +162,6 @@
 
                     <div class="graphie" data-update="square">
                         drawSqPerimeter( S );
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="square-P-to-s">
-            <div class="vars">
-                <var id="S">randRange(1, 8)</var>
-            </div>
-
-            <div class="question">
-                <p>Suppose the perimeter of a square is <code>\color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>. What is its side length?</p>
-            </div>
-
-            <div class="solution"><var>S</var></div>
-
-            <div class="hints">
-                <div class="graphie" id="square">
-                    initSq( S );
-
-                    drawSqPerimeter( S );
-                </div>
-                <p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>, so <code>s = P/4</code>.</p>
-                <div>
-                    <p>Substituting in <code>P = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code> gives <code>s = \color{<var>P_COLOR</var>}{<var>4 * S</var>}/4 = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
-
-                    <div class="graphie" data-update="square">
-                        drawSqSide( S );
                     </div>
                 </div>
             </div>
@@ -280,33 +224,6 @@
             </div>
         </div>
 
-        <div id="rectangle-lw-to-P" data-weight="3">
-            <div class="vars" data-ensure="L !== W">
-                <var id="L">randRange(1, 8)</var>
-                <var id="W">randRange(1, 8)</var>
-            </div>
-
-            <div class="question">
-                <p>Suppose a rectangle has length <code>\color{<var>L_COLOR</var>}{<var>L</var>}</code> and width <code>\color{<var>W_COLOR</var>}{<var>W</var>}</code>. What is its perimeter?</p>
-
-            </div>
-
-            <div class="solution"><var>2 * L + 2 * W</var></div>
-
-            <div class="hints">
-                <div class="graphie" id="rectangle">
-                    initRect( L, W );
-                </div>
-                <p>The area of a rectangle is <code>P = l + w + l + w = 2(l + w)</code>.</p>
-                <div>
-                    <p>Substituting in <code>l = \color{<var>L_COLOR</var>}{<var>L</var>}</code> and <code>w = \color{<var>W_COLOR</var>}{<var>W</var>}</code> gives <code>P = 2 (\color{<var>L_COLOR</var>}{<var>L</var>} + \color{<var>W_COLOR</var>}{<var>W</var>}) = \color{<var>P_COLOR</var>}{<var>2 * L + 2 * W</var>}</code>.</p>
-
-                    <div class="graphie" data-update="rectangle">
-                        drawRectPerimeter( L, W );
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     </div>
 </body>
