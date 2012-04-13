@@ -111,6 +111,7 @@ body.debug .graphie { outline: 1px dashed red; }
     padding: 10px;
     margin: 0 -10px;
     border-bottom: 1px solid #c3c3c3;
+    overflow-x: auto;
 }
 
 #answer_area .answer-buttons {
