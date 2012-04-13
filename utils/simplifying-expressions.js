@@ -178,10 +178,10 @@
 
         var hintExpr = getFractionFromOccFactors(factors, newOccFactors, argsOccFactors);
         if (KhanUtil.exprIdentical(newExpr, solExpr)) {
-            steps.add("<p>There are no factors that can be simplified in this expression, so the answer is: <code>" + KhanUtil.format(solExpr) + "</code>");
+            steps.add("<p class='final_answer'>There are no factors that can be simplified in this expression, so the answer is: <code>" + KhanUtil.format(solExpr) + "</code>");
         } else {
             steps.add("<p>Applying the approach described above gives in this case:</p><p><code>" + KhanUtil.format(hintExpr) + "</code></p>");
-            steps.add("<p>We obtain the following expression:</p><p><code>" + KhanUtil.format(solExpr) + "</code></p>");
+            steps.add("<p class='final_answer'>We obtain the following expression:</p><p><code>" + KhanUtil.format(solExpr) + "</code></p>");
         }
         var hints = KhanUtil.genHints(steps);
         return {solution: solExpr, hints: hints, choices: choices};

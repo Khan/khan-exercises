@@ -86,15 +86,19 @@
                         <p>or</p><p><code><var>parseFormat("(#{" + A + "}x^2+#{" + a + "}x)+(#{" + b + "}x+#{" + C + "})", [BLUE, GREEN, GREEN, ORANGE])</var></code></p>
                         <p>The next step is to factor both terms of the above expression:</p>
                     </div>
-                    <p>
-                        <code><var>format(HINT1, {del1factors:true, evalBasicNumOps:true})</var></code>
-                    </p>
-                    <p>
-                        Redistribute the common term to get the answer:
-                    </p>
-                    <p>
-                        <code><var>format(SOLUTION, simplifyOptions.basic, false, "large")</var></code>
-                    </p>
+                    <div>
+                        <p>
+                            <code><var>format(HINT1, {del1factors:true, evalBasicNumOps:true})</var></code>
+                        </p>
+                    </div>
+                    <div class="final_answer">
+                        <p>
+                            Redistribute the common term to get the answer:
+                        </p>
+                        <p>
+                            <code><var>format(SOLUTION, simplifyOptions.basic, false, "large")</var></code>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
