@@ -44,17 +44,17 @@
             <div class="hints">
                 <div>
                     <p>Separate the whole numbers from the fractional parts:</p>
-                    <p><code>= \color{red}{<var>W1</var>} + \color{red}{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \color{blue}{<var>abs( W2 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D2 )</var>}</code></p>
+                    <p><code>= \blue{<var>W1</var>} + \blue{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \pink{<var>abs( W2 )</var>} <var>SIGN</var> \pink{<var>fraction( N2, D2 )</var>}</code></p>
                 </div>
 
                 <div>
                     <p>Bring the whole numbers together and the fractions together:</p>
-                    <p><code>= \color{red}{<var>W1</var>} <var>SIGN</var> \color{blue}{<var>abs( W2 )</var>} + \color{red}{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D2 )</var>}</code></p>
+                    <p><code>= \blue{<var>W1</var>} <var>SIGN</var> \pink{<var>abs( W2 )</var>} + \blue{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \pink{<var>fraction( N2, D2 )</var>}</code></p>
                 </div>
 
                 <div>
                     <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the whole numbers:</p>
-                    <p><code>=<var>W1 + W2</var> + \color{red}{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \color{blue}{<var>fraction( N2, D2 )</var>}</code></p>
+                    <p><code>=<var>W1 + W2</var> + \blue{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \pink{<var>fraction( N2, D2 )</var>}</code></p>
                 </div>
 
                 <div>
@@ -73,6 +73,61 @@
                 </div>
             </div>
         </div>
+
+        <div id="one-whole">
+            <div class="vars">
+                <var id="PM">-1</var>
+                <var id="SIGN">"-"</var>
+                <var id="W1">randRange( 2, 19 )</var>
+                <var id="W2">randRange( -W1 + 1, -1 )</var>
+
+                <div>
+                    <var id="D2">randRange( 3, 20 )</var>
+                    <var id="D1">D2</var>
+                </div>
+                <div>
+                    <var id="N2">randRange( 1, D2 - 1 )</var>
+                    <var id="N1">D2</var>
+                </div>
+
+                <var id="LCM">D2</var>
+                <var id="GCD">getGCD( N1 - N2 , LCM )</var>
+            </div>
+            <p class="problem">Express your answer as a mixed number simplified to lowest terms. </p>
+            <p class="question"><code><var>expr(["+", W1, W2 + fraction( N2, D2 )])</var> = {?}</code></p>
+            <div class="solution" data-type="mixed"><var>W1 + W2 + PM * N2 / D2</var></div>
+            <div class="hints">
+                <div>
+                    <p>Convert <code><var>W1+1</var></code> into<code>=\blue{<var>W1</var>} + \blue{<var>fraction( N1, D1)</var>}</code> before subtracting. So the problem becomes:</p>
+                    <p><code>= \blue{<var>W1</var>}\blue{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \pink{<var>abs( W2 )</var>}\pink{<var>fraction( N2, D2 )</var>}</code></p>
+                </div>
+                <div>
+                    <p>Separate the whole numbers from the fractional parts:</p>
+                    <p><code>= \blue{<var>W1</var>} + \blue{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \pink{<var>abs( W2 )</var>} <var>SIGN</var> \pink{<var>fraction( N2, D2 )</var>}</code></p>
+                </div>
+                <div>
+                    <p>Bring the whole numbers together and the fractions together:</p>
+                    <p><code>= \blue{<var>W1</var>} <var>SIGN</var> \pink{<var>abs( W2 )</var>} + \blue{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \pink{<var>fraction( N2, D2 )</var>}</code></p>
+                </div>
+                <div>
+                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the whole numbers:</p>
+                    <p><code>=<var>W1 + W2</var> + \blue{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \pink{<var>fraction( N2, D2 )</var>}</code></p>
+                </div>
+                <div>
+                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the fractions:</p>
+                    <p><code>= <var>expr(["+", W1 + W2, fraction( N1 + PM * N2, D2 )])</var></code></p>
+                </div>
+                <div>
+                    <p>Combine the whole and fractional parts into a mixed number:</p>
+                    <p><code>= <var>W1 + W2 + fraction( N1 - N2, D2)</var></code></p>
+                </div>
+                <div data-if="GCD > 1">
+                    <p>Simplify to lowest terms:</p>
+                    <p><code>= <var>W1 + W2 + fractionReduce( N1 - N2 , LCM )</var></code></p>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 </div>
 </body>
