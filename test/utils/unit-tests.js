@@ -28,6 +28,8 @@ var Khan = {
   }
 };
 
+tests = {"angles":{"toDegrees": function(){ return true; }}}
+
 // runTests for a module by iterating over all its exported functions
 // and then looking for a test for each
 var runTests = function(lib){
@@ -39,7 +41,11 @@ var runTests = function(lib){
     module(libName)
     _(exported).chain().functions().each(function(func){
       console.log(" - trying to run test for " + func)
-      test(func, function(){});
+      test(func, function(){
+        // console.log(tests, tests[libName], )
+        testsForLib = _(tests).has(libName) && _(tests[libName]).has(func);
+        ok(testsForLib, "Tests written for '"+func+"'")
+      });
     });
 
   });
