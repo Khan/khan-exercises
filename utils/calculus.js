@@ -1,3 +1,4 @@
+// requires polynomials.js
 KhanUtil.load({
     NAME: "calculus",
     trigFuncs: ["sin", "cos", "tan"],

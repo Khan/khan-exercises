@@ -1,4 +1,5 @@
-$.extend(KhanUtil, {
+KhanUtil.load({
+    "NAME": "polynomials",
     Polynomial: function(minDegree, maxDegree, coefs, variable, name) {
         var term = function(coef, vari, degree) {
 
