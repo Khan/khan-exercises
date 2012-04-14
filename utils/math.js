@@ -1,4 +1,4 @@
-$.extend(KhanUtil, {
+KhanUtil.load({
 
     // Simplify formulas before display
     cleanMath: function(expr) {

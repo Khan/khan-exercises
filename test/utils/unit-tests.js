@@ -69,9 +69,7 @@ var KhanTests = (function(){
   var init = function(files){
     var KhanUtil = $.extend({},Khan.Util);
     _(files).each(function(file){
-      $.getScript("../utils/"+file+".js", function(){
-          console.log("loaded "+ file + " successfully.")
-      });
+      $.getScript("../utils/"+file+".js");
     })
   }
 
