@@ -44,7 +44,7 @@
         var listVariables = KhanUtil.probaGrid.initSolver(solver, itemKind, naming, solution);
         var setVariables = KhanUtil.probaGrid.fillKnownVariables(solver, listVariables, naming);
         var hints = solver.getHints(naming);
-
+        hints.push("<p>So finally, we get everything filled:<br/>" + solver.getHintTable(undefined, undefined, 100000, naming) + "</p>");
         var question = "<p>The grid represented above has two rows and two columns, where each row represents a different " + 
                 itemKind.criteriaNames[1] + ", and each column represents " + KhanUtil.an(itemKind.criteriaNames[0]) + ".</p>" +
                 "<p>" + naming.questionPart2 + "</p>";

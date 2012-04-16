@@ -76,7 +76,7 @@
             }
             bag.push(itemCriterias);
         }
-        KhanUtil.shuffle(bag);
+        bag = KhanUtil.shuffle(bag);
     };
 
     var getRandomItemKind = function() {
@@ -208,34 +208,68 @@
             init: function() {
                 this.date = 1;
                 this.allConstraints = [];
+                this.constraintPriorities = [];
+                this.bestPriorities;
+                this.minConstraintsUsed = Number.MAX_VALUE;
+                this.variables = [];
                 this.constraintsToSolve = [];
                 this.solvedConstraints = [];
                 this.solvedVariables = [];
+                this.nbNeededVariables = 0;
+                this.nbKnownNeededVariables = 0;
+                var solver = this;
 
                 this.Variable = Class.extend({
-                    init: function(name, value) {
+                    init: function(name, value, valueNeeded) {
                         this.name = name;
-                        this.value = value;
                         this.constraints = [];
-                        this.dateSolved = undefined;
+                        this.minDateSolved = Number.MAX_VALUE;
+                        solver.variables.push(this);
+                        this.valueNeeded = valueNeeded;
+                        if (value !== undefined) {
+                            this.setValue(value, 0);
+                        }
+                        if (valueNeeded) {
+                            solver.nbNeededVariables++;
+                        }
                     },
                     setValue: function(newValue, date) {
+                        if (this.valueNeeded) {
+                            solver.nbKnownNeededVariables++;
+                        }
                         this.value = newValue;
-                        this.dateSolved = date;
+                        if (date === undefined) {
+                            this.dateSolved = solver.date;
+                        }
+                        else {
+                            this.dateSolved = date;
+                        }
+                        this.minDateSolved = Math.min(this.minDateSolved, this.dateSolved);
+                        if (date === 0) {
+                            this.initialValue = newValue;
+                        }
                         for (var iConstraint = 0; iConstraint < this.constraints.length; iConstraint++) {
                             this.constraints[iConstraint].variableSet(this);
                         }
                     },
                     addConstraint: function(constraint) {
                         this.constraints.push(constraint);
+                    },
+                    reset: function() {
+                        if (this.value !== this.initialValue) {
+                            for (var iConstraint = 0; iConstraint < this.constraints.length; iConstraint++) {
+                                this.constraints[iConstraint].variableUnSet(this);
+                            }
+                            this.dateSolved = undefined;
+                        }
+                        this.value = this.initialValue;
                     }
                 });
 
                 this.Constraint = Class.extend({
-                    init: function(solver, variables) {
+                    init: function(variables) {
                         solver.addConstraint(this);
-                        this.solver = solver;
-                        this.setVariables(variables);
+                        this.addVariables(variables);
                         this.pushedToSolve = false;
                         this.solved = false;
                         this.iSolvedVar = undefined;
@@ -244,14 +278,26 @@
                     },
                     variableSet: function(variable) {
                         this.nbUnknown--;
-                        this.solver.solvedVariables.push(variable);
+                        solver.solvedVariables.push(variable);
+                        this.checkSolvedOrToSolve();
+                    },
+                    variableUnSet: function(variable) {
+                        this.nbUnknown++;
+                        this.solved = false;
+                    },
+                    checkSolvedOrToSolve: function() {
+                        this.solved = false;
                         if (this.nbUnknown === 1) {
-                            this.solver.pushToSolve(this);
+                            solver.pushToSolve(this);
                         } else if (this.nbUnknown === 0) {
                             this.solved = true;
+                            this.dateSolved = solver.date;
+                            if (this.iSolvedVar !== undefined) {
+                                solver.solvedConstraints.push(this);
+                            }
                         }
                     },
-                    setVariables: function(variables) {
+                    addVariables: function(variables) {
                         this.nbUnknown = 0;
                         this.variables = variables;
                         for (var iVar = 0; iVar < variables.length; iVar++) {
@@ -261,12 +307,7 @@
                                 this.nbUnknown++;
                             }
                         }
-                        if (this.nbUnknown === 1) {
-                            this.solver.pushToSolve(this);
-                        } else if (this.nbUnkown === 0) {
-                            this.solved = true;
-                            this.solver.solvedConstraints.push(this);
-                        }
+                        this.checkSolvedOrToSolve();
                     },
                 });
 
@@ -278,8 +319,8 @@
                             for (var iVar = 0; iVar < nbVariables - 1; iVar++) {
                                 sum += this.variables[iVar].value;
                             }
-                            this.variables[nbVariables - 1].setValue(sum, this.solver.date);
                             this.iSolvedVar = nbVariables - 1;
+                            this.variables[nbVariables - 1].setValue(sum);
                         } else {
                             var sum = this.variables[nbVariables - 1].value;
                             for (var iVar = 0; iVar < nbVariables - 1; iVar++) {
@@ -290,10 +331,8 @@
                                     sum -= value;
                                 }
                             }
-                            this.variables[this.iSolvedVar].setValue(sum, this.solver.date);
+                            this.variables[this.iSolvedVar].setValue(sum);
                         }
-                        this.dateSolved = this.solver.date;
-                        this.solver.solvedConstraints.push(this);
                     },
                     getHint: function(naming) {
                         var nbVariables = this.variables.length;
@@ -308,7 +347,7 @@
                             coloredNames.push("\\color{" + colors[iVar] + "}{\\text{" + allNames[iVar] + "}}");
                             coloredValues.push("\\color{" + colors[iVar] + "}{" + allValues[iVar] + "}");
                         }
-                        var strTable = this.solver.getHintTable(this, colors, this.dateSolved, naming);
+                        var strTable = solver.getHintTable(this, colors, this.dateSolved, naming);
                         var lastVar = this.variables[nbVariables - 1];
                         if ((!naming.showTotal) &&
                             (lastVar.data.col === naming.terms[0].length) &&
@@ -347,6 +386,7 @@
 
             },
             addConstraint: function(constraint) {
+                constraint.index = this.allConstraints.length;
                 this.allConstraints.push(constraint);
             },
             pushToSolve: function(constraint) {
@@ -357,20 +397,88 @@
                 constraint.pushedToSolve = true;
             },
             solve: function() {
-                while(this.constraintsToSolve.length > 0) {
-                    var constraint = this.constraintsToSolve.pop();
+                while ((this.constraintsToSolve.length > 0) && (this.nbKnownNeededVariables !== this.nbNeededVariables)) {
+                    var constraint = this.popConstraintToSolve();
                     if (!constraint.solved) {
                         constraint.solve();
                         this.date++;
                     }
                 }
-                for (var iConstraint = 0; iConstraint < this.allConstraints.length; iConstraint++) {
-                    var constraint = this.allConstraints[iConstraint];
-                    if (!constraint.solved) {
-                        return false;
-                    }
+                if (this.nbKnownNeededVariables !== this.nbNeededVariables) {
+                    return false;
+                }
+                if (this.solvedConstraints.length < this.minConstraintsUsed) {
+                    this.minConstraintsUsed = this.solvedConstraints.length;
+                    this.bestPriorities = this.constraintPriorities.slice(0);
                 }
                 return true;
+            },
+            popConstraintToSolve: function() {
+                var bestIConstraint;
+                var maxPriority = -1;
+                for (var iConstraint = 0; iConstraint < this.constraintsToSolve.length; iConstraint++) {
+                    var constraint = this.constraintsToSolve[iConstraint];
+                    var priority = this.constraintPriorities[constraint.index];
+                    if (priority > maxPriority) {
+                        maxPriority = priority;
+                        bestIConstraint = iConstraint;
+                    }
+                }
+                return this.constraintsToSolve.splice(bestIConstraint, 1)[0];
+            },
+            genPriorities: function() {
+                this.constraintPriorities = [];
+                for (var iConstraint = 0; iConstraint < this.allConstraints.length; iConstraint++) {
+                    this.constraintPriorities.push(iConstraint);
+                }
+                this.constraintPriorities = KhanUtil.shuffle(this.constraintPriorities);
+            },
+            reset: function() {
+                this.date = 1;
+                this.nbKnownNeededVariables = 0;
+                this.constraintsToSolve = [];
+                this.solvedConstraints = [];
+                this.solvedVariables = [];
+                for (var iVariable = 0; iVariable < this.variables.length; iVariable++) {
+                    this.variables[iVariable].reset();
+                }
+                for (var iConstraint = 0; iConstraint < this.allConstraints.length; iConstraint++) {
+                    var constraint = this.allConstraints[iConstraint];
+                    constraint.dateSolved = undefined;
+                    constraint.iSolvedVar = undefined;
+                    constraint.pushedToSolve = false;
+                    constraint.checkSolvedOrToSolve();
+                }
+                this.genPriorities();
+            },
+            findShortestPath: function() {
+                for (var attempt = 0; attempt < 100; attempt++) {
+                    this.reset();
+                    this.solve();
+                }
+                this.reset();
+                this.constraintPriorities = this.bestPriorities.slice(0);
+                this.solve();                
+            },
+            getToughestVariable: function() {
+                var maxDate = 0;
+                var toughestVariable;
+                for (var iVariable = 0; iVariable < this.variables.length; iVariable++) {
+                    var variable = this.variables[iVariable];
+                    if (variable.dateSolved > maxDate) {
+                        maxDate = Math.max(maxDate, variable.dateSolved);
+                        toughestVariable = variable;
+                    }
+                }
+                return toughestVariable;
+            },
+            setOnlyNeededVariable: function(neededVariable) {
+                for (var iVariable = 0; iVariable < this.variables.length; iVariable++) {
+                    var variable = this.variables[iVariable];
+                    variable.valueNeeded = false;
+                }
+                this.nbNeededVariables = 1;
+                neededVariable.valueNeeded = true;
             },
             getHints: function(naming) {
                 var hints = [];
@@ -378,7 +486,6 @@
                     var constraint = this.solvedConstraints[iConstraint];
                     hints.push(constraint.getHint(naming));
                 }
-                hints.push("<p>So finally, we get everything filled:<br/>" + this.getHintTable(undefined, undefined, 100000, naming) + "</p>");
                 return hints;
             },
             getHintTable: function(constraint, colors, date, naming) {

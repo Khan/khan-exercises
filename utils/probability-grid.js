@@ -10,7 +10,7 @@
                 var rowVariables = [];
                 for (var iCol = 0; iCol < nbCols; iCol++) {
                     var varName = naming.getLongVarName(naming.terms[0][iCol] + " " + itemKind.prefixes[1] + naming.terms[1][iRow]);
-                    var variable = new solver.Variable(varName);
+                    var variable = new solver.Variable(varName, undefined, true);
                     variable.data = {sol: solution[iRow][iCol], row: iRow, col: iCol};
                     variable.shortName = naming.getShortVarName(naming.shortTerms[0][iCol] + " " +
                         itemKind.prefixes[1] + naming.shortTerms[1][iRow]);
@@ -22,33 +22,33 @@
                     colsVariables[iCol].push(variable);
                 }
                 var varName = naming.getLongVarName(naming.terms[1][iRow] + naming.suffixes[1]);
-                var variable = new solver.Variable(varName);
+                var variable = new solver.Variable(varName, undefined, true);
                 variable.data = {sol: solution[iRow][nbCols], row: iRow, col: nbCols};
                 variable.shortName = naming.getShortVarName(naming.shortTerms[1][iRow] + naming.suffixes[1]);
                 rowVariables.push(variable);
                 rowsVars.push(variable);
-                new solver.SumConstraint(solver, rowVariables);
+                new solver.SumConstraint(rowVariables);
                 rowsVariables.push(rowVariables);
             }
             var columnsVars = [];
             for (var iCol = 0; iCol < nbCols; iCol++) {
                 var varName = naming.getLongVarName(naming.terms[0][iCol] + naming.suffixes[0]);
-                var variable = new solver.Variable(varName);
+                var variable = new solver.Variable(varName, undefined, true);
                 variable.data = {sol: solution[nbRows][iCol], row: nbRows, col: iCol};
                 variable.shortName = naming.getShortVarName(naming.shortTerms[1][iCol]);
                 colsVariables[iCol].push(variable);          
-                new solver.SumConstraint(solver, colsVariables[iCol]);
+                new solver.SumConstraint(colsVariables[iCol]);
                 columnsVars.push(variable);
             }
-            var sumGridVariable = new solver.Variable(naming.getLongVarName(naming.itemName));
+            var sumGridVariable = new solver.Variable(naming.getLongVarName(naming.itemName), undefined, true);
             sumGridVariable.shortName = naming.getShortVarName(naming.itemName);
             sumGridVariable.data = {sol: solution[nbRows][nbCols], row: nbRows, col: nbCols};    
             columnsVars.push(sumGridVariable);
             rowsVars.push(sumGridVariable);
             rowsVariables.push(columnsVars);
             solver.data = {rowsVariables: rowsVariables};
-            new solver.SumConstraint(solver, columnsVars);
-            new solver.SumConstraint(solver, rowsVars);
+            new solver.SumConstraint(columnsVars);
+            new solver.SumConstraint(rowsVars);
 
             var listVariables = [];
             for (var iRow = 0; iRow < rowsVariables.length; iRow++) {

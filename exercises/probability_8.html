@@ -43,13 +43,16 @@
         var solution = KhanUtil.probaGrid.genSolution(naming);
         var listVariables = KhanUtil.probaGrid.initSolver(solver, itemKind, naming, solution);
         var setVariables = KhanUtil.probaGrid.fillKnownVariables(solver, listVariables, naming);
-        var lastVariable = solver.solvedVariables[solver.solvedVariables.length - 1];
-        var question = "<p>What is " + lastVariable.name + "?";
+        solver.findShortestPath();
+        var toughestVariable = solver.getToughestVariable();
+        solver.setOnlyNeededVariable(toughestVariable);
+        solver.findShortestPath();
+        var question = "<p>What is " + toughestVariable.name + "?";
         var hints = solver.getHints(naming);
         hints.unshift("<p>You can use the following grid to help you find the answer :</p>" +
             KhanUtil.probaGrid.getTable(itemKind, naming));
-        hints.push("<p>We can read in the grid that <b>" + lastVariable.name + " is " + lastVariable.value + naming.symbol + "</b>.");
-        var answer = lastVariable.value;
+        hints.push("<p class='final_answer'>Therefore, " + toughestVariable.name + " is " + toughestVariable.value + naming.symbol + ".");
+        var answer = toughestVariable.value;
         
         return {
             statement: "A " + itemKind.container + " contains " + itemKind.pluralName + " that can be described by their " +
