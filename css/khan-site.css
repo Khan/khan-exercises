@@ -6394,3 +6394,11 @@ input.goal-title:focus {
     width: 864px;
     background-color: #f8f8f8;
 }
+
+#workarea {
+    width: 454px;
+}
+
+#hintsarea {
+    width: 434px;
+}
