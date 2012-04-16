@@ -8,7 +8,7 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="ANGLES" data-ensure="ANGLES[ 0 ] % 2 === 0">randomTriangleAngles.triangle()</var>
+            <var id="ANGLES" data-ensure="ANGLES[0] % 2 === 0">randomTriangleAngles.triangle()</var>
             <var id="SIDES_B">[[0, 1], []]</var>
             <var id="SIDES_C">[[1], [2]]</var>
             <var id="TR_A">
@@ -61,9 +61,6 @@
             <var id="AD">TR_C.niceSideLengths[ 0 ]</var>
         </div>
         <div class="problem">
-            What is the length of the side AC?
-        </div>
-        <div class="question">
             <div class="graphie" id="similar_triangles">
                 var aBounding = TR_A.boundingRange(1);
                 var bBounding = TR_D.boundingRange(1);
@@ -72,40 +69,36 @@
                 var minY = Math.min(aBounding[1][0], bBounding[1][0]);
                 var maxY = Math.max(aBounding[1][1], bBounding[1][1]);
 
-                init({
-                    range: [ [minX, maxX ], [ minY, maxY ] ]
-                })
+                init({ range: [[minX, maxX], [minY, maxY]] })
 
                 // draw an arc representing congruent angles BAD, CAD
-                style({
-                    stroke: "green",
-                });
-
-                // draw the arc demonstrating congruent angles farther out if the angle is small
+                style({ stroke: GREEN });
                 var angle_mod = ((180 - TR_A.angles[0]) / 135) + 0.2;
+                arc(TR_A.points[0], angle_mod, 0, TR_A.angles[0]);
+                line([(angle_mod - 0.1) * cos(3 * TR_A.angles[0] / 4 * PI / 180) + TR_A.points[0][0],
+                      (angle_mod - 0.1) * sin(3 * TR_A.angles[0] / 4 * PI / 180) + TR_A.points[0][1]], [
+                      (angle_mod + 0.1) * cos(3 * TR_A.angles[0] / 4 * PI / 180) + TR_A.points[0][0],
+                      (angle_mod + 0.1) * sin(3 * TR_A.angles[0] / 4 * PI / 180) + TR_A.points[0][1]]);
+                line([(angle_mod - 0.1) * cos(TR_A.angles[0] / 4 * PI / 180) + TR_A.points[0][0],
+                      (angle_mod - 0.1) * sin(TR_A.angles[0] / 4 * PI / 180) + TR_A.points[0][1]], [
+                      (angle_mod + 0.1) * cos(TR_A.angles[0] / 4 * PI / 180) + TR_A.points[0][0],
+                      (angle_mod + 0.1) * sin(TR_A.angles[0] / 4 * PI / 180) + TR_A.points[0][1]]);
 
-                arc( TR_A.points[0], angle_mod, 0, TR_A.angles[0] );
-
-                style({
-                    stroke: "black",
-                });
+                style({ stroke: "black" });
                 TR_B.draw();
                 TR_B.drawLabels();
-                style({
-                    stroke: "black",
-                });
                 TR_C.draw();
                 TR_C.drawLabels();
 
-                // draw a red line over the line segment in question
-                line( QUESTION_POINT_Q, QUESTION_POINT_R, { stroke: "red" } );
+                // draw a pink line over the line segment in question
+                line(QUESTION_POINT_Q, QUESTION_POINT_R, { stroke: PINK, strokeWidth: 3 });
             </div>
         </div>
 
         <div class="problems">
             <div id="AC">
                 <div class="vars">
-                    <var id="AC">roundTo( 1, TEMP_AB * TEMP_CD / TEMP_BD )</var>
+                    <var id="AC">roundTo(1, TEMP_AB * TEMP_CD / TEMP_BD)</var>
                     <var id="QUESTION_POINT_Q">TR_A.points[0]</var>
                     <var id="QUESTION_POINT_R">TR_A.points[2]</var>
                     <var id="POINT_E">
@@ -116,82 +109,79 @@
                             return pointE;
                         }()
                     </var>
-
                     <var id="TR_D">
                         function(){
-                            var trD = new Triangle([0,0], [], 3, {}, [POINT_D, TR_A.points[1], POINT_E]);
+                            var trD = new Triangle([0, 0], [], 3, {}, [POINT_D, TR_A.points[1], POINT_E]);
                             trD.labels = { "points": ["", "", "E"] };
                             return trD;
                         }()
                     </var>
-
                 </div>
-                <div class="problem">
-                    What is the length of the side AC? (Round to 1 decimal place).
-                </div>
+                <p class="question">
+                    What is the length of side AC? (Round to 1 decimal place)
+                </p>
                 <div class="solution"><var>AC</var></div>
                 <div class="hints">
                     <div>
                         <p>
                             There aren't any similar triangles in the problem figure, but we can make
-                            a new traingle with a few lines.<br/>
+                            a new triangle with a few lines.<br/>
                             <span style="padding-left:10px;">1. Draw a line parallel to the line
-                            <code>\color{red}{AC}</code>, through the point <code>B</code>.</span><br/>
+                            <code>\pink{AC}</code>, through the point <code>B</code>.</span><br/>
                             <span style="padding-left:10px;">2. Extend the line <code>AD</code> out
                             to meet it at a new point <code>E</code>.</span>
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            style({
-                                stroke: "purple",
-                            });
+                            style({ stroke: "purple" });
                             TR_D.draw();
                             TR_D.drawLabels();
                         </div>
                     </div>
                     <p>
-                        Now we have a very useful triangle <span style="color:purple">
-                        <code>\triangle BDE</code></span> which is similar to <code>\triangle ACD</code>.
+                        Now we have a very useful triangle <code class="hint_purple">\triangle BDE</code>
+                        which is similar to <code>\triangle ACD</code>.
                     </p>
                     <div>
                         <p>
-                            Since <code>\color{red}{AC}</code> and <code>BE</code> are parallel, we
-                            know that <span style="color:green"><code>\angle CAE</code></span>
-                            is equal to <span style="color:green"><code>\angle AEB</code></span>.
+                            Since <code>\pink{AC}</code> and <code>BE</code> are parallel, we
+                            know that <code class="hint_green">\angle CAE</code>
+                            is congruent to <code class="hint_green">\angle AEB</code>.
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            style({
-                                stroke: "green",
-                            });
-                            // draw the arc demonstrating congruent angles farther out if the angle is small
+                            style({ stroke: GREEN });
                             var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2;
-                            arc( TR_D.points[2], angle_mod_d, 180 + TR_D.angles[2], 180 + TR_D.angles[2]*2 );
+                            arc(TR_D.points[2], angle_mod_d, 180 + TR_D.angles[2], 180 + TR_D.angles[2] * 2);
+                            line([(angle_mod_d - 0.1) * cos((180 + TR_D.angles[2] * 1.5) * PI/180) + TR_D.points[2][0],
+                                  (angle_mod_d - 0.1) * sin((180 + TR_D.angles[2] * 1.5) * PI/180) + TR_D.points[2][1]],
+                                 [(angle_mod_d + 0.1) * cos((180 + TR_D.angles[2] * 1.5) * PI/180) + TR_D.points[2][0],
+                                  (angle_mod_d + 0.1) * sin((180 + TR_D.angles[2] * 1.5) * PI/180) + TR_D.points[2][1]]);
                         </div>
                     </div>
 
                     <div>
                         <p>
-                            It's now clear that <span style="color:green"><code>\angle BAE</code></span>
-                            is equal to <span style="color:green"><code>\angle AEB</code></span>.
+                            We can now tell that <code class="hint_green">\text{m}\angle BAE</code>
+                            is equal to <code class="hint_green">\text{m}\angle AEB</code>.
                             Meaning <code>\triangle ABE</code> is isosceles, and we know the length
-                            of <code>\color{blue}{BE}</code>.
+                            of <code class="hint_blue">BE</code>.
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            line( TR_A.points[0], TR_A.points[1], {stroke: "blue"} );
-                            line( TR_A.points[1], POINT_E, {stroke: "blue"} );
+                            line(TR_A.points[0], TR_A.points[1], { stroke: BLUE, strokeWidth: 3 });
+                            line(TR_A.points[1], POINT_E, { stroke: BLUE, strokeWidth: 3 });
 
-                            TR_D.labels = { "sides": [ "", AB, "" ] };
+                            TR_D.labels = { "sides": ["", AB, ""] };
                             TR_D.drawLabels();
                         </div>
                     </div>
 
                     <p>
-                        <code>\dfrac{<var>AB</var>}{<var>BD</var>} = \dfrac{\color{red}{AC}}{<var>CD</var>}</code>
+                        <code>\dfrac{<var>AB</var>}{<var>BD</var>} = \dfrac{\pink{AC}}{<var>CD</var>}</code>
                     </p>
                     <p>
-                        <code>\color{red}{AC} = \dfrac{<var>AB</var> \cdot <var>CD</var>}{<var>BD</var>}</code>
+                        <code>\pink{AC} = \dfrac{<var>AB</var> \cdot <var>CD</var>}{<var>BD</var>}</code>
                     </p>
                     <p>
-                        <code>\color{red}{AC} = <var>AC </var></code>
+                        <code>\pink{AC} = <var>AC</var></code>
                     </p>
                 </div>
             </div>
@@ -218,79 +208,71 @@
                         }()
                     </var>
                 </div>
-                <div class="problem">
-                    What is the length of the side AB? (Round to 1 decimal place).
-                </div>
+                <p class="question">
+                    What is the length of side AB? (Round to 1 decimal place)
+                </p>
                 <div class="solution"><var>AB</var></div>
                 <div class="hints">
                     <div>
                         <p>
                             There aren't any similar triangles in the problem figure, but we can make
-                            a new traingle with a few lines.<br/>
+                            a new triangle with a few lines.<br/>
                             <span style="padding-left:10px;">1. Draw a line parallel to the line
-                            <code>\color{red}{AB}</code>, through the point <code>C</code>.</span><br/>
+                            <code>\pink{AB}</code>, through the point <code>C</code>.</span><br/>
                             <span style="padding-left:10px;">2. Extend the line <code>AD</code> out
                             to meet it at a new point <code>E</code>.</span>
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            style({
-                                stroke: "purple",
-                            });
+                            style({ stroke: "purple" });
                             TR_D.draw();
                             TR_D.drawLabels();
                         </div>
                     </div>
                     <p>
-                        Now we have a very useful triangle <span style="color:purple">
-                        <code>\triangle CDE</code></span> which is similar to <code>\triangle ABD</code>.
+                        Now we have a very useful triangle <code class="hint_purple">\triangle CDE</code>
+                        which is similar to <code>\triangle ABD</code>.
                     </p>
                     <div>
                         <p>
-                            Since <code>\color{red}{AB}</code> and <code>CE</code> are parallel, we
-                            know that <span style="color:green"><code>\angle BAE</code></span>
-                            is equal to <span style="color:green"><code>\angle AEB</code></span>.
+                            Since <code>\pink{AB}</code> and <code>CE</code> are parallel, we
+                            know that <code class="hint_green">\angle BAE</code>
+                            is congruent to <code class="hint_green">\angle AEB</code>.
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            style({
-                                stroke: "green",
-                            });
-                            // draw the arc demonstrating congruent angles farther out if the angle is small
+                            style({ stroke: GREEN });
                             var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2;
                             arc(TR_D.points[2], angle_mod_d, 180, 180 + TR_D.angles[2]);
+                            line([(angle_mod_d - 0.1) * cos((180 + TR_D.angles[2] / 2) * PI/180) + TR_D.points[2][0],
+                                  (angle_mod_d - 0.1) * sin((180 + TR_D.angles[2] / 2) * PI/180) + TR_D.points[2][1]],
+                                 [(angle_mod_d + 0.1) * cos((180 + TR_D.angles[2] / 2) * PI/180) + TR_D.points[2][0],
+                                  (angle_mod_d + 0.1) * sin((180 + TR_D.angles[2] / 2) * PI/180) + TR_D.points[2][1]]);
                         </div>
                     </div>
 
                     <div>
                         <p>
-                            It's now clear that <span style="color:green"><code>\angle CAE</code></span>
-                            is equal to <span style="color:green"><code>\angle AEC</code></span>.
+                            We can now tell that <code class="hint_green">\text{m}\angle CAE</code>
+                            is equal to <code class="hint_green">\text{m}\angle AEC</code>.
                             Meaning <code>\triangle ACE</code> is isosceles, and we know the length
-                            of <code>\color{blue}{CE}</code>.
+                            of <code>\blue{CE}</code>.
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            line( TR_A.points[0], TR_A.points[2], {stroke: "blue"} );
-                            line( TR_A.points[2], POINT_E, {stroke: "blue"} );
-                            TR_D.labels = { "sides": [ "", "", AC ] };
+                            line(TR_A.points[0], TR_A.points[2], { stroke: BLUE, strokeWidth: 3 });
+                            line(TR_A.points[2], POINT_E, { stroke: BLUE, strokeWidth: 3 });
+                            TR_D.labels = { "sides": ["", "", AC] };
                             TR_D.drawLabels();
                         </div>
                     </div>
-
-                    <p>
-                        <code>\dfrac{\color{red}{AB}}{<var>BD</var>} = \dfrac{<var>AC</var>}{<var>CD</var>}</code>
-                    </p>
-                    <p>
-                        <code>\color{red}{AB} = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>CD</var> }</code>
-                    </p>
-                    <p>
-                        <code>\color{red}{AB} = <var>AB </var></code>
-                    </p>
+                    <p><code>\dfrac{\pink{AB}}{<var>BD</var>} = \dfrac{<var>AC</var>}{<var>CD</var>}</code></p>
+                    <p><code>\pink{AB} = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>CD</var> }</code></p>
+                    <p><code>\pink{AB} = <var>AB </var></code></p>
                 </div>
             </div>
             <div id="CD">
                 <div class="vars">
-                    <var id="CD">roundTo( 1, TEMP_AC * TEMP_BD / TEMP_AB )</var>
-                    <var id="SIDES_B">[ [ 1, 0 ], [] ]</var>
-                    <var id="SIDES_C">[ [ 2 ], [1 ]  ]</var>
+                    <var id="CD">roundTo(1, TEMP_AC * TEMP_BD / TEMP_AB)</var>
+                    <var id="SIDES_B">[[1, 0], []]</var>
+                    <var id="SIDES_C">[[2], [1]]</var>
                     <var id="QUESTION_POINT_Q">TR_A.points[2]</var>
                     <var id="QUESTION_POINT_R">POINT_D</var>
                     <var id="POINT_E">
@@ -309,67 +291,66 @@
                         }()
                     </var>
                 </div>
-                <div class="problem">
-                    What is the length of the side CD? (Round to 1 decimal place).
-                </div>
+                <p class="question">
+                    What is the length of side CD? (Round to 1 decimal place)
+                </p>
                 <div class="solution"><var>CD</var></div>
                 <div class="hints">
                     <div>
                         <p>
                             There aren't any similar triangles in the problem figure, but we can make
-                            a new traingle with a few lines.<br/>
+                            a new triangle with a few lines.<br/>
                             <span style="padding-left:10px;">1. Draw a line parallel to the line
                             <code>AB</code>, through the point <code>C</code>.</span><br/>
                             <span style="padding-left:10px;">2. Extend the line <code>AD</code> out
                             to meet it at a new point <code>E</code>.</span>
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            style({
-                                stroke: "purple",
-                            });
+                            style({ stroke: "purple" });
                             TR_D.draw();
                             TR_D.drawLabels();
-                            // redraw the red line for the problem
-                            line( QUESTION_POINT_Q, QUESTION_POINT_R, { stroke: "red" } );
+                            // redraw the pink line for the problem
+                            line(QUESTION_POINT_Q, QUESTION_POINT_R, { stroke: PINK, strokeWidth: 3 });
                         </div>
                     </div>
                     <p>
-                        Now we have a very useful triangle <span style="color:purple">
-                        <code>\triangle CDE</code></span> which is similar to <code>\triangle ABD</code>.
+                        Now we have a very useful triangle <code class="hint_purple">\triangle CDE</code>
+                        which is similar to <code>\triangle ABD</code>.
                     </p>
                     <div>
                         <p>
                             Since <code>AB</code> and <code>CE</code> are parallel, we know that
-                            <span style="color:green"><code>\angle BAE</code></span>
-                            is equal to <span style="color:green"><code>\angle AEC</code></span>.
+                            <code class="hint_green">\angle BAE</code>
+                            is congruent to <code class="hint_green">\angle AEC</code>.
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            style({
-                                stroke: "green",
-                            });
-                            // draw the arc demonstrating congruent angles farther out if the angle is small
+                            style({ stroke: GREEN });
                             var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2;
                             arc( TR_D.points[2], angle_mod_d, 180, 180 + TR_D.angles[2] );
+                            line([(angle_mod_d - 0.1) * cos((180 + TR_D.angles[2] / 2) * PI/180) + TR_D.points[2][0],
+                                  (angle_mod_d - 0.1) * sin((180 + TR_D.angles[2] / 2) * PI/180) + TR_D.points[2][1]],
+                                 [(angle_mod_d + 0.1) * cos((180 + TR_D.angles[2] / 2) * PI/180) + TR_D.points[2][0],
+                                  (angle_mod_d + 0.1) * sin((180 + TR_D.angles[2] / 2) * PI/180) + TR_D.points[2][1]]);
                         </div>
                     </div>
 
                     <div>
                         <p>
-                            It's now clear that <span style="color:green"><code>\angle CAE</code></span>
-                            is equal to <span style="color:green"><code>\angle AEC</code></span>.
+                            We can now see that <code class="hint_green">\text{m}\angle CAE</code>
+                            is equal to <code class="hint_green">\text{m}\angle AEC</code>.
                             Meaning <code>\triangle ACE</code> is isosceles, and we know the length
-                            of <code>\color{blue}{CE}</code>.
+                            of <code>\blue{CE}</code>.
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            line( TR_A.points[0], TR_A.points[2], {stroke: "blue"} );
-                            line( TR_A.points[2], POINT_E, {stroke: "blue"} );
-                            TR_D.labels = { "sides": [ "", AC, "" ] };
+                            line(TR_A.points[0], TR_A.points[2], { stroke: BLUE, strokeWidth: 3 });
+                            line(TR_A.points[2], POINT_E, { stroke: BLUE, strokeWidth: 3 });
+                            TR_D.labels = { "sides": ["", AC, ""] };
                             TR_D.drawLabels();
                         </div>
                     </div>
-                    <p><code>\dfrac{<var> AB</var>}{<var>BD</var>} = \dfrac{<var>AC</var>}{\color{red}{CD}}</code></p>
-                    <p><code>\color{red}{CD} = \dfrac{<var>AC</var> \cdot <var>BD</var>}{<var>AB</var>}</code></p>
-                    <p><code>\color{red}{CD} = <var>CD</var></code></p>
+                    <p><code>\dfrac{<var> AB</var>}{<var>BD</var>} = \dfrac{<var>AC</var>}{\pink{CD}}</code></p>
+                    <p><code>\pink{CD} = \dfrac{<var>AC</var> \cdot <var>BD</var>}{<var>AB</var>}</code></p>
+                    <p><code>\pink{CD} = <var>CD</var></code></p>
                 </div>
             </div>
             <div id="BD">
@@ -390,73 +371,71 @@
                     <var id="TR_D">
                         function(){
                             var trD = new Triangle([0,0], [], 3, {}, [POINT_D, TR_A.points[1], POINT_E]);
-                            trD.labels = {"points": ["", "", "E"] };
+                            trD.labels = { "points": ["", "", "E"] };
                             return trD;
                         }()
                     </var>
                 </div>
-                <div class="problem">
+                <p class="question">
                     What is the length of the side BD? (Round to 1 decimal place).
-                </div>
+                </p>
                 <div class="solution"><var>BD</var></div>
                 <div class="hints">
                     <div>
                         <p>
-                            There aren't any similar triangles in the problem figure, but we can
-                            make a new traingle with a few lines.<br/>
+                            There aren't any similar triangles in the problem figure, but we can make
+                            a new triangle with a few lines.<br/>
                             <span style="padding-left:10px;">1. Draw a line parallel to the line
                             <code>AC</code>, through the point <code>B</code>.</span><br/>
                             <span style="padding-left:10px;">2. Extend the line <code>AD</code> out
                             to meet it at a new point <code>E</code>.</span>
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            style({
-                                stroke: "purple",
-                            });
+                            style({ stroke: "purple" });
                             TR_D.draw();
                             TR_D.drawLabels();
-                            // redraw the red line for the problem
-                            line( QUESTION_POINT_Q, QUESTION_POINT_R, { stroke: "red" } );
+                            line(QUESTION_POINT_Q, QUESTION_POINT_R, { stroke: PINK, strokeWidth: 3 });
                         </div>
                     </div>
                     <p>
-                        Now we have a very useful triangle <span style="color:purple">
-                        <code>\triangle BDE</code></span> which is similar to <code>\triangle ACD</code>.
+                        Now we have a very useful triangle <code class="hint_purple">\triangle BDE</code>
+                        which is similar to <code>\triangle ACD</code>.
                     </p>
                     <div>
                         <p>
                             Since <code>AC</code> and <code>BE</code> are parallel, we know that
-                            <span style="color:green"><code>\angle CAE</code></span>
-                            is equal to <span style="color:green"><code>\angle AEB</code></span>.
+                            <code class="hint_green">\angle CAE</code>
+                            is congruent to <code class="hint_green">\angle AEB</code>.
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            style({
-                                stroke: "green",
-                            });
-                            // draw the arc demonstrating congruent angles farther out if the angle is small
+                            style({ stroke: GREEN });
                             var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2;
                             arc(TR_D.points[2], angle_mod_d, 180 + TR_D.angles[2], 180 + TR_D.angles[2] * 2);
+                            line([(angle_mod_d - 0.1) * cos((180 + TR_D.angles[2] * 1.5) * PI/180) + TR_D.points[2][0],
+                                  (angle_mod_d - 0.1) * sin((180 + TR_D.angles[2] * 1.5) * PI/180) + TR_D.points[2][1]],
+                                 [(angle_mod_d + 0.1) * cos((180 + TR_D.angles[2] * 1.5) * PI/180) + TR_D.points[2][0],
+                                  (angle_mod_d + 0.1) * sin((180 + TR_D.angles[2] * 1.5) * PI/180) + TR_D.points[2][1]]);
                         </div>
                     </div>
 
                     <div>
                         <p>
-                            It's now clear that <span style="color:green"><code>\angle BAE</code></span>
-                            is equal to <span style="color:green"><code>\angle AEB</code></span>.
+                            We can now tell that <code class="hint_green">\text{m}\angle BAE</code>
+                            is equal to <code class="hint_green">\text{m}\angle AEB</code>.
                             Meaning <code>\triangle ABE</code> is isosceles, and we know the length
-                            of <code>\color{blue}{BE}</code>.
+                            of <code>\blue{BE}</code>.
                         </p>
                         <div class="graphie" data-update="similar_triangles">
-                            line(TR_A.points[0], TR_A.points[1], {stroke: "blue"});
-                            line(TR_A.points[1], POINT_E, {stroke: "blue"});
+                            line(TR_A.points[0], TR_A.points[1], { stroke: BLUE, strokeWidth: 3 });
+                            line(TR_A.points[1], POINT_E, { stroke: BLUE, strokeWidth: 3 });
                             TR_D.labels = { "sides": ["", AB, ""] };
                             TR_D.drawLabels();
                         </div>
                     </div>
 
-                    <p><code>\dfrac{<var>AB</var>}{\color{red}{BD}} = \dfrac{<var>AC</var>}{<var>CD</var>}</code></p>
-                    <p><code>\color{red}{BD} = \dfrac{<var>AB</var> \cdot <var>CD</var>}{<var>AC</var>}</code></p>
-                    <p><code>\color{red}{BD} = <var>BD</var></code></p>
+                    <p><code>\dfrac{<var>AB</var>}{\pink{BD}} = \dfrac{<var>AC</var>}{<var>CD</var>}</code></p>
+                    <p><code>\pink{BD} = \dfrac{<var>AB</var> \cdot <var>CD</var>}{<var>AC</var>}</code></p>
+                    <p><code>\pink{BD} = <var>BD</var></code></p>
                 </div>
             </div>
         </div>
