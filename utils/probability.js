@@ -361,7 +361,7 @@
                             "</tr></table></p>";
                         if (this.iSolvedVar === nbVariables - 1) {
                             hint += "<p><code>" + coloredNames[nbVariables - 1] + " = " +
-                                coloredValues.slice(0, nbVariables - 1).join(" + ") + " = " + coloredValues[nbVariables - 1] + "</p>";
+                                coloredValues.slice(0, nbVariables - 1).join(" + ") + " = " + coloredValues[nbVariables - 1] + "</code></p>";
                         } else {
                             hint += "<p><code>\\begin{align} " + coloredNames[this.iSolvedVar] + " &= ";
                             var remainingNames = coloredNames.slice(0, nbVariables - 1);
@@ -383,6 +383,66 @@
                     }
                 });
 
+                this.UnionConstraint = this.Constraint.extend({
+                    solve: function() {
+                        if (this.variables[3].value === undefined) {
+                            var sum = this.variables[0].value + this.variables[1].value - this.variables[2].value;
+                            this.iSolvedVar = 3;
+                            this.variables[3].setValue(sum);
+                        } else if (this.variables[2].value === undefined) {
+                            var sum = this.variables[0].value + this.variables[1].value - this.variables[3].value;
+                            this.iSolvedVar = 2;
+                            this.variables[2].setValue(sum);
+                        } else {
+                            var missing = 0;
+                            if (this.variables[1].value === undefined) {
+                                missing = 1;
+                            }
+                            var sum = this.variables[3].value - this.variables[1 - missing].value + this.variables[2].value;
+                            this.iSolvedVar = missing;
+                            this.variables[missing].setValue(sum);
+                        }
+                    },
+                    getHint: function(naming) {
+                        var hint = "<p>We know that:</p>";
+                        var colors = ["green", "orange", "pink", "blue"];
+                        hint += "<p><code>" +
+                            "\\" + colors[3] + "{\\text{" + this.variables[3].shortName + "}} = " +
+                            "\\" + colors[0] + "{\\text{" + this.variables[0].shortName + "}} + " +
+                            "\\" + colors[1] + "{\\text{" + this.variables[1].shortName + "}} - " +
+                            "\\" + colors[2] + "{\\text{" + this.variables[2].shortName + "}}" +
+                            "</code></p>";
+                        hint += "<p>Therefore, we can detemine " + this.variables[this.iSolvedVar].name + ":</p>";
+                        hint += "<p><code>\\begin{alignat}{2}";
+                        if (this.iSolvedVar === 3) {
+                            hint += "\\" + colors[3] + "{\\text{" + this.variables[3].shortName + "}} &= " +
+                                "\\" + colors[0] + "{" + this.variables[0].value + "\\%} + " +
+                                "\\" + colors[1] + "{" + this.variables[1].value + "\\%} - " +
+                                "\\" + colors[2] + "{" + this.variables[2].value + "\\%} \\\\ " +
+                                "&= \\" + colors[3] + "{" + this.variables[3].value + "\\%}";
+                        } else if (this.iSolvedVar === 2) {
+                            hint += "\\" + colors[2] + "{\\text{" + this.variables[2].shortName + "}} &= " +
+                                "\\" + colors[0] + "{\\text{" + this.variables[0].shortName + "}} + " +
+                                "\\" + colors[1] + "{\\text{" + this.variables[1].shortName + "}} - " +
+                                "\\" + colors[3] + "{\\text{" + this.variables[3].shortName + "}} \\\\" +
+                                "&= \\" + colors[0] + "{" + this.variables[0].value + "\\%} + " +
+                                "\\" + colors[1] + "{" + this.variables[1].value + "\\%} - " +
+                                "\\" + colors[3] + "{" + this.variables[3].value + "\\%} \\\\ " +
+                                "&= \\" + colors[2] + "{" + this.variables[2].value + "\\%}";
+                        } else {
+                            hint += "\\" + colors[this.iSolvedVar] + "{\\text{" + this.variables[this.iSolvedVar].shortName + "}} &= " +
+                                "\\" + colors[3] + "{\\text{" + this.variables[3].shortName + "}} + " +
+                                "\\" + colors[2] + "{\\text{" + this.variables[2].shortName + "}} - " +
+                                "\\" + colors[1 - this.iSolvedVar] + "{\\text{" + this.variables[1 - this.iSolvedVar].shortName + "}} \\\\" +
+                                "&= \\" + colors[3] + "{" + this.variables[3].value + "\\%} + " +
+                                "\\" + colors[2] + "{" + this.variables[2].value + "\\%} - " +
+                                "\\" + colors[1 - this.iSolvedVar] + "{" + this.variables[1 - this.iSolvedVar].value + "\\%} \\\\ " +
+                                "&= \\" + colors[this.iSolvedVar] + "{" + this.variables[this.iSolvedVar].value + "\\%}";
+                        }
+                        hint += "\\end{alignat}</code></p>";
+                        return hint;
+                    }
+                });
 
             },
             addConstraint: function(constraint) {
