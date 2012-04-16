@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html data-require="math expressions">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Compound interest 1</title>
+	<script src="../khan-exercise.js"></script>
+
+	<style>
+		.sol input {
+			width: 25px !important;
+		}
+	</style>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div id="fv-discrete-subannual">
+				<div class="vars">
+
+					<var id="PV">randRange( 1, 20 ) * 1000</var>
+					<var id="rate">randRange( 3, 10 )</var>
+					<var id="r">rate * 0.01</var>
+					<var id="compoundingType">randFromArray( [ [ 2, "biannually", "half-year" ], [ 4, "quarterly", "quarter" ], [ 12, "monthly", "month" ], [ 52, "weekly", "week" ] ] )</var>
+					<var id="T">randRange( 1, 10 )</var>
+					
+					<var id="n">compoundingType[0]</var>
+					<var id="compounding">compoundingType[1]</var>
+					<var id="period">compoundingType[2]</var>
+					<var id="years">( T == 1 ? "one year" : T + " years" )</var>
+					<var id="FV">roundTo( 0, PV * pow( 1 + r / n, n * T ) )</var>
+					</div>
+		
+					<p class="question">$<var>PV</var> is deposited into an account that pays <var>rate</var>% interest, compounded <var>compounding</var>.  To the nearest dollar, how much money will be in the account at the end of <var>years</var>?</p>
+		
+					<div class="solution" data-type="decimal" data-inexact data-max-error="0.5"><var>FV</var></div>
+		
+					<div class="hints">
+						<p>Since the interest compounds <var>compounding</var>, we receive 1/<var>n</var> of <var>rate</var>% interest at the end of each <var>period</var>.</p>
+						<p>Adding in 1/<var>n</var> of <var>rate</var>% interest is the same as multiplying by <code>(<var>expr( [ "+", 1, [ "frac", r, n ] ] )</var>)</code>.</p>
+						<p>Since we are adding in this interest <var>n</var> times each year for <var>years</var>, we will multiply by <code>(<var>expr( [ "+", 1, [ "frac", r, n ] ] )</var>)</code> a total of <var>n</var>*<var>T</var> = <var>n * T</var> times.</p>
+						<p>So the amount in the account at the end of <var>years</var> is <code><var>expr( [ "*", PV, [ "^", [ "+", 1, [ "frac", r, n ] ], [ "*", n, T ] ] ] )</var></code>, or about $<var>FV</var>.</p>
+					</div>
+				</div> <!-- fv-discrete-subannual -->
+			<div id="fv-discrete-annual">
+				<div class="vars">
+
+					<var id="PV">randRange( 1, 20 ) * 1000</var>
+					<var id="rate">randRange( 3, 10 )</var>
+					<var id="r">rate * 0.01</var>
+					<var id="T">randRange( 1, 10 )</var>
+					
+					<var id="n">1</var>
+					<var id="years">( T == 1 ? "one year" : T + " years" )</var>
+					<var id="FV">roundTo( 0, PV * pow( 1 + r / n, n * T ) )</var>
+					</div>
+		
+					<p class="question">$<var>PV</var> is deposited into an account that pays <var>rate</var>% interest, compounded annually.  To the nearest dollar, how much money will be in the account at the end of <var>years</var>?</p>
+		
+					<div class="solution" data-type="decimal" data-inexact data-max-error="0.5"><var>FV</var></div>
+		
+					<div class="hints">
+						<p>Adding in <var>rate</var>% interest is the same as multiplying by <code>(<var>expr( [ "+", 1, r ] )</var>)</code>.</p>
+						<p>Since we are adding in this interest at the end of each year, we will multiply by <code>(<var>expr( [ "+", 1, r ] )</var>)</code> a total of <var>T</var> times.</p>
+						<p>So the amount in the account at the end of <var>years</var> is <code><var>expr( [ "*", PV, [ "^", [ "+", 1, r ], T ] ] )</var></code>, or about $<var>FV</var>.</p>
+					</div>
+				</div> <!-- fv-discrete-annual -->
+			<div id="fv-continuous" data-weight="100">
+				<div class="vars">
+
+					<var id="PV">randRange( 1, 20 ) * 1000</var>
+					<var id="rate">randRange( 3, 10 )</var>
+					<var id="r">rate * 0.01</var>
+					<var id="T">randRange( 1, 10 )</var>
+					
+					<var id="years">( T == 1 ? "one year" : T + " years" )</var>
+					<var id="FV">roundTo( 0, PV * exp( r * T ) )</var>
+					</div>
+		
+					<p class="question">$<var>PV</var> is deposited into an account that pays <var>rate</var>% interest, compounded continuously.  To the nearest dollar, how much money will be in the account at the end of <var>years</var>?</p>
+		
+					<div class="solution" data-type="decimal" data-inexact data-max-error="0.5"><var>FV</var></div>
+		
+					<div class="hints">
+						<p>The amount in the account at the end of <var>years</var> is <code><var>expr( [ "*", PV, [ "^", "e", [ "*", r, T ] ] ] )</var></code>, or about $<var>FV</var>.</p>
+					</div>
+				</div> <!-- fv-continuous -->				
+			</div> <!-- problems -->
+	</div> <!-- exercise -->
+</body>
+</html>
